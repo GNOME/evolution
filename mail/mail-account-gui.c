@@ -222,19 +222,20 @@ build_auth_menu (MailAccountGuiService *service, GList *all_authtypes,
 		 GList *supported_authtypes, gboolean check_supported)
 {
 	GtkWidget *menu, *item, *first = NULL;
-	CamelServiceAuthType *preferred, *authtype, *sauthtype;
+	CamelServiceAuthType *current, *authtype, *sauthtype;
+	int history = 0, i;
 	GList *l, *s;
 	
 	if (service->authitem)
-		preferred = gtk_object_get_data (GTK_OBJECT (service->authitem), "authtype");
+		current = gtk_object_get_data (GTK_OBJECT (service->authitem), "authtype");
 	else
-		preferred = NULL;
+		current = NULL;
 	
 	service->authitem = NULL;
 	
 	menu = gtk_menu_new ();
 	
-	for (l = all_authtypes; l; l = l->next) {
+	for (l = all_authtypes, i = 0; l; l = l->next, i++) {
 		authtype = l->data;
 		
 		item = gtk_menu_item_new_with_label (_(authtype->name));
@@ -243,12 +244,16 @@ build_auth_menu (MailAccountGuiService *service, GList *all_authtypes,
 			if (!strcmp (authtype->name, sauthtype->name))
 				break;
 		}
-		if (check_supported && !s)
+		
+		if (check_supported && !s) {
 			gtk_widget_set_sensitive (item, FALSE);
-		else if (preferred == authtype)
+		} else if (current && !strcmp (authtype->name, current->name)) {
 			first = item;
-		else if (!first)
+			history = i;
+		} else if (!first) {
 			first = item;
+			history = i;
+		}
 		
 		gtk_object_set_data (GTK_OBJECT (item), "authtype", authtype);
 		gtk_signal_connect (GTK_OBJECT (item), "activate",
@@ -262,8 +267,10 @@ build_auth_menu (MailAccountGuiService *service, GList *all_authtypes,
 	gtk_option_menu_remove_menu (service->authtype);
 	gtk_option_menu_set_menu (service->authtype, menu);
 	
-	if (first)
+	if (first) {
+		gtk_option_menu_set_history (service->authtype, history);
 		gtk_signal_emit_by_name (GTK_OBJECT (first), "activate", service);
+	}
 }
 
 static void
@@ -476,9 +483,8 @@ service_check_supported (GtkButton *button, gpointer user_data)
 	if (mail_config_check_service (service->url, gsvc->provider_type, &authtypes)) {
 		build_auth_menu (gsvc, gsvc->provider->authtypes, authtypes, TRUE);
 		if (!authtypes) {
-			/* the provider doesn't support any authtypes so we can disable these */
+			/* provider doesn't support any authtypes */
 			gtk_widget_set_sensitive (GTK_WIDGET (gsvc->check_supported), FALSE);
-			gtk_widget_set_sensitive (GTK_WIDGET (gsvc->authtype), FALSE);
 		}
 		g_list_free (authtypes);
 	}
@@ -917,11 +923,11 @@ menu_file_save_cb (BonoboUIComponent *uic,
 	ESignatureEditor *editor;
 	Bonobo_PersistFile pfile_iface;
 	CORBA_Environment ev;
-
+	
 	editor = E_SIGNATURE_EDITOR (data);
 	if (editor->html) {
 		CORBA_exception_init (&ev);
-
+		
 		pfile_iface = bonobo_object_client_query_interface (bonobo_widget_get_server (BONOBO_WIDGET (editor->control)),
 								    "IDL:Bonobo/PersistFile:1.0", NULL);
 		Bonobo_PersistFile_save (pfile_iface, editor->filename, &ev);
@@ -932,7 +938,7 @@ menu_file_save_cb (BonoboUIComponent *uic,
 		BonoboStream *stream;
 		CORBA_Environment ev;
 		Bonobo_PersistStream pstream_iface;
-	
+		
 		CORBA_exception_init (&ev);
 	
 		stream = bonobo_stream_open (BONOBO_IO_DRIVER_FS, editor->filename,
@@ -976,7 +982,7 @@ do_exit (ESignatureEditor *editor)
 		GtkWidget *dialog;
 		GtkWidget *label;
 		gint button;
-
+		
 		dialog = gnome_dialog_new (_("Save signature"),
 					   GNOME_STOCK_BUTTON_YES,      /* Save */
 					   GNOME_STOCK_BUTTON_NO,       /* Don't save */
@@ -1505,7 +1511,7 @@ save_service (MailAccountGuiService *gsvc, GHashTable *extra_config,
 	}
 	
 	if (CAMEL_PROVIDER_ALLOWS (gsvc->provider, CAMEL_URL_PART_AUTH) &&
-	    GTK_WIDGET_IS_SENSITIVE (gsvc->authtype)) {
+	    GTK_WIDGET_IS_SENSITIVE (gsvc->authtype) && gsvc->authitem) {
 		CamelServiceAuthType *authtype;
 		
 		authtype = gtk_object_get_data (GTK_OBJECT (gsvc->authitem), "authtype");
