@@ -790,7 +790,6 @@ do_register_folder (gpointer in_data, gpointer op_data, CamelException *ex)
 
 	name = g_strdup_printf ("%s:/%s", meta->format, local_folder->name);
 	store = camel_session_get_store (session, name, ex);
-	printf("getting new store %s = %p\n", name, store);
 	g_free (name);
 	if (!store) {
 		free_metainfo (meta);
