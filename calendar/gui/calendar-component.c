@@ -297,7 +297,7 @@ update_primary_task_selection (CalendarComponentView *component_view)
 
 	uid = calendar_config_get_primary_tasks ();
 	if (uid) {
-		source = e_source_list_peek_source_by_uid (component_view->source_list, uid);
+		source = e_source_list_peek_source_by_uid (component_view->task_source_list, uid);
 
 		g_free (uid);
 	}

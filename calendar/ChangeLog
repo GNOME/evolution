@@ -1,3 +1,22 @@
+2004-08-03  JP Rosevear  <jpr@novell.com>
+ 
+ 	* gui/gnome-cal.c (gnome_calendar_destroy): clean up all the
+ 	default clients
+ 	(default_client_cal_opened_cb): change the if statement to a
+ 	switch to be consistent with the other code bits and set the
+ 	default client for the source type
+ 	(gnome_calendar_add_source): look at the default based on the
+ 	source type
+ 	(gnome_calendar_set_default_source): set the default for the
+ 	source type
+ 	(gnome_calendar_new_task): bail out if we have no ecal
+ 
+ 	* gui/gnome-cal.c (set_timezone): set the timezone for all the
+ 	default clients
+ 
+ 	* gui/calendar-component.c (update_primary_task_selection): look
+	in the task source list, not the plain source list
+	
 2004-08-05  JP Rosevear  <jpr@novell.com>
 
  	* gui/tasks-control.c (tasks_control_sensitize_commands): kill
