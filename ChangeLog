@@ -1,3 +1,9 @@
+2000-08-05  Dan Winship  <danw@helixcode.com>
+
+	* configure.in, README: Update the README and the text of the
+	Bonobo configure check to match reality. Remove the 0.15 vs
+	0.15-and-a-half check since we require post-0.16 now.
+
 2000-08-03  JP Rosevear  <jpr@helixcode.com>
 
 	* configure.in: Remove gconf check

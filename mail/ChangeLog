@@ -1,3 +1,8 @@
+2000-08-05  Dan Winship  <danw@helixcode.com>
+
+	* folder-browser-factory.c (control_activate): Remove bonobo 0.15
+	vs 0.15-and-a-half ifdef, since we require post-0.16 now.
+
 2000-08-04  Peter Williams  <peterw@helixcode.com>
 
 	* mail-ops.c (move_msg): Fixed a pretty silly uninitialization bug.

@@ -111,7 +111,7 @@ ftp.gnome.org. The (*)ed packages are available in Helix GNOME.
    *** You should use the flag "--disable-more-warnings" when
    *** configuring gnome-vfs, or it may fail to build.
 
- - bonobo - 0.16 or later
+ - bonobo - from CVS
 
    *** Note that bonobo must be installed with the same --prefix as
    *** either gnome-libs or evolution for the Makefiles to work

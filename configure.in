@@ -219,12 +219,12 @@ dnl AC_SUBST(GNOMEGNORBA_LIBS)
 dnl ******************************
 dnl Check for Bonobo
 dnl ******************************
-AC_MSG_CHECKING(for Bonobo >= 0.15)
+AC_MSG_CHECKING(for Bonobo > 0.16)
 if gnome-config --libs bonobox > /dev/null 2>&1; then
 	vers=`gnome-config --modversion bonobo`
 	case $vers
 	in
-	    bonobo-0.?|bonobo-0.1[0-4]) bonobo_ok=false ;;
+	    bonobo-0.?|bonobo-0.1[0-5]) bonobo_ok=false ;;
 	    *) bonobo_ok=true ;;
 	esac
 else
@@ -234,24 +234,8 @@ fi
 if $bonobo_ok; then
 	AC_MSG_RESULT($vers found)
 else
-	AC_MSG_ERROR(Bonobo 0.15 is required to compile Evolution)
+	AC_MSG_ERROR(Bonobo newer than 0.16 is required to compile Evolution)
 fi
-
-dnl Check 0.15 vs post-0.15
-saved_CFLAGS="$CFLAGS"
-saved_LDFLAGS="$LDFLAGS"
-CFLAGS="$CFLAGS `gnome-config --cflags bonobox`"
-LDFLAGS="$LDFLAGS `gnome-config --libs bonobox`"
-AC_TRY_COMPILE([
-#include <bonobo/bonobo-ui-handler.h>
-],[
-bonobo_ui_handler_menu_set_callback (NULL, NULL, NULL, NULL, NULL);
-],bonobo_new=true,bonobo_new=false)
-
-if $bonobo_new; then
-	AC_DEFINE(BONOBO_POST_0_15)
-fi
-
 
 dnl ******************************
 dnl LibGlade checking

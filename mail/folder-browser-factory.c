@@ -63,11 +63,8 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 						 threaded_view);
 	bonobo_ui_handler_menu_set_callback (uih, "/View/Threaded",
 					     message_list_toggle_threads,
-					     FOLDER_BROWSER (folder_browser)->message_list
-#ifdef BONOBO_POST_0_15
-					     , NULL
-#endif
-		);
+					     FOLDER_BROWSER (folder_browser)->message_list,
+					     NULL);
 
 	bonobo_ui_handler_menu_new_item (uih, "/Actions/Mark all seen",
 					 _("_Mark all messages seen"),
