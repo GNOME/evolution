@@ -789,7 +789,7 @@ gpg_ctx_parse_status (struct _GpgCtx *gpg, CamelException *ex)
 	} else if (!strncmp (status, "BAD_PASSPHRASE", 14)) {
 		gpg->bad_passwds++;
 		
-		camel_session_forget_password (gpg->session, NULL, gpg->userid, ex);
+		camel_session_forget_password (gpg->session, NULL, gpg->need_id, ex);
 		
 		if (gpg->bad_passwds == 3) {
 			camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,

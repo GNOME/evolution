@@ -1,5 +1,8 @@
 2004-02-06  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-gpg-context.c (gpg_ctx_parse_status): Forget the need_id,
+	not the userid. Fixes bug #53908.
+
 	* camel-store.c (add_special_info): Set a CAMEL_FOLDER_VIRTUAL bit
 	on the special folder info so our UI can know if it is virtual or
 	not (meant for vTrash/vJunk).
