@@ -11786,11 +11786,11 @@ msgstr "Rinomina questo gruppo di collegamento"
 
 #: shell/e-shortcuts-view.c:252
 msgid "_Hide the Shortcut Bar"
-msgstr "_Nascondi la Barra di Collegamento"
+msgstr "_Nascondi la Barra dei Collegamenti"
 
 #: shell/e-shortcuts-view.c:253
 msgid "Hide the shortcut bar"
-msgstr "Nasconde la barra di collegamento"
+msgstr "Nascondi la barra dei collegamenti"
 
 #: shell/e-shortcuts-view.c:372
 msgid "Rename shortcut"
@@ -11839,7 +11839,7 @@ msgstr "Collegamenti"
 
 #: shell/e-shortcuts.c:1053
 msgid "Inbox"
-msgstr "In entrata"
+msgstr "Posta in Arrivo"
 
 #: shell/e-storage-set-view.c:645
 #, fuzzy, c-format
@@ -13402,7 +13402,7 @@ msgstr "Informazioni su Ximian Evolution..."
 
 #: ui/evolution.xml.h:2
 msgid "Add to _Shortcut Bar"
-msgstr "Aggiungi a _Barra di Collegamento"
+msgstr "Aggiungi alla _Barra dei Collegamenti"
 
 #: ui/evolution.xml.h:3
 msgid "Change the name of this folder"
@@ -13548,7 +13548,7 @@ msgstr "_Collegamento"
 
 #: ui/evolution.xml.h:48
 msgid "_Shortcut Bar"
-msgstr "_Barra di Collegamento"
+msgstr "_Barra dei Collegamenti"
 
 #: ui/evolution.xml.h:51
 msgid "_Work Offline"
