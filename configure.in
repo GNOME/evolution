@@ -1335,7 +1335,7 @@ AC_ARG_ENABLE(plugins, [  --enable-plugins=[no/all/list]      Enable plugins.],e
 dnl Add any new plugins here
 plugins_base="calendar-file calendar-http calendar-weather groupwise-account-setup itip-formatter plugin-manager send-options shared-folder groupwise-send-options exchange-account-setup groupwise-status-tracking default-source addressbook-file addressbook-groupwise" 
 
-plugins_all="bbdb subject-thread save-attachments prefer-plain save-calendar select-one-source copy-tool mail-to-meeting mail-to-task folder-unsubscribe mark-calendar-offline audio-inline mailing-list-actions backup-restore new-mail-notify groupwise-status-tracking default-source addressbook-groupwise"
+plugins_all="bbdb subject-thread save-attachments prefer-plain save-calendar select-one-source copy-tool mail-to-meeting mail-to-task folder-unsubscribe mark-calendar-offline audio-inline mailing-list-actions backup-restore new-mail-notify groupwise-status-tracking default-source"
 
 case x"$enable_plugins" in
 xno)

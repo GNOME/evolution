@@ -1,3 +1,8 @@
+2005-02-01  Priit Laes <amd@store20.com>
+
+	* configure.in : Remove duplicate entry for addressbook-groupwise in
+	plugins list.
+
 2005-02-01  JP Rosevear  <jpr@novell.com>
 
 	* MAINTAINERS: Update
