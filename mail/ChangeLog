@@ -1,3 +1,10 @@
+2001-08-11  Jason Leach  <jleach@ximian.com>
+
+	* mail-accounts.h: Remove unecessary #include <camel.h>
+
+	* mail.h: Removed a prototype for a non-existant
+	mail_view_create().
+
 2001-08-10  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-account-gui.c (build_auth_menu): Fix bug #4523 for good.

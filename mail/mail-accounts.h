@@ -36,7 +36,6 @@ extern "C" {
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-file-entry.h>
 #include <glade/glade.h>
-#include <camel.h>
 #include <shell/Evolution.h>
 
 #define MAIL_ACCOUNTS_DIALOG_TYPE        (mail_accounts_dialog_get_type ())

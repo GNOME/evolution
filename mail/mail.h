@@ -63,9 +63,6 @@ char *mail_get_message_body (CamelDataWrapper *data, gboolean want_plain,
 /* mail-identify */
 char *mail_identify_mime_part (CamelMimePart *part, MailDisplay *md);
 
-/* mail view */
-GtkWidget *mail_view_create (CamelFolder *source, const char *uid, CamelMimeMessage *msg);
-
 /* component factory for lack of a better place */
 void mail_load_storage_by_uri (GNOME_Evolution_Shell shell, const char *uri, const char *name);
 /*takes a GSList of MailConfigServices */
