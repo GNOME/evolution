@@ -348,7 +348,7 @@ e_table_without_show_all   (ETableWithout *etw)
 	}
 	etw->priv->hash = g_hash_table_new (etw->priv->hash_func, etw->priv->compare_func);
 
-	row_count = e_table_model_row_count (E_TABLE_MODEL(etw));
+	row_count = e_table_model_row_count (E_TABLE_MODEL(etss->source));
 	g_free (etss->map_table);
 	etss->map_table = g_new (int, row_count);
 
