@@ -1,3 +1,8 @@
+2001-07-09  Anna Marie Dirks
+	*rule-context.c (rule_context_add_rule_gui): Increased the size
+	of the "Add Filter Rule" dialog to 600 x 400, so that no resizing
+	is necessary to use the dialog. 
+
 2001-07-09  Jon Trowbridge  <trow@ximian.com>
 
 	* filter-source.c (filter_source_get_sources): Bonobo-conf-ified.

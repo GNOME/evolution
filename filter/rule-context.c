@@ -427,6 +427,7 @@ rule_context_add_rule_gui(RuleContext * f, FilterRule * rule, const char *title,
 	gd = (GnomeDialog *) gnome_dialog_new(title, GNOME_STOCK_BUTTON_OK, GNOME_STOCK_BUTTON_CANCEL, NULL);
 	gtk_window_set_policy(GTK_WINDOW(gd), FALSE, TRUE, FALSE);
 	gtk_box_pack_start((GtkBox *) gd->vbox, w, TRUE, TRUE, 0);
+	gtk_window_set_default_size(GTK_WINDOW(gd), 600, 400);
 	gtk_widget_show((GtkWidget *) gd);
 	gtk_object_set_data_full((GtkObject *) gd, "rule", rule, (GtkDestroyNotify) gtk_object_unref);
 	if (path)
