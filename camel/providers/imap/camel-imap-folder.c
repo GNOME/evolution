@@ -2527,11 +2527,10 @@ parse_fetch_response (CamelImapFolder *imap_folder, char *response)
 			if (*response == 'B') {
 				response += 5;
 				
-				/* HEADER], HEADER.FIELDS... or 0] */
+				/* HEADER], HEADER.FIELDS (...)], or 0] */
 				if (!g_strncasecmp (response, "HEADER", 6)) {
-					response += 6;
 					header = TRUE;
-					if (!g_strncasecmp (response, ".FIELDS ", 8))
+					if (!g_strncasecmp (response + 6, ".FIELDS ", 8))
 						cache_header = FALSE;
 				} else if (!g_strncasecmp (response, "0]", 2))
 					header = TRUE;
@@ -2539,7 +2538,12 @@ parse_fetch_response (CamelImapFolder *imap_folder, char *response)
 				p = strchr (response, ']');
 				if (!p || *(p + 1) != ' ')
 					break;
-				part_spec = g_strndup (response, p - response);
+				
+				if (cache_header)
+					part_spec = g_strndup (response, p - response);
+				else
+					part_spec = g_strdup ("HEADER.FIELDS");
+				
 				response = p + 2;
 			} else {
 				part_spec = g_strdup ("");

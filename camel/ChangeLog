@@ -1,3 +1,12 @@
+2002-09-19  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/camel-imap-folder.c (parse_fetch_response): Don't
+	increment the response pointer when deciding what type of header
+	response we got, this screws up the string that we strdup into the
+	part_spec string later. Also, instead of using the entire blob of
+	HEADER.FIELDS that we get in the response, shorten it to just
+	HEADER.FIELDS to use as the part_spec key.
+
 2002-09-18  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap/camel-imap-folder.c (CAMEL_MESSAGE_INFO_HEADERS):
