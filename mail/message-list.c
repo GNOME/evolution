@@ -992,6 +992,10 @@ message_list_create_extras (void)
 			NULL);
 	e_table_extras_add_cell(extras, "render_text", cell);
 	
+	e_table_extras_add_cell(extras, "render_tree", 
+				e_cell_tree_new (NULL, NULL, /* let the tree renderer default the pixmaps */
+						 TRUE, cell));
+
 	/* size cell */
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_RIGHT);
 	gtk_object_set (GTK_OBJECT (cell),
@@ -1001,10 +1005,6 @@ message_list_create_extras (void)
 			"color_column", COL_COLOUR,
 			NULL);
 	e_table_extras_add_cell(extras, "render_size", cell);
-
-	e_table_extras_add_cell(extras, "render_tree", 
-		e_cell_tree_new (NULL, NULL, /* let the tree renderer default the pixmaps */
-				 TRUE, cell));
 
 	return extras;
 }
