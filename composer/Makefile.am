@@ -1,19 +1,20 @@
 ## CORBA stuff
 
-IDLS = \
-	$(top_srcdir)/addressbook/gui/component/select-names/Evolution-Addressbook-SelectNames.idl
+IDLS =				\
+	Evolution-Composer.idl	\
+	Composer.idl
 
-IDL_GENERATED = \
-	Evolution-Addressbook-SelectNames.h		\
-	Evolution-Addressbook-SelectNames-common.c	\
-	Evolution-Addressbook-SelectNames-skels.c	\
-	Evolution-Addressbook-SelectNames-stubs.c
+IDL_GENERATED =			\
+	Composer.h		\
+	Composer-common.c	\
+	Composer-skels.c	\
+	Composer-stubs.c
 
-Evolution-Addressbook-SelectNames-impl.o: Evolution-Addressbook-SelectNames.h
+selectnamesdir = $(top_srcdir)/addressbook/gui/component/select-names
 
-$(IDL_GENERATED): $(IDLS)
+$(IDL_GENERATED): $(IDLS) $(selectnamesdir)/Evolution-Addressbook-SelectNames.idl
 	$(ORBIT_IDL) -I $(datadir)/idl `$(GNOME_CONFIG) --cflags idl`	\
-		$(top_srcdir)/addressbook/gui/component/select-names/Evolution-Addressbook-SelectNames.idl
+		-I $(selectnamesdir) -I . Composer.idl
 
 ##
 
@@ -67,7 +68,9 @@ libcomposer_la_SOURCES = 			\
 	e-msg-composer.c			\
 	e-msg-composer.h			\
 	e-icon-list.c				\
-	e-icon-list.h
+	e-icon-list.h				\
+	evolution-composer.c			\
+	evolution-composer.h
 
 EXTRA_DIST =					\
 	$(glade_DATA)				\

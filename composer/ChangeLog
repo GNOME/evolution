@@ -1,3 +1,15 @@
+2000-10-20  Dan Winship  <danw@helixcode.com>
+
+	* Evolution-Composer.idl:
+	* evolution-composer.[ch]: Evolution::Composer interface. So
+	entirely not tested.
+
+	* Makefile.am (libcomposer_la_SOURCES): Add
+	evolution-composer.[ch]
+	(IDLS): Update this for Evolution-Composer.idl / Composer.idl
+
+	* main.c: Removed. (Old, dead code)
+
 2000-10-19  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* Makefile.am (glade_data): Add `e-msg-composer-attachment.glade'.
