@@ -1,6 +1,7 @@
 2001-03-13  Ettore Perazzoli  <ettore@ximian.com>
 
-	* importer/Makefile.am (INCLUDES): Remove `-g -Wall'!
+	* importer/Makefile.am (INCLUDES): Remove `-g -Wall
+	-Wmissing-prototypes -Wmissing-declarations'.
 
 2001-02-27  Dan Winship  <danw@ximian.com>
 
