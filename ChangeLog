@@ -1,3 +1,16 @@
+2000-03-26  Chris Toshok  <toshok@laptoph.xtoph.org>
+
+	* addressbook/backend/pas/pas-backend-file.c
+	(pas_backend_file_create_unique_id): new function.
+	(pas_backend_file_process_create_card): call
+	pas_backend_file_create_unique_id and pas_book_notify_add (if the
+	db->put was successful).  also, sync out db.
+	(pas_backend_file_process_remove_card): call
+	pas_book_notify_remove if the db->del was successful, and sync out
+	db.
+	(pas_backend_file_process_modify_card): call
+	pas_book_notify_change if db->put was successful, and sync out db.
+
 2000-03-26  Christopher James Lahey  <clahey@helixcode.com>
 
 	* addressbook/backend/ebook/test-client.c: Load an ECard instead
