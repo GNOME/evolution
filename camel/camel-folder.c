@@ -35,6 +35,12 @@ static GtkObjectClass *parent_class=NULL;
 #define CF_CLASS(so) CAMEL_FOLDER_CLASS (GTK_OBJECT (so)->klass)
 
 
+enum SIGNALS {
+	FOLDER_CHANGED,
+	LAST_SIGNAL
+};
+
+static guint signals[LAST_SIGNAL] = { 0 };
 
 
 static void _init (CamelFolder *folder, CamelStore *parent_store,
@@ -186,6 +192,17 @@ camel_folder_class_init (CamelFolderClass *camel_folder_class)
 
 	/* virtual method overload */
 	gtk_object_class->finalize = _finalize;
+
+        signals[FOLDER_CHANGED] =
+                gtk_signal_new ("folder_changed",
+                                GTK_RUN_LAST,
+                                gtk_object_class->type,
+                                GTK_SIGNAL_OFFSET (CamelFolderClass, folder_changed),
+                                gtk_marshal_NONE__INT,
+                                GTK_TYPE_NONE, 1, GTK_TYPE_INT);
+
+        gtk_object_class_add_signals (gtk_object_class, signals, LAST_SIGNAL);
+
 }
 
 

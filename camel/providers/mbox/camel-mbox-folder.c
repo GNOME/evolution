@@ -260,6 +260,9 @@ mbox_expunge (CamelFolder *folder, CamelException *ex)
 		camel_exception_setv (ex, CAMEL_EXCEPTION_FOLDER_INVALID, /* FIXME: right error code */
 				      "Could not expunge: %s", strerror(errno));
 	}
+
+	/* TODO: check it actually changed */
+	gtk_signal_emit_by_name((GtkObject *)folder, "folder_changed", 0);
 }
 
 

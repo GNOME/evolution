@@ -1429,10 +1429,7 @@ camel_mbox_summary_expunge(CamelMboxSummary *s)
 
 				/* remove this message from the index */
 				if (s->index) {
-					char name[32];
-
-					sprintf(name, "%x", info->info.uid);
-					ibex_unindex(s->index, name);
+					ibex_unindex(s->index, info->info.uid);
 				}
 
 				camel_mbox_summary_remove_uid(s, info->info.uid);

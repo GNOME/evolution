@@ -127,6 +127,9 @@ struct _CamelFolder
 
 typedef struct {
 	GtkObjectClass parent_class;
+
+	/* signals */
+	void		(*folder_changed)	(CamelFolder *, int type);
 	
 	/* Virtual methods */	
 	void   (*init) (CamelFolder *folder, CamelStore *parent_store,
