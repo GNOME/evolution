@@ -14,7 +14,7 @@ module GNOME {
 module Evolution {
 	interface StorageSetViewListener {
 		void notifyFolderSelected  (in string uri);
-		void notifyStorageSelected (in string uri);
+		void notifyStorageSelected (in string name);
 	};
 
 	/* FIXME: Maybe we should have a generic Bonobo::Listener interface.  */

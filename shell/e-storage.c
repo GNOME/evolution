@@ -44,7 +44,11 @@ static GtkObjectClass *parent_class = NULL;
 	E_STORAGE_CLASS (GTK_OBJECT (obj)->klass)
 
 struct _EStoragePrivate {
+	/* The set of folders we have in this storage.  */
 	EFolderTree *folder_tree;
+
+	/* URI for the toplevel node.  */
+	char *toplevel_node_uri;
 };
 
 enum {
@@ -90,6 +94,8 @@ destroy (GtkObject *object)
 
 	if (priv->folder_tree != NULL)
 		e_folder_tree_destroy (priv->folder_tree);
+
+	g_free (priv->toplevel_node_uri);
 
 	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
@@ -202,7 +208,8 @@ init (EStorage *storage)
 
 	priv = g_new (EStoragePrivate, 1);
 
-	priv->folder_tree = e_folder_tree_new (folder_destroy_notify, NULL);
+	priv->folder_tree       = e_folder_tree_new (folder_destroy_notify, NULL);
+	priv->toplevel_node_uri = NULL;
 
 	storage->priv = priv;
 }
@@ -211,22 +218,28 @@ init (EStorage *storage)
 /* Creation.  */
 
 void
-e_storage_construct (EStorage *storage)
+e_storage_construct (EStorage *storage,
+		     const char *toplevel_node_uri)
 {
+	EStoragePrivate *priv;
+
 	g_return_if_fail (storage != NULL);
 	g_return_if_fail (E_IS_STORAGE (storage));
+
+	priv = storage->priv;
+	priv->toplevel_node_uri = g_strdup (toplevel_node_uri);
 
 	GTK_OBJECT_UNSET_FLAGS (GTK_OBJECT (storage), GTK_FLOATING);
 }
 
 EStorage *
-e_storage_new (void)
+e_storage_new (const char *toplevel_node_uri)
 {
 	EStorage *new;
 
 	new = gtk_type_new (e_storage_get_type ());
 
-	e_storage_construct (new);
+	e_storage_construct (new, toplevel_node_uri);
 
 	return new;
 }
@@ -280,6 +293,26 @@ e_storage_get_name (EStorage *storage)
 	g_return_val_if_fail (E_IS_STORAGE (storage), NULL);
 
 	return (* ES_CLASS (storage)->get_name) (storage);
+}
+
+/**
+ * e_storage_get_toplevel_node_uri:
+ * @storage: A pointer to an EStorage object
+ * 
+ * Get the physical URI for the toplevel node in the storage.
+ * 
+ * Return value: a pointer to a string representing that URI.
+ **/
+const char *
+e_storage_get_toplevel_node_uri (EStorage *storage)
+{
+	EStoragePrivate *priv;
+
+	g_return_val_if_fail (storage != NULL, NULL);
+	g_return_val_if_fail (E_IS_STORAGE (storage), NULL);
+
+	priv = storage->priv;
+	return priv->toplevel_node_uri;
 }
 
 

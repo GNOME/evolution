@@ -76,9 +76,11 @@ POA_GNOME_Evolution_Storage__epv *evolution_storage_get_epv            (void);
 
 GtkType                     evolution_storage_get_type           (void);
 void                        evolution_storage_construct          (EvolutionStorage          *storage,
-								  GNOME_Evolution_Storage          corba_object,
-								  const char                *name);
-EvolutionStorage           *evolution_storage_new                (const char                *name);
+								  GNOME_Evolution_Storage    corba_object,
+								  const char                *name,
+								  const char                *toplevel_node_uri);
+EvolutionStorage           *evolution_storage_new                (const char                *name,
+								  const char                *toplevel_node_uri);
 
 EvolutionStorageResult      evolution_storage_register           (EvolutionStorage          *storage,
 								  GNOME_Evolution_StorageRegistry  corba_registry);

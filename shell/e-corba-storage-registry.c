@@ -68,10 +68,11 @@ create_servant (void)
 }
 
 static GNOME_Evolution_StorageListener
-impl_StorageRegistry_register_storage (PortableServer_Servant servant,
-				       const GNOME_Evolution_Storage storage_interface,
-				       const CORBA_char *name,
-				       CORBA_Environment *ev)
+impl_StorageRegistry_addStorage (PortableServer_Servant servant,
+				 const GNOME_Evolution_Storage storage_interface,
+				 const CORBA_char *name,
+				 const CORBA_char *toplevel_node_uri,
+				 CORBA_Environment *ev)
 {
 	BonoboObject *bonobo_object;
 	ECorbaStorageRegistry *storage_registry;
@@ -85,7 +86,7 @@ impl_StorageRegistry_register_storage (PortableServer_Servant servant,
 	storage_registry = E_CORBA_STORAGE_REGISTRY (bonobo_object);
 	priv = storage_registry->priv;
 
-	storage = e_corba_storage_new (storage_interface, name);
+	storage = e_corba_storage_new (toplevel_node_uri, storage_interface, name);
 
 	if (! e_storage_set_add_storage (priv->storage_set, storage)) {
 		CORBA_exception_set (ev,
@@ -104,9 +105,9 @@ impl_StorageRegistry_register_storage (PortableServer_Servant servant,
 }
 
 static void
-impl_StorageRegistry_unregister_storage (PortableServer_Servant servant,
-					 const CORBA_char *name,
-					 CORBA_Environment *ev)
+impl_StorageRegistry_removeStorageByName (PortableServer_Servant servant,
+					  const CORBA_char *name,
+					  CORBA_Environment *ev)
 {
 	BonoboObject *bonobo_object;
 	ECorbaStorageRegistry *storage_registry;
@@ -165,8 +166,8 @@ corba_class_init (void)
 	base_epv->default_POA = NULL;
 
 	epv = g_new0 (POA_GNOME_Evolution_StorageRegistry__epv, 1);
-	epv->addStorage          = impl_StorageRegistry_register_storage;
-	epv->removeStorageByName = impl_StorageRegistry_unregister_storage;
+	epv->addStorage          = impl_StorageRegistry_addStorage;
+	epv->removeStorageByName = impl_StorageRegistry_removeStorageByName;
 
 	vepv = &storage_registry_vepv;
 	vepv->_base_epv                     = base_epv;

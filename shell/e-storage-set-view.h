@@ -59,9 +59,9 @@ struct _EStorageSetViewClass {
 	/* Signals.  */
 
 	void (* folder_selected)  (EStorageSetView *storage_set_view,
-				   const char *uri);
+				   const char *path);
 	void (* storage_selected)  (EStorageSetView *storage_set_view,
-				    const char *uri);
+				    const char *name);
 };
 
 

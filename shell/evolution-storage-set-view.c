@@ -69,7 +69,7 @@ storage_set_view_widget_folder_selected_cb (EStorageSetView *storage_set_view_wi
 
 static void
 storage_set_view_widget_storage_selected_cb (EStorageSetView *storage_set_view_widget,
-					     const char *uri,
+					     const char *name,
 					     void *data)
 {
 	EvolutionStorageSetView *storage_set_view;
@@ -86,7 +86,7 @@ storage_set_view_widget_storage_selected_cb (EStorageSetView *storage_set_view_w
 		CORBA_exception_init (&ev);
 
 		listener = (GNOME_Evolution_StorageSetViewListener) p->data;
-		GNOME_Evolution_StorageSetViewListener_notifyStorageSelected (listener, uri, &ev);
+		GNOME_Evolution_StorageSetViewListener_notifyStorageSelected (listener, name, &ev);
 
 		/* FIXME: What if we fail?  */
 

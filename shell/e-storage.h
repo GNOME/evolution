@@ -95,8 +95,9 @@ struct _EStorageClass {
 
 
 GtkType     e_storage_get_type              (void);
-void        e_storage_construct             (EStorage   *storage);
-EStorage   *e_storage_new                   (void);
+void        e_storage_construct             (EStorage   *storage,
+					     const char *toplevel_node_uri);
+EStorage   *e_storage_new                   (const char *toplevel_node_uri);
 
 gboolean    e_storage_path_is_relative      (const char *path);
 gboolean    e_storage_path_is_absolute      (const char *path);
@@ -107,6 +108,7 @@ EFolder    *e_storage_get_folder            (EStorage   *storage,
 					     const char *path);
 
 const char *e_storage_get_name              (EStorage   *storage);
+const char *e_storage_get_toplevel_node_uri (EStorage   *storage);
 
 /* Folder operations.  */
 

@@ -365,6 +365,27 @@ folder_selected_cb (EStorageSetView *storage_set_view,
 		popdown_transient_folder_bar (shell_view);
 }
 
+/* Callback called when a storage in the tree view is clicked.  */
+static void
+storage_selected_cb (EStorageSetView *storage_set_view,
+		     const char *name,
+		     void *data)
+{
+	EShellView *shell_view;
+	EShellViewPrivate *priv;
+	EStorageSet *storage_set;
+	EStorage *storage;
+	const char *uri;
+
+	shell_view = E_SHELL_VIEW (data);
+	priv = shell_view->priv;
+
+	storage_set = e_shell_get_storage_set (priv->shell);
+
+	storage = e_storage_set_get_storage (storage_set, name);
+	g_assert (storage != NULL);
+}
+
 /* Callback called when the button on the tree's title bar is clicked.  */
 static void
 storage_set_view_button_clicked_cb (ETitleBar *title_bar,
@@ -410,6 +431,8 @@ setup_storage_set_subwindow (EShellView *shell_view)
 	storage_set_view = e_storage_set_view_new (e_shell_get_storage_set (priv->shell));
 	gtk_signal_connect (GTK_OBJECT (storage_set_view), "folder_selected",
 			    GTK_SIGNAL_FUNC (folder_selected_cb), shell_view);
+	gtk_signal_connect (GTK_OBJECT (storage_set_view), "storage_selected",
+			    GTK_SIGNAL_FUNC (storage_selected_cb), shell_view);
 
 	scroll_frame = e_scroll_frame_new (NULL, NULL);
 	e_scroll_frame_set_policy (E_SCROLL_FRAME (scroll_frame), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);

@@ -1,5 +1,68 @@
 2000-12-04  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* Evolution-StorageSetView.idl: Arg @uri renamed to @name in
+	`StorageSetViewListener::notifyStorageSelected'.
+
+	* evolution-storage-set-view.c
+	(storage_set_view_widget_storage_selected_cb): Renamed arg @uri to
+	@name.
+
+	* e-storage-set-view.c (on_cursor_change): Only emit the name of
+	the storage for the "storage_selected" signal [i.e. remove the
+	leading slash].
+
+	* e-shell-view.c (storage_selected_cb): New callback for the
+	"storage_selected" signal on the EStorageSetView used for the
+	folder tree.
+	(setup_storage_set_subwindow): Connect it.
+
+	* evolution-local-storage.c (evolution_local_storage_construct):
+	Pass NULL as the @toplevel_node_uri arg to
+	`evolution_storage_construct()'.
+
+	* evolution-storage.c: New member `toplevel_node_uri' in
+	`EvolutionStoragePrivate'.
+	(init): Init to NULL.
+	(destroy): Free.
+	(evolution_storage_construct): New arg @toplevel_node_uri.  Set
+	the @toplevel_node_uri member in the private part to its value.
+	(evolution_storage_new): New arg @toplevel_node_uri.  Pass it to
+	`evolution_storage_construct()'.
+	(evolution_storage_register): Pass the @toplevel_node_uri value to
+	the `::addStorage' CORBA method.
+
+	* e-corba-storage-registry.c (impl_StorageRegistry_addStorage):
+	New arg @toplevel_node_uri, to go with the IDL change.
+
+	* Evolution-Storage.idl (StorageRegistry::addStorage): New arg
+	@toplevel_node_uri.
+
+	* e-local-storage.c (construct): Pass NULL as the
+	@toplevel_node_uri arg to `e_storage_construct()'.
+
+	* e-corba-storage.c (e_corba_storage_construct): New arg
+	@toplevel_node_uri.  Pass it to `e_storage_construct()'.
+	(e_corba_storage_new): New arg @toplevel_node_uri.  Pass it to
+	`e_corba_storage_construct()'.
+
+	* e-storage.c: New member `toplevel_node_uri' in
+	`EStoragePrivate'.
+	(init): Init to NULL.
+	(destroy): Free.
+	(e_storage_construct): New arg @toplevel_node_uri.  Set the
+	`toplevel_node_uri' member in the private part to its value.
+	(e_storage_new): New arg @toplevel_node_uri.  Pass it to
+	`e_storage_construct()'.
+	(e_storage_get_toplevel_node_uri): New.
+
+	* e-corba-storage-registry.c (impl_StorageRegistry_addStorage):
+	Renamed from `impl_StorageRegistry_register_storage'.
+	(impl_StorageRegistry_removeStorageByName): Renamed from
+	`impl_StorageRegistry_unregister_storage'.
+	(corba_class_init): Updated accordingly.
+
+2000-12-04  Ettore Perazzoli  <ettore@helixcode.com>
+
 	* main.c (new_view_on_running_shell): Don't crash if the object
 	returned from `oaf_activate_from_id' is NIL and the exception
 	isn't set.  Just handle this as a normal error condition.

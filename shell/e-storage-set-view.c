@@ -926,11 +926,10 @@ on_cursor_change (EStorageSetView *storage_set_view, int row, gpointer user_data
 		/* it was a folder */
 		gtk_signal_emit (GTK_OBJECT (storage_set_view), signals[FOLDER_SELECTED],
 				 priv->selected_row_path);
-	}
-	else {
+	} else {
 		/* it was a storage */
 		gtk_signal_emit (GTK_OBJECT (storage_set_view), signals[STORAGE_SELECTED],
-				 priv->selected_row_path);
+				 priv->selected_row_path + 1);
 	}
 }
 

@@ -186,7 +186,7 @@ evolution_local_storage_construct (EvolutionLocalStorage *local_storage,
 	g_return_if_fail (name != NULL);
 	g_return_if_fail (name[0] != '\0');
 
-	evolution_storage_construct (EVOLUTION_STORAGE (local_storage), corba_object, name);
+	evolution_storage_construct (EVOLUTION_STORAGE (local_storage), corba_object, name, NULL);
 }
 
 EvolutionLocalStorage *
