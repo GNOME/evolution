@@ -1,3 +1,14 @@
+2000-05-30  Dan Winship  <danw@helixcode.com>
+
+	* message-list.c (message_changed): call
+	e_table_model_row_changed, not e_table_model_changed so we do less
+	work, and don't lose the current selection.
+	(select_msg): Set up a timer to mark the displayed message as
+	"seen" if it's selected for longer than 1.5 seconds (a number
+	pulled out of Matt's butt).
+	(ml_value_at): Use the MESSAGE_STATUS column for read/unread as
+	well as deleted.
+
 2000-05-30  Christopher James Lahey  <clahey@helixcode.com>
 
 	* message-list.c, message-list.h: Added bold for unread messages.

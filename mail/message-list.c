@@ -81,9 +81,27 @@ static CamelMessageInfo *get_message_info(MessageList *message_list, gint row)
 }
 
 static void
-message_changed(CamelMimeMessage *m, enum _MessageChangeType type, MessageList *message_list)
+message_changed (CamelMimeMessage *m, enum _MessageChangeType type,
+		 MessageList *message_list)
 {
-	e_table_model_changed (message_list->table_model);
+	guint row = GPOINTER_TO_UINT (gtk_object_get_data (GTK_OBJECT (m),
+							   "row"));
+
+	e_table_model_row_changed (message_list->table_model, row);
+}
+
+static gint
+mark_msg_seen (gpointer data)
+{
+	CamelMimeMessage *msg = data;
+	guint32 flags;
+
+	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (msg));
+
+	flags = camel_mime_message_get_flags (msg);
+	camel_mime_message_set_flags (msg, CAMEL_MESSAGE_SEEN,
+				      CAMEL_MESSAGE_SEEN);
+	return FALSE;
 }
 
 /* select a message and display it */
@@ -93,6 +111,7 @@ select_msg (MessageList *message_list, gint row)
 	CamelException ex;
 	CamelMimeMessage *message = NULL;
 	CamelMessageInfo *msg_info;
+	static guint timeout;
 
 	camel_exception_init (&ex);
 
@@ -109,10 +128,15 @@ select_msg (MessageList *message_list, gint row)
 	}
 
 	if (message) {
-		gtk_signal_connect((GtkObject *)message, "message_changed",
+		if (timeout)
+			gtk_timeout_remove (timeout);
+		gtk_object_set_data (GTK_OBJECT (message), "row",
+				     GUINT_TO_POINTER (row));
+		gtk_signal_connect(GTK_OBJECT (message), "message_changed",
 				   message_changed, message_list);
 		mail_display_set_message (message_list->parent_folder_browser->mail_display,
 					  CAMEL_MEDIUM (message));
+		timeout = gtk_timeout_add (1500, mark_msg_seen, message);
 		gtk_object_unref (GTK_OBJECT (message));
 	}
 }
@@ -186,6 +210,8 @@ ml_value_at (ETableModel *etm, int col, int row, void *data)
 	case COL_MESSAGE_STATUS:
 		if (msg_info->flags & CAMEL_MESSAGE_DELETED)
 			retval = GINT_TO_POINTER (2);
+		else if (msg_info->flags & CAMEL_MESSAGE_SEEN)
+			retval = GINT_TO_POINTER (0);
 		else
 			retval = GINT_TO_POINTER (1);
 		break;
