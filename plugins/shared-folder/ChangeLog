@@ -1,0 +1,38 @@
+
+2005-01-10 Vivek Jain <jvivek@novell.com> Included 
+
+* install-shared.c : opens up a wizard on reading a shared folder
+notification and installs shared folder at the recepient end.
+* share-folder-common.c : added 
+(refresh_folder_tree) : to refresh the folder tree when a folder is shared or
+a shared folder is created so that different icons are displayed
+(get_cnc): to get a connection 
+(get_container_id):to get the container id of the folder user selects
+* share-folder.c : minor changes to fix the crash
+* Makefile.am : including install-shared.c in sources
+
+2004-12-15 Vivek Jain <jvivek@novell.com>
+
+Added (Create a shared folder) functionality in the plugin
+* org-gnome-shared-folder.eplug.in : added a plugin in the plugin list
+* share-folder-common.c : included functions to create a shared folder
+
+2004-12-15  Vivek Jain <jvivek@novell.com>
+
+* shared-folder-common.c : (org_gnome_shared_folder_factory)
+* shared-folder.c : some whitespace changes, typecasting widgets,
+in (on_add_clicked) removed assigning the rights portion
+
+2004-12-08  Vivek Jain <jvivek@novell.com>
+
+The following files are added as an initial check in for the plugin that
+implements shared-folder functionality in the groupwise folders
+* share-folder.c
+* share-folder.h
+* share-folder-common.c
+* properties.glade
+* Makefile.am
+* org-gnome-shared-folder.eplug.in
+
+
+
