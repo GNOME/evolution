@@ -2090,7 +2090,7 @@ Kerberos
 
 	<widget>
 	  <class>GtkVBox</class>
-	  <name>vbox69</name>
+	  <name>vboxPGP</name>
 	  <border_width>3</border_width>
 	  <homogeneous>False</homogeneous>
 	  <spacing>3</spacing>
@@ -2161,6 +2161,20 @@ Kerberos
 	    <can_focus>True</can_focus>
 	    <label>Al_ways encrypt to myself when sending encrypted mail</label>
 	    <active>True</active>
+	    <draw_indicator>True</draw_indicator>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkCheckButton</class>
+	    <name>pgp_always_trust</name>
+	    <can_focus>True</can_focus>
+	    <label>Always _trust keys in my keyring when encrypting</label>
+	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
 	    <child>
 	      <padding>0</padding>

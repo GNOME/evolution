@@ -75,6 +75,7 @@ typedef struct {
 	char *pgp_key;
 	gboolean pgp_encrypt_to_self;
 	gboolean pgp_always_sign;
+	gboolean pgp_always_trust;
 	
 	char *smime_key;
 	gboolean smime_encrypt_to_self;

@@ -1478,6 +1478,8 @@ mail_account_gui_new (MailConfigAccount *account, MailAccountsTab *dialog)
 	gtk_toggle_button_set_active (gui->pgp_encrypt_to_self, account->pgp_encrypt_to_self);
 	gui->pgp_always_sign = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui->xml, "pgp_always_sign"));
 	gtk_toggle_button_set_active (gui->pgp_always_sign, account->pgp_always_sign);
+	gui->pgp_always_trust = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui->xml, "pgp_always_trust"));
+	gtk_toggle_button_set_active (gui->pgp_always_trust, account->pgp_always_trust);
 	
 #if defined (HAVE_NSS) && defined (SMIME_SUPPORTED)
 	gui->smime_key = GTK_ENTRY (glade_xml_get_widget (gui->xml, "smime_key"));
@@ -1900,6 +1902,7 @@ mail_account_gui_save (MailAccountGui *gui)
 	account->pgp_key = e_utf8_gtk_entry_get_text (gui->pgp_key);
 	account->pgp_encrypt_to_self = gtk_toggle_button_get_active (gui->pgp_encrypt_to_self);
 	account->pgp_always_sign = gtk_toggle_button_get_active (gui->pgp_always_sign);
+	account->pgp_always_trust = gtk_toggle_button_get_active (gui->pgp_always_trust);
 	
 #if defined (HAVE_NSS) && defined (SMIME_SUPPORTED)
 	g_free (account->smime_key);

@@ -265,6 +265,7 @@ account_copy (const MailConfigAccount *account)
 	new->pgp_key = g_strdup (account->pgp_key);
 	new->pgp_encrypt_to_self = account->pgp_encrypt_to_self;
 	new->pgp_always_sign = account->pgp_always_sign;
+	new->pgp_always_trust = account->pgp_always_trust;
 	
 	new->smime_key = g_strdup (account->smime_key);
 	new->smime_encrypt_to_self = account->smime_encrypt_to_self;
@@ -685,6 +686,11 @@ config_read (void)
 		        config->db, path, TRUE, NULL);
 		g_free (path);
 		
+		path = g_strdup_printf ("/Mail/Accounts/account_pgp_always_trust_%d", i);
+		account->pgp_always_trust = bonobo_config_get_boolean_with_default (
+		        config->db, path, FALSE, NULL);
+		g_free (path);
+		
 		/* get the s/mime info */
 		path = g_strdup_printf ("/Mail/Accounts/account_smime_key_%d", i);
 		val = bonobo_config_get_string (config->db, path, NULL);
@@ -1085,6 +1091,10 @@ mail_config_write (void)
 		path = g_strdup_printf ("/Mail/Accounts/account_pgp_encrypt_to_self_%d", i);
 		bonobo_config_set_boolean (config->db, path, 
 					   account->pgp_encrypt_to_self, NULL);
+		g_free (path);
+		
+		path = g_strdup_printf ("/Mail/Accounts/account_pgp_always_trust_%d", i);
+		bonobo_config_set_boolean (config->db, path, account->pgp_always_trust, NULL);
 		g_free (path);
 		
 		/* account s/mime options */

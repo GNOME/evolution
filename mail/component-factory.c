@@ -1297,11 +1297,11 @@ mail_add_storage (CamelStore *store, const char *name, const char *uri)
 	if (name == NULL) {
 		char *service_name;
 		
-		service_name = camel_service_get_name (store, TRUE);
-		add_storage (service_name, uri, store, shell, &ex);
+		service_name = camel_service_get_name ((CamelService *) store, TRUE);
+		add_storage (service_name, uri, (CamelService *) store, shell, &ex);
 		g_free (service_name);
 	} else {
-		add_storage (name, uri, store, shell, &ex);
+		add_storage (name, uri, (CamelService *) store, shell, &ex);
 	}
 	
 	camel_exception_clear (&ex);

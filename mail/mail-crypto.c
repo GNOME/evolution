@@ -33,24 +33,22 @@
 
 
 /**
- * mail_crypto_pgp_mime_part_sign:
- * @mime_part: a MIME part that will be replaced by a pgp signed part
- * @userid: userid to sign with
- * @hash: one of CAMEL_CIPHER_HASH_MD5 or CAMEL_CIPHER_HASH_SHA1
- * @ex: exception which will be set if there are any errors.
+ * mail_crypto_get_pgp_cipher_context:
+ * @account: Account that will be using this context
  *
- * Constructs a PGP/MIME multipart in compliance with rfc2015 and
- * replaces #part with the generated multipart/signed. On failure,
- * #ex will be set and #part will remain untouched.
+ * Constructs a new PGP (or GPG) cipher context with the appropriate
+ * options set based on the account provided.
  **/
-void
-mail_crypto_pgp_mime_part_sign (CamelMimePart **mime_part, const char *userid, CamelCipherHash hash, CamelException *ex)
+CamelCipherContext *
+mail_crypto_get_pgp_cipher_context (const MailConfigAccount *account)
 {
 	CamelCipherContext *cipher;
 	
 	switch (mail_config_get_pgp_type ()) {
 	case CAMEL_PGP_TYPE_GPG:
 		cipher = camel_gpg_context_new (session, mail_config_get_pgp_path ());
+		if (account)
+			camel_gpg_context_set_always_trust ((CamelGpgContext *) cipher, account->pgp_always_trust);
 		break;
 	case CAMEL_PGP_TYPE_PGP5:
 	case CAMEL_PGP_TYPE_PGP6:
@@ -62,12 +60,7 @@ mail_crypto_pgp_mime_part_sign (CamelMimePart **mime_part, const char *userid, C
 		break;
 	}
 	
-	if (cipher) {
-		camel_pgp_mime_part_sign (cipher, mime_part, userid, hash, ex);
-		camel_object_unref (CAMEL_OBJECT (cipher));
-	} else
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("Could not create a PGP signature context."));
+	return cipher;
 }
 
 
@@ -84,19 +77,7 @@ mail_crypto_pgp_mime_part_verify (CamelMimePart *mime_part, CamelException *ex)
 	CamelCipherValidity *valid = NULL;
 	CamelCipherContext *cipher;
 	
-	switch (mail_config_get_pgp_type ()) {
-	case CAMEL_PGP_TYPE_GPG:
-		cipher = camel_gpg_context_new (session, mail_config_get_pgp_path ());
-		break;
-	case CAMEL_PGP_TYPE_PGP5:
-	case CAMEL_PGP_TYPE_PGP6:
-		cipher = camel_pgp_context_new (session, mail_config_get_pgp_type (),
-						mail_config_get_pgp_path ());
-		break;
-	default:
-		cipher = NULL;
-		break;
-	}
+	cipher = mail_crypto_get_pgp_cipher_context (NULL);
 	
 	if (cipher) {
 		valid = camel_pgp_mime_part_verify (cipher, mime_part, ex);
@@ -124,19 +105,7 @@ mail_crypto_pgp_mime_part_encrypt (CamelMimePart **mime_part, GPtrArray *recipie
 {
 	CamelCipherContext *cipher;
 	
-	switch (mail_config_get_pgp_type ()) {
-	case CAMEL_PGP_TYPE_GPG:
-		cipher = camel_gpg_context_new (session, mail_config_get_pgp_path ());
-		break;
-	case CAMEL_PGP_TYPE_PGP5:
-	case CAMEL_PGP_TYPE_PGP6:
-		cipher = camel_pgp_context_new (session, mail_config_get_pgp_type (),
-						mail_config_get_pgp_path ());
-		break;
-	default:
-		cipher = NULL;
-		break;
-	}
+	cipher = mail_crypto_get_pgp_cipher_context (NULL);
 	
 	if (cipher) {
 		camel_pgp_mime_part_encrypt (cipher, mime_part, recipients, ex);
@@ -160,19 +129,7 @@ mail_crypto_pgp_mime_part_decrypt (CamelMimePart *mime_part, CamelException *ex)
 	CamelCipherContext *cipher;
 	CamelMimePart *part = NULL;
 	
-	switch (mail_config_get_pgp_type ()) {
-	case CAMEL_PGP_TYPE_GPG:
-		cipher = camel_gpg_context_new (session, mail_config_get_pgp_path ());
-		break;
-	case CAMEL_PGP_TYPE_PGP5:
-	case CAMEL_PGP_TYPE_PGP6:
-		cipher = camel_pgp_context_new (session, mail_config_get_pgp_type (),
-						mail_config_get_pgp_path ());
-		break;
-	default:
-		cipher = NULL;
-		break;
-	}
+	cipher = mail_crypto_get_pgp_cipher_context (NULL);
 	
 	if (cipher) {
 		part = camel_pgp_mime_part_decrypt (cipher, mime_part, ex);

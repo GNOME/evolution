@@ -27,6 +27,7 @@
 #include <camel/camel-pgp-mime.h>
 #include <camel/camel-smime-context.h>
 #include <camel/camel-smime-utils.h>
+#include "mail-config.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -34,10 +35,7 @@ extern "C" {
 #endif /* __cplusplus  */
 
 /* PGP/MIME convenience wrappers */
-void mail_crypto_pgp_mime_part_sign (CamelMimePart **mime_part,
-				     const char *userid,
-				     CamelCipherHash hash,
-				     CamelException *ex);
+CamelCipherContext *mail_crypto_get_pgp_cipher_context (const MailConfigAccount *account);
 
 CamelCipherValidity *mail_crypto_pgp_mime_part_verify (CamelMimePart *mime_part,
 						       CamelException *ex);

@@ -1,3 +1,26 @@
+2002-06-25  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* component-factory.c (mail_add_storage): Some compiler warning
+	fixes.
+
+	* mail-crypto.c (mail_crypto_pgp_mime_part_sign): Removed.
+	(mail_crypto_get_pgp_cipher_context): New convenience function to
+	construct a pgp cipher context.
+	(mail_crypto_pgp_mime_part_verify): Use the new
+	get_pgp_cipher_context function.
+	(mail_crypto_pgp_mime_part_encrypt): Same.
+	(mail_crypto_pgp_mime_part_decrypt): Here too.
+
+	* mail-account-gui.c (mail_account_gui_new): Initialise the
+	pgp_always_trust checkbox.
+	(mail_account_gui_save): Get whether or not to always_trust the
+	user's pgp keys.
+
+	* mail-config.c (account_copy): Copy over the pgp_always_trust
+	option.
+	(config_read): Read in the always_trust option.
+	(mail_config_write): Save the always_trust option.
+
 2002-06-21  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-crypto.c (mail_crypto_pgp_mime_part_verify): If the pgp
