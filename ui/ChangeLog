@@ -1,3 +1,12 @@
+2002-07-26  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution.xml: Move File/New/NewItems placeholder on the top and
+	add some separators.  Also add items to the popups/NewPopup so the
+	pop-up and the "New" submenu look the same.
+
+	* evolution-addressbook.xml: Remove ContactNew and ContactNewList
+	verbs, as well as the corresponding menu items.
+
 2002-07-23  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* evolution-message-composer.xml: Add a View/Post-To ui dingus.

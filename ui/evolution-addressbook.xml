@@ -4,13 +4,6 @@
 	 _tip="Delete selected contacts"
 	 accel="*Control*d"/>
 
-    <cmd name="ContactNew"
-	 _tip="Create new contact"
-	 accel="*Control*n"/>
-
-    <cmd name="ContactNewList"
-	 _tip="Create new contact list"/>
-
     <cmd name="ContactsPrint"
 	 _tip="Print selected contacts"
 	 pixtype="stock" pixname="Print"
@@ -73,20 +66,7 @@
 		  pixtype="pixbuf"/>
       </placeholder>
 
-      <submenu name="New">
-	<placeholder name="NewFirstItem">
-	  <menuitem name="ContactNew" verb=""
-		    _label="_Contact"
-		    pixtype="pixbuf"/>
-	  <menuitem name="ContactNewList" verb=""
-		    _label="_Contact List"
-		    pixtype="pixbuf"/>
-	  <separator f="" name="eadbk1"/>
-	</placeholder>
-      </submenu>
-      
       <placeholder name="Print">
-
 	<menuitem name="ContactsPrintPreview" verb=""
 		  _label="Print Pre_view"
 		  pixtype="pixbuf"/>

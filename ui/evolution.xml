@@ -33,27 +33,30 @@
   <menu>
     <submenu name="File" _label="_File">
       <submenu name="New" _label="_New">
-	<placeholder name="NewFirstItem">
-	</placeholder>
-	
+	<placeholder name="NewFirstItem"/>
+	<placeholder name="ComponentItems"/>
+
+	<separator f="" name="eshell6"/>
+
+	<menuitem name="Folder" verb="NewFolder"
+		  _label="_Folder..."
+		  _tip="Create a new folder"
+		  accel="*Control**Shift*e"
+		  pixtype="pixbuf"/>
+
+	<menuitem name="Shortcut" verb="NewShortcut"
+		  _label="_Shortcut..."
+		  _tip="Create a new shortcut"
+		  accel="*Control**Shift*s"/>
+
+	<separator f="" name="eshell6"/>
+
 	<menuitem name="EvolutionWindow"
 	          verb="OpenFolderInNewWindow"
 		  _label="Evolution _Window"
 		  _tip="Create a new window displaying this folder"
 		  accel="*Control**Shift*w"/>
 
-	<menuitem name="Folder" verb="NewFolder"
-		  _label="_Folder"
-		  _tip="Create a new folder"
-		  accel="*Control**Shift*e"
-		  pixtype="pixbuf"/>
-
-	<menuitem name="Shortcut" verb="NewShortcut"
-		  _label="_Shortcut"
-		  _tip="Create a new shortcut"
-		  accel="*Control**Shift*s"/>
-
-	<placeholder name="NewItems"/>
       </submenu>
 
       <placeholder name="FileOps"/>
@@ -110,7 +113,7 @@
                      delimit="top"/>
 
       </submenu>
-      
+
       <menuitem name="FileGoToFolder" verb=""
 		_label="_Go to Folder..."
 		_tip="Display a different folder" accel="*Control*g"/>
@@ -207,6 +210,28 @@
 
   <popups>
     <popup name="NewPopup">
+    	<placeholder name="ComponentItems"/>
+
+	<separator f="" name="eshell7"/>
+
+	<menuitem name="Folder" verb="NewFolder"
+		  _label="_Folder..."
+		  _tip="Create a new folder"
+		  accel="*Control**Shift*e"
+		  pixtype="pixbuf"/>
+
+	<menuitem name="Shortcut" verb="NewShortcut"
+		  _label="_Shortcut..."
+		  _tip="Create a new shortcut"
+		  accel="*Control**Shift*s"/>
+
+	<separator f="" name="eshell8"/>
+
+	<menuitem name="EvolutionWindow"
+	          verb="OpenFolderInNewWindow"
+		  _label="Evolution _Window"
+		  _tip="Create a new window displaying this folder"
+		  accel="*Control**Shift*w"/>
     </popup>
 
     <popup name="FolderPopup">
