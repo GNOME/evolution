@@ -154,7 +154,7 @@ static void
 ee_load(const char *path)
 {
 	xmlDocPtr doc;
-	xmlNodePtr root, error, scan, node;
+	xmlNodePtr root, error, scan;
 	struct _e_error *e;
 	struct _e_error_button *lastbutton;
 	struct _e_error_table *table;
@@ -223,12 +223,12 @@ ee_load(const char *path)
 						xmlFree(tmp);
 					}
 				} else if (!strcmp(scan->name, "secondary")) {
-					if ((tmp = xmlNodeGetContent(node))) {
+					if ((tmp = xmlNodeGetContent(scan))) {
 						e->secondary = g_strdup(_(tmp));
 						xmlFree(tmp);
 					}
 				} else if (!strcmp(scan->name, "title")) {
-					if ((tmp = xmlNodeGetContent(node))) {
+					if ((tmp = xmlNodeGetContent(scan))) {
 						e->title = g_strdup(_(tmp));
 						xmlFree(tmp);
 					}
