@@ -1892,6 +1892,15 @@ flag_for_followup (BonoboUIComponent *uih, void *user_data, const char *path)
 	gnome_dialog_button_connect (GNOME_DIALOG (editor), 1, tag_editor_cancel, data);
 	gnome_dialog_set_close (GNOME_DIALOG (editor), TRUE);
 	
+	/* special-case... */
+	if (uids->len == 1) {
+		const char *tag_value;
+		
+		tag_value = camel_folder_get_message_user_tag (fb->folder, uids->pdata[0], "follow-up");
+		if (tag_value)
+			message_tag_editor_set_value (MESSAGE_TAG_EDITOR (editor), tag_value);
+	}
+	
 	gtk_signal_connect (GTK_OBJECT (editor), "destroy",
 			    tag_editor_destroy, data);
 	

@@ -1,5 +1,22 @@
 2002-02-12  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* message-tag-followup.c (set_widget_values): Fixed a bug.
+
+	* mail-callbacks.c (flag_for_followup): If only 1 message is
+	selected and it happens to already be marked for follow-up, set
+	the value of the flag on the editor so the settings are restored.
+
+	* folder-browser-ui.c: Set the pixmaps on MarkAsRead, MarkAsUnread
+	and MarkAsImportant bonobo verbs. Also connect to
+	flag-for-followup verb.
+	(folder_browser_ui_set_selection_state): Added MessageFollowUpFlag
+	verb to the array of verb strings.
+
+	* folder-browser.c: Set key accelerators on the follow-up
+	right-click menu items to match Outlook.
+
+2002-02-12  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* mail-callbacks.c (create_msg_composer): No longer need to call
 	e_msg_composer_show_sig_file(). This gets handled auto-magically
 	by a signal emition when the default From address chooser gets

@@ -152,14 +152,8 @@ static void
 set_widget_values (MessageTagFollowUp *followup)
 {
 	time_t completed;
-	GtkWidget *item;
-	GList *items;
-	
-	items = GTK_MENU_SHELL (followup->type)->children;
-	item = g_list_nth_data (items, followup->tag->type);
 	
 	gtk_option_menu_set_history (followup->type, followup->tag->type);
-	gtk_signal_emit_by_name (GTK_OBJECT (followup->type), "activate", followup);
 	
 	e_date_edit_set_time (followup->target_date, followup->tag->target_date);
 	

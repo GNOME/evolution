@@ -56,6 +56,7 @@ static BonoboUIVerb message_verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("MessageMarkAsUnRead", mark_as_unseen),
 	BONOBO_UI_UNSAFE_VERB ("MessageMarkAsImportant", mark_as_important),
 	BONOBO_UI_UNSAFE_VERB ("MessageMarkAsUnimportant", mark_as_unimportant),
+	BONOBO_UI_UNSAFE_VERB ("MessageFollowUpFlag", flag_for_followup),
 	BONOBO_UI_UNSAFE_VERB ("MessageMove", move_msg),
 	BONOBO_UI_UNSAFE_VERB ("MessageOpen", open_message),
 	BONOBO_UI_UNSAFE_VERB ("MessageReplyAll", reply_to_all),
@@ -131,7 +132,11 @@ static EPixmap message_pixcache [] = {
 	E_PIXMAP ("/commands/MessageApplyFilters", "apply-filters-16.xpm"),
 	E_PIXMAP ("/commands/MessageSearch", "search-16.png"),
 	E_PIXMAP ("/commands/MessageSaveAs", "save-as-16.png"),
-
+	E_PIXMAP ("/commands/MessageMarkAsRead", "mail-read.xpm"),
+	E_PIXMAP ("/commands/MessageMarkAsUnRead", "mail-new.xpm"),
+	E_PIXMAP ("/commands/MessageMarkAsImportant", "priority-high.xpm"),
+	E_PIXMAP ("/commands/MessageFollowUpFlag", "priority-high.xpm"),
+	
 	E_PIXMAP ("/Toolbar/MailMessageToolbar/MessageReplySender", "buttons/reply.png"),
 	E_PIXMAP ("/Toolbar/MailMessageToolbar/MessageReplyAll", "buttons/reply-to-all.png"),
 	E_PIXMAP ("/Toolbar/MailMessageToolbar/MessageForward", "buttons/forward.png"),
@@ -151,7 +156,7 @@ static EPixmap list_pixcache [] = {
 	E_PIXMAP ("/commands/ViewHideRead", "hide_read_messages.xpm"),
 	E_PIXMAP ("/commands/ViewHideSelected", "hide_selected_messages.xpm"),
 	E_PIXMAP ("/commands/ViewShowAll", "show_all_messages.xpm"),
-
+	
 	E_PIXMAP ("/commands/EditCut", "16_cut.png"),
 	E_PIXMAP ("/commands/EditCopy", "16_copy.png"),
 	E_PIXMAP ("/commands/EditPaste", "16_paste.png"),
@@ -594,12 +599,11 @@ folder_browser_ui_set_selection_state (FolderBrowser *fb, FolderBrowserSelection
 
 	static const char *none_disables[] = {
 		/* actions that work on > 0 messages */
-		"MessageApplyFilters", 
-		"MessageCopy", "MessageMove", 
+		"MessageApplyFilters", "MessageCopy", "MessageMove", 
 		"MessageDelete", "MessageUndelete",
 		"MessageMarkAsRead", "MessageMarkAsUnRead",
 		"MessageMarkAsImportant", "MessageMarkAsUnimportant",
-		"MessageOpen", "MessageSaveAs", 
+		"MessageFollowUpFlag", "MessageOpen", "MessageSaveAs", 
 		"MessageForward", "MessageForwardAttached",
 		"MessageRedirect",
 

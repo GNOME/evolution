@@ -146,6 +146,7 @@ void
 message_tag_editor_set_value (MessageTagEditor *editor, const char *value)
 {
 	g_return_if_fail (IS_MESSAGE_TAG_EDITOR (editor));
+	g_return_if_fail (value != NULL);
 	
 	((MessageTagEditorClass *)((GtkObject *) editor)->klass)->set_value (editor, value);
 }
