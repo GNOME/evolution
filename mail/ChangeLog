@@ -1,3 +1,36 @@
+2001-03-30  Not Zed  <NotZed@Ximian.com>
+
+	* folder-browser.c (folder_browser_toggle_hide_deleted): New
+	function to listen for hide_deleted changes.
+	(folder_browser_toggle_hide_deleted): Only svae the hide-deleted
+	state if we are not setting a trash folder.
+
+	* folder-browser-factory.c (control_activate): Set the
+	hide_deleted flag appropriately/setup the menu's appropriately.
+	(control_activate): Workaround to Force setting of options by
+	bypassing bonobo notification, since it doesn't properly handle
+	changed components.
+
+	* mail-config.c (mail_config_get_hide_deleted): 
+	(mail_config_set_hide_deleted): New functions for
+	accessing/setting the hide deleted state.
+	(mail_config_write_on_exit): 
+	(config_read): Save/load the hide_deleted flag.
+
+	* message-list.c (main_folder_changed): Oops, remember to copy
+	over all the rest of the changes too if we removed some.
+	(find_next_undeleted): Find the first undeleted message below us.
+	This of course does not follow sorting conventions, but thats
+	etree.  Have to ask chris if there is a way to make it work like
+	that.
+	(message_list_set_hidedeleted): Check we dont set hide_delete on a
+	vtrash.
+	(build_tree): If the message has vanished, try and get the next
+	undeleted message set, etc, if it still exists.  The set_cursor()
+	function seems very broken but i'm sure e-lahey will get to it
+	soon.
+	(build_flat): Similarly for above.
+
 2001-03-30  Dan Winship  <danw@ximian.com>
 
 	* mail-config.c (check_service_check): Register for cancellation.

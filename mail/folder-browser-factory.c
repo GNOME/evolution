@@ -8,16 +8,14 @@
  * (C) 2000 Helix Code, Inc.
  */
 
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
 
+#include <gnome.h>
 #include <bonobo/bonobo-main.h>
 #include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-generic-factory.h>
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-ui-component.h>
-#include <bonobo/bonobo-ui-util.h>
 
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-gui-utils.h>
@@ -36,6 +34,8 @@
 #include "mail-config.h"
 #include "mail-ops.h"
 #include "mail-session.h"
+
+#include "camel/camel-vtrash-folder.h"
 
 /* The FolderBrowser BonoboControls we have.  */
 static EList *control_list = NULL;
@@ -260,6 +260,7 @@ control_activate (BonoboControl     *control,
 {
 	GtkWidget         *folder_browser;
 	Bonobo_UIContainer container;
+	int state;
 
 	container = bonobo_control_get_remote_ui_container (control);
 	bonobo_ui_component_set_container (uic, container);
@@ -279,27 +280,28 @@ control_activate (BonoboControl     *control,
 		uic, EVOLUTION_DATADIR,
 		"evolution-mail.xml", "evolution-mail");
 
-	if (mail_config_get_thread_list ())
-		bonobo_ui_component_set_prop (
-			uic, "/commands/ViewThreaded", "state", "1", NULL);
-	else
-		bonobo_ui_component_set_prop (
-			uic, "/commands/ViewThreaded", "state", "0", NULL);
-	
-	bonobo_ui_component_add_listener (
-		uic, "ViewThreaded",
-		folder_browser_toggle_threads, folder_browser);
-	
-	if (mail_config_get_view_source ())
-		bonobo_ui_component_set_prop (uic, "/commands/ViewSource",
-					      "state", "1", NULL);
-	else
-		bonobo_ui_component_set_prop (uic, "/commands/ViewSource",
-					      "state", "0", NULL);
-	
-	bonobo_ui_component_add_listener (uic, "ViewSource",
-					  folder_browser_toggle_view_source,
-					  folder_browser);
+	state = mail_config_get_thread_list();
+	bonobo_ui_component_set_prop(uic, "/commands/ViewThreaded", "state", state?"1":"0", NULL);
+	bonobo_ui_component_add_listener(uic, "ViewThreaded", folder_browser_toggle_threads, folder_browser);
+	/* FIXME: this kind of bypasses bonobo but seems the only way when we change components */
+	folder_browser_toggle_threads(uic, "", Bonobo_UIComponent_STATE_CHANGED, state?"1":"0", folder_browser);
+
+	state = mail_config_get_view_source();
+	bonobo_ui_component_set_prop(uic, "/commands/ViewSource", "state", state?"1":"0", NULL);
+	bonobo_ui_component_add_listener(uic, "ViewSource", folder_browser_toggle_view_source, folder_browser);
+	/* FIXME: this kind of bypasses bonobo but seems the only way when we change components */
+	folder_browser_toggle_view_source(uic, "", Bonobo_UIComponent_STATE_CHANGED, state?"1":"0", folder_browser);
+
+	if (fb->folder && CAMEL_IS_VTRASH_FOLDER(fb->folder)) {
+		bonobo_ui_component_set_prop(uic, "/commands/HideDeleted", "sensitive", "0", NULL);
+		state = FALSE;
+	} else {
+		state = mail_config_get_hide_deleted();
+	}
+	bonobo_ui_component_set_prop(uic, "/commands/HideDeleted", "state", state?"1":"0", NULL);
+	bonobo_ui_component_add_listener(uic, "HideDeleted", folder_browser_toggle_hide_deleted, folder_browser);
+	/* FIXME: this kind of bypasses bonobo but seems the only way when we change components */
+	folder_browser_toggle_hide_deleted(uic, "", Bonobo_UIComponent_STATE_CHANGED, state?"1":"0", folder_browser);
 
 	folder_browser_setup_view_menus (fb, uic);
 	folder_browser_setup_property_menu (fb, uic);
