@@ -24,7 +24,10 @@
 #include <config.h>
 #endif
 
-#include <string.h>
+#include "e-storage-set.h"
+
+#include "e-storage-set-view.h"
+#include "e-shell-constants.h"
 
 #include <glib.h>
 #include <gtk/gtkobject.h>
@@ -33,8 +36,7 @@
 
 #include <gal/util/e-util.h>
 
-#include "e-storage-set-view.h"
-#include "e-storage-set.h"
+#include <string.h>
 
 
 #define PARENT_TYPE GTK_TYPE_OBJECT
@@ -154,14 +156,14 @@ make_full_path (EStorage *storage,
 
 	storage_name = e_storage_get_name (storage);
 
-	if (strcmp (path, G_DIR_SEPARATOR_S) == 0)
-		full_path = g_strconcat (G_DIR_SEPARATOR_S, storage_name,
+	if (strcmp (path, E_PATH_SEPARATOR_S) == 0)
+		full_path = g_strconcat (E_PATH_SEPARATOR_S, storage_name,
 					 NULL);
 	else if (! g_path_is_absolute (path))
-		full_path = g_strconcat (G_DIR_SEPARATOR_S, storage_name,
-					 G_DIR_SEPARATOR_S, path, NULL);
+		full_path = g_strconcat (E_PATH_SEPARATOR_S, storage_name,
+					 E_PATH_SEPARATOR_S, path, NULL);
 	else
-		full_path = g_strconcat (G_DIR_SEPARATOR_S, storage_name,
+		full_path = g_strconcat (E_PATH_SEPARATOR_S, storage_name,
 					 path, NULL);
 
 	return full_path;
@@ -238,16 +240,16 @@ get_storage_for_path (EStorageSet *storage_set,
 	const char *first_separator;
 
 	g_return_val_if_fail (g_path_is_absolute (path), NULL);
-	g_return_val_if_fail (path[1] != G_DIR_SEPARATOR, NULL);
+	g_return_val_if_fail (path[1] != E_PATH_SEPARATOR, NULL);
 
 	/* Skip initial separator.  */
 	path++;
 
-	first_separator = strchr (path, G_DIR_SEPARATOR);
+	first_separator = strchr (path, E_PATH_SEPARATOR);
 
 	if (first_separator == NULL || first_separator[1] == 0) {
 		storage = e_storage_set_get_storage (storage_set, path);
-		*subpath_return = G_DIR_SEPARATOR_S;
+		*subpath_return = E_PATH_SEPARATOR_S;
 	} else {
 		storage_name = g_strndup (path, first_separator - path);
 		storage = e_storage_set_get_storage (storage_set, storage_name);
@@ -273,7 +275,7 @@ signal_new_folder_for_all_folders_under_paths (EStorageSet *storage_set,
 
 		path = (const char *) p->data;
 
-		path_with_storage = g_strconcat (G_DIR_SEPARATOR_S, e_storage_get_name (storage), path, NULL);
+		path_with_storage = g_strconcat (E_PATH_SEPARATOR_S, e_storage_get_name (storage), path, NULL);
 		gtk_signal_emit (GTK_OBJECT (storage_set), signals[NEW_FOLDER], path_with_storage);
 		g_free (path_with_storage);
 
@@ -291,7 +293,7 @@ signal_new_folder_for_all_folders_in_storage (EStorageSet *storage_set,
 {
 	GList *path_list;
 
-	path_list = e_storage_get_subfolder_paths (storage, G_DIR_SEPARATOR_S);
+	path_list = e_storage_get_subfolder_paths (storage, E_PATH_SEPARATOR_S);
 
 	signal_new_folder_for_all_folders_under_paths (storage_set, storage, path_list);
 
@@ -763,7 +765,7 @@ e_storage_set_get_path_for_physical_uri (EStorageSet *storage_set,
 		if (storage_path != NULL) {
 			char *storage_set_path;
 
-			storage_set_path = g_strconcat (G_DIR_SEPARATOR_S,
+			storage_set_path = g_strconcat (E_PATH_SEPARATOR_S,
 							e_storage_get_name (storage),
 							storage_path,
 							NULL);

@@ -423,22 +423,22 @@ handle_current_folder_removed (EShellView *shell_view)
 
 	current_path = priv->uri + E_SHELL_URI_PREFIX_LEN;
 
-	g_assert (*current_path == G_DIR_SEPARATOR);
+	g_assert (*current_path == E_PATH_SEPARATOR);
 
 	new_path = NULL;
 
 	/* If we have a parent folder (not a parent storage), try to display
 	   that one.  */
 
-	p = strrchr (current_path + 1, G_DIR_SEPARATOR);
-	if (p != NULL && p[1] != '\0' && strchr (current_path + 1, G_DIR_SEPARATOR) != p) {
+	p = strrchr (current_path + 1, E_PATH_SEPARATOR);
+	if (p != NULL && p[1] != '\0' && strchr (current_path + 1, E_PATH_SEPARATOR) != p) {
 		new_path = g_strndup (current_path, p - current_path);
 	} else {
 		/* We don't have a parent folder, so try to see if there is an
 		   Inbox folder in the same storage.  */
 
 		/* Extract the storage name.  */
-		p = strchr (current_path + 1, G_DIR_SEPARATOR);
+		p = strchr (current_path + 1, E_PATH_SEPARATOR);
 		if (p == NULL) {
 			/* The URL points itself to a storage, so just redirect
 			   to the default case.  */

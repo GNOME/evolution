@@ -160,13 +160,13 @@ storage_sort_callback (ETreeMemory *etmm,
 	/* FIXME bad hack to put the "my evolution" and "local" storages on
 	   top.  */
 
-	if (strcmp (folder_path_1, G_DIR_SEPARATOR_S E_SUMMARY_STORAGE_NAME) == 0)
+	if (strcmp (folder_path_1, E_PATH_SEPARATOR_S E_SUMMARY_STORAGE_NAME) == 0)
 		return -1;
-	if (strcmp (folder_path_2, G_DIR_SEPARATOR_S E_SUMMARY_STORAGE_NAME) == 0)
+	if (strcmp (folder_path_2, E_PATH_SEPARATOR_S E_SUMMARY_STORAGE_NAME) == 0)
 		return +1;
 	
-	path_1_local = ! strcmp (folder_path_1, G_DIR_SEPARATOR_S E_LOCAL_STORAGE_NAME);
-	path_2_local = ! strcmp (folder_path_2, G_DIR_SEPARATOR_S E_LOCAL_STORAGE_NAME);
+	path_1_local = ! strcmp (folder_path_1, E_PATH_SEPARATOR_S E_LOCAL_STORAGE_NAME);
+	path_2_local = ! strcmp (folder_path_2, E_PATH_SEPARATOR_S E_LOCAL_STORAGE_NAME);
 
 	if (path_1_local && path_2_local)
 		return 0;
@@ -1446,7 +1446,7 @@ new_storage_cb (EStorageSet *storage_set,
 	storage_set_view = E_STORAGE_SET_VIEW (data);
 	priv = storage_set_view->priv;
 
-	path = g_strconcat (G_DIR_SEPARATOR_S, e_storage_get_name (storage), NULL);
+	path = g_strconcat (E_PATH_SEPARATOR_S, e_storage_get_name (storage), NULL);
 
 	node = e_tree_memory_node_insert (E_TREE_MEMORY(priv->etree_model), priv->root_node, -1, path);
 	e_tree_memory_sort_node (E_TREE_MEMORY(priv->etree_model), priv->root_node,
@@ -1473,7 +1473,7 @@ removed_storage_cb (EStorageSet *storage_set,
 	priv = storage_set_view->priv;
 	etree = priv->etree_model;
 
-	path = g_strconcat (G_DIR_SEPARATOR_S, e_storage_get_name (storage), NULL);
+	path = g_strconcat (E_PATH_SEPARATOR_S, e_storage_get_name (storage), NULL);
 	node = lookup_node_in_hash (storage_set_view, path);
 	g_free (path);
 
@@ -1500,7 +1500,7 @@ new_folder_cb (EStorageSet *storage_set,
 	priv = storage_set_view->priv;
 	etree = priv->etree_model;
 
-	last_separator = strrchr (path, G_DIR_SEPARATOR);
+	last_separator = strrchr (path, E_PATH_SEPARATOR);
 
 	parent_path = g_strndup (path, last_separator - path);
 	parent_node = g_hash_table_lookup (priv->path_to_etree_node, parent_path);

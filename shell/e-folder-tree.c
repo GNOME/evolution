@@ -26,6 +26,8 @@
 
 #include "e-folder-tree.h"
 
+#include "e-shell-constants.h"
+
 #include <string.h>
 #include <glib.h>
 
@@ -56,10 +58,10 @@ get_parent_path (const char *path)
 
 	g_assert (g_path_is_absolute (path));
 
-	last_separator = strrchr (path, G_DIR_SEPARATOR);
+	last_separator = strrchr (path, E_PATH_SEPARATOR);
 
 	if (last_separator == path)
-		return g_strdup (G_DIR_SEPARATOR_S);
+		return g_strdup (E_PATH_SEPARATOR_S);
 
 	return g_strndup (path, last_separator - path);
 }
@@ -186,7 +188,7 @@ e_folder_tree_new (EFolderDestroyNotify folder_destroy_notify,
 	new->path_to_folder = g_hash_table_new (g_str_hash, g_str_equal);
 	new->data_to_path = g_hash_table_new (g_direct_hash, g_direct_equal);
 
-	e_folder_tree_add (new, G_DIR_SEPARATOR_S, NULL);
+	e_folder_tree_add (new, E_PATH_SEPARATOR_S, NULL);
 
 	return new;
 }
@@ -204,7 +206,7 @@ e_folder_tree_destroy (EFolderTree *folder_tree)
 
 	g_return_if_fail (folder_tree != NULL);
 
-	root_folder = g_hash_table_lookup (folder_tree->path_to_folder, G_DIR_SEPARATOR_S);
+	root_folder = g_hash_table_lookup (folder_tree->path_to_folder, E_PATH_SEPARATOR_S);
 	remove_folder (folder_tree, root_folder);
 
 	g_hash_table_destroy (folder_tree->path_to_folder);
@@ -238,7 +240,7 @@ e_folder_tree_add (EFolderTree *folder_tree,
 	g_return_val_if_fail (g_path_is_absolute (path), FALSE);
 
 	/* Can only "add" a new root folder if the tree is empty */
-	if (! strcmp (path, G_DIR_SEPARATOR_S)) {
+	if (! strcmp (path, E_PATH_SEPARATOR_S)) {
 		folder = g_hash_table_lookup (folder_tree->path_to_folder, path);
 		if (folder) {
 			if (folder->subfolders) {
@@ -428,7 +430,7 @@ e_folder_tree_foreach (EFolderTree *folder_tree,
 	g_return_if_fail (foreach_func != NULL);
 
 	root_node = g_hash_table_lookup (folder_tree->path_to_folder,
-					 G_DIR_SEPARATOR_S);
+					 E_PATH_SEPARATOR_S);
 	if (root_node == NULL) {
 		g_warning ("e_folder_tree_foreach -- What?!  No root node!?");
 		return;

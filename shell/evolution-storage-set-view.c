@@ -306,7 +306,6 @@ impl_StorageSetView__set_checkedFolders (PortableServer_Servant servant,
 	EvolutionStorageSetView *storage_set_view;
 	EvolutionStorageSetViewPrivate *priv;
 	GList *path_list = NULL;
-	GList *p;
 	int i;
 	
 	bonobo_object = bonobo_object_from_servant (servant);

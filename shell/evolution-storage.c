@@ -955,17 +955,17 @@ make_full_uri (EvolutionStorage *storage,
 
 	storage_name = storage->priv->name;
 
-	if (strcmp (path, G_DIR_SEPARATOR_S) == 0)
+	if (strcmp (path, E_PATH_SEPARATOR_S) == 0)
 		full_path = g_strconcat (E_SHELL_URI_PREFIX,
-					 G_DIR_SEPARATOR_S, storage_name,
+					 E_PATH_SEPARATOR_S, storage_name,
 					 NULL);
 	else if (! g_path_is_absolute (path))
 		full_path = g_strconcat (E_SHELL_URI_PREFIX,
-					 G_DIR_SEPARATOR_S, storage_name,
-					 G_DIR_SEPARATOR_S, path, NULL);
+					 E_PATH_SEPARATOR_S, storage_name,
+					 E_PATH_SEPARATOR_S, path, NULL);
 	else
 		full_path = g_strconcat (E_SHELL_URI_PREFIX,
-					 G_DIR_SEPARATOR_S, storage_name,
+					 E_PATH_SEPARATOR_S, storage_name,
 					 path, NULL);
 
 	return full_path;

@@ -28,16 +28,17 @@
 #include <config.h>
 #endif
 
+#include "e-storage.h"
+
+#include "e-folder-tree.h"
+#include "e-shell-constants.h"
+
 #include <gtk/gtkobject.h>
 #include <gtk/gtksignal.h>
 
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <gal/util/e-util.h>
-
-#include "e-folder-tree.h"
-
-#include "e-storage.h"
 
 
 #define PARENT_TYPE GTK_TYPE_OBJECT
@@ -342,7 +343,7 @@ e_storage_path_is_absolute (const char *path)
 {
 	g_return_val_if_fail (path != NULL, FALSE);
 
-	return *path == G_DIR_SEPARATOR;
+	return *path == E_PATH_SEPARATOR;
 }
 
 gboolean
@@ -350,7 +351,7 @@ e_storage_path_is_relative (const char *path)
 {
 	g_return_val_if_fail (path != NULL, FALSE);
 
-	return *path != G_DIR_SEPARATOR;
+	return *path != E_PATH_SEPARATOR;
 }
 
 
@@ -451,7 +452,7 @@ e_storage_async_xfer_folder (EStorage *storage,
 		destination_len = strlen (destination_path);
 
 		if (source_len < destination_len
-		    && destination_path[source_len] == G_DIR_SEPARATOR
+		    && destination_path[source_len] == E_PATH_SEPARATOR
 		    && strncmp (destination_path, source_path, source_len) == 0) {
 			(* callback) (storage, E_STORAGE_CANTMOVETODESCENDANT, data);
 			return;

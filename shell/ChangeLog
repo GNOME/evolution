@@ -1,3 +1,55 @@
+2002-07-18  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution-storage-set-view.c
+	(impl_StorageSetView__set_checkedFolders): Removed unused
+	variable.
+
+	* e-shell-folder-title-bar.c (e_shell_folder_title_bar_construct):
+	Removed unused variable.
+
+	Mass-replaced G_DIR_SEPARATOR and G_DIR_SEPARATOR_S with
+	E_PATH_SEPARATOR and E_PATH_SEPARATOR_S:
+
+		* e-storage.c
+			(e_storage_path_is_absolute)
+			(e_storage_path_is_relative)
+			(e_storage_async_xfer_folder)
+		* e-storage-set.c
+			(make_full_path)
+			(get_storage_for_path) 
+			(signal_new_folder_for_all_folders_under_paths) 
+			(signal_new_folder_for_all_folders_in_storage) 
+			(e_storage_set_get_path_for_physical_uri)
+		* e-storage-set-view.c
+			(storage_sort_callback)
+			(new_storage_cb) 
+			(removed_storage_cb)
+			(new_folder_cb)
+		* e-shortcuts-view.c
+			(get_shortcut_info): 
+		* e-shell-view.c
+			(handle_current_folder_removed) 
+		* e-shell-utils.c
+			(e_shell_folder_name_is_valid): 
+		* e-local-storage.c
+			(construct): 
+		* e-folder-tree.c
+			(get_parent_path)
+			(get_parent_path)
+			(e_folder_tree_destroy)
+			(e_folder_tree_add)
+			(e_folder_tree_foreach)
+		* e-folder-dnd-bridge.c
+			(handle_data_received_path)
+		* evolution-storage.c
+			(make_full_uri): 
+
+	* e-shell-constants.h: New #defines E_PATH_SEPARATOR and
+	E_PATH_SEPARATOR_S.
+
+	* e-local-storage.c (load_folder): Don't add the folder if its
+	type isn't registered.
+
 2002-07-17  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shortcuts-view-model.c (get_icon_for_item): Get the

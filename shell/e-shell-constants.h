@@ -35,6 +35,9 @@
 #define E_SHELL_ICON_SIZE		48
 #define E_SHELL_MINI_ICON_SIZE		16
 
+#define E_PATH_SEPARATOR                '/'
+#define E_PATH_SEPARATOR_S		"/"
+
 #define E_LOCAL_STORAGE_NAME            "local"
 #define E_SUMMARY_STORAGE_NAME          "summary"
 

@@ -122,7 +122,7 @@ e_shell_folder_name_is_valid (const char *name,
 		return FALSE;
 	}
 	
-	if (strchr (name, G_DIR_SEPARATOR) != NULL) {
+	if (strchr (name, E_PATH_SEPARATOR) != NULL) {
 		if (reason_return != NULL)
 			*reason_return = _("Folder name cannot contain slashes.");
 		return FALSE;

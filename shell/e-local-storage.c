@@ -184,15 +184,27 @@ setup_stock_folders (ELocalStorage *local_storage)
 }
 
 static gboolean
-load_folder (const char *physical_path, const char *path, gpointer data)
+load_folder (const char *physical_path,
+	     const char *path,
+	     void *data)
 {
-	ELocalStorage *local_storage = data;
+	ELocalStorage *local_storage;
 	EFolder *folder;
+
+	local_storage = E_LOCAL_STORAGE (data);
 
 	folder = e_local_folder_new_from_path (physical_path);
 	if (folder == NULL) {
 		g_warning ("No folder metadata in %s... ignoring", physical_path);
 		return TRUE;
+	}
+
+	/* Ignore the folder if it uses an unknown type.  */
+	if (! e_folder_type_register_type_registered (local_storage->priv->folder_type_registry,
+						      e_folder_get_type_string (folder))) {
+		g_warning ("Folder in %s has unknown type (%s)... ignoring",
+			   physical_path, e_folder_get_type_string (folder));
+		return FALSE;
 	}
 
 	new_folder (local_storage, path, folder);
@@ -1095,7 +1107,7 @@ construct (ELocalStorage *local_storage,
 	priv = local_storage->priv;
 
 	base_path_len = strlen (base_path);
-	while (base_path_len > 0 && base_path[base_path_len - 1] == G_DIR_SEPARATOR)
+	while (base_path_len > 0 && base_path[base_path_len - 1] == E_PATH_SEPARATOR)
 		base_path_len--;
 
 	g_return_val_if_fail (base_path_len != 0, FALSE);

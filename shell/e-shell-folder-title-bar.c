@@ -521,7 +521,6 @@ e_shell_folder_title_bar_construct (EShellFolderTitleBar *folder_title_bar)
 	EShellFolderTitleBarPrivate *priv;
 	GtkWidget *title_button_hbox;
 	GtkWidget *widget;
-	GtkRequisition button_requisition;
 
 	g_return_if_fail (folder_title_bar != NULL);
 	g_return_if_fail (E_IS_SHELL_FOLDER_TITLE_BAR (folder_title_bar));

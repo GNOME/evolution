@@ -29,6 +29,7 @@
 
 #include "Evolution.h"
 #include "e-storage-set-view.h"
+#include "e-shell-constants.h"
 
 #include <gal/widgets/e-gui-utils.h>
 
@@ -350,7 +351,7 @@ handle_data_received_path (GdkDragContext *context,
 	source_path = (const char *) selection_data->data;
 
 	/* (Basic sanity checks.)  */
-	if (source_path == NULL || source_path[0] != G_DIR_SEPARATOR || source_path[1] == '\0')
+	if (source_path == NULL || source_path[0] != E_PATH_SEPARATOR || source_path[1] == '\0')
 		return FALSE;
 
 	destination_path = g_concat_dir_and_file (path, g_basename (source_path));

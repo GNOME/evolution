@@ -519,7 +519,7 @@ get_shortcut_info (EShortcutsView *shortcuts_view,
 		return;
 	}
 
-	path = strchr (item_url, G_DIR_SEPARATOR);
+	path = strchr (item_url, E_PATH_SEPARATOR);
 	storage_set = e_shell_get_storage_set (e_shortcuts_get_shell (priv->shortcuts));
 
 	folder = e_storage_set_get_folder (storage_set, path);
