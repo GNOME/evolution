@@ -755,7 +755,7 @@ filter_driver_filter_message (FilterDriver *driver, CamelMimeMessage *message, C
 		filter_filter_build_action (rule, faction);
 		
 		d(fprintf (stderr, "applying rule %s\n action %s\n", fsearch->str, faction->str));
-		filter_driver_log (driver, FILTER_LOG_START, fsearch->str);
+		filter_driver_log (driver, FILTER_LOG_START, FILTER_RULE (rule)->name);
 		
 		mail_tool_camel_lock_up ();
 		matched = filter_message_search (p->message, p->info, source_url, fsearch->str, p->ex);

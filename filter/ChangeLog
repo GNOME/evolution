@@ -2,6 +2,8 @@
 
 	* filter-driver.c (filter_driver_log): Fix for when 'desc' is
 	NULL.
+	(filter_driver_filter_message): Use a more user-friendly filter
+	name in the log file.
 
 2000-11-01  Jeffrey Stedfast  <fejj@helixcode.com>
 
