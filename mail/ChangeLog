@@ -1,3 +1,12 @@
+2001-10-23  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-account-gui.c (service_check_supported): Don't allow an
+	auth-type to be set when saving the service.
+	(mail_account_gui_new): Initialize the source and transport
+	provider_type's here so we don't forget to do it when it matters.
+	(mail_account_gui_setup): Don't bother setting the provider_type's
+	here, they are already set in mail_account_gui_new() now.
+
 2001-10-23    <NotZed@Ximian.com>
 
 	* mail-display.c (mail_display_destroy): Remove the idle_id when

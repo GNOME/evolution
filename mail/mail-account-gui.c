@@ -502,9 +502,19 @@ service_check_supported (GtkButton *button, gpointer user_data)
 	MailAccountGuiService *gsvc = user_data;
 	MailConfigService *service;
 	GList *authtypes = NULL;
+	GtkWidget *authitem;
 	
 	service = g_new0 (MailConfigService, 1);
+	
+	/* This is sort of a hack, when checking for supported AUTH
+           types we don't want to use whatever authtype is selected
+           because it may not be available. */
+	authitem = gsvc->authitem;
+	gsvc->authitem = NULL;
+	
 	save_service (gsvc, NULL, service);
+	
+	gsvc->authitem = authitem;
 	
 	if (mail_config_check_service (service->url, gsvc->provider_type, &authtypes)) {
 		build_auth_menu (gsvc, gsvc->provider->authtypes, authtypes, TRUE);
@@ -1244,6 +1254,7 @@ mail_account_gui_new (MailConfigAccount *account)
 	}
 	
 	/* Source */
+	gui->source.provider_type = CAMEL_PROVIDER_STORE;
 	gui->source.type = GTK_OPTION_MENU (glade_xml_get_widget (gui->xml, "source_type_omenu"));
 	gui->source.description = GTK_LABEL (glade_xml_get_widget (gui->xml, "source_description"));
 	gui->source.hostname = GTK_ENTRY (glade_xml_get_widget (gui->xml, "source_host"));
@@ -1266,6 +1277,7 @@ mail_account_gui_new (MailConfigAccount *account)
 	gui->source_auto_check_min = GTK_SPIN_BUTTON (glade_xml_get_widget (gui->xml, "extra_auto_check_min"));
 	
 	/* Transport */
+	gui->transport.provider_type = CAMEL_PROVIDER_TRANSPORT;
 	gui->transport.type = GTK_OPTION_MENU (glade_xml_get_widget (gui->xml, "transport_type_omenu"));
 	gui->transport.description = GTK_LABEL (glade_xml_get_widget (gui->xml, "transport_description"));
 	gui->transport.hostname = GTK_ENTRY (glade_xml_get_widget (gui->xml, "transport_host"));
