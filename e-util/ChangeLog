@@ -1,5 +1,8 @@
 2002-08-28  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* e-html-utils.c (e_text_to_html_full): Convert file: urls
+	too. Fixes bug #29557.
+
 	* e-proxy.[c,h] (e_proxy_init): New convenience function to
 	initialise the proxy settings for soup to use.
 
