@@ -1994,7 +1994,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	int start_char, end_char;
 	int sel_start, sel_end;
 	GdkRectangle sel_rect;
-	GdkGC *fg_gc;
+	GdkGC *fg_gc, *main_gc;
 	GnomeCanvas *canvas;
 	GtkWidget *widget;
 
@@ -2003,7 +2003,12 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	widget = GTK_WIDGET(canvas);
 
 	fg_gc = widget->style->fg_gc[text->has_selection ? GTK_STATE_SELECTED : GTK_STATE_ACTIVE];
-	
+	if (text->draw_background || text->draw_button) {
+		main_gc = widget->style->text_gc[GTK_STATE_NORMAL];
+	} else {
+		main_gc = text->gc;
+	}
+
 	if (text->draw_borders || text->draw_background) {
 		gdouble thisx = item->x1 - x;
 		gdouble thisy = item->y1 - y;
@@ -2167,7 +2172,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		rect.width = text->clip_cwidth;
 		rect.height = text->clip_cheight;
 		
-		gdk_gc_set_clip_rectangle (text->gc, &rect);
+		gdk_gc_set_clip_rectangle (main_gc, &rect);
 		gdk_gc_set_clip_rectangle (fg_gc, &rect);
 		clip_rect = &rect;
 	}
@@ -2179,7 +2184,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		ypos -= text->yofs_edit;
 
 	if (text->stipple)
-		gnome_canvas_set_stipple_origin (item->canvas, text->gc);
+		gnome_canvas_set_stipple_origin (item->canvas, main_gc);
 
 	for (i = 0; i < text->num_lines; i++) {
 
@@ -2226,7 +2231,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 				text_draw_with_objects (text->model,
 							drawable,
 							text->font, text->style,
-							text->gc,
+							main_gc,
 							xpos - x,
 							ypos - y,
 							lines->text,
@@ -2245,7 +2250,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 				text_draw_with_objects (text->model,
 							drawable,
 							text->font, text->style,
-							text->gc,
+							main_gc,
 							xpos - x + text_width_with_objects (text->model,
 											    text->font, text->style,
 											    lines->text,
@@ -2257,7 +2262,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 				text_draw_with_objects (text->model,
 							drawable,
 							text->font, text->style,
-							text->gc,
+							main_gc,
 							xpos - x,
 							ypos - y,
 							lines->text,
@@ -2268,7 +2273,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 			    text->selection_start <= end_char &&
 			    text->show_cursor) {
 				gdk_draw_rectangle (drawable,
-						    text->gc,
+						    main_gc,
 						    TRUE,
 						    xpos - x + text_width_with_objects (text->model,
 											text->font, text->style,
@@ -2283,14 +2288,14 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 				text_draw_with_objects (text->model,
 							drawable,
 							text->font, text->style,
-							text->gc,
+							main_gc,
 							xpos - x,
 							ypos - y,
 							lines->text,
 							lines->ellipsis_length);
 				e_font_draw_utf8_text (drawable,
 						       text->font, text->style,
-						       text->gc,
+						       main_gc,
 						       xpos - x + lines->width - text->ellipsis_width,
 						       ypos - y,
 						       text->ellipsis ? text->ellipsis : "...",
@@ -2299,7 +2304,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 				text_draw_with_objects (text->model,
 							drawable,
 							text->font, text->style,
-							text->gc,
+							main_gc,
 							xpos - x,
 							ypos - y,
 							lines->text,
@@ -2309,7 +2314,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 
 		if (text->strikeout)
 			gdk_draw_rectangle (drawable,
-					    text->gc,
+					    main_gc,
 					    TRUE,
 					    xpos - x,
 					    ypos - y - e_font_ascent (text->font) / 2,
@@ -2319,7 +2324,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	}
 
 	if (text->clip) {
-		gdk_gc_set_clip_rectangle (text->gc, NULL);
+		gdk_gc_set_clip_rectangle (main_gc, NULL);
 		gdk_gc_set_clip_rectangle (fg_gc, NULL);
 	}
 }
