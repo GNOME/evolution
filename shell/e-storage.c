@@ -53,9 +53,6 @@ struct _EStoragePrivate {
 	/* The set of folders we have in this storage.  */
 	EFolderTree *folder_tree;
 
-	/* The pseudofolders representing un-filled-in subtrees */
-	GHashTable *pseudofolders;
-
 	/* Internal name of the storage */
 	char *name;
 };
@@ -132,13 +129,6 @@ folder_changed_cb (EFolder *folder,
 /* GObject methods.  */
 
 static void
-free_folder (gpointer path, gpointer folder, gpointer user_data)
-{
-	g_free (path);
-	/* folders will have been freed by e_folder_tree_destroy */
-}
-
-static void
 impl_finalize (GObject *object)
 {
 	EStorage *storage;
@@ -149,10 +139,6 @@ impl_finalize (GObject *object)
 
 	if (priv->folder_tree != NULL)
 		e_folder_tree_destroy (priv->folder_tree);
-	if (priv->pseudofolders) {
-		g_hash_table_foreach (priv->pseudofolders, free_folder, NULL);
-		g_hash_table_destroy (priv->pseudofolders);
-	}
 
 	g_free (priv->name);
 
@@ -322,7 +308,6 @@ init (EStorage *storage)
 	priv = g_new (EStoragePrivate, 1);
 
 	priv->folder_tree   = e_folder_tree_new (folder_destroy_notify, NULL);
-	priv->pseudofolders = g_hash_table_new (g_str_hash, g_str_equal);
 	priv->name          = NULL;
 
 	storage->priv = priv;
@@ -494,12 +479,23 @@ e_storage_async_open_folder (EStorage *storage,
 			     EStorageDiscoveryCallback callback,
 			     void *data)
 {
+	EStoragePrivate *priv;
+	EFolder *folder;
+
 	g_return_if_fail (storage != NULL);
 	g_return_if_fail (E_IS_STORAGE (storage));
 	g_return_if_fail (path != NULL);
 	g_return_if_fail (g_path_is_absolute (path));
 
-	if (g_hash_table_lookup (storage->priv->pseudofolders, path) == NULL) {
+	priv = storage->priv;
+
+	folder = e_folder_tree_get_folder (priv->folder_tree, path);
+	if (folder == NULL) {
+		(* callback) (storage, E_STORAGE_NOTFOUND, path, data);
+		return;
+	}
+
+	if (! e_folder_get_has_subfolders (folder)) {
 		(* callback) (storage, E_STORAGE_OK, path, data);
 		return;
 	}
@@ -676,6 +672,24 @@ e_storage_get_path_for_physical_uri (EStorage *storage,
 /* These functions are used by subclasses to add and remove folders from the
    state stored in the storage object.  */
 
+static void
+remove_subfolders_except (EStorage *storage, const char *path, const char *except)
+{
+	EStoragePrivate *priv;
+	GList *subfolders, *f;
+	const char *folder_path;
+
+	priv = storage->priv;
+
+	subfolders = e_folder_tree_get_subfolders (priv->folder_tree, path);
+	for (f = subfolders; f; f = f->next) {
+		folder_path = f->data;
+		if (!except || strcmp (folder_path, except) != 0)
+			e_storage_removed_folder (storage, folder_path);
+	}
+	e_free_string_list (subfolders);
+}
+
 gboolean
 e_storage_new_folder (EStorage *storage,
 		      const char *path,
@@ -683,7 +697,7 @@ e_storage_new_folder (EStorage *storage,
 {
 	EStoragePrivate *priv;
 	char *parent_path, *p;
-	gpointer stored_path, pseudofolder;
+	EFolder *parent;
 
 	g_return_val_if_fail (storage != NULL, FALSE);
 	g_return_val_if_fail (E_IS_STORAGE (storage), FALSE);
@@ -697,17 +711,18 @@ e_storage_new_folder (EStorage *storage,
 	if (! e_folder_tree_add (priv->folder_tree, path, e_folder))
 		return FALSE;
 
+	/* If this is the child of a folder that has a pseudo child,
+	 * remove the pseudo child now.
+	 */
 	p = strrchr (path, '/');
 	if (p && p != path)
 		parent_path = g_strndup (path, p - path);
 	else
 		parent_path = g_strdup ("/");
-	if (g_hash_table_lookup_extended (priv->pseudofolders, parent_path,
-					  &stored_path, &pseudofolder) &&
-	    pseudofolder != e_folder) {
-		g_hash_table_remove (priv->pseudofolders, parent_path);
-		g_free (stored_path);		
-		e_storage_removed_folder (storage, e_folder_get_physical_uri (pseudofolder));
+	parent = e_folder_tree_get_folder (priv->folder_tree, parent_path);
+	if (parent && e_folder_get_has_subfolders (parent)) {
+		remove_subfolders_except (storage, parent_path, path);
+		e_folder_set_has_subfolders (parent, FALSE);
 	}
 	g_free (parent_path);
 
@@ -732,9 +747,9 @@ e_storage_declare_has_subfolders (EStorage *storage,
 				  const char *message)
 {
 	EStoragePrivate *priv;
-	GList *subfolders, *f;
-	EFolder *pseudofolder;
+	EFolder *parent, *pseudofolder;
 	char *pseudofolder_path;
+	gboolean ok;
 
 	g_return_val_if_fail (storage != NULL, FALSE);
 	g_return_val_if_fail (E_IS_STORAGE (storage), FALSE);
@@ -744,16 +759,13 @@ e_storage_declare_has_subfolders (EStorage *storage,
 
 	priv = storage->priv;
 
-	if (g_hash_table_lookup (priv->pseudofolders, path))
+	parent = e_folder_tree_get_folder (priv->folder_tree, path);
+	if (parent == NULL)
+		return FALSE;
+	if (e_folder_get_has_subfolders (parent))
 		return TRUE;
 
-	subfolders = e_folder_tree_get_subfolders (priv->folder_tree, path);
-	if (subfolders != NULL) {
-		for (f = subfolders; f; f = f->next)
-			e_storage_removed_folder (storage, f->data);
-		g_list_free (subfolders);
-		/* FIXME: close parent */
-	}
+	remove_subfolders_except (storage, path, NULL);
 
 	pseudofolder = e_folder_new (message, "working", "");
 	if (strcmp (path, "/") == 0)
@@ -762,9 +774,15 @@ e_storage_declare_has_subfolders (EStorage *storage,
 		pseudofolder_path = g_strdup_printf ("%s/%s", path, message);
 	e_folder_set_physical_uri (pseudofolder, pseudofolder_path);
 
-	g_hash_table_insert (priv->pseudofolders, g_strdup (path), pseudofolder);
+	ok = e_storage_new_folder (storage, pseudofolder_path, pseudofolder);
+	g_free (pseudofolder_path);
+	if (!ok) {
+		g_object_unref (pseudofolder);
+		return FALSE;
+	}
 
-	return e_storage_new_folder (storage, pseudofolder_path, pseudofolder);
+	e_folder_set_has_subfolders (parent, TRUE);
+	return TRUE;
 }
 
 gboolean
@@ -772,6 +790,7 @@ e_storage_get_has_subfolders (EStorage *storage,
 			      const char *path)
 {
 	EStoragePrivate *priv;
+	EFolder *folder;
 
 	g_return_val_if_fail (storage != NULL, FALSE);
 	g_return_val_if_fail (E_IS_STORAGE (storage), FALSE);
@@ -780,7 +799,9 @@ e_storage_get_has_subfolders (EStorage *storage,
 
 	priv = storage->priv;
 
-	return g_hash_table_lookup (priv->pseudofolders, path) != NULL;
+	folder = e_folder_tree_get_folder (priv->folder_tree, path);
+
+	return folder && e_folder_get_has_subfolders (folder);
 }
 
 gboolean

@@ -1,3 +1,19 @@
+2003-04-15  Dan Winship  <danw@ximian.com>
+
+	* e-folder.c (e_folder_get_has_subfolders,
+	e_folder_set_has_subfolders): new boolean flag.
+
+	* e-storage.c (EStoragePrivate, impl_finalize, init): Remove the
+	pseudofolders hash
+	(e_storage_async_open_folder): Replace the pseudofolders test with
+	a test of whether the folder has the "has_subfolders" flag set.
+	(e_storage_new_folder): Likewise (for the folder's parent).
+	(e_storage_declare_has_subfolders): Set "has_subfolders" on the
+	folder.
+	(e_storage_get_has_subfolders): Check "has_subfolders" on the
+	folder.
+	Should fix #33919.
+
 2003-04-14  Not Zed  <NotZed@Ximian.com>
 
 	* glade/e-active-connection-dialog.glade: fix the title of the

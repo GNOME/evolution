@@ -57,6 +57,7 @@ struct _EFolderPrivate {
 	unsigned int self_highlight : 1;
 	unsigned int is_stock : 1;
 	unsigned int can_sync_offline : 1;
+	unsigned int has_subfolders : 1;
 
 	/* Custom icon for this folder; if NULL the folder will just use the
 	   icon for its type.  */
@@ -181,6 +182,7 @@ init (EFolder *folder)
 	priv->self_highlight   = FALSE;
 	priv->is_stock         = FALSE;
 	priv->can_sync_offline = FALSE;
+	priv->has_subfolders   = FALSE;
 	priv->custom_icon_name = NULL;
 
 	folder->priv = priv;
@@ -297,6 +299,14 @@ e_folder_get_can_sync_offline (EFolder *folder)
 	g_return_val_if_fail (E_IS_FOLDER (folder), FALSE);
 
 	return folder->priv->can_sync_offline;
+}
+
+gboolean
+e_folder_get_has_subfolders (EFolder *folder)
+{
+	g_return_val_if_fail (E_IS_FOLDER (folder), FALSE);
+
+	return folder->priv->has_subfolders;
 }
 
 /**
@@ -440,6 +450,17 @@ e_folder_set_can_sync_offline (EFolder *folder,
 	g_return_if_fail (E_IS_FOLDER (folder));
 
 	folder->priv->can_sync_offline = !! can_sync_offline;
+
+	g_signal_emit (folder, signals[CHANGED], 0);
+}
+
+void
+e_folder_set_has_subfolders (EFolder *folder,
+			     gboolean has_subfolders)
+{
+	g_return_if_fail (E_IS_FOLDER (folder));
+
+	folder->priv->has_subfolders = !! has_subfolders;
 
 	g_signal_emit (folder, signals[CHANGED], 0);
 }
