@@ -68,8 +68,8 @@ static gboolean _delete_messages (CamelFolder *folder, CamelException *ex);
 static GList *_list_subfolders (CamelFolder *folder, CamelException *ex);
 /* static CamelMimeMessage *_get_message_by_number (CamelFolder *folder, gint number, CamelException *ex);*/
 static gint _get_message_count (CamelFolder *folder, CamelException *ex);
-#if 0
 static gint _append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException *ex);
+#if 0
 static void _expunge (CamelFolder *folder, CamelException *ex);
 static void _copy_message_to (CamelFolder *folder, CamelMimeMessage *message, CamelFolder *dest_folder, CamelException *ex);
 static const gchar *_get_message_uid (CamelFolder *folder, CamelMimeMessage *message, CamelException *ex);
@@ -209,7 +209,9 @@ _check_get_or_maybe_generate_summary_file (CamelMboxFolder *mbox_folder, CamelEx
 	GArray *mbox_summary_info;
 	gint mbox_file_fd;
 	guint32 next_uid;
-	
+	guint32 file_size;
+
+
 	/* test for the existence of the summary file */
 	summary_file_exists = (access (mbox_folder->summary_file_path, F_OK) == 0);
 
@@ -239,6 +241,7 @@ _check_get_or_maybe_generate_summary_file (CamelMboxFolder *mbox_folder, CamelEx
 		message_info_array = camel_mbox_parse_file (mbox_file_fd, 
 							    "From - ", 
 							    0,
+							    &file_size,
 							    &next_uid,
 							    TRUE,
 							    NULL,
@@ -252,7 +255,7 @@ _check_get_or_maybe_generate_summary_file (CamelMboxFolder *mbox_folder, CamelEx
 
 		
 		next_uid = camel_mbox_write_xev (mbox_folder->folder_file_path, 
-						 message_info_array, next_uid, ex);
+						 message_info_array, &file_size, next_uid, ex);
 
 		if (camel_exception_get_id (ex)) { 
 			/* ** FIXME : free the preparsed information */
@@ -273,6 +276,7 @@ _check_get_or_maybe_generate_summary_file (CamelMboxFolder *mbox_folder, CamelEx
 		/* store the number of messages as well as the summary array */
 		mbox_folder->summary->nb_message = mbox_summary_info->len;		
 		mbox_folder->summary->next_uid = next_uid;		
+		mbox_folder->summary->mbox_file_size = file_size;		
 		mbox_folder->summary->message_info = mbox_summary_info;
 		
 	} else {
@@ -509,6 +513,7 @@ _create (CamelFolder *folder, CamelException *ex)
 	mbox_folder->summary = g_new (CamelMboxSummary, 1);
 	mbox_folder->summary->nb_message = 0;
 	mbox_folder->summary->next_uid = 1;
+	mbox_folder->summary->mbox_file_size = 0;
 	mbox_folder->summary->message_info = g_array_new (FALSE, FALSE, sizeof (CamelMboxSummaryInformation));
 
 	return TRUE;
@@ -872,4 +877,113 @@ _get_message_count (CamelFolder *folder, CamelException *ex)
 	CAMEL_LOG_FULL_DEBUG ("CamelMboxFolder::get_message_count found %d messages\n", message_count);
 	return message_count;
 }
+
+
+static gint
+_append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException *ex)
+{
+	CamelMboxFolder *mbox_folder = CAMEL_MBOX_FOLDER(folder);
+	//guint new_msg_number;
+	CamelStream *output_stream;
+	guint32 file_size;
+	guint32 next_uid;
+	gint mbox_file_fd;
+	GArray *message_info_array;
+	GArray *mbox_summary_info;
+
+	CAMEL_LOG_FULL_DEBUG ("Entering CamelMboxFolder::append_message\n");
+
+	/* write the message itself */
+	output_stream = camel_stream_fs_new_with_name (mbox_folder->folder_file_path, CAMEL_STREAM_FS_WRITE);
+	if (output_stream != NULL) {
+		camel_stream_seek (output_stream, mbox_folder->summary->mbox_file_size, CAMEL_STREAM_SET);	
+		camel_stream_write_string (output_stream, "From - \n");
+		camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), output_stream);
+	}
+	camel_stream_close (output_stream);
+
+	/* at this point we have only added the message to 
+	   the file, but now, we have to add the x-evolution 
+	   field and also update the summary */
+
+	/* 
+	   First : parse the mbox file, but only from the 
+	   position where the message has been added, 
+	   wich happens to be the last postion in the 
+	   mbox file before we added the message.
+	   This position is still stored in the summary 
+	   for the moment 
+	*/
+	mbox_file_fd = open (mbox_folder->folder_file_path, O_RDONLY);
+	message_info_array = camel_mbox_parse_file (mbox_file_fd, 
+						    "From - ", 
+						    mbox_folder->summary->mbox_file_size,
+						    &file_size,
+						    &next_uid,
+						    TRUE,
+						    NULL,
+						    0,
+						    ex); 
+	
+	close (mbox_file_fd);
+
+	/* 
+	   OK, this is not very efficient, we should not use the same
+	   method as for parsing an entire mail file, 
+	   but I have no time to write a simpler parser 
+	*/
+	next_uid = camel_mbox_write_xev (mbox_folder->folder_file_path, 
+					 message_info_array, &file_size, next_uid, ex);
+	
+	if (camel_exception_get_id (ex)) { 
+		/* ** FIXME : free the preparsed information */
+		return -1;
+		}
+
+	mbox_summary_info =
+		parsed_information_to_mbox_summary (message_info_array);
+
+	/* generate the folder md5 signature */
+	md5_get_digest_from_file (mbox_folder->folder_file_path, mbox_folder->summary->md5_digest);
+	
+	/* store the number of messages as well as the summary array */
+	mbox_folder->summary->nb_message += 1;		
+	mbox_folder->summary->next_uid = next_uid;		
+	mbox_folder->summary->mbox_file_size = file_size;		
+
+	mbox_folder->summary->message_info = 
+		g_array_append_val (mbox_folder->summary->message_info, mbox_summary_info->data);
+	
+	g_array_free (mbox_summary_info, TRUE);
+	
+	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMboxFolder::append_message\n");
+	
+	return -1;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

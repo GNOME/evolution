@@ -66,8 +66,8 @@ camel_mbox_save_summary (CamelMboxSummary *summary, const gchar *filename, Camel
 	//md5_get_digest_from_file (filename, summary->md5_digest);
 
 	/* write the number of messages  + the md5 signatures 
-	 + next UID */
-	write (fd, summary, sizeof (guint) +  sizeof (guchar) * 16 + sizeof (guint32));
+	 + next UID + mbox file size */
+	write (fd, summary, sizeof (guint) +  sizeof (guchar) * 16 + 2 * sizeof (guint32));
 	       
 	
 	for (cur_msg=0; cur_msg < summary->nb_message; cur_msg++) {
@@ -142,8 +142,8 @@ camel_mbox_load_summary (const gchar *filename, CamelException *ex)
 	summary = g_new0 (CamelMboxSummary, 1);
 
 	/* read the message number, the md5 signature 
-	 and the next available UID */
-	read (fd, summary, sizeof (guint) + sizeof (guchar) * 16 +  sizeof (guint32));
+	 and the next available UID + mbox file size */
+	read (fd, summary, sizeof (guint) + sizeof (guchar) * 16 +  2 * sizeof (guint32));
 
 	summary->message_info = g_array_new (FALSE, FALSE, sizeof (CamelMboxSummaryInformation));
 	summary->message_info =  g_array_set_size (summary->message_info, summary->nb_message);

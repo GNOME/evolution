@@ -57,6 +57,7 @@ GArray *
 camel_mbox_parse_file (int fd, 
 		       const gchar *message_delimiter,
 		       glong start_position,
+		       guint32 *file_size,
 		       guint32 *next_uid,
 		       gboolean get_message_summary,
 		       camel_mbox_preparser_status_callback *status_callback,

@@ -170,7 +170,7 @@ copy_file_chunk (gint fd_src,
 	glong nb_to_read;
 	glong nb_read, v;
 	
-	
+	printf ("Write %ld bytes\n", nb_bytes);
 	nb_to_read = nb_bytes;
 	while (nb_to_read > 0) {
 		
@@ -209,10 +209,11 @@ copy_file_chunk (gint fd_src,
 }
 
 
-glong
+guint32
 camel_mbox_write_xev (gchar *mbox_file_name,
 		      GArray *summary_information, 
-		      glong  next_uid, 
+		      guint32 *file_size,
+		      guint32  next_uid, 
 		      CamelException *ex)
 {
 	gint cur_msg;
@@ -250,7 +251,7 @@ camel_mbox_write_xev (gchar *mbox_file_name,
 		
 		cur_msg_info = (CamelMboxParserMessageInfo *)(summary_information->data) + cur_msg;
 		end_of_last_message = cur_msg_info->message_position + cur_msg_info->size;
-
+		printf ("End of last message : %ld\n", end_of_last_message);
 		if (cur_msg_info->uid == 0) {
 			
 			bytes_to_copy = cur_msg_info->message_position 
@@ -277,6 +278,7 @@ camel_mbox_write_xev (gchar *mbox_file_name,
 			cur_msg_info->x_evolution_offset = cur_msg_info->end_of_headers_offset;
 			cur_msg_info->x_evolution = g_strdup_printf ("%.6s", xev_header + 12);
 			cur_msg_info->end_of_headers_offset += 19;
+			*file_size += 19;
 		} 
 		cur_msg_info->message_position += cur_offset;
 	}

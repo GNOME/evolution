@@ -1,5 +1,30 @@
-2000-01-21  Federico Mena Quintero  <federico@helixcode.com>
+2000-01-21  bertrand  <bertrand@helixcode.com>
 
+	* camel/providers/mbox/Makefile.am (libcamelmbox_la_SOURCES): 
+	added camel-mbox-provider.c to the mbox provider
+	sources. 
+
+	* camel/providers/mbox/camel-mbox-provider.c: 
+	provider registration code.
+
+	* camel/providers/mbox/camel-mbox-folder.c (_get_message_count): implemented
+	(_append_message): implemented
+
+	* camel/providers/mbox/camel-mbox-parser.c (initialize_buffer): 
+	use \0 to mark the end of the buffer.
+	(read_next_buffer_chunk): ditto.
+	(read_header): test the presence of a \0 instead of
+	reading the eof field
+	(read_message_begining): idem.
+	(camel_mbox_parse_file): idem.
+	Remove the eof field from the parser
+	structure. 
+	(read_next_buffer_chunk): removed some nasty bugs
+	again. 
+
+	
+2000-01-21  Federico Mena Quintero  <federico@helixcode.com>
+	
 	* libversit/vcc.y: Removed the VFS crap; my mistake, it should not
 	go here.
 
@@ -17,6 +42,12 @@
 	calendar/Makefile.
 
 	* Makefile.am (SUBDIRS): Added libversit and calendar.
+
+2000-01-20  bertrand  <bertrand@helixcode.com>
+
+	* camel/providers/mbox/camel-mbox-parser.c (camel_mbox_parse_file): 
+	compute and return the file size. 
+
 
 2000-01-20  Matt Loper  <matt@helixcode.com>
 

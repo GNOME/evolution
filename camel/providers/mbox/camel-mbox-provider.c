@@ -1,11 +1,11 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* Various utilities for the mbox provider */
+/* camel-mbox-provider.c: mbox provider registration code */
 
 /* 
- * Authors : 
+ * Authors :
  *   Bertrand Guiheneuf <bertrand@helixcode.com>
  *
- * Copyright (C) 1999 Helix Code.
+ * Copyright (C) 2000 HelixCode (www.helixcode.com).
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -23,41 +23,26 @@
  * USA
  */
 
-
-#ifndef CAMEL_MBOX_UTILS_H
-#define CAMEL_MBOX_UTILS_H 1
-
-
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus }*/
+#include "config.h"
+#include "camel-mbox-store.h"
+#include "camel-provider.h"
+#include "camel-log.h"
 
 
-#include "camel-exception.h"
+static CamelProvider _mbox_provider = {
+	(GtkType) 0,
+	PROVIDER_STORE,
+	"mbox",
+	"Camel default mbox provider",
+	"This the first full fledged local mail provider",
+	(GModule *) NULL
+};
 
-void 
-camel_mbox_xev_parse_header_content (gchar header_content[6], 
-				     guint32 *uid, 
-				     guchar *status);
 
-void 
-camel_mbox_xev_write_header_content (gchar header_content[6], 
-				     guint32 uid, 
-				     guchar status);
 
-guint32
-camel_mbox_write_xev (gchar *mbox_file_name,
-		      GArray *summary_information, 
-		      guint32 *file_size,
-		      guint32 last_uid, 
-		      CamelException *ex);
-
-GArray *
-parsed_information_to_mbox_summary (GArray *parsed_information);
-
-#ifdef __cplusplus
+CamelProvider *
+camel_provider_module_init ()
+{
+	_mbox_provider.object_type = camel_mbox_store_get_type();
+	return &_mbox_provider;
 }
-#endif /* __cplusplus */
-
-#endif /* CAMEL_MBOX_UTILS_H */

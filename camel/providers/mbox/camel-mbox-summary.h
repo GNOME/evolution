@@ -48,6 +48,7 @@ typedef struct {
 	guint nb_message;      /* number of messages in the summary    */
 	guchar md5_digest[16];   /* md5 signature of the mbox file     */
 	guint32 next_uid;
+	guint32 mbox_file_size;
 	
 	GArray *message_info;    /* array of CamelMboxSummaryInformation */
 	

@@ -27,9 +27,11 @@ main (int argc, char**argv)
 	CamelMboxSummaryInformation *msg_info;
 	int i;
 	guint32 next_uid;
+	guint32 mbox_file_size;
 
-	camel_debug_level = CAMEL_LOG_LEVEL_FULL_DEBUG;
-
+	//camel_debug_level = CAMEL_LOG_LEVEL_FULL_DEBUG;
+	camel_debug_level = 0;
+	
 	gtk_init (&argc, &argv);
 	camel_init ();	
 	
@@ -38,14 +40,15 @@ main (int argc, char**argv)
 	message_info_array = camel_mbox_parse_file (test_file_fd, 
 						    "From ", 
 						    0,
-						    &next_uid
+						    &mbox_file_size,
+						    &next_uid,
 						    TRUE,
 						    NULL,
 						    0,
 						    ex); 
 	
 	close (test_file_fd);
-	camel_mbox_write_xev (argv[1], message_info_array, 1, ex);
+	camel_mbox_write_xev (argv[1], message_info_array, &mbox_file_size, 1, ex);
 	if (camel_exception_get_id (ex)) { 
 		printf ("Exception caught in camel_mbox_write_xev : %s\n", camel_exception_get_description (ex));
 	}
@@ -70,6 +73,9 @@ main (int argc, char**argv)
 		printf ("Message %d :\n"
 			"  From : %s\n", i, msg_info->sender);
 	}
+
+	printf ("Taille du fichier mbox : %ld\n", mbox_file_size);
+	printf ("\t in the summary : %ld\n", sum1->mbox_file_size  );
 
 	return 1;
 	
