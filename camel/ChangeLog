@@ -1,3 +1,26 @@
+2002-07-29  Peter Williams  <peterw@ximian.com>
+
+	Fix bug #28238
+	
+	* providers/imap/camel-imap-store.c (imap_forget_folder): New
+	function, breaking out the code in delete_folder() to handle when
+	a folder is removed.
+	(imap_folder_effectively_unsubscribed): New function, breaking out
+	the code in unsubscribe_folder() to handle when a folder is
+	unsubscribed.
+	(imap_check_folder_still_extant): New function, check whether a
+	folder exists by LIST'ing it.
+	(imap_store_refresh_folders): Add code here to check if the folder
+	still exists if we're unable to refresh its info. If so, pretend
+	that it was unsubscribed (to get the mailer to remove it from 
+	the tree) and delete its cache. If somehow this goofs up, the 
+	worst that can happen is that we must redownload the headers.
+	(get_folder_status): If we can't get the status, behave as above.
+	(delete_folder): Call imap_forget_folder() where the bulk of this
+	code has gone.
+	(unsubscribe_folder): Call imap_folder_effectively_unsubscribed()
+	where the bulk of this code has gone.
+
 2002-07-31  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap/camel-imap-folder.c (parse_fetch_response):

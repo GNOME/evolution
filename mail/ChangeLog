@@ -1,3 +1,17 @@
+2002-07-31  Peter Williams  <peterw@ximian.com>
+
+	* mail-folder-cache.c: Add another bitfield "unsub"
+	(real_flush_updates): If unsubscribing, manually remove the folder
+	from the shell.
+	(unset_folder_info): Add another parameter which is used to set
+	the unsub member.
+	(store_folder_unsubscribed): Pass true for @unsub.
+	(unset_folder_info_hash): Pass false for @unsub.
+
+	* subscribe-dialog.c (fe_done_subscribing): Don't notify the shell
+	here. The folder cache does it now, and it was broken to make the
+	CORBA call in another thread anyway.
+
 2002-08-01  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-format.c (setup_mime_tables): Don't setup a handler for

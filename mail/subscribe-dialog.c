@@ -843,7 +843,6 @@ fe_done_subscribing (const char *full_name, const char *name, gboolean subscribe
 			closure->data->flags &= ~FTREE_NODE_SUBSCRIBED;
 
 			/* FIXME: recursively remove folder as well? Possible? */
-			evolution_storage_removed_folder (closure->ftree->e_storage, path);
 		}
 
 		g_free (path);

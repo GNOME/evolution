@@ -76,6 +76,7 @@ struct _folder_update {
 	unsigned int remove:1;	/* removing from vfolders */
 	unsigned int delete:1;	/* deleting as well? */
 	unsigned int add:1;	/* add to vfolder */
+	unsigned int unsub:1;   /* unsubcribing? */
 
 	char *path;
 	char *name;
@@ -159,6 +160,8 @@ real_flush_updates(void *o, void *event_data, void *data)
 				mail_vfolder_delete_uri(up->store, up->uri);
 				mail_filter_delete_uri(up->store, up->uri);
 				mail_config_uri_deleted(CAMEL_STORE_CLASS(CAMEL_OBJECT_GET_CLASS(up->store))->compare_folder_name, up->uri);
+				if (up->unsub)
+					evolution_storage_removed_folder (storage, up->path);
 			} else
 				mail_vfolder_add_uri(up->store, up->uri, TRUE);
 		} else {
@@ -222,7 +225,7 @@ flush_updates(void)
 }
 
 static void
-unset_folder_info(struct _folder_info *mfi, int delete)
+unset_folder_info(struct _folder_info *mfi, int delete, int unsub)
 {
 	struct _folder_update *up;
 
@@ -242,7 +245,9 @@ unset_folder_info(struct _folder_info *mfi, int delete)
 
 		up->remove = TRUE;
 		up->delete = delete;
+		up->unsub = unsub;
 		up->store = mfi->store_info->store;
+		up->path = g_strdup (mfi->path);
 		camel_object_ref((CamelObject *)up->store);
 		up->uri = g_strdup(mfi->uri);
 
@@ -496,7 +501,7 @@ store_folder_unsubscribed(CamelObject *o, void *event_data, void *data)
 		if (mfi) {
 			g_hash_table_remove(si->folders, mfi->full_name);
 			g_hash_table_remove(si->folders_uri, mfi->uri);
-			unset_folder_info(mfi, TRUE);
+			unset_folder_info(mfi, TRUE, TRUE);
 			free_folder_info(mfi);
 		}
 	}
@@ -639,7 +644,7 @@ struct _update_data {
 static void
 unset_folder_info_hash(char *path, struct _folder_info *mfi, void *data)
 {
-	unset_folder_info(mfi, FALSE);
+	unset_folder_info(mfi, FALSE, FALSE);
 }
 
 static void
