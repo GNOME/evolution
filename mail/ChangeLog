@@ -1,5 +1,19 @@
 2004-01-29  Not Zed  <NotZed@Ximian.com>
 
+	* em-format-html-display.c (efhd_attachment_button): check the
+	snooped type for the icon/etc.
+	(efhd_format_attachment): save the snooped type in the
+	attach_puri.
+
+	* em-format-html.c (efh_text_plain): If we had a snooped type, use
+	that as the base type, rather than octet-stream, which will cause
+	an attachment in attachment loop.
+
+	* em-format.c (em_format_part_as): save the current snooped mime
+	type in a stack if we had any.
+
+2004-01-29  Not Zed  <NotZed@Ximian.com>
+
 	** See bug #53320 and probably others
 
 	* message-list.c (message_list_set_folder): NULL out

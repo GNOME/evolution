@@ -477,10 +477,13 @@ void
 em_format_part_as(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const char *mime_type)
 {
 	const EMFormatHandler *handle = NULL;
+	const char *snoop_save = emf->snoop_mime_type;
+
+	emf->snoop_mime_type = NULL;
 
 	if (mime_type != NULL) {
 		if (g_ascii_strcasecmp(mime_type, "application/octet-stream") == 0)
-			mime_type = emf_snoop_part(part);
+			emf->snoop_mime_type = mime_type = emf_snoop_part(part);
 
 		handle = em_format_find_handler(emf, mime_type);
 		if (handle == NULL)
@@ -490,6 +493,7 @@ em_format_part_as(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const
 		    && !em_format_is_attachment(emf, part)) {
 			d(printf("running handler for type '%s'\n", mime_type));
 			handle->handler(emf, stream, part, handle);
+			emf->snoop_mime_type = snoop_save;
 			return;
 		}
 		d(printf("this type is an attachment? '%s'\n", mime_type));
@@ -498,6 +502,7 @@ em_format_part_as(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const
 	}
 
 	((EMFormatClass *)G_OBJECT_GET_CLASS(emf))->format_attachment(emf, stream, part, mime_type, handle);
+	emf->snoop_mime_type = snoop_save;
 }
 
 void

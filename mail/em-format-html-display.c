@@ -116,6 +116,8 @@ struct _attach_puri {
 
 	const EMFormatHandler *handle;
 
+	const char *snoop_mime_type;
+
 	/* for the > and V buttons */
 	GtkWidget *forward, *down;
 	/* currently no way to correlate this data to the frame :( */
@@ -1320,8 +1322,11 @@ efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 	gtk_container_add((GtkContainer *)button, hbox);
 	gtk_box_pack_start((GtkBox *)mainbox, button, TRUE, TRUE, 0);
 
-	/* FIXME: loses any snoop info */
-	simple_type = camel_content_type_simple (((CamelDataWrapper *)pobject->part)->mime_type);
+	/* Check for snooped type to get the right icon/processing */
+	if (info->snoop_mime_type)
+		simple_type = g_strdup(info->snoop_mime_type);
+	else
+		simple_type = camel_content_type_simple (((CamelDataWrapper *)pobject->part)->mime_type);
 	camel_strdown(simple_type);
 
 	/* FIXME: offline parts, just get icon */
@@ -1547,6 +1552,7 @@ efhd_format_attachment(EMFormat *emf, CamelStream *stream, CamelMimePart *part, 
 	em_format_html_add_pobject((EMFormatHTML *)emf, sizeof(EMFormatHTMLPObject), classid, part, efhd_attachment_button);
 	info->handle = handle;
 	info->shown = em_format_is_inline(emf, info->puri.part) && handle != NULL;
+	info->snoop_mime_type = emf->snoop_mime_type;
 
 	camel_stream_write_string(stream,
 				  "<table height=6><tr><td><a></a></td></tr></table>\n"

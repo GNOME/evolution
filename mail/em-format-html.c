@@ -701,11 +701,20 @@ efh_text_plain(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFo
 	if (mp == NULL) {
 		EMInlineFilter *inline_filter;
 		CamelStream *null;
+		CamelContentType *ct;
+
+		/* if we had to snoop the part type to get here, then
+		 * use that as the base type, yuck */
+		if (((EMFormat *)efh)->snoop_mime_type == NULL
+		    || (ct = camel_content_type_decode(((EMFormat *)efh)->snoop_mime_type)) == NULL) {
+			ct = dw->mime_type;
+			camel_content_type_ref(ct);
+		}
 
 		null = camel_stream_null_new();
 		filtered_stream = camel_stream_filter_new_with_stream(null);
 		camel_object_unref(null);
-		inline_filter = em_inline_filter_new(camel_mime_part_get_encoding(part), dw->mime_type);
+		inline_filter = em_inline_filter_new(camel_mime_part_get_encoding(part), ct);
 		camel_stream_filter_add(filtered_stream, (CamelMimeFilter *)inline_filter);
 		camel_data_wrapper_write_to_stream(dw, (CamelStream *)filtered_stream);
 		camel_stream_close((CamelStream *)filtered_stream);
@@ -713,6 +722,7 @@ efh_text_plain(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFo
 		mp = em_inline_filter_get_multipart(inline_filter);
 		g_hash_table_insert(efh->priv->text_inline_parts, part, mp);
 		camel_object_unref(inline_filter);
+		camel_content_type_unref(ct);
 	}
 
 	filtered_stream = camel_stream_filter_new_with_stream(stream);

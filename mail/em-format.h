@@ -112,6 +112,8 @@ struct _EMFormat {
 	struct _CamelSession *session; /* session, used for authentication when required */
 	struct _CamelURL *base;		/* current location (base url) */
 
+	const char *snoop_mime_type; /* if we snooped an application/octet-stream type, what we snooped */
+
 	/* for forcing inlining */
 	GHashTable *inline_table;
 
