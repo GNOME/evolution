@@ -1,9 +1,14 @@
-1998-06-07  Martin Baulig <martin@home-of-linux.org>
+1998-06-08  Martin Baulig  <martin@home-of-linux.org>
+
+	* gnome-support.m4 (CROSS_COMPILING): New automake conditional;
+	(need_gnome_support): added `AC_SUBST(need_gnome_support)'.
+
+1998-06-07  Martin Baulig  <martin@home-of-linux.org>
 
 	* gnome-guile-checks.m4 (GNOME_CHECK_GUILE): When
 	cross-compiling, we now check for `$host_alias-buile-guile'.
 
-1998-06-03  Martin Baulig <martin@home-of-linux.org>
+1998-06-03  Martin Baulig  <martin@home-of-linux.org>
 
 	* gnome-guile-checks.m4 (GNOME_CHECK_GUILE): Looks also
 	in $GNOME_LIBDIR; added failflag: GNOME_CHECK_GUILE(fail)

@@ -85,8 +85,10 @@ AC_DEFUN([GNOME_SUPPORT_CHECKS],[
   # Turn our LIBOBJS into libtool objects.  This is gross, but it
   # requires changes to autoconf before it goes away.
   LTLIBOBJS=`echo "$LIBOBJS" | sed 's/\.o/.lo/g'`
+  AC_SUBST(need_gnome_support)
   AC_SUBST(LTLIBOBJS)
 
   LIBOBJS="$save_LIBOBJS"
   AM_CONDITIONAL(BUILD_GNOME_SUPPORT, test "$need_gnome_support" = yes)
+  AM_CONDITIONAL(CROSS_COMPILING, test "$cross_compiling" = yes)
 ])
