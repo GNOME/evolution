@@ -1,3 +1,13 @@
+2004-01-20  JP Rosevear <jpr@ximian.com>
+
+	* e-source-selector.c (test_collapse_row_callback): check if the
+	collapsing node has its child selected, if so take a row reference
+	to remember the selection
+	(row_expanded_callback): check if the expanding node has the saved
+	primary selection under it and re-select if so
+	(init): listen for signals
+	(impl_dispose): free the primary selection
+
 2004-01-19  JP Rosevear <jpr@ximian.com>
 
 	* e-source-selector.c (create_rebuild_data): create the data

@@ -45,7 +45,8 @@ struct _ESourceSelectorPrivate {
 	GtkTreeStore *tree_store;
 
 	GHashTable *selected_sources;
-
+	GtkTreeRowReference *saved_primary_selection;
+	
 	int rebuild_model_idle_id;
 
 	gboolean toggled_last;
@@ -467,6 +468,61 @@ selection_changed_callback (GtkTreeSelection *selection,
 }
 
 static gboolean
+test_collapse_row_callback (GtkTreeView *treeview, GtkTreeIter *iter, GtkTreePath *path, gpointer data)
+{
+	ESourceSelector *selector = data;
+	ESourceSelectorPrivate *priv;	
+	GtkTreeIter child_iter;
+	
+	priv = selector->priv;
+
+	if (priv->saved_primary_selection)
+		return FALSE;
+	
+	if (!gtk_tree_selection_get_selected (gtk_tree_view_get_selection (GTK_TREE_VIEW (selector)), NULL, &child_iter))
+		return FALSE;
+	
+	if (gtk_tree_store_is_ancestor (priv->tree_store, iter, &child_iter)) {
+		GtkTreePath *child_path;
+		
+		child_path = gtk_tree_model_get_path (GTK_TREE_MODEL (priv->tree_store), &child_iter);
+		selector->priv->saved_primary_selection = gtk_tree_row_reference_new (GTK_TREE_MODEL (priv->tree_store), child_path);
+		gtk_tree_path_free (child_path);
+	}
+	
+	return FALSE;
+}
+
+static gboolean
+row_expanded_callback (GtkTreeView *treeview, GtkTreeIter *iter, GtkTreePath *path, gpointer data)
+{
+	ESourceSelector *selector = data;
+	ESourceSelectorPrivate *priv;	
+	GtkTreePath *child_path;
+	GtkTreeIter child_iter;
+	
+	priv = selector->priv;
+
+	if (!priv->saved_primary_selection)
+		return FALSE;
+	
+	child_path = gtk_tree_row_reference_get_path (priv->saved_primary_selection);
+	gtk_tree_model_get_iter (GTK_TREE_MODEL (priv->tree_store), &child_iter, child_path);	
+
+	if (gtk_tree_store_is_ancestor (priv->tree_store, iter, &child_iter)) {
+		GtkTreeSelection *selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (selector));
+		gtk_tree_selection_select_iter (selection, &child_iter);
+
+		gtk_tree_row_reference_free (priv->saved_primary_selection);
+		priv->saved_primary_selection = NULL;
+	}
+
+	gtk_tree_path_free (child_path);
+	
+	return FALSE;	
+}
+
+static gboolean
 selector_button_press_event (GtkWidget *widget, GdkEventButton *event, ESourceSelector *selector)
 {
 	ESourceSelectorPrivate *priv = selector->priv;
@@ -516,6 +572,11 @@ impl_dispose (GObject *object)
 	if (priv->selected_sources != NULL) {
 		g_hash_table_destroy (priv->selected_sources);
 		priv->selected_sources = NULL;
+	}
+
+	if (priv->saved_primary_selection != NULL) {
+		gtk_tree_row_reference_free (priv->saved_primary_selection);
+		priv->saved_primary_selection = NULL;
 	}
 
 	if (priv->rebuild_model_idle_id != 0) {
@@ -626,6 +687,9 @@ init (ESourceSelector *selector)
 	g_signal_connect_object (selection, "changed", G_CALLBACK (selection_changed_callback), G_OBJECT (selector), 0);
 
 	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (selector), FALSE);
+
+	g_signal_connect (G_OBJECT (selector), "test-collapse-row", G_CALLBACK (test_collapse_row_callback), selector);
+	g_signal_connect (G_OBJECT (selector), "row-expanded", G_CALLBACK (row_expanded_callback), selector);
 }
 
 
