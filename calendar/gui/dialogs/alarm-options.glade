@@ -5,6 +5,7 @@
 <requires lib="gnome"/>
 
 <widget class="GtkDialog" id="alarm-options-toplevel">
+  <property name="border_width">12</property>
   <property name="visible">True</property>
   <property name="title" translatable="yes">dialog1</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
@@ -73,7 +74,7 @@
 
 	      <child>
 		<widget class="GtkHBox" id="hbox1">
-		  <property name="border_width">4</property>
+		  <property name="border_width">6</property>
 		  <property name="visible">True</property>
 		  <property name="homogeneous">False</property>
 		  <property name="spacing">6</property>
@@ -248,7 +249,7 @@
 	      <child>
 		<widget class="GtkLabel" id="label2">
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">Message to Display</property>
+		  <property name="label" translatable="yes">Message to Display:</property>
 		  <property name="use_underline">False</property>
 		  <property name="use_markup">False</property>
 		  <property name="justify">GTK_JUSTIFY_CENTER</property>
@@ -470,7 +471,7 @@
 	  <child>
 	    <widget class="GtkHBox" id="palarm-group">
 	      <property name="homogeneous">False</property>
-	      <property name="spacing">4</property>
+	      <property name="spacing">6</property>
 
 	      <child>
 		<widget class="GtkLabel" id="label5">
