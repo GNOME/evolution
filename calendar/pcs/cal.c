@@ -182,7 +182,7 @@ Cal_get_object (PortableServer_Servant servant,
 
 	calobj = cal_backend_get_object (priv->backend, uid);
 
-	if (uid) {
+	if (calobj) {
 		CORBA_char *calobj_copy;
 
 		calobj_copy = CORBA_string_dup (calobj);

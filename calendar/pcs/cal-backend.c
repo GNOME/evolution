@@ -34,14 +34,15 @@ typedef struct {
 	/* List of Cal client interface objects, each with its listener */
 	GList *clients;
 
-	/* All events in the calendar and uri->event hash */
+	/* All the iCalObject structures in the calendar, hashed by UID.  The
+	 * hash key *is* icalobj->uid; it is not copied, so don't free it when
+	 * you remove an object from the hash table.
+	 */
+	GHashTable *object_hash;
+
+	/* All events, TODOs, and journals in the calendar */
 	GList *events;
-	GHashTable *event_hash;
-
-	/* All TODOs in the calendar */
 	GList *todos;
-
-	/* All journals in the calendar */
 	GList *journals;
 
 	/* Whether a calendar has been loaded */
@@ -136,29 +137,65 @@ cal_backend_destroy (GtkObject *object)
 
 
 
-/* Adds an object to the calendar backend */
+/* iCalObject manipulation functions */
+
+/* Ensures that an iCalObject has a unique identifier.  If it doesn't have one,
+ * it will create one for it.  Returns whether an UID was created or not.
+ */
+static gboolean
+ensure_uid (iCalObject *ico)
+{
+	char *buf;
+	gulong str_time;
+	static guint seqno = 0;
+
+	if (ico->uid)
+		return FALSE;
+
+	str_time = (gulong) time (NULL);
+
+	/* Is this good enough? */
+
+	buf = g_strdup_printf ("Evolution-Tlacuache-%d-%ld-%u", (int) getpid(), str_time, seqno++);
+	ico->uid = buf;
+
+	return TRUE;
+}
+
+/* Adds an object to the calendar backend.  Does *not* perform notification to
+ * calendar clients.
+ */
 static void
 add_object (CalBackend *backend, iCalObject *ico)
 {
 	CalBackendPrivate *priv;
 
 	g_assert (ico != NULL);
-	g_assert (ico->uid != NULL);
-
 	priv = backend->priv;
 
+#if 0
+	/* FIXME: gnomecal old code */
 	ico->new = 0;
+#endif
+
+	if (ensure_uid (ico))
+		/* FIXME: mark the calendar as dirty so that we can re-save it
+		 * with the object's new UID.
+		 */
+		;
+
+	g_hash_table_insert (priv->object_hash, ico->uid, ico);
+
 	switch (ico->type) {
 	case ICAL_EVENT:
-		g_hash_table_insert (priv->event_hash, ico->uid, ico);
 		priv->events = g_list_prepend (priv->events, ico);
 #if 0
 		/* FIXME: gnomecal old code */
 		ical_object_try_alarms (ico);
-#ifdef DEBUGGING_MAIL_ALARM
+#  ifdef DEBUGGING_MAIL_ALARM
 		ico->malarm.trigger = 0;
 		calendar_notify (0, ico);
-#endif
+#  endif
 #endif
 		break;
 
@@ -174,14 +211,6 @@ add_object (CalBackend *backend, iCalObject *ico)
 		g_assert_not_reached ();
 	}
 
-	/* FIXME: things must come with an UID! */
-
-	if (!ico->uid) {
-		char buffer [80];
-
-		snprintf (buffer, sizeof (buffer), "GnomeCalendar-%ld\n", time (NULL));
-		ico->uid = g_strdup (buffer);
-	}
 #if 0
 	/* FIXME: gnomecal old code */
 	ico->last_mod = time (NULL);
@@ -197,8 +226,9 @@ load_from_vobject (CalBackend *backend, VObject *vobject)
 
 	priv = backend->priv;
 
-	g_assert (priv->event_hash == NULL);
-	priv->event_hash = g_hash_table_new (g_str_hash, g_str_equal);
+	g_assert (!priv->loaded);
+	g_assert (priv->object_hash == NULL);
+	priv->object_hash = g_hash_table_new (g_str_hash, g_str_equal);
 
 	initPropIterator (&i, vobject);
 
@@ -394,13 +424,16 @@ cal_backend_load (CalBackend *backend, GnomeVFSURI *uri)
  * Queries a calendar backend for a calendar object based on its unique
  * identifier.
  * 
- * Return value: The string representation of the sought object, or NULL if no
- * object had the specified UID.
+ * Return value: The string representation of a complete calendar wrapping the
+ * the sought object, or NULL if no object had the specified UID.  A complete
+ * calendar is returned because you also need the timezone data.
  **/
 char *
 cal_backend_get_object (CalBackend *backend, const char *uid)
 {
 	CalBackendPrivate *priv;
+	iCalObject *ico;
+	char *buf;
 
 	g_return_val_if_fail (backend != NULL, NULL);
 	g_return_val_if_fail (IS_CAL_BACKEND (backend), NULL);
@@ -409,6 +442,13 @@ cal_backend_get_object (CalBackend *backend, const char *uid)
 	g_return_val_if_fail (priv->loaded, NULL);
 
 	g_return_val_if_fail (uid != NULL, NULL);
+
+	g_assert (priv->object_hash != NULL);
+
+	ico = g_hash_table_lookup (priv->objec_hash, uid);
+
+	if (!ico)
+		return NULL;
 
 	/* FIXME */
 }

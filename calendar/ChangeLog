@@ -1,3 +1,14 @@
+2000-02-04  Federico Mena Quintero  <federico@helixcode.com>
+
+	* cal-backend.c (CalBackendPrivate): Renamed the event_hash field
+	to object_hash.  Now we hash all the calendar's objects here based
+	on their UIDs.
+	(ensure_uid): New function to create UIDs for calendar objects
+	that don't have them.
+	(add_object): Ensure the object has an UID before inserting it in
+	the calendar.
+	(cal_backend_get_object): New function.
+
 2000-02-03  Federico Mena Quintero  <federico@helixcode.com>
 
 	* evolution-calendar.idl (Cal): Added the get_object() method.
