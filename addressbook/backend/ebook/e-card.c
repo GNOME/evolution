@@ -485,6 +485,7 @@ char
 	temp = writeMemVObject(NULL, NULL, vobj);
 	ret_val = g_strdup(temp);
 	free(temp);
+	cleanVObject(vobj);
 	return ret_val;
 }
 

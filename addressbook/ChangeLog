@@ -1,6 +1,11 @@
 2000-05-16  Christopher James Lahey  <clahey@helixcode.com>
 
-	* backend/ebook/e-card.c (add_list_unique): Fixed another memory leak.
+	* backend/ebook/e-card.c (e_card_get_vcard): Fixed a large memory leak.
+
+2000-05-16  Christopher James Lahey  <clahey@helixcode.com>
+
+	* backend/ebook/e-card.c (add_list_unique): Fixed another memory
+	leak.
 
 2000-05-16  Christopher James Lahey  <clahey@helixcode.com>
 
