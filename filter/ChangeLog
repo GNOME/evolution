@@ -8,6 +8,10 @@
 
 	* filter-colour.c: And this.
 
+	* filter-datespec.c: You guessed it.
+
+	* filter-file.c: And again...
+
 2002-10-30  Dan Winship  <danw@ximian.com>
 
 	* rule-editor.c (rule_add): Adjust default rule editor size to
