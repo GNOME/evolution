@@ -129,10 +129,6 @@ camel_mime_message_init (gpointer object, gpointer klass)
 		g_hash_table_insert(mime_message->recipients, recipient_names[i], camel_internet_address_new());
 	}
 
-	if (((CamelDataWrapper *)mime_message)->mime_type)
-		camel_content_type_unref(((CamelDataWrapper *)mime_message)->mime_type);
-	((CamelDataWrapper *)mime_message)->mime_type = camel_content_type_new("message", "rfc822");
-
 	mime_message->subject = NULL;
 	mime_message->reply_to = NULL;
 	mime_message->from = NULL;

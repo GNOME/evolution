@@ -1,3 +1,9 @@
+2004-03-16  Not Zed  <NotZed@Ximian.com>
+
+	* camel-mime-message.c (camel_mime_message_init): rever previous
+	patch.  We don't want to set the default mime/type, it'll break
+	stuff.
+
 2004-03-15  Not Zed  <NotZed@Ximian.com>
 
 	* providers/local/camel-mbox-store.c (delete_folder): same as
