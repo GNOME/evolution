@@ -1,3 +1,8 @@
+2001-08-19  Ettore Perazzoli  <ettore@ximian.com>
+
+	* component-factory.c: Change the type from "Summary" to "summary"
+	for consistency with the other folder types.
+
 2001-08-17  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* my-evolution/e-summary-rdf.c (make_connection):
