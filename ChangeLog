@@ -1,3 +1,8 @@
+1999-09-06  bertrand  <Bertrand.Guiheneuf@aful.org>
+
+	* camel/md5-utils.c: imported md5 coding 
+	routine from rpm. Compiles.
+
 1999-09-05  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* camel/camel-folder.c (camel_folder_has_uid_capability): 
