@@ -1,3 +1,8 @@
+2003-03-04  Mike Kestner  <mkestner@ximian.com>
+
+	* e-shell-view.c (update_for_current_uri): only set current
+	folder when the folder_path is different from the current folder.
+
 2003-03-04  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-folder-dnd-bridge.c (find_matching_target_for_drag_context):

@@ -1962,6 +1962,7 @@ update_for_current_uri (EShellView *shell_view)
 	EShellViewPrivate *priv;
 	EFolder *folder;
 	const char *path;
+	const char *curr_path;
 	const char *type;
 	const char *folder_name;
 	char *title;
@@ -2015,7 +2016,8 @@ update_for_current_uri (EShellView *shell_view)
 	g_signal_handlers_block_by_func (priv->storage_set_view,
 					 G_CALLBACK (folder_selected_cb), shell_view);
 
-	if (path != NULL)
+	curr_path = e_storage_set_view_get_current_folder (priv->storage_set_view);
+	if (path != NULL && (curr_path == NULL || strcmp(path, curr_path)))
 		e_storage_set_view_set_current_folder (E_STORAGE_SET_VIEW (priv->storage_set_view), path);
 
 	g_signal_handlers_unblock_by_func (priv->storage_set_view,
