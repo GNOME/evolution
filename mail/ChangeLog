@@ -2,6 +2,9 @@
 
 	* mail-send-recv.c (build_dialogue): Make sure the source->url is
 	not NULL (which is perfectly valid).
+	(mail_send_receive): Where oh where should my prototype be?
+	(receive_get_folder): Make sure to ref the folder before you add
+	it to the hash table.
 
 	* openpgp-utils.c:
 	* mail-crypto.c: A few minor tweaks.

@@ -31,6 +31,7 @@
 
 #include "evolution-storage.h"
 
+#include "mail.h"
 #include "mail-mt.h"
 #include "mail-config.h"
 #include "mail-session.h"
@@ -438,6 +439,10 @@ receive_get_folder(CamelFilterDriver *d, const char *uri, void *data, CamelExcep
 	/* we recheck that the folder hasn't snuck in while we were loading it ... */
 	/* and we assume the newer one is the same, but unref the old one anyway */
 	g_mutex_lock(info->data->lock);
+	
+	/* NotZed: I added this ref here, if I'm wrong feel free to remove it */
+	camel_object_ref (CAMEL_OBJECT (folder));
+	
 	if (g_hash_table_lookup_extended(info->data->folders, uri, (void **)&oldkey, (void **)&oldinfo)) {
 		camel_object_unref((CamelObject *)oldinfo->folder);
 		oldinfo->folder = folder;
@@ -448,7 +453,7 @@ receive_get_folder(CamelFilterDriver *d, const char *uri, void *data, CamelExcep
 		g_hash_table_insert(info->data->folders, oldinfo->uri, oldinfo);
 	}
 	g_mutex_unlock(info->data->lock);
-
+	
 	return folder;
 }
 
