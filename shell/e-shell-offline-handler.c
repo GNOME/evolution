@@ -33,6 +33,7 @@
 
 #include "e-shell-marshal.h"
 
+#include <gtk/gtkcellrenderertext.h>
 #include <gtk/gtkclist.h>
 #include <gtk/gtkdialog.h>
 #include <gtk/gtklabel.h>
@@ -548,8 +549,7 @@ update_dialog_clist (EShellOfflineHandler *offline_handler)
 {
 	EShellOfflineHandlerPrivate *priv;
 	GtkWidget *tree_view;
-	GtkTreeModel *model;
-	GtkTreeModel *model_sort;
+	GtkListStore *model;
 	GtkCellRenderer *renderer;
 	GtkTreeViewColumn *column;
 
@@ -569,7 +569,7 @@ update_dialog_clist (EShellOfflineHandler *offline_handler)
 	model = gtk_list_store_new (1, G_TYPE_STRING);
 	g_hash_table_foreach (priv->id_to_component_info, update_dialog_tree_view_hash_foreach, model);
 
-	gtk_tree_view_set_model (GTK_TREE_VIEW (tree_view), model);
+	gtk_tree_view_set_model (GTK_TREE_VIEW (tree_view), GTK_TREE_MODEL(model));
 }
 
 static void

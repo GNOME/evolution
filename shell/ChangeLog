@@ -1,3 +1,10 @@
+2003-05-09  Jeremy Katz  <katzj@redhat.com>
+
+	* main.c: Add a #include to fix a warning.
+
+	* e-shell-offline-handler.c (update_dialog_clist): Use a list
+	store instead of a tree model for the store.
+
 2003-05-08  Ettore Perazzoli  <ettore@ximian.com>
 
 	[#42342]

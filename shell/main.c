@@ -24,6 +24,7 @@
 
 #include "e-util/e-dialog-utils.h"
 #include "e-util/e-gtk-utils.h"
+#include "e-util/e-proxy.h"
 
 #include "e-icon-factory.h"
 #include "e-shell-constants.h"
