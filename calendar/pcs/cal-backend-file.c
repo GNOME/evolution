@@ -29,6 +29,15 @@
 
 
 
+/* A category that exists in some of the objects of the calendar */
+typedef struct {
+	/* Category name, also used as the key in the categories hash table */
+	char *name;
+
+	/* Number of objects that have this category */
+	int refcount;
+} Category;
+
 /* Private part of the CalBackendFile structure */
 struct _CalBackendFilePrivate {
 	/* URI where the calendar data is stored */
@@ -55,6 +64,9 @@ struct _CalBackendFilePrivate {
 	GList *events;
 	GList *todos;
 	GList *journals;
+
+	/* Hash table of live categories */
+	GHashTable *categories;
 
 	/* Idle handler for saving the calendar when it is dirty */
 	guint idle_id;
@@ -181,6 +193,8 @@ cal_backend_file_init (CalBackendFile *cbfile)
 	priv->events = NULL;
 	priv->todos = NULL;
 	priv->journals = NULL;
+
+	priv->categories = g_hash_table_new (g_str_hash, g_str_equal);
 }
 
 /* g_hash_table_foreach() callback to destroy a CalComponent */
@@ -247,6 +261,17 @@ save (CalBackendFile *cbfile)
 	return;
 }
 
+/* Used from g_hash_table_foreach(), frees a Category structure */
+static void
+free_category_cb (gpointer key, gpointer value, gpointer data)
+{
+	Category *c;
+
+	c = value;
+	g_free (c->name);
+	g_free (c);
+}
+
 /* Destroy handler for the file backend */
 static void
 cal_backend_file_destroy (GtkObject *object)
@@ -287,10 +312,13 @@ cal_backend_file_destroy (GtkObject *object)
 	g_list_free (priv->events);
 	g_list_free (priv->todos);
 	g_list_free (priv->journals);
-
 	priv->events = NULL;
 	priv->todos = NULL;
 	priv->journals = NULL;
+
+	g_hash_table_foreach (priv->categories, free_category_cb, NULL);
+	g_hash_table_destroy (priv->categories);
+	priv->categories = NULL;
 
 	if (priv->icalcomp) {
 		icalcomponent_free (priv->icalcomp);
@@ -465,6 +493,56 @@ check_dup_uid (CalBackendFile *cbfile, CalComponent *comp)
 	mark_dirty (cbfile);
 }
 
+/* Updates the hash table of categories by adding or removing those in the
+ * component.
+ */
+static void
+update_categories_from_comp (CalBackendFile *cbfile, CalComponent *comp, gboolean add)
+{
+	CalBackendFilePrivate *priv;
+	GSList *categories, *l;
+
+	priv = cbfile->priv;
+
+	cal_component_get_categories_list (comp, &categories);
+
+	for (l = categories; l; l = l->next) {
+		const char *name;
+		Category *c;
+
+		name = l->data;
+		c = g_hash_table_lookup (priv->categories, name);
+
+		if (add) {
+			/* Add the category to the set */
+			if (c)
+				c->refcount++;
+			else {
+				c = g_new (Category, 1);
+				c->name = g_strdup (name);
+				c->refcount = 1;
+
+				g_hash_table_insert (priv->categories, c->name, c);
+			}
+		} else {
+			/* Remove the category from the set --- it *must* have existed */
+
+			g_assert (c != NULL);
+			g_assert (c->refcount > 0);
+
+			c->refcount--;
+
+			if (c->refcount == 0) {
+				g_hash_table_remove (priv->categories, c->name);
+				g_free (c->name);
+				g_free (c);
+			}
+		}
+	}
+
+	cal_component_free_categories_list (categories);
+}
+
 /* Tries to add an icalcomponent to the file backend.  We only store the objects
  * of the types we support; all others just remain in the toplevel component so
  * that we don't lose them.
@@ -515,6 +593,10 @@ add_component (CalBackendFile *cbfile, CalComponent *comp, gboolean add_to_tople
 
 		icalcomponent_add_component (priv->icalcomp, icalcomp);
 	}
+
+	/* Update the set of categories */
+
+	update_categories_from_comp (cbfile, comp, TRUE);
 }
 
 /* Removes a component from the backend's hash and lists.  Does not perform
@@ -568,6 +650,10 @@ remove_component (CalBackendFile *cbfile, CalComponent *comp)
 	*list = g_list_remove_link (*list, l);
 	g_list_free_1 (l);
 
+	/* Update the set of categories */
+
+	update_categories_from_comp (cbfile, comp, FALSE);
+
 	gtk_object_unref (GTK_OBJECT (comp));
 }
 
@@ -605,6 +691,53 @@ scan_vcalendar (CalBackendFile *cbfile)
 
 		add_component (cbfile, comp, FALSE);
 	}
+}
+
+/* Used from g_hash_table_foreach(), adds a category name to the sequence */
+static void
+add_category_cb (gpointer key, gpointer value, gpointer data)
+{
+	Category *c;
+	GNOME_Evolution_Calendar_StringSeq *seq;
+
+	c = value;
+	seq = data;
+
+	seq->_buffer[seq->_length] = CORBA_string_dup (c->name);
+	seq->_length++;
+}
+
+/* Notifies the clients with the current list of categories */
+static void
+notify_categories_changed (CalBackendFile *cbfile)
+{
+	CalBackendFilePrivate *priv;
+	GNOME_Evolution_Calendar_StringSeq *seq;
+	GList *l;
+
+	priv = cbfile->priv;
+
+	/* Build the sequence of category names */
+
+	seq = GNOME_Evolution_Calendar_StringSeq__alloc ();
+	seq->_length = 0;
+	seq->_maximum = g_hash_table_size (priv->categories);
+	seq->_buffer = CORBA_sequence_CORBA_string_allocbuf (seq->_maximum);
+	CORBA_sequence_set_release (seq, TRUE);
+
+	g_hash_table_foreach (priv->categories, add_category_cb, seq);
+	g_assert (seq->_length == seq->_maximum);
+
+	/* Notify the clients */
+
+	for (l = priv->clients; l; l = l->next) {
+		Cal *cal;
+
+		cal = CAL (l->data);
+		cal_notify_categories_changed (cal, seq);
+	}
+
+	CORBA_free (seq);
 }
 
 /* Callback used from icalparser_parse() */
@@ -671,6 +804,8 @@ open_cal (CalBackendFile *cbfile, GnomeVFSURI *uri, FILE *file)
 	gnome_vfs_uri_ref (uri);
 	priv->uri = uri;
 
+	notify_categories_changed (cbfile);
+
 	return CAL_BACKEND_OPEN_SUCCESS;
 }
 
@@ -691,6 +826,8 @@ create_cal (CalBackendFile *cbfile, GnomeVFSURI *uri)
 	priv->uri = uri;
 
 	mark_dirty (cbfile);
+
+	notify_categories_changed (cbfile);
 
 	return CAL_BACKEND_OPEN_SUCCESS;
 }
@@ -1786,6 +1923,7 @@ cal_backend_file_update_objects (CalBackend *backend, const char *calobj)
 
 	/* FIXME: do the notification asynchronously */
 	notify_update (cbfile, comp_uid);
+	notify_categories_changed (cbfile);
 
 	return TRUE;
 }
@@ -1797,6 +1935,7 @@ cal_backend_file_remove_object (CalBackend *backend, const char *uid)
 	CalBackendFile *cbfile;
 	CalBackendFilePrivate *priv;
 	CalComponent *comp;
+	int old_n_categories, new_n_categories;
 
 	cbfile = CAL_BACKEND_FILE (backend);
 	priv = cbfile->priv;
@@ -1809,11 +1948,17 @@ cal_backend_file_remove_object (CalBackend *backend, const char *uid)
 	if (!comp)
 		return FALSE;
 
+	old_n_categories = g_hash_table_size (priv->categories);
 	remove_component (cbfile, comp);
+	new_n_categories = g_hash_table_size (priv->categories);
+
 	mark_dirty (cbfile);
 
 	/* FIXME: do the notification asynchronously */
 	notify_remove (cbfile, uid);
+
+	if (old_n_categories != new_n_categories)
+		notify_categories_changed (cbfile);
 
 	return TRUE;
 }

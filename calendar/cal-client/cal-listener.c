@@ -1,7 +1,6 @@
 /* Evolution calendar listener
  *
- * Copyright (C) 2000 Ximian, Inc.
- * Copyright (C) 2000 Ximian, Inc.
+ * Copyright (C) 2001 Ximian, Inc.
  *
  * Author: Federico Mena-Quintero <federico@ximian.com>
  *
@@ -26,7 +25,7 @@
 
 
 /* Private part of the CalListener structure */
-struct _CalListenerPrivate {
+struct CalListenerPrivate {
 	/* The calendar this listener refers to */
 	GNOME_Evolution_Calendar_Cal cal;
 
@@ -34,6 +33,7 @@ struct _CalListenerPrivate {
 	CalListenerCalOpenedFn cal_opened_fn;
 	CalListenerObjUpdatedFn obj_updated_fn;
 	CalListenerObjRemovedFn obj_removed_fn;
+	CalListenerCategoriesChangedFn categories_changed_fn;
 	gpointer fn_data;
 };
 
@@ -43,51 +43,28 @@ static void cal_listener_class_init (CalListenerClass *class);
 static void cal_listener_init (CalListener *listener);
 static void cal_listener_destroy (GtkObject *object);
 
-static POA_GNOME_Evolution_Calendar_Listener__vepv cal_listener_vepv;
+static void impl_notifyCalOpened (PortableServer_Servant servant,
+				  GNOME_Evolution_Calendar_Listener_OpenStatus status,
+				  GNOME_Evolution_Calendar_Cal cal,
+				  CORBA_Environment *ev);
+static void impl_notifyObjUpdated (PortableServer_Servant servant,
+				   GNOME_Evolution_Calendar_CalObjUID uid,
+				   CORBA_Environment *ev);
+static void impl_notifyObjRemoved (PortableServer_Servant servant,
+				   GNOME_Evolution_Calendar_CalObjUID uid,
+				   CORBA_Environment *ev);
+static void impl_notifyCategoriesChanged (PortableServer_Servant servant,
+					  const GNOME_Evolution_Calendar_StringSeq *categories,
+					  CORBA_Environment *ev);
 
-static BonoboObjectClass *parent_class;
+static BonoboXObjectClass *parent_class;
 
 
 
-/**
- * cal_listener_get_type:
- * @void:
- *
- * Registers the #CalListener class if necessary, and returns the type ID
- * associated to it.
- *
- * Return value: The type ID of the #CalListener class.
- **/
-GtkType
-cal_listener_get_type (void)
-{
-	static GtkType cal_listener_type = 0;
-
-	if (!cal_listener_type) {
-		static const GtkTypeInfo cal_listener_info = {
-			"CalListener",
-			sizeof (CalListener),
-			sizeof (CalListenerClass),
-			(GtkClassInitFunc) cal_listener_class_init,
-			(GtkObjectInitFunc) cal_listener_init,
-			NULL, /* reserved_1 */
-			NULL, /* reserved_2 */
-			(GtkClassInitFunc) NULL
-		};
-
-		cal_listener_type = gtk_type_unique (bonobo_object_get_type (), &cal_listener_info);
-	}
-
-	return cal_listener_type;
-}
-
-/* CORBA class initialization function for the calendar listener */
-static void
-init_cal_listener_corba_class (void)
-{
-	cal_listener_vepv.Bonobo_Unknown_epv = bonobo_object_get_epv ();
-	cal_listener_vepv.GNOME_Evolution_Calendar_Listener_epv = cal_listener_get_epv ();
-}
+BONOBO_X_TYPE_FUNC_FULL (CalListener,
+			 GNOME_Evolution_Calendar_Listener,
+			 BONOBO_X_OBJECT_TYPE,
+			 cal_listener);
 
 /* Class initialization function for the calendar listener */
 static void
@@ -97,11 +74,14 @@ cal_listener_class_init (CalListenerClass *class)
 
 	object_class = (GtkObjectClass *) class;
 
-	parent_class = gtk_type_class (bonobo_object_get_type ());
+	parent_class = gtk_type_class (BONOBO_X_OBJECT_TYPE);
+
+	class->epv.notifyCalOpened = impl_notifyCalOpened;
+	class->epv.notifyObjUpdated = impl_notifyObjUpdated;
+	class->epv.notifyObjRemoved = impl_notifyObjRemoved;
+	class->epv.notifyCategoriesChanged = impl_notifyCategoriesChanged;
 
 	object_class->destroy = cal_listener_destroy;
-
-	init_cal_listener_corba_class ();
 }
 
 /* Object initialization function for the calendar listener */
@@ -117,6 +97,7 @@ cal_listener_init (CalListener *listener)
 	priv->cal_opened_fn = NULL;
 	priv->obj_updated_fn = NULL;
 	priv->obj_removed_fn = NULL;
+	priv->categories_changed_fn = NULL;
 }
 
 /* Destroy handler for the calendar listener */
@@ -163,12 +144,12 @@ cal_listener_destroy (GtkObject *object)
 
 /* CORBA servant implementation */
 
-/* Listener::notifyCalOpened method */
+/* ::notifyCalOpened method */
 static void
-Listener_notifyCalOpened (PortableServer_Servant servant,
-			  GNOME_Evolution_Calendar_Listener_OpenStatus status,
-			  GNOME_Evolution_Calendar_Cal cal,
-			  CORBA_Environment *ev)
+impl_notifyCalOpened (PortableServer_Servant servant,
+		      GNOME_Evolution_Calendar_Listener_OpenStatus status,
+		      GNOME_Evolution_Calendar_Cal cal,
+		      CORBA_Environment *ev)
 {
 	CalListener *listener;
 	CalListenerPrivate *priv;
@@ -199,11 +180,11 @@ Listener_notifyCalOpened (PortableServer_Servant servant,
 	(* priv->cal_opened_fn) (listener, status, cal, priv->fn_data);
 }
 
-/* Listener::notifyObjUpdated method */
+/* ::notifyObjUpdated method */
 static void
-Listener_notifyObjUpdated (PortableServer_Servant servant,
-			   GNOME_Evolution_Calendar_CalObjUID uid,
-			   CORBA_Environment *ev)
+impl_notifyObjUpdated (PortableServer_Servant servant,
+		       GNOME_Evolution_Calendar_CalObjUID uid,
+		       CORBA_Environment *ev)
 {
 	CalListener *listener;
 	CalListenerPrivate *priv;
@@ -215,11 +196,11 @@ Listener_notifyObjUpdated (PortableServer_Servant servant,
 	(* priv->obj_updated_fn) (listener, uid, priv->fn_data);
 }
 
-/* Listener::notifyObjRemoved method */
+/* ::notifyObjRemoved method */
 static void
-Listener_notifyObjRemoved (PortableServer_Servant servant,
-			   GNOME_Evolution_Calendar_CalObjUID uid,
-			   CORBA_Environment *ev)
+impl_notifyObjRemoved (PortableServer_Servant servant,
+		       GNOME_Evolution_Calendar_CalObjUID uid,
+		       CORBA_Environment *ev)
 {
 	CalListener *listener;
 	CalListenerPrivate *priv;
@@ -231,24 +212,20 @@ Listener_notifyObjRemoved (PortableServer_Servant servant,
 	(* priv->obj_removed_fn) (listener, uid, priv->fn_data);
 }
 
-/**
- * cal_listener_get_epv:
- * @void:
- *
- * Creates an EPV for the Listener CORBA class.
- *
- * Return value: A newly-allocated EPV.
- **/
-POA_GNOME_Evolution_Calendar_Listener__epv *
-cal_listener_get_epv (void)
+/* ::notifyCategoriesChanged method */
+static void
+impl_notifyCategoriesChanged (PortableServer_Servant servant,
+			      const GNOME_Evolution_Calendar_StringSeq *categories,
+			      CORBA_Environment *ev)
 {
-	POA_GNOME_Evolution_Calendar_Listener__epv *epv;
+	CalListener *listener;
+	CalListenerPrivate *priv;
 
-	epv = g_new0 (POA_GNOME_Evolution_Calendar_Listener__epv, 1);
-	epv->notifyCalOpened  = Listener_notifyCalOpened;
-	epv->notifyObjUpdated = Listener_notifyObjUpdated;
-	epv->notifyObjRemoved = Listener_notifyObjRemoved;
-	return epv;
+	listener = CAL_LISTENER (bonobo_object_from_servant (servant));
+	priv = listener->priv;
+
+	g_assert (priv->categories_changed_fn != NULL);
+	(* priv->categories_changed_fn) (listener, categories, priv->fn_data);
 }
 
 
@@ -256,27 +233,28 @@ cal_listener_get_epv (void)
 /**
  * cal_listener_construct:
  * @listener: A calendar listener.
- * @corba_listener: CORBA object for the calendar listener.
  * @cal_opened_fn: Function that will be called to notify that a calendar was
  * opened.
  * @obj_updated_fn: Function that will be called to notify that an object in the
  * calendar was updated.
  * @obj_removed_fn: Function that will be called to notify that an object in the
  * calendar was removed.
+ * @categories_changed_fn: Function that will be called to notify that the list
+ * of categories that are present in the calendar's objects has changed.
  * @fn_data: Closure data pointer that will be passed to the notification
  * functions.
  *
- * Constructs a calendar listener by binding the corresponding CORBA object to
- * it.
+ * Constructs a calendar listener by setting the callbacks that it will use for
+ * notification from the calendar server.
  *
  * Return value: the same object as the @listener argument.
  **/
 CalListener *
 cal_listener_construct (CalListener *listener,
-			GNOME_Evolution_Calendar_Listener corba_listener,
 			CalListenerCalOpenedFn cal_opened_fn,
 			CalListenerObjUpdatedFn obj_updated_fn,
 			CalListenerObjRemovedFn obj_removed_fn,
+			CalListenerCategoriesChangedFn categories_changed_fn,
 			gpointer fn_data)
 {
 	CalListenerPrivate *priv;
@@ -286,50 +264,17 @@ cal_listener_construct (CalListener *listener,
 	g_return_val_if_fail (cal_opened_fn != NULL, NULL);
 	g_return_val_if_fail (obj_updated_fn != NULL, NULL);
 	g_return_val_if_fail (obj_removed_fn != NULL, NULL);
+	g_return_val_if_fail (categories_changed_fn != NULL, NULL);
 
 	priv = listener->priv;
 
 	priv->cal_opened_fn = cal_opened_fn;
 	priv->obj_updated_fn = obj_updated_fn;
 	priv->obj_removed_fn = obj_removed_fn;
+	priv->categories_changed_fn = categories_changed_fn;
 	priv->fn_data = fn_data;
 
-	bonobo_object_construct (BONOBO_OBJECT (listener), corba_listener);
 	return listener;
-}
-
-/**
- * cal_listener_corba_object_create:
- * @object: #BonoboObject that will wrap the CORBA object.
- *
- * Creates and activates the CORBA object that is wrapped by the specified
- * calendar listener @object.
- *
- * Return value: An activated object reference or #CORBA_OBJECT_NIL in case of
- * failure.
- **/
-GNOME_Evolution_Calendar_Listener
-cal_listener_corba_object_create (BonoboObject *object)
-{
-	POA_GNOME_Evolution_Calendar_Listener *servant;
-	CORBA_Environment ev;
-
-	g_return_val_if_fail (object != NULL, CORBA_OBJECT_NIL);
-	g_return_val_if_fail (IS_CAL_LISTENER (object), CORBA_OBJECT_NIL);
-
-	servant = (POA_GNOME_Evolution_Calendar_Listener *) g_new0 (BonoboObjectServant, 1);
-	servant->vepv = &cal_listener_vepv;
-
-	CORBA_exception_init (&ev);
-	POA_GNOME_Evolution_Calendar_Listener__init ((PortableServer_Servant) servant, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_free (servant);
-		CORBA_exception_free (&ev);
-		return CORBA_OBJECT_NIL;
-	}
-
-	CORBA_exception_free (&ev);
-	return (GNOME_Evolution_Calendar_Listener) bonobo_object_activate_servant (object, servant);
 }
 
 /**
@@ -340,48 +285,34 @@ cal_listener_corba_object_create (BonoboObject *object)
  * calendar was updated.
  * @obj_removed_fn: Function that will be called to notify that an object in the
  * calendar was removed.
+ * @categories_changed_fn: Function that will be called to notify that the list
+ * of categories that are present in the calendar's objects has changed.
  * @fn_data: Closure data pointer that will be passed to the notification
  * functions.
  *
  * Creates a new #CalListener object.
  *
- * Return value: A newly-created #CalListener, or NULL if its corresponding
- * CORBA object could not be created.
+ * Return value: A newly-created #CalListener object.
  **/
 CalListener *
 cal_listener_new (CalListenerCalOpenedFn cal_opened_fn,
 		  CalListenerObjUpdatedFn obj_updated_fn,
 		  CalListenerObjRemovedFn obj_removed_fn,
+		  CalListenerCategoriesChangedFn categories_changed_fn,
 		  gpointer fn_data)
 {
 	CalListener *listener;
-	CORBA_Environment ev;
-	GNOME_Evolution_Calendar_Listener corba_listener;
-	gboolean result;
 
 	g_return_val_if_fail (cal_opened_fn != NULL, NULL);
 	g_return_val_if_fail (obj_updated_fn != NULL, NULL);
 	g_return_val_if_fail (obj_removed_fn != NULL, NULL);
+	g_return_val_if_fail (categories_changed_fn != NULL, NULL);
 
 	listener = gtk_type_new (CAL_LISTENER_TYPE);
-
-	corba_listener = cal_listener_corba_object_create (BONOBO_OBJECT (listener));
-
-	CORBA_exception_init (&ev);
-	result = CORBA_Object_is_nil (corba_listener, &ev);
-	
-	if (ev._major != CORBA_NO_EXCEPTION || result) {
-		g_message ("cal_listener_new(): could not create the CORBA listener");
-		bonobo_object_unref (BONOBO_OBJECT (listener));
-		CORBA_exception_free (&ev);
-		return NULL;
-	}
-	CORBA_exception_free (&ev);
-
 	return cal_listener_construct (listener,
-				       corba_listener,
 				       cal_opened_fn,
 				       obj_updated_fn,
 				       obj_removed_fn,
+				       categories_changed_fn,
 				       fn_data);
 }

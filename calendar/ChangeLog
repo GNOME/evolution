@@ -1,3 +1,33 @@
+2001-07-31  Federico Mena Quintero  <federico@ximian.com>
+
+	The Wombat now keeps track of which categories are present in the
+	objects of a calendar.  It will notify the clients of changes in
+	this set.  This is to make the category drop-down menus in the
+	calendar/tasks views be always up to date.
+
+	* idl/evolution-calendar.idl (Listener): Added a
+	notifyCategoriesChanged() method.  The Wombat now keeps track of
+	the categories within a calendar.
+
+	* cal-client/cal-listener.[ch]: Switched it to use BonoboXObject.
+	Also added the notifyCategoriesChanged implementation.
+
+	* cal-client/cal-client.[ch]: Added a "categories_changed" signal.
+
+	* pcs/cal-backend-file.c: Maintain a list of the live categories.
+	(update_categories_from_comp): New function to maintain the set of
+	live categories.
+	(add_component): Update the set of categories.
+	(remove_component): Likewise.
+	(open_cal): Notify about changes in the set of categories.
+	(create_cal): Likewise.
+	(cal_backend_file_update_objects): Likewise.
+	(cal_backend_file_remove_object): Likewise.
+	(notify_categories_changed): New function to notify the clients
+	about the current set of categories.
+
+	* pcs/cal.c (cal_notify_categories_changed): New function.
+
 2001-07-31  Rodrigo Moya <rodrigo@ximian.com>
 
         * gui/e-day-view.c (selection_received):

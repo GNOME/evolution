@@ -25,6 +25,9 @@ module Calendar {
 	/* A unique identifier for a calendar component */
 	typedef string CalObjUID;
 
+	/* Simple sequence of strings */
+	typedef sequence<string> StringSeq;
+
 	/* Sequence of unique identifiers */
 	typedef sequence<CalObjUID> CalObjUIDSeq;
 
@@ -212,6 +215,9 @@ module Calendar {
 
 		/* Called from a Calendar when a component is removed */
 		void notifyObjRemoved (in CalObjUID uid);
+
+		/* Called from a Calendar when the list of categories changes */
+		void notifyCategoriesChanged (in StringSeq categories);
 	};
 
 	/* Handle to a live query on a calendar */

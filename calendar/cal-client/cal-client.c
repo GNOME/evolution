@@ -71,6 +71,7 @@ enum {
 	CAL_OPENED,
 	OBJ_UPDATED,
 	OBJ_REMOVED,
+	CATEGORIES_CHANGED,
 	FORGET_PASSWORD,
 	LAST_SIGNAL
 };
@@ -160,6 +161,14 @@ cal_client_class_init (CalClientClass *class)
 				gtk_marshal_NONE__STRING,
 				GTK_TYPE_NONE, 1,
 				GTK_TYPE_STRING);
+	cal_client_signals[CATEGORIES_CHANGED] =
+		gtk_signal_new ("categories_changed",
+				GTK_RUN_FIRST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (CalClientClass, categories_changed),
+				gtk_marshal_NONE__POINTER,
+				GTK_TYPE_NONE, 1,
+				GTK_TYPE_POINTER);
 	cal_client_signals[FORGET_PASSWORD] =
 		gtk_signal_new ("forget_password",
 				GTK_RUN_FIRST,
@@ -170,6 +179,12 @@ cal_client_class_init (CalClientClass *class)
                                 GTK_TYPE_STRING);
 
 	gtk_object_class_add_signals (object_class, cal_client_signals, LAST_SIGNAL);
+
+	class->cal_opened = NULL;
+	class->obj_updated = NULL;
+	class->obj_removed = NULL;
+	class->categories_changed = NULL;
+	class->forget_password = NULL;
 
 	object_class->destroy = cal_client_destroy;
 }
@@ -455,6 +470,28 @@ obj_removed_cb (CalListener *listener, const GNOME_Evolution_Calendar_CalObjUID 
 	gtk_signal_emit (GTK_OBJECT (client), cal_client_signals[OBJ_REMOVED], uid);
 }
 
+/* Handle the categories_changed signal from the listener */
+static void
+categories_changed_cb (CalListener *listener, const GNOME_Evolution_Calendar_StringSeq *categories,
+		       gpointer data)
+{
+	CalClient *client;
+	GPtrArray *cats;
+	int i;
+
+	client = CAL_CLIENT (data);
+
+	cats = g_ptr_array_new ();
+	g_ptr_array_set_size (cats, categories->_length);
+
+	for (i = 0; i < categories->_length; i++)
+		cats->pdata[i] = categories->_buffer[i];
+
+	gtk_signal_emit (GTK_OBJECT (client), cal_client_signals[CATEGORIES_CHANGED], cats);
+
+	g_ptr_array_free (cats, TRUE);
+}
+
 /* Handle the get_password signal from the Wombatclient */
 static gchar *
 client_get_password_cb (WombatClient *w_client,
@@ -626,6 +663,7 @@ cal_client_open_calendar (CalClient *client, const char *str_uri, gboolean only_
 	priv->listener = cal_listener_new (cal_opened_cb,
 					   obj_updated_cb,
 					   obj_removed_cb,
+					   categories_changed_cb,
 					   client);
 	if (!priv->listener) {
 		g_message ("cal_client_open_calendar(): could not create the listener");

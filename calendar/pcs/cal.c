@@ -674,6 +674,37 @@ cal_notify_remove (Cal *cal, const char *uid)
 }
 
 /**
+ * cal_notify_categories_changed:
+ * @cal: A calendar client interface.
+ * @categories: List of categories.
+ * 
+ * Notifies a listener attached to a calendar client interface object about the
+ * current set of categories in a calendar backend.
+ **/
+void
+cal_notify_categories_changed (Cal *cal, GNOME_Evolution_Calendar_StringSeq *categories)
+{
+	CalPrivate *priv;
+	CORBA_Environment ev;
+
+	g_return_if_fail (cal != NULL);
+	g_return_if_fail (IS_CAL (cal));
+	g_return_if_fail (categories != NULL);
+
+	priv = cal->priv;
+	g_return_if_fail (priv->listener != CORBA_OBJECT_NIL);
+
+	CORBA_exception_init (&ev);
+	GNOME_Evolution_Calendar_Listener_notifyCategoriesChanged (priv->listener, categories, &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION)
+		g_message ("cal_notify_categories_changed(): Could not notify the listener "
+			   "about the current set of categories");
+
+	CORBA_exception_free (&ev);
+}
+
+/**
  * cal_get_password:
  * @cal: A calendar client interface.
  * @prompt: The message to show to the user when asking for the password.

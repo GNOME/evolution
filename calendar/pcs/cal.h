@@ -65,6 +65,8 @@ Cal *cal_new (CalBackend *backend, GNOME_Evolution_Calendar_Listener listener);
 void cal_notify_update (Cal *cal, const char *uid);
 void cal_notify_remove (Cal *cal, const char *uid);
 
+void cal_notify_categories_changed (Cal *cal, GNOME_Evolution_Calendar_StringSeq *categories);
+
 char *cal_get_password (Cal *cal, const char *prompt, const char *key);
 void  cal_forget_password (Cal *cal, const char *key);
 

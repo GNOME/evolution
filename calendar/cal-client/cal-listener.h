@@ -1,7 +1,6 @@
 /* Evolution calendar listener
  *
- * Copyright (C) 2000 Ximian, Inc.
- * Copyright (C) 2000 Ximian, Inc.
+ * Copyright (C) 2001 Ximian, Inc.
  *
  * Author: Federico Mena-Quintero <federico@ximian.com>
  *
@@ -24,7 +23,7 @@
 #define CAL_LISTENER_H
 
 #include <libgnome/gnome-defs.h>
-#include <bonobo/bonobo-object.h>
+#include <bonobo/bonobo-xobject.h>
 #include "evolution-calendar.h"
 
 BEGIN_GNOME_DECLS
@@ -38,21 +37,20 @@ BEGIN_GNOME_DECLS
 #define IS_CAL_LISTENER(obj)         (GTK_CHECK_TYPE ((obj), CAL_LISTENER_TYPE))
 #define IS_CAL_LISTENER_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), CAL_LISTENER_TYPE))
 
-typedef struct _CalListener CalListener;
-typedef struct _CalListenerClass CalListenerClass;
+typedef struct CalListenerPrivate CalListenerPrivate;
 
-typedef struct _CalListenerPrivate CalListenerPrivate;
-
-struct _CalListener {
-	BonoboObject object;
+typedef struct {
+	BonoboXObject xobject;
 
 	/* Private data */
 	CalListenerPrivate *priv;
-};
+} CalListener;
 
-struct _CalListenerClass {
-	BonoboObjectClass parent_class;
-};
+typedef struct {
+	BonoboXObjectClass parent_class;
+
+	POA_GNOME_Evolution_Calendar_Listener__epv epv;
+} CalListenerClass;
 
 /* Notification functions */
 typedef void (* CalListenerCalOpenedFn) (CalListener *listener,
@@ -67,24 +65,25 @@ typedef void (* CalListenerObjRemovedFn) (CalListener *listener,
 					  const GNOME_Evolution_Calendar_CalObjUID uid,
 					  gpointer data);
 
+typedef void (* CalListenerCategoriesChangedFn) (CalListener *listener,
+						 const GNOME_Evolution_Calendar_StringSeq *categories,
+						 gpointer data);
+
 
 GtkType cal_listener_get_type (void);
 
 CalListener *cal_listener_construct (CalListener *listener,
-				     GNOME_Evolution_Calendar_Listener corba_listener,
 				     CalListenerCalOpenedFn cal_opened_fn,
 				     CalListenerObjUpdatedFn obj_updated_fn,
 				     CalListenerObjRemovedFn obj_removed_fn,
+				     CalListenerCategoriesChangedFn categories_changed_fn,
 				     gpointer fn_data);
-
-GNOME_Evolution_Calendar_Listener cal_listener_corba_object_create (BonoboObject *object);
 
 CalListener *cal_listener_new (CalListenerCalOpenedFn cal_opened_fn,
 			       CalListenerObjUpdatedFn obj_updated_fn,
 			       CalListenerObjRemovedFn obj_removed_fn,
+			       CalListenerCategoriesChangedFn categories_changed_fn,
 			       gpointer fn_data);
-
-POA_GNOME_Evolution_Calendar_Listener__epv *cal_listener_get_epv (void);
 
 
 
