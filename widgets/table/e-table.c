@@ -733,14 +733,54 @@ void            e_table_load_state                (ETable               *e_table
 	gtk_object_sink(GTK_OBJECT(state));
 }
 
+static ETableState *
+et_get_state (ETable *e_table)
+{
+	ETableState *state;
+	int full_col_count;
+	int i, j;
+
+	state = e_table_state_new();
+	state->sort_info = e_table->sort_info;
+	gtk_object_ref(GTK_OBJECT(state->sort_info));
+
+	
+	state->col_count = e_table_header_count (e_table->header);
+	full_col_count = e_table_header_count (e_table->full_header);
+	state->columns = g_new(int, state->col_count);
+	for (i = 0; i < state->col_count; i++) {
+		int col_idx = e_table_header_index(e_table->header, i);
+		state->columns[i] = -1;
+		for (j = 0; j < full_col_count; j++) {
+			if (col_idx == e_table_header_index(e_table->full_header, j)) {
+				state->columns[i] = j;
+				break;
+			}
+		}
+	}
+
+	return state;
+}
+
 gchar          *e_table_get_state                 (ETable               *e_table)
 {
-	return NULL;
+	ETableState *state;
+	gchar *string;
+
+	state = et_get_state(e_table);
+	string = e_table_state_save_to_string(state);
+	gtk_object_sink(state);
+	return string;
 }
 
 void            e_table_save_state                (ETable               *e_table,
 						   const gchar          *filename)
 {
+	ETableState *state;
+
+	state = et_get_state(e_table);
+	e_table_state_save_to_file(state, filename);
+	gtk_object_sink(state);
 }
 
 
@@ -924,8 +964,6 @@ e_table_new_from_spec_file (ETableModel *etm, ETableExtras *ete, const char *spe
 		
 	return GTK_WIDGET (e_table);
 }
-
-
 
 #if 0
 static xmlNode *
