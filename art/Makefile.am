@@ -9,6 +9,7 @@ images_DATA = \
 	apply-filters-16.xpm		\
 	appointment-reminder.png	\
 	appointment-reminder-excl.png	\
+	autocompletion.png \
 	bcg.png				\
 	briefcase.png       		\
 	butterfly.png			\

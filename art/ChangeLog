@@ -1,3 +1,8 @@
+2004-03-09  Jakub Steiner <jimmac@ximian.com>
+
+	* autocompletion.png:
+	* Makefile.am: autocompletion icon for the preferences
+
 2004-03-08  Radek Doulik  <rodo@ximian.com>
 
 	* Makefile.am (images_DATA): added 16 pixels versions of junk
