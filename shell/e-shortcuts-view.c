@@ -154,6 +154,8 @@ show_new_group_dialog (EShortcutsView *view)
 
 	group_name = gtk_entry_get_text (GTK_ENTRY (entry));
 	e_shortcuts_add_group (view->priv->shortcuts, -1, group_name);
+
+	gtk_widget_destroy (dialog);
 }
 
 

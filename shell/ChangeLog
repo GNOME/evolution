@@ -1,3 +1,8 @@
+2000-10-02  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-shortcuts-view.c (show_new_group_dialog): Destroy the dialog
+	if the user has clicked on "OK" or "Cancel".
+
 2000-10-02  Chris Toshok  <toshok@helixcode.com>
 
 	* e-storage-set-view.c (e_storage_set_view_get_current_folder): if
