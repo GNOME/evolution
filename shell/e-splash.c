@@ -134,7 +134,7 @@ icon_free (Icon *icon)
 {
 	gdk_pixbuf_unref (icon->dark_pixbuf);
 	gdk_pixbuf_unref (icon->light_pixbuf);
-	gtk_object_unref (GTK_OBJECT (icon->canvas_item));
+/*  	gtk_object_unref (GTK_OBJECT (icon->canvas_item)); */
 
 	g_free (icon);
 }
@@ -271,7 +271,7 @@ e_splash_construct (ESplash *splash,
 		    GdkPixbuf *splash_image_pixbuf)
 {
 	ESplashPrivate *priv;
-	GtkWidget *canvas;
+	GtkWidget *canvas, *frame;
 	int image_width, image_height;
 
 	g_return_if_fail (splash != NULL);
@@ -292,7 +292,12 @@ e_splash_construct (ESplash *splash,
 	gnome_canvas_set_scroll_region (GNOME_CANVAS (canvas), 0, 0, image_width, image_height);
 	gtk_widget_show (canvas);
 
-	gtk_container_add (GTK_CONTAINER (splash), canvas);
+	frame = gtk_frame_new (NULL);
+	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_OUT);
+	gtk_container_add (GTK_CONTAINER (frame), canvas);
+	gtk_widget_show (frame);
+
+	gtk_container_add (GTK_CONTAINER (splash), frame);
 
 	gnome_canvas_item_new (GNOME_CANVAS_GROUP (priv->canvas->root),
 			       GNOME_TYPE_CANVAS_PIXBUF,
