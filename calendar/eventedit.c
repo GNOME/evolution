@@ -565,13 +565,13 @@ ee_store_recur_rule_to_ical (EventEditor *ee)
 			ical->recur->u.month_day = option_menu_active_number (ee->recur_rr_month_weekday);
 		}
 
-		ical->recur->interval = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (ee->recur_rr_month_period));
 
 		break;
 
 	case 4:
 		/* Yearly */
 		ical->recur->type = RECUR_YEARLY_BY_DAY;
+		ical->recur->interval = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (ee->recur_rr_year_period));
 		/* FIXME: need to specify anything else?  I am assuming the code will look at the dtstart
 		 * to figure out when to recur. - Federico
 		 */
