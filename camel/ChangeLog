@@ -1,3 +1,9 @@
+2004-06-30  Jeffrey Stedfast  <fejj@novell.com>
+
+	* providers/imap4/camel-imap4-search.c (imap4_body_contains): Set
+	the size of the ptrarray to prevent potentially realloc'ing
+	several times.
+
 2004-06-29  Jeffrey Stedfast  <fejj@novell.com>
 
 	* providers/imap4/camel-imap4-command.c

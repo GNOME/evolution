@@ -174,9 +174,11 @@ imap4_body_contains (struct _ESExp *f, int argc, struct _ESExpResult **argv, Cam
 		} else {
 			r = e_sexp_result_new (f, ESEXP_RES_ARRAY_PTR);
 			r->value.ptrarray = g_ptr_array_new ();
+			g_ptr_array_set_size (r->value.ptrarray, summary_set->len);
+			r->value.ptrarray->len = summary_set->len;
 			for (i = 0; i < summary_set->len; i++) {
 				info = g_ptr_array_index (summary_set, i);
-				g_ptr_array_add (r->value.ptrarray, (char *) camel_message_info_uid (info));
+				r->value.ptrarray->pdata[i] = (char *) camel_message_info_uid (info);
 			}
 		}
 		
@@ -211,9 +213,11 @@ imap4_body_contains (struct _ESExp *f, int argc, struct _ESExpResult **argv, Cam
 		} else {
 			r = e_sexp_result_new (f, ESEXP_RES_ARRAY_PTR);
 			r->value.ptrarray = g_ptr_array_new ();
+			g_ptr_array_set_size (r->value.ptrarray, summary_set->len);
+			r->value.ptrarray->len = summary_set->len;
 			for (i = 0; i < summary_set->len; i++) {
 				info = g_ptr_array_index (summary_set, i);
-				g_ptr_array_add (r->value.ptrarray, (char *) camel_message_info_uid (info));
+				r->value.ptrarray->pdata[i] = (char *) camel_message_info_uid (info);
 			}
 		}
 		
@@ -227,10 +231,10 @@ imap4_body_contains (struct _ESExp *f, int argc, struct _ESExpResult **argv, Cam
 	if (search->current) {
 		g_ptr_array_add (infos, search->current);
 	} else {
-		for (i = 0; i < summary_set->len; i++) {
-			info = g_ptr_array_index (summary_set, i);
-			g_ptr_array_add (infos, info);
-		}
+		g_ptr_array_set_size (infos, summary_set->len);
+		infos->len = summary_set->len;
+		for (i = 0; i < summary_set->len; i++)
+			infos->pdata[i] = summary_set->pdata[i];
 	}
 	
  retry:
