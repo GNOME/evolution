@@ -436,12 +436,11 @@ icalvalue_new_from_string_with_error(icalvalue_kind kind,const char* str,icalpro
         case ICAL_DURATION_VALUE:
 	{
             struct icaldurationtype dur = icaldurationtype_from_string(str);
-            
-            if(icaldurationtype_is_null_duration(dur)){
-                value = 0;
-            } else {
+
+	    if (icalerrno == ICAL_MALFORMEDDATA_ERROR)
+		value = 0;
+	    else
                 value = icalvalue_new_duration(dur);
-            }
 
 	    break;
 	}

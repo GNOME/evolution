@@ -250,7 +250,7 @@ char* icaldurationtype_as_ical_string(struct icaldurationtype d)
 	    
 	}
     } else {
-	icalmemory_append_string(&buf, &buf_ptr, &buf_size, "PTS0");
+	icalmemory_append_string(&buf, &buf_ptr, &buf_size, d.is_neg ? "-PT0S" : "PT0S");
     }
  
     output_line = icalmemory_tmp_copy(buf);
@@ -274,7 +274,7 @@ int icaldurationtype_as_int(struct icaldurationtype dur)
 		  * (dur.is_neg==1? -1 : 1) ) ;
 } 
 
-struct icaldurationtype icaldurationtype_null_duration()
+struct icaldurationtype icaldurationtype_null_duration(void)
 {
     struct icaldurationtype d;
     

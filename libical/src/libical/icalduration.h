@@ -45,7 +45,7 @@ struct icaldurationtype icaldurationtype_from_int(int t);
 struct icaldurationtype icaldurationtype_from_string(const char*);
 int icaldurationtype_as_int(struct icaldurationtype duration);
 char* icaldurationtype_as_ical_string(struct icaldurationtype d);
-struct icaldurationtype icaldurationtype_null_duration();
+struct icaldurationtype icaldurationtype_null_duration(void);
 int icaldurationtype_is_null_duration(struct icaldurationtype d);
 
 struct icaltimetype  icaltime_add(struct icaltimetype t,

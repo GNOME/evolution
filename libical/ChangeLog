@@ -1,3 +1,17 @@
+2001-09-26  Federico Mena Quintero  <federico@ximian.com>
+
+	Fix the libical-related part of Ximian bug #7892.
+
+	* src/libical/icalduration.c (icaldurationtype_as_ical_string):
+	The correct string for zero seconds is "PT0S", not "PTS0".  Also
+	handle "negative zero" durations.
+
+	* src/libical/icalvalue.c (icalvalue_new_from_string_with_error):
+	Use icalerrno to see if the duration string is invalid.  We cannot
+	use icaldurationtype_is_null_duration() because a duration of zero
+	*is* valid, not an error (icalduration_type_from_string() returns
+	a zero duration on parse error, too).
+
 2001-09-19  Larry Ewing  <lewing@ximian.com>
 
 	* src/libical/icalperiod.c (icalperiodtype_from_string): free the
