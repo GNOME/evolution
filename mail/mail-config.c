@@ -73,6 +73,7 @@ typedef struct {
 	
 	char *pgp_path;
 	CamelPgpType pgp_type;
+	gboolean remember_pgp_passphrase;
 
 	MailConfigHTTPMode http_mode;
 	MailConfigForwardStyle default_forward_style;
@@ -510,10 +511,13 @@ config_read (void)
 	/* PGP/GPG */
 	config->pgp_path = bonobo_config_get_string (config->db, 
 						     "/Mail/PGP/path", NULL);
-
+	
 	config->pgp_type = bonobo_config_get_long_with_default (config->db, 
 	        "/Mail/PGP/type", CAMEL_PGP_TYPE_NONE, NULL);
-
+	
+	config->remember_pgp_passphrase = bonobo_config_get_boolean_with_default (
+		config->db, "/Mail/PGP/remember_passphrase", TRUE, NULL);
+	
 	/* HTTP images */
 	config->http_mode = bonobo_config_get_long_with_default (config->db, 
 		"/Mail/Display/http_images", MAIL_CONFIG_HTTP_SOMETIMES, NULL);
@@ -527,11 +531,11 @@ config_read (void)
 	config->message_display_style = bonobo_config_get_long_with_default (
 		config->db, "/Mail/Format/message_display_style", 
 		MAIL_CONFIG_DISPLAY_NORMAL, NULL);
-
+	
 	/* Default charset */
 	config->default_charset = bonobo_config_get_string (config->db, 
 	        "/Mail/Format/default_charset", NULL);
-
+	
 	if (!config->default_charset) {
 		g_get_charset (&config->default_charset);
 		if (!config->default_charset ||
@@ -540,7 +544,7 @@ config_read (void)
 		else
 			config->default_charset = g_strdup (config->default_charset);
 	}
-
+	
 	/* Trash folders */
 	config->empty_trash_on_exit = bonobo_config_get_boolean_with_default (
 		config->db, "/Mail/Trash/empty_on_exit", FALSE, NULL);
@@ -553,10 +557,10 @@ mail_config_write (void)
 	gint len, i, default_num;
 	
 	/* Accounts */
-
+	
 	if (!config)
 		return;
-
+	
 	CORBA_exception_init (&ev);
 	Bonobo_ConfigDatabase_removeDir (config->db, "/Mail/Accounts", &ev);
 	CORBA_exception_init (&ev);
@@ -567,11 +571,11 @@ mail_config_write (void)
 	len = g_slist_length (config->accounts);
 	bonobo_config_set_long (config->db,
 				"/Mail/Accounts/num", len, NULL);
-
+	
 	default_num = mail_config_get_default_account_num ();
 	bonobo_config_set_long (config->db,
 				"/Mail/Accounts/default_account", default_num, NULL);
-
+	
 	for (i = 0; i < len; i++) {
 		MailConfigAccount *account;
 		gchar *path;
@@ -582,22 +586,22 @@ mail_config_write (void)
 		path = g_strdup_printf ("/Mail/Accounts/account_name_%d", i);
 		bonobo_config_set_string (config->db, path, account->name, NULL);
 		g_free (path);
-
+		
 		path = g_strdup_printf ("/Mail/Accounts/account_drafts_folder_name_%d", i);
 		bonobo_config_set_string (config->db, path, 
 					  account->drafts_folder_name, NULL);
 		g_free (path);
-
+		
 		path = g_strdup_printf ("/Mail/Accounts/account_drafts_folder_uri_%d", i);
 		bonobo_config_set_string (config->db, path, 
 					  account->drafts_folder_uri, NULL);
 		g_free (path);
-
+		
 		path = g_strdup_printf ("/Mail/Accounts/account_sent_folder_name_%d", i);
 		bonobo_config_set_string (config->db, path, 
 					  account->sent_folder_name, NULL);
 		g_free (path);
-
+		
 		path = g_strdup_printf ("/Mail/Accounts/account_sent_folder_uri_%d", i);
 		bonobo_config_set_string (config->db, path, 
 					  account->sent_folder_uri, NULL);
@@ -610,7 +614,7 @@ mail_config_write (void)
 		else
 			bonobo_config_set_string (config->db, path, "", NULL);
 		g_free (path);
-
+		
 		path = g_strdup_printf ("/Mail/Accounts/account_pgp_encrypt_to_self_%d", i);
 		bonobo_config_set_boolean (config->db, path, 
 					   account->pgp_encrypt_to_self, NULL);
@@ -625,7 +629,7 @@ mail_config_write (void)
 			bonobo_config_set_string (config->db, path, 
 						  "", NULL);
 		g_free (path);
-
+		
 		path = g_strdup_printf ("/Mail/Accounts/account_smime_encrypt_to_self_%d", i);
 		bonobo_config_set_boolean (config->db, path, 
 					   account->smime_encrypt_to_self, 
@@ -637,17 +641,17 @@ mail_config_write (void)
 		bonobo_config_set_string (config->db, path, account->id->name,
 					  NULL);
 		g_free (path);
-
+		
 		path = g_strdup_printf ("/Mail/Accounts/identity_address_%d", i);
 		bonobo_config_set_string (config->db, path, 
 					  account->id->address, NULL);
 		g_free (path);
-
+		
 		path = g_strdup_printf ("/Mail/Accounts/identity_organization_%d", i);
 		bonobo_config_set_string (config->db, path, 
 					  account->id->organization, NULL);
 		g_free (path);
-
+		
 		path = g_strdup_printf ("/Mail/Accounts/identity_signature_%d", i);
 		bonobo_config_set_string (config->db, path, 
 					  account->id->signature, NULL);
@@ -668,29 +672,29 @@ mail_config_write (void)
 		        account->source->url ? account->source->url : "", 
 			NULL);
 		g_free (path);
-
+		
 		path = g_strdup_printf ("/Mail/Accounts/source_keep_on_server_%d", i);
 		bonobo_config_set_boolean (config->db, path, 
 					   account->source->keep_on_server, 
 					   NULL);
 		g_free (path);
-
+		
 		path = g_strdup_printf ("/Mail/Accounts/source_auto_check_%d", i);
 		bonobo_config_set_boolean (config->db, path, 
 					   account->source->auto_check, NULL);
 		g_free (path);
-
+		
 		path = g_strdup_printf ("/Mail/Accounts/source_auto_check_time_%d", i);
 		bonobo_config_set_long (config->db, path, 
 					account->source->auto_check_time, 
 					NULL);
 		g_free (path);
-
+		
 		path = g_strdup_printf ("/Mail/Accounts/source_enabled_%d", i);
 		bonobo_config_set_boolean (config->db, path, 
 					   account->source->enabled, NULL);
 		g_free (path);
-
+		
 		path = g_strdup_printf ("/Mail/Accounts/source_save_passwd_%d", i);
 		bonobo_config_set_boolean (config->db, path, 
 					   account->source->save_passwd, NULL);
@@ -712,7 +716,7 @@ mail_config_write (void)
 	
 #ifdef ENABLE_NNTP
 	/* News */
-
+	
   	len = g_slist_length (config->news);
 	bonobo_config_set_long (config->db, "/News/Sources/num", len, NULL);
 	for (i = 0; i < len; i++) {
@@ -725,7 +729,7 @@ mail_config_write (void)
 		bonobo_config_set_string (config->db, path, n->url, NULL);
 		g_free (path);
 	}
-
+	
 #endif
 	
 	CORBA_exception_init (&ev);
@@ -762,7 +766,7 @@ mail_config_write_on_exit (void)
 	/* Show Message Preview */
 	bonobo_config_set_boolean (config->db, "/Mail/Display/preview_pane",
 				   config->show_preview, NULL);
-
+	
 	/* Hide deleted automatically */
 	bonobo_config_set_boolean (config->db, "Mail/Display/hide_deleted", 
 				   config->hide_deleted, NULL);
@@ -770,7 +774,7 @@ mail_config_write_on_exit (void)
 	/* Size of vpaned in mail view */
 	bonobo_config_set_long (config->db, "Mail/Display/paned_size", 
 				config->paned_size, NULL);
-
+	
 	/* Mark as seen timeout */
 	bonobo_config_set_long (config->db, "/Mail/Display/seen_timeout", 
 				config->seen_timeout, NULL);
@@ -783,7 +787,7 @@ mail_config_write_on_exit (void)
 	bonobo_config_set_boolean (config->db, 
 				   "/Mail/Display/citation_highlight", 
 				   config->citation_highlight, NULL);
-
+	
 	bonobo_config_set_long (config->db, "/Mail/Display/citation_color",
 				config->citation_color, NULL);
 	
@@ -794,18 +798,21 @@ mail_config_write_on_exit (void)
 	/* Only Bcc */
 	bonobo_config_set_boolean (config->db, "/Mail/Prompts/only_bcc",
 				   config->prompt_only_bcc, NULL);	
-
+	
 	/* PGP/GPG */
 	bonobo_config_set_string (config->db, "/Mail/PGP/path", 
 				  config->pgp_path, NULL);
-
+	
 	bonobo_config_set_long (config->db, "/Mail/PGP/type", 
 				config->pgp_type, NULL);
+	
+	bonobo_config_set_boolean (config->db, "/Mail/Prompts/remember_passphrase",
+				   config->remember_pgp_passphrase, NULL);	
 	
 	/* HTTP images */
 	bonobo_config_set_long (config->db, "/Mail/Display/http_images", 
 				config->http_mode, NULL);
-
+	
 	/* Forwarding */
 	bonobo_config_set_long (config->db, 
 				"/Mail/Format/default_forward_style", 
@@ -815,7 +822,7 @@ mail_config_write_on_exit (void)
 	bonobo_config_set_long (config->db, 
 				"/Mail/Format/message_display_style", 
 				config->message_display_style, NULL);
-
+	
 	/* Default charset */
 	bonobo_config_set_string (config->db, "/Mail/Format/default_charset", 
 				  config->default_charset, NULL);
@@ -823,18 +830,17 @@ mail_config_write_on_exit (void)
 	/* Trash folders */
 	bonobo_config_set_boolean (config->db, "/Mail/Trash/empty_on_exit", 
 				   config->empty_trash_on_exit, NULL);
-
-
+	
 	g_hash_table_foreach_remove (config->threaded_hash, 
 				     hash_save_state, "Threads");
-
+	
 	g_hash_table_foreach_remove (config->preview_hash, 
 				     hash_save_state, "Preview");
-
+	
 	CORBA_exception_init (&ev);
 	Bonobo_ConfigDatabase_sync (config->db, &ev);
 	CORBA_exception_free (&ev);
-
+	
 	/* Passwords */
 	/* fixme: still depends on gnome-config */
 	gnome_config_private_clean_section ("/Evolution/Passwords");
@@ -863,20 +869,19 @@ uri_to_key (const char *uri)
 {
 	char *rval;
 	int i = 0;
-
+	
 	if (!uri)
 		return NULL;
-
+	
 	rval = g_strdup (uri);
-
-	while (rval [i]) {
-
+	
+	while (rval [i]) {	
 		if (rval [i] == '/' || rval [i] == ':')
 			rval [i] = '_';
-
+		
 		i++;
 	}
-
+	
 	return rval;
 }
 
@@ -1200,6 +1205,18 @@ mail_config_set_pgp_path (const char *pgp_path)
 	g_free (config->pgp_path);
 	
 	config->pgp_path = g_strdup (pgp_path);
+}
+
+gboolean
+mail_config_get_remember_pgp_passphrase (void)
+{
+	return config->remember_pgp_passphrase;
+}
+
+void
+mail_config_set_remember_pgp_passphrase (gboolean value)
+{
+	config->remember_pgp_passphrase = value;
 }
 
 MailConfigHTTPMode

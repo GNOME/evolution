@@ -1,17 +1,35 @@
+2001-07-09  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-crypto.c (mail_crypto_pgp_mime_part_sign): Update to pass
+	in the `remember' argument when creating a new pgp context.
+	(mail_crypto_pgp_mime_part_verify): Same.
+	(mail_crypto_pgp_mime_part_encrypt): And here...
+	(mail_crypto_pgp_mime_part_decrypt): And finally here.
+
+	* mail-config.c (mail_config_get_remember_pgp_passphrase): New.
+	(mail_config_set_remember_pgp_passphrase): New.
+	(config_read): Read in the "remember passphrase" value.
+	(mail_config_write_on_exit): Save the remember-passphrase value.
+
+	* mail-accounts.c (construct): Allow the user to set "Remember PGP
+	Passphrase".
+	(remember_pgp_passphrase_toggled): Set the toggle state.
+
 2001-07-09  Peter Williams  <peterw@ximian.com>
 
-	* mail-ops.c (get_folderinfo_got): Check for an exception and print it.
-	Call done anyway.
+	* mail-ops.c (get_folderinfo_got): Check for an exception and
+	print it.  Call done anyway.
 	(do_update_subfolders): Check for NULL info.
 
 2001-07-09  Peter Williams  <peterw@ximian.com>
 
-	* mail-config.c (mail_config_write): Some NULL protection for our strings:
-	pgp_key, html_signature, smime_key. Probably we should do this for all
-	strings. Either that or change Bonobo Config.
+	* mail-config.c (mail_config_write): Some NULL protection for our
+	strings: pgp_key, html_signature, smime_key. Probably we should do
+	this for all strings. Either that or change Bonobo Config.
 
-	* message-list.c (message_list_init): Explicitly initialize search to NULL.
-	Bug 3951 might to be due to a problem wrt this, and it can't hurt.
+	* message-list.c (message_list_init): Explicitly initialize search
+	to NULL.  Bug 3951 might to be due to a problem wrt this, and it
+	can't hurt.
 
 2001-07-09  Dan Winship  <danw@ximian.com>
 
@@ -32,24 +50,25 @@
 
 2001-07-09  Peter Williams  <peterw@ximian.com>
 
-	* mail-config.c (mail_config_write): Change html_signature stuff over
-	to bonobo-config -- someone forgot to do this.
+	* mail-config.c (mail_config_write): Change html_signature stuff
+	over to bonobo-config -- someone forgot to do this.
 
-	* mail-folder-cache.c (dm): Gave up and got rid of dm. Just replaced it
-	with d(g_message()) and set G_LOG_DOMAIN.
+	* mail-folder-cache.c (dm): Gave up and got rid of dm. Just
+	replaced it with d(g_message()) and set G_LOG_DOMAIN.
 
 2001-07-09  Peter Williams  <peterw@ximian.com>
 
-	* mail-folder-cache.c (mail_folder_cache_set_update_shellview): Deleted
+	* mail-folder-cache.c (mail_folder_cache_set_update_shellview):
+	Deleted
 	(as opposed to #if 0)
 	(get_folder_info): Changed to assume it has the folder lock.
 	(make_folder_name): Same.
 	(make_folder_status): Same.
 	(update_idle): Don't unlock around the make_folder_ functions.
-	(*): Changed behavior wrt. get_folder_info. Lock before calling, but
-	also move preconditions before -- get_folder_info can only return NULL
-	if uri is NULL. Also add preconditions for other arguments where 
-	necessary.
+	(*): Changed behavior wrt. get_folder_info. Lock before calling,
+	but also move preconditions before -- get_folder_info can only
+	return NULL if uri is NULL. Also add preconditions for other
+	arguments where necessary.
 
 2001-07-07  Christopher James Lahey  <clahey@ximian.com>
 

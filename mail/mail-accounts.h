@@ -54,7 +54,7 @@ struct _MailAccountsDialog {
 	
 	const GSList *accounts;
 	gint accounts_row;
-
+	
 	/* Accounts page */
 	GtkCList *mail_accounts;
 	GtkButton *mail_add;
@@ -65,7 +65,7 @@ struct _MailAccountsDialog {
 	
 	const GSList *news;
 	gint news_row;
-
+	
 	/* News page */
 	GtkCList *news_accounts;
 	GtkButton *news_add;
@@ -77,7 +77,7 @@ struct _MailAccountsDialog {
 	GnomeColorPicker *citation_color;
 	GtkSpinButton *timeout;
 	GtkToggleButton *images_always, *images_sometimes, *images_never;
-
+	
 	/* Composer page */
 	GtkToggleButton *send_html;
 	GtkOptionMenu *forward_style;
@@ -89,6 +89,7 @@ struct _MailAccountsDialog {
 	
 	/* PGP page */
 	GnomeFileEntry *pgp_path;
+	GtkToggleButton *remember_passwd;
 };
 
 typedef struct _MailAccountsDialog MailAccountsDialog;

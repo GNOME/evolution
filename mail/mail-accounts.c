@@ -648,6 +648,12 @@ empty_trash_toggled (GtkWidget *toggle, gpointer data)
 }
 
 static void
+remember_pgp_passphrase_toggled (GtkWidget *toggle, gpointer data)
+{
+	mail_config_set_remember_pgp_passphrase (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (toggle)));
+}
+
+static void
 prompt_empty_subject_toggled (GtkWidget *toggle, gpointer data)
 {
 	mail_config_set_prompt_empty_subject (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (toggle)));
@@ -796,6 +802,11 @@ construct (MailAccountsDialog *dialog)
 	gnome_file_entry_set_default_path (dialog->pgp_path, mail_config_get_pgp_path ());
 	gtk_signal_connect (GTK_OBJECT (gnome_file_entry_gtk_entry (dialog->pgp_path)),
 			    "changed", GTK_SIGNAL_FUNC (pgp_path_changed), dialog);
+	
+	dialog->remember_passwd = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkRememberPGPPassphrase"));
+	gtk_toggle_button_set_active (dialog->remember_passwd, mail_config_get_remember_pgp_passphrase ());
+	gtk_signal_connect (GTK_OBJECT (dialog->remember_passwd), "toggled",
+			    GTK_SIGNAL_FUNC (remember_pgp_passphrase_toggled), dialog);
 	
 	dialog->charset = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuCharset"));
 	menu = e_charset_picker_new (mail_config_get_default_charset ());
