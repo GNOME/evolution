@@ -61,20 +61,16 @@ static void _set_subject (CamelMimeMessage *mime_message, gchar *subject);
 static const gchar *_get_subject (CamelMimeMessage *mime_message);
 static void _set_from (CamelMimeMessage *mime_message, gchar *from);
 static const gchar *_get_from (CamelMimeMessage *mime_message);
-
 static void _add_recipient (CamelMimeMessage *mime_message, gchar *recipient_type, gchar *recipient); 
 static void _remove_recipient (CamelMimeMessage *mime_message, const gchar *recipient_type, const gchar *recipient);
 static const GList *_get_recipients (CamelMimeMessage *mime_message, const gchar *recipient_type);
-
 static void _set_flag (CamelMimeMessage *mime_message, const gchar *flag, gboolean value);
 static gboolean _get_flag (CamelMimeMessage *mime_message, const gchar *flag);
-
+static GList *_get_flag_list (CamelMimeMessage *mime_message);
 static void _set_message_number (CamelMimeMessage *mime_message, guint number);
 static guint _get_message_number (CamelMimeMessage *mime_message);
-
 static void _write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
 static gboolean _parse_header_pair (CamelMimePart *mime_part, gchar *header_name, gchar *header_value);
-
 static void _finalize (GtkObject *object);
 
 /* Returns the class for a CamelMimeMessage */
@@ -126,6 +122,7 @@ camel_mime_message_class_init (CamelMimeMessageClass *camel_mime_message_class)
 	camel_mime_message_class->get_recipients = _get_recipients;
 	camel_mime_message_class->set_flag = _set_flag;
 	camel_mime_message_class->get_flag = _get_flag;
+	camel_mime_message_class->get_flag_list = _get_flag_list;
 	camel_mime_message_class->set_message_number = _set_message_number;
 	camel_mime_message_class->get_message_number = _get_message_number;
 	
@@ -501,6 +498,34 @@ camel_mime_message_get_flag (CamelMimeMessage *mime_message, const gchar *flag)
 	return CMM_CLASS (mime_message)->get_flag (mime_message, flag);
 }
 
+
+
+static void
+_add_flag_to_list (gpointer key, gpointer value, gpointer user_data)
+{
+	GList **flag_list = (GList **)user_data;
+	gchar *flag_name = (gchar *)key;
+
+	if ((flag_name) && (flag_name[0] != '\0'))
+		*flag_list = g_list_append (*flag_list, flag_name);
+}
+
+static GList *
+_get_flag_list (CamelMimeMessage *mime_message)
+{
+	GList *flag_list = NULL;
+	
+	if (mime_message->flags)
+		g_hash_table_foreach (mime_message->flags, _add_flag_to_list, &flag_list);
+	return flag_list;
+}
+
+
+GList *
+camel_mime_message_get_flag_list (CamelMimeMessage *mime_message)
+{
+	return CMM_CLASS (mime_message)->get_flag_list (mime_message);
+}
 
 
 

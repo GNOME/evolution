@@ -97,7 +97,7 @@ typedef struct {
 	const GList *  (*get_recipients) (CamelMimeMessage *mime_message, const gchar *recipient_type);
 	void     (*set_flag) (CamelMimeMessage *mime_message, const gchar *flag, gboolean value);
 	gboolean (*get_flag) (CamelMimeMessage *mime_message, const gchar *flag);
-
+	GList *  (*get_flag_list) (CamelMimeMessage *mime_message);
 	void     (*set_message_number)(CamelMimeMessage *mime_message, guint number);
 	guint    (*get_message_number)(CamelMimeMessage *mime_message);
 } CamelMimeMessageClass;
@@ -128,6 +128,7 @@ const GList *camel_mime_message_get_recipients (CamelMimeMessage *mime_message, 
 
 void camel_mime_message_set_flag (CamelMimeMessage *mime_message, const gchar *flag, gboolean value);
 gboolean camel_mime_message_get_flag (CamelMimeMessage *mime_message, const gchar *flag);
+GList *camel_mime_message_get_flag_list (CamelMimeMessage *mime_message);
 
 guint camel_mime_message_get_message_number (CamelMimeMessage *mime_message);
 

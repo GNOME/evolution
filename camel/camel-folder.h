@@ -69,7 +69,8 @@ struct _CamelFolder
 	gchar *full_name;
 	CamelStore *parent_store;
 	CamelFolder *parent_folder;
-	
+	GList *permanent_flags;
+
 };
 
 
@@ -101,6 +102,9 @@ typedef struct {
 	CamelMimeMessage * (*get_message) (CamelFolder *folder, gint number);
 	gint   (*get_message_count) (CamelFolder *folder);
 	gint   (*append_message) (CamelFolder *folder, CamelMimeMessage *message);
+	const GList * (*list_permanent_flags) (CamelFolder *folder);
+
+
 } CamelFolderClass;
 
 
@@ -127,7 +131,7 @@ CamelMimeMessage *camel_folder_get_message (CamelFolder *folder, gint number);
 gboolean camel_folder_exists (CamelFolder *folder);
 gint camel_folder_get_message_count (CamelFolder *folder);
 gint camel_folder_append_message (CamelFolder *folder, CamelMimeMessage *message);
-
+const GList *camel_folder_list_permanent_flags (CamelFolder *folder);
 
 
 #ifdef __cplusplus

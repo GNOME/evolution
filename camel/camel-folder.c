@@ -53,6 +53,8 @@ static GList *_expunge (CamelFolder *folder);
 static CamelMimeMessage *_get_message (CamelFolder *folder, gint number);
 static gint _get_message_count (CamelFolder *folder);
 static gint _append_message (CamelFolder *folder, CamelMimeMessage *message);
+static const GList *_list_permanent_flags (CamelFolder *folder);
+
 
 static void _finalize (GtkObject *object);
 
@@ -85,6 +87,7 @@ camel_folder_class_init (CamelFolderClass *camel_folder_class)
 	camel_folder_class->get_message = _get_message;
 	camel_folder_class->get_message_count = _get_message_count;
 	camel_folder_class->append_message = _append_message;
+	camel_folder_class->list_permanent_flags = _list_permanent_flags;
 
 	/* virtual method overload */
 	gtk_object_class->finalize = _finalize;
@@ -129,7 +132,8 @@ _finalize (GtkObject *object)
 
 	if (camel_folder->name) g_free (camel_folder->name);
 	if (camel_folder->full_name) g_free (camel_folder->full_name);
-	
+	if (camel_folder->permanent_flags) g_free (camel_folder->permanent_flags);
+
 	GTK_OBJECT_CLASS (parent_class)->finalize (object);
 	CAMEL_LOG_FULL_DEBUG ("Leaving CamelFolder::finalize\n");
 }
@@ -816,4 +820,18 @@ _append_message (CamelFolder *folder, CamelMimeMessage *message)
 gint camel_folder_append_message (CamelFolder *folder, CamelMimeMessage *message)
 {
 	return CF_CLASS (folder)->append_message (folder, message);
+}
+
+
+static const GList *
+_list_permanent_flags (CamelFolder *folder)
+{
+	return folder->permanent_flags;
+}
+
+
+const GList *
+camel_folder_list_permanent_flags (CamelFolder *folder)
+{
+	return CF_CLASS (folder)->list_permanent_flags (folder);
 }
