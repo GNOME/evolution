@@ -24,7 +24,7 @@
 
 #include <libgnome/gnome-defs.h>
 #include <gtk/gtkobject.h>
-#include <cal-util/cal-component.h>
+#include <cal-util/cal-recur.h>
 #include <cal-util/cal-util.h>
 
 BEGIN_GNOME_DECLS
@@ -100,6 +100,10 @@ GList *cal_client_get_uids (CalClient *client, CalObjType type);
 
 GList *cal_client_get_objects_in_range (CalClient *client, CalObjType type,
 					time_t start, time_t end);
+
+void cal_client_generate_instances (CalClient *client, CalObjType type,
+				    time_t start, time_t end,
+				    CalRecurInstanceFn cb, gpointer cb_data);
 
 GList *cal_client_get_alarms_in_range (CalClient *client, time_t start, time_t end);
 

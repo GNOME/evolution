@@ -849,8 +849,7 @@ cal_client_get_objects_in_range (CalClient *client, CalObjType type, time_t star
 	g_return_val_if_fail (IS_CAL_CLIENT (client), NULL);
 
 	priv = client->priv;
-	if (priv->load_state != LOAD_STATE_LOADED)
-		return NULL;
+	g_return_val_if_fail (priv->load_state == LOAD_STATE_LOADED, NULL);
 
 	g_return_val_if_fail (start != -1 && end != -1, NULL);
 	g_return_val_if_fail (start <= end, NULL);
@@ -872,6 +871,281 @@ cal_client_get_objects_in_range (CalClient *client, CalObjType type, time_t star
 
 	return uids;
 }
+
+/* Callback used when an object is updated and we must update the copy we have */
+static void
+generate_instances_obj_updated_cb (CalClient *client, const char *uid, gpointer data)
+{
+	GHashTable *uid_comp_hash;
+	CalComponent *comp;
+	CalClientGetStatus status;
+	const char *comp_uid;
+
+	uid_comp_hash = data;
+
+	comp = g_hash_table_lookup (uid_comp_hash, uid);
+	if (!comp)
+		/* OK, so we don't care about new objects that may indeed be in
+		 * the requested time range.  We only care about the ones that
+		 * were returned by the first query to
+		 * cal_client_get_objects_in_range().
+		 */
+		return;
+
+	g_hash_table_remove (uid_comp_hash, uid);
+	gtk_object_unref (GTK_OBJECT (comp));
+
+	status = cal_client_get_object (client, uid, &comp);
+
+	switch (status) {
+	case CAL_CLIENT_GET_SUCCESS:
+		/* The hash key comes from the component's internal data */
+		cal_component_get_uid (comp, &comp_uid);
+		g_hash_table_insert (uid_comp_hash, (char *) comp_uid, comp);
+		break;
+
+	case CAL_CLIENT_GET_NOT_FOUND:
+		/* No longer in the server, too bad */
+		break;
+
+	case CAL_CLIENT_GET_SYNTAX_ERROR:
+		g_message ("obj_updated_cb(): Syntax error when getting "
+			   "object `%s'; ignoring...", uid);
+		break;
+		
+	}
+}
+
+/* Callback used when an object is removed and we must delete the copy we have */
+static void
+generate_instances_obj_removed_cb (CalClient *client, const char *uid, gpointer data)
+{
+	GHashTable *uid_comp_hash;
+	CalComponent *comp;
+
+	uid_comp_hash = data;
+
+	comp = g_hash_table_lookup (uid_comp_hash, uid);
+	if (!comp)
+		return;
+
+	g_hash_table_remove (uid_comp_hash, uid);
+	gtk_object_unref (GTK_OBJECT (comp));
+}
+
+/* Adds a component to the list; called from g_hash_table_foreach() */
+static void
+add_component (gpointer key, gpointer value, gpointer data)
+{
+	CalComponent *comp;
+	GList **list;
+
+	comp = CAL_COMPONENT (value);
+	list = data;
+
+	*list = g_list_prepend (*list, comp);
+}
+
+/* Gets a list of components that recur within the specified range of time.  It
+ * ensures that the resulting list of CalComponent objects contains only objects
+ * that are actually in the server at the time the initial
+ * cal_client_get_objects_in_range() query ends.
+ */
+static GList *
+get_objects_atomically (CalClient *client, CalObjType type, time_t start, time_t end)
+{
+	GList *uids;
+	GHashTable *uid_comp_hash;
+	GList *objects;
+	guint obj_updated_id;
+	guint obj_removed_id;
+	GList *l;
+
+	uids = cal_client_get_objects_in_range (client, type, start, end);
+
+	uid_comp_hash = g_hash_table_new (g_str_hash, g_str_equal);
+
+	/* While we are getting the actual object data, keep track of changes */
+
+	obj_updated_id = gtk_signal_connect (GTK_OBJECT (client), "obj_updated",
+					     GTK_SIGNAL_FUNC (generate_instances_obj_updated_cb),
+					     uid_comp_hash);
+
+	obj_removed_id = gtk_signal_connect (GTK_OBJECT (client), "obj_removed",
+					     GTK_SIGNAL_FUNC (generate_instances_obj_removed_cb),
+					     uid_comp_hash);
+
+	/* Get the objects */
+
+	for (l = uids; l; l = l->next) {
+		CalComponent *comp;
+		CalClientGetStatus status;
+		char *uid;
+		const char *comp_uid;
+
+		uid = l->data;
+
+		status = cal_client_get_object (client, uid, &comp);
+
+		switch (status) {
+		case CAL_CLIENT_GET_SUCCESS:
+			/* The hash key comes from the component's internal data
+			 * instead of the duped UID from the list of UIDS.
+			 */
+			cal_component_get_uid (comp, &comp_uid);
+			g_hash_table_insert (uid_comp_hash, (char *) comp_uid, comp);
+			break;
+
+		case CAL_CLIENT_GET_NOT_FOUND:
+			/* Object disappeared from the server, so don't log it */
+			break;
+
+		case CAL_CLIENT_GET_SYNTAX_ERROR:
+			g_message ("get_objects_atomically(): Syntax error when getting "
+				   "object `%s'; ignoring...", uid);
+			break;
+
+		default:
+			g_assert_not_reached ();
+		}
+	}
+
+	cal_obj_uid_list_free (uids);
+
+	/* Now our state is consistent with the server, so disconnect from the
+	 * notification signals and generate the final list of components.
+	 */
+
+	gtk_signal_disconnect (GTK_OBJECT (client), obj_updated_id);
+	gtk_signal_disconnect (GTK_OBJECT (client), obj_removed_id);
+
+	objects = NULL;
+	g_hash_table_foreach (uid_comp_hash, add_component, &objects);
+	g_hash_table_destroy (uid_comp_hash);
+
+	return objects;
+}
+
+struct comp_instance {
+	CalComponent *comp;
+	time_t start;
+	time_t end;
+};
+
+/* Called from cal_recur_generate_instances(); adds an instance to the list */
+static gboolean
+add_instance (CalComponent *comp, time_t start, time_t end, gpointer data)
+{
+	GList **list;
+	struct comp_instance *ci;
+
+	list = data;
+
+	ci = g_new (struct comp_instance, 1);
+
+	ci->comp = comp;
+	gtk_object_ref (GTK_OBJECT (ci->comp));
+	
+	ci->start = start;
+	ci->end = end;
+
+	return TRUE;
+}
+
+/* Used from g_list_sort(); compares two struct comp_instance structures */
+static gint
+compare_comp_instance (gconstpointer a, gconstpointer b)
+{
+	const struct comp_instance *cia, *cib;
+	time_t diff;
+
+	cia = a;
+	cib = b;
+
+	diff = cia->start - cib->start;
+	return (diff < 0) ? -1 : (diff > 0) ? 1 : 0;
+}
+
+/**
+ * cal_client_generate_instances:
+ * @client: A calendar client.
+ * @type: Bitmask with types of objects to return.
+ * @start: Start time for query.
+ * @end: End time for query.
+ * @cb: Callback for each generated instance.
+ * @cb_data: Closure data for the callback.
+ * 
+ * Does a combination of cal_client_get_objects_in_range() and
+ * cal_recur_generate_instances().  It fetches the list of objects in an atomic
+ * way so that the generated instances are actually in the server at the time
+ * the initial cal_client_get_objects_in_range() query ends.
+ *
+ * The callback function should do a gtk_object_ref() of the calendar component
+ * it gets passed if it intends to keep it around.
+ **/
+void
+cal_client_generate_instances (CalClient *client, CalObjType type,
+			       time_t start, time_t end,
+			       CalRecurInstanceFn cb, gpointer cb_data)
+{
+	CalClientPrivate *priv;
+	GList *objects;
+	GList *instances;
+	GList *l;
+
+	g_return_if_fail (client != NULL);
+	g_return_if_fail (IS_CAL_CLIENT (client));
+
+	priv = client->priv;
+	g_return_if_fail (priv->load_state == LOAD_STATE_LOADED);
+
+	g_return_if_fail (start != -1 && end != -1);
+	g_return_if_fail (start <= end);
+	g_return_if_fail (cb != NULL);
+
+	/* Generate objects */
+
+	objects = get_objects_atomically (client, type, start, end);
+	instances = NULL;
+
+	for (l = objects; l; l = l->next) {
+		CalComponent *comp;
+
+		comp = l->data;
+		cal_recur_generate_instances (comp, start, end, add_instance, &instances);
+	}
+
+	g_list_free (objects);
+
+	/* Generate instances and spew them out */
+
+	instances = g_list_sort (instances, compare_comp_instance);
+
+	for (l = instances; l; l = l->next) {
+		struct comp_instance *ci;
+		gboolean result;
+
+		ci = l->data;
+
+		result = (* cb) (ci->comp, ci->start, ci->end, cb_data);
+
+		if (!result)
+			break;
+	}
+
+	/* Clean up */
+
+	for (l = instances; l; l = l->next) {
+		struct comp_instance *ci;
+
+		ci = l->data;
+		gtk_object_unref (GTK_OBJECT (ci->comp));
+		g_free (ci);
+	}
+
+	g_list_free (instances);
+}
+
 
 #if 0
 /* Translates the CORBA representation of an AlarmType */
@@ -952,8 +1226,7 @@ cal_client_get_alarms_in_range (CalClient *client, time_t start, time_t end)
 	g_return_val_if_fail (IS_CAL_CLIENT (client), NULL);
 
 	priv = client->priv;
-	if (priv->load_state != LOAD_STATE_LOADED)
-		return NULL;
+	g_return_val_if_fail (priv->load_state == LOAD_STATE_LOADED, NULL);
 
 	g_return_val_if_fail (start != -1 && end != -1, NULL);
 	g_return_val_if_fail (start <= end, NULL);
@@ -1001,8 +1274,7 @@ cal_client_get_alarms_for_object (CalClient *client, const char *uid,
 	g_return_val_if_fail (IS_CAL_CLIENT (client), FALSE);
 
 	priv = client->priv;
-	if (priv->load_state != LOAD_STATE_LOADED)
-		return FALSE;
+	g_return_val_if_fail (priv->load_state == LOAD_STATE_LOADED, FALSE);
 
 	g_return_val_if_fail (uid != NULL, FALSE);
 	g_return_val_if_fail (start != -1 && end != -1, FALSE);
