@@ -34,6 +34,7 @@
 #include <gal/e-table/e-table-specification.h>
 #include <gal/e-table/e-table-state.h>
 #include <gal/e-table/e-tree-model.h>
+#include <gal/e-table/e-tree-table-adapter.h>
 #include <libgnome/gnome-defs.h>
 
 #define E_TREE_USE_TREE_SELECTION
@@ -49,7 +50,6 @@ BEGIN_GNOME_DECLS
 #define E_TREE_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TREE_TYPE, ETreeClass))
 #define E_IS_TREE(o)       (GTK_CHECK_TYPE ((o), E_TREE_TYPE))
 #define E_IS_TREE_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_TREE_TYPE))
-
 typedef struct _ETreeDragSourceSite ETreeDragSourceSite;
 typedef struct ETreePriv ETreePriv;
 
@@ -215,6 +215,7 @@ void            e_tree_get_cell_geometry          (ETree                *tree,
 /* Useful accessors */
 ETreeModel *    e_tree_get_model                  (ETree *et);
 ESelectionModel *e_tree_get_selection_model       (ETree *et);
+ETreeTableAdapter *e_tree_get_table_adapter       (ETree *et);
 
 /* Drag & drop stuff. */
 /* Target */

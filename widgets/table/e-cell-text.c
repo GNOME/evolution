@@ -402,7 +402,6 @@ ect_realize (ECellView *ecell_view)
 		text_view->font = e_font_from_gdk_name (ect->font_name);
 	}
 	if (!text_view->font){
-		gdk_font_ref (GTK_WIDGET (text_view->canvas)->style->font);
 		text_view->font = e_font_from_gdk_font (GTK_WIDGET (text_view->canvas)->style->font);
 	}
 	
@@ -749,7 +748,20 @@ ect_get_bg_color(ECellView *ecell_view, int row)
 
 	return color_spec;
 }
-					 			 		  			
+
+
+static void
+ect_style_set(ECellView *ecell_view, GtkStyle *old_style)
+{
+	ECellTextView *text_view = (ECellTextView *) ecell_view;
+	ECellText *ect = (ECellText *) ecell_view->ecell;
+
+	if (!ect->font_name) {
+		e_font_unref (text_view->font);
+		text_view->font = e_font_from_gdk_font (GTK_WIDGET (text_view->canvas)->style->font);
+	}
+}
+				 			 		  			
 
 
 /*
@@ -1510,11 +1522,15 @@ ect_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	}
 }
 
+static char *ellipsis_default = NULL;
+static gboolean use_ellipsis_default = TRUE;
+
 static void
 e_cell_text_class_init (GtkObjectClass *object_class)
 {
 	ECellClass *ecc = (ECellClass *) object_class;
 	ECellTextClass *ectc = (ECellTextClass *) object_class;
+	char *ellipsis_env;
 
 	object_class->destroy = ect_destroy;
 
@@ -1536,6 +1552,7 @@ e_cell_text_class_init (GtkObjectClass *object_class)
 	ecc->max_width_by_row = ect_max_width_by_row;
 	ecc->show_tooltip = ect_show_tooltip;
 	ecc->get_bg_color = ect_get_bg_color;
+	ecc->style_set = ect_style_set;
 
 	ectc->get_text = ect_real_get_text;
 	ectc->free_text = ect_real_free_text;
@@ -1559,13 +1576,22 @@ e_cell_text_class_init (GtkObjectClass *object_class)
 
 	if (!clipboard_atom)
 		clipboard_atom = gdk_atom_intern ("CLIPBOARD", FALSE);
+
+	ellipsis_env = getenv ("GAL_ELLIPSIS");
+	if (ellipsis_env) {
+		if (*ellipsis_env) {
+			ellipsis_default = g_strdup (ellipsis_env);
+		} else {
+			use_ellipsis_default = FALSE;
+		}
+	}
 }
 
 static void
 e_cell_text_init (ECellText *ect)
 {
-	ect->ellipsis = NULL;
-	ect->use_ellipsis = TRUE;
+	ect->ellipsis = g_strdup (ellipsis_default);
+	ect->use_ellipsis = use_ellipsis_default;
 	ect->strikeout_column = -1;
 	ect->bold_column = -1;
 	ect->color_column = -1;

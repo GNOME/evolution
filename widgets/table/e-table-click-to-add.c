@@ -301,6 +301,7 @@ finish_editing (ETableClickToAdd *etcta)
 	if (etcta->row) {
 		ETableModel *one;
 
+		e_table_item_leave_edit (E_TABLE_ITEM (etcta->row));
 		e_table_one_commit(E_TABLE_ONE(etcta->one));
 		etcta_drop_one (etcta);
 		gtk_object_destroy(GTK_OBJECT(etcta->row));
@@ -388,6 +389,7 @@ etcta_event (GnomeCanvasItem *item, GdkEvent *e)
 			return FALSE;
 			break;
 		}
+		break;
 			
 	default:
 		return FALSE;

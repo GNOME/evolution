@@ -2779,6 +2779,9 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 static void
 eti_style_set (ETableItem *eti, GtkStyle *previous_style)
 {
+ 	if (!(GTK_OBJECT_FLAGS(eti) & GNOME_CANVAS_ITEM_REALIZED))
+		return;
+
 	if (eti->cell_views_realized) {
 		int i;
 		int n_cells = eti->n_cells;
@@ -2787,6 +2790,15 @@ eti_style_set (ETableItem *eti, GtkStyle *previous_style)
 			e_cell_style_set (eti->cell_views[i], previous_style);
 		}
 	}
+
+	eti->needs_compute_height = 1;
+	e_canvas_item_request_reflow (GNOME_CANVAS_ITEM (eti));
+	eti->needs_redraw = 1;
+	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (eti));
+
+	free_height_cache (eti);
+
+	eti_idle_maybe_show_cursor(eti);
 }
 
 static void
@@ -3173,7 +3185,7 @@ e_table_item_compute_location (ETableItem        *eti,
 	eti->grabbed_row = -1;
 
 	if (!find_cell (eti, *x, *y, col, row, NULL, NULL)) {
-		*y -= eti_get_height(eti);
+		*y -= eti->height;
 	}
 
 	eti->grabbed_row = grabbed_row;

@@ -2077,6 +2077,23 @@ e_tree_get_selection_model (ETree *et)
 	return et->priv->selection;
 }
 
+/**
+ * e_tree_get_table_adapter:
+ * @et: the ETree
+ *
+ * Returns the table adapter this ETree uses.
+ *
+ * Returns: the model
+ **/
+ETreeTableAdapter *
+e_tree_get_table_adapter (ETree *et)
+{
+	g_return_val_if_fail (et != NULL, NULL);
+	g_return_val_if_fail (E_IS_TREE (et), NULL);
+
+	return et->priv->etta;
+}
+
 
 struct _ETreeDragSourceSite
 {
