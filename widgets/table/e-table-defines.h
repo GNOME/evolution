@@ -18,6 +18,7 @@ typedef enum
 {
 	E_TABLE_CURSOR_LINE,
 	E_TABLE_CURSOR_SIMPLE,
+	E_TABLE_CURSOR_SPREADSHEET,
 } ETableCursorMode;
 
 #endif

@@ -303,6 +303,7 @@ finish_editing (ETableClickToAdd *etcta)
 						   "minimum_width", etcta->width,
 						   "drawgrid", TRUE,
 						   "table_selection_model", etcta->selection,
+						   "cursor_mode", E_TABLE_CURSOR_SPREADSHEET,
 						   NULL);
 
 		gtk_signal_connect(GTK_OBJECT(etcta->row), "key_press",
@@ -347,6 +348,7 @@ etcta_event (GnomeCanvasItem *item, GdkEvent *e)
 							   "minimum_width", etcta->width,
 							   "drawgrid", TRUE,
 							   "table_selection_model", etcta->selection,
+							   "cursor_mode", E_TABLE_CURSOR_SPREADSHEET,
 							   NULL);
 
 			gtk_signal_connect(GTK_OBJECT(etcta->row), "key_press",
@@ -367,17 +369,13 @@ etcta_event (GnomeCanvasItem *item, GdkEvent *e)
 
 	case GDK_KEY_PRESS:
 		switch (e->key.keyval) {
-		case GDK_Return:
-		case GDK_KP_Enter:
-		case GDK_ISO_Enter:
-		case GDK_3270_Enter:
-
 		case GDK_Tab:
 		case GDK_KP_Tab:
 		case GDK_ISO_Left_Tab:
 			finish_editing (etcta);
 			break;
 		default:
+			return FALSE;
 			break;
 		}
 			
@@ -503,6 +501,13 @@ e_table_click_to_add_get_type (void)
 
 
 /* The colors in this need to be themefied. */
+/**
+ * e_table_click_to_add_commit:
+ * @etcta: The %ETableClickToAdd to commit.
+ * 
+ * This routine commits the current thing being edited and returns to
+ * just displaying the click to add message.
+ **/
 void
 e_table_click_to_add_commit (ETableClickToAdd *etcta)
 {

@@ -176,6 +176,8 @@ e_table_specification_load_from_node (ETableSpecification *specification,
 	temp = e_xml_get_string_prop_by_name (node, "cursor-mode");
 	if (temp && !strcasecmp (temp, "line")) {
 		specification->cursor_mode = E_TABLE_CURSOR_LINE;
+	} else 	if (temp && !strcasecmp (temp, "spreadsheet")) {
+		specification->cursor_mode = E_TABLE_CURSOR_SPREADSHEET;
 	}
 	g_free (temp);
 	g_free (specification->click_to_add_message);

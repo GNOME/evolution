@@ -1310,6 +1310,7 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 			ECellFlags flags;
 			switch (eti->cursor_mode) {
 			case E_TABLE_CURSOR_SIMPLE:
+			case E_TABLE_CURSOR_SPREADSHEET:
 				if (cursor_col == ecol->col_idx && cursor_row == view_to_model_row(eti, row))
 					col_selected = !col_selected;
 				break;
@@ -1370,6 +1371,7 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 					}
 					break;
 				case E_TABLE_CURSOR_SIMPLE:
+				case E_TABLE_CURSOR_SPREADSHEET:
 					if (view_to_model_col(eti, col) == cursor_col && view_to_model_row(eti, row) == cursor_row) {
 						f_x1 = xd;
 						f_x2 = xd + ecol->width;
@@ -1879,7 +1881,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 #endif
 		case GDK_Home:
 		case GDK_KP_Home:
-			if (eti->cursor_mode == E_TABLE_CURSOR_SIMPLE) {
+			if (eti->cursor_mode != E_TABLE_CURSOR_LINE) {
 				eti_cursor_move (eti, model_to_view_row(eti, cursor_row), 0);
 				return_val = TRUE;
 			} else 
@@ -1887,7 +1889,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			break;
 		case GDK_End:
 		case GDK_KP_End:
-			if (eti->cursor_mode == E_TABLE_CURSOR_SIMPLE) {
+			if (eti->cursor_mode != E_TABLE_CURSOR_LINE) {
 				eti_cursor_move (eti, model_to_view_row(eti, cursor_row), eti->cols - 1);
 				return_val = TRUE;
 			} else 
@@ -1896,37 +1898,38 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		case GDK_Tab:
 		case GDK_KP_Tab:
 		case GDK_ISO_Left_Tab:
+			if (eti->cursor_mode == E_TABLE_CURSOR_SPREADSHEET) {
+				if ((e->key.state & GDK_SHIFT_MASK) != 0){
+				/* shift tab */
+					if (cursor_col != view_to_model_col(eti, 0))
+						eti_cursor_move_left (eti);
+					else if (cursor_row != view_to_model_row(eti, 0))
+						eti_cursor_move (eti, model_to_view_row(eti, cursor_row) - 1, eti->cols - 1);
+					else
+						return_val = FALSE;
+				} else {
+					if (cursor_col != view_to_model_col (eti, eti->cols - 1))
+						eti_cursor_move_right (eti);
+					else if (cursor_row != view_to_model_row(eti, eti->rows - 1))
+						eti_cursor_move (eti, model_to_view_row(eti, cursor_row) + 1, 0);
+					else 
+						return_val = FALSE;
+				}
+				gtk_object_get(GTK_OBJECT(eti->selection),
+					       "cursor_row", &cursor_row,
+					       "cursor_col", &cursor_col,
+					       NULL);
+
+				if (cursor_col >= 0 && cursor_row >= 0 && return_val &&
+				    (!eti_editing(eti)) && e_table_model_is_cell_editable(eti->selection->model, cursor_col, cursor_row)) {
+					e_table_item_enter_edit (eti, model_to_view_col(eti, cursor_col), model_to_view_row(eti, cursor_row));
+				}
+				break;
+			} else {
 			/* Let tab send you to the next widget. */
 			return_val = FALSE;
 			break;
-#if 0
-			if ((e->key.state & GDK_SHIFT_MASK) != 0){
-				/* shift tab */
-				if (cursor_col != view_to_model_col(eti, 0))
-					eti_cursor_move_left (eti);
-				else if (cursor_row != view_to_model_row(eti, 0))
-					eti_cursor_move (eti, model_to_view_row(eti, cursor_row) - 1, eti->cols - 1);
-				else
-					return_val = FALSE;
-			} else {
-				if (cursor_col != view_to_model_col (eti, eti->cols - 1))
-					eti_cursor_move_right (eti);
-				else if (cursor_row != view_to_model_row(eti, eti->rows - 1))
-					eti_cursor_move (eti, model_to_view_row(eti, cursor_row) + 1, 0);
-				else 
-					return_val = FALSE;
 			}
-			gtk_object_get(GTK_OBJECT(eti->selection),
-				       "cursor_row", &cursor_row,
-				       "cursor_col", &cursor_col,
-				       NULL);
-
-			if (cursor_col >= 0 && cursor_row >= 0 && return_val &&
-			    (!eti_editing(eti)) && e_table_model_is_cell_editable(eti->selection->model, cursor_col, cursor_row)) {
-				e_table_item_enter_edit (eti, model_to_view_col(eti, cursor_col), model_to_view_row(eti, cursor_row));
-			}
-			break;
-#endif
 
 		case GDK_Return:
 		case GDK_KP_Enter:
