@@ -1,5 +1,6 @@
 2001-12-22  Simos Xenitellis  <simos@hellug.gr>
 
+	* el.po: Run xml-i18n-update on the file.
 	* el.po: Updated Greek translation by 
 	 Nikos Niktaris.
 
