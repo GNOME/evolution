@@ -19,18 +19,11 @@
 #include <gtk/gtkwidget.h>
 #include <libgnome/gnome-defs.h>
 #include <gnome-xml/tree.h>
+#include <gal/unicode/gunicode.h>
 
 BEGIN_GNOME_DECLS
 
-#ifdef USING_GNOME_PRINT_0_20
-#define gnome_font_get_size(f) ((f)->size)
-#define gnome_font_get_glyph_width gnome_font_get_width
-#define gnome_font_lookup_default gnome_font_get_glyph
-#endif
-
 #define G_UTF8_IN_GAL
-
-void e_unicode_init (void);
 
 /*
  * UTF-8 searching implementations
@@ -80,6 +73,7 @@ gchar * e_utf8_xml1_decode (const gchar *text);
 gchar * e_utf8_xml1_encode (const gchar *text);
 
 gint e_unichar_to_utf8 (gint c, gchar *outbuf);
+gchar *e_unicode_get_utf8 (const gchar *text, gunichar *out);
 guint32 gdk_keyval_to_unicode (guint keysym);
 
 gchar    *e_xml_get_translated_utf8_string_prop_by_name   (const xmlNode *parent,

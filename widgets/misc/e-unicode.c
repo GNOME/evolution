@@ -16,7 +16,6 @@
 #include <ctype.h>
 #include <string.h>
 #include <stdio.h>
-#include <unicode.h>
 #include <iconv.h>
 #include <gdk/gdk.h>
 #include <gdk/gdkx.h>
@@ -28,8 +27,8 @@
 #define FONT_TESTING
 #define MAX_DECOMP 8
 
-static gint e_canonical_decomposition (unicode_char_t ch, unicode_char_t * buf);
-static unicode_char_t e_stripped_char (unicode_char_t ch);
+static gint e_canonical_decomposition (gunichar ch, gunichar * buf);
+static gunichar e_stripped_char (gunichar ch);
 
 /*
  * This my favourite
@@ -42,8 +41,8 @@ static unicode_char_t e_stripped_char (unicode_char_t ch);
 const gchar *
 e_utf8_strstrcasedecomp (const gchar *haystack, const gchar *needle)
 {
-	unicode_char_t *nuni;
-	unicode_char_t unival;
+	gunichar *nuni;
+	gunichar unival;
 	gint nlen;
 	const guchar *o, *p;
 
@@ -52,10 +51,10 @@ e_utf8_strstrcasedecomp (const gchar *haystack, const gchar *needle)
 	if (strlen (needle) == 0) return haystack;
 	if (strlen (haystack) == 0) return NULL;
 
-	nuni = alloca (sizeof (unicode_char_t) * strlen (needle));
+	nuni = alloca (sizeof (gunichar) * strlen (needle));
 
 	nlen = 0;
-	for (p = unicode_get_utf8 (needle, &unival); p && unival; p = unicode_get_utf8 (p, &unival)) {
+	for (p = e_unicode_get_utf8 (needle, &unival); p && unival; p = e_unicode_get_utf8 (p, &unival)) {
 		gint sc;
 		sc = e_stripped_char (unival);
 		if (sc) {
@@ -68,7 +67,7 @@ e_utf8_strstrcasedecomp (const gchar *haystack, const gchar *needle)
 	if (nlen < 1) return haystack;
 
 	o = haystack;
-	for (p = unicode_get_utf8 (o, &unival); p && unival; p = unicode_get_utf8 (p, &unival)) {
+	for (p = e_unicode_get_utf8 (o, &unival); p && unival; p = e_unicode_get_utf8 (p, &unival)) {
 		gint sc;
 		sc = e_stripped_char (unival);
 		if (sc) {
@@ -77,7 +76,7 @@ e_utf8_strstrcasedecomp (const gchar *haystack, const gchar *needle)
 				const gchar *q = p;
 				gint npos = 1;
 				while (npos < nlen) {
-					q = unicode_get_utf8 (q, &unival);
+					q = e_unicode_get_utf8 (q, &unival);
 					if (!q || !unival) return NULL;
 					sc = e_stripped_char (unival);
 					if ((!sc) || (sc != nuni[npos])) break;
@@ -97,8 +96,8 @@ e_utf8_strstrcasedecomp (const gchar *haystack, const gchar *needle)
 const gchar *
 e_utf8_strstrcase (const gchar *haystack, const gchar *needle)
 {
-	unicode_char_t *nuni;
-	unicode_char_t unival;
+	gunichar *nuni;
+	gunichar unival;
 	gint nlen;
 	const guchar *o, *p;
 
@@ -107,27 +106,27 @@ e_utf8_strstrcase (const gchar *haystack, const gchar *needle)
 	if (strlen (needle) == 0) return haystack;
 	if (strlen (haystack) == 0) return NULL;
 
-	nuni = alloca (sizeof (unicode_char_t) * strlen (needle));
+	nuni = alloca (sizeof (gunichar) * strlen (needle));
 
 	nlen = 0;
-	for (p = unicode_get_utf8 (needle, &unival); p && unival; p = unicode_get_utf8 (p, &unival)) {
-		nuni[nlen++] = unicode_tolower (unival);
+	for (p = e_unicode_get_utf8 (needle, &unival); p && unival; p = e_unicode_get_utf8 (p, &unival)) {
+		nuni[nlen++] = g_unichar_tolower (unival);
 	}
 	/* NULL means there was illegal utf-8 sequence */
 	if (!p) return NULL;
 
 	o = haystack;
-	for (p = unicode_get_utf8 (o, &unival); p && unival; p = unicode_get_utf8 (p, &unival)) {
+	for (p = e_unicode_get_utf8 (o, &unival); p && unival; p = e_unicode_get_utf8 (p, &unival)) {
 		gint sc;
-		sc = unicode_tolower (unival);
+		sc = g_unichar_tolower (unival);
 		/* We have valid stripped char */
 		if (sc == nuni[0]) {
 			const gchar *q = p;
 			gint npos = 1;
 			while (npos < nlen) {
-				q = unicode_get_utf8 (q, &unival);
+				q = e_unicode_get_utf8 (q, &unival);
 				if (!q || !unival) return NULL;
-				sc = unicode_tolower (unival);
+				sc = g_unichar_tolower (unival);
 				if (sc != nuni[npos]) break;
 				npos++;
 			}
@@ -146,27 +145,27 @@ const gchar *
 e_utf8_strstrcase (const gchar *haystack, const gchar *needle)
 {
 	gchar *p;
-	unicode_char_t *huni, *nuni;
-	unicode_char_t unival;
+	gunichar *huni, *nuni;
+	gunichar unival;
 	gint hlen, nlen, hp, np;
 
 	if (haystack == NULL) return NULL;
 	if (needle == NULL) return NULL;
 	if (strlen (needle) == 0) return haystack;
 
-	huni = alloca (sizeof (unicode_char_t) * strlen (haystack));
+	huni = alloca (sizeof (gunichar) * strlen (haystack));
 
-	for (hlen = 0, p = unicode_get_utf8 (haystack, &unival); p && unival; hlen++, p = unicode_get_utf8 (p, &unival)) {
-		huni[hlen] = unicode_tolower (unival);
+	for (hlen = 0, p = e_unicode_get_utf8 (haystack, &unival); p && unival; hlen++, p = e_unicode_get_utf8 (p, &unival)) {
+		huni[hlen] = g_unichar_tolower (unival);
 	}
 
 	if (!p) return NULL;
 	if (hlen == 0) return NULL;
 
-	nuni = alloca (sizeof (unicode_char_t) * strlen (needle));
+	nuni = alloca (sizeof (gunichar) * strlen (needle));
 
-	for (nlen = 0, p = unicode_get_utf8 (needle, &unival); p && unival; nlen++, p = unicode_get_utf8 (p, &unival)) {
-		nuni[nlen] = unicode_tolower (unival);
+	for (nlen = 0, p = e_unicode_get_utf8 (needle, &unival); p && unival; nlen++, p = e_unicode_get_utf8 (p, &unival)) {
+		nuni[nlen] = g_unichar_tolower (unival);
 	}
 
 	if (!p) return NULL;
@@ -309,7 +308,7 @@ e_utf8_to_gtk_string_sized (GtkWidget *widget, const gchar *string, gint bytes)
 		gboolean twobyte;
 		gint len;
 		const gchar *u;
-		unicode_char_t uc;
+		gunichar uc;
 		/* If iconv is missing we assume either iso-10646 or iso-8859-1 */
 		xfs = GDK_FONT_XFONT (widget->style->font);
 		twobyte = (widget->style->font->type == GDK_FONT_FONTSET || ((xfs->min_byte1 != 0) || (xfs->max_byte1 != 0)));
@@ -319,7 +318,7 @@ e_utf8_to_gtk_string_sized (GtkWidget *widget, const gchar *string, gint bytes)
 		len = 0;
 
 		while ((u) && (u - string < bytes)) {
-			u = unicode_get_utf8 (u, &uc);
+			u = e_unicode_get_utf8 (u, &uc);
 			if (twobyte) {
 				new[len++] = (uc & 0xff00) >> 8;
 			}
@@ -440,14 +439,14 @@ e_utf8_to_locale_string_sized (const gchar *string, gint bytes)
 	if (ic == (iconv_t) -1) {
 		gint len;
 		const gchar *u;
-		unicode_char_t uc;
+		gunichar uc;
 
 		new = g_new (unsigned char, bytes * 4 + 1);
 		u = string;
 		len = 0;
 
 		while ((u) && (u - string < bytes)) {
-			u = unicode_get_utf8 (u, &uc);
+			u = e_unicode_get_utf8 (u, &uc);
 			new[len++] = uc & 0xff;
 		}
 		new[len] = '\0';
@@ -663,7 +662,7 @@ e_utf8_xml1_encode (const gchar *text)
 	g_return_val_if_fail (text != NULL, NULL);
 
 	len = 0;
-	for (u = unicode_get_utf8 (text, &unival); u && unival; u = unicode_get_utf8 (u, &unival)) {
+	for (u = e_unicode_get_utf8 (text, &unival); u && unival; u = e_unicode_get_utf8 (u, &unival)) {
 		if ((unival >= 0x80) || (unival == '\\')) {
 			len += 8;
 		} else {
@@ -672,7 +671,7 @@ e_utf8_xml1_encode (const gchar *text)
 	}
 	d = c = g_new (guchar, len + 1);
 
-	for (u = unicode_get_utf8 (text, &unival); u && unival; u = unicode_get_utf8 (u, &unival)) {
+	for (u = e_unicode_get_utf8 (text, &unival); u && unival; u = e_unicode_get_utf8 (u, &unival)) {
 		if ((unival >= 0x80) || (unival == '\\')) {
 			*c++ = '\\';
 			*c++ = 'U';
@@ -749,6 +748,13 @@ e_unichar_to_utf8 (gint c, gchar *outbuf)
     }
 
   return len;
+}
+
+gchar *
+e_unicode_get_utf8 (const gchar *text, gunichar *out)
+{
+	*out = g_utf8_get_char (text);
+	return (*out == (gunichar)-1) ? NULL : g_utf8_next_char (text);
 }
 
 /*
@@ -2889,7 +2895,7 @@ static e_decomposition e_decomp_table[] =
  */
 
 static gint
-e_canonical_decomposition (unicode_char_t ch, unicode_char_t * buf)
+e_canonical_decomposition (gunichar ch, gunichar * buf)
 {
   gint len = 0;
 
@@ -2937,26 +2943,27 @@ e_canonical_decomposition (unicode_char_t ch, unicode_char_t * buf)
   return len;
 }
 
-static unicode_char_t
-e_stripped_char (unicode_char_t ch)
+static gunichar
+e_stripped_char (gunichar ch)
 {
-	unicode_char_t decomp[MAX_DECOMP];
-	gint utype, dlen;
+	gunichar decomp[MAX_DECOMP];
+	GUnicodeType utype;
+	gint dlen;
 
-	utype = unicode_type (ch);
+	utype = g_unichar_type (ch);
 
 	switch (utype) {
-	case UNICODE_CONTROL:
-	case UNICODE_FORMAT:
-	case UNICODE_UNASSIGNED:
-	case UNICODE_COMBINING_MARK:
+	case G_UNICODE_CONTROL:
+	case G_UNICODE_FORMAT:
+	case G_UNICODE_UNASSIGNED:
+	case G_UNICODE_COMBINING_MARK:
 		/* Ignore those */
 		return 0;
 		break;
 	default:
 		/* Convert to lowercase, fall through */
-		ch = unicode_tolower (ch);
-	case UNICODE_LOWERCASE_LETTER:
+		ch = g_unichar_tolower (ch);
+	case G_UNICODE_LOWERCASE_LETTER:
 		dlen = e_canonical_decomposition (ch, decomp);
 		if (dlen > 0) return *decomp;
 		break;
