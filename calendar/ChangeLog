@@ -1,3 +1,10 @@
+2000-08-04  Seth Alves  <alves@hungry.com>
+
+	* conduits/todo/todo-conduit.c (conduit_get_gpilot_conduit): if
+	oaf isn't initialized by the time the conduit starts, start it
+	up.  we do this because we need to start wombat with oaf, and
+	gpilotd doesn't currently start oaf.
+
 2000-08-04  Michael Meeks  <michael@helixcode.com>
 
 	* gui/calendar-commands.c (calendar_control_activate): unref.
