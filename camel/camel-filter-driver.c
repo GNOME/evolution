@@ -461,11 +461,20 @@ do_copy (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriv
 				g_ptr_array_add (uids, (char *) p->uid);
 				camel_folder_copy_messages_to (p->source, uids, outbox, p->ex);
 				g_ptr_array_free (uids, TRUE);
-			} else
+			} else {
+				if (p->message == NULL)
+					p->message = camel_folder_get_message (p->source, p->uid, p->ex);
+				
+				if (!p->message) {
+					/* FIXME: exception? */
+					continue;
+				}
+				
 				camel_folder_append_message (outbox, p->message, p->info, p->ex);
+			}
 			
 			if (!camel_exception_is_set (p->ex))
-				p->copied = TRUE;
+					p->copied = TRUE;
 			
 			camel_filter_driver_log (driver, FILTER_LOG_ACTION, "Copy to folder %s",
 						 folder);
@@ -503,8 +512,17 @@ do_move (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriv
 				g_ptr_array_add (uids, (char *) p->uid);
 				camel_folder_copy_messages_to (p->source, uids, outbox, p->ex);
 				g_ptr_array_free (uids, TRUE);
-			} else
+			} else {
+				if (p->message == NULL)
+					p->message = camel_folder_get_message (p->source, p->uid, p->ex);
+				
+				if (!p->message) {
+					/* FIXME: exception? */
+					continue;
+				}
+				
 				camel_folder_append_message (outbox, p->message, p->info, p->ex);
+			}
 			
 			if (!camel_exception_is_set (p->ex)) {
 				/* a 'move' is a copy & delete */
@@ -744,6 +762,7 @@ camel_filter_driver_log (CamelFilterDriver *driver, enum filter_log_t status, co
 			
 			/* FIXME: does this need locking?  Probably */
 			
+			/* FIXME: use info for these, not message since message may not be loaded */
 			from = camel_mime_message_get_from (p->message);
 			fromstr = camel_address_format((CamelAddress *)from);
 			subject = camel_mime_message_get_subject (p->message);
