@@ -18,6 +18,10 @@
 static AtkObjectClass *parent_class;
 #define PARENT_TYPE (gal_a11y_e_cell_get_type ())
 
+/* XXX: these functions are undefined */
+#define e_cell_text_get_selection(a,b,c,d,e) NULL
+#define e_cell_text_set_selection(a,b,c,d,e) FALSE
+
 /* Static functions */
 static gchar *
 ect_get_text (AtkText *text,
