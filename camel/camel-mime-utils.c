@@ -932,7 +932,7 @@ header_decode_text(const char *in, int inlen)
 		if (decword) {
 			out = g_string_append_len(out, inptr, encstart-inptr);
 			out = g_string_append_len(out, decword, strlen(decword));
-			free(decword);
+			g_free (decword);
 		} else {
 			out = g_string_append_len(out, inptr, encend-inptr+2);
 		}
