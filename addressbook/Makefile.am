@@ -1,8 +1,0 @@
-if ENABLE_PILOT_CONDUITS
-# PENDING_PORT_WORK
-# CONDUIT_SUBDIR=conduit
-CONDUIT_SUBDIR=
-endif
-
-SUBDIRS =	\
-	backend printing gui $(CONDUIT_SUBDIR)
