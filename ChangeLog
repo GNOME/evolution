@@ -1,4 +1,13 @@
+2000-03-29  Matt Loper  <matt@helixcode.com>
+
+	* wombat/wombat.c: Changed headerfile path.
+
+	* wombat/Makefile.am: Use relative paths to libraries in the build
+	tree, rather than requiring libraries (such as libpcs) to already
+	be installed.
+
 2000-03-28  Matt Loper  <matt@helixcode.com>
+
 	* wombat/Makefile.am: new file.
 
 	* wombat/wombat.gnorba: Cleaned up.
