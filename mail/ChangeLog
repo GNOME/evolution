@@ -38,7 +38,6 @@
 	* message-list.c (regen_list_regen): Remove camel operation
 	registration/etc.
 
->>>>>>> 1.1564
 2001-08-14  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-accounts.c (load_accounts): Convert the UTF-8 account name
@@ -170,7 +169,6 @@
 	(mail_config_remove_account): When deleting the account, remove
 	its shortcuts.
 
-<<<<<<< ChangeLog
 2001-08-10  Peter Williams  <peterw@ximian.com>
 
 	* mail-config-druid.c (druid_finish): Whoa, fatal typo. Sorry.
@@ -277,8 +275,6 @@
 
 	* mail-config-druid.c (druid_finish): See news_add_destroyed above.
 
-=======
->>>>>>> 1.1561
 2001-08-10  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-config.c (mail_config_get_show_preview): Free dbkey if we
