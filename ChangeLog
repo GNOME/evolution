@@ -1,3 +1,19 @@
+2000-02-08  Matt Loper  <matt.loper@splashtech.com>
+
+	* camel/camel-formatter.c: New member to 'CamelFormatterPrivate',
+	'attachments', will be used to let the caller know which items
+	should be treated as attachments (as opposed to objects which are
+	inline to the body).
+	(text_to_html): name changed from 'encode_entities'. Also now
+	converts newlines to <br> tags.
+	(camel_formatter_mime_message_to_html): Now takes two output
+	streams -- one for the header, and one for the body.
+	(get_bonobo_tag_for_object): New function; tries to make a tag out
+	of (1) the leaf of a mime message and (2) a bonobo object that can
+	handle its mime type, but can return NULL if it fails to find the
+	mime type.
+	(handle_vcard): New function; will write out a vcard as html.
+
 2000-02-08  Iain Holmes  <ih@csd.abdn.ac.uk>
 
 	* shell/Makefile.am: Changed the order of the compilation, so the CORBA

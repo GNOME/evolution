@@ -34,8 +34,8 @@ extern "C" {
 #include "camel.h"
 
 #define CAMEL_FORMATTER_TYPE     (camel_formatter_get_type ())
-#define CAMEL_FORMATTER(obj)     (GTK_CHECK_CAST((obj), CAMEL_FORMATTER_TYPE, CamelDataWrapper))
-#define CAMEL_FORMATTER_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CAMEL_FORMATTER_TYPE, CamelDataWrapperClass))
+#define CAMEL_FORMATTER(obj)     (GTK_CHECK_CAST((obj), CAMEL_FORMATTER_TYPE, CamelFormatter))
+#define CAMEL_FORMATTER_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), CAMEL_FORMATTER_TYPE, CamelFormatterClass))
 #define CAMEL_IS_CAMEL_FORMATTER(o)    (GTK_CHECK_TYPE((o), CAMEL_FORMATTER_TYPE))
 
 typedef struct _CamelFormatterPrivate CamelFormatterPrivate;
@@ -63,7 +63,8 @@ CamelFormatter* camel_formatter_new (void);
    produce html from it. */
 void camel_formatter_mime_message_to_html (CamelFormatter* formatter,
 					   CamelMimeMessage* mime_message,
-					   CamelStream* stream);
+					   CamelStream* header_stream,
+					   CamelStream* body_stream);
 
 
 #ifdef __cplusplus
