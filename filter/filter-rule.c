@@ -111,7 +111,7 @@ filter_rule_class_init (FilterRuleClass *klass)
 		g_signal_new ("changed",
 			      FILTER_TYPE_RULE,
 			      G_SIGNAL_RUN_LAST,
-			      GTK_SIGNAL_OFFSET (FilterRuleClass, changed),
+			      G_STRUCT_OFFSET (FilterRuleClass, changed),
 			      NULL,
 			      NULL,
 			      gtk_marshal_NONE__NONE,

@@ -114,7 +114,7 @@ rule_context_class_init (RuleContextClass *klass)
 		g_signal_new ("rule_added",
 			      RULE_TYPE_CONTEXT,
 			      G_SIGNAL_RUN_LAST,
-			      GTK_SIGNAL_OFFSET (RuleContextClass, rule_added),
+			      G_STRUCT_OFFSET (RuleContextClass, rule_added),
 			      NULL,
 			      NULL,
 			      gtk_marshal_NONE__POINTER,
@@ -124,7 +124,7 @@ rule_context_class_init (RuleContextClass *klass)
 		g_signal_new ("rule_removed",
 			      RULE_TYPE_CONTEXT,
 			      G_SIGNAL_RUN_LAST,
-			      GTK_SIGNAL_OFFSET (RuleContextClass, rule_removed),
+			      G_STRUCT_OFFSET (RuleContextClass, rule_removed),
 			      gtk_marshal_NONE__POINTER,
 			      G_TYPE_NONE, 1, G_TYPE_POINTER);
 	
@@ -132,7 +132,7 @@ rule_context_class_init (RuleContextClass *klass)
 		g_signal_new ("changed",
 			      RULE_TYPE_CONTEXT,
 			      G_SIGNAL_RUN_LAST,
-			      GTK_SIGNAL_OFFSET (RuleContextClass, changed),
+			      G_STRUCT_OFFSET (RuleContextClass, changed),
 			      gtk_marshal_NONE__NONE,
 			      G_TYPE_NONE, 0);
 }
