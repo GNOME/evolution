@@ -1,4 +1,9 @@
 2001-03-27 Anna Marie Dirks <anna@ximian.com> 
+	* gui/e-itip-control.c: fixed button placement to comply
+	with gnome standards. 
+
+
+2001-03-27 Anna Marie Dirks <anna@ximian.com> 
 	* gui/e-itip-control.glade: fixed spacing and label alignment to
 	comply with gnome standards. Also removed shadows from extraneous
 	scrolled windows to avoid bevelitous. There are many more changes

@@ -811,13 +811,13 @@ pstream_load (BonoboPersistStream *ps, const Bonobo_Stream stream,
 			if (rsvp) {
 				GtkWidget *accept_button, *decline_button, *tentative_button;
 
-				accept_button = gtk_button_new_with_label (_("Accept"));
-				decline_button = gtk_button_new_with_label (_("Decline"));
-				tentative_button = gtk_button_new_with_label (_("Tentative"));
+				accept_button = gtk_button_new_with_label (_(" Accept "));
+				decline_button = gtk_button_new_with_label (_(" Decline "));
+				tentative_button = gtk_button_new_with_label (_(" Tentative "));
 
-				gtk_box_pack_start (GTK_BOX (priv->button_box), accept_button, FALSE, FALSE, 3);
 				gtk_box_pack_start (GTK_BOX (priv->button_box), decline_button, FALSE, FALSE, 3);
-				gtk_box_pack_start (GTK_BOX (priv->button_box), tentative_button, FALSE, FALSE, 3);
+				gtk_box_pack_end (GTK_BOX (priv->button_box), accept_button, FALSE, FALSE, 3);
+				gtk_box_pack_end (GTK_BOX (priv->button_box), tentative_button, FALSE, FALSE, 3);
 
 				gtk_signal_connect (GTK_OBJECT (accept_button), "clicked",
 						    GTK_SIGNAL_FUNC (accept_button_clicked_cb), priv);
@@ -827,8 +827,8 @@ pstream_load (BonoboPersistStream *ps, const Bonobo_Stream stream,
 						    GTK_SIGNAL_FUNC (decline_button_clicked_cb), priv);
 
 				gtk_widget_show (accept_button);
-				gtk_widget_show (decline_button);
 				gtk_widget_show (tentative_button);
+			        gtk_widget_show (decline_button);
 			}
 
 			}
