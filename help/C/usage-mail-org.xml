@@ -485,8 +485,9 @@
       </para>
       <para>
         The junk mail filter can "learn" which kinds of mail are
-        legitimate and which are not if you train it. When you first start using
-        junk mail blocking, check the <guilabel>Junk</guilabel> folder
+        legitimate and which are not if you train it. When you first
+        start using junk mail blocking, check the
+        <guilabel>Junk</guilabel> folder
         to be sure that legitimate mail doesn't get flagged as junk
         mail. If good mail, also known as "ham," is mis-flagged, remove
         it from the <guilabel>Junk</guilabel> folder by right-clicking
@@ -500,9 +501,72 @@
         To change your junk mail filtering preferences, select <menuchoice><guimenu>Tools</guimenu> <guimenuitem>Settings</guimenuitem>
     </menuchoice> and click the <guilabel>Mail Preferences</guilabel>
     button. In the mail preferences tool, select the
-    <guilabel>Junk</guilabel> tab. <!-- FIXME: expand when available -->
+    <guilabel>Junk</guilabel> tab.  Here, you have several options:
+  </para>
+
+  <variablelist>
+    <varlistentry>
+      <term>Check Incoming Mail</term>
+      <listitem>
+      <para>
+        This option turns automatic junk mail filtering on or off.
       </para>
-    </sect1>
+    </listitem>
+  </varlistentry>
+
+  <varlistentry>
+      <term>Do Not Check Incoming Mail for IMAP Accounts</term>
+      <listitem>
+      <para>
+        Evolution must download mail to determine whether it is junk
+        mail, so junk mail filtering can slow IMAP performance as it
+        downloads every message in its entirity. To turn filtering off
+        for IMAP mail, but leave it on for other mail accounts, select
+        this box.
+      </para>
+    </listitem>
+  </varlistentry> 
+
+  <varlistentry>
+    <term>Local Tests Only</term>
+    <listitem>
+      <para>
+        This option skips tests that require a network connection,
+        such as checking to see if a message is in a list of known
+        junk messages, or if the sender or gateway are blacklisted by
+        anti-spam organizations. Selecting this option will increase
+        the speed of operation, but may decrease accuracy.
+      </para>
+    </listitem>
+  </varlistentry>
+  
+  <varlistentry>
+    <term>Use Daemon</term>
+    <listitem>
+      <para>
+        If you select this option, Evolution will try to use the mail
+        filtering daemon <command>spamd</command> if it is available.
+        Using the daemon can improve filtering speed, but the daemon
+        must already be running. Starting a daemon normally requires
+        root privileges, but you may be able to use it as non-root,
+        depending on your OS and configuration.
+    </para>
+    <para>
+      You can can start spamd with the command
+      <command>/etc/init.d/spamd start</command>, or if you prefer,
+      have it started automatically by editing your system services
+      (for SUSE systems, this is the "Runlevel Editor" in
+      YAST). More traditional UNIX users, of course, know how
+      to put links to the initialization script in the
+      <command>/etc/rc5.d/</command> or <command>/etc/rc3.d</command>
+      directory.
+      </para>
+    </listitem>
+  </varlistentry>
+     
+</variablelist>
+</sect1>
+
 
 
     <sect1 id="usage-mail-organize-filters">

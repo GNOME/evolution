@@ -511,6 +511,66 @@ load images off the net.</guilabel>
       <guilabel>Send</guilabel>.
     </para>
 
+    <sect2 id="usage-mail-getnsend-send-charsets">
+      <title>Unicode, ASCII, and Non-Latin Alphabets</title>
+
+      <para>
+        If you want to write in a non-Latin alphabet while using a
+        Latin keyboard, try selecting a different an input method in
+        the message composer. Right-click on the message composition
+        area and select from the <guimenu>Input Methods</guimenu>
+      menu, then begin typing. The actual keys vary by language and
+      input style. For example, the Cyrillic input method uses
+      transliterated Latin keyboard combinations to get the Cyrillic
+      alphabet, combining letters where necessary. "Zh" and "ya"
+      produce the appropriate single Cyrillic letters, and the
+      single-quote ' produces a soft-sign character.
+    </para>
+
+      <para>
+        For greater language display capabilities, check your
+        character settings. In both the mail composer and mail reader
+        settings dialogs, you can select from dozens of character
+        sets. If you aren't sure which one to choose, go ahead and
+        choose UTF-8, which offers the greatest range of character
+        displays for the greatest range of languages.
+      </para>
+
+      <para>
+        To delve a little deeper into the issue, a character set is a
+        computer's version of an alphabet. One of the most popular
+        early character sets was called ASCII. It consisted of 128
+        numbers, letters, and assorted symbols used by computers for
+        almost everything. It was convenient, and didn't take up much
+        space, but it didn't handle Cyrillic, Kanjii, or other
+        non-Latin alphabets. Programmers developed a
+        variety of mostly incompatible ways to work around their
+        language display problems, and today, many human languages
+        have their own specific character sets, and items written in
+        other character sets will display incorrectly.  Eventually,
+        standards organizations developed the Unicode character sets
+        (UTF-7 and UTF-8) to provide a single compatible set of codes
+        for everyone.
+      </para>
+
+      <para>
+        Most email messages state in advance which character set they
+        use, so Evolution usually knows what to display for a given
+        binary number. However, if you find that messages are
+        displayed as rows of incomprehensible characters, try
+        selecting a different character set in the mail settings
+        screen. If your recipients can't read your messages, try
+        selecting a different character set in the composer options
+        dialog.  For some languages, such as Turkish or Korean, it may
+        work best for you to select the language-specific character
+        set. However, the best choice for most users is UTF-8, which
+        offers the widest range of characters for the widest range of
+        languages.
+      </para>
+
+    </sect2>
+
+  
      <sect2 id="usage-mail-getnsend-send-delay">
         <title>Sending Composed Messages Later</title>
         <para>

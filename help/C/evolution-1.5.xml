@@ -38,11 +38,11 @@ entity names correspond.  APX is for appendix.  -->
 <!-- filenames use  command tags so they appear in the same font as commands -->
 <!-- there is one bar and it is the Shortcut Bar. The folder bar is dead. -->
 
-<!-- FIXME, TODO: Expand spam checking doc, update security docs   take new screenshots. -->
+<!-- FIXME, TODO:   take new screenshots, -->
 
 <book id="index">
   <bookinfo>
-    <title>A User's Guide to Ximian Evolution 1.4</title>
+    <title>A User's Guide to  Evolution 1.5</title>
     <authorgroup>
       <author><firstname>Aaron</firstname><surname>Weber</surname></author>
       <author><firstname>Kevin</firstname><surname>Breit</surname></author>
@@ -50,8 +50,8 @@ entity names correspond.  APX is for appendix.  -->
       <author><firstname>Duncan</firstname><surname>Mak</surname></author>
     </authorgroup>
     <copyright>
-      <year>2000-2003</year>
-      <holder>Ximian, Inc.</holder>
+      <year>2000-2004</year>
+      <holder>Novell, Inc.</holder>
     </copyright>
     
    <releaseinfo>
