@@ -24,7 +24,7 @@
 #else
 #define CONTROL_FACTORY_ID "control-factory:evolution-mail"
 #endif
-			
+
 static void
 random_cb (GtkWidget *button, gpointer user_data)
 {
@@ -53,11 +53,13 @@ static GnomeUIInfo gnome_toolbar [] = {
 };
 
 static void
-control_activate (BonoboControl *control, BonoboUIHandler *uih)
+control_activate (BonoboControl *control, BonoboUIHandler *uih,
+		  FolderBrowser *fb)
 {
 	Bonobo_UIHandler  remote_uih;
 	BonoboControl *toolbar_control;
 	GtkWidget *toolbar, *toolbar_frame, *folder_browser;
+	char *toolbar_name = g_strdup_printf ("/Toolbar%d", fb->serial);
 
 	remote_uih = bonobo_control_get_remote_ui_handler (control);
 	bonobo_ui_handler_set_container (uih, remote_uih);		
@@ -111,23 +113,28 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih)
 	gtk_widget_show_all (toolbar_frame);
 
 	toolbar_control = bonobo_control_new (toolbar_frame);
-	bonobo_ui_handler_dock_add (uih, "/Toolbar",
+	bonobo_ui_handler_dock_add (uih, toolbar_name,
 				    bonobo_object_corba_objref (BONOBO_OBJECT (toolbar_control)),
 				    GNOME_DOCK_ITEM_BEH_EXCLUSIVE | GNOME_DOCK_ITEM_BEH_NEVER_VERTICAL,
 				    GNOME_DOCK_TOP,
 				    1, 1, 0);
+	g_free (toolbar_name);
 }
 
 static void
-control_deactivate (BonoboControl *control, BonoboUIHandler *uih)
+control_deactivate (BonoboControl *control, BonoboUIHandler *uih,
+		    FolderBrowser *fb)
 {
+	char *toolbar_name = g_strdup_printf ("/Toolbar%d", fb->serial);
+
 	bonobo_ui_handler_menu_remove (uih, "/File/Mail");
 	bonobo_ui_handler_menu_remove (uih, "/Tools/Expunge");
 	bonobo_ui_handler_menu_remove (uih, "/Tools/Filter Druid ...");
 	bonobo_ui_handler_menu_remove (uih, "/Tools/Virtual Folder Druid ...");
 	bonobo_ui_handler_menu_remove (uih, "/Tools/Mail Configuration ...");
 	bonobo_ui_handler_menu_remove (uih, "/Tools/Forget Passwords");
-	bonobo_ui_handler_dock_remove (uih, "/Toolbar");
+	bonobo_ui_handler_dock_remove (uih, toolbar_name);
+	g_free (toolbar_name);
 }
 
 static void
@@ -139,11 +146,11 @@ control_activate_cb (BonoboControl *control,
 
 	uih = bonobo_control_get_ui_handler (control);
 	g_assert (uih);
-	
+
 	if (activate)
-		control_activate (control, uih);
+		control_activate (control, uih, user_data);
 	else
-		control_deactivate (control, uih);
+		control_deactivate (control, uih, user_data);
 }
 
 static void
@@ -175,7 +182,7 @@ folder_browser_factory_new_control (void)
 	}
 	
 	gtk_signal_connect (GTK_OBJECT (control), "activate",
-			    control_activate_cb, NULL);
+			    control_activate_cb, folder_browser);
 
 	gtk_signal_connect (GTK_OBJECT (control), "destroy",
 			    control_destroy_cb, folder_browser);	

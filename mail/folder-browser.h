@@ -27,6 +27,9 @@ struct  _FolderBrowser {
 
 	Evolution_Shell shell;
 
+	/* This is a kludge for the toolbar problem. */
+	int serial;
+
 	/*
 	 * The current URI being displayed by the FolderBrowser
 	 */

@@ -446,10 +446,12 @@ my_folder_browser_init (GtkObject *object)
 GtkWidget *
 folder_browser_new (void)
 {
+	static int serial;
 	FolderBrowser *folder_browser = gtk_type_new (folder_browser_get_type ());
 
 	my_folder_browser_init (GTK_OBJECT (folder_browser));
 	folder_browser->uri = NULL;
+	folder_browser->serial = serial++;
 
 	return GTK_WIDGET (folder_browser);
 }
