@@ -209,13 +209,6 @@ impl_Composer_show (PortableServer_Servant servant,
 	bonobo_object = bonobo_object_from_servant (servant);
 	composer = EVOLUTION_COMPOSER (bonobo_object);
 
-	if (composer->composer->mime_body) {
-		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-				     ex_GNOME_Evolution_Composer_CannotShow,
-				     NULL);
-		return;
-	}
-
 	gtk_widget_show (GTK_WIDGET (composer->composer));
 }
 
