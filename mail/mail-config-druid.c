@@ -24,6 +24,7 @@
 
 #include <glade/glade.h>
 #include <gtkhtml/gtkhtml.h>
+#include <gal/widgets/e-unicode.h>
 #include "mail-config-druid.h"
 #include "mail-config.h"
 #include "mail-ops.h"
@@ -727,11 +728,13 @@ static void
 management_prepare (GnomeDruidPage *page, GnomeDruid *druid, gpointer data)
 {
 	MailConfigDruid *config = data;
-	const char *name;
+	char *name;
 	
-	name = gtk_entry_get_text (config->email_address);
-	if (name)
-		gtk_entry_set_text (config->account_name, name);
+	name = e_utf8_gtk_entry_get_text (config->email_address);
+	if (name) {
+		e_utf8_gtk_entry_set_text (config->account_name, name);
+		g_free (name);
+	}
 	
 	management_check (config);
 }
@@ -780,8 +783,10 @@ set_defaults (MailConfigDruid *druid)
 	
 	/* set the default Name field */
 	realname = g_get_real_name ();
-	if (realname)
-		gtk_entry_set_text (druid->full_name, realname);
+	if (realname) {
+		e_utf8_gtk_entry_set_text (druid->full_name, realname);
+		g_free (realname);
+	}
 	
 	/* set the default E-Mail Address field */
 	user = getenv ("USER");
@@ -1079,7 +1084,7 @@ mail_config_druid_get_account_name (MailConfigDruid *druid)
 {
 	g_return_val_if_fail (IS_MAIL_CONFIG_DRUID (druid), NULL);
 	
-	return g_strdup (gtk_entry_get_text (druid->account_name));
+	return e_utf8_gtk_entry_get_text (druid->account_name);
 }
 
 
@@ -1097,7 +1102,7 @@ mail_config_druid_get_full_name (MailConfigDruid *druid)
 {
 	g_return_val_if_fail (IS_MAIL_CONFIG_DRUID (druid), NULL);
 	
-	return g_strdup (gtk_entry_get_text (druid->full_name));
+	return e_utf8_gtk_entry_get_text (druid->full_name);
 }
 
 
@@ -1106,7 +1111,7 @@ mail_config_druid_get_email_address (MailConfigDruid *druid)
 {
 	g_return_val_if_fail (IS_MAIL_CONFIG_DRUID (druid), NULL);
 	
-	return g_strdup (gtk_entry_get_text (druid->email_address));
+	return e_utf8_gtk_entry_get_text (druid->email_address);
 }
 
 
@@ -1115,7 +1120,7 @@ mail_config_druid_get_organization (MailConfigDruid *druid)
 {
 	g_return_val_if_fail (IS_MAIL_CONFIG_DRUID (druid), NULL);
 	
-	return g_strdup (gtk_entry_get_text (druid->organization));
+	return e_utf8_gtk_entry_get_text (druid->organization);
 }
 
 

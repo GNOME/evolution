@@ -1,3 +1,18 @@
+2001-01-28  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-config-druid.c (management_prepare): Use UTF-8.
+	(set_defaults): Use UTF-8 and also fixed a memory leak by freeing
+	the string returned by g_get_real_name().
+	(mail_config_druid_get_account_name): Use UTF-8.
+	(mail_config_druid_get_full_name): Same.
+	(mail_config_druid_get_email_address): Same.
+	(mail_config_druid_get_organization): Same.
+
+	* mail-account-editor.c (apply_changes): Save UTF-8 strings rather
+	than gtk strings.
+	(construct): Use the UTF-8 convenience functions to set the gtk
+	entries for the ID fields.
+
 2001-01-28  Ettore Perazzoli  <ettore@ximian.com>
 
 	* mail-vfolder.c (vfolder_gui_add_rule): Make the OK button the

@@ -26,6 +26,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <camel/camel-url.h>
+#include <gal/widgets/e-unicode.h>
 
 static void mail_account_editor_class_init (MailAccountEditorClass *class);
 static void mail_account_editor_init       (MailAccountEditor *editor);
@@ -117,24 +118,24 @@ apply_changes (MailAccountEditor *editor)
 	/* account name */
 	if (editor->account_name) {
 		g_free (account->name);
-		account->name = g_strdup (gtk_entry_get_text (editor->account_name));
+		account->name = e_utf8_gtk_entry_get_text (editor->account_name);
 	}
 	
 	/* identity info */
 	g_free (account->id->name);
-	account->id->name = g_strdup (gtk_entry_get_text (editor->name));
+	account->id->name = e_utf8_gtk_entry_get_text (editor->name);
 	
 	g_free (account->id->address);
-	account->id->address = g_strdup (gtk_entry_get_text (editor->email));
+	account->id->address = e_utf8_gtk_entry_get_text (editor->email);
 	
 	if (editor->reply_to) {
 		g_free (account->id->reply_to);
-		account->id->reply_to = g_strdup (gtk_entry_get_text (editor->reply_to));
+		account->id->reply_to = e_utf8_gtk_entry_get_text (editor->reply_to);
 	}
 	
 	if (editor->organization) {
 		g_free (account->id->organization);
-		account->id->organization = g_strdup (gtk_entry_get_text (editor->organization));
+		account->id->organization = e_utf8_gtk_entry_get_text (editor->organization);
 	}
 	
 	if (editor->signature) {
@@ -643,20 +644,20 @@ construct (MailAccountEditor *editor, const MailConfigAccount *account)
 	
 	/* General */
 	editor->account_name = GTK_ENTRY (glade_xml_get_widget (gui, "txtAccountName"));
-	gtk_entry_set_text (editor->account_name, account->name);
+	e_utf8_gtk_entry_set_text (editor->account_name, account->name);
 	gtk_signal_connect (GTK_OBJECT (editor->account_name), "changed", entry_changed, editor);
 	editor->name = GTK_ENTRY (glade_xml_get_widget (gui, "txtName"));
-	gtk_entry_set_text (editor->name, account->id->name);
+	e_utf8_gtk_entry_set_text (editor->name, account->id->name);
 	gtk_signal_connect (GTK_OBJECT (editor->name), "changed", entry_changed, editor);
 	editor->email = GTK_ENTRY (glade_xml_get_widget (gui, "txtAddress"));
-	gtk_entry_set_text (editor->email, account->id->address);
+	e_utf8_gtk_entry_set_text (editor->email, account->id->address);
 	gtk_signal_connect (GTK_OBJECT (editor->email), "changed", entry_changed, editor);
 	editor->reply_to = GTK_ENTRY (glade_xml_get_widget (gui, "txtReplyTo"));
 	if (editor->reply_to)
-		gtk_entry_set_text (editor->reply_to, account->id->reply_to ? account->id->reply_to : "");
+		e_utf8_gtk_entry_set_text (editor->reply_to, account->id->reply_to ? account->id->reply_to : "");
 	editor->organization = GTK_ENTRY (glade_xml_get_widget (gui, "txtOrganization"));
 	if (editor->organization)
-		gtk_entry_set_text (editor->organization, account->id->organization);
+		e_utf8_gtk_entry_set_text (editor->organization, account->id->organization);
 	editor->signature = GNOME_FILE_ENTRY (glade_xml_get_widget (gui, "fileSignature"));
 	if (editor->signature) {
 		entry = gnome_file_entry_gtk_entry (editor->signature);
