@@ -158,7 +158,7 @@ add_card_cb (EBook *ebook, EBookStatus status, const char *id, gpointer closure)
 
 	cons->status = status;
 	cons->id = g_strdup (id);
-
+	
 	gtk_main_quit();
 }
 
@@ -372,6 +372,7 @@ local_record_from_uid (EAddrLocalRecord *local,
 		local_record_from_ecard (local, ecard, ctxt);
 	} else {
 		ecard = e_card_new ("");
+		ecard_set_id (ecard, uid);
 		local_record_from_ecard (local, ecard, ctxt);
 	}
 }
@@ -667,6 +668,7 @@ post_sync (GnomePilotConduit *conduit,
 	change_id = g_strdup_printf ("pilot-sync-evolution-addressbook-%d", ctxt->cfg->pilot_id);
 	e_book_get_changes (ctxt->ebook, change_id, view_cb, ctxt);
 	g_free (change_id);
+	gtk_main ();
 	
 	return 0;
 }
@@ -851,8 +853,8 @@ add_record (GnomePilotConduitSyncAbs *conduit,
 		return -1;
 	}
 
-	ctxt->cards = g_list_append (ctxt->cards,
-				     e_book_get_card (ctxt->ebook, cons.id));
+	e_card_set_id (ecard,  cons.id);
+	ctxt->cards = g_list_append (ctxt->cards, ecard);
 	g_free (cons.id);
 
 	e_pilot_map_insert (ctxt->map, remote->ID, ecard->id, FALSE);

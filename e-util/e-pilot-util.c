@@ -32,6 +32,9 @@ e_pilot_utf8_to_pchar (const char *string)
 {
 	char *pstring = NULL;
 	int res;
+
+	if (!string)
+		return NULL;
 	
 	res = convert_ToPilotChar ("UTF8", string, strlen (string), &pstring);
 
@@ -46,6 +49,9 @@ e_pilot_utf8_from_pchar (const char *string)
 {
 	char *ustring = NULL;
 	int res;
+
+	if (!string)
+		return NULL;
 	
 	res = convert_FromPilotChar ("UTF8", string, strlen (string), &ustring);
 	

@@ -4,6 +4,9 @@
 	functions instead of trying to *directly* access the the data 
 	structures my self
 	(post_sync): Put in hack to prevent syncing the same records twice
+	(local_record_from_uid): set the card id when creating a blank one
+	(add_record): Set the id of the card we have and don't go to the
+	server to get the latest version
 
 2000-12-19  JP Rosevear  <jpr@helixcode.com>
 
