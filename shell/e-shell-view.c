@@ -645,13 +645,12 @@ new_folder_cb (EStorageSet *storage_set,
 	if (delayed_path) {
 		delayed_path ++;
 		if (!strcmp(path, delayed_path)) {
-			gtk_signal_disconnect_by_func (GTK_OBJECT (e_shell_get_storage_set(priv->shell)),
-						       GTK_SIGNAL_FUNC (new_folder_cb),
-						       shell_view);
-			g_free (priv->uri);
-			priv->uri = g_strdup (priv->delayed_selection);
+			char *uri;
+
+			uri = g_strdup (priv->delayed_selection);
 			cleanup_delayed_selection (shell_view);
-			e_shell_view_display_uri (shell_view, priv->uri);
+			e_shell_view_display_uri (shell_view, uri);
+			g_free (uri);
 		}
 	}
 }
@@ -1371,9 +1370,10 @@ e_shell_view_construct (EShellView *shell_view,
 		return NULL;
 	}		
 
+	priv->shell = shell;
+
 	gtk_signal_connect (GTK_OBJECT (view), "delete_event",
 			    GTK_SIGNAL_FUNC (delete_event_cb), NULL);
-	priv->shell = shell;
 
 	gtk_signal_connect_while_alive (GTK_OBJECT (e_shell_get_storage_set (priv->shell)),
 					"updated_folder", updated_folder_cb, shell_view,
@@ -1686,7 +1686,7 @@ set_current_notebook_page (EShellView *shell_view,
 		bonobo_control_frame_control_deactivate (control_frame);
 	}
 
-	e_shell_folder_title_bar_set_folder_bar_label  (priv->folder_title_bar, "");
+	e_shell_folder_title_bar_set_folder_bar_label  (E_SHELL_FOLDER_TITLE_BAR (priv->folder_title_bar), "");
 	gtk_notebook_set_page (notebook, page_num);
 
 	if (page_num == -1 || page_num == 0)

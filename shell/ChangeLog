@@ -1,3 +1,17 @@
+2001-10-28  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-view.c (new_folder_cb): Don't do the
+	`gtk_signal_disconnect_by_func()' as it's already done in
+	`cleanup_delayed_selection()'.
+	(e_shell_view_construct): Set the ->shell member as the first
+	thing.
+	(set_current_notebook_page): Add a cast to make the compiler
+	happy.
+	(new_folder_cb): Don't set priv->uri before calling
+	`e_shell_view_display_uri()', because the latter does it anyways,
+	and also if you set it before calling it, the selection in the
+	folder tree doesn't get updated properly.
+
 2001-10-29    <NotZed@Ximian.com>
 
 	* evolution-storage.c (class_init): Set the return type of the
