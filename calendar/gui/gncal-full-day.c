@@ -426,6 +426,22 @@ edit_appointment (GtkWidget *widget, gpointer data)
 }
 
 static void
+delete_occurance (GtkWidget *widget, gpointer data)
+{
+	Child *child;
+	iCalObject *ical;
+	time_t *t;
+
+	child = data;
+	ical = child->ico;
+	t = g_new(time_t, 1);
+	*t = child->start;
+	ical->exdate = g_list_prepend(ical->exdate, t);
+	gnome_calendar_object_changed(GNCAL_FULL_DAY (child->widget->parent)->calendar, child->ico, CHANGE_DATES);
+	
+}
+
+static void
 delete_appointment (GtkWidget *widget, gpointer data)
 {
 	Child *child;
@@ -465,35 +481,47 @@ unrecur_appointment (GtkWidget *widget, gpointer data)
 static void
 child_popup_menu (GncalFullDay *fullday, Child *child, GdkEventButton *event)
 {
-	int sensitive, idx, items;
+	int sensitive, items;
+	struct menu_item *context_menu;
 	
 	static struct menu_item child_items[] = {
-		{ N_("Make this appointment movable"), (GtkSignalFunc) unrecur_appointment, NULL, TRUE },
 		{ N_("Edit this appointment..."), (GtkSignalFunc) edit_appointment, NULL, TRUE },
 		{ N_("Delete this appointment"), (GtkSignalFunc) delete_appointment, NULL, TRUE },
 		{ NULL, NULL, NULL, TRUE },
 		{ N_("New appointment..."), (GtkSignalFunc) new_appointment, NULL, TRUE }
 	};
 
-	child_items[0].data = child;
-	child_items[1].data = child;
-	child_items[2].data = child;
-	child_items[4].data = fullday;
+	static struct menu_item recur_child_items[] = {
+		{ N_("Make this appointment movable"), (GtkSignalFunc) unrecur_appointment, NULL, TRUE },
+		{ N_("Edit this appointment..."), (GtkSignalFunc) edit_appointment, NULL, TRUE },
+		{ N_("Delete this occurance"), (GtkSignalFunc) delete_occurance, NULL, TRUE },
+		{ N_("Delete all occurances"), (GtkSignalFunc) delete_appointment, NULL, TRUE },
+		{ NULL, NULL, NULL, TRUE },
+		{ N_("New appointment..."), (GtkSignalFunc) new_appointment, NULL, TRUE }
+	};
 
 	sensitive = (child->ico->user_data == NULL);
 
-	child_items[0].sensitive = sensitive;
-	child_items[1].sensitive = sensitive;
-	child_items[2].sensitive = sensitive;
-
 	if (child->ico->recur){
-		idx   = 0;
-		items = 5;
+		items = 6;
+		context_menu = &recur_child_items[0];
+		context_menu[2].data = child;
+		context_menu[3].data = child;
+		context_menu[4].data = fullday;
+		context_menu[3].sensitive = sensitive;
 	} else {
-		idx   = 1;
 		items = 4;
+		context_menu = &child_items[0];
+		context_menu[3].data = fullday;
 	}
-	popup_menu (&child_items [idx], items, event);
+	/* These settings are common for each context sensitive menu */
+	context_menu[0].data = child;
+	context_menu[1].data = child;
+	context_menu[0].sensitive = sensitive;
+	context_menu[1].sensitive = sensitive;
+	context_menu[2].sensitive = sensitive;
+
+	popup_menu (context_menu, items, event);
 }
 
 static void

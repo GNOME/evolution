@@ -1287,6 +1287,7 @@ append_exception (EventEditor *ee, time_t t)
 
 	i = gtk_clist_append (GTK_CLIST (ee->recur_ex_clist), c);
 	gtk_clist_set_row_data (GTK_CLIST (ee->recur_ex_clist), i, tt);
+	gtk_clist_select_row (GTK_CLIST (ee->recur_ex_clist), i, 0);
 
 	gtk_widget_set_sensitive (ee->recur_ex_vbox, TRUE);
 }
@@ -1329,7 +1330,7 @@ static void
 delete_exception (GtkWidget *widget, EventEditor *ee)
 {
 	GtkCList *clist;
-	int sel;
+	int sel, length;
 
 	clist = GTK_CLIST (ee->recur_ex_clist);
 	sel = GPOINTER_TO_INT(clist->selection->data);
@@ -1337,6 +1338,10 @@ delete_exception (GtkWidget *widget, EventEditor *ee)
 	g_free (gtk_clist_get_row_data (clist, sel)); /* free the time_t stored there */
 
 	gtk_clist_remove (clist, sel);
+	length = g_list_length(clist->row_list);
+	if (sel >= length)
+		sel--;
+	gtk_clist_select_row (GTK_CLIST (ee->recur_ex_clist), sel, 0);
 
 	if (clist->rows == 0)
 		gtk_widget_set_sensitive (ee->recur_ex_vbox, FALSE);

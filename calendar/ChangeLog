@@ -1,3 +1,15 @@
+1999-01-29 Jason Tackaberry <tack@dok.org>
+
+	* gncal-full-day.c (child_popup_menu): if the user clicks on an
+        event that is an occurance, the menu will allow the user to delete
+        all occurances of this event, or just the selected occurance.
+        (delete_occurance): added.
+
+        * eventedit.c (append_exception): force the clist to select the
+        new exception.  (fixes segfault)
+        (delete_exception): if the last exception in the clist is deleted,
+        move the selection index up. (fixes segfault)
+
 1999-01-28  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* main.c (parse_an_arg): Add --hidden key to hide the calendar at
