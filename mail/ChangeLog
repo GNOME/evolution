@@ -1,3 +1,8 @@
+2000-11-02  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* message-list.c (on_right_click): Sync with message
+	menu. Addresses bugzilla bug #778.
+
 2000-11-02  Christopher James Lahey  <clahey@helixcode.com>
 
 	* message-list.c: Turn on draw grid for the main ETable (this may
