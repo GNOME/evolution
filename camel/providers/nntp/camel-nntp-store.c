@@ -292,22 +292,29 @@ camel_nntp_command (CamelNNTPStore *store, char **ret, char *fmt, ...)
 
 	/* Read the response */
 	respbuf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (store->istream));
-	resp_code = atoi (respbuf);
 
+	if (!respbuf) {
+		if (ret)
+			*ret = g_strdup (g_strerror (errno));
+		return CAMEL_NNTP_FAIL;
+	}
+	
+	resp_code = atoi (respbuf);
+		
 	if (resp_code < 400)
 		status = CAMEL_NNTP_OK;
 	else if (resp_code < 500)
 		status = CAMEL_NNTP_ERR;
 	else
 		status = CAMEL_NNTP_FAIL;
-
+	
 	if (ret) {
 		*ret = strchr (respbuf, ' ');
 		if (*ret)
 			*ret = g_strdup (*ret + 1);
 	}
 	g_free (respbuf);
-
+	
 	return status;
 }
 
