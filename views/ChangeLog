@@ -1,5 +1,16 @@
 2001-03-04  Christopher James Lahey  <clahey@ximian.com>
 
+	* addressbook/By_Company.galview: New view.
+
+	* addressbook/Makefile.am: Added By_Company.galview.
+
+	* addressbook/Phone_List.galview: Updated this a bit.
+
+	* addressbook/galview.xml: Added By Company and Address Cards (No
+	Address_Cards.galview is required for now.)
+
+2001-03-04  Christopher James Lahey  <clahey@ximian.com>
+
 	* addressbook/.cvsignore, addressbook/Makefile.am,
 	addressbook/Phone_List.galview, addressbook/galview.xml: Added a
 	built in view menu for addressbook.
