@@ -1,3 +1,11 @@
+2004-10-08  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #67170.
+
+	* providers/nntp/camel-nntp-store.c
+	(nntp_store_get_cached_folder_info): compare newsgroup names case
+	sensitively.
+
 2004-10-05  Jeffrey Stedfast  <fejj@novell.com>
 
 	* camel-service.c (camel_getaddrinfo): Check msg->result for error
