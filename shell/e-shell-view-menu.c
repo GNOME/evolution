@@ -157,6 +157,8 @@ command_quit (BonoboUIComponent *uih,
 
 	shell = e_shell_view_get_shell (shell_view);
 	e_shell_quit (shell);
+
+	gtk_main_quit ();
 }
 
 #if 0
