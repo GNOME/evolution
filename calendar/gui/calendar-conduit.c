@@ -30,7 +30,7 @@
 
 #include "calendar-conduit.h"
 
-int debug_alarms = 0; /* needed to satisfy some other part of gncal */
+int debug_alarms = 0;  /* needed to satisfy some other part of gncal */
 /* Default values for alarms */ /* needed to satisfy some other part of gncal */
 CalendarAlarm alarm_defaults[4] = {
 	{ ALARM_MAIL, 0, 15, ALARM_MINUTES },
@@ -43,19 +43,24 @@ GnomePilotConduit * conduit_get_gpilot_conduit (guint32);
 void conduit_destroy_gpilot_conduit (GnomePilotConduit*);
 void local_record_from_icalobject(GCalLocalRecord *local,iCalObject *obj); 
 
-#define CONDUIT_VERSION "0.8.0"
-/* #define DEBUG_CALCONDUIT */
+#define CONDUIT_VERSION "0.8.5"
+#ifdef G_LOG_DOMAIN
+#undef G_LOG_DOMAIN
+#endif
+#define G_LOG_DOMAIN "gcalconduit" 
+
+#define DEBUG_CALCONDUIT 
 
 #ifdef DEBUG_CALCONDUIT
 #define show_exception(e) g_warning ("Exception: %s\n", CORBA_exception_id (e))
-#define LOG(e...) g_log(G_LOG_DOMAIN,G_LOG_LEVEL_MESSAGE, "calconduit: "##e)
+#define LOG(e...) g_log(G_LOG_DOMAIN,G_LOG_LEVEL_MESSAGE, e)
 #else
 #define show_exception(e)
 #define LOG(e...)
 #endif 
 
 #define WARN(e...) g_log(G_LOG_DOMAIN,G_LOG_LEVEL_WARNING, e)
-#define INFO(e...) g_log(G_LOG_DOMAIN,G_LOG_LEVEL_MESSAGE, "calconduit: "##e)
+#define INFO(e...) g_log(G_LOG_DOMAIN,G_LOG_LEVEL_MESSAGE, e)
 
 static int
 start_calendar_server (GnomePilotConduitStandardAbs *conduit,
@@ -88,12 +93,12 @@ calendar_notify (time_t time, CalendarAlarm *which, void *data)
 {
 }
 
-static GList * 
+static GSList * 
 get_calendar_objects(GnomePilotConduitStandardAbs *conduit,
 		     gboolean *status,
 		     GCalConduitContext *ctxt) 
 {
-	GList *result;
+	GSList *result;
 	GNOME_Calendar_Repository_String_Sequence *uids;
 
 	g_return_val_if_fail(conduit!=NULL,NULL);
@@ -120,7 +125,7 @@ get_calendar_objects(GnomePilotConduitStandardAbs *conduit,
 	if(uids->_length>0) {
 		int i;
 		for(i=0;i<uids->_length;i++) {
-			result = g_list_prepend(result,g_strdup(uids->_buffer[i]));
+			result = g_slist_prepend(result,g_strdup(uids->_buffer[i]));
 		}
 	} else {
 		INFO ("No entries found");
@@ -228,9 +233,10 @@ local_record_from_icalobject(GCalLocalRecord *local,
 	local->ical = obj;
 	local->local.ID = local->ical->pilot_id;
   
+/*
 	LOG ("local->Id = %ld [%s], status = %d",
 		  local->local.ID,obj->summary,local->ical->pilot_status);
-
+*/
 	switch(local->ical->pilot_status) {
 	case ICAL_PILOT_SYNC_NONE: 
 		local->local.attr = GnomePilotRecordNothing; 
@@ -270,7 +276,8 @@ find_record_in_repository(GnomePilotConduitStandardAbs *conduit,
 	g_return_val_if_fail(conduit!=NULL,NULL);
 	g_return_val_if_fail(remote!=NULL,NULL);
   
- 
+	LOG ("requesting %ld", remote->ID);
+
 	vcal_string = 
 		GNOME_Calendar_Repository_get_object_by_pilot_id (ctxt->calendar, remote->ID, &(ctxt->ev));
   
@@ -537,7 +544,7 @@ update_record (GnomePilotConduitStandardAbs *conduit,
 	vcal_string = GNOME_Calendar_Repository_get_object_by_pilot_id (ctxt->calendar, remote->ID, &(ctxt->ev));
 
 	if (ctxt->ev._major == CORBA_USER_EXCEPTION){
-		LOG (_("Object did not exist, creating a new one"));
+		LOG ("Object did not exist, creating a new one");
 		show_exception(&(ctxt->ev));
 		CORBA_exception_free(&(ctxt->ev)); 
 		ical_from_remote_record(conduit,remote,obj);
@@ -690,6 +697,7 @@ store_remote (GnomePilotConduitStandardAbs *conduit,
 	LOG ("entering store_remote");
 
 	g_return_val_if_fail(remote!=NULL,-1);
+	remote->attr = GnomePilotRecordNothing;
 
 	return update_record(conduit,remote,ctxt);
 }
@@ -711,7 +719,7 @@ iterate (GnomePilotConduitStandardAbs *conduit,
 	 GCalLocalRecord **local,
 	 GCalConduitContext *ctxt)
 {
-	static GList *events,*iterator;
+	static GSList *events,*iterator;
 	static int hest;
 
 	g_return_val_if_fail(local!=NULL,-1);
@@ -723,7 +731,7 @@ iterate (GnomePilotConduitStandardAbs *conduit,
 		hest = 0;
 		
 		if(events!=NULL) {
-			LOG ("iterating over %d records",g_list_length(events));
+			LOG ("iterating over %d records",g_slist_length(events));
 			*local = g_new0(GCalLocalRecord,1);
 
 			local_record_from_ical_uid(*local,(gchar*)events->data,ctxt);
@@ -733,10 +741,10 @@ iterate (GnomePilotConduitStandardAbs *conduit,
 			(*local) = NULL;
 		}
 	} else {
-		LOG ("continuing iteration");
+		/*LOG ("continuing iteration");*/
 		hest++;
-		if(g_list_next(iterator)==NULL) {
-			GList *l;
+		if(g_slist_next(iterator)==NULL) {
+			GSList *l;
 
 			LOG ("ending");
 			/** free stuff allocated for iteration */
@@ -746,13 +754,13 @@ iterate (GnomePilotConduitStandardAbs *conduit,
 			for(l=events;l;l=l->next)
 				g_free(l->data);
 
-			g_list_free(events);
+			g_slist_free(events);
 
 			/* ends iteration */
 			(*local) = NULL;
 			return 0;
 		} else {
-			iterator = g_list_next(iterator);
+			iterator = g_slist_next(iterator);
 			local_record_from_ical_uid(*local,(gchar*)(iterator->data),ctxt);
 		}
 	}
@@ -773,6 +781,7 @@ iterate_specific (GnomePilotConduitStandardAbs *conduit,
 		case GnomePilotRecordNothing: tmp = g_strdup("RecordNothing"); break;
 		case GnomePilotRecordModified: tmp = g_strdup("RecordModified"); break;
 		case GnomePilotRecordNew: tmp = g_strdup("RecordNew"); break;
+		default: tmp = g_strdup_printf("0x%x",flag); break;
 		}
 		LOG ("entering iterate_specific(flag = %s)",tmp);
 		g_free(tmp);
@@ -901,84 +910,6 @@ set_pilot_id (GnomePilotConduitStandardAbs *conduit,
 		return -1;
 	} 
         return 0;
-}
-
-static gint
-compare (GnomePilotConduitStandardAbs *conduit,
-	 GCalLocalRecord *local,
-	 PilotRecord *remote,
-	 GCalConduitContext *ctxt)
-{
-	LOG ("entering compare");
-
-	g_return_val_if_fail(local!=NULL,-1);
-	g_return_val_if_fail(remote!=NULL,-1);
-
-        return -1;
-}
-
-static gint
-compare_backup (GnomePilotConduitStandardAbs *conduit,
-		GCalLocalRecord *local,
-		PilotRecord *remote,
-		GCalConduitContext *ctxt)
-{
-	LOG ("entering compare_backup");
-
-	g_return_val_if_fail(local!=NULL,-1);
-	g_return_val_if_fail(remote!=NULL,-1);
-
-        return -1;
-}
-
-static gint
-free_transmit (GnomePilotConduitStandardAbs *conduit,
-	       GCalLocalRecord *local,
-	       PilotRecord **remote,
-	       GCalConduitContext *ctxt)
-{
-	LOG ("entering free_transmit");
-
-	g_return_val_if_fail(local!=NULL,-1);
-	g_return_val_if_fail(remote!=NULL,-1);
-
-	free_Appointment(local->a);
-	g_free((*remote)->record);
-	*remote = NULL;
-        return 0;
-}
-
-static gint
-delete_all (GnomePilotConduitStandardAbs *conduit,
-	    GCalConduitContext *ctxt)
-{
-	GList *events,*it;
-	gboolean error;
-
-	events = get_calendar_objects(conduit,&error,ctxt);
-	
-	if (error == FALSE) return -1;
-	for (it=events;it;it = g_slist_next(it)) {
-		GNOME_Calendar_Repository_delete_object(ctxt->calendar,
-							it->data,
-							&(ctxt->ev));
-		if (ctxt->ev._major == CORBA_USER_EXCEPTION){
-			INFO ("Object did not exist");
-			show_exception(&(ctxt->ev));
-			CORBA_exception_free(&(ctxt->ev)); 
-		} else if(ctxt->ev._major != CORBA_NO_EXCEPTION) {
-			WARN (_("Error while communicating with calendar server"));
-			show_exception(&(ctxt->ev));
-			CORBA_exception_free(&(ctxt->ev)); 
-			/* destroy loop, free data */
-			for (it=events;it;it = g_slist_next(it)) g_free(it->data);
-			g_slist_free(events);
-			return -1;
-		} 
-		g_free(it->data);
-	}
-	g_slist_free(events);
-        return -1;
 }
 
 static gint
@@ -1118,6 +1049,295 @@ transmit (GnomePilotConduitStandardAbs *conduit,
 	*remote = p;
 
 	return 0;
+}
+
+static gint
+free_transmit (GnomePilotConduitStandardAbs *conduit,
+	       GCalLocalRecord *local,
+	       PilotRecord **remote,
+	       GCalConduitContext *ctxt)
+{
+	LOG ("entering free_transmit");
+
+	g_return_val_if_fail(local!=NULL,-1);
+	g_return_val_if_fail(remote!=NULL,-1);
+
+	free_Appointment(local->a);
+	g_free((*remote)->record);
+	*remote = NULL;
+        return 0;
+}
+
+static gint
+compare (GnomePilotConduitStandardAbs *conduit,
+	    GCalLocalRecord *local,
+	    PilotRecord *remote,
+	    GCalConduitContext *ctxt)
+{
+	/* used by the quick compare */
+	PilotRecord *remoteOfLocal;
+	int err;
+
+	/* used by the tedious compare */
+	struct Appointment a; 
+	int daycount;
+
+	g_message ("entering compare");
+
+	g_return_val_if_fail (local!=NULL,-1);
+	g_return_val_if_fail (remote!=NULL,-1);
+#if 1
+	err = transmit(conduit,local,&remoteOfLocal,ctxt);
+	if (err != 0) return err;
+
+	if (remote->length == remoteOfLocal->length) {
+		if (memcmp(remoteOfLocal,remote,remote->length)!=0) {
+			g_message("compare failed on contents");
+			free_transmit(conduit,local,&remoteOfLocal,ctxt);
+			return 1;
+		}
+	} else {
+		g_message("compare failed on length");
+		free_transmit(conduit,local,&remoteOfLocal,ctxt);
+		return 1;
+	}
+
+	free_transmit(conduit,local,&remoteOfLocal,ctxt);	
+	return 0;
+
+#else
+	/** FIXME: All the { LOG("yadayada"); return 1; } bloat is for debug purposes.
+	    Once this is known to work, compact to return 1;'s */
+
+	/* Check record attributes */
+	if (local->local.ID != remote->ID) {
+		LOG("failed local->local.ID == remote->ID");
+		return 1;
+	}
+	if (local->local.attr != remote->attr) {
+		LOG("failed local->local.attr == remote->attr");
+		return 1; 
+	}
+	if (local->local.archived != remote->archived) {
+		LOG("failed local->local.archived == remote->archived");
+		return 1;
+	}
+	if (local->local.secret != remote->secret) {
+		LOG("failed local->local.secret == remote->secret");
+		return 1;
+	}
+
+	unpack_Appointment(&a,remote->record,remote->length);
+	
+	/* Check records begin/end time */
+	if (a.event==0) {
+/* FIXME
+		if (a.begin != *localtime(&local->ical->dtstart)) {
+			LOG("a.begin == *localtime(&local->ical->dtstart)");
+			return 1;
+		}
+		if (a.end != *localtime(&local->ical->dtend)) {
+			LOG("a.end == *localtime(&local->ical->dtend)");
+			return 1;
+		}			
+*/
+	} else {
+		LOG("failed local->a.event != 0, unsupported by gnomecal");
+		return 1;
+	}
+
+	/* Check records alarm settings */
+	if(a.alarm == 1) {
+		if (local->ical->aalarm.enabled == 1) {
+			if (a.advance != local->ical->aalarm.count) {
+				LOG("failed a.advance == local->ical->aalarm.count");
+				return 1;
+			}
+			switch(local->ical->aalarm.units) {
+			case ALARM_MINUTES:
+				if (a.advanceUnits != advMinutes) {
+					LOG("failed local->ical->aalarm.units == a.advanceUnits");
+					return 1;
+				}
+				break;
+			case ALARM_HOURS:
+				if (a.advanceUnits != advHours) {
+					LOG("failed local->ical->aalarm.units == a.advanceUnits");
+					return 1;
+				}
+				break;
+			case ALARM_DAYS:
+				if (a.advanceUnits != advDays) {
+					LOG("failed local->ical->aalarm.units == a.advanceUnits");
+					return 1;
+				}
+				break;
+			}
+		} else {
+			LOG("failed a.alarm == 1 && local->ical->aalarm.enabled == 1");
+			return 1;
+		}
+	} else if  (local->ical->aalarm.enabled == 1) {
+		LOG("failed a.alarm != 1 && local->ical->aalarm.enabled != 1");
+		return 1;
+	}
+
+	/* Check records recurrence settings */
+        /* If this code is broken, a more or less safe although not efficient
+	   approach is (other the fixing the bug), if either has recurrence, 
+	   return 1, thus failing the comparision */
+	if (local->ical->recur != NULL) {
+		if (a.repeatType == repeatNone) {
+			LOG("failed: local->ical->recur != NULL && a.repeatType != repeatNone");
+			return 1;
+		} 
+		switch (local->ical->recur->type) {
+		case RECUR_DAILY:
+			if (a.repeatType != repeatDaily) {
+				LOG("failed a.repeatType == repeatDaily");
+				return 1; }
+			break;
+		case RECUR_WEEKLY:
+			if (a.repeatType != repeatWeekly) {
+				LOG("failed a.repeatType == repeatWeekly");
+				return 1; }
+			break;
+		case RECUR_MONTHLY_BY_POS:
+			if (a.repeatType != repeatMonthlyByDate) {
+				LOG("failed a.repeatType == repeatMonthlyByDate");
+				return 1; }
+			break;
+		case RECUR_MONTHLY_BY_DAY:
+			if (a.repeatType != repeatMonthlyByDay) {
+				LOG("failed a.repeatType == repeatMonthlyByDay");
+				return 1; }
+			break;
+		case RECUR_YEARLY_BY_MONTH:
+			if (a.repeatType != repeatYearly) {
+				LOG("failed a.repeatType == repeatYearly");
+				return 1; }
+			break;
+		case RECUR_YEARLY_BY_DAY:
+			if (a.repeatType != repeatYearly) {
+				LOG("failed a.repeatType == repeatYearly");
+				return 1; }
+			break;
+		}
+		if (local->ical->recur->duration == 0) {
+			if(a.repeatForever != 1) {
+				LOG("failed local->ical->recur->duration == 0 && a.repeatForever == 1");
+				return 1;
+			}
+		} else {
+			if(a.repeatForever != 0) {
+				LOG("failed local->ical->recur->duration != 0 && ! a.repeatForever == 0");
+				return 1;
+			}
+/* FIXME
+			if(a.repeatEnd != *localtime(&local->ical->recur->_enddate)) {
+				LOG("failed a.repeatEnd == *localtime(&local->ical->recur->_enddate)");
+				return 1;
+			}
+*/
+		}
+		if (a.repeatFrequency != local->ical->recur->interval) {
+			LOG("failed a.repeatFrequency == local->ical->recur->interval");
+			return 1;
+		}
+		for (daycount = 0; daycount<7; daycount++) {
+			if(local->ical->recur->weekday & (1<<daycount)) {
+				if (a.repeatDays[daycount]!=1) {
+					LOG("failed local->ical->recur->weekday & (1<<daycount) && a.repeatDays[daycount]==1");
+					return 1;
+				}
+			} else {
+				if (a.repeatDays[daycount]!=0) {
+					LOG("failed local->ical->recur->weekday &! (1<<daycount) && a.repeatDays[daycount]==0");
+					return 1;
+				}
+			}
+		}
+	} else if (a.repeatType != repeatNone ) {
+		LOG("failed: local->ical->recur == NULL && a.repeatType == repeatNone");
+		return 1;
+	}
+
+	/* check the note and description */
+	if(a.note!=NULL) {
+		if(local->ical->comment==NULL) {
+			LOG("failed a.note != NULL && local->ical->coment != NULL");
+			return 1;
+		}
+		if(strcmp(local->ical->comment,a.note)!=0) {
+			LOG("failed strcmp(local->ical->comment,a.note)==0");
+			return 1;
+		}
+	} if(local->ical->comment!=NULL) {
+		LOG("failed a.note == NULL && local->ical->coment == NULL");
+		return 1;
+	}
+	if(a.description!=NULL) {
+		if(local->ical->summary==NULL) {
+			LOG("failed a.description != NULL && local->ical->coment != NULL");
+			return 1;
+		}
+		if(strcmp(local->ical->summary,a.description)!=0) {
+			LOG("failed strcmp(local->ical->summary,a.description)==0");
+			return 1;
+		}
+	} if(local->ical->summary!=NULL) {
+		LOG("failed a.description == NULL && local->ical->coment == NULL");
+		return 1;
+	}
+#endif
+        return 0;
+}
+
+static gint
+compare_backup (GnomePilotConduitStandardAbs *conduit,
+		GCalLocalRecord *local,
+		PilotRecord *remote,
+		GCalConduitContext *ctxt)
+{
+	LOG ("entering compare_backup");
+
+	g_return_val_if_fail(local!=NULL,-1);
+	g_return_val_if_fail(remote!=NULL,-1);
+
+        return -1;
+}
+
+static gint
+delete_all (GnomePilotConduitStandardAbs *conduit,
+	    GCalConduitContext *ctxt)
+{
+	GSList *events,*it;
+	gboolean error;
+
+	events = get_calendar_objects(conduit,&error,ctxt);
+	
+	if (error == FALSE) return -1;
+	for (it=events;it;it = g_slist_next(it)) {
+		GNOME_Calendar_Repository_delete_object(ctxt->calendar,
+							it->data,
+							&(ctxt->ev));
+		if (ctxt->ev._major == CORBA_USER_EXCEPTION){
+			INFO ("Object did not exist");
+			show_exception(&(ctxt->ev));
+			CORBA_exception_free(&(ctxt->ev)); 
+		} else if(ctxt->ev._major != CORBA_NO_EXCEPTION) {
+			WARN (_("Error while communicating with calendar server"));
+			show_exception(&(ctxt->ev));
+			CORBA_exception_free(&(ctxt->ev)); 
+			/* destroy loop, free data */
+			for (it=events;it;it = g_slist_next(it)) g_free(it->data);
+			g_slist_free(events);
+			return -1;
+		} 
+		g_free(it->data);
+	}
+	g_slist_free(events);
+        return -1;
 }
 
 GnomePilotConduit *
