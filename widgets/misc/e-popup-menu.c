@@ -10,6 +10,7 @@ nnn *
  * (C) 2000 Helix Code, Inc.
  */
 #include <config.h>
+#include <string.h>
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtkaccellabel.h>
 #include <gtk/gtklabel.h>
