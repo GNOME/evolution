@@ -9,6 +9,12 @@ Addressbook:
   #14074 -- Editing fields under the "Colaboration" LDAP contact
   #14876 -- modifying LDAP contacts destroys existing objectclass entries
 
+Mailer:
+  #14678 -- Timestamp on outgoing mail incorrect on FreeBSD
+  #14770 -- Appending messages to other IMAP folder can cause INBOX to
+	    stop updating
+  #16924 -- Crash on a particular spam message
+
 Evolution 0.99.2 (Release Candidate 2), 2001-11-14
 --------------------------------------------------
 
