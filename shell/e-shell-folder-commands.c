@@ -421,6 +421,7 @@ e_shell_command_delete_folder (EShell *shell,
 	g_free (path);
 }
 
+#if 0
 static void
 rename_clicked (GtkWidget *dialog, gint button_num, void *data)
 {
@@ -430,6 +431,7 @@ rename_clicked (GtkWidget *dialog, gint button_num, void *data)
 	entry = gtk_object_get_data (GTK_OBJECT (dialog), "entry");
 	*retval = g_strdup (gtk_entry_get_text (GTK_ENTRY (entry)));
 }
+#endif
 
 #if 0
 static char *
@@ -489,6 +491,7 @@ rename_dialog (char *folder_name)
 
 
 
+#if 0
 static void
 rename_cb (EStorageSet *storage_set,
 	   EStorageResult result,
@@ -496,6 +499,7 @@ rename_cb (EStorageSet *storage_set,
 {
 	/* FIXME: Do something? */
 }
+#endif
 
 #if 0
 void

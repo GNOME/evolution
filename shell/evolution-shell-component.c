@@ -553,6 +553,7 @@ destroy (GtkObject *object)
 	EvolutionShellComponent *shell_component;
 	EvolutionShellComponentPrivate *priv;
 	CORBA_Environment ev;
+	GSList *sp;
 	GList *p;
 
 	shell_component = EVOLUTION_SHELL_COMPONENT (object);
@@ -582,8 +583,8 @@ destroy (GtkObject *object)
 
 	e_free_string_list (priv->external_uri_schemas);
 
-	for (p = priv->user_creatable_item_types; p != NULL; p = p->next)
-		user_creatable_item_type_free ((UserCreatableItemType *) p->data);
+	for (sp = priv->user_creatable_item_types; sp != NULL; sp = sp->next)
+		user_creatable_item_type_free ((UserCreatableItemType *) sp->data);
 	g_slist_free (priv->user_creatable_item_types);
 
 	g_free (priv);
