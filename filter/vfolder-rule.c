@@ -196,21 +196,29 @@ vfolder_rule_next_source (VfolderRule *vr, const char *last)
 static gint
 validate (FilterRule *fr)
 {
-	/* We have to have at least one source set in the "specific" case.
-	   Do not translate this string! */
-	if (fr && fr->source && !strcmp (fr->source, "specific") && VFOLDER_RULE (fr)->sources == NULL) {
-
-		GtkWidget *gd;
-
-		gd = gnome_ok_dialog (_("You need to to specify at least one folder as a source."));
-		gnome_dialog_run_and_close (GNOME_DIALOG (gd));
-
+	GtkWidget *dialog;
+	
+	g_return_val_if_fail (fr != NULL, FALSE);
+	
+	if (!fr->name || !*fr->name) {
+		dialog = gnome_ok_dialog (_("You must name this vfolder."));
+		gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+		
 		return 0;
 	}
-
+	
+	/* We have to have at least one source set in the "specific" case.
+	   Do not translate this string! */
+	if (fr->source && !strcmp (fr->source, "specific") && VFOLDER_RULE (fr)->sources == NULL) {
+		dialog = gnome_ok_dialog (_("You need to to specify at least one folder as a source."));
+		gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+		
+		return 0;
+	}
+	
 	if (FILTER_RULE_CLASS (parent_class)->validate)
 		return FILTER_RULE_CLASS (parent_class)->validate (fr);
-
+	
 	return 1;
 }
 

@@ -31,6 +31,8 @@
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-stock.h>
+#include <libgnomeui/gnome-dialog.h>
+#include <libgnomeui/gnome-dialog-util.h>
 #include <gal/widgets/e-unicode.h>
 
 #include "filter-rule.h"
@@ -208,6 +210,16 @@ validate (FilterRule *fr)
 {
 	int valid = TRUE;
 	GList *parts;
+	
+	if (!fr->name || !*fr->name) {
+		GtkWidget *dialog;
+		
+		dialog = gnome_ok_dialog (_("You must name this filter."));
+		
+		gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+		
+		return FALSE;
+	}
 	
 	/* validate rule parts */
 	parts = fr->parts;
