@@ -14,6 +14,7 @@ typedef struct {
 
 	time_t  created;
 	int     modified;
+	void    *temp;
 } Calendar;
 
 Calendar *calendar_new      (char *title);

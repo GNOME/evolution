@@ -250,8 +250,17 @@ ical_object_create_from_vobject (VObject *o, const char *object_name)
 	return ical;
 }
 
-void
-ical_object_save (iCalObject *ical)
+static char *
+to_str (int num)
+{
+	static char buf [40];
+
+	sprintf (buf, "%d", num);
+	return buf;
+}
+
+VObject *
+ical_object_to_vobject (iCalObject *ical)
 {
 	VObject *o;
 
@@ -259,5 +268,27 @@ ical_object_save (iCalObject *ical)
 		o = newVObject (VCEventProp);
 	else
 		o = newVObject (VCTodoProp);
+
+	/* uid */
+	if (ical->uid)
+		addPropValue (o, VCUniqueStringProp, ical->uid);
+
+	/* seq */
+	addPropValue (o, VCSequenceProp, to_str (ical->seq));
+
+	/* dtstart */
+	addPropValue (o, VCDTstartProp, isodate_from_time_t (ical->dtstart));
+
+	/* dtend */
+	addPropValue (o, VCDTendProp, isodate_from_time_t (ical->dtend));
+
+	/* dcreated */
+	addPropValue (o, VCDTendProp, isodate_from_time_t (ical->created));
+
+	/* completed */
+	if (ical->completed)
+		addPropValue (o, VCDTendProp, isodate_from_time_t (ical->completed));
+		
+	return o;
 }
 	

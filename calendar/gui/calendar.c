@@ -200,3 +200,29 @@ calendar_load (Calendar *cal, char *fname)
 	calendar_load_from_vobject (cal, vcal);
 	cleanVObject (vcal);
 }
+
+void
+calendar_save (Calendar *cal, char *fname)
+{
+	VObject *vcal;
+	GList   *l;
+
+	if (fname == NULL)
+		fname = cal->filename;
+	
+	vcal = newVObject (VCCalProp);
+	addPropValue (vcal, VCProdIdProp, "-//GNOME//NONSGML GnomeCalendar//EN");
+	addPropValue (vcal, VCTimeZoneProp, "NONE");
+	addPropValue (vcal, VCVersionProp, VERSION);
+	cal->temp = vcal;
+
+	for (l = cal->events; l; l = l->next){
+		VObject *obj;
+			
+		obj = ical_object_to_vobject ((iCalObject *) l->data);
+		addVObjectProp (vcal, obj);
+	}
+	writeVObjectToFile (fname, vcal);
+	cleanVObject (vcal);
+}
+
