@@ -1,3 +1,7 @@
+2001-08-20  Jon Trowbridge  <trow@ximian.com>
+
+	* configure.in: Require gal 0.10.99.5.
+
 2001-08-19  Aaron Weber  <aaron@ximian.com>
 
 	*Makefile.am: added "help" to subdirs.
