@@ -1,3 +1,8 @@
+2002-11-15  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-startup-wizard.c (e_shell_startup_wizard_create): For
+	now, always return TRUE.
+
 2002-11-14  Ettore Perazzoli  <ettore@ximian.com>
 
 	* evolution-shell-client.c (class_init): Pass the right parent

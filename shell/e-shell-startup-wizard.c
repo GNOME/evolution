@@ -1,7 +1,7 @@
 /*
  * e-shell-startup-wizard.c
  *
- * Copyright (C) 2001 Ximian, Inc.
+ * Copyright (C) 2001, 2002 Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
