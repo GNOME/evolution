@@ -27,12 +27,15 @@
 
     <cmd name="ViewPreview"
      _tip="Show message preview window"
-     accel="q"
-     type="toggle"  />
+     accel="grave"
+     type="toggle"/>
 
   </commands>
 
   <keybindings>
+    <accel name="*Shift*grave" verb="ViewPreview"/>
+    <accel name="asciitilde" verb="ViewPreview"/>
+    <accel name="*Shift*asciitilde" verb="ViewPreview"/>
 
   </keybindings>
 
