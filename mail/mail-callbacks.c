@@ -948,7 +948,7 @@ providers_config (BonoboUIComponent *uih, void *user_data, const char *path)
 	MailAccountsDialog *dialog;
 	
 	dialog = mail_accounts_dialog_new ((FOLDER_BROWSER (user_data))->shell);
-	gtk_widget_show (GTK_WIDGET (dialog));
+	gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 }
 
 /*

@@ -36,6 +36,9 @@
 
 extern CamelSession *session;
 
+GtkWidget *mail_config_create_html (const char *name, const char *str1, const char *str2,
+				    int int1, int int2);
+
 static void mail_config_druid_class_init (MailConfigDruidClass *class);
 static void mail_config_druid_init       (MailConfigDruid *druid);
 static void mail_config_druid_finalise   (GtkObject *obj);
@@ -129,7 +132,7 @@ html_size_req (GtkWidget *widget, GtkRequisition *requisition)
 	 requisition->height = GTK_LAYOUT (widget)->height;
 }
 
-static GtkWidget *
+GtkWidget *
 mail_config_create_html (const char *name, const char *str1, const char *str2,
 			 int int1, int int2)
 {
@@ -332,7 +335,7 @@ incoming_next (GnomeDruidPage *page, GnomeDruid *druid, gpointer data)
 	/* If we can't connect, don't let them continue. */
 	if (!mail_config_check_service (url, CAMEL_PROVIDER_STORE, &authtypes)) {
 		camel_url_free (url);
-		return TRUE;
+		return FALSE;
 	}
 	camel_url_free (url);
 	
@@ -343,7 +346,7 @@ incoming_next (GnomeDruidPage *page, GnomeDruid *druid, gpointer data)
 	}
 	
 	/* Otherwise, skip to transport page. */
-	transport_page = glade_xml_get_widget (config->gui, "transport-page");
+	transport_page = glade_xml_get_widget (config->gui, "druidTransportPage");
 	gnome_druid_set_page (config->druid, GNOME_DRUID_PAGE (transport_page));
 	
 	return TRUE;
@@ -681,22 +684,107 @@ set_defaults (MailConfigDruid *druid)
 	gtk_option_menu_set_menu (druid->outgoing_type, transports);
 }
 
+static gboolean
+start_next (GnomeDruidPage *page, GnomeDruid *druid, gpointer data)
+{
+	return FALSE;
+}
+
+static struct {
+	char *name;
+	GtkSignalFunc next_func;
+	GtkSignalFunc prepare_func;
+	GtkSignalFunc back_func;
+	GtkSignalFunc finish_func;
+} pages[] = {
+	{ "druidStartPage",
+	  GTK_SIGNAL_FUNC (start_next),
+	  GTK_SIGNAL_FUNC (NULL),
+	  GTK_SIGNAL_FUNC (NULL),
+	  GTK_SIGNAL_FUNC (NULL) },
+	{ "druidIdentityPage",
+	  GTK_SIGNAL_FUNC (identity_next),
+	  GTK_SIGNAL_FUNC (identity_prepare),
+	  GTK_SIGNAL_FUNC (NULL),
+	  GTK_SIGNAL_FUNC (NULL) },
+	{ "druidSourcePage",
+	  GTK_SIGNAL_FUNC (incoming_next),
+	  GTK_SIGNAL_FUNC (incoming_prepare),
+	  GTK_SIGNAL_FUNC (NULL),
+	  GTK_SIGNAL_FUNC (NULL) },
+	{ "druidAuthPage",
+	  GTK_SIGNAL_FUNC (authentication_next),
+	  GTK_SIGNAL_FUNC (authentication_prepare),
+	  GTK_SIGNAL_FUNC (NULL),
+	  GTK_SIGNAL_FUNC (NULL) },
+	{ "druidTransportPage",
+	  GTK_SIGNAL_FUNC (transport_next),
+	  GTK_SIGNAL_FUNC (transport_prepare),
+	  GTK_SIGNAL_FUNC (NULL),
+	  GTK_SIGNAL_FUNC (NULL) },
+	{ "druidManagementPage",
+	  GTK_SIGNAL_FUNC (management_next),
+	  GTK_SIGNAL_FUNC (management_prepare),
+	  GTK_SIGNAL_FUNC (NULL),
+	  GTK_SIGNAL_FUNC (NULL) },
+	{ "druidFinishPage",
+	  GTK_SIGNAL_FUNC (NULL),
+	  GTK_SIGNAL_FUNC (NULL),
+	  GTK_SIGNAL_FUNC (NULL),
+	  GTK_SIGNAL_FUNC (druid_finish) },
+	{ NULL,
+	  GTK_SIGNAL_FUNC (NULL),
+	  GTK_SIGNAL_FUNC (NULL),
+	  GTK_SIGNAL_FUNC (NULL),
+	  GTK_SIGNAL_FUNC (NULL) }
+};
+
 static void
 construct (MailConfigDruid *druid)
 {
 	GladeXML *gui;
 	GtkWidget *widget;
+	int i;
 	
-	gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config-druid.glade", "mail-config-window");
+	gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config-druid.glade", "mail-config-druid");
 	druid->gui = gui;
 	
 	/* get our toplevel widget */
-	widget = glade_xml_get_widget (gui, "gnome-config-druid");
+	widget = glade_xml_get_widget (gui, "druid");
 	
 	/* reparent */
 	gtk_widget_reparent (widget, GTK_WIDGET (druid));
 	
 	druid->druid = GNOME_DRUID (widget);
+	
+	/* set window title */
+	gtk_window_set_title (GTK_WINDOW (druid), _("Evolution Account Wizard"));
+	gtk_window_set_policy (GTK_WINDOW (druid), FALSE, TRUE, TRUE);
+	
+	/* attach to druid page signals */
+	i = 0;
+	while (pages[i].name) {
+		GnomeDruidPage *page;
+		
+		page = GNOME_DRUID_PAGE (glade_xml_get_widget (gui, pages[i].name));
+		
+		if (pages[i].next_func)
+			gtk_signal_connect (GTK_OBJECT (page), "next",
+					    pages[i].next_func, druid);
+		if (pages[i].prepare_func)
+			gtk_signal_connect (GTK_OBJECT (page), "prepare",
+					    pages[i].prepare_func, druid);
+		if (pages[i].back_func)
+			gtk_signal_connect (GTK_OBJECT (page), "back",
+					    pages[i].back_func, druid);
+		if (pages[i].finish_func)
+			gtk_signal_connect (GTK_OBJECT (page), "finish",
+					    pages[i].finish_func, druid);
+		
+		i++;
+	}
+	gtk_signal_connect (GTK_OBJECT (druid->druid), "cancel",
+			    druid_cancel, druid);
 	
 	/* get our cared-about widgets */
 	druid->account_text = glade_xml_get_widget (gui, "htmlAccountInfo");
@@ -733,8 +821,6 @@ construct (MailConfigDruid *druid)
 	druid->outgoing_hostname = GTK_ENTRY (glade_xml_get_widget (gui, "txtTransportHostname"));
 	gtk_signal_connect (GTK_OBJECT (druid->outgoing_hostname), "changed", transport_changed, druid);
 	druid->outgoing_requires_auth = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "chkTransportNeedsAuth"));
-	
-	glade_xml_signal_autoconnect (gui);
 	
 	set_defaults (druid);
 	

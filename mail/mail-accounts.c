@@ -326,11 +326,12 @@ construct (MailAccountsDialog *dialog)
 	notebook = glade_xml_get_widget (gui, "notebook");
 	
 	/* reparent */
-	gtk_widget_reparent (notebook, GTK_WIDGET (dialog));
+	gtk_widget_reparent (notebook, GNOME_DIALOG (dialog)->vbox);
 	
 	/* give our dialog an OK button and title */
-	gnome_dialog_construct (GNOME_DIALOG (dialog), _("Evolution Accounts"),
-				GNOME_STOCK_BUTTON_OK);
+	gtk_window_set_title (GTK_WINDOW (dialog), _("Evolution Account Manager"));
+	gtk_window_set_policy (GTK_WINDOW (dialog), FALSE, TRUE, TRUE);
+	gnome_dialog_append_button (GNOME_DIALOG (dialog), GNOME_STOCK_BUTTON_OK);
 	
 	dialog->mail_accounts = GTK_CLIST (glade_xml_get_widget (gui, "clistAccounts"));
 	gtk_signal_connect (GTK_OBJECT (dialog->mail_accounts), "select-row",

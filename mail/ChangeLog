@@ -1,3 +1,21 @@
+2001-01-08  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-config-druid.c: A bunch of fixes.
+
+	* mail-accounts.c: More fixes...
+
+	* mail-account-editor.c (construct): Reparent the notebook to the
+	editor->vbox and set the resize policy.
+
+2001-01-07  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-callbacks.c (providers_config): Use a
+	gnome_dialog_run_and_close().
+
+	* mail-accounts.c (construct): Reparent the notebook to the
+	dialog->vbox not to the dialog itself. Also set the resize policy
+	to allow the user to stretch it.
+
 2001-01-07  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-tools.c (mail_tool_quote_message): Updated to reflect

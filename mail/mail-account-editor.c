@@ -391,14 +391,16 @@ construct (MailAccountEditor *editor, const MailConfigAccount *account)
 	notebook = glade_xml_get_widget (gui, "notebook");
 	
 	/* reparent */
-	gtk_widget_reparent (notebook, GTK_WIDGET (editor));
+	gtk_widget_reparent (notebook, GNOME_DIALOG (editor)->vbox);
 	
 	/* give our dialog an OK button and title */
 	gtk_window_set_title (GTK_WINDOW (editor), _("Evolution Account Editor"));
+	gtk_window_set_policy (GTK_WINDOW (editor), FALSE, TRUE, TRUE);
 	gnome_dialog_append_buttons (GNOME_DIALOG (editor),
 				     GNOME_STOCK_BUTTON_OK,
 				     GNOME_STOCK_BUTTON_APPLY,
-				     GNOME_STOCK_BUTTON_CANCEL);
+				     GNOME_STOCK_BUTTON_CANCEL,
+				     NULL);
 	
 	gnome_dialog_button_connect (GNOME_DIALOG (editor), 0 /* OK */,
 				     GTK_SIGNAL_FUNC (ok_clicked),
@@ -415,7 +417,7 @@ construct (MailAccountEditor *editor, const MailConfigAccount *account)
 	gtk_entry_set_text (editor->account_name, account->name);
 	editor->name = GTK_ENTRY (glade_xml_get_widget (gui, "txtName"));
 	gtk_entry_set_text (editor->name, account->id->name);
-	editor->email = GTK_ENTRY (glade_xml_get_widget (gui, "txtEMail"));
+	editor->email = GTK_ENTRY (glade_xml_get_widget (gui, "txtAddress"));
 	gtk_entry_set_text (editor->email, account->id->address);
 	editor->reply_to = GTK_ENTRY (glade_xml_get_widget (gui, "txtReplyTo"));
 	gtk_entry_set_text (editor->reply_to, account->id->reply_to);

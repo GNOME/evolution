@@ -33,7 +33,7 @@
 
   <widget>
     <class>GnomeDruid</class>
-    <name>mail-config-druid</name>
+    <name>druid</name>
     <signal>
       <name>cancel</name>
       <handler>druid_cancel</handler>
@@ -42,7 +42,7 @@
 
     <widget>
       <class>GnomeDruidPageStart</class>
-      <name>druidpagestart1</name>
+      <name>druidStartPage</name>
       <title>Mail Configuration</title>
       <text>Welcome to the Evolution Mail Configuration Druid.
 
@@ -57,7 +57,7 @@ Click &quot;Next&quot; to begin. </text>
 
     <widget>
       <class>GnomeDruidPageStandard</class>
-      <name>identity-page</name>
+      <name>druidIdentityPage</name>
       <signal>
 	<name>prepare</name>
 	<handler>identity_prepare</handler>
@@ -443,7 +443,7 @@ Click &quot;Next&quot; to begin. </text>
 
     <widget>
       <class>GnomeDruidPageStandard</class>
-      <name>source-page</name>
+      <name>druidSourcePage</name>
       <signal>
 	<name>prepare</name>
 	<handler>incoming_prepare</handler>
@@ -797,7 +797,7 @@ Click &quot;Next&quot; to begin. </text>
 
     <widget>
       <class>GnomeDruidPageStandard</class>
-      <name>authentication-page</name>
+      <name>druidAuthPage</name>
       <signal>
 	<name>prepare</name>
 	<handler>authentication_prepare</handler>
@@ -1001,7 +1001,7 @@ Click &quot;Next&quot; to begin. </text>
 
     <widget>
       <class>GnomeDruidPageStandard</class>
-      <name>transport-page</name>
+      <name>druidTransportPage</name>
       <signal>
 	<name>prepare</name>
 	<handler>transport_prepare</handler>
@@ -1238,7 +1238,7 @@ Click &quot;Next&quot; to begin. </text>
 
     <widget>
       <class>GnomeDruidPageStandard</class>
-      <name>management-page</name>
+      <name>druidManagementPage</name>
       <signal>
 	<name>prepare</name>
 	<handler>management_prepare</handler>
@@ -1394,7 +1394,7 @@ Click &quot;Next&quot; to begin. </text>
 
     <widget>
       <class>GnomeDruidPageFinish</class>
-      <name>druidpagefinish1</name>
+      <name>druidFinishPage</name>
       <title>Done</title>
       <text>Congratulations, your mail configuration is complete.
 
@@ -1675,7 +1675,7 @@ Click &quot;Finish&quot; to save your settings.</text>
 
 	  <widget>
 	    <class>GtkEntry</class>
-	    <name>txtEMail</name>
+	    <name>txtAddress</name>
 	    <can_focus>True</can_focus>
 	    <editable>True</editable>
 	    <text_visible>True</text_visible>
