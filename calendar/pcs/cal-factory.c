@@ -132,7 +132,7 @@ lookup_backend (CalFactory *factory, const char *uristr, char **orig_uri_return)
 		return CAL_BACKEND (data);
 	} else {
 		if (orig_uri_return)
-			*orig_uri_return = FALSE;
+			*orig_uri_return = NULL;
 
 		return NULL;
 	}

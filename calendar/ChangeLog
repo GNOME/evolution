@@ -1,3 +1,8 @@
+2002-10-22  Rodrigo Moya <rodrigo@ximian.com>
+
+	* pcs/cal-factory.c (lookup_backend): use NULL for pointer instead of
+	FALSE.
+
 2002-10-22  JP Rosevear  <jpr@ximian.com>
 
 	* gui/itip-utils.c (get_address): use e_config_listener_* to get values
