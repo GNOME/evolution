@@ -123,6 +123,9 @@ typedef struct _EMAccountEditorService {
 	struct _GtkButton *check_supported;
 	struct _GtkToggleButton *needs_auth;
 
+	struct _GtkWidget *check_dialog;
+	int check_id;
+
 	GList *authtypes;	/* if "Check supported" */
 	CamelProvider *provider;
 	CamelProviderType type;
@@ -1407,19 +1410,51 @@ emae_setup_authtype(EMAccountEditor *emae, EMAccountEditorService *service)
 	return (GtkWidget *)dropdown;
 }
 
+static void emae_check_authtype_done(const char *uri, CamelProviderType type, GList *types, void *data)
+{
+	EMAccountEditorService *service = data;
+
+	if (service->check_dialog) {
+		if (service->authtypes)
+			g_list_free(service->authtypes);
+
+		service->authtypes = g_list_copy(types);
+		emae_setup_authtype(service->emae, service);
+		gtk_widget_destroy(service->check_dialog);
+	}
+
+	if (service->emae->editor)
+		gtk_widget_set_sensitive(service->emae->editor, TRUE);
+
+	service->check_id = -1;
+	g_object_unref(service->emae);
+}
+
+static void emae_check_authtype_response(GtkWidget *d, int button, EMAccountEditorService *service)
+{
+	mail_msg_cancel(service->check_id);
+	gtk_widget_destroy(service->check_dialog);
+	service->check_dialog = NULL;
+
+	if (service->emae->editor)
+		gtk_widget_set_sensitive(service->emae->editor, TRUE);
+}
+
 static void emae_check_authtype(GtkWidget *w, EMAccountEditorService *service)
 {
 	EMAccountEditor *emae = service->emae;
 	const char *uri;
 
-	if (service->authtypes) {
-		g_list_free(service->authtypes);
-		service->authtypes = NULL;
-	}
-
+	/* TODO: do we need to remove the auth mechanism from the uri? */
 	uri = e_account_get_string(emae->account, emae_service_info[service->type].account_uri_key);
-	if (mail_config_check_service(uri, service->type, &service->authtypes, (GtkWindow *)gtk_widget_get_toplevel((GtkWidget *)emae->editor)))
-		emae_setup_authtype(emae, service);
+	g_object_ref(emae);
+
+	service->check_dialog = e_error_new((GtkWindow *)gtk_widget_get_toplevel(emae->editor),
+					    "mail:checking-service", NULL);
+	g_signal_connect(service->check_dialog, "response", G_CALLBACK(emae_check_authtype_response), service);
+	gtk_widget_show(service->check_dialog);
+	gtk_widget_set_sensitive(emae->editor, FALSE);
+	service->check_id = mail_check_service(uri, service->type, emae_check_authtype_done, service);
 }
 
 static void
@@ -2331,6 +2366,13 @@ emae_commit(EConfig *ec, GSList *items, void *data)
 	e_account_list_save(accounts);
 }
 
+static void
+emae_editor_destroyed(GtkWidget *dialog, EMAccountEditor *emae)
+{
+	emae->editor = NULL;
+	g_object_unref(emae);
+}
+
 void
 em_account_editor_construct(EMAccountEditor *emae, EAccount *account, em_account_editor_t type)
 {
@@ -2435,5 +2477,6 @@ em_account_editor_construct(EMAccountEditor *emae, EAccount *account, em_account
 	e_config_set_target((EConfig *)ec, (EConfigTarget *)target);
 	emae->editor = e_config_create_window((EConfig *)ec, NULL, type==EMAE_NOTEBOOK?_("Account Editor"):_("Evolution Account Assistant"));
 
-	/* FIXME: need to hook onto destroy as required */
+	g_object_ref(emae);
+	g_signal_connect(emae->editor, "destroy", G_CALLBACK(emae_editor_destroyed), emae);
 }

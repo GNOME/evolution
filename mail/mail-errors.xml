@@ -318,6 +318,13 @@ You can choose to ignore this folder, overwrite or append its contents, or quit.
       you can accept its license.</secondary>
  </error>
 
+  <error id="checking-service" type="info">
+    <title>Querying server</title>
+    <primary>Please wait.</primary>
+    <secondary>Querying server for a list of supported authentication mechanisms.</secondary>
+    <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
+  </error>
+
  <error id="gw-accountsetup-error" type="error">
  <primary>Unable to connect to the GroupWise
 server.</primary>

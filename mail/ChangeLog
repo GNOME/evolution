@@ -1,3 +1,23 @@
+2004-10-11  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #67014.
+
+	* mail-errors.xml: added "checking-service" error.
+
+	* em-account-editor.c (em_account_editor_construct): keep track of
+	the dialogue
+	(emae_editor_destroyed): , and clean up when destroyed.
+
+	* em-account-editor.c (emae_check_authtype)
+	(emae_check_authtype_response, emae_check_authtype_done): handle
+	checking authtype gui here.
+
+	* mail-config.c (check_service_describe, check_service_check) 
+	(check_response, mail_config_check_service): removed.
+
+	* mail-ops.c (mail_check_service): moved here from mail-config,
+	and modified to be a re-usable threaded function.
+
 2004-10-18  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #68006.

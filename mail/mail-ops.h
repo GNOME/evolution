@@ -154,6 +154,9 @@ int mail_store_set_offline(CamelStore *store, gboolean offline,
 /* filter driver execute shell command async callback */
 void mail_execute_shell_command (CamelFilterDriver *driver, int argc, char **argv, void *data);
 
+int mail_check_service(const char *url, CamelProviderType type,
+		       void (*done)(const char *url, CamelProviderType type, GList *authtypes, void *data), void *data);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

@@ -236,6 +236,10 @@ char *s = N_("Unable to read license file.");
 char *s = N_("Cannot read the license file \"{0}\", due to an\n"
 	"      installation problem.  You will not be able to use this provider until\n"
 	"      you can accept its license.");
+/* mail:checking-service primary */
+char *s = N_("Please wait.");
+/* mail:checking-service secondary */
+char *s = N_("Querying server for a list of supported authentication mechanisms.");
 /* mail:gw-accountsetup-error primary */
 char *s = N_("Unable to connect to the GroupWise\n"
 	"server.");
