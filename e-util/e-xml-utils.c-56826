@@ -23,6 +23,7 @@
 #include <locale.h>
 #include "e-xml-utils.h"
 #include <gnome-xml/parser.h>
+#include <gnome-xml/xmlmemory.h>
 
 
 xmlNode *e_xml_get_child_by_name(xmlNode *parent, const xmlChar *child_name)
@@ -74,15 +75,17 @@ int
 e_xml_get_integer_prop_by_name(xmlNode *parent, const xmlChar *prop_name)
 {
 	xmlChar *prop;
+	int ret_val = 0;
 
 	g_return_val_if_fail (parent != NULL, 0);
 	g_return_val_if_fail (prop_name != NULL, 0);
 
 	prop = xmlGetProp(parent, prop_name);
-	if (prop)
-		return atoi(prop);
-	else
-		return 0;
+	if (prop) {
+		ret_val = atoi(prop);
+		xmlFree(prop);
+	}
+	return ret_val;
 }
 
 void
