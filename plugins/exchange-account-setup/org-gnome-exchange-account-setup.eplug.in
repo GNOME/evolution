@@ -2,7 +2,7 @@
 <e-plugin-list>
   <e-plugin
     type="shlib"
-    id="org.gnome.evolution.plugin.exchange-account-setup"
+    id="org.gnome.evolution.plugin.exchange-account-settings"
     location="@PLUGINDIR@/liborg-gnome-exchange-account-settings.so"
     load-on-startup="true"
     name="Exchange Account Setup"
@@ -11,40 +11,24 @@
     <hook class="org.gnome.evolution.mail.config:1.0">
       	<group 
 		target="account" 
-		id="org.gnome.evolution.mail.config.accountEditor">
+		id="org.gnome.evolution.mail.config.accountEditor"
+		check="org_gnome_exchange_check_options">
 		<item type="page" 
 	      		path="40.oof" 
 	      		label="Exchange Settings"
-	      		factory="org_gnome_exchange_account_setup"/>
-                <item type="section"
-                        path="10.receive/00.config"
-			factory="org_gnome_exchange_set_url"/>
+	      		factory="org_gnome_exchange_settings"/>
+                <item type="item_table"
+                        path="10.receive/10.config/20.owa"
+			factory="org_gnome_exchange_owa_url"/>
       	</group>
-    </hook>
 
-    <hook class="org.gnome.evolution.mail.config:1.0">
         <group
                 target="account"
-                id="org.gnome.evolution.mail.config.accountDruid">
-                <item type="section"
-                        path="10.receive/00.config"
-			factory="org_gnome_exchange_read_url"/>
-                <item type="section"
-                        path="10.receive/00.config"
-			label=""/>
-		<item type="item"
-			path="10.receive/30.auth/00.hide"
-			factory="org_gnome_exchange_handle_auth"/>
-		<item type="item"
-			path="30.send/30.auth/00.hide"
-			factory="org_gnome_exchange_handle_send_auth_option"/>
-        </group>
-        <group
-		target="account"
-		id="org.gnome.evolution.mail.config.accountDruid"
+                id="org.gnome.evolution.mail.config.accountDruid"
 		check="org_gnome_exchange_check_options">
-		<item
-			path="20.receive_options"/>
+                <item type="item_table"
+                        path="10.receive/10.config/20.owa"
+			factory="org_gnome_exchange_owa_url"/>
 	</group>
     </hook>
 

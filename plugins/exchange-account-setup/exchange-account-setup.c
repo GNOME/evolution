@@ -3,77 +3,54 @@
  *  Sushma Rai <rsushma@novell.com>
  *  Copyright (C) 2004 Novell, Inc.
  *
- *  Permission is hereby granted, free of charge, to any person
- *  obtaining a copy of this software and associated documentation
- *  files (the "Software"), to deal in the Software without
- *  restriction, including without limitation the rights to use, copy,
- *  modify, merge, publish, distribute, sublicense, and/or sell copies
- *  of the Software, and to permit persons to whom the Software is
- *  furnished to do so, subject to the following conditions:
- *  
- *  The above copyright notice and this permission notice shall be
- *  included in all copies or substantial portions of the Software.
- *  
- *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- *  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
- *  MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- *  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
- *  HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
- *  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- *  DEALINGS IN THE SOFTWARE.
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  */
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 #include <string.h>
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 #include <glade/glade.h>
 #include <gtk/gtk.h>
 #include <gtk/gtkdialog.h>
 #include <gconf/gconf-client.h>
-#include <libedataserver/e-source.h>
+#include <camel/camel-provider.h>
 #include <camel/camel-url.h>
 #include "mail/em-account-editor.h"
 #include "mail/em-config.h"
 #include "e-util/e-account.h"
-#include "e-util/e-account-list.h"
 
-int e_plugin_lib_enable (EPluginLib *ep, int enable);
+GtkWidget* org_gnome_exchange_settings(EPlugin *epl, EConfigHookItemFactoryData *data);
+GtkWidget *org_gnome_exchange_owa_url(EPlugin *epl, EConfigHookItemFactoryData *data);
+gboolean org_gnome_exchange_check_options(EPlugin *epl, EConfigHookPageCheckData *data);
 
-void exchange_account_setup_commit (EPlugin *epl, EConfigHookItemFactoryData *data);
-GtkWidget* org_gnome_exchange_account_setup (EPlugin *epl, EConfigHookItemFactoryData *data);
-GtkWidget *org_gnome_exchange_set_url(EPlugin *epl, EConfigHookItemFactoryData *data);
+/* NB: This should be given a better name, it is NOT a camel service, it is only a camel-exchange one */
+typedef gboolean (CamelProviderValidateUserFunc) (CamelURL *camel_url, const char *url, gboolean *remember_password, CamelException *ex);
+typedef struct {
+        CamelProviderValidateUserFunc *validate_user;
+}CamelProviderValidate;
 
-#if 0
-int
-e_plugin_lib_enable (EPluginLib *ep, int enable)
+/* only used in editor */
+GtkWidget *
+org_gnome_exchange_settings(EPlugin *epl, EConfigHookItemFactoryData *data)
 {
-	if (enable) {
-	}
-	return 0;
-}
-#endif
-
-void 
-exchange_account_setup_commit (EPlugin *epl, EConfigHookItemFactoryData *data)
-{
-	return;
-}
-
-static void
-oof_get()
-{
-	/* Read the oof state and oof message */
-}
-
-static void
-oof_set ()
-{
-	/* store the oof state and message */
-}
-
-static GtkWidget *
-create_page ()
-{
+	EMConfigTargetAccount *target_account;
+	const char *source_url;
+	CamelURL *url;
 	GtkWidget *oof_page;
 	GtkWidget *oof_table;
 	GtkWidget *oof_description, *label_status, *label_empty;
@@ -82,6 +59,24 @@ create_page ()
 	GtkWidget *oof_frame;
 	GtkWidget *scrolledwindow_oof;
 	GtkWidget *textview_oof;
+	char *txt;
+
+	target_account = (EMConfigTargetAccount *)data->config->target;
+	source_url = e_account_get_string (target_account->account,  E_ACCOUNT_SOURCE_URL);
+	url = camel_url_new(source_url, NULL);
+	if (url == NULL
+	    || strcmp(url->protocol, "exchange") != 0) {
+		if (url)
+			camel_url_free(url);
+		return NULL;
+	}
+
+	if (data->old) {
+		camel_url_free(url);
+		return data->old;
+	}
+
+	/* FIXME: This out of office data never goes anywhere */
 
 	oof_page = gtk_vbox_new (FALSE, 6);
 	gtk_container_set_border_width (GTK_CONTAINER (oof_page), 12);
@@ -103,7 +98,10 @@ create_page ()
 	gtk_table_set_row_spacings (GTK_TABLE (oof_table), 6);
 	gtk_box_pack_start (GTK_BOX (oof_page), oof_table, FALSE, FALSE, 0);
 
-	label_status = gtk_label_new (_("<b>Status:</b>"));
+	/* translators: exchange out of office status header */
+	txt = g_strdup_printf("<b>%s</b>", _("Status:"));
+	label_status = gtk_label_new (txt);
+	g_free(txt);
 	gtk_label_set_justify (GTK_LABEL (label_status), GTK_JUSTIFY_CENTER);
 	gtk_misc_set_alignment (GTK_MISC (label_status), 0, 0.5);
 	gtk_misc_set_padding (GTK_MISC (label_status), 0, 0); 
@@ -166,271 +164,193 @@ create_page ()
 
 	gtk_widget_show_all (oof_page);
 
+	gtk_notebook_insert_page (GTK_NOTEBOOK (data->parent), oof_page, gtk_label_new(_("Exchange Settings")), 4);
+
 	return oof_page;
 }
 
-static GtkWidget *
-construct_oof_editor (EConfigHookItemFactoryData *data)
+static void
+owa_authenticate_user(GtkWidget *button, EConfig *config)
 {
-	/* add oof page to editor */
-	GtkWidget *oof_page;
-	GladeXML *parent_xml;
-	GtkNotebook *editor_notebook;
-	GtkWidget *page_label;
+	EMConfigTargetAccount *target_account = (EMConfigTargetAccount *)config->target;
+	CamelProviderValidate *validate;
+	CamelURL *url=NULL;
+	CamelProvider *provider = NULL;
+	gboolean remember_password;
+	char *url_string; 
+	const char *source_url, *id_name;
+	char *at, *user;
+
+	source_url = e_account_get_string (target_account->account, E_ACCOUNT_SOURCE_URL);
+	provider = camel_provider_get (source_url, NULL);
+	if (!provider || provider->priv == NULL) {
+		/* can't happen? */
+		return;
+	}
+
+	url = camel_url_new(source_url, NULL);
+	validate = provider->priv; 
+	if (url->user == NULL) {
+		id_name = e_account_get_string (target_account->account, E_ACCOUNT_ID_ADDRESS);
+		if (id_name) {
+			at = strchr(id_name, '@');
+			user = g_alloca(at-id_name+1);
+			memcpy(user, id_name, at-id_name);
+			user[at-id_name] = 0; 
+			camel_url_set_user (url, user);
+		}
+	}
+
+	/* validate_user() CALLS GTK!!!
+
+	   THIS IS TOTALLY UNNACCEPTABLE!!!!!!!!
+
+	   It must use camel_session_ask_password, and it should return an exception for any problem,
+	   which should then be shown using e-error */
+
+	if (validate->validate_user(url, camel_url_get_param(url, "owa_url"), &remember_password, NULL)) {
+		url_string = camel_url_to_string (url, 0);
+		e_account_set_string(target_account->account, E_ACCOUNT_SOURCE_URL, url_string);
+		e_account_set_string(target_account->account, E_ACCOUNT_TRANSPORT_URL, url_string);
+		e_account_set_bool(target_account->account, E_ACCOUNT_SOURCE_SAVE_PASSWD, remember_password);
+		g_free(url_string);
+	}
 	
-	parent_xml = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config.glade", 
-					   "account_editor_notebook", 
-					   NULL);
-
-	editor_notebook = (GtkNotebook *) glade_xml_get_widget (parent_xml, 
-						"account_editor_notebook");
-	if (!editor_notebook)
-		return NULL;
-
-	oof_page = create_page ();
-	if (!oof_page)
-		return NULL;
-	
-	page_label = gtk_label_new (_("Exchange Settings"));
-
-	gtk_notebook_insert_page (GTK_NOTEBOOK (data->parent), 
-				  oof_page, page_label, 4);
-	return oof_page;
+	camel_url_free (url);
 }
 
+static void
+owa_editor_entry_changed(GtkWidget *entry, EConfig *config)
+{
+	const char *uri, *ssl = NULL;
+	CamelURL *url, *owaurl = NULL;
+	char *url_string;
+	EMConfigTargetAccount *target = (EMConfigTargetAccount *)config->target;
+	GtkWidget *button = g_object_get_data((GObject *)entry, "authenticate-button");
+	int active = FALSE;
+
+	/* NB: we set the button active only if we have a parsable uri entered */
+
+	url = camel_url_new(e_account_get_string(target->account, E_ACCOUNT_SOURCE_URL), NULL);
+	uri = gtk_entry_get_text((GtkEntry *)entry);
+	if (uri && uri[0]) {
+		camel_url_set_param(url, "owa_url", uri);
+		owaurl = camel_url_new(uri, NULL);
+		if (owaurl) {
+			active = TRUE;
+
+			/* i'm not sure why we need this, "ssl connection mode" is redundant
+			   since we have it in the owa-url protocol */
+			if (!strcmp(owaurl->protocol, "https"))
+				ssl = "always";
+			camel_url_free(owaurl);
+		}
+	} else {
+		camel_url_set_param(url, "owa_url", NULL);
+	}
+
+	camel_url_set_param(url, "use_ssl", ssl);
+	gtk_widget_set_sensitive(button, active);
+
+	url_string = camel_url_to_string(url, 0);
+	e_account_set_string(target->account, E_ACCOUNT_SOURCE_URL, url_string);
+	g_free(url_string);
+}
+
+static void
+destroy_label(GtkWidget *old, GtkWidget *label)
+{
+	gtk_widget_destroy(label);
+}
+
+/* used by editor and druid - same code */
 GtkWidget *
-org_gnome_exchange_account_setup (EPlugin *epl, EConfigHookItemFactoryData *data)
+org_gnome_exchange_owa_url(EPlugin *epl, EConfigHookItemFactoryData *data)
 {
 	EMConfigTargetAccount *target_account;
-	GtkWidget *oof_page = NULL;
-	const char *source_url = NULL, *temp_url = NULL;
-	char *exchange_url = NULL;
-	GConfClient *client;
-	EAccountList *account_list;
-	const char *uid = NULL;
-	EAccount *gconf_account;
+	const char *source_url, *owa_url;
+	GtkWidget *owa_entry;
+	CamelURL *url;
+	int row;
+	GtkWidget *hbox, *label, *button;
 
 	target_account = (EMConfigTargetAccount *)data->config->target;
+	source_url = e_account_get_string (target_account->account,  E_ACCOUNT_SOURCE_URL);
+	url = camel_url_new(source_url, NULL);
+	if (url == NULL
+	    || strcmp(url->protocol, "exchange") != 0) {
+		if (url)
+			camel_url_free(url);
 
-	client = gconf_client_get_default ();
-	account_list = e_account_list_new (client);
-	if (account_list) {
-		uid = target_account->account->uid;  
-		if (uid) {
-			gconf_account = e_account_list_find (account_list, 
-							     E_ACCOUNT_FIND_UID,
-							     uid);
-			if (gconf_account) {
-				temp_url = e_account_get_string (gconf_account, 
-							E_ACCOUNT_SOURCE_URL);
-				if (temp_url)
-					e_account_set_string (
-						target_account->account, 
-					 	E_ACCOUNT_SOURCE_URL, 
-						temp_url); 
-				temp_url = NULL;
+		if (data->old
+		    && (label = g_object_get_data((GObject *)data->old, "authenticate-label")))
+			gtk_widget_destroy(label);
 
-				temp_url = e_account_get_string (
-							gconf_account,
-							 E_ACCOUNT_TRANSPORT_URL);
-				if (temp_url)
-					e_account_set_string (
-							target_account->account,
-						      	E_ACCOUNT_TRANSPORT_URL, 
-						      	temp_url); 
-			}
-		}
-		g_object_unref (account_list);
+		/* TODO: we could remove 'owa-url' from the url,
+		   but that will lose it if we come back.  Maybe a commit callback could do it */
+
+		return NULL;
 	}
-	else {
-		/* FIXME */
+
+	if (data->old) {
+		camel_url_free(url);
+		return data->old;
 	}
-	g_object_unref (client);
 
-	source_url = e_account_get_string (target_account->account, 
-					   E_ACCOUNT_SOURCE_URL);
-	exchange_url = g_strrstr (source_url, "exchange");
+	owa_url = camel_url_get_param(url, "owa_url");
 
-	if (exchange_url) { 
-		if (data->old)
-			return data->old;
-
-		oof_page = construct_oof_editor (data);
-	}
-	return oof_page;
-}
-
-static void
-editor_ok_button_clicked (GtkWidget *entry, void *data)
-{
-	return;
-}
-
-static void
-owa_editor_entry_changed (GtkWidget *entry, void *data) 
-{
-	GtkWidget *button = data;
-	const char *owa_entry_text = NULL; 
-
-	/* FIXME: return owa_entry_text instead of making it global */
-	owa_entry_text = gtk_entry_get_text (GTK_ENTRY (entry));
-	if (owa_entry_text)
-		gtk_widget_set_sensitive (button, TRUE);
-}
-
-static GtkWidget *
-add_owa_entry_to_editor (GtkWidget *parent, EConfig *config, 
-			 EMConfigTargetAccount *target_account, 
-			 EAccountList *account_list, const char *url_value)
-{
-	GtkWidget *section, *owa_entry;
-	GtkWidget *hbox, *hbox_inner, *label, *button;
-	GList *container_list, *l;
-	GValue rows = { 0, };
-	GValue cols = { 0, };
-	gint n_rows, n_cols;
-
-	/* Since configure section in the receive page is not plugin enabled
-	 * traversing through the container hierarchy to get the reference
-	 * to the table, to which owa_url entry has to be added.
-	 * This needs to be changed once we can access configure section from
-	 * the plugin.
-	 */
-
-	container_list = gtk_container_get_children (GTK_CONTAINER (parent));
-	l = g_list_nth (container_list, 0); /* sourcevbox */
-	container_list = gtk_container_get_children (GTK_CONTAINER (l->data));
-	l = g_list_nth (container_list, 2); /* source frame */
-	container_list = gtk_container_get_children (GTK_CONTAINER (l->data));
-	l = g_list_nth (container_list, 1); /* hbox173 */
-	container_list = gtk_container_get_children (GTK_CONTAINER (l->data));
-	l = g_list_nth (container_list, 1); /* table 13 */
-	container_list = gtk_container_get_children (GTK_CONTAINER (l->data));
-	l = g_list_nth (container_list, 0); /* table 4*/
-
-	g_value_init (&rows, G_TYPE_INT);
-	g_value_init (&cols, G_TYPE_INT);
-	g_object_get_property (G_OBJECT (l->data), "n-rows", &rows);
-	g_object_get_property (G_OBJECT (l->data), "n-columns", &cols);
-	n_rows = g_value_get_int (&rows); 
-	n_cols = g_value_get_int (&cols); 
+	row = ((GtkTable *)data->parent)->nrows;
 
 	hbox = gtk_hbox_new (FALSE, 6);
-	gtk_widget_show (hbox);
+	label = gtk_label_new_with_mnemonic(_("_OWA Url:"));
+	gtk_widget_show(label);
 
-	hbox_inner = gtk_hbox_new (FALSE, 6);
-	gtk_widget_show (hbox_inner);
-
-	owa_entry = gtk_entry_new ();
-	if (url_value)
-		gtk_entry_set_text (GTK_ENTRY (owa_entry), url_value); 
-	gtk_widget_show (owa_entry);
+	owa_entry = gtk_entry_new();
+	if (owa_url)
+		gtk_entry_set_text(GTK_ENTRY (owa_entry), owa_url); 
+	gtk_label_set_mnemonic_widget((GtkLabel *)label, owa_entry);
 
 	button = gtk_button_new_with_mnemonic (_("A_uthenticate"));
-	gtk_widget_set_sensitive (button, FALSE);
-	gtk_widget_show (button);
+	gtk_widget_set_sensitive (button, owa_url && owa_url[0]);
 
-	gtk_box_pack_start (GTK_BOX (hbox_inner), owa_entry, TRUE, TRUE, 0);
-	gtk_box_pack_start (GTK_BOX (hbox_inner), button, FALSE, FALSE, 0);
-	
-	label = gtk_label_new_with_mnemonic(_("_OWA Url:"));
-	gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
-	gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
-	gtk_widget_show (label);
+	gtk_box_pack_start (GTK_BOX (hbox), owa_entry, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
+	gtk_widget_show_all(hbox);
 
-	gtk_box_pack_start (GTK_BOX (hbox), hbox_inner, TRUE, TRUE, 0);
+	gtk_table_attach (GTK_TABLE (data->parent), label, 0, 1, row, row+1, 0, 0, 0, 0); 
+	gtk_table_attach (GTK_TABLE (data->parent), hbox, 1, 2, row, row+1, GTK_FILL|GTK_EXPAND, GTK_FILL, 0, 0); 
 
-	gtk_table_attach (GTK_TABLE (l->data), label, 0, n_cols-1, n_rows, 
-			  n_rows+1, GTK_FILL, GTK_FILL, 0, 0); 
-	gtk_table_attach (GTK_TABLE (l->data), hbox, n_cols-1, n_cols, 
-			  n_rows, n_rows+1, GTK_FILL, GTK_FILL, 0, 0); 
+	g_signal_connect (owa_entry, "changed", G_CALLBACK(owa_editor_entry_changed), data->config);
+	g_object_set_data((GObject *)owa_entry, "authenticate-button", button);
+	g_signal_connect (button, "clicked", G_CALLBACK(owa_authenticate_user), data->config);
 
-	gtk_widget_show (GTK_WIDGET (l->data)); 
+	/* Track the authenticate label, so we can destroy it if e-config is to destroy the hbox */
+	g_object_set_data((GObject *)hbox, "authenticate-label", label);
 
-	g_signal_connect (owa_entry, "changed",
-			  G_CALLBACK (owa_editor_entry_changed), button);
-	g_signal_connect (button, "clicked",
-			  G_CALLBACK (editor_ok_button_clicked), target_account);
-
-	section =  gtk_vbox_new (FALSE, 0); /* Sending an invisible section */
-	gtk_widget_hide (section);
-	return section;
+	return hbox;
 }
 
-GtkWidget *
-org_gnome_exchange_set_url (EPlugin *epl, EConfigHookItemFactoryData *data)
+gboolean
+org_gnome_exchange_check_options(EPlugin *epl, EConfigHookPageCheckData *data)
 {
-	EMConfigTargetAccount *target_account;
-	EConfig *config;
-	char *account_url = NULL, *exchange_url = NULL;
-	const char *source_url, *temp_url, *uid = NULL, *owa_url = NULL;
-	GtkWidget *owa_entry = NULL, *parent;
-	GConfClient *client;
-	EAccountList *account_list = NULL;
-	EAccount *gconf_account;
-	CamelURL *camel_url;
+	EMConfigTargetAccount *target = (EMConfigTargetAccount *)data->config->target;
+	int status = TRUE;
 
-	config = data->config;
-	target_account = (EMConfigTargetAccount *)data->config->target;
+	/* We assume that if the host is set, then the setting is valid.
+	   The host gets set when the provider validate() call is made */
+	if (data->pageid == NULL || strcmp(data->pageid, "20.receive_options") == 0) {
+		CamelURL *url;
 
-	client = gconf_client_get_default ();
-	account_list = e_account_list_new (client);
-	if (account_list) {
-		uid = target_account->account->uid;  
-		if (uid) {
-			gconf_account = e_account_list_find (account_list, 
-							     E_ACCOUNT_FIND_UID,
-							     uid);
-			if (gconf_account) {
-				temp_url = e_account_get_string (
-							gconf_account, 
-							 E_ACCOUNT_SOURCE_URL);
-				e_account_set_string (target_account->account, 
-						      E_ACCOUNT_SOURCE_URL, 
-						      temp_url); 
-				temp_url = NULL;
+		url = camel_url_new(e_account_get_string(target->account,  E_ACCOUNT_SOURCE_URL), NULL);
+		/* Note: we only care about exchange url's, we WILL get called on all other url's too. */
+		if (url != NULL
+		    && strcmp(url->protocol, "exchange") == 0
+		    && (url->host == NULL || url->host[0] == 0))
+			status = FALSE;
 
-				temp_url = e_account_get_string (gconf_account,
-							 E_ACCOUNT_TRANSPORT_URL);
-				e_account_set_string (target_account->account, 
-						      E_ACCOUNT_TRANSPORT_URL, 
-						      temp_url); 
-			}
-		}
+		if (url)
+			camel_url_free(url);
 	}
 
-	source_url = e_account_get_string (target_account->account, 
-					   E_ACCOUNT_SOURCE_URL); 
-	account_url = g_strdup (source_url);
-	exchange_url = g_strrstr (account_url, "exchange");
-
-	if (exchange_url) {
-		if (data->old)
-			return data->old;
-
-		/*
-		parent = gtk_widget_get_toplevel (GTK_WIDGET (data->parent));
-		if (!GTK_WIDGET_TOPLEVEL (parent))
-			parent = NULL;
-		*/
-		camel_url = camel_url_new_with_base (NULL, account_url);
-		owa_url = camel_url_get_param (camel_url, "owa_url");
-
-		parent = data->parent;
-		owa_entry = add_owa_entry_to_editor (parent, 
-						     config, 
-						     target_account, 
-						     account_list, 
-						     owa_url);
-		gtk_box_pack_start (GTK_BOX (parent), owa_entry, 
-				    FALSE, FALSE, 0);
-		gtk_widget_show (parent);
-		camel_url_free (camel_url);
-	}
-	g_free (account_url);
-	if (account_list)
-		g_object_unref (account_list);
-	g_object_unref (client);
-
-	return owa_entry;
+	return status;
 }
