@@ -1,5 +1,9 @@
 2004-10-01  JP Rosevear  <jpr@novell.com>
 
+	* configure.in: set the GETTEXT_PACKAGE to evolution-2.2
+	
+2004-10-01  JP Rosevear  <jpr@novell.com>
+
 	* configure.in: set a GTKHTML_API_VERSION variable
 
 2004-09-13  Not Zed  <NotZed@Ximian.com>
