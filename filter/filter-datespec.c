@@ -313,18 +313,18 @@ activate_specified (GtkMenuItem *item, FilterDatespec *fds)
 	PRIV (fds)->selected_type = FDST_SPECIFIED;
 	
 	/* Set the calendar's time */
+
+	if (fds->value < 1)
+		fds->value = time (NULL);
+
+	/* gmtime? */
+	seltime = localtime (&(fds->value));
 	
-	if (fds->value > 0) {
-		/* gmtime? */
-		seltime = localtime (&(fds->value));
-		
-		gtk_calendar_select_month (GTK_CALENDAR (PRIV (fds)->date_chooser),
-					   seltime->tm_mon,
-					   seltime->tm_year + 1900);
-		gtk_calendar_select_day (GTK_CALENDAR (PRIV (fds)->date_chooser),
-					 seltime->tm_mday);
-		/* free seltime?? */
-	}
+	gtk_calendar_select_month (GTK_CALENDAR (PRIV (fds)->date_chooser),
+				   seltime->tm_mon,
+				   seltime->tm_year + 1900);
+	gtk_calendar_select_day (GTK_CALENDAR (PRIV (fds)->date_chooser),
+				 seltime->tm_mday);
 	
 	gtk_box_pack_start (GTK_BOX (PRIV (fds)->gd->vbox),
 			    PRIV (fds)->date_chooser,

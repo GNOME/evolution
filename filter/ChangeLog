@@ -1,3 +1,8 @@
+2002-08-01  Peter Williams  <peterw@ximian.com>
+
+	* filter-datespec.c (activate_specified): If the value was unset,
+	initialize it to now.
+
 2002-07-31  Ettore Perazzoli  <ettore@ximian.com>
 
 	* filter-option.c (xml_create): Remove unused variable.
