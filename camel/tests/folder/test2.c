@@ -49,7 +49,7 @@ int main(int argc, char **argv)
 
 	/* create a pseudo-spool file, and check that */
 	creat("/tmp/camel-test/testbox", 0600);
-	test_folder_message_ops(session, "spool:///tmp/camel-test/testbox", FALSE, "INBOX");
+	test_folder_message_ops(session, "spool:///tmp/camel-test/testbox", TRUE, "INBOX");
 
 	check_unref(session, 1);
 	camel_exception_free(ex);

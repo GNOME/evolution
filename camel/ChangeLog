@@ -1,5 +1,8 @@
 2002-09-26  Not Zed  <NotZed@Ximian.com>
 
+	* tests/folder/test2.c (main): Treat spool as a local folder, so
+	the ref checks work right.
+
 	* providers/local/camel-spool-store.c (get_folder): Implement
 	FOLDER_CREATE flag.
 	(scan_dir): Dont free name on exception, its alloca'd.
@@ -7,6 +10,7 @@
 	directly.
 	(scan_dir): Allow empty files to also show up in folder list, as
 	well as files starting with "From ".
+	(get_folder): Use creat() instead of open() to create file.
 
 	* providers/local/camel-spool-folder.c (camel_spool_folder_new):
 	Check folder != NULL before writing to it.

@@ -163,13 +163,11 @@ get_folder(CamelStore * store, const char *folder_name, guint32 flags, CamelExce
 				camel_exception_setv(ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
 						     _("Folder `%s' does not exist."), folder_name);
 			} else {
-				fd = open(name, O_CREAT, 0600);
-				if (fd == -1) {
+				if (creat(name, 0600) == -1) {
 					camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
 							     _("Could not create folder `%s':\n%s"),
 							     folder_name, strerror(errno));
 				} else {
-					close(fd);
 					folder = camel_spool_folder_new(store, folder_name, flags, ex);
 				}
 			}
