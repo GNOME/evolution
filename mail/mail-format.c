@@ -214,8 +214,7 @@ get_cid (CamelMimePart *part, MailDisplay *md)
 	 * make a (syntactically invalid, unique) fake one.
 	 */
 	if (camel_mime_part_get_content_id (part)) {
-		cid = g_strdup_printf ("cid:%s",
-				       camel_mime_part_get_content_id (part));
+		cid = g_strdup_printf ("cid:%s", camel_mime_part_get_content_id (part));
 	} else
 		cid = g_strdup_printf ("cid:@@@%d", fake_cid_counter++);
 	
@@ -666,10 +665,10 @@ format_mime_part (CamelMimePart *part, MailDisplay *md,
 		  MailDisplayStream *stream)
 {
 	CamelDataWrapper *wrapper;
-	char *mime_type, *tmp;
 	MailMimeHandler *handler;
 	gboolean output;
 	int inline_flags;
+	char *mime_type;
 	
 	/* Record URLs associated with this part */
 	get_cid (part, md);
@@ -685,9 +684,8 @@ format_mime_part (CamelMimePart *part, MailDisplay *md,
 		return TRUE;
 	}
 	
-	tmp = camel_data_wrapper_get_mime_type (wrapper);
-	mime_type = g_ascii_strdown (tmp, strlen (tmp));
-	g_free (tmp);
+	mime_type = camel_data_wrapper_get_mime_type (wrapper);
+	camel_strdown (mime_type);
 	
 	handler = mail_lookup_handler (mime_type);
 	if (!handler) {
@@ -1090,7 +1088,7 @@ mail_content_loaded (CamelDataWrapper *wrapper, MailDisplay *md, gboolean redisp
 }
 
 
-static ssize_t
+ssize_t
 mail_format_data_wrapper_write_to_stream (CamelDataWrapper *wrapper, MailDisplay *mail_display, CamelStream *stream)
 {
 	CamelStreamFilter *filtered_stream;
@@ -1625,7 +1623,7 @@ find_preferred_alternative (CamelMultipart *multipart, gboolean want_plain)
 		CamelContentType *type = camel_mime_part_get_content_type (part);
 		char *mime_type = header_content_type_simple (type);
 		
-		g_ascii_strdown (mime_type, -1);
+		camel_strdown (mime_type);
 		if (want_plain && !strcmp (mime_type, "text/plain"))
 			return part;
 		handler = mail_lookup_handler (mime_type);

@@ -1026,8 +1026,7 @@ do_attachment_header (GtkHTML *html, GtkHTMLEmbedded *eb,
 	
 	/* Drag & Drop */
 	drag_types[DND_TARGET_TYPE_PART_MIME_TYPE].target = header_content_type_simple (part->content_type);
-	g_ascii_strdown (drag_types[DND_TARGET_TYPE_PART_MIME_TYPE].target, 
-			 strlen (drag_types[DND_TARGET_TYPE_PART_MIME_TYPE].target));
+	camel_strdown (drag_types[DND_TARGET_TYPE_PART_MIME_TYPE].target);
 	
 	gtk_drag_source_set (button, GDK_BUTTON1_MASK,
 			     drag_types, num_drag_types,
@@ -1231,33 +1230,29 @@ on_url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle,
 	medium = g_hash_table_lookup (urls, url);
 	if (medium) {
 		CamelContentType *content_type;
-		CamelDataWrapper *data;
+		CamelDataWrapper *wrapper;
+		CamelStream *html_stream;
 		
 		g_return_if_fail (CAMEL_IS_MEDIUM (medium));
 		
 		if (md->related)
 			g_hash_table_remove (md->related, medium);
 		
-		data = camel_medium_get_content_object (medium);
-		if (!mail_content_loaded (data, md, FALSE, url, html, handle))
+		wrapper = camel_medium_get_content_object (medium);
+		if (!mail_content_loaded (wrapper, md, FALSE, url, html, handle))
 			return;
 		
-		content_type = camel_data_wrapper_get_mime_type_field (data);
+		content_type = camel_data_wrapper_get_mime_type_field (wrapper);
+		
+		html_stream = mail_display_stream_new (html, handle);
 		
 		if (header_content_type_is (content_type, "text", "*")) {
-			ba = mail_format_get_data_wrapper_text (data, md);
-			if (ba) {
-				gtk_html_write (html, handle, ba->data, ba->len);
-				
-				g_byte_array_free (ba, TRUE);
-			}
+			mail_format_data_wrapper_write_to_stream (wrapper, md, html_stream);
 		} else {
-			CamelStream *html_stream;
-			
-			html_stream = mail_display_stream_new (html, handle);
-			camel_data_wrapper_write_to_stream (data, html_stream);
-			camel_object_unref (html_stream);
+			camel_data_wrapper_write_to_stream (wrapper, html_stream);
 		}
+		
+		camel_object_unref (html_stream);
 		
 		gtk_html_end (html, handle, GTK_HTML_STREAM_OK);
 		return;

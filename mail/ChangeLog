@@ -1,3 +1,11 @@
+2003-03-07  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-display.c (on_url_requested): If the part url is a text
+	part, use mail_format_data_wrapper_write_to_stream(). This should
+	fix bug #39204.
+
+	* mail-format.c (mail_format_data_wrapper_write_to_stream): Make public.
+
 2003-03-06  Ettore Perazzoli  <ettore@ximian.com>
 
 	* mail-accounts.c (mail_accounts_treeview_new): Set the
