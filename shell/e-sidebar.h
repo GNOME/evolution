@@ -60,5 +60,7 @@ void  e_sidebar_add_button  (ESidebar   *sidebar,
 			     GdkPixbuf  *icon,
 			     int         id);
 
+void  e_sidebar_select_button  (ESidebar *sidebar,
+				int       id);
 
 #endif /* _E_SIDEBAR_H_ */

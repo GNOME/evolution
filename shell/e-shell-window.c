@@ -478,7 +478,7 @@ e_shell_window_switch_to_component (EShellWindow *window, const char *component_
 		return;
 	}
 
-	switch_view (window, view);
+	e_sidebar_select_button (E_SIDEBAR (priv->sidebar), view->button_id);
 }
 
 

@@ -62,6 +62,49 @@ static unsigned int signals[NUM_SIGNALS] = { 0 };
 #define PADDING 6
 
 
+/* Utility functions.  */
+
+static Button *
+button_new (GtkWidget *button_widget,
+	    int id)
+{
+	Button *button = g_new (Button, 1);
+
+	button->button_widget = button_widget;
+	button->id = id;
+
+	g_object_ref (button_widget);
+
+	return button;
+}
+
+static void
+button_free (Button *button)
+{
+	g_object_unref (button->button_widget);
+	g_free (button);
+}
+
+static void
+update_buttons (ESidebar *sidebar, int new_selected_id)
+{
+	GSList *p;
+
+	sidebar->priv->in_toggle = TRUE;
+
+	for (p = sidebar->priv->buttons; p != NULL; p = p->next) {
+		Button *button = p->data;
+
+		if (button->id == new_selected_id)
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button->button_widget), TRUE);
+		else
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button->button_widget), FALSE);
+	}
+
+	sidebar->priv->in_toggle = FALSE;
+}
+
+
 /* Callbacks.  */
 
 static void
@@ -90,30 +133,6 @@ button_toggled_callback (GtkToggleButton *toggle_button,
 	sidebar->priv->in_toggle = FALSE;
 
 	g_signal_emit (sidebar, signals[BUTTON_SELECTED], 0, id);
-}
-
-
-/* Utility functions.  */
-
-static Button *
-button_new (GtkWidget *button_widget,
-	    int id)
-{
-	Button *button = g_new (Button, 1);
-
-	button->button_widget = button_widget;
-	button->id = id;
-
-	g_object_ref (button_widget);
-
-	return button;
-}
-
-static void
-button_free (Button *button)
-{
-	g_object_unref (button->button_widget);
-	g_free (button);
 }
 
 
@@ -419,6 +438,15 @@ e_sidebar_add_button (ESidebar *sidebar,
 	gtk_widget_show_all (button_widget);
 
 	gtk_widget_queue_resize (GTK_WIDGET (sidebar));
+}
+
+
+void
+e_sidebar_select_button (ESidebar *sidebar, int id)
+{
+	update_buttons (sidebar, id);
+
+	g_signal_emit (sidebar, signals[BUTTON_SELECTED], 0, id);
 }
 
 

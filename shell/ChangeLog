@@ -1,3 +1,11 @@
+2003-11-12  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-window.c (e_shell_window_switch_to_component): Call
+	e_sidebar_select_button() instead of switch_view().
+
+	* e-sidebar.c (update_buttons): New helper function.
+	(e_sidebar_select_button): New.
+
 2003-11-11  JP Rosevear <jpr@ximian.com>
 
 	* main.c (kill_dataserver): kill the right thing
