@@ -575,7 +575,7 @@ gal_view_instance_get_popup_menu (GalViewInstance *instance)
 	}
 
 	e_popup_menu_copy_1 (ret_val + i++, &separator);
-	add_popup_menu_item (ret_val + i++, N_("Define Views"), G_CALLBACK (define_views_cb), instance);
+	add_popup_menu_item (ret_val + i++, N_("Define Views..."), G_CALLBACK (define_views_cb), instance);
 	e_popup_menu_copy_1 (ret_val + i++, &terminator);
 
 	return ret_val;

@@ -234,7 +234,9 @@ gal_define_views_dialog_init (GalDefineViewsDialog *dialog)
 	gdvd_connect_signal(dialog, "button-new",    "clicked", G_CALLBACK(gdvd_button_new_callback));
 	gdvd_connect_signal(dialog, "button-modify", "clicked", G_CALLBACK(gdvd_button_modify_callback));
 	gdvd_connect_signal(dialog, "button-delete", "clicked", G_CALLBACK(gdvd_button_delete_callback));
+#if 0
 	gdvd_connect_signal(dialog, "button-copy",   "clicked", G_CALLBACK(gdvd_button_copy_callback));
+#endif
 
 	dialog->model = NULL;
 	etable = glade_xml_get_widget(dialog->gui, "custom-table");
