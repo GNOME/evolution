@@ -1,3 +1,7 @@
+2004-11-30  Philip Van Hoof  <pvanhoof@gnome.org>
+
+	* save-calendar.c: Support for CSV files
+
 2004-11-01  JP Rosevear  <jpr@novell.com>
 
 	* Makefile.am: dist .eplug.in file
