@@ -944,7 +944,6 @@ mail_display_redisplay (MailDisplay *md, gboolean unscroll)
 	mail_html_write (md->html, md->stream, "%s%s", HTML_HEADER, "<BODY>\n");
 
 	if (md->current_message) {
-		camel_object_ref (CAMEL_OBJECT (md->current_message));
 		if (mail_config_get_view_source ())
 			mail_format_raw_message (md->current_message, md);
 		else

@@ -1,3 +1,10 @@
+2001-03-15  Dan Winship  <danw@ximian.com>
+
+	* mail-display.c (mail_display_redisplay): Remove a stray
+	camel_object_ref that was causing messages to never be finalized
+	if they got redisplayed (because of attachments, delayed-loading
+	IMAP parts, etc)
+
 2001-03-15  Not Zed  <NotZed@Ximian.com>
 
 	* folder-browser.c: Added edit item to search-bar menu.
