@@ -1,3 +1,13 @@
+2005-02-05  Harish Krishnaswamy  <kharish@novell.com>
+
+	* gui/dialogs/comp-editor.c (attach_message), (drop_action),
+	(drop_popup_copy), (drop_popup_move), (drop_popup_cancel),
+	(drop_popup_free), (drag_data_received), (drag_motion),
+	(comp_editor_class_init), (comp_editor_init), (real_edit_comp):
+	fix the dnd woes on calendar attachments.
+	* gui/dialogs/cal-attachment-bar.c (add_from_file): reuse  
+	mail composer's error message.
+	
 2005-02-04  Harry Lu  <harry.lu@sun.com>
 
 	Add a11y name for attachment button and bars.

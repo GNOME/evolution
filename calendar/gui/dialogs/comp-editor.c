@@ -38,6 +38,16 @@
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-icon-factory.h>
 #include <evolution-shell-component-utils.h>
+
+#include <camel/camel-url.h>
+#include <camel/camel-exception.h>
+#include <camel/camel-folder.h>
+#include <camel/camel-stream-mem.h>
+#include <camel/camel-mime-message.h>
+
+#include "mail/mail-tools.h"
+#include "mail/em-popup.h"
+
 #include "../print.h"
 #include "../comp-util.h"
 #include "save-comp.h"
@@ -50,8 +60,10 @@
 
 #include "cal-attachment-bar.h"
 #include "widgets/misc/e-expander.h"
+#include "widgets/misc/e-error.h"
 
 
+#define d(x) x
 
 
 
@@ -123,13 +135,378 @@ static void obj_removed_cb (ECal *client, GList *uids, gpointer data);
 
 G_DEFINE_TYPE (CompEditor, comp_editor, GTK_TYPE_DIALOG);
 
+enum {
+	DND_TYPE_MESSAGE_RFC822,
+	DND_TYPE_X_UID_LIST,
+	DND_TYPE_TEXT_URI_LIST,
+	DND_TYPE_NETSCAPE_URL,
+	DND_TYPE_TEXT_VCARD,
+	DND_TYPE_TEXT_CALENDAR,
+};
+
+static GtkTargetEntry drop_types[] = {
+	{ "message/rfc822", 0, DND_TYPE_MESSAGE_RFC822 },
+	{ "x-uid-list", 0, DND_TYPE_X_UID_LIST },
+	{ "text/uri-list", 0, DND_TYPE_TEXT_URI_LIST },
+	{ "_NETSCAPE_URL", 0, DND_TYPE_NETSCAPE_URL },
+	{ "text/x-vcard", 0, DND_TYPE_TEXT_VCARD },
+	{ "text/calendar", 0, DND_TYPE_TEXT_CALENDAR },
+};
+
+#define num_drop_types (sizeof (drop_types) / sizeof (drop_types[0]))
+
+static struct {
+	char *target;
+	GdkAtom atom;
+	guint32 actions;
+} drag_info[] = {
+	{ "message/rfc822", 0, GDK_ACTION_COPY },
+	{ "x-uid-list", 0, GDK_ACTION_ASK|GDK_ACTION_MOVE|GDK_ACTION_COPY },
+	{ "text/uri-list", 0, GDK_ACTION_COPY },
+	{ "_NETSCAPE_URL", 0, GDK_ACTION_COPY },
+	{ "text/x-vcard", 0, GDK_ACTION_COPY },
+	{ "text/calendar", 0, GDK_ACTION_COPY },
+};
+
+static void
+attach_message(CompEditor *editor, CamelMimeMessage *msg)
+{
+	CamelMimePart *mime_part;
+	const char *subject;
+
+	mime_part = camel_mime_part_new();
+	camel_mime_part_set_disposition(mime_part, "inline");
+	subject = camel_mime_message_get_subject(msg);
+	if (subject) {
+		char *desc = g_strdup_printf(_("Attached message - %s"), subject);
+
+		camel_mime_part_set_description(mime_part, desc);
+		g_free(desc);
+	} else
+		camel_mime_part_set_description(mime_part, _("Attached message"));
+
+	camel_medium_set_content_object((CamelMedium *)mime_part, (CamelDataWrapper *)msg);
+	camel_mime_part_set_content_type(mime_part, "message/rfc822");
+	cal_attachment_bar_attach_mime_part(CAL_ATTACHMENT_BAR(editor->priv->attachment_bar), mime_part);
+	camel_object_unref(mime_part);
+}
+
+struct _drop_data {
+	CompEditor *editor;
+
+	GdkDragContext *context;
+	/* Only selection->data and selection->length are valid */
+	GtkSelectionData *selection;
+
+	guint32 action;
+	guint info;
+	guint time;
+
+	unsigned int move:1;
+	unsigned int moved:1;
+	unsigned int aborted:1;
+};
+
+static void
+drop_action(CompEditor *editor, GdkDragContext *context, guint32 action, GtkSelectionData *selection, guint info, guint time)
+{
+	char *tmp, *str, **urls;
+	CamelMimePart *mime_part;
+	CamelStream *stream;
+	CamelURL *url;
+	CamelMimeMessage *msg;
+	char *content_type;
+	int i, success=FALSE, delete=FALSE;
+
+	switch (info) {
+	case DND_TYPE_MESSAGE_RFC822:
+		d(printf ("dropping a message/rfc822\n"));
+		/* write the message(s) out to a CamelStream so we can use it */
+		stream = camel_stream_mem_new ();
+		camel_stream_write (stream, selection->data, selection->length);
+		camel_stream_reset (stream);
+		
+		msg = camel_mime_message_new ();
+		if (camel_data_wrapper_construct_from_stream((CamelDataWrapper *)msg, stream) != -1) {
+			attach_message(editor, msg);
+			success = TRUE;
+			delete = action == GDK_ACTION_MOVE;
+		}
+
+		camel_object_unref(msg);
+		camel_object_unref(stream);
+		break;
+	case DND_TYPE_TEXT_URI_LIST:
+	case DND_TYPE_NETSCAPE_URL:
+		d(printf ("dropping a text/uri-list\n"));
+		tmp = g_strndup (selection->data, selection->length);
+		urls = g_strsplit (tmp, "\n", 0);
+		g_free (tmp);
+		
+		for (i = 0; urls[i] != NULL; i++) {
+			str = g_strstrip (urls[i]);
+			if (urls[i][0] == '#') {
+				g_free(str);
+				continue;
+			}
+
+			if (!g_ascii_strncasecmp (str, "mailto:", 7)) {
+				/* TODO does not handle mailto now */
+				g_free (str);
+			} else {
+				url = camel_url_new (str, NULL);
+				g_free (str);
+
+				if (url == NULL)
+					continue;
+
+				if (!g_ascii_strcasecmp (url->protocol, "file"))
+					cal_attachment_bar_attach
+						(CAL_ATTACHMENT_BAR (editor->priv->attachment_bar),
+					 	url->path);
+
+				camel_url_free (url);
+			}
+		}
+		
+		g_free (urls);
+		success = TRUE;
+		break;
+	case DND_TYPE_TEXT_VCARD:
+	case DND_TYPE_TEXT_CALENDAR:
+		content_type = gdk_atom_name (selection->type);
+		d(printf ("dropping a %s\n", content_type));
+		
+		mime_part = camel_mime_part_new ();
+		camel_mime_part_set_content (mime_part, selection->data, selection->length, content_type);
+		camel_mime_part_set_disposition (mime_part, "inline");
+		
+		cal_attachment_bar_attach_mime_part
+			(CAL_ATTACHMENT_BAR (editor->priv->attachment_bar),
+			 mime_part);
+		
+		camel_object_unref (mime_part);
+		g_free (content_type);
+
+		success = TRUE;
+		break;
+	case DND_TYPE_X_UID_LIST: {
+		GPtrArray *uids;
+		char *inptr, *inend;
+		CamelFolder *folder;
+		CamelException ex = CAMEL_EXCEPTION_INITIALISER;
+
+		/* NB: This all runs synchronously, could be very slow/hang/block the ui */
+
+		uids = g_ptr_array_new();
+
+		inptr = selection->data;
+		inend = selection->data + selection->length;
+		while (inptr < inend) {
+			char *start = inptr;
+
+			while (inptr < inend && *inptr)
+				inptr++;
+
+			if (start > (char *)selection->data)
+				g_ptr_array_add(uids, g_strndup(start, inptr-start));
+
+			inptr++;
+		}
+
+		if (uids->len > 0) {
+			folder = mail_tool_uri_to_folder(selection->data, 0, &ex);
+			if (folder) {
+				if (uids->len == 1) {
+					msg = camel_folder_get_message(folder, uids->pdata[0], &ex);
+					if (msg == NULL)
+						goto fail;
+					attach_message(editor, msg);
+				} else {
+					CamelMultipart *mp = camel_multipart_new();
+					char *desc;
+
+					camel_data_wrapper_set_mime_type((CamelDataWrapper *)mp, "multipart/digest");
+					camel_multipart_set_boundary(mp, NULL);
+					for (i=0;i<uids->len;i++) {
+						msg = camel_folder_get_message(folder, uids->pdata[i], &ex);
+						if (msg) {
+							mime_part = camel_mime_part_new();
+							camel_mime_part_set_disposition(mime_part, "inline");
+							camel_medium_set_content_object((CamelMedium *)mime_part, (CamelDataWrapper *)msg);
+							camel_mime_part_set_content_type(mime_part, "message/rfc822");
+							camel_multipart_add_part(mp, mime_part);
+							camel_object_unref(mime_part);
+							camel_object_unref(msg);
+						} else {
+							camel_object_unref(mp);
+							goto fail;
+						}
+					}
+					mime_part = camel_mime_part_new();
+					camel_medium_set_content_object((CamelMedium *)mime_part, (CamelDataWrapper *)mp);
+					/* translators, this count will always be >1 */
+					desc = g_strdup_printf(ngettext("Attached message", "%d attached messages", uids->len), uids->len);
+					camel_mime_part_set_description(mime_part, desc);
+					g_free(desc);
+					cal_attachment_bar_attach_mime_part
+						(CAL_ATTACHMENT_BAR(editor->priv->attachment_bar), mime_part);
+					camel_object_unref(mime_part);
+					camel_object_unref(mp);
+				}
+				success = TRUE;
+				delete = action == GDK_ACTION_MOVE;
+			fail:
+				if (camel_exception_is_set(&ex)) {
+					char *name;
+
+					camel_object_get(folder, NULL, CAMEL_FOLDER_NAME, &name, NULL);
+					e_error_run((GtkWindow *)editor, "mail-editor:attach-nomessages",
+						    name?name:(char *)selection->data, camel_exception_get_description(&ex), NULL);
+					camel_object_free(folder, CAMEL_FOLDER_NAME, name);
+				}
+				camel_object_unref(folder);
+			} else {
+				e_error_run((GtkWindow *)editor, "mail-editor:attach-nomessages",
+					    selection->data, camel_exception_get_description(&ex), NULL);
+			}
+
+			camel_exception_clear(&ex);
+		}
+
+		g_ptr_array_free(uids, TRUE);
+
+		break; }
+	default:
+		d(printf ("dropping an unknown\n"));
+		break;
+	}
+
+	printf("Drag finished, success %d delete %d\n", success, delete);
+
+	gtk_drag_finish(context, success, delete, time);
+}
+
+static void
+drop_popup_copy (EPopup *ep, EPopupItem *item, void *data)
+{
+	struct _drop_data *m = data;
+	drop_action(m->editor, m->context, GDK_ACTION_COPY, m->selection, m->info, m->time);
+}
+
+static void
+drop_popup_move (EPopup *ep, EPopupItem *item, void *data)
+{
+	struct _drop_data *m = data;
+	drop_action(m->editor, m->context, GDK_ACTION_MOVE, m->selection, m->info, m->time);
+}
+
+static void
+drop_popup_cancel(EPopup *ep, EPopupItem *item, void *data)
+{
+	struct _drop_data *m = data;
+	gtk_drag_finish(m->context, FALSE, FALSE, m->time);
+}
+
+static EPopupItem drop_popup_menu[] = {
+	{ E_POPUP_ITEM, "00.emc.02", N_("_Copy"), drop_popup_copy, NULL, "stock_mail-copy", 0 },
+	{ E_POPUP_ITEM, "00.emc.03", N_("_Move"), drop_popup_move, NULL, "stock_mail-move", 0 },
+	{ E_POPUP_BAR, "10.emc" },
+	{ E_POPUP_ITEM, "99.emc.00", N_("Cancel _Drag"), drop_popup_cancel, NULL, NULL, 0 },
+};
+
+static void
+drop_popup_free(EPopup *ep, GSList *items, void *data)
+{
+	struct _drop_data *m = data;
+
+	g_slist_free(items);
+
+	g_object_unref(m->context);
+	g_object_unref(m->editor);
+	g_free(m->selection->data);
+	g_free(m->selection);
+	g_free(m);
+}
+
+static void
+drag_data_received (CompEditor *editor, GdkDragContext *context,
+		    int x, int y, GtkSelectionData *selection,
+		    guint info, guint time)
+{
+	if (selection->data == NULL || selection->length == -1)
+		return;
+
+	if (context->action == GDK_ACTION_ASK) {
+		EMPopup *emp;
+		GSList *menus = NULL;
+		GtkMenu *menu;
+		int i;
+		struct _drop_data *m;
+
+		m = g_malloc0(sizeof(*m));
+		m->context = context;
+		g_object_ref(context);
+		m->editor = editor;
+		g_object_ref(editor);
+		m->action = context->action;
+		m->info = info;
+		m->time = time;
+		m->selection = g_malloc0(sizeof(*m->selection));
+		m->selection->data = g_malloc(selection->length);
+		memcpy(m->selection->data, selection->data, selection->length);
+		m->selection->length = selection->length;
+
+		emp = em_popup_new("org.gnome.evolution.mail.editor.popup.drop");
+		for (i=0;i<sizeof(drop_popup_menu)/sizeof(drop_popup_menu[0]);i++)
+			menus = g_slist_append(menus, &drop_popup_menu[i]);
+
+		e_popup_add_items((EPopup *)emp, menus, NULL, drop_popup_free, m);
+		menu = e_popup_create_menu_once((EPopup *)emp, NULL, 0);
+		gtk_menu_popup(menu, NULL, NULL, NULL, NULL, 0, time);
+	} else {
+		drop_action(editor, context, context->action, selection, info, time);
+	}
+}
+
+static gboolean
+drag_motion(GObject *o, GdkDragContext *context, gint x, gint y, guint time, CompEditor *editor)
+{
+	GList *targets;
+	GdkDragAction action, actions = 0;
+
+	for (targets = context->targets; targets; targets = targets->next) {
+		int i;
+
+		for (i=0;i<sizeof(drag_info)/sizeof(drag_info[0]);i++)
+			if (targets->data == (void *)drag_info[i].atom)
+				actions |= drag_info[i].actions;
+	}
+
+	actions &= context->actions;
+	action = context->suggested_action;
+	/* we default to copy */
+	if (action == GDK_ACTION_ASK && (actions & (GDK_ACTION_MOVE|GDK_ACTION_COPY)) != (GDK_ACTION_MOVE|GDK_ACTION_COPY))
+		action = GDK_ACTION_COPY;
+
+	gdk_drag_status(context, action, time);
+
+	return action != 0;
+}
+
 /* Class initialization function for the calendar component editor */
 static void
 comp_editor_class_init (CompEditorClass *klass)
 {
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
+	GObjectClass *gobject_class;
+	int i;
 
+	for (i=0;i<sizeof(drag_info)/sizeof(drag_info[0]);i++)
+		drag_info[i].atom = gdk_atom_intern(drag_info[i].target, FALSE);
+
+	gobject_class = G_OBJECT_CLASS(klass);
 	object_class = G_OBJECT_CLASS (klass);
 	widget_class = GTK_WIDGET_CLASS (klass);
 
@@ -606,6 +983,11 @@ comp_editor_init (CompEditor *editor)
  	priv->warned = FALSE;
 	priv->is_group_item = FALSE;
 	priv->help_section = g_strdup ("usage-calendar");
+
+	/* DND support */
+	gtk_drag_dest_set (GTK_WIDGET (editor), GTK_DEST_DEFAULT_ALL,  drop_types, num_drop_types, GDK_ACTION_COPY|GDK_ACTION_ASK|GDK_ACTION_MOVE);
+	g_signal_connect(editor, "drag_data_received", G_CALLBACK (drag_data_received), NULL);
+	g_signal_connect(editor, "drag-motion", G_CALLBACK(drag_motion), editor);
 
 	gtk_window_set_type_hint (GTK_WINDOW (editor), GDK_WINDOW_TYPE_HINT_NORMAL);
 	gtk_dialog_set_has_separator (GTK_DIALOG (editor), FALSE);
@@ -1334,7 +1716,7 @@ real_edit_comp (CompEditor *editor, ECalComponent *comp)
 	set_title_from_comp (editor);
 	set_icon_from_comp (editor);
 	e_cal_component_get_uid (comp, &uid);
-	cal_attachment_bar_set_local_attachment_store (priv->attachment_bar, 
+	cal_attachment_bar_set_local_attachment_store ((CalAttachmentBar *) priv->attachment_bar, 
 			e_cal_get_local_attachment_store (priv->client)); 
 	cal_attachment_bar_set_comp_uid (priv->attachment_bar, g_strdup	(uid));
 
@@ -1717,3 +2099,4 @@ obj_removed_cb (ECal *client, GList *uids, gpointer data)
 	if (changed_component_dialog ((GtkWindow *) editor, priv->comp, TRUE, priv->changed))
 		close_dialog (editor);
 }
+
