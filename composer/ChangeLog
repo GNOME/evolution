@@ -1,5 +1,8 @@
 2004-05-18  Not Zed  <NotZed@Ximian.com>
 
+	* mail-composer-errors.xml: set the default for exit-unsaved to
+	save, as in 1.4.  #57995.
+
 	* e-msg-composer-hdrs.c (post_browser_clicked_cb): fix for folder
 	selector api change.
 

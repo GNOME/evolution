@@ -28,7 +28,7 @@
   <secondary>Error saving to autosave because &quot;{1}&quot;.</secondary>
  </error>
 
- <error id="exit-unsaved" modal="true" type="warning">
+ <error id="exit-unsaved" modal="true" type="warning" default="GTK_RESPONSE_YES">
   <title>Warning: Modified Message</title>
   <primary>Are you sure you want to discard the message, titled '{0}', you are composing?</primary>
   <secondary>Closing this composer window will discard the message permanently, unless you choose to save the message in your Drafts folder. This will allow you to continue the message at a later date.</secondary>
