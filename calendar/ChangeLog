@@ -1,5 +1,11 @@
 2005-02-28  Chenthill Palanisamy  <pchenthill@novell.com>
 
+	* gui/dialogs/comp-editor.c: (attachment_bar_icon_clicked_cb),
+	(setup_widgets): Connect the signal to "event", and open the attachment
+	only if its a double click from the cal attachment bar.
+
+2005-02-28  Chenthill Palanisamy  <pchenthill@novell.com>
+
 	Fixes #72958
 	* gui/dialogs/comp-editor.c: (save_comp): If the backend
 	returns success, if the delay delivery is set, do not

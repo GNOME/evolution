@@ -860,8 +860,8 @@ attachment_bar_changed_cb (CalAttachmentBar *bar,
 
 }
 
-static void
-attachment_bar_icon_clicked_cb (CalAttachmentBar *bar, void *data)
+static	gboolean 
+attachment_bar_icon_clicked_cb (CalAttachmentBar *bar, GdkEvent *event, void *data)
 {
 	GnomeIconList *icon_list;
 	GList *p;
@@ -869,18 +869,22 @@ attachment_bar_icon_clicked_cb (CalAttachmentBar *bar, void *data)
 	char *attach_file_url;
 	GError *error = NULL;
 	
-	icon_list = GNOME_ICON_LIST (bar);
-	p = gnome_icon_list_get_selection (icon_list);
-	if (p) {
-		num = GPOINTER_TO_INT (p->data);
-		attach_file_url = cal_attachment_bar_get_nth_attachment_filename (bar, num);	
-		/* launch the url now */
-		/* TODO should send GError and handle error conditions
-		 * here */
-		gnome_url_show (attach_file_url, &error);
-		if (error)
-			g_message ("DEBUG: Launch failed :(\n");
-		g_free (attach_file_url); }
+	if (E_IS_CAL_ATTACHMENT_BAR (bar) && event->type == GDK_2BUTTON_PRESS) {
+		icon_list = GNOME_ICON_LIST (bar);
+		p = gnome_icon_list_get_selection (icon_list);
+		if (p) {
+			num = GPOINTER_TO_INT (p->data);
+			attach_file_url = cal_attachment_bar_get_nth_attachment_filename (bar, num);	
+			/* launch the url now */
+			/* TODO should send GError and handle error conditions
+			 * here */
+			gnome_url_show (attach_file_url, &error);
+			if (error)
+				g_message ("DEBUG: Launch failed :(\n");
+			g_free (attach_file_url); }
+		return TRUE;
+	} else 
+		return FALSE;
 }
 
 static void
@@ -945,7 +949,7 @@ setup_widgets (CompEditor *editor)
 	gtk_widget_show (priv->attachment_bar);
 	g_signal_connect (priv->attachment_bar, "changed",
 			  G_CALLBACK (attachment_bar_changed_cb), editor);
-	g_signal_connect (GNOME_ICON_LIST (priv->attachment_bar), "button-release-event",
+	g_signal_connect (GNOME_ICON_LIST (priv->attachment_bar), "event",
 			  G_CALLBACK (attachment_bar_icon_clicked_cb), NULL);			
 	priv->attachment_expander_label =
 		gtk_label_new_with_mnemonic (_("Show _Attachment Bar (drop attachments here)"));
