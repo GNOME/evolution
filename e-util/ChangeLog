@@ -1,3 +1,8 @@
+2003-04-28  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-host-utils.c: Added #include <netinet/in.h> for the
+	sockaddr_in6 typedef for at least MacOS X.
+
 2003-04-17  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-host-utils.c (e_gethostbyname_r): Keep our buf ptr aligned to
