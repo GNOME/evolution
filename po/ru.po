@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: E-volution\n"
-"POT-Creation-Date: 2000-05-01 15:54+0000\n"
+"POT-Creation-Date: 2000-05-03 19:03+0000\n"
 "PO-Revision-Date: 2000-05-01 15:56+00:00\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -267,11 +267,15 @@ msgstr "Удалить"
 msgid "Delete this message"
 msgstr "Удалить это сообщение"
 
-#: mail/folder-browser-factory.c:144
+#: mail/folder-browser-factory.c:146
 msgid "_Mail"
 msgstr "Почта"
 
-#: mail/folder-browser-factory.c:269
+#: mail/folder-browser-factory.c:151
+msgid "_Expunge"
+msgstr ""
+
+#: mail/folder-browser-factory.c:275
 msgid "We are sorry, Evolution's Folder Browser can not be initialized."
 msgstr ""
 "Извините, программа просмотра папок \"Эволюции\" не может быть "
@@ -289,31 +293,31 @@ msgstr "Будет ли показываться окно просмотра сообщения"
 msgid "Mail Component: I could not initialize Bonobo"
 msgstr "Почтовый компонент: не удалось инициализировать Bonobo"
 
-#: mail/message-list.c:404
+#: mail/message-list.c:431
 msgid "Priority"
 msgstr "Приоритет"
 
-#: mail/message-list.c:418
+#: mail/message-list.c:445
 msgid "From"
 msgstr "От"
 
-#: mail/message-list.c:425
+#: mail/message-list.c:452
 msgid "Subject"
 msgstr "Тема"
 
-#: mail/message-list.c:432
+#: mail/message-list.c:459
 msgid "Sent"
 msgstr "Отправлено"
 
-#: mail/message-list.c:439
+#: mail/message-list.c:466
 msgid "Receive"
 msgstr "Получено"
 
-#: mail/message-list.c:446
+#: mail/message-list.c:473
 msgid "To"
 msgstr "Кому"
 
-#: mail/message-list.c:453
+#: mail/message-list.c:480
 msgid "Size"
 msgstr "Размер"
 
@@ -336,22 +340,6 @@ msgstr "Папка содержащая задания"
 #: shell/e-init.c:25
 msgid "Evolution can not create its local folders"
 msgstr "Программа Evolution не может создать эту локальную папку"
-
-#: shell/e-service.c:166
-msgid "A service containing mail items"
-msgstr "Сервис содержащий почту"
-
-#: shell/e-service.c:169
-msgid "A service containing contacts"
-msgstr "Сервис содержащий контакты"
-
-#: shell/e-service.c:172
-msgid "A service containing calendar entries"
-msgstr "Сервис содержащий календарь"
-
-#: shell/e-service.c:175
-msgid "A service containing tasks"
-msgstr "Сервис содержащий задания"
 
 #: shell/e-shell-shortcut.c:99
 msgid "Large Icons"

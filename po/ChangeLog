@@ -1,3 +1,7 @@
+2000-05-03  Valek Filippov  <frob@df.ru>
+
+	* ru.po: updated.
+
 2000-05-02  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* POTFILES.in: Removed `shell/e-service.c'.
