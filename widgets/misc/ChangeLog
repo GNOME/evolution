@@ -1,3 +1,9 @@
+2001-07-24  Damon Chaplin  <damon@ximian.com>
+
+	* e-calendar-item.c (e_calendar_item_show_popup_menu): don't show the
+	year in the popup submenu for the months, and center the months.
+	Fixes
+
 2001-07-18  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-filter-bar.c (rule_editor_destroyed): When the dialog gets

@@ -36,6 +36,7 @@
 #include <gtk/gtkmain.h>
 #include <gtk/gtkmenu.h>
 #include <gtk/gtkmenuitem.h>
+#include <gtk/gtklabel.h>
 #include <gtk/gtksignal.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
@@ -2734,7 +2735,7 @@ e_calendar_item_show_popup_menu		(ECalendarItem	*calitem,
 					 GdkEventButton	*event,
 					 gint		 month_offset)
 {
-	GtkWidget *menu, *submenu, *menuitem;
+	GtkWidget *menu, *submenu, *menuitem, *label;
 	gint year, month;
 	gchar buffer[64];
 	struct tm tmp_tm;
@@ -2762,12 +2763,16 @@ e_calendar_item_show_popup_menu		(ECalendarItem	*calitem,
 			tmp_tm.tm_mday = 1;
 			tmp_tm.tm_isdst = -1;
 			mktime (&tmp_tm);
-			/* This is a strftime() format. %B = Month name, %Y = Year. */
-			strftime (buffer, sizeof (buffer), _("%B %Y"), &tmp_tm);
+			strftime (buffer, sizeof (buffer), "%B", &tmp_tm);
 
-			menuitem = gtk_menu_item_new_with_label (buffer);
+			menuitem = gtk_menu_item_new ();
 			gtk_widget_show (menuitem);
 			gtk_container_add (GTK_CONTAINER (submenu), menuitem);
+
+			label = gtk_label_new (buffer);
+			gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
+			gtk_widget_show (label);
+			gtk_container_add (GTK_CONTAINER (menuitem), label);
 
 			gtk_object_set_data (GTK_OBJECT (menuitem), "month",
 					     GINT_TO_POINTER (month));
