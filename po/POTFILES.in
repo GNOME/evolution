@@ -297,7 +297,7 @@ my-evolution/e-summary.c
 my-evolution/main.c
 my-evolution/metar.c
 my-evolution/my-evolution.glade
-notes/GNOME_Evolution_Notes.oaf.in
+#notes/GNOME_Evolution_Notes.oaf.in
 shell/GNOME_Evolution_Shell.oaf.in
 shell/e-activity-handler.c
 shell/e-local-storage.c

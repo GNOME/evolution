@@ -1,6 +1,10 @@
 2002-04-06  JP Rosevear  <jpr@ximian.com>
 
-	*  POTFILES.in: Remove mail-summary.c
+	* POTFILES.in: Remove notes files.
+	
+2002-04-06  JP Rosevear  <jpr@ximian.com>
+
+	* POTFILES.in: Remove mail-summary.c
 	
 2002-04-06  JP Rosevear  <jpr@ximian.com>
 
