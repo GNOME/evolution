@@ -1,3 +1,9 @@
+2001-10-15  Christopher James Lahey  <clahey@ximian.com>
+
+	* gui/contact-editor/e-contact-save-as.c (e_contact_save_as,
+	e_contact_list_save_as): Set the default file name here.  Fixes
+	Ximian bug #7053.
+
 2001-10-14  Jon Trowbridge  <trow@ximian.com>
 
 	* gui/component/select-names/e-select-names.c

@@ -20,6 +20,9 @@
  */
 
 #include <config.h>
+
+#include "e-contact-save-as.h"
+
 #include <unistd.h>
 #include <fcntl.h>
 #include <gtk/gtkfilesel.h>
@@ -28,8 +31,8 @@
 #include <libgnomeui/gnome-dialog.h>
 #include <gal/util/e-util.h>
 #include <libgnome/gnome-i18n.h>
-#include "e-contact-save-as.h"
 #include <errno.h>
+#include <string.h>
 
 static int file_exists(GtkFileSelection *filesel, const char *filename);
 
@@ -79,17 +82,49 @@ delete_it(GtkWidget *widget, SaveAsInfo *info)
 	g_free (info);
 }
 
+static char *
+make_safe_filename (const char *prefix, char *name)
+{
+	char *safe, *p;
+
+	if (!name) {
+		/* This is a filename. Translators take note. */
+		name = _("card.vcf");
+	}
+
+	p = strrchr (name, '/');
+	if (p)
+		safe = g_strdup_printf ("%s%s%s", prefix, p, ".vcf");
+	else
+		safe = g_strdup_printf ("%s/%s%s", prefix, name, ".vcf");
+	
+	p = strrchr (safe, '/') + 1;
+	if (p)
+		e_filename_make_safe (p);
+	
+	return safe;
+}
+
 void
 e_contact_save_as(char *title, ECard *card)
 {
 	GtkFileSelection *filesel;
+	char *file;
+	char *name;
 	SaveAsInfo *info = g_new(SaveAsInfo, 1);
-	
+
 	filesel = GTK_FILE_SELECTION(gtk_file_selection_new(title));
+
+	gtk_object_get (GTK_OBJECT (card),
+			"file_as", &name,
+			NULL);
+	file = make_safe_filename (g_get_home_dir(), name);
+	gtk_file_selection_set_filename (filesel, file);
+	g_free (file);
 
 	info->filesel = filesel;
 	info->vcard = e_card_get_vcard(card);
-	
+
 	gtk_signal_connect(GTK_OBJECT(filesel->ok_button), "clicked",
 			   save_it, info);
 	gtk_signal_connect(GTK_OBJECT(filesel->cancel_button), "clicked",
@@ -104,8 +139,24 @@ e_contact_list_save_as(char *title, GList *list)
 {
 	GtkFileSelection *filesel;
 	SaveAsInfo *info = g_new(SaveAsInfo, 1);
-	
+
 	filesel = GTK_FILE_SELECTION(gtk_file_selection_new(title));
+
+	/* This is a filename. Translators take note. */
+	if (list && list->data && list->next == NULL) {
+		char *name, *file;
+		gtk_object_get (GTK_OBJECT (list->data),
+				"file_as", &name,
+				NULL);
+		file = make_safe_filename (g_get_home_dir(), name);
+		gtk_file_selection_set_filename (filesel, file);
+		g_free (file);
+	} else {
+		char *file;
+		file = make_safe_filename (g_get_home_dir(), _("list"));
+		gtk_file_selection_set_filename (filesel, file);
+		g_free (file);
+	}
 
 	info->filesel = filesel;
 	info->vcard = e_card_list_get_vcard (list);
