@@ -91,8 +91,11 @@ CamelType camel_multipart_signed_get_type (void);
 /* public methods */
 CamelMultipartSigned *camel_multipart_signed_new           (void);
 
-int		      camel_multipart_signed_sign	   (CamelMultipartSigned *mps, CamelCipherContext *context, CamelMimePart *content, const char *uiserid, CamelCipherHash hash, CamelException *ex);
-CamelCipherValidity  *camel_multipart_signed_verify	   (CamelMultipartSigned *mps, CamelCipherContext *context, CamelException *ex);
+int		      camel_multipart_signed_sign	   (CamelMultipartSigned *mps, CamelCipherContext *context,
+							    CamelMimePart *content, const char *uiserid,
+							    CamelCipherHash hash, CamelException *ex);
+CamelCipherValidity  *camel_multipart_signed_verify	   (CamelMultipartSigned *mps, CamelCipherContext *context,
+							    CamelException *ex);
 
 #ifdef __cplusplus
 }

@@ -780,6 +780,11 @@ gpg_ctx_parse_status (struct _GpgCtx *gpg, CamelException *ex)
 				      _("Unexpected response from GnuPG: %s"),
 				      status + 11);
 		return -1;
+	} else if (!strncmp (status, "NODATA", 6)) {
+		/* this is an error */
+		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
+				     _("No data provided"));
+		return -1;
 	} else {
 		/* check to see if we are complete */
 		switch (gpg->mode) {
