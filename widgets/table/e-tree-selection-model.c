@@ -890,14 +890,12 @@ etsm_foreach_all_recurse (ETreeSelectionModel *etsm,
 			  ETreeForeachFunc callback,
 			  gpointer closure)
 {
-	ETreePath model_path;
 	ETreePath child;
 
-	model_path = e_tree_sorted_view_to_model_path(etsm->priv->ets, path);
-	callback(model_path, closure);
+	callback(path, closure);
 
-	child = e_tree_model_node_get_first_child(E_TREE_MODEL(etsm->priv->ets), path);
-	for ( ; child; child = e_tree_model_node_get_next(E_TREE_MODEL(etsm->priv->ets), child))
+	child = e_tree_model_node_get_first_child(E_TREE_MODEL(etsm->priv->model), path);
+	for ( ; child; child = e_tree_model_node_get_next(E_TREE_MODEL(etsm->priv->model), child))
 		if (child)
 			etsm_foreach_all_recurse (etsm, child, callback, closure);
 }
@@ -918,14 +916,13 @@ etsm_foreach_recurse (ETreeSelectionModel *etsm,
 		return;
 
 	if (selection_node->selected) {
-		ETreePath model_path = e_tree_sorted_view_to_model_path(etsm->priv->ets, path);
-		callback(model_path, closure);
+		callback(path, closure);
 	}
 
 	if (selection_node->children) {
-		ETreePath child = e_tree_model_node_get_first_child(E_TREE_MODEL(etsm->priv->ets), path);
+		ETreePath child = e_tree_model_node_get_first_child(E_TREE_MODEL(etsm->priv->model), path);
 		int i;
-		for (i = 0; i < selection_node->num_children; i++, child = e_tree_model_node_get_next(E_TREE_MODEL(etsm->priv->ets), child))
+		for (i = 0; i < selection_node->num_children; i++, child = e_tree_model_node_get_next(E_TREE_MODEL(etsm->priv->model), child))
 			if (selection_node->children[i])
 				etsm_foreach_recurse (etsm, selection_node->children[i], child, callback, closure);
 	}
@@ -937,7 +934,9 @@ e_tree_selection_model_foreach   (ETreeSelectionModel *etsm,
 				  gpointer             closure)
 {
 	if (etsm->priv->root) {
-		etsm_foreach_recurse(etsm, etsm->priv->root, e_tree_model_get_root(E_TREE_MODEL(etsm->priv->ets)), callback, closure);
+		ETreePath model_root;
+		model_root = e_tree_model_get_root(etsm->priv->model);
+		etsm_foreach_recurse(etsm, etsm->priv->root, model_root, callback, closure);
 	}
 }
 
