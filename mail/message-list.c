@@ -2691,11 +2691,10 @@ regen_list_regened (struct _mail_msg *mm)
 
 	if (m->dotree) {
 		build_tree (m->ml, m->tree, m->changes);
-		g_assert(m->ml->thread_tree == NULL || m->ml->thread_tree == m->tree);
-		if (m->ml->thread_tree == NULL) {
-			m->ml->thread_tree = m->tree;
-			m->tree = NULL;
-		}
+		if (m->ml->thread_tree)
+			camel_folder_thread_messages_unref(m->ml->thread_tree);
+		m->ml->thread_tree = m->tree;
+		m->tree = NULL;
 	} else
 		build_flat (m->ml, m->summary, m->changes);
 

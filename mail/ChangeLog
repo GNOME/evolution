@@ -1,5 +1,10 @@
 2002-07-22  Not Zed  <NotZed@Ximian.com>
 
+	* message-list.c (regen_list_regened): Remove the assert, and
+	always copy over the threadtree which represents the current view,
+	unreffing the old one if set.  For #28021.  Haven't tested this a
+	lot, but i guess it cant be worse than what is there.
+
 	* mail-vfolder.c (store_folder_renamed): When renaming, use
 	full_name to set the folder, not name, so the path is preserved.
 
