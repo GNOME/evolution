@@ -51,6 +51,25 @@
 
 #define PARENT_TYPE (gtk_table_get_type ())
 
+
+enum DndTargetType {
+	DND_TARGET_TYPE_X_EVOLUTION_DND,
+	DND_TARGET_TYPE_MESSAGE_RFC822,
+	DND_TARGET_TYPE_URI_LIST,
+};
+
+#define X_EVOLUTION_DND_TYPE "x-evolution-dnd"
+#define MESSAGE_RFC822_TYPE  "message/rfc822"
+#define URI_LIST_TYPE        "text/uri-list"
+
+static GtkTargetEntry drag_types[] = {
+	{ X_EVOLUTION_DND_TYPE, 0, DND_TARGET_TYPE_X_EVOLUTION_DND },
+	{ MESSAGE_RFC822_TYPE, 0, DND_TARGET_TYPE_MESSAGE_RFC822 },
+	{ URI_LIST_TYPE, 0, DND_TARGET_TYPE_URI_LIST },
+};
+
+static const int num_drag_types = sizeof (drag_types) / sizeof (drag_types[0]);
+
 static void fb_resize_cb (GtkWidget *w, GtkAllocation *a);
 static void update_unread_count (CamelObject *, gpointer, gpointer);
 
@@ -168,7 +187,7 @@ update_unread_count_main(CamelObject *object, gpointer event_data, gpointer user
 }
 
 static void
-update_unread_count(CamelObject *object, gpointer event_data, gpointer user_data)
+update_unread_count (CamelObject *object, gpointer event_data, gpointer user_data)
 {
 	CamelFolder *folder = (CamelFolder *)object;
 	FolderBrowser *fb = user_data;
@@ -182,47 +201,153 @@ update_unread_count(CamelObject *object, gpointer event_data, gpointer user_data
 }
 
 static void
+add_uid (MessageList *ml, const char *uid, gpointer data)
+{
+	g_ptr_array_add ((GPtrArray *) data, g_strdup (uid));
+}
+
+static void
+message_list_drag_data_get (ETree             *tree,
+			    int                 row,
+			    ETreePath           path,
+			    int                 col,
+			    GdkDragContext     *context,
+			    GtkSelectionData   *selection_data,
+			    guint               info,
+			    guint               time,
+			    gpointer            user_data)
+{
+	FolderBrowser *fb = FOLDER_BROWSER (user_data);
+	GPtrArray *uids = NULL;
+	
+	switch (info) {
+	case DND_TARGET_TYPE_URI_LIST:
+	{
+		char *tmpl, *tmpdir, *filename, *subject;
+		CamelMessageInfo *minfo;
+		
+		/* drag & drop into nautilus */
+		tmpl = g_strdup ("/tmp/evolution.XXXXXX");
+#ifdef HAVE_MKDTEMP
+		tmpdir = mkdtemp (tmpl);
+#else
+		tmpdir = mktemp (tmpl);
+		if (tmpdir) {
+			if (mkdir (tmpdir, S_IRWXU) == -1)
+				tmpdir = NULL;
+		}
+#endif
+		if (!tmpdir) {
+			g_free (tmpl);
+			return;
+		}
+		g_free (tmpl);
+		
+		uids = g_ptr_array_new ();
+		message_list_foreach (fb->message_list, add_uid, uids);
+		
+		minfo = camel_folder_get_message_info (fb->folder, uids->pdata[0]);
+		
+		subject = g_strdup (camel_message_info_subject (minfo));
+		e_filename_make_safe (subject);
+		filename = g_strdup_printf ("%s/%s.eml", tmpdir, subject);
+		g_free (subject);
+		
+		mail_msg_wait (mail_save_messages (fb->folder, uids, filename, NULL, NULL));
+		
+		gtk_selection_data_set (selection_data, selection_data->target, 8,
+					(guchar *) filename, strlen (filename));
+	}
+	break;
+	case DND_TARGET_TYPE_MESSAGE_RFC822:
+		break;
+	case DND_TARGET_TYPE_X_EVOLUTION_DND:
+	{
+		GByteArray *array;
+		char *uri;
+		int i;
+		
+		/* format: "url folder_name uid1\0uid2\0uid3\0...\0uidn" */
+		
+		uids = g_ptr_array_new ();
+		message_list_foreach (fb->message_list, add_uid, uids);
+		
+		uri = camel_url_to_string (CAMEL_SERVICE (camel_folder_get_parent_store (fb->folder))->url, 0);
+		
+		/* write the url portion */
+		array = g_byte_array_new ();
+		g_byte_array_append (array, uri, strlen (uri));
+		g_byte_array_append (array, " ", 1);
+		g_free (uri);
+		
+		/* write the folder_name portion */
+		g_byte_array_append (array, fb->folder->name, strlen (fb->folder->name));
+		g_byte_array_append (array, " ", 1);
+		
+		/* write the uids */
+		for (i = 0; i < uids->len; i++) {
+			g_byte_array_append (array, uids->pdata[i], strlen (uids->pdata[i]));
+			g_free (uids->pdata[i]);
+			
+			if (i + 1 < uids->len)
+				g_byte_array_append (array, "", 1);
+		}
+		
+		g_ptr_array_free (uids, TRUE);
+		
+		gtk_selection_data_set (selection_data, selection_data->target, 8,
+					array->data, array->len);
+		
+		g_byte_array_free (array, FALSE);
+	}
+	break;
+	default:
+		break;
+	}
+}
+
+static void
 got_folder(char *uri, CamelFolder *folder, void *data)
 {
 	FolderBrowser *fb = data;
 	EvolutionStorage *storage;
-
-	printf("got folder '%s' = %p\n", uri, folder);
-
+	
+	d(printf ("got folder '%s' = %p\n", uri, folder));
+	
 	if (fb->folder == folder)
 		goto done;
-
+	
 	if (fb->folder)
-		camel_object_unref((CamelObject *)fb->folder);
-	g_free(fb->uri);
-	fb->uri = g_strdup(uri);
+		camel_object_unref (CAMEL_OBJECT (fb->folder));
+	g_free (fb->uri);
+	fb->uri = g_strdup (uri);
 	fb->folder = folder;
-
+	
 	if (folder == NULL)
 		goto done;
-
-	camel_object_ref((CamelObject *)folder);
-
+	
+	camel_object_ref (CAMEL_OBJECT (folder));
+	
 	if ((storage = mail_lookup_storage (folder->parent_store))) {
 		gtk_object_unref (GTK_OBJECT (storage));
 		fb->unread_count = camel_folder_get_unread_message_count (folder);
-		update_unread_count_main ((CamelObject *)folder, NULL, fb);
-		camel_object_hook_event ((CamelObject *)folder, "message_changed",
+		update_unread_count_main (CAMEL_OBJECT (folder), NULL, fb);
+		camel_object_hook_event (CAMEL_OBJECT (folder), "message_changed",
 					 update_unread_count, fb);
-		camel_object_hook_event ((CamelObject *)folder, "folder_changed",
+		camel_object_hook_event (CAMEL_OBJECT (folder), "folder_changed",
 					 update_unread_count, fb);
 	}
-
-	gtk_widget_set_sensitive(GTK_WIDGET(fb->search), camel_folder_has_search_capability(folder));
+	
+	gtk_widget_set_sensitive (GTK_WIDGET (fb->search), camel_folder_has_search_capability (folder));
 	message_list_set_threaded (fb->message_list, mail_config_get_thread_list (fb->uri));
-	message_list_set_folder(fb->message_list, folder,
-				folder_browser_is_drafts (fb) ||
-				folder_browser_is_sent (fb) ||
-				folder_browser_is_outbox (fb));
-	vfolder_register_source(folder);
-done:
-	gtk_object_unref((GtkObject *)fb);
-
+	message_list_set_folder (fb->message_list, folder,
+				 folder_browser_is_drafts (fb) ||
+				 folder_browser_is_sent (fb) ||
+				 folder_browser_is_outbox (fb));
+	vfolder_register_source (folder);
+ done:
+	gtk_object_unref (GTK_OBJECT (fb));
+	
 	/* Sigh, i dont like this (it can be set in reconfigure folder),
 	   but its just easier right now to do it this way */
 	fb->reconfigure = FALSE;
@@ -241,7 +366,7 @@ folder_browser_set_uri (FolderBrowser *folder_browser, const char *uri)
 		   but its just easier right now to do it this way */
 		folder_browser->reconfigure = FALSE;
 	}
-
+	
 	return TRUE;
 }
 
@@ -260,12 +385,12 @@ folder_browser_is_drafts (FolderBrowser *fb)
 {
 	const GSList *accounts;
 	MailConfigAccount *account;
-
+	
 	g_return_val_if_fail (IS_FOLDER_BROWSER (fb) && fb->uri, FALSE);
-
+	
 	if (fb->folder == drafts_folder)
 		return TRUE;
-
+	
 	accounts = mail_config_get_accounts ();
 	while (accounts) {
 		account = accounts->data;
@@ -274,6 +399,7 @@ folder_browser_is_drafts (FolderBrowser *fb)
 			return TRUE;
 		accounts = accounts->next;
 	}
+	
 	return FALSE;
 }
 
@@ -289,12 +415,12 @@ folder_browser_is_sent (FolderBrowser *fb)
 {
 	const GSList *accounts;
 	MailConfigAccount *account;
-
+	
 	g_return_val_if_fail (IS_FOLDER_BROWSER (fb) && fb->uri, FALSE);
-
+	
 	if (fb->folder == sent_folder)
 		return TRUE;
-
+	
 	accounts = mail_config_get_accounts ();
 	while (accounts) {
 		account = accounts->data;
@@ -303,6 +429,7 @@ folder_browser_is_sent (FolderBrowser *fb)
 			return TRUE;
 		accounts = accounts->next;
 	}
+	
 	return FALSE;
 }
 
@@ -325,7 +452,7 @@ folder_browser_set_message_preview (FolderBrowser *folder_browser, gboolean show
 {
 	if (folder_browser->preview_shown == show_message_preview)
 		return;
-
+	
 	g_warning ("FIXME: implement me");
 }
 
@@ -345,15 +472,15 @@ static void
 folder_browser_search_menu_activated (ESearchBar *esb, int id, FolderBrowser *fb)
 {
 	EFilterBar *efb = (EFilterBar *)esb;
-
-	printf("menyu activated\n");
-
+	
+	d(printf("menu activated\n"));
+	
 	switch (id) {
 	case ESB_SAVE:
-		printf("Save vfolder\n");
+		d(printf("Save vfolder\n"));
 		if (efb->current_query) {
 			FilterRule *rule = vfolder_clone_rule(efb->current_query);			
-
+			
 			filter_rule_set_source(rule, FILTER_SOURCE_INCOMING);
 			vfolder_rule_add_source((VfolderRule *)rule, fb->uri);
 			vfolder_gui_add_rule((VfolderRule *)rule);
@@ -362,7 +489,8 @@ folder_browser_search_menu_activated (ESearchBar *esb, int id, FolderBrowser *fb
 	}
 }
 
-static void folder_browser_config_search(EFilterBar *efb, FilterRule *rule, int id, const char *query, void *data)
+static void
+folder_browser_config_search (EFilterBar *efb, FilterRule *rule, int id, const char *query, void *data)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (data);
 	ESearchingTokenizer *st;
@@ -394,8 +522,9 @@ static void folder_browser_config_search(EFilterBar *efb, FilterRule *rule, int 
 		
 		partl = partl->next;
 	}
-	printf("configuring search for search string '%s', rule is '%s'\n", query, rule->name);
-
+	
+	d(printf("configuring search for search string '%s', rule is '%s'\n", query, rule->name));
+	
 	mail_display_redisplay (fb->mail_display, FALSE);
 }
 
@@ -403,16 +532,16 @@ static void
 folder_browser_search_query_changed (ESearchBar *esb, FolderBrowser *fb)
 {
 	char *search_word;
-
-	printf("query changed\n");
-
+	
+	d(printf("query changed\n"));
+	
 	gtk_object_get (GTK_OBJECT (esb),
 			"query", &search_word,
 			NULL);
 
 	message_list_set_search (fb->message_list, search_word);
-
-	printf("query is %s\n", search_word);
+	
+	d(printf("query is %s\n", search_word));
 	g_free(search_word);
 	return;
 }
@@ -1000,8 +1129,7 @@ folder_browser_gui_init (FolderBrowser *fb)
 	fb->vpaned = e_vpaned_new ();
 	gtk_widget_show (fb->vpaned);
 	
-	gtk_table_attach (
-		GTK_TABLE (fb), fb->vpaned,
+	gtk_table_attach (GTK_TABLE (fb), fb->vpaned,
 			  0, 1, 1, 3,
 			  GTK_FILL | GTK_EXPAND,
 			  GTK_FILL | GTK_EXPAND,
@@ -1194,10 +1322,17 @@ my_folder_browser_init (GtkObject *object)
 
 	gtk_signal_connect (GTK_OBJECT (fb->message_list->tree),
 			    "double_click", GTK_SIGNAL_FUNC (on_double_click), fb);
-
-	gtk_signal_connect (GTK_OBJECT(fb->message_list), "message_selected",
+	
+	gtk_signal_connect (GTK_OBJECT (fb->message_list), "message_selected",
 			    on_message_selected, fb);
-
+	
+	/* drag & drop */
+	e_tree_drag_source_set (fb->message_list->tree, GDK_BUTTON1_MASK,
+				drag_types, num_drag_types, GDK_ACTION_MOVE);
+	
+	gtk_signal_connect (GTK_OBJECT (fb->message_list->tree), "tree_drag_data_get",
+			    GTK_SIGNAL_FUNC (message_list_drag_data_get), fb);
+	
 	folder_browser_gui_init (fb);
 }
 

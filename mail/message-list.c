@@ -153,15 +153,6 @@ static struct {
 	{ NULL,			NULL }
 };
 
-enum DndTargetTyhpe {
-	DND_TARGET_LIST_TYPE_URI,
-};
-#define URI_LIST_TYPE "text/uri-list"
-static GtkTargetEntry drag_types[] = {
-	{ URI_LIST_TYPE, 0, DND_TARGET_LIST_TYPE_URI },
-};
-static const int num_drag_types = sizeof (drag_types) / sizeof (drag_types[0]);
-
 #ifdef SMART_ADDRESS_COMPARE
 static EMailAddress *
 e_mail_address_new (const char *address)
@@ -218,12 +209,12 @@ e_mail_address_compare (gconstpointer address1, gconstpointer address2)
 		
 		return g_strcasecmp (addr1->address, addr2->address);
 	}
-
+	
 	if (!addr1->wname)
 		return -1;
 	if (!addr2->wname)
 		return 1;
-
+	
 	if (!addr1->wname->last && !addr2->wname->last) {
 		/* neither has a last name - default to address? */
 		/* FIXME: what do we compare next? */
@@ -232,30 +223,30 @@ e_mail_address_compare (gconstpointer address1, gconstpointer address2)
 			
 		return g_strcasecmp (addr1->address, addr2->address);
 	} 
-
+	
 	if (!addr1->wname->last)
 		return -1;
 	if (!addr2->wname->last)
 		return 1;
-
+	
 	retval = g_strcasecmp (addr1->wname->last, addr2->wname->last);
 	if (retval) 
 		return retval;
-
+	
 	/* last names are identical - compare first names */
-
+	
 	if (!addr1->wname->first && !addr2->wname->first)
 		return g_strcasecmp (addr1->address, addr2->address);
-
+	
 	if (!addr1->wname->first)
 		return -1;
 	if (!addr2->wname->first)
 		return 1;
-
+	
 	retval = g_strcasecmp (addr1->wname->first, addr2->wname->first);
 	if (retval) 
 		return retval;
-
+	
 	return g_strcasecmp (addr1->address, addr2->address);
 }
 #endif /* SMART_ADDRESS_COMPARE */
@@ -381,7 +372,7 @@ message_list_select (MessageList *message_list, int base_row,
 	CamelMessageInfo *info;
 	int vrow, last;
 	ETree *et = message_list->tree;
-
+	
 	if (!GTK_WIDGET_HAS_FOCUS (message_list))
 		gtk_widget_grab_focus (GTK_WIDGET (message_list));
 
@@ -451,73 +442,6 @@ message_list_select_uid (MessageList *message_list, const char *uid)
 		g_free (message_list->cursor_uid);
 		message_list->cursor_uid = NULL;
 		gtk_signal_emit (GTK_OBJECT (message_list), message_list_signals[MESSAGE_SELECTED], NULL);
-	}
-}
-
-static void
-add_uid (MessageList *ml, const char *uid, gpointer data)
-{
-	g_ptr_array_add ((GPtrArray *) data, g_strdup (uid));
-}
-
-static void
-message_list_drag_data_get (ETree             *tree,
-			    int                 row,
-			    ETreePath           path,
-			    int                 col,
-			    GdkDragContext     *context,
-			    GtkSelectionData   *selection_data,
-			    guint               info,
-			    guint               time,
-			    gpointer            user_data)
-{
-	MessageList *mlist = (MessageList *) user_data;
-	CamelMessageInfo *minfo;
-	GPtrArray *uids = NULL;
-	char *tmpl, *tmpdir, *filename, *subject;
-	
-	switch (info) {
-	case DND_TARGET_LIST_TYPE_URI:
-		/* drag & drop into nautilus */
-		tmpl = g_strdup ("/tmp/evolution.XXXXXX");
-#ifdef HAVE_MKDTEMP
-		tmpdir = mkdtemp (tmpl);
-#else
-		tmpdir = mktemp (tmpl);
-		if (tmpdir) {
-			if (mkdir (tmpdir, S_IRWXU) == -1)
-				tmpdir = NULL;
-		}
-#endif
-		if (!tmpdir) {
-			g_free (tmpl);
-			return;
-		}
-
-		minfo = get_message_info (mlist, path);
-		if (minfo == NULL) {
-			g_warning("Row %d is invalid", row);
-			g_free(tmpl);
-			return;
-		}
-		subject = g_strdup (camel_message_info_subject (minfo));
-		e_filename_make_safe (subject);
-		filename = g_strdup_printf ("%s/%s.eml", tmpdir, subject);
-		g_free (subject);
-		
-		uids = g_ptr_array_new ();
-		message_list_foreach (mlist, add_uid, uids);
-		
-		mail_msg_wait(mail_save_messages(mlist->folder, uids, filename, NULL, NULL));
-		
-		gtk_selection_data_set (selection_data, selection_data->target, 8,
-					(guchar *) filename, strlen (filename));
-		
-		g_free (tmpl);
-		g_free (filename);
-		break;
-	default:
-		break;
 	}
 }
 
@@ -1223,32 +1147,32 @@ static void
 message_list_construct (MessageList *message_list)
 {
 	ETableExtras *extras;
-
+	
 	message_list->model =
 		e_tree_memory_callbacks_new (ml_tree_icon_at,
-
+					     
 					     ml_column_count,
-
+					     
 					     ml_has_save_id,
 					     ml_get_save_id,
-
+					     
 					     ml_has_get_node_by_id,
 					     ml_get_node_by_id,
-
+					     
 					     ml_tree_value_at,
 					     ml_tree_set_value_at,
 					     ml_tree_is_cell_editable,
-
+					     
 					     ml_duplicate_value,
 					     ml_free_value,
 					     ml_initialize_value,
 					     ml_value_is_empty,
 					     ml_value_to_string,
-
+					     
 					     message_list);
 	gtk_object_ref (GTK_OBJECT (message_list->model));
 	gtk_object_sink (GTK_OBJECT (message_list->model));
-
+	
 	e_tree_memory_set_expanded_default(E_TREE_MEMORY(message_list->model), TRUE);
 	
 	/*
@@ -1260,26 +1184,18 @@ message_list_construct (MessageList *message_list)
 						  extras, 
 						  EVOLUTION_ETSPECDIR "/message-list.etspec",
 						  NULL);
-
+	
 	message_list->tree = e_tree_scrolled_get_tree(E_TREE_SCROLLED (message_list));
 	e_tree_root_node_set_visible (message_list->tree, FALSE);
-
+	
 	gtk_object_sink (GTK_OBJECT (extras));
-
+	
 	gtk_signal_connect (GTK_OBJECT (message_list->tree), "cursor_activated",
 			    GTK_SIGNAL_FUNC (on_cursor_activated_cmd),
 			    message_list);
-
+	
 	gtk_signal_connect (GTK_OBJECT (message_list->tree), "click",
 			    GTK_SIGNAL_FUNC (on_click), message_list);
-	
-	/* drag & drop */
-	e_tree_drag_source_set (message_list->tree, GDK_BUTTON1_MASK,
-				 drag_types, num_drag_types, GDK_ACTION_MOVE);
-	
-	gtk_signal_connect (GTK_OBJECT (message_list->tree), "drag_data_get",
-			    GTK_SIGNAL_FUNC (message_list_drag_data_get),
-			    message_list);
 }
 
 GtkWidget *

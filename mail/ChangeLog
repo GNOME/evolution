@@ -1,5 +1,17 @@
 2001-06-15  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* component-factory.c (destination_folder_handle_drop): Implemented.
+
+	* message-list.c (message_list_construct): Don't connect to the
+	DnD signals here.
+	(message_list_drag_data_get): Removed.
+	(add_uid): Removed.
+
+	* folder-browser.c (my_folder_browser_init): Connect to DnD signals.
+	(message_list_drag_data_get): Implemented.
+
+2001-06-15  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* mail-ops.c (mail_send_message): Fixed misuse of an uninitialized
 	variable.
 

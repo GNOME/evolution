@@ -68,7 +68,7 @@ static GHashTable *storages_hash;
 
 static char *accepted_dnd_types[] = {
 	"message/rfc822",         /* if we drag from nautilus or something... */
-	"x-evolution-folder-dnd", /* if we drag from an evolution folder... */
+	"x-evolution-dnd",        /* if we drag from an evolution folder... */
 	NULL
 };
 
@@ -345,19 +345,28 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *fol
 		camel_object_unref (CAMEL_OBJECT (stream));
 	} else {
 		/* x-evolution-dnd */
-		char *uri, *in, *inptr, *inend;
+		char *url, *name, *in, *inptr, *inend;
 		CamelFolder *source;
 		GPtrArray *uids;
 		
-		/* format is "uri uid1\0uid2\0uid3\0...\0uidn" */
+		/* format: "url folder_name uid1\0uid2\0uid3\0...\0uidn" */
 		
 		in = data->bytes._buffer;
 		inend = in + data->bytes._length;
 		
 		inptr = strchr (in, ' ');
-		uri = g_strndup (data->bytes._buffer, inptr - in);
-		source = mail_tool_uri_to_folder (uri, NULL);
-		g_free (uri);
+		url = g_strndup (in, inptr - in);
+		
+		name = inptr + 1;
+		inptr = strchr (name, ' ');
+		name = g_strndup (name, inptr - name);
+		
+		source = mail_tool_get_folder_from_urlname (url, name, 0, NULL);
+		g_free (name);
+		g_free (url);
+		
+		if (!source)
+			return FALSE;
 		
 		/* split the uids */
 		inptr++;
