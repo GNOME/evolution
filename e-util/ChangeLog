@@ -1,3 +1,24 @@
+2002-11-02  Chris Toshok  <toshok@ximian.com>
+
+	* Makefile.am: add marshal building stuff, add e-util-marshal.c to
+	SOURCES, and add e-util-marshal.list to EXTRA_DIST.
+
+	* e-util-marshal.list: add marshallers for e-util.
+
+	* e-list.c: convert to GObject.
+
+	* e-list.h: convert to GObject.
+
+	* e-iterator.c: convert to GObject.
+
+	* e-iterator.h: convert to GObject.
+
+	* e-list-iterator.c: convert to GObject.
+
+	* e-list-iterator.h: convert to GObject.
+
+	* .cvsignore: ignore e-util-marshal.[ch]
+
 2002-11-02  Ettore Perazzoli  <ettore@ximian.com>
 
 	* ename/Makefile.am (INCLUDES): Removed -I$(includedir).

@@ -12,23 +12,25 @@
 
 #include <stdio.h>
 #include <time.h>
-#include <gtk/gtkobject.h>
+#include <glib.h>
+#include <glib-object.h>
 
 #define E_TYPE_ITERATOR            (e_iterator_get_type ())
-#define E_ITERATOR(obj)            (GTK_CHECK_CAST ((obj), E_TYPE_ITERATOR, EIterator))
-#define E_ITERATOR_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), E_TYPE_ITERATOR, EIteratorClass))
-#define E_IS_ITERATOR(obj)         (GTK_CHECK_TYPE ((obj), E_TYPE_ITERATOR))
-#define E_IS_ITERATOR_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), E_TYPE_ITERATOR))
+#define E_ITERATOR(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_ITERATOR, EIterator))
+#define E_ITERATOR_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_ITERATOR, EIteratorClass))
+#define E_IS_ITERATOR(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_ITERATOR))
+#define E_IS_ITERATOR_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), E_TYPE_ITERATOR))
+#define E_ITERATOR_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), E_TYPE_ITERATOR, EIteratorClass))
 
 typedef struct _EIterator EIterator;
 typedef struct _EIteratorClass EIteratorClass;
 
 struct _EIterator {
-	GtkObject object;
+	GObject object;
 };
 
 struct _EIteratorClass {
-	GtkObjectClass parent_class;
+	GObjectClass parent_class;
 
 	/* Signals */
 	void         (*invalidate) (EIterator  *iterator);
@@ -63,7 +65,7 @@ gboolean       e_iterator_is_valid   (EIterator  *iterator);
 
 void           e_iterator_invalidate (EIterator  *iterator);
 
-/* Standard Gtk function */
-GtkType        e_iterator_get_type   (void);
+/* Standard Glib function */
+GType          e_iterator_get_type   (void);
 
 #endif /* ! __E_ITERATOR_H__ */

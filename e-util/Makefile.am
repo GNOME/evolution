@@ -59,7 +59,23 @@ libeutil_la_SOURCES =				\
 	e-sexp.c				\
 	e-time-utils.c				\
 	e-url.c					\
+	e-util-marshal.c			\
 	md5-utils.c
+
+# GLib marshalling cruft
+
+e-util-marshal.h: e-util-marshal.list
+	( @GLIB_GENMARSHAL@ --prefix=e_util_marshal e-util-marshal.list --header > e-util-marshal.tmp \
+	&& mv e-util-marshal.tmp e-util-marshal.h ) \
+	|| ( rm -f e-util-marshal.tmp && exit 1 )
+
+e-util-marshal.c: e-util-marshal.h
+	( @GLIB_GENMARSHAL@ --prefix=e_util_marshal e-util-marshal.list --body > e-util-marshal.tmp \
+	&& mv e-util-marshal.tmp e-util-marshal.c ) \
+	|| ( rm -f e-util-marshal.tmp && exit 1 )
+
+MARSHAL_GENERATED = e-util-marshal.c e-util-marshal.h
+
 
 # FIXME TODO
 #	e-categories-config.c
@@ -99,7 +115,7 @@ libeconduit_la_SOURCES = $(pilot_compile)
 libeconduit_static_la_SOURCES = $(libeconduit_la_SOURCES)
 libeconduit_static_la_LDFLAGS = -all-static
 
-EXTRA_DIST = $(pilot_sources)
+EXTRA_DIST = $(pilot_sources) e-util-marshal.list
 
 edb3include_HEADERS =			\
 	e-db3-utils.h			\
@@ -109,3 +125,6 @@ libedb3util_la_SOURCES =		\
 	$(edb3include_HEADERS)		\
 	e-db3-utils.c			\
 	e-dbhash.c
+
+BUILT_SOURCES = $(MARSHAL_GENERATED)
+CLEANFILES    = $(BUILT_SOURCES)

@@ -9,17 +9,15 @@
 
 #include <config.h>
 
-#include <gtk/gtksignal.h>
 #include "e-iterator.h"
-
-#define ECI_CLASS(object) (E_ITERATOR_CLASS(GTK_CLASS_TYPE (object)))
+#include "e-util-marshal.h"
 
 static void e_iterator_init (EIterator *card);
 static void e_iterator_class_init (EIteratorClass *klass);
 
-#define PARENT_TYPE (gtk_object_get_type ())
+#define PARENT_TYPE G_TYPE_OBJECT
 
-static GtkObjectClass *parent_class;
+static GObjectClass *parent_class;
 
 enum {
 	INVALIDATE,
@@ -37,24 +35,25 @@ static guint e_iterator_signals [LAST_SIGNAL] = { 0, };
  * 
  * Return value: The type ID of the &EIterator class.
  **/
-GtkType
+GType
 e_iterator_get_type (void)
 {
-	static GtkType type = 0;
+	static GType type = 0;
 
-	if (!type) {
-		GtkTypeInfo info = {
-			"EIterator",
-			sizeof (EIterator),
+	if (! type) {
+		GTypeInfo info = {
 			sizeof (EIteratorClass),
-			(GtkClassInitFunc) e_iterator_class_init,
-			(GtkObjectInitFunc) e_iterator_init,
-			NULL, /* reserved_1 */
-			NULL, /* reserved_2 */
-			(GtkClassInitFunc) NULL
+			NULL, /* base_class_init */
+			NULL, /* base_class_finalize */
+			(GClassInitFunc)  e_iterator_class_init,
+			NULL, /* class_finalize */
+			NULL, /* class_data */
+			sizeof (EIterator),
+			0,    /* n_preallocs */
+			(GInstanceInitFunc) e_iterator_init
 		};
 
-		type = gtk_type_unique (PARENT_TYPE, &info);
+		type = g_type_register_static (PARENT_TYPE, "EIterator", &info, 0);
 	}
 
 	return type;
@@ -63,19 +62,20 @@ e_iterator_get_type (void)
 static void
 e_iterator_class_init (EIteratorClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 
-	object_class = GTK_OBJECT_CLASS(klass);
+	object_class = G_OBJECT_CLASS(klass);
 
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_ref (PARENT_TYPE);
 
 	e_iterator_signals [INVALIDATE] =
-		gtk_signal_new ("invalidate",
-				GTK_RUN_LAST,
-				GTK_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (EIteratorClass, invalidate),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
+		g_signal_new ("invalidate",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (EIteratorClass, invalidate),
+			      NULL, NULL,
+			      e_util_marshal_NONE__NONE, /* XXX need a new marshaller here */
+			      G_TYPE_NONE, 0);
 
 	klass->invalidate = NULL;
 	klass->get        = NULL;
@@ -103,8 +103,8 @@ e_iterator_init (EIterator *card)
 const void *
 e_iterator_get      (EIterator *iterator)
 {
-	if (ECI_CLASS(iterator)->get)
-		return ECI_CLASS(iterator)->get(iterator);
+	if (E_ITERATOR_GET_CLASS(iterator)->get)
+		return E_ITERATOR_GET_CLASS(iterator)->get(iterator);
 	else
 		return NULL;
 }
@@ -112,22 +112,22 @@ e_iterator_get      (EIterator *iterator)
 void
 e_iterator_reset    (EIterator *iterator)
 {
-	if (ECI_CLASS(iterator)->reset)
-		ECI_CLASS(iterator)->reset(iterator);
+	if (E_ITERATOR_GET_CLASS(iterator)->reset)
+		E_ITERATOR_GET_CLASS(iterator)->reset(iterator);
 }
 
 void
 e_iterator_last     (EIterator *iterator)
 {
-	if (ECI_CLASS(iterator)->last)
-		ECI_CLASS(iterator)->last(iterator);
+	if (E_ITERATOR_GET_CLASS(iterator)->last)
+		E_ITERATOR_GET_CLASS(iterator)->last(iterator);
 }
 
 gboolean
 e_iterator_next     (EIterator *iterator)
 {
-	if (ECI_CLASS(iterator)->next)
-		return ECI_CLASS(iterator)->next(iterator);
+	if (E_ITERATOR_GET_CLASS(iterator)->next)
+		return E_ITERATOR_GET_CLASS(iterator)->next(iterator);
 	else
 		return FALSE;
 }
@@ -135,8 +135,8 @@ e_iterator_next     (EIterator *iterator)
 gboolean
 e_iterator_prev     (EIterator *iterator)
 {
-	if (ECI_CLASS(iterator)->prev)
-		return ECI_CLASS(iterator)->prev(iterator);
+	if (E_ITERATOR_GET_CLASS(iterator)->prev)
+		return E_ITERATOR_GET_CLASS(iterator)->prev(iterator);
 	else
 		return FALSE;
 }
@@ -144,31 +144,31 @@ e_iterator_prev     (EIterator *iterator)
 void
 e_iterator_delete   (EIterator *iterator)
 {
-	if (ECI_CLASS(iterator)->delete)
-		ECI_CLASS(iterator)->delete(iterator);
+	if (E_ITERATOR_GET_CLASS(iterator)->delete)
+		E_ITERATOR_GET_CLASS(iterator)->delete(iterator);
 }
 
 void           e_iterator_insert     (EIterator  *iterator,
 				      const void *object,
 				      gboolean    before)
 {
-	if (ECI_CLASS(iterator)->insert)
-		ECI_CLASS(iterator)->insert(iterator, object, before);
+	if (E_ITERATOR_GET_CLASS(iterator)->insert)
+		E_ITERATOR_GET_CLASS(iterator)->insert(iterator, object, before);
 }
 
 void
 e_iterator_set      (EIterator *iterator,
 			  const void    *object)
 {
-	if (ECI_CLASS(iterator)->set)
-		ECI_CLASS(iterator)->set(iterator, object);
+	if (E_ITERATOR_GET_CLASS(iterator)->set)
+		E_ITERATOR_GET_CLASS(iterator)->set(iterator, object);
 }
 
 gboolean
 e_iterator_is_valid (EIterator *iterator)
 {
-	if (ECI_CLASS(iterator)->is_valid)
-		return ECI_CLASS(iterator)->is_valid(iterator);
+	if (E_ITERATOR_GET_CLASS(iterator)->is_valid)
+		return E_ITERATOR_GET_CLASS(iterator)->is_valid(iterator);
 	else
 		return FALSE;
 }
@@ -179,6 +179,5 @@ e_iterator_invalidate (EIterator *iterator)
 	g_return_if_fail (iterator != NULL);
 	g_return_if_fail (E_IS_ITERATOR (iterator));
 
-	gtk_signal_emit (GTK_OBJECT (iterator),
-			 e_iterator_signals [INVALIDATE]);
+	g_signal_emit (iterator, e_iterator_signals [INVALIDATE], 0);
 }

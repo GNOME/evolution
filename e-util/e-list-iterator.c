@@ -29,12 +29,11 @@ static gboolean    e_list_iterator_next       (EIterator  *iterator);
 static void        e_list_iterator_reset      (EIterator *iterator);
 static void        e_list_iterator_last       (EIterator *iterator);
 static const void *e_list_iterator_get        (EIterator *iterator);
-static void        e_list_iterator_destroy    (GtkObject *object);
+static void        e_list_iterator_dispose    (GObject *object);
 
-#define PARENT_TYPE (e_iterator_get_type ())
+#define PARENT_TYPE E_TYPE_ITERATOR
 
 static EIteratorClass *parent_class;
-#define PARENT_CLASS (E_ITERATOR_CLASS(parent_class))
 
 /**
  * e_list_iterator_get_type:
@@ -45,24 +44,25 @@ static EIteratorClass *parent_class;
  * 
  * Return value: The type ID of the &EListIterator class.
  **/
-GtkType
+GType
 e_list_iterator_get_type (void)
 {
-	static GtkType type = 0;
+	static GType type = 0;
 
-	if (!type) {
-		GtkTypeInfo info = {
-			"EListIterator",
-			sizeof (EListIterator),
+	if (! type) {
+		GTypeInfo info = {
 			sizeof (EListIteratorClass),
-			(GtkClassInitFunc) e_list_iterator_class_init,
-			(GtkObjectInitFunc) e_list_iterator_init,
-			NULL, /* reserved_1 */
-			NULL, /* reserved_2 */
-			(GtkClassInitFunc) NULL
+			NULL, /* base_class_init */
+			NULL, /* base_class_finalize */
+			(GClassInitFunc)  e_list_iterator_class_init,
+			NULL, /* class_finalize */
+			NULL, /* class_data */
+			sizeof (EListIterator),
+			0,    /* n_preallocs */
+			(GInstanceInitFunc) e_list_iterator_init
 		};
 
-		type = gtk_type_unique (PARENT_TYPE, &info);
+		type = g_type_register_static (PARENT_TYPE, "EListIterator", &info, 0);
 	}
 
 	return type;
@@ -71,15 +71,15 @@ e_list_iterator_get_type (void)
 static void
 e_list_iterator_class_init (EListIteratorClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 	EIteratorClass *iterator_class;
 
-	object_class = GTK_OBJECT_CLASS(klass);
+	object_class = G_OBJECT_CLASS(klass);
 	iterator_class = E_ITERATOR_CLASS(klass);
 
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_ref (PARENT_TYPE);
 
-	object_class->destroy = e_list_iterator_destroy;
+	object_class->dispose = e_list_iterator_dispose;
 
 	iterator_class->invalidate = e_list_iterator_invalidate;
 	iterator_class->get        = e_list_iterator_get;
@@ -106,10 +106,10 @@ e_list_iterator_init (EListIterator *list)
 EIterator *
 e_list_iterator_new (EList *list)
 {
-	EListIterator *iterator = gtk_type_new(e_list_iterator_get_type());
+	EListIterator *iterator = g_object_new (E_TYPE_LIST_ITERATOR, NULL);
 
 	iterator->list = list;
-	gtk_object_ref(GTK_OBJECT(list));
+	g_object_ref(list);
 	iterator->iterator = list->list;
 
 	return E_ITERATOR(iterator);
@@ -119,14 +119,14 @@ e_list_iterator_new (EList *list)
  * Virtual functions: 
  */
 static void
-e_list_iterator_destroy (GtkObject *object)
+e_list_iterator_dispose (GObject *object)
 {
 	EListIterator *iterator = E_LIST_ITERATOR(object);
 	e_list_remove_iterator(iterator->list, E_ITERATOR(iterator));
-	gtk_object_unref(GTK_OBJECT(iterator->list));
+	g_object_unref(iterator->list);
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	if (G_OBJECT_CLASS (parent_class)->dispose)
+		(* G_OBJECT_CLASS (parent_class)->dispose) (object);
 }
 
 static const void *

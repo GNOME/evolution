@@ -12,15 +12,11 @@
 #include "e-list.h"
 #include "e-list-iterator.h"
 
-#define ECL_CLASS(object) (E_LIST_CLASS(GTK_OBJECT((object))->klass))
-
 static void e_list_init (EList *list);
 static void e_list_class_init (EListClass *klass);
-static void e_list_destroy (GtkObject *object);
+static void e_list_dispose (GObject *object);
 
-#define PARENT_TYPE (gtk_object_get_type ())
-
-static GtkObjectClass *parent_class;
+static GObjectClass *parent_class;
 
 /**
  * e_list_get_type:
@@ -31,24 +27,25 @@ static GtkObjectClass *parent_class;
  * 
  * Return value: The type ID of the &EList class.
  **/
-GtkType
+GType
 e_list_get_type (void)
 {
-	static GtkType type = 0;
+	static GType type = 0;
 
-	if (!type) {
-		GtkTypeInfo info = {
-			"EList",
-			sizeof (EList),
+	if (! type) {
+		GTypeInfo info = {
 			sizeof (EListClass),
-			(GtkClassInitFunc) e_list_class_init,
-			(GtkObjectInitFunc) e_list_init,
-			NULL, /* reserved_1 */
-			NULL, /* reserved_2 */
-			(GtkClassInitFunc) NULL
+			NULL, /* base_class_init */
+			NULL, /* base_class_finalize */
+			(GClassInitFunc)  e_list_class_init,
+			NULL, /* class_finalize */
+			NULL, /* class_data */
+			sizeof (EList),
+			0,    /* n_preallocs */
+			(GInstanceInitFunc) e_list_init
 		};
 
-		type = gtk_type_unique (PARENT_TYPE, &info);
+		type = g_type_register_static (G_TYPE_OBJECT, "EList", &info, 0);
 	}
 
 	return type;
@@ -57,13 +54,13 @@ e_list_get_type (void)
 static void
 e_list_class_init (EListClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 
-	object_class = GTK_OBJECT_CLASS(klass);
+	object_class = G_OBJECT_CLASS(klass);
 
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_ref (G_TYPE_OBJECT);
 
-	object_class->destroy = e_list_destroy;
+	object_class->dispose = e_list_dispose;
 }
 
 /**
@@ -79,7 +76,7 @@ e_list_init (EList *list)
 EList *
 e_list_new          (EListCopyFunc copy, EListFreeFunc free, void *closure)
 {
-	EList *list = gtk_type_new(e_list_get_type());
+	EList *list = g_object_new (E_TYPE_LIST, NULL);
 	list->copy    = copy;
 	list->free    = free;
 	list->closure = closure;
@@ -89,7 +86,7 @@ e_list_new          (EListCopyFunc copy, EListFreeFunc free, void *closure)
 EList *
 e_list_duplicate    (EList *old)
 {
-	EList *list = gtk_type_new(e_list_get_type());
+	EList *list = g_object_new (E_TYPE_LIST, NULL);
 
 	list->copy    = old->copy;
 	list->free    = old->free;
@@ -167,14 +164,13 @@ e_list_remove_iterator (EList *list, EIterator *iterator)
  * Virtual functions 
  */
 static void
-e_list_destroy (GtkObject *object)
+e_list_dispose (GObject *object)
 {
 	EList *list = E_LIST(object);
 	if (list->free)
 		g_list_foreach(list->list, (GFunc) list->free, list->closure);
 	g_list_free(list->list);
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
 }
 
