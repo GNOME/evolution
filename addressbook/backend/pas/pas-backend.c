@@ -7,11 +7,8 @@
  */
 
 #include <config.h>
-#include <gtk/gtkobject.h>
-#include <gtk/gtksignal.h>
 #include "pas-backend.h"
-
-#define CLASS(o) PAS_BACKEND_CLASS (GTK_OBJECT (o)->klass)
+#include "pas-marshal.h"
 
 /* Signal IDs */
 enum {
@@ -36,9 +33,9 @@ pas_backend_load_uri (PASBackend             *backend,
 	g_return_val_if_fail (PAS_IS_BACKEND (backend), FALSE);
 	g_return_val_if_fail (uri != NULL, FALSE);
 
-	g_assert (CLASS (backend)->load_uri != NULL);
+	g_assert (PAS_BACKEND_GET_CLASS (backend)->load_uri != NULL);
 
-	return (* CLASS (backend)->load_uri) (backend, uri);
+	return (* PAS_BACKEND_GET_CLASS (backend)->load_uri) (backend, uri);
 }
 
 /**
@@ -55,9 +52,9 @@ pas_backend_get_uri (PASBackend *backend)
 	g_return_val_if_fail (backend != NULL, NULL);
 	g_return_val_if_fail (PAS_IS_BACKEND (backend), NULL);
 
-	g_assert (CLASS (backend)->get_uri != NULL);
+	g_assert (PAS_BACKEND_GET_CLASS (backend)->get_uri != NULL);
 
-	return (* CLASS (backend)->get_uri) (backend);
+	return (* PAS_BACKEND_GET_CLASS (backend)->get_uri) (backend);
 }
 
 /**
@@ -77,9 +74,9 @@ pas_backend_add_client (PASBackend             *backend,
 	g_return_val_if_fail (PAS_IS_BACKEND (backend), FALSE);
 	g_return_val_if_fail (listener != CORBA_OBJECT_NIL, FALSE);
 
-	g_assert (CLASS (backend)->add_client != NULL);
+	g_assert (PAS_BACKEND_GET_CLASS (backend)->add_client != NULL);
 
-	return CLASS (backend)->add_client (backend, listener);
+	return PAS_BACKEND_GET_CLASS (backend)->add_client (backend, listener);
 }
 
 void
@@ -91,9 +88,9 @@ pas_backend_remove_client (PASBackend *backend,
 	g_return_if_fail (book    != NULL);
 	g_return_if_fail (PAS_IS_BOOK (book));
 	
-	g_assert (CLASS (backend)->remove_client != NULL);
+	g_assert (PAS_BACKEND_GET_CLASS (backend)->remove_client != NULL);
 
-	CLASS (backend)->remove_client (backend, book);
+	PAS_BACKEND_GET_CLASS (backend)->remove_client (backend, book);
 }
 
 char *
@@ -102,9 +99,9 @@ pas_backend_get_static_capabilities (PASBackend *backend)
 	g_return_val_if_fail (backend != NULL, NULL);
 	g_return_val_if_fail (PAS_IS_BACKEND (backend), NULL);
 	
-	g_assert (CLASS (backend)->get_static_capabilities != NULL);
+	g_assert (PAS_BACKEND_GET_CLASS (backend)->get_static_capabilities != NULL);
 
-	return CLASS (backend)->get_static_capabilities (backend);
+	return PAS_BACKEND_GET_CLASS (backend)->get_static_capabilities (backend);
 }
 
 /**
@@ -121,7 +118,7 @@ pas_backend_last_client_gone (PASBackend *backend)
 	g_return_if_fail (backend != NULL);
 	g_return_if_fail (PAS_IS_BACKEND (backend));
 
-	gtk_signal_emit (GTK_OBJECT (backend), pas_backend_signals[LAST_CLIENT_GONE]);	
+	g_signal_emit (backend, pas_backend_signals[LAST_CLIENT_GONE], 0);	
 }
 
 static void
@@ -132,46 +129,46 @@ pas_backend_init (PASBackend *backend)
 static void
 pas_backend_class_init (PASBackendClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 
-	object_class = (GtkObjectClass *) klass;
-
-	pas_backend_signals[LAST_CLIENT_GONE] =
-		gtk_signal_new ("last_client_gone",
-				GTK_RUN_FIRST,
-				object_class->type,
-				GTK_SIGNAL_OFFSET (PASBackendClass, last_client_gone),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
-
-	gtk_object_class_add_signals (object_class, pas_backend_signals, LAST_SIGNAL);
+	object_class = (GObjectClass *) klass;
 
 	klass->add_client = NULL;
 	klass->remove_client = NULL;
 	klass->get_static_capabilities = NULL;
+
+	pas_backend_signals[LAST_CLIENT_GONE] =
+		g_signal_new ("last_client_gone",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT_OFFSET (PASBackendClass, last_client_gone),
+			      NULL, NULL,
+			      pas_marshal_NONE__NONE,
+			      G_TYPE_NONE, 0);
 }
 
 /**
  * pas_backend_get_type:
  */
-GtkType
+GType
 pas_backend_get_type (void)
 {
-	static GtkType type = 0;
+	static GType type = 0;
 
 	if (! type) {
-		GtkTypeInfo info = {
-			"PASBackend",
-			sizeof (PASBackend),
+		GTypeInfo info = {
 			sizeof (PASBackendClass),
-			(GtkClassInitFunc)  pas_backend_class_init,
-			(GtkObjectInitFunc) pas_backend_init,
-			NULL, /* reserved 1 */
-			NULL, /* reserved 2 */
-			(GtkClassInitFunc) NULL
+			NULL, /* base_class_init */
+			NULL, /* base_class_finalize */
+			(GClassInitFunc)  pas_backend_class_init,
+			NULL, /* class_finalize */
+			NULL, /* class_data */
+			sizeof (PASBackend),
+			0,    /* n_preallocs */
+			(GInstanceInitFunc) pas_backend_init
 		};
 
-		type = gtk_type_unique (gtk_object_get_type (), &info);
+		type = g_type_register_static (G_TYPE_OBJECT, "PASBackend", &info, 0);
 	}
 
 	return type;

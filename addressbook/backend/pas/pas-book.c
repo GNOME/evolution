@@ -6,9 +6,10 @@
  */
 
 #include <config.h>
-#include <gtk/gtksignal.h>
+#include <bonobo/bonobo-main.h>
 #include "e-util/e-list.h"
-#include "pas-book.h"
+#include "pas-backend.h"
+#include "pas-marshal.h"
 
 static BonoboObjectClass *pas_book_parent_class;
 POA_GNOME_Evolution_Addressbook_Book__vepv pas_book_vepv;
@@ -21,6 +22,9 @@ enum {
 static guint pas_book_signals [LAST_SIGNAL];
 
 struct _PASBookPrivate {
+	PASBookServant *servant;
+	GNOME_Evolution_Addressbook_Book   corba_objref;
+
 	PASBackend             *backend;
 	GNOME_Evolution_Addressbook_BookListener  listener;
 
@@ -39,8 +43,7 @@ pas_book_check_queue (PASBook *book)
 	book->priv->timeout_lock = TRUE;
 
 	if (book->priv->request_queue != NULL) {
-		gtk_signal_emit (GTK_OBJECT (book),
-				 pas_book_signals [REQUESTS_QUEUED]);
+		g_signal_emit (book, pas_book_signals [REQUESTS_QUEUED], 0);
 	}
 
 	if (book->priv->request_queue == NULL) {
@@ -239,7 +242,7 @@ pas_book_queue_check_connection (PASBook *book)
 
 static void
 impl_GNOME_Evolution_Addressbook_Book_getVCard (PortableServer_Servant servant,
-						const GNOME_Evolution_Addressbook_CardId id,
+						const CORBA_char *id,
 						CORBA_Environment *ev)
 {
 	PASBook *book = PAS_BOOK (bonobo_object_from_servant (servant));
@@ -261,8 +264,8 @@ impl_GNOME_Evolution_Addressbook_Book_authenticateUser (PortableServer_Servant s
 
 static void
 impl_GNOME_Evolution_Addressbook_Book_addCard (PortableServer_Servant servant,
-				 const GNOME_Evolution_Addressbook_VCard vcard,
-				 CORBA_Environment *ev)
+					       const CORBA_char *vcard,
+					       CORBA_Environment *ev)
 {
 	PASBook *book = PAS_BOOK (bonobo_object_from_servant (servant));
 
@@ -271,8 +274,8 @@ impl_GNOME_Evolution_Addressbook_Book_addCard (PortableServer_Servant servant,
 
 static void
 impl_GNOME_Evolution_Addressbook_Book_removeCard (PortableServer_Servant servant,
-				 const GNOME_Evolution_Addressbook_CardId id,
-				 CORBA_Environment *ev)
+						  const CORBA_char *id,
+						  CORBA_Environment *ev)
 {
 	PASBook *book = PAS_BOOK (bonobo_object_from_servant (servant));
 
@@ -281,8 +284,8 @@ impl_GNOME_Evolution_Addressbook_Book_removeCard (PortableServer_Servant servant
 
 static void
 impl_GNOME_Evolution_Addressbook_Book_modifyCard (PortableServer_Servant servant,
-				 const GNOME_Evolution_Addressbook_VCard vcard,
-				 CORBA_Environment *ev)
+						  const CORBA_char *vcard,
+						  CORBA_Environment *ev)
 {
 	PASBook *book = PAS_BOOK (bonobo_object_from_servant (servant));
 
@@ -572,7 +575,7 @@ pas_book_respond_get_supported_fields (PASBook *book,
 		stringlist._buffer[i] = CORBA_string_dup (e_iterator_get(iter));
 	}
 
-	gtk_object_unref (GTK_OBJECT (fields));
+	g_object_unref (fields);
 
 	GNOME_Evolution_Addressbook_BookListener_notifySupportedFields (
 			book->priv->listener, status,
@@ -755,55 +758,87 @@ pas_book_report_writable (PASBook                           *book,
 	CORBA_exception_free (&ev);
 }
 
-static gboolean
+void
 pas_book_construct (PASBook                *book,
+		    GNOME_Evolution_Addressbook_Book corba_objref,
 		    PASBackend             *backend,
 		    GNOME_Evolution_Addressbook_BookListener  listener)
 {
-	POA_GNOME_Evolution_Addressbook_Book *servant;
-	CORBA_Environment   ev;
-	CORBA_Object        obj;
+	PASBookPrivate *priv;
+	CORBA_Environment ev;
 
-	g_assert (book      != NULL);
-	g_assert (PAS_IS_BOOK (book));
-	g_assert (listener  != CORBA_OBJECT_NIL);
+	g_return_if_fail (book != NULL);
+	g_return_if_fail (corba_objref != CORBA_OBJECT_NIL);
 
-	servant = (POA_GNOME_Evolution_Addressbook_Book *) g_new0 (BonoboObjectServant, 1);
-	servant->vepv = &pas_book_vepv;
+	priv = book->priv;
 
-	CORBA_exception_init (&ev);
+	g_return_if_fail (priv->corba_objref == CORBA_OBJECT_NIL);
 
-	POA_GNOME_Evolution_Addressbook_Book__init ((PortableServer_Servant) servant, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_free (servant);
-		CORBA_exception_free (&ev);
-
-		return FALSE;
-	}
-
-	CORBA_exception_free (&ev);
-
-	obj = bonobo_object_activate_servant (BONOBO_OBJECT (book), servant);
-	if (obj == CORBA_OBJECT_NIL) {
-		g_free (servant);
-
-		return FALSE;
-	}
-
-	bonobo_object_construct (BONOBO_OBJECT (book), obj);
+	priv->corba_objref = corba_objref;
+	priv->backend   = backend;
 
 	CORBA_exception_init (&ev);
 	book->priv->listener = CORBA_Object_duplicate (listener, &ev);
 
-	if (ev._major != CORBA_NO_EXCEPTION)
+	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_message ("pas_book_construct(): could not duplicate the listener");
+		CORBA_exception_free (&ev);
+		return;
+	}
 
 	CORBA_exception_free (&ev);
 
-	book->priv->listener  = listener;
-	book->priv->backend   = backend;
+	priv->listener  = listener;
+}
 
-	return TRUE;
+static PASBookServant *
+create_servant (PASBook *book)
+{
+	PASBookServant *servant;
+	POA_GNOME_Evolution_Addressbook_Book *corba_servant;
+	CORBA_Environment ev;
+
+	CORBA_exception_init (&ev);
+
+	servant = g_new0 (PASBookServant, 1);
+	corba_servant = (POA_GNOME_Evolution_Addressbook_Book *) servant;
+
+	corba_servant->vepv = &pas_book_vepv;
+	POA_GNOME_Evolution_Addressbook_Book__init ((PortableServer_Servant) corba_servant, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_free (servant);
+		CORBA_exception_free (&ev);
+		return NULL;
+	}
+
+	servant->object = book;
+
+	CORBA_exception_free (&ev);
+
+	return servant;
+}
+
+static GNOME_Evolution_Addressbook_Book
+activate_servant (PASBook *book,
+		  POA_GNOME_Evolution_Addressbook_Book *servant)
+{
+	GNOME_Evolution_Addressbook_Book corba_object;
+	CORBA_Environment ev;
+
+	CORBA_exception_init (&ev);
+
+	CORBA_free (PortableServer_POA_activate_object (bonobo_poa (), servant, &ev));
+
+	corba_object = PortableServer_POA_servant_to_reference (bonobo_poa(), servant, &ev);
+
+	if (ev._major == CORBA_NO_EXCEPTION && ! CORBA_Object_is_nil (corba_object, &ev)) {
+		CORBA_exception_free (&ev);
+		return corba_object;
+	}
+
+	CORBA_exception_free (&ev);
+
+	return CORBA_OBJECT_NIL;
 }
 
 /**
@@ -814,16 +849,16 @@ pas_book_new (PASBackend             *backend,
 	      GNOME_Evolution_Addressbook_BookListener  listener)
 {
 	PASBook *book;
+	PASBookPrivate *priv;
+	GNOME_Evolution_Addressbook_Book corba_objref;
 
-	g_return_val_if_fail (listener  != CORBA_OBJECT_NIL, NULL);
+	book = g_object_new (PAS_TYPE_BOOK, NULL);
+	priv = book->priv;
 
-	book = gtk_type_new (pas_book_get_type ());
-
-	if (! pas_book_construct (book, backend, listener)) {
-		gtk_object_unref (GTK_OBJECT (book));
-
-		return NULL;
-	}
+	priv->servant = create_servant (book);
+	corba_objref = activate_servant (book, (POA_GNOME_Evolution_Addressbook_Book*)priv->servant);
+	
+	pas_book_construct (book, corba_objref, backend, listener);
 
 	return book;
 }
@@ -896,7 +931,7 @@ pas_book_free_request (PASRequest *req)
 }
 
 static void
-pas_book_destroy (GtkObject *object)
+pas_book_dispose (GObject *object)
 {
 	PASBook *book = PAS_BOOK (object);
 	GList   *l;
@@ -927,15 +962,23 @@ pas_book_destroy (GtkObject *object)
 	g_free (book->priv);
 	book->priv = NULL;
 
-	GTK_OBJECT_CLASS (pas_book_parent_class)->destroy (object);	
+	G_OBJECT_CLASS (pas_book_parent_class)->dispose (object);	
 }
 
-static POA_GNOME_Evolution_Addressbook_Book__epv *
-pas_book_get_epv (void)
+static void
+corba_class_init (PASBookClass *klass)
 {
+	POA_GNOME_Evolution_Addressbook_Book__vepv *vepv;
 	POA_GNOME_Evolution_Addressbook_Book__epv *epv;
+	PortableServer_ServantBase__epv *base_epv;
 
-	epv = g_new0 (POA_GNOME_Evolution_Addressbook_Book__epv, 1);
+	base_epv = g_new0 (PortableServer_ServantBase__epv, 1);
+	base_epv->_private    = NULL;
+	base_epv->finalize    = NULL;
+	base_epv->default_POA = NULL;
+
+
+	epv = &klass->epv;
 
 	epv->getVCard              = impl_GNOME_Evolution_Addressbook_Book_getVCard;
 	epv->authenticateUser      = impl_GNOME_Evolution_Addressbook_Book_authenticateUser;
@@ -950,37 +993,30 @@ pas_book_get_epv (void)
 	epv->getCompletionView     = impl_GNOME_Evolution_Addressbook_Book_getCompletionView;
 	epv->getChanges            = impl_GNOME_Evolution_Addressbook_Book_getChanges;
 
-	return epv;
-	
-}
-
-static void
-pas_book_corba_class_init (void)
-{
-	pas_book_vepv.Bonobo_Unknown_epv  = bonobo_object_get_epv ();
-	pas_book_vepv.GNOME_Evolution_Addressbook_Book_epv = pas_book_get_epv ();
+	vepv = &pas_book_vepv;
+	vepv->_base_epv                            = base_epv;
+	vepv->GNOME_Evolution_Addressbook_Book_epv = epv;
 }
 
 static void
 pas_book_class_init (PASBookClass *klass)
 {
-	GtkObjectClass *object_class = (GtkObjectClass *) klass;
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
-	pas_book_parent_class = gtk_type_class (bonobo_object_get_type ());
+	pas_book_parent_class = g_type_class_peek_parent (klass);
 
 	pas_book_signals [REQUESTS_QUEUED] =
-		gtk_signal_new ("requests_queued",
-				GTK_RUN_LAST,
-				object_class->type,
-				GTK_SIGNAL_OFFSET (PASBookClass, requests_queued),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
+		g_signal_new ("requests_queued",
+			      G_OBJECT_CLASS_TYPE(object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (PASBookClass, requests_queued),
+			      NULL, NULL,
+			      pas_marshal_NONE__NONE,
+			      G_TYPE_NONE, 0);
 
-	gtk_object_class_add_signals (object_class, pas_book_signals, LAST_SIGNAL);
+	object_class->dispose = pas_book_dispose;
 
-	object_class->destroy = pas_book_destroy;
-
-	pas_book_corba_class_init ();
+	corba_class_init (klass);
 }
 
 static void
@@ -993,29 +1029,8 @@ pas_book_init (PASBook *book)
 	book->priv->timeout_lock  = FALSE;
 }
 
-/**
- * pas_book_get_type:
- */
-GtkType
-pas_book_get_type (void)
-{
-	static GtkType type = 0;
-
-	if (! type) {
-		GtkTypeInfo info = {
-			"PASBook",
-			sizeof (PASBook),
-			sizeof (PASBookClass),
-			(GtkClassInitFunc)  pas_book_class_init,
-			(GtkObjectInitFunc) pas_book_init,
-			NULL, /* reserved 1 */
-			NULL, /* reserved 2 */
-			(GtkClassInitFunc) NULL
-		};
-
-		type = gtk_type_unique (bonobo_object_get_type (), &info);
-	}
-
-	return type;
-}
-
+BONOBO_TYPE_FUNC_FULL (
+		       PASBook,
+		       GNOME_Evolution_Addressbook_Book,
+		       BONOBO_TYPE_OBJECT,
+		       pas_book);

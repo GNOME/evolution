@@ -22,9 +22,16 @@
 #ifndef __PAS_BACKEND_H__
 #define __PAS_BACKEND_H__
 
-#include <libgnome/gnome-defs.h>
-#include <gtk/gtkobject.h>
+#include <glib.h>
+#include <glib-object.h>
 #include <pas/addressbook.h>
+
+#define PAS_TYPE_BACKEND         (pas_backend_get_type ())
+#define PAS_BACKEND(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), PAS_TYPE_BACKEND, PASBackend))
+#define PAS_BACKEND_CLASS(k)     (G_TYPE_CHECK_CLASS_CAST((k), PAS_TYPE_BACKEND, PASBackendClass))
+#define PAS_IS_BACKEND(o)        (G_TYPE_CHECK_INSTANCE_TYPE ((o), PAS_TYPE_BACKEND))
+#define PAS_IS_BACKEND_CLASS(k)  (G_TYPE_CHECK_CLASS_TYPE ((k), PAS_TYPE_BACKEND))
+#define PAS_BACKEND_GET_CLASS(k) (G_TYPE_INSTANCE_GET_CLASS ((k), PAS_TYPE_BACKEND, PASBackendClass))
 
 typedef struct _PASBackend        PASBackend;
 typedef struct _PASBackendPrivate PASBackendPrivate;
@@ -32,12 +39,12 @@ typedef struct _PASBackendPrivate PASBackendPrivate;
 #include <pas/pas-book.h>
 
 struct _PASBackend {
-	GtkObject parent_object;
+	GObject parent_object;
 	PASBackendPrivate *priv;
 };
 
 typedef struct {
-	GtkObjectClass parent_class;
+	GObjectClass parent_class;
 
 	/* Virtual methods */
 	GNOME_Evolution_Addressbook_BookListener_CallStatus (*load_uri) (PASBackend *backend, const char *uri);
@@ -67,13 +74,7 @@ char       *pas_backend_get_static_capabilities  (PASBackend             *backen
 
 void        pas_backend_last_client_gone         (PASBackend             *backend);
 
-GtkType     pas_backend_get_type                 (void);
-
-#define PAS_BACKEND_TYPE        (pas_backend_get_type ())
-#define PAS_BACKEND(o)          (GTK_CHECK_CAST ((o), PAS_BACKEND_TYPE, PASBackend))
-#define PAS_BACKEND_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), PAS_BACKEND_TYPE, PASBackendClass))
-#define PAS_IS_BACKEND(o)       (GTK_CHECK_TYPE ((o), PAS_BACKEND_TYPE))
-#define PAS_IS_BACKEND_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), PAS_BACKEND_TYPE))
+GType     pas_backend_get_type                 (void);
 
 #endif /* ! __PAS_BACKEND_H__ */
 

@@ -9,3 +9,5 @@ addressbook-common.c
 addressbook.h
 *.lo
 *.la
+pas-marshal.c
+pas-marshal.h

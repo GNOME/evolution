@@ -24,22 +24,30 @@
 #ifndef __PAS_BACKEND_SUMMARY_H__
 #define __PAS_BACKEND_SUMMARY_H__
 
-#include <gtk/gtk.h>
+#include <glib.h>
+#include <glib-object.h>
+
+#define PAS_TYPE_BACKEND_SUMMARY        (pas_backend_summary_get_type ())
+#define PAS_BACKEND_SUMMARY(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), PAS_TYPE_BACKEND_SUMMARY, PASBackendSummary))
+#define PAS_BACKEND_SUMMARY_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), PAS_BACKEND_TYPE, PASBackendSummaryClass))
+#define PAS_IS_BACKEND_SUMMARY(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), PAS_TYPE_BACKEND_SUMMARY))
+#define PAS_IS_BACKEND_SUMMARY_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), PAS_TYPE_BACKEND_SUMMARY))
+#define PAS_BACKEND_SUMMARY_GET_CLASS(k) (G_TYPE_INSTANCE_GET_CLASS ((obj), PAS_TYPE_BACKEND_SUMMARY, PASBackendSummaryClass))
 
 typedef struct _PASBackendSummaryPrivate PASBackendSummaryPrivate;
 
 typedef struct {
-	GtkObject parent_object;
+	GObject parent_object;
 	PASBackendSummaryPrivate *priv;
 } PASBackendSummary;
 
 typedef struct {
-	GtkObjectClass parent_class;
+	GObjectClass parent_class;
 } PASBackendSummaryClass;
 
 PASBackendSummary* pas_backend_summary_new              (const char *summary_path,
 							 int flush_timeout_millis);
-GtkType            pas_backend_summary_get_type         (void);
+GType              pas_backend_summary_get_type         (void);
 
 /* returns FALSE if the load fails for any reason (including that the
    summary is out of date), TRUE if it succeeds */
@@ -58,11 +66,5 @@ gboolean           pas_backend_summary_is_up_to_date     (PASBackendSummary *sum
 gboolean           pas_backend_summary_is_summary_query  (PASBackendSummary *summary, const char *query);
 GPtrArray*         pas_backend_summary_search            (PASBackendSummary *summary, const char *query);
 char*              pas_backend_summary_get_summary_vcard (PASBackendSummary *summary, const char *id);
-
-#define PAS_BACKEND_SUMMARY_TYPE        (pas_backend_summary_get_type ())
-#define PAS_BACKEND_SUMMARY(o)          (GTK_CHECK_CAST ((o), PAS_BACKEND_SUMMARY_TYPE, PASBackendSummary))
-#define PAS_BACKEND_SUMMARY_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), PAS_BACKEND_TYPE, PASBackendSummaryClass))
-#define PAS_IS_BACKEND_SUMMARY(o)       (GTK_CHECK_TYPE ((o), PAS_BACKEND_SUMMARY_TYPE))
-#define PAS_IS_BACKEND_SUMMARY_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), PAS_BACKEND_SUMMARY_TYPE))
 
 #endif /* __PAS_BACKEND_SUMMARY_H__ */

@@ -24,28 +24,30 @@
 #ifndef __PAS_BACKEND_CARD_SEXP_H__
 #define __PAS_BACKEND_CARD_SEXP_H__
 
-#include <gtk/gtk.h>
+#include <glib.h>
+#include <glib-object.h>
+
+#define PAS_TYPE_BACKEND_CARD_SEXP        (pas_backend_card_sexp_get_type ())
+#define PAS_BACKEND_CARD_SEXP(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), PAS_TYPE_BACKEND_CARD_SEXP, PASBackendCardSExp))
+#define PAS_BACKEND_CARD_SEXP_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), PAS_BACKEND_TYPE, PASBackendCardSExpClass))
+#define PAS_IS_BACKEND_CARD_SEXP(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), PAS_TYPE_BACKEND_CARD_SEXP))
+#define PAS_IS_BACKEND_CARD_SEXP_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), PAS_TYPE_BACKEND_CARD_SEXP))
+#define PAS_BACKEND_CARD_SEXP_GET_CLASS(k) (G_TYPE_INSTANCE_GET_CLASS ((obj), PAS_TYPE_BACKEND_CARD_SEXP, PASBackendCardSExpClass))
 
 typedef struct _PASBackendCardSExpPrivate PASBackendCardSExpPrivate;
 
 typedef struct {
-	GtkObject parent_object;
+	GObject parent_object;
 	PASBackendCardSExpPrivate *priv;
 } PASBackendCardSExp;
 
 typedef struct {
-	GtkObjectClass parent_class;
+	GObjectClass parent_class;
 } PASBackendCardSExpClass;
 
 PASBackendCardSExp *pas_backend_card_sexp_new      (const char *text);
-GtkType             pas_backend_card_sexp_get_type (void);
+GType               pas_backend_card_sexp_get_type (void);
 
 gboolean            pas_backend_card_sexp_match_vcard (PASBackendCardSExp *sexp, const char *vcard);
-
-#define PAS_BACKEND_CARD_SEXP_TYPE        (pas_backend_card_sexp_get_type ())
-#define PAS_BACKEND_CARD_SEXP(o)          (GTK_CHECK_CAST ((o), PAS_BACKEND_CARD_SEXP_TYPE, PASBackendCardSExp))
-#define PAS_BACKEND_CARD_SEXP_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), PAS_BACKEND_TYPE, PASBackendCardSExpClass))
-#define PAS_IS_BACKEND_CARD_SEXP(o)       (GTK_CHECK_TYPE ((o), PAS_BACKEND_CARD_SEXP_TYPE))
-#define PAS_IS_BACKEND_CARD_SEXP_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), PAS_BACKEND_CARD_SEXP_TYPE))
 
 #endif /* __PAS_BACKEND_CARD_SEXP_H__ */

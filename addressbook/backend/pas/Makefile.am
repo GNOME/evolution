@@ -10,10 +10,8 @@ CORBA_SOURCE = $(CORBA_SOURCE_H) $(CORBA_SOURCE_C)
 idls =							\
 	$(srcdir)/../idl/addressbook.idl
 
-idl_flags = `$(GNOME_CONFIG) --cflags idl` -I $(datadir)/idl
-
 $(CORBA_SOURCE): $(idls)
-	$(ORBIT_IDL) -I $(srcdir) $(srcdir)/../idl/addressbook.idl $(idl_flags)
+	$(ORBIT_IDL)  $(IDL_INCLUDES) -I $(srcdir) $(srcdir)/../idl/addressbook.idl
 
 INCLUDES =						\
 	$(DB3_CFLAGS)					\
@@ -65,7 +63,8 @@ libpas_a_SOURCES =					\
 	pas-backend-file.c				\
 	pas-backend.c					\
 	pas-backend-summary.c				\
-	pas-card-cursor.c
+	pas-card-cursor.c				\
+	pas-marshal.c
 
 libpasfile_a_SOURCES =					\
 	pas-backend-file.c				\
@@ -76,10 +75,24 @@ libpasldap_a_SOURCES =					\
 	$(LDAP_BACKEND_FILES)
 endif
 
-BUILT_SOURCES = $(CORBA_SOURCE)
+# GLib marshalling cruft
+
+pas-marshal.h: pas-marshal.list
+	( @GLIB_GENMARSHAL@ --prefix=pas_marshal pas-marshal.list --header > pas-marshal.tmp \
+	&& mv pas-marshal.tmp pas-marshal.h ) \
+	|| ( rm -f pas-marshal.tmp && exit 1 )
+
+pas-marshal.c: pas-marshal.h
+	( @GLIB_GENMARSHAL@ --prefix=pas_marshal pas-marshal.list --body > pas-marshal.tmp \
+	&& mv pas-marshal.tmp pas-marshal.c ) \
+	|| ( rm -f pas-marshal.tmp && exit 1 )
+
+MARSHAL_GENERATED = pas-marshal.c pas-marshal.h
+
+BUILT_SOURCES = $(CORBA_SOURCE) $(MARSHAL_GENERATED)
 CLEANFILES = $(BUILT_SOURCES)
 
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)
 
-EXTRA_DIST = $(LDAP_BACKEND_FILES) $(LDAP_SCHEMA)
+EXTRA_DIST = $(LDAP_BACKEND_FILES) $(LDAP_SCHEMA) pas-marshal.list

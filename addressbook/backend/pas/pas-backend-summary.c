@@ -37,7 +37,7 @@
 #include "pas-backend-summary.h"
 #include "e-util/e-sexp.h"
 
-static GtkObjectClass *parent_class;
+static GObjectClass *parent_class;
 
 struct _PASBackendSummaryPrivate {
 	char *summary_path;
@@ -136,7 +136,7 @@ clear_items (PASBackendSummary *summary)
 PASBackendSummary*
 pas_backend_summary_new (const char *summary_path, int flush_timeout_millis)
 {
-	PASBackendSummary *summary = gtk_type_new (PAS_BACKEND_SUMMARY_TYPE);
+	PASBackendSummary *summary = g_object_new (PAS_TYPE_BACKEND_SUMMARY, NULL);
 
 	summary->priv->summary_path = g_strdup (summary_path);
 	summary->priv->flush_timeout_millis = flush_timeout_millis;
@@ -146,7 +146,7 @@ pas_backend_summary_new (const char *summary_path, int flush_timeout_millis)
 }
 
 static void
-pas_backend_summary_destroy (GtkObject *object)
+pas_backend_summary_dispose (GObject *object)
 {
 	PASBackendSummary *summary = PAS_BACKEND_SUMMARY (object);
 
@@ -154,7 +154,7 @@ pas_backend_summary_destroy (GtkObject *object)
 		g_warning ("Destroying dirty summary");
 
 	if (summary->priv->flush_timeout) {
-		gtk_timeout_remove (summary->priv->flush_timeout);
+		g_source_remove (summary->priv->flush_timeout);
 		summary->priv->flush_timeout = 0;
 	}
 
@@ -169,19 +169,19 @@ pas_backend_summary_destroy (GtkObject *object)
 
 	g_free (summary->priv);
 
-	GTK_OBJECT_CLASS (parent_class)->destroy (object);	
+	G_OBJECT_CLASS (parent_class)->dispose (object);	
 }
 
 static void
 pas_backend_summary_class_init (PASBackendSummaryClass *klass)
 {
-	GtkObjectClass  *object_class = (GtkObjectClass *) klass;
+	GObjectClass  *object_class = G_OBJECT_CLASS (klass);
 
-	parent_class = gtk_type_class (gtk_object_get_type ());
+	parent_class = g_type_class_ref (G_TYPE_OBJECT);
 
 	/* Set the virtual methods. */
 
-	object_class->destroy = pas_backend_summary_destroy;
+	object_class->dispose = pas_backend_summary_dispose;
 }
 
 static void
@@ -209,24 +209,25 @@ pas_backend_summary_init (PASBackendSummary *summary)
 /**
  * pas_backend_summary_get_type:
  */
-GtkType
+GType
 pas_backend_summary_get_type (void)
 {
-	static GtkType type = 0;
+	static GType type = 0;
 
 	if (! type) {
-		GtkTypeInfo info = {
-			"PASBackendSummary",
-			sizeof (PASBackendSummary),
+		GTypeInfo info = {
 			sizeof (PASBackendSummaryClass),
-			(GtkClassInitFunc)  pas_backend_summary_class_init,
-			(GtkObjectInitFunc) pas_backend_summary_init,
-			NULL, /* reserved 1 */
-			NULL, /* reserved 2 */
-			(GtkClassInitFunc) NULL
+			NULL, /* base_class_init */
+			NULL, /* base_class_finalize */
+			(GClassInitFunc)  pas_backend_summary_class_init,
+			NULL, /* class_finalize */
+			NULL, /* class_data */
+			sizeof (PASBackendSummary),
+			0,    /* n_preallocs */
+			(GInstanceInitFunc) pas_backend_summary_init
 		};
 
-		type = gtk_type_unique (gtk_object_get_type (), &info);
+		type = g_type_register_static (G_TYPE_OBJECT, "PASBackendSummary", &info, 0);
 	}
 
 	return type;
@@ -654,7 +655,7 @@ pas_backend_summary_save (PASBackendSummary *summary)
 
 	/* if we have a queued flush, clear it (since we just flushed) */
 	if (summary->priv->flush_timeout) {
-		gtk_timeout_remove (summary->priv->flush_timeout);
+		g_source_remove (summary->priv->flush_timeout);
 		summary->priv->flush_timeout = 0;
 	}
 
@@ -712,8 +713,8 @@ pas_backend_summary_add_card (PASBackendSummary *summary, const char *vcard)
 	g_ptr_array_add (summary->priv->items, new_item);
 	g_hash_table_insert (summary->priv->id_to_item, new_item->id, new_item);
 
-	gtk_object_unref (GTK_OBJECT (simple));
-	gtk_object_unref (GTK_OBJECT (card));
+	g_object_unref (simple);
+	g_object_unref (card);
 
 #ifdef SUMMARY_STATS
 	summary->priv->size += sizeof (PASBackendSummaryItem);
@@ -746,7 +747,7 @@ pas_backend_summary_remove_card (PASBackendSummary *summary, const char *id)
 	g_warning ("pas_backend_summary_remove_card: unable to locate id `%s'", id);
 }
 
-static int
+static gboolean
 summary_flush_func (gpointer data)
 {
 	PASBackendSummary *summary = PAS_BACKEND_SUMMARY (data);
@@ -778,8 +779,8 @@ pas_backend_summary_touch (PASBackendSummary *summary)
 	summary->priv->dirty = TRUE;
 	if (!summary->priv->flush_timeout
 	    && summary->priv->flush_timeout_millis)
-		summary->priv->flush_timeout = gtk_timeout_add (summary->priv->flush_timeout_millis,
-								summary_flush_func, summary);
+		summary->priv->flush_timeout = g_timeout_add (summary->priv->flush_timeout_millis,
+							      summary_flush_func, summary);
 }
 
 gboolean
@@ -1074,8 +1075,8 @@ pas_backend_summary_get_summary_vcard(PASBackendSummary *summary, const char *id
 
 		vcard = e_card_simple_get_vcard (simple);
 
-		gtk_object_unref (GTK_OBJECT (simple));
-		gtk_object_unref (GTK_OBJECT (card));
+		g_object_unref (simple);
+		g_object_unref (card);
 
 		return vcard;
 	}

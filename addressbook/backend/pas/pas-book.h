@@ -13,16 +13,22 @@
 #define __PAS_BOOK_H__
 
 #include <bonobo/bonobo-object.h>
-#include <libgnome/gnome-defs.h>
 #include <pas/addressbook.h>
 #include <pas/pas-book-view.h>
 #include "e-util/e-list.h"
 
-typedef struct _PASBook        PASBook;
-typedef struct _PASBookPrivate PASBookPrivate;
-
 #include <pas/pas-backend.h>
 #include <pas/pas-card-cursor.h>
+
+#define PAS_TYPE_BOOK        (pas_book_get_type ())
+#define PAS_BOOK(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), PAS_TYPE_BOOK, PASBook))
+#define PAS_BOOK_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), PAS_BOOK_FACTORY_TYPE, PASBookClass))
+#define PAS_IS_BOOK(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), PAS_TYPE_BOOK))
+#define PAS_IS_BOOK_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), PAS_TYPE_BOOK))
+#define PAS_BOOK_GET_CLASS(k) (G_TYPE_INSTANCE_GET_CLASS ((obj), PAS_TYPE_BOOK, PASBookClass))
+
+typedef struct _PASBook        PASBook;
+typedef struct _PASBookPrivate PASBookPrivate;
 
 typedef enum {
 	CreateCard,
@@ -121,14 +127,29 @@ struct _PASBook {
 typedef struct {
 	BonoboObjectClass parent_class;
 
+	POA_GNOME_Evolution_Addressbook_Book__epv epv;
+
 	/* Signals */
 	void (*requests_queued) (void);
 } PASBookClass;
+
+
+struct _PASBookServant {
+	POA_GNOME_Evolution_Addressbook_Book servant_placeholder;
+	PASBook *object;
+};
+typedef struct _PASBookServant PASBookServant;
+
+
 
 typedef gboolean (*PASBookCanWriteFn)     (PASBook *book);
 typedef gboolean (*PASBookCanWriteCardFn) (PASBook *book, const char *id);
 
 PASBook                *pas_book_new                    (PASBackend                        *backend,
+							 GNOME_Evolution_Addressbook_BookListener             listener);
+void                    pas_book_construct              (PASBook                           *book,
+							 GNOME_Evolution_Addressbook_Book   corba_objref,
+							 PASBackend                        *backend,
 							 GNOME_Evolution_Addressbook_BookListener             listener);
 PASBackend             *pas_book_get_backend            (PASBook                           *book);
 GNOME_Evolution_Addressbook_BookListener  pas_book_get_listener           (PASBook                           *book);
@@ -171,12 +192,6 @@ void                    pas_book_report_connection      (PASBook                
 void                    pas_book_report_writable        (PASBook                           *book,
 							 gboolean                           writable);
 
-GtkType                 pas_book_get_type               (void);
-
-#define PAS_BOOK_TYPE        (pas_book_get_type ())
-#define PAS_BOOK(o)          (GTK_CHECK_CAST ((o), PAS_BOOK_TYPE, PASBook))
-#define PAS_BOOK_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), PAS_BOOK_FACTORY_TYPE, PASBookClass))
-#define PAS_IS_BOOK(o)       (GTK_CHECK_TYPE ((o), PAS_BOOK_TYPE))
-#define PAS_IS_BOOK_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), PAS_BOOK_TYPE))
+GType                   pas_book_get_type               (void);
 
 #endif /* ! __PAS_BOOK_H__ */

@@ -10,14 +10,12 @@
 #include "pas-backend-file.h"
 
 #include <stdio.h>
+#include <string.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include <time.h>
 #include <db.h>
 #include <sys/stat.h>
-
-#include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-i18n.h>
 
 #include <e-util/e-db3-utils.h>
 
@@ -27,15 +25,14 @@
 #error Including wrong DB3.  Need libdb 3.1.17.
 #endif
 
-#include <gtk/gtksignal.h>
-#include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-util.h>
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-unicode.h>
 
 #include <ebook/e-card-simple.h>
 #include <e-util/e-dbhash.h>
 #include <e-util/e-db3-utils.h>
+#include <libgnome/gnome-i18n.h>
+
 #include "pas-book.h"
 #include "pas-card-cursor.h"
 #include "pas-backend-card-sexp.h"
@@ -214,7 +211,7 @@ pas_backend_file_book_view_copy(const PASBackendFileBookView *book_view, void *c
 	new_book_view->search = g_strdup(book_view->search);
 	new_book_view->card_sexp = book_view->card_sexp;
 	if (new_book_view->card_sexp)
-		gtk_object_ref(GTK_OBJECT(new_book_view->card_sexp));
+		g_object_ref(new_book_view->card_sexp);
 	
 	new_book_view->change_id = g_strdup(book_view->change_id);
 	if (book_view->change_context) {
@@ -236,7 +233,7 @@ pas_backend_file_book_view_free(PASBackendFileBookView *book_view, void *closure
 {
 	g_free(book_view->search);
 	if (book_view->card_sexp)
-		gtk_object_unref (GTK_OBJECT(book_view->card_sexp));
+		g_object_unref (book_view->card_sexp);
 
 	g_free(book_view->change_id);
 	if (book_view->change_context) {
@@ -274,7 +271,7 @@ get_nth(PASCardCursor *cursor, long n, gpointer data)
 }
 
 static void
-cursor_destroy(GtkObject *object, gpointer data)
+cursor_destroy(GObject *object, gpointer data)
 {
 	CORBA_Environment ev;
 	GNOME_Evolution_Addressbook_Book corba_book;
@@ -300,7 +297,7 @@ cursor_destroy(GtkObject *object, gpointer data)
 }
 
 static void
-view_destroy(GtkObject *object, gpointer data)
+view_destroy(GObject *object, gpointer data)
 {
 	PASBook           *book = (PASBook *)data;
 	PASBackendFile    *bf;
@@ -318,7 +315,7 @@ view_destroy(GtkObject *object, gpointer data)
 	}
 	if (!success)
 		g_warning ("Failed to remove from book_views list");
-	gtk_object_unref(GTK_OBJECT(iterator));
+	g_object_unref(iterator);
 
 	bonobo_object_unref(BONOBO_OBJECT(book));
 }
@@ -366,7 +363,7 @@ pas_backend_file_search (PASBackendFile  	      *bf,
 		pas_book_view_notify_status_message (view->book_view, _("Loading..."));
 
 	if (view->card_sexp) {
-		gtk_object_unref (GTK_OBJECT(view->card_sexp));
+		g_object_unref (view->card_sexp);
 		view->card_sexp = NULL;
 	}
 
@@ -524,9 +521,9 @@ pas_backend_file_changes (PASBackendFile  	      *bf,
 				 * card changing 
 				 */
 				card = e_card_new (vcard_dbt.data);
-				gtk_object_set (GTK_OBJECT (card), "last_use", NULL, "use_score", 0.0, NULL);
+				g_object_set (card, "last_use", NULL, "use_score", 0.0, NULL);
 				vcard_string = e_card_get_vcard_assume_utf8 (card);
-				gtk_object_unref (GTK_OBJECT (card));
+				g_object_unref (card);
 				
 				/* check what type of change has occurred, if any */
 				switch (e_dbhash_compare (ehash, id, vcard_string)) {
@@ -636,7 +633,7 @@ do_create(PASBackend *backend,
 		ret_val = NULL;
 	}
 
-	gtk_object_unref(GTK_OBJECT(card));
+	g_object_unref(card);
 	card = NULL;
 
 	if (vcard_ptr && ret_val)
@@ -668,7 +665,7 @@ pas_backend_file_process_create_card (PASBackend *backend,
 				bonobo_object_unref (BONOBO_OBJECT (view->book_view));
 			}
 		}
-		gtk_object_unref(GTK_OBJECT(iterator));
+		g_object_unref(iterator);
 		
 		pas_book_respond_create (
 			book,
@@ -738,7 +735,7 @@ pas_backend_file_process_remove_card (PASBackend *backend,
 			bonobo_object_unref (BONOBO_OBJECT (view->book_view));
 		}
 	}
-	gtk_object_unref(GTK_OBJECT(iterator));
+	g_object_unref(iterator);
 	
 	pas_book_respond_remove (
 				 book,
@@ -822,7 +819,7 @@ pas_backend_file_process_modify_card (PASBackend *backend,
 			CORBA_exception_free (&ev);
 		}
 
-		gtk_object_unref(GTK_OBJECT(iterator));
+		g_object_unref(iterator);
 
 		pas_book_respond_modify (
 				 book,
@@ -839,7 +836,7 @@ pas_backend_file_process_modify_card (PASBackend *backend,
 
 	g_free(old_vcard_string);
 
-	gtk_object_unref(GTK_OBJECT(card));
+	g_object_unref(card);
 }
 
 static void
@@ -973,8 +970,8 @@ pas_backend_file_process_get_cursor (PASBackend *backend,
 				     get_nth,
 				     cursor_data);
 
-	gtk_signal_connect(GTK_OBJECT(cursor), "destroy",
-			   GTK_SIGNAL_FUNC(cursor_destroy), cursor_data);
+	g_signal_connect(cursor, "destroy",
+			 G_CALLBACK(cursor_destroy), cursor_data);
 	
 	pas_book_respond_get_cursor (
 		book,
@@ -1000,8 +997,8 @@ pas_backend_file_process_get_book_view (PASBackend *backend,
 
 	book_view = pas_book_view_new (req->listener);
 
-	gtk_signal_connect(GTK_OBJECT(book_view), "destroy",
-			   GTK_SIGNAL_FUNC(view_destroy), book);
+	g_signal_connect(book_view, "destroy",
+			 G_CALLBACK(view_destroy), book);
 
 	view.book_view = book_view;
 	view.search = g_strdup (req->search);
@@ -1020,7 +1017,7 @@ pas_backend_file_process_get_book_view (PASBackend *backend,
 	iterator = e_list_get_iterator(bf->priv->book_views);
 	e_iterator_last(iterator);
 	pas_backend_file_search (bf, book, e_iterator_get(iterator), FALSE);
-	gtk_object_unref(GTK_OBJECT(iterator));
+	g_object_unref(iterator);
 }
 
 static void
@@ -1039,8 +1036,8 @@ pas_backend_file_process_get_completion_view (PASBackend *backend,
 
 	book_view = pas_book_view_new (req->listener);
 
-	gtk_signal_connect(GTK_OBJECT(book_view), "destroy",
-			   GTK_SIGNAL_FUNC(view_destroy), book);
+	g_signal_connect(book_view, "destroy",
+			 G_CALLBACK(view_destroy), book);
 
 	view.book_view = book_view;
 	view.search = g_strdup (req->search);
@@ -1059,7 +1056,7 @@ pas_backend_file_process_get_completion_view (PASBackend *backend,
 	iterator = e_list_get_iterator(bf->priv->book_views);
 	e_iterator_last(iterator);
 	pas_backend_file_search (bf, book, e_iterator_get(iterator), TRUE);
-	gtk_object_unref(GTK_OBJECT(iterator));
+	g_object_unref(iterator);
 }
 
 static void
@@ -1079,8 +1076,8 @@ pas_backend_file_process_get_changes (PASBackend *backend,
 
 	book_view = pas_book_view_new (req->listener);
 
-	gtk_signal_connect(GTK_OBJECT(book_view), "destroy",
-			   GTK_SIGNAL_FUNC(view_destroy), book);
+	g_signal_connect(book_view, "destroy",
+			 G_CALLBACK(view_destroy), book);
 
 	pas_book_respond_get_changes (book,
 		   (book_view != NULL
@@ -1105,7 +1102,7 @@ pas_backend_file_process_get_changes (PASBackend *backend,
 	iterator = e_list_get_iterator(bf->priv->book_views);
 	e_iterator_last(iterator);
 	pas_backend_file_changes (bf, book, e_iterator_get(iterator));
-	gtk_object_unref(GTK_OBJECT(iterator));
+	g_object_unref(iterator);
 }
 
 static void
@@ -1154,8 +1151,8 @@ pas_backend_file_process_get_supported_fields (PASBackend *backend,
 	for (i = 0; i < E_CARD_SIMPLE_FIELD_LAST; i ++)
 		e_list_append (fields, e_card_simple_get_ecard_field (simple, i));
 
-	gtk_object_unref (GTK_OBJECT (card));
-	gtk_object_unref (GTK_OBJECT (simple));
+	g_object_unref (card);
+	g_object_unref (simple);
 
 	pas_book_respond_get_supported_fields (book,
 					       GNOME_Evolution_Addressbook_BookListener_Success,
@@ -1307,7 +1304,7 @@ pas_backend_file_upgrade_db (PASBackendFile *bf, char *old_version)
 						card_failed++;
 				}
 
-				gtk_object_unref (GTK_OBJECT(card));
+				g_object_unref (card);
 			}
 
 			db_error = dbc->c_get(dbc, &id_dbt, &vcard_dbt, DB_NEXT);
@@ -1432,9 +1429,9 @@ pas_backend_file_load_uri (PASBackend             *backend,
 				char *dir;
 
 				dir = g_dirname(filename);
-				create_initial_file = g_concat_dir_and_file(dir, "create-initial");
+				create_initial_file = g_build_filename (dir, "create-initial", NULL);
 
-				if (g_file_exists(create_initial_file)) {
+				if (g_file_test(create_initial_file, G_FILE_TEST_EXISTS)) {
 					char *id;
 					id = do_create(backend, INITIAL_VCARD, NULL);
 					g_free (id);
@@ -1525,11 +1522,11 @@ pas_backend_file_add_client (PASBackend             *backend,
 		return FALSE;
 	}
 
-	gtk_signal_connect (GTK_OBJECT (book), "destroy",
-			    pas_backend_file_book_destroy_cb, backend);
+	g_signal_connect (book, "destroy",
+			  G_CALLBACK (pas_backend_file_book_destroy_cb), backend);
 
-	gtk_signal_connect (GTK_OBJECT (book), "requests_queued",
-		    pas_backend_file_process_client_requests, NULL);
+	g_signal_connect (book, "requests_queued",
+			  G_CALLBACK (pas_backend_file_process_client_requests), NULL);
 
 	bf->priv->clients = g_list_prepend (
 		bf->priv->clients, book);
@@ -1613,10 +1610,10 @@ pas_backend_file_new (void)
 {
 	PASBackendFile *backend;
 
-	backend = gtk_type_new (pas_backend_file_get_type ());
+	backend = g_object_new (PAS_TYPE_BACKEND_FILE, NULL);
 
 	if (! pas_backend_file_construct (backend)) {
-		gtk_object_unref (GTK_OBJECT (backend));
+		g_object_unref (backend);
 
 		return NULL;
 	}
@@ -1625,29 +1622,29 @@ pas_backend_file_new (void)
 }
 
 static void
-pas_backend_file_destroy (GtkObject *object)
+pas_backend_file_dispose (GObject *object)
 {
 	PASBackendFile *bf;
 
 	bf = PAS_BACKEND_FILE (object);
 
-	gtk_object_unref(GTK_OBJECT(bf->priv->book_views));
-	gtk_object_unref(GTK_OBJECT(bf->priv->summary));
+	g_object_unref(bf->priv->book_views);
+	g_object_unref(bf->priv->summary);
 	g_free (bf->priv->uri);
 	g_free (bf->priv->filename);
 
 	g_free (bf->priv);
 
-	GTK_OBJECT_CLASS (pas_backend_file_parent_class)->destroy (object);	
+	G_OBJECT_CLASS (pas_backend_file_parent_class)->dispose (object);	
 }
 
 static void
 pas_backend_file_class_init (PASBackendFileClass *klass)
 {
-	GtkObjectClass  *object_class = (GtkObjectClass *) klass;
+	GObjectClass    *object_class = G_OBJECT_CLASS (klass);
 	PASBackendClass *parent_class;
 
-	pas_backend_file_parent_class = gtk_type_class (pas_backend_get_type ());
+	pas_backend_file_parent_class = g_type_class_ref (PAS_TYPE_BACKEND);
 
 	parent_class = PAS_BACKEND_CLASS (klass);
 
@@ -1658,7 +1655,7 @@ pas_backend_file_class_init (PASBackendFileClass *klass)
 	parent_class->remove_client           = pas_backend_file_remove_client;
 	parent_class->get_static_capabilities = pas_backend_file_get_static_capabilities;
 
-	object_class->destroy = pas_backend_file_destroy;
+	object_class->dispose = pas_backend_file_dispose;
 }
 
 static void
@@ -1679,24 +1676,25 @@ pas_backend_file_init (PASBackendFile *backend)
 /**
  * pas_backend_file_get_type:
  */
-GtkType
+GType
 pas_backend_file_get_type (void)
 {
-	static GtkType type = 0;
+	static GType type = 0;
 
 	if (! type) {
-		GtkTypeInfo info = {
-			"PASBackendFile",
-			sizeof (PASBackendFile),
+		GTypeInfo info = {
 			sizeof (PASBackendFileClass),
-			(GtkClassInitFunc)  pas_backend_file_class_init,
-			(GtkObjectInitFunc) pas_backend_file_init,
-			NULL, /* reserved 1 */
-			NULL, /* reserved 2 */
-			(GtkClassInitFunc) NULL
+			NULL, /* base_class_init */
+			NULL, /* base_class_finalize */
+			(GClassInitFunc)  pas_backend_file_class_init,
+			NULL, /* class_finalize */
+			NULL, /* class_data */
+			sizeof (PASBackendFile),
+			0,    /* n_preallocs */
+			(GInstanceInitFunc) pas_backend_file_init
 		};
 
-		type = gtk_type_unique (pas_backend_get_type (), &info);
+		type = g_type_register_static (PAS_TYPE_BACKEND, "PASBackendFile", &info, 0);
 	}
 
 	return type;

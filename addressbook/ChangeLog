@@ -1,5 +1,34 @@
 2002-11-05  Chris Toshok  <toshok@ximian.com>
 
+	* backend/pas/pas-backend-card-sexp.[ch]: port to gnome 2.
+
+	* backend/pas/pas-backend-file.[ch]: same.
+
+	* backend/pas/pas-backend-file.[ch]: same.
+
+	* backend/pas/pas-backend-ldap.[ch]: same.
+
+	* backend/pas/pas-backend-summary.[ch]: same.
+
+	* backend/pas/pas-backend.[ch]: same.
+
+	* backend/pas/pas-book-factory.[ch]: same.
+
+	* backend/pas/pas-book-view.[ch]: same.
+
+	* backend/pas/pas-book.[ch]: same.
+
+	* backend/pas/pas-card-cursor.[ch]: same.
+
+	* backend/pas/pas-marshal.list: list of marshallers.
+
+	* backend/pas/Makefile.am (libpas_a_SOURCES): add pas-marshal.c
+	also add the marshal building foo.
+
+	* backend/pas/.cvsignore: ignore pas-marshal.[ch]
+	
+2002-11-05  Chris Toshok  <toshok@ximian.com>
+
 	* backend/ebook/test-client-list.c (main): don't call
 	bonobo_activation_init directly.
 
