@@ -154,6 +154,9 @@ char *header_format_date(time_t time, int offset);
 /* decode a message id */
 char *header_msgid_decode(const char *in);
 
+/* generate msg id */
+char *header_msgid_generate (void);
+
 /* decode a References header */
 struct _header_references *header_references_decode(const char *in);
 void header_references_list_clear(struct _header_references **list);

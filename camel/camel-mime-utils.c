@@ -30,6 +30,7 @@
 #include <fcntl.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 #include <unicode.h>
 
@@ -3055,3 +3056,15 @@ void run_test(void)
 }
 
 #endif /* BUILD_TABLE */
+
+char *
+header_msgid_generate (void)
+{
+	gchar host [256], domain [768];
+	static gint count = 0;
+
+	gethostname (host, sizeof (host));
+	getdomainname (domain, sizeof (domain));
+
+	return g_strdup_printf ("%d.%d.%d.camel@%s.%s", (gint) time (NULL), getpid (), count++, host, domain);
+}

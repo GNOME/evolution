@@ -1,3 +1,8 @@
+2000-11-03  Radek Doulik  <rodo@helixcode.com>
+
+	* camel-mime-utils.c (header_msgid_generate): new function,
+	generates simple message/content id
+
 2000-11-04  Not Zed  <NotZed@HelixCode.com>
 
 	* camel-mime-part-utils.c
