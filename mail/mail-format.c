@@ -48,6 +48,7 @@
 #include "mail.h"
 #include "mail-tools.h"
 #include "mail-display.h"
+#include "mail-format.h"
 #include "mail-mt.h"
 #include "mail-crypto.h"
 

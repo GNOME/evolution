@@ -35,39 +35,6 @@
 
 extern char *evolution_dir;
 
-/* mail-format */
-GByteArray *mail_format_get_data_wrapper_text (CamelDataWrapper *data,
-					       MailDisplay *mail_display);
-
-void mail_format_mime_message (CamelMimeMessage *mime_message,
-			       MailDisplay *md, MailDisplayStream *stream);
-void mail_format_raw_message (CamelMimeMessage *mime_message,
-			      MailDisplay *md, MailDisplayStream *stream);
-
-gboolean mail_content_loaded (CamelDataWrapper *wrapper,
-			      MailDisplay *display,
-			      gboolean redisplay,
-			      const gchar *url,
-			      GtkHTML *html,
-			      GtkHTMLStream *handle);
-
-typedef gboolean (*MailMimeHandlerFn) (CamelMimePart *part, const char *mime_type,
-				       MailDisplay *md, MailDisplayStream *stream);
-typedef struct {
-	gboolean generic;
-	Bonobo_ServerInfo *component;
-	GList *applications;
-	MailMimeHandlerFn builtin;
-} MailMimeHandler;
-
-MailMimeHandler *mail_lookup_handler (const char *mime_type);
-
-gboolean mail_part_is_inline (CamelMimePart *part);
-gboolean mail_part_is_displayed_inline (CamelMimePart *part, MailDisplay *md);
-void     mail_part_toggle_displayed (CamelMimePart *part, MailDisplay *md);
-
-char *mail_get_message_body (CamelDataWrapper *data, gboolean want_plain, gboolean cite);
-
 /* mail-identify */
 char *mail_identify_mime_part (CamelMimePart *part, MailDisplay *md);
 

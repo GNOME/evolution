@@ -1458,34 +1458,34 @@ reconfigure_got_folder(char *uri, CamelFolder *folder, void *data)
 	m->newtype = NULL;
 	m->folder = folder;
 	camel_object_ref(folder);
-
+	
 	/* dynamically create the folder type list from camel */
 	/* we assume the list is static and never freed */
 	currentformat = MAIL_LOCAL_FOLDER (folder)->meta->format;
-	p = camel_session_list_providers(session, TRUE);
-	menu = gtk_menu_new();
+	p = camel_session_list_providers (session, TRUE);
+	menu = gtk_menu_new ();
 	while (p) {
 		CamelProvider *cp = p->data;
-
+		
 		/* we only want local providers */
 		if (cp->flags & CAMEL_PROVIDER_IS_LOCAL) {
 			GtkWidget *item;
 			char *label;
-
-			if (strcmp(cp->protocol, currentformat) == 0)
+			
+			if (!strcmp (cp->protocol, currentformat))
 				history = index;
-
+			
 			label = g_strdup_printf("%s (%s)", cp->protocol, _(cp->name));
-			item = gtk_menu_item_new_with_label(label);
-			g_free(label);
-			g_object_set_data(G_OBJECT(item), "type", cp->protocol);
-			gtk_widget_show(item);
-			gtk_menu_append(GTK_MENU(menu), item);
+			item = gtk_menu_item_new_with_label (label);
+			g_free (label);
+			g_object_set_data ((GObject *) item, "type", cp->protocol);
+			gtk_widget_show (item);
+			gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 			index++;
 		}
 		p = p->next;
 	}
-	gtk_option_menu_remove_menu (GTK_OPTION_MENU(m->optionlist));
+	gtk_option_menu_remove_menu (GTK_OPTION_MENU (m->optionlist));
 	gtk_option_menu_set_menu (GTK_OPTION_MENU(m->optionlist), menu);
 	gtk_option_menu_set_history(GTK_OPTION_MENU(m->optionlist), history);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(m->check_index_body), MAIL_LOCAL_FOLDER (folder)->meta->indexed);

@@ -428,7 +428,7 @@ mail_vfolder_delete_uri(CamelStore *store, const char *uri)
 								      0, NULL, rule_changed, vf);
 				vfolder_rule_remove_source ((VfolderRule *)rule, source);
 				g_signal_connect (rule, "changed", G_CALLBACK(rule_changed), vf);
-				g_string_sprintfa (changed, "    %s\n", rule->name);
+				g_string_append_printf (changed, "    %s\n", rule->name);
 				source = NULL;
 			}
 		}

@@ -1253,7 +1253,7 @@ sig_switch_to_list (GtkWidget *w, MailAccountGui *gui)
 {
 	gtk_window_set_transient_for (GTK_WINDOW (gtk_widget_get_toplevel (w)), NULL);
 	gdk_window_raise (GTK_WIDGET (gui->dialog)->window);
-	gtk_notebook_set_page (GTK_NOTEBOOK (glade_xml_get_widget (gui->dialog->gui, "notebook")), 3);
+	gtk_notebook_set_current_page (GTK_NOTEBOOK (glade_xml_get_widget (gui->dialog->gui, "notebook")), 3);
 }
 
 static void

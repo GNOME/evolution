@@ -97,7 +97,7 @@ apply_changes (MailAccountEditor *editor)
 		page = 3;
 	
 	if (page != -1) {
-		gtk_notebook_set_page (editor->notebook, page);
+		gtk_notebook_set_current_page (editor->notebook, page);
 		gtk_widget_grab_focus (incomplete);
 		e_notice (NULL, GTK_MESSAGE_ERROR, _("You have not filled in all of the required information."));
 		return FALSE;
