@@ -131,7 +131,7 @@ static GtkTargetEntry drop_types[] = {
 	{ "text/x-vcard", 0, DND_TYPE_TEXT_VCARD },
 };
 
-static const int num_drop_types = sizeof (drop_types) / sizeof (drop_types[0]);
+static int num_drop_types = sizeof (drop_types) / sizeof (drop_types[0]);
 
 static GnomeAppClass *parent_class = NULL;
 
@@ -485,7 +485,7 @@ build_message (EMsgComposer *composer)
 			
 			camel_exception_init (&ex);
 			
-			if (hdrs->account && hdrs->account->pgp_key) {
+			if (hdrs->account && hdrs->account->pgp_key && *hdrs->account->pgp_key) {
 				pgpid = hdrs->account->pgp_key;
 			} else {
 				/* time for plan b */
@@ -518,7 +518,7 @@ build_message (EMsgComposer *composer)
 			if (hdrs->account && hdrs->account->pgp_encrypt_to_self) {
 				CamelInternetAddress *from = NULL;
 				
-				if (hdrs->account->pgp_key) {
+				if (hdrs->accounts && hdrs->account->pgp_key && *hdrs->account->pgp_key) {
 					address = hdrs->account->pgp_key;
 				} else {
 					/* time for plan b */
@@ -579,7 +579,7 @@ build_message (EMsgComposer *composer)
 		
 		camel_exception_init (&ex);
 		
-		if (hdrs->account && hdrs->account->smime_key) {
+		if (hdrs->account && hdrs->account->smime_key && *hdrs->account->smime_key) {
 			certname = hdrs->account->smime_key;
 		} else {
 			/* time for plan b */
@@ -613,7 +613,7 @@ build_message (EMsgComposer *composer)
 		
 		/* check to see if we should encrypt to self */
 		if (hdrs->account && hdrs->account->smime_encrypt_to_self) {
-			if (hdrs->account->smime_key) {
+			if (hdrs->account && hdrs->account->smime_key && *hdrs->account->smime_key) {
 				address = hdrs->account->smime_key;
 			} else {
 				/* time for plan b */
