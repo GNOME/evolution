@@ -1,3 +1,8 @@
+2004-03-31  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-subscribe-editor.c (em_subscribe_editor_new): Save/restore
+	the subscribe dialog's window size. Fixes bug #56230.
+
 2004-03-31  Not Zed  <NotZed@Ximian.com>
 
 	* mail.h: REMOVED!  And there was much rejoicing.

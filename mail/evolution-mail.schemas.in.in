@@ -472,6 +472,32 @@
       </locale>
     </schema>
 
+    <!-- Subscribe dialog -->
+
+    <schema>
+      <key>/schemas/apps/evolution/mail/subscribe_window/width</key>
+      <applyto>/apps/evolution/mail/subscribe_window/width</applyto>
+      <owner>evolution-mail</owner>
+      <type>int</type>
+      <default>600</default>
+      <locale name="C">
+         <short>Subscribe dialog default width</short>
+         <long>Default width of the Subscribe dialog</long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/mail/subscribe_window/height</key>
+      <applyto>/apps/evolution/mail/subscribe_window/height</applyto>
+      <owner>evolution-mail</owner>
+      <type>int</type>
+      <default>400</default>
+      <locale name="C">
+         <short>Subscribe dialog default hight</short>
+         <long>Default height of the Subscribe dialog</long>
+      </locale>
+    </schema>
+
     <!-- Filter logging -->
 
     <schema>

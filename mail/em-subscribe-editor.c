@@ -795,6 +795,27 @@ static void sub_editor_busy(EMSubscribeEditor *se, int dir)
 	}
 }
 
+
+#define DEFAULT_WIDTH  600
+#define DEFAULT_HEIGHT 400
+
+static GtkAllocation window_size = { 0, 0, 0, 0 };
+
+static void
+window_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
+{
+	GConfClient *gconf;
+	
+	/* save to in-memory variable for current session access */
+	window_size = *allocation;
+	
+	/* save the setting across sessions */
+	gconf = gconf_client_get_default ();
+	gconf_client_set_int (gconf, "/apps/evolution/mail/subscribe_window/width", window_size.width, NULL);
+	gconf_client_set_int (gconf, "/apps/evolution/mail/subscribe_window/height", window_size.height, NULL);
+	g_object_unref (gconf);
+}
+
 GtkDialog *em_subscribe_editor_new(void)
 {
 	EMSubscribeEditor *se;
@@ -813,7 +834,7 @@ GtkDialog *em_subscribe_editor_new(void)
 	}
 	se->dialog = (GtkDialog *)glade_xml_get_widget (xml, "subscribe_dialog");
 	g_signal_connect(se->dialog, "destroy", G_CALLBACK(sub_editor_destroy), se);
-
+	
 	gtk_widget_realize ((GtkWidget *)se->dialog);
 	gtk_container_set_border_width ((GtkContainer *) ((GtkDialog *)se->dialog)->action_area, 12);
 	gtk_container_set_border_width ((GtkContainer *) ((GtkDialog *)se->dialog)->vbox, 0);
@@ -872,8 +893,31 @@ GtkDialog *em_subscribe_editor_new(void)
 
 	gtk_option_menu_set_menu((GtkOptionMenu *)se->optionmenu, menu);
 	g_signal_connect(se->optionmenu, "changed", G_CALLBACK(sub_editor_menu_changed), se);
-
-	gtk_window_set_default_size((GtkWindow *)se->dialog, 350, 400);
-
+	
+	if (window_size.width == 0) {
+		/* initialize @window_size with the previous session's size */
+		GConfClient *gconf;
+		GError *err = NULL;
+		
+		gconf = gconf_client_get_default ();
+		
+		window_size.width = gconf_client_get_int (gconf, "/apps/evolution/mail/subscribe_window/width", &err);
+		if (err != NULL) {
+			window_size.width = DEFAULT_WIDTH;
+			g_clear_error (&err);
+		}
+		
+		window_size.height = gconf_client_get_int (gconf, "/apps/evolution/mail/subscribe_window/height", &err);
+		if (err != NULL) {
+			window_size.height = DEFAULT_HEIGHT;
+			g_clear_error (&err);
+		}
+		
+		g_object_unref (gconf);
+	}
+	
+	gtk_window_set_default_size ((GtkWindow *) se->dialog, window_size.width, window_size.height);
+	g_signal_connect (se->dialog, "size-allocate", G_CALLBACK (window_size_allocate), NULL);
+	
 	return se->dialog;
 }
