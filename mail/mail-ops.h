@@ -37,6 +37,7 @@ extern "C" {
 
 #include "evolution-storage.h"	/*EvolutionStorage */
 #include "e-util/e-msgport.h"
+#include "e-util/e-account.h"
 
 void mail_append_mail (CamelFolder *folder, CamelMimeMessage *message, CamelMessageInfo *info,
 		       void (*done)(CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *info, int ok,
@@ -87,6 +88,10 @@ void mail_refresh_folder (CamelFolder *folder,
 void mail_expunge_folder (CamelFolder *folder,
 			  void (*done) (CamelFolder *folder, void *data),
 			  void *data);
+
+void mail_empty_trash (EAccount *account,
+		       void (*done) (EAccount *account, void *data),
+		       void *data);
 
 /* get folder info asynchronously */
 int mail_get_folderinfo (CamelStore *store,

@@ -1,3 +1,10 @@
+2003-05-16  Dan Winship  <danw@ximian.com>
+
+	* mail-ops.c (mail_empty_trash): New async "empty trash" op.
+
+	* mail-callbacks.c (empty_trash): Use it rather than requiring
+	that mail_tool_get_vtrash() work without blocking. #43091
+
 2003-05-16  Radek Doulik  <rodo@ximian.com>
 
 	* mail-callbacks.c (footer_info_new): gnome_font_get_descender

@@ -1623,6 +1623,81 @@ mail_expunge_folder(CamelFolder *folder, void (*done) (CamelFolder *folder, void
 	e_thread_put(mail_thread_queued, (EMsg *)m);
 }
 
+/* ******************************************************************************** */
+
+struct _empty_trash_msg {
+	struct _mail_msg msg;
+
+	EAccount *account;
+	void (*done) (EAccount *account, void *data);
+	void *data;
+};
+
+static char *empty_trash_desc(struct _mail_msg *mm, int done)
+{
+	/* FIXME after 1.4 is out and we're not in string freeze any more. */
+#if 0
+	struct _empty_trash_msg *m = (struct _empty_trash_msg *)mm;
+
+	return g_strdup_printf (_("Emptying trash in \'%s\'"), 
+				m->account ? m->account->name : _("Local Folders"));
+#else
+	return g_strdup(_("Expunging folder"));
+#endif
+}
+
+static void empty_trash_empty(struct _mail_msg *mm)
+{
+	struct _empty_trash_msg *m = (struct _empty_trash_msg *)mm;
+	CamelFolder *trash;
+
+	if (m->account)
+		trash = mail_tool_get_trash (m->account->source->url, FALSE, &mm->ex);
+	else
+		trash = mail_tool_get_trash ("file:/", TRUE, &mm->ex);
+	if (trash)
+		camel_folder_expunge (trash, &mm->ex);
+	camel_object_unref(trash);
+}
+
+static void empty_trash_emptied(struct _mail_msg *mm)
+{
+	struct _empty_trash_msg *m = (struct _empty_trash_msg *)mm;
+
+	if (m->done)
+		m->done(m->account, m->data);
+}
+
+static void empty_trash_free(struct _mail_msg *mm)
+{
+	struct _empty_trash_msg *m = (struct _empty_trash_msg *)mm;
+
+	if (m->account)
+		g_object_unref(m->account);
+}
+
+static struct _mail_msg_op empty_trash_op = {
+	empty_trash_desc,
+	empty_trash_empty,
+	empty_trash_emptied,
+	empty_trash_free,
+};
+
+void
+mail_empty_trash(EAccount *account, void (*done) (EAccount *account, void *data), void *data)
+{
+	struct _empty_trash_msg *m;
+
+	m = mail_msg_new(&empty_trash_op, NULL, sizeof(*m));
+	m->account = account;
+	if (account)
+		g_object_ref(account);
+	m->data = data;
+	m->done = done;
+
+	e_thread_put(mail_thread_queued, (EMsg *)m);
+}
+
 /* ** GET MESSAGE(s) ***************************************************** */
 
 struct _get_message_msg {

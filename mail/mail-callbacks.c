@@ -3189,12 +3189,6 @@ stop_threads (BonoboUIComponent *uih, void *user_data, const char *path)
 	camel_operation_cancel (NULL);
 }
 
-static void
-empty_trash_expunged_cb (CamelFolder *folder, void *data)
-{
-	camel_object_unref (folder);
-}
-
 void
 empty_trash (BonoboUIComponent *uih, void *user_data, const char *path)
 {
@@ -3226,11 +3220,7 @@ empty_trash (BonoboUIComponent *uih, void *user_data, const char *path)
 				/* make sure this store is a remote store */
 				if (provider->flags & CAMEL_PROVIDER_IS_STORAGE &&
 				    provider->flags & CAMEL_PROVIDER_IS_REMOTE) {
-					vtrash = mail_tool_get_trash (account->source->url, FALSE, &ex);
-					
-					if (vtrash) {
-						mail_expunge_folder (vtrash, empty_trash_expunged_cb, NULL);
-					}
+					mail_empty_trash (account, NULL, NULL);
 				}
 			}
 			
@@ -3244,9 +3234,5 @@ empty_trash (BonoboUIComponent *uih, void *user_data, const char *path)
 	g_object_unref (iter);
 	
 	/* Now empty the local trash folder */
-	vtrash = mail_tool_get_trash ("file:/", TRUE, &ex);
-	if (vtrash)
-		mail_expunge_folder (vtrash, empty_trash_expunged_cb, NULL);
-	
-	camel_exception_clear (&ex);
+	mail_empty_trash (NULL, NULL, NULL);
 }
