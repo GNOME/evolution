@@ -1,5 +1,7 @@
 2002-09-23  Rodrigo Moya <rodrigo@ximian.com>
 
+	Fixes #28310
+
 	* gui/alarm-notify/save.c (save_notification_time): only save the
 	new notification time if it is bigger than the already saved one.
 	This should avoid some reminders showing up twice.
