@@ -1224,7 +1224,7 @@ folder_browser_query_changed (ESearchBar *esb, FolderBrowser *fb)
 	int id;
 	
 	id = e_search_bar_get_item_id (esb);
-	if (id == E_SEARCHBAR_CLEAR_ID || id == E_FILTERBAR_ADVANCED_ID)
+	if (id == E_FILTERBAR_ADVANCED_ID)
 		folder_browser_search_do_search (esb, fb);
 }
 

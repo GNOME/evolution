@@ -1,3 +1,8 @@
+2002-10-28  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* folder-browser.c (folder_browser_query_changed): No longer need
+	to check for a CLEAR_ID.
+
 2002-10-28  Larry Ewing  <lewing@ximian.com>
 
 	* mail-format.c (handle_multipart_mixed): instead of bailing with
