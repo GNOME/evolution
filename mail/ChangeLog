@@ -1,3 +1,28 @@
+2001-09-18  Dan Winship  <danw@ximian.com>
+
+	* folder-browser.c (folder_browser_set_uri): Merged into
+	folder_browser_new: nothing ever changes the URI of an existing
+	folder browser any more.
+	(folder_browser_new): Make this take a uri argument and do the
+	work folder_browser_set_uri used to do, except that we set fb->uri
+	right away, so that if the folder browser's control is activated
+	before got_folder() gets called, then folder_browser_ui_add_list()
+	will have access to the correct uri for purposes of setting
+	ViewThreaded, etc. Fixes #4913.
+	(got_folder): Don't set fb->uri here since it will already have
+	been set. Don't call message_list_set_threaded, since it should be
+	a noop now (and if it's not, it would make the message list not
+	match the menu item).
+
+	* folder-browser-ui.c (folder_browser_ui_add_list): Remove some
+	code that was failing to work around the problems above.
+
+	* message-browser.c (message_browser_new): Pass uri to
+	folder_browser_new, remove call to set_uri.
+
+	* folder-browser-factory.c (folder_browser_factory_new_control):
+	Likewise. Also fix a s/destroy/unref/ in an error cleanup.
+
 2001-09-18  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-session.c (get_password): Pass a 'cache-me' argument to

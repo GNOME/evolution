@@ -166,23 +166,18 @@ folder_browser_factory_new_control (const char *uri,
 	BonoboControl *control;
 	GtkWidget *folder_browser;
 
-	folder_browser = folder_browser_new (shell);
+	folder_browser = folder_browser_new (shell, uri);
 	if (folder_browser == NULL)
 		return NULL;
 
 	FOLDER_BROWSER (folder_browser)->pref_master = TRUE; /* save UI settings changed in this FB */
-
-	if (!folder_browser_set_uri (FOLDER_BROWSER (folder_browser), uri)) {
-		gtk_object_sink (GTK_OBJECT (folder_browser));
-		return NULL;
-	}
 
 	gtk_widget_show (folder_browser);
 	
 	control = bonobo_control_new (folder_browser);
 	
 	if (control == NULL) {
-		gtk_object_destroy (GTK_OBJECT (folder_browser));
+		gtk_object_unref (GTK_OBJECT (folder_browser));
 		return NULL;
 	}
 	

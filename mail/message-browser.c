@@ -222,7 +222,7 @@ message_browser_new (const GNOME_Evolution_Shell shell, const char *uri, const c
 	
 	gtk_object_set_data_full (GTK_OBJECT (new), "uid", g_strdup (uid), g_free);
 	
-	fb = FOLDER_BROWSER (folder_browser_new (shell));
+	fb = FOLDER_BROWSER (folder_browser_new (shell, uri));
 	new->fb = fb;
 	
 	set_bonobo_ui (GTK_WIDGET (new), fb);
@@ -252,8 +252,6 @@ message_browser_new (const GNOME_Evolution_Shell shell, const char *uri, const c
 	
 	gtk_signal_connect (GTK_OBJECT (fb), "message_loaded",
 			    message_browser_message_loaded, new);
-	
-	folder_browser_set_uri (fb, uri);
 	
 	return GTK_WIDGET (new);
 }

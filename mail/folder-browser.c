@@ -687,22 +687,13 @@ got_folder(char *uri, CamelFolder *folder, void *data)
 	
 	d(printf ("got folder '%s' = %p\n", uri, folder));
 	
-	if (fb->folder == folder)
-		goto done;
-	
-	if (fb->folder)
-		camel_object_unref (CAMEL_OBJECT (fb->folder));
-	g_free (fb->uri);
-	fb->uri = g_strdup (uri);
 	fb->folder = folder;
-	
 	if (folder == NULL)
 		goto done;
 	
 	camel_object_ref (CAMEL_OBJECT (folder));
 	
 	gtk_widget_set_sensitive (GTK_WIDGET (fb->search), camel_folder_has_search_capability (folder));
-	message_list_set_threaded (fb->message_list, mail_config_get_thread_list (fb->uri));
 	message_list_set_folder (fb->message_list, folder,
 				 folder_browser_is_drafts (fb) ||
 				 folder_browser_is_sent (fb) ||
@@ -721,17 +712,6 @@ got_folder(char *uri, CamelFolder *folder, void *data)
 	gtk_object_unref (GTK_OBJECT (fb));
 	
 	gtk_signal_emit (GTK_OBJECT (fb), folder_browser_signals [FOLDER_LOADED], fb->uri);
-}
-
-gboolean
-folder_browser_set_uri (FolderBrowser *folder_browser, const char *uri)
-{
-	if (uri && *uri) {
-		gtk_object_ref((GtkObject *)folder_browser);
-		mail_get_folder(uri, got_folder, folder_browser);
-	}
-
-	return TRUE;
 }
 
 void
@@ -1471,8 +1451,6 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 		g_free (uids->pdata[i]);
 	g_ptr_array_free (uids, TRUE);
 	
-display_menu:
-	
 	/* generate the "Filter on Mailing List menu item name */
 	if (mailing_list_name == NULL) {
 		enable_mask |= IS_MAILING_LIST;
@@ -1867,7 +1845,7 @@ my_folder_browser_init (GtkObject *object)
 }
 
 GtkWidget *
-folder_browser_new (const GNOME_Evolution_Shell shell)
+folder_browser_new (const GNOME_Evolution_Shell shell, const char *uri)
 {
 	CORBA_Environment ev;
 	FolderBrowser *folder_browser;
@@ -1877,7 +1855,6 @@ folder_browser_new (const GNOME_Evolution_Shell shell)
 	folder_browser = gtk_type_new (folder_browser_get_type ());
 
 	my_folder_browser_init (GTK_OBJECT (folder_browser));
-	folder_browser->uri = NULL;
 
 	folder_browser->shell = CORBA_Object_duplicate (shell, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
@@ -1888,6 +1865,10 @@ folder_browser_new (const GNOME_Evolution_Shell shell)
 	}
 
 	CORBA_exception_free (&ev);
+
+	folder_browser->uri = g_strdup (uri);
+	gtk_object_ref (GTK_OBJECT (folder_browser));
+	mail_get_folder (folder_browser->uri, got_folder, folder_browser);
 
 	return GTK_WIDGET (folder_browser);
 }
