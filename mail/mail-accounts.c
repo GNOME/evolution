@@ -699,11 +699,11 @@ notify_radio_toggled (GtkWidget *radio, gpointer data)
 }
 
 static void
-notify_command_changed (GtkWidget *file_entry, gpointer data)
+notify_command_changed (GtkWidget *entry, gpointer data)
 {
 	char *command;
 	
-	command = gnome_file_entry_get_full_path (GNOME_FILE_ENTRY (file_entry), FALSE);
+	command = gtk_entry_get_text (GTK_ENTRY (entry));
 	mail_config_set_new_mail_notify_command (command);
 }
 
@@ -807,7 +807,7 @@ static void
 construct (MailAccountsDialog *dialog)
 {
 	GladeXML *gui;
-	GtkWidget *notebook, *menu, *entry;
+	GtkWidget *notebook, *menu;
 	int num;
 	
 	gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config.glade", NULL);
