@@ -1,3 +1,7 @@
+2001-08-09  Peter Williams  <peterw@ximian.com>
+
+	* message-list.c (message_list_select): Fix inline documentation.
+
 2001-08-09  Anna Marie Dirks <anna@ximian.com>
 
 	Fixes bug #6918

@@ -354,6 +354,8 @@ get_message_info (MessageList *message_list, ETreePath node)
  * @direction: the direction to search in
  * @flags: a set of flag values
  * @mask: a mask for comparing against @flags
+ * @wraparound: if %TRUE, go back to the beginning for 
+ *     the next match if necessary.
  *
  * This moves the message list selection to a suitable row. @base_row
  * lists the first (model) row to try, but as a special case, model
@@ -2439,7 +2441,7 @@ regen_list_regened (struct _mail_msg *mm)
 		build_tree (m->ml, m->tree, m->changes);
 	else
 		build_flat (m->ml, m->summary, m->changes);
-	
+
 	gtk_signal_emit (GTK_OBJECT (m->ml), message_list_signals[MESSAGE_LIST_BUILT]);
 }
 
