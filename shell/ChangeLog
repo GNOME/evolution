@@ -1,5 +1,19 @@
 2003-01-14  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-folder-selection-dialog.c
+	(e_shell_folder_selection_dialog_construct): Make dialog
+	New/Cancel/OK to match HIG.
+
+	* glade/e-shell-folder-creation-dialog.glade: Swap Cancel/OK
+	buttons to match HIG.
+
+	* e-shell-importer.c (choose_importer_from_list): Make dialog
+	Cancel/OK to match HIG.
+
+	* e-shell-folder-selection-dialog.c
+	(e_shell_folder_selection_dialog_construct): Make dialog Cancel/OK
+	to match HIG.
+
 	* e-shell-view.c: Do not #include "e-bonobo-widget.h".
 
 2003-01-14  Ettore Perazzoli  <ettore@ximian.com>

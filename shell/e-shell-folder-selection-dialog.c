@@ -405,15 +405,15 @@ e_shell_folder_selection_dialog_construct (EShellFolderSelectionDialog *folder_s
 	g_signal_connect (folder_selection_dialog, "delete_event",
 			  G_CALLBACK (delete_event_cb), folder_selection_dialog);
 
-	gtk_dialog_add_buttons (GTK_DIALOG (folder_selection_dialog),
-				GTK_STOCK_OK, GTK_RESPONSE_OK,
-				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-				NULL);
-
 	if (allow_creation)
 		gtk_dialog_add_buttons (GTK_DIALOG (folder_selection_dialog),
 					GTK_STOCK_NEW, 1,
 					NULL);
+
+	gtk_dialog_add_buttons (GTK_DIALOG (folder_selection_dialog),
+				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+				GTK_STOCK_OK, GTK_RESPONSE_OK,
+				NULL);
 
 	gtk_dialog_set_response_sensitive (GTK_DIALOG (folder_selection_dialog), GTK_RESPONSE_OK, FALSE);
 

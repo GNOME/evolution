@@ -350,8 +350,8 @@ choose_importer_from_list (GList *importer_list)
 	char *iid;
 
 	dialog = gtk_dialog_new_with_buttons(_("Select importer"), NULL, GTK_DIALOG_DESTROY_WITH_PARENT,
-					     GTK_STOCK_OK, GTK_RESPONSE_OK,
 					     GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					     GTK_STOCK_OK, GTK_RESPONSE_OK,
 					     NULL);
 	clist = gtk_clist_new (1);
 	for (p = importer_list; p; p = p->next) {
@@ -514,7 +514,8 @@ start_import (const char *folderpath,
 	icd = g_new (ImporterComponentData, 1);
 	icd->stop = FALSE;
 	icd->dialog = GTK_DIALOG (gtk_dialog_new_with_buttons(_("Importing"), NULL, 0,
-							      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, NULL));
+							      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+							      NULL));
 	g_signal_connect (icd->dialog, "response", G_CALLBACK (dialog_response_cb), icd);
 
 	g_object_weak_ref (G_OBJECT(icd->dialog), dialog_destroy_notify, icd);
