@@ -1452,5 +1452,9 @@ GtkWidget *make_timezone_entry (void);
 GtkWidget *
 make_timezone_entry (void)
 {
-	return e_timezone_entry_new ();
+	GtkWidget *w;
+
+	w = e_timezone_entry_new ();
+	gtk_widget_show (w);
+	return w;
 }

@@ -1,5 +1,8 @@
 2003-02-06  Dan Winship  <danw@ximian.com>
 
+	* gui/dialogs/event-page.c (make_timezone_entry): show the widget
+	before returning it.
+
 	* importers/main.c (main): s/PACKAGE/GETTEXT_PACKAGE/ in gettext
 	init
 
