@@ -29,7 +29,7 @@
 
     <cmd name="MailNextUnread"
      _tip="Display the next unread message"
-     accel="bracketright"/>
+     accel="*Control*bracketright"/>
 
     <cmd name="MailNextThread"
      _tip="Display the next unread thread"/>
@@ -42,7 +42,7 @@
 
     <cmd name="MailPreviousUnread"
      _tip="Display the previous unread message"
-     accel="bracketleft"/>
+     accel="*Control*bracketleft"/>
 
     <cmd name="MessageApplyFilters"
      _tip="Apply filter rules to the selected messages"
@@ -220,23 +220,8 @@
   </commands>
 
   <keybindings>
-    <accel name="*Shift*comma"        verb="MailPreviousUnread"/>
-    <accel name="comma"	              verb="MailPreviousUnread"/>
-    <accel name="less"                verb="MailPreviousUnread"/>
-    <accel name="*Shift*less"         verb="MailPreviousUnread"/>
-    <accel name="bracketleft"         verb="MailPreviousUnread"/>
-    <accel name="*Shift*bracketleft"  verb="MailPreviousUnread"/>
-    <accel name="braceleft"           verb="MailPreviousUnread"/>
-    <accel name="*Shift*braceleft"    verb="MailPreviousUnread"/>
-
-    <accel name="*Shift*period"       verb="MailNextUnread"/>
-    <accel name="period"              verb="MailNextUnread"/>
-    <accel name="greater"             verb="MailNextUnread"/>
-    <accel name="*Shift*greater"      verb="MailNextUnread"/>
-    <accel name="bracketright"        verb="MailNextUnread"/>
-    <accel name="*Shift*bracketright" verb="MailNextUnread"/>
-    <accel name="braceright"          verb="MailNextUnread"/>
-    <accel name="*Shift*braceright"   verb="MailNextUnread"/>
+    <accel name="*Control*comma"        verb="MailPreviousUnread"/>
+    <accel name="*Control*period"       verb="MailNextUnread"/>
   </keybindings>
 
   <menu>

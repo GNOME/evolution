@@ -1,3 +1,13 @@
+2004-01-26  Rodney Dawes  <dobey@ximian.com>
+
+	* evolution-addressbook.xml:
+	* evolution-mail-global.xml:
+	* evolution-mail-message.xml: Get rid of all the *Shift*character
+	keybindings, so people can actually type things in the search bar,
+	Just use *Control*basekey instead
+
+	Fixes #41769
+
 2004-01-23  Rodney Dawes  <dobey@ximian.com>
 
 	* evolution-mail-list.xml: Fix Folder submenu location
