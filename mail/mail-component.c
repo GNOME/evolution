@@ -649,6 +649,8 @@ impl_quit(PortableServer_Servant servant, CORBA_Environment *ev)
 		int now = time(NULL)/60/60/24, days;
 		GConfClient *gconf = mail_config_get_gconf_client();
 
+		mail_vfolder_shutdown();
+
 		mc->priv->quit_expunge = gconf_client_get_bool(gconf, "/apps/evolution/mail/trash/empty_on_exit", NULL)
 			&& ((days = gconf_client_get_int(gconf, "/apps/evolution/mail/trash/empty_on_exit_days", NULL)) == 0
 			    || (days + gconf_client_get_int(gconf, "/apps/evolution/mail/trash/empty_date", NULL)) <= now);

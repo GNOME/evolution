@@ -1,3 +1,14 @@
+2005-01-27  Not Zed  <NotZed@Ximian.com>
+
+	* See bug #69815.
+	
+	* mail-component.c (impl_quit): shutdown vfolders as first step.
+
+	* mail-vfolder.c (vfolder_setup_do): if we're shutdown during
+	processing, just noop.
+	(vfolder_adduri_do): same.
+	(mail_vfolder_shutdown): set the shutdown flag.
+
 2005-01-27  Rodney Dawes  <dobey@novell.com>
 
 	* mail-config.glade: Fix the labels in the account druid to be
