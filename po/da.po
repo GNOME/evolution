@@ -609,7 +609,7 @@ msgstr "Tredje"
 
 #: calendar/gui/print.c:265
 msgid "4th"
-msgstr Fjere"
+msgstr "Fjere"
 
 #: calendar/gui/print.c:265
 msgid "5th"
