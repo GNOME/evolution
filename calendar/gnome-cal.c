@@ -334,7 +334,8 @@ mail_notify (char *mail_address, char *text, time_t app_time)
 				  "Subject: ", _("Reminder of your appointment at "),
 				  ctime (&app_time), "\n\n", text, "\n", NULL);
 	write (p [1], command, strlen (command));
-	
+ 	close (p [1]);
+	close (p [0]);
 	g_free (command);
 }
 

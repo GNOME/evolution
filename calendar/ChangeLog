@@ -1,3 +1,8 @@
+1998-09-06  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* gnome-cal.c (mail_notify): Fixed the bug reported about the mail
+	notification not beint sent until the program was terminated.
+
 1998-09-03  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
 	* gncal-full-day.c (gncal_full_day_forall): Updated foreach ->
