@@ -44,7 +44,6 @@ toggled_cb (GtkWidget *widget, EConfig *config)
 	gconf_client_set_bool (target->gconf, GCONF_KEY, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget)), NULL);
 }
 
-
 GtkWidget *
 org_gnome_new_mail_config (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
 {
@@ -71,11 +70,8 @@ org_gnome_new_mail_config (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
 void
 org_gnome_new_mail_notify (EPlugin *ep, EMEventTargetFolder *t)
 {
-	if (gconf_client_get_bool(gconf_client_get_default(),
-				  GCONF_KEY,
-				  NULL))
-	{
-		DBusGConnection *bus;
+	if (gconf_client_get_bool(gconf_client_get_default(), GCONF_KEY, NULL)) {
+		DBusConnection *bus;
 		DBusError error;
 		DBusMessage *message;
 
@@ -84,8 +80,7 @@ org_gnome_new_mail_notify (EPlugin *ep, EMEventTargetFolder *t)
 		bus = dbus_bus_get (DBUS_BUS_SESSION,
 				    &error);
 
-		if (!bus)
-		{
+		if (!bus) {
 			printf ("Failed to connect to the D-BUS daemon: %s\n", error.message);
 			dbus_error_free (&error);
 		}
@@ -98,8 +93,6 @@ org_gnome_new_mail_notify (EPlugin *ep, EMEventTargetFolder *t)
 						   DBUS_INTERFACE,
 						   "Newmail");
 
-		/* FIXME: For some weird reason in some place the folder uri is changed
-		   for the event id */
 		/* Append the folder uri as an argument */
 		dbus_message_append_args (message,
 					  DBUS_TYPE_STRING, t->uri,

@@ -30,7 +30,7 @@ GtkWidget *
 org_gnome_new_mail_config (EPlugin *ep, EConfigHookItemFactoryData *hook_data);
 
 void
-org_gnome_new_mail_notify (EMEventTargetFolder *t);
+org_gnome_new_mail_notify (EPlugin *ep, EMEventTargetFolder *t);
 
 
 #endif /* __NMN_H__ */

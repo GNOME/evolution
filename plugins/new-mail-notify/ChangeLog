@@ -4,6 +4,7 @@
 	(org_gnome_new_mail_notify): renamed slightly for
 	namespace/consistency.
 	(org_gnome_new_mail_notify): fixed signature.
+	(org_gnome_new_mail_notify): fixed some warnings & formatting.
 
 2004-12-30  Miguel Angel Lopez Hernandez  <miguel@gulev.org.mx>
 
