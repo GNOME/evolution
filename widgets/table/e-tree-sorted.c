@@ -1330,7 +1330,7 @@ e_tree_sorted_construct (ETreeSorted *ets, ETreeModel *source, ETableHeader *ful
 
 	ets->priv->full_header                         = full_header;
 	if (full_header)
-		gtk_object_ref(GTK_OBJECT(full_header));
+		g_object_ref(G_OBJECT(full_header));
 
 	ets->priv->sort_info                           = sort_info;
 	if (sort_info)

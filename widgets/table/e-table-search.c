@@ -22,15 +22,10 @@
  */
 
 #include <config.h>
-#include <gtk/gtksignal.h>
 #include "e-table-search.h"
 #include "gal/util/e-util.h"
 
 #include <string.h>
-
-#define ETS_CLASS(e) ((ETableSearchClass *)((GtkObject *)e)->klass)
-
-#define PARENT_TYPE gtk_object_get_type ()
 
 #define d(x)
 
@@ -43,7 +38,7 @@ struct _ETableSearchPrivate {
 	gunichar last_character;
 };
 
-static GtkObjectClass *e_table_search_parent_class;
+static GObjectClass *e_table_search_parent_class;
 
 enum {
 	SEARCH_SEARCH,
@@ -60,8 +55,9 @@ e_table_search_search (ETableSearch *e_table_search, char *string, ETableSearchF
 	g_return_val_if_fail (e_table_search != NULL, FALSE);
 	g_return_val_if_fail (E_IS_TABLE_SEARCH (e_table_search), FALSE);
 	
-	gtk_signal_emit (GTK_OBJECT (e_table_search),
-			 e_table_search_signals [SEARCH_SEARCH], string, flags, &ret_val);
+	g_signal_emit (G_OBJECT (e_table_search),
+		       e_table_search_signals [SEARCH_SEARCH], 
+		       0, string, flags, &ret_val);
 
 	return ret_val;
 }
@@ -72,8 +68,8 @@ e_table_search_accept (ETableSearch *e_table_search)
 	g_return_if_fail (e_table_search != NULL);
 	g_return_if_fail (E_IS_TABLE_SEARCH (e_table_search));
 	
-	gtk_signal_emit (GTK_OBJECT (e_table_search),
-			 e_table_search_signals [SEARCH_ACCEPT]);
+	g_signal_emit (G_OBJECT (e_table_search),
+		       e_table_search_signals [SEARCH_ACCEPT], 0);
 }
 
 static gboolean
@@ -107,7 +103,7 @@ add_timeout (ETableSearch *ets)
 }
 
 static void
-e_table_search_destroy (GtkObject *object)
+e_table_search_finalize (GObject *object)
 {
 	ETableSearch *ets = (ETableSearch *) object;
 	
@@ -115,35 +111,35 @@ e_table_search_destroy (GtkObject *object)
 	g_free (ets->priv->search_string);
 	g_free (ets->priv);
 	
-	if (e_table_search_parent_class->destroy)
-		(*e_table_search_parent_class->destroy)(object);
+	if (e_table_search_parent_class->finalize)
+		(*e_table_search_parent_class->finalize)(object);
 }
 
 static void
-e_table_search_class_init (GtkObjectClass *object_class)
+e_table_search_class_init (GObjectClass *object_class)
 {
 	ETableSearchClass *klass = E_TABLE_SEARCH_CLASS(object_class);
-	e_table_search_parent_class = gtk_type_class (PARENT_TYPE);
+	e_table_search_parent_class = g_type_class_peek_parent (klass);
 
-	object_class->destroy = e_table_search_destroy;
+	object_class->finalize = e_table_search_finalize;
 
 	e_table_search_signals [SEARCH_SEARCH] =
-		gtk_signal_new ("search",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (ETableSearchClass, search),
-				e_marshal_BOOLEAN__STRING_INT,
-				GTK_TYPE_BOOL, 2, GTK_TYPE_STRING, GTK_TYPE_INT);
+		g_signal_new ("search",
+			      E_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ETableSearchClass, search),
+			      (GSignalAccumulator) NULL, NULL,
+			      e_marshal_BOOLEAN__STRING_INT,
+			      G_TYPE_BOOLEAN, 2, G_TYPE_STRING, G_TYPE_INT);
 
 	e_table_search_signals [SEARCH_ACCEPT] =
-		gtk_signal_new ("accept",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (ETableSearchClass, accept),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
-
-	E_OBJECT_CLASS_ADD_SIGNALS (object_class, e_table_search_signals, LAST_SIGNAL);
+		g_signal_new ("accept",
+			      E_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ETableSearchClass, accept),
+			      (GSignalAccumulator) NULL, NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE, 0);
 
 	klass->search = NULL;
 	klass->accept = NULL;
@@ -160,35 +156,12 @@ e_table_search_init (ETableSearch *ets)
 }
 
 
-GtkType
-e_table_search_get_type (void)
-{
-	static guint type = 0;
-	
-	if (!type)
-	{
-		GtkTypeInfo info =
-		{
-			"ETableSearch",
-			sizeof (ETableSearch),
-			sizeof (ETableSearchClass),
-			(GtkClassInitFunc) e_table_search_class_init,
-			(GtkObjectInitFunc) e_table_search_init,
-			/* reserved_1 */ NULL,
-			/* reserved_2 */ NULL,
-			(GtkClassInitFunc) NULL,
-		};
-		
-		type = gtk_type_unique (PARENT_TYPE, &info);
-	}
-
-  return type;
-}
+E_MAKE_TYPE(e_table_search, "ETableSearch", ETableSearch, e_table_search_class_init, e_table_search_init, G_TYPE_OBJECT)
 
 ETableSearch *
 e_table_search_new (void)
 {
-	ETableSearch *ets = gtk_type_new (e_table_search_get_type());
+	ETableSearch *ets = g_object_new (E_TABLE_SEARCH_TYPE, NULL);
 
 	return ets;
 }

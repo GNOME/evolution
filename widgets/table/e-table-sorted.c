@@ -69,7 +69,7 @@ ets_destroy (GtkObject *object)
 	}
 
 	if (ets->full_header)
-		gtk_object_unref(GTK_OBJECT(ets->full_header));
+		g_object_unref(G_OBJECT(ets->full_header));
 	ets->full_header = NULL;
 
 	GTK_OBJECT_CLASS (ets_parent_class)->destroy (object);
@@ -141,7 +141,7 @@ e_table_sorted_new (ETableModel *source, ETableHeader *full_header, ETableSortIn
 	ets->sort_info = sort_info;
 	gtk_object_ref(GTK_OBJECT(ets->sort_info));
 	ets->full_header = full_header;
-	gtk_object_ref(GTK_OBJECT(ets->full_header));
+	g_object_ref(G_OBJECT(ets->full_header));
 
 	ets_proxy_model_changed(etss, source);
 

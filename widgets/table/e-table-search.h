@@ -29,10 +29,11 @@
 G_BEGIN_DECLS
 
 #define E_TABLE_SEARCH_TYPE        (e_table_search_get_type ())
-#define E_TABLE_SEARCH(o)          (GTK_CHECK_CAST ((o), E_TABLE_SEARCH_TYPE, ETableSearch))
-#define E_TABLE_SEARCH_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TABLE_SEARCH_TYPE, ETableSearchClass))
-#define E_IS_TABLE_SEARCH(o)       (GTK_CHECK_TYPE ((o), E_TABLE_SEARCH_TYPE))
-#define E_IS_TABLE_SEARCH_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_TABLE_SEARCH_TYPE))
+#define E_TABLE_SEARCH(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TABLE_SEARCH_TYPE, ETableSearch))
+#define E_TABLE_SEARCH_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_TABLE_SEARCH_TYPE, ETableSearchClass))
+#define E_IS_TABLE_SEARCH(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TABLE_SEARCH_TYPE))
+#define E_IS_TABLE_SEARCH_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TABLE_SEARCH_TYPE))
+#define E_TABLE_SEARCH_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS((o), E_TABLE_SEARCH_TYPE, ETableSearchClass))
 
 typedef struct _ETableSearchPrivate ETableSearchPrivate;
 
@@ -41,13 +42,13 @@ typedef enum {
 } ETableSearchFlags;
 
 typedef struct {
-	GtkObject   base;
+	GObject   base;
 
 	ETableSearchPrivate *priv;
 } ETableSearch;
 
 typedef struct {
-	GtkObjectClass parent_class;
+	GObjectClass parent_class;
 
 	/*
 	 * Signals
@@ -56,7 +57,7 @@ typedef struct {
 	void     (*accept)    (ETableSearch *ets);
 } ETableSearchClass;
 
-GtkType       e_table_search_get_type         (void);
+GType       e_table_search_get_type         (void);
 ETableSearch *e_table_search_new              (void);
 
 /**/

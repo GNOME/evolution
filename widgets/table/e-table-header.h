@@ -25,7 +25,7 @@
 #ifndef _E_TABLE_COLUMN_H_
 #define _E_TABLE_COLUMN_H_
 
-#include <gtk/gtkobject.h>
+#include <glib-object.h>
 #include <gdk/gdk.h>
 #include <gal/e-table/e-table-sort-info.h>
 #include <gal/e-table/e-table-col.h>
@@ -35,10 +35,11 @@ G_BEGIN_DECLS
 typedef struct _ETableHeader ETableHeader;
 
 #define E_TABLE_HEADER_TYPE        (e_table_header_get_type ())
-#define E_TABLE_HEADER(o)          (GTK_CHECK_CAST ((o), E_TABLE_HEADER_TYPE, ETableHeader))
-#define E_TABLE_HEADER_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TABLE_HEADER_TYPE, ETableHeaderClass))
-#define E_IS_TABLE_HEADER(o)       (GTK_CHECK_TYPE ((o), E_TABLE_HEADER_TYPE))
-#define E_IS_TABLE_HEADER_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_TABLE_HEADER_TYPE))
+#define E_TABLE_HEADER(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TABLE_HEADER_TYPE, ETableHeader))
+#define E_TABLE_HEADER_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_TABLE_HEADER_TYPE, ETableHeaderClass))
+#define E_IS_TABLE_HEADER(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TABLE_HEADER_TYPE))
+#define E_IS_TABLE_HEADER_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TABLE_HEADER_TYPE))
+#define E_TABLE_HEADER_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS((o), E_TABLE_HEADER_TYPE, ETableHeaderClass))
 
 typedef gboolean (*ETableColCheckFunc) (ETableCol *col, gpointer user_data);
 
@@ -46,7 +47,7 @@ typedef gboolean (*ETableColCheckFunc) (ETableCol *col, gpointer user_data);
  * A Columnar header.
  */
 struct _ETableHeader {
-	GtkObject base;
+	GObject base;
 
 	int col_count;
 	int width;
@@ -63,7 +64,7 @@ struct _ETableHeader {
 };
 
 typedef struct {
-	GtkObjectClass parent_class;
+	GObjectClass parent_class;
 
 	void (*structure_change) (ETableHeader *eth);
 	void (*dimension_change) (ETableHeader *eth, int width);
@@ -71,7 +72,7 @@ typedef struct {
 	int (*request_width) (ETableHeader *eth, int col);
 } ETableHeaderClass;
 
-GtkType       e_table_header_get_type                     (void);
+GType         e_table_header_get_type                     (void);
 ETableHeader *e_table_header_new                          (void);
 
 void          e_table_header_add_column                   (ETableHeader       *eth,
@@ -112,7 +113,6 @@ int           e_table_header_prioritized_column           (ETableHeader       *e
 ETableCol    *e_table_header_prioritized_column_selected  (ETableHeader       *eth,
 							   ETableColCheckFunc  check_func,
 							   gpointer            user_data);
-
 
 G_END_DECLS
 

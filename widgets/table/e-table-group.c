@@ -58,12 +58,12 @@ etg_destroy (GtkObject *object)
 	ETableGroup *etg = E_TABLE_GROUP(object);
 
 	if (etg->header) {
-		gtk_object_unref (GTK_OBJECT(etg->header));
+		g_object_unref (G_OBJECT(etg->header));
 		etg->header = NULL;
 	}
 
 	if (etg->full_header) {
-		gtk_object_unref (GTK_OBJECT(etg->full_header));
+		g_object_unref (G_OBJECT(etg->full_header));
 		etg->full_header = NULL;
 	}
 
@@ -130,9 +130,9 @@ e_table_group_construct (GnomeCanvasGroup *parent,
 			 ETableModel      *model)
 {
 	etg->full_header = full_header;
-	gtk_object_ref (GTK_OBJECT(etg->full_header));
+	g_object_ref (G_OBJECT(etg->full_header));
 	etg->header = header;
-	gtk_object_ref (GTK_OBJECT(etg->header));
+	g_object_ref (G_OBJECT(etg->header));
 	etg->model = model;
 	gtk_object_ref (GTK_OBJECT(etg->model));
 	gnome_canvas_item_construct (GNOME_CANVAS_ITEM (etg), parent, 0, NULL);

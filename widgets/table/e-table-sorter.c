@@ -91,7 +91,7 @@ ets_destroy (GtkObject *object)
 	ets->sort_info = NULL;
 
 	if (ets->full_header)
-		gtk_object_unref(GTK_OBJECT(ets->full_header));
+		g_object_unref(G_OBJECT(ets->full_header));
 	ets->full_header = NULL;
 
 	if (ets->source)
@@ -191,7 +191,7 @@ e_table_sorter_new (ETableModel *source, ETableHeader *full_header, ETableSortIn
 	ets->sort_info = sort_info;
 	gtk_object_ref(GTK_OBJECT(ets->sort_info));
 	ets->full_header = full_header;
-	gtk_object_ref(GTK_OBJECT(ets->full_header));
+	g_object_ref(G_OBJECT(ets->full_header));
 	ets->source = source;
 	gtk_object_ref(GTK_OBJECT(ets->source));
 

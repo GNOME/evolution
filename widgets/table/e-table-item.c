@@ -566,18 +566,18 @@ eti_remove_header_model (ETableItem *eti)
 	if (!eti->header)
 		return;
 
-	gtk_signal_disconnect (GTK_OBJECT (eti->header),
-			       eti->header_structure_change_id);
-	gtk_signal_disconnect (GTK_OBJECT (eti->header),
-			       eti->header_dim_change_id);
-	gtk_signal_disconnect (GTK_OBJECT (eti->header),
-			       eti->header_request_width_id);
+	g_signal_handler_disconnect (G_OBJECT (eti->header),
+			       	     eti->header_structure_change_id);
+	g_signal_handler_disconnect (G_OBJECT (eti->header),
+			       	     eti->header_dim_change_id);
+	g_signal_handler_disconnect (G_OBJECT (eti->header),
+			       	     eti->header_request_width_id);
 	
 	if (eti->cell_views){
 		eti_unrealize_cell_views (eti);
 		eti_detach_cell_views (eti);
 	}
-	gtk_object_unref (GTK_OBJECT (eti->header));
+	g_object_unref (G_OBJECT (eti->header));
 
 
 	eti->header_structure_change_id = 0;
@@ -1366,21 +1366,21 @@ eti_add_header_model (ETableItem *eti, ETableHeader *header)
 	g_assert (eti->header == NULL);
 	
 	eti->header = header;
-	gtk_object_ref (GTK_OBJECT (header));
+	g_object_ref (G_OBJECT (header));
 
 	eti_header_structure_changed (header, eti);
 	
-	eti->header_dim_change_id = gtk_signal_connect (
-		GTK_OBJECT (header), "dimension_change",
-		GTK_SIGNAL_FUNC (eti_header_dim_changed), eti);
+	eti->header_dim_change_id = g_signal_connect (
+		G_OBJECT (header), "dimension_change",
+		G_CALLBACK (eti_header_dim_changed), eti);
 
-	eti->header_structure_change_id = gtk_signal_connect (
-		GTK_OBJECT (header), "structure_change",
-		GTK_SIGNAL_FUNC (eti_header_structure_changed), eti);
+	eti->header_structure_change_id = g_signal_connect (
+		G_OBJECT (header), "structure_change",
+		G_CALLBACK (eti_header_structure_changed), eti);
 
-	eti->header_request_width_id = gtk_signal_connect 
-		(GTK_OBJECT (header), "request_width",
-		 GTK_SIGNAL_FUNC (eti_request_column_width), eti);
+	eti->header_request_width_id = g_signal_connect 
+		(G_OBJECT (header), "request_width",
+		 G_CALLBACK (eti_request_column_width), eti);
 }
 
 /*
@@ -2955,7 +2955,7 @@ eti_class_init (GtkObjectClass *object_class)
 				GTK_RUN_LAST,
 				E_OBJECT_CLASS_TYPE (object_class),
 				GTK_SIGNAL_OFFSET (ETableItemClass, style_set),
-				gtk_marshal_NONE__POINTER,
+				gtk_marshal_NONE__OBJECT,
 				GTK_TYPE_NONE, 1, GTK_TYPE_STYLE);
 
 	E_OBJECT_CLASS_ADD_SIGNALS (object_class, eti_signals, LAST_SIGNAL);

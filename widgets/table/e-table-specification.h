@@ -24,25 +24,24 @@
 #ifndef _E_TABLE_SPECIFICATION_H_
 #define _E_TABLE_SPECIFICATION_H_
 
-#include <gtk/gtkobject.h>
+#include <glib-object.h>
 #include <libxml/tree.h>
 #include <gal/widgets/e-selection-model.h>
 #include <gal/e-table/e-table-state.h>
 #include <gal/e-table/e-table-column-specification.h>
 #include <gal/e-table/e-table-defines.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define E_TABLE_SPECIFICATION_TYPE        (e_table_specification_get_type ())
-#define E_TABLE_SPECIFICATION(o)          (GTK_CHECK_CAST ((o), E_TABLE_SPECIFICATION_TYPE, ETableSpecification))
-#define E_TABLE_SPECIFICATION_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TABLE_SPECIFICATION_TYPE, ETableSpecificationClass))
-#define E_IS_TABLE_SPECIFICATION(o)       (GTK_CHECK_TYPE ((o), E_TABLE_SPECIFICATION_TYPE))
-#define E_IS_TABLE_SPECIFICATION_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_TABLE_SPECIFICATION_TYPE))
+#define E_TABLE_SPECIFICATION(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TABLE_SPECIFICATION_TYPE, ETableSpecification))
+#define E_TABLE_SPECIFICATION_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_TABLE_SPECIFICATION_TYPE, ETableSpecificationClass))
+#define E_IS_TABLE_SPECIFICATION(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TABLE_SPECIFICATION_TYPE))
+#define E_IS_TABLE_SPECIFICATION_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TABLE_SPECIFICATION_TYPE))
+#define E_TABLE_SPECIFICATION_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS((o), E_TABLE_SPECIFICATION_TYPE, ETableSpecificationClass))
 
 typedef struct {
-	GtkObject base;
+	GObject base;
 
 	ETableColumnSpecification **columns;
 	ETableState *state;
@@ -65,10 +64,10 @@ typedef struct {
 } ETableSpecification;
 
 typedef struct {
-	GtkObjectClass parent_class;
+	GObjectClass parent_class;
 } ETableSpecificationClass;
 
-GtkType              e_table_specification_get_type          (void);
+GType                e_table_specification_get_type          (void);
 ETableSpecification *e_table_specification_new               (void);
 
 gboolean             e_table_specification_load_from_file    (ETableSpecification *specification,
@@ -85,8 +84,6 @@ xmlNode             *e_table_specification_save_to_node      (ETableSpecificatio
 							      xmlDoc              *doc);
 ETableSpecification *e_table_specification_duplicate         (ETableSpecification *spec);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* _E_TABLE_SPECIFICATION_H_ */

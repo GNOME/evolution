@@ -321,11 +321,11 @@ disconnect_header (ETree *e_tree)
 		return;
 
 	if (e_tree->priv->structure_change_id)
-		gtk_signal_disconnect (GTK_OBJECT (e_tree->priv->header),
-				       e_tree->priv->structure_change_id);
+		g_signal_handler_disconnect (G_OBJECT (e_tree->priv->header),
+				       	     e_tree->priv->structure_change_id);
 	if (e_tree->priv->expansion_change_id)
-		gtk_signal_disconnect (GTK_OBJECT (e_tree->priv->header),
-				       e_tree->priv->expansion_change_id);
+		g_signal_handler_disconnect (G_OBJECT (e_tree->priv->header),
+				       	     e_tree->priv->expansion_change_id);
 	if (e_tree->priv->sort_info) {
 		if (e_tree->priv->sort_info_change_id)
 			gtk_signal_disconnect (GTK_OBJECT (e_tree->priv->sort_info),
@@ -336,7 +336,7 @@ disconnect_header (ETree *e_tree)
 
 		gtk_object_unref(GTK_OBJECT(e_tree->priv->sort_info));
 	}
-	gtk_object_unref(GTK_OBJECT(e_tree->priv->header));
+	g_object_unref(G_OBJECT(e_tree->priv->header));
 	e_tree->priv->header = NULL;
 	e_tree->priv->sort_info = NULL;
 }
@@ -344,17 +344,19 @@ disconnect_header (ETree *e_tree)
 static void
 connect_header (ETree *e_tree, ETableState *state)
 {
+	GValue *val = g_new0 (GValue, 1);
+
 	if (e_tree->priv->header != NULL)
 		disconnect_header (e_tree);
 
 	e_tree->priv->header = e_table_state_to_header (GTK_WIDGET(e_tree), e_tree->priv->full_header, state);
 
 	e_tree->priv->structure_change_id =
-		gtk_signal_connect (GTK_OBJECT (e_tree->priv->header), "structure_change",
-				    GTK_SIGNAL_FUNC (search_col_change_trigger), e_tree);
+		g_signal_connect (G_OBJECT (e_tree->priv->header), "structure_change",
+				  G_CALLBACK (search_col_change_trigger), e_tree);
 	e_tree->priv->expansion_change_id =
-		gtk_signal_connect (GTK_OBJECT (e_tree->priv->header), "expansion_change",
-				    GTK_SIGNAL_FUNC (change_trigger), e_tree);
+		g_signal_connect (G_OBJECT (e_tree->priv->header), "expansion_change",
+				  G_CALLBACK (change_trigger), e_tree);
 
 	if (state->sort_info) {
 		e_tree->priv->sort_info = e_table_sort_info_duplicate(state->sort_info);
@@ -368,9 +370,10 @@ connect_header (ETree *e_tree, ETableState *state)
 	} else
 		e_tree->priv->sort_info = NULL;
 
-	gtk_object_set(GTK_OBJECT(e_tree->priv->header),
-		       "sort_info", e_tree->priv->sort_info,
-		       NULL);
+	g_value_init (val, G_TYPE_OBJECT);
+	g_value_set_object (val, e_tree->priv->sort_info);
+	g_object_set_property (G_OBJECT(e_tree->priv->header), "sort_info", val);
+	g_free (val);
 }
 
 static void
@@ -382,12 +385,12 @@ et_destroy (GtkObject *object)
 
 		if (et->priv->search) {
 			if (et->priv->search_search_id)
-				gtk_signal_disconnect (GTK_OBJECT (et->priv->search),
-						       et->priv->search_search_id);
+				g_signal_handler_disconnect (G_OBJECT (et->priv->search),
+						     	      et->priv->search_search_id);
 			if (et->priv->search_accept_id)
-				gtk_signal_disconnect (GTK_OBJECT (et->priv->search),
-						       et->priv->search_accept_id);
-			gtk_object_unref (GTK_OBJECT (et->priv->search));
+				g_signal_handler_disconnect (G_OBJECT (et->priv->search),
+						     	      et->priv->search_accept_id);
+			g_object_unref (G_OBJECT (et->priv->search));
 		}
 
 		if (et->priv->reflow_idle_id)
@@ -403,17 +406,20 @@ et_destroy (GtkObject *object)
 		gtk_object_unref (GTK_OBJECT (et->priv->etta));
 		gtk_object_unref (GTK_OBJECT (et->priv->model));
 		gtk_object_unref (GTK_OBJECT (et->priv->sorted));
-		gtk_object_unref (GTK_OBJECT (et->priv->full_header));
+		g_object_unref (G_OBJECT (et->priv->full_header));
 		disconnect_header (et);
 		gtk_object_unref (GTK_OBJECT (et->priv->selection));
 		if (et->priv->spec)
-			gtk_object_unref (GTK_OBJECT (et->priv->spec));
+			g_object_unref (G_OBJECT (et->priv->spec));
+		et->priv->spec = NULL;
 
 		if (et->priv->sorter)
 			gtk_object_unref (GTK_OBJECT (et->priv->sorter));
+		et->priv->sorter = NULL;
 
 		if (et->priv->header_canvas)
 			gtk_widget_destroy (GTK_WIDGET (et->priv->header_canvas));
+		et->priv->header_canvas = NULL;
 
 		if (et->priv->site)
 			e_tree_drag_source_unset (et);
@@ -603,11 +609,11 @@ e_tree_init (GtkObject *object)
 	e_tree->priv->search                 = e_table_search_new();
 
 	e_tree->priv->search_search_id       = 
-		gtk_signal_connect (GTK_OBJECT (e_tree->priv->search), "search",
-				    GTK_SIGNAL_FUNC (et_search_search), e_tree);
+		g_signal_connect (G_OBJECT (e_tree->priv->search), "search",
+				  G_CALLBACK (et_search_search), e_tree);
 	e_tree->priv->search_accept_id       = 
-		gtk_signal_connect (GTK_OBJECT (e_tree->priv->search), "accept",
-				    GTK_SIGNAL_FUNC (et_search_accept), e_tree);
+		g_signal_connect (G_OBJECT (e_tree->priv->search), "accept",
+				  G_CALLBACK (et_search_accept), e_tree);
 
 	e_tree->priv->current_search_col     = NULL;
 	e_tree->priv->search_col_set         = FALSE;
@@ -745,8 +751,11 @@ tree_canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc,
 	gdouble width;
 	gdouble height;
 	gdouble item_height;
+	GValue *val = g_new0 (GValue, 1);
+	g_value_init (val, G_TYPE_DOUBLE);
 
 	width = alloc->width;
+	g_value_set_double (val, width);
 	gtk_object_get (GTK_OBJECT (e_tree->priv->item),
 			"height", &height,
 			NULL);
@@ -756,9 +765,8 @@ tree_canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc,
 	gtk_object_set (GTK_OBJECT (e_tree->priv->item),
 			"width", width,
 			NULL);
-	gtk_object_set (GTK_OBJECT (e_tree->priv->header),
-			"width", width,
-			NULL);
+	g_object_set_property (G_OBJECT (e_tree->priv->header), "width", val);
+	g_free (val);
 	if (e_tree->priv->reflow_idle_id)
 		g_source_remove(e_tree->priv->reflow_idle_id);
 	tree_canvas_reflow_idle(e_tree);
@@ -1529,7 +1537,7 @@ e_tree_construct_from_spec_file (ETree *e_tree, ETreeModel *etm, ETableExtras *e
 
 	specification = e_table_specification_new();
 	if (!e_table_specification_load_from_file(specification, spec_fn)) {
-		gtk_object_unref(GTK_OBJECT(specification));
+		g_object_unref(G_OBJECT(specification));
 		return NULL;
 	}
 

@@ -24,8 +24,7 @@
 
 #include <config.h>
 #include <string.h>
-#include <gtk/gtkobject.h>
-#include <gtk/gtksignal.h>
+#include <glib-object.h>
 #include <gtk/gtkimage.h>
 #include <gal/util/e-util.h>
 #include "e-table-header.h"
@@ -34,10 +33,10 @@
 
 /* The arguments we take */
 enum {
-	ARG_0,
-	ARG_SORT_INFO,
-	ARG_WIDTH,
-	ARG_WIDTH_EXTRAS
+	PROP_0,
+	PROP_SORT_INFO,
+	PROP_WIDTH,
+	PROP_WIDTH_EXTRAS
 };
 
 enum {
@@ -53,7 +52,7 @@ static void eth_calc_widths (ETableHeader *eth);
 
 static guint eth_signals [LAST_SIGNAL] = { 0, };
 
-static GtkObjectClass *e_table_header_parent_class;
+static GObjectClass *e_table_header_parent_class;
 
 struct two_ints {
 	int column;
@@ -144,7 +143,7 @@ eth_do_remove (ETableHeader *eth, int idx, gboolean do_unref)
 }
 
 static void
-eth_destroy (GtkObject *object)
+eth_finalize (GObject *object)
 {
 	ETableHeader *eth = E_TABLE_HEADER (object);
 	const int cols = eth->col_count;
@@ -152,8 +151,8 @@ eth_destroy (GtkObject *object)
 	
 	if (eth->sort_info) {
 		if (eth->sort_info_group_change_id)
-			gtk_signal_disconnect(GTK_OBJECT(eth->sort_info),
-					      eth->sort_info_group_change_id);
+			g_signal_handler_disconnect(GTK_OBJECT(eth->sort_info),
+					            eth->sort_info_group_change_id);
 		gtk_object_unref(GTK_OBJECT(eth->sort_info));
 		eth->sort_info = NULL;
 	}
@@ -179,8 +178,8 @@ eth_destroy (GtkObject *object)
 	eth->col_count = 0;
 	eth->columns = NULL;
 
-	if (e_table_header_parent_class->destroy)
-		e_table_header_parent_class->destroy (object);
+	if (e_table_header_parent_class->finalize)
+		e_table_header_parent_class->finalize (object);
 }
 
 static void
@@ -190,31 +189,31 @@ eth_group_info_changed(ETableSortInfo *info, ETableHeader *eth)
 }
 
 static void
-eth_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
+eth_set_prop (GObject *object, guint prop_id, const GValue *val, GParamSpec *pspec)
 {
 	ETableHeader *eth = E_TABLE_HEADER (object);
 
-	switch (arg_id) {
-	case ARG_WIDTH:
-		eth->nominal_width = GTK_VALUE_DOUBLE (*arg);
-		enqueue(eth, -1, GTK_VALUE_DOUBLE (*arg));
-		break;
-	case ARG_WIDTH_EXTRAS:
-		eth->width_extras = GTK_VALUE_DOUBLE (*arg);
+	switch (prop_id) {
+	case PROP_WIDTH:
+		eth->nominal_width = g_value_get_double (val);
 		enqueue(eth, -1, eth->nominal_width);
 		break;
-	case ARG_SORT_INFO:
+	case PROP_WIDTH_EXTRAS:
+		eth->width_extras = g_value_get_double (val);
+		enqueue(eth, -1, eth->nominal_width);
+		break;
+	case PROP_SORT_INFO:
 		if (eth->sort_info) {
 			if (eth->sort_info_group_change_id)
-				gtk_signal_disconnect(GTK_OBJECT(eth->sort_info), eth->sort_info_group_change_id);
-			gtk_object_unref(GTK_OBJECT(eth->sort_info));
+				g_signal_handler_disconnect(GTK_OBJECT(eth->sort_info), eth->sort_info_group_change_id);
+			g_object_unref (G_OBJECT(eth->sort_info));
 		}
-		eth->sort_info = E_TABLE_SORT_INFO(GTK_VALUE_OBJECT (*arg));
+		eth->sort_info = E_TABLE_SORT_INFO(g_value_get_object (val));
 		if (eth->sort_info) {
-			gtk_object_ref(GTK_OBJECT(eth->sort_info));
+			g_object_ref(G_OBJECT(eth->sort_info));
 			eth->sort_info_group_change_id 
-				= gtk_signal_connect(GTK_OBJECT(eth->sort_info), "group_info_changed",
-						     GTK_SIGNAL_FUNC(eth_group_info_changed), eth);
+				= g_signal_connect(G_OBJECT(eth->sort_info), "group_info_changed",
+						   G_CALLBACK(eth_group_info_changed), eth);
 		}
 		enqueue(eth, -1, eth->nominal_width);
 		break;
@@ -224,74 +223,87 @@ eth_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 }
 
 static void
-eth_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
+eth_get_prop (GObject *object, guint prop_id, GValue *val, GParamSpec *pspec)
 {
 	ETableHeader *eth = E_TABLE_HEADER (object);
 
-	switch (arg_id) {
-	case ARG_SORT_INFO:
-		GTK_VALUE_OBJECT (*arg) = GTK_OBJECT(eth->sort_info);
+	switch (prop_id) {
+	case PROP_SORT_INFO:
+		g_value_set_object (val, G_OBJECT(eth->sort_info));
 		break;
-	case ARG_WIDTH:
-		GTK_VALUE_DOUBLE (*arg) = eth->nominal_width;
+	case PROP_WIDTH:
+		g_value_set_double (val, eth->nominal_width);
 		break;
-	case ARG_WIDTH_EXTRAS:
-		GTK_VALUE_DOUBLE (*arg) = eth->width_extras;
+	case PROP_WIDTH_EXTRAS:
+		g_value_set_double (val, eth->width_extras);
 		break;
 	default:
-		arg->type = GTK_TYPE_INVALID;
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
 		break;
 	}
 }
 
 static void
-e_table_header_class_init (GtkObjectClass *object_class)
+e_table_header_class_init (GObjectClass *object_class)
 {
 	ETableHeaderClass *klass = E_TABLE_HEADER_CLASS (object_class);
 
-	object_class->destroy = eth_destroy;
-	object_class->set_arg = eth_set_arg;
-	object_class->get_arg = eth_get_arg;
+	object_class->finalize = eth_finalize;
+	object_class->set_property = eth_set_prop;
+	object_class->get_property = eth_get_prop;
 
-	e_table_header_parent_class = (gtk_type_class (gtk_object_get_type ()));
+	e_table_header_parent_class = g_type_class_peek_parent (object_class);
 
-	gtk_object_add_arg_type ("ETableHeader::width", GTK_TYPE_DOUBLE, 
-				 GTK_ARG_READWRITE, ARG_WIDTH); 
-	gtk_object_add_arg_type ("ETableHeader::width_extras", GTK_TYPE_DOUBLE, 
-				 GTK_ARG_READWRITE, ARG_WIDTH_EXTRAS); 
-	gtk_object_add_arg_type ("ETableHeader::sort_info", GTK_TYPE_OBJECT, 
-				 GTK_ARG_READWRITE, ARG_SORT_INFO); 
+	g_object_class_install_property (
+		object_class, PROP_WIDTH,
+		g_param_spec_double ("width", "Width", "Width", 
+				     0.0, G_MAXDOUBLE, 0.0, 
+				     G_PARAM_READWRITE)); 
+
+	g_object_class_install_property (
+		object_class, PROP_WIDTH_EXTRAS,
+		g_param_spec_double ("width_extras", "Width of Extras", "Width of Extras", 
+				     0.0, G_MAXDOUBLE, 0.0, 
+				     G_PARAM_READWRITE)); 
+
+	g_object_class_install_property (
+		object_class, PROP_SORT_INFO,
+		g_param_spec_object ("sort_info", "Sort Info", "Sort Info", 
+				     E_TABLE_SORT_INFO_TYPE,
+				     G_PARAM_READWRITE)); 
 
 	eth_signals [STRUCTURE_CHANGE] =
-		gtk_signal_new ("structure_change",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (ETableHeaderClass, structure_change),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
+		g_signal_new ("structure_change",
+			      E_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ETableHeaderClass, structure_change),
+			      (GSignalAccumulator) NULL, NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE, 0);
 	eth_signals [DIMENSION_CHANGE] = 
-		gtk_signal_new ("dimension_change", 
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (ETableHeaderClass, dimension_change),
-				gtk_marshal_NONE__INT,
-				GTK_TYPE_NONE, 1, GTK_TYPE_INT);
+		g_signal_new ("dimension_change", 
+			      E_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ETableHeaderClass, dimension_change),
+			      (GSignalAccumulator) NULL, NULL,
+			      g_cclosure_marshal_VOID__INT,
+			      G_TYPE_NONE, 1, G_TYPE_INT);
 	eth_signals [EXPANSION_CHANGE] = 
-		gtk_signal_new ("expansion_change", 
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (ETableHeaderClass, expansion_change),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
+		g_signal_new ("expansion_change", 
+			      E_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ETableHeaderClass, expansion_change),
+			      (GSignalAccumulator) NULL, NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE, 0);
 	eth_signals [REQUEST_WIDTH] = 
-		gtk_signal_new ("request_width",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (ETableHeaderClass, request_width),
-				e_marshal_INT__INT,
-				GTK_TYPE_INT, 1, GTK_TYPE_INT);
-
-	E_OBJECT_CLASS_ADD_SIGNALS (object_class, eth_signals, LAST_SIGNAL);
+		g_signal_new ("request_width",
+			      E_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ETableHeaderClass, request_width),
+			      (GSignalAccumulator) NULL, NULL,
+			      e_marshal_INT__INT,
+			      G_TYPE_INT, 1, G_TYPE_INT);
 
 	klass->structure_change = NULL;
 	klass->dimension_change = NULL;
@@ -324,11 +336,8 @@ e_table_header_init (ETableHeader *eth)
 ETableHeader *
 e_table_header_new (void)
 {
-	ETableHeader *eth;
 
-	eth = gtk_type_new (e_table_header_get_type ());
-
-	return eth;
+	return (ETableHeader *) g_object_new (E_TABLE_HEADER_TYPE, NULL);
 }
 
 static void
@@ -390,7 +399,7 @@ e_table_header_add_column (ETableHeader *eth, ETableCol *tc, int pos)
 	eth_do_insert (eth, pos, tc);
 
 	enqueue(eth, -1, eth->nominal_width);
-	gtk_signal_emit (GTK_OBJECT (eth), eth_signals [STRUCTURE_CHANGE]);
+	g_signal_emit (G_OBJECT (eth), eth_signals [STRUCTURE_CHANGE], 0);
 }
 
 /**
@@ -631,8 +640,8 @@ e_table_header_move (ETableHeader *eth, int source_index, int target_index)
 	eth_do_insert (eth, target_index, old);
 	eth_update_offsets (eth);
 	
-	gtk_signal_emit (GTK_OBJECT (eth), eth_signals [DIMENSION_CHANGE], eth->width);
-	gtk_signal_emit (GTK_OBJECT (eth), eth_signals [STRUCTURE_CHANGE]);
+	g_signal_emit (G_OBJECT (eth), eth_signals [DIMENSION_CHANGE], 0, eth->width);
+	g_signal_emit (G_OBJECT (eth), eth_signals [STRUCTURE_CHANGE], 0);
 }
 
 /**
@@ -653,7 +662,7 @@ e_table_header_remove (ETableHeader *eth, int idx)
 
 	eth_do_remove (eth, idx, TRUE);
 	enqueue(eth, -1, eth->nominal_width);
-	gtk_signal_emit (GTK_OBJECT (eth), eth_signals [STRUCTURE_CHANGE]);
+	g_signal_emit (G_OBJECT (eth), eth_signals [STRUCTURE_CHANGE], 0);
 }
 
 /*
@@ -724,7 +733,7 @@ eth_set_size (ETableHeader *eth, int idx, int size)
 			eth->columns[i]->expansion = 0;
 		}
 
-		gtk_signal_emit (GTK_OBJECT (eth), eth_signals [EXPANSION_CHANGE]);
+		g_signal_emit (G_OBJECT (eth), eth_signals [EXPANSION_CHANGE], 0);
 		return;
 	}
 
@@ -734,7 +743,7 @@ eth_set_size (ETableHeader *eth, int idx, int size)
 		for (i = idx; i < eth->col_count; i++) {
 			eth->columns[i]->expansion = 0;
 		}
-		gtk_signal_emit (GTK_OBJECT (eth), eth_signals [EXPANSION_CHANGE]);
+		g_signal_emit (G_OBJECT (eth), eth_signals [EXPANSION_CHANGE], 0);
 		return;
 	}
 
@@ -751,7 +760,7 @@ eth_set_size (ETableHeader *eth, int idx, int size)
 		for (i = idx + 1; i < eth->col_count; i++) {
 			eth->columns[i]->expansion = 0;
 		}
-		gtk_signal_emit (GTK_OBJECT (eth), eth_signals [EXPANSION_CHANGE]);
+		g_signal_emit (G_OBJECT (eth), eth_signals [EXPANSION_CHANGE], 0);
 		return;
 	}
 	
@@ -776,7 +785,7 @@ eth_set_size (ETableHeader *eth, int idx, int size)
 				eth->columns[i]->expansion = expansion / expandable_count;
 			}
 		}
-		gtk_signal_emit (GTK_OBJECT (eth), eth_signals [EXPANSION_CHANGE]);
+		g_signal_emit (G_OBJECT (eth), eth_signals [EXPANSION_CHANGE], 0);
 		return;
 	}
 
@@ -788,7 +797,7 @@ eth_set_size (ETableHeader *eth, int idx, int size)
 			eth->columns[i]->expansion *= expansion / old_expansion;
 		}
 	}
-	gtk_signal_emit (GTK_OBJECT (eth), eth_signals [EXPANSION_CHANGE]);
+	g_signal_emit (G_OBJECT (eth), eth_signals [EXPANSION_CHANGE], 0);
 }
 
 /**
@@ -870,7 +879,7 @@ eth_calc_widths (ETableHeader *eth)
 	}
 	g_free (widths);
 	if (changed)
-		gtk_signal_emit (GTK_OBJECT (eth), eth_signals [DIMENSION_CHANGE], eth->width);
+		g_signal_emit (G_OBJECT (eth), eth_signals [DIMENSION_CHANGE], 0, eth->width);
 	eth_update_offsets (eth);
 }
 
@@ -885,38 +894,17 @@ e_table_header_update_horizontal (ETableHeader *eth)
 	for (i = 0; i < cols; i++) {
 		int width = 0;
 		
-		gtk_signal_emit_by_name (GTK_OBJECT (eth),
+		g_signal_emit_by_name (G_OBJECT (eth),
 					 "request_width",
 					 i, &width);
 		eth->columns[i]->min_width = width + 10;
 		eth->columns[i]->expansion = 1;
 	}
 	enqueue(eth, -1, eth->nominal_width);
-	gtk_signal_emit (GTK_OBJECT (eth), eth_signals [EXPANSION_CHANGE]);
+	g_signal_emit (G_OBJECT (eth), eth_signals [EXPANSION_CHANGE], 0);
 }
 
-GtkType
-e_table_header_get_type (void)
-{
-	static GtkType type = 0;
-
-	if (!type){
-		GtkTypeInfo info = {
-			"ETableHeader",
-			sizeof (ETableHeader),
-			sizeof (ETableHeaderClass),
-			(GtkClassInitFunc) e_table_header_class_init,
-			(GtkObjectInitFunc) e_table_header_init,
-			NULL, /* reserved 1 */
-			NULL, /* reserved 2 */
-			(GtkClassInitFunc) NULL
-		};
-
-		type = gtk_type_unique (gtk_object_get_type (), &info);
-	}
-
-	return type;
-}
+E_MAKE_TYPE(e_table_header, "ETableHeader", ETableHeader, e_table_header_class_init, e_table_header_init, G_TYPE_OBJECT)
 
 int
 e_table_header_prioritized_column (ETableHeader *eth)

@@ -30,18 +30,15 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <gtk/gtksignal.h>
 #include <libxml/parser.h>
 #include <libxml/xmlmemory.h>
 #include "gal/util/e-util.h"
 #include "gal/util/e-xml-utils.h"
 
-#define PARENT_TYPE (gtk_object_get_type ())
-
-static GtkObjectClass *etsp_parent_class;
+static GObjectClass *etsp_parent_class;
 
 static void
-etsp_destroy (GtkObject *object)
+etsp_finalize (GObject *object)
 {
 	ETableSpecification *etsp = E_TABLE_SPECIFICATION (object);
 	int i;
@@ -64,15 +61,15 @@ etsp_destroy (GtkObject *object)
 	g_free (etsp->domain);
 	etsp->domain		   = NULL;
 
-	GTK_OBJECT_CLASS (etsp_parent_class)->destroy (object);
+	etsp_parent_class->finalize (object);
 }
 
 static void
-etsp_class_init (GtkObjectClass *klass)
+etsp_class_init (GObjectClass *klass)
 {
-	etsp_parent_class = gtk_type_class (PARENT_TYPE);
+	etsp_parent_class = g_type_class_peek_parent (klass);
 	
-	klass->destroy = etsp_destroy;
+	klass->finalize = etsp_finalize;
 }
 
 static void
@@ -99,7 +96,7 @@ etsp_init (ETableSpecification *etsp)
 	etsp->domain                 = NULL;
 }
 
-E_MAKE_TYPE (e_table_specification, "ETableSpecification", ETableSpecification, etsp_class_init, etsp_init, PARENT_TYPE)
+E_MAKE_TYPE (e_table_specification, "ETableSpecification", ETableSpecification, etsp_class_init, etsp_init, G_TYPE_OBJECT)
 
 /**
  * e_table_specification_new:
@@ -112,7 +109,7 @@ E_MAKE_TYPE (e_table_specification, "ETableSpecification", ETableSpecification, 
 ETableSpecification *
 e_table_specification_new (void)
 {
-	ETableSpecification *etsp = gtk_type_new (E_TABLE_SPECIFICATION_TYPE);
+	ETableSpecification *etsp = g_object_new (E_TABLE_SPECIFICATION_TYPE, NULL);
 
 	return (ETableSpecification *) etsp;
 }

@@ -137,7 +137,7 @@ ethi_destroy (GtkObject *object){
 	}
 
 	if (ethi->full_header)
-		gtk_object_unref (GTK_OBJECT(ethi->full_header));
+		g_object_unref (G_OBJECT(ethi->full_header));
 	ethi->full_header = NULL;
 
 	if (ethi->config)
@@ -258,16 +258,16 @@ ethi_font_load (ETableHeaderItem *ethi, char *fontname)
 static void
 ethi_drop_table_header (ETableHeaderItem *ethi)
 {
-	GtkObject *header;
+	GObject *header;
 	
 	if (!ethi->eth)
 		return;
 
-	header = GTK_OBJECT (ethi->eth);
-	gtk_signal_disconnect (header, ethi->structure_change_id);
-	gtk_signal_disconnect (header, ethi->dimension_change_id);
+	header = G_OBJECT (ethi->eth);
+	g_signal_handler_disconnect (header, ethi->structure_change_id);
+	g_signal_handler_disconnect (header, ethi->dimension_change_id);
 
-	gtk_object_unref (header);
+	g_object_unref (header);
 	ethi->eth = NULL;
 	ethi->width = 0;
 }
@@ -288,16 +288,16 @@ static void
 ethi_add_table_header (ETableHeaderItem *ethi, ETableHeader *header)
 {
 	ethi->eth = header;
-	gtk_object_ref (GTK_OBJECT (ethi->eth));
+	g_object_ref (G_OBJECT (ethi->eth));
 
 	ethi->height = e_table_header_item_get_height (ethi);
 
-	ethi->structure_change_id = gtk_signal_connect (
-		GTK_OBJECT (header), "structure_change",
-		GTK_SIGNAL_FUNC(structure_changed), ethi);
-	ethi->dimension_change_id = gtk_signal_connect (
-		GTK_OBJECT (header), "dimension_change",
-		GTK_SIGNAL_FUNC(dimension_changed), ethi);
+	ethi->structure_change_id = g_signal_connect (
+		G_OBJECT (header), "structure_change",
+		G_CALLBACK (structure_changed), ethi);
+	ethi->dimension_change_id = g_signal_connect (
+		G_OBJECT (header), "dimension_change",
+		G_CALLBACK (dimension_changed), ethi);
 	e_canvas_item_request_reflow(GNOME_CANVAS_ITEM(ethi));
 	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM(ethi));
 }
@@ -320,15 +320,15 @@ ethi_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	switch (arg_id){
 	case ARG_TABLE_HEADER:
 		ethi_drop_table_header (ethi);
-		ethi_add_table_header (ethi, E_TABLE_HEADER(GTK_VALUE_OBJECT (*arg)));
+		ethi_add_table_header (ethi, E_TABLE_HEADER(GTK_VALUE_POINTER (*arg)));
 		break;
 
 	case ARG_FULL_HEADER:
 		if (ethi->full_header)
-			gtk_object_unref(GTK_OBJECT(ethi->full_header));
-		ethi->full_header = E_TABLE_HEADER(GTK_VALUE_OBJECT (*arg));
+			g_object_unref(G_OBJECT(ethi->full_header));
+		ethi->full_header = E_TABLE_HEADER(GTK_VALUE_POINTER (*arg));
 		if (ethi->full_header)
-			gtk_object_ref(GTK_OBJECT(ethi->full_header));
+			g_object_ref(G_OBJECT(ethi->full_header));
 		break;
 
 	case ARG_DND_CODE:
@@ -389,7 +389,7 @@ ethi_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 
 	switch (arg_id){
 	case ARG_FULL_HEADER:
-		GTK_VALUE_OBJECT (*arg) = GTK_OBJECT (ethi->full_header);
+		GTK_VALUE_POINTER (*arg) = G_OBJECT (ethi->full_header);
 		break;
 	case ARG_DND_CODE:
 		GTK_VALUE_STRING (*arg) = g_strdup (ethi->dnd_code);
@@ -1727,9 +1727,9 @@ ethi_class_init (GtkObjectClass *object_class)
 	item_class->point       = ethi_point;
 	item_class->event       = ethi_event;
 	
-	gtk_object_add_arg_type ("ETableHeaderItem::ETableHeader", GTK_TYPE_OBJECT,
+	gtk_object_add_arg_type ("ETableHeaderItem::ETableHeader", G_TYPE_OBJECT,
 				 GTK_ARG_WRITABLE, ARG_TABLE_HEADER);
-	gtk_object_add_arg_type ("ETableHeaderItem::full_header", GTK_TYPE_OBJECT,
+	gtk_object_add_arg_type ("ETableHeaderItem::full_header", G_TYPE_OBJECT,
 				 GTK_ARG_READWRITE, ARG_FULL_HEADER);
 	gtk_object_add_arg_type ("ETableHeaderItem::dnd_code", GTK_TYPE_STRING,
 				 GTK_ARG_READWRITE, ARG_DND_CODE);

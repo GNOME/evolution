@@ -34,16 +34,17 @@ e_table_state_to_header (GtkWidget *widget, ETableHeader *full_header, ETableSta
 	ETableHeader *nh;
 	const int max_cols = e_table_header_count (full_header);
 	int column;
+	GValue *val = g_new0 (GValue, 1);
 
 	g_return_val_if_fail (widget, NULL);
 	g_return_val_if_fail (full_header, NULL);
 	g_return_val_if_fail (state, NULL);
 
 	nh = e_table_header_new ();
-
-	gtk_object_set(GTK_OBJECT(nh),
-		       "width_extras", e_table_header_width_extras(widget->style),
-		       NULL);
+	g_value_init (val, G_TYPE_DOUBLE);
+	g_value_set_double (val, e_table_header_width_extras (widget->style));
+	g_object_set_property (G_OBJECT(nh), "width_extras", val);
+	g_free (val);
 
 	for (column = 0; column < state->col_count; column++) {
 		int col;

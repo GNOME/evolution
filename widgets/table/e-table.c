@@ -269,16 +269,16 @@ disconnect_header (ETable *e_table)
 		return;
 
 	if (e_table->structure_change_id)
-		gtk_signal_disconnect (GTK_OBJECT (e_table->header),
-				       e_table->structure_change_id);
+		g_signal_handler_disconnect (G_OBJECT (e_table->header),
+					     e_table->structure_change_id);
 	if (e_table->expansion_change_id)
-		gtk_signal_disconnect (GTK_OBJECT (e_table->header),
-				       e_table->expansion_change_id);
+		g_signal_handler_disconnect (G_OBJECT (e_table->header),
+					     e_table->expansion_change_id);
 	if (e_table->dimension_change_id)
-		gtk_signal_disconnect (GTK_OBJECT (e_table->header),
-				       e_table->dimension_change_id);
+		g_signal_handler_disconnect (G_OBJECT (e_table->header),
+					     e_table->dimension_change_id);
 
-	gtk_object_unref(GTK_OBJECT(e_table->header));
+	g_object_unref(G_OBJECT(e_table->header));
 	e_table->header = NULL;
 }
 
@@ -291,14 +291,14 @@ connect_header (ETable *e_table, ETableState *state)
 	e_table->header = e_table_state_to_header (GTK_WIDGET(e_table), e_table->full_header, state);
 
 	e_table->structure_change_id =
-		gtk_signal_connect (GTK_OBJECT (e_table->header), "structure_change",
-				    GTK_SIGNAL_FUNC (structure_changed), e_table);
+		g_signal_connect (G_OBJECT (e_table->header), "structure_change",
+				  G_CALLBACK (structure_changed), e_table);
 	e_table->expansion_change_id =
-		gtk_signal_connect (GTK_OBJECT (e_table->header), "expansion_change",
-				    GTK_SIGNAL_FUNC (expansion_changed), e_table);
+		g_signal_connect (G_OBJECT (e_table->header), "expansion_change",
+				  G_CALLBACK (expansion_changed), e_table);
 	e_table->dimension_change_id =
-		gtk_signal_connect (GTK_OBJECT (e_table->header), "dimension_change",
-				    GTK_SIGNAL_FUNC (dimension_changed), e_table);
+		g_signal_connect (G_OBJECT (e_table->header), "dimension_change",
+				  G_CALLBACK (dimension_changed), e_table);
 }
 
 static void
@@ -310,12 +310,12 @@ et_destroy (GtkObject *object)
 
 	if (et->search) {
 		if (et->search_search_id)
-			gtk_signal_disconnect (GTK_OBJECT (et->search),
-					       et->search_search_id);
+			g_signal_handler_disconnect (G_OBJECT (et->search),
+					             et->search_search_id);
 		if (et->search_accept_id)
-			gtk_signal_disconnect (GTK_OBJECT (et->search),
-					       et->search_accept_id);
-		gtk_object_unref (GTK_OBJECT (et->search));
+			g_signal_handler_disconnect (G_OBJECT (et->search),
+					             et->search_accept_id);
+		g_object_unref (G_OBJECT (et->search));
 		et->search = NULL;
 	}
 
@@ -346,7 +346,7 @@ et_destroy (GtkObject *object)
 	}
 
 	if (et->full_header) {
-		gtk_object_unref (GTK_OBJECT (et->full_header));
+		g_object_unref (G_OBJECT (et->full_header));
 		et->full_header = NULL;
 	}
 
@@ -366,7 +366,7 @@ et_destroy (GtkObject *object)
 	}
 
 	if (et->spec) {
-		gtk_object_unref (GTK_OBJECT (et->spec));
+		g_object_unref (G_OBJECT (et->spec));
 		et->spec = NULL;
 	}
 
@@ -486,11 +486,11 @@ init_search (ETable *e_table)
 	e_table->search           = e_table_search_new();
 
 	e_table->search_search_id = 
-		gtk_signal_connect (GTK_OBJECT (e_table->search), "search",
-				    GTK_SIGNAL_FUNC (et_search_search), e_table);
+		g_signal_connect (G_OBJECT (e_table->search), "search",
+				  G_CALLBACK (et_search_search), e_table);
 	e_table->search_accept_id = 
-		gtk_signal_connect (GTK_OBJECT (e_table->search), "accept",
-				    GTK_SIGNAL_FUNC (et_search_accept), e_table);
+		g_signal_connect (G_OBJECT (e_table->search), "accept",
+				  G_CALLBACK (et_search_accept), e_table);
 }
 
 static void
@@ -718,8 +718,11 @@ table_canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc,
 	gdouble width;
 	gdouble height;
 	gdouble item_height;
+	GValue *val = g_new0 (GValue, 1);
+	g_value_init (val, G_TYPE_DOUBLE);
 
 	width = alloc->width;
+	g_value_set_double (val, width);
 	gtk_object_get (GTK_OBJECT (e_table->canvas_vbox),
 			"height", &height,
 			NULL);
@@ -729,9 +732,8 @@ table_canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc,
 	gtk_object_set (GTK_OBJECT (e_table->canvas_vbox),
 			"width", width,
 			NULL);
-	gtk_object_set (GTK_OBJECT (e_table->header),
-			"width", width,
-			NULL);
+	g_object_set_property (G_OBJECT (e_table->header), "width", val);
+	g_free (val);
 	if (e_table->reflow_idle_id)
 		g_source_remove(e_table->reflow_idle_id);
 	table_canvas_reflow_idle(e_table);
@@ -1238,10 +1240,14 @@ e_table_fill_table (ETable *e_table, ETableModel *model)
 void
 e_table_set_state_object(ETable *e_table, ETableState *state)
 {
+	GValue *val = g_new0 (GValue, 1);
+	g_value_init (val, G_TYPE_DOUBLE);
+
 	connect_header (e_table, state);
-	gtk_object_set (GTK_OBJECT (e_table->header),
-			"width", (double) (GTK_WIDGET(e_table->table_canvas)->allocation.width),
-			NULL);
+
+	g_value_set_double (val, (double) (GTK_WIDGET(e_table->table_canvas)->allocation.width)); 
+	g_object_set_property (G_OBJECT (e_table->header), "width", val);
+	g_free (val);
 
 	if (e_table->sort_info) {
 		if (e_table->group_info_change_id)
@@ -1444,13 +1450,14 @@ et_real_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 {
 	int row = 0;
 	int col_count, i;
+	GValue *val = g_new0 (GValue, 1);
+	g_value_init (val, G_TYPE_OBJECT);
 
 	if (ete)
-		gtk_object_ref(GTK_OBJECT(ete));
+		g_object_ref(G_OBJECT(ete));
 	else {
 		ete = e_table_extras_new();
-		gtk_object_ref(GTK_OBJECT(ete));
-		gtk_object_sink(GTK_OBJECT(ete));
+		g_object_ref(G_OBJECT(ete));
 	}
 
 	e_table->domain = g_strdup (specification->domain);
@@ -1466,8 +1473,7 @@ et_real_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 	e_table->draw_focus = specification->draw_focus;
 	e_table->cursor_mode = specification->cursor_mode;
 	e_table->full_header = e_table_spec_to_full_header(specification, ete);
-	gtk_object_ref (GTK_OBJECT (e_table->full_header));
-	gtk_object_sink (GTK_OBJECT (e_table->full_header));
+	g_object_ref (G_OBJECT (e_table->full_header));
 
 	col_count = e_table_header_count (e_table->full_header);
 	for (i = 0; i < col_count; i++) {
@@ -1502,9 +1508,9 @@ et_real_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 				    GTK_SIGNAL_FUNC (sort_info_changed), e_table);
 
 
-	gtk_object_set(GTK_OBJECT(e_table->header),
-		       "sort_info", e_table->sort_info,
-		       NULL);
+	g_value_set_object (val, e_table->sort_info);
+	g_object_set_property (G_OBJECT(e_table->header), "sort_info", val);
+	g_free (val);
 
 	e_table->sorter = e_table_sorter_new(etm, e_table->full_header, e_table->sort_info);
 	gtk_object_ref (GTK_OBJECT (e_table->sorter));
@@ -1552,7 +1558,7 @@ et_real_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 
 	gtk_widget_pop_colormap ();
 
-	gtk_object_unref(GTK_OBJECT(ete));
+	g_object_unref(G_OBJECT(ete));
 
 	return e_table;
 }
@@ -1589,10 +1595,9 @@ e_table_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 	gtk_object_sink (GTK_OBJECT (etm));
 
 	specification = e_table_specification_new();
-	gtk_object_ref (GTK_OBJECT (specification));
-	gtk_object_sink (GTK_OBJECT (specification));
+	g_object_ref (G_OBJECT (specification));
 	if (!e_table_specification_load_from_string(specification, spec_str)) {
-		gtk_object_unref(GTK_OBJECT(specification));
+		g_object_unref(G_OBJECT(specification));
 		return NULL;
 	}
 
@@ -1650,7 +1655,7 @@ e_table_construct_from_spec_file (ETable *e_table, ETableModel *etm, ETableExtra
 
 	specification = e_table_specification_new();
 	if (!e_table_specification_load_from_file(specification, spec_fn)) {
-		gtk_object_unref(GTK_OBJECT(specification));
+		g_object_unref(G_OBJECT(specification));
 		return NULL;
 	}
 
