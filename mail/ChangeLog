@@ -1,5 +1,8 @@
 2000-04-22  Dan Winship  <danw@helixcode.com>
 
+	* mail-display.c (on_url_requested): Change cid expectations to
+	match current camel reality.
+
 	* main.c (main): call glade_gnome_init, for composer.
 
 	* folder-browser-factory.c: move msg_composer_cb and

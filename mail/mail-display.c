@@ -258,7 +258,7 @@ static void
 on_url_requested (GtkHTML *html, const char *url, GtkHTMLStreamHandle handle,
 		  gpointer user_data)
 {
-	char *cid, buf[1024];
+	char buf[1024];
 	int nread;
 	CamelMimePart *part;
 	CamelDataWrapper *data;
@@ -270,10 +270,7 @@ on_url_requested (GtkHTML *html, const char *url, GtkHTMLStreamHandle handle,
 	part = gtk_object_get_data (GTK_OBJECT (html), "message");
 	g_return_if_fail (part != NULL);
 
-	cid = g_strdup_printf ("<%s>", url + 4);
-	part = find_cid (cid, part);
-	g_free (cid);
-
+	part = find_cid (url + 4, part);
 	if (!part)
 		return;
 
