@@ -1134,23 +1134,13 @@ set_underline (HTMLEngine *e, HTMLObject *o, gboolean underline)
 	html_engine_queue_draw (e, o);
 }
 
-static gint
-html_motion_notify_event (GtkWidget *widget, GdkEventMotion *event, MailDisplay *mail_display)
+static void
+update_active (GtkWidget *widget, gint x, gint y, MailDisplay *mail_display)
 {
 	HTMLPoint *point;
 	const gchar *email;
-	gint x, y;
 
-	g_return_val_if_fail (widget != NULL, 0);
-	g_return_val_if_fail (GTK_IS_HTML (widget), 0);
-	g_return_val_if_fail (event != NULL, 0);
-
-	if (!event->is_hint) {
-		x = event->x;
-		y = event->y;
-	}
-
-	point = html_engine_get_point_at (GTK_HTML (widget)->engine, event->x, event->y, FALSE);
+	point = html_engine_get_point_at (GTK_HTML (widget)->engine, x, y, FALSE);
 	if (mail_display->last_active && (!point || mail_display->last_active != point->object)) {
 		set_underline (GTK_HTML (widget)->engine, HTML_OBJECT (mail_display->last_active), FALSE);
 		mail_display->last_active = NULL;
@@ -1163,6 +1153,33 @@ html_motion_notify_event (GtkWidget *widget, GdkEventMotion *event, MailDisplay 
 		}
 		html_point_destroy (point);
 	}
+}
+
+static gint
+html_enter_notify_event (GtkWidget *widget, GdkEventCrossing *event, MailDisplay *mail_display)
+{
+	update_active (widget, event->x, event->y, mail_display);
+
+	return TRUE;
+}
+
+static gint
+html_motion_notify_event (GtkWidget *widget, GdkEventMotion *event, MailDisplay *mail_display)
+{
+	gint x, y;
+
+	g_return_val_if_fail (widget != NULL, 0);
+	g_return_val_if_fail (GTK_IS_HTML (widget), 0);
+	g_return_val_if_fail (event != NULL, 0);
+
+	if (event->is_hint)
+		gdk_window_get_pointer (GTK_LAYOUT (widget)->bin_window, &x, &y, NULL);
+	else {
+		x = event->x;
+		y = event->y;
+	}
+
+	update_active (widget, x, y, mail_display);
 
 	return TRUE;
 }
@@ -1174,6 +1191,8 @@ html_iframe_created (GtkWidget *w, GtkHTML *iframe, MailDisplay *mail_display)
 			    GTK_SIGNAL_FUNC (html_button_press_event), mail_display);
 	gtk_signal_connect (GTK_OBJECT (iframe), "motion_notify_event",
 			    GTK_SIGNAL_FUNC (html_motion_notify_event), mail_display);
+	gtk_signal_connect (GTK_OBJECT (iframe), "enter_notify_event",
+			    GTK_SIGNAL_FUNC (html_enter_notify_event), mail_display);
 }
 
 GtkWidget *
@@ -1210,6 +1229,8 @@ mail_display_new (void)
 			    GTK_SIGNAL_FUNC (html_button_press_event), mail_display);
 	gtk_signal_connect (GTK_OBJECT (html), "motion_notify_event",
 			    GTK_SIGNAL_FUNC (html_motion_notify_event), mail_display);
+	gtk_signal_connect (GTK_OBJECT (html), "enter_notify_event",
+			    GTK_SIGNAL_FUNC (html_enter_notify_event), mail_display);
 	gtk_signal_connect (GTK_OBJECT (html), "iframe_created",
 			    GTK_SIGNAL_FUNC (html_iframe_created), mail_display);
 

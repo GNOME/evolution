@@ -11,6 +11,9 @@
 	implemented
 	(html_motion_notify_event): new handler, highlights addresses by
 	underline
+	(html_enter_notify_event): take care of enter event
+	(update_active): helper function, extracted from
+	html_motion_notify_event
 
 	* mail-format.c (write_address): revert back to raw HTML text,
 	store name and email to Text objects, workaround gtkhtml tables
