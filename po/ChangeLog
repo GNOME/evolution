@@ -1,3 +1,10 @@
+2004-12-03  Martin Willemoes Hansen  <mwh@sysrq.dk>
+
+	* POTFILES.in: 
+	  Removed mail/mail-account-editor.c
+	  Removed mail/mail-config-druid.c
+	  They are no longer available.
+
 2004-12-01  Dafydd Harries  <daf@muse.19inch.net>
 
 	* cy.po: Copied from the gnome-2-8 branch.

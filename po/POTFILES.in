@@ -306,11 +306,9 @@ mail/importers/evolution-outlook-importer.c
 mail/importers/mail-importer.c
 mail/importers/netscape-importer.c
 mail/importers/pine-importer.c
-mail/mail-account-editor.c
 mail/mail-account-gui.c
 mail/mail-autofilter.c
 mail/mail-component.c
-mail/mail-config-druid.c
 mail/mail-config.c
 mail/mail-config.glade
 mail/mail-crypto.c
