@@ -3,7 +3,7 @@
 	<name value="EToDo"/>
 	<conduit-attribute name="description" value="Synchronizes ToDo List with Evolution"/>
 	<conduit-attribute name="default-synctype" value="synchronize"/>
-	<conduit-attribute name="valid-synctypes" value="synchronize copy_from_pilot copy_to_pilot merge_from_pilot merge_to_pilot"/>
+	<conduit-attribute name="valid-synctypes" value="synchronize copy_from_pilot copy_to_pilot"/>
      	<conduit-attribute name="settings" value="FALSE"/>
 	<conduit-attribute name="icon" value="@datadir@/images/evolution/conduits/48_evo-todo-conduit.png"/>
 </gnome-pilot-conduit>

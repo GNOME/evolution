@@ -1,3 +1,20 @@
+2001-10-26  JP Rosevear  <jpr@ximian.com>
+
+	* conduits/calendar/e-calendar.conduit.in: remove the merges as valid sync
+	types
+
+	* conduits/todo/e-todo.conduit.in: as above
+
+	* conduits/calendar/calendar-conduit.c (pre_sync): write out only the
+	touched records if we are doing copies
+
+	* conduits/todo/todo-conduit.c: as above
+	
+	* conduits/calendar/calendar-conduit-config.h
+	(calconduit_load_configuration): get the sync type
+
+	* conduits/todo/todo-conduit-config.h: as above
+	
 2001-10-26  Damon Chaplin  <damon@ximian.com>
 
 	* gui/e-itip-control.c (write_label_piece): convert the formatted

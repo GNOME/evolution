@@ -759,7 +759,10 @@ pre_sync (GnomePilotConduit *conduit,
 	g_free (buf);
 
 	check_for_slow_setting (conduit, ctxt);
-
+	if (ctxt->cfg->sync_type == GnomePilotConduitSyncTypeCopyToPilot
+	    || ctxt->cfg->sync_type == GnomePilotConduitSyncTypeCopyFromPilot)
+		ctxt->map->write_touched_only = TRUE;
+	
 	return 0;
 }
 
