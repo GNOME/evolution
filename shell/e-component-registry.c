@@ -267,6 +267,28 @@ e_component_registry_peek_info (EComponentRegistry *registry,
 	return NULL;
 }
 
+
+EComponentInfo *
+e_component_registry_peek_info_for_uri_schema  (EComponentRegistry *registry,
+						const char *requested_schema)
+{
+	GSList *p, *q;
+
+	for (p = registry->priv->infos; p != NULL; p = p->next) {
+		EComponentInfo *info = p->data;
+
+		for (q = info->uri_schemas; q != NULL; q = q->next) {
+			const char *schema = q->data;
+
+			if (strcmp (schema, requested_schema) == 0)
+				return info;
+		}
+	}
+
+	return NULL;
+}
+
+
 GNOME_Evolution_Component
 e_component_registry_activate (EComponentRegistry *registry,
 			       const char *id,

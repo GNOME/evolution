@@ -430,9 +430,9 @@ idle_cb (void *data)
 
 	have_evolution_uri = FALSE;
 
-	if (uri_list == NULL && shell != NULL)
+	if (shell != NULL) {
 		e_shell_create_window (shell, default_component_id, NULL);
-	else {
+	} else {
 		CORBA_Environment ev;
 
 		CORBA_exception_init (&ev);
@@ -445,9 +445,8 @@ idle_cb (void *data)
 
 		uri = (const char *) p->data;
 		GNOME_Evolution_Shell_handleURI (corba_shell, uri, &ev);
-		if (ev._major == CORBA_NO_EXCEPTION) {
-			g_warning ("CORBA exception %s when requesting URI -- %s",
-				   BONOBO_EX_REPOID (&ev), uri);
+		if (ev._major != CORBA_NO_EXCEPTION) {
+			g_warning ("Invalid URI: %s", uri);
 			CORBA_exception_free (&ev);
 		}
 	}

@@ -209,52 +209,26 @@ impl_Shell_handleURI (PortableServer_Servant servant,
 		      const CORBA_char *uri,
 		      CORBA_Environment *ev)
 {
-#if 0
-	EvolutionShellComponentClient *schema_handler;
-	EShell *shell;
-	EShellPrivate *priv;
+	EShell *shell = E_SHELL (bonobo_object_from_servant (servant));
+	EComponentInfo *component_info;
 	const char *colon_p;
 	char *schema;
 
-	if (raise_exception_if_not_ready (servant, ev))
-		return;
-
-	shell = E_SHELL (bonobo_object_from_servant (servant));
-	priv = shell->priv;
-
-	if (strncmp (uri, E_SHELL_URI_PREFIX, E_SHELL_URI_PREFIX_LEN) == 0
-	    || strncmp (uri, E_SHELL_DEFAULTURI_PREFIX, E_SHELL_DEFAULTURI_PREFIX_LEN) == 0) {
-		e_shell_create_window (shell, NULL, NULL);
-		return;
-	}
-
-	/* Extract the schema.  */
-
 	colon_p = strchr (uri, ':');
-	if (colon_p == NULL || colon_p == uri) {
-		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-				     ex_GNOME_Evolution_Shell_InvalidURI, NULL);
-		return;
-	}
+	if (colon_p == NULL)
+		schema = g_strdup (uri);
+	else
+		schema = g_strndup (uri, colon_p - uri);
 
-	schema = g_strndup (uri, colon_p - uri);
-	schema_handler = e_uri_schema_registry_get_handler_for_schema (priv->uri_schema_registry, schema);
+	component_info = e_component_registry_peek_info_for_uri_schema (shell->priv->component_registry, schema);
 	g_free (schema);
 
-	if (schema_handler == NULL) {
-		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-				     ex_GNOME_Evolution_Shell_UnsupportedSchema, NULL);
+	if (component_info == NULL) {
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION, ex_GNOME_Evolution_Shell_UnsupportedSchema, NULL);
 		return;
 	}
 
-	if (evolution_shell_component_client_handle_external_uri (schema_handler, uri)
-	    != EVOLUTION_SHELL_COMPONENT_OK) {
-		/* FIXME: Just a wild guess here.  */
-		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-				     ex_GNOME_Evolution_Shell_NotFound, NULL);
-		return;
-	}
-#endif
+	GNOME_Evolution_Component_handleURI (component_info->iface, uri, ev);
 }
 
 static void

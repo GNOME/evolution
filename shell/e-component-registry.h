@@ -80,12 +80,16 @@ typedef struct _EComponentInfo EComponentInfo;
 GType               e_component_registry_get_type  (void);
 EComponentRegistry *e_component_registry_new       (void);
 
-GSList                    *e_component_registry_peek_list  (EComponentRegistry *registry);
-EComponentInfo            *e_component_registry_peek_info  (EComponentRegistry *registry,
-							    const char         *id);
-GNOME_Evolution_Component  e_component_registry_activate   (EComponentRegistry *registry,
-							    const char         *id,
-							    CORBA_Environment  *ev);
+GSList         *e_component_registry_peek_list  (EComponentRegistry *registry);
+EComponentInfo *e_component_registry_peek_info  (EComponentRegistry *registry,
+						 const char         *id);
+
+EComponentInfo *e_component_registry_peek_info_for_uri_schema  (EComponentRegistry *registry,
+								const char         *schema);
+
+GNOME_Evolution_Component  e_component_registry_activate  (EComponentRegistry *registry,
+							   const char         *id,
+							   CORBA_Environment  *ev);
 
 
 #ifdef __cplusplus
