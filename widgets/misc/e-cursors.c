@@ -1,41 +1,38 @@
 #ifndef GNUMERIC_CURSORS_H
 #define GNUMERIC_CURSORS_H
 
-typedef struct {
-	GdkCursor *cursor;
-	int       hot_x, hot_y;
-	char      **xpm;
-} GnumericCursorDef;
-
-#define GNUMERIC_CURSOR_FAT_CROSS  0
-#define GNUMERIC_CURSOR_THIN_CROSS 1
-#define GNUMERIC_CURSOR_ARROW      2
-#define GNUMERIC_CURSOR_MOVE       3
-#define GNUMERIC_CURSOR_ZOOM_IN    4
-#define GNUMERIC_CURSOR_ZOOM_OUT   5
-#define GNUMERIC_CURSOR_SIZE_X     6
-#define GNUMERIC_CURSOR_SIZE_Y     7
-#define GNUMERIC_CURSOR_SIZE_TL    8
-#define GNUMERIC_CURSOR_SIZE_TR    9
-#define GNUMERIC_CURSOR_PRESS     10
-
-extern GnumericCursorDef  gnumeric_cursors [];
+typedef enum {
+	GNUMERIC_CURSOR_FAT_CROSS,
+	GNUMERIC_CURSOR_THIN_CROSS,
+	GNUMERIC_CURSOR_ARROW,
+	GNUMERIC_CURSOR_MOVE,
+	GNUMERIC_CURSOR_ZOOM_IN,
+	GNUMERIC_CURSOR_ZOOM_OUT,
+	GNUMERIC_CURSOR_SIZE_X,
+	GNUMERIC_CURSOR_SIZE_Y,
+	GNUMERIC_CURSOR_SIZE_TL,
+	GNUMERIC_CURSOR_SIZE_TR,
+	GNUMERIC_CURSOR_PRESS,
+	GNUMERIC_CURSOR_HAND_OPEN,
+	GNUMERIC_CURSOR_HAND_CLOSED,
+	GNUMERIC_CURSOR_NUM_CURSORS
+} CursorType;
 
 void    cursors_init      (void);
 void    cursors_shutdown  (void);
 
-#define cursor_set(win,c)					   \
+#define cursor_set(win, c)					   \
 G_STMT_START {							   \
      if (win) 							   \
-         gdk_window_set_cursor (win, gnumeric_cursors [c].cursor); \
+         gdk_window_set_cursor (win, cursor_get (c)); \
 } G_STMT_END
 
-#define cursor_set_widget(w,c)							     \
+#define cursor_set_widget(w, c)							     \
 G_STMT_START {									     \
      if (GTK_WIDGET (w)->window)						     \
-	gdk_window_set_cursor (GTK_WIDGET (w)->window, gnumeric_cursors [c].cursor); \
+	gdk_window_set_cursor (GTK_WIDGET (w)->window, cursor_get (c)); \
 } G_STMT_END
-  
+
+GdkCursor *cursor_get (CursorType type);
 
 #endif /* GNUMERIC_CURSORS_H */
-
