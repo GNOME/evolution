@@ -246,7 +246,7 @@
 		  <child>
 		    <widget class="GtkLabel" id="date_completed_label">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">_Date Completed:</property>
+		      <property name="label" translatable="yes">_Date completed:</property>
 		      <property name="use_underline">True</property>
 		      <property name="use_markup">False</property>
 		      <property name="justify">GTK_JUSTIFY_CENTER</property>

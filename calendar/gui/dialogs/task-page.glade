@@ -106,7 +106,7 @@
 		  <child>
 		    <widget class="GtkLabel" id="label6">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Sta_rt Date:</property>
+		      <property name="label" translatable="yes">Sta_rt date:</property>
 		      <property name="use_underline">True</property>
 		      <property name="use_markup">False</property>
 		      <property name="justify">GTK_JUSTIFY_CENTER</property>
@@ -131,7 +131,7 @@
 		  <child>
 		    <widget class="GtkLabel" id="label5">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">_Due Date:</property>
+		      <property name="label" translatable="yes">_Due date:</property>
 		      <property name="use_underline">True</property>
 		      <property name="use_markup">False</property>
 		      <property name="justify">GTK_JUSTIFY_CENTER</property>
