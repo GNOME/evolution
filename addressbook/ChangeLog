@@ -1,3 +1,9 @@
+2000-04-30  Chris Toshok  <toshok@helixcode.com>
+
+	* backend/ebook/e-book.c (e_book_load_uri): create the book
+	listener here, since it's destroyed in unload_uri.
+	(e_book_construct): remove the book listener construction here.
+
 2000-04-30  Christopher James Lahey  <clahey@helixcode.com>
 
 	* backend/ebook/.cvsignore: Added load-pine-addressbook.

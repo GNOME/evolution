@@ -348,6 +348,18 @@ e_book_load_uri (EBook                     *book,
 	}
 
 	/*
+	 * Create our local BookListener interface.
+	 */
+	book->priv->listener = e_book_listener_new ();
+	if (book->priv->listener == NULL) {
+		g_warning ("e_book_load_uri: Could not create EBookListener!\n");
+		return FALSE;
+	}
+
+	gtk_signal_connect (GTK_OBJECT (book->priv->listener), "responses_queued",
+			    e_book_check_listener_queue, book);
+
+	/*
 	 * Load the addressbook into the PAS.
 	 */
 	CORBA_exception_init (&ev);
@@ -446,18 +458,6 @@ e_book_construct (EBook *book)
 			   "to the Personal Addressbook Server!\n");
 		return FALSE;
 	}
-
-	/*
-	 * Create our local BookListener interface.
-	 */
-	book->priv->listener = e_book_listener_new ();
-	if (book->priv->listener == NULL) {
-		g_warning ("e_book_construct: Could not create EBookListener!\n");
-		return FALSE;
-	}
-
-	gtk_signal_connect (GTK_OBJECT (book->priv->listener), "responses_queued",
-			    e_book_check_listener_queue, book);
 
 	return TRUE;
 }
