@@ -1,3 +1,12 @@
+2001-10-30    <NotZed@Ximian.com>
+
+	* e-filter-bar.c (generate_menu): Hook to rule changed events.
+	(destroy): Free change id table/unconnect to signals.
+	(init): Setup change id table.
+	(e_filter_bar_new): Hook onto rule removed signal.
+	(context_rule_removed): If rule removed, disconnect from signal handler.
+	(rule_changed): For changed rules, also rebuild menu.  Fixed #12233.
+
 2001-10-30  Damon Chaplin  <damon@ximian.com>
 
 	* e-cell-date-edit.c (e_cell_date_edit_set_popup_values): try to parse

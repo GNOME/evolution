@@ -55,6 +55,9 @@ enum {
 
 /* Callbacks.  */
 
+static void rule_changed (FilterRule *rule, gpointer user_data);
+
+
 /* rule editor thingy */
 static void
 rule_editor_destroyed (GtkWidget *w, EFilterBar *efb)
@@ -330,11 +333,18 @@ generate_menu (ESearchBar *esb, ESearchBarItem *items)
 {
 	EFilterBar *efb = (EFilterBar *)esb;
 	GArray *menu;
-	
+	int i;
+
 	g_ptr_array_set_size (efb->menu_rules, 0);
 	menu = build_items (esb, items, 0, &efb->menu_base, efb->menu_rules);
 	((ESearchBarClass *)parent_class)->set_menu (esb, (ESearchBarItem *)menu->data);
 	g_array_free (menu, TRUE);
+
+	for (i=0;i<efb->menu_rules->len;i++) {
+		if (g_hash_table_lookup(efb->change_ids, efb->menu_rules->pdata[i]) == 0)
+			g_hash_table_insert(efb->change_ids, efb->menu_rules->pdata[i], 
+					    (void *)gtk_signal_connect(efb->menu_rules->pdata[i], "changed", rule_changed, efb));
+	}
 }
 
 static ESearchBarSubitem *
@@ -426,6 +436,29 @@ context_changed (RuleContext *context, gpointer user_data)
 	generate_menu (esb, efb->default_items);
 }
 
+static void
+context_rule_removed (RuleContext *context, FilterRule *rule, gpointer user_data)
+{
+	EFilterBar *efb = E_FILTER_BAR (user_data);
+	int id;
+
+	id = (int)g_hash_table_lookup(efb->change_ids, rule);
+	if (id != 0) {
+		g_hash_table_remove(efb->change_ids, rule);
+		gtk_signal_disconnect((GtkObject *)rule, id);
+	}
+}
+
+static void
+rule_changed (FilterRule *rule, gpointer user_data)
+{
+	EFilterBar *efb = E_FILTER_BAR (user_data);
+	ESearchBar *esb = E_SEARCH_BAR (user_data);
+
+	/* just generate whole menu again */
+	generate_menu (esb, efb->default_items);
+}
+
 
 /* GtkObject methods.  */
 
@@ -450,6 +483,14 @@ impl_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 }
 
 static void
+remove_change_handler(FilterRule *rule, void *value, EFilterBar *bar)
+{
+	int id = (int)value;
+
+	gtk_signal_disconnect((GtkObject *)rule, id);
+}
+
+static void
 destroy (GtkObject *object)
 {
 	EFilterBar *bar;
@@ -463,7 +504,10 @@ destroy (GtkObject *object)
 	g_ptr_array_free (bar->option_rules, TRUE);
 	g_free (bar->systemrules);
 	g_free (bar->userrules);
-	
+
+	g_hash_table_foreach(bar->change_ids, (GHFunc)remove_change_handler, bar);
+	g_hash_table_destroy(bar->change_ids);
+
 	if (bar->default_items)
 		free_items (bar->default_items);
 	
@@ -520,6 +564,7 @@ init (EFilterBar *efb)
 	
 	efb->menu_rules = g_ptr_array_new ();
 	efb->option_rules = g_ptr_array_new ();
+	efb->change_ids = g_hash_table_new(NULL, NULL);
 }
 
 
@@ -545,8 +590,8 @@ e_filter_bar_new (RuleContext *context, const char *systemrules, const char *use
 	
 	e_search_bar_construct ((ESearchBar *)bar, &item, &item);
 	
-	gtk_signal_connect (GTK_OBJECT (context), "changed",
-			    context_changed, bar);
+	gtk_signal_connect (GTK_OBJECT (context), "changed", context_changed, bar);
+	gtk_signal_connect (GTK_OBJECT (context), "rule_removed", context_rule_removed, bar);
 	
 	return bar;
 }

@@ -57,7 +57,8 @@ struct _EFilterBar {
 	
 	int menu_base, option_base;
 	GPtrArray *menu_rules, *option_rules;
-	
+	GHashTable *change_ids;
+
 	ESearchBarItem *default_items;
 	
 	GtkWidget *save_dialogue; /* current save dialogue (so we dont pop up multiple ones) */
