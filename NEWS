@@ -1,3 +1,67 @@
+Version 0.9
+-----------
+
+Shell:
+
+  - Importing framework.  (Iain)
+
+  - Made the splash screen a regular window.  (Miguel)
+
+  - Added a menu item to hide the shortcut bar to the shortuct bar
+    right-click menu.  (Jason)
+
+  - Update the shortcut labels to contain the number of unread
+    messages as well.  (Jason)
+
+  - Pre-select a newly created folder in the folder selection dialog.
+    (Ettore)
+
+Calendar:
+
+  - New "go to date" dialog (JP).
+
+  - Categories support for appointments (JP).
+
+  - New alarms page in event editor (Anna, JP)
+
+  - Weekday picker now follows the week start setting (Federico).
+
+  - Date-editing widgets are more consistent with each other
+    (Federico).
+
+  - Colorization fixes to the views (Damon).
+
+  - Optimizations to the views (Damon).
+
+  - New, simpler loading interface for calendars in the Wombat (Federico).
+
+  - Removal of lots of old Gnomecal code (Federico, JP).
+
+  - Alarm instance generation support for the Wombat (Federico).
+
+  - Alarm trigger queueing for the GUI (Federico).
+
+  - More robust launching and registration of the components (Federico).
+
+  - More i18n friendliness (JP, Federico).
+
+  - Start of the alarm notification daemon (Federico).
+
+  - Cosmetic and focus fixes all over the place (Federico, JP).
+
+Tasks:
+
+  - New, stand-alone tasks component (Damon).
+
+  - Categories support (JP, Damon).
+
+  - Your old tasks are migrated automatically to the new tasks folder
+    (Federico).
+
+  - You get asked for confirmation when trying to delete a task entry
+    (Federico).
+
+
 Version 0.8 "Archaeopteryx", 2000-12-14
 ---------------------------------------
 
