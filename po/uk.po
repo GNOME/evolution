@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.0.5\n"
 "POT-Creation-Date: 2003-03-28 19:58+0200\n"
-"PO-Revision-Date: 2003-03-31 03:51--500\n"
+"PO-Revision-Date: 2003-03-31 05:48--500\n"
 "Last-Translator: Yuriy Syrota <yuri@renome.rovno.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1655,7 +1655,7 @@ msgstr "Китай"
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:180
 #: my-evolution/Locations.h:451
 msgid "Christmas Island"
-msgstr "Різдвяний острів"
+msgstr "Різдва острів"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:181
 msgid "Cocos (Keeling) Islands"
@@ -1842,7 +1842,7 @@ msgstr "Гваделупа"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:223
 msgid "Guam"
-msgstr "Гуам"
+msgstr "Ґуам"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:224
 #: my-evolution/Locations.h:867
@@ -2040,7 +2040,7 @@ msgstr "Мавританія"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:268
 msgid "Mauritius"
-msgstr "Маурітус"
+msgstr "Маврикій"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:269
 msgid "Mayotte"
@@ -2129,7 +2129,7 @@ msgstr "Нігерія"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:289
 msgid "Niue"
-msgstr "Острови Ніує"
+msgstr "Ніує"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:290
 #: my-evolution/Locations.h:1572
@@ -2212,7 +2212,7 @@ msgstr "Катар"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:307
 msgid "Reunion"
-msgstr ""
+msgstr "Реюніон"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:308
 #: my-evolution/Locations.h:1909
@@ -6650,7 +6650,7 @@ msgstr "Африка/Аккра"
 
 #: calendar/zones.h:9
 msgid "Africa/Addis_Ababa"
-msgstr "Африка/Адіс-Абеба"
+msgstr "Африка/Аддіс-Абеба"
 
 #: calendar/zones.h:10
 msgid "Africa/Algiers"
@@ -7006,7 +7006,7 @@ msgstr ""
 
 #: calendar/zones.h:98
 msgid "America/Grand_Turk"
-msgstr ""
+msgstr "Америка/Ґрад-Тюрк"
 
 #: calendar/zones.h:99
 msgid "America/Grenada"
@@ -7090,7 +7090,7 @@ msgstr ""
 
 #: calendar/zones.h:119
 msgid "America/La_Paz"
-msgstr ""
+msgstr "Америка/Ла-Паз"
 
 #: calendar/zones.h:120
 msgid "America/Lima"
@@ -7202,7 +7202,7 @@ msgstr "Америка/Фенікс"
 
 #: calendar/zones.h:147
 msgid "America/Port-au-Prince"
-msgstr ""
+msgstr "Америка/Порт-о-Пренс"
 
 #: calendar/zones.h:148
 msgid "America/Port_of_Spain"
@@ -7218,11 +7218,11 @@ msgstr ""
 
 #: calendar/zones.h:151
 msgid "America/Rainy_River"
-msgstr ""
+msgstr "Америка/Рейні-Ривер"
 
 #: calendar/zones.h:152
 msgid "America/Rankin_Inlet"
-msgstr ""
+msgstr "Америка/Ранклін-Інлет"
 
 #: calendar/zones.h:153
 msgid "America/Recife"
@@ -7250,7 +7250,7 @@ msgstr "Америка/Санто-Домінґо"
 
 #: calendar/zones.h:159
 msgid "America/Sao_Paulo"
-msgstr "Америка/Сан-Пауло"
+msgstr "Америка/Сан-Паулу"
 
 #: calendar/zones.h:160
 msgid "America/Scoresbysund"
@@ -7386,7 +7386,7 @@ msgstr ""
 
 #: calendar/zones.h:193
 msgid "Asia/Aqtobe"
-msgstr ""
+msgstr "Азія/Актобе (Актюбинськ)"
 
 #: calendar/zones.h:194
 msgid "Asia/Ashgabat"
@@ -7570,7 +7570,7 @@ msgstr "Азія/Орал"
 
 #: calendar/zones.h:239
 msgid "Asia/Phnom_Penh"
-msgstr "Азія/Пньомпень"
+msgstr "Азія/Пном-Пень"
 
 #: calendar/zones.h:240
 msgid "Asia/Pontianak"
@@ -7802,7 +7802,7 @@ msgstr "Європа/Будапешт"
 
 #: calendar/zones.h:297
 msgid "Europe/Chisinau"
-msgstr "Європа/Кішиньов"
+msgstr "Європа/Кишинів"
 
 #: calendar/zones.h:298
 msgid "Europe/Copenhagen"
@@ -7922,7 +7922,7 @@ msgstr "Європа/Стокгольм"
 
 #: calendar/zones.h:327
 msgid "Europe/Tallinn"
-msgstr "Європа/Таллін"
+msgstr "Європа/Таллінн"
 
 #: calendar/zones.h:328
 msgid "Europe/Tirane"
@@ -7970,11 +7970,11 @@ msgstr "Індійський океан/Антананаріву"
 
 #: calendar/zones.h:339
 msgid "Indian/Chagos"
-msgstr ""
+msgstr "Індійський океан/Чагос"
 
 #: calendar/zones.h:340
 msgid "Indian/Christmas"
-msgstr ""
+msgstr "Індійський океан/Острів Різдва"
 
 #: calendar/zones.h:341
 msgid "Indian/Cocos"
@@ -7982,15 +7982,15 @@ msgstr "Індійський океан/Кокосові острови"
 
 #: calendar/zones.h:342
 msgid "Indian/Comoro"
-msgstr ""
+msgstr "Індійський океан/Коморо"
 
 #: calendar/zones.h:343
 msgid "Indian/Kerguelen"
-msgstr ""
+msgstr "Індійський/Кергелен"
 
 #: calendar/zones.h:344
 msgid "Indian/Mahe"
-msgstr ""
+msgstr "Індійський океан/Маге"
 
 #: calendar/zones.h:345
 msgid "Indian/Maldives"
@@ -7998,171 +7998,171 @@ msgstr "Індійський океан/Мальдіви"
 
 #: calendar/zones.h:346
 msgid "Indian/Mauritius"
-msgstr ""
+msgstr "Індійський океан/Маврикій"
 
 #: calendar/zones.h:347
 msgid "Indian/Mayotte"
-msgstr ""
+msgstr "Індійський океан/Майотт"
 
 #: calendar/zones.h:348
 msgid "Indian/Reunion"
-msgstr ""
+msgstr "Індійський океан/Реюніон"
 
 #: calendar/zones.h:349
 msgid "Pacific/Apia"
-msgstr ""
+msgstr "Тихий океан/Апіа"
 
 #: calendar/zones.h:350
 msgid "Pacific/Auckland"
-msgstr ""
+msgstr "Тихий океан/Окленд"
 
 #: calendar/zones.h:351
 msgid "Pacific/Chatham"
-msgstr ""
+msgstr "Тихий океан/Чатем"
 
 #: calendar/zones.h:352
 msgid "Pacific/Easter"
-msgstr ""
+msgstr "Тихий океан/Острів Пасхи"
 
 #: calendar/zones.h:353
 msgid "Pacific/Efate"
-msgstr ""
+msgstr "Тихий океан/Ефат"
 
 #: calendar/zones.h:354
 msgid "Pacific/Enderbury"
-msgstr ""
+msgstr "Тихий океан/Енденбері"
 
 #: calendar/zones.h:355
 msgid "Pacific/Fakaofo"
-msgstr ""
+msgstr "Тихий океан/Факаофо"
 
 #: calendar/zones.h:356
 msgid "Pacific/Fiji"
-msgstr ""
+msgstr "Тихий океан/Фідж"
 
 #: calendar/zones.h:357
 msgid "Pacific/Funafuti"
-msgstr ""
+msgstr "Тихий океан/Фунафуті"
 
 #: calendar/zones.h:358
 msgid "Pacific/Galapagos"
-msgstr ""
+msgstr "Тихий океан/Галапагоські острови"
 
 #: calendar/zones.h:359
 msgid "Pacific/Gambier"
-msgstr ""
+msgstr "Тихий океан/Гамб'єр"
 
 #: calendar/zones.h:360
 msgid "Pacific/Guadalcanal"
-msgstr ""
+msgstr "Тихий океан/Гуадальканал"
 
 #: calendar/zones.h:361
 msgid "Pacific/Guam"
-msgstr ""
+msgstr "Тихий океан/Ґуам"
 
 #: calendar/zones.h:362
 msgid "Pacific/Honolulu"
-msgstr ""
+msgstr "Тихий океан/Гонолулу"
 
 #: calendar/zones.h:363
 msgid "Pacific/Johnston"
-msgstr ""
+msgstr "Тихий океан/Джонстон"
 
 #: calendar/zones.h:364
 msgid "Pacific/Kiritimati"
-msgstr ""
+msgstr "Тихий океан/Кіріматі"
 
 #: calendar/zones.h:365
 msgid "Pacific/Kosrae"
-msgstr ""
+msgstr "Тихий океан/Косрае"
 
 #: calendar/zones.h:366
 msgid "Pacific/Kwajalein"
-msgstr ""
+msgstr "Тихий океан/Кваялейн"
 
 #: calendar/zones.h:367
 msgid "Pacific/Majuro"
-msgstr ""
+msgstr "Тихий океан/Махуро"
 
 #: calendar/zones.h:368
 msgid "Pacific/Marquesas"
-msgstr ""
+msgstr "Тихий океан/Маркізькі острови"
 
 #: calendar/zones.h:369
 msgid "Pacific/Midway"
-msgstr ""
+msgstr "Тихий океан/Мідуей"
 
 #: calendar/zones.h:370
 msgid "Pacific/Nauru"
-msgstr ""
+msgstr "Тихий океан/Науру"
 
 #: calendar/zones.h:371
 msgid "Pacific/Niue"
-msgstr ""
+msgstr "Тихий океан/Ніуе"
 
 #: calendar/zones.h:372
 msgid "Pacific/Norfolk"
-msgstr ""
+msgstr "Тихий океан/Норфолк"
 
 #: calendar/zones.h:373
 msgid "Pacific/Noumea"
-msgstr ""
+msgstr "Тихий океан/Нумея"
 
 #: calendar/zones.h:374
 msgid "Pacific/Pago_Pago"
-msgstr ""
+msgstr "Тихий океан/Паґо-Паґо"
 
 #: calendar/zones.h:375
 msgid "Pacific/Palau"
-msgstr ""
+msgstr "Тихий океан/Палау"
 
 #: calendar/zones.h:376
 msgid "Pacific/Pitcairn"
-msgstr ""
+msgstr "Тихий океан/Піткерн"
 
 #: calendar/zones.h:377
 msgid "Pacific/Ponape"
-msgstr ""
+msgstr "Тихий океан/Понапе"
 
 #: calendar/zones.h:378
 msgid "Pacific/Port_Moresby"
-msgstr ""
+msgstr "Тихий океан/Порт-Морсбі"
 
 #: calendar/zones.h:379
 msgid "Pacific/Rarotonga"
-msgstr ""
+msgstr "Тихий океан/Раротонга"
 
 #: calendar/zones.h:380
 msgid "Pacific/Saipan"
-msgstr ""
+msgstr "Тихий океан/Сайпан"
 
 #: calendar/zones.h:381
 msgid "Pacific/Tahiti"
-msgstr ""
+msgstr "Тихий океан/Таїті"
 
 #: calendar/zones.h:382
 msgid "Pacific/Tarawa"
-msgstr ""
+msgstr "Тихий океан/Тарава"
 
 #: calendar/zones.h:383
 msgid "Pacific/Tongatapu"
-msgstr ""
+msgstr "Тихий океан/Тонгатапу"
 
 #: calendar/zones.h:384
 msgid "Pacific/Truk"
-msgstr ""
+msgstr "Тихий океан/Трак"
 
 #: calendar/zones.h:385
 msgid "Pacific/Wake"
-msgstr ""
+msgstr "Тихий океан/Вейк"
 
 #: calendar/zones.h:386
 msgid "Pacific/Wallis"
-msgstr ""
+msgstr "Тихий океан/Волліс"
 
 #: calendar/zones.h:387
 msgid "Pacific/Yap"
-msgstr ""
+msgstr "Тихий океан/Яп"
 
 #: camel/camel-cipher-context.c:178
 msgid "Signing is not supported by this cipher"
@@ -15467,7 +15467,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:413
 msgid "Chatham"
-msgstr ""
+msgstr "Чатем"
 
 #: my-evolution/Locations.h:414
 msgid "Chattanooga"
@@ -15711,7 +15711,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:476
 msgid "Cocos Island"
-msgstr ""
+msgstr "Кокосові острови"
 
 #: my-evolution/Locations.h:477
 msgid "Cody"
@@ -17513,7 +17513,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:948
 msgid "Honolulu"
-msgstr "Ганалулу"
+msgstr "Гонолулу"
 
 #: my-evolution/Locations.h:949
 msgid "Hoonah"
@@ -19785,11 +19785,11 @@ msgstr ""
 
 #: my-evolution/Locations.h:1533
 msgid "New Bedford"
-msgstr "Нью Бредфорт"
+msgstr "Нью-Бредфорт"
 
 #: my-evolution/Locations.h:1534
 msgid "New Bern"
-msgstr "Нью Берн"
+msgstr "Нью-Берн"
 
 #: my-evolution/Locations.h:1535
 msgid "New Braunfels"
@@ -19829,15 +19829,15 @@ msgstr ""
 
 #: my-evolution/Locations.h:1544
 msgid "New Jersey"
-msgstr "Нью Джерсі"
+msgstr "Нью-Джерсі"
 
 #: my-evolution/Locations.h:1545
 msgid "New Mexico"
-msgstr "Нью Мехіко"
+msgstr "Нью-Мехіко"
 
 #: my-evolution/Locations.h:1546
 msgid "New Orleans"
-msgstr "Нью Орлеан"
+msgstr "Нью-Орлеан"
 
 #: my-evolution/Locations.h:1547
 msgid "New Orleans-Lakefront"
@@ -19929,7 +19929,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1571
 msgid "Norfolk"
-msgstr ""
+msgstr "Норфолк"
 
 #: my-evolution/Locations.h:1573
 msgid "Norfolk NAS"
@@ -20113,7 +20113,7 @@ msgstr "Оклахома"
 
 #: my-evolution/Locations.h:1619
 msgid "Oklahoma City"
-msgstr "Оклахома Сіті"
+msgstr "Оклахома-Сіті"
 
 #: my-evolution/Locations.h:1620
 msgid "Oklahoma City-Bethany"
@@ -20349,7 +20349,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1682
 msgid "Panama City"
-msgstr "Панама Сіті"
+msgstr "Панама-Сіті"
 
 #: my-evolution/Locations.h:1683
 msgid "Pantelleria"
@@ -20705,7 +20705,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1774
 msgid "Port-Au-Prince"
-msgstr ""
+msgstr "Порт-о-Пренс"
 
 #: my-evolution/Locations.h:1775
 msgid "Port Elizabeth"
@@ -20945,7 +20945,7 @@ msgstr "Квебек"
 
 #: my-evolution/Locations.h:1837
 msgid "Quebec City"
-msgstr "Квебек Сіті"
+msgstr "Квебек-Сіті"
 
 #: my-evolution/Locations.h:1838
 msgid "Queretaro"
@@ -21089,7 +21089,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1873
 msgid "Rhode Island"
-msgstr "Род Айланд"
+msgstr "Род-Айланд"
 
 #: my-evolution/Locations.h:1874
 msgid "Riberalta"
@@ -21121,7 +21121,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1881
 msgid "Rio De Janeiro"
-msgstr "Ріо де Жанейро"
+msgstr "Ріо-де-Жанейро"
 
 #: my-evolution/Locations.h:1882
 msgid "Rio Gallegos"
@@ -21197,7 +21197,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1900
 msgid "Rockford"
-msgstr ""
+msgstr "Рокфорд"
 
 #: my-evolution/Locations.h:1901
 msgid "Rockland"
