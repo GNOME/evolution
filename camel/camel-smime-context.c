@@ -140,7 +140,7 @@ camel_smime_context_new (CamelSession *session, const char *certdb)
 	
 	camel_cipher_context_construct (CAMEL_CIPHER_CONTEXT (context), session);
 	
-	handle = g_new0 (CERTCertDBHandle, 1);
+	handle = CERT_CertGetDefaultCertDBHandle ();
 	if (certdb) {
 		if (!CERT_OpenCertDBFilename (handle, (char *) certdb, FALSE)) {
 			g_free (handle);

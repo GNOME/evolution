@@ -1,8 +1,6 @@
 2001-05-14  Jeffrey Stedfast  <fejj@ximian.com>
 
-	* camel-smime-context.c: Lots of fixes to get this to almost
-	compile. Still struggling with the fact that CERTCertDBHandle is
-	an "incomplete type". *sigh*.
+	* camel-smime-context.c: Lots of fixes to get this to compile.
 
 	* camel-smime.c (camel_smime_part_verify): Updated to pass in a
 	hash argument to camel_smime_verify().
