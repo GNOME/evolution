@@ -1120,6 +1120,11 @@ icaltimezone_get_tzid			(icaltimezone	*zone)
     if (!zone)
 	return NULL;
 
+    /* Initialize the builtin timezones, to ensure that the UTC timezone has
+       its TZID set. */
+    if (!builtin_timezones)
+	icaltimezone_init_builtin_timezones ();
+
     if (!zone->component)
 	icaltimezone_load_builtin_timezone (zone);
 

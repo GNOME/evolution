@@ -1,3 +1,9 @@
+2001-11-13  Damon Chaplin  <damon@ximian.com>
+
+	* src/libical/icaltimezone.c (icaltimezone_get_tzid): initialize the
+	builtin timezones, to ensure that the TZID of the UTC zone is set.
+	Hopefully fixes bugs #14941 & #14622.
+
 2001-10-31  Damon Chaplin  <damon@ximian.com>
 
 	* src/libical/icalproperty.c (get_next_line_start): use MAX_LINE_LEN
