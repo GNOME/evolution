@@ -550,6 +550,9 @@ impl_Shell_selectUserFolder (PortableServer_Servant servant,
 	g_signal_connect (folder_selection_dialog, "cancelled",
 			  G_CALLBACK (folder_selection_dialog_cancelled_cb), shell);
 
+	if (parent_xid)
+		e_dialog_set_transient_for_xid (GTK_WINDOW (folder_selection_dialog), parent_xid);
+
 #if NASTY_HACK_FOR_OUT_OF_PROC_COMPONENTS
 	if (parent_xid == 0) {
 		gtk_widget_show (folder_selection_dialog);

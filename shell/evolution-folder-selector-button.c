@@ -142,15 +142,26 @@ clicked (GtkButton *button)
 	EvolutionFolderSelectorButton *folder_selector_button;
 	EvolutionFolderSelectorButtonPrivate *priv;
 	GNOME_Evolution_Folder *return_folder;
+	GtkWidget *toplevel_container;
 	GtkWindow *parent_window;
 	char *initial_uri;
 
-	parent_window = (GtkWindow *)
-		gtk_widget_get_ancestor (GTK_WIDGET (button),
-					 GTK_TYPE_WINDOW);
+	/* We want to disable the window the button is in, since the
+	 * folder selection dialog may be in another process and the WM
+	 * won't enforce modality cross-process. In Evo 1.2, this code
+	 * called gtk_widget_set_sensitive on the button's parent
+	 * window, but in GNOME 2 that seems to cause bad things to
+	 * happen (the window doesn't resensitize properly at the end).
+	 * So we desensitize the top-level container inside the window
+	 * instead.
+	 */
+	toplevel_container = GTK_WIDGET (button);
+	while (toplevel_container->parent &&
+	       !GTK_IS_WINDOW (toplevel_container->parent))
+		toplevel_container = toplevel_container->parent;
+	parent_window = (GtkWindow *)toplevel_container->parent;
 
-	gtk_widget_set_sensitive (GTK_WIDGET (parent_window), FALSE);
-	g_object_ref (parent_window);
+	gtk_widget_set_sensitive (GTK_WIDGET (toplevel_container), FALSE);
 
 	folder_selector_button = EVOLUTION_FOLDER_SELECTOR_BUTTON (button);
 	priv = folder_selector_button->priv;
@@ -162,7 +173,7 @@ clicked (GtkButton *button)
 
 	g_signal_emit (folder_selector_button, signals[POPPED_UP], 0);
 
-	g_object_add_weak_pointer (G_OBJECT (parent_window), (void **) &parent_window);
+	g_object_add_weak_pointer (G_OBJECT (button), (void **) &button);
 
 	evolution_shell_client_user_select_folder (priv->shell_client,
 						   parent_window,
@@ -171,18 +182,12 @@ clicked (GtkButton *button)
 						   (const char **)priv->possible_types,
 						   &return_folder);
 
-	g_object_remove_weak_pointer (G_OBJECT (parent_window), (void **) &parent_window);
-
-	/* If the parent gets destroyed despite our best efforts (eg,
-	 * because its own parent got destroyed), then the folder
-	 * selector button will have been destroyed too and we need
-	 * to just bail out here.
-	 */
-	if (parent_window == NULL)
+	/* Bail out if the parent window was destroyed */
+	if (button == NULL)
 		return;
+	g_object_remove_weak_pointer (G_OBJECT (button), (void **) &button);
 
-	gtk_widget_set_sensitive (GTK_WIDGET (parent_window), TRUE);
-	g_object_unref (parent_window);
+	gtk_widget_set_sensitive (GTK_WIDGET (toplevel_container), TRUE);
 
 	if (!return_folder) {
 		g_signal_emit (folder_selector_button, signals[CANCELED], 0);

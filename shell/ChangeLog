@@ -1,5 +1,20 @@
 2003-04-07  Dan Winship  <danw@ximian.com>
 
+	* evolution-folder-selector-button.c (clicked): Desensitize the
+	window's top-level container rather than desensitizing the window
+	itself, which causes strange problems [#40854]. Also fix up the
+	code that tries to watch for the parent window being destroyed.
+
+	* e-shell.c (impl_Shell_selectUserFolder): Use
+	e_dialog_set_transient_for_xid.
+
+	* e-shell-folder-selection-dialog.c (impl_response): Treat
+	GTK_RESPONSE_DELETE_EVENT the same as GTK_RESPONSE_CANCEL.
+	(e_shell_folder_selection_dialog_construct): No need to catch
+	"delete_event" signal.
+
+2003-04-07  Dan Winship  <danw@ximian.com>
+
 	* Makefile.am ($(server_in_files)): Substitute version number into
 	the evolution binary name in the server file
 	(INCLUDES): define EVOLUTION_TOOLSDIR

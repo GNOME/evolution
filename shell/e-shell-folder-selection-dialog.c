@@ -240,6 +240,7 @@ impl_response (GtkDialog *dialog,
 		break;
 
 	case GTK_RESPONSE_CANCEL:
+	case GTK_RESPONSE_DELETE_EVENT:
 		g_signal_emit (folder_selection_dialog, signals[CANCELLED], 0);
 		gtk_widget_destroy (GTK_WIDGET (dialog));
 		break;
@@ -267,9 +268,6 @@ impl_response (GtkDialog *dialog,
 		g_free (default_type);
 
 		break;
-
-	default:		/* WM close button */
-		gtk_widget_destroy (GTK_WIDGET (dialog));
 	}
 }
 
@@ -344,16 +342,6 @@ folder_selected_cb (EStorageSetView *storage_set_view,
 		gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), GTK_RESPONSE_OK, FALSE);
 }
 
-static gint
-delete_event_cb (GtkWidget *w, GdkEvent *event, gpointer data)
-{
-	EShellFolderSelectionDialog *dialog = data;
-
-	g_signal_emit (dialog, signals[CANCELLED], 0);
-
-	return TRUE;
-}
-
 static void
 double_click_cb (EStorageSetView *essv,
 		 int row,
@@ -410,9 +398,6 @@ e_shell_folder_selection_dialog_construct (EShellFolderSelectionDialog *folder_s
 	gtk_window_set_default_size (GTK_WINDOW (folder_selection_dialog), 350, 300);
 	gtk_window_set_modal (GTK_WINDOW (folder_selection_dialog), TRUE);
 	gtk_window_set_title (GTK_WINDOW (folder_selection_dialog), title);
-
-	g_signal_connect (folder_selection_dialog, "delete_event",
-			  G_CALLBACK (delete_event_cb), folder_selection_dialog);
 
 	if (allow_creation)
 		gtk_dialog_add_buttons (GTK_DIALOG (folder_selection_dialog),
