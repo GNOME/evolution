@@ -52,6 +52,7 @@ static gboolean e_minicard_event (GnomeCanvasItem *item, GdkEvent *event);
 static void e_minicard_realize (GnomeCanvasItem *item);
 static void e_minicard_unrealize (GnomeCanvasItem *item);
 static void e_minicard_reflow ( GnomeCanvasItem *item, int flags );
+static void e_minicard_style_set (EMinicard *minicard, GtkStyle *previous_style);
 
 static void e_minicard_resize_children( EMinicard *e_minicard );
 static void remodel( EMinicard *e_minicard );
@@ -95,6 +96,7 @@ enum {
 enum {
 	SELECTED,
 	DRAG_BEGIN,
+	STYLE_SET,
 	LAST_SIGNAL
 };
 
@@ -134,6 +136,8 @@ e_minicard_class_init (EMinicardClass *klass)
 	object_class->get_property  = e_minicard_get_property;
 	object_class->dispose    = e_minicard_dispose;
 	object_class->finalize      = e_minicard_finalize;
+
+	klass->style_set = e_minicard_style_set;
 
 	parent_class = gtk_type_class (gnome_canvas_group_get_type ());
 
@@ -205,6 +209,16 @@ e_minicard_class_init (EMinicardClass *klass)
 			      NULL, NULL,
 			      e_addressbook_marshal_INT__POINTER,
 			      G_TYPE_INT, 1, G_TYPE_POINTER);
+
+	e_minicard_signals [STYLE_SET] =
+		g_signal_new ("style_set",
+			      G_TYPE_FROM_CLASS (object_class),
+			      G_SIGNAL_RUN_FIRST,
+			      G_STRUCT_OFFSET (EMinicardClass, style_set),
+			      NULL, NULL,
+			      e_addressbook_marshal_VOID__OBJECT,
+			      G_TYPE_NONE, 1,
+			      GTK_TYPE_STYLE);
 
 	/* GnomeCanvasItem method overrides */
 	item_class->realize    = e_minicard_realize;
@@ -429,6 +443,12 @@ e_minicard_finalize (GObject *object)
 
 	if (G_OBJECT_CLASS (parent_class)->finalize)
 		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
+}
+
+static void
+e_minicard_style_set (EMinicard *minicard, GtkStyle *previous_style)
+{
+	set_selected (minicard, minicard->selected);
 }
 
 static void

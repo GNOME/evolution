@@ -1,3 +1,15 @@
+2003-04-02  Chris Toshok  <toshok@ximian.com>
+
+	* gui/widgets/e-addressbook-marshal.list: add NONE:OBJECT
+
+	* gui/widgets/e-minicard.c (e_minicard_class_init): add style_set
+	signal.
+	(e_minicard_style_set): just call set_selected with the currently
+	selected flag, so we recolor properly.
+
+	* gui/widgets/e-minicard.h (struct _EMinicardClass): add style_set
+	signal.
+
 2003-04-01  Rodrigo Moya <rodrigo@ximian.com>
 
 	* backend/ebook/evolution-ldif-importer.c (load_file_fn):

@@ -104,6 +104,8 @@ struct _EMinicardClass
 
 	gint (* selected) (EMinicard *minicard, GdkEvent *event);
 	gint (* drag_begin) (EMinicard *minicard, GdkEvent *event);
+
+	void (* style_set) (EMinicard *minicard, GtkStyle *previous_style);
 };
 
 
