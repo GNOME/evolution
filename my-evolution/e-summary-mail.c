@@ -158,9 +158,8 @@ e_summary_mail_generate_html (ESummary *summary)
 	
 	for (p = folder_store->shown; p; p = p->next) {
 		ESummaryMailFolder *mail_folder = p->data;
-		if (mail_folder->unread > 0) {
-			folder_gen_html (summary, p->data, string);
-		}
+
+		folder_gen_html (summary, p->data, string);
 	}
 
 	g_string_append (string, "</table></dd></dl>");
