@@ -35,7 +35,6 @@
 #include <cal-util/timeutil.h>
 #include "calendar-commands.h"
 #include "gnome-cal.h"
-#include "layout.h"
 #include "print.h"
 
 
@@ -66,6 +65,30 @@ static const int sept_1752[42] = {
 #define SATURDAY 6			/* Offset value; 1 Jan 1 was a Saturday */
 #define SEPT_1752_START 2		/* Start day within month */
 #define SEPT_1752_END 20		/* End day within month */
+
+struct pdinfo
+{
+	GList *slots;
+};
+
+struct psinfo
+{
+	GList *events;
+};
+
+struct ptinfo
+{
+	GList *todos;
+};
+
+struct einfo
+{
+	char *text;
+	time_t start;
+	time_t end;
+	int count;
+};
+
 
 /* Returns the number of leap years since year 1 up to (but not including) the specified year */
 static int
@@ -366,16 +389,14 @@ print_month_small (GnomePrintContext *pc, GnomeCalendar *gcal,
 		for (x=0;x<7;x++) {
 			day = days[y*7+x];
 			if (day!=0) {
-				GList *events;
+				GList *uids;
 
 				sprintf(buf, "%d", day);
 
 				/* this is a slow messy way to do this ... but easy ... */
-				events = cal_client_get_events_in_range (gcal->client,
-									 now,
-									 time_day_end (now));
-				font = events ? font_bold : font_normal;
-				cal_obj_instance_list_free (events);
+				uids = cal_client_get_objects_in_range (gcal->client, CALOBJ_TYPE_EVENT, now, time_day_end (now));
+				font = uids ? font_bold : font_normal;
+				cal_obj_uid_list_free (uids);
 
 				next = time_add_day(now, 1);
 				if ((now>=greystart && now<greyend)
@@ -491,26 +512,57 @@ bound_text(GnomePrintContext *pc, GnomeFont *font, char *text, double left, doub
 	return top;
 }
 
-/* Used with layout_events(), takes in a list element and returns the start and
- * end times for the event corresponding to that element.
+/*
+ * Print Day Details 
  */
-static void
-event_layout_query_func (GList *instance, time_t *start, time_t *end)
+static gboolean
+print_day_details_cb (CalComponent *comp, time_t istart, time_t iend, gpointer data)
 {
-	CalObjInstance *coi = instance->data;
+	CalComponentText text;
+	GList *l, *col = NULL;
+	struct pdinfo *pdi = (struct pdinfo *)data;
+	struct einfo *ei;
+	
+	ei = g_new (struct einfo, 1);
 
-	*start = coi->start;
-	*end = coi->end;
+	cal_component_get_summary (comp, &text);
+	ei->text = g_strdup (text.value);
+	
+	ei->start = istart;
+	ei->end = iend;
+	ei->count = 0;
+	
+	for (l = pdi->slots; l; l = l->next) {
+		struct einfo *testei;
+		
+		col = (GList *)l->data;
+		testei = (struct einfo *)col->data;
+
+		if (ei->start >= testei->end) {
+			col = g_list_prepend (col, ei);
+			l->data = col;
+			return TRUE;
+		}
+		
+		testei->count++;
+		ei->count++;
+	}
+	
+	col = NULL;
+	col = g_list_prepend (col, ei);	
+	pdi->slots = g_list_append (pdi->slots, col);
+
+	return TRUE;
 }
 
 static void
 print_day_details (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 		   double left, double right, double top, double bottom)
 {
+	struct pdinfo pdi;
 	time_t start, end;
-	GList *l, *events;
-	int num_slots, *allocations, *slots;
-	int i;
+	GList *l;
+	int num_slots, i;
 	GnomeFont *font_hour, *font_minute, *font_summary;
 	double yinc, y, yend, x, xend;
 	double width=40, slot_width;
@@ -559,48 +611,39 @@ print_day_details (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 	start = time_day_begin(whence);
 	end = time_day_end(start);
 
-	events = cal_client_get_events_in_range (gcal->client, start, end);
-
-	layout_events (events, event_layout_query_func, &num_slots, &allocations, &slots);
-
+	cal_client_generate_instances (gcal->client, CALOBJ_TYPE_EVENT, start, end,
+				       print_day_details_cb, &pdi);
+	
+	num_slots = g_list_length (pdi.slots);
 	slot_width = (right-left-width)/num_slots;
 
-	for (i = 0, l = events; l != NULL; l = l->next, i++) {
-		CalObjInstance *coi;
-		iCalObject *ico;
-		CalClientGetStatus status;
+	for (i = num_slots, l = pdi.slots; l; i--, l = l->next) {
+		GList *e = (GList *)l->data;
+		
+		for (; e; e = e->next) {
+			struct einfo *ei = (struct einfo *)e->data;
 
-		coi = l->data;
-		status = cal_client_get_object (gcal->client, coi->uid, &ico);
+			y = top - (top - bottom) * (ei->start - start) / (end - start) - 1;
+			yend = top - (top - bottom) * (ei->end - start) / (end - start) + 1;
+			x = left + width + slot_width * (num_slots - i);
+			
+			if (num_slots > 0)
+				x++;
 
-		switch (status) {
-		case CAL_CLIENT_GET_SUCCESS:
-			/* Go on */
-			break;
-		case CAL_CLIENT_GET_SYNTAX_ERROR:
-		case CAL_CLIENT_GET_NOT_FOUND:
-			g_message ("print_day_details(): syntax error in fetched object");
-			continue;
+			if (i == 0)
+				xend = x + (num_slots - ei->count) * slot_width - 2;
+			else
+				xend = x + slot_width - 2;
+			
+			print_border (pc, x, xend, y, yend, 0.0, 0.9);
+			
+			bound_text (pc, font_summary, ei->text, x, xend, y, yend, 0);
+
+			g_free (ei);
 		}
-
-		y = top - (top - bottom) * (coi->start - start) / (end - start) - 1;
-		yend = top - (top - bottom) * (coi->end - start) / (end - start) + 1;
-		x = left + width + slot_width * allocations[i];
-
-		if (num_slots > 0)
-			x++;
-
-		xend = x + slots[i] * slot_width - 2;
-
-		print_border (pc, x, xend, y, yend, 0.0, 0.9);
-
-		bound_text (pc, font_summary, ico->summary, x, xend, y, yend, 0);
-		ical_object_unref (ico);
+		g_list_free (e);
 	}
-
-	cal_obj_instance_list_free (events);
-	g_free (allocations);
-	g_free (slots);
+	g_list_free (pdi.slots);
 
 	print_border (pc, left, right, top, bottom, 1.0, -1.0);
 
@@ -609,20 +652,44 @@ print_day_details (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 	gtk_object_unref (GTK_OBJECT (font_summary));
 }
 
+/*
+ * Print Day Summary 
+ */
 #if 0
 #define TIME_FMT "%X"
 #else
 #define TIME_FMT "%l:%M%p"
 #endif
 
+static gboolean
+print_day_summary_cb (CalComponent *comp, time_t istart, time_t iend, gpointer data)
+{
+	CalComponentText text;
+	struct psinfo *psi = (struct psinfo *)data;
+	struct einfo *ei;
+
+	ei = g_new (struct einfo, 1);
+
+	cal_component_get_summary (comp, &text);
+	ei->text = g_strdup (text.value);
+	
+	ei->start = istart;
+	ei->end = iend;
+	ei->count = 0;
+
+	g_list_append (psi->events, ei);
+
+	return TRUE;
+}
+
 static void
 print_day_summary (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 		   double left, double right, double top, double bottom,
 		   double size, int totime, int titleformat)
 {
+	struct psinfo psi;
 	time_t start, end;
-	GList *l, *events;
-	int i;
+	GList *l;
 	GnomeFont *font_summary;
 	double y, yend, x, xend, inc, incsmall;
 	char buf[100];
@@ -643,8 +710,8 @@ print_day_summary (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 	titled_box (pc, buf, font_summary, ALIGN_RIGHT | ALIGN_BORDER,
 		    &left, &right, &top, &bottom, 0.0);
 
-	events = cal_client_get_events_in_range (gcal->client, start, end);
-
+	cal_client_generate_instances (gcal->client, CALOBJ_TYPE_EVENT, start, end,
+				       print_day_summary_cb, &psi);
 	inc = size*0.3;
 	incsmall = size*0.2;
 
@@ -661,23 +728,8 @@ print_day_summary (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 	strftime(buf, 100, TIME_FMT, &tm);
 	margin = gnome_font_get_width_string(font_summary, buf);
 
-	for (i=0, l = events; l != NULL; l = l->next, i++) {
-		CalObjInstance *coi;
-		iCalObject *ico;
-		CalClientGetStatus status;
-
-		coi = l->data;
-		status = cal_client_get_object (gcal->client, coi->uid, &ico);
-
-		switch (status) {
-		case CAL_CLIENT_GET_SUCCESS:
-			/* Go on */
-			break;
-		case CAL_CLIENT_GET_SYNTAX_ERROR:
-		case CAL_CLIENT_GET_NOT_FOUND:
-			g_message ("print_day_summary(): syntax error in fetched object");
-			continue;
-		}
+	for (l = psi.events; l; l = l->next) {
+		struct einfo *ei = (struct einfo *)l->data;
 
 		x = left + incsmall;
 		xend = right - inc;
@@ -685,7 +737,7 @@ print_day_summary (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 		if (y - font_summary->size < bottom)
 			break;
 
-		tm = *localtime (&coi->start);
+		tm = *localtime (&ei->start);
 		strftime (buf, 100, TIME_FMT, &tm);
 		gnome_print_moveto (pc, x + (margin
 					     - gnome_font_get_width_string (font_summary, buf)),
@@ -693,7 +745,7 @@ print_day_summary (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 		gnome_print_show (pc, buf);
 
 		if (totime) {
-			tm = *localtime (&coi->end);
+			tm = *localtime (&ei->end);
 			strftime (buf, 100, TIME_FMT, &tm);
 			gnome_print_moveto (pc,
 					    (x + margin + inc
@@ -702,23 +754,22 @@ print_day_summary (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 					    y - font_summary->size);
 			gnome_print_show (pc, buf);
 
-			y = bound_text (pc, font_summary, ico->summary,
+			y = bound_text (pc, font_summary, ei->text,
 					x + margin * 2 + inc * 2, xend,
 					y, yend, 0);
 		} else {
 			/* we also indent back after each time is printed */
-			y = bound_text (pc, font_summary, ico->summary,
+			y = bound_text (pc, font_summary, ei->text,
 					x + margin + inc, xend,
 					y, yend, -margin + inc);
 		}
 
 		y += font_summary->size - inc;
-
-		ical_object_unref (ico);
+		
+		g_free (ei);
 	}
-
-	cal_obj_instance_list_free (events);
-
+	g_list_free (psi.events);
+	
 	gtk_object_unref (GTK_OBJECT (font_summary));
 }
 
@@ -849,16 +900,34 @@ print_month_summary (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 	}
 }
 
+/*
+ * Print to do details
+ */
+static gboolean
+print_todo_details_cb (CalComponent *comp, time_t istart, time_t iend, gpointer data)
+{
+	CalComponentText text;
+	struct ptinfo *pti = (struct ptinfo *)data;
+	struct einfo *ei;
+
+	ei = g_new0 (struct einfo, 1);
+
+	cal_component_get_summary (comp, &text);
+	ei->text = g_strdup (text.value);
+
+	g_list_append (pti->todos, ei);
+
+	return TRUE;
+}
+
 static void
 print_todo_details (GnomePrintContext *pc, GnomeCalendar *gcal, time_t start, time_t end,
 		    double left, double right, double top, double bottom)
 {
-	GList *l, *todos;
-	int i;
+	struct ptinfo pti;
+	GList *l;
 	GnomeFont *font_summary;
 	double y, yend, x, xend;
-
-	todos = cal_client_get_uids (gcal->client, CALOBJ_TYPE_TODO);
 
 	font_summary = gnome_font_new_closest ("Times", GNOME_FONT_BOOK, 0, 10);
 
@@ -871,21 +940,11 @@ print_todo_details (GnomePrintContext *pc, GnomeCalendar *gcal, time_t start, ti
 	y = top - 3;
 	yend = bottom - 2;
 
-	for (i = 0, l = todos; l != NULL; l = l->next, i++) {
-		iCalObject *ico;
-		CalClientGetStatus status;
+	cal_client_generate_instances (gcal->client, CALOBJ_TYPE_TODO, start, end,
+				       print_todo_details_cb, &pti);
 
-		status = cal_client_get_object (gcal->client, l->data, &ico);
-
-		switch (status) {
-		case CAL_CLIENT_GET_SUCCESS:
-			/* Go on */
-			break;
-		case CAL_CLIENT_GET_NOT_FOUND:
-		case CAL_CLIENT_GET_SYNTAX_ERROR:
-			g_message ("print_todo_details(): syntax error in fetched object");
-			continue;
-		}
+	for (l = pti.todos; l; l = l->next) {
+		struct einfo *ei = (struct einfo *)l->data;
 
 		x = left;
 		xend = right-2;
@@ -893,17 +952,16 @@ print_todo_details (GnomePrintContext *pc, GnomeCalendar *gcal, time_t start, ti
 		if (y < bottom)
 			break;
 
-		y = bound_text (pc, font_summary, ico->summary, x + 2, xend, y, yend, 0);
+		y = bound_text (pc, font_summary, ei->text, x + 2, xend, y, yend, 0);
 		y += font_summary->size;
 		gnome_print_moveto (pc, x, y - 3);
 		gnome_print_lineto (pc, xend, y - 3);
 		gnome_print_stroke (pc);
 		y -= 3;
 
-		ical_object_unref (ico);
+		g_free (ei);
 	}
-
-	cal_obj_uid_list_free (todos);
+	g_list_free (pti.todos);
 
 	gtk_object_unref (GTK_OBJECT (font_summary));
 }

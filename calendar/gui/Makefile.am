@@ -42,6 +42,8 @@ glade_DATA = 					\
 glade_messages = event-editor-dialog.glade.h
 
 evolution_calendar_SOURCES =			\
+	print.c					\
+	print.h					\
 	alarm.c					\
 	alarm.h					\
 	calendar-commands.c			\
@@ -80,15 +82,11 @@ evolution_calendar_SOURCES =			\
 	gnome-cal.c				\
 	gnome-cal.h				\
 	goto.c					\
-	layout.c				\
-	layout.h				\
 	main.c					\
 	mark.c					\
 	mark.h					\
 	popup-menu.c				\
 	popup-menu.h				\
-	print.c					\
-	print.h					\
 	prop.c
 
 evolution_calendar_LDADD =					\
