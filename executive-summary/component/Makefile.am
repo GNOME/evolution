@@ -31,7 +31,14 @@ COMPOSER_GENERATED = \
 
 Composer-impl.o: Composer.h
 
-$(COMPOSER_GENERATED):
+selectnamesdir = $(top_srcdir)/addressbook/gui/component/select-names
+
+IDLS = \
+	$(selectnamesdir)/Evolution-Addressbook-SelectNames.idl	\
+	$(top_srcdir)/composer/Evolution-Composer.idl		\
+	$(top_srcdir)/composer/Composer.idl
+
+$(COMPOSER_GENERATED): $(IDLS)
 	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl `$(GNOME_CONFIG) --cflags idl` \
 		$(top_srcdir)/composer/Composer.idl
 

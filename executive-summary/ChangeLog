@@ -1,3 +1,8 @@
+2000-11-10  Matt Bissiri  <bissiri@eecs.umich.edu>
+
+	* component/Makefile.am: Regenerate the idl-generated files
+	if composer idl changes.
+
 2000-11-03  Federico Mena Quintero  <federico@helixcode.com>
 
 	* evolution-services/Makefile.am: Clean the idl-generated files
