@@ -1,5 +1,8 @@
 2004-06-08  Jeffrey Stedfast  <fejj@novell.com>
 
+	* em-folder-selector.c (em_folder_selector_construct): Make the
+	chooser non-modal. Fixes bug #53735.
+
 	* em-folder-tree.c (emft_tree_row_collapsed): Only change the
 	cursor if the currently selected folder is a subfolder of the
 	folder collapsed. Fixes bug #59801 without breaking bug #57665.
