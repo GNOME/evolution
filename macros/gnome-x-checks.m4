@@ -66,7 +66,7 @@ dnl	AC_MSG_RESULT("$dev_gtk")
 	fi
 
 	if test "$GNOME_HAVE_SM" = true; then
-	   AC_DEFINE(HAVE_LIBSM)
+	   AC_DEFINE(HAVE_LIBSM,, [Define if you have libSM.])
 	fi
 
 	XPM_LIBS=""

@@ -1,3 +1,7 @@
+2003-06-28  Sebastian Rittau  <srittau@jroger.in-berlin.de>
+
+	* gnome-x-checks.m4: Add third argument to AC_DEFINE.
+
 2003-05-03  Malcolm Tredinnick <malcolm@commsecure.com.au>
 	
 	* autogen.sh: Allow users to specify the binary to run instead of
