@@ -1,3 +1,8 @@
+2003-08-20  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/camel-imap-wrapper.c (imap_wrapper_hydrate): Make
+	sure to ref the stream. Fixes bug #47749.
+
 2003-08-18  Not Zed  <NotZed@Ximian.com>
 
 	* camel-http-stream.c: Various fixes to make it work.
