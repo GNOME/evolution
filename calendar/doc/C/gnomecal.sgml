@@ -153,4 +153,313 @@
       Mail Consortium (http://www.imc.org)</ulink> for the details.
     </para>
   </chapter>
+
+ <chapter id="gcal">
+  <title>The GNOME Calendar</title>
+  <sect1>
+   <title>Introduction</title>
+   <para>
+   <indexterm>
+    <primary>
+     GNOME Calendar
+    </primary>
+   </indexterm>
+   <indexterm>
+    <primary>
+     Calendar
+    </primary>
+   </indexterm>
+    The GNOME Calendar is a  simple calendar applications which can be
+    quite useful  in your  daily work. The  Calendar, like the  rest of
+    GNOME, is in its infancy and while it is a very useful application,
+    there will  be some very  impressive functionality that  will come
+    like network  shared calendar  usage, and syncing  capability with
+    Palm Pilots and other hand held PDAs.
+   </para>
+   <para>
+    The Calendar is  broken up into four main  tabs: Day, Week, Month,
+    and Year. Each view allows  you to view the respective time period
+    but will also  allow you to schedule appointments  from any one of
+    the tabs.
+   </para>
+   <figure>
+     <title>The GNOME Calendar</title>
+    <screenshot>
+     <screeninfo>The GNOME Calendar</screeninfo>
+      <Graphic Format="gif" Fileref="calday" srccredit="dcm">
+      </graphic>
+    </screenshot>
+    </figure>
+  </sect1>
+  <sect1 id="calsetup" <title>Setting Up the GNOME Calendar</title>
+   <para>
+     The GNOME Calendar  can be used in the state  which it is shipped
+     but there are  some tools available to make sure  it is setup the
+     way you would like it to be. The first place you should go is the
+     GNOME Calendar  Preferences. You can find  the Preferences dialog
+     by selecting the <guimenuitem>Preferences</guimenuitem> menu item
+     from the <guimenu> File</guimenu> menu.
+   <figure>
+    <title>The GNOME Calendar Preferences</title>
+   <screenshot>
+    <screeninfo>The GNOME Calendar Preferences.</screeninfo>
+    <Graphic Format="gif" Fileref="./figs/cal-props" srccredit="dcm">
+    </graphic>
+   </screenshot>
+   </figure>
+   </para>
+   <para>
+    The Calendar Preferences  dialog is broken up into  two tabs, Time
+    display and Colors.
+   </para> 
+   <para>
+   Time - This tab is broken up into three main sections: Time format,
+   Weeks start on, and Day range.
+   </para>  
+   <para>
+      Time format - This allows you  to choose between a 12 or 24 hour
+      format clock.
+   </para>
+   <para>
+      Weeks start  on - This allows  you to define what  day your week
+      will  start on,  Sunday  or  Monday. This  will  affect how  the
+      calendar is laid out in the Day and Week views.
+   </para>
+   <para>
+      Day range  - This  section lets you  choose what time  your days
+      will start  and end. Any  hours outside the range  selected will
+      not be displayed on your Day view.
+   </para>
+   <para>
+    Colors - This tab allows you  to change the default colors used in
+    the  Calendar. There are  seven color  choices you  can customize:
+    Outline, Headings, Empty  days, Appointments, Highlighted day, Day
+    numbers, and Current  day's number. Each choice has  a small color
+    selector box next to it. When you press this box you will be given
+    a  color selector dialog  in which  you can  choose the  color you
+    want. Once you have selected  a color the small sample calendar on
+    the right side of the tab will preview your choice.
+   </para>
+   <para>
+    Once you have made the changes to the Calendar Preferences you may
+    press the <guibutton>Apply</guibutton> button to apply them.
+   </para>
+  </sect1>
+  <sect1 id="caluse">
+   <title>Using the GNOME Calendar</title>
+   <para>
+    Using the  GNOME Calendar  is quite simple  and most tasks  can be
+    performed  from  any of  the  major  views,  Day, Week,  Month  or
+    Year. Probably one  of the most important features  to remember is
+    that at any time you may right mouse click on a particular day and
+    add a new appointment. There are many other features which will be
+    described below in each of the major views.
+   </para>
+     <sect2 id="calday">
+    <title>The Day View</title>
+    <para>
+     The  Day  tab is  probably  the most  useful  view  in the  GNOME
+     Calendar as it acts just as a day timer would. On the left of the
+     tab  is the  hour listing  for the  current day.  The  light grey
+     coloring  in the  hour list  separates  the work  hours from  the
+     non-work hours. If  you  would  like  to change  the  work  hours
+     displayed   in   light   grey    you   can   do   so   in   <xref
+     LinkEnd="calsetup">.
+    </para>
+    <figure>
+     <title>The Day View</title>
+      <screenshot>
+       <screeninfo>The Day View</screeninfo>
+       <Graphic Format="gif" Fileref="./figs/calday" srccredit="dcm">
+       </graphic>
+      </screenshot>
+    </figure>
+    <tip>
+     <title>TIP</title>
+     <para>
+      One  tip for  adding a  new appointment  in the  Day View  is to
+      select a  few hours in the  hours list by  clicking and dragging
+      your mouse down  the hours list. Once the  correct range of time
+      has  been  selected  you  may   press  Enter  and  type  in  the
+      appointment.  This  will  allow  you  to  skip  the  Create  New
+      Appointment dialog.
+     </para>
+    </tip> 
+    <para>
+     Next to  the hours listing  in the right  hand corner is  a small
+     full  month calendar. You  may change  the month  or year  of the
+     small month calendar by  pressing the forward and backward arrows
+     on the top. You may use  the small month calendar to navigate the
+     days  as well.  Double clicking  on any  day in  the  small month
+     calendar will move the current day view to that particular day.
+    </para>
+    <para>
+     Below the small month calendar is your To-do list. The To-do list
+     is a  simple list where you can  keep all your tasks  on hand. To
+     add    an     item    to    the    To-do     list    press    the
+     <guibutton>Add</guibutton>  button.  This  will  launch  a  small
+     editing box where you can type in the item. Once you have entered
+     an    item   in    the    To-do   list    you    may   use    the
+     <guibutton>Edit</guibutton>  and <guibutton>Delete</guibutton> to
+     manage you items.  The To-do items are available  no matter which
+     days are displayed  in the Day View and can  only be deleted with
+     the <guibutton>Delete</guibutton> button.
+    </para>
+   </sect2>
+   <sect2 id="calweek">
+    <title>The Week View</title>
+    <para>
+     The Week View shows the current week with detailed descriptions of
+     your appointments. If you would like to add an appointment any of
+     the days  in the week view you  may right mouse click  on the day
+     and  select the  <guimenuitem>New  appointment</guimenuitem> menu
+     item from  the <guimenu>pop-up</guimenu>  menu. You may  also use
+     the  week  view  to  navigate  to  particular  days  in  the  Day
+     View. Double-click on any day in the Week View and you will go to
+     that day in the Day View.
+    </para>
+    <figure>
+     <title>The Week View</title>
+      <screenshot>
+       <screeninfo>The Week View</screeninfo>
+       <Graphic Format="gif" Fileref="./figs/calweek" srccredit="dcm">
+       </graphic>
+      </screenshot>
+    </figure>
+    <para>
+     In the lower left corner of  the Week View there is a small month
+     calendar. You  may change  the month or  year of the  small month
+     calendar  by pressing  the  forward and  backward  arrows on  the
+     top. You may use the small month calendar to navigate the days as
+     well. Double clicking on any day in the small month calendar will
+     move the current week view to that particular week.
+    </para>
+   </sect2>
+   <sect2 id="calmonth">
+    <title>The Month View</title>
+    <para>
+     The  Month  View  shows  the  entire month  with  brief  detailed
+     descriptions of  your appointments. The  Month View makes  use of
+     the  customized colors available  in the  Calendar. You  may read
+     about    how    to    set    these   colors    in     <xref
+     Linkend="calsetup">. For  any day with  a brief description  of an
+     appointment  you may  click  on  the day  to  display a  detailed
+     description of the  appointment in a pop-up window.  If you would
+     like to  add an appointment  to a day  in the Month View  you may
+     right  mouse click  on any  day and  select  the <guimenuitem>New
+     Appointment   in    this   day</guimenuitem>   item    from   the
+     <guimenu>pop-up</guimenu>  menu. You  may  use the  items in  the
+     <guimenu>pop-up</guimenu> menu to navigate  in the Day, Week, and
+     Year  views   by  selecting  either   <guimenuitem>Jump  to  this
+     day</guimenuitem>, <guimenuitem>Jump  to this week</guimenuitem>,
+     or <guimenuitem>Jump to this Year</guimenuitem>.
+    </para>
+    <figure>
+     <title>The Month View</title>
+      <screenshot>
+       <screeninfo>The Month View</screeninfo>
+       <Graphic Format="gif" Fileref="./figs/calmonth" srccredit="dcm">
+       </graphic>
+      </screenshot>
+    </figure>
+   </sect2>
+   <sect2 id="calyear">
+    <title>The Year View</title>
+    <para>
+     The Year View  shows you the entire year  with no descriptions of
+     appointments. Like the Month View, the Year View makes use of the
+     customized colors  available in the Calendar. You  may read about
+     how to set these colors in <xref Linkend="calsetup">. If you have
+     an  appointment  on  a day  you  may  click  on  that day  and  a
+     description of  the appointment will  be displayed in  the pop-up
+     window. If you  would like to add an appointment to  a day in the
+     Year View  you may right  mouse click on  any day and  select the
+     <guimenuitem>New Appointment in  this day</guimenuitem> item from
+     the <guimenu>pop-up</guimenu> menu. You  may use the items in the
+     <guimenu>pop-up</guimenu> menu to navigate  in the Day, Week, and
+     Month  views  by   selecting  either  <guimenuitem>Jump  to  this
+     day</guimenuitem>, <guimenuitem>Jump  to this week</guimenuitem>,
+     or <guimenuitem>Jump to this Month</guimenuitem>.
+    </para>
+    <figure>
+     <title>The Year View</title>
+      <screenshot>
+       <screeninfo>The Year View</screeninfo>
+       <Graphic Format="gif" Fileref="./figs/calyear" srccredit="dcm">
+       </graphic>
+      </screenshot>
+    </figure>
+   </sect2>
+  </sect1>
+  <sect1 id="calappoint">
+    <title>Making a New Appointment</title>
+    <para>
+     There are many methods for  making a new appointment in the GNOME
+     Calendar, the easiest  by pressing the <guibutton>New</guibutton>
+     button on the button bar. Whenever you make a new appointment you
+     will launch the Create New  Appointment dialog that allows you to
+     set  the   properties  of   that  appointment.  The   Create  New
+     Appointment dialog is broken into two different tabs, the General
+     and the Recurrence tabs.
+    </para>
+    <para>
+     General -  The General tab is  the area in which  you define when
+     the appointment is and set reminders for yourself. There are four
+     different areas  on the General  tab: Summary, Time,  Alarms, and
+     Classification.
+     <ITEMIZEDLIST MARK="bullet">
+      <listitem>
+       <para>
+        Summary - The Summary box  allows you to type a description of
+        the  appointment. Keep  in mind  that  only a  portion of  this
+        description will be available in the Week and Month Views.
+       </para>
+      </listitem>
+      <listitem>
+       <para>
+        Time - The Time area allows  you to set the time range for the
+        appointment by selecting the date and hours. Beside each start
+        and   end  days  there   is  a   small  selection   box  named
+        Calendar.   This  will   bring  up   a  small   Calendar  when
+        pressed. You  may select the start  and end date  in the small
+        calendar.  Beside the  start and  end hours  there is  a small
+        button  which   will  display  the  hours  of   the  day  when
+        pressed. Each hour in the list will have a sub menu displaying
+        each quarter hour so you may select them.
+       </para>
+      </listitem>
+      <listitem>
+       <para>
+        Alarms -  The Alarms  area allows  you to set  up an  alarm to
+        remind you  of an appointment. There are  four different types
+        of  alarms you  may use  to remind  yourself  of appointments:
+        Display,  Audio, Program,  and  Mail. The  Display alarm  will
+        display a message on your screen in the time you set. The Audio
+        alarm will play an audio file in the time you set. The Program
+        alarm will run a program you  specify in the time you set. The
+        Mail alarm will  send email to the user  specified in the time
+        you set.
+       </para>
+      </listitem>
+     <!-- <listitem>
+       <para>
+        Classification - TO BE DONE
+       </para>
+      </listitem> -->
+     </itemizedlist>
+    </para>
+    <para>
+     Recurrence - The  Recurrence tab allows you to  specify how often
+     an appointment  should recur, if  at all. The first  property you
+     should set if you want  a recurring appointment is the Recurrence
+     rule.  You may  choose among  None, Daily,  Weekly,  Monthly, and
+     Yearly.  For  each  selection   you  may  adjust  the  recurrence
+     properties for  your selection. In  the Ending date area  you may
+     set a rule which will  stop the recurrence of your appointment or
+     allow it to  repeat forever. In the Exceptions  area you may make
+     exceptions to  the recurring appointment by selecting  the date a
+     pressing the <guibutton>Add</guibutton> button.
+    </para>
+   </sect1>
+ </chapter>
 </book>
