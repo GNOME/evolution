@@ -1,7 +1,17 @@
 2000-11-15  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* filter-driver.c (filter_driver_filter_folder): Sync here
+	instead.
+	(filter_driver_filter_mbox): And here too.
+	(filter_driver_finalise): Don't sync here afterall - it's more
+	preferable to sync right after processing.
+
+2000-11-15  Jeffrey Stedfast  <fejj@helixcode.com>
+
 	* filter-driver.c (filter_driver_finalise): Sync the
 	defaultfolder.
+	(filter_driver_filter_folder): Sync here instead.
+	(filter_driver_filter_mbox): And here too.
 
 2000-11-13  Jeffrey Stedfast  <fejj@helixcode.com>
 

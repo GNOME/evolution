@@ -206,11 +206,9 @@ filter_driver_finalise (GtkObject *obj)
 	g_hash_table_destroy (p->globals);
 	
 	gtk_object_unref (GTK_OBJECT (p->eval));
-
-	if (p->defaultfolder) {
-		camel_folder_sync (p->defaultfolder, FALSE, NULL);
+	
+	if (p->defaultfolder)
 		camel_object_unref (CAMEL_OBJECT (p->defaultfolder));
-	}
 	
 	g_free (p);
 	
@@ -602,6 +600,7 @@ filter_driver_log (FilterDriver *driver, enum filter_log_t status, const char *d
 void
 filter_driver_filter_mbox (FilterDriver *driver, const char *mbox, const char *source, CamelException *ex)
 {
+	struct _FilterDriverPrivate *p = _PRIVATE (driver);
 	CamelMimeParser *mp = NULL;
 	char *source_url = NULL;
 	int fd = -1;
@@ -656,6 +655,10 @@ filter_driver_filter_mbox (FilterDriver *driver, const char *mbox, const char *s
 		/* skip over the FROM_END state */
 		camel_mime_parser_step (mp, 0, 0);
 	}
+	
+	if (p->defaultfolder)
+		camel_folder_sync (p->defaultfolder, FALSE, ex);
+	
 fail:
 	g_free (source_url);
 	if (fd != -1)
@@ -669,6 +672,7 @@ void
 filter_driver_filter_folder (FilterDriver *driver, CamelFolder *folder, const char *source,
 			     GPtrArray *uids, gboolean remove, CamelException *ex)
 {
+	struct _FilterDriverPrivate *p = _PRIVATE (driver);
 	int i;
 	int freeuids = FALSE;
 	CamelMimeMessage *message;
@@ -713,6 +717,9 @@ filter_driver_filter_folder (FilterDriver *driver, CamelFolder *folder, const ch
 	
 	if (freeuids)
 		camel_folder_free_uids (folder, uids);
+	
+	if (p->defaultfolder)
+		camel_folder_sync (p->defaultfolder, FALSE, ex);
 	
 	g_free (source_url);
 }
