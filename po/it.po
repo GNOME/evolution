@@ -25391,26 +25391,23 @@ msgid "Opening Folder"
 msgstr "Apertura cartella"
 
 #: shell/e-shell-shared-folder-picker-dialog.c:364
-#, fuzzy, c-format
+#, c-format
 msgid "Opening Folder \"%s\""
-msgstr "Lettura cartella %s in corso"
+msgstr "Lettura cartella \"%s\" in corso"
 
 #: shell/e-shell-shared-folder-picker-dialog.c:369
-#, fuzzy, c-format
+#, c-format
 msgid "in \"%s\" ..."
-msgstr "Apri in %s..."
+msgstr "in \"%s\" ..."
 
 #: shell/e-shell-shared-folder-picker-dialog.c:455
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open shared folder: %s."
-msgstr "Impossibile rinominare la cartella: %s"
+msgstr "Impossibile aprire la cartella condivisa: %s."
 
 #: shell/e-shell-shared-folder-picker-dialog.c:513
-#, fuzzy
 msgid "Cannot find the specified shared folder."
-msgstr ""
-"Impossibile creare la cartella specificata:\n"
-"%s"
+msgstr "Impossibile trovare la cartella condivisa specificata."
 
 #: shell/e-shell-startup-wizard.c:159
 #, c-format
@@ -25477,9 +25474,8 @@ msgid "Select the folder that you want to open"
 msgstr "Selezionare la cartella che si desidera aprire"
 
 #: shell/e-shell-view-menu.c:625
-#, fuzzy
 msgid "Create New Shortcut"
-msgstr "Crea un nuovo collegamento"
+msgstr "Crea nuova scorciatoia"
 
 #: shell/e-shell-view-menu.c:626
 msgid "Select the folder you want the shortcut to point to:"
@@ -25527,14 +25523,13 @@ msgstr ""
 "connettersi."
 
 #: shell/e-shell.c:175
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot activate component %s :\n"
 "The error from the activation system is:\n"
 "%s"
 msgstr ""
-"%s\n"
-"\n"
+"Impossibile attivare il componente %s :\n"
 "L'errore del sistema di attivazione è:\n"
 "%s"
 
@@ -25648,14 +25643,12 @@ msgid "Hide the shortcut bar"
 msgstr "Nascondi la barra dei collegamenti"
 
 #: shell/e-shortcuts-view.c:274
-#, fuzzy
 msgid "Create _Default Shortcuts"
-msgstr "Crea un nuovo collegamento"
+msgstr "Crea scorciatoia pre_definita"
 
 #: shell/e-shortcuts-view.c:275
-#, fuzzy
 msgid "Create Default Shortcuts"
-msgstr "Crea un nuovo collegamento"
+msgstr "Crea scorciatoie predefinite"
 
 #: shell/e-shortcuts-view.c:394
 msgid "Rename shortcut"
@@ -25702,9 +25695,8 @@ msgid "Shortcuts"
 msgstr "Collegamenti"
 
 #: shell/e-storage-set-view.etspec.h:1
-#, fuzzy
 msgid "Checkbox"
-msgstr "Chico"
+msgstr "Checkbox"
 
 #: shell/e-storage.c:569
 msgid "No error"
@@ -25760,7 +25752,7 @@ msgstr "Impossibile creare una cartella con quel nome"
 
 #: shell/e-storage.c:599
 msgid "This operation cannot be performed in off-line mode"
-msgstr ""
+msgstr "Quest'operazione non può essere eseguita in modalità fuori linea"
 
 #: shell/e-task-widget.c:191
 #, c-format
@@ -25894,24 +25886,20 @@ msgid "The following connections are currently active:"
 msgstr "Le seguenti connessioni sono al momento attive;"
 
 #: shell/glade/e-shell-config-default-folders.glade.h:1
-#, fuzzy
 msgid "C_alendar:"
-msgstr "Calendario"
+msgstr "C_alendario:"
 
 #: shell/glade/e-shell-config-default-folders.glade.h:2
-#, fuzzy
 msgid "_Contacts:"
-msgstr "Contatti: "
+msgstr "_Contatti:"
 
 #: shell/glade/e-shell-config-default-folders.glade.h:3
-#, fuzzy
 msgid "_Mail:"
-msgstr "_Posta"
+msgstr "_Posta:"
 
 #: shell/glade/e-shell-config-default-folders.glade.h:4
-#, fuzzy
 msgid "_Tasks:"
-msgstr "Attività"
+msgstr "A_ttività:"
 
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:1
 msgid "Folder name:"
@@ -25926,24 +25914,20 @@ msgid "Specify where to create the folder:"
 msgstr "Specificare dove creare la cartella:"
 
 #: shell/glade/e-shell-shared-folder-picker-dialog.glade.h:1
-#, fuzzy
 msgid "Open Other User's Folder"
-msgstr "Crea _Nuova cartella..."
+msgstr "Apri Cartella degli Altri Utenti"
 
 #: shell/glade/e-shell-shared-folder-picker-dialog.glade.h:2
-#, fuzzy
 msgid "_Account:"
-msgstr "Account"
+msgstr "_Account:"
 
 #: shell/glade/e-shell-shared-folder-picker-dialog.glade.h:3
-#, fuzzy
 msgid "_Folder Name:"
 msgstr "Nome della cartella:"
 
 #: shell/glade/e-shell-shared-folder-picker-dialog.glade.h:4
-#, fuzzy
 msgid "_User:"
-msgstr "_Username:"
+msgstr "Nome_utente:"
 
 #: shell/glade/evolution-startup-wizard.glade.h:3
 msgid "Evolution Setup Assistant"
@@ -25976,7 +25960,6 @@ msgstr ""
 "Premere il pulsante \"Succ\" per proseguire."
 
 #: shell/glade/evolution-startup-wizard.glade.h:15
-#, fuzzy
 msgid ""
 "You have successfully entered all of the information\n"
 "needed to set up Evolution. \n"
@@ -26060,14 +26043,12 @@ msgid "Disable splash screen"
 msgstr "Disabilita la schermata di avvio"
 
 #: shell/main.c:423
-#, fuzzy
 msgid "Start in offline mode"
-msgstr "Inizio importazione"
+msgstr "Inizia in modalità fuori linea"
 
 #: shell/main.c:425
-#, fuzzy
 msgid "Start in online mode"
-msgstr "Avvio degli Importatori Intelligenti"
+msgstr "Inizia in modalità in linea"
 
 #: shell/main.c:427
 msgid "Send the debugging output of all components to a file."
@@ -26075,7 +26056,7 @@ msgstr "Inviare l'output del debugging di tutte i componenti ad un file"
 
 #: shell/main.c:429
 msgid "Force upgrading of configuration files from Evolution 1.0.x"
-msgstr ""
+msgstr "Forza l'aggiornamento dei file di configurazione da Evolution 1.0.x"
 
 #: shell/main.c:447
 #, c-format
@@ -26083,6 +26064,8 @@ msgid ""
 "%s: --online and --offline cannot be used together.\n"
 "  Use %s --help for more information.\n"
 msgstr ""
+"%s: --online e --offline non possono essere usati insieme.\n"
+"  Usa %s --help per ulteriori informazioni.\n"
 
 #: shell/main.c:478
 msgid "Cannot initialize the Bonobo component system."
@@ -26115,19 +26098,16 @@ msgstr "È necessario fornire un nome di file."
 #. * POTFILES.in. DO NOT compile it as part of your application.
 #.
 #: ui/evolution-addressbook.h:9
-#, fuzzy
 msgid "_Print Contacts..."
-msgstr "_Contatti..."
+msgstr "Stampa contatti..."
 
 #: ui/evolution-addressbook.h:10
-#, fuzzy
 msgid "As _Table"
-msgstr "Disabilita"
+msgstr "Come _tabella"
 
 #: ui/evolution-addressbook.h:11
-#, fuzzy
 msgid "_New Contact"
-msgstr "Nuovo Contatto"
+msgstr "_Nuovo contatto"
 
 #: ui/evolution-addressbook.h:12 ui/evolution-mail-message.xml.h:113
 #: ui/evolution.xml.h:65
@@ -26135,34 +26115,28 @@ msgid "_Tools"
 msgstr "S_trumenti"
 
 #: ui/evolution-addressbook.h:13
-#, fuzzy
 msgid "_Search for contacts"
-msgstr "_Cerca Contatti"
+msgstr "Cerca contatti"
 
 #: ui/evolution-addressbook.h:17
-#, fuzzy
 msgid "Find a contact"
-msgstr "Il mittente contiene"
+msgstr "Trova un contatto"
 
 #: ui/evolution-addressbook.h:19
-#, fuzzy
 msgid "Print contacts"
-msgstr "Stampa i contatti selezionati"
+msgstr "Stampa contatti"
 
 #: ui/evolution-addressbook.h:21
-#, fuzzy
 msgid "Delete a contact"
-msgstr "Cancellare il Contatto?"
+msgstr "Cancella un contatto"
 
 #: ui/evolution-addressbook.h:22
-#, fuzzy
 msgid "View All"
-msgstr "Visualizza In linea"
+msgstr "Visualizza tutto"
 
 #: ui/evolution-addressbook.h:23
-#, fuzzy
 msgid "View all contacts"
-msgstr "Seleziona tutti i contatti"
+msgstr "Visualizza tutti i contatti"
 
 #: ui/evolution-addressbook.h:24 ui/evolution-addressbook.xml.h:26
 msgid "Stop"
@@ -26173,18 +26147,16 @@ msgid "Stop Loading"
 msgstr "Arresta caricamento"
 
 #: ui/evolution-addressbook.xml.h:3
-#, fuzzy
 msgid "Copy Contact(s) to Another Folder..."
-msgstr "Copia i messaggi selezionati in una nuova cartella"
+msgstr "Copia contatto(i) su un'altra cartella..."
 
 #: ui/evolution-addressbook.xml.h:4 ui/evolution-calendar.xml.h:2
 msgid "Copy the selection"
 msgstr "Copia selezionato"
 
 #: ui/evolution-addressbook.xml.h:5
-#, fuzzy
 msgid "Copy to Folder..."
-msgstr "_Copia nella Cartella..."
+msgstr "Copia nella cartella..."
 
 #: ui/evolution-addressbook.xml.h:7 ui/evolution-calendar.xml.h:3
 msgid "Cut the selection"
@@ -26195,14 +26167,12 @@ msgid "Delete selected contacts"
 msgstr "Cancella il contatto selezionato"
 
 #: ui/evolution-addressbook.xml.h:11
-#, fuzzy
 msgid "Move Contact(s) to Another Folder..."
-msgstr "Sposta i messaggi in un'altra cartella"
+msgstr "Sposta contatto(i) in un'altra cartella..."
 
 #: ui/evolution-addressbook.xml.h:12
-#, fuzzy
 msgid "Move to Folder..."
-msgstr "_Sposta nella Cartella..."
+msgstr "Sposta nella cartella..."
 
 #: ui/evolution-addressbook.xml.h:14 ui/evolution-calendar.xml.h:14
 msgid "Paste the clipboard"
@@ -26216,7 +26186,7 @@ msgstr "Anteprime dei contatti da stampare"
 #: ui/evolution-comp-editor.xml.h:9 ui/evolution-mail-message.xml.h:68
 #: ui/evolution-tasks.xml.h:12
 msgid "Print Pre_view"
-msgstr "_Anteprima di Stampa"
+msgstr "_Anteprima di stampa"
 
 #: ui/evolution-addressbook.xml.h:18
 msgid "Print selected contacts"
@@ -26281,9 +26251,8 @@ msgid "_Select All"
 msgstr "_Seleziona Tutto"
 
 #: ui/evolution-addressbook.xml.h:42
-#, fuzzy
 msgid "_Send Message to Contact..."
-msgstr "Invia un _Messaggio al Contatto..."
+msgstr "Invia un messaggio al contatto..."
 
 #: ui/evolution-calendar.xml.h:4
 msgid "Day"
@@ -26485,7 +26454,6 @@ msgid "Schedule a meeting for this item"
 msgstr "Pianifica una Riunione su questo argomento"
 
 #: ui/evolution-executive-summary.xml.h:1
-#, fuzzy
 msgid "Customize My Evolution"
 msgstr "Personalizza Evolution"
 
@@ -26526,19 +26494,16 @@ msgid "Permanently remove all deleted messages from all folders"
 msgstr "Rimuovi permanentemente i messaggi cancellati da tutte le cartelle"
 
 #: ui/evolution-mail-global.xml.h:11
-#, fuzzy
 msgid "Post New Message"
-msgstr "Nuovo Messaggio"
+msgstr "Nuovo messaggio"
 
 #: ui/evolution-mail-global.xml.h:12
-#, fuzzy
 msgid "Post a message to a Public folder"
-msgstr "Sposta il messaggio in una nuova cartella"
+msgstr "Nuovo messaggio per una cartella pubblica"
 
 #: ui/evolution-mail-global.xml.h:13
-#, fuzzy
 msgid "S_ubscribe to Folders..."
-msgstr "_Sottoscrizione Cartelle..."
+msgstr "Sottoscrizione cartelle..."
 
 #: ui/evolution-mail-global.xml.h:14
 msgid "Show message preview window"
@@ -26565,18 +26530,16 @@ msgid "Change the properties of this folder"
 msgstr "Moifica le proprietà di questa cartella"
 
 #: ui/evolution-mail-list.xml.h:2
-#, fuzzy
 msgid "Copy selected message(s) to the clipboard"
-msgstr "Copia i messaggi selezionati in una nuova cartella"
+msgstr "Copia messaggio(i) selezionato(i) negli appunti"
 
 #: ui/evolution-mail-list.xml.h:3
 msgid "Cu_t"
 msgstr "_Taglia"
 
 #: ui/evolution-mail-list.xml.h:4
-#, fuzzy
 msgid "Cut selected message(s) to the clipboard"
-msgstr "Incolla il messaggio agli appunti"
+msgstr "Taglia messaggio(i) selezionato(i) negli appunti"
 
 #: ui/evolution-mail-list.xml.h:5
 msgid "Hide S_elected Messages"
@@ -26605,9 +26568,8 @@ msgid "Mark all visible messages as read"
 msgstr "Segna tutti  i messaggi visibili come letti"
 
 #: ui/evolution-mail-list.xml.h:11
-#, fuzzy
 msgid "Paste message(s) from the clipboard"
-msgstr "Incolla il messaggio agli appunti"
+msgstr "Incolla messaggio(i) dagli appunti"
 
 #: ui/evolution-mail-list.xml.h:12
 msgid "Permanently remove all deleted messages from this folder"
@@ -26676,19 +26638,16 @@ msgid "_Threaded Message List"
 msgstr "Raggruppa per _Discussioni"
 
 #: ui/evolution-mail-message.xml.h:1
-#, fuzzy
 msgid "A_dd Sender to Addressbook"
-msgstr "Aggiungi Mittente alla Rubrica"
+msgstr "Aggiungi mittente alla rubrica"
 
 #: ui/evolution-mail-message.xml.h:2
-#, fuzzy
 msgid "A_pply Filters"
-msgstr "Applica Filtri"
+msgstr "A_pplica filtri"
 
 #: ui/evolution-mail-message.xml.h:3
-#, fuzzy
 msgid "Add Sender to Addressbook"
-msgstr "Aggiungi Mittente alla Rubrica"
+msgstr "Aggiungi mittente alla rubrica"
 
 #: ui/evolution-mail-message.xml.h:4
 msgid "Apply filter rules to the selected messages"
@@ -26779,9 +26738,8 @@ msgid "Display the previous unread message"
 msgstr "Mostra il messaggio non letto precedente"
 
 #: ui/evolution-mail-message.xml.h:28
-#, fuzzy
 msgid "F_orward"
-msgstr "Inoltra"
+msgstr "In_oltra"
 
 #: ui/evolution-mail-message.xml.h:29
 msgid "Filter on Mailing _List..."
@@ -26801,11 +26759,11 @@ msgstr "Filtra sull'_Oggetto..."
 
 #: ui/evolution-mail-message.xml.h:33
 msgid "Flag selected message(s) for follow-up"
-msgstr ""
+msgstr "Segnala messaggio(i) selezionato(i) come seguente"
 
 #: ui/evolution-mail-message.xml.h:34
 msgid "Follow _Up..."
-msgstr ""
+msgstr "Segue..."
 
 #: ui/evolution-mail-message.xml.h:35
 msgid "Force images in HTML mail to be loaded"
@@ -26880,19 +26838,16 @@ msgid "Next"
 msgstr "Successivo"
 
 #: ui/evolution-mail-message.xml.h:55
-#, fuzzy
 msgid "Next _Important Message"
-msgstr "Messaggio Importante Successivo"
+msgstr "Messaggio _importante successivo"
 
 #: ui/evolution-mail-message.xml.h:56
-#, fuzzy
 msgid "Next _Thread"
-msgstr "Discussione Successiva"
+msgstr "Discussione successiva"
 
 #: ui/evolution-mail-message.xml.h:57
-#, fuzzy
 msgid "Next _Unread Message"
-msgstr "Messaggo Non Letto Successivo"
+msgstr "Messaggo non letto successivo"
 
 #: ui/evolution-mail-message.xml.h:58
 msgid "Open the selected message in a new window"
@@ -26907,24 +26862,20 @@ msgid "Original Si_ze"
 msgstr "Dimensione _Predefinita"
 
 #: ui/evolution-mail-message.xml.h:61
-#, fuzzy
 msgid "P_revious Unread Message"
-msgstr "Messaggio Non Letto Precedente"
+msgstr "Messaggio non letto precedente"
 
 #: ui/evolution-mail-message.xml.h:62
-#, fuzzy
 msgid "Post a Reply"
-msgstr "Risposta all'Attività"
+msgstr "Invia una risposta"
 
 #: ui/evolution-mail-message.xml.h:63
-#, fuzzy
 msgid "Post a reply to a message in a Public folder"
-msgstr "Controlla se ci sono nuovi messaggio in tutte le cartelle"
+msgstr "Invia una risposta ad un messaggio in una cartella pubblica"
 
 #: ui/evolution-mail-message.xml.h:64
-#, fuzzy
 msgid "Pr_evious Important Message"
-msgstr "Messaggio Importante Precedente"
+msgstr "Messaggio importante pr_ecedente"
 
 #: ui/evolution-mail-message.xml.h:65
 msgid "Preview the message to be printed"
@@ -26967,7 +26918,6 @@ msgid "Search for text in the body of the displayed message"
 msgstr "Effettua una ricerca nel messaggio visualizzato"
 
 #: ui/evolution-mail-message.xml.h:81
-#, fuzzy
 msgid "Set up the page settings for your current printer"
 msgstr "Imposta i parametri della pagina per la stampante corrente"
 
@@ -27032,7 +26982,6 @@ msgid "_Forward Message"
 msgstr "_Inoltra Messaggio"
 
 #: ui/evolution-mail-message.xml.h:99
-#, fuzzy
 msgid "_Go To"
 msgstr "Vai al"
 
@@ -27050,34 +26999,31 @@ msgstr "Visualizzazione _Messaggio"
 
 #: ui/evolution-mail-message.xml.h:103
 msgid "_Move to Folder"
-msgstr "_Sposta nella Cartella"
+msgstr "_Sposta nella cartella"
 
 #: ui/evolution-mail-message.xml.h:104
-#, fuzzy
 msgid "_Next Message"
-msgstr "Messaggio Successivo"
+msgstr "Messaggio successivo"
 
 #: ui/evolution-mail-message.xml.h:105
 msgid "_Normal Display"
-msgstr "Visualizzazione _Normale"
+msgstr "Visualizzazione _normale"
 
 #: ui/evolution-mail-message.xml.h:106
 msgid "_Open Message"
-msgstr "_Apri Messaggio"
+msgstr "_Apri messaggio"
 
 #: ui/evolution-mail-message.xml.h:107
-#, fuzzy
 msgid "_Previous Message"
-msgstr "Messaggio Precedente"
+msgstr "Messaggio _precedente"
 
 #: ui/evolution-mail-message.xml.h:109
 msgid "_Quoted"
 msgstr "_Citato"
 
 #: ui/evolution-mail-message.xml.h:111
-#, fuzzy
 msgid "_Resend..."
-msgstr "_Rinomina..."
+msgstr "_Rispedisci..."
 
 #: ui/evolution-mail-message.xml.h:114
 msgid "_Undelete"
