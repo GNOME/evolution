@@ -818,6 +818,7 @@ gpg_ctx_parse_status (struct _GpgCtx *gpg, CamelException *ex)
 	} else if (!strncmp (status, "NODATA", 6)) {
 		/* this is an error */
 		/* But we ignore it anyway, we should get other response codes to say why */
+		gpg->nodata = TRUE;
 	} else {
 		/* check to see if we are complete */
 		switch (gpg->mode) {
@@ -854,8 +855,6 @@ gpg_ctx_parse_status (struct _GpgCtx *gpg, CamelException *ex)
 				gpg->hadsig = TRUE;
 			} else if (!strncmp (status, "NO_PUBKEY ", 10)) {
 				gpg->nopubkey = TRUE;
-			} else if (!strncmp (status, "NODATA", 6)) {
-				gpg->nodata = TRUE;
 			}
 			break;
 		case GPG_CTX_MODE_ENCRYPT:
