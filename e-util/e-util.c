@@ -416,6 +416,7 @@ typedef void (*GtkSignal_NONE__INT_INT_POINTER_INT_INT_POINTER_INT_INT) (GtkObje
 									 gint arg8,
 									 gpointer
 									 user_data);
+
 void
 e_marshal_NONE__INT_INT_POINTER_INT_INT_POINTER_INT_INT (GtkObject * object,
 						   GtkSignalFunc func,
@@ -432,6 +433,19 @@ e_marshal_NONE__INT_INT_POINTER_INT_INT_POINTER_INT_INT (GtkObject * object,
 	    GTK_VALUE_POINTER (args[5]),
 	    GTK_VALUE_INT (args[6]), GTK_VALUE_INT (args[7]), func_data);
 }
+
+typedef void (*GtkSignal_NONE__POINTER_POINTER_INT) (GtkObject *, gpointer,
+						     gpointer, gint, gpointer);
+
+void
+e_marshal_NONE__POINTER_POINTER_INT (GtkObject * object, GtkSignalFunc func,
+				     gpointer func_data, GtkArg * args)
+{
+  GtkSignal_NONE__POINTER_POINTER_INT rfunc;
+  rfunc = (GtkSignal_NONE__POINTER_POINTER_INT) func;
+  (*rfunc) (object, GTK_VALUE_POINTER (args[0]), GTK_VALUE_POINTER (args[1]),
+	    GTK_VALUE_INT (args[2]), func_data);
+}	
 
 gchar**
 e_strsplit (const gchar *string,
