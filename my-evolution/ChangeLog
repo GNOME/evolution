@@ -1,3 +1,10 @@
+2002-11-07  Ettore Perazzoli  <ettore@ximian.com>
+
+	* GNOME_Evolution_Summary.server.in.in: Renamed from
+	GNOME_Evolution_Summary.oaf.in.in.
+
+	* Makefile.am: GNOME_Evolution_Summary.server instead of .oaf.
+
 2002-11-05  Ettore Perazzoli  <ettore@ximian.com>
 
 	* metar.c: #include <string.h>.

@@ -103,12 +103,12 @@ endif
 Locationdir = $(datadir)/evolution
 Location_DATA = Locations
 
-oaf_files = GNOME_Evolution_Summary.oaf
-oaf_in_files = $(oaf_files:.oaf=.oaf.in)
-oaf_in_in_files  = $(oaf_files:.oaf=.oaf.in.in)
+server_files = GNOME_Evolution_Summary.server
+server_in_files = $(server_files:.server=.server.in)
+server_in_in_files  = $(server_files:.server=.server.in.in)
 
-oafdir = $(datadir)/oaf
-oaf_DATA = $(oaf_files)
+serverdir = $(libdir)/bonobo/servers
+server_DATA = $(server_files)
 
 gladedir = $(datadir)/evolution/glade
 glade_DATA = my-evolution.glade
@@ -118,10 +118,10 @@ glade_DATA = my-evolution.glade
 EXTRA_DIST = 				\
 	$(summary_sources)		\
 	$(summary_exe_sources)		\
-	$(oaf_files)			\
-	$(oaf_in_files)			\
-	$(oaf_in_in_files)		\
-	$(oaf_DATA)			\
+	$(server_files)			\
+	$(server_in_files)		\
+	$(server_in_in_files)		\
+	$(server_DATA)			\
 	$(Location_DATA)		\
 	$(glade_DATA)			\
 	Locations.h			\
