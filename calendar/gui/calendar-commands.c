@@ -513,6 +513,9 @@ calendar_control_sensitize_calendar_commands (BonoboControl *control, GnomeCalen
 	uic = bonobo_control_get_ui_component (control);
 	g_assert (uic != NULL);
 
+	if (bonobo_ui_component_get_container (uic) == CORBA_OBJECT_NIL)
+		return;
+	
 	view = gnome_calendar_get_current_view_widget (gcal);
 	list = e_calendar_view_get_selected_events (E_CALENDAR_VIEW (view));
 

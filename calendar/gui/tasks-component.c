@@ -198,8 +198,9 @@ update_uri_for_primary_selection (TasksComponent *component)
 
 	cal_table = e_tasks_get_calendar_table (priv->tasks);
 	etable = e_calendar_table_get_table (cal_table);
-	tasks_control_sensitize_commands (priv->view_control, priv->tasks, e_table_selected_count (etable));
 
+	tasks_control_sensitize_commands (priv->view_control, priv->tasks, e_table_selected_count (etable));
+	
 	/* Save the selection for next time we start up */
 	calendar_config_set_primary_tasks (e_source_peek_uid (source));
 }
@@ -529,11 +530,6 @@ impl_createControls (PortableServer_Servant servant,
 
 	priv->tasks = (ETasks *) bonobo_control_get_widget (priv->view_control);
 
-
-	/* Load the selection from the last run */
-	update_selection (component);
-	update_primary_selection (component);
-
 	/* connect after setting the initial selections, or we'll get unwanted calls
 	   to tasks_control_sensitize_commands */
 	g_signal_connect_object (priv->source_selector, "selection_changed",
@@ -545,6 +541,10 @@ impl_createControls (PortableServer_Servant servant,
 	g_signal_connect_object (priv->source_selector, "fill_popup_menu",
 				 G_CALLBACK (fill_popup_menu_cb),
 				 G_OBJECT (component), 0);
+
+	/* Load the selection from the last run */
+	update_selection (component);
+	update_primary_selection (component);
 
 	/* If it gets fiddled with update */
 	not = calendar_config_add_notification_tasks_selected (config_selection_changed_cb, 

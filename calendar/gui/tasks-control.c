@@ -240,6 +240,9 @@ tasks_control_sensitize_commands (BonoboControl *control, ETasks *tasks, int n_s
 	uic = bonobo_control_get_ui_component (control);
 	g_assert (uic != NULL);
 
+	if (bonobo_ui_component_get_container (uic) == CORBA_OBJECT_NIL)
+		return;
+
 	model = e_calendar_table_get_model (e_tasks_get_calendar_table (tasks));
 	e_cal_is_read_only (e_cal_model_get_default_client (model), &read_only, NULL);
 

@@ -196,6 +196,7 @@ update_uri_for_primary_selection (CalendarComponent *calendar_component)
 	gnome_calendar_set_default_uri (priv->calendar, uri);
 	g_free (uri);
 
+	/* Make sure we are embedded first */
 	calendar_control_sensitize_calendar_commands (priv->view_control, priv->calendar, TRUE);
 
 	/* Save the selection for next time we start up */
@@ -573,10 +574,6 @@ impl_createControls (PortableServer_Servant servant,
 	e_activity_handler_attach_task_bar (priv->activity_handler, E_TASK_BAR (statusbar_widget));
 	statusbar_control = bonobo_control_new (statusbar_widget);
 
-	/* Load the selection from the last run */
-	update_selection (calendar_component);	
-	update_primary_selection (calendar_component);
-
 	/* connect after setting the initial selections, or we'll get unwanted calls
 	   to calendar_control_sensitize_calendar_commands */
 	g_signal_connect_object (priv->source_selector, "selection_changed",
@@ -588,6 +585,10 @@ impl_createControls (PortableServer_Servant servant,
 	g_signal_connect_object (priv->source_selector, "fill_popup_menu",
 				 G_CALLBACK (fill_popup_menu_cb),
 				 G_OBJECT (calendar_component), 0);
+
+	/* Load the selection from the last run */
+	update_selection (calendar_component);	
+	update_primary_selection (calendar_component);
 
 	/* If it gets fiddled with update */
 	not = calendar_config_add_notification_calendars_selected (config_selection_changed_cb, 

@@ -1,3 +1,15 @@
+2003-12-19  JP Rosevear <jpr@ximian.com>
+
+	* gui/tasks-control.c (tasks_control_sensitize_commands): make
+	sure there is a ui container
+
+	* gui/calendar-commands.c (calendar_control_sensitize_calendar_commands): ditto
+	
+	* gui/tasks-component.c (impl_createControls): update after the
+	signals are connected so that the ecal's are actually loaded
+
+	* gui/calendar-component.c: ditto
+	
 2003-12-19  William Jon McCann  <mccann@jhu.edu>
 
 	* gui/dialogs/task-page.c (source_changed_cb): 
