@@ -1,3 +1,7 @@
+2003-04-23  Not Zed  <NotZed@Ximian.com>
+
+	* e-msg-composer.c (map_default_cb): removed debug printfs.
+
 2003-04-22  Radek Doulik  <rodo@ximian.com>
 
 	* e-msg-composer.c (add_attachments_handle_mime_part): added

@@ -2773,8 +2773,6 @@ map_default_cb (EMsgComposer *composer, gpointer user_data)
 	bonobo_object_release_unref (pb, NULL);
 	
 	if (!text || text[0] == '\0') {
-		printf ("grabbing focus in the To entry...\n");
-
 		bonobo_control_frame_control_activate (cf);
 
 		g_free (text);
@@ -2787,7 +2785,6 @@ map_default_cb (EMsgComposer *composer, gpointer user_data)
 	subject = e_msg_composer_hdrs_get_subject (E_MSG_COMPOSER_HDRS (composer->hdrs));
 	
 	if (!subject || subject[0] == '\0') {
-		printf ("grabbing focus in the Subject entry...\n");
 		widget = e_msg_composer_hdrs_get_subject_entry (E_MSG_COMPOSER_HDRS (composer->hdrs));
 		gtk_widget_grab_focus (widget);
 		return;
