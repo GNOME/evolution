@@ -57,14 +57,16 @@ mail_identify_mime_part (CamelMimePart *part)
 	 */
 	filename = gmime_content_field_get_parameter (content_type, "name");
 	if (filename) {
-		type = gnome_vfs_mime_type_or_default (filename, NULL);
+		type = gnome_vfs_mime_type_from_name_or_default (filename,
+								 NULL);
 		if (type)
 			return g_strdup (type);
 	}
 
 	filename = camel_mime_part_get_filename (part);
 	if (filename) {
-		type = gnome_vfs_mime_type_or_default (filename, NULL);
+		type = gnome_vfs_mime_type_from_name_or_default (filename,
+								 NULL);
 		if (type)
 			return g_strdup (type);
 	}

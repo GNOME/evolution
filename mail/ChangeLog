@@ -1,5 +1,10 @@
 2000-07-05  Dan Winship  <danw@helixcode.com>
 
+	* mail-identify.c (mail_identify_mime_part): Oops. My gnome-vfs
+	was out-of-date. Update for changed function name.
+
+2000-07-05  Dan Winship  <danw@helixcode.com>
+
 	* mail-identify.c (mail_identify_mime_part): Use the gnomevfs
 	sniff buffer interface to try to identify the MIME type when
 	everything else fails.
