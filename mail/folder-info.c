@@ -54,6 +54,12 @@ struct _folder_info_msg {
 
 static GtkType evolution_folder_info_get_type (void);
 
+static char *
+do_describe_info (struct _mail_msg *mm, gint complete)
+{
+        return g_strdup (_("Getting Folder Information"));
+}
+
 static void
 do_get_info (struct _mail_msg *mm)
 {
@@ -148,7 +154,7 @@ do_free_info (struct _mail_msg *mm)
 }
 
 struct _mail_msg_op get_info_op = {
-	NULL,
+        do_describe_info,
 	do_get_info,
 	do_got_info,
 	do_free_info,

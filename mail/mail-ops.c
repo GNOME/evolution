@@ -78,6 +78,12 @@ struct _fetch_mail_msg {
 	void *data;
 };
 
+static char *
+filter_folder_describe (struct _mail_msg *mm, int complete)
+{
+	return g_strdup (_("Filtering Folder"));
+}
+
 /* filter a folder, or a subset thereof, uses source_folder/source_uids */
 /* this is shared with fetch_mail */
 static void
@@ -159,7 +165,7 @@ filter_folder_free(struct _mail_msg *mm)
 }
 
 static struct _mail_msg_op filter_folder_op = {
-	NULL,			/* we do our own progress reporting? */
+	filter_folder_describe,  /* we do our own progress reporting? */
 	filter_folder_filter,
 	filter_folder_filtered,
 	filter_folder_free,
@@ -213,6 +219,12 @@ uid_cachename_hack (CamelStore *store)
 	g_free (encoded_url);
 	
 	return filename;
+}
+
+static char *
+fetch_mail_describe (struct _mail_msg *mm)
+{
+	return g_strdup (_("Fetching Mail"));
 }
 
 static void
@@ -335,7 +347,7 @@ fetch_mail_free (struct _mail_msg *mm)
 }
 
 static struct _mail_msg_op fetch_mail_op = {
-	NULL,			/* we do our own progress reporting */
+	fetch_mail_describe, /* we do our own progress reporting */
 	fetch_mail_fetch,
 	fetch_mail_fetched,
 	fetch_mail_free,

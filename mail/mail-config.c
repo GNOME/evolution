@@ -1516,6 +1516,12 @@ struct _check_msg {
 	gboolean *success;
 };
 
+static char *
+check_service_describe (struct _mail_msg *mm, int complete)
+{
+	return g_strdup (_("Checking Service"));
+}
+
 static void
 check_service_check (struct _mail_msg *mm)
 {
@@ -1542,7 +1548,7 @@ check_service_check (struct _mail_msg *mm)
 }
 
 static struct _mail_msg_op check_service_op = {
-	NULL,
+	check_service_describe,
 	check_service_check,
 	NULL,
 	NULL

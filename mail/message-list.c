@@ -2278,6 +2278,13 @@ struct _regen_list_msg {
   use vfolder to implement searches ???
 
  */
+
+static char *
+regen_list_describe (struct _mail_msg *mm, gint complete)
+{
+	return g_strdup (_("Generating message list"));
+}
+
 static void
 regen_list_regen (struct _mail_msg *mm)
 {
@@ -2452,7 +2459,7 @@ regen_list_free (struct _mail_msg *mm)
 }
 
 static struct _mail_msg_op regen_list_op = {
-	NULL,
+	regen_list_describe,
 	regen_list_regen,
 	regen_list_regened,
 	regen_list_free,

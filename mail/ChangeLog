@@ -1,3 +1,19 @@
+2001-08-02  Jon Trowbridge  <trow@ximian.com>
+
+	* mail-ops.c (filter_folder_describe): Added.  Provide
+	description for filter_folder_op.
+	(fetch_mail_describe): Added.  Provide description for
+	fetch_mail_op.
+
+	* message-list.c (regen_list_describe): Added.  Provide
+	description for regen_list_op.
+
+	* mail-config.c (check_service_describe): Added.  Provide
+	description for check_service_op.
+
+	* folder-info.c (do_describe_info): Added.  Provide description
+	for get_info_op.
+
 2001-08-02  Larry Ewing  <lewing@ximian.com>
 
 	* mail-send-recv.c (format_url): handle null paths in the dialog
