@@ -1,3 +1,8 @@
+2004-02-23  Not Zed  <NotZed@Ximian.com>
+
+	* em-format.c (emf_multipart_signed): check mps->protocol != NULL
+	before dereferencing it.  See #54406.
+
 2004-02-20  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-folder-view.c (emfv_list_key_press): Delete key should always

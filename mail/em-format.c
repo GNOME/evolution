@@ -1299,14 +1299,16 @@ emf_multipart_signed(EMFormat *emf, CamelStream *stream, CamelMimePart *part, co
 
 	/* FIXME: Should be done via a plugin interface */
 	/* FIXME: duplicated in em-format-html-display.c */
+	if (mps->protocol) {
 #ifdef ENABLE_SMIME
-	if (g_ascii_strcasecmp("application/x-pkcs7-signature", mps->protocol) == 0
-	    || g_ascii_strcasecmp("application/pkcs7-signature", mps->protocol) == 0)
-		cipher = camel_smime_context_new(emf->session);
-	else
+		if (g_ascii_strcasecmp("application/x-pkcs7-signature", mps->protocol) == 0
+		    || g_ascii_strcasecmp("application/pkcs7-signature", mps->protocol) == 0)
+			cipher = camel_smime_context_new(emf->session);
+		else
 #endif
-		if (g_ascii_strcasecmp("application/pgp-signature", mps->protocol) == 0)
-			cipher = camel_gpg_context_new(emf->session);
+			if (g_ascii_strcasecmp("application/pgp-signature", mps->protocol) == 0)
+				cipher = camel_gpg_context_new(emf->session);
+	}
 
 	if (cipher == NULL) {
 		em_format_format_error(emf, stream, _("Unsupported signature format"));
