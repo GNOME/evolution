@@ -1,3 +1,7 @@
+2000-10-20  Chris Toshok  <toshok@helixcode.com>
+
+	* providers/Makefile.am (SUBDIRS): re-enable the nntp provider.
+
 2000-10-19  Dan Winship  <danw@helixcode.com>
 
 	* providers/imap/camel-imap-utils.c (imap_parse_list_response):
