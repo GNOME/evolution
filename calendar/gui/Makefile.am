@@ -254,7 +254,6 @@ BUILT_SOURCES = $(IDL_GENERATED) $(server_DATA)
 CLEANFILES = $(BUILT_SOURCES)
 
 install-data-local:
-	$(mkinstalldirs) $(Conduitsdir); \
 	if test -z "$(DESTDIR)"; then \
 		for p in $(schema_DATA); do \
 			GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) $(GCONFTOOL) --makefile-install-rule $(srcdir)/$$p; \
