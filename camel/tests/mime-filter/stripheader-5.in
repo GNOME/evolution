@@ -1,9 +1,0 @@
-Subject: this is a simple test
-Stripped: of the header stripping filter
- ooh look this header spans many
-	 lines look at all the freaking lines
- 	that this header spans. Wowwww.
-CC: this header should be preserved
-BCC: as should this one
-
-This is the body of the message.
