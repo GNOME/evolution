@@ -123,7 +123,7 @@ sendmail_send_to (CamelTransport *transport, CamelMimeMessage *message,
 	header = (struct _header_raw *) &CAMEL_MIME_PART (message)->headers;
 	n = header->next;
 	while (n != NULL) {
-		if (!strcasecmp (header->name, "Bcc")) {
+		if (!strcasecmp (n->name, "Bcc")) {
 			header->next = n->next;
 			tail->next = n;
 			n->next = NULL;
