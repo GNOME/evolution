@@ -30,7 +30,7 @@
 #include <gtk/gtksignal.h>
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-i18n.h>
-#include "e-util/e-url.h"
+#include <libedataserver/e-url.h>
 #include <libecal/e-cal.h>
 #include "calendar-offline-handler.h"
 #include "common/authentication.h"

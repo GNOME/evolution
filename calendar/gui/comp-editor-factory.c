@@ -26,7 +26,7 @@
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-i18n.h>
 #include <evolution-calendar.h>
-#include <e-util/e-url.h>
+#include <libedataserver/e-url.h>
 #include <libecal/e-cal.h>
 #include "calendar-config.h"
 #include "e-comp-editor-registry.h"

@@ -42,7 +42,7 @@
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-dialog-util.h>
 #include <bonobo/bonobo-exception.h>
-#include "e-util/e-url.h"
+#include <libedataserver/e-url.h>
 #include "shell/e-user-creatable-items-handler.h"
 #include <libecal/e-cal-time-util.h>
 #include <gal/menus/gal-view-factory-etable.h>

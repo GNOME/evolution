@@ -36,8 +36,8 @@
 #include "widgets/misc/e-error.h"
 #include "e-util/e-categories-config.h"
 #include "e-util/e-time-utils.h"
-#include "e-util/e-url.h"
 #include "shell/e-user-creatable-items-handler.h"
+#include <libedataserver/e-url.h>
 #include <libecal/e-cal-time-util.h>
 #include "widgets/menus/gal-view-menus.h"
 #include "dialogs/delete-error.h"

@@ -1,3 +1,13 @@
+2005-01-17  Rodrigo Moya <rodrigo@novell.com>
+
+	* gui/calendar-component.c:
+	* gui/calendar-offline-handler.c:
+	* gui/comp-editor-factory.c:
+	* gui/e-tasks.c:
+	* gui/gnome-cal.c:
+	* gui/misc.c:
+	* gui/alarm-notify/alarm-notify.c: use libedataserver's e-url.
+
 2005-01-17  Nat Friedman  <nat@novell.com>
 
 	* gui/dialogs/url-editor-dialog.glade: Changed the title for the

@@ -31,10 +31,10 @@
 #include <bonobo/bonobo-i18n.h>
 #include <bonobo/bonobo-exception.h>
 #include <libical/icalvcal.h>
+#include <libedataserver/e-url.h>
 #include <libecal/e-cal-time-util.h>
 #include <libedataserverui/e-source-selector.h>
 #include <shell/e-user-creatable-items-handler.h>
-#include <e-util/e-url.h>
 #include "e-pub-utils.h"
 #include "e-calendar-view.h"
 #include "calendar-config-keys.h"

@@ -24,7 +24,7 @@
 #endif
 
 #include <ctype.h>
-#include <e-util/e-url.h>
+#include <libedataserver/e-url.h>
 #include "misc.h"
 
 
