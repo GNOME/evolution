@@ -1241,6 +1241,9 @@ camel_folder_free_shallow (CamelFolder *folder, GPtrArray *array)
 void
 camel_folder_free_deep (CamelFolder *folder, GPtrArray *array)
 {
-	g_strfreev ((gchar **)array->pdata);
-	g_ptr_array_free (array, FALSE);
+	int i;
+
+	for (i = 0; i < array->len; i++)
+		g_free (array->pdata[i]);
+	g_ptr_array_free (array, TRUE);
 }

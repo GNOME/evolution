@@ -1,3 +1,8 @@
+2000-08-07  Dan Winship  <danw@helixcode.com>
+
+	* camel-folder.c (camel_folder_free_deep): Fix this to not require
+	NULL-termination of the array.
+
 2000-08-04  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/imap/camel-imap-store.c (imap_connect): If we fail to
