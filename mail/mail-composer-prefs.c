@@ -457,7 +457,7 @@ sig_event_client (MailConfigSigEvent event, MailConfigSignature *sig, MailCompos
 #include "Spell.h"
 
 #define GNOME_SPELL_GCONF_DIR "/GNOME/Spell"
-#define SPELL_API_VERSION "0.2"
+#define SPELL_API_VERSION "0.3"
 
 static void
 spell_set_ui (MailComposerPrefs *prefs)
@@ -704,7 +704,7 @@ spell_setup (MailComposerPrefs *prefs)
 			gtk_list_store_append (model, &iter);
 			gtk_list_store_set (model, &iter,
 					    1, _(prefs->language_seq->_buffer[i].name),
-					    2, prefs->language_seq->_buffer[i].abrev,
+					    2, prefs->language_seq->_buffer[i].abbreviation,
 					    -1);
 		}
 	}

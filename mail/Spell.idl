@@ -27,7 +27,7 @@ module GNOME {
 		typedef sequence<string> StringSeq;
 		struct Language {
 			string name;
-			string abrev;
+			string abbreviation;
 		};
 		typedef sequence<Language> LanguageSeq;
 
@@ -60,12 +60,12 @@ module GNOME {
 			 * add to session/personal dictionary
 			 */
 			void addWordToSession  (in string word) raises (Error);
-			void addWordToPersonal (in string word) raises (Error);
+			void addWordToPersonal (in string word, in string language) raises (Error);
 
 			/**
 			 * informs dictionary, that word 'word' will be replaced/corrected by word 'replacement'
 			 */
-			void setCorrection (in string word, in string replacement);
+			void setCorrection (in string word, in string replacement, in string language);
 		};
 	};
 };
