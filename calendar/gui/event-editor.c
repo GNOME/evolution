@@ -546,21 +546,19 @@ static const int recur_type_map[] = {
 	RECUR_CUSTOM,
 	-1
 };
-	
-/* Callback used when one of the recurrence type radio buttons is toggled.  We
- * enable or the recurrence parameters.
+
+/* Sensitizes the recurrence widgets based on the state of the recurrence type
+ * radio group.
  */
 static void
-recurrence_type_toggled_cb (GtkWidget *widget, gpointer data)
+sensitize_recur_widgets (EventEditor *ee)
 {
-	EventEditor *ee;
 	EventEditorPrivate *priv;
 	enum recur_type type;
 
-	ee = EVENT_EDITOR (data);
 	priv = ee->priv;
 
-	type = e_dialog_radio_get (widget, recur_type_map);
+	type = e_dialog_radio_get (priv->recurrence_none, recur_type_map);
 
 	switch (type) {
 	case RECUR_NONE:
@@ -581,6 +579,18 @@ recurrence_type_toggled_cb (GtkWidget *widget, gpointer data)
 	default:
 		g_assert_not_reached ();
 	}
+}
+	
+/* Callback used when one of the recurrence type radio buttons is toggled.  We
+ * enable or the recurrence parameters.
+ */
+static void
+recurrence_type_toggled_cb (GtkWidget *widget, gpointer data)
+{
+	EventEditor *ee;
+
+	ee = EVENT_EDITOR (data);
+	sensitize_recur_widgets (ee);
 }
 
 /* Callback used when the recurrence interval option menu changes.  We need to
@@ -1054,6 +1064,7 @@ fill_recurrence_widgets (EventEditor *ee)
 	    && !cal_component_has_rrules (priv->comp)
 	    && !cal_component_has_exrules (priv->comp)) {
 		e_dialog_radio_set (priv->recurrence_none, RECUR_NONE, recur_type_map);
+		sensitize_recur_widgets (ee);
 		return;
 	}
 
@@ -1190,6 +1201,7 @@ fill_recurrence_widgets (EventEditor *ee)
 	/* If we got here it means it is a simple recurrence */
 
 	e_dialog_radio_set (priv->recurrence_simple, RECUR_SIMPLE, recur_type_map);
+	sensitize_recur_widgets (ee);
 	e_dialog_spin_set (priv->recurrence_interval_value, r->interval);
 
 	fill_ending_date (ee, r);
@@ -1199,6 +1211,7 @@ fill_recurrence_widgets (EventEditor *ee)
  custom:
 
 	e_dialog_radio_set (priv->recurrence_custom, RECUR_CUSTOM, recur_type_map);
+	sensitize_recur_widgets (ee);
 
  out:
 
