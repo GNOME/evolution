@@ -983,6 +983,8 @@ e_tree_table_adapter_load_expanded_state (ETreeTableAdapter *etta, const char *f
 		path = e_tree_model_get_node_by_id(etta->priv->source, id);
 		if (path)
 			e_tree_table_adapter_node_set_expanded(etta, path, !model_default);
+
+		g_free (id);
 	}
 
 	xmlFreeDoc (doc);

@@ -308,8 +308,6 @@ e_table_draw_elided_string (GdkDrawable *drawable, GdkGC *gc, GtkWidget *widget,
 				       y + height / 2 + i + 1);
 		}
 	}
-
-	g_object_unref (layout);
 }
 
 static GtkWidget *g_label;
@@ -478,4 +476,6 @@ e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 					    inner_x, inner_y,
 					    layout, ecol->text, inner_width, TRUE);
 	}
+
+	g_object_unref (layout);
 }
