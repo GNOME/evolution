@@ -1163,10 +1163,10 @@ socket_destroy_cb (GtkWidget *socket_widget, gpointer data)
 
 	e_shell_view_display_uri (shell_view, NULL);
 
-	e_notice (GTK_WINDOW (shell_view), GNOME_MESSAGE_BOX_ERROR,
-		  _("Ooops!  The view for `%s' has died unexpectedly.  :-(\n"
-		    "This probably means that the %s component has crashed."),
-		  uri, e_folder_get_type_string (folder));
+	e_shell_component_maybe_crashed (priv->shell,
+					 uri,
+					 e_folder_get_type_string (folder),
+					 shell_view);
 
 	g_free (copy_of_uri);
 

@@ -30,7 +30,7 @@
 
 #include "Evolution.h"
 
-#include "e-util/e-gui-utils.h"
+#include <gal/widgets/e-gui-utils.h>
 #include <gal/util/e-util.h>
 
 #include "e-component-registry.h"
@@ -68,6 +68,9 @@ struct _EShellPrivate {
 	EComponentRegistry *component_registry;
 
 	ECorbaStorageRegistry *corba_storage_registry;
+
+	/* Names for the types of the folders that have maybe crashed.  */
+	GList *crash_type_names; /* char * */
 };
 
 
@@ -554,6 +557,8 @@ destroy (GtkObject *object)
 	if (priv->corba_storage_registry != NULL)
 		bonobo_object_unref (BONOBO_OBJECT (priv->corba_storage_registry));
 
+	e_free_string_list (priv->crash_type_names);
+
 	g_free (priv);
 
 	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
@@ -624,6 +629,7 @@ init (EShell *shell)
 	priv->component_registry     = NULL;
 	priv->folder_type_registry   = NULL;
 	priv->corba_storage_registry = NULL;
+	priv->crash_type_names       = NULL;
 
 	shell->priv = priv;
 }
@@ -1093,6 +1099,64 @@ e_shell_quit (EShell *shell)
 	priv->component_registry   = NULL;
 
 	bonobo_object_unref (BONOBO_OBJECT (shell));
+}
+
+
+/**
+ * e_shell_component_maybe_crashed:
+ * @shell: A pointer to an EShell object
+ * @uri: URI that caused the crash
+ * @type_name: The type of the folder that caused the crash
+ * @shell_view: Pointer to the EShellView over which we want the modal dialog
+ * to appear.
+ * 
+ * Report that a maybe crash happened when trying to display a folder of type
+ * @type_name.  The shell will pop up a crash dialog whose parent will be the
+ * @shell_view.
+ **/
+void
+e_shell_component_maybe_crashed   (EShell *shell,
+				   const char *uri,
+				   const char *type_name,
+				   EShellView *shell_view)
+{
+	EShellPrivate *priv;
+	GtkWindow *parent_window;
+	GList *p;
+
+	g_return_if_fail (shell != NULL);
+	g_return_if_fail (E_IS_SHELL (shell));
+	g_return_if_fail (type_name != NULL);
+	g_return_if_fail (shell_view != NULL);
+	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
+
+	priv = shell->priv;
+
+	/* See if that type has caused a crash already.  */
+
+	for (p = priv->crash_type_names; p != NULL; p = p->next) {
+		const char *crash_type_name;
+
+		crash_type_name = (const char *) p->data;
+		if (strcmp (type_name, crash_type_name) == 0) {
+			/* This type caused a crash already.  */
+			return;
+		}
+	}
+
+	/* New crash.  */
+
+	priv->crash_type_names = g_list_prepend (priv->crash_type_names, g_strdup (type_name));
+
+	if (shell_view == NULL)
+		parent_window = NULL;
+	else
+		parent_window = GTK_WINDOW (shell_view);
+
+	e_notice (parent_window, GNOME_MESSAGE_BOX_ERROR,
+		  _("Ooops!  The view for `%s' have died unexpectedly.  :-(\n"
+		    "This probably means that the %s component has crashed."),
+		  uri, type_name);
 }
 
 

@@ -85,6 +85,11 @@ gboolean             e_shell_restore_from_settings     (EShell          *shell);
 
 void                 e_shell_quit                      (EShell          *shell);
 
+void                 e_shell_component_maybe_crashed   (EShell          *shell,
+							const char      *uri,
+							const char      *type_name,
+							EShellView      *shell_view);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
