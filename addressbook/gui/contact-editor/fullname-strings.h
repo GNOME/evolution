@@ -8,6 +8,8 @@ gchar *s = N_("Check Full Name");
 gchar *s = N_("\n"
               "Mr.\n"
               "Mrs.\n"
+              "Ms.\n"
+              "Miss\n"
               "Dr.\n"
               "");
 gchar *s = N_("\n"

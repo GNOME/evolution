@@ -1,3 +1,9 @@
+2000-12-23  Christopher James Lahey  <clahey@helixcode.com>
+
+	* contact-editor/fullname-strings.h,
+	contact-editor/fullname.glade: Added Ms. and Miss to the prefix
+	drop down box.  Patch submitted by Martin Hicks <mort@bork.org>.
+
 2000-12-21  JP Rosevear  <jpr@helixcode.com>
 
 	* conduit/address-conduit.c (cursor_cb): Ref the cards that get put
