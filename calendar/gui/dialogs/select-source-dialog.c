@@ -46,6 +46,7 @@ ESource *
 select_source_dialog (GtkWindow *parent, ECalSourceType obj_type)
 {
 	GtkWidget *dialog, *label, *scroll, *source_selector;
+	GtkWidget *vbox, *hbox, *spacer;
 	ESourceList *source_list;
 	ESource *selected_source = NULL;
 	const char *gconf_key;
@@ -60,28 +61,55 @@ select_source_dialog (GtkWindow *parent, ECalSourceType obj_type)
 		return NULL;
 
 	/* create the dialog */
-	dialog = gtk_dialog_new_with_buttons (_("Select source"), parent, 0,
-					      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-					      GTK_STOCK_OK, GTK_RESPONSE_OK,
-					      NULL);
+	dialog = gtk_dialog_new ();
+	gtk_window_set_title (GTK_WINDOW (dialog), _("Select source"));
+	gtk_window_set_transient_for (GTK_WINDOW (dialog),
+				      GTK_WINDOW (parent));
+	gtk_window_set_default_size (GTK_WINDOW (dialog), 276, 320);
+
+	gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
+	gtk_widget_realize (dialog);
+	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), 0);
+	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->action_area), 12);
+
+	gtk_dialog_add_buttons (GTK_DIALOG (dialog),
+				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+				GTK_STOCK_OK, GTK_RESPONSE_OK,
+				NULL);
 	/* gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), GTK_RESPONSE_OK, FALSE); */
 
-	label_text = g_strdup_printf (_("Select destination %s"),
+	vbox = gtk_vbox_new (FALSE, 12);
+	gtk_container_set_border_width (GTK_CONTAINER (vbox), 12);
+	gtk_container_add (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), vbox);
+	gtk_widget_show (vbox);
+
+	label_text = g_strdup_printf ("<b>%s %s</b>", _("_Destination"),
 				      obj_type == E_CAL_SOURCE_TYPE_EVENT ?
-				      _("calendar") : _("task list"));
-	label = gtk_label_new (label_text);
+				      _("Calendar") : _("Task List"));
+	label = gtk_label_new_with_mnemonic (label_text);
+	gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
+	gtk_misc_set_alignment (GTK_MISC (label), 0, 0.5);
 	g_free (label_text);
 	gtk_widget_show (label);
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), label, FALSE, FALSE, 6);
+	gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 6);
+
+	hbox = gtk_hbox_new (FALSE, 12);
+	gtk_box_pack_start (GTK_BOX (vbox), hbox, TRUE, TRUE, 0);
+	gtk_widget_show (hbox);
+
+	spacer = gtk_label_new ("");
+	gtk_box_pack_start (GTK_BOX (hbox), spacer, FALSE, FALSE, 0);
+	gtk_widget_show (spacer);
 
 	conf_client = gconf_client_get_default ();
 	source_list = e_source_list_new_for_gconf (conf_client, gconf_key);
 
 	scroll = gtk_scrolled_window_new (NULL, NULL);
-	gtk_container_set_border_width (GTK_CONTAINER (scroll), 6);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll),
 					GTK_POLICY_AUTOMATIC,
 					GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scroll),
+					     GTK_SHADOW_IN);
 	gtk_widget_show (scroll);
 	source_selector = e_source_selector_new (source_list);
 	e_source_selector_show_selection (E_SOURCE_SELECTOR (source_selector), FALSE);
@@ -89,7 +117,9 @@ select_source_dialog (GtkWindow *parent, ECalSourceType obj_type)
 			  G_CALLBACK (primary_selection_changed_cb), &selected_source);
 	gtk_widget_show (source_selector);
 	gtk_container_add (GTK_CONTAINER (scroll), source_selector);
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), scroll, TRUE, TRUE, 12);
+	gtk_box_pack_start (GTK_BOX (hbox), scroll, TRUE, TRUE, 0);
+
+	gtk_label_set_mnemonic_widget (GTK_LABEL (label), source_selector);
 
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) != GTK_RESPONSE_OK) {
 		if (selected_source)

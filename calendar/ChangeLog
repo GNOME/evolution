@@ -1,3 +1,15 @@
+2004-05-03  Rodney Dawes  <dobey@ximian.com>
+
+	* gui/dialogs/select-source-dialog.c (select_source_dialog):
+	Make this dialog be HIG-compliant and accessible
+
+2004-05-03  Edgar Luna Díaz  <eald@linuxuanl.org>
+
+	* gui/dialogs/select-source-dialog.c (select_source_dialog):
+	Set the default window size to 276 x 320
+
+	Fixes #57298
+
 2004-05-03  Larry Ewing  <lewing@ximian.com>
 
 	* gui/dialogs/calendar-setup.glade: rename the cancel button.
