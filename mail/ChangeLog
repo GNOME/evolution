@@ -1,3 +1,25 @@
+2002-02-07  Christopher James Lahey  <clahey@ximian.com>
+
+	* folder-browser.c, folder-browser.h, folder-browser-ui.c,
+	folder-browser-ui.h
+	(folder_browser_ui_setup_view_menus,
+	folder_browser_ui_discard_view_menus): Changed this to use the new
+	GalViewMenus stuff.  Made these exported functions.
+
+	* mail-callbacks.c, message-browser.c: Changed these to not pass
+	the now removed row parameter to message_list_select.
+
+	* mail-config.c, mail-config.h (mail_config_folder_to_safe_url):
+	Refactored this out of mail_config_folder_to_cachename.
+
+	* message-list.c, message-list.h (message_list_select): Removed
+	the row argument.  Changed this to use the new function in ETree
+	for finding the next cursor row that matches a test.
+	(message_list_construct): Handle a failed construction of the
+	ETree here.
+	(message_list_setup_etree, save_tree_state): Don't load or save
+	the header state.  folder-browser-ui.c deals with this now.
+
 2002-02-06  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-account-gui.c (mail_account_gui_new): Rearranged the #if

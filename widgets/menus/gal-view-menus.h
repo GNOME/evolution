@@ -5,7 +5,7 @@
 #include <gtk/gtkobject.h>
 #include <gnome-xml/tree.h>
 #include <bonobo/bonobo-ui-component.h>
-#include <gal/menus/gal-view-collection.h>
+#include <gal/menus/gal-view-instance.h>
 
 #define GAL_VIEW_MENUS_TYPE        (gal_view_menus_get_type ())
 #define GAL_VIEW_MENUS(o)          (GTK_CHECK_CAST ((o), GAL_VIEW_MENUS_TYPE, GalViewMenus))
@@ -24,13 +24,15 @@ typedef struct {
 	GtkObjectClass parent_class;
 } GalViewMenusClass;
 
-GtkType       gal_view_menus_get_type   (void);
-GalViewMenus *gal_view_menus_new        (GalViewCollection *collection);
-GalViewMenus *gal_view_menus_construct  (GalViewMenus      *menus,
-					 GalViewCollection *collection);
+GtkType       gal_view_menus_get_type      (void);
+GalViewMenus *gal_view_menus_new           (GalViewInstance   *instance);
+GalViewMenus *gal_view_menus_construct     (GalViewMenus      *menus,
+					    GalViewInstance   *instance);
 
-void          gal_view_menus_apply      (GalViewMenus      *menus,
-					 BonoboUIComponent *component,
-					 CORBA_Environment *ev);
+void          gal_view_menus_apply         (GalViewMenus      *menus,
+					    BonoboUIComponent *component,
+					    CORBA_Environment *ev);
+void          gal_view_menus_set_instance  (GalViewMenus      *gvm,
+					    GalViewInstance   *instance);
 
 #endif /* _GAL_VIEW_MENUS_H_ */

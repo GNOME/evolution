@@ -359,6 +359,30 @@ get_message_info (MessageList *message_list, ETreePath node)
 	return info;
 }
 
+struct search_func_data {
+	MessageList *message_list;
+	guint32 flags;
+	guint32 mask;
+};
+
+static gboolean
+search_func (ETreeModel *model, ETreePath path, struct search_func_data *data)
+{
+	CamelMessageInfo *info;
+
+	if (e_tree_model_node_is_root (data->message_list->model, path))
+		return FALSE;
+
+	info = get_message_info (data->message_list, path);
+		
+	if (info && (info->flags & data->mask) == data->flags) {
+		gtk_signal_emit (GTK_OBJECT (data->message_list), message_list_signals[MESSAGE_SELECTED],
+				 camel_message_info_uid (info));
+		return TRUE;
+	}
+	return FALSE;
+}
+
 /**
  * message_list_select:
  * @message_list: a MessageList
@@ -380,87 +404,30 @@ get_message_info (MessageList *message_list, ETreePath node)
  **/
 void
 message_list_select (MessageList               *message_list,
-		     int                        base_row,
 		     MessageListSelectDirection direction,
 		     guint32                    flags,
 		     guint32                    mask,
 		     gboolean                   wraparound)
 {
-	CamelMessageInfo *info;
-	int vrow, last;
-	
+	struct search_func_data data;
+	ETreeFindNextParams params = 0;
+
 	if (!GTK_WIDGET_HAS_FOCUS (message_list))
 		gtk_widget_grab_focus (GTK_WIDGET (message_list));
-	
-	switch (direction) {
-	case MESSAGE_LIST_SELECT_PREVIOUS:
-		last = -1;
-		break;
-	case MESSAGE_LIST_SELECT_NEXT:
-		last = e_tree_row_count (message_list->tree);
-		if (last <= base_row)
-			return;
-		break;
-	default:
-		g_warning("Invalid argument to message_list_select");
-		return;
-	}
-	
-	/* If it's -1, we want the last view row, not the last model row. */
-	/* model_to_view_row etc simply doesn't work for sorted views.  Sigh. */
-	if (base_row == -1)
-		vrow = e_tree_row_count (message_list->tree) - 1;
+
+	data.message_list = message_list;
+	data.flags = flags;
+	data.mask = mask;
+
+	if (direction == MESSAGE_LIST_SELECT_NEXT)
+		params |= E_TREE_FIND_NEXT_FORWARD;
 	else
-		vrow = e_tree_model_to_view_row (message_list->tree, base_row);
-	
-	if (vrow <= -1)
-		return;
-	
-	/* This means that we'll move at least one message in 'direction'. */
-	if (vrow != last)
-		vrow += direction;
-	
-	/* We don't know whether to use < or > due to "direction" */
-	while (vrow != last) {
-		ETreePath node = e_tree_node_at_row (message_list->tree, vrow);
-		
-		info = get_message_info (message_list, node);
-		
-		if (info && (info->flags & mask) == flags) {
-			e_tree_set_cursor (message_list->tree, node);
-			
-			gtk_signal_emit (GTK_OBJECT (message_list), message_list_signals[MESSAGE_SELECTED],
-					 camel_message_info_uid (info));
-			return;
-		}
-		vrow += direction;
-	}
-	
-	if (wraparound) {
-		ETreePath node;
-		
-		if (direction == MESSAGE_LIST_SELECT_NEXT) {
-			base_row = 0;
-			vrow = 0;
-		} else {
-			base_row = -1;
-			vrow = e_tree_row_count (message_list->tree) - 1;
-		}
-		
-		/* lets see if the first/last (depending on direction)
-                   row matches our selection criteria */
-		node = e_tree_node_at_row (message_list->tree, vrow);
-		info = get_message_info (message_list, node);
-		if (info && (info->flags & mask) == flags) {
-			e_tree_set_cursor (message_list->tree, node);
-			
-			gtk_signal_emit (GTK_OBJECT (message_list), message_list_signals[MESSAGE_SELECTED],
-					 camel_message_info_uid (info));
-			return;
-		}
-		
-		message_list_select (message_list, base_row, direction, flags, mask, FALSE);
-	}
+		params |= E_TREE_FIND_NEXT_BACKWARD;
+
+	if (wraparound)
+		params |= E_TREE_FIND_NEXT_WRAP;
+
+	e_tree_find_next (message_list->tree, params, (ETreePathFunc) search_func, &data);
 }
 
 
@@ -1050,26 +1017,14 @@ save_tree_state(MessageList *ml)
 	if (ml->folder == NULL || ml->tree == NULL)
 		return;
 
-	filename = mail_config_folder_to_cachename(ml->folder, "et-header-");
-	e_tree_save_state(ml->tree, filename);
-	g_free(filename);
-
 	filename = mail_config_folder_to_cachename(ml->folder, "et-expanded-");
 	e_tree_save_expanded_state(ml->tree, filename);
 	g_free(filename);
 }
 
-static void 
-sort_info_changed (GtkWidget *widget, MessageList *ml)
-{
-	save_tree_state(ml);
-}
-
 static void
 message_list_setup_etree (MessageList *message_list, gboolean outgoing)
 {
-	ETableState *etstate;
-	
 	/* build the spec based on the folder, and possibly from a saved file */
 	/* otherwise, leave default */
 	if (message_list->folder) {
@@ -1084,21 +1039,6 @@ message_list_setup_etree (MessageList *message_list, gboolean outgoing)
 		name = camel_service_get_name (CAMEL_SERVICE (message_list->folder->parent_store), TRUE);
 		d(printf ("folder name is '%s'\n", name));
 		
-		path = mail_config_folder_to_cachename (message_list->folder, "et-header-");
-		if (path && stat (path, &st) == 0 && st.st_size > 0 && S_ISREG (st.st_mode)) {
-			/* build based on saved file */
-			e_tree_load_state (message_list->tree, path);
-		} else if (outgoing) {
-			/* Swap From/To for Drafts, Sent, Outbox */
-			char *state = "<ETableState>"
-				"<column source=\"0\"/> <column source=\"1\"/> "
-				"<column source=\"8\"/> <column source=\"5\"/> "
-				"<column source=\"6\"/> <grouping> </grouping> </ETableState>";
-			
-			e_tree_set_state (message_list->tree, state);
-		}
-		g_free (path);
-		
 		path = mail_config_folder_to_cachename (message_list->folder, "et-expanded-");
 		if (path && stat (path, &st) == 0 && st.st_size > 0 && S_ISREG (st.st_mode)) {
 			/* build based on saved file */
@@ -1107,18 +1047,6 @@ message_list_setup_etree (MessageList *message_list, gboolean outgoing)
 		g_free (path);
 		
 		g_free (name);
-		
-		etstate = e_tree_get_state_object (message_list->tree);
-		gtk_signal_connect (GTK_OBJECT (etstate->sort_info), 
-				    "sort_info_changed",
-				    GTK_SIGNAL_FUNC (sort_info_changed),
-				    message_list);
-		gtk_signal_connect (GTK_OBJECT (etstate->sort_info), 
-				    "group_info_changed",
-				    GTK_SIGNAL_FUNC (sort_info_changed),
-				    message_list);
-		
-		gtk_object_unref (GTK_OBJECT (etstate));
 	}
 }
 
@@ -1227,6 +1155,7 @@ message_list_class_init (GtkObjectClass *object_class)
 static void
 message_list_construct (MessageList *message_list)
 {
+	gboolean construct_failed;
 	message_list->model =
 		e_tree_memory_callbacks_new (ml_tree_icon_at,
 					     
@@ -1258,14 +1187,16 @@ message_list_construct (MessageList *message_list)
 	 * The etree
 	 */
 	message_list->extras = message_list_create_extras ();
-	e_tree_scrolled_construct_from_spec_file (E_TREE_SCROLLED (message_list),
-						  message_list->model,
-						  message_list->extras, 
-						  EVOLUTION_ETSPECDIR "/message-list.etspec",
-						  NULL);
-	
+	construct_failed = (e_tree_scrolled_construct_from_spec_file (E_TREE_SCROLLED (message_list),
+								      message_list->model,
+								      message_list->extras, 
+								      EVOLUTION_ETSPECDIR "/message-list.etspec",
+								      NULL)
+			    == NULL);
+
 	message_list->tree = e_tree_scrolled_get_tree(E_TREE_SCROLLED (message_list));
-	e_tree_root_node_set_visible (message_list->tree, FALSE);
+	if (!construct_failed)
+		e_tree_root_node_set_visible (message_list->tree, FALSE);
 
 	gtk_signal_connect (GTK_OBJECT (message_list->tree), "cursor_activated",
 			    GTK_SIGNAL_FUNC (on_cursor_activated_cmd),
@@ -2572,5 +2503,5 @@ mail_regen_list (MessageList *ml, const char *search, const char *hideexpr, Came
 	m->folder = ml->folder;
 	camel_object_ref (CAMEL_OBJECT (m->folder));
 	
-	e_thread_put (mail_thread_new, (EMsg *)m);
+	e_thread_put (mail_thread_queued, (EMsg *)m);
 }

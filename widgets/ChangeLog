@@ -1,3 +1,10 @@
+2002-02-07  Christopher James Lahey  <clahey@ximian.com>
+
+	* menus/gal-view-menus.c, menus/gal-view-menus.h
+	(gal_view_menus_new): Made this take a GalViewInstance instead of
+	a GalViewCollection.  Reworked most of this to utilize the
+	interfaces provided by GalViewInstance.
+
 2002-01-27  Ettore Perazzoli  <ettore@ximian.com>
 
 	* menus/Makefile.am: Use `GNOME_FULL_CFLAGS'.

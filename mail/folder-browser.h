@@ -78,8 +78,8 @@ struct  _FolderBrowser {
 	int sensitize_timeout_id;
 	int update_status_bar_idle_id;
 	
-	/* View collection and the menu handler object */
-	GalViewCollection *view_collection;
+	/* View instance and the menu handler object */
+	GalViewInstance *view_instance;
 	GalViewMenus *view_menus;
 	
 	GtkWidget *invisible;

@@ -26,7 +26,7 @@
 #include <gnome.h>
 #include <gal/util/e-util.h>
 #include <gal/e-table/e-table-scrolled.h>
-#include <gal/menus/gal-view-collection.h>
+#include <gal/menus/gal-view-instance.h>
 #include <gal/menus/gal-view-factory-etable.h>
 #include <gal/menus/gal-view-etable.h>
 #include "widgets/menus/gal-view-menus.h"
@@ -54,8 +54,8 @@ struct _ETasksPrivate {
 	/* Calendar search bar for tasks */
 	GtkWidget *search_bar;
 
-	/* View collection and the view menus handler */
-	GalViewCollection *view_collection;
+	/* View instance and the view menus handler */
+	GalViewInstance *view_instance;
 	GalViewMenus *view_menus;
 };
 
@@ -122,7 +122,7 @@ e_tasks_init (ETasks *tasks)
 
 	priv->client = NULL;
 	priv->query = NULL;
-	priv->view_collection = NULL;
+	priv->view_instance = NULL;
 	priv->view_menus = NULL;
 
 	setup_widgets (tasks);
@@ -646,7 +646,7 @@ e_tasks_delete_completed (ETasks *tasks)
 
 /* Callback used from the view collection when we need to display a new view */
 static void
-display_view_cb (GalViewCollection *collection, GalView *view, gpointer data)
+display_view_cb (GalViewInstance *instance, GalView *view, gpointer data)
 {
 	ETasks *tasks;
 
@@ -674,6 +674,7 @@ e_tasks_setup_view_menus (ETasks *tasks, BonoboUIComponent *uic)
 	GalViewFactory *factory;
 	ETableSpecification *spec;
 	char *dir;
+	static GalViewCollection *collection = NULL;
 
 	g_return_if_fail (tasks != NULL);
 	g_return_if_fail (E_IS_TASKS (tasks));
@@ -682,40 +683,45 @@ e_tasks_setup_view_menus (ETasks *tasks, BonoboUIComponent *uic)
 
 	priv = tasks->priv;
 
-	g_return_if_fail (priv->view_collection == NULL);
+	g_return_if_fail (priv->view_instance == NULL);
 
-	g_assert (priv->view_collection == NULL);
+	g_assert (priv->view_instance == NULL);
 	g_assert (priv->view_menus == NULL);
 
-	/* Create the view collection */
+	/* Create the view instance */
 
-	priv->view_collection = gal_view_collection_new ();
+	if (collection == NULL) {
+		collection = gal_view_collection_new ();
 
-	dir = gnome_util_prepend_user_home ("/evolution/views/tasks/");
-	gal_view_collection_set_storage_directories (priv->view_collection,
-						     EVOLUTION_DATADIR "/evolution/views/tasks/",
-						     dir);
-	g_free (dir);
+		dir = gnome_util_prepend_user_home ("/evolution/views/tasks/");
+		gal_view_collection_set_storage_directories (collection,
+							     EVOLUTION_DATADIR "/evolution/views/tasks/",
+							     dir);
+		g_free (dir);
 
-	/* Create the views */
+		/* Create the views */
 
-	spec = e_table_specification_new ();
-	e_table_specification_load_from_file (spec, 
-					      EVOLUTION_ETSPECDIR "/e-calendar-table.etspec");
+		spec = e_table_specification_new ();
+		e_table_specification_load_from_file (spec, 
+						      EVOLUTION_ETSPECDIR "/e-calendar-table.etspec");
 
-	factory = gal_view_factory_etable_new (spec);
-	gtk_object_unref (GTK_OBJECT (spec));
-	gal_view_collection_add_factory (priv->view_collection, factory);
-	gtk_object_unref (GTK_OBJECT (factory));
+		factory = gal_view_factory_etable_new (spec);
+		gtk_object_unref (GTK_OBJECT (spec));
+		gal_view_collection_add_factory (collection, factory);
+		gtk_object_unref (GTK_OBJECT (factory));
 
-	/* Load the collection and create the menus */
+		/* Load the collection and create the menus */
 
-	gal_view_collection_load (priv->view_collection);
+		gal_view_collection_load (collection);
+	}
 
-	priv->view_menus = gal_view_menus_new (priv->view_collection);
+	priv->view_instance = gal_view_instance_new (collection, cal_client_get_uri (priv->client));
+
+	priv->view_menus = gal_view_menus_new (priv->view_instance);
 	gal_view_menus_apply (priv->view_menus, uic, NULL);
-	gtk_signal_connect (GTK_OBJECT (priv->view_collection), "display_view",
+	gtk_signal_connect (GTK_OBJECT (priv->view_instance), "display_view",
 			    GTK_SIGNAL_FUNC (display_view_cb), tasks);
+	display_view_cb (priv->view_instance, gal_view_instance_get_current_view (priv->view_instance), tasks);
 }
 
 /**
@@ -736,13 +742,13 @@ e_tasks_discard_view_menus (ETasks *tasks)
 
 	priv = tasks->priv;
 
-	g_return_if_fail (priv->view_collection != NULL);
+	g_return_if_fail (priv->view_instance != NULL);
 
-	g_assert (priv->view_collection != NULL);
+	g_assert (priv->view_instance != NULL);
 	g_assert (priv->view_menus != NULL);
 
-	gtk_object_unref (GTK_OBJECT (priv->view_collection));
-	priv->view_collection = NULL;
+	gtk_object_unref (GTK_OBJECT (priv->view_instance));
+	priv->view_instance = NULL;
 
 	gtk_object_unref (GTK_OBJECT (priv->view_menus));
 	priv->view_menus = NULL;

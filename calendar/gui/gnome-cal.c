@@ -129,8 +129,8 @@ struct _GnomeCalendarPrivate {
 	/* The signal handler id for our GtkCalendar "day_selected" handler. */
 	guint	     day_selected_id;
 
-	/* View collection and menus for the control */
-	GalViewCollection *view_collection;
+	/* View instance and menus for the control */
+	GalViewInstance *view_instance;
 	GalViewMenus *view_menus;
 
 	/* Whether we are being destroyed and should not mess with the object
@@ -917,7 +917,7 @@ gnome_calendar_init (GnomeCalendar *gcal)
 							       priv->zone);
 	priv->selection_end_time = time_add_day_with_zone (priv->selection_start_time, 1, priv->zone);
 
-	priv->view_collection = NULL;
+	priv->view_instance = NULL;
 	priv->view_menus = NULL;
 
 	priv->visible_start = -1;
@@ -999,9 +999,9 @@ gnome_calendar_destroy (GtkObject *object)
 	g_hash_table_destroy (priv->object_editor_hash);
 	priv->object_editor_hash = NULL;
 
-	if (priv->view_collection) {
-		gtk_object_unref (GTK_OBJECT (priv->view_collection));
-		priv->view_collection = NULL;
+	if (priv->view_instance) {
+		gtk_object_unref (GTK_OBJECT (priv->view_instance));
+		priv->view_instance = NULL;
 	}
 
 	if (priv->view_menus) {
@@ -1325,7 +1325,7 @@ gnome_calendar_set_view (GnomeCalendar *gcal, GnomeCalendarViewType view_type,
 
 /* Callback used when the view collection asks us to display a particular view */
 static void
-display_view_cb (GalViewCollection *view_collection, GalView *view, gpointer data)
+display_view_cb (GalViewInstance *view_instance, GalView *view, gpointer data)
 {
 	GnomeCalendar *gcal;
 	CalendarView *cal_view;
@@ -1355,6 +1355,7 @@ gnome_calendar_setup_view_menus (GnomeCalendar *gcal, BonoboUIComponent *uic)
 	GnomeCalendarPrivate *priv;
 	char *path;
 	CalendarViewFactory *factory;
+	static GalViewCollection *collection = NULL;
 
 	g_return_if_fail (gcal != NULL);
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
@@ -1363,47 +1364,52 @@ gnome_calendar_setup_view_menus (GnomeCalendar *gcal, BonoboUIComponent *uic)
 
 	priv = gcal->priv;
 
-	g_return_if_fail (priv->view_collection == NULL);
+	g_return_if_fail (priv->view_instance == NULL);
 
-	g_assert (priv->view_collection == NULL);
+	g_assert (priv->view_instance == NULL);
 	g_assert (priv->view_menus == NULL);
 
-	/* Create the view collection */
+	/* Create the view instance */
 
-	priv->view_collection = gal_view_collection_new ();
+	if (collection == NULL) {
+		collection = gal_view_collection_new ();
 
-	path = gnome_util_prepend_user_home ("/evolution/views/calendar/");
-	gal_view_collection_set_storage_directories (priv->view_collection,
-						     EVOLUTION_DATADIR "/evolution/views/calendar/",
-						     path);
-	g_free (path);
+		path = gnome_util_prepend_user_home ("/evolution/views/calendar/");
+		gal_view_collection_set_storage_directories (collection,
+							     EVOLUTION_DATADIR "/evolution/views/calendar/",
+							     path);
+		g_free (path);
 
-	/* Create the views */
+		/* Create the views */
 
-	factory = calendar_view_factory_new (GNOME_CAL_DAY_VIEW);
-	gal_view_collection_add_factory (priv->view_collection, GAL_VIEW_FACTORY (factory));
-	gtk_object_unref (GTK_OBJECT (factory));
+		factory = calendar_view_factory_new (GNOME_CAL_DAY_VIEW);
+		gal_view_collection_add_factory (collection, GAL_VIEW_FACTORY (factory));
+		gtk_object_unref (GTK_OBJECT (factory));
 
-	factory = calendar_view_factory_new (GNOME_CAL_WORK_WEEK_VIEW);
-	gal_view_collection_add_factory (priv->view_collection, GAL_VIEW_FACTORY (factory));
-	gtk_object_unref (GTK_OBJECT (factory));
+		factory = calendar_view_factory_new (GNOME_CAL_WORK_WEEK_VIEW);
+		gal_view_collection_add_factory (collection, GAL_VIEW_FACTORY (factory));
+		gtk_object_unref (GTK_OBJECT (factory));
 
-	factory = calendar_view_factory_new (GNOME_CAL_WEEK_VIEW);
-	gal_view_collection_add_factory (priv->view_collection, GAL_VIEW_FACTORY (factory));
-	gtk_object_unref (GTK_OBJECT (factory));
+		factory = calendar_view_factory_new (GNOME_CAL_WEEK_VIEW);
+		gal_view_collection_add_factory (collection, GAL_VIEW_FACTORY (factory));
+		gtk_object_unref (GTK_OBJECT (factory));
 
-	factory = calendar_view_factory_new (GNOME_CAL_MONTH_VIEW);
-	gal_view_collection_add_factory (priv->view_collection, GAL_VIEW_FACTORY (factory));
-	gtk_object_unref (GTK_OBJECT (factory));
+		factory = calendar_view_factory_new (GNOME_CAL_MONTH_VIEW);
+		gal_view_collection_add_factory (collection, GAL_VIEW_FACTORY (factory));
+		gtk_object_unref (GTK_OBJECT (factory));
 
-	/* Load the collection and create the menus */
+		/* Load the collection and create the menus */
 
-	gal_view_collection_load (priv->view_collection);
+		gal_view_collection_load (collection);
+	}
 
-	priv->view_menus = gal_view_menus_new (priv->view_collection);
+	priv->view_instance = gal_view_instance_new (collection, cal_client_get_uri (priv->client));
+
+	priv->view_menus = gal_view_menus_new (priv->view_instance);
 	gal_view_menus_apply (priv->view_menus, uic, NULL);
-	gtk_signal_connect (GTK_OBJECT (priv->view_collection), "display_view",
+	gtk_signal_connect (GTK_OBJECT (priv->view_instance), "display_view",
 			    GTK_SIGNAL_FUNC (display_view_cb), gcal);
+	display_view_cb (priv->view_instance, gal_view_instance_get_current_view (priv->view_instance), gcal);
 }
 
 /**
@@ -1423,13 +1429,13 @@ gnome_calendar_discard_view_menus (GnomeCalendar *gcal)
 
 	priv = gcal->priv;
 
-	g_return_if_fail (priv->view_collection != NULL);
+	g_return_if_fail (priv->view_instance != NULL);
 
-	g_assert (priv->view_collection != NULL);
+	g_assert (priv->view_instance != NULL);
 	g_assert (priv->view_menus != NULL);
 
-	gtk_object_unref (GTK_OBJECT (priv->view_collection));
-	priv->view_collection = NULL;
+	gtk_object_unref (GTK_OBJECT (priv->view_instance));
+	priv->view_instance = NULL;
 
 	gtk_object_unref (GTK_OBJECT (priv->view_menus));
 	priv->view_menus = NULL;

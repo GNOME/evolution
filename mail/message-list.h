@@ -116,7 +116,6 @@ void           message_list_foreach    (MessageList *message_list,
 					gpointer user_data);
 
 void           message_list_select     (MessageList *message_list,
-					int base_row,
 					MessageListSelectDirection direction,
 					guint32 flags,
 					guint32 mask,

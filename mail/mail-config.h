@@ -225,6 +225,7 @@ GSList *mail_config_get_sources (void);
 
 /* static utility functions */
 char *mail_config_folder_to_cachename (CamelFolder *folder, const char *prefix);
+char *mail_config_folder_to_safe_url (CamelFolder *folder);
 
 gboolean mail_config_check_service (const char *url, CamelProviderType type, GList **authtypes, GtkWindow *window);
 

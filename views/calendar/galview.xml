@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<GalViewCollection>
+<GalViewCollection default-view="Day_View">
   <GalView id="Day_View" _title="Day View" filename="Day_View.galview" 
     type="day_view"/>
   <GalView id="Work_Week_View" _title="Work Week View" filename="Work_Week_View.galview" 

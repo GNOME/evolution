@@ -155,9 +155,9 @@ folder_browser_finalise (GtkObject *object)
 	
 	CORBA_exception_free (&ev);
 	
-	if (folder_browser->view_collection) {
-		gtk_object_unref (GTK_OBJECT (folder_browser->view_collection));
-		folder_browser->view_collection = NULL;
+	if (folder_browser->view_instance) {
+		gtk_object_unref (GTK_OBJECT (folder_browser->view_instance));
+		folder_browser->view_instance = NULL;
 	}
 	
 	if (folder_browser->view_menus) {
@@ -849,6 +849,11 @@ got_folder(char *uri, CamelFolder *folder, void *data)
 				folder_changed, fb);
 	camel_object_hook_event(CAMEL_OBJECT(fb->folder), "message_changed",
 				folder_changed, fb);
+
+	if (fb->view_instance != NULL && fb->view_menus != NULL)
+		folder_browser_ui_discard_view_menus (fb);
+
+	folder_browser_ui_setup_view_menus (fb);
 
 	/* when loading a new folder, nothing is selected initially */
 
@@ -1993,7 +1998,7 @@ my_folder_browser_init (GtkObject *object)
 	FolderBrowser *fb = FOLDER_BROWSER (object);
 	int i;
 	
-	fb->view_collection = NULL;
+	fb->view_instance = NULL;
 	fb->view_menus = NULL;
 
 	fb->pref_master = FALSE;

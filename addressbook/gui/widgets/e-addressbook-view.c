@@ -34,6 +34,7 @@
 #include <gal/menus/gal-view-factory-etable.h>
 #include <gal/menus/gal-view-etable.h>
 #include <gal/util/e-unicode-i18n.h>
+#include <gal/util/e-xml-utils.h>
 #include <gal/unicode/gunicode.h>
 #include <libgnomeui/gnome-dialog-util.h>
 #include <libgnomeui/gnome-stock.h>
@@ -61,6 +62,9 @@
 #include "e-contact-editor.h"
 #include <gdk/gdkkeysyms.h>
 #include <ctype.h>
+
+#include <gnome-xml/tree.h>
+#include <gnome-xml/parser.h>
 
 #define SHOW_ALL_SEARCH "(contains \"x-evolution-any-field\" \"\")"
 
@@ -116,6 +120,8 @@ static const int num_drag_types = sizeof (drag_types) / sizeof (drag_types[0]);
 static guint e_addressbook_view_signals [LAST_SIGNAL] = {0, };
 
 static GdkAtom clipboard_atom = GDK_NONE;
+
+static GalViewCollection *collection = NULL;
 
 GtkType
 e_addressbook_view_get_type (void)
@@ -235,8 +241,9 @@ e_addressbook_view_init (EAddressbookView *eav)
 	eav->object = NULL;
 	eav->widget = NULL;
 
-	eav->view_collection = NULL;
+	eav->view_instance = NULL;
 	eav->view_menus = NULL;
+	eav->uic = NULL;
 	eav->current_alphabet_widget = NULL;
 
 	eav->invisible = gtk_invisible_new ();
@@ -278,9 +285,11 @@ e_addressbook_view_destroy (GtkObject *object)
 	g_free(eav->query);
 	eav->query = NULL;
 
-	if (eav->view_collection) {
-		gtk_object_unref (GTK_OBJECT (eav->view_collection));
-		eav->view_collection = NULL;
+	eav->uic = NULL;
+
+	if (eav->view_instance) {
+		gtk_object_unref (GTK_OBJECT (eav->view_instance));
+		eav->view_instance = NULL;
 	}
 
 	if (eav->view_menus) {
@@ -320,6 +329,171 @@ book_writable_cb (EBook *book, gboolean writable, EAddressbookView *eav)
 	writable_status (GTK_OBJECT(book), writable, eav);
 }
 
+#ifdef JUST_FOR_TRANSLATORS
+static char *list [] = {
+	N_("* Click here to add a contact *"),
+	N_("File As"),
+	N_("Full Name"),
+	N_("Email"),
+	N_("Primary Phone"),
+	N_("Assistant Phone"),
+	N_("Business Phone"),
+	N_("Callback Phone"),
+	N_("Company Phone"),
+	N_("Home Phone"),
+	N_("Organization"),
+	N_("Business Address"),
+	N_("Home Address"),
+	N_("Mobile Phone"),
+	N_("Car Phone"),
+	N_("Business Fax"),
+	N_("Home Fax"),
+	N_("Business Phone 2"),
+	N_("Home Phone 2"),
+	N_("ISDN"),
+	N_("Other Phone"),
+	N_("Other Fax"),
+	N_("Pager"),
+	N_("Radio"),
+	N_("Telex"),
+	N_("TTY"),
+	N_("Other Address"),
+	N_("Email 2"),
+	N_("Email 3"),
+	N_("Web Site"),
+	N_("Department"),
+	N_("Office"),
+	N_("Title"),
+	N_("Profession"),
+	N_("Manager"),
+	N_("Assistant"),
+	N_("Nickname"),
+	N_("Spouse"),
+	N_("Note"),
+	N_("Free-busy URL"),
+};
+#endif
+
+#define SPEC "<?xml version=\"1.0\"?>      \
+<ETableSpecification click-to-add=\"true\" draw-grid=\"true\" _click-to-add-message=\"* Click here to add a contact *\">   \
+  <ETableColumn model_col= \"0\" _title=\"File As\"          expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col= \"1\" _title=\"Full Name\"        expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col= \"2\" _title=\"Email\"            expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col= \"3\" _title=\"Primary Phone\"    expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col= \"4\" _title=\"Assistant Phone\"  expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col= \"5\" _title=\"Business Phone\"   expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col= \"6\" _title=\"Callback Phone\"   expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col= \"7\" _title=\"Company Phone\"    expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col= \"8\" _title=\"Home Phone\"       expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col= \"9\" _title=\"Organization\"     expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"10\" _title=\"Business Address\" expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"11\" _title=\"Home Address\"     expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"12\" _title=\"Mobile Phone\"     expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"13\" _title=\"Car Phone\"        expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"14\" _title=\"Business Fax\"     expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"15\" _title=\"Home Fax\"         expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"16\" _title=\"Business Phone 2\" expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"17\" _title=\"Home Phone 2\"     expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"18\" _title=\"ISDN\"             expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"19\" _title=\"Other Phone\"      expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"20\" _title=\"Other Fax\"        expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"21\" _title=\"Pager\"            expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"22\" _title=\"Radio\"            expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"23\" _title=\"Telex\"            expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"24\" _title=\"TTY\"              expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"25\" _title=\"Other Address\"    expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"26\" _title=\"Email 2\"          expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"27\" _title=\"Email 3\"          expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"28\" _title=\"Web Site\"         expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"29\" _title=\"Department\"       expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"30\" _title=\"Office\"           expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"31\" _title=\"Title\"            expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"32\" _title=\"Profession\"       expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"33\" _title=\"Manager\"          expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"34\" _title=\"Assistant\"        expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"35\" _title=\"Nickname\"         expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"36\" _title=\"Spouse\"           expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"37\" _title=\"Note\"             expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableColumn model_col=\"38\" _title=\"Free-busy URL\"    expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
+  <ETableState>                            \
+    <column source=\"0\"/>                 \
+    <column source=\"1\"/>                 \
+    <column source=\"5\"/>                 \
+    <column source=\"2\"/>                 \
+    <column source=\"3\"/>                 \
+    <grouping>                             \
+      <leaf column=\"0\" ascending=\"true\"/> \
+    </grouping>                            \
+  </ETableState>                           \
+</ETableSpecification>"
+
+static void
+init_collection (void)
+{
+	GalViewFactory *factory;
+	ETableSpecification *spec;
+	char *galview;
+
+	if (collection == NULL) {
+		collection = gal_view_collection_new();
+
+		galview = gnome_util_prepend_user_home("/evolution/views/addressbook/");
+		gal_view_collection_set_storage_directories
+			(collection,
+			 EVOLUTION_DATADIR "/evolution/views/addressbook/",
+			 galview);
+		g_free(galview);
+
+		spec = e_table_specification_new();
+		e_table_specification_load_from_string(spec, SPEC);
+
+		factory = gal_view_factory_etable_new (spec);
+		gtk_object_unref (GTK_OBJECT (spec));
+		gal_view_collection_add_factory (collection, factory);
+		gtk_object_unref (GTK_OBJECT (factory));
+
+		factory = gal_view_factory_minicard_new ();
+		gal_view_collection_add_factory (collection, factory);
+		gtk_object_unref (GTK_OBJECT (factory));
+
+		gal_view_collection_load(collection);
+	}
+}
+
+static void
+display_view(GalViewInstance *instance,
+	     GalView *view,
+	     gpointer data)
+{
+	EAddressbookView *address_view = data;
+	if (GAL_IS_VIEW_ETABLE(view)) {
+		change_view_type (address_view, E_ADDRESSBOOK_VIEW_TABLE);
+		gal_view_etable_attach_table (GAL_VIEW_ETABLE(view), e_table_scrolled_get_table(E_TABLE_SCROLLED(address_view->widget)));
+	} else if (GAL_IS_VIEW_MINICARD(view)) {
+		change_view_type (address_view, E_ADDRESSBOOK_VIEW_MINICARD);
+	}
+	address_view->current_view = view;
+}
+
+static void
+setup_menus (EAddressbookView *view)
+{
+	if (view->book && view->view_instance == NULL) {
+		init_collection ();
+		view->view_instance = gal_view_instance_new (collection, e_book_get_uri (view->book));
+	}
+
+	if (view->view_instance && view->uic) {
+		view->view_menus = gal_view_menus_new(view->view_instance);
+		gal_view_menus_apply(view->view_menus, view->uic, NULL);
+
+		display_view (view->view_instance, gal_view_instance_get_current_view (view->view_instance), view);
+
+		gtk_signal_connect(GTK_OBJECT(view->view_instance), "display_view",
+				   display_view, view);
+	}
+}
+
 static void
 e_addressbook_view_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 {
@@ -339,10 +513,17 @@ e_addressbook_view_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		}
 		else
 			eav->book = NULL;
+
+		if (eav->view_instance) {
+			gtk_object_unref (GTK_OBJECT (eav->view_instance));
+			eav->view_instance = NULL;
+		}
+
 		gtk_object_set(GTK_OBJECT(eav->model),
 			       "book", eav->book,
 			       NULL);
 
+		setup_menus (eav);
 
 		break;
 	case ARG_QUERY:
@@ -954,104 +1135,6 @@ alphabet_state_change (EAddressbookView *eav, gunichar letter)
 	gtk_signal_emit (GTK_OBJECT (eav), e_addressbook_view_signals [ALPHABET_STATE_CHANGE], letter);
 }
 
-#ifdef JUST_FOR_TRANSLATORS
-static char *list [] = {
-	N_("* Click here to add a contact *"),
-	N_("File As"),
-	N_("Full Name"),
-	N_("Email"),
-	N_("Primary Phone"),
-	N_("Assistant Phone"),
-	N_("Business Phone"),
-	N_("Callback Phone"),
-	N_("Company Phone"),
-	N_("Home Phone"),
-	N_("Organization"),
-	N_("Business Address"),
-	N_("Home Address"),
-	N_("Mobile Phone"),
-	N_("Car Phone"),
-	N_("Business Fax"),
-	N_("Home Fax"),
-	N_("Business Phone 2"),
-	N_("Home Phone 2"),
-	N_("ISDN"),
-	N_("Other Phone"),
-	N_("Other Fax"),
-	N_("Pager"),
-	N_("Radio"),
-	N_("Telex"),
-	N_("TTY"),
-	N_("Other Address"),
-	N_("Email 2"),
-	N_("Email 3"),
-	N_("Web Site"),
-	N_("Department"),
-	N_("Office"),
-	N_("Title"),
-	N_("Profession"),
-	N_("Manager"),
-	N_("Assistant"),
-	N_("Nickname"),
-	N_("Spouse"),
-	N_("Note"),
-	N_("Free-busy URL"),
-};
-#endif
-
-#define SPEC "<?xml version=\"1.0\"?>      \
-<ETableSpecification click-to-add=\"true\" draw-grid=\"true\" _click-to-add-message=\"* Click here to add a contact *\">   \
-  <ETableColumn model_col= \"0\" _title=\"File As\"          expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col= \"1\" _title=\"Full Name\"        expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col= \"2\" _title=\"Email\"            expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col= \"3\" _title=\"Primary Phone\"    expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col= \"4\" _title=\"Assistant Phone\"  expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col= \"5\" _title=\"Business Phone\"   expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col= \"6\" _title=\"Callback Phone\"   expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col= \"7\" _title=\"Company Phone\"    expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col= \"8\" _title=\"Home Phone\"       expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col= \"9\" _title=\"Organization\"     expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col=\"10\" _title=\"Business Address\" expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col=\"11\" _title=\"Home Address\"     expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col=\"12\" _title=\"Mobile Phone\"     expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col=\"13\" _title=\"Car Phone\"        expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col=\"14\" _title=\"Business Fax\"     expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col=\"15\" _title=\"Home Fax\"         expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col=\"16\" _title=\"Business Phone 2\" expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col=\"17\" _title=\"Home Phone 2\"     expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col=\"18\" _title=\"ISDN\"             expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col=\"19\" _title=\"Other Phone\"      expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col=\"20\" _title=\"Other Fax\"        expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col=\"21\" _title=\"Pager\"            expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col=\"22\" _title=\"Radio\"            expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col=\"23\" _title=\"Telex\"            expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col=\"24\" _title=\"TTY\"              expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col=\"25\" _title=\"Other Address\"    expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col=\"26\" _title=\"Email 2\"          expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col=\"27\" _title=\"Email 3\"          expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col=\"28\" _title=\"Web Site\"         expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col=\"29\" _title=\"Department\"       expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col=\"30\" _title=\"Office\"           expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col=\"31\" _title=\"Title\"            expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col=\"32\" _title=\"Profession\"       expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col=\"33\" _title=\"Manager\"          expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col=\"34\" _title=\"Assistant\"        expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col=\"35\" _title=\"Nickname\"         expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col=\"36\" _title=\"Spouse\"           expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col=\"37\" _title=\"Note\"             expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableColumn model_col=\"38\" _title=\"Free-busy URL\"    expansion=\"1.0\" minimum_width=\"75\" resizable=\"true\" cell=\"string\" compare=\"string\"/> \
-  <ETableState>                            \
-    <column source=\"0\"/>                 \
-    <column source=\"1\"/>                 \
-    <column source=\"5\"/>                 \
-    <column source=\"2\"/>                 \
-    <column source=\"3\"/>                 \
-    <grouping>                             \
-      <leaf column=\"0\" ascending=\"true\"/> \
-    </grouping>                            \
-  </ETableState>                           \
-</ETableSpecification>"
-
 static void
 create_table_view (EAddressbookView *view)
 {
@@ -1199,70 +1282,28 @@ e_contact_print_button(GnomeDialog *dialog, gint button, gpointer data)
 	}
 }
 
-static void
-display_view(GalViewCollection *collection,
-	     GalView *view,
-	     gpointer data)
-{
-	EAddressbookView *address_view = data;
-	if (GAL_IS_VIEW_ETABLE(view)) {
-		change_view_type (address_view, E_ADDRESSBOOK_VIEW_TABLE);
-		e_table_set_state_object(e_table_scrolled_get_table(E_TABLE_SCROLLED(address_view->widget)), GAL_VIEW_ETABLE(view)->state);
-	} else if (GAL_IS_VIEW_MINICARD(view)) {
-		change_view_type (address_view, E_ADDRESSBOOK_VIEW_MINICARD);
-	}
-}
-
 void
 e_addressbook_view_setup_menus (EAddressbookView *view,
 				BonoboUIComponent *uic)
 {
-	GalViewFactory *factory;
-	ETableSpecification *spec;
-	char *galview;
 
 	g_return_if_fail (view != NULL);
 	g_return_if_fail (E_IS_ADDRESSBOOK_VIEW (view));
 	g_return_if_fail (uic != NULL);
 	g_return_if_fail (BONOBO_IS_UI_COMPONENT (uic));
-	g_return_if_fail (view->view_collection == NULL);
 
-	g_assert (view->view_collection == NULL);
-	g_assert (view->view_menus == NULL);
+	init_collection ();
 
-	view->view_collection = gal_view_collection_new();
+	view->uic = uic;
 
-	galview = gnome_util_prepend_user_home("/evolution/views/addressbook/");
-	gal_view_collection_set_storage_directories(view->view_collection,
-						    EVOLUTION_DATADIR "/evolution/views/addressbook/",
-						    galview);
-	g_free(galview);
-
-	spec = e_table_specification_new();
-	e_table_specification_load_from_string(spec, SPEC);
-
-	factory = gal_view_factory_etable_new (spec);
-	gtk_object_unref (GTK_OBJECT (spec));
-	gal_view_collection_add_factory (view->view_collection, factory);
-	gtk_object_unref (GTK_OBJECT (factory));
-
-	factory = gal_view_factory_minicard_new ();
-	gal_view_collection_add_factory (view->view_collection, factory);
-	gtk_object_unref (GTK_OBJECT (factory));
-
-	gal_view_collection_load(view->view_collection);
-
-	view->view_menus = gal_view_menus_new(view->view_collection);
-	gal_view_menus_apply(view->view_menus, uic, NULL);
-	gtk_signal_connect(GTK_OBJECT(view->view_collection), "display_view",
-			   display_view, view);
+	setup_menus (view);
 }
 
 /**
  * e_addressbook_view_discard_menus:
  * @view: An addressbook view.
  * 
- * Makes an addressbook view discard its GAL view menus and its views collection
+ * Makes an addressbook view discard its GAL view menus and its views instance
  * objects.  This should be called when the corresponding Bonobo component is
  * deactivated.
  **/
@@ -1271,16 +1312,19 @@ e_addressbook_view_discard_menus (EAddressbookView *view)
 {
 	g_return_if_fail (view != NULL);
 	g_return_if_fail (E_IS_ADDRESSBOOK_VIEW (view));
-	g_return_if_fail (view->view_collection);
+	g_return_if_fail (view->view_instance);
 
-	g_assert (view->view_collection != NULL);
-	g_assert (view->view_menus != NULL);
+	if (view->view_instance) {
+		gtk_object_unref (GTK_OBJECT (view->view_instance));
+		view->view_instance = NULL;
+	}
 
-	gtk_object_unref (GTK_OBJECT (view->view_collection));
-	view->view_collection = NULL;
+	if (view->view_menus) {
+		gtk_object_unref (GTK_OBJECT (view->view_menus));
+		view->view_menus = NULL;
+	}
 
-	gtk_object_unref (GTK_OBJECT (view->view_menus));
-	view->view_menus = NULL;
+	view->uic = NULL;
 }
 
 static ESelectionModel*
@@ -1507,6 +1551,81 @@ get_selected_cards (EAddressbookView *view)
 	list = g_list_reverse (list);
 	return list;
 }
+
+#if 0
+void
+e_addressbook_view_save_state (EAddressbookView *view, const char *filename)
+{
+	xmlDoc *doc;
+	xmlNode *node;
+
+	doc = xmlNewDoc ("1.0");
+	node = xmlNewDocNode (doc, NULL, "addressbook-view", NULL);
+	xmlDocSetRootElement (doc, node);
+
+	switch (view->view_type) {
+	case E_ADDRESSBOOK_VIEW_MINICARD: {
+		int column_width;
+		e_xml_set_string_prop_by_name (node, "style", "minicard");
+		gtk_object_get (GTK_OBJECT (view->object),
+				"column_width", &column_width,
+				NULL);
+		e_xml_set_integer_prop_by_name (node, "column-width", column_width);
+		break;	
+	}
+	case E_ADDRESSBOOK_VIEW_TABLE: {
+		ETableState *state;
+		state = e_table_get_state_object (E_TABLE (view->widget));
+
+		e_xml_set_string_prop_by_name (node, "style", "table");
+		e_table_state_save_to_node (state, node);
+		gtk_object_unref (GTK_OBJECT (state));
+		break;
+	}
+	default:
+		xmlFreeDoc(doc);
+		return;
+	}
+	xmlSaveFile (filename, doc);
+	xmlFreeDoc(doc);
+}
+
+void
+e_addressbook_view_load_state (EAddressbookView *view, const char *filename)
+{
+	xmlDoc *doc;
+
+	doc = xmlParseFile (filename);
+	if (doc) {
+		xmlNode *node;
+		char *type;
+
+		node = xmlDocGetRootElement (doc);
+		type = e_xml_get_string_prop_by_name (node, "style");
+
+		if (!strcmp (type, "minicard")) {
+			int column_width;
+
+			change_view_type (view, E_ADDRESSBOOK_VIEW_MINICARD);
+
+			column_width = e_xml_get_integer_prop_by_name (node, "column-width");
+			gtk_object_set (GTK_OBJECT (view->object),
+					"column_width", column_width,
+					NULL);
+		} else if (!strcmp (type, "table")) {
+			ETableState *state;
+
+			change_view_type (view, E_ADDRESSBOOK_VIEW_TABLE);
+
+			state = e_table_state_new();
+			e_table_state_load_from_node (state, node->xmlChildrenNode);
+			e_table_set_state_object (E_TABLE (view->widget), state);
+			gtk_object_unref (GTK_OBJECT (state));
+		}
+		xmlFreeDoc(doc);
+	}
+}
+#endif
 
 void
 e_addressbook_view_save_as (EAddressbookView *view)

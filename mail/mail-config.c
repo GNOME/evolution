@@ -2214,17 +2214,25 @@ mail_config_service_set_save_passwd (MailConfigService *service, gboolean save_p
 }
 
 char *
-mail_config_folder_to_cachename (CamelFolder *folder, const char *prefix)
+mail_config_folder_to_safe_url (CamelFolder *folder)
 {
 	CamelService *service = CAMEL_SERVICE (folder->parent_store);
-	char *service_url, *url, *filename;
+	char *service_url, *url;
 	
 	service_url = camel_url_to_string (service->url, CAMEL_URL_HIDE_ALL);
 	url = g_strdup_printf ("%s/%s", service_url, folder->full_name);
 	g_free (service_url);
 	
 	e_filename_make_safe (url);
+	return url;
+}
+
+char *
+mail_config_folder_to_cachename (CamelFolder *folder, const char *prefix)
+{
+	char *url, *filename;
 	
+	url = mail_config_folder_to_safe_url (folder);
 	filename = g_strdup_printf ("%s/config/%s%s", evolution_dir, prefix, url);
 	g_free (url);
 	

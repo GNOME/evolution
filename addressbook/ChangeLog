@@ -1,3 +1,10 @@
+2002-02-07  Christopher James Lahey  <clahey@ximian.com>
+
+	* gui/widgets/e-addressbook-view.c
+	(e_addressbook_view_setup_menus): Changed this function to use the
+	new GalViewMenus which takes a GalViewInstance, instead of a
+	GalViewCollection.
+
 2002-02-04  JP Rosevear  <jpr@ximian.com>
 
 	* gui/contact-editor/e-contact-editor.c (find_address_mailing): tidy

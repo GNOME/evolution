@@ -194,61 +194,110 @@ static void ui_add (FolderBrowser *fb,
 /* more complex stuff */
 
 static void
-display_view(GalViewCollection *collection,
+display_view(GalViewInstance *instance,
 	     GalView *view,
 	     gpointer data)
 {
 	FolderBrowser *fb = data;
 	if (GAL_IS_VIEW_ETABLE(view)) {
-		e_tree_set_state_object(fb->message_list->tree, GAL_VIEW_ETABLE(view)->state);
+		gal_view_etable_attach_tree (GAL_VIEW_ETABLE(view), fb->message_list->tree);
 	}
 }
 
-static void
-folder_browser_setup_view_menus (FolderBrowser *fb,
-				 BonoboUIComponent *uic)
+void
+folder_browser_ui_setup_view_menus (FolderBrowser *fb)
 {
-	GalViewFactory *factory;
-	ETableSpecification *spec;
-	char *local_dir;
+	static GalViewCollection *collection = NULL;
+	char *id;
+	gboolean outgoing;
 
-	g_assert (fb->view_collection == NULL);
+	if (fb->uicomp == NULL || fb->folder == NULL)
+		return;
+
+	g_assert (fb->view_instance == NULL);
 	g_assert (fb->view_menus == NULL);
 
-	fb->view_collection = gal_view_collection_new();
+	outgoing = folder_browser_is_drafts (fb) ||
+		folder_browser_is_sent (fb) ||
+		folder_browser_is_outbox (fb);
 
-	local_dir = gnome_util_prepend_user_home ("/evolution/views/mail/");
-	gal_view_collection_set_storage_directories(
-		fb->view_collection,
-		EVOLUTION_DATADIR "/evolution/views/mail/",
-		local_dir);
-	g_free (local_dir);
+	if (collection == NULL) {
+		ETableSpecification *spec;
+		char *local_dir;
+		GalViewFactory *factory;
 
-	spec = e_table_specification_new();
-	e_table_specification_load_from_file(spec, EVOLUTION_ETSPECDIR "/message-list.etspec");
+		collection = gal_view_collection_new();
 
-	factory = gal_view_factory_etable_new (spec);
-	gtk_object_unref (GTK_OBJECT (spec));
-	gal_view_collection_add_factory (fb->view_collection, factory);
-	gtk_object_unref (GTK_OBJECT (factory));
+		local_dir = gnome_util_prepend_user_home ("/evolution/views/mail/");
+		gal_view_collection_set_storage_directories
+			(collection,
+			 EVOLUTION_DATADIR "/evolution/views/mail/",
+			 local_dir);
+		g_free (local_dir);
 
-	gal_view_collection_load(fb->view_collection);
+		spec = e_table_specification_new();
+		e_table_specification_load_from_file(spec, EVOLUTION_ETSPECDIR "/message-list.etspec");
 
-	fb->view_menus = gal_view_menus_new(fb->view_collection);
-	gal_view_menus_apply(fb->view_menus, uic, NULL);
-	gtk_signal_connect(GTK_OBJECT(fb->view_collection), "display_view",
+		factory = gal_view_factory_etable_new (spec);
+		gtk_object_unref (GTK_OBJECT (spec));
+		gal_view_collection_add_factory (collection, factory);
+		gtk_object_unref (GTK_OBJECT (factory));
+
+		gal_view_collection_load(collection);
+	}
+
+	id = mail_config_folder_to_safe_url(fb->folder);
+	fb->view_instance = gal_view_instance_new (collection, id);
+	g_free (id);
+
+	if (outgoing)
+		gal_view_instance_set_default_view (fb->view_instance, "As_Sent_Folder");
+
+	if (!gal_view_instance_exists (fb->view_instance)) {
+		char *path;
+		struct stat st;
+
+		gal_view_instance_load (fb->view_instance);
+
+		path = mail_config_folder_to_cachename (fb->folder, "et-header-");
+		if (path && stat (path, &st) == 0 && st.st_size > 0 && S_ISREG (st.st_mode)) {
+			ETableSpecification *spec;
+			ETableState *state;
+			GalView *view;
+
+			spec = e_table_specification_new();
+			e_table_specification_load_from_file(spec, EVOLUTION_ETSPECDIR "/message-list.etspec");
+			view = gal_view_etable_new(spec, "");
+			gtk_object_unref (GTK_OBJECT (spec));
+
+			state = e_table_state_new ();
+			e_table_state_load_from_file (state, path);
+			gal_view_etable_set_state (GAL_VIEW_ETABLE (view), state);
+			gtk_object_unref (GTK_OBJECT (state));
+
+			gal_view_instance_set_custom_view (fb->view_instance, view);
+			gtk_object_unref (GTK_OBJECT (view));
+		}
+		g_free (path);
+	}
+
+
+	fb->view_menus = gal_view_menus_new(fb->view_instance);
+	gal_view_menus_apply(fb->view_menus, fb->uicomp, NULL);
+	gtk_signal_connect(GTK_OBJECT(fb->view_instance), "display_view",
 			   display_view, fb);
+	display_view (fb->view_instance, gal_view_instance_get_current_view (fb->view_instance), fb);
 }
 
-/* Gets rid of the view collection and view menus objects */
-static void
-folder_browser_discard_view_menus (FolderBrowser *fb)
+/* Gets rid of the view instance and view menus objects */
+void
+folder_browser_ui_discard_view_menus (FolderBrowser *fb)
 {
-	g_assert (fb->view_collection != NULL);
+	g_assert (fb->view_instance != NULL);
 	g_assert (fb->view_menus != NULL);
 
-	gtk_object_unref (GTK_OBJECT (fb->view_collection));
-	fb->view_collection = NULL;
+	gtk_object_unref (GTK_OBJECT (fb->view_instance));
+	fb->view_instance = NULL;
 
 	gtk_object_unref (GTK_OBJECT (fb->view_menus));
 	fb->view_menus = NULL;
@@ -371,14 +420,16 @@ folder_browser_ui_add_list (FolderBrowser *fb)
 	folder_browser_setup_property_menu (fb, fb->uicomp);
 	
 	/* View menu */
-	folder_browser_setup_view_menus (fb, fb->uicomp);
+	if (fb->view_instance == NULL)
+		folder_browser_ui_setup_view_menus (fb);
 }
 
 void 
 folder_browser_ui_rm_list (FolderBrowser *fb)
 {
 	/* View menu */
-	folder_browser_discard_view_menus (fb);
+	if (fb->view_instance != NULL)
+		folder_browser_ui_discard_view_menus (fb);
 }
 
 void 

@@ -1,3 +1,7 @@
+2002-02-07  Christopher James Lahey  <clahey@ximian.com>
+
+	* configure.in: Bumped the required version of gal.
+
 2002-01-28  Radek Doulik  <rodo@ximian.com>
 
 	* configure.in: added bonobo to filter flags to avoid compile

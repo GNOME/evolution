@@ -101,10 +101,10 @@ transfer_msg_done (gboolean ok, void *data)
                    are hidden, select the previous */
 		if ((row + 1 == e_tree_row_count (mb->fb->message_list->tree))
 		    && mail_config_get_hide_deleted ())
-			message_list_select (mb->fb->message_list, row, MESSAGE_LIST_SELECT_PREVIOUS,
+			message_list_select (mb->fb->message_list, MESSAGE_LIST_SELECT_PREVIOUS,
 					     0, CAMEL_MESSAGE_DELETED, FALSE);
 		else
-			message_list_select (mb->fb->message_list, row, MESSAGE_LIST_SELECT_NEXT,
+			message_list_select (mb->fb->message_list, MESSAGE_LIST_SELECT_NEXT,
 					     0, 0, FALSE);
 	}
 	
