@@ -800,6 +800,14 @@ drag_data_get_cb (GtkWidget *widget,
 	
 	switch (info) {
 	case DND_TARGET_TYPE_TEXT_URI_LIST:
+		/* Kludge around Nautilus requesting the same data many times */
+		uri_list = gtk_object_get_data (GTK_OBJECT (widget), "uri-list");
+		if (uri_list) {
+			gtk_selection_data_set (selection_data, selection_data->target, 8,
+						uri_list, strlen (uri_list));
+			return;
+		}
+		
 		tmpdir = e_mkdtemp ("drag-n-drop-XXXXXX");
 		if (!tmpdir) {
 			char *msg;
@@ -837,7 +845,6 @@ drag_data_delete_cb (GtkWidget *widget,
 		     GdkDragContext *drag_context,
 		     gpointer user_data)
 {
-	CamelMimePart *part = user_data;
 	char *uri_list;
 	
 	uri_list = gtk_object_get_data (GTK_OBJECT (widget), "uri-list");
