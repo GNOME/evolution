@@ -579,6 +579,15 @@ e_selection_model_cursor_changed      (ESelectionModel *selection,
 }
 
 void
+e_selection_model_cursor_activated    (ESelectionModel *selection,
+				       int              row,
+				       int              col)
+{
+	gtk_signal_emit(GTK_OBJECT(selection),
+			e_selection_model_signals[CURSOR_ACTIVATED], row, col);
+}
+
+void
 e_selection_model_selection_changed   (ESelectionModel *selection)
 {
 	gtk_signal_emit(GTK_OBJECT(selection),

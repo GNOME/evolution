@@ -119,6 +119,9 @@ void      e_selection_model_set_selection_end   (ESelectionModel *selection,
 void      e_selection_model_cursor_changed      (ESelectionModel *selection,
 						 int              row,
 						 int              col);
+void      e_selection_model_cursor_activated    (ESelectionModel *selection,
+						 int              row,
+						 int              col);
 void      e_selection_model_selection_changed   (ESelectionModel *selection);
 
 #ifdef __cplusplus
