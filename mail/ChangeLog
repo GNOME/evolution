@@ -1,3 +1,8 @@
+2001-10-11  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (do_forward_non_attached): Attach the message
+	attachments. Fixes bug #5439.
+
 2001-10-11  Dan Winship  <danw@ximian.com>
 
 	* mail-folder-cache.c (update_1folder): No longer need to pass

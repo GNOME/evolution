@@ -1121,8 +1121,8 @@ forward_get_composer (CamelMimeMessage *message, const char *subject)
 static void
 do_forward_non_attached (CamelFolder *folder, char *uid, CamelMimeMessage *message, void *data)
 {
-	char *subject, *text;
 	MailConfigForwardStyle style = GPOINTER_TO_INT (data);
+	char *subject, *text;
 	
 	if (!message)
 		return;
@@ -1133,7 +1133,14 @@ do_forward_non_attached (CamelFolder *folder, char *uid, CamelMimeMessage *messa
 	if (text) {
 		EMsgComposer *composer = forward_get_composer (message, subject);
 		if (composer) {
+			CamelDataWrapper *wrapper;
+			
 			e_msg_composer_set_body_text (composer, text);
+			
+			wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (message));
+			if (CAMEL_IS_MULTIPART (wrapper))
+				e_msg_composer_add_message_attachments (composer, message);
+			
 			gtk_widget_show (GTK_WIDGET (composer));
 			e_msg_composer_unset_changed (composer);
 		}
