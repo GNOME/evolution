@@ -1,5 +1,10 @@
 2004-07-23 pchenthill <pchenthill@novell.com>
 
+	* Retracting the commit made below for #59983 as it has
+	results in crash some cases
+
+2004-07-23 pchenthill <pchenthill@novell.com>
+
         Fixes #59983
         * gui/e-itip-control.c (show_current_event):
         If the ecal component is already loaded, check for the participation
