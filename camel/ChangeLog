@@ -1,6 +1,18 @@
 2001-08-06  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/pop3/camel-pop3-folder.c (pop3_get_message_stream):
+	Modify to take a headers_only argument which will then only fetch
+	message headers.
+	(pop3_generate_uids): Pass in TRUE for headers_only.
+	(pop3_get_message): Pass in FALSE for headers_only and move the
+	camel_operation() stuff out of get_message_stream and in to here
+	instead.
+	(pop3_generate_uids): We also need to be using i+ 1 as the id
+	since we are starting at 0.
+
+2001-08-06  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/pop3/camel-pop3-folder.c (pop3_get_message_stream):
 	New internal function to get a message stream by message sequence
 	id (so that we can share code between pop3_get_message and
 	pop3_generate_uids).

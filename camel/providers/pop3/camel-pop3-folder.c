@@ -52,7 +52,7 @@ static void pop3_sync (CamelFolder *folder, gboolean expunge,
 static gint pop3_get_message_count (CamelFolder *folder);
 static GPtrArray *pop3_get_uids (CamelFolder *folder);
 static CamelStreamMem *pop3_get_message_stream (CamelFolder *folder, int id,
-						CamelException *ex);
+						gboolean headers_only, CamelException *ex);
 static CamelMimeMessage *pop3_get_message (CamelFolder *folder, 
 					   const char *uid,
 					   CamelException *ex);
@@ -159,7 +159,7 @@ pop3_generate_uids (CamelFolder *folder, int count, CamelException *ex)
 		guchar digest[16];
 		char *uid;
 		
-		stream = pop3_get_message_stream (folder, i, ex);
+		stream = pop3_get_message_stream (folder, i + 1, TRUE, ex);
 		if (stream == NULL)
 			goto exception;
 		
@@ -317,16 +317,14 @@ uid_to_number (CamelPop3Folder *pop3_folder, const char *uid)
 }
 
 static CamelStreamMem *
-pop3_get_message_stream (CamelFolder *folder, int id, CamelException *ex)
+pop3_get_message_stream (CamelFolder *folder, int id, gboolean headers_only, CamelException *ex)
 {
 	CamelStream *stream;
 	char *result, *body;
 	int status, total;
 	
-	camel_operation_start_transient (NULL, _("Retrieving POP message %d"), id);
-	
 	status = camel_pop3_command (CAMEL_POP3_STORE (folder->parent_store),
-				     &result, ex, "RETR %d", id);
+				     &result, ex, headers_only ? "TOP %d 0" : "RETR %d", id);
 	switch (status) {
 	case CAMEL_POP3_ERR:
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
@@ -356,8 +354,6 @@ pop3_get_message_stream (CamelFolder *folder, int id, CamelException *ex)
 	stream = camel_stream_mem_new_with_buffer (body, strlen (body));
 	g_free (body);
 	
-	camel_operation_end (NULL);
-	
 	return CAMEL_STREAM_MEM (stream);
 }
 
@@ -375,7 +371,9 @@ pop3_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 		return NULL;
 	}
 	
-	stream = pop3_get_message_stream (folder, id, ex);
+	camel_operation_start_transient (NULL, _("Retrieving POP message %d"), id);
+	stream = pop3_get_message_stream (folder, id, FALSE, ex);
+	camel_operation_end (NULL);
 	if (stream == NULL)
 		return NULL;
 	
