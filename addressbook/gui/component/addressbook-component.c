@@ -41,6 +41,10 @@
 #define COMPONENT_FACTORY_ID "evolution-shell-component-factory:addressbook"
 #endif
 
+/* Nasty hack for filters to be able to find folders */
+/* Not even used with addressbook??? */
+EvolutionShellClient *global_shell_client;
+
 static BonoboGenericFactory *factory = NULL;
 
 static const EvolutionShellComponentFolderType folder_types[] = {
@@ -81,6 +85,9 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 {
 	owner_count ++;
 
+	if (global_shell_client == NULL)
+		global_shell_client = shell_client;
+	
 	setup_ldap_storage (shell_component, evolution_homedir);
 }
 
