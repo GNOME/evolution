@@ -557,8 +557,11 @@ camel_http_stream_set_proxy (CamelHttpStream *http_stream, const char *proxy_url
 	
 	if (http_stream->proxy)
 		camel_url_free (http_stream->proxy);
-	
-	http_stream->proxy = camel_url_new (proxy_url, NULL);
+
+	if (proxy_url == NULL)
+		http_stream->proxy = NULL;
+	else
+		http_stream->proxy = camel_url_new (proxy_url, NULL);
 }
 
 void

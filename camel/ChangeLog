@@ -1,3 +1,21 @@
+2003-08-20  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #47765.
+
+	* camel-folder-search.h: Removed match1 member.
+
+	* camel-folder-search.c (camel_folder_search_match_expression):
+	use current directly rather than match1.  This method isn't used
+	anywhere anyway.
+	(search_not): remove match1 stuff.
+	(search_match_all): properly handle the match-all against 1
+	message as a scalar result, not an array result.
+
+2003-09-03  Not Zed  <NotZed@Ximian.com>
+
+	* camel-http-stream.c (camel_http_stream_set_proxy): handle NULL
+	proxy_url - unset the proxy.
+
 2003-08-29  Not Zed  <NotZed@Ximian.com>
 
 	* camel-object.c (camel_object_state_write): 
