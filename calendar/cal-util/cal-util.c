@@ -142,9 +142,12 @@ compute_alarm_range (CalComponent *comp, GList *alarm_uids, time_t start, time_t
 			dur = &trigger.u.rel_duration;
   			dur_time = icaldurationtype_as_int (*dur);
 
-			repeat_time = MAX (repeat_time,
-					   (repeat.repetitions
-					    * icaldurationtype_as_int (repeat.duration)));
+			if (repeat.repetitions != 0) {
+				int rdur;
+
+				rdur = repeat.repetitions * icaldurationtype_as_int (repeat.duration);
+				repeat_time = MAX (repeat_time, rdur);
+			}
 
 			if (dur->is_neg)
 				/* If the duration is negative then dur_time
@@ -162,7 +165,7 @@ compute_alarm_range (CalComponent *comp, GList *alarm_uids, time_t start, time_t
 		}
 	}
 
-	alarm_start -= repeat_time;
+	*alarm_start -= repeat_time;
 
 	g_assert (*alarm_start <= *alarm_end);
 }

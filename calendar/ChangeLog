@@ -1,3 +1,10 @@
+2001-11-02  Federico Mena Quintero  <federico@ximian.com>
+
+	* cal-util/cal-util.c (compute_alarm_range): Short-circuit the
+	calculation of the repeat time if there are zero repetitions.
+	(compute_alarm_range): I'm a moron.  De-reference alarm_start when
+	subtracting stuff from it!  Fixes bug #14209.
+
 2001-10-31  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/dialogs/Makefile.am: Added rules to generate
