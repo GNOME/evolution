@@ -60,8 +60,8 @@ table_test_SOURCES = 	\
 table_test_LDADD =				\
 	libetable.a				\
 	$(EXTRA_GNOME_LIBS)			\
-	$(top_builddir)/e-util/libeutil.la	\
-	$(top_builddir)/widgets/e-text/libetext.a
+	$(top_builddir)/widgets/e-text/libetext.a \
+	$(top_builddir)/e-util/libeutil.la	
 
 table_test_LDFLAGS = `gnome-config --libs gdk_pixbuf`
 
@@ -71,8 +71,8 @@ table_example_1_SOURCES = 	\
 table_example_1_LDADD =				\
 	libetable.a				\
 	$(EXTRA_GNOME_LIBS)			\
-	$(top_builddir)/e-util/libeutil.la	\
-	$(top_builddir)/widgets/e-text/libetext.a
+	$(top_builddir)/widgets/e-text/libetext.a \
+	$(top_builddir)/e-util/libeutil.la	
 
 table_example_1_LDFLAGS = `gnome-config --libs gdk_pixbuf`
 
@@ -82,8 +82,8 @@ table_example_2_SOURCES = 	\
 table_example_2_LDADD =				\
 	libetable.a				\
 	$(EXTRA_GNOME_LIBS)			\
-	$(top_builddir)/e-util/libeutil.la	\
-	$(top_builddir)/widgets/e-text/libetext.a
+	$(top_builddir)/widgets/e-text/libetext.a \
+	$(top_builddir)/e-util/libeutil.la	
 
 table_example_2_LDFLAGS = `gnome-config --libs gdk_pixbuf`
 
