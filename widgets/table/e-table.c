@@ -1550,8 +1550,10 @@ e_table_get_cell_geometry (ETable *table,
 
 	if (x_return)
 		(*x_return) -= GTK_LAYOUT(table->table_canvas)->hadjustment->value;
-	if (y_return)
+	if (y_return) {
 		(*y_return) -= GTK_LAYOUT(table->table_canvas)->vadjustment->value;
+		(*y_return) += GTK_WIDGET(table->header_canvas)->allocation.height;
+	}
 }
 
 struct _ETableDragSourceSite
