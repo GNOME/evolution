@@ -242,7 +242,7 @@ find_entry_from_location (ESummaryShown *shown,
 		if (entry->location == NULL) {
 			continue;
 		}
-		
+               
 		if (strcmp ((char *) entry->location, location) == 0) {
 			return entry;
 		}
@@ -327,7 +327,9 @@ static void
 maybe_move_to_shown (ETreePath path,
 		     gpointer closure)
 {
-	ESummaryShown *shown = closure;
+	gpointer *pair = closure;
+	ESummaryShown *shown = pair[0];
+	GList **list = pair[1];
 	ESummaryShownModelEntry *entry, *new_entry;
 
 	entry = g_hash_table_lookup (shown->all_model, path);
@@ -349,9 +351,8 @@ maybe_move_to_shown (ETreePath path,
 	new_entry->showable = entry->showable;
 	new_entry->ref_count = 0;
 
-	e_summary_shown_add_node (shown, FALSE, new_entry, NULL, TRUE, NULL);
-	gtk_signal_emit (GTK_OBJECT (shown), shown_signals[ITEM_CHANGED]);
 	g_print ("Added %s\n", entry->name);
+	*list = g_list_prepend (*list, new_entry);
 }
 
 static void
@@ -360,26 +361,40 @@ add_clicked (GtkWidget *button,
 {
 	ESelectionModel *esm;
 	ETree *et;
+	gpointer pair[2];
+	GList *list = NULL;
+	GList *iterator;
 		
 	et = e_tree_scrolled_get_tree (E_TREE_SCROLLED (shown->priv->all->etable));
 	esm = e_tree_get_selection_model (et);
 
+	pair[0] = shown;
+	pair[1] = &list;
 	e_tree_selection_model_foreach (E_TREE_SELECTION_MODEL (esm),
-					maybe_move_to_shown, shown);
+					maybe_move_to_shown, pair);
+
+	for (iterator = list; iterator; iterator = iterator->next) {
+		ESummaryShownModelEntry *new_entry = iterator->data;
+		e_summary_shown_add_node (shown, FALSE, new_entry, NULL, TRUE, NULL);
+	}
+
+	g_list_free (list);
+	gtk_signal_emit (GTK_OBJECT (shown), shown_signals[ITEM_CHANGED]);
 }
 
 static void
 remove_from_shown (ETreePath path,
 		   gpointer closure)
 {
-	ESummaryShown *shown = closure;
+	gpointer *pair = closure;
+	ESummaryShown *shown = pair[0];
+	GList **list = pair[1];
 	ESummaryShownModelEntry *entry;
 
 	entry = g_hash_table_lookup (shown->shown_model, path);
 	g_return_if_fail (entry != NULL);
 
-	e_summary_shown_remove_node (shown, FALSE, entry);
-	gtk_signal_emit (GTK_OBJECT (shown), shown_signals[ITEM_CHANGED]);
+	*list = g_list_prepend (*list, entry);
 }
 
 static void
@@ -388,12 +403,27 @@ remove_clicked (GtkWidget *button,
 {
 	ESelectionModel *esm;
 	ETree *et;
+	gpointer pair[2];
+	GList *list = NULL;
+	GList *iterator;
 
 	et = e_tree_scrolled_get_tree (E_TREE_SCROLLED (shown->priv->shown->etable));
 	esm = e_tree_get_selection_model (et);
 
+	pair[0] = shown;
+	pair[1] = &list;
 	e_tree_selection_model_foreach (E_TREE_SELECTION_MODEL (esm),
-					remove_from_shown, shown);
+					remove_from_shown, pair);
+
+	list = g_list_reverse (list);
+
+	for (iterator = list; iterator; iterator = iterator->next) {
+		ESummaryShownModelEntry *entry = iterator->data;
+		e_summary_shown_remove_node (shown, FALSE, entry);
+	}
+	g_list_free (list);
+
+	gtk_signal_emit (GTK_OBJECT (shown), shown_signals[ITEM_CHANGED]);
 }
 
 static TableData *

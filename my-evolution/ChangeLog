@@ -1,3 +1,9 @@
+2002-06-05  Christopher James Lahey  <clahey@ximian.com>
+
+	* e-summary-shown.c (maybe_move_to_shown, add_clicked,
+	remove_from_shown, remove_clicked): Avoid reentrancy during
+	e_tree_selection_model_foreach.  Fixes Ximian bug #24987.
+
 2002-05-23  JP Rosevear  <jpr@ximian.com>
 
 	* GNOME_Evolution_Summary.oaf.in.in: correct typo
