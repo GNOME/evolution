@@ -155,6 +155,8 @@ int e_msgport_fd(EMsgPort *mp)
 
 void e_msgport_put(EMsgPort *mp, EMsg *msg)
 {
+	int fd;
+
 	m(printf("put:\n"));
 	g_mutex_lock(mp->lock);
 	e_dlist_addtail(&mp->queue, &msg->ln);
@@ -162,11 +164,14 @@ void e_msgport_put(EMsgPort *mp, EMsg *msg)
 		m(printf("put: condwait > 0, waking up\n"));
 		g_cond_signal(mp->cond);
 	}
-	if (mp->pipe.fd.write != -1) {
-		m(printf("put: have pipe, writing notification to it\n"));
-		write(mp->pipe.fd.write, "", 1);
-	}
+	fd = mp->pipe.fd.write;
 	g_mutex_unlock(mp->lock);
+
+	if (fd != -1) {
+		m(printf("put: have pipe, writing notification to it\n"));
+		write(fd, "", 1);
+	}
+
 	m(printf("put: done\n"));
 }
 

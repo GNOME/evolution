@@ -1,3 +1,11 @@
+2001-09-28    <NotZed@Ximian.com>
+
+	* e-msgport.c (e_msgport_put): Write the pipe notification outside
+	the lock.  This way if the pipe fills up because of too many
+	outstanding request, the queue isn't deadlocked.  This only
+	happens wiht 4096 outstanding messages, so something is getting
+	VERY busy!  Fixes #11121.
+
 2001-09-24  Christopher James Lahey  <clahey@ximian.com>
 
 	* e-categories-master-list-wombat.c (ecmlw_load, ecmlw_save): Make
