@@ -1,3 +1,7 @@
+2005-01-11  Not Zed  <NotZed@Ximian.com>
+
+	* Makefile.am: fix LDFLAGS variable name.
+
 2005-01-10  Sushma Rai <rsushma@novell.com>
 
 	* exchange-ask-password.c: (validate_exchange_user):

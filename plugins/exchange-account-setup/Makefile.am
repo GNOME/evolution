@@ -16,6 +16,6 @@ liborg_gnome_exchange_account_settings_la_LIBADD = 		\
 	$(top_builddir)/e-util/libeutil.la 			\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la
 
-liborg_gnome_exchange_account_setup_la_LDFLAGS = -module -avoid-version
+liborg_gnome_exchange_account_settings_la_LDFLAGS = -module -avoid-version
 
 EXTRA_DIST = org-gnome-exchange-account-setup.eplug.in
