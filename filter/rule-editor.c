@@ -377,7 +377,8 @@ rule_down (GtkWidget *widget, RuleEditor *re)
 	
 	d(printf ("down rule\n"));
 	pos = rule_context_get_rank_rule (re->context, re->current, re->source);
-	rule_move (re, pos, pos + 1);
+	if (pos >= 0)
+		rule_move (re, pos, pos + 1);
 }
 
 static struct {
@@ -407,10 +408,10 @@ set_sensitive (RuleEditor *re)
 	
 	count--;
 	
-	gtk_widget_set_sensitive(GTK_WIDGET(re->priv->buttons[BUTTON_EDIT]), index != -1);
-	gtk_widget_set_sensitive(GTK_WIDGET(re->priv->buttons[BUTTON_DELETE]), index != -1);
-	gtk_widget_set_sensitive(GTK_WIDGET(re->priv->buttons[BUTTON_UP]), index > 0);
-	gtk_widget_set_sensitive(GTK_WIDGET(re->priv->buttons[BUTTON_DOWN]), index >= 0 && index < count);
+	gtk_widget_set_sensitive (GTK_WIDGET (re->priv->buttons[BUTTON_EDIT]), index != -1);
+	gtk_widget_set_sensitive (GTK_WIDGET (re->priv->buttons[BUTTON_DELETE]), index != -1);
+	gtk_widget_set_sensitive (GTK_WIDGET (re->priv->buttons[BUTTON_UP]), index > 0);
+	gtk_widget_set_sensitive (GTK_WIDGET (re->priv->buttons[BUTTON_DOWN]), index >= 0 && index < count);
 }
 
 
@@ -432,7 +433,7 @@ double_click (GtkWidget *widget, GdkEventButton *event, RuleEditor *re)
 }
 
 static void
-set_source(RuleEditor *re, const char *source)
+set_source (RuleEditor *re, const char *source)
 {
 	FilterRule *rule = NULL;
 	GList *newitems = NULL;
@@ -445,23 +446,23 @@ set_source(RuleEditor *re, const char *source)
 		char *s;
 		
 		d(printf("   hit %s(%d)\n", rule->name, source));
-		s = e_utf8_to_gtk_string(GTK_WIDGET(re->list), rule->name);
-		item = gtk_list_item_new_with_label(s);
-		g_free(s);
-		gtk_object_set_data(GTK_OBJECT(item), "rule", rule);
-		gtk_widget_show(GTK_WIDGET(item));
-		newitems = g_list_append(newitems, item);
+		s = e_utf8_to_gtk_string (GTK_WIDGET (re->list), rule->name);
+		item = gtk_list_item_new_with_label (s);
+		g_free (s);
+		gtk_object_set_data (GTK_OBJECT (item), "rule", rule);
+		gtk_widget_show (GTK_WIDGET (item));
+		newitems = g_list_append (newitems, item);
 	}
 	
-	gtk_list_append_items(re->list, newitems);
-	g_free(re->source);
-	re->source = g_strdup(source);
+	gtk_list_append_items (re->list, newitems);
+	g_free (re->source);
+	re->source = g_strdup (source);
 	re->current = NULL;
-	rule_editor_set_sensitive(re);
+	rule_editor_set_sensitive (re);
 }
 
 void
-rule_editor_construct(RuleEditor *re, RuleContext *context, GladeXML *gui, const char *source)
+rule_editor_construct (RuleEditor *re, RuleContext *context, GladeXML *gui, const char *source)
 {
 	GtkWidget *w;
 	int i;

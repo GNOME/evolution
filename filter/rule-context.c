@@ -439,32 +439,35 @@ rule_context_add_rule_gui(RuleContext * f, FilterRule * rule, const char *title,
 }
 
 void
-rule_context_remove_rule(RuleContext * f, FilterRule * rule)
+rule_context_remove_rule (RuleContext *f, FilterRule *rule)
 {
-	f->rules = g_list_remove(f->rules, rule);
+	f->rules = g_list_remove (f->rules, rule);
 }
 
 void
-rule_context_rank_rule(RuleContext * f, FilterRule * rule, int rank)
+rule_context_rank_rule (RuleContext *f, FilterRule *rule, int rank)
 {
-	f->rules = g_list_remove(f->rules, rule);
-	f->rules = g_list_insert(f->rules, rule, rank);
+	f->rules = g_list_remove (f->rules, rule);
+	f->rules = g_list_insert (f->rules, rule, rank);
 }
 
 int
-rule_context_get_rank_rule(RuleContext * f, FilterRule * rule, const char *source)
+rule_context_get_rank_rule (RuleContext *f, FilterRule *rule, const char *source)
 {
-	GList *n = f->rules;
+	GList *node = f->rules;
 	int i = 0;
-
-	while (n) {
-		FilterRule *r = n->data;
-
+	
+	while (node) {
+		FilterRule *r = node->data;
+		
 		if (r == rule)
 			return i;
-		if (source == NULL || (r->source && strcmp(r->source, source) == 0))
+		
+		if (source == NULL || (r->source && strcmp (r->source, source) == 0))
 			i++;
-		n = g_list_next(n);
+		
+		node = node->next;
 	}
-	return i;
+	
+	return -1;
 }
