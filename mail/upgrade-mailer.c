@@ -597,35 +597,31 @@ mailer_upgrade_xml_file (GHashTable *imap_sources, const char *filename)
 static char *
 shortcuts_upgrade_uri (GHashTable *accounts, GHashTable *imap_sources, const char *account, const char *folder)
 {
-	char *url, *decoded, *new = NULL;
+	char *url, *name, *decoded, *new = NULL;
 	struct _storeinfo *si;
 	int type;
-	
-	decoded = hex_decode (folder, strlen (folder));
 	
 	type = GPOINTER_TO_INT ((si = g_hash_table_lookup (accounts, account)));
 	if (type == 1) {
 		/* exchange */
-		new = g_strdup_printf ("personal/%s", decoded);
+		decoded = hex_decode (folder, strlen (folder));
+		name = g_strdup_printf ("personal/%s", decoded);
 		g_free (decoded);
 		
-		return new;
+		return name;
 	} else {
 		/* imap */
-		url = g_strdup_printf ("%s/%s", si->base_url, decoded);
+		url = g_strdup_printf ("%s/%s", si->base_url, folder);
 		new = imap_url_upgrade (imap_sources, url);
-		g_free (decoded);
 		g_free (url);
 		
 		if (new) {
-			url = g_strdup (new + strlen (si->base_url) + 1);
+			name = g_strdup (new + strlen (si->base_url) + 1);
 			g_free (new);
 			
-			return url;
+			return name;
 		}
 	}
-	
-	g_free (decoded);
 	
 	return NULL;
 }

@@ -1,9 +1,7 @@
 2002-09-09  Jeffrey Stedfast  <fejj@ximian.com>
 
-	* upgrade-mailer.c (shortcuts_upgrade_uri): Hex decode imap folder
-	names too.
-	(shortcuts_upgrade_xml_file): Don't look for an end quote, instead
-	look for </item> to terminate the uri.
+	* upgrade-mailer.c (shortcuts_upgrade_xml_file): Don't look for an
+	end quote, instead look for </item> to terminate the uri.
 
 2002-09-08  Dan Winship  <danw@ximian.com>
 
