@@ -1372,8 +1372,6 @@ show_existing_view (EShellView *shell_view,
 	EShellViewPrivate *priv;
 	int notebook_page;
 
-	g_print ("Already have view for %s\n", uri);
-
 	priv = shell_view->priv;
 
 	notebook_page = gtk_notebook_page_num (GTK_NOTEBOOK (priv->notebook), control);
