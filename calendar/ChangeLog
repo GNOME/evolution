@@ -1,5 +1,9 @@
 1998-04-20  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
+	* gncal-full-day.c (gncal_full_day_get_day_start_yoffset): New
+	public function that returns the y offset for the row
+	corresponding to the "day begin" time.
+
 	* gncal-full-day.c (gncal_full_day_key_press): Now any printable
 	keystroke (not just Return) will activate the selected range.
 

@@ -1812,6 +1812,7 @@ gncal_full_day_key_press (GtkWidget *widget, GdkEventKey *event)
 	struct drag_info *di;
 	GList *children;
 	Child *child;
+	gint pos;
 
 	g_return_val_if_fail (widget != NULL, FALSE);
 	g_return_val_if_fail (GNCAL_IS_FULL_DAY (widget), FALSE);
@@ -1834,20 +1835,22 @@ gncal_full_day_key_press (GtkWidget *widget, GdkEventKey *event)
 
 		gtk_signal_emit (GTK_OBJECT (fullday), fullday_signals[RANGE_ACTIVATED]);
 
-		/* This is sort of a hack.  We find the focused child, if it exists, and
-		 * we re-send the keystroke to it.
-		 */
+		/* Find the new child, which should hopefully be focused, and insert the keypress */
 
 		for (children = fullday->children; children; children = children->next) {
 			child = children->data;
 
 			if (GTK_WIDGET_HAS_FOCUS (child->widget)) {
-				event->window = GTK_TEXT (child->widget)->text_area;
-				gtk_widget_event (widget, (GdkEvent *) event);
+				pos = gtk_text_get_length (GTK_TEXT (child->widget));
+
+				gtk_editable_insert_text (GTK_EDITABLE (child->widget),
+							  event->string,
+							  event->length,
+							  &pos);
+
 				return TRUE;
 			}
 		}
-		
 	}
 
 	return FALSE;
@@ -2070,6 +2073,22 @@ gncal_full_day_focus_child (GncalFullDay *fullday, iCalObject *ico)
 			break;
 		}
 	}
+}
+
+int
+gncal_full_day_get_day_start_yoffset (GncalFullDay *fullday)
+{
+	GtkWidget *widget;
+	int begin_row;
+
+	g_return_val_if_fail (fullday != NULL, 0);
+	g_return_val_if_fail (GNCAL_IS_FULL_DAY (fullday), 0);
+
+	widget = GTK_WIDGET (fullday);
+
+	begin_row = (day_begin * 60) / fullday->interval;
+
+	return widget->style->klass->ythickness + begin_row * calc_row_height (fullday);
 }
 
 static void

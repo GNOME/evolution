@@ -102,6 +102,7 @@ setup_day_view (GnomeCalendar *gcal, time_t now)
 			  GTK_FILL | GTK_EXPAND | GTK_SHRINK,
 			  0, 0);
 	gtk_container_add (GTK_CONTAINER (sw), gcal->day_view);
+
 	gtk_widget_show_all (GTK_WIDGET (t));
 }
 
