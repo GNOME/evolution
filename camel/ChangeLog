@@ -1,3 +1,9 @@
+2004-01-28  Sivaih Nallagatla <snallagatla@novell.com>
+
+	* providers/groupwise/camel-gw-listener.c (account_changed)
+	(modify_esources) : add port and /soap parts to relative uri while 
+	updating it when account changed
+
 2004-01-27  Radek Doulik  <rodo@ximian.com>
 
 	* providers/imap/camel-imap-folder.c (camel_imap_folder_new): set

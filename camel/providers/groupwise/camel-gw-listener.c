@@ -232,7 +232,7 @@ remove_esource (const char *conf_key, const char *group_name, char* source_name,
 /* looks up for e-source with having same info as old_account_info and changes its values passed in new values */
 
 static void 
-modify_esource (const char* conf_key, GwAccountInfo *old_account_info, const char* new_group_name, const char* new_relative_uri)
+modify_esource (const char* conf_key, GwAccountInfo *old_account_info, const char* new_group_name, const char *username, const char* new_relative_uri)
 {
 	ESourceList *list;
         ESourceGroup *group;
@@ -270,6 +270,7 @@ modify_esource (const char* conf_key, GwAccountInfo *old_account_info, const cha
 					
 					e_source_group_set_name (group, new_group_name);
 					e_source_set_relative_uri (source, new_relative_uri);
+					e_source_set_property (source, "username", username);
 					e_source_list_sync (list, NULL);
 					found_group = TRUE;
 					break;
@@ -517,9 +518,9 @@ account_changed (EAccountList *account_listener, EAccount *account)
 		if (strcmp (existing_account_info->name, account->name) != 0 || strcmp (existing_account_info->source_url, account->source->url) != 0) {
 			
 			url = camel_url_new (account->source->url, NULL);
-			relative_uri =  g_strdup_printf ("%s@%s", url->user, url->host);
-			modify_esource ("/apps/evolution/calendar/sources", existing_account_info, account->name, relative_uri);
-			modify_esource ("/apps/evolution/tasks/sources", existing_account_info, account->name, relative_uri);
+			relative_uri =  g_strdup_printf ("%s:7181/soap", url->host);
+			modify_esource ("/apps/evolution/calendar/sources", existing_account_info, account->name, url->user, relative_uri);
+			modify_esource ("/apps/evolution/tasks/sources", existing_account_info, account->name, url->user, relative_uri);
 			g_free (existing_account_info->name);
 			g_free (existing_account_info->source_url);
 			existing_account_info->name = g_strdup (account->name);
