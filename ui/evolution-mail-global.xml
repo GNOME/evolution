@@ -72,7 +72,7 @@
 
     <placeholder name="ComponentActionsPlaceholder">
       <submenu name="Actions" _label="_Actions">
-        <menuitem name="MailGetSend" verb="" _label="_Send / Receive"/>
+        <menuitem name="MailGetSend" verb="" _label="_Send / Receive" accel="F9"/>
         <menuitem name="ActionCompose" verb="MailCompose" _label="Compose _New Message"/>
 
         <separator/>
