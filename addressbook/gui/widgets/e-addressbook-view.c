@@ -1734,9 +1734,9 @@ eab_view_show_contact_preview (EABView *view, gboolean show)
 	g_return_if_fail (view && E_IS_ADDRESSBOOK_VIEW (view));
 
 	if (show)
-		gtk_widget_show (view->scrolled);
+		gtk_widget_show (view->contact_display);
 	else
-		gtk_widget_hide (view->scrolled);
+		gtk_widget_hide (view->contact_display);
 }
 
 void
