@@ -1,5 +1,7 @@
 2004-06-04  JP Rosevear  <jpr@novell.com>
 
+	Fixes #59058
+	
 	* gui/gnome-cal.c (gnome_calendar_purge): make purging actually
 	work
 
