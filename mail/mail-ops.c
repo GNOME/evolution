@@ -32,6 +32,7 @@
 /* #include <ctype.h> */
 #include <errno.h>
 #include <gal/util/e-util.h>
+#include <gal/widgets/e-unicode.h>
 #include <camel/camel-mime-filter-from.h>
 #include <camel/camel-operation.h>
 #include "mail.h"
@@ -580,12 +581,19 @@ struct _send_mail_msg {
 static char *send_mail_desc(struct _mail_msg *mm, int done)
 {
 	struct _send_mail_msg *m = (struct _send_mail_msg *)mm;
-	const char *subject;
+	char *subject;
+	const char *subject_utf8;
+	
+	subject_utf8 = camel_mime_message_get_subject(m->message);
+	
+	if (subject_utf8) {
+		char *desc;
 
-	subject = camel_mime_message_get_subject(m->message);
-	if (subject && subject[0])
-		return g_strdup_printf (_("Sending \"%s\""), subject);
-	else
+		subject = e_utf8_to_locale_string (subject_utf8);
+		desc = g_strdup_printf (_("Sending \"%s\""), subject);
+		g_free (subject);
+		return desc;
+	} else
 		return g_strdup(_("Sending message"));
 }
 

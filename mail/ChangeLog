@@ -1,3 +1,8 @@
+2001-04-20  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* mail-ops.c: (send_mail_desc): Convert subject from utf8
+	before passing it on.
+
 2001-04-20  Gediminas Paulauskas <menesis@delfi.lt>
 
 	* mail-display.c: #if 0'd out my not-working selection code
