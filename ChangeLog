@@ -1,3 +1,8 @@
+2000-04-14  Chris Toshok  <toshok@helixcode.com>
+
+	* configure.in: quiet configure in the case where it can't find
+	ldap libs.
+
 2000-04-13  Christopher James Lahey  <clahey@helixcode.com>
 
 	* addressbook/contact-editor/e-contact-editor.c (extract_info):
