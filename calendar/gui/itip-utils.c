@@ -673,7 +673,7 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *send_comp)
 	GNOME_Evolution_Composer_RecipientList *to_list = NULL;
 	GNOME_Evolution_Composer_RecipientList *cc_list = NULL;
 	GNOME_Evolution_Composer_RecipientList *bcc_list = NULL;
-	CORBA_char *subject = NULL, *content_type = NULL;
+	CORBA_char *subject = NULL, *body = NULL, *content_type = NULL;
 	CORBA_char *filename = NULL, *description = NULL;
 	GNOME_Evolution_Composer_AttachmentData *attach_data = NULL;
 	CORBA_boolean show_inline;
@@ -715,6 +715,10 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *send_comp)
 		g_warning ("Unable to set composer headers while sending iTip message");
 		goto cleanup;
 	}
+
+	/* Plain text body */
+	body = comp_description (comp);
+	GNOME_Evolution_Composer_setBodyText (composer_server, body, &ev);
 
 	/* Content type, suggested file name, description */
 	content_type = comp_content_type (method);
@@ -764,6 +768,8 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *send_comp)
 
 	if (subject != NULL)
 		CORBA_free (subject);
+	if (body != NULL)
+		CORBA_free (body);
 	if (content_type != NULL)
 		CORBA_free (content_type);
 	if (filename != NULL)

@@ -1,3 +1,7 @@
+2001-10-30  JP Rosevear  <jpr@ximian.com>
+
+	* gui/itip-utils.c (itip_send_comp): set a body for the message
+
 2001-10-30  Dan Winship  <danw@ximian.com>
 
 	* gui/itip-utils.c (itip_send_comp): call
