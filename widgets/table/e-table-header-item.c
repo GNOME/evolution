@@ -975,8 +975,8 @@ ethi_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width
 			g_hash_table_insert (arrows, 
 					     GINT_TO_POINTER (column.column),
 					     GINT_TO_POINTER (column.ascending ?
-							      E_TABLE_COL_ARROW_UP : 
-							      E_TABLE_COL_ARROW_DOWN));
+							      E_TABLE_COL_ARROW_DOWN : 
+							      E_TABLE_COL_ARROW_UP));
 		}
 		length = e_table_sort_info_sorting_get_count(ethi->sort_info);
 		for (i = 0; i < length; i++) {
@@ -984,8 +984,8 @@ ethi_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width
 			g_hash_table_insert (arrows, 
 					     GINT_TO_POINTER (column.column),
 					     GINT_TO_POINTER (column.ascending ?
-							      E_TABLE_COL_ARROW_UP : 
-							      E_TABLE_COL_ARROW_DOWN));
+							      E_TABLE_COL_ARROW_DOWN : 
+							      E_TABLE_COL_ARROW_UP));
 		}
 	}
 
@@ -1171,8 +1171,8 @@ ethi_start_drag (ETableHeaderItem *ethi, GdkEvent *event)
 				arrows, 
 				GINT_TO_POINTER (column.column),
 				GINT_TO_POINTER (column.ascending ?
-						 E_TABLE_COL_ARROW_UP : 
-						 E_TABLE_COL_ARROW_DOWN));
+						 E_TABLE_COL_ARROW_DOWN : 
+						 E_TABLE_COL_ARROW_UP));
 		}
 		length = e_table_sort_info_sorting_get_count(ethi->sort_info);
 		for (i = 0; i < length; i++) {
@@ -1184,8 +1184,8 @@ ethi_start_drag (ETableHeaderItem *ethi, GdkEvent *event)
 				arrows, 
 				GINT_TO_POINTER (column.column),
 				GINT_TO_POINTER (column.ascending ?
-						 E_TABLE_COL_ARROW_UP : 
-						 E_TABLE_COL_ARROW_DOWN));
+						 E_TABLE_COL_ARROW_DOWN : 
+						 E_TABLE_COL_ARROW_UP));
 		}
 	}
 
