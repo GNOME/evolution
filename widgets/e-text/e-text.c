@@ -1830,7 +1830,13 @@ _do_tooltip (gpointer data)
 	gint x, y, pointer_x, pointer_y, scr_w, scr_h, tip_w, tip_h;
 	int i;
 
+	if (text->editing)
+		return FALSE;
+
 	lines = text->lines;
+
+	if (lines->length <= lines->ellipsis_length)
+		return FALSE;
 
 	scr_w = gdk_screen_width ();
 	scr_h = gdk_screen_height ();
@@ -1938,6 +1944,14 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 		break;
 	case GDK_BUTTON_PRESS: /* Fall Through */
 	case GDK_BUTTON_RELEASE:
+		text->tooltip_count --;
+		if ( text->tooltip_count == 0 && text->clip) {
+			gtk_timeout_remove (text->tooltip_timeout);
+			if (text->tooltip_window) {
+				gtk_widget_destroy (text->tooltip_window);
+				text->tooltip_window = NULL;
+			}
+		}
 		if ((!text->editing) 
 		    && text->editable 
 		    && event->type == GDK_BUTTON_RELEASE
@@ -1991,9 +2005,10 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 		}
 		break;
 	case GDK_ENTER_NOTIFY:
-		if ( text->tooltip_count == 0 )
+		if ( text->tooltip_count == 0 && text->clip) {
 			text->tooltip_timeout = gtk_timeout_add (1000, _do_tooltip, text);
-		text->tooltip_count ++;
+			text->tooltip_count ++;
+		}
 		text->pointer_in = TRUE;
 		if (text->editing) {
 			if ( text->default_cursor_shown ) {
@@ -2004,7 +2019,7 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 		break;
 	case GDK_LEAVE_NOTIFY:
 		text->tooltip_count --;
-		if ( text->tooltip_count == 0 ) {
+		if ( text->tooltip_count == 0 && text->clip) {
 			gtk_timeout_remove (text->tooltip_timeout);
 			if (text->tooltip_window) {
 				gtk_widget_destroy (text->tooltip_window);
