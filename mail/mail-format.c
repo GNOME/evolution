@@ -3,7 +3,7 @@
  * Authors: Dan Winship <danw@ximian.com>
  *          Jeffrey Stedfast <fejj@ximian.com>
  *
- *  Copyright 2000, 2003 Ximian, Inc.
+ *  Copyright 2000-2003 Ximian, Inc. (www.ximian.com)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -1120,58 +1120,32 @@ ssize_t
 mail_format_data_wrapper_write_to_stream (CamelDataWrapper *wrapper, MailDisplay *mail_display, CamelStream *stream)
 {
 	CamelStreamFilter *filtered_stream;
+	CamelMimeFilterCharset *filter;
+	CamelContentType *content_type;
+	GConfClient *gconf;
 	ssize_t written;
+	char *charset;
+	
+	gconf = mail_config_get_gconf_client ();
+	
+	content_type = camel_data_wrapper_get_mime_type_field (wrapper);
+	
+	/* find out the charset the user wants to override to */
+	if (mail_display && mail_display->charset)
+		charset = g_strdup (mail_display->charset);
+	else if (content_type && (charset = (char *) header_content_type_param (content_type, "charset")))
+		charset = g_strdup (charset);
+	else
+		charset = gconf_client_get_string (gconf, "/apps/evolution/mail/format/charset", NULL);
 	
 	filtered_stream = camel_stream_filter_new_with_stream (stream);
 	
-	if (wrapper->rawtext || (mail_display && mail_display->charset)) {
-		CamelMimeFilterCharset *filter;
-		CamelContentType *content_type;
-		GConfClient *gconf;
-		char *charset;
-		
-		gconf = mail_config_get_gconf_client ();
-		
-		content_type = camel_data_wrapper_get_mime_type_field (wrapper);
-		
-		if (!wrapper->rawtext) {
-			/* data wrapper had been successfully converted to UTF-8 using the mime
-			   part's charset, but the user thinks he knows best so we'll let him
-			   shoot himself in the foot here... */
-			
-			/* get the original charset of the mime part */
-			charset = (char *) (content_type ? header_content_type_param (content_type, "charset") : NULL);
-			if (!charset)
-				charset = gconf_client_get_string (gconf, "/apps/evolution/mail/format/charset", NULL);
-			else
-				charset = g_strdup (charset);
-			
-			/* since the content is already in UTF-8, we need to decode into the
-			   original charset before we can convert back to UTF-8 using the charset
-			   the user is overriding with... */
-			if ((filter = camel_mime_filter_charset_new_convert ("utf-8", charset))) {
-				camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (filter));
-				camel_object_unref (filter);
-			}
-			
-			g_free (charset);
-		}
-		
-		/* find out the charset the user wants to override to */
-		if (mail_display && mail_display->charset)
-			charset = g_strdup (mail_display->charset);
-		else if (content_type && (charset = (char *) header_content_type_param (content_type, "charset")))
-			charset = g_strdup (charset);
-		else
-			charset = gconf_client_get_string (gconf, "/apps/evolution/mail/format/charset", NULL);
-		
-		if ((filter = camel_mime_filter_charset_new_convert (charset, "utf-8"))) {
-			camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (filter));
-			camel_object_unref (filter);
-		}
-		
-		g_free (charset);
+	if ((filter = camel_mime_filter_charset_new_convert (charset, "UTF-8"))) {
+		camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (filter));
+		camel_object_unref (filter);
 	}
+	
+	g_free (charset);
 	
 	written = camel_data_wrapper_write_to_stream (wrapper, CAMEL_STREAM (filtered_stream));
 	camel_stream_flush (CAMEL_STREAM (filtered_stream));

@@ -3,6 +3,8 @@
 	* mail-format.c (handle_multipart_encrypted): We don't have
 	camel_pgp_mime_is_rfc2015_encrypted() anymore so just look at the
 	protocol for now.
+	(mail_format_data_wrapper_write_to_stream): Updated for the new
+	way camel handles content objects.
 
 2003-07-15  Federico Mena Quintero  <federico@ximian.com>
 
