@@ -43,9 +43,10 @@ struct _FilterDriverPrivate {
 
 	/* run-time data */
 	GHashTable *folders;	/* currently open folders */
-	GList *matches;		/* all messages which match current rule */
+	GPtrArray *matches;	/* all messages which match current rule */
 	GHashTable *terminated;	/* messages for which processing is terminated */
 	GHashTable *processed;	/* all messages that were processed in some way */
+	GHashTable *copies;	/* lists of folders to copy messages to */
 
 	CamelFolder *source;	/* temporary input folder */
 
@@ -65,8 +66,8 @@ static CamelFolder *open_folder(FilterDriver *d, const char *folder_url);
 static int close_folders(FilterDriver *d);
 
 static ESExpResult *do_delete(struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver *);
-static ESExpResult *do_forward(struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver *);
-static ESExpResult *do_copy(struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver *);
+static ESExpResult *mark_forward(struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver *);
+static ESExpResult *mark_copy(struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver *);
 static ESExpResult *do_stop(struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver *);
 
 static struct {
@@ -76,8 +77,8 @@ static struct {
 				   doesn't execute everything, 0 otherwise */
 } symbols[] = {
 	{ "delete", (ESExpFunc *)do_delete, 0 },
-	{ "forward-to", (ESExpFunc *)do_forward, 0 },
-	{ "copy-to", (ESExpFunc *)do_copy, 0 },
+	{ "forward-to", (ESExpFunc *)mark_forward, 0 },
+	{ "copy-to", (ESExpFunc *)mark_copy, 0 },
 	{ "stop", (ESExpFunc *)do_stop, 0 },
 };
 
@@ -337,47 +338,41 @@ static ESExpResult *
 do_delete(struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver *d)
 {
 	struct _FilterDriverPrivate *p = _PRIVATE(d);
-	GList *m;
+	char *uid;
+	int i;
 
 	printf("doing delete\n");
-	m = p->matches;
-	while (m) {
-		printf(" %s\n", (char *)m->data);
+	for (i = 0; i < p->matches->len; i++) {
+		uid = p->matches->pdata[i];
+		printf(" %s\n", uid);
 
-		camel_folder_delete_message (p->source, m->data, p->ex);
-		if (g_hash_table_lookup(p->processed, m->data) == NULL) {
-			g_hash_table_insert(p->processed, g_strdup(m->data), (void *)1);
-		}
-
-		m = m->next;
+		camel_folder_delete_message (p->source, uid, p->ex);
 	}
 	return NULL;
 }
 
 static ESExpResult *
-do_forward(struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver *d)
+mark_forward(struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver *d)
 {
 	struct _FilterDriverPrivate *p = _PRIVATE(d);
-	GList *m;
-
-	printf("doing forward on the following messages:\n");
-	m = p->matches;
-	while (m) {
-		printf(" %s\n", (char *)m->data);
-		m = m->next;
-	}
-	return NULL;
-}
-
-static ESExpResult *
-do_copy(struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver *d)
-{
-	GList *m;
 	int i;
+
+	printf("marking the following messages for forwarding:\n");
+	for (i = 0; i < p->matches->len; i++) {
+		printf(" %s\n", (char *)p->matches->pdata[i]);
+	}
+	return NULL;
+}
+
+static ESExpResult *
+mark_copy(struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver *d)
+{
+	int i, m;
+	char *uid;
 	struct _FilterDriverPrivate *p = _PRIVATE(d);
 
-	printf("doing copy\n");
-	for (i=0;i<argc;i++) {
+	printf("marking for copy\n");
+	for (i = 0; i < argc; i++) {
 		if (argv[i]->type == ESEXP_RES_STRING) {
 			char *folder = argv[i]->value.string;
 			CamelFolder *outbox;
@@ -386,22 +381,16 @@ do_copy(struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver *d)
 			if (outbox == NULL)
 				continue;
 
-			m = p->matches;
-			while (m) {
-				CamelMimeMessage *mm;
+			for (m = 0; m < p->matches->len; m++) {
+				gpointer old_key, old_value;
 
-				printf("appending message %s to %s\n", (char *)m->data, folder);
+				uid = p->matches->pdata[m];
+				printf(" %s\n", uid);
 
-				mm = camel_folder_get_message(p->source, m->data, p->ex);
-				camel_folder_append_message(outbox, mm, p->ex);
-				gtk_object_unref((GtkObject *)mm);
-
-				if (!camel_exception_is_set(p->ex) &&
-				    g_hash_table_lookup(p->processed, m->data) == NULL) {
-					g_hash_table_insert(p->processed, g_strdup(m->data), (void *)1);
-				}
-
-				m = m->next;
+				if (g_hash_table_lookup_extended(p->copies, uid, &old_key, &old_value))
+					g_hash_table_insert(p->copies, old_key, g_list_prepend(old_value, outbox));
+				else
+					g_hash_table_insert(p->copies, g_strdup(uid), g_list_append(NULL, outbox));
 			}
 		}
 	}
@@ -412,18 +401,15 @@ do_copy(struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver *d)
 static ESExpResult *
 do_stop(struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver *d)
 {
-	GList *m;
+	int i;
+	char *uid;
 	struct _FilterDriverPrivate *p = _PRIVATE(d);
 
 	printf("doing stop on the following messages:\n");
-	m = p->matches;
-	while (m) {
-		printf(" %s\n", (char *)m->data);
-		g_hash_table_insert(p->terminated, g_strdup(m->data), (void *)1);
-		if (g_hash_table_lookup(p->processed, m->data) == NULL) {
-			g_hash_table_insert(p->processed, g_strdup(m->data), (void *)1);
-		}
-		m = m->next;
+	for (i = 0; i < p->matches->len; i++) {
+		uid = p->matches->pdata[i];
+		printf(" %s\n", uid);
+		g_hash_table_insert(p->terminated, g_strdup(uid), (void *)1);
 	}
 	return NULL;
 }
@@ -489,6 +475,12 @@ filter_driver_rule_get(FilterDriver *d, int n)
 	return g_list_nth_data(p->options, n);
 }
 
+static void
+free_key (gpointer key, gpointer value, gpointer user_data)
+{
+	g_free(key);
+}
+
 int
 filter_driver_run(FilterDriver *d, CamelFolder *source, CamelFolder *inbox)
 {
@@ -497,7 +489,7 @@ filter_driver_run(FilterDriver *d, CamelFolder *source, CamelFolder *inbox)
 	GList *options;
 	GString *s, *a;
 	GPtrArray *all;
-	GList *m;
+	char *uid;
 	int i;
 
 #warning "This must be made mega-robust"
@@ -507,6 +499,7 @@ filter_driver_run(FilterDriver *d, CamelFolder *source, CamelFolder *inbox)
 	p->folders = g_hash_table_new(g_str_hash, g_str_equal);
 	p->terminated = g_hash_table_new(g_str_hash, g_str_equal);
 	p->processed = g_hash_table_new(g_str_hash, g_str_equal);
+	p->copies = g_hash_table_new(g_str_hash, g_str_equal);
 
 	camel_exception_init(p->ex);
 	camel_folder_freeze(inbox);
@@ -519,17 +512,21 @@ filter_driver_run(FilterDriver *d, CamelFolder *source, CamelFolder *inbox)
 		a = g_string_new("");
 		filter_driver_expand_option(d, s, a, fo);
 
-		p->matches = camel_folder_search_by_expression  (p->source, s->str, p->ex);
+		p->matches = camel_folder_search_by_expression (p->source, s->str, p->ex);
 
 		/* remove uid's for which processing is complete ... */
-		m = p->matches;
-		while (m) {
-			GList *n = m->next;
+		for (i = 0; i < p->matches->len; i++) {
+			uid = p->matches->pdata[i];
 
-			if (g_hash_table_lookup(p->terminated, m->data)) {
-				p->matches = g_list_remove_link(p->matches, m);
+			/* for all matching id's, so we can work out what to default */
+			if (g_hash_table_lookup(p->processed, uid) == NULL) {
+				g_hash_table_insert(p->processed, g_strdup(uid), (void *)1);
 			}
-			m = n;
+
+			if (g_hash_table_lookup(p->terminated, uid)) {
+				g_ptr_array_remove_index_fast(p->matches, i);
+				i--;
+			}
 		}
 
 		e_sexp_input_text(p->eval, a->str, strlen(a->str));
@@ -540,35 +537,51 @@ filter_driver_run(FilterDriver *d, CamelFolder *source, CamelFolder *inbox)
 		g_string_free(s, TRUE);
 		g_string_free(a, TRUE);
 
-		g_list_free(p->matches);
+		g_strfreev((char **)p->matches->pdata);
+		g_ptr_array_free(p->matches, FALSE);
 		
 		options = g_list_next(options);
 	}
 
-	/* apply the default of copying to an inbox, if we are given one, and make sure
-	   we delete everything as well */
+	/* Do any queued copies, and make sure everything is deleted from
+	 * the source. If we have an inbox, anything that didn't get
+	 * processed otherwise goes there.
+	 */
 	all = camel_folder_get_uids(p->source, p->ex);
 	for (i = 0; i < all->len; i++) {
 		char *uid = all->pdata[i], *procuid;
+		GList *copies, *tmp;
 		CamelMimeMessage *mm;
 
+		copies = g_hash_table_lookup(p->copies, uid);
 		procuid = g_hash_table_lookup(p->processed, uid);
-		if (procuid == NULL) {
-			if (inbox) {
-				printf("Applying default rule to message %s\n", uid);
 
-				mm = camel_folder_get_message(p->source, uid, p->ex);
-				camel_folder_append_message(inbox, mm, p->ex);
-				gtk_object_unref((GtkObject *)mm);
-				camel_folder_delete_message(p->source, uid, p->ex);
+		if (copies || !procuid) {
+			mm = camel_folder_get_message(p->source, uid, p->ex);
+
+			while (copies) {
+				camel_folder_append_message(copies->data, mm, p->ex);
+				tmp = copies->next;
+				g_list_free_1(copies);
+				copies = tmp;
 			}
-		} else {
-			camel_folder_delete_message(p->source, uid, p->ex);
+
+			if (!procuid) {
+				printf("Applying default rule to message %s\n", uid);
+				camel_folder_append_message(inbox, mm, p->ex);
+			}
+
+			gtk_object_unref((GtkObject *)mm);
 		}
+		camel_folder_delete_message(p->source, uid, p->ex);
 	}
 	camel_folder_free_uids(p->source, all);
 
+	g_hash_table_foreach(p->copies, free_key, NULL);
+	g_hash_table_destroy(p->copies);
+	g_hash_table_foreach(p->processed, free_key, NULL);
 	g_hash_table_destroy(p->processed);
+	g_hash_table_foreach(p->terminated, free_key, NULL);
 	g_hash_table_destroy(p->terminated);
 	close_folders(d);
 	g_hash_table_destroy(p->folders);

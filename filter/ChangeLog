@@ -1,5 +1,8 @@
 2000-07-07  Dan Winship  <danw@helixcode.com>
 
+	* filter-driver.c: Update for camel_folder_search_by_expression
+	change (GList -> GPtrArray).
+
 	* vfoldertypes.xml: sync this to filtertypes.xml (to/cc thing)
 
 2000-07-05  Dan Winship  <danw@helixcode.com>
