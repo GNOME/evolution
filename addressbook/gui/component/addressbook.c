@@ -460,9 +460,9 @@ book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 		gtk_object_set(GTK_OBJECT(view->view),
 			       "book", book,
 			       NULL);
-	} else {
+	}
+	else {
 		GtkWidget *warning_dialog, *label;
-		char *capabilities;
 		AddressbookSource *source = NULL;
 
         	warning_dialog = gnome_dialog_new (
@@ -470,9 +470,7 @@ book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 			GNOME_STOCK_BUTTON_CLOSE,
         		NULL);
 
-		capabilities = e_book_get_static_capabilities (book);
-
-		if (capabilities && strstr (capabilities, "local")) {
+		if (!strncmp (view->uri, "file:", 5)) {
 			label = gtk_label_new (
 					       _("We were unable to open this addressbook.  Please check that the\n"
 						 "path exists and that you have permission to access it."));
@@ -503,8 +501,6 @@ book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 							 "is unreachable."));
 			}
 		}
-
-		g_free (capabilities);
 
 		gtk_misc_set_alignment(GTK_MISC(label),
 				       0, .5);

@@ -1,3 +1,9 @@
+2002-08-20  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/addressbook.c (book_open_cb): not sure what i was
+	thinking here... the EBook isn't valid if we couldn't open it, so
+	we can't turn around and query it for its capabilities.
+
 2002-08-19  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/select-names/e-select-names-manager.h: add the
