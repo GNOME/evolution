@@ -27,7 +27,6 @@
 #include <config.h>
 #include "gmime-content-field.h"
 #include "string-utils.h"
-#include "camel-log.h"
 #include "gmime-utils.h"
 #include "camel-simple-data-wrapper.h"
 #include "data-wrapper-repository.h" 
@@ -50,11 +49,7 @@ camel_mime_part_construct_headers_from_stream (CamelMimePart *mime_part,
 	Rfc822Header *cur_header;
 	int i;
 
-	CAMEL_LOG_FULL_DEBUG ("CamelMimePartUtils:: "
-			      "Entering _construct_headers_from_stream\n");
 	g_assert (stream);
-	CAMEL_LOG_FULL_DEBUG ("CamelMimePartUtils::construct_headers_from_stream "
-			      "parsing headers\n");
 	/* 
 	 * parse all header lines 
 	 */
@@ -71,7 +66,6 @@ camel_mime_part_construct_headers_from_stream (CamelMimePart *mime_part,
 
 		g_array_free (header_array, TRUE);
 
-		CAMEL_LOG_FULL_DEBUG ("CamelMimePartUtils::construct_headers_from_stream headers parsed. Leaving\n");
 	}
 }
 
@@ -92,9 +86,6 @@ camel_mime_part_construct_content_from_stream (CamelMimePart *mime_part,
 	/* 
 	 * find content mime type 
 	 */
-	CAMEL_LOG_FULL_DEBUG ("CamelMimePartUtils::construct_content_from_stream "
-			      "parsing content\n");
-
 	content_type = camel_mime_part_get_content_type (mime_part);
 	/* here we should have a mime type */
 	if (content_type)
@@ -105,9 +96,6 @@ camel_mime_part_construct_content_from_stream (CamelMimePart *mime_part,
 	 * using text/plain is the default 
 	 */
 	if (!mime_type) {
-		CAMEL_LOG_FULL_DEBUG ("CamelMimePartUtils::construct_content_from_stream "
-				      "content type field not found " 
-				      "using default \"text/plain\"\n");
 		mime_type = g_strdup ("text/plain");
 		camel_mime_part_set_content_type (mime_part, mime_type);
 	}
@@ -118,9 +106,6 @@ camel_mime_part_construct_content_from_stream (CamelMimePart *mime_part,
 	 */
 	content_object_type = 
 		data_wrapper_repository_get_data_wrapper_type (mime_type);
-	CAMEL_LOG_FULL_DEBUG ("CamelMimePartUtils::construct_content_from_stream content"
-			      " type object type used: %s\n", 
-			      gtk_type_name (content_object_type));
 
 	g_free (mime_type);
 
@@ -141,12 +126,6 @@ camel_mime_part_construct_content_from_stream (CamelMimePart *mime_part,
 	 * so unref it here 
 	 */
 	gtk_object_unref (GTK_OBJECT (content_object));
-	
-	
-	CAMEL_LOG_FULL_DEBUG ("CamelMimePartUtils::construct_content_from_stream "
-			      "content parsed\n");
-		
-	CAMEL_LOG_FULL_DEBUG ("CamelMimePartUtils:: Leaving _construct_content_from_stream\n");
 }
 
 
@@ -159,8 +138,6 @@ camel_mime_part_store_stream_in_buffer (CamelMimePart *mime_part,
 	gint nb_bytes_read_chunk;
 	GByteArray *buffer;
 #define STREAM_READ_CHUNK_SZ  100
-
-	CAMEL_LOG_FULL_DEBUG ("CamelMimePartUtils::store_stream_in_buffer entering\n");
 
 	if (mime_part->temp_message_buffer == NULL)
 		mime_part->temp_message_buffer = g_byte_array_new ();
@@ -185,6 +162,4 @@ camel_mime_part_store_stream_in_buffer (CamelMimePart *mime_part,
 	}
 
 	g_byte_array_set_size (buffer, nb_bytes_read_total);
-	CAMEL_LOG_FULL_DEBUG ("CamelMimePartUtils::store_stream_in_buffer entering\n");
-
 }

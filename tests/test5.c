@@ -7,7 +7,6 @@
 
 #include "gmime-utils.h"
 #include "stdio.h"
-#include "camel-log.h"
 #include "camel-mime-message.h"
 #include "camel-mime-part.h"
 #include "camel-stream.h"

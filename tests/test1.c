@@ -8,7 +8,6 @@
 #include "camel-stream.h"
 #include "camel-stream-fs.h"
 #include "camel-stream-data-wrapper.h"
-#include "camel-log.h"
 #include "camel.h"
 
 int
@@ -113,7 +112,7 @@ main (int argc, char**argv)
 
 	stream = camel_stream_fs_new_with_name ("mail1.test", CAMEL_STREAM_FS_WRITE );
 	if (!stream)  {
-		CAMEL_LOG_FULL_DEBUG ("could not open output file");
+		printf ("could not open output file");
 		exit(2);
 	}
 		       

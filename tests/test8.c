@@ -2,7 +2,6 @@
 
 
 #include "camel.h"
-#include "camel-log.h"
 
 CamelThreadProxy *proxy;
 CamelFuncDef *func_def;
@@ -44,8 +43,6 @@ main (int argc, char **argv)
 	int i;
 	CamelOp *op;
 
-	camel_debug_level = CAMEL_LOG_LEVEL_WARNING;
-	
 	camel_init ();
 
 	func_def = 

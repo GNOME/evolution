@@ -26,7 +26,6 @@
  */
 #include <config.h>
 #include "camel-mime-body-part.h"
-#include "camel-log.h"
 
 
 static void _set_parent (CamelMimeBodyPart *mime_body_part, CamelMultipart *multipart);
@@ -87,11 +86,8 @@ CamelMimeBodyPart *
 camel_mime_body_part_new (void)
 {
 	CamelMimeBodyPart *mime_body_part;
-	CAMEL_LOG_FULL_DEBUG ("CamelMimeBodyPart:: Entering new()\n");
 	
 	mime_body_part = (CamelMimeBodyPart *)gtk_type_new (CAMEL_MIME_BODY_PART_TYPE);
-
-	CAMEL_LOG_FULL_DEBUG ("CamelMimeBodyPart:: Leaving new()\n");
 	return mime_body_part;
 }
 

@@ -10,7 +10,6 @@
 #include "camel-mh-folder.h"
 #include "camel-mh-store.h"
 #include "camel.h"
-#include "camel-log.h"
 
 int
 main (int argc, char**argv)
@@ -21,8 +20,6 @@ main (int argc, char**argv)
 	GList *mh_subfolders_name;
 	CamelMimeMessage *message_1;
 	gboolean inbox_exists;
-
-	camel_debug_level = CAMEL_LOG_LEVEL_FULL_DEBUG;
 
 	gtk_init (&argc, &argv);
 	camel_init ();

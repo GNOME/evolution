@@ -17,7 +17,6 @@
 #include "camel-mbox-parser.h"
 #include "camel-mbox-utils.h"
 #include "camel-mbox-summary.h"
-#include "camel-log.h"
 #include "camel-exception.h"
 #include "camel-folder-summary.h"
 

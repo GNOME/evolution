@@ -46,7 +46,6 @@
 
 #include "config.h"
 #include "camel-provider.h"
-#include "camel-log.h"
 
 #include <dirent.h>
 #include <string.h>
@@ -93,13 +92,11 @@ camel_provider_register_as_module (const gchar *module_path)
 	CamelProvider * (*camel_provider_module_init) ();
 	gboolean has_module_init;
 	
-	CAMEL_LOG_FULL_DEBUG ("Entering CamelProvider::register_as_module\n");
-	
 	g_return_val_if_fail (module_path, NULL);
 
 	if (!g_module_supported ()) {
-		CAMEL_LOG_WARNING ("CamelProvider::register_as_module module loading not supported on this system\n");
-		CAMEL_LOG_FULL_DEBUG ("Leaving CamelProvider::register_as_module\n");
+		g_warning ("CamelProvider::register_as_module: module "
+			   "loading not supported on this system\n");
 		return NULL;
 	}
 	
@@ -107,16 +104,17 @@ camel_provider_register_as_module (const gchar *module_path)
 	new_module = g_module_open (module_path, 0);
 	if (!new_module) {
 		printf ("g_module_open reports: %s\n", g_module_error ());
-		CAMEL_LOG_WARNING ("CamelProvider::register_as_module Unable to load module %s\n", module_path);
-		CAMEL_LOG_FULL_DEBUG ("Leaving CamelProvider::register_as_module\n");
+		g_warning ("CamelProvider::register_as_module: Unable to "
+			   "load module %s\n", module_path);
 		return NULL;
 	}
 		
 	has_module_init = g_module_symbol (new_module, "camel_provider_module_init", (gpointer *)&camel_provider_module_init);
 	if (!has_module_init){
-		CAMEL_LOG_WARNING ("CamelProvider::register_as_module loading of module %s failed,\n"
-				   "\t Symbol camel_provider_module_init not defined in it\n", module_path);
-		CAMEL_LOG_FULL_DEBUG ("Leaving CamelProvider::register_as_module\n");
+		g_warning ("CamelProvider::register_as_module loading "
+			   "of module %s failed,\n\tSymbol "
+			   "camel_provider_module_init not defined in it\n",
+			   module_path);
 		return NULL;
 	}
 
@@ -124,10 +122,7 @@ camel_provider_register_as_module (const gchar *module_path)
 	new_provider->gmodule = new_module;
 	camel_provider_register (new_provider);
 
-	CAMEL_LOG_FULL_DEBUG ("Leaving CamelProvider::register_as_module\n");
 	return new_provider;
-
- 
 } 
 
 /**

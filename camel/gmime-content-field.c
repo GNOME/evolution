@@ -27,7 +27,6 @@
 #include <config.h>
 #include "gmime-content-field.h"
 #include "string-utils.h"
-#include "camel-log.h"
 #include <string.h>
 #include "hash-table-utils.h"
 
@@ -143,8 +142,6 @@ gmime_content_field_set_parameter (GMimeContentField *content_field, const gchar
 	gboolean attribute_exists;
 	gchar *old_attribute;
 	gchar *old_value;
-	CAMEL_LOG_FULL_DEBUG ("GMimeContentField:: Entering set_parameter\n");
-	CAMEL_LOG_FULL_DEBUG ("GMimeContentField:: set_parameter content_field=%p name=%s, value=%s\n", content_field, attribute, value);
 	attribute_exists = g_hash_table_lookup_extended (content_field->parameters, 
 							 attribute, 
 							 (gpointer *) &old_attribute,
@@ -157,7 +154,6 @@ gmime_content_field_set_parameter (GMimeContentField *content_field, const gchar
 	} 
 		
 	g_hash_table_insert (content_field->parameters, g_strdup (attribute), g_strdup (value));
-	CAMEL_LOG_FULL_DEBUG ("GMimeContentField:: Leaving set_parameter\n");
 }
 
 
@@ -204,7 +200,7 @@ gmime_content_field_write_to_stream (GMimeContentField *content_field, CamelStre
 		/* print all parameters */
 		g_hash_table_foreach (content_field->parameters, _print_parameter, stream);
 		camel_stream_write_string (stream, "\n");
-	} else CAMEL_LOG_FULL_DEBUG ("GMimeContentField::write_to_stream no mime type found\n");
+	}
 }
 
 /**
@@ -260,21 +256,17 @@ gmime_content_field_get_parameter (GMimeContentField *content_field, const gchar
 	const gchar *old_name;
 	gboolean parameter_exists;
 
-	CAMEL_LOG_FULL_DEBUG ("Entering GMimeContentField::get_parameter content_field =%p\n", content_field);
 	g_assert (content_field->parameters);
 	g_assert (name);
-	CAMEL_LOG_FULL_DEBUG ("GMimeContentField::get_parameter looking for parameter \"%s\"\n", name);
 	/* parameter = (const gchar *)g_hash_table_lookup (content_field->parameters, name); */
 	parameter_exists = g_hash_table_lookup_extended (content_field->parameters, 
 							 name, 
 							 (gpointer *) &old_name,
 							 (gpointer *) &parameter);
 	if (!parameter_exists) {
-		CAMEL_LOG_FULL_DEBUG ("GMimeContentField::get_parameter, parameter not found\n");
 		g_hash_table_foreach (content_field->parameters, ___debug_print_parameter, NULL);
 		return NULL;
 	}
-	CAMEL_LOG_FULL_DEBUG ("Leaving GMimeContentField::get_parameter\n");
 	return parameter;
 }
 
@@ -301,7 +293,6 @@ gmime_content_field_construct_from_string (GMimeContentField *content_field, con
 	gchar *param_name, *param_value;
 	gboolean param_end;
 	
-	CAMEL_LOG_TRACE ( "GMimeContentField::construct_from_string, entering\n");
 	g_assert (string);
 	g_assert (content_field);
  
@@ -311,29 +302,20 @@ gmime_content_field_construct_from_string (GMimeContentField *content_field, con
 	
 	first = 0;
 	len = strlen (string);
-	if (!len) { 
-		CAMEL_LOG_FULL_DEBUG ( "GMimeContentField::construct_from_string, leaving\n");
+	if (!len)
 		return;
-	}
-	CAMEL_LOG_FULL_DEBUG ("GMimeContentField::construct_from_string, All checks done\n");
-	CAMEL_LOG_FULL_DEBUG ("GMimeContentField::construct_from_string the complete header is\n"
-			      "-------------------\n%s\n-------------------\n", string);
+
 	/* find the type */
 	while ( (i<len) && (!strchr ("/;", string[i])) ) i++;
 	
-	if (i == 0) { 
-		CAMEL_LOG_FULL_DEBUG ( "GMimeContentField::construct_from_string, leaving\n");
+	if (i == 0)
 		return;
-	}
 	
 	type = g_strndup (string, i);
 	string_trim (type, " \t\"", STRING_TRIM_STRIP_TRAILING | STRING_TRIM_STRIP_LEADING);
 	content_field->type = type;
-	CAMEL_LOG_TRACE ( "GMimeContentField::construct_from_string, Found mime type : \"%s\"\n", type); 
 	if (i >= len-1) {
 		content_field->subtype = NULL;
-		
-		CAMEL_LOG_FULL_DEBUG ( "GMimeContentField::construct_from_string  only found the type leaving\n");
 		return;			
 	}
 	
@@ -345,11 +327,8 @@ gmime_content_field_construct_from_string (GMimeContentField *content_field, con
 			subtype = g_strndup (string+first, i-first);
 			string_trim (subtype, " \t\"", STRING_TRIM_STRIP_TRAILING | STRING_TRIM_STRIP_LEADING);
 			content_field->subtype = subtype;
-			CAMEL_LOG_TRACE ( "GMimeContentField::construct_from_string, Found mime subtype: \"%s\"\n", subtype);
-			if (i >= len-1) { 
-				CAMEL_LOG_FULL_DEBUG ( "GMimeContentField::construct_from_string found the subtype but no parameter, leaving\n");
+			if (i >= len-1)
 				return;
-			}
 		}
  	}
 	first = i+1;
@@ -369,7 +348,6 @@ gmime_content_field_construct_from_string (GMimeContentField *content_field, con
 			while ( (i<len) && (string[i] != ';') ) i++;
 			if (i != first) param_value = g_strndup (string+first, i-first);
 			else param_value = g_strdup ("");
-			CAMEL_LOG_TRACE ( "GMimeContentField::construct_from_string, Found mime parameter \"%s\"=\"%s\"\n", param_name, param_value);
 			string_trim (param_value, " \t\"", STRING_TRIM_STRIP_TRAILING | STRING_TRIM_STRIP_LEADING);
 			gmime_content_field_set_parameter (content_field, param_name, param_value);
 			g_free (param_name);

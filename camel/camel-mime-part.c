@@ -34,7 +34,6 @@
 #include <stdio.h>
 #include "gmime-content-field.h"
 #include "string-utils.h"
-#include "camel-log.h"
 #include "gmime-utils.h"
 #include "camel-simple-data-wrapper.h"
 #include "hash-table-utils.h"
@@ -240,8 +239,6 @@ my_finalize (GtkObject *object)
 
 #warning do something for (mime_part->disposition) which should not be a GMimeContentField
 
-	CAMEL_LOG_FULL_DEBUG ("Entering CamelMimePart::finalize\n");
-
 	g_free (mime_part->description);
 	g_free (mime_part->content_id);
 	g_free (mime_part->content_MD5);
@@ -255,7 +252,6 @@ my_finalize (GtkObject *object)
 	if (mime_part->content_input_stream) gtk_object_unref (GTK_OBJECT (mime_part->content_input_stream));
 
 	GTK_OBJECT_CLASS (parent_class)->finalize (object);
-	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMimePart::finalize\n");
 }
 
 
@@ -601,8 +597,6 @@ my_set_content_object (CamelMedium *medium, CamelDataWrapper *content)
 		gmime_content_field_unref (mime_part->content_type);
 	mime_part->content_type = object_content_field;
 	gmime_content_field_ref (object_content_field);
-	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMimePart::set_content_object\n");
-	
 }
 
 static CamelDataWrapper *
@@ -611,8 +605,6 @@ my_get_content_object (CamelMedium *medium)
 	CamelMimePart *mime_part = CAMEL_MIME_PART (medium);
 	CamelStream *stream;
 	CamelStream *decoded_stream;
-
-	CAMEL_LOG_FULL_DEBUG ("CamelMimePart::get_content_object entering\n");
 
 	if (!medium->content ) {
 		stream = mime_part->content_input_stream; 
@@ -635,12 +627,7 @@ my_get_content_object (CamelMedium *medium)
 
 		camel_mime_part_construct_content_from_stream (mime_part, decoded_stream);
 		
-	} else {
-		CAMEL_LOG_FULL_DEBUG ("CamelMimePart::get_content_object part has a pointer "
-				      "to a content object\n");
 	}
-
-	CAMEL_LOG_FULL_DEBUG ("CamelMimePart::get_content_object leaving\n");
 
 	return parent_class->get_content_object (medium);
 		
@@ -667,9 +654,6 @@ my_write_content_to_stream (CamelMimePart *mime_part, CamelStream *stream)
 	CamelStreamB64 *stream_b64;
 
 	CamelDataWrapper *content;
-
-	CAMEL_LOG_FULL_DEBUG ( "Entering CamelMimePart::_write_content_to_stream\n");
-	CAMEL_LOG_FULL_DEBUG ( "CamelMimePart::_write_content_to_stream, content=%p\n", content);
 
 	g_assert (mime_part);
 
@@ -707,8 +691,6 @@ my_write_content_to_stream (CamelMimePart *mime_part, CamelStream *stream)
 			   camel_mime_part_encoding_to_string
 			   (mime_part->encoding));
 	}
-
-	CAMEL_LOG_FULL_DEBUG ( "Leaving CamelMimePart::_write_content_to_stream\n");
 }
 
 
@@ -721,31 +703,18 @@ my_write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 	CamelMimePart *mp = CAMEL_MIME_PART (data_wrapper);
 	CamelMedium *medium = CAMEL_MEDIUM (data_wrapper);
 
-	CAMEL_LOG_FULL_DEBUG ( "Entering CamelMimePart::write_to_stream\n");
-	
-	CAMEL_LOG_FULL_DEBUG ( "CamelMimePart::write_to_stream writing content-disposition\n");
 	gmime_content_field_write_to_stream(mp->disposition, stream);
-	CAMEL_LOG_FULL_DEBUG ( "CamelMimePart::write_to_stream writing content-transfer-encoding\n");
 	WHPT (stream, "Content-Transfer-Encoding",
 	      camel_mime_part_encoding_to_string (mp->encoding));
-	CAMEL_LOG_FULL_DEBUG ( "CamelMimePart::write_to_stream writing content-description\n");
 	WHPT (stream, "Content-Description", mp->description);
-	CAMEL_LOG_FULL_DEBUG ( "CamelMimePart::write_to_stream writing content-MD5\n");
 	WHPT (stream, "Content-MD5", mp->content_MD5);
-	CAMEL_LOG_FULL_DEBUG ( "CamelMimePart::write_to_stream writing content-id\n");
 	WHPT (stream, "Content-id", mp->content_id);
-	CAMEL_LOG_FULL_DEBUG ( "CamelMimePart::write_to_stream writing content-languages\n");
 	gmime_write_header_with_glist_to_stream (stream, "Content-Language", mp->content_languages,", ");
-	
-	CAMEL_LOG_FULL_DEBUG ( "CamelMimePart::write_to_stream writing other headers\n");
 	gmime_write_header_table_to_stream (stream, medium->headers);
-	
-	CAMEL_LOG_FULL_DEBUG ( "CamelMimePart::write_to_stream writing content-type\n");
 	gmime_content_field_write_to_stream (mp->content_type, stream);
 	
 	camel_stream_write_string(stream,"\n");
 	my_write_content_to_stream (mp, stream);
-	
 }
 
 
@@ -764,37 +733,21 @@ my_parse_header_pair (CamelMimePart *mime_part, gchar *header_name, gchar *heade
 	switch (header_type) {
 		
 	case HEADER_DESCRIPTION:
-		CAMEL_LOG_FULL_DEBUG (
-			   "CamelMimePart::parse_header_pair found HEADER_DESCRIPTION: %s\n",
-			   header_value );
-		
 		camel_mime_part_set_description (mime_part, header_value);
 		header_handled = TRUE;
 		break;
 		
 	case HEADER_DISPOSITION:
-		CAMEL_LOG_FULL_DEBUG (
-			   "CamelMimePart::parse_header_pair found HEADER_DISPOSITION: %s\n",
-			   header_value);
-		
 		camel_mime_part_set_disposition (mime_part, header_value);
 		header_handled = TRUE;
 		break;
 		
 	case HEADER_CONTENT_ID:
-		CAMEL_LOG_FULL_DEBUG (
-			   "CamelMimePart::parse_header_pair found HEADER_CONTENT_ID: %s\n",
-			   header_value);
-		
 		CMP_CLASS(mime_part)->set_content_id (mime_part, header_value);
 		header_handled = TRUE;
 		break;
 		
 	case HEADER_ENCODING:
-		CAMEL_LOG_FULL_DEBUG (
-			   "CamelMimePart::parse_header_pair found HEADER_ENCODING: %s\n",
-			   header_value);
-		
 		camel_mime_part_set_encoding
 			(mime_part,
 			 camel_mime_part_encoding_from_string (header_value));
@@ -802,19 +755,11 @@ my_parse_header_pair (CamelMimePart *mime_part, gchar *header_name, gchar *heade
 		break;
 		
 	case HEADER_CONTENT_MD5:
-		CAMEL_LOG_FULL_DEBUG (
-			   "CamelMimePart::parse_header_pair found HEADER_CONTENT_MD5: %s\n",
-			   header_value );
-		
 		CMP_CLASS(mime_part)->set_content_MD5 (mime_part, header_value);		
 		header_handled = TRUE;
 		break;
 		
 	case HEADER_CONTENT_TYPE: 
-		CAMEL_LOG_FULL_DEBUG (
-			   "CamelMimePart::parse_header_pair found HEADER_CONTENT_TYPE: %s\n",
-			   header_value );
-		
 		gmime_content_field_construct_from_string (mime_part->content_type, header_value);
 		header_handled = TRUE;
 		break;
@@ -838,12 +783,9 @@ my_construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 
 	CamelMimePart *mime_part = CAMEL_MIME_PART (data_wrapper);
 	
-	CAMEL_LOG_FULL_DEBUG ("CamelMimePart::construct_from_stream entering\n");
 	camel_mime_part_construct_headers_from_stream (mime_part, stream);
 	
 	camel_mime_part_store_stream_in_buffer (mime_part, stream);
-	CAMEL_LOG_FULL_DEBUG ("CamelMimePart::construct_from_stream leaving\n");
-
 }
 
 
@@ -856,8 +798,6 @@ my_set_input_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 	CamelSeekableStream *seekable_stream;
 	guint32 content_stream_inf_bound;
 	
-
-	CAMEL_LOG_FULL_DEBUG ("CamelMimePart::set_input_stream entering\n");
 
 	g_assert (CAMEL_IS_SEEKABLE_STREAM (stream));
 	seekable_stream = CAMEL_SEEKABLE_STREAM (stream);
@@ -877,8 +817,6 @@ my_set_input_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 													content_stream_inf_bound, 
 													-1);
 		
-	CAMEL_LOG_FULL_DEBUG ("CamelMimePart::set_input_stream leaving\n");
-
 }
 
 
@@ -896,7 +834,6 @@ my_get_output_stream (CamelDataWrapper *data_wrapper)
 	 * For the moment, we do not use this routine on 
 	 * mime parts. Maybe later.
 	 */
-	CAMEL_LOG_FULL_DEBUG ("CamelMimePart::get_output_stream leaving\n");
 	input_stream = camel_data_wrapper_get_input_stream (data_wrapper);
 	
 	if (input_stream == NULL)
@@ -918,8 +855,6 @@ my_get_output_stream (CamelDataWrapper *data_wrapper)
 	case CAMEL_MIME_PART_ENCODING_QUOTEDPRINTABLE:
 		return input_stream;
 	}
-
-	CAMEL_LOG_FULL_DEBUG ("CamelMimePart::get_output_stream leaving\n");
 
 	return NULL;
 }
@@ -982,22 +917,15 @@ camel_mime_part_set_text (CamelMimePart *camel_mime_part, const gchar *text)
 	CamelSimpleDataWrapper *simple_data_wrapper;
 	CamelMedium *medium = CAMEL_MEDIUM (camel_mime_part);
 
-	CAMEL_LOG_FULL_DEBUG ("CamelMimePart:: Entering set_text\n");
-	CAMEL_LOG_TRACE ("CamelMimePart::set_text, setting text as a mime part content\n");
-	if (medium->content) {
-		CAMEL_LOG_FULL_DEBUG ("CamelMimePart::set_text unreferencing old content object\n");
+	if (medium->content)
 		gtk_object_unref (GTK_OBJECT (medium->content));
-	}
 	if (text) {
 		simple_data_wrapper = camel_simple_data_wrapper_new ();
-		CAMEL_LOG_FULL_DEBUG ("CamelMimePart::set_text calling CamelSimpleDataWrapper:set_text with %d chars\n", strlen (text));
 		camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (simple_data_wrapper), "text/plain");
 		camel_simple_data_wrapper_set_text ( simple_data_wrapper, text);
 		camel_medium_set_content_object ( CAMEL_MEDIUM (camel_mime_part), CAMEL_DATA_WRAPPER (simple_data_wrapper));
 		gtk_object_unref (GTK_OBJECT (simple_data_wrapper));
 	} else medium->content = NULL;
-	
-	CAMEL_LOG_FULL_DEBUG ("CamelMimePart:: Leaving camel_mime_part_set_text\n");
 }
 
  

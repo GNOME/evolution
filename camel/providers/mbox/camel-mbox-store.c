@@ -23,7 +23,6 @@
 
 
 #include <config.h>
-#include "camel-log.h"
 
 #include "camel-mbox-store.h"
 #include "camel-mbox-folder.h"
@@ -109,7 +108,6 @@ get_folder (CamelStore *store, const char *folder_name, CamelException *ex)
 	CamelMboxFolder *new_mbox_folder;
 	CamelFolder *new_folder;
 
-	CAMEL_LOG_FULL_DEBUG ("Entering CamelMboxStore::get_folder\n");
 	new_mbox_folder =  gtk_type_new (CAMEL_MBOX_FOLDER_TYPE);
 	new_folder = CAMEL_FOLDER (new_mbox_folder);
 	
@@ -120,8 +118,6 @@ get_folder (CamelStore *store, const char *folder_name, CamelException *ex)
 	CF_CLASS (new_folder)->init (new_folder, store, NULL,
 				     folder_name, '/', ex);
 	
-	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMboxStore::get_folder\n");
-
 	return new_folder;
 }
 

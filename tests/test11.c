@@ -6,7 +6,6 @@
 
 
 #include "camel.h"
-#include "camel-log.h"
 #include "camel-exception.h"
 #include "camel-folder-summary.h"
 #include "md5-utils.h"
@@ -76,7 +75,6 @@ main (int argc, char**argv)
 	CamelFolder *folder, *outbox;
 	CamelMimeMessage *message;
 	GList *uid_list;
-	int camel_debug_level = 10;
 	GList *matches;
 	struct search_data *sd;
 

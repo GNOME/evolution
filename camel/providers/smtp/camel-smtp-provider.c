@@ -26,7 +26,6 @@
 #include "config.h"
 #include "camel-smtp-transport.h"
 #include "camel-provider.h"
-#include "camel-log.h"
 
 
 static CamelProvider _smtp_provider = {

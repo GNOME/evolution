@@ -5,7 +5,6 @@
 #include "camel-mbox-parser.h"
 #include "camel-mbox-utils.h"
 #include "camel-mbox-summary.h"
-#include "camel-log.h"
 #include "camel-exception.h"
 #include <sys/types.h>
 #include <unistd.h>
@@ -28,9 +27,6 @@ main (int argc, char**argv)
 	guint32 next_uid;
 	guint32 mbox_file_size;
 
-	//camel_debug_level = CAMEL_LOG_LEVEL_FULL_DEBUG;
-	camel_debug_level = 0;
-	
 	gtk_init (&argc, &argv);
 	camel_init ();	
 	

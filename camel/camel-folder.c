@@ -25,7 +25,6 @@
  */
 #include <config.h>
 #include "camel-folder.h"
-#include "camel-log.h"
 #include "camel-exception.h"
 #include "camel-store.h"
 #include "string-utils.h"
@@ -223,8 +222,6 @@ _finalize (GtkObject *object)
 {
 	CamelFolder *camel_folder = CAMEL_FOLDER (object);
 
-	CAMEL_LOG_FULL_DEBUG ("Entering CamelFolder::finalize\n");
-
 	g_free (camel_folder->name);
 	g_free (camel_folder->full_name);
 	g_free (camel_folder->permanent_flags);
@@ -235,7 +232,6 @@ _finalize (GtkObject *object)
 		gtk_object_unref (GTK_OBJECT (camel_folder->parent_folder));
 
 	GTK_OBJECT_CLASS (parent_class)->finalize (object);
-	CAMEL_LOG_FULL_DEBUG ("Leaving CamelFolder::finalize\n");
 }
 
 
@@ -325,8 +321,8 @@ _open_async (CamelFolder *folder,
 	     gpointer user_data, 
 	     CamelException *ex)
 {
-	CAMEL_LOG_WARNING ("Calling CamelFolder::open_async directly. "
-			   "Should be overloaded\n");
+	g_warning ("CamelFolder::open_async not implemented for `%s'",
+		   gtk_type_name (GTK_OBJECT_TYPE (folder)));
 }
 
 
@@ -401,8 +397,8 @@ _close_async (CamelFolder *folder,
 	      gpointer user_data, 
 	      CamelException *ex)
 {	
-	CAMEL_LOG_WARNING ("Calling CamelFolder::close_async directly. "
-			   "Should be overloaded\n");
+	g_warning ("CamelFolder::close_async not implemented for `%s'",
+		   gtk_type_name (GTK_OBJECT_TYPE (folder)));
 }
 
 /**
@@ -456,9 +452,6 @@ _set_name (CamelFolder *folder,
 	folder->name = NULL;
 	folder->full_name = NULL;
 
-	CAMEL_LOG_FULL_DEBUG ("CamelFolder::set_name, folder name is %s\n",
-			      name);
-
 	if (folder->parent_folder) {
 		parent_full_name =
 			camel_folder_get_full_name (folder->parent_folder);
@@ -469,8 +462,6 @@ _set_name (CamelFolder *folder,
 		full_name = g_strdup_printf ("%c%s", folder->separator, name);
 	}
 
-	CAMEL_LOG_FULL_DEBUG ("CamelFolder::set_name, folder full name "
-			      "set to %s\n", full_name);
 	folder->name = g_strdup (name);
 	folder->full_name = full_name;
 	
@@ -851,8 +842,8 @@ camel_folder_delete (CamelFolder *folder, gboolean recurse, CamelException *ex)
 static gboolean 
 _delete_messages (CamelFolder *folder, CamelException *ex)
 {
-	CAMEL_LOG_WARNING ("Calling CamelFolder::delete_messages directly. "
-			   "Should be overloaded\n");
+	g_warning ("CamelFolder::delete_messages not implemented for `%s'",
+		   gtk_type_name (GTK_OBJECT_TYPE (folder)));
 	return FALSE;
 }
 
@@ -971,8 +962,8 @@ camel_folder_get_mode (CamelFolder *folder, CamelException *ex)
 static GList *
 _list_subfolders (CamelFolder *folder, CamelException *ex)
 {
-	CAMEL_LOG_WARNING ("Calling CamelFolder::list_subfolders directly. "
-			   "Should be overloaded\n");
+	g_warning ("CamelFolder::list_folders not implemented for `%s'",
+		   gtk_type_name (GTK_OBJECT_TYPE (folder)));
 	return NULL;
 }
 
@@ -1000,8 +991,8 @@ camel_folder_list_subfolders (CamelFolder *folder, CamelException *ex)
 static GList *
 _expunge (CamelFolder *folder, CamelException *ex)
 {
-	CAMEL_LOG_WARNING ("Calling CamelFolder::expunge directly. "
-			   "Should be overloaded\n");
+	g_warning ("CamelFolder::expunge not implemented for `%s'",
+		   gtk_type_name (GTK_OBJECT_TYPE (folder)));
 	return NULL;
 }
 
@@ -1027,8 +1018,9 @@ camel_folder_expunge (CamelFolder *folder, CamelException *ex)
 static gboolean 
 _has_message_number_capability (CamelFolder *folder)
 {
-	CAMEL_LOG_WARNING ("Calling CamelFolder::has_message_number_capability  directly. "
-			   "Should be overloaded\n");
+	g_warning ("CamelFolder::has_message_number_capability not "
+		   "implemented for `%s'",
+		   gtk_type_name (GTK_OBJECT_TYPE (folder)));
 	return FALSE;
 
 }
@@ -1060,8 +1052,8 @@ camel_folder_has_message_number_capability (CamelFolder *folder)
 static CamelMimeMessage *
 _get_message_by_number (CamelFolder *folder, gint number, CamelException *ex)
 {
-	CAMEL_LOG_WARNING ("Calling CamelFolder::get_message_by_number "
-			   "directly. Should be overloaded\n");
+	g_warning ("CamelFolder::get_message_by_number not implemented "
+		   "for `%s'", gtk_type_name (GTK_OBJECT_TYPE (folder)));
 	return NULL;
 }
 
@@ -1091,8 +1083,8 @@ static void
 _delete_message_by_number (CamelFolder *folder, gint number,
 			   CamelException *ex)
 {
-	CAMEL_LOG_WARNING ("Calling CamelFolder::delete_message_by_number "
-			   "directly. Should be overloaded\n");
+	g_warning ("CamelFolder::delete_message_by_number not implemented "
+		   "for `%s'", gtk_type_name (GTK_OBJECT_TYPE (folder)));
 }
 
 /**
@@ -1119,8 +1111,8 @@ camel_folder_delete_message_by_number (CamelFolder *folder, gint number,
 static gint
 _get_message_count (CamelFolder *folder, CamelException *ex)
 {
-	CAMEL_LOG_WARNING ("Calling CamelFolder::get_message_count directly. "
-			   "Should be overloaded\n");
+	g_warning ("CamelFolder::get_message_count not implemented "
+		   "for `%s'", gtk_type_name (GTK_OBJECT_TYPE (folder)));
 	return -1;
 }
 
@@ -1148,8 +1140,8 @@ static void
 _append_message (CamelFolder *folder, CamelMimeMessage *message,
 		 CamelException *ex)
 {
-	CAMEL_LOG_WARNING ("Calling CamelFolder::append_message directly. "
-			   "Should be overloaded\n");
+	g_warning ("CamelFolder::append_message not implemented for `%s'",
+		   gtk_type_name (GTK_OBJECT_TYPE (folder)));
 	return;
 
 }
@@ -1274,8 +1266,8 @@ camel_folder_has_uid_capability (CamelFolder *folder)
 static const gchar *
 _get_message_uid (CamelFolder *folder, CamelMimeMessage *message, CamelException *ex)
 {
-	CAMEL_LOG_WARNING ("Calling CamelFolder::get_message_uid directly. "
-			   "Should be overloaded\n");
+	g_warning ("CamelFolder::get_message_uid not implemented for `%s'",
+		   gtk_type_name (GTK_OBJECT_TYPE (folder)));
 	return NULL;
 }
 
@@ -1303,50 +1295,11 @@ camel_folder_get_message_uid (CamelFolder *folder, CamelMimeMessage *message, Ca
 
 
 
-/* the next two func are left there temporarily */
-#if 0
-
-static const gchar *
-_get_message_uid_by_number (CamelFolder *folder, gint message_number, CamelException *ex)
-{
-	CAMEL_LOG_WARNING ("Calling CamelFolder::get_message_uid_by_number "
-			   "directly. Should be overloaded\n");
-	return NULL;
-}
-
-
-const gchar * 
-camel_folder_get_message_uid_by_number (CamelFolder *folder, gint message_number, CamelException *ex);
-
-/**
- * camel_folder_get_message_uid_by_number: get the UID corresponding to a message number
- * @folder: Folder object
- * @message_number: Message number
- * 
- * get the UID corresponding to a message number. 
- * Use of this routine should be avoiding, as on 
- * folders supporting UIDs, message numbers should
- * not been used.
- * 
- * Return value: 
- **/
-const gchar * 
-camel_folder_get_message_uid_by_number (CamelFolder *folder, gint message_number, CamelException *ex)
-{
-	g_assert (folder != NULL);
-
-	/*  if (!folder->has_uid_capability) return NULL; */
-	/*  return CF_CLASS (folder)->get_message_uid_by_number (folder, message_number, ex); */
-	
-	return NULL;
-}
-#endif /* 0 */
-
 static CamelMimeMessage *
 _get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *ex)
 {
-	CAMEL_LOG_WARNING ("Calling CamelFolder::get_message_by_uid directly. "
-			   "Should be overloaded\n");
+	g_warning ("CamelFolder::get_message_by_uid not implemented for `%s'",
+		   gtk_type_name (GTK_OBJECT_TYPE (folder)));
 	return NULL;
 }
 
@@ -1376,8 +1329,8 @@ static void
 _delete_message_by_uid (CamelFolder *folder, const gchar *uid,
 			CamelException *ex)
 {
-	CAMEL_LOG_WARNING ("Calling CamelFolder::delete_message_by_uid "
-			   "directly. Should be overloaded\n");
+	g_warning ("CamelFolder::delete_message_by_uid not implemented "
+		   "for `%s'", gtk_type_name (GTK_OBJECT_TYPE (folder)));
 }
 
 
@@ -1403,8 +1356,8 @@ camel_folder_delete_message_by_uid  (CamelFolder *folder, const gchar *uid,
 static GList *
 _get_uid_list  (CamelFolder *folder, CamelException *ex)
 {
-	CAMEL_LOG_WARNING ("Calling CamelFolder::get_uid_list directly. "
-			   "Should be overloaded\n");
+	g_warning ("CamelFolder::get_uid_list not implemented for `%s'",
+		   gtk_type_name (GTK_OBJECT_TYPE (folder)));
 	return NULL;
 }
 

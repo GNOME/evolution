@@ -6,7 +6,6 @@
 #include "camel-mbox-parser.h"
 #include "camel-mbox-utils.h"
 #include "camel-mbox-summary.h"
-#include "camel-log.h"
 #include "camel-exception.h"
 #include "md5-utils.h"
 #include <sys/types.h>
@@ -82,7 +81,6 @@ main (int argc, char**argv)
 	CamelFolder *folder;
 	CamelMimeMessage *message;
 	GList *uid_list;
-	camel_debug_level = 10;
 
 	gtk_init (&argc, &argv);
 	camel_init ();		

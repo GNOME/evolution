@@ -27,7 +27,6 @@
 
 #include <config.h>
 #include "camel-seekable-stream.h"
-#include "camel-log.h"
 
 static CamelStreamClass *parent_class=NULL;
 

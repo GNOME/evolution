@@ -33,7 +33,6 @@ endif
 
 libcamel_la_SOURCES = 				\
 	camel.c					\
-	camel-log.c				\
 	camel-data-wrapper.c			\
 	camel-exception.c			\
 	camel-simple-data-wrapper.c		\
@@ -77,7 +76,6 @@ libcamel_la_SOURCES = 				\
 
 libcamelinclude_HEADERS =			\
 	camel.h					\
-	camel-log.h				\
 	camel-data-wrapper.h			\
 	camel-exception.h			\
 	camel-simple-data-wrapper.h		\

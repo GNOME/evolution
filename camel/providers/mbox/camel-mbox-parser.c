@@ -27,7 +27,6 @@
 #include <config.h> 
 #include "camel-mbox-parser.h"
 #include "camel-mbox-utils.h"
-#include "camel-log.h"
 #include "camel-exception.h"
 #include <sys/types.h>
 #include <unistd.h>
@@ -101,8 +100,6 @@ static void
 clear_message_info (CamelMboxParserMessageInfo *preparsing_info)
 {
 
-	CAMEL_LOG_FULL_DEBUG ("Entering CamelMboxParser::clear_message_info\n");
-
 	preparsing_info->message_position = 0;
 	preparsing_info->size = 0;
 	preparsing_info->from = NULL;
@@ -116,8 +113,6 @@ clear_message_info (CamelMboxParserMessageInfo *preparsing_info)
 	preparsing_info->x_evolution_offset = 0;
 	preparsing_info->status = 0;
 	preparsing_info->uid = 0;
-
-	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMboxParser::clear_message_info\n");
 }
 
 
@@ -138,8 +133,6 @@ new_parser (int fd,
 {
 	CamelMboxPreParser *parser;
 
-	CAMEL_LOG_FULL_DEBUG ("Entering CamelMboxParser::ew_parser\n");
-
 	parser = g_new0 (CamelMboxPreParser, 1);
 	
 	parser->fd = fd;
@@ -154,8 +147,6 @@ new_parser (int fd,
 	parser->left_chunk_size = MAX (parser->message_delimiter_length, MBOX_PARSER_MAX_KW_SIZE);
 	
 	parser->tmp_string = g_string_sized_new (1000);
-
-	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMboxParser::ew_parser\n");
 
 	return parser;
 }
@@ -174,14 +165,10 @@ new_parser (int fd,
 static void 
 parser_free (CamelMboxPreParser *parser)
 {
-	CAMEL_LOG_FULL_DEBUG ("Entering CamelMboxParser::parser_free\n");
-	
 	g_free (parser->buffer);
 	g_free (parser->message_delimiter);
 	g_string_free (parser->tmp_string, TRUE);
 	g_free (parser);
-	
-	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMboxParser::parser_free\n");
 }
 
 
@@ -202,8 +189,6 @@ initialize_buffer (CamelMboxPreParser *parser,
 {
 	gint seek_res;
 	gint buf_nb_read;
-
-	CAMEL_LOG_FULL_DEBUG ("Entering CamelMboxParser::intialize_buffer\n");
 
 	g_assert (parser);
 
@@ -233,9 +218,6 @@ initialize_buffer (CamelMboxPreParser *parser,
 	parser->last_position = MIN (buf_nb_read + parser->left_chunk_size + 1, 
 				     MBOX_PARSER_BUF_SIZE - parser->left_chunk_size);
 	parser->current_position = parser->left_chunk_size;
-
-	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMboxParser::intialize_buffer\n");
-
 }
 
 
@@ -261,8 +243,6 @@ read_next_buffer_chunk (CamelMboxPreParser *parser)
 
 	g_assert (parser);
 		
-	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMboxParser::intialize_buffer\n");
-
 	/* read the next chunk of data in the folder file  : */
 	/*  -   first, copy the last bytes from the previous 
 	    chunk at the begining of the new one. */
@@ -288,8 +268,6 @@ read_next_buffer_chunk (CamelMboxPreParser *parser)
 				     MBOX_PARSER_BUF_SIZE - parser->left_chunk_size);
 
 	parser->current_position = 0;
-	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMboxParser::intialize_buffer\n");
-
 }
 
 
@@ -333,8 +311,6 @@ advance_n_chars (CamelMboxPreParser *parser, guint n)
 	
 	gint position_to_the_end;
 	
-	CAMEL_LOG_FULL_DEBUG ("Entering CamelMboxParser::advnce_n_chars\n");
-
 	position_to_the_end = parser->last_position - parser->current_position;
 
 	if (n < position_to_the_end)
@@ -345,8 +321,6 @@ advance_n_chars (CamelMboxPreParser *parser, guint n)
 	}
 	
 	parser->real_position += n;
-
-	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMboxParser::advance_n_chars\n");
 }
 
 
@@ -376,11 +350,8 @@ new_message_detected (CamelMboxPreParser *parser)
 	
 	gchar c;
 
-	CAMEL_LOG_FULL_DEBUG ("Entering CamelMboxParser::new_message_detected\n");
-
 	/* if we were filling a message information 
 	   save it in the message information array */ 
-	CAMEL_LOG_FULL_DEBUG ("   Message position : %d\n", parser->real_position);
 	if (parser->is_pending_message) {
 		parser->current_message_info.size = 
 			parser->real_position - parser->current_message_info.message_position;
@@ -402,8 +373,6 @@ new_message_detected (CamelMboxPreParser *parser)
 	(parser->current_message_info).message_position = parser->real_position;
 
 	parser->is_pending_message = TRUE;
-
-	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMboxParser::new_message_detected\n");	
 }
 
 
@@ -439,9 +408,6 @@ read_header (CamelMboxPreParser *parser, gchar **header_content)
 	gchar *buffer;
 	gchar c;
 	
-
-	CAMEL_LOG_FULL_DEBUG ("Entering CamelMboxParser::read_header\n");
-
 	g_assert (parser);
 
 	/* reset the header buffer string */
@@ -493,8 +459,6 @@ read_header (CamelMboxPreParser *parser, gchar **header_content)
 	
 	/* copy the buffer in the preparsing information structure */
 	*header_content = g_strndup (parser->tmp_string->str, parser->tmp_string->len);	
-	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMboxParser::read_header\n");
-
 }
 
 
@@ -522,8 +486,6 @@ read_message_begining (CamelMboxPreParser *parser, gchar **message_summary)
 	guint nb_line = 0;
 	g_assert (parser);
 	
-	CAMEL_LOG_FULL_DEBUG ("Entering CamelMboxParser::read_message_begining\n");
-
 	/* reset the header buffer string */
 	parser->tmp_string = g_string_truncate (parser->tmp_string, 0);
 	
@@ -567,8 +529,6 @@ read_message_begining (CamelMboxPreParser *parser, gchar **message_summary)
 	
 	*message_summary = g_strndup (parser->tmp_string->str, parser->tmp_string->len);
 
-	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMboxParser::read_message_begining\n");
-	
 	return new_message;
 }
 
@@ -634,8 +594,6 @@ camel_mbox_parse_file (int fd,
 
 
 	g_assert (next_uid);
-
-	CAMEL_LOG_FULL_DEBUG ("Entering CamelMboxParser::parse_file\n");
 
 	/* get file size */
 	fstat_result = fstat (fd, &stat_buf);
@@ -818,8 +776,6 @@ camel_mbox_parse_file (int fd,
 	*next_uid = next_available_uid;
 	/* free the parser */
 	parser_free (parser);
-
-	CAMEL_LOG_FULL_DEBUG ("Entering CamelMboxParser::parse_file\n");
 
 	return return_value;
 }

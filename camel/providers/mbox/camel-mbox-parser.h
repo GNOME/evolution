@@ -24,7 +24,6 @@
  */
 
 #include <glib.h>
-#include "camel-log.h"
 #include "camel-exception.h"
 
 

@@ -32,7 +32,6 @@
 #include <fcntl.h>
 #include <errno.h>
 #include <string.h>
-#include "camel-log.h"
 
 static CamelSeekableStreamClass *parent_class=NULL;
 
@@ -128,16 +127,13 @@ _destroy (GtkObject *object)
 	CamelStreamFs *stream_fs = CAMEL_STREAM_FS (object);
 	gint close_error;
 	
-	CAMEL_LOG_FULL_DEBUG ("Entering CamelStreamFs::destroy\n");
-	
 	close_error = close (stream_fs->fd);
 	if (close_error) {
-		CAMEL_LOG_FULL_DEBUG ("CamelStreamFs::destroy Error while closing file descriptor\n");
-		CAMEL_LOG_FULL_DEBUG ( "  Full error text is : %s\n", strerror(errno));
+		g_warning ("CamelStreamFs::destroy Error while closing "
+			   "file descriptor\n  Full error text is : %s\n",
+			   strerror (errno));
 	}
 	GTK_OBJECT_CLASS (parent_class)->destroy (object);
-	
-	CAMEL_LOG_FULL_DEBUG ("Leaving CamelStreamFs::destroy\n");
 }
 
 
@@ -146,13 +142,9 @@ _finalize (GtkObject *object)
 {
 	CamelStreamFs *stream_fs = CAMEL_STREAM_FS (object);
 
-
-	CAMEL_LOG_FULL_DEBUG ("Entering CamelStreamFs::finalize\n");
-	
 	g_free (stream_fs->name);
 
 	GTK_OBJECT_CLASS (parent_class)->finalize (object);
-	CAMEL_LOG_FULL_DEBUG ("Leaving CamelStreamFs::finalize\n");
 }
 
 
@@ -169,14 +161,6 @@ _set_bounds (CamelStreamFs *stream_fs, guint32 inf_bound, guint32 sup_bound)
 	lseek (stream_fs->fd, inf_bound, SEEK_SET);
 
 	CAMEL_SEEKABLE_STREAM (stream_fs)->cur_pos = 0;
-	
-	CAMEL_LOG_FULL_DEBUG ("In CamelStreamFs::_set_bounds (%p), "
-			      "setting inf bound to %u, "
-			      "sup bound to %ld, current postion to %u from %u\n", 
-			      stream_fs,
-			      stream_fs->inf_bound, stream_fs->sup_bound,
-			      CAMEL_SEEKABLE_STREAM (stream_fs)->cur_pos, inf_bound);
-	
 }
 
 
@@ -213,8 +197,6 @@ _init_with_name (CamelStreamFs *stream_fs, const gchar *name, CamelStreamFsMode 
 	int flags;
 	
 	g_assert (name);
-	CAMEL_LOG_FULL_DEBUG ( "Entering CamelStream::new_with_name, name=\"%s\", mode=%d\n", name, mode); 
-
 
 	v = stat (name, &s);
 	
@@ -239,8 +221,8 @@ _init_with_name (CamelStreamFs *stream_fs, const gchar *name, CamelStreamFsMode 
 
 	fd = open (name, flags, 0600);
 	if (fd==-1) {
-		CAMEL_LOG_WARNING ( "CamelStreamFs::new_with_name can not obtain fd for file \"%s\"\n", name);
-		CAMEL_LOG_FULL_DEBUG ( "  Full error text is : %s\n", strerror(errno));
+		g_warning ("CamelStreamFs::new_with_name can not obtain "
+			   "fd for file \"%s\"\n", name);
 		return;
 	}
 	
@@ -259,11 +241,6 @@ _init_with_name_and_bounds (CamelStreamFs *stream_fs, const gchar *name, CamelSt
 {
 	CSFS_CLASS (stream_fs)->init_with_name (stream_fs, name, mode);
 	_set_bounds (stream_fs, inf_bound, (gint32)sup_bound);
-	CAMEL_LOG_FULL_DEBUG ("In CamelStreamFs::init_with_name_and_bounds, "
-			      "setting inf bound to %u, "
-			      "sup bound to %ld, current postion to %u\n", 
-			      stream_fs->inf_bound, stream_fs->sup_bound,
-			      CAMEL_SEEKABLE_STREAM (stream_fs)->cur_pos);
 }
 
 
@@ -306,10 +283,8 @@ camel_stream_fs_new_with_fd (int fd)
 {
 	CamelStreamFs *stream_fs;
 	
-	CAMEL_LOG_FULL_DEBUG ( "Entering CamelStream::new_with_fd  fd=%d\n",fd);
 	stream_fs = gtk_type_new (camel_stream_fs_get_type ());
 	CSFS_CLASS (stream_fs)->init_with_fd (stream_fs, fd);
-
 	
 	return CAMEL_STREAM (stream_fs);
 }
@@ -321,7 +296,6 @@ camel_stream_fs_new_with_fd_and_bounds (int fd, guint32 inf_bound, gint32 sup_bo
 {
 	CamelStreamFs *stream_fs;
 	
-	CAMEL_LOG_FULL_DEBUG ( "Entering CamelStream::new_with_fd  fd=%d\n",fd);
 	stream_fs = gtk_type_new (camel_stream_fs_get_type ());
 	CSFS_CLASS (stream_fs)->init_with_fd_and_bounds (stream_fs, fd, inf_bound, sup_bound);
 	
@@ -358,9 +332,7 @@ _read (CamelStream *stream, gchar *buffer, gint n)
 		v = read ( (CAMEL_STREAM_FS (stream))->fd, buffer, nb_to_read);
 	} while (v == -1 && errno == EINTR);
 
-	if (v<0)
-		CAMEL_LOG_FULL_DEBUG ("CamelStreamFs::read v=%d\n", v);
-	else 
+	if (v>0)
 		CAMEL_SEEKABLE_STREAM (stream)->cur_pos += v;
 
 	if (v == 0)
@@ -393,7 +365,6 @@ _write (CamelStream *stream, const gchar *buffer, gint n)
 
 	g_assert (stream);
 	g_assert (stream_fs->fd);
-	CAMEL_LOG_FULL_DEBUG ( "CamelStreamFs:: entering write. n=%d\n", n);
 
 	/* we do not take the end bounds into account as it does not
 	   really make any sense in the case of a write operation */
@@ -402,13 +373,6 @@ _write (CamelStream *stream, const gchar *buffer, gint n)
 		if (v>0) nb_bytes_written += v;
 	} while (v == -1 && errno == EINTR);
 	
-#if HARD_LOG_LEVEL >= FULL_DEBUG
-	if (v==-1) {
-		perror("");
-		CAMEL_LOG_FULL_DEBUG ( "CamelStreamFs::write could not write bytes in stream\n");
-	}
-#endif
-
 	if (nb_bytes_written>0)
 		CAMEL_SEEKABLE_STREAM (stream)->cur_pos += nb_bytes_written;
 

@@ -26,7 +26,6 @@
  */
 #include <config.h>
 #include "camel-seekable-substream.h"
-#include "camel-log.h"
 
 static CamelSeekableStreamClass *parent_class=NULL;
 
@@ -129,13 +128,8 @@ camel_seekable_substream_get_type (void)
 static void           
 _destroy (GtkObject *object)
 {
-	
-	CAMEL_LOG_FULL_DEBUG ("Entering CamelSeekableSubstream::destroy\n");
-	
 	/* does nothing for the moment */
 	GTK_OBJECT_CLASS (parent_class)->destroy (object);
-	
-	CAMEL_LOG_FULL_DEBUG ("Leaving CamelSeekableSubstream::destroy\n");
 }
 
 
@@ -144,7 +138,6 @@ _finalize (GtkObject *object)
 {
 	CamelSeekableStream *seekable_stream;
 	CamelSeekableSubstream *seekable_substream;
-	CAMEL_LOG_FULL_DEBUG ("Entering CamelSeekableSubstream::finalize\n");
 	
 	seekable_stream = CAMEL_SEEKABLE_STREAM (object);
 	seekable_substream = CAMEL_SEEKABLE_SUBSTREAM (object);
@@ -153,7 +146,6 @@ _finalize (GtkObject *object)
 		gtk_object_unref (GTK_OBJECT (seekable_substream->parent_stream));
 
 	GTK_OBJECT_CLASS (parent_class)->finalize (object);
-	CAMEL_LOG_FULL_DEBUG ("Leaving CamelSeekableSubstream::finalize\n");
 }
 
 
@@ -161,8 +153,6 @@ _finalize (GtkObject *object)
 static void 
 _set_bounds (CamelSeekableSubstream *seekable_substream, guint32 inf_bound, gint64 sup_bound)
 {
-	CAMEL_LOG_FULL_DEBUG ("CamelSeekableSubstream::_set_bounds entering\n");
-
 	g_assert (seekable_substream);
 	g_assert (seekable_substream->parent_stream);
 	
@@ -173,17 +163,6 @@ _set_bounds (CamelSeekableSubstream *seekable_substream, guint32 inf_bound, gint
 
 	seekable_substream->cur_pos = 0;
 	seekable_substream->eos = FALSE;
-	
-	CAMEL_LOG_FULL_DEBUG ("In CamelSeekableSubstream::_set_bounds (%p), "
-			      "setting inf bound to %lu, "
-			      "sup bound to %lld, current position to %lu from %lu\n"
-			      "Parent stream = %p\n", 
-			      seekable_substream,
-			      seekable_substream->inf_bound, seekable_substream->sup_bound,
-			      seekable_substream->cur_pos, inf_bound,
-			      seekable_substream->parent_stream);
-	
-	CAMEL_LOG_FULL_DEBUG ("CamelSeekableSubstream::_set_bounds Leaving\n");
 }
 
 static void
@@ -348,9 +327,7 @@ _read (CamelStream *stream, gchar *buffer, gint n)
 
 	/* if the return value is negative, an error occured, 
 	   we must do something  FIXME : handle exception */ 
-	if (v<0)
-		CAMEL_LOG_FULL_DEBUG ("CamelSeekableSubstream::read v=%d\n", v);
-	else 
+	if (v>0)
 		seekable_stream->cur_pos += v;
 
 
@@ -376,7 +353,6 @@ _write (CamelStream *stream, const gchar *buffer, gint n)
 {
 	/* NOT VALID ON SEEKABLE SUBSTREAM */
 	g_warning ("CamelSeekableSubstream:: seekable substream don't have a write method\n");
-	CAMEL_LOG_WARNING ( "CamelSeekableSubstream:: seekable substream don't have a write method\n");
 	return -1;
 }
 
@@ -393,7 +369,6 @@ _flush (CamelStream *stream)
 {
 	/* NOT VALID ON SEEKABLE SUBSTREAM */
 	g_warning ("CamelSeekableSubstream:: seekable substream don't have a flush method\n");
-	CAMEL_LOG_WARNING ( "CamelSeekableSubstream:: seekable substream don't have a flush method\n");
 }
 
 

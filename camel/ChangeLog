@@ -1,5 +1,8 @@
 2000-04-18  Dan Winship  <danw@helixcode.com>
 
+	* camel-log.[ch], *: Nuke camel log stuff. Replace calls to
+	CAMEL_LOG_WARNING with calls to g_warning.
+
 	* camel-data-wrapper.[ch]:
 	* camel-simple-data-wrapper.[ch]:
 	* camel-medium.[ch]: Clean, polish, document. Most of the gtk-doc

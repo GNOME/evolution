@@ -70,15 +70,6 @@ write_to_stream (CamelDataWrapper *data_wrapper,
 #undef BUFFER_SIZE
 }
 
-static CamelStream *
-get_stream (CamelDataWrapper *data_wrapper)
-{
-	CamelStreamDataWrapper *stream_data_wrapper;
-
-	stream_data_wrapper = CAMEL_STREAM_DATA_WRAPPER (data_wrapper);
-	return stream_data_wrapper->stream;
-}
-
 
 /* GtkObject methods.  */
 
@@ -128,7 +119,6 @@ class_init (CamelStreamDataWrapperClass *class)
 
 	data_wrapper_class = CAMEL_DATA_WRAPPER_CLASS (class);
 	data_wrapper_class->write_to_stream = write_to_stream;
-	data_wrapper_class->get_stream = get_stream;
 
 	parent_class = gtk_type_class (camel_data_wrapper_get_type ());
 }

@@ -28,7 +28,6 @@
 
 #include <config.h>
 #include "camel-folder-pt-proxy.h"
-#include "camel-log.h"
 #include "camel-marshal-utils.h"
 #include "camel-exception.h"
 #include <pthread.h>
@@ -237,12 +236,9 @@ _finalize (GtkObject *object)
 	CamelFolder *camel_folder = CAMEL_FOLDER (object);
 	CamelFolderPtProxy *camel_folder_pt_proxy = CAMEL_FOLDER_PT_PROXY (camel_folder);
 
-	CAMEL_LOG_FULL_DEBUG ("Entering CamelFolderPtProxy::finalize\n");
-
 	camel_exception_free (camel_folder_pt_proxy->thread_ex);
 	g_free (camel_folder_pt_proxy->pud);
 	GTK_OBJECT_CLASS (parent_class)->finalize (object);
-	CAMEL_LOG_FULL_DEBUG ("Leaving CamelFolderPtProxy::finalize\n");
 }
 
 

@@ -27,7 +27,6 @@
 
 
 #include <camel/gmime-utils.h>
-#include <camel/camel-log.h>
 #include "camel/camel-mime-message.h"
 #include "camel/camel-mime-part.h"
 #include "camel/camel-stream.h"

@@ -37,7 +37,6 @@
 #include "camel-mbox-folder.h"
 #include "camel-mbox-store.h"
 #include "string-utils.h"
-#include "camel-log.h"
 #include "camel-stream-fs.h"
 #include "camel-mbox-summary.h"
 #include "camel-mbox-parser.h"
@@ -129,14 +128,10 @@ _finalize (GtkObject *object)
 {
 	CamelMboxFolder *mbox_folder = CAMEL_MBOX_FOLDER (object);
 
-	CAMEL_LOG_FULL_DEBUG ("Entering CamelFolder::finalize\n");
-
-	
 	g_free (mbox_folder->folder_file_path);
 	g_free (mbox_folder->folder_dir_path);
 
 	GTK_OBJECT_CLASS (parent_class)->finalize (object);
-	CAMEL_LOG_FULL_DEBUG ("Leaving CamelFolder::finalize\n");
 }
 
 
@@ -177,10 +172,6 @@ _init (CamelFolder *folder, CamelStore *parent_store,
        CamelFolder *parent_folder, const gchar *name, gchar separator,
        CamelException *ex)
 {
-
-
-	CAMEL_LOG_FULL_DEBUG ("Entering CamelMboxFolder::init_with_store\n");
-
 	/* call parent method */
 	parent_class->init (folder, parent_store, parent_folder,
 			    name, separator, ex);
@@ -195,8 +186,6 @@ _init (CamelFolder *folder, CamelStore *parent_store,
 	folder->has_uid_capability = TRUE;
 	folder->has_search_capability = TRUE;
  	folder->summary = NULL;
-
-	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMboxFolder::init_with_store\n");
 }
 
 
@@ -348,8 +337,6 @@ _set_name (CamelFolder *folder, const gchar *name, CamelException *ex)
 	CamelMboxFolder *mbox_folder = CAMEL_MBOX_FOLDER (folder);
 	const gchar *root_dir_path;
 	
-	CAMEL_LOG_FULL_DEBUG ("Entering CamelMboxFolder::set_name\n");
-
 	/* call default implementation */
 	parent_class->set_name (folder, name, ex);
 	if (camel_exception_get_id (ex)) return;
@@ -360,19 +347,10 @@ _set_name (CamelFolder *folder, const gchar *name, CamelException *ex)
 
 	root_dir_path = camel_mbox_store_get_toplevel_dir (CAMEL_MBOX_STORE(folder->parent_store));
 
-	CAMEL_LOG_FULL_DEBUG ("CamelMboxFolder::set_name full_name is %s\n", folder->full_name);
-	CAMEL_LOG_FULL_DEBUG ("CamelMboxFolder::set_name root_dir_path is %s\n", root_dir_path);
-
 	mbox_folder->folder_file_path = g_strdup_printf ("%s/%s", root_dir_path, folder->full_name);
 	mbox_folder->summary_file_path = g_strdup_printf ("%s/%s-ev-summary", root_dir_path, folder->full_name);
 	mbox_folder->folder_dir_path = g_strdup_printf ("%s/%s.sdb", root_dir_path, folder->full_name);
 	mbox_folder->index_file_path = g_strdup_printf ("%s/%s.ibex", root_dir_path, folder->full_name);
-
-	CAMEL_LOG_FULL_DEBUG ("CamelMboxFolder::set_name mbox_folder->folder_file_path is %s\n", 
-			      mbox_folder->folder_file_path);
-	CAMEL_LOG_FULL_DEBUG ("CamelMboxFolder::set_name mbox_folder->folder_dir_path is %s\n", 
-			      mbox_folder->folder_dir_path);
-	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMboxFolder::set_name\n");
 }
 
 
@@ -389,8 +367,6 @@ _exists (CamelFolder *folder, CamelException *ex)
 	gboolean exists;
 
 	g_assert(folder != NULL);
-
-	CAMEL_LOG_FULL_DEBUG ("Entering CamelMboxFolder::exists\n");
 
 	mbox_folder = CAMEL_MBOX_FOLDER (folder);
 
@@ -416,9 +392,6 @@ _exists (CamelFolder *folder, CamelException *ex)
 	/* check if the mbox directory exists */
 	access_result = access (mbox_folder->folder_dir_path, F_OK);
 	if (access_result < 0) {
-		CAMEL_LOG_FULL_DEBUG ("CamelMboxFolder::exists errot when executing access on %s\n", 
-				      mbox_folder->folder_dir_path);
-		CAMEL_LOG_FULL_DEBUG ("  Full error text is : %s\n", strerror(errno));
 		camel_exception_set (ex, 
 				     CAMEL_EXCEPTION_SYSTEM,
 				     strerror(errno));
@@ -426,9 +399,6 @@ _exists (CamelFolder *folder, CamelException *ex)
 	}
 	stat_error = stat (mbox_folder->folder_dir_path, &stat_buf);
 	if (stat_error == -1)  {
-		CAMEL_LOG_FULL_DEBUG ("CamelMboxFolder::exists when executing stat on %s, stat_error = %d\n", 
-				      mbox_folder->folder_dir_path, stat_error);
-		CAMEL_LOG_FULL_DEBUG ("  Full error text is : %s\n", strerror(errno));
 		camel_exception_set (ex, 
 				     CAMEL_EXCEPTION_SYSTEM,
 				     strerror(errno));
@@ -447,7 +417,6 @@ _exists (CamelFolder *folder, CamelException *ex)
 	exists = S_ISREG (stat_buf.st_mode);
 	/* we should  check the rights here  */
 	
-	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMboxFolder::exists\n");
 	return exists;
 }
 
@@ -522,11 +491,6 @@ _create (CamelFolder *folder, CamelException *ex)
 
 	/* exception handling for io errors */
 	io_error :
-
-		CAMEL_LOG_WARNING ("CamelMboxFolder::create, error when creating %s and %s\n", 
-				   folder_dir_path, folder_file_path);
-		CAMEL_LOG_FULL_DEBUG ( "  Full error text is : %s\n", strerror(errno));
-
 		if (errno == EACCES) {
 			camel_exception_set (ex, 
 					     CAMEL_EXCEPTION_FOLDER_INSUFFICIENT_PERMISSION,
@@ -584,7 +548,6 @@ _delete (CamelFolder *folder, gboolean recurse, CamelException *ex)
 
 	
 	/* physically delete the directory */
-	CAMEL_LOG_FULL_DEBUG ("CamelMboxFolder::delete removing directory %s\n", folder_dir_path);
 	rmdir_error = rmdir (folder_dir_path);
 	if (rmdir_error == -1) 
 		switch (errno) { 
@@ -689,11 +652,6 @@ _delete_messages (CamelFolder *folder, CamelException *ex)
 
 	/* exception handling for io errors */
 	io_error :
-
-		CAMEL_LOG_WARNING ("CamelMboxFolder::create, error when deleting files  %s\n", 
-				   folder_file_path);
-		CAMEL_LOG_FULL_DEBUG ( "  Full error text is : %s\n", strerror(errno));
-
 		if (errno == EACCES) {
 			camel_exception_set (ex, 
 					     CAMEL_EXCEPTION_FOLDER_INSUFFICIENT_PERMISSION,
@@ -777,9 +735,6 @@ _list_subfolders (CamelFolder *folder, CamelException *ex)
 		if ((stat_error != -1) && S_ISDIR (stat_buf.st_mode)) {
 			/* yes, add it to the list */
 			if (entry_name[0] != '.') {
-				CAMEL_LOG_FULL_DEBUG ("CamelMboxFolder::list_subfolders adding "
-						      "%s\n", entry_name);
-
 				/* if the folder is a netscape folder, remove the  
 				   ".sdb" from the name */
 				real_folder_name = string_prefix (entry_name, ".sdb", &folder_suffix_found);
@@ -844,7 +799,6 @@ _get_message_count (CamelFolder *folder, CamelException *ex)
 	
 	message_count = CAMEL_MBOX_SUMMARY (folder->summary)->nb_message;
 
-	CAMEL_LOG_FULL_DEBUG ("CamelMboxFolder::get_message_count found %d messages\n", message_count);
 	return message_count;
 }
 
@@ -863,8 +817,6 @@ _append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException 
 	gchar *tmp_message_filename;
 	gint fd1, fd2;
 	int i;
-
-	CAMEL_LOG_FULL_DEBUG ("Entering CamelMboxFolder::append_message\n");
 
 	tmp_message_filename = g_strdup_printf ("%s.tmp",
 						mbox_folder->folder_file_path);
@@ -966,7 +918,6 @@ _append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException 
 	unlink (tmp_message_filename);
 
 	g_free (tmp_message_filename);
-	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMboxFolder::append_message\n");
 }
 
 
@@ -980,8 +931,6 @@ _get_uid_list (CamelFolder *folder, CamelException *ex)
 	GList *uid_list = NULL;
 	int i;
 
-	CAMEL_LOG_FULL_DEBUG ("Entering CamelMboxFolder::get_uid_list\n");
-	
 	message_info_array =
 		CAMEL_MBOX_SUMMARY (folder->summary)->message_info;
 	
@@ -989,8 +938,6 @@ _get_uid_list (CamelFolder *folder, CamelException *ex)
 		message_info = (CamelMboxSummaryInformation *)(message_info_array->data) + i;
 		uid_list = g_list_prepend (uid_list, g_strdup_printf ("%u", message_info->uid));
 	}
-	
-	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMboxFolder::get_uid_list\n");
 	
 	return uid_list;
 }
@@ -1038,8 +985,6 @@ _get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *ex)
 	CamelMimeMessage *message = NULL;
 	CamelStore *parent_store;
 
-	CAMEL_LOG_FULL_DEBUG ("Entering CamelMboxFolder::get_message_by_uid\n");
-	
         searched_uid = strtoul (uid, NULL, 10);
 
 	message_info_array =
@@ -1060,7 +1005,6 @@ _get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *ex)
 				     CAMEL_EXCEPTION_FOLDER_INVALID_UID,
 				     "uid %s not found in the folder",
 				      uid);
-		CAMEL_LOG_FULL_DEBUG ("Leaving CamelMboxFolder::get_uid_list\n");
 		return NULL;
 	}
 	
@@ -1086,10 +1030,5 @@ _get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *ex)
 	message = camel_mime_message_new ();
 	camel_data_wrapper_set_input_stream (CAMEL_DATA_WRAPPER (message), message_stream);
 	
-	
-	
-
-	
-	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMboxFolder::get_uid_list\n");	
 	return message;
 }

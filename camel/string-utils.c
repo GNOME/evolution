@@ -28,7 +28,6 @@
 
 #include <config.h>
 #include "string-utils.h"
-#include "camel-log.h"
 #include "string.h"
 
 
@@ -68,16 +67,12 @@ string_dichotomy (const gchar *string, gchar sep, gchar **prefix, gchar **suffix
 	gint sep_pos, first, last, len;
 	
 	g_assert (string);
-	CAMEL_LOG_FULL_DEBUG (\
-		  "string_dichotomy:: string=\"%s\"\n\tseparator=\"%c\" \n\tprefix=%p \n\tsuffix=%p \n\toptions=%ld\n",\
-		  string, sep, prefix, suffix, options);
 	len = strlen (string);
 	if (!len) {
 		if (prefix)
 			*prefix=NULL;
 		if (suffix)
 			*suffix=NULL;
-		CAMEL_LOG_FULL_DEBUG ("string_dichotomy:: input string is empty\n");
 		return 'n';
 	}
 	first = 0;
@@ -93,7 +88,6 @@ string_dichotomy (const gchar *string, gchar sep, gchar **prefix, gchar **suffix
 	if (first==last) {
 		if (prefix) *prefix=NULL;
 		if (suffix) *suffix=NULL;
-		CAMEL_LOG_FULL_DEBUG ("string_dichotomy: after stripping, string is empty\n");
 		return 'n';
 	}
 	
@@ -114,7 +108,6 @@ string_dichotomy (const gchar *string, gchar sep, gchar **prefix, gchar **suffix
 		{
 			if (suffix) *suffix=NULL;
 			if (prefix) *prefix=NULL;
-			CAMEL_LOG_FULL_DEBUG ("string_dichotomy: separator not found\n");
 			return 'n';
 		}
 	
@@ -124,7 +117,6 @@ string_dichotomy (const gchar *string, gchar sep, gchar **prefix, gchar **suffix
 		{
 			if (suffix) *suffix=NULL;
 			if (prefix) *prefix=NULL;
-			CAMEL_LOG_FULL_DEBUG ("string_dichotomy: separator is last character\n");
 			return 'l';
 		}
 	/* if we have stripped leading separators, we should */
@@ -133,18 +125,12 @@ string_dichotomy (const gchar *string, gchar sep, gchar **prefix, gchar **suffix
 		{
 			if (suffix) *suffix=NULL;
 			if (prefix) *prefix=NULL;
-			CAMEL_LOG_FULL_DEBUG ("string_dichotomy: separator is first character\n");
 			return 'l';
 		}
-	CAMEL_LOG_FULL_DEBUG ("string_dichotomy: separator found at :%d\n", sep_pos);
-	if (prefix) { /* return the prefix */
+	if (prefix)
 		*prefix = g_strndup (string+first,sep_pos-first);
-		CAMEL_LOG_FULL_DEBUG ( "string_dichotomy:: prefix:\"%s\"\n", *prefix);
-	}
-	if (suffix) { /* return the suffix */
+	if (suffix)
 		*suffix = g_strndup (string+sep_pos+1, last-sep_pos);
-		CAMEL_LOG_FULL_DEBUG ( "string_dichotomy:: suffix:\"%s\"\n", *suffix);
-	}
 	 
 	return 'o';
 }
@@ -196,8 +182,6 @@ string_split (const gchar *string, char sep, const gchar *trim_chars, StringTrim
 		last--;
 
 	
-	CAMEL_LOG_FULL_DEBUG ("string_split:: trim options: %d\n", trim_options);
-
 	while (first<=last)  {
 		pos = first;
 		/* find next separator */
@@ -222,10 +206,6 @@ string_trim (gchar *string, const gchar *trim_chars, StringTrimOption options)
 	gint last_ok;
 	guint length;
 
-	CAMEL_LOG_FULL_DEBUG ("string-utils:: Entering string_trim::\n");
-	CAMEL_LOG_FULL_DEBUG ("string_trim:: trim_chars:\"%s\"", trim_chars);
-	CAMEL_LOG_FULL_DEBUG ("string_trim:: trim_options:%d\n", options);
-
 	g_return_if_fail (string);
 	length = strlen (string);
 	if (length==0)
@@ -241,8 +221,6 @@ string_trim (gchar *string, const gchar *trim_chars, StringTrimOption options)
 	if (options & STRING_TRIM_STRIP_TRAILING)
 		while  ( (first_ok <= last_ok) && (strchr (trim_chars, string[last_ok])!=NULL) )
 			last_ok--;
-	CAMEL_LOG_FULL_DEBUG ("string_trim::\n\t\"%s\":first ok:%d last_ok:%d\n",
-		   string, first_ok, last_ok);
 	
 	if (first_ok > 0)
 		memmove (string, string+first_ok, last_ok - first_ok + 1);

@@ -26,7 +26,6 @@
 #include "config.h"
 #include "camel-pop3-store.h"
 #include "camel-provider.h"
-#include "camel-log.h"
 
 
 static CamelProvider _pop3_provider = {

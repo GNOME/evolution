@@ -25,7 +25,6 @@
 
 #include <config.h> 
 
-#include "camel-log.h"
 #include "camel-exception.h"
 #include "camel-nntp-folder.h"
 #include "camel-nntp-summary.h"
@@ -172,8 +171,6 @@ camel_nntp_summary_save (CamelNNTPSummary *summary, const gchar *filename,
 	gint write_result; /* XXX use this */
 	guint32 data;
 
-	CAMEL_LOG_FULL_DEBUG ("CamelNNTPFolder::save_summary entering \n");
-
 	fd = open (filename, O_WRONLY | O_CREAT | O_TRUNC,
 		   S_IRUSR | S_IWUSR);
 	if (fd == -1) {
@@ -257,8 +254,6 @@ camel_nntp_summary_save (CamelNNTPSummary *summary, const gchar *filename,
 	}
 
 	close (fd);
-
-	CAMEL_LOG_FULL_DEBUG ("CamelNNTPFolder::save_summary leaving \n");
 }
 
 
@@ -282,8 +277,6 @@ camel_nntp_summary_load (const gchar *newsgroup, const gchar *filename, CamelExc
 	CamelNNTPSummary *summary;
 	gint read_result;
 	guint32 data;
-
-	CAMEL_LOG_FULL_DEBUG ("CamelNNTPFolder::save_summary entering \n");
 
 	fd = open (filename, O_RDONLY);
 	if (fd == -1) {

@@ -24,7 +24,6 @@
 
 #include <config.h> 
 
-#include "camel-log.h"
 #include "camel-exception.h"
 #include "camel-mbox-folder.h"
 #include "camel-mbox-summary.h"
@@ -175,8 +174,6 @@ camel_mbox_summary_save (CamelMboxSummary *summary, const gchar *filename,
 	gint write_result; /* XXX use this */
 	guint32 data;
 
-	CAMEL_LOG_FULL_DEBUG ("CamelMboxFolder::save_summary entering \n");
-
 	fd = open (filename, O_WRONLY | O_CREAT | O_TRUNC,
 		   S_IRUSR | S_IWUSR);
 	if (fd == -1) {
@@ -271,8 +268,6 @@ camel_mbox_summary_save (CamelMboxSummary *summary, const gchar *filename,
 	}
 
 	close (fd);
-
-	CAMEL_LOG_FULL_DEBUG ("CamelMboxFolder::save_summary leaving \n");
 }
 
 
@@ -296,8 +291,6 @@ camel_mbox_summary_load (const gchar *filename, CamelException *ex)
 	CamelMboxSummary *summary;
 	gint read_result;
 	guint32 data;
-
-	CAMEL_LOG_FULL_DEBUG ("CamelMboxFolder::save_summary entering \n");
 
 	fd = open (filename, O_RDONLY);
 	if (fd == -1) {

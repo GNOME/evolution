@@ -28,7 +28,6 @@
 
 #include <config.h>
 #include "gstring-util.h"
-#include "camel-log.h"
 #include <string.h>
 
 /**
@@ -95,9 +94,6 @@ g_string_dichotomy (GString *string, gchar sep, GString **prefix, GString **suff
 	gchar *str, *tmp;
 	gint pos, len, first;
 	
-	CAMEL_LOG_FULL_DEBUG (\
-		  "Entering string_dichotomy: \n\tseparator=%c \n\tprefix=%p \n\tsuffix=%p \n\toptions=%ld\n",\
-		  sep, prefix, suffix, options);
 	g_assert (tmp=string->str);
 	len = strlen (tmp);
 	if (!len) {
@@ -105,7 +101,6 @@ g_string_dichotomy (GString *string, gchar sep, GString **prefix, GString **suff
 			*prefix=NULL;
 		if (suffix)
 			*suffix=NULL;
-		CAMEL_LOG_FULL_DEBUG ("string_dichotomy: string is empty\n");
 		return 'n';
 	}
 	first = 0;
@@ -120,7 +115,6 @@ g_string_dichotomy (GString *string, gchar sep, GString **prefix, GString **suff
 	if (first==len) {
 		if (prefix) *prefix=NULL;
 		if (suffix) *suffix=NULL;
-		CAMEL_LOG_FULL_DEBUG ("string_dichotomy: after stripping, string is empty\n");
 		return 'n';
 	}
 	
@@ -142,7 +136,6 @@ g_string_dichotomy (GString *string, gchar sep, GString **prefix, GString **suff
 		{
 			if (suffix) *suffix=NULL;
 			if (prefix) *prefix=NULL;
-			CAMEL_LOG_FULL_DEBUG ("string_dichotomy: separator not found\n");
 			return 'n';
 		}
 	
@@ -152,7 +145,6 @@ g_string_dichotomy (GString *string, gchar sep, GString **prefix, GString **suff
 		{
 			if (suffix) *suffix=NULL;
 			if (prefix) *prefix=NULL;
-			CAMEL_LOG_FULL_DEBUG ("string_dichotomy: separator is last character\n");
 			return 'l';
 		}
 	/* if we have stripped leading separators, we should */
@@ -161,7 +153,6 @@ g_string_dichotomy (GString *string, gchar sep, GString **prefix, GString **suff
 		{
 			if (suffix) *suffix=NULL;
 			if (prefix) *prefix=NULL;
-			CAMEL_LOG_FULL_DEBUG ("string_dichotomy: separator is first character\n");
 			return 'l';
 		}
 	
@@ -284,8 +275,6 @@ g_string_split (GString *string, char sep, gchar *trim_chars, GStringTrimOption 
 		last--;
 
 	
-	CAMEL_LOG_FULL_DEBUG ("g_string_split:: trim options: %d\n", trim_options);
-
 	while (first<=last)  {
 		pos = first;
 		/* find next separator */
@@ -313,8 +302,6 @@ g_string_trim (GString *string, gchar *chars, GStringTrimOption options)
 	guint length;
 	gchar *str;
 
-	CAMEL_LOG_FULL_DEBUG ("**\nentering g_string_trim::\n");
-
 	if ((!string) || (!string->str))
 		return; 
 	str = string->str;
@@ -325,7 +312,6 @@ g_string_trim (GString *string, gchar *chars, GStringTrimOption options)
 	first_ok = 0;
 	last_ok = length - 1;
 	
-	CAMEL_LOG_FULL_DEBUG ("g_string_trim:: trim_options:%d\n", options);
 	if (options & GSTRING_TRIM_STRIP_LEADING)
 		while  ( (first_ok <= last_ok) && (strchr (chars, str[first_ok])) )
 			first_ok++;
@@ -333,8 +319,6 @@ g_string_trim (GString *string, gchar *chars, GStringTrimOption options)
 	if (options & GSTRING_TRIM_STRIP_TRAILING)
 		while  ( (first_ok <= last_ok) && (strchr (chars, str[last_ok])) )
 			last_ok++;
-	CAMEL_LOG_FULL_DEBUG ("g_string_trim::\n\t\"%s\":first ok:%d last_ok:%d\n",
-		   string->str, first_ok, last_ok);
 
 	if (first_ok > 0)
 		g_string_erase (string, 0, first_ok);

@@ -1,3 +1,7 @@
+2000-04-18  Dan Winship  <danw@helixcode.com>
+
+	* filter-driver.c: remove unused camel-log.h include
+
 2000-04-12  Matt Loper  <matt@helixcode.com>
 
 	* filter-arg.c (filter_arg_edit_value): Return a value.

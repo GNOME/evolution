@@ -32,7 +32,6 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <errno.h>
-#include "camel-log.h"
 
 static CamelStreamBufferClass *parent_class=NULL;
 
@@ -125,15 +124,10 @@ _destroy (GtkObject *object)
 {
 	CamelStreamBuffer *stream_buffer = CAMEL_STREAM_BUFFER (object);
 	
-	CAMEL_LOG_FULL_DEBUG ("Entering CamelStreamBuffer::destroy\n");
-
 	/* NOP to remove warnings */
 	stream_buffer->buf = stream_buffer->buf;
 	
-
 	GTK_OBJECT_CLASS (parent_class)->destroy (object);
-	
-	CAMEL_LOG_FULL_DEBUG ("Leaving CamelStreamBuffer::destroy\n");
 }
 
 
@@ -142,9 +136,6 @@ _finalize (GtkObject *object)
 {
 	CamelStreamBuffer *sbf = CAMEL_STREAM_BUFFER (object);
 
-
-	CAMEL_LOG_FULL_DEBUG ("Entering CamelStreamBuffer::finalize\n");
-	
 	if (!(sbf->flags & BUF_USER)) {
 		g_free(sbf->buf);
 	}
@@ -152,7 +143,6 @@ _finalize (GtkObject *object)
 		gtk_object_unref(GTK_OBJECT(sbf->stream));
 	
 	GTK_OBJECT_CLASS (parent_class)->finalize (object);
-	CAMEL_LOG_FULL_DEBUG ("Leaving CamelStreamBuffer::finalize\n");
 }
 
 static void

@@ -27,7 +27,6 @@
 
 
 #include <config.h>
-#include "camel-log.h"
 #include "camel-marshal-utils.h"
 #include "camel-thread-proxy.h"
 #include <pthread.h>
@@ -76,8 +75,6 @@ camel_thread_proxy_new (void)
 {
 	CamelThreadProxy *proxy;
 	
-	CAMEL_LOG_FULL_DEBUG ("Entering CamelThreadProxy::new\n");
-
 	proxy = g_new (CamelThreadProxy, 1);
 	if (!proxy)
 		return NULL;
@@ -90,7 +87,6 @@ camel_thread_proxy_new (void)
 		g_free (proxy);
 		return NULL;
 	}
-	CAMEL_LOG_FULL_DEBUG ("Leaving CamelThreadProxy::new\n");
 	return proxy;
 }
 
@@ -104,14 +100,10 @@ camel_thread_proxy_new (void)
 void 
 camel_thread_proxy_free (CamelThreadProxy *proxy)
 {
-	CAMEL_LOG_FULL_DEBUG ("Entering CamelThreadProxy::free\n");
-	
 	g_cond_free (proxy->signal_data_cond);
 	g_mutex_free (proxy->signal_data_mutex);
 	camel_op_queue_free (proxy->server_op_queue);
 	camel_op_queue_free (proxy->client_op_queue);
-
-	CAMEL_LOG_FULL_DEBUG ("Leaving CamelThreadProxy::free\n");
 }
 
 
@@ -139,14 +131,10 @@ _op_run_free_and_notify (CamelOp *op)
 {
 	CamelThreadProxy *th_proxy;
 	
-	CAMEL_LOG_FULL_DEBUG ("Entering CamelThreadProxy::_op_run_free_and_notify\n");
-
 	camel_op_run (op);
 	camel_op_free (op);
 	th_proxy = camel_op_get_user_data (op);
 	_notify_availability (th_proxy, 'a');
-
-	CAMEL_LOG_FULL_DEBUG ("Leaving CamelThreadProxy::_op_run_free_and_notify\n");
 }
 
 
@@ -164,8 +152,6 @@ _run_next_op_in_thread (CamelThreadProxy *proxy)
 	CamelOpQueue *server_op_queue;
 	pthread_t thread;
 
-	CAMEL_LOG_FULL_DEBUG ("Entering CamelThreadProxy::_run_next_op_in_thread\n");
-
 	server_op_queue = proxy->server_op_queue;
 	/* get the next pending operation */
 	op = camel_op_queue_pop_op (server_op_queue);
@@ -176,8 +162,6 @@ _run_next_op_in_thread (CamelThreadProxy *proxy)
 	
 	/* run the operation in a child thread */
 	pthread_create (&thread, NULL, (thread_call_func) _op_run_free_and_notify, op);
-
-	CAMEL_LOG_FULL_DEBUG ("Leaving CamelThreadProxy::_run_next_op_in_thread\n");
 }
 
 
@@ -196,8 +180,6 @@ camel_thread_proxy_push_op (CamelThreadProxy *proxy, CamelOp *op)
 {
 	CamelOpQueue *server_op_queue;
 	
-	CAMEL_LOG_FULL_DEBUG ("Entering CamelThreadProxy::camel_thread_proxy_push_op\n");
-
 	g_assert (proxy);
 	server_op_queue = proxy->server_op_queue;
 	
@@ -222,7 +204,6 @@ camel_thread_proxy_push_op (CamelThreadProxy *proxy, CamelOp *op)
 		*/
 		_run_next_op_in_thread (proxy);		
 	}
-	CAMEL_LOG_FULL_DEBUG ("Leaving CamelThreadProxy::camel_thread_proxy_push_op\n");
 }
 /**
  * _op_run_and_free: Run an operation and free it
@@ -234,10 +215,8 @@ camel_thread_proxy_push_op (CamelThreadProxy *proxy, CamelOp *op)
 static void
 _op_run_and_free (CamelOp *op)
 {
-	CAMEL_LOG_FULL_DEBUG ("Entering CamelThreadProxy::_op_run_and_free\n");
 	camel_op_run (op);
 	camel_op_free (op);
-	CAMEL_LOG_FULL_DEBUG ("Leaving CamelThreadProxy::_op_run_and_free\n");
 }
 
 
@@ -259,7 +238,6 @@ _run_next_cb (CamelThreadProxy *proxy)
 	CamelOp *op;
 	CamelOpQueue *client_op_queue;
 
-	CAMEL_LOG_FULL_DEBUG ("Entering CamelThreadProxy::_run_next_cb\n");
 	client_op_queue = proxy->client_op_queue;
 
 	/* get the next pending operation */
@@ -268,8 +246,6 @@ _run_next_cb (CamelThreadProxy *proxy)
 	
 	/* run the operation in the main thread */
 	_op_run_and_free (op);
-
-	CAMEL_LOG_FULL_DEBUG ("Leaving CamelThreadProxy::_run_next_cb\n");
 }
 
 
@@ -287,7 +263,6 @@ camel_thread_proxy_push_cb (CamelThreadProxy *proxy, CamelOp *cb)
 {
 	CamelOpQueue *client_op_queue;
 	
-	CAMEL_LOG_FULL_DEBUG ("Entering CamelThreadProxy::camel_thread_proxy_push_cb\n");
 	client_op_queue = proxy->client_op_queue;
 
 	/* put the proxy object in the user data
@@ -300,8 +275,6 @@ camel_thread_proxy_push_cb (CamelThreadProxy *proxy, CamelOp *cb)
 	
 	/* tell the main thread a new callback is there */
 	_notify_availability (proxy, 'c');
-	
-	CAMEL_LOG_FULL_DEBUG ("Leaving CamelThreadProxy::camel_thread_proxy_push_cb\n");
 }  
 
 
@@ -317,12 +290,10 @@ _init_notify_system (CamelThreadProxy *proxy)
 {
 	int filedes[2];
 
-	CAMEL_LOG_FULL_DEBUG ("Entering CamelThreadProxy::_init_notify_system\n");
-
 	/* set up the notification channel */
 	if (pipe (filedes) < 0) {
-		CAMEL_LOG_WARNING ("could not create pipe in CamelThreadProxy::_init_notify_system\n");
-		CAMEL_LOG_FULL_DEBUG ("Full error message : %s\n", strerror(errno));
+		g_warning ("could not create pipe in "
+			   "CamelThreadProxy::_init_notify_system\n");
 		return -1;
 	}
 	
@@ -339,7 +310,6 @@ _init_notify_system (CamelThreadProxy *proxy)
 			_thread_notification_catch, 
 			proxy);
 	
-	CAMEL_LOG_FULL_DEBUG ("Leaving CamelThreadProxy::_init_notify_system\n");
 	return 1;
 }
 
@@ -363,8 +333,6 @@ _notify_availability (CamelThreadProxy *proxy, gchar op_name)
 	GIOChannel *notification_channel;
 	guint bytes_written;
 
-	CAMEL_LOG_FULL_DEBUG ("Entering CamelThreadProxy::_notify_availability\n");
-
 	notification_channel = proxy->notify_channel;	
 
 	do {
@@ -375,8 +343,6 @@ _notify_availability (CamelThreadProxy *proxy, gchar op_name)
 				     1,
 				     &bytes_written);	
 	} while (bytes_written < 1);
-
-	CAMEL_LOG_FULL_DEBUG ("Leaving CamelThreadProxy::_notify_availability\n");
 }
 
 
@@ -403,7 +369,6 @@ _signal_marshaller_server_side (GtkObject *object,
 	CamelThreadProxy *proxy;
 	guint signal_id;
 	
-	CAMEL_LOG_FULL_DEBUG ("Entering CamelThreadProxy::_signal_marshaller_server_side\n");
 	proxy = CAMEL_THREAD_PROXY (gtk_object_get_data (object, "__proxy__"));
 	signal_id = (guint)data;
 	g_assert (proxy);
@@ -426,8 +391,6 @@ _signal_marshaller_server_side (GtkObject *object,
 
 	/* tell the main thread there is a signal pending */
 	_notify_availability (proxy, 's');
-
-	CAMEL_LOG_FULL_DEBUG ("Leaving CamelThreadProxy::_signal_marshaller_server_side\n");
 }
 
 
@@ -437,7 +400,6 @@ _signal_marshaller_client_side (CamelThreadProxy *proxy)
 	g_mutex_lock (proxy->signal_data_mutex);
 	g_assert (proxy->signal_data.args);
 	
-	CAMEL_LOG_FULL_DEBUG ("Entering CamelThreadProxy::_signal_marshaller_client_side\n");
 	/* emit the pending signal */
 	gtk_signal_emitv (GTK_OBJECT (proxy), 
 			  proxy->signal_data.signal_id,
@@ -450,7 +412,6 @@ _signal_marshaller_client_side (CamelThreadProxy *proxy)
 	 */ 
 	g_cond_signal (proxy->signal_data_cond);
 	g_mutex_unlock (proxy->signal_data_mutex);	
-	CAMEL_LOG_FULL_DEBUG ("Leaving CamelThreadProxy::_signal_marshaller_client_side\n");
 }
 
 
@@ -475,8 +436,6 @@ camel_thread_proxy_add_signals (CamelThreadProxy *proxy,
 {
 	guint i;
  
-	CAMEL_LOG_FULL_DEBUG ("Entering CamelThreadProxy::camel_thread_proxy_init_signals\n");
-
 	for (i=0; signal_to_proxy[i]; i++) {
 		/* connect the signal to the signal marshaller
 		 * user_data is the signal id */
@@ -490,11 +449,6 @@ camel_thread_proxy_add_signals (CamelThreadProxy *proxy,
 					 TRUE,
 					 FALSE);
 	}
-	
-	
-	CAMEL_LOG_FULL_DEBUG ("Leaving CamelThreadProxy::camel_thread_proxy_init_signals\n");
-	
-	
 }
 
 /****   catch notification from child thread ****/
@@ -517,9 +471,6 @@ _thread_notification_catch (GIOChannel *source,
 	gchar op_name;
 	guint bytes_read;
 	GIOError error;
-
-	CAMEL_LOG_FULL_DEBUG ("Entering CamelThreadProxy::_thread_notification_catch\n");
-
 
 	error = g_io_channel_read (source,
 				   &op_name,
@@ -546,8 +497,6 @@ _thread_notification_catch (GIOChannel *source,
 					   &bytes_read);
 
 	}
-
-	CAMEL_LOG_FULL_DEBUG ("Leaving CamelThreadProxy::_thread_notification_catch\n");
 
 	/* do not remove the io watch */
 	return TRUE;

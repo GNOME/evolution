@@ -26,7 +26,6 @@
 #include "config.h"
 #include "camel-nntp-store.h"
 #include "camel-provider.h"
-#include "camel-log.h"
 
 
 static CamelProvider _nntp_provider = {

@@ -11,8 +11,6 @@ main (int argc, char**argv)
 {
 	const CamelProvider *new_provider;
 
-	camel_debug_level = CAMEL_LOG_LEVEL_FULL_DEBUG;
-
 	gtk_init (&argc, &argv);
 	camel_init ();
 

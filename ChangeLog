@@ -1,3 +1,7 @@
+2000-04-18  Dan Winship  <danw@helixcode.com>
+
+	* tests/*: remove camel-log references
+
 2000-04-17  Dan Winship  <danw@helixcode.com>
 
 	* configure.in (xmlpatch): Require gnome-xml 1.8.7 (or later,

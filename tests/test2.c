@@ -2,7 +2,6 @@
 /* tests mime message file parsing */
 #include "gmime-utils.h"
 #include "stdio.h"
-#include "camel-log.h"
 #include "camel-mime-message.h"
 #include "camel-mime-part.h"
 #include "camel-stream.h"
@@ -18,7 +17,6 @@ main (int argc, char**argv)
 	
 	gtk_init (&argc, &argv);
 	camel_init ();
-	camel_debug_level = CAMEL_LOG_LEVEL_FULL_DEBUG;
 		
 	message = camel_mime_message_new ();
 
@@ -31,8 +29,6 @@ main (int argc, char**argv)
 	}
 
 
-	camel_debug_level = CAMEL_LOG_LEVEL_FULL_DEBUG;
-	
 	camel_data_wrapper_set_input_stream ( CAMEL_DATA_WRAPPER (message), input_stream);
 
 	camel_medium_get_content_object (CAMEL_MEDIUM (message));

@@ -35,8 +35,6 @@
 #include <string.h>
 #include <unistd.h>
 
-#include "camel-log.h"
-
 #include "libgnome/libgnome.h"
 
 #include "camel-nntp-store.h"
@@ -122,7 +120,6 @@ _get_folder (CamelStore *store, const gchar *folder_name, CamelException *ex)
 	/* call the standard routine for that when  */
 	/* it is done ... */
 
-	CAMEL_LOG_FULL_DEBUG ("Entering CamelNNTPStore::get_folder\n");
 	new_nntp_folder =  gtk_type_new (CAMEL_NNTP_FOLDER_TYPE);
 	new_folder = CAMEL_FOLDER (new_nntp_folder);
 	
@@ -133,8 +130,6 @@ _get_folder (CamelStore *store, const gchar *folder_name, CamelException *ex)
 	CF_CLASS (new_folder)->init (new_folder, store, NULL,
 				     folder_name, '/', ex);
 	
-	CAMEL_LOG_FULL_DEBUG ("Leaving CamelNNTPStore::get_folder\n");
-
 	return new_folder;
 }
 

@@ -25,7 +25,6 @@
  */
 #include <config.h>
 #include "camel-service.h"
-#include "camel-log.h"
 #include "camel-exception.h"
 
 #include <ctype.h>
@@ -98,15 +97,12 @@ _finalize (GtkObject *object)
 {
 	CamelService *camel_service = CAMEL_SERVICE (object);
 
-	CAMEL_LOG_FULL_DEBUG ("Entering CamelService::finalize\n");
-
 	if (camel_service->url)
 		camel_url_free (camel_service->url);
 	if (camel_service->session)
 		gtk_object_unref (GTK_OBJECT (camel_service->session));
 
 	GTK_OBJECT_CLASS (parent_class)->finalize (object);
-	CAMEL_LOG_FULL_DEBUG ("Leaving CamelService::finalize\n");
 }
 
 

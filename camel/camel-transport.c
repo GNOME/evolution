@@ -26,7 +26,6 @@
 #include <config.h>
 #include "camel-transport.h"
 #include "camel-exception.h"
-#include "camel-log.h"
 
 /* Returns the class for a CamelTransport */
 #define CT_CLASS(so) CAMEL_TRANSPORT_CLASS (GTK_OBJECT(so)->klass)

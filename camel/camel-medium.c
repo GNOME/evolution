@@ -138,7 +138,7 @@ add_header (CamelMedium *medium, gchar *header_name, gchar *header_value)
 	/* FIXME: This only allows each header to occur once. */
 	if (g_hash_table_lookup_extended (medium->headers, header_name,
 					  &old_name, &old_value)) {
-		g_hash_table_remove (medium->headers, old_header_name);
+		g_hash_table_remove (medium->headers, old_name);
 		g_free (old_name);
 		g_free (old_value);
 	}

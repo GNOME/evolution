@@ -27,7 +27,6 @@
 
 #include <config.h>
 #include "camel-folder-utils.h"
-#include "camel-log.h"
 #include "camel-mime-message.h"
 
 
@@ -89,12 +88,11 @@ camel_aml_expunge_messages (GList *aml,
 				expunged_messages = g_list_prepend (expunged_messages, message);
 				
 			} 
-		}
-		else {
-			CAMEL_LOG_WARNING ("CamelFolder::expunge warning message_node contains no message\n");
+		} else {
+			g_warning ("CamelFolder::expunge warning message_node "
+				   "contains no message\n");
 		}
 		message_node = next_message_node;
-		CAMEL_LOG_FULL_DEBUG ("CamelFolder::expunge, examined message node %p\n", message_node);
 	}
 	
 	return expunged_messages;
