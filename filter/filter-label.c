@@ -1,6 +1,7 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  *  Authors: Jeffrey Stedfast <fejj@ximian.com>
+ *	     Michael Zucchi <notzed@ximian.com>
  *
  *  Copyright 2002 Ximian, Inc. (www.ximian.com)
  *
@@ -48,14 +49,11 @@
 
 #define d(x) 
 
-static gboolean validate (FilterElement *fe);
 static void xml_create (FilterElement *fe, xmlNodePtr node);
-static GtkWidget *get_widget (FilterElement *fe);
 
 static void filter_label_class_init (FilterLabelClass *klass);
 static void filter_label_init (FilterLabel *label);
 static void filter_label_finalise (GtkObject *obj);
-
 
 static FilterElementClass *parent_class;
 
@@ -64,7 +62,6 @@ enum {
 };
 
 static guint signals[LAST_SIGNAL] = { 0 };
-
 
 GtkType
 filter_label_get_type (void)
@@ -82,7 +79,7 @@ filter_label_get_type (void)
 			(GtkArgGetFunc) NULL
 		};
 		
-		type = gtk_type_unique (filter_int_get_type (), &type_info);
+		type = gtk_type_unique (filter_option_get_type (), &type_info);
 	}
 	
 	return type;
@@ -94,24 +91,21 @@ filter_label_class_init (FilterLabelClass *klass)
 	GtkObjectClass *object_class = (GtkObjectClass *) klass;
 	FilterElementClass *filter_element = (FilterElementClass *) klass;
 	
-	parent_class = gtk_type_class (filter_int_get_type ());
+	parent_class = gtk_type_class (filter_option_get_type ());
 	
 	object_class->finalize = filter_label_finalise;
 	
 	/* override methods */
-	filter_element->validate = validate;
 	filter_element->xml_create = xml_create;
-	filter_element->get_widget = get_widget;
 	
 	/* signals */
-	
 	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 }
 
 static void
 filter_label_init (FilterLabel *o)
 {
-	
+	((FilterOption *)o)->type = "label";
 }
 
 static void
@@ -133,94 +127,71 @@ filter_label_new (void)
 	return (FilterLabel *) gtk_type_new (filter_label_get_type ());
 }
 
-static gboolean
-validate (FilterElement *fe)
+static struct {
+	char *path;
+	char *title;
+	char *value;
+} labels[] = {
+	{ "/Mail/Labels/label_0", N_("Important"), "important" },
+	{ "/Mail/Labels/label_1", N_("Work"), "work" },
+	{ "/Mail/Labels/label_2", N_("Personal"), "personal" },
+	{ "/Mail/Labels/label_3", N_("To Do"), "todo" },
+	{ "/Mail/Labels/label_4", N_("Later"), "later" },
+};
+
+int filter_label_count(void)
 {
-	FilterInt *label = (FilterInt *)fe;
-	GtkWidget *dialog;
-	
-	if (label->val < 0 || label->val > 4) {
-		dialog = gnome_ok_dialog (_("You must specify a label name"));
-		
-		gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
-		return FALSE;
+	return sizeof(labels)/sizeof(labels[0]);
+}
+
+const char *filter_label_label(int i)
+{
+	if (i<0 || i >= sizeof(labels)/sizeof(labels[0]))
+		return NULL;
+	else
+		return labels[i].value;
+}
+
+int filter_label_index(const char *label)
+{
+	int i;
+
+	for (i=0;i<sizeof(labels)/sizeof(labels[0]);i++) {
+		if (strcmp(labels[i].value, label) == 0)
+			return i;
 	}
-	
-	return TRUE;
+
+	return -1;
 }
 
 static void
 xml_create (FilterElement *fe, xmlNodePtr node)
 {
-	/* parent implementation */
-        ((FilterElementClass *)(parent_class))->xml_create (fe, node);
-	
-}
-
-static void
-label_selected (GtkWidget *item, gpointer user_data)
-{
-	FilterInt *label = user_data;
-	
-	label->val = GPOINTER_TO_INT (gtk_object_get_data (GTK_OBJECT (item), "label"));
-}
-
-static GtkWidget *
-get_widget (FilterElement *fe)
-{
-	FilterInt *label = (FilterInt *) fe;
-	GtkWidget *omenu, *menu, *item;
+	FilterOption *fo = (FilterOption *)fe;
 	Bonobo_ConfigDatabase db;
 	CORBA_Environment ev;
-	char *path, *num;
 	int i;
-	
-	omenu = gtk_option_menu_new ();
-	menu = gtk_menu_new ();
-	gtk_widget_show (menu);
-	
-	/* sigh. This is a fucking nightmare... */
-	
+
+        ((FilterElementClass *)(parent_class))->xml_create(fe, node);
+
 	CORBA_exception_init (&ev);
 	db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", &ev);
 	
-	if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
-		CORBA_exception_free (&ev);
-		
-		/* I guess we'll have to return an empty menu? */
-		gtk_option_menu_set_menu (GTK_OPTION_MENU (omenu), menu);
-		return omenu;
-	}
+	if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL)
+		db = CORBA_OBJECT_NIL;
 	
 	CORBA_exception_free (&ev);
-	
-	path = g_strdup ("/Mail/Labels/label_#");
-	num = path + strlen (path) - 1;
-	
-	for (i = 0; i < 5; i++) {
-		char *utf8_label, *native_label;
+
+	for (i=0;i<sizeof(labels)/sizeof(labels[0]);i++) {
+		char *title, *btitle;
 		
-		sprintf (num, "%d", i);
-		utf8_label = bonobo_config_get_string (db, path, NULL);
-		
-		native_label = e_utf8_to_gtk_string (GTK_WIDGET (menu), utf8_label);
-		g_free (utf8_label);
-		
-		item = gtk_menu_item_new_with_label (native_label);
-		g_free (native_label);
-		
-		gtk_object_set_data (GTK_OBJECT (item), "label", GINT_TO_POINTER (i));
-		gtk_signal_connect (GTK_OBJECT (item), "activate",
-				    label_selected, label);
-		
-		gtk_widget_show (item);
-		gtk_menu_append (GTK_MENU (menu), item);
+		if (db == CORBA_OBJECT_NIL
+		    || (title = btitle = bonobo_config_get_string(db, labels[i].path, NULL)) == NULL) {
+			btitle = NULL;
+			title = labels[i].title;
+		}
+
+		filter_option_add(fo, labels[i].value, title, NULL);
+		g_free(btitle);
 	}
-	
-	g_free (path);
-	
-	gtk_option_menu_set_menu (GTK_OPTION_MENU (omenu), menu);
-	gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), label->val);
-	
-	return omenu;
 }

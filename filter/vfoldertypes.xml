@@ -260,17 +260,67 @@
    <option value="is">
     <title>is</title>
     <code>
-       (match-all (= (get-label) ${versus}))
+       (match-all (= (user-tag "label") ${versus}))
     </code>
    </option>
    <option value="is-not">
     <title>is not</title>
     <code>
-       (match-all (not (= (get-label) ${versus})))
+       (match-all (not (= (user-tag "label") ${versus})))
     </code>
    </option>
   </input>
   <input type="label" name="versus"/>
+ </part>
+
+ <part name="score">
+  <title>Score</title>
+  <input type="optionlist" name="score-type">
+   <option value="is">
+    <title>is</title>
+    <code>
+       (match-all (= (cast-int (user-tag "score")) ${versus}))
+    </code>
+   </option>
+   <option value="is-not">
+    <title>is not</title>
+    <code>
+       (match-all (not (= (cast-int (user-tag "score")) ${versus})))
+    </code>
+   </option>
+   <option value="greater-than">
+    <title>is greater than</title>
+    <code>
+       (match-all (&gt; (cast-int (user-tag "score")) ${versus}))
+    </code>
+   </option>
+   <option value="less-than">
+    <title>is less than</title>
+    <code>
+       (match-all (&lt; (cast-int (user-tag "score")) ${versus}))
+    </code>
+   </option>
+  </input>
+  <input type="score" name="versus"/>
+ </part>
+
+ <part name="size">
+  <title>Size (kB)</title>
+  <input type="optionlist" name="size-type">
+   <option value="greater-than">
+    <title>is greater than</title>
+    <code>
+       (match-all (&gt; (get-size) ${versus}))
+    </code>
+   </option>
+   <option value="less-than">
+    <title>is less than</title>
+    <code>
+       (match-all (&lt; (get-size) ${versus}))
+    </code>
+   </option>
+  </input>
+  <input type="integer" name="versus"/>
  </part>
 
  <part name="status">

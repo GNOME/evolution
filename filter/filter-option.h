@@ -40,6 +40,8 @@ struct _FilterOption {
 	FilterElement parent;
 	struct _FilterOptionPrivate *priv;
 
+	const char *type;	/* static memory, type name written to xml */
+
 	GList *options;
 	struct _filter_option *current;
 };
@@ -57,6 +59,7 @@ FilterOption	*filter_option_new	(void);
 
 /* methods */
 void		filter_option_set_current(FilterOption *option, const char *name);
+void		filter_option_add(FilterOption *fo, const char *name, const char *title, const char *code);
 
 #endif /* ! _FILTER_OPTION_H */
 

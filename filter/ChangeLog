@@ -1,3 +1,40 @@
+2002-07-15  Not Zed  <NotZed@Ximian.com>
+
+	* filter-score.[ch]: cvs remove.
+	
+	* filter-element.c: Remove reference to filter-score.h
+
+	* vfoldertypes.xml: Fix label vfolder rule as below, also add
+	score and size rules from filtertypes.xml.
+
+	* filtertypes.xml (score): Use (cast-int (user-tag "score")) to
+	get the value directly, rather than (get-score).
+	(label): Use (user-tag "label") to get the value directly, rather
+	than (get-label).  The label is now a string too.
+
+	* filter-label.c (filter_label_get_type): Make filter-label
+	inherit from filter-option.  Which makes more sense doesn't it
+	... surely.
+	(validate): Removed, optionlists are self-validating.
+	(xml_create): Initialise the list of options from our
+	configuration database.  If it isn't working, ignore it and set it
+	up anyway.
+	(filter_label_init): Override the xml type.
+	(filter_label_count): 
+	(filter_label_label): 
+	(filter_label_index): Some helper functions for external
+	interfaces.  All of the mail config/etc should use this.
+
+	* filter-option.c (free_option):
+	(xml_create): 
+	(clone): Made the "value" type in glib memory rather than xml
+	memory space.
+	(filter_option_add): Utility function to add a new option to the
+	list.
+	(clone): Use above function to simplify code.
+	(xml_create): Same here.
+	(xml_encode): Allow subclasses to override the type.
+
 2002-07-10  Not Zed  <NotZed@Ximian.com>
 
 	** fixes for #10781

@@ -389,13 +389,13 @@
    <option value="is">
     <title>is</title>
     <code>
-       (match-all (= (get-label) ${versus}))
+       (match-all (= (user-tag "label") ${versus}))
     </code>
    </option>
    <option value="is-not">
     <title>is not</title>
     <code>
-       (match-all (not (= (get-label) ${versus})))
+       (match-all (not (= (user-tag "label") ${versus})))
     </code>
    </option>
   </input>
@@ -408,25 +408,25 @@
    <option value="is">
     <title>is</title>
     <code>
-       (match-all (= (get-score) ${versus}))
+       (match-all (= (cast-int (user-tag "score")) ${versus}))
     </code>
    </option>
    <option value="is-not">
     <title>is not</title>
     <code>
-       (match-all (not (= (get-score) ${versus})))
+       (match-all (not (= (cast-int (user-tag "score")) ${versus})))
     </code>
    </option>
    <option value="greater-than">
     <title>is greater than</title>
     <code>
-       (match-all (&gt; (get-score) ${versus}))
+       (match-all (&gt; (cast-int (user-tag "score")) ${versus}))
     </code>
    </option>
    <option value="less-than">
     <title>is less than</title>
     <code>
-       (match-all (&lt; (get-score) ${versus}))
+       (match-all (&lt; (cast-int (user-tag "score")) ${versus}))
     </code>
    </option>
   </input>
