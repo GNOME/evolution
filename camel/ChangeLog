@@ -1,5 +1,19 @@
 2001-03-04  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-mime-utils.c: Wrote a new version of header_fold() that
+	takes a 'force' option and uses another new function called
+	header_fold_next_space() in place of strchr(inptr, ' ') to get the
+	next whitespace char. The idea of header_fold_next_space() is to
+	not treat spaces between a set of quotes as a space - this way it
+	will be possible to fold (for example) the Content-Type MIME
+	header without worrying about breaking up a boundary string.
+	Note: This code is #if 0'd out until Zucchi approves of the patch.
+	Another Note: We will probably still want to use the "don't fold
+	this header" hash lookup for headers like the Message-Id and
+	possibly a few others.
+
+2001-03-04  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* camel-internet-address.c
 	(camel_internet_address_encode_address): Make sure there is a
 	space between the name and the address tokens.
