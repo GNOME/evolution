@@ -1,5 +1,8 @@
 2004-06-22  Jeffrey Stedfast  <fejj@novell.com>
 
+	* em-folder-tree-model.c (sort_cb): Same as below.
+	(em_folder_tree_model_remove_folders): Same.
+
 	* em-folder-tree.c (emft_maybe_expand_row): As toshok discovered,
 	gtk_tree_model_get() strdup's string arguments, *sigh*, so we need
 	to free them.

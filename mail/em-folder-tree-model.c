@@ -184,6 +184,7 @@ sort_cb (GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b, gpointer user_data
 	char *aname, *bname;
 	CamelStore *store;
 	gboolean is_store;
+	int rv = -2;
 	
 	gtk_tree_model_get (model, a, COL_BOOL_IS_STORE, &is_store,
 			    COL_POINTER_CAMEL_STORE, &store,
@@ -193,34 +194,40 @@ sort_cb (GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b, gpointer user_data
 	if (is_store) {
 		/* On This Computer is always first and VFolders is always last */
 		if (!strcmp (aname, _("On This Computer")))
-			return -1;
-		if (!strcmp (bname, _("On This Computer")))
-			return 1;
-		if (!strcmp (aname, _("VFolders")))
-			return 1;
-		if (!strcmp (bname, _("VFolders")))
-			return -1;
+			rv = -1;
+		else if (!strcmp (bname, _("On This Computer")))
+			rv = 1;
+		else if (!strcmp (aname, _("VFolders")))
+			rv = 1;
+		else if (!strcmp (bname, _("VFolders")))
+			rv = -1;
 	} else if (store == vfolder_store) {
 		/* UNMATCHED is always last */
 		if (aname && !strcmp (aname, _("UNMATCHED")))
-			return 1;
-		if (bname && !strcmp (bname, _("UNMATCHED")))
-			return -1;
+			rv = 1;
+		else if (bname && !strcmp (bname, _("UNMATCHED")))
+			rv = -1;
 	} else {
 		/* Inbox is always first */
 		if (aname && (!strcmp (aname, "INBOX") || !strcmp (aname, _("Inbox"))))
-			return -1;
-		if (bname && (!strcmp (bname, "INBOX") || !strcmp (bname, _("Inbox"))))
-			return 1;
+			rv = -1;
+		else if (bname && (!strcmp (bname, "INBOX") || !strcmp (bname, _("Inbox"))))
+			rv = 1;
 	}
 	
 	if (aname == NULL) {
 		if (bname == NULL)
-			return 0;
+			rv = 0;
 	} else if (bname == NULL)
-		return 1;
+		rv = 1;
 	
-	return g_utf8_collate (aname, bname);
+	if (rv == -2)
+		rv = g_utf8_collate (aname, bname);
+	
+	g_free (aname);
+	g_free (bname);
+	
+	return rv;
 }
 
 static void
@@ -830,7 +837,7 @@ void
 em_folder_tree_model_remove_folders (EMFolderTreeModel *model, struct _EMFolderTreeModelStoreInfo *si, GtkTreeIter *toplevel)
 {
 	GtkTreeRowReference *row;
-	char *uri, *folder_path;
+	char *uri, *full_name;
 	gboolean is_store, go;
 	GtkTreeIter iter;
 	
@@ -845,11 +852,11 @@ em_folder_tree_model_remove_folders (EMFolderTreeModel *model, struct _EMFolderT
 	}
 	
 	gtk_tree_model_get ((GtkTreeModel *) model, toplevel, COL_STRING_URI, &uri,
-			    COL_STRING_FULL_NAME, &folder_path,
+			    COL_STRING_FULL_NAME, &full_name,
 			    COL_BOOL_IS_STORE, &is_store, -1);
 	
-	if (folder_path && (row = g_hash_table_lookup (si->full_hash, folder_path))) {
-		g_hash_table_remove (si->full_hash, folder_path);
+	if (full_name && (row = g_hash_table_lookup (si->full_hash, full_name))) {
+		g_hash_table_remove (si->full_hash, full_name);
 		gtk_tree_row_reference_free (row);
 	}
 	
@@ -859,6 +866,9 @@ em_folder_tree_model_remove_folders (EMFolderTreeModel *model, struct _EMFolderT
 	
 	if (is_store)
 		em_folder_tree_model_remove_store_info (model, si->store);
+	
+	g_free (full_name);
+	g_free (uri);
 }
 
 
