@@ -1,3 +1,8 @@
+2001-10-04  Chris Toshok  <toshok@ximian.com>
+
+	* Makefile.am (images_DATA): change ldap-16.png to ldap-mini.png,
+	and add ldap.png.
+
 2001-10-04  Jakub Steiner <jimmac@ximian.com>
 
 	* splash.png: bump to 0.16
