@@ -1,5 +1,11 @@
 2001-08-22  Federico Mena Quintero  <federico@ximian.com>
 
+	* gui/dialogs/recurrence-page.c (recurrence_page_fill_widgets):
+	Unset the priv->updating flag before returning in the case the
+	component has no recurrence information.  Fixes bug #6850.
+
+2001-08-22  Federico Mena Quintero  <federico@ximian.com>
+
 	* gui/alarm-notify/alarm-queue.c (QueuedAlarm): Added a snooze
 	flag to differentiate snoozed alarms from real occurrences.
 	(add_component_alarms): Do not specify a destroy function for the

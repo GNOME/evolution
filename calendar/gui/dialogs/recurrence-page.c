@@ -1449,6 +1449,8 @@ recurrence_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 
 		sensitize_recur_widgets (rpage);
 		preview_recur (rpage);
+
+		priv->updating = FALSE;
 		return;
 	}
 
