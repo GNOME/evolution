@@ -31,7 +31,7 @@ struct _MailDisplay {
 	gint redisplay_counter;
 	gpointer last_active;
 	guint idle_id;
-
+	
 	char *charset;
 	
 	char *selection;
@@ -40,6 +40,11 @@ struct _MailDisplay {
 	CamelMimeMessage *current_message;
 	GData **data;
 	
+	/* stack of Content-Location URLs used for combining with a
+           relative URL Content-Location on a leaf part in order to
+           construct the full URL */
+	struct _location_url_stack *urls;
+	
 	GHashTable *related;	/* related parts not displayed yet */
 	
 	/* Sigh.  This shouldn't be needed.  I haven't figured out why it is
@@ -47,7 +52,7 @@ struct _MailDisplay {
 	GtkWidget *invisible;
 	
 	MailConfigDisplayStyle display_style;
-
+	
 	guint printing : 1;
 };
 
@@ -99,5 +104,9 @@ void           mail_error_printf        (GtkHTML *html,
 char *mail_display_add_url (MailDisplay *md, const char *kind, char *url, gpointer data);
 
 const char *mail_display_get_url_for_icon (MailDisplay *md, const char *icon_name);
+
+void mail_display_push_content_location (MailDisplay *md, const char *location);
+CamelURL *mail_display_get_content_location (MailDisplay *md);
+void mail_display_pop_content_location (MailDisplay *md);
 
 #endif /* _MAIL_DISPLAY_H_ */

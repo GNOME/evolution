@@ -1,3 +1,24 @@
+2002-06-04  Jeffrey Stedfast  <fejj@ximian.com>
+
+	The following changes take a great leap toward fixing bug #1042.
+
+	* mail-display.c (mail_display_push_content_location): New
+	function to push a Content-Location value onto the MailDisplay.
+	(mail_display_get_content_location): Gets the current
+	Content-Location CamelURL value.
+	(mail_display_pop_content_location): Pop the Content-Location off
+	the stack.
+
+	* mail-format.c (get_location): Do URL merging if the
+	Content-Location isn't a full URL. If the Content-Location doesn't
+	exist, pretend the URL is actually the Content-Location URL of our
+	parent multipart (assuming it exists). If that doesn't exist, then
+	yes - return NULL.
+	(handle_multipart_related): Push the Content-Location header value
+	of the multipart/related so that we can do URL merging in
+	get_location() as we process each of the subparts. When we're
+	done, pop it back off the stack.
+
 2002-06-04  Christopher James Lahey  <clahey@ximian.com>
 
 	* message-list.etspec: Added priorities.

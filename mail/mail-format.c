@@ -223,9 +223,9 @@ mail_format_raw_message (CamelMimeMessage *mime_message, MailDisplay *md,
 static const char *
 get_cid (CamelMimePart *part, MailDisplay *md)
 {
-	char *cid;
 	static int fake_cid_counter = 0;
-
+	char *cid;
+	
 	/* If we have a real Content-ID, use it. If we don't,
 	 * make a (syntactically invalid, unique) fake one.
 	 */
@@ -241,14 +241,43 @@ get_cid (CamelMimePart *part, MailDisplay *md)
 static const char *
 get_location (CamelMimePart *part, MailDisplay *md)
 {
+	CamelURL *base;
 	const char *loc;
-
-	/* FIXME: relative URLs */
+	char *location;
+	
+	base = mail_display_get_content_location (md);
+	
 	loc = camel_mime_part_get_content_location (part);
-	if (!loc)
-		return NULL;
-
-	return mail_display_add_url (md, "part_urls", g_strdup (loc), part);
+	if (!loc) {
+		if (!base)
+			return NULL;
+		
+		location = camel_url_to_string (base, 0);
+		return mail_display_add_url (md, "part_urls", location, part);
+	}
+	
+	/* kludge: If the multipart/related does not have a
+           Content-Location header and the HTML part doesn't contain a
+           Content-Location header either, then we will end up
+           generating a invalid unique identifier in the form of
+           "cid:@@@%d" for use in GtkHTML's iframe src url. This means
+           that when GtkHTML requests a relative URL, it will request
+           "cid:/%s" */
+	mail_display_add_url (md, "part_urls", g_strdup_printf ("cid:/%s", loc), part);
+	
+	if (!strchr (loc, ':') && base) {
+		CamelURL *url;
+		
+		mail_display_add_url (md, "part_urls", g_strdup (loc), part);
+		
+		url = camel_url_new_with_base (base, loc);
+		location = camel_url_to_string (url, 0);
+		camel_url_free (url);
+	} else {
+		location = g_strdup (loc);
+	}
+	
+	return mail_display_add_url (md, "part_urls", location, part);
 }
 
 
@@ -1652,7 +1681,6 @@ handle_text_html (CamelMimePart *part, const char *mime_type,
 		gtk_html_set_base (html, base);
 	}
 	
-	/* FIXME: deal with relative URLs */
 	location = get_location (part, md);
 	if (!location)
 		location = get_cid (part, md);
@@ -1870,32 +1898,32 @@ handle_multipart_related (CamelMimePart *part, const char *mime_type,
 	CamelMultipart *mp;
 	CamelMimePart *body_part, *display_part = NULL;
 	CamelContentType *content_type;
-	const char *start;
+	const char *location, *start;
 	int i, nparts;
 	GHashTable *related_save;
 	int ret;
-
+	
 	g_return_val_if_fail (CAMEL_IS_MULTIPART (wrapper), FALSE);
 	
 	mp = CAMEL_MULTIPART (wrapper);
 	nparts = camel_multipart_get_number (mp);	
-
+	
 	content_type = camel_mime_part_get_content_type (part);
 	start = header_content_type_param (content_type, "start");
 	if (start) {
 		int len;
-
+		
 		/* The "start" parameter includes <>s, which Content-Id
 		 * does not.
 		 */
 		len = strlen (start) - 2;
-
+		
 		for (i = 0; i < nparts; i++) {
 			const char *cid;
-
+			
 			body_part = camel_multipart_get_part (mp, i);
 			cid = camel_mime_part_get_content_id (body_part);
-
+			
 			if (!strncmp (cid, start + 1, len) &&
 			    strlen (cid) == len) {
 				display_part = body_part;
@@ -1906,50 +1934,57 @@ handle_multipart_related (CamelMimePart *part, const char *mime_type,
 		/* No start parameter, so it defaults to the first part. */
 		display_part = camel_multipart_get_part (mp, 0);
 	}
-
+	
 	if (!display_part) {
 		/* Oops. Hrmph. */
 		return handle_multipart_mixed (part, mime_type, md, html, stream);
 	}
-
+	
 	/* setup a 'stack' of related parts */
 	related_save = md->related;
 	md->related = g_hash_table_new(NULL, NULL);
+	
+	location = camel_mime_part_get_content_location (part);
+	if (location)
+		mail_display_push_content_location (md, location);
 	
 	/* Record the Content-ID/Content-Location of any non-displayed parts. */
 	for (i = 0; i < nparts; i++) {
 		body_part = camel_multipart_get_part (mp, i);
 		if (body_part == display_part)
 			continue;
-
+		
 		get_cid (body_part, md);
 		get_location (body_part, md);
 		g_hash_table_insert(md->related, body_part, body_part);
 	}
-
+	
 	/* Now, display the displayed part. */
 	ret = format_mime_part (display_part, md, html, stream);
-
+	
 	/* FIXME: flush html stream via gtkhtml_stream_flush which doens't exist yet ... */
-	while (gtk_events_pending())
-		gtk_main_iteration();
-
+	while (gtk_events_pending ())
+		gtk_main_iteration ();
+	
 	/* Now check for related parts which didn't display, display them as attachments */
 	for (i = 0; i < nparts; i++) {
 		body_part = camel_multipart_get_part (mp, i);
 		if (body_part == display_part)
 			continue;
-
+		
 		if (g_hash_table_lookup(md->related, body_part)) {
 			if (ret)
 				write_hr (html, stream);
-			ret |= format_mime_part(body_part, md, html, stream);
+			ret |= format_mime_part (body_part, md, html, stream);
 		}
 	}
-
-	g_hash_table_destroy(md->related);
+	
+	g_hash_table_destroy (md->related);
 	md->related = related_save;
-
+	
+	if (location)
+		mail_display_pop_content_location (md);
+	
 	return ret;
 }
 

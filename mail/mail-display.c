@@ -754,14 +754,14 @@ save_url (MailDisplay *md, const char *url)
 
 	urls = g_datalist_get_data (md->data, "part_urls");
 	g_return_val_if_fail (urls != NULL, NULL);
-
+	
 	part = g_hash_table_lookup (urls, url);
 	if (part == NULL) {
 		GByteArray *ba;
-
+		
 		urls = g_datalist_get_data (md->data, "data_urls");
 		g_return_val_if_fail (urls != NULL, NULL);
-
+		
 		/* See if it's some piece of cached data if it is then pretend it
 		 * is a mime part so that we can use the mime part saveing routines.
 		 * It is gross but it keeps duplicated code to a minimum and helps
@@ -2419,5 +2419,48 @@ mail_display_get_url_for_icon (MailDisplay *md, const char *icon_name)
 	return mail_display_add_url (md, "data_urls", url, ba);
 }
 
+
+struct _location_url_stack {
+	struct _location_url_stack *parent;
+	CamelURL *url;
+};
+
+void
+mail_display_push_content_location (MailDisplay *md, const char *location)
+{
+	struct _location_url_stack *node;
+	CamelURL *url;
+	
+	url = camel_url_new (location, NULL);
+	node = g_new (struct _location_url_stack, 1);
+	node->parent = md->urls;
+	node->url = url;
+	md->urls = node;
+}
+
+CamelURL *
+mail_display_get_content_location (MailDisplay *md)
+{
+	return md->urls ? md->urls->url : NULL;
+}
+
+void
+mail_display_pop_content_location (MailDisplay *md)
+{
+	struct _location_url_stack *node;
+	
+	if (!md->urls) {
+		g_warning ("content-location stack underflow!");
+		return;
+	}
+	
+	node = md->urls;
+	md->urls = node->parent;
+	
+	if (node->url)
+		camel_url_free (node->url);
+	
+	g_free (node);
+}
 
 E_MAKE_TYPE (mail_display, "MailDisplay", MailDisplay, mail_display_class_init, mail_display_init, PARENT_TYPE);
