@@ -1,3 +1,8 @@
+2000-07-06  Christopher James Lahey  <clahey@helixcode.com>
+
+	* Makefile.am, libical/configure.in: Fixed some make distcheck
+	errors.
+
 2000-07-05  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* configure.in (GNOME_VFS_CFLAGS): Define.

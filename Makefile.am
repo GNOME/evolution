@@ -1,6 +1,12 @@
 changelogs =			\
 	ChangeLog
 
+appicondir = $(datadir)/pixmaps
+appicon_DATA = evolution.png
+
+applicationdir = $(datadir)/gnome/apps/Applications
+application_DATA = evolution.desktop
+
 EXTRA_DIST =			\
 	AUTHORS			\
 	$(changelogs)		\
@@ -8,7 +14,9 @@ EXTRA_DIST =			\
 	HACKING			\
 	MAINTAINERS		\
 	NEWS			\
-	evolution.spec.in
+	evolution.spec.in	\
+	$(appicon_DATA)		\
+	$(application_DATA)
 
 SUBDIRS =			\
 	intl			\
@@ -32,12 +40,6 @@ SUBDIRS =			\
 	tools			\
 	po			\
 	doc
-
-appicondir = $(datadir)/pixmaps
-appicon_DATA = evolution.png
-
-applicationdir = $(datadir)/gnome/apps/Applications
-application_DATA = evolution.desktop
 
 dist-hook: evolution.spec
 	cp evolution.spec $(distdir)
