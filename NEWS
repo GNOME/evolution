@@ -35,6 +35,24 @@ Mailer:
 
   - Many backend fixes that users won't notice.  (Michael, Jeff, Dan)
 
+  - Fixed the crash that accompanied the invalid address warning.  (Trow)
+
+  - Properly encode the mailto: links we generate inside of displayed
+    messages.  (Trow)
+
+Addressbook:
+
+  - Miscellaneous bug fixes. (Jon Trowbridge, Chris Toshok, Chris Lahey,
+    JP Rosevear)
+
+  - Better handling of addresses containing commas or other special
+    characters.  (Trow)
+
+  - Fixed bugs related to sending mail by left-clicking on an address
+    inside a message.  (Trow)
+
+  - Auto-completion now matches against contact nicknames.  (Trow)
+
 Pilot:
 
   - Now syncs exception dates in calendar and addressbook notes (JP)
