@@ -1,3 +1,10 @@
+2000-06-28  Christopher James Lahey  <clahey@helixcode.com>
+
+	* gui/component/select-names/,
+	gui/component/select-names/e-select-names-manager.c,
+	gui/component/select-names/e-select-names-manager.h: New select
+	names manager interface (Not complete.)
+
 2000-06-26  Christopher James Lahey  <clahey@helixcode.com>
 
 	* contact-editor/e-contact-editor-categories.c,
