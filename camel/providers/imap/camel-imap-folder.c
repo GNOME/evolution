@@ -311,8 +311,12 @@ imap_refresh_info (CamelFolder *folder, CamelException *ex)
 
 		/* Update summary flags */
 		if (info->flags != new[i].flags) {
-			info->flags = new[i].flags;
-			camel_object_trigger_event (CAMEL_OBJECT (folder),
+			/* Keep the flags that we have set locally and set
+                           any additional flags that a parallel connection
+			   may have set. */
+		        info->flags |= new[i].flags;
+			
+		        camel_object_trigger_event (CAMEL_OBJECT (folder),
 						    "message_changed",
 						    (char *)camel_message_info_uid(info));
 		}
