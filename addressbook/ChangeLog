@@ -1,3 +1,11 @@
+2001-07-17  Christopher James Lahey  <clahey@ximian.com>
+
+	* gui/contact-editor/contact-editor.glade,
+	gui/merging/e-card-duplicate-detected.glade,
+	gui/merging/e-card-merging-book-commit-duplicate-detected.glade,
+	printing/e-contact-print.glade: Patch from Taylor Hayward
+	<thayward@gjpc.com>.  Added accelerators to a few dialogs.
+
 2001-07-16  Jon Trowbridge  <trow@ximian.com>
 
 	* gui/component/select-names/Evolution-Addressbook-SelectNames.idl:

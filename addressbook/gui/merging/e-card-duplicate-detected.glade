@@ -64,7 +64,7 @@
 	<name>button3</name>
 	<can_default>True</can_default>
 	<can_focus>True</can_focus>
-	<label>Add Anyway</label>
+	<label>_Add Anyway</label>
 	<stock_pixmap>GNOME_STOCK_PIXMAP_ADD</stock_pixmap>
       </widget>
 
