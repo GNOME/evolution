@@ -455,8 +455,6 @@ e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 			e_table_draw_elided_string (drawable, gc, widget,
 						    xpos + pwidth + 1, ypos,
 						    layout, ecol->text, inner_width - (xpos - inner_x), FALSE);
-			
-			g_object_unref (layout);
 		}
 
 		pixmap = make_composite_pixmap (drawable, gc,
