@@ -859,9 +859,7 @@ cs_getaddrinfo(void *data)
 {
 	struct _addrinfo_msg *info = data;
 
-	do {
-		info->result = getaddrinfo(info->name, info->service, info->hints, info->res);
-	} while (info->result == EAI_AGAIN);
+	info->result = getaddrinfo(info->name, info->service, info->hints, info->res);
 	
 	if (info->cancelled) {
 		g_free(info);
@@ -992,9 +990,7 @@ cs_getnameinfo(void *data)
 	struct _addrinfo_msg *msg = data;
 
 	/* there doens't appear to be a return code which says host or serv buffers are too short, lengthen them */
-	do {
-		msg->result = getnameinfo(msg->addr, msg->addrlen, msg->host, msg->hostlen, msg->serv, msg->servlen, msg->flags);
-	} while (msg->result == EAI_AGAIN);
+	msg->result = getnameinfo(msg->addr, msg->addrlen, msg->host, msg->hostlen, msg->serv, msg->servlen, msg->flags);
 	
 	if (msg->cancelled)
 		cs_freeinfo(msg);
