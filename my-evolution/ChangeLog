@@ -1,5 +1,33 @@
 2002-11-11  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-summary-factory.c (control_destroy_cb): gtk_widget_destroy()
+	instead of gtk_object_destroy().
+	(e_summary_factory_new_control): Likewise.
+
+	* e-summary-calendar.c: Use g_object_ref()/g_object_unref()
+	instead of gtk_object_ref()/gtk_object_unref().
+	* e-summary-preferences.c: Likewise.
+	* e-summary-shown.c: Likewise.
+	* e-summary-table.c: Likewise.
+	* e-summary-tasks.c: Likewise.
+	* e-summary.c: Likewise.
+
+	* e-summary-preferences.c (e_summary_preferences_make_mail_table):
+	g_object_set_data() instead of gtk_object_set_data().
+	(make_property_dialog): g_object_get_data() instead of
+	gtk_object_get_data().
+	(get_folders_from_view): Likewise.
+
+	* component-factory.c (create_view): Use
+	evolution_shell_client_corba_objref() instead of
+	bonobo_object_corba_objref() on the EvolutionShellClient object.
+	Also, use g_object_get_data() instead of gtk_object_get_data().
+	(owner_set_cb): Likewise.
+	(create_component): Use g_object_set_data() instead of
+	gtk_object_set_data().
+
+2002-11-11  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-summary-rdf.c: Convert to use libxml2.
 
 2002-11-11  Ettore Perazzoli  <ettore@ximian.com>

@@ -243,7 +243,7 @@ add_recurrances (CalComponent *comp,
 	event->uid = g_strdup (recur->event->uid);
 	event->zone = recur->summary->tz;
 
-	gtk_object_ref (GTK_OBJECT (comp));
+	g_object_ref (comp);
 
 	g_ptr_array_add (recur->array, event);
 	return TRUE;
@@ -296,7 +296,7 @@ uids_to_array (ESummary *summary,
 			
 			status = cal_client_get_timezone (client, event->dt.tzid, &event->zone);
 			if (status != CAL_CLIENT_GET_SUCCESS) {
-				gtk_object_unref (GTK_OBJECT (event->comp));
+				g_object_unref (event->comp);
 				g_free (event);
 				continue;
 			}
@@ -321,7 +321,7 @@ free_event_array (GPtrArray *array)
 		
 		event = array->pdata[i];
 		g_free (event->uid);
-		gtk_object_unref (GTK_OBJECT (event->comp));
+		g_object_unref (event->comp);
 	}
 
 	g_ptr_array_free (array, TRUE);
@@ -551,7 +551,7 @@ setup_calendar (ESummary *summary)
 	}
 
 	if (calendar->client != NULL)
-		gtk_object_unref (GTK_OBJECT (calendar->client));
+		g_object_unref (calendar->client);
 
 	calendar->client = cal_client_new ();
 
@@ -635,7 +635,7 @@ e_summary_calendar_free (ESummary *summary)
 	if (calendar->cal_open_reload_timeout_id != 0)
 		g_source_remove (calendar->cal_open_reload_timeout_id);
 
-	gtk_object_unref (GTK_OBJECT (calendar->client));
+	g_object_unref (calendar->client);
 	g_free (calendar->html);
 	g_free (calendar->default_uri);
 	

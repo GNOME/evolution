@@ -376,11 +376,11 @@ generate_html (gpointer data)
 						       text.value);
 #endif
 				cal_component_free_icaltimetype (completed);
-				gtk_object_unref (GTK_OBJECT (comp));
+				g_object_unref (comp);
 				continue;
 			}
 
-			gtk_object_unref (GTK_OBJECT (comp));
+			g_object_unref (comp);
 			g_string_append (string, tmp);
 			g_free (tmp);
 		}
@@ -501,7 +501,7 @@ setup_task_folder (ESummary *summary)
 									NULL);
 
 	if (tasks->client != NULL)
-		gtk_object_unref (GTK_OBJECT (tasks->client));
+		g_object_unref (tasks->client);
 	
 	tasks->client = cal_client_new ();
 	if (tasks->client == NULL) {
@@ -582,13 +582,13 @@ e_summary_tasks_free (ESummary *summary)
 	if (tasks->cal_open_reload_timeout_id != 0)
 		g_source_remove (tasks->cal_open_reload_timeout_id);
 
-	gtk_object_unref (GTK_OBJECT (tasks->client));
+	g_object_unref (tasks->client);
 	g_free (tasks->html);
 	g_free (tasks->due_today_colour);
 	g_free (tasks->overdue_colour);
 	g_free (tasks->default_uri);
 
-	gtk_object_unref (GTK_OBJECT (tasks->config_listener));
+	g_object_unref (tasks->config_listener);
 
 	g_free (tasks);
 	summary->tasks = NULL;

@@ -363,7 +363,7 @@ e_summary_table_init (ESummaryTable *est)
 						 value_is_empty,
 						 value_to_string,
 						 est);
-	gtk_object_ref (GTK_OBJECT (priv->etm));
+	g_object_ref (priv->etm);
 	gtk_object_sink (GTK_OBJECT (priv->etm));
 
 	etmm = E_TREE_MEMORY (priv->etm);

@@ -116,7 +116,7 @@ static void
 control_destroy_cb (BonoboControl *control,
 		    ESummary *summary)
 {
-	gtk_object_destroy (GTK_OBJECT (summary));
+	gtk_widget_destroy (GTK_WIDGET (summary));
 }
 
 BonoboControl *
@@ -139,7 +139,7 @@ e_summary_factory_new_control (const char *uri,
 	control = bonobo_control_new (summary);
 
 	if (control == NULL) {
-		gtk_object_destroy (GTK_OBJECT (summary));
+		gtk_widget_destroy (summary);
 		return NULL;
 	}
 

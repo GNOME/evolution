@@ -1038,8 +1038,7 @@ make_property_dialog (PropertyData *pd)
 	mail->storage_set_view = glade_xml_get_widget (pd->xml, "mail-custom");
 	g_return_val_if_fail (mail->storage_set_view != NULL, FALSE);
 
-	listener = gtk_object_get_data (GTK_OBJECT (mail->storage_set_view),
-					"listener");
+	listener = g_object_get_data (G_OBJECT (mail->storage_set_view), "listener");
 	gtk_signal_connect (GTK_OBJECT (listener), "folder-toggled",
 			    GTK_SIGNAL_FUNC (storage_set_changed), pd);
 
@@ -1192,9 +1191,8 @@ free_property_dialog (PropertyData *pd)
 		g_free (pd->calendar);
 	}
 
-	if (pd->xml) {
-		gtk_object_unref (GTK_OBJECT (pd->xml));
-	}
+	if (pd->xml)
+		g_object_unref (pd->xml);
 
 	g_free (pd);
 }
@@ -1287,8 +1285,8 @@ e_summary_preferences_make_mail_table (PropertyData *pd)
 	CORBA_exception_free (&ev);
 
 	widget = bonobo_widget_new_control_from_objref (control, CORBA_OBJECT_NIL);
-	gtk_object_set_data (GTK_OBJECT (widget), "listener", listener);
-	gtk_object_set_data (GTK_OBJECT (widget), "corba_view", view);
+	g_object_set_data (G_OBJECT (widget), "listener", listener);
+	g_object_set_data (G_OBJECT (widget), "corba_view", view);
 
 	set_selected_folders (view);
 	return widget;
@@ -1332,7 +1330,7 @@ get_folders_from_view (GtkWidget *view)
 	GList *out_list = NULL;
 	int i;
 	
-	set_view = gtk_object_get_data (GTK_OBJECT (view), "corba_view");
+	set_view = g_object_get_data (G_OBJECT (view), "corba_view");
 	CORBA_exception_init (&ev);
 
 	list = GNOME_Evolution_StorageSetView__get_checkedFolders (set_view, &ev);

@@ -631,7 +631,7 @@ do_summary_print (ESummary *summary,
 		}
 	}
 
-	gtk_object_unref (GTK_OBJECT (print_master));
+	g_object_unref (print_master);
 }
 
 void
