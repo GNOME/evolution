@@ -1,3 +1,8 @@
+2002-02-12  Radek Doulik  <rodo@ximian.com>
+
+	* e-msg-composer.c (e_msg_composer_is_dirty): reflect gtkhtml API
+	change
+
 2002-02-11  Radek Doulik  <rodo@ximian.com>
 
 	* e-msg-composer.c (e_msg_composer_drop_editor_undo): new method,

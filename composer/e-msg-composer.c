@@ -3955,7 +3955,7 @@ e_msg_composer_is_dirty (EMsgComposer *composer)
 	gboolean rv;
 	
 	CORBA_exception_init (&ev);
-	rv = composer->has_changed || GNOME_GtkHTML_Editor_Engine_isDirty (composer->editor_engine, &ev);
+	rv = composer->has_changed || GNOME_GtkHTML_Editor_Engine_hasUndo (composer->editor_engine, &ev);
 	CORBA_exception_free (&ev);
 
 	return rv;
