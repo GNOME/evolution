@@ -33,7 +33,7 @@ static void _init_with_store (CamelFolder *folder, CamelStore *parent_store);
 static void _open (CamelFolder *folder, CamelFolderOpenMode mode);
 static void _close (CamelFolder *folder, gboolean expunge);
 static void _set_name (CamelFolder *folder, const gchar *name);
-static void _set_full_name (CamelFolder *folder, const gchar *name);
+/*  static void _set_full_name (CamelFolder *folder, const gchar *name); */
 static const gchar *_get_name (CamelFolder *folder);
 static const gchar *_get_full_name (CamelFolder *folder);
 static gboolean _can_hold_folders (CamelFolder *folder);
@@ -137,7 +137,7 @@ _init_with_store (CamelFolder *folder, CamelStore *parent_store)
  * 
  **/
 static void
-_open( CamelFolder *folder, CamelFolderOpenMode mode)
+_open (CamelFolder *folder, CamelFolderOpenMode mode)
 {
 	folder->open_state = FOLDER_OPEN;
 	folder->open_mode = mode;
@@ -162,32 +162,54 @@ _close (CamelFolder *folder, gboolean expunge)
 
 
 
-/**
- * _set_name:set the (short) name of the folder
- * @folder: folder
- * @name: new name of the folder
- * 
- * set the name of the folder. 
- * 
- * 
- **/
+
 static void
 _set_name(CamelFolder *folder, const gchar *name)
 {
+	gchar separator;
+	gchar *full_name;
+	const gchar *parent_full_name;
+
+	g_assert (folder);
+	g_assert (name);
+	g_assert (folder->parent_store);
+
 	if (folder->name) g_free(folder->name);
+	if (folder->full_name) g_free (folder->full_name);
+	
+	separator = camel_store_get_separator (folder->parent_store);
+		
+	if (folder->parent_folder) {
+		parent_full_name = camel_folder_get_full_name (folder->parent_folder);
+		full_name = g_strdup_printf ("%s%d%s", parent_full_name, separator, name);
+		
+	} else {
+		full_name = g_strdup (name);
+	}
+
 	folder->name = g_strdup (name);
+	folder->full_name = full_name;
+
 }
 
 
-
 /**
- * _set_full_name:set the (full) name of the folder
+ * camel_folder_set_name:set the (short) name of the folder
  * @folder: folder
  * @name: new name of the folder
  * 
  * set the name of the folder. 
  * 
+ * 
  **/
+void 
+camel_folder_set_name (CamelFolder *folder, const gchar *name)
+{
+	CF_CLASS(folder)->set_name (folder, name);
+}
+
+
+#if 0
 static void
 _set_full_name (CamelFolder *folder, const gchar *name)
 {
@@ -196,17 +218,21 @@ _set_full_name (CamelFolder *folder, const gchar *name)
 }
 
 
-
-
 /**
- * _get_name: get the (short) name of the folder
- * @folder: 
+ * camel_folder_set_full_name:set the (full) name of the folder
+ * @folder: folder
+ * @name: new name of the folder
  * 
- * get the name of the folder. The fully qualified name
- * can be obtained with the get_full_ame method (not implemented)
- *
- * Return value: name of the folder
+ * set the name of the folder. 
+ * 
  **/
+void 
+camel_folder_set_full_name (CamelFolder *folder, const gchar *name)
+{
+	CF_CLASS(folder)->set_full_name (folder, name);
+}
+#endif
+
 static const gchar *
 _get_name (CamelFolder *folder)
 {
@@ -215,19 +241,41 @@ _get_name (CamelFolder *folder)
 
 
 /**
- * _get_full_name:get the (full) name of the folder
- * @folder: folder to get the name 
+ * camel_folder_get_name: get the (short) name of the folder
+ * @folder: 
  * 
- * get the name of the folder. 
- * 
- * Return value: full name of the folder
+ * get the name of the folder. The fully qualified name
+ * can be obtained with the get_full_ame method (not implemented)
+ *
+ * Return value: name of the folder
  **/
+const gchar *
+camel_folder_get_name (CamelFolder *folder)
+{
+	return CF_CLASS(folder)->get_name (folder);
+}
+
+
+
 static const gchar *
 _get_full_name (CamelFolder *folder)
 {
 	return folder->full_name;
 }
 
+/**
+ * camel_folder_get_full_name:get the (full) name of the folder
+ * @folder: folder to get the name 
+ * 
+ * get the name of the folder. 
+ * 
+ * Return value: full name of the folder
+ **/
+const gchar *
+camel_folder_get_full_name (CamelFolder *folder)
+{
+	return CF_CLASS(folder)->get_full_name (folder);
+}
 
 
 /**

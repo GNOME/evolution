@@ -33,7 +33,7 @@ static CamelFolderClass *parent_class=NULL;
 #define CF_CLASS(so) CAMEL_FOLDER_CLASS (GTK_OBJECT(so)->klass)
 #define CMHS_CLASS(so) CAMEL_STORE_CLASS (GTK_OBJECT(so)->klass)
 
-static void camel_mh_folder_set_name(CamelFolder *folder, GString *name);
+static void _set_name(CamelFolder *folder, const gchar *name);
 
 
 static void
@@ -43,7 +43,7 @@ camel_mh_folder_class_init (CamelMhFolderClass *camel_mh_folder_class)
 	
 	/* virtual method definition */
 	/* virtual method overload */
-	CAMEL_FOLDER_CLASS(camel_mh_folder_class)->set_name = camel_mh_folder_set_name;
+	CAMEL_FOLDER_CLASS(camel_mh_folder_class)->set_name = _set_name;
 }
 
 
@@ -86,10 +86,11 @@ camel_mh_folder_get_type (void)
  * 
  **/
 static void
-camel_mh_folder_set_name(CamelFolder *folder, GString *name)
+_set_name (CamelFolder *folder, const gchar *name)
 {
-	GString *root_dir_path;
-	GString *full_dir_path;
+	const gchar *root_dir_path;
+	gchar *full_name;
+	const gchar *parent_full_name;
 	CamelMhFolder *mh_folder = CAMEL_MH_FOLDER(folder);
 	gchar separator;
 
@@ -100,16 +101,12 @@ camel_mh_folder_set_name(CamelFolder *folder, GString *name)
 	/* call default implementation */
 	parent_class->set_name (folder, name);
 	
-	if (mh_folder->directory_path) g_string_free (mh_folder->directory_path, 0);
+	if (mh_folder->directory_path) g_free (mh_folder->directory_path);
 	
 	separator = camel_store_get_separator (folder->parent_store);
-	
-	 
 	root_dir_path = camel_mh_store_get_toplevel_dir (CAMEL_MH_STORE(folder->parent_store));
-	full_dir_path = g_string_clone(root_dir_path);
-	g_string_append_c(full_dir_path, separator);
-	g_string_append_g_string(full_dir_path, name);
-	mh_folder->directory_path = full_dir_path;
 	
+	mh_folder->directory_path = g_strdup_printf ("%s%c%s", root_dir_path, separator, folder->full_name);
 
 }
+

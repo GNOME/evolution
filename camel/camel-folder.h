@@ -59,7 +59,6 @@ struct _CamelFolder
 {
 	GtkObject parent_object;
 
-	GList *message_list;
 	gboolean can_hold_folders;
 	gboolean can_hold_messages;
 	gboolean exists_on_store;
@@ -82,7 +81,7 @@ typedef struct {
 	void   (*open) (CamelFolder *object, CamelFolderOpenMode mode);
 	void   (*close) (CamelFolder *folder, gboolean expunge);
 	void   (*set_name) (CamelFolder *folder, const gchar *name);
-	void   (*set_full_name) (CamelFolder *folder, const gchar *name);
+/*  	void   (*set_full_name) (CamelFolder *folder, const gchar *name); */
 	const gchar *  (*get_name) (CamelFolder *folder);
 	const gchar *  (*get_full_name) (CamelFolder *folder);
 	gboolean   (*can_hold_folders) (CamelFolder *folder);
@@ -116,7 +115,10 @@ CamelStore *camel_folder_get_parent_store (CamelFolder *folder);
 CamelFolderOpenMode camel_folder_get_mode(CamelFolder *folder);
 GList *camel_folder_list_subfolders(CamelFolder *folder);
 GList *camel_folder_expunge(CamelFolder *folder);
-
+void camel_folder_set_name (CamelFolder *folder, const gchar *name);
+const gchar *camel_folder_get_name (CamelFolder *folder);
+/*  void camel_folder_set_full_name (CamelFolder *folder, const gchar *name); */
+const gchar *camel_folder_get_full_name (CamelFolder *folder);
 
 
 #ifdef __cplusplus

@@ -1,8 +1,27 @@
-1999-08-03  root  <guiheneu@jean.joudboeuf.fr>
-
-
 1999-08-03  bertrand  <Bertrand.Guiheneuf@aful.org>
 
+	* camel/camel-folder.c (camel_folder_set_name): 
+	(camel_folder_get_name): 
+	new public functions 
+	(_set_name): set full_path.
+
+	(_set_full_name): 
+	(camel_folder_set_full_name): 
+	commented out this functions def. 
+	It would make things very difficult to handle, and would not 
+	be very useful. 
+	
+	* camel/providers/MH/camel-mh-store.h: 
+	* camel/providers/MH/camel-mh-store.c (camel_mh_store_set_toplevel_dir): 
+	(camel_mh_store_get_toplevel_dir): 
+	* camel/providers/MH/camel-mh-folder.c (_set_name): 
+	* camel/providers/MH/camel-mh-folder.h: 
+	use (gchar *) instead of (GString *) everywhere.
+	use const when necessary.
+	
+	* camel/camel-folder.h (struct _CamelFolder): 
+	removed unused message_list field.
+	
 	* camel/camel-mime-part.c (_set_content_object): 
 	There is a probleme here. We can not allow mime part
 	content-type field and content_object mime-type to be 

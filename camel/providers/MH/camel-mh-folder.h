@@ -44,7 +44,7 @@ extern "C" {
 typedef struct {
 	CamelFolder parent_object;
 	
-	GString *directory_path;
+	gchar *directory_path;
 
 } CamelMhFolder;
 

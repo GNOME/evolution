@@ -182,7 +182,6 @@ CamelFolder *
 camel_store_get_folder (CamelStore *store, gchar *folder_name)
 {
 
-#warning fill this part in.
 	return NULL;
 }
 
