@@ -1,5 +1,16 @@
 2002-02-06  Aaron Weber  <aaron@ximian.com>
 
+	* C/Makefile.am: added
+	C/figures/schedule.png,exchange-identity.png exchange-receive.png,
+	exchange-receive-options.png
+
+	* C/usage-exchange.sgml: expanded note about active directory server.
+	added screenshot for Free/Busy feature. Doubled the size of the config instructions.
+
+	* C/figures/schedule.png: New file, screenshot for free/busy feature.
+
+	* C/evolution.sgml: added correct copyright years.
+
 	* C/usage-mail-org.sgml: warning about INBOX subfolder brokenness.
 
 2002-01-29  Kevin Breit  <mrproper@ximian.com>
