@@ -1,3 +1,9 @@
+2005-01-24  Mengjie Yu  <meng-jie.yu@sun.com>
+
+	* e-search-bar.c: (set_option):
+	add a11y name for the option menu.
+
+
 2005-01-20  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #64964.

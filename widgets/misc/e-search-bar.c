@@ -636,9 +636,14 @@ set_option (ESearchBar *esb, ESearchBarItem *items)
 	if (esb->option) {
 		gtk_widget_destroy (esb->option_menu);
 	} else {
+		AtkObject *a11y;
+
 		esb->option = gtk_option_menu_new ();
 		gtk_widget_show (esb->option);
 		gtk_box_pack_start (GTK_BOX (esb), esb->option, FALSE, FALSE, 0);
+		a11y = gtk_widget_get_accessible (esb->option);
+		atk_object_set_name (a11y, _("Search Type"));
+
 	}
 
 	esb->option_menu = menu = gtk_menu_new ();
