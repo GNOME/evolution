@@ -1,5 +1,10 @@
 2004-01-29  Hans Petter Jansson  <hpj@ximian.com>
 
+	* gui/component/ldap-config.glade: Changed "Finish" to "Apply" in
+	dialog finish page text.
+
+2004-01-29  Hans Petter Jansson  <hpj@ximian.com>
+
 	* gui/component/addressbook-config.c (dialog_to_source): Sync the
 	modified source list.
 

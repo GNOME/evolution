@@ -770,7 +770,7 @@ need to change these options.</property>
 	  <property name="title" translatable="yes">Finished</property>
 	  <property name="text" translatable="yes">Congratulations, you are finished setting up this addressbook.
 
-Please click the &quot;Finish&quot; button to save the settings you have entered here.</property>
+Please click the &quot;Apply&quot; button to save the settings you have entered here.</property>
 	</widget>
       </child>
     </widget>
