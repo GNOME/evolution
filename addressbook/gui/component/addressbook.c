@@ -421,11 +421,9 @@ static ECategoriesMasterList *
 get_master_list (void)
 {
 	static ECategoriesMasterList *category_list = NULL;
-#ifdef PENDING_PORT_WORK
 
 	if (category_list == NULL)
 		category_list = e_categories_master_list_wombat_new ();
-#endif
 	return category_list;
 }
 
@@ -1057,7 +1055,6 @@ compare_subitems (const void *a, const void *b)
 static void
 make_suboptions (AddressbookView *view)
 {
-#if PENDING_PORT_WORK
 	ESearchBarSubitem *subitems;
 	ECategoriesMasterList *master_list;
 	gint i, N;
@@ -1083,7 +1080,6 @@ make_suboptions (AddressbookView *view)
 	qsort (subitems + 1, N, sizeof (subitems[0]), compare_subitems);
 
 	e_search_bar_set_suboption (view->search, ESB_CATEGORY, subitems);
-#endif
 }
 
 static void

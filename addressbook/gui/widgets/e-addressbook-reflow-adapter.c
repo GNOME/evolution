@@ -310,18 +310,18 @@ addressbook_get_property (GObject *object, guint prop_id, GValue *value, GParamS
 
 	switch (prop_id) {
 	case PROP_BOOK: {
-		g_object_get_property (priv->model,
+		g_object_get_property (G_OBJECT (priv->model),
 				       "book", value);
 		break;
 	}
 	case PROP_QUERY: {
 		char *query;
-		g_object_get_property (priv->model,
+		g_object_get_property (G_OBJECT (priv->model),
 				       "query", value);
 		break;
 	}
 	case PROP_EDITABLE: {
-		g_object_get_property (priv->model,
+		g_object_get_property (G_OBJECT (priv->model),
 				       "editable", value);
 		break;
 	}

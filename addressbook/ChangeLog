@@ -1,5 +1,17 @@
 2002-11-08  Chris Toshok  <toshok@ximian.com>
 
+	* gui/widgets/e-addressbook-reflow-adapter.c
+	(addressbook_get_property): oops, missed these casts.
+
+	* gui/component/addressbook.c (get_master_list): remove the
+	PENDING_PORT_WORK ifdef, just ported ECategoriesMasterList.
+	(make_suboptions): same.
+
+	* gui/contact-editor/e-contact-editor.c (categories_clicked):
+	same.
+
+2002-11-08  Chris Toshok  <toshok@ximian.com>
+
 	* gui/widgets/test-reflow.c: port work.
 
 	* gui/widgets/test-minicard-view.c: port work.

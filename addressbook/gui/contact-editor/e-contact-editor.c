@@ -28,6 +28,7 @@
 #include <gtk/gtkcheckmenuitem.h>
 #include <gtk/gtkcombo.h>
 #include <gtk/gtktextview.h>
+#include <gtk/gtkmessagedialog.h>
 #include <libgnomeui/gnome-popup-menu.h>
 #include <libgnomeui/gnome-window-icon.h>
 #include <libgnome/gnome-i18n.h>
@@ -849,7 +850,6 @@ full_addr_clicked(GtkWidget *button, EContactEditor *editor)
 static void
 categories_clicked(GtkWidget *button, EContactEditor *editor)
 {
-#ifdef PENDING_PORT_WORK
 	char *categories = NULL;
 	GtkDialog *dialog;
 	int result;
@@ -866,7 +866,7 @@ categories_clicked(GtkWidget *button, EContactEditor *editor)
 	if (dialog == NULL) {
 		GtkWidget *uh_oh = gtk_message_dialog_new (NULL,
 							   0, GTK_MESSAGE_ERROR,
-							   GTK_RESPONSE_OK
+							   GTK_RESPONSE_OK,
 							   _("Category editor not available."),
 							   NULL);
 		gtk_widget_show (uh_oh);
@@ -895,7 +895,6 @@ categories_clicked(GtkWidget *button, EContactEditor *editor)
 		g_free(categories);
 	}
 	gtk_widget_destroy(GTK_WIDGET(dialog));
-#endif
 }
 
 static void
