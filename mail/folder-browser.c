@@ -1772,6 +1772,7 @@ fb_resize_cb (GtkWidget *w, GtkAllocation *a, FolderBrowser *fb)
 static void
 folder_browser_gui_init (FolderBrowser *fb)
 {
+	extern RuleContext *search_context;
 	ESelectionModel *esm;
 
 	/* The panned container */
@@ -1785,23 +1786,13 @@ folder_browser_gui_init (FolderBrowser *fb)
 			  0, 0);
 	
 	/* quick-search bar */
-	{
-		RuleContext *rc = (RuleContext *)rule_context_new ();
-		char *user = g_strdup_printf ("%s/searches.xml", evolution_dir);
-		/* we reuse the vfolder types here, they should match */
-		char *system = EVOLUTION_DATADIR "/evolution/vfoldertypes.xml";
+	if (search_context) {
+		const char *systemrules = gtk_object_get_data (GTK_OBJECT (search_context), "system");
+		const char *userrules = gtk_object_get_data (GTK_OBJECT (search_context), "user");
 		
-		rule_context_add_part_set ((RuleContext *)rc, "partset", filter_part_get_type (),
-					   rule_context_add_part, rule_context_next_part);
-		
-		rule_context_add_rule_set ((RuleContext *)rc, "ruleset", filter_rule_get_type (),
-					   rule_context_add_rule, rule_context_next_rule);
-		
-		fb->search = e_filter_bar_new (rc, system, user, folder_browser_config_search, fb);
+		fb->search = e_filter_bar_new (search_context, systemrules, userrules,
+					       folder_browser_config_search, fb);
 		e_search_bar_set_menu ((ESearchBar *)fb->search, folder_browser_search_menu_items);
-		/*e_search_bar_set_option((ESearchBar *)fb->search, folder_browser_search_option_items);*/
-		g_free (user);
-		gtk_object_unref (GTK_OBJECT (rc));
 	}
 	
 	gtk_widget_show (GTK_WIDGET (fb->search));

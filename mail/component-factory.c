@@ -64,6 +64,8 @@ char *evolution_dir;
 
 EvolutionShellClient *global_shell_client = NULL;
 
+RuleContext *search_context = NULL;
+
 static GHashTable *storages_hash;
 static EvolutionShellComponent *shell_component;
 
@@ -719,6 +721,24 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	}
 	
 	mail_autoreceive_setup ();
+
+	{
+		/* setup the global quick-search context */
+		char *user = g_strdup_printf ("%s/searches.xml", evolution_dir);
+		char *system = g_strdup (EVOLUTION_DATADIR "/evolution/vfoldertypes.xml");
+		
+		search_context = rule_context_new ();
+		gtk_object_set_data_full (GTK_OBJECT (search_context), "user", user, g_free);
+		gtk_object_set_data_full (GTK_OBJECT (search_context), "system", system, g_free);
+		
+		rule_context_add_part_set (search_context, "partset", filter_part_get_type (),
+					   rule_context_add_part, rule_context_next_part);
+		
+		rule_context_add_rule_set (search_context, "ruleset", filter_rule_get_type (),
+					   rule_context_add_rule, rule_context_next_rule);
+		
+		rule_context_load (search_context, system, user);
+	}
 	
 	if (mail_config_is_corrupt ()) {
 		GtkWidget *dialog;
@@ -841,19 +861,22 @@ static void
 owner_unset_cb (EvolutionShellComponent *shell_component, gpointer user_data)
 {
 	int i;
-
+	
 	for (i=0;i<sizeof(shell_component_handlers)/sizeof(shell_component_handlers[0]);i++)
 		gtk_signal_disconnect((GtkObject *)shell_component, shell_component_handlers[i].hand);
-
+	
 	if (mail_config_get_empty_trash_on_exit ())
 		empty_trash (NULL, NULL, NULL);
 	
 	unref_standard_folders ();
 	mail_importer_uninit ();
-
+	
 	global_shell_client = NULL;
 	mail_session_enable_interaction (FALSE);
-
+	
+	gtk_object_unref (GTK_OBJECT (search_context));
+	search_context = NULL;
+	
 	g_idle_add_full (G_PRIORITY_LOW, idle_quit, NULL, NULL);
 }
 

@@ -1,3 +1,12 @@
+2001-10-23  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* component-factory.c (owner_unset_cb): Unref the global
+	search_context.
+	(owner_set_cb): create the global search_context.
+
+	* folder-browser.c (folder_browser_gui_init): Pass along the
+	global search_context to the e_filter_bar_new call.
+
 2001-10-24    <NotZed@Ximian.com>
 
 	* message-browser.c (message_browser_message_loaded): Call
@@ -36,6 +45,7 @@
 	(folder_browser_ui_set_selection_state): And here too.
 
 2001-10-23  Jeffrey Stedfast  <fejj@ximian.com>
+>>>>>>> 1.1890
 
 	* mail-account-gui.c (service_check_supported): Don't allow an
 	auth-type to be set when saving the service.
