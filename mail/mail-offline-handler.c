@@ -173,15 +173,23 @@ impl_goOffline (PortableServer_Servant servant,
 }
 
 static void
+store_went_online(CamelStore *store, void *data)
+{
+	char *name = data;
+
+	em_folder_tree_model_add_store(mail_component_peek_tree_model(mail_component_peek()), store, name);
+	mail_note_store (store, NULL, NULL, NULL);
+	g_free(name);
+}
+
+static void
 store_go_online (gpointer key, gpointer value, gpointer data)
 {
 	CamelStore *store = key;
 	char *name = value;
 
 	if (service_is_relevant (CAMEL_SERVICE (store), FALSE)) {
-		mail_store_set_offline (store, FALSE, NULL, NULL);
-		em_folder_tree_model_add_store(mail_component_peek_tree_model(mail_component_peek()), store, name);
-		mail_note_store (store, NULL, NULL, NULL);
+		mail_store_set_offline (store, FALSE, store_went_online, g_strdup(name));
 	}
 }
 
