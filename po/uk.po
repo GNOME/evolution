@@ -10845,33 +10845,31 @@ msgstr ""
 
 #: my-evolution/my-evolution.glade.h:9
 msgid "Ma_x number of items shown:"
-msgstr ""
+msgstr "Максимальна к╕льк╕сть показуваних елемент╕в:"
 
 #: my-evolution/my-evolution.glade.h:10
 msgid "News Feed Settings"
-msgstr ""
+msgstr "Параметри новин"
 
 #: my-evolution/my-evolution.glade.h:11
 msgid "One mont_h"
 msgstr "Один м╕сяць"
 
 #: my-evolution/my-evolution.glade.h:12
-#, fuzzy
 msgid "One w_eek"
-msgstr "Показати 1 тиждень"
+msgstr "Один тиждень"
 
 #: my-evolution/my-evolution.glade.h:13
 msgid "R_efresh time (seconds):"
-msgstr ""
+msgstr "Час оновлення (в секундах):"
 
 #: my-evolution/my-evolution.glade.h:14
 msgid "Refresh _time (seconds):"
-msgstr ""
+msgstr "Час оновлення (в секундах):"
 
 #: my-evolution/my-evolution.glade.h:15
-#, fuzzy
 msgid "S_how full path for folders"
-msgstr "Повн╕ заголовки"
+msgstr "Показувати повних шлях до тек"
 
 #: my-evolution/my-evolution.glade.h:16
 msgid "Show _all tasks"
@@ -11148,6 +11146,9 @@ msgid ""
 "Importer not ready.\n"
 "Waiting 5 seconds to retry."
 msgstr ""
+"╤мпортування %s\n"
+"╤мпортер не готовий.\n"
+"Оч╕кування 5 секунд на в╕дпов╕дь."
 
 #: shell/e-shell-importer.c:262 shell/e-shell-importer.c:293
 #, c-format
@@ -11155,11 +11156,13 @@ msgid ""
 "Importing %s\n"
 "Importing item %d."
 msgstr ""
+"╤мпортування %s\n"
+"╤мпортування елемента %d."
 
 #: shell/e-shell-importer.c:396
-#, fuzzy, c-format
+#, c-format
 msgid "File %s does not exist"
-msgstr "Теки \"%s\" не ╕сну╓."
+msgstr "Файлу %s не ╕сну╓"
 
 #: shell/e-shell-importer.c:408
 msgid "You may only import to local folders"
@@ -11335,9 +11338,9 @@ msgid "%s - Ximian Evolution %s"
 msgstr "%s - Ximian Evolution %s"
 
 #: shell/e-shell-view.c:1597
-#, fuzzy, c-format
+#, c-format
 msgid "%s - Ximian Evolution %s [%s]"
-msgstr "%s - Evolution %s [%s]"
+msgstr "%s - Ximian Evolution %s [%s]"
 
 #: shell/e-shell-view.c:1637
 msgid ""
@@ -11888,9 +11891,8 @@ msgid "Print selected contacts"
 msgstr "Надрукувати вибран╕ контакти"
 
 #: ui/evolution-addressbook.xml.h:20
-#, fuzzy
 msgid "Save selected contacts as a VCard."
-msgstr "Стерти контакт"
+msgstr "Зберегти вибраний контак як vCard."
 
 #: ui/evolution-addressbook.xml.h:21
 msgid "Select All"
@@ -12217,9 +12219,8 @@ msgid "Schedule _Meeting"
 msgstr "Планувати зустр╕ч"
 
 #: ui/evolution-event-editor.xml.h:8
-#, fuzzy
 msgid "Schedule a meeting for this item"
-msgstr "Планування зустр╕ч╕"
+msgstr "Запланувати зас╕дання для цього елемента"
 
 #: ui/evolution-executive-summary.xml.h:1
 msgid "Customise My Evolution"
@@ -13292,9 +13293,8 @@ msgid "Select a Time Zone"
 msgstr "Вибрати часовий пояс"
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:2
-#, fuzzy
 msgid "Selection:"
-msgstr "Розд╕ли:"
+msgstr "Виб╕р:"
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:3
 msgid "Time Zones"
@@ -13313,7 +13313,7 @@ msgstr "Поточний р╕к"
 
 #: widgets/menus/gal-view-menus.c:222
 msgid "Define Views"
-msgstr ""
+msgstr "Визначити в╕дображення"
 
 #. Translators: These are the first characters of each day of the
 #. week, 'M' for 'Monday', 'T' for Tuesday etc.
