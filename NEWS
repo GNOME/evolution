@@ -16,6 +16,14 @@ Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
 
     #22047 -- Crash after closing the start-up wizard.  (Ettore)
 
+Other fixes
+
+  * Calendar
+
+    - Use default tasks folder in calendar view (Rodrigo)
+    - Added getQuery method to CalBackend to allow custom queries for
+      each calendar backend (Rodrigo)
+
 
 Evolution 1.0.3, 19-03-2002
 ---------------------------
