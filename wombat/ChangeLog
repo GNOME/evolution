@@ -1,3 +1,8 @@
+2001-09-19  Rodrigo Moya <rodrigo@ximian.com>
+
+	* wombat.c (setup_pcs): add OAFIID parameter to the call to the
+	cal_factory_oaf_register function
+
 2001-08-02  Jon Trowbridge  <trow@ximian.com>
 
 	* Makefile.am: Added camel dependency (now needed by ebook).

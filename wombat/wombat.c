@@ -30,6 +30,8 @@
 
 #include "wombat-moniker.h"
 
+#define CAL_FACTORY_OAF_ID "OAFIID:GNOME_Evolution_Wombat_CalendarFactory"
+
 /* The and addressbook calendar factories */
 
 static CalFactory *cal_factory;
@@ -134,7 +136,7 @@ setup_pcs (int argc, char **argv)
 
 	cal_factory_register_method (cal_factory, "file", CAL_BACKEND_FILE_TYPE);
 
-	if (!cal_factory_oaf_register (cal_factory)) {
+	if (!cal_factory_oaf_register (cal_factory, CAL_FACTORY_OAF_ID)) {
 		bonobo_object_unref (BONOBO_OBJECT (cal_factory));
 		cal_factory = NULL;
 		return FALSE;
