@@ -323,6 +323,28 @@ status_to_string (gint status)
 
 	return "Unknown";
 }
+static icalrecurrencetype_weekday
+get_ical_day (int day) 
+{
+	switch (day) {
+	case 0:
+		return ICAL_MONDAY_WEEKDAY;
+	case 1:
+		return ICAL_TUESDAY_WEEKDAY;
+	case 2:
+		return ICAL_WEDNESDAY_WEEKDAY;
+	case 3:
+		return ICAL_THURSDAY_WEEKDAY;
+	case 4:
+		return ICAL_FRIDAY_WEEKDAY;
+	case 5:
+		return ICAL_SATURDAY_WEEKDAY;
+	case 6:
+		return ICAL_SUNDAY_WEEKDAY;
+	}
+
+	return ICAL_NO_WEEKDAY;
+}
 
 static void
 compute_pid (ECalConduitContext *ctxt, ECalLocalRecord *local, const char *uid)
@@ -483,6 +505,8 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 	CalComponent *comp;
 	struct Appointment appt;
 	struct icaltimetype now = icaltime_from_timet (time (NULL), FALSE, FALSE), it;
+	struct icalrecurrencetype recur;
+	int pos, i;
 	CalComponentText summary = {NULL, NULL};
 	CalComponentText description = {NULL, NULL};
 	CalComponentDateTime dt = {NULL, NULL};
@@ -531,6 +555,73 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 		it = icaltime_from_timet (mktime (&appt.end), FALSE, FALSE);
 		dt.value = &it;
 		cal_component_set_dtend (comp, &dt);
+	}
+
+	/* Recurrence information */
+  	icalrecurrencetype_clear (&recur);
+
+	switch (appt.repeatType) {
+	case repeatNone:
+		recur.freq = ICAL_NO_RECURRENCE;
+		/* nothing */
+		break;
+
+	case repeatDaily:
+		recur.freq = ICAL_DAILY_RECURRENCE;
+		recur.interval = appt.repeatFrequency;
+		break;
+
+	case repeatWeekly:
+		recur.freq = ICAL_WEEKLY_RECURRENCE;
+		recur.interval = appt.repeatFrequency;
+
+		pos = 0;
+		for (i = 0; i < 7; i++) {
+			if (appt.repeatDays[i])
+				recur.by_day[pos++] = get_ical_day (i);
+		}
+		
+		break;
+
+	case repeatMonthlyByDay:
+		recur.freq = ICAL_MONTHLY_RECURRENCE;
+		recur.interval = appt.repeatFrequency;
+		recur.by_month_day[0] = appt.begin.tm_mday;
+		break;
+		
+	case repeatMonthlyByDate:
+		recur.freq = ICAL_MONTHLY_RECURRENCE;
+		recur.interval = appt.repeatFrequency;
+		/* Not handled! */
+		break;
+
+	case repeatYearly:
+		recur.freq = ICAL_YEARLY_RECURRENCE;
+		recur.interval = appt.repeatFrequency;
+		break;
+		
+	default:
+		g_assert_not_reached ();
+	}
+
+	if (recur.freq != ICAL_NO_RECURRENCE) {
+		GSList *list = NULL;
+		
+		/* recurrence start of week */
+		recur.week_start = get_ical_day (appt.repeatWeekstart);
+
+		if (appt.repeatEnd.tm_sec || appt.repeatEnd.tm_min || appt.repeatEnd.tm_hour 
+		    || appt.repeatEnd.tm_mday || appt.repeatEnd.tm_mon || appt.repeatEnd.tm_year) {
+			time_t t = mktime (&appt.repeatEnd);
+			t = time_add_day (t, 1);
+			recur.until = icaltime_from_timet (t, FALSE, FALSE);
+		}
+
+		list = g_slist_append (list, &recur);
+		cal_component_set_rrule_list (comp, list);
+		g_slist_free (list);
+	} else {
+		cal_component_set_rrule_list (comp, NULL);		
 	}
 	
 	cal_component_set_transparency (comp, CAL_COMPONENT_TRANSP_NONE);

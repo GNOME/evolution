@@ -1,3 +1,9 @@
+2000-10-12  JP Rosevear  <jpr@helixcode.com>
+
+	* conduits/calendar/calendar-conduit.c (comp_from_remote_record): 
+	Store recurrence stuff on the desktop properly
+	(get_ical_day): Utility function
+
 2000-10-12  Iain Holmes  <iain@helixcode.com>
 
 	* gui/component-factory.c: Disable the executive summary.
