@@ -86,7 +86,7 @@ app-dist-hook: index.html
 	  basefile=`echo $$file | sed -e  's,^.*/,,'`; \
 	  cp $$file $(distdir)/$(docname)/stylesheet-images/$$basefile ; \
 	done
-	-if [ -e topic.dat ]; then \
+	-if [ -f topic.dat ]; then \
 		cp $(srcdir)/topic.dat $(distdir); \
 	 fi
 
@@ -111,7 +111,7 @@ install-data-am: index.html omf
 	  basefile=`echo $$file | sed -e  's,^.*/,,'`; \
 	  $(INSTALL_DATA) $$file $(DESTDIR)$(docdir)/stylesheet-images/$$basefile; \
 	done
-	-if [ -e $(srcdir)/topic.dat ]; then \
+	-if [ -f $(srcdir)/topic.dat ]; then \
 		$(INSTALL_DATA) $(srcdir)/topic.dat $(DESTDIR)$(docdir); \
 	 fi
 

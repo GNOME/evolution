@@ -1,3 +1,8 @@
+2001-11-16  Ettore Perazzoli  <ettore@ximian.com>
+
+	* sgmldocs.make: Use `-f' instead of `-e' so installation of
+	topic.dat works on non-GNU systems too.
+
 2001-11-14  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Workaround for Nautilus/Scrollkeeper bug that prevents our SGML
