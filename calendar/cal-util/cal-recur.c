@@ -144,8 +144,9 @@ typedef struct _RecurData RecurData;
 struct _RecurData {
 	CalRecurrence *recur;
 
-	/* This is used for the WEEKLY frequency. */
-	gint weekday;
+	/* This is used for the WEEKLY frequency. It is the offset from the
+	   week_start_day. */
+	gint weekday_offset;
 
 	/* This is used for fast lookup in BYMONTH filtering. */
 	guint8 months[12];
@@ -432,6 +433,8 @@ static gint cal_obj_time_compare		(CalObjTime *cotime1,
 						 CalObjTimeComparison type);
 static gint cal_obj_time_weekday		(CalObjTime *cotime,
 						 CalRecurrence *recur);
+static gint cal_obj_time_weekday_offset		(CalObjTime *cotime,
+						 CalRecurrence *recur);
 static gint cal_obj_time_day_of_year		(CalObjTime *cotime);
 static void cal_obj_time_find_first_week	(CalObjTime *cotime,
 						 RecurData  *recur_data);
@@ -458,7 +461,8 @@ static void cal_recur_set_rule_end_date		(icalproperty	*prop,
 
 
 #ifdef CAL_OBJ_DEBUG
-static char* cal_obj_time_to_string	(CalObjTime *cotime);
+static char* cal_obj_time_to_string		(CalObjTime	*cotime,
+						 RecurData	*recur_data);
 #endif
 
 
@@ -620,6 +624,8 @@ cal_recur_generate_instances_of_rule (CalComponent	 *comp,
 
 	g_return_if_fail (comp != NULL);
 	g_return_if_fail (cb != NULL);
+	g_return_if_fail (start >= -1);
+	g_return_if_fail (end >= -1);
 
 	/* Get dtstart, dtend, recurrences, and exceptions */
 
@@ -802,6 +808,9 @@ cal_recur_from_icalproperty (icalproperty *prop, gboolean exception)
 		r->enddate = icaltime_as_timet (ir.until);
 		if (r->enddate == -1)
 			r->enddate = 0;
+		else if (ir.until.is_date)
+			/* FIXME: Decide what to do here. */
+			r->enddate = time_add_day (r->enddate, 1) - 1;
 	}
 
 	r->week_start_day = cal_recur_ical_weekday_to_weekday (ir.week_start);
@@ -1593,7 +1602,8 @@ cal_obj_initialize_recur_data (RecurData  *recur_data,
 
 	/* Set the weekday, used for the WEEKLY frequency and the BYWEEKNO
 	   modifier. */
-	recur_data->weekday = cal_obj_time_weekday (event_start, recur);
+	recur_data->weekday_offset = cal_obj_time_weekday_offset (event_start,
+								  recur);
 
 	/* Create an array of months from bymonths for fast lookup. */
 	elem = recur->bymonth;
@@ -1968,7 +1978,7 @@ cal_obj_weekly_find_start_position (CalObjTime *event_start,
 {
 	GDate event_start_date, interval_start_date;
 	guint32 event_start_julian, interval_start_julian;
-	gint interval_start_weekday;
+	gint interval_start_weekday_offset;
 	CalObjTime week_start;
 
 	if (event_end && cal_obj_time_compare (event_end, interval_start,
@@ -1992,12 +2002,11 @@ cal_obj_weekly_find_start_position (CalObjTime *event_start,
 	/* Calculate the start of the weeks corresponding to the event start
 	   and interval start. */
 	event_start_julian = g_date_julian (&event_start_date);
-	event_start_julian -= recur_data->weekday;
+	event_start_julian -= recur_data->weekday_offset;
 
 	interval_start_julian = g_date_julian (&interval_start_date);
-	interval_start_weekday = cal_obj_time_weekday (interval_start,
-						       recur_data->recur);
-	interval_start_julian -= interval_start_weekday;
+	interval_start_weekday_offset = cal_obj_time_weekday_offset (interval_start, recur_data->recur);
+	interval_start_julian -= interval_start_weekday_offset;
 
 	/* We want to find the first full week using the recurrence interval
 	   that intersects the given interval dates. */
@@ -2009,7 +2018,7 @@ cal_obj_weekly_find_start_position (CalObjTime *event_start,
 	}
 
 	week_start = *cotime;
-	cal_obj_time_add_days (&week_start, -recur_data->weekday);
+	cal_obj_time_add_days (&week_start, -recur_data->weekday_offset);
 
 	if (event_end && cal_obj_time_compare (&week_start, event_end,
 					       CALOBJ_DAY) > 0)
@@ -2035,14 +2044,26 @@ cal_obj_weekly_find_next_position (CalObjTime *cotime,
 	/* Return TRUE if the start of this week is after the event finishes
 	   or is after the end of the required interval. */
 	week_start = *cotime;
-	cal_obj_time_add_days (&week_start, -recur_data->weekday);
+	cal_obj_time_add_days (&week_start, -recur_data->weekday_offset);
+
+#ifdef CAL_OBJ_DEBUG
+	g_print ("Next  day: %s\n",
+		 cal_obj_time_to_string (cotime, recur_data));
+	g_print ("Week Start: %s\n",
+		 cal_obj_time_to_string (&week_start, recur_data));
+#endif
 
 	if (event_end && cal_obj_time_compare (&week_start, event_end,
 					       CALOBJ_DAY) > 0)
 		return TRUE;
 	if (interval_end && cal_obj_time_compare (&week_start, interval_end,
-						  CALOBJ_DAY) > 0)
+						  CALOBJ_DAY) > 0) {
+#ifdef CAL_OBJ_DEBUG
+		g_print ("Interval end reached: %s\n",
+			 cal_obj_time_to_string (interval_end, recur_data));
+#endif
 		return TRUE;
+	}
 
 	return FALSE;
 }
@@ -2702,6 +2723,7 @@ cal_obj_byday_expand_yearly	(RecurData  *recur_data,
 
 			year = occ->year;
 			if (week_num == 0) {
+				/* Expand to every Mon/Tue/etc. in the year. */
 				occ->month = 0;
 				occ->day = 1;
 				first_weekday = cal_obj_time_weekday (occ, recur_data->recur);
@@ -2714,6 +2736,7 @@ cal_obj_byday_expand_yearly	(RecurData  *recur_data,
 				}
 
 			} else if (week_num > 0) {
+				/* Add the nth Mon/Tue/etc. in the year. */
 				occ->month = 0;
 				occ->day = 1;
 				first_weekday = cal_obj_time_weekday (occ, recur_data->recur);
@@ -2724,6 +2747,7 @@ cal_obj_byday_expand_yearly	(RecurData  *recur_data,
 					g_array_append_vals (new_occs, occ, 1);
 
 			} else {
+				/* Add the -nth Mon/Tue/etc. in the year. */
 				occ->month = 11;
 				occ->day = 31;
 				last_weekday = cal_obj_time_weekday (occ, recur_data->recur);
@@ -2778,6 +2802,7 @@ cal_obj_byday_expand_monthly	(RecurData  *recur_data,
 			year = occ->year;
 			month = occ->month;
 			if (week_num == 0) {
+				/* Expand to every Mon/Tue/etc. in the month.*/
 				occ->day = 1;
 				first_weekday = cal_obj_time_weekday (occ, recur_data->recur);
 				offset = (weekday + 7 - first_weekday) % 7;
@@ -2790,6 +2815,7 @@ cal_obj_byday_expand_monthly	(RecurData  *recur_data,
 				}
 
 			} else if (week_num > 0) {
+				/* Add the nth Mon/Tue/etc. in the month. */
 				occ->day = 1;
 				first_weekday = cal_obj_time_weekday (occ, recur_data->recur);
 				offset = (weekday + 7 - first_weekday) % 7;
@@ -2799,6 +2825,7 @@ cal_obj_byday_expand_monthly	(RecurData  *recur_data,
 					g_array_append_vals (new_occs, occ, 1);
 
 			} else {
+				/* Add the -nth Mon/Tue/etc. in the month. */
 				occ->day = time_days_in_month (occ->year,
 							       occ->month);
 				last_weekday = cal_obj_time_weekday (occ, recur_data->recur);
@@ -2831,8 +2858,7 @@ cal_obj_byday_expand_weekly	(RecurData  *recur_data,
 	CalObjTime *occ;
 	GList *elem;
 	gint len, i, weekday, week_num;
-	gint current_weekday;
-	gint day_of_week, new_day_of_week, days_to_add;
+	gint weekday_offset, new_weekday_offset;
 
 	/* If BYDAY has not been specified, or the array is empty, just
 	   return the array. */
@@ -2849,16 +2875,16 @@ cal_obj_byday_expand_weekly	(RecurData  *recur_data,
 		while (elem) {
 			weekday = GPOINTER_TO_INT (elem->data);
 			elem = elem->next;
+
+			/* FIXME: Currently we just ignore this, but maybe we
+			   should skip all elements where week_num != 0.
+			   The spec isn't clear about this. */
 			week_num = GPOINTER_TO_INT (elem->data);
 			elem = elem->next;
 
-			current_weekday = cal_obj_time_weekday (occ, recur_data->recur);
-			day_of_week = (current_weekday + 7
-				       - recur_data->recur->week_start_day) % 7;
-			new_day_of_week = (weekday + 7
-					   - recur_data->recur->week_start_day) % 7;
-			days_to_add = new_day_of_week - day_of_week;
-			cal_obj_time_add_days (occ, days_to_add);
+			weekday_offset = cal_obj_time_weekday_offset (occ, recur_data->recur);
+			new_weekday_offset = (weekday + 7 - recur_data->recur->week_start_day) % 7;
+			cal_obj_time_add_days (occ, new_weekday_offset - weekday_offset);
 			g_array_append_vals (new_occs, occ, 1);
 		}
 	}
@@ -3105,32 +3131,41 @@ cal_obj_bysecond_filter		(RecurData  *recur_data,
 
 
 
-/* Adds a positive number of months to the given CalObjTime, updating the year
-   appropriately so we end up with a valid month. Note that the day may be
-   invalid. */
+/* Adds a positive or negative number of months to the given CalObjTime,
+   updating the year appropriately so we end up with a valid month.
+   Note that the day may be invalid, e.g. 30th Feb. */
 static void
 cal_obj_time_add_months		(CalObjTime *cotime,
 				 gint	     months)
 {
-	guint month;
+	guint month, years;
 
 	/* We use a guint to avoid overflow on the guint8. */
 	month = cotime->month + months;
-	cotime->year += month / 12;
 	cotime->month = month % 12;
+	if (month > 0) {
+		cotime->year += month / 12;
+	} else {
+		years = month / 12;
+		if (cotime->month != 0) {
+			cotime->month += 12;
+			years -= 1;
+		}
+		cotime->year += years;
+	}
 }
 
 
-/* Adds a positive number of days to the given CalObjTime, updating the month
-   and year appropriately so we end up with a valid day. */
+/* Adds a positive or negative number of days to the given CalObjTime,
+   updating the month and year appropriately so we end up with a valid day. */
 static void
 cal_obj_time_add_days		(CalObjTime *cotime,
 				 gint	     days)
 {
-	guint day, days_in_month;
+	gint day, days_in_month;
 
 	/* We use a guint to avoid overflow on the guint8. */
-	day = (guint) cotime->day;
+	day = cotime->day;
 	day += days;
 
 	if (days >= 0) {
@@ -3161,7 +3196,6 @@ cal_obj_time_add_days		(CalObjTime *cotime,
 
 			days_in_month = time_days_in_month (cotime->year,
 							    cotime->month);
-
 			day += days_in_month;
 		}
 
@@ -3170,8 +3204,9 @@ cal_obj_time_add_days		(CalObjTime *cotime,
 }
 
 
-/* Adds a positive number of hours to the given CalObjTime, updating the day,
-   month & year appropriately so we end up with a valid time. */
+/* Adds a positive or negative number of hours to the given CalObjTime,
+   updating the day, month & year appropriately so we end up with a valid
+   time. */
 static void
 cal_obj_time_add_hours		(CalObjTime *cotime,
 				 gint	     hours)
@@ -3195,8 +3230,8 @@ cal_obj_time_add_hours		(CalObjTime *cotime,
 }
 
 
-/* Adds a positive number of minutes to the given CalObjTime, updating the
-   rest of the CalObjTime appropriately. */
+/* Adds a positive or negative number of minutes to the given CalObjTime,
+   updating the rest of the CalObjTime appropriately. */
 static void
 cal_obj_time_add_minutes	(CalObjTime *cotime,
 				 gint	     minutes)
@@ -3220,8 +3255,8 @@ cal_obj_time_add_minutes	(CalObjTime *cotime,
 }
 
 
-/* Adds a positive number of seconds to the given CalObjTime, updating the
-   rest of the CalObjTime appropriately. */
+/* Adds a positive or negative number of seconds to the given CalObjTime,
+   updating the rest of the CalObjTime appropriately. */
 static void
 cal_obj_time_add_seconds	(CalObjTime *cotime,
 				 gint	     seconds)
@@ -3349,8 +3384,8 @@ cal_obj_time_compare_func (const void *arg1,
 		retval = 0;
 
 #if 0
-	g_print ("%s - ", cal_obj_time_to_string (cotime1));
-	g_print ("%s : %i\n", cal_obj_time_to_string (cotime2), retval);
+	g_print ("%s - ", cal_obj_time_to_string (cotime1, NULL));
+	g_print ("%s : %i\n", cal_obj_time_to_string (cotime2, NULL), retval);
 #endif
 
 	return retval;
@@ -3383,8 +3418,7 @@ cal_obj_date_only_compare_func (const void *arg1,
 	return 0;
 }
 
-/* Returns the weekday of the given CalObjTime, from 0 - 6. The week start
-   day is Monday by default, but can be set in the recurrence rule. */
+/* Returns the weekday of the given CalObjTime, from 0 (Mon) - 6 (Sun). */
 static gint
 cal_obj_time_weekday		(CalObjTime *cotime,
 				 CalRecurrence *recur)
@@ -3398,13 +3432,32 @@ cal_obj_time_weekday		(CalObjTime *cotime,
 	/* This results in a value of 0 (Monday) - 6 (Sunday). */
 	weekday = g_date_weekday (&date) - 1;
 
+	return weekday;
+}
+
+
+/* Returns the weekday of the given CalObjTime, from 0 - 6. The week start
+   day is Monday by default, but can be set in the recurrence rule. */
+static gint
+cal_obj_time_weekday_offset	(CalObjTime *cotime,
+				 CalRecurrence *recur)
+{
+	GDate date;
+	gint weekday, offset;
+
+	g_date_clear (&date, 1);
+	g_date_set_dmy (&date, cotime->day, cotime->month + 1, cotime->year);
+
+	/* This results in a value of 0 (Monday) - 6 (Sunday). */
+	weekday = g_date_weekday (&date) - 1;
+
 	/* This calculates the offset of our day from the start of the week.
 	   We just add on a week (to avoid any possible negative values) and
 	   then subtract the specified week start day, then convert it into a
 	   value from 0-6. */
-	weekday = (weekday + 7 - recur->week_start_day) % 7;
+	offset = (weekday + 7 - recur->week_start_day) % 7;
 
-	return weekday;
+	return offset;
 }
 
 
@@ -3431,27 +3484,28 @@ cal_obj_time_find_first_week	(CalObjTime *cotime,
 				 RecurData  *recur_data)
 {
 	GDate date;
-	gint weekday, week_start_day, offset;
+	gint weekday, week_start_day, first_full_week_start_offset, offset;
 
-	/* Find out the weekday of the 1st of the year. */
+	/* Find out the weekday of the 1st of the year, 0 (Mon) - 6 (Sun). */
 	g_date_clear (&date, 1);
 	g_date_set_dmy (&date, 1, 1, cotime->year);
-
-	/* This results in a value of 0 (Monday) - 6 (Sunday). */
 	weekday = g_date_weekday (&date) - 1;
 
-	/* Calculate the first day of the year that starts a new week. */
+	/* Calculate the first day of the year that starts a new week, i.e. the
+	   first week_start_day after weekday, using 0 = 1st Jan.
+	   e.g. if the 1st Jan is a Tuesday (1) and week_start_day is a
+	   Monday (0), the result will be (0 + 7 - 1) % 7 = 6 (7th Jan). */
 	week_start_day = recur_data->recur->week_start_day;
-	offset = (week_start_day + 7 - weekday) % 7;
+	first_full_week_start_offset = (week_start_day + 7 - weekday) % 7;
 
 	/* Now see if we have to move backwards 1 week, i.e. if the week
 	   starts on or after Jan 5th (since the previous week has 4 days in
 	   this year and so will be the first week of the year). */
-	if (offset >= 4)
-		offset -= 7;
+	if (first_full_week_start_offset >= 4)
+		first_full_week_start_offset -= 7;
 
-	/* Now move to the required day. */
-	offset += (recur_data->weekday + 7 - week_start_day) % 7;
+	/* Now add the days to get to the event's weekday. */
+	offset = first_full_week_start_offset + recur_data->weekday_offset;
 
 	/* Now move the cotime to the appropriate day. */
 	cotime->month = 0;
@@ -3484,11 +3538,19 @@ cal_object_time_from_time (CalObjTime *cotime,
    buffer so beware. */
 #ifdef CAL_OBJ_DEBUG
 static char*
-cal_obj_time_to_string	(CalObjTime *cotime)
+cal_obj_time_to_string		(CalObjTime	*cotime,
+				 RecurData	*recur_data)
 {
 	static char buffer[20];
+	char *weekdays[] = { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun",
+			     "   " };
+	gint weekday = 7;
 
-	sprintf (buffer, "%02i/%02i/%04i %02i:%02i:%02i",
+	if (recur_data)
+		weekday = cal_obj_time_weekday (cotime, recur_data->recur);
+
+	sprintf (buffer, "%s %02i/%02i/%04i %02i:%02i:%02i",
+		 weekdays[weekday],
 		 cotime->day, cotime->month + 1, cotime->year,
 		 cotime->hour, cotime->minute, cotime->second);
 	return buffer;

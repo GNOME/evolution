@@ -24,7 +24,12 @@
 
 /*
  * This tests the recurrence rule expansion functions.
- * FIXME: Needs to be updated to just use the public interface.
+ *
+ * NOTE: currently it starts from the event start date and continues
+ * until all recurrence rules/dates end or we reach MAX_OCCURRENCES
+ * occurrences. So it does not test generating occurrences for a specific
+ * interval. A nice addition might be to do this automatically and compare
+ * the results from the complete set to ensure they match.
  */
 
 #include <config.h>
@@ -144,8 +149,13 @@ generate_occurrences	(icalcomponent	*icalcomp)
 		g_print ("%s\n\n", icalcomponent_as_ical_string (tmp_icalcomp));
 
 		occurrences = 0;
+#if 0
+		cal_recur_generate_instances (comp, 972950400, 976492800,
+					      occurrence_cb, &occurrences);
+#else
 		cal_recur_generate_instances (comp, -1, -1,
 					      occurrence_cb, &occurrences);
+#endif
 
 		g_print ("%s\n\n", icalcomponent_as_ical_string (tmp_icalcomp));
 	}
