@@ -1,3 +1,7 @@
+2002-01-28  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* evolution-mail-message.xml: Add MessageRedirect.
+
 2002-01-18  Christopher James Lahey  <clahey@ximian.com>
 
 	* evolution-addressbook.xml: Added File->Open which calls the

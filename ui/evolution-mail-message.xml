@@ -85,6 +85,10 @@
      _tip="Open the selected message in a new window"
      accel="*Control*o"/>
 
+    <cmd name="MessageRedirect"
+     _tip="Redirect (bounce) the selected message to someone"
+     accel=""/>
+
     <cmd name="MessageReplyAll"
      _tip="Compose a reply to all of the recipients of the selected message"
      accel="*Control**Shift*r"
@@ -267,6 +271,8 @@
             <menuitem verb="MessageForwardAttached" _label="Forward _Attached"/>
             <menuitem verb="MessageForwardInline" _label="Forward _Inline"/>
             <menuitem verb="MessageForwardQuoted" _label="Forward _Quoted"/>
+            <separator f="" name="forwardlist1"/>
+            <menuitem verb="MessageRedirect" _label="Redirect"/>
           </submenu>
 
 	  <separator f="" name="emaillist1"/>
