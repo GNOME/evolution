@@ -294,10 +294,6 @@ calendar_notify (time_t time, void *data)
 		if (pid == 0){
 			const int top = max_open_files ();
 			int dev_null, i;
-
-			for (i = 0; i < top; i++)
-				if (i != p [1])
-					close (i);
 			dev_null = open ("/dev/null", O_RDWR);
 			dup2 (p [1], 0);
 			dup2 (dev_null, 1);
