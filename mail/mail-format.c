@@ -838,20 +838,15 @@ decode_pgp (const char *ciphertext, int *outlen, MailDisplay *md)
 	char *plaintext;
 	
 	camel_exception_init (&ex);
-#ifdef PGP_PROGRAM
+	
 	/* FIXME: multipart parts */
 	/* another FIXME: this doesn't have to return plaintext you realize... */
 	if (g_datalist_get_data (md->data, "show_pgp")) {
-		plaintext = mail_crypto_openpgp_decrypt (ciphertext, strlen (ciphertext), outlen, &ex);
+		plaintext = openpgp_decrypt (ciphertext, strlen (ciphertext), outlen, &ex);
 		if (plaintext)
 			return plaintext;
 	}
-#else
-	camel_exception_set (&ex, CAMEL_EXCEPTION_SYSTEM,
-			     _("No GPG/PGP support available in this copy "
-			       "of Evolution."));
-#endif
-
+	
 	mail_html_write (md->html, md->stream,
 			 "<table><tr valign=top><td>"
 			 "<a href=\"x-evolution-decode-pgp:\">"
@@ -1199,7 +1194,6 @@ static gboolean
 handle_multipart_encrypted (CamelMimePart *part, const char *mime_type,
 			    MailDisplay *md)
 {
-#ifdef PGP_PROGRAM
 	CamelDataWrapper *wrapper;
 	CamelMimePart *mime_part;
 	CamelException ex;
@@ -1208,7 +1202,7 @@ handle_multipart_encrypted (CamelMimePart *part, const char *mime_type,
 	g_return_val_if_fail (CAMEL_IS_MULTIPART (wrapper), FALSE);
 	
 	/* Currently we only handle RFC2015-style PGP encryption. */
-	if (!is_rfc2015_encrypted (part))
+	if (!mail_crypto_is_rfc2015_encrypted (part))
 		return handle_multipart_mixed (part, mime_type, md);
 	
 	camel_exception_init (&ex);
@@ -1224,9 +1218,6 @@ handle_multipart_encrypted (CamelMimePart *part, const char *mime_type,
 		
 		return retcode;
 	}
-#else
-	return handle_multipart_mixed (part, mime_type, md);
-#endif
 }
 
 /* FIXME: So this function is mostly just a place-holder for now */
@@ -1234,7 +1225,6 @@ static gboolean
 handle_multipart_signed (CamelMimePart *part, const char *mime_type,
 			 MailDisplay *md)
 {
-#ifdef PGP_PROGRAM
 	CamelDataWrapper *wrapper;
 	CamelException ex;
 	gboolean valid;
@@ -1243,16 +1233,16 @@ handle_multipart_signed (CamelMimePart *part, const char *mime_type,
 	g_return_val_if_fail (CAMEL_IS_MULTIPART (wrapper), FALSE);
 	
 	/* Currently we only handle RFC2015-style PGP signatures. */
-	if (!is_rfc2015_signed (part))
+	if (!mail_crypto_is_rfc2015_signed (part))
 		return handle_multipart_mixed (part, mime_type, md);
 	
 	camel_exception_init (&ex);
 	valid = pgp_mime_part_verify (part, &ex);
 	
+	if (camel_exception_is_set (&ex))
+		handle_multipart_mixed (part, mime_type, md);
+	
 	return valid;
-#else
-	return handle_multipart_mixed (part, mime_type, md);
-#endif
 }
 
 /* As seen in RFC 2387! */

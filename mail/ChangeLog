@@ -1,5 +1,23 @@
 2001-01-09  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* mail-format.c: Updated.
+	(decode_pgp): Get rid of #ifdef PGP_PROGRAM's and handle
+	appropriately.
+	(handle_multipart_signed): Same.
+	(handle_multipart_encrypted): Same.
+
+	* Makefile.am: Added openpgp-utils.[c,h] to the build.
+	
+	* openpgp-utils.c: New source file containing all of the pgp
+	interface code.
+
+	* mail-crypto.c: Removed all of the openpgp funtions as they are
+	being moved to a new file.
+	(mail_crypto_is_rfc2015_signed): Renamed.
+	(mail_crypto_is_rfc2015_encrypted): Renamed.
+
+2001-01-09  Jeffrey Stedfast  <fejj@helixcode.com>
+
 	* session.c (mail_session_set_password): New function to set the
 	password for a given url.
 	
