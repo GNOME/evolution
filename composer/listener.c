@@ -162,7 +162,6 @@ impl_event (PortableServer_Servant _servant,
 		}
 	} else if (!strcmp (name, "url_requested")) {
 		GNOME_GtkHTML_Editor_URLRequestEvent *e;
-		CORBA_long len = 0;
 		CamelMimePart *part = NULL;
 
 		e = (GNOME_GtkHTML_Editor_URLRequestEvent *)arg->_value;

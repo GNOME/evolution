@@ -1,3 +1,11 @@
+2001-10-11  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* listener.c (impl_event): Deleted declaration of len.
+
+	* e-msg-composer.c (e_msg_composer_add_message_attachments): Take
+	a settext argument.
+	(e_msg_composer_new_with_message): Updated to pass the settext argument.
+
 2001-10-10  Jon Trowbridge  <trow@ximian.com>
 
 	* e-msg-composer-hdrs.c (e_msg_composer_hdrs_set_from_account):

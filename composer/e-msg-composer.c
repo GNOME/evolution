@@ -2582,23 +2582,24 @@ is_special_header (const char *hdr_name)
 /**
  * e_msg_composer_add_message_attachments:
  * @composer: the composer to add the attachments to.
- * @msg: the source message to copy the attachments from.
+ * @message: the source message to copy the attachments from.
+ * @settext: set the text of the composer
  *
- * Walk through all the mime parts in @msg and add them to the composer
+ * Walk through all the mime parts in @message and add them to the composer
  * specified in @composer.
  */
 void
-e_msg_composer_add_message_attachments (EMsgComposer *composer, CamelMimeMessage *msg)
+e_msg_composer_add_message_attachments (EMsgComposer *composer, CamelMimeMessage *message, gboolean settext)
 {
 	CamelContentType *content_type;
-
-	content_type = camel_mime_part_get_content_type (CAMEL_MIME_PART (msg));
+	
+	content_type = camel_mime_part_get_content_type (CAMEL_MIME_PART (message));
 	if (header_content_type_is (content_type, "multipart", "alternative")) {
 		/* multipart/alternative contains the text/plain and text/html versions of the message body */
 		CamelDataWrapper *wrapper;
 		CamelMultipart *multipart;
 		
-		wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (CAMEL_MIME_PART (msg)));
+		wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (CAMEL_MIME_PART (message)));
 		multipart = CAMEL_MULTIPART (wrapper);
 		
 		handle_multipart_alternative (composer, multipart);
@@ -2607,38 +2608,40 @@ e_msg_composer_add_message_attachments (EMsgComposer *composer, CamelMimeMessage
 		CamelDataWrapper *wrapper;
 		CamelMultipart *multipart;
 		
-		wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (CAMEL_MIME_PART (msg)));
+		wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (CAMEL_MIME_PART (message)));
 		multipart = CAMEL_MULTIPART (wrapper);
 		
 		handle_multipart (composer, multipart, 0);
-	} else {
+	} else if (settext) {
 		/* We either have a text/plain or a text/html part */
 		CamelDataWrapper *contents;
 		char *text;
 		
-		contents = camel_medium_get_content_object (CAMEL_MEDIUM (msg));
+		contents = camel_medium_get_content_object (CAMEL_MEDIUM (message));
 		text = mail_get_message_body (contents, FALSE, FALSE);
-
+		
 		if (text)
 			e_msg_composer_set_pending_body (composer, text);
 	}
 	
-	/* We wait until now to set the body text because we need to ensure that
-	 * the attachment bar has all the attachments, before we request them.
-	 */
-	e_msg_composer_apply_pending_body (composer);
+	if (settext) {
+		/* We wait until now to set the body text because we need to ensure that
+		 * the attachment bar has all the attachments, before we request them.
+		 */
+		e_msg_composer_apply_pending_body (composer);
+	}
 }
 	
 /**
  * e_msg_composer_new_with_message:
- * @msg: The message to use as the source
+ * @message: The message to use as the source
  * 
  * Create a new message composer widget.
  * 
  * Return value: A pointer to the newly created widget
  **/
 EMsgComposer *
-e_msg_composer_new_with_message (CamelMimeMessage *msg)
+e_msg_composer_new_with_message (CamelMimeMessage *message)
 {
 	const CamelInternetAddress *to, *cc, *bcc;
 	GList *To = NULL, *Cc = NULL, *Bcc = NULL;
@@ -2655,11 +2658,11 @@ e_msg_composer_new_with_message (CamelMimeMessage *msg)
 	if (!new)
 		return NULL;
 	
-	subject = camel_mime_message_get_subject (msg);
+	subject = camel_mime_message_get_subject (message);
 	
-	to = camel_mime_message_get_recipients (msg, CAMEL_RECIPIENT_TYPE_TO);
-	cc = camel_mime_message_get_recipients (msg, CAMEL_RECIPIENT_TYPE_CC);
-	bcc = camel_mime_message_get_recipients (msg, CAMEL_RECIPIENT_TYPE_BCC);
+	to = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO);
+	cc = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_CC);
+	bcc = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_BCC);
 	
 	len = CAMEL_ADDRESS (to)->addresses->len;
 	for (i = 0; i < len; i++) {
@@ -2705,13 +2708,13 @@ e_msg_composer_new_with_message (CamelMimeMessage *msg)
 	g_list_free (Bcc);
 	
 	/* Restore the Account preference */
-	account_name = camel_medium_get_header (CAMEL_MEDIUM (msg), "X-Evolution-Account");
+	account_name = camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Account");
 	if (account_name) {
 		while (*account_name && isspace ((unsigned) *account_name))
 			account_name++;
 	}
 	if (account_name == NULL) {
-		account_name = camel_medium_get_header (CAMEL_MEDIUM (msg), "From");
+		account_name = camel_medium_get_header (CAMEL_MEDIUM (message), "From");
 	}
 	
 	e_msg_composer_set_headers (new, account_name, Tov, Ccv, Bccv, subject);
@@ -2721,7 +2724,7 @@ e_msg_composer_new_with_message (CamelMimeMessage *msg)
 	e_destination_freev (Bccv);
 	
 	/* Restore the format editing preference */
-	format = camel_medium_get_header (CAMEL_MEDIUM (msg), "X-Evolution-Format");
+	format = camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Format");
 	if (format) {
 		while (*format && isspace ((unsigned) *format))
 			format++;
@@ -2733,11 +2736,11 @@ e_msg_composer_new_with_message (CamelMimeMessage *msg)
 	}
 	
 	/* Remove any other X-Evolution-* headers that may have been set */
-	xev = mail_tool_remove_xevolution_headers (msg);
+	xev = mail_tool_remove_xevolution_headers (message);
 	mail_tool_destroy_xevolution (xev);
 	
 	/* set extra headers */
-	headers = CAMEL_MIME_PART (msg)->headers;
+	headers = CAMEL_MIME_PART (message)->headers;
 	while (headers) {
 		if (!is_special_header (headers->name)) {
 			g_ptr_array_add (new->extra_hdr_names, g_strdup (headers->name));
@@ -2747,7 +2750,8 @@ e_msg_composer_new_with_message (CamelMimeMessage *msg)
 		headers = headers->next;
 	}
 	
-	e_msg_composer_add_message_attachments (new, msg);
+	e_msg_composer_add_message_attachments (new, message, TRUE);
+	
 	return new;
 }
 

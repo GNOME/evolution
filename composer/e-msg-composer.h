@@ -173,7 +173,8 @@ gchar *           e_msg_composer_get_sig_file_content   (const char       *sigfi
 							 gboolean          in_html);
 
 void              e_msg_composer_add_message_attachments (EMsgComposer *composer, 
-							  CamelMimeMessage *msg);
+							  CamelMimeMessage *message,
+							  gboolean settext);
 
 #ifdef __cplusplus
 }
