@@ -1,3 +1,19 @@
+2001-03-22  Radek Doulik  <rodo@ximian.com>
+
+	* mail-display.c (mail_display_new): connect to button_press_event
+	and iframe_created events of GtkHTML widget
+	(html_button_press_event): new signal handler, runs popup on
+	address fields and on links, later we should add popups for images
+	and maybe some more? any ideas?
+	(html_iframe_created): new signal handler, takes care of
+	connecting to button_press_event of all iframes
+	: plus bunch of empty methods for popup menu items - to be
+	implemented
+
+	* mail-format.c (write_address): revert back to raw HTML text,
+	store name and email to Text objects, workaround gtkhtml tables
+	bug (to be fixed soon ;-)
+
 2001-03-21  Ettore Perazzoli  <ettore@ximian.com>
 
 	* folder-browser-factory.c (update_pixmaps): Don't return if

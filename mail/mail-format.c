@@ -582,7 +582,7 @@ write_field_row_begin (const char *description, gint flags, GtkHTML *html, GtkHT
 
 	encoded_desc = e_utf8_from_gtk_string (GTK_WIDGET (html), description);
 
-	mail_html_write (html, stream, "<tr><%s align=right> %s </%s>",
+	mail_html_write (html, stream, "<tr><%s align=\"right\" valign=\"top\">%s</%s>",
 			 bold ? "th" : "td", encoded_desc, bold ? "th" : "td");
 
 	g_free (encoded_desc);
@@ -600,7 +600,7 @@ write_date (CamelMimeMessage *message, int flags, GtkHTML *html, GtkHTMLStream *
 	date = camel_mime_message_get_date (message, &offset);
 	datestr = header_format_date (date, offset);
 	
-	mail_html_write (html, stream, "<td> %s </td> </tr>", datestr);
+	mail_html_write (html, stream, "<td>%s</td> </tr>", datestr);
 	
 	g_free (datestr);
 }
@@ -617,7 +617,7 @@ write_subject (const char *subject, int flags, GtkHTML *html, GtkHTMLStream *str
 
 	write_field_row_begin (_("Subject:"), flags, html, stream);
 
-	mail_html_write (html, stream, "<td> %s </td> </tr>", encoded_subj);
+	mail_html_write (html, stream, "<td>%s</td> </tr>", encoded_subj);
 
 	if (subject)
 		g_free (encoded_subj);
@@ -653,6 +653,7 @@ static void
 write_address(MailDisplay *md, const CamelInternetAddress *addr, const char *field_name, int flags)
 {
 	const char *name, *email;
+	gboolean name_set = FALSE, mail_set = FALSE;
 	gint i;
 
 	if (addr == NULL || !camel_internet_address_get (addr, 0, NULL, NULL))
@@ -664,19 +665,40 @@ write_address(MailDisplay *md, const CamelInternetAddress *addr, const char *fie
 	while (camel_internet_address_get (addr, i, &name, &email)) {
 		
 		if ((name && *name) || (email && *email)) {
-			
-			mail_html_write (md->html, md->stream, i ? ", " : "<td>");
+			/* we need these <B> </B> to separate HTMLText objects */
+			mail_html_write (md->html, md->stream, i ? ",<B> </B> " : "<td>");
+			mail_html_write (md->html, md->stream, " ");
 
-			mail_html_write (md->html, md->stream, "<object classid=\"address\">");
+			if (name && *name) {
+				mail_html_write (md->html, md->stream,
+						 "<!--+GtkHTML:<DATA class=\"Text\" key=\"name\" value=\"%s\">-->",
+						 name);
+				name_set = TRUE;
+			}
+
+			if (email && *email) {
+				mail_html_write (md->html, md->stream,
+						 "<!--+GtkHTML:<DATA class=\"Text\" key=\"email\" value=\"%s\">-->",
+						 email);
+				mail_set = TRUE;
+			}
 			if (name && *name)
-				mail_html_write (md->html, md->stream, "<param name=\"name\" value=\"%s\"/>", name);
+				mail_html_write (md->html, md->stream, "%s ", name);
 			if (email && *email)
-				mail_html_write (md->html, md->stream, "<param name=\"email\" value=\"%s\"/>", email);
-			mail_html_write (md->html, md->stream, "</object>");
+				mail_html_write (md->html, md->stream, "%s%s%s",
+						 name && *name ? "&lt;" : "",
+						 email,
+						 name && *name ? "&gt;" : "");
 		}
 		
 		++i;
 	}
+	if (name_set)
+		mail_html_write (md->html, md->stream,
+				 "<!--+GtkHTML:<DATA class=\"Text\" clear=\"name\">-->");
+	if (mail_set)
+		mail_html_write (md->html, md->stream,
+				 "<!--+GtkHTML:<DATA class=\"Text\" clear=\"email\">-->");
 
 	mail_html_write (md->html, md->stream, "</td></tr>"); /* Finish up the table row */
 }

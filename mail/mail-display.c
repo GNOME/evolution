@@ -36,6 +36,8 @@
 #include <gdk-pixbuf/gdk-pixbuf-loader.h>
 #include <gtkhtml/gtkhtml-embedded.h>
 #include <gtkhtml/htmlengine.h>	/* XXX */
+#include <gtkhtml/htmlobject.h>	/* XXX */
+#include <gtkhtml/htmlinterval.h> /* XXX */
 
 #define PARENT_TYPE (gtk_vbox_get_type ())
 
@@ -1034,6 +1036,98 @@ mail_display_class_init (GtkObjectClass *object_class)
 	mail_display_parent_class = gtk_type_class (PARENT_TYPE);
 }
 
+static void
+add_to_addressbook (GtkWidget *w, MailDisplay *mail_display)
+{
+	g_print ("FIXME\n");
+}
+
+static void
+open_in_addressbook (GtkWidget *w, MailDisplay *mail_display)
+{
+	g_print ("FIXME\n");
+}
+
+static void
+link_open_in_browser (GtkWidget *w, MailDisplay *mail_display)
+{
+	g_print ("FIXME\n");
+}
+
+static void
+link_save_as (GtkWidget *w, MailDisplay *mail_display)
+{
+	g_print ("FIXME\n");
+}
+
+static void
+link_copy_location (GtkWidget *w, MailDisplay *mail_display)
+{
+	g_print ("FIXME\n");
+}
+
+#define SEPARATOR  { "", NULL, (NULL), NULL,  0 }
+#define TERMINATOR { NULL, NULL, (NULL), NULL,  0 }
+
+static EPopupMenu address_menu [] = {
+	{ N_("Add to addressbook (FIXME)"),      NULL,
+	  GTK_SIGNAL_FUNC (add_to_addressbook),  NULL,  0 },
+	{ N_("Open in addressbook (FIXME)"),             NULL,
+	  GTK_SIGNAL_FUNC (open_in_addressbook), NULL,  0 },
+
+	TERMINATOR
+};
+
+static EPopupMenu link_menu [] = {
+	{ N_("Open link in browser (FIXME)"),    NULL,
+	  GTK_SIGNAL_FUNC (link_open_in_browser),  NULL,  0 },
+	{ N_("Save as (FIXME)"),                 NULL,
+	  GTK_SIGNAL_FUNC (link_save_as), NULL,  0 },
+	{ N_("Copy location (FIXME)"),                 NULL,
+	  GTK_SIGNAL_FUNC (link_copy_location), NULL,  0 },
+	
+	TERMINATOR
+};
+
+static int
+html_button_press_event (GtkWidget *widget, GdkEventButton *event, MailDisplay *mail_display)
+{
+	g_return_val_if_fail (widget != NULL, FALSE);
+	g_return_val_if_fail (event != NULL, FALSE);
+
+	if (event->type == GDK_BUTTON_PRESS) {
+		if (event->button == 3) {
+			HTMLPoint *point;
+			const gchar *email;
+			const gchar *name;
+			const gchar *link;
+
+			point = html_engine_get_point_at (GTK_HTML (widget)->engine, event->x, event->y, FALSE);
+			if (point) {
+				email = (const gchar *) html_object_get_data (point->object, "email");
+				if (email) {
+					name = (const gchar *) html_object_get_data (point->object, "name");
+					e_popup_menu_run (address_menu, (GdkEvent *) event, 0, 0, mail_display);
+				} else if ((link = html_engine_get_link_at (GTK_HTML (widget)->engine,
+									    event->x, event->y))) {
+					e_popup_menu_run (link_menu, (GdkEvent *) event, 0, 0, mail_display);
+				}
+				html_point_destroy (point);
+			}
+			return TRUE;
+		}
+	}
+		
+	return FALSE;
+}
+
+static void
+html_iframe_created (GtkWidget *w, GtkHTML *iframe, MailDisplay *mail_display)
+{
+	gtk_signal_connect (GTK_OBJECT (iframe), "button_press_event",
+			    GTK_SIGNAL_FUNC (html_button_press_event), mail_display);
+}
+
 GtkWidget *
 mail_display_new (void)
 {
@@ -1064,6 +1158,10 @@ mail_display_new (void)
 	gtk_signal_connect (GTK_OBJECT (html), "link_clicked",
 			    GTK_SIGNAL_FUNC (on_link_clicked),
 			    mail_display);
+	gtk_signal_connect (GTK_OBJECT (html), "button_press_event",
+			    GTK_SIGNAL_FUNC (html_button_press_event), mail_display);
+	gtk_signal_connect (GTK_OBJECT (html), "iframe_created",
+			    GTK_SIGNAL_FUNC (html_iframe_created), mail_display);
 
 	gtk_container_add (GTK_CONTAINER (scroll), html);
 	gtk_widget_show (GTK_WIDGET (html));
