@@ -711,7 +711,7 @@ imap4_fetch_all_add (struct imap4_fetch_all_t *fetch)
 		}
 		
 		if (envelope->changed != IMAP4_FETCH_ALL) {
-			fprintf (stderr, "Hmmm, IMAP4 server didn't give us everything for message %d\n", i + 1);
+			d(fprintf (stderr, "Hmmm, IMAP4 server didn't give us everything for message %d\n", i + 1));
 			camel_folder_summary_info_free (fetch->summary, envelope->info);
 			g_free (envelope);
 			continue;
@@ -929,7 +929,7 @@ untagged_fetch_all (CamelIMAP4Engine *engine, CamelIMAP4Command *ic, guint32 ind
 			iuid = camel_message_info_uid (info);
 			if (iuid != NULL && iuid[0] != '\0') {
 				if (strcmp (iuid, uid) != 0) {
-					fprintf (stderr, "Hmmm, UID mismatch for message %u\n", index);
+					d(fprintf (stderr, "Hmmm, UID mismatch for message %u\n", index));
 					g_assert_not_reached ();
 				}
 			} else {
@@ -939,7 +939,7 @@ untagged_fetch_all (CamelIMAP4Engine *engine, CamelIMAP4Command *ic, guint32 ind
 			}
 		} else {
 			/* wtf? */
-			fprintf (stderr, "huh? %s?...\n", token->v.atom);
+			d(fprintf (stderr, "huh? %s?...\n", token->v.atom));
 		}
 	} while (1);
 	
@@ -991,9 +991,9 @@ imap4_summary_fetch_all (CamelFolderSummary *summary, guint32 first, guint32 las
 	fetch->count = 0;
 	
 	if (last != 0)
-		ic = camel_imap4_engine_queue (engine, folder, "FETCH %u:%u (UID %s)\r\n", first, last, IMAP4_ALL);
+		ic = camel_imap4_engine_queue (engine, folder, "FETCH %u:%u (UID " IMAP4_ALL ")\r\n", first, last);
 	else
-		ic = camel_imap4_engine_queue (engine, folder, "FETCH %u:* (UID %s)\r\n", first, IMAP4_ALL);
+		ic = camel_imap4_engine_queue (engine, folder, "FETCH %u:* (UID " IMAP4_ALL ")\r\n", first);
 	
 	camel_imap4_command_register_untagged (ic, "FETCH", untagged_fetch_all);
 	ic->user_data = fetch;
