@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.0.3.99\n"
-"POT-Creation-Date: 2002-04-16 10:10+0200\n"
-"PO-Revision-Date: 2002-04-16 10:10+0200\n"
+"POT-Creation-Date: 2002-04-17 15:17+0200\n"
+"PO-Revision-Date: 2002-04-17 15:17+0200\n"
 "Last-Translator: Christophe Merlet (RedFox) <redfox@eikonex.org>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -637,7 +637,7 @@ msgstr "Recherche..."
 
 #: addressbook/backend/pas/pas-backend-file.c:261
 msgid "Loading..."
-msgstr "Chargement"
+msgstr "Chargement..."
 
 #. need a different error message here.
 #: addressbook/backend/pas/pas-backend-file.c:270
@@ -767,7 +767,7 @@ msgstr "Nouveau contact"
 
 #: addressbook/gui/component/addressbook-component.c:526
 msgid "New _Contact"
-msgstr "Nouveau contact"
+msgstr "Nouveau _contact"
 
 #: addressbook/gui/component/addressbook-component.c:527
 msgid "New Contact List"
@@ -775,7 +775,7 @@ msgstr "Nouvelle liste de contacts"
 
 #: addressbook/gui/component/addressbook-component.c:527
 msgid "New Contact _List"
-msgstr "Nouvelle liste de contacts"
+msgstr "Nouvelle _liste de contacts"
 
 #: addressbook/gui/component/addressbook-config.c:218
 msgid "Edit Addressbook"
@@ -5031,47 +5031,47 @@ msgstr "minutes"
 #: calendar/gui/dialogs/alarm-page.c:309
 #, c-format
 msgid "%d days"
-msgstr " %d jours"
+msgstr "%d jours"
 
 #: calendar/gui/dialogs/alarm-page.c:312
 msgid "1 day"
-msgstr " 1 jour"
+msgstr "1 jour"
 
 #: calendar/gui/dialogs/alarm-page.c:317
 #, c-format
 msgid "%d weeks"
-msgstr " %d semaines"
+msgstr "%d semaines"
 
 #: calendar/gui/dialogs/alarm-page.c:320
 msgid "1 week"
-msgstr " 1 semaine"
+msgstr "1 semaine"
 
 #: calendar/gui/dialogs/alarm-page.c:325
 #, c-format
 msgid "%d hours"
-msgstr " %d heures"
+msgstr "%d heures"
 
 #: calendar/gui/dialogs/alarm-page.c:328
 msgid "1 hour"
-msgstr " 1 heure"
+msgstr "1 heure"
 
 #: calendar/gui/dialogs/alarm-page.c:333
 #, c-format
 msgid "%d minutes"
-msgstr " %d minutes"
+msgstr "%d minutes"
 
 #: calendar/gui/dialogs/alarm-page.c:336
 msgid "1 minute"
-msgstr " 1 minute"
+msgstr "1 minute"
 
 #: calendar/gui/dialogs/alarm-page.c:341
 #, c-format
 msgid "%d seconds"
-msgstr " %d secondes"
+msgstr "%d secondes"
 
 #: calendar/gui/dialogs/alarm-page.c:344
 msgid "1 second"
-msgstr " 1 seconde"
+msgstr "1 seconde"
 
 #: calendar/gui/dialogs/alarm-page.c:373
 #: calendar/gui/dialogs/alarm-page.glade.h:4
@@ -5211,7 +5211,7 @@ msgstr "60 minutes"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:6
 msgid "Calendar and Tasks Settings"
-msgstr "Paramètrage du calendrier et des tâches"
+msgstr "Réglages du calendrier et des tâches"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:7
 msgid "Color for overdue tasks"
@@ -6515,7 +6515,7 @@ msgstr "Chargement du calendrier"
 
 #: calendar/gui/e-itip-control.glade.h:8
 msgid "Loading calendar..."
-msgstr "Chargement du calendrier"
+msgstr "Chargement du calendrier..."
 
 #: calendar/gui/e-itip-control.glade.h:10
 msgid "Server Message:"
@@ -6802,7 +6802,7 @@ msgstr "Information Libre-Occupé"
 
 #: calendar/gui/itip-utils.c:303
 msgid "Calendar information"
-msgstr "Information calendrier"
+msgstr "Information du calendrier"
 
 #: calendar/gui/itip-utils.c:339
 msgid "Updated"
@@ -9362,7 +9362,7 @@ msgstr "Carte Adresse"
 
 #: data/evolution.keys.in.h:2
 msgid "calendar information"
-msgstr "Information calendrier"
+msgstr "Information du calendrier"
 
 #: default_user/searches.xml.h:1
 msgid "Body contains"
@@ -9634,7 +9634,7 @@ msgstr ""
 #: filter/filter-folder.c:239 filter/vfolder-rule.c:365
 #: mail/mail-account-gui.c:837
 msgid "Select Folder"
-msgstr "Sélectionnez un Dossier"
+msgstr "Sélectionnez un dossier"
 
 #: filter/filter-folder.c:274
 msgid "Enter folder URI"
@@ -10110,11 +10110,11 @@ msgstr "Ce dossier ne peut contenir de messages."
 
 #: mail/component-factory.c:432
 msgid "Properties..."
-msgstr "_Propriétés..."
+msgstr "Propriétés..."
 
 #: mail/component-factory.c:432
 msgid "Change this folder's properties"
-msgstr "Modifier les propriétés de ce dossier"
+msgstr "Modifie les propriétés de ce dossier"
 
 #: mail/component-factory.c:783
 msgid ""
@@ -10126,11 +10126,11 @@ msgstr ""
 
 #: mail/component-factory.c:951
 msgid "New Mail Message"
-msgstr "Nouveau message électronique"
+msgstr "Nouveau message"
 
 #: mail/component-factory.c:951
 msgid "New _Mail Message"
-msgstr "Nouveau _Message électronique"
+msgstr "Nouveau _message"
 
 #: mail/component-factory.c:975
 msgid "Cannot initialize Evolution's mail component."
@@ -10455,7 +10455,7 @@ msgstr "Êtes-vous sûr de vouloir supprimer ce compte de news ?"
 #. give our dialog an Close button and title
 #: mail/mail-accounts.c:798 mail/mail-config.glade.h:42
 msgid "Mail Settings"
-msgstr "Paramétrage Messagerie..."
+msgstr "Réglages de la messagerie"
 
 #: mail/mail-autofilter.c:72
 #, c-format
@@ -10683,8 +10683,8 @@ msgid ""
 msgstr ""
 "Veuillez saisir votre nom et votre adresse électronique. Les champs « "
 "optionnels » ci-dessous n'ont pas besoin\n"
-"d'être remplis, à moins que vous ne désiriez inclure ces informations "
-"dans les messages que vous envoyez."
+"d'être remplis, à moins que vous ne désiriez inclure ces informations dans "
+"les messages que vous envoyez."
 
 #: mail/mail-config-druid.c:148
 msgid ""
@@ -10845,7 +10845,7 @@ msgstr ""
 "\n"
 "Vous pouvez maintenant envoyer et recevoir du courrier \n"
 "\n"
-"Cliquez sur « Terminer » pour enregistrer vos nouveaux paramètres."
+"Cliquez sur « Terminer » pour enregistrer vos nouveaux réglages."
 
 #: mail/mail-config.glade.h:23
 msgid "De_fault"
@@ -11023,7 +11023,7 @@ msgstr "Envoi du message"
 #: mail/mail-config.glade.h:73 mail/message-list.etspec.h:6
 #: shell/e-local-storage.c:176
 msgid "Sent"
-msgstr "Envoyé"
+msgstr "Envoyés"
 
 #: mail/mail-config.glade.h:74
 msgid "Sent _messages folder:"
@@ -11090,27 +11090,27 @@ msgstr "_Toujours charger les images hors du réseau"
 #: mail/mail-config.glade.h:92
 msgid "_Always sign outgoing messages when using this account"
 msgstr ""
-"Toujours signer les messages sortants lors de l'utilisation de ce compte"
+"_Toujours signer les messages sortants lors de l'utilisation de ce compte"
 
 #: mail/mail-config.glade.h:93
 msgid "_Authentication Type: "
-msgstr "Type d'authentification : "
+msgstr "Type d'_authentification : "
 
 #: mail/mail-config.glade.h:94
 msgid "_Automatically check for new mail"
-msgstr "Vérifier automatiquement la présence de nouveaux messages"
+msgstr "Vérifier _automatiquement la présence de nouveaux messages"
 
 #: mail/mail-config.glade.h:95
 msgid "_Certificate ID:"
-msgstr "ID de Certificat : "
+msgstr "ID du _certificat : "
 
 #: mail/mail-config.glade.h:97
 msgid "_Drafts folder:"
-msgstr "Dossier des brouillons : "
+msgstr "Dossier des _brouillons : "
 
 #: mail/mail-config.glade.h:99
 msgid "_Email Address:"
-msgstr "Adresse électronique :"
+msgstr "_Adresse électronique :"
 
 #: mail/mail-config.glade.h:100
 msgid "_Empty trash folders on exit"
@@ -11118,7 +11118,7 @@ msgstr "_Vider les dossiers corbeille en sortant"
 
 #: mail/mail-config.glade.h:101
 msgid "_Full Name:"
-msgstr "Nom complet :"
+msgstr "_Nom complet :"
 
 #: mail/mail-config.glade.h:102
 msgid "_HTML Signature:"
@@ -11915,7 +11915,7 @@ msgstr "Rendez-vous"
 
 #: my-evolution/e-summary-calendar.c:341
 msgid "No appointments"
-msgstr "Pas de rendez-vous"
+msgstr "Aucun rendez-vous"
 
 #: my-evolution/e-summary-calendar.c:375
 msgid "%k:%M %d %B"
@@ -11931,7 +11931,7 @@ msgstr "Pas de description"
 
 #: my-evolution/e-summary-mail.c:129
 msgid "Mail summary"
-msgstr "Résumé de courrier"
+msgstr "Résumé du courrier"
 
 #. translators: Put a list of codes for locations you want to see in
 #. My Evolution by default here. You can find the list of all
@@ -11965,7 +11965,7 @@ msgstr "Nom :"
 
 #: my-evolution/e-summary-preferences.c:1504
 msgid "Summary Settings"
-msgstr "Réglages résumé"
+msgstr "Réglages du résumé"
 
 #: my-evolution/e-summary-rdf.c:296 my-evolution/e-summary-rdf.c:381
 #: my-evolution/e-summary-rdf.c:415
@@ -11986,7 +11986,7 @@ msgstr "(Aucune description)"
 
 #: my-evolution/e-summary-weather.c:71
 msgid "My Weather"
-msgstr "Ma Météo"
+msgstr "Ma météo"
 
 #: my-evolution/e-summary-weather.c:348
 msgid "<dd><b>The weather server could not be contacted</b></dd>"
@@ -13209,19 +13209,19 @@ msgstr "Ajouter une source de _nouvelles"
 
 #: my-evolution/my-evolution.glade.h:3
 msgid "Al_l stations:"
-msgstr "Toutes les stations"
+msgstr "Toutes les _stations :"
 
 #: my-evolution/my-evolution.glade.h:4
 msgid "All _folders:"
-msgstr "Tous les dossiers"
+msgstr "Tous les _dossiers :"
 
 #: my-evolution/my-evolution.glade.h:5
 msgid "All news _feeds:"
-msgstr "Toutes les _sources"
+msgstr "Toutes les _sources :"
 
 #: my-evolution/my-evolution.glade.h:6
 msgid "C_elsius"
-msgstr "C_elcius"
+msgstr "_Celcius"
 
 #: my-evolution/my-evolution.glade.h:8
 msgid "How many days should the calendar display at once?"
@@ -13229,27 +13229,27 @@ msgstr "Combien de jours le calendrier devrait il afficher à la fois ?"
 
 #: my-evolution/my-evolution.glade.h:9
 msgid "Ma_x number of items shown:"
-msgstr "Nombre Ma_ximum d'éléments affichés"
+msgstr "Nombre ma_ximum d'éléments affichés :"
 
 #: my-evolution/my-evolution.glade.h:10
 msgid "News Feed Settings"
-msgstr "Paramétrage du serveur de news"
+msgstr "Réglages du serveur de nouvelles"
 
 #: my-evolution/my-evolution.glade.h:11
 msgid "One mont_h"
-msgstr "1 mois"
+msgstr "1 _mois"
 
 #: my-evolution/my-evolution.glade.h:12
 msgid "One w_eek"
-msgstr " 1 semaine"
+msgstr " 1 _semaine"
 
 #: my-evolution/my-evolution.glade.h:13
 msgid "R_efresh time (seconds):"
-msgstr "Temps de rafraîchissement (secondes) :"
+msgstr "Temps de _rafraîchissement (secondes) :"
 
 #: my-evolution/my-evolution.glade.h:14
 msgid "Refresh _time (seconds):"
-msgstr "Rafraîchir l'heure (secondes) :"
+msgstr "Rafraîchir l'_heure (secondes) :"
 
 #: my-evolution/my-evolution.glade.h:15
 msgid "S_how full path for folders"
@@ -13257,11 +13257,11 @@ msgstr "Afficher le c_hemin complet des dossiers"
 
 #: my-evolution/my-evolution.glade.h:16
 msgid "Show _all tasks"
-msgstr "Afficher toutes les tâches"
+msgstr "Afficher _toutes les tâches"
 
 #: my-evolution/my-evolution.glade.h:17
 msgid "Show _today's tasks"
-msgstr "Afficher les tâches du jour"
+msgstr "Afficher les tâches du _jour"
 
 #: my-evolution/my-evolution.glade.h:18
 msgid "Show temperatures in:"
@@ -13273,7 +13273,7 @@ msgstr "Tâches"
 
 #: my-evolution/my-evolution.glade.h:20
 msgid "Weather settings"
-msgstr "Paramétrage de la météo"
+msgstr "Réglages de la météo"
 
 #: my-evolution/my-evolution.glade.h:22
 msgid "_Display folders:"
@@ -13281,11 +13281,11 @@ msgstr "Afficher les dossiers :"
 
 #: my-evolution/my-evolution.glade.h:23
 msgid "_Display stations:"
-msgstr "Afficher les stations"
+msgstr "Afficher les _stations :"
 
 #: my-evolution/my-evolution.glade.h:24
 msgid "_Displayed feeds:"
-msgstr "Sources _affichées"
+msgstr "Sources _affichées :"
 
 #: my-evolution/my-evolution.glade.h:25
 msgid "_Fahrenheit"
@@ -13293,7 +13293,7 @@ msgstr "_Fahrenheit"
 
 #: my-evolution/my-evolution.glade.h:26
 msgid "_Five days"
-msgstr "5 jours"
+msgstr "_5 jours"
 
 #: my-evolution/my-evolution.glade.h:27
 msgid "_Mail"
@@ -13305,15 +13305,15 @@ msgstr "Sources de _nouvelles"
 
 #: my-evolution/my-evolution.glade.h:29
 msgid "_One day"
-msgstr "1 jour"
+msgstr "_1 jour"
 
 #: my-evolution/my-evolution.glade.h:30
 msgid "_Schedule"
-msgstr "Programmer"
+msgstr "_Agenda"
 
 #: my-evolution/my-evolution.glade.h:31
 msgid "_Weather"
-msgstr "Météo"
+msgstr "_Météo"
 
 #: my-evolution/Locations.h:1
 msgid "Aarhus"
@@ -23529,7 +23529,7 @@ msgstr "Créer un nouveau raccourci"
 
 #: shell/e-shell-view-menu.c:549
 msgid "Select the folder you want the shortcut to point to:"
-msgstr "Sélectionnez le dossier que le raccourci doit pôinter :"
+msgstr "Sélectionnez le dossier vers lequel le raccourci doit pointer :"
 
 #: shell/e-shell-view-menu.c:580
 msgid "The GNOME Pilot tools do not appear to be installed on this system."
@@ -23542,15 +23542,15 @@ msgstr "Erreur à l'exécution de %s"
 
 #: shell/e-shell-view-menu.c:691
 msgid "_Work Online"
-msgstr "Travail _En ligne"
+msgstr "Travail _en ligne"
 
 #: shell/e-shell-view-menu.c:704 ui/evolution.xml.h:51
 msgid "_Work Offline"
-msgstr "Travail _Hors ligne"
+msgstr "Travail _hors ligne"
 
 #: shell/e-shell-view-menu.c:717 ui/evolution.xml.h:30
 msgid "Work Offline"
-msgstr "Travail _Hors ligne"
+msgstr "Travail hors ligne"
 
 #: shell/e-shell-view.c:218
 msgid "(No folder displayed)"
@@ -24208,7 +24208,7 @@ msgstr "_Sélectionner tout"
 
 #: ui/evolution-calendar.xml.h:2
 msgid "Configure the calendar's settings"
-msgstr "Configurer le paramétrage du calendrier"
+msgstr "Configurer les réglages du calendrier"
 
 #: ui/evolution-calendar.xml.h:4
 msgid "Create a New All Day _Event"
@@ -24308,11 +24308,11 @@ msgstr "Semaine"
 
 #: ui/evolution-calendar.xml.h:35
 msgid "_Appointment..."
-msgstr "Rendez-vous"
+msgstr "_Rendez-vous..."
 
 #: ui/evolution-calendar.xml.h:36
 msgid "_Calendar Settings..."
-msgstr "Paramétrage du calendrier..."
+msgstr "Réglages du _calendrier..."
 
 #: ui/evolution-calendar.xml.h:42
 msgid "_Publish Free/Busy Information"
@@ -24320,7 +24320,7 @@ msgstr "_Publier l'information Libre/Occupé"
 
 #: ui/evolution-calendar.xml.h:43
 msgid "_Task..."
-msgstr "Tâche"
+msgstr "_Tâche..."
 
 #: ui/evolution-comp-editor.xml.h:2 ui/evolution-contact-editor.xml.h:1
 #: ui/evolution-contact-list-editor.xml.h:1
@@ -24466,7 +24466,7 @@ msgstr "Annuler l'opération courante du courrier"
 
 #: ui/evolution-mail-global.xml.h:3
 msgid "Compose _New Message"
-msgstr "Compose un nouveau message"
+msgstr "Composer un _nouveau message"
 
 #: ui/evolution-mail-global.xml.h:4
 msgid "Create or edit mail accounts and other preferences"
@@ -24482,7 +24482,7 @@ msgstr "Créer ou éditer les définitions du dossier virtuel"
 
 #: ui/evolution-mail-global.xml.h:7
 msgid "Empty _Trash"
-msgstr "Vider Corbeille"
+msgstr "Vider la _corbeille"
 
 #: ui/evolution-mail-global.xml.h:8
 msgid "Forget _Passwords"
@@ -24498,15 +24498,15 @@ msgstr "Nouveau message"
 
 #: ui/evolution-mail-global.xml.h:11
 msgid "Open a window for composing a mail message"
-msgstr "Ouvrir une fenêtre pour composer un message"
+msgstr "Ouvre une fenêtre pour composer un message"
 
 #: ui/evolution-mail-global.xml.h:12
 msgid "Permanently remove all deleted messages from all folders"
-msgstr "Supprimer définitivement les messages effacés de tous les dossiers"
+msgstr "Supprime définitivement les messages effacés de tous les dossiers"
 
 #: ui/evolution-mail-global.xml.h:13
 msgid "Send / Receive"
-msgstr "Env./Recevoir"
+msgstr "Env. / Recevoir"
 
 #: ui/evolution-mail-global.xml.h:14
 msgid "Send queued mail and retrieve new mail"
@@ -24514,7 +24514,7 @@ msgstr "Envoyer les messages en attente et récupèrer les nouveaux messages"
 
 #: ui/evolution-mail-global.xml.h:15
 msgid "Show message preview window"
-msgstr "Afficher la fenêtre de prévisualisation de message"
+msgstr "Affiche la fenêtre de prévisualisation de message"
 
 #: ui/evolution-mail-global.xml.h:16
 msgid "Subscribe or unsubscribe to folders on remote servers"
@@ -24530,27 +24530,27 @@ msgstr "_Filtres..."
 
 #: ui/evolution-mail-global.xml.h:20
 msgid "_Mail Message"
-msgstr "_Message électronique"
+msgstr "_Courrier électronique"
 
 #: ui/evolution-mail-global.xml.h:21
 msgid "_Mail Settings..."
-msgstr "Paramétrage de la messagerie..."
+msgstr "Réglages de la _messagerie..."
 
 #: ui/evolution-mail-global.xml.h:22
 msgid "_Preview Pane"
-msgstr "Panneau d'aperçu"
+msgstr "_Panneau d'aperçu"
 
 #: ui/evolution-mail-global.xml.h:23
 msgid "_Send / Receive"
-msgstr "Envoyer/Recevoir"
+msgstr "_Envoyer / Recevoir"
 
 #: ui/evolution-mail-global.xml.h:24
 msgid "_Subscribe to Folders..."
-msgstr "S'abonner aux dossiers..."
+msgstr "_S'abonner aux dossiers..."
 
 #: ui/evolution-mail-list.xml.h:1
 msgid "Change the properties of this folder"
-msgstr "Modifier les propriétés de ce dossier"
+msgstr "Modifie les propriétés de ce dossier"
 
 #: ui/evolution-mail-list.xml.h:2
 msgid "Copy selected messages"
@@ -24558,7 +24558,7 @@ msgstr "Copier les messages sélectionnés"
 
 #: ui/evolution-mail-list.xml.h:3
 msgid "Cu_t"
-msgstr "Couper"
+msgstr "Co_uper"
 
 #: ui/evolution-mail-list.xml.h:4
 msgid "Cut selected messages"
@@ -24570,11 +24570,11 @@ msgstr "Cacher les messages sélectionnés"
 
 #: ui/evolution-mail-list.xml.h:6
 msgid "Hide _Deleted Messages"
-msgstr "Cacher les messages supprimés"
+msgstr "Cacher les messages _supprimés"
 
 #: ui/evolution-mail-list.xml.h:7
 msgid "Hide _Read Messages"
-msgstr "Cacher les messages lus"
+msgstr "Cacher les messages _lus"
 
 #: ui/evolution-mail-list.xml.h:8
 msgid ""
@@ -25023,7 +25023,7 @@ msgstr "_Outils"
 
 #: ui/evolution-mail-messagedisplay.xml.h:2 ui/evolution.xml.h:5
 msgid "Close this window"
-msgstr "Ferme cette fenetre"
+msgstr "Ferme cette fenêtre"
 
 #: ui/evolution-mail-messagedisplay.xml.h:5
 #: ui/evolution-message-composer.xml.h:45
@@ -25221,7 +25221,7 @@ msgstr "_Sécurité"
 
 #: ui/evolution-signature-editor.xml.h:9 ui/evolution.xml.h:40
 msgid "_Help"
-msgstr "A_ide"
+msgstr "_Aide"
 
 #: ui/evolution-subscribe.xml.h:1
 msgid "Add folder to your list of subscribed folders"
@@ -25297,11 +25297,11 @@ msgstr "Coller la tâche du presse-papiers"
 
 #: ui/evolution-tasks.xml.h:13
 msgid "Tasks Settings..."
-msgstr "Paramétrage des tâches"
+msgstr "Réglages des tâches..."
 
 #: ui/evolution-tasks.xml.h:18
 msgid "_Task"
-msgstr "Tâche"
+msgstr "_Tâche"
 
 #: ui/evolution.xml.h:1
 msgid "About Ximian Evolution..."
@@ -25325,7 +25325,7 @@ msgstr "_Créer un nouveau dossier..."
 
 #: ui/evolution.xml.h:8
 msgid "Create a link to this folder in the shortcut bar"
-msgstr "Créer un lien de ce dossier dans la barre de raccourcis"
+msgstr "Crée un lien de ce dossier dans la barre de raccourcis"
 
 #: ui/evolution.xml.h:9
 msgid "Create a new folder"
@@ -25337,7 +25337,7 @@ msgstr "Supprimer ce dossier"
 
 #: ui/evolution.xml.h:11
 msgid "Display a different folder"
-msgstr "Afficher un dossier différente"
+msgstr "Affiche un dossier différent"
 
 #: ui/evolution.xml.h:12
 msgid "E_xit"
@@ -25345,7 +25345,7 @@ msgstr "_Quitter"
 
 #: ui/evolution.xml.h:13
 msgid "Evolution _Window"
-msgstr "Fenêtre Evolution"
+msgstr "_Fenêtre Evolution"
 
 #: ui/evolution.xml.h:14
 msgid "Exit the program"
@@ -25353,7 +25353,7 @@ msgstr "Quitte le programme"
 
 #: ui/evolution.xml.h:15
 msgid "Import data from other programs"
-msgstr "Importer les données d'autres programmes"
+msgstr "Importe les données d'autres programmes"
 
 #: ui/evolution.xml.h:17
 msgid "Move this folder to another place"
@@ -25365,11 +25365,11 @@ msgstr "Ouvrir dans une nouvelle fenêtre"
 
 #: ui/evolution.xml.h:20
 msgid "Open this folder in an other window"
-msgstr "Envoyer ce dossier dans une autre fenêtre"
+msgstr "Ouvre ce dossier dans une autre fenêtre"
 
 #: ui/evolution.xml.h:21
 msgid "Show information about Ximian Evolution"
-msgstr "Afficher les informations concernant Ximian Evolution"
+msgstr "Affiche les informations concernant Ximian Evolution"
 
 #: ui/evolution.xml.h:22
 msgid "Submit Bug Report"
@@ -25377,11 +25377,11 @@ msgstr "Soumettre un rapport d'anomalies"
 
 #: ui/evolution.xml.h:23
 msgid "Submit _Bug Report"
-msgstr "Soumettre un rapport d'anomalies"
+msgstr "_Soumettre un rapport d'anomalies"
 
 #: ui/evolution.xml.h:24
 msgid "Submit a bug report using Bug Buddy"
-msgstr "Soumettre un rapport d'anomalies en utilisant Bug Buddy."
+msgstr "Soumet un rapport d'anomalies en utilisant Bug Buddy"
 
 #: ui/evolution.xml.h:25
 msgid "Toggle"
@@ -25405,7 +25405,7 @@ msgstr "Voir le dossier sélectionné"
 
 #: ui/evolution.xml.h:31
 msgid "Ximian Evolution _FAQ"
-msgstr "FAQ Ximian Evolution"
+msgstr "_FAQ Ximian Evolution"
 
 #: ui/evolution.xml.h:32
 msgid "_About Ximian Evolution..."
@@ -25417,7 +25417,7 @@ msgstr "_Copier..."
 
 #: ui/evolution.xml.h:38
 msgid "_Folder Bar"
-msgstr "Barre de Dossier"
+msgstr "Barre de _dossiers"
 
 #: ui/evolution.xml.h:39
 msgid "_Go to Folder..."
@@ -25441,7 +25441,7 @@ msgstr "_Nouveau dossier"
 
 #: ui/evolution.xml.h:45
 msgid "_Pilot Settings..."
-msgstr "Paramétrage du _Pilot..."
+msgstr "Réglages du _Pilot..."
 
 #: ui/evolution.xml.h:46
 msgid "_Rename..."
@@ -25457,7 +25457,7 @@ msgstr "Barre de _raccourcis"
 
 #: ui/my-evolution.xml.h:1
 msgid "Change the settings for the summary"
-msgstr "Modifier le paramétrage du résumé"
+msgstr "Modifie les réglages du résumé"
 
 #: ui/my-evolution.xml.h:4
 msgid "Print summary"
@@ -25473,11 +25473,11 @@ msgstr "Recharger la vue"
 
 #: ui/my-evolution.xml.h:8
 msgid "_Summary Settings..."
-msgstr "Réglages _résumé..."
+msgstr "Réglages du _résumé..."
 
 #: views/addressbook/galview.xml.h:1
 msgid "Address Cards"
-msgstr "Cartes Adresse"
+msgstr "Cartes de visite"
 
 #: views/addressbook/galview.xml.h:2
 msgid "By Company"
