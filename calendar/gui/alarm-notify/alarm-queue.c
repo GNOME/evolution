@@ -147,7 +147,10 @@ queue_midnight_refresh (void)
 	time_t midnight;
 	icaltimezone *zone;
 
-	g_assert (midnight_refresh_id == NULL);
+	if (midnight_refresh_id != NULL) {
+		alarm_remove (midnight_refresh_id);
+		midnight_refresh_id = NULL;
+	}
 
 	zone = config_data_get_timezone ();
 
@@ -180,7 +183,11 @@ midnight_refresh_cb (gpointer alarm_id, time_t trigger, gpointer data)
 
 	/* Re-schedule the midnight update */
 
-	midnight_refresh_id = NULL;
+	if (midnight_refresh_id != NULL) {
+		alarm_remove (midnight_refresh_id);
+		midnight_refresh_id = NULL;
+	}
+
 	queue_midnight_refresh ();
 }
 
@@ -408,6 +415,7 @@ load_alarms (ClientAlarms *ca, time_t start, time_t end)
 
 	/* create the live query */
 	if (ca->query) {
+		g_signal_handlers_disconnect_matched (ca->query, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, ca);
 		g_object_unref (ca->query);
 		ca->query = NULL;
 	}
@@ -781,6 +789,11 @@ tray_icon_destroyed_cb (GtkWidget *tray, gpointer user_data)
 	if (tray_data->cqa != NULL)
 		remove_queued_alarm (tray_data->cqa, tray_data->alarm_id, TRUE, TRUE);
 
+	if (tray_data->alarm_dialog != NULL) {
+		gtk_widget_destroy (tray_data->alarm_dialog);
+		tray_data->alarm_dialog = NULL;
+	}
+
 	if (tray_data->summary != NULL) {
 		g_free (tray_data->summary);
 		tray_data->summary = NULL;
@@ -818,14 +831,14 @@ open_alarm_dialog (TrayIconData *tray_data)
 	qa = lookup_queued_alarm (tray_data->cqa, tray_data->alarm_id);
 	if (qa) {
 		gtk_widget_hide (tray_data->tray_icon);
-		alarm_notify_dialog (tray_data->trigger,
-				     qa->instance->occur_start,
-				     qa->instance->occur_end,
-				     e_cal_component_get_vtype (tray_data->comp),
-				     tray_data->summary,
-				     tray_data->description,
-				     tray_data->location,
-				     notify_dialog_cb, tray_data);
+		tray_data->alarm_dialog = alarm_notify_dialog (tray_data->trigger,
+							       qa->instance->occur_start,
+							       qa->instance->occur_end,
+							       e_cal_component_get_vtype (tray_data->comp),
+							       tray_data->summary,
+							       tray_data->description,
+							       tray_data->location,
+							       notify_dialog_cb, tray_data);
 	}
 
 	return TRUE;
@@ -1227,15 +1240,32 @@ alarm_queue_init (void)
 	alarm_queue_inited = TRUE;
 }
 
-static void
+static gboolean
 free_client_alarms_cb (gpointer key, gpointer value, gpointer user_data)
 {
 	ClientAlarms *ca = value;
 
 	if (ca) {
-		g_object_unref (ca->client);
+		remove_client_alarms (ca);
+		if (ca->client) {
+			g_signal_handlers_disconnect_matched (ca->client, G_SIGNAL_MATCH_DATA,
+							      0, 0, NULL, NULL, ca);
+			g_object_unref (ca->client);
+		}
+
+		if (ca->query) {
+			g_signal_handlers_disconnect_matched (ca->query, G_SIGNAL_MATCH_DATA,
+							      0, 0, NULL, NULL, ca);
+			g_object_unref (ca->query);
+		}
+
+		g_hash_table_destroy (ca->uid_alarms_hash);
+
 		g_free (ca);
+		return TRUE;
 	}
+
+	return FALSE;
 }
 
 /**
@@ -1253,13 +1283,14 @@ alarm_queue_done (void)
 	/* All clients must be unregistered by now */
 	g_return_if_fail (g_hash_table_size (client_alarms_hash) == 0);
 
-	g_hash_table_foreach (client_alarms_hash, (GHFunc) free_client_alarms_cb, NULL);
+	g_hash_table_foreach_remove (client_alarms_hash, (GHRFunc) free_client_alarms_cb, NULL);
 	g_hash_table_destroy (client_alarms_hash);
 	client_alarms_hash = NULL;
 
-	g_assert (midnight_refresh_id != NULL);
-	alarm_remove (midnight_refresh_id);
-	midnight_refresh_id = NULL;
+	if (midnight_refresh_id != NULL) {
+		alarm_remove (midnight_refresh_id);
+		midnight_refresh_id = NULL;
+	}
 
 	alarm_queue_inited = FALSE;
 }
@@ -1373,13 +1404,19 @@ alarm_queue_remove_client (ECal *client)
 
 	/* Clean up */
 
-	g_signal_handlers_disconnect_matched (ca->client, G_SIGNAL_MATCH_DATA,
-					      0, 0, NULL, NULL, ca);
+	if (ca->client) {
+		g_signal_handlers_disconnect_matched (ca->client, G_SIGNAL_MATCH_DATA,
+						      0, 0, NULL, NULL, ca);
+		g_object_unref (ca->client);
+		ca->client = NULL;
+	}
 
-	g_object_unref (ca->query);
-	ca->query = NULL;
-	g_object_unref (ca->client);
-	ca->client = NULL;
+	if (ca->query) {
+		g_signal_handlers_disconnect_matched (ca->query, G_SIGNAL_MATCH_DATA,
+						      0, 0, NULL, NULL, ca);
+		g_object_unref (ca->query);
+		ca->query = NULL;
+	}
 
 	g_hash_table_destroy (ca->uid_alarms_hash);
 	ca->uid_alarms_hash = NULL;

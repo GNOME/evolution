@@ -81,6 +81,36 @@ an_update_minutes_label (GtkSpinButton *sb, gpointer data)
 	g_free (new_label);
 }
 
+static void
+dialog_response_cb (GtkDialog *dialog, guint response_id, gpointer user_data)
+{
+	int snooze_timeout;
+	AlarmNotify *an = user_data;
+
+	switch (response_id) {
+	case AN_RESPONSE_EDIT:
+		(* an->func) (ALARM_NOTIFY_EDIT, -1, an->func_data);
+		break;
+	case AN_RESPONSE_SNOOZE:
+		snooze_timeout = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (an->snooze_time));
+		(* an->func) (ALARM_NOTIFY_SNOOZE, snooze_timeout, an->func_data);
+		break;
+	case GTK_RESPONSE_CLOSE:
+	case GTK_RESPONSE_DELETE_EVENT:
+		(* an->func) (ALARM_NOTIFY_CLOSE, -1, an->func_data);
+		break;
+	}
+}
+
+static void
+dialog_destroyed_cb (GtkWidget *dialog, gpointer user_data)
+{
+	AlarmNotify *an = user_data;
+
+	g_object_unref (an->xml);
+	g_free (an);
+}
+
 /**
  * alarm_notify_dialog:
  * @trigger: Trigger time for the alarm.
@@ -96,9 +126,9 @@ an_update_minutes_label (GtkSpinButton *sb, gpointer data)
  * Runs the alarm notification dialog.  The specified @func will be used to
  * notify the client about result of the actions in the dialog.
  *
- * Return value: a pointer to the dialog structure if successful or NULL if an error occurs.
+ * Return value: a pointer to the dialog widget created or NULL if there is an error.
  **/
-void
+GtkWidget *
 alarm_notify_dialog (time_t trigger, time_t occur_start, time_t occur_end,
 		     ECalComponentVType vtype, const char *summary,
 		     const char *description, const char *location,
@@ -111,17 +141,15 @@ alarm_notify_dialog (time_t trigger, time_t occur_start, time_t occur_end,
 	char *start, *end;
 	char *icon_path;
 	GList *icon_list;
-	int snooze_timeout;
 
-	g_return_if_fail (trigger != -1);
+	g_return_val_if_fail (trigger != -1, NULL);
 
 	/* Only VEVENTs or VTODOs can have alarms */
-	g_return_if_fail (vtype == E_CAL_COMPONENT_EVENT
-			  || vtype == E_CAL_COMPONENT_TODO);
-	g_return_if_fail (summary != NULL);
-	g_return_if_fail (description != NULL);
-	g_return_if_fail (location != NULL);
-	g_return_if_fail (func != NULL);
+	g_return_val_if_fail (vtype == E_CAL_COMPONENT_EVENT || vtype == E_CAL_COMPONENT_TODO, NULL);
+	g_return_val_if_fail (summary != NULL, NULL);
+	g_return_val_if_fail (description != NULL, NULL);
+	g_return_val_if_fail (location != NULL, NULL);
+	g_return_val_if_fail (func != NULL, NULL);
 
 	an = g_new0 (AlarmNotify, 1);
 
@@ -132,7 +160,7 @@ alarm_notify_dialog (time_t trigger, time_t occur_start, time_t occur_end,
 	if (!an->xml) {
 		g_message ("alarm_notify_dialog(): Could not load the Glade XML file!");
 		g_free (an);
-		return;
+		return NULL;
 	}
 
 	an->dialog = glade_xml_get_widget (an->xml, "alarm-notify");
@@ -149,7 +177,7 @@ alarm_notify_dialog (time_t trigger, time_t occur_start, time_t occur_end,
 		g_message ("alarm_notify_dialog(): Could not find all widgets in Glade file!");
 		g_object_unref (an->xml);
 		g_free (an);
-		return;
+		return NULL;
 	}
 
 	gtk_widget_realize (an->dialog);
@@ -199,20 +227,9 @@ alarm_notify_dialog (time_t trigger, time_t occur_start, time_t occur_end,
 		g_list_free (icon_list);
 	}
 
-	switch (gtk_dialog_run (GTK_DIALOG (an->dialog))) {
-	case AN_RESPONSE_EDIT:
-	  (* an->func) (ALARM_NOTIFY_EDIT, -1, an->func_data);
-	  break;
-	case AN_RESPONSE_SNOOZE:
-	  snooze_timeout = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (an->snooze_time));
-	  (* an->func) (ALARM_NOTIFY_SNOOZE, snooze_timeout, an->func_data);
-	  break;
-	case GTK_RESPONSE_CLOSE:
-	case GTK_RESPONSE_DELETE_EVENT:
-	  break;
-	}
-	gtk_widget_destroy (an->dialog);
-	
-	g_object_unref (an->xml);
-	g_free (an);
+	g_signal_connect (G_OBJECT (an->dialog), "response", G_CALLBACK (dialog_response_cb), an);
+	g_signal_connect (G_OBJECT (an->dialog), "destroy", G_CALLBACK (dialog_destroyed_cb), an);
+	gtk_widget_show (an->dialog);
+
+	return an->dialog;
 }

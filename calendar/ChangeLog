@@ -1,3 +1,21 @@
+2005-xx-xx  Rodrigo Moya <rodrigo@novell.com>
+
+	Fixes #72835
+
+	* gui/alarm-notify/alarm-notify-dialog.[ch] (alarm_notify_dialog):
+	changed to return the dialog we create, and to run in the background.
+	(dialog_response_cb): response callback for the dialog.
+
+	* gui/alarm-notify/alarm-queue.c (alarm_queue_done): don't g_assert,
+	just check for midnight_refresh pointer, and clear it up if not NULL.
+	Also, traverse all clients with g_hash_table_foreach_remove.
+	(free_client_alarms_cb, alarm_queue_remove_client, load_alarms): added
+	missing cleanup code.
+	(queue_midnight_refresh): don't g_assert, just check for midnigh_refresh
+	pointer and clear it up if not NULL.
+	(open_alarm_dialog): store the dialog returned by alarm_notify_dialog().
+	(tray_icon_destroyed_cb): destroy the dialog if still around.
+
 2005-02-28  Harish Krishnaswamy  <kharish@novell.com>
 
         Fixes #69556

@@ -24,6 +24,7 @@
 #include <time.h>
 #include <glib.h>
 #include <libecal/e-cal-component.h>
+#include <gtk/gtkwidget.h>
 
 
 
@@ -35,10 +36,10 @@ typedef enum {
 
 typedef void (* AlarmNotifyFunc) (AlarmNotifyResult result, int snooze_mins, gpointer data);
 
-void alarm_notify_dialog (time_t trigger, time_t occur_start, time_t occur_end,
-			  ECalComponentVType vtype, const char *summary,
-			  const char *description, const char *location,
-			  AlarmNotifyFunc func, gpointer func_data);
+GtkWidget *alarm_notify_dialog (time_t trigger, time_t occur_start, time_t occur_end,
+				ECalComponentVType vtype, const char *summary,
+				const char *description, const char *location,
+				AlarmNotifyFunc func, gpointer func_data);
 
 
 #endif
