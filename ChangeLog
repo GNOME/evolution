@@ -1,3 +1,7 @@
+2001-09-11  JP Rosevear  <jpr@ximian.com>
+
+	* configure.in: temporarily disable zh_TW
+
 2001-09-10  Abel Cheung  <maddog@linux.org.hk>
 
 	* configure.in: Added "zh_TW" to ALL_LINGUAS.
