@@ -53,7 +53,6 @@
 #include "importer/evolution-importer-client.h"
 
 #include <glade/glade.h>
-#include <gtkhtml/gtkhtml.h>
 #include <gal/widgets/e-gui-utils.h>
 #include <gal/widgets/e-unicode.h>
 
@@ -132,7 +131,6 @@ typedef struct _SelectedImporterData{
 #define OUT
 #endif
 
-/* Some HTML helper functions copied from mail/mail-config-druid.c */
 static struct {
 	char *name;
 	char *text;
@@ -150,57 +148,25 @@ static struct {
 	  N_("Please select the information that you would like to import:")
 	}
 };
-static int num_info = (sizeof (info) / sizeof (info[0]));
-
-static void
-html_size_req (GtkWidget *widget,
-	       GtkRequisition *requisition)
-{
-	requisition->height = GTK_LAYOUT (widget)->height;
-}
+#define num_info (sizeof (info) / sizeof (info[0]))
 
 static GtkWidget *
-create_html (const char *name)
+create_help (const char *name)
 {
-	GtkWidget *scrolled, *html;
-	GtkHTMLStream *stream;
-	GtkStyle *style;
+	GtkWidget *label;
 	int i;
-
-	html = gtk_html_new ();
-	GTK_LAYOUT (html)->height = 0;
-	g_signal_connect (html, "size_request",
-			  G_CALLBACK (html_size_req), NULL);
-	gtk_html_set_editable (GTK_HTML (html), FALSE);
-	style = gtk_rc_get_style (html);
-	if (!style)
-		style = gtk_widget_get_style (html);
-	if (style) {
-		gtk_widget_modify_base (html, GTK_STATE_NORMAL, &style->bg[GTK_STATE_NORMAL]);
-		gtk_widget_modify_text (html, GTK_STATE_NORMAL, &style->fg[GTK_STATE_NORMAL]);
-	}
-	gtk_widget_show (html);
-
-	scrolled = gtk_scrolled_window_new (NULL, NULL);
-	gtk_widget_show (scrolled);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled),
-					GTK_POLICY_NEVER, GTK_POLICY_NEVER);
-	gtk_container_add (GTK_CONTAINER (scrolled), html);
 
 	for (i = 0; i < num_info; i++) {
 		if (!strcmp (name, info[i].name))
 			break;
 	}
-	g_return_val_if_fail (i != num_info, scrolled);
+	g_assert(i != num_info);
 
-	stream = gtk_html_begin_content (GTK_HTML (html),
-					 "text/html; charset=utf-8");
-	gtk_html_write (GTK_HTML (html), stream, "<html><p>", 9);
-	gtk_html_write (GTK_HTML (html), stream, _(info[i].text), strlen (_(info[i].text)));
-	gtk_html_write (GTK_HTML (html), stream, "</p></html>", 11);
-	gtk_html_end (GTK_HTML (html), stream, GTK_HTML_STREAM_OK);
+	label = gtk_label_new(_(info[i].text));
+	gtk_widget_show (label);
+	gtk_label_set_line_wrap((GtkLabel *)label, TRUE);
 
-	return scrolled;
+	return label;
 }
 
 /* Importing functions */
@@ -1217,7 +1183,7 @@ show_import_wizard (BonoboUIComponent *component,
 	g_signal_connect (data->typedialog, "next",
 			  G_CALLBACK (next_type_page), data);
 	data->typepage = importer_type_page_new (data);
-	html = create_html ("type_html");
+	html = create_help ("type_html");
 	gtk_box_pack_start (GTK_BOX (data->typepage->vbox), html, FALSE, TRUE, 0);
 	gtk_box_reorder_child (GTK_BOX (data->typepage->vbox), html, 0);
 
@@ -1232,7 +1198,7 @@ show_import_wizard (BonoboUIComponent *component,
 			  G_CALLBACK (prepare_intelligent_page), data);
 
 	data->importerpage = importer_importer_page_new (data);
-	html = create_html ("intelligent_html");
+	html = create_help ("intelligent_html");
 	gtk_box_pack_start (GTK_BOX (data->importerpage->vbox), html, FALSE, TRUE, 0);
 	gtk_box_reorder_child (GTK_BOX (data->importerpage->vbox), html, 0);
 	
@@ -1253,7 +1219,7 @@ show_import_wizard (BonoboUIComponent *component,
 
 	data->filepage = importer_file_page_new (data);
 
-	html = create_html ("file_html");
+	html = create_help ("file_html");
 	gtk_box_pack_start (GTK_BOX (data->filepage->vbox), html, FALSE, TRUE, 0);
 	gtk_box_reorder_child (GTK_BOX (data->filepage->vbox), html, 0);
 

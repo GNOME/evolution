@@ -31,6 +31,7 @@
 #include <errno.h>
 #include <regex.h>
 #include <string.h>
+#include <ctype.h>
 
 #include <glib.h>
 #include <gconf/gconf.h>
@@ -42,12 +43,12 @@
 
 #include "e-config-upgrade.h"
 
-#define d(x)
+#define d(x) 
 
 /* output revision of configuration */
 #define CONF_MAJOR (1)
 #define CONF_MINOR (3)
-#define CONF_REVISION (0)
+#define CONF_REVISION (1)
 
 /* major/minor/revision of existing config */
 static unsigned int major = -1;
@@ -541,7 +542,131 @@ static int upgrade_xml_1_0_rec(xmlNodePtr node)
 	return work;
 }
 
-static int upgrade_xml_file_1_0(const char *filename)
+/* ********************************************************************** */
+/* XML 1 content encoding */
+
+static int
+is_xml1encoded(const char *txt)
+{
+	const unsigned char *p;
+	int isxml1 = FALSE;
+	int is8bit = FALSE;
+
+	p = (const unsigned char *)txt;
+	while (*p) {
+		if (p[0] == '\\' && p[1] == 'U' && p[2] == '+'
+		    && isxdigit(p[3]) && isxdigit(p[4]) && isxdigit(p[5]) && isxdigit(p[6])
+		    && p[7] == '\\') {
+			isxml1 = TRUE;
+			p+=7;
+		} else if (p[0] >= 0x80)
+			is8bit = TRUE;
+		p++;
+	}
+
+	/* check for invalid utf8 that needs cleaning */
+	if (is8bit && (!isxml1))
+		isxml1 = !g_utf8_validate(txt, -1, NULL);
+
+	return isxml1;
+}
+
+static char *
+decode_xml1(const char *txt)
+{
+	GString *out = g_string_new("");
+	const unsigned char *p;
+	char *res;
+
+	/* convert:
+                   \U+XXXX\ -> utf8
+	   8 bit characters -> utf8 (iso-8859-1) */
+
+	p = (const unsigned char *)txt;
+	while (*p) {
+		if (p[0] > 0x80
+		    || (p[0] == '\\' && p[1] == 'U' && p[2] == '+'
+			&& isxdigit(p[3]) && isxdigit(p[4]) && isxdigit(p[5]) && isxdigit(p[6])
+			&& p[7] == '\\')) {
+			char utf8[8];
+			gunichar u;
+
+			if (p[0] == '\\') {
+				memcpy(utf8, p+3, 4);
+				utf8[4] = 0;
+				u = strtoul(utf8, NULL, 16);
+				p+=7;
+			} else
+				u = p[0];
+			utf8[g_unichar_to_utf8(u, utf8)] = 0;
+			g_string_append(out, utf8);
+		} else {
+			g_string_append_c(out, *p);
+		}
+		p++;
+	}
+
+	res = out->str;
+	g_string_free(out, FALSE);
+
+	return res;
+}
+
+static int
+upgrade_xml_1_2_rec(xmlNodePtr node)
+{
+	const char *value_tags[] = { "string", "address", "regex", "file", "command", NULL };
+	const char *rule_tags[] = { "title", NULL };
+	const struct {
+		char *name;
+		const char **tags;
+	} tags[] = {
+		{ "value", value_tags },
+		{ "rule", rule_tags },
+		{ 0 },
+	};
+	int changed = 0;
+	xmlNodePtr work;
+	int i,j;
+	char *txt, *tmp;
+
+	/* upgrades the content of a node, if the node has a specific parent/node name */
+
+	for (i=0;tags[i].name;i++) {
+		if (!strcmp(node->name, tags[i].name)) {
+			work = node->children;
+			while (work) {
+				for (j=0;tags[i].tags[j];j++) {
+					if (!strcmp(work->name, tags[i].tags[j])) {
+						txt = xmlNodeGetContent(work);
+						if (is_xml1encoded(txt)) {
+							tmp = decode_xml1(txt);
+							d(printf("upgrading xml node %s/%s '%s' -> '%s'\n", tags[i].name, tags[i].tags[j], txt, tmp));
+							xmlNodeSetContent(work, tmp);
+							changed = 1;
+							g_free(tmp);
+						}
+						xmlFree(txt);
+					}
+				}
+				work = work->next;
+			}
+			break;
+		}
+	}
+
+	node = node->children;
+	while (node) {
+		changed |= upgrade_xml_1_2_rec(node);
+		node = node->next;
+	}
+
+	return changed;
+}
+
+/* ********************************************************************** */
+
+static int upgrade_xml_file(const char *filename, int (*upgrade_rec)(xmlNodePtr root))
 {
 	xmlDocPtr doc;
 	char *savename;
@@ -567,9 +692,9 @@ static int upgrade_xml_file_1_0(const char *filename)
 		return -1;
 	}
 
-	if (!upgrade_xml_1_0_rec(doc->xmlRootNode)) {
+	if (!upgrade_rec(doc->xmlRootNode)) {
 		xmlFreeDoc(doc);
-		printf("file %s contains no old urls\n", filename);
+		printf("file %s contains nothing to upgrade\n", filename);
 		return 0;
 	}
 	
@@ -1700,7 +1825,7 @@ e_config_upgrade(const char *edir)
 			char *path;
 
 			path = g_build_filename(evolution_dir, xml_files[i], NULL);
-			if (upgrade_xml_file_1_0(path) == -1)
+			if (upgrade_xml_file(path, upgrade_xml_1_0_rec) == -1)
 				g_warning("Could not upgrade xml file %s", xml_files[i]);
 
 			g_free(path);
@@ -1712,6 +1837,23 @@ e_config_upgrade(const char *edir)
 		if (import_bonobo_config(config_doc, gconf) == -1) {
 			g_warning("Could not move config from bonobo-conf to gconf");
 			goto error;
+		}
+	}
+
+	if (major <=1 && minor <=3 && revision < 1) {
+		/* check for xml 1 encoding from version 1.2 upgrade or from a previous previous 1.3.0 upgrade */
+		char *xml_files[] = { "vfolders.xml", "filters.xml" };
+
+		d(printf("Checking for xml1 format xml files\n"));
+
+		for (i=0;i<sizeof(xml_files)/sizeof(xml_files[0]);i++) {
+			char *path;
+
+			path = g_build_filename(evolution_dir, xml_files[i], NULL);
+			if (upgrade_xml_file(path, upgrade_xml_1_2_rec) == -1)
+				g_warning("Could not upgrade xml file %s", xml_files[i]);
+
+			g_free(path);
 		}
 	}
 

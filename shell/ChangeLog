@@ -1,3 +1,27 @@
+2003-04-28  Not Zed  <NotZed@Ximian.com>
+
+	[#41013]
+
+	* e-shell-importer.c (html_size_req): removed.
+	(create_help): renamed from create_html.  Only creates a plain
+	label widget now, with line wrap turned on.  Also make the
+	g_return an assert, it failing is entirely based on internal code.
+	(show_import_wizard): s/create_html/create_help/g
+
+	[#41648]
+	
+	* e-config-upgrade.c (upgrade_xml_file): upgrade_xml_file_1_0 made
+	a bit more generic, this handles io, a callback handles xml
+	changes.
+	(is_xml1encoded): new function to tell if a string is in gal's
+	xml1 'encoded' format, or raw locale text.
+	(decode_xml1): decode xml1 encoded format to valid utf8.
+	(upgrade_xml_1_2_rec): upgrades xml1 encoded or badly encoded xml
+	content for specific parent->child nodes.
+	(CONF_REVISION): bump the config revision to 1.3.1.
+	(e_config_upgrade): if config revision < 1.3.1, then check xml
+	files for xml1 content.
+
 2003-04-28  Rodney Dawes  <dobey@ximian.com>
 
 	* Makefile.am: Fix up some stuff for the nognome script
