@@ -41,8 +41,9 @@ typedef struct _CamelFolderThreadNode {
 } CamelFolderThreadNode;
 
 typedef struct _CamelFolderThread {
-	int refcount;
-
+	guint32 refcount  : 31;
+	guint32 subject   : 1;
+	
 	struct _CamelFolderThreadNode *tree;
 	struct _EMemChunk *node_chunks;
 	CamelFolder *folder;
@@ -50,7 +51,7 @@ typedef struct _CamelFolderThread {
 } CamelFolderThread;
 
 /* interface 1: using uid's */
-CamelFolderThread *camel_folder_thread_messages_new(CamelFolder *folder, GPtrArray *uids);
+CamelFolderThread *camel_folder_thread_messages_new(CamelFolder *folder, GPtrArray *uids, gboolean thread_subject);
 void camel_folder_thread_messages_apply(CamelFolderThread *thread, GPtrArray *uids);
 
 /* interface 2: using messageinfo's.  Currently disabled. */

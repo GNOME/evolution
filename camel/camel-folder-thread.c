@@ -500,9 +500,10 @@ thread_summary(CamelFolderThread *thread, GPtrArray *summary)
 
 	/* remove empty parent nodes */
 	prune_empty(thread, &head);
-
-	/* find any siblings which missed out */
-	group_root_set(thread, &head);
+	
+	/* find any siblings which missed out - but only if we are allowing threading by subject */
+	if (thread->subject)
+		group_root_set (thread, &head);
 
 #if 0
 	printf("finished\n");
@@ -561,9 +562,14 @@ thread_summary(CamelFolderThread *thread, GPtrArray *summary)
  * @folder: 
  * @uids: The subset of uid's to thread.  If NULL. then thread all
  * uid's in @folder.
+ * @thread_subject: thread based on subject also
  * 
  * Thread a (subset) of the messages in a folder.  And sort the result
  * in summary order.
+ *
+ * If @thread_subject is %TRUE, messages with
+ * related subjects will also be threaded. The default behaviour is to
+ * only thread based on message-id.
  * 
  * This function is probably to be removed soon.
  *
@@ -571,7 +577,7 @@ thread_summary(CamelFolderThread *thread, GPtrArray *summary)
  * which represent the threaded structure of the messages.
  **/
 CamelFolderThread *
-camel_folder_thread_messages_new(CamelFolder *folder, GPtrArray *uids)
+camel_folder_thread_messages_new (CamelFolder *folder, GPtrArray *uids, gboolean thread_subject)
 {
 	CamelFolderThread *thread;
 	GHashTable *wanted = NULL;
@@ -581,12 +587,13 @@ camel_folder_thread_messages_new(CamelFolder *folder, GPtrArray *uids)
 
 	thread = g_malloc(sizeof(*thread));
 	thread->refcount = 1;
+	thread->subject = thread_subject;
 	thread->tree = NULL;
 	thread->node_chunks = e_memchunk_new(32, sizeof(CamelFolderThreadNode));
 	thread->folder = folder;
 	camel_object_ref((CamelObject *)folder);
 
-	/* get all of the summary items of interest in summary order*/
+	/* get all of the summary items of interest in summary order */
 	if (uids) {
 		wanted = g_hash_table_new(g_str_hash, g_str_equal);
 		for (i=0;i<uids->len;i++)
@@ -623,7 +630,7 @@ add_present_rec(CamelFolderThread *thread, GHashTable *have, GPtrArray *summary,
 
 		if (g_hash_table_lookup(have, (char *)uid)) {
 			g_hash_table_remove(have, (char *)camel_message_info_uid(node->message));
-			g_ptr_array_add(summary, node->message);
+			g_ptr_array_add(summary, (void *) node->message);
 		} else {
 			camel_folder_free_message_info(thread->folder, (CamelMessageInfo *)node->message);
 		}
