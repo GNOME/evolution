@@ -671,17 +671,17 @@ e_card_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	case ARG_URL:
 		if ( card->url )
 			g_free(card->url);
-		card->url = GTK_VALUE_STRING(*arg);
+		card->url = g_strdup(GTK_VALUE_STRING(*arg));
 		break;
 	case ARG_TITLE:
 		if ( card->title )
 			g_free(card->title);
-		card->title = GTK_VALUE_STRING(*arg);
+		card->title = g_strdup(GTK_VALUE_STRING(*arg));
 		break;
 	case ARG_ID:
 		if (card->id)
 			g_free(card->id);
-		card->id = GTK_VALUE_STRING(*arg);
+		card->id = g_strdup(GTK_VALUE_STRING(*arg));
 		break;
 	default:
 		return;

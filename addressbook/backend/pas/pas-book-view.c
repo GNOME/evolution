@@ -42,7 +42,7 @@ pas_book_view_notify_change (PASBookView                *book_view,
 		book_view->priv->listener, &card_sequence, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning ("pas_book_view_notify_change: Exception signaling BookListener!\n");
+		g_warning ("pas_book_view_notify_change: Exception signaling BookViewListener!\n");
 	}
 
 	CORBA_exception_free (&ev);
@@ -74,7 +74,7 @@ pas_book_view_notify_remove (PASBookView                *book_view,
 		book_view->priv->listener, (Evolution_CardId) id, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning ("pas_book_view_notify_remove: Exception signaling BookListener!\n");
+		g_warning ("pas_book_view_notify_remove: Exception signaling BookViewListener!\n");
 	}
 
 	CORBA_exception_free (&ev);
@@ -107,7 +107,7 @@ pas_book_view_notify_add (PASBookView                *book_view,
 		book_view->priv->listener, &card_sequence, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning ("pas_book_view_notify_add: Exception signaling BookListener!\n");
+		g_warning ("pas_book_view_notify_add: Exception signaling BookViewListener!\n");
 	}
 
 	CORBA_exception_free (&ev);
