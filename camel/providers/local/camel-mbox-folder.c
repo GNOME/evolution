@@ -255,8 +255,9 @@ mbox_append_message(CamelFolder *folder, CamelMimeMessage * message, const Camel
 	return;
 
 fail_write:
-	camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-			     _("Cannot append message to mbox file: %s: %s"), lf->folder_path, strerror(errno));
+	camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+			      _("Cannot append message to mbox file: %s: %s"),
+			      lf->folder_path, g_strerror (errno));
 
 	if (filter_stream)
 		camel_object_unref(CAMEL_OBJECT(filter_stream));
@@ -271,18 +272,20 @@ fail_write:
 
 	/* reset the file to original size */
 	fd = open(lf->folder_path, O_WRONLY, 0600);
-
 	if (fd != -1) {
 		ftruncate(fd, mbs->folder_size);
 		close(fd);
 	}
-
+	
+	/* remove the summary info so we are not out-of-sync with the mbox */
+	camel_folder_summary_remove_uid (CAMEL_FOLDER_SUMMARY (mbs), camel_message_info_uid (mi));
+	
 	/* and tell the summary its uptodate */
 	if (stat(lf->folder_path, &st) == 0) {
 		mbs->folder_size = st.st_size;
 		((CamelFolderSummary *)mbs)->time = st.st_mtime;
 	}
-
+	
 fail:
 	/* make sure we unlock the folder - before we start triggering events into appland */
 	camel_local_folder_unlock(lf);

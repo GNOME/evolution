@@ -121,7 +121,8 @@ static CamelLocalSummary *mh_create_summary(const char *path, const char *folder
 	return (CamelLocalSummary *)camel_mh_summary_new(path, folder, index);
 }
 
-static void mh_append_message(CamelFolder * folder, CamelMimeMessage * message, const CamelMessageInfo *info, CamelException * ex)
+static void
+mh_append_message (CamelFolder *folder, CamelMimeMessage *message, const CamelMessageInfo *info, CamelException *ex)
 {
 	CamelMhFolder *mh_folder = (CamelMhFolder *)folder;
 	CamelLocalFolder *lf = (CamelLocalFolder *)folder;
@@ -135,39 +136,48 @@ static void mh_append_message(CamelFolder * folder, CamelMimeMessage * message, 
 
 	/* add it to the summary/assign the uid, etc */
 	mi = camel_local_summary_add((CamelLocalSummary *)folder->summary, message, info, lf->changes, ex);
-	if (camel_exception_is_set(ex)) {
+	if (camel_exception_is_set (ex))
 		return;
-	}
-
+	
 	d(printf("Appending message: uid is %s\n", camel_message_info_uid(mi)));
-
+	
 	/* write it out, use the uid we got from the summary */
 	name = g_strdup_printf("%s/%s", lf->folder_path, camel_message_info_uid(mi));
 	output_stream = camel_stream_fs_new_with_name(name, O_WRONLY|O_CREAT, 0600);
-	if (output_stream == NULL) {
-		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-				     _("Cannot append message to mh folder: %s: %s"), name, g_strerror(errno));
-		g_free(name);
-		return;
-	}
-
-	if (camel_data_wrapper_write_to_stream((CamelDataWrapper *)message, output_stream) == -1
-	    || camel_stream_close(output_stream) == -1) {
-		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-				     _("Cannot append message to mh folder: %s: %s"), name, g_strerror(errno));
-		camel_object_unref((CamelObject *)output_stream);
-		unlink(name);
-		g_free(name);
-		return;
-	}
-
+	if (output_stream == NULL)
+		goto fail_write;
+	
+	if (camel_data_wrapper_write_to_stream ((CamelDataWrapper *)message, output_stream) == -1
+	    || camel_stream_close (output_stream) == -1)
+		goto fail_write;
+	
 	/* close this? */
-	camel_object_unref((CamelObject *)output_stream);
+	camel_object_unref (CAMEL_OBJECT (output_stream));
 
 	g_free(name);
-
-	camel_object_trigger_event((CamelObject *)folder, "folder_changed", ((CamelLocalFolder *)mh_folder)->changes);
-	camel_folder_change_info_clear(((CamelLocalFolder *)mh_folder)->changes);
+	
+	camel_object_trigger_event (CAMEL_OBJECT (folder), "folder_changed",
+				    ((CamelLocalFolder *)mh_folder)->changes);
+	camel_folder_change_info_clear (((CamelLocalFolder *)mh_folder)->changes);
+	
+	return;
+	
+ fail_write:
+	
+	/* remove the summary info so we are not out-of-sync with the mh folder */
+	camel_folder_summary_remove_uid (CAMEL_FOLDER_SUMMARY (folder->summary),
+					 camel_message_info_uid (mi));
+	
+	camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+			      _("Cannot append message to mh folder: %s: %s"),
+			      name, g_strerror (errno));
+	
+	if (output_stream) {
+		camel_object_unref (CAMEL_OBJECT (output_stream));
+		unlink (name);
+	}
+	
+	g_free (name);
 }
 
 static CamelMimeMessage *mh_get_message(CamelFolder * folder, const gchar * uid, CamelException * ex)
