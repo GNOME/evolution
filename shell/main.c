@@ -95,10 +95,15 @@ quit_box_new (void)
 	/* For some reason, the window fails to update without this
 	   sometimes.  */
 	gtk_widget_queue_draw (window);
+	gtk_widget_queue_draw (label);
+	gtk_widget_queue_draw (frame);
+
 	gdk_flush ();
 
 	while (gtk_events_pending ())
 		gtk_main_iteration ();
+
+	gdk_flush ();
 
 	return window;
 }

@@ -1,5 +1,11 @@
 2001-10-12  Ettore Perazzoli  <ettore@ximian.com>
 
+	* main.c (quit_box_new): Also flush GDK after flushing GTK.
+	Otherwise GTK might queue draw requests to X that don't get
+	executed.
+
+2001-10-12  Ettore Perazzoli  <ettore@ximian.com>
+
 	[Hopefully really fix #8615 and friends.]
 
 	* main.c (no_views_left_cb): Invoke `e_shell_disconnect_db()'
