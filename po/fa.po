@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: evolution 1.4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-09-26 11:09+0200\n"
-"PO-Revision-Date: 2004-10-05 17:14+0330\n"
+"PO-Revision-Date: 2004-10-12 17:14+0330\n"
 "Last-Translator: Meelad Zakaria <meelad@bamdad.org>\n"
 "Language-Team: Persian <farsi@lists.sharif.edu>\n"
 "MIME-Version: 1.0\n"
@@ -444,7 +444,7 @@ msgstr ""
 
 #: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:2
 msgid "Position of the vertical pane in main view"
-msgstr ""
+msgstr "موقعیت قاب عمودی در نمای اصلی"
 
 #: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:3
 msgid ""
@@ -3961,23 +3961,23 @@ msgstr "تعداد واحدها برای تعیین هنگام پنهان کرد
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:15
 msgid "Position of the horizontal pane"
-msgstr ""
+msgstr "موقعیت قاب افقی"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:16
 msgid "Position of the horizontal pane in the month view"
-msgstr ""
+msgstr "موقعیت قاب افقی در نمای ماه"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:17
 msgid "Position of the vertical pane"
-msgstr ""
+msgstr "موقعیت قاب عمودی"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:18
 msgid "Position of the vertical pane in the month view"
-msgstr ""
+msgstr "موقعیت قاب افقی در نمای ماه"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:19
 msgid "Position of the vertical pane in the task view"
-msgstr ""
+msgstr "موقعیت قاب عمودی در نمای تکلیف"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:20
 msgid "Programs that can run as part of alarms"
@@ -3985,7 +3985,7 @@ msgstr ""
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:21
 msgid "Show where events end in week and month views"
-msgstr ""
+msgstr "نشان دادن نقطه‌ی پایان رویدادها در نماهای هفته و ماه"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:22
 msgid "Time last alarm ran"
@@ -13746,11 +13746,11 @@ msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:25
 msgid "Height of the message-list pane"
-msgstr ""
+msgstr "ارتفاع قاب فهرست پیغام‌ها"
 
 #: mail/evolution-mail.schemas.in.in.h:26
 msgid "Height of the message-list pane."
-msgstr ""
+msgstr "ارتفاع قاب فهرست پیغام‌ها."
 
 #: mail/evolution-mail.schemas.in.in.h:27
 msgid ""
@@ -13761,19 +13761,19 @@ msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:28
 msgid "Last time empty trash was run"
-msgstr ""
+msgstr "آخرین باری که سطل آشغال خالی‌کن اجرا شد"
 
 #: mail/evolution-mail.schemas.in.in.h:29
 msgid "List of Labels and their associated colors"
-msgstr ""
+msgstr "فهرست برچسب‌ها و رنگ‌های وابسته به آنها"
 
 #: mail/evolution-mail.schemas.in.in.h:30
 msgid "List of accepted licenses"
-msgstr ""
+msgstr "فهرست مجوزهای پذیرفته شده"
 
 #: mail/evolution-mail.schemas.in.in.h:31
 msgid "List of accounts"
-msgstr ""
+msgstr "فهرست حساب‌ها"
 
 #: mail/evolution-mail.schemas.in.in.h:32
 msgid ""
@@ -13783,7 +13783,7 @@ msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:33
 msgid "List of custom headers and whether they are enabled."
-msgstr ""
+msgstr "فهرست سرنامه‌های سفارشی و این که به کار افتاده‌اند یا نه."
 
 #: mail/evolution-mail.schemas.in.in.h:34
 msgid ""
@@ -13797,11 +13797,11 @@ msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:36
 msgid "List of protocol names whose license has been accepted."
-msgstr ""
+msgstr "فهرست نام‌های قرارداد که مجوزشان پذیرفته شده است."
 
 #: mail/evolution-mail.schemas.in.in.h:37
 msgid "Load images for HTML messages over http"
-msgstr ""
+msgstr "بار کردن تصاویر برای پیغام‌های HTML از http"
 
 #: mail/evolution-mail.schemas.in.in.h:38
 msgid ""
@@ -13809,22 +13809,24 @@ msgid ""
 "load images off the net 1 - Load images if sender is in the addressbook 2 - "
 "Always load images off the net"
 msgstr ""
+"بار کردن تصاویر برای پیغام‌های HTML از http. مقادیر ممکن عبارتند از: ۰ - تصاویر هرگز از شبکه بار نشوند‌ ۱ - اگر فرستنده در دفترچه‌ی نشانی بود تصاویر بار شوند "
+"۲ - تصاویر همیشه از شبکه بار شوند"
 
 #: mail/evolution-mail.schemas.in.in.h:39
 msgid "Log filter actions"
-msgstr ""
+msgstr "ثبت اعمال صافی"
 
 #: mail/evolution-mail.schemas.in.in.h:40
 msgid "Log filter actions to the specified log file."
-msgstr ""
+msgstr "ثبت اعمال صافی در یک پرونده‌ی ثبت وقایع مشخص."
 
 #: mail/evolution-mail.schemas.in.in.h:41
 msgid "Logfile to log filter actions"
-msgstr ""
+msgstr "پرونده‌ای که اعمال صافی در آن ثبت می‌شوند"
 
 #: mail/evolution-mail.schemas.in.in.h:42
 msgid "Logfile to log filter actions."
-msgstr ""
+msgstr "پرونده‌ای که اعمال صافی در آن ثبت می‌شوند."
 
 #: mail/evolution-mail.schemas.in.in.h:43
 msgid "Mark as Seen after specified timeout"
@@ -13872,7 +13874,7 @@ msgstr "نوع اعلان نامه‌ی جدید"
 
 #: mail/evolution-mail.schemas.in.in.h:54
 msgid "Prompt on empty subject"
-msgstr ""
+msgstr "کسب تکلیف درباره‌ی موضوع خالی"
 
 #: mail/evolution-mail.schemas.in.in.h:55
 msgid "Prompt the user when he or she tries to expunge a folder."
@@ -13881,7 +13883,7 @@ msgstr ""
 #: mail/evolution-mail.schemas.in.in.h:56
 msgid ""
 "Prompt the user when he or she tries to send a message without a Subject."
-msgstr ""
+msgstr "کسب تکلیف از کاربر هنگامی که می‌خواهد پیغامی بدون موضوع ارسال کند."
 
 #: mail/evolution-mail.schemas.in.in.h:57
 msgid "Prompt when user expunges"
@@ -13889,21 +13891,21 @@ msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:58
 msgid "Prompt when user only fills Bcc"
-msgstr ""
+msgstr "کسب تکلیف هنگامی که کاربر فقط رونوشت محرمانه را پر می‌کند"
 
 #: mail/evolution-mail.schemas.in.in.h:59
 msgid ""
 "Prompt when user tries to send HTML mail to recipients that may not want to "
 "receive HTML mail."
-msgstr ""
+msgstr "کسب تکلیف هنگامی که کاربر سعی می‌کند یک نامه‌ی HTML را برای کاربرانی ارسال کند که شاید نخواهند نامه‌ی HTML دریافت کنند."
 
 #: mail/evolution-mail.schemas.in.in.h:60
 msgid "Prompt when user tries to send a message with no To or Cc recipients."
-msgstr ""
+msgstr "کسب تکلیف هنگامی که کاربر سعی می‌کند پیغامی را بدون گیرنده یا رونوشت ارسال کند."
 
 #: mail/evolution-mail.schemas.in.in.h:61
 msgid "Prompt when user tries to send unwanted HTML"
-msgstr ""
+msgstr "کسب تکلیف هنگامی که کاربر سعی می‌کند HTML ناخواسته ارسال کند"
 
 #: mail/evolution-mail.schemas.in.in.h:62
 msgid "Recognize links in text and replace them."
@@ -13943,11 +13945,11 @@ msgstr "نمایش پیغام‌های حذف شده در فهرست پیغام�
 
 #: mail/evolution-mail.schemas.in.in.h:71
 msgid "Show the \"Preview\" pane"
-msgstr ""
+msgstr "نشان دادن قاب «پیش‌نمایش»"
 
 #: mail/evolution-mail.schemas.in.in.h:72
 msgid "Show the \"Preview\" pane."
-msgstr ""
+msgstr "نشان دادن قاب «پیش‌نمایش»."
 
 #: mail/evolution-mail.schemas.in.in.h:73
 msgid "Sound file to play when new mail arrives."
@@ -14793,7 +14795,7 @@ msgstr "سرنامه‌ها"
 
 #: mail/mail-config.glade.h:89
 msgid "Highlight _quotations with"
-msgstr ""
+msgstr "پررنگ کردن نقل _قول‌ها با"
 
 #: mail/mail-config.glade.h:90
 msgid "IMAPv4 "
@@ -14827,7 +14829,7 @@ msgstr ""
 msgid ""
 "Note: you will not be prompted for a password until you connect for the "
 "first time"
-msgstr ""
+msgstr "توجه: تا وقتی که برای اولین بار متصل نشوید از شما کلمه‌ی عبوری خواسته نخواهد شد."
 
 #: mail/mail-config.glade.h:105
 msgid "Or_ganization:"
@@ -14958,7 +14960,9 @@ msgid ""
 "The output of this script will be used as your\n"
 "signature. The name you specify will be used\n"
 "for display purposes only. "
-msgstr "خروجی این "
+msgstr "خروجی این اسکریپت به عنوان امضای شما\n"
+"به کار خواهد رفت. نامی که مشخص می‌کنید تنها\n"
+"مصارف نمایشی خواهد داشت."
 
 #: mail/mail-config.glade.h:147
 msgid ""
@@ -14980,7 +14984,7 @@ msgstr ""
 
 #: mail/mail-config.glade.h:152
 msgid "V_ariable-width:"
-msgstr "عرض متغیر:"
+msgstr "عرض مت_غیر:"
 
 #: mail/mail-config.glade.h:153
 msgid ""
@@ -14994,11 +14998,11 @@ msgstr ""
 
 #: mail/mail-config.glade.h:158
 msgid "_Add Signature"
-msgstr "افزودن امضا"
+msgstr "_افزودن امضا"
 
 #: mail/mail-config.glade.h:159
 msgid "_Always load images from the Internet"
-msgstr "تصاویر همیشه از اینترنت بار شوند"
+msgstr "تصاویر _همیشه از اینترنت بار شوند"
 
 #: mail/mail-config.glade.h:160
 msgid "_Digitally sign outgoing messages (by default)"
@@ -15010,7 +15014,7 @@ msgstr "هنگامی که نامه‌ی جدیدی می‌رسد به من اع�
 
 #: mail/mail-config.glade.h:163
 msgid "_Enable"
-msgstr "به کار انداختن"
+msgstr "_به کار انداختن"
 
 #: mail/mail-config.glade.h:164
 msgid "_Encrypt outgoing messages (by default)"
@@ -15018,31 +15022,31 @@ msgstr "رمز کردن پیغام‌های صادره (به طور پیش‌ف�
 
 #: mail/mail-config.glade.h:165
 msgid "_Forward style:"
-msgstr "سبک ارجاع:"
+msgstr "سبک _ارجاع:"
 
 #: mail/mail-config.glade.h:168
 msgid "_Load images if sender is in address book"
-msgstr "بار کردن تصاویر اگر فرستنده در دفترچه‌ی نشانی من هست"
+msgstr "بار کردن _تصاویر اگر فرستنده در دفترچه‌ی نشانی من هست"
 
 #: mail/mail-config.glade.h:169
 msgid "_Make this my default account"
-msgstr "این حساب پیش‌فرض من است"
+msgstr "این حساب _پیش‌فرض من است"
 
 #: mail/mail-config.glade.h:170
 msgid "_Mark messages as read after"
-msgstr "علامت‌گذاری پیغام‌ها به عنوان خوانده پس از"
+msgstr "_علامت‌گذاری پیغام‌ها به عنوان خوانده پس از"
 
 #: mail/mail-config.glade.h:172
 msgid "_Never load images from the Internet"
-msgstr "تصاویر هیچ‌وقت از اینترنت بار نشوند"
+msgstr "تصاویر _هیچ‌وقت از اینترنت بار نشوند"
 
 #: mail/mail-config.glade.h:174
 msgid "_Prompt when sending HTML messages to contacts that don't want them"
-msgstr ""
+msgstr "_کسب تکلیف هنگام ارسال پیغام‌های HTML برای آشناهایی که نمی‌خواهند"
 
 #: mail/mail-config.glade.h:175
 msgid "_Prompt when sending messages with an empty subject line"
-msgstr ""
+msgstr "_کسب تکلیف هنگام ارسال پیغام با خط موضوع خالی"
 
 #: mail/mail-config.glade.h:176
 msgid "_Reply style:"
@@ -15050,7 +15054,7 @@ msgstr "سبک پاسخ دادن:"
 
 #: mail/mail-config.glade.h:177
 msgid "_Script:"
-msgstr ""
+msgstr "_اسکریپت:"
 
 #: mail/mail-config.glade.h:178
 msgid "_Show animated images"
@@ -15147,7 +15151,7 @@ msgstr ""
 
 #: mail/mail-dialogs.glade.h:25
 msgid "Tick this to accept the license agreement"
-msgstr ""
+msgstr "برای پذیرفتن توافق‌نامه‌ی مجوز اینجا را تیک بزنید"
 
 #: mail/mail-dialogs.glade.h:26 mail/message-tags.glade.h:6
 msgid "_Due By:"
@@ -15223,11 +15227,14 @@ msgid ""
 "{0}\n"
 "Send anyway?"
 msgstr ""
+"لطفاْ اطمینان حاصل کنید که این گیرندگان مایل و قادر به دریافت نامه‌ی HTML هستند:\n"
+"{0}\n"
+"به هر حال ارسال شود؟"
 
 #: mail/mail-errors.xml.h:15 mail/mail-errors.xml.h:20
 #: mail/mail-errors.xml.h:27 mail/mail-errors.xml.h:32
 msgid "_Send"
-msgstr "ارسال"
+msgstr "_ارسال"
 
 #. mail:ask-send-no-subject primary
 #: mail/mail-errors.xml.h:17
@@ -15282,6 +15289,8 @@ msgid ""
 "Please enter a valid email address in the To: field. You can search for "
 "email addresses by clicking on the To: button next to the entry box."
 msgstr ""
+"لطفاْ یک نشانی معتبر پست الکترونیکی در فیلد گیرنده: وارد کنید. می‌توانید با کلیک کردن روی"
+"دکمه‌ی گیرنده: کنار جعبه‌ی ورودی دنبال نشانی‌های پست الکترونیکی جست و جو کنید."
 
 #. mail:ask-default-drafts primary
 #: mail/mail-errors.xml.h:38
@@ -16160,11 +16169,11 @@ msgstr ""
 
 #: shell/apps_evolution_shell.schemas.in.in.h:1
 msgid "Default width of the folder bar pane"
-msgstr ""
+msgstr "عرض پیش‌فرض قاب نوار پوشه"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:2
 msgid "Default window height"
-msgstr ""
+msgstr "ارتفاع پیش‌فرض پنجره"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:3
 msgid "Default window width"
@@ -17379,7 +17388,7 @@ msgstr "انتقال به پوشه..."
 
 #: ui/evolution-addressbook.xml.h:39 ui/evolution-mail-global.xml.h:17
 msgid "_Preview Pane"
-msgstr ""
+msgstr "قاب _پیش‌نمایش"
 
 #: ui/evolution-addressbook.xml.h:41
 msgid "_Save as VCard..."
