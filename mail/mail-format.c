@@ -850,12 +850,15 @@ write_address (MailDisplay *md, const CamelInternetAddress *addr, const char *fi
 				email_disp = g_strdup ("???");
 			}
 			
-			mail_html_write (md->html, md->stream,
-					 "%s &lt;<a href=\"mailto:%s\">%s</a>&gt;",
-					 have_name ? name_disp : "",
-					 addr_url,
-					 email_disp);
-			
+			if (have_name) {
+				mail_html_write (md->html, md->stream,
+						 "%s &lt;<a href=\"mailto:%s\">%s</a>&gt;",
+						 name_disp, addr_url, email_disp);
+			} else {
+				mail_html_write (md->html, md->stream,
+						 "<a href=\"mailto:%s\">%s</a>",
+						 addr_url, email_disp);
+			}			
 		} else {
 			char *str;
 			

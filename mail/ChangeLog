@@ -1,3 +1,8 @@
+2001-10-04  Dan Winship  <danw@ximian.com>
+
+	* mail-format.c (write_address): Fix so that an email address with
+	no name is once again just "foo@bar.com", not "<foo@bar.com>".
+
 2001-10-04  Iain Holmes  <iain@ximian.com>
 
 	* importers/evolution-mbox-importer.c (load_file_fn): Only pass
