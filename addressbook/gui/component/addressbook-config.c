@@ -163,8 +163,6 @@ addressbook_config_auth_label (AddressbookLDAPAuthType type)
 		return _("None (anonymous mode)");
 	case ADDRESSBOOK_LDAP_AUTH_SIMPLE:
 		return _("Password");
-	case ADDRESSBOOK_LDAP_AUTH_SASL:
-		return _("SASL");
 	default:
 		g_assert(0);
 		return _("Unknown auth type");
@@ -238,8 +236,6 @@ addressbook_source_edit_changed (GtkWidget *item, AddressbookSourceDialog *dialo
 						complete = FALSE;
 					g_free (data);
 				}
-				else if (auth_page->auth_type == ADDRESSBOOK_LDAP_AUTH_SASL) {
-				}
 				data = e_utf8_gtk_editable_get_chars (GTK_EDITABLE (source_page->port), 0, -1);
 				if (!data || !*data)
 					complete = FALSE;
@@ -287,7 +283,7 @@ static GtkWidget *
 table_add_elem (AddressbookSourceDialog *dialog, GtkWidget *table, 
 		int row,
 		const char *label_text,
-		const char *help_text)
+		char *help_text)
 {
 	GtkWidget *label, *entry;
 	FocusHelpClosure *focus_closure;
@@ -361,8 +357,6 @@ addressbook_ldap_auth_item_new (AddressbookSourceDialog *dialog,
 		gtk_box_pack_start (GTK_BOX (item->vbox), table,
 				    TRUE, TRUE, 0);
 		break;
-	case ADDRESSBOOK_LDAP_AUTH_SASL:
-		break;
 	default:
 		g_assert (0);
 		return item;
@@ -384,6 +378,7 @@ addressbook_source_item_new (AddressbookSourceDialog *dialog, AddressbookSourceT
 {
 	AddressbookSourcePageItem *item = g_new0 (AddressbookSourcePageItem, 1);
 	GtkWidget *table = NULL;
+	GtkWidget *advanced_button;
 	int row = 0;
 
 	item->pnum = type;
@@ -400,19 +395,20 @@ addressbook_source_item_new (AddressbookSourceDialog *dialog, AddressbookSourceT
 		LDAPAuthPageItem *first_item = NULL;
 		int position;
 
-		table = gtk_table_new (5, 2, FALSE);
+		table = gtk_table_new (6, 2, FALSE);
 
 		item->host = table_add_elem (dialog, table, row++,
 					     _("Host:"),
 					     _("FIXME Host help text here."));
+		item->rootdn = table_add_elem (dialog, table, row++,
+					       _("Root DN:"),
+					       _("FIXME Root DN help text here."));
+
+		/* XXX BEGIN PUT IN ADVANCED DIALOG */
 		item->port = table_add_elem (dialog, table, row++,
 					     _("Port:"),
 					     _("FIXME Port help text here."));
 		gtk_editable_insert_text (GTK_EDITABLE (item->port), "389", 3, &position);
-
-		item->rootdn = table_add_elem (dialog, table, row++,
-					       _("Root DN:"),
-					       _("FIXME Root DN help text here."));
 
 		item->scope_optionmenu = gtk_option_menu_new ();
 		menu = gtk_menu_new ();
@@ -431,7 +427,6 @@ addressbook_source_item_new (AddressbookSourceDialog *dialog, AddressbookSourceT
 		gtk_option_menu_set_menu (GTK_OPTION_MENU (item->scope_optionmenu), menu);
 		//		ldap_auth_type_menuitem_activate (first_item->item, first_item);
 		gtk_option_menu_set_history (GTK_OPTION_MENU(item->scope_optionmenu), 0);
-
 		label = gtk_label_new (_("Search Scope:"));
 		gtk_table_attach (GTK_TABLE (table), label, 0, 1,
 				  row, row + 1, GTK_FILL, 0, 0, 0);
@@ -444,9 +439,7 @@ addressbook_source_item_new (AddressbookSourceDialog *dialog, AddressbookSourceT
 				  0, 0);
 
 		row++;
-
-		gtk_box_pack_start (GTK_BOX (item->vbox), table,
-				    TRUE, FALSE, 0);
+		/* XXX END PUT IN ADVANCED DIALOG */
 
 		item->auth_optionmenu = gtk_option_menu_new ();
 		menu = gtk_menu_new ();
@@ -457,11 +450,6 @@ addressbook_source_item_new (AddressbookSourceDialog *dialog, AddressbookSourceT
 		for (i = 0; i < ADDRESSBOOK_LDAP_AUTH_LAST; i++) {
 			LDAPAuthPageItem *auth_item;
 
-#ifndef LDAP_SASL
-			/* skip the sasl stuff if we're not configured for it. */
-			if (i == ADDRESSBOOK_LDAP_AUTH_SASL)
-				continue;
-#endif
 			auth_item = addressbook_ldap_auth_item_new (dialog, item, i);
 
 			item->auths = g_list_append (item->auths, auth_item);
@@ -497,8 +485,33 @@ addressbook_source_item_new (AddressbookSourceDialog *dialog, AddressbookSourceT
 				  GTK_EXPAND | GTK_FILL, 0,
 				  0, 0);
 
+		row++;
+
+		gtk_box_pack_start (GTK_BOX (item->vbox), table,
+				    TRUE, FALSE, 0);
+
 		gtk_box_pack_start (GTK_BOX (item->vbox), item->auth_notebook,
 				    TRUE, TRUE, 0);
+
+#if 0
+		table = gtk_table_new (1, 4, FALSE);
+
+		advanced_button = gtk_button_new_with_label (_("Advanced LDAP Options"));
+
+		gtk_table_attach (GTK_TABLE (table), 
+				  advanced_button,
+				  3, 4, 0, 1,
+				  0, 0,
+				  0, 0);
+
+
+		gtk_box_pack_start (GTK_BOX (item->vbox), table,
+				    FALSE, FALSE, 0);
+
+		gtk_signal_connect (GTK_OBJECT (advanced_button), "clicked",
+				    GTK_SIGNAL_FUNC (), dialog);
+#endif
+
 		break;
 	}
 	case ADDRESSBOOK_SOURCE_FILE: {
@@ -651,7 +664,9 @@ addressbook_source_dialog (AddressbookSource *source, GtkWidget *parent)
 	gtk_window_set_modal (GTK_WINDOW (dialog->dialog), TRUE);
 	gtk_window_set_policy (GTK_WINDOW (dialog->dialog), 
 			       FALSE, TRUE, FALSE);
-	gtk_window_set_default_size (GTK_WINDOW (dialog->dialog), 300, 350);
+#if 0
+	gtk_window_set_default_size (GTK_WINDOW (dialog->dialog), 300, 300);
+#endif
 	gnome_dialog_set_parent (GNOME_DIALOG (dialog->dialog),
 				 GTK_WINDOW (parent));
 
@@ -686,12 +701,7 @@ addressbook_source_dialog (AddressbookSource *source, GtkWidget *parent)
 	menu = gtk_menu_new ();
 #endif
 
-	for (i =
-#ifndef INCLUDE_FILE_SOURCE
-		     ADDRESSBOOK_SOURCE_LDAP;
-#else
-		     ADDRESSBOOK_SOURCE_FILE;
-#endif
+	for (i = ADDRESSBOOK_SOURCE_LDAP;
 	     i < ADDRESSBOOK_SOURCE_LAST;
 	     i ++) {
 		AddressbookSourcePageItem *item;

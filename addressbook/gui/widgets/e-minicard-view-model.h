@@ -4,6 +4,7 @@
 
 #include <gal/widgets/e-reflow-model.h>
 #include <gal/widgets/e-selection-model.h>
+#include "e-minicard.h"
 #include "addressbook/backend/ebook/e-book.h"
 #include "addressbook/backend/ebook/e-book-view.h"
 #include "addressbook/backend/ebook/e-card.h"
@@ -52,6 +53,7 @@ struct _EMinicardViewModelClass {
 	 * Signals
 	 */
 	void (*status_message) (EMinicardViewModel *model, const gchar *message);
+	gint (* drag_begin) (EMinicardViewModel *model, GdkEvent *event);
 };
 
 

@@ -12,8 +12,8 @@
 #include "e-minicard-view-model.h"
 
 #include <gal/util/e-i18n.h>
+#include <gal/util/e-util.h>
 
-#include "e-minicard.h"
 #include <gal/widgets/e-unicode.h>
 #include <gal/widgets/e-font.h>
 #include <gal/widgets/e-popup-menu.h>
@@ -43,6 +43,7 @@ enum {
 
 enum {
 	STATUS_MESSAGE,
+	DRAG_BEGIN,
 	LAST_SIGNAL
 };
 
@@ -366,6 +367,18 @@ addressbook_compare (EReflowModel *erm, int n1, int n2)
 	return 0;
 }
 
+static int
+minicard_drag_begin (EMinicard *card, GdkEvent *event, EMinicardViewModel *model)
+{
+	gint ret_val = 0;
+
+	gtk_signal_emit (GTK_OBJECT(model),
+			 e_minicard_view_model_signals[DRAG_BEGIN],
+			 event, &ret_val);
+
+	return ret_val;
+}
+
 static GnomeCanvasItem *
 addressbook_incarnate (EReflowModel *erm, int i, GnomeCanvasGroup *parent)
 {
@@ -382,6 +395,8 @@ addressbook_incarnate (EReflowModel *erm, int i, GnomeCanvasGroup *parent)
 	gtk_signal_connect (GTK_OBJECT (item), "selected",
 			    GTK_SIGNAL_FUNC(card_selected), emvm);
 #endif
+	gtk_signal_connect (GTK_OBJECT (item), "drag_begin",
+			    GTK_SIGNAL_FUNC(minicard_drag_begin), emvm);
 	return item;
 }
 
@@ -492,6 +507,15 @@ e_minicard_view_model_class_init (GtkObjectClass *object_class)
 				GTK_SIGNAL_OFFSET (EMinicardViewModelClass, status_message),
 				gtk_marshal_NONE__POINTER,
 				GTK_TYPE_NONE, 1, GTK_TYPE_POINTER);
+
+	e_minicard_view_model_signals [DRAG_BEGIN] =
+		gtk_signal_new ("drag_begin",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EMinicardViewModelClass, drag_begin),
+				gtk_marshal_INT__POINTER,
+				GTK_TYPE_INT, 2, GTK_TYPE_POINTER, GTK_TYPE_POINTER);
+
 
 	gtk_object_class_add_signals (object_class, e_minicard_view_model_signals, LAST_SIGNAL);
 	

@@ -72,7 +72,7 @@ struct _EMinicardView
 
 	ESelectionModelSimple *selection;
 
-	EMinicard *drag_card;
+	GList *drag_list;
 
 	int canvas_destroy_id;
 	int canvas_drag_data_get_id;

@@ -32,7 +32,6 @@
 #include <gal/widgets/e-unicode.h>
 #include <libgnome/gnome-i18n.h>
 
-#if 0
 static void canvas_destroy (GtkObject *object, EMinicardView *view);
 static void e_minicard_view_drag_data_get(GtkWidget *widget,
 					  GdkDragContext *context,
@@ -40,7 +39,6 @@ static void e_minicard_view_drag_data_get(GtkWidget *widget,
 					  guint info,
 					  guint time,
 					  EMinicardView *view);
-#endif
 
 static EReflowClass *parent_class = NULL;
 #define PARENT_TYPE (E_REFLOW_TYPE)
@@ -58,20 +56,17 @@ enum {
 	LAST_SIGNAL
 };
 
-#if 0
 enum DndTargetType {
-	DND_TARGET_TYPE_VCARD,
+	DND_TARGET_TYPE_VCARD_LIST,
 };
-#define VCARD_TYPE "text/x-vcard"
+#define VCARD_LIST_TYPE "text/x-vcard"
 static GtkTargetEntry drag_types[] = {
-	{ VCARD_TYPE, 0, DND_TARGET_TYPE_VCARD }
+	{ VCARD_LIST_TYPE, 0, DND_TARGET_TYPE_VCARD_LIST }
 };
 static gint num_drag_types = sizeof(drag_types) / sizeof(drag_types[0]);
-#endif
 
 static guint e_minicard_view_signals [LAST_SIGNAL] = {0, };
 
-#if 0
 static void
 e_minicard_view_drag_data_get(GtkWidget *widget,
 			      GdkDragContext *context,
@@ -80,16 +75,14 @@ e_minicard_view_drag_data_get(GtkWidget *widget,
 			      guint time,
 			      EMinicardView *view)
 {
-	printf ("e_minicard_view_drag_data_get (e_minicard = %p)\n", view->drag_card);
-
 	if (!E_IS_MINICARD_VIEW(view))
 		return;
 
 	switch (info) {
-	case DND_TARGET_TYPE_VCARD: {
+	case DND_TARGET_TYPE_VCARD_LIST: {
 		char *value;
-
-		value = e_card_simple_get_vcard(view->drag_card->simple);
+		
+		value = e_card_list_get_vcard(view->drag_list);
 
 		gtk_selection_data_set (selection_data,
 					selection_data->target,
@@ -98,27 +91,64 @@ e_minicard_view_drag_data_get(GtkWidget *widget,
 		break;
 	}
 	}
+
+	g_list_foreach (view->drag_list, (GFunc)gtk_object_unref, NULL);
+	g_list_free (view->drag_list);
+	view->drag_list = NULL;
+}
+
+typedef struct {
+	GList *list;
+	EMinicardViewModel *model;
+} ModelAndList;
+
+static void
+add_to_list (int index, gpointer closure)
+{
+	ModelAndList *mal = closure;
+	mal->list = g_list_prepend (mal->list, e_minicard_view_model_get_card (mal->model, index));
+}
+
+static GList *
+get_card_list (EMinicardViewModel *model, ESelectionModel *selection)
+{
+	ModelAndList mal;
+
+	mal.model = model;
+	mal.list = NULL;
+
+	e_selection_model_foreach (selection, add_to_list, &mal);
+
+	mal.list = g_list_reverse (mal.list);
+	return mal.list;
 }
 
 static int
-e_minicard_view_drag_begin (EMinicard *card, GdkEvent *event, EMinicardView *view)
+e_minicard_view_drag_begin (EMinicardViewModel *model, GdkEvent *event, EMinicardView *view)
 {
 	GdkDragContext *context;
 	GtkTargetList *target_list;
 	GdkDragAction actions = GDK_ACTION_MOVE;
 
-	view->drag_card = card;
+	view->drag_list = get_card_list (model, E_REFLOW (view)->selection);
+
+	g_print ("dragging %d card(s)\n", g_list_length (view->drag_list));
 
 	target_list = gtk_target_list_new (drag_types, num_drag_types);
 
 	context = gtk_drag_begin (GTK_WIDGET (GNOME_CANVAS_ITEM (view)->canvas),
 				  target_list, actions, 1/*XXX*/, event);
 
+	if (!view->canvas_drag_data_get_id)
+		view->canvas_drag_data_get_id = gtk_signal_connect (GTK_OBJECT (GNOME_CANVAS_ITEM (view)->canvas),
+								    "drag_data_get",
+								    GTK_SIGNAL_FUNC (e_minicard_view_drag_data_get),
+								    view);
+
 	gtk_drag_set_icon_default (context);
 
 	return TRUE;
 }
-#endif
 
 #if 0
 static void
@@ -327,7 +357,12 @@ disconnect_signals(EMinicardView *view)
 		gtk_signal_disconnect(GTK_OBJECT (view->model),
 				      view->status_message_id);
 
+	if (view->canvas_drag_data_get_id)
+		gtk_signal_disconnect(GTK_OBJECT (GNOME_CANVAS_ITEM (view)->canvas),
+				      view->status_message_id);
+
 	view->status_message_id = 0;
+	view->canvas_drag_data_get_id = 0;
 }
 
 #if 0
@@ -466,12 +501,19 @@ e_minicard_view_init (EMinicardView *view)
 
 	view->model = E_MINICARD_VIEW_MODEL(e_minicard_view_model_new());
 
+	view->canvas_drag_data_get_id = 0;
+	view->status_message_id = 0;
+
 	empty_message = e_utf8_from_locale_string(_("\n\nThere are no items to show in this view\n\n"
 						    "Double-click here to create a new Contact."));
 	gtk_object_set (GTK_OBJECT(view),
 			"empty_message", empty_message,
 			"model", view->model,
 			NULL);
+
+	gtk_signal_connect (GTK_OBJECT (view->model), "drag_begin",
+			    GTK_SIGNAL_FUNC (e_minicard_view_drag_begin), view);
+
 	g_free (empty_message);
 }
 

@@ -27,15 +27,14 @@
 #include "evolution-shell-component.h"
 
 typedef enum {
-	ADDRESSBOOK_SOURCE_FILE,
 	ADDRESSBOOK_SOURCE_LDAP,
+	ADDRESSBOOK_SOURCE_FILE,
 	ADDRESSBOOK_SOURCE_LAST
 } AddressbookSourceType;
 
 typedef enum {
 	ADDRESSBOOK_LDAP_AUTH_NONE,
 	ADDRESSBOOK_LDAP_AUTH_SIMPLE,
-	ADDRESSBOOK_LDAP_AUTH_SASL, /* XXX currently unsupported */
 	ADDRESSBOOK_LDAP_AUTH_LAST
 } AddressbookLDAPAuthType;
 

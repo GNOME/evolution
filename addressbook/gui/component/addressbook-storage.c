@@ -143,8 +143,6 @@ ldap_unparse_auth (AddressbookLDAPAuthType auth_type)
 		return "none";
 	case ADDRESSBOOK_LDAP_AUTH_SIMPLE:
 		return "simple";
-	case ADDRESSBOOK_LDAP_AUTH_SASL:
-		return "sasl";
 	default:
 		g_assert(0);
 		return "none";
@@ -159,8 +157,6 @@ ldap_parse_auth (const char *auth)
 
 	if (!strcmp (auth, "simple"))
 		return ADDRESSBOOK_LDAP_AUTH_SIMPLE;
-	else if (!strcmp (auth, "sasl"))
-		return ADDRESSBOOK_LDAP_AUTH_SASL;
 	else
 		return ADDRESSBOOK_LDAP_AUTH_NONE;
 }

@@ -1,3 +1,43 @@
+2001-05-11  Chris Toshok  <toshok@ximian.com>
+
+	* gui/widgets/e-minicard-view.c (e_minicard_view_drag_data_get):
+	use e_card_list_get_vcard to build up the data to send.
+	(e_minicard_view_init): connect to the model's drag_begin signal.
+	(e_minicard_view_drag_begin): gather the list of cards being
+	dragged and call gtk_drag_begin.
+	(add_to_list): new function.
+	(get_card_list): same.
+	(disconnect_signals): disconnect the drag_data_get signal.
+	(e_minicard_view_init): connect to the drag_begin signal on our
+	model.
+
+	* gui/widgets/e-minicard-view.h (struct _EMinicardView): change
+	drag_card to drag_list.
+	
+	* gui/widgets/e-minicard-view-model.c (minicard_drag_begin): new
+	function, emit our drag_begin signal.
+	(addressbook_incarnate): connect to the item's drag_begin signal.
+	(e_minicard_view_model_class_init): init our drag_begin signal.
+
+	* gui/widgets/e-minicard-view-model.h: add drag_begin signal.
+
+	* gui/component/addressbook-config.c (addressbook_source_dialog):
+	always loop through all source types here, making LDAP first so
+	it's forces as the first notebook item.
+	(addressbook_config_auth_label): remove SASL case.
+	(addressbook_source_edit_changed): same.
+	(addressbook_source_item_new): flag the area of code that needs to
+	go into the advanced dialog (if we add one before someone
+	graciously redesigns the entire addressbook gui :)
+
+
+	* gui/component/addressbook-storage.c (ldap_unparse_auth): remove
+	SASL case.
+	(ldap_parse_auth): same.
+
+	* gui/component/addressbook-storage.h: make LDAP come first in our
+	source type enumeration, and remove the SASL auth type.
+
 2001-05-11  Christopher James Lahey  <clahey@ximian.com>
 
 	* backend/ebook/e-card.c (e_card_set_arg): If the name is set and
