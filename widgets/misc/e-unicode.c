@@ -2263,7 +2263,7 @@ e_xml_get_translated_utf8_string_prop_by_name (const xmlNode *parent, const xmlC
 	combined_name = g_strdup_printf("_%s", prop_name);
 	prop = xmlGetProp ((xmlNode *) parent, combined_name);
 	if (prop != NULL) {
-		ret_val = e_utf8_from_locale_string (gettext (prop));
+		ret_val = g_strdup (gettext (prop));
 		xmlFree (prop);
 	}
 	g_free(combined_name);

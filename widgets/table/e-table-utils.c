@@ -88,7 +88,7 @@ et_col_spec_to_col (ETableColumnSpecification *col_spec,
 	if (cell && compare) {
 		char *title = dgettext (domain, col_spec->title);
 
-		title = e_utf8_from_locale_string (title);
+		title = g_strdup (title);
 
 		if (col_spec->pixbuf && *col_spec->pixbuf) {
 			GdkPixbuf *pixbuf;

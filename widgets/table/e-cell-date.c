@@ -48,7 +48,7 @@ ecd_get_text(ECellText *cell, ETableModel *model, int col, int row)
 	gboolean done = FALSE;
 
 	if (date == 0) {
-		return e_utf8_from_locale_string (_("?"));
+		return g_strdup (_("?"));
 	}
 
 	localtime_r (&date, &then);

@@ -49,7 +49,14 @@ struct ETreeSelectionModelPriv {
 	ETreePath cursor_path;
 	ETreePath end_path;
 	gint cursor_col;
+	gchar *cursor_save_id;
 
+	gint tree_model_pre_change_id;
+	gint tree_model_no_change_id;
+	gint tree_model_node_changed_id;
+	gint tree_model_node_data_changed_id;
+	gint tree_model_node_col_changed_id;
+	gint tree_model_node_inserted_id;
 	gint tree_model_node_removed_id;
 	gint tree_model_node_deleted_id;
 };
@@ -87,6 +94,7 @@ select_single_path (ETreeSelectionModel *etsm, ETreePath path)
 {
 	clear_selection (etsm);
 	change_one_path(etsm, path, TRUE);
+	etsm->priv->cursor_path = path;
 }
 
 static void
@@ -108,15 +116,91 @@ select_range (ETreeSelectionModel *etsm, gint start, gint end)
 }
 
 static void
+free_id (ETreeSelectionModel *etsm)
+{
+	g_free (etsm->priv->cursor_save_id);
+	etsm->priv->cursor_save_id = NULL;
+}
+
+static void
+restore_cursor (ETreeSelectionModel *etsm, ETreeModel *etm)
+{
+	clear_selection (etsm);
+	etsm->priv->cursor_path = NULL;
+
+	if (etsm->priv->cursor_save_id) {
+		etsm->priv->cursor_path = e_tree_model_get_node_by_id (etm, etsm->priv->cursor_save_id);
+		if (etsm->priv->cursor_path != NULL && etsm->priv->cursor_col == -1)
+			etsm->priv->cursor_col = 0;
+
+		select_single_path(etsm, etsm->priv->cursor_path);
+	}
+
+	e_selection_model_selection_changed(E_SELECTION_MODEL(etsm));
+
+	if (etsm->priv->cursor_path) {
+		gint cursor_row = get_cursor_row (etsm);
+		e_selection_model_cursor_changed(E_SELECTION_MODEL(etsm), cursor_row, etsm->priv->cursor_col);
+	} else {
+		e_selection_model_cursor_changed(E_SELECTION_MODEL(etsm), -1, -1);
+		e_selection_model_cursor_activated(E_SELECTION_MODEL(etsm), -1, -1);
+
+	}
+
+	free_id (etsm);
+}
+
+static void
+etsm_pre_change (ETreeModel *etm, ETreeSelectionModel *etsm)
+{
+	g_free (etsm->priv->cursor_save_id);
+	etsm->priv->cursor_save_id = NULL;
+
+	if (e_tree_model_has_get_node_by_id (etm) && e_tree_model_has_save_id (etm) && etsm->priv->cursor_path) {
+		etsm->priv->cursor_save_id = e_tree_model_get_save_id (etm, etsm->priv->cursor_path);
+	}
+}
+
+static void
+etsm_no_change (ETreeModel *etm, ETreeSelectionModel *etsm)
+{
+	free_id (etsm);
+}
+
+static void
+etsm_node_changed (ETreeModel *etm, ETreePath node, ETreeSelectionModel *etsm)
+{
+	restore_cursor (etsm, etm);
+}
+
+static void
+etsm_node_data_changed (ETreeModel *etm, ETreePath node, ETreeSelectionModel *etsm)
+{
+	free_id (etsm);
+}
+
+static void
+etsm_node_col_changed (ETreeModel *etm, ETreePath node, int col, ETreeSelectionModel *etsm)
+{
+	free_id (etsm);
+}
+
+static void
+etsm_node_inserted (ETreeModel *etm, ETreePath parent, ETreePath child, ETreeSelectionModel *etsm)
+{
+	restore_cursor (etsm, etm);
+}
+
+static void
 etsm_node_removed (ETreeModel *etm, ETreePath parent, ETreePath child, int old_position, ETreeSelectionModel *etsm)
 {
-	change_one_path(etsm, child, FALSE);
+	restore_cursor (etsm, etm);
 }
 
 static void
 etsm_node_deleted (ETreeModel *etm, ETreePath child, ETreeSelectionModel *etsm)
 {
-	change_one_path(etsm, child, FALSE);
+	restore_cursor (etsm, etm);
 }
 
 
@@ -131,6 +215,18 @@ add_model(ETreeSelectionModel *etsm, ETreeModel *model)
 		return;
 
 	g_object_ref(priv->model);
+	priv->tree_model_pre_change_id      = g_signal_connect_after (G_OBJECT (priv->model), "pre_change",
+									G_CALLBACK (etsm_pre_change), etsm);
+	priv->tree_model_no_change_id      = g_signal_connect_after (G_OBJECT (priv->model), "no_change",
+									G_CALLBACK (etsm_no_change), etsm);
+	priv->tree_model_node_changed_id      = g_signal_connect_after (G_OBJECT (priv->model), "node_changed",
+									G_CALLBACK (etsm_node_changed), etsm);
+	priv->tree_model_node_data_changed_id      = g_signal_connect_after (G_OBJECT (priv->model), "node_data_changed",
+									G_CALLBACK (etsm_node_data_changed), etsm);
+	priv->tree_model_node_col_changed_id      = g_signal_connect_after (G_OBJECT (priv->model), "node_col_changed",
+									G_CALLBACK (etsm_node_col_changed), etsm);
+	priv->tree_model_node_inserted_id      = g_signal_connect_after (G_OBJECT (priv->model), "node_inserted",
+									G_CALLBACK (etsm_node_inserted), etsm);
 	priv->tree_model_node_removed_id      = g_signal_connect_after (G_OBJECT (priv->model), "node_removed",
 									G_CALLBACK (etsm_node_removed), etsm);
 	priv->tree_model_node_deleted_id      = g_signal_connect_after (G_OBJECT (priv->model), "node_deleted",
@@ -146,6 +242,18 @@ drop_model(ETreeSelectionModel *etsm)
 		return;
 
 	g_signal_handler_disconnect (G_OBJECT (priv->model),
+			             priv->tree_model_pre_change_id);
+	g_signal_handler_disconnect (G_OBJECT (priv->model),
+			             priv->tree_model_no_change_id);
+	g_signal_handler_disconnect (G_OBJECT (priv->model),
+			             priv->tree_model_node_changed_id);
+	g_signal_handler_disconnect (G_OBJECT (priv->model),
+			             priv->tree_model_node_data_changed_id);
+	g_signal_handler_disconnect (G_OBJECT (priv->model),
+			             priv->tree_model_node_col_changed_id);
+	g_signal_handler_disconnect (G_OBJECT (priv->model),
+			             priv->tree_model_node_inserted_id);
+	g_signal_handler_disconnect (G_OBJECT (priv->model),
 			             priv->tree_model_node_removed_id);
 	g_signal_handler_disconnect (G_OBJECT (priv->model),
 			             priv->tree_model_node_deleted_id);
@@ -153,6 +261,12 @@ drop_model(ETreeSelectionModel *etsm)
 	g_object_unref (priv->model);
 	priv->model = NULL;
 
+	priv->tree_model_pre_change_id = 0;
+	priv->tree_model_no_change_id = 0;
+	priv->tree_model_node_changed_id = 0;
+	priv->tree_model_node_data_changed_id = 0;
+	priv->tree_model_node_col_changed_id = 0;
+	priv->tree_model_node_inserted_id = 0;
 	priv->tree_model_node_removed_id = 0;
 	priv->tree_model_node_deleted_id = 0;
 }
@@ -596,7 +710,14 @@ e_tree_selection_model_init (ETreeSelectionModel *etsm)
 
 	priv->cursor_path                     = NULL;
 	priv->cursor_col                      = -1;
+	priv->cursor_save_id		      = NULL;
 
+	priv->tree_model_pre_change_id        = 0;
+	priv->tree_model_no_change_id         = 0;
+	priv->tree_model_node_changed_id      = 0;
+	priv->tree_model_node_data_changed_id = 0;
+	priv->tree_model_node_col_changed_id  = 0;
+	priv->tree_model_node_inserted_id     = 0;
 	priv->tree_model_node_removed_id      = 0;
 	priv->tree_model_node_deleted_id      = 0;
 }
