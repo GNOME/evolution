@@ -102,6 +102,7 @@ free_key_hash (gpointer key, gpointer value, gpointer user_data)
 		g_free (kd->value.v_str);
 		break;
 	default :
+		break;
 	}
 
 	g_free (kd);
@@ -235,6 +236,7 @@ add_key (EConfigListener *cl, const char *key, GtkFundamentalType type,
 		kd->value.v_str = (char *) value;
 		break;
 	default :
+		break;
 	}
 
 	kd->used_default = used_default;
