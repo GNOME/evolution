@@ -884,8 +884,7 @@ smtp_helo (CamelSmtpTransport *transport, CamelException *ex)
 {
 	/* say hello to the server */
 	char *name = NULL, *cmdbuf = NULL, *respbuf = NULL;
-	const char *token;
-	int numeric = FALSE;
+	const char *token, *numeric = NULL;
 	
 	/* these are flags that we set, so unset them in case we
 	   are being called a second time (ie, after a STARTTLS) */
@@ -905,13 +904,20 @@ smtp_helo (CamelSmtpTransport *transport, CamelException *ex)
 	if (camel_getnameinfo(transport->localaddr, transport->localaddrlen, &name, NULL, NI_NAMEREQD, NULL) != 0) {
 		if (camel_getnameinfo(transport->localaddr, transport->localaddrlen, &name, NULL, NI_NUMERICHOST, NULL) != 0)
 			name = g_strdup("localhost.localdomain");
-		else
-			numeric = TRUE;
+		else {
+			if (transport->localaddr->sa_family == AF_INET6)
+				numeric = "IPv6:";
+			else
+				numeric = "";
+		}
 	}
 	
 	/* hiya server! how are you today? */
 	token = (transport->flags & CAMEL_SMTP_TRANSPORT_IS_ESMTP) ? "EHLO" : "HELO";
-	cmdbuf = g_strdup_printf(numeric ? "%s [%s]\r\n" : "%s %s\r\n", token, name);
+	if (numeric)
+		cmdbuf = g_strdup_printf("%s [%s%s]\r\n", token, numeric, name);
+	else
+		cmdbuf = g_strdup_printf("%s %s\r\n", token, name);
 	g_free (name);
 	
 	d(fprintf (stderr, "sending : %s", cmdbuf));
