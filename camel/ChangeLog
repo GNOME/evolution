@@ -1,3 +1,12 @@
+2003-05-14  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #42540
+	
+	* camel-service.c (camel_gethostbyname): pre-initialise the error
+	return to invalid, so if we cancel, we definetly get a bad result.
+	Also, for a valid return against result, not herr.
+	(camel_gethostbyaddr): Likewise.
+
 2003-05-13  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap/camel-imap-utils.c (imap_uid_array_to_set): Added

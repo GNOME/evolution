@@ -744,6 +744,7 @@ camel_gethostbyname (const char *name, CamelException *ex)
 	msg->hostbuflen = 1024;
 	msg->hostbufmem = g_malloc(msg->hostbuflen);
 	msg->name = name;
+	msg->result = -1;
 
 #ifdef ENABLE_THREADS
 	cancel_fd = camel_operation_cancel_fd(NULL);
@@ -793,7 +794,7 @@ camel_gethostbyname (const char *name, CamelException *ex)
 
 	camel_operation_end(NULL);
 
-	if (msg->herr) {
+	if (msg->result != 0) {
  		if (!camel_exception_is_set(ex)) {
 			if (msg->herr == HOST_NOT_FOUND || msg->herr == NO_DATA)
 				camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
@@ -858,7 +859,8 @@ camel_gethostbyaddr (const char *addr, int len, int type, CamelException *ex)
 	msg->name = addr;
 	msg->len = len;
 	msg->type = type;
-	
+	msg->result = -1;
+
 #ifdef ENABLE_THREADS
 	cancel_fd = camel_operation_cancel_fd (NULL);
 	if (cancel_fd == -1) {
@@ -908,7 +910,7 @@ camel_gethostbyaddr (const char *addr, int len, int type, CamelException *ex)
 	
 	camel_operation_end (NULL);
 	
-	if (msg->herr) {
+	if (msg->result != 0) {
  		if (!camel_exception_is_set (ex)) {
 			if (msg->herr == HOST_NOT_FOUND || msg->herr == NO_DATA)
 				camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
