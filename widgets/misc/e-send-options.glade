@@ -82,7 +82,8 @@
       <child>
 	<widget class="GtkNotebook" id="notebook">
 	  <property name="visible">True</property>
-	  <property name="show_tabs">False</property>
+	  <property name="can_focus">True</property>
+	  <property name="show_tabs">True</property>
 	  <property name="show_border">True</property>
 	  <property name="tab_pos">GTK_POS_TOP</property>
 	  <property name="scrollable">False</property>
@@ -1157,9 +1158,9 @@ Mail Receipt</property>
 	  </child>
 
 	  <child>
-	    <widget class="GtkLabel" id="sopts-label">
+	    <widget class="GtkLabel" id="slabel">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">Sta_tus Tracking</property>
+	      <property name="label" translatable="yes">Sta_tus  Tracking</property>
 	      <property name="use_underline">True</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>

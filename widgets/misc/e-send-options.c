@@ -35,6 +35,7 @@ struct _ESendOptionsDialogPrivate {
 	GladeXML *xml;
 
 	gboolean gopts_needed;
+	gboolean global;
 
 	/* Widgets */
 
@@ -42,6 +43,8 @@ struct _ESendOptionsDialogPrivate {
 
 	/* Noteboook to add options page and status tracking page*/
 	GtkNotebook *notebook;
+
+	GtkWidget *status;
 
 	/* priority */
 	GtkWidget *priority;
@@ -93,6 +96,7 @@ static void e_sendoptions_dialog_finalize (GObject *object);
 static void e_sendoptions_dialog_init (GObject *object);
 static void e_sendoptions_dialog_dispose (GObject *object);
 
+static GObjectClass *parent_class = NULL;
 
 static void
 e_send_options_get_widgets_data (ESendOptionsDialog *sod)
@@ -106,7 +110,8 @@ e_send_options_get_widgets_data (ESendOptionsDialog *sod)
 	sopts = sod->data->sopts;
 	
 	gopts->priority = gtk_combo_box_get_active ((GtkComboBox *) priv->priority);
-		
+	gopts->classify = gtk_combo_box_get_active ((GtkComboBox *) priv->classification);
+	
 	gopts->reply_enabled = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->reply_request));
 	gopts->reply_convenient = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->reply_convenient));
 	gopts->reply_within = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (priv->within_days));
@@ -148,7 +153,8 @@ e_send_options_fill_widgets_with_data (ESendOptionsDialog *sod)
 	tmp = time (NULL);
 
 	gtk_combo_box_set_active ((GtkComboBox *) priv->priority, gopts->priority);
-	
+	gtk_combo_box_set_active ((GtkComboBox *) priv->classification, gopts->classify);
+
 	if (gopts->reply_enabled) 
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->reply_request), TRUE);
 	else
@@ -229,6 +235,7 @@ sensitize_widgets (ESendOptionsDialog *sod)
 		gtk_widget_set_sensitive (priv->delivered, FALSE);
 		gtk_widget_set_sensitive (priv->delivered_opened, FALSE);
 		gtk_widget_set_sensitive (priv->all_info, FALSE);
+		gtk_widget_set_sensitive (priv->autodelete, FALSE);
 	}
 }
 
@@ -292,6 +299,7 @@ sent_item_toggled_cb (GtkWidget *toggle, gpointer data)
 	gtk_widget_set_sensitive (priv->delivered, active);
 	gtk_widget_set_sensitive (priv->delivered_opened, active);
 	gtk_widget_set_sensitive (priv->all_info, active);
+	gtk_widget_set_sensitive (priv->autodelete, active);
 
 }
 
@@ -315,7 +323,45 @@ delay_until_date_changed_cb (GtkWidget *dedit, gpointer data)
 		e_date_edit_set_time (E_DATE_EDIT (priv->delay_until), 0);
 	
 }
+static void
+page_changed_cb (GtkNotebook *notebook, GtkNotebookPage *page, int num, gpointer data)
+{
+	ESendOptionsDialog *sod = data;
+	ESendOptionsDialogPrivate *priv = sod->priv;
 
+	e_send_options_get_widgets_data (sod);
+	if (num > 0) {
+		if (num == 1) {
+			gtk_widget_hide (priv->accepted_label);
+			gtk_widget_hide (priv->when_accepted);
+			gtk_widget_hide (priv->completed_label);
+			gtk_widget_hide (priv->when_completed);
+			gtk_widget_set_sensitive (priv->autodelete, TRUE);
+			sod->data->sopts = sod->data->mopts;
+		} else if (num == 2) {
+			gtk_widget_hide (priv->completed_label);
+			gtk_widget_hide (priv->when_completed);
+			gtk_widget_hide (priv->classification_label);
+			gtk_widget_hide (priv->classification);
+			gtk_widget_set_sensitive (priv->autodelete, FALSE);
+			
+			gtk_widget_show (priv->accepted_label);
+			gtk_widget_show (priv->when_accepted);
+			sod->data->sopts = sod->data->copts;
+		} else {
+			gtk_widget_set_sensitive (priv->autodelete, FALSE);
+			
+			gtk_widget_show (priv->completed_label);
+			gtk_widget_show (priv->when_completed);
+			gtk_widget_show (priv->accepted_label);
+			gtk_widget_show (priv->when_accepted);
+			sod->data->sopts = sod->data->topts;		
+		}
+	}
+	e_send_options_fill_widgets_with_data (sod);
+}
+		
+		
 static void
 init_widgets (ESendOptionsDialog *sod)
 {
@@ -329,6 +375,10 @@ init_widgets (ESendOptionsDialog *sod)
 	g_signal_connect (priv->create_sent, "toggled", G_CALLBACK (sent_item_toggled_cb), sod);
 
 	g_signal_connect (priv->delay_until, "changed", G_CALLBACK (delay_until_date_changed_cb), sod);
+
+	if (priv->global)
+	 	g_signal_connect (priv->notebook, "switch-page", G_CALLBACK (page_changed_cb), sod);
+
 
 }
 	
@@ -346,6 +396,7 @@ get_widgets (ESendOptionsDialog *sod)
 		return FALSE;
 
 	priv->priority = GW ("combo-priority");
+	priv->status = GW ("status-tracking");
 	priv->classification = GW ("classification-combo");
 	priv->notebook = GW ("notebook");
 	priv->reply_request = GW ("reply-request-button");
@@ -368,7 +419,7 @@ get_widgets (ESendOptionsDialog *sod)
 	priv->when_completed = GW ("complete-combo");
 	priv->classification_label = GW ("classification-label");
 	priv->gopts_label = GW ("gopts-label");
-	priv->sopts_label = GW ("sopts-label");
+	priv->sopts_label = GW ("slabel");
 	priv->priority_label = GW ("priority-label");
 	priv->until_label = GW ("until-label");
 	priv->opened_label = GW ("opened-label");
@@ -380,6 +431,7 @@ get_widgets (ESendOptionsDialog *sod)
 
 	return (priv->priority
 		&& priv->classification
+		&& priv->status
 		&& priv->reply_request
 		&& priv->reply_convenient
 		&& priv->reply_within
@@ -401,7 +453,6 @@ get_widgets (ESendOptionsDialog *sod)
 		&& priv->priority_label
 		&& priv->opened_label
 		&& priv->gopts_label
-		&& priv->sopts_label
 		&& priv->declined_label
 		&& priv->accepted_label
 		&& priv->completed_label);
@@ -429,6 +480,17 @@ setup_widgets (ESendOptionsDialog *sod, Item_type type)
 	gtk_label_set_mnemonic_widget (GTK_LABEL (priv->completed_label), priv->when_completed);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (priv->until_label), priv->delay_until);
 
+	if (priv->global) {
+	        GtkWidget *widget = gtk_label_new ("Calendar");
+		gtk_label_set_text (GTK_LABEL (priv->sopts_label), "Mail");	
+		gtk_notebook_append_page (priv->notebook, priv->status, widget);
+		gtk_widget_show (widget);
+		widget = gtk_label_new ("Task");
+		gtk_widget_show (widget);
+		gtk_notebook_append_page (priv->notebook, priv->status,widget);
+		gtk_notebook_set_show_tabs (priv->notebook, TRUE);
+	}
+		
 	switch (type) {
 		case E_ITEM_MAIL:
 			gtk_widget_hide (priv->accepted_label);
@@ -490,6 +552,16 @@ send_options_make_dateedit (void)
 	return GTK_WIDGET (dedit);
 }
 
+gboolean
+e_sendoptions_set_global (ESendOptionsDialog *sod, gboolean set)
+{
+	g_return_val_if_fail (E_IS_SENDOPTIONS_DIALOG (sod), FALSE);
+
+	sod->priv->global = set;
+
+	return TRUE;
+}
+
 gboolean 
 e_sendoptions_dialog_run (ESendOptionsDialog *sod, GtkWidget *parent, Item_type type)
 {
@@ -497,6 +569,8 @@ e_sendoptions_dialog_run (ESendOptionsDialog *sod, GtkWidget *parent, Item_type 
 	GtkWidget *toplevel;
 	int result;
 
+	g_return_val_if_fail (sod != NULL || E_IS_SENDOPTIONS_DIALOG (sod), FALSE);
+	
 	priv = sod->priv;
 	priv->xml = glade_xml_new (EVOLUTION_GLADEDIR "/e-send-options.glade", NULL, NULL);
 
@@ -510,11 +584,17 @@ e_sendoptions_dialog_run (ESendOptionsDialog *sod, GtkWidget *parent, Item_type 
 		g_message (G_STRLOC ": Could not get the Widgets \n");
 		return FALSE;
 	}
-	
+
+	if (priv->global) {
+		g_free (sod->data->sopts);
+		sod->data->sopts = sod->data->mopts;
+	}
+
 	setup_widgets (sod, type);
 
 	toplevel =  gtk_widget_get_toplevel (priv->main);
-	gtk_window_set_transient_for (GTK_WINDOW (toplevel),
+	if (parent)
+		gtk_window_set_transient_for (GTK_WINDOW (toplevel),
 				      GTK_WINDOW (parent));
 
 	e_send_options_fill_widgets_with_data (sod);
@@ -536,11 +616,62 @@ e_sendoptions_dialog_run (ESendOptionsDialog *sod, GtkWidget *parent, Item_type 
 static void
 e_sendoptions_dialog_finalize (GObject *object)
 {
+	ESendOptionsDialog *sod = (ESendOptionsDialog *) object;
+	ESendOptionsDialogPrivate *priv;
+
+	g_return_if_fail (E_IS_SENDOPTIONS_DIALOG (sod));
+	priv = sod->priv;
+
+	if (sod->data->gopts) {
+		g_free (sod->data->gopts);
+		sod->data->gopts = NULL;
+	}
+
+	if (!priv->global && sod->data->sopts) {
+		g_free (sod->data->sopts);
+		sod->data->sopts = NULL;
+	}
+
+	if (sod->data->mopts) {
+		g_free (sod->data->mopts);
+		sod->data->mopts = NULL;
+	}
+	
+	if (sod->data->copts) {
+		g_free (sod->data->copts);
+		sod->data->copts = NULL;
+	}
+	
+	if (sod->data->topts) {
+		g_free (sod->data->topts);
+		sod->data->topts = NULL;
+	}	
+	
+	if (sod->data) {
+		g_free (sod->data);
+		sod->data = NULL;
+	}
+
+	if (sod->priv) {
+		g_free (sod->priv);
+		sod->priv = NULL;
+	}
+	
+	if (parent_class->finalize)
+		(* parent_class->finalize) (object);
+
 }
 
 static void
 e_sendoptions_dialog_dispose (GObject *object)
 {
+	ESendOptionsDialog *sod = (ESendOptionsDialog *) object;
+
+	g_return_if_fail (E_IS_SENDOPTIONS_DIALOG (sod));
+
+	if (parent_class->dispose)
+		(* parent_class->dispose) (object);
+
 }
 
 /* Object initialization function for the task page */
@@ -556,11 +687,15 @@ e_sendoptions_dialog_init (GObject *object)
 	new = g_new0 (ESendOptionsData, 1);
 	new->gopts = g_new0 (ESendOptionsGeneral, 1);
 	new->sopts = g_new0 (ESendOptionsStatusTracking, 1);
+	new->mopts = g_new0 (ESendOptionsStatusTracking, 1);
+	new->copts = g_new0 (ESendOptionsStatusTracking, 1);
+	new->topts = g_new0 (ESendOptionsStatusTracking, 1);
 	priv = g_new0 (ESendOptionsDialogPrivate, 1);
 
 	sod->priv = priv;
 	sod->data = new;
 	sod->data->initialized = FALSE;
+	sod->data->gopts->classify = 0;
 
 	priv->gopts_needed = TRUE;
 	priv->xml = NULL;
@@ -568,6 +703,7 @@ e_sendoptions_dialog_init (GObject *object)
 	priv->main = NULL;
 	priv->notebook = NULL;
 	priv->priority = NULL;
+	priv->status = NULL;
 	priv->classification = NULL;
 	priv->reply_request = NULL;
 	priv->reply_convenient = NULL;
@@ -579,6 +715,7 @@ e_sendoptions_dialog_init (GObject *object)
 	priv->create_sent = NULL;
 	priv->delivered =NULL;
 	priv->delivered_opened = NULL;
+	priv->global = FALSE;
 	priv->all_info = NULL;
 	priv->when_opened = NULL;
 	priv->when_declined = NULL;
@@ -601,11 +738,10 @@ e_sendoptions_dialog_class_init (GObjectClass *object)
 {
 	ESendOptionsDialogClass *klass;
 	GObjectClass *object_class;
-	GtkWidgetClass *widget_class;
 
 	klass = E_SENDOPTIONS_DIALOG_CLASS (object);
+	parent_class = g_type_class_peek_parent (klass);
 	object_class = G_OBJECT_CLASS (klass);
-	widget_class = GTK_WIDGET_CLASS (klass);
 
 	object_class->finalize = e_sendoptions_dialog_finalize;
 	object_class->dispose = e_sendoptions_dialog_dispose;
@@ -633,4 +769,3 @@ GType e_sendoptions_dialog_get_type (void)
   }
   return type;
 }
-

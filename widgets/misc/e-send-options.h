@@ -37,6 +37,7 @@ typedef struct _ESendOptionsDialogClass		ESendOptionsDialogClass;
 typedef struct _ESendOptionsDialogPrivate	ESendOptionsDialogPrivate;
 
 typedef enum {
+	E_ITEM_NONE,
 	E_ITEM_MAIL,
 	E_ITEM_CALENDAR,
 	E_ITEM_TASK
@@ -62,6 +63,7 @@ typedef enum {
 
 typedef struct {
 	ESendOptionsPriority priority;
+	gint classify;
 	gboolean reply_enabled;
 	gboolean reply_convenient;
 	gint reply_within;
@@ -86,6 +88,9 @@ typedef struct {
 
 	ESendOptionsGeneral *gopts;
 	ESendOptionsStatusTracking *sopts;
+	ESendOptionsStatusTracking *mopts;
+	ESendOptionsStatusTracking *copts;
+	ESendOptionsStatusTracking *topts;
 	
 } ESendOptionsData;
 
@@ -106,5 +111,5 @@ ESendOptionsDialog *e_sendoptions_dialog_new (void);
 void e_sendoptions_set_need_general_options (ESendOptionsDialog *sod, gboolean needed);
 gboolean e_sendoptions_get_need_general_options (ESendOptionsDialog *sod);
 gboolean e_sendoptions_dialog_run (ESendOptionsDialog *sod, GtkWidget *parent, Item_type type);
-
+gboolean e_sendoptions_set_global (ESendOptionsDialog *sod, gboolean set);
 #endif 

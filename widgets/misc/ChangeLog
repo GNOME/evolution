@@ -1,3 +1,16 @@
+2005-01-10 Chenthill Palanisamy <pchenthill@novell.com>
+
+	* e-send-options.c: (e_send_options_get_widgets_data),
+	(e_send_options_fill_widgets_with_data), (page_changed_cb),
+	(init_widgets), (get_widgets), (setup_widgets),
+	(e_sendoptions_set_global), (e_sendoptions_dialog_run),
+	(e_sendoptions_dialog_finalize), (e_sendoptions_dialog_dispose),
+	(e_sendoptions_dialog_init), (e_sendoptions_dialog_class_init),
+	(e_sendoptions_dialog_get_type): Added code to support global options.
+	Filled the finalize and dispose functions.
+	* e-send-options.glade: Changed a label id.
+	* e-send-options.h: Added the set_global function.
+
 2005-01-06  JP Rosevear  <jpr@novell.com>
 
 	* Makefile.am: dist the glade file
