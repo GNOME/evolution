@@ -1935,14 +1935,6 @@ imap_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 	    (stream = camel_imap_folder_fetch_data (imap_folder, uid, "", TRUE, NULL)))
 		return get_message_simple (imap_folder, uid, stream, ex);
 
-#if 0
-	/* If we're not actually connected and it's not in the cache,
-	 * that's as far as we can go.
-	 */
-	if (camel_disco_store_check_online (CAMEL_DISCO_STORE (store), ex) == FALSE)
-		return NULL;
-#endif
-
 	mi = camel_folder_summary_uid (folder->summary, uid);
 	if (mi == NULL) {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_FOLDER_INVALID_UID,
