@@ -68,6 +68,9 @@ GtkObject *e_meeting_model_new      (void);
 CalClient *e_meeting_model_get_cal_client (EMeetingModel *im);
 void e_meeting_model_set_cal_client (EMeetingModel *im, CalClient *client);
 
+icaltimezone *e_meeting_model_get_zone (EMeetingModel *im);
+void e_meeting_model_set_zone (EMeetingModel *im, icaltimezone *zone);
+
 void e_meeting_model_add_attendee (EMeetingModel *im, EMeetingAttendee *ia);
 EMeetingAttendee *e_meeting_model_add_attendee_with_defaults (EMeetingModel *im);
 

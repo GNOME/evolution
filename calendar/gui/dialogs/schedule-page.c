@@ -265,7 +265,8 @@ update_time (SchedulePage *spage, CalComponentDateTime *start_date, CalComponent
 	if (start_zone != end_zone) {
 		icaltimezone_convert_time (&end_tt, end_zone, start_zone);
 	}
-
+	e_meeting_model_set_zone (priv->model, priv->zone);
+	
 	all_day = (start_tt.is_date && end_tt.is_date) ? TRUE : FALSE;
 
 	/* For All Day Events, if DTEND is after DTSTART, we subtract 1 day

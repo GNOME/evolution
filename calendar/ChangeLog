@@ -1,3 +1,16 @@
+2001-11-11  JP Rosevear  <jpr@ximian.com>
+
+	* gui/e-meeting-model.h: new protos
+
+	* gui/e-meeting-model.c (e_meeting_model_get_zone): accessor
+	(e_meeting_model_set_zone): ditto
+	(init): init to the calendar default zone
+	(process_free_busy_comp): take the zone to convert to as a param
+	(e_meeting_model_refresh_busy_periods): redraw properly
+
+	* gui/dialogs/schedule-page.c (update_time): set the zone of the
+	model
+
 2001-11-09  Damon Chaplin  <damon@ximian.com>
 
 	* gui/e-week-view.c (e_week_view_key_press): don't subtract a day
@@ -31,7 +44,7 @@
 	CalComponent we create
 
 2001-11-08  JP Rosevear  <jpr@ximian.com>
- 
+	
  	* gui/e-itip-control.c (ok_clicked_cb): don't add the item, remove
  	it if declining (in case it was added before)
  	(remove_item): Since we can't discern between an item not found

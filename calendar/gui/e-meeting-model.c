@@ -75,6 +75,7 @@ struct _EMeetingModelPrivate
 	ETableWithout *without;
 	
 	CalClient *client;
+	icaltimezone *zone;
 	
 	EBook *ebook;
 	gboolean book_loaded;
@@ -390,7 +391,6 @@ append_row (ETableModel *etm, ETableModel *source, int row)
 	
 	address = (char *) e_table_model_value_at (source, ITIP_ADDRESS_COL, row);
 	if (find_match (im, address, NULL) != NULL) {
-//		duplicate_error ();
 		return;
 	}
 	
@@ -659,6 +659,7 @@ init (EMeetingModel *im)
 	e_table_without_hide (priv->without, g_strdup ("delegator"));
 	
 	priv->client = NULL;
+	priv->zone = icaltimezone_get_builtin_timezone (calendar_config_get_timezone ());
 	
 	priv->ebook = NULL;
 	priv->book_loaded = FALSE;
@@ -721,6 +722,32 @@ e_meeting_model_set_cal_client (EMeetingModel *im, CalClient *client)
 	if (client != NULL)
 		gtk_object_ref (GTK_OBJECT (client));
 	priv->client = client;
+}
+
+icaltimezone *
+e_meeting_model_get_zone (EMeetingModel *im)
+{
+	EMeetingModelPrivate *priv;
+	
+	g_return_val_if_fail (im != NULL, NULL);
+	g_return_val_if_fail (E_IS_MEETING_MODEL (im), NULL);
+
+	priv = im->priv;
+	
+	return priv->zone;
+}
+
+void
+e_meeting_model_set_zone (EMeetingModel *im, icaltimezone *zone)
+{
+	EMeetingModelPrivate *priv;
+	
+	g_return_if_fail (im != NULL);
+	g_return_if_fail (E_IS_MEETING_MODEL (im));
+
+	priv = im->priv;
+	
+	priv->zone = zone;
 }
 
 static ETableScrolled *
@@ -1017,13 +1044,13 @@ convert_time (struct icaltimetype itt, icaltimezone *from, icaltimezone *to)
 }
 
 static void
-process_free_busy_comp (EMeetingAttendee *ia, icalcomponent *fb_comp, icalcomponent *tz_top_level)
+process_free_busy_comp (EMeetingAttendee *ia,
+			icalcomponent *fb_comp,
+			icaltimezone *zone,
+			icalcomponent *tz_top_level)
 {
 	icalproperty *ip;
-	icaltimezone *view_zone;
 	
-	view_zone = icaltimezone_get_builtin_timezone (calendar_config_get_timezone ());
-
 	ip = icalcomponent_get_first_property (fb_comp, ICAL_DTSTART_PROPERTY);
 	if (ip != NULL) {
 		struct icaltimetype dtstart;
@@ -1033,7 +1060,7 @@ process_free_busy_comp (EMeetingAttendee *ia, icalcomponent *fb_comp, icalcompon
 		if (!dtstart.is_utc) {
 			ds_zone = find_zone (ip, tz_top_level);
 			if (ds_zone != NULL)
-				dtstart = convert_time (dtstart, ds_zone, view_zone);
+				dtstart = convert_time (dtstart, ds_zone, zone);
  		}
 			
 		e_meeting_attendee_set_start_busy_range (ia,
@@ -1053,7 +1080,7 @@ process_free_busy_comp (EMeetingAttendee *ia, icalcomponent *fb_comp, icalcompon
 		if (!dtend.is_utc) {
 			de_zone = find_zone (ip, tz_top_level);
 			if (de_zone != NULL)
-				dtend = convert_time (dtend, de_zone, view_zone);
+				dtend = convert_time (dtend, de_zone, zone);
 		}
 
 		e_meeting_attendee_set_end_busy_range (ia,
@@ -1093,8 +1120,8 @@ process_free_busy_comp (EMeetingAttendee *ia, icalcomponent *fb_comp, icalcompon
 		}
 			
 		if (busy_type != E_MEETING_FREE_BUSY_LAST) {
-			fb.start = convert_time (fb.start, NULL, view_zone);
-			fb.end = convert_time (fb.end, NULL, view_zone);
+			fb.start = convert_time (fb.start, NULL, zone);
+			fb.end = convert_time (fb.end, NULL, zone);
 			e_meeting_attendee_add_busy_period (ia,
 							    fb.start.year,
 							    fb.start.month,
@@ -1167,13 +1194,13 @@ process_free_busy (EMeetingModel *im, EMeetingAttendee *ia, char *text)
 
 		iter = icalcomponent_begin_component (main_comp, ICAL_VFREEBUSY_COMPONENT);
 		while ((sub_comp = icalcompiter_deref (&iter)) != NULL) {
-			process_free_busy_comp (ia, sub_comp, tz_top_level);
+			process_free_busy_comp (ia, sub_comp, priv->zone, tz_top_level);
 
 			icalcompiter_next (&iter);
 		}
 		icalcomponent_free (tz_top_level);
 	} else if (kind == ICAL_VFREEBUSY_COMPONENT) {
-		process_free_busy_comp (ia, main_comp, NULL);
+		process_free_busy_comp (ia, main_comp, priv->zone, NULL);
 	} else {
 		return;
 	}
@@ -1341,13 +1368,14 @@ e_meeting_model_refresh_busy_periods (EMeetingModel *im, EMeetingModelRefreshCal
 				ia = NULL;
 			}
 			
-			if (ia != NULL)
-				process_free_busy (im, ia, cal_component_get_as_string (comp));
-			
-			process_callbacks (im);
+			if (ia != NULL) {
+				char *comp_str;
+				
+				comp_str = cal_component_get_as_string (comp);
+				process_free_busy (im, ia, comp_str);
+				g_free (comp_str);
+			}
 		}
-		
-		
 	}
 
 	/* Look for fburl's of attendee with no free busy info on server */
@@ -1372,7 +1400,10 @@ e_meeting_model_refresh_busy_periods (EMeetingModel *im, EMeetingModelRefreshCal
 	}
 	g_string_append_c (string, ')');
 	
-	e_book_get_cursor (priv->ebook, string->str, cursor_cb, im);
+	if (not_found->len > 0) 
+		e_book_get_cursor (priv->ebook, string->str, cursor_cb, im);
+	else
+		process_callbacks (im);
 
 	g_ptr_array_free (not_found, FALSE);
 	g_string_free (string, TRUE);
