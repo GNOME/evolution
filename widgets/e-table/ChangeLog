@@ -1,3 +1,7 @@
+1999-11-26  Michael Meeks  <mmeeks@gnu.org>
+
+	* ROADMAP.e-table: small spelling/typo fixes.
+
 1999-11-25  Miguel de Icaza  <miguel@gnu.org>
 
 	* e-table-item.c (eti_realize_cell_views): New routine: Realizes

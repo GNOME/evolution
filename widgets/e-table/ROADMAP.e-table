@@ -31,7 +31,7 @@ e-table-simple.h, e-table-simple.c:
 
 e-cell.c, e-cell.h:
 
-	These are actually miss-named.  Objects of type e-cell know
+	These are actually mis-named.  Objects of type e-cell know
 	about rendering a single cell, and these are attached to the
 	e-table-cols (described next).
 
@@ -40,14 +40,14 @@ e-cell.c, e-cell.h:
 
 	This is just an abstract class.  I will provide various
 	e-cells: a text cell, a checkbox cell, an image cell, and
-	perhaps a n-state image cell (one that switches the image when
+	perhaps an n-state image cell (one that switches the image when
 	the cell is clicked). 
 
 e-table-col.h, e-table-col.c:
 
 	Describes a single column (the size, the string displayed, the
-	rendering function for each row, comparission function for
-	thsi field).
+	rendering function for each row and comparison function for
+	this field).
 
 
 * The Views
