@@ -1,6 +1,13 @@
 2005-03-16  Rodrigo Moya <rodrigo@novell.com>
 
-	Fixes 72983
+	Fixes #73101
+
+	* calendar-errors.xml:
+	* calendar-errors.xml.h: removed unnecessary leading space.
+
+2005-03-16  Rodrigo Moya <rodrigo@novell.com>
+
+	Fixes #72983
 
 	* gui/e-cal-list-view.c (e_cal_list_view_new): set EXPAND_RECURRENCES
 	flag on the model.
