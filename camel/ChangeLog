@@ -1,5 +1,11 @@
 2000-10-05  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* camel-mime-message.c (camel_mime_message_set_reply_to): Use the
+	camel_address_encode function again.
+	(camel_mime_message_set_from): Same.
+
+2000-10-05  Jeffrey Stedfast  <fejj@helixcode.com>
+
 	* camel-mime-utils.c (quoted_encode_step): Modified to not encode
 	space chars in the middle of a line.
 	(isblank): New macro if we're not on a system with the GNU isblank
