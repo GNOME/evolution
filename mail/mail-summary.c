@@ -185,7 +185,7 @@ generate_html_summary (MailSummary *summary)
 	g_print ("unread: %d\n", fs->unread);
 	g_print ("total: %d\n", fs->total);
 
-	tmp = g_strdup_printf ("<table><tr><td><b><a href=\"view://evolution:/Local Folders/Inbox\">%s</a>:</b>"
+	tmp = g_strdup_printf ("<table><tr><td><b><a href=\"view://evolution:/local/Inbox\">%s</a>:</b>"
 			       "<td align=\"right\">%d/%d</td></tr>",
 			       fs->name, fs->unread, fs->total);
 

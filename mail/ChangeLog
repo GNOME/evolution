@@ -1,3 +1,8 @@
+2001-07-20  Jason Leach  <jleach@ximian.com>
+
+	* mail-summary.c (generate_html_summary): Change this back to the
+	"evolution:/local/Inbox" URI.
+
 2001-07-20  Peter Williams  <peterw@ximian.com>
 
 	* component-factory.c (storage_remove_folder): Don't let the user
