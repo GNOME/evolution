@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-04-22 19:19-0400\n"
-"PO-Revision-Date: 2004-04-22 19:20-0400\n"
+"POT-Creation-Date: 2004-04-27 18:25-0400\n"
+"PO-Revision-Date: 2004-04-27 18:27-0400\n"
 "Last-Translator: Gareth Owen <gowen72@yahoo.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -58,8 +58,8 @@ msgstr "Default Sync Address:"
 msgid "Could not load addressbook"
 msgstr "Could not load addressbook"
 
-#: addressbook/conduit/address-conduit.c:1214
-#: addressbook/conduit/address-conduit.c:1217
+#: addressbook/conduit/address-conduit.c:1219
+#: addressbook/conduit/address-conduit.c:1222
 msgid "Could not read pilot's Address application block"
 msgstr "Could not read pilot's Address application block"
 
@@ -81,7 +81,7 @@ msgstr "Configure autocomple here"
 #. name = e_book_get_name (book);
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:4
 #: addressbook/tools/evolution-addressbook-export-list-folders.c:51
-#: calendar/gui/migration.c:364
+#: calendar/gui/migration.c:373
 msgid "Contacts"
 msgstr "Contacts"
 
@@ -157,19 +157,19 @@ msgstr "_Contacts Group"
 msgid "Create a new contacts group"
 msgstr "Create a new contacts group"
 
-#: addressbook/gui/component/addressbook-config.c:406
+#: addressbook/gui/component/addressbook-config.c:466
 msgid "Failed to connect to LDAP server"
 msgstr "Failed to connect to LDAP server"
 
-#: addressbook/gui/component/addressbook-config.c:430
+#: addressbook/gui/component/addressbook-config.c:490
 msgid "Failed to authenticate with LDAP server"
 msgstr "Failed to authenticate with LDAP server"
 
-#: addressbook/gui/component/addressbook-config.c:458
+#: addressbook/gui/component/addressbook-config.c:518
 msgid "Could not perform query on Root DSE"
 msgstr "Could not perform query on Root DSE"
 
-#: addressbook/gui/component/addressbook-config.c:784
+#: addressbook/gui/component/addressbook-config.c:822
 msgid "The server responded with no supported search bases"
 msgstr "The server responded with no supported search bases"
 
@@ -185,48 +185,48 @@ msgstr "Error retrieving schema information"
 msgid "Server did not respond with valid schema information"
 msgstr "Server did not respond with valid schema information"
 
-#: addressbook/gui/component/addressbook-migrate.c:61
-#: calendar/gui/migration.c:128 mail/em-migrate.c:1070
+#: addressbook/gui/component/addressbook-migrate.c:68
+#: calendar/gui/migration.c:137 mail/em-migrate.c:1070
 msgid "Migrating..."
 msgstr "Migrating..."
 
-#: addressbook/gui/component/addressbook-migrate.c:113
-#: calendar/gui/migration.c:175 mail/em-migrate.c:1111
+#: addressbook/gui/component/addressbook-migrate.c:120
+#: calendar/gui/migration.c:184 mail/em-migrate.c:1111
 #, c-format
 msgid "Migrating `%s':"
 msgstr "Migrating `%s':"
 
 #. create the local source group
-#: addressbook/gui/component/addressbook-migrate.c:431
-#: calendar/gui/migration.c:437 calendar/gui/migration.c:520
+#: addressbook/gui/component/addressbook-migrate.c:438
+#: calendar/gui/migration.c:446 calendar/gui/migration.c:528
 #: mail/em-folder-tree-model.c:192 mail/em-folder-tree-model.c:194
 #: mail/mail-component.c:241
 msgid "On This Computer"
 msgstr "On This Computer"
 
 #. Create the default Person addressbook
-#: addressbook/gui/component/addressbook-migrate.c:439
-#: addressbook/gui/contact-editor/contact-editor.glade.h:36
-#: calendar/gui/migration.c:445 calendar/gui/migration.c:528
+#: addressbook/gui/component/addressbook-migrate.c:446
+#: addressbook/gui/contact-editor/contact-editor.glade.h:37
+#: calendar/gui/migration.c:454 calendar/gui/migration.c:536
 #: filter/filter-label.c:123 mail/em-migrate.c:924 mail/mail-config.c:67
 #: mail/mail-config.glade.h:106
 msgid "Personal"
 msgstr "Personal"
 
 #. Create the LDAP source group
-#: addressbook/gui/component/addressbook-migrate.c:447
+#: addressbook/gui/component/addressbook-migrate.c:454
 msgid "On LDAP Servers"
 msgstr "On LDAP Servers"
 
-#: addressbook/gui/component/addressbook-migrate.c:575
+#: addressbook/gui/component/addressbook-migrate.c:582
 msgid "LDAP Servers"
 msgstr "LDAP Servers"
 
-#: addressbook/gui/component/addressbook-migrate.c:695
+#: addressbook/gui/component/addressbook-migrate.c:702
 msgid "Autocompletion Settings"
 msgstr "Autocompletion Settings"
 
-#: addressbook/gui/component/addressbook-migrate.c:993
+#: addressbook/gui/component/addressbook-migrate.c:1076
 msgid ""
 "The location and hierarchy of the Evolution contact folders has changed "
 "since Evolution 1.x.\n"
@@ -238,7 +238,7 @@ msgstr ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 
-#: addressbook/gui/component/addressbook-migrate.c:1007
+#: addressbook/gui/component/addressbook-migrate.c:1090
 msgid ""
 "The format of mailing list contacts has changed.\n"
 "\n"
@@ -248,15 +248,25 @@ msgstr ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 
-#: addressbook/gui/component/addressbook-migrate.c:1016
+#: addressbook/gui/component/addressbook-migrate.c:1099
 msgid ""
-"The way evolutions stores some phone numbers has changed.\n"
+"The way Evolution stores some phone numbers has changed.\n"
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
-"The way evolutions stores some phone numbers has changed.\n"
+"The way Evolution stores some phone numbers has changed.\n"
 "\n"
 "Please be patient while Evolution migrates your folders..."
+
+#: addressbook/gui/component/addressbook-migrate.c:1109
+msgid ""
+"Evolution's Palm Sync changelog and map files have changed.\n"
+"\n"
+"Please be patient while Evolution migrates your Pilot Sync data..."
+msgstr ""
+"Evolution's Palm Sync changelog and map files have changed.\n"
+"\n"
+"Please be patient while Evolution migrates your Pilot Sync data..."
 
 #: addressbook/gui/component/addressbook.c:89
 msgid "Accessing LDAP Server anonymously"
@@ -319,128 +329,173 @@ msgid "*"
 msgstr "*"
 
 #: addressbook/gui/component/ldap-config.glade.h:3
+msgid "1"
+msgstr "1"
+
+#: addressbook/gui/component/ldap-config.glade.h:4
 msgid "1:00"
 msgstr "1:00"
 
-#: addressbook/gui/component/ldap-config.glade.h:4
+#: addressbook/gui/component/ldap-config.glade.h:5
 msgid "3268"
 msgstr "3268"
 
-#: addressbook/gui/component/ldap-config.glade.h:5
+#: addressbook/gui/component/ldap-config.glade.h:6
 msgid "389"
 msgstr "389"
 
-#: addressbook/gui/component/ldap-config.glade.h:6
+#: addressbook/gui/component/ldap-config.glade.h:7
+msgid "5"
+msgstr "5"
+
+#: addressbook/gui/component/ldap-config.glade.h:8
 msgid "5:00"
 msgstr "5:00"
 
-#: addressbook/gui/component/ldap-config.glade.h:7
+#: addressbook/gui/component/ldap-config.glade.h:9
 msgid "636"
 msgstr "636"
 
-#: addressbook/gui/component/ldap-config.glade.h:8
-msgid "Address Book Creation Assistant"
-msgstr "Address Book Creation Assistant"
+#: addressbook/gui/component/ldap-config.glade.h:10
+msgid "<b>Authentication</b>"
+msgstr "<b>Authentication</b>"
 
-#: addressbook/gui/component/ldap-config.glade.h:9
+#: addressbook/gui/component/ldap-config.glade.h:11
+msgid "<b>Display</b>"
+msgstr "<b>Display</b>"
+
+#: addressbook/gui/component/ldap-config.glade.h:12
+msgid "<b>Downloading</b>"
+msgstr "<b>Downloading</b>"
+
+#: addressbook/gui/component/ldap-config.glade.h:13
+msgid "<b>Searching</b>"
+msgstr "<b>Searching</b>"
+
+#: addressbook/gui/component/ldap-config.glade.h:14
+msgid "<b>Server Information</b>"
+msgstr "<b>Server Information</b>"
+
+#: addressbook/gui/component/ldap-config.glade.h:15
+msgid "<b>Type:</b>"
+msgstr "<b>Type:</b>"
+
+#: addressbook/gui/component/ldap-config.glade.h:16
+msgid "Add Contacts Group"
+msgstr "Add Contacts Group"
+
+#: addressbook/gui/component/ldap-config.glade.h:17
 msgid "Address Book Properties"
 msgstr "Address Book Properties"
 
-#: addressbook/gui/component/ldap-config.glade.h:10 mail/mail-account-gui.c:66
+#: addressbook/gui/component/ldap-config.glade.h:18 mail/mail-account-gui.c:68
 #: mail/mail-config.glade.h:40
 msgid "Always"
 msgstr "Always"
 
-#: addressbook/gui/component/ldap-config.glade.h:11
+#: addressbook/gui/component/ldap-config.glade.h:19
 msgid "Anonymously"
 msgstr "Anonymously"
 
-#: addressbook/gui/component/ldap-config.glade.h:12
-msgid ""
-"Congratulations, you are\n"
-"\t      finished setting up this address book.\n"
-"\n"
-"Please click the \"Apply\" button to save the settings you have entered here."
-msgstr ""
-"Congratulations, you are\n"
-"\t      finished setting up this address book.\n"
-"\n"
-"Please click the \"Apply\" button to save the settings you have entered here."
+#: addressbook/gui/component/ldap-config.glade.h:20
+#: calendar/gui/dialogs/task-editor.c:193
+msgid "Basic"
+msgstr "Basic"
 
-#: addressbook/gui/component/ldap-config.glade.h:16
+#: addressbook/gui/component/ldap-config.glade.h:21
+#: calendar/gui/dialogs/calendar-setup.glade.h:4
+msgid "C_olor:"
+msgstr "C_olour:"
+
+#: addressbook/gui/component/ldap-config.glade.h:22
 msgid "Connecting"
 msgstr "Connecting"
 
-#: addressbook/gui/component/ldap-config.glade.h:17
+#: addressbook/gui/component/ldap-config.glade.h:23
+#: calendar/gui/dialogs/task-editor.c:200 mail/mail-security.glade.h:3
+#: smime/gui/smime-ui.glade.h:19
+msgid "Details"
+msgstr "Details"
+
+#: addressbook/gui/component/ldap-config.glade.h:24
 msgid "Distinguished _name:"
 msgstr "Distinguished _name:"
 
-#: addressbook/gui/component/ldap-config.glade.h:18
+#: addressbook/gui/component/ldap-config.glade.h:25
+msgid "Distinguished name"
+msgstr "Distinguished name"
+
+#: addressbook/gui/component/ldap-config.glade.h:26
+msgid "Download limit:"
+msgstr "Download limit:"
+
+#: addressbook/gui/component/ldap-config.glade.h:27
+msgid "Email address"
+msgstr "Email address"
+
+#: addressbook/gui/component/ldap-config.glade.h:28
 msgid "Email address:"
 msgstr "Email address:"
 
-#: addressbook/gui/component/ldap-config.glade.h:19
+#: addressbook/gui/component/ldap-config.glade.h:29
 msgid "Evolution will use this DN to authenticate you with the server"
 msgstr "Evolution will use this DN to authenticate you with the server"
 
-#: addressbook/gui/component/ldap-config.glade.h:20
+#: addressbook/gui/component/ldap-config.glade.h:30
 msgid ""
 "Evolution will use this email address to authenticate you with the server"
 msgstr ""
 "Evolution will use this email address to authenticate you with the server"
 
-#: addressbook/gui/component/ldap-config.glade.h:21
-msgid "Finished"
-msgstr "Finished"
+#: addressbook/gui/component/ldap-config.glade.h:31
+msgid "Find Possible Search Bases"
+msgstr "Find Possible Search Bases"
 
-#: addressbook/gui/component/ldap-config.glade.h:22
-#: calendar/gui/dialogs/calendar-setup.glade.h:7 mail/mail-config.glade.h:84
+#: addressbook/gui/component/ldap-config.glade.h:32
+#: calendar/gui/dialogs/calendar-setup.glade.h:6 mail/mail-config.glade.h:84
 #: smime/gui/smime-ui.glade.h:27
 msgid "General"
 msgstr "General"
 
-#: addressbook/gui/component/ldap-config.glade.h:23
-msgid "Group:"
-msgstr "Group:"
-
-#: addressbook/gui/component/ldap-config.glade.h:24 mail/mail-account-gui.c:68
+#: addressbook/gui/component/ldap-config.glade.h:33 mail/mail-account-gui.c:70
 #: mail/mail-config.glade.h:99
 msgid "Never"
 msgstr "Never"
 
-#: addressbook/gui/component/ldap-config.glade.h:25
-msgid "New Address Book"
-msgstr "New Address Book"
-
-#: addressbook/gui/component/ldap-config.glade.h:26
-msgid ""
-"Now, you must specify how you want to connect to the LDAP server. The SSL "
-"(Secure Sockets Layer)\n"
-"and TLS (Transport Layer Security) protocols are used by some servers to "
-"cryptographically protect\n"
-"your connection. Ask your system administrator if your LDAP server uses "
-"these protocols."
-msgstr ""
-"Now, you must specify how you want to connect to the LDAP server. The SSL "
-"(Secure Sockets Layer)\n"
-"and TLS (Transport Layer Security) protocols are used by some servers to "
-"cryptographically protect\n"
-"your connection. Ask your system administrator if your LDAP server uses "
-"these protocols."
-
-#: addressbook/gui/component/ldap-config.glade.h:29
+#: addressbook/gui/component/ldap-config.glade.h:34
 msgid "One"
 msgstr "One"
 
-#: addressbook/gui/component/ldap-config.glade.h:30
+#: addressbook/gui/component/ldap-config.glade.h:35
+msgid "Only locations within starting point"
+msgstr "Only locations within starting point"
+
+#: addressbook/gui/component/ldap-config.glade.h:36
+#: calendar/gui/dialogs/calendar-setup.glade.h:7 mail/mail-config.glade.h:107
+msgid "Pick a color"
+msgstr "Pick a colour"
+
+#: addressbook/gui/component/ldap-config.glade.h:37
 msgid "S_earch scope: "
 msgstr "S_earch scope: "
 
-#: addressbook/gui/component/ldap-config.glade.h:31
+#: addressbook/gui/component/ldap-config.glade.h:38
+msgid "Search base only"
+msgstr "Search base only"
+
+#: addressbook/gui/component/ldap-config.glade.h:39
+msgid "Search base:"
+msgstr "Search base:"
+
+#: addressbook/gui/component/ldap-config.glade.h:40
+msgid "Search scope:"
+msgstr "Search scope:"
+
+#: addressbook/gui/component/ldap-config.glade.h:41
 msgid "Searching"
 msgstr "Searching"
 
-#: addressbook/gui/component/ldap-config.glade.h:32
+#: addressbook/gui/component/ldap-config.glade.h:42
 msgid ""
 "Selecting this option means that Evolution will only connect to your LDAP "
 "server if\n"
@@ -450,7 +505,7 @@ msgstr ""
 "server if\n"
 "your LDAP server supports SSL or TLS."
 
-#: addressbook/gui/component/ldap-config.glade.h:34
+#: addressbook/gui/component/ldap-config.glade.h:44
 msgid ""
 "Selecting this option means that Evolution will only try to use SSL/TLS if "
 "you are in a \n"
@@ -467,80 +522,34 @@ msgstr ""
 "at work, then Evolution doesn't need to use SSL/TLS because your connection "
 "is already\n"
 "secure."
-
-#: addressbook/gui/component/ldap-config.glade.h:38
-msgid ""
-"Selecting this option means that your server does not support either SSL or "
-"TLS.  This \n"
-"means that your connection will be insecure, and that you will be vulnerable "
-"to security\n"
-"exploits. "
-msgstr ""
-"Selecting this option means that your server does not support either SSL or "
-"TLS.  This \n"
-"means that your connection will be insecure, and that you will be vulnerable "
-"to security\n"
-"exploits. "
-
-#: addressbook/gui/component/ldap-config.glade.h:41
-msgid ""
-"Selecting this option will let you change Evolution's default settings for "
-"LDAP\n"
-"searches, and for creating and editing contacts. "
-msgstr ""
-"Selecting this option will let you change Evolution's default settings for "
-"LDAP\n"
-"searches, and for creating and editing contacts. "
-
-#: addressbook/gui/component/ldap-config.glade.h:43
-msgid ""
-"Specifying a\n"
-"\t\t\t  display name and group is the first step in setting\n"
-"\t\t\t  up an address book."
-msgstr ""
-"Specifying a\n"
-"\t\t\t  display name and group is the first step in setting\n"
-"\t\t\t  up an address book."
-
-#: addressbook/gui/component/ldap-config.glade.h:46
-msgid "Step 1: Folder Characteristics"
-msgstr "Step 1: Folder Characteristics"
-
-#: addressbook/gui/component/ldap-config.glade.h:47
-msgid "Step 2: Server Information"
-msgstr "Step 2: Server Information"
 
 #: addressbook/gui/component/ldap-config.glade.h:48
-msgid "Step 3: Connecting to Server"
-msgstr "Step 3: Connecting to Server"
+msgid ""
+"Selecting this option means that your server does not support either SSL or "
+"TLS.  This \n"
+"means that your connection will be insecure, and that you will be vulnerable "
+"to security\n"
+"exploits. "
+msgstr ""
+"Selecting this option means that your server does not support either SSL or "
+"TLS.  This \n"
+"means that your connection will be insecure, and that you will be vulnerable "
+"to security\n"
+"exploits. "
 
-#: addressbook/gui/component/ldap-config.glade.h:49
-msgid "Step 4: Searching the Directory"
-msgstr "Step 4: Searching the Directory"
+#: addressbook/gui/component/ldap-config.glade.h:51
+msgid "Starting point and locations within it"
+msgstr "Starting point and locations within it"
 
-#: addressbook/gui/component/ldap-config.glade.h:50
+#: addressbook/gui/component/ldap-config.glade.h:52
 msgid "Sub"
 msgstr "Sub"
 
-#: addressbook/gui/component/ldap-config.glade.h:51
+#: addressbook/gui/component/ldap-config.glade.h:53
 msgid "Supported Search Bases"
 msgstr "Supported Search Bases"
 
-#: addressbook/gui/component/ldap-config.glade.h:52
-msgid ""
-"The options on this page control how many entries should be included in "
-"your\n"
-"searches, and how long a search should take. Ask your system administrator "
-"if you\n"
-"need to change these options."
-msgstr ""
-"The options on this page control how many entries should be included in "
-"your\n"
-"searches, and how long a search should take. Ask your system administrator "
-"if you\n"
-"need to change these options."
-
-#: addressbook/gui/component/ldap-config.glade.h:55
+#: addressbook/gui/component/ldap-config.glade.h:54
 msgid ""
 "The search base is the distinguished name (DN)  of the entry where your "
 "searches will \n"
@@ -552,7 +561,7 @@ msgstr ""
 "begin. If you leave this blank, the search will begin at the root of the "
 "directory tree."
 
-#: addressbook/gui/component/ldap-config.glade.h:57
+#: addressbook/gui/component/ldap-config.glade.h:56
 msgid ""
 "The search scope defines how deep you would like the search to extend down "
 "the \n"
@@ -567,33 +576,17 @@ msgstr ""
 "your search base.\n"
 "A search scope of \"one\" will only include the entries one level beneath "
 "your base.\n"
+
+#: addressbook/gui/component/ldap-config.glade.h:60
+msgid ""
+"This is the full name of your ldap server. For example, \"ldap.mycompany.com"
+"\"."
+msgstr ""
+"This is the full name of your ldap server. For example, \"ldap.mycompany.com"
+"\"."
 
 #: addressbook/gui/component/ldap-config.glade.h:61
 msgid ""
-"This assistant will help you\n"
-"\t      create a new address book. \n"
-"\n"
-"Depending on the type of address book you create, additional\n"
-"parameters may be required. Please contact your system\n"
-"administrator if you need help finding this information."
-msgstr ""
-"This assistant will help you\n"
-"\t      create a new address book. \n"
-"\n"
-"Depending on the type of address book you create, additional\n"
-"parameters may be required. Please contact your system\n"
-"administrator if you need help finding this information."
-
-#: addressbook/gui/component/ldap-config.glade.h:67
-msgid ""
-"This is the full name of your ldap server. For example, \"ldap.mycompany.com"
-"\"."
-msgstr ""
-"This is the full name of your ldap server. For example, \"ldap.mycompany.com"
-"\"."
-
-#: addressbook/gui/component/ldap-config.glade.h:68
-msgid ""
 "This is the maximum number of entries to download. Setting this number to "
 "be \n"
 "too large will slow down your address book."
@@ -602,7 +595,7 @@ msgstr ""
 "be \n"
 "too large will slow down your address book."
 
-#: addressbook/gui/component/ldap-config.glade.h:70
+#: addressbook/gui/component/ldap-config.glade.h:63
 msgid ""
 "This is the method evolution will use to authenticate you.  Note that "
 "setting this to \"Email Address\" requires anonymous access to your ldap "
@@ -612,7 +605,7 @@ msgstr ""
 "setting this to \"Email Address\" requires anonymous access to your ldap "
 "server."
 
-#: addressbook/gui/component/ldap-config.glade.h:71
+#: addressbook/gui/component/ldap-config.glade.h:64
 msgid ""
 "This is the name for this server that will appear in your Evolution folder "
 "list.\n"
@@ -622,15 +615,7 @@ msgstr ""
 "list.\n"
 "It is for display purposes only. "
 
-#: addressbook/gui/component/ldap-config.glade.h:73
-msgid ""
-"This is the name that will appear in your Evolution folder list. It is for "
-"display purposes only. "
-msgstr ""
-"This is the name that will appear in your Evolution folder list. It is for "
-"display purposes only. "
-
-#: addressbook/gui/component/ldap-config.glade.h:74
+#: addressbook/gui/component/ldap-config.glade.h:66
 msgid ""
 "This is the port on the LDAP server that Evolution will try to connect to. "
 "A \n"
@@ -642,81 +627,105 @@ msgstr ""
 "list of standard ports has been provided. Ask your system administrator\n"
 "what port you should specify."
 
-#: addressbook/gui/component/ldap-config.glade.h:77
+#: addressbook/gui/component/ldap-config.glade.h:69
 msgid "This option controls how long a search will be run."
 msgstr "This option controls how long a search will be run."
 
-#: addressbook/gui/component/ldap-config.glade.h:78
+#: addressbook/gui/component/ldap-config.glade.h:70
+msgid "Timeout:"
+msgstr "Timeout:"
+
+#: addressbook/gui/component/ldap-config.glade.h:71
 msgid "U_se SSL/TLS:"
 msgstr "U_se SSL/TLS:"
 
-#: addressbook/gui/component/ldap-config.glade.h:79
+#: addressbook/gui/component/ldap-config.glade.h:72
 msgid "Using distinguished name (DN)"
 msgstr "Using distinguished name (DN)"
 
-#: addressbook/gui/component/ldap-config.glade.h:80
+#: addressbook/gui/component/ldap-config.glade.h:73
 msgid "Using email address"
 msgstr "Using email address"
 
-#: addressbook/gui/component/ldap-config.glade.h:81 mail/mail-account-gui.c:67
+#: addressbook/gui/component/ldap-config.glade.h:74 mail/mail-account-gui.c:69
 #: mail/mail-config.glade.h:154
 msgid "Whenever Possible"
 msgstr "Whenever Possible"
 
-#: addressbook/gui/component/ldap-config.glade.h:82
-msgid ""
-"You have decided to configure an LDAP server. The first step in doing this "
-"is to provide its name and your\n"
-"log in information. Please ask your system administrator if you are unsure "
-"of this information."
-msgstr ""
-"You have decided to configure an LDAP server. The first step in doing this "
-"is to provide its name and your\n"
-"log in information. Please ask your system administrator if you are unsure "
-"of this information."
+#: addressbook/gui/component/ldap-config.glade.h:75
+msgid "_Add Contacts Group"
+msgstr "_Add Contacts Group"
 
-#: addressbook/gui/component/ldap-config.glade.h:84
-#: calendar/gui/dialogs/calendar-setup.glade.h:13
+#: addressbook/gui/component/ldap-config.glade.h:76
+#: calendar/gui/dialogs/calendar-setup.glade.h:12
 msgid "_Display name:"
 msgstr "_Display name:"
 
-#: addressbook/gui/component/ldap-config.glade.h:85
+#: addressbook/gui/component/ldap-config.glade.h:77
 msgid "_Download limit:"
 msgstr "_Download limit:"
 
-#: addressbook/gui/component/ldap-config.glade.h:86
+#: addressbook/gui/component/ldap-config.glade.h:78
+msgid "_Email address:"
+msgstr "_Email address:"
+
+#: addressbook/gui/component/ldap-config.glade.h:79
 msgid "_Log in method:"
 msgstr "_Log in method:"
 
-#: addressbook/gui/component/ldap-config.glade.h:87
+#: addressbook/gui/component/ldap-config.glade.h:80
+#: calendar/gui/dialogs/calendar-setup.glade.h:13 mail/mail-config.glade.h:170
+msgid "_Name:"
+msgstr "_Name:"
+
+#: addressbook/gui/component/ldap-config.glade.h:81
 msgid "_Port number:"
 msgstr "_Port number:"
 
-#: addressbook/gui/component/ldap-config.glade.h:88
+#: addressbook/gui/component/ldap-config.glade.h:82
+msgid "_Port:"
+msgstr "_Port:"
+
+#: addressbook/gui/component/ldap-config.glade.h:83
 msgid "_Search base:"
 msgstr "_Search base:"
 
-#: addressbook/gui/component/ldap-config.glade.h:89
+#: addressbook/gui/component/ldap-config.glade.h:84
 msgid "_Server name:"
 msgstr "_Server name:"
 
-#: addressbook/gui/component/ldap-config.glade.h:90
+#: addressbook/gui/component/ldap-config.glade.h:85
+msgid "_Server:"
+msgstr "_Server:"
+
+#: addressbook/gui/component/ldap-config.glade.h:86
 msgid "_Timeout (minutes):"
 msgstr "_Timeout (minutes):"
 
-#: addressbook/gui/component/ldap-config.glade.h:91
+#: addressbook/gui/component/ldap-config.glade.h:87
+msgid "_Use secure connection:"
+msgstr "_Use secure connection:"
+
+#: addressbook/gui/component/ldap-config.glade.h:88
 msgid "cards"
 msgstr "cards"
 
-#: addressbook/gui/component/ldap-config.glade.h:92
+#: addressbook/gui/component/ldap-config.glade.h:89
 msgid "connecting-tab"
 msgstr "connecting-tab"
 
-#: addressbook/gui/component/ldap-config.glade.h:93
+#: addressbook/gui/component/ldap-config.glade.h:90
 msgid "general-tab"
 msgstr "general-tab"
 
-#: addressbook/gui/component/ldap-config.glade.h:94
+#: addressbook/gui/component/ldap-config.glade.h:91
+#: calendar/gui/dialogs/alarm-options.glade.h:14
+#: calendar/gui/dialogs/calendar-setup.glade.h:22 filter/filter.glade.h:17
+#: mail/mail-config.glade.h:182
+msgid "minutes"
+msgstr "minutes"
+
+#: addressbook/gui/component/ldap-config.glade.h:92
 msgid "searching-tab"
 msgstr "searching-tab"
 
@@ -830,7 +839,7 @@ msgid "<b>Work</b>"
 msgstr "<b>Work</b>"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:11
-#: addressbook/gui/contact-editor/e-contact-editor.c:176
+#: addressbook/gui/contact-editor/e-contact-editor.c:179
 #: addressbook/gui/widgets/eab-contact-display.c:302
 #: addressbook/gui/widgets/eab-contact-display.c:321
 msgid "AIM"
@@ -874,7 +883,7 @@ msgid "Company:"
 msgstr "Company:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:21
-#: addressbook/gui/contact-editor/e-contact-editor.c:256
+#: addressbook/gui/contact-editor/e-contact-editor.c:260
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:160
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.etspec.h:1
 #: addressbook/gui/widgets/e-minicard.c:181
@@ -882,117 +891,117 @@ msgid "Contact"
 msgstr "Contact"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:22
+#: addressbook/gui/contact-editor/e-contact-editor.c:1442
+msgid "Contact Editor"
+msgstr "Contact Editor"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:23
 msgid "Country:"
 msgstr "Country:"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:23
+#: addressbook/gui/contact-editor/contact-editor.glade.h:24
 msgid "Department:"
 msgstr "Department:"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:24
+#: addressbook/gui/contact-editor/contact-editor.glade.h:25
 msgid "Free/Busy:"
 msgstr "Free/Busy:"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:25
+#: addressbook/gui/contact-editor/contact-editor.glade.h:26
 msgid "Full _Name..."
 msgstr "Full _Name..."
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:26
+#: addressbook/gui/contact-editor/contact-editor.glade.h:27
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:240
-#: addressbook/gui/contact-editor/e-contact-editor.c:191
+#: addressbook/gui/contact-editor/e-contact-editor.c:194
 msgid "Home"
 msgstr "Home"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:27
+#: addressbook/gui/contact-editor/contact-editor.glade.h:28
 msgid "Job title:"
 msgstr "Job title:"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:28
+#: addressbook/gui/contact-editor/contact-editor.glade.h:29
 #: calendar/gui/e-itip-control.c:936
 msgid "Location:"
 msgstr "Location:"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:29
+#: addressbook/gui/contact-editor/contact-editor.glade.h:30
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:66
 msgid "MSN Messenger"
 msgstr "MSN Messenger"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:30
+#: addressbook/gui/contact-editor/contact-editor.glade.h:31
 msgid "Mailing Address"
 msgstr "Mailing Address"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:31
+#: addressbook/gui/contact-editor/contact-editor.glade.h:32
 msgid "Manager:"
 msgstr "Manager:"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:32
+#: addressbook/gui/contact-editor/contact-editor.glade.h:33
 msgid "Ni_ckname:"
 msgstr "Ni_ckname:"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:33
+#: addressbook/gui/contact-editor/contact-editor.glade.h:34
 msgid "Notes:"
 msgstr "Notes:"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:34
+#: addressbook/gui/contact-editor/contact-editor.glade.h:35
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:63
 msgid "Novell Groupwise"
 msgstr "Novell Groupwise"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:35
+#: addressbook/gui/contact-editor/contact-editor.glade.h:36
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:248
-#: addressbook/gui/contact-editor/e-contact-editor.c:192
+#: addressbook/gui/contact-editor/e-contact-editor.c:195
 msgid "Other"
 msgstr "Other"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:37
+#: addressbook/gui/contact-editor/contact-editor.glade.h:38
 msgid "Personal Information"
 msgstr "Personal Information"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:38
+#: addressbook/gui/contact-editor/contact-editor.glade.h:39
 msgid "Profession:"
 msgstr "Profession:"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:39
+#: addressbook/gui/contact-editor/contact-editor.glade.h:40
 msgid "State/Province:"
 msgstr "State/Province:"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:40
+#: addressbook/gui/contact-editor/contact-editor.glade.h:41
 msgid "Wants to receive HTML mail"
 msgstr "Wants to receive HTML mail"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:41
+#: addressbook/gui/contact-editor/contact-editor.glade.h:42
 msgid "Webcam:"
 msgstr "Webcam:"
 
 #. red
-#: addressbook/gui/contact-editor/contact-editor.glade.h:42
+#: addressbook/gui/contact-editor/contact-editor.glade.h:43
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:244
-#: addressbook/gui/contact-editor/e-contact-editor.c:190
+#: addressbook/gui/contact-editor/e-contact-editor.c:193
 #: filter/filter-label.c:122 mail/em-migrate.c:923 mail/mail-config.c:66
 #: mail/mail-config.glade.h:155
 msgid "Work"
 msgstr "Work"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:43
+#: addressbook/gui/contact-editor/contact-editor.glade.h:44
 msgid "Zip/Postal Code:"
 msgstr "Zip/Postal Code:"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:44
+#: addressbook/gui/contact-editor/contact-editor.glade.h:45
 msgid "_Categories"
 msgstr "_Categories"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:45
+#: addressbook/gui/contact-editor/contact-editor.glade.h:46
 msgid "_File under:"
 msgstr "_File under:"
 
-#: addressbook/gui/contact-editor/contact-editor.glade.h:46
+#: addressbook/gui/contact-editor/contact-editor.glade.h:47
 msgid "_Where:"
 msgstr "_Where:"
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:47
-#: calendar/gui/dialogs/alarm-options.glade.h:11 smime/gui/smime-ui.glade.h:47
-msgid "dialog1"
-msgstr "dialogue1"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:48
 msgid "item7"
@@ -1011,7 +1020,7 @@ msgstr "Address"
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:103
 #: addressbook/gui/contact-editor/e-contact-editor-fullname.c:95
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:141
-#: addressbook/gui/contact-editor/e-contact-editor.c:277
+#: addressbook/gui/contact-editor/e-contact-editor.c:281
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:174
 #: addressbook/gui/widgets/e-addressbook-model.c:309
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:392
@@ -1995,7 +2004,7 @@ msgid "AOL Instant Messenger"
 msgstr "AOL Instant Messenger"
 
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:64
-#: addressbook/gui/contact-editor/e-contact-editor.c:177
+#: addressbook/gui/contact-editor/e-contact-editor.c:180
 #: addressbook/gui/widgets/eab-contact-display.c:305
 #: addressbook/gui/widgets/eab-contact-display.c:324
 msgid "Jabber"
@@ -2006,7 +2015,7 @@ msgid "Yahoo Messenger"
 msgstr "Yahoo Messenger"
 
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:67
-#: addressbook/gui/contact-editor/e-contact-editor.c:180
+#: addressbook/gui/contact-editor/e-contact-editor.c:183
 #: addressbook/gui/widgets/eab-contact-display.c:304
 #: addressbook/gui/widgets/eab-contact-display.c:323
 msgid "ICQ"
@@ -2026,55 +2035,51 @@ msgstr "Location"
 msgid "Username"
 msgstr "Username"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:178
+#: addressbook/gui/contact-editor/e-contact-editor.c:181
 #: addressbook/gui/widgets/eab-contact-display.c:307
 #: addressbook/gui/widgets/eab-contact-display.c:326
 msgid "Yahoo"
 msgstr "Yahoo"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:179
+#: addressbook/gui/contact-editor/e-contact-editor.c:182
 #: addressbook/gui/widgets/eab-contact-display.c:306
 #: addressbook/gui/widgets/eab-contact-display.c:325
 msgid "MSN"
 msgstr "MSN"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:181
+#: addressbook/gui/contact-editor/e-contact-editor.c:184
 msgid "GroupWise"
 msgstr "GroupWise"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:242
+#: addressbook/gui/contact-editor/e-contact-editor.c:246
 msgid "Source Book"
 msgstr "Source Book"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:249
+#: addressbook/gui/contact-editor/e-contact-editor.c:253
 msgid "Target Book"
 msgstr "Target Book"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:263
+#: addressbook/gui/contact-editor/e-contact-editor.c:267
 msgid "Is New Contact"
 msgstr "Is New Contact"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:270
+#: addressbook/gui/contact-editor/e-contact-editor.c:274
 msgid "Writable Fields"
 msgstr "Writable Fields"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:284
+#: addressbook/gui/contact-editor/e-contact-editor.c:288
 msgid "Changed"
 msgstr "Changed"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:1434
-msgid "Contact Editor"
-msgstr "Contact Editor"
-
-#: addressbook/gui/contact-editor/e-contact-editor.c:1628
+#: addressbook/gui/contact-editor/e-contact-editor.c:1656
 msgid "Category editor not available."
 msgstr "Category editor not available."
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:1636
+#: addressbook/gui/contact-editor/e-contact-editor.c:1664
 msgid "This contact belongs to these categories:"
 msgstr "This contact belongs to these categories:"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2468
+#: addressbook/gui/contact-editor/e-contact-editor.c:2495
 #, c-format
 msgid "Could not find widget for a field: `%s'"
 msgstr "Could not find widget for a field: `%s'"
@@ -2314,7 +2319,7 @@ msgstr ""
 "in this folder.  Would you like to add it anyway?"
 
 #. FIXME: get the toplevel window...
-#: addressbook/gui/search/e-addressbook-search-dialog.c:116
+#: addressbook/gui/search/e-addressbook-search-dialog.c:121
 #: widgets/misc/e-filter-bar.c:156
 msgid "Advanced Search"
 msgstr "Advanced Search"
@@ -2796,39 +2801,56 @@ msgstr "Job Title"
 msgid "Home page"
 msgstr "Home page"
 
-#: addressbook/gui/widgets/eab-gui-util.c:47
+#. E_BOOK_ERROR_OK
+#: addressbook/gui/widgets/eab-gui-util.c:49
 msgid "Success"
 msgstr "Success"
 
-#: addressbook/gui/widgets/eab-gui-util.c:48
-#: camel/providers/imap/camel-imap-command.c:303
-#: camel/providers/imap/camel-imap-command.c:400
-#: camel/providers/pop3/camel-pop3-store.c:538
-#: camel/providers/pop3/camel-pop3-store.c:545 shell/e-shell.c:1089
-msgid "Unknown error"
-msgstr "Unknown error"
+#. E_BOOK_ERROR_INVALID_ARG
+#. E_BOOK_ERROR_BUSY
+#: addressbook/gui/widgets/eab-gui-util.c:51
+msgid "Backend busy"
+msgstr "Backend busy"
 
-#: addressbook/gui/widgets/eab-gui-util.c:49
+#. E_BOOK_ERROR_REPOSITORY_OFFLINE
+#: addressbook/gui/widgets/eab-gui-util.c:52
 msgid "Repository offline"
 msgstr "Repository offline"
 
-#: addressbook/gui/widgets/eab-gui-util.c:50
+#. E_BOOK_ERROR_NO_SUCH_BOOK
+#: addressbook/gui/widgets/eab-gui-util.c:53
+msgid "Address Book does not exist"
+msgstr "Address Book does not exist"
+
+#. E_BOOK_ERROR_NO_SELF_CONTACT
+#: addressbook/gui/widgets/eab-gui-util.c:54
+msgid "No Self Contact defined"
+msgstr "No Self Contact defined"
+
+#. E_BOOK_ERROR_URI_NOT_LOADED
+#. E_BOOK_ERROR_URI_ALREADY_LOADED
+#. E_BOOK_ERROR_PERMISSION_DENIED
+#: addressbook/gui/widgets/eab-gui-util.c:57
 msgid "Permission denied"
 msgstr "Permission denied"
 
-#: addressbook/gui/widgets/eab-gui-util.c:51
+#. E_BOOK_ERROR_CONTACT_NOT_FOUND
+#: addressbook/gui/widgets/eab-gui-util.c:58
 msgid "Contact not found"
 msgstr "Contact not found"
 
-#: addressbook/gui/widgets/eab-gui-util.c:52
+#. E_BOOK_ERROR_CONTACT_ID_ALREADY_EXISTS
+#: addressbook/gui/widgets/eab-gui-util.c:59
 msgid "Contact ID already exists"
 msgstr "Contact ID already exists"
 
-#: addressbook/gui/widgets/eab-gui-util.c:53
+#. E_BOOK_ERROR_PROTOCOL_NOT_SUPPORTED
+#: addressbook/gui/widgets/eab-gui-util.c:60
 msgid "Protocol not supported"
 msgstr "Protocol not supported"
 
-#: addressbook/gui/widgets/eab-gui-util.c:54
+#. E_BOOK_ERROR_CANCELLED
+#: addressbook/gui/widgets/eab-gui-util.c:61
 #: calendar/gui/dialogs/task-details-page.glade.h:3
 #: calendar/gui/e-cal-model-tasks.c:325 calendar/gui/e-cal-model-tasks.c:599
 #: calendar/gui/e-calendar-table.c:450 calendar/gui/print.c:2349
@@ -2839,44 +2861,55 @@ msgstr "Protocol not supported"
 msgid "Cancelled"
 msgstr "Cancelled"
 
-#: addressbook/gui/widgets/eab-gui-util.c:55
+#. E_BOOK_ERROR_COULD_NOT_CANCEL
+#: addressbook/gui/widgets/eab-gui-util.c:62
+msgid "Could not cancel"
+msgstr "Could not cancel"
+
+#. E_BOOK_ERROR_AUTHENTICATION_FAILED
+#: addressbook/gui/widgets/eab-gui-util.c:63
 msgid "Authentication Failed"
 msgstr "Authentication Failed"
 
-#: addressbook/gui/widgets/eab-gui-util.c:56
+#. E_BOOK_ERROR_AUTHENTICATION_REQUIRED
+#: addressbook/gui/widgets/eab-gui-util.c:64
 msgid "Authentication Required"
 msgstr "Authentication Required"
 
-#: addressbook/gui/widgets/eab-gui-util.c:57
+#. E_BOOK_ERROR_TLS_NOT_AVAILABLE
+#: addressbook/gui/widgets/eab-gui-util.c:65
 msgid "TLS not Available"
 msgstr "TLS not Available"
 
-#: addressbook/gui/widgets/eab-gui-util.c:58
-msgid "Address Book does not exist"
-msgstr "Address Book does not exist"
+#. E_BOOK_ERROR_CORBA_EXCEPTION
+#. E_BOOK_ERROR_NO_SUCH_SOURCE
+#: addressbook/gui/widgets/eab-gui-util.c:67
+msgid "No such source"
+msgstr "No such source"
 
-#: addressbook/gui/widgets/eab-gui-util.c:59
+#. E_BOOK_ERROR_OTHER_ERROR
+#: addressbook/gui/widgets/eab-gui-util.c:68
 msgid "Other error"
 msgstr "Other error"
 
-#: addressbook/gui/widgets/eab-gui-util.c:90
-msgid ""
-"We were unable to open this addressbook.  Please check that the path exists "
-"and that you have permission to access it."
-msgstr ""
-"We were unable to open this addressbook.  Please check that the path exists "
-"and that you have permission to access it."
-
-#: addressbook/gui/widgets/eab-gui-util.c:97
-msgid ""
-"We were unable to open this addressbook.  This either means you have entered "
-"an incorrect URI, or the LDAP server is unreachable."
-msgstr ""
-"We were unable to open this addressbook.  This either means you have entered "
-"an incorrect URI, or the LDAP server is unreachable."
-
 #: addressbook/gui/widgets/eab-gui-util.c:102
 msgid ""
+"We were unable to open this addressbook.  Please check that the path exists "
+"and that you have permission to access it."
+msgstr ""
+"We were unable to open this addressbook.  Please check that the path exists "
+"and that you have permission to access it."
+
+#: addressbook/gui/widgets/eab-gui-util.c:109
+msgid ""
+"We were unable to open this addressbook.  This either means you have entered "
+"an incorrect URI, or the LDAP server is unreachable."
+msgstr ""
+"We were unable to open this addressbook.  This either means you have entered "
+"an incorrect URI, or the LDAP server is unreachable."
+
+#: addressbook/gui/widgets/eab-gui-util.c:114
+msgid ""
 "This version of Evolution does not have LDAP support compiled in to it.  If "
 "you want to use LDAP in Evolution you must compile the program from the CVS "
 "sources after retrieving OpenLDAP from the link below."
@@ -2885,7 +2918,7 @@ msgstr ""
 "you want to use LDAP in Evolution you must compile the program from the CVS "
 "sources after retrieving OpenLDAP from the link below."
 
-#: addressbook/gui/widgets/eab-gui-util.c:111
+#: addressbook/gui/widgets/eab-gui-util.c:123
 msgid ""
 "We were unable to open this addressbook.  This either means you have entered "
 "an incorrect URI, or the server is unreachable."
@@ -2893,81 +2926,81 @@ msgstr ""
 "We were unable to open this addressbook.  This either means you have entered "
 "an incorrect URI, or the server is unreachable."
 
-#: addressbook/gui/widgets/eab-gui-util.c:128
+#: addressbook/gui/widgets/eab-gui-util.c:140
 msgid "Unable to open addressbook"
 msgstr "Unable to open addressbook"
 
-#: addressbook/gui/widgets/eab-gui-util.c:149
-msgid ""
-"More cards matched this query than either the server is \n"
-"configured to return or Evolution is configured to display.\n"
-"Please make your search more specific or raise the result limit in\n"
-"the directory server preferences for this addressbook."
-msgstr ""
-"More cards matched this query than either the server is \n"
-"configured to return or Evolution is configured to display.\n"
-"Please make your search more specific or raise the result limit in\n"
-"the directory server preferences for this addressbook."
-
-#: addressbook/gui/widgets/eab-gui-util.c:155
-msgid ""
-"The time to execute this query exceeded the server limit or the limit\n"
-"you have configured for this addressbook.  Please make your search\n"
-"more specific or raise the time limit in the directory server\n"
-"preferences for this addressbook."
-msgstr ""
-"The time to execute this query exceeded the server limit or the limit\n"
-"you have configured for this addressbook.  Please make your search\n"
-"more specific or raise the time limit in the directory server\n"
-"preferences for this addressbook."
-
 #: addressbook/gui/widgets/eab-gui-util.c:161
+msgid ""
+"More cards matched this query than either the server is \n"
+"configured to return or Evolution is configured to display.\n"
+"Please make your search more specific or raise the result limit in\n"
+"the directory server preferences for this addressbook."
+msgstr ""
+"More cards matched this query than either the server is \n"
+"configured to return or Evolution is configured to display.\n"
+"Please make your search more specific or raise the result limit in\n"
+"the directory server preferences for this addressbook."
+
+#: addressbook/gui/widgets/eab-gui-util.c:167
+msgid ""
+"The time to execute this query exceeded the server limit or the limit\n"
+"you have configured for this addressbook.  Please make your search\n"
+"more specific or raise the time limit in the directory server\n"
+"preferences for this addressbook."
+msgstr ""
+"The time to execute this query exceeded the server limit or the limit\n"
+"you have configured for this addressbook.  Please make your search\n"
+"more specific or raise the time limit in the directory server\n"
+"preferences for this addressbook."
+
+#: addressbook/gui/widgets/eab-gui-util.c:173
 msgid "The backend for this addressbook was unable to parse this query."
 msgstr "The backend for this addressbook was unable to parse this query."
 
-#: addressbook/gui/widgets/eab-gui-util.c:164
+#: addressbook/gui/widgets/eab-gui-util.c:176
 msgid "The backend for this addressbook refused to perform this query."
 msgstr "The backend for this addressbook refused to perform this query."
 
-#: addressbook/gui/widgets/eab-gui-util.c:167
+#: addressbook/gui/widgets/eab-gui-util.c:179
 msgid "This query did not complete successfully."
 msgstr "This query did not complete successfully."
 
-#: addressbook/gui/widgets/eab-gui-util.c:193
+#: addressbook/gui/widgets/eab-gui-util.c:205
 msgid "Do you want to save changes?"
 msgstr "Do you want to save changes?"
 
-#: addressbook/gui/widgets/eab-gui-util.c:195
+#: addressbook/gui/widgets/eab-gui-util.c:207
 msgid "_Discard"
 msgstr "_Discard"
 
-#: addressbook/gui/widgets/eab-gui-util.c:214
+#: addressbook/gui/widgets/eab-gui-util.c:228
 msgid "Error adding list"
 msgstr "Error adding list"
 
-#: addressbook/gui/widgets/eab-gui-util.c:214
-#: addressbook/gui/widgets/eab-gui-util.c:632
+#: addressbook/gui/widgets/eab-gui-util.c:228
+#: addressbook/gui/widgets/eab-gui-util.c:650
 msgid "Error adding contact"
 msgstr "Error adding contact"
 
-#: addressbook/gui/widgets/eab-gui-util.c:223
+#: addressbook/gui/widgets/eab-gui-util.c:239
 msgid "Error modifying list"
 msgstr "Error modifying list"
 
-#: addressbook/gui/widgets/eab-gui-util.c:223
+#: addressbook/gui/widgets/eab-gui-util.c:239
 msgid "Error modifying contact"
 msgstr "Error modifying contact"
 
-#: addressbook/gui/widgets/eab-gui-util.c:233
+#: addressbook/gui/widgets/eab-gui-util.c:251
 msgid "Error removing list"
 msgstr "Error removing list"
 
-#: addressbook/gui/widgets/eab-gui-util.c:233
-#: addressbook/gui/widgets/eab-gui-util.c:590
+#: addressbook/gui/widgets/eab-gui-util.c:251
+#: addressbook/gui/widgets/eab-gui-util.c:608
 msgid "Error removing contact"
 msgstr "Error removing contact"
 
-#: addressbook/gui/widgets/eab-gui-util.c:315
+#: addressbook/gui/widgets/eab-gui-util.c:333
 #, c-format
 msgid ""
 "Opening %d contacts will open %d new windows as well.\n"
@@ -2976,7 +3009,7 @@ msgstr ""
 "Opening %d contacts will open %d new windows as well.\n"
 "Do you really want to display all of these contacts?"
 
-#: addressbook/gui/widgets/eab-gui-util.c:341
+#: addressbook/gui/widgets/eab-gui-util.c:359
 #, c-format
 msgid ""
 "%s already exists\n"
@@ -2985,49 +3018,49 @@ msgstr ""
 "%s already exists\n"
 "Do you want to overwrite it?"
 
-#: addressbook/gui/widgets/eab-gui-util.c:345
+#: addressbook/gui/widgets/eab-gui-util.c:363
 msgid "Overwrite"
 msgstr "Overwrite"
 
-#: addressbook/gui/widgets/eab-gui-util.c:381
+#: addressbook/gui/widgets/eab-gui-util.c:399
 #, c-format
 msgid "Error saving %s: %s"
 msgstr "Error saving %s: %s"
 
 #. This is a filename. Translators take note.
-#: addressbook/gui/widgets/eab-gui-util.c:418
+#: addressbook/gui/widgets/eab-gui-util.c:436
 msgid "card.vcf"
 msgstr "card.vcf"
 
-#: addressbook/gui/widgets/eab-gui-util.c:551
+#: addressbook/gui/widgets/eab-gui-util.c:569
 msgid "list"
 msgstr "list"
 
-#: addressbook/gui/widgets/eab-gui-util.c:686
+#: addressbook/gui/widgets/eab-gui-util.c:704
 msgid "Move contact to"
 msgstr "Move contact to"
 
-#: addressbook/gui/widgets/eab-gui-util.c:688
+#: addressbook/gui/widgets/eab-gui-util.c:706
 msgid "Copy contact to"
 msgstr "Copy contact to"
 
-#: addressbook/gui/widgets/eab-gui-util.c:691
+#: addressbook/gui/widgets/eab-gui-util.c:709
 msgid "Move contacts to"
 msgstr "Move contacts to"
 
-#: addressbook/gui/widgets/eab-gui-util.c:693
+#: addressbook/gui/widgets/eab-gui-util.c:711
 msgid "Copy contacts to"
 msgstr "Copy contacts to"
 
-#: addressbook/gui/widgets/eab-gui-util.c:696
+#: addressbook/gui/widgets/eab-gui-util.c:714
 msgid "Select target addressbook."
 msgstr "Select target addressbook."
 
-#: addressbook/gui/widgets/eab-gui-util.c:869
+#: addressbook/gui/widgets/eab-gui-util.c:887
 msgid "Multiple VCards"
 msgstr "Multiple VCards"
 
-#: addressbook/gui/widgets/eab-gui-util.c:872
+#: addressbook/gui/widgets/eab-gui-util.c:890
 #, c-format
 msgid "VCard for %s"
 msgstr "VCard for %s"
@@ -3606,15 +3639,15 @@ msgstr ""
 msgid "Do not ask me about this program again."
 msgstr "Do not ask me about this program again."
 
-#: calendar/gui/alarm-notify/notify-main.c:163
+#: calendar/gui/alarm-notify/notify-main.c:164
 msgid "Could not initialize Bonobo"
 msgstr "Could not initialise Bonobo"
 
-#: calendar/gui/alarm-notify/notify-main.c:166
+#: calendar/gui/alarm-notify/notify-main.c:167
 msgid "Could not initialize gnome-vfs"
 msgstr "Could not initialise gnome-vfs"
 
-#: calendar/gui/alarm-notify/notify-main.c:175
+#: calendar/gui/alarm-notify/notify-main.c:178
 msgid "Could not create the alarm notify service factory"
 msgstr "Could not create the alarm notify service factory"
 
@@ -3762,7 +3795,7 @@ msgstr "Comment contains"
 msgid "Location contains"
 msgstr "Location contains"
 
-#: calendar/gui/cal-search-bar.c:363 mail/mail-ops.c:1005
+#: calendar/gui/cal-search-bar.c:363 camel/camel-vee-store.c:329
 msgid "Unmatched"
 msgstr "Unmatched"
 
@@ -3788,7 +3821,7 @@ msgstr "Purge events older than"
 
 #: calendar/gui/calendar-commands.c:362
 #: calendar/gui/dialogs/alarm-options.glade.h:10
-#: calendar/gui/dialogs/calendar-setup.glade.h:20 filter/filter.glade.h:15
+#: calendar/gui/dialogs/calendar-setup.glade.h:19 filter/filter.glade.h:15
 msgid "days"
 msgstr "days"
 
@@ -4007,20 +4040,18 @@ msgstr "Send To:"
 msgid "With these arguments:"
 msgstr "With these arguments:"
 
+#: calendar/gui/dialogs/alarm-options.glade.h:11 smime/gui/smime-ui.glade.h:47
+msgid "dialog1"
+msgstr "dialogue1"
+
 #: calendar/gui/dialogs/alarm-options.glade.h:12
 msgid "extra times every"
 msgstr "extra times every"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:13
-#: calendar/gui/dialogs/calendar-setup.glade.h:21 filter/filter.glade.h:16
+#: calendar/gui/dialogs/calendar-setup.glade.h:20 filter/filter.glade.h:16
 msgid "hours"
 msgstr "hours"
-
-#: calendar/gui/dialogs/alarm-options.glade.h:14
-#: calendar/gui/dialogs/calendar-setup.glade.h:23 filter/filter.glade.h:17
-#: mail/mail-config.glade.h:182
-msgid "minutes"
-msgstr "minutes"
 
 #: calendar/gui/dialogs/alarm-page.c:800
 msgid "Action/Trigger"
@@ -4093,7 +4124,7 @@ msgid "hour(s)"
 msgstr "hour(s)"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:16
-#: calendar/gui/dialogs/calendar-setup.glade.h:22
+#: calendar/gui/dialogs/calendar-setup.glade.h:21
 msgid "minute(s)"
 msgstr "minute(s)"
 
@@ -4368,26 +4399,26 @@ msgstr "_Wed"
 msgid "before every appointment"
 msgstr "before every appointment"
 
-#: calendar/gui/dialogs/calendar-setup.c:163
+#: calendar/gui/dialogs/calendar-setup.c:166
 msgid "You must specify a location to get the calendar from."
 msgstr "You must specify a location to get the calendar from."
 
-#: calendar/gui/dialogs/calendar-setup.c:171
+#: calendar/gui/dialogs/calendar-setup.c:174
 #, c-format
 msgid "The source location '%s' is not well-formed."
 msgstr "The source location '%s' is not well-formed."
 
-#: calendar/gui/dialogs/calendar-setup.c:186
+#: calendar/gui/dialogs/calendar-setup.c:189
 #, c-format
 msgid "The source location '%s' is not a webcal source."
 msgstr "The source location '%s' is not a webcal source."
 
-#: calendar/gui/dialogs/calendar-setup.c:231
+#: calendar/gui/dialogs/calendar-setup.c:234
 #, c-format
 msgid "Source with name '%s' already exists in the selected group"
 msgstr "Source with name '%s' already exists in the selected group"
 
-#: calendar/gui/dialogs/calendar-setup.c:244
+#: calendar/gui/dialogs/calendar-setup.c:247
 #, c-format
 msgid ""
 "The group '%s' is remote. You must specify a location to get the calendar "
@@ -4404,63 +4435,47 @@ msgstr "Add Calendar"
 msgid "Add Tasks Group"
 msgstr "_Tasks Group"
 
-#: calendar/gui/dialogs/calendar-setup.glade.h:4
-msgid "C_olor:"
-msgstr "C_olour:"
-
 #: calendar/gui/dialogs/calendar-setup.glade.h:5
 msgid "Calendar Properties"
 msgstr "Calendar Properties"
 
-#: calendar/gui/dialogs/calendar-setup.glade.h:6
-msgid "Chillonia"
-msgstr "Chillonia"
-
-#: calendar/gui/dialogs/calendar-setup.glade.h:8 mail/mail-config.glade.h:107
-msgid "Pick a color"
-msgstr "Pick a colour"
-
-#: calendar/gui/dialogs/calendar-setup.glade.h:9
+#: calendar/gui/dialogs/calendar-setup.glade.h:8
 msgid "Remote"
 msgstr "Remote"
 
-#: calendar/gui/dialogs/calendar-setup.glade.h:10
+#: calendar/gui/dialogs/calendar-setup.glade.h:9
 msgid "Task List Properties"
 msgstr "Task List Properties"
 
-#: calendar/gui/dialogs/calendar-setup.glade.h:11
+#: calendar/gui/dialogs/calendar-setup.glade.h:10
 msgid "_Add Calendar"
 msgstr "_Add Calendar"
 
-#: calendar/gui/dialogs/calendar-setup.glade.h:12
+#: calendar/gui/dialogs/calendar-setup.glade.h:11
 msgid "_Add Group"
 msgstr "_Add Group"
 
-#: calendar/gui/dialogs/calendar-setup.glade.h:14 mail/mail-config.glade.h:170
-msgid "_Name:"
-msgstr "_Name:"
-
-#: calendar/gui/dialogs/calendar-setup.glade.h:15
+#: calendar/gui/dialogs/calendar-setup.glade.h:14
 msgid "_Refresh Interval:"
 msgstr "_Refresh Interval:"
 
-#: calendar/gui/dialogs/calendar-setup.glade.h:16
+#: calendar/gui/dialogs/calendar-setup.glade.h:15
 msgid "_Refresh:"
 msgstr "_Refresh:"
 
-#: calendar/gui/dialogs/calendar-setup.glade.h:17
+#: calendar/gui/dialogs/calendar-setup.glade.h:16
 msgid "_Source URL:"
 msgstr "_Source URL:"
 
-#: calendar/gui/dialogs/calendar-setup.glade.h:18
+#: calendar/gui/dialogs/calendar-setup.glade.h:17
 msgid "_Type:"
 msgstr "_Type:"
 
-#: calendar/gui/dialogs/calendar-setup.glade.h:19
+#: calendar/gui/dialogs/calendar-setup.glade.h:18
 msgid "_URL:"
 msgstr "_URL:"
 
-#: calendar/gui/dialogs/calendar-setup.glade.h:24 filter/filter.glade.h:23
+#: calendar/gui/dialogs/calendar-setup.glade.h:23 filter/filter.glade.h:23
 msgid "weeks"
 msgstr "weeks"
 
@@ -4855,9 +4870,9 @@ msgstr "_Start time:"
 #. an empty string is the same as 'None'
 #: calendar/gui/dialogs/meeting-page.c:311
 #: calendar/gui/dialogs/meeting-page.glade.h:3
-#: calendar/gui/e-cal-model-tasks.c:591 composer/e-msg-composer.c:2171
+#: calendar/gui/e-cal-model-tasks.c:591 composer/e-msg-composer.c:2169
 #: mail/em-account-prefs.c:441 mail/em-folder-view.c:804
-#: mail/mail-account-gui.c:1390 mail/mail-account-gui.c:1884
+#: mail/mail-account-gui.c:1540 mail/mail-account-gui.c:2034
 #: mail/mail-config.glade.h:100
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:192
 #: widgets/misc/e-cell-date-edit.c:257 widgets/misc/e-dateedit.c:443
@@ -5107,7 +5122,7 @@ msgid "_No recurrence"
 msgstr "_No recurrence"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:12
-#: composer/e-msg-composer-attachment-bar.c:452
+#: composer/e-msg-composer-attachment-bar.c:457
 msgid "_Remove"
 msgstr "_Remove"
 
@@ -5149,7 +5164,7 @@ msgstr ""
 "\n"
 "Do you wish to save your changes?"
 
-#: calendar/gui/dialogs/save-comp.c:57 composer/e-msg-composer.c:1613
+#: calendar/gui/dialogs/save-comp.c:57 composer/e-msg-composer.c:1611
 msgid "_Discard Changes"
 msgstr "_Discard Changes"
 
@@ -5261,15 +5276,6 @@ msgstr "_Status:"
 #: calendar/gui/dialogs/task-details-page.glade.h:15
 msgid "_Web Page:"
 msgstr "_Web Page:"
-
-#: calendar/gui/dialogs/task-editor.c:193
-msgid "Basic"
-msgstr "Basic"
-
-#: calendar/gui/dialogs/task-editor.c:200 mail/mail-security.glade.h:3
-#: smime/gui/smime-ui.glade.h:19
-msgid "Details"
-msgstr "Details"
 
 #: calendar/gui/dialogs/task-editor.c:207
 #: calendar/gui/dialogs/task-editor.c:270
@@ -5498,17 +5504,17 @@ msgstr ""
 "\n"
 "45.436845,125.862501"
 
-#: calendar/gui/e-cal-model-tasks.c:743 calendar/gui/e-cal-model-tasks.c:771
+#: calendar/gui/e-cal-model-tasks.c:748 calendar/gui/e-cal-model-tasks.c:781
 msgid "Due date is before start date!"
 msgstr "Due date is before start date!"
 
-#: calendar/gui/e-cal-model-tasks.c:971 calendar/gui/e-cal-model.c:876
+#: calendar/gui/e-cal-model-tasks.c:981 calendar/gui/e-cal-model.c:876
 #: calendar/gui/e-meeting-list-view.c:168 calendar/gui/e-meeting-store.c:159
 #: calendar/gui/e-meeting-store.c:169 calendar/gui/e-meeting-store.c:765
 msgid "Yes"
 msgstr "Yes"
 
-#: calendar/gui/e-cal-model-tasks.c:971 calendar/gui/e-cal-model.c:876
+#: calendar/gui/e-cal-model-tasks.c:981 calendar/gui/e-cal-model.c:876
 #: calendar/gui/e-meeting-list-view.c:169 calendar/gui/e-meeting-store.c:171
 msgid "No"
 msgstr "No"
@@ -6603,7 +6609,7 @@ msgstr "iCalendar information"
 msgid "You must be an attendee of the event."
 msgstr "You must be an attendee of the event."
 
-#: calendar/gui/migration.c:137
+#: calendar/gui/migration.c:146
 msgid ""
 "The location and hierarchy of the Evolution task folders has changed since "
 "Evolution 1.x.\n"
@@ -6615,7 +6621,7 @@ msgstr ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 
-#: calendar/gui/migration.c:141
+#: calendar/gui/migration.c:150
 msgid ""
 "The location and hierarchy of the Evolution calendar folders has changed "
 "since Evolution 1.x.\n"
@@ -6627,12 +6633,12 @@ msgstr ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 
-#: calendar/gui/migration.c:367
+#: calendar/gui/migration.c:376
 msgid "Birthdays & Anniversaries"
 msgstr "Birthdays & Anniversaries"
 
 #. Create the Webcal source group
-#: calendar/gui/migration.c:453 calendar/gui/migration.c:536
+#: calendar/gui/migration.c:462 calendar/gui/migration.c:544
 msgid "On The Web"
 msgstr "On The Web"
 
@@ -9687,6 +9693,13 @@ msgstr "Operation cancelled"
 msgid "Server unexpectedly disconnected: %s"
 msgstr "Server unexpectedly disconnected: %s"
 
+#: camel/providers/imap/camel-imap-command.c:303
+#: camel/providers/imap/camel-imap-command.c:400
+#: camel/providers/pop3/camel-pop3-store.c:538
+#: camel/providers/pop3/camel-pop3-store.c:545 shell/e-shell.c:1089
+msgid "Unknown error"
+msgstr "Unknown error"
+
 #. for imap ALERT codes, account user@host
 #: camel/providers/imap/camel-imap-command.c:320
 #, c-format
@@ -11188,17 +11201,17 @@ msgstr "QUIT command failed: %s"
 msgid "QUIT command failed"
 msgstr "QUIT command failed"
 
-#: composer/e-msg-composer-attachment-bar.c:105
+#: composer/e-msg-composer-attachment-bar.c:106
 #, c-format
 msgid "%.0fK"
 msgstr "%.0fK"
 
-#: composer/e-msg-composer-attachment-bar.c:108
+#: composer/e-msg-composer-attachment-bar.c:109
 #, c-format
 msgid "%.0fM"
 msgstr "%.0fM"
 
-#: composer/e-msg-composer-attachment-bar.c:111
+#: composer/e-msg-composer-attachment-bar.c:112
 #, c-format
 msgid "%.0fG"
 msgstr "%.0fG"
@@ -11207,15 +11220,15 @@ msgstr "%.0fG"
 msgid "attachment"
 msgstr "attachment"
 
-#: composer/e-msg-composer-attachment-bar.c:453
+#: composer/e-msg-composer-attachment-bar.c:458
 msgid "Remove selected items from the attachment list"
 msgstr "Remove selected items from the attachment list"
 
-#: composer/e-msg-composer-attachment-bar.c:493
+#: composer/e-msg-composer-attachment-bar.c:498
 msgid "Add attachment..."
 msgstr "Add attachment..."
 
-#: composer/e-msg-composer-attachment-bar.c:494
+#: composer/e-msg-composer-attachment-bar.c:499
 msgid "Attach a file to the message"
 msgstr "Attach a file to the message"
 
@@ -11413,7 +11426,7 @@ msgstr ""
 "Error autosaving message: %s\n"
 " %s"
 
-#: composer/e-msg-composer.c:1444
+#: composer/e-msg-composer.c:1442
 msgid ""
 "Ximian Evolution has found unsaved messages from a previous session.\n"
 "Would you like to try to recover them?"
@@ -11421,7 +11434,7 @@ msgstr ""
 "Ximian Evolution has found unsaved messages from a previous session.\n"
 "Would you like to try to recover them?"
 
-#: composer/e-msg-composer.c:1608
+#: composer/e-msg-composer.c:1606
 #, c-format
 msgid ""
 "The message \"%s\" has not been sent.\n"
@@ -11432,47 +11445,47 @@ msgstr ""
 "\n"
 "Do you wish to save your changes?"
 
-#: composer/e-msg-composer.c:1610
+#: composer/e-msg-composer.c:1608
 msgid "Untitled Message"
 msgstr "Untitled Message"
 
-#: composer/e-msg-composer.c:1617
+#: composer/e-msg-composer.c:1615
 msgid "Warning: Modified Message"
 msgstr "Warning: Modified Message"
 
-#: composer/e-msg-composer.c:1650
+#: composer/e-msg-composer.c:1648
 msgid "Open file"
 msgstr "Open file"
 
-#: composer/e-msg-composer.c:2057 mail/mail-account-gui.c:1311
+#: composer/e-msg-composer.c:2055 mail/mail-account-gui.c:1461
 msgid "Autogenerated"
 msgstr "Autogenerated"
 
-#: composer/e-msg-composer.c:2156
+#: composer/e-msg-composer.c:2154
 msgid "Signature:"
 msgstr "Signature:"
 
-#: composer/e-msg-composer.c:2357
+#: composer/e-msg-composer.c:2355
 #, c-format
 msgid "<b>%d</b> File Attached"
 msgid_plural "<b>%d</b> Files Attached"
 msgstr[0] "<b>%d</b> File Attached"
 msgstr[1] "<b>%d</b> Files Attached"
 
-#: composer/e-msg-composer.c:2386
+#: composer/e-msg-composer.c:2384
 msgid "Hide _Attachment Bar (drop attachments here)"
 msgstr "Hide _Attachment Bar (drop attachments here)"
 
-#: composer/e-msg-composer.c:2389 composer/e-msg-composer.c:3293
+#: composer/e-msg-composer.c:2387 composer/e-msg-composer.c:3291
 msgid "Show _Attachment Bar (drop attachments here)"
 msgstr "Show _Attachment Bar (drop attachments here)"
 
-#: composer/e-msg-composer.c:2406 composer/e-msg-composer.c:3172
-#: composer/e-msg-composer.c:3173
+#: composer/e-msg-composer.c:2404 composer/e-msg-composer.c:3170
+#: composer/e-msg-composer.c:3171
 msgid "Compose a message"
 msgstr "Compose a message"
 
-#: composer/e-msg-composer.c:3206
+#: composer/e-msg-composer.c:3204
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate address selector control."
@@ -11480,7 +11493,7 @@ msgstr ""
 "Could not create composer window:\n"
 "Unable to activate address selector control."
 
-#: composer/e-msg-composer.c:3234
+#: composer/e-msg-composer.c:3232
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component.\n"
@@ -11492,7 +11505,7 @@ msgstr ""
 "Please make sure you have the correct version\n"
 "of gtkhtml and libgtkhtml installed.\n"
 
-#: composer/e-msg-composer.c:3338
+#: composer/e-msg-composer.c:3336
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component."
@@ -11500,7 +11513,7 @@ msgstr ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component."
 
-#: composer/e-msg-composer.c:4343
+#: composer/e-msg-composer.c:4341
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
@@ -11839,7 +11852,7 @@ msgid "You must specify a folder."
 msgstr "You must specify a folder."
 
 #: filter/filter-folder.c:243 filter/vfolder-rule.c:507
-#: mail/mail-account-gui.c:1177
+#: mail/mail-account-gui.c:1327
 msgid "Select Folder"
 msgstr "Select Folder"
 
@@ -13938,19 +13951,19 @@ msgstr "You have not filled in all of the required information."
 msgid "Evolution Account Editor"
 msgstr "Evolution Account Editor"
 
-#: mail/mail-account-gui.c:796 mail/mail-config.glade.h:165
+#: mail/mail-account-gui.c:946 mail/mail-config.glade.h:165
 msgid "_Host:"
 msgstr "_Host:"
 
-#: mail/mail-account-gui.c:800 mail/mail-config.glade.h:149
+#: mail/mail-account-gui.c:950 mail/mail-config.glade.h:149
 msgid "User_name:"
 msgstr "User_name:"
 
-#: mail/mail-account-gui.c:804 mail/mail-config.glade.h:172
+#: mail/mail-account-gui.c:954 mail/mail-config.glade.h:172
 msgid "_Path:"
 msgstr "_Path:"
 
-#: mail/mail-account-gui.c:2119
+#: mail/mail-account-gui.c:2269
 msgid "You may not create two accounts with the same name."
 msgstr "You may not create two accounts with the same name."
 
@@ -14824,77 +14837,77 @@ msgstr "Copying messages to %s"
 msgid "Scanning folders in \"%s\""
 msgstr "Scanning folders in \"%s\""
 
-#: mail/mail-ops.c:1123
+#: mail/mail-ops.c:1107
 msgid "Forwarded messages"
 msgstr "Forwarded messages"
 
-#: mail/mail-ops.c:1166
+#: mail/mail-ops.c:1150
 #, c-format
 msgid "Opening folder %s"
 msgstr "Opening folder %s"
 
-#: mail/mail-ops.c:1238
+#: mail/mail-ops.c:1222
 #, c-format
 msgid "Opening store %s"
 msgstr "Opening store %s"
 
-#: mail/mail-ops.c:1316
+#: mail/mail-ops.c:1300
 #, c-format
 msgid "Removing folder %s"
 msgstr "Removing folder %s"
 
-#: mail/mail-ops.c:1410
+#: mail/mail-ops.c:1394
 #, c-format
 msgid "Storing folder '%s'"
 msgstr "Storing folder '%s'"
 
-#: mail/mail-ops.c:1475
+#: mail/mail-ops.c:1459
 #, c-format
 msgid "Expunging and storing account '%s'"
 msgstr "Expunging and storing account '%s'"
 
-#: mail/mail-ops.c:1476
+#: mail/mail-ops.c:1460
 #, c-format
 msgid "Storing account '%s'"
 msgstr "Storing account '%s'"
 
-#: mail/mail-ops.c:1531
+#: mail/mail-ops.c:1515
 msgid "Refreshing folder"
 msgstr "Refreshing folder"
 
-#: mail/mail-ops.c:1567 mail/mail-ops.c:1618
+#: mail/mail-ops.c:1551 mail/mail-ops.c:1602
 msgid "Expunging folder"
 msgstr "Expunging folder"
 
-#: mail/mail-ops.c:1615
+#: mail/mail-ops.c:1599
 #, c-format
 msgid "Emptying trash in '%s'"
 msgstr "Emptying trash in '%s'"
 
-#: mail/mail-ops.c:1616
+#: mail/mail-ops.c:1600
 msgid "Local Folders"
 msgstr "Local Folders"
 
-#: mail/mail-ops.c:1699
+#: mail/mail-ops.c:1683
 #, c-format
 msgid "Retrieving message %s"
 msgstr "Retrieving message %s"
 
-#: mail/mail-ops.c:1771
+#: mail/mail-ops.c:1755
 #, c-format
 msgid "Retrieving %d message"
 msgid_plural "Retrieving %d messages"
 msgstr[0] "Retrieving %d message"
 msgstr[1] "Retreiving %d messages"
 
-#: mail/mail-ops.c:1857
+#: mail/mail-ops.c:1841
 #, c-format
 msgid "Saving %d message"
 msgid_plural "Saving %d messsages"
 msgstr[0] "Saving %d message"
 msgstr[1] "Saving %d messages"
 
-#: mail/mail-ops.c:1907
+#: mail/mail-ops.c:1891
 #, c-format
 msgid ""
 "Unable to create output file: %s\n"
@@ -14903,7 +14916,7 @@ msgstr ""
 "Unable to create output file: %s\n"
 " %s"
 
-#: mail/mail-ops.c:1935
+#: mail/mail-ops.c:1919
 #, c-format
 msgid ""
 "Error saving messages to: %s:\n"
@@ -14912,11 +14925,11 @@ msgstr ""
 "Error saving messages to: %s:\n"
 " %s"
 
-#: mail/mail-ops.c:2006
+#: mail/mail-ops.c:1990
 msgid "Saving attachment"
 msgstr "Saving attachment"
 
-#: mail/mail-ops.c:2023
+#: mail/mail-ops.c:2007
 #, c-format
 msgid ""
 "Cannot create output file: %s:\n"
@@ -14925,17 +14938,17 @@ msgstr ""
 "Cannot create output file: %s:\n"
 " %s"
 
-#: mail/mail-ops.c:2053
+#: mail/mail-ops.c:2037
 #, c-format
 msgid "Could not write data: %s"
 msgstr "Could not write data: %s"
 
-#: mail/mail-ops.c:2201
+#: mail/mail-ops.c:2185
 #, c-format
 msgid "Disconnecting from %s"
 msgstr "Disconnecting from %s"
 
-#: mail/mail-ops.c:2201
+#: mail/mail-ops.c:2185
 #, c-format
 msgid "Reconnecting to %s"
 msgstr "Reconnecting to %s"
@@ -18126,6 +18139,122 @@ msgstr "%s (...)"
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% complete)"
 
+#~ msgid "Address Book Creation Assistant"
+#~ msgstr "Address Book Creation Assistant"
+
+#~ msgid ""
+#~ "Congratulations, you are\n"
+#~ "\t      finished setting up this address book.\n"
+#~ "\n"
+#~ "Please click the \"Apply\" button to save the settings you have entered "
+#~ "here."
+#~ msgstr ""
+#~ "Congratulations, you are\n"
+#~ "\t      finished setting up this address book.\n"
+#~ "\n"
+#~ "Please click the \"Apply\" button to save the settings you have entered "
+#~ "here."
+
+#~ msgid "Finished"
+#~ msgstr "Finished"
+
+#~ msgid "Group:"
+#~ msgstr "Group:"
+
+#~ msgid "New Address Book"
+#~ msgstr "New Address Book"
+
+#~ msgid ""
+#~ "Now, you must specify how you want to connect to the LDAP server. The SSL "
+#~ "(Secure Sockets Layer)\n"
+#~ "and TLS (Transport Layer Security) protocols are used by some servers to "
+#~ "cryptographically protect\n"
+#~ "your connection. Ask your system administrator if your LDAP server uses "
+#~ "these protocols."
+#~ msgstr ""
+#~ "Now, you must specify how you want to connect to the LDAP server. The SSL "
+#~ "(Secure Sockets Layer)\n"
+#~ "and TLS (Transport Layer Security) protocols are used by some servers to "
+#~ "cryptographically protect\n"
+#~ "your connection. Ask your system administrator if your LDAP server uses "
+#~ "these protocols."
+
+#~ msgid ""
+#~ "Selecting this option will let you change Evolution's default settings "
+#~ "for LDAP\n"
+#~ "searches, and for creating and editing contacts. "
+#~ msgstr ""
+#~ "Selecting this option will let you change Evolution's default settings "
+#~ "for LDAP\n"
+#~ "searches, and for creating and editing contacts. "
+
+#~ msgid ""
+#~ "Specifying a\n"
+#~ "\t\t\t  display name and group is the first step in setting\n"
+#~ "\t\t\t  up an address book."
+#~ msgstr ""
+#~ "Specifying a\n"
+#~ "\t\t\t  display name and group is the first step in setting\n"
+#~ "\t\t\t  up an address book."
+
+#~ msgid "Step 1: Folder Characteristics"
+#~ msgstr "Step 1: Folder Characteristics"
+
+#~ msgid "Step 3: Connecting to Server"
+#~ msgstr "Step 3: Connecting to Server"
+
+#~ msgid "Step 4: Searching the Directory"
+#~ msgstr "Step 4: Searching the Directory"
+
+#~ msgid ""
+#~ "The options on this page control how many entries should be included in "
+#~ "your\n"
+#~ "searches, and how long a search should take. Ask your system "
+#~ "administrator if you\n"
+#~ "need to change these options."
+#~ msgstr ""
+#~ "The options on this page control how many entries should be included in "
+#~ "your\n"
+#~ "searches, and how long a search should take. Ask your system "
+#~ "administrator if you\n"
+#~ "need to change these options."
+
+#~ msgid ""
+#~ "This assistant will help you\n"
+#~ "\t      create a new address book. \n"
+#~ "\n"
+#~ "Depending on the type of address book you create, additional\n"
+#~ "parameters may be required. Please contact your system\n"
+#~ "administrator if you need help finding this information."
+#~ msgstr ""
+#~ "This assistant will help you\n"
+#~ "\t      create a new address book. \n"
+#~ "\n"
+#~ "Depending on the type of address book you create, additional\n"
+#~ "parameters may be required. Please contact your system\n"
+#~ "administrator if you need help finding this information."
+
+#~ msgid ""
+#~ "This is the name that will appear in your Evolution folder list. It is "
+#~ "for display purposes only. "
+#~ msgstr ""
+#~ "This is the name that will appear in your Evolution folder list. It is "
+#~ "for display purposes only. "
+
+#~ msgid ""
+#~ "You have decided to configure an LDAP server. The first step in doing "
+#~ "this is to provide its name and your\n"
+#~ "log in information. Please ask your system administrator if you are "
+#~ "unsure of this information."
+#~ msgstr ""
+#~ "You have decided to configure an LDAP server. The first step in doing "
+#~ "this is to provide its name and your\n"
+#~ "log in information. Please ask your system administrator if you are "
+#~ "unsure of this information."
+
+#~ msgid "Chillonia"
+#~ msgstr "Chillonia"
+
 #~ msgid "Business _fax:"
 #~ msgstr "Business _fax:"
 
@@ -18554,10 +18683,6 @@ msgstr "%s (%d%% complete)"
 #, fuzzy
 #~ msgid "LDAP Server Name:"
 #~ msgstr "Synchronising \"%s\""
-
-#, fuzzy
-#~ msgid "Search base:"
-#~ msgstr "Organisation:"
 
 #, fuzzy
 #~ msgid "Shell Command"
