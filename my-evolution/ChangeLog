@@ -1,3 +1,11 @@
+2001-10-04  Iain Holmes  <iain@ximian.com>
+	
+	* my-evolution.glade: Capitalise stuff
+
+2001-10-03  Iain Holmes  <iain@ximian.com>
+
+	* e-summary-weather.c (e_summary_weather_init): Swap Xiamen for Tokyo
+
 2001-10-01  Damon Chaplin  <damon@ximian.com>
 
 	* e-summary-calendar.c (generate_html): used time_add_day/week/month
