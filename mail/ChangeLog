@@ -1,3 +1,7 @@
+2003-09-24  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-preferences.c (mail_preferences_construct): 
+
 2003-09-23  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* evolution-mbox-upgrade.c (get_local_store): Don't xmlFree (name)
