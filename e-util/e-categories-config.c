@@ -192,7 +192,7 @@ e_categories_config_open_dialog_for_entry (GtkEntry *entry)
 	/* run the dialog */
 	result = gtk_dialog_run (dialog);
 	
-	if (result == 0) {
+	if (result == GTK_RESPONSE_OK) {
 		g_object_get (dialog, "categories", &categories, NULL);
 		gtk_entry_set_text (GTK_ENTRY (entry), categories);
 		g_free (categories);

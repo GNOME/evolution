@@ -1,3 +1,8 @@
+2003-02-22  Hans Petter Jansson  <hpj@ximian.com>
+
+	* e-categories-config.c (e_categories_config_open_dialog_for_entry):
+	A result of 0 no longer indicates success; GTK_RESPONSE_OK does.
+
 2003-02-17  Chris Toshok  <toshok@ximian.com>
 
 	* e-account-list.c (gconf_accounts_changed): fix memleak - free
