@@ -1,3 +1,15 @@
+2004-03-15  Not Zed  <NotZed@Ximian.com>
+
+	* em-format.c (em_format_format_error): make this a varags
+	function, which then calls the virtual method to do the work.
+	(emf_multipart_appledouble, emf_multipart_mixed)
+	(emf_multipart_alternative, emf_multipart_related)
+	(emf_message_rfc822): print an error to explain why you're getting
+	source content displayed.
+	(em_format_format_secure): make this a function.  and if we're
+	done formatting a secure part, and we dont have a parent anymore,
+	null out the validity.  See #55541.
+
 2004-03-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-folder-browser.c (emfb_search_search_activated): No-op if

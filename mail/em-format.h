@@ -221,11 +221,11 @@ void em_format_pull_level(EMFormat *emf);
 										       ((EMFormat *)(emf))->uid,	\
 										       ((EMFormat *)(emf))->message,	\
 										       (emf))
-#define em_format_format_error(emf, stream, txt) ((EMFormatClass *)G_OBJECT_GET_CLASS(emf))->format_error((emf), (stream), (txt))
+void em_format_format_error(EMFormat *emf, struct _CamelStream *stream, const char *fmt, ...);
 #define em_format_format_attachment(emf, stream, msg, type, info) ((EMFormatClass *)G_OBJECT_GET_CLASS(emf))->format_attachment((emf), (stream), (msg), (type), (info))
 #define em_format_format_message(emf, stream, msg) ((EMFormatClass *)G_OBJECT_GET_CLASS(emf))->format_message((emf), (stream), (msg))
 #define em_format_format_source(emf, stream, msg) ((EMFormatClass *)G_OBJECT_GET_CLASS(emf))->format_source((emf), (stream), (msg))
-#define em_format_format_secure(emf, stream, msg, valid) ((EMFormatClass *)G_OBJECT_GET_CLASS(emf))->format_secure((emf), (stream), (msg), (valid))
+void em_format_format_secure(EMFormat *emf, struct _CamelStream *stream, struct _CamelMimePart *part, struct _CamelCipherValidity *valid);
 
 #define em_format_busy(emf) ((EMFormatClass *)G_OBJECT_GET_CLASS(emf))->busy((emf))
 
