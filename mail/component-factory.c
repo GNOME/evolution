@@ -751,12 +751,6 @@ shell_client_destroy (GtkObject *object)
 }
 
 static void
-warning_response (GtkWidget *dialog, int button, gpointer user_data)
-{
-	gtk_widget_destroy (dialog);
-}
-
-static void
 owner_set_cb (EvolutionShellComponent *shell_component,
 	      EvolutionShellClient *shell_client,
 	      const char *evolution_homedir,
@@ -821,7 +815,7 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_WARNING, GTK_BUTTONS_CLOSE,
 						 _("Some of your mail settings seem corrupt, "
 						   "please check that everything is in order."));
-		g_signal_connect (dialog, "response", G_CALLBACK (warning_response), NULL);
+		g_signal_connect (dialog, "response", G_CALLBACK (gtk_widget_destroy), dialog);
 		gtk_widget_show (dialog);
 	}
 	

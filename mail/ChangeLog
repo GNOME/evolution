@@ -1,5 +1,10 @@
 2003-03-20  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* component-factory.c (owner_set_cb): Change the message_destroy
+	callback to just gtk_widget_destroy. No need to have a callback
+	simply to call this function.
+	(warning_response): Removed (see above).
+
 	* mail-composer-prefs.c (sig_add_script_response): Don't forget to
 	add the signature to the signature list if it is a valid script.
 
