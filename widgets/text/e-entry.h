@@ -22,7 +22,7 @@ typedef struct {
 	EText *item;
 	GtkJustification justification;
 
-	gboolean draw_borders;
+	guint draw_borders : 1;
 } EEntry;
 
 typedef struct {
