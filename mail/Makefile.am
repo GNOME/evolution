@@ -112,16 +112,8 @@ test_mail_LDADD = \
 #
 #test_thread_CFLAGS = -g $(THREADS_CFLAGS)
 
-GOAD_FILES = evolution-mail.gnorba
-OAF_FILES = evolution-mail.oafinfo
-
-if USING_OAF
 oafdir = $(datadir)/oaf
-oaf_DATA = $(OAF_FILES)
-else
-gnorbadir = $(sysconfdir)/CORBA/servers
-gnorba_DATA = $(GOAD_FILES)
-endif
+oaf_DATA = evolution-mail.oafinfo
 
 gladedir   = $(datadir)/evolution/glade
 glade_DATA = mail-config.glade mail-config-druid.glade local-config.glade
@@ -131,7 +123,7 @@ iconsdir = $(datadir)/images/evolution
 $(EVOLUTION_MAIL_CORBA_GENERATED): Mail.idl 
 	$(ORBIT_IDL) -I$(datadir)/idl -I`$(GNOME_CONFIG) --cflags idl` -I`$(GNOME_CONFIG) --datadir`/idl -I$(srcdir) $(srcdir)/Mail.idl
 
-EXTRA_DIST = Mail.idl $(glade_DATA) $(GOAD_FILES) $(OAF_FILES)
+EXTRA_DIST = Mail.idl $(glade_DATA) $(oaf_DATA)
 
 if ENABLE_PURIFY
 PLINK = $(LIBTOOL) --mode=link $(PURIFY) $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@

@@ -1,3 +1,9 @@
+2000-08-26  JP Rosevear  <jpr@helixcode.com>
+
+	* evolution-mail.gnorba: Kill
+
+	* Makefile.am: Remove gnorba related stuff
+
 2000-08-25  Peter Williams  <peterw@helixcode.com>
 
 	* mail-config-gui.c (service_page_item_new): If the service wants
