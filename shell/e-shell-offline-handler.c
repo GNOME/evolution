@@ -578,6 +578,8 @@ e_shell_offline_handler_construct (EShellOfflineHandler *offline_handler,
 
 	g_assert (priv->component_registry == NULL);
 
+	GTK_OBJECT_UNSET_FLAGS (GTK_OBJECT (offline_handler), GTK_FLOATING);
+
 	gtk_object_ref (GTK_OBJECT (component_registry));
 	priv->component_registry = component_registry;
 }

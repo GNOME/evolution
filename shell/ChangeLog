@@ -1,3 +1,8 @@
+2001-05-03  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-offline-handler.c (e_shell_offline_handler_construct):
+	Unset the `GTK_FLOATING' flag.
+
 2001-05-02  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell.c: New members `is_offline' and `offline_handler' in
