@@ -398,7 +398,7 @@ impl_Storage_updateFolder (PortableServer_Servant servant,
 								     unread_count,
 								     &ev);
 
-		if (ev._major != CORBA_NO_EXCEPTION)
+		if (ev->_major != CORBA_NO_EXCEPTION)
 			continue;
 
 		/* FIXME: Handle errors */
