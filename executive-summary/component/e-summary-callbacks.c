@@ -217,6 +217,23 @@ html_page_changed_cb (GtkEntry *entry,
 }
 
 static void
+column_spinner_changed_cb (GtkEntry *entry,
+			   PropertyData *data)
+{
+	ESummaryPrefs *prefs;
+	char *value;
+
+	prefs = data->esummary->tmp_prefs;
+
+	gnome_property_box_changed (data->box);
+	value = gtk_entry_get_text (entry);
+	if (value == NULL || *value == '\0')
+		return;
+
+	prefs->columns = atoi (value);
+}
+
+static void
 apply_prefs_cb (GnomePropertyBox *property_box,
 		int page,
 		ESummary *esummary)
@@ -238,7 +255,8 @@ configure_summary (GtkWidget *widget,
 	static GtkWidget *prefs = NULL;
 	PropertyData *data;
 	GtkWidget *html_page;
-	GtkWidget *vbox, *html;
+	GtkWidget *vbox, *html, *spinner;
+	char *tmp;
 
 	if (prefs != NULL) {
 		g_assert (GTK_WIDGET_REALIZED (prefs));
@@ -278,6 +296,14 @@ configure_summary (GtkWidget *widget,
 	gtk_signal_connect (GTK_OBJECT (gnome_file_entry_gtk_entry (GNOME_FILE_ENTRY (html_page))),
 			    "changed", GTK_SIGNAL_FUNC (html_page_changed_cb),
 			    data);
+
+	spinner = glade_xml_get_widget (data->xml, "columnspinner");
+
+	tmp = g_strdup_printf ("%d", esummary->prefs->columns);
+	gtk_entry_set_text (GTK_ENTRY (spinner), tmp);
+	g_free (tmp);
+	gtk_signal_connect (GTK_OBJECT (spinner), "changed",
+			    GTK_SIGNAL_FUNC (column_spinner_changed_cb), data);
 
 	gtk_signal_connect (GTK_OBJECT (prefs), "apply",
 			    GTK_SIGNAL_FUNC (apply_prefs_cb), esummary);

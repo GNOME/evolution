@@ -209,7 +209,6 @@ executive_summary_html_view_new_full (BonoboEventSource *event_source)
 	corba_object = bonobo_object_activate_servant (BONOBO_OBJECT (view),
 						       servant);
 
-	bonobo_object_ref (BONOBO_OBJECT (event_source));
 	executive_summary_html_view_construct (view, event_source, corba_object);
 
 	return BONOBO_OBJECT (view);

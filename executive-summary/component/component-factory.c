@@ -44,8 +44,8 @@ static BonoboGenericFactory *factory = NULL;
 static gint running_objects = 0;
 
 static const EvolutionShellComponentFolderType folder_types[] = {
-  { "executive-summary", "evolution-today.png" },
-  { NULL, NULL }
+	{ "executive-summary", "evolution-today.png" },
+	{ NULL, NULL }
 };
 
 char *evolution_dir;
@@ -59,23 +59,23 @@ create_view (EvolutionShellComponent *shell_component,
 	     BonoboControl **control_return,
 	     void *closure)
 {
-  EvolutionShellClient *shell_client;
-  GNOME_Evolution_Shell corba_shell;
-  BonoboControl *control;
-
-  if (g_strcasecmp (folder_type, "executive-summary") != 0)
-    return EVOLUTION_SHELL_COMPONENT_UNSUPPORTEDTYPE;
-
-  shell_client = evolution_shell_component_get_owner (shell_component);
-  corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));
-
-  control = e_summary_factory_new_control (physical_uri, corba_shell);
-  if (!control)
-    return EVOLUTION_SHELL_COMPONENT_NOTFOUND;
-
-  *control_return = control;
-
-  return EVOLUTION_SHELL_COMPONENT_OK;
+	EvolutionShellClient *shell_client;
+	GNOME_Evolution_Shell corba_shell;
+	BonoboControl *control;
+	
+	if (g_strcasecmp (folder_type, "executive-summary") != 0)
+		return EVOLUTION_SHELL_COMPONENT_UNSUPPORTEDTYPE;
+	
+	shell_client = evolution_shell_component_get_owner (shell_component);
+	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));
+	
+	control = e_summary_factory_new_control (physical_uri, corba_shell);
+	if (!control)
+		return EVOLUTION_SHELL_COMPONENT_NOTFOUND;
+	
+	*control_return = control;
+	
+	return EVOLUTION_SHELL_COMPONENT_OK;
 }
 
 static void
@@ -84,72 +84,79 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	      const char *evolution_homedir,
 	      gpointer user_data)
 {
-  GNOME_Evolution_Shell corba_shell;
-
-  evolution_dir = g_strdup (evolution_homedir);
-
-  corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));
+	GNOME_Evolution_Shell corba_shell;
+	
+	evolution_dir = g_strdup (evolution_homedir);
+	
+	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));
 }
 
 static void
 owner_unset_cb (EvolutionShellComponent *shell_component,
 		gpointer user_data)
 {
-  gtk_main_quit ();
+	gtk_main_quit ();
+}
+
+static void
+component_destroy_cb (GtkObject *object,
+		      gpointer user_data)
+{
+	gtk_main_quit ();
 }
 
 static void
 factory_destroy (BonoboEmbeddable *embeddable,
 		 gpointer dummy)
 {
-  running_objects--;
-
-  if (running_objects > 0)
-    return;
-
-  if (factory)
-    bonobo_object_unref (BONOBO_OBJECT (factory));
-  else
-    g_warning ("Serious ref counting error");
-  factory = NULL;
-
-  gtk_main_quit ();
+	running_objects--;
+	
+	if (running_objects > 0)
+		return;
+	
+	if (factory)
+		bonobo_object_unref (BONOBO_OBJECT (factory));
+	else
+		g_warning ("Serious ref counting error");
+	factory = NULL;
+	
+	gtk_main_quit ();
 }
 
 static BonoboObject *
 factory_fn (BonoboGenericFactory *factory, 
 	    void *closure)
 {
-  EvolutionShellComponent *shell_component;
-
-  running_objects++;
-
-  shell_component = evolution_shell_component_new (folder_types,
-						   create_view,
-						   NULL, NULL, NULL, NULL,
-						   NULL);
-  gtk_signal_connect (GTK_OBJECT (shell_component), "destroy",
-		      GTK_SIGNAL_FUNC (factory_destroy), NULL);
-  gtk_signal_connect (GTK_OBJECT (shell_component), "owner_set",
-		      GTK_SIGNAL_FUNC (owner_set_cb), NULL);
-  gtk_signal_connect (GTK_OBJECT (shell_component), "owner_unset",
-		      GTK_SIGNAL_FUNC (owner_unset_cb), NULL);
-
-  return BONOBO_OBJECT (shell_component);
+	EvolutionShellComponent *shell_component;
+	
+	running_objects++;
+	
+	shell_component = evolution_shell_component_new (folder_types,
+							 create_view,
+							 NULL, NULL, NULL, NULL,
+							 NULL);
+	gtk_signal_connect (GTK_OBJECT (shell_component), "destroy",
+			    GTK_SIGNAL_FUNC (factory_destroy), NULL);
+	gtk_signal_connect (GTK_OBJECT (shell_component), "owner_set",
+			    GTK_SIGNAL_FUNC (owner_set_cb), NULL);
+	gtk_signal_connect (GTK_OBJECT (shell_component), "owner_unset",
+			    GTK_SIGNAL_FUNC (owner_unset_cb), NULL);
+	
+	return BONOBO_OBJECT (shell_component);
 }
 
 void
 component_factory_init (void)
 {
-  if (factory != NULL)
-    return;
-
-  factory = bonobo_generic_factory_new (COMPONENT_FACTORY_IID, 
-					factory_fn, NULL);
-
-  if (factory == NULL) {
-    e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
-	      _("Cannot initialize Evolution's Executive Summary component."));
-    exit (1);
-  }
+	if (factory != NULL)
+		return;
+	
+	factory = bonobo_generic_factory_new (COMPONENT_FACTORY_IID, 
+					      factory_fn, NULL);
+	
+	if (factory == NULL) {
+		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+			  _("Cannot initialize Evolution's Executive Summary component."));
+		exit (1);
+	}
 }

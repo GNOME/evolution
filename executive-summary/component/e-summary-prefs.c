@@ -56,8 +56,25 @@ e_summary_prefs_copy (ESummaryPrefs *prefs)
 
 	copy = e_summary_prefs_new ();
 	copy->page = g_strdup (prefs->page);
+	copy->columns = prefs->columns;
 
 	return copy;
+}
+
+gboolean
+e_summary_prefs_compare (ESummaryPrefs *p1,
+			 ESummaryPrefs *p2)
+{
+	if (p1 == p2)
+		return TRUE;
+
+	if (strcmp (p1->page, p2->page) == 0)
+		return TRUE;
+
+	if (p1->columns == p2->columns)
+		return TRUE;
+
+	return FALSE;
 }
 
 ESummaryPrefs *
@@ -75,6 +92,9 @@ e_summary_prefs_load (const char *path)
 	prefs->page = gnome_config_get_string (item);
 	g_free (item);
 
+	item = g_strdup_printf ("=%s/e-summary=/executive-summary/columns=3", path);
+	prefs->columns = gnome_config_get_int (item);
+	g_free (item);
 	return prefs;
 }
 
@@ -90,6 +110,10 @@ e_summary_prefs_save (ESummaryPrefs *prefs,
 
 	item = g_strdup_printf ("=%s/e-summary=/executive-summary/page", path);
 	gnome_config_set_string (item, prefs->page);
+	g_free (item);
+
+	item = g_strdup_printf ("=%s/e-summary=/executive-summary/columns", path);
+	gnome_config_set_int (item, prefs->columns);
 	g_free (item);
 
 	gnome_config_sync ();

@@ -114,6 +114,7 @@ control_deactivate (BonoboControl     *control,
 		    BonoboUIComponent *ui_component,
 		    ESummary          *esummary)
 {
+	e_summary_unset_message (esummary); 
 	bonobo_ui_component_unset_container (ui_component);
 }
 

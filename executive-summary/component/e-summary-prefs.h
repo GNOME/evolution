@@ -26,12 +26,19 @@
 
 typedef struct _ESummaryPrefs ESummaryPrefs;
 struct _ESummaryPrefs {
-  char *page;
+	char *page; /* Background HTML page URL */
+	int columns; /* Number of components per row (Default = 3) */
+
+	/* If anything is added here, don't forget to add 
+	   copy, compare, load and save routines to the appropriate
+	   functions. */
 };
 
 ESummaryPrefs *e_summary_prefs_new (void);
 void e_summary_prefs_free (ESummaryPrefs *prefs);
 ESummaryPrefs *e_summary_prefs_copy (ESummaryPrefs *prefs);
+gboolean e_summary_prefs_compare (ESummaryPrefs *p1,
+				  ESummaryPrefs *p2);
 ESummaryPrefs *e_summary_prefs_load (const char *path);
 void e_summary_prefs_save (ESummaryPrefs *prefs,
 			   const char *path);

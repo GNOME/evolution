@@ -1,3 +1,12 @@
+2001-01-23  Iain Holmes  <iain@ximian.com>
+
+	* component/e-summary.c (e_summary_load_page): Don't strdup the NULL.
+
+2001-01-20  Iain Holmes  <iain@ximian.com>
+
+	* component/e-summary.c (e_summary_display_window): Free the html
+	variable and the header too.
+
 2001-01-22  Christopher James Lahey  <clahey@helixcode.com>
 
 	* component/e-summary-url.c: Change the callbacks in this file to

@@ -1,7 +1,7 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 /* RDF viewer Evolution Executive Summary Component.
- * Bonoboised by Iain Holmes  <iain@helixcode.com>
- * Copyright (C) 2000 Helix Code, Inc.
+ * Bonoboised by Iain Holmes  <iain@ximian.com>
+ * Copyright (C) 2000 Ximian, Inc.
  *
  * Based on code from Portaloo
  * Channel retrieval tool
@@ -46,11 +46,13 @@ struct _RdfSummary {
 
 	GtkWidget *rdf;
 	GtkWidget *g_limit;
+	GtkWidget *g_title;
 
 	char *title;
 	char *icon;
 	char *location;
 	int limit;
+	gboolean showtitle;
 
 	GString *str;
 	char *buffer;
@@ -199,18 +201,17 @@ tree_walk (xmlNodePtr root,
 	t = layer_find(channel->childs, "title", "No title");
 
 	arg = bonobo_arg_new (BONOBO_ARG_STRING);
-	BONOBO_ARG_SET_STRING (arg, t);
-	bonobo_property_bag_set_value (summary->bag,
-				       "window_title", (const BonoboArg *) arg,
-				       NULL);
-	bonobo_arg_release (arg);
 
-#if 0
-	tmp = g_strdup_printf ("%s",
-			       layer_find(channel->childs, "description", ""));
-	g_string_append (html, tmp);
-	g_free (tmp);
-#endif
+	if (summary->showtitle) {
+		BONOBO_ARG_SET_STRING (arg, t);
+	} else {
+		BONOBO_ARG_SET_STRING (arg, "");
+	}
+
+	bonobo_property_bag_set_value (summary->bag,
+				       "window_title", 
+				       (const BonoboArg *) arg, NULL);
+	bonobo_arg_release (arg);
 
 	if (image && !wipe_trackers) {		
 		char *icon;
@@ -336,7 +337,6 @@ load_from_stream (BonoboPersistStream *ps,
 		if (strcasecmp (children->name, "location") == 0) {
 			xml_str = xmlNodeListGetString (doc, children->childs, 1);
 			summary->location = g_strdup (xml_str);
-			g_print ("Location = %s\n", summary->location);
 			xmlFree (xml_str);
 
 			children = children->next;
@@ -346,7 +346,15 @@ load_from_stream (BonoboPersistStream *ps,
 		if (strcasecmp (children->name, "limit") == 0) {
 			xml_str = xmlNodeListGetString (doc, children->childs, 1);
 			summary->limit = atoi (xml_str);
-			g_print ("Limit = %d\n", summary->limit);
+			xmlFree (xml_str);
+
+			children = children->next;
+			continue;
+		}
+
+		if (strcasecmp (children->name, "showtitle") == 0) {
+			xml_str = xmlNodeListGetString (doc, children->childs, 1);
+			summary->showtitle = atoi (xml_str);
 			xmlFree (xml_str);
 
 			children = children->next;
@@ -377,6 +385,10 @@ summary_to_string (RdfSummary *summary)
 	xmlNewChild (doc->root, ns, "location", summary->location);
 	tmp_str = g_strdup_printf ("%d", summary->limit);
 	xmlNewChild (doc->root, ns, "limit", tmp_str);
+	g_free (tmp_str);
+
+	tmp_str = g_strdup_printf ("%d", summary->showtitle);
+	xmlNewChild (doc->root, ns, "showtitle", tmp_str);
 	g_free (tmp_str);
 
 	xmlDocDumpMemory (doc, &out_str, &out_len);
@@ -620,8 +632,8 @@ set_prop (BonoboPropertyBag *bag,
 }
 
 static void
-entry_changed (GtkEntry *entry,
-		  RdfSummary *summary)
+item_changed (GtkEntry *entry,
+	      RdfSummary *summary)
 {
 	bonobo_property_control_changed (summary->property_control, NULL);
 }
@@ -648,7 +660,7 @@ property_control (BonoboPropertyControl *property_control,
 		gtk_entry_set_text (GTK_ENTRY (summary->rdf), summary->location);
 
 	gtk_signal_connect (GTK_OBJECT (summary->rdf), "changed",
-			    GTK_SIGNAL_FUNC (entry_changed), summary);
+			    GTK_SIGNAL_FUNC (item_changed), summary);
 
 	gtk_box_pack_start (GTK_BOX (hbox), summary->rdf, TRUE, TRUE, 0);
 
@@ -665,9 +677,24 @@ property_control (BonoboPropertyControl *property_control,
 	g_free (climit);
 
 	gtk_signal_connect (GTK_OBJECT (summary->g_limit), "changed",
-			    GTK_SIGNAL_FUNC (entry_changed), summary);
+			    GTK_SIGNAL_FUNC (item_changed), summary);
 
 	gtk_box_pack_start (GTK_BOX (hbox), summary->g_limit, TRUE, TRUE, 0);
+
+	hbox = gtk_hbox_new (FALSE, 2);
+
+	/* FIXME: Do this better? */
+	label = gtk_label_new ("Show window title");
+	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+
+	summary->g_title = gtk_check_button_new ();
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (summary->g_title),
+				      summary->showtitle);
+
+	gtk_signal_connect (GTK_OBJECT (summary->g_title), "toggled",
+			    GTK_SIGNAL_FUNC (item_changed), summary);
+
+	gtk_box_pack_start (GTK_BOX (hbox), summary->g_title, TRUE, TRUE, 0);
 
 	gtk_box_pack_start (GTK_BOX (container), hbox, FALSE, FALSE, 0);
 	gtk_widget_show_all (container);
@@ -685,6 +712,7 @@ property_action (GtkObject *property_control,
 	switch (action) {
 	case Bonobo_PropertyControl_APPLY:
 		g_free (summary->location);
+		summary->showtitle = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (summary->g_title));
 		summary->location = g_strdup (gtk_entry_get_text (GTK_ENTRY (summary->rdf)));
 		summary->limit = atoi (gtk_entry_get_text (GTK_ENTRY (summary->g_limit)));
 		g_idle_add ((GSourceFunc) download, summary);
@@ -715,6 +743,7 @@ create_view (ExecutiveSummaryComponentFactory *_factory,
 	summary->title = g_strdup ("Downloading...");
 	summary->location = g_strdup ("http://news.gnome.org/gnome-news/rdf");
 	summary->limit = 10;
+	summary->showtitle = TRUE;
 
 	component = executive_summary_component_new ();
 	gtk_signal_connect (GTK_OBJECT (component), "destroy",
@@ -726,16 +755,17 @@ create_view (ExecutiveSummaryComponentFactory *_factory,
 	   BonoboPropertyControl as we can only have one Bonobo::EventSource
 	   interface aggregated */
 	event_source = bonobo_event_source_new ();
-	bonobo_object_ref (BONOBO_OBJECT (event_source));
 
 	/* Summary::HtmlView */
 	view = executive_summary_html_view_new_full (event_source);
+
 	summary->view = view;
 	bonobo_object_add_interface (component, view);
 
 	/* Bonobo::PropertyBag */
 	bag = bonobo_property_bag_new_full (get_prop, set_prop, 
 					    event_source, summary);
+
 	summary->bag = bag;
 	bonobo_property_bag_add (bag,
 				 "window_title", PROPERTY_TITLE,

@@ -104,6 +104,7 @@ e_summary_destroy (GtkObject *object)
 	e_summary_save_state (esummary, prefix);
 	g_free (prefix);
 
+	e_summary_prefs_free (esummary->prefs);
 	for (l = priv->window_list; l; l = l->next)
 		e_summary_window_free (l->data);
 	g_list_free (priv->window_list);
@@ -409,9 +410,10 @@ e_summary_display_window (ESummary *esummary,
 
 	header = g_strdup_printf ("<td bgcolor=\"%s\" valign=\"top\">", colour[col % 2]);
 	gtk_html_write (GTK_HTML (priv->html), priv->stream, header, strlen (header));
+	g_free (header);
 
 	if (window->html != CORBA_OBJECT_NIL) {
-		char *html;
+		char *html = NULL;
 		CORBA_Environment ev;
 
 		CORBA_exception_init (&ev);
@@ -420,11 +422,14 @@ e_summary_display_window (ESummary *esummary,
 		if (ev._major != CORBA_NO_EXCEPTION) {
 			CORBA_exception_free (&ev);
 			g_warning ("Cannot get HTML.");
+			if (html)
+				CORBA_free (html);
 		} else {
 			CORBA_exception_free (&ev);
-
+			
 			gtk_html_write (GTK_HTML (priv->html), priv->stream,
 					html, strlen (html));
+			CORBA_free (html);
 		}
 	} else {
 #if 0
@@ -446,9 +451,11 @@ e_summary_rebuild_page (ESummary *esummary)
 {
 	ESummaryPrivate *priv;
 	GList *windows;
-	char *service_table = "<table numcols=\"3\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\" height=\"100%\">";
+	char *service_table = "<table numcols=\"%d\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\" height=\"100%%\" width=\"100%%\">";
+	char *tmp;
 	int numwindows, numrows;
 	int i, j, k;
+	int columns;
 
 	g_return_val_if_fail (esummary != NULL, FALSE);
 	g_return_val_if_fail (IS_E_SUMMARY (esummary), FALSE);
@@ -480,16 +487,19 @@ e_summary_rebuild_page (ESummary *esummary)
 	}
 
 	/* Load the start of the services */
-	gtk_html_write (GTK_HTML (priv->html), priv->stream, service_table,
-			strlen (service_table));
+	tmp = g_strdup_printf (service_table, esummary->prefs->columns);
+	gtk_html_write (GTK_HTML (priv->html), priv->stream, tmp, strlen (tmp));
+	g_free (tmp);
 	/* Load each of the services */
 	numwindows = g_list_length (priv->window_list);
 
+	columns = esummary->prefs->columns;
+
 	windows = priv->window_list;
-	if (numwindows % 3 == 0)
-		numrows = numwindows / 3;
+	if (numwindows % columns == 0)
+		numrows = numwindows / columns;
 	else
-		numrows = numwindows / 3 + 1;
+		numrows = numwindows / columns + 1;
 
 	for (i = 0; i < numrows; i++) {
 		GList *window = windows;
@@ -498,14 +508,15 @@ e_summary_rebuild_page (ESummary *esummary)
 		/* Do the same row twice: 
 		   Once for the title, once for the contents */
 		for (j = 0; j < 2; j++) {
+			int limit;
 			
 			gtk_html_write (GTK_HTML (priv->html), priv->stream,
 					"<tr>", 4);
 				/* For each window on row i */
-			for (k = 0; k < MIN (3, (numwindows - (i * 3))); k++) {
+			limit = MIN (columns, (numwindows - (i * columns)));
+			for (k = 0; k < limit; k++) {
 				
-				g_print ("%d of %d\n", k, 
-					 MIN (3, (numwindows - (i * 3))));
+				g_print ("%d of %d\n", k, limit);
 				if (window == NULL)
 					break;
 
@@ -523,7 +534,7 @@ e_summary_rebuild_page (ESummary *esummary)
 				
 				if (window != NULL)
 					window = window->next;
-
+				
 				if (window == NULL)
 					break;
 			}
@@ -672,20 +683,18 @@ e_summary_add_service (ESummary *esummary,
 						 "IDL:Bonobo/PersistStream:1.0",
 						 &ev);
 	window->persiststream = (Bonobo_PersistStream) unknown;
-
+	
 	unknown = Bonobo_Unknown_queryInterface (component,
 						 "IDL:Bonobo/PropertyControl:1.0",
 						 &ev);
 	window->propertycontrol = (Bonobo_PropertyControl) unknown;
 
 	/* Cache the title and icon */
-	window->title = g_strdup (bonobo_property_bag_client_get_value_string (
-				          window->propertybag,
-					  "window_title", 
-					  NULL));
-	window->icon = g_strdup (bonobo_property_bag_client_get_value_string (
-                                          window->propertybag,
-					  "window_icon", NULL));
+	window->title = bonobo_property_bag_client_get_value_string (window->propertybag,
+								     "window_title", 
+								     NULL);
+	window->icon = bonobo_property_bag_client_get_value_string (window->propertybag,
+								    "window_icon", NULL);
 
 	CORBA_exception_free (&ev);
 	priv->window_list = g_list_append (priv->window_list, window);
@@ -739,29 +748,15 @@ e_summary_window_free (ESummaryWindow *window)
 		if (ev._major != CORBA_NO_EXCEPTION) {
 			g_warning ("CORBA ERROR: %s", CORBA_exception_id (&ev));
 		}
-		bonobo_object_release_unref (window->event_source, &ev);
+    		bonobo_object_release_unref (window->event_source, &ev);
 	}
 
-	if (window->propertybag != CORBA_OBJECT_NIL) {
-		bonobo_object_release_unref (window->propertybag, &ev);
-	}
-
-	if (window->persiststream != CORBA_OBJECT_NIL) {
-		bonobo_object_release_unref (window->persiststream, &ev);
-	}
-
-	if (window->propertycontrol != CORBA_OBJECT_NIL) {
-		bonobo_object_release_unref (window->propertycontrol, &ev);
-	}
-
-	if (window->listener) {
-		bonobo_object_unref (BONOBO_OBJECT (window->listener));
-	}
-
-	if (window->html != CORBA_OBJECT_NIL) {
-		bonobo_object_release_unref (window->html, &ev);
-	}
-
+	bonobo_object_release_unref (window->propertybag, &ev);
+	bonobo_object_release_unref (window->persiststream, &ev);
+	bonobo_object_release_unref (window->propertycontrol, &ev);
+	bonobo_object_unref (BONOBO_OBJECT (window->listener));
+	bonobo_object_release_unref (window->html, &ev);
+	
 	bonobo_object_release_unref (window->component, &ev);
 	CORBA_exception_free (&ev);
 
@@ -905,10 +900,12 @@ e_summary_load_page (ESummary *esummary)
 	
 	priv = esummary->private;
 
-	filename = g_strdup (esummary->prefs->page);
 	/* Pass NULL to reset the page to the default */
-	if (filename == NULL || *filename == '\0') {
+	if ((esummary->prefs->page) == NULL || 
+	    *(esummary->prefs->page) == '\0') {
 		filename = g_concat_dir_and_file (EVOLUTION_DATADIR, "/evolution/summary.html");
+	} else {
+		filename = g_strdup (esummary->prefs->page);
 	}
 
 	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (esummary));
@@ -953,8 +950,13 @@ e_summary_load_page (ESummary *esummary)
 		return;
 	}
 
+	if (priv->header != NULL)
+		g_free (priv->header);
 	priv->header = g_strndup (str, comment - str);
 	priv->header_len = strlen (priv->header);
+
+	if (priv->footer != NULL)
+		g_free (priv->footer);
 	priv->footer = g_strdup (comment);
 	priv->footer_len = strlen (priv->footer);
 	g_free (str);
@@ -1079,10 +1081,6 @@ load_component (ESummary *esummary,
 void
 e_summary_reconfigure (ESummary *esummary)
 {
-	ESummaryPrefs *prefs;
-
-	prefs = esummary->prefs;
-
 	e_summary_load_page (esummary);
 	e_summary_queue_rebuild (esummary);
 }
@@ -1125,6 +1123,9 @@ e_summary_load_state (ESummary *esummary,
 	g_free (fullpath);
 
 	/* Load the preferences */
+	if (esummary->prefs != NULL)
+		e_summary_prefs_free (esummary->prefs);
+
 	esummary->prefs = e_summary_prefs_load (path);
 	e_summary_reconfigure (esummary);
 }
