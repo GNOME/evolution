@@ -450,12 +450,14 @@ pass_got (char *string, void *data)
 					service = mca->transport;
 			}
 			
-			mail_config_service_set_save_passwd (service, remember);
-			
-			/* set `remember' to TRUE because people don't want to have to
-			   re-enter their passwords for this session even if they told
-			   us not to cache their passwords in the dialog...*sigh* */
-			remember = TRUE;
+			if (mca) {
+				mail_config_service_set_save_passwd (service, remember);
+				
+				/* set `remember' to TRUE because people don't want to have to
+				   re-enter their passwords for this session even if they told
+				   us not to cache their passwords in the dialog...*sigh* */
+				remember = TRUE;
+			}
 		}
 		
 		if (m->cache)

@@ -695,9 +695,12 @@ list_add_addresses (GList *list, const CamelInternetAddress *cia, const GSList *
 			}
 			
 			if (notme && !g_hash_table_lookup (rcpt_hash, addr)) {
-				EDestination *dest = e_destination_new ();
+				EDestination *dest;
+				
+				dest = e_destination_new ();
 				e_destination_set_name (dest, name);
 				e_destination_set_email (dest, addr);
+				
 				list = g_list_append (list, dest);
 				g_hash_table_insert (rcpt_hash, (char *) addr, GINT_TO_POINTER (1));
 			} 
@@ -827,11 +830,14 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 						break;
 				}
 			}
-
+			
 			if (address && i != max) {
-				EDestination *dest = e_destination_new ();
+				EDestination *dest;
+				
+				dest = e_destination_new ();
 				e_destination_set_name (dest, name);
 				e_destination_set_email (dest, address);
+				
 				to = g_list_append (to, dest);
 			}
 		}
@@ -848,7 +854,9 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 		if (reply_to) {
 			/* Get the Reply-To address so we can ignore references to it in the Cc: list */
 			if (camel_internet_address_get (reply_to, 0, &name, &reply_addr)) {
-				EDestination *dest = e_destination_new ();
+				EDestination *dest;
+				
+				dest = e_destination_new ();
 				e_destination_set_name (dest, name);
 				e_destination_set_email (dest, reply_addr);
 				g_message (">>>>>>>>>> [%s] [%s]", name, reply_addr);
@@ -891,15 +899,15 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 
 	tov = e_destination_list_to_vector (to);
 	ccv = e_destination_list_to_vector (cc);
-
+	
 	g_list_free (to);
 	g_list_free (cc);
-
+	
 	e_msg_composer_set_headers (composer, me ? me->name : NULL, tov, ccv, NULL, subject);
-
+	
 	e_destination_freev (tov);
 	e_destination_freev (ccv);
-
+	
 	g_free (subject);
 	
 	/* Add In-Reply-To and References. */
@@ -925,9 +933,9 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 }
 
 static void
-requeue_mail_reply(CamelFolder *folder, char *uid, CamelMimeMessage *msg, void *data)
+requeue_mail_reply (CamelFolder *folder, char *uid, CamelMimeMessage *msg, void *data)
 {
-	int mode = GPOINTER_TO_INT(data);
+	int mode = GPOINTER_TO_INT (data);
 	
 	mail_reply (folder, msg, uid, mode);
 }
@@ -943,10 +951,10 @@ mail_reply (CamelFolder *folder, CamelMimeMessage *msg, const char *uid, int mod
 	
 	if (!msg) {
 		mail_get_message (folder, uid, requeue_mail_reply,
-				  GINT_TO_POINTER(mode), mail_thread_new);
+				  GINT_TO_POINTER (mode), mail_thread_new);
 		return;
 	}
-
+	
 	psd = g_new (struct post_send_data, 1);
 	psd->folder = folder;
 	camel_object_ref (CAMEL_OBJECT (psd->folder));
