@@ -242,7 +242,8 @@ idle_cb (void *data)
 		const char *uri;
 
 		uri = (const char *) p->data;
-		if (strncmp (uri, E_SHELL_URI_PREFIX, E_SHELL_URI_PREFIX_LEN) == 0)
+		if (strncmp (uri, E_SHELL_URI_PREFIX, E_SHELL_URI_PREFIX_LEN) == 0 ||
+		    strncmp (uri, E_SHELL_DEFAULTURI_PREFIX, E_SHELL_DEFAULTURI_PREFIX_LEN) == 0)
 			have_evolution_uri = TRUE;
 	}
 

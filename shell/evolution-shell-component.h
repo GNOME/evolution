@@ -77,6 +77,7 @@ typedef EvolutionShellComponentResult (* EvolutionShellComponentCreateViewFn)
 	                                               (EvolutionShellComponent *shell_component,
 							const char *physical_uri,
 							const char *type,
+							const char *view_info,
 							BonoboControl **control_return,
 							void *closure);
 typedef void (* EvolutionShellComponentCreateFolderFn) (EvolutionShellComponent *shell_component,

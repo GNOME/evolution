@@ -318,8 +318,10 @@ impl_StorageRegistry_getFolderByUri (PortableServer_Servant servant,
 			strcat (corba_evolution_uri, path);
 			folder = e_storage_set_get_folder (storage_set, path);
 			g_free (path);
-		} else
+		} else {
+			corba_evolution_uri = NULL;
 			folder = NULL;
+		}
 	}
 
 	if (!folder) {

@@ -478,6 +478,7 @@ static Bonobo_Control
 impl_createView (PortableServer_Servant servant,
 		 const CORBA_char *physical_uri,
 		 const CORBA_char *type,
+		 const CORBA_char *view_info,
 		 CORBA_Environment *ev)
 {
 	BonoboObject *bonobo_object;
@@ -491,7 +492,7 @@ impl_createView (PortableServer_Servant servant,
 	priv = shell_component->priv;
 
 	result = (* priv->create_view_fn) (shell_component, physical_uri, type,
-					   &control, priv->closure);
+					   view_info, &control, priv->closure);
 
 	if (result != EVOLUTION_SHELL_COMPONENT_OK) {
 		switch (result) {

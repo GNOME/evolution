@@ -1,3 +1,31 @@
+2002-04-09  Dan Winship  <danw@ximian.com>
+
+	* Evolution-ShellComponent.idl (createView): Add a "view_info"
+	argument.
+
+	* e-shell-view.c (get_view_for_uri): if the URI contains a '#',
+	split it into a URI and a "view_info" at that point. (Otherwise,
+	pass "" for the view_info to ShellComponent_createView.) This can
+	be used for things like specifying day/month/week view to the
+	calendar.
+
+	* e-shell.c (create_view): Ignore e_shell_view_display_uri's
+	return code: it's possible/likely that the requested URL is remote
+	and hasn't been filled in yet.
+	(impl_Shell_handleURI): Don't use Shell_createNewView directly,
+	call e_shell_create_view_from_uri_and_settings. (For the above fix
+	and some others.)
+
+	* evolution-shell-component.c (impl_createView): Add view_info.
+
+	* evolution-shell-component-client.c
+	(evolution_shell_component_client_create_view): Add view_info.
+
+	* evolution-test-component.c (create_view_fn): add view_data.
+
+	* e-corba-storage-registry.c
+	(impl_StorageRegistry_getFolderByUri): kill a warning
+
 2002-04-08  Dan Winship  <danw@ximian.com>
 
 	Fix "evolution evolution:/path/to/folder" to use default view

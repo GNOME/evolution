@@ -26,6 +26,9 @@
 #define E_SHELL_URI_PREFIX		"evolution:"
 #define E_SHELL_URI_PREFIX_LEN		10
 
+#define E_SHELL_DEFAULTURI_PREFIX	"default:"
+#define E_SHELL_DEFAULTURI_PREFIX_LEN	8
+
 #define E_SHELL_MINI_ICON_SUFFIX	"-mini"
 #define E_SHELL_MINI_ICON_SUFFIX_LEN	5
 

@@ -94,6 +94,7 @@ EvolutionShellComponentResult  evolution_shell_component_client_create_view  (Ev
 									      BonoboUIComponent                *uih,
 									      const char                     *physical_uri,
 									      const char                     *type_string,
+									      const char                     *view_info,
 									      BonoboControl                 **control_return);
 
 EvolutionShellComponentResult  evolution_shell_component_client_handle_external_uri  (EvolutionShellComponentClient *shell_component_client,

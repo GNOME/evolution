@@ -2042,7 +2042,8 @@ get_type_for_folder (EShellView *shell_view,
 /* Create a new view for @uri with @control.  It assumes a view for @uri does not exist yet.  */
 static View *
 get_view_for_uri (EShellView *shell_view,
-		  const char *uri)
+		  const char *uri,
+		  const char *view_info)
 {
 	EShellViewPrivate *priv;
 	CORBA_Environment ev;
@@ -2082,7 +2083,7 @@ get_view_for_uri (EShellView *shell_view,
 
 	CORBA_exception_init (&ev);
 
-	corba_control = GNOME_Evolution_ShellComponent_createView (handler, physical_uri, folder_type, &ev);
+	corba_control = GNOME_Evolution_ShellComponent_createView (handler, physical_uri, folder_type, view_info, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		CORBA_exception_free (&ev);
@@ -2136,7 +2137,8 @@ show_existing_view (EShellView *shell_view,
 
 static gboolean
 create_new_view_for_uri (EShellView *shell_view,
-			 const char *uri)
+			 const char *uri,
+			 const char *view_info)
 {
 	View *view;
 	EShellViewPrivate *priv;
@@ -2144,7 +2146,7 @@ create_new_view_for_uri (EShellView *shell_view,
 
 	priv = shell_view->priv;
 
-	view = get_view_for_uri (shell_view, uri);
+	view = get_view_for_uri (shell_view, uri, view_info);
 	if (view == NULL)
 		return FALSE;
 
@@ -2172,6 +2174,8 @@ display_uri (EShellView *shell_view,
 	EShellViewPrivate *priv;
 	View *view;
 	gboolean retval;
+	const char *view_info;
+	char *real_uri;
 
 	priv = shell_view->priv;
 
@@ -2190,10 +2194,19 @@ display_uri (EShellView *shell_view,
 		set_current_notebook_page (shell_view, 0);
 
 		g_free (priv->uri);
-		priv->uri = NULL;
+		priv->uri = real_uri = NULL;
 
 		retval = TRUE;
 		goto end;
+	}
+
+	view_info = strchr (uri, '#');
+	if (view_info) {
+		real_uri = g_strndup (uri, view_info - uri);
+		view_info++;
+	} else {
+		view_info = "";
+		real_uri = g_strdup (uri);
 	}
 
 	if (strncmp (uri, E_SHELL_URI_PREFIX, E_SHELL_URI_PREFIX_LEN) != 0) {
@@ -2201,12 +2214,12 @@ display_uri (EShellView *shell_view,
 		goto end;
 	}
 
-	view = g_hash_table_lookup (priv->uri_to_view, uri);
+	view = g_hash_table_lookup (priv->uri_to_view, real_uri);
 	if (view != NULL) {
-		show_existing_view (shell_view, uri, view);
-	} else if (! create_new_view_for_uri (shell_view, uri)) {
+		show_existing_view (shell_view, real_uri, view);
+	} else if (! create_new_view_for_uri (shell_view, real_uri, view_info)) {
 		cleanup_delayed_selection (shell_view);
-		priv->delayed_selection = g_strdup (uri);
+		priv->delayed_selection = g_strdup (real_uri);
 		gtk_signal_connect_full (GTK_OBJECT (e_shell_get_storage_set (priv->shell)),
 					 "new_folder", GTK_SIGNAL_FUNC (new_folder_cb), NULL,
 					 shell_view, NULL, FALSE, TRUE);
@@ -2217,6 +2230,8 @@ display_uri (EShellView *shell_view,
 	retval = TRUE;
 
  end:
+	g_free (real_uri);
+
 	if (add_to_history && retval == TRUE && priv->uri != NULL)
 		e_history_add (priv->history, g_strdup (priv->uri));
 

@@ -260,15 +260,22 @@ static EvolutionShellComponentResult
 create_view_fn (EvolutionShellComponent *shell_component,
 		const char *physical_uri,
 		const char *folder_type,
+		const char *view_data,
 		BonoboControl **control_return,
 		void *closure)
 {
 	GtkWidget *vbox;
-	GtkWidget *label_1, *label_2;
+	GtkWidget *label_1, *label_2, *label_3, *label_4;
 	GtkWidget *event_box_1, *event_box_2;
 
 	label_1 = gtk_label_new ("This is just a test component, displaying the following URI:");
 	label_2 = gtk_label_new (physical_uri);
+
+	if (*view_data) {
+		label_3 = gtk_label_new ("And the following view_data:");
+		label_4 = gtk_label_new (view_data);
+	} else
+		label_3 = label_4 = NULL;
 
 	event_box_1 = gtk_event_box_new ();
 	event_box_2 = gtk_event_box_new ();
@@ -278,14 +285,13 @@ create_view_fn (EvolutionShellComponent *shell_component,
 	gtk_box_pack_start (GTK_BOX (vbox), event_box_1, TRUE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (vbox), label_1, FALSE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (vbox), label_2, FALSE, TRUE, 0);
+	if (label_3) {
+		gtk_box_pack_start (GTK_BOX (vbox), label_3, FALSE, TRUE, 0);
+		gtk_box_pack_start (GTK_BOX (vbox), label_4, FALSE, TRUE, 0);
+	}
 	gtk_box_pack_start (GTK_BOX (vbox), event_box_2, TRUE, TRUE, 0);
 
-	gtk_widget_show (label_1);
-	gtk_widget_show (label_2);
-	gtk_widget_show (event_box_1);
-	gtk_widget_show (event_box_2);
-
-	gtk_widget_show (vbox);
+	gtk_widget_show_all (vbox);
 
 	*control_return = bonobo_control_new (vbox);
 

@@ -588,6 +588,7 @@ evolution_shell_component_client_create_view (EvolutionShellComponentClient *she
 					      BonoboUIComponent *uih,
 					      const char *physical_uri,
 					      const char *type_string,
+					      const char *view_info,
 					      BonoboControl **control_return)
 {
 	EvolutionShellComponentResult result;
@@ -601,12 +602,13 @@ evolution_shell_component_client_create_view (EvolutionShellComponentClient *she
 	RETURN_ERROR_IF_FAIL (BONOBO_IS_UI_COMPONENT (uih));
 	RETURN_ERROR_IF_FAIL (physical_uri != NULL);
 	RETURN_ERROR_IF_FAIL (type_string != NULL);
+	RETURN_ERROR_IF_FAIL (view_info != NULL);
 	RETURN_ERROR_IF_FAIL (control_return != NULL);
 
 	CORBA_exception_init (&ev);
 
 	corba_component = bonobo_object_corba_objref (BONOBO_OBJECT (shell_component_client));
-	corba_control = GNOME_Evolution_ShellComponent_createView (corba_component, physical_uri, type_string, &ev);
+	corba_control = GNOME_Evolution_ShellComponent_createView (corba_component, physical_uri, type_string, view_info, &ev);
 
 	result = corba_exception_to_result (&ev);
 

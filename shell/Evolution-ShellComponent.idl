@@ -69,7 +69,8 @@ module Evolution {
 		exception InternalError {};
 
 		Bonobo::Control createView (in string physical_uri,
-					    in string type)
+					    in string type,
+					    in string view_info)
 			raises (NotFound, UnsupportedType, InternalError);
 
 		void handleExternalURI (in string external_uri)

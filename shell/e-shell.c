@@ -421,6 +421,43 @@ impl_Shell_createNewView (PortableServer_Servant servant,
 }
 
 static void
+handle_default_uri (EShell *shell, const char *uri, CORBA_Environment *ev)
+{
+	char *component, *dbpath, *extra_info, *new_uri;
+	gboolean def;
+
+	component = g_strdup (uri + E_SHELL_DEFAULTURI_PREFIX_LEN);
+	extra_info = strchr (component, '#');
+	if (extra_info)
+		*extra_info++ = '\0';
+
+	dbpath = g_strdup_printf ("/DefaultFolder/%s_path", component);
+	new_uri = bonobo_config_get_string_with_default (shell->priv->db,
+							 dbpath, NULL, &def);
+	g_free (dbpath);
+
+	if (new_uri == NULL) {
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+				     ex_GNOME_Evolution_Shell_NotFound, NULL);
+		g_free (component);
+		return;
+	}
+
+	if (extra_info) {
+		char *tmp;
+
+		tmp = new_uri;
+		new_uri = g_strdup_printf ("%s#%s", new_uri, extra_info);
+		g_free (tmp);
+	}
+
+	e_shell_create_view_from_uri_and_settings (shell, new_uri, 0);
+	g_free (new_uri);
+	g_free (component);
+	return;
+}
+
+static void
 impl_Shell_handleURI (PortableServer_Servant servant,
 		      const CORBA_char *uri,
 		      CORBA_Environment *ev)
@@ -438,7 +475,12 @@ impl_Shell_handleURI (PortableServer_Servant servant,
 	priv = shell->priv;
 
 	if (strncmp (uri, E_SHELL_URI_PREFIX, E_SHELL_URI_PREFIX_LEN) == 0) {
-		GNOME_Evolution_Shell_createNewView (bonobo_object_corba_objref (BONOBO_OBJECT (shell)), uri, ev);
+		e_shell_create_view_from_uri_and_settings (shell, uri, 0);
+		return;
+	}
+
+	if (strncmp (uri, E_SHELL_DEFAULTURI_PREFIX, E_SHELL_DEFAULTURI_PREFIX_LEN) == 0) {
+		handle_default_uri (shell, uri, ev);
 		return;
 	}
 
@@ -955,13 +997,8 @@ create_view (EShell *shell,
 	gtk_signal_connect (GTK_OBJECT (view), "destroy",
 			    GTK_SIGNAL_FUNC (view_destroy_cb), shell);
 
-	if (uri != NULL) {
-		if (!e_shell_view_display_uri (E_SHELL_VIEW (view), uri)) {
-			/* FIXME: Consider popping a dialog box up about how the provided URI does not
-			   exist/could not be displayed.  */
-			e_shell_view_display_uri (E_SHELL_VIEW (view), E_SHELL_VIEW_DEFAULT_URI);
-		}
-	}
+	if (uri != NULL)
+		e_shell_view_display_uri (E_SHELL_VIEW (view), uri);
 
 	shell->priv->views = g_list_prepend (shell->priv->views, view);
 
