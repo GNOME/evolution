@@ -105,7 +105,7 @@ free_string_list (GList *list)
 }
 
 static char *
-get_editor_text (BonoboWidget *editor)
+get_editor_text (BonoboWidget *editor, char *format)
 {
 	Bonobo_PersistStream persist;
 	BonoboStream *stream;
@@ -122,7 +122,7 @@ get_editor_text (BonoboWidget *editor)
 	g_assert (persist != CORBA_OBJECT_NIL);
 
 	stream = bonobo_stream_mem_create (NULL, 0, FALSE, TRUE);
-	Bonobo_PersistStream_save (persist, (Bonobo_Stream)bonobo_object_corba_objref (BONOBO_OBJECT (stream)), "text/html", &ev);
+	Bonobo_PersistStream_save (persist, (Bonobo_Stream)bonobo_object_corba_objref (BONOBO_OBJECT (stream)), format, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		/* FIXME. Some error message. */
 		return NULL;
@@ -141,16 +141,60 @@ get_editor_text (BonoboWidget *editor)
 	return text;
 }
 
+#define LINE_LEN 72
+
+/* This might be a temporary function... the GtkHTML export interfaces are
+ * not yet complete, so some or all of this may move into GtkHTML.
+ */
+static char *
+format_text (char *text)
+{
+	char *out, *s, *d, *space;
+	int len;
+
+	len = strlen (text);
+	out = g_malloc (len + len / LINE_LEN + 3);
+
+	s = text;
+	d = out;
+
+	while (*s) {
+		len = strcspn (s, "\n");
+		if (len > LINE_LEN) {
+			space = s + LINE_LEN;
+			while (*space != ' ' && space > s)
+				space--;
+
+			if (space != s)
+				len = space - s;
+		}
+
+		memcpy (d, s, len);
+		s += len;
+		if (*s)
+			s++;
+		d += len;
+		*d++ = '\n';
+	}
+
+	*d++ = '\0';
+	return out;
+}
+
 
 /* This functions builds a CamelMimeMessage for the message that the user has
    composed in `composer'.  */
 static CamelMimeMessage *
 build_message (EMsgComposer *composer)
 {
+	EMsgComposerAttachmentBar *attachment_bar =
+		E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar);
 	CamelMimeMessage *new;
-	char *text;
+	CamelMultipart *body;
+	CamelMimePart *part;
+	char *html, *plain, *fmt;
 	int i;
-	
+
 	new = camel_mime_message_new ();
 
 	e_msg_composer_hdrs_to_message (E_MSG_COMPOSER_HDRS (composer->hdrs),
@@ -161,45 +205,52 @@ build_message (EMsgComposer *composer)
 					 composer->extra_hdr_values->pdata[i]);
 	}
 
-	text = get_editor_text (BONOBO_WIDGET (composer->editor));
+	html = get_editor_text (BONOBO_WIDGET (composer->editor), "text/html");
+	plain = get_editor_text (BONOBO_WIDGET (composer->editor), "text/plain");
+	fmt = format_text (plain);
+	g_free (plain);
 
-	if (e_msg_composer_attachment_bar_get_num_attachments (E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar))) {
+	body = camel_multipart_new ();
+	camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (body),
+					  "multipart/alternative");
+	camel_multipart_set_boundary (body, NULL);
+
+	part = camel_mime_part_new ();
+	camel_mime_part_set_content (part, fmt, strlen (fmt), "text/plain");
+	g_free (fmt);
+	camel_multipart_add_part (body, part);
+	gtk_object_unref (GTK_OBJECT (part));
+
+	part = camel_mime_part_new ();
+	camel_mime_part_set_content (part, html, strlen (html), "text/html");
+	g_free (html);
+	camel_multipart_add_part (body, part);
+	gtk_object_unref (GTK_OBJECT (part));
+
+	if (e_msg_composer_attachment_bar_get_num_attachments (attachment_bar)) {
 		CamelMultipart *multipart = camel_multipart_new ();
-		CamelMimePart *part;
 
 		/* Generate a random boundary. */
 		camel_multipart_set_boundary (multipart, NULL);
 
 		part = camel_mime_part_new ();
-		camel_mime_part_set_content (part, text,
-					     strlen (text), "text/html");
+		camel_medium_set_content_object (CAMEL_MEDIUM (part),
+						 CAMEL_DATA_WRAPPER (body));
+		gtk_object_unref (GTK_OBJECT (body));
 		camel_multipart_add_part (multipart, part);
 		gtk_object_unref (GTK_OBJECT (part));
 
-		e_msg_composer_attachment_bar_to_multipart (E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar), multipart);
+		e_msg_composer_attachment_bar_to_multipart (attachment_bar,
+							    multipart);
 
 		camel_medium_set_content_object (CAMEL_MEDIUM (new),
 						 CAMEL_DATA_WRAPPER (multipart));
 		gtk_object_unref (GTK_OBJECT (multipart));
 	} else {
-		CamelDataWrapper *cdw;
-		CamelStream *stream;
-
-		stream = camel_stream_mem_new_with_buffer (text,
-							   strlen (text));
-		cdw = camel_data_wrapper_new ();
-		camel_data_wrapper_construct_from_stream (cdw, stream);
-		gtk_object_unref (GTK_OBJECT (stream));
-		camel_data_wrapper_set_mime_type (cdw, "text/html");
-
 		camel_medium_set_content_object (CAMEL_MEDIUM (new),
-						 CAMEL_DATA_WRAPPER (cdw));
-		gtk_object_unref (GTK_OBJECT (cdw));
+						 CAMEL_DATA_WRAPPER (body));
+		gtk_object_unref (GTK_OBJECT (body));
 	}
-	g_free (text);
-
-	/* FIXME refcounting is most certainly wrong.  We want all the stuff to
-           be destroyed when we unref() the message.  */
 
 	return new;
 }

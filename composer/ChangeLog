@@ -1,3 +1,11 @@
+2000-05-29  Dan Winship  <danw@helixcode.com>
+
+	* e-msg-composer.c (get_editor_text): add a "format" argument so
+	we can fetch different kinds of text.
+	(format_text): New function to do line wrapping on plain text.
+	(build_message): Build multipart/alternative messages rather than
+	HTML-only ones. Yay. We don't suck (as much) any more!
+
 2000-05-28  Dan Winship  <danw@helixcode.com>
 
 	* e-msg-composer.c: #include <errno.h>
