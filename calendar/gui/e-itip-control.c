@@ -1281,7 +1281,7 @@ update_attendee_status (EItipControl *itip)
 		}
 
 		if (!cal_client_update_object (client, comp))
-			dialog = gnome_warning_dialog (_("Attendee status ould not be updated!\n"));
+			dialog = gnome_warning_dialog (_("Attendee status could not be updated!\n"));
 		else
 			dialog = gnome_ok_dialog (_("Attendee status updated\n"));
 	} else {
