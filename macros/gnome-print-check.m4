@@ -12,7 +12,6 @@ AC_DEFUN([AM_PATH_GNOME_PRINT],
 [
   min_version=ifelse([$1],,0.21,$1)
 
-  awk_alchemy=$'BEGIN {FS=".";} {print $\61 * 1000 + $\62;}'
   gnome_print_ok=""
 
   AC_PATH_PROG(GNOME_CONFIG, gnome-config, no)
@@ -21,16 +20,27 @@ AC_DEFUN([AM_PATH_GNOME_PRINT],
   else
     AC_MSG_CHECKING(for GNOME-PRINT - version >= $min_version)
     if `$GNOME_CONFIG --libs print > /dev/null 2>&1`; then
-      gnome_print_version=$($GNOME_CONFIG --modversion print | sed -e 's/gnome-print-//' -e 's/cvs$//' | awk "$awk_alchemy")
-      requested_version=`echo "$min_version" | awk "$awk_alchemy"`
-      if test "$gnome_print_version" -ge "$requested_version"; then
-        AC_MSG_RESULT(found)
-        gnome_print_ok="yes"
+      rqmajor=$(echo "$1" | sed -e 's/cvs-//' | sed 's/\([[0-9]]*\)\.\([[0-9]]*\).*/\1/')
+      rqminor=$(echo "$1" | sed -e 's/cvs-//' | sed 's/\([[0-9]]*\)\.\([[0-9]]*\).*/\2/')
+      major=$($GNOME_CONFIG --modversion print | sed -e 's/gnome-print-//' | sed -e 's/cvs-//' | sed 's/\([[0-9]]*\)\.\([[0-9]]*\).*/\1/')
+      minor=$($GNOME_CONFIG --modversion print | sed -e 's/gnome-print-//' | sed -e 's/cvs-//' | sed 's/\([[0-9]]*\)\.\([[0-9]]*\).*/\2/')
+      if test "$major" -ge "$rqmajor"; then
+        if test "$major" -gt "$rqmajor"; then
+          AC_MSG_RESULT("found $major.$minor")
+          gnome_print_ok="yes"
+        else
+          if test "$minor" -ge "$rqminor"; then
+            AC_MSG_RESULT("found $major.$minor")
+            gnome_print_ok="yes"
+          else
+            AC_MSG_RESULT("you have $major.$minor")
+          fi
+        fi
       else
-        AC_MSG_RESULT(not found)
+        AC_MSG_RESULT("you have $major.$minor")
       fi
     else
-      AC_MSG_RESULT(gnome-print not installed)
+      AC_MSG_RESULT("did not find any version")
     fi
   fi
 
