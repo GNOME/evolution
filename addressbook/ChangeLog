@@ -1,3 +1,8 @@
+2000-07-09  Not Zed  <NotZed@HelixCode.com>
+
+	* gui/component/addressbook.c: Link the toolbar print button to
+	the print callback.
+
 2000-07-08  Christopher James Lahey  <clahey@helixcode.com>
 
 	* gui/component/select-names/e-select-names.c

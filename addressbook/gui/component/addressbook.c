@@ -452,7 +452,7 @@ static GnomeUIInfo gnome_toolbar [] = {
 	GNOMEUIINFO_SEPARATOR,
 
 	GNOMEUIINFO_ITEM_STOCK (N_("Find"), N_("Find a contact"), find_contact_cb, GNOME_STOCK_PIXMAP_SEARCH),
-	GNOMEUIINFO_ITEM_STOCK (N_("Print"), N_("Print contacts"), do_nothing_cb, GNOME_STOCK_PIXMAP_PRINT),
+	GNOMEUIINFO_ITEM_STOCK (N_("Print"), N_("Print contacts"), print_cb, GNOME_STOCK_PIXMAP_PRINT),
 	GNOMEUIINFO_ITEM_STOCK (N_("Delete"), N_("Delete a contact"), delete_contact_cb, GNOME_STOCK_PIXMAP_TRASH),
 	GNOMEUIINFO_SEPARATOR,
 	GNOMEUIINFO_END
