@@ -120,7 +120,8 @@ vtrash_add (CamelStore *store, CamelFolder *folder, const char *store_uri, const
 
 struct _get_trash_msg {
 	struct _mail_msg msg;
-	
+
+	CamelStore *store;
 	char *store_uri;
 	CamelFolder *folder;
 	void (*done) (char *store_uri, CamelFolder *folder, void *data);
@@ -214,8 +215,8 @@ get_trash_get (struct _mail_msg *mm)
 	urls = g_ptr_array_new ();
 	
 	/* we don't want to connect */
-	store = (CamelStore *) camel_session_get_service (session, m->store_uri,
-							  CAMEL_PROVIDER_STORE, &mm->ex);
+	m->store = store = (CamelStore *) camel_session_get_service (session, m->store_uri,
+								     CAMEL_PROVIDER_STORE, &mm->ex);
 	if (store == NULL) {
 		g_warning ("Couldn't get service %s: %s\n", m->store_uri,
 			   camel_exception_get_description (&mm->ex));
@@ -239,7 +240,6 @@ get_trash_get (struct _mail_msg *mm)
 			camel_store_free_folder_info (store, info);
 			
 			m->folder = create_trash_vfolder (_("vTrash"), urls, &mm->ex);
-			vtrash_add (store, m->folder, m->store_uri, _("vTrash"));
 		}
 	}
 
@@ -251,6 +251,9 @@ static void
 get_trash_got (struct _mail_msg *mm)
 {
 	struct _get_trash_msg *m = (struct _get_trash_msg *)mm;
+
+	if (m->store)
+		vtrash_add (m->store, m->folder, m->store_uri, _("vTrash"));
 	
 	if (m->done)
 		m->done (m->store_uri, m->folder, m->data);
@@ -260,7 +263,10 @@ static void
 get_trash_free (struct _mail_msg *mm)
 {
 	struct _get_trash_msg *m = (struct _get_trash_msg *)mm;
-	
+
+	if (m->store)
+		camel_object_unref (CAMEL_OBJECT (m->store));
+
 	g_free (m->store_uri);
 	if (m->folder)
 		camel_object_unref (CAMEL_OBJECT (m->folder));

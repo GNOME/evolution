@@ -1,3 +1,10 @@
+2001-02-23  Not Zed  <NotZed@Ximian.com>
+
+	* mail-send-recv.c (build_dialogue): Only allow downloading if the
+	source is enabled at this time.
+	(mail_autoreceive_setup): Check for enabled sources before setting
+	up autodownload.
+
 2001-02-22  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-accounts.c (construct): Construct the PGP Path
@@ -15,6 +22,9 @@
 
 	* mail-vtrash.c (get_trash_get): Setup the operation registration,
 	and create a pseudo "start/stop" operation.
+	(get_trash_free): Free store if we have it.
+	(get_trash_got): Move vtrash add into here, so we execute in the
+	right thread.
 
 	* component-factory.c (owner_set_cb): Make trash creation async.
 

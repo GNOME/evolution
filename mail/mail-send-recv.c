@@ -228,7 +228,8 @@ static struct _send_data *build_dialogue(GSList *sources, CamelFolder *outbox, c
 	while (sources) {
 		MailConfigService *source = sources->data;
 		
-		if (!source->url) {
+		if (!source->url
+		    || !source->enabled) {
 			sources = sources->next;
 			continue;
 		}
@@ -695,7 +696,7 @@ mail_autoreceive_setup(void)
 
 	while (sources) {
 		MailConfigService *source = sources->data;
-		if (source->url && source->auto_check) {
+		if (source->url && source->auto_check && source->enabled) {
 			struct _auto_data *info;
 
 			printf("setting up auto-receive mail for : %s\n", source->url);
