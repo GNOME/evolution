@@ -1,6 +1,7 @@
 INCLUDES =						\
 	-DG_LOG_DOMAIN=\"e-minicard\"			\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
+	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/addressbook/backend/ebook	\
 	-I$(top_srcdir)/addressbook/contact-editor	\

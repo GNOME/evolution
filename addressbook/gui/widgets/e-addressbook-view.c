@@ -813,8 +813,8 @@ e_addressbook_view_setup_menus (EAddressbookView *view,
 	collection = gal_view_collection_new();
 	/* FIXME: Memory leak. */
 	gal_view_collection_set_storage_directories(collection,
-						    gnome_util_prepend_user_home("/evolution/system/"),
-						    gnome_util_prepend_user_home("/evolution/galview/"));
+						    EVOLUTION_DATADIR "/evolution/views/addressbook/",
+						    gnome_util_prepend_user_home("/evolution/views/addressbook/"));
 
 	spec = e_table_specification_new();
 	e_table_specification_load_from_string(spec, SPEC);

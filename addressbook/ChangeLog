@@ -1,3 +1,12 @@
+2001-02-06  Christopher James Lahey  <clahey@ximian.com>
+
+	* gui/widgets/Makefile.am (INCLUDES): Added
+	-DEVOLUTION_DATADIR=\""$(datadir)"\".
+
+	* gui/widgets/e-addressbook-view.c
+	(e_addressbook_view_setup_menus): Changed the local and system
+	directories.
+
 2001-02-06  Chris Toshok  <toshok@ximian.com>
 
 	* backend/pas/pas-backend-ldap.c (create_card_handler): doh,
