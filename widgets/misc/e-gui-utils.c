@@ -21,7 +21,10 @@
  * 02111-1307, USA.
  */
 
+
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
 
 #include "e-gui-utils.h"
 
@@ -54,29 +57,17 @@ e_notice (GtkWindow *parent, GtkMessageType type, const char *format, ...)
 	gtk_widget_destroy (dialog);
 }
 
-static void
-kill_popup_menu (GtkWidget *widget, GtkMenu *menu)
-{
-	g_return_if_fail (menu != NULL);
-	g_return_if_fail (GTK_IS_MENU (menu));
-
-	gtk_widget_destroy (menu);
-}
-
 void
 e_auto_kill_popup_menu_on_hide (GtkMenu *menu)
 {
-	g_return_if_fail (menu != NULL);
 	g_return_if_fail (GTK_IS_MENU (menu));
-
-	g_signal_connect (menu, "hide",
-			  G_CALLBACK (kill_popup_menu), menu);
+	
+	g_signal_connect (menu, "hide", G_CALLBACK (gtk_widget_destroy), menu);
 }
 
 void
 e_popup_menu (GtkMenu *menu, GdkEvent *event)
 {
-	g_return_if_fail (menu != NULL);
 	g_return_if_fail (GTK_IS_MENU (menu));
 
 	e_auto_kill_popup_menu_on_hide (menu);
