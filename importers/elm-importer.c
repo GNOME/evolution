@@ -77,6 +77,8 @@ typedef struct {
 	char *path;
 } ElmFolder;
 
+static GHashTable *elm_prefs = NULL;
+
 static void import_next (ElmImporter *importer);
 
 static void
@@ -144,47 +146,90 @@ elm_import_file (ElmImporter *importer,
 	return TRUE;
 }
 
-static gboolean
-is_kmail (const char *maildir)
+static void
+parse_elm_rc (const char *elmrc)
 {
-	char *names[5] = 
-	{
-		"inbox",
-		"outbox",
-		"sent-mail",
-		"trash",
-		"drafts"
-	};
-	int i;
+	static gboolean parsed = FALSE;
+	char line[4096];
+	FILE *handle;
+	gboolean exists;
 
-	for (i = 0; i < 5; i++) {
-		char *file, *index, *tmp;
-		
-		file = g_concat_dir_and_file (maildir, names[i]);
-		tmp = g_strdup_printf (".%s.index", names[i]);
-		index = g_concat_dir_and_file (maildir, tmp);
-		g_free (tmp);
+	if (parsed == TRUE)
+		return;
 
-		if (!g_file_exists (file) ||
-		    !g_file_exists (index)) {
-			g_free (index);
-			g_free (file);
-			return FALSE;
-		}
+	elm_prefs = g_hash_table_new (g_str_hash, g_str_equal);
 
-		g_free (index);
-		g_free (file);
+	exists = g_file_exists (elmrc);
+	if (exists == FALSE) {
+		parsed = TRUE;
+		return;
 	}
 
-	return TRUE;
+	handle = fopen (elmrc, "r");
+	if (handle == NULL) {
+		parsed = TRUE;
+		return;
+	}
+
+	while (fgets (line, 4096, handle) != NULL) {
+		char *linestart, *end;
+		char *key, *value;
+		if (*line == '#' &&
+		    (line[1] != '#' && line[2] != '#')) {
+			continue;
+		} else if (*line == '\n') {
+			continue;
+		} else if (*line == '#' && line[1] == '#' && line[2] == '#') {
+			linestart = line + 4;
+		} else {
+			linestart = line;
+		}
+
+		g_print ("linestart = '%s'", linestart);
+		end = strstr (linestart, " = ");
+		if (end == NULL) {
+			g_warning ("Broken line");
+			continue;
+		}
+
+		*end = 0;
+		key = g_strdup (linestart);
+
+		linestart = end + 3;
+		end = strchr (linestart, '\n');
+		if (end == NULL) {
+			g_warning ("Broken line");
+			g_free (key);
+			continue;
+		}
+
+		*end = 0;
+		value = g_strdup (linestart);
+
+		g_hash_table_insert (elm_prefs, key, value);
+	}
+
+	parsed = TRUE;
+	fclose (handle);
+}
+
+static char *
+elm_get_rc_value (const char *value)
+{
+	if (elm_prefs == NULL)
+		return NULL;
+
+	return g_hash_table_lookup (elm_prefs, value);
 }
 
 static gboolean
 elm_can_import (EvolutionIntelligentImporter *ii,
 		void *closure)
 {
-	char *key, *maildir, *evolution_dir;
-	gboolean exists;
+	ElmImporter *importer = closure;
+	char *key, *elmdir, *maildir, *evolution_dir, *alias;
+	char *elmrc;
+	gboolean exists, mailexists, aliasexists;
 
 	evolution_dir = gnome_util_prepend_user_home ("evolution");
 	/* Already imported */
@@ -200,34 +245,52 @@ elm_can_import (EvolutionIntelligentImporter *ii,
 	}
 	gnome_config_pop_prefix ();
 
-	/* Elm uses ~/Mail
-	   Alas so does MH and KMail. */
-	maildir = gnome_util_prepend_user_home ("Mail");
-	exists = g_file_exists (maildir);
+	elmdir = gnome_util_prepend_user_home (".elm");
+	exists = g_file_exists (elmdir);
 
-	if (exists) {
-		char *mh, *mhdir;
+	g_free (elmdir);
+	if (exists == FALSE)
+		return FALSE;
 
-		/* Check for some other files to work out what it is. */
+	elmrc = gnome_util_prepend_user_home (".elm/elmrc");
+	parse_elm_rc (elmrc);
 
-		/* MH? */
-		mh = g_concat_dir_and_file (maildir, "context");
-		mhdir = g_concat_dir_and_file (maildir, "inbox");
-		if (g_file_exists (mh) &&
-		    g_file_test (mhdir, G_FILE_TEST_ISDIR)) {
-			exists = FALSE; /* Probably MH */
-		}
-		
-		g_free (mh);
-		g_free (mhdir);
+	maildir = elm_get_rc_value ("maildir");
+	if (maildir == NULL) {
+		maildir = g_strdup ("Mail");
+	} else {
+		maildir = g_strdup (maildir);
 	}
 
-	if (exists) {
-		/* Check for KMail stuff */
-		exists = !is_kmail (maildir);
+	if (!g_path_is_absolute (maildir)) {
+		elmdir = gnome_util_prepend_user_home (maildir);
+	} else {
+		elmdir = g_strdup (maildir);
 	}
 
 	g_free (maildir);
+
+	g_print ("\nChecking for %s\n", elmdir);
+	mailexists = g_file_exists (elmdir);
+	g_free (elmdir);
+
+	importer->do_mail = mailexists;
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (importer->mail),
+				      importer->do_mail);
+	gtk_widget_set_sensitive (importer->mail, mailexists);
+
+	alias = gnome_util_prepend_user_home (".elm/aliases");
+	aliasexists = g_file_exists (alias);
+	g_free (alias);
+
+	importer->do_alias = aliasexists;
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (importer->alias),
+				      importer->do_alias);
+#ifdef WE_HAVE_WORKING_ALIAS_IMPORTING
+	gtk_widget_set_sensitive (importer->alias, aliasexists);
+#endif
+
+	exists = (aliasexists || mailexists);
 
 	return exists;
 }

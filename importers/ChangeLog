@@ -1,3 +1,10 @@
+2001-05-09  Iain Holmes  <iain@ximian.com>
+
+	* elm-importer.c (elm_can_import): Check the elm rc file for the mail dir.
+	Handle if the aliases file exists too.
+	(parse_elm_rc): Parse the elmrc file into a hash table.
+	(elm_get_rc_value): Get the value out of the hash table.
+
 2001-05-09  Christopher James Lahey  <clahey@ximian.com>
 
 	* .cvsignore: Added .cvsignore.
