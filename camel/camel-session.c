@@ -832,7 +832,7 @@ void camel_session_thread_msg_free(CamelSession *session, CamelSessionThreadMsg 
 	g_assert(msg != NULL);
 	g_assert(msg->ops != NULL);
 
-	return CS_CLASS (session)->thread_msg_free(session, msg);
+	CS_CLASS (session)->thread_msg_free(session, msg);
 }
 
 /**
@@ -869,7 +869,7 @@ void camel_session_thread_wait(CamelSession *session, int id)
 	if (id == -1)
 		return;
 
-	return CS_CLASS (session)->thread_wait(session, id);
+	CS_CLASS (session)->thread_wait(session, id);
 }
 
 #endif

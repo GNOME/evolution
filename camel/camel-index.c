@@ -391,6 +391,6 @@ camel_index_cursor_next(CamelIndexCursor *idc)
 void
 camel_index_cursor_reset(CamelIndexCursor *idc)
 {
-	return CIC_CLASS(idc)->reset(idc);
+	CIC_CLASS(idc)->reset(idc);
 }
 

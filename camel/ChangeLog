@@ -1,5 +1,18 @@
 2003-03-06  Jeffrey Stedfast  <fejj@ximian.com>
 
+	Fixes for bug #39170
+
+	* camel-store-summary.c (camel_store_info_set_string): Remove
+	return keyword.
+
+	* camel-session.c (camel_session_thread_msg_free): Remove return
+	keyword.
+	(camel_session_thread_wait): Same.
+
+	* camel-index.c (camel_index_cursor_reset): Remove return keyword.
+
+2003-03-06  Jeffrey Stedfast  <fejj@ximian.com>
+
 	Fixes for bug #39168
 
 	* providers/local/camel-spool-summary.c: Get rid of the empty

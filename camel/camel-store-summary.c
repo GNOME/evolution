@@ -795,7 +795,7 @@ const char *camel_store_info_string(CamelStoreSummary *s, const CamelStoreInfo *
 
 void camel_store_info_set_string(CamelStoreSummary *s, CamelStoreInfo *mi, int type, const char *value)
 {
-	return ((CamelStoreSummaryClass *)(CAMEL_OBJECT_GET_CLASS(s)))->store_info_set_string(s, mi, type, value);
+	((CamelStoreSummaryClass *)(CAMEL_OBJECT_GET_CLASS(s)))->store_info_set_string(s, mi, type, value);
 }
 
 static CamelStoreInfo *
