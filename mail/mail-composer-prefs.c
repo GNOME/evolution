@@ -305,7 +305,7 @@ sig_add_script_add (GtkWidget *widget, MailComposerPrefs *prefs)
 static void
 sig_add_script_cancel (GtkWidget *widget, MailComposerPrefs *prefs)
 {
-	gnome_dialog_close (prefs->sig_script_dialog);
+	gnome_dialog_close (GNOME_DIALOG (prefs->sig_script_dialog));
 }
 
 static void
