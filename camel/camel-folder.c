@@ -85,6 +85,7 @@ static CamelFolder *_get_parent_folder (CamelFolder *folder, CamelException *ex)
 static CamelStore * _get_parent_store  (CamelFolder *folder, CamelException *ex);
 
 
+static gboolean _has_message_number_capability (CamelFolder *folder, CamelException *ex);
 static CamelMimeMessage *_get_message_by_number (CamelFolder *folder, 
 						 gint number, 
 						 CamelException *ex);
@@ -145,6 +146,7 @@ camel_folder_class_init (CamelFolderClass *camel_folder_class)
 	camel_folder_class->get_mode = _get_mode;
 	camel_folder_class->list_subfolders = _list_subfolders;
 	camel_folder_class->expunge = _expunge;
+	camel_folder_class->has_message_number_capability = _has_message_number_capability;
 	camel_folder_class->get_message_by_number = _get_message_by_number;
 	camel_folder_class->get_message_count = _get_message_count;
 	camel_folder_class->append_message = _append_message;
@@ -281,9 +283,9 @@ _open_async (CamelFolder *folder,
 	     gpointer user_data, 
 	     CamelException *ex)
 {
-	CAMEL_LOG_WARNING ("CamelFolder::open_async method must be overloaded\n");
+	CAMEL_LOG_WARNING ("Calling CamelFolder::open_async directly. "
+			   "Should be overloaded\n");
 }
-
 
 
 
@@ -295,7 +297,7 @@ _open_async (CamelFolder *folder,
  * @user_data: data to pass to the callback 
  * @ex: exception object
  *
- * Open a folder in a given mode. When the opration is over
+ * Open a folder in a given mode. When the operation is over
  * the callback is called and the client program can determine
  * if the operation suceeded by examining the exception. 
  * 
@@ -353,7 +355,8 @@ _close_async (CamelFolder *folder,
 	      gpointer user_data, 
 	      CamelException *ex)
 {	
-	CAMEL_LOG_WARNING ("CamelFolder::close_async method must be overloaded\n");
+	CAMEL_LOG_WARNING ("Calling CamelFolder::close_async directly. "
+			   "Should be overloaded\n");
 }
 
 /**
@@ -420,7 +423,12 @@ _set_name (CamelFolder *folder,
  * camel_folder_set_name:set the (short) name of the folder
  * @folder: folder
  * @name: new name of the folder
- * ex);
+ * @ex: exception object
+ **/
+void
+camel_folder_set_name (CamelFolder *folder, const gchar *name, CamelException *ex)
+{
+	CF_CLASS(folder)->set_name (folder, name, ex);
 }
 
 
@@ -791,6 +799,8 @@ gboolean camel_folder_delete (CamelFolder *folder, gboolean recurse, CamelExcept
 static gboolean 
 _delete_messages (CamelFolder *folder, CamelException *ex)
 {
+	CAMEL_LOG_WARNING ("Calling CamelFolder::delete_messages directly. "
+			   "Should be overloaded\n");
 	return TRUE;
 }
 
@@ -910,6 +920,8 @@ camel_folder_get_mode (CamelFolder *folder, CamelException *ex)
 static GList *
 _list_subfolders (CamelFolder *folder, CamelException *ex)
 {
+	CAMEL_LOG_WARNING ("Calling CamelFolder::list_subfolders directly. "
+			   "Should be overloaded\n");
 	return NULL;
 }
 
@@ -934,18 +946,11 @@ camel_folder_list_subfolders (CamelFolder *folder, CamelException *ex)
 static void
 _expunge (CamelFolder *folder, CamelException *ex)
 {
+	CAMEL_LOG_WARNING ("Calling CamelFolder::expunge directly. "
+			   "Should be overloaded\n");
 
 }
 
-/* util func. Should not stay here */
-gint
-camel_mime_message_number_cmp (gconstpointer a, gconstpointer b)
-{
-	CamelMimeMessage *m_a = CAMEL_MIME_MESSAGE (a);
-	CamelMimeMessage *m_b = CAMEL_MIME_MESSAGE (b);
-
-	return (m_a->message_number - (m_b->message_number));
-}
 
 /**
  * camel_folder_expunge: physically delete messages marked as "DELETED"
@@ -953,23 +958,20 @@ camel_mime_message_number_cmp (gconstpointer a, gconstpointer b)
  * 
  * Delete messages which have been marked as  "DELETED"
  * 
- * 
- * Return value: list of expunged message objects.
  **/
-GList *
-camel_folder_expunge (CamelFolder *folder, gboolean want_list, CamelException *ex)
+void
+camel_folder_expunge (CamelFolder *folder,  CamelException *ex)
 {
-	GList *expunged_list = NULL;
 	CamelMimeMessage *message;
 	GList *message_node;
 	GList *next_message_node;
 	guint nb_expunged = 0;
 
 	
-	/* sort message list by ascending message number */
+	/* sort message list by ascending message number
 	if (folder->message_list)
 		folder->message_list = g_list_sort (folder->message_list, camel_mime_message_number_cmp);
-
+	*/
 	/* call provider method, 
 	 *  PROVIDERS MUST SET THE EXPUNGED FLAGS TO TRUE
 	 * when they expunge a message of the active message list */
@@ -988,8 +990,7 @@ camel_folder_expunge (CamelFolder *folder, gboolean want_list, CamelException *e
 		if (message) {
 			CAMEL_LOG_FULL_DEBUG ("CamelFolder::expunge, examining message %d\n", message->message_number);
 			if (message->expunged) {
-				if (want_list) 
-					expunged_list = g_list_append (expunged_list, message);
+				
 				/* remove the message from active message list */
 				g_list_remove_link (folder->message_list, message_node);
 				g_list_free_1 (message_node);
@@ -1009,14 +1010,46 @@ camel_folder_expunge (CamelFolder *folder, gboolean want_list, CamelException *e
 		CAMEL_LOG_FULL_DEBUG ("CamelFolder::expunge, examined message node %p\n", message_node);
 	}
 	
-	return expunged_list;
 }
+
+
+static gboolean 
+_has_message_number_capability (CamelFolder *folder, CamelException *ex)
+{
+	CAMEL_LOG_WARNING ("Calling CamelFolder::has_message_number_capability directly. "
+			   "Should be overloaded\n");
+	return FALSE;
+
+}
+
+
+/**
+ * camel_folder_has_message_number_capability: tests if the message can be numbered within the folder
+ * @folder: folder to test
+ * 
+ * Test if the message in this folder can be
+ * obtained via the get_by_number method. 
+ * Usually, when the folder has the UID 
+ * capability, messages should be referred to
+ * by their UID rather than by their number
+ * as the UID is more reliable. 
+ * 
+ * Return value: TRUE if the folder supports message numbering, FALSE otherwise.
+ **/
+gboolean 
+camel_folder_has_message_number_capability (CamelFolder *folder, CamelException *ex)
+{	
+	return CF_CLASS(folder)->has_message_number_capability (folder, ex);
+}
+
 
 
 
 static CamelMimeMessage *
 _get_message_by_number (CamelFolder *folder, gint number, CamelException *ex)
 {
+	CAMEL_LOG_WARNING ("Calling CamelFolder::get_message_by_number directly. "
+			   "Should be overloaded\n");
 	return NULL;
 }
 
@@ -1024,7 +1057,7 @@ _get_message_by_number (CamelFolder *folder, gint number, CamelException *ex)
 
 
 /**
- * _get_message: return the message corresponding to that number in the folder
+ * camel_folder_get_message_by_number: return the message corresponding to that number in the folder
  * @folder: a CamelFolder object
  * @number: the number of the message within the folder.
  * 
@@ -1041,7 +1074,7 @@ camel_folder_get_message_by_number (CamelFolder *folder, gint number, CamelExcep
 	GList *message_node;
 	
 	message_node = folder->message_list;
-	CAMEL_LOG_FULL_DEBUG ("CamelFolder::get_message Looking for message nummber %d\n", number);
+	CAMEL_LOG_FULL_DEBUG ("CamelFolder::get_message Looking for message number %d\n", number);
 	/* look in folder message list if the 
 	 * if the message has not already been retreived */
 	while ((!new_message) && message_node) {
@@ -1080,6 +1113,8 @@ camel_folder_get_message_by_number (CamelFolder *folder, gint number, CamelExcep
 static gint
 _get_message_count (CamelFolder *folder, CamelException *ex)
 {
+	CAMEL_LOG_WARNING ("Calling CamelFolder::get_message_count directly. "
+			   "Should be overloaded\n");
 	return -1;
 }
 
@@ -1103,7 +1138,10 @@ camel_folder_get_message_count (CamelFolder *folder, CamelException *ex)
 static gint
 _append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException *ex)
 {
+	CAMEL_LOG_WARNING ("Calling CamelFolder::append_message directly. "
+			   "Should be overloaded\n");
 	return -1;
+
 }
 
 
@@ -1187,6 +1225,8 @@ camel_folder_has_uid_capability (CamelFolder *folder, CamelException *ex)
 static const gchar *
 _get_message_uid (CamelFolder *folder, CamelMimeMessage *message, CamelException *ex)
 {
+	CAMEL_LOG_WARNING ("Calling CamelFolder::get_message_uid directly. "
+			   "Should be overloaded\n");
 	return NULL;
 }
 
@@ -1215,6 +1255,8 @@ camel_folder_get_message_uid (CamelFolder *folder, CamelMimeMessage *message, Ca
 static const gchar *
 _get_message_uid_by_number (CamelFolder *folder, gint message_number, CamelException *ex)
 {
+	CAMEL_LOG_WARNING ("Calling CamelFolder::get_message_uid_by_number directly. "
+			   "Should be overloaded\n");
 	return NULL;
 }
 
@@ -1241,6 +1283,8 @@ camel_folder_get_message_uid_by_number (CamelFolder *folder, gint message_number
 static CamelMimeMessage *
 _get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *ex)
 {
+	CAMEL_LOG_WARNING ("Calling CamelFolder::get_message_by_uid directly. "
+			   "Should be overloaded\n");
 	return NULL;
 }
 
@@ -1266,6 +1310,8 @@ camel_folder_get_message_by_uid  (CamelFolder *folder, const gchar *uid, CamelEx
 static GList *
 _get_uid_list  (CamelFolder *folder, CamelException *ex)
 {
+	CAMEL_LOG_WARNING ("Calling CamelFolder::get_uid_list directly. "
+			   "Should be overloaded\n");
 	return NULL;
 }
 

@@ -168,10 +168,12 @@ typedef struct {
 	void  (*expunge)  (CamelFolder *folder, 
 			   CamelException *ex);
 
+	gboolean (*has_message_number_capability) (CamelFolder *folder, CamelException *ex);
+
 	CamelMimeMessage * (*get_message_by_number) (CamelFolder *folder, 
 						     gint number, 
 						     CamelException *ex);
-
+	
 	gint   (*get_message_count)   (CamelFolder *folder, 
 				       CamelException *ex);
 
@@ -187,6 +189,8 @@ typedef struct {
 				   CamelFolder *dest_folder, 
 				   CamelException *ex);
 	
+	gboolean (*has_uid_capability) (CamelFolder *folder);
+
 	const gchar * (*get_message_uid)  (CamelFolder *folder, 
 					   CamelMimeMessage *message, 
 					   CamelException *ex);
@@ -239,7 +243,7 @@ GList *camel_folder_list_subfolders (CamelFolder *folder, CamelException *ex);
 /* delete operations */
 gboolean camel_folder_delete (CamelFolder *folder, gboolean recurse, CamelException *ex);
 gboolean camel_folder_delete_messages (CamelFolder *folder, CamelException *ex);
-GList *camel_folder_expunge (CamelFolder *folder, gboolean want_list, CamelException *ex);
+void camel_folder_expunge (CamelFolder *folder, CamelException *ex);
 
 
 /* folder name manipulation operations */
@@ -272,6 +276,7 @@ CamelFolderSummary *camel_folder_get_summary (CamelFolder *folder, CamelExceptio
 
 
 /* number based access operations */
+gboolean camel_folder_has_message_number_capability (CamelFolder *folder, CamelException *ex);
 CamelMimeMessage *camel_folder_get_message_by_number (CamelFolder *folder, 
 						      gint number, CamelException *ex);
 gint camel_folder_get_message_count (CamelFolder *folder, CamelException *ex);
