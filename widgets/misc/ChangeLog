@@ -1,3 +1,7 @@
+2003-01-24  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* *.h: Remove #include <config.h>. Should be in .c files only.
+	
 2002-11-26  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-multi-config-dialog.c (impl_destroy): Unref the

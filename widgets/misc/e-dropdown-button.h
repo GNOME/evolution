@@ -23,10 +23,6 @@
 #ifndef _E_DROPDOWN_BUTTON_H_
 #define _E_DROPDOWN_BUTTON_H_
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtkmenu.h>
 

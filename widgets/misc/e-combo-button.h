@@ -23,10 +23,6 @@
 #ifndef _E_COMBO_BUTTON_H_
 #define _E_COMBO_BUTTON_H_
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include <gtk/gtkbutton.h>
 #include <gtk/gtkmenu.h>
 

@@ -23,10 +23,6 @@
 #ifndef __E_TITLE_BAR_H__
 #define __E_TITLE_BAR_H__
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include <gtk/gtkframe.h>
 
 #ifdef __cplusplus

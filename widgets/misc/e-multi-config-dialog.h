@@ -23,10 +23,6 @@
 #ifndef _E_MULTI_CONFIG_DIALOG_H_
 #define _E_MULTI_CONFIG_DIALOG_H_
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include "e-config-page.h"
 
 #include <gtk/gtkwindow.h>
