@@ -1,3 +1,17 @@
+2002-06-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* message-list.c (get_normalised_string): New convenience function
+	to get a cached normalised string.
+	(subject_compare): Removed, as we strip Re:'s when normalising the
+	subject strings now.
+	(ml_tree_value_at): Added support for the normalised columns (used
+	for a sorting optimisation).
+	(message_list_init): Initialise normalised_hash.
+	(message_list_destroy): Destroy normalised_hash.
+	(message_list_create_extras): Removed subject_compare.
+	(main_folder_changed): De-cache normalised strings for any removed
+	uids.
+
 2002-06-17  Not Zed  <NotZed@Ximian.com>
 
 	* message-list.c (regen_list_regen): If we dont support searching,

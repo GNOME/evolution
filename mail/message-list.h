@@ -30,7 +30,12 @@ enum {
 	COL_FOLLOWUP_FLAG,
 	COL_FOLLOWUP_DUE_BY,
 	COL_LOCATION,		/* vfolder location? */
-
+	
+	/* normalised strings */
+	COL_FROM_NORM,
+	COL_SUBJECT_NORM,
+	COL_TO_NORM,
+	
 	COL_LAST,
 	
 	/* Invisible columns */
@@ -60,7 +65,9 @@ struct _MessageList {
 	CamelFolder  *folder;
 
 	GHashTable *uid_nodemap; /* uid (from info) -> tree node mapping */
-
+	
+	GHashTable *normalised_hash;
+	
 	/* UID's to hide.  Keys in the mempool */
 	/* IMPORTANT: You MUST have obtained the hide lock, to operate on this data */
 	GHashTable	 *hidden;

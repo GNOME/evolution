@@ -93,6 +93,13 @@
 #define COL_SIZE_EXPANSION     (6.0)
 #define COL_SIZE_WIDTH_MIN     (32)
 
+enum {
+	NORMALISED_SUBJECT,
+	NORMALISED_FROM,
+	NORMALISED_TO,
+	NORMALISED_LAST,
+};
+
 #define PARENT_TYPE (e_tree_scrolled_get_type ())
 
 /* #define SMART_ADDRESS_COMPARE */
@@ -196,12 +203,15 @@ e_mail_address_free (EMailAddress *addr)
 	g_free (addr);
 }
 
-static gint
+/* Note: by the time this function is called, the strings have already
+   been normalised which means we can assume all lowercase chars and
+   we can just use strcmp for the final comparison. */
+static int
 e_mail_address_compare (gconstpointer address1, gconstpointer address2)
 {
 	const EMailAddress *addr1 = address1;
 	const EMailAddress *addr2 = address2;
-	gint retval;
+	int retval;
 	
 	g_return_val_if_fail (addr1 != NULL, 1);
 	g_return_val_if_fail (addr2 != NULL, -1);
@@ -211,7 +221,7 @@ e_mail_address_compare (gconstpointer address1, gconstpointer address2)
 		g_return_val_if_fail (addr1->address != NULL, 1);
 		g_return_val_if_fail (addr2->address != NULL, -1);
 		
-		return g_strcasecmp (addr1->address, addr2->address);
+		return strcmp (addr1->address, addr2->address);
 	}
 	
 	if (!addr1->wname)
@@ -224,44 +234,47 @@ e_mail_address_compare (gconstpointer address1, gconstpointer address2)
 		/* FIXME: what do we compare next? */
 		g_return_val_if_fail (addr1->address != NULL, 1);
 		g_return_val_if_fail (addr2->address != NULL, -1);
-			
-		return g_strcasecmp (addr1->address, addr2->address);
-	} 
+		
+		return strcmp (addr1->address, addr2->address);
+	}
 	
 	if (!addr1->wname->last)
 		return -1;
 	if (!addr2->wname->last)
 		return 1;
 	
-	retval = g_utf8_collate (addr1->wname->last, addr2->wname->last);
-	if (retval) 
+	retval = strcmp (addr1->wname->last, addr2->wname->last);
+	if (retval)
 		return retval;
 	
 	/* last names are identical - compare first names */
 	
 	if (!addr1->wname->first && !addr2->wname->first)
-		return g_strcasecmp (addr1->address, addr2->address);
+		return strcmp (addr1->address, addr2->address);
 	
 	if (!addr1->wname->first)
 		return -1;
 	if (!addr2->wname->first)
 		return 1;
 	
-	retval = g_utf8_collate (addr1->wname->first, addr2->wname->first);
-	if (retval) 
+	retval = strcmp (addr1->wname->first, addr2->wname->first);
+	if (retval)
 		return retval;
 	
-	return g_strcasecmp (addr1->address, addr2->address);
+	return strcmp (addr1->address, addr2->address);
 }
 #endif /* SMART_ADDRESS_COMPARE */
 
-static gint
+/* Note: by the time this function is called, the strings have already
+   been normalised which means we can assume all lowercase chars and
+   we can just use strcmp for the final comparison. */
+static int
 address_compare (gconstpointer address1, gconstpointer address2)
 {
 #ifdef SMART_ADDRESS_COMPARE
 	EMailAddress *addr1, *addr2;
 #endif /* SMART_ADDRESS_COMPARE */
-	gint retval;
+	int retval;
 	
 	g_return_val_if_fail (address1 != NULL, 1);
 	g_return_val_if_fail (address2 != NULL, -1);
@@ -273,45 +286,10 @@ address_compare (gconstpointer address1, gconstpointer address2)
 	e_mail_address_free (addr1);
 	e_mail_address_free (addr2);
 #else
-	retval = g_utf8_collate ((const char *) address1, (const char *) address2);
+	retval = strcmp ((const char *) address1, (const char *) address2);
 #endif /* SMART_ADDRESS_COMPARE */
 	
 	return retval;
-}
-
-static gint
-subject_compare (gconstpointer subject1, gconstpointer subject2)
-{
-	char *sub1;
-	char *sub2;
-	
-	g_return_val_if_fail (subject1 != NULL, 1);
-	g_return_val_if_fail (subject2 != NULL, -1);
-	
-	/* trim off any "Re:"'s at the beginning of subject1 */
-	sub1 = (char *) subject1;
-	while (!g_strncasecmp (sub1, "Re:", 3)) {
-		sub1 += 3;
-		/* jump over any spaces */
-		while (*sub1 && g_unichar_isspace (g_utf8_get_char (sub1)))
-			sub1 = g_utf8_next_char (sub1);
-	}
-	
-	/* trim off any "Re:"'s at the beginning of subject2 */
-	sub2 = (char *) subject2;
-	while (!g_strncasecmp (sub2, "Re:", 3)) {
-		sub2 += 3;
-		while (*sub2 && g_unichar_isspace (g_utf8_get_char (sub2)))
-			sub2 = g_utf8_next_char (sub2);
-	}
-	
-	/* jump over any spaces */
-	while (*sub1 && g_unichar_isspace (g_utf8_get_char (sub1)))
-		sub1 = g_utf8_next_char (sub1);
-	while (*sub2 && g_unichar_isspace (g_utf8_get_char (sub2)))
-		sub2 = g_utf8_next_char (sub2);
-	
-	return g_utf8_collate (sub1, sub2);
 }
 
 static gchar *
@@ -359,6 +337,72 @@ get_message_info (MessageList *message_list, ETreePath node)
 	g_assert (info != NULL);
 	
 	return info;
+}
+
+static const char *
+get_normalised_string (MessageList *message_list, CamelMessageInfo *info, int col)
+{
+	const char *string, *str;
+	char *normalised;
+	EPoolv *poolv;
+	int index;
+	
+	switch (col) {
+	case COL_SUBJECT_NORM:
+		string = camel_message_info_subject (info);
+		index = NORMALISED_SUBJECT;
+		break;
+	case COL_FROM_NORM:
+		string = camel_message_info_from (info);
+		index = NORMALISED_FROM;
+		break;
+	case COL_TO_NORM:
+		string = camel_message_info_to (info);
+		index = NORMALISED_TO;
+		break;
+	default:
+		string = NULL;
+		index = NORMALISED_LAST;
+		g_assert_not_reached ();
+	}
+	
+	/* slight optimisation */
+	if (string == NULL || string[0] == '\0')
+		return "";
+	
+	poolv = g_hash_table_lookup (message_list->normalised_hash, camel_message_info_uid (info));
+	if (poolv == NULL) {
+		poolv = e_poolv_new (NORMALISED_LAST);
+		g_hash_table_insert (message_list->normalised_hash, (char *) camel_message_info_uid (info), poolv);
+	} else {
+		str = e_poolv_get (poolv, index);
+		if (*str)
+			return str;
+	}
+	
+	if (col == COL_SUBJECT_NORM) {
+		const unsigned char *subject;
+		
+		subject = (const unsigned char *) string;
+		while (!g_strncasecmp (subject, "Re:", 3)) {
+			subject += 3;
+			
+			/* jump over any spaces */
+			while (*subject && isspace ((int) *subject))
+				subject++;
+		}
+		
+		/* jump over any spaces */
+		while (*subject && isspace ((int) *subject))
+			subject++;
+		
+		string = (const char *) subject;
+	}
+	
+	normalised = g_utf8_collate_key (string, -1);
+	e_poolv_set (poolv, index, normalised, TRUE);
+	
+	return e_poolv_get (poolv, index);
 }
 
 struct search_func_data {
@@ -904,14 +948,20 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
 		return GINT_TO_POINTER ((msg_info->flags & CAMEL_MESSAGE_ATTACHMENTS) != 0);
 	case COL_FROM:
 		return (void *)camel_message_info_from(msg_info);
+	case COL_FROM_NORM:
+		return (void *)get_normalised_string (message_list, msg_info, col);
 	case COL_SUBJECT:
 		return (void *)camel_message_info_subject(msg_info);
+	case COL_SUBJECT_NORM:
+		return (void *)get_normalised_string (message_list, msg_info, col);
 	case COL_SENT:
 		return GINT_TO_POINTER (msg_info->date_sent);
 	case COL_RECEIVED:
 		return GINT_TO_POINTER (msg_info->date_received);
 	case COL_TO:
 		return (void *)camel_message_info_to(msg_info);
+	case COL_TO_NORM:
+		return (void *)get_normalised_string (message_list, msg_info, col);
 	case COL_SIZE:
 		return GINT_TO_POINTER (msg_info->size);
 	case COL_DELETED:
@@ -1082,7 +1132,6 @@ message_list_create_extras (void)
 	e_table_extras_add_pixbuf (extras, "followup", states_pixmaps [15].pixbuf);
 	
 	e_table_extras_add_compare (extras, "address_compare", address_compare);
-	e_table_extras_add_compare (extras, "subject_compare", subject_compare);
 	
 	for (i = 0; i < 5; i++)
 		images [i] = states_pixmaps [i].pixbuf;
@@ -1188,18 +1237,26 @@ message_list_init (GtkObject *object)
 	e_scroll_frame_set_policy (E_SCROLL_FRAME (message_list),
 				   GTK_POLICY_NEVER,
 				   GTK_POLICY_ALWAYS);
-
+	
+	message_list->normalised_hash = g_hash_table_new (g_str_hash, g_str_equal);
+	
 	message_list->hidden = NULL;
 	message_list->hidden_pool = NULL;
 	message_list->hide_before = ML_HIDE_NONE_START;
 	message_list->hide_after = ML_HIDE_NONE_END;
-
+	
 	message_list->search = NULL;
-
+	
 	message_list->hide_lock = g_mutex_new();
-
+	
 	message_list->uid_nodemap = g_hash_table_new (g_str_hash, g_str_equal);
 	message_list->async_event = mail_async_event_new();
+}
+
+static void
+normalised_free (gpointer key, gpointer value, gpointer user_data)
+{
+	e_poolv_destroy (value);
 }
 
 static void
@@ -1208,7 +1265,10 @@ message_list_destroy (GtkObject *object)
 	MessageList *message_list = MESSAGE_LIST (object);
 
 	mail_async_event_destroy(message_list->async_event);
-
+	
+	g_hash_table_foreach (message_list->normalised_hash, normalised_free, NULL);
+	g_hash_table_destroy (message_list->normalised_hash);
+	
 	if (message_list->folder) {
 		save_tree_state(message_list);
 		hide_save_state(message_list);
@@ -1908,6 +1968,17 @@ main_folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 	if (changes) {
 		d(printf("changed = %d added = %d removed = %d\n",
 			 changes->uid_changed->len, changes->uid_added->len, changes->uid_removed->len));
+		
+		for (i = 0; i < changes->uid_removed->len; i++) {
+			/* uncache the normalised strings for these uids */
+			EPoolv *poolv;
+			
+			poolv = g_hash_table_lookup (ml->normalised_hash, changes->uid_removed->pdata[i]);
+			if (poolv != NULL) {
+				g_hash_table_remove (ml->normalised_hash, changes->uid_removed->pdata[i]);
+				e_poolv_destroy (poolv);
+			}
+		}
 		
 		/* check if the hidden state has changed, if so modify accordingly, then regenerate */
 		if (ml->hidedeleted) {
