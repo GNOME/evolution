@@ -73,40 +73,6 @@ static void addressbook_view_ref (AddressbookView *);
 static void addressbook_view_unref (AddressbookView *);
 
 static void
-new_contact_cb (BonoboUIComponent *uih, void *user_data, const char *path)
-{
-	EBook *book;
-	AddressbookView *view = (AddressbookView *) user_data;
-
-	if (view->view) {
-		gtk_object_get(GTK_OBJECT(view->view),
-			       "book", &book,
-			       NULL);
-
-		g_assert (E_IS_BOOK (book));
-
-		e_addressbook_show_contact_editor (book, e_card_new(""), TRUE, e_addressbook_view_can_create(view->view));
-	}
-}
-
-static void
-new_contact_list_cb (BonoboUIComponent *uih, void *user_data, const char *path)
-{
-	EBook *book;
-	AddressbookView *view = (AddressbookView *) user_data;
-
-	if (view->view) {
-		gtk_object_get(GTK_OBJECT(view->view),
-			       "book", &book,
-			       NULL);
-
-		g_assert (E_IS_BOOK (book));
-
-		e_addressbook_show_contact_list_editor (book, e_card_new(""), TRUE, e_addressbook_view_can_create(view->view));
-	}
-}
-
-static void
 save_contact_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
@@ -246,17 +212,6 @@ update_command_state (EAddressbookView *eav, AddressbookView *view)
 	uic = bonobo_control_get_ui_component (view->control);
 
 	if (bonobo_ui_component_get_container (uic) != CORBA_OBJECT_NIL) {
-
-		/* New Contact */
-		bonobo_ui_component_set_prop (uic,
-					      "/commands/ContactNew",
-					      "sensitive",
-					      e_addressbook_view_can_create (view->view) ? "1" : "0", NULL);
-		bonobo_ui_component_set_prop (uic,
-					      "/commands/ContactNewList",
-					      "sensitive",
-					      e_addressbook_view_can_create (view->view) ? "1" : "0", NULL);
-
 		bonobo_ui_component_set_prop (uic,
 					      "/commands/ContactsSaveAsVCard",
 					      "sensitive",
@@ -343,8 +298,6 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("ContactsView", view_contact_cb),
 	BONOBO_UI_UNSAFE_VERB ("ToolSearch", search_cb),
 
-	BONOBO_UI_UNSAFE_VERB ("ContactNew", new_contact_cb),
-	BONOBO_UI_UNSAFE_VERB ("ContactNewList", new_contact_list_cb),
 	BONOBO_UI_UNSAFE_VERB ("ContactDelete", delete_contact_cb),
 	BONOBO_UI_UNSAFE_VERB ("ContactStop", stop_loading_cb),
 
@@ -363,7 +316,6 @@ static BonoboUIVerb verbs [] = {
 };
 
 static EPixmap pixmaps [] = {
-	E_PIXMAP ("/menu/File/New/NewFirstItem/ContactNew", "evolution-contacts-mini.png"),
 	E_PIXMAP ("/menu/File/FileOps/ContactsSaveAsVCard", "save-as-16.png"),
 	E_PIXMAP ("/menu/File/Print/ContactsPrint", "print.xpm"),
 	E_PIXMAP ("/menu/File/Print/ContactsPrintPreview", "print-preview.xpm"),
