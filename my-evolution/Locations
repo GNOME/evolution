@@ -1549,9 +1549,8 @@ loc3=Sydney CYQY ------ ---
 
 [CA_NT]
 name=Northwest Territories
-loc0=Frobisher CYFB ------ ---
-loc1=Iqaluit CYFB ------ ---
-loc2=Yellowknife CYZF ------ ---
+loc0=Iqaluit CYFB ------ ---
+loc1=Yellowknife CYZF ------ ---
 
 [CA_ON]
 name=Ontario
