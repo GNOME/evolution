@@ -2673,7 +2673,8 @@ regen_list_regen (struct _mail_msg *mm)
 			if (m->tree)
 				camel_folder_thread_messages_apply(m->tree, showuids);
 			else
-				m->tree = camel_folder_thread_messages_new(m->folder, showuids);
+				m->tree = camel_folder_thread_messages_new (m->folder, showuids,
+									    mail_config_get_thread_subject ());
 		} else {
 			m->summary = g_ptr_array_new ();
 			for (i = 0; i < showuids->len; i++) {

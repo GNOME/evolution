@@ -179,6 +179,9 @@ void     mail_config_set_empty_trash_on_exit  (gboolean value);
 gboolean mail_config_get_thread_list          (const char *uri);
 void     mail_config_set_thread_list          (const char *uri, gboolean value);
 
+gboolean mail_config_get_thread_subject       (void);
+void     mail_config_set_thread_subject       (gboolean thread_subject);
+
 gboolean mail_config_get_show_preview         (const char *uri);
 void     mail_config_set_show_preview         (const char *uri, gboolean value);
 
