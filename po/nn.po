@@ -777,8 +777,9 @@ msgstr "Avansert"
 
 #: addressbook/gui/component/addressbook-config.glade.h:6
 #, fuzzy
+#, fuzzy
 msgid "Base"
-msgstr "Lim inn"
+msgstr "Base"
 
 #: addressbook/gui/component/addressbook-config.glade.h:7
 #: calendar/gui/dialogs/task-editor.c:178
@@ -2352,8 +2353,9 @@ msgid "Uruguay"
 msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:227
+#, fuzzy
 msgid "Uzbekistan"
-msgstr ""
+msgstr "Usbekistansk"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:228
 msgid "Vanuatu"
@@ -3072,8 +3074,9 @@ msgstr "Vanleg"
 #: calendar/cal-util/cal-util.c:502 calendar/cal-util/cal-util.c:524
 #: calendar/gui/dialogs/task-details-page.glade.h:8
 #: calendar/gui/e-calendar-table.c:407 mail/message-list.c:649
+#, fuzzy
 msgid "Low"
-msgstr "Låg"
+msgstr "Lav"
 
 #. An empty string is the same as 'None'.
 #: calendar/cal-util/cal-util.c:518
@@ -3257,8 +3260,9 @@ msgstr "%1 bit %2 %3"
 #. %b = abbreviated month name. Don't use any other specifiers.
 #: calendar/gui/calendar-commands.c:449 calendar/gui/e-day-view-top-item.c:288
 #: calendar/gui/e-day-view.c:1401 calendar/gui/e-week-view-main-item.c:333
+#, fuzzy
 msgid "%a %d %b"
-msgstr ""
+msgstr "%a %d %b"
 
 #: calendar/gui/calendar-commands.c:451 calendar/gui/calendar-commands.c:456
 #: calendar/gui/calendar-commands.c:458
@@ -3278,8 +3282,9 @@ msgstr "%1 bit %2 %3"
 #: calendar/gui/calendar-commands.c:474
 #: calendar/gui/e-week-view-main-item.c:341 calendar/gui/print.c:1445
 #, fuzzy
+#, fuzzy
 msgid "%d %B"
-msgstr "%1 %2"
+msgstr "%d. %b"
 
 #: calendar/gui/calendar-commands.c:805
 msgid ""
@@ -3299,8 +3304,9 @@ msgstr "Eksponentiell"
 
 #: calendar/gui/calendar-model.c:424 calendar/gui/e-calendar-table.c:383
 #, fuzzy
+#, fuzzy
 msgid "Public"
-msgstr "Praksis"
+msgstr "Offentleg"
 
 #: calendar/gui/calendar-model.c:536
 #, fuzzy
@@ -3374,8 +3380,9 @@ msgid "Recurring"
 msgstr "Repetering"
 
 #: calendar/gui/calendar-model.c:1715
+#, fuzzy
 msgid "Assigned"
-msgstr ""
+msgstr "Tildelt"
 
 #: calendar/gui/calendar-model.c:1721 calendar/gui/e-meeting-model.c:301
 #: calendar/gui/e-meeting-model.c:311 calendar/gui/e-meeting-model.c:536
@@ -4514,8 +4521,9 @@ msgstr "URL:"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:14
 #, fuzzy
+#, fuzzy
 msgid "_Priority:"
-msgstr "Prioritet:"
+msgstr "_Prioritet:"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:15
 #, fuzzy
@@ -4750,16 +4758,18 @@ msgstr ""
 #: calendar/gui/e-day-view-top-item.c:284 calendar/gui/e-day-view.c:1387
 #: calendar/gui/e-week-view-main-item.c:324 calendar/gui/print.c:1461
 #, fuzzy
+#, fuzzy
 msgid "%A %d %B"
-msgstr "%A %B %d"
+msgstr "%A %d %B"
 
 #. strftime format %d = day of month, %b = abbreviated month name.
 #. Don't use any other specifiers.
 #: calendar/gui/e-day-view-top-item.c:292 calendar/gui/e-day-view.c:1414
 #: calendar/gui/e-week-view-main-item.c:347
 #, fuzzy
+#, fuzzy
 msgid "%d %b"
-msgstr "%1 %2"
+msgstr "%d. %b"
 
 #. String to use in 12-hour time format for times in the morning.
 #: calendar/gui/e-day-view.c:612 calendar/gui/e-week-view.c:348
@@ -9564,8 +9574,9 @@ msgstr ""
 
 #: mail/mail-config.glade.h:5
 #, fuzzy
+#, fuzzy
 msgid "Account"
-msgstr "Små ikon"
+msgstr "Konto"
 
 #: mail/mail-config.glade.h:6
 #, fuzzy
@@ -9595,8 +9606,9 @@ msgstr "Vedlegg"
 
 #: mail/mail-config.glade.h:12
 #, fuzzy
+#, fuzzy
 msgid "Authentication"
-msgstr "Autentisering:"
+msgstr "Autentisering"
 
 #: mail/mail-config.glade.h:13
 #, fuzzy
