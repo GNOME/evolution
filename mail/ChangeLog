@@ -1,3 +1,16 @@
+2003-03-13  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-format.c (try_uudecoding): Don't use isspace() when looking
+	for the beginning of the filename, instead just check for ' ' and
+	'\t'. If the first non-blank location == eoln, then this is not a
+	valid uuencode line, so abort.
+	(handle_text_plain): Instead of using !g_strcasecmp (mime_type,
+	"text/plain") to see if the part is really text/plain, check
+	instead the ContentType on the CamelDataWrapper since mime_type
+	could be just the handler type. This will prevent uudecoding of
+	parts that are actually application/octet-stream which were
+	detected as text/plain by gnome-vfs.
+
 2003-03-10  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-session.c (request_password): No need to convert the prompt

@@ -1261,7 +1261,7 @@ handle_text_plain (CamelMimePart *part, const char *mime_type,
 	 * has decided to call text/plain because it starts with English
 	 * text...)
 	 */
-	check_specials = !g_strcasecmp (mime_type, "text/plain");
+	check_specials = header_content_type_is (type, "text", "plain");
 	
 	p = text;
 	while (p && check_specials) {
@@ -1437,9 +1437,9 @@ try_uudecoding (char *start, CamelMimePart *mime_part,
 		guint offset, MailDisplay *md, GtkHTML *html, GtkHTMLStream *stream)
 {
 	int mode, len, state = CAMEL_UUDECODE_STATE_INIT;
-	char *filename, *estart, *p, *out;
-	guint32 save = 0;
+	char *filename, *eoln, *p, *out;
 	CamelMimePart *part;
+	guint32 save = 0;
 	
 	/* Make sure it's a real uudecode begin line:
 	 * begin [0-7]+ .*
@@ -1447,29 +1447,35 @@ try_uudecoding (char *start, CamelMimePart *mime_part,
 	mode = strtoul (start + 6, &p, 8);
 	if (p == start + 6 || *p != ' ')
 		return start;
-	estart = strchr (start, '\n');
-	if (!estart)
+	
+	if (!(eoln = strchr (start, '\n')))
 		return start;
 	
-	while (isspace ((unsigned char)*p))
+	while (*p == ' ' || *p == '\t')
 		p++;
-	filename = g_strndup (p, estart++ - p);
+	
+	if (p == eoln)
+		return start;
+	
+	filename = g_strndup (p, eoln - p);
 	
 	/* Make sure there's an end line. */
-	p = strstr (p, "\nend\n");
-	if (!p) {
+	if (!(p = strstr (p, "\nend\n"))) {
 		g_free (filename);
 		return start;
 	}
 	
-	out = g_malloc (p - estart);
-	len = uudecode_step (estart, p - estart, out, &state, &save);
+	eoln++;
+	out = g_malloc (p - eoln);
+	len = uudecode_step (eoln, p - eoln, out, &state, &save);
 	
 	part = fake_mime_part_from_data (out, len, "application/octet-stream",
 					 offset, md);
 	g_free (out);
+	
 	camel_mime_part_set_filename (part, filename);
 	g_free (filename);
+	
 	camel_object_hook_event (CAMEL_OBJECT (md->current_message),
 				 "finalize", destroy_part, part);
 	
