@@ -62,6 +62,8 @@ typedef struct {
 
 	char *filename;
 	int num;
+	GNOME_Evolution_Storage_Result create_result;
+
 	CamelMimeParser *mp;
 	gboolean is_folder;
 } MboxImporter;
@@ -118,9 +120,18 @@ process_item_fn (EvolutionImporter *eimporter,
 	const char *mozilla_status;
 
 	if (importer->folder == NULL) {
-		GNOME_Evolution_ImporterListener_notifyResult (listener,
-							       GNOME_Evolution_ImporterListener_NOT_READY,
-							       TRUE, ev);
+		/* if it failed, need to say it failed ... */
+		/* the create_folder callback needs to store the create result */
+		/* here we need to pass FALSE for more items */
+		printf("not ready\n");
+		if (mbi->create_result == GNOME_Evolution_Storage_OK)
+			GNOME_Evolution_ImporterListener_notifyResult (listener,
+								       GNOME_Evolution_ImporterListener_NOT_READY,
+								       TRUE, ev);
+		else
+			GNOME_Evolution_ImporterListener_notifyResult (listener,
+								       GNOME_Evolution_ImporterListener_BAD_FILE,
+								       FALSE, ev);
 		return;
 	}
 
@@ -147,7 +158,6 @@ process_item_fn (EvolutionImporter *eimporter,
 		} else {
 			mozilla_status = camel_medium_get_header (CAMEL_MEDIUM (msg), "X-Mozilla-Status");
 			if (mozilla_status != NULL) {
-				g_print ("Got Mozilla status header: %s\n", mozilla_status);
 				info = get_info_from_mozilla (mozilla_status, &deleted);
 			} else {
 				deleted = FALSE;
@@ -183,6 +193,7 @@ process_item_fn (EvolutionImporter *eimporter,
 		camel_mime_parser_step (mbi->mp, 0, 0);
 	
 	camel_exception_free (ex);
+
 	GNOME_Evolution_ImporterListener_notifyResult (listener,
 						       GNOME_Evolution_ImporterListener_OK,
 						       !done, ev);
@@ -220,13 +231,14 @@ importer_destroy_cb (void *data, GObject *object)
 	MboxImporter *mbi = data;
 	MailImporter *importer = data;
 
-	if (importer->frozen) {
-		camel_folder_sync (importer->folder, FALSE, NULL);
-		camel_folder_thaw (importer->folder);
-	}
+	if (importer->folder) {
+		if (importer->frozen) {
+			camel_folder_sync (importer->folder, FALSE, NULL);
+			camel_folder_thaw (importer->folder);
+		}
 
-	if (importer->folder)
 		camel_object_unref (importer->folder);
+	}
 
 	g_free (mbi->filename);
 	if (mbi->mp)
@@ -251,6 +263,13 @@ folder_created_cb (BonoboListener *listener,
 	}
 
 	result = event_data->_value;
+
+	printf("folder created cb, result = %d\n", result->result);
+	((MboxImporter *)importer)->create_result = result->result;
+
+	if (result->result != GNOME_Evolution_Storage_OK)
+		return;
+
 	fullpath = g_strconcat ("file://", result->path, NULL);
 
 	ex = camel_exception_new ();
@@ -260,6 +279,8 @@ folder_created_cb (BonoboListener *listener,
 		camel_exception_free (ex);
 
 		g_free (fullpath);
+		((MboxImporter *)importer)->create_result = GNOME_Evolution_Storage_GENERIC_ERROR;
+
 		return;
 	}
 
@@ -337,11 +358,9 @@ load_file_fn (EvolutionImporter *eimporter,
 			g_signal_connect((listener), "event-notify",
 					 G_CALLBACK (folder_created_cb),
 					 importer);
-			
+			mbi->create_result = GNOME_Evolution_Storage_OK;
 			mail_importer_create_folder (parent, name, NULL, listener);
-			importer->folder = NULL;
-			g_print ("No folder yet\n");
-			delayed = TRUE;
+			delayed = importer->folder == NULL;
 			g_free (parent);
 		}
 		camel_exception_free (ex);

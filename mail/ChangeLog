@@ -1,3 +1,87 @@
+2003-02-05  Not Zed  <NotZed@Ximian.com>
+
+	* importers/netscape-importer.c: update from ../../importers/.
+	(main): Removed.
+	(mail_importer_module_init): Setup module init fn.
+	(factory_fn): api changes.
+	(is_dir_empty): deprecated changes, and clean up logic.
+	(importer_cb): pulse progress bar, use idle function for
+	processing next item.
+	(import_next): Remove link before recursing, also fix memleak, and
+	api changes.
+	(netscape_import_file): dont release importer.
+	(*): gconf'ify
+
+	* importers/elm-importer.c (elm_factory_fn): Track the
+	evolution_intelligent_importer, so we can unref it when done.
+	(*): gconf'ify.
+
+	* importers/pine-importer.c (parse_line): use gobject stuff rather
+	than gtkobject.
+	(import_addressfile): close down 'properly' when finished.
+	(importer_timeout_fn): Do most processing decisions here, either
+	from a timeout or idle function.  This prevents us getting 1 stack
+	frame per message and per folder.  Close down properly also.
+	(importer_cb): Add a timeout, ignore the callback, or add an idle
+	function to process the next item.
+	(pine_import_file): dont release the importer if we can't load it,
+	its released elsewhere, i think.
+	(import_addressfile): step the progress bar as we go.
+	(factory_fn): Track the evolution_intelligent_importer, so we can
+	unref when done.
+	(*): gconf'ify
+
+2003-01-31  Not Zed  <NotZed@Ximian.com>
+
+	* importers/elm-importer.c (elm_can_import): g_file_exists ->
+	lstat, and g_build_filename api changes.
+
+	* importers/pine-importer.c: moved from
+	../../importers/pine-importer.c
+	(factory_fn): oaf->bonobo_activation
+	(mail_importer_module_init): setup factory.
+	(main): Removed.
+	(*): REemove bonobo config stuff.
+	(factory_fn): destroy signal -> weak ref.
+	(pine_destroy_cb): Fix signature for weak ref notify.
+	(import_addressfile): use new glib filename stuff.
+	(import_addressbook): same.
+	(pine_can_import): and here.
+	(import_next): and here.
+	(scan_dir): and here
+	(pine_create_structure): And here.
+	(pine_can_import): g_file_exists -> lstat.
+	(importer_cb): If there are more items, use an idle handler to
+	drop back a few stack frames rather than recursing for each
+	message.
+	(import_next): unlink data from dir_list before recursing, and fix
+	leak.
+
+2003-01-30  Not Zed  <NotZed@Ximian.com>
+
+	* importers/elm-importer.c (elm_destroy_cb): Change for weak ref
+	setup.
+	(elm_factory_fn): destroy -> weak ref.
+
+2003-01-29  Not Zed  <NotZed@Ximian.com>
+
+	* importers/elm-importer.c (importer_cb): Pass processItem off to
+	an idle handler, so we dont blow our stacks.  Also update to use
+	progress_bar_pulse().
+	(import_item_idle): Get the next message here instead.
+	(import_next): Fix a glist leak.  Unlink the file before we import
+	it too.  And close the dialogue and clean up when we've run out of
+	folders to import.
+
+2003-01-17  Not Zed  <NotZed@Ximian.com>
+
+	* importers/elm-importer.c (elm_create_structure): use/free elmdir
+	rather than double-free maildir.
+
+2003-01-16  Not Zed  <NotZed@Ximian.com>
+
+	* importers/elm-importer.c: update from ../importers/elm-importer.c
+
 2003-02-03  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* message-list.c (mail_regen_list): Get the thread_subject setting
