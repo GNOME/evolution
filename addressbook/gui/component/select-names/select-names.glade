@@ -459,15 +459,10 @@ select one from the list below:</label>
       </widget>
 
       <widget>
-	<class>GtkLabel</class>
-	<name>status-message</name>
-	<label></label>
-	<justify>GTK_JUSTIFY_LEFT</justify>
-	<wrap>False</wrap>
-	<xalign>0</xalign>
-	<yalign>0.5</yalign>
-	<xpad>0</xpad>
-	<ypad>3</ypad>
+	<class>GtkHBox</class>
+	<name>status-hbox</name>
+	<homogeneous>False</homogeneous>
+	<spacing>3</spacing>
 	<child>
 	  <left_attach>0</left_attach>
 	  <right_attach>1</right_attach>
@@ -476,12 +471,45 @@ select one from the list below:</label>
 	  <xpad>0</xpad>
 	  <ypad>0</ypad>
 	  <xexpand>False</xexpand>
-	  <yexpand>False</yexpand>
+	  <yexpand>True</yexpand>
 	  <xshrink>False</xshrink>
 	  <yshrink>False</yshrink>
 	  <xfill>True</xfill>
-	  <yfill>False</yfill>
+	  <yfill>True</yfill>
 	</child>
+
+	<widget>
+	  <class>Custom</class>
+	  <name>status-image</name>
+	  <visible>False</visible>
+	  <creation_function>e_create_image_widget</creation_function>
+	  <string1>evolution-contacts-mini.png</string1>
+	  <int1>0</int1>
+	  <int2>0</int2>
+	  <last_modification_time>Thu, 28 Nov 2002 22:26:05 GMT</last_modification_time>
+	  <child>
+	    <padding>0</padding>
+	    <expand>False</expand>
+	    <fill>False</fill>
+	  </child>
+	</widget>
+
+	<widget>
+	  <class>GtkLabel</class>
+	  <name>status-message</name>
+	  <label></label>
+	  <justify>GTK_JUSTIFY_LEFT</justify>
+	  <wrap>False</wrap>
+	  <xalign>4.84288e-08</xalign>
+	  <yalign>0.5</yalign>
+	  <xpad>0</xpad>
+	  <ypad>3</ypad>
+	  <child>
+	    <padding>0</padding>
+	    <expand>True</expand>
+	    <fill>True</fill>
+	  </child>
+	</widget>
       </widget>
     </widget>
   </widget>

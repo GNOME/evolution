@@ -1,4 +1,19 @@
+2002-11-30  Chris Toshok  <toshok@ximian.com>
+
+	[ the rest of the fix for #31763 ]
+	* gui/component/select-names/e-select-names.h (struct
+	_ESelectNames): add status_image.
+
+	* gui/component/select-names/select-names.glade: add an icon to
+	the status bar.
+
+	* gui/component/select-names/e-select-names.c
+	(e_select_names_init): init (and initially hide) status_image.
+	(status_message): show the image if there's a status message, hide
+	it if there's not.
+
 2002-11-28  Chris Toshok  <toshok@ximian.com>
+
 	[ partial fix for #31763 ]
 	* gui/component/select-names/select-names.glade: add the Find
 	button back in.

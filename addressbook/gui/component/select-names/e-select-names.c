@@ -390,10 +390,16 @@ update_query (GtkWidget *widget, ESelectNames *e_select_names)
 static void
 status_message (EAddressbookModel *model, const gchar *message, ESelectNames *e_select_names)
 {
-	if (message == NULL)
+	if (message == NULL) {
+		if (e_select_names->status_image)
+			gtk_widget_hide (e_select_names->status_image);
 		gtk_label_set_text (GTK_LABEL (e_select_names->status_message), "");
-	else
+	}
+	else {
+		if (e_select_names->status_image)
+			gtk_widget_show (e_select_names->status_image);
 		gtk_label_set_text (GTK_LABEL (e_select_names->status_message), message);
+	}
 }
 
 static void
@@ -517,6 +523,8 @@ e_select_names_init (ESelectNames *e_select_names)
 		gtk_signal_connect(GTK_OBJECT(e_select_names->status_message), "destroy",
 				   GTK_SIGNAL_FUNC(clear_widget), &e_select_names->status_message);
 	}
+	e_select_names->status_image = glade_xml_get_widget (gui, "status-image");
+	gtk_widget_hide (e_select_names->status_image);
 
 	e_select_names->categories = glade_xml_get_widget (gui, "custom-categories");
 	if (e_select_names->categories && !E_IS_CATEGORIES_MASTER_LIST_OPTION_MENU (e_select_names->categories))

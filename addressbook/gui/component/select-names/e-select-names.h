@@ -73,6 +73,7 @@ struct _ESelectNames
 	GtkWidget *categories;
 	GtkWidget *select_entry;
 	GtkWidget *status_message;
+	GtkWidget *status_image;
 	char *def;
 	ESelectNamesFolder *current_folder;
 };
