@@ -30,6 +30,7 @@ wombat_LDADD =							\
 	$(top_builddir)/calendar/cal-util/libcal-util.la	\
 	$(top_builddir)/libical/src/libical/libical.la		\
 	$(top_builddir)/libversit/libversit.la			\
+	$(top_builddir)/e-util/libedb3util.la			\
 	$(top_builddir)/e-util/libeutil.la			\
 	$(LDAP_LIBS)						\
 	$(EXTRA_GNOME_LIBS)					\
