@@ -177,14 +177,14 @@ static void
 pass_got (char *string, void *data)
 {
 	struct _pass_msg *m = data;
-
+	
 	if (string) {
 		MailConfigService *service = NULL;
 		const MailConfigAccount *mca;
-		gboolean remember;
+		gboolean cache, remember;
 		
 		m->result = g_strdup (string);
-		remember = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (m->check));
+		remember = cache = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (m->check));
 		if (m->service_url) {
 			mca = mail_config_get_account_by_source_url (m->service_url);
 			if (mca) {
@@ -196,17 +196,26 @@ pass_got (char *string, void *data)
 			}
 			
 			if (service) {
-				mail_config_service_set_save_passwd (service, remember);
+				mail_config_service_set_save_passwd (service, cache);
 				
-				/* set `remember' to TRUE because people don't want to have to
+				/* set `cache' to TRUE because people don't want to have to
 				   re-enter their passwords for this session even if they told
 				   us not to cache their passwords in the dialog...*sigh* */
-				remember = TRUE;
+				cache = TRUE;
 			}
+		} else {
+			/* we can't remember the password if it isn't for an account (pgp?) */
+			remember = FALSE;
 		}
 		
-		if (remember)
-			e_passwords_add_password(m->key, m->result);
+		if (cache) {
+			/* cache the password for the session */
+			e_passwords_add_password (m->key, m->result);
+			
+			/* should we remember it between sessions? */
+			if (remember)
+				e_passwords_remember_password (m->key);
+		}
 	} else {
 		camel_exception_set(m->ex, CAMEL_EXCEPTION_USER_CANCEL, _("User canceled operation."));
 	}
