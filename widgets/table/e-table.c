@@ -257,12 +257,28 @@ et_focus (GtkContainer *container, GtkDirectionType direction)
 }
 
 static void
+set_header_canvas_width (ETable *e_table)
+{
+	double oldwidth, oldheight, width;
+
+	gnome_canvas_get_scroll_region (GNOME_CANVAS (e_table->table_canvas),
+					NULL, NULL, &width, NULL);
+	gnome_canvas_get_scroll_region (GNOME_CANVAS (e_table->header_canvas),
+					NULL, NULL, &oldwidth, &oldheight);
+
+	if (oldwidth != width ||
+	    oldheight != E_TABLE_HEADER_ITEM (e_table->header_item)->height - 1)
+		gnome_canvas_set_scroll_region (
+						GNOME_CANVAS (e_table->header_canvas),
+						0, 0, width, /*  COLUMN_HEADER_HEIGHT - 1 */
+						E_TABLE_HEADER_ITEM (e_table->header_item)->height - 1);
+
+}
+
+static void
 header_canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc, ETable *e_table)
 {
-	gnome_canvas_set_scroll_region (
-		GNOME_CANVAS (e_table->header_canvas),
-		0, 0, alloc->width - 1, /*  COLUMN_HEADER_HEIGHT - 1 */
-		E_TABLE_HEADER_ITEM (e_table->header_item)->height - 1);
+	set_header_canvas_width (e_table);
 
 	/* When the header item is created ->height == 0,
 	   as the font is only created when everything is realized.
@@ -321,6 +337,7 @@ table_canvas_reflow_idle (ETable *e_table)
 {
 	gdouble height, width;
 	gdouble item_height;
+	gdouble oldheight, oldwidth;
 	GtkAllocation *alloc = &(GTK_WIDGET (e_table->table_canvas)->allocation);
 
 	gtk_object_get (GTK_OBJECT (e_table->canvas_vbox),
@@ -331,11 +348,17 @@ table_canvas_reflow_idle (ETable *e_table)
 	height = MAX ((int)height, alloc->height);
 	width = MAX((int)width, alloc->width);
 	/* I have no idea why this needs to be -1, but it works. */
-	gnome_canvas_set_scroll_region (
-		GNOME_CANVAS (e_table->table_canvas),
-		0, 0, width - 1, height - 1);
+	gnome_canvas_get_scroll_region (GNOME_CANVAS (e_table->table_canvas),
+					NULL, NULL, &oldwidth, &oldheight);
+
+	if (oldwidth != width - 1 ||
+	    oldheight != height - 1) {
+		gnome_canvas_set_scroll_region (GNOME_CANVAS (e_table->table_canvas),
+						0, 0, width - 1, height - 1);
+		set_header_canvas_width (e_table);
+	}
 	gtk_object_set (GTK_OBJECT (e_table->white_item),
-			"y1", item_height + 1,
+			"y1", item_height,
 			"x2", width,
 			"y2", height,
 			NULL);

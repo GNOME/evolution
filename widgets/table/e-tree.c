@@ -174,7 +174,7 @@ e_tree_init (GtkObject *object)
 	e_tree->drag_source_button_press_event_id = 0;
 	e_tree->drag_source_motion_notify_event_id = 0;
 
-	e_tree->selection = e_table_selection_model_new();
+	e_tree->selection = E_SELECTION_MODEL(e_table_selection_model_new());
 	e_tree->spec = NULL;
 }
 
@@ -206,12 +206,28 @@ et_focus (GtkContainer *container, GtkDirectionType direction)
 }
 
 static void
+set_header_canvas_width (ETree *e_tree)
+{
+	double oldwidth, oldheight, width;
+
+	gnome_canvas_get_scroll_region (GNOME_CANVAS (e_tree->table_canvas),
+					NULL, NULL, &width, NULL);
+	gnome_canvas_get_scroll_region (GNOME_CANVAS (e_tree->header_canvas),
+					NULL, NULL, &oldwidth, &oldheight);
+
+	if (oldwidth != width ||
+	    oldheight != E_TABLE_HEADER_ITEM (e_tree->header_item)->height - 1)
+		gnome_canvas_set_scroll_region (
+						GNOME_CANVAS (e_tree->header_canvas),
+						0, 0, width, /*  COLUMN_HEADER_HEIGHT - 1 */
+						E_TABLE_HEADER_ITEM (e_tree->header_item)->height - 1);
+
+}
+
+static void
 header_canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc, ETree *e_tree)
 {
-	gnome_canvas_set_scroll_region (
-		GNOME_CANVAS (e_tree->header_canvas),
-		0, 0, alloc->width - 1, /*  COLUMN_HEADER_HEIGHT - 1 */
-		E_TABLE_HEADER_ITEM (e_tree->header_item)->height - 1);
+	set_header_canvas_width (e_tree);
 
 	/* When the header item is created ->height == 0,
 	   as the font is only created when everything is realized.
@@ -259,6 +275,7 @@ tree_canvas_reflow_idle (ETree *e_tree)
 {
 	gdouble height, width;
 	gdouble item_height;
+	gdouble oldheight, oldwidth;
 	GtkAllocation *alloc = &(GTK_WIDGET (e_tree->table_canvas)->allocation);
 
 	gtk_object_get (GTK_OBJECT (e_tree->item),
@@ -269,11 +286,17 @@ tree_canvas_reflow_idle (ETree *e_tree)
 	height = MAX ((int)height, alloc->height);
 	width = MAX((int)width, alloc->width);
 	/* I have no idea why this needs to be -1, but it works. */
-	gnome_canvas_set_scroll_region (
-		GNOME_CANVAS (e_tree->table_canvas),
-		0, 0, width - 1, height - 1);
+	gnome_canvas_get_scroll_region (GNOME_CANVAS (e_tree->table_canvas),
+					NULL, NULL, &oldwidth, &oldheight);
+
+	if (oldwidth != width - 1 ||
+	    oldheight != height - 1) {
+		gnome_canvas_set_scroll_region (GNOME_CANVAS (e_tree->table_canvas),
+						0, 0, width - 1, height - 1);
+		set_header_canvas_width (e_tree);
+	}
 	gtk_object_set (GTK_OBJECT (e_tree->white_item),
-			"y1", item_height + 1,
+			"y1", item_height,
 			"x2", width,
 			"y2", height,
 			NULL);
@@ -415,10 +438,12 @@ item_key_press (ETableItem *eti, int row, int col, GdkEvent *event, ETree *et)
 		return_val = 1;
 		break;
 	case '=':
+	case GDK_Right:
 		path = e_tree_table_adapter_node_at_row(et->etta, row);
 		e_tree_table_adapter_node_set_expanded (et->etta, path, TRUE);
 		break;
 	case '-':
+	case GDK_Left:
 		path = e_tree_table_adapter_node_at_row(et->etta, row);
 		e_tree_table_adapter_node_set_expanded (et->etta, path, FALSE);
 		break;
@@ -747,12 +772,6 @@ et_real_construct (ETree *e_tree, ETreeModel *etm, ETableExtras *ete,
 
 	e_tree->etta = E_TREE_TABLE_ADAPTER(e_tree_table_adapter_new(E_TREE_MODEL(e_tree->sorted)));
 
-	gtk_object_set(GTK_OBJECT(e_tree->selection),
-		       "model", E_TABLE_MODEL(e_tree->etta),
-		       "selection_mode", specification->selection_mode,
-		       "cursor_mode", specification->cursor_mode,
-		       NULL);
-
 	gtk_widget_push_visual (gdk_rgb_get_visual ());
 	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
 
@@ -761,6 +780,12 @@ et_real_construct (ETree *e_tree, ETreeModel *etm, ETableExtras *ete,
 	gtk_object_set (GTK_OBJECT (e_tree->selection),
 			"model", e_tree->etta,
 			"sorter", e_tree->sorter,
+#if 0
+			"ets", e_tree->sorted,
+			"model", e_tree->model,
+#endif
+			"selection_mode", specification->selection_mode,
+			"cursor_mode", specification->cursor_mode,
 			NULL);
 
 	gtk_signal_connect(GTK_OBJECT(e_tree->selection), "selection_changed",

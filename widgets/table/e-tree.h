@@ -9,7 +9,7 @@
 #include <gal/e-table/e-table-group.h>
 #include <gal/e-table/e-table-sort-info.h>
 #include <gal/e-table/e-table-item.h>
-#include <gal/e-table/e-table-selection-model.h>
+#include <gal/e-table/e-tree-selection-model.h>
 #include <gal/e-table/e-table-extras.h>
 #include <gal/e-table/e-table-specification.h>
 #include <gal/widgets/e-printable.h>
@@ -41,7 +41,7 @@ typedef struct {
 	ETableSortInfo *sort_info;
 	ESorter   *sorter;
 
-	ETableSelectionModel *selection;
+	ESelectionModel *selection;
 	ETableSpecification *spec;
 
 	int reflow_idle_id;
