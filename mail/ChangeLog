@@ -1,3 +1,17 @@
+2004-01-22  Jeffrey Stedfast  <fejj@ximian.com>
+
+	Fixes bug #53175.
+
+	* em-junk-filter.c (pipe_to_sa): Don't need an argc (we don't even
+	seem to use it??).
+	(em_junk_sa_test_spamd_running): Don't invoke /bin/sh.
+	(em_junk_sa_test_spamd): Simplified, also don't invoke /bin/sh.
+	(em_junk_sa_check_junk): Cleaned up/simplified. Also don't invoke
+	/bin/sh.
+	(em_junk_sa_report_junk): Same.
+	(em_junk_sa_report_notjunk): Same.
+	(em_junk_sa_commit_reports): Same.
+
 2004-01-22 Gary Ekker <gekker@novell.com>
 
 	** See bug #53051
