@@ -1621,6 +1621,7 @@ gpg_decrypt(CamelCipherContext *context, CamelMimePart *ipart, CamelMimePart *op
 	camel_stream_filter_add (CAMEL_STREAM_FILTER (filtered_stream), crlf_filter);
 	camel_object_unref (crlf_filter);*/
 	ostream = camel_stream_mem_new();
+	camel_stream_mem_set_secure((CamelStreamMem *)ostream);
 
 	gpg = gpg_ctx_new (context->session);
 	gpg_ctx_set_mode (gpg, GPG_CTX_MODE_DECRYPT);

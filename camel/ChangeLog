@@ -1,3 +1,29 @@
+2004-07-09  Not Zed  <NotZed@Ximian.com>
+
+	** This is no guarantee of security, but its just a helper to
+	prevent old memory accidentally being included/used elsewhere.
+	
+	* camel-smime-context.c (sm_decrypt): mark the output stream
+	'secure'.
+
+	* camel-gpg-context.c (gpg_decrypt): set the output stream to
+	secured, so we automagically blank it out on finalise.
+
+	* camel-stream-mem.c (camel_stream_mem_set_secure): set the
+	memory-stream 'secured', all we do at the moment is blank out the
+	buffer on finalise.
+	(camel_stream_mem_set_byte_array, camel_stream_mem_finalize):
+	clear memory if owner and secured.  kill dead comment.
+	(clear_mem): utilitiy to set memory to 0xABADF00D
+
+2004-07-08  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #61186.
+	
+	* camel-cipher-context.c (camel_cipher_sign):
+	(camel_cipher_verify, camel_cipher_encrypt, camel_cipher_decrypt):
+	Add preliminary progress reporting.
+
 2004-07-07  Chris Toshok  <toshok@ximian.com>
 
 	* providers/groupwise/Makefile.am (INCLUDES): use

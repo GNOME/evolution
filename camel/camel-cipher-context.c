@@ -31,6 +31,7 @@
 
 #include "camel-cipher-context.h"
 #include "camel-stream.h"
+#include "camel-operation.h"
 
 #include "camel-mime-utils.h"
 #include "camel-medium.h"
@@ -123,13 +124,17 @@ camel_cipher_sign (CamelCipherContext *context, const char *userid, CamelCipherH
 	int retval;
 	
 	g_return_val_if_fail (CAMEL_IS_CIPHER_CONTEXT (context), -1);
-	
+
+	camel_operation_start(NULL, _("Signing message"));
+
 	CIPHER_LOCK(context);
 	
 	retval = CCC_CLASS (context)->sign (context, userid, hash, ipart, opart, ex);
 	
 	CIPHER_UNLOCK(context);
-	
+
+	camel_operation_end(NULL);
+
 	return retval;
 }
 
@@ -163,11 +168,15 @@ camel_cipher_verify (CamelCipherContext *context, struct _CamelMimePart *ipart, 
 	
 	g_return_val_if_fail (CAMEL_IS_CIPHER_CONTEXT (context), NULL);
 	
+	camel_operation_start(NULL, _("Verifying message"));
+
 	CIPHER_LOCK(context);
 	
 	valid = CCC_CLASS (context)->verify (context, ipart, ex);
 	
 	CIPHER_UNLOCK(context);
+
+	camel_operation_end(NULL);
 	
 	return valid;
 }
@@ -202,12 +211,16 @@ camel_cipher_encrypt (CamelCipherContext *context, const char *userid, GPtrArray
 	int retval;
 	
 	g_return_val_if_fail (CAMEL_IS_CIPHER_CONTEXT (context), -1);
+
+	camel_operation_start(NULL, _("Encrypting message"));
 	
 	CIPHER_LOCK(context);
 	
 	retval = CCC_CLASS (context)->encrypt (context, userid, recipients, ipart, opart, ex);
 	
 	CIPHER_UNLOCK(context);
+
+	camel_operation_end(NULL);
 	
 	return retval;
 }
@@ -237,12 +250,16 @@ camel_cipher_decrypt(CamelCipherContext *context, struct _CamelMimePart *ipart, 
 	CamelCipherValidity *valid;
 
 	g_return_val_if_fail (CAMEL_IS_CIPHER_CONTEXT (context), NULL);
+
+	camel_operation_start(NULL, _("Decrypting message"));
 	
 	CIPHER_LOCK(context);
 	
 	valid = CCC_CLASS (context)->decrypt (context, ipart, opart, ex);
 	
 	CIPHER_UNLOCK(context);
+
+	camel_operation_end(NULL);
 	
 	return valid;
 }

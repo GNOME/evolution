@@ -45,7 +45,8 @@ typedef struct _CamelStreamMemClass CamelStreamMemClass;
 struct _CamelStreamMem {
 	CamelSeekableStream parent_object;
 
-	gboolean owner;		/* do we own the buffer? */
+	unsigned int owner:1;	/* do we own the buffer? */
+	unsigned int secure:1;	/* do we clear the buffer on finalise (if we own it) */
 	GByteArray *buffer;
 };
 
@@ -62,6 +63,9 @@ CamelType camel_stream_mem_get_type (void);
 CamelStream *camel_stream_mem_new(void);
 CamelStream *camel_stream_mem_new_with_byte_array(GByteArray *buffer);
 CamelStream *camel_stream_mem_new_with_buffer(const char *buffer, size_t len);
+
+/* 'secure' data, currently just clears memory on finalise */
+void camel_stream_mem_set_secure(CamelStreamMem *);
 
 /* these are really only here for implementing classes */
 void camel_stream_mem_set_byte_array(CamelStreamMem *, GByteArray *buffer);

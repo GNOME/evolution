@@ -953,6 +953,7 @@ sm_decrypt(CamelCipherContext *context, CamelMimePart *ipart, CamelMimePart *opa
 	   this api to do this ... */
 
 	ostream = camel_stream_mem_new();
+	camel_stream_mem_set_secure((CamelStreamMem *)ostream);
 
 	/* FIXME: stream this to the decoder incrementally */
 	istream = (CamelStreamMem *)camel_stream_mem_new();

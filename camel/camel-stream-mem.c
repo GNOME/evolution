@@ -74,6 +74,23 @@ camel_stream_mem_init (CamelObject *object)
 	stream_mem->buffer = 0;
 }
 
+/* could probably be a util method */
+static void clear_mem(void *p, size_t len)
+{
+	char *s = p;
+
+	/* This also helps debug bad access memory errors */
+	while (len > 4) {
+		*s++ = 0xAB;
+		*s++ = 0xAD;
+		*s++ = 0xF0;
+		*s++ = 0x0D;
+		len -= 4;
+	}
+
+	memset(s, 0xbf, len);
+}
+
 CamelType
 camel_stream_mem_get_type (void)
 {
@@ -122,11 +139,28 @@ camel_stream_mem_new_with_byte_array (GByteArray *byte_array)
 	return CAMEL_STREAM (stream_mem);
 }
 
+/**
+ * camel_stream_mem_set_secure:
+ * @s: 
+ * 
+ * Mark the memory stream as secure.  At the very least this means the
+ * data in the buffer will be cleared when the buffer is finalised.
+ * This only applies to buffers owned by the stream.
+ **/
+void camel_stream_mem_set_secure(CamelStreamMem *s)
+{
+	s->secure = 1;
+	/* setup a mem-locked buffer etc?  blah blah, well not yet anyway */
+}
+
 /* note: with these functions the caller is the 'owner' of the buffer */
 void camel_stream_mem_set_byte_array (CamelStreamMem *s, GByteArray *buffer)
 {
-	if (s->buffer && s->owner)
+	if (s->buffer && s->owner) {
+		if (s->secure && s->buffer->len)
+			clear_mem(s->buffer->data, s->buffer->len);
 		g_byte_array_free(s->buffer, TRUE);
+	}
 	s->owner = FALSE;
 	s->buffer = buffer;
 }
@@ -144,15 +178,15 @@ void camel_stream_mem_set_buffer (CamelStreamMem *s, const char *buffer, size_t 
 static void
 camel_stream_mem_finalize (CamelObject *object)
 {
-	CamelStreamMem *stream_mem = CAMEL_STREAM_MEM (object);
+	CamelStreamMem *s = CAMEL_STREAM_MEM (object);
 
-	if (stream_mem->buffer && stream_mem->owner)
-		g_byte_array_free (stream_mem->buffer, TRUE);
-
-	/* Will be called automagically in the Camel Type System!
-	 * Wheeee!
-	 * G_TK_OBJECT_CLASS (parent_class)->finalize (object);
-	 */
+	if (s->buffer && s->owner) {
+		/* TODO: we need our own bytearray type since we don't know
+		   the real size of the underlying buffer :-/ */
+		if (s->secure && s->buffer->len)
+			clear_mem(s->buffer->data, s->buffer->len);
+		g_byte_array_free(s->buffer, TRUE);
+	}
 }
 
 static ssize_t
