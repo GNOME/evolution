@@ -1,3 +1,20 @@
+2000-09-21  Aaron Weber  <aaron@helixcode.com>
+
+	* C/evolution-guide.sgml: Switched to the "official" FSF markup.
+	  I will have to make changes to the markup-- adding ids, etc, or
+	  switch to another version of the markup. Pending discussion by
+	  GDP.
+
+	* C/apx-authors.sgml: Changed Matt Loper's email address to
+	loper.org; added Jeff Stedfast and Peter Williams to authors list,
+	realphebetized.	
+
+	* C/config-prefs.sgml: Revision to reflect current options labelling.
+
+	* C/evolution-guide.sgml: Changes to part intros.
+
+	* C/preface.sgml: Spelling and menu fixes.  Will need more work tomorrow.
+	
 2000-09-20  Aaron Weber  <aaron@helixcode.com>
 
 	* C/config-prefs.sgml: Fixed sig stuff here and in setupassist.

@@ -102,12 +102,14 @@
       <para>
         <application>Evolution</application> is highly configurable.
         Usually, when developers say that, they mean that they didn't
-        test it out thoroughly and have left it to other hackers to
-        "configure" themselves a working system.  But in the case of
-        <application>Evolution</application>, you can expect that it
-        will work perfectly well with minimal setup hassle, and that
-        you can alter its behavior to fit your needs with just a
-        little more work.
+        test it out thoroughly and have left it to other programmers
+        to "configure" themselves a working system.  But in the case
+        of <application>Evolution</application>, you can expect that
+        it will work perfectly well with minimal setup hassle, and
+        that you can alter its behavior to fit your needs with just a
+        little more work.  This part of the book will describe that
+        process, from the quickest glimpse of the Setup Assistant to
+        an in-depth tour of the preferences dialogs.
       </para>
     </partintro>
 

@@ -14,9 +14,11 @@
         <emphasis>informed</emphasis>.
         <application>Evolution</application>'s goal is to make the
         tasks of storing, organizing, and retrieving information
-        easier, so you can work and cooperate with others.  That is,
+        easier, so you can work and communicate with others.  That is,
         it's a more evolved <glossterm>groupware</glossterm> program,
-        and an integral part of the Internet-connected desktop.
+        an integral part of the Internet-connected desktop. On the
+        inside, it's a powerful database; on the outside, it's a tool
+        to help you get your work done.
       </para>
       <para>
         Because it's part of the GNOME project,
@@ -32,11 +34,12 @@
         <note>
            <title>This is a preview release</title>
            <para>
-             Please help develop <application>Evolution</application>
-             by submitting bug reports when you find bugs.  You can do
-             so by using the <application>Bug Report
-             Tool</application> (known as <command>bug-buddy</command>
-             at the command line).
+             <application>Evolution</application> is not complete, and
+             still has a lot of flaws.  Please help improve it by
+             letting us know about them.  You should do this by
+             submitting bug reports with the GNOME <application>Bug
+             Report Tool</application> (known as
+             <command>bug-buddy</command> at the command line).
           </para>
         </note>
       </para>
@@ -308,11 +311,11 @@
 	  </varlistentry>
 
           <varlistentry>
-	    <term>Reply to a message Message</term>
+	    <term>Reply to a Message</term>
 	    <listitem>
 	      <para>
                 Select the message to which you want to reply, and
-                click Click <guibutton>Reply</guibutton> in the
+                click <guibutton>Reply</guibutton> in the
                 toolbar, or press
                 <keycombo action="simul">
 		  <keycap>FIXME</keycap>
@@ -328,12 +331,25 @@
 	    <listitem>
 	      <para>
                 Select the message you want to forward, and
-                click Click <guibutton>Forward</guibutton> in the
+                click <guibutton>Forward</guibutton> in the
                 toolbar, or press
                 <keycombo action="simul">
 		  <keycap>FIXME</keycap>
 		  <keycap>FIXME</keycap>
 		  <keycap>FIXME</keycap>
+                </keycombo>
+                </para>
+	    </listitem>
+	  </varlistentry>
+
+          <varlistentry>
+	    <term>Open a Message in a New Window</term>
+	    <listitem>
+	      <para>
+                Double-click the message you want to view, or press
+                <keycombo action="simul">
+		  <keycap>Ctrl</keycap>
+		  <keycap>O</keycap>
                 </keycombo>
                 </para>
 	    </listitem>

@@ -14,21 +14,20 @@
        <sect1 id="config-prefs-mail">
          <title>Mail Settings</title>
         <para>
-        To change your mail settings, first go to your
-        <interface>Inbox</interface>.  Then select <guimenuitem>Mail
-        Settings</guimenuitem> from the <guimenu>Tools</guimenu> menu.
-        This will open the <interface>mail preferences
-        window</interface>, illustrated in <xref
-        linkend="config-prefs-mail-fig">.  Mail Preferences are
-        separated into several categories:
+        To change your mail settings, select <menuchoice>
+        <guimenu>Settings</guimenu> <guimenuitem>Mail
+        configuration</guimenuitem></menuchoice> in the Inbox.  This
+        will open the <interface>mail preferences window</interface>,
+        illustrated in <xref linkend="config-prefs-mail-fig">.  Mail
+        preferences are separated into several categories:
         <variablelist>
 	<varlistentry>
-          <term><guilabel>Identity</guilabel></term>
+          <term><guilabel>Identies</guilabel></term>
           <listitem>
 	    <para>
-               This allows you to set
-               your name, email address, and other information.  The
-               default values are the ones found on your system account.
+               This allows you to create and alter one or more
+               identities for your email: your name, address, and so
+               forth.
 	    </para>
 	  </listitem>
 	</varlistentry>
@@ -36,16 +35,19 @@
 	  <term><guilabel>Sources</guilabel></term>
 	  <listitem>
 	    <para>
-               Set your mail-checking protocols and servers here.
+               This tab lets you tell
+               <application>Evolution</application> where to get the
+               mail sent to you, and how to get it.
             </para>
           </listitem>
 	</varlistentry>
-
 	<varlistentry>
-	  <term><guilabel>Sources</guilabel></term>
+
+	  <term><guilabel>Mail Transport</guilabel></term>
 	  <listitem>
 	    <para>
-               Set your mail-checking protocols and servers here.
+               This tab lets you tell
+               <application>Evolution</application> how to send mail.
             </para>
           </listitem>
 	</varlistentry>
@@ -54,20 +56,27 @@
 	  <term><guilabel>News Servers</guilabel></term>
 	  <listitem>
 	    <para>
-              Specify your News Server preferences here.
+              If you would like to use
+              <application>Evolution</application> to read newsgroups,
+              you can secify your news server preferences here.
+           </para>
+	  </listitem>
+	</varlistentry>
+
+
+
+	<varlistentry>
+	  <term><guilabel>Other</guilabel></term>
+	  <listitem>
+	    <para>
+              Miscellaneous mail and news settings, such as HTML
+              handling preferences, and how long
+              <application>Evolution</application> should wait before
+              marking message read.
            </para>
 	  </listitem>
 	</varlistentry>
       </variablelist>
-
-<!-- THE FOLLOWING MAY BE REINSTATED:
-              as well as attachment
-              and HTML handling, forwarding behavior, filters, and
-              other <application>Evolution</application> behaviors
-              specific to email.  The default behaviors are those
-              approved by Jamie Zawinski.
--->
-
 
     </para>
 
@@ -86,19 +95,23 @@
       <sect2 id="config-prefs-mail-identity">
       <title>Identity Settings</title> 
       <para>
-         If you have only one email address, or use automatic
-         forwarding to funnel multiple addresses to one account, then
-         you will only need to configure one identity. You may,
-         however, want more that one.  To alter an identity, click on
-         it in the <guilabel>Identity</guilabel> tab of the
+         If you have only one email account, or send email from only
+         one address, you will only need to configure one identity. If
+         you want, however, you can have multiple identities.  This
+         can be useful if you want to keep personal and professional
+         email seperate.
+       </para>
+       <para>
+         To add a new identity, simply click
+         <guibutton>Add</guibutton>. To alter an existing identity,
+         click on it in the <guilabel>Identity</guilabel> tab of the
          <interface>Preferences</interface> window, and then click
-         <guibutton>Edit</guibutton>. To add a new identity, simply
-         click <guibutton>Add</guibutton>.
+         <guibutton>Edit</guibutton>.
       </para>
 
       <para>
-         In either case, you'll be presented with a dialog box with
-         four fields:
+         <application>Evolution</application> will then present you
+         with a dialog box containing four fields:
           <itemizedlist>
            <listitem>
 	    <para>
@@ -131,7 +144,6 @@
             </para>
 	  </listitem>
 	</itemizedlist>
-
       </para>
     </sect2>
 
@@ -145,12 +157,9 @@
         protocols your network uses, and the names of the servers
         you'll be using.  If you're switching from another groupware
         or email program, you can almost certainly use the same
-        settings as you did with that program.  Select the
-        <guibutton>Sources</guibutton> tab in the
-        <interface>Preferences</interface> window to tell
-        <application>Evolution</application> where you want to get
-        your mail, and click <guibutton>Transports</guibutton> to
-        determine how you want to send your mail.
+        settings as you did with that program. Network-related
+        settings are in the <guilabel>Mail Sources</guilabel> and
+        <guilabel>Mail Transport</guilabel> tabs.
       </para>
  
       <sect3 id="config-prefs-network-sources">
@@ -185,8 +194,10 @@
 	      <term><guilabel>Username:</guilabel></term>
 	      <listitem>
 		<para>
-                  Enter your user name here.  Eva Lucianne Tester's
-                  user name is <userinput>eltester</userinput>.
+                  Enter your user name here.  This is often related to
+                  your real name, but not always. Examples include
+                  <guilabel>eltester</guilabel> and
+                  <guilabel>rupert</guilabel>.
                 </para>
 	      </listitem>
 	    </varlistentry>
@@ -194,48 +205,50 @@
 	      <term><guilabel>Authentication:</guilabel></term>
 	      <listitem>
 		<para>
-                  Your system administrator will know which type of
-                  authentication your system requires.
-                  <application>Evolution</application> can also detect
-                  what sorts of authentication are available once it
-                  knows where to find the server.
+                  Tell <application>Evolution</application> how to
+                  verify your identity with the server.  Your options
+                  vary depending upon the type of server you are
+                  using, and the ways it is configured.  Given the
+                  name of a server,
+                  <application>Evolution</application> can detect what
+                  sorts of authentication it offers.
                </para>
 	      </listitem>
 	    </varlistentry>
 	    <varlistentry>
-	      <term><guilabel>Test values before continuing</guilabel></term>
+	      <term><guilabel>Test Settings</guilabel></term>
 	      <listitem>
 		<para>
-                  If this box is checked,
-                  <application>Evolution</application> will attempt to
-                  make sure that all the other entries in the dialog
-                  window are correct.
+                  Click this button to have
+                  <application>Evolution</application> check to see if
+                  mail sources are configured correctly.
                 </para>
 	      </listitem>
 	    </varlistentry>
 	  </variablelist>
           </para>
           <para>
-            If you choose several mail sources, clicking
-            <guibutton>Get Mail</guibutton> will refresh any IMAP or
+            If you have several mail sources, clicking <guibutton>Get
+            Mail</guibutton> will refresh any IMAP or
             <filename>mbox</filename> listings and check and download
             all POP servers.  In other words, <guibutton>Get
             Mail</guibutton> gets your mail, no matter how many
             sources you have, or what types they are.
           </para>
-
       </sect3>
+
       <sect3 id="config-prefs-mail-network-transports">
-	<title>Transports</title>
+	<title>Mail Transports</title>
 	<para>
-           The <interface>Transports</interface> tab lets you set how
-           you will send mail.  Evolution currently supports two mail
-           transport options: <guilabel>SMTP</guilabel>, which uses a
-           remote mail server, and <guilabel>sendmail</guilabel>,
-           which uses the <application>sendmail</application> program
-           on your local system.  <application>Sendmail</application>
-           is more difficult to configure, but offers more flexibility
-           than <systemitem>SMTP</systemitem>.
+           The <interface>Mail Transports</interface> tab lets you set
+           how you will send mail.  Evolution currently supports two
+           mail transport options: <guilabel>SMTP</guilabel>, which
+           uses a remote mail server, and
+           <guilabel>sendmail</guilabel>, which uses the
+           <application>sendmail</application> program on your local
+           system.  <application>Sendmail</application> is more
+           difficult to configure, but offers more flexibility than
+           <systemitem>SMTP</systemitem>.
         </para>
 	<para>
             To use <guilabel>SMTP</guilabel>, you'll need to enter the
@@ -245,9 +258,8 @@
          <para>
             <application>Evolution</application> can attempt to
             determine if you have entered a valid server name.  To
-            have it do so, check the box labelled <guilabel>Test these
-            values before continuing</guilabel> before you click
-            <guibutton>OK</guibutton>.
+            have it do so, click the <guilabel>Test
+            Settings</guilabel> button.
          </para>
 	</sect3>
       </sect2>
@@ -255,18 +267,20 @@
           <title>News Servers</title>
           <para>
             Newsgroups are so much like mailing lists that there's no
-            reason not to have access to them right next to your mail.
-            When you first select the <guilabel>News
-            Servers</guilabel> tab, you will see a blank box with
-            three familiar buttons on the right:
-            <guibutton>Add</guibutton>, <guibutton>Edit</guibutton>,
-            and <guibutton>Delete</guibutton>.  </para>
+            reason not to keep them right next to your mail.  When you
+            first select the <guilabel>News Servers</guilabel> tab,
+            you will see a blank box with the three familiar buttons
+            on the right: <guibutton>Add</guibutton>,
+            <guibutton>Edit</guibutton>, and
+            <guibutton>Delete</guibutton>.
+          </para>
           <para>
             Click <guibutton>Add</guibutton> to add a news server; you
             will be prompted for its name.  Enter the name, click
             <guibutton>OK</guibutton>, and you're done.  You can have
             as many mail servers as you like, of course.  News servers
-            will appear next to your IMAP servers.
+            will appear next to your IMAP servers in the
+            <interface>folder bar</interface>.
           </para>
      </sect2>
 
@@ -277,6 +291,7 @@
           contains some miscellaneous configurations that don't have
           too much to do with each other.
           <variablelist>
+
              <varlistentry>
                 <term> 
                    <guilabel>Send messages in HTML format</guilabel>
@@ -290,6 +305,17 @@
                     See <xref linkend="usage-mail-getnsend-send-html">
                     for more information about HTML mail.
                 </para></listitem>
+              </varlistentry>
+             <varlistentry>
+                <term> 
+                   <guilabel>Mark Messages as Seen After</guilabel>
+                </term>
+                <listitem><para> 
+                    When you click on a message,
+                    <application>Evolution</application> will wait a
+                    moment before marking it as seen. You can set the
+                    delay, in milliseconds, here.
+                 </para></listitem>
               </varlistentry>
               <varlistentry>
                 <term>
@@ -314,28 +340,14 @@
       </sect2>
     </sect1>
 
-    <sect1 id="config-prefs-contact">
-      <title>Managing the Contact Manager</title>
-	<para>
-          To set the behavior of your Contact Manager, click on the
-          <guibutton>Contact Manager</guibutton> tab in the
-          <interface>Preferences</interface> window.
-        </para>
-	<para>
-          You can set the following options: <!--insert variable list
-          here-->
-        </para>
-      </sect1>
-    
-      <sect1 id="config-prefs-cal">
-	<title>Configuring the Calendar</title>
-	<para>
-          This section discusses calendar-specific preferences.  While
-          looking at your calendar, select
-          <guimenuitem>Preferences</guimenuitem> from the
-          <guimenu>Edit</guimenu> menu.  This will open up the
-          <interface>Preferences</interface> window.  It contains four
-          tabs: <guilabel>Time display</guilabel>,
+    <sect1 id="config-prefs-cal">
+       <title>Configuring the Calendar</title>
+       <para>
+          To set your calendar preferences, select
+          <menuchoice><guimenu>Settings</guimenu>
+          <guimenuitem>Calendar Configuration</guimenuitem></menuchoice>.  This
+          will open up the <interface>Preferences</interface> window.
+          It contains four tabs: <guilabel>Time display</guilabel>,
           <guilabel>Colors</guilabel>, <guilabel>To Do List</guilabel>
           and <guilabel>Alarms</guilabel>.  The <interface>calendar
           preferences window</interface> is illustrated in <xref
@@ -540,13 +552,14 @@
 	    this box to have <application>Evolution</application> beep
 	    at you for any alarms you have set.  If you leave this box
 	    unchecked, <application>Evolution</application> will only
-	    alert you to events by opening a dialog box.
+	    alert you to events by opening a dialog box. These beeps
+	    are distict from full-fledged audio alarms.
            </para>
 	  </listitem>
 	  <listitem>
 	    <para><guilabel>Audio alarms timeout after: </guilabel>
-	    Select this button to have the beeping stop automatically
-	    after a certain number of seconds.  </para>
+	    Select this button to have your audio alarms stop
+	    automatically after a certain number of seconds.  </para>
 	  </listitem>
 	  <listitem>
 	    <para><guilabel>Enable snoozing for:</guilabel> If you
@@ -562,6 +575,22 @@
 
 
   </sect1>
+
+
+    <sect1 id="config-prefs-contact">
+      <title>Managing the Contact Manager</title>
+	<para>
+          To set the behavior of your Contact Manager, click on the
+          <guibutton>Contact Manager</guibutton> tab in the
+          <interface>Preferences</interface> window.
+        </para>
+	<para>
+          You can set the following options: <!--insert variable list
+          here-->
+        </para>
+      </sect1>
+    
+
 
   <sect1 id="config-prefs-general">
     <title>General Preferences</title> 
