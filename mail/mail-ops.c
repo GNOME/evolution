@@ -161,14 +161,28 @@ do_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 		uids = camel_folder_get_uids (folder);
 		for (i = 0; i < uids->len; i++) {
 			CamelMimeMessage *message;
+			CamelMessageInfo *info;
+			gboolean free_info;
 			
-			mail_tool_camel_lock_up ();
 			message = camel_folder_get_message (folder, uids->pdata[i], ex);
+			if (camel_exception_is_set (ex))
+				continue;
+			
+			if (camel_folder_has_summary_capability (folder)) {
+				info = (CamelMessageInfo *) camel_folder_get_message_info (folder, uids->pdata[i]);
+				free_info = FALSE;
+			} else {
+				info = g_new0 (CamelMessageInfo, 1);
+				free_info = TRUE;
+			}
+			
 			filter_driver_run (filter, message, input->destination,
-					   FILTER_SOURCE_INCOMING,
+					   info, FILTER_SOURCE_INCOMING,
 					   input->hook_func, input->hook_data,
 					   TRUE, ex);
-			mail_tool_camel_lock_down ();
+			
+			if (free_info)
+				camel_message_info_free (info);
 			
 			/* we don't care if it was filtered or not here because no matter
 			   what it's been copied to at least 1 folder - even if it's just
@@ -325,13 +339,29 @@ do_filter_ondemand (gpointer in_data, gpointer op_data, CamelException *ex)
 		uids = camel_folder_get_uids (input->source);
 		for (i = 0; i < uids->len; i++) {
 			CamelMimeMessage *message;
+			CamelMessageInfo *info;
 			gboolean filtered;
+			gboolean free_info;
 			
 			message = camel_folder_get_message (input->source, uids->pdata[i], ex);
-			filtered = filter_driver_run (input->driver, message, NULL,
+			if (camel_exception_is_set (ex))
+				continue;
+			
+			if (camel_folder_has_summary_capability (input->source)) {
+				info = (CamelMessageInfo *) camel_folder_get_message_info (input->source, uids->pdata[i]);
+				free_info = FALSE;
+			} else {
+				info = g_new0 (CamelMessageInfo, 1);
+				free_info = TRUE;
+			}
+			
+			filtered = filter_driver_run (input->driver, message, info, NULL,
 						      FILTER_SOURCE_DEMAND, NULL, NULL, TRUE, ex);
 			
-			if (filtered) {
+			if (free_info)
+				camel_message_info_free (info);
+			
+			if (filtered && !camel_exception_is_set (ex)) {
 				/* we can delete this since it's been filtered */
 				guint32 flags;
 				
