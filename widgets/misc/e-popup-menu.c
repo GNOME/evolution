@@ -33,7 +33,7 @@ make_item (GtkMenu *menu, const char *name, const char *pixname)
 	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
 	gtk_widget_show (label);
 	
-	item = gtk_pixmap_menu_item_new	();
+	item = pixname ? gtk_pixmap_menu_item_new () : gtk_menu_item_new ();
 	gtk_container_add (GTK_CONTAINER (item), label);
 	
 	if (label_accel != GDK_VoidSymbol){

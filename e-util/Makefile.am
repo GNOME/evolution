@@ -46,5 +46,7 @@ libeutil_la_SOURCES =			\
 	e-unicode.c			\
 	e-unicode.h
 
+libeutil_la_LIBADD = $(UNICODE_LIBS)
+
 libeutil_static_la_SOURCES = $(libeutil_la_SOURCES)
 libeutil_static_la_LDFLAGS = --all-static

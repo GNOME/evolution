@@ -1,3 +1,12 @@
+2000-08-30  Dan Winship  <danw@helixcode.com>
+
+	* Makefile.am (libeutil_la_LIBADD): make e-util depend on
+	libunicode
+
+	* e-popup-menu.c (make_item): Use GtkMenuItem rather than
+	GtkPixmapMenuItem for items with no pixmaps, so that if the whole
+	menu is pixmapless, you don't get a column of blank pixmaps.
+
 2000-08-24  Lauris Kaplinski  <lauris@helixcode.com>
 
 	* e-unicode.h:
