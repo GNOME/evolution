@@ -217,10 +217,10 @@ do_layout (ESidebar *sidebar)
 	{
 		GtkAllocation child_allocation;
 
-		child_allocation.x = allocation->x + PADDING;
-		child_allocation.y = allocation->y + PADDING;
-		child_allocation.width = allocation->width - PADDING * 2;
-		child_allocation.height = y - allocation->y - PADDING;
+		child_allocation.x = allocation->x;
+		child_allocation.y = allocation->y;
+		child_allocation.width = allocation->width;
+		child_allocation.height = y - allocation->y;
 
 		gtk_widget_size_allocate (sidebar->priv->selection_widget, & child_allocation);
 	}
@@ -292,8 +292,6 @@ impl_size_request (GtkWidget *widget,
 		requisition->height = 2 * PADDING;
 	} else {
 		gtk_widget_size_request (sidebar->priv->selection_widget, requisition);
-		requisition->width += 2 * PADDING;
-		requisition->height += 2 * PADDING;
 	}
 
 	for (p = sidebar->priv->buttons; p != NULL; p = p->next) {

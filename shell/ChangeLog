@@ -1,3 +1,8 @@
+2003-12-11  Not Zed  <NotZed@Ximian.com>
+
+	* e-sidebar.c (do_layout): remove padding around the folder list.
+	(impl_size_request): don't add padding around folder list.
+
 2003-12-09  Ettore Perazzoli  <ettore@ximian.com>
 
 	[#51710]
