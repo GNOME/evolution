@@ -263,7 +263,27 @@ dialog_to_source (AddressbookSourceDialog *dialog, ESource *source, gboolean tem
 		e_source_set_relative_uri (source, str);
 		g_free (str);
 #endif
-	} else {
+	}else if (g_str_has_prefix  (e_source_group_peek_base_uri (dialog->source_group), "groupwise://") &&
+                   !e_source_peek_group (source)) {     /* if this is an existing book we don't change anything else */
+                                                                                                                             
+                GSList *groupwise_source_list;
+                ESource *existing_source = NULL;
+                const char *property_value = NULL;
+                                                                                                                             
+                groupwise_source_list = e_source_group_peek_sources(dialog->source_group);
+                if (groupwise_source_list)
+                        existing_source = E_SOURCE (groupwise_source_list->data);
+                if (existing_source) {
+                        property_value = e_source_get_property (existing_source, "auth");
+                        e_source_set_property (source, "auth", property_value);
+                        property_value = e_source_get_property (existing_source, "user");
+                        e_source_set_property (source, "user", property_value);
+                }
+                str = g_strconcat (";", gtk_entry_get_text (GTK_ENTRY (dialog->display_name)), NULL);
+                e_source_set_relative_uri (source, str);
+                g_free (str);
+                                                                                                                             
+        } 	else {
 		const gchar *relative_uri;
 
 		relative_uri = e_source_peek_relative_uri (source);
