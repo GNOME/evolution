@@ -1,5 +1,10 @@
 2003-01-28  Ettore Perazzoli  <ettore@ximian.com>
 
+	* Makefile.am: Use a little trick for the IDL compilation so that
+	it works with parallel makes.
+
+2003-01-28  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell.c (e_shell_construct): Use
 	bonobo_activation_server_register() instead of
 	bonobo_activation_register_active_server() again, since we want to

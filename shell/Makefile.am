@@ -41,30 +41,46 @@ IDLS = \
 	Evolution-common.idl			\
 	Evolution.idl
 
-IDL_GENERATED = \
-	Evolution.h		\
+IDL_GENERATED_H = \
+	Evolution.h
+
+IDL_GENERATED_C = 		\
 	Evolution-common.c	\
 	Evolution-skels.c	\
 	Evolution-stubs.c
 
+IDL_GENERATED = $(IDL_GENERATED_H) $(IDL_GENERATED_C)
+
 Evolution-impl.o: Evolution.h
 
-$(IDL_GENERATED): $(IDLS)
+$(IDL_GENERATED_H): $(IDLS)
 	$(ORBIT_IDL) -I $(srcdir) $(IDL_INCLUDES) $(srcdir)/Evolution.idl
+
+$(IDL_GENERATED_C): $(IDL_GENERATED_H)
+	@true
+
 
 # SelectNames CORBA stuff
 
 SELECT_NAMES_IDL = \
 	$(top_srcdir)/addressbook/gui/component/select-names/Evolution-Addressbook-SelectNames.idl
 
-SELECT_NAMES_IDL_GENERATED = 			   \
-	Evolution-Addressbook-SelectNames.h	   \
+SELECT_NAMES_IDL_GENERATED_H =			\
+	Evolution-Addressbook-SelectNames.h
+
+SELECT_NAMES_IDL_GENERATED_C = 			   \
 	Evolution-Addressbook-SelectNames-common.c \
 	Evolution-Addressbook-SelectNames-skels.c  \
 	Evolution-Addressbook-SelectNames-stubs.c
 
-$(SELECT_NAMES_IDL_GENERATED): $(SELECT_NAMES_IDL)
+SELECT_NAMES_IDL_GENERATED = $(SELECT_NAMES_IDL_GENERATED_C) $(SELECT_NAMES_IDL_GENERATED_H)
+
+$(SELECT_NAMES_IDL_GENERATED_H): $(SELECT_NAMES_IDL)
 	$(ORBIT_IDL) -I $(srcdir) $(IDL_INCLUDES) $(SELECT_NAMES_IDL)
+
+$(SELECT_NAMES_IDL_GENERATED_C): $(SELECT_NAMES_IDL_GENERATED_H)
+	@true
+
 
 # IDL install
 
@@ -325,7 +341,7 @@ evolution.pure: evolution
 endif
 
 CLEANFILES = $(IDL_GENERATED) $(SELECT_NAMES_IDL_GENERATED)
-BUILT_SOURCES = $(IDL_GENERATED) $(SELECT_NAMES_IDL_GENERATED) $(MARSHAL_GENERATED)
+BUILT_SOURCES = $(IDL_GENERATED_H) $(SELECT_NAMES_IDL_GENERATED_H) $(MARSHAL_GENERATED)
 
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)
