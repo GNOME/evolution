@@ -1241,7 +1241,7 @@ show_current (EItipControl *itip)
 
 	/* Add default reminder if the config says so */
 	if (calendar_config_get_use_default_reminder ()) {
-		CalComponent *acomp;
+		CalComponentAlarm *acomp;
 		int interval;
 		CalUnits units;
 		CalAlarmTrigger trigger;
