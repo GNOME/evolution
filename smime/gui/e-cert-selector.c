@@ -25,8 +25,6 @@
 
 #include <libgnome/gnome-i18n.h>
 
-#include <gal/util/e-util.h>
-
 #include <gtk/gtktextview.h>
 #include <gtk/gtkoptionmenu.h>
 #include <gtk/gtkmenuitem.h>
@@ -55,7 +53,7 @@ enum {
 
 static guint ecs_signals[ECS_LAST_SIGNAL];
 
-static GtkDialog *ecs_parent_class;
+G_DEFINE_TYPE (ECertSelector, e_cert_selector, GTK_TYPE_DIALOG)
 
 /* (this is what mozilla shows)
 Issued to:
@@ -90,7 +88,7 @@ ecs_find_current(ECertSelector *ecs)
 }
 
 static void
-ecs_response(GtkDialog *dialog, gint button)
+e_cert_selector_response(GtkDialog *dialog, gint button)
 {
 	CERTCertListNode *node;
 
@@ -215,7 +213,7 @@ e_cert_selector_new(int type, const char *currentid)
 }
 
 static void
-ecs_init(ECertSelector *ecs)
+e_cert_selector_init(ECertSelector *ecs)
 {
 	gtk_dialog_add_buttons((GtkDialog *)ecs,
 			       GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
@@ -225,7 +223,7 @@ ecs_init(ECertSelector *ecs)
 }
 
 static void
-ecs_finalise(GObject *o)
+e_cert_selector_finalise(GObject *o)
 {
 	ECertSelector *ecs = (ECertSelector *)o;
 
@@ -234,16 +232,14 @@ ecs_finalise(GObject *o)
 		
 	g_free(ecs->priv);
 
-	((GObjectClass *)ecs_parent_class)->finalize(o);
+	((GObjectClass *)e_cert_selector_parent_class)->finalize(o);
 }
 
 static void
-ecs_class_init(ECertSelectorClass *klass)
+e_cert_selector_class_init(ECertSelectorClass *klass)
 {
-	ecs_parent_class = g_type_class_ref(gtk_dialog_get_type());
-
-	((GObjectClass *)klass)->finalize = ecs_finalise;
-	((GtkDialogClass *)klass)->response = ecs_response;
+	((GObjectClass *)klass)->finalize = e_cert_selector_finalise;
+	((GtkDialogClass *)klass)->response = e_cert_selector_response;
 
 	ecs_signals[ECS_SELECTED] =
 		g_signal_new("selected",
@@ -254,5 +250,3 @@ ecs_class_init(ECertSelectorClass *klass)
 			     g_cclosure_marshal_VOID__POINTER,
 			     G_TYPE_NONE, 1, G_TYPE_POINTER);
 }
-
-E_MAKE_TYPE(e_cert_selector, "ECertSelector", ECertSelector, ecs_class_init, ecs_init, gtk_dialog_get_type())
