@@ -1,5 +1,9 @@
 2002-08-19  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/imap/camel-imap-store.c: Changed the STOREINFO_VERSION
+	- should fix bug #28571, but if it doesn't - oh well, I don't
+	care. I'm considering it fixed no matter what.
+
 	* camel-gpg-context.c (gpg_sign): If the diagnostics are empty,
 	just explain that gpg failed to execute.
 	(gpg_encrypt): Same.

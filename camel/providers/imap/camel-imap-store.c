@@ -1110,7 +1110,7 @@ imap_auth_loop (CamelService *service, CamelException *ex)
 	return TRUE;
 }
 
-#define IMAP_STOREINFO_VERSION 1
+#define IMAP_STOREINFO_VERSION 2
 
 static gboolean
 can_work_offline (CamelDiscoStore *disco_store)
