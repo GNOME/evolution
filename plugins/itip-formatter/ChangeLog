@@ -1,3 +1,9 @@
+2005-01-25  JP Rosevear  <jpr@novell.com>
+
+	* itip-formatter.c (pitip_free): actually destroy the client
+	hashes so the signals get cleaned up
+	(format_itip): create a proper unique classid for the pobject
+
 2005-01-14  JP Rosevear  <jpr@novell.com>
 
 	* itip-formatter.c (extract_itip_data): use

@@ -1499,6 +1499,16 @@ static void
 pitip_free (EMFormatHTMLPObject *pobject) 
 {
 	FormatItipPObject *pitip = (FormatItipPObject *) pobject;
+	int i;
+	
+	for (i = 0; i < E_CAL_SOURCE_TYPE_LAST; i++) {
+		if (pitip->source_lists[i])
+		g_object_unref (pitip->source_lists[i]);
+		pitip->source_lists[i] = NULL;
+		
+		g_hash_table_destroy (pitip->ecals[i]);
+		pitip->ecals[i] = NULL;
+	}
 
 	g_free (pitip->vcalendar);
 	pitip->vcalendar = NULL;
@@ -1537,8 +1547,11 @@ format_itip (EPlugin *ep, EMFormatHookTarget *target)
 {
 	FormatItipPObject *pitip;
 	GConfClient *gconf;
+	char *classid;
 	
-	pitip = (FormatItipPObject *) em_format_html_add_pobject ((EMFormatHTML *) target->format, sizeof (FormatItipPObject), CLASSID, target->part, format_itip_object);
+	classid = g_strdup_printf("itip:///%s", ((EMFormat *) target->format)->part_id->str);
+
+	pitip = (FormatItipPObject *) em_format_html_add_pobject ((EMFormatHTML *) target->format, sizeof (FormatItipPObject), classid, target->part, format_itip_object);
 	pitip->pobject.free = pitip_free;
 
 	gconf = gconf_client_get_default ();
@@ -1546,8 +1559,10 @@ format_itip (EPlugin *ep, EMFormatHookTarget *target)
 	g_object_unref (gconf);
 	
 	camel_stream_printf (target->stream, "<table border=0 width=\"100%%\" cellpadding=3><tr>");
-	camel_stream_printf (target->stream, "<td valign=top><object classid=\"%s\"></object></td><td width=100%% valign=top>", CLASSID);
+	camel_stream_printf (target->stream, "<td valign=top><object classid=\"%s\"></object></td><td width=100%% valign=top>", classid);
 	camel_stream_printf (target->stream, "</td></tr></table>");
+
+	g_free (classid);
 }
 
 static void
