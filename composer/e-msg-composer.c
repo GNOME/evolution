@@ -351,7 +351,7 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 	CamelMultipart *body = NULL;
 	CamelContentType *type;
 	CamelMimeMessage *new;
-	const char *charset;
+	const char *charset = NULL;
 	CamelStream *stream;
 	CamelMimePart *part;
 	CamelException ex;
@@ -403,7 +403,7 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 	}
 	
 	stream = camel_stream_mem_new_with_byte_array (data);
-
+	
 	/* convert the stream to the appropriate charset */
 	if (charset && strcasecmp (charset, "UTF-8") != 0) {
 		CamelStreamFilter *filter_stream;
