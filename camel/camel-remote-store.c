@@ -340,7 +340,9 @@ remote_send_string (CamelRemoteStore *store, CamelException *ex, char *fmt, va_l
 		if (strncmp (cmdbuf, "PASS ", 5) == 0)
 			fprintf (stderr, "sending : PASS xxxx\n");
 		else if (strstr (cmdbuf, "LOGIN \""))
-			fprintf (stderr, "sending : ---- LOGIN \"xxxx\" \"xxxx\"\n");
+			fprintf (stderr, "sending : ------ LOGIN \"xxxx\" \"xxxx\"\n");
+		else if (strstr (cmdbuf, "LOGIN {"))
+			fprintf (stderr, "sending : ------ LOGIN {N+} ....\n");
 		else
 			fprintf (stderr, "sending : %s", cmdbuf);
 	}

@@ -1,3 +1,9 @@
+2001-08-28  Peter Williams  <peterw@ximian.com>
+
+	* camel-remote-store.c (remote_send_string): Don't reveal the
+	user's IMAP password if their server supports LITERALPLUS. Also
+	add some more dashes to make it line up nicely :-)
+
 2001-08-28  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-tcp-stream-ssl.c (ssl_bad_cert): If the user accepts the
