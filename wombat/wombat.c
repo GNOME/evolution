@@ -69,10 +69,13 @@ last_book_gone_cb (PASBookFactory *factory, gpointer data)
 	queue_termination ();
 }
 
-static void
+static gboolean
 setup_pas (int argc, char **argv)
 {
 	pas_book_factory = pas_book_factory_new ();
+
+	if (!pas_book_factory)
+		return FALSE;
 
 	pas_book_factory_register_backend (
 		pas_book_factory, "file", pas_backend_file_new);
@@ -87,7 +90,13 @@ setup_pas (int argc, char **argv)
 			    GTK_SIGNAL_FUNC (last_book_gone_cb),
 			    NULL);
 
-	pas_book_factory_activate (pas_book_factory);
+	if (!pas_book_factory_activate (pas_book_factory)) {
+		bonobo_object_unref (BONOBO_OBJECT (pas_book_factory));
+		pas_book_factory = NULL;
+		return FALSE;
+	}
+
+	return TRUE;
 }
 
 
@@ -128,7 +137,7 @@ register_pcs (CORBA_Object obj)
 }
 
 /* Creates the calendar factory object and registers it */
-static void
+static gboolean
 setup_pcs (int argc, char **argv)
 {
 	CORBA_Object object;
@@ -137,37 +146,40 @@ setup_pcs (int argc, char **argv)
 
 	if (!cal_factory) {
 		g_message ("setup_pcs(): Could not create the calendar factory");
-		return;
+		return FALSE;
 	}
 
 	cal_factory_register_method (cal_factory, "file", CAL_BACKEND_FILE_TYPE);
 
 	object = bonobo_object_corba_objref (BONOBO_OBJECT (cal_factory));
 
-	if (! register_pcs (object)) {
+	if (!register_pcs (object)) {
 		bonobo_object_unref (BONOBO_OBJECT (cal_factory));
 		cal_factory = NULL;
-		return;
+		return FALSE;
 	}
 
 	gtk_signal_connect (GTK_OBJECT (cal_factory),
 			    "last_calendar_gone",
 			    GTK_SIGNAL_FUNC (last_calendar_gone_cb),
 			    NULL);
+
+	return TRUE;
 }
 
 
 
-static void
+static gboolean
 setup_config (int argc, char **argv)
 {
+	return TRUE;
 }
 
 static void
 setup_vfs (int argc, char **argv)
 {
 	if (!gnome_vfs_init ()) {
-		g_message ("setup_vfs(): could not initialize GNOME-VFS");
+		g_message (_("setup_vfs(): could not initialize GNOME-VFS"));
 		exit (EXIT_FAILURE);
 	}
 }
@@ -177,8 +189,12 @@ setup_vfs (int argc, char **argv)
 static void
 init_corba (int *argc, char **argv)
 {
-	gnome_init_with_popt_table ("Personal Addressbook Server", "0.0",
-				    *argc, argv, oaf_popt_options, 0, NULL);
+	if (gnome_init_with_popt_table ("Personal Addressbook Server", "0.0",
+					*argc, argv, oaf_popt_options, 0, NULL) != 0) {
+		g_message (_("init_corba(): could not initialize GNOME"));
+		exit (EXIT_FAILURE);
+	}
+
 	oaf_init (*argc, argv);
 }
 
@@ -188,7 +204,7 @@ init_bonobo (int *argc, char **argv)
 	init_corba (argc, argv);
 
 	if (!bonobo_init (CORBA_OBJECT_NIL, CORBA_OBJECT_NIL, CORBA_OBJECT_NIL)) {
-		g_message ("init_bonobo(): could not initialize Bonobo");
+		g_message (_("init_bonobo(): could not initialize Bonobo"));
 		exit (EXIT_FAILURE);
 	}
 }
@@ -196,23 +212,24 @@ init_bonobo (int *argc, char **argv)
 int
 main (int argc, char **argv)
 {
-	{
-		char *c = malloc (10);
-		if (c)
-			free (c);
-	}
-	init_bonobo  (&argc, argv);
-	setup_vfs    (argc, argv);
+	bindtextdomain (PACKAGE, EVOLUTION_LOCALEDIR);
+	textdomain (PACKAGE);
 
-	setup_pas    (argc, argv);
-	setup_pcs    (argc, argv);
-	setup_config (argc, argv);
+	init_bonobo (&argc, argv);
+	setup_vfs (argc, argv);
 
 	/*g_log_set_always_fatal (G_LOG_LEVEL_ERROR |
 				G_LOG_LEVEL_CRITICAL |
 				G_LOG_LEVEL_WARNING);*/
 
-	bonobo_main  ();
+	if (!(setup_pas (argc, argv)
+	      && setup_pcs (argc, argv)
+	      && setup_config (argc, argv))) {
+		g_message ("main(): could not initialize all of the Wombat services");
+		exit (EXIT_FAILURE);
+	}
+
+	bonobo_main ();
 
 	bonobo_object_unref (BONOBO_OBJECT (cal_factory));
 	cal_factory = NULL;

@@ -1,3 +1,13 @@
+2001-01-17  Federico Mena Quintero  <federico@ximian.com>
+
+	* wombat.c (setup_pcs): Return a success value.
+	(setup_pas): Likewise.
+	(setup_config): Likewise.
+	(main): Exit if we could not initialize all of the Wombat
+	services.
+	(init_corba): Check the return value of gnome_init_with_popt_table().
+	(main): Call bindtextdomain() and textdomain().
+
 2000-12-23  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* Makefile.am (INCLUDES): Add `-I$(top_builddir)/calendar/pcs' for
