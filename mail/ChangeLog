@@ -1,3 +1,12 @@
+2002-09-06  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* upgrade-mailer.c (upgrade): Sync the database after upgrading
+	mailer stuff.
+	(imap_url_upgrade): Since we need 'p' if we fail to find the
+	folder, don't g_free it until later.
+	(hex_encode): Don't forget to increment inptr after hex encoding a
+	character.
+
 2002-09-05  Jeffrey Stedfast  <fejj@ximian.com>
 
 	All this snot is to fix bug #29930. What I think was happening was

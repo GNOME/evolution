@@ -151,6 +151,7 @@ hex_encode (const char *in, size_t len)
 			*outptr++ = '%';
 			*outptr++ = tohex[(*inptr >> 4) & 0xf];
 			*outptr++ = tohex[*inptr & 0xf];
+			inptr++;
 		} else
 			*outptr++ = *inptr++;
 	}
@@ -283,13 +284,12 @@ imap_url_upgrade (GHashTable *imap_sources, const char *uri)
 	
 	fprintf (stderr, "checking for folder %s on %s... ", p, base_url);
 	folder = find_folder (si->folders, p, &dir_sep);
-	g_free (p);
 	if (folder == NULL) {
 		fprintf (stderr, "not found.\n");
+		folder = p;
 		if (si->namespace) {
 			if (!si->dir_sep) {
 				fprintf (stderr, "checking for directory separator in namespace param... ");
-				folder = p;
 				if (*si->namespace == '/') {
 					dir_sep = '/';
 				} else {
@@ -299,17 +299,20 @@ imap_url_upgrade (GHashTable *imap_sources, const char *uri)
 					
 					dir_sep = (char) *p;
 				}
-			} else
+			} else {
 				dir_sep = si->dir_sep;
+			}
 			
 			if (dir_sep) {
 				fprintf (stderr, "found: '%c'\n", dir_sep);
+				p = folder;
 				folder = hex_encode (folder, strlen (folder));
 				if (si->namespace[strlen (si->namespace) - 1] == dir_sep)
 					new = g_strdup_printf ("%s/%s%s", base_url, si->namespace, folder);
 				else
 					new = g_strdup_printf ("%s/%s%c%s", base_url, si->namespace, dir_sep, folder);
 				g_free (folder);
+				folder = p;
 				
 				p = new + strlen (base_url) + 1;
 				while (*p) {
@@ -324,9 +327,13 @@ imap_url_upgrade (GHashTable *imap_sources, const char *uri)
 		} else {
 			g_warning ("Cannot update settings for imap folder %s: unknown namespace", uri);
 		}
+		
 		g_free (base_url);
+		g_free (folder);
+		
 		return new;
-	}
+	} else
+		g_free (p);
 	
 	fprintf (stderr, "found.\n");
 	new = g_strdup_printf ("%s/%s", base_url, folder);
@@ -948,14 +955,18 @@ static int
 upgrade (void)
 {
 	Bonobo_ConfigDatabase db;
+	CORBA_Environment ev;
 	
 	if ((db = get_config_db ()) == CORBA_OBJECT_NIL)
 		g_error ("Could not get config db");
 	
 	mailer_upgrade (db);
 	
+	CORBA_exception_init (&ev);
+	Bonobo_ConfigDatabase_sync (db, &ev);
+	
 	gtk_main_quit ();
-
+	
 	return FALSE;
 }
 
