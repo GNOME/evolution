@@ -1,3 +1,24 @@
+2001-02-06  Chris Toshok  <toshok@ximian.com>
+
+	* backend/pas/pas-backend-ldap.c (pas_backend_ldap_init): don't
+	need the = NULL's since we g_new0.
+	(check_for_evolve_person): new function.
+	(pas_backend_ldap_connect): check to see if the evolvePerson
+	objectclass is there.
+	(build_mods_from_ecards): right now, just silently skip the extra
+	attributes if we don't support evolvePerson.
+	(add_objectclass_mod): new function, add both inetOrgPerson and
+	(if it's available) evolvePerson as objectclasses.
+	(pas_backend_ldap_process_authenticate_user): also check to see if
+	evolvePerson is there, if we couldn't do it (due to auth reasons)
+	in the connect method.
+	(prop_info): change the telephoneNumber LDAP attribute to be used
+	for evolution's business phone numbers.  the primary phone number
+	will be a single valued attribute on evolvePerson.
+	(business_populate): new function.
+	(business_ber): new function.
+	(business_compare): new function.
+
 2001-02-05  Chris Toshok  <toshok@ximian.com>
 
 	* backend/pas/pas-backend-ldap.c (create_card_handler): err,

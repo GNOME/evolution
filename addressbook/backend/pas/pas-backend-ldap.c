@@ -42,8 +42,8 @@
 
 #define LDAP_MAX_SEARCH_RESPONSES 100
 
-/* this really needs addressing */
-#define OBJECT_CLASS "inetOrgPerson"
+#define INETORGPERSON "inetOrgPerson"
+#define EVOLVEPERSON  "evolvePerson"
 
 
 static gchar *query_prop_to_ldap(gchar *query_prop);
@@ -64,6 +64,11 @@ struct _PASBackendLDAPPrivate {
 	GList    *book_views;
 
 	LDAP     *ldap;
+
+	/* whether or not there's support for the objectclass we need
+           to store all our additional fields */
+	gboolean evolvePersonSupported;
+	gboolean evolvePersonChecked;
 
 	/* whether or not there's a request in process on our LDAP* */
 	LDAPOp *current_op;
@@ -116,6 +121,10 @@ static void homephone_populate (ECardSimple *card, char **values);
 struct berval** homephone_ber (ECardSimple *card);
 gboolean homephone_compare (ECardSimple *ecard1, ECardSimple *ecard2);
 
+static void business_populate (ECardSimple *card, char **values);
+struct berval** business_ber (ECardSimple *card);
+gboolean business_compare (ECardSimple *ecard1, ECardSimple *ecard2);
+
 struct prop_info {
 	ECardSimpleField field_id;
 	char *query_prop;
@@ -123,6 +132,7 @@ struct prop_info {
 #define PROP_TYPE_STRING   0x01
 #define PROP_TYPE_LIST     0x02
 #define PROP_DN            0x04
+#define PROP_EVOLVE        0x08
 	int prop_type;
 
 	/* the remaining items are only used for the TYPE_LIST props */
@@ -137,51 +147,56 @@ struct prop_info {
 } prop_info[] = {
 
 #define LIST_PROP(fid,q,a,ctor,ber,cmp) {fid, q, a, PROP_TYPE_LIST, ctor, ber, cmp}
+#define E_LIST_PROP(fid,q,a,ctor,ber,cmp) {fid, q, a, PROP_TYPE_LIST | PROP_EVOLVE, ctor, ber, cmp}
 #define STRING_PROP(fid,q,a) {fid, q, a, PROP_TYPE_STRING}
+#define E_STRING_PROP(fid,q,a) {fid, q, a, PROP_TYPE_STRING | PROP_EVOLVE}
+
+
+	/* name fields */
+	STRING_PROP (E_CARD_SIMPLE_FIELD_FULL_NAME,   "full_name", "cn" ),
+	STRING_PROP (E_CARD_SIMPLE_FIELD_FAMILY_NAME, "family_name", "sn" ),
+
+	/* email addresses */
+	LIST_PROP   (E_CARD_SIMPLE_FIELD_EMAIL, "email", "mail", email_populate, email_ber, email_compare),
+
+	/* phone numbers */
+	E_STRING_PROP (E_CARD_SIMPLE_FIELD_PHONE_PRIMARY,      "phone", "primaryTelephoneNumber"),
+	LIST_PROP     (E_CARD_SIMPLE_FIELD_PHONE_BUSINESS,     "business_phone", "telephoneNumber", business_populate, business_ber, business_compare),
+	LIST_PROP     (E_CARD_SIMPLE_FIELD_PHONE_HOME,         "home_phone", "homePhone", homephone_populate, homephone_ber, homephone_compare),
+	STRING_PROP   (E_CARD_SIMPLE_FIELD_PHONE_MOBILE,       "mobile", "mobile"),
+	E_STRING_PROP (E_CARD_SIMPLE_FIELD_PHONE_CAR,          "car", "carPhone"),
+	STRING_PROP   (E_CARD_SIMPLE_FIELD_PHONE_BUSINESS_FAX, "business_fax", "facsimileTelephoneNumber"), 
+	E_STRING_PROP (E_CARD_SIMPLE_FIELD_PHONE_BUSINESS_FAX, "home_fax", "homeFacsimileTelephoneNumber"), 
+	E_STRING_PROP (E_CARD_SIMPLE_FIELD_PHONE_OTHER,        "other_phone", "otherTelephoneNumber"), 
+	STRING_PROP   (E_CARD_SIMPLE_FIELD_PHONE_ISDN,         "isdn", "internationalISDNNumber"), 
+	STRING_PROP   (E_CARD_SIMPLE_FIELD_PHONE_PAGER,        "pager", "pager"),
+
+	/* org information */
+	STRING_PROP   (E_CARD_SIMPLE_FIELD_ORG,       "org",       "o"),
+	STRING_PROP   (E_CARD_SIMPLE_FIELD_ORG_UNIT,  "org_unit",  "ou"),
+	STRING_PROP   (E_CARD_SIMPLE_FIELD_OFFICE,    "office",    "roomNumber"),
+	STRING_PROP   (E_CARD_SIMPLE_FIELD_TITLE,     "title",     "title"),
+	E_STRING_PROP (E_CARD_SIMPLE_FIELD_ROLE,      "role",      "businessRole"), 
+	E_STRING_PROP (E_CARD_SIMPLE_FIELD_MANAGER,   "manager",   "managerName"), 
+	E_STRING_PROP (E_CARD_SIMPLE_FIELD_ASSISTANT, "assistant", "assistantName"), 
+
+	/* addresses */
+	STRING_PROP   (E_CARD_SIMPLE_FIELD_ADDRESS_BUSINESS, "business_address", "postalAddress"),
+	STRING_PROP   (E_CARD_SIMPLE_FIELD_ADDRESS_HOME,     "home_address",     "homePostalAddress"),
+	E_STRING_PROP (E_CARD_SIMPLE_FIELD_ADDRESS_OTHER,    "other_address",    "otherPostalAddress"),
+
+	/* misc fields */
+	STRING_PROP (E_CARD_SIMPLE_FIELD_URL,           "uri", "labeledURI"),
+	/* map nickname to displayName */
+	STRING_PROP   (E_CARD_SIMPLE_FIELD_NICKNAME,    "nickname",  "displayName"),
+	E_STRING_PROP (E_CARD_SIMPLE_FIELD_SPOUSE,      "spouse", "spouseName"), 
+	E_STRING_PROP (E_CARD_SIMPLE_FIELD_NOTE,        "note", "note"), 
+	E_STRING_PROP (E_CARD_SIMPLE_FIELD_ANNIVERSARY, "anniversary", "anniversary"), 
+	E_STRING_PROP (E_CARD_SIMPLE_FIELD_BIRTH_DATE,  "birth_date", "birthDate"), 
+	E_STRING_PROP (E_CARD_SIMPLE_FIELD_MAILER,      "mailer", "mailer"), 
 
 /*  	E_CARD_SIMPLE_FIELD_FILE_AS, */
-	STRING_PROP (E_CARD_SIMPLE_FIELD_FULL_NAME,     "full_name", "cn" ),
-	STRING_PROP (E_CARD_SIMPLE_FIELD_FAMILY_NAME,   "family_name", "sn" ),
-	LIST_PROP   (E_CARD_SIMPLE_FIELD_EMAIL,         "email", "mail", email_populate, email_ber, email_compare),
-/*      don't need E_CARD_SIMPLE_FIELD_EMAIL_2, */
-/*      don't need E_CARD_SIMPLE_FIELD_EMAIL_3, */
-
-	STRING_PROP (E_CARD_SIMPLE_FIELD_PHONE_PRIMARY, "phone", "telephoneNumber"),
-
-#if 0
-	LIST_PROP (E_CARD_SIMPLE_FIELD_PHONE_BUSINESS, "business_phone", "businessPhone", business_populate, business_ber, business_compare),
-#endif
-/*  	E_CARD_SIMPLE_FIELD_PHONE_BUSINESS, */
-/*      E_CARD_SIMPLE_FIELD_PHONE_BUSINESS_2, */
-
-	LIST_PROP (E_CARD_SIMPLE_FIELD_PHONE_HOME,    "home_phone", "homePhone", homephone_populate, homephone_ber, homephone_compare),
-/*	don't need E_CARD_SIMPLE_FIELD_PHONE_HOME_2, */
-	STRING_PROP (E_CARD_SIMPLE_FIELD_ORG,           "org", "o"),
-	STRING_PROP (E_CARD_SIMPLE_FIELD_ADDRESS_BUSINESS, "business_address", "postalAddress"),
-	STRING_PROP (E_CARD_SIMPLE_FIELD_ADDRESS_HOME, "home_address", "homePostalAddress"),
-	STRING_PROP (E_CARD_SIMPLE_FIELD_PHONE_MOBILE,  "mobile", "mobile"),
-/*      E_CARD_SIMPLE_FIELD_PHONE_CAR, */
-	STRING_PROP (E_CARD_SIMPLE_FIELD_PHONE_BUSINESS_FAX, "business_fax", "facsimileTelephoneNumber"), 
-/*      E_CARD_SIMPLE_FIELD_PHONE_HOME_FAX, */
-	STRING_PROP (E_CARD_SIMPLE_FIELD_PHONE_ISDN, "isdn", "internationalISDNNumber"), 
-/*      E_CARD_SIMPLE_FIELD_PHONE_OTHER, */
-	STRING_PROP (E_CARD_SIMPLE_FIELD_PHONE_PAGER,   "pager", "pager"),
-/*      E_CARD_SIMPLE_FIELD_ADDRESS_OTHER, */
-	STRING_PROP (E_CARD_SIMPLE_FIELD_URL,           "uri", "labeledURI"),
-	STRING_PROP (E_CARD_SIMPLE_FIELD_ORG_UNIT,      "org_unit",  "ou"),
-	STRING_PROP (E_CARD_SIMPLE_FIELD_OFFICE,        "office",  "roomNumber"),
-	STRING_PROP (E_CARD_SIMPLE_FIELD_TITLE,         "title", "title"),
-/*      E_CARD_SIMPLE_FIELD_ROLE, */
-/*	STRING_PROP (E_CARD_SIMPLE_FIELD_MANAGER,       "manager",  "manager"), */
-/*	STRING_PROP (E_CARD_SIMPLE_FIELD_ASSISTANT,     "assistant", "secretary"), */
-	/* map nickname to displayName */
-	STRING_PROP (E_CARD_SIMPLE_FIELD_NICKNAME,      "nickname",  "displayName"),
-/*      E_CARD_SIMPLE_FIELD_SPOUSE, */
-/*      E_CARD_SIMPLE_FIELD_NOTE, */
 /*      E_CARD_SIMPLE_FIELD_FBURL, */
-/*      E_CARD_SIMPLE_FIELD_ANNIVERSARY, */
-/*      E_CARD_SIMPLE_FIELD_BIRTH_DATE, */
-/*  	E_CARD_SIMPLE_FIELD_MAILER, */
 /*  	E_CARD_SIMPLE_FIELD_NAME_OR_ORG, */
 
 
@@ -248,6 +263,14 @@ view_destroy(GtkObject *object, gpointer data)
 }
 
 static void
+check_for_evolve_person (PASBackendLDAP *bl)
+{
+	/* XXX for now, we don't have an evolve person */
+	bl->priv->evolvePersonChecked = TRUE;
+	bl->priv->evolvePersonSupported = FALSE;
+}
+
+static void
 pas_backend_ldap_connect (PASBackendLDAP *bl)
 {
 	PASBackendLDAPPrivate *blpriv = bl->priv;
@@ -277,6 +300,11 @@ pas_backend_ldap_connect (PASBackendLDAP *bl)
 			   blpriv->ldap_rootdn ? blpriv->ldap_rootdn : "");
 		blpriv->connected = FALSE;
 	}
+
+	/* check to see if evolvePerson is supported, if we can (me
+           might not be able to if we can't authenticate.  if we
+           can't, try again in auth_user.) */
+	check_for_evolve_person (bl);
 }
 
 static void
@@ -420,7 +448,7 @@ create_dn_from_ecard (ECardSimple *card, const char *root_dn)
 }
 
 static GPtrArray*
-build_mods_from_ecards (ECardSimple *current, ECardSimple *new, gboolean *new_dn_needed)
+build_mods_from_ecards (PASBackendLDAP *bl, ECardSimple *current, ECardSimple *new, gboolean *new_dn_needed)
 {
 	gboolean adding = (current == NULL);
 	GPtrArray *result = g_ptr_array_new();
@@ -436,6 +464,11 @@ build_mods_from_ecards (ECardSimple *current, ECardSimple *new, gboolean *new_dn
 		char *new_prop = NULL;
 		char *current_prop = NULL;
 		gboolean include;
+
+		/* XXX if it's an evolvePerson prop and the ldap
+                   server doesn't support that objectclass, skip it. */
+		if (prop_info[i].prop_type & PROP_EVOLVE && !bl->priv->evolvePersonSupported)
+			continue;
 
 		/* get the value for the new card, and compare it to
                    the value in the current card to see if we should
@@ -509,15 +542,45 @@ build_mods_from_ecards (ECardSimple *current, ECardSimple *new, gboolean *new_dn
 }
 
 static void
+add_objectclass_mod (PASBackendLDAP *bl, GPtrArray *mod_array)
+{
+	LDAPMod *objectclass_mod;
+
+	objectclass_mod = g_new (LDAPMod, 1);
+	objectclass_mod->mod_op = LDAP_MOD_ADD;
+	objectclass_mod->mod_type = g_strdup ("objectClass");
+	objectclass_mod->mod_values = g_new (char*, bl->priv->evolvePersonSupported ? 3 : 2);
+	objectclass_mod->mod_values[0] = g_strdup (INETORGPERSON);
+	if (bl->priv->evolvePersonSupported) {
+		objectclass_mod->mod_values[1] = g_strdup (EVOLVEPERSON);
+		objectclass_mod->mod_values[2] = NULL;
+	}
+	else {
+		objectclass_mod->mod_values[1] = NULL;
+	}
+	g_ptr_array_add (mod_array, objectclass_mod);
+}
+
+static void
 free_mods (GPtrArray *mods)
 {
 	int i = 0;
 	LDAPMod *mod;
 
 	while ((mod = g_ptr_array_index (mods, i++))) {
+		int j;
 		g_free (mod->mod_type);
 
-		/* XXX we leak the values */
+		if (mod->mod_op & LDAP_MOD_BVALUES) {
+			for (j = 0; mod->mod_bvalues[j]; j++) {
+				g_free (mod->mod_bvalues[j]->bv_val);
+				g_free (mod->mod_bvalues[j]);
+			}
+		}
+		else {
+			for (j = 0; mod->mod_values[j]; j++)
+				g_free (mod->mod_values[j]);
+		}
 		g_free (mod);
 	}
 
@@ -541,7 +604,6 @@ create_card_handler (PASBackend *backend, LDAPOp *op)
 	int            ldap_error;
 	GPtrArray *mod_array;
 	LDAPMod **ldap_mods;
-	LDAPMod *objectclass_mod;
 	LDAP *ldap;
 
 	printf ("vcard = %s\n", create_op->vcard);
@@ -554,19 +616,29 @@ create_card_handler (PASBackend *backend, LDAPOp *op)
 	ldap = bl->priv->ldap;
 
 	/* build our mods */
-	mod_array = build_mods_from_ecards (NULL, new_card, NULL);
+	mod_array = build_mods_from_ecards (bl, NULL, new_card, NULL);
+
+	if (!mod_array) {
+		/* there's an illegal field in there.  report
+                   UnsupportedAttribute back */
+		g_free (dn);
+
+		gtk_object_unref (GTK_OBJECT(new_card));
+
+		pas_book_respond_create (create_op->op.book,
+					 GNOME_Evolution_Addressbook_BookListener_UnsupportedField,
+					 dn);
+
+		return TRUE;
+	}
 
 	/* remove the NULL at the end */
 	g_ptr_array_remove (mod_array, NULL);
 
-	objectclass_mod = g_new (LDAPMod, 1);
-	objectclass_mod->mod_op = LDAP_MOD_ADD;
-	objectclass_mod->mod_type = g_strdup ("objectClass");
-	objectclass_mod->mod_values = g_new (char*, 2);
-	objectclass_mod->mod_values[0] = g_strdup (OBJECT_CLASS);
-	objectclass_mod->mod_values[1] = NULL;
-	g_ptr_array_add (mod_array, objectclass_mod);
+	/* add our objectclass(es) */
+	add_objectclass_mod (bl, mod_array);
 
+	/* then put the NULL back */
 	g_ptr_array_add (mod_array, NULL);
 
 #ifdef LDAP_DEBUG_ADD
@@ -801,7 +873,7 @@ modify_card_handler (PASBackend *backend, LDAPOp *op)
 		gboolean need_new_dn;
 
 		/* build our mods */
-		mod_array = build_mods_from_ecards (current_card, new_card, &need_new_dn);
+		mod_array = build_mods_from_ecards (bl, current_card, new_card, &need_new_dn);
 		if (mod_array->len > 0) {
 			ldap_mods = (LDAPMod**)mod_array->pdata;
 
@@ -1136,6 +1208,70 @@ gboolean
 homephone_compare (ECardSimple *ecard1, ECardSimple *ecard2)
 {
 	int phone_ids[2] = { E_CARD_SIMPLE_FIELD_PHONE_HOME, E_CARD_SIMPLE_FIELD_PHONE_HOME_2 };
+	const char *phone1, *phone2;
+	int i;
+
+	for (i = 0; i < 2; i ++) {
+		gboolean equal;
+		phone1 = e_card_simple_get (ecard1, phone_ids[i]);
+		phone2 = e_card_simple_get (ecard2, phone_ids[i]);
+
+		if (phone1 && phone2)
+			equal = !strcmp (phone1, phone2);
+		else
+			equal = (!!phone1 == !!phone2);
+
+		if (!equal)
+			return equal;
+	}
+
+	return FALSE;;
+}
+
+static void
+business_populate(ECardSimple *card, char **values)
+{
+	if (values[0])
+		e_card_simple_set (card, E_CARD_SIMPLE_FIELD_PHONE_BUSINESS, values[0]);
+	if (values[1])
+		e_card_simple_set (card, E_CARD_SIMPLE_FIELD_PHONE_BUSINESS_2, values[1]);
+}
+
+struct berval**
+business_ber(ECardSimple *card)
+{
+	struct berval** result;
+	const char *business_phones[3];
+	int i, j, num;
+
+	num = 0;
+	if ((business_phones[0] = e_card_simple_get (card, E_CARD_SIMPLE_FIELD_PHONE_BUSINESS)))
+		num++;
+	if ((business_phones[1] = e_card_simple_get (card, E_CARD_SIMPLE_FIELD_PHONE_BUSINESS_2)))
+		num++;
+
+	result = g_new (struct berval*, num + 1);
+
+	for (i = 0; i < num; i ++)
+		result[i] = g_new (struct berval, 1);
+
+	j = 0;
+	for (i = 0; i < 2; i ++) {
+		if (business_phones[i]) {
+			result[j]->bv_val = g_strdup (business_phones[i]);
+			result[j++]->bv_len = strlen (business_phones[i]);
+		}
+	}
+
+	result[num] = NULL;
+
+	return result;
+}
+
+gboolean
+business_compare (ECardSimple *ecard1, ECardSimple *ecard2)
+{
+	int phone_ids[2] = { E_CARD_SIMPLE_FIELD_PHONE_BUSINESS, E_CARD_SIMPLE_FIELD_PHONE_BUSINESS_2 };
 	const char *phone1, *phone2;
 	int i;
 
@@ -1758,6 +1894,9 @@ pas_backend_ldap_process_authenticate_user (PASBackend *backend,
 
 	pas_book_respond_authenticate_user (book,
 				    ldap_error_to_response (ldap_error));
+
+	if (!bl->priv->evolvePersonChecked)
+		check_for_evolve_person (bl);
 }
 
 static gboolean
@@ -2062,9 +2201,6 @@ pas_backend_ldap_init (PASBackendLDAP *backend)
 	PASBackendLDAPPrivate *priv;
 
 	priv            = g_new0 (PASBackendLDAPPrivate, 1);
-	priv->connected = FALSE;
-	priv->clients   = NULL;
-	priv->uri       = NULL;
 
 	backend->priv = priv;
 }
