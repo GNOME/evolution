@@ -220,7 +220,7 @@ save_part(GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, void *d)
 	 * the POSIX access-call should suffice for checking the file existence.
 	 */
 
-	if (access (save, F_OK))
+	if (access(save, F_OK) == 0)
 		doit = e_error_run(NULL, E_ERROR_ASK_FILE_EXISTS_OVERWRITE, save, NULL) == GTK_RESPONSE_OK;
 
 	if (doit)
