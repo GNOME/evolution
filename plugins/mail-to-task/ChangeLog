@@ -1,4 +1,9 @@
 2004-10-21  Rodrigo Moya <rodrigo@novell.com>
 
+	* org-gnome-mail-to-task.eplug.in: fixed to make the plugin show
+	up in the correct place.
+
+2004-10-21  Rodrigo Moya <rodrigo@novell.com>
+
 	* mail-to-task.c: implemented plugin for converting selected
 	mails to tasks.

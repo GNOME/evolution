@@ -9,11 +9,11 @@
 
     <!-- hook into the uri popup menu -->
     <hook class="org.gnome.evolution.mail.popup:1.0">
-      <menu id="org.gnome.evolution.mail.folderview.popup.uri" target="select">
+      <menu id="org.gnome.mail.folderview.popup.select" target="select">
 	<item
 	  type="item"
 	  path="71.mail_to_task"
-	  image="stock_tasks"
+	  icon="stock_tasks"
 	  label="Con_vert to Task"
 	  enable="one"
 	  visible="one"
