@@ -1,5 +1,17 @@
 2000-01-11  Federico Mena Quintero  <federico@helixcode.com>
 
+	* cal.c: Removed the CORBA listener methods, adjusted for the new
+	IDL.
+
+	* cal-listener.c (cal_listener_init): Create the private
+	structure.  In it we hold a reference to the calendar the listener
+	is watching.
+	(cal_listener_destroy): Destroy the private structure and unref
+	the calendar.
+	(Listener_cal_loaded): Stuff the calendar into our private data.
+	(Listener_obj_added): Adjusted for new IDL.
+	(Listener_obj_removed): Likewise.
+
 	* gnome-calendar.idl: New IDL for the personal calendar server.
 
 	* cal.h cal.c: New files with the calendar object.

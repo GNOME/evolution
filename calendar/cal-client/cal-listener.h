@@ -42,6 +42,9 @@ typedef struct _CalListenerClass CalListenerClass;
 
 struct _CalListener {
 	GnomeObject object;
+
+	/* Private data */
+	gpointer priv;
 };
 
 struct _CalListenerClass {
@@ -60,6 +63,8 @@ CalListener *cal_listener_construct (CalListener *listener, GNOME_Calendar_Liste
 GNOME_Calendar_Listener cal_listener_corba_object_create (GnomeObject *object);
 
 CalListener *cal_listener_new (void);
+
+GNOME_Calendar_Cal cal_listener_get_calendar (CalListener *listener);
 
 POA_GNOME_Calendar_Listener__epv *cal_listener_get_epv (void);
 

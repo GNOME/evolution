@@ -24,6 +24,14 @@
 
 
 
+/* Private part of the CalListener structure */
+typedef struct {
+	/* The calendar this listener refers to */
+	GNOME_Calendar_Cal cal;
+} CalListenerPrivate;
+
+
+
 /* Signal IDs */
 enum {
 	CAL_LOADED,
@@ -34,10 +42,14 @@ enum {
 };
 
 static void cal_listener_class_init (CalListenerClass *class);
+static void cal_listener_init (CalListener *listener);
+static void cal_listener_destroy (GtkObject *object);
 
 static POA_GNOME_Calendar_Listener__vepv cal_listener_vepv;
 
 static guint cal_listener_signals[LAST_SIGNAL];
+
+static GnomeObjectClass *parent_class;
 
 
 
@@ -61,7 +73,7 @@ cal_listener_get_type (void)
 			sizeof (CalListener),
 			sizeof (CalListenerClass),
 			(GtkClassInitFunc) cal_listener_class_init,
-			(GtkObjectInitFunc) NULL,
+			(GtkObjectInitFunc) cal_listener_init,
 			NULL, /* reserved_1 */
 			NULL, /* reserved_2 */
 			(GtkClassInitFunc) NULL
@@ -89,6 +101,8 @@ cal_listener_class_init (CalListenerClass *class)
 
 	object_class = (GtkObjectClass *) class;
 
+	parent_class = gtk_type_class (gnome_object_get_type ());
+
 	cal_listener_signals[CAL_LOADED] =
 		gtk_signal_new ("cal_loaded",
 				GTK_RUN_FIRST,
@@ -103,32 +117,84 @@ cal_listener_class_init (CalListenerClass *class)
 				GTK_RUN_FIRST,
 				object_class->type,
 				GTK_SIGNAL_OFFSET (CalListenerClass, obj_added),
-				gtk_marshal_NONE__POINTER_POINTER,
-				GTK_TYPE_NONE, 2,
-				GTK_TYPE_POINTER,
+				gtk_marshal_NONE__POINTER,
+				GTK_TYPE_NONE, 1,
 				GTK_TYPE_POINTER);
 	cal_listener_signals[OBJ_REMOVED] =
 		gtk_signal_new ("obj_removed",
 				GTK_RUN_FIRST,
 				object_class->type,
 				GTK_SIGNAL_OFFSET (CalListenerClass, obj_removed),
-				gtk_marshal_NONE__POINTER_POINTER,
-				GTK_TYPE_NONE, 2,
-				GTK_TYPE_POINTER,
+				gtk_marshal_NONE__POINTER,
+				GTK_TYPE_NONE, 1,
 				GTK_TYPE_POINTER);
 	cal_listener_signals[OBJ_CHANGED] =
 		gtk_signal_new ("obj_changed",
 				GTK_RUN_FIRST,
 				object_class->type,
 				GTK_SIGNAL_OFFSET (CalListenerClass, obj_changed),
-				gtk_marshal_NONE__POINTER_POINTER,
-				GTK_TYPE_NONE, 2,
-				GTK_TYPE_POINTER,
+				gtk_marshal_NONE__POINTER,
+				GTK_TYPE_NONE, 1,
 				GTK_TYPE_POINTER);
 
 	gtk_object_class_add_signals (object_class, cal_listener_signals, LAST_SIGNAL);
 
+	object_class->destroy = cal_listener_destroy;
+
 	init_cal_listener_corba_class ();
+}
+
+/* Object initialization function for the calendar listener */
+static void
+cal_listener_init (CalListener *listener)
+{
+	CalListenerPrivate *priv;
+
+	priv = g_new0 (CalListenerPrivate, 1);
+	listener->priv = priv;
+
+	priv->cal = CORBA_OBJECT_NIL;
+}
+
+/* Returns whether a CORBA object is nil */
+static gboolean
+corba_object_is_nil (CORBA_Object object)
+{
+	CORBA_Environment ev;
+	gboolean retval;
+
+	CORBA_exception_init (&ev);
+	retval = CORBA_Object_is_nil (object, &ev);
+	CORBA_exception_free (&ev);
+
+	return retval;
+}
+
+/* Destroy handler for the calendar listener */
+static void
+cal_listener_destroy (GtkObject *object)
+{
+	CalListener *listener;
+	CalListenerPrivate *priv;
+	CORBA_Environment ev;
+
+	g_return_if_fail (object != NULL);
+	g_return_if_fail (IS_CAL_LISTENER (object));
+
+	listener = CAL_LISTENER (object);
+	priv = listener->priv;
+
+	CORBA_exception_init (&ev);
+
+	if (!CORBA_Object_is_nil (priv->cal, &ev)) {
+		GNOME_Unknown_unref (priv->cal, &ev);
+		CORBA_Object_release (priv->cal, &ev);
+	}
+
+	g_free (priv);
+
+	if (GTK_OBJECT_CLASS (parent_class)->destroy)
+		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
 
@@ -143,8 +209,12 @@ Listener_cal_loaded (PortableServer_Servant servant,
 		     CORBA_Environment *ev)
 {
 	CalListener *listener;
+	CalListenerPrivate *priv;
 
 	listener = CAL_LISTENER (gnome_object_from_servant (servant));
+	priv = listener->priv;
+
+	priv->cal = CORBA_Object_duplicate (cal, ev);
 	gtk_signal_emit (GTK_OBJECT (listener), cal_listener_signals[CAL_LOADED],
 			 cal, calobj);
 }
@@ -152,7 +222,6 @@ Listener_cal_loaded (PortableServer_Servant servant,
 /* Listener::obj_added method */
 static void
 Listener_obj_added (PortableServer_Servant servant,
-		    GNOME_Calendar_Cal cal,
 		    GNOME_Calendar_CalObj calobj,
 		    CORBA_Environment *ev)
 {
@@ -160,13 +229,12 @@ Listener_obj_added (PortableServer_Servant servant,
 
 	listener = CAL_LISTENER (gnome_object_from_servant (servant));
 	gtk_signal_emit (GTK_OBJECT (listener), cal_listener_signals[OBJ_ADDED],
-			 cal, calobj);
+			 calobj);
 }
 
 /* Listener::obj_removed method */
 static void
 Listener_obj_removed (PortableServer_Servant servant,
-		      GNOME_Calendar_Cal cal,
 		      GNOME_Calendar_CalObjUID uid,
 		      CORBA_Environment *ev)
 {
@@ -174,13 +242,12 @@ Listener_obj_removed (PortableServer_Servant servant,
 
 	listener = CAL_LISTENER (gnome_object_from_servant (servant));
 	gtk_signal_emit (GTK_OBJECT (listener), cal_listener_signals[OBJ_REMOVED],
-			 cal, uid);
+			 uid);
 }
 
 /* Listener::obj_changed method */
 static void
 Listener_obj_changed (PortableServer_Servant servant,
-		      GNOME_Calendar_Cal cal,
 		      GNOME_Calendar_CalObj calobj,
 		      CORBA_Environment *ev)
 {
@@ -188,7 +255,7 @@ Listener_obj_changed (PortableServer_Servant servant,
 
 	listener = CAL_LISTENER (gnome_object_from_servant (servant));
 	gtk_signal_emit (GTK_OBJECT (listener), cal_listener_signals[OBJ_CHANGED],
-			 cal, calobj);
+			 calobj);
 }
 
 /**
@@ -307,4 +374,24 @@ cal_listener_new (void)
 	}
 
 	return cal_listener_construct (listener, corba_listener);
+}
+
+/**
+ * cal_listener_get_calendar:
+ * @listener: A calendar listener.
+ * 
+ * Queries the calendar that a listener is watching.
+ * 
+ * Return value: The calendar that the listener is watching.
+ **/
+GNOME_Calendar_Cal
+cal_listener_get_calendar (CalListener *listener)
+{
+	CalListenerPrivate *priv;
+
+	g_return_val_if_fail (listener != NULL, CORBA_OBJECT_NIL);
+	g_return_val_if_fail (IS_CAL_LISTENER (listener), CORBA_OBJECT_NIL);
+
+	priv = listener->priv;
+	return priv->cal;
 }

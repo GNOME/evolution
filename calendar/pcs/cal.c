@@ -130,8 +130,10 @@ cal_destroy (GtkObject *object)
 
 	CORBA_exception_init (&ev);
 
-	for (l = priv->listeners; l; l = l->next)
+	for (l = priv->listeners; l; l = l->next) {
+		GNOME_Unknown_unref (l->data, &ev);
 		CORBA_Object_release (l->data, &ev);
+	}
 
 	g_list_free (priv->listeners);
 
@@ -160,30 +162,6 @@ Cal_get_uri (PortableServer_Servant servant,
 	return CORBA_string_dup (priv->uri);
 }
 
-/* Cal::add_listener method */
-static void
-Cal_add_listener (PortableServer_Servant servant,
-		  GNOME_Calendar_Listener listener,
-		  CORBA_Environment *ev)
-{
-	Cal *cal;
-
-	cal = CAL (gnome_object_from_servant (servant));
-	cal_add_listener (cal, listener);
-}
-
-/* Cal::remove_listener method */
-static void
-Cal_remove_listener (PortableServer_Servant servant,
-		     GNOME_Calendar_Listener listener,
-		     CORBA_Environment *ev)
-{
-	Cal *cal;
-
-	cal = CAL (gnome_object_from_servant (servant));
-	cal_remove_listener (cal, listener);
-}
-
 /**
  * cal_get_epv:
  * @void:
@@ -199,8 +177,6 @@ cal_get_epv (void)
 
 	epv = g_new0 (POA_GNOME_Calendar_Cal__epv, 1);
 	epv->get_uri = Cal_get_uri;
-	epv->add_listener = Cal_add_listener;
-	epv->remove_listener = Cal_remove_listener;
 
 	return epv;
 }
@@ -244,10 +220,10 @@ cal_construct (Cal *cal, GNOME_Calendar_Cal corba_cal)
 /**
  * cal_corba_object_create:
  * @object: #GnomeObject that will wrap the CORBA object.
- * 
+ *
  * Creates and activates the CORBA object that is wrapped by the specified
  * calendar @object.
- * 
+ *
  * Return value: An activated object reference or #CORBA_OBJECT_NIL in case of
  * failure.
  **/
@@ -334,6 +310,7 @@ cal_remove_listener (Cal *cal, GNOME_Calendar_Listener listener)
 	for (l = priv->listeners; l; l = l->next)
 		if (CORBA_Object_is_equivalent (listener, l->data)) {
 			GNOME_Unknown_unref (listener, &ev);
+			CORBA_Object_release (listener, &ev);
 			priv->listeners = g_list_remove_link (priv->listeners, l);
 			g_list_free_1 (l);
 			break;
