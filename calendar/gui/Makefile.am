@@ -122,7 +122,8 @@ calendar_conduits_LTLIBRARIES = @CALCONDUITLIB@
 
 EXTRA_LTLIBRARIES = libcalendar_conduit.la
 
-GNOME_CONDUIT_LIBS=
+libcalendar_conduit_la_LDFLAGS = \
+	-rpath $(libdir)
 
 libcalendar_conduit_la_LIBADD = \
 	$(GNOME_CONDUIT_LIBS) \

@@ -1,5 +1,8 @@
 1999-08-02  Peter Teichman  <pat4@acpub.duke.edu>
 
+	* Makefile.am (libcalendar_conduit_la_LDFLAGS):
+	libcalendar_conduit now installs
+
 	* calendar-pilot-sync.c (sync_pilot): do deletion of appointments
 	correctly, when they are deleted on the pilot
 	(conduit_free_Appointment): protect against double-freeing parts
