@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution 0.17\n"
+"Project-Id-Version: evolution 1.0\n"
 "POT-Creation-Date: 2001-11-05 19:49-0500\n"
-"PO-Revision-Date: 2001-10-31 10:19-02:00\n"
+"PO-Revision-Date: 2001-11-08 21:58-0200\n"
 "Last-Translator: Gustavo Maciel Dias Vieira <gdvieira@zaz.com.br>\n"
 "Language-Team: Brazilian Portuguese <ldp-br@bazar.conectiva.com.br>\n"
 "MIME-Version: 1.0\n"
@@ -2921,9 +2921,8 @@ msgid "Print envelope"
 msgstr "Imprimir envelope"
 
 #: calendar/cal-util/cal-component.c:1202
-#, fuzzy
 msgid "Untitled appointment"
-msgstr "_Editar compromisso"
+msgstr "Compromisso sem nome"
 
 #: calendar/cal-util/cal-util.c:498 calendar/cal-util/cal-util.c:520
 #: calendar/gui/dialogs/task-details-page.glade.h:6
@@ -4014,9 +4013,8 @@ msgid "An organizer is required."
 msgstr "Um organizador é exigido."
 
 #: calendar/gui/dialogs/meeting-page.c:443
-#, fuzzy
 msgid "At least one attendee is required."
-msgstr "Pelo menos um participante é necessário"
+msgstr "Pelo menos um participante é necessário."
 
 #: calendar/gui/dialogs/meeting-page.c:623
 msgid "That person is already attending the meeting!"
@@ -11790,9 +11788,8 @@ msgid "(Untitled)"
 msgstr "(Sem nome)"
 
 #: shell/e-shell-importer.c:142
-#, fuzzy
 msgid "Choose the type of importer to run:"
-msgstr "Escolha o tipo de importador a executar"
+msgstr "Escolha o tipo de importador a executar:"
 
 #: shell/e-shell-importer.c:145
 msgid ""
@@ -11809,9 +11806,8 @@ msgstr ""
 "descobrir sozinho."
 
 #: shell/e-shell-importer.c:151 shell/e-shell-startup-wizard.c:757
-#, fuzzy
 msgid "Please select the information that you would like to import:"
-msgstr "Por favor selecione a informação que você gostaria de importar"
+msgstr "Por favor selecione a informação que você gostaria de importar:"
 
 #. Importer isn't ready yet.
 #. Wait 5 seconds and try again.
@@ -11957,22 +11953,20 @@ msgstr ""
 "Não foi possível iniciar a interface do Assistente de correio do Evolution\n"
 
 #: shell/e-shell-utils.c:114
-#, fuzzy
 msgid "No folder name specified."
-msgstr "Não foi fornecido um nome de arquivo."
+msgstr "Não foi especificado um nome de pasta."
 
 #: shell/e-shell-utils.c:121
 msgid "Folder name cannot contain the Return character."
-msgstr ""
+msgstr "O nome da pasta não pode conter o caractere Return."
 
 #: shell/e-shell-utils.c:127
-#, fuzzy
 msgid "Folder name cannot contain slashes."
-msgstr "Esta pasta não pode conter mensagens."
+msgstr "O nome da pasta não pode conter barras."
 
 #: shell/e-shell-utils.c:133
 msgid "'.' and '..' are reserved folder names."
-msgstr ""
+msgstr "'.' e '..' são nomes de pastas reservados."
 
 #: shell/e-shell-view-menu.c:165
 msgid "Bug buddy was not found in your $PATH."
@@ -12410,14 +12404,12 @@ msgid "Specify where to create the folder:"
 msgstr "Especificar onde criar a pasta:"
 
 #: shell/glade/evolution-startup-wizard.glade.h:3
-#, fuzzy
 msgid "Evolution Setup Assistant"
-msgstr "Assistente de importação do Evolution"
+msgstr "Assistente de configuração do Evolution"
 
 #: shell/glade/evolution-startup-wizard.glade.h:5
-#, fuzzy
 msgid "Importing Files"
-msgstr "Importando"
+msgstr "Importando arquivos"
 
 #: shell/glade/evolution-startup-wizard.glade.h:8
 msgid "Timezone "
@@ -12425,7 +12417,7 @@ msgstr "Fuso horário "
 
 #: shell/glade/evolution-startup-wizard.glade.h:9
 msgid "Welcome"
-msgstr ""
+msgstr "Bem-vindo"
 
 #: shell/glade/evolution-startup-wizard.glade.h:10
 msgid ""
@@ -12435,6 +12427,11 @@ msgid ""
 "\n"
 "Please click the \"Next\" button to continue. "
 msgstr ""
+"Bem-vindo ao Evolution. As próximas telas permitirão\n"
+"ao Evolution conectar às suas contas de correio e importar\n"
+"arquivos de outros aplicativos. \n"
+"\n"
+"Por favor clique o botão \"Próximo\" para continuar. "
 
 #: shell/glade/evolution-startup-wizard.glade.h:15
 msgid ""
@@ -12443,6 +12440,10 @@ msgid ""
 "\n"
 "Click the \"Finish\" button to save your settings. "
 msgstr ""
+"Você entrou com sucesso toda a informação necessária\n"
+"para configurar o Evolution. \n"
+"\n"
+"Clique no botão \"Concluir\" para salvar as suas configurações. "
 
 #: shell/importer/import.glade.h:1
 msgid "Click \"Import\" to begin importing the file into Evolution. "
@@ -13524,9 +13525,8 @@ msgid "Encrypt this message with your S/MIME Encryption Cetificate"
 msgstr "Cifrar esta mensagem usando o seu certificado de cifragem S/MIME"
 
 #: ui/evolution-message-composer.xml.h:8
-#, fuzzy
 msgid "For_mat"
-msgstr "Formato"
+msgstr "For_mato"
 
 #: ui/evolution-message-composer.xml.h:9
 msgid "H_TML"
@@ -14179,69 +14179,3 @@ msgstr "init_corba(): não foi possível iniciar GNOME"
 #: wombat/wombat.c:225
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): não foi possível iniciar Bonobo"
-
-#~ msgid ""
-#~ "Please select the information\n"
-#~ "that you would like to import"
-#~ msgstr ""
-#~ "Por favor selecione a informação\n"
-#~ "que você gostaria de importar"
-
-#~ msgid "First Run Setup Assistant"
-#~ msgstr "Assistente de configuração da primeira execução"
-
-#~ msgid "Importing Data"
-#~ msgstr "Importando dados"
-
-#~ msgid "Setup Assistant"
-#~ msgstr "Assistente de configuração"
-
-#~ msgid ""
-#~ "Welcome to the Evolution first run setup assistant\n"
-#~ "\n"
-#~ "This assistant will help you get started"
-#~ msgstr ""
-#~ "Bem-vindo ao Assistente de configuração da primeira execução do "
-#~ "Evolution\n"
-#~ "\n"
-#~ "Este assistente irá ajudá-lo a iniciar"
-
-#~ msgid "Your configuration is complete."
-#~ msgstr "Sua configuração está concluída."
-
-#~ msgid ""
-#~ "Hi.  Thanks for taking the time to download this preview release\n"
-#~ "of the Ximian Evolution groupware suite.\n"
-#~ "\n"
-#~ "Ximian Evolution is not yet complete. It's getting close, but there are\n"
-#~ "places where features are either missing or only half working. \n"
-#~ "\n"
-#~ "If you find bugs, please report them to us at bugzilla.ximian.com.\n"
-#~ "This product comes with no warranty and is not intended for\n"
-#~ "individuals prone to violent fits of anger.\n"
-#~ "\n"
-#~ "We hope that you enjoy the results of our hard work, and we\n"
-#~ "eagerly await your contributions!\n"
-#~ msgstr ""
-#~ "Hi.  Thanks for taking the time to download this preview release\n"
-#~ "of the Ximian Evolution groupware suite.\n"
-#~ "\n"
-#~ "Ximian Evolution is not yet complete. It's getting close, but there are\n"
-#~ "places where features are either missing or only half working. \n"
-#~ "\n"
-#~ "If you find bugs, please report them to us at bugzilla.ximian.com.\n"
-#~ "This product comes with no warranty and is not intended for\n"
-#~ "individuals prone to violent fits of anger.\n"
-#~ "\n"
-#~ "We hope that you enjoy the results of our hard work, and we\n"
-#~ "eagerly await your contributions!\n"
-
-#~ msgid ""
-#~ "Thanks\n"
-#~ "The Ximian Evolution Team\n"
-#~ msgstr ""
-#~ "Obrigado\n"
-#~ "O time do Ximian  Evolution\n"
-
-#~ msgid "F_ormat"
-#~ msgstr "F_ormato"
