@@ -1,3 +1,11 @@
+2004-06-04  JP Rosevear  <jpr@novell.com>
+
+	* gui/dialogs/task-page.c (task_page_fill_widgets): guard
+	against the text value being NULL
+
+	* gui/dialogs/event-page.c (event_page_fill_widgets): add guards
+	here as well
+	
 2004-06-03  Jeffrey Stedfast  <fejj@novell.com>
 
 	* conduits/calendar/calendar-conduit.c

@@ -445,10 +445,12 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	e_dialog_editable_set (priv->location, location);
 
 	e_cal_component_get_description_list (comp, &l);
-	if (l) {
-		text = *(ECalComponentText *)l->data;
+	if (l && l->data) {
+		ECalComponentText *dtext;
+		
+		dtext = l->data;
 		gtk_text_buffer_set_text (gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->description)),
-					  text.value, -1);
+					  dtext->value ? dtext->value : "", -1);
 	}
 	e_cal_component_free_text_list (l);
 
