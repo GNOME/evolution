@@ -23,18 +23,18 @@
 		<submenu name="File" _label="_File">
 
 		        <menuitem name="ContactListEditorSave" verb="" _label="_Save"/>
-		        <menuitem name="ContactListEditorSaveClose" verb="" _label="Save and Close" pixtype="pixbuf"/>
+		        <menuitem name="ContactListEditorSaveClose" verb="" _label="Save and _Close" pixtype="pixbuf"/>
 
 		        <menuitem name="ContactListEditorSaveAs" verb="" _label="Save _As..."/>
 
 			<separator/>
 
-		        <menuitem name="ContactListEditorDelete" verb="" _label="Delete..." pixtype="pixbuf"/>
+		        <menuitem name="ContactListEditorDelete" verb="" _label="_Delete..." pixtype="pixbuf"/>
 
 			<separator/>
 
 		        <menuitem name="ContactListEditorClose" verb=""
-			_label="Close"/>
+			_label="C_lose"/>
 
 		</submenu>
 

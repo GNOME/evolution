@@ -1,3 +1,12 @@
+2003-09-11  Tim Wo <tim.wo@sun.com>
+
+	* evolution-contact-editor.xml: add mnemonic "C" for "Save and _Close",
+	"D" for "_Delete", "l" for "Close". Fixes bug #48096
+	* evolution-contact-list-editor.xml: add mnemonic "C" for "Save and
+	_Close", "D" for "_Delete", "l" for "Close". Fixes bug #48096
+	* evolution-signature-editor.xml: add mnemonic "C" for "Save and
+	_Close", change mnemonic "C" to "l" for "Close".  Fixes bug #48205
+
 2003-09-05  Yuedong Du  <uuedong.du@sun.com>
 
 	* evolution-mail-global.xml: add access key 'w' for 'Post New Message'

@@ -33,14 +33,14 @@
 
 		        <menuitem name="ContactEditorSave" verb="" _label="_Save"/>
 
-			<menuitem name="ContactEditorSaveClose" verb="" _label="Save and Close" accel="*Control*Return"/>
+			<menuitem name="ContactEditorSaveClose" verb="" _label="Save and _Close" accel="*Control*Return"/>
 
 		        <menuitem name="ContactEditorSaveAs" verb="" _label="Save _As..."/>
 
 			<separator f="" name="econtactedit1"/>
 
 		        <menuitem name="ContactEditorDelete" verb=""
-			_label="Delete"/>
+			_label="_Delete"/>
 
 			<separator f="" name="econtactedit2"/>
 
@@ -60,7 +60,7 @@
 			<separator f="" name="econtactedit3"/>
 
 		        <menuitem name="ContactEditorClose" verb=""
-			_label="Close"/>
+			_label="C_lose"/>
 
 		</submenu>
 		<submenu name="Actions" _label="_Actions">

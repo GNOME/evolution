@@ -30,13 +30,13 @@
 <!--
 			<menuitem name="FileSave" verb="" _label="_Save"/>
 -->
-			<menuitem name="FileSaveClose" verb="" _label="Save and Close" accel="*Control*Return"/>
+			<menuitem name="FileSaveClose" verb="" _label="Save and _Close" accel="*Control*Return"/>
 
 			<placeholder name="Print" delimit="top"/>
 
 			<separator f=""/>
 
-			<menuitem name="FileClose" verb="" _label="_Close"/>
+			<menuitem name="FileClose" verb="" _label="C_lose"/>
 		</submenu>
 
 
