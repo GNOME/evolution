@@ -91,7 +91,7 @@ sendmail_can_send (CamelTransport *transport, CamelMedium *message)
 
 
 static gboolean
-sendmail_send_internal (CamelMedium *message, char **argv, CamelException *ex)
+sendmail_send_internal (CamelMedium *message, const char **argv, CamelException *ex)
 {
 	int fd[2], nullfd, wstat;
 	sigset_t mask, omask;
@@ -134,7 +134,7 @@ sendmail_send_internal (CamelMedium *message, char **argv, CamelException *ex)
 		close (nullfd);
 		close (fd[1]);
 
-		execv (SENDMAIL_PATH, argv);
+		execv (SENDMAIL_PATH, (char **)argv);
 		_exit (255);
 	}
 
@@ -180,25 +180,45 @@ sendmail_send_internal (CamelMedium *message, char **argv, CamelException *ex)
 	return TRUE;
 }
 
+static const char *
+get_from (CamelMedium *message, CamelException *ex)
+{
+	const CamelInternetAddress *from;
+	const char *name, *address;
+
+	from = camel_mime_message_get_from (CAMEL_MIME_MESSAGE (message));
+	if (!from || !camel_internet_address_get (from, 0, &name, &address)) {
+		camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+				     _("Could not find 'From' address in message"));
+		return NULL;
+	}
+	return address;
+}
+
 static gboolean
 sendmail_send_to (CamelTransport *transport, CamelMedium *message,
 		  GList *recipients, CamelException *ex)
 {
 	GList *r;
-	char **argv;
+	const char *from, **argv;
 	int i, len;
 	gboolean status;
 
+	from = get_from (message, ex);
+	if (!from)
+		return FALSE;
+
 	len = g_list_length (recipients);
-	argv = g_malloc ((len + 4) * sizeof (char *));
+	argv = g_malloc ((len + 5) * sizeof (char *));
 	argv[0] = "sendmail";
-	argv[1] = "-i";
-	argv[2] = "--";
+	argv[1] = "-Uif";
+	argv[2] = from;
+	argv[3] = "--";
 
 	for (i = 1, r = recipients; i <= len; i++, r = r->next)
-		argv[i + 2] = r->data;
-	argv[i + 2] = NULL;
-	
+		argv[i + 3] = r->data;
+	argv[i + 3] = NULL;
+
 	status = sendmail_send_internal (message, argv, ex);
 	g_free (argv);
 	return status;
@@ -208,8 +228,12 @@ static gboolean
 sendmail_send (CamelTransport *transport, CamelMedium *message,
        CamelException *ex)
 {
-	char *argv[4] = { "sendmail", "-t", "-i", NULL };
+	const char *argv[4] = { "sendmail", "-Utif", NULL, NULL };
 	
+	argv[2] = get_from (message, ex);
+	if (!argv[2])
+		return FALSE;
+
 	return sendmail_send_internal (message, argv, ex);
 }
 

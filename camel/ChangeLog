@@ -1,3 +1,10 @@
+2001-03-02  Dan Winship  <danw@ximian.com>
+
+	* providers/sendmail/camel-sendmail-transport.c (sendmail_send_to,
+	sendmail_send): Use "-f" to set the envelope from address so
+	bounces go to the right place. Also, pass "-U" since the man page
+	says we're supposed to...
+
 2001-03-01  Jeffrey Stedfast  <fejj@ximian.com>
 	
 	* camel-sasl.c: #include "camel-sasl-digest-md5.h"
