@@ -1,6 +1,7 @@
 Makefile.in
 .deps
 .libs
+.pure
 Makefile
 evolution-calendar-stubs.c
 evolution-calendar-skels.c

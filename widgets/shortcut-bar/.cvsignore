@@ -4,4 +4,5 @@ Makefile
 Makefile.in
 .deps
 .libs
+.pure
 test-shortcut-bar

@@ -15,6 +15,7 @@ Makefile.in
 Makefile
 .deps
 .libs
+.pure
 mail1.test
 mail2.test
 test-formatter

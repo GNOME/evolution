@@ -1,3 +1,23 @@
+2000-05-05  Chris Toshok <toshok@helixcode.com>
+
+	* addressbook/backend/ebook/.cvsignore,
+	addressbook/contact-editor/.cvsignore,
+	addressbook/gui/component/.cvsignore,
+	addressbook/gui/minicard/.cvsignore,
+	addressbook/printing/.cvsignore,
+	calendar/cal-client/.cvsignore,
+	calendar/gui/.cvsignore,
+	calendar/pcs/.cvsignore,
+	filter/.cvsignore,
+	mail/.cvsignore,
+	shell/.cvsignore,
+	tests/.cvsignore,
+	widgets/e-table/.cvsignore,
+	widgets/e-text/.cvsignore,
+	widgets/meeting-time-sel/.cvsignore,
+	widgets/shortcut-bar/.cvsignore,
+	wombat/.cvsignore: ignore the .pure directory
+
 2000-05-04  Dan Winship  <danw@helixcode.com>
 
 	* configure.in: Oops. The Kerberos check was succeeding when it

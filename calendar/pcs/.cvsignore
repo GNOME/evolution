@@ -2,6 +2,7 @@ Makefile
 Makefile.in
 .deps
 .libs
+.pure
 *.la
 *.lo
 evolution-calendar-stubs.c
