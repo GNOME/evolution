@@ -1,5 +1,15 @@
 2002-11-15  Ettore Perazzoli  <ettore@ximian.com>
 
+	* Makefile.am: Added rule to generate
+	GNOME_Evolution_Shell.server.in from
+	GNOME_Evolution_Shell.server.in.in, substituting @BINDIR@.
+
+	* GNOME_Evolution_Shell.server.in.in: Renamed from
+	GNOME_Evolution_Shell.server.in.  Prepend @BINDIR@ to the location
+	of the executable.
+
+2002-11-15  Ettore Perazzoli  <ettore@ximian.com>
+
 	* evolution-storage.c (impl_finalize): Fix typo; p -> sp.
 
 2002-11-15  Ettore Perazzoli  <ettore@ximian.com>

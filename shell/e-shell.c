@@ -961,14 +961,14 @@ notify_no_views_left_idle_cb (void *data)
 {
 	EShell *shell;
 
-	puts (__FUNCTION__);
-
 	shell = E_SHELL (data);
 
 	set_interactive (shell, FALSE);
 
 	bonobo_object_ref (BONOBO_OBJECT (shell));
+
 	g_signal_emit (shell, signals [NO_VIEWS_LEFT], 0);
+
 	bonobo_object_unref (BONOBO_OBJECT (shell));
 
 	return FALSE;
