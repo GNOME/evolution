@@ -30,7 +30,7 @@ extern "C" {
 
 #include <camel/camel-sasl.h>
 #include <sys/types.h>
-#include <netinet/in.h>
+#include <netdb.h>
 
 #define CAMEL_SASL_KERBEROS4_TYPE     (camel_sasl_kerberos4_get_type ())
 #define CAMEL_SASL_KERBEROS4(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_SASL_KERBEROS4_TYPE, CamelSaslKerberos4))

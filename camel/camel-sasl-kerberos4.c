@@ -21,16 +21,18 @@
  */
 
 #include <config.h>
-#include "camel-sasl-kerberos4.h"
-#include "camel-mime-utils.h"
-#include <string.h>
-
 
 #ifdef HAVE_KRB4
 #include <krb.h>
-/* MIT krb4 des.h #defines _. Sigh. We don't need it. */
+/* MIT krb4 des.h #defines _. Sigh. We don't need it. #undef it here
+ * so we get the gettexty _ definition later.
+ */
 #undef _
 #endif
+
+#include "camel-sasl-kerberos4.h"
+#include "camel-mime-utils.h"
+#include <string.h>
 
 #define KERBEROS_V4_PROTECTION_NONE      1
 #define KERBEROS_V4_PROTECTION_INTEGRITY 2
@@ -146,12 +148,16 @@ static GByteArray *
 krb4_challenge (CamelSasl *sasl, const char *token, CamelException *ex)
 {
 	CamelSaslKerberos4 *sasl_krb4 = CAMEL_SASL_KERBEROS4 (sasl);
-	struct CamelSaslKerberos4Private *priv = sasl_krb4->priv;
+	struct _CamelSaslKerberos4Private *priv = sasl_krb4->priv;
 	char *buf = NULL, *data = NULL;
 	GByteArray *ret = NULL;
 	char *inst, *realm;
 	struct hostent *h;
 	int status, len;
+	KTEXT_ST authenticator;
+	CREDENTIALS credentials;
+	des_cblock session;
+	des_key_schedule schedule;
 	
 	if (token)
 		data = g_strdup (token);
@@ -218,7 +224,7 @@ krb4_challenge (CamelSasl *sasl, const char *token, CamelException *ex)
 		data[5] = data[6] = data[7] = 0;
 		strcpy (data + 8, sasl_krb4->username);
 		
-		des_pcbc_encrypt ((des_cblock *)data, (des_cblock *)data, len,
+		des_pcbc_encrypt ((void *)data, (void *)data, len,
 				  schedule, &session, 1);
 		memset (&session, 0, sizeof (session));
 		buf = base64_encode_simple (data, len);

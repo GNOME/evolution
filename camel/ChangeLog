@@ -1,3 +1,11 @@
+2001-03-01  Dan Winship  <danw@ximian.com>
+
+	* Makefile.am (libcamel_la_LIBADD, INCLUDES): camel depends on
+	krb4 now (where available), for camel-sasl-kerberos4.c
+
+	* camel-sasl-kerberos4.[ch]: Make this at least compile. Dunno if
+	it works yet.
+
 2001-03-01  Peter Williams  <peterw@ximian.com>
 
 	* camel-url.c (camel_url_new): Assert url_string != NULL.
