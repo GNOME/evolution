@@ -32,6 +32,7 @@
 
 #include "e-util/e-memory.h"
 #include "camel/camel-charset-map.h"
+#include "camel-iconv.h"
 
 
 #define ICONV_CACHE_SIZE   (16)
