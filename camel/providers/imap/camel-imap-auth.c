@@ -46,30 +46,6 @@
 
 #ifdef HAVE_KRB4
 
-static char *
-base64_encode_simple (const char *data, int len)
-{
-	unsigned char *out;
-	int state = 0, outlen;
-	unsigned int save = 0;
-
-	out = g_malloc (len * 4 / 3 + 5);
-	outlen = base64_encode_close ((unsigned char *)data, len, FALSE,
-				      out, &state, &save);
-	out[outlen] = '\0';
-	return (char *)out;
-}
-
-static int
-base64_decode_simple (char *data, int len)
-{
-	int state = 0;
-	unsigned int save = 0;
-
-	return base64_decode_step ((unsigned char *)data, len,
-				   (unsigned char *)data, &state, &save);
-}
-
 #define IMAP_KERBEROS_V4_PROTECTION_NONE      1
 #define IMAP_KERBEROS_V4_PROTECTION_INTEGRITY 2
 #define IMAP_KERBEROS_V4_PROTECTION_PRIVACY   4
@@ -204,7 +180,7 @@ imap_try_kerberos_v4_auth (CamelImapStore *store, CamelException *ex)
 		camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
 				     _("Bad authentication response from server."));
 	}
-fail:
+ fail:
 	CAMEL_IMAP_STORE_UNLOCK(store, command_lock);
 	return FALSE;
 }

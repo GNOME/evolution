@@ -191,4 +191,7 @@ int quoted_decode_step(unsigned char *in, int len, unsigned char *out, int *save
 int quoted_encode_step(unsigned char *in, int len, unsigned char *out, int *state, int *save);
 int quoted_encode_close(unsigned char *in, int len, unsigned char *out, int *state, int *save);
 
+char *base64_encode_simple (const char *data, int len);
+int base64_decode_simple (char *data, int len);
+
 #endif /* ! _CAMEL_MIME_UTILS_H */

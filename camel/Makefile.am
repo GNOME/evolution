@@ -49,6 +49,10 @@ libcamel_la_SOURCES = 				\
 	camel-operation.c			\
 	camel-provider.c			\
 	camel-remote-store.c			\
+	camel-sasl.c				\
+	camel-sasl-cram-md5.c			\
+	camel-sasl-kerberos4.c			\
+	camel-sasl-plain.c			\
 	camel-search-private.c			\
 	camel-seekable-stream.c			\
 	camel-seekable-substream.c		\
@@ -108,6 +112,10 @@ libcamelinclude_HEADERS =			\
 	camel-operation.h			\
 	camel-provider.h			\
 	camel-remote-store.h			\
+	camel-sasl.h				\
+	camel-sasl-cram-md5.h			\
+	camel-sasl-kerberos4.h			\
+	camel-sasl-plain.h			\
 	camel-seekable-stream.h			\
 	camel-seekable-substream.h		\
 	camel-service.h				\

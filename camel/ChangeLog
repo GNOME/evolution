@@ -1,3 +1,21 @@
+2001-02-28  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* Makefile.am: Added camel-sasl*.[c,h] to the build.
+
+	* camel-sasl.[c,h]: new "abstract" SASL class
+
+	* camel-sasl-kerberos4.[c,h]: new SASL class for KERBEROS_V4
+
+	* camel-sasl-cram-md5.[c,h]: new SASL class for CRAM-MD5
+
+	* camel-sasl-plain.[c,h]: new SASL class for PLAIN
+
+	* providers/imap/camel-imap-auth.c: Removed the base64 functions.
+
+	* camel-mime-utils.c (base64_encode_simple): Moved here from
+	camel-imap-auth.c
+	(base64_decode_simple): Same.
+
 2001-02-26  Dan Winship  <danw@ximian.com>
 
 	* providers/imap/camel-imap-folder.c (imap_sync): Group messages

@@ -465,6 +465,30 @@ base64_decode_step(unsigned char *in, int len, unsigned char *out, int *state, u
 	return outptr-out;
 }
 
+char *
+base64_encode_simple (const char *data, int len)
+{
+	unsigned char *out;
+	int state = 0, outlen;
+	unsigned int save = 0;
+
+	out = g_malloc (len * 4 / 3 + 5);
+	outlen = base64_encode_close ((unsigned char *)data, len, FALSE,
+				      out, &state, &save);
+	out[outlen] = '\0';
+	return (char *)out;
+}
+
+int
+base64_decode_simple (char *data, int len)
+{
+	int state = 0;
+	unsigned int save = 0;
+
+	return base64_decode_step ((unsigned char *)data, len,
+				   (unsigned char *)data, &state, &save);
+}
+
 
 /**
  * uudecode_step: uudecode a chunk of data
