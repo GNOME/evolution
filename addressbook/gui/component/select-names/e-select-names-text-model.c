@@ -140,6 +140,7 @@ dump_model (ESelectNamesTextModel *text_model)
 static void
 e_select_names_text_model_init (ESelectNamesTextModel *model)
 {
+	model->last_magic_comma_pos = -1;
 }
 
 static void
@@ -301,6 +302,8 @@ e_select_names_text_model_insert_length (ETextModel *model, gint pos, const gcha
 		gint index, start_pos, text_len;
 		gboolean inside_quote = FALSE;
 
+		E_SELECT_NAMES_TEXT_MODEL (model)->last_magic_comma_pos = -1;
+
 		if (out) 
 			fprintf (out, "processing [%c]\n", text[i]);
 
@@ -387,6 +390,8 @@ e_select_names_text_model_insert_length (ETextModel *model, gint pos, const gcha
 				pos += SEPLEN;
 			}
 
+			E_SELECT_NAMES_TEXT_MODEL (model)->last_magic_comma_pos = pos;
+
 		} else {
 			EReposInsertShift repos;
 			gint offset = MAX (pos - start_pos, 0);
@@ -472,6 +477,14 @@ e_select_names_text_model_delete (ETextModel *model, gint pos, gint length)
 
 	if (length < 0)
 		return;
+
+	if (E_SELECT_NAMES_TEXT_MODEL (model)->last_magic_comma_pos == pos+1
+	    && length == 1) {
+		--pos;
+		if (pos >= 0)
+			++length;
+		E_SELECT_NAMES_TEXT_MODEL (model)->last_magic_comma_pos = -1;
+	}
 
 	e_select_names_model_text_pos (source, pos, &index, &start_pos, &text_len);
 
@@ -636,6 +649,7 @@ e_select_names_text_model_delete (ETextModel *model, gint pos, gint length)
 	}
 
  finished:
+	E_SELECT_NAMES_TEXT_MODEL (model)->last_magic_comma_pos = -1;
 	gtk_signal_handler_unblock (GTK_OBJECT (source), E_SELECT_NAMES_TEXT_MODEL (model)->source_resize_id);
 	dump_model (E_SELECT_NAMES_TEXT_MODEL (model));
 }

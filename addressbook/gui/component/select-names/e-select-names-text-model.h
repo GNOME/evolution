@@ -31,6 +31,8 @@ struct _ESelectNamesTextModel {
 	ESelectNamesModel *source;
 	gint source_changed_id;
 	gint source_resize_id;
+
+	gint last_magic_comma_pos;
 };
 
 struct _ESelectNamesTextModelClass {

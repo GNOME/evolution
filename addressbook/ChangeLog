@@ -1,5 +1,18 @@
 2001-08-09  Jon Trowbridge  <trow@ximian.com>
 
+	* gui/component/select-names/e-select-names-text-model.c
+	This change is dedicated to Jacob Berkman.
+	(e_select_names_text_model_insert_length): If the last character
+	we inserted was a "magic comma", remember its position.
+	(e_select_names_text_model_delete): If the last character we
+	inserted was a "magic comma", and if the next thing we do is to
+	hit backspace, delete both the comma and the extra whitespace we
+	added.
+	(e_select_names_text_model_init): Initialize our last magic comma
+	position.
+
+2001-08-09  Jon Trowbridge  <trow@ximian.com>
+
 	* gui/component/select-names/e-select-names-manager.c
 	(e_select_names_manager_create_entry): Hook up some magic to
 	(basically) cardify an entry on focus-out.  (What we do is actually
