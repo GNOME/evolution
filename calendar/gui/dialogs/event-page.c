@@ -644,10 +644,14 @@ event_page_fill_component (CompEditorPage *page, CalComponent *comp)
 	/* Categories */
 
 	cat = e_dialog_editable_get (priv->categories);
-	cal_component_set_categories (comp, cat);
-
+	str = comp_editor_strip_categories (cat);
 	if (cat)
 		g_free (cat);
+
+	cal_component_set_categories (comp, str);
+
+	if (str)
+		g_free (str);
 
 	/* Classification */
 

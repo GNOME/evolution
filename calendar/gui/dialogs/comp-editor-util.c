@@ -472,3 +472,74 @@ comp_editor_contacts_to_component (GtkWidget *contacts_entry,
 	}
 	g_slist_free (contact_list);
 }
+
+/**
+ * comp_editor_strip_categories:
+ * @categories: A string of category names entered by the user.
+ * 
+ * Takes a string of the form "categ, categ, categ, ..." and removes the
+ * whitespace between categories to result in "categ,categ,categ,..."
+ * 
+ * Return value: The category names stripped of surrounding whitespace
+ * and separated with commas.
+ **/
+char *
+comp_editor_strip_categories (const char *categories)
+{
+	char *new_categories;
+	const char *start, *end;
+	const char *p;
+	char *new_p;
+
+	if (!categories)
+		return NULL;
+
+	new_categories = g_new (char, strlen (categories) + 1);
+
+	start = end = NULL;
+	new_p = new_categories;
+
+	for (p = categories; *p; p++) {
+		int c;
+
+		c = *p;
+
+		if (isspace (c))
+			continue;
+		else if (c == ',') {
+			int len;
+
+			if (!start)
+				continue;
+
+			g_assert (start <= end);
+
+			len = end - start + 1;
+			strncpy (new_p, start, len);
+			new_p[len] = ',';
+			new_p += len + 1;
+
+			start = end = NULL;
+		} else {
+			if (!start) {
+				start = p;
+				end = p;
+			} else
+				end = p;
+		}
+	}
+
+	if (start) {
+		int len;
+
+		g_assert (start <= end);
+
+		len = end - start + 1;
+		strncpy (new_p, start, len);
+		new_p += len;
+	}
+
+	*new_p = '\0';
+
+	return new_categories;
+}

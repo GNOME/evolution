@@ -47,5 +47,6 @@ void comp_editor_contacts_to_widget (GtkWidget *contacts_entry,
 void comp_editor_contacts_to_component (GtkWidget *contacts_entry,
 					CalComponent *comp);
 
+char *comp_editor_strip_categories (const char *categories);
 
 #endif

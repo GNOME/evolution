@@ -1,5 +1,16 @@
 2001-08-16  Federico Mena Quintero  <federico@ximian.com>
 
+	* gui/dialogs/comp-editor-util.c (comp_editor_strip_categories):
+	New function to strip surrounding whitespace from a string of
+	categories entered by the user.
+
+	* gui/dialogs/task-page.c (task_page_fill_component): Use
+	comp_editor_strip_categories().
+
+	* gui/dialogs/event-page.c (event_page_fill_component): Likewise.
+
+2001-08-16  Federico Mena Quintero  <federico@ximian.com>
+
 	* gui/calendar-config.c (calendar_config_configure_e_date_edit):
 	Do not set the time popup range.  We also want to be able to
 	create appointments that are not within nine-to-five!  Think of
