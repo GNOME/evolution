@@ -1,3 +1,16 @@
+2000-12-04  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/smtp/camel-smtp-transport.c (smtp_connect): i18n-ize
+	exception strings.
+	(get_name): And here.
+	(_send_to): Here too.
+	(smtp_helo): And here and there...
+	(smtp_mail): And around the square...
+	(smtp_rcpt): Saying catch me if you can...
+	(smtp_data): And here three.
+	(smtp_rset): And here.
+	(smtp_quit): And finally here.
+
 2000-12-01  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* camel-folder-search.h: Added system_flag to CamelFolderSearchClass
