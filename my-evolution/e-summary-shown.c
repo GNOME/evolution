@@ -64,7 +64,7 @@
 <ETableColumn model_col=\"0\" _title=\"%s\" resizable=\"true\" cell=\"tree-string\" compare=\"string\"/> \
 <ETableState> \
 <column source=\"0\"/> \
-<grouping></grouping> \
+<grouping><leaf column=\"0\" ascending=\"true\"/></grouping> \
 </ETableState> \
 </ETableSpecification>"
 

@@ -447,7 +447,6 @@ e_summary_weather_protocol (ESummary *summary,
 			    const char *uri,
 			    void *closure)
 {
-
 }
 
 static int

@@ -331,7 +331,6 @@ struct _CalendarPage {
 typedef struct _PropertyData {
 	EvolutionConfigControl *config_control;
 
-	GtkWidget *new_url_entry, *new_name_entry;
 	GladeXML *xml;
 
 	struct _MailPage *mail;
@@ -556,19 +555,47 @@ mail_show_full_path_toggled_cb (GtkToggleButton *tb,
 }
 
 static void
-add_dialog_clicked_cb (GtkWidget *widget,
-		       int button,
-		       PropertyData *pd)
+rdf_new_url_clicked_cb (GtkButton *button,
+			PropertyData *pd)
 {
-	if (button == 0) {
+	GtkWidget *add_dialog;
+	GtkWidget *label, *hbox;
+	GtkWidget *new_name_entry, *new_url_entry;
+
+	add_dialog = gtk_dialog_new_with_buttons (_("Add a news feed"),
+						  GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (button))),
+						  GTK_DIALOG_DESTROY_WITH_PARENT,
+						  GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+						  GTK_STOCK_OK, GTK_RESPONSE_OK,
+						  NULL);
+	gtk_dialog_set_default_response (GTK_DIALOG (add_dialog), GTK_RESPONSE_OK);
+
+	label = gtk_label_new (_("Enter the URL of the news feed you wish to add"));
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (add_dialog)->vbox), label,
+			    TRUE, TRUE, 0);
+	hbox = gtk_hbox_new (FALSE, 2);
+	label = gtk_label_new (_("Name:"));
+	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+	new_name_entry = gtk_entry_new ();
+	gtk_box_pack_start (GTK_BOX (hbox), new_name_entry, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (add_dialog)->vbox), hbox, TRUE, TRUE, 3);
+
+	hbox = gtk_hbox_new (FALSE, 2);
+	label = gtk_label_new (_("URL:"));
+	new_url_entry = gtk_entry_new ();
+	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox), new_url_entry, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (add_dialog)->vbox), hbox, TRUE, TRUE, 3);
+	gtk_widget_show_all (add_dialog);
+
+	if (gtk_dialog_run (GTK_DIALOG (add_dialog)) == GTK_RESPONSE_OK) {
 		const char *url;
 		const char *name;
 
-		name = gtk_entry_get_text (GTK_ENTRY (pd->new_name_entry));
-		url = gtk_entry_get_text (GTK_ENTRY (pd->new_url_entry));
+		name = gtk_entry_get_text (GTK_ENTRY (new_name_entry));
+		url = gtk_entry_get_text (GTK_ENTRY (new_url_entry));
 
-		if (name != NULL && *name != 0 &&
-		    url != NULL && *url != 0) {
+		if (name != NULL && *name != 0 && url != NULL && *url != 0) {
 			ESummaryShownModelEntry *entry;
 			struct _RDFInfo *info;
 
@@ -596,47 +623,7 @@ add_dialog_clicked_cb (GtkWidget *widget,
 		}
 	}
 
-	gtk_widget_destroy (widget);
-}
-
-static void
-rdf_new_url_clicked_cb (GtkButton *button,
-			PropertyData *pd)
-{
-	static GtkWidget *add_dialog = NULL;
-	GtkWidget *label, *hbox;
-
-	if (add_dialog != NULL) {
-		gdk_window_raise (add_dialog->window);
-		gdk_window_show (add_dialog->window);
-		return;
-	} 
-
-	add_dialog = gnome_dialog_new (_("Add a news feed"),
-				       GNOME_STOCK_BUTTON_OK,
-				       GNOME_STOCK_BUTTON_CANCEL, NULL);
-	g_signal_connect (add_dialog, "clicked", G_CALLBACK (add_dialog_clicked_cb), pd);
-	g_signal_connect (add_dialog, "destroy", G_CALLBACK (gtk_widget_destroyed), &add_dialog);
-
-	label = gtk_label_new (_("Enter the URL of the news feed you wish to add"));
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (add_dialog)->vbox), label,
-			    TRUE, TRUE, 0);
-	hbox = gtk_hbox_new (FALSE, 2);
-	label = gtk_label_new (_("Name:"));
-	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
-	pd->new_name_entry = gtk_entry_new ();
-	gtk_box_pack_start (GTK_BOX (hbox), pd->new_name_entry, TRUE, TRUE, 0);
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (add_dialog)->vbox), hbox,
-			    TRUE, TRUE, 0);
-
-	hbox = gtk_hbox_new (FALSE, 2);
-	label = gtk_label_new (_("URL:"));
-	pd->new_url_entry = gtk_entry_new ();
-	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (hbox), pd->new_url_entry, TRUE, TRUE, 0);
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (add_dialog)->vbox), 
-			    hbox, TRUE, TRUE, 0);
-	gtk_widget_show_all (add_dialog);
+	gtk_widget_destroy (add_dialog);
 }
 
 static void
