@@ -57,8 +57,14 @@ composer/e-msg-composer-attachment.c
 composer/e-msg-composer-attachment.glade.h
 composer/e-msg-composer-hdrs.c
 composer/e-msg-composer.c
+filter/filter-datespec.c
 filter/filter-editor.c
+filter/filter-filter.c
 filter/filter-folder.c
+filter/filter-part.c
+filter/filter-rule.c
+filter/score-editor.c
+filter/vfolder-editor.c
 filter/vfolder-rule.c
 libversit/vobject.c
 mail/component-factory.c
@@ -73,6 +79,8 @@ mail/mail-crypto.c
 mail/mail-local.c
 mail/mail-ops.c
 mail/mail-threads.c
+mail/mail-tools.c
+mail/mail-vfolder.c
 mail/mail-view.c
 mail/main.c
 mail/message-list.c
