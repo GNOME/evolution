@@ -611,7 +611,7 @@ free_mods (GPtrArray *mods)
 		g_free (mod);
 	}
 
-	g_ptr_array_free (mods, TRUE /* XXX ? */);
+	g_ptr_array_free (mods, TRUE);
 }
 
 static GPtrArray*
@@ -2154,7 +2154,10 @@ pas_backend_ldap_process_get_book_view (PASBackend *backend,
 
 	g_free (req->search);
 	CORBA_exception_init(&ev);
+
+	bonobo_object_unref (BONOBO_OBJECT (book_view));
 	bonobo_object_release_unref(req->listener, &ev);
+
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning("pas_backend_file_process_get_book_view: Exception reffing "
 			  "corba book.\n");

@@ -1,3 +1,14 @@
+2001-10-15  Chris Toshok  <toshok@ximian.com>
+
+	* backend/pas/pas-backend-ldap.c
+	(pas_backend_ldap_process_get_book_view): make sure to unref the
+	book_view here so we don't leak them.
+
+2001-10-12  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/addressbook-factory.c (main): call
+	e_passwords_init and e_passwords_shutdown.
+
 2001-10-15  Christopher James Lahey  <clahey@ximian.com>
 
 	* backend/ebook/e-card.c (addPropValueQP, addPropValueSets,
