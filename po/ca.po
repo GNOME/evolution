@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.0.6\n"
-"POT-Creation-Date: 2003-03-05 13:53-0500\n"
+"POT-Creation-Date: 2003-03-10 12:46-0500\n"
 "PO-Revision-Date: 2000-11-01 00:40+0100\n"
 "Last-Translator: Quico Llach <tradgnome@softcatala.org>\n"
 "Language-Team: Catalan <linux@softcatala.org>\n"
@@ -28205,8 +28205,8 @@ msgid ""
 "This version of Ximian Evolution is not yet complete. It's getting close,\n"
 "but some features are either unfinished or don't work properly.\n"
 "\n"
-"If you want a stable version of Evolution, we urge you to uninstall,\n"
-"this version, and install a 1.2.x version instead (1.2.2)\n"
+"If you want a stable version of Evolution, we urge you to uninstall\n"
+"this version and install a 1.2.x version instead (1.2.2)\n"
 "\n"
 "If you find bugs, please report them to us at bugzilla.ximian.com.\n"
 "This product comes with no warranty and is not intended for\n"
@@ -30282,6 +30282,14 @@ msgstr "Afegeix una font"
 #: wombat/GNOME_Evolution_WombatNOLDAP.server.in.in.h:2
 msgid "The Personal Calendar Server; calendar factory"
 msgstr ""
+
+#, fuzzy
+#~ msgid "%e %B %k:%M"
+#~ msgstr "%a %d/%m/%Y %I:%M:%S %p"
+
+#, fuzzy
+#~ msgid "%e %B %l:%M%P"
+#~ msgstr "%a %d/%m/%Y %I:%M:%S %p"
 
 #, fuzzy
 #~ msgid "Factory for the Addressbook Minicard control"

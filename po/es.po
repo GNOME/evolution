@@ -12,7 +12,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 2.0\n"
-"POT-Creation-Date: 2003-03-05 13:53-0500\n"
+"POT-Creation-Date: 2003-03-10 12:46-0500\n"
 "PO-Revision-Date: 2003-02-21 10:40-0300\n"
 "Last-Translator: Fco. Javier Fernández Serrador <serrador@arrakis.es>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
@@ -26304,7 +26304,7 @@ msgid "Evolution is now exiting ..."
 msgstr "Evolution está terminando ..."
 
 #: shell/main.c:214
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
 "of the Ximian Evolution groupware suite.\n"
@@ -26312,8 +26312,8 @@ msgid ""
 "This version of Ximian Evolution is not yet complete. It's getting close,\n"
 "but some features are either unfinished or don't work properly.\n"
 "\n"
-"If you want a stable version of Evolution, we urge you to uninstall,\n"
-"this version, and install a 1.2.x version instead (1.2.2)\n"
+"If you want a stable version of Evolution, we urge you to uninstall\n"
+"this version and install a 1.2.x version instead (1.2.2)\n"
 "\n"
 "If you find bugs, please report them to us at bugzilla.ximian.com.\n"
 "This product comes with no warranty and is not intended for\n"
@@ -28078,6 +28078,14 @@ msgstr "El Servidor de Agendas Personales"
 #: wombat/GNOME_Evolution_WombatNOLDAP.server.in.in.h:2
 msgid "The Personal Calendar Server; calendar factory"
 msgstr "El Servidor de Calendarios Personales. Fábrica de agendas"
+
+#, fuzzy
+#~ msgid "%e %B %k:%M"
+#~ msgstr "%b %d %l:%M %p"
+
+#, fuzzy
+#~ msgid "%e %B %l:%M%P"
+#~ msgstr "%b %d %l:%M %p"
 
 #~ msgid ""
 #~ "Evolution does not yet support email notification for reminders.  You "

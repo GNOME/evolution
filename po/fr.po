@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.1.0.99\n"
-"POT-Creation-Date: 2003-03-05 13:53-0500\n"
+"POT-Creation-Date: 2003-03-10 12:46-0500\n"
 "PO-Revision-Date: 2002-11-27 11:17+0100\n"
 "Last-Translator: Joaquim Fellmann <joaquim@altern.org>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -26390,8 +26390,8 @@ msgid ""
 "This version of Ximian Evolution is not yet complete. It's getting close,\n"
 "but some features are either unfinished or don't work properly.\n"
 "\n"
-"If you want a stable version of Evolution, we urge you to uninstall,\n"
-"this version, and install a 1.2.x version instead (1.2.2)\n"
+"If you want a stable version of Evolution, we urge you to uninstall\n"
+"this version and install a 1.2.x version instead (1.2.2)\n"
 "\n"
 "If you find bugs, please report them to us at bugzilla.ximian.com.\n"
 "This product comes with no warranty and is not intended for\n"
@@ -28156,6 +28156,14 @@ msgstr "Le serveur de carnet d'adresses personnel"
 #: wombat/GNOME_Evolution_WombatNOLDAP.server.in.in.h:2
 msgid "The Personal Calendar Server; calendar factory"
 msgstr "Le serveur de calendrier personnel; utilitaire de calendrier"
+
+#, fuzzy
+#~ msgid "%e %B %k:%M"
+#~ msgstr "%d %b %H:%M"
+
+#, fuzzy
+#~ msgid "%e %B %l:%M%P"
+#~ msgstr "%d %b %H:%M"
 
 #~ msgid "Associated LDAP Attribute"
 #~ msgstr "Attribut LDAP Associé"

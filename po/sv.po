@@ -6,12 +6,12 @@
 # Martin Norbäck <d95mback@dtek.chalmers.se>, 2001.
 # Johan Dahlin <zilch.am@home.se>, 2001.
 #
-# $Id: sv.po,v 1.163.2.1 2003/03/05 21:46:37 ettore Exp $
+# $Id: sv.po,v 1.163.2.2 2003/03/10 18:08:49 ettore Exp $
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2003-03-05 13:53-0500\n"
+"POT-Creation-Date: 2003-03-10 12:46-0500\n"
 "PO-Revision-Date: 2003-02-26 20:11+0100\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -26295,7 +26295,7 @@ msgid "Evolution is now exiting ..."
 msgstr "Evolution avslutar nu..."
 
 #: shell/main.c:214
-#, no-c-format
+#, fuzzy, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
 "of the Ximian Evolution groupware suite.\n"
@@ -26303,8 +26303,8 @@ msgid ""
 "This version of Ximian Evolution is not yet complete. It's getting close,\n"
 "but some features are either unfinished or don't work properly.\n"
 "\n"
-"If you want a stable version of Evolution, we urge you to uninstall,\n"
-"this version, and install a 1.2.x version instead (1.2.2)\n"
+"If you want a stable version of Evolution, we urge you to uninstall\n"
+"this version and install a 1.2.x version instead (1.2.2)\n"
 "\n"
 "If you find bugs, please report them to us at bugzilla.ximian.com.\n"
 "This product comes with no warranty and is not intended for\n"
@@ -28079,6 +28079,14 @@ msgstr "Server för personlig adressbok"
 #: wombat/GNOME_Evolution_WombatNOLDAP.server.in.in.h:2
 msgid "The Personal Calendar Server; calendar factory"
 msgstr "Server för personlig kalender; kalenderfabrik"
+
+#, fuzzy
+#~ msgid "%e %B %k:%M"
+#~ msgstr "%d %b %H.%M"
+
+#, fuzzy
+#~ msgid "%e %B %l:%M%P"
+#~ msgstr "%d %b %H.%M"
 
 #~ msgid ""
 #~ "Evolution does not yet support email notification for reminders.  You "

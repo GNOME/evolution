@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.16.99\n"
-"POT-Creation-Date: 2003-03-05 13:53-0500\n"
+"POT-Creation-Date: 2003-03-10 12:46-0500\n"
 "PO-Revision-Date: 2001-09-10 09:55+0800\n"
 "Last-Translator: Joe Man <trmetal@yahoo.com.hk>\n"
 "Language-Team: Chinese <zh-l10n@linux.org.tw>\n"
@@ -31671,8 +31671,8 @@ msgid ""
 "This version of Ximian Evolution is not yet complete. It's getting close,\n"
 "but some features are either unfinished or don't work properly.\n"
 "\n"
-"If you want a stable version of Evolution, we urge you to uninstall,\n"
-"this version, and install a 1.2.x version instead (1.2.2)\n"
+"If you want a stable version of Evolution, we urge you to uninstall\n"
+"this version and install a 1.2.x version instead (1.2.2)\n"
 "\n"
 "If you find bugs, please report them to us at bugzilla.ximian.com.\n"
 "This product comes with no warranty and is not intended for\n"
@@ -34023,6 +34023,16 @@ msgstr "個人的目錄伺服器"
 #: wombat/GNOME_Evolution_WombatNOLDAP.server.in.in.h:2
 msgid "The Personal Calendar Server; calendar factory"
 msgstr "個人的行事曆伺服器；行事曆元件工廠"
+
+# mail/message-list.c:977
+#, fuzzy
+#~ msgid "%e %B %k:%M"
+#~ msgstr "%b %d %l:%M %p"
+
+# mail/message-list.c:977
+#, fuzzy
+#~ msgid "%e %B %l:%M%P"
+#~ msgstr "%b %d %l:%M %p"
 
 # addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:7
 #~ msgid "Factory for the Addressbook Minicard control"
