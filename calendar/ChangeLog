@@ -1,3 +1,19 @@
+2003-03-09  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/alarm-notify/alarm-notify.c (alarm_notify_add_calendar): if we
+	already have the client loaded, don't remove it, just increment its
+	reference count.
+
+	* gui/alarm-notify/alarm-queue.c (remove_queued_alarm): added new
+	argument to specify whether we want the component's structure removed
+	if no more alarms exist, and only free the structure if TRUE.
+	(remove_alarms): added same new argument and pass it over to
+	remove_queued_alarm.
+	(remove_comp, obj_updated_cb): passed new argument to remove_alarms.
+	(procedure_notification): passed new argument to remove_queued_alarm.
+	(obj_removed_cb): set all freed pointers to NULL.
+	(notify_dialog_cb): only remove the alarm if the pointers are not NULL.
+
 2003-03-07  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/alarm-notify/save.c (get_calendars_to_load): create the array

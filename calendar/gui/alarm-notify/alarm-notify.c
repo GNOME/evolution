@@ -441,7 +441,9 @@ alarm_notify_add_calendar (AlarmNotify *an, const char *str_uri, gboolean load_a
 		lc = lc_ptr;
 		s = s_ptr;
 
-		g_hash_table_remove (priv->uri_client_hash, str_uri);
+		lc->refcount++;
+
+		/*g_hash_table_remove (priv->uri_client_hash, str_uri);
 
 		g_signal_handlers_disconnect_matched (G_OBJECT (lc->client),
 						      G_SIGNAL_MATCH_DATA,
@@ -453,40 +455,38 @@ alarm_notify_add_calendar (AlarmNotify *an, const char *str_uri, gboolean load_a
 		e_uri_free (lc->uri);
 
 		g_free (lc);
-		g_free (s);
-	}
+		g_free (s);*/
+	} else {
+		client = cal_client_new ();
 
-	client = cal_client_new ();
+		if (client) {
+			/* we only add the URI to load_afterwards if we open it
+			   correctly */
+			lc = g_new (LoadedClient, 1);
 
-	if (client) {
-		/* we only add the URI to load_afterwards if we open it
-		   correctly */
-		lc = g_new (LoadedClient, 1);
+			g_signal_connect (G_OBJECT (client), "cal_opened",
+					  G_CALLBACK (cal_opened_cb),
+					  lc);
 
-		g_signal_connect (G_OBJECT (client), "cal_opened",
-				  G_CALLBACK (cal_opened_cb),
-				  lc);
-
-		if (cal_client_open_calendar (client, str_uri, FALSE)) {
-			lc->client = client;
-			lc->uri = uri;
-			lc->refcount = 1;
-			lc->timeout_id = -1;
-			g_hash_table_insert (priv->uri_client_hash,
-					     g_strdup (str_uri), lc);
+			if (cal_client_open_calendar (client, str_uri, FALSE)) {
+				lc->client = client;
+				lc->uri = uri;
+				lc->refcount = 1;
+				lc->timeout_id = -1;
+				g_hash_table_insert (priv->uri_client_hash,
+						     g_strdup (str_uri), lc);
+			} else {
+				g_free (lc);
+				g_object_unref (G_OBJECT (client));
+				client = NULL;
+			}
 		} else {
-			g_free (lc);
-			g_object_unref (G_OBJECT (client));
-			client = NULL;
+			e_uri_free (uri);
+
+			CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+					     ex_GNOME_Evolution_Calendar_AlarmNotify_BackendContactError,
+					     NULL);
+			return;
 		}
-	}
-
-	if (!client) {
-		e_uri_free (uri);
-
-		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-				     ex_GNOME_Evolution_Calendar_AlarmNotify_BackendContactError,
-				     NULL);
-		return;
 	}
 }

@@ -192,7 +192,7 @@ lookup_queued_alarm (CompQueuedAlarms *cqa, gpointer alarm_id)
  * the last one listed for the component, it removes the component itself.
  */
 static void
-remove_queued_alarm (CompQueuedAlarms *cqa, gpointer alarm_id)
+remove_queued_alarm (CompQueuedAlarms *cqa, gpointer alarm_id, gboolean free_object)
 {
 	QueuedAlarm *qa;
 	const char *uid;
@@ -221,14 +221,16 @@ remove_queued_alarm (CompQueuedAlarms *cqa, gpointer alarm_id)
 	if (cqa->queued_alarms != NULL)
 		return;
 
-	cal_component_get_uid (cqa->alarms->comp, &uid);
-	g_hash_table_remove (cqa->parent_client->uid_alarms_hash, uid);
-	cqa->parent_client = NULL;
-
-	cal_component_alarms_free (cqa->alarms);
-	cqa->alarms = NULL;
-
-	g_free (cqa);
+	if (free_object) {
+		cal_component_get_uid (cqa->alarms->comp, &uid);
+		g_hash_table_remove (cqa->parent_client->uid_alarms_hash, uid);
+		cqa->parent_client = NULL;
+		cal_component_alarms_free (cqa->alarms);
+		g_free (cqa);
+	} else {
+		cal_component_alarms_free (cqa->alarms);
+		cqa->alarms = NULL;
+	}
 }
 
 /* Callback used when an alarm triggers */
@@ -424,7 +426,7 @@ lookup_comp_queued_alarms (ClientAlarms *ca, const char *uid)
 }
 
 static void
-remove_alarms (CompQueuedAlarms *cqa)
+remove_alarms (CompQueuedAlarms *cqa, gboolean free_object)
 {
 	GSList *l;
 
@@ -440,7 +442,7 @@ remove_alarms (CompQueuedAlarms *cqa)
 		l = l->next;
 
 		alarm_remove (qa->alarm_id);
-		remove_queued_alarm (cqa, qa->alarm_id);
+		remove_queued_alarm (cqa, qa->alarm_id, free_object);
 	}
 
 }
@@ -460,7 +462,7 @@ remove_comp (ClientAlarms *ca, const char *uid)
 	 */
 	g_assert (cqa->queued_alarms != NULL);
 
-	remove_alarms (cqa);
+	remove_alarms (cqa, TRUE);
 
 	/* The list should be empty now, and thus the queued component alarms
 	 * structure should have been freed and removed from the hash table.
@@ -503,7 +505,7 @@ obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 		GSList *l;
 
 		/* if already in the list, just update it */
-		remove_alarms (cqa);
+		remove_alarms (cqa, FALSE);
 		cqa->alarms = alarms;
 		cqa->queued_alarms = NULL;
 
@@ -664,8 +666,11 @@ on_dialog_obj_removed_cb (CalClient *client, const char *uid, gpointer data)
 	cal_component_get_uid (c->comp, &our_uid);
 	g_return_if_fail (our_uid && *our_uid);
 
-	if (!strcmp (uid, our_uid))
+	if (!strcmp (uid, our_uid)) {
 		alarm_notify_dialog_disable_buttons (c->dialog);
+		c->cqa = NULL;
+		c->alarm_id = NULL;
+	}
 }
 
 /* Callback used from the alarm notify dialog */
@@ -698,7 +703,8 @@ notify_dialog_cb (AlarmNotifyResult result, int snooze_mins, gpointer data)
 		g_assert_not_reached ();
 	}
 
-	remove_queued_alarm (c->cqa, c->alarm_id);
+	if (c->cqa != NULL)
+		remove_queued_alarm (c->cqa, c->alarm_id, TRUE);
 	g_object_unref (c->comp);
 	g_object_unref (c->client);
 	g_free (c);
@@ -935,7 +941,7 @@ procedure_notification (time_t trigger, CompQueuedAlarms *cqa, gpointer alarm_id
 	if (result < 0)
 		goto fallback;
 
-	remove_queued_alarm (cqa, alarm_id);
+	remove_queued_alarm (cqa, alarm_id, TRUE);
 	return;
 
  fallback:
