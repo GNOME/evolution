@@ -1,3 +1,7 @@
+1998-03-31  Raja R Harinath  <harinath@cs.umn.edu>
+
+	* gnome-support.m4 (AC_REPLACE_FUNCS): Look for vasprintf.
+
 Thu Mar 19 23:23:30 1998  Tom Tromey  <tromey@cygnus.com>
 
 	* gnome.m4: An empty true branch of an `if' statement is not valid
