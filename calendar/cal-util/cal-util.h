@@ -27,6 +27,8 @@
 #include <ical.h>
 #include <time.h>
 #include <glib.h>
+#include <cal-util/cal-component.h>
+#include <cal-util/cal-recur.h>
 
 BEGIN_GNOME_DECLS
 
@@ -54,6 +56,20 @@ typedef enum {
 void cal_obj_uid_list_free (GList *list);
 
 icalcomponent *cal_util_new_top_level (void);
+
+CalComponentAlarms *cal_util_generate_alarms_for_comp (CalComponent *comp,
+						       time_t start,
+						       time_t end,
+						       CalRecurResolveTimezoneFn resolve_tzid,
+						       gpointer user_data);
+int cal_util_generate_alarms_for_list (GList *comps,
+				       time_t start,
+				       time_t end,
+				       GSList **comp_alarms,
+				       CalRecurResolveTimezoneFn resolve_tzid,
+				       gpointer user_data);
+
+icaltimezone *cal_util_resolve_tzid (const char *tzid, gpointer data);
 
 END_GNOME_DECLS
 

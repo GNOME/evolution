@@ -1,3 +1,19 @@
+2001-08-20  Rodrigo Moya <rodrigo@ximian.com>
+
+	* cal-util/cal-util.[ch] (cal_util_generate_alarms_for_list):
+	(cal_util_generate_alarms_for_comp): 
+	new functions moved from the CalBackendFile, to allow its use outside
+	of it. The signature has changed a little bit, since these functions
+	need a way to get the timezones from the callers, so a callback
+	function to resolve the timezones has been added to the list of
+	parameters
+
+	* pcs/cal-backend-file.c (generate_alarms_for_list):
+	(generate_alarms_for_comp): moved to cal-util, with all their related
+	functions/structures
+
+	* pcs/cal-backend-db.c: removed functions that were moved to cal-util
+
 2001-08-20  Damon Chaplin  <damon@ximian.com>
 
 	* gui/dialogs/comp-editor.c (pixmaps): use Delete icon in menu, and

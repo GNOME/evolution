@@ -1065,6 +1065,20 @@ cal_backend_file_get_uids (CalBackend *backend, CalObjType type)
 	return list;
 }
 
+/* function to resolve timezones */
+static icaltimezone *
+resolve_tzid (const char *tzid, gpointer user_data)
+{
+	icalcomponent *vcalendar_comp = user_data;
+
+        if (!tzid || !tzid[0])
+                return NULL;
+        else if (!strcmp (tzid, "UTC"))
+                return icaltimezone_get_utc_timezone ();
+
+	return icalcomponent_get_timezone (vcalendar_comp, tzid);
+}
+
 /* Callback used from cal_recur_generate_instances(); adds the component's UID
  * to our hash table.
  */
@@ -1091,21 +1105,6 @@ add_instance (CalComponent *comp, time_t start, time_t end, gpointer data)
 	g_hash_table_insert (uid_hash, (char *) uid, NULL);
 	return FALSE;
 }
-
-
-static icaltimezone*
-resolve_tzid (const char *tzid, gpointer data)
-{
-	icalcomponent *vcalendar_comp = data;
-
-	if (!tzid || !tzid[0])
-		return NULL;
-	else if (!strcmp (tzid, "UTC"))
-		return icaltimezone_get_utc_timezone ();
-	else
-		return icalcomponent_get_timezone (vcalendar_comp, tzid);
-}
-
 
 /* Populates a hash table with the UIDs of the components that occur or recur
  * within a specific time range.
@@ -1396,287 +1395,6 @@ cal_backend_file_get_changes (CalBackend *backend, CalObjType type, const char *
 	return cal_backend_file_compute_changes (backend, type, change_id);
 }
 
-/* Computes the range of time in which recurrences should be generated for a
- * component in order to compute alarm trigger times.
- */
-static void
-compute_alarm_range (CalComponent *comp, GList *alarm_uids, time_t start, time_t end,
-		     time_t *alarm_start, time_t *alarm_end)
-{
-	GList *l;
-
-	*alarm_start = start;
-	*alarm_end = end;
-
-	for (l = alarm_uids; l; l = l->next) {
-		const char *auid;
-		CalComponentAlarm *alarm;
-		CalAlarmTrigger trigger;
-		struct icaldurationtype *dur;
-		time_t dur_time;
-
-		auid = l->data;
-		alarm = cal_component_get_alarm (comp, auid);
-		g_assert (alarm != NULL);
-
-		cal_component_alarm_get_trigger (alarm, &trigger);
-		cal_component_alarm_free (alarm);
-
-		switch (trigger.type) {
-		case CAL_ALARM_TRIGGER_NONE:
-		case CAL_ALARM_TRIGGER_ABSOLUTE:
-			continue;
-
-		case CAL_ALARM_TRIGGER_RELATIVE_START:
-		case CAL_ALARM_TRIGGER_RELATIVE_END:
-			dur = &trigger.u.rel_duration;
-  			dur_time = icaldurationtype_as_int (*dur);
-
-			if (dur->is_neg)
-				/* If the duration is negative then dur_time
-				 * will be negative as well; that is why we
-				 * subtract to expand the range.
-				 */
-				*alarm_end = MAX (*alarm_end, end - dur_time);
-			else
-				*alarm_start = MIN (*alarm_start, start - dur_time);
-
-			break;
-
-		default:
-			g_assert_not_reached ();
-		}
-	}
-
-	g_assert (*alarm_start <= *alarm_end);
-}
-
-/* Closure data to generate alarm occurrences */
-struct alarm_occurrence_data {
-	/* These are the info we have */
-	GList *alarm_uids;
-	time_t start;
-	time_t end;
-
-	/* This is what we compute */
-	GSList *triggers;
-	int n_triggers;
-};
-
-/* Callback used from cal_recur_generate_instances(); generates triggers for all
- * of a component's RELATIVE alarms.
- */
-static gboolean
-add_alarm_occurrences_cb (CalComponent *comp, time_t start, time_t end, gpointer data)
-{
-	struct alarm_occurrence_data *aod;
-	GList *l;
-
-	aod = data;
-
-	for (l = aod->alarm_uids; l; l = l->next) {
-		const char *auid;
-		CalComponentAlarm *alarm;
-		CalAlarmTrigger trigger;
-		struct icaldurationtype *dur;
-		time_t dur_time;
-		time_t occur_time, trigger_time;
-		CalAlarmInstance *instance;
-
-		auid = l->data;
-		alarm = cal_component_get_alarm (comp, auid);
-		g_assert (alarm != NULL);
-
-		cal_component_alarm_get_trigger (alarm, &trigger);
-		cal_component_alarm_free (alarm);
-
-		if (trigger.type != CAL_ALARM_TRIGGER_RELATIVE_START
-		    && trigger.type != CAL_ALARM_TRIGGER_RELATIVE_END)
-			continue;
-
-		dur = &trigger.u.rel_duration;
-  		dur_time = icaldurationtype_as_int (*dur);
-
-		if (trigger.type == CAL_ALARM_TRIGGER_RELATIVE_START)
-			occur_time = start;
-		else
-			occur_time = end;
-
-		/* If dur->is_neg is true then dur_time will already be
-		 * negative.  So we do not need to test for dur->is_neg here; we
-		 * can simply add the dur_time value to the occur_time and get
-		 * the correct result.
-		 */
-
-		trigger_time = occur_time + dur_time;
-
-		if (trigger_time < aod->start || trigger_time >= aod->end)
-			continue;
-
-		instance = g_new (CalAlarmInstance, 1);
-		instance->auid = auid;
-		instance->trigger = trigger_time;
-		instance->occur_start = start;
-		instance->occur_end = end;
-
-		aod->triggers = g_slist_prepend (aod->triggers, instance);
-		aod->n_triggers++;
-	}
-
-	return TRUE;
-}
-
-/* Generates the absolute triggers for a component */
-static void
-generate_absolute_triggers (CalComponent *comp, struct alarm_occurrence_data *aod)
-{
-	GList *l;
-	CalComponentDateTime dt_start, dt_end;
-
-	cal_component_get_dtstart (comp, &dt_start);
-	cal_component_get_dtend (comp, &dt_end);
-
-	for (l = aod->alarm_uids; l; l = l->next) {
-		const char *auid;
-		CalComponentAlarm *alarm;
-		CalAlarmTrigger trigger;
-		time_t abs_time;
-		CalAlarmInstance *instance;
-
-		auid = l->data;
-		alarm = cal_component_get_alarm (comp, auid);
-		g_assert (alarm != NULL);
-
-		cal_component_alarm_get_trigger (alarm, &trigger);
-		cal_component_alarm_free (alarm);
-
-		if (trigger.type != CAL_ALARM_TRIGGER_ABSOLUTE)
-			continue;
-
-		abs_time = icaltime_as_timet (trigger.u.abs_time);
-
-		if (abs_time < aod->start || abs_time >= aod->end)
-			continue;
-
-		instance = g_new (CalAlarmInstance, 1);
-		instance->auid = auid;
-		instance->trigger = abs_time;
-
-		/* No particular occurrence, so just use the times from the component */
-
-		if (dt_start.value)
-			instance->occur_start = icaltime_as_timet (*dt_start.value);
-		else
-			instance->occur_start = -1;
-
-		if (dt_end.value)
-			instance->occur_end = icaltime_as_timet (*dt_end.value);
-		else
-			instance->occur_end = -1;
-
-		aod->triggers = g_slist_prepend (aod->triggers, instance);
-		aod->n_triggers++;
-	}
-
-	cal_component_free_datetime (&dt_start);
-	cal_component_free_datetime (&dt_end);
-}
-
-/* Compares two alarm instances; called from g_slist_sort() */
-static gint
-compare_alarm_instance (gconstpointer a, gconstpointer b)
-{
-	const CalAlarmInstance *aia, *aib;
-
-	aia = a;
-	aib = b;
-
-	if (aia->trigger < aib->trigger)
-		return -1;
-	else if (aia->trigger > aib->trigger)
-		return 1;
-	else
-		return 0;
-}
-
-/* Generates alarm instances for a calendar component.  Returns the instances
- * structure, or NULL if no alarm instances occurred in the specified time
- * range.
- */
-static CalComponentAlarms *
-generate_alarms_for_comp (CalComponent *comp, time_t start, time_t end)
-{
-	GList *alarm_uids;
-	time_t alarm_start, alarm_end;
-	struct alarm_occurrence_data aod;
-	CalComponentAlarms *alarms;
-	icalcomponent *icalcomp, *vcalendar_comp;
-
-	if (!cal_component_has_alarms (comp))
-		return NULL;
-
-	alarm_uids = cal_component_get_alarm_uids (comp);
-	compute_alarm_range (comp, alarm_uids, start, end, &alarm_start, &alarm_end);
-
-	aod.alarm_uids = alarm_uids;
-	aod.start = start;
-	aod.end = end;
-	aod.triggers = NULL;
-	aod.n_triggers = 0;
-
-	/* Get the parent VCALENDAR component, so we can resolve TZIDs.  */
-	icalcomp = cal_component_get_icalcomponent (comp);
-	vcalendar_comp = icalcomponent_get_parent (icalcomp);
-	g_assert (vcalendar_comp != NULL);
-
-	cal_recur_generate_instances (comp, alarm_start, alarm_end,
-				      add_alarm_occurrences_cb, &aod,
-				      resolve_tzid, vcalendar_comp);
-
-	/* We add the ABSOLUTE triggers separately */
-	generate_absolute_triggers (comp, &aod);
-
-	if (aod.n_triggers == 0)
-		return NULL;
-
-	/* Create the component alarm instances structure */
-
-	alarms = g_new (CalComponentAlarms, 1);
-	alarms->comp = comp;
-	gtk_object_ref (GTK_OBJECT (alarms->comp));
-	alarms->alarms = g_slist_sort (aod.triggers, compare_alarm_instance);
-
-	return alarms;
-}
-
-/* Iterates through all the components in the comps list and generates alarm
- * instances for them; putting them in the comp_alarms list.  Returns the number
- * of elements it added to that list.
- */
-static int
-generate_alarms_for_list (GList *comps, time_t start, time_t end, GSList **comp_alarms)
-{
-	GList *l;
-	int n;
-
-	n = 0;
-
-	for (l = comps; l; l = l->next) {
-		CalComponent *comp;
-		CalComponentAlarms *alarms;
-
-		comp = CAL_COMPONENT (l->data);
-		alarms = generate_alarms_for_comp (comp, start, end);
-
-		if (alarms) {
-			*comp_alarms = g_slist_prepend (*comp_alarms, alarms);
-			n++;
-		}
-	}
-
-	return n;
-}
-
 /* Fills a CORBA sequence of alarm instances */
 static void
 fill_alarm_instances_seq (GNOME_Evolution_Calendar_CalAlarmInstanceSeq *seq, GSList *alarms)
@@ -1730,8 +1448,12 @@ cal_backend_file_get_alarms_in_range (CalBackend *backend, time_t start, time_t 
 	n_comp_alarms = 0;
 	comp_alarms = NULL;
 
-	n_comp_alarms += generate_alarms_for_list (priv->events, start, end, &comp_alarms);
-	n_comp_alarms += generate_alarms_for_list (priv->todos, start, end, &comp_alarms);
+	n_comp_alarms += cal_util_generate_alarms_for_list (priv->events, start, end,
+							    &comp_alarms, resolve_tzid,
+							    priv->icalcomp);
+	n_comp_alarms += cal_util_generate_alarms_for_list (priv->todos, start, end,
+							    &comp_alarms, resolve_tzid,
+							    priv->icalcomp);
 
 	seq = GNOME_Evolution_Calendar_CalComponentAlarmsSeq__alloc ();
 	CORBA_sequence_set_release (seq, TRUE);
@@ -1795,7 +1517,7 @@ cal_backend_file_get_alarms_for_object (CalBackend *backend, const char *uid,
 	corba_alarms->calobj = CORBA_string_dup (comp_str);
 	g_free (comp_str);
 
-	alarms = generate_alarms_for_comp (comp, start, end);
+	alarms = cal_util_generate_alarms_for_comp (comp, start, end, resolve_tzid, priv->icalcomp);
 	if (alarms) {
 		fill_alarm_instances_seq (&corba_alarms->alarms, alarms->alarms);
 		cal_component_alarms_free (alarms);
