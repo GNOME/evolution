@@ -1493,7 +1493,6 @@ et_real_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 	g_free (val);
 
 	e_table->sorter = e_table_sorter_new(etm, e_table->full_header, e_table->sort_info);
-	g_object_ref (e_table->sorter);
 
 	g_object_set (e_table->selection,
 		      "model", etm,
