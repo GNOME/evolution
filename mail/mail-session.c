@@ -225,9 +225,9 @@ pass_response (GtkDialog *dialog, int button, void *data)
 		camel_exception_set (m->ex, CAMEL_EXCEPTION_USER_CANCEL, _("User canceled operation."));
 		break;
 	}
-	
+
 	gtk_widget_destroy ((GtkWidget *) dialog);
-	
+
 	password_dialog = NULL;
 	e_msgport_reply ((EMsg *)m);
 	
@@ -985,6 +985,7 @@ mail_session_set_interactive (gboolean interactive)
 		if (password_dialog) {
 			d(printf ("Destroying password dialogue\n"));
 			gtk_widget_destroy ((GtkWidget *) password_dialog);
+			password_dialog =  NULL;
 		}
 		
 		/* same for pending user messages */

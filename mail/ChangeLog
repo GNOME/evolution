@@ -1,3 +1,10 @@
+2003-05-08  Ettore Perazzoli  <ettore@ximian.com>
+
+	* mail-session.c (request_password): Make sure password_dialog is
+	NULLified when the dialog is destroyed in any case, using
+	g_object_add_weak_pointer().  Prevents a crash that could happen
+	if the shell would quit with the password dialog still up.
+
 2003-05-07  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-display.c (mail_display_render): Make sure that we haven't
