@@ -1,6 +1,23 @@
+2004-03-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	Fix for bug #53497.
+
+	* providers/smtp/camel-smtp-transport.c (smtp_helo): Instead of
+	unreffing the streams, call camel_service_disconnect().
+	(smtp_mail): Same.
+	(smtp_rcpt): Same.
+	(smtp_data): Same.
+	(smtp_send_to): Ignore exceptions for smtp_rset(). Also, check
+	that we are connected before we try to send (in Evolution's
+	current usage scenario, this isn't a problem but in the future if
+	we ever try to fire off several messages via the same smtp
+	connection, it may be - especially if RSET failed during the
+	previous send).
+
 2004-03-12  Radek Doulik  <rodo@ximian.com>
 
-	* camel-folder.c (folder_changed): clearn the learn bit only if set
+	* camel-folder.c (folder_changed): clearn the learn bit only if
+	set.
 
 2004-03-12  Jeffrey Stedfast  <fejj@ximian.com>
 

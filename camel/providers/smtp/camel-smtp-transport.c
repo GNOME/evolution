@@ -681,6 +681,12 @@ smtp_send_to (CamelTransport *transport, CamelMimeMessage *message,
 	const char *addr;
 	int i, len;
 	
+	if (!smtp_transport->connected) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_NOT_CONNECTED,
+				      _("Cannot send message: service not connected."));
+		return FALSE;
+	}
+	
 	if (!camel_internet_address_get (CAMEL_INTERNET_ADDRESS (from), 0, NULL, &addr)) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Cannot send message: sender address not valid."));
@@ -710,14 +716,14 @@ smtp_send_to (CamelTransport *transport, CamelMimeMessage *message,
 	cia = CAMEL_INTERNET_ADDRESS (recipients);
 	for (i = 0; i < len; i++) {
 		char *enc;
-
+		
 		if (!camel_internet_address_get (cia, i, NULL, &addr)) {
 			camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
 					     _("Cannot send message: one or more invalid recipients"));
 			camel_operation_end (NULL);
 			return FALSE;
 		}
-
+		
 		enc = camel_internet_address_encode_address(NULL, NULL, addr);
 		if (!smtp_rcpt (smtp_transport, enc, ex)) {
 			g_free(enc);
@@ -733,7 +739,8 @@ smtp_send_to (CamelTransport *transport, CamelMimeMessage *message,
 	}
 	
 	/* reset the service for our next transfer session */
-	smtp_rset (smtp_transport, ex);
+	if (!smtp_rset (smtp_transport, ex))
+		camel_exception_clear (ex);
 	
 	camel_operation_end (NULL);
 	
@@ -855,7 +862,7 @@ smtp_set_exception (CamelSmtpTransport *transport, const char *respbuf, const ch
 	
 	if (!respbuf) {
 		/* we got disconnected */
-		transport->connected = FALSE;
+		camel_service_disconnect ((CamelService *) transport, FALSE, NULL);
 	}
 }
 
@@ -933,11 +940,7 @@ smtp_helo (CamelSmtpTransport *transport, CamelException *ex)
 				      _("HELO command failed: %s"), g_strerror (errno));
 		camel_operation_end (NULL);
 		
-		transport->connected = FALSE;
-		camel_object_unref (transport->istream);
-		transport->istream = NULL;
-		camel_object_unref (transport->ostream);
-		transport->ostream = NULL;
+		camel_service_disconnect ((CamelService *) transport, FALSE, NULL);
 		
 		return FALSE;
 	}
@@ -1147,10 +1150,7 @@ smtp_mail (CamelSmtpTransport *transport, const char *sender, gboolean has_8bit_
 				      _("MAIL FROM command failed: %s: mail not sent"),
 				      g_strerror (errno));
 		
-		camel_object_unref (transport->istream);
-		transport->istream = NULL;
-		camel_object_unref (transport->ostream);
-		transport->ostream = NULL;
+		camel_service_disconnect ((CamelService *) transport, FALSE, NULL);
 		
 		return FALSE;
 	}
@@ -1191,10 +1191,7 @@ smtp_rcpt (CamelSmtpTransport *transport, const char *recipient, CamelException 
 				      _("RCPT TO command failed: %s: mail not sent"),
 				      g_strerror (errno));
 		
-		camel_object_unref (transport->istream);
-		transport->istream = NULL;
-		camel_object_unref (transport->ostream);
-		transport->ostream = NULL;
+		camel_service_disconnect ((CamelService *) transport, FALSE, NULL);
 		
 		return FALSE;
 	}
@@ -1252,10 +1249,7 @@ smtp_data (CamelSmtpTransport *transport, CamelMimeMessage *message, CamelExcept
 				      _("DATA command failed: %s: mail not sent"),
 				      g_strerror (errno));
 		
-		camel_object_unref (transport->istream);
-		transport->istream = NULL;
-		camel_object_unref (transport->ostream);
-		transport->ostream = NULL;
+		camel_service_disconnect ((CamelService *) transport, FALSE, NULL);
 		
 		return FALSE;
 	}
@@ -1315,10 +1309,7 @@ smtp_data (CamelSmtpTransport *transport, CamelMimeMessage *message, CamelExcept
 		
 		camel_object_unref (filtered_stream);
 		
-		camel_object_unref (transport->istream);
-		transport->istream = NULL;
-		camel_object_unref (transport->ostream);
-		transport->ostream = NULL;
+		camel_service_disconnect ((CamelService *) transport, FALSE, NULL);
 		
 		return FALSE;
 	}
@@ -1335,10 +1326,7 @@ smtp_data (CamelSmtpTransport *transport, CamelMimeMessage *message, CamelExcept
 				      _("DATA command failed: %s: mail not sent"),
 				      g_strerror (errno));
 		
-		camel_object_unref (transport->istream);
-		transport->istream = NULL;
-		camel_object_unref (transport->ostream);
-		transport->ostream = NULL;
+		camel_service_disconnect ((CamelService *) transport, FALSE, NULL);
 		
 		return FALSE;
 	}
@@ -1376,10 +1364,7 @@ smtp_rset (CamelSmtpTransport *transport, CamelException *ex)
 		camel_exception_setv (ex, errno == EINTR ? CAMEL_EXCEPTION_USER_CANCEL : CAMEL_EXCEPTION_SYSTEM,
 				      _("RSET command failed: %s"), g_strerror (errno));
 		
-		camel_object_unref (transport->istream);
-		transport->istream = NULL;
-		camel_object_unref (transport->ostream);
-		transport->ostream = NULL;
+		camel_service_disconnect ((CamelService *) transport, FALSE, NULL);
 		
 		return FALSE;
 	}
@@ -1418,10 +1403,7 @@ smtp_quit (CamelSmtpTransport *transport, CamelException *ex)
 		camel_exception_setv (ex, errno == EINTR ? CAMEL_EXCEPTION_USER_CANCEL : CAMEL_EXCEPTION_SYSTEM,
 				      _("QUIT command failed: %s"), g_strerror (errno));
 		
-		camel_object_unref (transport->istream);
-		transport->istream = NULL;
-		camel_object_unref (transport->ostream);
-		transport->ostream = NULL;
+		camel_service_disconnect ((CamelService *) transport, FALSE, NULL);
 		
 		return FALSE;
 	}
