@@ -1,3 +1,7 @@
+2002-03-27  JP Rosevear  <jpr@ximian.com>
+
+	* C/Makefile.am: end the line properly
+
 2002-03-27  Aaron Weber  <aaron@ximian.com>
 
 	* C/topic.dat: add from branch.

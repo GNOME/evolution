@@ -29,8 +29,7 @@ figs = \
 	figures/schedule.png			\
 	figures/small_desktop.png		\
 	figures/summary.png			\
-	figures/vfolder-createrule-fig.png	\
-
+	figures/vfolder-createrule-fig.png
 
 docname = evolution
 lang = C
