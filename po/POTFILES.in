@@ -140,7 +140,6 @@ filter/filter-input.c
 filter/filter-option.c
 filter/filter-part.c
 filter/filter-rule.c
-filter/filter-system-flag.c
 filter/filter.glade
 filter/libfilter-i18n.h
 filter/score-editor.c
