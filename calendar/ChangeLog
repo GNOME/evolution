@@ -1,3 +1,8 @@
+2003-01-28  JP Rosevear  <jpr@ximian.com>
+
+	* gui/dialogs/recurrence-page.c (recurrence_page_set_dates): make
+	sure we always update the preview
+
 2003-01-27  JP Rosevear  <jpr@ximian.com>
 
 	* conduits/todo/todo-conduit.c (add_record): make sure to create a
