@@ -503,6 +503,9 @@ run_command (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessa
 	int in_fds[2];
 	pid_t pid;
 	
+	if (argc < 1 || argv[0]->value.string[0] == '\0')
+		return 0;
+	
 	if (pipe (in_fds) == -1) {
 		camel_exception_setv (fms->ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Failed to create pipe to '%s': %s"),
@@ -512,7 +515,6 @@ run_command (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessa
 	
 	if (!(pid = fork ())) {
 		/* child process */
-		GPtrArray *args;
 		int maxfd, i;
 		
 		if (dup2 (in_fds[0], STDIN_FILENO) < 0)
@@ -528,16 +530,7 @@ run_command (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessa
 			}
 		}
 		
-		args = g_ptr_array_new ();
-		g_ptr_array_add (args, g_basename (argv[0]->value.string));
-		for (i = 1; i < argc; i++) {
-			g_ptr_array_add (args, argv[i]->value.string);
-		}
-		g_ptr_array_add (args, NULL);
-		
-		execvp (argv[0]->value.string, (char **) args->pdata);
-		
-		g_ptr_array_free (args, TRUE);
+		execv ("sh", "-c", argv[0]->value.string);
 		
 		fprintf (stderr, "Could not execute %s: %s\n", argv[0]->value.string,
 			 g_strerror (errno));
