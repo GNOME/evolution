@@ -2,7 +2,7 @@
 <filteroptions>
   <ruleset>
     <rule grouping="any" source="demand">
-      <title>Sender contains</title>
+      <_title>Sender contains</_title>
       <partset>
         <part name="sender">
           <value name="sender-type" type="option" value="contains"/>
@@ -13,7 +13,7 @@
     </rule>
 
     <rule grouping="any" source="demand">
-      <title>Body or subject contains</title>
+      <_title>Body or subject contains</_title>
       <partset>
         <part name="subject">
           <value name="subject-type" type="option" value="contains"/>
@@ -28,7 +28,7 @@
     </rule>
 
     <rule grouping="any" source="demand">
-      <title>Body contains</title>
+      <_title>Body contains</_title>
       <partset>
         <part name="body">
           <value name="body-type" type="option" value="contains"/>
@@ -39,7 +39,7 @@
     </rule>
 
     <rule grouping="any" source="demand">
-      <title>Subject contains</title>
+      <_title>Subject contains</_title>
       <partset>
         <part name="subject">
           <value name="subject-type" type="option" value="contains"/>
@@ -50,7 +50,7 @@
     </rule>
 
     <rule grouping="any" source="demand">
-      <title>Body does not contain</title>
+      <_title>Body does not contain</_title>
       <partset>
         <part name="body">
           <value name="body-type" type="option" value="not contains"/>
@@ -61,7 +61,7 @@
     </rule>
 
     <rule grouping="any" source="demand">
-      <title>Subject does not contain</title>
+      <_title>Subject does not contain</_title>
       <partset>
         <part name="subject">
           <value name="subject-type" type="option" value="not contains"/>
@@ -72,7 +72,7 @@
     </rule>
 
     <rule grouping="any" source="demand">
-      <title>Recipients contain</title>
+      <_title>Recipients contain</_title>
       <partset>
         <part name="to">
           <value name="recipient-type" type="option" value="contains"/>

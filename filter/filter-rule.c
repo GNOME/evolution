@@ -324,7 +324,7 @@ xml_decode (FilterRule *fr, xmlNodePtr node, RuleContext *f)
 	while (work) {
 		if (!strcmp (work->name, "partset")) {
 			load_set (work, fr, f);
-		} else if (!strcmp (work->name, "title")) {
+		} else if (!strcmp (work->name, "title") || !strcmp (work->name, "_title")) {
 			if (!fr->name) {
 				gchar *str, *decstr;
 				str = xmlNodeGetContent (work);

@@ -1,3 +1,8 @@
+2001-08-14  Peter Williams  <peterw@ximian.com>
+
+	* filter-rule.c (xml_decode): Match either "title" or "_title" to allow
+	for translations of the title (provided in the default files)
+
 2001-08-13  Peter Williams  <peterw@ximian.com>
 
 	* filter-datespec.c (make_span_editor): Add a gettext around our static

@@ -1,3 +1,8 @@
+2001-08-14  Peter Williams  <peterw@ximian.com>
+
+	* searches.xml: Rename <title> to <_title> so that these fields can
+	be translated.
+
 2001-08-09  Chris Toshok  <toshok@ximian.com>
 
 	* addressbook-sources.xml: remove the description field.
