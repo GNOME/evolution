@@ -1,3 +1,14 @@
+2004-04-19  JP Rosevear <jpr@ximian.com>
+
+	* gui/gnome-cal.c (set_view): take a range_selected boolean for
+	internal use
+	(gnome_calendar_set_view): use above
+	(display_view): use priv->range_selected, we'll set it correctly
+	before this
+	(display_view_cb): only pass focus boolean
+	(gnome_calendar_on_date_navigator_selection_changed): set the view
+	so the view menu is accurate
+
 2004-04-18  JP Rosevear <jpr@ximian.com>
 
 	Fixes #54021

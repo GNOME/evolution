@@ -1421,18 +1421,8 @@ gnome_calendar_get_view (GnomeCalendar *gcal)
 	return priv->current_view_type;
 }
 
-
-/**
- * gnome_calendar_set_view:
- * @gcal: A calendar.
- * @view_type: Type of view to show.
- *
- * Sets the view that should be shown in a calendar.  If @reset_range is true,
- * this function will automatically set the number of days or weeks shown in
- * the view; otherwise the last configuration will be kept.
- **/
-void
-gnome_calendar_set_view (GnomeCalendar *gcal, GnomeCalendarViewType view_type)
+static void
+set_view (GnomeCalendar *gcal, GnomeCalendarViewType view_type, gboolean range_selected)
 {
 	GnomeCalendarPrivate *priv;
 	const char *view_id;
@@ -1468,7 +1458,27 @@ gnome_calendar_set_view (GnomeCalendar *gcal, GnomeCalendarViewType view_type)
 		return;
 	}
 
+	priv->range_selected = range_selected;
 	gal_view_instance_set_current_view_id (priv->view_instance, view_id);
+}
+
+
+/**
+ * gnome_calendar_set_view:
+ * @gcal: A calendar.
+ * @view_type: Type of view to show.
+ *
+ * Sets the view that should be shown in a calendar.  If @reset_range is true,
+ * this function will automatically set the number of days or weeks shown in
+ * the view; otherwise the last configuration will be kept.
+ **/
+void
+gnome_calendar_set_view (GnomeCalendar *gcal, GnomeCalendarViewType view_type)
+{
+	g_return_if_fail (gcal != NULL);
+	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
+
+	set_view (gcal, view_type, FALSE);
 }
 
 /* Sets the view without changing the selection or updating the date
@@ -1477,8 +1487,7 @@ gnome_calendar_set_view (GnomeCalendar *gcal, GnomeCalendarViewType view_type)
  * for the month view).
  */
 static void
-display_view (GnomeCalendar *gcal, GnomeCalendarViewType view_type,
-	      gboolean range_selected, gboolean grab_focus)
+display_view (GnomeCalendar *gcal, GnomeCalendarViewType view_type, gboolean grab_focus)
 {
 	GnomeCalendarPrivate *priv;
 	gboolean preserve_day;
@@ -1489,7 +1498,7 @@ display_view (GnomeCalendar *gcal, GnomeCalendarViewType view_type,
 
 	switch (view_type) {
 	case GNOME_CAL_DAY_VIEW:
-		if (!range_selected)
+		if (!priv->range_selected)
 			e_day_view_set_days_shown (E_DAY_VIEW (priv->day_view), 1);
 
 		break;
@@ -1503,7 +1512,7 @@ display_view (GnomeCalendar *gcal, GnomeCalendarViewType view_type,
 		break;
 
 	case GNOME_CAL_MONTH_VIEW:
-		if (!range_selected)
+		if (!priv->range_selected)
 			e_week_view_set_weeks_shown (E_WEEK_VIEW (priv->month_view), 5);
 
 		preserve_day = TRUE;
@@ -1518,7 +1527,6 @@ display_view (GnomeCalendar *gcal, GnomeCalendarViewType view_type,
 	}
 
 	priv->current_view_type = view_type;
-	priv->range_selected = range_selected;
 
 	gtk_notebook_set_page (GTK_NOTEBOOK (priv->notebook), (int) view_type);
 
@@ -1564,7 +1572,7 @@ display_view_cb (GalViewInstance *view_instance, GalView *view, gpointer data)
 	}
 
 	
-	display_view (gcal, view_type, FALSE, TRUE);
+	display_view (gcal, view_type, TRUE);
 	gnome_calendar_update_date_navigator (gcal);
 	gnome_calendar_notify_dates_shown_changed (gcal);
 }
@@ -2474,7 +2482,7 @@ gnome_calendar_on_date_navigator_selection_changed (ECalendarItem *calitem, Gnom
 	/* Make the views display things properly */
 	update_view_times (gcal, new_time);
 
-	display_view (gcal, view_type, TRUE, TRUE);
+	set_view (gcal, view_type, TRUE);
 	gnome_calendar_notify_dates_shown_changed (gcal);
 }
 
