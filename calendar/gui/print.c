@@ -43,6 +43,7 @@
 #include <libgnomeprint/gnome-printer-dialog.h>
 #include <e-util/e-dialog-widgets.h>
 #include <e-util/e-time-utils.h>
+#include <e-util/e-unicode-i18n.h>
 #include <gal/widgets/e-unicode.h>
 #include <cal-util/timeutil.h>
 #include "calendar-commands.h"
@@ -437,6 +438,7 @@ format_date(time_t time, int flags, char *buffer, int bufflen)
 	icaltimezone *zone = get_timezone ();
 	char fmt[64];
 	struct tm tm;
+	char *utf_str;
 
 	tm = *convert_timet_to_struct_tm (time, zone);
 
@@ -462,6 +464,10 @@ format_date(time_t time, int flags, char *buffer, int bufflen)
 		strcat(fmt, "%Y");
 	}
 	strftime(buffer, bufflen, fmt, &tm);
+	utf_str = e_utf8_from_locale_string (buffer);
+	strncpy (buffer, utf_str, bufflen - 1);
+	buffer[bufflen - 1] = '\0';
+	g_free (utf_str);
 	return buffer;
 }
 
@@ -546,7 +552,7 @@ print_month_small (GnomePrintContext *pc, GnomeCalendar *gcal, time_t month,
 	week_start_day = calendar_config_get_week_start_day ();
 	weekday = week_start_day;
 	for (x = 0; x < 7; x++) {
-		print_text (pc, font_bold, _(daynames[weekday]), ALIGN_CENTER,
+		print_text (pc, font_bold, U_(daynames[weekday]), ALIGN_CENTER,
 			    left + x * col_width, left + (x + 1) * col_width,
 			    top, top - row_height * 1.4);
 		weekday = (weekday + 1) % 7;
@@ -756,9 +762,9 @@ print_day_background (GnomePrintContext *pc, GnomeCalendar *gcal,
 			minute = "00";
 		} else {
 			if (i < 12)
-				minute = _("am");
+				minute = U_("am");
 		  else
-			  minute = _("pm");
+			  minute = U_("pm");
 
 			hour = i % 12;
 			if (hour == 0)
@@ -1406,7 +1412,7 @@ print_week_view_background (GnomePrintContext *pc, GnomeFont *font,
 	int day, day_x, day_y, day_h;
 	double x1, x2, y1, y2, font_size, fillcolor;
 	struct tm tm;
-	char *format_string, buffer[128];
+	char *format_string, buffer[128], *utf_str;
 
 	font_size = gnome_font_get_size (font);
 
@@ -1454,8 +1460,10 @@ print_week_view_background (GnomePrintContext *pc, GnomeFont *font,
 		}
 
 		strftime (buffer, sizeof (buffer), format_string, &tm);
-		print_text (pc, font, buffer, ALIGN_RIGHT,
+		utf_str = e_utf8_from_locale_string (buffer);
+		print_text (pc, font, utf_str, ALIGN_RIGHT,
 			    x1, x2 - 4, y1 - 2, y1 - 2 - font_size);
+		g_free (utf_str);
 	}
 }
 
@@ -1656,6 +1664,8 @@ print_month_summary (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 	y2 = top - font_size * 1.5;
 
 	for (col = 0; col < columns; col++) {
+		char *utf_str;
+
 		if (tm.tm_wday == 6 && compress_weekend) {
 			strftime (buffer, sizeof (buffer), "%a/", &tm);
 			len = strlen (buffer);
@@ -1671,7 +1681,9 @@ print_month_summary (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 		x2 = x1 + cell_width;
 
 		print_border (pc, x1, x2, y1, y2, 1.0, -1.0);
-		print_text (pc, font, buffer, ALIGN_CENTER, x1, x2, y1, y2);
+		utf_str = e_utf8_from_locale_string (buffer);
+		print_text (pc, font, utf_str, ALIGN_CENTER, x1, x2, y1, y2);
+		g_free (utf_str);
 
 		tm.tm_mday++;
 		tm.tm_wday = (tm.tm_wday + 1) % 7;
@@ -1704,7 +1716,7 @@ print_todo_details (GnomePrintContext *pc, GnomeCalendar *gcal,
 	gnome_print_setrgbcolor (pc, 0, 0, 0);
 	gnome_print_setlinewidth (pc, 0.0);
 
-	titled_box (pc, _("Tasks"), font_summary, ALIGN_CENTER | ALIGN_BORDER,
+	titled_box (pc, U_("Tasks"), font_summary, ALIGN_CENTER | ALIGN_BORDER,
 		    &left, &right, &top, &bottom, 1.0);
 
 	y = top - 3;
@@ -2084,7 +2096,7 @@ print_date_label (GnomePrintContext *pc, CalComponent *comp,
 	icaltimezone *zone = get_timezone ();
 	CalComponentDateTime datetime;
 	time_t start = 0, end = 0, complete = 0, due = 0;
-	static char buffer[1024];
+	static char buffer[1024], *utf_text;
 
 	cal_component_get_dtstart (comp, &datetime);
 	if (datetime.value)
@@ -2129,8 +2141,10 @@ print_date_label (GnomePrintContext *pc, CalComponent *comp,
 			write_label_piece (due, buffer, 1024, _("Due "), NULL);
 	}
 
-	print_text_size (pc, 12, buffer, ALIGN_LEFT,
+	utf_text = e_utf8_from_locale_string (buffer);
+	print_text_size (pc, 12, utf_text, ALIGN_LEFT,
 			 left, right, top, top - 15);
+	g_free (utf_text);
 }
 
 static void
