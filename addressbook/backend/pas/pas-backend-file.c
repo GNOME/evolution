@@ -8,6 +8,7 @@
 
 #include "config.h"  
 #include <gtk/gtksignal.h>
+#include <stdio.h>
 #include <gnome.h>
 #include <unistd.h>
 #include <fcntl.h>
@@ -188,15 +189,19 @@ view_destroy(GtkObject *object, gpointer data)
 	PASBook           *book = (PASBook *)data;
 	PASBackendFile    *bf;
 	EIterator         *iterator;
+	gboolean success = FALSE;
 
 	bf = PAS_BACKEND_FILE(pas_book_get_backend(book));
 	for (iterator = e_list_get_iterator(bf->priv->book_views); e_iterator_is_valid(iterator); e_iterator_next(iterator)) {
 		const PASBackendFileBookView *view = e_iterator_get(iterator);
 		if (view->book_view == PAS_BOOK_VIEW(object)) {
 			e_iterator_delete(iterator);
+			success = TRUE;
 			break;
 		}
 	}
+	if (!success)
+		g_warning ("Failed to remove from book_views list");
 	gtk_object_unref(GTK_OBJECT(iterator));
 
 	corba_book = bonobo_object_corba_objref(BONOBO_OBJECT(book));
@@ -475,10 +480,10 @@ pas_backend_file_search (PASBackendFile  	      *bf,
 {
 	int     db_error = 0;
 	GList   *cards = NULL;
-	gint    card_count = 0;
+	gint    card_count = 0, card_threshold = 20, card_threshold_max = 200;
 	DB      *db = bf->priv->file_db;
 	DBT     id_dbt, vcard_dbt;
-	int i;
+	int     i, file_version_name_len;
 	int esexp_error;
 	PASBackendFileBookView *view = (PASBackendFileBookView *)cnstview;
 
@@ -502,6 +507,8 @@ pas_backend_file_search (PASBackendFile  	      *bf,
 	e_sexp_input_text(view->search_sexp, view->search, strlen(view->search));
 	esexp_error = e_sexp_parse(view->search_sexp);
 
+	file_version_name_len = strlen (PAS_BACKEND_FILE_VERSION_NAME);
+
 	if (esexp_error == -1) {
 		pas_book_view_notify_complete (view->book_view);
 		return;
@@ -512,25 +519,30 @@ pas_backend_file_search (PASBackendFile  	      *bf,
 	while (db_error == 0) {
 
 		/* don't include the version in the list of cards */
-		if (id_dbt.size != strlen(PAS_BACKEND_FILE_VERSION_NAME) + 1
+		if (id_dbt.size != file_version_name_len+1
 		    || strcmp (id_dbt.data, PAS_BACKEND_FILE_VERSION_NAME)) {
 			char *vcard_string = vcard_dbt.data;
 
 			/* check if the vcard matches the search sexp */
 			if (vcard_matches_search (view, vcard_string)) {
-				cards = g_list_append (cards, g_strdup (vcard_string));
+				cards = g_list_prepend (cards, g_strdup (vcard_string));
 				++card_count;
-#if 0
+
 				/* If we've accumulated a number of matches, pass them off to the client. */
-				if (card_count > 50) {
+				if (card_count > card_threshold) {
 					pas_book_view_notify_add (view->book_view, cards);
 					/* Clean up the handed-off data. */
 					g_list_foreach (cards, (GFunc)g_free, NULL);
 					g_list_free (cards);
 					cards = NULL;
 					card_count = 0;
+
+					/* Yeah, this scheme is over-complicated.  But I like it. */
+					if (card_threshold <= card_threshold_max) {
+						card_threshold = MIN (2*card_threshold, card_threshold_max);
+					}
 				}
-#endif
+
 			}
 		}
 		
@@ -541,7 +553,7 @@ pas_backend_file_search (PASBackendFile  	      *bf,
 		g_warning ("pas_backend_file_search: error building list\n");
 	}
 
-	//	if (card_count)
+	if (card_count)
 		pas_book_view_notify_add (view->book_view, cards);
 
 	pas_book_view_notify_complete (view->book_view);
@@ -982,7 +994,7 @@ pas_backend_file_process_get_book_view (PASBackend *backend,
 	EIterator *iterator;
 
 	g_return_if_fail (req->listener != NULL);
-
+	
 	corba_book = bonobo_object_corba_objref(BONOBO_OBJECT(book));
 
 	CORBA_exception_init(&ev);
@@ -1018,6 +1030,7 @@ pas_backend_file_process_get_book_view (PASBackend *backend,
 
 	iterator = e_list_get_iterator(bf->priv->book_views);
 	e_iterator_last(iterator);
+
 	pas_backend_file_search (bf, book, e_iterator_get(iterator));
 	gtk_object_unref(GTK_OBJECT(iterator));
 
