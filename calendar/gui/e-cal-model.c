@@ -23,14 +23,13 @@
 #include <glib/garray.h>
 #include <libgnome/gnome-i18n.h>
 #include <gal/util/e-util.h>
-#include <e-util/e-config-listener.h>
 #include <e-util/e-time-utils.h>
 #include <libecal/e-cal-time-util.h>
-#include "calendar-config.h"
 #include "comp-util.h"
 #include "e-cal-model.h"
 #include "itip-utils.h"
 #include "misc.h"
+#include "e-calendar-marshal.h"
 
 typedef struct {
 	ECal *client;
@@ -50,8 +49,15 @@ struct _ECalModelPrivate {
 	icalcomponent_kind kind;
 	icaltimezone *zone;
 
+	/* The time range to display */
+	time_t start;
+	time_t end;
+	
 	/* The search regular expression */
-	gchar *sexp;
+	gchar *search_sexp;
+
+	/* The full regular expression, including time range */
+	gchar *full_sexp;
 
 	/* The default category */
 	gchar *default_category;
@@ -65,6 +71,7 @@ struct _ECalModelPrivate {
 
 static void e_cal_model_class_init (ECalModelClass *klass);
 static void e_cal_model_init (ECalModel *model, ECalModelClass *klass);
+static void e_cal_model_dispose (GObject *object);
 static void e_cal_model_finalize (GObject *object);
 
 static int ecm_column_count (ETableModel *etm);
@@ -81,6 +88,14 @@ static char *ecm_value_to_string (ETableModel *etm, int col, const void *value);
 
 static const char *ecm_get_color_for_component (ECalModel *model, ECalModelComponent *comp_data);
 
+/* Signal IDs */
+enum {
+	TIME_RANGE_CHANGED,
+	LAST_SIGNAL
+};
+
+static guint signals[LAST_SIGNAL] = { 0 };
+
 static GObjectClass *parent_class = NULL;
 
 E_MAKE_TYPE (e_cal_model, "ECalModel", ECalModel, e_cal_model_class_init,
@@ -94,6 +109,7 @@ e_cal_model_class_init (ECalModelClass *klass)
 
 	parent_class = g_type_class_peek_parent (klass);
 
+	object_class->dispose = e_cal_model_dispose;
 	object_class->finalize = e_cal_model_finalize;
 
 	etm_class->column_count = ecm_column_count;
@@ -110,6 +126,15 @@ e_cal_model_class_init (ECalModelClass *klass)
 
 	klass->get_color_for_component = ecm_get_color_for_component;
 	klass->fill_component_from_model = NULL;
+
+	signals[TIME_RANGE_CHANGED] =
+		g_signal_new ("time_range_changed",
+			      G_TYPE_FROM_CLASS (klass),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ECalModelClass, time_range_changed),
+			      NULL, NULL,
+			      e_calendar_marshal_VOID__LONG_LONG,
+			      G_TYPE_NONE, 2, G_TYPE_LONG, G_TYPE_LONG);	
 }
 
 static void
@@ -120,7 +145,11 @@ e_cal_model_init (ECalModel *model, ECalModelClass *klass)
 	priv = g_new0 (ECalModelPrivate, 1);
 	model->priv = priv;
 
-	priv->sexp = g_strdup ("#t"); /* match all by default */
+	/* match none by default */
+	priv->start = -1;
+	priv->end = -1;
+	priv->search_sexp = NULL;
+	priv->full_sexp = g_strdup ("#f");
 
 	priv->objects = g_ptr_array_new ();
 	priv->kind = ICAL_NO_COMPONENT;
@@ -183,6 +212,38 @@ clear_objects_array (ECalModelPrivate *priv)
 }
 
 static void
+e_cal_model_dispose (GObject *object)
+{
+	ECalModelPrivate *priv;
+	ECalModel *model = (ECalModel *) object;
+
+	g_return_if_fail (E_IS_CAL_MODEL (model));
+
+	priv = model->priv;
+
+	if (priv->clients) {
+		while (priv->clients != NULL) {
+			ECalModelClient *client_data = (ECalModelClient *) priv->clients->data;
+			
+			g_signal_handlers_disconnect_matched (client_data->client, G_SIGNAL_MATCH_DATA,
+							      0, 0, NULL, NULL, model);
+			g_signal_handlers_disconnect_matched (client_data->query, G_SIGNAL_MATCH_DATA,
+							      0, 0, NULL, NULL, model);
+			
+			priv->clients = g_list_remove (priv->clients, client_data);
+			g_object_unref (client_data->client);
+			g_object_unref (client_data->query);
+			g_free (client_data);
+		}
+
+		priv->clients = NULL;
+	}
+
+	if (parent_class->dispose)
+		parent_class->dispose (object);
+}
+
+static void
 e_cal_model_finalize (GObject *object)
 {
 	ECalModelPrivate *priv;
@@ -191,48 +252,16 @@ e_cal_model_finalize (GObject *object)
 	g_return_if_fail (E_IS_CAL_MODEL (model));
 
 	priv = model->priv;
-	if (priv) {
-		if (priv->clients) {
-			while (priv->clients != NULL) {
-				ECalModelClient *client_data = (ECalModelClient *) priv->clients->data;
 
-				g_signal_handlers_disconnect_matched (client_data->client, G_SIGNAL_MATCH_DATA,
-								      0, 0, NULL, NULL, model);
-				g_signal_handlers_disconnect_matched (client_data->query, G_SIGNAL_MATCH_DATA,
-								      0, 0, NULL, NULL, model);
+	g_free (priv->search_sexp);
+	g_free (priv->full_sexp);
 
-				priv->clients = g_list_remove (priv->clients, client_data);
-				g_object_unref (client_data->client);
-				g_object_unref (client_data->query);
-				g_free (client_data);
-			}
+	g_free (priv->default_category);
 
-			priv->clients = NULL;
-		}
+	clear_objects_array (priv);
+	g_ptr_array_free (priv->objects, FALSE);
 
-		if (priv->sexp) {
-			g_free (priv->sexp);
-			priv->sexp = NULL;
-		}
-
-		if (priv->default_category) {
-			g_free (priv->default_category);
-			priv->default_category = NULL;
-		}
-
-		if (priv->objects) {
-			clear_objects_array (priv);
-			g_ptr_array_free (priv->objects, FALSE);
-			priv->objects = NULL;
-		}
-		
-		if (priv->accounts) {
-			priv->accounts = NULL;
-		}
-
-		g_free (priv);
-		model->priv = NULL;
-	}
+	g_free (priv);
 
 	if (parent_class->finalize)
 		parent_class->finalize (object);
@@ -1098,6 +1127,8 @@ e_cal_model_get_client_for_uri (ECalModel *model, const char *uri)
 	return NULL;
 }
 
+/* Pass NULL for the client if we just want to find based on uid */
+/* FIXME how do we prevent the same UID is different calendars? */
 static ECalModelComponent *
 search_by_uid_and_client (ECalModelPrivate *priv, ECal *client, const char *uid)
 {
@@ -1111,7 +1142,7 @@ search_by_uid_and_client (ECalModelPrivate *priv, ECal *client, const char *uid)
 
 			tmp_uid = icalcomponent_get_uid (comp_data->icalcomp);
 			if (tmp_uid && *tmp_uid) {
-				if (comp_data->client == client && !strcmp (uid, tmp_uid))
+				if ((!client || comp_data->client == client) && !strcmp (uid, tmp_uid))
 					return comp_data;
 			}
 		}
@@ -1148,7 +1179,7 @@ e_cal_view_objects_added_cb (ECalView *query, GList *objects, gpointer user_data
 		e_table_model_pre_change (E_TABLE_MODEL (model));
 
 		comp_data = g_new0 (ECalModelComponent, 1);
-		comp_data->client = e_cal_view_get_client (query);
+		comp_data->client = g_object_ref (e_cal_view_get_client (query));
 		comp_data->icalcomp = icalcomponent_new_clone (l->data);
 
 		g_ptr_array_add (priv->objects, comp_data);
@@ -1219,7 +1250,7 @@ e_cal_view_objects_removed_cb (ECalView *query, GList *uids, gpointer user_data)
 			continue;
 		
 		pos = get_position_in_array (priv->objects, comp_data);
-			
+		
 		g_ptr_array_remove (priv->objects, comp_data);
 		free_comp_data (comp_data);
 		
@@ -1263,9 +1294,9 @@ update_e_cal_view_for_client (ECalModel *model, ECalModelClient *client_data)
 	}
 
 	/* prepare the query */
-	g_assert (priv->sexp != NULL);
+	g_assert (priv->full_sexp != NULL);
 
-	if (!e_cal_get_query (client_data->client, priv->sexp, &client_data->query, NULL)) {
+	if (!e_cal_get_query (client_data->client, priv->full_sexp, &client_data->query, NULL)) {
 		g_warning (G_STRLOC ": Unable to get query");
 
 		return;
@@ -1355,24 +1386,25 @@ remove_client (ECalModel *model, ECalModelClient *client_data)
 	model->priv->clients = g_list_remove (model->priv->clients, client_data);
 
 	/* remove all objects belonging to this client */
-	e_table_model_pre_change (E_TABLE_MODEL (model));
 	for (i = model->priv->objects->len; i > 0; i--) {
 		ECalModelComponent *comp_data = (ECalModelComponent *) g_ptr_array_index (model->priv->objects, i - 1);
 
 		g_assert (comp_data != NULL);
 
 		if (comp_data->client == client_data->client) {
+			e_table_model_pre_change (E_TABLE_MODEL (model));
+			
 			g_ptr_array_remove (model->priv->objects, comp_data);
 			free_comp_data (comp_data);
+
+			e_table_model_row_deleted (E_TABLE_MODEL (model), i);
 		}
 	}
-	e_table_model_changed (E_TABLE_MODEL (model));
-
+	
 	/* free all remaining memory */
 	g_object_unref (client_data->client);
 	g_object_unref (client_data->query);
 	g_free (client_data);
-
 }
 
 /**
@@ -1415,37 +1447,117 @@ e_cal_model_remove_all_clients (ECalModel *model)
 	}
 }
 
+static void
+redo_queries (ECalModel *model)
+{
+	ECalModelPrivate *priv;
+	char *iso_start, *iso_end;
+	GList *l;
+	int len;
+	
+	priv = model->priv;
+
+	if (priv->full_sexp)
+		g_free (priv->full_sexp);
+
+	if (priv->start != -1 && priv->end != -1) {
+		iso_start = isodate_from_time_t (priv->start);
+		iso_end = isodate_from_time_t (priv->end);
+		
+		priv->full_sexp = g_strdup_printf ("(and (occur-in-time-range? (make-time \"%s\")"
+						   "                           (make-time \"%s\"))"
+						   "     %s)",
+						   iso_start, iso_end, 
+						   priv->search_sexp ? priv->search_sexp : "");
+	} else {
+		priv->full_sexp = ("#f");
+	}	
+	
+	/* clean up the current contents */
+	e_table_model_pre_change (E_TABLE_MODEL (model));
+	len = priv->objects->len;
+	clear_objects_array (priv);
+	e_table_model_rows_deleted (E_TABLE_MODEL (model), 0, len);
+	
+	/* update the query for all clients */
+	for (l = priv->clients; l != NULL; l = l->next) {
+		ECalModelClient *client_data;
+		
+		client_data = (ECalModelClient *) l->data;
+		update_e_cal_view_for_client (model, client_data);
+	}
+}
+
+void
+e_cal_model_get_time_range (ECalModel *model, time_t *start, time_t *end)
+{
+	ECalModelPrivate *priv;
+	
+	g_return_if_fail (model != NULL);
+	g_return_if_fail (E_IS_CAL_MODEL (model));
+
+	priv = model->priv;
+	
+	if (start)
+		*start = priv->start;
+	
+	if (end)
+		*end = priv->end;
+}
+
+void
+e_cal_model_set_time_range (ECalModel *model, time_t start, time_t end)
+{
+	ECalModelPrivate *priv;
+	
+	g_return_if_fail (model != NULL);
+	g_return_if_fail (E_IS_CAL_MODEL (model));
+	g_return_if_fail (start >= 0 && end >= 0);
+	g_return_if_fail (start <= end);
+
+	priv = model->priv;
+
+	if (priv->start == start && priv->end == end)
+		return;
+	
+	priv->start = start;
+	priv->end = end;
+
+	g_signal_emit (G_OBJECT (model), signals[TIME_RANGE_CHANGED], 0, start, end);
+	redo_queries (model);
+}
+
+const char *
+e_cal_model_get_search_query (ECalModel *model)
+{
+	ECalModelPrivate *priv;
+	
+	g_return_val_if_fail (model != NULL, NULL);
+	g_return_val_if_fail (E_IS_CAL_MODEL (model), NULL);
+
+	priv = model->priv;
+	
+	return priv->search_sexp;
+}
+
 /**
  * e_cal_model_set_query
  */
 void
-e_cal_model_set_query (ECalModel *model, const char *sexp)
+e_cal_model_set_search_query (ECalModel *model, const char *sexp)
 {
 	ECalModelPrivate *priv;
-	GList *l;
 
 	g_return_if_fail (E_IS_CAL_MODEL (model));
-	g_return_if_fail (sexp != NULL);
 
 	priv = model->priv;
 
-	if (priv->sexp)
-		g_free (priv->sexp);
+	if (priv->search_sexp)
+		g_free (priv->search_sexp);
 
-	priv->sexp = g_strdup (sexp);
+	priv->search_sexp = g_strdup (sexp);
 
-	/* clean up the current contents */
-	e_table_model_pre_change (E_TABLE_MODEL (model));
-	clear_objects_array (priv);
-	e_table_model_changed (E_TABLE_MODEL (model));
-
-	/* update the query for all clients */
-	for (l = priv->clients; l != NULL; l = l->next) {
-		ECalModelClient *client_data;
-
-		client_data = (ECalModelClient *) l->data;
-		update_e_cal_view_for_client (model, client_data);
-	}
+	redo_queries (model);
 }
 
 /**
@@ -1563,6 +1675,18 @@ e_cal_model_get_component_at (ECalModel *model, gint row)
 	return g_ptr_array_index (priv->objects, row);
 }
 
+ECalModelComponent *
+e_cal_model_get_component_for_uid  (ECalModel *model, const char *uid)
+{
+	ECalModelPrivate *priv;
+
+	g_return_val_if_fail (E_IS_CAL_MODEL (model), NULL);
+
+	priv = model->priv;
+
+	return search_by_uid_and_client (priv, NULL, uid);
+}
+
 /**
  * e_cal_model_date_value_to_string
  */
@@ -1603,6 +1727,45 @@ e_cal_model_date_value_to_string (ECalModel *model, const void *value)
 	return g_strdup (buffer);
 }
 
+static ECellDateEditValue *
+copy_ecdv (ECellDateEditValue *ecdv)
+{
+	ECellDateEditValue *new_ecdv;
+	
+	
+	new_ecdv = g_new0 (ECellDateEditValue, 1);
+	new_ecdv->tt = ecdv->tt;
+	new_ecdv->zone = ecdv->zone;
+}
+
+/**
+ * e_cal_model_free_component_data
+ */
+ECalModelComponent *
+e_cal_model_copy_component_data (ECalModelComponent *comp_data)
+{
+	ECalModelComponent *new_data;
+	
+	g_return_if_fail (comp_data != NULL);
+
+	new_data = g_new0 (ECalModelComponent, 1);
+
+	if (comp_data->icalcomp)	
+		new_data->icalcomp = icalcomponent_new_clone (comp_data->icalcomp);	
+	if (comp_data->client)
+		new_data->client = g_object_ref (comp_data->client);
+	if (comp_data->dtstart)
+		new_data->dtstart = copy_ecdv (comp_data->dtstart);
+	if (comp_data->dtend)
+		new_data->dtend = copy_ecdv (comp_data->dtend);
+	if (comp_data->due)
+		new_data->due = copy_ecdv (comp_data->due);
+	if (comp_data->completed)
+		new_data->completed = copy_ecdv (comp_data->completed);
+
+	return new_data;
+}
+
 /**
  * e_cal_model_free_component_data
  */
@@ -1611,6 +1774,8 @@ e_cal_model_free_component_data (ECalModelComponent *comp_data)
 {
 	g_return_if_fail (comp_data != NULL);
 
+	if (comp_data->client)
+		g_object_unref (comp_data->client);
 	if (comp_data->icalcomp)
 		icalcomponent_free (comp_data->icalcomp);
 	if (comp_data->dtstart)

@@ -1,3 +1,114 @@
+2004-03-15  JP Rosevear <jpr@ximian.com>
+
+	Fixes #52253
+	
+	* gui/print.c (print_week_summary_cb): copy component data
+
+	* gui/gnome-cal.c (get_times_for_views): calculate the time range
+	for each view
+	(set_search_query): set the search query on the model
+	(set_week_start): set the week start day
+	(week_start_changed_cb): track if it changes
+	(setup_config): set its notification
+	(setup_widgets): update the view times and date navigator
+	(gnome_calendar_init): remove dead values
+	(gnome_calendar_goto_date): just calc the new time and let
+	update_view_times handle it
+	(gnome_calendar_goto): ditto
+	(gnome_calendar_direction): ditto
+o	(gnome_calendar_set_selected_time_range): ditto
+	(gnome_calendar_dayjump): ditto
+	(update_view_times): set the time ranges on the models
+	(set_view): use the new preserve day setting
+	(gnome_calendar_set_view): don't update the view times, just
+	switch
+	(gnome_calendar_get_selected_time_range): get the time range
+	(gnome_calendar_on_date_navigator_selection_changed): don't
+	re-update the date navigator, centralize the view setting
+
+	* gui/e-week-view.c (time_range_changed_cb): handle the time range
+	changing
+	(process_component): move here
+	(model_changed_cb): handle the model changing
+	(update_row): updated a changed row
+	(model_row_changed_cb): update a row
+	(model_cell_changed_cb): ditto
+	(model_rows_inserted_cb): handle events being added
+	(row_deleted_check_cb, remove_uid_cb, model_rows_deleted_cb):
+	handle events being deleted
+	(timezone_changed_cb): handle timezone changing
+	(e_week_view_init): create the model and listen to it
+	(e_week_view_new): don't create the model here
+	(e_week_view_set_selected_time_range): no need to cast
+	(e_week_view_set_first_day_shown): ditto
+	(e_week_view_set_weeks_shown): ditto
+	(e_week_view_update_event_cb): free and copy the data using new
+	routines
+	(e_week_view_foreach_event): step through every event
+	(e_week_view_remove_event_cb): we no longer track allocated status
+	(e_week_view_on_button_release): don't set the seleciton in the
+	calendar
+	(e_week_view_free_events): free the data with the util
+	(e_week_view_add_event): no need to track allocated status
+	(e_week_view_on_adjustment_changed): no need to cast
+
+	* gui/e-day-view.c (e_day_view_class_init): update query is no
+	longer used via class method
+	(time_range_changed_cb): handle the time range changing
+	(process_component): move here
+	(model_changed_cb): handle the model changing
+	(update_row): updated a changed row
+	(model_row_changed_cb): update a row
+	(model_cell_changed_cb): ditto
+	(model_rows_inserted_cb): handle events being added
+	(row_deleted_check_cb, remove_uid_cb, model_rows_deleted_cb):
+	handle events being deleted
+	(timezone_changed_cb): handle timezone changing
+	(e_day_view_init): create a model, connect to its signals
+	(e_day_view_destroy): we don't have our own query anymore
+	(e_day_view_update_event_cb): free and copy the data using new
+	routines
+	(e_day_view_remove_event_cb): we no longer track allocated status
+	(e_day_view_set_selected_time_range): actually set the selection
+	(e_day_view_recalc_day_starts): no need to cast
+	(e_day_view_recalc_work_week): ditto
+	(e_day_view_update_calendar_selection_time): don't call back to
+	the main calendar
+	(e_day_view_free_event_array): use the free util
+	(e_day_view_add_event): don't track allocated status
+
+	* gui/e-calendar-marshal.list: add marshaller
+
+	* gui/e-cal-view.h: remove field
+
+	* gui/e-cal-view.c: no longer listen for model signals
+	(e_calendar_view_class_init): make the model arg not construct
+	time
+
+	* gui/e-cal-model.h: update/add protos
+
+	* gui/e-cal-model.c (e_cal_model_class_init): set the dispose
+	handler and add a time_range_changed signal
+	(e_cal_model_init): defaults for queries
+	(e_cal_model_dispose): dispose of things
+	(e_cal_model_finalize): remove bits that are in dispose now
+	(search_by_uid_and_client): allow NULL client to find any uid
+	(e_cal_view_objects_added_cb): ref the client
+	(update_e_cal_view_for_client): use the full query
+	(remove_client): pre change for each row and emit deleted signals
+	(redo_queries): relaunch the query for each client
+	(e_cal_model_get_time_range): get the time range
+	(e_cal_model_set_time_range): set the time range and redo the
+	queries
+	(e_cal_model_set_search_query): get the search query
+	(e_cal_model_set_search_query): set the search query and redo the
+	queries
+	(e_cal_model_get_component_for_uid): get the component info based
+	on uid
+	(copy_ecdv): copy and ECellDateEditValue
+	(e_cal_model_copy_component_data): copy component data
+	(e_cal_model_free_component_data): unref the client
+
 2004-03-15  Rodrigo Moya <rodrigo@ximian.com>
 
 	Fixes #48112

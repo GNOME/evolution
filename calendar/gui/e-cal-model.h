@@ -80,38 +80,66 @@ typedef struct {
 	const gchar * (* get_color_for_component) (ECalModel *model, ECalModelComponent *comp_data);
 	void          (* fill_component_from_model) (ECalModel *model, ECalModelComponent *comp_data,
 						     ETableModel *source_model, gint row);
+
+	/* Signals */
+	void (* time_range_changed) (ECalModel *model, time_t start, time_t end);
 } ECalModelClass;
 
-GType               e_cal_model_get_type (void);
+GType               e_cal_model_get_type                       (void);
+icalcomponent_kind  e_cal_model_get_component_kind             (ECalModel           *model);
+void                e_cal_model_set_component_kind             (ECalModel           *model,
+								icalcomponent_kind   kind);
+icaltimezone       *e_cal_model_get_timezone                   (ECalModel           *model);
+void                e_cal_model_set_timezone                   (ECalModel           *model,
+								icaltimezone        *zone);
+void                e_cal_model_set_default_category           (ECalModel           *model,
+								const gchar         *default_cat);
+gboolean            e_cal_model_get_use_24_hour_format         (ECalModel           *model);
+void                e_cal_model_set_use_24_hour_format         (ECalModel           *model,
+								gboolean             use24);
+ECal          *     e_cal_model_get_default_client             (ECalModel           *model);
+void                e_cal_model_set_default_client             (ECalModel           *model,
+								ECal                *client);
+GList              *e_cal_model_get_client_list                (ECalModel           *model);
+ECal          *     e_cal_model_get_client_for_uri             (ECalModel           *model,
+								const char          *uri);
+void                e_cal_model_add_client                     (ECalModel           *model,
+								ECal                *client);
+void                e_cal_model_remove_client                  (ECalModel           *model,
+								ECal                *client);
+void                e_cal_model_remove_all_clients             (ECalModel           *model);
+void                e_cal_model_get_time_range                 (ECalModel           *model,
+								time_t              *start,
+								time_t              *end);
+void                e_cal_model_set_time_range                 (ECalModel           *model,
+								time_t               start,
+								time_t               end);
+const char *        e_cal_model_get_search_query               (ECalModel           *model);
+void                e_cal_model_set_search_query               (ECalModel           *model,
+								const gchar         *sexp);
+icalcomponent      *e_cal_model_create_component_with_defaults (ECalModel           *model);
+const gchar        *e_cal_model_get_color_for_component        (ECalModel           *model,
+								ECalModelComponent  *comp_data);
+gboolean            e_cal_model_get_rgb_color_for_component    (ECalModel           *model,
+								ECalModelComponent  *comp_data,
+								double              *red,
+								double              *green,
+								double              *blue);
+ECalModelComponent *e_cal_model_get_component_at               (ECalModel           *model,
+								gint                 row);
+ECalModelComponent *e_cal_model_get_component_for_uid          (ECalModel           *model,
+								const char          *uid);
+gchar              *e_cal_model_date_value_to_string           (ECalModel           *model,
+								const void          *value);
+ECalModelComponent *e_cal_model_copy_component_data            (ECalModelComponent  *comp_data);
+void                e_cal_model_free_component_data            (ECalModelComponent  *comp_data);
+void                e_cal_model_generate_instances             (ECalModel           *model,
+								time_t               start,
+								time_t               end,
+								ECalRecurInstanceFn  cb,
+								gpointer             cb_data);
 
-icalcomponent_kind  e_cal_model_get_component_kind (ECalModel *model);
-void                e_cal_model_set_component_kind (ECalModel *model, icalcomponent_kind kind);
-icaltimezone       *e_cal_model_get_timezone (ECalModel *model);
-void                e_cal_model_set_timezone (ECalModel *model, icaltimezone *zone);
 
-void                e_cal_model_set_default_category (ECalModel *model, const gchar *default_cat);
-gboolean            e_cal_model_get_use_24_hour_format (ECalModel *model);
-void                e_cal_model_set_use_24_hour_format (ECalModel *model, gboolean use24);
-
-ECal          *e_cal_model_get_default_client (ECalModel *model);
-void                e_cal_model_set_default_client (ECalModel *model, ECal *client);
-GList              *e_cal_model_get_client_list (ECalModel *model);
-ECal          *e_cal_model_get_client_for_uri (ECalModel *model, const char *uri);
-void                e_cal_model_add_client (ECalModel *model, ECal *client);
-void                e_cal_model_remove_client (ECalModel *model, ECal *client);
-void                e_cal_model_remove_all_clients (ECalModel *model);
-
-void                e_cal_model_set_query (ECalModel *model, const gchar *sexp);
-
-icalcomponent      *e_cal_model_create_component_with_defaults (ECalModel *model);
-const gchar        *e_cal_model_get_color_for_component (ECalModel *model, ECalModelComponent *comp_data);
-gboolean            e_cal_model_get_rgb_color_for_component (ECalModel *model, ECalModelComponent *comp_data, double *red, double *green, double *blue);
-ECalModelComponent *e_cal_model_get_component_at (ECalModel *model, gint row);
-
-gchar              *e_cal_model_date_value_to_string (ECalModel *model, const void *value);
-
-void                e_cal_model_free_component_data (ECalModelComponent *comp_data);
-void                e_cal_model_generate_instances (ECalModel *model, time_t start, time_t end, ECalRecurInstanceFn cb, gpointer cb_data);
 
 G_END_DECLS
 

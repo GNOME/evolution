@@ -59,7 +59,6 @@ typedef enum {
 #define E_CALENDAR_VIEW_EVENT_FIELDS \
         GnomeCanvasItem *canvas_item; \
         ECalModelComponent *comp_data; \
-        gboolean allocated_comp_data; \
         time_t start; \
         time_t end; \
         guint16 start_minute; \

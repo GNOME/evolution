@@ -1550,8 +1550,7 @@ print_week_summary_cb (ECalComponent *comp,
  	start_tt = icaltime_from_timet_with_zone (start, FALSE, zone);
  	end_tt = icaltime_from_timet_with_zone (end, FALSE, zone);
 
-	event.comp_data = mdata->comp_data;
-	event.allocated_comp_data = FALSE;
+	event.comp_data = e_cal_model_copy_component_data (mdata->comp_data);
 
 	event.start = start;
 	event.end = end;

@@ -173,8 +173,7 @@ e_calendar_view_class_init (ECalendarViewClass *klass)
 
 	g_object_class_install_property (gobject_class, PROP_MODEL, 
 					 g_param_spec_object ("model", NULL, NULL, E_TYPE_CAL_MODEL,
-							      G_PARAM_READABLE | G_PARAM_WRITABLE
-							      | G_PARAM_CONSTRUCT));
+							      G_PARAM_READABLE | G_PARAM_WRITABLE));
 
 	/* Create class' signals */
 	e_calendar_view_signals[SELECTION_CHANGED] =
@@ -302,37 +301,6 @@ e_calendar_view_class_init (ECalendarViewClass *klass)
  	e_cal_view_a11y_init ();
 }
 
-static void
-model_changed_cb (ETableModel *etm, gpointer user_data)
-{
-	ECalendarView *cal_view = E_CALENDAR_VIEW (user_data);
-
-	e_calendar_view_update_query (cal_view);
-}
-
-static void
-model_row_changed_cb (ETableModel *etm, int row, gpointer user_data)
-{
-	ECalendarView *cal_view = E_CALENDAR_VIEW (user_data);
-
-	e_calendar_view_update_query (cal_view);
-}
-
-static void
-model_cell_changed_cb (ETableModel *etm, int col, int row, gpointer user_data)
-{
-	ECalendarView *cal_view = E_CALENDAR_VIEW (user_data);
-
-	e_calendar_view_update_query (cal_view);
-}
-
-static void
-model_rows_changed_cb (ETableModel *etm, int row, int count, gpointer user_data)
-{
-	ECalendarView *cal_view = E_CALENDAR_VIEW (user_data);
-
-	e_calendar_view_update_query (cal_view);
-}
 
 void
 e_calendar_view_add_event (ECalendarView *cal_view, ECal *client, time_t dtstart, 
@@ -449,16 +417,6 @@ e_calendar_view_init (ECalendarView *cal_view, ECalendarViewClass *klass)
 	cal_view->priv = g_new0 (ECalendarViewPrivate, 1);
 
 	cal_view->priv->model = (ECalModel *) e_cal_model_calendar_new ();
-	g_signal_connect (G_OBJECT (cal_view->priv->model), "model_changed",
-			  G_CALLBACK (model_changed_cb), cal_view);
-	g_signal_connect (G_OBJECT (cal_view->priv->model), "model_row_changed",
-			  G_CALLBACK (model_row_changed_cb), cal_view);
-	g_signal_connect (G_OBJECT (cal_view->priv->model), "model_cell_changed",
-			  G_CALLBACK (model_cell_changed_cb), cal_view);
-	g_signal_connect (G_OBJECT (cal_view->priv->model), "model_rows_inserted",
-			  G_CALLBACK (model_rows_changed_cb), cal_view);
-	g_signal_connect (G_OBJECT (cal_view->priv->model), "model_rows_deleted",
-			  G_CALLBACK (model_rows_changed_cb), cal_view);
 }
 
 static void
@@ -529,14 +487,7 @@ e_calendar_view_set_model (ECalendarView *cal_view, ECalModel *model)
 		g_object_unref (cal_view->priv->model);
 	}
 
-	cal_view->priv->model = model;
-	g_object_ref (cal_view->priv->model);
-	g_signal_connect (G_OBJECT (cal_view->priv->model), "model_changed", G_CALLBACK (model_changed_cb), cal_view);
-	g_signal_connect (G_OBJECT (cal_view->priv->model), "model_row_changed", G_CALLBACK (model_row_changed_cb), cal_view);
-	g_signal_connect (G_OBJECT (cal_view->priv->model), "model_cell_changed", G_CALLBACK (model_cell_changed_cb), cal_view);
-	g_signal_connect (G_OBJECT (cal_view->priv->model), "model_rows_inserted", G_CALLBACK (model_rows_changed_cb), cal_view);
-	g_signal_connect (G_OBJECT (cal_view->priv->model), "model_rows_deleted", G_CALLBACK (model_rows_changed_cb), cal_view);
-
+	cal_view->priv->model = g_object_ref (model);
 	e_calendar_view_update_query (cal_view);
 }
 
