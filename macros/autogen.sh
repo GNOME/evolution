@@ -9,7 +9,7 @@ if [ -n "$GNOME2_PATH" ]; then
 	export PATH
 fi
 
-(autoconf --version) < /dev/null > /dev/null 2>&1 || {
+(autoconf2.50 --version) < /dev/null > /dev/null 2>&1 || {
   echo
   echo "**Error**: You must have \`autoconf' installed to compile $PKG_NAME."
   echo "Download the appropriate package for your distribution,"
@@ -176,8 +176,8 @@ do
       echo "Running automake --gnu $am_opt ..."
       automake --add-missing --gnu $am_opt ||
 	{ echo "**Error**: automake failed."; exit 1; }
-      echo "Running autoconf ..."
-      autoconf || { echo "**Error**: autoconf failed."; exit 1; }
+      echo "Running autoconf2.50 ..."
+      autoconf2.50 || { echo "**Error**: autoconf failed."; exit 1; }
     ) || exit 1
   fi
 done

@@ -1,3 +1,8 @@
+2001-08-02  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* gnome-guile-checks.m4: Made "--without-guile" work. Added $guile_msg 
+	  for reporting back.
+
 2001-07-24  Jody Goldberg <jgoldberg@home.com>
 
 	* psiconv.m4 : Add psion macros from Frodo Looijaard <frodol@dds.nl>
