@@ -30,7 +30,7 @@
 #include "e-select-names-editable.h"
 #include "Evolution-Addressbook-SelectNames.h"
 
-#define SELECT_NAMES_OAFIID "OAFIID:GNOME_Evolution_Addressbook_SelectNames"
+#define SELECT_NAMES_OAFIID "OAFIID:GNOME_Evolution_Addressbook_SelectNames_2"
 
 struct _ESelectNamesEditablePriv {
 	GNOME_Evolution_Addressbook_SelectNames select_names;

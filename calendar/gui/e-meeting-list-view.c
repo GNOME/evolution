@@ -46,7 +46,7 @@
 #include <addressbook/util/eab-destination.h>
 #include "e-select-names-renderer.h"
 
-#define SELECT_NAMES_OAFID "OAFIID:GNOME_Evolution_Addressbook_SelectNames"
+#define SELECT_NAMES_OAFID "OAFIID:GNOME_Evolution_Addressbook_SelectNames_2"
 
 struct _EMeetingListViewPrivate 
 {

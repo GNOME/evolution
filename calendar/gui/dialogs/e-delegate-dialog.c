@@ -53,7 +53,7 @@ struct _EDelegateDialogPrivate {
 	GtkWidget *entry;	
 };
 
-#define SELECT_NAMES_OAFID "OAFIID:GNOME_Evolution_Addressbook_SelectNames"
+#define SELECT_NAMES_OAFID "OAFIID:GNOME_Evolution_Addressbook_SelectNames_2"
 static const char *section_name = "Delegate To";
 
 static void e_delegate_dialog_class_init	(EDelegateDialogClass *class);

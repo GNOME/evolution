@@ -1,5 +1,13 @@
 2003-11-03  Ettore Perazzoli  <ettore@ximian.com>
 
+	* gui/e-meeting-model.c (SELECT_NAMES_OAFID): Append "_2".
+	* gui/e-select-names-editable.c (SELECT_NAMES_OAFIID): Likewise.
+	* gui/e-meeting-list-view.c (SELECT_NAMES_OAFID): Likewise.
+	* gui/dialogs/alarm-options.c (SELECT_NAMES_OAFID): Likewise.
+	* gui/dialogs/e-delegate-dialog.c (SELECT_NAMES_OAFID): Likewise
+
+2003-11-03  Ettore Perazzoli  <ettore@ximian.com>
+
 	* gui/GNOME_Evolution_Calendar.server.in.in: use
 	"evolution2:config_item" properties instead of
 	"evolution:config_item" ones.
