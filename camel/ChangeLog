@@ -1,3 +1,9 @@
+2003-03-26  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-sasl-gssapi.c (camel_sasl_gssapi_finalize): Pass in the
+	address of the second args to the delete/release functions. Also
+	#define gss_nt_service_name when using heimdal.
+
 2003-03-25  Rodney Dawes  <dobey@ximian.com>
 
 	* camel-sasl-gssapi.c: #include <gssapi.h> for heimdal, fixed CFLAGS

@@ -34,6 +34,7 @@
 #include <gssapi/gssapi_generic.h>
 #else /* HAVE_HEIMDAL_KRB5 */
 #include <gssapi.h>
+#define gss_nt_service_name GSS_C_NT_HOSTBASED_SERVICE
 #endif
 #include <errno.h>
 
@@ -108,10 +109,10 @@ camel_sasl_gssapi_finalize (CamelObject *object)
 	guint32 status;
 	
 	if (gssapi->priv->ctx != GSS_C_NO_CONTEXT)
-		gss_delete_sec_context (&status, gssapi->priv->ctx, GSS_C_NO_BUFFER);
+		gss_delete_sec_context (&status, &gssapi->priv->ctx, GSS_C_NO_BUFFER);
 	
 	if (gssapi->priv->target != GSS_C_NO_NAME)
-		gss_release_name (&status, gssapi->priv->target);
+		gss_release_name (&status, &gssapi->priv->target);
 	
 	g_free (gssapi->priv);
 }
@@ -215,7 +216,6 @@ gssapi_challenge (CamelSasl *sasl, GByteArray *token, CamelException *ex)
 		}
 		
 		str = g_strdup_printf ("%s@%s", sasl->service_name, h->h_name);
-		printf ("FQDN: %s (%s)\n", h->h_name, str);
 		camel_free_host (h);
 		
 		inbuf.value = str;
@@ -259,7 +259,6 @@ gssapi_challenge (CamelSasl *sasl, GByteArray *token, CamelException *ex)
 			break;
 		default:
 			gssapi_set_exception (major, minor, ex);
-			printf ("gss_init_sec_context() exception\n");
 			gss_release_buffer (&minor, &outbuf);
 			return NULL;
 		}
@@ -281,7 +280,6 @@ gssapi_challenge (CamelSasl *sasl, GByteArray *token, CamelException *ex)
 		major = gss_unwrap (&minor, priv->ctx, &inbuf, &outbuf, &conf_state, &qop);
 		if (major != GSS_S_COMPLETE) {
 			gssapi_set_exception (major, minor, ex);
-			printf ("gss_unwrap() exception\n");
 			gss_release_buffer (&minor, &outbuf);
 			return NULL;
 		}
@@ -311,7 +309,6 @@ gssapi_challenge (CamelSasl *sasl, GByteArray *token, CamelException *ex)
 		major = gss_wrap (&minor, priv->ctx, FALSE, qop, &inbuf, &conf_state, &outbuf);
 		if (major != 0) {
 			gssapi_set_exception (major, minor, ex);
-			printf ("gss_wrap() exception\n");
 			gss_release_buffer (&minor, &outbuf);
 			g_free (str);
 			return NULL;
@@ -326,7 +323,6 @@ gssapi_challenge (CamelSasl *sasl, GByteArray *token, CamelException *ex)
 		sasl->authenticated = TRUE;
 		break;
 	default:
-		printf ("unknown state exception\n");
 		return NULL;
 	}
 	
