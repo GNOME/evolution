@@ -1,3 +1,7 @@
+1998-06-29  Raja R Harinath  <harinath@cs.umn.edu>
+
+	* Makefile.am (MACROS): Add all the `.m4' files here.
+
 Mon Jun 29 11:12:04 1998  Scott D. Heavner  <sdh@po.cwru.edu>
 
 	* curses.m4: Need AC_SUBST(CURSES_INCLUDEDIR) not CURSES_INCLUDES
@@ -283,4 +287,3 @@ Sat Feb 14 01:09:37 1998  Tom Tromey  <tromey@cygnus.com>
 *Local Variables:
 *backup-inhibited: t
 *End:
-	
