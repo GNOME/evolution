@@ -15,8 +15,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
-"POT-Creation-Date: 2003-05-26 03:54+0200\n"
-"PO-Revision-Date: 2003-04-24 21:23+0100\n"
+"POT-Creation-Date: 2003-05-27 11:58+0200\n"
+"PO-Revision-Date: 2003-05-28 01:01+0100\n"
 "Last-Translator: Vincent van Adrighem <V.vanAdrighem@dirck.mine.nu>\n"
 "Language-Team: Dutch <nl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -319,7 +319,7 @@ msgstr "VBUrl"
 
 #: addressbook/backend/ebook/e-card-simple.c:100
 msgid "Default server calendar"
-msgstr ""
+msgstr "Standaard server kalender"
 
 #: addressbook/backend/ebook/e-card-simple.c:100
 msgid "icsCalendar"
@@ -537,7 +537,7 @@ msgstr "Hier kunt u de toegang tot LDAP servers instellen"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:2
 msgid "Directory Servers"
-msgstr ""
+msgstr "Adresboekservers"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:3
 msgid "Evolution Addressbook"
@@ -638,7 +638,7 @@ msgstr "Kan geen query uitvoeren op de Root DSE"
 
 #: addressbook/gui/component/addressbook-config.c:682
 msgid "The server responded with no supported search bases"
-msgstr ""
+msgstr "De server antwoordde zonder ondersteunde zoekbasis"
 
 #: addressbook/gui/component/addressbook-config.c:1193
 msgid "This server does not support LDAPv3 schema information"
@@ -756,6 +756,9 @@ msgid ""
 "Please make your search more specific or raise the result limit in\n"
 "the directory server preferences for this addressbook."
 msgstr ""
+"Er zijn meer resultaten gevonden dan weergegeven kunnen\n"
+"worden. Probeer uw opdracht specifieker te maken of verhoog\n"
+"de limiet voor resultaten in de voorkeuren van het adresboek."
 
 #: addressbook/gui/component/addressbook.c:961
 msgid ""
@@ -764,14 +767,17 @@ msgid ""
 "more specific or raise the time limit in the directory server\n"
 "preferences for this addressbook."
 msgstr ""
+"Deze zoekopdracht duurt langer dan de ingestelde limiet.\n"
+"Wees specifieker bij uw zoekopdracht of verhoog de limiet\n"
+"bij de instellingen van de adresboekserver."
 
 #: addressbook/gui/component/addressbook.c:967
 msgid "The backend for this addressbook was unable to parse this query."
-msgstr ""
+msgstr "Het backend van dit adresboek kon uw opdracht niet verwerken."
 
 #: addressbook/gui/component/addressbook.c:970
 msgid "The backend for this addressbook refused to perform this query."
-msgstr ""
+msgstr "Het backend van dit adresboek weigerde uw zoekopdracht te verwerken."
 
 #: addressbook/gui/component/addressbook.c:974
 msgid "This query did not complete successfully."
@@ -1225,7 +1231,7 @@ msgstr "_Downloadlimiet:"
 #: ui/evolution-signature-editor.xml.h:11 ui/evolution-subscribe.xml.h:10
 #: ui/evolution-tasks.xml.h:17
 msgid "_Edit"
-msgstr "B_ewerken..."
+msgstr "Be_werken"
 
 #: addressbook/gui/component/ldap-config.glade.h:86
 msgid "_Log in method:"
@@ -1344,14 +1350,12 @@ msgid "_Folder:"
 msgstr "_Map:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:1
-#, fuzzy
 msgid " B_usiness:"
-msgstr "Zakelijk"
+msgstr "_Zakelijk:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:3
-#, fuzzy
 msgid "A_ddress..."
-msgstr "Ad_res..."
+msgstr "A_dres..."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:4
 msgid "A_ssistant's name:"
@@ -1366,9 +1370,8 @@ msgid "Birthda_y:"
 msgstr "Geboortedat_um:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:7
-#, fuzzy
 msgid "Business fa_x:"
-msgstr "Bedrijfsfax"
+msgstr "Zakelijk fa_xnummer:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:8
 msgid "Collaboration"
@@ -1394,9 +1397,8 @@ msgid "F_ree/Busy URL:"
 msgstr "V_rij/Bezet URL:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:13
-#, fuzzy
 msgid "File a_s:"
-msgstr "Bewaar Al_s:"
+msgstr "Opslaan al_s:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:14
 msgid "Full _Name..."
@@ -1430,9 +1432,8 @@ msgid "P_rofession:"
 msgstr "Be_roep:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:22
-#, fuzzy
 msgid "Primary _email:"
-msgstr "Primaire Email"
+msgstr "Primaire _e-mail:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:23
 msgid "S_pouse:"
@@ -1447,14 +1448,12 @@ msgid "_Add"
 msgstr "_Toevoegen"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:26
-#, fuzzy
 msgid "_Business:"
-msgstr "Zakelijk"
+msgstr "_Zakelijk:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:27
-#, fuzzy
 msgid "_Categories..."
-msgstr "Ca_tegorieën..."
+msgstr "_Categorieën..."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:28
 #: calendar/gui/dialogs/meeting-page.c:717 calendar/gui/e-calendar-table.c:968
@@ -1466,23 +1465,20 @@ msgid "_Delete"
 msgstr "_Verwijderen"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:29
-#, fuzzy
 msgid "_Home:"
-msgstr "Thuis"
+msgstr "_Thuis:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:30
 msgid "_Job title:"
 msgstr "_Functie:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:31
-#, fuzzy
 msgid "_Manager's name:"
-msgstr "_Manager:"
+msgstr "Naam _manager:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:32
-#, fuzzy
 msgid "_Mobile:"
-msgstr "Mobiel"
+msgstr "_Mobiel:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:33
 msgid "_Nickname:"
@@ -1498,9 +1494,8 @@ msgstr "_Publieke kalender URL:"
 
 # , fuzzy
 #: addressbook/gui/contact-editor/contact-editor.glade.h:36
-#, fuzzy
 msgid "_This is the mailing address"
-msgstr "Dit is het e_-mail-adres"
+msgstr "_Dit is het e-mail-adres"
 
 # , fuzzy
 #: addressbook/gui/contact-editor/contact-editor.glade.h:37
@@ -2612,19 +2607,16 @@ msgid "Contact Quick-Add"
 msgstr "Contact snel toevoegen"
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:301
-#, fuzzy
 msgid "_Edit Full"
-msgstr "Volledig bewerken"
+msgstr "Volledig be_werken"
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:319
-#, fuzzy
 msgid "_Full Name:"
-msgstr "_Volledige Naam:"
+msgstr "_Volledige naam:"
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:325
-#, fuzzy
 msgid "E-_mail:"
-msgstr "Email"
+msgstr "E-_mail:"
 
 #: addressbook/gui/contact-editor/e-contact-save-as.c:66
 #, c-format
@@ -2658,7 +2650,6 @@ msgid "Address _2:"
 msgstr "Adres _2:"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:3
-#, fuzzy
 msgid "Ci_ty:"
 msgstr "_Plaats:"
 
@@ -3883,9 +3874,8 @@ msgid "New meeting"
 msgstr "Nieuwe vergadering"
 
 #: calendar/gui/calendar-component.c:737
-#, fuzzy
 msgid "M_eeting"
-msgstr "Vergadering"
+msgstr "Ver_gadering"
 
 #: calendar/gui/calendar-component.c:738
 msgid "Create a new meeting request"
@@ -4082,9 +4072,8 @@ msgid "Alarm Repeat"
 msgstr "Alarmherhaling"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:3
-#, fuzzy
 msgid "Message to Display:"
-msgstr "Bericht"
+msgstr "Weer te geven bericht:"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:4
 msgid "Message to Send"
@@ -4631,19 +4620,16 @@ msgid "The journal entry could not be deleted due to a corba error"
 msgstr ""
 
 #: calendar/gui/dialogs/delete-error.c:59
-#, fuzzy
 msgid "The item could not be deleted due to a corba error"
-msgstr "Dit item kon niet verzonden worden!\n"
+msgstr "Dit item kon niet verwijderd worden door een CORBA-probleem"
 
 #: calendar/gui/dialogs/delete-error.c:66
 msgid "The event could not be deleted because permission was denied"
 msgstr ""
 
 #: calendar/gui/dialogs/delete-error.c:69
-#, fuzzy
 msgid "The task could not be deleted because permission was denied"
-msgstr ""
-"Bezoekerstatus kon niet ververst worden vanwege een ongeldige status!\n"
+msgstr "De taak kon niet verwijderd worden omdat u de toegang is geweigerd"
 
 #: calendar/gui/dialogs/delete-error.c:72
 msgid "The journal entry could not be deleted because permission was denied"
@@ -4654,22 +4640,17 @@ msgid "The item could not be deleted because permission was denied"
 msgstr ""
 
 #: calendar/gui/dialogs/delete-error.c:82
-#, fuzzy
 msgid "The event could not be deleted because it was invalid"
-msgstr ""
-"Bezoekerstatus kon niet ververst worden vanwege een ongeldige status!\n"
+msgstr "De gebeurtenis kon niet verwijderd worden omdat deze ongeldig is"
 
 #: calendar/gui/dialogs/delete-error.c:85
-#, fuzzy
 msgid "The task could not be deleted because it was invalid"
-msgstr ""
-"Bezoekerstatus kon niet ververst worden vanwege een ongeldige status!\n"
+msgstr "De taak kon niet verwijderd worden omdat deze ongeldig is"
 
 #: calendar/gui/dialogs/delete-error.c:88
 #, fuzzy
 msgid "The journal entry could not be deleted because it was invalid"
-msgstr ""
-"Bezoekerstatus kon niet ververst worden vanwege een ongeldige status!\n"
+msgstr "De gebeurtenis kon niet verwijderd worden omdat deze ongeldig is"
 
 #: calendar/gui/dialogs/delete-error.c:91
 #, fuzzy
@@ -8158,7 +8139,7 @@ msgstr "Het gespecificeerde type word niet ondersteund door deze sleutel"
 
 #: camel/camel-cipher-context.c:262
 msgid "Encryption is not supported by this cipher"
-msgstr "Het gespecificeerde type word niet ondersteund door deze steutel"
+msgstr "Het gespecificeerde type word niet ondersteund door deze sleutel"
 
 #: camel/camel-cipher-context.c:304
 msgid "Decryption is not supported by this cipher"
@@ -8547,7 +8528,7 @@ msgstr "Kan MIME-berichtdeel niet decoderen: analysefout"
 
 #: camel/camel-multipart-signed.c:641
 msgid "This is a digitally signed message part"
-msgstr "Dit berichtdeel is digitaal gesigneerd"
+msgstr "Dit berichtdeel is digitaal ondertekend"
 
 #: camel/camel-multipart-signed.c:695
 msgid "parse error"
@@ -8895,7 +8876,7 @@ msgstr "Het handtekeningcertificaat voor \"%s\" bestand niet."
 #: camel/camel-smime-context.c:247
 #, c-format
 msgid "The encryption certificate for \"%s\" does not exist."
-msgstr "Het versleutelingscertificaar voor \"%s\" bestaat niet."
+msgstr "Het versleutelingscertificaat voor \"%s\" bestaat niet."
 
 #: camel/camel-smime-context.c:417 camel/camel-smime-context.c:428
 #: camel/camel-smime-context.c:534 camel/camel-smime-context.c:544
@@ -8985,7 +8966,7 @@ msgstr ""
 
 #: camel/camel-tcp-stream-openssl.c:602
 msgid "Self-signed certificate in chain"
-msgstr "Zelf-gesigneerd certificaat in sleutelbos"
+msgstr "Zelf-ondertekend certificaat in sleutelbos"
 
 #: camel/camel-tcp-stream-openssl.c:604
 msgid "Unable to get issuer's certificate locally"
@@ -12542,7 +12523,7 @@ msgstr "Verbinden met server..."
 
 #: mail/mail-config.glade.h:3
 msgid " _Check for supported types "
-msgstr "_Controleer op ondersteunde types"
+msgstr "_Ondersteunde aanmeldingstypes controleren"
 
 #: mail/mail-config.glade.h:4
 msgid "(SSL is not supported in this build of Evolution)"
@@ -12555,8 +12536,8 @@ msgstr "(SSL wordt niet ondersteund in deze versie van Evolution)"
 #: mail/mail-config.glade.h:7
 msgid "A_lways encrypt to myself when sending encrypted mail"
 msgstr ""
-"Versleutel berichten altijd naar mijzelf bij het versturen van versleutelde "
-"berichten"
+"Berichten naar _mijzelf altijd versleutelen bij het versturen van "
+"versleutelde berichten"
 
 #: mail/mail-config.glade.h:8
 msgid "Account Editor"
@@ -12577,13 +12558,13 @@ msgstr "Nieuwe handtekening toevoegen..."
 #: mail/mail-config.glade.h:13
 msgid "Al_ways encrypt to myself when sending encrypted mail"
 msgstr ""
-"Versleutel berichten _altijd naar mijzelf bij het versturen van versleutelde "
+"Berichten naar _mijzelf versleutelen bij het versturen van versleutelde "
 "berichten"
 
 #: mail/mail-config.glade.h:15
 msgid "Alwa_ys sign outgoing messages when using this account"
 msgstr ""
-"_Onderteken uitgaande berichten altijd bij het gebruik van dit account."
+"_Uitgaande berichten altijd ondertekenen bij het gebruik van dit account"
 
 #: mail/mail-config.glade.h:17
 msgid "Always _blind carbon-copy (Bcc) to:"
@@ -12595,7 +12576,7 @@ msgstr "Altijd een kopie (Cc) naar:"
 
 #: mail/mail-config.glade.h:19
 msgid "Always _trust keys in my keyring when encrypting"
-msgstr "Sleutels in mijn sleutelbos altijd _vertrouwen bij coderen"
+msgstr "Sleutels in mijn sleutelbos altijd _vertrouwen bij versleutelen"
 
 #: mail/mail-config.glade.h:20
 msgid "Attach original message"
@@ -12792,7 +12773,7 @@ msgid ""
 "first time"
 msgstr ""
 "Opmerking: U wordt pas om uw wachtwoord gevraagd wanneer uw voor het eerst "
-"contact legt"
+"contact maakt"
 
 #: mail/mail-config.glade.h:78
 msgid "Optional Information"
@@ -13112,9 +13093,8 @@ msgid "_Terminal Font:"
 msgstr "Origineel contact:"
 
 #: mail/mail-config.glade.h:169
-#, fuzzy
 msgid "_Use secure connection (SSL):"
-msgstr "Gebruik een beveiligde verbinding (SSL)"
+msgstr "_Beveiligde verbinding (SSL) gebruiken:"
 
 #: mail/mail-config.glade.h:170
 msgid "_Use the same fonts as other applications"
@@ -13139,7 +13119,7 @@ msgstr "Kon geen S/MIME certsonly context maken."
 
 #: mail/mail-crypto.c:148
 msgid "Could not create a S/MIME encryption context."
-msgstr "Kon geen S/MIME encryptie context maken"
+msgstr "Kon geen S/MIME versleutelingscontext maken"
 
 #: mail/mail-crypto.c:180
 msgid "Could not create a S/MIME envelope context."
@@ -27248,7 +27228,7 @@ msgstr "VMap op Geadresseerden"
 
 #: ui/evolution-mail-message.xml.h:92
 msgid "VFolder on _Subject..."
-msgstr "VMap op Onderwerp"
+msgstr "VMap op onderwerp..."
 
 #: ui/evolution-mail-message.xml.h:94
 msgid "_Attached"
@@ -27256,15 +27236,15 @@ msgstr "_Bijgevoegd"
 
 #: ui/evolution-mail-message.xml.h:95
 msgid "_Copy to Folder"
-msgstr "Kopieer naar Map"
+msgstr "_Kopiëren naar map"
 
 #: ui/evolution-mail-message.xml.h:96
 msgid "_Create Filter From Message"
-msgstr "Maak Filter Van Bericht"
+msgstr "_Filter maken van bericht"
 
 #: ui/evolution-mail-message.xml.h:98
 msgid "_Forward Message"
-msgstr "Bericht Doorsturen"
+msgstr "Bericht _doorsturen"
 
 #: ui/evolution-mail-message.xml.h:99
 #, fuzzy
@@ -27285,7 +27265,7 @@ msgstr "_Berichtweergave"
 
 #: ui/evolution-mail-message.xml.h:103
 msgid "_Move to Folder"
-msgstr "Verplaats naar Map"
+msgstr "_Verplaatsen naar map"
 
 #: ui/evolution-mail-message.xml.h:104
 #, fuzzy
@@ -27294,7 +27274,7 @@ msgstr "Volgend Bericht"
 
 #: ui/evolution-mail-message.xml.h:105
 msgid "_Normal Display"
-msgstr "_Normale Weergave"
+msgstr "_Normale weergave"
 
 #: ui/evolution-mail-message.xml.h:106
 msgid "_Open Message"
@@ -27336,7 +27316,7 @@ msgstr "_Sluiten"
 #: ui/evolution-mail-messagedisplay.xml.h:8
 #: ui/evolution-message-composer.xml.h:49 ui/evolution.xml.h:64
 msgid "_View"
-msgstr "Weerga_ve"
+msgstr "Beel_d"
 
 #: ui/evolution-message-composer.xml.h:1
 msgid "Attach"
@@ -27356,11 +27336,11 @@ msgstr "Verwijder alles behalve de  handtekening"
 
 #: ui/evolution-message-composer.xml.h:6
 msgid "Encrypt this message with PGP"
-msgstr "Versleutel dit bericht met PGP"
+msgstr "Dit bericht versleutelen met PGP"
 
 #: ui/evolution-message-composer.xml.h:7
 msgid "Encrypt this message with your S/MIME Encryption Cetificate"
-msgstr "Encodeer dit bericht met uw S/MIME Encryptie Certificaat"
+msgstr "Dit bericht versleutelen met uw S/MIME versleutelingscertificaat"
 
 #: ui/evolution-message-composer.xml.h:8 ui/evolution-signature-editor.xml.h:3
 msgid "For_mat"
@@ -27385,7 +27365,7 @@ msgstr "Versleutelen met PGP"
 
 #: ui/evolution-message-composer.xml.h:13
 msgid "PGP Sign"
-msgstr "Signeren met PGP"
+msgstr "Ondertekenen met PGP"
 
 #: ui/evolution-message-composer.xml.h:14
 msgid "S/MIME Encrypt"
@@ -27448,11 +27428,11 @@ msgstr "Toon Bijlages"
 
 #: ui/evolution-message-composer.xml.h:30
 msgid "Sign this message with your PGP key"
-msgstr "Signeer dit bericht met uw PGP-sleutel"
+msgstr "Dit bericht ondertekenen met uw PGP-sleutel"
 
 #: ui/evolution-message-composer.xml.h:31
 msgid "Sign this message with your S/MIME Signature Certificate"
-msgstr "Signeer dit bericht met uw S/MIME-Ondertekenings Certificaat"
+msgstr "Dit bericht ondertekenen met uw S/MIME Ondertekeningscertificaat"
 
 #: ui/evolution-message-composer.xml.h:32
 msgid "Toggles whether the BCC field is displayed"
@@ -28145,70 +28125,3 @@ msgstr "Evolution kalender-samenvatting-component"
 #, fuzzy
 msgid "Evolution Addressbook local file backend"
 msgstr "Evolution adresboek minikaartbekijker"
-
-#~ msgid "De_lete"
-#~ msgstr "_Verwijderen"
-
-#~ msgid "Email Address:"
-#~ msgstr "Emailadres:"
-
-#~ msgid "Check Full Name"
-#~ msgstr "Controleer volledige naam"
-
-#~ msgid "Add Anyway"
-#~ msgstr "Voeg toch toe"
-
-#~ msgid "Change Anyway"
-#~ msgstr "Toch veranderen"
-
-#~ msgid "Configure the fonts used by Evolution here"
-#~ msgstr "Hier kunt u de lettertypes van Evolution instellen"
-
-#, fuzzy
-#~ msgid "Evolution Mail font configuration control"
-#~ msgstr "Fabriek voor de Evolution takencomponent"
-
-#~ msgid "Font Preferences"
-#~ msgstr "Lettertype-voorkeuren"
-
-#~ msgid "Automatically _detect links"
-#~ msgstr "Verwijzingen _automatisch herkennen"
-
-#~ msgid "Emacs"
-#~ msgstr "Emacs"
-
-#~ msgid "Microsoft"
-#~ msgstr "Microsoft"
-
-#~ msgid "Shortcuts _type:"
-#~ msgstr "_Type verwijzingen:"
-
-#~ msgid "XEmacs"
-#~ msgstr "XEmacs"
-
-#~ msgid "Add a news feed"
-#~ msgstr "Voeg een nieuwsbron toe"
-
-#~ msgid "Enter the URL of the news feed you wish to add"
-#~ msgstr "Geef the URL van de nieuwsbron die u wilt toevoegen"
-
-#~ msgid "Add n_ews feed"
-#~ msgstr "Nieuws_bron toevoegen"
-
-#~ msgid "Delete news feed"
-#~ msgstr "Nieuwsbron verwijderen"
-
-#~ msgid "_Mail"
-#~ msgstr "_Post"
-
-#~ msgid "_Weather"
-#~ msgstr "_Weer"
-
-#~ msgid "Force upgrading of configuration files from Evolution 1.0.x"
-#~ msgstr "Omzetten van configuratie van evolution 1.0.x forceren"
-
-#~ msgid "_Meeting"
-#~ msgstr "_Vergadering"
-
-#~ msgid "_every"
-#~ msgstr "_elke"
