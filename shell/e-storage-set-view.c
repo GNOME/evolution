@@ -397,7 +397,7 @@ find_matching_target_for_drag_context (EStorageSetView *storage_set_view,
 
 	folder = get_folder_at_node (storage_set_view, path);
 	if (folder == NULL)
-		return NULL;
+		return EVOLUTION_PATH_TARGET_TYPE;
 
 	accepted_types = e_folder_type_registry_get_accepted_dnd_types_for_type (folder_type_registry,
 										 e_folder_get_type_string (folder));
@@ -1061,16 +1061,16 @@ tree_drag_motion (ETree *tree,
 
 	path = e_tree_node_at_row (E_TREE (storage_set_view), row);
 
-	component_client = get_component_at_node (storage_set_view, path);
-	if (component_client == NULL)
-		return FALSE;
-
 	dnd_type = find_matching_target_for_drag_context (storage_set_view, path, context);
 	if (dnd_type == NULL)
 		return FALSE;
 
 	if (strcmp (dnd_type, EVOLUTION_PATH_TARGET_TYPE) == 0)
 		return handle_evolution_path_drag_motion (storage_set_view, path, row, context, time);
+
+	component_client = get_component_at_node (storage_set_view, path);
+	if (component_client == NULL)
+		return FALSE;
 
 	destination_folder_interface = evolution_shell_component_client_get_dnd_destination_interface (component_client);
 	if (destination_folder_interface == NULL)

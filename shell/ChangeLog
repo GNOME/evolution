@@ -1,5 +1,14 @@
 2001-09-20  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-storage-set-view.c (tree_drag_motion): Check for a component
+	for the given row *after* trying to handle
+	EVOLUTION_PATH_TARGET_TYPE.  Otherwise, we always fail in the case
+	of dnd between a folder and the toplevel node of its storage.
+	(find_matching_target_for_drag_context): If not on a folder,
+	always return EVOLUTION_PATH_TARGET_TYPE.
+
+2001-09-20  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-view.c (storage_set_view_box_event_cb): Removed.
 	(folder_bar_popup_map_callback): Don't connect.
 	(reparent_storage_set_view_box_and_destroy_popup): Don't ungrab
