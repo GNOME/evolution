@@ -68,6 +68,7 @@ main (int argc, char *argv [])
 
 	init_corba (&argc, argv);
 	init_bonobo ();
+	gtkhtmllib_init (argc, argv);
 
 	glade_gnome_init ();
 

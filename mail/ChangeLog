@@ -1,3 +1,7 @@
+2000-06-14  Radek Doulik  <rodo@helixcode.com>
+
+	* main.c (main): call gtkhtmllib_init here
+
 2000-06-13  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-config.c (on_SourceConfigDialogButton_clicked): Make sure source
