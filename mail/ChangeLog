@@ -1,6 +1,10 @@
 2001-02-26  Jeffrey Stedfast  <fejj@ximian.com>
 
-	* mail-accounts.c (mail_delete): Confirm thatt he user REALLY
+	* mail-callbacks.c (mail_generate_reply): Set a "References"
+	header no matter what if we are able to get a Message-Id. Fixes
+	bug #1583.
+
+	* mail-accounts.c (mail_delete): Confirm that the user REALLY
 	wants to delete this account.
 	(news_delete): Same.
 

@@ -617,18 +617,20 @@ mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 	g_free (subject);
 	
 	/* Add In-Reply-To and References. */
-	message_id = camel_medium_get_header (CAMEL_MEDIUM (message),
-					      "Message-Id");
-	references = camel_medium_get_header (CAMEL_MEDIUM (message),
-					      "References");
+	message_id = camel_medium_get_header (CAMEL_MEDIUM (message), "Message-Id");
+	references = camel_medium_get_header (CAMEL_MEDIUM (message), "References");
 	if (message_id) {
+		char *reply_refs;
+		
 		e_msg_composer_add_header (composer, "In-Reply-To", message_id);
-		if (references) {
-			char *reply_refs;
+		
+		if (references)
 			reply_refs = g_strdup_printf ("%s %s", references, message_id);
-			e_msg_composer_add_header (composer, "References", reply_refs);
-			g_free (reply_refs);
-		}
+		else
+			reply_refs = g_strdup (message_id);
+		
+		e_msg_composer_add_header (composer, "References", reply_refs);
+		g_free (reply_refs);
 	} else if (references) {
 		e_msg_composer_add_header (composer, "References", references);
 	}
