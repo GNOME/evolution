@@ -23,7 +23,7 @@
 
                                                                                                                              
 #ifndef CAMEL_GW_LISTENER_H
-#define CAEML_GW_LISTENER_H
+#define CAMEL_GW_LISTENER_H
                                                                                                                              
 
 #include <e-util/e-account-list.h>
