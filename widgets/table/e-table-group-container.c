@@ -20,6 +20,7 @@
 #include "gal/util/e-util.h"
 #include "gal/widgets/e-canvas.h"
 #include "gal/widgets/e-canvas-utils.h"
+#include "gal/widgets/e-unicode.h"
 #include "gal/e-text/e-text.h"
 #include "e-table-defines.h"
 
@@ -331,20 +332,27 @@ etgc_unrealize (GnomeCanvasItem *item)
 static void
 compute_text (ETableGroupContainer *etgc, ETableGroupContainerChildNode *child_node)
 {
-	gchar *text;
-	if (etgc->ecol->text)
+	gchar *text, *s1, *s2;
+
+	if (etgc->ecol->text) {
+		s1 = e_utf8_to_locale_string (etgc->ecol->text);
+		s2 = e_utf8_to_locale_string (child_node->string);
 		text = g_strdup_printf ((child_node->count == 1)
 					? _("%s : %s (%d item)")
 					: _("%s : %s (%d items)"),
-					etgc->ecol->text,
-					child_node->string,
+					s1, s2,
 					(gint) child_node->count);
-	else
+		g_free (s1);
+		g_free (s2);
+	} else {
+		s1 = e_utf8_to_locale_string (child_node->string);
 		text = g_strdup_printf ((child_node->count == 1)
 					? _("%s (%d item)")
 					: _("%s (%d items)"),
-					child_node->string,
+					s1,
 					(gint) child_node->count);
+		g_free (s1);
+	}
 	gnome_canvas_item_set (child_node->text, 
 			       "text", text,
 			       NULL);
