@@ -818,3 +818,33 @@ e_msg_composer_attachment_bar_attach_mime_part (EMsgComposerAttachmentBar *bar,
 
 	add_from_mime_part (bar, part);
 }
+
+EMsgComposerAttachment *
+e_msg_composer_attachment_bar_find_content_id (EMsgComposerAttachmentBar *bar, char *content_id)
+{
+	EMsgComposerAttachmentBarPrivate *priv;
+	GList *p;
+
+	g_return_val_if_fail (E_IS_MSG_COMPOSER_ATTACHMENT_BAR (bar), NULL);
+	g_return_val_if_fail (content_id != NULL, NULL);
+
+	priv = bar->priv;
+	
+	if (priv->attachments == NULL)
+		g_warning ("NO ATTACHMENTS");
+
+	for (p = priv->attachments; p != NULL; p = p->next) {
+		EMsgComposerAttachment *attachment;
+		const char *part_id;
+		
+		attachment = p->data;
+		part_id = camel_mime_part_get_content_id (attachment->body);
+		
+		g_warning ("content_id: %s, part_id: %s\n", content_id, part_id);
+		if (part_id && !strcmp (part_id, content_id))
+			return attachment;
+	}
+
+	return NULL;
+}
+
