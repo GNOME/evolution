@@ -174,6 +174,7 @@ evolution_importer_client_load_file (EvolutionImporterClient *client,
 				     const char *folderpath)
 {
 	GNOME_Evolution_Importer corba_importer;
+	CORBA_char *folderpath_dup;
 	gboolean result;
 	CORBA_Environment ev;
 
@@ -183,6 +184,7 @@ evolution_importer_client_load_file (EvolutionImporterClient *client,
 
 	CORBA_exception_init (&ev);
 	corba_importer = bonobo_object_corba_objref (BONOBO_OBJECT (client));
+	folderpath_dup = CORBA_string_dup (folderpath ? folderpath : "");
 	result = GNOME_Evolution_Importer_loadFile (corba_importer,
 						    filename, folderpath, &ev);
 	CORBA_exception_free (&ev);

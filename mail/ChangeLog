@@ -1,3 +1,10 @@
+2001-03-30  Iain Holmes  <iain@ximian.com>
+
+	* importers/evolution-mbox-importer.c (load_file_fn): Check if
+	foldername is \0.
+
+	* importers/evolution-outlook-importer.c (load_file_fn): Ditto.
+
 2001-03-30  Jon Trowbridge  <trow@ximian.com>
 
 	* mail-display.c (mail_text_write): Add (commented-out)

@@ -265,7 +265,7 @@ load_file_fn (EvolutionImporter *eimporter,
 
 	importer->mstream = NULL;
 
-	if (folderpath == NULL)
+	if (folderpath == NULL || *folderpath == '\0')
 		importer->folder = mail_tool_get_local_inbox (NULL);
 	else
 		importer->folder = mail_tool_uri_to_folder (folderpath, NULL);

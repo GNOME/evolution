@@ -1,3 +1,8 @@
+2001-03-29  Iain Holmes  <iain@ximian.com>
+
+	* importer/evolution-importer-client.c (evolution_importer_client_load_file):
+	Duplicate the folderpath, or set it to \0
+
 2001-03-30  Christopher James Lahey  <clahey@ximian.com>
 
 	* e-shell-folder-selection-dialog.c (dbl_click_cb): Since this is
