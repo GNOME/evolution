@@ -1,3 +1,8 @@
+1999-12-25  Martin Baulig  <martin@home-of-linux.org>
+
+	* gnome-pilot.m4: Applied patch from Colin Walters to make
+	it compile under Debian GNU/Linux.
+
 1999-12-05  Martin Baulig  <martin@home-of-linux.org>
 
 	* gnome-libgtop-checks.m4: Removed all guile variables.

@@ -46,7 +46,7 @@ AC_DEFUN([PILOT_LINK_HOOK],[
 	
 	AC_SUBST(PISOCK_INCLUDEDIR)
 	
-	if test x$PISOCK_INCLUDEDIR = x; then
+	if test x$PISOCK_LIBDIR = x; then
 		AC_CHECK_LIB(pisock, pi_accept, [ PISOCK_LIBS=-lpisock ], 
 			[ AC_MSG_ERROR("Unable to find libpisock. Try ftp://ryeham.ee.ryerson.ca/pub/PalmOS/.") ])
 	fi
