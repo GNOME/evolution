@@ -1819,6 +1819,9 @@ e_day_view_on_top_canvas_button_press (GtkWidget *widget,
 			e_day_view_start_selection (day_view, day, -1);
 		}
 	} else if (event->button == 3) {
+		if (!GTK_WIDGET_HAS_FOCUS (day_view))
+			gtk_widget_grab_focus (GTK_WIDGET (day_view));
+
 		e_day_view_on_event_right_click (day_view, event, -1, -1);
 	}
 
@@ -1923,6 +1926,9 @@ e_day_view_on_main_canvas_button_press (GtkWidget *widget,
 			e_day_view_start_selection (day_view, day, row);
 		}
 	} else if (event->button == 3) {
+		if (!GTK_WIDGET_HAS_FOCUS (day_view))
+			gtk_widget_grab_focus (GTK_WIDGET (day_view));
+
 		e_day_view_on_event_right_click (day_view, event, -1, -1);
 	}
 
@@ -1950,6 +1956,9 @@ e_day_view_on_long_event_button_press (EDayView		*day_view,
 			return TRUE;
 		}
 	} else if (event->button == 3) {
+		if (!GTK_WIDGET_HAS_FOCUS (day_view))
+			gtk_widget_grab_focus (GTK_WIDGET (day_view));
+
 		e_day_view_on_event_right_click (day_view, event,
 						 E_DAY_VIEW_LONG_EVENT,
 						 event_num);
@@ -1980,6 +1989,9 @@ e_day_view_on_event_button_press (EDayView	  *day_view,
 			return TRUE;
 		}
 	} else if (event->button == 3) {
+		if (!GTK_WIDGET_HAS_FOCUS (day_view))
+			gtk_widget_grab_focus (GTK_WIDGET (day_view));
+
 		e_day_view_on_event_right_click (day_view, event,
 						 day, event_num);
 		return TRUE;

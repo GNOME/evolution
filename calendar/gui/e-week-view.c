@@ -1353,6 +1353,8 @@ e_week_view_on_button_press (GtkWidget *widget,
 			gtk_widget_queue_draw (week_view->main_canvas);
 		}
 	} else if (event->button == 3) {
+		if (!GTK_WIDGET_HAS_FOCUS (week_view))
+			gtk_widget_grab_focus (GTK_WIDGET (week_view));
 		e_week_view_show_popup_menu (week_view, event, -1);
 	}
 
@@ -2227,6 +2229,8 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 			return FALSE;
 
 		if (event->button.button == 3) {
+			if (!GTK_WIDGET_HAS_FOCUS (week_view))
+				gtk_widget_grab_focus (GTK_WIDGET (week_view));
 			e_week_view_show_popup_menu (week_view,
 						     (GdkEventButton*) event,
 						     event_num);

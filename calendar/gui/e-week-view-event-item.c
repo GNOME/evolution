@@ -653,11 +653,11 @@ e_week_view_event_item_button_press (EWeekViewEventItem *wveitem,
 	week_view->pressed_event_num = wveitem->event_num;
 	week_view->pressed_span_num = wveitem->span_num;
 
-	/* Ignore clicks on the event while editing. */
-	if (E_TEXT (span->text_item)->editing)
-		return FALSE;
-
 	if (bevent->button.button == 1) {
+		/* Ignore clicks on the event while editing. */
+		if (E_TEXT (span->text_item)->editing)
+			return FALSE;
+
 		/* Remember the item clicked and the mouse position,
 		   so we can start a drag if the mouse moves. */
 		week_view->drag_event_x = bevent->button.x;
@@ -666,6 +666,8 @@ e_week_view_event_item_button_press (EWeekViewEventItem *wveitem,
 		/* FIXME: Remember the day offset from the start of the event.
 		 */
 	} else if (bevent->button.button == 3) {
+		if (!GTK_WIDGET_HAS_FOCUS (week_view))
+			gtk_widget_grab_focus (GTK_WIDGET (week_view));
 		e_week_view_show_popup_menu (week_view,
 					     (GdkEventButton*) bevent,
 					     wveitem->event_num);
