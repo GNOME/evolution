@@ -346,6 +346,7 @@ etsm_node_changed (ETreeModel *etm, ETreePath node, ETreeSelectionModel *etsm)
 	int cursor_row;
 
 	etsm_real_clear (etsm);
+	etsm->priv->cursor_path = NULL;
 
 	if (e_tree_model_has_get_node_by_id (etm) && etsm->priv->cursor_save_id) {
 		ETreePath cursor_path;
@@ -525,6 +526,7 @@ etsm_destroy (GtkObject *object)
 	etsm = E_TREE_SELECTION_MODEL (object);
 
 	etsm_real_clear (etsm);
+	etsm->priv->cursor_path = NULL;
 	drop_model(etsm);
 	drop_ets(etsm);
 
