@@ -1,5 +1,10 @@
 2003-03-20  Rodrigo Moya <rodrigo@ximian.com>
 
+	* gui/dialogs/cancel-comp.c (cancel_component_dialog): use a
+	GtkMessageDialog and deal correctly with the dialog's reponses.
+
+2003-03-20  Rodrigo Moya <rodrigo@ximian.com>
+
 	Fixes #39770
 
 	* gui/itip-utils.c (itip_Send_comp): check the CORBA exception instead
