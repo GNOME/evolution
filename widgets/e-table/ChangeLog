@@ -1,6 +1,11 @@
 2000-06-01  Christopher James Lahey  <clahey@helixcode.com>
 
-	* e-table-item.c: Copy and paste  error.
+	* e-cell-text.c, e-cell-text.h: Added "text_filter" argument that
+	takes a const void * and returns an allocated char *.
+
+2000-06-01  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-table-item.c: Copy and paste error.
 
 2000-06-01  Christopher James Lahey  <clahey@helixcode.com>
 

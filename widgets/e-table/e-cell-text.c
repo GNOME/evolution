@@ -203,6 +203,7 @@ static void _get_xy_from_position (CurrentCell *cell, gint position, gint *xp, g
 static gboolean _blink_scroll_timeout (gpointer data);
 
 static void build_current_cell (CurrentCell *cell, ECellTextView *text_view, int model_col, int view_col, int row);
+static void unbuild_current_cell (CurrentCell *cell);
 static void calc_ellipsis (ECellTextView *text_view);
 
 static ECellClass *parent_class;
@@ -689,6 +690,7 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 			lines++;
 		}
 		unref_lines (&cell);
+		unbuild_current_cell (&cell);
 	}
 
 	gdk_gc_set_clip_rectangle (text_view->gc, NULL);
@@ -870,7 +872,8 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 	case GDK_KEY_RELEASE:
 		if (event->key.keyval == GDK_Escape){
 			ect_cancel_edit (text_view);
-			return TRUE;
+			return_val = TRUE;
+			break;
 		}
 		
 		if ((!edit_display) && e_table_model_is_cell_editable (ecell_view->e_table_model, view_col, row)) {
@@ -891,8 +894,9 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 				e_tep_event.key.length = key.length;
 				e_tep_event.key.string = key.string;
 				_get_tep (edit);
-				return e_text_event_processor_handle_event (edit->tep,
-									    &e_tep_event);
+				return_val = e_text_event_processor_handle_event (edit->tep,
+										  &e_tep_event);
+				break;
 			}
 		}
 
@@ -995,6 +999,8 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 	default:
 		break;
 	}
+
+	unbuild_current_cell (&cell);
 	if (return_val)
 		return return_val;
 #if 0
@@ -1044,16 +1050,15 @@ ect_height (ECellView *ecell_view, int model_col, int view_col, int row)
 {
 	ECellTextView *text_view = (ECellTextView *) ecell_view;
 	GdkFont *font;
+	ECellText *ect = E_CELL_TEXT(ecell_view->ecell);
 	
 	font = text_view->font;
-#if 0
-	if (text_view->filter) {
-		char *string = text_view->filter(e_table_model_value_at (ecell_view->e_table_model, model_col, row));
+	if (ect->filter) {
+		char *string = (*ect->filter)(e_table_model_value_at (ecell_view->e_table_model, model_col, row));
 		int value = (font->ascent + font->descent) * number_of_lines(string) + TEXT_PAD;
 		g_free(string);
 		return value;
 	} else
-#endif
 		return (font->ascent + font->descent) * number_of_lines(e_table_model_value_at (ecell_view->e_table_model, model_col, row)) + TEXT_PAD;
 }
 
@@ -1066,6 +1071,7 @@ ect_enter_edit (ECellView *ecell_view, int model_col, int view_col, int row)
 	ECellTextView *text_view = (ECellTextView *) ecell_view;
 	char *str;
 	CellEdit *edit;
+	ECellText *ect = E_CELL_TEXT(ecell_view->ecell);
 
 	edit = g_new (CellEdit, 1);
 	text_view->edit = edit;
@@ -1105,16 +1111,13 @@ ect_enter_edit (ECellView *ecell_view, int model_col, int view_col, int row)
 	edit->pointer_in = FALSE;
 	edit->default_cursor_shown = TRUE;
 	
-#if 0
 	if (ect->filter) {
-		str = ect->filter(e_table_model_value_at (ecell_view->e_table_model, model_col, row));
+		str = (*ect->filter)(e_table_model_value_at (ecell_view->e_table_model, model_col, row));
 		edit->old_text = str;
-	} else 
-#endif
-		{
-			str = e_table_model_value_at (ecell_view->e_table_model, model_col, row);
-			edit->old_text = g_strdup (str);
-		}
+	} else {
+		str = e_table_model_value_at (ecell_view->e_table_model, model_col, row);
+		edit->old_text = g_strdup (str);
+	}
 	edit->cell.text = g_strdup (str);
 
 #if 0
@@ -1143,6 +1146,7 @@ ect_leave_edit (ECellView *ecell_view, int model_col, int view_col, int row, voi
 	if (edit){
 		ect_accept_edits (text_view);
 		ect_stop_editing (text_view);
+		unbuild_current_cell (CURRENT_CELL(edit));
 	} else {
 		/*
 		 * We did invoke this leave edit internally
@@ -1172,17 +1176,15 @@ ect_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 
 	switch (arg_id) {
 	case ARG_STRIKEOUT_COLUMN:
-		if (text->strikeout_column != GTK_VALUE_INT (*arg)) {
-			text->strikeout_column = GTK_VALUE_INT (*arg);
-		}
+		text->strikeout_column = GTK_VALUE_INT (*arg);
 		break;
 
 	case ARG_BOLD_COLUMN:
-		if (text->bold_column != GTK_VALUE_INT (*arg)) {
-			text->bold_column = GTK_VALUE_INT (*arg);
-		}
+		text->bold_column = GTK_VALUE_INT (*arg);
 		break;
-
+	case ARG_TEXT_FILTER:
+		text->filter = GTK_VALUE_POINTER (*arg);
+		break;
 	default:
 		return;
 	}
@@ -1203,6 +1205,10 @@ ect_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 
 	case ARG_BOLD_COLUMN:
 		GTK_VALUE_INT (*arg) = text->bold_column;
+		break;
+
+	case ARG_TEXT_FILTER:
+		GTK_VALUE_POINTER (*arg) = text->filter;
 		break;
 
 	default:
@@ -1237,6 +1243,8 @@ e_cell_text_class_init (GtkObjectClass *object_class)
 				 GTK_TYPE_INT, GTK_ARG_READWRITE, ARG_STRIKEOUT_COLUMN);
 	gtk_object_add_arg_type ("ECellText::bold_column",
 				 GTK_TYPE_INT, GTK_ARG_READWRITE, ARG_BOLD_COLUMN);
+	gtk_object_add_arg_type ("ECellText::text_filter",
+				 GTK_TYPE_POINTER, GTK_ARG_READWRITE, ARG_TEXT_FILTER);
 
 	if (!clipboard_atom)
 		clipboard_atom = gdk_atom_intern ("CLIPBOARD", FALSE);
@@ -2082,14 +2090,25 @@ static void
 build_current_cell (CurrentCell *cell, ECellTextView *text_view, int model_col, int view_col, int row)
 {
 	ECellView *ecell_view = (ECellView *) text_view;
+	ECellText *ect = E_CELL_TEXT (ecell_view->ecell);
 
 	cell->text_view = text_view;
 	cell->model_col = model_col;
 	cell->view_col = view_col;
 	cell->row = row;
 	cell->breaks = NULL;
-	cell->text = e_table_model_value_at (ecell_view->e_table_model, model_col, row);
+	if (ect->filter)
+		cell->text = (*ect->filter)(e_table_model_value_at (ecell_view->e_table_model, model_col, row));
+	else
+		cell->text = g_strdup(e_table_model_value_at (ecell_view->e_table_model, model_col, row));
 	cell->width = e_table_header_get_column (
 		((ETableItem *)ecell_view->e_table_item_view)->header,
 		view_col)->width - 8;
 }
+
+static void
+unbuild_current_cell (CurrentCell *cell)
+{
+	g_free(cell->text);
+}
+

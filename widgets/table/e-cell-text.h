@@ -28,7 +28,7 @@
 #include "e-cell.h"
 
 /* Should return a malloced object. */
-typedef char *(*ECellTextFilter) (void *);
+typedef char *(*ECellTextFilter) (const void *);
 
 #define E_CELL_TEXT_TYPE        (e_cell_text_get_type ())
 #define E_CELL_TEXT(o)          (GTK_CHECK_CAST ((o), E_CELL_TEXT_TYPE, ECellText))
