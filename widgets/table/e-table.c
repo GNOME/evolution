@@ -716,7 +716,8 @@ void            e_table_set_state                 (ETable               *e_table
 	state = e_table_state_new();
 	e_table_state_load_from_string(state, state_str);
 
-	et_set_state(e_table, state);
+	if (state->col_count > 0)
+		et_set_state(e_table, state);
 
 	gtk_object_sink(GTK_OBJECT(state));
 }
@@ -733,7 +734,8 @@ void            e_table_load_state                (ETable               *e_table
 	state = e_table_state_new();
 	e_table_state_load_from_file(state, filename);
 
-	et_set_state(e_table, state);
+	if (state->col_count > 0)
+		et_set_state(e_table, state);
 
 	gtk_object_sink(GTK_OBJECT(state));
 }
@@ -883,6 +885,11 @@ e_table_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 	if (state_str) {
 		state = e_table_state_new();
 		e_table_state_load_from_string(state, state_str);
+		if (state->col_count <= 0) {
+			gtk_object_unref(GTK_OBJECT(state));
+			state = specification->state;
+			gtk_object_ref(GTK_OBJECT(state));
+		}
 	} else {
 		state = specification->state;
 		gtk_object_ref(GTK_OBJECT(state));
@@ -919,6 +926,11 @@ e_table_construct_from_spec_file (ETable *e_table, ETableModel *etm, ETableExtra
 	if (state_fn) {
 		state = e_table_state_new();
 		if (!e_table_state_load_from_file(state, state_fn)) {
+			gtk_object_unref(GTK_OBJECT(state));
+			state = specification->state;
+			gtk_object_ref(GTK_OBJECT(state));
+		}
+		if (state->col_count <= 0) {
 			gtk_object_unref(GTK_OBJECT(state));
 			state = specification->state;
 			gtk_object_ref(GTK_OBJECT(state));
