@@ -1,3 +1,9 @@
+2004-07-20  Not Zed  <NotZed@Ximian.com>
+
+	* gui/widgets/eab-contact-display.c: 
+	* gui/contact-editor/eab-editor.c: 
+	* gui/component/addressbook-migrate.c: include config.h #61395.
+
 2004-07-21  Chris Toshok  <toshok@ximian.com>
 
 	[ fixes #60508 ]
