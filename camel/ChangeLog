@@ -1,3 +1,15 @@
+2001-03-07  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/pop3/camel-pop3-store.c (init_trash): Implement.
+	(get_trash): Implement.
+	(camel_pop3_store_class_init): Override the default init_trash and
+	get_trash virtual functions. Hopefully this should fix the problem
+	of pop3 sotre's not disconnecting after the send&recv code
+	finishes downloading mail.
+
+	Wonder if I should override the default implementation for the
+	mbox, mh, and maildir too?
+
 2001-03-07  Dan Winship  <danw@ximian.com>
 
 	* camel-remote-store.c (camel_remote_store_connected): Return the
