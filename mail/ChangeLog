@@ -1,5 +1,29 @@
 2001-07-09  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-format.c (setup_mime_tables): Handle application/pgp using
+	the text/plain handler.
+
+	* mail-account-gui.c (get_sensitive_widget): New function to determine
+	which widget is focused.
+
+	* mail-account-editor.c (apply_changes): Not only flip to the
+	notebook page that wasn't finished, but also grab the focus of the
+	incomplete widget.
+
+	* mail-config-druid.c (source_changed): Grab the focus of the
+	incomplete widget.
+	(transport_prepare): And here.
+	(identity_changed): Here too.
+
+	* mail-account-gui.c (mail_account_gui_identity_complete): Take an
+	incomplete argument so we can set which widget is incomplete and
+	then the caller can focus it or whatever.
+	(service_complete): Same.
+	(mail_account_gui_transport_complete): And again here.
+	(mail_account_gui_management_complete): And here too.
+
+2001-07-09  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* mail-format.c (decode_pgp): Update to pass in the `remember'
 	argument when creating a new pgp context.
 	(try_inline_pgp_sig): And here...

@@ -273,7 +273,7 @@ setup_mime_tables (void)
 {
 	mime_handler_table = g_hash_table_new (g_str_hash, g_str_equal);
 	mime_function_table = g_hash_table_new (g_str_hash, g_str_equal);
-
+	
 	g_hash_table_insert (mime_function_table, "text/plain",
 			     handle_text_plain);
 	g_hash_table_insert (mime_function_table, "text/richtext",
@@ -282,7 +282,7 @@ setup_mime_tables (void)
 			     handle_text_enriched);
 	g_hash_table_insert (mime_function_table, "text/html",
 			     handle_text_html);
-
+	
 	g_hash_table_insert (mime_function_table, "image/gif",
 			     handle_image);
 	g_hash_table_insert (mime_function_table, "image/jpeg",
@@ -311,14 +311,14 @@ setup_mime_tables (void)
 			     handle_image);
 	g_hash_table_insert (mime_function_table, "image/x-xpixmap",
 			     handle_image);
-
+	
 	g_hash_table_insert (mime_function_table, "message/rfc822",
 			     handle_message_rfc822);
 	g_hash_table_insert (mime_function_table, "message/news",
 			     handle_message_rfc822);
 	g_hash_table_insert (mime_function_table, "message/external-body",
 			     handle_message_external_body);
-
+	
 	g_hash_table_insert (mime_function_table, "multipart/alternative",
 			     handle_multipart_alternative);
 	g_hash_table_insert (mime_function_table, "multipart/related",
@@ -331,11 +331,17 @@ setup_mime_tables (void)
 			     handle_multipart_encrypted);
 	g_hash_table_insert (mime_function_table, "multipart/signed",
 			     handle_multipart_signed);
-
+	
+	/* Some broken mailers, such as The Bat! send pgp
+	 * signed/encrypted messages with a content-type of
+	 * application/pgp which basically means it's a text/plain but
+	 * either signed or encrypted. */
+	g_hash_table_insert (mime_function_table, "application/pgp",
+			     handle_text_plain);
+	
 	/* RFC 2046 says unrecognized text subtypes can be treated
 	 * as text/plain (as long as you recognize the character set),
-	 * and unrecognized multipart subtypes as multipart/mixed.
-	 */
+	 * and unrecognized multipart subtypes as multipart/mixed.  */
 	g_hash_table_insert (mime_function_table, "text/*",
 			     handle_text_plain);
 	g_hash_table_insert (mime_function_table, "multipart/*",

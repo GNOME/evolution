@@ -106,10 +106,10 @@ void mail_account_gui_setup (MailAccountGui *gui, GtkWidget *top);
 gboolean mail_account_gui_save (MailAccountGui *gui);
 void mail_account_gui_destroy (MailAccountGui *gui);
 
-gboolean mail_account_gui_identity_complete (MailAccountGui *gui);
-gboolean mail_account_gui_source_complete (MailAccountGui *gui);
-gboolean mail_account_gui_transport_complete (MailAccountGui *gui);
-gboolean mail_account_gui_management_complete (MailAccountGui *gui);
+gboolean mail_account_gui_identity_complete (MailAccountGui *gui, GtkWidget **incomplete);
+gboolean mail_account_gui_source_complete (MailAccountGui *gui, GtkWidget **incomplete);
+gboolean mail_account_gui_transport_complete (MailAccountGui *gui, GtkWidget **incomplete);
+gboolean mail_account_gui_management_complete (MailAccountGui *gui, GtkWidget **incomplete);
 
 void mail_account_gui_build_extra_conf (MailAccountGui *gui, const char *url);
 

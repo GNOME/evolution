@@ -27,6 +27,7 @@
 #endif
 
 #include <string.h>
+#include <stdarg.h>
 
 #include <bonobo.h>
 #include <bonobo/bonobo-stream-memory.h>
@@ -60,23 +61,58 @@ is_email (const char *address)
 	return strchr (hname, '.') != NULL;
 }
 
+static GtkWidget *
+get_sensitive_widget (GtkWidget *def, ...)
+{
+	GtkWidget *widget, *ret = NULL;
+	va_list args;
+	
+	va_start (args, def);
+	widget = va_arg (args, GtkWidget *);
+	while (widget) {
+		if (GTK_WIDGET_HAS_FOCUS (widget)) {
+			ret = widget;
+			break;
+		}
+		
+		widget = va_arg (args, GtkWidget *);
+	}
+	va_end (ap);
+	
+	if (ret)
+		return ret;
+	else
+		return def;
+}
+
 gboolean
-mail_account_gui_identity_complete (MailAccountGui *gui)
+mail_account_gui_identity_complete (MailAccountGui *gui, GtkWidget **incomplete)
 {
 	char *text;
 	
 	text = gtk_entry_get_text (gui->full_name);
-	if (!text || !*text)
+	if (!text || !*text) {
+		if (incomplete)
+			*incomplete = get_sensitive_widget (GTK_WIDGET (gui->full_name),
+							    GTK_WIDGET (gui->email_address),
+							    NULL);
 		return FALSE;
+	}
+	
 	text = gtk_entry_get_text (gui->email_address);
-	if (!text || !is_email (text))
+	if (!text || !is_email (text)) {
+		if (incomplete)
+			*incomplete = get_sensitive_widget (GTK_WIDGET (gui->email_address),
+							    GTK_WIDGET (gui->full_name),
+							    NULL);
 		return FALSE;
+	}
 	
 	return TRUE;
 }
 
 static gboolean
-service_complete (MailAccountGuiService *service)
+service_complete (MailAccountGuiService *service, GtkWidget **incomplete)
 {
 	const CamelProvider *prov = service->provider;
 	char *text;
@@ -86,35 +122,53 @@ service_complete (MailAccountGuiService *service)
 	
 	if (CAMEL_PROVIDER_NEEDS (prov, CAMEL_URL_PART_HOST)) {
 		text = gtk_entry_get_text (service->hostname);
-		if (!text || !*text)
+		if (!text || !*text) {
+			if (incomplete)
+				*incomplete = get_sensitive_widget (GTK_WIDGET (service->hostname),
+								    GTK_WIDGET (service->username),
+								    GTK_WIDGET (service->path),
+								    NULL);
 			return FALSE;
+		}
 	}
 	
 	if (CAMEL_PROVIDER_NEEDS (prov, CAMEL_URL_PART_USER)) {
 		text = gtk_entry_get_text (service->username);
-		if (!text || !*text)
+		if (!text || !*text) {
+			if (incomplete)
+				*incomplete = get_sensitive_widget (GTK_WIDGET (service->username),
+								    GTK_WIDGET (service->path),
+								    GTK_WIDGET (service->hostname),
+								    NULL);
 			return FALSE;
+		}
 	}
 	
 	if (CAMEL_PROVIDER_NEEDS (prov, CAMEL_URL_PART_PATH)) {
 		text = gtk_entry_get_text (service->path);
-		if (!text || !*text)
+		if (!text || !*text) {
+			if (incomplete)
+				*incomplete = get_sensitive_widget (GTK_WIDGET (service->path),
+								    GTK_WIDGET (service->hostname),
+								    GTK_WIDGET (service->username),
+								    NULL);
 			return FALSE;
+		}
 	}
 	
 	return TRUE;
 }
 
 gboolean
-mail_account_gui_source_complete (MailAccountGui *gui)
+mail_account_gui_source_complete (MailAccountGui *gui, GtkWidget **incomplete)
 {
-	return service_complete (&gui->source);
+	return service_complete (&gui->source, incomplete);
 }
 
 gboolean
-mail_account_gui_transport_complete (MailAccountGui *gui)
+mail_account_gui_transport_complete (MailAccountGui *gui, GtkWidget **incomplete)
 {
-	if (!service_complete (&gui->transport))
+	if (!service_complete (&gui->transport, incomplete))
 		return FALSE;
 	
 	/* FIXME? */
@@ -122,20 +176,31 @@ mail_account_gui_transport_complete (MailAccountGui *gui)
 	    CAMEL_PROVIDER_ALLOWS (gui->transport.provider, CAMEL_URL_PART_USER)) {
 		char *text = gtk_entry_get_text (gui->transport.username);
 		
-		if (!text || !*text)
+		if (!text || !*text) {
+			if (incomplete)
+				*incomplete = get_sensitive_widget (GTK_WIDGET (gui->transport.username),
+								    GTK_WIDGET (gui->transport.hostname),
+								    NULL);
 			return FALSE;
+		}
 	}
 	
 	return TRUE;
 }
 
 gboolean
-mail_account_gui_management_complete (MailAccountGui *gui)
+mail_account_gui_management_complete (MailAccountGui *gui, GtkWidget **incomplete)
 {
 	char *text;
 	
 	text = gtk_entry_get_text (gui->account_name);
-	return text && *text;
+	if (text && *text)
+		return TRUE;
+	
+	if (incomplete)
+		*incomplete = GTK_WIDGET (gui->account_name);
+	
+	return FALSE;
 }
 
 
@@ -174,7 +239,7 @@ build_auth_menu (MailAccountGuiService *service,
 			gtk_widget_set_sensitive (item, FALSE);
 		else if (!first)
 			first = item;
-
+		
 		gtk_object_set_data (GTK_OBJECT (item), "authtype", authtype);
 		gtk_signal_connect (GTK_OBJECT (item), "activate",
 				    service_authtype_changed, service);
@@ -376,7 +441,7 @@ service_changed (GtkEntry *entry, gpointer user_data)
 	MailAccountGuiService *service = user_data;
 	
 	gtk_widget_set_sensitive (GTK_WIDGET (service->check_supported),
-				  service_complete (service));
+				  service_complete (service, NULL));
 }
 
 static void
@@ -901,7 +966,7 @@ do_exit (ESignatureEditor *editor)
 		gnome_dialog_set_parent (GNOME_DIALOG (dialog), GTK_WINDOW (editor->win));
 		gnome_dialog_set_default (GNOME_DIALOG (dialog), 0);
 		button = gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
-
+		
 		exit_dialog_cb (button, editor);
 	} else
 		destroy_editor (editor);
@@ -911,7 +976,7 @@ static void
 menu_file_close_cb (BonoboUIComponent *uic, gpointer data, const gchar *path)
 {
 	ESignatureEditor *editor;
-
+	
 	editor = E_SIGNATURE_EDITOR (data);
 	do_exit (editor);
 }
@@ -920,7 +985,7 @@ static BonoboUIVerb verbs [] = {
 
 	BONOBO_UI_VERB ("FileSave",   menu_file_save_cb),
 	BONOBO_UI_VERB ("FileClose",  menu_file_close_cb),
-
+	
 	BONOBO_UI_VERB_END
 };
 
@@ -928,10 +993,10 @@ static void
 load_signature (ESignatureEditor *editor)
 {
 	CORBA_Environment ev;
-
+	
 	if (editor->html) {
 		Bonobo_PersistFile pfile_iface;
-
+		
 		pfile_iface = bonobo_object_client_query_interface (bonobo_widget_get_server (BONOBO_WIDGET (editor->control)),
 								    "IDL:Bonobo/PersistFile:1.0", NULL);
 		CORBA_exception_init (&ev);
@@ -941,29 +1006,29 @@ load_signature (ESignatureEditor *editor)
 		Bonobo_PersistStream pstream_iface;
 		BonoboStream *stream;
 		gchar *data, *html;
-
+		
 		data = e_msg_composer_get_sig_file_content (editor->filename, FALSE);
 		html = g_strdup_printf ("<PRE>\n%s", data);
 		g_free (data);
-
+		
 		pstream_iface = bonobo_object_client_query_interface
 			(bonobo_widget_get_server (BONOBO_WIDGET (editor->control)),
 			 "IDL:Bonobo/PersistStream:1.0", NULL);
 		CORBA_exception_init (&ev);
 		stream = bonobo_stream_mem_create (html, strlen (html), TRUE, FALSE);
-
+		
 		if (stream == NULL) {
 			g_warning ("Couldn't create memory stream\n");
 		} else {
 			BonoboObject *stream_object;
 			Bonobo_Stream corba_stream;
-
+			
 			stream_object = BONOBO_OBJECT (stream);
 			corba_stream = bonobo_object_corba_objref (stream_object);
 			Bonobo_PersistStream_load (pstream_iface, corba_stream,
 						   "text/html", &ev);
 		}
-
+		
 		Bonobo_Unknown_unref (pstream_iface, &ev);
 		CORBA_Object_release (pstream_iface, &ev);
 		CORBA_exception_free (&ev);
@@ -980,15 +1045,15 @@ launch_signature_editor (MailAccountGui *gui, const gchar *filename, gboolean ht
 	BonoboUIComponent *component;
 	BonoboUIContainer *container;
 	gchar *title;
-
+	
 	if (!filename || !*filename)
 		return;
-
+	
 	editor = g_new0 (ESignatureEditor, 1);
-
+	
 	editor->html     = html;
 	editor->filename = g_strdup (filename);
-
+	
 	title       = g_strdup_printf ("Edit %ssignature (%s)", html ? "HTML " : "", filename);
 	editor->win = bonobo_window_new ("e-sig-editor", title);
 	editor->gui = gui;
@@ -996,27 +1061,27 @@ launch_signature_editor (MailAccountGui *gui, const gchar *filename, gboolean ht
 	gtk_window_set_policy (GTK_WINDOW (editor->win), FALSE, TRUE, FALSE);
 	gtk_window_set_modal (GTK_WINDOW (editor->win), TRUE);
 	g_free (title);
-
+	
 	container = bonobo_ui_container_new ();
 	bonobo_ui_container_set_win (container, BONOBO_WINDOW (editor->win));
-
+	
 	component = bonobo_ui_component_new ("evolution-signature-editor");
 	bonobo_ui_component_set_container (component, bonobo_object_corba_objref (BONOBO_OBJECT (container)));
 	bonobo_ui_component_add_verb_list_with_data (component, verbs, editor);
 	bonobo_ui_util_set_ui (component, EVOLUTION_DATADIR, "evolution-signature-editor.xml", "evolution-signature-editor");
-
+	
 	editor->control = bonobo_widget_new_control ("OAFIID:GNOME_GtkHTML_Editor",
 						     bonobo_ui_component_get_container (component));
-
+	
 	if (editor->control == NULL) {
 		g_warning ("Cannot get 'OAFIID:GNOME_GtkHTML_Editor'.");
-
+		
 		destroy_editor (editor);
 		return;
 	}
-
+	
 	load_signature (editor);
-
+	
 	bonobo_window_set_contents (BONOBO_WINDOW (editor->win), editor->control);
 	bonobo_widget_set_property (BONOBO_WIDGET (editor->control), "FormatHTML", html, NULL);
 	gtk_widget_show (GTK_WIDGET (editor->win));
@@ -1077,13 +1142,13 @@ mail_account_gui_new (MailConfigAccount *account)
 	gnome_file_entry_set_default_path (gui->html_signature, g_get_home_dir ());
 	gui->edit_signature = GTK_BUTTON (glade_xml_get_widget (gui->xml, "button_edit_signature"));
 	gui->edit_html_signature = GTK_BUTTON (glade_xml_get_widget (gui->xml, "button_edit_html_signature"));
-
+	
 	gtk_signal_connect (GTK_OBJECT (gnome_file_entry_gtk_entry (gui->signature)), "changed", signature_changed, gui);
 	gtk_signal_connect (GTK_OBJECT (gnome_file_entry_gtk_entry (gui->html_signature)), "changed",
 			    html_signature_changed, gui);
 	gtk_signal_connect (GTK_OBJECT (gui->edit_signature), "clicked", edit_signature, gui);
 	gtk_signal_connect (GTK_OBJECT (gui->edit_html_signature), "clicked", edit_html_signature, gui);
-
+	
 	if (account->id) {
 		if (account->id->name)
 			e_utf8_gtk_entry_set_text (gui->full_name, account->id->name);
@@ -1103,7 +1168,7 @@ mail_account_gui_new (MailConfigAccount *account)
 		}
 		gtk_toggle_button_set_active (gui->has_html_signature, account->id->has_html_signature);
 	}
-
+	
 	/* Source */
 	gui->source.type = GTK_OPTION_MENU (glade_xml_get_widget (gui->xml, "source_type_omenu"));
 	gui->source.hostname = GTK_ENTRY (glade_xml_get_widget (gui->xml, "source_host"));
@@ -1456,10 +1521,10 @@ mail_account_gui_save (MailAccountGui *gui)
 	MailConfigAccount *account = gui->account;
 	gboolean old_enabled;
 	
-	if (!mail_account_gui_identity_complete (gui) ||
-	    !mail_account_gui_source_complete (gui) ||
-	    !mail_account_gui_transport_complete (gui) ||
-	    !mail_account_gui_management_complete (gui))
+	if (!mail_account_gui_identity_complete (gui, NULL) ||
+	    !mail_account_gui_source_complete (gui, NULL) ||
+	    !mail_account_gui_transport_complete (gui, NULL) ||
+	    !mail_account_gui_management_complete (gui, NULL))
 		return FALSE;
 	
 	g_free (account->name);
@@ -1475,7 +1540,7 @@ mail_account_gui_save (MailAccountGui *gui)
 	account->id->signature = gnome_file_entry_get_full_path (gui->signature, TRUE);
 	account->id->html_signature = gnome_file_entry_get_full_path (gui->html_signature, TRUE);
 	account->id->has_html_signature = gtk_toggle_button_get_active (gui->has_html_signature);
-
+	
 	old_enabled = account->source && account->source->enabled;
 	service_destroy (account->source);
 	account->source = g_new0 (MailConfigService, 1);
@@ -1521,4 +1586,3 @@ mail_account_gui_destroy (MailAccountGui *gui)
 	g_free (gui->sent_folder.uri);
 	g_free (gui);
 }
-

@@ -51,7 +51,7 @@ GtkType
 mail_config_druid_get_type (void)
 {
 	static GtkType type = 0;
-
+	
 	if (!type) {
 		GtkTypeInfo type_info = {
 			"MailConfigDruid",
@@ -62,10 +62,10 @@ mail_config_druid_get_type (void)
 			(GtkArgSetFunc) NULL,
 			(GtkArgGetFunc) NULL
 		};
-
+		
 		type = gtk_type_unique (gtk_window_get_type (), &type_info);
 	}
-
+	
 	return type;
 }
 
@@ -73,10 +73,10 @@ static void
 mail_config_druid_class_init (MailConfigDruidClass *class)
 {
 	GtkObjectClass *object_class;
-
+	
 	object_class = (GtkObjectClass *) class;
 	parent_class = gtk_type_class (gtk_window_get_type ());
-
+	
 	/* override methods */
 	object_class->finalize = mail_config_druid_finalize;
 }
@@ -85,7 +85,7 @@ static void
 mail_config_druid_finalize (GtkObject *obj)
 {
 	MailConfigDruid *druid = (MailConfigDruid *) obj;
-
+	
 	mail_account_gui_destroy (druid->gui);
         ((GtkObjectClass *)(parent_class))->finalize (obj);
 }
@@ -122,7 +122,7 @@ create_html (const char *name)
 	GtkStyle *style;
 	char *utf8;
 	int i;
-
+	
 	html = gtk_html_new ();
 	GTK_LAYOUT (html)->height = 0;
 	gtk_signal_connect (GTK_OBJECT (html), "size_request",
@@ -136,19 +136,19 @@ create_html (const char *name)
 						       &style->bg[0]);
 	}
 	gtk_widget_show (html);
-
+	
 	scrolled = gtk_scrolled_window_new (NULL, NULL);
 	gtk_widget_show (scrolled);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled),
 					GTK_POLICY_NEVER, GTK_POLICY_NEVER);
 	gtk_container_add (GTK_CONTAINER (scrolled), html);
-
+	
 	for (i = 0; i < num_info; i++) {
 		if (!strcmp (name, info[i].name))
 			break;
 	}
 	g_return_val_if_fail (i != num_info, scrolled);
-
+	
 	stream = gtk_html_begin_content (GTK_HTML (html),
 					 "text/html; charset=utf-8");
 	gtk_html_write (GTK_HTML (html), stream, "<html><p>", 9);
@@ -157,7 +157,7 @@ create_html (const char *name)
 	g_free (utf8);
 	gtk_html_write (GTK_HTML (html), stream, "</p></html>", 11);
 	gtk_html_end (GTK_HTML (html), stream, GTK_HTML_STREAM_OK);
-
+	
 	return scrolled;
 }
 
@@ -166,7 +166,7 @@ druid_cancel (GnomeDruid *druid, gpointer user_data)
 {
 	/* Cancel the setup of the account */
 	MailConfigDruid *config = user_data;
-
+	
 	gtk_widget_destroy (GTK_WIDGET (config));
 }
 
@@ -177,17 +177,17 @@ druid_finish (GnomeDruidPage *page, gpointer arg1, gpointer user_data)
 	MailConfigDruid *druid = user_data;
 	MailAccountGui *gui = druid->gui;
 	GSList *mini;
-
+	
 	mail_account_gui_save (gui);
 	if (gui->account->source)
 		gui->account->source->enabled = TRUE;
 	mail_config_add_account (gui->account);
 	mail_config_write ();
-
+	
 	mini = g_slist_prepend (NULL, gui->account);
 	mail_load_storages (druid->shell, mini, TRUE);
 	g_slist_free (mini);
-
+	
 	gtk_widget_destroy (GTK_WIDGET (druid));
 }
 
@@ -196,16 +196,22 @@ static void
 identity_changed (GtkWidget *widget, gpointer data)
 {
 	MailConfigDruid *druid = data;
-	gboolean next_sensitive = mail_account_gui_identity_complete (druid->gui);
-
+	GtkWidget *incomplete;
+	gboolean next_sensitive;
+	
+	next_sensitive = mail_account_gui_identity_complete (druid->gui, &incomplete);
+	
 	gnome_druid_set_buttons_sensitive (druid->druid, TRUE, next_sensitive, TRUE);
+	
+	if (!next_sensitive)
+		gtk_widget_grab_focus (incomplete);
 }
 
 static void
 identity_prepare (GnomeDruidPage *page, GnomeDruid *druid, gpointer data)
 {
 	MailConfigDruid *config = data;
-
+	
 	gtk_widget_grab_focus (GTK_WIDGET (config->gui->full_name));
 	identity_changed (NULL, config);
 }
@@ -214,10 +220,10 @@ static gboolean
 identity_next (GnomeDruidPage *page, GnomeDruid *druid, gpointer data)
 {
 	MailConfigDruid *config = data;
-
+	
 	if (!config->identity_copied) {
 		char *username;
-
+		
 		/* Copy the username part of the email address into
 		 * the Username field of the source and transport pages.
 		 */
@@ -226,10 +232,10 @@ identity_next (GnomeDruidPage *page, GnomeDruid *druid, gpointer data)
 		gtk_entry_set_text (config->gui->source.username, username);
 		gtk_entry_set_text (config->gui->transport.username, username);
 		g_free (username);
-
+		
 		config->identity_copied = TRUE;
 	}
-
+	
 	return FALSE;
 }
 
@@ -238,16 +244,22 @@ static void
 source_changed (GtkWidget *widget, gpointer data)
 {
 	MailConfigDruid *druid = data;
-	gboolean next_sensitive = mail_account_gui_source_complete (druid->gui);
-
+	GtkWidget *incomplete;
+	gboolean next_sensitive;
+	
+	next_sensitive = mail_account_gui_source_complete (druid->gui, &incomplete);
+	
 	gnome_druid_set_buttons_sensitive (druid->druid, TRUE, next_sensitive, TRUE);
+	
+	if (!next_sensitive)
+		gtk_widget_grab_focus (incomplete);
 }
 
 static void
 source_prepare (GnomeDruidPage *page, GnomeDruid *druid, gpointer data)
 {
 	MailConfigDruid *config = data;
-
+	
 	source_changed (NULL, config);
 }
 
@@ -256,16 +268,16 @@ source_next (GnomeDruidPage *page, GnomeDruid *druid, gpointer data)
 {
 	MailConfigDruid *config = data;
 	GtkWidget *transport_page;
-
+	
 	/* FIXME: if online, check that the data is good. */
-
+	
 	if (config->gui->source.provider && config->gui->source.provider->extra_conf)
 		return FALSE;
-
+	
 	/* Otherwise, skip to transport page. */
 	transport_page = glade_xml_get_widget (config->gui->xml, "transport_page");
 	gnome_druid_set_page (config->druid, GNOME_DRUID_PAGE (transport_page));
-
+	
 	return TRUE;
 }
 
@@ -274,7 +286,7 @@ static void
 extra_prepare (GnomeDruidPage *page, GnomeDruid *druid, gpointer data)
 {
 	MailConfigDruid *config = data;
-
+	
 	if (config->gui->source.provider != config->last_source) {
 		config->last_source = config->gui->source.provider;
 		mail_account_gui_build_extra_conf (config->gui, NULL);
@@ -286,9 +298,15 @@ static void
 transport_prepare (GnomeDruidPage *page, GnomeDruid *druid, gpointer data)
 {
 	MailConfigDruid *config = data;
-	gboolean next_sensitive = mail_account_gui_transport_complete (config->gui);
-
+	GtkWidget *incomplete;
+	gboolean next_sensitive;
+	
+	next_sensitive = mail_account_gui_transport_complete (config->gui, &incomplete);
+	
 	gnome_druid_set_buttons_sensitive (config->druid, TRUE, next_sensitive, TRUE);
+	
+	if (!next_sensitive)
+		gtk_widget_grab_focus (incomplete);
 }
 
 static gboolean

@@ -90,18 +90,20 @@ static gboolean
 apply_changes (MailAccountEditor *editor)
 {
 	MailConfigAccount *account;
+	GtkWidget *incomplete;
 	int page = -1;
 	
-	if (!mail_account_gui_identity_complete (editor->gui) ||
-	    !mail_account_gui_management_complete (editor->gui))
+	if (!mail_account_gui_identity_complete (editor->gui, &incomplete) ||
+	    !mail_account_gui_management_complete (editor->gui, &incomplete))
 		page = 0;
-	else if (!mail_account_gui_source_complete (editor->gui))
+	else if (!mail_account_gui_source_complete (editor->gui, &incomplete))
 		page = 1;
-	else if (!mail_account_gui_transport_complete (editor->gui))
+	else if (!mail_account_gui_transport_complete (editor->gui, &incomplete))
 		page = 3;
 	
 	if (page != -1) {
 		gtk_notebook_set_page (editor->notebook, page);
+		gtk_widget_grab_focus (incomplete);
 		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR, _("You have not filled in all of the required information."));
 		return FALSE;
 	}
