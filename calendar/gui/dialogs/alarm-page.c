@@ -327,7 +327,7 @@ sensitize_buttons (AlarmPage *apage)
 	ECal *client;
 	GtkTreeSelection *selection;
 	GtkTreeIter iter;
-	gboolean have_selected;
+	gboolean have_selected, read_only, sensitivity;
 
 	priv = apage->priv;
 
@@ -335,9 +335,16 @@ sensitize_buttons (AlarmPage *apage)
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->list));
 	have_selected = gtk_tree_selection_get_selected (selection, NULL, &iter);
 
-	gtk_widget_set_sensitive (priv->add,
-				  e_cal_get_one_alarm_only (client) && have_selected ? FALSE : TRUE);
-	gtk_widget_set_sensitive (priv->delete, have_selected);
+	if (e_cal_is_read_only (client, &read_only, NULL) && read_only)
+		sensitivity = FALSE;
+	else
+		sensitivity = TRUE;
+
+	if (e_cal_get_one_alarm_only (COMP_EDITOR_PAGE (apage)->client) && have_selected)
+		gtk_widget_set_sensitive (apage->priv->add, FALSE);
+	else
+		gtk_widget_set_sensitive (apage->priv->add, sensitivity);
+	gtk_widget_set_sensitive (priv->delete, have_selected && !read_only ? TRUE : FALSE);
 }
 
 /* Appends an alarm to the list */
@@ -815,6 +822,14 @@ init_widgets (AlarmPage *apage)
 
 
 
+static void
+client_changed_cb (CompEditorPage *page, ECal *client, gpointer user_data)
+{
+	AlarmPage *apage = ALARM_PAGE (page);
+
+	sensitize_buttons (apage);
+}
+
 /**
  * alarm_page_construct:
  * @apage: An alarm page.
@@ -846,6 +861,9 @@ alarm_page_construct (AlarmPage *apage)
 	}
 
 	init_widgets (apage);
+
+	g_signal_connect (G_OBJECT (apage), "client_changed",
+			  G_CALLBACK (client_changed_cb), NULL);
 
 	return apage;
 }

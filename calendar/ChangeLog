@@ -1,3 +1,13 @@
+2004-06-08  Rodrigo Moya <rodrigo@novell.com>
+
+	Fixes #59650
+
+	* gui/dialogs/alarm-page.c (alarm_page_construct): connect to
+	"client_changed" signal on the page.
+	(client_changed_cb): new callback.
+	(sensitize_buttons): added code for dealing with read only calendars
+	and disable/enable buttons approppriately.
+
 2004-06-07  Dan Winship  <danw@novell.com>
 
 	* gui/dialogs/comp-editor.c (pixmaps): s/stock_save_as/stock_save-as/
