@@ -79,7 +79,6 @@ eshellinclude_HEADERS = 			\
 	e-folder-list.h				\
 	e-folder-tree.h				\
 	e-shell-corba-icon-utils.h		\
-	e-storage.h				\
 	evolution-activity-client.h		\
 	evolution-config-control.h		\
 	evolution-folder-selector-button.h	\
@@ -209,6 +208,7 @@ evolution_SOURCES =				\
 	e-storage-set.c				\
 	e-storage-set.h				\
 	e-storage.c				\
+	e-storage.h				\
 	e-task-bar.c				\
 	e-task-bar.h				\
 	e-task-widget.c				\
