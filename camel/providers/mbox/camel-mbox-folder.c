@@ -59,7 +59,9 @@ static CamelFolderClass *parent_class=NULL;
 #define CMBOXS_CLASS(so) CAMEL_STORE_CLASS (GTK_OBJECT(so)->klass)
 
 
-static void _init_with_store (CamelFolder *folder, CamelStore *parent_store, CamelException *ex);
+static void _init (CamelFolder *folder, CamelStore *parent_store,
+		   CamelFolder *parent_folder, const gchar *name,
+		   gchar separator, CamelException *ex);
 static void _set_name(CamelFolder *folder, const gchar *name, CamelException *ex);
 
 
@@ -96,7 +98,7 @@ camel_mbox_folder_class_init (CamelMboxFolderClass *camel_mbox_folder_class)
 	/* virtual method definition */
 
 	/* virtual method overload */
-	camel_folder_class->init_with_store = _init_with_store;
+	camel_folder_class->init = _init;
 	camel_folder_class->set_name = _set_name;
 	camel_folder_class->open = _open;
 	camel_folder_class->close = _close;
@@ -173,7 +175,9 @@ camel_mbox_folder_get_type (void)
 
 
 static void 
-_init_with_store (CamelFolder *folder, CamelStore *parent_store, CamelException *ex)
+_init (CamelFolder *folder, CamelStore *parent_store,
+       CamelFolder *parent_folder, const gchar *name, gchar separator,
+       CamelException *ex)
 {
 	CamelMboxFolder *mbox_folder = CAMEL_MBOX_FOLDER (folder);
 
@@ -181,10 +185,11 @@ _init_with_store (CamelFolder *folder, CamelStore *parent_store, CamelException 
 	CAMEL_LOG_FULL_DEBUG ("Entering CamelMboxFolder::init_with_store\n");
 
 	/* call parent method */
-	parent_class->init_with_store (folder, parent_store, ex);
+	parent_class->init (folder, parent_store, parent_folder,
+			    name, separator, ex);
 	if (camel_exception_get_id (ex)) return;
 
-	/* we assume that the parent init_with_store 
+	/* we assume that the parent init
 	   method checks for the existance of @folder */
 	   
 	folder->can_hold_messages = TRUE;
@@ -200,7 +205,7 @@ _init_with_store (CamelFolder *folder, CamelStore *parent_store, CamelException 
 	mbox_folder->internal_summary = NULL;
 	mbox_folder->uid_array = NULL;
 	
-	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMhFolder::init_with_store\n");
+	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMboxFolder::init_with_store\n");
 }
 
 
