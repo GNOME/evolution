@@ -1,3 +1,8 @@
+2004-01-19  Siviaah Nallagatla <snallagatla@novell.com>
+                                                                                                                             
+        * providers/groupwise/camel-gw-listener.c ( remove_calender_tasks_sources,
+        modify_calender_tasks_sources) : add port and "/soap" to source uri
+
 2004-01-19  Not Zed  <NotZed@Ximian.com>
 
 	* camel-vee-store.c (change_folder): use a CamelURL to properly

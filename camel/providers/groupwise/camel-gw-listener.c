@@ -244,7 +244,9 @@ modify_esource (const char* conf_key, GwAccountInfo *old_account_info, const cha
 	gboolean found_group;
 
 	url = camel_url_new (old_account_info->source_url, NULL);
-	old_relative_uri =  g_strdup_printf ("%s@%s", url->user, url->host);
+	/* FIXME: don't hard-code the port number */
+	old_relative_uri =  g_strdup_printf ("%s:7181/soap", url->host);
+
 	
         list = e_source_list_new_for_gconf (gconf_client_get_default (), conf_key);
 	groups = e_source_list_peek_groups (list); 
@@ -313,7 +315,9 @@ remove_calendar_tasks_sources (GwAccountInfo *info)
 	char *relative_uri;
 	
 	url = camel_url_new (info->source_url, NULL);
-	relative_uri =  g_strdup_printf ("%s@%s", url->user, url->host);
+	/* FIXME: don't hard-code the port number */
+	relative_uri =  g_strdup_printf ("%s:7181/soap", url->host);
+
 
 	remove_esource ("/apps/evolution/calendar/sources", info->name,  "Default", relative_uri);
 	remove_esource ("/apps/evolution/tasks/sources", info->name,  "Default", relative_uri);
