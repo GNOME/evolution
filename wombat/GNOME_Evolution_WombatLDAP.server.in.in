@@ -2,7 +2,7 @@
 
 <oaf_server iid="OAFIID:GNOME_Evolution_Wombat_ServerFactory"
             type="exe"
-            location="wombat">
+            location="@LIBEXECDIR@/wombat">
 
 	<oaf_attribute name="repo_ids" type="stringv">
 		<item value="IDL:GNOME/Evolution/BookFactory:1.0"/>
@@ -20,7 +20,7 @@
 
 <oaf_server iid="OAFIID:GNOME_Evolution_Wombat_CalendarFactory"
             type="exe"
-            location="wombat">
+            location="@LIBEXECDIR@/wombat">
 
 	<oaf_attribute name="repo_ids" type="stringv">
 		<item value="IDL:GNOME/Evolution/Calendar/CalFactory:1.0"/>
@@ -32,7 +32,7 @@
 
 </oaf_server>
 
-<oaf_server iid="OAFIID:Bonobo_Moniker_wombat_Factory" type="exe" location="wombat">
+<oaf_server iid="OAFIID:Bonobo_Moniker_wombat_Factory" type="exe" location="@LIBEXECDIR@/wombat">
 	<oaf_attribute name="repo_ids" type="stringv">
 		<item value="IDL:GNOME/GenericFactory:1.0"/>
 	</oaf_attribute>
@@ -53,7 +53,7 @@
 </oaf_server>
 
 
-<oaf_server iid="OAFIID:Bonobo_Moniker_wombat_private_Factory" type="exe" location="wombat">
+<oaf_server iid="OAFIID:Bonobo_Moniker_wombat_private_Factory" type="exe" location="@LIBEXECDIR@/wombat">
 	<oaf_attribute name="repo_ids" type="stringv">
 		<item value="IDL:GNOME/GenericFactory:1.0"/>
 	</oaf_attribute>

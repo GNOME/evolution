@@ -17,7 +17,7 @@ INCLUDES =						\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"	\
 	$(WOMBAT_CFLAGS)
 
-bin_PROGRAMS =	\
+libexec_PROGRAMS =	\
 	wombat
 
 wombat_SOURCES = 			\
@@ -50,16 +50,20 @@ wombat_LDADD =								\
 serversdir = $(libdir)/bonobo/servers
 
 if ENABLE_LDAP
-SERVER_IN_FILE=GNOME_Evolution_WombatLDAP.server.in
+SERVER_IN_FILE=GNOME_Evolution_WombatLDAP.server.in.in
 else
-SERVER_IN_FILE=GNOME_Evolution_WombatNOLDAP.server.in
+SERVER_IN_FILE=GNOME_Evolution_WombatNOLDAP.server.in.in
 endif
 
-GNOME_Evolution_Wombat.server.in: $(SERVER_IN_FILE)
+GNOME_Evolution_Wombat.server.in.in: $(SERVER_IN_FILE)
 	cp $< $@
 
-server_in_files = GNOME_Evolution_Wombat.server.in
-servers_DATA = $(server_in_files:.server.in=.server)
+server_in_files = GNOME_Evolution_Wombat.server.in.in
+
+serverdir = $(libdir)/bonobo/servers
+server_DATA = $(server_in_files:.server.in.in=.server)
+$(server_in_files:.server.in.in=.server.in): $(server_in_files)
+	sed -e "s|\@LIBEXECDIR\@|$(libexecdir)|" $< > $@
 
 @INTLTOOL_SERVER_RULE@
 
@@ -67,7 +71,7 @@ idldir = $(datadir)/idl
 
 idl_DATA = Evolution-Wombat.idl
 
-EXTRA_DIST = $(servers_DATA) $(server_in_files) $(idl_DATA) \
+EXTRA_DIST = $(server_DATA) $(server_in_files) $(idl_DATA) \
 	     GNOME_Evolution_WombatLDAP.server.in GNOME_Evolution_WombatNOLDAP.server.in
 
 if ENABLE_PURIFY

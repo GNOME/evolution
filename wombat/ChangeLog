@@ -1,3 +1,18 @@
+2002-11-15  Ettore Perazzoli  <ettore@ximian.com>
+
+	* Makefile.am: Added rule to create
+	GNOME_Evolution_Wombat.server.in from
+	GNOME_Evolution_Wombat.server.in.in, substituting @LIBEXECDIR@.
+	Also install wombat in $libexecdir instead of $bindir.
+
+	* GNOME_Evolution_WombatNOLDAP.server.in.in: Renamed from
+	GNOME_Evolution_WombatNOLDAP.server.in.  Changed the location from
+	"wombat" to "@LIBEXECDIR@/wombat".
+
+	* GNOME_Evolution_WombatLDAP.server.in.in: Renamed from
+	GNOME_Evolution_WombatLDAP.server.in.  Changed the location from
+	"wombat" to "@LIBEXECDIR@/wombat".
+
 2002-11-07  Rodrigo Moya <rodrigo@ximian.com>
 
 	* wombat.c: re-enabled calendar parts.
