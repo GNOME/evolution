@@ -13577,7 +13577,7 @@ msgstr "ein unbekannter Absender"
 #. it must contain a single single %%+05d followed by a single '%%s'
 #: mail/em-utils.c:1152
 msgid "On %a, %Y-%m-%d at %H:%M %%+05d, %%s wrote:"
-msgstr "Am %a, den %d.%m.%Y schrieb %%s um %k:%M Uhr %%+05d:"
+msgstr "Am %a, den %d.%m.%Y um %k:%M Uhr %%+05d schrieb %%s:"
 
 #: mail/em-utils.c:1435 mail/em-utils.c:1519 mail/em-utils.c:1528
 #, c-format
