@@ -1,3 +1,18 @@
+2004-06-07  H P Nadig  <hpnadig@pacific.net.in>
+
+	* gui/contact-list-editor/e-contact-list-editor.h: Added few
+	headers needed for select names dialog.
+
+	* gui/contact-list-editor/e-contact-list-editor.c
+	(e_contact_list_editor_init): Added select button handler.
+	(select_cb): The callback function for Select Button.
+	(setup_corba): To setup corba for select names dialog.	
+	(select_names_ok_cb): Handle Select names dialog entries.
+	(add_to_model): Adds cards to the model. 
+
+	* gui/contact-list-editor/contact-list-editor.glade: New 'Select'
+	Button. Tooltips added for buttons in button Box.
+
 2004-06-07  Dan Winship  <danw@novell.com>
 
 	* gui/component/addressbook-view.c: s/stock_save_as/stock_save-as/

@@ -337,6 +337,7 @@
 			  <child>
 			    <widget class="GtkButton" id="add-email-button">
 			      <property name="visible">True</property>
+			      <property name="tooltip" translatable="yes">Add an email to the List</property>
 			      <property name="can_default">True</property>
 			      <property name="can_focus">True</property>
 			      <property name="label">gtk-add</property>
@@ -348,10 +349,23 @@
 			  <child>
 			    <widget class="GtkButton" id="remove-button">
 			      <property name="visible">True</property>
+			      <property name="tooltip" translatable="yes">Remove an email address from the List</property>
 			      <property name="can_default">True</property>
 			      <property name="can_focus">True</property>
 			      <property name="label">gtk-remove</property>
 			      <property name="use_stock">True</property>
+			      <property name="relief">GTK_RELIEF_NORMAL</property>
+			    </widget>
+			  </child>
+
+			  <child>
+			    <widget class="GtkButton" id="select-button">
+			      <property name="visible">True</property>
+			      <property name="tooltip" translatable="yes">Insert email adresses from Adress Book</property>
+			      <property name="can_default">True</property>
+			      <property name="can_focus">True</property>
+			      <property name="label" translatable="yes">Select</property>
+			      <property name="use_underline">True</property>
 			      <property name="relief">GTK_RELIEF_NORMAL</property>
 			    </widget>
 			  </child>

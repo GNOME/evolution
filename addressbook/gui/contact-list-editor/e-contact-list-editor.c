@@ -34,6 +34,10 @@
 #include <gal/e-table/e-table-scrolled.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
 
+#include <bonobo/bonobo-control.h>
+#include <bonobo/bonobo-widget.h>
+#include <bonobo/bonobo-exception.h>
+
 #include "shell/evolution-shell-component-utils.h"
 
 #include "widgets/misc/e-image-chooser.h"
@@ -68,6 +72,7 @@ static void fill_in_info(EContactListEditor *editor);
 
 static void add_email_cb (GtkWidget *w, EContactListEditor *editor);
 static void remove_entry_cb (GtkWidget *w, EContactListEditor *editor);
+static void select_cb (GtkWidget *w, EContactListEditor *editor);
 static void list_name_changed_cb (GtkWidget *w, EContactListEditor *editor);
 static void list_image_changed_cb (GtkWidget *w, EContactListEditor *editor);
 static void visible_addrs_toggled_cb (GtkWidget *w, EContactListEditor *editor);
@@ -210,6 +215,7 @@ e_contact_list_editor_init (EContactListEditor *editor)
 
 	editor->add_button = glade_xml_get_widget (editor->gui, "add-email-button");
 	editor->remove_button = glade_xml_get_widget (editor->gui, "remove-button");
+	editor->select_button = glade_xml_get_widget (editor->gui, "select-button");
 
 	editor->email_entry = glade_xml_get_widget (gui, "email-entry");
 	editor->list_name_entry = glade_xml_get_widget (gui, "list-name-entry");
@@ -227,6 +233,8 @@ e_contact_list_editor_init (EContactListEditor *editor)
 			  "activate", G_CALLBACK(add_email_cb), editor);
 	g_signal_connect (editor->remove_button,
 			  "clicked", G_CALLBACK(remove_entry_cb), editor);
+	g_signal_connect (editor->select_button,
+			  "clicked", G_CALLBACK(select_cb), editor);
 	g_signal_connect (editor->list_name_entry,
 			  "changed", G_CALLBACK(list_name_changed_cb), editor);
 	g_signal_connect (editor->visible_addrs_checkbutton,
@@ -636,6 +644,90 @@ e_contact_list_editor_create_table(gchar *name,
 	g_object_set_data(G_OBJECT(table), "model", model);
 
 	return table;
+}
+
+static void
+add_to_model (EContactListEditor *editor, EDestination **cards)
+{
+	int i;
+
+	for (i = 0; cards[i] != NULL; i++) {
+		e_contact_list_model_add_destination (E_CONTACT_LIST_MODEL(editor->model), cards[i]);
+	}
+}
+
+static void
+select_names_ok_cb (BonoboListener *listener, const char *event_name, const CORBA_any *arg,
+		    CORBA_Environment *ev, gpointer data)
+{
+	EDestination **destv;
+
+	char *string = NULL;
+
+	EContactListEditor *ce;
+
+	ce = E_CONTACT_LIST_EDITOR (data);
+
+	Bonobo_Control corba_control = GNOME_Evolution_Addressbook_SelectNames_getEntryBySection
+			(ce->corba_select_names, "Members", ev);
+	GtkWidget *control_widget = bonobo_widget_new_control_from_objref (corba_control, CORBA_OBJECT_NIL);
+
+	bonobo_widget_get_property (BONOBO_WIDGET (control_widget), "destinations",
+					    TC_CORBA_string, &string, NULL);
+
+	destv = e_destination_importv (string);
+ 	if (destv) {
+		add_to_model (ce, destv);
+ 		g_free (destv);
+ 	}
+
+	ce->changed = TRUE;
+	command_state_changed (ce);
+}
+
+static gboolean
+setup_corba (EContactListEditor *editor)
+{
+
+	CORBA_Environment ev;
+
+	CORBA_exception_init (&ev);
+
+	editor->corba_select_names = bonobo_activation_activate_from_id (SELECT_NAMES_OAFIID, 0, NULL, &ev);
+
+	/* OAF seems to be broken -- it can return a CORBA_OBJECT_NIL without
+           raising an exception in `ev'.  */
+	if (ev._major != CORBA_NO_EXCEPTION || editor->corba_select_names == CORBA_OBJECT_NIL) {
+		CORBA_exception_free (&ev);
+		return FALSE;
+	}
+
+	GNOME_Evolution_Addressbook_SelectNames_addSection (
+					editor->corba_select_names, "Members", gettext ("Members"), &ev);
+
+	bonobo_event_source_client_add_listener (editor->corba_select_names,
+						 (BonoboListenerCallbackFn) select_names_ok_cb,
+						 "GNOME/Evolution:ok:dialog", NULL, editor);
+
+	CORBA_exception_free (&ev);
+
+	return TRUE;
+}
+
+static void
+select_cb (GtkWidget *w, EContactListEditor *editor)
+{
+ 	CORBA_Environment ev;
+
+	if(!setup_corba (editor))
+		return;
+
+	CORBA_exception_init (&ev);
+
+	GNOME_Evolution_Addressbook_SelectNames_activateDialog (
+		editor->corba_select_names, _("Required Participants"), &ev);
+
+	CORBA_exception_free (&ev);
 }
 
 GtkWidget *

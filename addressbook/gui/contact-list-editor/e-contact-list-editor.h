@@ -30,6 +30,8 @@
 
 #include <libebook/e-book-async.h>
 #include <libebook/e-contact.h>
+#include "addressbook/util/e-destination.h"
+#include "addressbook/gui/component/select-names/Evolution-Addressbook-SelectNames.h"
 
 G_BEGIN_DECLS
 
@@ -39,6 +41,7 @@ G_BEGIN_DECLS
 #define E_IS_CONTACT_LIST_EDITOR(obj)	   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_CONTACT_LIST_EDITOR))
 #define E_IS_CONTACT_LIST_EDITOR_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((obj), E_TYPE_CONTACT_LIST_EDITOR))
 
+#define SELECT_NAMES_OAFIID "OAFIID:GNOME_Evolution_Addressbook_SelectNames:" BASE_VERSION
 
 typedef struct _EContactListEditor       EContactListEditor;
 typedef struct _EContactListEditorClass  EContactListEditorClass;
@@ -64,12 +67,15 @@ struct _EContactListEditor
 	GtkWidget *list_name_entry;
 	GtkWidget *add_button;
 	GtkWidget *remove_button;
+	GtkWidget *select_button;
 	GtkWidget *list_image_button;
 	GtkWidget *visible_addrs_checkbutton;
 	GtkWidget *list_image;
 	GtkWidget *source_menu;
 	GtkWidget *ok_button;
 	GtkWidget *cancel_button;
+
+	GNOME_Evolution_Addressbook_SelectNames corba_select_names;
 
 	/* Whether we are editing a new contact or an existing one */
 	guint is_new_list : 1;
