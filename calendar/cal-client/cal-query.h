@@ -24,7 +24,8 @@
 
 #include <libgnome/gnome-defs.h>
 #include <gtk/gtkobject.h>
-#include <cal-client/evolution-calendar.h>
+
+#include "evolution-calendar.h"
 
 BEGIN_GNOME_DECLS
 

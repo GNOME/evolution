@@ -1,3 +1,12 @@
+2001-04-18  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/dialogs/Makefile.am (INCLUDES): Add
+	`-I$(top_srcdir)/calendar/cal-client',
+	`-I$(top_builddir)/calendar/cal-client'.
+	* gui/Makefile.am (INCLUDES): Likewise.
+
+	* cal-client/cal-query.h: #include "evolution-calendar.h".
+
 2001-04-17  Federico Mena Quintero  <federico@ximian.com>
 
 	* gui/event-editor.c (init_widgets): Connect to the "changed"
