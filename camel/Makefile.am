@@ -8,7 +8,6 @@ camellibexecdir = $(privlibexecdir)/camel
 camellibexec_PROGRAMS =	camel-lock-helper camel-index-control
 
 privlib_LTLIBRARIES = libcamel.la
-noinst_LTLIBRARIES = libcamel-static.la
 
 INCLUDES = -I.. -I$(srcdir)/.. 			 	\
 	-I$(top_srcdir)/intl			 	\
@@ -222,10 +221,6 @@ libcamel_la_LDFLAGS = -version-info 0:0:0
 libcamel_la_LIBADD =				\
 	$(top_builddir)/e-util/libeutil.la 	\
 	$(CAMEL_LIBS)
-
-libcamel_static_la_SOURCES = $(libcamel_la_SOURCES)
-libcamel_static_la_LIBADD  = $(libcamel_la_LIBADD)
-libcamel_static_la_LDFLAGS = --all-static
 
 camel_lock_helper_SOURCES = 			\
 	camel-lock-helper.c 			\

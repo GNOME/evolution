@@ -1,3 +1,7 @@
+2003-09-11  Dan Winship  <danw@ximian.com>
+
+	* Makefile.am (noinst_LTLIBRARIES): Remove libcamel-static.la
+
 2003-09-05  Not Zed  <NotZed@Ximian.com>
 
 	* providers/imap/camel-imap-store.c (imap_noop): call
