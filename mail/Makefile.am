@@ -181,7 +181,6 @@ etspec_DATA = mail-accounts.etspec message-list.etspec subscribe-dialog.etspec
 iconsdir = $(datadir)/images/evolution
 buttonsdir = $(datadir)/images/evolution/buttons
 
-idldir = $(datadir)/idl
 idl_DATA = Mailer.idl
 
 $(EVOLUTION_MAIL_CORBA_GENERATED): Mailer.idl 

@@ -67,8 +67,6 @@ $(server_in_files:.server.in.in=.server.in): $(server_in_files)
 
 @INTLTOOL_SERVER_RULE@
 
-idldir = $(datadir)/idl
-
 idl_DATA = Evolution-Wombat.idl
 
 EXTRA_DIST = $(server_DATA) $(server_in_files) $(idl_DATA) \

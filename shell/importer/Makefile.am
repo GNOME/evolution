@@ -23,7 +23,6 @@ $(IDL_GENERATED): $(IDLS)
 	$(ORBIT_IDL) -I $(srcdir) $(IDL_INCLUDES)	\
 		$(srcdir)/GNOME_Evolution_Importer.idl
 
-idldir = $(datadir)/idl
 idl_DATA = $(IDLS)
 
 libevolution_importerincludedir = $(includedir)/evolution/importer

@@ -1,5 +1,3 @@
-idldir = $(datadir)/idl
-
 idl_DATA =			\
 	addressbook.idl
 

@@ -42,7 +42,6 @@ $(libcomposer_la_OBJECTS): composer-marshal.h
 
 ##
 
-idldir = $(datadir)/idl
 idl_DATA = $(IDLS)
 
 gladedir = $(datadir)/evolution/glade

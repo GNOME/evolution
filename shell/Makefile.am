@@ -64,8 +64,6 @@ $(SELECT_NAMES_IDL_GENERATED): $(SELECT_NAMES_IDL)
 
 # IDL install
 
-idldir = $(datadir)/idl
-
 idl_DATA = $(IDLS)
 
 # Shell library

@@ -1,7 +1,5 @@
 # CORBA stuff
 
-idldir = $(datadir)/idl
-
 idl_DATA = \
 	Evolution-Addressbook-SelectNames.idl
 
