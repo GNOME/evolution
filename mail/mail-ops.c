@@ -1039,11 +1039,13 @@ add_vtrash_info (CamelFolderInfo *info)
 static void get_folderinfo_get(struct _mail_msg *mm)
 {
 	struct _get_folderinfo_msg *m = (struct _get_folderinfo_msg *)mm;
-	
+	guint32 flags = CAMEL_STORE_FOLDER_INFO_RECURSIVE;
+
+	if (camel_store_supports_subscriptions (m->store))
+		flags |= CAMEL_STORE_FOLDER_INFO_SUBSCRIBED;
+
 	camel_operation_register(mm->cancel);
-	m->info = camel_store_get_folder_info (m->store, NULL, FALSE, TRUE,
-					       camel_store_supports_subscriptions (m->store),
-					       &mm->ex);
+	m->info = camel_store_get_folder_info (m->store, NULL, flags, &mm->ex);
 	if (m->info && m->info->url)
 		add_vtrash_info (m->info);
 	camel_operation_unregister(mm->cancel);

@@ -750,7 +750,7 @@ build_tree (SubscribeDialog *sc, CamelStore *store)
 
 	sc->store = store;
 	sc->storage = mail_lookup_storage (sc->store);
-	sc->folder_info = camel_store_get_folder_info (sc->store, sc->search_top, TRUE, TRUE, FALSE, ex);
+	sc->folder_info = camel_store_get_folder_info (sc->store, sc->search_top, CAMEL_STORE_FOLDER_INFO_RECURSIVE | CAMEL_STORE_FOLDER_INFO_FAST, ex);
 
 	if (camel_exception_is_set (ex)) {
 		printf ("camel_store_get_folder_info failed\n");

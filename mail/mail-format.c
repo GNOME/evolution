@@ -978,14 +978,14 @@ handle_text_plain_flowed (char *buf, MailDisplay *md)
 				mail_html_write (md->html, md->stream,
 						 "<font color=\"#%06x\">",
 						 citation_color);
+				if (br_pending)
+					br_pending--;
 			}
 			while (quoting > prevquoting) {
 				mail_html_write (md->html, md->stream,
 						 "<blockquote>");
 				prevquoting++;
 			}
-			if (br_pending)
-				br_pending--;
 			while (quoting < prevquoting) {
 				mail_html_write (md->html, md->stream,
 						 "</blockquote>");
@@ -994,6 +994,8 @@ handle_text_plain_flowed (char *buf, MailDisplay *md)
 			if (quoting == 0) {
 				mail_html_write (md->html, md->stream,
 						 "</font>\n");
+				if (br_pending)
+					br_pending--;
 			}
 		}
 

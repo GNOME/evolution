@@ -1,3 +1,15 @@
+2001-05-03  Dan Winship  <danw@ximian.com>
+
+	* message-list.c: #include <camel/camel-file-utils.h>
+
+	* mail-ops.c (get_folderinfo_get): 
+	* subscribe-dialog.c (build_tree): Update for
+	camel_store_get_folder_info prototype change.
+
+	* mail-format.c (handle_text_plain_flowed): Improve more on the
+	fix from the other day: the first level of indentation adds blank
+	lines, but further levels don't...
+
 2001-04-30  Dan Winship  <danw@ximian.com>
 
 	* folder-browser.c (folder_browser_destroy): Unhook event handlers

@@ -30,10 +30,11 @@
 #include <gal/e-table/e-tree-memory-callbacks.h>
 
 #include <camel/camel-exception.h>
+#include <camel/camel-file-utils.h>
 #include <camel/camel-folder.h>
-#include <e-util/ename/e-name-western.h>
 #include <camel/camel-folder-thread.h>
 #include <camel/camel-vtrash-folder.h>
+#include <e-util/ename/e-name-western.h>
 #include <e-util/e-memory.h>
 
 #include "mail-config.h"
