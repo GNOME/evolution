@@ -1,5 +1,18 @@
 2000-11-12  Federico Mena Quintero  <federico@helixcode.com>
 
+	* gui/event-editor.c (make_recur_ending_count_special): Misspelled
+	"occurrences".
+	(fill_recurrence_widgets): Sensitize the "Custom recurrence" radio
+	button as appropriate.
+	(sensitize_recur_widgets): Resurrected the recurrence custom
+	warning label.
+	(get_widgets): Load the recurrence custom warning bin.
+
+	* gui/event-editor-dialog.glade: Add an empty alignment for the
+	recurrence custom warning label.
+
+2000-11-12  Federico Mena Quintero  <federico@helixcode.com>
+
 	* gui/event-editor.c (recur_preview_date_range_changed_cb): New
 	function; re-tag the calendar when its date range changes.
 	(init_widgets): Connect to "date_range_changed" on the recurrence

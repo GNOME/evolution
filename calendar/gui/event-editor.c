@@ -116,6 +116,7 @@ struct _EventEditorPrivate {
 	GtkWidget *recurrence_special;
 	GtkWidget *recurrence_ending_menu;
 	GtkWidget *recurrence_ending_special;
+	GtkWidget *recurrence_custom_warning_bin;
 
 	/* For weekly recurrences, created by hand */
 	GtkWidget *recurrence_weekday_picker;
@@ -132,7 +133,7 @@ struct _EventEditorPrivate {
 	GtkWidget *recurrence_ending_date_edit;
 	time_t recurrence_ending_date;
 
-	/* For ending count of ocurrences, created by hand */
+	/* For ending count of occurrences, created by hand */
 	GtkWidget *recurrence_ending_count_spin;
 	int recurrence_ending_count;
 
@@ -648,7 +649,7 @@ recur_ending_count_value_changed_cb (GtkAdjustment *adj, gpointer data)
 	preview_recur (ee);
 }
 
-/* Creates the special contents for the ocurrence count case */
+/* Creates the special contents for the occurrence count case */
 static void
 make_recur_ending_count_special (EventEditor *ee)
 {
@@ -671,7 +672,7 @@ make_recur_ending_count_special (EventEditor *ee)
 	priv->recurrence_ending_count_spin = gtk_spin_button_new (adj, 1, 0);
 	gtk_box_pack_start (GTK_BOX (hbox), priv->recurrence_ending_count_spin, FALSE, FALSE, 0);
 
-	label = gtk_label_new (_("ocurrences"));
+	label = gtk_label_new (_("occurrences"));
 	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
 
 	gtk_widget_show_all (hbox);
@@ -762,22 +763,36 @@ sensitize_recur_widgets (EventEditor *ee)
 {
 	EventEditorPrivate *priv;
 	enum recur_type type;
+	GtkWidget *label;
 
 	priv = ee->priv;
 
 	type = e_dialog_radio_get (priv->recurrence_none, recur_type_map);
 
+	if (GTK_BIN (priv->recurrence_custom_warning_bin)->child)
+		gtk_widget_destroy (GTK_BIN (priv->recurrence_custom_warning_bin)->child);
+
 	switch (type) {
 	case RECUR_NONE:
 		gtk_widget_set_sensitive (priv->recurrence_params, FALSE);
+		gtk_widget_show (priv->recurrence_params);
+		gtk_widget_hide (priv->recurrence_custom_warning_bin);
 		break;
 
 	case RECUR_SIMPLE:
 		gtk_widget_set_sensitive (priv->recurrence_params, TRUE);
+		gtk_widget_show (priv->recurrence_params);
+		gtk_widget_hide (priv->recurrence_custom_warning_bin);
 		break;
 
 	case RECUR_CUSTOM:
 		gtk_widget_set_sensitive (priv->recurrence_params, FALSE);
+		gtk_widget_hide (priv->recurrence_params);
+
+		label = gtk_label_new (_("This appointment contains recurrences that Evolution "
+					 "cannot edit."));
+		gtk_container_add (GTK_CONTAINER (priv->recurrence_custom_warning_bin), label);
+		gtk_widget_show_all (priv->recurrence_custom_warning_bin);
 		break;
 
 	default:
@@ -891,6 +906,7 @@ get_widgets (EventEditor *ee)
 	priv->recurrence_special = GW ("recurrence-special");
 	priv->recurrence_ending_menu = GW ("recurrence-ending-menu");
 	priv->recurrence_ending_special = GW ("recurrence-ending-special");
+	priv->recurrence_custom_warning_bin = GW ("recurrence-custom-warning-bin");
 
 	priv->recurrence_exception_date = GW ("recurrence-exception-date");
 	priv->recurrence_exception_list = GW ("recurrence-exception-list");
@@ -934,6 +950,7 @@ get_widgets (EventEditor *ee)
 		&& priv->recurrence_special
 		&& priv->recurrence_ending_menu
 		&& priv->recurrence_ending_special
+		&& priv->recurrence_custom_warning_bin
 		&& priv->recurrence_exception_date
 		&& priv->recurrence_exception_list
 		&& priv->recurrence_exception_add
@@ -1266,7 +1283,7 @@ fill_ending_date (EventEditor *ee, struct icalrecurrencetype *r)
 						  ending_types_map);
 		}
 	} else {
-		/* Count of ocurrences */
+		/* Count of occurrences */
 
 		priv->recurrence_ending_count = r->count;
 		e_dialog_option_menu_set (priv->recurrence_ending_menu,
@@ -1405,7 +1422,9 @@ fill_recurrence_widgets (EventEditor *ee)
 		gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->recurrence_none), ee);
 		gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->recurrence_simple), ee);
 		gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->recurrence_custom), ee);
-		
+
+		gtk_widget_set_sensitive (priv->recurrence_custom, FALSE);
+
 		sensitize_recur_widgets (ee);
 		preview_recur (ee);
 		return;
@@ -1641,7 +1660,9 @@ fill_recurrence_widgets (EventEditor *ee)
 	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->recurrence_none), ee);
 	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->recurrence_simple), ee);
 	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->recurrence_custom), ee);
-		
+
+	gtk_widget_set_sensitive (priv->recurrence_custom, FALSE);
+
 	sensitize_recur_widgets (ee);
 	make_recurrence_special (ee);
 
@@ -1664,6 +1685,7 @@ fill_recurrence_widgets (EventEditor *ee)
 	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->recurrence_simple), ee);
 	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->recurrence_custom), ee);
 
+	gtk_widget_set_sensitive (priv->recurrence_custom, TRUE);
 	sensitize_recur_widgets (ee);
 
  out:
