@@ -1,3 +1,22 @@
+2005-01-25  Sushma Rai  <rsushma@novell.com>
+
+	* exchange-account-setup.c (create_page): Fixed empty
+	string being marked for translation problem. #71644
+
+2005-01-23  Sushma Rai  <rsushma@novell.com>
+	
+	* org-gnome-exchange-account-setup.eplug.in: Added plugins 
+	for handling hiding auth type section in druid.
+
+	* exchange-account-setup.c (add_owa_entry_to_editor): Changed the 
+	button label to "Authenticate" from OK
+
+	* exchange-ask-password.c (add_owa_entry): Changed the button label
+	to Authenticate.
+	(org_gnome_exchange_handle_auth): Hiding Auth section in receive page.
+	(org_gnome_exchange_handle_send_auth_option): Hiding the Auth section
+	in send page
+
 2005-01-22  Sushma Rai  <rsushma@novell.com>
 
 	* org-gnome-exchange-account-setup.eplug.in: Added 

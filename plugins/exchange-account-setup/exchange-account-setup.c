@@ -116,7 +116,7 @@ create_page ()
 	gtk_table_attach (GTK_TABLE (oof_table), radiobutton_inoff, 1, 2, 0, 1, 
 			  GTK_FILL, GTK_FILL, 0, 0);
 
-	label_empty = gtk_label_new (_(""));
+	label_empty = gtk_label_new ("");
 	gtk_label_set_justify (GTK_LABEL (label_empty), GTK_JUSTIFY_LEFT);
 	gtk_misc_set_alignment (GTK_MISC (label_empty), 0, 0.5);
 	gtk_misc_set_padding (GTK_MISC (label_empty), 0, 0);
