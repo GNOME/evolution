@@ -2112,6 +2112,9 @@ find_next_undeleted (MessageList *ml)
 
 /* only call if we have a tree model */
 /* builds the tree structure */
+
+#define BROKEN_ETREE	/* avoid some broken code in etree(?) by not using the incremental update */
+
 static void build_subtree (MessageList *ml, ETreePath parent, CamelFolderThreadNode *c, int *row);
 
 static void build_subtree_diff (MessageList *ml, ETreePath parent, ETreePath path, CamelFolderThreadNode *c, int *row);
@@ -2146,19 +2149,21 @@ build_tree (MessageList *ml, CamelFolderThread *thread, CamelFolderChangeInfo *c
 	if (ml->cursor_uid)
 		saveuid = find_next_undeleted(ml);
 
-#define BROKEN_ETREE	/* avoid some broken code in etree(?) by not using the incremental update */
-
 	top = e_tree_model_node_get_first_child(etm, ml->tree_root);
 #ifndef BROKEN_ETREE
 	if (top == NULL || changes == NULL) {
+#else
+		GPtrArray *selected = message_list_get_selected(ml);
 #endif
 		e_tree_memory_freeze(E_TREE_MEMORY(etm));
 		clear_tree (ml);
 
 		build_subtree(ml, ml->tree_root, thread->tree, &row);
-
 		e_tree_memory_thaw(E_TREE_MEMORY(etm));
-#ifndef BROKEN_ETREE
+#ifdef BROKEN_ETREE
+		message_list_set_selected(ml, selected);
+		message_list_free_uids(ml, selected);
+#else
 	} else {
 		static int tree_equal(ETreeModel *etm, ETreePath ap, CamelFolderThreadNode *bp);
 
@@ -2167,7 +2172,6 @@ build_tree (MessageList *ml, CamelFolderThread *thread, CamelFolderChangeInfo *c
 		tree_equal(ml->model, top, thread->tree);
 	}
 #endif
-
 	if (saveuid) {
 		ETreePath *node = g_hash_table_lookup (ml->uid_nodemap, saveuid);
 		if (node == NULL) {
@@ -2183,7 +2187,7 @@ build_tree (MessageList *ml, CamelFolderThread *thread, CamelFolderChangeInfo *c
 		ml->cursor_uid = NULL;
 		g_signal_emit (ml, message_list_signals[MESSAGE_SELECTED], 0, NULL);
 	}
-	
+
 #ifdef TIMEIT
 	gettimeofday(&end, NULL);
 	diff = end.tv_sec * 1000 + end.tv_usec/1000;
@@ -2464,6 +2468,8 @@ build_flat (MessageList *ml, GPtrArray *summary, CamelFolderChangeInfo *changes)
 	if (changes) {
 		build_flat_diff(ml, changes);
 	} else {
+#else
+		GPtrArray *selected = message_list_get_selected(ml);
 #endif
 		e_tree_memory_freeze(E_TREE_MEMORY(etm));
 		clear_tree (ml);
@@ -2475,8 +2481,10 @@ build_flat (MessageList *ml, GPtrArray *summary, CamelFolderChangeInfo *changes)
 			camel_folder_ref_message_info(ml->folder, info);
 		}
 		e_tree_memory_thaw(E_TREE_MEMORY(etm));
-
-#ifndef BROKEN_ETREE
+#ifdef BROKEN_ETREE
+		message_list_set_selected(ml, selected);
+		message_list_free_uids(ml, selected);
+#else
 	}
 #endif
 
@@ -2973,6 +2981,23 @@ message_list_get_selected(MessageList *ml)
 	e_tree_selected_path_foreach(ml->tree, ml_getselected_cb, &data);
 
 	return data.uids;
+}
+
+void
+message_list_set_selected(MessageList *ml, GPtrArray *uids)
+{
+	int i;
+	ETreeSelectionModel *etsm;
+	ETreePath node;
+
+	etsm = (ETreeSelectionModel *)e_tree_get_selection_model(ml->tree);
+	
+	for (i=0; i<uids->len; i++) {
+		node = g_hash_table_lookup(ml->uid_nodemap, uids->pdata[i]);
+		printf("reselecting uid '%s' %s\n", uids->pdata[i], node?"found":"not found");
+		if (node)
+			e_tree_selection_model_add_to_selection(etsm, node);
+	}
 }
 
 void

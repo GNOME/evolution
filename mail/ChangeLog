@@ -1,5 +1,14 @@
 2004-05-20  Not Zed  <NotZed@Ximian.com>
 
+	** See #57583.
+
+	* message-list.c (build_tree): save/restore the selection when we
+	update.
+	(message_list_set_selected): util to set the selected messages
+	from a list of uids.
+	(build_flat): same.  I wonder if etree's unbroken enough to use it
+	more directly?
+
 	** See #58693.
 	
 	* mail-send-recv.c (mail_autoreceive_setup): add bounds checking
