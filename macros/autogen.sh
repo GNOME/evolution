@@ -78,20 +78,12 @@ do
 done
 
 conf_flags="--enable-maintainer-mode --enable-compile-warnings" #--enable-iso-c
-if [ ! -z "$OBJ_DIR" ]; then
-	mkdir -p "$OBJ_DIR"
-	cd "$OBJ_DIR"
-fi
 
 if test x$NOCONFIGURE = x; then
-echo running $srcdir/$OBJ_DIR/configure $conf_flags "$@"
-if [ -z "$OBJ_DIR" ]; then
+echo running $srcdir/configure $conf_flags "$@"
+
 	$srcdir/configure $conf_flags "$@" \
 	&& echo Now type \`make\' to compile $PKG_NAME
-else
-	$srcdir/../configure $conf_flags "$@" \
-	&& echo Now type \`make\' to compile $PKG_NAME
-fi
 else
 echo Skipping configure process.
 fi
