@@ -15,9 +15,9 @@ INCLUDES =			\
 
 libical_la_LDFLAGS = -version-info 0:0:0
 
+icalcomponent.c: icalproperty.h icalvalue.h icalparameter.h
+
 libical_la_SOURCES =		\
-	icalproperty.h		\
-	icalvalue.h		\
 	icalcomponent.c		\
 	icalcomponent.h		\
 	icalenums.c		\
@@ -34,6 +34,7 @@ libical_la_SOURCES =		\
 	icalparser.c		\
 	icalparser.h		\
 	icalproperty.c		\
+	icalproperty.h		\
 	icalrecur.c		\
 	icalrecur.h		\
 	icalrestriction.c	\
@@ -43,6 +44,7 @@ libical_la_SOURCES =		\
 	icaltypes.c		\
 	icaltypes.h		\
 	icalvalue.c		\
+	icalvalue.h		\
 	icalyacc.h		\
 	icalyacc.y		\
 	pvl.c			\
