@@ -830,6 +830,7 @@ set_entry_changed_signals(EContactEditor *editor)
 	set_urlentry_changed_signal_field (editor, "entry-blog");
 	set_urlentry_changed_signal_field (editor, "entry-caluri");
 	set_urlentry_changed_signal_field (editor, "entry-fburl");
+	set_urlentry_changed_signal_field (editor, "entry-videourl");
 
 	set_entry_changed_signal_field(editor, "entry-categories");
 	set_entry_changed_signal_field(editor, "entry-jobtitle");
@@ -2356,6 +2357,7 @@ static struct {
 	{ "entry-categories", E_CONTACT_CATEGORIES },
 	{ "entry-caluri", E_CONTACT_CALENDAR_URI },
 	{ "entry-fburl", E_CONTACT_FREEBUSY_URL },
+	{ "entry-videourl", E_CONTACT_VIDEO_URL },
 };
 
 static void
@@ -2449,7 +2451,10 @@ static struct {
 	{ "entry-caluri", E_CONTACT_CALENDAR_URI, TRUE },
 
 	{ "label-fburl", E_CONTACT_FREEBUSY_URL },
-	{ "entry-fburl", E_CONTACT_FREEBUSY_URL, TRUE }
+	{ "entry-fburl", E_CONTACT_FREEBUSY_URL, TRUE },
+
+	{ "label-videourl", E_CONTACT_VIDEO_URL },
+	{ "entry-videourl", E_CONTACT_VIDEO_URL, TRUE }
 };
 static int num_widget_field_mappings = sizeof(widget_field_mappings) / sizeof (widget_field_mappings[0]);
 

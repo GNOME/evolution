@@ -1,3 +1,9 @@
+2004-01-08  Ross Burton  <ross@burtonini.com>
+
+	* gui/contact-editor/contact-editor.glade:
+	* gui/contact-editor/e-contact-editor.c:
+	Add the video conferencing field.
+
 2004-01-07  Rodney Dawes  <dobey@ximian.com>
 
 	* gui/component/select-names/e-select-names.c:

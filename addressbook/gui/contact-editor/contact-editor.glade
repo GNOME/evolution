@@ -2213,10 +2213,11 @@
 		  <child>
 		    <widget class="GtkLabel" id="label24">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">If this person publishes free/busy or other calendar information on the Internet, enter the address
+		      <property name="label" translatable="yes">&lt;b&gt;Calendar Access&lt;/b&gt;
+If this person publishes free/busy or other calendar information on the Internet, enter the address
 of that information here.</property>
 		      <property name="use_underline">False</property>
-		      <property name="use_markup">False</property>
+		      <property name="use_markup">True</property>
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>
 		      <property name="wrap">False</property>
 		      <property name="selectable">False</property>
@@ -2338,6 +2339,128 @@ of that information here.</property>
 			  <property name="top_attach">1</property>
 			  <property name="bottom_attach">2</property>
 			  <property name="x_options">fill</property>
+			  <property name="y_options">fill</property>
+			</packing>
+		      </child>
+		    </widget>
+		  </child>
+		</widget>
+		<packing>
+		  <property name="padding">0</property>
+		  <property name="expand">False</property>
+		  <property name="fill">True</property>
+		</packing>
+	      </child>
+
+	      <child>
+		<widget class="GtkHBox" id="hbox2">
+		  <property name="border_width">7</property>
+		  <property name="visible">True</property>
+		  <property name="homogeneous">False</property>
+		  <property name="spacing">4</property>
+
+		  <child>
+		    <widget class="Custom" id="custom16">
+		      <property name="visible">True</property>
+		      <property name="creation_function">e_create_image_widget</property>
+		      <property name="string1">videoconf.png</property>
+		      <property name="string2"></property>
+		      <property name="int1">0</property>
+		      <property name="int2">0</property>
+		      <property name="last_modification_time">Thu, 18 May 2000 12:20:13 GMT</property>
+		    </widget>
+		    <packing>
+		      <property name="padding">0</property>
+		      <property name="expand">False</property>
+		      <property name="fill">False</property>
+		    </packing>
+		  </child>
+
+		  <child>
+		    <widget class="GtkLabel" id="label29">
+		      <property name="visible">True</property>
+		      <property name="label" translatable="yes">&lt;b&gt;Video Conferencing&lt;/b&gt;
+If this person has the ability to participate in a video conference, enter their address here.</property>
+		      <property name="use_underline">False</property>
+		      <property name="use_markup">True</property>
+		      <property name="justify">GTK_JUSTIFY_LEFT</property>
+		      <property name="wrap">False</property>
+		      <property name="selectable">False</property>
+		      <property name="xalign">7.45058e-09</property>
+		      <property name="yalign">0.5</property>
+		      <property name="xpad">0</property>
+		      <property name="ypad">0</property>
+		    </widget>
+		    <packing>
+		      <property name="padding">0</property>
+		      <property name="expand">True</property>
+		      <property name="fill">True</property>
+		    </packing>
+		  </child>
+		</widget>
+		<packing>
+		  <property name="padding">0</property>
+		  <property name="expand">False</property>
+		  <property name="fill">False</property>
+		</packing>
+	      </child>
+
+	      <child>
+		<widget class="GtkAlignment" id="alignment20">
+		  <property name="visible">True</property>
+		  <property name="xalign">0.5</property>
+		  <property name="yalign">0.5</property>
+		  <property name="xscale">0.75</property>
+		  <property name="yscale">1</property>
+
+		  <child>
+		    <widget class="GtkTable" id="table3">
+		      <property name="border_width">6</property>
+		      <property name="visible">True</property>
+		      <property name="n_rows">1</property>
+		      <property name="n_columns">2</property>
+		      <property name="homogeneous">False</property>
+		      <property name="row_spacing">6</property>
+		      <property name="column_spacing">6</property>
+
+		      <child>
+			<widget class="GtkLabel" id="label-videourl">
+			  <property name="visible">True</property>
+			  <property name="label" translatable="yes">_Video Conferencing URL:</property>
+			  <property name="use_underline">True</property>
+			  <property name="use_markup">False</property>
+			  <property name="justify">GTK_JUSTIFY_CENTER</property>
+			  <property name="wrap">False</property>
+			  <property name="selectable">False</property>
+			  <property name="xalign">1</property>
+			  <property name="yalign">0.5</property>
+			  <property name="xpad">0</property>
+			  <property name="ypad">0</property>
+			  <property name="mnemonic_widget">entry-fburl</property>
+			</widget>
+			<packing>
+			  <property name="left_attach">0</property>
+			  <property name="right_attach">1</property>
+			  <property name="top_attach">0</property>
+			  <property name="bottom_attach">1</property>
+			  <property name="x_options">fill</property>
+			  <property name="y_options"></property>
+			</packing>
+		      </child>
+
+		      <child>
+			<widget class="Custom" id="entry-videourl">
+			  <property name="visible">True</property>
+			  <property name="creation_function">e_contact_editor_create_web</property>
+			  <property name="int1">0</property>
+			  <property name="int2">0</property>
+			  <property name="last_modification_time">Mon, 10 Feb 2003 20:38:00 GMT</property>
+			</widget>
+			<packing>
+			  <property name="left_attach">1</property>
+			  <property name="right_attach">2</property>
+			  <property name="top_attach">0</property>
+			  <property name="bottom_attach">1</property>
 			  <property name="y_options">fill</property>
 			</packing>
 		      </child>
