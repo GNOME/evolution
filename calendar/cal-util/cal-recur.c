@@ -87,6 +87,54 @@
  */
 
 
+/* We will use icalrecurrencetype instead of this eventually. */
+typedef struct {
+	icalrecurrencetype_frequency freq;
+
+	int            interval;
+
+	/* Specifies the end of the recurrence. No occurrences are generated
+	   after this date. If it is 0, the event recurs forever. */
+	time_t         enddate;
+
+	/* WKST property - the week start day: 0 = Monday to 6 = Sunday. */
+	gint	       week_start_day;
+
+
+	/* NOTE: I've used GList's here, but it doesn't matter if we use
+	   other data structures like arrays. The code should be easy to
+	   change. So long as it is easy to see if the modifier is set. */
+
+	/* For BYMONTH modifier. A list of GINT_TO_POINTERs, 0-11. */
+	GList	      *bymonth;
+
+	/* For BYWEEKNO modifier. A list of GINT_TO_POINTERs, [+-]1-53. */
+	GList	      *byweekno;
+
+	/* For BYYEARDAY modifier. A list of GINT_TO_POINTERs, [+-]1-366. */
+	GList	      *byyearday;
+
+	/* For BYMONTHDAY modifier. A list of GINT_TO_POINTERs, [+-]1-31. */
+	GList	      *bymonthday;
+
+	/* For BYDAY modifier. A list of GINT_TO_POINTERs, in pairs.
+	   The first of each pair is the weekday, 0 = Monday to 6 = Sunday.
+	   The second of each pair is the week number [+-]0-53. */
+	GList	      *byday;
+
+	/* For BYHOUR modifier. A list of GINT_TO_POINTERs, 0-23. */
+	GList	      *byhour;
+
+	/* For BYMINUTE modifier. A list of GINT_TO_POINTERs, 0-59. */
+	GList	      *byminute;
+
+	/* For BYSECOND modifier. A list of GINT_TO_POINTERs, 0-60. */
+	GList	      *bysecond;
+
+	/* For BYSETPOS modifier. A list of GINT_TO_POINTERs, +ve or -ve. */
+	GList	      *bysetpos;
+} CalRecurrence;
+
 /* This is what we use to pass to all the filter functions. */
 typedef struct _RecurData RecurData;
 struct _RecurData {
@@ -115,6 +163,27 @@ struct _RecurData {
 
 	/* This is used for fast lookup in BYSECOND filtering. */
 	guint8 seconds[61];
+};
+
+/* This is what we use to represent a date & time. */
+typedef struct _CalObjTime CalObjTime;
+struct _CalObjTime {
+	guint16 year;
+	guint8 month;		/* 0 - 11 */
+	guint8 day;		/* 1 - 31 */
+	guint8 hour;		/* 0 - 23 */
+	guint8 minute;		/* 0 - 59 */
+	guint8 second;		/* 0 - 59 (maybe 60 for leap second) */
+	guint8 is_rdate;	/* TRUE if this is an RDATE, which may have an
+				   end or duration set. */
+};
+
+/* This is what we use to represent specific recurrence dates.
+   Note that we assume it starts with a CalObjTime when sorting. */
+typedef struct _CalObjRecurrenceDate CalObjRecurrenceDate;
+struct _CalObjRecurrenceDate {
+	CalObjTime start;
+	CalComponentPeriod *period;
 };
 
 /* The paramter we use to store the enddate in RRULE and EXRULE properties. */
@@ -173,6 +242,8 @@ static gint cal_recur_ical_weekday_to_weekday	(enum icalrecurrencetype_weekday d
 static void	cal_recur_free			(CalRecurrence	*r);
 
 
+static gboolean cal_object_get_rdate_end	(CalObjTime	*occ,
+						 GArray		*rdate_periods);
 static void	cal_object_compute_duration	(CalObjTime	*start,
 						 CalObjTime	*end,
 						 gint		*days,
@@ -625,6 +696,7 @@ cal_recur_generate_instances_of_rule (CalComponent	 *comp,
 			chunk_end.hour   = 0;
 			chunk_end.minute = 0;
 			chunk_end.second = 0;
+			chunk_end.is_rdate = FALSE;
 		}
 
 		if (!generate_instances_for_year (comp, dtstart_time,
@@ -832,15 +904,18 @@ generate_instances_for_year (CalComponent	*comp,
 			     CalRecurInstanceFn  cb,
 			     gpointer            cb_data)
 {
-	GArray *occs, *ex_occs, *tmp_occs;
+	GArray *occs, *ex_occs, *tmp_occs, *rdate_periods;
 	CalObjTime cotime, *occ;
 	GSList *elem;
-	gint i, status;
+	gint i;
 	time_t start_time, end_time;
 	struct tm start_tm, end_tm;
+	gboolean retval = TRUE;
 
 	occs = g_array_new (FALSE, FALSE, sizeof (CalObjTime));
 	ex_occs = g_array_new (FALSE, FALSE, sizeof (CalObjTime));
+	rdate_periods = g_array_new (FALSE, FALSE,
+				     sizeof (CalObjRecurrenceDate));
 
 	/* Expand each of the recurrence rules. */
 	for (elem = rrules; elem; elem = elem->next) {
@@ -859,19 +934,28 @@ generate_instances_for_year (CalComponent	*comp,
 		g_array_free (tmp_occs, TRUE);
 	}
 
-	/* Add on specific occurrence dates. */
+	/* Add on specific occurrence dates, flag them as RDATEs, and store
+	   a pointer to the period in the rdate_periods array. */
 	for (elem = rdates; elem; elem = elem->next) {
-		struct icaltimetype *it;
+		CalComponentPeriod *p;
+		CalObjRecurrenceDate rdate;
 		time_t t;
 
-		/* FIXME we should only be dealing with dates, not times too.
-
-		   No, I think it is supposed to be dates & times - Damon.
-		   I'm not sure what the semantics of just a date would be,
-		   since the event could recur several times each day. */
-		it = elem->data;
-		t = icaltime_as_timet (*it);
+		p = elem->data;
+		t = icaltime_as_timet (p->start);
 		cal_object_time_from_time (&cotime, t);
+
+		/* Check if the end date or duration is set. If it is we need
+		   to store it so we can get it later. (libical seems to set
+		   second to -1 to denote an unset time. See icalvalue.c) */
+		if (p->type != CAL_COMPONENT_PERIOD_DATETIME
+		    || p->u.end.second != -1) {
+			cotime.is_rdate = TRUE;
+
+			rdate.start = cotime;
+			rdate.period = p;
+			g_array_append_val (rdate_periods, rdate);
+		}
 
 		g_array_append_val (occs, cotime);
 	}
@@ -923,9 +1007,12 @@ generate_instances_for_year (CalComponent	*comp,
 	}
 
 
-	/* Sort both arrays. */
+	/* Sort all the arrays. */
 	cal_obj_sort_occurrences (occs);
 	cal_obj_sort_occurrences (ex_occs);
+
+	qsort (rdate_periods->data, rdate_periods->len,
+	       sizeof (CalObjRecurrenceDate), cal_obj_time_compare_func);
 
 	/* Create the final array, by removing the exceptions from the
 	   occurrences, and removing any duplicates. */
@@ -939,35 +1026,102 @@ generate_instances_for_year (CalComponent	*comp,
 		   check it is within the bounds of the event & interval. */
 		occ = &g_array_index (occs, CalObjTime, i);
 
-		start_tm.tm_year = occ->year - 1900;
-		start_tm.tm_mon  = occ->month;
-		start_tm.tm_mday = occ->day;
-		start_tm.tm_hour = occ->hour;
-		start_tm.tm_min  = occ->minute;
-		start_tm.tm_sec  = occ->second;
+		start_tm.tm_year  = occ->year - 1900;
+		start_tm.tm_mon   = occ->month;
+		start_tm.tm_mday  = occ->day;
+		start_tm.tm_hour  = occ->hour;
+		start_tm.tm_min   = occ->minute;
+		start_tm.tm_sec   = occ->second;
+		start_tm.tm_isdst = -1;
 		start_time = mktime (&start_tm);
 
 		if (start_time < comp_dtstart
 		    || start_time >= interval_end_time)
 			continue;
 
-		cal_obj_time_add_days (occ, duration_days);
-		cal_obj_time_add_seconds (occ, duration_seconds);
+		if (occ->is_rdate) {
+			if (!cal_object_get_rdate_end (occ, rdate_periods)) {
+				cal_obj_time_add_days (occ, duration_days);
+				cal_obj_time_add_seconds (occ,
+							  duration_seconds);
+			}
+		} else {
+			cal_obj_time_add_days (occ, duration_days);
+			cal_obj_time_add_seconds (occ, duration_seconds);
+		}
 
-		end_tm.tm_year = occ->year - 1900;
-		end_tm.tm_mon  = occ->month;
-		end_tm.tm_mday = occ->day;
-		end_tm.tm_hour = occ->hour;
-		end_tm.tm_min  = occ->minute;
-		end_tm.tm_sec  = occ->second;
+		end_tm.tm_year  = occ->year - 1900;
+		end_tm.tm_mon   = occ->month;
+		end_tm.tm_mday  = occ->day;
+		end_tm.tm_hour  = occ->hour;
+		end_tm.tm_min   = occ->minute;
+		end_tm.tm_sec   = occ->second;
+		end_tm.tm_isdst = -1;
 		end_time = mktime (&end_tm);
 
 		if (end_time < interval_start_time)
 			continue;
 
-		status = (*cb) (comp, start_time, end_time, cb_data);
-		if (!status)
-			return FALSE;
+		retval = (*cb) (comp, start_time, end_time, cb_data);
+		if (!retval)
+			break;
+	}
+
+	g_array_free (occs, TRUE);
+	g_array_free (ex_occs, TRUE);
+	g_array_free (rdate_periods, TRUE);
+
+	return retval;
+}
+
+
+/* This looks up the occurrence time in the sorted rdate_periods array, and
+   tries to compute the end time of the occurrence. If no end time or duration
+   is set it returns FALSE and the default duration will be used. */
+static gboolean
+cal_object_get_rdate_end	(CalObjTime	*occ,
+				 GArray		*rdate_periods)
+{
+	CalObjRecurrenceDate *rdate;
+	CalComponentPeriod *p;
+	gint lower, upper, middle, cmp = 0;
+	time_t t;
+
+	lower = 0;
+	upper = rdate_periods->len;
+
+	while (lower < upper) {
+		middle = (lower + upper) >> 1;
+	  
+		rdate = &g_array_index (rdate_periods, CalObjRecurrenceDate,
+					middle);
+
+		cmp = cal_obj_time_compare_func (occ, &rdate->start);
+	  
+		if (cmp == 0)
+			break;
+		else if (cmp < 0)
+			upper = middle;
+		else
+			lower = middle + 1;
+	}
+
+	/* This should never happen. */
+	if (cmp == 0) {
+		g_warning ("Recurrence date not found");
+		return FALSE;
+	}
+
+	p = rdate->period;
+	if (p->type == CAL_COMPONENT_PERIOD_DATETIME) {
+		t = icaltime_as_timet (p->u.end);
+		cal_object_time_from_time (occ, t);
+	} else {
+		cal_obj_time_add_days (occ, p->u.duration.weeks * 7
+				       + p->u.duration.days);
+		cal_obj_time_add_hours (occ, p->u.duration.hours);
+		cal_obj_time_add_minutes (occ, p->u.duration.minutes);
+		cal_obj_time_add_seconds (occ, p->u.duration.seconds);
 	}
 
 	return TRUE;
@@ -1481,9 +1635,9 @@ static void
 cal_obj_remove_exceptions (GArray *occs,
 			   GArray *ex_occs)
 {
-	CalObjTime *occ, *prev_occ = NULL, *ex_occ;
+	CalObjTime *occ, *prev_occ = NULL, *ex_occ, *last_occ_kept;
 	gint i, j = 0, cmp, ex_index, occs_len, ex_occs_len;
-	gboolean keep_occ;
+	gboolean keep_occ, current_time_is_exception = FALSE;
 
 	if (occs->len == 0 || ex_occs->len == 0)
 		return;
@@ -1502,29 +1656,50 @@ cal_obj_remove_exceptions (GArray *occs,
 		if (prev_occ
 		    && cal_obj_time_compare_func (occ, prev_occ) == 0) {
 			keep_occ = FALSE;
-		} else if (ex_occ) {
-			/* Step through the exceptions until we come to one
-			   that matches or follows this occurrence. */
-			while (ex_occ) {
-				cmp = cal_obj_date_only_compare_func (ex_occ, occ);
-				if (cmp > 0)
-					break;
 
-				/* Move to the next exception, or set ex_occ
-				   to NULL when we reach the end of array. */
-				ex_index++;
-				if (ex_index < ex_occs_len)
-					ex_occ = &g_array_index (ex_occs,
-								 CalObjTime,
-								 ex_index);
-				else
-					ex_occ = NULL;
+			/* If this occurrence is an RDATE, and the previous
+			   occurrence in the array was kept, set the RDATE flag
+			   of the last one, so we still use the end date
+			   or duration. */
+			if (occ->is_rdate && !current_time_is_exception) {
+				last_occ_kept = &g_array_index (occs,
+								CalObjTime,
+								j - 1);
+				last_occ_kept->is_rdate = TRUE;
+			}
+		} else {
+			/* We've found a new occurrence time. Reset the flag
+			   to indicate that it hasn't been found in the
+			   exceptions array (yet). */
+			current_time_is_exception = FALSE;
 
-				/* If the current exception matches this
-				   occurrence we remove it. */
-				if (cmp == 0) {
-					keep_occ = FALSE;
-					break;
+			if (ex_occ) {
+				/* Step through the exceptions until we come
+				   to one that matches or follows this
+				   occurrence. */
+				while (ex_occ) {
+					cmp = cal_obj_date_only_compare_func (ex_occ, occ);
+					if (cmp > 0)
+						break;
+
+					/* Move to the next exception, or set
+					   ex_occ to NULL when we reach the
+					   end of array. */
+					ex_index++;
+					if (ex_index < ex_occs_len)
+						ex_occ = &g_array_index (ex_occs, CalObjTime, ex_index);
+					else
+						ex_occ = NULL;
+
+					/* If the exception did match this
+					   occurrence we remove it, and set the
+					   flag to indicate that the current
+					   time is an exception. */
+					if (cmp == 0) {
+						current_time_is_exception = TRUE;
+						keep_occ = FALSE;
+						break;
+					}
 				}
 			}
 		}
@@ -3183,12 +3358,13 @@ cal_object_time_from_time (CalObjTime *cotime,
 	tmp_time_t = t;
 	tmp_tm = localtime (&tmp_time_t);
 
-	cotime->year   = tmp_tm->tm_year + 1900;
-	cotime->month  = tmp_tm->tm_mon;
-	cotime->day    = tmp_tm->tm_mday;
-	cotime->hour   = tmp_tm->tm_hour;
-	cotime->minute = tmp_tm->tm_min;
-	cotime->second = tmp_tm->tm_sec;
+	cotime->year     = tmp_tm->tm_year + 1900;
+	cotime->month    = tmp_tm->tm_mon;
+	cotime->day      = tmp_tm->tm_mday;
+	cotime->hour     = tmp_tm->tm_hour;
+	cotime->minute   = tmp_tm->tm_min;
+	cotime->second   = tmp_tm->tm_sec;
+	cotime->is_rdate = FALSE;
 }
 
 

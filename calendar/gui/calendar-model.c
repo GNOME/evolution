@@ -52,6 +52,9 @@ struct _CalendarModelPrivate {
 	/* UID -> array index hash */
 	GHashTable *uid_index_hash;
 
+	/* Whether we display dates in 24-hour format. */
+	gboolean use_24_hour_format;
+
 	/* HACK: so that ETable can do its stupid append_row() thing */
 	guint appending_row : 1;
 };
@@ -157,6 +160,7 @@ calendar_model_init (CalendarModel *model)
 
 	priv->objects = g_array_new (FALSE, TRUE, sizeof (CalComponent *));
 	priv->uid_index_hash = g_hash_table_new (g_str_hash, g_str_equal);
+	priv->use_24_hour_format = TRUE;
 }
 
 /* Called from g_hash_table_foreach_remove(), frees a stored UID->index
@@ -261,10 +265,11 @@ calendar_model_row_count (ETableModel *etm)
 
 /* Creates a nice string representation of a time value */
 static char*
-get_time_t (time_t *t, gboolean skip_midnight)
+get_time_t (CalendarModel *model, time_t *t, gboolean skip_midnight)
 {
-	static char buffer[32];
+	static char buffer[64];
 	struct tm *tmp_tm;
+	char *format;
 
 	if (*t <= 0) {
 		buffer[0] = '\0';
@@ -273,9 +278,18 @@ get_time_t (time_t *t, gboolean skip_midnight)
 
 		if (skip_midnight && tmp_tm->tm_hour == 0
 		    && tmp_tm->tm_min == 0 && tmp_tm->tm_sec == 0)
-			strftime (buffer, 32, "%a %x", tmp_tm);
+			/* strftime format of a weekday and a date. */
+			format = _("%a %m/%d/%Y");
+		else if (model->priv->use_24_hour_format)
+			/* strftime format of a weekday, a date and a time,
+			   in 24-hour format. */
+			format = _("%a %m/%d/%Y %H:%M:%S");
 		else
-			strftime (buffer, 32, "%a %x %T", tmp_tm);
+			/* strftime format of a weekday, a date and a time,
+			   in 12-hour format. */
+			format = _("%a %m/%d/%Y %I:%M:%S %p");
+			
+		strftime (buffer, sizeof (buffer), format, tmp_tm);
 	}
 
 	return buffer;
@@ -346,7 +360,8 @@ get_classification (CalComponent *comp)
 
 /* Builds a string for the COMPLETED property of a calendar component */
 static char *
-get_completed (CalComponent *comp)
+get_completed	(CalendarModel *model,
+		 CalComponent  *comp)
 {
 	struct icaltimetype *completed;
 	time_t t;
@@ -360,12 +375,12 @@ get_completed (CalComponent *comp)
 		cal_component_free_icaltimetype (completed);
 	}
 
-	return get_time_t (&t, FALSE);
+	return get_time_t (model, &t, FALSE);
 }
 
 /* Builds a string for and frees a date/time value */
 static char *
-get_and_free_datetime (CalComponentDateTime dt)
+get_and_free_datetime (CalendarModel *model, CalComponentDateTime dt)
 {
 	time_t t;
 
@@ -376,37 +391,37 @@ get_and_free_datetime (CalComponentDateTime dt)
 
 	cal_component_free_datetime (&dt);
 
-	return get_time_t (&t, FALSE);
+	return get_time_t (model, &t, FALSE);
 }
 
 /* Builds a string for the DTEND property of a calendar component */
 static char *
-get_dtend (CalComponent *comp)
+get_dtend (CalendarModel *model, CalComponent *comp)
 {
 	CalComponentDateTime dt;
 
 	cal_component_get_dtend (comp, &dt);
-	return get_and_free_datetime (dt);
+	return get_and_free_datetime (model, dt);
 }
 
 /* Builds a string for the DTSTART property of a calendar component */
 static char *
-get_dtstart (CalComponent *comp)
+get_dtstart (CalendarModel *model, CalComponent *comp)
 {
 	CalComponentDateTime dt;
 
 	cal_component_get_dtstart (comp, &dt);
-	return get_and_free_datetime (dt);
+	return get_and_free_datetime (model, dt);
 }
 
 /* Builds a string for the DUE property of a calendar component */
 static char *
-get_due (CalComponent *comp)
+get_due (CalendarModel *model, CalComponent *comp)
 {
 	CalComponentDateTime dt;
 
 	cal_component_get_due (comp, &dt);
-	return get_and_free_datetime (dt);
+	return get_and_free_datetime (model, dt);
 }
 
 /* Builds a string for the GEO property of a calendar component */
@@ -546,8 +561,6 @@ get_is_complete (CalComponent *comp)
 	struct icaltimetype *t;
 	gboolean retval;
 
-	/* May not be reliable, especially at the moment when
-	   we can't set a Completed Date to None. */
 	cal_component_get_completed (comp, &t);
 	retval = (t != NULL);
 
@@ -627,16 +640,16 @@ calendar_model_value_at (ETableModel *etm, int col, int row)
 		return get_classification (comp);
 
 	case CAL_COMPONENT_FIELD_COMPLETED:
-		return get_completed (comp);
+		return get_completed (model, comp);
 
 	case CAL_COMPONENT_FIELD_DTEND:
-		return get_dtend (comp);
+		return get_dtend (model, comp);
 
 	case CAL_COMPONENT_FIELD_DTSTART:
-		return get_dtstart (comp);
+		return get_dtstart (model, comp);
 
 	case CAL_COMPONENT_FIELD_DUE:
-		return get_due (comp);
+		return get_due (model, comp);
 
 	case CAL_COMPONENT_FIELD_GEO:
 		return get_geo (comp);
@@ -712,16 +725,24 @@ string_is_empty (const char *value)
 /* FIXME: We need to set the "transient_for" property for the dialog, but
    the model doesn't know anything about the windows. */
 static void
-show_date_warning (void)
+show_date_warning (CalendarModel *model)
 {
 	GtkWidget *dialog;
-	char buffer[32], message[256];
+	char buffer[64], message[256], *format;
 	time_t t;
 	struct tm *tmp_tm;
 
 	t = time (NULL);
 	tmp_tm = localtime (&t);
-	strftime (buffer, 32, "%a %x %T", tmp_tm);
+
+	if (model->priv->use_24_hour_format)
+		/* strftime format of a weekday, a date and a time, 24-hour. */
+		format = _("%a %m/%d/%Y %H:%M:%S");
+	else
+		/* strftime format of a weekday, a date and a time, 12-hour. */
+		format = _("%a %m/%d/%Y %I:%M:%S %p");
+
+	strftime (buffer, sizeof (buffer), format, tmp_tm);
 
 	g_snprintf (message, 256,
 		    _("The date must be entered in the format: \n\n%s"),
@@ -801,62 +822,137 @@ set_categories (CalComponent *comp, const char *value)
 static time_t
 parse_time (const char *value)
 {
-	struct tm tmp_tm;
+	struct tm discard_tm, date_tm, time_tm;
 	struct tm *today_tm;
 	time_t t;
-	const char *p;
+	const char *pos, *parse_end;
+	char *format[4];
+	gboolean parsed_date = FALSE, parsed_time = FALSE;
+	gint i;
 
 	if (string_is_empty (value))
 		return 0;
 
-	/* Skip any weekday name. */
-	p = strptime (value, "%a", &tmp_tm);
-	if (!p)
-		p = value;
+	pos = value;
 
-	/* Try to match the full date & time, or without the seconds,
-	   or just the date, or just the time with/without seconds.
-	   The info pages say we should clear the tm before calling
-	   strptime. It also means that if we don't match a time we
-	   get 00:00:00 which is good. */
-	memset (&tmp_tm, 0, sizeof (tmp_tm));
-	if (!strptime (value, "%x %T", &tmp_tm)) {
-		memset (&tmp_tm, 0, sizeof (tmp_tm));
-		if (!strptime (value, "%x %H:%M", &tmp_tm)) {
-			memset (&tmp_tm, 0, sizeof (tmp_tm));
-			if (!strptime (value, "%x", &tmp_tm)) {
-				memset (&tmp_tm, 0, sizeof (tmp_tm));
-				if (!strptime (value, "%T", &tmp_tm)) {
-					memset (&tmp_tm, 0, sizeof (tmp_tm));
-					if (!strptime (value, "%H:%M", &tmp_tm))
-						return -1; /* Could not parse it */
-				}
+	/* Skip any whitespace. */
+	while (isspace (*pos))
+		pos++;
 
-				/* We only got a time, so we use the
-				   current day. */
-				t = time (NULL);
-				today_tm = localtime (&t);
-				tmp_tm.tm_mday = today_tm->tm_mday;
-				tmp_tm.tm_mon  = today_tm->tm_mon;
-				tmp_tm.tm_year = today_tm->tm_year;
-			}
+	/* Skip any weekday name, full or abbreviated. */
+	parse_end = strptime (pos, "%a ", &discard_tm);
+	if (parse_end)
+		pos = parse_end;
+
+	memset (&date_tm, 0, sizeof (date_tm));
+	/* strptime format for a date. */
+	parse_end = strptime (pos, _("%m/%d/%Y"), &date_tm);
+	if (parse_end) {
+		pos = parse_end;
+		parsed_date = TRUE;
+	}
+
+	/* Skip any whitespace. */
+	while (isspace (*pos))
+		pos++;
+
+	/* Skip any weekday name, full or abbreviated, again. */
+	parse_end = strptime (pos, "%a ", &discard_tm);
+	if (parse_end)
+		pos = parse_end;
+
+
+	/* strptime format for a time of day, in 12-hour format.
+	   If it is is not appropriate in the locale set to an empty string. */
+	format[0] = _("%I:%M:%S %p%n");
+
+	/* strptime format for a time of day, in 24-hour format. */
+	format[1] = _("%H:%M:%S%n");
+
+	/* strptime format for time of day, without seconds, 12-hour format.
+	   If it is is not appropriate in the locale set to an empty string. */
+	format[2] = _("%I:%M %p%n");
+
+	/* strptime format for time of day, without seconds 24-hour format. */
+	format[3] = _("%H:%M%n");
+
+	for (i = 0; i < sizeof (format) / sizeof (format[0]); i++) {
+		memset (&time_tm, 0, sizeof (time_tm));
+		parse_end = strptime (pos, format[i], &time_tm);
+		if (parse_end) {
+			pos = parse_end;
+			parsed_time = TRUE;
+			break;
 		}
 	}
 
-	tmp_tm.tm_isdst = -1;
-	return mktime (&tmp_tm);
+	/* Skip any whitespace. */
+	while (isspace (*pos))
+		pos++;
+
+	/* If we haven't already parsed a date, try again. */
+	if (!parsed_date) {
+		memset (&date_tm, 0, sizeof (date_tm));
+		/* strptime format for a date. */
+		parse_end = strptime (pos, _("%m/%d/%Y"), &date_tm);
+		if (parse_end) {
+			pos = parse_end;
+			parsed_date = TRUE;
+		}
+	}
+
+	/* If we don't have a date or a time it must be invalid. */
+	if (!parsed_date && !parsed_time)
+		return -1;
+
+
+	if (parsed_date) {
+		/* If a 2-digit year was used we use the current century. */
+		if (date_tm.tm_year < 0) {
+			t = time (NULL);
+			today_tm = localtime (&t);
+
+			/* This should convert it into a value from 0 to 99. */
+			date_tm.tm_year += 1900;
+
+			/* Now add on the century. */
+			date_tm.tm_year += today_tm->tm_year
+				- (today_tm->tm_year % 100);
+		}
+	} else {
+		/* If we didn't get a date we use the current day. */
+		t = time (NULL);
+		today_tm = localtime (&t);
+		date_tm.tm_mday = today_tm->tm_mday;
+		date_tm.tm_mon  = today_tm->tm_mon;
+		date_tm.tm_year = today_tm->tm_year;
+	}
+
+	if (parsed_time) {
+		date_tm.tm_hour = time_tm.tm_hour;
+		date_tm.tm_min = time_tm.tm_min;
+		date_tm.tm_sec = time_tm.tm_sec;
+	} else {
+		date_tm.tm_hour = 0;
+		date_tm.tm_min = 0;
+		date_tm.tm_sec = 0;
+	}
+
+
+	date_tm.tm_isdst = -1;
+	return mktime (&date_tm);
 }
 
 /* Called to set the "Date Completed" field. We also need to update the
    Status and Percent fields to make sure they match. */
 static void
-set_completed (CalComponent *comp, const char *value)
+set_completed (CalendarModel *model, CalComponent *comp, const char *value)
 {
 	time_t t;
 
 	t = parse_time (value);
 	if (t == -1) {
-		show_date_warning ();
+		show_date_warning (model);
 	} else if (t == 0) {
 		ensure_task_not_complete (comp);
 	} else {
@@ -866,14 +962,14 @@ set_completed (CalComponent *comp, const char *value)
 
 /* Sets a CalComponentDateTime value */
 static void
-set_datetime (CalComponent *comp, const char *value,
+set_datetime (CalendarModel *model, CalComponent *comp, const char *value,
 	      void (* set_func) (CalComponent *comp, CalComponentDateTime *dt))
 {
 	time_t t;
 
 	t = parse_time (value);
 	if (t == -1) {
-		show_date_warning ();
+		show_date_warning (model);
 		return;
 	} else if (t == 0) {
 		(* set_func) (comp, NULL);
@@ -1073,21 +1169,21 @@ calendar_model_set_value_at (ETableModel *etm, int col, int row, const void *val
 	/* FIXME: CLASSIFICATION requires an option menu cell renderer */
 
 	case CAL_COMPONENT_FIELD_COMPLETED:
-		set_completed (comp, value);
+		set_completed (model, comp, value);
 		break;
 
 	case CAL_COMPONENT_FIELD_DTEND:
 		/* FIXME: Need to reset dtstart if dtend happens before it */
-		set_datetime (comp, value, cal_component_set_dtend);
+		set_datetime (model, comp, value, cal_component_set_dtend);
 		break;
 
 	case CAL_COMPONENT_FIELD_DTSTART:
 		/* FIXME: Need to reset dtend if dtstart happens after it */
-		set_datetime (comp, value, cal_component_set_dtstart);
+		set_datetime (model, comp, value, cal_component_set_dtstart);
 		break;
 
 	case CAL_COMPONENT_FIELD_DUE:
-		set_datetime (comp, value, cal_component_set_due);
+		set_datetime (model, comp, value, cal_component_set_due);
 		break;
 
 	case CAL_COMPONENT_FIELD_GEO:
@@ -1903,4 +1999,27 @@ ensure_task_not_complete (CalComponent *comp)
 		cal_component_set_status (comp, "NEEDS-ACTION");
 }
 
+
+/* Whether we use 24 hour format to display the times. */
+gboolean
+calendar_model_get_use_24_hour_format (CalendarModel *model)
+{
+	g_return_val_if_fail (IS_CALENDAR_MODEL (model), TRUE);
+
+	return model->priv->use_24_hour_format;
+}
+
+
+void
+calendar_model_set_use_24_hour_format (CalendarModel *model,
+				       gboolean	      use_24_hour_format)
+{
+	g_return_if_fail (IS_CALENDAR_MODEL (model));
+
+	if (model->priv->use_24_hour_format != use_24_hour_format) {
+		model->priv->use_24_hour_format = use_24_hour_format;
+		/* Get the views to redraw themselves. */
+		e_table_model_changed (E_TABLE_MODEL (model));
+	}
+}
 

@@ -315,22 +315,41 @@ e_week_view_main_item_draw_day (EWeekViewMainItem *wvmitem,
 	max_width = width - 4;
 	format_string = NULL;
 	if (show_day_name) {
-		if (week_view->max_abbr_day_width +
-		    week_view->digit_width * 2 + week_view->space_width * 2
+		if (week_view->max_day_width + week_view->digit_width * 2
+		    + week_view->space_width * 2
 		    + week_view->month_widths[month - 1] < max_width)
-			format_string = "%a %d %B";
+			/* strftime format %A = full weekday name, %d = day of
+			   month, %B = full month name. You can change the
+			   order but don't change the specifiers or add
+			   anything. */
+			format_string = _("%A %d %B");
+		else if (week_view->max_abbr_day_width
+			 + week_view->digit_width * 2
+			 + week_view->space_width * 2
+			 + week_view->abbr_month_widths[month - 1] < max_width)
+			/* strftime format %a = abbreviated weekday name,
+			   %d = day of month, %b = abbreviated month name.
+			   You can change the order but don't change the
+			   specifiers or add anything. */
+			format_string = _("%a %d %b");
 	}
 	if (!format_string && show_month_name) {
 		if (week_view->digit_width * 2 + week_view->space_width
 		    + week_view->month_widths[month - 1] < max_width)
-			format_string = "%d %B";
+			/* strftime format %d = day of month, %B = full
+			   month name. You can change the order but don't
+			   change the specifiers or add anything. */
+			format_string = _("%d %B");
 		else if (week_view->digit_width * 2 + week_view->space_width
 		    + week_view->abbr_month_widths[month - 1] < max_width)
-			format_string = "%d %b";
+			/* strftime format %d = day of month, %b = abbreviated
+			   month name. You can change the order but don't
+			   change the specifiers or add anything. */
+			format_string = _("%d %b");
 	}
 
-	g_date_strftime (buffer, 128, format_string ? format_string : "%d",
-			 date);
+	g_date_strftime (buffer, sizeof (buffer),
+			 format_string ? format_string : "%d", date);
 	date_width = gdk_string_width (font, buffer);
 	date_x = x + width - date_width - E_WEEK_VIEW_DATE_R_PAD;
 	date_x = MAX (date_x, x + 1);

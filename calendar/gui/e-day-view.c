@@ -961,10 +961,12 @@ e_day_view_style_set (GtkWidget *widget,
 	EDayView *day_view;
 	GdkFont *font;
 	gint top_rows, top_canvas_height;
-	gint month, max_month_width, max_abbr_month_width, number_width;
-	gint hour, max_large_hour_width, month_width;
+	gint hour, max_large_hour_width;
 	gint minute, max_minute_width, i;
-	GDate date;
+	gint month, day, width;
+	gint longest_month_width, longest_abbreviated_month_width;
+	gint longest_weekday_width, longest_abbreviated_weekday_width;
+	struct tm date_tm;
 	gchar buffer[128];
 	gint times_width;
 
@@ -975,7 +977,7 @@ e_day_view_style_set (GtkWidget *widget,
 	font = widget->style->font;
 
 	/* Recalculate the height of each row based on the font size. */
-	day_view->row_height = font->ascent + font->descent + E_DAY_VIEW_EVENT_BORDER_HEIGHT * 2 + E_DAY_VIEW_EVENT_Y_PAD * 2 + 2 /* FIXME */;
+	day_view->row_height = font->ascent + font->descent + E_DAY_VIEW_EVENT_BORDER_HEIGHT + E_DAY_VIEW_EVENT_Y_PAD * 2 + 2 /* FIXME */;
 	day_view->row_height = MAX (day_view->row_height, E_DAY_VIEW_ICON_HEIGHT + E_DAY_VIEW_ICON_Y_PAD + 2);
 	GTK_LAYOUT (day_view->main_canvas)->vadjustment->step_increment = day_view->row_height;
 
@@ -988,27 +990,59 @@ e_day_view_style_set (GtkWidget *widget,
 	top_canvas_height = (top_rows + 2) * day_view->top_row_height;
 	gtk_widget_set_usize (day_view->top_canvas, -1, top_canvas_height);
 
-	/* Find the biggest full month name. */
-	g_date_clear (&date, 1);
-	g_date_set_dmy (&date, 20, 1, 2000);
-	max_month_width = 0;
-	max_abbr_month_width = 0;
-	for (month = 1; month <= 12; month++) {
-		g_date_set_month (&date, month);
+	/* Find the longest full & abbreviated month names. */
+	memset (&date_tm, 0, sizeof (date_tm));
+	date_tm.tm_year = 100;
+	date_tm.tm_mday = 1;
+	date_tm.tm_isdst = -1;
 
-		g_date_strftime (buffer, 128, "%B", &date);
-		month_width = gdk_string_width (font, buffer);
-		max_month_width = MAX (max_month_width, month_width);
+	longest_month_width = 0;
+	longest_abbreviated_month_width = 0;
+	for (month = 0; month < 12; month++) {
+		date_tm.tm_mon = month;
 
-		g_date_strftime (buffer, 128, "%b", &date);
-		month_width = gdk_string_width (font, buffer);
-		max_abbr_month_width = MAX (max_abbr_month_width, month_width);
+		strftime (buffer, sizeof (buffer), "%B", &date_tm);
+		width = gdk_string_width (font, buffer);
+		if (width > longest_month_width) {
+			longest_month_width = width;
+			day_view->longest_month_name = month;
+		}
+
+		strftime (buffer, sizeof (buffer), "%b", &date_tm);
+		width = gdk_string_width (font, buffer);
+		if (width > longest_abbreviated_month_width) {
+			longest_abbreviated_month_width = width;
+			day_view->longest_abbreviated_month_name = month;
+		}
 	}
-	number_width = gdk_string_width (font, "31 ");
-	day_view->long_format_width = number_width + max_month_width
-		+ E_DAY_VIEW_DATE_X_PAD;
-	day_view->abbreviated_format_width = number_width
-		+ max_abbr_month_width + E_DAY_VIEW_DATE_X_PAD;
+
+	/* Find the longest full & abbreviated weekday names. */
+	memset (&date_tm, 0, sizeof (date_tm));
+	date_tm.tm_year = 100;
+	date_tm.tm_mon = 0;
+	date_tm.tm_isdst = -1;
+
+	longest_weekday_width = 0;
+	longest_abbreviated_weekday_width = 0;
+	for (day = 0; day < 7; day++) {
+		date_tm.tm_mday = 2 + day;
+		date_tm.tm_wday = day;
+
+		strftime (buffer, sizeof (buffer), "%A", &date_tm);
+		width = gdk_string_width (font, buffer);
+		if (width > longest_weekday_width) {
+			longest_weekday_width = width;
+			day_view->longest_weekday_name = day;
+		}
+
+		strftime (buffer, sizeof (buffer), "%a", &date_tm);
+		width = gdk_string_width (font, buffer);
+		if (width > longest_abbreviated_weekday_width) {
+			longest_abbreviated_weekday_width = width;
+			day_view->longest_abbreviated_weekday_name = day;
+		}
+	}
+
 
 	/* Calculate the widths of all the time strings necessary. */
 	day_view->max_small_hour_width = 0;
@@ -1090,8 +1124,18 @@ e_day_view_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 static void
 e_day_view_recalc_cell_sizes	(EDayView	*day_view)
 {
+	/* An array of dates, one for each month in the year 2000. They must
+	   all be Sundays. */
+	static const int days[12] = { 23, 20, 19, 23, 21, 18,
+				      23, 20, 17, 22, 19, 24 };
 	gfloat width, offset;
-	gint day;
+	gint day, max_width;
+	struct tm date_tm;
+	GdkFont *font;
+	char buffer[128];
+
+	g_return_if_fail (((GtkWidget*)day_view)->style != NULL);
+	font = GTK_WIDGET (day_view)->style->font;
 
 	/* Calculate the column sizes, using floating point so that pixels
 	   get divided evenly. Note that we use one more element than the
@@ -1109,11 +1153,53 @@ e_day_view_recalc_cell_sizes	(EDayView	*day_view)
 		day_view->day_widths[day] = day_view->day_offsets[day + 1] - day_view->day_offsets[day];
 	}
 
-	/* Determine which date format to use, based on the column widths. */
-	if (day_view->day_widths[0] > day_view->long_format_width)
+	/* Determine which date format to use, based on the column widths.
+	   We want to check the widths using the longest full or abbreviated
+	   month name and the longest full or abbreviated weekday name, as
+	   appropriate. */
+	max_width = day_view->day_widths[0];
+
+	memset (&date_tm, 0, sizeof (date_tm));
+	date_tm.tm_year = 100;
+
+	/* Try "Thursday 21 January". */
+	date_tm.tm_mon = day_view->longest_month_name;
+	date_tm.tm_mday = days[date_tm.tm_mon]
+		+ day_view->longest_weekday_name;
+	date_tm.tm_wday = day_view->longest_weekday_name;
+	date_tm.tm_isdst = -1;
+	/* strftime format %A = full weekday name, %d = day of month,
+	   %B = full month name. Don't use any other specifiers. */
+	strftime (buffer, sizeof (buffer), _("%A %d %B"), &date_tm);
+	if (gdk_string_width (font, buffer) < max_width) {
 		day_view->date_format = E_DAY_VIEW_DATE_FULL;
-	else if (day_view->day_widths[0] > day_view->abbreviated_format_width)
+		return;
+	}
+
+	/* Try "Thu 21 Jan". */
+	date_tm.tm_mon = day_view->longest_abbreviated_month_name;
+	date_tm.tm_mday = days[date_tm.tm_mon]
+		+ day_view->longest_abbreviated_weekday_name;
+	date_tm.tm_wday = day_view->longest_abbreviated_weekday_name;
+	date_tm.tm_isdst = -1;
+	/* strftime format %a = abbreviated weekday name, %d = day of month,
+	   %b = abbreviated month name. Don't use any other specifiers. */
+	strftime (buffer, sizeof (buffer), _("%a %d %b"), &date_tm);
+	if (gdk_string_width (font, buffer) < max_width) {
 		day_view->date_format = E_DAY_VIEW_DATE_ABBREVIATED;
+		return;
+	}
+
+	/* Try "23 Jan". */
+	date_tm.tm_mon = day_view->longest_abbreviated_month_name;
+	date_tm.tm_mday = 23;
+	date_tm.tm_wday = 0;
+	date_tm.tm_isdst = -1;
+	/* strftime format %d = day of month, %b = abbreviated month name.
+	   Don't use any other specifiers. */
+	strftime (buffer, sizeof (buffer), _("%d %b"), &date_tm);
+	if (gdk_string_width (font, buffer) < max_width)
+		day_view->date_format = E_DAY_VIEW_DATE_NO_WEEKDAY;
 	else
 		day_view->date_format = E_DAY_VIEW_DATE_SHORT;
 }

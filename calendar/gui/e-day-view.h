@@ -118,13 +118,15 @@ typedef enum
 } EDayViewBusyType;
 
 /* This is used to specify the format used when displaying the dates.
-   The full format is like 'September 12'. The abbreviated format is like
-   'Sep 12'. The short format is like '12'. The actual format used is
-   determined in style_set(), once we know the font being used. */
+   The full format is like 'Thursday 12 September'. The abbreviated format is
+   like 'Thu 12 Sep'. The no weekday format is like '12 Sep'. The short format
+   is like '12'. The actual format used is determined in
+   e_day_view_recalc_cell_sizes(), once we know the font being used. */
 typedef enum
 {
 	E_DAY_VIEW_DATE_FULL,
 	E_DAY_VIEW_DATE_ABBREVIATED,
+	E_DAY_VIEW_DATE_NO_WEEKDAY,
 	E_DAY_VIEW_DATE_SHORT
 } EDayViewDateFormat;
 
@@ -301,9 +303,12 @@ struct _EDayView
 	/* This specifies how we are displaying the dates at the top. */
 	EDayViewDateFormat date_format;
 
-	/* These are the maximum widths of the different types of dates. */
-	gint long_format_width;
-	gint abbreviated_format_width;
+	/* These are the longest month & weekday names in the current font.
+	   Months are 0 to 11. Weekdays are 0 (Sun) to 6 (Sat). */
+	gint longest_month_name;
+	gint longest_abbreviated_month_name;
+	gint longest_weekday_name;
+	gint longest_abbreviated_weekday_name;
 
 	/* The large font use to display the hours. I don't think we need a
 	   fontset since we only display numbers. */

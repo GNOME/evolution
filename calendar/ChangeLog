@@ -1,3 +1,35 @@
+2000-09-29  Damon Chaplin  <damon@helixcode.com>
+
+	* cal-util/cal-recur.c: updated to support RDATE end times or
+	durations. Note that if you have two RDATEs with the same start times,
+	but with different end dates/durations set, the results are
+	unpredictable. So the event editor dialog should check for this.
+
+	* gui/e-week-view-main-item.c (e_week_view_main_item_draw_day): 
+	make strftime() strings translatable, and changed the formats a bit.
+
+	* NOTE: someone needs to check print.c to make sure strftime strings
+	are OK for i18n.
+	
+	* gui/e-day-view.h: Changed EDayViewDateFormat enum. We now try to
+	include the weekday if possible. Also changed EDayView struct so we
+	store the month & weekdays with the longest names rather than the
+	actual widths. This helps i18n.
+
+	* gui/e-day-view.c (e_day_view_recalc_cell_sizes): used _() for
+	strftime strings, tried to see if weekday fits, and rearranged a
+	bit to make i18n easier.
+
+	* gui/e-day-view-top-item.c (e_day_view_top_item_draw): used _() for
+	strftime strings, and updated to use new formats.
+
+	* gui/calendar-model.c: added use_24_hour_format boolean to
+	CalendarModelPrivate so we can display dates in 12-hour format if
+	requested. This meant adding a CalendarModel argument to a few
+	functions. Also added get/set functions to set use_24_hour_format.
+	I suppose ideally we should have an ECellDate renderer and this option
+	should go there.
+
 2000-09-27  Jesse Pavel	  <jpavel@helixcode.com>
 
 	* gui/event-editor.c: changed a menu entry so that it will invoke

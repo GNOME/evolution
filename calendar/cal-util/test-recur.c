@@ -24,6 +24,7 @@
 
 /*
  * This tests the recurrence rule expansion functions.
+ * FIXME: Needs to be updated to just use the public interface.
  */
 
 #include <config.h>

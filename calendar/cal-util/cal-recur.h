@@ -30,64 +30,6 @@
 
 BEGIN_GNOME_DECLS
 
-typedef struct {
-	icalrecurrencetype_frequency freq;
-
-	int            interval;
-
-	/* Specifies the end of the recurrence. No occurrences are generated
-	   after this date. If it is 0, the event recurs forever. */
-	time_t         enddate;
-
-	/* WKST property - the week start day: 0 = Monday to 6 = Sunday. */
-	gint	       week_start_day;
-
-
-	/* NOTE: I've used GList's here, but it doesn't matter if we use
-	   other data structures like arrays. The code should be easy to
-	   change. So long as it is easy to see if the modifier is set. */
-
-	/* For BYMONTH modifier. A list of GINT_TO_POINTERs, 0-11. */
-	GList	      *bymonth;
-
-	/* For BYWEEKNO modifier. A list of GINT_TO_POINTERs, [+-]1-53. */
-	GList	      *byweekno;
-
-	/* For BYYEARDAY modifier. A list of GINT_TO_POINTERs, [+-]1-366. */
-	GList	      *byyearday;
-
-	/* For BYMONTHDAY modifier. A list of GINT_TO_POINTERs, [+-]1-31. */
-	GList	      *bymonthday;
-
-	/* For BYDAY modifier. A list of GINT_TO_POINTERs, in pairs.
-	   The first of each pair is the weekday, 0 = Monday to 6 = Sunday.
-	   The second of each pair is the week number [+-]0-53. */
-	GList	      *byday;
-
-	/* For BYHOUR modifier. A list of GINT_TO_POINTERs, 0-23. */
-	GList	      *byhour;
-
-	/* For BYMINUTE modifier. A list of GINT_TO_POINTERs, 0-59. */
-	GList	      *byminute;
-
-	/* For BYSECOND modifier. A list of GINT_TO_POINTERs, 0-60. */
-	GList	      *bysecond;
-
-	/* For BYSETPOS modifier. A list of GINT_TO_POINTERs, +ve or -ve. */
-	GList	      *bysetpos;
-} CalRecurrence;
-
-/* This is what we use to represent a date & time. */
-typedef struct _CalObjTime CalObjTime;
-struct _CalObjTime {
-	guint16 year;
-	guint8 month;		/* 0 - 11 */
-	guint8 day;		/* 1 - 31 */
-	guint8 hour;		/* 0 - 23 */
-	guint8 minute;		/* 0 - 59 */
-	guint8 second;		/* 0 - 59 (maybe 60 for leap second) */
-};
-
 typedef gboolean (* CalRecurInstanceFn) (CalComponent *comp,
 					 time_t        instance_start,
 					 time_t        instace_end,
@@ -97,7 +39,7 @@ typedef gboolean (* CalRecurInstanceFn) (CalComponent *comp,
  * Calls the given callback function for each occurrence of the event between
  * the given start and end times. If end is 0 it continues until the event
  * ends or forever if the event has an infinite recurrence rule.
- * If the callback routine return 0 the occurrence generation stops.
+ * If the callback routine return FALSE the occurrence generation stops.
  */
 void	cal_recur_generate_instances	(CalComponent		*comp,
 					 time_t			 start,

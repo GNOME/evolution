@@ -183,7 +183,7 @@ e_day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 	EDayView *day_view;
 	GtkStyle *style;
 	GdkGC *fg_gc, *bg_gc, *light_gc, *dark_gc;
-	gchar buffer[128];
+	gchar buffer[128], *format;
 	GdkRectangle clip_rect;
 	GdkFont *font;
 	gint canvas_width, canvas_height, left_edge, day, date_width, date_x;
@@ -256,12 +256,22 @@ e_day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 		day_start = localtime (&day_view->day_starts[day]);
 
 		if (day_view->date_format == E_DAY_VIEW_DATE_FULL)
-			strftime (buffer, 128, "%d %B", day_start);
+			/* strftime format %A = full weekday name, %d = day of month,
+			   %B = full month name. Don't use any other specifiers. */
+			format = _("%A %d %B");
 		else if (day_view->date_format == E_DAY_VIEW_DATE_ABBREVIATED)
-			strftime (buffer, 128, "%d %b", day_start);
+			/* strftime format %a = abbreviated weekday name, %d = day of month,
+			   %b = abbreviated month name. Don't use any other specifiers. */
+			format = _("%a %d %b");
+		else if (day_view->date_format == E_DAY_VIEW_DATE_NO_WEEKDAY)
+			/* strftime format %d = day of month, %b = abbreviated month name.
+			   Don't use any other specifiers. */
+			format = _("%d %b");
 		else
-			strftime (buffer, 128, "%d", day_start);
+			format = "%d";
 
+		strftime (buffer, sizeof (buffer), format, day_start);
+			
 		clip_rect.x = day_view->day_offsets[day] - x;
 		clip_rect.y = 2 - y;
 		clip_rect.width = day_view->day_widths[day];

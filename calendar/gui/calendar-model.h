@@ -70,6 +70,11 @@ void		calendar_model_delete_task	  (CalendarModel   *model,
 CalComponent*	calendar_model_get_cal_object	  (CalendarModel   *model,
 						   gint		    row);
 
+/* Whether we use 24 hour format to display the times. */
+gboolean	calendar_model_get_use_24_hour_format (CalendarModel *model);
+void		calendar_model_set_use_24_hour_format (CalendarModel *model,
+						       gboolean	      use_24_hour_format);
+
 
 
 END_GNOME_DECLS
