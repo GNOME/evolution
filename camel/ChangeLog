@@ -4,6 +4,13 @@
 	Fix a bug in previous commit: don't check for deleted messages if
 	there are no known messages in the folder (because it would end up
 	sending "FETCH 0 ...").
+	(imap_copy_message_to): Fix this up: sync flags to the server
+	before copying so that they end up correct in the remote folder.
+	And poke the destination folder after doing the copy so it notices
+	the new message right away.
+	(imap_move_message_to): Call imap_copy_message_to for most of the
+	work rather than duplicating the code (since it's much more
+	complicated now).
 
 2001-01-11  Dan Winship  <danw@ximian.com>
 

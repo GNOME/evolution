@@ -412,10 +412,31 @@ imap_rescan (CamelFolder *folder, int exists, CamelException *ex)
 }
 
 static void
+sync_message (CamelImapStore *store, CamelFolder *folder,
+	      CamelMessageInfo *mi, CamelException *ex)
+{
+	CamelImapResponse *response;
+	char *flags;
+
+	flags = imap_create_flag_list (mi->flags);
+	CAMEL_IMAP_STORE_LOCK (store, command_lock);
+	response = camel_imap_command (store, folder, ex,
+				       "UID STORE %s FLAGS.SILENT %s",
+				       camel_message_info_uid (mi), flags);
+	CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
+	g_free (flags);
+	if (camel_exception_is_set (ex))
+		return;
+	camel_imap_response_free (response);
+
+	mi->flags &= ~CAMEL_MESSAGE_FOLDER_FLAGGED;
+	((CamelImapMessageInfo *)mi)->server_flags = mi->flags;
+}
+
+static void
 imap_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 {
 	CamelImapStore *store = CAMEL_IMAP_STORE (folder->parent_store);
-	/*CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);*/
 	CamelImapResponse *response;
 	int i, max;
 
@@ -425,28 +446,12 @@ imap_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 		CamelMessageInfo *info;
 
 		info = camel_folder_summary_index (folder->summary, i);
-		if (info && (info->flags & CAMEL_MESSAGE_FOLDER_FLAGGED)) {
-			char *flags;
-
-			flags = imap_create_flag_list (info->flags);
-			if (flags) {
-				CAMEL_IMAP_STORE_LOCK(store, command_lock);
-				response = camel_imap_command (
-					store, folder, ex,
-					"UID STORE %s FLAGS.SILENT %s",
-					camel_message_info_uid(info), flags);
-				CAMEL_IMAP_STORE_UNLOCK(store, command_lock);
-
-				g_free (flags);
-				if (!response) {
-					camel_folder_summary_info_free(folder->summary, info);
-					return;
-				}
-				camel_imap_response_free (response);
-			}
-			info->flags &= ~CAMEL_MESSAGE_FOLDER_FLAGGED;
-		}
+		if (info && (info->flags & CAMEL_MESSAGE_FOLDER_FLAGGED))
+			sync_message (store, folder, info, ex);
 		camel_folder_summary_info_free(folder->summary, info);
+
+		if (camel_exception_is_set (ex))
+			return;
 	}
 
 	if (expunge) {
@@ -549,28 +554,40 @@ imap_copy_message_to (CamelFolder *source, const char *uid,
 {
 	CamelImapStore *store = CAMEL_IMAP_STORE (source->parent_store);
 	CamelImapResponse *response;
-	
+	CamelMessageInfo *mi;
+
+	mi = camel_folder_summary_uid (source->summary, uid);
+	g_return_if_fail (mi != NULL);
+
+	/* Sync message flags if needed. */
+	if (mi->flags & CAMEL_MESSAGE_FOLDER_FLAGGED)
+		sync_message (store, source, mi, ex);
+	camel_folder_summary_info_free (source->summary, mi);
+
+	if (camel_exception_is_set (ex))
+		return;
+
+	/* Now copy it */
 	CAMEL_IMAP_STORE_LOCK(store, command_lock);
 	response = camel_imap_command (store, source, ex, "UID COPY %s %S",
 				       uid, destination->full_name);
 	CAMEL_IMAP_STORE_UNLOCK(store, command_lock);
 
+	if (camel_exception_is_set (ex))
+		return;
+
 	camel_imap_response_free (response);
-}
+
+	/* Force the destination folder to notice its new messages. */
+	response = camel_imap_command (store, destination, NULL, "NOOP");
+	camel_imap_response_free (response);
+ }
 
 static void
 imap_move_message_to (CamelFolder *source, const char *uid,
 		      CamelFolder *destination, CamelException *ex)
 {
-	CamelImapStore *store = CAMEL_IMAP_STORE (source->parent_store);
-	CamelImapResponse *response;
-
-	CAMEL_IMAP_STORE_LOCK(store, command_lock);
-	response = camel_imap_command (store, source, ex, "UID COPY %s %S",
-				       uid, destination->full_name);
-	CAMEL_IMAP_STORE_UNLOCK(store, command_lock);
-	camel_imap_response_free (response);
-
+	imap_copy_message_to (source, uid, destination, ex);
 	if (camel_exception_is_set (ex))
 		return;
 
