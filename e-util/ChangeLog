@@ -1,3 +1,10 @@
+2001-12-10  JP Rosevear  <jpr@ximian.com>
+
+	* e-pilot-util.c (e_pilot_utf8_to_pchar): use UTF-8 instead of
+	UTF8 as the source char set
+	(e_pilot_utf8_from_pchar): use UTF-8 instead of UTF8 as the
+	destination char set
+
 2001-11-20  Dan Winship  <danw@ximian.com>
 
 	* e-passwords.c (e_passwords_forget_password): Clear the password
