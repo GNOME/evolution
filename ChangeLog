@@ -1,3 +1,11 @@
+2000-03-27  Tuomas Kuosmanen  <tigert@gimp.org>
+
+	* art/attachment.xpm art/mail-new.xpm art/mail-read.xpm
+	art/mail-replied.xpm art/mark.xpm art/meeting.xpm
+	art/priority-high.xpm art/priority-low.xpm
+
+	Added some new icons for the message-list view..
+
 2000-03-26  Chris Toshok  <toshok@laptoph.xtoph.org>
 
 	* configure.in: check for db_185.h (present in newer db
