@@ -2034,9 +2034,10 @@ flag_messages (FolderBrowser *fb, guint32 mask, guint32 set)
 	uids = g_ptr_array_new ();
 	message_list_foreach (fb->message_list, enumerate_msg, uids);
 	camel_folder_freeze (fb->folder);
-	for (i = 0; i < uids->len; i++)
+	for (i = 0; i < uids->len; i++) {
 		camel_folder_set_message_flags (fb->folder, uids->pdata[i], mask, set);
-	camel_folder_free_uids (fb->folder, uids);
+		g_free (uids->pdata[i]);
+	}
 	camel_folder_thaw (fb->folder);
 	
 	g_ptr_array_free (uids, TRUE);
