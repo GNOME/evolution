@@ -1693,50 +1693,66 @@ message_info_load(CamelFolderSummary *s, FILE *in)
 #endif
 
 	mi->content = NULL;
-
-	camel_file_util_decode_fixed_int32(in, &mi->message_id.id.part.hi);
-	camel_file_util_decode_fixed_int32(in, &mi->message_id.id.part.lo);
-
-	if (camel_file_util_decode_uint32(in, &count) == -1 || count > 500)
+	
+	/* decode the message-id */
+	if (camel_file_util_decode_fixed_int32 (in, &mi->message_id.id.part.hi) == -1)
 		goto error;
-
+	if (camel_file_util_decode_fixed_int32 (in, &mi->message_id.id.part.lo) == -1)
+		goto error;
+	
+	/* decode the references count */
+	if (camel_file_util_decode_uint32 (in, &count) == -1 || count > 500)
+		goto error;
+	
 	if (count > 0) {
+		/* decode the references */
 		mi->references = g_malloc(sizeof(*mi->references) + ((count-1) * sizeof(mi->references->references[0])));
 		mi->references->size = count;
-		for (i=0;i<count;i++) {
-			camel_file_util_decode_fixed_int32(in, &mi->references->references[i].id.part.hi);
-			camel_file_util_decode_fixed_int32(in, &mi->references->references[i].id.part.lo);
+		for (i = 0; i < count; i++) {
+			if (camel_file_util_decode_fixed_int32 (in, &mi->references->references[i].id.part.hi) == -1)
+				goto error;
+			if (camel_file_util_decode_fixed_int32 (in, &mi->references->references[i].id.part.lo) == -1)
+				goto error;
 		}
 	}
-
-	if (camel_file_util_decode_uint32(in, &count) == -1 || count > 500)
+	
+	if (camel_file_util_decode_uint32 (in, &count) == -1 || count > 500)
 		goto error;
-
-	for (i=0;i<count;i++) {
+	
+	/* decode the user-flags */
+	for (i = 0; i < count; i++) {
 		char *name;
-		camel_file_util_decode_string(in, &name);
-		camel_flag_set(&mi->user_flags, name, TRUE);
-		g_free(name);
+		
+		if (camel_file_util_decode_string (in, &name) == -1)
+			goto error;
+		
+		camel_flag_set (&mi->user_flags, name, TRUE);
+		g_free (name);
 	}
-
-	if (camel_file_util_decode_uint32(in, &count) == -1 || count > 500)
+	
+	if (camel_file_util_decode_uint32 (in, &count) == -1 || count > 500)
 		goto error;
-
-	for (i=0;i<count;i++) {
+	
+	/* decode the user-tags */
+	for (i = 0; i < count; i++) {
 		char *name, *value;
-		camel_file_util_decode_string(in, &name);
-		camel_file_util_decode_string(in, &value);
-		camel_tag_set(&mi->user_tags, name, value);
-		g_free(name);
-		g_free(value);
+		
+		if (camel_file_util_decode_string (in, &name) == -1)
+			goto error;
+		if (camel_file_util_decode_string (in, &value) == -1)
+			goto error;
+		
+		camel_tag_set (&mi->user_tags, name, value);
+		g_free (name);
+		g_free (value);
 	}
-
+	
 	if (!ferror(in))
 		return mi;
-
+	
 error:
 	camel_folder_summary_info_free(s, mi);
-
+	
 	return NULL;
 }
 

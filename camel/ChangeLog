@@ -1,3 +1,9 @@
+2002-08-01  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-folder-summary.c (message_info_load): Do more error
+	checking to prevent crashing if we fail to read a string for
+	example.
+
 2002-07-29  Peter Williams  <peterw@ximian.com>
 
 	Fix bug #28238
