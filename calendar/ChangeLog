@@ -1,5 +1,10 @@
 2001-08-14  Federico Mena Quintero  <federico@ximian.com>
 
+	* gui/e-calendar-table.etspec: Made the click-to-add message
+	shorter.  Fixes bug #7177.
+
+2001-08-14  Federico Mena Quintero  <federico@ximian.com>
+
 	* gui/calendar-commands.c (pixmaps): Added Tigert's new icons for
 	Prev and Next.
 
