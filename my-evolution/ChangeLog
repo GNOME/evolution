@@ -1,3 +1,9 @@
+2001-09-06  Iain Holmes  <iain@ximian.com>
+
+	* e-summary-preferences.c (e_summary_configure): Don't allow dialogs to
+	be opened more than once.
+	(property_box_destory_cb): NULL the window var.
+
 2001-09-05  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Fix #958, ShellComponents should not be created by factories, for

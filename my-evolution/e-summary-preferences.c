@@ -1387,6 +1387,7 @@ property_box_destroy_cb (GtkObject *object,
 	}
 
 	e_summary_preferences_save (pd->summary->preferences);
+	pd->summary->prefs_window = NULL;
 	free_property_dialog (pd);
 }
 
@@ -1417,6 +1418,8 @@ e_summary_configure (GtkWidget *widget,
 	g_return_if_fail (pd->xml != NULL);
 
 	pd->box = GNOME_PROPERTY_BOX (glade_xml_get_widget (pd->xml, "dialog1"));
+	summary->prefs_window = pd->box;
+
 	gtk_window_set_title (GTK_WINDOW (pd->box), _("Summary Settings"));
 	if (make_property_dialog (pd) == FALSE) {
 		g_warning ("Missing some part of XML file");
