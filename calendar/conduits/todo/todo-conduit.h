@@ -56,7 +56,8 @@ struct _EToDoLocalRecord {
 typedef struct _EToDoConduitContext EToDoConduitContext;
 struct _EToDoConduitContext {
 	EToDoConduitCfg *cfg;
-
+	GnomePilotDBInfo *dbi;
+	
 	struct ToDoAppInfo ai;
 
 	CalClient *client;

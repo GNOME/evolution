@@ -390,7 +390,7 @@ local_record_to_pilot_record (ECalLocalRecord *local,
 	g_assert (local->appt != NULL );
 	
 	p.ID = local->local.ID;
-	p.category = 0;
+	p.category = local->local.category;
 	p.attr = local->local.attr;
 	p.archived = local->local.archived;
 	p.secret = local->local.secret;
@@ -428,6 +428,22 @@ local_record_from_comp (ECalLocalRecord *local, CalComponent *comp, ECalConduitC
 	compute_status (ctxt, local, uid);
 
 	local->appt = g_new0 (struct Appointment, 1);
+
+	/* Handle the fields and category we don't sync by making sure
+         * we don't overwrite them 
+	 */
+	if (local->local.ID != 0) {
+		char record[0xffff];
+		int cat = 0;
+		
+		if (dlp_ReadRecordById (ctxt->dbi->pilot_socket, 
+					ctxt->dbi->db_handle,
+					local->local.ID, &record, 
+					NULL, NULL, NULL, &cat) > 0) {
+			local->local.category = cat;			
+			unpack_Appointment (local->appt, record, 0xffff);
+		}
+	}
 
 	/* STOP: don't replace these with g_strdup, since free_Appointment
 	   uses free to deallocate */
@@ -772,6 +788,7 @@ pre_sync (GnomePilotConduit *conduit,
 	LOG ("---------------------------------------------------------\n");
 	LOG ("pre_sync: Calendar Conduit v.%s", CONDUIT_VERSION);
 
+	ctxt->dbi = dbi;	
 	ctxt->client = NULL;
 	
 	if (start_calendar_server (ctxt) != 0) {
@@ -823,13 +840,11 @@ pre_sync (GnomePilotConduit *conduit,
 	}
 
 	/* Set the count information */
-	num_records = cal_client_get_n_objects (ctxt->client, CALOBJ_TYPE_TODO);
+	num_records = cal_client_get_n_objects (ctxt->client, CALOBJ_TYPE_EVENT);
 	gnome_pilot_conduit_sync_abs_set_num_local_records(abs_conduit, num_records);
 	gnome_pilot_conduit_sync_abs_set_num_new_local_records (abs_conduit, add_records);
 	gnome_pilot_conduit_sync_abs_set_num_updated_local_records (abs_conduit, mod_records);
 	gnome_pilot_conduit_sync_abs_set_num_deleted_local_records(abs_conduit, del_records);
-
-	gtk_object_set_data (GTK_OBJECT (conduit), "dbinfo", dbi);
 
 	buf = (unsigned char*)g_malloc (0xffff);
 	len = dlp_ReadAppBlock (dbi->pilot_socket, dbi->db_handle, 0,
@@ -859,7 +874,6 @@ post_sync (GnomePilotConduit *conduit,
 	gchar *filename, *change_id;
 	
 	LOG ("post_sync: Calendar Conduit v.%s", CONDUIT_VERSION);
-	LOG ("---------------------------------------------------------\n");
 
 	filename = map_name (ctxt);
 	e_pilot_map_write (filename, ctxt->map);
@@ -871,6 +885,8 @@ post_sync (GnomePilotConduit *conduit,
 	change_id = g_strdup_printf ("pilot-sync-evolution-calendar-%d", ctxt->cfg->pilot_id);
 	changed = cal_client_get_changes (ctxt->client, CALOBJ_TYPE_EVENT, change_id);
 	cal_client_change_list_free (changed);
+
+	LOG ("---------------------------------------------------------\n");
 
 	return 0;
 }

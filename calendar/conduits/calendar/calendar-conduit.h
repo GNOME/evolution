@@ -56,7 +56,8 @@ struct _ECalLocalRecord {
 typedef struct _ECalConduitContext ECalConduitContext;
 struct _ECalConduitContext {
 	ECalConduitCfg *cfg;
-
+	GnomePilotDBInfo *dbi;
+	
 	struct AppointmentAppInfo ai;
 
 	CalClient *client;

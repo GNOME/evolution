@@ -1368,6 +1368,7 @@ cal_backend_file_get_free_busy (CalBackend *backend, GList *users, time_t start,
 typedef struct 
 {
 	CalBackend *backend;
+	CalObjType type;	
 	GList *changes;
 	GList *change_ids;
 } CalBackendFileComputeChangesData;
@@ -1383,14 +1384,17 @@ cal_backend_file_compute_changes_foreach_key (const char *key, gpointer data)
 		GNOME_Evolution_Calendar_CalObjChange *coc;
 
 		comp = cal_component_new ();
-		cal_component_set_new_vtype (comp, CAL_COMPONENT_TODO);
+		if (be_data->type == GNOME_Evolution_Calendar_TYPE_TODO)
+			cal_component_set_new_vtype (comp, CAL_COMPONENT_TODO);
+		else
+			cal_component_set_new_vtype (comp, CAL_COMPONENT_EVENT);
 		cal_component_set_uid (comp, key);
 
 		coc = GNOME_Evolution_Calendar_CalObjChange__alloc ();
 		coc->calobj =  CORBA_string_dup (cal_component_get_as_string (comp));
 		coc->type = GNOME_Evolution_Calendar_DELETED;
 		be_data->changes = g_list_prepend (be_data->changes, coc);
-		be_data->change_ids = g_list_prepend (be_data->change_ids, (gpointer) key);
+		be_data->change_ids = g_list_prepend (be_data->change_ids, g_strdup (key));
  	}
 }
 
@@ -1446,6 +1450,7 @@ cal_backend_file_compute_changes (CalBackend *backend, CalObjType type, const ch
 
 	/* Calculate deletions */
 	be_data.backend = backend;
+	be_data.type = type;	
 	be_data.changes = changes;
 	be_data.change_ids = change_ids;
    	e_dbhash_foreach_key (ehash, (EDbHashFunc)cal_backend_file_compute_changes_foreach_key, &be_data);
@@ -1477,10 +1482,11 @@ cal_backend_file_compute_changes (CalBackend *backend, CalObjType type, const ch
 		} else {
 			e_dbhash_remove (ehash, uid);
 		}		
+		e_dbhash_write (ehash);
 
 		CORBA_free (coc);
+		g_free (uid);
 	}	
-  	e_dbhash_write (ehash);
   	e_dbhash_destroy (ehash);
 
 	cal_obj_uid_list_free (uids);

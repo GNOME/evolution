@@ -1,5 +1,23 @@
 2001-09-28  JP Rosevear  <jpr@ximian.com>
 
+	* conduits/calendar/calendar-conduit.c (local_record_from_comp):
+	Handle the fields and category we don't sync by making sure we
+	don't overwrite them
+	(local_record_to_pilot_record): use local record category
+	(pre_sync): track db info
+
+	* conduits/calendar/calendar-conduit.h: db info field
+
+	* conduits/todo/todo-conduit.[hc]: same as above
+
+	* pcs/cal-backend-file.c
+	(cal_backend_file_compute_changes_foreach_key): create a dummy
+	component of the right type and strdup the uid
+	(cal_backend_file_compute_changes): sync the db hash after each
+	change and free the uid
+
+2001-09-28  JP Rosevear  <jpr@ximian.com>
+	
 	* cal-client/cal-client.c (cal_client_open_calendar): init the
 	execption rather than freeing it
 
