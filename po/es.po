@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: evolution.evolution-1-4-branch.es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2003-08-06 19:38+0200\n"
-"PO-Revision-Date: 2003-08-07 06:31+0200\n"
+"PO-Revision-Date: 2003-08-12 00:02+0200\n"
 "Last-Translator: Francisco Javier F. Serrador <serrador@arrakis.es>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -3672,11 +3672,11 @@ msgstr "Servicio de notificación por alarma de la Agenda de Evolution"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:212
 msgid "Starting:"
-msgstr "Comenzando:"
+msgstr "Inicio:"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:214
 msgid "Ending:"
-msgstr "Finalizando:"
+msgstr "Finalización:"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:227
 msgid "invalid time"
@@ -3698,11 +3698,11 @@ msgstr "_Cerrar"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:2
 msgid "Snoo_ze"
-msgstr "_Avisar"
+msgstr "_Postponer"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:3
 msgid "Snooze time (minutes)"
-msgstr "Tiempo de alarma zumbadora (minutos)"
+msgstr "Posponer el aviso (minutos)"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:4
 msgid "_Edit appointment"
