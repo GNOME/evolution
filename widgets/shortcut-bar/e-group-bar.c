@@ -23,9 +23,15 @@
  */
 
 /*
- * ShortcutBar displays a vertical bar with a number of Groups, each of which
- * contains any number of icons. It is used on the left of the main application
- * window so users can easily access items such as folders and files.
+ * EGroupBar displays a vertical bar with a number of Groups, which are viewed
+ * one at a time by selecting the Group's button. When a different Group is
+ * selected, it slides into view, and the old Group slides out.
+ * It is typically used on the left of the main application window so users
+ * can easily access particular features.
+ *
+ * It is implemented like GtkNotebook, i.e. the main widgets are the children
+ * of the EGroupBar and the button widgets are treated specially like the
+ * GtkNotebook tab labels.
  */
 
 #include <math.h>
