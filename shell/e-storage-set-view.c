@@ -2042,35 +2042,25 @@ e_storage_set_view_set_checkboxes_list (EStorageSetView *storage_set_view,
 }
 
 static void
-essv_add_to_list (ETreePath tree_path, void **temp)
+essv_add_to_list (gpointer	key,
+		  gpointer	value,
+		  gpointer	user_data)
 {
-	EStorageSetView *storage_set_view;
-	EStorageSetViewPrivate *priv;
-	GList **list;
+	GList **list = user_data;
 
-	storage_set_view = temp[0];
-	list = temp[1];
-	priv = storage_set_view->priv;
-
-	if (priv->checkboxes) {
-		const char *path;
-
-		path = (const char *) e_tree_memory_node_get_data (E_TREE_MEMORY (priv->etree_model), tree_path);
-		if (path != NULL && g_hash_table_lookup (priv->checkboxes, path))
-			*list = g_list_prepend (*list, g_strdup (path));
-	}
+	*list = g_list_prepend (*list, g_strdup (key));
 }
 
 GList *
 e_storage_set_view_get_checkboxes_list (EStorageSetView *storage_set_view)
 {
-	void *temp[2];
 	GList *list = NULL;
-	temp[0] = storage_set_view;
-	temp[1] = &list;
 
-	e_tree_path_foreach (E_TREE (storage_set_view), (ETreeForeachFunc) essv_add_to_list, temp);
-	list = g_list_reverse (list);
+	if (storage_set_view->priv->checkboxes) {
+		g_hash_table_foreach (storage_set_view->priv->checkboxes, essv_add_to_list, &list);
+
+		list = g_list_reverse (list);
+	}
 	return list;
 }
 

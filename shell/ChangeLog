@@ -1,3 +1,11 @@
+2002-05-13  Christopher James Lahey  <clahey@ximian.com>
+
+	* e-storage-set-view.c (e_storage_set_view_get_checkboxes_list):
+	Changed this to just walk the hash table to get the list of
+	checked checkboxes instead of walking the tree.  (Makes it so that
+	checked paths will remain checked, even if they're not shown in
+	the tree when the list is gotten.)
+
 2002-05-13  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-config.c: Handle the e-shell-config-offline and
