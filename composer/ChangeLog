@@ -1,3 +1,8 @@
+2002-04-12  Not Zed  <NotZed@Ximian.com>
+
+	* e-msg-composer-hdrs.c (set_recipients_from_destv): Change
+	address_unformat to address_decode.  fixes #16158
+
 2002-03-18  Dan Winship  <danw@ximian.com>
 
 	* Evolution-Composer.idl, evolution-composer.c
