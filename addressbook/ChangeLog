@@ -1,3 +1,8 @@
+2001-08-19  Damon Chaplin  <damon@ximian.com>
+
+	* gui/component/addressbook.c: use new Cut/Copy/Paste/Save/Search
+	icons.
+
 2001-08-19  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/component/addressbook.c (set_folder_bar_label),
