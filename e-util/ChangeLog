@@ -1,6 +1,12 @@
+2002-12-16  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-html-utils.[c,h]: Removed. Back to the fiery depths of hell
+	from whence ye came!
+
 2002-12-10  Rodrigo Moya <rodrigo@ximian.com>
 
-	* e-config-listener.[ch] (e_config_listener_remove_dir): new function.
+	* e-config-listener.[ch] (e_config_listener_remove_dir): new
+	function.
 
 2002-12-09  Jeffrey Stedfast  <fejj@ximian.com>
 
