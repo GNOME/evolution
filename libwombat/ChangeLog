@@ -1,3 +1,7 @@
+2002-07-12  Peter Williams  <peterw@ximian.com>
+
+	* wombat-client.h: Oops, change wombat.h -> Evolution-Wombat.h
+
 2002-07-09  Peter Williams  <peterw@ximian.com>
 
 	* Makefile.am: Reference the renamed Evolution-Wombat.idl

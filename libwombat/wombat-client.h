@@ -24,7 +24,7 @@
 
 #include <libgnome/gnome-defs.h>
 #include <bonobo/bonobo-xobject.h>
-#include "wombat.h"
+#include "Evolution-Wombat.h"
 
 BEGIN_GNOME_DECLS
 
