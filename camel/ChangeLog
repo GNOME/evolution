@@ -1,3 +1,8 @@
+2004-07-19  Jeffrey Stedfast  <fejj@novell.com>
+
+	* providers/imap/camel-imap-store.c (get_subscribed_folders): Free
+	result after parsing it. Fixes a leak.
+
 2004-07-19  Not Zed  <NotZed@Ximian.com>
 
 	* camel-mime-filter-canon.c (filter): only copy 5 chars after the

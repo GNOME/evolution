@@ -2479,6 +2479,7 @@ get_subscribed_folders (CamelImapStore *imap_store, const char *top, CamelExcept
 		}
 		
 		fi = parse_list_response_as_folder_info (imap_store, result);
+		g_free (result);
 		if (!fi)
 			continue;
 		
