@@ -1133,7 +1133,7 @@ icaltimezone_adjust_change		(icaltimezonechange *tt,
 char*
 icaltimezone_get_tzid			(icaltimezone	*zone)
 {
-    /* If this is a local time, without a timezone, return NULL. */
+    /* If this is a floating time, without a timezone, return NULL. */
     if (!zone)
 	return NULL;
 
@@ -1147,6 +1147,10 @@ icaltimezone_get_tzid			(icaltimezone	*zone)
 char*
 icaltimezone_get_location		(icaltimezone	*zone)
 {
+    /* If this is a floating time, without a timezone, return NULL. */
+    if (!zone)
+	return NULL;
+
     /* Note that for builtin timezones this comes from zones.tab so we don't
        need to check the timezone is loaded here. */
     return zone->location;
@@ -1156,6 +1160,10 @@ icaltimezone_get_location		(icaltimezone	*zone)
 char*
 icaltimezone_get_tznames		(icaltimezone	*zone)
 {
+    /* If this is a floating time, without a timezone, return NULL. */
+    if (!zone)
+	return NULL;
+
     if (!zone->component)
 	icaltimezone_load_builtin_timezone (zone);
 
@@ -1167,6 +1175,10 @@ icaltimezone_get_tznames		(icaltimezone	*zone)
 double
 icaltimezone_get_latitude		(icaltimezone	*zone)
 {
+    /* If this is a floating time, without a timezone, return 0. */
+    if (!zone)
+	return 0.0;
+
     /* Note that for builtin timezones this comes from zones.tab so we don't
        need to check the timezone is loaded here. */
     return zone->latitude;
@@ -1177,6 +1189,10 @@ icaltimezone_get_latitude		(icaltimezone	*zone)
 double
 icaltimezone_get_longitude		(icaltimezone	*zone)
 {
+    /* If this is a floating time, without a timezone, return 0. */
+    if (!zone)
+	return 0.0;
+
     /* Note that for builtin timezones this comes from zones.tab so we don't
        need to check the timezone is loaded here. */
     return zone->longitude;
@@ -1187,6 +1203,10 @@ icaltimezone_get_longitude		(icaltimezone	*zone)
 icalcomponent*
 icaltimezone_get_component		(icaltimezone	*zone)
 {
+    /* If this is a floating time, without a timezone, return NULL. */
+    if (!zone)
+	return NULL;
+
     if (!zone->component)
 	icaltimezone_load_builtin_timezone (zone);
 

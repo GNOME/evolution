@@ -1,3 +1,8 @@
+2001-07-25  Damon Chaplin  <damon@ximian.com>
+
+	* src/libical/icaltimezone.c: accept an icaltimezone* of NULL for all
+	the public functions, since NULL is used to represent floating times.
+
 2001-07-25  JP Rosevear  <jpr@ximian.com>
 
 	* src/libical/icalparameter.c (icalparameter_as_ical_string): if
