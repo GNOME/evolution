@@ -1,3 +1,7 @@
+2004-03-15  JP Rosevear  <jpr@ximian.com>
+
+	* calendar/ea-cal-view.h: fix include
+
 2003-03-15  Hao Sheng  <hao.sheng@sun.com>
 
 	* Contritbuted by Leon Zhang <leon.zhang@sun.com>

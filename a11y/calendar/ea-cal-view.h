@@ -27,7 +27,7 @@
 #define __EA_CAL_VIEW_H__
 
 #include <gtk/gtkaccessible.h>
-#include "e-cal-view.h"
+#include "e-calendar-view.h"
 
 #ifdef __cplusplus
 extern "C" {
