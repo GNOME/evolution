@@ -203,7 +203,7 @@ e_hpaned_size_allocate (GtkWidget     *widget,
   handle_shown = e_paned_handle_shown(paned);
   if (handle_shown)
     {
-      paned->handle_xpos = paned->child1_size + border_width;
+      paned->handle_xpos = paned->child1_real_size + border_width;
       paned->handle_ypos = border_width;
       paned->handle_width = paned->handle_size;
       paned->handle_height = MAX (1, (gint) widget->allocation.height - 2 * border_width);
@@ -226,7 +226,7 @@ e_hpaned_size_allocate (GtkWidget     *widget,
     }
 
   child1_allocation.height = child2_allocation.height = MAX (1, (gint) allocation->height - border_width * 2);
-  child1_allocation.width = paned->child1_size;
+  child1_allocation.width = paned->child1_real_size;
   child1_allocation.x = border_width;
   child1_allocation.y = child2_allocation.y = border_width;
   
@@ -329,7 +329,7 @@ e_hpaned_xor_line (EPaned *paned)
   gdk_gc_set_line_attributes (paned->xor_gc, 2, GDK_LINE_SOLID,
 			      GDK_CAP_NOT_LAST, GDK_JOIN_BEVEL);
 
-  xpos = paned->child1_size
+  xpos = paned->child1_real_size
     + GTK_CONTAINER (paned)->border_width + paned->handle_size / 2;
 
   gdk_draw_line (widget->window, paned->xor_gc,
@@ -367,6 +367,7 @@ e_hpaned_button_press (GtkWidget      *widget,
 				  widget->allocation.width
 				  - paned->handle_size
 				  - 2 * GTK_CONTAINER (paned)->border_width);
+      paned->child1_real_size = paned->child1_size;
       e_hpaned_xor_line (paned);
 
       return TRUE;
@@ -423,6 +424,7 @@ e_hpaned_motion (GtkWidget      *widget,
       
       e_hpaned_xor_line (paned);
       paned->child1_size = CLAMP (e_paned_quantized_size(paned, size), paned->min_position, paned->max_position);
+      paned->child1_real_size = paned->child1_size;
       e_hpaned_xor_line (paned);
     }
 

@@ -71,6 +71,7 @@ struct _EPaned
   guint16 handle_width;
   guint16 handle_height;
 
+  gint child1_real_size;
   gint child1_size;
   gint last_allocation;
   gint min_position;

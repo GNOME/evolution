@@ -158,6 +158,7 @@ e_paned_init (EPaned *paned)
   paned->handle_ypos = -1;
   
   paned->old_child1_size = 0;
+  paned->child1_size = 0;
   paned->quantum = 1;
 }
 
@@ -518,7 +519,7 @@ e_paned_get_position (EPaned  *paned)
   g_return_val_if_fail (paned != NULL, 0);
   g_return_val_if_fail (E_IS_PANED (paned), 0);
 
-  return paned->child1_size;
+  return paned->child1_real_size;
 }
 
 void
@@ -597,14 +598,14 @@ e_paned_compute_position(EPaned *paned,
 	{
 	  if (paned->child1_resize && !paned->child2_resize)
 	    paned->child1_size += allocation - paned->last_allocation;
-	  else if (!(!paned->child1_resize && paned->child2_resize))
+	  else if (paned->child1_resize && paned->child2_resize)
 	    paned->child1_size = allocation * ((gdouble) paned->child1_size / (paned->last_allocation));
 	}
     }
 
-  paned->child1_size = CLAMP (paned->child1_size,
-			      paned->min_position,
-			      paned->max_position);
+  paned->child1_real_size = CLAMP (paned->child1_size,
+				   paned->min_position,
+				   paned->max_position);
 
   paned->last_allocation = allocation;
 }
