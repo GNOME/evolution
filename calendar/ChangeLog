@@ -1,3 +1,18 @@
+2000-07-14  Federico Mena Quintero  <federico@helixcode.com>
+
+	* cal-util/cal-component.c (CalComponentAlarm): New internal
+	represntation for alarm components.  We really don't map them to a
+	CalComponent because it is more convenient to handle them as
+	"child" structures.
+	(make_alarm): New function to create a CalComponentAlarm from an
+	icalcomponent representing a VALARM.
+	(scan_alarm_property): New function to scan a property from an
+	alarm component.  We support ACTION.
+	(cal_component_get_first_alarm): New function to start an iterator
+	over the alarms in a calendar component.
+	(cal_component_alarm_get_action): New function.
+	(cal_component_alarm_set_action): New function.
+
 2000-07-13  Seth Alves  <alves@hungry.com>
 
 	* conduits/todo/todo-conduit.c: conduit based on the calendar conduit.

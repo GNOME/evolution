@@ -84,6 +84,19 @@ typedef struct {
 	guint need_sequence_inc : 1;
 } CalComponentPrivate;
 
+/* Private structure for alarms */
+struct _CalComponentAlarm {
+	/* Our parent component */
+	CalComponent *parent;
+
+	/* Alarm icalcomponent we wrap */
+	icalcomponent *icalcomp;
+
+	/* Properties */
+
+	icalproperty *action;
+};
+
 
 
 static void cal_component_class_init (CalComponentClass *class);
@@ -503,7 +516,9 @@ scan_icalcomponent (CalComponent *comp)
 	     prop = icalcomponent_get_next_property (priv->icalcomp, ICAL_ANY_PROPERTY))
 		scan_property (comp, prop);
 
-	/* FIXME: parse ALARM subcomponents */
+	/* We don't scan for alarm subcomponents since they can be iterated
+	 * through using cal_component_get_{first,next}_alarm().
+	 */
 }
 
 /* Ensures that the mandatory calendar component properties (uid, dtstamp) do
@@ -2024,5 +2039,175 @@ cal_component_set_url (CalComponent *comp, const char *url)
 	else {
 		priv->url = icalproperty_new_url ((char *) url);
 		icalcomponent_add_property (priv->icalcomp, priv->url);
+	}
+}
+
+
+
+/* Scans an icalproperty from a calendar component and adds its mapping to our
+ * own alarm structure.
+ */
+static void
+scan_alarm_property (CalComponentAlarm *alarm, icalproperty *prop)
+{
+	icalproperty_kind kind;
+
+	kind = icalproperty_isa (prop);
+
+	switch (kind) {
+	case ICAL_ACTION_PROPERTY:
+		alarm->action = prop;
+		break;
+
+	default:
+		break;
+	}
+}
+
+/* Creates a CalComponentAlarm from a libical alarm subcomponent */
+static CalComponentAlarm *
+make_alarm (CalComponent *comp, icalcomponent *subcomp)
+{
+	CalComponentAlarm *alarm;
+	icalproperty *prop;
+
+	alarm = g_new (CalComponentAlarm, 1);
+
+	alarm->parent = comp;
+	alarm->icalcomp = subcomp;
+
+	for (prop = icalcomponent_get_first_property (subcomp, ICAL_ANY_PROPERTY);
+	     prop;
+	     prop = icalcomponent_get_next_property (subcomp, ICAL_ANY_PROPERTY))
+		scan_alarm_property (alarm, prop);
+
+	return alarm;
+}
+
+/**
+ * cal_component_get_first_alarm:
+ * @comp: A calendar component object.
+ * 
+ * Starts an iterator for the alarms in a calendar component object.  Subsequent
+ * alarms can be obtained with the cal_component_get_next_alarm() function.
+ * 
+ * Return value: The first alarm in the component, or NULL if the component has
+ * no alarms.  This should be freed using the cal_component_alarm_free()
+ * function.
+ **/
+CalComponentAlarm *
+cal_component_get_first_alarm (CalComponent *comp)
+{
+	CalComponentPrivate *priv;
+	icalcomponent *subcomp;
+
+	g_return_val_if_fail (comp != NULL, NULL);
+	g_return_val_if_fail (IS_CAL_COMPONENT (comp), NULL);
+
+	priv = comp->priv;
+	g_return_val_if_fail (priv->icalcomp != NULL, NULL);
+
+	subcomp = icalcomponent_get_first_component (priv->icalcomp, ICAL_VALARM_COMPONENT);
+	if (!subcomp)
+		return NULL;
+
+	return make_alarm (comp, subcomp);
+}
+
+/**
+ * cal_component_alarm_free:
+ * @alarm: A calendar alarm.
+ * 
+ * Frees an alarm structure.
+ **/
+void
+cal_component_alarm_free (CalComponentAlarm *alarm)
+{
+	g_return_if_fail (alarm != NULL);
+
+	alarm->parent = NULL;
+	alarm->icalcomp = NULL;
+	alarm->action = NULL;
+
+	g_free (alarm);
+}
+
+/**
+ * cal_component_alarm_get_action:
+ * @alarm: An alarm.
+ * @action: Return value for the alarm's action type.
+ * 
+ * Queries the action type of an alarm.
+ **/
+void
+cal_component_alarm_get_action (CalComponentAlarm *alarm, CalComponentAlarmAction *action)
+{
+	const char *str;
+
+	g_return_if_fail (alarm != NULL);
+	g_return_if_fail (action != NULL);
+
+	if (!alarm->action) {
+		*action = CAL_COMPONENT_ALARM_NONE;
+		return;
+	}
+
+	str = icalproperty_get_action (alarm->action);
+
+	if (strcasecmp (str, "AUDIO") == 0)
+		*action = CAL_COMPONENT_ALARM_AUDIO;
+	else if (strcasecmp (str, "DISPLAY") == 0)
+		*action = CAL_COMPONENT_ALARM_DISPLAY;
+	else if (strcasecmp (str, "EMAIL") == 0)
+		*action = CAL_COMPONENT_ALARM_EMAIL;
+	else if (strcasecmp (str, "PROCEDURE") == 0)
+		*action = CAL_COMPONENT_ALARM_PROCEDURE;
+	else
+		*action = CAL_COMPONENT_ALARM_UNKNOWN;
+}
+
+/**
+ * cal_component_alarm_set_action:
+ * @alarm: An alarm.
+ * @action: Action type.
+ * 
+ * Sets the action type for an alarm.
+ **/
+void
+cal_component_alarm_set_action (CalComponentAlarm *alarm, CalComponentAlarmAction action)
+{
+	char *str;
+
+	g_return_if_fail (alarm != NULL);
+	g_return_if_fail (action != CAL_COMPONENT_ALARM_NONE);
+	g_return_if_fail (action != CAL_COMPONENT_ALARM_UNKNOWN);
+
+	switch (action) {
+	case CAL_COMPONENT_ALARM_AUDIO:
+		str = "AUDIO";
+		break;
+
+	case CAL_COMPONENT_ALARM_DISPLAY:
+		str = "DISPLAY";
+		break;
+
+	case CAL_COMPONENT_ALARM_EMAIL:
+		str = "EMAIL";
+		break;
+
+	case CAL_COMPONENT_ALARM_PROCEDURE:
+		str = "PROCEDURE";
+		break;
+
+	default:
+		g_assert_not_reached ();
+		str = NULL;
+	}
+
+	if (alarm->action)
+		icalproperty_set_action (alarm->action, str);
+	else {
+		alarm->action = icalproperty_new_action (str);
+		icalcomponent_add_property (alarm->icalcomp, alarm->action);
 	}
 }

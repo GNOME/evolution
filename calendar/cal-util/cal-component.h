@@ -84,6 +84,7 @@ typedef enum {
 	CAL_COMPONENT_TRANSP_UNKNOWN
 } CalComponentTransparency;
 
+typedef struct _CalComponentAlarm CalComponentAlarm;
 
 typedef struct _CalComponent CalComponent;
 typedef struct _CalComponentClass CalComponentClass;
@@ -98,6 +99,8 @@ struct _CalComponent {
 struct _CalComponentClass {
 	GtkObjectClass parent_class;
 };
+
+/* Calendar component */
 
 GtkType cal_component_get_type (void);
 
@@ -167,6 +170,25 @@ void cal_component_set_transparency (CalComponent *comp, CalComponentTransparenc
 
 void cal_component_get_url (CalComponent *comp, const char **url);
 void cal_component_set_url (CalComponent *comp, const char *url);
+
+/* Alarms */
+
+typedef enum {
+	CAL_COMPONENT_ALARM_NONE,
+	CAL_COMPONENT_ALARM_AUDIO,
+	CAL_COMPONENT_ALARM_DISPLAY,
+	CAL_COMPONENT_ALARM_EMAIL,
+	CAL_COMPONENT_ALARM_PROCEDURE,
+	CAL_COMPONENT_ALARM_UNKNOWN
+} CalComponentAlarmAction;
+
+CalComponentAlarm *cal_component_get_first_alarm (CalComponent *comp);
+CalComponentAlarm *cal_component_get_next_alarm (CalComponent *comp);
+
+void cal_component_alarm_free (CalComponentAlarm *alarm);
+
+void cal_component_alarm_get_action (CalComponentAlarm *alarm, CalComponentAlarmAction *action);
+void cal_component_alarm_set_action (CalComponentAlarm *alarm, CalComponentAlarmAction action);
 
 
 
