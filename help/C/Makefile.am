@@ -6,7 +6,6 @@ GUIDE_SGML_FILES =		\
 	apx-bugs.sgml		\
 	apx-gloss.sgml		\
 	config-prefs.sgml	\
-	config-setupassist.sgml	\
 	config-sync.sgml	\
 	preface.sgml		\
 	usage-calendar.sgml	\

@@ -1,3 +1,7 @@
+2001-07-23  Kevin Breit <battery841@mediaone.net>
+
+	* C/Makefile.am: Pulled instance of config-setupassist.sgml to make stuff build right.
+
 2001-07-23  Aaron Weber  <aaron@ximian.com>
 
 	* C/usage-mainwindow.sgml: validated.
