@@ -1458,15 +1458,18 @@ start_cached_query_cb (gpointer data)
 				    GTK_SIGNAL_FUNC (listener_died_cb), info->query);
 
 		priv->cached_timeouts = g_list_remove (priv->cached_timeouts,
-						       GPOINTER_TO_INT (info->tid));
+						       GINT_TO_POINTER (info->tid));
 
-		g_free (info);
-
-		return FALSE;
 	} else if (priv->state == QUERY_IN_PROGRESS) {
 		/* if it's in progress, we just wait */
 		return TRUE;
 	} else if (priv->state == QUERY_PARSE_ERROR) {
+		/* remove all traces of this query */
+		g_source_remove (info->tid);
+		priv->cached_timeouts = g_list_remove (priv->cached_timeouts,
+						       GINT_TO_POINTER (info->tid));
+
+		/* notify listener of error */
 		CORBA_exception_init (&ev);
 		GNOME_Evolution_Calendar_QueryListener_notifyQueryDone (
 			info->ql,
@@ -1479,33 +1482,37 @@ start_cached_query_cb (gpointer data)
 				   "a parse error");
 
 		CORBA_exception_free (&ev);
+
+		cached_queries = g_list_remove (cached_queries, info->query);
+		bonobo_object_unref (BONOBO_OBJECT (info->query));
+	} else if (priv->state == QUERY_DONE) {
+		g_source_remove (info->tid);
+		priv->cached_timeouts = g_list_remove (priv->cached_timeouts,
+						       GINT_TO_POINTER (info->tid));
+
+		/* if the query is done, then we just notify the listener */
+		g_hash_table_foreach (priv->uids, (GHFunc) notify_uid_cb, info);
+
+		priv->listeners = g_list_append (priv->listeners, info->ql);
+
+		cl = e_component_listener_new (info->ql, 0);
+		priv->component_listeners = g_list_append (priv->component_listeners, cl);
+		gtk_signal_connect (GTK_OBJECT (cl), "component_died",
+				    GTK_SIGNAL_FUNC (listener_died_cb), info->query);
+
+		CORBA_exception_init (&ev);
+		GNOME_Evolution_Calendar_QueryListener_notifyQueryDone (
+			info->ql,
+			GNOME_Evolution_Calendar_QueryListener_SUCCESS,
+			"",
+			&ev);
+		if (BONOBO_EX (&ev))
+			g_message ("start_cached_query_cb(): Could not notify the listener of "
+				   "a finished query");
+
+		CORBA_exception_free (&ev);
 	}
-
-	/* if the query is done, then we just notify the listener */
-	g_source_remove (info->tid);
-	priv->cached_timeouts = g_list_remove (priv->cached_timeouts,
-					       GPOINTER_TO_INT (info->tid));
 	
-	g_hash_table_foreach (priv->uids, (GHFunc) notify_uid_cb, info);
-
-	priv->listeners = g_list_append (priv->listeners, info->ql);
-
-	cl = e_component_listener_new (info->ql, 0);
-	priv->component_listeners = g_list_append (priv->component_listeners, cl);
-	gtk_signal_connect (GTK_OBJECT (cl), "component_died",
-			    GTK_SIGNAL_FUNC (listener_died_cb), info->query);
-
-	CORBA_exception_init (&ev);
-	GNOME_Evolution_Calendar_QueryListener_notifyQueryDone (
-		info->ql,
-		GNOME_Evolution_Calendar_QueryListener_SUCCESS,
-		"",
-		&ev);
-	if (BONOBO_EX (&ev))
-		g_message ("start_cached_query_cb(): Could not notify the listener of "
-			   "a finished query");
-
-	CORBA_exception_free (&ev);
 	g_free (info);
 
 	return FALSE;
@@ -1544,7 +1551,7 @@ backend_destroyed_cb (GtkObject *object, gpointer data)
 	query = QUERY (data);
 
 	cached_queries = g_list_remove (cached_queries, query);
-	bonobo_object_unref (query);
+	bonobo_object_unref (BONOBO_OBJECT (query));
 }
 
 /**

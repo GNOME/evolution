@@ -1,5 +1,12 @@
 2002-09-23  Rodrigo Moya <rodrigo@ximian.com>
 
+	* pcs/query.c (start_cached_query_cb): move success notification code
+	to its own code block, since it was being run for parse errors also.
+	Also, remove all traces of the query from the cache if there is an
+	error. Also, use GINT_TO_POINTER instead of GPOINTER_TO_INT.
+
+2002-09-23  Rodrigo Moya <rodrigo@ximian.com>
+
 	Fixes #28310
 
 	* gui/alarm-notify/save.c (save_notification_time): only save the
