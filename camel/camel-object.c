@@ -36,6 +36,7 @@
 #include <e-util/e-msgport.h>
 
 #define d(x)
+#define b(x) 			/* object bag */
 
 /* I just mashed the keyboard for these... */
 #define CAMEL_OBJECT_MAGIC           	 0x77A344ED
@@ -80,13 +81,23 @@ typedef struct _CamelHookPair
 	void *data;
 } CamelHookPair;
 
+struct _CamelObjectBagKey {
+	struct _CamelObjectBagKey *next;
+
+	void *key;		/* the key reserved */
+	int waiters;		/* count of threads waiting for key */
+	pthread_t owner;	/* the thread that has reserved the bag for a new entry */
+	sem_t reserve_sem;	/* used to track ownership */
+};
+
 struct _CamelObjectBag {
 	GHashTable *object_table; /* object by key */
 	GHashTable *key_table;	/* key by object */
+	GEqualFunc equal_key;
 	CamelCopyFunc copy_key;
 	GFreeFunc free_key;
-	pthread_t owner;	/* the thread that has reserved the bag for a new entry */
-	sem_t reserve_sem;	/* used to track ownership */
+
+	struct _CamelObjectBagKey *reserved;
 };
 
 /* used to tag a bag hookpair */
@@ -1607,14 +1618,12 @@ camel_object_bag_new (GHashFunc hash, GEqualFunc equal, CamelCopyFunc keycopy, G
 
 	bag = g_malloc(sizeof(*bag));
 	bag->object_table = g_hash_table_new(hash, equal);
+	bag->equal_key = equal;
 	bag->copy_key = keycopy;
 	bag->free_key = keyfree;
 	bag->key_table = g_hash_table_new(NULL, NULL);
-	bag->owner = 0;
-	
-	/* init the semaphore to 1 owner, this is who has reserved the bag for adding */
-	sem_init(&bag->reserve_sem, 0, 1);
-	
+	bag->reserved = NULL;
+
 	return bag;
 }
 
@@ -1630,8 +1639,7 @@ camel_object_bag_destroy (CamelObjectBag *bag)
 	GPtrArray *objects = g_ptr_array_new();
 	int i;
 
-	sem_getvalue(&bag->reserve_sem, &i);
-	g_assert(i == 1);
+	g_assert(bag->reserved == NULL);
 
 	g_hash_table_foreach(bag->object_table, (GHFunc)save_object, objects);
 	for (i=0;i<objects->len;i++)
@@ -1640,8 +1648,38 @@ camel_object_bag_destroy (CamelObjectBag *bag)
 	g_ptr_array_free(objects, TRUE);
 	g_hash_table_destroy(bag->object_table);
 	g_hash_table_destroy(bag->key_table);
-	sem_destroy(&bag->reserve_sem);
 	g_free(bag);
+}
+
+/* must be called with type_lock held */
+static void
+co_bag_unreserve(CamelObjectBag *bag, const void *key)
+{
+	struct _CamelObjectBagKey *res, *resp;
+
+	resp = (struct _CamelObjectBagKey *)&bag->reserved;
+	res = resp->next;
+	while (res) {
+		if (bag->equal_key(res->key, key))
+			break;
+		resp = res;
+		res = res->next;
+	}
+
+	g_assert(res != NULL);
+	g_assert(res->owner == pthread_self());
+
+	if (res->waiters > 0) {
+		b(printf("unreserve bag, waking waiters\n"));
+		res->owner = 0;
+		sem_post(&res->reserve_sem);
+	} else {
+		b(printf("unreserve bag, no waiters, freeing reservation\n"));
+		resp->next = res->next;
+		bag->free_key(res->key);
+		sem_destroy(&res->reserve_sem);
+		g_free(res);
+	}
 }
 
 void
@@ -1677,11 +1715,8 @@ camel_object_bag_add (CamelObjectBag *bag, const void *key, void *vo)
 	k = bag->copy_key(key);
 	g_hash_table_insert(bag->object_table, k, vo);
 	g_hash_table_insert(bag->key_table, vo, k);
-	
-	if (bag->owner == pthread_self()) {
-		bag->owner = 0;
-		sem_post(&bag->reserve_sem);
-	}
+
+	co_bag_unreserve(bag, key);
 	
 	E_UNLOCK(type_lock);
 	camel_object_unget_hooks(o);
@@ -1698,16 +1733,33 @@ camel_object_bag_get (CamelObjectBag *bag, const void *key)
 	if (o) {
 		/* we use the same lock as the refcount */
 		o->ref_count++;
-	} else if (bag->owner != pthread_self()) {
-		E_UNLOCK(type_lock);
-		sem_wait(&bag->reserve_sem);
-		E_LOCK(type_lock);
-		/* re-check if it slipped in */
-		o = g_hash_table_lookup(bag->object_table, key);
-		if (o)
-			o->ref_count++;
-		/* we dont want to reserve the bag */
-		sem_post(&bag->reserve_sem);
+	} else {
+		struct _CamelObjectBagKey *res = bag->reserved;
+
+		/* check if this name is reserved currently, if so wait till its finished */
+		while (res) {
+			if (bag->equal_key(res->key, key))
+				break;
+			res = res->next;
+		}
+
+		if (res) {
+			res->waiters++;
+			g_assert(res->owner != pthread_self());
+			E_UNLOCK(type_lock);
+			sem_wait(&res->reserve_sem);
+			E_LOCK(type_lock);
+			res->waiters--;
+
+			/* re-check if it slipped in */
+			o = g_hash_table_lookup(bag->object_table, key);
+			if (o)
+				o->ref_count++;
+
+			/* we don't actually reserve it */
+			res->owner = pthread_self();
+			co_bag_unreserve(bag, key);
+		}
 	}
 	
 	E_UNLOCK(type_lock);
@@ -1730,18 +1782,41 @@ camel_object_bag_reserve (CamelObjectBag *bag, const void *key)
 	if (o) {
 		o->ref_count++;
 	} else {
-		g_assert(bag->owner != pthread_self());
-		E_UNLOCK(type_lock);
-		sem_wait(&bag->reserve_sem);
-		E_LOCK(type_lock);
-		/* incase its slipped in while we were waiting */
-		o = g_hash_table_lookup(bag->object_table, key);
-		if (o) {
-			o->ref_count++;
-			/* in which case we dont need to reserve the bag either */
-			sem_post(&bag->reserve_sem);
+		struct _CamelObjectBagKey *res = bag->reserved;
+
+		while (res) {
+			if (bag->equal_key(res->key, key))
+				break;
+			res = res->next;
+		}
+
+		if (res) {
+			b(printf("bag reserve, already reserved, waiting\n"));
+			g_assert(res->owner != pthread_self());
+			res->waiters++;
+			E_UNLOCK(type_lock);
+			sem_wait(&res->reserve_sem);
+			E_LOCK(type_lock);
+			res->waiters--;
+			/* incase its slipped in while we were waiting */
+			o = g_hash_table_lookup(bag->object_table, key);
+			if (o) {
+				o->ref_count++;
+				/* in which case we dont need to reserve the bag either */
+				res->owner = pthread_self();
+				co_bag_unreserve(bag, key);
+			} else {
+				res->owner = pthread_self();
+			}
 		} else {
-			bag->owner = pthread_self();
+			b(printf("bag reserve, no key, reserving\n"));
+			res = g_malloc(sizeof(*res));
+			res->waiters = 0;
+			res->key = bag->copy_key(key);
+			sem_init(&res->reserve_sem, 0, 0);
+			res->owner = pthread_self();
+			res->next = bag->reserved;
+			bag->reserved = res;
 		}
 	}
 	
@@ -1754,10 +1829,11 @@ camel_object_bag_reserve (CamelObjectBag *bag, const void *key)
 void
 camel_object_bag_abort (CamelObjectBag *bag, const void *key)
 {
-	g_assert(bag->owner == pthread_self());
+	E_LOCK(type_lock);
 
-	bag->owner = 0;
-	sem_post(&bag->reserve_sem);
+	co_bag_unreserve(bag, key);
+
+	E_UNLOCK(type_lock);
 }
 
 static void

@@ -1,3 +1,18 @@
+2004-01-15  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #52881.
+
+	* camel-object.c (camel_object_bag*): Support reserving different
+	keys from the same thread.  Oh the pain.
+
+	* camel-vee-store.c (vee_get_folder_info): implement child flags
+	properly. Changed to build tree itself rather than calling
+	camel_folder_info_build.
+	(vee_get_folder): if we're adding a folder with dummy parents,
+	create and add the dummy parent folders too (as real folder
+	objects).  We are the only owner of the ref, so this sort of leaks
+	the folder, but they're small.
+
 2004-01-14  Rodrigo Moya <rodrigo@ximian.com>
 
 	* providers/groupwise/camel-groupwise-provider.c
