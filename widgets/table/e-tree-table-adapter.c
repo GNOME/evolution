@@ -265,13 +265,14 @@ find_row_num(ETreeTableAdapter *etta, ETreePath path)
 	if (etta->priv->last_access != -1) {
 		int end = MIN(etta->priv->n_map, etta->priv->last_access + 10);
 		int start = MAX(0, etta->priv->last_access - 10);
-		for (i = etta->priv->last_access; i < end; i++) {
+		int initial = MAX (MIN (etta->priv->last_access, end), start);
+		for (i = initial; i < end; i++) {
 			if(etta->priv->map_table[i] == path) {
 				d(g_print("Found last access %d at row %d. (find_row_num)\n", etta->priv->last_access, i));
 				return i;
 			}
 		}
-		for (i = etta->priv->last_access - 1; i >= start; i--) {
+		for (i = initial - 1; i >= start; i--) {
 			if(etta->priv->map_table[i] == path) {
 				d(g_print("Found last access %d at row %d. (find_row_num)\n", etta->priv->last_access, i));
 				return i;

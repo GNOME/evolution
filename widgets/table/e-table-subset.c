@@ -43,13 +43,15 @@ static ETableModelClass *etss_parent_class;
 static gint
 etss_get_view_row (ETableSubset *etss, int row)
 {
-	int limit;
 	const int n = etss->n_map;
 	const int * const map_table = etss->map_table;
 	int i;
 
-	limit = MIN(n, etss->last_access + 10);
-	for (i = etss->last_access; i < limit; i++) {
+	int end = MIN(etss->n_map, etss->last_access + 10);
+	int start = MAX(0, etss->last_access - 10);
+	int initial = MAX (MIN (etss->last_access, end), start);
+
+	for (i = initial; i < end; i++) {
 		if (map_table [i] == row){
 			d(g_print("a) Found %d from %d\n", i, etss->last_access));
 			etss->last_access = i;
@@ -57,8 +59,7 @@ etss_get_view_row (ETableSubset *etss, int row)
 		}
 	}
 
-	limit = MAX(0, etss->last_access - 10);
-	for (i = etss->last_access - 1; i >= limit; i--) {
+	for (i = initial - 1; i >= start; i--) {
 		if (map_table [i] == row){
 			e_table_model_row_changed (E_TABLE_MODEL (etss), i);
 			d(g_print("b) Found %d from %d\n", i, etss->last_access));
