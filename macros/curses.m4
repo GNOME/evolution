@@ -47,7 +47,7 @@ AC_DEFUN(AC_CHECK_CURSES,[
 dnl	XCURSES=""
 dnl	AC_SUBST(XCURSES)
 	AC_SUBST(CURSES_LIBS)
-	AC_SUBST(CURSES_INCLUDES)
+	AC_SUBST(CURSES_INCLUDEDIR)
 
 	AC_ARG_WITH(sco,
 	  [  --with-sco              Use this to turn on SCO-specific code],[
