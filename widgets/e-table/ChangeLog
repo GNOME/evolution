@@ -1,3 +1,8 @@
+2000-03-19  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-table-header.c: Fixed a crashing bug when you close an
+	ETable.
+
 2000-03-13  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-cell-text.c: Fixed a crashing bug when you cancel an edit.

@@ -265,7 +265,7 @@ eth_do_remove (ETableHeader *eth, int idx, gboolean do_unref)
 		gtk_object_unref (GTK_OBJECT (eth->columns [idx]));
 	
 	memmove (&eth->columns [idx], &eth->columns [idx+1],
-		sizeof (ETableCol *) * eth->col_count - idx);
+		 sizeof (ETableCol *) * (eth->col_count - idx - 1));
 	eth->col_count--;
 }
 
