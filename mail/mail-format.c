@@ -1323,6 +1323,8 @@ handle_text_plain_flowed (char *buf, MailDisplay *md, GtkHTML *html, GtkHTMLStre
 		len = strlen (p);
 		if (len == 0) {
 			br_pending++;
+			if (!eol)
+				break;
 			continue;
 		}
 		
