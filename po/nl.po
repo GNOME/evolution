@@ -1,27 +1,30 @@
+# translation of evolution.evolution-1-4-branch.nl.po to Dutch
 # Evolution - Dutch translation
-# Copyright (C) 2000 Free Software Foundation, Inc.
+# Copyright (C) 2000,2003 Free Software Foundation, Inc.
+# ---------------------------------------
+# Snelkoppelingen moeten nog worden gemaakt en gecontroleerd
 # Arjan Scherpenisse <acscherp@wins.uva.nl>, 2000
 # Gerard Oskamp <gerard@linuxfreak.nl>, 2000
 # Dennis Smit <synap@area101.penguin.nl>, 2000
 # Almer S. Tigelaar <almer@gnome.org>, 2000, 2001
 # Dirk-Jan C. Binnema <dirkjan@gnome.org>, 2001
 # Mendel Mobach <mendel@mobach.nl>, 2001
-# Vincent van Adrighem <V.vanAdrighem@dirck.mine.nu>, 2001.
+# Vincent van Adrighem <V.vanAdrighem@dirck.mine.nu>, 2001,2003.
 # Mendel Mobach <mendel@mobach.nl>, 2001.
 # Kees van den Broek <kvdb@NOSPAMkvdb.net>, 2003.
-# ---------------------------------------
-# Snelkoppelingen moeten nog worden gemaakt en gecontroleerd
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Evolution\n"
-"POT-Creation-Date: 2003-07-18 11:28+0200\n"
-"PO-Revision-Date: 2003-07-18 22:42+0100\n"
+"Project-Id-Version: evolution.evolution-1-4-branch.nl\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2003-07-23 03:29+0200\n"
+"PO-Revision-Date: 2003-07-23 10:35+0200\n"
 "Last-Translator: Vincent van Adrighem <V.vanAdrighem@dirck.mine.nu>\n"
 "Language-Team: Dutch <nl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.0.1\n"
 
 #: addressbook/backend/ebook/GNOME_Evolution_Addressbook_LDIF_Importer.server.in.in.h:1
 msgid "Evolution LDIF importer"
@@ -1483,17 +1486,17 @@ msgstr "Kant_oor:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:35
 msgid "_Public Calendar URL:"
-msgstr "_Publieke kalender URL:"
+msgstr "URL _publieke kalender:"
 
-# , fuzzy
+# 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:36
 msgid "_This is the mailing address"
 msgstr "_Dit is het e-mail-adres"
 
-# , fuzzy
+# 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:37
 msgid "_Web page address:"
-msgstr "Homepage:"
+msgstr "_Webpagina adres:"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:102
 #: addressbook/gui/contact-editor/e-contact-editor-fullname.c:95
@@ -11682,7 +11685,7 @@ msgid "Scanning directory"
 msgstr "Analyseren van map"
 
 #: importers/netscape-importer.c:2047 mail/importers/netscape-importer.c:2015
-#: shell/e-shell-startup-wizard.c:541
+#: shell/e-shell-startup-wizard.c:556
 msgid "Starting import"
 msgstr "Starten van importeren"
 
@@ -25356,11 +25359,23 @@ msgstr ""
 "U kunt \"Automatisch\" kiezen als u het niet weet; Evolution probeert het "
 "dan voor u uit te zoeken."
 
-#: shell/e-shell-importer.c:148 shell/e-shell-startup-wizard.c:709
+#: shell/e-shell-importer.c:148 shell/e-shell-startup-wizard.c:724
 msgid "Please select the information that you would like to import:"
 msgstr "Kies de informatie die u zou willen importeren:"
 
-#: shell/e-shell-importer.c:213 shell/e-shell-importer.c:244
+#: shell/e-shell-importer.c:151
+msgid ""
+"Evolution checked for settings to import from the following\n"
+"applications: Pine, Netscape, Elm, iCalendar. No settings\n"
+"that could be imported where found. If you would like to\n"
+"try again, please click the \"Back\" button.\n"
+msgstr ""
+"Evolution heeft gezocht naar instellingen om te importeren\n"
+"vanuit pine, netscape, elm en iKalender. Er zijn instellingen\n"
+"gevonden om te importeren. Als u opnieuw wilt proberen,\n"
+"klikt u op de knop \"Vorige\".\n"
+
+#: shell/e-shell-importer.c:219 shell/e-shell-importer.c:250
 #, c-format
 msgid ""
 "Importing %s\n"
@@ -25369,21 +25384,21 @@ msgstr ""
 "Importeren %s\n"
 "Importeren van item %d."
 
-#: shell/e-shell-importer.c:317
+#: shell/e-shell-importer.c:323
 msgid "Select importer"
 msgstr "Importeerder selecteren"
 
-#: shell/e-shell-importer.c:458
+#: shell/e-shell-importer.c:464
 #, c-format
 msgid "File %s does not exist"
 msgstr "Map %s bestaat niet"
 
-#: shell/e-shell-importer.c:459 shell/e-shell-importer.c:476
-#: shell/e-shell-importer.c:518
+#: shell/e-shell-importer.c:465 shell/e-shell-importer.c:482
+#: shell/e-shell-importer.c:524
 msgid "Evolution Error"
 msgstr "Evolution Fout"
 
-#: shell/e-shell-importer.c:475
+#: shell/e-shell-importer.c:481
 #, c-format
 msgid ""
 "There is no importer that is able to handle\n"
@@ -25392,11 +25407,11 @@ msgstr ""
 "Er is geen importeerfunctie die het volgende kan afhandelen\n"
 "%s"
 
-#: shell/e-shell-importer.c:484
+#: shell/e-shell-importer.c:490
 msgid "Importing"
 msgstr "Importeren"
 
-#: shell/e-shell-importer.c:491
+#: shell/e-shell-importer.c:497
 #, c-format
 msgid ""
 "Importing %s.\n"
@@ -25405,17 +25420,17 @@ msgstr ""
 "Importeren van %s.\n"
 "Beginnen met %s"
 
-#: shell/e-shell-importer.c:503
+#: shell/e-shell-importer.c:509
 #, c-format
 msgid "Error starting %s"
 msgstr "Fout bij laden %s"
 
-#: shell/e-shell-importer.c:517
+#: shell/e-shell-importer.c:523
 #, c-format
 msgid "Error loading %s"
 msgstr "Fout bij laden %s"
 
-#: shell/e-shell-importer.c:534
+#: shell/e-shell-importer.c:540
 #, c-format
 msgid ""
 "Importing %s\n"
@@ -25424,31 +25439,31 @@ msgstr ""
 "Importeren van %s\n"
 "Importeren van item 1."
 
-#: shell/e-shell-importer.c:588
+#: shell/e-shell-importer.c:594
 msgid "Automatic"
 msgstr "Automatisch"
 
-#: shell/e-shell-importer.c:637
+#: shell/e-shell-importer.c:643
 msgid "Filename:"
 msgstr "Bestandsnaam:"
 
-#: shell/e-shell-importer.c:642
+#: shell/e-shell-importer.c:648
 msgid "Select a file"
 msgstr "Selecteer een bestand"
 
-#: shell/e-shell-importer.c:651
+#: shell/e-shell-importer.c:657
 msgid "File type:"
 msgstr "Bestandstype:"
 
-#: shell/e-shell-importer.c:676
+#: shell/e-shell-importer.c:682
 msgid "Import data and settings from older programs"
 msgstr "Informatie en instellingen importeren van oudere programma's"
 
-#: shell/e-shell-importer.c:680
+#: shell/e-shell-importer.c:686
 msgid "Import a single file"
 msgstr "Een enkel bestand importeren"
 
-#: shell/e-shell-importer.c:746 shell/e-shell-startup-wizard.c:538
+#: shell/e-shell-importer.c:755 shell/e-shell-startup-wizard.c:553
 msgid ""
 "Please wait...\n"
 "Scanning for existing setups"
@@ -25456,24 +25471,24 @@ msgstr ""
 "Even geduld...\n"
 "Bestaande instellingen worden nagezocht"
 
-#: shell/e-shell-importer.c:749
+#: shell/e-shell-importer.c:758
 msgid "Starting Intelligent Importers"
 msgstr "Starten van intelligent importeren"
 
-#: shell/e-shell-importer.c:873 shell/e-shell-startup-wizard.c:664
+#: shell/e-shell-importer.c:884 shell/e-shell-startup-wizard.c:679
 #, c-format
 msgid "From %s:"
 msgstr "Van %s:"
 
-#: shell/e-shell-importer.c:1047
+#: shell/e-shell-importer.c:1061
 msgid "Select folder"
 msgstr "Map selecteren"
 
-#: shell/e-shell-importer.c:1048
+#: shell/e-shell-importer.c:1062
 msgid "Select a destination folder for importing this data"
 msgstr "Selecteer een doelmap voor deze belangrijke data"
 
-#: shell/e-shell-importer.c:1178 shell/importer/intelligent.c:191
+#: shell/e-shell-importer.c:1192 shell/importer/intelligent.c:191
 msgid "Import"
 msgstr "Importeren"
 
