@@ -26,6 +26,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <libxml/xmlmemory.h>
+#include <libxml/entities.h>
 
 GHashTable *
 e_xml_to_hash (xmlDoc *doc, EXmlHashType type)
@@ -63,6 +64,7 @@ e_xml_to_hash (xmlDoc *doc, EXmlHashType type)
 
 struct save_data {
 	EXmlHashType type;
+	xmlDoc *doc;
 	xmlNode *root;
 };
 
@@ -71,13 +73,17 @@ foreach_save_func (gpointer key, gpointer value, gpointer user_data)
 {
 	struct save_data *sd = user_data;
 	xmlNodePtr new_node;
+	xmlChar *enc;
 
 	if (sd->type == E_XML_HASH_TYPE_OBJECT_UID) {
 		new_node = xmlNewNode (NULL, "object");
 		xmlNewProp (new_node, "uid", (const char *) key);
 	} else
 		new_node = xmlNewNode (NULL, (const char *) key);
-	xmlNodeSetContent (new_node, (const char *) value);
+
+	enc = xmlEncodeSpecialChars (sd->doc, value);
+	xmlNodeSetContent (new_node, enc);
+	xmlFree (enc);
 
 	xmlAddChild (sd->root, new_node);
 }
@@ -90,6 +96,7 @@ e_xml_from_hash (GHashTable *hash, EXmlHashType type, const char *root_name)
 
 	doc = xmlNewDoc ("1.0");
 	sd.type = type;
+	sd.doc = doc;
 	sd.root = xmlNewDocNode (doc, NULL, root_name, NULL);
 	xmlDocSetRootElement (doc, sd.root);
 
@@ -122,19 +129,26 @@ EXmlHash *
 e_xmlhash_new (const char *filename)
 {
 	EXmlHash *hash;
-	xmlDoc *doc;
+	xmlDoc *doc = NULL;
 
 	g_return_val_if_fail (filename != NULL, NULL);
 
-	doc = xmlParseFile (filename);
-	if (!doc)
-		return NULL;
-
 	hash = g_new0 (EXmlHash, 1);
 	hash->filename = g_strdup (filename);
-	hash->objects = e_xml_to_hash (doc, E_XML_HASH_TYPE_OBJECT_UID);
-	xmlFreeDoc (doc);
 
+	if (g_file_test (filename, G_FILE_TEST_EXISTS)) {
+		doc = xmlParseFile (filename);
+		if (!doc) {
+			e_xmlhash_destroy (hash);
+			
+			return NULL;
+		}
+		hash->objects = e_xml_to_hash (doc, E_XML_HASH_TYPE_OBJECT_UID);
+		xmlFreeDoc (doc);
+	} else {
+		hash->objects = g_hash_table_new (g_str_hash, g_str_equal);
+	}
+	
 	return hash;
 }
 
@@ -230,7 +244,8 @@ e_xmlhash_destroy (EXmlHash *hash)
 	g_return_if_fail (hash != NULL);
 
 	g_free (hash->filename);
-	e_xml_destroy_hash (hash->objects);
+	if (hash->objects)
+		e_xml_destroy_hash (hash->objects);
 
 	g_free (hash);
 }
