@@ -286,7 +286,8 @@ task_editor_send_comp (CompEditor *editor, ECalComponentItipMethod method)
 		gboolean result;
 		
 		client = e_meeting_store_get_e_cal (priv->model);
-		result = itip_send_comp (E_CAL_COMPONENT_METHOD_CANCEL, comp, client, NULL);
+		result = itip_send_comp (E_CAL_COMPONENT_METHOD_CANCEL, comp,
+				client, NULL, NULL);
 		g_object_unref (comp);
 
 		if (!result)

@@ -370,7 +370,7 @@ e_calendar_view_add_event (ECalendarView *cal_view, ECal *client, time_t dtstart
 		    send_component_dialog ((GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (cal_view)),
 					   client, comp, TRUE)) {
 			itip_send_comp (E_CAL_COMPONENT_METHOD_REQUEST, comp,
-				client, NULL);
+				client, NULL, NULL);
 		}
 	} else {
 		g_message (G_STRLOC ": Could not create the object!");
@@ -667,7 +667,7 @@ e_calendar_view_cut_clipboard (ECalendarView *cal_view)
 		    && cancel_component_dialog ((GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (cal_view)),
 						event->comp_data->client, comp, TRUE))
 			itip_send_comp (E_CAL_COMPONENT_METHOD_CANCEL, comp,
-					event->comp_data->client, NULL);
+					event->comp_data->client, NULL, NULL);
 
 		e_cal_component_get_uid (comp, &uid);
 		e_cal_remove_object (event->comp_data->client, uid, &error);
@@ -823,7 +823,7 @@ delete_event (ECalendarView *cal_view, ECalendarViewEvent *event)
 						event->comp_data->client,
 						comp, TRUE))
 			itip_send_comp (E_CAL_COMPONENT_METHOD_CANCEL, comp,
-					event->comp_data->client, NULL);
+					event->comp_data->client, NULL, NULL);
 
 		e_cal_component_get_uid (comp, &uid);
 		if (!uid || !*uid) {
@@ -933,7 +933,7 @@ e_calendar_view_delete_selected_occurrence (ECalendarView *cal_view)
 
 					e_cal_component_free_datetime (&range.datetime);
 				}
-				itip_send_comp (E_CAL_COMPONENT_METHOD_CANCEL, comp, event->comp_data->client, NULL);
+				itip_send_comp (E_CAL_COMPONENT_METHOD_CANCEL, comp, event->comp_data->client, NULL, NULL);
 			}
 
 			e_cal_remove_object_with_mod (event->comp_data->client, uid, rid, CALOBJ_MOD_THIS, &error);
@@ -1235,7 +1235,7 @@ on_forward (EPopup *ep, EPopupItem *pitem, void *data)
 
 		comp = e_cal_component_new ();
 		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
-		itip_send_comp (E_CAL_COMPONENT_METHOD_PUBLISH, comp, event->comp_data->client, NULL);
+		itip_send_comp (E_CAL_COMPONENT_METHOD_PUBLISH, comp, event->comp_data->client, NULL, NULL);
 
 		g_list_free (selected);
 		g_object_unref (comp);
@@ -1661,7 +1661,7 @@ e_calendar_view_modify_and_send (ECalComponent *comp,
 	if (e_cal_modify_object (client, e_cal_component_get_icalcomponent (comp), mod, NULL)) {
 		if (itip_organizer_is_user (comp, client) &&
 		    send_component_dialog (toplevel, client, comp, new))
-			itip_send_comp (E_CAL_COMPONENT_METHOD_REQUEST, comp, client, NULL);
+			itip_send_comp (E_CAL_COMPONENT_METHOD_REQUEST, comp, client, NULL, NULL);
 	} else {
 		g_message (G_STRLOC ": Could not update the object!");
 	}

@@ -29,7 +29,7 @@ gboolean itip_sentby_is_user (ECalComponent *comp);
 const gchar *itip_strip_mailto (const gchar *address);
 
 gboolean itip_send_comp (ECalComponentItipMethod method, ECalComponent *comp,
-			 ECal *client, icalcomponent *zones);
+			 ECal *client, icalcomponent *zones, GSList *attachments_list);
 
 gboolean itip_publish_comp (ECal *client, gchar* uri, gchar* username, 
 			    gchar* password, ECalComponent **pub_comp);

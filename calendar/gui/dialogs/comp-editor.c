@@ -29,6 +29,7 @@
 #include <glib.h>
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtkstock.h>
+#include <libgnome/libgnome.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-uidefs.h>
 #include <libgnomeui/gnome-dialog.h>
@@ -46,6 +47,11 @@
 #include "cancel-comp.h"
 #include "recur-comp.h"
 #include "comp-editor.h"
+
+#include "cal-attachment-bar.h"
+#include "widgets/misc/e-expander.h"
+
+
 
 
 
@@ -68,6 +74,17 @@ struct _CompEditorPrivate {
 
 	/* Notebook to hold the pages */
 	GtkNotebook *notebook;
+
+	/* Attachment handling */
+	GtkWidget *attachment_bar;
+	GtkWidget *attachment_scrolled_window;
+	GtkWidget *attachment_expander;
+	GtkWidget *attachment_expander_label;
+	GtkWidget *attachment_expander_icon;
+	GtkWidget *attachment_expander_num;
+
+	guint32 attachment_bar_visible : 1;
+
 	
 	gboolean changed;
 	gboolean needs_send;
@@ -242,6 +259,11 @@ save_comp (CompEditor *editor)
 	/* send timezones */
 	g_hash_table_foreach (timezones, (GHFunc) send_timezone, editor);
 	g_hash_table_destroy (timezones);
+	
+	/* Attachments*/
+	
+	e_cal_component_set_attachment_list (priv->comp,
+			cal_attachment_bar_get_attachment_list ((CalAttachmentBar *) priv->attachment_bar)); 
 
 	/* send the component to the server */
 	if (!cal_comp_is_on_server (priv->comp, priv->client)) {
@@ -382,11 +404,83 @@ response_cb (GtkWidget *widget, int response, gpointer data)
 	}
 }
 
+static void
+attachment_bar_changed_cb (CalAttachmentBar *bar,
+			   void *data)
+{
+	CompEditor *editor = COMP_EDITOR (data);
+	
+	guint attachment_num = cal_attachment_bar_get_num_attachments (
+		CAL_ATTACHMENT_BAR (editor->priv->attachment_bar));
+	if (attachment_num) {
+		gchar *num_text = g_strdup_printf (
+			ngettext ("<b>%d</b> File Attached", "<b>%d</b> Files Attached", attachment_num),
+			attachment_num);
+		gtk_label_set_markup (GTK_LABEL (editor->priv->attachment_expander_num),
+				      num_text);
+		g_free (num_text);
+
+		gtk_widget_show (editor->priv->attachment_expander_icon);
+		
+	} else {
+		gtk_label_set_text (GTK_LABEL (editor->priv->attachment_expander_num), "");
+		gtk_widget_hide (editor->priv->attachment_expander_icon);
+	}
+	
+	
+	/* Mark the editor as changed so it prompts about unsaved
+           changes on close */
+	comp_editor_set_changed (editor, TRUE);
+
+}
+
+static void
+attachment_bar_icon_clicked_cb (CalAttachmentBar *bar, void *data)
+{
+	GnomeIconList *icon_list;
+	GList *p;
+	int num;
+	char *attach_file_url;
+	GError *error = NULL;
+	
+	icon_list = GNOME_ICON_LIST (bar);
+	p = gnome_icon_list_get_selection (icon_list);
+	if (p) {
+		num = GPOINTER_TO_INT (p->data);
+		attach_file_url = cal_attachment_bar_get_nth_attachment_filename (bar, num);	
+		/* launch the url now */
+		/* TODO should send GError and handle error conditions
+		 * here */
+		gnome_url_show (attach_file_url, &error);
+		if (error)
+			g_message ("DEBUG: Launch failed :(\n");
+		g_free (attach_file_url); }
+}
+
+static void
+attachment_expander_activate_cb (EExpander *expander,
+				 void *data)
+{
+	CompEditor *editor = COMP_EDITOR (data);
+	gboolean show = e_expander_get_expanded (expander);
+	
+	/* Update the expander label */
+	if (show)
+		gtk_label_set_text_with_mnemonic (GTK_LABEL (editor->priv->attachment_expander_label),
+						  _("Hide _Attachment Bar (drop attachments here)"));
+	else
+		gtk_label_set_text_with_mnemonic (GTK_LABEL (editor->priv->attachment_expander_label),
+						  _("Show _Attachment Bar (drop attachments here)"));
+
+}
+
 /* Creates the basic in the editor */
 static void
 setup_widgets (CompEditor *editor)
 {
 	CompEditorPrivate *priv;
+	GtkWidget *expander_hbox;
+	GdkPixbuf *attachment_pixbuf;
 
 	priv = editor->priv;
 
@@ -402,6 +496,59 @@ setup_widgets (CompEditor *editor)
 	gtk_dialog_set_response_sensitive (GTK_DIALOG (editor), GTK_RESPONSE_OK, FALSE);
 
 	g_signal_connect (editor, "response", G_CALLBACK (response_cb), editor);
+
+	/*Attachments */
+	priv->attachment_scrolled_window = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (priv->attachment_scrolled_window),
+					     GTK_SHADOW_IN);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (priv->attachment_scrolled_window),
+					GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	
+	priv->attachment_bar = cal_attachment_bar_new (NULL);
+	GTK_WIDGET_SET_FLAGS (priv->attachment_bar, GTK_CAN_FOCUS);
+	gtk_container_add (GTK_CONTAINER (priv->attachment_scrolled_window),
+			   priv->attachment_bar);
+	gtk_widget_show (priv->attachment_bar);
+	g_signal_connect (priv->attachment_bar, "changed",
+			  G_CALLBACK (attachment_bar_changed_cb), editor);
+	g_signal_connect (GNOME_ICON_LIST (priv->attachment_bar), "button-release-event",
+			  G_CALLBACK (attachment_bar_icon_clicked_cb), NULL);			
+	priv->attachment_expander_label =
+		gtk_label_new_with_mnemonic (_("Show _Attachment Bar (drop attachments here)"));
+	priv->attachment_expander_num = gtk_label_new ("");
+	gtk_label_set_use_markup (GTK_LABEL (priv->attachment_expander_num), TRUE);
+	gtk_misc_set_alignment (GTK_MISC (priv->attachment_expander_label), 0.0, 0.5);
+	gtk_misc_set_alignment (GTK_MISC (priv->attachment_expander_num), 1.0, 0.5);
+	expander_hbox = gtk_hbox_new (FALSE, 0);
+	
+	attachment_pixbuf = e_icon_factory_get_icon ("stock_attach", E_ICON_SIZE_MENU);
+	priv->attachment_expander_icon = gtk_image_new_from_pixbuf (attachment_pixbuf);
+	gtk_misc_set_alignment (GTK_MISC (priv->attachment_expander_icon), 1, 0.5);
+	gtk_widget_set_size_request (priv->attachment_expander_icon, 100, -1);
+	g_object_unref (attachment_pixbuf);	
+
+	gtk_box_pack_start (GTK_BOX (expander_hbox), priv->attachment_expander_label,
+			    TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (expander_hbox), priv->attachment_expander_icon,
+			    TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (expander_hbox), priv->attachment_expander_num,
+			    TRUE, TRUE, 0);
+	gtk_widget_show_all (expander_hbox);
+	gtk_widget_hide (priv->attachment_expander_icon);
+
+	priv->attachment_expander = e_expander_new ("");	
+	e_expander_set_label_widget (E_EXPANDER (priv->attachment_expander), expander_hbox);
+	
+	gtk_container_add (GTK_CONTAINER (priv->attachment_expander),
+			   priv->attachment_scrolled_window);
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (editor)->vbox), priv->attachment_expander,
+			    FALSE, FALSE, GNOME_PAD_SMALL);
+	gtk_widget_show (priv->attachment_expander);
+	e_expander_set_expanded (E_EXPANDER (priv->attachment_expander), FALSE);
+	g_signal_connect_after (priv->attachment_expander, "activate",
+				G_CALLBACK (attachment_expander_activate_cb), editor);
+
+	
 }
 
 /* Object initialization function for the calendar component editor */
@@ -1044,6 +1191,15 @@ fill_widgets (CompEditor *editor)
 
 	priv = editor->priv;
 
+	/*Check if attachments are available here and set them*/
+	if (e_cal_component_has_attachments (priv->comp)) {
+		GSList *attachment_list = NULL;
+		e_cal_component_get_attachment_list (priv->comp, &attachment_list);
+		cal_attachment_bar_set_attachment_list
+			((CalAttachmentBar *)priv->attachment_bar, attachment_list);
+		e_expander_set_expanded (E_EXPANDER (priv->attachment_expander), TRUE);
+	}	
+
 	for (l = priv->pages; l != NULL; l = l->next)
 		comp_editor_page_fill_widgets (l->data, priv->comp);
 }
@@ -1085,6 +1241,8 @@ static void
 real_edit_comp (CompEditor *editor, ECalComponent *comp)
 {
 	CompEditorPrivate *priv;
+	char *source_url;
+	const char *uid;
 	
 	g_return_if_fail (editor != NULL);
 	g_return_if_fail (IS_COMP_EDITOR (editor));
@@ -1105,6 +1263,13 @@ real_edit_comp (CompEditor *editor, ECalComponent *comp)
  		
 	set_title_from_comp (editor);
 	set_icon_from_comp (editor);
+	e_cal_component_get_uid (comp, &uid);
+	source_url = g_strconcat (e_cal_get_uri (priv->client), "/", NULL);
+	/* The source_url and uid will be preserved by the callee and freed when 
+	 * the latter gets destroyed */
+	cal_attachment_bar_set_source_url (priv->attachment_bar, source_url);
+	cal_attachment_bar_set_comp_uid (priv->attachment_bar, g_strdup	(uid));
+
 	fill_widgets (editor);
 
 	listen_for_changes (editor);
@@ -1122,21 +1287,56 @@ real_send_comp (CompEditor *editor, ECalComponentItipMethod method)
 
 	priv = editor->priv;
 
-	if (itip_send_comp (method, priv->comp, priv->client, NULL)) {
-		tmp_comp = priv->comp;
-		g_object_ref (tmp_comp);
-		comp_editor_edit_comp (editor, tmp_comp);
-		g_object_unref (tmp_comp);
-		
-		comp_editor_set_changed (editor, TRUE);
-		save_comp (editor);
+	if (!e_cal_component_has_attachments (priv->comp)) {
+		if (itip_send_comp (method, priv->comp, priv->client,
+					NULL, NULL)) {
+			tmp_comp = priv->comp;
+			g_object_ref (tmp_comp);
+			comp_editor_edit_comp (editor, tmp_comp);
+			g_object_unref (tmp_comp);
+			
+			comp_editor_set_changed (editor, TRUE);
+			save_comp (editor);
 
-		return TRUE;
+			return TRUE;
+		}
+
+	} else {
+		/* Clone the component with attachments set to CID:...  */
+		ECalComponent *send_comp;
+		int num_attachments, i;
+		GSList *attach_list = NULL;
+		GSList *mime_attach_list;
+			
+		send_comp = e_cal_component_clone (priv->comp);
+		num_attachments = e_cal_component_get_num_attachments (send_comp);
+
+		for (i = 0; i < num_attachments ; i++) {
+			attach_list = g_slist_append (attach_list, g_strdup ("CID:..."));
+		}
+		e_cal_component_set_attachment_list (send_comp, attach_list);
+
+		/* mime_attach_list is freed by itip_send_comp */
+		mime_attach_list = comp_editor_get_mime_attach_list (editor);
+		if (itip_send_comp (method, send_comp, priv->client,
+					NULL, mime_attach_list)) {
+			tmp_comp = priv->comp;
+			g_object_ref (tmp_comp);
+			comp_editor_edit_comp (editor, tmp_comp);
+			g_object_unref (tmp_comp);
+			
+			comp_editor_set_changed (editor, TRUE);
+			save_comp (editor);
+			g_object_unref (send_comp);
+			return TRUE;
+		}
+		g_object_unref (send_comp);
 	}
 
 	comp_editor_set_changed (editor, TRUE);
+	
+	return FALSE;	
 
-	return FALSE;
 }
 
 
@@ -1259,6 +1459,22 @@ comp_editor_close (CompEditor *editor)
 		close_dialog (editor);
 
 	return close;
+}
+
+
+/* Utility function to get the mime-attachment list from the attachment
+ * bar for sending the comp via itip. The list and its contents must
+ * be freed by the caller.
+ */
+GSList *
+comp_editor_get_mime_attach_list (CompEditor *editor) 
+{
+	GSList *mime_attach_list;
+
+	mime_attach_list = cal_attachment_bar_get_mime_attach_list
+		((CalAttachmentBar *)editor->priv->attachment_bar);
+
+	return mime_attach_list;
 }
 
 /* Brings attention to a window by raising it and giving it focus */

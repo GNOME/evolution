@@ -327,6 +327,7 @@ struct _EDayView
 	GdkPixbuf *recurrence_icon;
 	GdkPixbuf *timezone_icon;
 	GdkPixbuf *meeting_icon;
+	GdkPixbuf *attach_icon;
 
 	/* Colors for drawing. */
 	GdkColor colors[E_DAY_VIEW_COLOR_LAST];

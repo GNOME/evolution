@@ -699,6 +699,7 @@ e_week_view_realize (GtkWidget *widget)
 	week_view->reminder_icon = e_icon_factory_get_icon ("stock_bell", E_ICON_SIZE_MENU);
 	week_view->recurrence_icon = e_icon_factory_get_icon ("stock_refresh", E_ICON_SIZE_MENU);
 	week_view->timezone_icon = e_icon_factory_get_icon ("stock_timezone", E_ICON_SIZE_MENU);
+	week_view->attach_icon = e_icon_factory_get_icon ("stock_attach", E_ICON_SIZE_MENU);
 }
 
 static void
@@ -737,6 +738,8 @@ e_week_view_unrealize (GtkWidget *widget)
 	week_view->recurrence_icon = NULL;
 	g_object_unref (week_view->timezone_icon);
 	week_view->timezone_icon = NULL;
+	g_object_unref (week_view->attach_icon);
+	week_view->attach_icon = NULL;
 
 	if (GTK_WIDGET_CLASS (e_week_view_parent_class)->unrealize)
 		(*GTK_WIDGET_CLASS (e_week_view_parent_class)->unrealize)(widget);
@@ -2577,6 +2580,8 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 		if (e_cal_component_has_alarms (comp))
 			num_icons++;
 		if (e_cal_component_has_recurrences (comp))
+			num_icons++;
+		if (e_cal_component_has_attachments (comp))
 			num_icons++;
 		if (event->different_timezone)
 			num_icons++;

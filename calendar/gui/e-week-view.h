@@ -281,6 +281,7 @@ struct _EWeekView
 	/* The icons. */
 	GdkPixbuf *reminder_icon;
 	GdkPixbuf *recurrence_icon;
+	GdkPixbuf *attach_icon;
 	GdkPixbuf *timezone_icon;
 
 	/* Colors for drawing. */

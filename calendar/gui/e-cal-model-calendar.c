@@ -379,7 +379,8 @@ ecmc_set_value_at (ETableModel *etm, int col, int row, const void *value)
 	if (e_cal_modify_object (comp_data->client, comp_data->icalcomp, CALOBJ_MOD_ALL, NULL)) {
 		if (itip_organizer_is_user (comp, comp_data->client) &&
 		    send_component_dialog (NULL, comp_data->client, comp, FALSE))
-			itip_send_comp (E_CAL_COMPONENT_METHOD_REQUEST, comp, comp_data->client, NULL);
+			itip_send_comp (E_CAL_COMPONENT_METHOD_REQUEST, comp,
+					comp_data->client, NULL, NULL);
 	} else {
 		g_warning (G_STRLOC ": Could not modify the object!");
 		

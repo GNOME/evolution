@@ -534,6 +534,17 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 		icon_x -= icon_x_inc;
 	}
 
+	if (icon_x <= max_icon_x && e_cal_component_has_attachments (comp)) {
+		gdk_gc_set_clip_mask (gc, NULL);
+		gdk_draw_pixbuf (drawable, gc,
+				 day_view->attach_icon,
+				 0, 0, icon_x, icon_y,
+				 E_DAY_VIEW_ICON_WIDTH,
+				 E_DAY_VIEW_ICON_HEIGHT,
+				 GDK_RGB_DITHER_NORMAL,
+				 0, 0);
+		icon_x -= icon_x_inc;
+	}
 	if (icon_x <= max_icon_x && e_cal_component_has_alarms (comp)) {
 		gdk_gc_set_clip_mask (gc, NULL);
 		gdk_draw_pixbuf (drawable, gc,

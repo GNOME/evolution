@@ -1098,6 +1098,7 @@ e_day_view_realize (GtkWidget *widget)
 	day_view->recurrence_icon = e_icon_factory_get_icon ("stock_refresh", E_ICON_SIZE_MENU);
 	day_view->timezone_icon = e_icon_factory_get_icon ("stock_timezone", E_ICON_SIZE_MENU);
 	day_view->meeting_icon = e_icon_factory_get_icon ("stock_people", E_ICON_SIZE_MENU);
+	day_view->attach_icon = e_icon_factory_get_icon ("stock_attach", E_ICON_SIZE_MENU); 
 
 
 	/* Set the canvas item colors. */
@@ -1184,6 +1185,8 @@ e_day_view_unrealize (GtkWidget *widget)
 	day_view->timezone_icon = NULL;
 	g_object_unref (day_view->meeting_icon);
 	day_view->meeting_icon = NULL;
+	g_object_unref (day_view->attach_icon);
+	day_view->attach_icon = NULL;
 
 	if (GTK_WIDGET_CLASS (e_day_view_parent_class)->unrealize)
 		(*GTK_WIDGET_CLASS (e_day_view_parent_class)->unrealize)(widget);
@@ -4282,7 +4285,8 @@ e_day_view_reshape_long_event (EDayView *day_view,
 			num_icons++;
 		if (e_cal_component_has_organizer (comp))
 			num_icons++;
-
+		if (e_cal_component_has_attachments (comp))
+			num_icons++;
 		e_cal_component_get_categories_list (comp, &categories_list);
 		for (elem = categories_list; elem; elem = elem->next) {
 			char *category;
@@ -4446,6 +4450,8 @@ e_day_view_reshape_day_event (EDayView *day_view,
 			if (e_cal_component_has_alarms (comp))
 				num_icons++;
 			if (e_cal_component_has_recurrences (comp))
+				num_icons++;
+			if (e_cal_component_has_attachments (comp))
 				num_icons++;
 			if (event->different_timezone)
 				num_icons++;

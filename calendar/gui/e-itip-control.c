@@ -2024,7 +2024,7 @@ send_item (EItipControl *itip)
 	comp = get_real_item (itip);
 	
 	if (comp != NULL) {
-		itip_send_comp (E_CAL_COMPONENT_METHOD_REQUEST, comp, priv->current_ecal, NULL);
+		itip_send_comp (E_CAL_COMPONENT_METHOD_REQUEST, comp, priv->current_ecal, NULL, NULL);
 		g_object_unref (comp);
 		dialog = gnome_ok_dialog (_("Item sent!\n"));
 	} else {
@@ -2070,7 +2070,7 @@ send_freebusy (EItipControl *itip)
 
 		for (l = comp_list; l; l = l->next) {
 			ECalComponent *comp = E_CAL_COMPONENT (l->data);
-			itip_send_comp (E_CAL_COMPONENT_METHOD_REPLY, comp, priv->current_ecal, NULL);
+			itip_send_comp (E_CAL_COMPONENT_METHOD_REPLY, comp, priv->current_ecal, NULL, NULL);
 
 			g_object_unref (comp);
 		}
@@ -2510,7 +2510,7 @@ ok_clicked_cb (GtkWidget *widget, gpointer data)
 		g_slist_free (list);
 		
 		e_cal_component_rescan (comp);
-		itip_send_comp (E_CAL_COMPONENT_METHOD_REPLY, comp, priv->current_ecal, priv->top_level);
+		itip_send_comp (E_CAL_COMPONENT_METHOD_REPLY, comp, priv->current_ecal, priv->top_level, NULL);
 
 		g_object_unref (comp);
 	}

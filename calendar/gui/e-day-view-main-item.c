@@ -468,6 +468,7 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 	gint num_icons, icon_x, icon_y, icon_x_inc, icon_y_inc;
 	gint max_icon_w, max_icon_h;
 	gboolean draw_reminder_icon, draw_recurrence_icon, draw_timezone_icon, draw_meeting_icon;
+	gboolean draw_attach_icon;
 	GSList *categories_list, *elem;
 	ECalComponentTransparency transparency;
 
@@ -590,6 +591,7 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 	draw_recurrence_icon = FALSE;
 	draw_timezone_icon = FALSE;
 	draw_meeting_icon = FALSE;
+	draw_attach_icon = FALSE;
 	icon_x = item_x + E_DAY_VIEW_BAR_WIDTH + E_DAY_VIEW_ICON_X_PAD;
 	icon_y = item_y + E_DAY_VIEW_EVENT_BORDER_HEIGHT
 		+ E_DAY_VIEW_ICON_Y_PAD;
@@ -603,7 +605,10 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 		draw_recurrence_icon = TRUE;
 		num_icons++;
 	}
-
+	if (e_cal_component_has_attachments (comp)) {
+		draw_attach_icon = TRUE;
+		num_icons++;
+	}
 	/* If the DTSTART or DTEND are in a different timezone to our current
 	   timezone, we display the timezone icon. */
 	if (event->different_timezone) {
@@ -678,7 +683,25 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 			icon_x += icon_x_inc;
 			icon_y += icon_y_inc;
 		}
+		if (draw_attach_icon) {
+			max_icon_w = item_x + item_w - icon_x
+				- E_DAY_VIEW_EVENT_BORDER_WIDTH;
+			max_icon_h = item_y + item_h - icon_y
+				- E_DAY_VIEW_EVENT_BORDER_HEIGHT;
 
+			gdk_gc_set_clip_mask (gc, NULL);
+			gdk_draw_pixbuf (drawable, gc,
+					 day_view->attach_icon,
+					 0, 0, icon_x, icon_y,
+					 MIN (E_DAY_VIEW_ICON_WIDTH,
+					      max_icon_w),
+					 MIN (E_DAY_VIEW_ICON_HEIGHT,
+					      max_icon_h),
+					 GDK_RGB_DITHER_NORMAL,
+					 0, 0);
+			icon_x += icon_x_inc;
+			icon_y += icon_y_inc;
+		}
 		if (draw_timezone_icon) {
 			max_icon_w = item_x + item_w - icon_x
 				- E_DAY_VIEW_EVENT_BORDER_WIDTH;
