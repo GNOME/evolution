@@ -1,3 +1,7 @@
+2000-07-26  Peter Williams  <peterw@helixcode.com>
+
+	* e-storage.c (e_storage_new_folder): Fix tiny mem leak.
+
 2000-07-26  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-shell-view.c (disconnect_popup_signals): Disconnect the "map"

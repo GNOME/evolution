@@ -476,6 +476,7 @@ e_storage_new_folder (EStorage *storage,
 	if (folder != NULL) {
 		g_warning ("%s: Trying to add a subfolder for a path that already exists -- %s",
 			   __FUNCTION__, full_path);
+		g_free (full_path);
 		return FALSE;
 	}
 
