@@ -1,3 +1,7 @@
+2001-06-05  JP Rosevear  <jpr@ximian.com>
+
+	* config.log: Bump version to 0.10.99
+
 2001-05-31  Christopher James Lahey  <clahey@ximian.com>
 
 	* README: Included information about db3.
