@@ -1,3 +1,8 @@
+2001-12-10  Damon Chaplin  <damon@ximian.com>
+
+	* importers/GNOME_Evolution_Calendar_Importer.oaf.in: fixed executable
+	name. Fixes bug #16880.
+
 2001-12-08  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/calendar-config.c (calendar_config_get_default_uri):
