@@ -1,3 +1,9 @@
+2002-02-01  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (update_auto_recipients): Update the
+	auto-cc/bcc recipients in the composer header fields to match the
+	ones chosen in the account configuration.
+
 2002-01-31  Radek Doulik  <rodo@ximian.com>
 
 	* e-msg-composer.c (e_msg_composer_ignore): new method, tells

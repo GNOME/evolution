@@ -1868,6 +1868,109 @@ hdrs_changed_cb (EMsgComposerHdrs *hdrs,
 	e_msg_composer_set_changed (composer);
 }
 
+enum {
+	UPDATE_AUTO_CC,
+	UPDATE_AUTO_BCC,
+};
+
+static void
+update_auto_recipients (EMsgComposerHdrs *hdrs, int mode, const char *auto_addrs)
+{
+	EDestination *dest, **destv = NULL;
+	CamelInternetAddress *iaddr;
+	GList *list, *tail, *node;
+	int i, n = 0;
+	
+	switch (mode) {
+	case UPDATE_AUTO_CC:
+		destv = e_msg_composer_hdrs_get_cc (hdrs);
+		break;
+	case UPDATE_AUTO_BCC:
+		destv = e_msg_composer_hdrs_get_bcc (hdrs);
+		break;
+	default:
+		g_assert_not_reached ();
+	}
+	
+	tail = list = NULL;
+	if (destv) {
+		for (i = 0; destv[i]; i++) {
+			if (!e_destination_is_auto_recipient (destv[i])) {
+				node = g_list_alloc ();
+				node->data = e_destination_copy (destv[i]);
+				node->next = NULL;
+				
+				if (tail) {
+					node->prev = tail;
+					tail->next = node;
+				} else {
+					node->prev = NULL;
+					list = node;
+				}
+				
+				tail = node;
+				n++;
+			}
+		}
+		
+		e_destination_freev (destv);
+	}
+	
+	if (auto_addrs) {
+		iaddr = camel_internet_address_new ();
+		if (camel_address_decode (CAMEL_ADDRESS (iaddr), auto_addrs) != -1) {
+			for (i = 0; i < camel_address_length (CAMEL_ADDRESS (iaddr)); i++) {
+				const char *name, *addr;
+				
+				if (!camel_internet_address_get (iaddr, i, &name, &addr))
+					continue;
+				
+				dest = e_destination_new ();
+				e_destination_set_auto_recipient (dest, TRUE);
+				
+				if (name)
+					e_destination_set_name (dest, name);
+				
+				if (addr)
+					e_destination_set_email (dest, addr);
+				
+				node = g_list_alloc ();
+				node->data = dest;
+				node->next = NULL;
+				
+				if (tail) {
+					node->prev = tail;
+					tail->next = node;
+				} else {
+					node->prev = NULL;
+					list = node;
+				}
+				
+				tail = node;
+				n++;
+			}
+		}
+		
+		camel_object_unref (CAMEL_OBJECT (iaddr));
+	}
+	
+	destv = e_destination_list_to_vector_sized (list, n);
+	g_list_free (list);
+	
+	switch (mode) {
+	case UPDATE_AUTO_CC:
+		e_msg_composer_hdrs_set_cc (hdrs, destv);
+		break;
+	case UPDATE_AUTO_BCC:
+		e_msg_composer_hdrs_set_bcc (hdrs, destv);
+		break;
+	default:
+		g_assert_not_reached ();
+	}
+	
+	e_destination_freev (destv);
+}
+
 static void
 from_changed_cb (EMsgComposerHdrs *hdrs, void *data)
 {
@@ -1876,8 +1979,15 @@ from_changed_cb (EMsgComposerHdrs *hdrs, void *data)
 	composer = E_MSG_COMPOSER (data);
 	
 	if (hdrs->account) {
-		e_msg_composer_set_pgp_sign (composer, hdrs->account->pgp_always_sign);
-		e_msg_composer_set_smime_sign (composer, hdrs->account->smime_always_sign);
+		const MailConfigAccount *account = hdrs->account;
+		
+		e_msg_composer_set_pgp_sign (composer, account->pgp_always_sign);
+		e_msg_composer_set_smime_sign (composer, account->smime_always_sign);
+		update_auto_recipients (hdrs, UPDATE_AUTO_CC, account->always_cc ? account->cc_addrs : NULL);
+		update_auto_recipients (hdrs, UPDATE_AUTO_BCC, account->always_bcc ? account->bcc_addrs : NULL);
+	} else {
+		update_auto_recipients (hdrs, UPDATE_AUTO_CC, NULL);
+		update_auto_recipients (hdrs, UPDATE_AUTO_BCC, NULL);
 	}
 	
 	e_msg_composer_show_sig_file (composer);
