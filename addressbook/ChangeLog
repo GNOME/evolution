@@ -1,5 +1,10 @@
 2000-05-18  Christopher James Lahey  <clahey@helixcode.com>
 
+	* backend/ebook/e-card.c: Fixed the code to write out and read in
+	arbitrary fields.
+
+2000-05-18  Christopher James Lahey  <clahey@helixcode.com>
+
 	* backend/ebook/e-card-simple.c, backend/ebook/e-card-simple.h,
 	backend/ebook/e-card-types.h, backend/ebook/e-card.c,
 	backend/ebook/e-card.h: Implemented "MAILER" field.  Added

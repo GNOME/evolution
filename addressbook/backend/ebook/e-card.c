@@ -428,14 +428,17 @@ char
 		for (iterator = e_card_list_get_iterator(card->arbitrary); e_card_iterator_is_valid(iterator); e_card_iterator_next(iterator)) {
 			const ECardArbitrary *arbitrary = e_card_iterator_get(iterator);
 			VObject *arb_object;
-			if (arbitrary->value)
+			if (arbitrary->value) {
 				arb_object = addPropValue (vobj, XEV_ARBITRARY, arbitrary->value);
-			else
+			} else {
 				arb_object = addProp (vobj, XEV_ARBITRARY);
-			if (arbitrary->type)
+			}
+			if (arbitrary->type) {
 				addPropValue (arb_object, "TYPE", arbitrary->type);
-			if (arbitrary->key)
+			}
+			if (arbitrary->key) {
 				addProp (arb_object, arbitrary->key);
+			}
 		}
 	}
 
@@ -811,6 +814,23 @@ parse_categories(ECard *card, VObject *vobj)
 	}
 }
 
+typedef union ValueItem {
+    const char *strs;
+    const wchar_t *ustrs;
+    unsigned int i;
+    unsigned long l;
+    void *any;
+    VObject *vobj;
+} ValueItem;
+
+struct VObject {
+    VObject *next;
+    const char *id;
+    VObject *prop;
+    unsigned short valType;
+    ValueItem val;
+};
+
 static void
 parse_arbitrary(ECard *card, VObject *vobj)
 {
@@ -825,7 +845,7 @@ parse_arbitrary(ECard *card, VObject *vobj)
 			assign_string(temp, &(arbitrary->type));
 		} else {
 			g_free(arbitrary->key);
-			assign_string(temp, &(arbitrary->key));
+			arbitrary->key = g_strdup(name);
 		}
 	}
 
@@ -1607,9 +1627,22 @@ e_card_init (ECard *card)
 static void
 assign_string(VObject *vobj, char **string)
 {
-	char *str = (vObjectValueType (vobj) ? fakeCString (vObjectUStringZValue (vobj)) : calloc(1, 1));
-	*string = g_strdup(str);
-	free(str);
+	int type = vObjectValueType(vobj);
+	char *str;
+
+	switch(type) {
+	case VCVT_STRINGZ:
+		*string = g_strdup (vObjectStringZValue(vobj));
+		break;
+	case VCVT_USTRINGZ:
+		str = (vObjectValueType (vobj) ? fakeCString (vObjectUStringZValue (vobj)) : calloc(1, 1));
+		*string = g_strdup(str);
+		free(str);
+		break;
+	default:
+		*string = g_strdup("");
+		break;
+	}
 }
 
 #if 0
@@ -2781,16 +2814,6 @@ add_SoundType (VObject *o, enum SoundType sound_type)
 	  }
 
 	return o;
-}
-
-char *card_bday_str (CardBDay bday)
-{
-	char *str;
-	
-	str = malloc (12);
-	snprintf (str, 12, "%04d-%02d-%02d", bday.year, bday.month, bday.day);
-	
-	return str;
 }
 
 char *card_timezn_str (CardTimeZone timezn)
