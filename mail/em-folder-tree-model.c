@@ -409,7 +409,7 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *ite
 	GtkTreePath *path;
 	GtkTreeIter sub;
 	gboolean load;
-	
+
 	load = fi->child == NULL && !(fi->flags & (CAMEL_FOLDER_NOCHILDREN | CAMEL_FOLDER_NOINFERIORS));
 	
 	path = gtk_tree_model_get_path ((GtkTreeModel *) model, iter);
@@ -939,7 +939,7 @@ em_folder_tree_model_set_unread_count (EMFolderTreeModel *model, CamelStore *sto
 	g_return_if_fail (EM_IS_FOLDER_TREE_MODEL (model));
 	g_return_if_fail (CAMEL_IS_STORE (store));
 	g_return_if_fail (path != NULL);
-	
+
 	if (unread < 0)
 		unread = 0;
 	

@@ -1,3 +1,8 @@
+2004-02-17  Not Zed  <NotZed@Ximian.com>
+
+	* importers/pine-importer.c (import_contact): fix for the
+	weird-arsed e-contact list api.  and fix a small memleak.
+
 2004-02-13  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-folder-tree.c (emft_drop_folder): Make sure the drop-target
