@@ -1,3 +1,17 @@
+2002-08-02  Not Zed  <NotZed@Ximian.com>
+
+	* camel-folder-summary.c (message_info_load): revert jeff's patch
+	below, and do it slightly differently, and stop the auto-reformatting
+	bullshit.
+
+2002-08-02  Not Zed  <NotZed@Ximian.com>
+
+	* providers/local/camel-maildir-summary.c (message_info_new): If
+	we get a duplicate, just re-use the old info.
+	(remove_summary): Add any removed to a change list.
+	(maildir_summary_check): If we find new ones in 'cur' track them
+	in the change list.  Removed FIXME about it.  For #18348.
+
 2002-08-01  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-folder-summary.c (message_info_load): Do more error
