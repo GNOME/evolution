@@ -163,7 +163,6 @@ enum {
 	ESB_SUBJECT_CONTAINS,
 	ESB_BODY_DOES_NOT_CONTAIN,
 	ESB_SUBJECT_DOES_NOT_CONTAIN,
-	ESB_CUSTOM_SEARCH,
 };
 
 static ESearchBarItem folder_browser_search_option_items[] = {
@@ -172,7 +171,6 @@ static ESearchBarItem folder_browser_search_option_items[] = {
         { N_("Subject contains"),         ESB_SUBJECT_CONTAINS         },
 	{ N_("Body does not contain"),    ESB_BODY_DOES_NOT_CONTAIN    },
 	{ N_("Subject does not contain"), ESB_SUBJECT_DOES_NOT_CONTAIN },
-	{ N_("Custom search"),            ESB_CUSTOM_SEARCH            },
 	{ NULL,                           -1                           }
 };
 
@@ -185,7 +183,6 @@ static char *search_string[] = {
 	"(match-all (header-contains \"Subject\" %s)",
 	"(match-all (not (body-contains %s)))",
 	"(match-all (not (header-contains \"Subject\" %s)))",
-	"%s",
 };
 
 static void
@@ -197,6 +194,7 @@ search_full_clicked (MailSearchDialogue *msd, guint button, FolderBrowser *fb)
 	case 0:			/* 'ok' */
 	case 1:			/* 'search' */
 		query = mail_search_dialogue_get_query (msd);
+		gtk_entry_set_text (GTK_ENTRY (fb->search->entry), query);
 		message_list_set_search (fb->message_list, query);
 		g_free (query);
 		
@@ -227,8 +225,6 @@ search_full (GtkWidget *w, FolderBrowser *fb)
 {
 	MailSearchDialogue *msd;
 	
-	/* make search dialogue thingy match */
-	gtk_menu_set_active (GTK_MENU (GTK_OPTION_MENU (fb->search->option)->menu), ESB_CUSTOM_SEARCH);
 	gtk_widget_set_sensitive (fb->search->entry, FALSE);
 	
 	msd = mail_search_dialogue_new_with_rule (fb->search_full);
@@ -249,15 +245,9 @@ search_save (GtkWidget *w, FolderBrowser *fb)
 	
 	index = fb->search->option_choice;
 	
-	/* some special case code for the custom search position */
-	if (index == ESB_CUSTOM_SEARCH) {
+	if (text == NULL || text[0] == 0) {
 		g_free (text);
-		text = g_strdup (_("Custom"));
-	} else {
-		if (text == NULL || text[0] == 0) {
-			g_free (text);
-			return;
-		}
+		return;
 	}
 	
 	rule = vfolder_rule_new ();
@@ -266,20 +256,6 @@ search_save (GtkWidget *w, FolderBrowser *fb)
 	filter_rule_set_name ((FilterRule *)rule, text);
 	
 	switch (index) {
-	case ESB_CUSTOM_SEARCH:
-		if (fb->search_full) {
-			GList *partl;
-			
-			/* copy the parts from the search rule to the vfolder rule */
-			partl = fb->search_full->parts;
-			while (partl) {
-				FilterPart *old = partl->data;
-				part = filter_part_clone (old);
-				filter_rule_add_part ((FilterRule *)rule, part);
-				partl = g_list_next (partl);
-			}
-			break;
-		}
 	default:
 		/* header or body contains */
 		index = ESB_BODY_SUBJECT_CONTAINS;
@@ -332,6 +308,7 @@ folder_browser_search_menu_activated (ESearchBar *esb, int id, FolderBrowser *fb
 	switch (id) {
 	case ESB_SHOW_ALL:
 		gtk_entry_set_text (GTK_ENTRY (esb->entry), "");
+		gtk_widget_set_sensitive (esb->entry, TRUE);
 		message_list_set_search (fb->message_list, NULL);
 		break;
 	case ESB_ADVANCED:
@@ -349,6 +326,8 @@ folder_browser_search_query_changed (ESearchBar *esb, FolderBrowser *fb)
 	GString *search_query;
 	char *search_word, *str;
 	int search_type;
+	
+	gtk_widget_set_sensitive (esb->entry, TRUE);
 	
 	gtk_object_get (GTK_OBJECT (esb),
 			"text", &search_word,
