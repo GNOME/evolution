@@ -209,13 +209,39 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 	CamelStreamFs *stream_fs = CAMEL_STREAM_FS (stream);
 	CamelSeekableStream *seekable = CAMEL_SEEKABLE_STREAM (stream);
 	ssize_t nread;
+	int cancel_fd;
+
+	if (camel_cancel_check(NULL)) {
+		errno = EINTR;
+		return  -1;
+	}
 
 	if (seekable->bound_end != CAMEL_STREAM_UNBOUND)
 		n = MIN (seekable->bound_end - seekable->position, n);
 
-	do {
-		nread = read (stream_fs->fd, buffer, n);
-	} while (nread == -1 && errno == EINTR);
+	cancel_fd = camel_cancel_fd(NULL);
+	if (cancel_fd == -1) {
+		do {
+			nread = read (stream_fs->fd, buffer, n);
+		} while (nread == -1 && errno == EINTR);
+	} else {
+		fd_set rdset;
+		long flags;
+
+		fcntl(stream_fs->fd, F_GETFL, &flags);
+		fcntl(stream_fs->fd, F_SETFL, flags | O_NONBLOCK);
+		FD_ZERO(&rdset);
+		FD_SET(stream_fs->fd, &rdset);
+		FD_SET(cancel_fd, &rdset);
+		select((stream_fs->fd+cancel_fd)/2+1, &rdset, 0, 0, NULL);
+		if (FD_ISSET(cancel_fd, &rdset)) {
+			fcntl(stream_fs->fd, F_SETFL, flags);
+			errno = EINTR;
+			return -1;
+		}
+		nread = read(stream_fs->fd, buffer, n);
+		fcntl(stream_fs->fd, F_SETFL, flags);
+	}
 
 	if (nread > 0)
 		seekable->position += nread;
@@ -231,15 +257,44 @@ stream_write (CamelStream *stream, const char *buffer, size_t n)
 	CamelStreamFs *stream_fs = CAMEL_STREAM_FS (stream);
 	CamelSeekableStream *seekable = CAMEL_SEEKABLE_STREAM (stream);
 	ssize_t v, written = 0;
+	int cancel_fd;
+
+	if (camel_cancel_check(NULL)) {
+		errno = EINTR;
+		return  -1;
+	}
 
 	if (seekable->bound_end != CAMEL_STREAM_UNBOUND)
 		n = MIN (seekable->bound_end - seekable->position, n);
 
-	do {
-		v = write (stream_fs->fd, buffer, n);
-		if (v > 0)
+	cancel_fd = camel_cancel_fd(NULL);
+	if (cancel_fd == -1) {
+		do {
+			v = write (stream_fs->fd, buffer, n);
+			if (v > 0)
+				written += v;
+		} while (v == -1 && errno == EINTR);
+	} else {
+		fd_set rdset, wrset;
+		long flags;
+
+		fcntl(stream_fs->fd, F_GETFL, &flags);
+		fcntl(stream_fs->fd, F_SETFL, flags | O_NONBLOCK);
+		FD_ZERO(&rdset);
+		FD_ZERO(&wrset);
+		FD_SET(stream_fs->fd, &wrset);
+		FD_SET(cancel_fd, &rdset);
+		select((stream_fs->fd+cancel_fd)/2+1, &rdset, &wrset, 0, NULL);
+		if (FD_ISSET(cancel_fd, &rdset)) {
+			fcntl(stream_fs->fd, F_SETFL, flags);
+			errno = EINTR;
+			return -1;
+		}
+		v = write(stream_fs->fd, buffer, n);
+		if (v>0)
 			written += v;
-	} while (v == -1 && errno == EINTR);
+		fcntl(stream_fs->fd, F_SETFL, flags);
+	}
 
 	if (written > 0)
 		seekable->position += written;

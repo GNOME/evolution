@@ -1,3 +1,14 @@
+2001-01-15  Not Zed  <NotZed@Ximian.com>
+
+	* camel-remote-store.c (socket_connect): A cancellable connection
+	routine.
+	(remote_send_string): Return cancelled exception if we were.
+	(remote_send_stream): "
+	(remote_recv_line): "
+
+	* camel-stream-fs.c (stream_read): First cut at cancellation
+	stuff.  Its looking a bit ugly.
+
 2001-01-15  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-tcp-stream-ssl.c (stream_connect): Uses an SSL socket now

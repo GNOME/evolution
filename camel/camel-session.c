@@ -482,3 +482,229 @@ camel_session_remove_timeout (CamelSession *session, guint handle)
 {
 	return session->remover (handle);
 }
+
+/* ********************************************************************** */
+
+struct _CamelCancel {
+	pthread_t id;		/* id of running thread */
+	guint32 flags;		/* cancelled ? */
+	int blocked;		/* cancellation blocked depth */
+	int refcount;
+#ifdef ENABLE_THREADS
+	EMsgPort *cancel_port;
+	int cancel_fd;
+	pthread_mutex_t lock;
+#endif
+};
+
+#define CAMEL_CANCEL_CANCELLED (1<<0)
+
+#ifdef ENABLE_THREADS
+#define CAMEL_CANCEL_LOCK(cc) pthread_mutex_lock(&cc->lock)
+#define CAMEL_CANCEL_UNLOCK(cc) pthread_mutex_lock(&cc->lock)
+#define CAMEL_ACTIVE_LOCK() pthread_mutex_lock(&cancel_active_lock)
+#define CAMEL_ACTIVE_UNLOCK() pthread_mutex_lock(&cancel_active_lock)
+static pthread_mutex_t cancel_active_lock = PTHREAD_MUTEX_INITIALIZER;
+#else
+#define CAMEL_CANCEL_LOCK(cc)
+#define CAMEL_CANCEL_UNLOCK(cc)
+#define CAMEL_ACTIVE_LOCK()
+#define CAMEL_ACTIVE_UNLOCK()
+#endif
+
+static GHashTable *cancel_active;
+
+typedef struct _CamelCancelMsg {
+	EMsg msg;
+} CamelCancelMsg ;
+
+/* creates a new cancel handle */
+CamelCancel *camel_cancel_new(void)
+{
+	CamelCancel *cc;
+
+	cc = g_malloc0(sizeof(*cc));
+
+	cc->flags = 0;
+	cc->blocked = 0;
+	cc->refcount = 1;
+#ifdef ENABLE_THREADS
+	cc->id = ~0;
+	cc->cancel_port = e_msgport_new();
+	cc->cancel_fd = e_msgport_fd(cc->cancel_port);
+	pthread_mutex_init(&cc->lock, NULL);
+#endif
+
+	return cc;
+}
+
+void camel_cancel_reset(CamelCancel *cc)
+{
+#ifdef ENABLE_THREADS
+	CamelCancelMsg *msg;
+
+	while ((msg = (CamelCancelMsg *)e_msgport_get(cc->cancel_port)))
+		g_free(msg);
+#endif
+
+	cc->flags = 0;
+	cc->blocked = 0;
+}
+
+void camel_cancel_ref(CamelCancel *cc)
+{
+	CAMEL_CANCEL_LOCK(cc);
+	cc->refcount++;
+	CAMEL_CANCEL_UNLOCK(cc);
+}
+
+void camel_cancel_unref(CamelCancel *cc)
+{
+#ifdef ENABLE_THREADS
+	CamelCancelMsg *msg;
+
+	if (cc->refcount == 1) {
+		while ((msg = (CamelCancelMsg *)e_msgport_get(cc->cancel_port)))
+			g_free(msg);
+
+		e_msgport_destroy(cc->cancel_port);
+#endif
+		g_free(cc);
+	} else {
+		CAMEL_CANCEL_LOCK(cc);
+		cc->refcount--;
+		CAMEL_CANCEL_UNLOCK(cc);
+	}
+}
+
+/* block cancellation */
+void camel_cancel_block(CamelCancel *cc)
+{
+	CAMEL_CANCEL_LOCK(cc);
+
+	cc->blocked++;
+
+	CAMEL_CANCEL_UNLOCK(cc);
+}
+
+/* unblock cancellation */
+void camel_cancel_unblock(CamelCancel *cc)
+{
+	CAMEL_CANCEL_LOCK(cc);
+
+	cc->blocked--;
+
+	CAMEL_CANCEL_UNLOCK(cc);
+}
+
+/* cancels an operation */
+void camel_cancel_cancel(CamelCancel *cc)
+{
+	CamelCancelMsg *msg;
+
+	if ((cc->flags & CAMEL_CANCEL_CANCELLED) == 0) {
+		CAMEL_CANCEL_LOCK(cc);
+		msg = g_malloc0(sizeof(*msg));
+		e_msgport_put(cc->cancel_port, (EMsg *)msg);
+		cc->flags |= CAMEL_CANCEL_CANCELLED;
+		CAMEL_CANCEL_UNLOCK(cc);
+	}
+}
+
+/* register a thread for cancellation */
+void camel_cancel_register(CamelCancel *cc)
+{
+	pthread_t id = pthread_self();
+
+	CAMEL_ACTIVE_LOCK();
+
+	if (cancel_active == NULL)
+		cancel_active = g_hash_table_new(NULL, NULL);
+
+	if (cc == NULL) {
+		cc = g_hash_table_lookup(cancel_active, (void *)id);
+		if (cc == NULL) {
+			cc = camel_cancel_new();
+		}
+	}
+
+	cc->id = id;
+	g_hash_table_insert(cancel_active, (void *)id, cc);
+	camel_cancel_ref(cc);
+
+	CAMEL_ACTIVE_UNLOCK();
+}
+
+/* remove a thread from being able to be cancelled */
+void camel_cancel_unregister(CamelCancel *cc)
+{
+	CAMEL_ACTIVE_LOCK();
+
+	if (cancel_active == NULL)
+		cancel_active = g_hash_table_new(NULL, NULL);
+
+	if (cc == NULL) {
+		cc = g_hash_table_lookup(cancel_active, (void *)cc->id);
+		if (cc == NULL) {
+			g_warning("Trying to unregister a thread that was never registered for cancellation");
+		}
+	}
+
+	if (cc)
+		g_hash_table_remove(cancel_active, (void *)cc->id);
+
+	CAMEL_ACTIVE_UNLOCK();
+
+	if (cc)
+		camel_cancel_unref(cc);
+}
+
+/* test for cancellation */
+gboolean camel_cancel_check(CamelCancel *cc)
+{
+	CamelCancelMsg *msg;
+
+	if (cc == NULL) {
+		if (cancel_active) {
+			CAMEL_ACTIVE_LOCK();
+			cc = g_hash_table_lookup(cancel_active, (void *)pthread_self());
+			CAMEL_ACTIVE_UNLOCK();
+		}
+		if (cc == NULL)
+			return FALSE;
+	}
+
+	if (cc->blocked > 0)
+		return FALSE;
+
+	if (cc->flags & CAMEL_CANCEL_CANCELLED)
+		return TRUE;
+
+	msg = (CamelCancelMsg *)e_msgport_get(cc->cancel_port);
+	if (msg) {
+		CAMEL_CANCEL_LOCK(cc);
+		cc->flags |= CAMEL_CANCEL_CANCELLED;
+		CAMEL_CANCEL_UNLOCK(cc);
+		return TRUE;
+	}
+	return FALSE;
+}
+
+/* get the fd for cancellation waiting */
+int camel_cancel_fd(CamelCancel *cc)
+{
+	if (cc == NULL) {
+		if (cancel_active) {
+			CAMEL_ACTIVE_LOCK();
+			cc = g_hash_table_lookup(cancel_active, (void *)pthread_self());
+			CAMEL_ACTIVE_UNLOCK();
+		}
+		if (cc == NULL)
+			return -1;
+	}
+	if (cc->blocked)
+		return -1;
+
+	return cc->cancel_fd;
+}
+

@@ -126,6 +126,24 @@ guint           camel_session_register_timeout (CamelSession *session,
 gboolean        camel_session_remove_timeout (CamelSession *session,
 					      guint handle);
 
+
+/* cancellation helper stuff, not yet finalised */
+typedef struct _CamelCancel CamelCancel;
+/* main thread functions */
+CamelCancel *camel_cancel_new(void);
+void camel_cancel_ref(CamelCancel *cc);
+void camel_cancel_unref(CamelCancel *cc);
+void camel_cancel_reset(CamelCancel *cc);
+void camel_cancel_cancel(CamelCancel *cc);
+/* subthread functions */
+void camel_cancel_register(CamelCancel *cc);
+void camel_cancel_unregister(CamelCancel *cc);
+/* called internally by camel, for the current thread */
+void camel_cancel_block(CamelCancel *cc);
+void camel_cancel_unblock(CamelCancel *cc);
+gboolean camel_cancel_check(CamelCancel *cc);
+int camel_cancel_fd(CamelCancel *cc);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

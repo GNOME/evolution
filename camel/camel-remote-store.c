@@ -25,6 +25,7 @@
 
 #include <config.h>
 
+#include <sys/time.h>
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -205,6 +206,87 @@ timeout_cb (gpointer data)
 	return TRUE;
 }
 
+/* this is a 'cancellable' connect, cancellable from camel_cancel etc */
+/* returns -1 & errno == EINTR if the connection was cancelled */
+static int socket_connect(struct hostent *h, int port)
+{
+	struct sockaddr_in sin;
+	int fd;
+	int ret;
+	socklen_t len;
+	struct timeval tv;
+	int cancel_fd;
+
+	/* see if we're cancelled yet */
+	if (camel_cancel_check(NULL)) {
+		errno = EINTR;
+		return -1;
+	}
+
+	/* setup connect, we do it using a nonblocking socket so we can poll it */
+	sin.sin_port = htons(port);
+	sin.sin_family = h->h_addrtype;
+	memcpy (&sin.sin_addr, h->h_addr, sizeof (sin.sin_addr));
+
+	fd = socket (h->h_addrtype, SOCK_STREAM, 0);
+
+	cancel_fd = camel_cancel_fd(NULL);
+	if (cancel_fd == -1) {
+		ret = connect(fd, (struct sockaddr *)&sin, sizeof (sin));
+		if (ret == -1) {
+			close(fd);
+			return -1;
+		}
+		return fd;
+	} else {
+		fd_set rdset, wrset;
+		long flags;
+
+		fcntl(fd, F_GETFL, &flags);
+		fcntl(fd, F_SETFL, flags | O_NONBLOCK);
+
+		ret = connect(fd, (struct sockaddr *)&sin, sizeof (sin));
+		if (ret == 0)
+			return fd;
+
+		if (errno != EINPROGRESS) {
+			close(fd);
+			return -1;
+		}
+
+		FD_ZERO(&rdset);
+		FD_ZERO(&wrset);
+		FD_SET(fd, &wrset);
+		FD_SET(cancel_fd, &rdset);
+		tv.tv_usec = 0;
+		tv.tv_sec = 30;
+		if (select((fd+cancel_fd)/2+1, &rdset, &wrset, 0, &tv) == 0) {
+			close(fd);
+			errno = ETIMEDOUT;
+			return -1;
+		}
+		if (cancel_fd != -1 && FD_ISSET(cancel_fd, &rdset)) {
+			close(fd);
+			errno = EINTR;
+			return -1;
+		} else {
+			len = sizeof(int);
+			if (getsockopt(fd, SOL_SOCKET, SO_ERROR, &ret, &len) == -1) {
+				close(fd);
+				return -1;
+			}
+			if (ret != 0) {
+				close(fd);
+				errno = ret;
+				return -1;
+			}
+		}
+		fcntl(fd, F_SETFL, flags);
+	}
+
+	return fd;
+}
+
 static gboolean
 remote_connect (CamelService *service, CamelException *ex)
 {
@@ -225,6 +307,20 @@ remote_connect (CamelService *service, CamelException *ex)
 		port = service->url->port;
 	else
 		port = store->default_port;	
+
+#if 1
+	fd = socket_connect(h, port);
+	if (fd == -1) {
+		if (errno == EINTR)
+			camel_exception_set(ex, CAMEL_EXCEPTION_USER_CANCEL, _("Connection cancelled"));
+		else
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+					      _("Could not connect to %s (port %d): %s"),
+					      service->url->host ? service->url->host : _("(unknown host)"),
+					      port, strerror (errno));
+		return FALSE;
+	}
+#else
 	sin.sin_port = htons (port);
 	
 	memcpy (&sin.sin_addr, h->h_addr, sizeof (sin.sin_addr));
@@ -240,6 +336,7 @@ remote_connect (CamelService *service, CamelException *ex)
 		
 		return FALSE;
 	}
+#endif
 	
 	/* parent class connect initialization */
 	if (CAMEL_SERVICE_CLASS (store_class)->connect (service, ex) == FALSE)
@@ -322,9 +419,11 @@ remote_send_string (CamelRemoteStore *store, CamelException *ex, char *fmt, va_l
 #endif
 	
 	if (camel_stream_printf (store->ostream, "%s", cmdbuf) == -1) {
+		if (errno == EINTR)
+			camel_exception_set(ex, CAMEL_EXCEPTION_USER_CANCEL, _("Operation cancelled"));
+		else
+			camel_exception_set(ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE, strerror(errno));
 		g_free (cmdbuf);
-		camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-				     g_strerror (errno));
 		
 		camel_service_disconnect (CAMEL_SERVICE (store), FALSE, NULL);
 		return -1;
@@ -381,9 +480,11 @@ remote_send_stream (CamelRemoteStore *store, CamelStream *stream, CamelException
 	d(fprintf (stderr, "(sending stream)\n"));
 	
 	ret = camel_stream_write_to_stream (stream, store->ostream);
-	if (ret < 0) {
-		camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-				     g_strerror (errno));
+	if (ret == -1) {
+		if (errno == EINTR)
+			camel_exception_set(ex, CAMEL_EXCEPTION_USER_CANCEL, _("Operation cancelled"));
+		else
+			camel_exception_set(ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE, strerror(errno));
 		
 		camel_service_disconnect (CAMEL_SERVICE (store), FALSE, NULL);
 	}
@@ -446,22 +547,21 @@ remote_recv_line (CamelRemoteStore *store, char **dest, CamelException *ex)
 		if (nread > 0)
 			g_byte_array_append (bytes, buf, nread);
 	} while (nread == sizeof (buf) - 1);
-	
+
+	if (nread == -1) {
+		if (errno == EINTR)
+			camel_exception_set(ex, CAMEL_EXCEPTION_USER_CANCEL, _("Operation cancelled"));
+		else
+			camel_exception_set(ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE, strerror(errno));
+		g_byte_array_free(bytes, TRUE);
+		camel_service_disconnect (CAMEL_SERVICE (store), FALSE, NULL);
+		return -1;
+	}
+
 	g_byte_array_append (bytes, "", 1);
 	ret = bytes->data;
 	nread = bytes->len - 1;
 	g_byte_array_free (bytes, FALSE);
-	
-	if (nread <= 0) {
-		g_free (ret);
-		ret = NULL;
-		camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-				     nread ? g_strerror (errno) :
-				     _("Server disconnected."));
-		
-		camel_service_disconnect (CAMEL_SERVICE (store), FALSE, NULL);
-		return -1;
-	}
 	
 	/* strip off the CRLF sequence */
 	while (nread > 0 && ret[nread] != '\r')
