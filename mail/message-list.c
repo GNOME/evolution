@@ -42,6 +42,13 @@
 #include "art/empty.xpm"
 #include "art/tree-expanded.xpm"
 #include "art/tree-unexpanded.xpm"
+#include "art/score-lowest.xpm"
+#include "art/score-lower.xpm"
+#include "art/score-low.xpm"
+#include "art/score-normal.xpm"
+#include "art/score-high.xpm"
+#include "art/score-higher.xpm"
+#include "art/score-highest.xpm"
 
 /*
  * Default sizes for the ETable display
@@ -88,6 +95,13 @@ static struct {
 	{ attachment_xpm,	NULL },
 	{ tree_expanded_xpm,	NULL },
 	{ tree_unexpanded_xpm,	NULL },
+	{ score_lowest_xpm,     NULL },
+	{ score_lower_xpm,      NULL },
+	{ score_low_xpm,        NULL },
+	{ score_normal_xpm,     NULL },
+	{ score_high_xpm,       NULL },
+	{ score_higher_xpm,     NULL },
+	{ score_highest_xpm,    NULL },
 	{ NULL,			NULL }
 };
 
@@ -228,9 +242,8 @@ static void *
 ml_duplicate_value (ETableModel *etm, int col, const void *value, void *data)
 {
 	switch (col){
-	case COL_ONLINE_STATUS:
 	case COL_MESSAGE_STATUS:
-	case COL_PRIORITY:
+	case COL_SCORE:
 	case COL_ATTACHMENT:
 	case COL_DELETED:
 	case COL_UNREAD:
@@ -253,9 +266,8 @@ static void
 ml_free_value (ETableModel *etm, int col, void *value, void *data)
 {
 	switch (col){
-	case COL_ONLINE_STATUS:
 	case COL_MESSAGE_STATUS:
-	case COL_PRIORITY:
+	case COL_SCORE:
 	case COL_ATTACHMENT:
 	case COL_DELETED:
 	case COL_UNREAD:
@@ -278,9 +290,8 @@ static void *
 ml_initialize_value (ETableModel *etm, int col, void *data)
 {
 	switch (col){
-	case COL_ONLINE_STATUS:
 	case COL_MESSAGE_STATUS:
-	case COL_PRIORITY:
+	case COL_SCORE:
 	case COL_ATTACHMENT:
 	case COL_DELETED:
 	case COL_UNREAD:
@@ -304,9 +315,8 @@ static gboolean
 ml_value_is_empty (ETableModel *etm, int col, const void *value, void *data)
 {
 	switch (col){
-	case COL_ONLINE_STATUS:
 	case COL_MESSAGE_STATUS:
-	case COL_PRIORITY:
+	case COL_SCORE:
 	case COL_ATTACHMENT:
 	case COL_DELETED:
 	case COL_UNREAD:
@@ -332,34 +342,60 @@ ml_value_to_string (ETableModel *etm, int col, const void *value, void *data)
 	case COL_MESSAGE_STATUS:
 		switch ((int) value) {
 		case 0:
-			return g_strdup("Unseen");
+			return g_strdup ("Unseen");
 			break;
 		case 1:
-			return g_strdup("Seen");
+			return g_strdup ("Seen");
 			break;
 		case 2:
-			return g_strdup("Answered");
+			return g_strdup ("Answered");
 			break;
 		default:
-			return g_strdup("");
+			return g_strdup ("");
 			break;
 		}
 		break;
-	case COL_ONLINE_STATUS:
-	case COL_PRIORITY:
+		
+	case COL_SCORE:
+		switch ((int) value) {
+		case -3:
+			return g_strdup ("Lowest");
+			break;
+		case -2:
+			return g_strdup ("Lower");
+			break;
+		case -1:
+			return g_strdup ("Low");
+			break;
+		case 1:
+			return g_strdup ("High");
+			break;
+		case 2:
+			return g_strdup ("Higher");
+			break;
+		case 3:
+			return g_strdup ("Highest");
+			break;
+		default:
+			return g_strdup ("Normal");
+			break;
+		}
+		break;
+		
 	case COL_ATTACHMENT:
 	case COL_DELETED:
 	case COL_UNREAD:
 		return g_strdup_printf("%d", (int) value);
+		
 	case COL_SENT:
 	case COL_RECEIVED:
-		return filter_date(value);
-
+		return filter_date (value);
+		
 	case COL_FROM:
 	case COL_SUBJECT:
 	case COL_TO:
 	case COL_SIZE:
-		return g_strdup(value);
+		return g_strdup (value);
 	default:
 		g_assert_not_reached ();
 		return NULL;
@@ -389,11 +425,8 @@ ml_tree_value_at (ETreeModel *etm, ETreePath *path, int col, void *model_data)
 
 	msg_info = camel_folder_get_message_info (message_list->folder, uid);
 	g_return_val_if_fail (msg_info != NULL, NULL);
-
+	
 	switch (col){
-	case COL_ONLINE_STATUS:
-		return GINT_TO_POINTER (0);
-		
 	case COL_MESSAGE_STATUS:
 		if (msg_info->flags & CAMEL_MESSAGE_ANSWERED)
 			return GINT_TO_POINTER (2);
@@ -402,8 +435,17 @@ ml_tree_value_at (ETreeModel *etm, ETreePath *path, int col, void *model_data)
 		else
 			return GINT_TO_POINTER (0);
 		
-	case COL_PRIORITY:
-		return GINT_TO_POINTER (1);
+	case COL_SCORE:
+	{
+		const char *tag;
+		int score = 0;
+		
+		tag = camel_tag_get ((CamelTag **) &msg_info->user_tags, "score");
+		if (tag)
+			score = atoi (tag);
+		
+		return GINT_TO_POINTER (score);
+	}
 		
 	case COL_ATTACHMENT:
 		return GINT_TO_POINTER (0);
@@ -435,25 +477,27 @@ ml_tree_value_at (ETreeModel *etm, ETreePath *path, int col, void *model_data)
 	case COL_SIZE:
 		sprintf (buffer, "%d", msg_info->size);
 		return buffer;
-			
+		
 	case COL_DELETED:
-		return GINT_TO_POINTER(!!(msg_info->flags & CAMEL_MESSAGE_DELETED));
-
+		if (msg_info->flags & CAMEL_MESSAGE_DELETED)
+			return GINT_TO_POINTER (1);
+		else
+			return GINT_TO_POINTER (0);
+		
 	case COL_UNREAD:
-		return GINT_TO_POINTER(!(msg_info->flags & CAMEL_MESSAGE_SEEN));
-
+		return GINT_TO_POINTER (!(msg_info->flags & CAMEL_MESSAGE_SEEN));
+		
 	case COL_COLOUR:
-		return (void *) camel_tag_get((CamelTag **) &msg_info->user_tags, "colour");
+		return (void *) camel_tag_get ((CamelTag **) &msg_info->user_tags, "colour");
 	}
-
+	
 	g_assert_not_reached ();
-
+	
  fake:
 	/* This is a fake tree parent */
 	switch (col){
-	case COL_ONLINE_STATUS:
 	case COL_MESSAGE_STATUS:
-	case COL_PRIORITY:
+	case COL_SCORE:
 	case COL_ATTACHMENT:
 	case COL_DELETED:
 	case COL_COLOUR:
@@ -461,17 +505,17 @@ ml_tree_value_at (ETreeModel *etm, ETreePath *path, int col, void *model_data)
 	case COL_SENT:
 	case COL_RECEIVED:
 		return (void *) 0;
-
+		
 	case COL_SUBJECT:
 		return strchr (uid, ':') + 1;
-
+		
 	case COL_FROM:
 	case COL_TO:
 	case COL_SIZE:
 		return "?";
 	}
 	g_assert_not_reached ();
-
+	
 	return NULL;
 }
 
@@ -517,7 +561,7 @@ static void
 message_list_init_images (void)
 {
 	int i;
-
+	
 	/*
 	 * Only load once, and share
 	 */
@@ -555,65 +599,69 @@ filter_date (const void *data)
 static void
 message_list_init_renderers (MessageList *message_list)
 {
-	GdkPixbuf *images [3];
-
+	GdkPixbuf *images [7];
+	int i;
+	
 	g_assert (message_list);
 	g_assert (message_list->table_model);
-
+	
 	message_list->render_text = e_cell_text_new (
 		message_list->table_model,
 		NULL, GTK_JUSTIFY_LEFT);
-
-	gtk_object_set(GTK_OBJECT(message_list->render_text),
-		       "strikeout_column", COL_DELETED,
-		       NULL);
-	gtk_object_set(GTK_OBJECT(message_list->render_text),
-		       "bold_column", COL_UNREAD,
-		       NULL);
-	gtk_object_set(GTK_OBJECT(message_list->render_text),
-		       "color_column", COL_COLOUR,
-		       NULL);
-
+	
+	gtk_object_set (GTK_OBJECT (message_list->render_text),
+			"strikeout_column", COL_DELETED,
+			NULL);
+	gtk_object_set (GTK_OBJECT (message_list->render_text),
+			"bold_column", COL_UNREAD,
+			NULL);
+	gtk_object_set (GTK_OBJECT (message_list->render_text),
+			"color_column", COL_COLOUR,
+			NULL);
+	
 	message_list->render_date = e_cell_text_new (
 		message_list->table_model,
 		NULL, GTK_JUSTIFY_LEFT);
-
-	gtk_object_set(GTK_OBJECT(message_list->render_date),
-		       "text_filter", filter_date,
-		       NULL);
-	gtk_object_set(GTK_OBJECT(message_list->render_date),
-		       "strikeout_column", COL_DELETED,
-		       NULL);
-	gtk_object_set(GTK_OBJECT(message_list->render_date),
-		       "bold_column", COL_UNREAD,
-		       NULL);
-	gtk_object_set(GTK_OBJECT(message_list->render_date),
-		       "color_column", COL_COLOUR,
-		       NULL);
-
+	
+	gtk_object_set (GTK_OBJECT (message_list->render_date),
+			"text_filter", filter_date,
+			NULL);
+	gtk_object_set (GTK_OBJECT (message_list->render_date),
+			"strikeout_column", COL_DELETED,
+			NULL);
+	gtk_object_set (GTK_OBJECT (message_list->render_date),
+			"bold_column", COL_UNREAD,
+			NULL);
+	gtk_object_set (GTK_OBJECT (message_list->render_date),
+			"color_column", COL_COLOUR,
+			NULL);
+	
 	message_list->render_online_status = e_cell_checkbox_new ();
-
+	
 	/*
 	 * Message status
 	 */
-	images [0] = states_pixmaps [0].pixbuf;
-	images [1] = states_pixmaps [1].pixbuf;
-	images [2] = states_pixmaps [2].pixbuf;
-
+	for (i = 0; i < 3; i++)
+		images [i] = states_pixmaps [i].pixbuf;
+	
 	message_list->render_message_status = e_cell_toggle_new (0, 3, images);
-
+	
 	/*
 	 * Attachment
 	 */
-	images [0] = states_pixmaps [3].pixbuf;
-	images [1] = states_pixmaps [4].pixbuf;
-
+	for (i = 0; i < 2; i++)
+		images [i] = states_pixmaps [i + 3].pixbuf;
+	
 	message_list->render_attachment = e_cell_toggle_new (0, 2, images);
 	
 	/*
 	 * FIXME: We need a real renderer here
+	 * Miguel has suggested perhaps using icons with thumbs up/down
 	 */
-	message_list->render_priority = e_cell_checkbox_new ();
+	for (i = 0; i < 7; i++)
+		images[i] = states_pixmaps [i + 7].pixbuf;
+	
+	message_list->render_score = e_cell_toggle_new (0, 7, images);
 
 	/*
 	 * for tree view
@@ -639,13 +687,6 @@ message_list_init_header (MessageList *message_list)
 	message_list->header_model = e_table_header_new ();
 	gtk_object_ref (GTK_OBJECT (message_list->header_model));
 	gtk_object_sink (GTK_OBJECT (message_list->header_model));
-
-	message_list->table_cols [COL_ONLINE_STATUS] =
-		e_table_col_new (
-			COL_ONLINE_STATUS, _("Online Status"),
-			0.0, COL_CHECK_BOX_WIDTH,
-			message_list->render_online_status,
-			g_int_compare, FALSE);
 	
 	message_list->table_cols [COL_MESSAGE_STATUS] =
 		e_table_col_new_with_pixbuf (
@@ -653,17 +694,17 @@ message_list_init_header (MessageList *message_list)
 			0.0, COL_CHECK_BOX_WIDTH,
 			message_list->render_message_status, 
 			g_int_compare, FALSE);
-
-	gtk_object_set(GTK_OBJECT(message_list->table_cols[COL_MESSAGE_STATUS]),
-		       "sortable", FALSE,
-		       NULL);
-
-	message_list->table_cols [COL_PRIORITY] =
-		e_table_col_new (
-			COL_PRIORITY, _("Priority"),
+	
+	gtk_object_set (GTK_OBJECT (message_list->table_cols[COL_MESSAGE_STATUS]),
+			"sortable", FALSE,
+			NULL);
+	
+	message_list->table_cols [COL_SCORE] =
+		e_table_col_new_with_pixbuf (
+			COL_SCORE, states_pixmaps [10].pixbuf,
 			0.0, COL_CHECK_BOX_WIDTH,
-			message_list->render_priority,
-			g_int_compare, FALSE);
+			message_list->render_score,
+			g_int_compare, TRUE);
 	
 	message_list->table_cols [COL_ATTACHMENT] =
 		e_table_col_new_with_pixbuf (
@@ -671,25 +712,25 @@ message_list_init_header (MessageList *message_list)
 			0.0, COL_ICON_WIDTH,
 			message_list->render_attachment,
 			g_int_compare, FALSE);
-
-	gtk_object_set(GTK_OBJECT(message_list->table_cols[COL_ATTACHMENT]),
-		       "sortable", FALSE,
-		       NULL);
-
+	
+	gtk_object_set (GTK_OBJECT (message_list->table_cols[COL_ATTACHMENT]),
+			"sortable", FALSE,
+			NULL);
+	
 	message_list->table_cols [COL_FROM] =
 		e_table_col_new (
 			COL_FROM, _("From"),
 			COL_FROM_EXPANSION, COL_FROM_WIDTH_MIN,
 			message_list->render_text,
 			g_str_compare, TRUE);
-
+	
 	message_list->table_cols [COL_SUBJECT] =
 		e_table_col_new (
 			COL_SUBJECT, _("Subject"),
 			COL_SUBJECT_EXPANSION, COL_SUBJECT_WIDTH_MIN,
 			message_list->render_tree,
 			g_str_compare, TRUE);
-
+	
 	message_list->table_cols [COL_SENT] =
 		e_table_col_new (
 			COL_SENT, _("Date"),
@@ -703,14 +744,14 @@ message_list_init_header (MessageList *message_list)
 			COL_RECEIVED_EXPANSION, COL_RECEIVED_WIDTH_MIN,
 			message_list->render_date,
 			g_int_compare, TRUE);
-
+	
 	message_list->table_cols [COL_TO] =
 		e_table_col_new (
 			COL_TO, _("To"),
 			COL_TO_EXPANSION, COL_TO_WIDTH_MIN,
 			message_list->render_text,
 			g_str_compare, TRUE);
-
+	
 	message_list->table_cols [COL_SIZE] =
 		e_table_col_new (
 			COL_SIZE, _("Size"),
@@ -729,7 +770,7 @@ static char *
 message_list_get_layout (MessageList *message_list)
 {
 	/* Message status, From, Subject, Sent Date */
-	return g_strdup ("<ETableSpecification> <columns-shown> <column> 1 </column> <column> 4 </column> <column> 5 </column> <column> 6 </column> </columns-shown> <grouping> </grouping> </ETableSpecification>");
+	return g_strdup ("<ETableSpecification> <columns-shown> <column> 0 </column> <column> 3 </column> <column> 4 </column> <column> 5 </column> </columns-shown> <grouping> </grouping> </ETableSpecification>");
 }
 
 /*
@@ -822,30 +863,30 @@ message_list_destroy (GtkObject *object)
 	gtk_object_unref (GTK_OBJECT (message_list->render_text));
 	gtk_object_unref (GTK_OBJECT (message_list->render_online_status));
 	gtk_object_unref (GTK_OBJECT (message_list->render_message_status));
-	gtk_object_unref (GTK_OBJECT (message_list->render_priority));
+	gtk_object_unref (GTK_OBJECT (message_list->render_score));
 	gtk_object_unref (GTK_OBJECT (message_list->render_attachment));
 	gtk_object_unref (GTK_OBJECT (message_list->render_tree));
 	
 	gtk_object_unref (GTK_OBJECT (message_list->etable));
-
+	
 	if (message_list->uid_rowmap) {
 		g_hash_table_foreach (message_list->uid_rowmap,
 				      free_key, NULL);
 		g_hash_table_destroy (message_list->uid_rowmap);
 	}
-
+	
 	for (i = 0; i < COL_LAST; i++)
 		gtk_object_unref (GTK_OBJECT (message_list->table_cols [i]));
 	
 	if (message_list->idle_id != 0)
 		g_source_remove(message_list->idle_id);
-
+	
 	if (message_list->seen_id)
 		gtk_timeout_remove (message_list->seen_id);
-
+	
 	if (message_list->folder)
 		camel_object_unref (CAMEL_OBJECT (message_list->folder));
-
+	
 	GTK_OBJECT_CLASS (message_list_parent_class)->destroy (object);
 }
 

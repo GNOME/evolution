@@ -27,9 +27,8 @@ typedef struct _Renderer Renderer;
 
 
 enum {
-	COL_ONLINE_STATUS,
 	COL_MESSAGE_STATUS,
-	COL_PRIORITY,
+	COL_SCORE,
 	COL_ATTACHMENT,
 	COL_FROM,
 	COL_SUBJECT,
@@ -37,9 +36,9 @@ enum {
 	COL_RECEIVED,
 	COL_TO,
 	COL_SIZE,
-
+	
 	COL_LAST,
-
+	
 	/* Invisible columns */
 	COL_DELETED,
 	COL_UNREAD,
@@ -48,36 +47,36 @@ enum {
 
 struct _MessageList {
 	BonoboObject parent;
-
+	
 	/* the folder browser that contains the 
 	 * this message list */
 	FolderBrowser *parent_folder_browser;
-
+	
 	ETableModel  *table_model;
 	ETableHeader *header_model;
 	ETableCol    *table_cols [COL_LAST];
-
+	
 	ECell        *render_text;
 	ECell        *render_date;
 	ECell        *render_online_status;
 	ECell        *render_message_status;
-	ECell        *render_priority;
+	ECell        *render_score;
 	ECell        *render_attachment;
 	ECell	     *render_tree;
-
+	
 	ETreePath    *tree_root; /* for tree view */
-
+	
 	GtkWidget    *etable;
-
+	
 	CamelFolder  *folder;
-
+	
 	GHashTable *uid_rowmap;
-
+	
 	char *search;		/* search string */
-
+	
 	int cursor_row;
 	const char *cursor_uid;
-
+	
 	/* row-selection and seen-marking timers */
 	guint idle_id, seen_id;
 };
