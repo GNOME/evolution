@@ -135,7 +135,7 @@ check_cache (ECellToggleView *toggle_view, int image_seq, int cache_seq)
 	if (PIXMAP_CACHE (toggle_view, cache_seq, image_seq) == NULL) {
 		GdkPixbuf *image = etog->images[image_seq];
 		GdkPixbuf *flat;
-		guint32 color = 0xffffff;
+		GdkColor  color;
 		int width = gdk_pixbuf_get_width (image);
 		int height = gdk_pixbuf_get_height (image);
 
@@ -146,35 +146,18 @@ check_cache (ECellToggleView *toggle_view, int image_seq, int cache_seq)
 		
 		switch (cache_seq % 3) {
 		case 0:
-			color = RGB_COLOR (GTK_WIDGET (toggle_view->canvas)->style->bg [GTK_STATE_SELECTED]);
+			color = GTK_WIDGET (toggle_view->canvas)->style->bg [GTK_STATE_SELECTED];
 			break;
 		case 1:
-			color = RGB_COLOR (GTK_WIDGET (toggle_view->canvas)->style->bg [GTK_STATE_ACTIVE]);
+			color = GTK_WIDGET (toggle_view->canvas)->style->bg [GTK_STATE_ACTIVE];
 			break;
 		case 2:
-			color = RGB_COLOR (GTK_WIDGET (toggle_view->canvas)->style->base [GTK_STATE_NORMAL]);
+			color = GTK_WIDGET (toggle_view->canvas)->style->base [GTK_STATE_NORMAL];
 			break;
 		}
 
 		if (cache_seq >= 3) {
-			double r, g, b, h, s, v;
-			r = ((color >> 16) & 0xff) / 255.0f;
-			g = ((color >> 8) & 0xff) / 255.0f;
-			b = (color & 0xff) / 255.0f;
-
-			e_rgb_to_hsv (r, g, b, &h, &s, &v);
-	
-			if (v - 0.05f < 0) {
-				v += 0.05f;
-			} else {
-				v -= 0.05f;
-			}
-
-			e_hsv_to_rgb (h, s, v, &r, &g, &b);
-
-			color = ((((int)(r * 255.0f)) & 0xff) << 16) +
-				((((int)(g * 255.0f)) & 0xff) << 8) +
-				(((int)(b * 255.0f)) & 0xff);
+			e_hsv_tweak (&color, 0.0f, 0.0f, -0.07f);
 		}
 
 		flat = gdk_pixbuf_composite_color_simple (image,
@@ -182,7 +165,7 @@ check_cache (ECellToggleView *toggle_view, int image_seq, int cache_seq)
 							  GDK_INTERP_BILINEAR,
 							  255,
 							  1,
-							  color, color);
+							  RGB_COLOR (color), RGB_COLOR (color));
 
 		gdk_pixbuf_render_to_drawable (flat, PIXMAP_CACHE (toggle_view, cache_seq, image_seq),
 					       toggle_view->gc,
