@@ -56,7 +56,7 @@ e_pilot_utf8_from_pchar (const char *string)
 	res = convert_FromPilotChar ("UTF8", string, strlen (string), &ustring);
 	
 	if (res != 0)
-		ustring = strdup (ustring);
+		ustring = strdup (string);
 	
 	return ustring;
 }

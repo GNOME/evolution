@@ -1,3 +1,8 @@
+2001-01-15  JP Roseveaer  <jpr@ximian.com>
+
+	* e-pilot-util.c (e_pilot_utf8_from_pchar): Dup the string passed
+	in, not the temporary string. d'oh.
+
 2001-01-04  Dan Winship  <danw@helixcode.com>
 
 	* e-msgport.c: #define E_THREAD_NONE as ((pthread_t)~0) and use
