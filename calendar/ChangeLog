@@ -1,3 +1,27 @@
+2000-08-31  JP Rosevear  <jpr@helixcode.com>
+
+	* gui/gnome-cal.c (editor_closed_cb): Event editor destroyed
+	callback to do hash cleanup
+	(gnome_calendar_edit_object): Set event editor calendar client.
+
+	* gui/event-editor.h: Add new prototype
+
+	* gui/event-editor.c: Trash signal stuff.  We will manipulate
+	the client directly.  Make the toolbar save and menu save items
+	work identically.  Add icons to the toolbar.
+	(save_event_object): Call cal_client_update_object
+	(close_dialog): Unref the client and disconnect signals
+	Actually destroy the event editor object.
+	(obj_updated_cb): New function.  Doesn't really do anything
+	yet but it will inform the user the event has changed elsewhere
+	in the future.
+	(obj_removed_cb): ditto
+	(event_editor_set_cal_client): New function to set the calendar
+	client
+
+	* gui/gnome-cal.c (gnome_calendar_new_appointment): Commit
+	the sequence to the cal component and use non UTC times.
+
 2000-08-30  Lauris Kaplinski  <lauris@helixcode.com>
 
 	* gui/print.c: Countless small changes for gnome-print 0.21+

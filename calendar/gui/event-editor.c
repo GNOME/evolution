@@ -38,9 +38,10 @@ typedef struct {
 	/* UI handler */
 	BonoboUIHandler *uih;
 
-	/* Calendar object we are editing; this is an internal copy and is not
-	 * one of the read-only objects from the parent calendar.
-	 */
+	/* Client to use */
+	CalClient *client;
+	
+	/* Calendar object/uid we are editing; this is an internal copy */
 	CalComponent *comp;
 
 	/* Widgets from the Glade file */
@@ -117,14 +118,6 @@ typedef struct {
 
 
 
-/* Signal IDs */
-enum {
-	SAVE_EVENT_OBJECT,
-	RELEASED_EVENT_OBJECT,
-	EDITOR_CLOSED,
-	LAST_SIGNAL
-};
-
 static void event_editor_class_init (EventEditorClass *class);
 static void event_editor_init (EventEditor *ee);
 static void event_editor_destroy (GtkObject *object);
@@ -147,8 +140,6 @@ static void recurrence_toggled (GtkWidget *radio, EventEditor *ee);
 static void recurrence_exception_added (GtkWidget *widget, EventEditor *ee);
 static void recurrence_exception_deleted (GtkWidget *widget, EventEditor *ee);
 static void recurrence_exception_changed (GtkWidget *widget, EventEditor *ee);
-
-static guint event_editor_signals[LAST_SIGNAL];
 
 
 
@@ -194,34 +185,6 @@ event_editor_class_init (EventEditorClass *class)
 
 	parent_class = gtk_type_class (GTK_TYPE_OBJECT);
 
-	event_editor_signals[SAVE_EVENT_OBJECT] =
-		gtk_signal_new ("save_event_object",
-				GTK_RUN_FIRST,
-				object_class->type,
-				GTK_SIGNAL_OFFSET (EventEditorClass, save_event_object),
-				gtk_marshal_NONE__POINTER,
-				GTK_TYPE_NONE, 1,
-				GTK_TYPE_POINTER);
-
-	event_editor_signals[RELEASED_EVENT_OBJECT] =
-		gtk_signal_new ("released_event_object",
-				GTK_RUN_FIRST,
-				object_class->type,
-				GTK_SIGNAL_OFFSET (EventEditorClass, released_event_object),
-				gtk_marshal_NONE__STRING,
-				GTK_TYPE_NONE, 1,
-				GTK_TYPE_POINTER);
-
-	event_editor_signals[EDITOR_CLOSED] =
-		gtk_signal_new ("editor_closed",
-				GTK_RUN_FIRST,
-				object_class->type,
-				GTK_SIGNAL_OFFSET (EventEditorClass, editor_closed),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
-
-	gtk_object_class_add_signals (object_class, event_editor_signals, LAST_SIGNAL);
-
 	object_class->destroy = event_editor_destroy;
 }
 
@@ -260,11 +223,6 @@ event_editor_destroy (GtkObject *object)
 	}
 
 	if (priv->comp) {
-		/* We do not emit the "released_event_object" signal here.  If
-		 * the user closed the dialog box, then it has already been
-		 * released.  If the application just destroyed the event
-		 * editor, then it had better clean up after itself.
-		 */
 		gtk_object_unref (GTK_OBJECT (priv->comp));
 		priv->comp = NULL;
 	}
@@ -1095,7 +1053,6 @@ dialog_to_comp_object (EventEditor *ee)
 	cal_component_commit_sequence (comp);
 }
 
-/* Emits the "save_event_object" signal if the event editor is editing an object. */
 static void
 save_event_object (EventEditor *ee)
 {
@@ -1113,8 +1070,8 @@ save_event_object (EventEditor *ee)
 	gtk_window_set_title (GTK_WINDOW (priv->app), title);
 	g_free (title);
 
-	gtk_signal_emit (GTK_OBJECT (ee), event_editor_signals[SAVE_EVENT_OBJECT],
-			 priv->comp);
+	if (!cal_client_update_object (priv->client, priv->comp))
+		g_message ("save_event_object(): Could not update the object!");
 }
 
 /* Closes the dialog box and emits the appropriate signals */
@@ -1133,15 +1090,18 @@ close_dialog (EventEditor *ee)
 	priv->app = NULL;
 
 	if (priv->comp) {
-		const char *uid;
-		
-		cal_component_get_uid (priv->comp, &uid);
-		gtk_signal_emit (GTK_OBJECT (ee), event_editor_signals[RELEASED_EVENT_OBJECT], uid);
 		gtk_object_unref (GTK_OBJECT (priv->comp));
 		priv->comp = NULL;
 	}
 
-	gtk_signal_emit (GTK_OBJECT (ee), event_editor_signals[EDITOR_CLOSED]);
+	if (priv->client) {
+		gtk_signal_disconnect_by_data (GTK_OBJECT (priv->client), ee);
+		gtk_object_unref (GTK_OBJECT (priv->client));
+		priv->client = NULL;
+	}
+
+
+	gtk_object_destroy (GTK_OBJECT (ee));
 }
 
 
@@ -1359,47 +1319,46 @@ create_menu (EventEditor *ee)
 
 
 
-/* Toolbar/Save and Close callback */
-static void
-tb_save_and_close_cb (GtkWidget *widget, gpointer data)
-{
-	EventEditor *ee;
-
-	ee = EVENT_EDITOR (data);
-	save_event_object (ee);
-	close_dialog (ee);
-}
-
-
-
 /* Toolbar */
 
 static GnomeUIInfo toolbar[] = {
-	GNOMEUIINFO_ITEM_STOCK (N_("FIXME: Save and Close"),
-				N_("Save the appointment and close the dialog box"),
-				tb_save_and_close_cb,
+	GNOMEUIINFO_ITEM_STOCK (N_("Save"),
+				N_("Save the appointment"),
+				file_save_cb,
 				GNOME_STOCK_PIXMAP_SAVE),
+
 	GNOMEUIINFO_SEPARATOR,
-	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Print..."),
-			       N_("Print this item"), NULL),
-	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Insert File..."),
-			       N_("Insert a file as an attachment"), NULL),
+
+	GNOMEUIINFO_ITEM_STOCK (N_("FIXME: Print..."),
+				N_("Print this item"), NULL,
+				GNOME_STOCK_PIXMAP_PRINT),
+	GNOMEUIINFO_ITEM_STOCK (N_("FIXME: Insert File..."),
+				N_("Insert a file as an attachment"), NULL,
+				GNOME_STOCK_PIXMAP_ATTACH),
+
 	GNOMEUIINFO_SEPARATOR,
-	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Recurrence..."),
-			       N_("Configure recurrence rules"), NULL),
+
+	GNOMEUIINFO_ITEM_STOCK (N_("FIXME: Invite Attendees..."),
+				N_("Invite attendees to a meeting"), NULL,
+				GNOME_STOCK_PIXMAP_MULTIPLE),
+
 	GNOMEUIINFO_SEPARATOR,
-	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Invite Attendees..."),
-			       N_("Invite attendees to a meeting"), NULL),
+
+	GNOMEUIINFO_ITEM_STOCK (N_("FIXME: Delete"),
+				N_("Delete this item"), NULL,
+				GNOME_STOCK_PIXMAP_TRASH),
+
 	GNOMEUIINFO_SEPARATOR,
-	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Delete"),
-			       N_("Delete this item"), NULL),
-	GNOMEUIINFO_SEPARATOR,
-	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Previous"),
-			       N_("Go to the previous item"), NULL),
-	GNOMEUIINFO_ITEM_NONE (N_("FIXME: Next"),
-			       N_("Go to the next item"), NULL),
+
+	GNOMEUIINFO_ITEM_STOCK (N_("FIXME: Previous"),
+				N_("Go to the previous item"), NULL,
+				GNOME_STOCK_PIXMAP_BACK),
+	GNOMEUIINFO_ITEM_STOCK (N_("FIXME: Next"),
+				N_("Go to the next item"), NULL,
+				GNOME_STOCK_PIXMAP_FORWARD),
 	GNOMEUIINFO_ITEM_STOCK (N_("FIXME: Help"),
-				N_("See online help"), NULL, GNOME_STOCK_PIXMAP_HELP),
+				N_("See online help"), NULL, 
+				GNOME_STOCK_PIXMAP_HELP),
 	GNOMEUIINFO_END
 };
 
@@ -1529,6 +1488,109 @@ event_editor_new (void)
 	return event_editor_construct (EVENT_EDITOR (ee));
 }
 
+/* Brings attention to a window by raising it and giving it focus */
+static void
+raise_and_focus (GtkWidget *widget)
+{
+	g_assert (GTK_WIDGET_REALIZED (widget));
+	gdk_window_show (widget->window);
+	gtk_widget_grab_focus (widget);
+}
+
+/* Callback used when the calendar client tells us that an object changed */
+static void
+obj_updated_cb (CalClient *client, const char *uid, gpointer data)
+{
+	EventEditor *ee;
+	EventEditorPrivate *priv;
+	CalComponent *comp;
+	CalClientGetStatus status;
+	gint day, event_num;
+
+	ee = EVENT_EDITOR (data);
+
+	g_return_if_fail (IS_EVENT_EDITOR (ee));
+
+	priv = ee->priv;
+	
+	/* Get the event from the server. */
+	status = cal_client_get_object (priv->client, uid, &comp);
+
+	switch (status) {
+	case CAL_CLIENT_GET_SUCCESS:
+		/* Everything is fine */
+		break;
+
+	case CAL_CLIENT_GET_SYNTAX_ERROR:
+		g_message ("obj_updated_cb(): Syntax error when getting object `%s'", uid);
+		return;
+
+	case CAL_CLIENT_GET_NOT_FOUND:
+		/* The object is no longer in the server, so do nothing */
+		return;
+
+	default:
+		g_assert_not_reached ();
+		return;
+	}
+
+	raise_and_focus (priv->app);
+}
+
+/* Callback used when the calendar client tells us that an object was removed */
+static void
+obj_removed_cb (CalClient *client, const char *uid, gpointer data)
+{
+	EventEditor *ee;
+	EventEditorPrivate *priv;
+
+	ee = EVENT_EDITOR (data);
+
+	g_return_if_fail (ee != NULL);
+	g_return_if_fail (IS_EVENT_EDITOR (ee));
+
+	priv = ee->priv;
+
+	raise_and_focus (priv->app);
+}
+
+void 
+event_editor_set_cal_client (EventEditor *ee, CalClient *client)
+{
+	EventEditorPrivate *priv;
+
+	g_return_if_fail (ee != NULL);
+	g_return_if_fail (IS_EVENT_EDITOR (ee));
+
+	priv = ee->priv;
+
+	if (client == priv->client)
+		return;
+
+	if (client)
+		g_return_if_fail (IS_CAL_CLIENT (client));
+
+	if (client)
+		g_return_if_fail (cal_client_is_loaded (client));	
+	
+	if (client)
+		gtk_object_ref (GTK_OBJECT (client));
+
+	if (priv->client) {
+		gtk_signal_disconnect_by_data (GTK_OBJECT (priv->client), ee);
+		gtk_object_unref (GTK_OBJECT (priv->client));
+	}
+
+	priv->client = client;
+
+	if (priv->client) {
+		gtk_signal_connect (GTK_OBJECT (priv->client), "obj_updated",
+				    GTK_SIGNAL_FUNC (obj_updated_cb), ee);
+		gtk_signal_connect (GTK_OBJECT (priv->client), "obj_removed",
+				    GTK_SIGNAL_FUNC (obj_removed_cb), ee);
+	}
+}
+
 /**
  * event_editor_set_event_object:
  * @ee: An event editor.
@@ -1540,6 +1602,7 @@ void
 event_editor_set_event_object (EventEditor *ee, CalComponent *comp)
 {
 	EventEditorPrivate *priv;
+	CalClientGetStatus status;
 	char *title;
 
 	g_return_if_fail (ee != NULL);
@@ -1548,31 +1611,19 @@ event_editor_set_event_object (EventEditor *ee, CalComponent *comp)
 	priv = ee->priv;
 
 	if (priv->comp) {
-		const char *uid;
-
-		cal_component_get_uid (priv->comp, &uid);
-		gtk_signal_emit (GTK_OBJECT (ee), event_editor_signals[RELEASED_EVENT_OBJECT], uid);
 		gtk_object_unref (GTK_OBJECT (priv->comp));
 		priv->comp = NULL;
 	}
 
-	if (comp)
+	if (comp) {
 		priv->comp = cal_component_clone (comp);
+	}
 
 	title = make_title_from_comp (priv->comp);
 	gtk_window_set_title (GTK_WINDOW (priv->app), title);
 	g_free (title);
 
 	fill_widgets (ee);
-}
-
-/* Brings attention to a window by raising it and giving it focus */
-static void
-raise_and_focus (GtkWidget *widget)
-{
-	g_assert (GTK_WIDGET_REALIZED (widget));
-	gdk_window_show (widget->window);
-	gtk_widget_grab_focus (widget);
 }
 
 /**

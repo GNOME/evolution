@@ -1369,19 +1369,6 @@ gnome_calendar_set_selected_time_range (GnomeCalendar *gcal,
 	gnome_calendar_update_date_navigator (gcal);
 }
 
-
-/* Callback used when an event editor requests that an object be saved */
-static void
-save_event_object_cb (EventEditor *ee, CalComponent *comp, gpointer data)
-{
-	GnomeCalendar *gcal;
-
-	gcal = GNOME_CALENDAR (data);
-	if (!cal_client_update_object (gcal->client, comp))
-		g_message ("save_event_object_cb(): Could not update the object!");
-}
-
-
 /* Callback used when an event editor finishes editing an object */
 static void
 released_event_object_cb (EventEditor *ee, const char *uid, gpointer data)
@@ -1403,16 +1390,41 @@ released_event_object_cb (EventEditor *ee, const char *uid, gpointer data)
 }
 
 /* Callback used when an event editor dialog is closed */
-static void
-editor_closed_cb (EventEditor *ee, gpointer data)
+struct editor_closure 
 {
-	gtk_object_unref (GTK_OBJECT (ee));
+	GnomeCalendar *gcal;
+	char *uid;
+};
+
+static void
+editor_closed_cb (GtkWidget *widget, gpointer data)
+{
+	GnomeCalendar *gcal;
+	struct editor_closure *ec;
+	gboolean result;
+	gpointer orig_key;
+	char *orig_uid;
+
+	g_print ("editor_closed_cb ()\n");
+	
+	ec = (struct editor_closure *)data;
+	gcal = ec->gcal;
+
+	result = g_hash_table_lookup_extended (gcal->object_editor_hash, 
+					       ec->uid, &orig_key, NULL);
+	g_assert (result != FALSE);
+
+	orig_uid = orig_key;
+
+	g_hash_table_remove (gcal->object_editor_hash, orig_uid);
+	g_free (orig_uid);
 }
 
 void
 gnome_calendar_edit_object (GnomeCalendar *gcal, CalComponent *comp)
 {
 	EventEditor *ee;
+	struct editor_closure *ec;
 	const char *uid;
 	
 	g_return_if_fail (gcal != NULL);
@@ -1423,29 +1435,24 @@ gnome_calendar_edit_object (GnomeCalendar *gcal, CalComponent *comp)
 
 	ee = g_hash_table_lookup (gcal->object_editor_hash, uid);
 	if (!ee) {
+		ec = g_new0 (struct editor_closure, 1);
+		
 		ee = event_editor_new ();
 		if (!ee) {
 			g_message ("gnome_calendar_edit_object(): Could not create the event editor");
 			return;
 		}
 
-		/* FIXME: what to do when an event editor wants to switch
-		 * objects?  We would need to know about it as well.
-		 */
+		ec->gcal = gcal;
+		ec->uid = g_strdup (uid);
+		
+		g_hash_table_insert (gcal->object_editor_hash, ec->uid, ee);
 
-		g_hash_table_insert (gcal->object_editor_hash, g_strdup (uid), ee);
+		gtk_signal_connect (GTK_OBJECT (ee), "destroy",
+				    GTK_SIGNAL_FUNC (editor_closed_cb), 
+				    ec);
 
-		gtk_signal_connect (GTK_OBJECT (ee), "save_event_object",
-				    GTK_SIGNAL_FUNC (save_event_object_cb),
-				    gcal);
-
-		gtk_signal_connect (GTK_OBJECT (ee), "released_event_object",
-				    GTK_SIGNAL_FUNC (released_event_object_cb),
-				    gcal);
-
-		gtk_signal_connect (GTK_OBJECT (ee), "editor_closed",
-				    GTK_SIGNAL_FUNC (editor_closed_cb), gcal);
-
+		event_editor_set_cal_client (EVENT_EDITOR (ee), gcal->client);
 		event_editor_set_event_object (EVENT_EDITOR (ee), comp);
 	}
 
@@ -1478,12 +1485,14 @@ gnome_calendar_new_appointment (GnomeCalendar *gcal)
 	comp = cal_component_new ();
 	cal_component_set_new_vtype (comp, CAL_COMPONENT_EVENT);
 
-	itt = icaltime_from_timet (dtstart, 0, TRUE);
+	itt = icaltime_from_timet (dtstart, FALSE, FALSE);
 	cal_component_set_dtstart (comp, &dt);
 
-	itt = icaltime_from_timet (dtend, 0, TRUE);
+	itt = icaltime_from_timet (dtend, FALSE, FALSE);
 	cal_component_set_dtend (comp, &dt);
 
+	cal_component_commit_sequence (comp);
+	
 	gnome_calendar_edit_object (gcal, comp);
 	gtk_object_unref (GTK_OBJECT (comp));
 	

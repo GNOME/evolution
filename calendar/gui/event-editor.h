@@ -49,12 +49,6 @@ struct _EventEditor {
 
 struct _EventEditorClass {
 	GtkObjectClass parent_class;
-
-	/* Notification signals */
-
-	void (* save_event_object) (EventEditor *ee, CalComponent *comp);
-	void (* released_event_object) (EventEditor *ee, const char *uid);
-	void (* editor_closed) (EventEditor *ee);
 };
 
 
@@ -63,6 +57,7 @@ EventEditor *event_editor_construct (EventEditor *ee);
 
 EventEditor *event_editor_new (void);
 
+void event_editor_set_cal_client (EventEditor *ee, CalClient *client);
 void event_editor_set_event_object (EventEditor *ee, CalComponent *comp);
 
 void event_editor_focus (EventEditor *ee);
