@@ -29,6 +29,8 @@
 #include <gtk/gtkaccellabel.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkmenuitem.h>
+#include <gtk/gtkcheckmenuitem.h>
+#include <gtk/gtkradiomenuitem.h>
 #include <gtk/gtksignal.h>
 #include <libgnomeui/gtkpixmapmenuitem.h>
 #include <libgnomeui/gnome-stock.h>
@@ -65,15 +67,12 @@ gnome_app_helper_gettext (const gchar *str)
 /*
  * Creates an item with an optional icon
  */
-static GtkWidget *
-make_item (GtkMenu *menu, const char *name, GtkWidget *pixmap)
+static void
+make_item (GtkMenu *menu, GtkMenuItem *item, const char *name, GtkWidget *pixmap)
 {
-	GtkWidget *label, *item;
+	GtkWidget *label;
 	guint label_accel;
-	
-	if (*name == '\0')
-		return gtk_menu_item_new ();
-	
+
 	/*
 	 * Ugh.  This needs to go into Gtk+
 	 */
@@ -82,30 +81,28 @@ make_item (GtkMenu *menu, const char *name, GtkWidget *pixmap)
 	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
 	gtk_widget_show (label);
 	
-	item = pixmap ? gtk_pixmap_menu_item_new () : gtk_menu_item_new ();
 	gtk_container_add (GTK_CONTAINER (item), label);
 	
 	if (label_accel != GDK_VoidSymbol){
 		gtk_widget_add_accelerator (
-			item,
+			GTK_WIDGET (item),
 			"activate_item",
 			gtk_menu_ensure_uline_accel_group (GTK_MENU (menu)),
 			label_accel, 0,
 			GTK_ACCEL_LOCKED);
 	}
 	
-	if (pixmap){
+	if (pixmap && GTK_IS_PIXMAP_MENU_ITEM (item)){
 		gtk_widget_show (pixmap);
 		gtk_pixmap_menu_item_set_pixmap (GTK_PIXMAP_MENU_ITEM (item), pixmap);
 	}
-	
-	return item;
 }
 
 GtkMenu *
 e_popup_menu_create (EPopupMenu *menu_list, guint32 disable_mask, guint32 hide_mask, void *default_closure)
 {
 	GtkMenu *menu = GTK_MENU (gtk_menu_new ());
+	GSList *group = NULL;
 	gboolean last_item_separator = TRUE;
 	int last_non_separator = -1;
 	int i;
@@ -122,12 +119,24 @@ e_popup_menu_create (EPopupMenu *menu_list, guint32 disable_mask, guint32 hide_m
 		separator = !strcmp ("", menu_list[i].name);
 		
 		if ((!(separator && last_item_separator)) && !(menu_list [i].disable_mask & hide_mask)) {
-			GtkWidget *item;
+			GtkWidget *item = NULL;
 			
-			if (!separator)
-				item = make_item (menu, L_(menu_list[i].name), menu_list[i].pixmap_widget);
-			else
-				item = make_item (menu, "", NULL);
+			if (!separator) {
+				if (menu_list[i].is_toggle)
+					item = gtk_check_menu_item_new ();
+				else if (menu_list[i].is_radio)
+					item = gtk_radio_menu_item_new (group);
+				else
+					item = menu_list[i].pixmap_widget ? gtk_pixmap_menu_item_new () : gtk_menu_item_new ();
+				if (menu_list[i].is_toggle || menu_list[i].is_radio)
+					gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (item), menu_list[i].is_active);
+				if (menu_list[i].is_radio)
+					group = gtk_radio_menu_item_group (GTK_RADIO_MENU_ITEM (item));
+				
+				make_item (menu, GTK_MENU_ITEM (item), L_(menu_list[i].name), menu_list[i].pixmap_widget);
+			} else {
+				item = gtk_menu_item_new ();
+			}
 			
 			gtk_menu_append (menu, item);
 			
