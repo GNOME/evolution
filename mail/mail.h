@@ -26,9 +26,6 @@
 
 extern char *evolution_dir;
 
-/* mail-config */
-void mail_config_druid (void);
-
 /* mail-crypto */
 char *mail_crypto_openpgp_decrypt (const char *ciphertext,
 				   CamelException *ex);
@@ -85,6 +82,11 @@ void run_filter_ondemand (BonoboUIHandler *uih, gpointer user_data, const char *
 /* mail view */
 GtkWidget *mail_view_create (CamelFolder *source, const char *uid, CamelMimeMessage *msg);
 
+/* component factory for lack of a better place */
+/*takes a GSList of MailConfigServices */
+void mail_load_storages (Evolution_Shell corba_shell, GSList *sources);
+void mail_add_new_storage (const char *uri, Evolution_Shell corba_shell, CamelException *ex);
+
 /* session */
 void session_init (void);
 char *mail_request_dialog (const char *prompt, gboolean secret,
@@ -92,3 +94,11 @@ char *mail_request_dialog (const char *prompt, gboolean secret,
 void forget_passwords (BonoboUIHandler *uih, void *user_data,
 		       const char *path);
 extern CamelSession *session;
+
+/* mail-threads */
+/* These are NOT for the async thread. They handle locking 
+ * of GDK, which is a bit wacky when threads are enabled.
+ */
+gint mail_dialog_run_and_close (GnomeDialog *dlg);
+gint mail_dialog_run (GnomeDialog *dlg);
+

@@ -430,7 +430,7 @@ my_folder_browser_init (GtkObject *object)
 }
 
 GtkWidget *
-folder_browser_new (void)
+folder_browser_new (Evolution_Shell shell)
 {
 	static int serial;
 	FolderBrowser *folder_browser = gtk_type_new (folder_browser_get_type ());
@@ -438,6 +438,7 @@ folder_browser_new (void)
 	my_folder_browser_init (GTK_OBJECT (folder_browser));
 	folder_browser->uri = NULL;
 	folder_browser->serial = serial++;
+	folder_browser->shell = shell;
 
 	return GTK_WIDGET (folder_browser);
 }

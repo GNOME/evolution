@@ -1,3 +1,116 @@
+2000-08-24  Peter Williams  <peterw@helixcode.com>
+
+	* component-factory.c (mail_load_storages): New function.
+	Loads a list of URI's as mail storages, and inserts them
+	into the shell's folder tree if appropriate (really, only
+	puts them into the folder tree.)
+	(mail_add_new_storage): Insert a storage into the folder
+	tree. Not always appropriate (eg, /var/spool/mail/user is
+	a storage that shouldn't be in the folder tree.)
+	(create_view): Generate the Evolution_Shell and pass it
+	to folder_browser_factor_new_control so that its member
+	'shell' can be set.
+	(owner_set_cb): Instead of create_news_storage and
+	creating the imap storages, load the news storages and
+	mail storages via mail_load_storages().
+
+	* folder-browser-factory.c (control_activate): Change to
+	use providers_config again instead of mail_config. Pass
+	the folderbrowser so that the config code knows where
+	to insert the new storages if any are created. Pass
+	forget_passwords the folderbriwser, too, for good luck.
+	(folder_browser_factory_new_control): Take a new parameter,
+	the Evolution_Shell that we belong to. The field in
+	FolderBrowser has been there but was never getting set by
+	anything, and we need this to be able to insert new storages
+	into the shell's folder list.
+
+	* folder-browser.c (folder_browser_new): Accept the
+	new Evolution_Shell parameter. Set it. (Should we 
+	ref it or something?)
+
+	* mail-config-gui.c (struct MailDruidDialog): Store an
+	Evolution_Shell. With this we can insert the stores into 
+	the shell's folder list.
+	(struct MailDialog): Same.
+	(service_page_item_changed): Close a leak.
+	(identity_dialog): Unswitch the Add/Edit identity titles.
+	(news_dialog): Analogous to above.
+	(mail_druid_finish): Add the new mail source to the shell
+	view.
+	(mail_config_druid): Take a new Evolution_Shell parameter
+	for later use.
+	(mail_config_apply_clicked): Add all the mail sources to
+	the shell view.
+	(mail_config): Take a new Evolution_Shell parameter.
+
+	* mail-callbacks.c (check_configured): Accept a FolderBrowser
+	so that we know where to put the new storages if any are
+	created. Almost all the callbacks are passed a FB * anyway
+	so this isn't a big deal.
+	(check_send_configuration): Make sure that we're configured
+	enough to be able to send mail. composer_send_cb() used to
+	do this, but it would need a FolderBrowser *, and there are
+	too many entry points to composer_send_cb to make this
+	feasible.
+	(fetch_mail): Pass the extra parm to check_configured().
+	(free_psd): Move so that composer_send_cb can call this
+	directly.
+	(composer_send_cb): Don't check for proper configuration
+	here -- it is the caller's responsiblity to call
+	check_send_configuration(). Call free_psd() directly.
+	(compose_msg): Call check_send_configuration().
+	(send_to_url): Same. This is called from mail-display.c,
+	though, and cannot reasonably be passed a FB. So: we can't
+	start up the config dialog directly; the user must do it
+	manually. Oh well.
+	(mail_reply): Same as above.
+	(forward_msg): Same as compose_msg().
+	(edit_msg): Same as above.
+	(providers_config): Reenable so that we can pass mail_config
+	its FolderBrowser.
+	
+	* mail-display.c (write_data_to_file): Use the much more
+	straightforward run_and_close to retrieve the user's answer,
+	instead of the reply callback stuff.
+
+	* mail-threads.c (mail_dialog_run): New wrapper for 
+	gnome_dialog_run that will take care of the GDK lock correctly.
+	Far far more complicated than it should be.
+	(mail_dialog_run_and_close): Analogous to above.
+	(read_msg): Set inside_read_msg and unset it for the benefit
+	of the two above functions. Don't bracket ourselves in 
+	GDK_THREADS_ENTER/_LEAVE anymore.
+	(mail_operation_queue): Use mail_dialog_run_and_close.
+	(show_error): As above.
+	(get_password): As above.
+	
+	* mail-display.c (write_data_to_file): This has the only
+	exception to the rule that "use mail_dialog_run(_and_close)
+	instead of the gnome equivalent always." Not quite sure why
+	it doesn't work here (the file selection window?).
+
+	* mail-config-gui.c (identity_dialog): Change to
+	mail_dialog_run_and_close.
+	(source_dialog): Same as above.
+	(news_dialog): Same as above.
+	(cleanup_test_service): Same as above.
+	(mail_config): Change to mail_dialog_run().
+
+	* session.c (mail_request_dialog): Change to 
+	mail_dialog_run_and_close.
+
+	* mail-tools.c (mail_tool_uri_to_folder_noex): As above.
+
+	* mail-ops.c (cleanup_fetch_mail): As above.
+
+	* mail-local.c (local_reconfigure_folder): As above.
+
+	* mail-callbacks.c (check_send_configuration): As above.
+	(ask_confirm_for_empty_subject): As above.
+	(edit_msg): As above.
+	(filter_edit): As above.
+
 2000-08-23  Dan Winship  <danw@helixcode.com>
 
 	* folder-browser-factory.c (control_activate): Reformat a bit,

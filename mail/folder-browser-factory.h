@@ -12,8 +12,9 @@
 #define _FOLDER_BROWSER_FACTORY_H
 
 #include <bonobo.h>
+#include "Evolution.h"
 
-BonoboControl *folder_browser_factory_new_control       (const char *uri);
+BonoboControl *folder_browser_factory_new_control       (const char *uri, Evolution_Shell shell);
 GList         *folder_browser_factory_get_control_list  (void);
 
 #endif /* _FOLDER_BROWSER_FACTORY_H */

@@ -141,6 +141,7 @@ typedef struct
 
 typedef struct
 {
+	Evolution_Shell shell;
 	GladeXML *gui;
 	GtkWidget *dialog;
 	GtkWidget *druid;
@@ -154,6 +155,7 @@ typedef struct
 
 typedef struct
 {
+	Evolution_Shell shell;
 	GladeXML *gui;
 	GtkWidget *dialog;
 	GtkWidget *notebook;
@@ -790,6 +792,7 @@ service_page_item_changed (GtkWidget *item, MailDialogServicePage *page)
 			data = gtk_editable_get_chars (GTK_EDITABLE (spitem->path), 0, -1);
 			if (!data || !*data)
 				complete = FALSE;
+			g_free (data);
 		}
 	}
 
@@ -1194,9 +1197,9 @@ identity_dialog (const MailConfigIdentity *id, GtkWidget *parent)
 	iddialog = g_new0 (MailDialogIdentity, 1);
 
 	if (new)
-		iddialog->dialog = gnome_dialog_new (_("Edit Identity"), NULL);
-	else
 		iddialog->dialog = gnome_dialog_new (_("Add Identity"), NULL);
+	else
+		iddialog->dialog = gnome_dialog_new (_("Edit Identity"), NULL);
 
 	gtk_window_set_modal (GTK_WINDOW (iddialog->dialog), TRUE);
 	gtk_window_set_policy (GTK_WINDOW (iddialog->dialog), 
@@ -1241,9 +1244,7 @@ identity_dialog (const MailConfigIdentity *id, GtkWidget *parent)
 				     GTK_SIGNAL_FUNC (iddialog_ok_clicked),
 				     iddialog);
 
-	/*GDK_THREADS_ENTER ();*/
-	gnome_dialog_run_and_close (GNOME_DIALOG (iddialog->dialog));
-	/*GDK_THREADS_LEAVE ();*/
+	mail_dialog_run_and_close (GNOME_DIALOG (iddialog->dialog));
 
 	returnid = iddialog->id;
 	g_free (iddialog);
@@ -1290,9 +1291,9 @@ source_dialog (MailConfigService *source, GtkWidget *parent)
 	provider_list (&sources, &news, &transports);
 	
 	if (new)
-		sdialog->dialog = gnome_dialog_new (_("Edit Source"), NULL);
-	else
 		sdialog->dialog = gnome_dialog_new (_("Add Source"), NULL);
+	else
+		sdialog->dialog = gnome_dialog_new (_("Edit Source"), NULL);
 
 	gtk_window_set_modal (GTK_WINDOW (sdialog->dialog), TRUE);
 	gtk_window_set_policy (GTK_WINDOW (sdialog->dialog), 
@@ -1340,9 +1341,7 @@ source_dialog (MailConfigService *source, GtkWidget *parent)
 				    GTK_SIGNAL_FUNC (sdialog_ok_clicked),
 				    sdialog);
 
-	/*GDK_THREADS_ENTER ();*/
-	gnome_dialog_run_and_close (GNOME_DIALOG (sdialog->dialog));
-	/*GDK_THREADS_LEAVE ();*/
+	mail_dialog_run_and_close (GNOME_DIALOG (sdialog->dialog));
 
 	returnsource = sdialog->source;
 	g_free (sdialog);
@@ -1389,9 +1388,9 @@ news_dialog (MailConfigService *source, GtkWidget *parent)
 	provider_list (&sources, &news, &transports);
 	
 	if (new)
-		ndialog->dialog = gnome_dialog_new (_("Edit News Server"), NULL);
-	else
 		ndialog->dialog = gnome_dialog_new (_("Add News Server"), NULL);
+	else
+		ndialog->dialog = gnome_dialog_new (_("Edit News Server"), NULL);
 
 	gtk_window_set_modal (GTK_WINDOW (ndialog->dialog), TRUE);
 	gtk_window_set_policy (GTK_WINDOW (ndialog->dialog), 
@@ -1438,9 +1437,7 @@ news_dialog (MailConfigService *source, GtkWidget *parent)
 				    GTK_SIGNAL_FUNC (ndialog_ok_clicked),
 				    ndialog);
 
-	/*GDK_THREADS_ENTER ();*/
-	gnome_dialog_run_and_close (GNOME_DIALOG (ndialog->dialog));
-	/*GDK_THREADS_LEAVE ();*/
+	mail_dialog_run_and_close (GNOME_DIALOG (ndialog->dialog));
 
 	returnsource = ndialog->source;
 	g_free (ndialog);
@@ -1532,7 +1529,8 @@ mail_druid_finish (GnomeDruidPage *page, GnomeDruid *druid,
 	MailConfigIdentity *id;
 	MailConfigService *source;
 	MailConfigService *transport;
-	
+	GSList *mini;
+
 	mail_config_clear ();
 	
 	/* Identity */
@@ -1542,7 +1540,11 @@ mail_druid_finish (GnomeDruidPage *page, GnomeDruid *druid,
 	/* Source */
 	source = service_page_extract (dialog->spage->page);
 	mail_config_add_source (source);
-	
+
+	mini = g_slist_prepend (NULL, source);
+	mail_load_storages (dialog->shell, mini);
+	g_slist_free (mini);
+
 	/* Transport */
 	transport = service_page_extract (dialog->tpage->page);
 	mail_config_set_transport (transport);
@@ -1553,7 +1555,7 @@ mail_druid_finish (GnomeDruidPage *page, GnomeDruid *druid,
 }
 
 void
-mail_config_druid (void)
+mail_config_druid (Evolution_Shell shell)
 {
 	MailDruidDialog *dialog;
 	GnomeDruidPageStart *spage;
@@ -1571,6 +1573,7 @@ mail_config_druid (void)
 	transport_logo = load_image ("envelope.png");
 
 	dialog = g_new0 (MailDruidDialog, 1);
+	dialog->shell = shell; /*should ref this somewhere*/
 	dialog->gui = glade_xml_new (EVOLUTION_GLADEDIR 
 				     "/mail-config-druid.glade", NULL);
 	dialog->dialog = glade_xml_get_widget (dialog->gui, "dialog");
@@ -1953,10 +1956,16 @@ mail_config_apply_clicked (GnomePropertyBox *property_box,
 
 	/* Sources */
 	for (i = 0; i <= dialog->maxsrow; i++) {	
+		GSList *mini;
+
 		clist = GTK_CLIST (dialog->clistSources);
 
 		data = gtk_clist_get_row_data (clist, i);
 		mail_config_add_source ((MailConfigService *) data);
+
+		mini = g_slist_prepend (NULL, data);
+		mail_load_storages (dialog->shell, mini);
+		g_slist_free (mini);
 	}
 
 	/* Transport */
@@ -1985,7 +1994,7 @@ mail_config_apply_clicked (GnomePropertyBox *property_box,
 }
 
 void
-mail_config (void)
+mail_config (Evolution_Shell shell)
 {
 	MailDialog *dialog;
 	GladeXML *gui;
@@ -1998,6 +2007,9 @@ mail_config (void)
 
 	dialog = g_new0 (MailDialog, 1);	
 	gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config.glade", NULL);
+
+	dialog->shell = shell;
+	/*gtk_object_ref (GTK_OBJECT (dialog->fb)); no place to unref it*/
 
 	dialog->dialog = glade_xml_get_widget (gui, "dialog");
 	dialog->notebook = glade_xml_get_widget (gui, "notebook");
@@ -2160,9 +2172,7 @@ mail_config (void)
 			    GTK_SIGNAL_FUNC (mail_config_apply_clicked),
 			    dialog);
 
-	GDK_THREADS_ENTER ();
-	gnome_dialog_run (GNOME_DIALOG (dialog->dialog));
-	GDK_THREADS_LEAVE ();
+	mail_dialog_run (GNOME_DIALOG (dialog->dialog));
 
 	/* Clean up */
 	gtk_object_unref (GTK_OBJECT (gui));
@@ -2242,7 +2252,7 @@ static void cleanup_test_service (gpointer in_data, gpointer op_data, CamelExcep
 
 	if (data->success) {
 		dlg = gnome_ok_dialog (_("The connection was successful!"));
-		gnome_dialog_run_and_close (GNOME_DIALOG (dlg));
+		mail_dialog_run_and_close (GNOME_DIALOG (dlg));
 	}
 
 	g_free (input->url);

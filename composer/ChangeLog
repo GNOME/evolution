@@ -1,3 +1,8 @@
+2000-08-24  Peter Williams  <peterw@helixcode.com>
+
+	* Makefile.am (INCLUDES): Add builddir/shell so we can
+	get Evolution.h
+
 2000-08-12  Michael Meeks  <michael@helixcode.com>
 
 	* e-msg-composer.c (get_text): get_text not get_txt.

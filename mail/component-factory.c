@@ -46,9 +46,6 @@ CamelFolder *drafts_folder = NULL;
 char *evolution_dir;
 
 static void create_vfolder_storage (EvolutionShellComponent *shell_component);
-static void create_imap_storage (EvolutionShellComponent *shell_component,
-				 const char *source);
-static void create_news_storage (EvolutionShellComponent *shell_component);
 
 #define COMPONENT_FACTORY_ID "OAFIID:evolution-shell-component-factory:evolution-mail:0ea887d5-622b-4b8c-b525-18aa1cbe18a6"
 
@@ -69,13 +66,18 @@ create_view (EvolutionShellComponent *shell_component,
 	     BonoboControl **control_return,
 	     void *closure)
 {
+	EvolutionShellClient *shell_client;
+	Evolution_Shell corba_shell;
 	BonoboControl *control;
 	GtkWidget *folder_browser_widget;
 
 	if (g_strcasecmp (folder_type, "mail") != 0)
 		return EVOLUTION_SHELL_COMPONENT_UNSUPPORTEDTYPE;
 
-	control = folder_browser_factory_new_control (physical_uri);
+	shell_client = evolution_shell_component_get_owner (shell_component);
+	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));
+
+	control = folder_browser_factory_new_control (physical_uri, corba_shell);
 	if (!control)
 		return EVOLUTION_SHELL_COMPONENT_NOTFOUND;
 
@@ -106,7 +108,7 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	      gpointer user_data)
 {
 	GSList *sources;
-	MailConfigService *s;
+	Evolution_Shell corba_shell;
 
 	g_print ("evolution-mail: Yeeeh! We have an owner!\n");	/* FIXME */
 	
@@ -115,15 +117,13 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	mail_config_init ();
 	mail_do_setup_draftbox ();
 	create_vfolder_storage (shell_component);
-	create_news_storage (shell_component);
+
+	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));
 
 	sources = mail_config_get_sources ();
-	while (sources) {
-		s = sources->data;
-		if (!g_strncasecmp (s->url, "imap:", 5))
-			create_imap_storage (shell_component, s->url);
-		sources = sources->next;
-	}
+	mail_load_storages (corba_shell, sources);
+	sources = mail_config_get_news ();
+	mail_load_storages (corba_shell, sources);
 }
 
 static void
@@ -198,79 +198,155 @@ create_vfolder_storage (EvolutionShellComponent *shell_component)
 	vfolder_create_storage(shell_component);
 }
 
-static void
-create_imap_storage (EvolutionShellComponent *shell_component,
-		     const char *source)
+void 
+mail_load_storages (Evolution_Shell corba_shell, GSList *sources)
 {
-	EvolutionShellClient *shell_client;
-	Evolution_Shell corba_shell;
-	EvolutionStorage *storage;
-	char *server, *p;
+	CamelException ex;
+	GList *providers;
+	GSList *iter;
+	MailConfigService *svc;
+	GPtrArray *protos;
+	int i;
+
+	camel_exception_init (&ex);	
+	protos = g_ptr_array_new();
+
+	/* First, open all the storages so that camel
+	 * loads only the providers that we're going
+	 * to need.
+	 *
+	 * We don't open the storage per se but we
+	 * slurp its protocol so that we don't try
+	 * to connect to it just yet.
+	 * 
+	 * We remember the protocol associated with
+	 * each URI for the second pass.
+	 */
 	
-	shell_client = evolution_shell_component_get_owner (shell_component);
-	if (shell_client == NULL) {
-		g_warning ("We have no shell!?");
-		return;
+	for (iter = sources; iter; iter = iter->next) {
+		CamelService *temp;
+		gchar *p;
+		gchar *proto;
+
+		svc = (MailConfigService *) iter->data;
+		if (svc->url == NULL || svc->url[0] == '\0')
+			continue;
+
+		p = strchr (svc->url, ':');
+		if (!p || *p == '\0') {
+			g_warning ("Bad url (no protocol): %s", svc->url);
+			continue;
+		}
+
+		p++; /* we're on the char after the colon */
+
+		proto = g_strndup (svc->url, p - svc->url);
+		g_ptr_array_add (protos, proto);
+
+		temp = camel_session_get_service (session, proto, 
+						  CAMEL_PROVIDER_STORE, &ex);
+		if (temp == NULL) {
+			/* FIXME: real error dialog */
+
+			g_warning ("couldn't get service %s: %s\n",
+				   svc->url, camel_exception_get_description (&ex));
+		} else
+			camel_object_unref (CAMEL_OBJECT (temp));
 	}
-	
-	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));
-	
-	if (!(server = strchr (source, '@')))
-		return;
-	
-	server++;
-	for (p = server; *p && *p != '/'; p++);
-	
-	server = g_strndup (server, (gint)(p - server));
-	
-	storage = evolution_storage_new (server);
-	g_free (server);
-	
-	if (evolution_storage_register_on_shell (storage, corba_shell) != EVOLUTION_STORAGE_OK) {
-		g_warning ("Cannot register storage");
-		return;
+
+	/* Okay. All the providers we need are loaded.
+	 * Now get the list of them.
+	 */
+
+	providers = camel_session_list_providers (session, FALSE);
+
+	/* Now zip through the sources a second time. This time
+	 * we check to see if its provider is a storage or not.
+	 * If so, add it to the shell.
+	 */
+
+	for (iter = sources, i = 0; iter; iter = iter->next, i++) {
+		CamelProvider *prov = NULL;
+		GList *prov_iter;
+		gchar *proto;
+
+		svc = (MailConfigService *) iter->data;	
+
+		proto = g_ptr_array_index (protos, i);
+
+		/* find its provider */
+		for (prov_iter = providers; prov_iter; prov_iter = prov_iter->next) {
+			CamelProvider *thisone = (CamelProvider *) prov_iter->data;
+
+			if (!g_strncasecmp (proto, thisone->protocol, strlen (thisone->protocol))) {
+				prov = thisone;
+				break;
+			}
+		}
+
+		g_free (proto);
+
+		if (prov == NULL) {
+			g_warning ("No provider for loaded URL \"%s\"?", svc->url);
+			continue;
+		}
+
+		/* FIXME: this case is ambiguous for things like the mbox provider,
+		 * which can really be a spool (/var/spool/mail/user) or a storage
+		 * (~/mail/, eg). That issue can't be resolved on the provider
+		 * level -- it's a per-URL problem.
+		 */
+
+		if (prov->flags & CAMEL_PROVIDER_IS_STORAGE && prov->flags & CAMEL_PROVIDER_IS_REMOTE) {
+			mail_add_new_storage (svc->url, corba_shell, &ex);
+
+			if (camel_exception_is_set (&ex)) {
+				/* FIXME: real error dialog */
+				g_warning ("Cannot load storage: %s",
+					   camel_exception_get_description (&ex));
+			}
+		}
 	}
-	
-	mail_do_scan_subfolders (source, storage);
+
+	g_ptr_array_free (protos, TRUE);
+	camel_exception_clear (&ex);
 }
 
-static void
-create_news_storage (EvolutionShellComponent *shell_component)
+void
+mail_add_new_storage (const char *uri, Evolution_Shell corba_shell, CamelException *ex)
 {
-	const MailConfigService *s;
-	EvolutionShellClient *shell_client;
-	Evolution_Shell corba_shell;
 	EvolutionStorage *storage;
-	char *source = NULL, *server, *p;
-	
-	s = mail_config_get_default_news ();
-	if (s)
-		source = s->url;
-	
-	if (!source || g_strncasecmp (source, "news://", 7))
-		return;
-	
-	shell_client = evolution_shell_component_get_owner (shell_component);
-	if (shell_client == NULL) {
-		g_warning ("We have no shell!?");
-		return;
-	}
-	
-	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));
-	
-	server = source + 7;
-	for (p = server; *p && *p != '/'; p++);
-	
-	server = g_strndup (server, (gint)(p - server));
-	
-	storage = evolution_storage_new (server);
-	g_free (server);
+	EvolutionStorageResult res;
+	CamelURL *url;
 
-	if (evolution_storage_register_on_shell (storage, corba_shell) != EVOLUTION_STORAGE_OK) {
-		g_warning ("Cannot register storage");
+	g_return_if_fail (uri && uri[0] != '\0');
+	
+	url = camel_url_new (uri, ex);
+	if (url == NULL)
+		return;
+
+	if (url->host == NULL) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      "Bad storage URL (no server): %s",
+				      uri);
 		return;
 	}
-	
-	mail_do_scan_subfolders (source, storage);
+
+	storage = evolution_storage_new (url->host);
+	camel_url_free (url);
+
+	res = evolution_storage_register_on_shell (storage, corba_shell);
+
+	switch (res) {
+	case EVOLUTION_STORAGE_OK:
+		mail_do_scan_subfolders (uri, storage);
+		/* falllll */
+	case EVOLUTION_STORAGE_ERROR_ALREADYREGISTERED:
+	case EVOLUTION_STORAGE_ERROR_EXISTS:
+		return;
+	default:
+		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
+				     "mail_tool_add_new_storage: Cannot register storage on shell");
+		break;
+	}
 }
-

@@ -58,14 +58,64 @@ struct post_send_data {
 };
 
 static gboolean
-check_configured (void)
+check_configured (FolderBrowser *fb)
 {
 	if (mail_config_is_configured ())
 		return TRUE;
 
-	mail_config_druid ();
+	if (fb) {
+		mail_config_druid (fb->shell);
+		return mail_config_is_configured ();
+	} else
+		return FALSE;
+}
 
-	return mail_config_is_configured ();
+static gboolean
+check_send_configuration (FolderBrowser *fb)
+{
+	MailConfigService *xport = NULL;
+
+	/* Check general */
+	
+	if (!check_configured (fb)) {
+		GtkWidget *message;
+		
+		message = gnome_warning_dialog_parented (_("You need to configure the mail client\n"
+							   "before you can compose mail."),
+							 GTK_WINDOW (gtk_widget_get_ancestor (GTK_WIDGET (fb),
+											      GTK_TYPE_WINDOW)));
+		mail_dialog_run_and_close (GNOME_DIALOG (message));
+		return FALSE;
+	}
+
+	/* Check for an identity */
+
+	if (!mail_config_get_default_identity ()) {
+		GtkWidget *message;
+		
+		message = gnome_warning_dialog_parented (_("You need to configure an identity\n"
+							   "before you can compose mail."),
+							 GTK_WINDOW (gtk_widget_get_ancestor (GTK_WIDGET (fb),
+											      GTK_TYPE_WINDOW)));
+		mail_dialog_run_and_close (GNOME_DIALOG (message));
+		return FALSE;
+	}
+	
+	/* Check for a transport */
+	
+	xport = mail_config_get_transport ();
+	if (!xport || !xport->url) {
+		GtkWidget *message;
+		
+		message = gnome_warning_dialog_parented (_("You need to configure a mail transport\n"
+							   "before you can compose mail."),
+							 GTK_WINDOW (gtk_widget_get_ancestor (GTK_WIDGET (fb),
+											      GTK_TYPE_WINDOW)));
+		mail_dialog_run_and_close (GNOME_DIALOG (message));
+		return FALSE;
+	}
+
+	return TRUE;
 }
 
 static void
@@ -89,7 +139,7 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 {
 	GSList *sources;
 
-	if (!check_configured ()) {
+	if (!check_configured (FOLDER_BROWSER (user_data))) {
 		GtkWidget *win = gtk_widget_get_ancestor (GTK_WIDGET (user_data),
 							  GTK_TYPE_WINDOW);
 
@@ -136,14 +186,25 @@ ask_confirm_for_empty_subject (EMsgComposer *composer)
 					     GNOME_STOCK_BUTTON_YES, GNOME_STOCK_BUTTON_NO,
 					     NULL);
 
-	/*GDK_THREADS_ENTER ();*/
-	button = gnome_dialog_run_and_close (GNOME_DIALOG (message_box));
-	/*GDK_THREADS_LEAVE ();*/
+	button = mail_dialog_run_and_close (GNOME_DIALOG (message_box));
 
 	if (button == 0)
 		return TRUE;
 	else
 		return FALSE;
+}
+
+static void
+free_psd (struct post_send_data *psd)
+{
+	if (!psd)
+		return;
+
+	if (psd->folder)
+		camel_object_unref (CAMEL_OBJECT (psd->folder));
+	if (psd->uid)
+		g_free (psd->uid);
+	g_free (psd);
 }
 
 void
@@ -157,37 +218,10 @@ composer_send_cb (EMsgComposer *composer, gpointer data)
 
 	struct post_send_data *psd = data;
 
-	/* Check for an identity */
+	/* Config info */
 
 	id = mail_config_get_default_identity ();
-	if (!check_configured () || !id) {
-		GtkWidget *message;
-		
-		message = gnome_warning_dialog_parented (_("You need to configure an identity\n"
-							   "before you can send mail."),
-							 GTK_WINDOW (gtk_widget_get_ancestor (GTK_WIDGET (composer),
-											      GTK_TYPE_WINDOW)));
-		GDK_THREADS_ENTER ();
-		gnome_dialog_run_and_close (GNOME_DIALOG (message));
-		GDK_THREADS_LEAVE ();
-		return;
-	}
-	
-	/* Check for a transport */
-	
 	xport = mail_config_get_transport ();
-	if (!xport || !xport->url) {
-		GtkWidget *message;
-		
-		message = gnome_warning_dialog_parented (_("You need to configure a mail transport\n"
-							   "before you can send mail."),
-							 GTK_WINDOW (gtk_widget_get_ancestor (GTK_WIDGET (composer),
-											      GTK_TYPE_WINDOW)));
-		GDK_THREADS_ENTER ();
-		gnome_dialog_run_and_close (GNOME_DIALOG (message));
-		GDK_THREADS_LEAVE ();
-		return;
-	}
 
 	/* Generate our from address */
 	
@@ -211,6 +245,7 @@ composer_send_cb (EMsgComposer *composer, gpointer data)
 	if (subject == NULL || subject[0] == '\0') {
 		if (! ask_confirm_for_empty_subject (composer)) {
 			camel_object_unref (CAMEL_OBJECT (message));
+			free_psd (psd); /* will take care of psd == NULL */
 			return;
 		}
 	}
@@ -219,23 +254,14 @@ composer_send_cb (EMsgComposer *composer, gpointer data)
 		mail_do_send_mail (xport->url, message, from,
 				   psd->folder, psd->uid, psd->flags, 
 				   GTK_WIDGET (composer));
-		g_free (psd->uid);
 	} else {
 		mail_do_send_mail (xport->url, message, from,
 				   NULL, NULL, 0,
 				   GTK_WIDGET (composer));
 	}
+
+	free_psd (psd);
 }
-
-static void
-free_psd (GtkWidget *composer, gpointer user_data)
-{
-	struct post_send_data *psd = user_data;
-
-	camel_object_unref (CAMEL_OBJECT (psd->folder));
-	g_free (psd);
-}
-
 
 static GtkWidget *
 create_msg_composer (const char *url)
@@ -267,7 +293,7 @@ compose_msg (GtkWidget *widget, gpointer user_data)
 {
 	GtkWidget *composer;
 
-	if (!check_configured ())
+	if (!check_send_configuration (FOLDER_BROWSER (user_data)))
 		return;
 
 	composer = create_msg_composer (NULL);
@@ -283,7 +309,9 @@ send_to_url (const char *url)
 {
 	GtkWidget *composer;
 
-	if (!check_configured ())
+	/* FIXME: no way to get folder browser? Not without
+	 * big pain in the ass, as far as I can tell */
+	if (!check_send_configuration (NULL))
 		return;
 
 	composer = create_msg_composer (url);
@@ -299,7 +327,9 @@ mail_reply (CamelFolder *folder, CamelMimeMessage *msg, const char *uid, gboolea
 	EMsgComposer *composer;
 	struct post_send_data *psd;
 
-	if (!check_configured () || !folder ||
+	/* FIXME: I just don't feel like implementing the folder-browser-passing
+	 * garbage. */
+	if (!check_send_configuration (NULL) || !folder ||
 	    !msg || !uid)
 		return;
 
@@ -313,8 +343,6 @@ mail_reply (CamelFolder *folder, CamelMimeMessage *msg, const char *uid, gboolea
 
 	gtk_signal_connect (GTK_OBJECT (composer), "send",
 			    GTK_SIGNAL_FUNC (composer_send_cb), psd); 
-	gtk_signal_connect (GTK_OBJECT (composer), "destroy",
-			    GTK_SIGNAL_FUNC (free_psd), psd); 
 
 	gtk_widget_show (GTK_WIDGET (composer));	
 }
@@ -351,9 +379,9 @@ forward_msg (GtkWidget *widget, gpointer user_data)
 	EMsgComposer *composer;
 	CamelMimeMessage *cursor_msg;
 	GPtrArray *uids;
-	
+
 	cursor_msg = fb->mail_display->current_message;
-	if (!check_configured () || !cursor_msg)
+	if (!check_send_configuration (fb) || !cursor_msg)
 		return;
 
 	composer = E_MSG_COMPOSER (e_msg_composer_new ());
@@ -447,14 +475,16 @@ edit_msg (GtkWidget *widget, gpointer user_data)
 
 		message = gnome_warning_dialog (_("You may only edit messages saved\n"
 							   "in the Drafts folder."));
-		GDK_THREADS_ENTER ();
-		gnome_dialog_run_and_close (GNOME_DIALOG (message));
-		GDK_THREADS_LEAVE ();
+		mail_dialog_run_and_close (GNOME_DIALOG (message));
 		return;
 	}
 
+	if (!check_send_configuration (fb))
+		return;
+
 	uids = g_ptr_array_new();
 	message_list_foreach (fb->message_list, enumerate_msg, uids);
+
 	mail_do_edit_messages (fb->folder, uids, (GtkSignalFunc) composer_send_cb);
 }
 
@@ -538,16 +568,7 @@ filter_edit (BonoboUIHandler *uih, void *user_data, const char *path)
 		dialog = gnome_warning_dialog (err);
 		g_free (err);
 		
-		/* These are necessary because gtk_main, called by
-		 * g_d_r_a_c, does a LEAVE/ENTER pair when running
-		 * a main loop recursively. I don't know why the threads
-		 * lock isn't being held at this point, as we're in a
-		 * callback, but I don't ask questions. It works, and
-		 * threads are enabled so we know that it works.
-		 */
-		GDK_THREADS_ENTER();
-		gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
-		GDK_THREADS_LEAVE();
+		mail_dialog_run_and_close (GNOME_DIALOG (dialog));
 		return;
 	}
 
@@ -565,13 +586,11 @@ vfolder_edit_vfolders (BonoboUIHandler *uih, void *user_data, const char *path)
         vfolder_edit();
 }
 
-/*
- *void
- *providers_config (BonoboUIHandler *uih, void *user_data, const char *path)
- *{
- *	mail_config();
- *}
- */
+void
+providers_config (BonoboUIHandler *uih, void *user_data, const char *path)
+{
+	mail_config ((FOLDER_BROWSER (user_data))->shell);
+}
 
 void
 mail_print_msg (MailDisplay *md)

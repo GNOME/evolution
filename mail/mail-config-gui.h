@@ -23,7 +23,9 @@
 
 #include <glib.h>
 
-void mail_config (void);
-void mail_config_druid (void);
+#include <Evolution.h>
+
+void mail_config (Evolution_Shell shell);
+void mail_config_druid (Evolution_Shell shell);
 
 #endif

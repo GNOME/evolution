@@ -159,12 +159,12 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 		uih, "/Settings/Mail Configuration...",
 		_("_Mail Configuration..."), NULL, -1,
 		BONOBO_UI_HANDLER_PIXMAP_NONE, NULL, 0, 0,
-		(void *) mail_config, NULL);
+		providers_config, folder_browser);
 	bonobo_ui_handler_menu_new_item (
 		uih, "/Settings/Forget Passwords",
 		_("Forget _Passwords"), NULL, -1,
 		BONOBO_UI_HANDLER_PIXMAP_NONE, NULL, 0, 0,
-		forget_passwords, NULL);
+		forget_passwords, folder_browser);
 
 	/* Message Menu */
 	bonobo_ui_handler_menu_new_subtree (
@@ -332,12 +332,12 @@ control_destroy_cb (BonoboControl *control,
 }
 
 BonoboControl *
-folder_browser_factory_new_control (const char *uri)
+folder_browser_factory_new_control (const char *uri, Evolution_Shell shell)
 {
 	BonoboControl *control;
 	GtkWidget *folder_browser;
 
-	folder_browser = folder_browser_new ();
+	folder_browser = folder_browser_new (shell);
 	if (folder_browser == NULL)
 		return NULL;
 

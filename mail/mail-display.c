@@ -35,15 +35,6 @@ static void redisplay (MailDisplay *md);
  *                        Callbacks
  *----------------------------------------------------------------------*/
 
-static void
-save_data_eexist_cb (int reply, gpointer user_data)
-{
-	gboolean *ok = user_data;
-
-	*ok = reply == 0;
-	gtk_main_quit ();
-}
-
 static gboolean
 write_data_to_file (CamelMimePart *part, const char *name, gboolean unique)
 {
@@ -56,16 +47,26 @@ write_data_to_file (CamelMimePart *part, const char *name, gboolean unique)
 
 	fd = open (name, O_WRONLY | O_CREAT | O_EXCL, S_IRUSR | S_IWUSR);
 	if (fd == -1 && errno == EEXIST && !unique) {
-		gboolean ok = FALSE;
+		GtkWidget *dlg;
+		GtkWidget *text;
 
-		gnome_ok_cancel_dialog_modal (
-			"A file by that name already exists.\nOverwrite it?",
-			save_data_eexist_cb, &ok);
-		GDK_THREADS_ENTER();
-		gtk_main ();
-		GDK_THREADS_LEAVE();
-		if (!ok)
+		dlg = gnome_dialog_new (_("Overwrite file?"),
+					GNOME_STOCK_BUTTON_YES, 
+					GNOME_STOCK_BUTTON_NO,
+					NULL);
+		text = gtk_label_new (_("A file by that name already exists.\nOverwrite it?"));
+		gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dlg)->vbox), text, TRUE, TRUE, 4);
+		gtk_widget_show (text);
+
+		/* This should be mail_dialog_run_and_close, but for some reason this 
+		 * particular dialog will deadlock as it tries to GDK_THREADS_ENTER
+		 * (gtk_main_level is indeed 1). I think it has to do with being in 
+		 * the file selection window. God this sucks.
+		 */
+		if (gnome_dialog_run_and_close (GNOME_DIALOG (dlg)) != 0) /* !!! */
 			return FALSE;
+		gtk_widget_destroy (dlg);
+
 		fd = open (name, O_WRONLY | O_TRUNC);
 	}
 

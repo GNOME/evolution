@@ -38,6 +38,7 @@ INCLUDES =								\
 	-I$(top_srcdir)/camel					 	\
 	-I$(top_builddir)/camel					 	\
 	-I$(top_builddir)/addressbook/gui/component/select-names	\
+	-I$(top_builddir)/shell						\
 	$(GNOME_INCLUDEDIR)						\
 	$(BONOBO_GNOME_CFLAGS)						\
 	$(GTKHTML_CFLAGS)						\

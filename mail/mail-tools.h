@@ -111,5 +111,4 @@ mail_lookup_url_table (CamelMimeMessage *mime_message);
 CamelFolder *
 mail_tool_filter_get_folder_func (FilterDriver *d, const char *uri, void *data);
 
-
 #endif

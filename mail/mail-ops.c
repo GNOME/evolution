@@ -60,7 +60,6 @@ static gchar *
 describe_fetch_mail (gpointer in_data, gboolean gerund)
 {
 	fetch_mail_input_t *input = (fetch_mail_input_t *) in_data;
-	CamelStore *source;
 	char *name;
 
 	/*source = camel_session_get_store (session, input->source_url, NULL);
@@ -164,7 +163,7 @@ cleanup_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 		GtkWidget *dialog;
 
 		dialog = gnome_ok_dialog (_("There is no new mail."));
-		gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+		mail_dialog_run_and_close (GNOME_DIALOG (dialog));
 	}
 
 	g_free (input->source_url);
