@@ -194,8 +194,8 @@ update_timeout_callback (void *data)
 	DEBUG ();
 
 	if (priv->have_pending_update) {
-		corba_update_progress (activity_client, priv->new_information, priv->new_progress);
 		priv->have_pending_update = FALSE;
+		corba_update_progress (activity_client, priv->new_information, priv->new_progress);
 		return TRUE;
 	} else {
 		priv->next_update_timeout_id = 0;
@@ -436,14 +436,14 @@ evolution_activity_client_update (EvolutionActivityClient *activity_client,
 		/* There is no pending timeout, so the last CORBA update
 		   happened more than UPDATE_DELAY msecs ago.  */
 
-		retval = corba_update_progress (activity_client, information, progress);
-
-		/* Set up a timeout so we can check against it at the next
-		   update request.  */
+		/* First of all, we set up a timeout so we can check against it
+		   at the next update request.  */
 
 		priv->next_update_timeout_id = g_timeout_add (UPDATE_DELAY,
 							      update_timeout_callback,
 							      activity_client);
+
+		retval = corba_update_progress (activity_client, information, progress);
 
 		g_print ("*** ActivityClient: g_timeout_add %d %p [%ld]\n",
 			 priv->next_update_timeout_id, activity_client, (long) pthread_self ());
