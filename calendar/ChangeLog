@@ -1,5 +1,11 @@
 2002-06-18  JP Rosevear  <jpr@ximian.com>
 
+	* conduits/todo/Makefile.am: Reverse unintended change
+
+	* conduits/calendar/Makefile.am: ditto
+
+2002-06-18  JP Rosevear  <jpr@ximian.com>
+	
 	* zones.h: update for new zones
 
 2002-06-18  JP Rosevear  <jpr@ximian.com>
