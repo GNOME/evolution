@@ -5,13 +5,16 @@
  */
 
 #include <config.h>
+
+#include "e-cell-date.h"
+
 #include <sys/time.h>
 #include <time.h>
 #include <unistd.h>
+#include <string.h>
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-unicode.h>
 #include <gal/util/e-i18n.h>
-#include "e-cell-date.h"
 
 #define PARENT_TYPE e_cell_text_get_type ()
 
@@ -25,6 +28,7 @@ ecd_get_text(ECellText *cell, ETableModel *model, int col, int row)
 	time_t yesdate;
 	struct tm then, now, yesterday;
 	char buf[26];
+	char *temp, *ret_val;
 	gboolean done = FALSE;
 
 	if (date == 0) {
@@ -93,8 +97,14 @@ ecd_get_text(ECellText *cell, ETableModel *model, int col, int row)
 	ctime_r (&date, buf);
 #endif
 #endif
-	
-	return e_utf8_from_locale_string (buf);
+	temp = buf;
+	while ((temp = strstr (temp, "  "))) {
+		memmove (temp, temp + 1, strlen (temp));
+	}
+	temp = e_strdup_strip (buf);
+	ret_val = e_utf8_from_locale_string (temp);
+	g_free (temp);
+	return ret_val;
 }
 
 static void
