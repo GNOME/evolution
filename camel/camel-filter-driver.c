@@ -134,7 +134,8 @@ static ESExpResult *do_move (struct _ESExp *f, int argc, struct _ESExpResult **a
 static ESExpResult *do_stop (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriver *);
 static ESExpResult *do_colour (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriver *);
 static ESExpResult *do_score (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriver *);
-static ESExpResult *do_flag (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriver *);
+static ESExpResult *set_flag (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriver *);
+static ESExpResult *unset_flag (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriver *);
 static ESExpResult *do_shell (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriver *);
 static ESExpResult *do_beep (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriver *);
 static ESExpResult *play_sound (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriver *);
@@ -147,18 +148,19 @@ static struct {
 	int type;		/* set to 1 if a function can perform shortcut evaluation, or
 				   doesn't execute everything, 0 otherwise */
 } symbols[] = {
-	{ "delete",          (ESExpFunc *) do_delete,    0 },
-	{ "forward-to",      (ESExpFunc *) mark_forward, 0 },
-	{ "copy-to",         (ESExpFunc *) do_copy,      0 },
-	{ "move-to",         (ESExpFunc *) do_move,      0 },
-	{ "stop",            (ESExpFunc *) do_stop,      0 },
-	{ "set-colour",      (ESExpFunc *) do_colour,    0 },
-	{ "set-score",       (ESExpFunc *) do_score,     0 },
-	{ "set-system-flag", (ESExpFunc *) do_flag,      0 },
-	{ "shell",           (ESExpFunc *) do_shell,     0 },
-	{ "beep",            (ESExpFunc *) do_beep,      0 },
-	{ "play-sound",      (ESExpFunc *) play_sound,   0 },
-	{ "only-once",       (ESExpFunc *) do_only_once, 0 }
+	{ "delete",            (ESExpFunc *) do_delete,    0 },
+	{ "forward-to",        (ESExpFunc *) mark_forward, 0 },
+	{ "copy-to",           (ESExpFunc *) do_copy,      0 },
+	{ "move-to",           (ESExpFunc *) do_move,      0 },
+	{ "stop",              (ESExpFunc *) do_stop,      0 },
+	{ "set-colour",        (ESExpFunc *) do_colour,    0 },
+	{ "set-score",         (ESExpFunc *) do_score,     0 },
+	{ "set-system-flag",   (ESExpFunc *) set_flag,     0 },
+	{ "unset-system-flag", (ESExpFunc *) unset_flag,   0 },
+	{ "shell",             (ESExpFunc *) do_shell,     0 },
+	{ "beep",              (ESExpFunc *) do_beep,      0 },
+	{ "play-sound",        (ESExpFunc *) play_sound,   0 },
+	{ "only-once",         (ESExpFunc *) do_only_once, 0 }
 };
 
 static CamelObjectClass *camel_filter_driver_parent;
@@ -590,17 +592,38 @@ do_score (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDri
 }
 
 static ESExpResult *
-do_flag (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriver *driver)
+set_flag (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriver *driver)
 {
 	struct _CamelFilterDriverPrivate *p = _PRIVATE (driver);
+	guint32 flags;
 	
 	d(fprintf (stderr, "setting flag\n"));
 	if (argc == 1 && argv[0]->type == ESEXP_RES_STRING) {
+		flags = camel_system_flag (argv[0]->value.string);
 		if (p->source && p->uid && camel_folder_has_summary_capability (p->source))
-			camel_folder_set_message_flags(p->source, p->uid, camel_system_flag(argv[0]->value.string), ~0);
+			camel_folder_set_message_flags (p->source, p->uid, flags, ~0);
 		else
-			p->info->flags |= camel_system_flag (argv[0]->value.string)|CAMEL_MESSAGE_FOLDER_FLAGGED;
+			p->info->flags |= flags | CAMEL_MESSAGE_FOLDER_FLAGGED;
 		camel_filter_driver_log (driver, FILTER_LOG_ACTION, "Set %s flag", argv[0]->value.string);
+	}
+	
+	return NULL;
+}
+
+static ESExpResult *
+unset_flag (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriver *driver)
+{
+	struct _CamelFilterDriverPrivate *p = _PRIVATE (driver);
+	guint32 flags;
+	
+	d(fprintf (stderr, "unsetting flag\n"));
+	if (argc == 1 && argv[0]->type == ESEXP_RES_STRING) {
+		flags = camel_system_flag (argv[0]->value.string);
+		if (p->source && p->uid && camel_folder_has_summary_capability (p->source))
+			camel_folder_set_message_flags (p->source, p->uid, flags, 0);
+		else
+			p->info->flags = (p->info->flags & ~flags) | CAMEL_MESSAGE_FOLDER_FLAGGED;
+		camel_filter_driver_log (driver, FILTER_LOG_ACTION, "Unset %s flag", argv[0]->value.string);
 	}
 	
 	return NULL;
