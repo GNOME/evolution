@@ -2860,13 +2860,13 @@ do_mail_print (FolderBrowser *fb, gboolean preview)
 	
 	if (printer)
 		gnome_print_master_set_printer (print_master, printer);
-	paper = gnome_paper_with_name (_("US-Letter"));
+	paper = (GnomePaper *) gnome_paper_with_name (_("US-Letter"));
 	if (!paper)
-		paper = gnome_paper_with_name (gnome_paper_name_default ());
+		paper = (GnomePaper *) gnome_paper_with_name (gnome_paper_name_default ());
 	gnome_print_master_set_paper (print_master, paper);
 	gnome_print_master_set_copies (print_master, copies, collate);
 	print_context = gnome_print_master_get_context (print_master);
-
+	
 	html = GTK_HTML (gtk_html_new ());
 	mail_display_initialize_gtkhtml (fb->mail_display, html);
 	
@@ -2874,16 +2874,16 @@ do_mail_print (FolderBrowser *fb, gboolean preview)
 	   to ignoring any adjustments we made to accomodate the
 	   user's theme. */
 	fb->mail_display->printing = TRUE;
-
+	
 	mail_display_render (fb->mail_display, html, TRUE);
 	gtk_html_print_set_master (html, print_master);
-
+	
 	info = footer_info_new (html, print_context, &line);
 	gtk_html_print_with_header_footer (html, print_context, 0.0, line, NULL, footer_print_cb, info);
 	footer_info_free (info);
-
+	
 	fb->mail_display->printing = FALSE;
-
+	
 	gnome_print_master_close (print_master);
 	
 	if (preview){
@@ -2901,7 +2901,7 @@ do_mail_print (FolderBrowser *fb, gboolean preview)
 				  _("Printing of message failed"));
 		}
 	}
-
+	
 	/* FIXME: We are leaking the GtkHTML object */
 }
 

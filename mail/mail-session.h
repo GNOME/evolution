@@ -46,6 +46,8 @@ void mail_session_remember_password (const char *url);
 
 void mail_session_forget_password (const char *key);
 
+void mail_session_flush_filter_log (void);
+
 extern CamelSession *session;
 
 #ifdef __cplusplus

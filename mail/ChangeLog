@@ -1,5 +1,11 @@
 2002-05-06  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-ops.c (filter_folder_free): Flush the filter log to make
+	Tuomas happy :-)
+
+	* mail-session.c (mail_session_flush_filter_log): New convenience
+	function to flush the session's filter log file.
+
 	* mail-callbacks.c (mail_reply): Set the Seen flag as well since
 	it's safe to assume that if the user has replied to an email
 	message that he has read it. Not always true, but usually ;-)

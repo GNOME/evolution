@@ -43,6 +43,7 @@
 #include "mail-tools.h"
 #include "mail-ops.h"
 #include "mail-vfolder.h"
+#include "mail-session.h"
 #include "composer/e-msg-composer.h"
 #include "folder-browser.h"
 #include "e-util/e-html-utils.h"
@@ -167,6 +168,8 @@ filter_folder_free (struct _mail_msg *mm)
 	
 	if (m->driver)
 		camel_object_unref (CAMEL_OBJECT (m->driver));
+	
+	mail_session_flush_filter_log ();
 }
 
 static struct _mail_msg_op filter_folder_op = {

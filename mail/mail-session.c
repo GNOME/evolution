@@ -1025,3 +1025,13 @@ mail_session_forget_passwords (BonoboUIComponent *uih, void *user_data,
 {
 	e_passwords_forget_passwords ();
 }
+
+
+void
+mail_session_flush_filter_log (void)
+{
+	MailSession *ms = (MailSession *) session;
+	
+	if (ms->filter_logfile)
+		fflush (ms->filter_logfile);
+}
