@@ -1,3 +1,8 @@
+2001-01-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-messagebox.c (e_message_box_get_id): Oops. Delete this. I
+	never meant for this to get commit'd.
+
 2001-01-17  JP Rosevear  <jpr@ximian.com>
 
 	* e-messagebox.c (e_message_box_get_id): Dont remove the function, give

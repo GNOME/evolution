@@ -30,7 +30,6 @@
 #define E_MESSAGE_BOX_HEIGHT 125
 
 struct _EMessageBoxPrivate {
-	char *id;
 	GtkWidget *label;
 	GtkWidget *checkbox;
 };
@@ -94,8 +93,6 @@ static void
 e_message_box_finalize (GtkObject *object)
 {
 	EMessageBox *mbox = E_MESSAGE_BOX (object);
-	
-	g_free (mbox->_priv->id);
 	
 	g_free (mbox->_priv);
 	mbox->_priv = NULL;
@@ -346,23 +343,3 @@ e_message_box_get_checkbox (EMessageBox *messagebox)
 	
 	return messagebox->_priv->checkbox;
 }
-
-
-/**
- * e_message_box_get_id:
- * @messagebox: The message box to work on
- *
- * Gets the id of the message box.  You should use this
- * function instead of using the structure directly.
- *
- * Returns: the id */
-const char *
-e_message_box_get_id (EMessageBox *messagebox)
-{
-	g_return_val_if_fail (messagebox != NULL, NULL);
-	g_return_val_if_fail (E_IS_MESSAGE_BOX (messagebox), NULL);
-	
-	return messagebox->_priv->id;
-}
-
-
