@@ -31,6 +31,10 @@ Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
 
     #28951 -- CDO doesn't understand UNTIL=date in RRULE (JP)
 
+  * GtkHTML
+
+    Lots and lots of bug fixes.
+
 Other fixes:
 
   * Calendar
@@ -212,6 +216,8 @@ Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
     #28481 -- Crash during start-up.  (Ettore)
     #28903 -- Unread message counts not reported correctly.
               (Ettore)
+
+  * gtkhtml-1.1.3
 
 Other fixes:
 
