@@ -1,5 +1,10 @@
 2000-08-05  Christopher James Lahey  <clahey@helixcode.com>
 
+	* e-table-sorter.c: Made it so that selection ranges work even if
+	the table is using grouping.
+
+2000-08-05  Christopher James Lahey  <clahey@helixcode.com>
+
 	* Makefile.am, e-table-selection-model.c,
 	e-table-selection-model.h, e-table.c, e-table.h: Made selection
 	ranges work even if the table is sorted.

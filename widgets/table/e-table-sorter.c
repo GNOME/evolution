@@ -185,12 +185,14 @@ ets_sort(ETableSorter *ets)
 	int i;
 	int j;
 	int cols;
+	int group_cols;
 
 	if (ets->sorted)
 		return;
 
 	rows = e_table_model_row_count(ets->source);
-	cols = e_table_sort_info_sorting_get_count(ets->sort_info) + e_table_sort_info_grouping_get_count(ets->sort_info);
+	group_cols = e_table_sort_info_grouping_get_count(ets->sort_info);
+	cols = e_table_sort_info_sorting_get_count(ets->sort_info) + group_cols;
 
 	ets->sorted = g_new(int, rows);
 	for (i = 0; i < rows; i++)
@@ -207,10 +209,10 @@ ets_sort(ETableSorter *ets)
 		ETableSortColumn column;
 		ETableCol *col;
 
-		if (j < e_table_sort_info_sorting_get_count(ets->sort_info))
-			column = e_table_sort_info_sorting_get_nth(ets->sort_info, j);
-		else
+		if (j < group_cols)
 			column = e_table_sort_info_grouping_get_nth(ets->sort_info, j);
+		else
+			column = e_table_sort_info_sorting_get_nth(ets->sort_info, j - group_cols);
 
 		if (column.column > e_table_header_count (ets->full_header))
 			col = e_table_header_get_column (ets->full_header, e_table_header_count (ets->full_header) - 1);
