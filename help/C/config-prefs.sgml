@@ -628,15 +628,11 @@ smtp.omniport.com:143
    </sect1>
 
    <sect1 id="config-prefs-contact">
-      <title>Managing the Contact Manager</title>
+      <title>Managing the Addressbook</title>
 	<para>
-          To set the behavior of your Contact Manager, click on the
-          <guibutton>Contact Manager</guibutton> tab in the
-          <interface>Preferences</interface> window.
-        </para>
-	<para>
-          You can set the following options: <!--insert variable list
-          here-->
+          The addressbook does not have a large list of configuration
+          settings, but those that are there can be found in the
+          <guimenu>Tools</guimenu> menu.
         </para>
       
         <sect2 id="config-prefs-contact-ldap-add">
@@ -730,7 +726,7 @@ How broad the search is in the directory.
   </sect1>
     
 
-
+<!--
   <sect1 id="config-prefs-general">
     <title>General Preferences</title> 
     <para>
@@ -738,6 +734,7 @@ How broad the search is in the directory.
       they become available.
     </para>
   </sect1>
+-->
 </chapter>
     
 

@@ -103,22 +103,22 @@
 	<itemizedlist>
 	  <listitem>
 	    <para>
-	      Full Name &mdash; Your full name (Example: John Doe).
+	      Full Name: Your full name (Example: John Doe).
 	    </para>
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Email Address &mdash; Your email address (Example: john@doe.com)
+	      Email Address: Your email address (Example: john@doe.com)
 	    </para>
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Organization &mdash; The company where you work (optional).
+	      Organization: The company where you work (optional).
 	    </para>
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Signature file &mdash; If you'd like to use an email
+	      Signature file: If you'd like to use an email
 	      <glossterm linkend="signature">signature</glossterm>,
 	      select your signature file here.  Normally, the
 	      signature will be the contents of the
@@ -138,7 +138,7 @@
 	<itemizedlist>
 	  <listitem>
 	    <para>
-	      Server Type &mdash; There are numerous types of servers
+	      Server Type: There are numerous types of servers
 	      from which <application>Ximian Evolution</application>
 	      can fetch your mail.  Ask your system administrator if
 	      you're not sure which of the following are available to
@@ -146,26 +146,26 @@
 	      <itemizedlist>
 		<listitem>
 		  <para>
-		    POP &mdash; Downloads your email to your hard disk for
+		    POP: Downloads your email to your hard disk for
 		    permanent storage.
 		  </para>
 		</listitem>
 		<listitem>
 		  <para>
-		    IMAP &mdash; Keeps the email on your server so you
+		    IMAP: Keeps the email on your server so you
 		    can access your email from multiple systems. 
 		  </para>
 		</listitem>
 		<listitem>
 		  <para>
-		    Unix mail spool file &mdash; If you run a mail
+		    Unix mail spool file: If you run a mail
 		    server on your desktop computer, choose this
 		    option.
 		  </para>
 		</listitem>
 		<listitem>
 		  <para>
-		    Standard Unix .mbox file &mdash; If you want
+		    Standard Unix .mbox file: If you want
 		    <application>Ximian Evolution</application> to
 		    read mail from a specific file, or if you download
 		    mail with another application, choose this option.
@@ -173,13 +173,13 @@
 		</listitem>
 		<listitem>
 		  <para>
-		    Qmail maildir format files &mdash; If you download your
+		    Qmail maildir format files: If you download your
 		    mail using qmail, you'll want to use this.
 		  </para>
 		</listitem>
 		<listitem>
 		  <para>
-		    None &mdash; Select this if you do not plan to
+		    None: Select this if you do not plan to
 		    check mail with this account.
 		  </para>
 		</listitem>
@@ -196,8 +196,8 @@
 		    probably need to change your mail
 		    namespace. Typical values are "mail" and "Mail."
 		    If you prefer, you can choose to subscribe to
-		    individual mail folders. For more information
-		    about how to use IMAP mail, see <xref
+		    individual mail folders one at a time. For more
+		    information about how to use IMAP mail, see <xref
 		    linkend="usage-mail-subscriptions">.
                </para>
              </note>
@@ -205,23 +205,25 @@
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Email Server &mdash; This is the address of the server you're
+	      Email Server: This is the address of the server you're
 	      downloading from.
 	    </para>
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Username &mdash; The username that you login to your email.  That
+	      Username: The username that you login to your email.  That
 	      is often the part before the @ in your email.
 	    </para>
 	    <para>
-	      Authentication Type &mdash; Chances are you are using
-	      <guilabel>Password</guilabel>.  Ask your administrator for more
-	      details.  You can have <application>Ximian Evolution</application> check
-	      by clicking <guibutton>Check for supported types</guibutton>.
+	      Authentication Type: Chances are you are using
+	      <guilabel>Password</guilabel>.  Ask your administrator
+	      for more details.  You can have <application>Ximian
+	      Evolution</application> make sure you've chosen
+	      correctly by clicking <guibutton>Check for supported
+	      types</guibutton>.
 	    </para>
 	    <para>
-	      Remember Password &mdash; If you prefer to not enter your
+	      Remember Password: If you prefer to not enter your
 	      password every time you check email, press this button.
 	    </para>
 	  </listitem>
@@ -246,18 +248,18 @@
 	<itemizedlist>
 	  <listitem>
 	    <para>
-	      Server Type &mdash; There are numerous server types that
+	      Server Type: There are numerous server types that
 	      <application>Ximian Evolution</application> supports for sending your
 	      mail.
 	      <itemizedlist>
 		<listitem>
 		  <para>
-		    SMTP &mdash; Downloads mail into your mailbox file.
+		    SMTP: Downloads mail into your mailbox file.
 		  </para>
 		</listitem>
 		<listitem>
 		  <para>
-		    Sendmail &mdash; Uses another program to download your mail
+		    Sendmail: Uses another program to download your mail
 		    to your mailbox files.
 		  </para>
 		</listitem>
@@ -266,20 +268,20 @@
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Host &mdash; If you chose SMTP, enter the server's name
+	      Host: If you chose SMTP, enter the server's name
 	      or IP address here.
 	    </para>
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Server requires authentication &mdash; If your server
+	      Server requires authentication: If your server
 	      requires you to enter a password to send mail, check
 	      this box.
 	    </para>
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Authentication Type &mdash; Chances are you are using
+	      Authentication Type: Chances are you are using
 	      <guilabel>Password</guilabel>.  If you're not sure, ask
 	      your system administrator or ISP, or have
 	      <application>Ximian Evolution</application> check for you by
@@ -289,14 +291,14 @@
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Username &mdash; The account name you use when you login
+	      Username: The account name you use when you login
 	      to check your email.  Normally, this is the part of your
 	      email address before the '@' character.
 	    </para>
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Remember Password &mdash; If you prefer to not enter
+	      Remember Password: If you prefer to not enter
 	      your password every time you check email, press this
 	      button.
 	    </para>
@@ -321,7 +323,7 @@
 	files:
           <variablelist>
            <varlistentry>
-	    <term>VCard (.vcf, gcrd)</term>
+	    <term>VCard (.vcf, gcrd):</term>
 	    <listitem>
 	      <para>
 	         The addressbook format used by the GNOME, KDE, and
@@ -333,7 +335,7 @@
 	  </varlistentry>
 
 	  <varlistentry>
-	    <term>Microsoft Outlook Express 4 (.mbx)</term>
+	    <term>Microsoft Outlook Express 4 (.mbx):</term>
 	    <listitem>
 	      <para>
                  Email file format used by Microsoft Outlook Express
@@ -344,7 +346,7 @@ the workaround described in the note below.
 	  </varlistentry>
 
 	  <varlistentry>
-	    <term>MBox (mbox)</term>
+	    <term>MBox (mbox):</term>
 	    <listitem>
 	      <para>
 	       The email box format used by Mozilla, Netscape,
@@ -483,7 +485,7 @@ the workaround described in the note below.
     
     <para>
       <inlinemediaobject><imageobject><imagedata  fileref="figures/full-5" format="png"></imageobject></inlinemediaobject>
-      <guilabel>Search Tools</guilabel>
+      <guilabel>Search Tool</guilabel>
     </para>
     
     <para>
@@ -511,7 +513,7 @@ the workaround described in the note below.
 
 	    <variablelist>
 	      <varlistentry>
-		<term> <guibutton>Summary</guibutton></term>
+		<term> <guibutton>Summary</guibutton>:</term>
 		<listitem>
 	    <para>
 		    Start your day here.  The Ximian Evolution
@@ -525,7 +527,7 @@ the workaround described in the note below.
 	      </varlistentry>
 
 	<varlistentry>
-	  <term> <guibutton>Inbox</guibutton></term>
+	  <term> <guibutton>Inbox</guibutton>:</term>
 	  <listitem>
 	    <para>
 	      Click the <guibutton>Inbox</guibutton> button to start
@@ -537,7 +539,7 @@ the workaround described in the note below.
 	</varlistentry>
 
 	<varlistentry>
-	  <term><guibutton>Calendar</guibutton></term>
+	  <term><guibutton>Calendar</guibutton>:</term>
 	  <listitem>
 	    <para>
 	      The Calendar can store your appointments and task lists
@@ -548,7 +550,7 @@ the workaround described in the note below.
 	</varlistentry>
 
        <varlistentry>
-         <term><guibutton>Tasks</guibutton></term>
+         <term><guibutton>Tasks</guibutton>:</term>
 	<listitem>
 	  <para>
 	     A full-size view of your calendar's task pad.
@@ -557,7 +559,7 @@ the workaround described in the note below.
       </varlistentry>
 
 	<varlistentry>
-	  <term><guibutton>Contacts</guibutton></term>
+	  <term><guibutton>Contacts</guibutton>:</term>
 	  <listitem>
 	    <para>
 	      The Addressbook holds contacts, with address, phone, and
@@ -596,7 +598,7 @@ the workaround described in the note below.
       <application>Ximian Evolution</application>. It displays all your
       appointments, address cards, and email in a tree that's a lot
       like a <glossterm linkend="filetree">file
-      tree</glossterm>&mdash; it starts small at the top, and branches
+      tree</glossterm>-- it starts small at the top, and branches
       downwards. On most computers, there will be three or four
       folders at the base.  First, of course, is the
       <guilabel>Summary</guilabel>, a customizable summary of your
@@ -664,12 +666,11 @@ the workaround described in the note below.
     <title>Navigating without the Folder Bar or the Shortcut Bar</title>
        <para>
          You don't need the folder bar or the shortcut bar to move
-         around the main window. You can use <keycap>Tab</keycap> to
-         switch from one part of the window to another. When you hide the folder
-         bar, 
-         there is a menu on the left side of the window just below the toolbar
-         to move about the folder tree, even with the folder and
-         shortcut bars hidden.
+         around the main window. You can use the <keycap>Tab</keycap>
+         key to switch from one part of the window to another. When
+         you hide the folder bar, there is a menu on the left side of
+         the window just below the toolbar to move about the folder
+         tree, even with the folder and shortcut bars hidden.
        </para>
      </tip>
 
@@ -791,7 +792,7 @@ the workaround described in the note below.
    <para>
       <variablelist>
         <varlistentry>
-          <term> <guimenu>File</guimenu></term>
+          <term> <guimenu>File</guimenu>:</term>
 
           <listitem><para> Anything related to a file or to the
             operations of the application generally falls under this
@@ -800,7 +801,7 @@ the workaround described in the note below.
         </varlistentry>
 
        <varlistentry>
-          <term> <guimenu>Edit</guimenu></term>
+          <term> <guimenu>Edit</guimenu>:</term>
           <listitem><para>
               The <guimenu>Edit</guimenu> menu holds
               useful tools that help you edit text and move it around.
@@ -808,7 +809,7 @@ the workaround described in the note below.
         </varlistentry>
 
        <varlistentry>
-          <term> <guimenu>View</guimenu></term>
+          <term> <guimenu>View</guimenu>:</term>
           <listitem><para>
             This menu lets you decide how <application>Ximian Evolution</application> 
             should look. Some of the features control the appearance of 
@@ -818,17 +819,17 @@ the workaround described in the note below.
         </varlistentry>
 
         <varlistentry>
-          <term> <guimenu>Actions</guimenu></term>
+          <term> <guimenu>Actions</guimenu>:</term>
           <listitem><para>
 	    Holds actions which maybe applied to a message.  Normally,
-	    if there is only one target for the action &mdash; for
-	    example, replying to a message &mdash; you can find it in
+	    if there is only one target for the action -- for
+	    example, replying to a message -- you can find it in
 	    the <guimenu>Actions</guimenu> menu.
           </para></listitem>
         </varlistentry>
 
        <varlistentry>
-          <term> <guimenu>Tools</guimenu></term>
+          <term> <guimenu>Tools</guimenu>:</term>
           <listitem><para>
              Tools for configuring, changing, and
           setting up preferences go here.  For mail, that means things like
@@ -841,7 +842,7 @@ the workaround described in the note below.
         </varlistentry>
 
        <varlistentry>
-          <term> <guimenu>Help</guimenu></term>
+          <term> <guimenu>Help</guimenu>:</term>
           <listitem><para>
              Select among these items to open the 
              <application>Help Browser</application> 

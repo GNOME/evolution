@@ -29,7 +29,6 @@ sgml_ents =	\
 	apx-authors.sgml	\
 	apx-bugs.sgml		\
 	apx-gloss.sgml		\
-	config-encryption.sgml	\
 	config-prefs.sgml	\
 	config-sync.sgml	\
 	evolution-faq.sgml	\

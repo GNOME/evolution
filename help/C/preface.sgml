@@ -8,7 +8,7 @@
       <para>
         This book is divided into two parts, with several
         appendices. The first part is a <link linkend="usage">guided
-        tour</link>&mdash; it will explain how to use
+        tour</link>, which will explain how to use
         <application>Evolution</application>.  If you are new to
         <application>Evolution</application> or to groupware in
         general, this section is for you. The second section, covering
@@ -42,6 +42,10 @@
 	  <member><glossterm linkend="apx-gloss">Words</glossterm>
             that are defined in the <xref linkend="apx-gloss">.</member>
 	  </simplelist>
+</para>
+<para>
+We'll provide assorted bits of additional information in tips set off from the rest of the book, as well. 
+
 	  <tip id="example-tip">
 	      <title>Tip</title>
 	      <para>
@@ -49,6 +53,10 @@
 		this.
 	      </para>
 	    </tip>
+</para>
+
+<para>
+Examples are also set off from the rest of the text.  They look like this:
 
 	  <example>
 	    <title>Example Example</title>
@@ -58,6 +66,9 @@
 	      might be performing.
 	    </para>
 	  </example>
+</para>
+<para>
+Lastly, we'll have warnings, in cases where you should be careful:
 
 	    <warning id="example-warning">
 	      <title>Example Warning</title>

@@ -3,28 +3,31 @@
     <title>Known bugs and limitations</title>
     <abstract>
     <para>
-     This appendix describes known bugs and limitations of
-    <application>Evolution</application>. Ximian Evolution bug
-    tracking is done at the <ulink
+     Ximian Evolution bug tracking is done at the <ulink
     url="http://bugzilla.ximian.com">Ximian bug tracking
     System</ulink>.  You may use that, or the GNOME <application>Bug
     Report Tool</application> (known as <command>bug-buddy</command>
-    at the command line) if you find bugs, or would like to request
-    new features
+    at the command line) if you find bugs or would like to request new
+    features.
     </para>
+    <para>
+      If you need additional help with Ximian Evolution, please visit
+      the Ximian support site at <ulink
+      url="http://support.ximian.com">ximian.com/support</ulink>.
+    <para>
     </abstract>
 
     <para>
-      A number of popular features will not make it into Ximian
-      Evolution 1.0, but we plan to include them for version 1.1.
-      Some of them are:
+      A number of often-requested features will not make it into
+      Ximian Evolution 1.0, but we plan to include them for version
+      1.1.  Some of them are:
     <simplelist>
     <member>Direct import of Microsoft Outlook contact cards</member>
     <member>Synchronization of email with handheld devices</member>
     <member>S/MIME support</member>
     <member>Read foreign mail folders without importing them</member>
     <member>Import of WINMAIL.DAT attachments</member>
-    <member>A "You have new mail" popup or other indicator</member>
+    <member>Playing a sound to indicate new mail arriving</member>
 </simplelist>
     </para>
     <para>

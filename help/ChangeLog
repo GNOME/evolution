@@ -1,3 +1,41 @@
+2001-10-29  Aaron Weber  <aaron@ximian.com>
+
+	* C/apx-bugs.sgml: typos, redescribe 1.1 bugs.
+
+	* C/apx-authors.sgml: Added last few authors, a few more credits,
+	etc. Also changed contact info and URL for evolution.
+
+	* C/menuref.sgml: did we have only 1 item in the calendar?
+	yes. Also, s/Contact Manager/Addressbook/
+	
+	* C/usage-calendar.sgml: phrasing. UI. Spelling. Validation.
+
+	* C/Makefile.am: removed config-encryption and
+	usage-encryption. Stray files. Do not use, ship, etc. All
+	encryption info is in the mail docs.
+
+	* C/config-sync.sgml: call it the addressbook. added : for <terms>
+
+	* C/config-prefs.sgml: commented out empty section.
+
+	* C/figures/print-preview.png: ch. screenshot
+
+	* C/usage-contact.sgml: address book--> addressbook
+
+	* C/usage-mail-org.sgml: added "the note below" (duplicate of data
+	in mainwindow.sgml, but so is all the import information. The
+	import process is available in two places, we should document it
+	in two places. Also typos.  removed a commented-out section on
+	subscription management-- now in usage-mail and mainwindow.
+
+	* C/usage-mail.sgml: mdash correction.
+
+	* C/usage-mainwindow.sgml: replaced &mdash; with :
+
+	* C/apx-gloss.sgml: typo.
+
+	* C/preface.sgml: gnome-help-browser doesn't understand &mdash; 
+
 2001-10-28  Kevin Breit  <mrproper@ximian.com>
 
 	* C/usage-mail-org.sgml: Added the iCalendar format to the list of imported types.  The .ics importing was added _last minute_.

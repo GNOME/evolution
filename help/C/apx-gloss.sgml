@@ -3,7 +3,7 @@
  <title>Glossary</title>
 
  <glossentry id="attachment">
-  <glossterm>Attachment</glossterm>
+  <glossterm>Attachment:</glossterm>
   <glossdef>
    <para>
     Any file sent along with an email.  Attachments may be embedded in
@@ -13,7 +13,7 @@
  </glossentry>
 
 <glossentry id="automatic-indexing">
-  <glossterm>Automatic Indexing</glossterm>
+  <glossterm>Automatic Indexing:</glossterm>
   <glossdef>
    <para>
      Pre-sorting procedure that allows
@@ -25,7 +25,7 @@
  </glossentry>
 
  <glossentry id="bcc">
-  <glossterm>Bcc (Blind Carbon Copy)</glossterm>
+  <glossterm>Bcc (Blind Carbon Copy):</glossterm>
   <glossdef>
    <para>
     A way of addressing a message.  Bcc is used to send a group of
@@ -36,7 +36,7 @@
  </glossentry>
 
  <glossentry id="cc">
-  <glossterm>Cc (Carbon Copy)</glossterm>
+  <glossterm>Cc (Carbon Copy):</glossterm>
   <glossdef>
    <para>
     Carbon-copies are used to send a 3rd party a copy of the e-mail,
@@ -47,7 +47,7 @@
  </glossentry>
 
  <glossentry id="conduit">
-  <glossterm>Conduit</glossterm>
+  <glossterm>Conduit:</glossterm>
   <glossdef>
    <para>
      A synchronization conduit is a small application which controls
@@ -59,7 +59,7 @@
 
 
  <glossentry id="druid">
-  <glossterm>Druid</glossterm>
+  <glossterm>Druid:</glossterm>
   <glossdef>
    <para>
     A tool which guides a user through a series of steps, usually to
@@ -70,7 +70,7 @@
  </glossentry>
 
  <glossentry id="evolution">
-  <glossterm>Evolution</glossterm>
+  <glossterm>Evolution:</glossterm>
   <glossdef>
    <para>
     <application>Evolution</application> is the <acronym> GNOME
@@ -80,7 +80,7 @@
  </glossentry>
 
  <glossentry id="execute">
-  <glossterm>Execute</glossterm>
+  <glossterm>Execute:</glossterm>
   <glossdef>
    <para>
     To run a program.  Any file that can be run is called an
@@ -95,7 +95,7 @@
  </glossentry>
 
  <glossentry id="expunge">
-  <glossterm>Expunge</glossterm>
+  <glossterm>Expunge:</glossterm>
   <glossdef>
    <para>
      When messages are marked for deletion, they remain till they are expunged.
@@ -106,7 +106,7 @@
  </glossentry>
 
  <glossentry id="filetree">
-  <glossterm>File Tree</glossterm>
+  <glossterm>File Tree:</glossterm>
   <glossdef>
    <para>
      A way of describing a group of files on a computer.  With the
@@ -122,7 +122,7 @@
  </glossentry>
 
  <glossentry id="filter">
-  <glossterm>Filter</glossterm>
+  <glossterm>Filter:</glossterm>
   <glossdef>
    <para>
     Within <application>Evolution</application>, a filter is a method
@@ -134,7 +134,7 @@
  </glossentry>
 
  <glossentry id="forward">
-  <glossterm>Forward</glossterm>
+  <glossterm>Forward:</glossterm>
   <glossdef>
    <para>
     If you get a message intended for someone else, you can use
@@ -144,7 +144,7 @@
  </glossentry>
 
  <glossentry id="groupware">
- <glossterm>Groupware</glossterm>
+ <glossterm>Groupware:</glossterm>
   <glossdef>
    <para>
     Groupware is a term describing an application which helps groups
@@ -156,10 +156,10 @@
  </glossentry>
 
  <glossentry id="html">
-  <glossterm>HTML</glossterm>
+  <glossterm>HTML:</glossterm>
   <glossdef>
    <para>
-    Hyper-text Markup Language(<acronym>HTML</acronym>) is a language
+    Hyper-text Markup Language (<acronym>HTML</acronym>) is a language
     for describing page layout in electronic documents like web pages,
     help files, and email messages.  HTML can be used in email and
     news posts to insert images and apply text treatments.
@@ -168,7 +168,7 @@
  </glossentry>
 
  <glossentry id="hot-key">
-  <glossterm>Hot Key</glossterm>
+  <glossterm>Hot Key:</glossterm>
   <glossdef>
    <para>
     Hot-keys are keyboard combinations used to do actions on a
@@ -179,7 +179,7 @@
  </glossentry>
 
  <glossentry id="ical">
-  <glossterm>iCal</glossterm>
+  <glossterm>iCal:</glossterm>
   <glossdef>
    <para>
     <application>iCal</application> is the program which
@@ -190,14 +190,14 @@
  </glossentry> 
 
  <glossentry id="imap">
-  <glossterm>IMAP</glossterm>
+  <glossterm>IMAP:</glossterm>
   <glossdef>
    <para>
     Depending upon whom you ask, IMAP stands for the Internet Mail
     Access Protocol, or the Interim Mail Access Protocol.  Whatever it
     stands for, it allows access to email which is typically (although
     not always) stored remotely on a server rather than on a local
-    hard disk.  Often contrasted with <glossterm>POP</glossterm>.
+    hard disk.  Often contrasted with <glossterm>POP:</glossterm>.
     This will not be on the test.
    </para>
   </glossdef>
@@ -205,18 +205,18 @@
 
 
  <glossentry id="inline">
-  <glossterm>Inline</glossterm>
+  <glossterm>Inline:</glossterm>
   <glossdef>
    <para>
      Displayed as part of a message or other document, rather than
      attached as a separate file. Contrast with <glossterm
-     linkend="attachment">Attachment</glossterm>.
+     linkend="attachment">Attachment:</glossterm>.
    </para>
   </glossdef>
  </glossentry>
  
   <glossentry id="ldap">
-   <glossterm>LDAP</glossterm>
+   <glossterm>LDAP:</glossterm>
    <glossdef>
     <para>
      LDAP, the Lightweight Directory Access Protocol, allows a client
@@ -227,7 +227,7 @@
   </glossentry>
 
  <glossentry id="mail-client">
-  <glossterm>Mail Client</glossterm>
+  <glossterm>Mail Client:</glossterm>
   <glossdef>
    <para>
     A mail client is the application with which a person reads and
@@ -240,7 +240,7 @@
 
 
  <glossentry id="minicard">
-  <glossterm>Minicard</glossterm>
+  <glossterm>Minicard:</glossterm>
   <glossdef>
    <para>
       A format for the display of contact data.  Similar in appearance
@@ -250,7 +250,7 @@
  </glossentry> 
 
  <glossentry id="nautilus">
-  <glossterm>Nautilus</glossterm>
+  <glossterm>Nautilus:</glossterm>
   <glossdef>
    <para>
     <application>Nautilus</application> is the next generation file
@@ -260,7 +260,7 @@
  </glossentry>
 
  <glossentry id="pop">
-  <glossterm>POP</glossterm>
+  <glossterm>POP:</glossterm>
   <glossdef>
    <para>
      POP, the Post Office Protocol, is a mechanism for email
@@ -271,7 +271,7 @@
  </glossentry>
 
  <glossentry id="protocol">
-  <glossterm>Protocol</glossterm>
+  <glossterm>Protocol:</glossterm>
   <glossdef>
    <para>
      An agreed-upon method of communication, especially one for
@@ -283,7 +283,7 @@
  </glossentry>
 
  <glossentry id="public-key-encryption">
-  <glossterm>Public Key Encryption</glossterm>
+  <glossterm>Public Key Encryption:</glossterm>
   <glossdef>
    <para>
      A strong encryption method that uses a set of two "keys," one of
@@ -298,7 +298,7 @@
 
 
  <glossentry id="regular-expression">
-  <glossterm>Regular Expression</glossterm>
+  <glossterm>Regular Expression:</glossterm>
   <glossdef>
    <para>
       A regular expression, or "regex", is a way of describing a
@@ -314,7 +314,7 @@
  </glossentry>
 
  <glossentry id="script">
-  <glossterm>Script</glossterm>
+  <glossterm>Script:</glossterm>
   <glossdef>
    <para>
     A program written in an interpreted (rather than compiled)
@@ -325,12 +325,12 @@
  </glossentry>
 
  <glossentry id="sendmail">
-  <glossterm>Sendmail</glossterm>
+  <glossterm>Sendmail:</glossterm>
   <glossdef>
    <para>
       As its name implies, <application>sendmail</application> is a
       program which sends mail.  <application>Evolution</application>
-      can use it instead of <glossterm>SMTP</glossterm>; some people
+      can use it instead of <glossterm>SMTP:</glossterm>; some people
       prefer it because it offers more flexibility, but is more
       difficult to set up.
    </para>
@@ -339,7 +339,7 @@
 
 
  <glossentry id="shortcut-bar">
-  <glossterm>Shortcut Bar</glossterm>
+  <glossterm>Shortcut Bar:</glossterm>
   <glossdef>
    <para>
      A portion of <application>Evolution</application> which offers
@@ -350,7 +350,7 @@
  </glossentry>
 
   <glossentry id="signature">
-   <glossterm>Signature</glossterm>
+   <glossterm>Signature:</glossterm>
    <glossdef>
     <para>
      In email terms, a signature is a piece of text placed at the end
@@ -363,7 +363,7 @@
   </glossentry> 
 
   <glossentry id="SMTP">
-   <glossterm>SMTP</glossterm>
+   <glossterm>SMTP:</glossterm>
    <glossdef>
     <para>
       This is the most common way of transporting mail messages from
@@ -374,7 +374,7 @@
   </glossentry> 
 
  <glossentry id="tooltip">
-  <glossterm>Tool-Tip</glossterm>
+  <glossterm>Tool-Tip:</glossterm>
   <glossdef>
    <para>
       A small box of explanatory text which appears when the mouse
@@ -385,7 +385,7 @@
  </glossentry>
 
  <glossentry id="virus">
-  <glossterm>Virus</glossterm>
+  <glossterm>Virus:</glossterm>
   <glossdef>
    <para>
     A program which inserts itself into other files or programs and
@@ -398,23 +398,23 @@
  </glossentry>
 
  <glossentry id="vcard">
-  <glossterm>vCard</glossterm>
+  <glossterm>vCard:</glossterm>
   <glossdef>
    <para>
     A file format for the exchange of contact information. When you
     get an address card attached to an email, it's probably in vCard
     format.  Not to be confused with <glossterm
-    linkend="vfolder">vFolder</glossterm>.
+    linkend="vfolder">vFolder:</glossterm>.
    </para>
   </glossdef>
  </glossentry>
 
  <glossentry id="vfolder">
-  <glossterm>vFolder</glossterm>
+  <glossterm>vFolder:</glossterm>
   <glossdef>
    <para>
     An email organization tool. vFolders allows you to create a folder
-    that contains the results of a complex search. Folder contents are
+    that contains the results of a complex search. vFolder contents are
     are updated dynamically.
    </para>
   </glossdef>

@@ -150,7 +150,7 @@
          you've scheduled.  You can have one alarm of each of the following types:
           <variablelist>
            <varlistentry>
-	    <term><guilabel>Display</guilabel></term>
+	    <term><guilabel>Display:</guilabel></term>
 	    <listitem>
 	      <para>
 	        A window will pop up on your screen to remind you of
@@ -159,7 +159,7 @@
 	    </listitem>
 	  </varlistentry>
 	  <varlistentry> 
-	    <term><guilabel>Audio</guilabel></term>
+	    <term><guilabel>Audio:</guilabel></term>
 	    <listitem>
 	      <para>
 	        Choose this to have your computer deliver a sound
@@ -168,7 +168,7 @@
 	    </listitem>
 	  </varlistentry>
 	  <varlistentry>
-	    <term><guilabel>Program</guilabel></term>
+	    <term><guilabel>Program:</guilabel></term>
 	    <listitem>
 	      <para>
 	        Select this if you would like to run a program as a
@@ -253,50 +253,44 @@
     <sect2 id="usage-calendar-rsvp">
       <title>Sending an RSVP with the Calendar</title>
       <para>
-	<application>Evolution</application> can be used to setup group appointments
-	and help you manage RSVPs.
+	<application>Evolution</application> can be used to schedule
+	group meetings and help you manage responses to meeting
+	requests.
       </para>
       <para>
-	When you setup a gathering, you can specify people to come in numerous
-	positions, such as chair.  They are sent an email which lets them
-	easily reply to you with their response.  If they aren't sure if they
-	can attend, they can always reply to the mail later.
+	When you create a meeting or group appointment, you can
+	specify the attendees in several categories, such as "chair"
+	or "required."  When you save the appointment listing, each
+	attendee will be sent an email with the appointment
+	information and gives them the option to respond.
       </para>
       <para>
-	To select recipients to be invited to an event:
+	To schedule a meeting:
 	<orderedlist numeration="arabic">
 	  <listitem>
 	    <para>
-	      Click
+	      Select
 	      <menuchoice>
-		<guimenu>Actions</guimenu>
-		<guimenuitem>Schedule Meeting</guimenuitem>
-	      </menuchoice>.  The <guilabel>Scheduling</guilabel> and <guilabel>Meeting</guilabel> tab open.
+		<guimenu>Actions</guimenu> <guimenuitem>Schedule
+		Meeting</guimenuitem> </menuchoice>.  The
+		<guilabel>Scheduling</guilabel> and
+		<guilabel>Meeting</guilabel> tabs open.
 	    </para>
 	  </listitem>
 	  <listitem>
 	    <para>
-	      If you have multiple identities setup, select the identity to use in the <guilabel>Sent By</guilabel> field.
+	      If you have multiple Evolution identities, choose the
+	      one you'll use by selecting an item in the
+	      <guilabel>Sent By</guilabel> field.
 	    </para>
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Click in the white box.
-	    </para>
-	  </listitem>
-	  <listitem>
-	    <para>
-	      Click <guibutton>Invite Others</guibutton>.
-	    </para>
-	  </listitem>
-	  <listitem>
-	    <para>
-	    Select a person in the <guilabel>Contacts</guilabel> field and click one of the four choices to move them to be an RSVP receiver.
-	    </para>
-	  </listitem>
-	  <listitem>
-	    <para>
-	      Click <guibutton>OK</guibutton>.
+	      Click the space labelled <guilabel>Click here to add an
+	      attendee</guilabel> to enter the names and email
+	      addresses of people you will invite, or click the
+	      <guibutton>Invite Others</guibutton> to select them from
+	      your addressbook.
 	    </para>
 	  </listitem>
 	  <listitem>
@@ -309,9 +303,13 @@
       </para>
     </sect2>
     <sect2 id="replying-to-rsvp">
-      <title>Replying to an RSVP</title>
+      <title>Replying to a Meeting Request</title>
       <para>
-	If you recieve an RSVP, the RSVP will be attached as an ical file.  Click on the attachment and view it inline.   All the details are shown about the event including time and dates.  Then you can choose how to reply to the RSVP.  Your choices are:
+	Meeting requests are sent as iCal attachments.  To view or
+	respond to one, click on the attachment icon and view it
+	inline in the mail window.  All the details are shown about
+	the event including time and dates.  Then you can choose how
+	to reply to the RSVP.  Your choices are:
 	<itemizedlist>
 	  <listitem>
 	    <para>
@@ -320,7 +318,7 @@
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Tentativly Accept
+	      Tentatively Accept
 	    </para>
 	  </listitem>
 	  <listitem>
@@ -329,14 +327,20 @@
 	    </para>
 	  </listitem>
 	</itemizedlist>
-	Click <guibutton>OK</guibutton> and an email will be sent to the organizer with your answer.  The event will also be added to your calendar if you accept.
+	Click <guibutton>OK</guibutton> and an email will be sent to
+	the organizer with your answer.  The event will also be added
+	to your calendar if you accept.
       </para>
     </sect2>
 
     <sect2 id="recieving-rsvp-response">
-      <title>Recieving an RSVP Response</title>
+      <title>Getting Responses to Meeting Requests</title>
       <para>
-	Once you recieve an RSVP, you'll need to view it inline in the email.  Click the attachment and select <guibutton>View Inline</guibutton>.  At the bottom, you can choose an action.  Click <guibutton>OK</guibutton> to update your attendee list.
+	Once you get a reply to your meeting invitation, you'll need
+	to view it inline in the email.  Click the attachment and
+	select <guibutton>View Inline</guibutton>.  At the bottom, you
+	can click <guibutton>OK</guibutton> to update your attendee
+	list.
       </para>
     </sect2>
 
@@ -435,7 +439,7 @@
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><guilabel>Start Date</guilabel></term>
+	  <term><guilabel>Start Date:</guilabel></term>
 	  <listitem>
 	    <para>
 	      The date you intend to start working.
@@ -453,7 +457,7 @@
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><guilabel>Classification</guilabel></term>
+	  <term><guilabel>Classification:</guilabel></term>
 	  <listitem>
 	    <para>
 	      Sets who will see it if your calendar is shared.
@@ -482,7 +486,9 @@
     <sect2 id="task-folders">
       <title>Folders for Your Tasks</title>
       <para>
-	Like any other component in <application>Evolution</application>, you can create a folder to help organize your tasks.  To do this:
+	Like any other component in
+	<application>Evolution</application>, you can create a folder
+	to help organize your tasks.  To do this:
 	<orderedlist numeration="arabic">
 	  <listitem>
 	    <para>
@@ -531,10 +537,9 @@
     <example>
       <title>Keeping Multiple Calendars</title>
       <para>
-        Lucy, the office manager for a small company, has one
-        calendar for her own schedule.  On the local network, she
-        maintains one for the conference room, so people know when
-        they can schedule meetings.  Next to that, she maintains a
+        Lucy, the office manager for a small company, has one calendar
+        for her own schedule. She maintains one for the conference
+        room, to schedule meetings.  Next to that, she maintains a
         calendar that reflects when consultants are going to be on
         site, and another that keeps track of when the Cubs are
         playing.
@@ -549,6 +554,8 @@
        You'll need to tell the <guilabel>New Folder</guilabel> dialog that the new folder should be of the calendar type.  You can place the calendar in any calendar folder and access it
        from the folder view.
     </para>
-    
+    <para>
+       Each calendar folder can hold only one calendar.
+    </para>
   </sect1>
 </chapter>
