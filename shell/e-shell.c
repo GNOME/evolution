@@ -2098,7 +2098,6 @@ e_shell_show_settings (EShell *shell, const char *type, EShellView *shell_view)
 	
 	g_return_if_fail (shell != NULL);
 	g_return_if_fail (E_IS_SHELL (shell));
-	g_return_if_fail (type != NULL);
 
 	priv = shell->priv;
 	
@@ -2109,7 +2108,9 @@ e_shell_show_settings (EShell *shell, const char *type, EShellView *shell_view)
 	}
 	
 	priv->settings_dialog = e_shell_settings_dialog_new ();
-	e_shell_settings_dialog_show_type (E_SHELL_SETTINGS_DIALOG (priv->settings_dialog), type);
+
+	if (type != NULL)
+		e_shell_settings_dialog_show_type (E_SHELL_SETTINGS_DIALOG (priv->settings_dialog), type);
 
 	g_signal_connect (priv->settings_dialog, "destroy",
 			  G_CALLBACK (settings_dialog_destroy_cb), shell);

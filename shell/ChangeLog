@@ -1,5 +1,9 @@
 2002-11-05  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell.c (e_shell_show_settings): Allow type being NULL.
+
+2002-11-05  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-local-storage.c (load_folder): Do add folders with an unknown
 	type.
 
