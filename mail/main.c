@@ -94,13 +94,16 @@ main (int argc, char *argv [])
 	gnome_init_with_popt_table ("evolution-mail-component", VERSION,
 				    argc, argv, oaf_popt_options, 0, NULL);
 
-	sa.sa_flags = 0;
-	sigemptyset (&sa.sa_mask);
-	sa.sa_handler = segv_redirect;
-	sigaction (SIGSEGV, &sa, &osa);
-	sigaction (SIGBUS, &sa, NULL);
-	sigaction (SIGFPE, &sa, NULL);
-	gnome_segv_handler = osa.sa_handler;
+	sigaction (SIGSEGV, NULL, &osa);
+	if (osa.sa_handler != SIG_DFL) {
+		sa.sa_flags = 0;
+		sigemptyset (&sa.sa_mask);
+		sa.sa_handler = segv_redirect;
+		sigaction (SIGSEGV, &sa, NULL);
+		sigaction (SIGBUS, &sa, NULL);
+		sigaction (SIGFPE, &sa, NULL);
+		gnome_segv_handler = osa.sa_handler;
+	}
 
 	orb = oaf_init (argc, argv);
 

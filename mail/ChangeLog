@@ -1,3 +1,9 @@
+2001-07-07  Dan Winship  <danw@ximian.com>
+
+	* main.c (main): Only install the segv_redirect handler if SEGV's
+	handler is not currently SIG_DFL. Otherwise you get an infinite
+	SEGV loop if you run with GNOME_DISABLE_CRASH_DIALOG.
+
 2001-07-07  Christopher James Lahey  <clahey@ximian.com>
 
 	* message-list.c (message_list_select): Made this handle being
