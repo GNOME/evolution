@@ -1,5 +1,15 @@
 2004-03-11  Not Zed  <NotZed@Ximian.com>
 
+	* providers/imap/camel-imap-store.c (no_such_folder): removed
+	this.  not sure what it was doing there, a 1 line funciton used
+	once.
+	(get_folder_online): pass exception to camel_imap_command.  if we
+	got a user cancel, pass it up.  See #55388.
+	(hash_folder_name, compare_folder_name): more g_ascii_strcasecmp
+	stuff.
+
+2004-03-11  Not Zed  <NotZed@Ximian.com>
+
 	* camel-vee-store.c (vee_get_folder_info): we need to add the
 	folderinfo always if we're recursive from top.  Should fix #52965
 	and maybe the other vfolders not showing on startup bug.

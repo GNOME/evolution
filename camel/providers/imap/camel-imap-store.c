@@ -1675,7 +1675,7 @@ imap_noop (CamelStore *store, CamelException *ex)
 static guint
 hash_folder_name (gconstpointer key)
 {
-	if (strcasecmp (key, "INBOX") == 0)
+	if (g_ascii_strcasecmp (key, "INBOX") == 0)
 		return g_str_hash ("INBOX");
 	else
 		return g_str_hash (key);
@@ -1686,19 +1686,11 @@ compare_folder_name (gconstpointer a, gconstpointer b)
 {
 	gconstpointer aname = a, bname = b;
 
-	if (strcasecmp (a, "INBOX") == 0)
+	if (g_ascii_strcasecmp (a, "INBOX") == 0)
 		aname = "INBOX";
-	if (strcasecmp (b, "INBOX") == 0)
+	if (g_ascii_strcasecmp (b, "INBOX") == 0)
 		bname = "INBOX";
 	return g_str_equal (aname, bname);
-}
-
-static CamelFolder *
-no_such_folder (const char *name, CamelException *ex)
-{
-	camel_exception_setv (ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
-			      _("No such folder %s"), name);
-	return NULL;
 }
 
 static int
@@ -1743,14 +1735,13 @@ get_folder_status (CamelImapStore *imap_store, const char *folder_name, const ch
 }
 
 static CamelFolder *
-get_folder_online (CamelStore *store, const char *folder_name,
-		   guint32 flags, CamelException *ex)
+get_folder_online (CamelStore *store, const char *folder_name, guint32 flags, CamelException *ex)
 {
 	CamelImapStore *imap_store = CAMEL_IMAP_STORE (store);
 	CamelImapResponse *response;
 	CamelFolder *new_folder;
 	char *folder_dir, *storage_path;
-	
+
 	if (!camel_imap_store_connected (imap_store, ex))
 		return NULL;
 	
@@ -1763,13 +1754,20 @@ get_folder_online (CamelStore *store, const char *folder_name,
 		camel_object_unref (imap_store->current_folder);
 		imap_store->current_folder = NULL;
 	}
-	response = camel_imap_command (imap_store, NULL, NULL, "SELECT %F", folder_name);
+	response = camel_imap_command (imap_store, NULL, ex, "SELECT %F", folder_name);
 	if (!response) {
 		char *folder_real;
 
+		if (camel_exception_get_id(ex) == CAMEL_EXCEPTION_USER_CANCEL) {
+			CAMEL_SERVICE_UNLOCK (imap_store, connect_lock);
+			return NULL;
+		}
+
 		if (!flags & CAMEL_STORE_FOLDER_CREATE) {
 			CAMEL_SERVICE_UNLOCK (imap_store, connect_lock);
-			return no_such_folder (folder_name, ex);
+			camel_exception_setv (ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
+					      _("No such folder %s"), folder_name);
+			return NULL;
 		}
 
 		folder_real = camel_imap_store_summary_path_to_full(imap_store->summary, folder_name, store->dir_sep);
