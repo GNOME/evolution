@@ -239,12 +239,14 @@ collection_changed (GalView *view, GalViewInstance *instance)
 static void
 load_current_view (GalViewInstance *instance)
 {
-	xmlDoc *doc;
+	xmlDoc *doc = NULL;
 	xmlNode *root;
 	GalView *view = NULL;
-
-	doc = xmlParseFile(instance->current_view_filename);
-
+	struct stat st;
+	
+	if (stat (instance->current_view_filename, &st) != -1 && S_ISREG (st.st_mode))
+		doc = xmlParseFile(instance->current_view_filename);
+	
 	if (doc == NULL) {
 		instance->current_id = g_strdup (gal_view_instance_get_default_view (instance));
 
