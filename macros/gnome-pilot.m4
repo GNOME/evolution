@@ -45,7 +45,7 @@ AC_DEFUN([PILOT_LINK_HOOK],[
 	                                                   piversion_include="$prefix/include/pi-version.h"
 						           if test x$PISOCK_LIBDIR = x; then
 							      incdir="$prefix/include"
-							      PISOCK_LIBS="-L$prefix/lib -lpisock"
+							      PISOCK_LIBS="-L$prefix/lib -lpisock -lpisync"
                                                            fi							  ],
 	    AC_MSG_ERROR([Unable to find pi-version.h])) 
 	    ])
@@ -53,7 +53,7 @@ AC_DEFUN([PILOT_LINK_HOOK],[
 	fi
 		
 	if test "x$PISOCK_LIBS" = "x"; then
-		AC_CHECK_LIB(pisock, pi_accept, [ PISOCK_LIBS=-lpisock ], 
+		AC_CHECK_LIB(pisock, pi_accept, [ PISOCK_LIBS=-lpisock -lpisync], 
 			[ AC_MSG_ERROR([Unable to find libpisock. Try http://www.pilot-link.org.]) ])
 	fi
 	

@@ -1,3 +1,8 @@
+2002-09-20  JP Rosevear  <jpr@ximian.com>
+
+	* gnome-pilot.m4: fix problem where -lpisync was not linked in if
+	you didn't specify --with-pisock
+
 2002-09-16  JP Rosevear  <jpr@ximian.com>
 
 	* gnome-pilot.m4: check for pilot-link 0.11.4 by default
