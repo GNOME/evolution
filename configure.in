@@ -92,18 +92,28 @@ else
     AC_MSG_ERROR(Did not find libGlade installed)
 fi
 
-EXTRA_GNOME_LIBS="`gnome-config --libs gnomeui libglade `"
-EXTRA_GNOME_CFLAGS="`gnome-config --cflags gnomeui libglade `"
+dnl ******************************
+dnl GdkPixbuf checking
+dnl ******************************
+AC_MSG_CHECKING(For Gdkpixbuf libraries)
+if gnome-config --libs gdk_pixbuf > /dev/null 2>&1; then 
+    AC_MSG_RESULT(found)
+else
+    AC_MSG_ERROR(Did not find gdkpixbuf installed)
+fi
+
+EXTRA_GNOME_LIBS="`gnome-config --libs gnomeui libglade gdk_pixbuf `"
+EXTRA_GNOME_CFLAGS="`gnome-config --cflags gnomeui libglade gdk_pixbuf `"
 AC_SUBST(EXTRA_GNOME_LIBS)
 AC_SUBST(EXTRA_GNOME_CFLAGS)
 
-BONOBO_GNOME_LIBS="`gnome-config --libs gnomeui bonobo libglade `"
-BONOBO_GNOME_CFLAGS="`gnome-config --cflags gnomeui bonobo libglade `"
+BONOBO_GNOME_LIBS="`gnome-config --libs gnomeui bonobo libglade gdk_pixbuf `"
+BONOBO_GNOME_CFLAGS="`gnome-config --cflags gnomeui bonobo libglade gdk_pixbuf `"
 AC_SUBST(BONOBO_GNOME_LIBS)
 AC_SUBST(BONOBO_GNOME_CFLAGS)
 
-EXTRA_GNOME_LIBS_THREADS="`gnome-config --libs gnomeui libglade ` `glib-config --libs gthread`"
-EXTRA_GNOME_CFLAGS_THREADS="`gnome-config --cflags gnomeui libglade ` `glib-config --cflags gthread`"
+EXTRA_GNOME_LIBS_THREADS="`gnome-config --libs gnomeui libglade gdk_pixbuf ` `glib-config --libs gthread`"
+EXTRA_GNOME_CFLAGS_THREADS="`gnome-config --cflags gnomeui libglade gdk_pixbuf ` `glib-config --cflags gthread`"
 AC_SUBST(EXTRA_GNOME_LIBS_THREADS)
 AC_SUBST(EXTRA_GNOME_CFLAGS_THREADS)
 
