@@ -33,7 +33,6 @@
 #include "widgets/menus/gal-view-menus.h"
 #include "dialogs/task-editor.h"
 #include "calendar-config.h"
-#include "calendar-config.h"
 #include "component-factory.h"
 
 #include "e-tasks.h"

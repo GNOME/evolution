@@ -42,6 +42,7 @@
 #include <widgets/meeting-time-sel/e-meeting-time-sel.h>
 #include <e-util/e-dialog-widgets.h>
 #include <addressbook/gui/component/select-names/Evolution-Addressbook-SelectNames.h>
+#include "../component-factory.h"
 #include "comp-editor-util.h"
 #include "meeting-page.h"
 
@@ -53,34 +54,35 @@
 	" _click-to-add-message=\"Click here to add an attendee\" "	\
 	" draw-grid=\"true\">"						\
         "  <ETableColumn model_col= \"0\" _title=\"Attendee\" "	        \
-	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "	\
+	"   expansion=\"2.0\" minimum_width=\"10\" resizable=\"true\" "	\
 	"   cell=\"string\" compare=\"string\"/>"			\
         "  <ETableColumn model_col= \"1\" _title=\"Member\" "		\
 	"   expansion=\"2.0\" minimum_width=\"10\" resizable=\"true\" "	\
-	"   cell=\"text\" compare=\"string\"/>"			        \
+	"   cell=\"string\" compare=\"string\"/>"			\
         "  <ETableColumn model_col= \"2\" _title=\"Type\" "		\
-	"   expansion=\"2.0\" minimum_width=\"10\" resizable=\"true\" "	\
+	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "	\
 	"   cell=\"typeedit\" compare=\"string\"/>"			\
         "  <ETableColumn model_col= \"3\" _title=\"Role\" "	        \
 	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "	\
 	"   cell=\"roleedit\"   compare=\"string\"/>"		        \
         "  <ETableColumn model_col= \"4\" _title=\"RSVP\" "	        \
-	"   expansion=\"2.0\" minimum_width=\"10\" resizable=\"true\" "	\
+	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "	\
 	"   cell=\"rsvpedit\" compare=\"string\"/>"			\
         "  <ETableColumn model_col= \"5\" _title=\"Status\" "		\
-	"   expansion=\"2.0\" minimum_width=\"10\" resizable=\"true\" "	\
+	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "	\
 	"   cell=\"statusedit\" compare=\"string\"/>"			\
         "  <ETableColumn model_col= \"6\" _title=\"Common Name\" "	\
 	"   expansion=\"2.0\" minimum_width=\"10\" resizable=\"true\" "	\
-	"   cell=\"text\" compare=\"string\"/>"			        \
-        "  <ETableColumn model_col= \"7\" _title=\"Language\" "	\
+	"   cell=\"string\" compare=\"string\"/>"			\
+        "  <ETableColumn model_col= \"7\" _title=\"Language\" "	        \
 	"   expansion=\"2.0\" minimum_width=\"10\" resizable=\"true\" "	\
-	"   cell=\"text\" compare=\"string\"/>"			        \
+	"   cell=\"string\" compare=\"string\"/>"			\
 	"  <ETableState>"						\
 	"    <column source=\"0\"/>"					\
-	"    <column source=\"1\"/>"					\
 	"    <column source=\"2\"/>"					\
 	"    <column source=\"3\"/>"					\
+	"    <column source=\"4\"/>"					\
+	"    <column source=\"5\"/>"					\
 	"    <grouping></grouping>"					\
 	"  </ETableState>"						\
 	"</ETableSpecification>"
@@ -232,13 +234,21 @@ meeting_page_destroy (GtkObject *object)
 {
 	MeetingPage *mpage;
 	MeetingPagePrivate *priv;
-
+	ETable *real_table;
+	char *filename;
+	
 	g_return_if_fail (object != NULL);
 	g_return_if_fail (IS_MEETING_PAGE (object));
 
 	mpage = MEETING_PAGE (object);
 	priv = mpage->priv;
 
+	filename = g_strdup_printf ("%s/config/et-header-meeting-page", 
+				    evolution_dir);
+	real_table = e_table_scrolled_get_table (E_TABLE_SCROLLED (priv->etable));
+	e_table_save_state (real_table, filename);
+	g_free (filename);
+	
 	if (priv->xml) {
 		gtk_object_unref (GTK_OBJECT (priv->xml));
 		priv->xml = NULL;
@@ -357,7 +367,7 @@ meeting_page_fill_component (CompEditorPage *page, CalComponent *comp)
 		CalComponentAttendee *att = g_new0 (CalComponentAttendee, 1);
 		
 		att->value = attendee->address;
-		att->member = attendee->member;
+		att->member = (attendee->member && *attendee->member) ? attendee->member : NULL;
 		att->cutype= attendee->cutype;
 		att->role = attendee->role;
 		att->status = attendee->status;
@@ -365,8 +375,8 @@ meeting_page_fill_component (CompEditorPage *page, CalComponent *comp)
 		att->delto = attendee->delto;
 		att->delfrom = attendee->delfrom;
 		att->sentby = attendee->sentby;
-		att->cn = attendee->cn;
-		att->language = attendee->language;
+		att->cn = (attendee->cn && *attendee->cn) ? attendee->cn : NULL;
+		att->language = (attendee->language && *attendee->language) ? attendee->language : NULL;
 		
 		attendees = g_slist_prepend (attendees, att);
 		
@@ -862,13 +872,32 @@ static void
 build_etable (MeetingPage *mpage)
 {
 	MeetingPagePrivate *priv;
+	ETable *real_table;
 	ETableExtras *extras;
 	GList *strings;
 	ECell *popup_cell, *cell;
 	
+	char *filename;
+	
 	priv = mpage->priv;
 	
 	extras = e_table_extras_new ();
+
+	/* For type */
+	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
+	popup_cell = e_cell_combo_new ();
+	e_cell_popup_set_child (E_CELL_POPUP (popup_cell), cell);
+	gtk_object_unref (GTK_OBJECT (cell));
+	
+	strings = NULL;
+	strings = g_list_append (strings, "Individual");
+	strings = g_list_append (strings, "Group");
+	strings = g_list_append (strings, "Resource");
+	strings = g_list_append (strings, "Room");
+	strings = g_list_append (strings, "Unknown");
+
+	e_cell_combo_set_popdown_strings (E_CELL_COMBO (popup_cell), strings);
+	e_table_extras_add_cell (extras, "typeedit", popup_cell);
 	
 	/* For role */
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
@@ -934,6 +963,12 @@ build_etable (MeetingPage *mpage)
 	
 	priv->etable = e_table_scrolled_new (priv->model, extras, 
 					     MEETING_PAGE_TABLE_SPEC, NULL);
+	filename = g_strdup_printf ("%s/config/et-header-meeting-page", 
+				    evolution_dir);
+	real_table = e_table_scrolled_get_table (E_TABLE_SCROLLED (priv->etable));
+	e_table_load_state (real_table, filename);
+	g_free (filename);
+
 	gtk_object_unref (GTK_OBJECT (extras));
 }
 

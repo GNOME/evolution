@@ -1,3 +1,18 @@
+2001-07-03  JP Rosevear  <jpr@ximian.com>
+
+	* gui/dialogs/meeting-page.c: Add new columns for information
+	specification
+	(meeting_page_destroy): save the table state
+	(build_etable): load new table state
+
+	* gui/dialogs/task-editor.c (task_editor_destroy): unref pages
+
+	* gui/dialogs/event-editor.c (event_editor_destroy): unref pages
+
+	* gui/dialogs/comp-editor.c (setup_widgets): kill warning
+	(comp_editor_append_page): ref page passed in
+	(close_dialog): unref pages
+
 2001-07-03  Damon Chaplin  <damon@ximian.com>
 
 	* gui/e-day-view.c (query_obj_updated_cb): fix warning, and added

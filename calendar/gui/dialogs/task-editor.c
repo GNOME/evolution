@@ -173,6 +173,9 @@ task_editor_destroy (GtkObject *object)
 	te = TASK_EDITOR (object);
 	priv = te->priv;
 
+	gtk_object_unref (GTK_OBJECT (priv->task_page));
+	gtk_object_unref (GTK_OBJECT (priv->task_details_page));
+	
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }

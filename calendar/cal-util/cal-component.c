@@ -3756,7 +3756,7 @@ set_attendee_list (CalComponent *comp,
 			icalproperty_add_parameter (attendee->prop, attendee->cn_param);
 		}
 		if (a->language) {
-			attendee->language_param = icalparameter_new_language (a->cn);
+			attendee->language_param = icalparameter_new_language (a->language);
 			icalproperty_add_parameter (attendee->prop, attendee->language_param);
 		}
 

@@ -201,7 +201,7 @@ setup_widgets (CompEditor *editor)
 
 	/* Notebook */
 	priv->notebook = GTK_NOTEBOOK (gtk_notebook_new ());
-	gtk_widget_show (priv->notebook);
+	gtk_widget_show (GTK_WIDGET (priv->notebook));
 	gtk_box_pack_start (GTK_BOX (vbox), GTK_WIDGET (priv->notebook),
 			    TRUE, TRUE, 0);
 }
@@ -273,6 +273,8 @@ comp_editor_append_page (CompEditor *editor,
 
 	priv = editor->priv;
 
+	gtk_object_ref (GTK_OBJECT (page));
+	
 	/* If we are editing something, fill the widgets with current info */
 	if (priv->comp != NULL) {
 		CalComponent *comp;
@@ -723,10 +725,14 @@ static void
 close_dialog (CompEditor *editor)
 {
 	CompEditorPrivate *priv;
-
+	GList *l;
+	
 	priv = editor->priv;
 
 	g_assert (priv->window != NULL);
+
+	for (l = priv->pages; l != NULL; l = l->next)
+		gtk_object_unref (GTK_OBJECT (l->data));
 
 	gtk_object_destroy (GTK_OBJECT (editor));
 }

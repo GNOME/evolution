@@ -191,6 +191,11 @@ event_editor_destroy (GtkObject *object)
 	ee = EVENT_EDITOR (object);
 	priv = ee->priv;
 
+	gtk_object_unref (GTK_OBJECT (priv->event_page));
+	gtk_object_unref (GTK_OBJECT (priv->alarm_page));
+	gtk_object_unref (GTK_OBJECT (priv->recur_page));
+	gtk_object_unref (GTK_OBJECT (priv->meet_page));
+
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
