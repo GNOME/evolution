@@ -1,3 +1,8 @@
+2001-07-20  Jason Leach  <jleach@ximian.com>
+
+	* e-summary-tasks.c: Revert last changes, URIs are now back to
+	original in shell.
+
 2001-07-19  Jason Leach  <jleach@ximian.com>
 
 	* e-summary-tasks.c: Update the evolution:/local/ URI's to
