@@ -890,41 +890,6 @@ user_create_new_item_cb (EvolutionShellComponent *shell_component,
 	g_warning ("Don't know how to create item of type \"%s\"", id);
 }
 
-static gboolean
-idle_quit (gpointer user_data)
-{
-	static int shutdown_vfolder = FALSE;
-	static int shutdown_shutdown = FALSE;
-
-	if (!shutdown_shutdown) {
-		if (e_thread_busy(NULL) || mail_msg_active(-1)) {
-			usleep(10000);
-			return TRUE;
-		}
-
-		if (!shutdown_vfolder) {
-			shutdown_vfolder = TRUE;
-			mail_vfolder_shutdown();
-			return TRUE;
-		}
-
-		if (mail_async_event_destroy(async_event) == -1)
-			return TRUE;
-
-		shutdown_shutdown = TRUE;
-		g_hash_table_foreach (storages_hash, free_storage, NULL);
-		g_hash_table_destroy (storages_hash);
-		storages_hash = NULL;
-	}
-	
-	if (e_list_length (folder_browser_factory_get_control_list ()))
-		return TRUE;
-
-	bonobo_main_quit ();
-
-	return FALSE;
-}	
-
 static void owner_unset_cb (EvolutionShellComponent *shell_component, gpointer user_data);
 
 /* Table for signal handler setup/cleanup */
@@ -946,7 +911,11 @@ static void
 owner_unset_cb (EvolutionShellComponent *shell_component, gpointer user_data)
 {
 	GConfClient *gconf;
+	CORBA_Environment ev;
 	int i;
+	EIterator *it;
+
+	printf("mailer shutdown\n");
 
 	gconf = gconf_client_get_default ();
 	for (i=0;i<sizeof(shell_component_handlers)/sizeof(shell_component_handlers[0]);i++)
@@ -963,8 +932,49 @@ owner_unset_cb (EvolutionShellComponent *shell_component, gpointer user_data)
 	
 	g_object_unref (search_context);
 	search_context = NULL;
-	
-	g_timeout_add(100, idle_quit, NULL);
+
+	/* force de-activate of all controls, tho only one should be active anyway? */
+	CORBA_exception_init(&ev);
+	for (it = e_list_get_iterator(folder_browser_factory_get_control_list());
+	     e_iterator_is_valid(it);
+	     e_iterator_next(it)) {
+		Bonobo_Control_activate(bonobo_object_corba_objref((BonoboObject *)e_iterator_get(it)),
+					  FALSE, &ev);
+	}
+	CORBA_exception_free(&ev);
+
+	for (i= 0;i<3;i++) {
+		/* need to flush any outstanding tasks before proceeding */
+
+		/* NOTE!!  This may cause a deadlock situation, if we were
+		   called from a deeper main loop than the top level
+		   - is there a way to detect this?
+		   - is this a very big problem?
+		   FIXME: should use semaphores or something to wait rather than polling */
+		while (e_thread_busy(NULL) || mail_msg_active(-1)) {
+			if (g_main_context_pending(NULL))
+				g_main_context_iteration(NULL, TRUE);
+			else
+				usleep(100000);
+		}
+
+		switch(i) {
+		case 0:
+			mail_vfolder_shutdown();
+			break;
+		case 1:
+			if (mail_async_event_destroy(async_event) == -1) {
+				g_warning("Cannot destroy async event: would deadlock");
+				g_warning(" system may be unstable at exit");
+			}
+			break;
+		case 2:
+			g_hash_table_foreach (storages_hash, free_storage, NULL);
+			g_hash_table_destroy (storages_hash);
+			storages_hash = NULL;
+			break;
+		}
+	}
 }
 
 static void

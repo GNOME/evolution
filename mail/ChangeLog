@@ -1,3 +1,9 @@
+2003-03-05  Not Zed  <NotZed@Ximian.com>
+
+	* component-factory.c (idle_quit): Removed old quit code.
+	(owner_unset_cb): Make this call synchronous.  Wont cover all
+	cases but should be ok most of the time.
+
 2003-03-04  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-search.c: Prototype some functions to shut the compiler up.
