@@ -100,6 +100,9 @@ void           mail_display_load_images (MailDisplay *mail_display);
 
 void           mail_text_write          (GtkHTML *html,
 					 GtkHTMLStream *stream,
+					 MailDisplay *md,
+					 CamelMimePart *part,
+					 gint idx,
 					 gboolean printing,
 					 const char *text);
 void           mail_error_printf        (GtkHTML *html,
