@@ -1,4 +1,7 @@
 2000-06-22  Peter Williams  <peterw@curious-george.helixcode.com>
+	* Makefile.am: Add GNOME_EXTRA_LIBS so that we get libgthread
+	in our LIBS for evolution-mail.
+	
 	* mail-threads.c: Make the dialog boxes for error and
 	question non-modal. They're modal relative to the dispatch
 	thread, but before they would also eg lock up the toolbar

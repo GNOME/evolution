@@ -69,6 +69,7 @@ evolution_mail_LDADD = 					\
 	$(top_builddir)/libibex/libibex.la		\
 	$(top_builddir)/filter/libfilter.la		\
 	$(BONOBO_HTML_GNOME_LIBS)			\
+	$(EXTRA_GNOME_LIBS)				\
 	$(PTHREAD_LIB)					\
 	$(UNICODE_LIBS)
 
