@@ -820,7 +820,7 @@ mail_folder_cache_set_folder_browser (FolderBrowser *fb)
 
 	LOCK_FOLDERS ();
 	dm ("Checking folders for this fb");
-	g_hash_table_foreach (folders, check_for_fb_match, NULL);
+	g_hash_table_foreach (folders, check_for_fb_match, fb);
 	UNLOCK_FOLDERS ();
 }
 		
