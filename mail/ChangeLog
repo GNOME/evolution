@@ -2,7 +2,7 @@
 
 	* session.c (mail_session_init): Tell camel to init NSS.
 	(mail_session_accept_dialog): Doh! NULL terminate the list of
-	buttons.
+	buttons and show the label.
 
 	* mail-mt.c (do_get_accept): Same.
 

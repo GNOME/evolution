@@ -668,12 +668,14 @@ do_get_accept (struct _mail_msg *mm)
 				   GNOME_STOCK_BUTTON_NO,
 				   NULL);
 	gnome_dialog_set_default (GNOME_DIALOG (dialog), 1);
+	gtk_window_set_policy (GTK_WINDOW (dialog), TRUE, TRUE, TRUE);
 	
 	label = gtk_label_new (m->prompt);
 	gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
 	
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), label,
 			    TRUE, TRUE, 0);
+	gtk_widget_show (label);
 	
 	/* hrm, we can't run this async since the gui_port from which we're called
 	   will reply to our message for us */
