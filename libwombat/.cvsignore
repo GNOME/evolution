@@ -8,3 +8,4 @@ wombat-stubs.c
 .deps
 .libs
 libwombat.la
+libwombat-static.la
