@@ -69,6 +69,7 @@ process_item_fn (EvolutionImporter *importer,
 {
 	VCardImporter *gci = (VCardImporter *) closure;
 	EContact *contact;
+	EContactPhoto *photo;
 
 	if (gci->iterator == NULL)
 		gci->iterator = gci->contactlist;
@@ -89,6 +90,21 @@ process_item_fn (EvolutionImporter *importer,
 	}
 	
 	contact = gci->iterator->data;
+
+	/* Apple's addressbook.app exports PHOTO's without a TYPE
+	   param, so let's figure out the format here if there's a
+	   PHOTO attribute missing a TYPE param.
+
+	   this is sort of a hack, as EContact sets the type for us if
+	   we use the setter.  so let's e_contact_get + e_contact_set
+	   on E_CONTACT_PHOTO.
+	*/
+	photo = e_contact_get (contact, E_CONTACT_PHOTO);
+	if (photo) {
+		e_contact_set (contact, E_CONTACT_PHOTO, photo);
+		e_contact_photo_free (photo);
+	}
+
 	/* FIXME Error checking */
 	e_book_add_contact (gci->book, contact, NULL);
 	

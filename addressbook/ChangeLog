@@ -1,5 +1,15 @@
 2004-03-30  Chris Toshok  <toshok@ximian.com>
 
+	[ part of the fix for #54528, the other part is in e-d-s ]
+	
+	* importers/evolution-vcard-importer.c (process_item_fn): get and
+	set the PHOTO attribute before storing the contact in the book.
+	this has the affect of making EContact sniff the image format.
+	the apple addressbook doesn't give PHOTO's a TYPE.
+
+
+2004-03-30  Chris Toshok  <toshok@ximian.com>
+
 	[ fixes bug #53094 ]
 	
 	* gui/component/ldap-config.glade: nuke
