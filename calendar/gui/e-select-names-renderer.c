@@ -64,6 +64,13 @@ esnr_editing_done (GtkCellEditable *editable, ESelectNamesRenderer *cell)
 	cell->priv->path = NULL;
 }
 
+static void
+esnr_activated (BonoboControlFrame *cf, gboolean activated, ESelectNamesRenderer *cell)
+{
+	if (!activated)
+		esnr_editing_done (GTK_CELL_EDITABLE (cell->priv->editable), cell);
+}
+
 static GtkCellEditable *
 esnr_start_editing (GtkCellRenderer *cell, GdkEvent *event, GtkWidget *widget, const gchar *path,
 		    GdkRectangle *bg_area, GdkRectangle *cell_area, GtkCellRendererState flags)
@@ -71,6 +78,7 @@ esnr_start_editing (GtkCellRenderer *cell, GdkEvent *event, GtkWidget *widget, c
 	ESelectNamesRenderer *sn_cell = E_SELECT_NAMES_RENDERER (cell);
 	GtkCellRendererText *text_cell = GTK_CELL_RENDERER_TEXT (cell);
 	ESelectNamesEditable *editable;
+	BonoboControlFrame *cf;
 	
 	if (!text_cell->editable)
 		return NULL;
@@ -80,6 +88,12 @@ esnr_start_editing (GtkCellRenderer *cell, GdkEvent *event, GtkWidget *widget, c
 	gtk_widget_show (GTK_WIDGET (editable));
 
 	g_signal_connect (editable, "editing_done", G_CALLBACK (esnr_editing_done), sn_cell);
+
+	/* Listen for de-activation/loss of focus */
+	cf = bonobo_widget_get_control_frame (BONOBO_WIDGET (editable));
+	bonobo_control_frame_set_autoactivate (cf, TRUE);
+
+	g_signal_connect (cf, "activated", G_CALLBACK (esnr_activated), sn_cell);
 
 	sn_cell->priv->editable = g_object_ref (editable);
 	sn_cell->priv->path = g_strdup (path);

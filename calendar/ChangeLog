@@ -1,3 +1,12 @@
+2004-01-06  JP Rosevear <jpr@ximian.com>
+
+	* gui/e-select-names-renderer.c (esnr_activated): if we are
+	de-activated, the editing is done
+	(esnr_start_editing): listen for activated signal on the control
+	frame
+
+	Fixes #52196
+	
 2004-01-06  Kidd Wang  <kidd.wang@sun.com>
 
 	* gui/e-calendar-table.[ch] (e_calendar_table_open_selected):
