@@ -64,6 +64,11 @@ typedef struct {
 } ECalModelComponent;
 
 typedef struct {
+	ECalModelComponent *comp_data;
+	gpointer cb_data;
+} ECalModelGenerateInstancesData;
+
+typedef struct {
 	ETableModel model;
 	ECalModelPrivate *priv;
 } ECalModel;
@@ -100,11 +105,13 @@ void                e_cal_model_set_query (ECalModel *model, const gchar *sexp);
 
 icalcomponent      *e_cal_model_create_component_with_defaults (ECalModel *model);
 const gchar        *e_cal_model_get_color_for_component (ECalModel *model, ECalModelComponent *comp_data);
+gboolean            e_cal_model_get_rgb_color_for_component (ECalModel *model, ECalModelComponent *comp_data, double *red, double *green, double *blue);
 ECalModelComponent *e_cal_model_get_component_at (ECalModel *model, gint row);
 
 gchar              *e_cal_model_date_value_to_string (ECalModel *model, const void *value);
 
 void                e_cal_model_free_component_data (ECalModelComponent *comp_data);
+void                e_cal_model_generate_instances (ECalModel *model, time_t start, time_t end, ECalRecurInstanceFn cb, gpointer cb_data);
 
 G_END_DECLS
 

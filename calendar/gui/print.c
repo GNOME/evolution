@@ -47,6 +47,7 @@
 #include <libecal/e-cal-time-util.h>
 #include "calendar-commands.h"
 #include "calendar-config.h"
+#include "e-cal-model.h"
 #include "e-day-view.h"
 #include "e-day-view-layout.h"
 #include "e-week-view.h"
@@ -156,6 +157,8 @@ struct psinfo
 	gboolean use_24_hour_format;
 	double row_height;
 	double header_row_height;
+
+	ECalModelComponent *comp_data;
 };
 
 struct ptinfo
@@ -303,20 +306,20 @@ enum align_box {
 /* Prints a rectangle, with or without a border, filled or outline, and
    possibly with triangular arrows at one or both horizontal edges.
    width      = width of border, -ve means no border.
-   fillcolor = shade of fill,   -ve means no fill.
+   red,green,blue = bgcolor to fill,   -ve means no fill.
    left_triangle_width, right_triangle_width = width from edge of rectangle to
           point of triangle, or -ve for no triangle. */
 static void
 print_border_with_triangles (GnomePrintContext *pc,
 			     double l, double r, double t, double b,
-			     double width, double fillcolor,
+			     double width, double red, double green, double blue,
 			     double left_triangle_width,
 			     double right_triangle_width)
 {
 	gnome_print_gsave (pc);
 
 	/* Fill in the interior of the rectangle, if desired. */
-	if (fillcolor >= -EPSILON) {
+	if (red >= -EPSILON && green >= -EPSILON && blue >= -EPSILON) {
 		gnome_print_moveto (pc, l, t);
 		if (left_triangle_width > 0.0)
 			gnome_print_lineto (pc, l - left_triangle_width,
@@ -328,8 +331,7 @@ print_border_with_triangles (GnomePrintContext *pc,
 					    (t + b) / 2);
 		gnome_print_lineto (pc, r, t);
 		gnome_print_closepath (pc);
-		gnome_print_setrgbcolor (pc, fillcolor, fillcolor,
-					 fillcolor);
+		gnome_print_setrgbcolor (pc, red, green, blue);
 		gnome_print_fill (pc);
 	}
 
@@ -359,14 +361,38 @@ print_border_with_triangles (GnomePrintContext *pc,
    width      = width of border, -ve means no border.
    fillcolor = shade of fill,   -ve means no fill. */
 static void
+print_border_rgb (GnomePrintContext *pc,
+	      double l, double r, double t, double b,
+	      double width, double red, double green, double blue)
+{
+	print_border_with_triangles (pc, l, r, t, b, width, red, green, blue, -1.0, -1.0);
+}
+
+static void
 print_border (GnomePrintContext *pc,
 	      double l, double r, double t, double b,
 	      double width, double fillcolor)
 {
-	print_border_with_triangles (pc, l, r, t, b, width, fillcolor,
-				     -1.0, -1.0);
+	print_border_rgb (pc, l, r, t, b, width, fillcolor, fillcolor, fillcolor);
 }
 
+static void
+print_rectangle (GnomePrintContext *pc,
+		 double l, double r, double t, double b,
+		 double red, double green, double blue)
+{
+	gnome_print_gsave (pc);
+
+	gnome_print_moveto (pc, l, t);
+	gnome_print_lineto (pc, l, b);
+	gnome_print_lineto (pc, r, b);
+	gnome_print_lineto (pc, r, t);
+	gnome_print_closepath (pc);
+	gnome_print_setrgbcolor (pc, red, green, blue);
+	gnome_print_fill (pc);
+
+	gnome_print_grestore (pc);
+}
 
 /* Prints 1 line of aligned text in a box. It is centered vertically, and
    the horizontal alignment can be either ALIGN_LEFT, ALIGN_RIGHT, or
@@ -988,7 +1014,7 @@ print_day_long_event (GnomePrintContext *pc, GnomeFont *font,
 	x2 = right - 10;
 	y1 = top - event->start_row_or_col * row_height - 4;
 	y2 = y1 - row_height + 4;
-	print_border_with_triangles (pc, x1, x2, y1, y2, 0.5, 0.95,
+	print_border_with_triangles (pc, x1, x2, y1, y2, 0.5, 0.95, 0.95, 0.95,
 				     left_triangle_width,
 				     right_triangle_width);
 
@@ -1237,54 +1263,6 @@ print_day_details (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 	g_array_free (pdi.events[0], TRUE);
 }
 
-
-/* This adds one event to the view, adding it to the appropriate array. */
-static gboolean
-print_week_summary_cb (ECalComponent *comp,
-		       time_t	  start,
-		       time_t	  end,
-		       gpointer	  data)
-
-{
-/* 	icaltimezone *zone = get_timezone (); */
-/* 	EWeekViewEvent event; */
-/* 	struct icaltimetype start_tt, end_tt; */
-
-/* 	struct psinfo *psi = (struct psinfo *)data; */
-
-/* 	/\* Check that the event times are valid. *\/ */
-
-/* #if 0 */
-/* 	g_print ("View start:%li end:%li  Event start:%li end:%li\n", */
-/* 		 psi->day_starts[0], psi->day_starts[psi->days_shown], */
-/* 		 start, end); */
-/* #endif */
-
-/* 	g_return_val_if_fail (start <= end, TRUE); */
-/* 	g_return_val_if_fail (start < psi->day_starts[psi->days_shown], TRUE); */
-/* 	g_return_val_if_fail (end > psi->day_starts[0], TRUE); */
-
-/* 	start_tt = icaltime_from_timet_with_zone (start, FALSE, zone); */
-/* 	end_tt = icaltime_from_timet_with_zone (end, FALSE, zone); */
-
-/* 	event.comp = comp; */
-/* 	g_object_ref (event.comp); */
-/* 	event.start = start; */
-/* 	event.end = end; */
-/* 	event.spans_index = 0; */
-/* 	event.num_spans = 0; */
-
-/* 	event.start_minute = start_tt.hour * 60 + start_tt.minute; */
-/* 	event.end_minute = end_tt.hour * 60 + end_tt.minute; */
-/* 	if (event.end_minute == 0 && start != end) */
-/* 		event.end_minute = 24 * 60; */
-
-/* 	g_array_append_val (psi->events, event); */
-
-	return TRUE;
-}
-
-
 /* Returns TRUE if the event is a one-day event (i.e. not a long event). */
 static gboolean
 print_is_one_day_week_event (EWeekViewEvent *event,
@@ -1309,7 +1287,7 @@ print_week_long_event (GnomePrintContext *pc, GnomeFont *font,
 		       struct psinfo *psi,
 		       double x1, double x2, double y1, double y2,
 		       EWeekViewEvent *event, EWeekViewEventSpan *span,
-		       char *text)
+		       char *text, double red, double green, double blue)
 {
 	double left_triangle_width = -1.0, right_triangle_width = -1.0;
 	struct tm date_tm;
@@ -1325,7 +1303,7 @@ print_week_long_event (GnomePrintContext *pc, GnomeFont *font,
 	if (event->end > psi->day_starts[span->start_day + span->num_days])
 		right_triangle_width = 4;
 
-	print_border_with_triangles (pc, x1, x2, y1, y2, 0.5, 0.9,
+	print_border_with_triangles (pc, x1, x2, y1, y2, 0.5, red, green, blue,
 				     left_triangle_width,
 				     right_triangle_width);
 
@@ -1378,7 +1356,7 @@ print_week_day_event (GnomePrintContext *pc, GnomeFont *font,
 		      struct psinfo *psi,
 		      double x1, double x2, double y1, double y2,
 		      EWeekViewEvent *event, EWeekViewEventSpan *span,
-		      char *text)
+		      char *text, double red, double green, double blue)
 {
 	struct tm date_tm;
 	char buffer[32];
@@ -1394,10 +1372,9 @@ print_week_day_event (GnomePrintContext *pc, GnomeFont *font,
 	e_time_format_time (&date_tm, psi->use_24_hour_format, FALSE,
 			    buffer, sizeof (buffer));
 
+	print_rectangle (pc, x1, x2, y1, y2, red, green, blue);
 	print_text_size (pc, buffer, ALIGN_LEFT, x1, x2, y1, y2);
-	x1 += gnome_font_get_width_utf8 (font, buffer);
-
-	x1 += 4;
+	x1 += gnome_font_get_width_utf8 (font, buffer) + 4;
 	print_text_size (pc, text, ALIGN_LEFT, x1, x2, y1, y2);
 }
 
@@ -1407,6 +1384,7 @@ print_week_event (GnomePrintContext *pc, GnomeFont *font,
 		  struct psinfo *psi,
 		  double left, double top,
 		  double cell_width, double cell_height,
+		  ECalModel *model,
 		  EWeekViewEvent *event, GArray *spans)
 {
 	EWeekViewEventSpan *span;
@@ -1415,6 +1393,7 @@ print_week_event (GnomePrintContext *pc, GnomeFont *font,
 	char *text;
 	int num_days, start_x, start_y, start_h, end_x, end_y, end_h;
 	double x1, x2, y1, y2;
+	double red, green, blue;
 
 	summary = icalcomponent_get_summary (event->comp_data->icalcomp);
 	text = summary ? (char*) summary : "";
@@ -1461,15 +1440,19 @@ print_week_event (GnomePrintContext *pc, GnomeFont *font,
 				- span->row * psi->row_height;
 			y2 = y1 - psi->row_height * 0.9;
 
+			red = .9;
+			green = .9;
+			blue = .9;
+			e_cal_model_get_rgb_color_for_component (model, event->comp_data, &red, &green, &blue);
 			if (print_is_one_day_week_event (event, span,
 							 psi->day_starts)) {
 				print_week_day_event (pc, font, psi,
 						      x1, x2, y1, y2,
-						      event, span, text);
+						      event, span, text, red, green, blue);
 			} else {
 				print_week_long_event (pc, font, psi,
 						       x1, x2, y1, y2,
-						       event, span, text);
+						       event, span, text, red, green, blue);
 			}
 		}
 	}
@@ -1539,7 +1522,52 @@ print_week_view_background (GnomePrintContext *pc, GnomeFont *font,
 	}
 }
 
+/* This adds one event to the view, adding it to the appropriate array. */
+static gboolean
+print_week_summary_cb (ECalComponent *comp,
+		       time_t	  start,
+		       time_t	  end,
+		       gpointer	  data)
 
+{
+ 	icaltimezone *zone = get_timezone ();
+ 	EWeekViewEvent event;
+ 	struct icaltimetype start_tt, end_tt;
+	ECalModelGenerateInstancesData *mdata = (ECalModelGenerateInstancesData *) data;
+ 	struct psinfo *psi = (struct psinfo *) mdata->cb_data;
+
+ 	/* Check that the event times are valid. */
+
+#if 0
+	g_print ("View start:%li end:%li  Event start:%li end:%li\n",
+		 psi->day_starts[0], psi->day_starts[psi->days_shown],
+		 start, end);
+#endif
+
+ 	g_return_val_if_fail (start <= end, TRUE);
+ 	g_return_val_if_fail (start < psi->day_starts[psi->days_shown], TRUE);
+ 	g_return_val_if_fail (end > psi->day_starts[0], TRUE);
+
+ 	start_tt = icaltime_from_timet_with_zone (start, FALSE, zone);
+ 	end_tt = icaltime_from_timet_with_zone (end, FALSE, zone);
+
+	event.comp_data = mdata->comp_data;
+	event.allocated_comp_data = FALSE;
+
+	event.start = start;
+	event.end = end;
+	event.spans_index = 0;
+	event.num_spans = 0;
+
+	event.start_minute = start_tt.hour * 60 + start_tt.minute;
+	event.end_minute = end_tt.hour * 60 + end_tt.minute;
+	if (event.end_minute == 0 && start != end)
+		event.end_minute = 24 * 60;
+
+	g_array_append_val (psi->events, event);
+
+	return TRUE;
+}
 
 static void
 print_week_summary (GnomePrintContext *pc, GnomeCalendar *gcal,
@@ -1548,7 +1576,6 @@ print_week_summary (GnomePrintContext *pc, GnomeCalendar *gcal,
 		    double left, double right, double top, double bottom)
 {
 	icaltimezone *zone = get_timezone ();
-	ECal *client;
 	EWeekViewEvent *event;
 	struct psinfo psi;
 	time_t day_start;
@@ -1556,6 +1583,7 @@ print_week_summary (GnomePrintContext *pc, GnomeCalendar *gcal,
 	GArray *spans;
 	GnomeFont *font;
 	double cell_width, cell_height;
+	ECalModel *model = gnome_calendar_get_calendar_model (gcal);
 
 	psi.days_shown = weeks_shown * 7;
 	psi.events = g_array_new (FALSE, FALSE, sizeof (EWeekViewEvent));
@@ -1585,11 +1613,9 @@ print_week_summary (GnomePrintContext *pc, GnomeCalendar *gcal,
 	}
 
 	/* Get the events from the server. */
-	client = gnome_calendar_get_default_client (gcal);
-	e_cal_generate_instances (client,
-				  psi.day_starts[0],
-				  psi.day_starts[psi.days_shown],
-				  print_week_summary_cb, &psi);
+	e_cal_model_generate_instances (model,
+					psi.day_starts[0], psi.day_starts[psi.days_shown],
+					print_week_summary_cb, &psi);
 	qsort (psi.events->data, psi.events->len,
 	       sizeof (EWeekViewEvent), e_week_view_event_sort_func);
 
@@ -1631,7 +1657,7 @@ print_week_summary (GnomePrintContext *pc, GnomeCalendar *gcal,
 	for (event_num = 0; event_num < psi.events->len; event_num++) {
 		event = &g_array_index (psi.events, EWeekViewEvent, event_num);
 		print_week_event (pc, font, &psi, left, top,
-				  cell_width, cell_height, event, spans);
+				  cell_width, cell_height, model, event, spans);
 	}
 
 	g_object_unref (font);

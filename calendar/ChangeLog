@@ -1,3 +1,23 @@
+2004-01-18  Radek Doulik  <rodo@ximian.com>
+
+	* gui/print.c (print_border_with_triangles): use rgb color as
+	fillcolor
+	(print_week_day_event): ditto
+
+	* gui/e-cal-model.c (e_cal_model_get_rgb_color_for_component): new
+	helper function, gets component color as rgb double values
+
+	* gui/print.c (print_week_summary_cb): uncommented and updated for
+	e_cal_model_generate_instances
+	(print_week_summary): use e_cal_model_generate_instances
+	(print_border_with_triangles): pass rgb fillcolor
+	(print_border_rgb): new function to print border with rgb color
+	background
+
+	* gui/e-cal-model.c (e_cal_model_generate_instances): new
+	function, similar to e_cal_generate_instances. see comments to
+	understand how to use cb_data
+
 2004-01-17  JP Rosevear <jpr@ximian.com>
 
 	* gui/e-cal-view.c (on_print): we are required to pass in the end

@@ -1518,6 +1518,31 @@ e_cal_model_get_color_for_component (ECalModel *model, ECalModelComponent *comp_
 }
 
 /**
+ * e_cal_model_get_rgb_color_for_component
+ */
+gboolean
+e_cal_model_get_rgb_color_for_component (ECalModel *model, ECalModelComponent *comp_data, double *red, double *green, double *blue)
+{
+	GdkColor gdk_color;
+	const gchar *color;
+
+	color = e_cal_model_get_color_for_component (model, comp_data);
+	if (color && gdk_color_parse (color, &gdk_color)) {
+
+		if (red)
+			*red = ((double) gdk_color.red)/0xffff;
+		if (green)
+			*green = ((double) gdk_color.green)/0xffff;
+		if (blue)
+			*blue = ((double) gdk_color.blue)/0xffff;
+
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+/**
  * e_cal_model_get_component_at
  */
 ECalModelComponent *
@@ -1594,4 +1619,32 @@ e_cal_model_free_component_data (ECalModelComponent *comp_data)
 		g_free (comp_data->completed);
 
 	g_free (comp_data);
+}
+
+/**
+ * e_cal_model_generate_instances
+ *
+ * cb function is not called with cb_data, but with ECalModelGenerateInstancesData which contains cb_data
+ */
+void
+e_cal_model_generate_instances (ECalModel *model, time_t start, time_t end,
+				ECalRecurInstanceFn cb, gpointer cb_data)
+{
+	ECalModelGenerateInstancesData mdata;
+	gint i, n;
+
+	n = e_table_model_row_count (E_TABLE_MODEL (model));
+	for (i = 0; i < n; i ++) {
+		ECalModelComponent *comp_data = e_cal_model_get_component_at (model, i);
+		ECalComponent *comp = e_cal_component_new ();
+
+		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (comp_data->icalcomp));
+		mdata.comp_data = comp_data;
+		mdata.cb_data = cb_data;
+		e_cal_recur_generate_instances (comp, start, end,
+						cb, &mdata,
+						e_cal_resolve_tzid_cb, comp_data->client,
+						e_cal_model_get_timezone (model));
+		g_object_unref (comp);
+	}
 }
