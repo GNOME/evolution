@@ -109,7 +109,7 @@ new_contact_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 	EBook *book;
 	AddressbookView *view = (AddressbookView *) user_data;
 	GtkObject *object;
-	GtkWidget* dlg = gnome_dialog_new ("Contact Editor", "Save", "Cancel", NULL);
+	GtkWidget* dlg = gnome_dialog_new ("Contact Editor", "Save", GNOME_STOCK_BUTTON_CANCEL, NULL);
 
 	card = e_card_new("");
 	contact_editor = e_contact_editor_new(card);
@@ -257,7 +257,9 @@ find_contact_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 	GtkWidget* search_entry = gtk_entry_new();
 	gchar* search_text;
 	AddressbookView *view = (AddressbookView *) user_data;
-	GtkWidget* dlg = gnome_dialog_new ("Search Contacts", "Find", "Cancel", NULL);
+
+	GtkWidget* dlg = gnome_dialog_new ("Search Contacts", "Find",
+					   GNOME_STOCK_BUTTON_CANCEL, NULL);
 
 	search_text = get_query (view);
 	gtk_entry_set_text(GTK_ENTRY(search_entry), search_text);
@@ -810,7 +812,7 @@ table_double_click(ETable *table, gint row, AddressbookView *view)
 	gint result;
 	GtkWidget* contact_editor;
 	EBook *book;
-	GtkWidget* dlg = gnome_dialog_new ("Contact Editor", "Save", "Cancel", NULL);
+	GtkWidget* dlg = gnome_dialog_new ("Contact Editor", "Save", GNOME_STOCK_BUTTON_CANCEL, NULL);
 
 	contact_editor = e_contact_editor_new(card);
 	gtk_object_unref(GTK_OBJECT(card));
