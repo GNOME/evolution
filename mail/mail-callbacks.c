@@ -2202,7 +2202,7 @@ flag_followup_completed (BonoboUIComponent *uih, void *user_data, const char *pa
 	uids = g_ptr_array_new ();
 	message_list_foreach (fb->message_list, enumerate_msg, uids);
 	
-	now = camel_header_format_date (time (NULL), 0);
+	now = header_format_date (time (NULL), 0);
 	
 	camel_folder_freeze (fb->folder);
 	for (i = 0; i < uids->len; i++) {

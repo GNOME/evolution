@@ -133,7 +133,7 @@ process_item_fn (EvolutionImporter *eimporter,
 	}
 		
 	ex = camel_exception_new ();
-	if (camel_mime_parser_step (mbi->mp, 0, 0) == CAMEL_MIME_PARSER_STATE_FROM) {
+	if (camel_mime_parser_step (mbi->mp, 0, 0) == HSCAN_FROM) {
 		/* Import the next message */
 		CamelMimeMessage *msg;
 		CamelMessageInfo *info;

@@ -931,7 +931,7 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
 		
 		tag = camel_tag_get ((CamelTag **) &msg_info->user_tags, "due-by");
 		if (tag && *tag) {
-			due_by = camel_header_decode_date (tag, NULL);
+			due_by = header_decode_date (tag, NULL);
 			return GINT_TO_POINTER (due_by);
 		} else {
 			return GINT_TO_POINTER (0);
@@ -1001,7 +1001,7 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
 				time_t now = time (NULL);
 				time_t target_date;
 				
-				target_date = camel_header_decode_date (due_by, NULL);
+				target_date = header_decode_date (due_by, NULL);
 				if (now >= target_date) {
 					/* FIXME: extract from the xpm somehow. */
 					colour = "#A7453E";

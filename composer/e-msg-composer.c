@@ -388,7 +388,7 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 		}
 		data = g_byte_array_new ();
 		g_byte_array_append (data, composer->mime_body, strlen (composer->mime_body));
-		type = camel_content_type_decode (composer->mime_type);
+		type = header_content_type_decode (composer->mime_type);
 	} else {
 		data = get_text (composer->persist_stream_interface, "text/plain");
 		if (!data) {
@@ -399,9 +399,9 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 		
 		/* FIXME: we may want to do better than this... */
 		charset = best_charset (data, composer->charset, &plain_encoding);
-		type = camel_content_type_new ("text", "plain");
+		type = header_content_type_new ("text", "plain");
 		if (charset)
-			camel_content_type_set_param (type, "charset", charset);
+			header_content_type_set_param (type, "charset", charset);
 	}
 	
 	stream = camel_stream_mem_new_with_byte_array (data);
@@ -426,7 +426,7 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 	camel_object_unref (stream);
 	
 	camel_data_wrapper_set_mime_type_field (plain, type);
-	camel_content_type_unref (type);
+	header_content_type_unref (type);
 	
 	if (composer->send_html) {
 		CORBA_Environment ev;
@@ -2535,7 +2535,7 @@ message_rfc822_dnd (EMsgComposer *composer, CamelStream *stream)
 	camel_mime_parser_scan_from (mp, TRUE);
 	camel_mime_parser_init_with_stream (mp, stream);
 	
-	while (camel_mime_parser_step (mp, 0, 0) == CAMEL_MIME_PARSER_STATE_FROM) {
+	while (camel_mime_parser_step (mp, 0, 0) == HSCAN_FROM) {
 		CamelMimeMessage *message;
 		CamelMimePart *part;
 		
@@ -3211,10 +3211,10 @@ add_attachments_handle_mime_part (EMsgComposer *composer, CamelMimePart *mime_pa
 			e_msg_composer_add_inline_image_from_mime_part (composer, mime_part);
 	} else if (CAMEL_IS_MIME_MESSAGE (wrapper)) {
 		/* do nothing */
-	} else if (related && camel_content_type_is (content_type, "image", "*")) {
+	} else if (related && header_content_type_is (content_type, "image", "*")) {
 		e_msg_composer_add_inline_image_from_mime_part (composer, mime_part);
 	} else {
-		if (camel_content_type_is (content_type, "text", "*")) {
+		if (header_content_type_is (content_type, "text", "*")) {
 			/* do nothing */
 		} else {
 			e_msg_composer_attach (composer, mime_part);
@@ -3231,7 +3231,7 @@ add_attachments_from_multipart (EMsgComposer *composer, CamelMultipart *multipar
 	gboolean related;
 	int i, nparts;
 	
-	related = camel_content_type_is (CAMEL_DATA_WRAPPER (multipart)->mime_type, "multipart", "related");
+	related = header_content_type_is (CAMEL_DATA_WRAPPER (multipart)->mime_type, "multipart", "related");
 		
 	if (CAMEL_IS_MULTIPART_SIGNED (multipart)) {
 		mime_part = camel_multipart_get_part (multipart, CAMEL_MULTIPART_SIGNED_CONTENT);
@@ -3303,14 +3303,14 @@ handle_multipart_signed (EMsgComposer *composer, CamelMultipart *multipart, int 
 		} else if (CAMEL_IS_MULTIPART_ENCRYPTED (content)) {
 			/* decrypt the encrypted content and configure the composer to encrypt outgoing messages */
 			handle_multipart_encrypted (composer, multipart, depth);
-		} else if (camel_content_type_is (content_type, "multipart", "alternative")) {
+		} else if (header_content_type_is (content_type, "multipart", "alternative")) {
 			/* this contains the text/plain and text/html versions of the message body */
 			handle_multipart_alternative (composer, multipart, depth);
 		} else {
 			/* there must be attachments... */
 			handle_multipart (composer, multipart, depth);
 		}
-	} else if (camel_content_type_is (content_type, "text", "*")) {
+	} else if (header_content_type_is (content_type, "text", "*")) {
 		char *text;
 		
 		if ((text = mail_get_message_body (content, FALSE, FALSE)))
@@ -3360,14 +3360,14 @@ handle_multipart_encrypted (EMsgComposer *composer, CamelMultipart *multipart, i
 		} else if (CAMEL_IS_MULTIPART_ENCRYPTED (content)) {
 			/* decrypt the encrypted content and configure the composer to encrypt outgoing messages */
 			handle_multipart_encrypted (composer, multipart, depth);
-		} else if (camel_content_type_is (content_type, "multipart", "alternative")) {
+		} else if (header_content_type_is (content_type, "multipart", "alternative")) {
 			/* this contains the text/plain and text/html versions of the message body */
 			handle_multipart_alternative (composer, multipart, depth);
 		} else {
 			/* there must be attachments... */
 			handle_multipart (composer, multipart, depth);
 		}
-	} else if (camel_content_type_is (content_type, "text", "*")) {
+	} else if (header_content_type_is (content_type, "text", "*")) {
 		char *text;
 		
 		if ((text = mail_get_message_body (content, FALSE, FALSE)))
@@ -3412,11 +3412,11 @@ handle_multipart_alternative (EMsgComposer *composer, CamelMultipart *multipart,
 				/* depth doesn't matter so long as we don't pass 0 */
 				handle_multipart (composer, mp, depth + 1);
 			}
-		} else if (camel_content_type_is (content_type, "text", "html")) {
+		} else if (header_content_type_is (content_type, "text", "html")) {
 			/* text/html is preferable, so once we find it we're done... */
 			text_part = mime_part;
 			break;
-		} else if (camel_content_type_is (content_type, "text", "*")) {
+		} else if (header_content_type_is (content_type, "text", "*")) {
 			/* anyt text part not text/html is second rate so the first
 			   text part we find isn't necessarily the one we'll use. */
 			if (!text_part)
@@ -3463,7 +3463,7 @@ handle_multipart (EMsgComposer *composer, CamelMultipart *multipart, int depth)
 			} else if (CAMEL_IS_MULTIPART_ENCRYPTED (content)) {
 				/* decrypt the encrypted content and configure the composer to encrypt outgoing messages */
 				handle_multipart_encrypted (composer, mp, depth + 1);
-			} else if (camel_content_type_is (content_type, "multipart", "alternative")) {
+			} else if (header_content_type_is (content_type, "multipart", "alternative")) {
 				handle_multipart_alternative (composer, mp, depth + 1);
 			} else {
 				/* depth doesn't matter so long as we don't pass 0 */
@@ -3553,7 +3553,7 @@ e_msg_composer_new_with_message (CamelMimeMessage *message)
 	EDestination **Tov, **Ccv, **Bccv;
 	GHashTable *auto_cc, *auto_bcc;
 	CamelContentType *content_type;
-	struct _camel_header_raw *headers;
+	struct _header_raw *headers;
 	CamelDataWrapper *content;
 	EAccount *account = NULL;
 	char *account_name;
@@ -3736,7 +3736,7 @@ e_msg_composer_new_with_message (CamelMimeMessage *message)
 		} else if (CAMEL_IS_MULTIPART_ENCRYPTED (content)) {
 			/* decrypt the encrypted content and configure the composer to encrypt outgoing messages */
 			handle_multipart_encrypted (new, multipart, 0);
-		} else if (camel_content_type_is (content_type, "multipart", "alternative")) {
+		} else if (header_content_type_is (content_type, "multipart", "alternative")) {
 			/* this contains the text/plain and text/html versions of the message body */
 			handle_multipart_alternative (new, multipart, 0);
 		} else {
@@ -4188,7 +4188,7 @@ e_msg_composer_add_inline_image_from_file (EMsgComposer *composer,
 	camel_medium_set_content_object (CAMEL_MEDIUM (part), wrapper);
 	camel_object_unref (wrapper);
 	
-	cid = camel_header_msgid_generate ();
+	cid = header_msgid_generate ();
 	camel_mime_part_set_content_id (part, cid);
 	name = g_path_get_basename(file_name);
 	camel_mime_part_set_filename (part, name);

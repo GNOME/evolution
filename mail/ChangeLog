@@ -1,32 +1,3 @@
-2003-08-26  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* component-factory.c: Updated for camel namespace changes.
-
-	* folder-browser.c: Same.
-
-	* mail-autofilter.c: Here too.
-
-	* mail-callbacks.c: And here.
-
-	* importers/evolution-mbox-importer.c: And finally here.
-
-2003-08-25  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* mail-display.c: updated for namespace changed made to
-	camel-mime-utils.[c,h]
-
-	* mail-format.c: updated for namespace changed made to
-	camel-mime-utils.[c,h]
-
-	* mail-ops.c: updated for namespace changed made to
-	camel-mime-utils.[c,h]
-
-	* message-list.c: updated for namespace changed made to
-	camel-mime-utils.[c,h]
-
-	* message-tag-followup.c: updated for namespace changed made to
-	camel-mime-utils.[c,h]
-
 2003-08-22  Not Zed  <NotZed@Ximian.com>
 
 	* mail-format.c (write_date): translate the local time format.

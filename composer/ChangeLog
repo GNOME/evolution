@@ -1,19 +1,3 @@
-2003-08-26  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* e-msg-composer.c (message_rfc822_dnd):
-	s/HSCAN_/CAMEL_MIME_PARSER_STATE_/g
-
-2003-08-25  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* e-msg-composer-attachment-bar.c: updated for namespace changed
-	made to camel-mime-utils.[c,h]
-
-	* e-msg-composer-attachment.c: updated for namespace changed made
-	to camel-mime-utils.[c,h]
-
-	* e-msg-composer.c: updated for namespace changed made to
-	camel-mime-utils.[c,h]
-
 2003-08-19  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* Original patch from David Woodhouse, but modified a bit by me.

@@ -553,13 +553,13 @@ mail_part_is_inline (CamelMimePart *part)
 	 * be customizable.
 	 */
 	content_type = camel_mime_part_get_content_type (part);
-	if (!camel_content_type_is (content_type, "message", "*"))
+	if (!header_content_type_is (content_type, "message", "*"))
 		return TRUE;
 	
 	/* Otherwise, display it inline if it's "anonymous", and
 	 * as an attachment otherwise.
 	 */
-	type = camel_content_type_simple (content_type);
+	type = header_content_type_simple (content_type);
 	anon = is_anonymous (part, type);
 	g_free (type);
 	
@@ -787,8 +787,8 @@ write_date (MailDisplayStream *stream, CamelMimeMessage *message, int flags)
 		time_t msg_date;
 		struct tm local;
 		int local_tz;
-		
-		msg_date = camel_header_decode_date(datestr, &msg_offset);
+
+		msg_date = header_decode_date(datestr, &msg_offset);
 		e_localtime_with_offset(msg_date, &local, &local_tz);
 
 		write_field_row_begin(stream, _("Date"), flags);
@@ -1073,20 +1073,20 @@ write_headers (MailDisplayStream *stream, MailDisplay *md, CamelMimeMessage *mes
 			     bgcolor, fontcolor);
 	
 	if (full) {
-		struct _camel_header_raw *header;
+		struct _header_raw *header;
 		const char *charset;
 		CamelContentType *ct;
 		char *value;
 		
 		ct = camel_mime_part_get_content_type (CAMEL_MIME_PART (message));
-		charset = camel_content_type_param (ct, "charset");
+		charset = header_content_type_param (ct, "charset");
 		charset = e_iconv_charset_name (charset);
 		
 		header = CAMEL_MIME_PART (message)->headers;
 		while (header) {
 			i = default_header_index (header->name);
 			if (i == -1) {
-				value = camel_header_decode_string (header->value, charset);
+				value = header_decode_string (header->value, charset);
 				write_text_header (stream, header->name, value, WRITE_NOCOLUMNS);
 				g_free (value);
 			} else
@@ -1170,7 +1170,7 @@ mail_format_data_wrapper_write_to_stream (CamelDataWrapper *wrapper, gboolean de
 	if (mail_display && mail_display->charset) {
 		/* user override charset */
 		charset = g_strdup (mail_display->charset);
-	} else if (content_type && (charset = (char *) camel_content_type_param (content_type, "charset"))) {
+	} else if (content_type && (charset = (char *) header_content_type_param (content_type, "charset"))) {
 		/* try to use the charset declared in the Content-Type header */
 		if (!strncasecmp (charset, "iso-8859-", 9)) {
 			/* Since a few Windows mailers like to claim they sent
@@ -1297,8 +1297,8 @@ handle_text_plain (CamelMimePart *part, const char *mime_type,
 	
 	/* Check for RFC 2646 flowed text. */
 	type = camel_mime_part_get_content_type (part);
-	if (camel_content_type_is (type, "text", "plain")) {
-		format = camel_content_type_param (type, "format");
+	if (header_content_type_is (type, "text", "plain")) {
+		format = header_content_type_param (type, "format");
 		
 		if (format && !strcasecmp (format, "flowed"))
 			flags |= CAMEL_MIME_FILTER_TOHTML_FORMAT_FLOWED;
@@ -1443,7 +1443,7 @@ handle_multipart_encrypted (CamelMimePart *part, const char *mime_type,
 	gboolean handled;
 	
 	/* Currently we only handle RFC2015-style PGP encryption. */
-	protocol = camel_content_type_param (((CamelDataWrapper *) part)->mime_type, "protocol");
+	protocol = header_content_type_param (((CamelDataWrapper *) part)->mime_type, "protocol");
 	if (!protocol || strcmp (protocol, "application/pgp-encrypted") != 0)
 		return handle_multipart_mixed (part, mime_type, md, stream);
 	
@@ -1610,7 +1610,7 @@ handle_multipart_related (CamelMimePart *part, const char *mime_type,
 	nparts = camel_multipart_get_number (mp);	
 	
 	content_type = camel_mime_part_get_content_type (part);
-	start = camel_content_type_param (content_type, "start");
+	start = header_content_type_param (content_type, "start");
 	if (start) {
 		int len;
 		
@@ -1700,7 +1700,7 @@ find_preferred_alternative (CamelMultipart *multipart, gboolean want_plain)
 	for (i = 0; i < nparts; i++) {
 		CamelMimePart *part = camel_multipart_get_part (multipart, i);
 		CamelContentType *type = camel_mime_part_get_content_type (part);
-		char *mime_type = camel_content_type_simple (type);
+		char *mime_type = header_content_type_simple (type);
 		
 		camel_strdown (mime_type);
 		if (want_plain && !strcmp (mime_type, "text/plain"))
@@ -1790,7 +1790,7 @@ handle_message_external_body (CamelMimePart *part, const char *mime_type,
 	char *url = NULL, *desc = NULL;
 	
 	type = camel_mime_part_get_content_type (part);
-	access_type = camel_content_type_param (type, "access-type");
+	access_type = header_content_type_param (type, "access-type");
 	if (!access_type)
 		goto fallback;
 	
@@ -1799,12 +1799,12 @@ handle_message_external_body (CamelMimePart *part, const char *mime_type,
 		const char *name, *site, *dir, *mode, *ftype;
 		char *path;
 		
-		name = camel_content_type_param (type, "name");
-		site = camel_content_type_param (type, "site");
+		name = header_content_type_param (type, "name");
+		site = header_content_type_param (type, "site");
 		if (name == NULL || site == NULL)
 			goto fallback;
-		dir = camel_content_type_param (type, "directory");
-		mode = camel_content_type_param (type, "mode");
+		dir = header_content_type_param (type, "directory");
+		mode = header_content_type_param (type, "mode");
 		
 		/* Generate the path. */
 		if (dir) {
@@ -1834,10 +1834,10 @@ handle_message_external_body (CamelMimePart *part, const char *mime_type,
 	} else if (!g_ascii_strcasecmp (access_type, "local-file")) {
 		const char *name, *site;
 		
-		name = camel_content_type_param (type, "name");
+		name = header_content_type_param (type, "name");
 		if (name == NULL)
 			goto fallback;
-		site = camel_content_type_param (type, "site");
+		site = header_content_type_param (type, "site");
 		
 		url = g_strdup_printf ("file://%s%s", *name == '/' ? "" : "/", name);
 		if (site) {
@@ -1852,7 +1852,7 @@ handle_message_external_body (CamelMimePart *part, const char *mime_type,
 		
 		/* RFC 2017 */
 		
-		urlparam = camel_content_type_param (type, "url");
+		urlparam = header_content_type_param (type, "url");
 		if (urlparam == NULL)
 			goto fallback;
 		
@@ -1981,7 +1981,7 @@ mail_get_message_rfc822 (CamelMimeMessage *message, gboolean want_plain, gboolea
 	}
 	
 	date_val = camel_mime_message_get_date (message, &offset);
-	buf = camel_header_format_date (date_val, offset);
+	buf = header_format_date (date_val, offset);
 	html = camel_text_to_html (buf, CAMEL_MIME_FILTER_TOHTML_CONVERT_NL, 0);
 	g_string_append_printf (retval, "%s<b>Date:</b> %s<br>", citation, html);
 	g_free (html);
@@ -2031,18 +2031,18 @@ mail_get_message_body (CamelDataWrapper *data, gboolean want_plain, gboolean cit
 	/* If it is message/rfc822 or message/news, extract the
 	 * important headers and recursively process the body.
 	 */
-	if (camel_content_type_is (mime_type, "message", "rfc822") ||
-	    camel_content_type_is (mime_type, "message", "news"))
+	if (header_content_type_is (mime_type, "message", "rfc822") ||
+	    header_content_type_is (mime_type, "message", "news"))
 		return mail_get_message_rfc822 (CAMEL_MIME_MESSAGE (data), want_plain, cite);
 	
 	/* If it's a vcard or icalendar, ignore it. */
-	if (camel_content_type_is (mime_type, "text", "x-vcard") ||
-	    camel_content_type_is (mime_type, "text", "calendar"))
+	if (header_content_type_is (mime_type, "text", "x-vcard") ||
+	    header_content_type_is (mime_type, "text", "calendar"))
 		return NULL;
 	
 	/* Get the body data for other text/ or message/ types */
-	if (camel_content_type_is (mime_type, "text", "*") ||
-	    camel_content_type_is (mime_type, "message", "*")) {
+	if (header_content_type_is (mime_type, "text", "*") ||
+	    header_content_type_is (mime_type, "message", "*")) {
 		bytes = mail_format_get_data_wrapper_text (data, NULL);
 		
 		if (bytes) {
@@ -2051,12 +2051,12 @@ mail_get_message_body (CamelDataWrapper *data, gboolean want_plain, gboolean cit
 			g_byte_array_free (bytes, FALSE);
 		}
 		
-		if (text && !camel_content_type_is(mime_type, "text", "html")) {
+		if (text && !header_content_type_is(mime_type, "text", "html")) {
 			char *html;
 			
-			if (camel_content_type_is(mime_type, "text", "richtext"))
+			if (header_content_type_is(mime_type, "text", "richtext"))
 				html = camel_enriched_to_html(text, CAMEL_MIME_FILTER_ENRICHED_IS_RICHTEXT);
-			else if (camel_content_type_is(mime_type, "text", "enriched"))
+			else if (header_content_type_is(mime_type, "text", "enriched"))
 				html = camel_enriched_to_html(text, 0);
 			else
 				html = camel_text_to_html (text, CAMEL_MIME_FILTER_TOHTML_PRE |
@@ -2071,7 +2071,7 @@ mail_get_message_body (CamelDataWrapper *data, gboolean want_plain, gboolean cit
 	/* If it's not message and it's not text, and it's not
 	 * multipart, we don't want to deal with it.
 	 */
-	if (!camel_content_type_is (mime_type, "multipart", "*"))
+	if (!header_content_type_is (mime_type, "multipart", "*"))
 		return NULL;
 	
 	mp = CAMEL_MULTIPART (data);
@@ -2085,7 +2085,7 @@ mail_get_message_body (CamelDataWrapper *data, gboolean want_plain, gboolean cit
 		
 		data = camel_medium_get_content_object (CAMEL_MEDIUM (subpart));
 		return mail_get_message_body (data, want_plain, cite);
-	} else if (camel_content_type_is (mime_type, "multipart", "alternative")) {
+	} else if (header_content_type_is (mime_type, "multipart", "alternative")) {
 		/* Pick our favorite alternative and reply to it. */
 		
 		subpart = find_preferred_alternative (mp, want_plain);
