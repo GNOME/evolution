@@ -16,8 +16,8 @@
 #include <libgnomeui/gnome-canvas-rect-ellipse.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
-#include "util/e-xml-utils.h"
-#include "widgets/e-canvas.h"
+#include "gal/util/e-xml-utils.h"
+#include "gal/widgets/e-canvas.h"
 
 #include "e-table-header.h"
 #include "e-table-col-dnd.h"

@@ -4,8 +4,8 @@
 
 #include <gdk/gdktypes.h>
 #include <libgnomeprint/gnome-print.h>
-#include "e-table-model.h"
-#include "e-table-tooltip.h"
+#include <gal/e-table/e-table-model.h>
+#include <gal/e-table/e-table-tooltip.h>
 
 #define E_CELL_TYPE        (e_cell_get_type ())
 #define E_CELL(o)          (GTK_CHECK_CAST ((o), E_CELL_TYPE, ECell))

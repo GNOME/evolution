@@ -33,14 +33,14 @@
 #include <stdio.h>
 #include <unicode.h>
 #include "e-cell-text.h"
-#include "util/e-util.h"
-#include "widgets/e-canvas.h"
-#include "widgets/e-font.h"
-#include "widgets/e-unicode.h"
+#include "gal/util/e-util.h"
+#include "gal/widgets/e-canvas.h"
+#include "gal/widgets/e-font.h"
+#include "gal/widgets/e-unicode.h"
 #include "e-table-item.h"
-#include "e-text/e-text-event-processor.h"
-#include "e-text/e-text.h"
-#include "e-text/e-text-event-processor-emacs-like.h"
+#include "gal/e-text/e-text-event-processor.h"
+#include "gal/e-text/e-text.h"
+#include "gal/e-text/e-text-event-processor-emacs-like.h"
 #include "e-table-tooltip.h"
 
 #include <gdk/gdkx.h> /* for BlackPixel */

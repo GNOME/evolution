@@ -22,6 +22,7 @@
 
 #include <gnome.h>
 #include "e-canvas.h"
+
 static void e_canvas_init           (ECanvas         *card);
 static void e_canvas_destroy        (GtkObject        *object);
 static void e_canvas_class_init	    (ECanvasClass    *klass);

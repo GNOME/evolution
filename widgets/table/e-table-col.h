@@ -2,8 +2,8 @@
 #ifndef _E_TABLE_COL_H_
 #define _E_TABLE_COL_H_
 
-#include "e-cell.h"
 #include <gdk-pixbuf/gdk-pixbuf.h>
+#include <gal/e-table/e-cell.h>
 
 #define E_TABLE_COL_TYPE        (e_table_col_get_type ())
 #define E_TABLE_COL(o)          (GTK_CHECK_CAST ((o), E_TABLE_COL_TYPE, ETableCol))

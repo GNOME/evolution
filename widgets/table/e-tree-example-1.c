@@ -3,7 +3,10 @@
 #include <stdio.h>
 #include <string.h>
 #include <gnome.h>
-#include "e-util/e-cursors.h"
+#include <libgnomeprint/gnome-print.h>
+#include <libgnomeprint/gnome-print-preview.h>
+#include <gdk-pixbuf/gdk-pixbuf.h>
+#include "gal/e-util/e-cursors.h"
 #include "e-table-header.h"
 #include "e-table-header-item.h"
 #include "e-table-item.h"
@@ -12,10 +15,6 @@
 #include "e-cell-checkbox.h"
 #include "e-table.h"
 #include "e-tree-simple.h"
-#include "libgnomeprint/gnome-print.h"
-#include "libgnomeprint/gnome-print-preview.h"
-
-#include <gdk-pixbuf/gdk-pixbuf.h>
 
 #include "art/tree-expanded.xpm"
 #include "art/tree-unexpanded.xpm"

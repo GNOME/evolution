@@ -23,8 +23,8 @@
 
 #include <gnome.h>
 #include <glade/glade.h>
-#include "e-table-field-chooser.h"
-#include "e-table-header.h"
+#include <gal/e-table/e-table-field-chooser.h>
+#include <gal/e-table/e-table-header.h>
 
 #ifdef __cplusplus
 extern "C" {

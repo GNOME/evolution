@@ -7,8 +7,9 @@
 
 #include "e-text.h"
 #include <gnome.h>
-#include "widgets/e-canvas.h"
-#include "widgets/e-unicode.h"
+#include "gal/widgets/e-canvas.h"
+#include "gal/widgets/e-unicode.h"
+
 GnomeCanvasItem *rect;
 
 static void allocate_callback(GtkWidget *canvas, GtkAllocation *allocation, GnomeCanvasItem *item)

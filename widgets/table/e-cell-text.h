@@ -25,7 +25,7 @@
 #define _E_CELL_TEXT_H_
 
 #include <libgnomeui/gnome-canvas.h>
-#include "e-cell.h"
+#include <gal/e-table/e-cell.h>
 
 /* Should return a malloced object. */
 typedef char *(*ECellTextFilter) (const void *);

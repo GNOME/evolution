@@ -22,7 +22,7 @@
 
 #include <config.h>
 #include <gnome.h>
-#include <e-table-field-chooser-dialog.h>
+#include "e-table-field-chooser-dialog.h"
 
 static void e_table_field_chooser_dialog_init		(ETableFieldChooserDialog		 *card);
 static void e_table_field_chooser_dialog_class_init	(ETableFieldChooserDialogClass	 *klass);

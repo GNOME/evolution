@@ -4,8 +4,8 @@
 
 #include <gtk/gtkobject.h>
 #include <gdk/gdk.h>
-#include "e-table-sort-info.h"
-#include "e-table-col.h"
+#include <gal/e-table/e-table-sort-info.h>
+#include <gal/e-table/e-table-col.h>
 
 typedef struct _ETableHeader ETableHeader;
 

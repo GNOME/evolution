@@ -3,10 +3,10 @@
 #define _E_TABLE_SORTER_H_
 
 #include <gtk/gtkobject.h>
-#include "e-table-model.h"
-#include "e-table-subset-variable.h"
-#include "e-table-sort-info.h"
-#include "e-table-header.h"
+#include <gal/e-table/e-table-model.h>
+#include <gal/e-table/e-table-subset-variable.h>
+#include <gal/e-table/e-table-sort-info.h>
+#include <gal/e-table/e-table-header.h>
 
 #define E_TABLE_SORTER_TYPE        (e_table_sorter_get_type ())
 #define E_TABLE_SORTER(o)          (GTK_CHECK_CAST ((o), E_TABLE_SORTER_TYPE, ETableSorter))

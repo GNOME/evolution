@@ -8,7 +8,7 @@
 #define _E_CELL_TREE_H_
 
 #include <libgnomeui/gnome-canvas.h>
-#include "e-cell.h"
+#include <gal/e-table/e-cell.h>
 
 #define E_CELL_TREE_TYPE        (e_cell_tree_get_type ())
 #define E_CELL_TREE(o)          (GTK_CHECK_CAST ((o), E_CELL_TREE_TYPE, ECellTree))

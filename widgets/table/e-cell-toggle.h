@@ -3,7 +3,7 @@
 
 #include <libgnomeui/gnome-canvas.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
-#include "e-cell.h"
+#include <gal/e-table/e-cell.h>
 
 #define E_CELL_TOGGLE_TYPE        (e_cell_toggle_get_type ())
 #define E_CELL_TOGGLE(o)          (GTK_CHECK_CAST ((o), E_CELL_TOGGLE_TYPE, ECellToggle))

@@ -4,7 +4,7 @@
 
 #include <libgnomeui/gnome-canvas.h>
 #include <gnome-xml/tree.h>
-#include "e-table-header.h"
+#include <gal/e-table/e-table-header.h>
 
 #define E_TABLE_FIELD_CHOOSER_ITEM_TYPE        (e_table_field_chooser_item_get_type ())
 #define E_TABLE_FIELD_CHOOSER_ITEM(o)          (GTK_CHECK_CAST ((o), E_TABLE_FIELD_CHOOSER_ITEM_TYPE, ETableFieldChooserItem))

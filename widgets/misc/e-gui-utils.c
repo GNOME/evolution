@@ -13,9 +13,9 @@
 #include <libgnomeui/gnome-messagebox.h>
 #include <libgnomeui/gnome-stock.h>
 #include <gnome.h>
-#include "e-gui-utils.h"
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gdk-pixbuf/gnome-canvas-pixbuf.h>
+#include "e-gui-utils.h"
 
 void
 e_notice (GtkWindow *window, const char *type, const char *format, ...)

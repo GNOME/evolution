@@ -10,11 +10,11 @@
 
 #include <config.h>
 #include <gtk/gtksignal.h>
+#include <libgnomeui/gnome-canvas-rect-ellipse.h>
 #include "e-table-group-leaf.h"
 #include "e-table-item.h"
-#include <libgnomeui/gnome-canvas-rect-ellipse.h>
-#include "util/e-util.h"
-#include "widgets/e-canvas.h"
+#include "gal/util/e-util.h"
+#include "gal/widgets/e-canvas.h"
 
 #define PARENT_TYPE e_table_group_get_type ()
 

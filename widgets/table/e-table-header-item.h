@@ -4,8 +4,8 @@
 
 #include <libgnomeui/gnome-canvas.h>
 #include <gnome-xml/tree.h>
-#include "e-table-header.h"
-#include "e-table-sort-info.h"
+#include <gal/e-table/e-table-header.h>
+#include <gal/e-table/e-table-sort-info.h>
 
 #define E_TABLE_HEADER_ITEM_TYPE        (e_table_header_item_get_type ())
 #define E_TABLE_HEADER_ITEM(o)          (GTK_CHECK_CAST ((o), E_TABLE_HEADER_ITEM_TYPE, ETableHeaderItem))

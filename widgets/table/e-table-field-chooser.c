@@ -22,8 +22,8 @@
 
 #include <config.h>
 #include <gnome.h>
-#include <e-table-field-chooser.h>
-#include <e-table-field-chooser-item.h>
+#include "e-table-field-chooser.h"
+#include "e-table-field-chooser-item.h"
 
 static void e_table_field_chooser_init		(ETableFieldChooser		 *card);
 static void e_table_field_chooser_class_init	(ETableFieldChooserClass	 *klass);

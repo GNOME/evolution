@@ -2,8 +2,8 @@
 #define _E_TABLE_SORTED_H_
 
 #include <gtk/gtkobject.h>
-#include "e-table-model.h"
-#include "e-table-subset.h"
+#include <gal/e-table/e-table-model.h>
+#include <gal/e-table/e-table-subset.h>
 
 #define E_TABLE_SORTED_TYPE        (e_table_sorted_get_type ())
 #define E_TABLE_SORTED(o)          (GTK_CHECK_CAST ((o), E_TABLE_SORTED_TYPE, ETableSorted))

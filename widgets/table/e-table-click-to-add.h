@@ -4,10 +4,10 @@
 
 #include <libgnomeui/gnome-canvas.h>
 #include <gnome-xml/tree.h>
-#include "e-table-header.h"
-#include "e-table-sort-info.h"
-#include "e-table-item.h"
-#include "e-table-selection-model.h"
+#include <gal/e-table/e-table-header.h>
+#include <gal/e-table/e-table-sort-info.h>
+#include <gal/e-table/e-table-item.h>
+#include <gal/e-table/e-table-selection-model.h>
 
 #define E_TABLE_CLICK_TO_ADD_TYPE        (e_table_click_to_add_get_type ())
 #define E_TABLE_CLICK_TO_ADD(o)          (GTK_CHECK_CAST ((o), E_TABLE_CLICK_TO_ADD_TYPE, ETableClickToAdd))

@@ -24,10 +24,10 @@
 #include <gnome.h>
 #include <math.h>
 #include "e-reflow.h"
-#include "e-text/e-text.h"
+#include "gal/e-text/e-text.h"
 #include "e-canvas-utils.h"
 #include "e-canvas.h"
-#include <util/e-util.h>
+#include "gal/util/e-util.h"
 
 static void e_reflow_init		(EReflow		 *reflow);
 static void e_reflow_class_init	(EReflowClass	 *klass);

@@ -19,16 +19,16 @@
 #include <config.h>
 #include <math.h>
 #include <ctype.h>
-#include "e-text.h"
 #include <gdk/gdkx.h> /* for BlackPixel */
+#include <unicode.h>
+#include <gtk/gtkinvisible.h>
+#include "e-text.h"
+#include "gal/widgets/e-canvas.h"
+#include "gal/widgets/e-canvas-utils.h"
+#include "gal/widgets/e-unicode.h"
 #include <libart_lgpl/art_affine.h>
 #include <libart_lgpl/art_rgb.h>
 #include <libart_lgpl/art_rgb_bitmap_affine.h>
-#include <unicode.h>
-#include <gtk/gtkinvisible.h>
-#include "widgets/e-canvas.h"
-#include "widgets/e-canvas-utils.h"
-#include "widgets/e-unicode.h"
 
 #include "e-text-event-processor-emacs-like.h"
 

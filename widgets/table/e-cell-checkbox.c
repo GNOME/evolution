@@ -14,7 +14,7 @@
 #include <gdk/gdkkeysyms.h>
 #include <libgnomeui/gnome-canvas.h>
 #include "e-cell-checkbox.h"
-#include "util/e-util.h"
+#include "gal/util/e-util.h"
 #include "e-table-item.h"
 
 #include "check-empty.xpm"

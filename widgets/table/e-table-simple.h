@@ -2,7 +2,7 @@
 #ifndef _E_TABLE_SIMPLE_H_
 #define _E_TABLE_SIMPLE_H_
 
-#include "e-table-model.h"
+#include <gal/e-table/e-table-model.h>
 
 #define E_TABLE_SIMPLE_TYPE        (e_table_simple_get_type ())
 #define E_TABLE_SIMPLE(o)          (GTK_CHECK_CAST ((o), E_TABLE_SIMPLE_TYPE, ETableSimple))

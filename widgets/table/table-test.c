@@ -9,7 +9,7 @@
 #include <string.h>
 #include <fcntl.h>
 #include <gnome.h>
-#include "e-util/e-cursors.h"
+#include "gal/e-util/e-cursors.h"
 #include "table-test.h"
 
 int

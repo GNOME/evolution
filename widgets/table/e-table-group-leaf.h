@@ -3,9 +3,9 @@
 #define _E_TABLE_GROUP_LEAF_H_
 
 #include <libgnomeui/gnome-canvas.h>
-#include "e-table-group.h"
-#include "e-table-sorted-variable.h"
-#include "e-table-item.h"
+#include <gal/e-table/e-table-group.h>
+#include <gal/e-table/e-table-sorted-variable.h>
+#include <gal/e-table/e-table-item.h>
 
 #define E_TABLE_GROUP_LEAF_TYPE        (e_table_group_leaf_get_type ())
 #define E_TABLE_GROUP_LEAF(o)          (GTK_CHECK_CAST ((o), E_TABLE_GROUP_LEAF_TYPE, ETableGroupLeaf))

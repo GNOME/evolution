@@ -12,7 +12,7 @@
 #include <config.h>
 #include <gtk/gtksignal.h>
 #include <stdlib.h>
-#include "util/e-util.h"
+#include "gal/util/e-util.h"
 #include "e-tree-model.h"
 
 #define ETM_CLASS(e) ((ETreeModelClass *)((GtkObject *)e)->klass)

@@ -22,7 +22,7 @@
 #define __E_TEXT_EVENT_PROCESSOR_H__
 
 #include <gnome.h>
-#include "e-text-event-processor-types.h"
+#include <gal/e-text/e-text-event-processor-types.h>
 
 #ifdef __cplusplus
 extern "C" {

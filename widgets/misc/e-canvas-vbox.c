@@ -26,7 +26,7 @@
 #include "e-canvas-vbox.h"
 #include "e-canvas-utils.h"
 #include "e-canvas.h"
-#include "util/e-util.h"
+#include "gal/util/e-util.h"
 
 static void e_canvas_vbox_init		(ECanvasVbox		 *CanvasVbox);
 static void e_canvas_vbox_class_init	(ECanvasVboxClass	 *klass);

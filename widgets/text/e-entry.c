@@ -19,9 +19,9 @@
 #include <libgnomeui/gnome-canvas.h>
 #include <gtk/gtksignal.h>
 #include <gnome-xml/parser.h>
-#include "util/e-util.h"
-#include "widgets/e-canvas.h"
-#include "widgets/e-canvas-utils.h"
+#include "gal/util/e-util.h"
+#include "gal/widgets/e-canvas.h"
+#include "gal/widgets/e-canvas-utils.h"
 #include "e-entry.h"
 
 #define MIN_ENTRY_WIDTH  150

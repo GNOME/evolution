@@ -3,7 +3,7 @@
 #define _E_TABLE_SUBSET_VARIABLE_H_
 
 #include <gtk/gtkobject.h>
-#include "e-table-subset.h"
+#include <gal/e-table/e-table-subset.h>
 
 #define E_TABLE_SUBSET_VARIABLE_TYPE        (e_table_subset_variable_get_type ())
 #define E_TABLE_SUBSET_VARIABLE(o)          (GTK_CHECK_CAST ((o), E_TABLE_SUBSET_VARIABLE_TYPE, ETableSubsetVariable))

@@ -21,6 +21,7 @@
 
 #include <gnome.h>
 #include "e-text-event-processor.h"
+
 static void e_text_event_processor_init		(ETextEventProcessor		 *card);
 static void e_text_event_processor_class_init	(ETextEventProcessorClass	 *klass);
 

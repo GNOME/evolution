@@ -3,8 +3,8 @@
 #ifndef _E_TREE_SIMPLE_H_
 #define _E_TREE_SIMPLE_H_
 
-#include "e-tree-model.h"
-#include "e-table-simple.h"
+#include <gal/e-table/e-tree-model.h>
+#include <gal/e-table/e-table-simple.h>
 
 #define E_TREE_SIMPLE_TYPE        (e_tree_simple_get_type ())
 #define E_TREE_SIMPLE(o)          (GTK_CHECK_CAST ((o), E_TREE_SIMPLE_TYPE, ETreeSimple))

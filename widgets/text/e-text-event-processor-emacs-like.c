@@ -21,6 +21,7 @@
 
 #include <gnome.h>
 #include "e-text-event-processor-emacs-like.h"
+
 static void e_text_event_processor_emacs_like_init		(ETextEventProcessorEmacsLike		 *card);
 static void e_text_event_processor_emacs_like_class_init	(ETextEventProcessorEmacsLikeClass	 *klass);
 static gint e_text_event_processor_emacs_like_event (ETextEventProcessor *tep, ETextEventProcessorEvent *event);

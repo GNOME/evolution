@@ -11,14 +11,14 @@
 
 #include <config.h>
 #include <gtk/gtksignal.h>
+#include <libgnomeui/gnome-canvas-rect-ellipse.h>
 #include "e-table-group-container.h"
 #include "e-table-group-leaf.h"
 #include "e-table-item.h"
-#include <libgnomeui/gnome-canvas-rect-ellipse.h>
-#include "util/e-util.h"
-#include "widgets/e-canvas.h"
-#include "widgets/e-canvas-utils.h"
-#include "e-text/e-text.h"
+#include "gal/util/e-util.h"
+#include "gal/widgets/e-canvas.h"
+#include "gal/widgets/e-canvas-utils.h"
+#include "gal/e-text/e-text.h"
 #include "e-table-defines.h"
 
 #define TITLE_HEIGHT         16

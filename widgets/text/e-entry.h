@@ -5,7 +5,7 @@
 #include <libgnomeui/gnome-canvas.h>
 #include <gtk/gtktable.h>
 #include <gnome-xml/tree.h>
-#include "e-text.h"
+#include <gal/e-text/e-text.h>
 
 BEGIN_GNOME_DECLS
 

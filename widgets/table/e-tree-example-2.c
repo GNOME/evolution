@@ -27,10 +27,12 @@
 
 #include <stdio.h>
 #include <gnome.h>
+#include <gdk-pixbuf/gdk-pixbuf.h>
 #include <libgnomevfs/gnome-vfs.h>
 #include <libgnomevfs/gnome-vfs-mime-handlers.h>
+#include <gdk-pixbuf/gdk-pixbuf.h>
 #include "e-hpaned.h"
-#include "e-util/e-cursors.h"
+#include "gal/e-util/e-cursors.h"
 #include "e-table-header.h"
 #include "e-table-header-item.h"
 #include "e-table-item.h"
@@ -39,7 +41,6 @@
 #include "e-cell-checkbox.h"
 #include "e-table-scrolled.h"
 #include "e-tree-simple.h"
-#include <gdk-pixbuf/gdk-pixbuf.h>
 
 #include "art/tree-expanded.xpm"
 #include "art/tree-unexpanded.xpm"

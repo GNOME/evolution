@@ -5,13 +5,13 @@
 #include <libgnomeui/gnome-canvas.h>
 #include <gtk/gtktable.h>
 #include <gnome-xml/tree.h>
-#include "e-table-model.h"
-#include "e-table-header.h"
-#include "e-table-group.h"
-#include "e-table-sort-info.h"
-#include "e-table-item.h"
-#include "e-table-selection-model.h"
-#include "widgets/e-printable.h"
+#include <gal/e-table/e-table-model.h>
+#include <gal/e-table/e-table-header.h>
+#include <gal/e-table/e-table-group.h>
+#include <gal/e-table/e-table-sort-info.h>
+#include <gal/e-table/e-table-item.h>
+#include <gal/e-table/e-table-selection-model.h>
+#include <gal/widgets/e-printable.h>
 
 BEGIN_GNOME_DECLS
 

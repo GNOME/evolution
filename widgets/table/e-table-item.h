@@ -3,12 +3,12 @@
 #define _E_TABLE_ITEM_H_
 
 #include <libgnomeui/gnome-canvas.h>
-#include "e-table-model.h"
-#include "e-table-header.h"
-#include "e-table-selection-model.h"
-#include "e-table-defines.h"
-#include "e-table-tooltip.h"
-#include <widgets/e-printable.h>
+#include <gal/e-table/e-table-model.h>
+#include <gal/e-table/e-table-header.h>
+#include <gal/e-table/e-table-selection-model.h>
+#include <gal/e-table/e-table-defines.h>
+#include <gal/e-table/e-table-tooltip.h>
+#include <gal/widgets/e-printable.h>
 
 #define E_TABLE_ITEM_TYPE        (e_table_item_get_type ())
 #define E_TABLE_ITEM(o)          (GTK_CHECK_CAST ((o), E_TABLE_ITEM_TYPE, ETableItem))

@@ -20,9 +20,9 @@
 #define E_TEXT_H
 
 #include <gnome.h>
-#include "widgets/e-font.h"
-#include "e-text-event-processor.h"
-#include "e-text-model.h"
+#include <gal/widgets/e-font.h>
+#include <gal/e-text/e-text-event-processor.h>
+#include <gal/e-text/e-text-model.h>
 
 
 BEGIN_GNOME_DECLS

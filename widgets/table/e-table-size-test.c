@@ -3,7 +3,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <gnome.h>
-#include "e-util/e-cursors.h"
+#include <gdk-pixbuf/gdk-pixbuf.h>
+#include "gal/e-util/e-cursors.h"
 #include "e-table-simple.h"
 #include "e-table-header.h"
 #include "e-table-header-item.h"
@@ -11,8 +12,6 @@
 #include "e-cell-text.h"
 #include "e-cell-checkbox.h"
 #include "e-table.h"
-
-#include <gdk-pixbuf/gdk-pixbuf.h>
 
 #include "table-test.h"
 

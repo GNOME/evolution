@@ -11,7 +11,7 @@
 #include <gtk/gtkobject.h>
 #include <gtk/gtksignal.h>
 #include "e-table-col.h"
-#include "util/e-util.h"
+#include "gal/util/e-util.h"
 
 #define PARENT_TYPE (gtk_object_get_type ())
 

@@ -3,12 +3,12 @@
 #define _E_TABLE_GROUP_H_
 
 #include <libgnomeui/gnome-canvas.h>
-#include "e-table-model.h"
-#include "e-table-header.h"
-#include "e-table-sort-info.h"
-#include "e-table-defines.h"
-#include "util/e-util.h"
-#include "widgets/e-printable.h"
+#include <gal/e-table/e-table-model.h>
+#include <gal/e-table/e-table-header.h>
+#include <gal/e-table/e-table-sort-info.h>
+#include <gal/e-table/e-table-defines.h>
+#include <gal/util/e-util.h>
+#include <gal/widgets/e-printable.h>
 
 #define E_TABLE_GROUP_TYPE        (e_table_group_get_type ())
 #define E_TABLE_GROUP(o)          (GTK_CHECK_CAST ((o), E_TABLE_GROUP_TYPE, ETableGroup))

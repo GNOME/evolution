@@ -3,6 +3,7 @@
 #include "pixmaps/font.xpm"
 #include "widget-color-combo.h"
 #include "color-palette.h"
+
 /* To compile (from src/widgets):
 
 gcc -I..  -I../.. -L. -Wall -o tester tester.c ../color.c `gnome-config --cflags --libs gnome gnomeui` -lwidgets

@@ -11,9 +11,9 @@
 #include <gnome.h>
 #include <glade/glade.h>
 #include <gnome-xml/xmlmemory.h>
-#include "util/e-util.h"
-#include "util/e-xml-utils.h"
-#include "widgets/e-canvas.h"
+#include "gal/util/e-util.h"
+#include "gal/util/e-xml-utils.h"
+#include "gal/widgets/e-canvas.h"
 #include "e-table.h"
 #include "e-table-header-item.h"
 #include "e-table-subset.h"

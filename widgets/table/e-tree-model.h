@@ -2,8 +2,8 @@
 #ifndef _E_TREE_MODEL_H_
 #define _E_TREE_MODEL_H_
 
-#include "e-table-model.h"
-#include "gdk-pixbuf/gdk-pixbuf.h"
+#include <gdk-pixbuf/gdk-pixbuf.h>
+#include <gal/e-table/e-table-model.h>
 
 #define E_TREE_MODEL_TYPE        (e_tree_model_get_type ())
 #define E_TREE_MODEL(o)          (GTK_CHECK_CAST ((o), E_TREE_MODEL_TYPE, ETreeModel))
