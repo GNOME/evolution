@@ -2,12 +2,19 @@ Evolution 1.0.1, ???
 --------------------
 
 Addressbook:
+  #10241 -- occasional address completion flakiness 
+  #11776 -- email addresses are case sensitive
   #14074 -- Editing fields under the "Colaboration" LDAP contact
   #14876 -- modifying LDAP contacts destroys existing objectclass entries
+  #16852 -- Crash: Closed empty mail
+  #17126 -- adding some addresses does not work 
+
 
 Calendar:
   #15941 -- Location missing for the calendar
   #15456 -- typo in translatable string
+  #16359 -- Calendar Crash
+
 
 Mailer:
 
