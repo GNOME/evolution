@@ -42,6 +42,8 @@
 
 #define d(x)
 
+#define FOOLISHLY_UNMUNGE_FROM 0
+
 #define CONVERT_WEB_URLS  CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS
 #define CONVERT_ADDRSPEC  CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES
 
@@ -135,9 +137,11 @@ citation_depth (const char *in)
 	if (*inptr++ != '>')
 		return 0;
 	
+#if FOOLISHLY_UNMUNGE_FROM
 	/* check that it isn't an escaped From line */
 	if (!strncmp (inptr, "From", 4))
 		return 0;
+#endif
 	
 	while (*inptr != '\n') {
 		if (*inptr == ' ')
@@ -278,10 +282,13 @@ html_convert (CamelMimeFilter *filter, char *in, size_t inlen, size_t prespace,
 				
 				outptr = check_size (filter, outptr, &outend, 25);
 				outptr += sprintf(outptr, "<font color=\"#%06x\">", (html->colour & 0xffffff));
-			} else if (*start == '>') {
+			}
+#if FOOLISHLY_UNMUNGE_FROM
+			else if (*start == '>') {
 				/* >From line */
 				start++;
 			}
+#endif
 		} else if (html->flags & CAMEL_MIME_FILTER_TOHTML_CITE) {
 			outptr = check_size (filter, outptr, &outend, 6);
 			outptr = g_stpcpy (outptr, "&gt; ");

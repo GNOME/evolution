@@ -1,3 +1,10 @@
+2004-06-17  Jeffrey Stedfast  <fejj@novell.com>
+
+	* camel-mime-filter-tohtml.c: Don't foolishly unmunge From_
+	lines. First off, we don't even know if our input stream came from
+	an mbox file and secondly, the ">From " may have been intentional
+	by the author. We Just Don't Know (tm).
+
 2004-06-15  Jeffrey Stedfast  <fejj@novell.com>
 
 	* providers/imap4/camel-imap4-store.c (imap4_build_folder_info):
