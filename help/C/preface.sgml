@@ -83,10 +83,11 @@ Lastly, we'll have warnings, in cases where you should be careful:
       <para>
         If you're already familiar with Ximian Evolution 1.0, our new
         version has a lot to add.  Here are some of the new and
-        changed features:
+        changed features. Ximian Connector for Microsoft Exchange also
+        has new features, which are covered in "new-in-connector-one-two">.
         <variablelist>
 	  <varlistentry>
-	    <term>Configuration Interface</term>
+	    <term>Evolution Settings Interface</term>
 	    <listitem>
 	      <para>
                 The preferences dialogs have been completely
@@ -99,9 +100,11 @@ Lastly, we'll have warnings, in cases where you should be careful:
                       Tools
                   </guimenu>
 		  <guimenuitem>
-                     Configure
+                     Preferences
                   </guimenuitem>
-		</menuchoice>.
+		</menuchoice>. Detailed help for the preferences
+		dialogs has been added to <xref
+		linkend="config-prefs">.
               </para>
 	    </listitem>
 	  </varlistentry>
@@ -117,6 +120,36 @@ Lastly, we'll have warnings, in cases where you should be careful:
 	    </listitem>
 	  </varlistentry>
 
+	  <varlistentry>
+	    <term>Mail Composer Autocomplete</term>
+	    <listitem>
+	      <para>
+                Email addresses in the message composer can now work
+                with LDAP address books. Add your LDAP address book to
+                the list of folders searched for address completion in
+                the <guilabel>Folder Settings</guilabel> section of
+                the Settings dialog.
+              </para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term>Mail Composer HTML Improvements</term>
+	    <listitem>
+	      <para>
+                 Pasting into the mail composer from another message
+                or from a web page preserves the HTML formatting of
+                the source document. Multiple levels of reply
+                quotation in messages are clearer and use a vertical
+                blue line on the left side to indicate quotation. Text
+                "smileys" are now automatically converted to small
+                images displaying the appropriate emotion. You can
+                turn this option off in the
+                <guilabel>Composer</guilabel> section of the Settings
+                dialog.
+              </para>
+	    </listitem>
+	  </varlistentry>
 
 	  <varlistentry>
 	    <term>Keyboard Navigation Overhaul</term>

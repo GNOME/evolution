@@ -129,7 +129,8 @@
 	<listitem>
 	  <para>
              Set the mail folders, news feeds, schedule summary
-             length, and weather locations to be displayed here.
+             length, and weather locations to be displayed here. For
+             news feeds, enter the web address of any RDF file.
           </para>
 	</listitem>
       </varlistentry>

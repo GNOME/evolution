@@ -682,19 +682,11 @@
            time you check for mail.
         </para>
         <para>
-           If you store your mail on the mail server and check your
-           mail with IMAP, filters are applied to the INBOX when you
-           open it. In some cases, you will see a number of unread
-           messages in the INBOX, click the INBOX, and then have the
-           messages move elsewhere as they are filtered out.
-         </para>
-         <para>
-           If you use Ximian Connector to store your mail on an
-           Exchange server, filters are not applied until you open
-           your INBOX folder and select
-           <menuchoice><guimenu>Actions</guimenu><guimenuitem>Apply
-           Filters</guimenuitem></menuchoice> or press
-           <keycombo><keycap>Ctrl</keycap><keycap>Y</keycap></keycombo>
+           If you use an IMAP or Microsoft Exchange server and keep
+           your mail on the server, filters are applied to the INBOX
+           when you open it. In some cases, you will see a number of
+           unread messages in the INBOX, click the INBOX, and then
+           have the messages move elsewhere as they are filtered out.
          </para>
       </note>
       <example id="filter-example">

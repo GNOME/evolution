@@ -11,63 +11,98 @@
     Microsoft Exchange is proprietary software and source code is not
     available.
     </para>
-    <para>
-      The Ximian Connector offers a significant price advantage over
-      other Exchange access methods for Linux and UNIX systems:
-    <variablelist>
-
-	<varlistentry>
-	  <term>Dual Computer Installation:</term>
-	  <listitem>
-	    <para>
-             The purchase of a second computer for each client imposes
-             a very heavy expense burden and is exceptionally
-             inconvenient.
-          </para>
-	</listitem>
-      </varlistentry>
-
-      <varlistentry>
-	<term>Dual Boot or Virtual Machine:</term>
-	<listitem>
-	  <para>
-             Installation of multiple operating systems in a dual boot
-             or virtual machine configuration (such as VMWare) also
-             increases licensing and administration costs.  Users
-             often complain that such a system is inconvenient, slow,
-             and not integrated with the rest of their operating
-             system.
-          </para>
-	</listitem>
-      </varlistentry>
-
-      <varlistentry>
-	<term>Outlook Web Access:</term>
-	<listitem>
-	  <para>
-            Outlook Web Access is a web interface for Exchange
-            servers, but works best in Microsoft Internet Explorer.
-            Outlook Web Access also is
-            not integrated with the rest of the host operating system
-            and offers only limited groupware functionality.
-          </para>
-	</listitem>
-      </varlistentry>
-    </variablelist>
-  </para>
-  <para>
-   The Ximian Connector offers a low cost, fully integrated, option
-   for Exchange 2000 server access in heterogeneous client
-   networks. This chapter will explain how to install, configure, and
-   use it.
-  </para>
+   
   <warning id="licensing">
-    <title>Exchange Client Licenses</title>
+    <title>Requirements</title>
     <para>
-      Each user will need a valid Microsoft <application>Exchange</application>2000 server
-      account and license.
+      Ximian Connector works only with Exchange 2000, and requires
+      that Outlook Web Access must be enabled. Each user will need a
+      valid Microsoft Exchange 2000 server account, including license.
   </para>
   </warning>
+
+<sect1 id="new-in-connector-one-two">
+<title>What's New in Connector 1.2</title>
+  <para>
+    Ximian Connector 1.2 has added some of the most frequently
+    requested features of Microsoft Exchange clients, including Public
+    Folder access and calendar delegation.
+  </para>
+
+   <variablelist>     
+   <varlistentry>
+	<term>Preferences Dialogs</term>
+	<listitem>
+	  <para>
+           The preferences dialogs have been completely overhauled for
+           Evolution and Connector 1.2. Select
+           <menuchoice><guimenu>Tools</guimenu><guimenuitem>Preferences</guimenuitem></menuchoice>
+           from the main Evolution window to change your settings.
+          </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>Public Folders, Posting, and Delegation</term>
+	<listitem>
+	  <para>
+            Public folders, posting to folders, and delegation
+            functions have been added. You may now set permissions on
+            folders to which you have appropriate access, and view the
+            folders of other users who have granted you permission to
+            view them.
+          </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>Flag for Followup</term>
+	<listitem>
+	  <para>
+            Flag for Followup now works properly in both Outlook and
+            Evolution, even when set in one and read in the other.
+          </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>Improved vFolder Support</term>
+	<listitem>
+	  <para>
+            vFolders now function better with Exchange accounts.
+          </para>
+	</listitem>
+      </varlistentry>
+
+
+      <varlistentry>
+	<term>Notes</term>
+	<listitem>
+	  <para>
+            The Notes component now works.
+          </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>Direct Booking</term>
+	<listitem>
+	  <para>
+            When creating a meeting request, resources such as rooms
+            and equipment can be checked and reserved without waiting
+            for a reply.	    
+          </para>
+	</listitem>
+      </varlistentry>
+
+
+
+
+
+
+
+    </variablelist>
+</sect1>
 
   <sect1 id="features">
     <title>Connector Features</title>
