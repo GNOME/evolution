@@ -16,12 +16,9 @@
 #include "e-util/e-util.h"
 #include "e-util/e-gui-utils.h"
 #include "folder-browser.h"
-#include "main.h"
+#include "mail.h"
 #include "shell/Evolution.h"
 #include "shell/evolution-service-repository.h"
-#include "composer/e-msg-composer.h"
-#include <camel/camel-stream-fs.h>
-#include "mail-ops.h"
 
 #ifdef USING_OAF
 #define CONTROL_FACTORY_ID "OAFIID:control-factory:evolution-mail:25902062-543b-4f44-8702-d90145fcdbf2"

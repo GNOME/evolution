@@ -24,10 +24,8 @@
  */
 
 #include <config.h>
-#include "mail-format.h"
 #include "mail-display.h"
-#include "mail-identify.h"
-#include "camel/hash-table-utils.h"
+#include "mail.h"
 #include "e-util/e-html-utils.h"
 
 #include <libgnome/libgnome.h>

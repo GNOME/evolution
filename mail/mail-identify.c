@@ -29,8 +29,7 @@
 
 #include <glib.h>
 #include <libgnome/libgnome.h>
-#include "camel/camel.h"
-#include "mail-identify.h"
+#include "mail.h"
 
 /**
  * mail_identify_mime_part:
@@ -44,7 +43,6 @@ mail_identify_mime_part (CamelMimePart *part)
 {
 	GMimeContentField *content_type;
 	const char *filename, *type;
-	CamelMimePartEncodingType encoding;
 
 	content_type = camel_mime_part_get_content_type (part);
 

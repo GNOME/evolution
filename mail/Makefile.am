@@ -32,18 +32,14 @@ evolution_mail_SOURCES =		\
 	folder-browser-factory.c	\
 	folder-browser-factory.h	\
 	mail-display.c			\
-	mail-display.h			\
 	mail-format.c			\
-	mail-format.h			\
 	mail-identify.c			\
-	mail-identify.h			\
 	mail-ops.c			\
-	mail-ops.h			\
 	main.c				\
 	message-list.c			\
 	message-list.h			\
 	session.c			\
-	session.h			
+	mail.h			
 
 
 evolution_mail_LDADD = 					\

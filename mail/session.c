@@ -8,9 +8,8 @@
  */
 #include <config.h>
 #include <gnome.h>
-#include "session.h"
+#include "mail.h"
 #include "e-util/e-setup.h"
-#include "camel/camel.h"
 
 SessionStore *default_session;
 

@@ -12,8 +12,7 @@
 #include <glade/glade.h>
 #include "e-util/e-gui-utils.h"
 #include "e-util/e-cursors.h"
-#include "main.h"
-#include "session.h"
+#include "mail.h"
 
 #ifdef USING_OAF
 

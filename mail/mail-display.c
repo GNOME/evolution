@@ -16,8 +16,7 @@
 #include "e-util/e-setup.h"
 #include "e-util/e-util.h"
 #include "mail-display.h"
-#include "mail-format.h"
-#include "mail-ops.h"
+#include "mail.h"
 
 #define PARENT_TYPE (gtk_vbox_get_type ())
 

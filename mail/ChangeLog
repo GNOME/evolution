@@ -1,3 +1,9 @@
+2000-05-06  Dan Winship  <danw@helixcode.com>
+
+	* mail.h: consolidate mail-format.h, mail-identify.h, mail-ops.h,
+	main.h and session.h into this new file. There's no reason to have
+	a .h for every .c.
+
 2000-05-05  Anders Carlsson  <andersca@gnu.org>
 
 	* test-mail.c (create_container): Use the OAFIID when using an 

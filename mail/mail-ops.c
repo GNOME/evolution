@@ -26,13 +26,9 @@
 #include <config.h>
 #include <errno.h>
 #include <gnome.h>
-#include "camel/camel.h"
-#include "mail-ops.h"
-#include "mail-format.h"
+#include "mail.h"
 #include "folder-browser.h"
-#include "session.h"
 #include "e-util/e-setup.h"
-#include "composer/e-msg-composer.h"
 
 #ifndef HAVE_MKSTEMP
 #include <fcntl.h>

@@ -1,9 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
 /*
- * Author :
- *  Matt Loper <matt@helixcode.com>
- *
  *  Copyright 2000, Helix Code, Inc. (http://www.helixcode.com)
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -19,21 +16,16 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
- *
  */
-
-#ifndef MAIL_FORMAT_H
-#define MAIL_FORMAT_H
-
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus }*/
 
 #include <gtkhtml/gtkhtml.h>
 #include "camel/camel.h"
 #include "composer/e-msg-composer.h"
 
+/* folder-browser-factory */
+void folder_browser_factory_init (void);
+
+/* mail-format */
 void mail_format_mime_message (CamelMimeMessage *mime_message, GtkBox *box);
 
 EMsgComposer *mail_generate_reply (CamelMimeMessage *mime_message,
@@ -43,9 +35,27 @@ EMsgComposer *mail_generate_forward (CamelMimeMessage *mime_message,
 				     gboolean forward_as_attachment,
 				     gboolean keep_attachments);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+/* mail-identify */
+char *mail_identify_mime_part (CamelMimePart *part);
 
-#endif // CAMEL_FORMATTER_H
+/* mail-ops */
+void fetch_mail (GtkWidget *button, gpointer user_data);
+void send_msg (GtkWidget *button, gpointer user_data);
+void send_to_url (const char *url);
+void forward_msg (GtkWidget *button, gpointer user_data);
+void reply_to_sender (GtkWidget *button, gpointer user_data);
+void reply_to_all (GtkWidget *button, gpointer user_data);
+void delete_msg (GtkWidget *button, gpointer user_data);
+void expunge_folder (GtkWidget *button, gpointer user_data);
 
+/* session */
+typedef struct {
+	CamelSession *session;
+	CamelStore   *store;
+} SessionStore;
+
+SessionStore *session_store_new     (const char *uri);
+void          session_store_destroy (SessionStore *ss);
+void          session_init          (void);
+
+extern SessionStore *default_session;
