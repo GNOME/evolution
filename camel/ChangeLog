@@ -1,3 +1,9 @@
+2000-07-19  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/imap/camel-imap-folder.c (imap_get_summary): If the folder's
+	message count is not the same as the number of summaries, free the old
+	summary and create a new summary.
+
 2000-07-18  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/imap/camel-imap-folder.c (camel_imap_folder_class_init): Added

@@ -189,15 +189,11 @@ camel_imap_folder_new (CamelStore *parent, char *folder_name, CamelException *ex
 	return folder;
 }
 
-static void           
-imap_finalize (GtkObject *object)
+static void
+imap_summary_free (CamelImapFolder *imap_folder)
 {
-	/* TODO: do we need to do more here? */
-	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (object);
 	CamelMessageInfo *info;
 	gint i, max;
-
-	GTK_OBJECT_CLASS (parent_class)->finalize (object);
 
 	g_return_if_fail (imap_folder->summary != NULL);
 	
@@ -217,6 +213,15 @@ imap_finalize (GtkObject *object)
 
 	g_ptr_array_free (imap_folder->summary, TRUE);
 	imap_folder->summary = NULL;
+}
+
+static void           
+imap_finalize (GtkObject *object)
+{
+	/* TODO: do we need to do more here? */
+	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (object);
+
+	imap_summary_free (imap_folder);
 }
 
 static void 
@@ -1059,7 +1064,7 @@ static char *header_fields[] = { "subject", "from", "to", "cc", "date",
   a2 OK FETCH completed
  */
 
-GPtrArray *
+static GPtrArray *
 imap_get_summary (CamelFolder *folder, CamelException *ex)
 {
 	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
@@ -1069,10 +1074,16 @@ imap_get_summary (CamelFolder *folder, CamelException *ex)
 	const char *received;
 	struct _header_raw *h, *tail = NULL;
 
-	if (imap_folder->summary)
-		return imap_folder->summary;
+	/*if (imap_folder->summary)
+	  return imap_folder->summary;*/
 	
 	num = imap_get_message_count (folder, ex);
+
+	if (imap_folder->summary && imap_folder->summary->len == num)
+		return imap_folder->summary;
+
+	/* clean up any previous summary data */
+	imap_summary_free (imap_folder);
 	
 	summary = g_ptr_array_new ();
 
