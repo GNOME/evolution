@@ -33,6 +33,7 @@
 #include <libgnomeui/gnome-app.h>
 #include <libgnomeui/gnome-app-helper.h>
 #include <libgnomeui/gnome-popup-menu.h>
+#include <gal/util/e-unicode-i18n.h>
 
 #include "mail-vfolder.h"
 #include "mail-autofilter.h"
@@ -68,7 +69,7 @@ rule_match_recipients (RuleContext *context, FilterRule *rule, CamelInternetAddr
 		element = filter_part_find_element (part, "recipient");
 		filter_input_set_value ((FilterInput *)element, addr);
 		
-		namestr = g_strdup_printf (_("Mail to %s"), real && real[0] ? real : addr);
+		namestr = g_strdup_printf (U_("Mail to %s"), real && real[0] ? real : addr);
 		filter_rule_set_name (rule, namestr);
 		g_free (namestr);
 	}
@@ -211,7 +212,7 @@ rule_from_message (FilterRule *rule, RuleContext *context, CamelMimeMessage *msg
 		
 		rule_match_subject (context, rule, msg->subject);
 		
-		namestr = g_strdup_printf (_("Subject is %s"), strip_re (msg->subject));
+		namestr = g_strdup_printf (U_("Subject is %s"), strip_re (msg->subject));
 		filter_rule_set_name (rule, namestr);
 		g_free (namestr);
 	}
@@ -227,7 +228,7 @@ rule_from_message (FilterRule *rule, RuleContext *context, CamelMimeMessage *msg
 			rule_add_sender(context, rule, addr);
 			if (name==NULL || name[0]==0)
 				name = addr;
-			namestr = g_strdup_printf(_("Mail from %s"), name);
+			namestr = g_strdup_printf(U_("Mail from %s"), name);
 			filter_rule_set_name(rule, namestr);
 			g_free(namestr);
 		}
@@ -283,7 +284,7 @@ rule_from_mlist(FilterRule *rule, RuleContext *context, const char *mlist)
 	element = filter_part_find_element (part, "mlist");
 	filter_input_set_value((FilterInput *)element, mlist);
 	
-	rule_name = g_strdup_printf(_("%s mailing list"), mlist);
+	rule_name = g_strdup_printf(U_("%s mailing list"), mlist);
 	filter_rule_set_name((FilterRule *) rule, rule_name);
 	g_free (rule_name);
 }
