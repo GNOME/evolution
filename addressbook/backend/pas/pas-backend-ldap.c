@@ -281,10 +281,12 @@ pas_backend_ldap_connect (PASBackendLDAP *bl)
 
 	blpriv->ldap = ldap_open (blpriv->ldap_host, blpriv->ldap_port);
 #ifdef DEBUG
+#ifdef OPENLDAP2
 	{
 		int debug_level = ~0;
 		ldap_set_option (blpriv->ldap, LDAP_OPT_DEBUG_LEVEL, &debug_level);
 	}
+#endif
 #endif
 
 	if (NULL != blpriv->ldap) {

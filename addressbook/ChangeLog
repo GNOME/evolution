@@ -1,3 +1,8 @@
+2001-02-07  Chris Toshok  <toshok@ximian.com>
+
+	* backend/pas/pas-backend-ldap.c (pas_backend_ldap_connect): only
+	set the DEBUG_LEVEL if we're OPENLDAP2.
+
 2001-02-06  Chris Toshok  <toshok@ximian.com>
 
 	* backend/pas/pas-backend-ldap.c (email_compare): return TRUE if
