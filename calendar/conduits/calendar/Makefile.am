@@ -26,7 +26,9 @@ e_calendar_conduit_control_applet_LDADD = \
 e_calendar_conduitsdir=$(libdir)/gnome-pilot/conduits
 e_calendar_conduits_LTLIBRARIES = libecalendar_conduit.la
 
-libecalendar_conduit_la_SOURCES = calendar-conduit.c
+libecalendar_conduit_la_SOURCES = 	\
+	calendar-conduit.c		\
+	calendar-conduit-config.h
 
 libecalendar_conduit_la_LIBADD = 					\
 	$(top_builddir)/calendar/cal-client/libcal-client-static.la	\
