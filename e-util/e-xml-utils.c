@@ -25,7 +25,7 @@
 #include <gnome-xml/parser.h>
 
 
-xmlNode *e_xml_get_child_by_name(xmlNode *parent, xmlChar *child_name)
+xmlNode *e_xml_get_child_by_name(xmlNode *parent, const xmlChar *child_name)
 {
 	xmlNode *child;
 
@@ -45,7 +45,7 @@ xmlNode *e_xml_get_child_by_name(xmlNode *parent, xmlChar *child_name)
  * child with the name child_name and no "lang" attribute.
  */
 xmlNode *
-e_xml_get_child_by_name_by_lang(xmlNode *parent, xmlChar *child_name, char *lang)
+e_xml_get_child_by_name_by_lang(xmlNode *parent, const xmlChar *child_name, const char *lang)
 {
 	xmlNode *child;
 	/* This is the default version of the string. */
@@ -71,7 +71,7 @@ e_xml_get_child_by_name_by_lang(xmlNode *parent, xmlChar *child_name, char *lang
 }
 
 int
-e_xml_get_integer_prop_by_name(xmlNode *parent, xmlChar *prop_name)
+e_xml_get_integer_prop_by_name(xmlNode *parent, const xmlChar *prop_name)
 {
 	xmlChar *prop;
 
@@ -86,7 +86,7 @@ e_xml_get_integer_prop_by_name(xmlNode *parent, xmlChar *prop_name)
 }
 
 void
-e_xml_set_integer_prop_by_name(xmlNode *parent, xmlChar *prop_name, int value)
+e_xml_set_integer_prop_by_name(xmlNode *parent, const xmlChar *prop_name, int value)
 {
 	xmlChar *valuestr;
 

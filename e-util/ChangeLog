@@ -1,3 +1,7 @@
+2000-05-01  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-xml-utils.c, e-xml-utils.h: Constified all the functions.
+
 2000-04-27  Dan Winship  <danw@helixcode.com>
 
 	* e-html-utils.c (e_text_to_html): Moved here from the mailer,
