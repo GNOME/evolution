@@ -32,8 +32,6 @@
 #include "e-text-model.h"
 #include "gal/util/e-util.h"
 
-#define CLASS(obj) (E_TEXT_MODEL_CLASS (GTK_OBJECT_GET_CLASS (obj)))
-
 #define MAX_LENGTH (2047)
 
 enum {
@@ -63,8 +61,8 @@ static void         e_text_model_real_insert            (ETextModel *model, gint
 static void         e_text_model_real_insert_length     (ETextModel *model, gint postion, const gchar *text, gint length);
 static void         e_text_model_real_delete            (ETextModel *model, gint postion, gint length);
 
-#define PARENT_TYPE GTK_TYPE_OBJECT
-static GtkObject *parent_class;
+#define PARENT_TYPE G_TYPE_OBJECT
+static GObject *parent_class;
 
 
 
@@ -354,8 +352,8 @@ e_text_model_changed (ETextModel *model)
 	  While this method could, in theory, do pretty much anything, it is meant
 	  for scanning objects and converting substrings into embedded objects.
 	*/
-	if (CLASS (model)->objectify)
-		CLASS (model)->objectify (model);
+	if (E_TEXT_MODEL_GET_CLASS (model)->objectify)
+		E_TEXT_MODEL_GET_CLASS (model)->objectify (model);
 
 	g_signal_emit (model,
 		       e_text_model_signals[E_TEXT_MODEL_CHANGED], 0);
@@ -387,8 +385,8 @@ e_text_model_validate_position (ETextModel *model, gint pos)
 	g_return_val_if_fail (model != NULL, 0);
 	g_return_val_if_fail (E_IS_TEXT_MODEL (model), 0);
 
-	if (CLASS (model)->validate_pos)
-		pos = CLASS (model)->validate_pos (model, pos);
+	if (E_TEXT_MODEL_GET_CLASS (model)->validate_pos)
+		pos = E_TEXT_MODEL_GET_CLASS (model)->validate_pos (model, pos);
 
 	return pos;
 }
@@ -399,8 +397,8 @@ e_text_model_get_text (ETextModel *model)
 	g_return_val_if_fail (model != NULL, NULL);
 	g_return_val_if_fail (E_IS_TEXT_MODEL (model), NULL);
 
-	if (CLASS (model)->get_text)
-		return CLASS (model)->get_text (model);
+	if (E_TEXT_MODEL_GET_CLASS (model)->get_text)
+		return E_TEXT_MODEL_GET_CLASS (model)->get_text (model);
 
 	return "";
 }
@@ -411,9 +409,9 @@ e_text_model_get_text_length (ETextModel *model)
 	g_return_val_if_fail (model != NULL, 0);
 	g_return_val_if_fail (E_IS_TEXT_MODEL (model), 0);
 
-	if (CLASS (model)->get_text_len (model)) {
+	if (E_TEXT_MODEL_GET_CLASS (model)->get_text_len (model)) {
 
-		gint len = CLASS (model)->get_text_len (model);
+		gint len = E_TEXT_MODEL_GET_CLASS (model)->get_text_len (model);
 
 #ifdef PARANOID_DEBUGGING
 		const gchar *str = e_text_model_get_text (model);
@@ -437,8 +435,8 @@ e_text_model_set_text (ETextModel *model, const gchar *text)
 	g_return_if_fail (model != NULL);
 	g_return_if_fail (E_IS_TEXT_MODEL (model));
 
-	if (CLASS (model)->set_text)
-		CLASS (model)->set_text (model, text);
+	if (E_TEXT_MODEL_GET_CLASS (model)->set_text)
+		E_TEXT_MODEL_GET_CLASS (model)->set_text (model, text);
 }
 
 void
@@ -450,8 +448,8 @@ e_text_model_insert (ETextModel *model, gint position, const gchar *text)
 	if (text == NULL)
 		return;
 
-	if (CLASS (model)->insert)
-		CLASS (model)->insert (model, position, text);
+	if (E_TEXT_MODEL_GET_CLASS (model)->insert)
+		E_TEXT_MODEL_GET_CLASS (model)->insert (model, position, text);
 }
 
 void
@@ -465,8 +463,8 @@ e_text_model_insert_length (ETextModel *model, gint position, const gchar *text,
 	if (text == NULL || length == 0)
 		return;
 
-	if (CLASS (model)->insert_length)
-		CLASS (model)->insert_length (model, position, text, length);
+	if (E_TEXT_MODEL_GET_CLASS (model)->insert_length)
+		E_TEXT_MODEL_GET_CLASS (model)->insert_length (model, position, text, length);
 }
 
 void
@@ -509,8 +507,8 @@ e_text_model_delete (ETextModel *model, gint position, gint length)
 	if (length <= 0)
 		return;
 
-	if (CLASS (model)->delete)
-		CLASS (model)->delete (model, position, length);
+	if (E_TEXT_MODEL_GET_CLASS (model)->delete)
+		E_TEXT_MODEL_GET_CLASS (model)->delete (model, position, length);
 }
 
 gint
@@ -519,8 +517,8 @@ e_text_model_object_count (ETextModel *model)
 	g_return_val_if_fail (model != NULL, 0);
 	g_return_val_if_fail (E_IS_TEXT_MODEL (model), 0);
 
-	if (CLASS (model)->obj_count)
-		return CLASS (model)->obj_count (model);
+	if (E_TEXT_MODEL_GET_CLASS (model)->obj_count)
+		return E_TEXT_MODEL_GET_CLASS (model)->obj_count (model);
 
 	return 0;
 }
@@ -534,8 +532,8 @@ e_text_model_get_nth_object (ETextModel *model, gint n, gint *len)
 	if (n < 0 || n >= e_text_model_object_count (model))
 		return NULL;
 
-	if (CLASS (model)->get_nth_obj)
-		return CLASS (model)->get_nth_obj (model, n, len);
+	if (E_TEXT_MODEL_GET_CLASS (model)->get_nth_obj)
+		return E_TEXT_MODEL_GET_CLASS (model)->get_nth_obj (model, n, len);
 
 	return NULL;
 }
@@ -584,9 +582,9 @@ e_text_model_get_object_at_offset (ETextModel *model, gint offset)
 		return -1;
 
 	/* If an optimized version has been provided, we use it. */
-	if (CLASS (model)->obj_at_offset) {
+	if (E_TEXT_MODEL_GET_CLASS (model)->obj_at_offset) {
 
-		return CLASS (model)->obj_at_offset (model, offset);
+		return E_TEXT_MODEL_GET_CLASS (model)->obj_at_offset (model, offset);
 
 	} else { 
 		/* If not, we fake it.*/

@@ -23,7 +23,6 @@
 
 #include <string.h>
 #include <gdk/gdkkeysyms.h>
-#include <gtk/gtksignal.h>
 #include <gal/util/e-util.h>
 #include "e-text-event-processor-emacs-like.h"
 
@@ -110,10 +109,8 @@ E_MAKE_TYPE (e_text_event_processor_emacs_like,
 static void
 e_text_event_processor_emacs_like_class_init (ETextEventProcessorEmacsLikeClass *klass)
 {
-  GtkObjectClass *object_class;
   ETextEventProcessorClass *processor_class;
 
-  object_class = (GtkObjectClass*) klass;
   processor_class = (ETextEventProcessorClass*) klass;
 
   parent_class = g_type_class_ref (PARENT_TYPE);

@@ -59,7 +59,7 @@ struct _ETextEventProcessorEmacsLikeClass
 };
 
 
-GtkType    e_text_event_processor_emacs_like_get_type (void);
+GType      e_text_event_processor_emacs_like_get_type (void);
 ETextEventProcessor *e_text_event_processor_emacs_like_new (void);
 
 #ifdef __cplusplus

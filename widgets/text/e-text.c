@@ -1680,7 +1680,6 @@ _get_tep(EText *text)
 	if (!text->tep) {
 		text->tep = e_text_event_processor_emacs_like_new();
 		g_object_ref (text->tep);
-		gtk_object_sink (GTK_OBJECT (text->tep));
 		text->tep_command_id = 
 			g_signal_connect (text->tep,
 					  "command",
@@ -4305,7 +4304,6 @@ e_text_init (EText *text)
 	text->revert                  = NULL;
 
 	g_object_ref (text->model);
-	gtk_object_sink (GTK_OBJECT (text->model));
 
 	text->model_changed_signal_id = 
 		g_signal_connect (text->model,

@@ -38,8 +38,8 @@ static void e_text_event_processor_get_property (GObject *object,
 						 GValue *value,
 						 GParamSpec *pspec);
 
-#define PARENT_TYPE GTK_TYPE_OBJECT
-static GtkObjectClass *parent_class = NULL;
+#define PARENT_TYPE G_TYPE_OBJECT
+static GObjectClass *parent_class = NULL;
 
 /* The arguments we take */
 enum {
@@ -104,8 +104,8 @@ e_text_event_processor_init (ETextEventProcessor *tep)
 gint
 e_text_event_processor_handle_event (ETextEventProcessor *tep, ETextEventProcessorEvent *event)
 {
-	if (E_TEXT_EVENT_PROCESSOR_CLASS (GTK_OBJECT_GET_CLASS (tep))->event)
-		return E_TEXT_EVENT_PROCESSOR_CLASS(GTK_OBJECT_GET_CLASS (tep))->event(tep, event);
+	if (E_TEXT_EVENT_PROCESSOR_GET_CLASS(tep)->event)
+		return E_TEXT_EVENT_PROCESSOR_GET_CLASS(tep)->event(tep, event);
 	else
 		return 0;
 }

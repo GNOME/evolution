@@ -1321,7 +1321,7 @@ e_reflow_class_init (EReflowClass *klass)
 							      E_REFLOW_MODEL_TYPE,
 							      G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_WIDTH,
+	g_object_class_install_property (object_class, PROP_COLUMN_WIDTH,
 					 g_param_spec_double ("column_width",
 							      _( "Column width" ),
 							      _( "Column width" ),

@@ -37,19 +37,18 @@ extern "C" {
  *
  */
 
-#define E_TEXT_EVENT_PROCESSOR_TYPE			(e_text_event_processor_get_type ())
-#define E_TEXT_EVENT_PROCESSOR(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TEXT_EVENT_PROCESSOR_TYPE, ETextEventProcessor))
-#define E_TEXT_EVENT_PROCESSOR_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), E_TEXT_EVENT_PROCESSOR_TYPE, ETextEventProcessorClass))
-#define E_IS_TEXT_EVENT_PROCESSOR(obj)		        (G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TEXT_EVENT_PROCESSOR_TYPE))
-#define E_IS_TEXT_EVENT_PROCESSOR_CLASS(klass)	        (G_TYPE_CHECK_CLASS_TYPE ((obj), E_TEXT_EVENT_PROCESSOR_TYPE))
-
-
+#define E_TEXT_EVENT_PROCESSOR_TYPE		(e_text_event_processor_get_type ())
+#define E_TEXT_EVENT_PROCESSOR(obj)		(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TEXT_EVENT_PROCESSOR_TYPE, ETextEventProcessor))
+#define E_TEXT_EVENT_PROCESSOR_CLASS(klass)	(G_TYPE_CHECK_CLASS_CAST ((klass), E_TEXT_EVENT_PROCESSOR_TYPE, ETextEventProcessorClass))
+#define E_IS_TEXT_EVENT_PROCESSOR(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TEXT_EVENT_PROCESSOR_TYPE))
+#define E_IS_TEXT_EVENT_PROCESSOR_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((obj), E_TEXT_EVENT_PROCESSOR_TYPE))
+#define E_TEXT_EVENT_PROCESSOR_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), E_TEXT_EVENT_PROCESSOR_TYPE, ETextEventProcessorClass))
 typedef struct _ETextEventProcessor       ETextEventProcessor;
 typedef struct _ETextEventProcessorClass  ETextEventProcessorClass;
 
 struct _ETextEventProcessor
 {
-	GtkObject parent;
+	GObject parent;
 
 	/* object specific fields */
 	guint allow_newlines : 1;
@@ -67,7 +66,7 @@ struct _ETextEventProcessorClass
 };
 
 
-GtkType    e_text_event_processor_get_type (void);
+GType      e_text_event_processor_get_type (void);
 gint       e_text_event_processor_handle_event (ETextEventProcessor *tep, ETextEventProcessorEvent *event);
 
 #ifdef __cplusplus

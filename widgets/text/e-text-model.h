@@ -34,6 +34,7 @@ G_BEGIN_DECLS
 #define E_TEXT_MODEL_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_TEXT_MODEL, ETextModelClass))
 #define E_IS_TEXT_MODEL(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_TEXT_MODEL))
 #define E_IS_TEXT_MODEL_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), E_TYPE_TEXT_MODEL))
+#define E_TEXT_MODEL_GET_CLASS(o)    (G_TYPE_INSTANCE_GET_CLASS ((o), E_TYPE_TEXT_MODEL_TYPE, ETextModelClass))
 
 typedef struct _ETextModel ETextModel;
 typedef struct _ETextModelClass ETextModelClass;
@@ -43,13 +44,13 @@ struct _ETextModelPrivate;
 typedef gint (*ETextModelReposFn) (gint, gpointer);
 
 struct _ETextModel {
-	GtkObject item;
+	GObject item;
 
 	struct _ETextModelPrivate *priv;
 };
 
 struct _ETextModelClass {
-	GtkObjectClass parent_class;
+	GObjectClass parent_class;
 
 	/* Signal */
 	void  (* changed)           (ETextModel *model);
@@ -74,7 +75,7 @@ struct _ETextModelClass {
 	gint         (* obj_at_offset)      (ETextModel *model, gint offset);
 };
 
-GtkType     e_text_model_get_type (void);
+GType       e_text_model_get_type (void);
 
 ETextModel *e_text_model_new (void);
 
@@ -106,12 +107,6 @@ void         e_text_model_get_nth_object_bounds (ETextModel *model, gint n, gint
 gint         e_text_model_get_object_at_offset  (ETextModel *model, gint offset);
 gint         e_text_model_get_object_at_pointer (ETextModel *model, const gchar *c);
 void         e_text_model_activate_nth_object   (ETextModel *model, gint n);
-
-
-
-
-
-
 
 G_END_DECLS
 
