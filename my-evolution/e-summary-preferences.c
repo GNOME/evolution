@@ -460,7 +460,6 @@ static struct _RDFInfo rdfs[] = {
 	{"http://www.fool.com/about/headlines/rss_headlines.asp", "The Motley Fool"},
 	{"http://www.newsforge.com/newsforge.rss", "Newsforge"},
 	{"http://www.nanotechnews.com/nano/rdf", "Nanotech News"},
-  	{"http://www.perl.com/pace/news.rss", "Perl.com"},
 	{"http://www.pigdog.org/pigdog.rdf", "Pigdog"},
 	{"http://www.python.org/channews.rdf", "Python.org"},
 	{"http://www.quotationspage.com/data/mqotd.rss", N_("Quotes of the Day")},
