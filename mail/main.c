@@ -10,8 +10,11 @@
 #include <gnome.h>
 #include <libgnorba/gnorba.h>
 #include <bonobo/bonobo-main.h>
+#include <glade/glade.h>
 #include "e-util/e-gui-utils.h"
+#include "e-util/e-cursors.h"
 #include "main.h"
+#include "session.h"
 
 CORBA_ORB orb;
 
@@ -44,6 +47,7 @@ main (int argc, char *argv [])
 	textdomain (PACKAGE);
 
 	init_bonobo (argc, argv);
+	glade_gnome_init ();
 
 	session_init ();
 	e_cursors_init ();

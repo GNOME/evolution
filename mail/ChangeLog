@@ -1,5 +1,7 @@
 2000-04-22  Dan Winship  <danw@helixcode.com>
 
+	* main.c (main): call glade_gnome_init, for composer.
+
 	* folder-browser-factory.c: move msg_composer_cb and
 	msg_composer_send_cb to mail-ops. Attach send, reply, and "reply
 	to all" buttons.
