@@ -390,19 +390,19 @@ output_param (GQuark key_id, gpointer data, gpointer user_data)
 void
 camel_url_free (CamelURL *url)
 {
-	g_return_if_fail (url);
-
-	g_free (url->protocol);
-	g_free (url->user);
-	g_free (url->authmech);
-	g_free (url->passwd);
-	g_free (url->host);
-	g_free (url->path);
-	g_datalist_clear (&url->params);
-	g_free (url->query);
-	g_free (url->fragment);
-
-	g_free (url);
+	if (url) {
+		g_free (url->protocol);
+		g_free (url->user);
+		g_free (url->authmech);
+		g_free (url->passwd);
+		g_free (url->host);
+		g_free (url->path);
+		g_datalist_clear (&url->params);
+		g_free (url->query);
+		g_free (url->fragment);
+		
+		g_free (url);
+	}
 }
 
 

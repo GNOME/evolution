@@ -2844,7 +2844,7 @@ header_encode_param (const unsigned char *in, gboolean *encoded)
 }
 
 void
-header_param_list_format_append(GString *out, struct _header_param *p)
+header_param_list_format_append (GString *out, struct _header_param *p)
 {
 	int used = out->len;
 	
@@ -2861,6 +2861,10 @@ header_param_list_format_append(GString *out, struct _header_param *p)
 		}
 		
 		value = header_encode_param (p->value, &encoded);
+		if (!value) {
+			g_warning ("appending parameter %s=%s violates rfc2184", p->name, p->value);
+			value = g_strdup (p->value);
+		}
 		
 		if (!encoded) {
 			char *ch;

@@ -1,3 +1,8 @@
+2001-07-26  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-url.c (camel_url_free): Allow the url to be NULL just like
+	the libc free convention.
+
 2001-07-26  Dan Winship  <danw@ximian.com>
 
 	* providers/imap/camel-imap-command.c (camel_imap_command_start):
