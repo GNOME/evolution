@@ -1,5 +1,13 @@
 2001-08-08  Ettore Perazzoli  <ettore@ximian.com>
 
+	* evolution-shell-component.c
+	(impl_ShellComponent__get_supported_types): Fill the CORBA
+	sequence once.
+
+	* e-activity-handler.c (activity_info_free): Unref the icon.
+
+2001-08-08  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-task-bar.c (e_task_bar_prepend_task): Sigh.  If the function
 	says "prepend", of course the function to call is
 	`g_list_prepend()', not `g_list_append()'.  You dumbass.

@@ -281,6 +281,7 @@ activity_info_free (ActivityInfo *info)
 
 	CORBA_exception_init (&ev);
 
+	gdk_pixbuf_unref (info->icon_pixbuf);
 	CORBA_free (info->information);
 	CORBA_Object_release (info->event_listener, &ev);
 

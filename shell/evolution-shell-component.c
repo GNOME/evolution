@@ -160,8 +160,6 @@ impl_ShellComponent__get_supported_types (PortableServer_Servant servant,
 		corba_folder_type->icon_name      = CORBA_string_dup (folder_type->icon_name);
 		corba_folder_type->user_creatable = folder_type->user_creatable;
 
-		fill_corba_sequence_from_null_terminated_string_array (& corba_folder_type->accepted_dnd_types,
-								       folder_type->accepted_dnd_types);
 		fill_corba_sequence_from_null_terminated_string_array (& corba_folder_type->exported_dnd_types,
 								       folder_type->exported_dnd_types);
 	}
