@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-08-13 14:55-0400\n"
-"PO-Revision-Date: 2004-08-10 23:55+0200\n"
+"POT-Creation-Date: 2004-08-18 11:10+0200\n"
+"PO-Revision-Date: 2004-08-18 15:24+0200\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -183,8 +183,6 @@ msgid ""
 msgstr "V tomto kontaktu jste provedli změny. Chcete je uložit?"
 
 #: addressbook/addressbook-errors.xml.h:43
-#: addressbook/gui/contact-editor/e-contact-editor.c:2803
-#: addressbook/gui/contact-editor/e-contact-editor.c:2827
 msgid "_Discard"
 msgstr "Za_hodit"
 
@@ -2148,20 +2146,6 @@ msgstr ""
 msgid "Invalid contact."
 msgstr "Neplatný kontakt."
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2799
-msgid ""
-"The contact cannot be saved to the selected address book. Do you want to "
-"discard changes?"
-msgstr "Kontakt nelze uložit do vybraného adresáře. Chcete změny zahodit?"
-
-#: addressbook/gui/contact-editor/e-contact-editor.c:2822
-msgid ""
-"You are moving the contact from one address book to another, but it cannot "
-"be removed from the source. Do you want to save a copy instead?"
-msgstr ""
-"Přesouváte kontakt z jednoho adresáře do jiného, ale nelze jej odstranit ze "
-"zdroje. Chcete místo toho uložit kopii?"
-
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:280
 msgid "Contact Quick-Add"
 msgstr "Rychlé přidání kontaktu"
@@ -3043,7 +3027,7 @@ msgid "Error adding list"
 msgstr "Chyba při přidávání seznamu"
 
 #: addressbook/gui/widgets/eab-gui-util.c:170
-#: addressbook/gui/widgets/eab-gui-util.c:640
+#: addressbook/gui/widgets/eab-gui-util.c:643
 msgid "Error adding contact"
 msgstr "Chyba při přidávání kontaktu"
 
@@ -3060,20 +3044,29 @@ msgid "Error removing list"
 msgstr "Chyba při odstraňování seznamu"
 
 #: addressbook/gui/widgets/eab-gui-util.c:193
-#: addressbook/gui/widgets/eab-gui-util.c:598
+#: addressbook/gui/widgets/eab-gui-util.c:601
 msgid "Error removing contact"
 msgstr "Chyba při odstraňování kontaktu"
 
 #: addressbook/gui/widgets/eab-gui-util.c:275
 #, c-format
 msgid ""
+"Opening %d contact will open %d new window as well.\n"
+"Do you really want to display this contact?"
+msgid_plural ""
 "Opening %d contacts will open %d new windows as well.\n"
 "Do you really want to display all of these contacts?"
-msgstr ""
+msgstr[0] ""
+"Otevření %d kontakt otevře také %d nové okno.\n"
+"Opravdu chcete zobrazit všechny tyto kontakty?"
+msgstr[1] ""
+"Otevření %d kontaktů otevře také %d nová okna.\n"
+"Opravdu chcete zobrazit všechny tyto kontakty?"
+msgstr[2] ""
 "Otevření %d kontaktů otevře také %d nových oken.\n"
 "Opravdu chcete zobrazit všechny tyto kontakty?"
 
-#: addressbook/gui/widgets/eab-gui-util.c:301
+#: addressbook/gui/widgets/eab-gui-util.c:304
 #, c-format
 msgid ""
 "%s already exists\n"
@@ -3083,44 +3076,44 @@ msgstr ""
 "\"%s již existuje.\n"
 "Chcete jej přepsat?"
 
-#: addressbook/gui/widgets/eab-gui-util.c:305
+#: addressbook/gui/widgets/eab-gui-util.c:308
 msgid "Overwrite"
 msgstr "Přepsat"
 
 #. This is a filename. Translators take note.
-#: addressbook/gui/widgets/eab-gui-util.c:383
+#: addressbook/gui/widgets/eab-gui-util.c:386
 msgid "card.vcf"
 msgstr "card.vcf"
 
-#: addressbook/gui/widgets/eab-gui-util.c:545
+#: addressbook/gui/widgets/eab-gui-util.c:548
 msgid "list"
 msgstr "seznam"
 
-#: addressbook/gui/widgets/eab-gui-util.c:694
+#: addressbook/gui/widgets/eab-gui-util.c:697
 msgid "Move contact to"
 msgstr "Přesunout kontakt do"
 
-#: addressbook/gui/widgets/eab-gui-util.c:696
+#: addressbook/gui/widgets/eab-gui-util.c:699
 msgid "Copy contact to"
 msgstr "Kopírovat kontakt do"
 
-#: addressbook/gui/widgets/eab-gui-util.c:699
+#: addressbook/gui/widgets/eab-gui-util.c:702
 msgid "Move contacts to"
 msgstr "Přesunout kontakty do"
 
-#: addressbook/gui/widgets/eab-gui-util.c:701
+#: addressbook/gui/widgets/eab-gui-util.c:704
 msgid "Copy contacts to"
 msgstr "Kopírovat kontakty do"
 
-#: addressbook/gui/widgets/eab-gui-util.c:704
+#: addressbook/gui/widgets/eab-gui-util.c:707
 msgid "Select target addressbook."
 msgstr "Vyberte cílový adresář."
 
-#: addressbook/gui/widgets/eab-gui-util.c:927
+#: addressbook/gui/widgets/eab-gui-util.c:930
 msgid "Multiple VCards"
 msgstr "Více VCard"
 
-#: addressbook/gui/widgets/eab-gui-util.c:930
+#: addressbook/gui/widgets/eab-gui-util.c:933
 #, c-format
 msgid "VCard for %s"
 msgstr "VCard pro %s"
@@ -4779,9 +4772,8 @@ msgid "_Add Calendar"
 msgstr "_Přidat kalendář"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:7
-#, fuzzy
 msgid "_Add Task List"
-msgstr "Přidat seznam úkolů"
+msgstr "_Přidat seznam úkolů"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:9
 msgid "_Refresh:"
@@ -10163,7 +10155,6 @@ msgid "Automatically synchronize remote mail locally"
 msgstr "Automaticky synchronizovat vzdálenou poštu s místní"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:69
-#, fuzzy
 msgid "Address Book and Calendar"
 msgstr "Adresář a kalendář"
 
@@ -10176,9 +10167,8 @@ msgid "Post Office Agent SOAP Port:"
 msgstr "Port SOAP pro Post Office Agent:"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:78
-#, fuzzy
 msgid "Use Secure Connection (SSL)"
-msgstr "Používat _bezpečné připojení (SSL):"
+msgstr "Používat zabezpečené připojení (SSL)"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:92
 msgid "Novell GroupWise"
@@ -12365,9 +12355,8 @@ msgid "Evolution"
 msgstr "Evolution"
 
 #: data/evolution.desktop.in.in.h:2
-#, fuzzy
 msgid "The Evolution Groupware Suite"
-msgstr "Sada nástrojů pro skupinovou spolupráci Ximian Evolution"
+msgstr "Sada nástrojů pro skupinovou spolupráci Evolution"
 
 #: data/evolution.keys.in.in.h:1
 msgid "address card"
@@ -16479,7 +16468,7 @@ msgstr "%d %b %k:%M"
 msgid "%b %d %Y"
 msgstr "%d %b %Y"
 
-#: mail/message-list.c:3376
+#: mail/message-list.c:3380
 msgid "Generating message list"
 msgstr "Generuji seznam zpráv"
 
@@ -17197,13 +17186,12 @@ msgstr ""
 "obsah \"evolution\" ručně odstranit, až budete chtít.\n"
 
 #: shell/shell-errors.xml.h:25
-#, fuzzy
 msgid "_Remind Me Later"
-msgstr "Připomínka!!"
+msgstr "_Připomenout mě později"
 
 #: shell/shell-errors.xml.h:26
 msgid "_Keep Data"
-msgstr ""
+msgstr "_Zachovat data"
 
 #. shell:upgrade-remove-1-4-confirm title
 #. shell:upgrade-remove-1-4-confirm primary
@@ -19572,14 +19560,23 @@ msgstr "%s (...)"
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% hotovo)"
 
+#~ msgid ""
+#~ "The contact cannot be saved to the selected address book. Do you want to "
+#~ "discard changes?"
+#~ msgstr "Kontakt nelze uložit do vybraného adresáře. Chcete změny zahodit?"
+
+#~ msgid ""
+#~ "You are moving the contact from one address book to another, but it "
+#~ "cannot be removed from the source. Do you want to save a copy instead?"
+#~ msgstr ""
+#~ "Přesouváte kontakt z jednoho adresáře do jiného, ale nelze jej odstranit "
+#~ "ze zdroje. Chcete místo toho uložit kopii?"
+
 #~ msgid "_Add Group"
 #~ msgstr "_Přidat skupinu"
 
 #~ msgid "Use ssl"
 #~ msgstr "Používat ssl"
-
-#~ msgid "Ximian Evolution (Unstable)"
-#~ msgstr "Ximian Evolution (nestabilní)"
 
 #~ msgid "Remember this password"
 #~ msgstr "Zapamatovat si toto heslo"
