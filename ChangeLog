@@ -1,3 +1,7 @@
+2000-12-05  JP Rosevear  <jpr@helixcode.com>
+
+	* README: minor tweak
+
 2000-12-05  Not Zed  <NotZed@HelixCode.com>
 
 	* configure.in: Added camel/tests/stream/Makefile.am.
