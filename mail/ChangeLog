@@ -1,5 +1,9 @@
 2004-02-23  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* em-message-browser.c (emmb_list_message_selected): Protect
+	against NULL uids.
+	(emmb_set_message): Same.
+
 	* em-format-quote.c (emfq_format_message): Print the headers when
 	forwarding inline/quoted. Fixes bug #53916.
 

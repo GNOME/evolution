@@ -160,7 +160,7 @@ emmb_list_message_selected (struct _MessageList *ml, const char *uid, EMMessageB
 	EMFolderView *emfv = (EMFolderView *) emmb;
 	CamelMessageInfo *info;
 	
-	if ((info = camel_folder_get_message_info (emfv->folder, uid))) {
+	if (uid && (info = camel_folder_get_message_info (emfv->folder, uid))) {
 		gtk_window_set_title ((GtkWindow *) emmb->window, camel_message_info_subject (info));
 		gtk_widget_grab_focus ((GtkWidget *) (emmb->view.preview->formathtml.html));
 		camel_folder_free_message_info (emfv->folder, info);
@@ -232,6 +232,9 @@ emmb_set_message(EMFolderView *emfv, const char *uid)
 	CamelMessageInfo *info;
 	
 	emmb_parent->set_message(emfv, uid);
+	
+	if (uid == NULL)
+		return;
 	
 	if ((info = camel_folder_get_message_info (emfv->folder, uid))) {
 		gtk_window_set_title ((GtkWindow *) emmb->window, camel_message_info_subject (info));
