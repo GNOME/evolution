@@ -821,7 +821,7 @@ static char *lookup_string(xmlNodePtr source, const char *name, struct _map_tabl
 		xmlFree(val);
 	} else
 		res = NULL;
-	
+
 	return res;
 }
 
@@ -1243,10 +1243,10 @@ static struct {
 	{ "/Importer/Pine", importer_pine_map },
 	{ "/Importer/Netscape", importer_netscape_map },
 
-	{ "/My-Evolution/Mail", myev_mail_map },
-	{ "/My-Evolution/RDF", myev_rdf_map },
-	{ "/My-Evolution/Weather", myev_weather_map },
-	{ "/My-Evolution/Schedule", myev_schedule_map },
+	{ "My-Evolution/Mail", myev_mail_map },
+	{ "My-Evolution/RDF", myev_rdf_map },
+	{ "My-Evolution/Weather", myev_weather_map },
+	{ "My-Evolution/Schedule", myev_schedule_map },
 
 	{ "/Shell", shell_map },
 	{ "/Shell/Views/0", shell_views_map },
@@ -1369,14 +1369,18 @@ static int import_bonobo_config(xmlDocPtr config_doc, GConfClient *gconf)
 				gconf_client_set_float(gconf, path, strtod(val, NULL), NULL);
 				break;
 			case BMAP_STRLIST:{
-				char **t = g_strsplit (val, " !<-->! ", 8196);
+				char *v = hex_decode(val);
+				char **t = g_strsplit (v, " !<-->! ", 8196);
 
 				list = NULL;
-				for (k=0;t[k];k++)
+				for (k=0;t[k];k++) {
 					list = g_slist_append(list, t[k]);
+					d(printf("  [%d] = '%s'\n", k, t[k]));
+				}
 				gconf_client_set_list(gconf, path, GCONF_VALUE_STRING, list, NULL);
 				g_slist_free(list);
 				g_strfreev(t);
+				g_free(v);
 				break;}
 			case BMAP_ANYLIST:{
 				xmlNodePtr node = source->children;
@@ -1491,7 +1495,7 @@ static int import_bonobo_config(xmlDocPtr config_doc, GConfClient *gconf)
 	convert_xml_blob(gconf, config_doc, signature_map, "/Mail/Signatures", "/apps/evolution/mail/signatures", "signature", NULL);
 
 	/* My-Evolution folder lists */
-	source = lookup_bconf_path(config_doc, "/My-Evolution/Mail");
+	source = lookup_bconf_path(config_doc, "My-Evolution/Mail");
 	if (source) {
 		char **t;
 
@@ -1508,6 +1512,7 @@ static int import_bonobo_config(xmlDocPtr config_doc, GConfClient *gconf)
 			for (i=0;t[i] && t[i+1];i+=2) {
 				list = g_slist_append(list, t[i]);
 				l = g_slist_append(l, t[i+1]);
+				d(printf(" [%d] = euri: '%s', puri: '%s'\n", i, t[i], t[i+1]));
 			}
 			if (list) {
 				gconf_client_set_list(gconf, "/apps/evolution/summary/mail/folder_evolution_uris", GCONF_VALUE_STRING, list, NULL);

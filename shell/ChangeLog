@@ -1,3 +1,13 @@
+2003-04-01  Not Zed  <NotZed@Ximian.com>
+
+	[#40474]
+
+	* e-config-upgrade.c (gconf_remap_list[]): The summary settings
+	start at "My-Evolution", not "/My-Evolution".
+	(import_bonobo_config): Same for mail summary settings, and hex
+	decode the string for the strlist.  Add a few extra debug
+	printf's.
+
 2003-03-28  Ettore Perazzoli  <ettore@ximian.com>
 
 	[#40377]
