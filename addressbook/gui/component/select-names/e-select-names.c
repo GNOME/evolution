@@ -140,7 +140,7 @@ addressbook_model_set_uri(EAddressbookModel *model, char *uri)
 	EBook *book;
 	book = e_book_new();
 	gtk_object_ref(GTK_OBJECT(model));
-	e_book_load_uri(book, uri, (EBookCallback) set_book, model);
+	addressbook_load_uri(book, uri, (EBookCallback) set_book, model);
 }
 
 static void *

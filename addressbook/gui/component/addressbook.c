@@ -24,6 +24,7 @@
 
 #include "e-util/e-categories-master-list-wombat.h"
 #include "e-util/e-sexp.h"
+#include "e-util/e-passwords.h"
 #include "select-names/e-select-names.h"
 #include "select-names/e-select-names-manager.h"
 
@@ -186,6 +187,12 @@ send_contact_to_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 }
 
 static void
+forget_passwords_cb (BonoboUIComponent *uih, void *user_data, const char *path)
+{
+	e_passwords_forget_passwords();
+}
+
+static void
 update_command_state (EAddressbookView *eav, AddressbookView *view)
 {
 	BonoboUIComponent *uic = bonobo_control_get_ui_component (view->control);
@@ -284,7 +291,8 @@ static BonoboUIVerb verbs [] = {
 
 	BONOBO_UI_UNSAFE_VERB ("ContactsSendContactToOther", send_contact_cb),
 	BONOBO_UI_UNSAFE_VERB ("ContactsSendMessageToContact", send_contact_to_cb),
-	
+	BONOBO_UI_UNSAFE_VERB ("ContactsForgetPasswords", forget_passwords_cb),
+
 	BONOBO_UI_VERB_END
 };
 
@@ -376,134 +384,26 @@ addressbook_view_free(AddressbookView *view)
 }
 
 static void
-book_auth_cb (EBook *book, EBookStatus status, gpointer closure)
-{
-	AddressbookView *view = closure;
-	if (status == E_BOOK_STATUS_SUCCESS) {
-		gtk_object_set(GTK_OBJECT(view->view),
-			       "book", book,
-			       NULL);
-	}
-	else {
-		/* pop up a nice dialog, or redo the authentication
-                   bit some number of times. */
-	}
-}
-
-static void
 book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 {
 	AddressbookView *view = closure;
-	AddressbookSource *source;
-	source = addressbook_storage_get_source_by_uri (view->uri);
 
 	if (status == E_BOOK_STATUS_SUCCESS) {
-		/* check if the addressbook needs authentication */
-
-		if (source &&
-		    source->type == ADDRESSBOOK_SOURCE_LDAP &&
-		    source->auth == ADDRESSBOOK_LDAP_AUTH_SIMPLE) {
-			int button;
-			char *msg = g_strdup_printf (_("Please enter your email address and password for access to %s"), source->name);
-			GtkWidget *dialog;
-			GtkWidget *hbox;
-			GtkWidget *table;
-			GtkWidget *label;
-			GtkWidget *email_entry;
-			GtkWidget *password_entry;
-
-			dialog = gnome_dialog_new (_("LDAP Authentication"),
-						   GNOME_STOCK_BUTTON_OK,
-						   GNOME_STOCK_BUTTON_CANCEL,
-						   NULL);
-
-			label = gtk_label_new (msg);
-			gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
-			gtk_box_pack_start (GTK_BOX (GNOME_DIALOG(dialog)->vbox), label, FALSE, FALSE, 0);
-			g_free (msg);
-
-			table = gtk_table_new (2, 2, FALSE);
-			label = gtk_label_new (_("Email Address:"));
-			gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_RIGHT);
-			gtk_table_attach (GTK_TABLE (table), label,
-					  0, 1,
-					  0, 1,
-					  0, 0, 0, 3);
-			email_entry = gtk_entry_new ();
-			gtk_table_attach (GTK_TABLE (table), email_entry,
-					  1, 2,
-					  0, 1,
-					  GTK_EXPAND | GTK_FILL, 0, 0, 3);
-
-			hbox = gtk_hbox_new (FALSE, 2);
-			label = gtk_label_new (_("Password:"));
-			gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_RIGHT);
-			gtk_table_attach (GTK_TABLE (table), label,
-					  0, 1, 
-					  1, 2,
-					  GTK_FILL, 0, 0, 3);
-			password_entry = gtk_entry_new ();
-			gtk_entry_set_visibility (GTK_ENTRY(password_entry), FALSE);
-			gtk_table_attach (GTK_TABLE (table), password_entry,
-					  1, 2,
-					  1, 2,
-					  GTK_EXPAND | GTK_FILL, 0, 0, 3);
-
-			gtk_box_pack_start (GTK_BOX (GNOME_DIALOG(dialog)->vbox), table, TRUE, TRUE, 0);
-
-			gtk_widget_show_all (GNOME_DIALOG(dialog)->vbox);
-
-			/* fill in the saved email address for this source if there is one */
-			if (source->email_addr && *source->email_addr) {
-				e_utf8_gtk_entry_set_text (GTK_ENTRY(email_entry), 
-							   source->email_addr);
-				gtk_window_set_focus (GTK_WINDOW (dialog),
-						      password_entry);
-			}
-			else {
-				gtk_window_set_focus (GTK_WINDOW (dialog),
-						      email_entry);
-			}
-
-			/* run the dialog */
-			gnome_dialog_close_hides (GNOME_DIALOG(dialog), TRUE);
-			button = gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
-
-			/* and get out the information if the user clicks ok */
-			if (button == 0) {
-				g_free (source->email_addr);
-				source->email_addr = e_utf8_gtk_entry_get_text (GTK_ENTRY(email_entry));
-				addressbook_storage_write_sources();
-				view->passwd = e_utf8_gtk_entry_get_text (GTK_ENTRY(password_entry));
-				e_book_authenticate_user (book, source->email_addr, view->passwd,
-							  book_auth_cb, closure);
-				memset (view->passwd, 0, strlen (view->passwd)); /* clear out the passwd */
-				g_free (view->passwd);
-				view->passwd = NULL;
-				gtk_widget_destroy (dialog);
-				return;
-			}
-			else {
-				gtk_widget_destroy (dialog);
-			}
-		}
-
-
-		/* if they either didn't configure the source to use
-                   authentication, or they canceled the dialog,
-                   proceed without authenticating */
 		gtk_object_set(GTK_OBJECT(view->view),
 			       "book", book,
 			       NULL);
-
 	} else {
+		AddressbookSource *source;
 		GtkWidget *warning_dialog, *label;
+
         	warning_dialog = gnome_dialog_new (
         		_("Unable to open addressbook"),
 			GNOME_STOCK_BUTTON_CLOSE,
         		NULL);
 
-		if (source->type == ADDRESSBOOK_SOURCE_LDAP) {
+		source = addressbook_storage_get_source_by_uri (view->uri);
+
+		if (source && source->type == ADDRESSBOOK_SOURCE_LDAP) {
 #if HAVE_LDAP
 			label = gtk_label_new (
 					       _("We were unable to open this addressbook.  This either\n"
@@ -533,7 +433,7 @@ book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 		gtk_widget_show (label);
 
 #ifndef HAVE_LDAP
-		if (source->type == ADDRESSBOOK_SOURCE_LDAP) {
+		if (source && source->type == ADDRESSBOOK_SOURCE_LDAP) {
 			GtkWidget *href;
 			href = gnome_href_new ("http://www.openldap.org/", "OpenLDAP at http://www.openldap.org/");
 			gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (warning_dialog)->vbox), 
@@ -602,6 +502,98 @@ addressbook_expand_uri (const char *uri)
 	return new_uri;
 }
 
+typedef struct {
+	char *uri;
+	EBookCallback cb;
+	gpointer closure;
+} LoadUriData;
+
+static void
+load_uri_auth_cb (EBook *book, EBookStatus status, gpointer closure)
+{
+	LoadUriData *data = closure;
+
+	if (status != E_BOOK_STATUS_SUCCESS) {
+		/* pop up a nice dialog, or redo the authentication
+                   bit some number of times. */
+	}
+
+	data->cb (book, status, data->closure);
+
+	g_free (data->uri);
+	g_free (data);
+}
+
+
+static void
+load_uri_cb (EBook *book, EBookStatus status, gpointer closure)
+{
+	AddressbookSource *source;
+	LoadUriData *load_uri_data = closure;
+
+	source = addressbook_storage_get_source_by_uri (load_uri_data->uri);
+
+	if (status == E_BOOK_STATUS_SUCCESS) {
+		/* check if the addressbook needs authentication */
+
+		if (source &&
+		    source->type == ADDRESSBOOK_SOURCE_LDAP &&
+		    source->auth == ADDRESSBOOK_LDAP_AUTH_SIMPLE) {
+			char *password;
+
+			password = e_passwords_get_password(load_uri_data->uri);
+
+			if (!password) {
+				char *prompt;
+				gboolean remember;
+
+				prompt = g_strdup_printf (_("Enter password for %s (user %s)"), source->name, source->email_addr);
+				remember = source->remember_passwd;
+				password = e_passwords_ask_password (
+								     prompt, load_uri_data->uri, prompt, TRUE,
+								     E_PASSWORDS_REMEMBER_FOREVER, &remember,
+								     NULL);
+				if (remember != source->remember_passwd) {
+					source->remember_passwd = remember;
+					addressbook_storage_write_sources ();
+				}
+				g_free (prompt);
+			}
+
+			if (password) {
+				e_book_authenticate_user (book, source->email_addr, password,
+							  load_uri_auth_cb, closure);
+				g_free (password);
+				return;
+			}
+		}
+	}
+
+	load_uri_data->cb (book, status, load_uri_data->closure);
+	g_free (load_uri_data->uri);
+	g_free (load_uri_data);
+}
+
+gboolean
+addressbook_load_uri (EBook *book, const char *uri,
+		      EBookCallback cb, gpointer closure)
+{
+	LoadUriData *load_uri_data = g_new (LoadUriData, 1);
+	gboolean rv;
+
+	load_uri_data->uri = g_strdup (uri);
+	load_uri_data->cb = cb;
+	load_uri_data->closure = closure;
+
+	rv = e_book_load_uri (book, uri, load_uri_cb, load_uri_data);
+
+	if (!rv) {
+		g_free (load_uri_data->uri);
+		g_free (load_uri_data);
+	}
+
+	return rv;
+}
 
 static void
 set_prop (BonoboPropertyBag *bag,
@@ -633,7 +625,7 @@ set_prop (BonoboPropertyBag *bag,
 		
 		uri_data = addressbook_expand_uri (view->uri);
 
-		if (! e_book_load_uri (book, uri_data, book_open_cb, view))
+		if (! addressbook_load_uri (book, uri_data, book_open_cb, view))
 			printf ("error calling load_uri!\n");
 
 		g_free(uri_data);

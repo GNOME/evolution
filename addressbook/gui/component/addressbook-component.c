@@ -319,7 +319,7 @@ user_create_new_item_cb (EvolutionShellComponent *shell_component,
 		book = e_book_new ();
 		uri = g_strdup_printf ("%s/addressbook.db", parent_folder_physical_uri);
 
-		if (e_book_load_uri (book, uri, nonlocal_addressbook_cb, GINT_TO_POINTER (is_contact_list)) == 0)
+		if (addressbook_load_uri (book, uri, nonlocal_addressbook_cb, GINT_TO_POINTER (is_contact_list)) == 0)
 			g_warning ("Couldn't load addressbook %s", uri);
 
 		g_free (uri);
@@ -377,8 +377,8 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *fol
 	expanded_uri = addressbook_expand_uri (physical_uri);
 
 	book = e_book_new ();
-	e_book_load_uri (book, expanded_uri,
-			 (EBookCallback)dnd_drop_book_open_cb, card_list);
+	addressbook_load_uri (book, expanded_uri,
+			      (EBookCallback)dnd_drop_book_open_cb, card_list);
 
 	g_free (expanded_uri);
 

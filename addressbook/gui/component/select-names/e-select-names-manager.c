@@ -128,7 +128,7 @@ e_select_names_manager_new (void)
 	if (val) {
 		manager->completion_book = e_book_new ();
 		gtk_object_ref (GTK_OBJECT (manager)); /* ref ourself before our async call */
-		e_book_load_uri (manager->completion_book, val, (EBookCallback)open_book_cb, manager);
+		addressbook_load_uri (manager->completion_book, val, (EBookCallback)open_book_cb, manager);
 		g_free (val);
 	}
 	else

@@ -81,6 +81,8 @@ main (int argc, char **argv)
 
 	e_cursors_init();
 
+	e_passwords_init();
+
 #if 0
 	g_log_set_always_fatal (G_LOG_LEVEL_CRITICAL | G_LOG_LEVEL_WARNING);
 #endif

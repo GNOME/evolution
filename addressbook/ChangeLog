@@ -1,3 +1,36 @@
+2001-10-05  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/select-names/e-select-names.c
+	(addressbook_model_set_uri): e_book_load_uri ->
+	addressbook_load_uri.
+
+	* gui/component/select-names/e-select-names-manager.c
+	(e_select_names_manager_new): e_book_load_uri ->
+	addressbook_load_uri.
+
+	* gui/component/addressbook.c (forget_passwords_cb): new function,
+	call e_passwords_forget_passwords.
+	(verbs): Add ContactsForgetPasswords.
+	(load_uri_auth_cb): new function, call the callback and free up
+	our closure stuff.
+	(load_uri_cb): once the uri is loaded, check if we're configured
+	to authenticate for it, and do so, using the e_passwords stuff.
+	(addressbook_load_uri): wrapper around e_book_load_uri.  save off
+	the parameters and start the load-with-auth machinery.
+	(book_open_cb): remove all the auth stuff from here, as it's
+	handled elsewhere now.
+
+	* gui/component/addressbook-factory.c (main): call
+	e_passwords_init.
+
+	* gui/component/addressbook-component.c (user_create_new_item_cb):
+	e_book_load_uri -> addressbook_load_uri.
+	(destination_folder_handle_drop): same.
+
+	* gui/component/addressbook.h: add prototype for
+	addressbook_load_uri (a wrapper around e_book_load_uri that also
+	handles authentication if the user selects it.)
+
 2001-10-05  Jon Trowbridge  <trow@ximian.com>
 
 	* gui/component/select-names/e-select-names.c
