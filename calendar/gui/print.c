@@ -2426,7 +2426,7 @@ print_calendar (GnomeCalendar *gcal, gboolean preview, time_t date,
 		GtkWidget *range;
 		int view;
 
-		gpd = gnome_printer_dialog_new_default ();
+		gpd = gnome_print_dialog_new_default ();
 
 		view = (int) default_view;
 		range = range_selector_new (gpd, date, &view);
