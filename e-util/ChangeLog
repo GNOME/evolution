@@ -1,3 +1,8 @@
+2003-10-31  Hans Petter Jansson  <hpj@ximian.com>
+
+	* e-source.c (e_source_get_uri): Don't compress trailing slashes in
+	URI elements.
+
 2003-10-31  Not Zed  <NotZed@Ximian.com>
 
 	* e-account.c (e_account_(sg)et_from_xml): add encrypt_key id, and

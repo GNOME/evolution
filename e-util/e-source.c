@@ -420,14 +420,26 @@ e_source_get_color (ESource *source,
 char *
 e_source_get_uri (ESource *source)
 {
+	const gchar *base_uri_str;
+	gchar *uri_str;
+
 	g_return_val_if_fail (E_IS_SOURCE (source), NULL);
 
 	if (source->priv->group == NULL)
 		return NULL;
 
-	return g_build_filename (e_source_group_peek_base_uri (source->priv->group),
-				 source->priv->relative_uri,
-				 NULL);
+	base_uri_str = e_source_group_peek_base_uri (source->priv->group);
+
+	/* If last character in base URI is a dir separator, just concat the strings.
+	 * We don't want to compress e.g. the trailing :// in a protocol specification */
+	if (*base_uri_str && *(base_uri_str + strlen (base_uri_str) - 1) == G_DIR_SEPARATOR)
+		uri_str = g_strconcat (base_uri_str, source->priv->relative_uri, NULL);
+	else
+		uri_str = g_build_filename (e_source_group_peek_base_uri (source->priv->group),
+					    source->priv->relative_uri,
+					    NULL);
+
+	return uri_str;
 }
 
 
