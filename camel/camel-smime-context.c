@@ -117,7 +117,6 @@ camel_smime_context_get_type (void)
 /**
  * camel_smime_context_new:
  * @session: CamelSession
- * @certdb: certificate db path or NULL to create a volatile temp db
  *
  * This creates a new CamelSMimeContext object which is used to sign,
  * verify, encrypt and decrypt streams.
@@ -125,7 +124,7 @@ camel_smime_context_get_type (void)
  * Return value: the new CamelSMimeContext
  **/
 CamelSMimeContext *
-camel_smime_context_new (CamelSession *session, const char *certdb)
+camel_smime_context_new (CamelSession *session)
 {
 	CamelSMimeContext *context;
 	CERTCertDBHandle *handle;
@@ -138,7 +137,7 @@ camel_smime_context_new (CamelSession *session, const char *certdb)
 	camel_cipher_context_construct (CAMEL_CIPHER_CONTEXT (context), session);
 	
 	handle = CERT_CertGetDefaultCertDBHandle ();
-	if (!certdb) {
+	if (!handle) {
 		camel_object_unref (CAMEL_OBJECT (context));
 		return NULL;
 	}

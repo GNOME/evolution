@@ -53,7 +53,7 @@ typedef struct _CamelSMimeContextClass {
 
 CamelType            camel_smime_context_get_type (void);
 
-CamelSMimeContext   *camel_smime_context_new (CamelSession *session, const char *certdb_path);
+CamelSMimeContext   *camel_smime_context_new (CamelSession *session);
 
 /* SMIME routines */
 #define camel_smime_sign(c, u, h, i, o, e) camel_cipher_sign (CAMEL_CIPHER_CONTEXT (c), u, h, i, o, e)
