@@ -162,6 +162,8 @@ void                   mail_config_set_message_display_style (MailConfigDisplayS
 const char *mail_config_get_default_charset (void);
 void        mail_config_set_default_charset (const char *charset);
 
+void mail_config_service_set_save_passwd (MailConfigService *service, gboolean save_passwd);
+
 const MailConfigAccount  *mail_config_get_default_account       (void);
 gint                      mail_config_get_default_account_num   (void);
 const MailConfigAccount  *mail_config_get_account_by_name       (const char *account_name);

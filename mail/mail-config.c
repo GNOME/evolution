@@ -1449,6 +1449,13 @@ mail_config_get_sources (void)
 	return sources;
 }
 
+void 
+mail_config_service_set_save_passwd (MailConfigService *service, gboolean save_passwd)
+{
+	service->save_passwd = save_passwd;
+	mail_config_write (); /*bleah*/
+}
+
 char *
 mail_config_folder_to_cachename (CamelFolder *folder, const char *prefix)
 {

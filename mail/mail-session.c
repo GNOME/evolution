@@ -164,7 +164,7 @@ get_password (CamelSession *session, const char *prompt, gboolean secret,
 	}
 
 	if (!mail_session->interaction_enabled ||
-	    !(ans = mail_get_password (prompt, secret))) {
+	    !(ans = mail_get_password (service, prompt, secret))) {
 		g_free (key);
 		camel_exception_set (ex, CAMEL_EXCEPTION_USER_CANCEL,
 				     _("User canceled operation."));

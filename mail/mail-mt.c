@@ -11,6 +11,7 @@
 #include <gtk/gtkentry.h>
 #include <gtk/gtkmain.h>
 #include <gtk/gtkwidget.h>
+#include <gtk/gtkcheckbutton.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-dialog.h>
@@ -25,6 +26,8 @@
 
 #include "evolution-activity-client.h"
 
+#include "mail-config.h"
+#include "camel/camel-url.h"
 #include "mail-mt.h"
 
 /*#define MALLOC_CHECK*/
@@ -387,6 +390,8 @@ struct _pass_msg {
 	const char *prompt;
 	int secret;
 	char *result;
+	char *service_url;
+	GtkWidget *tb;
 };
 
 /* libgnomeui's idea of an api/gui is very weird ... hence this dumb hack */
@@ -400,8 +405,15 @@ static void pass_got(char *string, void *data)
 {
 	struct _pass_msg *m = data;
 
-	if (string)
+	if (string) {
+		MailConfigAccount *mca;
+
 		m->result = g_strdup (string);
+
+		mca = mail_config_get_account_by_source_url (m->service_url);
+		mail_config_service_set_save_passwd (mca->source,
+			gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (m->tb)));
+	}
 }
 
 static void
@@ -409,10 +421,22 @@ do_get_pass(struct _mail_msg *mm)
 {
 	struct _pass_msg *m = (struct _pass_msg *)mm;
 	GtkWidget *dialogue;
+	GtkWidget *tb;
+	MailConfigAccount *mca;
 
 	/* this api is just awful ... hence the hacks */
 	dialogue = gnome_request_dialog(m->secret, m->prompt, NULL,
 					0, pass_got, m, NULL);
+
+	/* Remember the password? */
+	mca = mail_config_get_account_by_source_url (m->service_url);
+	tb = gtk_check_button_new_with_label (_("Remember this password"));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (tb), mca->source->save_passwd);
+	gtk_widget_show (tb);
+	gtk_box_pack_end (GTK_BOX (GNOME_DIALOG (dialogue)->vbox),
+			  tb, TRUE, FALSE, 0);
+	m->tb = tb;
+
 	e_container_foreach_leaf((GtkContainer *)dialogue, focus_on_entry, NULL);
 
 	/* hrm, we can't run this async since the gui_port from which we're called
@@ -439,7 +463,7 @@ struct _mail_msg_op get_pass_op = {
 
 /* returns the password, or NULL if cancelled */
 char *
-mail_get_password(const char *prompt, gboolean secret)
+mail_get_password(CamelService *service, const char *prompt, gboolean secret)
 {
 	char *ret;
 	struct _pass_msg *m, *r;
@@ -451,6 +475,8 @@ mail_get_password(const char *prompt, gboolean secret)
 
 	m->prompt = prompt;
 	m->secret = secret;
+	m->service_url = camel_url_to_string (service->url, 
+					      CAMEL_URL_HIDE_PASSWORD | CAMEL_URL_HIDE_PARAMS);
 
 	if (pthread_self() == mail_gui_thread) {
 		do_get_pass((struct _mail_msg *)m);
@@ -469,7 +495,8 @@ mail_get_password(const char *prompt, gboolean secret)
 	g_assert(r == m);
 
 	ret = m->result;
-	
+
+	g_free (m->service_url);
 	mail_msg_free(m);
 	e_msgport_destroy(pass_reply);
 

@@ -1,3 +1,23 @@
+2001-07-25  Peter Williams  <peterw@ximian.com>
+
+	* mail-mt.c (mail_get_password): Now take a CamelService parameter
+	(as passed by Camel). Allows us to have a "remember password"
+	checkbox that is set correctly and whose settings can be
+	propagated back to the proper MailConfigService.
+	(do_get_pass): Add a checkbutton allowing the user to change
+	whether the password is remembered or not.
+	(pass_got): Apply the setting of the "remember password"
+	checkbutton (if not cancelled.)
+
+	* mail-mt.h: Update the prototype here.
+
+	* mail-config.c (mail_config_service_set_save_passwd): New function,
+	pretty bland.
+
+	* mail-config.h: Prototype our bland new function. (Get it? It's a pun!)
+
+	* mail-session.c (get_password): Pass the service as well.
+
 2001-07-25  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-account-gui.c (build_auth_menu): Now takes a
