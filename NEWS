@@ -25,6 +25,7 @@ Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
 	      not work (JP)
     #21198 -- Outlook didn't recognize Evolution's acceptance of an
 	      updated meeting request (Dan)
+    #20783 -- accepting updated meeting request doesn't work? (Rodrigo)
 
   * Shell
 
