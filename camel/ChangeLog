@@ -1,3 +1,9 @@
+2004-09-08  Hannah & Fazlu <hannah_lins@yahoo.co.in>
+
+        Fixes Bug#61088
+
+	* camel/camel-smime-context.c: Change of strings.
+
 2004-09-15  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #0xffff.
