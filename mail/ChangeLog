@@ -1,3 +1,13 @@
+2004-05-20  Not Zed  <NotZed@Ximian.com>
+
+	** See #58693.
+	
+	* mail-send-recv.c (mail_autoreceive_setup): add bounds checking
+	so sloppy ui work wont break it again.
+
+	* mail-config.glade: put the minimum for autocheck back to 1
+	minute.  Naughty jeff.
+
 2004-05-19  Chris Toshok  <toshok@ximian.com>
 
 	* importers/pine-importer.c (import_contacts): use the new
@@ -20,6 +30,9 @@
 	* Makefile.am: don't dist the error .h file
 
 2004-05-19  Not Zed  <NotZed@Ximian.com>
+
+	* mail-ops.c (send_queue_send): set seen when we set deleted.  ?
+	#56549.
 
 	* em-inline-filter.c (emif_add_part): if we end up with an
 	application/octet-stream part, pre-snoop it so we set the right

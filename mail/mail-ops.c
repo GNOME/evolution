@@ -680,7 +680,7 @@ send_queue_send(struct _mail_msg *mm)
 		
 		mail_send_message (message, m->destination, m->driver, &ex);
 		if (!camel_exception_is_set (&ex)) {
-			camel_folder_set_message_flags (m->queue, send_uids->pdata[i], CAMEL_MESSAGE_DELETED, CAMEL_MESSAGE_DELETED);
+			camel_folder_set_message_flags (m->queue, send_uids->pdata[i], CAMEL_MESSAGE_DELETED|CAMEL_MESSAGE_SEEN, ~0);
 		} else if (ex.id != CAMEL_EXCEPTION_USER_CANCEL) {
 			/* merge exceptions into one */
 			if (camel_exception_is_set (&mm->ex))

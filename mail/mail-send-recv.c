@@ -829,7 +829,7 @@ mail_autoreceive_setup (void)
 			if (info) {
 				info->keep = source->keep_on_server;
 				if (info->period != source->auto_check_time*60) {
-					info->period = source->auto_check_time*60;
+					info->period = MAX(source->auto_check_time*60, 60);
 					g_source_remove(info->timeout_id);
 					info->timeout_id = g_timeout_add(info->period*1000, auto_timeout, info);
 				}
@@ -837,7 +837,7 @@ mail_autoreceive_setup (void)
 				info = g_malloc0(sizeof(*info));
 				info->uri = g_strdup(source->url);
 				info->keep = source->keep_on_server;
-				info->period = source->auto_check_time*60;
+				info->period = MAX(source->auto_check_time*60, 60);
 				info->timeout_id = g_timeout_add(info->period*1000, auto_timeout, info);
 				g_hash_table_insert(auto_active, info->uri, info);
 				/* If we do this at startup, it can cause the logon dialog to be hidden,
