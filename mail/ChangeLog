@@ -1,3 +1,11 @@
+2000-06-22  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* folder-browser.c (folder_browser_load_folder): Updated to
+	prepend url-> path if it exists for that imap store.
+
+	* component-factory.c (create_imap_storage): Modified to not
+	prepend a hard-coded namespace.
+
 2000-06-22  Chris Toshok  <toshok@helixcode.com>
 
 	* mail-ops.c (fetch_mail_cleanup): new function, passed as arg to
@@ -53,6 +61,7 @@
 	UI-friendly name.
 	(dispatch_func): Free the saved prettyname.
 
+>>>>>>> 1.221
 2000-06-21  Christopher James Lahey  <clahey@helixcode.com>
 
 	* message-list.c: Removed an erroneous comment.

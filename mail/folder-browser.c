@@ -64,10 +64,10 @@ folder_browser_load_folder (FolderBrowser *fb, const char *name)
 
 	ex = camel_exception_new ();
 
-	if (!strncmp(name, "vfolder:", 8)) {
+	if (!strncmp (name, "vfolder:", 8)) {
 		char *query, *newquery;
-		store_name = g_strdup(name);
-		query = strchr(store_name, '?');
+		store_name = g_strdup (name);
+		query = strchr (store_name, '?');
 		if (query) {
 			*query++ = 0;
 		} else {
@@ -92,15 +92,15 @@ folder_browser_load_folder (FolderBrowser *fb, const char *name)
 				if (st) {
 					source_folder = camel_store_get_folder (st, "mbox", FALSE, ex);
 					if (source_folder) {
-						camel_vee_folder_add_folder(new_folder, source_folder);
+						camel_vee_folder_add_folder (new_folder, source_folder);
 					}
 				}
 			}
 		}
-		g_free(newquery);
-		g_free(store_name);
+		g_free (newquery);
+		g_free (store_name);
 
-	} else if (!strncmp(name, "imap:", 5)) {
+	} else if (!strncmp (name, "imap:", 5)) {
 		/* uhm, I'm just guessing here - this code might be wrong */
 		char *service, *ptr;
 		
@@ -113,16 +113,25 @@ folder_browser_load_folder (FolderBrowser *fb, const char *name)
 		store = camel_session_get_store (session, service, ex);
 		g_free (service);
 		if (store) {
+			CamelURL *url = CAMEL_SERVICE (store)->url;
 			char *folder_name;
 
-			for (ptr = name + 7; *ptr && *ptr != '/'; ptr++);
+			for (ptr = (char *)(name + 7); *ptr && *ptr != '/'; ptr++);
 			if (*ptr == '/') {
-				folder_name = ptr + 1;
+				if (url && url->path) {
+					fprintf (stderr, "namespace = %s\n", url->path);
+					ptr += strlen (url->path);
+				}
+
+				ptr++;
+				folder_name = g_strdup (ptr);
+				
 				fprintf (stderr, "getting folder: %s\n", folder_name);
 				new_folder = camel_store_get_folder (store, folder_name, TRUE, ex);
+				g_free (folder_name);
 			}
 		}
-	} else if (!strncmp(name, "file:", 5)) {
+	} else if (!strncmp (name, "file:", 5)) {
 		/* Change "file:" to "mbox:". */
 		store_name = g_strdup_printf ("mbox:%s", name + 5);
 		store = camel_session_get_store (session, store_name, ex);

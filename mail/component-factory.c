@@ -324,7 +324,7 @@ create_imap_storage (EvolutionShellComponent *shell_component)
 		char *path, *buf;
 
 		path = g_strdup_printf ("/%s", (char *)lsub->pdata[i]);
-		buf = g_strdup_printf ("%s/mail%s", source, path);
+		buf = g_strdup_printf ("%s/%s", source, path);
 		g_print ("Adding %s\n", path);
 		evolution_storage_new_folder (storage, path, "mail", buf, "description");
 	}
