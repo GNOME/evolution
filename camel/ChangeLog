@@ -1,5 +1,16 @@
 2004-11-15  Jeffrey Stedfast  <fejj@novell.com>
 
+	* providers/pop3/camel-pop3-store.c (connect_to_server_wrapper):
+	In the fallback cases, clear the exception first.
+
+	* providers/imap/camel-imap-store.c (connect_to_server_wrapper):
+	In the fallback cases, clear the exception first.
+
+	* providers/imap4/camel-imap4-store.c (connect_to_server_wrapper):
+	In the fallback cases, clear the exception first.
+
+2004-11-15  Jeffrey Stedfast  <fejj@novell.com>
+
 	* providers/imap/camel-imap-store.c (connect_to_server): Use
 	camel_tcp_stream_ssl_new_raw() for STARTTLS stream.
 

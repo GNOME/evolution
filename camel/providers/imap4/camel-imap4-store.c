@@ -319,8 +319,8 @@ connect_to_server_wrapper (CamelIMAP4Engine *engine, CamelException *ex)
 	struct addrinfo *ai, hints;
 	const char *ssl_mode;
 	int mode, ret, i;
-	char *serv;
 	const char *port;
+	char *serv;
 	
 	if ((ssl_mode = camel_url_get_param (service->url, "use_ssl"))) {
 		for (i = 0; ssl_options[i].value; i++)
@@ -352,10 +352,13 @@ connect_to_server_wrapper (CamelIMAP4Engine *engine, CamelException *ex)
 	if (ai == NULL)
 		return FALSE;
 	
-	if (!(ret = connect_to_server (engine, ai, mode, ex)) && mode == MODE_SSL)
+	if (!(ret = connect_to_server (engine, ai, mode, ex)) && mode == MODE_SSL) {
+		camel_exception_clear (ex);
 		ret = connect_to_server (engine, ai, MODE_TLS, ex);
-	else if (!ret && mode == MODE_TLS)
+	} else if (!ret && mode == MODE_TLS) {
+		camel_exception_clear (ex);
 		ret = connect_to_server (engine, ai, MODE_CLEAR, ex);
+	}
 	
 	camel_freeaddrinfo (ai);
 	
