@@ -1845,7 +1845,7 @@ header_decode_date(const char *in, int *saveoffset)
 	time_t t;
 
 	if (in == NULL) {
-		if (*saveoffset)
+		if (saveoffset)
 			*saveoffset = 0;
 		return 0;
 	}

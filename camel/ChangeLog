@@ -1,3 +1,8 @@
+2000-05-02  Larry Ewing  <lewing@helixcode.com>
+
+	* camel-mime-utils.c (header_decode_date): fix typo when
+	dereferencing saveoffset.
+
 2000-05-02  NotZed  <NotZed@HelixCode.com>
 
 	* camel-folder-search.c: Added some header doco.
