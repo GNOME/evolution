@@ -12,7 +12,6 @@ INCLUDES = \
 	$(GNOME_VFS_CFLAGS)					\
 	$(GTKHTML_CFLAGS)					\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"			\
-	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"			\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"		\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"            	\
 	-DG_LOG_DOMAIN=\"evolution-executive-summary\"
@@ -41,6 +40,7 @@ evolution_executive_summary_SOURCES =		\
 	e-summary-factory.h		\
 	e-summary-mail.c		\
 	e-summary-mail.h		\
+	e-summary-preferences.c		\
 	e-summary-rdf.h			\
 	e-summary-rdf.c			\
 	e-summary-type.h		\
@@ -72,6 +72,9 @@ Location_DATA = Locations
 oafdir = $(datadir)/oaf
 oaf_in_files = GNOME_Evolution_Summary.oaf.in
 oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
+
+gladedir = $(datadir)/evolution/glade
+glade_DATA = my-evolution.glade
 
 @XML_I18N_MERGE_OAF_RULE@
 

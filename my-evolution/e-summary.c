@@ -33,6 +33,7 @@
 #include <libgnomeprint/gnome-print-master-preview.h>
 
 #include "e-summary.h"
+#include "e-summary-preferences.h"
 #include "my-evolution-html.h"
 #include "Mail.h"
 
@@ -358,6 +359,9 @@ e_summary_init (ESummary *summary)
 			    TRUE, TRUE, 0);
 
 	priv->protocol_hash = NULL;
+
+	summary->prefs_window = NULL;
+	e_summary_preferences_init (summary);
 }
 
 E_MAKE_TYPE (e_summary, "ESummary", ESummary, e_summary_class_init,
@@ -546,4 +550,24 @@ e_summary_unset_message (ESummary *summary)
 	CORBA_exception_init (&ev);
 	GNOME_Evolution_ShellView_unsetMessage (svi, &ev);
 	CORBA_exception_free (&ev);
+}
+
+void
+e_summary_reconfigure (ESummary *summary)
+{
+	if (summary->mail != NULL) {
+		e_summary_mail_reconfigure (summary);
+	}
+
+	if (summary->rdf != NULL) {
+		e_summary_rdf_reconfigure (summary);
+	}
+
+	if (summary->weather != NULL) {
+		e_summary_weather_reconfigure (summary);
+	}
+
+	if (summary->calendar != NULL) {
+		e_summary_calendar_reconfigure (summary);
+	}
 }

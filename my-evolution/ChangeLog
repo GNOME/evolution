@@ -1,3 +1,44 @@
+2001-06-29  Iain Holmes  <iain@ximian.com>
+
+	* e-summary-preferences.c: Do everything preferences related.
+
+	* my-evolution.glade: Glade file for the preferences box.
+
+	* e-summary-calendar.c (e_summary_calendar_reconfigure): Stub for later
+
+	* e-summary-calendar.h: Some enums for settings.
+	
+	* e-summary-mail.c (folder_gen_html): Change the prototype so it
+	doesn't work as a hash table foreach function.
+	(new_folder_cb): Fix typo in comment :)
+	                 Create a list of folders we display.
+	(remove_folder_cb): Remove the folder from the display folder list.
+	(maybe_add_to_shown): Hash table foreach function to create a display
+	                      folder list.
+	(e_summary_mail_reconfigure): Recreate the mail HTML.
+
+	* e-summary-rdf.c (tree_walk): Obey preferences.
+	(e_summary_rdf_update): Separate the updating and downloading logic.
+	(e_summary_rdf_init): Start an updating timeout.
+	(e_summary_rdf_reconfigure): Recreate the RDF html.
+
+	* e-summary-weather.c (e_summary_weather_update): Separate the updating
+	and downloading logic.
+	(e_summary_weather_init): Start timeout.
+	(e_summary_weather_code_to_name): Convert code to location name.
+	(e_summary_weather_ctree_fill): Fill a CTree with the location data.
+	(e_summary_weather_reconfigure): Regenerate the HTML.
+
+	* e-summary.c (e_summary_init): Create the preferences.
+	(e_summary_reconfigure): Reconfigure the whole summary.
+	
+	* metar.c: Obey preferences.
+
+2001-06-27  Iain Holmes  <iain@ximian.com>
+
+	* e-summary-factory.c: Add the pixmaps to the menus.
+	Add a new menu item for the configuration stuff.
+
 2001-06-27  Ettore Perazzoli  <ettore@ximian.com>
 
 	* component-factory.c (factory_fn): Pass NULL as the

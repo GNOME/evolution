@@ -284,3 +284,9 @@ e_summary_calendar_init (ESummary *summary)
 
 	e_summary_add_protocol_listener (summary, "calendar", e_summary_calendar_protocol, calendar);
 }
+
+void
+e_summary_calendar_reconfigure (ESummary *summary)
+{
+
+}

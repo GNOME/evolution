@@ -11,6 +11,9 @@
 #endif
 
 #include <glib.h>
+#include <gtk/gtkctree.h>
+#include <gtk/gtkmain.h>
+
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-config.h>
@@ -27,6 +30,7 @@ struct _ESummaryWeather {
 	GList *weathers;
 
 	char *html;
+	guint32 timeout;
 };
 
 static GHashTable *locations_hash = NULL;
@@ -284,21 +288,32 @@ open_callback (GnomeVFSAsyncHandle *handle,
 }
 
 static void
+e_summary_weather_update (ESummary *summary)
+{
+	GList *w;
+
+	for (w = summary->weather->weathers; w; w = w->next) {
+		char *uri;
+		Weather *weather = w->data;
+
+		uri = g_strdup_printf ("http://weather.noaa.gov/cgi-bin/mgetmetar.pl?cccc=%s", weather->location);
+
+		gnome_vfs_async_open (&weather->handle, uri, GNOME_VFS_OPEN_READ,
+				      (GnomeVFSAsyncOpenCallback) open_callback, weather);
+		g_free (uri);
+	}
+}
+
+static void
 e_summary_weather_add_location (ESummary *summary,
 				const char *location)
 {
 	Weather *w;
-	char *uri;
 
 	w = g_new0 (Weather, 1);
 	w->summary = summary;
 	w->location = g_strdup (location);
 	summary->weather->weathers = g_list_prepend (summary->weather->weathers, w);
-
-	uri = g_strdup_printf ("http://weather.noaa.gov/cgi-bin/mgetmetar.pl?cccc=%s", location);
-	gnome_vfs_async_open (&w->handle, uri, GNOME_VFS_OPEN_READ,
-			      (GnomeVFSAsyncOpenCallback) open_callback, w);
-	g_free (uri);
 }
 
 static gboolean
@@ -332,7 +347,7 @@ e_summary_weather_init_locations (void)
 		region_name_key = g_strconcat (regions[iregions], "/name", NULL);
 		states_key = g_strconcat (regions[iregions], "/states", NULL);
 		region_name = gnome_config_get_string (region_name_key);
-		
+
 		gnome_config_get_vector (states_key, &nstates, &states);
 
 		for (istates = nstates - 1; istates >= 0; istates--) {
@@ -361,14 +376,14 @@ e_summary_weather_init_locations (void)
 					g_hash_table_insert (locations_hash,
 							     g_strdup (locdata[1]),
 							     location);
-
+					
 					g_strfreev (locdata);
 				}
-
+				
 				g_free (iter_key);
 				g_free (iter_val);
 			}
-
+			
 			g_free (state_name);
 			g_free (state_path);
 			g_free (state_name_key);
@@ -397,7 +412,9 @@ e_summary_weather_protocol (ESummary *summary,
 void
 e_summary_weather_init (ESummary *summary)
 {
+	ESummaryPrefs *prefs;
 	ESummaryWeather *weather;
+	int timeout;
 
 	g_return_if_fail (summary != NULL);
 	g_return_if_fail (IS_E_SUMMARY (summary));
@@ -406,13 +423,185 @@ e_summary_weather_init (ESummary *summary)
 		return;
 	}
 
+	prefs = summary->preferences;
 	weather = g_new0 (ESummaryWeather, 1);
 	summary->weather = weather;
 
 	e_summary_add_protocol_listener (summary, "weather", e_summary_weather_protocol, weather);
 
-	e_summary_weather_add_location (summary, "ENBR");
-	e_summary_weather_add_location (summary, "EGAC");
-	e_summary_weather_add_location (summary, "EGAA");
+	if (prefs == NULL) {
+		e_summary_weather_add_location (summary, "ENBR");
+		e_summary_weather_add_location (summary, "EGAC");
+		e_summary_weather_add_location (summary, "EGAA");
+		timeout = 600;
+	} else {
+		GList *p;
+
+		for (p = prefs->stations; p; p = p->next) {
+			e_summary_weather_add_location (summary, p->data);
+		}
+		timeout = prefs->weather_refresh_time;
+	}
+
+	e_summary_weather_update (summary);
+	
+	weather->timeout = gtk_timeout_add (timeout * 1000, 
+					    (GtkFunction) e_summary_weather_update,
+					    summary);
 	return;
+}
+
+const char *
+e_summary_weather_code_to_name (const char *code)
+{
+	ESummaryWeatherLocation *location;
+
+	if (locations_hash == NULL) {
+		if (e_summary_weather_init_locations () == FALSE) {
+			return code;
+		}
+	}
+
+	location = g_hash_table_lookup (locations_hash, code);
+	if (location == NULL) {
+		return code;
+	} else {
+		return location->name;
+	}
+}
+
+void
+e_summary_weather_ctree_fill (GtkCTree *tree)
+{
+	GtkCTreeNode *region, *state, *location, *pref_loc_root;
+	char *key, *path;
+	int nregions, iregions;
+	char **regions, *pp[1];
+
+	path = g_strdup (EVOLUTION_DATADIR "/evolution/Locations");
+
+	key = g_strdup_printf ("=%s=/", path);
+	g_free (path);
+
+	gnome_config_push_prefix (key);
+	g_free (key);
+
+	pp[0] = _("Regions");
+	pref_loc_root = gtk_ctree_insert_node (tree, NULL, NULL, pp, 0,
+					       NULL, NULL, NULL, NULL,
+					       FALSE, TRUE);
+
+	gnome_config_get_vector ("Main/regions", &nregions, &regions);
+	region = NULL;
+	for (iregions = nregions - 1; iregions >= 0; iregions--) {
+		int nstates, istates;
+		char **states;
+		char *region_name;
+		char *region_name_key;
+		char *states_key;
+
+		region_name_key = g_strconcat (regions[iregions], "/name", NULL);
+		states_key = g_strconcat (regions[iregions], "/states", NULL);
+		region_name = gnome_config_get_string (region_name_key);
+
+		pp[0] = region_name;
+		region = gtk_ctree_insert_node (tree, pref_loc_root,
+						region, pp, 0, NULL,
+						NULL, NULL, NULL, 
+						FALSE, FALSE);
+							
+		gnome_config_get_vector (states_key, &nstates, &states);
+
+		state = NULL;
+		for (istates = nstates - 1; istates >= 0; istates--) {
+			void *iter;
+			char *iter_key, *iter_val;
+			char *state_path, *state_name_key, *state_name;
+
+			state_path = g_strconcat (regions[iregions], "_", states[istates], "/", NULL);
+			state_name_key = g_strconcat (state_path, "name", NULL);
+			state_name = gnome_config_get_string (state_name_key);
+
+			pp[0] = state_name;
+			state = gtk_ctree_insert_node (tree, region,
+						       state, pp, 0,
+						       NULL, NULL,
+						       NULL, NULL,
+						       FALSE, FALSE);
+
+			location = NULL;
+			iter = gnome_config_init_iterator (state_path);
+
+			while ((iter = gnome_config_iterator_next (iter, &iter_key, &iter_val)) != NULL) {
+				if (strstr (iter_key, "loc") != NULL) {
+					char **locdata;
+					int nlocdata;
+					ESummaryWeatherLocation *w_location;
+
+					gnome_config_make_vector (iter_val,
+								  &nlocdata,
+								  &locdata);
+					g_return_if_fail (nlocdata == 4);
+
+					pp[0] = locdata[0];
+					location = gtk_ctree_insert_node (tree, state, location, pp, 0,
+									  NULL, NULL, NULL, NULL, FALSE, TRUE);
+					w_location = g_hash_table_lookup (locations_hash, locdata[1]);
+					gtk_ctree_node_set_row_data (tree, location, w_location);
+					g_strfreev (locdata);
+				}
+
+				g_free (iter_key);
+				g_free (iter_val);
+			}
+
+			g_free (state_name);
+			g_free (state_path);
+			g_free (state_name_key);
+		}
+
+		g_strfreev (states);
+		g_free (region_name);
+		g_free (region_name_key);
+		g_free (states_key);
+	}
+
+	g_strfreev (regions);
+	gnome_config_pop_prefix ();
+
+	return;
+}
+
+void
+e_summary_weather_reconfigure (ESummary *summary)
+{
+	ESummaryWeather *weather;
+	GList *old, *p;
+
+	g_return_if_fail (summary != NULL);
+	g_return_if_fail (IS_E_SUMMARY (summary));
+
+	weather = summary->weather;
+
+	/* Stop timeout so it doesn't occur while we're changing stuff*/
+	gtk_timeout_remove (weather->timeout);
+
+	for (old = weather->weathers; old; old = old->next) {
+		Weather *w;
+
+		w = old->data;
+		g_free (w->location);
+		g_free (w->html);
+		g_free (w->metar);
+		g_free (w);
+	}
+	g_list_free (weather->weathers);
+	weather->weathers = NULL;
+	for (p = summary->preferences->stations; p; p = p->next) {
+		e_summary_weather_add_location (summary, p->data);
+	}
+
+	weather->timeout = gtk_timeout_add (summary->preferences->weather_refresh_time * 1000, 
+					    (GtkFunction) e_summary_weather_update, summary);
+	e_summary_weather_update (summary);
 }

@@ -142,8 +142,15 @@ char *
 weather_temp_string (Weather *w)
 {
 	char *temp;
+	ESummaryWeatherUnits units;
 
-	temp = g_strdup_printf ("%.1f%s", w->temp, TEMP_UNIT_STR (w->units));
+	if (w->summary->preferences == NULL) {
+		units = UNITS_METRIC;
+	} else {
+		units = w->summary->preferences->units;
+	}
+
+	temp = g_strdup_printf ("%.1f%s", w->temp, TEMP_UNIT_STR (units));
 	return temp;
 }
 
@@ -437,12 +444,15 @@ metar_tok_pres (gchar *tokp,
 
 static inline gint 
 calc_humidity(gdouble temp, 
-	      gdouble dewp)
+	      gdouble dewp,
+	      ESummaryWeatherUnits units)
 {
 	gdouble esat, esurf;
 	
-	temp = TEMP_F_TO_C(temp);
-	dewp = TEMP_F_TO_C(dewp);
+	if (units == UNITS_IMPERIAL) {
+		temp = TEMP_F_TO_C(temp);
+		dewp = TEMP_F_TO_C(dewp);
+	}
 	
 	esat = 6.11 * pow(10.0, (7.5 * temp) / (237.7 + temp));
 	esurf = 6.11 * pow(10.0, (7.5 * dewp) / (237.7 + dewp));
@@ -454,22 +464,35 @@ gboolean
 metar_tok_temp (gchar *tokp, 
 		Weather *w)
 {
-    gchar *ptemp, *pdew, *psep;
+	ESummaryWeatherUnits units;
+	gchar *ptemp, *pdew, *psep;
+	
+	if (regexec(&metar_re[TEMP_RE], tokp, 0, NULL, 0) == REG_NOMATCH)
+		return FALSE;
+	
+	if (w->summary->preferences == NULL) {
+		units = UNITS_METRIC;
+	} else {
+		units = w->summary->preferences->units;
+	}
 
-    if (regexec(&metar_re[TEMP_RE], tokp, 0, NULL, 0) == REG_NOMATCH)
-        return FALSE;
+	psep = strchr(tokp, '/');
+	*psep = 0;
+	ptemp = tokp;
+	pdew = psep + 1;
+	
+	if (units == UNITS_IMPERIAL) {
+		w->temp = (*ptemp == 'M') ? TEMP_C_TO_F(-atoi(ptemp+1)) :
+			TEMP_C_TO_F(atoi(ptemp));
+		w->dew = (*pdew == 'M') ? TEMP_C_TO_F(-atoi(pdew+1)) :
+			TEMP_C_TO_F(atoi(pdew));
+	} else {
+		w->temp = (*ptemp == 'M') ? -atoi(ptemp+1) : atoi(ptemp);
+		w->dew = (*pdew == 'M') ? -atoi(pdew+1) : atoi (pdew);
+	}
 
-    psep = strchr(tokp, '/');
-    *psep = 0;
-    ptemp = tokp;
-    pdew = psep + 1;
-
-    w->temp = (*ptemp == 'M') ? TEMP_C_TO_F(-atoi(ptemp+1)) :
-                                   TEMP_C_TO_F(atoi(ptemp));
-    w->dew = (*pdew == 'M') ? TEMP_C_TO_F(-atoi(pdew+1)) :
-                                 TEMP_C_TO_F(atoi(pdew));
-    w->humidity = calc_humidity(w->temp, w->dew);
-    return TRUE;
+	w->humidity = calc_humidity(w->temp, w->dew, units);
+	return TRUE;
 }
 
 gboolean 

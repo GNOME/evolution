@@ -27,6 +27,7 @@ enum {
 const char *weather_sky_string (Weather *w);
 char *weather_temp_string (Weather *w);
 const char *weather_conditions_string (Weather *w);
+const char *weather_wind_direction_string (Weather *w);
 
 void metar_init_re (void);
 gboolean metar_tok_time (char *token,

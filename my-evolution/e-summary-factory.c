@@ -16,20 +16,24 @@
 #include <bonobo/bonobo-ui-util.h>
 
 #include "e-util/e-gui-utils.h"
+
 #include "e-summary.h"
 #include "e-summary-factory.h"
+#include "e-summary-preferences.h"
+#include "evolution-shell-component-utils.h" /* For E_PIXMAP */
 
 BonoboUIVerb verbs[] = {
 	BONOBO_UI_VERB ("PrintMyEvolution", e_summary_print),
+	BONOBO_UI_VERB ("ToolsSettings", e_summary_configure),
 	BONOBO_UI_VERB_END
 };
 
-#if 0
+
 static EPixmap pixmaps [] = {
-	E_PIXMAP ("/menu/File/Print/Print", "print.xpm"),
+	E_PIXMAP ("/commands/Print", "print.xpm"),
+	E_PIXMAP ("/commands/ToolsSettings", "configure_16_mail.xpm"),
 	E_PIXMAP_END
 };
-#endif
 
 static void
 control_activate (BonoboControl *control,
@@ -47,7 +51,7 @@ control_activate (BonoboControl *control,
 
 	bonobo_ui_util_set_ui (ui_component, EVOLUTION_DATADIR,
 			       "my-evolution.xml", "my-evolution");
-/*  	e_pixmaps_update (ui_component, pixmaps); */
+  	e_pixmaps_update (ui_component, pixmaps); 
 
 	bonobo_ui_component_thaw (ui_component, NULL);
 }

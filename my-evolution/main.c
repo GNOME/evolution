@@ -30,6 +30,7 @@
 #endif
 
 #include <libgnomevfs/gnome-vfs.h>
+#include <glade/glade.h>
 
 #include "component-factory.h"
 
@@ -56,6 +57,7 @@ main (int argc,
 	gconf_init (argc, argv, NULL);
 #endif
 
+	glade_gnome_init ();
 	gnome_vfs_init ();
 
 	/* Start our component */

@@ -11,7 +11,10 @@
 #include <config.h>
 #endif
 
+#include <stdlib.h>
 #include <glib.h>
+#include <gtk/gtkmain.h>
+
 #include <gnome-xml/parser.h>
 #include <gnome-xml/xmlmemory.h>
 
@@ -23,6 +26,7 @@ struct _ESummaryRDF {
 	GList *rdfs;
 
 	char *html;
+	guint32 timeout;
 };
 
 typedef struct _RDF {
@@ -39,7 +43,6 @@ typedef struct _RDF {
 } RDF;
 
 int xmlSubstituteEntitiesDefaultValue = 1;
-static int wipe_trackers = FALSE;
 
 char *
 e_summary_rdf_get_html (ESummary *summary)
@@ -147,25 +150,35 @@ tree_walk (xmlNodePtr root,
 	xmlNodePtr channel = NULL;
 	xmlNodePtr image = NULL;
 	xmlNodePtr item[16];
+	gboolean wipe_trackers;
 	int items = 0;
-	int limit = 10;
+	int limit;
 	int i;
 	char *t, *u;
 	char *tmp;
+
+	if (r->summary->preferences == NULL) {
+		limit = 10;
+		wipe_trackers = FALSE;
+	} else {
+		limit = r->summary->preferences->limit;
+		g_print ("Limit: %d\n", limit);
+		wipe_trackers = r->summary->preferences->wipe_trackers;
+	}
 
 	/* FIXME: Need arrows */
 	if (r->shown == FALSE) {
 		char *p;
 
 		/* FIXME: Hash table & UID */
-		p = g_strdup_printf ("<font size=\"-2\"><a href=\"rdf://%d\">(+)</a></font> ", r);
+		p = g_strdup_printf ("<font size=\"-2\"><a href=\"rdf://%d\">(+)</a></font>", GPOINTER_TO_INT (r));
 		g_string_append (html, p);
 		g_free (p);
 	} else {
 		char *p;
 
 		/* FIXME: Hash table & UID */
-		p = g_strdup_printf ("<font size=\"-2\"><a href=\"rdf://%d\">(-)</a></font>", r);
+		p = g_strdup_printf ("<font size=\"-2\"><a href=\"rdf://%d\">(-)</a></font>", GPOINTER_TO_INT (r));
 		g_string_append (html, p);
 		g_free (p);
 	}
@@ -387,6 +400,22 @@ open_callback (GnomeVFSAsyncHandle *handle,
 			      (GnomeVFSAsyncReadCallback) read_callback, r);
 }
 
+static gboolean
+e_summary_rdf_update (ESummary *summary)
+{
+	GList *r;
+
+	for (r = summary->rdf->rdfs; r; r = r->next) {
+		RDF *rdf = r->data;
+
+		gnome_vfs_async_open (&rdf->handle, rdf->uri, 
+				      GNOME_VFS_OPEN_READ,
+				      (GnomeVFSAsyncOpenCallback) open_callback, rdf);
+	}
+
+	return TRUE;
+}
+		
 static void
 e_summary_rdf_add_uri (ESummary *summary,
 		       const char *uri)
@@ -398,9 +427,6 @@ e_summary_rdf_add_uri (ESummary *summary,
 	r->uri = g_strdup (uri);
 	r->shown = TRUE;
 	summary->rdf->rdfs = g_list_prepend (summary->rdf->rdfs, r);
-
-	gnome_vfs_async_open (&r->handle, r->uri, GNOME_VFS_OPEN_READ,
-			      (GnomeVFSAsyncOpenCallback) open_callback, r);
 }
 
 static void
@@ -426,15 +452,67 @@ e_summary_rdf_protocol (ESummary *summary,
 void
 e_summary_rdf_init (ESummary *summary)
 {
+	ESummaryPrefs *prefs;
 	ESummaryRDF *rdf;
+	int timeout;
 
 	g_return_if_fail (summary != NULL);
 	g_return_if_fail (IS_E_SUMMARY (summary));
 
+	prefs = summary->preferences;
 	rdf = g_new0 (ESummaryRDF, 1);
 	summary->rdf = rdf;
 
 	e_summary_add_protocol_listener (summary, "rdf", e_summary_rdf_protocol, rdf);
-	e_summary_rdf_add_uri (summary, "http://news.gnome.org/gnome-news/rdf");
+	if (prefs == NULL) {
+		e_summary_rdf_add_uri (summary, "http://news.gnome.org/gnome-news/rdf");
+		timeout = 600;
+	} else {
+		GList *p;
+
+		for (p = prefs->rdf_urls; p; p = p->next) {
+			e_summary_rdf_add_uri (summary, p->data);
+		}
+		timeout = prefs->rdf_refresh_time;
+	}
+
+	e_summary_rdf_update (summary);
+	rdf->timeout = gtk_timeout_add (timeout * 1000,
+					(GtkFunction) e_summary_rdf_update, summary);
+
 	return;
+}
+
+void
+e_summary_rdf_reconfigure (ESummary *summary)
+{
+	ESummaryRDF *rdf;
+	GList *old, *p;
+
+	g_return_if_fail (summary != NULL);
+	g_return_if_fail (IS_E_SUMMARY (summary));
+
+	rdf = summary->rdf;
+
+	/* Stop timeout */
+	gtk_timeout_remove (rdf->timeout);
+
+	for (old = rdf->rdfs; old; old = old->next) {
+		RDF *r;
+
+		r = old->data;
+		g_free (r->uri);
+		g_free (r->html);
+		xmlFree (r->cache);
+		g_free (r);
+	}
+	g_list_free (rdf->rdfs);
+	rdf->rdfs = NULL;
+
+	for (p = summary->preferences->rdf_urls; p; p = p->next) {
+		e_summary_rdf_add_uri (summary, p->data);
+	}
+
+	rdf->timeout = gtk_timeout_add (summary->preferences->rdf_refresh_time * 1000, (GtkFunction) e_summary_rdf_update, summary);
+	e_summary_rdf_update (summary);
 }

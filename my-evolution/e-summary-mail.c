@@ -26,6 +26,7 @@ struct _ESummaryMail {
 	BonoboListener *listener;
 
 	GHashTable *folders;
+	GList *shown;
 	ESummaryMailMode mode;
 
 	char *html;
@@ -63,12 +64,9 @@ make_pretty_foldername (const char *foldername)
 }
 
 static void
-folder_gen_html (gpointer key,
-		 gpointer value,
-		 gpointer user_data)
+folder_gen_html (ESummaryMailFolder *folder,
+		 GString *string)
 {
-	GString *string = user_data;
-	ESummaryMailFolder *folder = value;
 	char *str, *pretty_name, *uri;
 	
 	pretty_name = make_pretty_foldername (folder->name);
@@ -86,6 +84,7 @@ e_summary_mail_generate_html (ESummary *summary)
 {
 	ESummaryMail *mail;
 	GString *string;
+	GList *p;
 
 	mail = summary->mail;
 	string = g_string_new ("<dl><dt><img src=\"ico-mail.png\" "
@@ -93,7 +92,9 @@ e_summary_mail_generate_html (ESummary *summary)
 			       "height=\"48\"> <b><a href=\"evolution:/local/Inbox\">Mail summary</a>"
 			       "</b></dt><dd><table numcols=\"2\" width=\"100%\">");
 	
-	g_hash_table_foreach (mail->folders, folder_gen_html, string);
+	for (p = mail->shown; p; p = p->next) {
+		folder_gen_html (p->data, string);
+	}
 
 	g_string_append (string, "</table></dd></dl>");
 	mail->html = string->str;
@@ -134,6 +135,7 @@ new_folder_cb (EvolutionStorageListener *listener,
 {
 	ESummaryMail *mail;
 	ESummaryMailFolder *mail_folder;
+	GList *p;
 
 	/* Don't care about none mail */
 	if (strcmp (folder->type, "mail") != 0 ||
@@ -150,6 +152,19 @@ new_folder_cb (EvolutionStorageListener *listener,
 	mail_folder->unread = -1;
 
 	g_hash_table_insert (mail->folders, mail_folder->path, mail_folder);
+	
+	/* Are we supposed to display this folder? */
+	for (p = summary->preferences->display_folders; p; p = p->next) {
+		char *uri;
+
+		uri = g_strconcat ("file://", p->data, NULL);
+		if (strcmp (uri, mail_folder->path) == 0) {
+			mail->shown = g_list_prepend (mail->shown, mail_folder);
+		}
+
+		g_free (uri);
+	}
+
 	e_summary_mail_get_info (mail, mail_folder->path, mail->listener);
 }
 
@@ -160,6 +175,7 @@ remove_folder_cb (EvolutionStorageListener *listener,
 {
 	ESummaryMail *mail;
 	ESummaryMailFolder *mail_folder;
+	GList *p;
 
 	mail = summary->mail;
 	mail_folder = g_hash_table_lookup (mail->folders, path);
@@ -167,7 +183,17 @@ remove_folder_cb (EvolutionStorageListener *listener,
 		return;
 	}
 
+	/* Check if we're displaying it, because we can't display it if it
+	   doesn't exist :) */
+	for (p = mail->shown; p; p = p->next) {
+		if (p->data == mail_folder) {
+			mail->shown = g_list_remove_link (mail->shown, p);
+			g_list_free (p);
+		}
+	}
+
 	g_hash_table_remove (mail->folders, path);
+	g_free (mail_folder->name);
 	g_free (mail_folder->path);
 	g_free (mail_folder);
 }
@@ -273,4 +299,48 @@ e_summary_mail_init (ESummary *summary,
 
 	e_summary_add_protocol_listener (summary, "mail", e_summary_mail_protocol, mail);
 	return;
+}
+
+static void
+maybe_add_to_shown (gpointer key,
+		    gpointer value,
+		    gpointer user_data)
+{
+	ESummary *summary = user_data;
+	ESummaryMailFolder *folder = value;
+	ESummaryMail *mail = summary->mail;
+	GList *p;
+
+	/* Are we supposed to display this folder? */
+	for (p = summary->preferences->display_folders; p; p = p->next) {
+		char *uri;
+		
+		uri = g_strconcat ("file://", p->data, NULL);
+		if (strcmp (uri, folder->path) == 0) {
+			mail->shown = g_list_prepend (mail->shown, folder);
+		}
+		
+		g_free (uri);
+	}
+}
+
+void
+e_summary_mail_reconfigure (ESummary *summary)
+{
+	ESummaryMail *mail;
+	GList *old;
+
+	g_return_if_fail (summary != NULL);
+	g_return_if_fail (IS_E_SUMMARY (summary));
+	
+	mail = summary->mail;
+	old = mail->shown;
+	mail->shown = NULL;
+	g_hash_table_foreach (mail->folders, maybe_add_to_shown, summary);
+	e_summary_mail_generate_html (summary);
+
+	/* Free the old list */
+	g_list_free (old);
+
+	e_summary_draw (summary);
 }

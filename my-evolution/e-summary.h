@@ -26,13 +26,39 @@
 
 typedef struct _ESummaryPrivate ESummaryPrivate;
 typedef struct _ESummaryClass ESummaryClass;
+typedef struct _ESummaryPrefs ESummaryPrefs;
 
 typedef void (* ESummaryProtocolListener) (ESummary *summary,
 					   const char *uri,
 					   void *closure);
 
+struct _ESummaryPrefs {
+
+	/* Mail */
+	GList *display_folders;
+	gboolean show_full_path;
+
+	/* RDF */
+	GList *rdf_urls;
+	int rdf_refresh_time;
+	int limit;
+	gboolean wipe_trackers;
+
+	/* Weather */
+	GList *stations;
+	ESummaryWeatherUnits units;
+	int weather_refresh_time;
+
+	/* Schedule */
+	ESummaryCalendarDays days;
+	ESummaryCalendarNumTasks show_tasks;
+};
+
 struct _ESummary {
 	GtkVBox parent;
+
+	ESummaryPrefs *preferences;
+	ESummaryPrefs *old_prefs;
 
 	ESummaryMail *mail;
 	ESummaryCalendar *calendar;
@@ -42,6 +68,8 @@ struct _ESummary {
 	ESummaryPrivate *priv;
 
 	GNOME_Evolution_ShellView shell_view_interface;
+
+	GtkWidget *prefs_window;
 };
 
 struct _ESummaryClass {
@@ -63,5 +91,5 @@ void e_summary_add_protocol_listener (ESummary *summary,
 				      const char *protocol,
 				      ESummaryProtocolListener listener,
 				      void *closure);
-
+void e_summary_reconfigure (ESummary *summary);
 #endif

@@ -23,4 +23,5 @@ typedef struct _ESummaryMail ESummaryMail;
 const char *e_summary_mail_get_html (ESummary *summary);
 void e_summary_mail_init (ESummary *summary,
 			  GNOME_Evolution_Shell corba_shell);
+void e_summary_mail_reconfigure (ESummary *summary);
 #endif
