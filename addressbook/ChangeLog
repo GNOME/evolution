@@ -1,3 +1,10 @@
+2004-09-23  Pamplona Hackers <gnome-desarrollo@es.gnome.org>
+
+	Fixes #61978
+
+	* tools/evolution-addressbook-export.c (main): use more
+	meaningful error message.
+
 2004-09-23  Fazlu & Hannah <hannah_lins@yahoo.co.in>
 
 	* tools/evolution-addressbook-export.c (main):

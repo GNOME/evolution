@@ -150,7 +150,7 @@ main (int argc, char **argv)
 		action_list_cards_init (&actctx);
 
 	} else {
-		g_warning (_("Impossible internal error."));
+		g_warning (_("Unhandled error"));
 		exit (-1);
 	}
 
