@@ -21,10 +21,10 @@
  */
 
 #include <locale.h>
-#include "e-xml-utils.h"
+#include <math.h>
 #include <gnome-xml/parser.h>
 #include <gnome-xml/xmlmemory.h>
-
+#include "e-xml-utils.h"
 
 xmlNode *e_xml_get_child_by_name(xmlNode *parent, const xmlChar *child_name)
 {
@@ -80,10 +80,10 @@ e_xml_get_integer_prop_by_name(xmlNode *parent, const xmlChar *prop_name)
 	g_return_val_if_fail (parent != NULL, 0);
 	g_return_val_if_fail (prop_name != NULL, 0);
 
-	prop = xmlGetProp(parent, prop_name);
+	prop = xmlGetProp (parent, prop_name);
 	if (prop) {
-		ret_val = atoi(prop);
-		xmlFree(prop);
+		ret_val = atoi (prop);
+		xmlFree (prop);
 	}
 	return ret_val;
 }
@@ -96,9 +96,75 @@ e_xml_set_integer_prop_by_name(xmlNode *parent, const xmlChar *prop_name, int va
 	g_return_if_fail (parent != NULL);
 	g_return_if_fail (prop_name != NULL);
 
-	valuestr = g_strdup_printf("%d", value);
-	xmlSetProp(parent, prop_name, valuestr);
+	valuestr = g_strdup_printf ("%d", value);
+	xmlSetProp (parent, prop_name, valuestr);
 	g_free (valuestr);
 }
+
+double
+e_xml_get_double_prop_by_name(xmlNode *parent, const xmlChar *prop_name)
+{
+	xmlChar *prop;
+	double ret_val = 0;
+
+	g_return_val_if_fail (parent != NULL, 0);
+	g_return_val_if_fail (prop_name != NULL, 0);
+
+	prop = xmlGetProp (parent, prop_name);
+	if (prop) {
+		sscanf (prop, "%lf", &ret_val);
+		xmlFree (prop);
+	}
+	return ret_val;
+}
+
+void
+e_xml_set_double_prop_by_name(xmlNode *parent, const xmlChar *prop_name, double value)
+{
+	xmlChar *valuestr;
+
+	g_return_if_fail (parent != NULL);
+	g_return_if_fail (prop_name != NULL);
+
+	if (fabs (value) < 1e9 && fabs (value) > 1e-5)
+		valuestr = g_strdup_printf ("%f", value);
+	else
+		valuestr = g_strdup_printf ("%.*g", DBL_DIG, value);
+	xmlSetProp (parent, prop_name, valuestr);
+	g_free (valuestr);
+}
+
+char *
+e_xml_get_string_prop_by_name(xmlNode *parent, const xmlChar *prop_name)
+{
+	xmlChar *prop;
+	char *ret_val = NULL;
+
+	g_return_val_if_fail (parent != NULL, 0);
+	g_return_val_if_fail (prop_name != NULL, 0);
+
+	prop = xmlGetProp (parent, prop_name);
+	if (prop) {
+		ret_val = g_strdup (prop);
+		xmlFree (prop);
+	}
+	return ret_val;
+}
+
+void
+e_xml_set_string_prop_by_name(xmlNode *parent, const xmlChar *prop_name, char *value)
+{
+	xmlChar *valuestr;
+
+	g_return_if_fail (parent != NULL);
+	g_return_if_fail (prop_name != NULL);
+
+	valuestr = g_strdup (value);
+	xmlSetProp (parent, prop_name, valuestr);
+	g_free (valuestr);
+}
+
+
+
 
 

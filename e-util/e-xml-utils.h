@@ -29,7 +29,14 @@
 xmlNode *e_xml_get_child_by_name(xmlNode *parent, const xmlChar *child_name);
 /* lang set to NULL means use the current locale. */
 xmlNode *e_xml_get_child_by_name_by_lang(xmlNode *parent, const xmlChar *child_name, const char *lang);
+
 int e_xml_get_integer_prop_by_name(xmlNode *parent, const xmlChar *prop_name);
 void e_xml_set_integer_prop_by_name(xmlNode *parent, const xmlChar *prop_name, int value);
+
+double e_xml_get_double_prop_by_name(xmlNode *parent, const xmlChar *prop_name);
+void e_xml_set_double_prop_by_name(xmlNode *parent, const xmlChar *prop_name, double value);
+
+char *e_xml_get_string_prop_by_name(xmlNode *parent, const xmlChar *prop_name);
+void e_xml_set_string_prop_by_name(xmlNode *parent, const xmlChar *prop_name, char *value);
 
 #endif /* __E_XML_UTILS__ */
