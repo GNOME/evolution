@@ -23,9 +23,7 @@
  * USA
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "config.h"
 
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -150,11 +148,30 @@ connect_to_server (CamelService *service, CamelException *ex)
 {
 	CamelPop3Store *store = CAMEL_POP3_STORE (service);
 	char *buf, *apoptime, *apopend;
-	gint status;
+	int status;
+	gboolean result;
+
 #ifdef HAVE_KRB4
-	gboolean kpop = service->url->authmech &&
-		!strcmp (service->url->authmech, "+KPOP");
+	gboolean set_port = FALSE;
+
+	kpop = (service->url->authmech &&
+		!strcmp (service->url->authmech, "+KPOP"));
+
+	if (kpop && service->url->port == 0) {
+		set_port = TRUE;
+		service->url->port = KPOP_PORT;
+	}
 #endif
+
+  	result = CAMEL_SERVICE_CLASS (parent_class)->connect (service, ex);
+
+#ifdef HAVE_KRB4
+	if (set_port)
+		service->url->port = 0;
+#endif
+
+	if (result == FALSE)
+		return FALSE;
 
 #ifdef HAVE_KRB4
 	if (kpop) {
@@ -169,12 +186,9 @@ connect_to_server (CamelService *service, CamelException *ex)
 		/* Need to copy hostname, because krb_realmofhost will
 		 * call gethostbyname as well, and gethostbyname uses
 		 * static storage.
-		 * This isn't really necessary since gethost() returns a copy anyway,
-		 * but for simplicity leave the old code here - NZ
 		 */
 		h = camel_service_gethost (service, ex);
 		hostname = g_strdup (h->h_name);
-		camel_free_host(h);
 
 		fd = CAMEL_STREAM_FS (CAMEL_REMOTE_STORE (service)->ostream)->fd;
 
@@ -268,27 +282,22 @@ query_auth_types (CamelService *service, CamelException *ex)
 	CamelPop3Store *store = CAMEL_POP3_STORE (service);
 	GList *types = NULL;
 	gboolean passwd = TRUE, apop = TRUE;
-#ifdef HAVE_KRB4
-	gboolean kpop = TRUE;
-	int saved_port;
-#endif
 
         types = CAMEL_SERVICE_CLASS (parent_class)->query_auth_types (service, ex);
 	if (camel_exception_is_set (ex))
 		return types;
 
-	passwd = camel_service_connect (service, NULL);
+	passwd = connect_to_server (service, NULL);
 	apop = store->apop_timestamp != NULL;
 	if (passwd)
-		camel_service_disconnect (service, TRUE, NULL);
+		pop3_disconnect (service, TRUE, NULL);
 
 #ifdef HAVE_KRB4
-	saved_port = service->url->port;
-	service->url->port = KPOP_PORT;
-	kpop = camel_service_connect (service, NULL);
-	service->url->port = saved_port;
+	service->url->authtype = "+KPOP";
+	kpop = connect_to_server (service, NULL);
+	service->url->authtype = NULL;
 	if (kpop)
-		camel_service_disconnect (service, TRUE, NULL);
+		pop3_disconnect (service, TRUE, NULL);
 #endif
 
 	if (passwd)
@@ -412,40 +421,7 @@ pop3_connect (CamelService *service, CamelException *ex)
 {
 	char *errbuf = NULL;
 	gboolean tryagain, kpop = FALSE;
-	gboolean res;
 
-#ifdef HAVE_KRB4
-	gboolean set_port = FALSE;
-
-	kpop = (service->url->authmech &&
-		!strcmp (service->url->authmech, "+KPOP"));
-
-	if (kpop && service->url->port == 0) {
-		set_port = TRUE;
-		service->url->port = KPOP_PORT;
-	}
-#endif
-	
-  	res = CAMEL_SERVICE_CLASS (parent_class)->connect (service, ex);
-
-#ifdef HAVE_KRB4
-	/* This is veeery nasty. When we set the port, we're changing the
-	 * hash value of our URL. service_cache_remove() gets called when
-	 * we're done checking the mail, but the hash table lookup fails
-	 * because the url port has changed. Then, a finalized instance of
-	 * the CamelService is stuck in the hash table, and the next time
-	 * we try to look up the service, with a URL of port 0, we look
-	 * up the freed service and a segfault results.
-	 */
-
-	if (kpop && set_port)
-		service->url->port = 0;
-#endif
-
-	if (res == FALSE)
-		return FALSE;
-
-	/*FIXME integrate these functions */
 	if (!connect_to_server (service, ex))
 		return FALSE;
 
