@@ -68,6 +68,8 @@ struct ETreeSortedPriv {
 	ETableSortInfo   *sort_info;
 	ETableHeader     *full_header;
 
+	ETreeSortedPath  *last_access;
+
 	int          tree_model_pre_change_id;
 	int          tree_model_node_changed_id;
 	int          tree_model_node_data_changed_id;
@@ -122,6 +124,45 @@ ets_insert_idle(ETreeSorted *ets)
 
 /* Helper functions */
 
+static inline ETreeSortedPath *
+check_last_access (ETreeSorted *ets, ETreePath corresponding)
+{
+	ETreeSortedPath *parent;
+	int end;
+	int start;
+	int i;
+
+	if (ets->priv->last_access == NULL)
+		return NULL;
+
+	if (ets->priv->last_access == corresponding) {
+		d(g_print("Found last access %p at %p.", ets->priv->last_access, ets->priv->last_access));
+		return ets->priv->last_access;
+	}
+
+	parent = ets->priv->last_access->parent;
+	if (parent && parent->children) {
+		i = ets->priv->last_access->position;
+		end = MIN(parent->num_children, i + 10);
+		for (; i < end; i++) {
+			if (parent->children[i] && parent->children[i]->corresponding == corresponding) {
+				d(g_print("Found last access %p at %p.", ets->priv->last_access, parent->children[i]));
+				return parent->children[i];
+			}
+		}
+
+		i = ets->priv->last_access->position - 1;
+		start = MAX(0, i - 10);
+		for (; i >= start; i--) {
+			if (parent->children[i] && parent->children[i]->corresponding == corresponding) {
+				d(g_print("Found last access %p at %p.", ets->priv->last_access, parent->children[i]));
+				return parent->children[i];
+			}
+		}
+	}
+	return NULL;
+}
+
 static ETreeSortedPath *
 find_path(ETreeSorted *ets, ETreePath corresponding)
 {
@@ -129,14 +170,16 @@ find_path(ETreeSorted *ets, ETreePath corresponding)
 	ETreePath *sequence;
 	int i;
 	ETreeSortedPath *path;
+	ETreeSortedPath *check_last;
 
 	if (corresponding == NULL)
 		return NULL;
 
-#if 0
-	if (etta->priv->last_access != -1 && etta->priv->map_table[etta->priv->last_access] == path)
-		return etta->priv->last_access;
-#endif
+	check_last = check_last_access (ets, corresponding);
+	if (check_last) {
+		d(g_print(" (find_path)\n"));
+		return check_last;
+	}
 
 	depth = e_tree_model_node_depth(ets->priv->source, corresponding);
 
@@ -171,9 +214,8 @@ find_path(ETreeSorted *ets, ETreePath corresponding)
 	}
 	g_free (sequence);
 
-#if 0
-	ets->priv->last_access = row;
-#endif
+	d(g_print("Didn't find last access %p.  Setting to %p. (find_path)\n", ets->priv->last_access, path));
+	ets->priv->last_access = path;
 
 	return path;
 }
@@ -204,14 +246,16 @@ find_or_create_path(ETreeSorted *ets, ETreePath corresponding)
 	ETreePath *sequence;
 	int i;
 	ETreeSortedPath *path;
+	ETreeSortedPath *check_last;
 
 	if (corresponding == NULL)
 		return NULL;
 
-#if 0
-	if (etta->priv->last_access != -1 && etta->priv->map_table[etta->priv->last_access] == path)
-		return etta->priv->last_access;
-#endif
+	check_last = check_last_access (ets, corresponding);
+	if (check_last) {
+		d(g_print(" (find_or_create_path)\n"));
+		return check_last;
+	}
 
 	depth = e_tree_model_node_depth(ets->priv->source, corresponding);
 
@@ -245,9 +289,8 @@ find_or_create_path(ETreeSorted *ets, ETreePath corresponding)
 	}
 	g_free (sequence);
 
-#if 0
-	ets->priv->last_access = row;
-#endif
+	d(g_print("Didn't find last access %p.  Setting to %p. (find_or_create_path)\n", ets->priv->last_access, path));
+	ets->priv->last_access = path;
 
 	return path;
 }
@@ -864,6 +907,9 @@ ets_proxy_pre_change (ETreeModel *etm, ETreeSorted *ets)
 static void
 ets_proxy_node_changed (ETreeModel *etm, ETreePath node, ETreeSorted *ets)
 {
+	ets->priv->last_access = NULL;
+	d(g_print("Setting last access %p. (ets_proxy_node_changed)\n", ets->priv->last_access));
+
 	if (e_tree_model_node_is_root(ets->priv->source, node)) {
 		if (ets->priv->root) {
 			free_path(ets->priv->root);
@@ -979,6 +1025,9 @@ ets_proxy_node_removed (ETreeModel *etm, ETreePath parent, ETreePath child, int 
 	else
 		path = find_path(ets, child);
 
+	d(g_print("Setting last access %p. (ets_proxy_node_removed)\n ", ets->priv->last_access));
+	ets->priv->last_access = NULL;
+
 	if (path && parent_path && parent_path->num_children != -1) {
 		int i;
 		for (i = 0; i < parent_path->num_children; i++) {
@@ -1078,7 +1127,9 @@ e_tree_sorted_init (GtkObject *object)
 	priv->sort_info                       = NULL;
 	priv->full_header                     = NULL;
 
-	priv->tree_model_pre_change_id      = 0;
+	priv->last_access                     = NULL;
+
+	priv->tree_model_pre_change_id        = 0;
 	priv->tree_model_node_changed_id      = 0;
 	priv->tree_model_node_data_changed_id = 0;
 	priv->tree_model_node_col_changed_id  = 0;
@@ -1152,9 +1203,11 @@ e_tree_sorted_view_to_model_path  (ETreeSorted    *ets,
 				   ETreePath       view_path)
 {
 	ETreeSortedPath *path = view_path;
-	if (path)
+	if (path) {
+		ets->priv->last_access = path;
+		d(g_print("Setting last access %p. (e_tree_sorted_view_to_model_path)\n", ets->priv->last_access));
 		return path->corresponding;
-	else
+	} else
 		return NULL;
 }
 
@@ -1162,9 +1215,7 @@ ETreePath
 e_tree_sorted_model_to_view_path  (ETreeSorted    *ets,
 				   ETreePath       model_path)
 {
-	ETreeSortedPath *path = find_or_create_path(ets, model_path);
-
-	return path;
+	return find_or_create_path(ets, model_path);
 }
 
 int

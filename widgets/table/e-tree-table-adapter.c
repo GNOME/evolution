@@ -233,8 +233,23 @@ find_row_num(ETreeTableAdapter *etta, ETreePath path)
 	if (path == NULL)
 		return -1;
 
-	if (etta->priv->last_access != -1 && etta->priv->map_table[etta->priv->last_access] == path)
-		return etta->priv->last_access;
+	if (etta->priv->last_access != -1) {
+		int end = MIN(etta->priv->n_map, etta->priv->last_access + 10);
+		int start = MAX(0, etta->priv->last_access - 10);
+		for (i = etta->priv->last_access; i < end; i++) {
+			if(etta->priv->map_table[i] == path) {
+				d(g_print("Found last access %d at row %d. (find_row_num)\n", etta->priv->last_access, i));
+				return i;
+			}
+		}
+		for (i = etta->priv->last_access - 1; i <= start; i++) {
+			if(etta->priv->map_table[i] == path) {
+				d(g_print("Found last access %d at row %d. (find_row_num)\n", etta->priv->last_access, i));
+				return i;
+			}
+		}
+	}
+
 
 	depth = e_tree_model_node_depth(etta->priv->source, path);
 
@@ -268,6 +283,7 @@ find_row_num(ETreeTableAdapter *etta, ETreePath path)
 	}
 	g_free (sequence);
 
+	d(g_print("Didn't find last access %d. Setting to %d. (find_row_num)\n", etta->priv->last_access, row));
 	etta->priv->last_access = row;
 	return row;
 }

@@ -34,11 +34,13 @@ typedef struct {
 } ETreeSelectionModelClass;
 
 
-GtkType          e_tree_selection_model_get_type  (void);
-ESelectionModel *e_tree_selection_model_new       (void);
-void             e_tree_selection_model_foreach   (ETreeSelectionModel *etsm,
-						   ETreeForeachFunc     callback,
-						   gpointer             closure);
+GtkType          e_tree_selection_model_get_type            (void);
+ESelectionModel *e_tree_selection_model_new                 (void);
+void             e_tree_selection_model_foreach             (ETreeSelectionModel *etsm,
+							     ETreeForeachFunc     callback,
+							     gpointer             closure);
+void             e_tree_selection_model_select_single_path  (ETreeSelectionModel *etsm,
+							     ETreePath            path);
 
 #ifdef __cplusplus
 }

@@ -1033,11 +1033,16 @@ e_tree_new_from_spec_file (ETreeModel *etm, ETableExtras *ete, const char *spec_
 void
 e_tree_set_cursor (ETree *e_tree, ETreePath path)
 {
+#ifndef E_TREE_USE_TREE_SELECTION
 	int row;
+#endif
 	g_return_if_fail(e_tree != NULL);
 	g_return_if_fail(E_IS_TREE(e_tree));
 	g_return_if_fail(path != NULL);
 
+#ifdef E_TREE_USE_TREE_SELECTION
+	e_tree_selection_model_select_single_path (E_TREE_SELECTION_MODEL(e_tree->priv->selection), path);
+#else
 	path = e_tree_sorted_model_to_view_path(e_tree->priv->sorted, path);
 
 	row = e_tree_table_adapter_row_of_node(E_TREE_TABLE_ADAPTER(e_tree->priv->etta), path);
@@ -1048,6 +1053,7 @@ e_tree_set_cursor (ETree *e_tree, ETreePath path)
 	gtk_object_set(GTK_OBJECT(e_tree->priv->selection),
 		       "cursor_row", row,
 		       NULL);
+#endif
 }
 
 ETreePath
