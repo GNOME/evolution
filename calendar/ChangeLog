@@ -1,5 +1,17 @@
 2001-12-17  JP Rosevear  <jpr@ximian.com>
  
+ 	* gui/e-itip-control.c (send_item): use get_real_item
+ 	(get_refresh_options): uncomment out
+ 	(get_real_item): obtain the real object which has the uid of the
+ 	item received
+ 	(show_current_todo): use get_refresh_options for refresh method
+ 	and provide the description and summary from the real component
+ 	since its not in the reply
+ 	(show_current_event): ditto
+ 	(send_item): use get_real_item
+
+2001-12-17  JP Rosevear  <jpr@ximian.com>
+ 
  	* gui/itip-utils.c (comp_limit_attendees): can't remove properties
  	in an iteration loop, so remove them outside the loop
  	(comp_minimal): don't set a recurid if there isn't one, add the x

@@ -833,7 +833,6 @@ get_reply_options ()
 				U_("OK"));
 }
 
-#if 0
 static char*
 get_refresh_options ()
 {
@@ -846,7 +845,6 @@ get_refresh_options ()
 				U_("Send Latest Information"),
 				U_("OK"));
 }
-#endif
 
 static char*
 get_cancel_options ()
@@ -861,10 +859,43 @@ get_cancel_options ()
 				U_("OK"));
 }
 
+
+static CalComponent *
+get_real_item (EItipControl *itip) 
+{
+	EItipControlPrivate *priv;
+	CalComponent *comp;
+	CalComponentVType type;
+	CalClientGetStatus status;
+	const char *uid;
+	
+	priv = itip->priv;
+
+	type = cal_component_get_vtype (priv->comp);
+	cal_component_get_uid (priv->comp, &uid);
+
+	switch (type) {
+	case CAL_COMPONENT_EVENT:
+		status = cal_client_get_object (priv->event_client, uid, &comp);
+		break;
+	case CAL_COMPONENT_TODO:
+		status = cal_client_get_object (priv->task_client, uid, &comp);
+		break;
+	default:
+		status = CAL_CLIENT_GET_NOT_FOUND;
+	}
+
+	if (status != CAL_CLIENT_GET_SUCCESS)
+		return NULL;
+
+	return comp;
+}
+
 static void
 show_current_event (EItipControl *itip)
 {
 	EItipControlPrivate *priv;
+	CalComponent *comp;
 	const gchar *itip_title, *itip_desc;
 	char *options;
 
@@ -889,7 +920,26 @@ show_current_event (EItipControl *itip)
 	case ICAL_METHOD_REFRESH:
 		itip_desc = U_("<b>%s</b> wishes to receive the latest meeting information.");
 		itip_title = U_("Meeting Update Request");
-		options = get_publish_options ();
+		options = get_refresh_options ();
+
+		/* Provide extra info, since its not in the component */
+		comp = get_real_item (itip);
+		if (comp != NULL) {
+			CalComponentText text;
+			GSList *l;
+			
+			cal_component_get_summary (comp, &text);
+			cal_component_set_summary (priv->comp, &text);
+			cal_component_get_description_list (comp, &l);
+			cal_component_set_description_list (priv->comp, l);
+			cal_component_free_text_list (l);
+			
+			gtk_object_unref (GTK_OBJECT (comp));
+		} else {
+			CalComponentText text = {_("Unknown"), NULL};
+			
+			cal_component_set_summary (priv->comp, &text);
+		}
 		break;
 	case ICAL_METHOD_REPLY:
 		itip_desc = U_("<b>%s</b> has replied to a meeting request.");
@@ -915,6 +965,7 @@ static void
 show_current_todo (EItipControl *itip)
 {
 	EItipControlPrivate *priv;
+	CalComponent *comp;
 	const gchar *itip_title, *itip_desc;
 	char *options;
 
@@ -939,7 +990,27 @@ show_current_todo (EItipControl *itip)
 	case ICAL_METHOD_REFRESH:
 		itip_desc = U_("<b>%s</b> wishes to receive the latest task information.");
 		itip_title = U_("Task Update Request");
-		options = get_publish_options ();
+		options = get_refresh_options ();
+
+
+		/* Provide extra info, since its not in the component */
+		comp = get_real_item (itip);
+		if (comp != NULL) {
+			CalComponentText text;
+			GSList *l;
+			
+			cal_component_get_summary (comp, &text);
+			cal_component_set_summary (priv->comp, &text);
+			cal_component_get_description_list (comp, &l);
+			cal_component_set_description_list (priv->comp, l);
+			cal_component_free_text_list (l);
+			
+			gtk_object_unref (GTK_OBJECT (comp));
+		} else {
+			CalComponentText text = {_("Unknown"), NULL};
+			
+			cal_component_set_summary (priv->comp, &text);
+		}
 		break;
 	case ICAL_METHOD_REPLY:
 		itip_desc = U_("<b>%s</b> has replied to a task assignment.");
@@ -1335,29 +1406,15 @@ send_item (EItipControl *itip)
 {
 	EItipControlPrivate *priv;
 	CalComponent *comp;
-	CalComponentVType type;
-	const char *uid;
-	CalClientGetStatus status;
 	GtkWidget *dialog;
 
 	priv = itip->priv;
 
-	type = cal_component_get_vtype (priv->comp);
-	cal_component_get_uid (priv->comp, &uid);
+	comp = get_real_item (itip);
 
-	switch (type) {
-	case CAL_COMPONENT_EVENT:
-		status = cal_client_get_object (priv->event_client, uid, &comp);
-		break;
-	case CAL_COMPONENT_TODO:
-		status = cal_client_get_object (priv->task_client, uid, &comp);
-		break;
-	default:
-		status = CAL_CLIENT_GET_NOT_FOUND;
-	}
-
-	if (status == CAL_CLIENT_GET_SUCCESS) {
-		itip_send_comp (CAL_COMPONENT_METHOD_PUBLISH, comp);
+	if (comp != NULL) {
+		itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, comp);
+		gtk_object_unref (GTK_OBJECT (comp));
 		dialog = gnome_ok_dialog (_("Item sent!\n"));
 	} else {
 		dialog = gnome_warning_dialog (_("The item could not be sent!\n"));
