@@ -530,7 +530,7 @@ netscape_can_import (EvolutionIntelligentImporter *ii,
 	if (nsmail_dir == NULL) {
 		return FALSE;
 	} else {
-		return is_dir_empty (nsmail_dir);
+		return !is_dir_empty (nsmail_dir);
 	}
 }
 
