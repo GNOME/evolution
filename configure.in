@@ -1,26 +1,11 @@
 # Process this file with autoconf to produce a configure script.
 AC_PREREQ(2.52)
 
-AC_INIT(Evolution, 1.3.0.99, http://bugzilla.ximian.com/enter_bug.cgi?product=Evolution)
+AC_INIT(evolution, 1.3.0.99, http://bugzilla.ximian.com/enter_bug.cgi?product=Evolution)
 AC_CONFIG_SRCDIR(README)
 AM_INIT_AUTOMAKE(AC_PACKAGE_NAME, AC_PACKAGE_VERSION)
 
 AM_CONFIG_HEADER(config.h)
-
-if test -f libversit/CVS/Repository; then
-	case `cat libversit/CVS/Repository` in
-	gnome-pim*)
-		echo ""
-		echo "ERROR: CVS working directory is out of date"
-		echo "Please do:"
-		echo "    rm -rf libversit"
-		echo "    cvs update -d libversit"
-		echo "    automake libversit/Makefile"
-		echo "and try again. We apologize for the inconvenience"
-		exit 1
-		;;
-	esac
-fi
 
 AC_CANONICAL_HOST
 AC_DEFINE_UNQUOTED(VERSION_COMMENT, "(Preview Release)")
@@ -1041,6 +1026,7 @@ dnl --- Flags to get all the GNOME stuff
 
 dnl --- We require at least this version of GAL.
 GAL_VERSION=0.0.9.99
+AC_SUBST(GAL_VERSION)
 
 FULL_GNOME_DEPS="libbonoboui-2.0 gnome-vfs-2.0 libgnomeui-2.0 libglade-2.0 libgnomecanvas-2.0 libxml-2.0 gconf-2.0 gal-2.0 >= $GAL_VERSION"
 
@@ -1119,16 +1105,6 @@ dnl AC_SUBST(EVOLUTION_CALENDAR_CONDUIT_LIBS)
 
 dnl --- evolution-mail flags
 
-dnl ******************************
-dnl Versioned library files
-dnl ******************************
-
-privlibdir='$(pkglibdir)/'$EVOLUTION_MAJOR_VERSION.$EVOLUTION_MINOR_VERSION
-AC_SUBST(privlibdir)
-
-camel_providerdir="$privlibdir/camel-providers"
-AC_SUBST(camel_providerdir)
-
 EVO_SET_COMPILE_FLAGS(EVOLUTION_MAIL, libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 gal-2.0 >= $GAL_VERSION libglade-2.0 soup-2.0 libgnomeprint-2.0 libgtkhtml-3.0 libxml-2.0 bonobo-activation-2.0 gthread-2.0 gconf-2.0)
 AC_SUBST(EVOLUTION_MAIL_CFLAGS)
 AC_SUBST(EVOLUTION_MAIL_LIBS)
@@ -1138,6 +1114,19 @@ dnl -- wombat flags
 EVO_SET_COMPILE_FLAGS(WOMBAT, libgnome-2.0, $LDAP_CFLAGS, $LDAP_LIBS)
 AC_SUBST(WOMBAT_CFLAGS)
 AC_SUBST(WOMBAT_LIBS)
+
+dnl *******************
+dnl Special directories
+dnl *******************
+
+privlibdir='${libdir}'/evolution/`echo $VERSION | awk -F. '{print $1 "." $2;}'`
+AC_SUBST(privlibdir)
+
+camel_providerdir="$privlibdir/camel-providers"
+AC_SUBST(camel_providerdir)
+
+idldir="$datadir/idl"
+AC_SUBST(idldir)
 
 ##################################################
 # Check for gtk-doc.
@@ -1222,9 +1211,9 @@ fi
 AM_CONDITIONAL(HAVE_KDE_APPLNK, test x"$KDE_APPLNK_DIR" != x)
 AC_SUBST(KDE_APPLNK_DIR)
 
-dnl ******************************
-dnl foo for *Conf.sh.in
-dnl ******************************
+dnl ***********************
+dnl foo for pkgconfig files
+dnl ***********************
 
 EVOLUTION_LIBDIR="-L${libdir}"
 EVOLUTION_DATADIR="${datadir}"
@@ -1333,6 +1322,10 @@ calendar/importers/Makefile
 composer/Makefile
 mail/Makefile
 mail/importers/Makefile
+evolution-shell.pc
+evolution-addressbook.pc
+evolution-calendar.pc
+camel.pc
 ])
 
 if test "x$with_sub_version" != "x"; then

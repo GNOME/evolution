@@ -1,12 +1,12 @@
 changelogs =			\
 	ChangeLog
 
-confexecdir = $(libdir)
-confexec_DATA = 			\
-	camelConf.sh			\
-	evolution_shellConf.sh		\
-	evolution_addressbookConf.sh	\
-	evolution_calendarConf.sh
+pkgconfigdir = $(libdir)/pkgconfig
+pkgconfig_DATA = 			\
+	camel.pc			\
+	evolution-shell.pc		\
+	evolution-addressbook.pc	\
+	evolution-calendar.pc
 
 EXTRA_DIST = 			\
 	AUTHORS			\
@@ -20,7 +20,7 @@ EXTRA_DIST = 			\
 	xml-i18n-merge.in	\
 	xml-i18n-update.in	\
 	xml-i18n-extract.in	\
-	$(confexec_DATA:.sh=.sh.in)
+	$(pkgconfig_DATA:.pc=.pc.in)
 
 SUBDIRS = 			\
         data                    \
@@ -30,12 +30,12 @@ SUBDIRS = 			\
         widgets                 \
         shell                   \
 	camel			\
+	filter			\
 	libwombat		\
 	addressbook		\
 	calendar		\
 	my-evolution		\
         art                     \
-	filter			\
 	composer		\
 	mail			\
 	ui			\
@@ -45,26 +45,6 @@ SUBDIRS = 			\
 
 
 #	omf-install
-
-%Conf.sh: %Conf.sh.in Makefile
-	sed -e 's?\@EVOLUTION_LIBDIR\@?$(EVOLUTION_LIBDIR)?g' \
-	    -e 's?\@EVOLUTION_DATADIR\@?$(EVOLUTION_DATADIR)?g' \
-	    -e 's?\@EVOLUTION_INCLUDEDIR\@?$(EVOLUTION_INCLUDEDIR)?g' \
-	    -e 's?\@CAMEL_INCLUDEDIR\@?$(CAMEL_INCLUDEDIR)?g' \
-	    -e 's?\@VERSION\@?$(VERSION)?g' \
-	    -e 's?\@privlibdir\@?$(privlibdir)?g' \
-	    -e 's?\@SHELL_LIBS\@?$(SHELL_LIBS)?g' \
-	    -e 's?\@SHELL_CFLAGS\@?$(SHELL_CFLAGS)?g' \
-	    -e 's?\@CAMEL_LIBS\@?$(CAMEL_LIBS)?g' \
-	    -e 's?\@CAMEL_CFLAGS\@?$(CAMEL_CFLAGS)?g' \
-	    -e 's?\@LDAP_LIBS\@?$(LDAP_LIBS)?g' \
-	    -e 's?\@LDAP_CFLAGS\@?$(LDAP_CFLAGS)?g' \
-	    -e 's?\@EVOLUTION_ADDRESSBOOK_LIBS\@?$(EVOLUTION_ADDRESSBOOK_LIBS)?g' \
-	    -e 's?\@EVOLUTION_ADDRESSBOOK_CFLAGS\@?$(EVOLUTION_ADDRESSBOOK_CFLAGS)?g' \
-	    -e 's?\@EVOLUTION_CALENDAR_LIBS\@?$(EVOLUTION_CALENDAR_LIBS)?g' \
-	    -e 's?\@EVOLUTION_CALENDAR_CFLAGS\@?$(EVOLUTION_CALENDAR_CFLAGS)?g' \
-	      < $(srcdir)/$< > $@.tmp \
-	  && mv $@.tmp $@
 
 # CDE Stuff
 

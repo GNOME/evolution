@@ -1,3 +1,30 @@
+2003-01-06  Dan Winship  <danw@ximian.com>
+
+	* configure.in (AC_INIT): Use "Evolution", not "evolution", since
+	that becomes the value of the PACKAGE variable
+	(privlibdir): parse $VERSION by hand since.
+	EVOLUTION_MAJOR_VERSION, etc aren't defined any more (and trying
+	to pass a variable to AC_INIT won't work). This and the above
+	change fix the problem that privlibdir was being defined as
+	"${libdir}/Evolution/." instead of "${libdir}/evolution/1.3"
+	(GAL_VERSION): AC_SUBST this since it's needed in the .pc files
+	(idldir): define this here rather than in each Makefile.am that
+	needs it.
+	(AC_OUTPUT): Add .pc files
+
+	* Makefile.am (pkgconfig_DATA): Add pc files.
+	(confexec_DATA): Remove this (fooConf.sh files)
+	(SUBDIRS): Move filter earlier in the build. (I think it was
+	calendar that depends on it now?)
+	(%Conf.sh): Remove this. The .pc files are output by configure.in
+	now.
+
+	* camel.pc.in, evolution-addressbook.pc.in,
+	evolution-calendar.pc.in, evolution-shell.pc.in: Replace the
+	*Conf.sh files with these. In addition to the basic variables,
+	include camel_providerdir (in camel.pc) and idldir, IDL_INCLUDES
+	and privlibdir (in the others).
+
 2002-12-04  Ettore Perazzoli  <ettore@ximian.com>
 
 	* configure.in: Define COMPONENT_DIR.

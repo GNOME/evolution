@@ -24,4 +24,4 @@ xlibtool
 xltmain.sh
 evolution.spec
 intltool-*
-*Conf.sh
+*.pc
