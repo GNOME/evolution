@@ -200,7 +200,7 @@ load_folder (const char *physical_path,
 		return TRUE;
 	}
 
-	e_storage_new_folder (local_storage, path, folder);
+	e_storage_new_folder ((EStorage *)local_storage, path, folder);
 	return TRUE;
 }
 
@@ -1146,8 +1146,12 @@ construct (ELocalStorage *local_storage,
 	ELocalStoragePrivate *priv;
 	EFolder *root_folder;
 	int base_path_len;
+	char *uri;
 
 	root_folder = e_folder_new (_("Local Folders"), "noselect", "");
+	uri = g_strdup_printf("file://%s;noselect", base_path);
+	e_folder_set_physical_uri(root_folder, uri);
+	g_free(uri);
 	e_storage_construct (E_STORAGE (local_storage),
 			     E_LOCAL_STORAGE_NAME,
 			     root_folder);

@@ -1,3 +1,9 @@
+2003-04-23  Not Zed  <NotZed@Ximian.com>
+
+	* e-local-storage.c (load_folder): cast to remove warning.
+	(construct): set a physiucal uri on the root folder, so we dont
+	get warnings when we add it later.
+
 2003-04-22  Anna Marie Dirks  <anna@ximian.com>
 
        * e-shell-settings-dialog.c (init): Add appropriate padding 
