@@ -3,7 +3,9 @@
 -->
 <chapter id="usage-mainwindow">
 
-  <title>The Main Window: Evolution Basics</title>
+  <title>The Evolution Workspace</title>
+  <sect1 id="usage-mainwindow-starting">
+    <title>Starting Evolution</title>
   <para>
      Start <application>Evolution</application> by selecting
      <guimenuitem>Evolution</guimenuitem> from your
@@ -15,21 +17,26 @@
      files.  At this point, it will also offer to import old messages
      from other mail clients, such as Netscape mail.
    </para>
-   <para>
-     After <application>Evolution</application> starts up, you will
-     see the <interface>main window</interface>, with the
-     <interface>Inbox</interface> open.  It should look a lot like the
-     picture in <xref linkend="usage-mainwindow-fig">. On the left of
-     the <interface>main window</interface> is the <interface>shortcut
-     bar</interface>, with several buttons in it.  Just underneath the
-     title bar is a series of menus in the <interface>menu
-     bar</interface>, and below that, the <interface>tool
+  </sect1>
+
+  <sect1 id="usage-mainwindow-basics">
+    <title>Evolution Basics</title>
+    <para>
+      After <application>Evolution</application> starts up, you will
+      see the <interface>main window</interface>, with the
+      <interface>Inbox</interface> open.  It should look a lot like the
+      picture in <xref linkend="usage-mainwindow-fig">. On the left of
+	the <interface>main window</interface> is the <interface>shortcut
+	  bar</interface>, with several buttons in it.  Just underneath the
+	title bar is a series of menus in the <interface>menu
+	  bar</interface>, and below that, the <interface>tool
      bar</interface> with buttons for different functions. The largest
-     part of the <interface>main window</interface> is taken up by the
-     content view, where your messages are displayed.  Above that is
-     the message list view, where  a summary of your email is displayed.
-     If you're running the program for the first time,
-     you'll have one message: a welcome from Ximian.
+	part of the <interface>main window</interface> is taken up by the
+	content view, where your messages are displayed.  Above that is
+	the message list view, where  a summary of your email is displayed.
+	If you're running the program for the first time,
+	you'll have one message: a welcome from Ximian.
+
 
 
 <!-- ==============Figure=================================== -->
@@ -42,20 +49,18 @@
     </screenshot>
     </figure>
 <!-- ==============End of Figure=================================== -->
-</para>
-
-   <para>
-    <note>
-      <title>The Way Evolution Looks</title>
-      <para>
-	Both <application>GNOME</application> and <application>
-	Evolution</application>'s appearances can be customized,
-	so your graphics may not look the same as the screenshots.
-      </para>
-    </note>
   </para>
+  </sect1>
+  <sect1 id="usage-mainwindow-looks">
+    <title>The Way Evolution Looks</title>
+    <para>
+      Both <application>GNOME</application> and <application>
+	Evolution</application>'s appearances can be customized,
+      so your graphics may not look the same as the screenshots.
+    </para>
+
   
-  <sect1 id="usage-mainwindow-shortcutbar">
+  <sect2 id="usage-mainwindow-shortcutbar">
     <title>The Shortcut Bar</title>
     <para>
         <application>Evolution</application>'s most important job is
@@ -191,9 +196,9 @@
          you can select icon sizes.
        </para>
     </tip>
-  </sect1>
+  </sect2>
 
-  <sect1 id="usage-mainwindow-folderbar">
+  <sect2 id="usage-mainwindow-folderbar">
     <title>Folders and The Folder Bar</title>
     <para>
       The <interface>folder bar</interface> is a more comprehensive
@@ -302,7 +307,7 @@
        <guilabel>Contacts</guilabel> for storing contacts.
     </para>
     
-    <sect2 id="subfolders">
+    <sect3 id="subfolders">
     <title>Subfolders</title>
       <para>
         <application>Evolution</application> can also manage subfolders.
@@ -360,14 +365,14 @@
     </tip>
 -->
 
-    <para>
-      Any time new information arrives in a folder, that folder label
-      is displayed in bold text, along with the amount of new messages in
-      that folder inside of paranthesis.
-    </para>
-</sect2>
-  </sect1>
-  <sect1 id="usage-mainwindow-menubar">
+	<para>
+	  Any time new information arrives in a folder, that folder label
+	  is displayed in bold text, along with the amount of new messages in
+	  that folder inside of paranthesis.
+	</para>
+      </sect3>
+      </sect2>
+  <sect2 id="usage-mainwindow-menubar">
     <title>The Menu Bar</title>
     <para>
       The <interface>menu bar</interface>'s contents will always
@@ -452,6 +457,7 @@
       window</interface> you can start doing things with it.  We'll
       start with your executive summary.
     </para>
+    </sect2>
   </sect1>
 </chapter>
 

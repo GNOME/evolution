@@ -4,6 +4,7 @@
 <!ENTITY USAGE-MAINWINDOW SYSTEM "usage-mainwindow.sgml">
 <!ENTITY USAGE-EXEC-SUMMARY SYSTEM "usage-exec-summary.sgml">
 <!ENTITY USAGE-MAIL SYSTEM "usage-mail.sgml">
+<!ENTITY USAGE-MAIL-ORG SYSTEM "usage-mail-org.sgml">
 <!ENTITY USAGE-CONTACT SYSTEM "usage-contact.sgml">
 <!ENTITY USAGE-CALENDAR SYSTEM "usage-calendar.sgml">
 <!ENTITY USAGE-SYNC SYSTEM "usage-sync.sgml">
@@ -75,7 +76,7 @@ implemented. -->
   &PREFACE;
   
   <part id="usage">
-    <title>Using Evolution</title>
+    <title>Getting Started with Evolution 1.0</title>
      <partintro>
       <para>
         Part one of the <application>Evolution</application> manual
@@ -90,6 +91,7 @@ implemented. -->
     &USAGE-MAINWINDOW;
     &USAGE-EXEC-SUMMARY;
     &USAGE-MAIL;
+    &USAGE-MAIL-ORG;
     &USAGE-CONTACT;
     &USAGE-CALENDAR;
 <!--   &USAGE-NOTES; -->

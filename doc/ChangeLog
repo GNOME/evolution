@@ -1,3 +1,7 @@
+2001-06-30  Kevin Breit  <battery841@mediaone.net>
+
+	* C/usage-mail.sgml: Pulled organizing stuff, made its own file.
+
 2001-06-26  Aaron Weber  <aaron@ximian.com>
 
 	* C/evolution-faq.sgml: Revised move/rename/copy questions, now
