@@ -69,7 +69,6 @@ folder_browser_load_folder (FolderBrowser *fb, const char *name)
 	CamelStore *store;
 	CamelFolder *new_folder = NULL;
 	CamelException *ex;
-	gboolean new_folder_exists = FALSE;
 
 	ex = camel_exception_new ();
 
@@ -86,7 +85,7 @@ folder_browser_load_folder (FolderBrowser *fb, const char *name)
 		store = camel_session_get_store (session, store_name, ex);
 
 		if (store) {
-			new_folder = camel_store_get_folder (store, newquery, ex);
+			new_folder = camel_store_get_folder (store, newquery, TRUE, ex);
 			/* FIXME: do this properly rather than hardcoding */
 #warning "Find a way not to hardcode vfolder source"
 			{
@@ -99,7 +98,7 @@ folder_browser_load_folder (FolderBrowser *fb, const char *name)
 				st = camel_session_get_store (session, stname, ex);
 				g_free (stname);
 				if (st) {
-					source_folder = camel_store_get_folder (st, "mbox", ex);
+					source_folder = camel_store_get_folder (st, "mbox", FALSE, ex);
 					if (source_folder) {
 						camel_vee_folder_add_folder(new_folder, source_folder);
 					}
@@ -115,7 +114,7 @@ folder_browser_load_folder (FolderBrowser *fb, const char *name)
 		store = camel_session_get_store (session, store_name, ex);
 		g_free (store_name);
 		if (store) {
-			new_folder = camel_store_get_folder (store, "mbox", ex);
+			new_folder = camel_store_get_folder (store, "mbox", FALSE, ex);
 		}
 	} else {
 		char *msg;
@@ -137,23 +136,6 @@ folder_browser_load_folder (FolderBrowser *fb, const char *name)
 		camel_exception_free (ex);
 		if (new_folder)
 			gtk_object_unref((GtkObject *)new_folder);
-		return FALSE;
-	}
-	
-	/* If the folder does not exist, we don't want to show it */
-	new_folder_exists = camel_folder_exists (new_folder, ex);
-	if (camel_exception_get_id (ex)) {
-		msg = g_strdup_printf ("Unable to test if folder %s "
-				       "exists: %s\n", name,
-				       camel_exception_get_description (ex));
-		gnome_error_dialog (msg);
-		camel_exception_free (ex);
-		return FALSE;
-	}
-	camel_exception_free (ex);
-		
-	if (!new_folder_exists) {
-		gtk_object_unref (GTK_OBJECT (new_folder));
 		return FALSE;
 	}
 	

@@ -878,29 +878,6 @@ message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder)
 
 	message_list->folder = camel_folder;
 	
-	folder_exists = camel_folder_exists (camel_folder, NULL);
-	
-	if (camel_exception_get_id (&ex)) {
-	      printf ("Unable to test for folder existence: %s\n",
-		      ex.desc?ex.desc:"unknown reason");
-	      return;
-	}
-	
-	if (!folder_exists) {	  
-	    g_warning ("Folder does not exist, creating it\n");
-	    /* 
-	       if you don't want the directory to be created
-	       automatically here remove this.
-	    */
-	    camel_folder_create (camel_folder, &ex);
-	    if (camel_exception_get_id (&ex)) {
-	      printf ("Unable to create folder: %s\n",
-		      ex.desc?ex.desc:"unknown_reason");
-	      return;
-	    }
-	   
-	}
-
 	camel_folder_open (camel_folder, FOLDER_OPEN_RW, &ex);
 	if (camel_exception_get_id (&ex)) {
 		printf ("Unable to open folder: %s\n",

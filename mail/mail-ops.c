@@ -144,7 +144,7 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 
 		folder = camel_store_get_folder (fb->folder->parent_store,
 						 strrchr (tmp_mbox, '/') + 1,
-						 ex);
+						 FALSE, ex);
 		camel_folder_open (folder, FOLDER_OPEN_READ, ex);
 
 		if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
@@ -166,7 +166,8 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 			goto cleanup;
 		}
 
-		sourcefolder = camel_store_get_folder (store, "inbox", ex);
+		sourcefolder = camel_store_get_folder (store, "inbox",
+						       FALSE, ex);
 		camel_folder_open (sourcefolder, FOLDER_OPEN_READ, ex);
 		if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
 			mail_exception_dialog ("Unable to get new mail", ex, fb);
@@ -183,11 +184,7 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 
 			folder = camel_store_get_folder (fb->folder->parent_store,
 							 strrchr (tmp_mbox, '/') + 1,
-							 ex);
-
-			if (!camel_folder_exists(folder, ex)) {
-				camel_folder_create(folder, ex);
-			}
+							 TRUE, ex);
 			
 			camel_folder_open(folder, FOLDER_OPEN_RW, ex);
 

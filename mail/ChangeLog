@@ -1,3 +1,13 @@
+2000-06-06  Dan Winship  <danw@helixcode.com>
+
+	* mail-ops.c (fetch_mail): 
+	* folder-browser.c (folder_browser_load_folder): Update for folder
+	creation/existence changes.
+
+	* message-list.c (message_list_set_folder): Remove the code to
+	create the folder if it doesn't exist, since we don't want to do
+	that.
+
 2000-06-05  Dan Winship  <danw@helixcode.com>
 
 	* mail-ops.c (composer_send_cb): Leave the composer window around
