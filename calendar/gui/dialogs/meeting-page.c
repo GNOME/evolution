@@ -440,7 +440,7 @@ meeting_page_fill_component (CompEditorPage *page, CalComponent *comp)
 
 	if (e_meeting_model_count_actual_attendees (priv->model) < 1) {
 		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
-			  "At least one attendee is required.");
+			  _("At least one attendee is required."));
 		return FALSE;
 	}
 	set_attendees (comp, e_meeting_model_get_attendees (priv->model));

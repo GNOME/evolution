@@ -1,5 +1,10 @@
 2001-10-30  Federico Mena Quintero  <federico@ximian.com>
 
+	* gui/dialogs/meeting-page.c (meeting_page_fill_component): Add
+	_() to a string that was missing it.
+
+2001-10-30  Federico Mena Quintero  <federico@ximian.com>
+
 	* gui/dialogs/meeting-page.c (table_canvas_focus_out_cb): Commit
 	the ETable click-to-add for if the dialog is being destroyed.
 	Should fix bug #13959.
