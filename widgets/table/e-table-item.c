@@ -1674,7 +1674,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		button.y = y1;
 
 		gtk_signal_emit (GTK_OBJECT (eti), eti_signals [DOUBLE_CLICK],
-				 row, col, &button);
+				 row, view_to_model_col (eti, col), &button);
 		break;
 	}
 	case GDK_MOTION_NOTIFY: {
