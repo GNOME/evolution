@@ -1,5 +1,14 @@
 2001-08-20  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-view.c (e_shell_view_load_settings): Don't set the
+	paneds' positions if the respective left-hand elements [i.e. the
+	shortcut bar and the folder bar] are hidden.
+	(e_shell_view_show_folder_bar): Set the paned position to zero
+	when hiding.
+	(e_shell_view_show_shortcut_bar): Likewise.
+
+2001-08-20  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-startup-wizard.c (finish_func): Don't free the returned
 	displayname.
 

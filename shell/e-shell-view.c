@@ -2006,6 +2006,7 @@ e_shell_view_show_shortcut_bar (EShellView *shell_view,
 			e_paned_set_position (E_PANED (priv->hpaned), priv->hpaned_position);
 		}
 	} else {
+		e_paned_set_position (E_PANED (priv->hpaned), 0);
 		if (GTK_WIDGET_VISIBLE (priv->shortcut_frame)) {
 			gtk_widget_hide (priv->shortcut_frame);
 			/* FIXME this is a private field!  */
@@ -2044,6 +2045,8 @@ e_shell_view_show_folder_bar (EShellView *shell_view,
 		e_shell_folder_title_bar_set_clickable (E_SHELL_FOLDER_TITLE_BAR (priv->folder_title_bar),
 							FALSE);
 	} else {
+		e_paned_set_position (E_PANED (priv->view_hpaned), 0);
+
 		if (GTK_WIDGET_VISIBLE (priv->storage_set_view_box)) {
 			gtk_widget_hide (priv->storage_set_view_box);
 			/* FIXME this is a private field!  */
@@ -2353,12 +2356,16 @@ e_shell_view_load_settings (EShellView *shell_view,
 
 	key = g_strconcat (prefix, "HPanedPosition", NULL);
 	val = bonobo_config_get_long (db, key, NULL);
-	e_paned_set_position (E_PANED (priv->hpaned), val);
+	if (priv->shortcut_bar_shown)
+		e_paned_set_position (E_PANED (priv->hpaned), val);
+	priv->hpaned_position = val;
 	g_free (key);
 
 	key = g_strconcat (prefix, "ViewHPanedPosition", NULL);
 	val = bonobo_config_get_long (db, key, NULL);
-	e_paned_set_position (E_PANED (priv->view_hpaned), val);
+	if (priv->folder_bar_shown)
+		e_paned_set_position (E_PANED (priv->view_hpaned), val);
+	priv->view_hpaned_position = val;
 	g_free (key);
 
 	key = g_strconcat (prefix, "DisplayedURI", NULL);
