@@ -114,6 +114,7 @@ ibex_open (char *file, int flags, int mode)
 	if (f == NULL) {
 		if (errno == 0)
 			errno = ENOMEM;
+		close(fd);
 		return NULL;
 	}
 
@@ -124,12 +125,16 @@ ibex_open (char *file, int flags, int mode)
 	ib->words = g_hash_table_new (g_str_hash, g_str_equal);
 	ib->oldfiles = g_ptr_array_new ();
 
-	if (!f)
+	if (!f) {
+		close(fd);
 		return ib;
+	}
 
 	/* Check version.  If its empty, then we have just created it */
 	if (fread (vbuf, 1, sizeof (vbuf), f) != sizeof (vbuf)) {
 		if (feof (f)) {
+			fclose(f);
+			close(fd);
 			return ib;
 		}
 	}
@@ -177,11 +182,13 @@ ibex_open (char *file, int flags, int mode)
 
 	g_free (ibfs);
 	fclose (f);
+	close(fd);
 	return ib;
 
 errout:
 
 	fclose (f);
+	close(fd);
 	g_tree_traverse (ib->files, free_file, G_IN_ORDER, NULL);
 	g_tree_destroy (ib->files);
 	g_hash_table_foreach (ib->words, free_word, NULL);

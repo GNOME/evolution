@@ -1,4 +1,6 @@
-2000-05-06  NotZed  <NotZed@HelixCode.com>
+2000-05-07    <notzed@helixcode.com>
+
+	* file.c (ibex_open): Also close the fd after we're done.
 
 	* find.c (ibex_contains_name): New function to find out if a file
 	is indexed.
