@@ -117,6 +117,9 @@ static void rebuild_time_popup		(EDateEdit	*dedit);
 static void enable_time_combo		(EDateEdit	*dedit);
 static void disable_time_combo		(EDateEdit	*dedit);
 static gboolean date_is_none		(char		*date_text);
+static gboolean e_date_edit_parse_date	(EDateEdit	*dedit,
+					 char		*date_text,
+					 struct tm	*date_tm);
 
 
 static GtkHBoxClass *parent_class;
@@ -338,7 +341,6 @@ e_date_edit_destroy (GtkObject *object)
 {
 	EDateEdit *dedit;
 
-	g_return_if_fail (object != NULL);
 	g_return_if_fail (E_IS_DATE_EDIT (object));
 
 	dedit = E_DATE_EDIT (object);
@@ -358,7 +360,6 @@ static void
 e_date_edit_forall (GtkContainer *container, gboolean include_internals,
 		    GtkCallback callback, gpointer callback_data)
 {
-	g_return_if_fail (container != NULL);
 	g_return_if_fail (E_IS_DATE_EDIT (container));
 	g_return_if_fail (callback != NULL);
 
@@ -383,7 +384,7 @@ on_date_button_clicked (GtkWidget *widget, EDateEdit *dedit)
 	EDateEditPrivate *priv;
 	ECalendar *calendar;
 	struct tm mtm;
-	gchar *date_text, *status;
+	gchar *date_text;
 	GDate selected_day;
 	gboolean clear_selection = FALSE;
 
@@ -391,13 +392,9 @@ on_date_button_clicked (GtkWidget *widget, EDateEdit *dedit)
 	calendar = E_CALENDAR (priv->calendar);
 
 	date_text = gtk_entry_get_text (GTK_ENTRY (dedit->_priv->date_entry));
-	if (date_is_none (date_text)) {
+	if (date_is_none (date_text)
+	    || !e_date_edit_parse_date (dedit, date_text, &mtm))
 		clear_selection = TRUE;
-	} else {
-		status = strptime (date_text, "%x", &mtm);
-		if (!status || !status[0])
-			clear_selection = TRUE;
-	}
 
 	if (clear_selection) {
 		e_calendar_item_set_selection (calendar->calitem, NULL, NULL);
@@ -473,7 +470,9 @@ on_date_popup_date_selected (ECalendarItem *calitem, EDateEdit *dedit)
 
 	g_date_to_struct_tm (&start_date, &tmp_tm);
 
-	strftime (buffer, sizeof (buffer), "%x", &tmp_tm);
+	/* This is a strftime() format for a short date. %m = month, %d = day
+	   of month, %Y = year (all digits). */
+	strftime (buffer, sizeof (buffer), _("%m/%d/%Y"), &tmp_tm);
 	gtk_entry_set_text (GTK_ENTRY (dedit->_priv->date_entry), buffer);
 
 	enable_time_combo (dedit);
@@ -503,7 +502,9 @@ on_date_popup_today_button_clicked	(GtkWidget	*button,
 
 	t = time (NULL);
 	tmp_tm = localtime (&t);
-	strftime (buffer, sizeof (buffer), "%x", tmp_tm);
+	/* This is a strftime() format for a short date. %m = month, %d = day
+	   of month, %Y = year (all digits). */
+	strftime (buffer, sizeof (buffer), _("%m/%d/%Y"), tmp_tm);
 	gtk_entry_set_text (GTK_ENTRY (dedit->_priv->date_entry), buffer);
 
 	enable_time_combo (dedit);
@@ -606,7 +607,8 @@ hide_date_popup (EDateEdit *dedit)
  * e_date_edit_get_time:
  * @dedit: The EDateEdit widget
  *
- * Returns the time entered in the EDateEdit widget
+ * Returns the time entered in the EDateEdit widget, or -1 if the date is not
+ * set or -2 if the date can't be parsed.
  */
 time_t
 e_date_edit_get_time (EDateEdit *dedit)
@@ -615,7 +617,6 @@ e_date_edit_get_time (EDateEdit *dedit)
 	struct tm date_tm = { 0 }, time_tm = { 0 };
 	char *date_text, *time_text, *format;
 
-	g_return_val_if_fail (dedit != NULL, -1);
 	g_return_val_if_fail (E_IS_DATE_EDIT (dedit), -1);
 	
 	priv = dedit->_priv;
@@ -624,7 +625,8 @@ e_date_edit_get_time (EDateEdit *dedit)
 	if (date_is_none (date_text))
 		return -1;
 
-	strptime (date_text, "%x", &date_tm);
+	if (!e_date_edit_parse_date (dedit, date_text, &date_tm))
+		return -2;
 
 	if (dedit->_priv->show_time) {
 		time_text = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (priv->time_combo)->entry));
@@ -634,7 +636,8 @@ e_date_edit_get_time (EDateEdit *dedit)
 		else
 			format = "%I:%M %p";
 
-		strptime (time_text, format, &time_tm);
+		if (!strptime (time_text, format, &time_tm))
+			return -2;
 
 		date_tm.tm_hour = time_tm.tm_hour;
 		date_tm.tm_min = time_tm.tm_min;
@@ -643,6 +646,35 @@ e_date_edit_get_time (EDateEdit *dedit)
 	date_tm.tm_isdst = -1;
 
 	return mktime (&date_tm);
+}
+
+
+static gboolean
+e_date_edit_parse_date (EDateEdit *dedit,
+			gchar	  *date_text,
+			struct tm *date_tm)
+{
+	struct tm *tmp_tm;
+	time_t t;
+
+	/* This is a stpftime() format for a short date. %m = month,
+	   %d = day of month, %Y = year (all digits). */
+	if (!strptime (date_text, _("%m/%d/%Y"), date_tm))
+		return FALSE;
+
+	/* If the user entered a 2-digit year we use the current century. */
+	if (date_tm->tm_year < 0) {
+		t = time (NULL);
+		tmp_tm = localtime (&t);
+
+		/* This should convert it into a value from 0 to 99. */
+		date_tm->tm_year += 1900;
+
+		/* Now add on the century. */
+		date_tm->tm_year += tmp_tm->tm_year - (tmp_tm->tm_year % 100);
+	}
+
+	return TRUE;
 }
 
 
@@ -680,7 +712,10 @@ e_date_edit_set_time (EDateEdit *dedit, time_t the_time)
 	mytm = localtime (&the_time);
 
 	/* Set the date */
-	strftime (buffer, sizeof (buffer), "%x", mytm);
+
+	/* This is a strftime() format for a short date. %m = month, %d = day
+	   of month, %Y = year (all digits). */
+	strftime (buffer, sizeof (buffer), _("%m/%d/%Y"), mytm);
 	gtk_entry_set_text (GTK_ENTRY (priv->date_entry), buffer);
 
 	/* Set the time */
@@ -695,7 +730,13 @@ e_date_edit_set_time (EDateEdit *dedit, time_t the_time)
 }
 
 
-/* Whether we show the time field. */
+/**
+ * e_date_edit_get_show_time:
+ * @dedit: an #EDateEdit widget
+ * @Returns: Whether the time field is shown.
+ *
+ * Description: Returns TRUE if the time field is currently shown.
+ */
 gboolean
 e_date_edit_get_show_time		(EDateEdit	*dedit)
 {
@@ -705,6 +746,14 @@ e_date_edit_get_show_time		(EDateEdit	*dedit)
 }
 
 
+/**
+ * e_date_edit_set_show_time:
+ * @dedit: an #EDateEdit widget
+ * @show_time: TRUE if the time field should be shown.
+ *
+ * Description: Specifies whether the time field should be shown. The time
+ * field would be hidden if only a date needed to be entered.
+ */
 void
 e_date_edit_set_show_time		(EDateEdit	*dedit,
 					 gboolean	 show_time)
@@ -731,7 +780,14 @@ e_date_edit_set_show_time		(EDateEdit	*dedit,
 }
 
 
-/* The week start day, used in the date popup. 0 (Sun) to 6 (Sat). */
+/**
+ * e_date_edit_get_week_start_day:
+ * @dedit: an #EDateEdit widget
+ * @Returns: the week start day, from 0 (Sunday) to 6 (Saturday).
+ *
+ * Description: Returns the week start day currently used in the calendar
+ * popup.
+ */
 gint
 e_date_edit_get_week_start_day		(EDateEdit	*dedit)
 {
@@ -747,6 +803,13 @@ e_date_edit_get_week_start_day		(EDateEdit	*dedit)
 }
 
 
+/**
+ * e_date_edit_set_week_start_day:
+ * @dedit: an #EDateEdit widget
+ * @week_start_day: the week start day, from 0 (Sunday) to 6 (Saturday).
+ *
+ * Description: Sets the week start day to use in the calendar popup.
+ */
 void
 e_date_edit_set_week_start_day		(EDateEdit	*dedit,
 					 gint		 week_start_day)
@@ -872,6 +935,8 @@ e_date_edit_set_time_popup_range	(EDateEdit	*dedit,
 }
 
 
+/* Clears the time popup and rebuilds it using the lower_hour, upper_hour
+   and use_24_hour_format settings. */
 static void
 rebuild_time_popup			(EDateEdit	*dedit)
 {
@@ -924,6 +989,7 @@ rebuild_time_popup			(EDateEdit	*dedit)
 }
 
 
+/* Makes the time field & popup sensitive so the user can set the time. */
 static void
 enable_time_combo		(EDateEdit	*dedit)
 {
@@ -931,6 +997,8 @@ enable_time_combo		(EDateEdit	*dedit)
 }
 
 
+/* Makes the time field & popup insensitive and clears it. This is used when
+   the date has been set to "None". */
 static void
 disable_time_combo		(EDateEdit	*dedit)
 {
@@ -939,6 +1007,8 @@ disable_time_combo		(EDateEdit	*dedit)
 }
 
 
+/* Returns TRUE if the string is empty or is "None" in the current locale.
+   It ignores whitespace. */
 static gboolean
 date_is_none			(char		*date_text)
 {

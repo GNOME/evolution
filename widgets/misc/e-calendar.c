@@ -58,6 +58,35 @@
 #define E_CALENDAR_AUTO_MOVE_TIMEOUT		150
 #define E_CALENDAR_AUTO_MOVE_TIMEOUT_DELAY	2
 
+static char * left_arrow_xpm[] = {
+	"7 7 3 1",
+	" 	c None",
+	".	c #949594",
+	"+	c #000000",
+	"     .+",
+	"   .+++",
+	" .+++++",
+	"+++++++",
+	" .+++++",
+	"   .+++",
+	"     .+"
+};
+
+static char * right_arrow_xpm[] = {
+	"7 7 3 1",
+	" 	c None",
+	".	c #949594",
+	"+	c #000000",
+	"+.     ",
+	"+++.   ",
+	"+++++. ",
+	"+++++++",
+	"+++++. ",
+	"+++.   ",
+	"+.     "
+};
+
+
 static void e_calendar_class_init	(ECalendarClass *class);
 static void e_calendar_init		(ECalendar	*cal);
 static void e_calendar_destroy		(GtkObject	*object);
@@ -134,7 +163,10 @@ e_calendar_init (ECalendar *cal)
 {
 	GnomeCanvasGroup *canvas_group;
 	GdkFont *small_font;
-	GtkWidget *button, *arrow;
+	GtkWidget *button, *pixmap;
+	GdkColormap *colormap;
+	GdkPixmap *gdk_pixmap;
+	GdkBitmap *gdk_mask;
 
 	/* Create the small font. */
 	small_font = gdk_font_load (E_CALENDAR_SMALL_FONT);
@@ -154,27 +186,9 @@ e_calendar_init (ECalendar *cal)
 		gdk_font_unref (small_font);
 
 
-	/* Create the 'Today' and 'None' buttons but don't show them. */
-	cal->today_button = gtk_button_new_with_label (_("Today"));
-	cal->today_button_item = gnome_canvas_item_new (canvas_group,
-							gnome_canvas_widget_get_type (),
-							"widget", cal->today_button,
-							NULL);
-	gnome_canvas_item_hide (cal->today_button_item);
-
-
-	cal->none_button = gtk_button_new_with_label (_("None"));
-	cal->none_button_item = gnome_canvas_item_new (canvas_group,
-						       gnome_canvas_widget_get_type (),
-						       "widget", cal->none_button,
-						       NULL);
-	gnome_canvas_item_hide (cal->none_button_item);
-
-
 	/* Create the arrow buttons to move to the previous/next month. */
 	button = gtk_button_new ();
-	/* FIXME: The buttons doesn't display properly if we do this. */
-	/*gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);*/
+	gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
 	gtk_widget_show (button);
 	gtk_signal_connect_object (GTK_OBJECT (button), "pressed",
 				   GTK_SIGNAL_FUNC (e_calendar_on_prev_pressed),
@@ -182,16 +196,24 @@ e_calendar_init (ECalendar *cal)
 	gtk_signal_connect_object (GTK_OBJECT (button), "released",
 				   GTK_SIGNAL_FUNC (e_calendar_on_prev_released),
 				   GTK_OBJECT (cal));
-	arrow = gtk_arrow_new (GTK_ARROW_LEFT, GTK_SHADOW_OUT);
-	gtk_widget_show (arrow);
-	gtk_container_add (GTK_CONTAINER (button), arrow);
+
+	colormap = gtk_widget_get_colormap (GTK_WIDGET (cal));
+	gdk_pixmap = gdk_pixmap_colormap_create_from_xpm_d (NULL, colormap,
+							    &gdk_mask, NULL,
+							    left_arrow_xpm);
+	pixmap = gtk_pixmap_new (gdk_pixmap, gdk_mask);
+	gtk_widget_show (pixmap);
+	gdk_pixmap_unref (gdk_pixmap);
+	gdk_bitmap_unref (gdk_mask);
+	gtk_container_add (GTK_CONTAINER (button), pixmap);
+
 	cal->prev_item = gnome_canvas_item_new (canvas_group,
 						gnome_canvas_widget_get_type (),
 						"widget", button,
 						NULL);
 
 	button = gtk_button_new ();
-	/*gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);*/
+	gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
 	gtk_widget_show (button);
 	gtk_signal_connect_object (GTK_OBJECT (button), "pressed",
 				   GTK_SIGNAL_FUNC (e_calendar_on_next_pressed),
@@ -199,9 +221,16 @@ e_calendar_init (ECalendar *cal)
 	gtk_signal_connect_object (GTK_OBJECT (button), "released",
 				   GTK_SIGNAL_FUNC (e_calendar_on_next_released),
 				   GTK_OBJECT (cal));
-	arrow = gtk_arrow_new (GTK_ARROW_RIGHT, GTK_SHADOW_OUT);
-	gtk_widget_show (arrow);
-	gtk_container_add (GTK_CONTAINER (button), arrow);
+
+	gdk_pixmap = gdk_pixmap_colormap_create_from_xpm_d (NULL, colormap,
+							    &gdk_mask, NULL,
+							    right_arrow_xpm);
+	pixmap = gtk_pixmap_new (gdk_pixmap, gdk_mask);
+	gtk_widget_show (pixmap);
+	gdk_pixmap_unref (gdk_pixmap);
+	gdk_bitmap_unref (gdk_mask);
+	gtk_container_add (GTK_CONTAINER (button), pixmap);
+
 	cal->next_item = gnome_canvas_item_new (canvas_group,
 						gnome_canvas_widget_get_type (),
 						"widget", button,
@@ -254,6 +283,11 @@ static void
 e_calendar_realize (GtkWidget *widget)
 {
 	(*GTK_WIDGET_CLASS (parent_class)->realize) (widget);
+
+	/* Set the background of the canvas window to the normal color,
+	   or the arrow buttons are not displayed properly. */
+	gdk_window_set_background (GTK_LAYOUT (widget)->bin_window,
+				   &widget->style->bg[GTK_STATE_NORMAL]);
 }
 
 
@@ -261,10 +295,15 @@ static void
 e_calendar_style_set		(GtkWidget	*widget,
 				 GtkStyle	*previous_style)
 {
-
 	if (GTK_WIDGET_CLASS (parent_class)->style_set)
 		(*GTK_WIDGET_CLASS (parent_class)->style_set) (widget,
 							       previous_style);
+
+	/* Set the background of the canvas window to the normal color,
+	   or the arrow buttons are not displayed properly. */
+	if (GTK_WIDGET_REALIZED (widget->parent))
+		gdk_window_set_background (GTK_LAYOUT (widget)->bin_window,
+					   &widget->style->bg[GTK_STATE_NORMAL]);
 }
 
 
@@ -275,12 +314,6 @@ e_calendar_size_request		(GtkWidget      *widget,
 	ECalendar *cal;
 	GtkStyle *style;
 	gint col_width, row_height, width, height;
-	gboolean today_button_shown, none_button_shown;
-	gint buttons_shown = 0, button_height, button_width, buttons_width;
-	GtkRequisition today_button_requisition = { 0 };
-	GtkRequisition none_button_requisition = { 0 };
-	gint today_button_width = 0, today_button_height = 0;
-	gint none_button_width = 0, none_button_height = 0;
 
 	cal = E_CALENDAR (widget);
 	style = GTK_WIDGET (cal)->style;
@@ -292,40 +325,6 @@ e_calendar_size_request		(GtkWidget      *widget,
 
 	height = row_height * cal->min_rows;
 	width = col_width * cal->min_cols;
-
-	/* Add on space for line & button if shown. */
-	today_button_shown = GTK_WIDGET_VISIBLE (cal->today_button);
-	none_button_shown = GTK_WIDGET_VISIBLE (cal->none_button);
-
-	if (today_button_shown || none_button_shown) {
-		/* Note that we use the buttons' requisition fields directly
-		   since we want the sizes without any usize modification. */
-		if (today_button_shown) {
-			gtk_widget_size_request (cal->today_button,
-						 &today_button_requisition);
-			today_button_width = cal->today_button->requisition.width;
-			today_button_height = cal->today_button->requisition.height;
-			buttons_shown++;
-		}
-		if (none_button_shown) {
-			gtk_widget_size_request (cal->none_button,
-						 &none_button_requisition);
-			none_button_width = cal->none_button->requisition.width;
-			none_button_height = cal->none_button->requisition.height;
-			buttons_shown++;
-		}
-
-		button_height = MAX (today_button_height, none_button_height);
-		height += E_CALENDAR_YPAD_ABOVE_LOWER_BUTTONS + button_height
-			+ E_CALENDAR_YPAD_BELOW_LOWER_BUTTONS;
-
-		button_width = MAX (today_button_width, none_button_width);
-		button_width += E_CALENDAR_IXPAD_BUTTONS;
-		buttons_width = buttons_shown * button_width
-			+ (buttons_shown - 1) * E_CALENDAR_XPAD_BUTTONS;
-
-		width = MAX (width, buttons_width);
-	}
 
 	requisition->width = width + style->klass->xthickness * 2;
 	requisition->height = height + style->klass->ythickness * 2;
@@ -339,16 +338,7 @@ e_calendar_size_allocate	(GtkWidget	*widget,
 	ECalendar *cal;
 	GdkFont *font;
 	gdouble old_x2, old_y2, new_x2, new_y2;
-	gdouble buttons_x1, buttons_y1;
-	gdouble button_width, button_height;
-	gdouble buttons_width = 0, buttons_height = 0;
 	gdouble xthickness, ythickness, arrow_button_size;
-	gboolean today_button_shown, none_button_shown;
-	gint buttons_shown = 0;
-	GtkRequisition today_button_requisition = { 0 };
-	GtkRequisition none_button_requisition = { 0 };
-	gint today_button_width = 0, today_button_height = 0;
-	gint none_button_width = 0, none_button_height = 0;
 
 	cal = E_CALENDAR (widget);
 	font = widget->style->font;
@@ -366,67 +356,12 @@ e_calendar_size_allocate	(GtkWidget	*widget,
 		gnome_canvas_set_scroll_region (GNOME_CANVAS (cal),
 						0, 0, new_x2, new_y2);
 
-	/* Set the positions of the Today & None buttons if shown. */
-	today_button_shown = GTK_WIDGET_VISIBLE (cal->today_button);
-	none_button_shown = GTK_WIDGET_VISIBLE (cal->none_button);
-
-	if (today_button_shown || none_button_shown) {
-		if (today_button_shown) {
-			gtk_widget_size_request (cal->today_button,
-						 &today_button_requisition);
-			today_button_width = cal->today_button->requisition.width;
-			today_button_height = cal->today_button->requisition.height;
-			buttons_shown++;
-		}
-		if (none_button_shown) {
-			gtk_widget_size_request (cal->none_button,
-						 &none_button_requisition);
-			none_button_width = cal->none_button->requisition.width;
-			none_button_height = cal->none_button->requisition.height;
-			buttons_shown++;
-		}
-
-		button_height = MAX (today_button_height, none_button_height);
-		buttons_height = E_CALENDAR_YPAD_ABOVE_LOWER_BUTTONS
-			+ button_height	+ E_CALENDAR_YPAD_BELOW_LOWER_BUTTONS;
-
-		button_width = MAX (today_button_width, none_button_width);
-		button_width += E_CALENDAR_IXPAD_BUTTONS;
-		buttons_width = buttons_shown * button_width
-			+ (buttons_shown - 1) * E_CALENDAR_XPAD_BUTTONS;
-
-		buttons_x1 = (new_x2 + 1 - buttons_width) / 2;
-		buttons_x1 = MAX (0, buttons_x1);
-			
-		buttons_y1 = new_y2 + 1 - E_CALENDAR_YPAD_BELOW_LOWER_BUTTONS
-			- button_height - ythickness;
-		buttons_y1 = MAX (0, buttons_y1);
-
-		gnome_canvas_item_set (cal->today_button_item,
-				       "x", buttons_x1,
-				       "y", buttons_y1,
-				       "width", (gdouble) button_width,
-				       "height", (gdouble) button_height,
-				       NULL);
-
-		if (today_button_shown)
-			buttons_x1 += button_width + E_CALENDAR_XPAD_BUTTONS;
-
-		gnome_canvas_item_set (cal->none_button_item,
-				       "x", buttons_x1,
-				       "y", buttons_y1,
-				       "width", (gdouble) button_width,
-				       "height", (gdouble) button_height,
-				       NULL);
-	}
-
 	/* Take off space for line & buttons if shown. */
 	gnome_canvas_item_set (GNOME_CANVAS_ITEM (cal->calitem),
 			       "x1", 0.0,
 			       "y1", 0.0,
 			       "x2", new_x2,
 			       "y2", new_y2,
-			       "buttons_space", buttons_height,
 			       NULL);
 
 
@@ -552,8 +487,7 @@ e_calendar_get_border_size	(ECalendar	*cal,
 
 	if (style) {
 		*top    = style->klass->ythickness;
-		*bottom = style->klass->ythickness
-			+ cal->calitem->buttons_space;
+		*bottom = style->klass->ythickness;
 		*left   = style->klass->xthickness;
 		*right  = style->klass->xthickness;
 	} else {
@@ -645,32 +579,6 @@ e_calendar_stop_auto_move	(ECalendar	*cal)
 	if (cal->timeout_id != 0) {
 		gtk_timeout_remove (cal->timeout_id);
 		cal->timeout_id = 0;
-	}
-}
-
-
-/* Set which, if any, of the buttons to show beneath the month displays.
-   You must connect to the button's clicked signal and perform the
-   required action yourself. */
-void
-e_calendar_set_buttons	(ECalendar	*cal,
-			 gboolean	 show_today_button,
-			 gboolean	 show_none_button)
-{
-	if (show_today_button) {
-		gtk_widget_show (cal->today_button);
-		gnome_canvas_item_show (cal->today_button_item);
-	} else {
-		gtk_widget_hide (cal->today_button);
-		gnome_canvas_item_hide (cal->today_button_item);
-	}
-
-	if (show_none_button) {
-		gtk_widget_show (cal->none_button);
-		gnome_canvas_item_show (cal->none_button_item);
-	} else {
-		gtk_widget_hide (cal->none_button);
-		gnome_canvas_item_hide (cal->none_button_item);
 	}
 }
 

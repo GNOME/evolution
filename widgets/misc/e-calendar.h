@@ -54,12 +54,6 @@ struct _ECalendar
 
 	ECalendarItem *calitem;
 
-	GtkWidget *today_button;
-	GtkWidget *none_button;
-
-	GnomeCanvasItem *today_button_item;
-	GnomeCanvasItem *none_button_item;
-
 	GnomeCanvasItem *prev_item;
 	GnomeCanvasItem *next_item;
 
@@ -100,12 +94,6 @@ void	   e_calendar_get_border_size	(ECalendar	*cal,
 					 gint		*left,
 					 gint		*right);
 
-/* Set which, if any, of the buttons to show beneath the month displays.
-   You must connect to the button's clicked signal and perform the
-   required action yourself. */
-void	   e_calendar_set_buttons	(ECalendar	*cal,
-					 gboolean	 show_today_button,
-					 gboolean	 show_none_button);
 
 #ifdef __cplusplus
 }

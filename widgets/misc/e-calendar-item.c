@@ -65,9 +65,6 @@
 #define	E_CALENDAR_ITEM_XPAD_BEFORE_CELLS		1
 #define	E_CALENDAR_ITEM_XPAD_AFTER_CELLS		4
 
-/* The space on each end of the horizontal line. */
-#define E_CALENDAR_ITEM_LINE_PAD	4
-
 /* The number of rows & columns of days in each month. */
 #define E_CALENDAR_ROWS_PER_MONTH	6
 #define E_CALENDAR_COLS_PER_MONTH	7
@@ -92,6 +89,7 @@ static void e_calendar_item_set_arg	(GtkObject	 *o,
 					 guint		  arg_id);
 static void e_calendar_item_realize	(GnomeCanvasItem *item);
 static void e_calendar_item_unrealize	(GnomeCanvasItem *item);
+static void e_calendar_item_unmap	(GnomeCanvasItem *item);
 static void e_calendar_item_update	(GnomeCanvasItem *item,
 					 double		 *affine,
 					 ArtSVP		 *clip_path,
@@ -228,7 +226,6 @@ enum {
 	ARG_Y1,
 	ARG_X2,
 	ARG_Y2,
-	ARG_BUTTONS_SPACE,
 	ARG_FONT,
 	ARG_WEEK_NUMBER_FONT,
 	ARG_ROW_HEIGHT,
@@ -290,9 +287,6 @@ e_calendar_item_class_init (ECalendarItemClass *class)
 	gtk_object_add_arg_type ("ECalendarItem::y2",
 				 GTK_TYPE_DOUBLE, GTK_ARG_READWRITE,
 				 ARG_Y2);
-	gtk_object_add_arg_type ("ECalendarItem::buttons_space",
-				 GTK_TYPE_DOUBLE, GTK_ARG_READWRITE,
-				 ARG_BUTTONS_SPACE);
 	gtk_object_add_arg_type ("ECalendarItem::font",
 				 GTK_TYPE_GDK_FONT, GTK_ARG_READWRITE,
 				 ARG_FONT);
@@ -362,6 +356,7 @@ e_calendar_item_class_init (ECalendarItemClass *class)
 	/* GnomeCanvasItem method overrides */
 	item_class->realize     = e_calendar_item_realize;
 	item_class->unrealize   = e_calendar_item_unrealize;
+	item_class->unmap	= e_calendar_item_unmap;
 	item_class->update      = e_calendar_item_update;
 	item_class->draw        = e_calendar_item_draw;
 	item_class->point       = e_calendar_item_point;
@@ -406,8 +401,6 @@ e_calendar_item_init (ECalendarItem *calitem)
 	calitem->y1 = 0.0;
 	calitem->x2 = 0.0;
 	calitem->y2 = 0.0;
-
-	calitem->buttons_space = 0.0;
 
 	calitem->selection_set = FALSE;
 
@@ -475,9 +468,6 @@ e_calendar_item_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		break;
 	case ARG_Y2:
 		GTK_VALUE_DOUBLE (*arg) = calitem->y2;
-		break;
-	case ARG_BUTTONS_SPACE:
-		GTK_VALUE_DOUBLE (*arg) = calitem->buttons_space;
 		break;
 	case ARG_FONT:
 		GTK_VALUE_BOXED (*arg) = calitem->font;
@@ -577,13 +567,6 @@ e_calendar_item_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		dvalue = GTK_VALUE_DOUBLE (*arg);
 		if (calitem->y2 != dvalue) {
 			calitem->y2 = dvalue;
-			need_update = TRUE;
-		}
-		break;
-	case ARG_BUTTONS_SPACE:
-		dvalue = GTK_VALUE_DOUBLE (*arg);
-		if (calitem->buttons_space != dvalue) {
-			calitem->buttons_space = dvalue;
 			need_update = TRUE;
 		}
 		break;
@@ -688,6 +671,9 @@ e_calendar_item_realize		(GnomeCanvasItem *item)
 	gboolean success[E_CALENDAR_ITEM_COLOR_LAST];
 	gint nfailed;
 
+	if (GNOME_CANVAS_ITEM_CLASS (parent_class)->realize)
+		(* GNOME_CANVAS_ITEM_CLASS (parent_class)->realize) (item);
+
 	calitem = E_CALENDAR_ITEM (item);
 
 	colormap = gtk_widget_get_colormap (GTK_WIDGET (item->canvas));
@@ -729,6 +715,26 @@ e_calendar_item_unrealize	(GnomeCanvasItem *item)
 
 	for (i = 0; i < E_CALENDAR_ITEM_COLOR_LAST; i++)
 		gdk_colors_free (colormap, &calitem->colors[i].pixel, 1, 0);
+
+	if (GNOME_CANVAS_ITEM_CLASS (parent_class)->unrealize)
+		(* GNOME_CANVAS_ITEM_CLASS (parent_class)->unrealize) (item);
+}
+
+
+static void
+e_calendar_item_unmap		(GnomeCanvasItem *item)
+{
+	ECalendarItem *calitem;
+
+	calitem = E_CALENDAR_ITEM (item);
+
+	if (calitem->selecting) {
+		gnome_canvas_item_ungrab (item, GDK_CURRENT_TIME);
+		calitem->selecting = FALSE;
+	}
+
+	if (GNOME_CANVAS_ITEM_CLASS (parent_class)->unmap)
+		(* GNOME_CANVAS_ITEM_CLASS (parent_class)->unmap) (item);
 }
 
 
@@ -767,7 +773,7 @@ e_calendar_item_update		(GnomeCanvasItem *item,
 
 	/* Calculate how many rows & cols we can fit in. */
 	width = item->x2 - item->x1;
-	height = item->y2 - item->y1 - calitem->buttons_space;
+	height = item->y2 - item->y1;
 
 	width -= xthickness * 2;
 	height -= ythickness * 2;
@@ -865,7 +871,6 @@ e_calendar_item_draw		(GnomeCanvasItem *canvas_item,
 	GdkGC *base_gc, *bg_gc;
 	gint char_height, row, col, row_y, bar_height, col_x;
 	gint xthickness, ythickness;
-	gint line_y, line_x1, line_x2;
 
 #if 0
 	g_print ("In e_calendar_item_draw %i,%i %ix%i\n",
@@ -937,18 +942,6 @@ e_calendar_item_draw		(GnomeCanvasItem *canvas_item,
 
 		row_y += calitem->month_height;
 	}
-
-	/* Draw the horizontal line, if the Today or None buttons is shown. */
-	if (calitem->buttons_space) {
-		line_y = calitem->y2 + 1 - ythickness - calitem->buttons_space
-			- y;
-		line_x1 = calitem->x1 + xthickness
-			+ E_CALENDAR_ITEM_LINE_PAD - x;
-		line_x2 = calitem->x2 + 1 - xthickness
-			- E_CALENDAR_ITEM_LINE_PAD - x;
-		gdk_draw_line (drawable, bg_gc,
-			       line_x1, line_y, line_x2, line_y);
-	}
 }
 
 
@@ -998,8 +991,7 @@ e_calendar_item_draw_month	(ECalendarItem   *calitem,
 	month_w = item->x2 - item->x1 - xthickness * 2;
 	month_w = MIN (month_w, calitem->month_width);
 	month_y = item->y1 + ythickness + row * calitem->month_height - y;
-	month_h = item->y2 - item->y1 - calitem->buttons_space
-		- ythickness * 2;
+	month_h = item->y2 - item->y1 - ythickness * 2;
 	month_h = MIN (month_h, calitem->month_height);
 
 	/* Just return if the month is outside the given area. */
@@ -1043,7 +1035,8 @@ e_calendar_item_draw_month	(ECalendarItem   *calitem,
 		clip_rect.height = text_y + char_height - clip_rect.y;
 		gdk_gc_set_clip_rectangle (fg_gc, &clip_rect);
 
-		strftime (buffer, 64, "%B %Y", &tmp_tm);
+		/* This is a strftime() format. %B = Month name, %Y = Year. */
+		strftime (buffer, 64, _("%B %Y"), &tmp_tm);
 
 		/* Ideally we place the text centered in the month, but we
 		   won't go to the left of the minimum x position. */
@@ -1666,6 +1659,12 @@ e_calendar_item_button_press	(ECalendarItem	*calitem,
 		round_up_end = TRUE;
 	}
 
+	/* Don't round up or down if we can't select a week or more. */
+	if (calitem->max_days_selected < 7) {
+		round_down_start = FALSE;
+		round_up_end = FALSE;
+	}
+
 	if (round_up_end)
 		e_calendar_item_round_up_selection (calitem, &calitem->selection_end_month_offset, &calitem->selection_end_day);
 
@@ -1682,11 +1681,11 @@ static gboolean
 e_calendar_item_button_release	(ECalendarItem	*calitem,
 				 GdkEvent	*event)
 {
-	gnome_canvas_item_ungrab (GNOME_CANVAS_ITEM (calitem),
-				  event->button.time);
-
 	if (!calitem->selecting)
 		return FALSE;
+
+	gnome_canvas_item_ungrab (GNOME_CANVAS_ITEM (calitem),
+				  event->button.time);
 
 	calitem->selecting = FALSE;
 
@@ -1773,6 +1772,12 @@ e_calendar_item_motion		(ECalendarItem	*calitem,
 	if (calitem->selection_from_full_week
 	    && !calitem->selection_dragging_end)
 			round_up_end = TRUE;
+
+	/* Don't round up or down if we can't select a week or more. */
+	if (calitem->max_days_selected < 7) {
+		round_down_start = FALSE;
+		round_up_end = FALSE;
+	}
 
 	if (round_up_end)
 		e_calendar_item_round_up_selection (calitem, &end_month,
@@ -2488,6 +2493,13 @@ e_calendar_item_set_selection	(ECalendarItem	*calitem,
 
 	g_return_if_fail (E_IS_CALENDAR_ITEM (calitem));
 
+	/* If the user is in the middle of a selection, we must abort it. */
+	if (calitem->selecting) {
+		gnome_canvas_item_ungrab (GNOME_CANVAS_ITEM (calitem),
+					  GDK_CURRENT_TIME);
+		calitem->selecting = FALSE;
+	}
+
 	/* If start_date is NULL, we clear the selection without changing the
 	   month shown. */
 	if (start_date == NULL) {
@@ -2542,6 +2554,9 @@ e_calendar_item_set_selection	(ECalendarItem	*calitem,
 		calitem->selection_end_month_offset = new_end_month_offset;
 		calitem->selection_end_day = new_end_day;
 
+		calitem->selection_real_start_month_offset = new_start_month_offset;
+		calitem->selection_real_start_day = new_start_day;
+		calitem->selection_from_full_week = FALSE;
 	}
 
 	if (need_update)
@@ -2652,7 +2667,8 @@ e_calendar_item_show_popup_menu		(ECalendarItem	*calitem,
 			tmp_tm.tm_mday = 1;
 			tmp_tm.tm_isdst = -1;
 			mktime (&tmp_tm);
-			strftime (buffer, 64, "%B %Y", &tmp_tm);
+			/* This is a strftime() format. %B = Month name, %Y = Year. */
+			strftime (buffer, 64, _("%B %Y"), &tmp_tm);
 
 			menuitem = gtk_menu_item_new_with_label (buffer);
 			gtk_widget_show (menuitem);

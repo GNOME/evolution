@@ -1,3 +1,37 @@
+2000-09-23  Damon Chaplin  <damon@helixcode.com>
+
+	* e-calendar.c: use pixmaps instead of GtkArrows to look better.
+	Also set the canvas window's background when realized so that we can
+	set the button reliefs to none.
+
+2000-09-22  Damon Chaplin  <damon@helixcode.com>
+
+	* test-dateedit.c: updated a bit, adding a few EDateEdits with
+	different options.
+
+	* e-calendar-item.c (e_calendar_item_set_selection): aborted any
+	current selection operation and initialize all of the selection fields.
+	(e_calendar_item_unmap): new function to abort any current selection
+	operation. Otherwise GnomeCanvas gets in a muddle about grabs.
+
+	* e-dateedit.c: marked some strftime()/strptime() format strings for
+	translation and used "%m/%d/%Y" instead of "%x" so we get the complete
+	year number. Also changed e_date_edit_get_time() so it returns -2 if
+	it can't parse the date or time, and -1 if it is explicitly set to
+	None.
+	(e_date_edit_parse_date): new function to parse the date string and
+	add on the current century if a year of 0-99 is entered.
+
+2000-09-21  Damon Chaplin  <damon@helixcode.com>
+
+	* e-dateedit.c (on_date_button_clicked): only check return of strptime
+	for NULL. It should now select the correct day set in the popup.
+
+	* e-calendar.c: 
+	* e-calendar-item.c: 
+	* test-calendar.c: removed support for buttons within the ECalendar.
+	It is cleaner to add them outside it, as EDateEdit does.
+
 2000-09-18  Dan Winship  <danw@helixcode.com>
 
 	* e-dateedit.c (_XOPEN_SOURCE): set this to 4 to specify how much

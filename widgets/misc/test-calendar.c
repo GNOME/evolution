@@ -89,9 +89,6 @@ main (int argc, char **argv)
 			    GTK_SIGNAL_FUNC (delete_event_cb), NULL);
 
 	cal = e_calendar_new ();
-#if 1
-	e_calendar_set_buttons (E_CALENDAR (cal), TRUE, TRUE);
-#endif
 	e_calendar_set_minimum_size (E_CALENDAR (cal), 1, 1);
 	calitem = E_CALENDAR (cal)->calitem;
 	gtk_widget_show (cal);

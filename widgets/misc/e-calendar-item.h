@@ -135,9 +135,6 @@ struct _ECalendarItem
 	   move back/forward one month. Used for the week view. */
 	gboolean round_selection_when_moving;
 
-	/* The space to leave at the bottom for the Today & None buttons. */
-	gdouble buttons_space;
-
 	/*
 	 * Internal stuff.
 	 */
