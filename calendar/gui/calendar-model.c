@@ -1385,11 +1385,16 @@ calendar_model_append_row (ETableModel *etm, ETableModel *source, gint row)
 	/* FIXME: This should support other types of components, but for now it
 	 * is only used for the task list.
 	 */
-	if (priv->new_comp_vtype == CAL_COMPONENT_EVENT)
+	switch (priv->new_comp_vtype) {
+	case CAL_COMPONENT_EVENT:
 		comp = cal_comp_event_new_with_defaults (priv->client);
-	else {
+		break;
+	case CAL_COMPONENT_TODO:
+		comp = cal_comp_task_new_with_defaults (priv->client);
+		break;
+	default:
 		comp = cal_component_new ();
-		cal_component_set_new_vtype (comp, priv->new_comp_vtype);
+		cal_component_set_new_vtype (comp, priv->new_comp_vtype);		
 	}
 
 	set_categories (comp, e_table_model_value_at(source, CAL_COMPONENT_FIELD_CATEGORIES, row));

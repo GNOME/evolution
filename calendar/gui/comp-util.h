@@ -40,5 +40,6 @@ gboolean cal_comp_is_on_server (CalComponent *comp,
 				CalClient *client);
 
 CalComponent *cal_comp_event_new_with_defaults (CalClient *client);
+CalComponent *cal_comp_task_new_with_defaults (CalClient *client);
 
 #endif

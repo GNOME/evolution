@@ -319,3 +319,14 @@ cal_comp_event_new_with_defaults (CalClient *client)
 
 	return comp;
 }
+
+CalComponent *
+cal_comp_task_new_with_defaults (CalClient *client)
+{
+	CalComponent *comp;
+
+	if (cal_client_get_default_object (client, CALOBJ_TYPE_TODO, &comp) != CAL_CLIENT_GET_SUCCESS)
+		return NULL;
+
+	return comp;
+}

@@ -506,8 +506,7 @@ e_tasks_new_task			(ETasks		*tasks)
 
 	tedit = task_editor_new (priv->client);
 
-	comp = cal_component_new ();
-	cal_component_set_new_vtype (comp, CAL_COMPONENT_TODO);
+	comp = cal_comp_task_new_with_defaults (priv->client);
 
 	category = cal_search_bar_get_category (CAL_SEARCH_BAR (priv->search_bar));
 	cal_component_set_categories (comp, category);

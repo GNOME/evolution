@@ -1,5 +1,21 @@
 2002-12-18  JP Rosevear  <jpr@ximian.com>
 
+	* gui/calendar-model.c (calendar_model_append_row): use
+	cal_comp_task_new_with_defaults
+
+	* gui/comp-editor-factory.c (get_default_task): ditto
+
+	* gui/e-tasks.c (e_tasks_new_task): ditto
+
+	* gui/gnome-cal.c (gnome_calendar_new_task): ditto
+
+	* gui/comp-util.h (cal_comp_task_new_with_defaults): new proto
+
+	* gui/comp-util.c (cal_comp_task_new_with_defaults): new utility
+	routine
+
+2002-12-18  JP Rosevear  <jpr@ximian.com>
+	
 	* cal-util/cal-util.c (generate_absolute_triggers): skip omitted
 	alarm types
 	(add_alarm_occurrences_cb): ditto
