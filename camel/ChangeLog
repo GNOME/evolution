@@ -1,3 +1,13 @@
+2000-03-30  Dan Winship  <danw@helixcode.com>
+
+	* camel-service.c (camel_service_getport): Add a htons in the
+	default_number case, and document the fact that the function
+	returns the port in network byte order.
+
+	* providers/pop3/camel-pop3-store.c (pop3_connect): Revert
+	Miguel's change. The port number bug was actually somewhere
+	else, and the IP address copying code was fine already.
+	
 2000-03-29  Miguel de Icaza  <miguel@gnu.org>
 
 	* providers/pop3/camel-pop3-store.c (pop3_connect): Add htons

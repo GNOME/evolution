@@ -476,8 +476,8 @@ camel_service_gethost (CamelService *service, CamelException *ex)
  * based on the service's URL (which may contain either a numeric
  * or symbolic port name) and the provided defaults.
  *
- * Return value: a port number, or -1 if the user specified a port name
- * that could not be resolved.
+ * Return value: a port number (in network byte order), or -1 if the
+ * user specified a port name that could not be resolved.
  **/
 int
 camel_service_getport (CamelService *service, char *default_port,
@@ -504,5 +504,5 @@ camel_service_getport (CamelService *service, char *default_port,
 				      "Unknown port `%s'", port);
 		return -1;
 	} else
-		return default_number;
+		return htons (default_number);
 }
