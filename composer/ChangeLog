@@ -1,3 +1,7 @@
+2001-07-10  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* e-msg-composer.c: Fix typo. s/sesiion/session/
+	
 2001-07-09  Larry Ewing  <lewing@ximian.com>
 
 	* e-msg-composer.c (autosave_manager_query_load_orphans): Only ask

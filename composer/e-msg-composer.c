@@ -1166,7 +1166,7 @@ autosave_manager_query_load_orphans (AutosaveManager *am, EMsgComposer *composer
 	}
 	
 	if (match != NULL) {
-		dialog = gnome_question_dialog_parented (_("Evolution has found unsaved files from a previous sesiion.\n"
+		dialog = gnome_question_dialog_parented (_("Evolution has found unsaved files from a previous session.\n"
 							   "Would you like to attempt recovery?"),
 							 autosave_query_cb, &load, GTK_WINDOW (composer));
 		
