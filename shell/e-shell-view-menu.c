@@ -76,6 +76,7 @@ const char *authors[] = {
 	"Jason Leach",
 	"Matthew Loper",
 	"Federico Mena",
+	"Rodrigo Moya",
 	"Eskil Heyn Olsen",
 	"Jesse Pavel",
 	"Ettore Perazzoli",
@@ -89,7 +90,6 @@ const char *authors[] = {
 	"Peter Williams",
 	"Dan Winship",
 	"Michael Zucchi",
-	"Rodrigo Moya",
 	NULL
 };
 
