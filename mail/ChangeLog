@@ -1,3 +1,9 @@
+2001-10-21  Dan Winship  <danw@ximian.com>
+
+	* mail-callbacks.c (mail_generate_reply): Update for
+	e_msg_composer_add_messages_attachments arg change.
+	(do_forward_non_attached): Likewise.
+
 2001-10-20  Jon Trowbridge  <trow@ximian.com>
 
 	* mail-display.c (mail_display_new): Don't leak our
