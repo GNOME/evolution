@@ -169,6 +169,8 @@ evolution_SOURCES =				\
 	e-shell-importer.h			\
 	e-shell-offline-handler.c		\
 	e-shell-offline-handler.h		\
+	e-shell-offline-sync.c			\
+	e-shell-offline-sync.h			\
 	e-shell-settings-dialog.c		\
 	e-shell-settings-dialog.h		\
 	e-shell-shared-folder-picker-dialog.c 	\

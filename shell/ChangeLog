@@ -1,3 +1,19 @@
+2002-05-14  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-offline-handler.c
+	(e_shell_offline_handler_put_components_offline): Call
+	e_shell_offline_sync_all_folders() if no connection is reported
+	here.
+	(dialog_handle_ok): Sync all the folders here through
+	e_shell_offline_sync_all_folders().
+
+	* e-shell-offline-sync.c: New.
+	* e-shell-offline-sync.h: New.
+
+	* Evolution-Offline.idl (syncFolder): Make oneway.
+	(cancelSyncFolder): Likewise.
+	(SyncFolderProgressListener::reportSuccess): New method.
+
 2002-05-14  Christopher James Lahey  <clahey@ximian.com>
 
 	* Makefile.am: Added check-empty.xpm, check-filled.xpm, and

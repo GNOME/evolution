@@ -24,6 +24,10 @@
 #include <config.h>
 #endif
 
+#include "e-shell-offline-handler.h"
+
+#include "e-shell-offline-sync.h"
+
 #include <gtk/gtktypeutils.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtkwidget.h>
@@ -37,8 +41,6 @@
 #include <glade/glade-xml.h>
 
 #include <bonobo/bonobo-main.h>
-
-#include "e-shell-offline-handler.h"
 
 
 #define GLADE_DIALOG_FILE_NAME EVOLUTION_GLADEDIR "/e-active-connection-dialog.glade"
@@ -573,6 +575,8 @@ dialog_handle_ok (GnomeDialog *dialog,
 	g_assert (instruction_label != NULL);
 	g_assert (GTK_IS_LABEL (instruction_label));
 
+	e_shell_offline_sync_all_folders (priv->shell, GTK_WINDOW (dialog));
+
 	gtk_label_set_text (GTK_LABEL (instruction_label), _("Closing connections..."));
 
 	finalize_offline (offline_handler);
@@ -826,10 +830,13 @@ e_shell_offline_handler_put_components_offline (EShellOfflineHandler *offline_ha
 		return;
 	}
 
-	if (priv->num_total_connections > 0 && priv->parent_shell_view != NULL)
+	if (priv->num_total_connections > 0 && priv->parent_shell_view != NULL) {
 		pop_up_confirmation_dialog (offline_handler);
-	else
+	} else {
+		e_shell_offline_sync_all_folders (priv->shell,
+						  parent_shell_view ? GTK_WINDOW (parent_shell_view) : NULL);
 		finalize_offline (offline_handler);
+	}
 
 	gtk_object_unref (GTK_OBJECT (offline_handler));
 }
