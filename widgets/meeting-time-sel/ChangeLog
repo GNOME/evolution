@@ -1,3 +1,9 @@
+2001-05-04  JP Rosevear  <jpr@ximian.com>
+
+	* e-meeting-time-sel-list-item.c
+	(e_meeting_time_selector_list_item_destroy): correct type where
+	same pixmap mask was unreffed twice
+
 2001-04-24  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* e-meeting-time-sel.c, test-meeting-time-sel.c: Added #include
