@@ -1,3 +1,10 @@
+2004-07-12  Dan Winship  <danw@novell.com>
+
+	* e-mktemp.c (e_mktemp, e_mkdtemp): un-const the return values,
+	since they need to be freed
+	(d): turn off debugging
+	(expire_dir_rec): remove debug printfs
+
 2004-07-02  Chris Toshok  <toshok@ximian.com>
 
 	[ fixes #60691 ]
