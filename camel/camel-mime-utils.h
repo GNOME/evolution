@@ -263,6 +263,7 @@ enum {
 	CAMEL_MIME_IS_QPSAFE	= 1<<6,
 	CAMEL_MIME_IS_ESAFE	= 1<<7,	/* encoded word safe */
 	CAMEL_MIME_IS_PSAFE	= 1<<8,	/* encoded word in phrase safe */
+	CAMEL_MIME_IS_ATTRCHAR  = 1<<9,	/* attribute-char safe (rfc2184) */
 };
 
 extern unsigned short camel_mime_special_table[256];
@@ -278,6 +279,7 @@ extern unsigned short camel_mime_special_table[256];
 #define camel_mime_is_qpsafe(x) ((camel_mime_special_table[(unsigned char)(x)] & CAMEL_MIME_IS_QPSAFE) != 0)
 #define camel_mime_is_especial(x) ((camel_mime_special_table[(unsigned char)(x)] & CAMEL_MIME_IS_ESPECIAL) != 0)
 #define camel_mime_is_psafe(x) ((camel_mime_special_table[(unsigned char)(x)] & CAMEL_MIME_IS_PSAFE) != 0)
+#define camel_mime_is_attrchar(x) ((camel_mime_special_table[(unsigned char)(x)] & CAMEL_MIME_IS_ATTRCHAR) != 0)
 
 #ifdef __cplusplus
 }

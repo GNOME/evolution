@@ -20,9 +20,10 @@ check_PROGRAMS =  	\
 	url		\
 	url-scan	\
 	utf7		\
-	split
+	split		\
+	test2
 
-TESTS = url utf7 split url-scan
+TESTS = url utf7 split url-scan test2
 
 
 

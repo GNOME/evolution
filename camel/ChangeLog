@@ -1,3 +1,24 @@
+2004-06-01  Not Zed  <NotZed@Ximian.com>
+
+	** A few fixes for better rfc compliance, and cleaner code.
+
+	* camel-mime-utils.c (header_encode_param): a bunch of logic
+	cleanups with new util functions.
+	(header_decode_init): setup a new type ATTR_CHAR, for
+	attribute-char.
+
+	* tests/misc/test2.c (main): new test for rfc2184 stuff.
+
+	* camel-mime-utils.c (header_convert): helper to convert between
+	charsets.
+	(rfc2184_decode): fix a bunch of logic problems and use the helper
+	above to simplify code.
+	(decode_param_token): removed, not needed.
+	(header_decode_rfc2184_param): removed, not needed.
+	(header_decode_param): removed, not needed.  ugh.
+	(header_decode_param_list): completely rewritten, hence lack of
+	need of above.
+
 2004-05-31  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-filter-gzip.c (camel_mime_filter_gzip_finalize):

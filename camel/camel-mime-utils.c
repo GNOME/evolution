@@ -51,6 +51,7 @@
 #include "camel-mime-utils.h"
 #include "camel-charset-map.h"
 #include "camel-service.h"  /* for camel_gethostbyname() */
+#include "camel-utf8.h"
 
 #ifndef CLEAN_DATE
 #include "broken-date-parser.h"
@@ -96,6 +97,7 @@ static unsigned char camel_mime_base64_rank[256];
 					      encoded word in text specials: rfc 2047 5(1)*/
 #define CHARS_PSPECIAL "!*+-/" /* list of additional characters that can be left unencoded.
 				  encoded word in phrase specials: rfc 2047 5(3) */
+#define CHARS_ATTRCHAR "*\'% "	/* extra non-included attribute-chars */
 
 static void
 header_remove_bits(unsigned short bit, unsigned char *vals)
@@ -144,20 +146,22 @@ header_decode_init(void)
 
 	for (i=0;i<256;i++) {
 		camel_mime_special_table[i] = 0;
-		if (i<32)
+		if (i<32 || i==127)
 			camel_mime_special_table[i] |= CAMEL_MIME_IS_CTRL;
+		else if (i < 127)
+			camel_mime_special_table[i] |= CAMEL_MIME_IS_ATTRCHAR;
 		if ((i>=32 && i<=60) || (i>=62 && i<=126) || i==9)
 			camel_mime_special_table[i] |= (CAMEL_MIME_IS_QPSAFE|CAMEL_MIME_IS_ESAFE);
 		if ((i>='0' && i<='9') || (i>='a' && i<='z') || (i>='A' && i<= 'Z'))
 			camel_mime_special_table[i] |= CAMEL_MIME_IS_PSAFE;
 	}
-	camel_mime_special_table[127] |= CAMEL_MIME_IS_CTRL;
 	camel_mime_special_table[' '] |= CAMEL_MIME_IS_SPACE;
 	header_init_bits(CAMEL_MIME_IS_LWSP, 0, 0, CHARS_LWSP);
 	header_init_bits(CAMEL_MIME_IS_TSPECIAL, CAMEL_MIME_IS_CTRL, 0, CHARS_TSPECIAL);
 	header_init_bits(CAMEL_MIME_IS_SPECIAL, 0, 0, CHARS_SPECIAL);
 	header_init_bits(CAMEL_MIME_IS_DSPECIAL, 0, FALSE, CHARS_DSPECIAL);
 	header_remove_bits(CAMEL_MIME_IS_ESAFE, CHARS_ESPECIAL);
+	header_remove_bits(CAMEL_MIME_IS_ATTRCHAR, CHARS_TSPECIAL CHARS_ATTRCHAR);
 	header_init_bits(CAMEL_MIME_IS_PSAFE, 0, 0, CHARS_PSPECIAL);
 }
 
@@ -1826,6 +1830,33 @@ hex_decode (const char *in, size_t len)
 	return outbuf;
 }
 
+/* Tries to convert @in @from charset @to charset.  Any failure, we get no data out rather than partial conversion */
+static char *
+header_convert(const char *to, const char *from, const char *in, size_t inlen)
+{
+	iconv_t ic;
+	size_t outlen, ret;
+	char *outbuf, *outbase, *result = NULL;
+
+	ic = e_iconv_open(to, from);
+	if (ic == (iconv_t) -1)
+		return NULL;
+
+	outlen = inlen * 6 + 16;
+	outbuf = outbase = g_malloc(outlen);
+			
+	ret = e_iconv(ic, &in, &inlen, &outbuf, &outlen);
+	if (ret != (size_t) -1) {
+		e_iconv(ic, NULL, 0, &outbuf, &outlen);
+		*outbuf = '\0';
+		result = g_strdup(outbase);
+	}
+	e_iconv_close(ic);
+	g_free(outbase);
+
+	return result;
+}
+
 /* an rfc2184 encoded string looks something like:
  * us-ascii'en'This%20is%20even%20more%20
  */
@@ -1836,221 +1867,29 @@ rfc2184_decode (const char *in, size_t len)
 	const char *inptr = in;
 	const char *inend = in + len;
 	const char *charset;
-	char *decoded = NULL;
-	char *encoding;
+	char *decoded, *decword, *encoding;
 	
 	inptr = memchr (inptr, '\'', len);
 	if (!inptr)
 		return NULL;
-	
-	encoding = g_strndup (in, inptr - in);
+
+	encoding = g_alloca(inptr-in+1);
+	memcpy(encoding, in, inptr-in);
+	encoding[inptr-in] = 0;
 	charset = e_iconv_charset_name (encoding);
-	g_free (encoding);
 	
 	inptr = memchr (inptr + 1, '\'', inend - inptr - 1);
 	if (!inptr)
 		return NULL;
-	
 	inptr++;
-	if (inptr < inend) {
-		char *decword, *outbase, *outbuf;
-		const char *inbuf;
-		size_t inlen, outlen;
-		iconv_t ic;
-		
-		inbuf = decword = hex_decode (inptr, inend - inptr);
-		inlen = strlen (inbuf);
-		
-		ic = e_iconv_open ("UTF-8", charset);
-		if (ic != (iconv_t) -1) {
-			size_t ret;
-			
-			outlen = inlen * 6 + 16;
-			outbuf = outbase = g_malloc (outlen);
-			
-			ret = e_iconv (ic, &inbuf, &inlen, &outbuf, &outlen);
-			if (ret != (size_t) -1) {
-				e_iconv (ic, NULL, 0, &outbuf, &outlen);
-				*outbuf = '\0';
-				g_free (decoded);
-				decoded = outbase;
-			}
-			
-			e_iconv_close (ic);
-		} else {
-			decoded = decword;
-		}
-	}
-	
-	return decoded;
-}
-
-/* This function is basically the same as decode_token()
- * except that it will not accept *'s which have a special
- * meaning for rfc2184 params */
-static char *
-decode_param_token (const char **in)
-{
-	const char *inptr = *in;
-	const char *start;
-	
-	header_decode_lwsp (&inptr);
-	start = inptr;
-	while (camel_mime_is_ttoken (*inptr) && *inptr != '*')
-		inptr++;
-	if (inptr > start) {
-		*in = inptr;
-		return g_strndup (start, inptr - start);
-	} else {
+	if (inptr >= inend)
 		return NULL;
-	}
-}
 
-static gboolean
-header_decode_rfc2184_param (const char **in, char **paramp, gboolean *is_encoded, int *part)
-{
-	gboolean is_rfc2184 = FALSE;
-	const char *inptr = *in;
-	char *param;
-	
-	*is_encoded = FALSE;
-	*part = -1;
-	
-	param = decode_param_token (&inptr);
-	header_decode_lwsp (&inptr);
-	
-	if (*inptr == '*') {
-		is_rfc2184 = TRUE;
-		inptr++;
-		header_decode_lwsp (&inptr);
-		if (*inptr == '=') {
-			/* form := param*=value */
-			if (is_encoded)
-				*is_encoded = TRUE;
-		} else {
-			/* form := param*#=value or param*#*=value */
-			*part = camel_header_decode_int (&inptr);
-			header_decode_lwsp (&inptr);
-			if (*inptr == '*') {
-				/* form := param*#*=value */
-				if (is_encoded)
-					*is_encoded = TRUE;
-				inptr++;
-				header_decode_lwsp (&inptr);
-			}
-		}
-	}
-	
-	if (paramp)
-		*paramp = param;
-	
-	if (param)
-		*in = inptr;
-	
-	return is_rfc2184;
-}
+	decword = hex_decode (inptr, inend - inptr);
+	decoded = header_convert("UTF-8", charset, decword, strlen(decword));
+	g_free(decword);
 
-static int
-header_decode_param (const char **in, char **paramp, char **valuep, int *is_rfc2184_param, int *rfc2184_part)
-{
-	gboolean is_rfc2184_encoded = FALSE;
-	gboolean is_rfc2184 = FALSE;
-	const char *inptr = *in;
-	char *param = NULL;
-	char *value = NULL;
-	
-	*is_rfc2184_param = FALSE;
-	*rfc2184_part = -1;
-	
-	is_rfc2184 = header_decode_rfc2184_param (&inptr, &param, &is_rfc2184_encoded, rfc2184_part);
-	
-	if (*inptr == '=') {
-		inptr++;
-		value = header_decode_value (&inptr);
-		
-		if (value && is_rfc2184) {
-			/* We have ourselves an rfc2184 parameter */
-			
-			if (*rfc2184_part == -1) {
-				/* rfc2184 allows the value to be broken into
-				 * multiple parts - this isn't one of them so
-				 * it is safe to decode it.
-				 */
-				char *val;
-				
-				val = rfc2184_decode (value, strlen (value));
-				if (val) {
-					g_free (value);
-					value = val;
-				}
-			} else {
-				/* Since we are expecting to find the rest of
-				 * this paramter value later, let our caller know.
-				 */
-				*is_rfc2184_param = TRUE;
-			}
-		} else if (value && !strncmp (value, "=?", 2)) {
-			/* We have a broken param value that is rfc2047 encoded.
-			 * Since both Outlook and Netscape/Mozilla do this, we
-			 * should handle this case.
-			 */
-			char *val;
-			
-			if ((val = header_decode_text (value, strlen (value), NULL))) {
-				g_free (value);
-				value = val;
-			}
-		}
-	}
-	
-	if (value && !g_utf8_validate (value, -1, NULL)) {
-		/* The (broken) mailer sent us an unencoded 8bit value
-		 * attempt to save it by assuming it's in the user's
-		 * locale and converting to utf8 */
-		char *outbase, *outbuf, *p;
-		const char *charset, *inbuf;
-		size_t inlen, outlen;
-		iconv_t ic;
-		
-		inbuf = value;
-		inlen = strlen (inbuf);
-		
-		charset = e_iconv_locale_charset ();
-		ic = e_iconv_open ("UTF-8", charset ? charset : "ISO-8859-1");
-		if (ic != (iconv_t) -1) {
-			size_t ret;
-			
-			outlen = inlen * 6 + 16;
-			outbuf = outbase = g_malloc (outlen);
-			
-			ret = e_iconv (ic, &inbuf, &inlen, &outbuf, &outlen);
-			if (ret != (size_t) -1) {
-				e_iconv (ic, NULL, 0, &outbuf, &outlen);
-				*outbuf = '\0';
-			}
-			
-			e_iconv_close (ic);
-			
-			g_free (value);
-			value = outbase;
-		} else {
-			/* Okay, so now what? I guess we convert invalid chars to _'s? */
-			for (p = value; *p; p++)
-				if (!isascii ((unsigned) *p))
-					*p = '_';
-		}
-	}
-	
-	if (param && value) {
-		*paramp = param;
-		*valuep = value;
-		*in = inptr;
-		return 0;
-	} else {
-		g_free (param);
-		g_free (value);
-		return 1;
-	}
+	return decoded;
 }
 
 char *
@@ -2953,87 +2792,158 @@ camel_header_mime_decode(const char *in, int *maj, int *min)
 	d(printf("major = %d, minor = %d\n", major, minor));
 }
 
+struct _rfc2184_param {
+	struct _camel_header_param param;
+	int index;
+};
+
+static int
+rfc2184_param_cmp(const void *ap, const void *bp)
+{
+	const struct _rfc2184_param *a = *(void **)ap;
+	const struct _rfc2184_param *b = *(void **)bp;
+	int res;
+
+	res = strcmp(a->param.name, b->param.name);
+	if (res == 0) {
+		if (a->index > b->index)
+			res = 1;
+		else if (a->index < b->index)
+			res = -1;
+	}
+		
+	return res;
+}
+
+/* NB: Steals name and value */
+static struct _camel_header_param *
+header_append_param(struct _camel_header_param *last, char *name, char *value)
+{
+	struct _camel_header_param *node;
+
+	/* This handles -
+	    8 bit data in parameters, illegal, tries to convert using locale, or just safens it up.
+	    rfc2047 ecoded parameters, illegal, decodes them anyway.  Some Outlook & Mozilla do this?
+	*/
+	node = g_malloc(sizeof(*node));
+	last->next = node;
+	node->next = NULL;
+	node->name = name;
+	if (strncmp(value, "=?", 2) == 0
+	    && (node->value = header_decode_text(value, strlen(value), NULL))) {
+		g_free(value);
+	} else if (!g_utf8_validate(value, -1, NULL)) {
+		const char * charset = e_iconv_locale_charset();
+
+		if ((node->value = header_convert("UTF-8", charset?charset:"ISO-8859-1", value, strlen(value)))) {
+			g_free(value);
+		} else {
+			node->value = value;
+			for (;*value;value++)
+				if (!isascii((unsigned char)*value))
+					*value = '_';
+		}
+	} else
+		node->value = value;
+
+	return node;
+}
+
 static struct _camel_header_param *
 header_decode_param_list (const char **in)
 {
+	struct _camel_header_param *head = NULL, *last = (struct _camel_header_param *)&head;
+	GPtrArray *split = NULL;
 	const char *inptr = *in;
-	struct _camel_header_param *head = NULL, *tail = NULL;
-	gboolean last_was_rfc2184 = FALSE;
-	gboolean is_rfc2184 = FALSE;
-	
-	header_decode_lwsp (&inptr);
-	
+	struct _rfc2184_param *work;
+	char *tmp;
+
+	/* Dump parameters into the output list, in the order found.  RFC 2184 split parameters are kept in an array */
+	header_decode_lwsp(&inptr);
 	while (*inptr == ';') {
-		struct _camel_header_param *param;
-		char *name, *value;
-		int rfc2184_part;
-		
+		char *name;
+		char *value = NULL;
+
 		inptr++;
-		/* invalid format? */
-		if (header_decode_param (&inptr, &name, &value, &is_rfc2184, &rfc2184_part) != 0)
-			break;
-		
-		if (is_rfc2184 && tail && !strcasecmp (name, tail->name)) {
-			/* rfc2184 allows a parameter to be broken into multiple parts
-			 * and it looks like we've found one. Append this value to the
-			 * last value.
-			 */
-			/* FIXME: we should be ordering these based on rfc2184_part id */
-			GString *gvalue;
-			
-			gvalue = g_string_new (tail->value);
-			g_string_append (gvalue, value);
-			g_free (tail->value);
-			g_free (value);
-			g_free (name);
-			
-			tail->value = gvalue->str;
-			g_string_free (gvalue, FALSE);
-		} else {
-			if (last_was_rfc2184) {
-				/* We've finished gathering the values for the last param
-				 * so it is now safe to decode it.
-				 */
-				char *val;
-				
-				val = rfc2184_decode (tail->value, strlen (tail->value));
-				if (val) {
-					g_free (tail->value);
-					tail->value = val;
+		name = decode_token(&inptr);
+		header_decode_lwsp(&inptr);
+		if (*inptr == '=') {
+			inptr++;
+			value = header_decode_value(&inptr);
+		}
+
+		if (name && value) {
+			char *index = strchr(name, '*');
+
+			if (index) {
+				if (index[1] == 0) {
+					/* VAL*="foo", decode immediately and append */
+					*index = 0;
+					tmp = rfc2184_decode(value, strlen(value));
+					if (tmp) {
+						g_free(value);
+						value = tmp;
+					}
+					last = header_append_param(last, name, value);
+				} else {
+					/* VAL*1="foo", save for later */
+					*index++ = 0;
+					work = g_malloc(sizeof(*work));
+					work->param.name = name;
+					work->param.value = value;
+					work->index = atoi(index);
+					if (split == NULL)
+						split = g_ptr_array_new();
+					g_ptr_array_add(split, work);
 				}
+			} else {
+				last = header_append_param(last, name, value);
 			}
-			
-			param = g_malloc (sizeof (struct _camel_header_param));
-			param->name = name;
-			param->value = value;
-			param->next = NULL;
-			if (head == NULL)
-				head = param;
-			if (tail)
-				tail->next = param;
-			tail = param;
+		} else {
+			g_free(name);
+			g_free(value);
 		}
-		
-		last_was_rfc2184 = is_rfc2184;
-		
-		header_decode_lwsp (&inptr);
+
+		header_decode_lwsp(&inptr);
 	}
-	
-	if (last_was_rfc2184) {
-		/* We've finished gathering the values for the last param
-		 * so it is now safe to decode it.
-		 */
-		char *val;
-		
-		val = rfc2184_decode (tail->value, strlen (tail->value));
-		if (val) {
-			g_free (tail->value);
-			tail->value = val;
+
+	/* Rejoin any RFC 2184 split parameters in the proper order */
+	/* Parameters with the same index will be concatenated in undefined order */
+	if (split) {
+		GString *value = g_string_new("");
+		struct _rfc2184_param *first;
+		int i;
+
+		qsort(split->pdata, split->len, sizeof(split->pdata[0]), rfc2184_param_cmp);
+		first = split->pdata[0];
+		for (i=0;i<split->len;i++) {
+			work = split->pdata[i];
+			if (split->len-1 == i)
+				g_string_append(value, work->param.value);
+			if (split->len-1 == i || strcmp(work->param.name, first->param.name) != 0) {
+				tmp = rfc2184_decode(value->str, value->len);
+				if (tmp == NULL)
+					tmp = g_strdup(value->str);
+
+				last = header_append_param(last, g_strdup(first->param.name), tmp);
+				g_string_truncate(value, 0);
+				first = work;
+			}
+			if (split->len-1 != i)
+				g_string_append(value, work->param.value);
 		}
+		g_string_free(value, TRUE);
+		for (i=0;i<split->len;i++) {
+			work = split->pdata[i];
+			g_free(work->param.name);
+			g_free(work->param.value);
+			g_free(work);
+		}
+		g_ptr_array_free(split, TRUE);
 	}
-	
+
 	*in = inptr;
-	
+
 	return head;
 }
 
@@ -3046,23 +2956,19 @@ camel_header_param_list_decode(const char *in)
 	return header_decode_param_list(&in);
 }
 
-
 static char *
 header_encode_param (const unsigned char *in, gboolean *encoded)
 {
-	register const unsigned char *inptr = in;
+	const unsigned char *inptr = in;
 	unsigned char *outbuf = NULL;
-	const unsigned char *inend;
-	iconv_t cd = (iconv_t) -1;
 	const char *charset;
-	char *outstr;
 	int encoding;
 	GString *out;
-	
+	guint32 c;
+
 	*encoded = FALSE;
 	
 	g_return_val_if_fail (in != NULL, NULL);
-	g_return_val_if_fail (g_utf8_validate (in, -1, NULL), NULL);
 	
 	/* do a quick us-ascii check (the common case?) */
 	while (*inptr) {
@@ -3076,87 +2982,43 @@ header_encode_param (const unsigned char *in, gboolean *encoded)
 	
 	inptr = in;
 	encoding = 0;
-	while (inptr && *inptr) {
-		const char *newinptr;
-		gunichar c;
-		
-		newinptr = g_utf8_next_char (inptr);
-		c = g_utf8_get_char (inptr);
-		if (newinptr == NULL || !g_unichar_validate (c)) {
-			w(g_warning ("Invalid UTF-8 sequence encountered (pos %d, char '%c'): %s",
-				     (inptr-in), inptr[0], in));
-			inptr++;
-			continue;
-		}
-		
-		if (c > 127 && c < 256) {
+	while ( encoding !=2 && (c = camel_utf8_getc(&inptr)) ) {
+		if (c > 127 && c < 256)
 			encoding = MAX (encoding, 1);
-		} else if (c >= 256) {
+		else if (c >= 256)
 			encoding = MAX (encoding, 2);
-		}
-		
-		inptr = newinptr;
 	}
-	
+
 	if (encoding == 2)
-		charset = camel_charset_best (in, inptr - in);
+		charset = camel_charset_best(in, strlen(in));
 	else
 		charset = "iso-8859-1";
 	
-	if (strcasecmp (charset, "UTF-8") != 0)
-		cd = e_iconv_open (charset, "UTF-8");
-	
-	if (cd == (iconv_t) -1) {
+	if (g_ascii_strcasecmp(charset, "UTF-8") != 0
+	    && (outbuf = header_convert(charset, "UTF-8", in, strlen(in)))) {
+		inptr = outbuf;
+	} else {
 		charset = "UTF-8";
 		inptr = in;
-		inend = inptr + strlen (in);
-	} else {
-		size_t inleft, outleft;
-		const char *inbuf;
-		char *outptr;
-		
-		inleft = (inptr - in);
-		outleft = inleft * 6 + 20;
-		outptr = outbuf = g_malloc (outleft);
-		inbuf = in;
-		
-		if (e_iconv (cd, &inbuf, &inleft, &outptr, &outleft) == (size_t) -1) {
-			w(g_warning ("Conversion problem: conversion truncated: %s", strerror (errno)));
-		} else {
-			e_iconv (cd, NULL, 0, &outptr, &outleft);
-		}
-		
-		e_iconv_close (cd);
-		
-		inptr = outbuf;
-		inend = outptr;
 	}
 	
 	/* FIXME: set the 'language' as well, assuming we can get that info...? */
-	out = g_string_new ("");
-	g_string_append_printf (out, "%s''", charset);
-	
-	while (inptr < inend) {
-		unsigned char c = *inptr++;
-		
-		/* FIXME: make sure that '\'', '*', and ';' are also encoded */
-		
-		if (c > 127) {
-			g_string_append_printf (out, "%%%c%c", tohex[(c >> 4) & 0xf], tohex[c & 0xf]);
-		} else if (camel_mime_is_lwsp (c) || !(camel_mime_special_table[c] & CAMEL_MIME_IS_ESAFE)) {
-			g_string_append_printf (out, "%%%c%c", tohex[(c >> 4) & 0xf], tohex[c & 0xf]);
-		} else {
+	out = g_string_new (charset);
+	g_string_append(out, "''");
+
+	while ( (c = *inptr++) ) {
+		if (camel_mime_is_attrchar(c))
 			g_string_append_c (out, c);
-		}
+		else
+			g_string_append_printf (out, "%%%c%c", tohex[(c >> 4) & 0xf], tohex[c & 0xf]);
 	}
-	
 	g_free (outbuf);
 	
-	outstr = out->str;
+	outbuf = out->str;
 	g_string_free (out, FALSE);
 	*encoded = TRUE;
 	
-	return outstr;
+	return outbuf;
 }
 
 void
