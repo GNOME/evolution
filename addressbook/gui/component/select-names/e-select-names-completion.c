@@ -731,16 +731,37 @@ e_select_names_completion_clear_cache (ESelectNamesCompletionBookData *book_data
 }
 
 static void
+e_select_names_completion_done (ESelectNamesCompletion *comp)
+{
+	g_free (comp->priv->query_text);
+	comp->priv->query_text = NULL;
+
+	e_completion_end_search (E_COMPLETION (comp)); /* That's all folks! */
+
+	/* Need to launch a new completion if another one is pending. */
+	if (comp->priv->waiting_query) {
+		gchar *s = comp->priv->waiting_query;
+		comp->priv->waiting_query = NULL;
+		e_completion_begin_search (E_COMPLETION (comp), s, comp->priv->waiting_pos, comp->priv->waiting_limit);
+		g_free (s);
+	}
+}
+
+static void
 e_select_names_completion_got_book_view_cb (EBook *book, EBookStatus status, EBookView *view, gpointer user_data)
 {
 	ESelectNamesCompletion *comp;
 	ESelectNamesCompletionBookData *book_data;
 
-	if (status != E_BOOK_STATUS_SUCCESS)
-		return;
-
 	book_data = (ESelectNamesCompletionBookData*)user_data;
 	comp = book_data->comp;
+
+	if (status != E_BOOK_STATUS_SUCCESS) {
+		comp->priv->pending_completion_seq--;
+		if (!comp->priv->pending_completion_seq)
+			e_select_names_completion_done (comp);
+		return;
+	}
 
 	book_data->book_view_tag = 0;
 
@@ -772,7 +793,6 @@ e_select_names_completion_got_book_view_cb (EBook *book, EBookStatus status, EBo
 				  G_CALLBACK (e_select_names_completion_seq_complete_cb),
 				  book_data);
 	book_data->sequence_complete_received = FALSE;
-	comp->priv->pending_completion_seq++;
 }
 
 static void
@@ -842,18 +862,7 @@ e_select_names_completion_seq_complete_cb (EBookView *book_view, EBookViewStatus
 			return;
 	}
 
-	g_free (comp->priv->query_text);
-	comp->priv->query_text = NULL;
-
-	e_completion_end_search (E_COMPLETION (comp)); /* That's all folks! */
-
-	/* Need to launch a new completion if another one is pending. */
-	if (comp->priv->waiting_query) {
-		gchar *s = comp->priv->waiting_query;
-		comp->priv->waiting_query = NULL;
-		e_completion_begin_search (E_COMPLETION (comp), s, comp->priv->waiting_pos, comp->priv->waiting_limit);
-		g_free (s);
-	}
+	e_select_names_completion_done (comp);
 }
 
 static void
@@ -923,7 +932,6 @@ e_select_names_completion_start_query (ESelectNamesCompletion *comp, const gchar
 		sexp = book_query_sexp (comp);
 		if (sexp && *sexp) {
 			GList *l;
-			gboolean async = FALSE;
 
 			if (out)
 				fprintf (out, "\n\n**** starting query: \"%s\"\n", comp->priv->query_text);
@@ -966,7 +974,6 @@ e_select_names_completion_start_query (ESelectNamesCompletion *comp, const gchar
 					book_query_process_card_list (comp, book_data->cached_cards);
 				}
 				else {
-					async = TRUE;
 					e_select_names_completion_clear_cache (book_data);
 					book_data->cached_query_text = g_strdup (query_text);
 
@@ -975,6 +982,8 @@ e_select_names_completion_start_query (ESelectNamesCompletion *comp, const gchar
 											       e_select_names_completion_got_book_view_cb, book_data);
 					if (! book_data->book_view_tag)
 						g_warning ("Exception calling e_book_get_completion_view");
+					else
+						comp->priv->pending_completion_seq++;
 				}
 
 				if (out)
@@ -985,8 +994,8 @@ e_select_names_completion_start_query (ESelectNamesCompletion *comp, const gchar
 			   and were able to complete based
 			   solely on our cached cards, signal
 			   that the search is over. */
-			if (!async)
-				e_completion_end_search (E_COMPLETION (comp));
+			if (!comp->priv->pending_completion_seq)
+				e_select_names_completion_done (E_COMPLETION (comp));
 		} else {
 			g_free (comp->priv->query_text);
 			comp->priv->query_text = NULL;

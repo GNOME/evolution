@@ -1,3 +1,22 @@
+2003-04-23  Chris Toshok  <toshok@ximian.com>
+
+	[ either mostly or entirely fixes #33708 ]
+	* gui/component/select-names/e-select-names-completion.c
+	(e_select_names_completion_done): new function, factor it out of
+	_seq_complete_cb because we need to run the same code in a couple
+	of places.
+	(e_select_names_completion_got_book_view_cb): treat an error from
+	a book as getting a "sequence_complete", and decrement the count
+	of pending complete signals.
+	(e_select_names_completion_got_book_view_cb): remove the increment
+	of pending_completion_seq from here.
+	(e_select_names_completion_seq_complete_cb): factor out the body
+	of e_select_names_completion_done from here, and call it.
+	(e_select_names_completion_start_query): increment
+	pending_completion_seq here.  remove the async variable, as we can
+	now use pending_completion_seq for that purpose (it's > 0 iff
+	async would have been TRUE).
+
 2003-04-19  Chris Toshok  <toshok@ximian.com>
 
 	[ fixes bug #40954 ]
