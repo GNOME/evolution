@@ -122,10 +122,10 @@ complete(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out,
 		g_assert(newlen <= len);
 		break;
 	case CAMEL_MIME_FILTER_BASIC_QP_DEC:
-		/* output can't possibly exceed the input size */
-		camel_mime_filter_set_size(mf, len, FALSE);
+		/* output can't possibly exceed the input size, well unless its not really qp, then +2 max */
+		camel_mime_filter_set_size(mf, len+2, FALSE);
 		newlen = quoted_decode_step(in, len, mf->outbuf, &f->state, &f->save);
-		g_assert(newlen <= len);
+		g_assert(newlen <= len+2);
 		break;
 	case CAMEL_MIME_FILTER_BASIC_UU_DEC:
 		/* output can't possibly exceed the input size */

@@ -79,7 +79,7 @@ reset(CamelMimeFilter *mf)
 	/* what happens with the output bytes if this resets the state? */
 	if (f->ic != (iconv_t) -1) {
 		buffer = buf;
-		iconv(f->ic, NULL, 0, &buffer, &outlen);
+		e_iconv(f->ic, NULL, 0, &buffer, &outlen);
 	}
 }
 
@@ -109,7 +109,7 @@ complete(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out,
 	d(memset(outbuf, 0, outlen));
 
 	if (inlen>0) {
-		converted = iconv(f->ic, &inbuf, &inlen, &outbuf, &outlen);
+		converted = e_iconv(f->ic, &inbuf, &inlen, &outbuf, &outlen);
 		if (converted == -1) {
 			if (errno != EINVAL) {
 				g_warning("error occured converting: %s", strerror(errno));
@@ -124,7 +124,7 @@ complete(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out,
 
 	/* this 'resets' the output stream, returning back to the initial
 	   shift state for multishift charactersets */
-	converted = iconv(f->ic, NULL, 0, &outbuf, &outlen);
+	converted = e_iconv(f->ic, NULL, 0, &outbuf, &outlen);
 	if (converted == -1) {
 		g_warning("Conversion failed to complete: %s", strerror(errno));
 	}
@@ -168,7 +168,7 @@ filter(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out, s
 	inlen = len;
 	outbuf = mf->outbuf;
 	outlen = mf->outsize;
-	converted = iconv(f->ic, &inbuf, &inlen, &outbuf, &outlen);
+	converted = e_iconv(f->ic, &inbuf, &inlen, &outbuf, &outlen);
 	if (converted == -1) {
 		if (errno != EINVAL) {
 			g_warning("error occured converting: %s", strerror(errno));

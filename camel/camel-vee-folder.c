@@ -1260,7 +1260,7 @@ folder_changed_change(CamelSession *session, CamelSessionThreadMsg *msg)
 	CamelVeeMessageInfo *vinfo;
 	int i, vuidlen = 0;
 	CamelFolderChangeInfo *vf_changes = NULL, *unmatched_changes = NULL;
-	GPtrArray *matches;
+	GPtrArray *matches, *newchanged = NULL, *changed;
 	GHashTable *matches_hash;
 
 	/* Check the folder hasn't beem removed while we weren't watching */
@@ -1301,8 +1301,34 @@ folder_changed_change(CamelSession *session, CamelSessionThreadMsg *msg)
 	if (changes->uid_changed->len > 0)
 		dd(printf(" Searching for changed matches '%s'\n", vf->expression));
 
-	if (changes->uid_changed->len > 0
-	    && (matches = camel_folder_search_by_uids(sub, vf->expression, changes->uid_changed, NULL))) {
+	/* TODO:
+	   In this code around here, we can work out if the search will affect the changes
+	   we had, and only re-search against them if they might have */
+
+	matches = NULL;
+	changed = changes->uid_changed;
+	if (changed->len
+	    && (vf->flags & CAMEL_STORE_VEE_FOLDER_AUTO) == 0) {
+		newchanged = g_ptr_array_new();
+		for (i=0;i<changed->len;i++) {
+			uid = changed->pdata[i];
+			if (strlen(uid)+9 > vuidlen) {
+				vuidlen = strlen(uid)+64;
+				vuid = g_realloc(vuid, vuidlen);
+			}
+			memcpy(vuid, hash, 8);
+			strcpy(vuid+8, uid);
+			vinfo = (CamelVeeMessageInfo *)camel_folder_summary_uid(folder->summary, vuid);
+			if (vinfo == NULL)
+				g_ptr_array_add(newchanged, uid);
+			else
+				camel_folder_summary_info_free(folder->summary, (CamelMessageInfo *)vinfo);
+		}
+		changed = newchanged;
+	}
+
+	if (changed->len
+	    && (matches = camel_folder_search_by_uids(sub, vf->expression, changed, NULL))) {
 		/* If we are auto-updating, then re-check changed uids still match */
 		dd(printf(" Vfolder %supdate\nuids match:", (vf->flags & CAMEL_STORE_VEE_FOLDER_AUTO)?"auto-":""));
 		matches_hash = g_hash_table_new(g_str_hash, g_str_equal);
@@ -1311,8 +1337,8 @@ folder_changed_change(CamelSession *session, CamelSessionThreadMsg *msg)
 			g_hash_table_insert(matches_hash, matches->pdata[i], matches->pdata[i]);
 		}
 		dd(printf("\n"));
-		for (i=0;i<changes->uid_changed->len;i++) {
-			uid = changes->uid_changed->pdata[i];
+		for (i=0;i<changed->len;i++) {
+			uid = changed->pdata[i];
 			if (strlen(uid)+9 > vuidlen) {
 				vuidlen = strlen(uid)+64;
 				vuid = g_realloc(vuid, vuidlen);
@@ -1322,20 +1348,20 @@ folder_changed_change(CamelSession *session, CamelSessionThreadMsg *msg)
 			vinfo = (CamelVeeMessageInfo *)camel_folder_summary_uid(folder->summary, vuid);
 			if (vinfo == NULL) {
 				/* A uid we dont have, but now it matches, add it */
-				if (g_hash_table_lookup(matches_hash, changes->uid_changed->pdata[i])) {
-					dd(printf("  adding uid '%s' [newly matched]\n", (char *)changes->uid_changed->pdata[i]));
-					folder_changed_add_uid(sub, changes->uid_changed->pdata[i], hash, vf);
+				if (g_hash_table_lookup(matches_hash, uid)) {
+					dd(printf("  adding uid '%s' [newly matched]\n", uid));
+					folder_changed_add_uid(sub, uid, hash, vf);
 				}
 			} else {
 				if ((vf->flags & CAMEL_STORE_VEE_FOLDER_AUTO) == 0
-				    || g_hash_table_lookup(matches_hash, changes->uid_changed->pdata[i])) {
+				    || g_hash_table_lookup(matches_hash, uid)) {
 					/* still match, or we're not auto-updating, change event, (if it changed) */
-					dd(printf("  changing uid '%s' [still matches]\n", (char *)changes->uid_changed->pdata[i]));
-					folder_changed_change_uid(sub, changes->uid_changed->pdata[i], hash, vf);
+					dd(printf("  changing uid '%s' [still matches]\n", uid));
+					folder_changed_change_uid(sub, uid, hash, vf);
 				} else {
 					/* No longer matches, remove it, but keep it in unmatched (potentially) */
-					dd(printf("  removing uid '%s' [did match]\n", (char *)changes->uid_changed->pdata[i]));
-					folder_changed_remove_uid(sub, changes->uid_changed->pdata[i], hash, TRUE, vf);
+					dd(printf("  removing uid '%s' [did match]\n", uid));
+					folder_changed_remove_uid(sub, uid, hash, TRUE, vf);
 				}
 				camel_folder_summary_info_free(folder->summary, (CamelMessageInfo *)vinfo);
 			}
@@ -1344,6 +1370,9 @@ folder_changed_change(CamelSession *session, CamelSessionThreadMsg *msg)
 		g_hash_table_destroy(matches_hash);
 		camel_folder_search_free(sub, matches);
 	}
+
+	if (newchanged)
+		g_ptr_array_free(newchanged, TRUE);
 
 	if (camel_folder_change_info_changed(folder_unmatched->changes)) {
 		unmatched_changes = folder_unmatched->changes;

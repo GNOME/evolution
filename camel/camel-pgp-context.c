@@ -1037,9 +1037,9 @@ pgp_verify (CamelCipherContext *ctx, CamelCipherHash hash, CamelStream *istream,
 			int ret;
 			
 			inbuf = diagnostics;
-			ret = iconv (cd, &inbuf, &inlen, &outbuf, &outlen);
+			ret = e_iconv (cd, &inbuf, &inlen, &outbuf, &outlen);
 			if (ret >= 0) {
-				iconv (cd, NULL, 0, &outbuf, &outlen);
+				e_iconv (cd, NULL, 0, &outbuf, &outlen);
 			}
 			e_iconv_close (cd);
 			

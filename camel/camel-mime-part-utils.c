@@ -123,7 +123,7 @@ static GByteArray *convert_buffer(GByteArray *in, const char *to, const char *fr
 		inlen = in->len;
 		outbuf = buffer;
 
-		if (iconv(ic, (const char **)&inbuf, &inlen, &outbuf, &outlen) == -1) {
+		if (e_iconv(ic, (const char **)&inbuf, &inlen, &outbuf, &outlen) == -1) {
 			g_free(buffer);
 			g_warning("conversion failed: %s", strerror(errno));
 			/* we didn't have enough space */
@@ -140,7 +140,7 @@ static GByteArray *convert_buffer(GByteArray *in, const char *to, const char *fr
 		/* close off the conversion */
 		outbuf = buffer;
 		outlen = in->len * i + 16;
-		if (iconv(ic, NULL, 0, &outbuf, &outlen) != -1)
+		if (e_iconv(ic, NULL, 0, &outbuf, &outlen) != -1)
 			g_byte_array_append(out, buffer, (in->len*i+16) - outlen);
 		g_free(buffer);
 

@@ -1037,9 +1037,9 @@ rfc2047_decode_word(const char *in, int len)
 		retry:
 			ic = e_iconv_open ("UTF-8", charset);
 			if (ic != (iconv_t)-1) {
-				ret = iconv (ic, &inbuf, &inlen, &outbuf, &outlen);
+				ret = e_iconv (ic, &inbuf, &inlen, &outbuf, &outlen);
 				if (ret >= 0) {
-					iconv (ic, NULL, 0, &outbuf, &outlen);
+					e_iconv (ic, NULL, 0, &outbuf, &outlen);
 					*outbuf = 0;
 					decoded = g_strdup (outbase);
 				}
@@ -1116,7 +1116,7 @@ append_8bit (GString *out, const char *inbuf, int inlen, const char *charset)
 	outlen = inlen * 6 + 16;
 	outbuf = outbase = g_malloc(outlen);
 		
-	if (iconv(ic, &inbuf, &inlen, &outbuf, &outlen) == -1) {
+	if (e_iconv(ic, &inbuf, &inlen, &outbuf, &outlen) == -1) {
 		w(g_warning("Conversion to '%s' failed: %s", charset, strerror(errno)));
 		g_free(outbase);
 		e_iconv_close(ic);
@@ -1267,13 +1267,13 @@ rfc2047_encode_word(GString *outstring, const char *in, int len, const char *typ
 			   hopefully-small-enough chunks, and leave it at that */
 			convlen = MIN(inlen, CAMEL_FOLD_PREENCODED);
 			p = inptr;
-			if (iconv(ic, &inptr, &convlen, &out, &outlen) == -1) {
+			if (e_iconv(ic, &inptr, &convlen, &out, &outlen) == -1) {
 				w(g_warning("Conversion problem: conversion truncated: %s", strerror(errno)));
 				/* blah, we include it anyway, better than infinite loop ... */
 				inptr = p + convlen;
 			} else {
 				/* make sure we flush out any shift state */
-				iconv(ic, NULL, 0, &out, &outlen);
+				e_iconv(ic, NULL, 0, &out, &outlen);
 			}
 			inlen -= (inptr - p);
 		}
@@ -1880,9 +1880,9 @@ rfc2184_decode (const char *in, int len)
 			outlen = inlen * 6 + 16;
 			outbuf = outbase = g_malloc (outlen);
 			
-			ret = iconv (ic, &inbuf, &inlen, &outbuf, &outlen);
+			ret = e_iconv (ic, &inbuf, &inlen, &outbuf, &outlen);
 			if (ret >= 0) {
-				iconv (ic, NULL, 0, &outbuf, &outlen);
+				e_iconv (ic, NULL, 0, &outbuf, &outlen);
 				*outbuf = '\0';
 				g_free (decoded);
 				decoded = outbase;
@@ -2035,9 +2035,9 @@ header_decode_param (const char **in, char **paramp, char **valuep, int *is_rfc2
 			outlen = inlen * 6 + 16;
 			outbuf = outbase = g_malloc (outlen);
 			
-			ret = iconv (ic, &inbuf, &inlen, &outbuf, &outlen);
+			ret = e_iconv (ic, &inbuf, &inlen, &outbuf, &outlen);
 			if (ret >= 0) {
-				iconv (ic, NULL, 0, &outbuf, &outlen);
+				e_iconv (ic, NULL, 0, &outbuf, &outlen);
 				*outbuf = '\0';
 			}
 			

@@ -1,3 +1,31 @@
+2001-10-25    <NotZed@Ximian.com>
+
+	* camel-search-private.c (utf8_get): Remove the stupid warning
+	that should never have been there in the first place.
+
+	* camel-sasl-digest-md5.c (digest_response): s/iconv/e_iconv/
+
+	* camel-pgp-context.c (pgp_verify): "
+
+	* camel-mime-utils.c (rfc2047_decode_word, rfc2047_decode_word,
+	append_8bit, rfc2047_encode_word, rfc2184_decode,
+	header_decode_param): "
+
+	* camel-mime-part-utils.c (convert_buffer, convert_buffer): "
+
+	* camel-mime-filter-charset.c (reset, complete, filter): "
+
+2001-10-24    <NotZed@Ximian.com>
+
+	* camel-mime-filter-basic.c (complete): For qp decoding, if the
+	data isn't really qp encoded, we could possible grow the buffer by
+	upto 2 bytes above the input size, fix allocations/assertions
+	appropraitely.
+
+	* camel-vee-folder.c (folder_changed_change): If we're not
+	autoupdate, only search for new matches against changed uid's that
+	we dont already have.
+
 2001-10-24  Dan Winship  <danw@ximian.com>
 
 	* providers/imap/camel-imap-store.c (unsubscribe_folder): Don't
