@@ -45,7 +45,7 @@
 #include "camel-stream-fs.h"
 #include "camel-operation.h"
 
-#define d(x) x
+#define d(x)
 
 static void camel_gpg_context_class_init (CamelGpgContextClass *klass);
 static void camel_gpg_context_init       (CamelGpgContext *obj);

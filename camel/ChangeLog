@@ -1,3 +1,7 @@
+2003-04-07  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-gpg-context.c: Disable debug printf's
+
 2003-03-28  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-sasl-gssapi.c (gssapi_challenge): If we are using the
