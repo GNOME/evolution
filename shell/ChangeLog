@@ -1,3 +1,21 @@
+2003-03-07  Not Zed  <NotZed@Ximian.com>
+
+	** reverted the following patch from ettore, this is a gnome 2.2
+	api change, and shouldn't be used yet.
+	
+	* e-shell.c (impl_finalize): Use
+	bonobo_activation_unregister_active_server() instead of
+	bonobo_activatino_active_server_unregister().
+	(e_shell_construct): Use
+	bonobo_activation_register_active_server() instead of
+	bonobo_activation_active_server_register().
+
+2003-03-04  Not Zed  <NotZed@Ximian.com>
+
+	* main.c (show_development_warning): Separated the current stable
+	version number from the warning prompt, and fixed a minor
+	grammatical error.  For bug #38775.
+
 2003-03-06  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell.c (impl_Shell_selectUserFolder): At least for now,
