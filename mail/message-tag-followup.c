@@ -261,6 +261,7 @@ construct (MessageTagEditor *editor)
 		strings = g_list_append (strings, (char *) _(available_flags[i]));
 	gtk_combo_set_popdown_strings (followup->combo, strings);
 	g_list_free (strings);
+	gtk_list_select_item (GTK_LIST (followup->combo->list), DEFAULT_FLAG);
 	
 	followup->target_date = E_DATE_EDIT (glade_xml_get_widget (gui, "target_date"));
 	e_date_edit_set_time (followup->target_date, (time_t) -1);

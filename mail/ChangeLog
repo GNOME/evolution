@@ -1,5 +1,8 @@
 2002-08-02  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* message-tag-followup.c (construct): Set the default flag to
+	Follow-Up.
+
 	* mail-display.c (mail_display_render): Updated to use the new
 	Follow-Up tags. Instead of storing a string containing the
 	follow-up tag value, we now have to store the CamelMessageInfo.
