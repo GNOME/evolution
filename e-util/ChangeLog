@@ -1,3 +1,9 @@
+2004-12-21  JP Rosevear  <jpr@novell.com>
+
+	* e-account.c: convert to G_DEFINE_TYPE
+
+	* e-account-list.c: ditto
+	
 2004-12-08  Not Zed  <NotZed@Ximian.com>
 
 	* e-plugin.c (e_plugin_load_plugins): kill warning if we can't

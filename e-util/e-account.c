@@ -18,7 +18,7 @@
  */
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#include <config.h>
 #endif
 
 #include "e-account.h"
@@ -27,15 +27,11 @@
 
 #include <string.h>
 
-#include <gal/util/e-util.h>
 #include <libxml/parser.h>
 #include <libxml/tree.h>
 #include <libxml/xmlmemory.h>
 
 #include <gconf/gconf-client.h>
-
-#define PARENT_TYPE G_TYPE_OBJECT
-static GObjectClass *parent_class = NULL;
 
 enum {
 	CHANGED,
@@ -43,6 +39,8 @@ enum {
 };
 
 static guint signals[LAST_SIGNAL];
+
+G_DEFINE_TYPE (EAccount, e_account, G_TYPE_OBJECT)
 
 /*
 lock mail accounts	Relatively difficult -- involves redesign of the XML blobs which describe accounts
@@ -79,15 +77,16 @@ set trash emptying frequency
 ** lock destination account/options
 */
 
-static void finalize (GObject *);
+static void e_account_finalize (GObject *);
 
 static void
-class_init (GObjectClass *object_class)
+e_account_class_init (EAccountClass *klass)
 {
-	parent_class = g_type_class_ref (PARENT_TYPE);
-
+	GObjectClass *object_class;
+	
 	/* virtual method override */
-	object_class->finalize = finalize;
+	object_class = G_OBJECT_CLASS (klass);
+	object_class->finalize = e_account_finalize;
 
 	signals[CHANGED] =
 		g_signal_new("changed",
@@ -101,7 +100,7 @@ class_init (GObjectClass *object_class)
 }
 
 static void
-init (EAccount *account)
+e_account_init (EAccount *account)
 {
 	account->id = g_new0 (EAccountIdentity, 1);
 	account->source = g_new0 (EAccountService, 1);
@@ -138,7 +137,7 @@ service_destroy (EAccountService *service)
 }
 
 static void
-finalize (GObject *object)
+e_account_finalize (GObject *object)
 {
 	EAccount *account = E_ACCOUNT (object);
 
@@ -159,11 +158,8 @@ finalize (GObject *object)
 	g_free (account->smime_sign_key);
 	g_free (account->smime_encrypt_key);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_account_parent_class)->finalize (object);
 }
-
-E_MAKE_TYPE (e_account, "EAccount", EAccount, class_init, init, PARENT_TYPE)
-
 
 /**
  * e_account_new:

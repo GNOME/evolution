@@ -18,7 +18,7 @@
  */
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#include <config.h>
 #endif
 
 #include "e-account-list.h"
@@ -26,7 +26,6 @@
 #include "e-util-marshal.h"
 
 #include <string.h>
-#include <gal/util/e-util.h>
 
 struct EAccountListPrivate {
 	GConfClient *gconf;
@@ -42,20 +41,20 @@ enum {
 
 static guint signals [LAST_SIGNAL] = { 0 };
 
-#define PARENT_TYPE E_TYPE_LIST
-static EListClass *parent_class = NULL;
+static void e_account_list_dispose (GObject *);
+static void e_account_list_finalize (GObject *);
 
-static void dispose (GObject *);
-static void finalize (GObject *);
+G_DEFINE_TYPE (EAccountList, e_account_list, E_TYPE_LIST)
 
 static void
-class_init (GObjectClass *object_class)
+e_account_list_class_init (EAccountListClass *klass)
 {
-	parent_class = g_type_class_ref (PARENT_TYPE);
-
+	GObjectClass *object_class;
+	
 	/* virtual method override */
-	object_class->dispose = dispose;
-	object_class->finalize = finalize;
+	object_class = G_OBJECT_CLASS (klass);
+	object_class->dispose = e_account_list_dispose;
+	object_class->finalize = e_account_list_finalize;
 
 	/* signals */
 	signals[ACCOUNT_ADDED] =
@@ -88,15 +87,13 @@ class_init (GObjectClass *object_class)
 }
 
 static void
-init (GObject *object)
+e_account_list_init (EAccountList *account_list)
 {
-	EAccountList *account_list = E_ACCOUNT_LIST (object);
-
 	account_list->priv = g_new0 (EAccountListPrivate, 1);
 }
 
 static void
-dispose (GObject *object)
+e_account_list_dispose (GObject *object)
 {
 	EAccountList *account_list = E_ACCOUNT_LIST (object);
 
@@ -109,21 +106,18 @@ dispose (GObject *object)
 		account_list->priv->gconf = NULL;
 	}
 
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_account_list_parent_class)->dispose (object);
 }
 
 static void
-finalize (GObject *object)
+e_account_list_finalize (GObject *object)
 {
 	EAccountList *account_list = E_ACCOUNT_LIST (object);
 
 	g_free (account_list->priv);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_account_list_parent_class)->finalize (object);
 }
-
-E_MAKE_TYPE (e_account_list, "EAccountList", EAccountList, class_init, init, PARENT_TYPE)
-
 
 static void
 gconf_accounts_changed (GConfClient *client, guint cnxn_id,
