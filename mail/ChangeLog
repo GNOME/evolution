@@ -1,3 +1,19 @@
+2001-06-27  Peter Williams  <peterw@ximian.com>
+
+	* folder-browser-ui.c: Uncomment EditSelectThread. Yaay!
+
+	* mail-callbacks.c (select_thread): New function. Self-explanatory
+	name. Implementation is a little hairy.
+
+	* mail-callbacks.h: Prototype it here.
+
+	* mail-callbacks.c (invert_selection): Here too.
+	(select_all): Here too.
+
+	* subscribe-dialog.c (subscribe_select_all): Update to use new
+	ETree accessors.
+	(subscribe_invert_selection): Here too.
+
 2001-06-27  jacob berkman  <jacob@ximian.com>
 
 	* folder-browser.c (save_cursor_pos): work around an e-tree bug

@@ -81,6 +81,7 @@ void search_msg            (GtkWidget *widget, gpointer user_data);
 void load_images           (GtkWidget *widget, gpointer user_data);
 
 void select_all            (BonoboUIComponent *uih, void *user_data, const char *path);
+void select_thread         (BonoboUIComponent *uih, void *user_data, const char *path);
 void invert_selection      (BonoboUIComponent *uih, void *user_data, const char *path);
 void mark_as_seen          (BonoboUIComponent *uih, void *user_data, const char *path);
 void mark_all_as_seen      (BonoboUIComponent *uih, void *user_data, const char *path);

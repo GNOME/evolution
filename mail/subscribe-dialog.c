@@ -422,8 +422,10 @@ subscribe_select_all (BonoboUIComponent *uic,
 {
 	SubscribeDialog *sc = (SubscribeDialog*)user_data;
 	ETreeScrolled *scrolled = E_TREE_SCROLLED (sc->folder_etree);
-	
-	e_tree_select_all (e_tree_scrolled_get_tree(scrolled));
+	ETree *tree = e_tree_scrolled_get_tree (scrolled);
+	ESelectionModel *esm = e_tree_get_selection_model (E_TREE (tree));
+
+	e_selection_model_select_all (E_SELECTION_MODEL (esm));
 }
 
 static void
@@ -432,8 +434,10 @@ subscribe_invert_selection (BonoboUIComponent *uic,
 {
 	SubscribeDialog *sc = (SubscribeDialog*)user_data;
 	ETreeScrolled *scrolled = E_TREE_SCROLLED (sc->folder_etree);
+	ETree *tree = e_tree_scrolled_get_tree (scrolled);
+	ESelectionModel *esm = e_tree_get_selection_model (E_TREE (tree));
 	
-	e_tree_invert_selection (e_tree_scrolled_get_tree(scrolled));
+	e_selection_model_invert_selection (E_SELECTION_MODEL (esm));
 }
 
 static void

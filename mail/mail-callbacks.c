@@ -979,11 +979,85 @@ select_all (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
         MessageList *ml = fb->message_list;
+	ESelectionModel *etsm = e_tree_get_selection_model (ml->tree);
 
 	if (ml->folder == NULL)
 		return;
 
-	e_tree_select_all (ml->tree);
+	e_selection_model_select_all (etsm);
+}
+
+/* Thread selection */
+
+typedef struct thread_select_info {
+	MessageList *ml;
+	GPtrArray *paths;
+} thread_select_info_t;
+
+static gboolean
+select_node (ETreeModel *tm, ETreePath path, gpointer user_data)
+{
+	thread_select_info_t *tsi = (thread_select_info_t *) user_data;
+
+	g_ptr_array_add (tsi->paths, path);
+	return FALSE; /*not done yet*/
+}
+
+static void
+thread_select_foreach (ETreePath path, gpointer user_data)
+{
+	thread_select_info_t *tsi = (thread_select_info_t *) user_data;
+	ETreeModel *tm = tsi->ml->model;
+	ETreePath node;
+
+	/* @path part of the initial selection. If it has children,
+	 * we select them as well. If it doesn't, we select its siblings and
+	 * their children (ie, the current node must be inside the thread
+	 * that the user wants to mark.
+	 */
+
+	if (e_tree_model_node_get_first_child (tm, path)) 
+		node = path;
+	else {
+		node = e_tree_model_node_get_parent (tm, path);
+
+		/* Let's make an exception: if no parent, then we're about
+		 * to mark the whole tree. No. */
+		if (e_tree_model_node_is_root (tm, node)) 
+			node = path;
+	}
+
+	e_tree_model_node_traverse (tm, node, select_node, tsi);
+}
+
+void
+select_thread (BonoboUIComponent *uih, void *user_data, const char *path)
+{
+	FolderBrowser *fb = FOLDER_BROWSER (user_data);
+        MessageList *ml = fb->message_list;
+	ETreeSelectionModel *selection_model;
+	thread_select_info_t tsi;
+	int i;
+
+	if (ml->folder == NULL)
+		return;
+
+	/* For every selected item, select the thread containing it.
+	 * We can't alter the selection while iterating through it,
+	 * so build up a list of paths.
+	 */
+
+	tsi.ml = ml;
+	tsi.paths = g_ptr_array_new ();
+
+	e_tree_selected_path_foreach (ml->tree, thread_select_foreach, &tsi);
+
+	selection_model = E_TREE_SELECTION_MODEL (e_tree_get_selection_model (ml->tree));
+
+	for (i = 0; i < tsi.paths->len; i++)
+		e_tree_selection_model_add_to_selection (selection_model,
+							 tsi.paths->pdata[i]);
+	g_ptr_array_free (tsi.paths, TRUE);
 }
 
 void
@@ -991,11 +1065,12 @@ invert_selection (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
         MessageList *ml = fb->message_list;
+	ESelectionModel *etsm = e_tree_get_selection_model (ml->tree);
 
 	if (ml->folder == NULL)
 		return;
 
-	e_tree_invert_selection (ml->tree);
+	e_selection_model_invert_selection (etsm);
 }
 
 /* flag all selected messages. Return number flagged */

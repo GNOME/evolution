@@ -83,7 +83,7 @@ static BonoboUIVerb list_verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("EditPaste", folder_browser_paste),
 	BONOBO_UI_UNSAFE_VERB ("EditInvertSelection", invert_selection),
 	BONOBO_UI_UNSAFE_VERB ("EditSelectAll", select_all),
-/*      BONOBO_UI_UNSAFE_VERB ("EditSelectThread", select_thread),*/
+        BONOBO_UI_UNSAFE_VERB ("EditSelectThread", select_thread),
 	BONOBO_UI_UNSAFE_VERB ("ChangeFolderProperties", configure_folder),
 	BONOBO_UI_UNSAFE_VERB ("FolderExpunge", expunge_folder),
 	/* HideDeleted is a toggle */
