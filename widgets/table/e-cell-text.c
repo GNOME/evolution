@@ -602,6 +602,7 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 		ypos += height;
 		lines++;
 		unref_lines (&cell);
+		g_free (cell.starting_text);
 	}
 
 	gdk_gc_set_clip_rectangle (text_view->gc, NULL);
