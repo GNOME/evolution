@@ -293,6 +293,10 @@ config_read (void)
 		transport->url = gnome_config_get_string (path);
 		g_free (path);
 		
+		path = g_strdup_printf ("transport_save_passwd_%d", i);
+		transport->save_passwd = gnome_config_get_bool (path);
+		g_free (path);
+		
 		if (!*transport->url) {
 			/* no transport associated with this account */
 			g_free (transport->url);
@@ -455,6 +459,14 @@ mail_config_write (void)
 		/* transport info */
 		path = g_strdup_printf ("transport_url_%d", i);
 		gnome_config_set_string (path, account->transport->url ? account->transport->url : "");
+		g_free (path);
+		
+		path = g_strdup_printf ("transport_save_passwd_%d", i);
+		gnome_config_set_bool (path, account->transport->save_passwd);
+		g_free (path);
+		
+		path = g_strdup_printf ("transport_use_ssl_%d", i);
+		gnome_config_set_bool (path, account->transport->use_ssl);
 		g_free (path);
 	}
 	gnome_config_pop_prefix ();

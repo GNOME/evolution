@@ -1,5 +1,12 @@
 2001-03-12  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-config.c (mail_config_write): Make the transport save
+	whether or not it's supposed to use SSL as well.
+	(config_read): Read in whether or not we should remember the
+	transport password (for those that support SASL).
+	(mail_config_write): Save whether or not to save transport
+	passwords (needed for SASL enabled transports).
+
 	* mail-ops.c (add_vtrash_info): Instead of always creating a new
 	vTrash folder, if the store already has a Trash folder, replace it
 	with the vTrash. Also, name the folder "Trash" instead of "vTrash"
