@@ -480,14 +480,12 @@ register_folder_register(struct _mail_msg *mm)
 	meta = load_metainfo (name);
 	g_free (name);
 
-	camel_operation_register (mm->cancel);
 	name = g_strdup_printf ("%s:%s", meta->format, path);
 	store = camel_session_get_store (session, name, &mm->ex);
 	g_free (name);
 
 	if (!store) {
 		free_metainfo (meta);
-		camel_operation_unregister (mm->cancel);
 		return;
 	}
 
@@ -498,8 +496,6 @@ register_folder_register(struct _mail_msg *mm)
 
 	camel_object_unref (CAMEL_OBJECT (store));
 	free_metainfo (meta);
-
-	camel_operation_unregister(mm->cancel);
 }
 
 static void

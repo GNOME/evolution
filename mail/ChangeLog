@@ -1,3 +1,11 @@
+2001-08-15  Not Zed  <NotZed@Ximian.com>
+
+	* mail-local.c (register_folder_register): Remove operation
+	registration/etc.  Handled by mail-mt.c
+
+	* message-list.c (regen_list_regen): Remove camel operation
+	registration/etc.
+
 2001-08-14  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-accounts.c (load_accounts): Convert the UTF-8 account name
