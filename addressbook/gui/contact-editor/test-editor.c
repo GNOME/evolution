@@ -118,7 +118,7 @@ int main( int argc, char *argv[] )
 
 	gnome_program_init("Contact Editor Test", VERSION, LIBGNOMEUI_MODULE, argc, argv, NULL);
 
-	glade_gnome_init ();
+	glade_init ();
 
 	cardstr = NULL;
 	if (argc == 2)

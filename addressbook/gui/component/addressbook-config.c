@@ -1754,7 +1754,7 @@ main(int argc, char **argv)
 	gnome_init_with_popt_table ("evolution-addressbook", "0.0",
 				    argc, argv, oaf_popt_options, 0, NULL);
 
-	glade_gnome_init ();
+	glade_init ();
 
 	bindtextdomain (PACKAGE, EVOLUTION_LOCALEDIR);
 	textdomain (PACKAGE);

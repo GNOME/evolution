@@ -69,7 +69,7 @@ int main( int argc, char *argv[] )
 		      argc, argv,
 		      NULL);
 
-  glade_gnome_init ();
+  glade_init ();
   
   shown_fields = g_list_append(shown_fields, "First field");
   shown_fields = g_list_append(shown_fields, "Second field");

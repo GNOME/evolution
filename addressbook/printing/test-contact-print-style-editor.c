@@ -70,7 +70,7 @@ int main( int argc, char *argv[] )
 		      argc, argv,
 		      NULL);
 
-  glade_gnome_init ();
+  glade_init ();
 
   app = gnome_app_new("Contact Print Style Editor Test", NULL);
 
