@@ -641,9 +641,10 @@ setup_offline_toggle (EShellView *shell_view)
 	g_return_if_fail (control != NULL);
 
 	bonobo_ui_component_object_set (priv->ui_component, "/status/OfflineToggle",
-					bonobo_object_corba_objref (BONOBO_OBJECT (control)),
+					BONOBO_OBJREF (control),
 					NULL);
-
+	bonobo_object_unref (control);
+	
 	priv->offline_toggle        = toggle;
 	priv->offline_toggle_pixmap = pixmap;
 
@@ -671,8 +672,9 @@ setup_progress_bar (EShellView *shell_view)
 	g_return_if_fail (control != NULL);
 
 	bonobo_ui_component_object_set (priv->ui_component, "/status/Progress",
-					bonobo_object_corba_objref (BONOBO_OBJECT (control)),
+					BONOBO_OBJREF (control),
 					NULL);
+	bonobo_object_unref (control);
 }
 
 static void
@@ -806,6 +808,10 @@ destroy (GtkObject *object)
 
 	g_hash_table_foreach (priv->uri_to_control, hash_forall_destroy_control, NULL);
 	g_hash_table_destroy (priv->uri_to_control);
+
+	gtk_widget_destroy (priv->offline_toggle);
+	gtk_widget_destroy (priv->offline_toggle_pixmap);
+	gtk_widget_destroy (priv->progress_bar);
 
 	bonobo_object_unref (BONOBO_OBJECT (priv->ui_component));
 

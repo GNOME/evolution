@@ -1,3 +1,10 @@
+2001-05-29  JP Rosevear  <jpr@ximian.com>
+
+	* e-shell-view.c (setup_progress_bar): unref the control when
+	finished with it
+	(setup_offline_toggle): ditto
+	(destroy): destroy offline and progress widgets
+
 2001-05-28  Dan Winship  <danw@ximian.com>
 
 	* e-storage-set-view.c (new_storage_cb): Call
