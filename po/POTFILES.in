@@ -9,8 +9,6 @@ addressbook/contact-editor/e-contact-editor.c
 addressbook/contact-editor/e-contact-editor-confirm-delete.glade.h
 addressbook/contact-editor/e-contact-editor-strings.h
 addressbook/contact-editor/fullname-strings.h
-addressbook/demo/addressbook-factory.c
-addressbook/demo/addressbook.c
 addressbook/gui/component/addressbook-factory.c
 addressbook/gui/component/addressbook.c
 addressbook/gui/component/alphabet.glade.h
