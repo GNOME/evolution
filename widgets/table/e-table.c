@@ -161,22 +161,6 @@ e_table_setup_header (ETable *e_table)
 	gtk_widget_set_usize (GTK_WIDGET (e_table->header_canvas), -1, COLUMN_HEADER_HEIGHT);
 }
 
-static void
-table_canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc,
-			    ETable *e_table)
-{
-	gdouble width;
-	width = alloc->width;
-
-	gtk_object_set (GTK_OBJECT (e_table->group),
-			"minimum_width", width,
-			NULL);
-	gtk_object_set (GTK_OBJECT (e_table->header),
-			"width", width,
-			NULL);
-	
-}
-
 static gboolean
 table_canvas_reflow_idle (ETable *e_table)
 {
@@ -193,6 +177,24 @@ table_canvas_reflow_idle (ETable *e_table)
 		0, 0, MAX((int)width, alloc->width) - 1, MAX ((int)height, alloc->height) - 1);
 	e_table->reflow_idle_id = 0;
 	return FALSE;
+}
+
+static void
+table_canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc,
+			    ETable *e_table)
+{
+	gdouble width;
+	width = alloc->width;
+
+	gtk_object_set (GTK_OBJECT (e_table->group),
+			"minimum_width", width,
+			NULL);
+	gtk_object_set (GTK_OBJECT (e_table->header),
+			"width", width,
+			NULL);
+	if (e_table->reflow_idle_id)
+		g_source_remove(e_table->reflow_idle_id);
+	table_canvas_reflow_idle(e_table);
 }
 
 static void
