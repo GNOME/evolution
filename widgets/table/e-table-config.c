@@ -363,6 +363,19 @@ do_sort_and_group_config_dialog (ETableConfig *config, gboolean is_sort)
 		config_group_info_update (config);
 }
 
+GtkWidget *
+e_table_proxy_etable_new (void)
+{
+	return gtk_label_new ("Waiting for the ETable/ETree\nmerger to be commited");
+}
+
+static void
+config_button_fields (GtkWidget *widget, ETableConfig *config)
+{
+	gnome_dialog_run (config->dialog_show_fields);
+	gnome_dialog_close (GNOME_DIALOG (config->dialog_show_fields));
+}
+		
 static void
 config_button_sort (GtkWidget *widget, ETableConfig *config)
 {
@@ -374,7 +387,6 @@ config_button_group (GtkWidget *widget, ETableConfig *config)
 {
 	do_sort_and_group_config_dialog (config, FALSE);
 }
-
 
 static void
 dialog_destroyed (GtkObject *dialog, ETableConfig *config)
@@ -667,7 +679,8 @@ setup_gui (ETableConfig *config)
 
 	connect_button (config, gui, "button-sort", config_button_sort);
 	connect_button (config, gui, "button-group", config_button_group);
-
+	connect_button (config, gui, "button-fields", config_button_fields);
+	
 	configure_sort_dialog (config, gui);
 	configure_group_dialog (config, gui);
 	

@@ -7,8 +7,6 @@
 gchar *s = N_("Show Fields");
 gchar *s = N_("A_vailable Fields:");
 gchar *s = N_("Sh_ow these fields in order:");
-gchar *s = N_("Table HERE");
-gchar *s = N_("Table HERE");
 gchar *s = N_("Move _Up");
 gchar *s = N_("Move _Down");
 gchar *s = N_("_Add ->");

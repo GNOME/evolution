@@ -1225,9 +1225,6 @@ apply_changes (ETableConfig *config, ETableHeaderItem *ethi)
 {
 	char *state = e_table_state_save_to_string (config->state);
 
-	printf ("This is the Table: %p %p\n", ethi->table, ethi);
-	printf ("This is the state: %s\n", state);
-	
 	e_table_set_state (ethi->table, state);
 	g_free (state);
 }
@@ -1238,7 +1235,6 @@ ethi_popup_customize_view(GtkWidget *widget, EthiHeaderInfo *info)
 	ETableHeaderItem *ethi = info->ethi;
 	ETableState *state;
 
-	printf ("___This is the Table: %p %p\n", ethi->table, ethi);
 	if (ethi->config)
 		e_table_config_raise (E_TABLE_CONFIG (ethi->config));
 	else {

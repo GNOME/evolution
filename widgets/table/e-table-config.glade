@@ -29,7 +29,7 @@
   <allow_grow>True</allow_grow>
   <auto_shrink>False</auto_shrink>
   <auto_close>False</auto_close>
-  <hide_on_close>False</hide_on_close>
+  <hide_on_close>True</hide_on_close>
 
   <widget>
     <class>GtkVBox</class>
@@ -112,7 +112,6 @@
 	  <yalign>0.5</yalign>
 	  <xpad>0</xpad>
 	  <ypad>0</ypad>
-	  <focus_target>table-1</focus_target>
 	  <child>
 	    <left_attach>0</left_attach>
 	    <right_attach>2</right_attach>
@@ -139,7 +138,6 @@
 	  <yalign>0.5</yalign>
 	  <xpad>0</xpad>
 	  <ypad>0</ypad>
-	  <focus_target>table-2</focus_target>
 	  <child>
 	    <left_attach>3</left_attach>
 	    <right_attach>5</right_attach>
@@ -210,11 +208,12 @@
 	      <shadow_type>GTK_SHADOW_IN</shadow_type>
 
 	      <widget>
-		<class>GtkButton</class>
-		<name>table-1</name>
-		<can_focus>True</can_focus>
-		<label>Table HERE</label>
-		<relief>GTK_RELIEF_NORMAL</relief>
+		<class>Custom</class>
+		<name>available-field-list</name>
+		<creation_function>e_table_proxy_etable_new</creation_function>
+		<int1>0</int1>
+		<int2>0</int2>
+		<last_modification_time>Sun, 18 Mar 2001 23:59:35 GMT</last_modification_time>
 	      </widget>
 	    </widget>
 	  </widget>
@@ -259,11 +258,12 @@
 	      <shadow_type>GTK_SHADOW_IN</shadow_type>
 
 	      <widget>
-		<class>GtkButton</class>
-		<name>table-2</name>
-		<can_focus>True</can_focus>
-		<label>Table HERE</label>
-		<relief>GTK_RELIEF_NORMAL</relief>
+		<class>Custom</class>
+		<name>fields-shown</name>
+		<creation_function>e_table_proxy_etable_new</creation_function>
+		<int1>0</int1>
+		<int2>0</int2>
+		<last_modification_time>Sun, 18 Mar 2001 23:59:49 GMT</last_modification_time>
 	      </widget>
 	    </widget>
 	  </widget>
@@ -1692,7 +1692,7 @@
 
 	<widget>
 	  <class>GtkButton</class>
-	  <name>button15</name>
+	  <name>button-fields</name>
 	  <can_default>True</can_default>
 	  <can_focus>True</can_focus>
 	  <signal>
