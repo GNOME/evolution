@@ -81,18 +81,6 @@ struct _TasksComponentPrivate {
 
 /* Utility functions.  */
 /* FIXME Some of these are duplicated from calendar-component.c */
-static void
-add_uri_for_source (ESource *source, ETasks *tasks)
-{
-	e_tasks_add_todo_source (tasks, source);
-}
-
-static void
-remove_uri_for_source (ESource *source, ETasks *tasks)
-{
-	e_tasks_remove_todo_source (tasks, source);
-}
-
 static gboolean
 is_in_selection (GSList *selection, ESource *source)
 {
@@ -123,26 +111,6 @@ is_in_uids (GSList *uids, ESource *source)
 	return FALSE;
 }
 
-static ESource *
-find_first_source (ESourceList *source_list)
-{
-	GSList *groups, *sources, *l, *m;
-			
-	groups = e_source_list_peek_groups (source_list);
-	for (l = groups; l; l = l->next) {
-		ESourceGroup *group = l->data;
-				
-		sources = e_source_group_peek_sources (group);
-		for (m = sources; m; m = m->next) {
-			ESource *source = m->data;
-
-			return source;
-		}				
-	}
-
-	return NULL;
-}
-
 static void
 update_uris_for_selection (TasksComponent *component)
 {
@@ -157,13 +125,13 @@ update_uris_for_selection (TasksComponent *component)
 		ESource *old_selected_source = l->data;
 
 		if (!is_in_selection (selection, old_selected_source))
-			remove_uri_for_source (old_selected_source, E_TASKS (priv->tasks));
+			e_tasks_remove_todo_source (priv->tasks, old_selected_source);
 	}	
 	
 	for (l = selection; l; l = l->next) {
 		ESource *selected_source = l->data;
 		
-		add_uri_for_source (selected_source, E_TASKS (priv->tasks));
+		e_tasks_add_todo_source (priv->tasks, selected_source);
 		uids_selected = g_slist_append (uids_selected, (char *)e_source_peek_uid (selected_source));
 	}
 
@@ -256,24 +224,11 @@ update_primary_selection (TasksComponent *component)
 	if (source) {
 		e_source_selector_set_primary_selection (E_SOURCE_SELECTOR (priv->source_selector), source);
 	} else {
-		ESource *source;
-		
 		/* Try to create a default if there isn't one */
-		source = find_first_source (priv->source_list);
+		source = e_source_list_peek_source_any (priv->source_list);
 		if (source)
 			e_source_selector_set_primary_selection (E_SOURCE_SELECTOR (priv->source_selector), source);
 	}
-}
-
-/* FIXME This is duplicated from comp-editor-factory.c, should it go in comp-util? */
-static ECalComponent *
-get_default_task (ECal *ecal)
-{
-	ECalComponent *comp;
-	
-	comp = cal_comp_task_new_with_defaults (ecal);
-
-	return comp;
 }
 
 /* Callbacks.  */
@@ -663,7 +618,7 @@ setup_create_ecal (TasksComponent *component)
 
 	if (!priv->create_ecal) {
 		/* Try to create a default if there isn't one */
-		source = find_first_source (priv->source_list);
+		source = e_source_list_peek_source_any (priv->source_list);
 		if (source)
 			priv->create_ecal = auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_TODO);
 	}
@@ -723,7 +678,7 @@ create_new_todo (TasksComponent *task_component, CORBA_Environment *ev)
 		return;
 
 	editor = task_editor_new (priv->create_ecal);
-	comp = get_default_task (priv->create_ecal);
+	comp = cal_comp_task_new_with_defaults (priv->create_ecal);
 
 	comp_editor_edit_comp (COMP_EDITOR (editor), comp);
 	comp_editor_focus (COMP_EDITOR (editor));

@@ -1,5 +1,14 @@
 2004-01-24  JP Rosevear <jpr@ximian.com>
 
+	* gui/tasks-component.c (update_primary_selection): use
+	e_source_list_peek_source_any
+	(setup_create_ecal): ditto
+	(create_new_todo): just use the default call directly
+	(update_uris_for_selection): just use e-tasks remove/add todo
+	source directly
+
+2004-01-24  JP Rosevear <jpr@ximian.com>
+
 	* gui/e-tasks.c (e_tasks_add_todo_source): don't unref and ref,
 	the hash table does this
 	(e_tasks_remove_todo_source): ditto
