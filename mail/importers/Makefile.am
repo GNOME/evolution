@@ -13,11 +13,11 @@ INCLUDES = -I.. 					\
 
 liboutlook_la_SOURCES =				\
 	evolution-outlook-importer.c
-liboutlook_la_LDFLAGS = -version-info 0:0:0
+liboutlook_la_LDFLAGS = -avoid-version -module
 
 libmbox_la_SOURCES = evolution-mbox-importer.c \
 		     mozilla-status-headers.h
-libmbox_la_LDFLAGS = -version-info 0:0:0
+libmbox_la_LDFLAGS = -avoid-version -module
 
 oafdir = $(datadir)/oaf
 oaf_in_files = GNOME_Evolution_Mail_Mbox_Importer.oaf.in	\
