@@ -1737,6 +1737,7 @@ content_info_get_part_spec (CamelMessageContentInfo *ci)
 static CamelDataWrapper *
 get_content (CamelImapFolder *imap_folder, const char *uid,
 	     CamelMimePart *part, CamelMessageContentInfo *ci,
+	     int frommsg,
 	     CamelException *ex)
 {
 	CamelDataWrapper *content = NULL;
@@ -1760,7 +1761,10 @@ get_content (CamelImapFolder *imap_folder, const char *uid,
 		camel_data_wrapper_set_mime_type_field (CAMEL_DATA_WRAPPER (body_mp), CAMEL_DATA_WRAPPER (part)->mime_type);
 		
 		spec = g_alloca (strlen (part_spec) + 6);
-		sprintf (spec, part_spec[0] ? "%s.TEXT" : "TEXT", part_spec);
+		if (frommsg)
+			sprintf (spec, part_spec[0] ? "%s.TEXT" : "TEXT", part_spec);
+		else
+			strcpy(spec, part_spec);
 		g_free (part_spec);
 		
 		stream = camel_imap_folder_fetch_data (imap_folder, uid, spec, FALSE, ex);
@@ -1813,7 +1817,7 @@ get_content (CamelImapFolder *imap_folder, const char *uid,
 					return NULL;
 				}
 				
-				content = get_content (imap_folder, uid, part, ci, ex);
+				content = get_content (imap_folder, uid, part, ci, FALSE, ex);
 			}
 			
 			if (!stream || !content) {
@@ -1874,7 +1878,7 @@ get_message (CamelImapFolder *imap_folder, const char *uid,
 		return NULL;
 	}
 	
-	content = get_content (imap_folder, uid, CAMEL_MIME_PART (msg), ci, ex);
+	content = get_content (imap_folder, uid, CAMEL_MIME_PART (msg), ci, TRUE, ex);
 	if (!content) {
 		camel_object_unref (CAMEL_OBJECT (msg));
 		return NULL;

@@ -1,3 +1,11 @@
+2004-03-04  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #53355.
+
+	* providers/imap/camel-imap-folder.c (get_content): if the parent
+	isn't a message/rfc822 type, we don't want to get the section.TEXT
+	for multipart/signed, we just want to get section.
+
 2004-03-03  Rodrigo Moya <rodrigo@ximian.com>
 
 	* providers/groupwise/camel-gw-listener.c
