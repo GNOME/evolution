@@ -8,7 +8,7 @@
 
 2004-01-08  Kidd Wang  <kidd.wang@sun.com>
 
-        * gui/e-cal-view.h: delete the ECalViewMoveDirection type declaration
+	* gui/e-cal-view.h: delete the ECalViewMoveDirection type declaration
         which was added by mistake yesterday.
 
         * ChangeLog: add a missed entry for calender-commands.c.
