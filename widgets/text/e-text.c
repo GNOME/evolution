@@ -1943,11 +1943,13 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	GdkRectangle sel_rect;
 	GdkGC *fg_gc;
 	GnomeCanvas *canvas;
+	GtkWidget *widget;
 
 	text = E_TEXT (item);
 	canvas = GNOME_CANVAS_ITEM(text)->canvas;
+	widget = GTK_WIDGET(canvas);
 
-	fg_gc = GTK_WIDGET(canvas)->style->fg_gc[text->has_selection ? GTK_STATE_SELECTED : GTK_STATE_ACTIVE];
+	fg_gc = widget->style->fg_gc[text->has_selection ? GTK_STATE_SELECTED : GTK_STATE_ACTIVE];
 	
 	if (text->draw_borders || text->draw_background) {
 		gdouble thisx = item->x1 - x;
@@ -1959,28 +1961,26 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 			       "width", &thiswidth,
 			       "height", &thisheight,
 			       NULL);
-
-		if (text->draw_background){
-			gtk_paint_flat_box (widget->style, drawable,
-					    GTK_WIDGET_STATE(widget), GTK_SHADOW_NONE,
-					    NULL, widget, "entry_bg", 
-					    thisx, thisy, thiswidth, thisheight);
-		}
 		
-		if (text->editing) {
-			thisx += 1;
-			thisy += 1;
-			thiswidth -= 2;
-			thisheight -= 2;
-		}
-
 		if (text->draw_borders){
+
+			if (text->editing) {
+				thisx += 1;
+				thisy += 1;
+				thiswidth -= 2;
+				thisheight -= 2;
+			}
+
 			gtk_paint_shadow (widget->style, drawable,
 					  GTK_STATE_NORMAL, GTK_SHADOW_IN,
 					  NULL, widget, "entry",
 					  thisx, thisy, thiswidth, thisheight);
 		
 			if (text->editing) {
+				thisx -= 1;
+				thisy -= 1;
+				thiswidth += 2;
+				thisheight += 2;
 				/*
 				 * Chris: I am here "filling in" for the additions
 				 * and substractions done in the previous if (text->editing).
@@ -1990,8 +1990,18 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 				 */
 				gtk_paint_focus (widget->style, drawable, 
 						 NULL, widget, "entry",
-						 thisx - 1, thisy - 1, thiswidth + 1, thisheight + 1);
+						 thisx, thisy, thiswidth - 1, thisheight - 1);
 			}
+		}
+
+		if (text->draw_background) {
+			gtk_paint_flat_box (widget->style, drawable,
+					    GTK_WIDGET_STATE(widget), GTK_SHADOW_NONE,
+					    NULL, widget, "entry_bg", 
+					    thisx + widget->style->klass->xthickness,
+					    thisy + widget->style->klass->ythickness, 
+					    thiswidth - widget->style->klass->xthickness * 2,
+					    thisheight - widget->style->klass->ythickness * 2);
 		}
 	}
 
