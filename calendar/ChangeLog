@@ -1,3 +1,9 @@
+2001-04-18  Gediminas Paulauskas <menesis@delfi.lt>
+
+	* gui/calendar-commands.c: use new pixmap cache. Added some menu icons
+	and changed filenames of renamed icons.
+	* gui/tasks-control.c: added icons for new task and print in menu.
+
 2001-04-17  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/alarm-notify/Makefile.am (evolution_alarm_notify_SOURCES):

@@ -1,3 +1,8 @@
+2001-04-18  Gediminas Paulauskas <menesis@delfi.lt>
+
+	* e-shell-view-menu.c: set up menu icons for new folder, import and work
+	offline.
+
 2001-04-15  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-folder-selection-dialog.c

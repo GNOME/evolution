@@ -10,12 +10,12 @@
 
 #include <config.h>
 
-#include <gnome.h>
 #include <bonobo/bonobo-main.h>
 #include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-generic-factory.h>
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-ui-component.h>
+#include <bonobo/bonobo-ui-util.h>
 
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-gui-utils.h>
@@ -35,6 +35,7 @@
 #include "mail-ops.h"
 #include "mail-session.h"
 
+#include "e-util/e-gui-utils.h"
 #include "camel/camel-vtrash-folder.h"
 
 /* The FolderBrowser BonoboControls we have.  */
@@ -110,77 +111,38 @@ BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB_END
 };
 
-static struct {
-	const char *path;
-	const char *fname;
-	char       *pixbuf;
-} pixcache [] = {
-	{ "/menu/File/Print/Print Preview", "16_print.xpm", NULL },
-	{ "/menu/Actions/Component/MessageMove", "16_move_message.xpm", NULL },
-	{ "/menu/Actions/Component/MessageReplyAll", "16_reply_to_all.xpm", NULL },
-	{ "/menu/Actions/Component/MessageReplySndr", "16_reply.xpm", NULL },
-	{ "/menu/File/Folder/FolderConfig", "16_configure_folder.xpm", NULL },
-	{ "/menu/Tools/Component/SetMailConfig", "16_configure_mail.xpm", NULL },
-	{ "/menu/Edit/MessageDelete", "delete_message.xpm", NULL },
-	{ "/menu/Edit/MessageUndelete", "undelete_message.xpm", NULL },
-	/*{ "/menu/View/MessageHideDeleted", "hide_deleted_messages.xpm", NULL },*/
-	{ "/menu/View/MessageHideRead", "hide_read_messages.xpm", NULL },
-	{ "/menu/View/MessageHideSelected", "hide_selected_messages.xpm", NULL },
-	{ "/menu/View/MessageHideClear", "show_all_messages.xpm", NULL },
-	{ "/Toolbar/MailGet", "buttons/fetch-mail.png", NULL },
-	{ "/Toolbar/MailCompose", "buttons/compose-message.png", NULL },
-	{ "/Toolbar/Reply", "buttons/reply.png", NULL },
-	{ "/Toolbar/ReplyAll", "buttons/reply-to-all.png", NULL },
-	{ "/Toolbar/Forward", "buttons/forward.png", NULL },
-	{ "/Toolbar/Move", "buttons/move-message.png", NULL },
-	{ "/Toolbar/Copy", "buttons/copy-message.png", NULL },
-	{ NULL, NULL, NULL }
+
+static EPixmap pixcache [] = {
+	E_PIXMAP ("/menu/File/New/NewFirstItem/MessageNew", "new-message.xpm"),
+	E_PIXMAP ("/menu/File/Folder/FolderConfig", "configure_16_folder.xpm"),
+	E_PIXMAP ("/menu/File/Print/Print", "print.xpm"),
+	E_PIXMAP ("/menu/File/Print/Print Preview", "print-preview.xpm"),
+
+	E_PIXMAP ("/menu/Edit/MessageDelete", "delete_message.xpm"),
+	E_PIXMAP ("/menu/Edit/MessageUndelete", "undelete_message.xpm"),
+
+	/*E_PIXMAP ("/menu/View/MessageHideDeleted", "hide_deleted_messages.xpm"),*/
+	E_PIXMAP ("/menu/View/MessageHideRead", "hide_read_messages.xpm"),
+	E_PIXMAP ("/menu/View/MessageHideSelected", "hide_selected_messages.xpm"),
+	E_PIXMAP ("/menu/View/MessageHideClear", "show_all_messages.xpm"),
+
+	E_PIXMAP ("/menu/Actions/Component/SendReceive", "send-receive.xpm"),
+	E_PIXMAP ("/menu/Actions/Component/MessageMove", "move_message.xpm"),
+	E_PIXMAP ("/menu/Actions/Component/MessageReplyAll", "reply_to_all.xpm"),
+	E_PIXMAP ("/menu/Actions/Component/MessageReplySender", "reply.xpm"),
+
+	E_PIXMAP ("/menu/Tools/Component/SetMailConfig", "configure_16_mail.xpm"),
+	
+	E_PIXMAP ("/Toolbar/MailGet", "buttons/send-24-receive.png"),
+	E_PIXMAP ("/Toolbar/MailCompose", "buttons/compose-message.png"),
+	E_PIXMAP ("/Toolbar/Reply", "buttons/reply.png"),
+	E_PIXMAP ("/Toolbar/ReplyAll", "buttons/reply-to-all.png"),
+	E_PIXMAP ("/Toolbar/Forward", "buttons/forward.png"),
+	E_PIXMAP ("/Toolbar/Move", "buttons/move-message.png"),
+	E_PIXMAP ("/Toolbar/Copy", "buttons/copy-message.png"),
+
+	E_PIXMAP_END
 };
-
-static void
-free_pixmaps (void)
-{
-	int i;
-
-	for (i = 0; pixcache [i].path; i++)
-		g_free (pixcache [i].pixbuf);
-}
-
-static void
-update_pixmaps (BonoboUIComponent *uic)
-{
-	static int done_init = 0;
-	int i;
-
-
-	if (!done_init) {
-		g_atexit (free_pixmaps);
-		done_init = 1;
-	}
-
-	for (i = 0; pixcache [i].path; i++) {
-		if (!pixcache [i].pixbuf) {
-			char *path;
-			GdkPixbuf *pixbuf;
-
-			path = g_concat_dir_and_file (
-				EVOLUTION_DATADIR "/images/evolution",
-				pixcache [i].fname);
-			
-			pixbuf = gdk_pixbuf_new_from_file (path);
-			if (pixbuf == NULL) {
-				g_warning ("Cannot load image -- %s", path);
-			} else {
-				pixcache [i].pixbuf = bonobo_ui_util_pixbuf_to_xml (pixbuf);
-				gdk_pixbuf_unref (pixbuf);
-			}
-			
-			g_free (path);
-		}
-		bonobo_ui_component_set_prop (uic, pixcache [i].path, "pixname",
-					      pixcache [i].pixbuf, NULL);
-	}
-}
 
 static void
 display_view(GalViewCollection *collection,
@@ -306,7 +268,7 @@ control_activate (BonoboControl     *control,
 	folder_browser_setup_view_menus (fb, uic);
 	folder_browser_setup_property_menu (fb, uic);
 	
-	update_pixmaps (uic);
+	e_pixmaps_update (uic, pixcache);
 
         bonobo_ui_component_set_prop(uic, "/commands/MailStop", "sensitive", "0", NULL);
 

@@ -1,3 +1,11 @@
+2001-04-18  Gediminas Paulauskas <menesis@delfi.lt>
+
+	* e-gui-utils.h: new type EPixmap, which is used to cache pixmaps for
+	bonobo components. use e_pixmaps_update to load icons into ui
+	component.
+	* e-gui-utils.c: implementation of EPixmap cache, moved here from
+	mail/folder-browser-factory.c.
+
 2001-04-08  JP Rosevear  <jpr@ximian.com>
 
 	* Makefile.am: Setup up the conduit library building better so the

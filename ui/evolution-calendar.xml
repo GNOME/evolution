@@ -32,7 +32,8 @@
 
 	                        <placeholder name="NewFirstItem">
 					<menuitem name="CalendarNew" verb="EditNewAppointment"
-					_label="_Appointment" accel="*Control*n"/>
+					_label="_Appointment" accel="*Control*n"
+					 pixtype="pixbuf"/>
 	                        </placeholder>
 			</submenu>
 
@@ -49,12 +50,12 @@
 			<placeholder name="Print">
 	                        <menuitem name="Print Preview" verb="CalendarPrintPreview"
                                 _label="Print Preview"
-		    	        _tip="Previews the message to be printed"/>
+		    	        _tip="Previews the calendar to be printed"
+				pixtype="pixbuf"/>
 	  
 				<menuitem name="Print" verb="CalendarPrint"
 				_label="_Print..." _tip="Print calendar"
-	                        pixtype="stock" pixname="Print"/>
-	                        accel="*Control*p"/>
+	                        accel="*Control*p" pixtype="pixbuf"/>
 			</placeholder>
 
 		</submenu>
@@ -86,20 +87,20 @@
                 <submenu name="Tools" _label="_Tools">
                 	<placeholder name="Component">
 				<menuitem name="CalendarPreferences" verb=""
-			 	_label="Settings..."/>
+			 	_label="Settings..." pixtype="pixbuf"/>
 	                </placeholder>
 		</submenu>
 
                 <submenu name="Actions">
                         <placeholder name="Component">
-	                        <menuitem verb="EditNewAppointment"/>
+	                        <menuitem name="CalendarNew" verb="EditNewAppointment"/>
 	                        <menuitem verb="EditNewEvent"/>
 	                </placeholder>
                 </submenu>
 	</menu>
 
 	<dockitem name="Toolbar">
-		<toolitem name="New" verb="EditNewAppointment"/>
+		<toolitem name="New" verb="EditNewAppointment" pixtype="pixbuf"/>
 
 		<separator/>
 
@@ -119,13 +120,13 @@
 		
 		<separator/>
 
-		<toolitem name="DayView" verb="ShowDayView"/>
+		<toolitem name="DayView" verb="ShowDayView" pixtype="pixbuf"/>
 
-		<toolitem name="WorkWeekView" verb="ShowWorkWeekView"/>
+		<toolitem name="WorkWeekView" verb="ShowWorkWeekView" pixtype="pixbuf"/>
 
-		<toolitem name="WeekView" verb="ShowWeekView"/>
+		<toolitem name="WeekView" verb="ShowWeekView" pixtype="pixbuf"/>
 
-		<toolitem name="MonthView" verb="ShowMonthView"/>
+		<toolitem name="MonthView" verb="ShowMonthView" pixtype="pixbuf"/>
 
 	</dockitem>
 

@@ -1,3 +1,11 @@
+2001-04-18  Gediminas Paulauskas <menesis@delfi.lt>
+
+	* evolution-calendar.xml: toolitems which have non-default pixmaps, must
+	have "pixtype=pixbuf" arg. Now *View buttons show up again.
+	* evolution-addressbook.xml, evolution-calendar.xml,
+	evolution-mail.xml, evolution-tasks.xml, evolution.xml: as Jacub
+	suggested, added some icons, replaced stock Print with ours, etc.
+
 2001-04-09  Ettore Perazzoli  <ettore@ximian.com>
 
 	* evolution.xml: Rename "New View" to "New Window" as suggested in

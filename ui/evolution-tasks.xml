@@ -13,7 +13,8 @@
 	  				<menuitem name="NewTask"
 	  				verb="TasksNewTask"
 					_label="_Task"
-	                                accel="*Control*n"/>
+	                                accel="*Control*n"
+					pixtype="pixbuf"/>
 	                        </placeholder>
 	                </submenu>
       

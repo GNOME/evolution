@@ -1,8 +1,8 @@
-2001-03-29  Kjartan Maraas  <kmaraas@gnome.org>
+2001-04-18  Gediminas Paulauskas <menesis@delfi.lt>
 
-	* *.*: Clean up includes. Remove/replace <gnome.h>, <bonobo.h>
-	and <gtk/gtk.h>.
-	
+	* component/e-summary-factory.c: replaced set_pixmap with new EPixmap
+	cache.
+
 2001-03-08  Ettore Perazzoli  <ettore@ximian.com>
 
 	* component/component-factory.c (factory_fn): Specify a NULL

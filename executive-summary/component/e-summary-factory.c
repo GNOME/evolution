@@ -36,7 +36,7 @@
 
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gal/util/e-util.h>
-#include <e-util/e-gui-utils.h>
+#include "e-util/e-gui-utils.h"
 
 #include "e-summary-factory.h"
 
@@ -58,34 +58,11 @@ BonoboUIVerb verbs[] = {
 	BONOBO_UI_VERB_END
 };
 
-static void
-set_pixmap (BonoboUIComponent *component,
-	    const char        *xml_path,
-	    const char        *icon)
-{
-	char *path;
-	GdkPixbuf *pixbuf;
-
-#if 0
-	path = g_concat_dir_and_file (EVOLUTION_DATADIR "/images/evolution/buttons", icon);
-#else
-	path = e_pixmap_file (icon);
-#endif
-
-	pixbuf = gdk_pixbuf_new_from_file (path);
-	g_return_if_fail (pixbuf != NULL);
-
-	bonobo_ui_util_set_pixbuf (component, xml_path, pixbuf);
-	gdk_pixbuf_unref (pixbuf);
-	g_free (path);
-}
-
-static void
-update_pixmaps (BonoboUIComponent *component)
-{
-	set_pixmap (component, "/Toolbar/AddService", "add-service.png");
-	set_pixmap (component, "/Toolbar/NewMail", "compose-message.png");
-}
+static EPixmap pixmaps [] = {
+	E_PIXMAP ("/Toolbar/AddService", "buttons/add-service.png"),
+	E_PIXMAP ("/Toolbar/NewMail", "buttons/compose-message.png"),
+	E_PIXMAP_END
+};
 
 static void
 control_activate (BonoboControl     *control,
@@ -106,7 +83,8 @@ control_activate (BonoboControl     *control,
 			       "evolution-executive-summary.xml", 
 			       "evolution-executive-summary");
 
-	update_pixmaps (ui_component);
+	e_pixmaps_update (ui_component, pixmaps);
+
 	bonobo_ui_component_thaw (ui_component, NULL);
 }
 

@@ -1,3 +1,12 @@
+2001-04-18  Gediminas Paulauskas <menesis@delfi.lt>
+
+	* component-factory.c: use big trash icon, stolen from mc.
+	* folder-browser-factory.c: pixmap cache got moved from here to
+	e-util/e-gui-utils.c. Changed pixmap paths according to file renames.
+	Added icons for print, get mail, etc., changed get mail icon as Jacub
+	suggested.
+	* subscribe-dialog.c: also use new pixmap cache.
+
 2001-04-18  Not Zed  <NotZed@Ximian.com>
 
 	* message-list.c (message_list_set_folder): Only set hidedeleted

@@ -21,10 +21,18 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
 
-#include "subscribe-dialog.h"
-#include "e-util/e-html-utils.h"
+#include <bonobo/bonobo-main.h>
+#include <bonobo/bonobo-object.h>
+#include <bonobo/bonobo-generic-factory.h>
+#include <bonobo/bonobo-control.h> 
+#include <bonobo/bonobo-ui-component.h>
+#include <bonobo/bonobo-ui-util.h>
+#include <bonobo/bonobo-widget.h>
+
 #include <gtkhtml/gtkhtml.h>
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-unicode.h>
@@ -43,20 +51,15 @@
 
 #include <gal/e-paned/e-hpaned.h>
 
-#include <bonobo/bonobo-main.h>
-#include <bonobo/bonobo-object.h>
-#include <bonobo/bonobo-generic-factory.h>
-#include <bonobo/bonobo-control.h> 
-#include <bonobo/bonobo-ui-component.h>
-#include <bonobo/bonobo-ui-util.h>
-#include <bonobo/bonobo-widget.h>
-
+#include "e-util/e-html-utils.h"
+#include "e-util/e-gui-utils.h"
 #include "mail.h"
 #include "mail-tools.h"
 #include "mail-mt.h"
 #include "camel/camel-exception.h"
 #include "camel/camel-store.h"
 #include "camel/camel-session.h"
+#include "subscribe-dialog.h"
 
 #include "art/empty.xpm"
 #include "art/mark.xpm"
@@ -108,33 +111,12 @@ static GtkObjectClass *subscribe_dialog_parent_class;
 
 static void build_tree (SubscribeDialog *sc, CamelStore *store);
 
-static void
-set_pixmap (BonoboUIComponent *component,
-	    const char        *xml_path,
-	    const char        *icon)
-{
-	char *path;
-	GdkPixbuf *pixbuf;
-
-	path = g_concat_dir_and_file (EVOLUTION_DATADIR "/images/evolution/buttons", icon);
-
-	pixbuf = gdk_pixbuf_new_from_file (path);
-	g_return_if_fail (pixbuf != NULL);
-
-	bonobo_ui_util_set_pixbuf (component, xml_path, pixbuf);
-
-	gdk_pixbuf_unref (pixbuf);
-
-	g_free (path);
-}
-
-static void
-update_pixmaps (BonoboUIComponent *component)
-{
-	set_pixmap (component, "/Toolbar/SubscribeFolder", "fetch-mail.png"); /* XXX */
-	set_pixmap (component, "/Toolbar/UnsubscribeFolder", "compose-message.png"); /* XXX */
-	set_pixmap (component, "/Toolbar/RefreshList", "forward.png"); /* XXX */
-}
+static EPixmap pixmaps [] = {
+	E_PIXMAP ("/Toolbar/SubscribeFolder",	"buttons/fetch-mail.png"),	/* XXX */
+	E_PIXMAP ("/Toolbar/UnsubscribeFolder",	"buttons/compose-message.png"),	/* XXX */
+	E_PIXMAP ("/Toolbar/RefreshList",	"buttons/forward.png"),	/* XXX */
+	E_PIXMAP_END
+};
 
 static GtkWidget*
 make_folder_search_widget (GtkSignalFunc start_search_func,
@@ -888,7 +870,7 @@ subscribe_dialog_gui_init (SubscribeDialog *sc)
 	CORBA_exception_init (&ev);
 
 	/* Construct the app */
-	sc->app = bonobo_window_new ("subscribe-dialog", "Manage Subscriptions");
+	sc->app = bonobo_window_new ("subscribe-dialog", _("Manage Subscriptions"));
 
 	/* Build the menu and toolbar */
 	container = bonobo_ui_container_new ();
@@ -908,7 +890,7 @@ subscribe_dialog_gui_init (SubscribeDialog *sc)
 			       "evolution-subscribe.xml",
 			       "evolution-subscribe");
 
-	update_pixmaps (component);
+	e_pixmaps_update (component, pixmaps);
 
 	bonobo_ui_component_thaw (component, NULL);
 

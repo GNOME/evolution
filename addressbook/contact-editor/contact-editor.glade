@@ -1616,7 +1616,7 @@
 	  <name>custom5</name>
 	  <cxx_use_heap>True</cxx_use_heap>
 	  <creation_function>e_create_image_widget</creation_function>
-	  <string1>evolution-contacts.png</string1>
+	  <string1>evolution-contacts-plain.png</string1>
 	  <string2></string2>
 	  <int1>0</int1>
 	  <int2>0</int2>

@@ -21,16 +21,17 @@
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-unicode.h>
 
-#include <select-names/e-select-names.h>
-#include <select-names/e-select-names-manager.h>
+#include "select-names/e-select-names.h"
+#include "select-names/e-select-names-manager.h"
 
+#include "e-util/e-gui-utils.h"
 #include "e-contact-editor.h"
 #include "e-contact-save-as.h"
 #include "addressbook-config.h"
 #include "addressbook.h"
 #include "addressbook/gui/search/e-addressbook-search-dialog.h"
 #include "addressbook/gui/widgets/e-addressbook-view.h"
-#include <addressbook/printing/e-contact-print.h>
+#include "addressbook/printing/e-contact-print.h"
 
 #include <ebook/e-book.h>
 #include <widgets/misc/e-search-bar.h>
@@ -290,36 +291,18 @@ BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB_END
 };
 
-static void
-set_pixmap (BonoboUIComponent *uic,
-	    const char        *xml_path,
-	    const char        *icon)
-{
-	char *path;
-	GdkPixbuf *pixbuf;
+static EPixmap pixmaps [] = {
+	E_PIXMAP ("/menu/File/New/NewFirstItem/New", "evolution-contacts-mini.png"),
+	E_PIXMAP ("/menu/File/Print/Print", "print.xpm"),
+	E_PIXMAP ("/menu/File/Print/Print Preview", "print-preview.xpm"),
+	E_PIXMAP ("/menu/Tools/Component/AddressbookConfig", "configure_16_addressbook.xpm"),
 
-	path = g_concat_dir_and_file (EVOLUTION_DATADIR "/images/evolution", icon);
+	E_PIXMAP ("/Toolbar/View All", "all_contacts.xpm"),
+	E_PIXMAP ("/Toolbar/Find", "find_contact.xpm"),
+	E_PIXMAP ("/Toolbar/New", "new_contact.xpm"),
 
-	pixbuf = gdk_pixbuf_new_from_file (path);
-	g_return_if_fail (pixbuf != NULL);
-
-	bonobo_ui_util_set_pixbuf (uic, xml_path, pixbuf);
-
-	gdk_pixbuf_unref (pixbuf);
-
-	g_free (path);
-}
-
-static void
-update_pixmaps (BonoboUIComponent *uic)
-{
-/*	set_pixmap (uic, "/menu/File/Print/Print", "16_print.xpm"); FIXME it doesn't seem to work */
-	set_pixmap (uic, "/menu/Tools/Component/AddressbookConfig", "16_configure_addressbook.xpm");
-
-	set_pixmap (uic, "/Toolbar/View All", "24_all_contacts.xpm");
-	set_pixmap (uic, "/Toolbar/Find", "24_find_contact.xpm");
-	set_pixmap (uic, "/Toolbar/New", "new_contact.xpm");
-}
+	E_PIXMAP_END
+};
 
 static void
 control_activate (BonoboControl     *control,
@@ -345,7 +328,7 @@ control_activate (BonoboControl     *control,
 
 	update_view_type (view);
 
-	update_pixmaps (uic);
+	e_pixmaps_update (uic, pixmaps);
 
 	bonobo_ui_component_thaw (uic, NULL);
 }

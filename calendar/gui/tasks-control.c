@@ -23,15 +23,15 @@
  */
 
 #include <config.h>
-#include <glib.h>
 #include <gtk/gtksignal.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
+#include <libgnome/gnome-util.h>
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-ui-util.h>
 #include "e-tasks.h"
 #include "tasks-control.h"
-
+#include "e-util/e-gui-utils.h"
 
 #define TASKS_CONTROL_PROPERTY_URI		"folder_uri"
 #define TASKS_CONTROL_PROPERTY_URI_IDX		1
@@ -183,6 +183,12 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB_END
 };
 
+static EPixmap pixmaps [] = {
+	E_PIXMAP ("/menu/File/New/NewFirstItem/NewTask",	"evolution-tasks-mini.png"),
+	E_PIXMAP ("/menu/File/Print/Print",	"print.xpm"),
+	E_PIXMAP_END
+};
+
 static void
 tasks_control_activate			(BonoboControl		*control,
 					 ETasks			*tasks)
@@ -206,6 +212,8 @@ tasks_control_activate			(BonoboControl		*control,
 			       "evolution-tasks");
 
 	e_tasks_setup_menus(tasks, uic);
+
+	e_pixmaps_update (uic, pixmaps);
 
 	bonobo_ui_component_thaw (uic, NULL);
 }
