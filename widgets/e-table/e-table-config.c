@@ -34,15 +34,14 @@ load_data (GladeXML *xml, char *label_widget, const char *content)
 }
 
 static char *
-get_fields (ETable *etable)
+get_fields (ETable *etable, xmlNode *xmlRoot)
 {
-	xmlNode *xmlRoot, *xmlColumns;
+	xmlNode *xmlColumns;
 	xmlNode *column;
 	GString *res;
 	char *s;
 	
 	res = g_string_new ("");
-	xmlRoot = xmlDocGetRootElement (etable->specification);
 	xmlColumns = e_xml_get_child_by_name (xmlRoot, "columns-shown");
 
 	for (column = xmlColumns->childs; column; column = column->next){
@@ -62,9 +61,19 @@ get_fields (ETable *etable)
 }
 
 static char *
-get_grouping (ETable *etable)
+get_grouping (ETable *etable, xmlNode *xmlRoot)
 {
-	return g_strdup ("None");
+	xmlNode *xmlGrouping;
+	GString *res;
+	char *s;
+	
+	res = g_string_new ("");
+	xmlGrouping = e_xml_get_child_by_name (xmlRoot, "grouping");
+
+	s = res->str;
+	g_string_free (res, FALSE);
+
+	return s;
 }
 
 static char *
@@ -86,13 +95,16 @@ get_filter (ETable *etable)
 static void
 load_label_data (GladeXML *gui, ETable *etable)
 {
+	xmlNode *xmlRoot;
 	char *s;
 	
-	s = get_fields (etable);
+	xmlRoot = xmlDocGetRootElement (etable->specification);
+
+	s = get_fields (etable, xmlRoot);
 	load_data (gui, "label1", s);
 	g_free (s);
 
-	s = get_grouping (etable);
+	s = get_grouping (etable, xmlRoot);
 	load_data (gui, "label2", s);
 	g_free (s);
 
