@@ -1,5 +1,18 @@
 2002-01-07  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-folder.c (filter_filter): Flush the only-once actions.
+
+	* camel-filter-driver.c (camel_filter_driver_filter_message):
+	Don't increment a filtered_count here any longer.
+	(camel_filter_driver_reset_filtered_count): Removed.
+	(camel_filter_driver_get_filtered_count): Removed.
+	(do_beep): New action.
+	(play_sound): New action to play a sound
+	(do_only_once): Another new action.
+	(camel_filter_driver_finalise): Free the only_once hash if the
+	driver has not been "flushed".
+	(camel_filter_driver_flush): Flush all of the only-once actions.
+
 	* camel-charset-map.c: Moved windows-1251 to the end of the list
 	since it contains the euro and we'd prefer to use iso-8859-15 when
 	the euro is requested than a windows charset if possible.

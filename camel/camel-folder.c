@@ -1479,8 +1479,9 @@ static void
 filter_filter(CamelSession *session, CamelSessionThreadMsg *msg)
 {
 	struct _folder_filter_msg *m = (struct _folder_filter_msg *)msg;
-
-	camel_filter_driver_filter_folder(m->driver, m->folder, NULL, m->recents, FALSE, &m->ex);	
+	
+	camel_filter_driver_filter_folder(m->driver, m->folder, NULL, m->recents, FALSE, &m->ex);
+	camel_filter_driver_flush (m->driver, &m->ex);
 }
 
 static void

@@ -62,18 +62,17 @@ typedef void (CamelFilterStatusFunc) (CamelFilterDriver *driver, enum camel_filt
 				      int pc, const char *desc, void *data);
 
 typedef void (CamelFilterShellExecFunc) (CamelFilterDriver *driver, const char *command, void *data);
+typedef void (CamelFilterPlaySoundFunc) (CamelFilterDriver *driver, const char *filename, void *data);
 
 CamelType          camel_filter_driver_get_type (void);
 CamelFilterDriver  *camel_filter_driver_new     (void);
 
 /* modifiers */
-void camel_filter_driver_reset_filtered_count (CamelFilterDriver *driver);
-int  camel_filter_driver_get_filtered_count   (CamelFilterDriver *driver);
-
 void camel_filter_driver_set_logfile          (CamelFilterDriver *d, FILE *logfile);
 
 void camel_filter_driver_set_status_func      (CamelFilterDriver *d, CamelFilterStatusFunc *func, void *data);
 void camel_filter_driver_set_shell_exec_func  (CamelFilterDriver *d, CamelFilterShellExecFunc *func, void *data);
+void camel_filter_driver_set_play_sound_func  (CamelFilterDriver *d, CamelFilterPlaySoundFunc *func, void *data);
 void camel_filter_driver_set_folder_func      (CamelFilterDriver *d, CamelFilterGetFolderFunc fetcher, void *data);
 
 void camel_filter_driver_set_default_folder   (CamelFilterDriver *d, CamelFolder *def);
@@ -82,6 +81,8 @@ void camel_filter_driver_add_rule             (CamelFilterDriver *d, const char 
 					       const char *action);
 
 /*void camel_filter_driver_set_global(CamelFilterDriver *, const char *name, const char *value);*/
+
+void camel_filter_driver_flush                (CamelFilterDriver *driver, CamelException *ex);
 
 int  camel_filter_driver_filter_message       (CamelFilterDriver *driver, CamelMimeMessage *message,
 					       CamelMessageInfo *info, const char *uri,

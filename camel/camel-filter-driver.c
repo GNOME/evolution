@@ -28,6 +28,7 @@
 #include <time.h>
 
 #include <glib.h>
+#include <gtk/gtk.h>
 
 #include <errno.h>
 
@@ -68,8 +69,6 @@ struct _filter_rule {
 struct _CamelFilterDriverPrivate {
 	GHashTable *globals;       /* global variables */
 	
-	int filtered_count;        /* count of the number of messages filtered so far */
-	
 	CamelFolder *defaultfolder;        /* defualt folder */
 	
 	CamelFilterStatusFunc *statusfunc; /* status callback */
@@ -77,6 +76,9 @@ struct _CamelFilterDriverPrivate {
 	
 	CamelFilterShellExecFunc *execfunc; /* execute shell command callback */
 	void *execdata;                     /* execute shell command data */
+	
+	CamelFilterPlaySoundFunc *playfunc; /* play-sound command callback */
+	void *playdata;                     /* play-sound command data */
 	
 	/* for callback */
 	CamelFilterGetFolderFunc get_folder;
@@ -86,6 +88,7 @@ struct _CamelFilterDriverPrivate {
 	GHashTable *folders;       /* folders that message has been copied to */
 	int closed;		   /* close count */
 	GHashTable *forwards;      /* addresses that have been forwarded the message */
+	GHashTable *only_once;     /* actions to run only-once */
 	
 	gboolean terminated;       /* message processing was terminated */
 	gboolean deleted;          /* message was marked for deletion */
@@ -99,7 +102,7 @@ struct _CamelFilterDriverPrivate {
 	FILE *logfile;             /* log file */
 	
 	EDList rules;		   /* list of _filter_rule structs */
-
+	
 	CamelException *ex;
 	
 	/* evaluator */
@@ -126,6 +129,9 @@ static ESExpResult *do_colour (struct _ESExp *f, int argc, struct _ESExpResult *
 static ESExpResult *do_score (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriver *);
 static ESExpResult *do_flag (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriver *);
 static ESExpResult *shell_exec (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriver *);
+static ESExpResult *do_beep (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriver *);
+static ESExpResult *play_sound (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriver *);
+static ESExpResult *do_only_once (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriver *);
 
 /* these are our filter actions - each must have a callback */
 static struct {
@@ -142,7 +148,10 @@ static struct {
 	{ "set-colour",      (ESExpFunc *) do_colour,    0 },
 	{ "set-score",       (ESExpFunc *) do_score,     0 },
 	{ "set-system-flag", (ESExpFunc *) do_flag,      0 },
-	{ "shell-exec",      (ESExpFunc *) shell_exec,   0 }
+	{ "shell-exec",      (ESExpFunc *) shell_exec,   0 },
+	{ "beep",            (ESExpFunc *) do_beep,      0 },
+	{ "play-sound",      (ESExpFunc *) play_sound,   0 },
+	{ "only-once",       (ESExpFunc *) do_only_once, 0 }
 };
 
 static CamelObjectClass *camel_filter_driver_parent;
@@ -197,6 +206,8 @@ camel_filter_driver_init (CamelFilterDriver *obj)
 	p->globals = g_hash_table_new (g_str_hash, g_str_equal);
 	
 	p->folders = g_hash_table_new (g_str_hash, g_str_equal);
+	
+	p->only_once = g_hash_table_new (g_str_hash, g_str_equal);
 }
 
 static void
@@ -219,7 +230,10 @@ camel_filter_driver_finalise (CamelObject *obj)
 	
 	g_hash_table_foreach (p->globals, free_hash_strings, driver);
 	g_hash_table_destroy (p->globals);
-
+	
+	g_hash_table_foreach (p->only_once, free_hash_strings, driver);
+	g_hash_table_destroy (p->only_once);
+	
 	e_sexp_unref(p->eval);
 	
 	if (p->defaultfolder) {
@@ -246,22 +260,6 @@ CamelFilterDriver *
 camel_filter_driver_new (void)
 {
 	return CAMEL_FILTER_DRIVER (camel_object_new(camel_filter_driver_get_type ()));
-}
-
-void
-camel_filter_driver_reset_filtered_count (CamelFilterDriver *driver)
-{
-	struct _CamelFilterDriverPrivate *p = _PRIVATE (driver);
-	
-	p->filtered_count = 0;
-}
-
-int
-camel_filter_driver_get_filtered_count (CamelFilterDriver *driver)
-{
-	struct _CamelFilterDriverPrivate *p = _PRIVATE (driver);
-	
-	return p->filtered_count;
 }
 
 void
@@ -297,6 +295,15 @@ camel_filter_driver_set_shell_exec_func (CamelFilterDriver *d, CamelFilterShellE
 	
 	p->execfunc = func;
 	p->execdata = data;
+}
+
+void
+camel_filter_driver_set_play_sound_func (CamelFilterDriver *d, CamelFilterPlaySoundFunc *func, void *data)
+{
+	struct _CamelFilterDriverPrivate *p = _PRIVATE (d);
+	
+	p->playfunc = func;
+	p->playdata = data;
 }
 
 void
@@ -557,6 +564,46 @@ shell_exec (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterD
 	return NULL;
 }
 
+static ESExpResult *
+do_beep (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriver *driver)
+{
+	d(fprintf (stderr, "beep\n"));
+	
+	camel_filter_driver_log (driver, FILTER_LOG_ACTION, "Beep");
+	/*gdk_beep ();*/
+	
+	return NULL;
+}
+
+static ESExpResult *
+play_sound (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriver *driver)
+{
+	struct _CamelFilterDriverPrivate *p = _PRIVATE (driver);
+	
+	d(fprintf (stderr, "play sound\n"));
+	
+	if (p->playfunc && argc == 1 && argv[0]->type == ESEXP_RES_STRING) {
+		p->playfunc (driver, argv[0]->value.string, p->playdata);
+		camel_filter_driver_log (driver, FILTER_LOG_ACTION, "Play sound");
+	}
+	
+	return NULL;
+}
+
+static ESExpResult *
+do_only_once (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriver *driver)
+{
+	struct _CamelFilterDriverPrivate *p = _PRIVATE (driver);
+	
+	d(fprintf (stderr, "only once\n"));
+	
+	if (argc == 2 && !g_hash_table_lookup (p->only_once, argv[0]->value.string))
+		g_hash_table_insert (p->only_once, g_strdup (argv[0]->value.string),
+				     g_strdup (argv[1]->value.string));
+	
+	return NULL;
+}
+
 static CamelFolder *
 open_folder (CamelFilterDriver *driver, const char *folder_url)
 {
@@ -680,6 +727,72 @@ camel_filter_driver_log (CamelFilterDriver *driver, enum filter_log_t status, co
 	}
 }
 
+
+struct _run_only_once {
+	CamelFilterDriver *driver;
+	CamelException *ex;
+};
+
+static gboolean
+run_only_once (gpointer key, char *action, struct _run_only_once *data)
+{
+	struct _CamelFilterDriverPrivate *p = _PRIVATE (data->driver);
+	CamelFilterDriver *driver = data->driver;
+	CamelException *ex = data->ex;
+	ESExpResult *r;
+	
+	printf ("evaluating: %s\n\n", action);
+	
+	e_sexp_input_text (p->eval, action, strlen (action));
+	if (e_sexp_parse (p->eval) == -1) {
+		if (!camel_exception_is_set (ex))
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+					      _("Error parsing filter: %s: %s"),
+					      e_sexp_error (p->eval), action);
+		goto done;
+	}
+	
+	r = e_sexp_eval (p->eval);
+	if (r == NULL) {
+		if (!camel_exception_is_set (ex))
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+					      _("Error executing filter: %s: %s"),
+					      e_sexp_error (p->eval), action);
+		goto done;
+	}
+	
+	e_sexp_result_free (p->eval, r);
+	
+ done:
+	
+	g_free (key);
+	g_free (action);
+	
+	return TRUE;
+}
+
+
+/**
+ * camel_filter_driver_flush:
+ * @driver:
+ * @ex:
+ *
+ * Flush all of the only-once filter actions.
+ **/
+void
+camel_filter_driver_flush (CamelFilterDriver *driver, CamelException *ex)
+{
+	struct _CamelFilterDriverPrivate *p = _PRIVATE (driver);
+	struct _run_only_once data;
+	
+	if (!p->only_once)
+		return;
+	
+	data.driver = driver;
+	data.ex = ex;
+	
+	g_hash_table_foreach_remove (p->only_once, run_only_once, &data);
+}
 
 /**
  * camel_filter_driver_filter_mbox:
@@ -886,7 +999,7 @@ camel_filter_driver_filter_folder (CamelFilterDriver *driver, CamelFolder *folde
 		report_status (driver, CAMEL_FILTER_STATUS_END, 100, _("Complete"));
 	
 	g_free (source_url);
-
+	
 	return status;
 }
 
@@ -1012,8 +1125,6 @@ camel_filter_driver_filter_message (CamelFilterDriver *driver, CamelMimeMessage 
 	
 	if (freeinfo)
 		camel_message_info_free (info);
-	
-	p->filtered_count++;
 	
 	return 0;
 	
