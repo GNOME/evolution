@@ -125,6 +125,9 @@ void em_utils_empty_trash (struct _GtkWidget *parent);
 /* returns the folder name portion of an URI */
 char *em_utils_folder_name_from_uri (const char *uri);
 
+/* internal/camel uri translation */
+char *em_uri_from_camel (const char *curi);
+char *em_uri_to_camel (const char *euri);
 
 #ifdef __cplusplus
 }

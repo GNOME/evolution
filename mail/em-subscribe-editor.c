@@ -127,6 +127,7 @@ struct _EMSubscribeNode {
 
 static void sub_editor_busy(EMSubscribeEditor *se, int dir);
 static int sub_queue_fill_level(EMSubscribe *sub, EMSubscribeNode *node);
+static void sub_selection_changed(GtkTreeSelection *selection, EMSubscribe *sub);
 
 static void
 sub_node_free(char *key, EMSubscribeNode *node, EMSubscribe *sub)

@@ -55,6 +55,8 @@
 static EAccount *guess_account (CamelMimeMessage *message, CamelFolder *folder);
 static void emu_save_part_done (CamelMimePart *part, char *name, int done, void *data);
 
+#define d(x)
+
 /**
  * em_utils_prompt_user:
  * @parent: parent window
@@ -2113,8 +2115,6 @@ em_utils_temp_save_part(GtkWidget *parent, CamelMimePart *part)
 	return path;
 }
 
-extern CamelFolder *drafts_folder, *sent_folder, *outbox_folder;
-
 /**
  * em_utils_folder_is_drafts:
  * @folder: folder
@@ -2132,7 +2132,7 @@ em_utils_folder_is_drafts(CamelFolder *folder, const char *uri)
 	EIterator *iter;
 	int is = FALSE;
 
-	if (folder == drafts_folder)
+	if (folder == mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_DRAFTS))
 		return TRUE;
 
 	if (uri == NULL)
@@ -2173,7 +2173,7 @@ em_utils_folder_is_sent(CamelFolder *folder, const char *uri)
 	EIterator *iter;
 	int is = FALSE;
 
-	if (folder == sent_folder)
+	if (folder == mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_SENT))
 		return TRUE;
 
 	if (uri == NULL)
@@ -2210,7 +2210,7 @@ gboolean
 em_utils_folder_is_outbox(CamelFolder *folder, const char *uri)
 {
 	/* <Highlander>There can be only one.</Highlander> */
-	return folder == outbox_folder;
+	return folder == mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_OUTBOX);
 }
 
 /**
@@ -2486,4 +2486,130 @@ em_utils_folder_name_from_uri (const char *uri)
 	camel_url_free (url);
 	
 	return folder_name;
+}
+
+extern struct _CamelSession *session;
+
+/* email: uri's are based on the account, with special cases for local
+ * stores, vfolder and local mail.
+ * e.g.
+ *  imap account imap://user@host/ -> email://accountid@accountid.host/
+ *  vfolder      vfolder:/storage/path#folder -> email://vfolder@local/folder
+ *  local        local:/storage/path#folder   -> email://local@local/folder
+ */
+
+char *em_uri_from_camel(const char *curi)
+{
+	CamelURL *curl;
+	EAccount *account;
+	const char *uid, *path;
+	char *euri, *tmp;
+	CamelProvider *provider;
+
+	provider = camel_session_get_provider(session, curi, NULL);
+	if (provider == NULL) {
+		d(printf("em uri from camel failed '%s'\n", curi));
+		return g_strdup(curi);
+	}
+
+	curl = camel_url_new(curi, NULL);
+	if (curl == NULL)
+		return g_strdup(curi);
+
+	if (strcmp(curl->protocol, "vfolder") == 0)
+		uid = "vfolder@local";
+	else if ((account = mail_config_get_account_by_source_url(curi)) == NULL)
+		uid = "local@local";
+	else
+		uid = account->uid;
+	path = (provider->url_flags & CAMEL_URL_FRAGMENT_IS_PATH)?curl->fragment:curl->path;
+	if (path[0] == '/')
+		path++;
+
+	tmp = camel_url_encode(path, ";?");
+	euri = g_strdup_printf("email://%s/%s", uid, tmp);
+	g_free(tmp);
+	
+	d(printf("em uri from camel '%s' -> '%s'\n", curi, euri));
+
+	camel_url_free(curl);
+
+	return euri;
+}
+
+char *em_uri_to_camel(const char *euri)
+{
+	EAccountList *accounts;
+	const EAccount *account;
+	EAccountService *service;
+	CamelProvider *provider;
+	CamelURL *eurl, *curl;
+	char *uid, *curi;
+
+	if (strncmp(euri, "email:", 6) != 0) {
+		d(printf("em uri to camel not euri '%s'\n", euri));
+		return g_strdup(euri);
+	}
+
+	eurl = camel_url_new(euri, NULL);
+	if (eurl == NULL)
+		return g_strdup(euri);
+
+	g_assert(eurl->host != NULL);
+
+	if (eurl->user != NULL) {
+		/* Sigh, shoul'dve used mbox@local for mailboxes, not local@local */
+		if (strcmp(eurl->host, "local") == 0
+		    && (strcmp(eurl->user, "local") == 0 || strcmp(eurl->user, "vfolder") == 0)) {
+			char *base;
+
+			if (strcmp(eurl->user, "vfolder") == 0)
+				curl = camel_url_new("vfolder:", NULL);
+			else
+				curl = camel_url_new("mbox:", NULL);
+
+			base = g_strdup_printf("%s/.evolution/mail/%s", g_get_home_dir(), eurl->user);
+			camel_url_set_path(curl, base);
+			g_free(base);
+			camel_url_set_fragment(curl, eurl->path[0]=='/'?eurl->path+1:eurl->path);
+			curi = camel_url_to_string(curl, 0);
+			camel_url_free(curl);
+			camel_url_free(eurl);
+
+			d(printf("em uri to camel local '%s' -> '%s'\n", euri, curi));
+			return curi;
+		}
+
+		uid = g_strdup_printf("%s@%s", eurl->user, eurl->host);
+	} else {
+		uid = g_strdup(eurl->host);
+	}
+
+	accounts = mail_config_get_accounts();
+	account = e_account_list_find(accounts, E_ACCOUNT_FIND_UID, uid);
+	g_free(uid);
+
+	if (account == NULL) {
+		camel_url_free(eurl);
+		d(printf("em uri to camel no account '%s' -> '%s'\n", euri, euri));
+		return g_strdup(euri);
+	}
+
+	service = account->source;
+	provider = camel_session_get_provider(session, service->url, NULL);
+
+	curl = camel_url_new(service->url, NULL);
+	if (provider->url_flags & CAMEL_URL_FRAGMENT_IS_PATH)
+		camel_url_set_fragment(curl, eurl->path[0]=='/'?eurl->path+1:eurl->path);
+	else
+		camel_url_set_path(curl, eurl->path);
+
+	curi = camel_url_to_string(curl, 0);
+
+	camel_url_free(eurl);
+	camel_url_free(curl);
+
+	d(printf("em uri to camel '%s' -> '%s'\n", euri, curi));
+
+	return curi;
 }

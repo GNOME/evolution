@@ -327,15 +327,14 @@ update_1folder(struct _folder_info *mfi, int new, CamelFolderInfo *info)
 	struct _folder_update *up;
 	CamelFolder *folder;
 	int unread = -1;
-	extern CamelFolder *outbox_folder, *sent_folder;
 
 	si  = mfi->store_info;
 
 	folder = mfi->folder;
 	if (folder) {
 		if ((count_trash && CAMEL_IS_VTRASH_FOLDER (folder))
-		    || folder == outbox_folder
-		    || (count_sent && folder == sent_folder)) {
+		    || folder == mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_OUTBOX)
+		    || (count_sent && folder == mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_SENT))) {
 			unread = camel_folder_get_message_count(folder);
 		} else {
 			if (info)
@@ -412,7 +411,6 @@ create_folders(CamelFolderInfo *fi, struct _store_info *si)
 static void
 folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 {
-	extern CamelFolder *outbox_folder, *sent_folder;
 	CamelFolderChangeInfo *changes = event_data;
 	CamelFolder *folder = (CamelFolder *) o;
 	struct _folder_info *mfi = user_data;
@@ -421,7 +419,10 @@ folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 	if (mfi->folder != folder)
 		return;
 	
-	if (!CAMEL_IS_VTRASH_FOLDER (folder) && folder != outbox_folder && folder != sent_folder && changes && changes->uid_added)
+	if (!CAMEL_IS_VTRASH_FOLDER(folder)
+	    && folder != mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_OUTBOX)
+	    && folder != mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_SENT)
+	    && changes && changes->uid_added)
 		new = changes->uid_added->len;
 	
 	LOCK(info_lock);

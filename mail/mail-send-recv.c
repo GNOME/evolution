@@ -131,7 +131,7 @@ static struct _send_data *setup_send_data(void)
 		send_data = data = g_malloc0(sizeof(*data));
 		data->lock = g_mutex_new();
 		data->folders = g_hash_table_new(g_str_hash, g_str_equal);
-		data->inbox = mail_tool_get_local_inbox(NULL);
+		data->inbox = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_LOCAL_INBOX);
 		data->active = g_hash_table_new(g_str_hash, g_str_equal);
 	}
 	return send_data;
@@ -297,7 +297,6 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destinati
 	EClippedLabel *status_label;
 	GtkProgressBar *bar;
 	GtkButton *stop;
-	GtkHSeparator *line;
 	struct _send_info *info;
 	char *pretty_url;
 	EAccount *account;
@@ -671,7 +670,7 @@ receive_update_got_store (char *uri, CamelStore *store, void *data)
 
 GtkWidget *mail_send_receive (void)
 {
-	extern CamelFolder *outbox_folder;
+	CamelFolder *outbox_folder;
 	struct _send_data *data;
 	EAccountList *accounts;
 	EAccount *account;
@@ -693,7 +692,8 @@ GtkWidget *mail_send_receive (void)
 		return send_recv_dialog;
 	
 	accounts = mail_config_get_accounts ();
-	
+
+	outbox_folder = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_OUTBOX);
 	data = build_dialog (accounts, outbox_folder, account->transport->url);
 	scan = data->infos;
 	while (scan) {
@@ -831,7 +831,7 @@ mail_receive_uri (const char *uri, int keep)
 {
 	struct _send_info *info;
 	struct _send_data *data;
-	extern CamelFolder *outbox_folder;
+	CamelFolder *outbox_folder;
 	send_info_t type;
 	
 	data = setup_send_data();
@@ -876,6 +876,7 @@ mail_receive_uri (const char *uri, int keep)
 		break;
 	case SEND_SEND:
 		/* todo, store the folder in info? */
+		outbox_folder = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_OUTBOX);
 		mail_send_queue (outbox_folder, info->uri,
 				 FILTER_SOURCE_OUTGOING,
 				 info->cancel,
@@ -894,7 +895,7 @@ mail_receive_uri (const char *uri, int keep)
 void
 mail_send (void)
 {
-	extern CamelFolder *outbox_folder;
+	CamelFolder *outbox_folder;
 	EAccountService *transport;
 	struct _send_info *info;
 	struct _send_data *data;
@@ -936,6 +937,7 @@ mail_send (void)
 	g_hash_table_insert (data->active, SEND_URI_KEY, info);
 	
 	/* todo, store the folder in info? */
+	outbox_folder = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_OUTBOX);
 	mail_send_queue (outbox_folder, info->uri,
 			 FILTER_SOURCE_OUTGOING,
 			 info->cancel,

@@ -253,7 +253,7 @@ fetch_mail_fetch (struct _mail_msg *mm)
 	if (m->cancel)
 		camel_operation_register (m->cancel);
 	
-	if ((fm->destination = mail_tool_get_local_inbox (&mm->ex)) == NULL)
+	if ((fm->destination = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_LOCAL_INBOX)) == NULL)
 		goto fail;
 	
 	/* FIXME: this should support keep_on_server too, which would then perform a spool
@@ -406,8 +406,6 @@ mail_fetch_mail (const char *source, int keep, const char *type, CamelOperation 
 /* sending stuff */
 /* ** SEND MAIL *********************************************************** */
 
-extern CamelFolder *sent_folder;
-
 static char *normal_recipients[] = {
 	CAMEL_RECIPIENT_TYPE_TO,
 	CAMEL_RECIPIENT_TYPE_CC,
@@ -520,8 +518,8 @@ mail_send_message (CamelMimeMessage *message, const char *destination,
 	}
 	
 	if (!folder) {
-		camel_object_ref (sent_folder);
-		folder = sent_folder;
+		folder = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_SENT);	
+		camel_object_ref(folder);
 	}
 	
 	if (driver) {
@@ -543,9 +541,13 @@ mail_send_message (CamelMimeMessage *message, const char *destination,
 	camel_exception_clear (ex);
 	camel_folder_append_message (folder, message, info, NULL, ex);
 	if (camel_exception_is_set (ex)) {
+		CamelFolder *sent_folder;
+
 		if (camel_exception_get_id (ex) == CAMEL_EXCEPTION_USER_CANCEL)
 			goto exit;
-		
+
+		sent_folder = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_SENT);
+
 		if (err == NULL)
 			err = g_string_new ("");
 		else
@@ -706,7 +708,8 @@ static void
 send_queue_send(struct _mail_msg *mm)
 {
 	struct _send_queue_msg *m = (struct _send_queue_msg *)mm;
-	extern CamelFolder *sent_folder; /* FIXME */
+	/* FIXME (what is this fixme for?) */
+	CamelFolder *sent_folder = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_SENT);
 	GPtrArray *uids;
 	int i;
 	

@@ -33,6 +33,7 @@
 #include "mail-config.h"
 #include "mail-session.h"
 #include "mail-send-recv.h"
+#include "mail-component.h"
 
 #include <e-util/e-dialog-utils.h>  /* e_notice */
 
@@ -140,7 +141,6 @@ ask_confirm_for_empty_subject (EMsgComposer *composer)
 static gboolean
 ask_confirm_for_only_bcc (EMsgComposer *composer, gboolean hidden_list_case)
 {
-	gboolean show_again, res;
 	const char *first_text;
 	
 	/* If the user is mailing a hidden contact list, it is possible for
@@ -390,7 +390,7 @@ got_post_folder (char *uri, CamelFolder *folder, void *data)
 void
 em_utils_composer_send_cb (EMsgComposer *composer, gpointer user_data)
 {
-	extern CamelFolder *outbox_folder;
+	CamelFolder *outbox_folder = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_OUTBOX);
 	CamelMimeMessage *message;
 	CamelMessageInfo *info;
 	struct _send_data *send;
@@ -558,8 +558,8 @@ save_draft_folder (char *uri, CamelFolder *folder, gpointer data)
 void
 em_utils_composer_save_draft_cb (EMsgComposer *composer, int quit, gpointer user_data)
 {
-	extern char *default_drafts_folder_uri;
-	extern CamelFolder *drafts_folder;
+	const char *default_drafts_folder_uri = mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_DRAFTS);
+	CamelFolder *drafts_folder = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_DRAFTS);
 	struct _save_draft_info *sdi;
 	CamelFolder *folder = NULL;
 	CamelMimeMessage *msg;

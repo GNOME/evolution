@@ -299,7 +299,6 @@ my_list_find(GList *l, const char *uri, GCompareFunc cmp)
 static int
 uri_is_ignore(const char *uri, GCompareFunc uri_cmp)
 {
-	extern char *default_outbox_folder_uri, *default_sent_folder_uri, *default_drafts_folder_uri;
 	EAccountList *accounts;
 	EAccount *account;
 	EIterator *iter;
@@ -307,9 +306,9 @@ uri_is_ignore(const char *uri, GCompareFunc uri_cmp)
 	
 	d(printf("checking '%s' against:\n  %s\n  %s\n  %s\n", uri, default_outbox_folder_uri, default_sent_folder_uri, default_drafts_folder_uri));
 	
-	found = (default_outbox_folder_uri && uri_cmp(default_outbox_folder_uri, uri))
-		|| (default_sent_folder_uri && uri_cmp(default_sent_folder_uri, uri))
-		|| (default_drafts_folder_uri && uri_cmp(default_drafts_folder_uri, uri));
+	found = uri_cmp(mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_OUTBOX), uri)
+		|| uri_cmp(mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_SENT), uri)
+		|| uri_cmp(mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_DRAFTS), uri);
 	
 	if (found)
 		return found;

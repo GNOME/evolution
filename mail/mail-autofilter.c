@@ -40,6 +40,7 @@
 #include "mail-vfolder.h"
 #include "mail-autofilter.h"
 #include "mail-component.h"
+#include "em-utils.h"
 
 #include "camel/camel.h"
 

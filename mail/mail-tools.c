@@ -45,22 +45,16 @@
 
 #include "e-util/e-meta.h"
 
-#include "mail.h" /*session*/
 #include "mail-component.h"
+#include "mail-session.h"
 #include "mail-config.h"
 #include "mail-vfolder.h"
 #include "mail-tools.h"
 #include "mail-mt.h"
 #include "mail-folder-cache.h"
-
+#include "em-utils.h"
 
 /* **************************************** */
-
-CamelFolder *
-mail_tool_get_local_inbox (CamelException *ex)
-{
-	return mail_component_get_local_inbox(mail_component_peek(), ex);
-}
 
 CamelFolder *
 mail_tool_get_inbox (const gchar *url, CamelException *ex)

@@ -44,6 +44,14 @@ typedef struct _MailComponent        MailComponent;
 typedef struct _MailComponentPrivate MailComponentPrivate;
 typedef struct _MailComponentClass   MailComponentClass;
 
+enum _mail_component_folder_t {
+	MAIL_COMPONENT_FOLDER_INBOX = 0,
+	MAIL_COMPONENT_FOLDER_DRAFTS,
+	MAIL_COMPONENT_FOLDER_OUTBOX,
+	MAIL_COMPONENT_FOLDER_SENT,
+	MAIL_COMPONENT_FOLDER_LOCAL_INBOX,
+};
+
 struct _MailComponent {
 	BonoboObject parent;
 	
@@ -58,8 +66,11 @@ struct _MailComponentClass {
 
 GType  mail_component_get_type  (void);
 
+struct _BonoboControl *mail_control_new(void);
+
 MailComponent *mail_component_peek  (void);
 
+/* NOTE: Using NULL as the component implies using the default component */
 const char       *mail_component_peek_base_directory    (MailComponent *component);
 RuleContext      *mail_component_peek_search_context    (MailComponent *component);
 EActivityHandler *mail_component_peek_activity_handler  (MailComponent *component);
@@ -85,16 +96,7 @@ void mail_component_remove_folder (MailComponent *component, CamelStore *store, 
 
 struct _EMFolderTreeModel *mail_component_peek_tree_model (MailComponent *component);
 
-struct _CamelFolder *mail_component_get_local_inbox(MailComponent *mc, struct _CamelException *ex);
-
-char *em_uri_from_camel (const char *curi);
-char *em_uri_to_camel (const char *euri);
-
-CamelFolder *mail_component_get_folder_from_evomail_uri  (MailComponent  *component,
-							  guint32         flags,
-							  const char     *evomail_uri,
-							  CamelException *ex);
-char        *mail_component_evomail_uri_from_folder      (MailComponent  *component,
-							  CamelFolder    *folder);
+struct _CamelFolder *mail_component_get_folder(MailComponent *mc, enum _mail_component_folder_t id);
+const char *mail_component_get_folder_uri(MailComponent *mc, enum _mail_component_folder_t id);
 
 #endif /* _MAIL_COMPONENT_H_ */

@@ -1,5 +1,47 @@
 2004-01-27  Not Zed  <NotZed@Ximian.com>
 
+	** See bug #53084 and others.
+	
+	* em-migrate.c (em_migrate): remove the vfolder_revert hack.
+
+	* em-composer-utils.c (ask_confirm_for_only_bcc): removed unused
+	vars.
+
+	* mail-tools.c (mail_tool_get_local_inbox): removed, handled by
+	mail_component_get_folder now.
+
+	* mail-component.c (mail_component_*): Changed the api slightly.
+	Using NULL as the component argument automatically implies you
+	want the default component.
+	(em_uri_from_camel, em_uri_to_camel): moved to em-utils.[ch].  Ok
+	so it isn't namespaced right ... *shrug*.
+	(mail_component_get_local_inbox): removed.
+	(mail_component_get_folder): single entry point for getting
+	standard folders.  This is MT-Safe.
+	(mail_component_get_folder_uri): single entry point for getting
+	standard folder uri's.  This is MT-Safe.
+	(add_store): removed, moved to mail_component_add_store.
+	(mail_component_load_store_by_uri): call mail_component_add_store
+	directly rather than copying its code.
+	(default_*_folder*): Removed, use accessor methods instead, fixed
+	all callers.
+	(setup_local_store): renamed to mc_setup_local_store, use proper
+	url encoding too.  make run-once and thread-safe.
+	(MailComponentPrivate): Added a lock.
+	(mail_control_new): exported properly to kill warnings.
+	(mail_component_init): dont setup_local_store or add accounts
+	here.
+	(impl_createControls): setup local store/accounts here.
+	(mail_component_peek): dont setup vfolder storage here.
+	(mc_startup): internal function to startup stuff needed for gui
+	operation.
+	(setup_search_context): make run-once.
+	(mail_component_peek_search_context): call setup_search_context
+	incase it isn't setup yet.
+	(impl_upgradeFromVersion): remove the local store setup hack.
+
+2004-01-27  Not Zed  <NotZed@Ximian.com>
+
 	* em-folder-tree-model.c (folder_renamed): fix the parent-finding
 	logic.
 

@@ -3,6 +3,10 @@
  *
  * Copyright (C) 2003  Ximian Inc.
  *
+ * Authors: Ettore Perazzoli <ettore@ximian.com>
+ *	    Michael Zucchi <notzed@ximian.com>
+ *	    Jeffrey Stedfast <fejj@ximian.com>
+ *
  * This  program is free  software; you  can redistribute  it and/or
  * modify it under the terms of version 2  of the GNU General Public
  * License as published by the Free Software Foundation.
@@ -17,7 +21,6 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
  * Boston, MA 02111-1307, USA.
  *
- * Author: Ettore Perazzoli <ettore@ximian.com>
  */
 
 #ifdef HAVE_CONFIG_H
@@ -70,10 +73,14 @@
 
 #define d(x) 
 
+#define MAIL_COMPONENT_DEFAULT(mc) if (mc == NULL) mc = mail_component_peek();
+
 #define PARENT_TYPE bonobo_object_get_type ()
 static BonoboObjectClass *parent_class = NULL;
 
 struct _MailComponentPrivate {
+	GMutex *lock;
+
 	char *base_directory;
 	
 	EMFolderTreeModel *model;
@@ -91,21 +98,86 @@ struct _MailComponentPrivate {
 };
 
 /* Utility functions.  */
+static void
+mc_add_store(CamelStore *store, const char *name, MailComponent *mc)
+{
+	mail_component_add_store(mc, store, name);
+	
+	camel_object_unref(store);
+	g_object_unref(mc);
+}
+
+/* indexed by _mail_component_folder_t */
+static struct {
+	char *name;
+	char *uri;
+	CamelFolder *folder;
+} mc_default_folders[] = {
+	{ "Inbox", },
+	{ "Drafts", },
+	{ "Outbox", },
+	{ "Sent", },
+	{ "Inbox", },		/* 'always local' inbox */
+};
 
 static void
-add_store (MailComponent *component, const char *name, CamelStore *store, CamelException *ex)
+mc_setup_local_store(MailComponent *mc)
 {
-	camel_object_ref (store);
-	g_hash_table_insert (component->priv->store_hash, store, g_strdup (name));
-	em_folder_tree_model_add_store (component->priv->model, store, name);
-	mail_note_store (store, NULL, NULL, NULL);
+	MailComponentPrivate *p = mc->priv;
+	CamelURL *url;
+	char *tmp;
+	CamelException ex;
+	int i;
+
+	g_mutex_lock(p->lock);
+	if (p->local_store != NULL) {
+		g_mutex_unlock(p->lock);
+		return;
+	}
+
+	camel_exception_init(&ex);
+
+	url = camel_url_new("mbox:", NULL);
+	tmp = g_strdup_printf("%s/mail/local", p->base_directory);
+	camel_url_set_path(url, tmp);
+	g_free(tmp);
+	tmp = camel_url_to_string(url, 0);
+	p->local_store = (CamelStore *)camel_session_get_service(session, tmp, CAMEL_PROVIDER_STORE, &ex);
+	g_free(tmp);
+	if (p->local_store == NULL)
+		goto fail;
+
+	for (i=0;i<sizeof(mc_default_folders)/sizeof(mc_default_folders[0]);i++) {
+		/* FIXME: should this uri be account relative? */
+		camel_url_set_fragment(url, mc_default_folders[i].name);
+		mc_default_folders[i].uri = camel_url_to_string(url, 0);
+		mc_default_folders[i].folder = camel_store_get_folder(p->local_store, mc_default_folders[i].name,
+								      CAMEL_STORE_FOLDER_CREATE, &ex);
+		camel_exception_clear(&ex);
+	}
+
+	camel_url_free(url);
+	g_mutex_unlock(p->lock);
+
+	g_object_ref(mc);
+	camel_object_ref(p->local_store);
+	mail_async_event_emit(p->async_event, MAIL_ASYNC_GUI, (MailAsyncFunc)mc_add_store, p->local_store, _("On this Computer"), mc);
+
+	return;
+fail:
+	g_mutex_unlock(p->lock);
+
+	g_warning("Could not setup local store/folder: %s", ex.desc);
+
+	camel_url_free(url);
+	camel_exception_clear(&ex);
 }
 
 static void
 load_accounts (MailComponent *component, EAccountList *accounts)
 {
 	EIterator *iter;
-	
+
 	/* Load each service (don't connect!). Check its provider and
 	 * see if this belongs in the shell's folder list. If so, add
 	 * it.
@@ -134,68 +206,37 @@ static void
 setup_search_context (MailComponent *component)
 {
 	MailComponentPrivate *priv = component->priv;
-	char *user = g_build_filename(component->priv->base_directory, "mail/searches.xml", NULL);
-	char *system = g_strdup (EVOLUTION_PRIVDATADIR "/searchtypes.xml");
+
+	if (priv->search_context == NULL) {
+		char *user = g_build_filename(component->priv->base_directory, "mail/searches.xml", NULL);
+		char *system = g_strdup (EVOLUTION_PRIVDATADIR "/searchtypes.xml");
 	
-	priv->search_context = rule_context_new ();
-	g_object_set_data_full (G_OBJECT (priv->search_context), "user", user, g_free);
-	g_object_set_data_full (G_OBJECT (priv->search_context), "system", system, g_free);
+		priv->search_context = rule_context_new ();
+		g_object_set_data_full (G_OBJECT (priv->search_context), "user", user, g_free);
+		g_object_set_data_full (G_OBJECT (priv->search_context), "system", system, g_free);
 	
-	rule_context_add_part_set (priv->search_context, "partset", filter_part_get_type (),
-				   rule_context_add_part, rule_context_next_part);
-	
-	rule_context_add_rule_set (priv->search_context, "ruleset", filter_rule_get_type (),
-				   rule_context_add_rule, rule_context_next_rule);
-	
-	rule_context_load (priv->search_context, system, user);
+		rule_context_add_part_set (priv->search_context, "partset", filter_part_get_type (),
+					   rule_context_add_part, rule_context_next_part);
+		
+		rule_context_add_rule_set (priv->search_context, "ruleset", filter_rule_get_type (),
+					   rule_context_add_rule, rule_context_next_rule);
+		
+		rule_context_load (priv->search_context, system, user);
+	}
 }
 
-/* Local store setup.  */
-char *default_drafts_folder_uri;
-CamelFolder *drafts_folder = NULL;
-char *default_sent_folder_uri;
-CamelFolder *sent_folder = NULL;
-char *default_outbox_folder_uri;
-CamelFolder *outbox_folder = NULL;
-char *default_inbox_folder_uri;
-CamelFolder *inbox_folder = NULL;
-
-static struct {
-	char *base;
-	char **uri;
-	CamelFolder **folder;
-} default_folders[] = {
-	{ "Inbox", &default_inbox_folder_uri, &inbox_folder },
-	{ "Drafts", &default_drafts_folder_uri, &drafts_folder },
-	{ "Outbox", &default_outbox_folder_uri, &outbox_folder },
-	{ "Sent", &default_sent_folder_uri, &sent_folder },
-};
-
 static void
-setup_local_store(MailComponent *component)
+mc_startup(MailComponent *mc)
 {
-	MailComponentPrivate *p = component->priv;
-	CamelException ex;
-	char *store_uri;
-	int i;
+	static int started = 0;
 
-	g_assert(p->local_store == NULL);
+	if (started)
+		return;
+	started = 1;
 
-	/* EPFIXME It should use base_directory once we have moved it.  */
-	store_uri = g_strconcat("mbox:", g_get_home_dir (), "/.evolution/mail/local", NULL);
-	p->local_store = mail_component_load_store_by_uri (component, store_uri, _("On this Computer"));
-	camel_object_ref (p->local_store);
-	
-	camel_exception_init (&ex);
-	for (i=0;i<sizeof(default_folders)/sizeof(default_folders[0]);i++) {
-		/* FIXME: should this uri be account relative? */
-		*default_folders[i].uri = g_strdup_printf("%s#%s", store_uri, default_folders[i].base);
-		*default_folders[i].folder = camel_store_get_folder(p->local_store, default_folders[i].base,
-								    CAMEL_STORE_FOLDER_CREATE, &ex);
-		camel_exception_clear(&ex);
-	}
-
-	g_free(store_uri);
+	mc_setup_local_store(mc);
+	load_accounts(mc, mail_config_get_accounts());
+	vfolder_load_storage();
 }
 
 static void
@@ -211,11 +252,7 @@ folder_selected_cb (EMFolderTree *emft, const char *path, const char *uri, EMFol
 #define PROPERTY_FOLDER_URI_IDX      1
 
 static void
-set_prop (BonoboPropertyBag *bag,
-	  const BonoboArg   *arg,
-	  guint              arg_id,
-	  CORBA_Environment *ev,
-	  gpointer           user_data)
+set_prop(BonoboPropertyBag *bag, const BonoboArg *arg, guint arg_id, CORBA_Environment *ev, gpointer user_data)
 {
 	EMFolderView *view  = (EMFolderView *)bonobo_control_get_widget (user_data);
 	const gchar *uri;
@@ -235,11 +272,7 @@ set_prop (BonoboPropertyBag *bag,
 }
 
 static void
-get_prop (BonoboPropertyBag *bag,
-	  BonoboArg         *arg,
-	  guint              arg_id,
-	  CORBA_Environment *ev,
-	  gpointer           user_data)
+get_prop(BonoboPropertyBag *bag, BonoboArg *arg, guint arg_id, CORBA_Environment *ev, gpointer user_data)
 {
 	GtkWidget *widget = bonobo_control_get_widget (user_data);
 	EMFolderView *view = (EMFolderView *)widget;
@@ -334,6 +367,7 @@ impl_finalize (GObject *object)
 	}
 	
 	g_free (priv->context_path);
+	g_mutex_free(priv->lock);
 	g_free (priv);
 	
 	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
@@ -364,6 +398,8 @@ impl_createControls (PortableServer_Servant servant,
 	GtkWidget *tree_widget;
 	GtkWidget *view_widget;
 	GtkWidget *statusbar_widget;
+
+	mc_startup(mail_component);
 	
 	view_widget = em_folder_browser_new ();
 	tree_widget = (GtkWidget *) em_folder_tree_new_with_model (priv->model);
@@ -463,10 +499,6 @@ impl_upgradeFromVersion (PortableServer_Servant servant, short major, short mino
 	/* FIXME: report errors? */
 	camel_exception_clear (&ex);
 
-	/* This is a hack so that after importing new folders, they properly hook into vfolders, etc.
-	   Perhaps the CamelLocalStore class should emit folder_created events for folders when opened */
-	mail_note_store(component->priv->local_store, NULL, NULL, NULL);
-
 	return ok;
 }
 
@@ -495,12 +527,13 @@ static void
 mail_component_init (MailComponent *component)
 {
 	MailComponentPrivate *priv;
-	EAccountList *accounts;
 	MailOfflineHandler *offline;
 	
 	priv = g_new0 (MailComponentPrivate, 1);
 	component->priv = priv;
 	
+	priv->lock = g_mutex_new();
+
 	priv->base_directory = g_build_filename (g_get_home_dir (), ".evolution", NULL);
 	if (camel_mkdir (priv->base_directory, 0777) == -1 && errno != EEXIST)
 		abort ();
@@ -513,11 +546,6 @@ mail_component_init (MailComponent *component)
 	
 	priv->async_event = mail_async_event_new();
 	priv->store_hash = g_hash_table_new (NULL, NULL);
-	
-	setup_local_store (component);
-	
-	accounts = mail_config_get_accounts ();
-	load_accounts(component, accounts);
 	
 	mail_autoreceive_setup();
 	
@@ -564,13 +592,8 @@ mail_component_peek (void)
 {
 	static MailComponent *component = NULL;
 
-	if (component == NULL) {
-		component = g_object_new (mail_component_get_type (), NULL);
-
-		/* FIXME: this should all be initialised in a starutp routine, not from the peek function,
-		   this covers much of the ::init method's content too */
-		vfolder_load_storage ();
-	}
+	if (component == NULL)
+		component = g_object_new(mail_component_get_type(), NULL);
 
 	return component;
 }
@@ -578,39 +601,44 @@ mail_component_peek (void)
 const char *
 mail_component_peek_base_directory (MailComponent *component)
 {
+	MAIL_COMPONENT_DEFAULT(component);
+
 	return component->priv->base_directory;
 }
 
 RuleContext *
 mail_component_peek_search_context (MailComponent *component)
 {
+	MAIL_COMPONENT_DEFAULT(component);
+
+	setup_search_context(component);
+
 	return component->priv->search_context;
 }
 
 EActivityHandler *
 mail_component_peek_activity_handler (MailComponent *component)
 {
+	MAIL_COMPONENT_DEFAULT(component);
+
 	return component->priv->activity_handler;
 }
 
 void
 mail_component_add_store (MailComponent *component, CamelStore *store, const char *name)
 {
-	CamelException ex;
+	char *service_name = NULL;
+
+	MAIL_COMPONENT_DEFAULT(component);
 	
-	camel_exception_init (&ex);
-	
-	if (name == NULL) {
-		char *service_name;
-		
-		service_name = camel_service_get_name ((CamelService *) store, TRUE);
-		add_store (component, service_name, store, &ex);
-		g_free (service_name);
-	} else {
-		add_store (component, name, store, &ex);
-	}
-	
-	camel_exception_clear (&ex);
+	if (name == NULL)
+		name = service_name = camel_service_get_name ((CamelService *) store, TRUE);
+
+	camel_object_ref(store);
+	g_hash_table_insert(component->priv->store_hash, store, g_strdup(name));
+	em_folder_tree_model_add_store(component->priv->model, store, name);
+	mail_note_store(store, NULL, NULL, NULL);
+	g_free(service_name);
 }
 
 /**
@@ -628,6 +656,8 @@ mail_component_load_store_by_uri (MailComponent *component, const char *uri, con
 	CamelException ex;
 	CamelStore *store;
 	CamelProvider *prov;
+
+	MAIL_COMPONENT_DEFAULT(component);
 	
 	camel_exception_init (&ex);
 	
@@ -657,24 +687,8 @@ mail_component_load_store_by_uri (MailComponent *component, const char *uri, con
 		camel_exception_clear (&ex);
 		return NULL;
 	}
-	
-	if (name != NULL) {
-		add_store (component, name, store, &ex);
-	} else {
-		char *service_name;
-		
-		service_name = camel_service_get_name ((CamelService *) store, TRUE);
-		add_store (component, service_name, store, &ex);
-		g_free (service_name);
-	}
-	
-	if (camel_exception_is_set (&ex)) {
-		/* EPFIXME: real error dialog */
-		g_warning ("Cannot load store: %s",
-			   camel_exception_get_description (&ex));
-		camel_exception_clear (&ex);
-	}
-	
+
+	mail_component_add_store(component, store, name);
 	camel_object_unref (store);
 	
 	return store;
@@ -690,9 +704,13 @@ store_disconnect (CamelStore *store, void *event_data, void *user_data)
 void
 mail_component_remove_store (MailComponent *component, CamelStore *store)
 {
-	MailComponentPrivate *priv = component->priv;
+	MailComponentPrivate *priv;
 	char *name;
-	
+
+	MAIL_COMPONENT_DEFAULT(component);
+
+	priv = component->priv;
+
 	/* Because the store_hash holds a reference to each store
 	 * used as a key in it, none of them will ever be gc'ed, meaning
 	 * any call to camel_session_get_{service,store} with the same
@@ -714,12 +732,13 @@ mail_component_remove_store (MailComponent *component, CamelStore *store)
 	mail_async_event_emit (priv->async_event, MAIL_ASYNC_THREAD, (MailAsyncFunc) store_disconnect, store, NULL, NULL);
 }
 
-
 void
 mail_component_remove_store_by_uri (MailComponent *component, const char *uri)
 {
 	CamelProvider *prov;
 	CamelStore *store;
+
+	MAIL_COMPONENT_DEFAULT(component);
 	
 	if (!(prov = camel_session_get_provider (session, uri, NULL)))
 		return;
@@ -738,157 +757,73 @@ mail_component_remove_store_by_uri (MailComponent *component, const char *uri)
 int
 mail_component_get_store_count (MailComponent *component)
 {
+	MAIL_COMPONENT_DEFAULT(component);
+
 	return g_hash_table_size (component->priv->store_hash);
 }
 
 void
 mail_component_stores_foreach (MailComponent *component, GHFunc func, void *user_data)
 {
+	MAIL_COMPONENT_DEFAULT(component);
+
 	g_hash_table_foreach (component->priv->store_hash, func, user_data);
 }
 
 void
 mail_component_remove_folder (MailComponent *component, CamelStore *store, const char *path)
 {
+	MAIL_COMPONENT_DEFAULT(component);
+
 	/* FIXME: implement me. but first, am I really even needed? */
 }
 
 EMFolderTreeModel *
 mail_component_peek_tree_model (MailComponent *component)
 {
+	MAIL_COMPONENT_DEFAULT(component);
+
 	return component->priv->model;
 }
 
+/**
+ * mail_component_get_folder:
+ * @mc: 
+ * @id: 
+ * 
+ * Get a standard/default folder by id.  This call is thread-safe.
+ * 
+ * Return value: 
+ **/
 struct _CamelFolder *
-mail_component_get_local_inbox(MailComponent *mc, struct _CamelException *ex)
+mail_component_get_folder(MailComponent *mc, enum _mail_component_folder_t id)
 {
-	return camel_store_get_folder(mc->priv->local_store, "Inbox", 0, ex);
+	g_assert(id <= MAIL_COMPONENT_FOLDER_LOCAL_INBOX);
+
+	MAIL_COMPONENT_DEFAULT(mc);
+	mc_setup_local_store(mc);
+
+	return mc_default_folders[id].folder;
 }
 
-extern struct _CamelSession *session;
-
-/* email: uri's are based on the account, with special cases for local
- * stores, vfolder and local mail.
- * e.g.
- *  imap account imap://user@host/ -> email://accountid@accountid.host/
- *  vfolder      vfolder:/storage/path#folder -> email://vfolder@local/folder
- *  local        local:/storage/path#folder   -> email://local@local/folder
- */
-
-char *em_uri_from_camel(const char *curi)
+/**
+ * mail_component_get_folder_uri:
+ * @mc: 
+ * @id: 
+ * 
+ * Get a standard/default folder's uri.  This call is thread-safe.
+ * 
+ * Return value: 
+ **/
+const char *
+mail_component_get_folder_uri(MailComponent *mc, enum _mail_component_folder_t id)
 {
-	CamelURL *curl;
-	EAccount *account;
-	const char *uid, *path;
-	char *euri, *tmp;
-	CamelProvider *provider;
+	g_assert(id <= MAIL_COMPONENT_FOLDER_LOCAL_INBOX);
 
-	provider = camel_session_get_provider(session, curi, NULL);
-	if (provider == NULL) {
-		d(printf("em uri from camel failed '%s'\n", curi));
-		return g_strdup(curi);
-	}
+	MAIL_COMPONENT_DEFAULT(mc);
+	mc_setup_local_store(mc);
 
-	curl = camel_url_new(curi, NULL);
-	if (curl == NULL)
-		return g_strdup(curi);
-
-	if (strcmp(curl->protocol, "vfolder") == 0)
-		uid = "vfolder@local";
-	else if ((account = mail_config_get_account_by_source_url(curi)) == NULL)
-		uid = "local@local";
-	else
-		uid = account->uid;
-	path = (provider->url_flags & CAMEL_URL_FRAGMENT_IS_PATH)?curl->fragment:curl->path;
-	if (path[0] == '/')
-		path++;
-
-	tmp = camel_url_encode(path, ";?");
-	euri = g_strdup_printf("email://%s/%s", uid, tmp);
-	g_free(tmp);
-	
-	d(printf("em uri from camel '%s' -> '%s'\n", curi, euri));
-
-	camel_url_free(curl);
-
-	return euri;
-}
-
-char *em_uri_to_camel(const char *euri)
-{
-	EAccountList *accounts;
-	const EAccount *account;
-	EAccountService *service;
-	CamelProvider *provider;
-	CamelURL *eurl, *curl;
-	char *uid, *curi;
-
-	if (strncmp(euri, "email:", 6) != 0) {
-		d(printf("em uri to camel not euri '%s'\n", euri));
-		return g_strdup(euri);
-	}
-
-	eurl = camel_url_new(euri, NULL);
-	if (eurl == NULL)
-		return g_strdup(euri);
-
-	g_assert(eurl->host != NULL);
-
-	if (eurl->user != NULL) {
-		/* Sigh, shoul'dve used mbox@local for mailboxes, not local@local */
-		if (strcmp(eurl->host, "local") == 0
-		    && (strcmp(eurl->user, "local") == 0 || strcmp(eurl->user, "vfolder") == 0)) {
-			char *base;
-
-			if (strcmp(eurl->user, "vfolder") == 0)
-				curl = camel_url_new("vfolder:", NULL);
-			else
-				curl = camel_url_new("mbox:", NULL);
-
-			base = g_strdup_printf("%s/.evolution/mail/%s", g_get_home_dir(), eurl->user);
-			camel_url_set_path(curl, base);
-			g_free(base);
-			camel_url_set_fragment(curl, eurl->path[0]=='/'?eurl->path+1:eurl->path);
-			curi = camel_url_to_string(curl, 0);
-			camel_url_free(curl);
-			camel_url_free(eurl);
-
-			d(printf("em uri to camel local '%s' -> '%s'\n", euri, curi));
-			return curi;
-		}
-
-		uid = g_strdup_printf("%s@%s", eurl->user, eurl->host);
-	} else {
-		uid = g_strdup(eurl->host);
-	}
-
-	accounts = mail_config_get_accounts();
-	account = e_account_list_find(accounts, E_ACCOUNT_FIND_UID, uid);
-	g_free(uid);
-
-	if (account == NULL) {
-		camel_url_free(eurl);
-		d(printf("em uri to camel no account '%s' -> '%s'\n", euri, euri));
-		return g_strdup(euri);
-	}
-
-	service = account->source;
-	provider = camel_session_get_provider(session, service->url, NULL);
-
-	curl = camel_url_new(service->url, NULL);
-	if (provider->url_flags & CAMEL_URL_FRAGMENT_IS_PATH)
-		camel_url_set_fragment(curl, eurl->path[0]=='/'?eurl->path+1:eurl->path);
-	else
-		camel_url_set_path(curl, eurl->path);
-
-	curi = camel_url_to_string(curl, 0);
-
-	camel_url_free(eurl);
-	camel_url_free(curl);
-
-	d(printf("em uri to camel '%s' -> '%s'\n", euri, curi));
-
-	return curi;
+	return mc_default_folders[id].uri;
 }
 
 BONOBO_TYPE_FUNC_FULL (MailComponent, GNOME_Evolution_Component, PARENT_TYPE, mail_component)

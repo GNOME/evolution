@@ -1014,7 +1014,8 @@ mail_config_uri_deleted (GCompareFunc uri_cmp, const char *uri)
 	EIterator *iter;
 	int work = 0;
 	/* assumes these can't be removed ... */
-	extern char *default_sent_folder_uri, *default_drafts_folder_uri;
+	const char *default_sent_folder_uri = mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_SENT);
+	const char *default_drafts_folder_uri = mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_DRAFTS);
 	
 	iter = e_list_get_iterator ((EList *) config->accounts);
 	while (e_iterator_is_valid (iter)) {

@@ -42,6 +42,7 @@
 #include "mail-send-recv.h"
 #include "mail-signature-editor.h"
 #include "mail-component.h"
+#include "em-utils.h"
 #include "em-composer-prefs.h"
 #include "mail-config.h"
 #include "mail-ops.h"
@@ -53,8 +54,6 @@
 #endif
 
 #define d(x)
-
-extern char *default_drafts_folder_uri, *default_sent_folder_uri;
 
 static void save_service (MailAccountGuiService *gsvc, GHashTable *extra_conf, EAccountService *service);
 static void service_changed (GtkEntry *entry, gpointer user_data);
@@ -1080,12 +1079,12 @@ default_folders_clicked (GtkButton *button, gpointer user_data)
 	
 	/* Drafts folder */
 	g_free (gui->drafts_folder_uri);
-	gui->drafts_folder_uri = g_strdup (default_drafts_folder_uri);
+	gui->drafts_folder_uri = g_strdup(mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_DRAFTS));
 	em_folder_selection_button_set_selection((EMFolderSelectionButton *)gui->drafts_folder_button, gui->drafts_folder_uri);
 	
 	/* Sent folder */
 	g_free (gui->sent_folder_uri);
-	gui->sent_folder_uri = g_strdup (default_sent_folder_uri);
+	gui->sent_folder_uri = g_strdup(mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_SENT));
 	em_folder_selection_button_set_selection((EMFolderSelectionButton *)gui->sent_folder_button, gui->sent_folder_uri);
 }
 
@@ -1587,7 +1586,7 @@ mail_account_gui_new (EAccount *account, EMAccountPrefs *dialog)
 	if (account->drafts_folder_uri)
 		gui->drafts_folder_uri = em_uri_to_camel (account->drafts_folder_uri);
 	else
-		gui->drafts_folder_uri = g_strdup (default_drafts_folder_uri);
+		gui->drafts_folder_uri = g_strdup(mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_DRAFTS));
 	em_folder_selection_button_set_selection((EMFolderSelectionButton *)gui->drafts_folder_button, gui->drafts_folder_uri);
 	
 	/* Sent folder */
@@ -1596,7 +1595,7 @@ mail_account_gui_new (EAccount *account, EMAccountPrefs *dialog)
 	if (account->sent_folder_uri)
 		gui->sent_folder_uri = em_uri_to_camel (account->sent_folder_uri);
 	else
-		gui->sent_folder_uri = g_strdup (default_sent_folder_uri);
+		gui->sent_folder_uri = g_strdup(mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_SENT));
 	em_folder_selection_button_set_selection((EMFolderSelectionButton *)gui->sent_folder_button, gui->sent_folder_uri);
 	
 	/* Special Folders "Reset Defaults" button */
@@ -2010,7 +2009,7 @@ mail_account_gui_save (MailAccountGui *gui)
 		new->drafts_folder_uri = em_uri_from_camel (gui->drafts_folder_uri);
 	} else {
 		/* assign defaults - the uri is unknown to us (probably pointed to an old source url) */
-		new->drafts_folder_uri = em_uri_from_camel (default_drafts_folder_uri);
+		new->drafts_folder_uri = em_uri_from_camel(mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_DRAFTS));
 	}
 	
 	/* Check to make sure that the Sent folder uri is "valid" before assigning it */
@@ -2019,7 +2018,7 @@ mail_account_gui_save (MailAccountGui *gui)
 		new->sent_folder_uri = em_uri_from_camel (gui->sent_folder_uri);
 	} else {
 		/* assign defaults - the uri is unknown to us (probably pointed to an old source url) */
-		new->sent_folder_uri = em_uri_from_camel (default_sent_folder_uri);
+		new->sent_folder_uri = em_uri_from_camel(mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_SENT));
 	}
 	
 	new->always_cc = gtk_toggle_button_get_active (gui->always_cc);

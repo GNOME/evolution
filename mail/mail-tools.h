@@ -37,9 +37,6 @@ typedef struct _xevolution {
 	char *postto;
 } XEvolution;
 
-/* Get the CamelFolder for the local inbox */
-CamelFolder *mail_tool_get_local_inbox (CamelException *ex);
-
 /* Get the "inbox" for a url (uses global session) */
 CamelFolder *mail_tool_get_inbox (const char *url, CamelException *ex);
 
