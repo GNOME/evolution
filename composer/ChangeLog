@@ -1,3 +1,14 @@
+2000-12-28  Dan Winship  <danw@helixcode.com>
+
+	* e-msg-composer.c (handle_multipart_alternative,
+	handle_multipart, e_msg_composer_new_with_message): Use
+	CamelContentType instead of GMimeContentField.
+
+	* e-msg-composer-attachment.c (e_msg_composer_attachment_edit): 
+	* e-msg-composer-attachment-bar.c (update, attach_to_multipart):
+	Use CamelContentType, and use the header_content_type_* functions
+	rather than operating on the structure by hand.
+
 2000-12-15  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* e-msg-composer.c (e_msg_composer_get_pgp_encrypt): New function

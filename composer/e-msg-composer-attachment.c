@@ -391,7 +391,7 @@ e_msg_composer_attachment_edit (EMsgComposerAttachment *attachment,
 						   "mime_type_entry"));
 
 	if (attachment != NULL) {
-		GMimeContentField *content_type;
+		CamelContentType *content_type;
 		char *type;
 
 		set_entry (editor_gui, "file_name_entry",
@@ -399,8 +399,7 @@ e_msg_composer_attachment_edit (EMsgComposerAttachment *attachment,
 		set_entry (editor_gui, "description_entry",
 			   camel_mime_part_get_description (attachment->body));
 		content_type = camel_mime_part_get_content_type (attachment->body);
-		type = g_strdup_printf ("%s/%s", content_type->type,
-					content_type->subtype);
+		type = header_content_type_format (content_type);
 		set_entry (editor_gui, "mime_type_entry", type);
 		g_free (type);
 	}

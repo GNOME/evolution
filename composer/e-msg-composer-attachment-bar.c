@@ -236,22 +236,17 @@ update (EMsgComposerAttachmentBar *bar)
 		EMsgComposerAttachment *attachment;
 		const gchar *desc;
 		gchar *size_string, *label, *mime_type;
-		GMimeContentField *content_type;
+		CamelContentType *content_type;
 		GdkPixbuf *pixbuf;
-		gboolean image = FALSE;
+		gboolean image;
 		
 		attachment = p->data;
 		content_type = camel_mime_part_get_content_type (attachment->body);
-
-		mime_type = g_strdup_printf ("%s/%s", content_type->type,
-					     content_type->subtype);
+		mime_type = header_content_type_format (content_type);
 
 		/* Get the image out of the attachment 
 		   and create a thumbnail for it */
-		if (strcmp (content_type->type, "image") == 0)
-			image = TRUE;
-		else
-			image = FALSE;
+		image = header_content_type_is (content_type, "image", "*");
 		
 		if (image && attachment->pixbuf_cache == NULL) {
 			CamelDataWrapper *wrapper;
@@ -718,11 +713,11 @@ static void
 attach_to_multipart (CamelMultipart *multipart,
 		     EMsgComposerAttachment *attachment)
 {
-	GMimeContentField *content_type;
+	CamelContentType *content_type;
 	
 	content_type = camel_mime_part_get_content_type (attachment->body);
 	
-	if (!g_strcasecmp (content_type->type, "text")) {
+	if (header_content_type_is (content_type, "text", "*")) {
 		CamelStream *stream;
 		GByteArray *array;
 		guchar *text;
@@ -739,7 +734,7 @@ attach_to_multipart (CamelMultipart *multipart,
 			camel_mime_part_set_encoding (attachment->body, CAMEL_MIME_PART_ENCODING_7BIT);
 		
 		camel_object_unref (CAMEL_OBJECT (stream));
-	} else if (g_strcasecmp (content_type->type, "message") != 0) {
+	} else if (!header_content_type_is (content_type, "message", "*")) {
 		camel_mime_part_set_encoding (attachment->body,
 					      CAMEL_MIME_PART_ENCODING_BASE64);
 	}
