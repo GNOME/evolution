@@ -78,7 +78,6 @@
 
 #include <gal/widgets/e-gui-utils.h>
 #include <gal/e-text/e-entry.h>
-#include <gal/util/e-iconv.h>
 
 #include "widgets/misc/e-charset-picker.h"
 
@@ -241,7 +240,7 @@ composer_get_default_charset_setting (void)
 	
 	gconf = gconf_client_get_default ();
 	buf = gconf_client_get_string (gconf, "/apps/evolution/mail/composer/charset", NULL);
-	charset = e_iconv_charset_name (buf);
+	charset = camel_charset_canonical_name (buf);
 	g_free (buf);
 	
 	return charset;

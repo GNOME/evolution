@@ -31,7 +31,6 @@
 #include <glade/glade.h>
 #include <gconf/gconf.h>
 #include <gconf/gconf-client.h>
-#include <gal/util/e-iconv.h>
 #include <libgnome/gnome-util.h>
 #include <libgnomeui/gnome-app.h>
 #include <libgnomeui/gnome-app-helper.h>
@@ -45,6 +44,7 @@
 
 #include "e-icon-list.h"
 
+#include "camel/camel-charset-map.h"
 #include "camel/camel-data-wrapper.h"
 #include "camel/camel-stream-fs.h"
 #include "camel/camel-stream-null.h"
@@ -728,7 +728,7 @@ get_default_charset (void)
 	
 	gconf = gconf_client_get_default ();
 	buf = gconf_client_get_string (gconf, "/apps/evolution/mail/composer/charset", NULL);
-	charset = e_iconv_charset_name (buf);
+	charset = camel_charset_canonical_name (buf);
 	g_free (buf);
 	
 	return charset;

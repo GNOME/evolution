@@ -1,3 +1,12 @@
+2003-02-20  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (composer_get_default_charset_setting): Same as
+	below.
+
+	* e-msg-composer-attachment-bar.c (get_default_charset): Use
+	camel_charset_canonical_name() rather than e_iconv_charset_name()
+	as the latter will be removed shortly.
+
 2003-02-18  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer-hdrs.c (e_msg_composer_hdrs_set_from_account):
