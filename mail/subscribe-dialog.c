@@ -641,6 +641,7 @@ subscribe_dialog_gui_init (SubscribeDialog *sc)
 		bonobo_object_corba_objref (BONOBO_OBJECT (search_control)), NULL);
 					
 	/* set our our contents */
+#if 0
 	sc->description = html_new (TRUE);
 	put_html (GTK_HTML (sc->description), EXAMPLE_DESCR);
 
@@ -650,6 +651,7 @@ subscribe_dialog_gui_init (SubscribeDialog *sc)
 		GTK_FILL | GTK_EXPAND,
 		0,
 		0, 0);
+#endif
 
 	/* set up the store etable */
 	sc->store_model = e_table_simple_new (store_etable_col_count,
@@ -760,7 +762,10 @@ subscribe_dialog_gui_init (SubscribeDialog *sc)
 
 	bonobo_win_set_contents (BONOBO_WIN (sc->app), sc->hpaned);
 
+#if 0
 	gtk_widget_show (sc->description);
+#endif
+
 	gtk_widget_show (sc->folder_etable);
 	gtk_widget_show (sc->table);
 	gtk_widget_show (sc->store_etable);

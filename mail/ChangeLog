@@ -1,3 +1,8 @@
+2000-10-11  Chris Toshok  <toshok@helixcode.com>
+
+	* subscribe-dialog.c (subscribe_dialog_gui_init): remove the html
+	description stuff for now.
+
 2000-10-10  Chris Toshok  <toshok@helixcode.com>
 
 	* subscribe-dialog.c (folder_toggle_cb): umm.. duh :) only
