@@ -38,6 +38,8 @@ libeutil_la_SOURCES =				\
 	e-html-utils.h				\
 	e-iterator.c				\
 	e-iterator.h				\
+	e-lang-utils.c				\
+	e-lang-utils.h				\
 	e-list-iterator.c			\
 	e-list-iterator.h			\
 	e-list.c				\
