@@ -4,6 +4,9 @@
 	variables into struct CamelSmtpTransport to make SMTP
 	thread-safe
 
+	* providers/imap/camel-imap-*.h: Stolen from Mbox. Rough structure
+	for Imap.
+	
 2000-05-23  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/imap: Added some initial code to the camel tree
