@@ -528,7 +528,7 @@ get_widget (FilterRule *fr, RuleContext *rc)
 	VfolderRule *vr = (VfolderRule *) fr;
 	GtkTreeSelection *selection;
 	struct _source_data *data;
-	GtkWidget *widget, *frame;
+	GtkWidget *widget, *frame, *list;
 	GtkOptionMenu *omenu;
 	const char *source;
 	GtkTreeIter iter;
@@ -552,9 +552,9 @@ get_widget (FilterRule *fr, RuleContext *rc)
 		g_signal_connect (data->buttons[i], "clicked", edit_buttons[i].func, data);
 	}
 	
-	widget = glade_xml_get_widget (gui, "source_list");
-	data->list = (GtkTreeView *) g_object_get_data ((GObject *) widget, "table");
-	data->model = (GtkListStore *) g_object_get_data ((GObject *) widget, "model");
+	list = glade_xml_get_widget (gui, "source_list");
+	data->list = (GtkTreeView *) g_object_get_data ((GObject *) list, "table");
+	data->model = (GtkListStore *) g_object_get_data ((GObject *) list, "model");
 	
 	source = NULL;
 	while ((source = vfolder_rule_next_source (vr, source))) {
@@ -592,10 +592,10 @@ get_widget (FilterRule *fr, RuleContext *rc)
 		filter_rule_set_source (fr, (char *) source_names[row]);
 	
 	set_sensitive (data);
-	
-	gtk_box_pack_start (GTK_BOX (widget), frame, TRUE, TRUE, 3);
-	
+		
 	g_object_unref (gui);
+
+	gtk_box_pack_start (GTK_BOX (widget), frame, TRUE, TRUE, 3);
 	
 	return widget;
 }
