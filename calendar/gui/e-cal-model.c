@@ -1274,7 +1274,6 @@ add_instance_cb (ECalComponent *comp, time_t instance_start, time_t instance_end
 	ECalModelComponent *comp_data;
 	ECalModelPrivate *priv;
 	RecurrenceExpansionData *rdata = user_data;
-	struct icaltimetype itt;
 
 	priv = rdata->model->priv;
 
@@ -1283,18 +1282,8 @@ add_instance_cb (ECalComponent *comp, time_t instance_start, time_t instance_end
 	comp_data = g_new0 (ECalModelComponent, 1);
 	comp_data->client = g_object_ref (rdata->client);
 	comp_data->icalcomp = icalcomponent_new_clone (e_cal_component_get_icalcomponent (comp));
-	if (priv->zone) {
-		itt = icaltime_from_timet_with_zone (instance_start, FALSE, icaltimezone_get_utc_timezone ());
-		icaltimezone_convert_time (&itt, icaltimezone_get_utc_timezone (), priv->zone);
-		comp_data->instance_start = icaltime_as_timet (itt);
-
-		itt = icaltime_from_timet_with_zone (instance_end, FALSE, icaltimezone_get_utc_timezone ());
-		icaltimezone_convert_time (&itt, icaltimezone_get_utc_timezone (), priv->zone);
-		comp_data->instance_end = icaltime_as_timet (itt);
-	} else {
-		comp_data->instance_start = instance_start;
-		comp_data->instance_end = instance_end;
-	}
+	comp_data->instance_start = instance_start;
+	comp_data->instance_end = instance_end;
 	comp_data->dtstart = comp_data->dtend = comp_data->due = comp_data->completed = NULL;
 	comp_data->color = NULL;
 
@@ -1315,27 +1304,27 @@ set_instance_times (ECalModelComponent *comp_data, icaltimezone *zone)
 
 	if (zone) {
 		if (e_cal_util_component_is_instance (comp_data->icalcomp)) {
-			icaltimezone_convert_time (&recur_time, icaltimezone_get_utc_timezone (), zone);
-			comp_data->instance_start = icaltime_as_timet_with_zone (recur_time, zone);
+			comp_data->instance_start = icaltime_as_timet (recur_time);
 
 			comp_data->instance_end = comp_data->instance_start +
-				(icaltime_as_timet_with_zone (end_time, zone) -
-				 icaltime_as_timet_with_zone (start_time, zone));
+				(icaltime_as_timet (end_time) -
+				 icaltime_as_timet (start_time));
 		} else {
-			icaltimezone_convert_time (&start_time,
-						   start_time.zone ? start_time.zone : icaltimezone_get_utc_timezone (),
-						   zone);
-			comp_data->instance_start = icaltime_as_timet_with_zone (start_time, zone);
+			if (start_time.zone) {
+				icaltimezone_convert_time (&start_time, start_time.zone, zone);
+				comp_data->instance_start = icaltime_as_timet (start_time);
+			} else
+				comp_data->instance_start = icaltime_as_timet_with_zone (start_time, zone);
 
-			icaltimezone_convert_time (&end_time,
-						   end_time.zone ? end_time.zone : icaltimezone_get_utc_timezone (),
-						   zone);
-			comp_data->instance_end = icaltime_as_timet_with_zone (end_time, zone);
+			if (end_time.zone) {
+				icaltimezone_convert_time (&end_time, end_time.zone, zone);
+				comp_data->instance_end = icaltime_as_timet (end_time);
+			} else
+				comp_data->instance_end = icaltime_as_timet_with_zone (end_time, zone);
 		}
 	} else {
 		if (e_cal_util_component_is_instance (comp_data->icalcomp)) {
-			icaltimezone_convert_time (&recur_time, icaltimezone_get_utc_timezone (), zone);
-			comp_data->instance_start = icaltime_as_timet_with_zone (recur_time, zone);
+			comp_data->instance_start = icaltime_as_timet (recur_time);
 			comp_data->instance_end = comp_data->instance_start +
 				(icaltime_as_timet (end_time) -
 				 icaltime_as_timet (start_time));
@@ -1755,8 +1744,8 @@ e_cal_model_set_time_range (ECalModel *model, time_t start, time_t end)
 	priv->start = start;
 	priv->end = end;
 
-	g_signal_emit (G_OBJECT (model), signals[TIME_RANGE_CHANGED], 0, start, end);
 	redo_queries (model);
+	g_signal_emit (G_OBJECT (model), signals[TIME_RANGE_CHANGED], 0, start, end);
 }
 
 const char *
