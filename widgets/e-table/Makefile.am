@@ -47,8 +47,8 @@ table_test_SOURCES = 	\
 	table-test.c 
 
 table_test_LDADD =				\
-	$(EXTRA_GNOME_LIBS)			\
 	libetable.a				\
+	$(EXTRA_GNOME_LIBS)			\
 	$(top_builddir)/e-util/libeutil.a	\
 	$(top_builddir)/widgets/e-text/libetext.a
 

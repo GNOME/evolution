@@ -25,8 +25,8 @@ contact_editor_test_SOURCES = 	\
 	test-editor.c
 
 contact_editor_test_LDADD =	\
-	$(EXTRA_GNOME_LIBS)	\
-	libecontacteditor.a
+	libecontacteditor.a	\
+	$(EXTRA_GNOME_LIBS)
 
 gladedir   = $(datadir)/evolution/glade
 

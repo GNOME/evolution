@@ -20,9 +20,9 @@ test_meeting_time_selector_SOURCES = 	\
 	test-meeting-time-sel.c
 
 test_meeting_time_selector_LDADD =	\
-	libevolutionmtsel.a	
+	libevolutionmtsel.a $(GNOMEUI_LIBS)
 
-test_meeting_time_selector_LDFLAGS = `gnome-config --libs gnomeui`
+test_meeting_time_selector_LDFLAGS = $(GNOME_LIBDIR)
 
 EXTRA_DIST =				\
 	e-meeting-time-sel-mail.xpm	\
