@@ -231,6 +231,10 @@ e_cell_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	     int model_col, int view_col, int row, ECellFlags flags,
 	     int x1, int y1, int x2, int y2)
 {
+	g_return_if_fail (ecell_view != NULL);
+	g_return_if_fail (row >= 0);
+	g_return_if_fail (row < e_table_model_row_count(ecell_view->e_table_model));
+
 	E_CELL_CLASS (GTK_OBJECT (ecell_view->ecell)->klass)->draw (
 		ecell_view, drawable, model_col, view_col, row, flags, x1, y1, x2, y2);
 }
