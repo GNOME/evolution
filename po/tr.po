@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD.tr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-09-03 14:39+0300\n"
-"PO-Revision-Date: 2004-09-03 01:46+0300\n"
+"PO-Revision-Date: 2004-09-13 05:28+0800\n"
 "Last-Translator: Baris Cicek <baris@teamforce.name.tr>\n"
 "Language-Team: Turkish <gnome-turk@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -10619,7 +10619,7 @@ msgid "Cannot rename folder `%s' to `%s': Bad command"
 msgstr "`%s' klasörü `%s' olarak yeniden adlandırılamıyor: Geçersiz komut"
 
 #: camel/providers/imap4/camel-imap4-store.c:1221
-#, c-format
+#, fuzzy, c-format
 msgid "Cannot get %s information for pattern `%s' on IMAP server %s: %s"
 msgstr "%3$s IMAP sunucusundaki %2$s alanı için %1$s bilgisi alınamıyor: %s"
 
