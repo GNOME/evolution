@@ -1,5 +1,20 @@
 2001-10-30  Federico Mena Quintero  <federico@ximian.com>
 
+	Fix bug #10016.
+
+	* gui/dialogs/comp-editor.c (comp_editor_merge_ui): Use
+	bonobo_ui_util_set_ui() instead of doing things by hand.  Hmmm, if
+	only that function had a way of telling us whether it failed so
+	that we could avoid setting the verb list...
+
+	* gui/dialogs/event-editor.c (event_editor_init): Do not pass the
+	filename with the full path so that Bonobo can find it in a smart
+	way.
+
+	* gui/dialogs/task-editor.c (task_editor_init): Likewise.
+
+2001-10-30  Federico Mena Quintero  <federico@ximian.com>
+
 	* gui/dialogs/delete-comp.c (delete_component_dialog): Use an
 	EMessageBox instead of a gnome_dialog_question so that the label
 	gets line breaking.  Fixes bug #11260.

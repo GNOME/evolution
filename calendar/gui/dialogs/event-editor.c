@@ -206,9 +206,7 @@ event_editor_init (EventEditor *ee)
 				 COMP_EDITOR_PAGE (priv->meet_page),
 				 _("Meeting"));
 
- 	comp_editor_merge_ui (COMP_EDITOR (ee), EVOLUTION_DATADIR 
- 			      "/gnome/ui/evolution-event-editor.xml",
- 			      verbs);
+ 	comp_editor_merge_ui (COMP_EDITOR (ee), "evolution-event-editor.xml", verbs);
 
 	priv->meeting_shown = TRUE;
 	priv->existing_org = FALSE;
