@@ -650,11 +650,11 @@ mail_config_write (void)
 		bonobo_config_set_string_wrapper (config->db, path, account->id->signature, NULL);
 		g_free (path);
 		
-		path = g_strdup_printf ("identity_html_signature_%d", i);
+		path = g_strdup_printf ("/Mail/Accounts/identity_html_signature_%d", i);
 		bonobo_config_set_string_wrapper (config->db, path, account->id->html_signature, NULL);
 		g_free (path);
 		
-		path = g_strdup_printf ("identity_has_html_signature_%d", i);
+		path = g_strdup_printf ("/Mail/Accounts/identity_has_html_signature_%d", i);
 		bonobo_config_set_boolean (config->db, path, account->id->has_html_signature, NULL);
 		g_free (path);
 		

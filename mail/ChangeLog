@@ -1,3 +1,8 @@
+2001-07-24  Peter Williams  <peterw@ximian.com>
+
+	* mail-config.c (mail_config_write): Um, write the HTML signature settings
+	in the right place. Whoops.
+
 2001-07-24  Jason Leach  <jleach@ximian.com>
 
 	* mail-callbacks.c (delete_msg): If we're deleting the last
