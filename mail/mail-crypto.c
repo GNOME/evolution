@@ -326,22 +326,22 @@ crypto_exec_with_passwd (char *path, char *argv[], const char *input,
 
 
 char *
-mail_crypto_openpgp_decrypt (const char *ciphertext, const char *passphrase,
-			     CamelException *ex)
+mail_crypto_openpgp_decrypt (const char *ciphertext, CamelException *ex)
 {
-	int retval;
+	int retval, i;
 	char *path, *argv[12];
-	int i;
-	char *plaintext = NULL;
-	char *diagnostics = NULL;
+	char *passphrase, *plaintext = NULL, *diagnostics = NULL;
 	int passwd_fds[2];
 	char passwd_fd[32];
 
-#ifndef PGP_PROGRAM
-	camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-			      _("No GPG/PGP program available."));
-	return NULL;
-#endif
+	passphrase = mail_request_dialog (
+		_("Please enter your PGP/GPG passphrase."),
+		TRUE, "pgp", FALSE);
+	if (!passphrase) {
+		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
+				     _("No password provided."));
+		return NULL;
+	}
 
 	if (pipe (passwd_fds) < 0) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
@@ -403,24 +403,26 @@ mail_crypto_openpgp_decrypt (const char *ciphertext, const char *passphrase,
 }
 
 char *
-mail_crypto_openpgp_encrypt (const char *plaintext, const GPtrArray *recipients, const char *passphrase,
+mail_crypto_openpgp_encrypt (const char *plaintext,
+			     const GPtrArray *recipients,
 			     gboolean sign, CamelException *ex)
 {
 	GPtrArray *recipient_list = NULL;
-	int retval;
+	int retval, i, r;
 	char *path, *argv[12];
-	int i, r;
-	char *cyphertext = NULL;
-	char *diagnostics = NULL;
+	char *passphrase, *ciphertext = NULL, *diagnostics = NULL;
 	int passwd_fds[2];
 	char passwd_fd[32];
 	
-#ifndef PGP_PROGRAM
-	camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-			      _("No GPG/PGP program available."));
-	return NULL;
-#endif
-	
+	passphrase = mail_request_dialog (
+		_("Please enter your PGP/GPG passphrase."),
+		TRUE, "pgp", FALSE);
+	if (!passphrase) {
+		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
+				     _("No password provided."));
+		return NULL;
+	}
+
 	if (pipe (passwd_fds) < 0) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Couldn't create pipe to GPG/PGP: %s"),
@@ -488,14 +490,14 @@ mail_crypto_openpgp_encrypt (const char *plaintext, const GPtrArray *recipients,
 	argv[i++] = NULL;
 
 	retval = crypto_exec_with_passwd (path, argv, plaintext, passwd_fds,
-					  passphrase, &cyphertext,
+					  passphrase, &ciphertext,
 					  &diagnostics);
 	
-	if (retval != 0 || !*cyphertext) {
+	if (retval != 0 || !*ciphertext) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      "%s", diagnostics);
-		g_free (cyphertext);
-		cyphertext = NULL;
+		g_free (ciphertext);
+		ciphertext = NULL;
 	}
 	
 	if (recipient_list) {
@@ -505,7 +507,7 @@ mail_crypto_openpgp_encrypt (const char *plaintext, const GPtrArray *recipients,
 	}
 	
 	g_free (diagnostics);
-	return cyphertext;
+	return ciphertext;
 }
 
 #endif /* PGP_PROGRAM */

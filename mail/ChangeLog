@@ -1,3 +1,20 @@
+2000-08-11  Dan Winship  <danw@helixcode.com>
+
+	* mail-format.c (destroy_part): Update this for CamelObject
+	(try_inline_pgp): Deal with decrypting here rather than trying to
+	pawn the data off to handle_multipart_encrypted, since it most
+	likely won't be correct (won't have the proper MIME headers inside
+	the encrypted part).
+	(handle_multipart_encrypted): Add code from Nathan Thompson-Amato
+	to re-MIME-parse the decrypted data after decrypting.
+
+	* mail-crypto.c (mail_crypto_openpgp_{de,en}crypt): Get the
+	password here rather than having it passed in. Remove some dead
+	code.
+
+	* session.c (mail_request_dialog): Allow this to work in either a
+	sync or an async context.
+
 2000-08-11  Peter Williams  <peterw@helixcode.com>
 
 	* mail-tools.c (mail_tool_fetch_mail_into_searchable): Don't

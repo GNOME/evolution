@@ -37,12 +37,10 @@ void mail_config_druid (void);
 
 /* mail-crypto */
 char *mail_crypto_openpgp_decrypt (const char *ciphertext,
-				   const char *passphrase,
 				   CamelException *ex);
 
 char *mail_crypto_openpgp_encrypt (const char *plaintext,
 				   const GPtrArray *recipients,
-				   const char *passphrase,
 				   gboolean sign,
 				   CamelException *ex);
 /* FIXME: add encryption & signing functions */
@@ -93,6 +91,8 @@ GtkWidget *mail_view_create (CamelFolder *source, const char *uid, CamelMimeMess
 
 /* session */
 void session_init (void);
-char *mail_request_dialog (const char *prompt, gboolean secret, const char *key);
-void forget_passwords (BonoboUIHandler *uih, void *user_data, const char *path);
+char *mail_request_dialog (const char *prompt, gboolean secret,
+			   const char *key, gboolean async);
+void forget_passwords (BonoboUIHandler *uih, void *user_data,
+		       const char *path);
 extern CamelSession *session;

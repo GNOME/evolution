@@ -14,14 +14,6 @@
 CamelSession *session;
 GHashTable *passwords;
 
-/* FIXME: Will this ever be called in a non-async
- * manner? Better hope not, cause if that happens
- * we deadlock....
- */
-
-#define ASYNC_AUTH_CALLBACK
-
-#ifndef ASYNC_AUTH_CALLBACK
 static void
 request_callback (gchar *string, gpointer data)
 {
@@ -32,14 +24,12 @@ request_callback (gchar *string, gpointer data)
 	else
 		*ans = NULL;
 }
-#endif
 
 char *
-mail_request_dialog (const char *prompt, gboolean secret, const char *key)
+mail_request_dialog (const char *prompt, gboolean secret, const char *key,
+		     gboolean async)
 {
-#ifndef ASYNC_AUTH_CALLBACK
 	GtkWidget *dialog;
-#endif
 
 	char *ans;
 
@@ -50,19 +40,18 @@ mail_request_dialog (const char *prompt, gboolean secret, const char *key)
 	if (ans)
 		return g_strdup (ans);
 
-#ifndef ASYNC_AUTH_CALLBACK
-	/* XXX parent window? */
-	dialog = gnome_request_dialog (secret, prompt, NULL, 0,
-				       request_callback, &ans, NULL);
-	if (!dialog)
-		return NULL;
-	if (gnome_dialog_run_and_close (GNOME_DIALOG (dialog)) == -1 ||
-	    ans == NULL)
-		return NULL;
-#else
-	if (!mail_op_get_password ((char *) prompt, secret, &ans))
-		return NULL;
-#endif
+	if (!async) {
+		dialog = gnome_request_dialog (secret, prompt, NULL, 0,
+					       request_callback, &ans, NULL);
+		if (!dialog)
+			return NULL;
+		if (gnome_dialog_run_and_close (GNOME_DIALOG (dialog)) == -1 ||
+		    ans == NULL)
+			return NULL;
+	} else {
+		if (!mail_op_get_password ((char *) prompt, secret, &ans))
+			return NULL;
+	}
 
 	g_hash_table_insert (passwords, g_strdup (key), g_strdup (ans));
 	return ans;
@@ -101,7 +90,7 @@ auth_callback (CamelAuthCallbackMode mode, char *data, gboolean secret,
 		return NULL;
 	}
 
-	ans = mail_request_dialog (data, secret, key);
+	ans = mail_request_dialog (data, secret, key, TRUE);
 	g_free (key);
 
 	if (!ans) {

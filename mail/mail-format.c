@@ -682,22 +682,35 @@ fake_mime_part_from_data (const char *data, int len, const char *type)
 	return part;
 }
 
-  static void
-destroy_part (GtkObject *root, GtkObject *part)
+static void
+destroy_part (CamelObject *root, gpointer event_data, gpointer user_data)
 {
-	gtk_object_unref (part);
+	camel_object_unref (user_data);
+}
+
+static void
+pgp_error (struct mail_format_data *mfd, CamelException *ex)
+{
+	mail_html_write (mfd->html, mfd->stream, "<table><tr valign=top><td>"
+			 "<table border=2><tr><td><img src=\"%s\">"
+			 "</td></tr></table><td>",
+			 get_url_for_icon ("gnome-lockscreen.png", mfd));
+	mail_error_write (mfd->html, mfd->stream,
+			  "(Encrypted message not displayed)\n\n%s",
+			  camel_exception_get_description (&ex));
+	mail_html_write (mfd->html, mfd->stream, "</td></tr></table>");
+	camel_exception_clear (ex);
 }
 
 static char *
 try_inline_pgp (char *start, struct mail_format_data *mfd)
 {
-	char *end;
+	char *end, *ciphertext, *plaintext;
 	CamelMimePart *part;
 	CamelMultipart *mp;
+	CamelException ex;
 
-	/* FIXME: This should deal with converting to multipart/signed
-	 * as well.
-	 */
+	/* FIXME: This should deal with signed data as well. */
 
 	end = strstr (start, "-----END PGP MESSAGE-----");
 	if (!end)
@@ -705,30 +718,24 @@ try_inline_pgp (char *start, struct mail_format_data *mfd)
 
 	end += sizeof ("-----END PGP MESSAGE-----") - 1;
 
-	/* Build a multipart/encrypted. */
-	mp = camel_multipart_new ();
-	camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (mp),
-					  "multipart/encrypted");
-
-	part = fake_mime_part_from_data ("Version: 1\n", 11,
-					 "application/pgp-encrypted");
-	camel_multipart_add_part (mp, part);
-	gtk_object_unref (GTK_OBJECT (part));
-
-	part = fake_mime_part_from_data (start, end - start,
-					 "application/octet-stream");
-	camel_multipart_add_part (mp, part);
-	gtk_object_unref (GTK_OBJECT (part));
-
-	part = camel_mime_part_new ();
-	camel_medium_set_content_object (CAMEL_MEDIUM (part),
-					 CAMEL_DATA_WRAPPER (mp));
-	gtk_object_unref (GTK_OBJECT (mp));
-
-	gtk_signal_connect (GTK_OBJECT (mfd->root), "destroy",
-			    destroy_part, part);
 	mail_html_write (mfd->html, mfd->stream, "<hr>");
-	call_handler_function (part, mfd);
+
+	camel_exception_init (&ex);
+#ifdef PGP_PROGRAM
+	ciphertext = g_strndup (start, end - start);
+	plaintext = mail_crypto_openpgp_decrypt (ciphertext, &ex);
+	g_free (ciphertext);
+#else
+	camel_exception_set (&ex, CAMEL_EXCEPTION_SYSTEM,
+			     "No GPG/PGP support available in this copy "
+			     "of Evolution.");
+#endif
+
+	if (camel_exception_is_set (&ex))
+		pgp_error (mfd, &ex);
+	else
+		mail_text_write (mfd->html, mfd->stream, "%s", plaintext);
+	g_free (plaintext);
 
 	return end;
 }
@@ -769,8 +776,8 @@ try_uudecoding (char *start, struct mail_format_data *mfd)
 	g_free (out);
 	camel_mime_part_set_filename (part, filename);
 	g_free (filename);
-	gtk_signal_connect (GTK_OBJECT (mfd->root), "destroy",
-			    destroy_part, part);
+	camel_object_hook_event (CAMEL_OBJECT (mfd->root), "finalize",
+				 destroy_part, part);
 
 	mail_html_write (mfd->html, mfd->stream, "<hr>");
 	call_handler_function (part, mfd);
@@ -797,8 +804,8 @@ try_inline_binhex (char *start, struct mail_format_data *mfd)
 
 	part = fake_mime_part_from_data (start, p - start,
 					 "application/mac-binhex40");
-	gtk_signal_connect (GTK_OBJECT (mfd->root), "destroy",
-			    destroy_part, part);
+	camel_object_hook_event (CAMEL_OBJECT (mfd->root), "finalize",
+				 destroy_part, part);
 
 	mail_html_write (mfd->html, mfd->stream, "<hr>");
 	call_handler_function (part, mfd);
@@ -1067,7 +1074,7 @@ handle_multipart_encrypted (CamelMimePart *part, const char *mime_type,
 	CamelDataWrapper *wrapper =
 		camel_medium_get_content_object (CAMEL_MEDIUM (part));
 	CamelMultipart *mp;
-	char *ciphertext, *passphrase;
+	char *ciphertext;
 	char *plaintext = NULL;
 	CamelException ex;
 
@@ -1087,17 +1094,7 @@ handle_multipart_encrypted (CamelMimePart *part, const char *mime_type,
 	camel_exception_init (&ex);
 
 #ifdef PGP_PROGRAM
-	/* Get the passphrase. */
-	passphrase = mail_request_dialog (
-		"Please enter your PGP/GPG passphrase.", TRUE, "pgp");
-	if (passphrase) {
-		plaintext = mail_crypto_openpgp_decrypt (ciphertext,
-							 passphrase, &ex);
-		g_free (passphrase);
-	} else {
-		camel_exception_set (&ex, CAMEL_EXCEPTION_SYSTEM,
-				     "No password provided.");
-	}
+	plaintext = mail_crypto_openpgp_decrypt (ciphertext, &ex);
 #else
 	camel_exception_set (&ex, CAMEL_EXCEPTION_SYSTEM,
 			     "No GPG/PGP support available in this copy "
@@ -1105,23 +1102,23 @@ handle_multipart_encrypted (CamelMimePart *part, const char *mime_type,
 #endif
 	g_free (ciphertext);
 
-	if (camel_exception_is_set (&ex)) {
-		mail_html_write (mfd->html, mfd->stream,
-				 "<table><tr valign=top><td>"
-				 "<table border=2><tr><td>"
-				 "<img src=\"%s\"></td></tr></table><td>",
-				 get_url_for_icon ("gnome-lockscreen.png",
-						   mfd));
-		mail_error_write (mfd->html, mfd->stream,
-				  "(Encrypted message not displayed)\n\n%s",
-				  camel_exception_get_description (&ex));
-		mail_html_write (mfd->html, mfd->stream, "</td></tr></table>");
+	if (camel_exception_is_set (&ex))
+		pgp_error (mfd, &ex);
+	else {
+		CamelStream *memstream;
 
-		camel_exception_clear (&ex);
-	} else {
-		mail_text_write (mfd->html, mfd->stream, "%s", plaintext);
-		g_free (plaintext);
+		memstream = camel_stream_mem_new_with_buffer (plaintext,
+							      strlen (plaintext));
+		part = camel_mime_part_new ();
+		camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (part),
+							  memstream);
+		camel_object_unref (CAMEL_OBJECT (memstream));
+
+		call_handler_function (part, mfd);
+		camel_object_hook_event (CAMEL_OBJECT (mfd->root), "finalize",
+					 destroy_part, part);
 	}
+	g_free (plaintext);
 
 	return TRUE;
 }
