@@ -3084,9 +3084,8 @@ e_msg_composer_add_inline_image_from_mime_part (EMsgComposer  *composer,
 
 	cid = (char *)camel_mime_part_get_content_id (part);
 	if (!cid) {
-		cid = header_msgid_generate ();
-		camel_mime_part_set_content_id (part, cid);
-		g_free (cid);
+		camel_mime_part_set_content_id (part, NULL);
+		cid = (char *)camel_mime_part_get_content_id (part);
 	}
 
 	url = g_strdup_printf ("cid:%s", cid);
