@@ -1,3 +1,25 @@
+2000-08-03  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-shell-view-menu.c (command_goto_folder): Just use the current
+	URI as the @default_uri parameter for
+	`e_shell_folder_selection_dialog_new()'.
+
+	* evolution-session.c (class_init): Call `corba_class_init()'.
+
+	* e-shell-folder-selection-dialog.c
+	(e_shell_folder_selection_dialog_new): @default_path renamed to
+	@default_uri.
+	(e_shell_folder_selection_dialog_construct): Likewise.  If the
+	@default_uri is an `evolution:' one, use it as a path; if it is
+	different, assume it is a physical URI and consequently look for
+	the folder that has that physical URI and make it the default.
+	(set_default_folder): New helper function.
+	(e_shell_folder_selection_dialog_construct): Use it.
+
+	* e-storage-set.c (e_storage_set_get_path_for_physical_uri): New.
+
+	* e-storage.c (e_storage_get_path_for_physical_uri): New.
+
 2000-07-27  Dan Winship  <danw@helixcode.com>
 
 	* main.c (idle_cb): work with either gconf 0.5 or newer

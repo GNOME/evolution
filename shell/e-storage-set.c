@@ -524,4 +524,52 @@ e_storage_set_get_folder_type_registry (EStorageSet *storage_set)
 }
 
 
+/* Utility functions.  */
+
+/**
+ * e_storage_set_get_path_for_physical_uri:
+ * @storage_set: A storage set
+ * @physical_uri: A physical URI
+ * 
+ * Retrieve the path of the folder whose physical URI matches @physical_uri.
+ * 
+ * Return value: 
+ **/
+char *
+e_storage_set_get_path_for_physical_uri (EStorageSet *storage_set,
+					 const char *physical_uri)
+{
+	EStorageSetPrivate *priv;
+	GList *p;
+
+	g_return_val_if_fail (storage_set != NULL, NULL);
+	g_return_val_if_fail (E_IS_STORAGE_SET (storage_set), NULL);
+	g_return_val_if_fail (physical_uri != NULL, NULL);
+
+	priv = storage_set->priv;
+
+	for (p = priv->storages; p != NULL; p = p->next) {
+		EStorage *storage;
+		char *storage_path;
+
+		storage = E_STORAGE (p->data);
+
+		storage_path = e_storage_get_path_for_physical_uri (storage, physical_uri);
+		if (storage_path != NULL) {
+			char *storage_set_path;
+
+			storage_set_path = g_strconcat (G_DIR_SEPARATOR_S,
+							e_storage_get_name (storage),
+							storage_path,
+							NULL);
+			g_free (storage_path);
+
+			return storage_set_path;
+		}
+	}
+
+	return NULL;
+}
+
+
 E_MAKE_TYPE (e_storage_set, "EStorageSet", EStorageSet, class_init, init, PARENT_TYPE)

@@ -144,6 +144,8 @@ class_init (EvolutionSessionClass *klass)
 				  gtk_marshal_NONE__STRING,
 				  GTK_TYPE_NONE, 1,
 				  GTK_TYPE_STRING);
+
+	corba_class_init ();
 }
 
 static void

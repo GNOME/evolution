@@ -436,6 +436,76 @@ e_storage_result_to_string (EStorageResult result)
 }
 
 
+/* Utility functions.  */
+
+struct _GetPathForPhysicalUriForeachData {
+	const char *physical_uri;
+	char *retval;
+};
+typedef struct _GetPathForPhysicalUriForeachData GetPathForPhysicalUriForeachData;
+
+static void
+get_path_for_physical_uri_foreach (void *key,
+				   void *value,
+				   void *data)
+{
+	GetPathForPhysicalUriForeachData *foreach_data;
+	const char *physical_uri;
+	Folder *folder;
+
+	foreach_data = (GetPathForPhysicalUriForeachData *) data;
+	if (foreach_data->retval != NULL)
+		return;
+
+	folder       = (Folder *) value;
+	if (folder->e_folder == NULL)
+		return;
+
+	physical_uri = e_folder_get_physical_uri (folder->e_folder);
+
+	if (strcmp (foreach_data->physical_uri, physical_uri) == 0) {
+		const char *path;
+
+		path = (const char *) key;
+		foreach_data->retval = g_strdup (path);
+	}
+}
+
+/**
+ * e_storage_get_path_for_physical_uri:
+ * @storage: A storage
+ * @physical_uri: A physical URI
+ * 
+ * Look for the folder having the specified @physical_uri.
+ * 
+ * Return value: The path of the folder having the specified @physical_uri in
+ * @storage.  If such a folder does not exist, just return NULL.  The return
+ * value must be freed by the caller.
+ **/
+char *
+e_storage_get_path_for_physical_uri (EStorage *storage,
+				     const char *physical_uri)
+{
+	GetPathForPhysicalUriForeachData foreach_data;
+	EStoragePrivate *priv;
+
+	g_return_val_if_fail (storage != NULL, NULL);
+	g_return_val_if_fail (E_IS_STORAGE (storage), NULL);
+	g_return_val_if_fail (physical_uri != NULL, NULL);
+
+	priv = storage->priv;
+
+	foreach_data.physical_uri = physical_uri;
+	foreach_data.retval      = NULL;
+
+	g_hash_table_foreach (priv->path_to_folder, get_path_for_physical_uri_foreach, &foreach_data);
+
+	return foreach_data.retval;
+}
+
+
+/* Protected functions.  */
+
 /* These functions are used by subclasses to add and remove folders from the
    state stored in the storage object.  */
 

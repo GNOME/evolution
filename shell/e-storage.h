@@ -119,6 +119,11 @@ void        e_storage_async_remove_folder  (EStorage               *storage,
 
 const char *e_storage_result_to_string     (EStorageResult          result);
 
+/* Utility functions.  */
+
+char *e_storage_get_path_for_physical_uri  (EStorage   *storage,
+					    const char *physical_uri);
+
 /* Protected.  C++ anyone?  */
 gboolean  e_storage_new_folder      (EStorage *storage, const char *path, EFolder *folder);
 gboolean  e_storage_removed_folder  (EStorage *storage, const char *path);

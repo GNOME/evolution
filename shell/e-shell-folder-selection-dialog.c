@@ -33,8 +33,9 @@
 #include "e-util/e-util.h"
 #include "widgets/misc/e-scroll-frame.h"
 
-#include "e-storage-set.h"
+#include "e-shell-constants.h"
 #include "e-storage-set-view.h"
+#include "e-storage-set.h"
 
 #include "e-shell-folder-creation-dialog.h"
 
@@ -209,11 +210,46 @@ init (EShellFolderSelectionDialog *shell_folder_selection_dialog)
 }
 
 
+static void
+set_default_folder (EShellFolderSelectionDialog *shell_folder_selection_dialog,
+		    const char *default_uri)
+{
+	EShellFolderSelectionDialogPrivate *priv;
+	char *default_path;
+
+	priv = shell_folder_selection_dialog->priv;
+
+	if (strncmp (default_uri, E_SHELL_URI_PREFIX, E_SHELL_URI_PREFIX_LEN) == 0) {
+		/* `evolution:' URI.  */
+		default_path = g_strdup (default_uri + E_SHELL_URI_PREFIX_LEN);
+	} else {
+		/* Physical URI.  */
+		default_path = e_storage_set_get_path_for_physical_uri (priv->storage_set,
+									default_uri);
+	}
+
+	e_storage_set_view_set_current_folder (E_STORAGE_SET_VIEW (priv->storage_set_view),
+					       default_path);
+
+	g_free (default_path);
+}
+
+
+/**
+ * e_shell_folder_selection_dialog_construct:
+ * @folder_selection_dialog: A folder selection dialog widget
+ * @shell: The this folder selection dialog is for
+ * @title: Title of the window
+ * @default_uri: The URI of the folder to be selected by default
+ * @allowed_types: List of the names of the allowed types
+ * 
+ * Construct @folder_selection_dialog.
+ **/
 void
 e_shell_folder_selection_dialog_construct (EShellFolderSelectionDialog *folder_selection_dialog,
 					   EShell *shell,
 					   const char *title,
-					   const char *default_path,
+					   const char *default_uri,
 					   const char *allowed_types[])
 {
 	EShellFolderSelectionDialogPrivate *priv;
@@ -258,8 +294,7 @@ e_shell_folder_selection_dialog_construct (EShellFolderSelectionDialog *folder_s
 							      g_strdup (allowed_types[i]));
 	}
 
-	e_storage_set_view_set_current_folder (E_STORAGE_SET_VIEW (priv->storage_set_view),
-					       default_path);
+	set_default_folder (folder_selection_dialog, default_uri);
 
 	scroll_frame = e_scroll_frame_new (NULL, NULL);
 	e_scroll_frame_set_policy (E_SCROLL_FRAME (scroll_frame),
@@ -274,10 +309,23 @@ e_shell_folder_selection_dialog_construct (EShellFolderSelectionDialog *folder_s
 	gtk_widget_show (priv->storage_set_view);
 }
 
+/**
+ * e_shell_folder_selection_dialog_new:
+ * @shell: The this folder selection dialog is for
+ * @title: Title of the window
+ * @default_uri: The URI of the folder to be selected by default
+ * @allowed_types: List of the names of the allowed types
+ * 
+ * Create a new folder selection dialog widget.  @default_uri can be either an
+ * `evolution:' URI or a physical URI (all the non-`evoluion:' URIs are
+ * considered to be physical URIs).
+ * 
+ * Return value: 
+ **/
 GtkWidget *
 e_shell_folder_selection_dialog_new (EShell *shell,
 				     const char *title,
-				     const char *default_path,
+				     const char *default_uri,
 				     const char *allowed_types[])
 {
 	EShellFolderSelectionDialog *folder_selection_dialog;
@@ -287,7 +335,7 @@ e_shell_folder_selection_dialog_new (EShell *shell,
 
 	folder_selection_dialog = gtk_type_new (e_shell_folder_selection_dialog_get_type ());
 	e_shell_folder_selection_dialog_construct (folder_selection_dialog, shell,
-						   title, default_path, allowed_types);
+						   title, default_uri, allowed_types);
 
 	return GTK_WIDGET (folder_selection_dialog);
 }

@@ -100,6 +100,11 @@ void         e_storage_set_async_remove_folder  (EStorageSet            *storage
 
 EFolderTypeRegistry *e_storage_set_get_folder_type_registry (EStorageSet *storage_set);
 
+/* Utility functions.  */
+
+char *e_storage_set_get_path_for_physical_uri  (EStorageSet *storage_set,
+						const char  *physical_uri);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

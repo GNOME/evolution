@@ -308,21 +308,16 @@ command_goto_folder (BonoboUIHandler *uih,
 	EShellView *shell_view;
 	EShell *shell;
 	const char *current_uri;
-	const char *default_folder;
 
 	shell_view = E_SHELL_VIEW (data);
 	shell = e_shell_view_get_shell (shell_view);
 
 	current_uri = e_shell_view_get_current_uri (shell_view);
 
-	if (strncmp (current_uri, E_SHELL_URI_PREFIX, E_SHELL_URI_PREFIX_LEN) == 0)
-		default_folder = current_uri + E_SHELL_URI_PREFIX_LEN;
-	else
-		default_folder = NULL;
-
 	folder_selection_dialog = e_shell_folder_selection_dialog_new (shell,
 								       _("Go to folder..."),
-								       default_folder, NULL);
+								       current_uri,
+								       NULL);
 
 	gtk_window_set_transient_for (GTK_WINDOW (folder_selection_dialog), GTK_WINDOW (shell_view));
 
