@@ -21,9 +21,18 @@
 
 #include <glib.h>
 #include <string.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <dirent.h>
+#include <fcntl.h>
+#include <errno.h>
+
 #include "addressbook-migrate.h"
 #include "e-destination.h"
 #include <libebook/e-book-async.h>
+#include <libedataserver/e-dbhash.h>
+#include <libedataserver/e-xml-hash-utils.h>
 #include <libgnome/gnome-i18n.h>
 #include <gal/util/e-util.h>
 #include <gal/util/e-xml-utils.h>
@@ -932,6 +941,116 @@ migrate_company_phone_for_local_folders (MigrationContext *context, ESourceGroup
 	}
 }
 
+static void
+migrate_pilot_db_key (const char *key, const char *data, gpointer user_data)
+{
+	EXmlHash *xmlhash = user_data;
+	
+	e_xmlhash_add (xmlhash, key, data);
+}
+
+static void
+migrate_pilot_data (const char *old_path, const char *new_path)
+{
+	struct dirent *dent;
+	const char *ext;
+	char *filename;
+	DIR *dir;
+	
+	if (!(dir = opendir (old_path)))
+		return;
+	
+	while ((dent = readdir (dir))) {
+		if (!strncmp (dent->d_name, "pilot-map-", 10) &&
+		    ((ext = strrchr (dent->d_name, '.')) && !strcmp (ext, ".xml"))) {
+			/* pilot map file - src and dest file formats are identical */
+			unsigned char inbuf[4096];
+			size_t nread, nwritten;
+			int fd0, fd1;
+			ssize_t n;
+			
+			filename = g_build_filename (old_path, dent->d_name, NULL);
+			if ((fd0 = open (filename, O_RDONLY)) == -1) {
+				g_free (filename);
+				continue;
+			}
+			
+			g_free (filename);
+			filename = g_build_filename (new_path, dent->d_name, NULL);
+			if ((fd1 = open (filename, O_WRONLY | O_CREAT | O_TRUNC, 0666)) == -1) {
+				g_free (filename);
+				close (fd0);
+				continue;
+			}
+			
+			do {
+				do {
+					n = read (fd0, inbuf, sizeof (inbuf));
+				} while (n == -1 && errno == EINTR);
+				
+				if (n < 1)
+					break;
+				
+				nread = n;
+				nwritten = 0;
+				do {
+					do {
+						n = write (fd1, inbuf + nwritten, nread - nwritten);
+					} while (n == -1 && errno == EINTR);
+					
+					if (n > 0)
+						nwritten += n;
+				} while (nwritten < nread && n != -1);
+				
+				if (n == -1)
+					break;
+			} while (1);
+			
+			if (n != -1)
+				n = fsync (fd1);
+			
+			if (n == -1) {
+				g_warning ("Failed to migrate %s: %s", dent->d_name, strerror (errno));
+				unlink (filename);
+			}
+			
+			close (fd0);
+			close (fd1);
+			g_free (filename);
+		} else if (!strncmp (dent->d_name, "pilot-sync-evolution-addressbook-", 33) &&
+			   ((ext = strrchr (dent->d_name, '.')) && !strcmp (ext, ".db"))) {
+			/* src and dest formats differ, src format is db3 while dest format is xml */
+			EXmlHash *xmlhash;
+			EDbHash *dbhash;
+			struct stat st;
+			
+			filename = g_build_filename (old_path, dent->d_name, NULL);
+			if (stat (filename, &st) == -1) {
+				g_free (filename);
+				continue;
+			}
+			
+			dbhash = e_dbhash_new (filename);
+			g_free (filename);
+			
+			filename = g_build_filename (new_path, dent->d_name, NULL);
+			if (stat (filename, &st) != -1)
+				unlink (filename);
+			xmlhash = e_xmlhash_new (filename);
+			g_free (filename);
+			
+			e_dbhash_foreach_key (dbhash, migrate_pilot_db_key, xmlhash);
+			
+			e_dbhash_destroy (dbhash);
+			
+			e_xmlhash_write (xmlhash);
+			e_xmlhash_destroy (xmlhash);
+		}
+	}
+	
+	closedir (dir);
+}
+
 static MigrationContext*
 migration_context_new (AddressbookComponent *component)
 {
@@ -1013,11 +1132,25 @@ addressbook_migrate (AddressbookComponent *component, int major, int minor, int 
 
 		if (minor < 5 || (minor == 5 && revision <= 8)) {
 			dialog_set_label (context,
-					  _("The way evolutions stores some phone numbers has changed.\n\n"
+					  _("The way Evolution stores some phone numbers has changed.\n\n"
 					    "Please be patient while Evolution migrates your "
 					    "folders..."));
 
 			migrate_company_phone_for_local_folders (context, on_this_computer);
+		}
+		
+		if (minor < 5 || (minor == 5 && revision <= 10)) {
+			char *old_path, *new_path;
+			
+			dialog_set_label (context, _("Evolution's Palm Sync changelog and map files have changed.\n\n"
+						     "Please be patient while Evolution migrates your Pilot Sync data..."));
+			
+			old_path = g_build_filename (g_get_home_dir (), "evolution", "local", "Contacts", NULL);
+			new_path = g_build_filename (addressbook_component_peek_base_directory (component),
+						     "addressbook", "local", "system", NULL);
+			migrate_pilot_data (old_path, new_path);
+			g_free (new_path);
+			g_free (old_path);
 		}
 	}
 
