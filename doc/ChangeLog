@@ -1,3 +1,8 @@
+2001-06-26  Aaron Weber  <aaron@ximian.com>
+
+	* C/evolution-faq.sgml: Revised move/rename/copy questions, now
+	that these functions work.
+
 2001-06-25  Aaron Weber  <aaron@ximian.com>
 
 	* C/evolution-faq.sgml: Now that bug-buddy works with our

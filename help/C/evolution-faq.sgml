@@ -59,27 +59,9 @@
 	</question>
 	<answer>
 	  <para>
-	    We're going to add a good way to do this soon.  In the
-	    mean time, you have to remove it by hand.
-	  </para>
-
-	  <para>
-	    All the folders are stored in
-	    <filename>~/evolution/local</filename>.  Each folder is a
-	    directory containing the data files, as well as a
-	    <filename>subfolders</filename> directory that contains
-	    all its subfolders.  So for example if you have a
-	    subfolder of the <filename>Inbox</filename> called
-	    <filename>Foo</filename>, you can run the following
-	    command to get rid of it (and all it subfolders):
-          </para>
-
-	  <programlisting>
-rm -rf ~/evolution/local/Inbox/subfolders/Foo
-          </programlisting>
-
-	  <para>
-	    You should do this after exiting Evolution.
+            Right-click on the folder and select the
+            <guimenuitem>Delete</guimenuitem> or
+            <guimenuitem>Rename</guimenuitem> items.
 	  </para>
 	</answer> 
       </qandaentry>
@@ -92,23 +74,14 @@ rm -rf ~/evolution/local/Inbox/subfolders/Foo
 	</question>
 	<answer>
 	  <para>
-	    The implementation isn't finished, although it's planned
-	    to be finished soon.
+	    The implementation isn't finished, although it's nearly done.
   	  </para>
 
 	  <para>
-	    In the meantime, you can copy the folders' contents by
-	    hand from the shell (please do this after quitting
-	    Evolution).  For example:
-	  </para>
-
-	  <programlisting>
-cp -r ~/evolution/local/Inbox/subfolders/Foo ~/evolution/local/Inbox/subfolders/Bar
-	  </programlisting>
-
-	  <para>
-	    Likewise, you can use <command>mv</command> to rename or
-	    move folders.
+	    In the meantime, right-click on the folders or messages
+	    you want to move, and select the
+	    <guimenuitem>Move</guimenuitem> or
+	    <guimenuitem>Copy</guimenuitem> options.
 	  </para>
 	</answer>
       </qandaentry>
