@@ -39,8 +39,8 @@
 #include <gal/e-table/e-cell-tree.h>
 #include <gal/e-table/e-cell-text.h>
 
-#define ETABLE_SPEC "<ETableSpecification no-headers=\"1\" cursor-mode=\"line\"> \
-  <ETableColumn model_col=\"0\" _title=\"Folder\" expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"cell_tree\" compare=\"string\"/> \
+#define ETABLE_SPEC "<ETableSpecification no-headers=\"1\" cursor-mode=\"line\" draw-grid=\"true\"> \
+  <ETableColumn model_col=\"0\" _title=\"Folder\" expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"tree-string\" compare=\"string\"/> \
 	<ETableState>                   			       \
 		<column> 0 </column>     			       \
 	        <grouping></grouping>                                  \
@@ -890,9 +890,6 @@ e_storage_set_view_construct (EStorageSetView *storage_set_view,
 			      EStorageSet *storage_set)
 {
 	EStorageSetViewPrivate *priv;
-	ETableExtras *extras;
-	ECell *cell_left_just;
-	ECell *cell_tree;
 
 	g_return_if_fail (storage_set_view != NULL);
 	g_return_if_fail (E_IS_STORAGE_SET_VIEW (storage_set_view));
@@ -916,19 +913,8 @@ e_storage_set_view_construct (EStorageSetView *storage_set_view,
 
 	priv->root_node = e_tree_model_node_insert (priv->etree_model, NULL, -1, "/Root Node");
 
-	cell_left_just = e_cell_text_new (E_TABLE_MODEL (priv->etree_model), NULL, GTK_JUSTIFY_LEFT);
-	cell_tree = e_cell_tree_new (E_TABLE_MODEL (priv->etree_model),
-				     NULL, NULL, /* let the tree default its own +'s and -'s */
-				     TRUE, cell_left_just);
-
-	extras = e_table_extras_new();
-	e_table_extras_add_cell(extras, "cell_left_just", cell_left_just);
-	e_table_extras_add_cell(extras, "cell_tree", cell_tree);
-
-	e_table_construct (E_TABLE (storage_set_view), E_TABLE_MODEL(priv->etree_model), extras,
+	e_table_construct (E_TABLE (storage_set_view), E_TABLE_MODEL(priv->etree_model), NULL,
 			   ETABLE_SPEC, NULL);
-
-	gtk_object_sink (GTK_OBJECT (extras));
 
 	e_table_drag_source_set (E_TABLE (storage_set_view), GDK_BUTTON1_MASK,
 				 drag_types, num_drag_types, GDK_ACTION_MOVE);

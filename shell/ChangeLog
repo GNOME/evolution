@@ -1,5 +1,9 @@
 2000-10-11  Christopher James Lahey  <clahey@helixcode.com>
 
+	* e-storage-set-view.c: Changed this to use the built in cells.
+
+2000-10-11  Christopher James Lahey  <clahey@helixcode.com>
+
 	* e-storage-set-view.c: Adapted this for the new ETable system.
 
 2000-10-09  Michael Meeks  <michael@helixcode.com>
