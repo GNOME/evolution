@@ -27,6 +27,7 @@
 #include <e-contact-editor-categories.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gdk-pixbuf/gnome-canvas-pixbuf.h>
+#include <e-util/e-gui-utils.h>
 
 static void e_contact_editor_init		(EContactEditor		 *card);
 static void e_contact_editor_class_init	(EContactEditorClass	 *klass);
@@ -104,89 +105,21 @@ e_contact_editor_class_init (EContactEditorClass *klass)
 }
 
 static void
-_add_image(GtkTable *table, gchar *image, int left, int right, int top, int bottom)
-{
-	GdkPixbuf *pixbuf;
-	double width, height;
-	GtkWidget *canvas, *alignment;
-
-	pixbuf = gdk_pixbuf_new_from_file(image);
-	width = gdk_pixbuf_get_width(pixbuf);
-	height = gdk_pixbuf_get_height(pixbuf);
-	canvas = gnome_canvas_new_aa();
-	GTK_OBJECT_UNSET_FLAGS(GTK_WIDGET(canvas), GTK_CAN_FOCUS);
-#if 0
-	gnome_canvas_item_new(gnome_canvas_root(GNOME_CANVAS(canvas)),
-			      gnome_canvas_rect_get_type(),
-			      "fill_color_gdk", &(gtk_widget_get_style(GTK_WIDGET(canvas))->bg[GTK_STATE_NORMAL]),
-			      "x1", 0.0,
-			      "y1", 0.0,
-			      "x2", width,
-			      "y2", height,
-			      NULL);
-#endif
-	gnome_canvas_item_new(gnome_canvas_root(GNOME_CANVAS(canvas)),
-			      gnome_canvas_pixbuf_get_type(),
-			      "pixbuf", pixbuf,
-			      NULL);
-	alignment = gtk_widget_new(gtk_alignment_get_type(),
-				   "child", canvas,
-				   "xalign", (double) 0,
-				   "yalign", (double) 0,
-				   "xscale", (double) 0,
-				   "yscale", (double) 0,
-				   NULL);
-	
-	gtk_widget_set_usize(canvas, width, height);
-
-	gtk_table_attach(table,
-			 alignment,
-			 left, right, top, bottom,
-			 GTK_FILL, GTK_FILL,
-			 0, 0);
-
-	gdk_pixbuf_unref(pixbuf);
-
-	gtk_widget_show(canvas);
-	gtk_widget_show(alignment);
-}
-
-static void
-_add_images(GtkTable *table)
-{
-	_add_image(table, EVOLUTION_IMAGES "/malehead.png", 0, 1, 0, 4);
-	_add_image(table, EVOLUTION_IMAGES "/cellphone.png", 4, 5, 0, 4);
-	_add_image(table, EVOLUTION_IMAGES "/envelope.png", 0, 1, 5, 7);
-	_add_image(table, EVOLUTION_IMAGES "/globe.png",
-		   0, 1, 8, 10);
-	_add_image(table, EVOLUTION_IMAGES "/house.png", 4, 5, 5, 10);
-	_add_image(table, EVOLUTION_IMAGES "/evolution-contacts.png", 0, 1, 12, 14);
-	_add_image(table, EVOLUTION_IMAGES "/briefcase.png", 4, 5, 12, 14);
-}
-
-static void
-_add_details_images(GtkTable *table)
-{
-	_add_image(table, EVOLUTION_IMAGES "/briefcase.png", 0, 1, 0, 2);
-	_add_image(table, EVOLUTION_IMAGES "/malehead.png", 0, 1, 4, 6);
-	_add_image(table, EVOLUTION_IMAGES "/globe.png", 0, 1, 8, 10);
-}
-
-static void
 _replace_button(EContactEditor *editor, gchar *button_xml, gchar *image, GtkSignalFunc func)
 {
 	GladeXML *gui = editor->gui;
 	GtkWidget *button = glade_xml_get_widget(gui, button_xml);
 	GtkWidget *pixmap;
 	gchar *image_temp;
-	image_temp = g_strdup_printf("%s%s", DATADIR "/evolution/", image);
-	pixmap = gnome_pixmap_new_from_file(image_temp);
-	gtk_container_add(GTK_CONTAINER(button),
-			  pixmap);
-	g_free(image_temp);
-	gtk_widget_show(pixmap);
-	gtk_signal_connect(GTK_OBJECT(button), "button_press_event", func, editor);
-			   
+	if (button && GTK_IS_BUTTON(button)) {
+		image_temp = g_strdup_printf("%s%s", DATADIR "/evolution/", image);
+		pixmap = e_create_image_widget(NULL, image_temp, NULL, 0, 0);
+		gtk_container_add(GTK_CONTAINER(button),
+				  pixmap);
+		g_free(image_temp);
+		gtk_widget_show(pixmap);
+		gtk_signal_connect(GTK_OBJECT(button), "button_press_event", func, editor);
+	}
 }
 
 static void
@@ -196,7 +129,7 @@ _replace_buttons(EContactEditor *editor)
 	_replace_button(editor, "button-phone2", "arrow.png", _phone_arrow_pressed);
 	_replace_button(editor, "button-phone3", "arrow.png", _phone_arrow_pressed);
 	_replace_button(editor, "button-phone4", "arrow.png", _phone_arrow_pressed);
-	_replace_button(editor, "button-address1", "arrow.png", _address_arrow_pressed);
+	_replace_button(editor, "button-address", "arrow.png", _address_arrow_pressed);
 	_replace_button(editor, "button-email1", "arrow.png", _email_arrow_pressed);
 }
 
@@ -358,8 +291,9 @@ file_as_set_style(EContactEditor *editor, int style)
 	char *string;
 	int i;
 	GList *strings = NULL;
-	GtkCombo *combo = GTK_COMBO(glade_xml_get_widget(editor->gui, "combo-file-as"));
 	GtkEntry *file_as = GTK_ENTRY(glade_xml_get_widget(editor->gui, "entry-file-as"));
+	GtkWidget *widget;
+		
 
 	if (style == -1) {
 		string = g_strdup(gtk_entry_get_text(file_as));
@@ -373,9 +307,13 @@ file_as_set_style(EContactEditor *editor, int style)
 		}
 	}
 
-	gtk_combo_set_popdown_strings(combo, strings);
-	g_list_foreach(strings, (GFunc) g_free, NULL);
-	g_list_free(strings);
+	widget = glade_xml_get_widget(editor->gui, "combo-file-as");
+	if (widget && GTK_IS_COMBO(widget)) {
+		GtkCombo *combo = GTK_COMBO(widget);
+		gtk_combo_set_popdown_strings(combo, strings);
+		g_list_foreach(strings, (GFunc) g_free, NULL);
+		g_list_free(strings);
+	}
 
 	if (style != -1) {
 		string = name_to_style(editor->name, editor->company, style);
@@ -387,48 +325,51 @@ file_as_set_style(EContactEditor *editor, int style)
 static void
 name_entry_changed (GtkWidget *widget, EContactEditor *editor)
 {
-	ECardName *name;
-	char *string;
-	GtkEntry *entry = GTK_ENTRY(widget);
+	GtkWidget *file_as;
 	int style = 0;
 
-	style = file_as_get_style(editor);
-	
-	name = editor->name;
+	file_as = glade_xml_get_widget(editor->gui, "entry-file-as");
 
-	if (name)
-		e_card_name_free(name);
-
-	string = gtk_entry_get_text(entry);
+	if (file_as && GTK_IS_ENTRY(file_as)) {
+		style = file_as_get_style(editor);
+	}
 	
-	name = e_card_name_from_string(string);
+	e_card_name_free(editor->name);
+	editor->name = e_card_name_from_string(gtk_entry_get_text(GTK_ENTRY(widget)));
 	
-	editor->name = name;
-	
-	file_as_set_style(editor, style);
+	if (file_as && GTK_IS_ENTRY(file_as)) {
+		file_as_set_style(editor, style);
+	}
 }
 
 static void
 company_entry_changed (GtkWidget *widget, EContactEditor *editor)
 {
-	GtkEntry *entry = GTK_ENTRY(widget);
 	int style = 0;
+	GtkWidget *file_as;
 
-	style = file_as_get_style(editor);
+	file_as = glade_xml_get_widget(editor->gui, "entry-file-as");
+
+	if (file_as && GTK_IS_ENTRY(file_as)) {
+		style = file_as_get_style(editor);
+	}
 	
 	g_free(editor->company);
-
-	editor->company = g_strdup(gtk_entry_get_text(entry));
 	
-	file_as_set_style(editor, style);
+	editor->company = g_strdup(gtk_entry_get_text(GTK_ENTRY(widget)));
+	
+	if (file_as && GTK_IS_ENTRY(file_as)) {
+		file_as_set_style(editor, style);
+	}
 }
 
 static void
 set_entry_changed_signal_phone(EContactEditor *editor, char *id)
 {
 	GtkWidget *widget = glade_xml_get_widget(editor->gui, id);
-	gtk_signal_connect(GTK_OBJECT(widget), "changed",
-			   phone_entry_changed, editor);
+	if (widget && GTK_IS_ENTRY(widget))
+		gtk_signal_connect(GTK_OBJECT(widget), "changed",
+				   phone_entry_changed, editor);
 }
 
 static void
@@ -440,17 +381,25 @@ set_entry_changed_signals(EContactEditor *editor)
 	set_entry_changed_signal_phone(editor, "entry-phone3");
 	set_entry_changed_signal_phone(editor, "entry-phone4");
 	widget = glade_xml_get_widget(editor->gui, "entry-email1");
-	gtk_signal_connect(GTK_OBJECT(widget), "changed",
-			   email_entry_changed, editor);
+	if (widget && GTK_IS_ENTRY(widget)) {
+		gtk_signal_connect(GTK_OBJECT(widget), "changed",
+				   email_entry_changed, editor);
+	}
 	widget = glade_xml_get_widget(editor->gui, "text-address");
-	gtk_signal_connect(GTK_OBJECT(widget), "changed",
-			   address_text_changed, editor);
+	if (widget && GTK_IS_ENTRY(widget)) {
+		gtk_signal_connect(GTK_OBJECT(widget), "changed",
+				   address_text_changed, editor);
+	}
 	widget = glade_xml_get_widget(editor->gui, "entry-fullname");
-	gtk_signal_connect(GTK_OBJECT(widget), "changed",
-			   name_entry_changed, editor);
+	if (widget && GTK_IS_ENTRY(widget)) {
+		gtk_signal_connect(GTK_OBJECT(widget), "changed",
+				   name_entry_changed, editor);
+	}
 	widget = glade_xml_get_widget(editor->gui, "entry-company");
-	gtk_signal_connect(GTK_OBJECT(widget), "changed",
-			   company_entry_changed, editor);
+	if (widget && GTK_IS_ENTRY(widget)) {
+		gtk_signal_connect(GTK_OBJECT(widget), "changed",
+				   company_entry_changed, editor);
+	}
 }
 
 static void
@@ -462,15 +411,20 @@ full_name_clicked(GtkWidget *button, EContactEditor *editor)
 	result = gnome_dialog_run_and_close (dialog);
 	if (result == 0) {
 		ECardName *name;
-		char *full_name;
+		GtkWidget *fname_widget;
+
 		gtk_object_get(GTK_OBJECT(dialog),
 			       "name", &name,
 			       NULL);
-		full_name = e_card_name_to_string(name);
-		gtk_entry_set_text(GTK_ENTRY(glade_xml_get_widget(editor->gui, "entry-fullname")), full_name);
-		g_free(full_name);
 		e_card_name_free(editor->name);
 		editor->name = e_card_name_copy(name);
+
+		fname_widget = glade_xml_get_widget(editor->gui, "entry-fullname");
+		if (fname_widget && GTK_IS_ENTRY(fname_widget)) {
+			char *full_name = e_card_name_to_string(name);
+			gtk_entry_set_text(GTK_ENTRY(fname_widget), full_name);
+			g_free(full_name);
+		}
 	}
 	gtk_object_unref(GTK_OBJECT(dialog));
 }
@@ -481,8 +435,13 @@ categories_clicked(GtkWidget *button, EContactEditor *editor)
 	char *categories;
 	GnomeDialog *dialog;
 	int result;
-	GtkEntry *entry = GTK_ENTRY(glade_xml_get_widget(editor->gui, "entry-categories"));
-	categories = gtk_entry_get_text(entry);
+	GtkWidget *entry = glade_xml_get_widget(editor->gui, "entry-categories");
+	if (entry && GTK_IS_ENTRY(entry))
+		categories = gtk_entry_get_text(GTK_ENTRY(entry));
+	else if (editor->card)
+		gtk_object_get(GTK_OBJECT(editor->card),
+			       "categories", &categories,
+			       NULL);
 	dialog = GNOME_DIALOG(e_contact_editor_categories_new(categories));
 	gtk_widget_show(GTK_WIDGET(dialog));
 	result = gnome_dialog_run (dialog);
@@ -490,41 +449,26 @@ categories_clicked(GtkWidget *button, EContactEditor *editor)
 		gtk_object_get(GTK_OBJECT(dialog),
 			       "categories", &categories,
 			       NULL);
-		gtk_entry_set_text(entry, categories);
+		if (entry && GTK_IS_ENTRY(entry))
+			gtk_entry_set_text(GTK_ENTRY(entry), categories);
+		else
+			gtk_object_set(GTK_OBJECT(editor->card),
+				       "categories", categories,
+				       NULL);
 		g_free(categories);
 	}
 	gtk_object_destroy(GTK_OBJECT(dialog));
+	if (!entry)
+		g_free(categories);
 }
 
 static void
 e_contact_editor_init (EContactEditor *e_contact_editor)
 {
 	GladeXML *gui;
-	GtkAdjustment *adjustment;
+	GtkWidget *widget;
 
-	e_contact_editor->card = NULL;
-	gui = glade_xml_new (EVOLUTION_GLADEDIR "/contact-editor.glade", NULL);
-	e_contact_editor->gui = gui;
-	gtk_widget_reparent(glade_xml_get_widget(gui, "notebook-contact-editor"),
-			    GTK_WIDGET(e_contact_editor));
 
-	_add_images(GTK_TABLE(glade_xml_get_widget(gui, "table-contact-editor-general")));
-	_add_details_images(GTK_TABLE(glade_xml_get_widget(gui, "table-contact-editor-details")));
-	_replace_buttons(e_contact_editor);
-	set_entry_changed_signals(e_contact_editor);
-
-	gtk_signal_connect(GTK_OBJECT(glade_xml_get_widget(e_contact_editor->gui, "button-fullname")), "clicked",
-			   full_name_clicked, e_contact_editor);
-
-	gtk_signal_connect(GTK_OBJECT(glade_xml_get_widget(e_contact_editor->gui, "button-categories")), "clicked",
-			   categories_clicked, e_contact_editor);
-
-	gtk_object_get(GTK_OBJECT(glade_xml_get_widget(gui, "text-comments")),
-		       "vadjustment", &adjustment,
-		       NULL);
-	gtk_range_set_adjustment(GTK_RANGE(glade_xml_get_widget(gui, "vscrollbar-comments")),
-				 adjustment);
-	
 	e_contact_editor->email_info = NULL;
 	e_contact_editor->phone_info = NULL;
 	e_contact_editor->address_info = NULL;
@@ -545,6 +489,31 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 	e_contact_editor->address_choice = 0;
 	
 	e_contact_editor->simple = e_card_simple_new(NULL);
+
+	e_contact_editor->card = NULL;
+
+	gui = glade_xml_new (EVOLUTION_GLADEDIR "/contact-editor.glade", NULL);
+	e_contact_editor->gui = gui;
+
+	widget = glade_xml_get_widget(gui, "notebook-contact-editor");
+	if (!widget) {
+		return;
+	}
+	gtk_widget_reparent(widget,
+			    GTK_WIDGET(e_contact_editor));
+
+	_replace_buttons(e_contact_editor);
+	set_entry_changed_signals(e_contact_editor);
+	
+	widget = glade_xml_get_widget(e_contact_editor->gui, "button-fullname");
+	if (widget && GTK_IS_BUTTON(widget))
+		gtk_signal_connect(GTK_OBJECT(widget), "clicked",
+				   full_name_clicked, e_contact_editor);
+
+	widget = glade_xml_get_widget(e_contact_editor->gui, "button-categories");
+	if (widget && GTK_IS_BUTTON(widget))
+		gtk_signal_connect(GTK_OBJECT(widget), "clicked",
+				   categories_clicked, e_contact_editor);
 }
 
 void
@@ -686,9 +655,12 @@ _arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEditor *edito
 			e_contact_editor_build_dialog(editor, entry, label, dialog_title, list, info);
 		} else {
 #endif
-			gtk_object_set(GTK_OBJECT(glade_xml_get_widget(editor->gui, label)),
-				       "label", g_list_nth_data(*list, menu_item),
-				       NULL);
+			GtkWidget *entry_widget = glade_xml_get_widget(editor->gui, label);
+			if (entry_widget && GTK_IS_ENTRY(entry_widget)) {
+				gtk_object_set(GTK_OBJECT(entry_widget),
+					       "label", g_list_nth_data(*list, menu_item),
+					       NULL);
+			}
 #if 0
 		}
 #endif
@@ -727,24 +699,24 @@ _dialog_clicked(GtkWidget *dialog, gint button, EContactEditor *editor)
 {
 	GtkWidget *label = gtk_object_get_data(GTK_OBJECT(dialog),
 					       "e_contact_editor_label");
-#if 0
-	GtkWidget *entry = gtk_object_get_data(GTK_OBJECT(dialog),
-					       "e_contact_editor_entry");
-#endif
+
 	GtkWidget *dialog_entry = gtk_object_get_data(GTK_OBJECT(dialog),
 						      "e_contact_editor_dialog_entry");
+	
 	GList **list = gtk_object_get_data(GTK_OBJECT(dialog),
 					   "e_contact_editor_list");
 	GList **info = gtk_object_get_data(GTK_OBJECT(dialog),
 					   "e_contact_editor_info");
 	switch (button) {
 	case 0:
-		gtk_object_set(GTK_OBJECT(label),
-			       "label", gtk_entry_get_text(GTK_ENTRY(dialog_entry)),
-			       NULL);
-		*list = g_list_append(*list, g_strdup(gtk_entry_get_text(GTK_ENTRY(dialog_entry))));
-		g_free(*info);
-		*info = NULL;
+		if (label && GTK_IS_LABEL(label)) {
+			gtk_object_set(GTK_OBJECT(label),
+				       "label", gtk_entry_get_text(GTK_ENTRY(dialog_entry)),
+				       NULL);
+			*list = g_list_append(*list, g_strdup(gtk_entry_get_text(GTK_ENTRY(dialog_entry))));
+			g_free(*info);
+			*info = NULL;
+		}
 		break;
 	}
 	gnome_dialog_close(GNOME_DIALOG(dialog));
@@ -964,7 +936,7 @@ _address_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEdito
 						    TRUE);
 	}
 	
-	result = _arrow_pressed (widget, button, editor, editor->address_popup, &editor->address_list, &editor->address_info, "label-address1", "text-address", "Add new Address type");
+	result = _arrow_pressed (widget, button, editor, editor->address_popup, &editor->address_list, &editor->address_info, "label-address", "text-address", "Add new Address type");
 
 	if (result != -1) {
 		set_address_field(editor, result);
@@ -982,30 +954,35 @@ set_field(GtkEntry *entry, const char *string)
 }
 
 static void
-set_phone_field(GtkEntry *entry, const ECardPhone *phone)
+set_phone_field(GtkWidget *entry, const ECardPhone *phone)
 {
-	set_field(entry, phone ? phone->number : "");
+	set_field(GTK_ENTRY(entry), phone ? phone->number : "");
 }
 
 static void
 set_fields(EContactEditor *editor)
 {
-	GtkEntry *entry;
+	GtkWidget *entry;
 
-	entry = GTK_ENTRY(glade_xml_get_widget(editor->gui, "entry-phone1"));
-	set_phone_field(entry, e_card_simple_get_phone(editor->simple, editor->phone_choice[0]));
+	entry = glade_xml_get_widget(editor->gui, "entry-phone1");
+	if (entry && GTK_IS_ENTRY(entry))
+		set_phone_field(entry, e_card_simple_get_phone(editor->simple, editor->phone_choice[0]));
 
-	entry = GTK_ENTRY(glade_xml_get_widget(editor->gui, "entry-phone2"));
-	set_phone_field(entry, e_card_simple_get_phone(editor->simple, editor->phone_choice[1]));
+	entry = glade_xml_get_widget(editor->gui, "entry-phone2");
+	if (entry && GTK_IS_ENTRY(entry))
+		set_phone_field(entry, e_card_simple_get_phone(editor->simple, editor->phone_choice[1]));
 
-	entry = GTK_ENTRY(glade_xml_get_widget(editor->gui, "entry-phone3"));
-	set_phone_field(entry, e_card_simple_get_phone(editor->simple, editor->phone_choice[2]));
+	entry = glade_xml_get_widget(editor->gui, "entry-phone3");
+	if (entry && GTK_IS_ENTRY(entry))
+		set_phone_field(entry, e_card_simple_get_phone(editor->simple, editor->phone_choice[2]));
 
-	entry = GTK_ENTRY(glade_xml_get_widget(editor->gui, "entry-phone4"));
-	set_phone_field(entry, e_card_simple_get_phone(editor->simple, editor->phone_choice[3]));
+	entry = glade_xml_get_widget(editor->gui, "entry-phone4");
+	if (entry && GTK_IS_ENTRY(entry))
+		set_phone_field(entry, e_card_simple_get_phone(editor->simple, editor->phone_choice[3]));
 	
-	entry = GTK_ENTRY(glade_xml_get_widget(editor->gui, "entry-email1"));
-	set_field(entry, e_card_simple_get_email(editor->simple, editor->email_choice));
+	entry = glade_xml_get_widget(editor->gui, "entry-email1");
+	if (entry && GTK_IS_ENTRY(entry))
+		set_field(GTK_ENTRY(entry), e_card_simple_get_email(editor->simple, editor->email_choice));
 	
 	set_address_field(editor, -1);
 }
@@ -1013,20 +990,70 @@ set_fields(EContactEditor *editor)
 static void
 set_address_field(EContactEditor *editor, int result)
 {
-	GtkEditable *editable;
-	int position;
-	const ECardAddrLabel *address;
-	if (result == -1)
-		result = editor->address_choice;
-	editor->address_choice = -1;
+	GtkWidget *widget;
+	
+	widget = glade_xml_get_widget(editor->gui, "text-address");
 
-	position = 0;
-	editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "text-address"));
-	gtk_editable_delete_text(editable, 0, -1);
-	address = e_card_simple_get_address(editor->simple, result);
-	if (address && address->data)
-		gtk_editable_insert_text(editable, address->data, strlen(address->data), &position);
-	editor->address_choice = result;
+	if (widget && GTK_IS_TEXT(widget)) {
+		int position;
+		GtkEditable *editable;
+		const ECardAddrLabel *address;
+
+		if (result == -1)
+			result = editor->address_choice;
+		editor->address_choice = -1;
+
+		position = 0;
+		editable = GTK_EDITABLE(widget);
+		gtk_editable_delete_text(editable, 0, -1);
+		address = e_card_simple_get_address(editor->simple, result);
+		if (address && address->data)
+			gtk_editable_insert_text(editable, address->data, strlen(address->data), &position);
+
+		editor->address_choice = result;
+	}
+}
+
+struct {
+	char *id;
+	char *key;
+} field_mapping [] = {
+	{ "entry-fullname", "full_name" },
+	{ "entry-web", "url" },
+	{ "entry-company", "org" },
+	{ "entry-department", "org_unit" },
+	{ "entry-office", "office" },
+	{ "entry-jobtitle", "title" },
+	{ "entry-profession", "role" },
+	{ "entry-manager", "manager" },
+	{ "entry-assistant", "assistant" },
+	{ "entry-nickname", "nickname" },
+	{ "entry-spouse", "spouse" },
+	{ "text-comments", "note" },
+	{ "entry-categories", "categories" },
+};
+
+static void
+fill_in_field(EContactEditor *editor, char *id, char *value)
+{
+	GtkWidget *widget = glade_xml_get_widget(editor->gui, id);
+	if (widget && GTK_IS_EDITABLE(widget)) {
+		int position = 0;
+		GtkEditable *editable = GTK_EDITABLE(widget);
+		gtk_editable_delete_text(editable, 0, -1);
+		if (value)
+			gtk_editable_insert_text(editable, value, strlen(value), &position);
+	}
+}
+
+static void
+fill_in_card_field(EContactEditor *editor, ECard *card, char *id, char *key)
+{
+	char *string;
+	gtk_object_get(GTK_OBJECT(card),
+		       key, &string,
+		       NULL);
+	fill_in_field(editor, id, string);
 }
 
 static void
@@ -1035,130 +1062,45 @@ fill_in_info(EContactEditor *editor)
 	ECard *card = editor->card;
 	if (card) {
 		char *file_as;
-		char *fname;
 		ECardName *name;
-		char *title;
-		char *org;
-		char *org_unit;
-		char *office;
-		char *url;
-		char *role;
-		char *manager;
-		char *assistant;
-		char *nickname;
-		char *spouse;
 		const ECardDate *anniversary;
-		char *note;
 		const ECardDate *bday;
-		char *categories;
-		GtkEditable *editable;
-		int position = 0;
+		int i;
+		GtkWidget *widget;
 
 		gtk_object_get(GTK_OBJECT(card),
 			       "file_as",       &file_as,
 			       "name",          &name,
-			       "full_name",     &fname,
-			       "url",           &url,
-			       "org",           &org,
-			       "org_unit",      &org_unit,
-			       "office",        &office,
-			       "title",         &title,
-			       "role",          &role,
-			       "manager",       &manager,
-			       "assistant",     &assistant,
-			       "nickname",      &nickname,
-			       "spouse",        &spouse,
 			       "anniversary",   &anniversary,
-			       "note",          &note,
 			       "birth_date",    &bday,
-			       "categories",    &categories,
 			       NULL);
+	
+		for (i = 0; i < sizeof(field_mapping) / sizeof(field_mapping[0]); i++) {
+			fill_in_card_field(editor, card, field_mapping[i].id, field_mapping[i].key);
+		}
+
+		/* File as has to come after company and name or else it'll get messed up when setting them. */
+		fill_in_field(editor, "entry-file-as", file_as);
 		
-		position = 0;
-		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "entry-fullname"));
-		gtk_editable_delete_text(editable, 0, -1);
-		if (fname)
-			gtk_editable_insert_text(editable, fname, strlen(fname), &position);
+		e_card_name_free(editor->name);
+		editor->name = e_card_name_copy(name);
 
-		position = 0;
-		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "entry-web"));
-		gtk_editable_delete_text(editable, 0, -1);
-		if (url)
-			gtk_editable_insert_text(editable, url, strlen(url), &position);
-
-		position = 0;
-		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "entry-company"));
-		gtk_editable_delete_text(editable, 0, -1);
-		if (org)
-			gtk_editable_insert_text(editable, org, strlen(org), &position);
-
-		position = 0;
-		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "entry-department"));
-		gtk_editable_delete_text(editable, 0, -1);
-		if (org_unit)
-			gtk_editable_insert_text(editable, org_unit, strlen(org_unit), &position);
-
-		position = 0;
-		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "entry-office"));
-		gtk_editable_delete_text(editable, 0, -1);
-		if (office)
-			gtk_editable_insert_text(editable, office, strlen(office), &position);
-
-		position = 0;
-		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "entry-jobtitle"));
-		gtk_editable_delete_text(editable, 0, -1);
-		if (title)
-			gtk_editable_insert_text(editable, title, strlen(title), &position);
-
-		position = 0;
-		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "entry-manager"));
-		gtk_editable_delete_text(editable, 0, -1);
-		if (manager)
-			gtk_editable_insert_text(editable, manager, strlen(manager), &position);
-
-		position = 0;
-		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "entry-assistant"));
-		gtk_editable_delete_text(editable, 0, -1);
-		if (assistant)
-			gtk_editable_insert_text(editable, assistant, strlen(assistant), &position);
-
-		position = 0;
-		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "entry-nickname"));
-		gtk_editable_delete_text(editable, 0, -1);
-		if (nickname)
-			gtk_editable_insert_text(editable, nickname, strlen(nickname), &position);
-
-		position = 0;
-		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "entry-spouse"));
-		gtk_editable_delete_text(editable, 0, -1);
-		if (spouse)
-			gtk_editable_insert_text(editable, spouse, strlen(spouse), &position);
-
-		if (anniversary) {
+		widget = glade_xml_get_widget(editor->gui, "dateedit-anniversary");
+		if (anniversary && widget && GNOME_IS_DATE_EDIT(widget)) {
 			struct tm time_struct = {0,0,0,0,0,0,0,0,0};
 			time_t time_val;
 			GnomeDateEdit *dateedit;
+
 			time_struct.tm_mday = anniversary->day;
 			time_struct.tm_mon = anniversary->month - 1;
 			time_struct.tm_year = anniversary->year - 1900;
 			time_val = mktime(&time_struct);
-			dateedit = GNOME_DATE_EDIT(glade_xml_get_widget(editor->gui, "dateedit-anniversary"));
+			dateedit = GNOME_DATE_EDIT(widget);
 			gnome_date_edit_set_time(dateedit, time_val);
 		}
 
-		position = 0;
-		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "entry-profession"));
-		gtk_editable_delete_text(editable, 0, -1);
-		if (role)
-			gtk_editable_insert_text(editable, role, strlen(role), &position);
-
-		position = 0;
-		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "text-comments"));
-		gtk_editable_delete_text(editable, 0, -1);
-		if (note)
-			gtk_editable_insert_text(editable, note, strlen(note), &position);
-
-		if (bday) {
+		widget = glade_xml_get_widget(editor->gui, "dateedit-birthday");
+		if (bday && widget && GNOME_IS_DATE_EDIT(widget)) {
 			struct tm time_struct = {0,0,0,0,0,0,0,0,0};
 			time_t time_val;
 			GnomeDateEdit *dateedit;
@@ -1166,25 +1108,30 @@ fill_in_info(EContactEditor *editor)
 			time_struct.tm_mon = bday->month - 1;
 			time_struct.tm_year = bday->year - 1900;
 			time_val = mktime(&time_struct);
-			dateedit = GNOME_DATE_EDIT(glade_xml_get_widget(editor->gui, "dateedit-birthday"));
+			dateedit = GNOME_DATE_EDIT(widget);
 			gnome_date_edit_set_time(dateedit, time_val);
 		}
 
-		position = 0;
-		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "entry-categories"));
-		gtk_editable_delete_text(editable, 0, -1);
-		if (categories)
-			gtk_editable_insert_text(editable, categories, strlen(categories), &position);
-		g_free(categories);
-		
-		/* File as has to come after company and name or else it'll get messed up when setting them. */
-		position = 0;
-		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "entry-file-as"));
-		gtk_editable_delete_text(editable, 0, -1);
-		if (file_as)
-			gtk_editable_insert_text(editable, file_as, strlen(file_as), &position);
-
 		set_fields(editor);
+	}
+}
+
+static void
+extract_field(EContactEditor *editor, ECard *card, char *editable_id, char *key)
+{
+	GtkWidget *widget = glade_xml_get_widget(editor->gui, editable_id);
+	if (widget && GTK_IS_EDITABLE(widget)) {
+		GtkEditable *editable = GTK_EDITABLE(widget);
+		char *string = gtk_editable_get_chars(editable, 0, -1);
+		if (string && *string)
+			gtk_object_set(GTK_OBJECT(card),
+				       key, string,
+				       NULL);
+		else
+			gtk_object_set(GTK_OBJECT(card),
+				       key, NULL,
+				       NULL);
+		g_free(string);
 	}
 }
 
@@ -1193,225 +1140,59 @@ extract_info(EContactEditor *editor)
 {
 	ECard *card = editor->card;
 	if (card) {
-		char *file_as;
-		char *fname;
-		char *url;
-		char *org;
-		char *org_unit;
-		char *office;
-		char *title;
-		char *role;
-		char *manager;
-		char *assistant;
-		char *nickname;
-		char *spouse;
 		ECardDate *anniversary;
-		char *note;
-		char *categories;
 		ECardDate *bday;
-		GtkEditable *editable;
-		GnomeDateEdit *dateedit;
-		int position = 0;
 		struct tm time_struct;
 		time_t time_val;
+		int i;
+		GtkWidget *widget;
 
-		position = 0;
-		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "entry-file-as"));
-		file_as = gtk_editable_get_chars(editable, 0, -1);
-		gtk_object_set(GTK_OBJECT(card),
-			       "file_as", file_as,
-			       NULL);
-		g_free(file_as);
-		
-		position = 0;
-		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "entry-fullname"));
-		fname = gtk_editable_get_chars(editable, 0, -1);
-		if (fname && *fname)
-			gtk_object_set(GTK_OBJECT(card),
-				       "full_name", fname,
-				       NULL);
-		else
-			gtk_object_set(GTK_OBJECT(card),
-				       "full_name", NULL,
-				       NULL);
-		g_free(fname);
+		widget = glade_xml_get_widget(editor->gui, "entry-file-as");
+		if (widget && GTK_IS_EDITABLE(widget)) {
+			GtkEditable *editable = GTK_EDITABLE(widget);
+			char *string = gtk_editable_get_chars(editable, 0, -1);
+			if (string && *string)
+				gtk_object_set(GTK_OBJECT(card),
+					       "file_as", string,
+					       NULL);
+			g_free(string);
+		}
+
+		for (i = 0; i < sizeof(field_mapping) / sizeof(field_mapping[0]); i++) {
+			extract_field(editor, card, field_mapping[i].id, field_mapping[i].key);
+		}
 
 		if (editor->name)
 			gtk_object_set(GTK_OBJECT(card),
 				       "name", editor->name,
 				       NULL);
 
-		position = 0;
-		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "entry-web"));
-		url = gtk_editable_get_chars(editable, 0, -1);
-		if (url && *url)
+		widget = glade_xml_get_widget(editor->gui, "dateedit-anniversary");
+		if (widget && GNOME_IS_DATE_EDIT(widget)) {
+			time_val = gnome_date_edit_get_date(GNOME_DATE_EDIT(widget));
+			gmtime_r(&time_val,
+				 &time_struct);
+			anniversary = g_new(ECardDate, 1);
+			anniversary->day   = time_struct.tm_mday;
+			anniversary->month = time_struct.tm_mon + 1;
+			anniversary->year  = time_struct.tm_year + 1900;
 			gtk_object_set(GTK_OBJECT(card),
-				       "url", url,
+				       "anniversary", anniversary,
 				       NULL);
-		else
-			gtk_object_set(GTK_OBJECT(card),
-				       "url", NULL,
-				       NULL);
-		g_free(url);
+		}
 
-		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "entry-company"));
-		org = gtk_editable_get_chars(editable, 0, -1);
-		if (org && *org)
+		widget = glade_xml_get_widget(editor->gui, "dateedit-birthday");
+		if (widget && GNOME_IS_DATE_EDIT(widget)) {
+			time_val = gnome_date_edit_get_date(GNOME_DATE_EDIT(widget));
+			gmtime_r(&time_val,
+				 &time_struct);
+			bday = g_new(ECardDate, 1);
+			bday->day   = time_struct.tm_mday;
+			bday->month = time_struct.tm_mon + 1;
+			bday->year  = time_struct.tm_year + 1900;
 			gtk_object_set(GTK_OBJECT(card),
-				       "org", org,
+				       "birth_date", bday,
 				       NULL);
-		else
-			gtk_object_set(GTK_OBJECT(card),
-				       "org", NULL,
-				       NULL);
-		g_free(org);
-
-		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "entry-department"));
-		org_unit = gtk_editable_get_chars(editable, 0, -1);
-		if (org_unit && *org_unit)
-			gtk_object_set(GTK_OBJECT(card),
-				       "org_unit", org_unit,
-				       NULL);
-		else
-			gtk_object_set(GTK_OBJECT(card),
-				       "org_unit", NULL,
-				       NULL);
-		g_free(org_unit);
-
-		position = 0;
-		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "entry-office"));
-		office = gtk_editable_get_chars(editable, 0, -1);
-		if (office && *office)
-			gtk_object_set(GTK_OBJECT(card),
-				       "office", office,
-				       NULL);
-		else
-			gtk_object_set(GTK_OBJECT(card),
-				       "office", NULL,
-				       NULL);
-		g_free(office);
-
-		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "entry-jobtitle"));
-		title = gtk_editable_get_chars(editable, 0, -1);
-		if (title && *title)
-			gtk_object_set(GTK_OBJECT(card),
-				       "title", title,
-				       NULL);
-		else
-			gtk_object_set(GTK_OBJECT(card),
-				       "title", NULL,
-				       NULL);
-		g_free(title);
-
-		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "entry-profession"));
-		role = gtk_editable_get_chars(editable, 0, -1);
-		if (role && *role)
-			gtk_object_set(GTK_OBJECT(card),
-				       "role", role,
-				       NULL);
-		else
-			gtk_object_set(GTK_OBJECT(card),
-				       "role", NULL,
-				       NULL);
-		g_free(role);
-
-		position = 0;
-		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "entry-manager"));
-		manager = gtk_editable_get_chars(editable, 0, -1);
-		if (manager && *manager)
-			gtk_object_set(GTK_OBJECT(card),
-				       "manager", manager,
-				       NULL);
-		else
-			gtk_object_set(GTK_OBJECT(card),
-				       "manager", NULL,
-				       NULL);
-		g_free(manager);
-
-		position = 0;
-		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "entry-assistant"));
-		assistant = gtk_editable_get_chars(editable, 0, -1);
-		if (assistant && *assistant)
-			gtk_object_set(GTK_OBJECT(card),
-				       "assistant", assistant,
-				       NULL);
-		else
-			gtk_object_set(GTK_OBJECT(card),
-				       "assistant", NULL,
-				       NULL);
-		g_free(assistant);
-
-		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "entry-nickname"));
-		nickname = gtk_editable_get_chars(editable, 0, -1);
-		if (nickname && *nickname)
-			gtk_object_set(GTK_OBJECT(card),
-				       "nickname", nickname,
-				       NULL);
-		else
-			gtk_object_set(GTK_OBJECT(card),
-				       "nickname", NULL,
-				       NULL);
-		g_free(nickname);
-
-		position = 0;
-		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "entry-spouse"));
-		spouse = gtk_editable_get_chars(editable, 0, -1);
-		if (spouse && *spouse)
-			gtk_object_set(GTK_OBJECT(card),
-				       "spouse", spouse,
-				       NULL);
-		else
-			gtk_object_set(GTK_OBJECT(card),
-				       "spouse", NULL,
-				       NULL);
-		g_free(spouse);
-
-		dateedit = GNOME_DATE_EDIT(glade_xml_get_widget(editor->gui, "dateedit-anniversary"));
-		time_val = gnome_date_edit_get_date(dateedit);
-		gmtime_r(&time_val,
-			 &time_struct);
-		anniversary = g_new(ECardDate, 1);
-		anniversary->day   = time_struct.tm_mday;
-		anniversary->month = time_struct.tm_mon + 1;
-		anniversary->year  = time_struct.tm_year + 1900;
-		gtk_object_set(GTK_OBJECT(card),
-			       "anniversary", anniversary,
-			       NULL);
-
-		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "text-comments"));
-		note = gtk_editable_get_chars(editable, 0, -1);
-		if (note && *note)
-			gtk_object_set(GTK_OBJECT(card),
-				       "note", note,
-				       NULL);
-		else
-			gtk_object_set(GTK_OBJECT(card),
-				       "note", NULL,
-				       NULL);
-		g_free(note);
-
-		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "entry-categories"));
-		categories = gtk_editable_get_chars(editable, 0, -1);
-		if (categories && *categories)
-			gtk_object_set(GTK_OBJECT(card),
-				       "categories", categories,
-				       NULL);
-		else
-			gtk_object_set(GTK_OBJECT(card),
-				       "categories", NULL,
-				       NULL);
-		g_free(categories);
-
-		dateedit = GNOME_DATE_EDIT(glade_xml_get_widget(editor->gui, "dateedit-birthday"));
-		time_val = gnome_date_edit_get_date(dateedit);
-		gmtime_r(&time_val,
-			 &time_struct);
-		bday = g_new(ECardDate, 1);
-		bday->day   = time_struct.tm_mday;
-		bday->month = time_struct.tm_mon + 1;
-		bday->year  = time_struct.tm_year + 1900;
-		gtk_object_set(GTK_OBJECT(card),
-			       "birth_date", bday,
-			       NULL);
+		}
 	}
 }

@@ -1,5 +1,21 @@
 2000-05-18  Christopher James Lahey  <clahey@helixcode.com>
 
+	* backend/ebook/e-card.c: Fixed e_card_name_copy and
+	e_card_arbitrary_copy to deal correctly with a passed NULL.
+
+	* contact-editor/Makefile.am: Removed imagesdir stuff.
+
+	* contact-editor/arrow.png: Made this transparent.
+
+	* contact-editor/contact-editor.glade,
+	contact-editor/e-contact-editor-strings.h: Renamed some widgets
+	and added custom widgets for all of the images.
+
+	* contact-editor/e-contact-editor.c: Worked on making this work
+	decently well with messed up glade files.  Cleaned up a lot of code.
+
+2000-05-18  Christopher James Lahey  <clahey@helixcode.com>
+
 	* backend/ebook/e-card.c: Fixed the code to write out and read in
 	arbitrary fields.
 

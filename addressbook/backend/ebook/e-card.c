@@ -1172,15 +1172,18 @@ e_card_name_free(ECardName *name)
 ECardName *
 e_card_name_copy(const ECardName *name)
 {
-	ECardName *newname = g_new(ECardName, 1);
+	if (name) {
+		ECardName *newname = g_new(ECardName, 1);
+		
+		newname->prefix = g_strdup(name->prefix);
+		newname->given = g_strdup(name->given);
+		newname->additional = g_strdup(name->additional);
+		newname->family = g_strdup(name->family);
+		newname->suffix = g_strdup(name->suffix);
 
-	newname->prefix = g_strdup(name->prefix);
-	newname->given = g_strdup(name->given);
-	newname->additional = g_strdup(name->additional);
-	newname->family = g_strdup(name->family);
-	newname->suffix = g_strdup(name->suffix);
-
-	return newname;
+		return newname;
+	} else
+		return NULL;
 }
 
 char *
@@ -1231,11 +1234,14 @@ e_card_arbitrary_new(void)
 ECardArbitrary *
 e_card_arbitrary_copy(const ECardArbitrary *arbitrary)
 {
-	ECardArbitrary *arb_copy = g_new(ECardArbitrary, 1);
-	arb_copy->key = g_strdup(arbitrary->key);
-	arb_copy->type = g_strdup(arbitrary->type);
-	arb_copy->value = g_strdup(arbitrary->value);
-	return arb_copy;
+	if (arbitrary) {
+		ECardArbitrary *arb_copy = g_new(ECardArbitrary, 1);
+		arb_copy->key = g_strdup(arbitrary->key);
+		arb_copy->type = g_strdup(arbitrary->type);
+		arb_copy->value = g_strdup(arbitrary->value);
+		return arb_copy;
+	} else
+		return NULL;
 }
 
 void
