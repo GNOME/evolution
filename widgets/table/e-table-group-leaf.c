@@ -121,8 +121,7 @@ etgl_cursor_activated (GtkObject *object, gint row, ETableGroupLeaf *etgl)
 static void
 etgl_double_click (GtkObject *object, gint row, gint col, GdkEvent *event, ETableGroupLeaf *etgl)
 {
-	if (row < E_TABLE_SUBSET(etgl->ets)->n_map)
-		e_table_group_double_click (E_TABLE_GROUP(etgl), E_TABLE_SUBSET(etgl->ets)->map_table[row], col, event);
+	e_table_group_double_click (E_TABLE_GROUP(etgl), row, col, event);
 }
 
 static gint
