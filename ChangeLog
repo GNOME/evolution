@@ -1,3 +1,8 @@
+2001-01-03  Christopher James Lahey  <clahey@helixcode.com>
+
+	* configure.in (EVOLUTION_DIR): Removed
+	camel/providers/mbox/Makefile and camel/providers/mh/Makefile.
+
 2001-01-01  Michael Meeks  <michael@helixcode.com>
 
 	* configure.in: Require bonobo 0.31
