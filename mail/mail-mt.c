@@ -95,8 +95,14 @@ void *mail_msg_new(mail_msg_op_t *ops, EMsgPort *reply_port, size_t size)
 		log_ops = getenv("EVOLUTION_MAIL_LOG_OPS") != NULL;
 		log_locks = getenv("EVOLUTION_MAIL_LOG_LOCKS") != NULL;
 		log = fopen("evolution-mail-ops.log", "w+");
-		setvbuf(log, NULL, _IOLBF, 0);
-		fprintf(log, "Started evolution-mail: %s\n", ctime(&now));
+		if (log) {
+			setvbuf(log, NULL, _IOLBF, 0);
+			fprintf(log, "Started evolution-mail: %s\n", ctime(&now));
+			g_warning("Logging mail operations to evolution-mail-ops.log");
+		} else {
+			g_warning ("Could not open log file: %s", g_strerror (errno));
+			log_ops = log_locks = FALSE;
+		}
 #ifdef LOG_OPS
 		if (log_ops)
 			fprintf(log, "Logging async operations\n");
@@ -107,7 +113,6 @@ void *mail_msg_new(mail_msg_op_t *ops, EMsgPort *reply_port, size_t size)
 			fprintf(log, "%ld: lock mail_msg_lock\n", pthread_self());
 		}
 #endif
-		g_warning("Logging mail operations to evolution-mail-ops.log");
 	}
 #endif
 	msg = g_malloc0(size);

@@ -1,3 +1,9 @@
+2001-10-23  Dan Winship  <danw@ximian.com>
+
+	* mail-mt.c (mail_msg_new): If the fopen() fails (eg, because
+	evolution-mail was started by oafd with PWD=/), don't try to use
+	the NULL file handle.
+
 2001-10-23    <NotZed@Ximian.com>
 
 	* mail-session.c (get_password): Completely re-done.  We now hae a
