@@ -387,7 +387,9 @@ e_shortcut_bar_add_group	(EShortcutBar	*shortcut_bar,
 			    GTK_SIGNAL_FUNC (e_shortcut_bar_on_drag_end),
 			    shortcut_bar);
 
+#ifndef E_USE_STYLES
 	e_shortcut_bar_set_canvas_style (shortcut_bar, group->icon_bar);
+#endif
 
 	button = gtk_button_new ();
 	label = e_clipped_label_new (group_name);

@@ -1,3 +1,22 @@
+2000-08-16  Larry Ewing  <lewing@helixcode.com>
+
+	* e-icon-bar.h (enum): get rid of COLOR_TEXT.
+	(struct _EIconBarItem): add pixbuf member to hold unmodified
+	pixbuf.
+
+	* e-icon-bar.c (e_icon_bar_style_set): update the image and the
+	colors based on the new style.
+	(e_icon_bar_add_item): store the full alpha pixbuf so that we can
+	update the background color if the style changes.  Use the style
+	colors where appropriate.
+	(e_icon_bar_on_editing_stopped): revert to style colors.
+	(e_icon_bar_on_editing_started): use style fg instead of
+	COLOR_TEXT.
+	
+	* e-shortcut-bar.c (e_shortcut_bar_add_group): add an #ifndef
+	E_USE_STYLES around the call to e_shortcut_bar_set_canvas_style to
+	allow people to test out the style stuff that is in progress.
+	
 2000-07-16  Damon Chaplin  <damon@helixcode.com>
 
 	* e-shortcut-model.[hc]: new files implementing a simple model for
