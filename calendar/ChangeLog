@@ -1,5 +1,12 @@
 2003-02-26  Hans Petter Jansson  <hpj@ximian.com>
 
+	This makes creating appointments and tasks from the "New" button work.
+
+	* gui/main.c (comp_editor_factory_fn): Doesn't need to take any args.
+	(factory): Add a handler for CompEditorFactory.
+
+2003-02-26  Hans Petter Jansson  <hpj@ximian.com>
+
 	Fixes Ximian #37895.
 
 	* gui/e-day-view.c (e_day_view_destroy): g_object_unref () ->

@@ -52,11 +52,12 @@
 
 #define FACTORY_ID "OAFIID:GNOME_Evolution_Calendar_Factory"
 
-#define CALENDAR_COMPONENT_ID "OAFIID:GNOME_Evolution_Calendar_ShellComponent"
-#define CALENDAR_CONTROL_ID   "OAFIID:GNOME_Evolution_Calendar_Control"
-#define TASKS_CONTROL_ID      "OAFIID:GNOME_Evolution_Tasks_Control"
-#define ITIP_CONTROL_ID       "OAFIID:GNOME_Evolution_Calendar_iTip_Control"
-#define CONFIG_CONTROL_ID     "OAFIID:GNOME_Evolution_Calendar_ConfigControl"
+#define CALENDAR_COMPONENT_ID  "OAFIID:GNOME_Evolution_Calendar_ShellComponent"
+#define CALENDAR_CONTROL_ID    "OAFIID:GNOME_Evolution_Calendar_Control"
+#define TASKS_CONTROL_ID       "OAFIID:GNOME_Evolution_Tasks_Control"
+#define ITIP_CONTROL_ID        "OAFIID:GNOME_Evolution_Calendar_iTip_Control"
+#define CONFIG_CONTROL_ID      "OAFIID:GNOME_Evolution_Calendar_ConfigControl"
+#define COMP_EDITOR_FACTORY_ID "OAFIID:GNOME_Evolution_Calendar_CompEditorFactory"
 
 ECompEditorRegistry *comp_editor_registry = NULL;
 
@@ -68,7 +69,7 @@ static CompEditorFactory *comp_editor_factory = NULL;
  * references a singleton service object.
  */
 static BonoboObject *
-comp_editor_factory_fn (BonoboGenericFactory *factory, const char *id, void *data)
+comp_editor_factory_fn (void)
 {
 	if (!comp_editor_factory) {
 		comp_editor_factory = comp_editor_factory_new ();
@@ -169,6 +170,8 @@ factory (BonoboGenericFactory *factory,
 		else
 			return BONOBO_OBJECT (cal_prefs_dialog_new ());
 	}
+	if (strcmp (component_id, COMP_EDITOR_FACTORY_ID) == 0)
+		return BONOBO_OBJECT (comp_editor_factory_fn ());
 
 	g_warning (FACTORY_ID ": Don't know what to do with %s", component_id);
 	return NULL;
