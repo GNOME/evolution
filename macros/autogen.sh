@@ -89,7 +89,7 @@ do
 	if grep "sed.*POTFILES" configure.in >/dev/null; then
 	  : do nothing -- we still have an old unmodified configure.in
 	else
-	  echo "Creating $d4/aclocal.m4 ..."
+	  echo "Creating $dr/aclocal.m4 ..."
 	  test -r $dr/aclocal.m4 || touch $dr/aclocal.m4
 	  echo "Running gettextize...  Ignore non-fatal messages."
 	  echo "no" | gettextize --force --copy
