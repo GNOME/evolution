@@ -53,6 +53,8 @@ evolution_mail_SOURCES =		\
 	mail-threads.h			\
 	mail-types.h			\
 	mail-vfolder.c			\
+	mail-vfolder.h			\
+	mail-local.c			\
 	mail-view.c			\
 	main.c				\
 	message-list.c			\
@@ -108,7 +110,7 @@ gnorba_DATA = $(GOAD_FILES)
 endif
 
 gladedir   = $(datadir)/evolution/glade
-glade_DATA = mail-config.glade mail-config-druid.glade
+glade_DATA = mail-config.glade mail-config-druid.glade local-config.glade
 
 iconsdir = $(datadir)/images/evolution
 

@@ -1,3 +1,24 @@
+2000-08-07  Not Zed  <NotZed@HelixCode.com>
+
+	* mail-local.c (local_reconfigure_folder): Redone to show a
+	dialogue first, and show progress of whats happening as its done.
+
+	* Makefile.am (glade_DATA): Added local-config.glade, for mailbox
+	reconfig dialogue.
+
+2000-08-04  Not Zed  <NotZed@HelixCode.com>
+
+	* folder-browser.c (mail_uri_to_folder): Use local_uri_to_folder()
+	for local uri's (file://).
+
+	* mail-local.c (local_uri_to_folder): Handle looking up folder
+	storage type before opening the store/folder.
+	(local_reconfigure_folder): Function to reconfigure the format of
+	a local mailbox into another storage format.
+
+	* Makefile.am (evolution_mail_SOURCES): Added mail-local.c and
+	missing mail-vfolder.h.
+
 2000-08-07  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* Makefile.am: Added mail-view.c

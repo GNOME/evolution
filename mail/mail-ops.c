@@ -1029,6 +1029,15 @@ print_msg (GtkWidget *button, gpointer user_data)
 	gtk_object_unref (GTK_OBJECT (print_master));
 }
 
+void
+configure_folder(BonoboUIHandler *uih, void *user_data, const char *path)
+{
+	FolderBrowser *fb = FOLDER_BROWSER(user_data);
+
+	local_reconfigure_folder(fb);
+}
+
+
 struct view_msg_data {
 	FolderBrowser *fb;
 	CamelException *ex;
@@ -1072,3 +1081,4 @@ view_message (BonoboUIHandler *uih, void *user_data, const char *path)
 		return;
 	}
 }
+

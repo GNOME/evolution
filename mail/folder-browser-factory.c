@@ -115,6 +115,13 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 					 0,
 					 0, 0, forget_passwords, NULL);
 	
+
+	bonobo_ui_handler_menu_new_item (uih, "/Tools/Configure Folder", _("_Configure Folder"),
+					 NULL, -1,
+					 BONOBO_UI_HANDLER_PIXMAP_NONE,
+					 0,
+					 0, 0, configure_folder, folder_browser);
+	
 	toolbar = gtk_toolbar_new (GTK_ORIENTATION_HORIZONTAL,
 				   GTK_TOOLBAR_BOTH);
 
@@ -155,6 +162,7 @@ control_deactivate (BonoboControl *control, BonoboUIHandler *uih,
 	bonobo_ui_handler_menu_remove (uih, "/Tools/vFolder Editor ...");
 	bonobo_ui_handler_menu_remove (uih, "/Tools/Mail Configuration ...");
 	bonobo_ui_handler_menu_remove (uih, "/Tools/Forget Passwords");
+	bonobo_ui_handler_menu_remove (uih, "/Tools/Configure Folder");
 	bonobo_ui_handler_dock_remove (uih, toolbar_name);
 	g_free (toolbar_name);
 }

@@ -23,6 +23,8 @@
 #include "filter/filter-option.h"
 #include "filter/filter-input.h"
 
+#include "mail-local.h"
+
 #define PARENT_TYPE (gtk_table_get_type ())
 
 static GtkObjectClass *folder_browser_parent_class;
@@ -66,7 +68,7 @@ folder_browser_class_init (GtkObjectClass *object_class)
 CamelFolder *
 mail_uri_to_folder (const char *name)
 {
-	char *store_name, *msg;
+	char *msg;
 	CamelStore *store = NULL;
 	CamelFolder *folder = NULL;
 	CamelException *ex;
@@ -122,13 +124,7 @@ mail_uri_to_folder (const char *name)
 			folder = camel_store_get_folder (store, folder_name, FALSE, ex);
 		}
 	} else if (!strncmp (name, "file:", 5)) {
-		/* Change "file:" to "mbox:". */
-		store_name = g_strdup_printf ("mbox:%s", name + 5);
-		store = camel_session_get_store (session, store_name, ex);
-		g_free (store_name);
-		if (store) {
-			folder = camel_store_get_folder (store, "mbox", FALSE, ex);
-		}
+		folder = local_uri_to_folder(name, ex);
 	} else {
 		msg = g_strdup_printf ("Can't open URI %s", name);
 		gnome_error_dialog (msg);
