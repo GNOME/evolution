@@ -25,6 +25,7 @@
 #include <gnome.h>
 #include <glade/glade.h>
 #include <e-util/e-dialog-widgets.h>
+#include <e-util/e-unicode.h>
 #include <cal-util/timeutil.h>
 #include "event-editor.h"
 
@@ -1942,14 +1943,14 @@ append_exception (EventEditor *ee, time_t t)
 
 	priv = ee->priv;
 
-	c[0] = get_exception_string (t);
-
 	tt = g_new (time_t, 1);
 	*tt = t;
 
 	clist = GTK_CLIST (priv->recurrence_exceptions_list);
 
-	i = gtk_clist_append (clist, c);
+	c[0] = get_exception_string (t);
+	i = e_utf8_gtk_clist_append (clist, c);
+
 	gtk_clist_set_row_data (clist, i, tt);
 	gtk_clist_select_row (clist, i, 0);
 
@@ -2014,7 +2015,7 @@ recurrence_exception_changed (GtkWidget *widget, EventEditor *ee)
 	t = gtk_clist_get_row_data (clist, sel);
 	*t = e_dialog_dateedit_get (priv->recurrence_exceptions_date);
 
-	gtk_clist_set_text (clist, sel, 0, get_exception_string (*t));
+	e_utf8_gtk_clist_set_text (clist, sel, 0, get_exception_string (*t));
 }
 
 

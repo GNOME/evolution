@@ -8,6 +8,7 @@
 #include "e-text.h"
 #include <gnome.h>
 #include "e-util/e-canvas.h"
+#include "e-util/e-unicode.h"
 GnomeCanvasItem *rect;
 
 static void allocate_callback(GtkWidget *canvas, GtkAllocation *allocation, GnomeCanvasItem *item)
@@ -55,7 +56,7 @@ change_text_cb (GtkEntry *entry,
 {
   gchar *str;
 
-  str = gtk_entry_get_text (entry);
+  str = e_utf8_gtk_entry_get_text (entry);
   gnome_canvas_item_set (GNOME_CANVAS_ITEM (text),
 			 "text", str,
 			 NULL);

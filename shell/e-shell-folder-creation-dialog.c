@@ -30,6 +30,7 @@
 
 #include "e-util/e-gui-utils.h"
 #include "e-util/e-util.h"
+#include "e-util/e-unicode.h"
 
 #include "widgets/misc/e-scroll-frame.h"
 
@@ -117,7 +118,7 @@ dialog_clicked_cb (GnomeDialog *dialog,
 	GtkWidget *folder_type_menu_item;
 	const char *folder_type;
 	const char *parent_path;
-	const char *folder_name;
+	char *folder_name;
 	char *path;
 
 	if (button_number != 0) {
@@ -141,8 +142,9 @@ dialog_clicked_cb (GnomeDialog *dialog,
 		return;
 	}
 
-	folder_name = gtk_entry_get_text (GTK_ENTRY (dialog_data->folder_name_entry));
+	folder_name = e_utf8_gtk_entry_get_text (GTK_ENTRY (dialog_data->folder_name_entry));
 	path = g_concat_dir_and_file (parent_path, folder_name);
+	g_free (folder_name);
 
 	storage_set = e_shell_get_storage_set (dialog_data->shell);
 

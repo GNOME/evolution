@@ -359,8 +359,8 @@ file_as_set_style(EContactEditor *editor, int style)
 		
 
 	if (style == -1) {
-		string = gtk_entry_get_text(file_as);
-		strings = g_list_append(strings, g_strdup(string));
+		string = e_utf8_gtk_entry_get_text(file_as);
+		strings = g_list_append(strings, string);
 	}
 
 	widget = glade_xml_get_widget(editor->gui, "combo-file-as");

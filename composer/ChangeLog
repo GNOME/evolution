@@ -1,3 +1,7 @@
+2000-09-02  Lauris Kaplinski  <lauris@helixcode.com>
+
+	* e-msg-composer-address-dialog.c: Use e_utf8 wrappers
+
 2000-09-01  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* e-msg-composer.c (e_msg_composer_get_sig_file): This needs to

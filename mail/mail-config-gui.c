@@ -1727,7 +1727,7 @@ identities_add_clicked (GtkWidget *widget, MailDialog *dialog)
 		text[2] = id->org;
 		text[3] = id->sig;
 
-		row = gtk_clist_append (GTK_CLIST (clist), text);
+		row = e_utf8_gtk_clist_append (GTK_CLIST (clist), text);
 		gtk_clist_set_row_data (GTK_CLIST (clist), row, id);
 		gtk_clist_select_row (GTK_CLIST (clist), row, 0);
 		dialog->maxidrow++;
@@ -1751,10 +1751,10 @@ identities_edit_clicked (GtkWidget *widget, MailDialog *dialog)
 	if (id2) {
 		GtkCList *clist = GTK_CLIST (dialog->clistIdentities);
 	
-		gtk_clist_set_text (clist, dialog->idrow, 0, id2->name);
-		gtk_clist_set_text (clist, dialog->idrow, 1, id2->address);
-		gtk_clist_set_text (clist, dialog->idrow, 2, id2->org);
-		gtk_clist_set_text (clist, dialog->idrow, 3, id2->sig);
+		e_utf8_gtk_clist_set_text (clist, dialog->idrow, 0, id2->name);
+		e_utf8_gtk_clist_set_text (clist, dialog->idrow, 1, id2->address);
+		e_utf8_gtk_clist_set_text (clist, dialog->idrow, 2, id2->org);
+		e_utf8_gtk_clist_set_text (clist, dialog->idrow, 3, id2->sig);
 	
 		gtk_clist_set_row_data (clist, dialog->idrow, id2);
 		identity_destroy (id);
@@ -1804,7 +1804,7 @@ sources_add_clicked (GtkWidget *widget, MailDialog *dialog)
 		
 		text[0] = source->url;
 		
-		row = gtk_clist_append (clist, text);
+		row = e_utf8_gtk_clist_append (clist, text);
 		gtk_clist_set_row_data (clist, row, source);
 		gtk_clist_select_row (clist, row, 0);
 		dialog->maxsrow++;
@@ -1828,7 +1828,7 @@ sources_edit_clicked (GtkWidget *widget, MailDialog *dialog)
 	if (source2) {
 		GtkCList *clist = GTK_CLIST (dialog->clistSources);
 		
-		gtk_clist_set_text (clist, dialog->srow, 0, source2->url);
+		e_utf8_gtk_clist_set_text (clist, dialog->srow, 0, source2->url);
 		gtk_clist_set_row_data (clist, dialog->srow, source2);
 		service_destroy (source);
 
@@ -1877,7 +1877,7 @@ news_add_clicked (GtkWidget *widget, MailDialog *dialog)
 		
 		text[0] = news->url;
 
-		row = gtk_clist_append (clist, text);
+		row = e_utf8_gtk_clist_append (clist, text);
 		gtk_clist_set_row_data (clist, row, news);
 		gtk_clist_select_row (clist, row, 0);
 		dialog->maxnrow++;
@@ -1901,7 +1901,7 @@ news_edit_clicked (GtkWidget *widget, MailDialog *dialog)
 	if (news2) {
 		GtkCList *clist = GTK_CLIST (dialog->clistNews);
 		
-		gtk_clist_set_text (clist, dialog->nrow, 0, news2->url);
+		e_utf8_gtk_clist_set_text (clist, dialog->nrow, 0, news2->url);
 		gtk_clist_set_row_data (clist, dialog->nrow, news2);
 		service_destroy (news);
 
@@ -2074,7 +2074,7 @@ mail_config (Evolution_Shell shell)
 		text[2] = id->org;
 		text[3] = id->sig;
 		
-	 	row = gtk_clist_append (clist, text);
+	 	row = e_utf8_gtk_clist_append (clist, text);
 		gtk_clist_set_row_data (clist, row, id);
 	}
 
@@ -2114,7 +2114,7 @@ mail_config (Evolution_Shell shell)
 		
 		text[0] = source->url;
 
-	 	row = gtk_clist_append (clist, text);
+	 	row = e_utf8_gtk_clist_append (clist, text);
 		gtk_clist_set_row_data (clist, row, source);
 	}
 
@@ -2154,7 +2154,7 @@ mail_config (Evolution_Shell shell)
 		
 		text[0] = news->url;
 
-	 	row = gtk_clist_append (clist, text);
+	 	row = e_utf8_gtk_clist_append (clist, text);
 		gtk_clist_set_row_data (clist, row, news);
 	}
 

@@ -23,6 +23,7 @@
 
 #include "e-util/e-gui-utils.h"
 #include "e-util/e-cursors.h"
+#include "e-util/e-unicode.h"
 
 #include "component-factory.h"
 #include "mail.h"
@@ -56,6 +57,8 @@ main (int argc, char *argv [])
 #endif
 
 	glade_gnome_init ();
+
+	e_unicode_init ();
 
 	session_init ();
 	e_cursors_init ();

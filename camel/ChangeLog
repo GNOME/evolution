@@ -1,3 +1,7 @@
+2000-09-02  Lauris Kaplinski  <lauris@helixcode.com>
+
+	* camel-folder-search (search_header_contains): Use e_utf8_strstrcase
+
 2000-09-01  Christopher James Lahey  <clahey@helixcode.com>
 
 	* providers/imap/camel-imap-utils.c: Removed some unused

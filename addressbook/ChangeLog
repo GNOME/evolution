@@ -1,3 +1,9 @@
+2000-09-02  Lauris kaplinski  <lauris@helixcode.com>
+
+	* contact-editor/e-contact-editor-categories.c: e_utf8 wrappers
+
+	* contact-editor/e-contact-editor.c: e_utf8 wrappers
+
 2000-09-01  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* gui/component/e-ldap-storage.c (load_ldap_data): Updated for the

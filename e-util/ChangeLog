@@ -1,3 +1,9 @@
+2000-09-02  Lauris Kaplinski  <lauris@helixcode.com>
+
+	* e-unicode.h, e-unicode.c: New functions
+	e_utf8_gtk_clist_append, e_utf8_gtk_clist_set_text
+	e_unicode_init
+
 2000-08-31  Lauris Kaplinski  <lauris@helixcode.com>
 
 	* e-html-utils.c (e_text_to_html): Use UTF-8

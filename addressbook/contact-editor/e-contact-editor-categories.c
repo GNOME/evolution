@@ -218,7 +218,7 @@ e_contact_editor_categories_entry_change (GtkWidget *entry,
 					  EContactEditorCategories *categories)
 {
 	g_free(categories->categories);
-	categories->categories = g_strdup(gtk_entry_get_text(GTK_ENTRY(entry)));
+	categories->categories = e_utf8_gtk_entry_get_text(GTK_ENTRY(entry));
 	do_parse_categories(categories);
 }
 
@@ -342,7 +342,7 @@ e_contact_editor_categories_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	
 	switch (arg_id){
 	case ARG_CATEGORIES:
-		gtk_entry_set_text(GTK_ENTRY(e_contact_editor_categories->entry), GTK_VALUE_STRING (*arg));
+		e_utf8_gtk_entry_set_text(GTK_ENTRY(e_contact_editor_categories->entry), GTK_VALUE_STRING (*arg));
 		break;
 	}
 }
@@ -407,7 +407,7 @@ e_contact_editor_categories_set_value_at (ETableModel *etc, int col, int row, co
 		}
 		strs[j] = 0;
 		string = g_strjoinv(", ", strs);
-		gtk_entry_set_text(GTK_ENTRY(categories->entry), string);
+		e_utf8_gtk_entry_set_text(GTK_ENTRY(categories->entry), string);
 		g_free(string);
 		g_free(strs);
 	}

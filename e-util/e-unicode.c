@@ -11,6 +11,17 @@
 #include <gdk/gdk.h>
 #include "e-unicode.h"
 
+void
+e_unicode_init (void)
+{
+	static gboolean initialized = FALSE;
+
+	if (!initialized) {
+		unicode_init ();
+		initialized = TRUE;
+	}
+}
+
 const gchar *
 e_utf8_strstrcase (const gchar *haystack, const gchar *needle)
 {
@@ -85,7 +96,7 @@ e_utf8_from_gtk_event_key (GtkWidget *widget, guint keyval, const gchar *string)
 	if (!string) return NULL;
 
 	if (!uinit) {
-		unicode_init ();
+		e_unicode_init ();
 		uiconv = unicode_iconv_open ("UTF-8", "iso-8859-1");
 		if (uiconv == (unicode_iconv_t) -1) {
 			uerror = TRUE;
@@ -123,7 +134,7 @@ e_utf8_from_gtk_string (GtkWidget *widget, const gchar *string)
 	if (!string) return NULL;
 
 	if (!uinit) {
-		unicode_init ();
+		e_unicode_init ();
 		uiconv = unicode_iconv_open ("UTF-8", "iso-8859-1");
 		if (uiconv == (unicode_iconv_t) -1) {
 			uerror = TRUE;
@@ -160,7 +171,7 @@ e_utf8_to_gtk_string (GtkWidget *widget, const gchar *string)
 	if (!string) return NULL;
 
 	if (!uinit) {
-		unicode_init ();
+		e_unicode_init ();
 		uiconv = unicode_iconv_open ("iso-8859-1", "UTF-8");
 		if (uiconv == (unicode_iconv_t) -1) {
 			uerror = TRUE;
@@ -231,6 +242,39 @@ e_utf8_gtk_menu_item_new_with_label (const gchar *label)
 	if (s) g_free (s);
 
 	return w;
+}
+
+void
+e_utf8_gtk_clist_set_text (GtkCList *clist, gint row, gint col, const gchar *text)
+{
+	gchar *s;
+
+	if (!text) return;
+
+	s = e_utf8_to_gtk_string ((GtkWidget *) clist, text);
+	gtk_clist_set_text (clist, row, col, s);
+
+	if (s) g_free (s);
+}
+
+gint
+e_utf8_gtk_clist_append (GtkCList *clist, gchar *text[])
+{
+	gint row, i;
+	gchar **v;
+
+	if (!text) return 0;
+
+	v = g_new (gchar *, clist->columns);
+	for (i = 0; i < clist->columns; i++)
+		v[i] = e_utf8_to_gtk_string ((GtkWidget *) clist, text[i]);
+
+	row = gtk_clist_append (clist, v);
+
+	for (i = 0; i < clist->columns; i++)
+		if (v[i]) g_free (v[i]);
+
+	return row;
 }
 
 /**

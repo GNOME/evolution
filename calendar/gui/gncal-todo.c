@@ -7,6 +7,7 @@
 
 #include <config.h>
 #include <gnome.h>
+#include "e-util/e-unicode.h"
 #include "event-editor.h"
 #include "gncal-todo.h"
 
@@ -177,7 +178,7 @@ gncal_todo_edit (CalClient *client, CalComponent *comp)
 
 	entry = gtk_entry_new ();
 	cal_component_get_summary (comp, &text);
-	gtk_entry_set_text (GTK_ENTRY (entry), text.value);
+	e_utf8_gtk_entry_set_text (GTK_ENTRY (entry), text.value);
 	gtk_box_pack_start (GTK_BOX (hbox), entry, TRUE, TRUE, 0);
 	gtk_widget_show (entry);
 

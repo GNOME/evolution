@@ -1,3 +1,9 @@
+2000-09-02  Lauris Kaplinski  <lauris@helixcode.com>
+
+	* gui/event-editor.c: e_utf8 wrappers
+
+	* gui/gncal-todo.c: e_utf8_wrappers
+	
 2000-09-02  Christopher James Lahey  <clahey@helixcode.com>
 
 	* conduits/calendar/calendar-conduit.c,

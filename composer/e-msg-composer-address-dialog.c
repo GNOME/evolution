@@ -23,6 +23,7 @@
 
 #include <gnome.h>
 #include "e-msg-composer-address-dialog.h"
+#include <e-util/e-unicode.h>
 
 
 enum {
@@ -53,7 +54,7 @@ load_addresses (EMsgComposerAddressDialog *dialog)
 	clist = GTK_CLIST (glade_xml_get_widget (dialog->gui, "address_clist"));
 
 	for (i = 0; text[i][0] != NULL; i++)
-		gtk_clist_append (clist, text[i]);
+		e_utf8_gtk_clist_append (clist, text[i]);
 }
 
 /* Combine name and email into an address, e.g. "Ettore Perazzoli
@@ -89,12 +90,15 @@ add_address (EMsgComposerAddressDialog *dialog,
 	gtk_clist_get_text (src_clist, row, 0, &name);
 	gtk_clist_get_text (src_clist, row, 1, &email);
 
+	name = e_utf8_from_gtk_string ((GtkWidget *) src_clist, name);
+
 	text[0] = make_full_address (name, email);
 	text[1] = NULL;
 
-	gtk_clist_append (dest_clist, text);
+	e_utf8_gtk_clist_append (dest_clist, text);
 
 	g_free (text[0]);
+	g_free (name);
 }
 
 static void
@@ -570,7 +574,7 @@ set_list (EMsgComposerAddressDialog *dialog,
 	text[1] = NULL;
 	for (p = list; p != NULL; p = p->next) {
 		text[0] = (gchar *) p->data;
-		gtk_clist_append (clist, text);
+		e_utf8_gtk_clist_append (clist, text);
 	}
 
 	gtk_clist_thaw (clist);

@@ -12,6 +12,8 @@
 #define gnome_font_lookup_default gnome_font_get_glyph
 #endif
 
+void e_unicode_init (void);
+
 /*
  * e_utf8_strstrcase
  */
@@ -31,15 +33,18 @@ gchar * e_utf8_to_gtk_string (GtkWidget *widget, const gchar *string);
 /* NB! This return newly allocated string, not const as gtk+ one */
 
 gchar *e_utf8_gtk_entry_get_text (GtkEntry *entry);
-
 void e_utf8_gtk_entry_set_text (GtkEntry *entry, const gchar *text);
 
 gchar *e_utf8_gtk_editable_get_chars (GtkEditable *editable, gint start, gint end);
 
 GtkWidget *e_utf8_gtk_menu_item_new_with_label (const gchar *label);
 
+void e_utf8_gtk_clist_set_text (GtkCList *clist, gint row, gint col, const gchar *text);
+gint e_utf8_gtk_clist_append (GtkCList *clist, gchar *text[]);
+
 gint g_unichar_to_utf8 (gint c, gchar *outbuf);
 guint32 gdk_keyval_to_unicode (guint keysym);
 
 #endif
+
 

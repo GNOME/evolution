@@ -1,3 +1,7 @@
+2000-09-02  Lauris Kaplinski  <lauris@helixcode.com>
+
+	* e-shell-folder-creation-dialog.c: Use e_utf8 wrappers
+
 2000-09-01  Chris Toshok  <toshok@helixcode.com>
 
 	* e-storage-set-view.c (removed_folder_cb): free node_data.
