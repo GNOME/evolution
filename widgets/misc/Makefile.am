@@ -26,7 +26,6 @@ widgetsinclude_HEADERS =			\
 	e-dateedit.h				\
 	e-dropdown-button.h			\
 	e-map.h					\
-	e-messagebox.h				\
 	e-multi-config-dialog.h			\
 	e-search-bar.h				\
 	e-title-bar.h				\
@@ -45,7 +44,6 @@ libemiscwidgets_la_SOURCES =			\
 	e-dateedit.c				\
 	e-dropdown-button.c			\
 	e-map.c					\
-	e-messagebox.c				\
 	e-multi-config-dialog.c			\
 	e-search-bar.c				\
 	e-title-bar.c				\

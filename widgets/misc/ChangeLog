@@ -4,6 +4,11 @@
 	from empty.xpm rather than just calling gdk_pixbuf_new(), which
 	doesn't actually initialize the pixel data.
 
+	* e-messagebox.c: Remove this, since it claims to be deprecated,
+	and nothing is actually using it any more.
+	
+	* Makefile.am: Remove e-messagebox.[ch]
+
 2003-07-11  Federico Mena Quintero  <federico@ximian.com>
 
 	* e-dateedit.c (e_date_edit_mnemonic_activate): Added a handler
