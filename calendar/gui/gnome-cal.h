@@ -26,7 +26,6 @@
 #define GNOME_CALENDAR_APP_H
 
 #include <time.h>
-#include <libgnome/gnome-defs.h>
 #include <gtk/gtkvbox.h>
 #include <bonobo/bonobo-ui-component.h>
 #include <gal/widgets/e-popup-menu.h>
@@ -35,7 +34,7 @@
 
 #include "e-calendar-table.h"
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 
 
@@ -171,6 +170,6 @@ void       gnome_calendar_delete_selection	(GnomeCalendar  *gcal);
 
 
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif

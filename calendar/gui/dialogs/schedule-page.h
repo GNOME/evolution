@@ -24,7 +24,7 @@
 #include "../e-meeting-model.h"
 #include "comp-editor-page.h"
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 
 
@@ -54,6 +54,6 @@ SchedulePage *schedule_page_new       (EMeetingModel *emm);
 
 
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif

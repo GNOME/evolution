@@ -27,7 +27,7 @@
 #include "../e-meeting-model.h"
 #include "comp-editor-page.h"
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 
 
@@ -61,6 +61,6 @@ CalComponent *meeting_page_get_cancel_comp   (MeetingPage   *mpage);
 
 
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif

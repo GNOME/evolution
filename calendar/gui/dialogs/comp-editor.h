@@ -22,7 +22,7 @@
 #define COMP_EDITOR_H
 
 #include <gtk/gtk.h>
-#include <bonobo/bonobo-win.h>
+#include <bonobo/bonobo-window.h>
 #include <bonobo/bonobo-ui-engine.h>
 #include <bonobo/bonobo-ui-component.h>
 #include "cal-client.h"
@@ -30,7 +30,7 @@
 #include "comp-editor-page.h"
 #include "evolution-shell-component-utils.h"
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 
 
@@ -104,6 +104,6 @@ void          comp_editor_focus            (CompEditor             *editor);
 
 
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif

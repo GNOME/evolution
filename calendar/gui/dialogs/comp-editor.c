@@ -28,12 +28,11 @@
 #include <unistd.h>
 #include <glib.h>
 #include <gdk/gdkkeysyms.h>
-#include <libgnome/gnome-defs.h>
+#include <gtk/gtkstock.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-uidefs.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-dialog-util.h>
-#include <libgnomeui/gnome-stock.h>
 #include <libgnomeui/gnome-window-icon.h>
 #include <libgnomeui/gnome-messagebox.h>
 #include <bonobo/bonobo-ui-container.h>
@@ -204,22 +203,23 @@ setup_widgets (CompEditor *editor)
 	priv = editor->priv;
 
 	/* Window and basic vbox */
-	bonobo_window_construct (BONOBO_WINDOW (editor),
-				 "event-editor", "iCalendar Editor");
+	container = bonobo_ui_container_new ();
+	editor = (CompEditor *) bonobo_window_construct (BONOBO_WINDOW (editor), container,
+							 "event-editor", "iCalendar Editor");
 	gtk_signal_connect (GTK_OBJECT (editor), "delete_event",
 			    GTK_SIGNAL_FUNC (delete_event_cb), editor);
 
 	priv->uic = bonobo_ui_component_new_default ();
-	container = bonobo_ui_container_new ();
-	bonobo_ui_container_set_win (container, BONOBO_WINDOW (editor));
-	bonobo_ui_component_set_container (priv->uic, BONOBO_OBJREF (container));
+	bonobo_ui_component_set_container (priv->uic,
+					   bonobo_object_corba_objref (BONOBO_OBJECT (container)),
+					   NULL);
 	bonobo_ui_engine_config_set_path (bonobo_window_get_ui_engine (BONOBO_WINDOW (editor)),
 					  "/evolution/UIConf/kvps");
 
 	bonobo_ui_component_add_verb_list_with_data (priv->uic, verbs, editor);
 	bonobo_ui_util_set_ui (priv->uic, EVOLUTION_DATADIR,
 			       "evolution-comp-editor.xml",
-			       "evolution-calendar");
+			       "evolution-calendar", NULL);
 	e_pixmaps_update (priv->uic, pixmaps);
 
 	vbox = gtk_vbox_new (FALSE, GNOME_PAD_SMALL);
@@ -452,7 +452,7 @@ close_dialog (CompEditor *editor)
 
 	priv = editor->priv;
 
-	gtk_object_destroy (GTK_OBJECT (editor));
+	gtk_widget_destroy (GTK_WIDGET (editor));
 }
 
 
@@ -758,7 +758,7 @@ comp_editor_set_cal_client (CompEditor *editor, CalClient *client)
 	g_return_if_fail (editor != NULL);
 	g_return_if_fail (IS_COMP_EDITOR (editor));
 
-	klass = COMP_EDITOR_CLASS (GTK_OBJECT (editor)->klass);
+	klass = COMP_EDITOR_CLASS (G_OBJECT_GET_CLASS (editor));
 
 	if (klass->set_cal_client)
 		klass->set_cal_client (editor, client);
@@ -996,7 +996,7 @@ comp_editor_edit_comp (CompEditor *editor, CalComponent *comp)
 	g_return_if_fail (comp != NULL);
 	g_return_if_fail (IS_CAL_COMPONENT (comp));
 
-	klass = COMP_EDITOR_CLASS (GTK_OBJECT (editor)->klass);
+	klass = COMP_EDITOR_CLASS (G_OBJECT_GET_CLASS (editor));
 
 	if (klass->edit_comp)
 		klass->edit_comp (editor, comp);
@@ -1075,7 +1075,7 @@ comp_editor_send_comp (CompEditor *editor, CalComponentItipMethod method)
 	g_return_val_if_fail (editor != NULL, FALSE);
 	g_return_val_if_fail (IS_COMP_EDITOR (editor), FALSE);
 
-	klass = COMP_EDITOR_CLASS (GTK_OBJECT (editor)->klass);
+	klass = COMP_EDITOR_CLASS (G_OBJECT_GET_CLASS (editor));
 
 	if (klass->send_comp)
 		return klass->send_comp (editor, method);
@@ -1121,7 +1121,7 @@ comp_editor_merge_ui (CompEditor *editor,
 
 	priv = editor->priv;
 
-	bonobo_ui_util_set_ui (priv->uic, EVOLUTION_DATADIR, filename, "evolution-calendar");
+	bonobo_ui_util_set_ui (priv->uic, EVOLUTION_DATADIR, filename, "evolution-calendar", NULL);
 	bonobo_ui_component_add_verb_list_with_data (priv->uic, verbs, editor);
 
 	if (component_pixmaps != NULL)

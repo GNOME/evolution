@@ -32,8 +32,10 @@
 
 #include "evolution-config-control.h"
 
+G_BEGIN_DECLS
+
 EvolutionConfigControl *cal_prefs_dialog_new (void);
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif /* _CAL_PREFS_DIALOG_H_ */

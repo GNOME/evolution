@@ -1,5 +1,38 @@
 2002-11-06  Rodrigo Moya <rodrigo@ximian.com>
 
+	* gui/cal-prefs-dialog.c: #include gtkoptionmenu.h.
+	(cal_prefs_dialog_new): adapted to changes in glade_xml_new.
+
+	* gui/dialogs/event-page.h:
+	* gui/dialogs/meeting-page.h:
+	* gui/dialogs/recurrence-page.h:
+	* gui/dialogs/schedule-page.h:
+	* gui/dialogs/task-details-page.h:
+	* gui/dialogs/task-page.h:
+	* gui/cal-prefs-dialog.h: use correctly the macros.
+
+	* gui/dialogs/cancel-comp.c:
+	* gui/dialogs/changed-comp.c:
+	* gui/dialogs/comp-editor-page.c:
+	* gui/gnome-cal.h: removed non-existent headers.
+
+	* gui/dialogs/comp-editor.c: remove non-existent headers.
+	(close_dialog): gtk_widget_destroy the widget.
+	(setup_widgets, comp_editor_merge_ui): use BonoboWindow correctly.
+	(comp_editor_set_cal_client, comp_editor_send_comp,
+	 comp_editor_edit_comp): use G_OBJECT_GET_CLASS for
+	getting the class of an object.
+
+	* gui/dialogs/comp-editor-page.c (comp_editor_page_class_init):
+	use g_signal_* functions.
+
+	* gui/dialogs/comp-editor-util.c: converted to BonoboActivation.
+
+	* gui/dialogs/comp-editor.h: #include bonobo-window.h, not
+	bonobo-win.h.
+
+2002-11-06  Rodrigo Moya <rodrigo@ximian.com>
+
 	* gui/alarm-notify/GNOME_Evolution_Calendar_AlarmNotify.server.in:
 	* gui/GNOME_Evolution_Calendar.server.in: renmaed .oaf.in files.
 

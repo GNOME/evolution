@@ -26,12 +26,10 @@
 #include <string.h>
 #include <ical.h>
 #include <glib.h>
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
-#include <liboaf/liboaf.h>
+#include <bonobo-activation/bonobo-activation.h>
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-widget.h>
-#include <gal/unicode/gunicode.h>
 #include <ebook/e-destination.h>
 #include <e-util/e-time-utils.h>
 #include <cal-util/timeutil.h>
@@ -283,11 +281,11 @@ comp_editor_create_contacts_component (void)
 	CORBA_Environment ev;
 
 	CORBA_exception_init (&ev);
-	corba_select_names = oaf_activate_from_id (SELECT_NAMES_OAFID, 0,
-						   NULL, &ev);
+	corba_select_names = bonobo_activation_activate_from_id (SELECT_NAMES_OAFID, 0,
+								 NULL, &ev);
 
 	/* OAF seems to be broken -- it can return a CORBA_OBJECT_NIL without
-           raising an exception in `ev'.  */
+           raising an exception in `ev'.  Is this true with BonoboActivation? */
 	if (ev._major != CORBA_NO_EXCEPTION
 	    || corba_select_names == CORBA_OBJECT_NIL) {
 		g_warning ("Cannot activate -- %s", SELECT_NAMES_OAFID);

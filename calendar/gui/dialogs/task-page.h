@@ -26,7 +26,7 @@
 
 #include "comp-editor-page.h"
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 
 
@@ -55,6 +55,6 @@ TaskPage *task_page_new       (void);
 
 
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif

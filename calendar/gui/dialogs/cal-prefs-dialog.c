@@ -37,6 +37,7 @@
 #include "../calendar-commands.h"
 #include "../e-tasks.h"
 
+#include <gtk/gtkoptionmenu.h>
 #include <libgnomeui/gnome-color-picker.h>
 #include <glade/glade.h>
 #include <gal/util/e-util.h>
@@ -134,7 +135,7 @@ cal_prefs_dialog_new (void)
 
 	/* Load the content widgets */
 
-	dialog_data->xml = glade_xml_new (EVOLUTION_GLADEDIR "/cal-prefs-dialog.glade", NULL);
+	dialog_data->xml = glade_xml_new (EVOLUTION_GLADEDIR "/cal-prefs-dialog.glade", NULL, NULL);
 	if (!dialog_data->xml) {
 		g_message ("cal_prefs_dialog_construct(): Could not load the Glade XML file!");
 		return NULL;
