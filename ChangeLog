@@ -1,3 +1,18 @@
+2000-08-19  Mathieu Lacage <mathieu@gnu.org>
+
+	Fixes compile for non-standard prefixes. Mainly in idl
+	compilation where -I`gnome-config --datadir`/idl is replaced
+	by `gnome-config --cflags idl` (ugly but it works at least)
+	and add some random _CFLAGS here and there and _LIBS for linking.
+	* addressbook/gui/component/select-names/Makefile.am
+	* composer/Makefile.am
+	* e-util/Makefile.am
+	* filter/Makefile.am
+	* mail/Makefile.am
+	* shell/Makefile.am
+	* widgets/e-text/Makefile.am
+	
+
 2000-08-21  Christopher James Lahey  <clahey@helixcode.com>
 
 	* widgets/e-paned/e-hpaned.c, widgets/e-paned/e-paned.c,
