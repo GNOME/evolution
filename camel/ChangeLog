@@ -1,3 +1,14 @@
+2000-09-07  Dan Winship  <danw@helixcode.com>
+
+	* camel-session.c (camel_session_new): Make this take a path to a
+	directory that Camel can use for its own nefarious purposes.
+	(camel_session_get_storage_path): New function to return a path
+	that a service can use for its own nefarious sub-purposes.
+
+	* camel-service.c (camel_service_get_path): New method (and
+	useful default implementation) to get a (relative) pathname
+	corresponding to the service.
+
 2000-09-06  Dan Winship  <danw@helixcode.com>
 
 	* providers/pop3/camel-pop3-store.c (connect_to_server): Make KPOP

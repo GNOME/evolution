@@ -61,6 +61,7 @@ struct _CamelSession
 {
 	CamelObject parent_object;
 
+	char *storage_path;
 	CamelAuthCallback authenticator;
 	CamelTimeoutRegisterCallback registrar;
 	CamelTimeoutRemoveCallback remover;
@@ -80,12 +81,11 @@ typedef struct {
 CamelType camel_session_get_type (void);
 
 
-CamelSession *  camel_session_new                     (CamelAuthCallback
-						       authenticator,
-						       CamelTimeoutRegisterCallback
-						       registrar,
-						       CamelTimeoutRemoveCallback
-						       remover);
+CamelSession *  camel_session_new (const char *storage_path,
+				   CamelAuthCallback authenticator,
+				   CamelTimeoutRegisterCallback registrar,
+				   CamelTimeoutRemoveCallback remover);
+
 void            camel_session_register_provider       (CamelSession *session,
 						       CamelProvider *provider);
 GList *         camel_session_list_providers          (CamelSession *session,
@@ -105,6 +105,9 @@ CamelService *  camel_session_get_service_connected   (CamelSession *session,
 #define camel_session_get_transport(session, url_string, ex) \
 	((CamelTransport *) camel_session_get_service_connected (session, url_string, CAMEL_PROVIDER_TRANSPORT, ex))
 
+char *          camel_session_get_storage_path (CamelSession *session,
+						CamelService *service,
+						CamelException *ex);
 
 char *          camel_session_query_authenticator (CamelSession *session,
 						   CamelAuthCallbackMode mode,

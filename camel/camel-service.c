@@ -42,6 +42,7 @@ static gboolean service_disconnect(CamelService *service, CamelException *ex);
 static GList *  query_auth_types_func (CamelService *service, CamelException *ex);
 static void     free_auth_types (CamelService *service, GList *authtypes);
 static char *   get_name (CamelService *service, gboolean brief);
+static char *   get_path (CamelService *service);
 static gboolean check_url (CamelService *service, CamelException *ex);
 
 
@@ -58,6 +59,7 @@ camel_service_class_init (CamelServiceClass *camel_service_class)
 	camel_service_class->query_auth_types_generic = query_auth_types_func;
 	camel_service_class->free_auth_types = free_auth_types;
 	camel_service_class->get_name = get_name;
+	camel_service_class->get_path = get_path;
 }
 
 static void
@@ -339,6 +341,67 @@ camel_service_get_name (CamelService *service, gboolean brief)
 	g_return_val_if_fail (service->url, NULL);
 
 	return CSERV_CLASS (service)->get_name (service, brief);
+}
+
+
+static char *
+get_path (CamelService *service)
+{
+	GString *gpath;
+	char *path;
+	CamelURL *url = service->url;
+	int flags = service->url_flags;
+
+	/* A sort of ad-hoc default implementation that works for our
+	 * current set of services.
+	 */
+
+	gpath = g_string_new (service->provider->protocol);
+	if (flags & CAMEL_SERVICE_URL_ALLOW_USER) {
+		if (flags & CAMEL_SERVICE_URL_ALLOW_HOST) {
+			g_string_sprintfa (gpath, "/%s@%s",
+					   url->user ? url->user : "",
+					   url->host ? url->host : "");
+		} else {
+			g_string_sprintfa (gpath, "/%s%s",
+					   url->user ? url->user : "",
+					   flags & CAMEL_SERVICE_URL_NEED_USER ? "" : "@");
+		}
+	} else if (flags & CAMEL_SERVICE_URL_ALLOW_HOST) {
+		g_string_sprintfa (gpath, "/%s%s",
+				   flags & CAMEL_SERVICE_URL_NEED_HOST ? "" : "@",
+				   url->host ? url->host : "");
+	}
+	if (flags & CAMEL_SERVICE_URL_NEED_PATH) {
+		g_string_sprintfa (gpath, "%s%s",
+				   *url->path == '/' ? "" : "/",
+				   url->path);
+	}
+
+	path = gpath->str;
+	g_string_free (gpath, FALSE);
+	return path;
+}		
+
+/**
+ * camel_service_get_path:
+ * @service: the service
+ *
+ * This gets a valid UNIX relative path describing the service, which
+ * is guaranteed to be different from the path returned for any
+ * different service. This path MUST start with the name of the
+ * provider, followed by a "/", but after that, it is up to the
+ * provider.
+ *
+ * Return value: the path, which the caller must free.
+ **/
+char *
+camel_service_get_path (CamelService *service)
+{
+	g_return_val_if_fail (CAMEL_IS_SERVICE (service), NULL);
+	g_return_val_if_fail (service->url, NULL);
+
+	return CSERV_CLASS (service)->get_path (service);
 }
 
 

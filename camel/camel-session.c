@@ -27,7 +27,11 @@
  */
 
 #include <config.h>
+#include <errno.h>
 #include <stdio.h>
+#include <string.h>
+#include <sys/stat.h>
+#include <unistd.h>
 #include "camel-session.h"
 #include "camel-store.h"
 #include "camel-transport.h"
@@ -89,14 +93,29 @@ camel_session_get_type (void)
 	return camel_session_type;
 }
 
-
+/**
+ * camel_session_new:
+ * @storage_path: Path to a directory Camel can use for persistent storage.
+ * (This directory must already exist.)
+ * @authenticator: A callback for discussing authentication information
+ * @registrar: A callback for registering timeout callbacks
+ * @remove: A callback for removing timeout callbacks
+ *
+ * This creates a new CamelSession object, which represents global state
+ * for the Camel library, and contains callbacks that can be used to
+ * interact with the main application.
+ *
+ * Return value: the new CamelSession
+ **/
 CamelSession *
-camel_session_new (CamelAuthCallback authenticator,
+camel_session_new (const char *storage_path,
+		   CamelAuthCallback authenticator,
 		   CamelTimeoutRegisterCallback registrar,
 		   CamelTimeoutRemoveCallback remover)
 {
 	CamelSession *session = CAMEL_SESSION (camel_object_new (CAMEL_SESSION_TYPE));
 
+	session->storage_path = g_strdup (storage_path);
 	session->authenticator = authenticator;
 	session->registrar = registrar;
 	session->remover = remover;
@@ -196,12 +215,31 @@ service_cache_remove (CamelService *service, gpointer event_data, gpointer user_
 	g_hash_table_remove (provider->service_cache, service->url);
 }
 
+/**
+ * camel_session_get_service:
+ * @session: the CamelSession
+ * @url_string: a Camel URL describing the service to get
+ * @type: the provider type (%CAMEL_PROVIDER_STORE or
+ * %CAMEL_PROVIDER_TRANSPORT) to get, since some URLs may be able
+ * to specify either type.
+ * @ex: a CamelException
+ *
+ * This resolves a CamelURL into a CamelService, including loading the
+ * provider library for that service if it has not already been loaded.
+ *
+ * Services are cached, and asking for "the same" @url_string multiple
+ * times will return the same CamelService (with its reference count
+ * incremented by one each time). What constitutes "the same" URL
+ * depends in part on the provider.
+ *
+ * Return value: the requested CamelService, or %NULL
+ **/
 CamelService *
 camel_session_get_service (CamelSession *session, const char *url_string,
 			   CamelProviderType type, CamelException *ex)
 {
 	CamelURL *url;
-	const CamelProvider *provider;
+	CamelProvider *provider;
 	CamelService *service;
 
 	url = camel_url_new (url_string, ex);
@@ -253,9 +291,24 @@ camel_session_get_service (CamelSession *session, const char *url_string,
 	return service;
 }
 
+/**
+ * camel_session_get_service_connected:
+ * @session: the CamelSession
+ * @url_string: a Camel URL describing the service to get
+ * @type: the provider type
+ * @ex: a CamelException
+ *
+ * This works like camel_session_get_service(), but also ensures that
+ * the returned service will have been successfully connected (via
+ * camel_service_connect().)
+ *
+ * Return value: the requested CamelService, or %NULL
+ **/
 CamelService *
-camel_session_get_service_connected (CamelSession *session, const char *url_string,
-				     CamelProviderType type, CamelException *ex)
+camel_session_get_service_connected (CamelSession *session,
+				     const char *url_string,
+				     CamelProviderType type,
+				     CamelException *ex)
 {
 	CamelService *svc;
 
@@ -271,6 +324,57 @@ camel_session_get_service_connected (CamelSession *session, const char *url_stri
 	}
 
 	return svc;
+}
+
+/**
+ * camel_session_get_storage_path:
+ * @session: session object
+ * @service: a CamelService
+ * @ex: a CamelException
+ *
+ * This returns the path to a directory which the service can use for
+ * its own purposes. Data stored there will remain between Evolution
+ * sessions. No code outside of that service should ever touch the
+ * files in this directory. If the directory does not exist, it will
+ * be created.
+ *
+ * Return value: the path (which the caller must free), or %NULL if
+ * an error occurs.
+ **/
+char *
+camel_session_get_storage_path (CamelSession *session, CamelService *service,
+				CamelException *ex)
+{
+	char *path, *p;
+
+	path = g_strdup_printf ("%s/%s", session->storage_path,
+				camel_service_get_path (service));
+
+	if (access (path, F_OK) == 0)
+		return path;
+
+	p = path + strlen (session->storage_path);
+	do {
+		p = strchr (p + 1, '/');
+		if (p)
+			*p = '\0';
+		if (access (path, F_OK) == -1) {
+			if (mkdir (path, S_IRWXU) == -1) {
+				camel_exception_setv (ex,
+						      CAMEL_EXCEPTION_SYSTEM,
+						      "Could not create "
+						      "directory %s:\n%s",
+						      path,
+						      g_strerror (errno));
+				g_free (path);
+				return NULL;
+			}
+		}
+		if (p)
+			*p = '/';
+	} while (p);
+
+	return path;
 }
 
 /**
@@ -333,7 +437,6 @@ camel_session_query_authenticator (CamelSession *session,
  * camel_session_remove_timeout on success, and 0 on failure to 
  * register the timeout.
  **/
-
 guint
 camel_session_register_timeout (CamelSession *session,
 				guint32 interval,
@@ -357,9 +460,8 @@ camel_session_register_timeout (CamelSession *session,
  *
  * Returns TRUE on success and FALSE on failure.
  **/
-
-gboolean camel_session_remove_timeout (CamelSession *session,
-				       guint handle)
+gboolean
+camel_session_remove_timeout (CamelSession *session, guint handle)
 {
 	return session->remover (handle);
 }
