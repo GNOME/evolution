@@ -257,16 +257,21 @@ xml_decode (FilterElement *fe, xmlNodePtr node)
 	file->type = type;
 	
 	n = node->children;
-	if (!strcmp (n->name, type)) {
-		str = xmlNodeGetContent (n);
-		if (str)
-			file->path = g_strdup (str);
-		else
-			file->path = g_strdup ("");
+	while (n != NULL) {
+		if (!strcmp (n->name, type)) {
+			str = xmlNodeGetContent (n);
+			if (str)
+				file->path = g_strdup (str);
+			else
+				file->path = g_strdup ("");
+			
+			d(printf ("  '%s'\n", file->path));
+			break;
+		} else if (n->type == XML_ELEMENT_NODE) {
+			g_warning ("Unknown node type '%s' encountered decoding a %s\n", n->name, type);
+		}
 		
-		d(printf ("  '%s'\n", file->path));
-	} else if (n->type == XML_ELEMENT_NODE) {
-		g_warning ("Unknown node type '%s' encountered decoding a %s\n", n->name, type);
+		n = n->next;
 	}
 	
 	return 0;

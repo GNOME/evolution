@@ -195,14 +195,19 @@ xml_decode (FilterElement *fe, xmlNodePtr node)
 	char *uri;
 	
 	node = node->children;
-	if (node && node->name && !strcmp (node->name, "uri")) {
-		uri = xmlNodeGetContent (node);
-		url = camel_url_new (uri, NULL);
-		xmlFree (uri);
+	while (node != NULL) {
+		if (!strcmp (node->name, "uri")) {
+			uri = xmlNodeGetContent (node);
+			url = camel_url_new (uri, NULL);
+			xmlFree (uri);
+			
+			g_free (fs->priv->current_url);
+			fs->priv->current_url = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
+			camel_url_free (url);
+			break;
+		}
 		
-		g_free (fs->priv->current_url);
-		fs->priv->current_url = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
-		camel_url_free (url);
+		node = node->next;
 	}
 	
 	return 0;
@@ -275,13 +280,11 @@ get_widget (FilterElement *fe)
 			g_object_set_data ((GObject *) item, "source", info);
 			g_signal_connect (item, "activate", G_CALLBACK (source_changed), fs);
 			
-			gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+			gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 			gtk_widget_show (item);
 			
-			/* FIXME: don't use e_url_equal */
-			if (fs->priv->current_url && e_url_equal (info->url, fs->priv->current_url)) {
+			if (fs->priv->current_url && !strcmp (info->url, fs->priv->current_url))
 				current_index = index;
-			}
 			
 			index++;
 		}

@@ -1,3 +1,11 @@
+2003-03-26  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* filter-file.c (xml_decode): Loop over child nodes here too in
+	order to not be affected by libxml2 crack.
+
+	* filter-source.c (xml_decode): Fixed to disreguard libxml2 crack.
+	(get_widget): Use strcmp instead of e_url_equal().
+
 2003-03-20  Dan Winship  <danw@ximian.com>
 
 	* filter-datespec.c (timespans, set_button): Change the strings in
