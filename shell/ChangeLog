@@ -1,5 +1,10 @@
 2001-05-04  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-folder-creation-dialog.c (dialog_clicked_cb): Don't
+	strdup `path' before copying it into the `dialog_data'.
+
+2001-05-04  Ettore Perazzoli  <ettore@ximian.com>
+
 	* importer/intelligent.c (get_intelligent_importers): Free the
 	`info_list' returned by `oaf_query()', thus plugging a leak.
 

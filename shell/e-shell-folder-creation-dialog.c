@@ -184,7 +184,7 @@ dialog_clicked_cb (GnomeDialog *dialog,
 	}
 
 	g_free (dialog_data->folder_path);
-	dialog_data->folder_path = g_strdup (path);
+	dialog_data->folder_path = path;
 
 	e_storage_set_async_create_folder (storage_set,
 					   path,
