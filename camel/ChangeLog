@@ -1,3 +1,22 @@
+2001-04-19  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-pkcs7-context.c (pkcs7_sign): Implemented.
+	(pkcs7_clearsign): Implemented.
+	(get_zero_len_passwd): Convenience function to try a 0-length key
+	on the certificate db - if this works then there is no need to
+	prompt the user.
+	(get_password): Callback to get the password.
+	(camel_cipher_hash_to_nss): Convenience function to convert a
+	CamelCipherHash to an NSS HASH_HashType.
+	(nss_hash_to_sec_oid): Converts a HASH_HashType to a SecOidTag.
+	(pkcs7_digest): Digest function for use with pkcs7_sign().
+	(sign_encode_cb): Callback to write the signed data to the output
+	stream.
+	(pkcs7_verify): Hacked on a bit more but am still a bit on the
+	confused side. This might work but I wouldn't hold my breath. The
+	sign/clearsign should be close if not correct, but this one...god
+	only knows.
+
 2001-04-18  Dan Winship  <danw@ximian.com>
 
 	* providers/imap/camel-imap-store.c (camel_imap_store_finalize):

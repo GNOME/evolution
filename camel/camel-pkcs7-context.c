@@ -153,15 +153,201 @@ camel_pkcs7_context_new (CamelSession *session, const char *certdb)
  *                     Public crypto functions
  *----------------------------------------------------------------------*/
 
+struct _GetPasswdData {
+	CamelSession *session;
+	CamelException *ex;
+	const char *userid;
+};
+
+static SECItem *
+get_zero_len_passwd (SECKEYKeyDBHandle *handle)
+{
+	SECItem *pwitem;
+	SECStatus rv;
+	
+	/* hash the empty string as a password */
+	pwitem = SECKEY_DeriveKeyDBPassword (handle, "");
+	if (pwitem == NULL)
+		return NULL;
+	
+	/* check to see if this is the right password */
+	rv = SECKEY_CheckKeyDBPassword (handle, pwitem);
+	if (rv == SECFailure)
+		return NULL;
+	
+	return pwitem;
+}
+
+static SECItem *
+get_password (void *arg, SECKEYKeyDBHandle *handle)
+{
+	CamelSession *session = ((struct _GetPasswdData *) arg)->session;
+	CamelException *ex = ((struct _GetPasswdData *) arg)->ex;
+	const char *userid = ((struct _GetPasswdData *) arg)->userid;
+	char *prompt, *passwd = NULL;
+	SECItem *pwitem;
+	SECStatus rv;
+	
+	/* Check to see if zero length password or not */
+	pwitem = get_zero_len_passwd (handle);
+	if (pwitem)
+		return pwitem;
+	
+	prompt = g_strdup_printf (_("Please enter your password for %s"), userid);
+	passwd = camel_session_query_authenticator (session, CAMEL_AUTHENTICATOR_ASK,
+						    prompt, TRUE, NULL, userid,
+						    NULL);
+	g_free (prompt);
+	
+	/* hash the password */
+	pwitem = SECKEY_DeriveKeyDBPassword (handle, passwd ? passwd : "");
+	
+	/* clear out the password strings */
+	if (passwd) {
+		memset (passwd, 0, strlen (passwd));
+		g_free (passwd);
+	}
+	
+	if (pwitem == NULL) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Error hashing password."));
+		
+		return NULL;
+	}
+	
+	/* confirm the password */
+	rv = SECKEY_CheckKeyDBPassword (handle, pwitem);
+	if (rv) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Invalid password."));
+		
+		SECITEM_ZfreeItem (pwitem, PR_TRUE);
+		
+		return NULL;
+	}
+	
+	return pwitem;
+}
+
+static HASH_HashType
+camel_cipher_hash_to_nss (CamelCipherHash hash)
+{
+	switch (hash) {
+	case CAMEL_CIPHER_HASH_DEFAULT:
+		return HASH_AlgSHA1;
+	case CAMEL_CIPHER_HASH_MD2:
+		return HASH_AlgMD2;
+	case CAMEL_CIPHER_HASH_MD5:
+		return HASH_AlgMD5;
+	case CAMEL_CIPHER_HASH_SHA1:
+		return HASH_AlgSHA1;
+	}
+	
+	return HASH_AlgNULL;
+}
+
+static SECOidTag
+nss_hash_to_sec_oid (HASH_HashType hash)
+{
+	switch (hash) {
+	case HASH_AlgMD2:
+		return SEC_OID_MD2;
+	case HASH_AlgMD5:
+		return SEC_OID_MD5;
+	case Hash_AlgSHA1:
+		return SEC_OID_SHA1;
+	default:
+		g_assert_not_reached ();
+		return 0;
+	}
+}
+
+static int
+pkcs7_digest (SECItem *data, char *digestdata, unsigned int *len, unsigned int maxlen, HASH_HashType hash)
+{
+	SECHashObject *hashObj;
+	void *hashcx;
+	
+	hashObj = &SECHashObjects[hash];
+	
+	hashcx = (* hashObj->create)();
+	if (hashcx == NULL)
+		return -1;
+	
+	(* hashObj->begin)(hashcx);
+	(* hashObj->update)(hashcx, data->data, data->len);
+	(* hashObj->end)(hashcx, (unsigned char *)digestdata, len, maxlen);
+	(* hashObj->destroy)(hashcx, PR_TRUE);
+	
+	return 0;
+}
+
+static void
+sign_encode_cb (void *arg, const char *buf, unsigned long len)
+{
+	CamelStream *stream;
+	
+	stream = CAMEL_STREAM (arg);
+	camel_stream_write (stream, buf, len);
+}
+
 static int
 pkcs7_sign (CamelCipherContext *ctx, const char *userid, CamelCipherHash hash,
 	    CamelStream *istream, CamelStream *ostream, CamelException *ex)
 {
 	CamelPkcs7Context *context = CAMEL_PKCS7_CONTEXT (ctx);
+	struct _GetPasswdData *data;
+	SEC_PKCS7ContentInfo *cinfo;
+	SECItem data2sign, digest;
+	HASH_HashType hash_type;
+	guchar digestdata[32];
+	CamelStream *stream;
+	GByteArray *buf;
+	guint len;
 	
+	g_return_val_if_fail (userid != NULL, -1);
+	g_return_val_if_fail (istream != NULL, -1);
+	g_return_val_if_fail (ostream != NULL, -1);
 	
+	stream = camel_stream_mem_new ();
+	camel_stream_write_to_stream (istream, stream);
+	buf = CAMEL_STREAM_MEM (stream)->buffer;
+	data2sign.data = buf->data;
+	data2sign.len = buf->len;
 	
-	return -1;
+	hash_type = camel_cipher_hash_to_nss (hash);
+	pkcs7_digest (&data2sign, digestdata, &len, 32, hash_type);
+	digest.data = (unsigned char *)digestdata;
+	digest.len = len;
+	
+	camel_object_unref (CAMEL_OBJECT (stream));
+	
+	cert = CERT_FindCertByNickname (context->priv->certdb, userid);
+	if (!cert) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Could not sign: certificate not found for \"%s\"."),
+				      userid);
+		return -1;
+	}
+	
+	cinfo = SEC_PKCS7CreateSignedData (cert, certUsageEmailSigner, NULL,
+					   nss_hash_to_sec_oid (hash_type),
+					   &digest, NULL, NULL);
+	
+	SEC_PKCS7IncludeCertChain (cinfo, NULL);
+	
+	data = g_new (struct _GetPasswdData, 1);
+	data->session = ctx->session;
+	data->userid = userid;
+	data->ex = ex;
+	
+	SEC_PKCS7Encode (cinfo, sign_encode_cb, ostream, NULL, get_password, data);
+	
+	g_free (data);
+	
+	SEC_PKCS7DestroyContentInfo (cinfo);
+	
+	return 0;
 }
 
 
@@ -170,10 +356,97 @@ pkcs7_clearsign (CamelCipherContext *ctx, const char *userid, CamelCipherHash ha
 		 CamelStream *istream, CamelStream *ostream, CamelException *ex)
 {
 	CamelPkcs7Context *context = CAMEL_PKCS7_CONTEXT (ctx);
+	struct _GetPasswdData *data;
+	SEC_PKCS7ContentInfo *cinfo;
+	SECItem data2sign;
+	HASH_HashType hash_type;
+	CamelStream *stream;
+	GByteArray *buf;
 	
-	return -1;
+	g_return_val_if_fail (userid != NULL, -1);
+	g_return_val_if_fail (istream != NULL, -1);
+	g_return_val_if_fail (ostream != NULL, -1);
+	
+	hash_type = camel_cipher_hash_to_nss (hash);
+	
+	cert = CERT_FindCertByNickname (context->priv->certdb, userid);
+	if (!cert) {
+		camel_object_unref (CAMEL_OBJECT (stream));
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Could not clearsign: certificate not found for \"%s\"."),
+				      userid);
+		return -1;
+	}
+	
+	cinfo = SEC_PKCS7CreateSignedData (cert, certUsageEmailSigner, NULL,
+					   nss_hash_to_sec_oid (hash_type),
+					   NULL, NULL, NULL);
+	
+	stream = camel_stream_mem_new ();
+	camel_stream_write_to_stream (istream, stream);
+	buf = CAMEL_STREAM_MEM (stream)->buffer;
+	data2sign.data = buf->data;
+	data2sign.len = buf->len;
+	SEC_PKCS7SetContent (cinfo, (char *)data2sign.data, data2sign.len);
+	camel_object_unref (CAMEL_OBJECT (stream));
+	
+	SEC_PKCS7IncludeCertChain (cinfo, NULL);
+	
+	data = g_new (struct _GetPasswdData, 1);
+	data->session = ctx->session;
+	data->userid = userid;
+	data->ex = ex;
+	
+	SEC_PKCS7Encode (cinfo, sign_encode_cb, ostream, NULL, get_password, data);
+	
+	g_free (data);
+	
+	SEC_PKCS7DestroyContentInfo (cinfo);
+	
+	return 0;
 }
 
+#if 0
+/* this is just meant as a reference so I can see what the valid enums are */
+typedef enum {
+    certUsageSSLClient,
+    certUsageSSLServer,
+    certUsageSSLServerWithStepUp,
+    certUsageSSLCA,
+    certUsageEmailSigner,
+    certUsageEmailRecipient,
+    certUsageObjectSigner,
+    certUsageUserCertImport,
+    certUsageVerifyCA,
+    certUsageProtectedObjectSigner,
+    certUsageStatusResponder,
+    certUsageAnyCA
+} SECCertUsage;
+#endif
+
+#if 0
+static HASH_HashType
+AlgorithmToHashType (SECAlgorithmID *digestAlgorithms)
+{
+	SECOidTag tag;
+	
+	tag = SECOID_GetAlgorithmTag (digestAlgorithms);
+	
+	switch (tag) {
+	case SEC_OID_MD2:
+		return HASH_AlgMD2;
+	case SEC_OID_MD5:
+		return HASH_AlgMD5;
+	case SEC_OID_SHA1:
+		return HASH_AlgSHA1;
+	default:
+		g_assert_not_reached ();
+		return HASH_AlgNULL;
+	}
+}
+#endif
+
+/* FIXME: god knows if this code works, NSS "docs" are so not helpful at all */
 static CamelCipherValidity *
 pkcs7_verify (CamelCipherContext *ctx, CamelCipherHash hash, CamelStream *istream,
 	      CamelStream *sigstream, CamelException *ex)
@@ -181,7 +454,7 @@ pkcs7_verify (CamelCipherContext *ctx, CamelCipherHash hash, CamelStream *istrea
 	CamelPkcs7Context *context = CAMEL_PKCS7_CONTEXT (ctx);
 	CamelCipherValidity *valid = NULL;
 	SEC_PKCS7ContentInfo *cinfo;
-	SECCertUsage certusage;
+	SECCertUsage usage;
 	GByteArray *plaintext;
 	CamelStream *stream;
 	
@@ -193,14 +466,21 @@ pkcs7_verify (CamelCipherContext *ctx, CamelCipherHash hash, CamelStream *istrea
 	SEC_PKCS7SetContent (cinfo, plaintext->data, plaintext->len);
 	camel_object_unref (CAMEL_OBJECT (stream));
 	
-	certusage = 0;
+	usage = certUsageEmailSigner;  /* just a guess. or maybe certUsageVerifyCA?? */
 	
 	valid = camel_cipher_validity_new ();
 	
 	if (sigstream) {
 		HASH_HashType digest_type;
 		GByteArray *signature;
-		SECItem *digest;
+		SECItem digest;
+		
+		/* create our digest object */
+		stream = camel_stream_mem_new ();
+		camel_stream_write_to_stream (sigstream, stream);
+		signature = CAMEL_STREAM_MEM (stream)->buffer;
+		digest.data = signature->data;
+		digest.len = signature->len;
 		
 		switch (hash) {
 		default:
@@ -218,9 +498,10 @@ pkcs7_verify (CamelCipherContext *ctx, CamelCipherHash hash, CamelStream *istrea
 			break;
 		}
 		
-		valid->valid = SEC_PKCS7VerifyDetachedSignature (cinfo, certusage, digest, digest_type, TRUE);
+		valid->valid = SEC_PKCS7VerifyDetachedSignature (cinfo, usage, &digest, digest_type, PR_FALSE);
+		camel_object_unref (CAMEL_OBJECT (stream));
 	} else {
-		valid->valid = SEC_PKCS7VerifySignature (cinfo, certusage, TRUE);
+		valid->valid = SEC_PKCS7VerifySignature (cinfo, usage, PR_FALSE);
 	}
 	
 	SEC_PKCS7DestroyContentInfo (cinfo);
