@@ -1,12 +1,12 @@
 <Root>
-
 	<commands>
 		<cmd name="ContactDelete"
 		 _tip="Delete selected contacts"
-		 pixtype="stock" pixname="Trash"/>
+		 pixtype="stock" pixname="Trash"
+		 accel="*Control*d"/>
 
 		<cmd name="ContactNew"
-		 _tip="Create new contact" 
+		 _tip="Create new contact"
 		 accel="*Control*n"/>
 
 		<cmd name="ContactNewList"
@@ -28,23 +28,37 @@
 
 		<cmd name="ContactsCut" _label="Cut" _tip="Cut the selection"
 		 pixtype="stock" pixname="Cut" accel="*Control*x"/>
-	
+
                 <cmd name="ContactsCopy" _label="Copy"
 		 _tip="Copy the selection" pixtype="stock" pixname="Copy"
 		 accel="*Control*c"/>
-	
+
 		<cmd name="ContactsPaste" _label="Paste"
 		 _tip="Paste the clipboard" pixtype="stock" pixname="Paste"
 		 accel="*Control*v"/>
-	
+
 		<cmd name="ContactsSelectAll" _label="Select All"
 		 _tip="Select all contacts"
 		 accel="*Control*a"/>
+
+		<cmd name="ContactsSaveAsVCard" _label="Save as VCard"
+		 _tip="Save selected contacts as a VCard."
+		 pixtype="stock" pixname="Save" accel="*Control*v"/>
+
+		<cmd name="ContactsSendContactToOther" _label="Send contact to other"
+		 _tip="Send selected contacts to another person."/>
+
+		<cmd name="ContactsSendMessageToContact" _label="Send message to contact"
+		 _tip="Send a mess to the selected contacts."/>
 
 	</commands>
 
 	<menu>
 		<submenu name="File">
+		        <placeholder name="FileOps">
+			        <menuitem name="ContactsSaveAsVCard"
+				 verb="" _label="_Save as VCard"/>
+			</placeholder>
 
                         <submenu name="New">
 	                	<placeholder name="NewFirstItem">
@@ -70,6 +84,7 @@
 		</submenu>
 
 		<submenu name="Edit">
+		        <menuitem name="ContactDelete" verb="" _label="Delete"/>
 			<menuitem name="ContactsCut" verb="" _label="C_ut"/>
 	
 			<menuitem name="ContactsCopy" verb="" _label="_Copy"/>
@@ -92,6 +107,16 @@
 	                        <menuitem name="AddressbookConfig" verb=""
 	                         _label="_Addressbook Sources..."
 	                         pixtype ="pixbuf"/>
+	                </placeholder>
+		</submenu>
+		<submenu name="Actions" _label="_Actions">
+                        <placeholder name="Component">
+
+			    <menuitem name="ContactsSendContactToOther"
+			     _label="Send _contact to other" verb=""/>
+
+			    <menuitem name="ContactsSendMessageToContact"
+			     _label="Send _message to contact" verb=""/>
 	                </placeholder>
 		</submenu>
 	</menu>
