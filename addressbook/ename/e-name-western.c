@@ -300,13 +300,16 @@ e_name_western_extract_middle (ENameWestern *name, ENameWesternIdxs *idxs)
 
 	middle_idx = idxs->first_idx + strlen (name->first) + 1;
 
+	if (middle_idx > strlen (name->full))
+		return;
+	
+	/*
+	 * Search for the first space (or the terminating \0)
+	 */
 	while (isspace (name->full [middle_idx]) &&
 	       name->full [middle_idx] != '\0')
 		middle_idx ++;
 		
-	if (middle_idx > strlen (name->full))
-		return;
-	
 	if (name->full [middle_idx] == '\0')
 		return;
 

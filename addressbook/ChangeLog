@@ -1,5 +1,10 @@
 2000-05-07  Chris Toshok  <toshok@helixcode.com>
 
+	* ename/e-name-western.c (e_name_western_extract_middle): comment
+	function, and fix an ABR.
+
+2000-05-07  Chris Toshok  <toshok@helixcode.com>
+
 	* ename/e-name-western.c (e_name_western_cleanup_string): comment
 	function, and fix an ABR.
 
