@@ -147,7 +147,7 @@ change_folder(CamelStore *store, const char *name, guint32 flags, int count)
 	/*fi->url = g_strdup_printf("vfolder:%s%s#%s", ((CamelService *)store)->url->path, (flags&CHANGE_NOSELECT)?";noselect=yes":"", name);*/
 	fi->unread = count;
 	fi->flags = CAMEL_FOLDER_VIRTUAL;
-	if (flags & CHANGE_ADD)
+	if (!(flags & CHANGE_DELETE))
 		fi->flags |= CAMEL_FOLDER_NOCHILDREN;
 	camel_folder_info_build_path(fi, '/');
 	camel_object_trigger_event(store, (flags&CHANGE_DELETE)?"folder_deleted":"folder_created", fi);

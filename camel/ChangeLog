@@ -1,3 +1,8 @@
+2004-04-16  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-vee-store.c (change_folder): (flags & 0) will never be
+	true. Fixes bug #56982.
+
 2004-04-15  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap/camel-imap-utils.c: Changed imap_atom_specials[]
