@@ -1,5 +1,9 @@
 2001-09-07  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-remote-store.c (camel_remote_store_finalise): Disconnect
+	from the service here otherwise the locks will be destroyed and by
+	the time CamelService finalizes we'll crash or hang.
+
 	* providers/smtp/camel-smtp-transport.c (smtp_data): Make sure to
 	unref the mime filters when we finish with them.
 

@@ -124,14 +124,26 @@ camel_remote_store_init (CamelObject *object)
 }
 
 static void
-camel_remote_store_finalise(CamelObject *object)
+camel_remote_store_finalise (CamelObject *object)
 {
 	CamelRemoteStore *remote_store = CAMEL_REMOTE_STORE (object);
-
+	CamelService *service = CAMEL_SERVICE (object);
+	
+	if (service->connected) {
+		CamelException ex;
+		
+		camel_exception_init (&ex);
+		camel_service_disconnect (service, TRUE, &ex);
+		if (camel_exception_is_set (&ex)) {
+			g_warning ("camel_remote_store_finalize: silent disconnect failure: %s",
+				   camel_exception_get_description (&ex));   
+		}
+	}
+	
 #ifdef ENABLE_THREADS
-	e_mutex_destroy(remote_store->priv->stream_lock);
+	e_mutex_destroy (remote_store->priv->stream_lock);
 #endif
-	g_free(remote_store->priv);
+	g_free (remote_store->priv);
 }
 
 
