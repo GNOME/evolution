@@ -78,6 +78,9 @@ static void e_shortcut_bar_on_drag_data_received  (GtkWidget          *widget,
 static void e_shortcut_bar_on_drag_data_delete (GtkWidget          *widget,
 						GdkDragContext     *context,
 						EShortcutBar       *shortcut_bar);
+static void e_shortcut_bar_on_drag_end (GtkWidget      *widget,
+					GdkDragContext *context,
+					EShortcutBar   *shortcut_bar);
 static void e_shortcut_bar_stop_editing (GtkWidget *button,
 					 EShortcutBar *shortcut_bar);
 static GdkPixbuf* e_shortcut_bar_get_image_from_url (EShortcutBar *shortcut_bar,
@@ -154,6 +157,9 @@ e_shortcut_bar_init (EShortcutBar *shortcut_bar)
 {
 	shortcut_bar->groups = g_array_new (FALSE, FALSE,
 					    sizeof (EShortcutBarGroup));
+
+	shortcut_bar->dragged_url = NULL;
+	shortcut_bar->dragged_name = NULL;
 }
 
 
@@ -227,6 +233,9 @@ e_shortcut_bar_add_group (EShortcutBar *shortcut_bar, gchar *group_name)
 			    shortcut_bar);
 	gtk_signal_connect (GTK_OBJECT (group->icon_bar), "drag_data_delete",
 			    GTK_SIGNAL_FUNC (e_shortcut_bar_on_drag_data_delete),
+			    shortcut_bar);
+	gtk_signal_connect (GTK_OBJECT (group->icon_bar), "drag_end",
+			    GTK_SIGNAL_FUNC (e_shortcut_bar_on_drag_end),
 			    shortcut_bar);
 
 	e_shortcut_bar_set_canvas_style (shortcut_bar, group->icon_bar);
@@ -382,7 +391,6 @@ e_shortcut_bar_item_dragged (EIconBar *icon_bar,
 	group_num = e_group_bar_get_group_num (E_GROUP_BAR (shortcut_bar),
 					       GTK_WIDGET (icon_bar)->parent);
 
-	/* FIXME: free both somewhere - drag_end? */
 	shortcut_bar->dragged_url = g_strdup (e_icon_bar_get_item_data (icon_bar, item_num));
 	shortcut_bar->dragged_name = e_icon_bar_get_item_text (icon_bar, item_num);
 
@@ -471,6 +479,19 @@ e_shortcut_bar_on_drag_data_delete (GtkWidget          *widget,
 	icon_bar = E_ICON_BAR (widget);
 
 	e_icon_bar_remove_item (icon_bar, icon_bar->dragged_item_num);
+}
+
+
+static void
+e_shortcut_bar_on_drag_end (GtkWidget      *widget,
+			    GdkDragContext *context,
+			    EShortcutBar   *shortcut_bar)
+{
+	g_free (shortcut_bar->dragged_name);
+	shortcut_bar->dragged_name = NULL;
+
+	g_free (shortcut_bar->dragged_url);
+	shortcut_bar->dragged_url = NULL;
 }
 
 

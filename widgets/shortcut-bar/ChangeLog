@@ -1,3 +1,18 @@
+2000-04-16  Damon Chaplin  <damon@helixcode.com>
+
+	* test-shortcut-bar.c: added buttons to test moving/reordering groups.
+
+	* e-shortcut-bar.c (e_shortcut_bar_on_drag_end): new function to free
+	the dragged name & URL when the drag is finished.
+
+	* e-group-bar.c (e_group_bar_get_increment): fixed bug when distance
+	was 0. Should just return 0.
+	(e_group_bar_set_current_group_num): added animate option and finished.
+	(e_group_bar_unmap): called e_group_bar_stop_all_animation().
+	(e_group_bar_reorder_group): finished.
+
+	* e-icon-bar-text-item.[hc]: removed, since we now use EText.
+	
 2000-04-15  Miguel de Icaza  <miguel@gnu.org>
 
 	* e-group-bar.c (e_group_bar_realize): Do not use the parent

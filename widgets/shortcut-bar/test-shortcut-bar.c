@@ -76,11 +76,17 @@ static void rename_item (GtkWidget *menuitem,
 			 EShortcutBar *shortcut_bar);
 static void remove_item (GtkWidget *menuitem,
 			 EShortcutBar *shortcut_bar);
+static void on_move_button_clicked (GtkWidget *button,
+				    EShortcutBar *shortcut_bar);
+static void on_set_group_button_clicked (GtkWidget *button,
+					 EShortcutBar *shortcut_bar);
+static void on_set_group_button_no_animation_clicked (GtkWidget *button,
+						      EShortcutBar *shortcut_bar);
 
 int
 main (int argc, char *argv[])
 {
-	GtkWidget *window, *hpaned, *shortcut_bar;
+	GtkWidget *window, *hpaned, *shortcut_bar, *vbox, *button;
 	gchar *pathname;
 	gint i;
 
@@ -113,12 +119,38 @@ main (int argc, char *argv[])
 	gtk_paned_set_position (GTK_PANED (hpaned), 100);
 	/*gtk_paned_set_gutter_size (GTK_PANED (hpaned), 12);*/
 
+	vbox = gtk_vbox_new (FALSE, 0);
+	gtk_paned_pack2 (GTK_PANED (hpaned), vbox, TRUE, TRUE);
+	gtk_widget_show (vbox);
+
+
 	main_label = gtk_label_new ("Main Application Window Goes Here");
-	gtk_paned_pack2 (GTK_PANED (hpaned), main_label, TRUE, TRUE);
+	gtk_box_pack_start (GTK_BOX (vbox), main_label, TRUE, TRUE, 0);
 	gtk_widget_show (main_label);
 	gtk_signal_connect (GTK_OBJECT (main_label), "size_allocate",
 			    GTK_SIGNAL_FUNC (on_main_label_size_allocate),
 			    NULL);
+
+	button = gtk_button_new_with_label ("Move 1st group to 4th");
+	gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, FALSE, 0);
+	gtk_widget_show (button);
+	gtk_signal_connect (GTK_OBJECT (button), "clicked",
+			    GTK_SIGNAL_FUNC (on_move_button_clicked),
+			    shortcut_bar);
+
+	button = gtk_button_new_with_label ("Set current group to 3rd");
+	gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, FALSE, 0);
+	gtk_widget_show (button);
+	gtk_signal_connect (GTK_OBJECT (button), "clicked",
+			    GTK_SIGNAL_FUNC (on_set_group_button_clicked),
+			    shortcut_bar);
+
+	button = gtk_button_new_with_label ("Set current group to 5th (no animation)");
+	gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, FALSE, 0);
+	gtk_widget_show (button);
+	gtk_signal_connect (GTK_OBJECT (button), "clicked",
+			    GTK_SIGNAL_FUNC (on_set_group_button_no_animation_clicked),
+			    shortcut_bar);
 
 
 	gtk_widget_pop_visual ();
@@ -493,3 +525,33 @@ remove_item (GtkWidget *menuitem,
 }
 
 
+static void
+on_set_group_button_clicked (GtkWidget *button,
+			     EShortcutBar *shortcut_bar)
+{
+	g_print ("In on_set_group_button_clicked\n");
+
+	e_group_bar_set_current_group_num (E_GROUP_BAR (shortcut_bar),
+					   2, FALSE);
+}
+
+
+static void
+on_set_group_button_no_animation_clicked (GtkWidget *button,
+					  EShortcutBar *shortcut_bar)
+{
+	g_print ("In on_set_group_button_no_animation_clicked\n");
+
+	e_group_bar_set_current_group_num (E_GROUP_BAR (shortcut_bar),
+					   4, FALSE);
+}
+
+
+static void
+on_move_button_clicked (GtkWidget *button,
+			EShortcutBar *shortcut_bar)
+{
+	g_print ("In on_move_button_clicked\n");
+
+	e_group_bar_reorder_group (E_GROUP_BAR (shortcut_bar), 0, 3);
+}

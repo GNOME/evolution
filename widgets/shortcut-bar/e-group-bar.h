@@ -139,7 +139,8 @@ void	   e_group_bar_remove_group		(EGroupBar	*group_bar,
  */
 gint	   e_group_bar_get_current_group_num	(EGroupBar	*group_bar);
 void	   e_group_bar_set_current_group_num	(EGroupBar	*group_bar,
-						 gint		 group_num);
+						 gint		 group_num,
+						 gboolean	 animate);
 
 /*
  * Getting groups and group numbers.

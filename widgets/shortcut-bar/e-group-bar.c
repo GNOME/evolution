@@ -368,6 +368,8 @@ e_group_bar_unmap (GtkWidget *widget)
 
 	group_bar = E_GROUP_BAR (widget);
 
+	e_group_bar_stop_all_animation (group_bar);
+
 	GTK_WIDGET_UNSET_FLAGS (widget, GTK_MAPPED);
 
 	for (group_num = 0;
@@ -1001,8 +1003,37 @@ e_group_bar_reorder_group	(EGroupBar	*group_bar,
 				 gint		 group_num,
 				 gint		 new_position)
 {
-	g_return_if_fail (E_IS_GROUP_BAR (group_bar));
+	EGroupBarChild group, *tmp_group;
+	gint tmp_group_num;
 
+	g_return_if_fail (E_IS_GROUP_BAR (group_bar));
+	g_return_if_fail (group_num >= 0);
+	g_return_if_fail (group_num < group_bar->children->len);
+
+	e_group_bar_stop_all_animation (group_bar);
+
+	/* Copy the group. */
+	group = g_array_index (group_bar->children,
+			       EGroupBarChild, group_num);
+
+	/* Remove the group from its current position. */
+	g_array_remove_index (group_bar->children, group_num);
+
+	/* Copy the group into its new position. */
+	g_array_insert_val (group_bar->children, new_position, group);
+
+	/* We need to lower the groups' windows so they are in the correct
+	   z-order. We can skip unaffected windows. */
+	for (tmp_group_num = MAX (group_num, new_position);
+	     tmp_group_num >= 0;
+	     tmp_group_num--) {
+		tmp_group = &g_array_index (group_bar->children,
+					    EGroupBarChild, tmp_group_num);
+		gdk_window_lower (tmp_group->child_window);
+	}
+
+	/* Queue a resize so the groups get layed out properly. */
+	gtk_widget_queue_resize (GTK_WIDGET (group_bar));
 }
 
 
@@ -1075,14 +1106,16 @@ e_group_bar_get_current_group_num	(EGroupBar	*group_bar)
 /**
  * e_group_bar_set_current_group_num:
  * @group_bar: an #EGroupBar.
+ * @animate: if TRUE, and the #EGroupBar is visible, the group will slide into
+ * position, as if the group's button was pressed.
  * @Returns: the index of the group to display.
  *
  * Sets the group to display.
  **/
-/* FIXME: animate option? May want to set group without animation. */
 void
 e_group_bar_set_current_group_num	(EGroupBar	*group_bar,
-					 gint		 group_num)
+					 gint		 group_num,
+					 gboolean	 animate)
 {
 	g_return_if_fail (E_IS_GROUP_BAR (group_bar));
 
@@ -1090,12 +1123,19 @@ e_group_bar_set_current_group_num	(EGroupBar	*group_bar,
 	if (group_bar->current_group_num == group_num)
 		return;
 
-	/* FIXME: Set the target positions of the old current group and the
-	   new current group, map the new group's child window, and create the
-	   animation timeout, if we haven't already got one. */
-
-	group_bar->current_group_num = group_num;
-
+	if (GTK_WIDGET_VISIBLE (group_bar)) {
+		if (animate) {
+			e_group_bar_start_animation (group_bar, group_num);
+		} else {
+			group_bar->current_group_num = group_num;
+			e_group_bar_stop_all_animation (group_bar);
+			gtk_widget_queue_resize (GTK_WIDGET (group_bar));
+		}
+	} else {
+		/* The positions will be sorted out when the widget's size is
+		   allocated. */
+		group_bar->current_group_num = group_num;
+	}
 }
 
 
@@ -1399,6 +1439,9 @@ e_group_bar_get_increment (EGroupBar *group_bar,
 
 	total_distance = group_bar->child_height;
 	distance = MIN (abs (window_target_y - window_y), total_distance);
+
+	if (distance == 0)
+		return 0;
 
 	/* Convert the distance into an angle between -PI/2 and PI/2, so we can
 	   then do a cosine of it. */
