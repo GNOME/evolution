@@ -1,3 +1,12 @@
+2002-08-06  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-local.c (save_metainfo): Save to a temporary file first
+	using e_xml_save_file rather than xmlSaveFile, if the save
+	completes successfully then rename it to the real filename. Make
+	sure that errno is saved.
+	(mls_get_folder): save_metainfo doesn't return -1 on fail, it
+	returns FALSE.
+
 2002-08-06  Not Zed  <NotZed@Ximian.com>
 
 	* folder-browser.c (folder_browser_search_menu_activated): Set the

@@ -37,9 +37,10 @@
 #include <libgnomeui/gnome-dialog-util.h>
 #include <glade/glade.h>
 
-#include "gal/widgets/e-gui-utils.h"
 #include "e-util/e-path.h"
-#include "gal/util/e-unicode-i18n.h"
+#include <gal/widgets/e-gui-utils.h>
+#include <gal/util/e-unicode-i18n.h>
+#include <gal/util/e-xml-utils.h>
 
 #include "Evolution.h"
 #include "evolution-storage.h"
@@ -199,11 +200,12 @@ free_metainfo(struct _local_meta *meta)
 }
 
 static gboolean
-save_metainfo(struct _local_meta *meta)
+save_metainfo (struct _local_meta *meta)
 {
 	xmlDocPtr doc;
 	xmlNodePtr root, node;
-	int ret;
+	char *path, *slash;
+	int errsav, ret;
 
 	d(printf("Saving folder metainfo to : %s\n", meta->path));
 
@@ -215,11 +217,27 @@ save_metainfo(struct _local_meta *meta)
 	xmlSetProp(node, "type", meta->format);
 	xmlSetProp(node, "name", meta->name);
 	xmlSetProp(node, "index", meta->indexed?"1":"0");
-
-	ret = xmlSaveFile(meta->path, doc);
-	xmlFreeDoc(doc);
-
-	return ret;
+	
+	path = alloca (strlen (meta->path) + 5);
+	slash = strrchr (meta->path, '/');
+	if (slash)
+		sprintf (path, "%.*s.#%s", slash - meta->path + 1, meta->path, slash + 1);
+	else
+		sprintf (path, ".#%s", meta->path);
+	
+	ret = e_xml_save_file (path, doc);
+	if (ret != -1)
+		ret = rename (path, meta->path);
+	
+	if (ret == -1) {
+		errsav = errno;
+		unlink (path);
+		errno = errsav;
+	}
+	
+	xmlFreeDoc (doc);
+	
+	return ret == -1 ? FALSE : TRUE;
 }
 
 static CamelFolderClass *mlf_parent_class = NULL;
@@ -749,7 +767,7 @@ mail_local_folder_reconfigure (MailLocalFolder *mlf, const char *new_format, int
 	if (save_metainfo(mlf->meta) == FALSE) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Cannot save folder metainfo; "
-					"you'll probably find you can't\n"
+					"you may find you can't\n"
 					"open this folder anymore: %s: %s"),
 				      mlf->meta->path, strerror(errno));
 	}
@@ -802,7 +820,7 @@ mls_get_folder(CamelStore *store, const char *folder_name, guint32 flags, CamelE
 	}
 
 	if (flags & CAMEL_STORE_FOLDER_CREATE) {
-		if (save_metainfo(folder->meta) == -1) {
+		if (save_metainfo(folder->meta) == FALSE) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 					      _("Cannot save folder metainfo to %s: %s"),
 					      folder->meta->path, strerror(errno));
