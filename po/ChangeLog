@@ -1,27 +1,8 @@
-2001-09-21  gettextize  <bug-gnu-utils@gnu.org>
+2001-09-22  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* Makefile.in.in: Upgrade to gettext-0.10.39.
-
-2001-09-21  gettextize  <bug-gnu-utils@gnu.org>
-
-	* Makefile.in.in: Upgrade to gettext-0.10.39.
-
-2001-09-21  gettextize  <bug-gnu-utils@gnu.org>
-
-	* Makefile.in.in: Upgrade to gettext-0.10.39.
-
-2001-09-21  gettextize  <bug-gnu-utils@gnu.org>
-
-	* Makefile.in.in: Upgrade to gettext-0.10.39.
-
-2001-09-21  gettextize  <bug-gnu-utils@gnu.org>
-
-	* Makefile.in.in: Upgrade to gettext-0.10.39.
-
-2001-09-21  gettextize  <bug-gnu-utils@gnu.org>
-
-	* Makefile.in.in: Upgrade to gettext-0.10.39.
-
+	* no.po: Updated Norwegian (bokmål) translation.
+	* POTFILES.in: Added camel/camel-vee-store.c and camel/camel-folder.c
+		
 2001-09-21  Stanislav Visnovsky  <visnovsky@nenya.ms.mff.cuni.cz>
 
 	* sk.po: Updated Slovak translation.

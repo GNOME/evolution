@@ -116,6 +116,7 @@ camel/camel-disco-diary.c
 camel/camel-disco-store.c
 camel/camel-filter-driver.c
 camel/camel-filter-search.c
+camel/camel-folder.c
 camel/camel-folder-search.c
 camel/camel-lock-client.c
 camel/camel-lock.c
@@ -140,6 +141,7 @@ camel/camel-tcp-stream-openssl.c
 camel/camel-tcp-stream-ssl.c
 camel/camel-url.c
 camel/camel-vee-folder.c
+camel/camel-vee-store.c
 camel/camel-vtrash-folder.c
 #camel/providers/cache/camel-cache-map.c
 #camel/providers/cache/camel-cache-store.c
