@@ -48,6 +48,7 @@
 #include "e-contact-editor.h"
 #include "e-contact-list-model.h"
 #include "e-contact-list-editor-marshal.h"
+#include "eab-contact-merging.h"
 
 static void e_contact_list_editor_init		(EContactListEditor		 *editor);
 static void e_contact_list_editor_class_init	(EContactListEditorClass	 *klass);
@@ -413,9 +414,9 @@ save_contact (EContactListEditor *cle, gboolean should_close)
 		cle->in_async_call = TRUE;
 
 		if (cle->is_new_list)
-			e_book_async_add_contact (cle->book, cle->contact, (EBookIdCallback)list_added_cb, ecs);
+			eab_merging_book_add_contact (cle->book, cle->contact, (EBookIdCallback)list_added_cb, ecs);
 		else
-			e_book_async_commit_contact (cle->book, cle->contact, (EBookCallback)list_modified_cb, ecs);
+			eab_merging_book_commit_contact (cle->book, cle->contact, (EBookCallback)list_modified_cb, ecs);
 
 		cle->changed = FALSE;
 	}
