@@ -7,7 +7,7 @@
  */
 
 #include <config.h>
-#include <atk/atkaction.h>
+#include <atk/atk.h>
 #include "gal-a11y-e-cell-tree.h"
 #include "gal-a11y-util.h"
 #include "gal/e-table/e-cell-tree.h"
@@ -17,6 +17,41 @@
 #define CS_CLASS(a11y) (G_TYPE_INSTANCE_GET_CLASS ((a11y), C_TYPE_STREAM, GalA11yECellTreeClass))
 static AtkObjectClass *a11y_parent_class;
 #define A11Y_PARENT_TYPE (gal_a11y_e_cell_get_type ())
+
+static void
+ectr_model_row_changed_cb (ETableModel *etm,
+			   gint row,
+			   GalA11yECell *a11y)
+{
+	ETreePath node;
+	ETreeModel *tree_model;
+	ETreeTableAdapter *tree_table_adapter;
+
+	g_return_if_fail (a11y);
+	if (a11y->row != row)
+		return;
+
+	node = e_table_model_value_at (etm, -1, a11y->row);
+	tree_model = e_table_model_value_at (etm, -2, a11y->row);
+	tree_table_adapter = e_table_model_value_at (etm, -3, a11y->row);
+
+	if (e_tree_model_node_is_expandable (tree_model, node)) {
+		gboolean is_exp = e_tree_table_adapter_node_is_expanded (tree_table_adapter, node);
+		if (is_exp)
+			gal_a11y_e_cell_add_state (a11y, ATK_STATE_EXPANDED, TRUE);
+		else
+			gal_a11y_e_cell_remove_state (a11y, ATK_STATE_EXPANDED, TRUE);
+	}
+}
+
+static void
+ectr_subcell_weak_ref (GalA11yECellTree *a11y,
+		       GalA11yECell     *subcell_a11y)
+{
+	g_signal_handler_disconnect (GAL_A11Y_E_CELL (a11y)->item->table_model,
+				     a11y->model_row_changed_id);
+	g_object_unref (a11y);
+}
 
 static void
 ectr_do_action_expand (AtkAction *action)
@@ -109,46 +144,66 @@ gal_a11y_e_cell_tree_new (ETableItem *item,
 			  int         view_col,
 			  int         row)
 {
-	GalA11yECell *a11y;
+	AtkObject *subcell_a11y;
+	GalA11yECellTree *a11y;
         GtkWidget *e_table;
-        gint model_row;
 
+        ETreePath node;
+        ETreeModel *tree_model;
+        ETreeTableAdapter *tree_table_adapter;
+ 
 	ECellView *subcell_view;
 	subcell_view = e_cell_tree_view_get_subcell_view (cell_view);
 
 	if (subcell_view->ecell) {
-		a11y = gal_a11y_e_cell_registry_get_object (NULL,
-							    item,
-							    subcell_view,
-							    parent,
-							    model_col,
-							    view_col,
-							    row);
-	} else {
-		a11y = g_object_new (gal_a11y_e_cell_tree_get_type (), NULL);
+		subcell_a11y = gal_a11y_e_cell_registry_get_object (NULL,
+								    item,
+								    subcell_view,
+								    parent,
+								    model_col,
+								    view_col,
+								    row);
+		gal_a11y_e_cell_add_action (subcell_a11y,
+					    "expand",
+					    "expands the row in the ETree containing this cell",
+					    NULL,
+					    (ACTION_FUNC)ectr_do_action_expand);
 
-		gal_a11y_e_cell_construct (a11y,
-					   item,
-					   cell_view,
-					   parent,
-					   model_col,
-					   view_col,
-					   row);
+		gal_a11y_e_cell_add_action (subcell_a11y,
+					    "collapse",
+					    "collapses the row in the ETree containing this cell",
+					    NULL,
+					    (ACTION_FUNC)ectr_do_action_collapse);
+
+		/* init AtkStates for the cell's a11y object */
+		node = e_table_model_value_at (item->table_model, -1, row);
+		tree_model = e_table_model_value_at (item->table_model, -2, row);
+		tree_table_adapter = e_table_model_value_at (item->table_model, -3, row);
+		if (e_tree_model_node_is_expandable (tree_model, node)) {
+			gal_a11y_e_cell_add_state (subcell_a11y, ATK_STATE_EXPANDABLE, FALSE);
+			if (e_tree_table_adapter_node_is_expanded (tree_table_adapter, node))
+				gal_a11y_e_cell_add_state (subcell_a11y, ATK_STATE_EXPANDED, FALSE);
+		}
 	}
+	else
+		subcell_a11y = NULL;
 
-	gal_a11y_e_cell_add_action (a11y,
-				    "expand",
-				    "expands the row in the ETree containing this cell",
-				    NULL,
-				    (ACTION_FUNC)ectr_do_action_expand);
+	/* create a companion a11y object, this object has type GalA11yECellTree
+	   and it connects to some signals to determine whether a tree cell is
+	   expanded or collapsed */
+	a11y = g_object_new (gal_a11y_e_cell_tree_get_type (), NULL);
+	gal_a11y_e_cell_construct (a11y,
+				   item,
+				   cell_view,
+				   parent,
+				   model_col,
+				   view_col,
+				   row);
+	a11y->model_row_changed_id =
+		g_signal_connect (item->table_model, "model_row_changed",
+				  G_CALLBACK (ectr_model_row_changed_cb),
+				  subcell_a11y);
+	g_object_weak_ref (subcell_a11y, ectr_subcell_weak_ref, a11y);
 
-	gal_a11y_e_cell_add_action (a11y,
-				    "collapse",
-				    "collapses the row in the ETree containing this cell",
-				    NULL,
-				    (ACTION_FUNC)ectr_do_action_collapse);
-
-	gal_a11y_e_cell_add_state (a11y, ATK_STATE_EXPANDABLE, FALSE);
-
-	return a11y;
+	return subcell_a11y;
 }

@@ -13,7 +13,7 @@ gal_a11y_e_cell_toggle_dispose (GObject *object)
 {
 	GalA11yECellToggle *a11y = GAL_A11Y_E_CELL_TOGGLE (object);
 
-	ETableModel *e_table_model = GAL_A11Y_E_CELL (a11y)->cell_view->e_table_model;
+	ETableModel *e_table_model = GAL_A11Y_E_CELL (a11y)->item->table_model;
 
 	if (e_table_model)
 		g_signal_handler_disconnect (e_table_model, a11y->model_id);
@@ -146,7 +146,7 @@ gal_a11y_e_cell_toggle_new (ETableItem *item,
 				    NULL,              /* action keybinding */
 				    toggle_cell_action);
 
-	toggle_cell->model_id = g_signal_connect (cell_view->e_table_model,
+	toggle_cell->model_id = g_signal_connect (item->table_model,
 						  "model_cell_changed",
 						  (GCallback) model_change_cb,
 						  a11y);

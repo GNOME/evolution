@@ -29,6 +29,8 @@ typedef struct _GalA11yECellTreePrivate GalA11yECellTreePrivate;
  **/
 struct _GalA11yECellTree {
 	GalA11yECell object;
+
+	int model_row_changed_id;
 };
 
 struct _GalA11yECellTreeClass {
