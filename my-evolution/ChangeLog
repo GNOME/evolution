@@ -1,3 +1,7 @@
+2001-06-15  JP Rosevear  <jpr@ximian.com>
+
+	* Makefile.am: Fix includes so that libical need not be installed 
+
 2001-06-14  JP Rosevear  <jpr@ximian.com>
 
 	* Makefile.am: add my-evolution-html.h to the sources

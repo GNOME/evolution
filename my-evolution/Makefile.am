@@ -6,6 +6,8 @@ INCLUDES = \
 	-I$(top_builddir)/shell					\
 	-I$(top_srcdir)/calendar				\
 	-I$(top_builddir)/calendar/cal-client			\
+	-I$(top_srcdir)/libical/src/libical			\
+	-I$(top_builddir)/libical/src/libical			\
 	$(EXTRA_GNOME_CFLAGS)					\
 	$(GNOME_VFS_CFLAGS)					\
 	$(GTKHTML_CFLAGS)					\
