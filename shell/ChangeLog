@@ -1,5 +1,15 @@
 2001-10-02  Ettore Perazzoli  <ettore@ximian.com>
 
+	[Don't allow dragging from a folder to one of its descendants or
+	onto itself, when the operation is GDK_DRAG_MOVE.  This fixes bugs
+	like #8737.]
+
+	* e-storage-set-view.c (handle_evolution_path_drag_motion): Don't
+	highlight if the user is attempting to move a folder to one of its
+	descendants.
+
+2001-10-02  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-view.c (e_shell_view_construct): Use
 	`bonobo_ui_component_new_default()', not
 	`bonobo_ui_component_new()'.

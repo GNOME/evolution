@@ -995,15 +995,39 @@ handle_evolution_path_drag_motion (EStorageSetView *storage_set_view,
 				   GdkDragContext *context,
 				   unsigned int time)
 {
+	EStorageSetViewPrivate *priv;
 	GdkModifierType modifiers;
 	GdkDragAction action;
 
+	priv = storage_set_view->priv;
+
 	gdk_window_get_pointer (NULL, NULL, NULL, &modifiers);
 
-	if ((modifiers & GDK_CONTROL_MASK) != 0)
+	if ((modifiers & GDK_CONTROL_MASK) != 0) {
 		action = GDK_ACTION_COPY;
-	else
+	} else {
+		GtkWidget *source_widget;
+
 		action = GDK_ACTION_MOVE;
+
+		source_widget = gtk_drag_get_source_widget (context);
+		if (source_widget != NULL
+		    && E_IS_STORAGE_SET_VIEW (storage_set_view)) {
+			const char *source_path;
+			source_path = e_storage_set_view_get_current_folder (storage_set_view);
+
+			if (source_path != NULL) {
+				int source_path_len;
+				const char *destination_path;
+
+				source_path_len = strlen (path);
+				destination_path = e_tree_memory_node_get_data (E_TREE_MEMORY (priv->etree_model), path);
+
+				if (strncmp (destination_path, source_path, source_path_len) == 0)
+					return FALSE;
+			}
+		}
+	}
 
 	e_tree_drag_highlight (E_TREE (storage_set_view), row, -1);
 
