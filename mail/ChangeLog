@@ -1,5 +1,13 @@
 2005-02-01  Not Zed  <NotZed@Ximian.com>
 
+	** See bug #71310
+
+	* em-composer-prefs.c (sig_add_script_response): force a save of
+	the signatures as soon as they change.  Also save the script name
+	if we were just editing it, not just the signature name.
+
+2005-02-01  Not Zed  <NotZed@Ximian.com>
+
 	** See bug #65329.
 
 	* mail-component.c (view_changed_cb): translate special names on
