@@ -45,6 +45,7 @@
 #include "addressbook/printing/e-contact-print-envelope.h"
 #include "e-util/e-gui-utils.h"
 #include "widgets/misc/e-dateedit.h"
+#include "shell/evolution-shell-component-utils.h"
 
 #include "e-card-merging.h"
 
@@ -1021,15 +1022,27 @@ BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB_END
 };
 
+EPixmap pixmaps[] = {
+	E_PIXMAP ("/commands/ContactEditorSave", "save-16.png"),
+	E_PIXMAP ("/commands/ContactEditorSaveAs", "save-as-16.png"),
+	E_PIXMAP ("/commands/ContactEditorPrint", "print.xpm"),
+	E_PIXMAP ("/commands/ContactEditorPrintEnvelope", "print.xpm"),
+
+	E_PIXMAP ("/Toolbar/ContactEditorPrint", "buttons/print.png"),
+
+	E_PIXMAP_END
+};
+
 static void
 create_ui (EContactEditor *ce)
 {
-	bonobo_ui_component_add_verb_list_with_data (
-		ce->uic, verbs, ce);
+	bonobo_ui_component_add_verb_list_with_data (ce->uic, verbs, ce);
 
 	bonobo_ui_util_set_ui (ce->uic, EVOLUTION_DATADIR,
 			       "evolution-contact-editor.xml",
 			       "evolution-contact-editor");
+
+	e_pixmaps_update (ce->uic, pixmaps);
 }
 
 /* Callback used when the dialog box is destroyed */

@@ -157,11 +157,6 @@ static GnomeUIInfo actions_menu[] = {
 	GNOMEUIINFO_ITEM_NONE (N_("FIXME: For_ward"), NULL, NULL)
 };
 
-static GnomeUIInfo help_menu[] = {
-	GNOMEUIINFO_ITEM_NONE ("FIXME: fix Bonobo so it supports help items!", NULL, NULL),
-	GNOMEUIINFO_END
-};
-
 static GnomeUIInfo main_menu[] = {
 	GNOMEUIINFO_MENU_FILE_TREE (file_menu),
 	GNOMEUIINFO_MENU_EDIT_TREE (edit_menu),
@@ -170,16 +165,12 @@ static GnomeUIInfo main_menu[] = {
 	GNOMEUIINFO_SUBTREE (N_("F_ormat"), format_menu),
 	GNOMEUIINFO_SUBTREE (N_("_Tools"), tools_menu),
 	GNOMEUIINFO_SUBTREE (N_("Actio_ns"), actions_menu),
-	GNOMEUIINFO_MENU_HELP_TREE (help_menu),
 	GNOMEUIINFO_END
 };
 -->
         <commands>
-		<cmd name="ContactEditorSave"
-		 pixtype="stock" pixname="Save"/>
-
-		<cmd name="ContactEditorSaveAs"
-		 pixtype="stock" pixname="SaveAs"/>
+		<cmd name="ContactEditorSave" pixtype="pixbuf"/>
+		<cmd name="ContactEditorSaveAs" pixtype="pixbuf"/>
 
 		<cmd name="ContactEditorSendAs"/>
 
@@ -191,10 +182,10 @@ static GnomeUIInfo main_menu[] = {
 
 		<cmd name="ContactEditorPrint"
 		 _tip="Print this item"
-		 pixtype="stock" pixname="Print"/>
+		 pixtype="pixbuf"/>
 
 		<cmd name="ContactEditorPrintEnvelope"
-		 pixtype="stock" pixname="Print"/>
+		 pixtype="pixbuf"/>
 
 		<cmd name="ContactEditorClose"
 		 pixtype="stock" pixname="Close"/>
@@ -208,15 +199,12 @@ static GnomeUIInfo main_menu[] = {
 
 		<submenu name="File" _label="_File">
 
-		        <menuitem name="ContactEditorSave" verb=""
-			_label="_Save"/>
-
-		        <menuitem name="ContactEditorSaveAs" verb=""
-			_label="Save _As..."/>
+		        <menuitem name="ContactEditorSave" verb="" _label="_Save"/>
+		        <menuitem name="ContactEditorSaveAs" verb="" _label="Save _As..."/>
 
 			<separator/>
 
-		        <menuitem name="ContactEditorSendAs" verb=""
+		        <menuitem name="ContactEditorSendAs" verb="" 
 			_label="Se_nd contact to other..."/>
 
 		        <menuitem name="ContactEditorSendTo" verb=""
@@ -225,7 +213,7 @@ static GnomeUIInfo main_menu[] = {
 			<separator/>
 
 		        <menuitem name="ContactEditorDelete" verb=""
-			_label="Delete..."/>
+			_label="Delete"/>
 
 			<separator/>
 
@@ -255,10 +243,13 @@ static GnomeUIInfo main_menu[] = {
 		<separator/>
 
 		<toolitem name="ContactEditorPrint" verb=""
-		_label="Print..." priority="1"/>
+		_label="Print" priority="1" pixtype="pixbuf"/>
 
 		<toolitem name="ContactEditorDelete" verb=""
-		_label="Delete..." priority="1"/>
+		_label="Delete" priority="1"/>
+
+		<toolitem name="ContactEditorClose" verb=""
+		_label="Close" priority="1"/>	
 
 <!--
 		<toolitem name="Help" _label="Help"

@@ -1,3 +1,8 @@
+2001-08-02  Jason Leach  <jleach@ximian.com>
+
+	* gui/contact-editor/e-contact-editor.c: Use the updated Save,
+	Save As, and Print icons for the menus and toolbar.
+
 2001-08-02  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/component/addressbook.c: Added ContactsSaveAsVCard,

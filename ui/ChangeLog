@@ -1,3 +1,9 @@
+2001-08-02  Jason Leach  <jleach@ximian.com>
+
+	* evolution-contact-editor.xml: Update the updated Save, Save As,
+	and Print icons for menus and the toolbar.  Also added a Close
+	button to the toolbar and some other fixes suggested in #5518.
+
 2001-08-02  Christopher James Lahey  <clahey@ximian.com>
 
 	* evolution-addressbook.xml: Added ContactsSaveAsVCard,
