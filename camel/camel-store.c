@@ -111,7 +111,8 @@ camel_store_init (void *o)
 	} else
 		store->folders = NULL;
 	
-	store->flags = 0;
+	/* set vtrash on by default */
+	store->flags = CAMEL_STORE_VTRASH;
 	
 	store->priv = g_malloc0 (sizeof (*store->priv));
 #ifdef ENABLE_THREADS
@@ -226,11 +227,15 @@ camel_store_get_folder (CamelStore *store, const char *folder_name, guint32 flag
 			if (store->folders) {
 				CAMEL_STORE_LOCK(store, cache_lock);
 				
+				printf("adding folder '%s' to folders hashtable\n", folder_name);
 				g_hash_table_insert (store->folders, g_strdup (folder_name), folder);
 				
+				printf("store folders size = %d\n", g_hash_table_size(store->folders));
+
 				camel_object_hook_event (CAMEL_OBJECT (folder), "finalize", folder_finalize, store);
 				CAMEL_STORE_UNLOCK(store, cache_lock);
-			}
+			} else
+				printf("not adding folder '%s' to folders hashtable\n", folder_name);
 		}
 	}
 	
@@ -296,13 +301,15 @@ camel_store_delete_folder (CamelStore *store, const char *folder_name, CamelExce
 
 	CAMEL_STORE_LOCK(store, folder_lock);
 
+	CS_CLASS (store)->delete_folder (store, folder_name, ex);
+
 	/* if we deleted a folder, force it out of the cache, and also out of the vtrash if setup */
 	if (store->folders) {
 		CamelFolder *folder;
 		char *key;
 
 		CAMEL_STORE_LOCK(store, cache_lock);
-		if (g_hash_table_lookup_extended(store->folders, folder_name, &key, (void **)&folder)) {
+		if (g_hash_table_lookup_extended(store->folders, folder_name, (void **)&key, (void **)&folder)) {
 			g_hash_table_remove(store->folders, key);
 			g_free(key);
 			CAMEL_STORE_UNLOCK(store, cache_lock);
@@ -313,7 +320,6 @@ camel_store_delete_folder (CamelStore *store, const char *folder_name, CamelExce
 		}
 	}
 
-	CS_CLASS (store)->delete_folder (store, folder_name, ex);
 	CAMEL_STORE_UNLOCK(store, folder_lock);
 }
 
@@ -341,17 +347,20 @@ camel_store_rename_folder (CamelStore *store, const char *old_name, const char *
 	char *key;
 	CamelFolder *folder;
 
+	if (strcmp(old_name, new_name) == 0)
+		return;
+
 	CAMEL_STORE_LOCK(store, folder_lock);
+	CS_CLASS (store)->rename_folder (store, old_name, new_name, ex);
 
 	/* remove the old name from the cache if it is there */
 	CAMEL_STORE_LOCK(store, cache_lock);
-	if (g_hash_table_lookup_extended(store->folders, old_name, &key, (void **)&folder)) {
+	if (g_hash_table_lookup_extended(store->folders, old_name, (void **)&key, (void **)&folder)) {
 		g_hash_table_remove(store->folders, key);
 		g_free(key);
 	}
 	CAMEL_STORE_UNLOCK(store, cache_lock);
 
-	CS_CLASS (store)->rename_folder (store, old_name, new_name, ex);
 	CAMEL_STORE_UNLOCK(store, folder_lock);
 }
 
@@ -406,6 +415,9 @@ trash_finalize (CamelObject *trash, gpointer event_data, gpointer user_data)
 static void
 init_trash (CamelStore *store)
 {
+	if ((store->flags & CAMEL_STORE_VTRASH) == 0)
+		return;
+
 	store->vtrash = camel_vtrash_folder_new (store, CAMEL_VTRASH_NAME);
 	
 	if (store->vtrash) {
@@ -455,6 +467,9 @@ CamelFolder *
 camel_store_get_trash (CamelStore *store, CamelException *ex)
 {
 	CamelFolder *folder;
+
+	if ((store->flags & CAMEL_STORE_VTRASH) == 0)
+		return NULL;
 	
 	CAMEL_STORE_LOCK(store, folder_lock);
 	folder = CS_CLASS (store)->get_trash (store, ex);

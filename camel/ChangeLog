@@ -1,3 +1,54 @@
+2001-09-14    <NotZed@Ximian.com>
+
+	* camel-vee-folder.c (camel_vee_folder_set_folders): New function,
+	set the complete list of folders on a vfolder, all at once.
+	(camel_vee_folder_set_expression): If we set the query to be the
+	same thing, dont do anything.
+
+	* camel-vee-store.c (camel_vee_store_init): Turn off vtrash for
+	this store.
+
+	* camel-store.c (camel_store_init): Enable vtrash by default via
+	flags.
+	(camel_store_get_trash): REturn NULL if the store doesn't support
+	vtrash.
+	(init_trash): Dont init if store doesn't support vtrash.
+
+	* camel-store.h: Add a new flags CAMEL_STORE_VTRASH -> store
+	supports vtrash.
+
+2001-09-13    <NotZed@Ximian.com>
+
+	* camel-vee-store.c (vee_get_folder_info): Implement.
+	(build_info): Used to build a folder record from the folders
+	hashtable.
+	(vee_delete_folder): Implemented, remove folder from hashtable.
+	(vee_rename_folder): Implemented, remove old folder from
+	hashtable, add new one and rename its guts too.
+
+	* camel-store.c (camel_store_rename_folder): Do nothing if we're
+	not asked to actually change names.  Also dont do the renamed
+	cache check till after we've called the subclass.
+	(camel_store_delete_folder): Call the subclass delete firs,t then
+	make sure the cache is right.
+
+	* camel-vee-folder.c (vee_folder_construct): Remove support for
+	name?query syntax to setup vfolder.  Abort if such syntax is used.
+	(camel_vee_folder_new): Removed code that handles ? syntax, etc.
+	(vee_folder_build_folder): Handle unset expression, treat it as an
+	empty search.
+	(camel_vee_folder_set_expression): Oops, actually set the
+	expression.
+
+	* camel-vtrash-folder.c (camel_vtrash_folder_new): Dont use
+	name?query syntax to setup vfolder, but set the expression
+	directly.  Also fixes a small memleak.
+
+2001-09-12    <NotZed@Ximian.com>
+
+	* camel-store.c (camel_store_delete_folder): Fixed warnings with a cast.
+	(camel_store_rename_folder): "
+
 2001-09-14  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-url.c (camel_url_set_param): Use g_datalist_set_data_full

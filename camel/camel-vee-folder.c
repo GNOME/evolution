@@ -194,14 +194,10 @@ vee_folder_construct (CamelVeeFolder *vf, CamelStore *parent_store, const char *
 	
 	vf->flags = flags;
 
-	tmp = strchr(name, '?');
-	if (tmp) {
-		vf->vname = g_strndup(name, tmp-name);
-		vf->expression = g_strdup(tmp+1);
-	} else {
-		vf->vname = g_strdup(name);
-	}
+	/* We dont support ? syntax anymore */
+	g_assert(strchr(name, '?') == NULL);
 
+	vf->vname = g_strdup(name);
 	tmp = strrchr(vf->vname, '/');
 	if (tmp)
 		tmp++;
@@ -247,7 +243,6 @@ CamelFolder *
 camel_vee_folder_new(CamelStore *parent_store, const char *name, guint32 flags)
 {
 	CamelVeeFolder *vf;
-	char *path, *query;
 
 	UNMATCHED_LOCK();
 
@@ -261,13 +256,7 @@ camel_vee_folder_new(CamelStore *parent_store, const char *name, guint32 flags)
 
 	UNMATCHED_UNLOCK();
 
-	path = alloca(strlen(name)+1);
-	strcpy(path, name);
-	query = strchr(path, '?');
-	if (query)
-		*query++ = 0;
-
-	if (strcmp(path, "UNMATCHED") == 0) {
+	if (strcmp(name, "UNMATCHED") == 0) {
 		camel_object_ref((CamelObject *)folder_unmatched);
 		printf("returning unmatched %p, count = %d\n", folder_unmatched, camel_folder_get_message_count((CamelFolder *)folder_unmatched));
 		return (CamelFolder *)folder_unmatched;
@@ -288,6 +277,17 @@ camel_vee_folder_set_expression(CamelVeeFolder *vf, const char *query)
 	GList *node;
 
 	CAMEL_VEE_FOLDER_LOCK(vf, subfolder_lock);
+
+	/* no change, do nothing */
+	if ((vf->expression && query && strcmp(vf->expression, query) == 0)
+	    || (vf->expression == NULL && query == NULL)) {
+		CAMEL_VEE_FOLDER_UNLOCK(vf, subfolder_lock);
+		return;
+	}
+
+	g_free(vf->expression);
+	if (query)
+		vf->expression = g_strdup(query);
 
 	node = p->folders;
 	while (node) {
@@ -370,6 +370,54 @@ camel_vee_folder_remove_folder(CamelVeeFolder *vf, CamelFolder *sub)
 	vee_folder_remove_folder(vf, sub);
 
 	camel_object_unref((CamelObject *)sub);
+}
+
+static void
+remove_folders(CamelFolder *folder, CamelFolder *foldercopy, CamelVeeFolder *vf)
+{
+	camel_vee_folder_remove_folder(vf, folder);
+	camel_object_unref((CamelObject *)folder);
+}
+
+/**
+ * camel_vee_folder_set_folders:
+ * @vf: 
+ * @folders: 
+ * 
+ * Set the whole list of folder sources on a vee folder.
+ **/
+void
+camel_vee_folder_set_folders(CamelVeeFolder *vf, GList *folders)
+{
+	GHashTable *remove = g_hash_table_new(NULL, NULL);
+	GList *l;
+	CamelFolder *folder;
+
+	/* setup a table of all folders we have currently */
+	CAMEL_VEE_FOLDER_LOCK(vf, subfolder_lock);
+	l = vf->priv->folders;
+	while (l) {
+		g_hash_table_insert(remove, l->data, l->data);
+		camel_object_ref((CamelObject *)l->data);
+		l = l->next;
+	}
+	CAMEL_VEE_FOLDER_UNLOCK(vf, subfolder_lock);
+
+	/* if we already have the folder, ignore it, otherwise add it */
+	l = folders;
+	while (l) {
+		if ((folder = g_hash_table_lookup(remove, l->data))) {
+			g_hash_table_remove(remove, folder);
+			camel_object_unref((CamelObject *)folder);
+		} else {
+			camel_vee_folder_add_folder(vf, l->data);
+		}
+		l = l->next;
+	}
+
+	/* then remove any we still have */
+	g_hash_table_foreach(remove, (GHFunc)remove_folders, vf);
+	g_hash_table_destroy(remove);
 }
 
 /**
@@ -750,9 +798,14 @@ vee_folder_build_folder(CamelVeeFolder *vf, CamelFolder *source, CamelException 
 	if (vf == folder_unmatched)
 		return 0;
 
-	match = camel_folder_search_by_expression(f, vf->expression, ex);
-	if (match == NULL)
-		return -1;
+	/* if we have no expression, or its been cleared, then act as if no matches */
+	if (vf->expression == NULL) {
+		match = g_ptr_array_new();
+	} else {
+		match = camel_folder_search_by_expression(f, vf->expression, ex);
+		if (match == NULL)
+			return -1;
+	}
 
 	u.source = source;
 	u.vf = vf;
@@ -847,7 +900,11 @@ vee_folder_build_folder(CamelVeeFolder *vf, CamelFolder *source, CamelException 
 
 	g_hash_table_destroy(matchhash);
 	g_hash_table_destroy(allhash);
-	camel_folder_search_free(f, match);
+	/* if expression not set, we only had a null list */
+	if (vf->expression == NULL)
+		g_ptr_array_free(match, TRUE);
+	else
+		camel_folder_search_free(f, match);
 	camel_folder_free_uids(f, all);
 
 	if (unmatched_changes) {

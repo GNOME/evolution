@@ -83,15 +83,12 @@ CamelFolder *
 camel_vtrash_folder_new (CamelStore *parent_store, const char *name)
 {
 	CamelFolder *vtrash;
-	char *vtrash_name;
-	guint32 flags;
 	
 	vtrash = (CamelFolder *)camel_object_new (camel_vtrash_folder_get_type ());
-	vtrash_name = g_strdup_printf ("%s?(match-all (system-flag \"Deleted\"))", name);
-	flags = CAMEL_STORE_FOLDER_PRIVATE | CAMEL_STORE_FOLDER_CREATE | CAMEL_STORE_VEE_FOLDER_AUTO;
-	
-	camel_vee_folder_construct (CAMEL_VEE_FOLDER (vtrash), parent_store, vtrash_name, flags);
-	
+	camel_vee_folder_construct (CAMEL_VEE_FOLDER (vtrash), parent_store, name,
+				    CAMEL_STORE_FOLDER_PRIVATE | CAMEL_STORE_FOLDER_CREATE | CAMEL_STORE_VEE_FOLDER_AUTO);
+	camel_vee_folder_set_expression((CamelVeeFolder *)vtrash, "(match-all (system-flag \"Deleted\"))");
+
 	return vtrash;
 }
 

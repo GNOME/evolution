@@ -62,6 +62,7 @@ void         camel_vee_folder_construct		(CamelVeeFolder *vf, CamelStore *parent
 
 void         camel_vee_folder_add_folder        (CamelVeeFolder *vf, CamelFolder *sub);
 void         camel_vee_folder_remove_folder     (CamelVeeFolder *vf, CamelFolder *sub);
+void	     camel_vee_folder_set_folders	(CamelVeeFolder *vf, GList *folders);
 void	     camel_vee_folder_set_expression	(CamelVeeFolder *vf, const char *expr);
 
 void	     camel_vee_folder_hash_folder	(CamelFolder *folder, char buffer[8]);

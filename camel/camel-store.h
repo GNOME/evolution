@@ -54,7 +54,8 @@ typedef struct _CamelFolderInfo {
 
 
 /* Flags for store flags */
-#define CAMEL_STORE_SUBSCRIPTIONS (1 << 0)
+#define CAMEL_STORE_SUBSCRIPTIONS	(1 << 0)
+#define CAMEL_STORE_VTRASH		(1 << 1)
 
 struct _CamelStore
 {
