@@ -501,11 +501,12 @@ msgid ""
 msgstr ""
 
 #: addressbook/backend/ebook/e-card.c:3844
-#, fuzzy
 msgid ""
 "\n"
 "Business Role: "
-msgstr "Firma"
+msgstr ""
+"\n"
+"Forretningsrolle: "
 
 #: addressbook/backend/ebook/e-card.c:3856
 msgid ""
@@ -716,18 +717,16 @@ msgid "Evolution component for handling contacts."
 msgstr "Evolutionkomponent for handsaming av kontakter."
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:7
-#, fuzzy
 msgid "Factory for the Addressbook Minicard control"
-msgstr "Øydelagd oppsettfil."
+msgstr "Fabrikk for Minikortkontrolle i addresseboka"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:8
 msgid "Factory for the Addressbook's address displayer"
 msgstr "Fabrikk for addressevisaren til addresseboka"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:9
-#, fuzzy
 msgid "Factory for the Addressbook's address popup"
-msgstr "Øydelagd oppsettfil."
+msgstr "Fabrikke for sprettopp-vindauget til addresseboka"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in.h:10
 msgid "Factory for the sample Addressbook control"
@@ -834,9 +833,8 @@ msgid "Server Name"
 msgstr "Tenarnamn"
 
 #: addressbook/gui/component/addressbook-config.glade.h:15
-#, fuzzy
 msgid "Sub"
-msgstr "Sum"
+msgstr "Sub"
 
 #: addressbook/gui/component/addressbook-config.glade.h:16
 msgid "The information below is required in order to add an addressbook.  "
@@ -896,12 +894,11 @@ msgstr "_Legg til"
 #: ui/evolution-signature-editor.xml.h:7 ui/evolution-subscribe.xml.h:10
 #: ui/evolution-tasks.xml.h:16
 msgid "_Edit"
-msgstr "R_ediger"
+msgstr "R_edigér"
 
 #: addressbook/gui/component/addressbook-config.glade.h:26
-#, fuzzy
 msgid "_My server requires authentication"
-msgstr "Autentisering:"
+msgstr "_Min tenar treng autentisering"
 
 #: addressbook/gui/component/addressbook-config.glade.h:27
 msgid "_Port:"
@@ -1004,9 +1001,9 @@ msgid "Select an Action"
 msgstr "Vel ei handling"
 
 #: addressbook/gui/component/e-address-popup.c:593
-#, fuzzy, c-format
+#, c-format
 msgid "Create a new contact \"%s\""
-msgstr "Lagar eit nytt dokument"
+msgstr "Lag ny kontakt «%s»"
 
 #: addressbook/gui/component/e-address-popup.c:605
 #, c-format
@@ -1030,19 +1027,16 @@ msgid "Add to Contacts"
 msgstr "Legg til kontakter"
 
 #: addressbook/gui/component/e-address-popup.c:1046
-#, fuzzy
 msgid "Merge E-Mail Address"
-msgstr "E-post-adresse:"
+msgstr "Flett e-postadresser"
 
 #: addressbook/gui/component/e-address-widget.c:364
-#, fuzzy
 msgid "Disable Queries"
-msgstr "Skru av førehandsvising"
+msgstr "Slå av spørjingar"
 
 #: addressbook/gui/component/e-address-widget.c:364
-#, fuzzy
 msgid "Enable Queries (Dangerous!)"
-msgstr "Skru på meldingar?"
+msgstr "Slå på spørjingar (Farleg!)"
 
 #: addressbook/gui/component/select-names/GNOME_Evolution_Addressbook_SelectNames.oaf.in.h:1
 #, fuzzy
@@ -1125,7 +1119,7 @@ msgstr "Vel namn"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:5
 msgid "Show contacts matching the following criteria:"
-msgstr ""
+msgstr "Vis kontakter som stemmer med desse kriteria:"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:6
 msgid "_Category:"
@@ -1140,9 +1134,8 @@ msgid "_Message Recipients:"
 msgstr "_Mottakarar:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:1
-#, fuzzy
 msgid "A_ssistant's name:"
-msgstr "&Namn på assistent:"
+msgstr "Namn på a_ssistent:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:2
 msgid "Add_ress..."
@@ -1266,9 +1259,8 @@ msgid "_Office:"
 msgstr "K_ontor:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:36
-#, fuzzy
 msgid "_Public Calendar URL:"
-msgstr "Skriv ut alle"
+msgstr "_Offentleg kalendar-URL:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:37
 msgid "_Web page address:"
@@ -2463,9 +2455,8 @@ msgid "_Title:"
 msgstr "_Tittel:"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:1
-#, fuzzy
 msgid "List _name:"
-msgstr "Etternamn:"
+msgstr "Liste_namn:"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:2
 msgid "Members"
@@ -2485,9 +2476,8 @@ msgid "_Remove"
 msgstr "Fje_rn"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:7
-#, fuzzy
 msgid "contact-list-editor"
-msgstr "Comment=X-redigering"
+msgstr "contact-list-editor"
 
 #. Construct the app
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:234
@@ -2495,9 +2485,8 @@ msgid "Contact List Editor"
 msgstr "Redigering av kontakter"
 
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:428
-#, fuzzy
 msgid "Save List as VCard"
-msgstr "Lagra som"
+msgstr "Lagre liste som VCard"
 
 #: addressbook/gui/merging/e-card-duplicate-detected.glade.h:1
 msgid "Add Anyway"
@@ -2674,9 +2663,8 @@ msgid "Error adding list"
 msgstr "Feil ved tillegging av liste"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:76
-#, fuzzy
 msgid "Error adding card"
-msgstr "Feil ved lasting av oppsett"
+msgstr "Feil ved tilleggjing av kort"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:85
 msgid "Error modifying list"
@@ -2715,7 +2703,6 @@ msgid "Primary Phone"
 msgstr "Primær telefon"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:853
-#, fuzzy
 msgid "Assistant Phone"
 msgstr "Telefon til assistent"
 
@@ -2819,9 +2806,8 @@ msgid "Dimensions:"
 msgstr "Mål:"
 
 #: addressbook/printing/e-contact-print.glade.h:7
-#, fuzzy
 msgid "F_ont..."
-msgstr "Skrifttype ..."
+msgstr "_Skrifttype ..."
 
 #: addressbook/printing/e-contact-print.glade.h:8
 msgid "Fonts"
@@ -2905,9 +2891,8 @@ msgid "Paper"
 msgstr "Papir"
 
 #: addressbook/printing/e-contact-print.glade.h:28
-#, fuzzy
 msgid "Paper source:"
-msgstr "Papir&storleik:"
+msgstr "Papirkjelde:"
 
 #: addressbook/printing/e-contact-print.glade.h:29
 msgid "Portrait"
@@ -2918,14 +2903,12 @@ msgid "Preview:"
 msgstr "Førehandsvising:"
 
 #: addressbook/printing/e-contact-print.glade.h:31
-#, fuzzy
 msgid "Print using gray shading"
 msgstr "Skriv med grånyansar"
 
 #: addressbook/printing/e-contact-print.glade.h:32
-#, fuzzy
 msgid "Reverse on even pages"
-msgstr "Merk partal-sider"
+msgstr "Reversér på ulike sider"
 
 #: addressbook/printing/e-contact-print.glade.h:33
 msgid "Right:"
@@ -4642,9 +4625,8 @@ msgid "Snooze time (minutes)"
 msgstr "Låg grense (minutt):"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:4
-#, fuzzy
 msgid "_Edit appointment"
-msgstr "&Endra avtale ..."
+msgstr "R_edigér avtale"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:670
 msgid "No description available."
@@ -4903,14 +4885,12 @@ msgid "The URI that the calendar will display"
 msgstr "Viser korleis datoverdiar vert viste."
 
 #: calendar/gui/dialogs/alarm-options.c:359
-#, fuzzy
 msgid "Audio Alarm Options"
-msgstr "Alarm"
+msgstr "Val for lydlarm"
 
 #: calendar/gui/dialogs/alarm-options.c:368
-#, fuzzy
 msgid "Message Alarm Options"
-msgstr "Eigenskapar for meldingsdel"
+msgstr "Eigenskapar meldingsalarm"
 
 #: calendar/gui/dialogs/alarm-options.c:377
 #, fuzzy
@@ -4928,9 +4908,8 @@ msgid "Unknown Alarm Options"
 msgstr "Kjende program"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:1
-#, fuzzy
 msgid "Alarm Repeat"
-msgstr "Rammeeigenskapar ..."
+msgstr "Alarmen repeterar"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:2
 msgid "Message to Display"
@@ -5044,14 +5023,14 @@ msgid "Unknown action to be performed"
 msgstr "Ukjent handling som skal utførast"
 
 #: calendar/gui/dialogs/alarm-page.c:403
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s before the start of the appointment"
-msgstr "&Slett avtale"
+msgstr "%s %s før byrjing på avtalen"
 
 #: calendar/gui/dialogs/alarm-page.c:406
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s after the start of the appointment"
-msgstr "&Slett avtale"
+msgstr "%s %s etter byrjinga på avtalen"
 
 #: calendar/gui/dialogs/alarm-page.c:411
 #, fuzzy, c-format
@@ -5242,9 +5221,8 @@ msgid "T_ue"
 msgstr "T_ys"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:25
-#, fuzzy
 msgid "Tas_ks due today:"
-msgstr "&Opplys syntaks"
+msgstr "_Oppgåver som skal vere ferdig i dag:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:26
 #: calendar/gui/dialogs/recurrence-page.c:962
@@ -5260,9 +5238,8 @@ msgid "Time _zone:"
 msgstr "Tid_ssone:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:29
-#, fuzzy
 msgid "Time di_visions:"
-msgstr "Dimensjonar"
+msgstr "Oppdeling a_v tid:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:30
 msgid "Time format:"
@@ -5304,9 +5281,8 @@ msgid "_Display"
 msgstr "_Vis"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:39
-#, fuzzy
 msgid "_End of day:"
-msgstr "Slutt trekk"
+msgstr "S_lutt på dag:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:40
 msgid "_Fri"
@@ -5443,9 +5419,8 @@ msgid "Could not update object!"
 msgstr "Kunne ikkje laga kio-jobb.\n"
 
 #: calendar/gui/dialogs/comp-editor.c:678
-#, fuzzy
 msgid "Edit Appointment"
-msgstr "&Endra avtale ..."
+msgstr "Redigér avtale"
 
 #: calendar/gui/dialogs/comp-editor.c:683
 #, c-format
@@ -5460,7 +5435,7 @@ msgstr "Oppgåve - %s"
 #: calendar/gui/dialogs/comp-editor.c:689
 #, c-format
 msgid "Journal entry - %s"
-msgstr ""
+msgstr "Journaloppføring - %s"
 
 #: calendar/gui/dialogs/comp-editor.c:703
 msgid "No summary"
@@ -5540,14 +5515,12 @@ msgid "Addressbook..."
 msgstr "Adressebok ..."
 
 #: calendar/gui/dialogs/e-delegate-dialog.glade.h:2
-#, fuzzy
 msgid "Delegate To:"
-msgstr "Delegert"
+msgstr "Delegér til:"
 
 #: calendar/gui/dialogs/e-delegate-dialog.glade.h:3
-#, fuzzy
 msgid "Enter Delegate"
-msgstr "Slett"
+msgstr "Tast inn delegat"
 
 #: calendar/gui/dialogs/event-editor.c:185 calendar/gui/print.c:2203
 msgid "Appointment"
@@ -5585,7 +5558,6 @@ msgstr "_Oppteke"
 #: calendar/gui/dialogs/event-page.glade.h:4
 #: calendar/gui/dialogs/task-page.glade.h:2
 #: calendar/gui/e-calendar-table.etspec.h:5
-#, fuzzy
 msgid "Classification"
 msgstr "Klassifisering"
 
@@ -5604,9 +5576,8 @@ msgid "F_ree"
 msgstr "_Ledig"
 
 #: calendar/gui/dialogs/event-page.glade.h:8
-#, fuzzy
 msgid "L_ocation:"
-msgstr "_Handlingar"
+msgstr "_Plassering:"
 
 #: calendar/gui/dialogs/event-page.glade.h:9
 #: calendar/gui/dialogs/task-page.glade.h:6
@@ -5615,9 +5586,8 @@ msgstr "Pri_vat"
 
 #: calendar/gui/dialogs/event-page.glade.h:10
 #: calendar/gui/dialogs/task-page.glade.h:7
-#, fuzzy
 msgid "Pu_blic"
-msgstr "Praksis"
+msgstr "_Offentleg"
 
 #: calendar/gui/dialogs/event-page.glade.h:11
 #: calendar/gui/e-calendar-table.etspec.h:13
@@ -5655,9 +5625,8 @@ msgid "That person is already attending the meeting!"
 msgstr ""
 
 #: calendar/gui/dialogs/meeting-page.c:701
-#, fuzzy
 msgid "_Delegate To..."
-msgstr "F&jern rad ..."
+msgstr "_Delegér til ..."
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:1
 #: calendar/gui/e-meeting-time-sel.etspec.h:1
@@ -5666,26 +5635,23 @@ msgstr "Deltakar"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:2
 #: calendar/gui/e-meeting-time-sel.etspec.h:2
-#, fuzzy
 msgid "Click here to add an attendee"
-msgstr "Trykk her for å leggja til ein ny virtuell vert."
+msgstr "Klikke her for å leggje til ein deltakar"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:3
 #: calendar/gui/e-meeting-time-sel.etspec.h:3
 msgid "Common Name"
-msgstr ""
+msgstr "Felles namn"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:4
 #: calendar/gui/e-meeting-time-sel.etspec.h:4
-#, fuzzy
 msgid "Delegated From"
-msgstr "Delegert"
+msgstr "Delegert frå"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:5
 #: calendar/gui/e-meeting-time-sel.etspec.h:5
-#, fuzzy
 msgid "Delegated To"
-msgstr "Delegert"
+msgstr "Delegert til"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:6
 #: calendar/gui/e-meeting-time-sel.etspec.h:6
@@ -9391,33 +9357,28 @@ msgid "Body does not contain"
 msgstr "Kropp inneheld ikkje"
 
 #: default_user/searches.xml.h:3
-#, fuzzy
 msgid "Body or subject contains"
-msgstr "Emne"
+msgstr "Kropp eller emne inneheld"
 
 #: default_user/searches.xml.h:4
-#, fuzzy
 msgid "Message contains"
-msgstr "Spørjinga inneheld"
+msgstr "Meldinga inneheld"
 
 #: default_user/searches.xml.h:5
-#, fuzzy
 msgid "Recipients contain"
-msgstr "Skildringar"
+msgstr "Mottakar inneheld"
 
 #: default_user/searches.xml.h:6
-#, fuzzy
 msgid "Sender contains"
-msgstr "Spørjinga inneheld"
+msgstr "Avsendar inneheld"
 
 #: default_user/searches.xml.h:7
 msgid "Subject contains"
 msgstr "Emne inneheld"
 
 #: default_user/searches.xml.h:8
-#, fuzzy
 msgid "Subject does not contain"
-msgstr "Emne"
+msgstr "Emne inneheld ikkje"
 
 #. Remember the password?
 #: e-util/e-passwords.c:360 mail/mail-session.c:267
@@ -9444,9 +9405,8 @@ msgstr ""
 #. strptime format of a weekday, a date and a time,
 #. in 12-hour format, without minutes or seconds.
 #: e-util/e-time-utils.c:178
-#, fuzzy
 msgid "%a %m/%d/%Y %I %p"
-msgstr "%H:%M"
+msgstr "%a %m/%d/%Y %I %p"
 
 #. strptime format of a weekday, a date and a time,
 #. in 24-hour format, without minutes or seconds.
@@ -9652,9 +9612,8 @@ msgid "Then"
 msgstr "Tiaren"
 
 #: filter/filter-filter.c:501
-#, fuzzy
 msgid "Add action"
-msgstr "&Legg til handling"
+msgstr "Legg til handling"
 
 #: filter/filter-folder.c:156
 msgid ""
@@ -9758,9 +9717,8 @@ msgid "specific folders only"
 msgstr "Den oppgitte fila finst ikkje"
 
 #: filter/filter.glade.h:12
-#, fuzzy
 msgid "vFolder Sources"
-msgstr "Kjelder"
+msgstr "vMappe-kjelder"
 
 #: filter/filter.glade.h:13
 msgid "with all active remote folders"
@@ -9841,9 +9799,8 @@ msgid "Message was received"
 msgstr "Meldinga var motteke"
 
 #: filter/libfilter-i18n.h:19
-#, fuzzy
 msgid "Message was sent"
-msgstr "Meldingar"
+msgstr "Melding vart sendt"
 
 #: filter/libfilter-i18n.h:20
 msgid "Move to Folder"
@@ -10172,19 +10129,16 @@ msgstr ""
 "er i orden."
 
 #: mail/component-factory.c:951
-#, fuzzy
 msgid "New Mail Message"
-msgstr "Legg til melding"
+msgstr "Ny e-postmelding"
 
 #: mail/component-factory.c:951
-#, fuzzy
 msgid "New _Mail Message"
-msgstr "Legg til melding"
+msgstr "Ny e-post_melding"
 
 #: mail/component-factory.c:975
-#, fuzzy
 msgid "Cannot initialize Evolution's mail component."
-msgstr "Kan ikkje initialisera lokale variablar"
+msgstr "Klarar ikkje initialisere Evolution sin e-postkomponent"
 
 #: mail/component-factory.c:984
 #, fuzzy
@@ -10201,21 +10155,18 @@ msgid "Cannot register storage with shell"
 msgstr "Klarar ikkje å registrer lager med skal"
 
 #: mail/folder-browser-ui.c:272
-#, fuzzy, c-format
+#, c-format
 msgid "Properties for \"%s\""
-msgstr "Eigenskapar ..."
+msgstr "Eigenskapar for «%s»"
 
 #: mail/folder-browser-ui.c:274
 msgid "Properties"
 msgstr "Eigenskapar"
 
 #: mail/folder-browser.c:297 mail/mail-display.c:298
-#, fuzzy, c-format
+#, c-format
 msgid "Could not create temporary directory: %s"
-msgstr ""
-"Kunne ikkje laga mellombels fil\n"
-"%1:\n"
-"%2"
+msgstr "Klarte ikkje å lage mellombels katalog: %s"
 
 #: mail/folder-browser.c:731
 #, c-format
@@ -10253,34 +10204,28 @@ msgid "%d total"
 msgstr "%d totalt"
 
 #: mail/folder-browser.c:1049
-#, fuzzy
 msgid "Create vFolder from Search"
-msgstr "Mapper"
+msgstr "Lag vFolder frå søk"
 
 #: mail/folder-browser.c:1430
-#, fuzzy
 msgid "VFolder on _Subject"
-msgstr "Ingen emne"
+msgstr "vMappe på _emne"
 
 #: mail/folder-browser.c:1431
-#, fuzzy
 msgid "VFolder on Se_nder"
-msgstr "Mappenamn:"
+msgstr "vMappe på avse_dar"
 
 #: mail/folder-browser.c:1432
-#, fuzzy
 msgid "VFolder on _Recipients"
-msgstr "Mappa finst: "
+msgstr "vMappe på mottaka_r"
 
 #: mail/folder-browser.c:1433
-#, fuzzy
 msgid "VFolder on Mailing _List"
-msgstr "Fil alt i liste"
+msgstr "vMappe på e-post_liste"
 
 #: mail/folder-browser.c:1437
-#, fuzzy
 msgid "Filter on Sub_ject"
-msgstr "Ingen emne"
+msgstr "Filtrér på _emne"
 
 #: mail/folder-browser.c:1438
 #, fuzzy
@@ -23874,23 +23819,20 @@ msgid "Hide the shortcut bar"
 msgstr "&Programsnøggtastar"
 
 #: shell/e-shortcuts-view.c:371
-#, fuzzy
 msgid "Rename shortcut"
-msgstr "Endra portnamn"
+msgstr "Gi snarveg nytt namn"
 
 #: shell/e-shortcuts-view.c:372
-#, fuzzy
 msgid "Rename selected shortcut to:"
-msgstr "&Merka tekst"
+msgstr "Gi valde snarvegar nytt namn til:"
 
 #: shell/e-shortcuts-view.c:384
 msgid "Open the folder linked to this shortcut"
 msgstr ""
 
 #: shell/e-shortcuts-view.c:386 ui/evolution.xml.h:19
-#, fuzzy
 msgid "Open in New _Window"
-msgstr "&Opna i eige vindauge"
+msgstr "Opne i nytt _vindauge"
 
 #: shell/e-shortcuts-view.c:386
 #, fuzzy
@@ -23902,9 +23844,8 @@ msgid "_Rename"
 msgstr "_Gje nytt namn"
 
 #: shell/e-shortcuts-view.c:389
-#, fuzzy
 msgid "Rename this shortcut"
-msgstr "Fjern denne oppføringa"
+msgstr "Gi denne snarvegen nytt namn"
 
 #: shell/e-shortcuts-view.c:391
 msgid "Re_move"
@@ -23915,9 +23856,8 @@ msgid "Remove this shortcut from the shortcut bar"
 msgstr "Fjern denne snarvegen frå snarvegstolpen"
 
 #: shell/e-shortcuts.c:640
-#, fuzzy
 msgid "Error saving shortcuts."
-msgstr "Feil ved lagring av innstillingar."
+msgstr "Feil ved lagring av snavegar."
 
 #: shell/e-shortcuts.c:1043
 msgid "Shortcuts"
@@ -24384,9 +24324,8 @@ msgid "_Addressbook Sources..."
 msgstr "Kjelde:"
 
 #: ui/evolution-addressbook.xml.h:31
-#, fuzzy
 msgid "_Contact"
-msgstr "&Innhald ..."
+msgstr "_Kontakt"
 
 #: ui/evolution-addressbook.xml.h:32
 #, fuzzy
@@ -24540,9 +24479,8 @@ msgid "_Publish Free/Busy Information"
 msgstr "Informasjon"
 
 #: ui/evolution-calendar.xml.h:43
-#, fuzzy
 msgid "_Task..."
-msgstr "Oppgåve"
+msgstr "_Oppgåve ..."
 
 #: ui/evolution-comp-editor.xml.h:2 ui/evolution-contact-editor.xml.h:1
 #: ui/evolution-contact-list-editor.xml.h:1
@@ -24572,9 +24510,8 @@ msgid "Preview the printed item"
 msgstr "Sen melding"
 
 #: ui/evolution-comp-editor.xml.h:10 ui/evolution-contact-editor.xml.h:6
-#, fuzzy
 msgid "Print this item"
-msgstr "Skriv til fil"
+msgstr "Skriv ut dette elementet"
 
 #: ui/evolution-comp-editor.xml.h:11
 msgid "Print..."
@@ -24748,12 +24685,11 @@ msgstr "Send / Motta"
 
 #: ui/evolution-mail-global.xml.h:14
 msgid "Send queued mail and retrieve new mail"
-msgstr ""
+msgstr "Send køa meldingar og motta ny meldingar"
 
 #: ui/evolution-mail-global.xml.h:15
-#, fuzzy
 msgid "Show message preview window"
-msgstr "Vis &meldingar kvar gong"
+msgstr "Vis meldings-førehandsvisningsvindauge"
 
 #: ui/evolution-mail-global.xml.h:16
 msgid "Subscribe or unsubscribe to folders on remote servers"
@@ -24769,14 +24705,12 @@ msgid "_Filters..."
 msgstr "_Filter ..."
 
 #: ui/evolution-mail-global.xml.h:20
-#, fuzzy
 msgid "_Mail Message"
-msgstr "Legg til melding"
+msgstr ""
 
 #: ui/evolution-mail-global.xml.h:21
-#, fuzzy
 msgid "_Mail Settings..."
-msgstr "Skriftinnstillingar"
+msgstr "_Innstillingar for e-post ..."
 
 #: ui/evolution-mail-global.xml.h:22
 #, fuzzy
@@ -24799,9 +24733,8 @@ msgid "Change the properties of this folder"
 msgstr "Endra namnet på spelarane"
 
 #: ui/evolution-mail-list.xml.h:2
-#, fuzzy
 msgid "Copy selected messages"
-msgstr "Sentrer dei valte elementa"
+msgstr "Kopier valde meldingar"
 
 #: ui/evolution-mail-list.xml.h:3
 msgid "Cu_t"
@@ -24885,17 +24818,15 @@ msgstr "Vis meldingar som har vore mellombels gøymd"
 
 #: ui/evolution-mail-list.xml.h:20
 msgid "Temporarily hide all messages that have already been read"
-msgstr ""
+msgstr "Mellombels gøym alle meldingar som har allereide vort lest"
 
 #: ui/evolution-mail-list.xml.h:21
-#, fuzzy
 msgid "Temporarily hide the selected messages"
-msgstr "Sentrer dei valte elementa"
+msgstr "Mellombels gøym dei valde meldingane"
 
 #: ui/evolution-mail-list.xml.h:22
-#, fuzzy
 msgid "Threaded Message list"
-msgstr "Vidaresendt melding frå %1"
+msgstr "Tråda meldingsliste"
 
 #: ui/evolution-mail-list.xml.h:26
 msgid "_Expunge"
@@ -24906,18 +24837,16 @@ msgid "_Folder"
 msgstr "_Mappe"
 
 #: ui/evolution-mail-list.xml.h:28 ui/evolution-subscribe.xml.h:12
-#, fuzzy
 msgid "_Invert Selection"
-msgstr "Slettar den valte fila"
+msgstr "_Invertér val"
 
 #: ui/evolution-mail-list.xml.h:30
 msgid "_Properties..."
 msgstr "Ei_genskapar ..."
 
 #: ui/evolution-mail-list.xml.h:31
-#, fuzzy
 msgid "_Threaded Message List"
-msgstr "Vidaresendt melding frå %1"
+msgstr "_Tråda meldingsliste"
 
 #: ui/evolution-mail-message.xml.h:2
 msgid "Apply filter rules to the selected messages"
@@ -25057,19 +24986,16 @@ msgid "Forward As"
 msgstr "Vidaresend som"
 
 #: ui/evolution-mail-message.xml.h:33
-#, fuzzy
 msgid "Forward _Attached"
-msgstr "Smarte vedlegg"
+msgstr "Vidaresend som _vedlegg"
 
 #: ui/evolution-mail-message.xml.h:34
-#, fuzzy
 msgid "Forward _Inline"
-msgstr "Fram"
+msgstr "Vidaresend _innvevd"
 
 #: ui/evolution-mail-message.xml.h:35
-#, fuzzy
 msgid "Forward _Quoted"
-msgstr "Send vidare til"
+msgstr "Vidaresend _sitert"
 
 #: ui/evolution-mail-message.xml.h:36
 #, fuzzy
@@ -25173,7 +25099,7 @@ msgstr "Opne vald melding for sending på nytt"
 
 #: ui/evolution-mail-message.xml.h:61
 msgid "Original Si_ze"
-msgstr "Orginall _storleik"
+msgstr "Opprinneleg _storleik"
 
 #: ui/evolution-mail-message.xml.h:62
 msgid "Preview the message to be printed"
@@ -25213,16 +25139,15 @@ msgstr "Sett tilbake teksta til det opprinnelege"
 
 #: ui/evolution-mail-message.xml.h:75
 msgid "S_earch Message..."
-msgstr "S_øk i &meldingar ..."
+msgstr "S_øk i meldingar ..."
 
 #: ui/evolution-mail-message.xml.h:76
 msgid "S_maller"
 msgstr "M_indre"
 
 #: ui/evolution-mail-message.xml.h:77
-#, fuzzy
 msgid "Save the message as a text file"
-msgstr "Lagra side til ascii-fil"
+msgstr "Lagre melding som tekstfil"
 
 #: ui/evolution-mail-message.xml.h:78
 #, fuzzy
@@ -25234,29 +25159,24 @@ msgid "Setup the page settings for your current printer"
 msgstr "Endre sideoppsett for aktiv skrivar"
 
 #: ui/evolution-mail-message.xml.h:80
-#, fuzzy
 msgid "Show Email _Source"
-msgstr "E-posttenar"
+msgstr "Vis e-post _kjeldekode"
 
 #: ui/evolution-mail-message.xml.h:81
-#, fuzzy
 msgid "Show Full _Headers"
-msgstr "Vis &heile meldingshovudet"
+msgstr "Vis heile meldings_hovudet"
 
 #: ui/evolution-mail-message.xml.h:82
-#, fuzzy
 msgid "Show message in the normal style"
-msgstr "Vis &meldingar kvar gong"
+msgstr "Vis melding på normal måte"
 
 #: ui/evolution-mail-message.xml.h:83
-#, fuzzy
 msgid "Show message with all email headers"
-msgstr "Lag meldingar og slå saman"
+msgstr "Vis melding med alle meldingshovud"
 
 #: ui/evolution-mail-message.xml.h:84
-#, fuzzy
 msgid "Show the raw email source of the message"
-msgstr "Kunne ikkje lagra melding(ar)."
+msgstr "Vis den rå kjeldekoda til meldinga"
 
 #: ui/evolution-mail-message.xml.h:85
 msgid "Text Si_ze"
@@ -25343,7 +25263,7 @@ msgstr "L_ukk"
 #: ui/evolution-mail-messagedisplay.xml.h:8
 #: ui/evolution-message-composer.xml.h:55 ui/evolution.xml.h:50
 msgid "_View"
-msgstr "_Vising"
+msgstr "_Visning"
 
 #: ui/evolution-message-composer.xml.h:1
 msgid "Attach"
@@ -25471,25 +25391,24 @@ msgid "Sign this message with your PGP key"
 msgstr "Signer denne meldinga med din PGP-nøkkel"
 
 #: ui/evolution-message-composer.xml.h:37
-#, fuzzy
 msgid "Sign this message with your S/MIME Signature Certificate"
-msgstr "Sender meldingar til %1"
+msgstr "Signér denne meldinga med ditt S/MIME signatursertifikat"
 
 #: ui/evolution-message-composer.xml.h:38
 msgid "Toggles whether the BCC field is displayed"
-msgstr ""
+msgstr "Avgjer om BCC-feltet vert vist"
 
 #: ui/evolution-message-composer.xml.h:39
 msgid "Toggles whether the CC field is displayed"
-msgstr ""
+msgstr "Avgjer om CC-feltet vert vist"
 
 #: ui/evolution-message-composer.xml.h:40
 msgid "Toggles whether the From chooser is displayed"
-msgstr ""
+msgstr "Avgjer om Frå-veljaren vert vist"
 
 #: ui/evolution-message-composer.xml.h:41
 msgid "Toggles whether the Reply-To field is displayed"
-msgstr ""
+msgstr "Avgjer om Svar-Til-feltet vert vist"
 
 #: ui/evolution-message-composer.xml.h:42
 msgid "_Attachment..."
@@ -25546,7 +25465,7 @@ msgstr "Frisk opp liste"
 
 #: ui/evolution-subscribe.xml.h:4
 msgid "Refresh List of Folders"
-msgstr "Frick opp liste over mapper"
+msgstr "Frisk opp liste over mapper"
 
 #: ui/evolution-subscribe.xml.h:5
 msgid "Remove folder from your list of subscribed folders"
@@ -25554,7 +25473,7 @@ msgstr "Fjern mappa frå lista over abbonerte mapper"
 
 #: ui/evolution-subscribe.xml.h:7
 msgid "Subscribe"
-msgstr "Abonner"
+msgstr "Abonnér"
 
 #: ui/evolution-subscribe.xml.h:8
 msgid "Unsubscribe"
@@ -25619,9 +25538,8 @@ msgid "About Ximian Evolution..."
 msgstr "Om Ximian Evolution ..."
 
 #: ui/evolution.xml.h:2
-#, fuzzy
 msgid "Add to _Shortcut Bar"
-msgstr "&Programsnøggtastar"
+msgstr "Legg til _snarvegstolpe"
 
 #: ui/evolution.xml.h:3
 msgid "Change the name of this folder"
@@ -25636,9 +25554,8 @@ msgid "Create _New Folder..."
 msgstr "Lag _ny mappe ..."
 
 #: ui/evolution.xml.h:8
-#, fuzzy
 msgid "Create a link to this folder in the shortcut bar"
-msgstr "Lag ny bokmerkemappe i denne menyen"
+msgstr "Lag ei lenkje til denne mappa i snarvegstoplen"
 
 #: ui/evolution.xml.h:9
 msgid "Create a new folder"
@@ -25669,30 +25586,28 @@ msgid "Import data from other programs"
 msgstr ""
 
 #: ui/evolution.xml.h:17
-#, fuzzy
 msgid "Move this folder to another place"
-msgstr "Bruk denne tekstboksen for å kommentera tittelen"
+msgstr "Flytt denne mappa til ein annan plass"
 
 #: ui/evolution.xml.h:18
 msgid "Open in New Window"
 msgstr "Opne i eige vindauge"
 
 #: ui/evolution.xml.h:20
-#, fuzzy
 msgid "Open this folder in an other window"
-msgstr "Opna filer i nytt vindauge"
+msgstr "Opne denne mappe i eit anna vindauge"
 
 #: ui/evolution.xml.h:21
 msgid "Show information about Ximian Evolution"
-msgstr ""
+msgstr "Vis informasjon om Ximian Evolution"
 
 #: ui/evolution.xml.h:22
 msgid "Submit Bug Report"
-msgstr ""
+msgstr "Send inn feilrapport"
 
 #: ui/evolution.xml.h:23
 msgid "Submit _Bug Report"
-msgstr ""
+msgstr "Send inn _feilrapport"
 
 #: ui/evolution.xml.h:24
 msgid "Submit a bug report using Bug Buddy"
@@ -25707,9 +25622,8 @@ msgid "Toggle whether to show the folder bar"
 msgstr ""
 
 #: ui/evolution.xml.h:27
-#, fuzzy
 msgid "Toggle whether to show the shortcut bar"
-msgstr "&Programsnøggtastar"
+msgstr "Avgjer om snarvegstolpen skal vise"
 
 #: ui/evolution.xml.h:28
 msgid "Toggle whether we are working offline."
@@ -25776,9 +25690,8 @@ msgid "Change the settings for the summary"
 msgstr "Endre på innstillingar for samandrag"
 
 #: ui/my-evolution.xml.h:4
-#, fuzzy
 msgid "Print summary"
-msgstr "oppsummering"
+msgstr "Skriv ut samandrag"
 
 #: ui/my-evolution.xml.h:5
 msgid "Reload"
