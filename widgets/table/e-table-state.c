@@ -89,6 +89,26 @@ e_table_state_new (void)
 	return (ETableState *) etst;
 }
 
+ETableState *
+e_table_state_vanilla (int col_count)
+{
+	GString *str;
+	int i;
+	ETableState *res;
+
+	str = g_string_new ("<ETableState>\n");
+	for (i = 0; i < col_count; i++)
+		g_string_append_printf (str, "  <column source=\"%d\"/>\n", i);
+	g_string_append (str, "  <grouping></grouping>\n");
+	g_string_append (str, "</ETableState>\n");
+
+	res = e_table_state_new ();
+	e_table_state_load_from_string (res, str->str);
+
+	g_string_free (str, TRUE);
+	return res;
+}
+
 gboolean
 e_table_state_load_from_file    (ETableState *state,
 				 const char          *filename)

@@ -244,6 +244,11 @@ e_table_specification_load_from_node (ETableSpecification *specification,
 		}
 	}
 
+	if (specification->state == NULL) {
+		/* Make the default state.  */
+		specification->state = e_table_state_vanilla (g_list_length (list));
+	}
+
 	specification->columns = g_new (ETableColumnSpecification *, g_list_length (list) + 1);
 	for (list2 = list, i = 0; list2; list2 = g_list_next (list2), i++) {
 		specification->columns[i] = list2->data;
