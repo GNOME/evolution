@@ -41,8 +41,12 @@ typedef struct {
 
 typedef struct {
 	GnomeCanvasGroupClass parent_class;
-	void        (*row_selection)      (ETableGroup *etg, int row, gboolean selected);
 
+	/* Signals */
+	void        (*row_selection)  (ETableGroup *etg, int row, gboolean selected);
+	void        (*double_click)   (ETableGroup *etg, int row);
+
+	/* Virtual functions. */
 	void (*add) (ETableGroup *etg, gint row);
 	void (*add_all) (ETableGroup *etg);
 	gboolean (*remove) (ETableGroup *etg, gint row);
@@ -88,6 +92,8 @@ void             e_table_group_construct (GnomeCanvasGroup *parent,
 void             e_table_group_row_selection (ETableGroup      *etg,
 					      gint              row,
 					      gboolean          selected);
+void             e_table_group_double_click  (ETableGroup      *etg,
+					      gint              row);
 
 GtkType          e_table_group_get_type  (void);
 

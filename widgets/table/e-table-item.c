@@ -28,6 +28,7 @@ static GnomeCanvasItemClass *eti_parent_class;
 
 enum {
 	ROW_SELECTION,
+	DOUBLE_CLICK,
 	LAST_SIGNAL
 };
 
@@ -1127,8 +1128,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 
 	switch (e->type){
 	case GDK_BUTTON_PRESS:
-	case GDK_BUTTON_RELEASE:
-	case GDK_2BUTTON_PRESS: {
+	case GDK_BUTTON_RELEASE: {
 		double x1, y1;
 		int col, row;
 
@@ -1164,6 +1164,23 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		break;
 	}
 
+	case GDK_2BUTTON_PRESS: {
+		double x1, y1;
+		int col, row;
+
+		if (e->button.button == 5 ||
+		    e->button.button == 4)
+			return FALSE;
+
+		gnome_canvas_item_w2i (item, &e->button.x, &e->button.y);
+
+		if (!find_cell (eti, e->button.x, e->button.y, &col, &row, &x1, &y1))
+			return TRUE;
+
+		gtk_signal_emit (GTK_OBJECT (eti), eti_signals [DOUBLE_CLICK],
+				 GPOINTER_TO_INT (eti->selection->data));
+		break;
+	}
 	case GDK_MOTION_NOTIFY: {
 		int col, row;
 		double x1, y1;
@@ -1317,7 +1334,8 @@ eti_class_init (GtkObjectClass *object_class)
 	item_class->point       = eti_point;
 	item_class->event       = eti_event;
 	
-	eti_class->row_selection = eti_row_selection;
+	eti_class->row_selection    = eti_row_selection;
+	eti_class->double_click = NULL;
 
 	gtk_object_add_arg_type ("ETableItem::ETableHeader", GTK_TYPE_OBJECT,
 				 GTK_ARG_WRITABLE, ARG_TABLE_HEADER);
@@ -1348,7 +1366,15 @@ eti_class_init (GtkObjectClass *object_class)
 				GTK_SIGNAL_OFFSET (ETableItemClass, row_selection),
 				gtk_marshal_NONE__INT_INT,
 				GTK_TYPE_NONE, 2, GTK_TYPE_INT, GTK_TYPE_INT);
-	
+
+	eti_signals [DOUBLE_CLICK] =
+		gtk_signal_new ("double_click",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (ETableItemClass, double_click),
+				gtk_marshal_NONE__INT,
+				GTK_TYPE_NONE, 1, GTK_TYPE_INT);
+
 	gtk_object_class_add_signals (object_class, eti_signals, LAST_SIGNAL);
 
 }

@@ -40,6 +40,7 @@ static GtkObjectClass *e_table_parent_class;
 
 enum {
 	ROW_SELECTION,
+	DOUBLE_CLICK,
 	LAST_SIGNAL
 };
 
@@ -188,6 +189,14 @@ group_row_selection (ETableGroup *etg, int row, gboolean selected, ETable *et)
 			 row, selected);
 }
 
+static void
+group_double_click (ETableGroup *etg, int row, ETable *et)
+{
+	gtk_signal_emit (GTK_OBJECT (et),
+			 et_signals [DOUBLE_CLICK],
+			 row);
+}
+
 static gboolean
 changed_idle (gpointer data)
 {
@@ -209,6 +218,8 @@ changed_idle (gpointer data)
 				      NULL);
 		gtk_signal_connect (GTK_OBJECT (et->group), "row_selection",
 				    GTK_SIGNAL_FUNC (group_row_selection), et);
+		gtk_signal_connect (GTK_OBJECT (et->group), "double_click",
+				    GTK_SIGNAL_FUNC (group_double_click), et);
 		e_table_fill_table (et, et->model);
 		
 		gtk_object_set (GTK_OBJECT (et->group),
@@ -289,6 +300,8 @@ e_table_setup_table (ETable *e_table, ETableHeader *full_header, ETableHeader *h
 
 	gtk_signal_connect (GTK_OBJECT (e_table->group), "row_selection",
 			    GTK_SIGNAL_FUNC(group_row_selection), e_table);
+	gtk_signal_connect (GTK_OBJECT (e_table->group), "double_click",
+			    GTK_SIGNAL_FUNC(group_double_click), e_table);
 	
 	e_table->table_model_change_id = gtk_signal_connect (
 		GTK_OBJECT (model), "model_changed",
@@ -695,6 +708,7 @@ e_table_class_init (GtkObjectClass *object_class)
 	object_class->get_arg = et_get_arg;
 	
 	klass->row_selection = NULL;
+	klass->double_click = NULL;
 
 	et_signals [ROW_SELECTION] =
 		gtk_signal_new ("row_selection",
@@ -703,6 +717,14 @@ e_table_class_init (GtkObjectClass *object_class)
 				GTK_SIGNAL_OFFSET (ETableClass, row_selection),
 				gtk_marshal_NONE__INT_INT,
 				GTK_TYPE_NONE, 2, GTK_TYPE_INT, GTK_TYPE_INT);
+
+	et_signals [DOUBLE_CLICK] =
+		gtk_signal_new ("double_click",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (ETableClass, double_click),
+				gtk_marshal_NONE__INT,
+				GTK_TYPE_NONE, 1, GTK_TYPE_INT);
 	
 	gtk_object_class_add_signals (object_class, et_signals, LAST_SIGNAL);
 

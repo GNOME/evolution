@@ -91,6 +91,13 @@ etgl_row_selection (GtkObject *object, gint row, gboolean selected, ETableGroupL
 }
 
 static void
+etgl_double_click (GtkObject *object, gint row, ETableGroupLeaf *etgl)
+{
+	if (row < E_TABLE_SUBSET(etgl->subset)->n_map)
+		e_table_group_double_click (E_TABLE_GROUP(etgl), E_TABLE_SUBSET(etgl->subset)->map_table[row]);
+}
+
+static void
 etgl_reflow (GnomeCanvasItem *item, gint flags)
 {
 	ETableGroupLeaf *leaf = E_TABLE_GROUP_LEAF(item);
@@ -124,6 +131,8 @@ etgl_realize (GnomeCanvasItem *item)
 	
 	gtk_signal_connect (GTK_OBJECT(etgl->item), "row_selection",
 			    GTK_SIGNAL_FUNC(etgl_row_selection), etgl);
+	gtk_signal_connect (GTK_OBJECT(etgl->item), "double_click",
+			    GTK_SIGNAL_FUNC(etgl_double_click), etgl);
 	e_canvas_item_request_reflow(item);
 }
 

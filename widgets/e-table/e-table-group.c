@@ -29,6 +29,7 @@ static GnomeCanvasGroupClass *etg_parent_class;
 
 enum {
 	ROW_SELECTION,
+	DOUBLE_CLICK,
 	LAST_SIGNAL
 };
 
@@ -202,6 +203,17 @@ e_table_group_row_selection (ETableGroup *e_table_group, gint row, gboolean sele
 			 row, selected);
 }
 
+void
+e_table_group_double_click (ETableGroup *e_table_group, gint row)
+{
+	g_return_if_fail (e_table_group != NULL);
+	g_return_if_fail (E_IS_TABLE_GROUP (e_table_group));
+
+	gtk_signal_emit (GTK_OBJECT (e_table_group),
+			 etg_signals [DOUBLE_CLICK],
+			 row);
+}
+
 ETableHeader *
 e_table_group_get_header (ETableGroup *etg)
 {
@@ -251,6 +263,7 @@ etg_class_init (GtkObjectClass *object_class)
 	item_class->event = etg_event;
 
 	klass->row_selection = NULL;
+	klass->double_click = NULL;
 	
 	klass->add = NULL;
 	klass->add_all = NULL;
@@ -270,6 +283,14 @@ etg_class_init (GtkObjectClass *object_class)
 				GTK_SIGNAL_OFFSET (ETableGroupClass, row_selection),
 				gtk_marshal_NONE__INT_INT,
 				GTK_TYPE_NONE, 2, GTK_TYPE_INT, GTK_TYPE_INT);
+
+	etg_signals [DOUBLE_CLICK] =
+		gtk_signal_new ("double_click",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (ETableGroupClass, double_click),
+				gtk_marshal_NONE__INT,
+				GTK_TYPE_NONE, 1, GTK_TYPE_INT);
 
 	gtk_object_class_add_signals (object_class, etg_signals, LAST_SIGNAL);
 }

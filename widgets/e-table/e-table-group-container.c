@@ -292,6 +292,13 @@ child_row_selection (ETableGroup *etg, int row, gboolean selected,
 }
 
 static void
+child_double_click (ETableGroup *etg, int row,
+		    ETableGroupContainer *etgc)
+{
+	e_table_group_double_click (E_TABLE_GROUP (etgc), row);
+}
+
+static void
 etgc_add (ETableGroup *etg, gint row)
 {
 	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER (etg);
@@ -342,6 +349,8 @@ etgc_add (ETableGroup *etg, gint row)
 			      NULL);
 	gtk_signal_connect (GTK_OBJECT (child), "row_selection",
 			    GTK_SIGNAL_FUNC (child_row_selection), etgc);
+	gtk_signal_connect (GTK_OBJECT (child), "double_click",
+			    GTK_SIGNAL_FUNC (child_double_click), etgc);
 	child_node->child = child;
 	child_node->key = e_table_model_duplicate_value (etg->model, etgc->ecol->col_idx, val);
 	child_node->count = 1;
