@@ -236,7 +236,7 @@ popup_menu_nocard (EAddressWidget *addr)
 {
 	GnomeUIInfo uiinfo[ARBITRARY_UIINFO_LIMIT];
 	GtkWidget *pop;
-	gint i=0, dead;
+	gint i=0;
 
 	memset (uiinfo, 0, sizeof (uiinfo));
 
@@ -263,10 +263,8 @@ popup_menu_nocard (EAddressWidget *addr)
 
 	uiinfo[i].type = GNOME_APP_UI_ENDOFINFO;
 
-
 	pop = gnome_popup_menu_new (uiinfo);
-	for (i=0; i<dead; ++i)
-		dead_item (GTK_ITEM (uiinfo[i].widget));
+
 	return pop;
 }
 
