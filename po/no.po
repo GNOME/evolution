@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.1\n"
-"POT-Creation-Date: 2000-05-27 20:01+0100\n"
-"PO-Revision-Date: 2000-05-26 23:59+02:00\n"
+"POT-Creation-Date: 2000-06-04 01:01+0200\n"
+"PO-Revision-Date: 2000-06-04 01:05+02:00\n"
 "Last-Translator: Kjartan Maraas <kmaraas@online.no>\n"
 "Language-Team: Norwegian <no@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -27,131 +27,133 @@ msgid "_Full Name..."
 msgstr "_Fullt navn..."
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:9
-msgid "Company:"
-msgstr "Firma:"
-
-#: addressbook/contact-editor/e-contact-editor-strings.h:10
 msgid "File As:"
 msgstr "Lagre som:"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:11
+#: addressbook/contact-editor/e-contact-editor-strings.h:10
 msgid "Web page address:"
 msgstr "Hjemmeside:"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:12
+#: addressbook/contact-editor/e-contact-editor-strings.h:11
 msgid "Wants to receive _HTML mail"
 msgstr "Ønsker å motta _HTML e-post"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:13
+#: addressbook/contact-editor/e-contact-editor-strings.h:12
 msgid "Address:"
 msgstr "Adresse:"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:14
+#: addressbook/contact-editor/e-contact-editor-strings.h:13
 msgid "_Business"
 msgstr "_Arbeid"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:15
+#: addressbook/contact-editor/e-contact-editor-strings.h:14
 msgid "_Home"
 msgstr "_Hjemme"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:16
+#: addressbook/contact-editor/e-contact-editor-strings.h:15
 msgid "Business _Fax"
 msgstr "_Faks på arbeid"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:17
+#: addressbook/contact-editor/e-contact-editor-strings.h:16
 msgid "_Mobile"
 msgstr "_Mobil"
 
-#: addressbook/contact-editor/e-contact-editor-strings.h:18
+#: addressbook/contact-editor/e-contact-editor-strings.h:17
 msgid "Primary Email"
 msgstr "Primær e-post"
 
+#: addressbook/contact-editor/e-contact-editor-strings.h:18
+msgid "B_usiness"
+msgstr "J_obb"
+
 #: addressbook/contact-editor/e-contact-editor-strings.h:19
-msgid "Business"
-msgstr "Jobb"
+msgid "_This is the mailing address"
+msgstr "De_tte er postadressen"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:20
-msgid "This is the _mailing address"
-msgstr "Dette er _postadressen"
+msgid "C_ontacts..."
+msgstr "K_ontakter..."
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:21
-msgid "_Contacts..."
-msgstr "_Kontakter..."
-
-#: addressbook/contact-editor/e-contact-editor-strings.h:22
 msgid "Ca_tegories..."
 msgstr "Ka_tegorier..."
 
+#: addressbook/contact-editor/e-contact-editor-strings.h:22
+msgid "_Job title:"
+msgstr "_Jobbtittel:"
+
 #: addressbook/contact-editor/e-contact-editor-strings.h:23
-msgid "Job Title"
-msgstr "Jobbtittel"
+msgid "_Company:"
+msgstr "F_irma:"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:24
 msgid "General"
 msgstr "Generelt"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:25
-msgid "Department:"
-msgstr "Avdeling:"
+msgid "_Department:"
+msgstr "Av_deling:"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:26
-msgid "Office:"
-msgstr "Kontor:"
+msgid "_Office:"
+msgstr "K_ontor:"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:27
-msgid "Profession:"
-msgstr "Yrke:"
+msgid "_Profession:"
+msgstr "_Yrke:"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:28
-msgid "Nickname:"
-msgstr "Kallenavn:"
+msgid "_Nickname:"
+msgstr "Kalle_navn:"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:29
-msgid "Spouse:"
-msgstr "Ektefelle:"
+msgid "_Spouse:"
+msgstr "E_ktefelle:"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:30
-msgid "Birthday:"
-msgstr "Fødselsdag:"
+msgid "_Birthday:"
+msgstr "_Fødselsdag:"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:31
-msgid "Assistant's name:"
-msgstr "Assistents navn:"
+msgid "_Assistant's name:"
+msgstr "_Assistents navn:"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:32
-msgid "Manager's Name:"
-msgstr "Leders navn:"
+msgid "_Manager's Name:"
+msgstr "_Leders navn:"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:33
-msgid "Anniversary:"
-msgstr "Bryllupsdag:"
+msgid "Anni_versary:"
+msgstr "_Bryllupsdag:"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:34
-msgid "Notes:"
-msgstr "Notater:"
+msgid "No_tes:"
+msgstr "No_tater:"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:35
 msgid "Details"
 msgstr "Detaljer"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:36
-#: addressbook/contact-editor/e-contact-editor-strings.h:41
-msgid "Add"
-msgstr "Legg til"
+msgid "_Add"
+msgstr "_Legg til"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:37
-#: mail/folder-browser-factory.c:50
-msgid "Delete"
-msgstr "Slett"
+msgid "_Delete"
+msgstr "_Slett"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:38
 msgid "Phone Types"
 msgstr "Telefontyper"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:39
-#: addressbook/contact-editor/e-contact-editor-strings.h:40
+#: addressbook/contact-editor/e-contact-editor-strings.h:41
 msgid "New phone type"
 msgstr "Ny telefontype"
+
+#: addressbook/contact-editor/e-contact-editor-strings.h:40
+msgid "Add"
+msgstr "Legg til"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -415,7 +417,7 @@ msgstr "Motsatt på like sider"
 msgid "Header/Footer"
 msgstr "Topp-/bunntekst"
 
-#: composer/e-msg-composer-address-dialog.c:183 composer/e-msg-composer.c:533
+#: composer/e-msg-composer-address-dialog.c:183 composer/e-msg-composer.c:635
 msgid "Cut"
 msgstr "Klipp ut"
 
@@ -423,7 +425,7 @@ msgstr "Klipp ut"
 msgid "Cut selected item into clipboard"
 msgstr "Klipp ut valgt oppføring til utklippstavlen"
 
-#: composer/e-msg-composer-address-dialog.c:187 composer/e-msg-composer.c:534
+#: composer/e-msg-composer-address-dialog.c:187 composer/e-msg-composer.c:636
 msgid "Copy"
 msgstr "Kopiér"
 
@@ -432,7 +434,7 @@ msgid "Copy selected item into clipboard"
 msgstr "Kopiér valgt oppføring til utklippstavlen"
 
 #: composer/e-msg-composer-address-dialog.c:191
-#: composer/e-msg-composer-address-dialog.c:199 composer/e-msg-composer.c:535
+#: composer/e-msg-composer-address-dialog.c:199 composer/e-msg-composer.c:637
 msgid "Paste"
 msgstr "Lim inn"
 
@@ -611,60 +613,60 @@ msgstr "Emne:"
 msgid "Enter the subject of the mail"
 msgstr "Skriv inn emnet for meldingen"
 
-#: composer/e-msg-composer.c:491
+#: composer/e-msg-composer.c:593
 msgid "Save in _folder..."
 msgstr "Lagre i _mappe..."
 
-#: composer/e-msg-composer.c:491
+#: composer/e-msg-composer.c:593
 msgid "Save the message in a specified folder"
 msgstr "Lagre meldingen i en spesifisert mappe"
 
-#: composer/e-msg-composer.c:494 composer/e-msg-composer.c:531
+#: composer/e-msg-composer.c:596 composer/e-msg-composer.c:633
 #: mail/folder-browser-factory.c:36
 msgid "Send"
 msgstr "Send"
 
-#: composer/e-msg-composer.c:494
+#: composer/e-msg-composer.c:596
 msgid "Send the message"
 msgstr "Send meldingen"
 
-#: composer/e-msg-composer.c:502
+#: composer/e-msg-composer.c:604
 msgid "View _attachments"
 msgstr "Vis _vedlegg"
 
-#: composer/e-msg-composer.c:502
+#: composer/e-msg-composer.c:604
 msgid "View/hide attachments"
 msgstr "Vis/skjul vedlegg"
 
-#: composer/e-msg-composer.c:531
+#: composer/e-msg-composer.c:633
 msgid "Send this message"
 msgstr "Send denne meldingen"
 
-#: composer/e-msg-composer.c:533
+#: composer/e-msg-composer.c:635
 msgid "Cut selected region into the clipboard"
 msgstr "Klipp ut valgt område til utklippstavlen"
 
-#: composer/e-msg-composer.c:534
+#: composer/e-msg-composer.c:636
 msgid "Copy selected region into the clipboard"
 msgstr "Kopiér valgt område til utklippstavlen"
 
-#: composer/e-msg-composer.c:535
+#: composer/e-msg-composer.c:637
 msgid "Paste selected region into the clipboard"
 msgstr "Lim inn valgt område til utklippstavlen"
 
-#: composer/e-msg-composer.c:536
+#: composer/e-msg-composer.c:638
 msgid "Undo"
 msgstr "Angre"
 
-#: composer/e-msg-composer.c:536
+#: composer/e-msg-composer.c:638
 msgid "Undo last operation"
 msgstr "Angre siste operasjon"
 
-#: composer/e-msg-composer.c:538
+#: composer/e-msg-composer.c:640
 msgid "Attach"
 msgstr "Legg ved"
 
-#: composer/e-msg-composer.c:538
+#: composer/e-msg-composer.c:640
 msgid "Attach a file"
 msgstr "Legg ved en fil"
 
@@ -721,6 +723,10 @@ msgid "Print the selected message"
 msgstr "Skriv ut den valgte meldingen"
 
 #: mail/folder-browser-factory.c:50
+msgid "Delete"
+msgstr "Slett"
+
+#: mail/folder-browser-factory.c:50
 msgid "Delete this message"
 msgstr "Slett denne meldingen"
 
@@ -729,18 +735,26 @@ msgid "_Expunge"
 msgstr "_Fjern"
 
 #: mail/folder-browser-factory.c:73
-msgid "_Filter Druid"
-msgstr "_Filter-druide"
+msgid "_Filter Druid ..."
+msgstr "_Filter-druide ..."
 
-#: mail/folder-browser-factory.c:186
+#: mail/folder-browser-factory.c:79
+msgid "_Virtual Folder Druid ..."
+msgstr "_Virtuell folder druide ..."
+
+#: mail/folder-browser-factory.c:85
+msgid "_Mail Configuration ..."
+msgstr "_E-post konfigurasjon ..."
+
+#: mail/folder-browser-factory.c:207
 msgid "We are sorry, Evolution's Folder Browser can not be initialized."
 msgstr "Vi beklager, Evolution's mappeutforsker kan ikke initialiseres."
 
-#: mail/folder-browser.c:208
+#: mail/folder-browser.c:249
 msgid "The URI that the Folder Browser will display"
 msgstr "URIen som mappeutforskeren vil vise"
 
-#: mail/folder-browser.c:211
+#: mail/folder-browser.c:252
 msgid "Whether a message preview should be shown"
 msgstr "Om forhåndsvisning av meldinger skal brukes"
 
@@ -748,55 +762,59 @@ msgstr "Om forhåndsvisning av meldinger skal brukes"
 msgid "Mail Component: I could not initialize Bonobo"
 msgstr "E-post komponent: Kunne ikke initialisere Bonobo"
 
-#: mail/message-list.c:464
+#: mail/message-list.c:527
+msgid "Online Status"
+msgstr "Tilkoblet status"
+
+#: mail/message-list.c:541
 msgid "Priority"
 msgstr "Prioritet"
 
-#: mail/message-list.c:478
+#: mail/message-list.c:555
 msgid "From"
 msgstr "Fra"
 
-#: mail/message-list.c:485
+#: mail/message-list.c:562
 msgid "Subject"
 msgstr "Emne"
 
-#: mail/message-list.c:492
-msgid "Sent"
-msgstr "Sendt"
+#: mail/message-list.c:569
+msgid "Date"
+msgstr "Dato"
 
-#: mail/message-list.c:499
+#: mail/message-list.c:576
 msgid "Receive"
 msgstr "Motta"
 
-#: mail/message-list.c:506
+#: mail/message-list.c:583
 msgid "To"
 msgstr "Til"
 
-#: mail/message-list.c:513
+#: mail/message-list.c:590
 msgid "Size"
 msgstr "Størrelse"
 
 #. you might have to call gnome_dialog_run() on the
 #. * dialog returned here, I don't remember...
 #.
-#: shell/e-shell-view-menu.c:62
+#: shell/e-shell-view-menu.c:106
 msgid "Bug buddy was not found in your $PATH."
 msgstr "Bug buddy ble ikke funnet i din $PATH."
 
 #. same as above
-#: shell/e-shell-view-menu.c:68
+#: shell/e-shell-view-menu.c:112
 msgid "Bug buddy could not be run."
 msgstr "Bug buddy kunne ikke kjøres."
 
-#: shell/e-shell-view-menu.c:111
+#: shell/e-shell-view-menu.c:155
 msgid "Evolution"
 msgstr "Evolution"
 
-#: shell/e-shell-view-menu.c:113
+#: shell/e-shell-view-menu.c:157
 msgid "Copyright 1999, 2000 Helix Code, Inc."
 msgstr "Copyright 1999, 2000 Helix Code, Inc."
 
-#: shell/e-shell-view-menu.c:115
+#: shell/e-shell-view-menu.c:159
 msgid ""
 "Evolution is a suite of groupware applications\n"
 "for mail, calendaring, and contact management\n"
@@ -806,113 +824,133 @@ msgstr ""
 "for e-post, kalender og kontaktdatabaser for\n"
 "GNOME skrivebordsmiljøet."
 
-#: shell/e-shell-view-menu.c:185 shell/e-shell-view-menu.c:251
+#: shell/e-shell-view-menu.c:254 shell/e-shell-view-menu.c:320
 msgid "_Folder"
 msgstr "_Mappe"
 
-#: shell/e-shell-view-menu.c:189
+#: shell/e-shell-view-menu.c:258
 msgid "Evolution _Bar Shortcut"
 msgstr "Evolution s_narveilinje"
 
-#: shell/e-shell-view-menu.c:195
+#: shell/e-shell-view-menu.c:264
 msgid "_Mail message"
 msgstr "E-post _melding"
 
-#: shell/e-shell-view-menu.c:196 shell/e-shell-view-menu.c:199
+#: shell/e-shell-view-menu.c:265 shell/e-shell-view-menu.c:268
 msgid "Composes a new mail message"
 msgstr "Lager en ny e-post melding"
 
-#: shell/e-shell-view-menu.c:198
+#: shell/e-shell-view-menu.c:267
 msgid "_Appointment"
 msgstr "_Avtale"
 
-#: shell/e-shell-view-menu.c:201
+#: shell/e-shell-view-menu.c:270
 msgid "Meeting Re_quest"
 msgstr "Møteforesp_ørsel"
 
-#: shell/e-shell-view-menu.c:204
+#: shell/e-shell-view-menu.c:273
 msgid "_Contact"
 msgstr "_Kontakt"
 
-#: shell/e-shell-view-menu.c:207
+#: shell/e-shell-view-menu.c:276
 msgid "_Task"
 msgstr "_Oppgave"
 
-#: shell/e-shell-view-menu.c:210
+#: shell/e-shell-view-menu.c:279
 msgid "Task _Request"
 msgstr "Oppgavefo_respørsel"
 
-#: shell/e-shell-view-menu.c:213
+#: shell/e-shell-view-menu.c:282
 msgid "_Journal Entry"
 msgstr "_Journaloppføring"
 
-#: shell/e-shell-view-menu.c:216
+#: shell/e-shell-view-menu.c:285
 msgid "_Note"
 msgstr "_Notat"
 
-#: shell/e-shell-view-menu.c:226
+#: shell/e-shell-view-menu.c:295
 msgid "_Selected Items"
 msgstr "_Valgte oppføringer"
 
-#: shell/e-shell-view-menu.c:234
+#: shell/e-shell-view-menu.c:303
 msgid "_New Folder"
 msgstr "_Ny mappe"
 
-#: shell/e-shell-view-menu.c:242
+#: shell/e-shell-view-menu.c:311
 msgid "_New"
 msgstr "_Ny"
 
-#: shell/e-shell-view-menu.c:243
+#: shell/e-shell-view-menu.c:312
 msgid "_Open"
 msgstr "_Åpne"
 
-#: shell/e-shell-view-menu.c:244
+#: shell/e-shell-view-menu.c:313
 msgid "Clos_e All Items"
 msgstr "Lukk all_e oppføringer"
 
-#: shell/e-shell-view-menu.c:244
+#: shell/e-shell-view-menu.c:313
 msgid "Closes all the open items"
 msgstr "Lukker alle åpne oppføringer"
 
-#: shell/e-shell-view-menu.c:265
-msgid "Show _Shortcut Bar"
+#: shell/e-shell-view-menu.c:334
+msgid "Show _shortcut bar"
 msgstr "Vis _snarveilinje"
 
-#: shell/e-shell-view-menu.c:266
-msgid "Shows the shortcut bar"
+#: shell/e-shell-view-menu.c:335
+msgid "Show the shortcut bar"
 msgstr "Viser snarveilinjen"
 
-#: shell/e-shell-view-menu.c:268
-msgid "Show _Treeview"
-msgstr "Vis _trevisning"
+#: shell/e-shell-view-menu.c:337
+msgid "Show _folder bar"
+msgstr "Vis _folderlinje"
 
-#: shell/e-shell-view-menu.c:269
-msgid "Shows the tree view"
-msgstr "Viser trevisning"
+#: shell/e-shell-view-menu.c:338
+msgid "Show the folder bar"
+msgstr "Viser folderlinjen"
 
-#: shell/e-shell-view-menu.c:284
-msgid "_Submit bug"
+#: shell/e-shell-view-menu.c:355
+msgid "Help _Index"
+msgstr "Hjelp _indeks"
+
+#: shell/e-shell-view-menu.c:358
+msgid "Getting _Started"
+msgstr "Kom _igang"
+
+#: shell/e-shell-view-menu.c:361
+msgid "Using the _Mailer"
+msgstr "Bruk av _e-post"
+
+#: shell/e-shell-view-menu.c:364
+msgid "Using the _Calendar"
+msgstr "Bruk av _kalenderen"
+
+#: shell/e-shell-view-menu.c:367
+msgid "Using the Cont_act Manager"
+msgstr "Bruk av kont_aktlisten"
+
+#: shell/e-shell-view-menu.c:372
+msgid "_Submit bug report"
 msgstr "_Send feilrapport"
 
-#: shell/e-shell-view-menu.c:285
+#: shell/e-shell-view-menu.c:373
 msgid "Submit bug-report via bug-buddy"
 msgstr "Send feilrapport med bug-buddy"
 
 #. FIXME: add Favorites here
-#: shell/e-shell-view-menu.c:300
+#: shell/e-shell-view-menu.c:388
 msgid "_Tools"
 msgstr "_Verktøy"
 
-#: shell/e-shell-view-menu.c:301
+#: shell/e-shell-view-menu.c:389
 msgid "_Actions"
 msgstr "H_andlinger"
 
-#: shell/e-shell.c:157
+#: shell/e-shell.c:176
 #, c-format
 msgid "Cannot set up local storage -- %s"
 msgstr "Kan ikke sette opp lokal lagring -- %s"
 
-#: shell/main.c:100
+#: shell/main.c:101
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release of\n"
 "the Evolution groupware suite.\n"
@@ -956,7 +994,7 @@ msgstr ""
 "Vi håper at du nyter resultatene av vårt harde arbeid, og vi venter i\n"
 "spenning på at du tilbyr din hjelp!\n"
 
-#: shell/main.c:129
+#: shell/main.c:130
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
@@ -964,11 +1002,11 @@ msgstr ""
 "Takk\n"
 "Evolution utviklerene\n"
 
-#: shell/main.c:156
+#: shell/main.c:171
 msgid "Cannot initialize the Evolution shell."
 msgstr "Kan ikke initialisere Evolution skallet."
 
-#: shell/main.c:186
+#: shell/main.c:206
 msgid "Cannot initialize the Bonobo component system."
 msgstr "Kunne ikke initialisere Bonobo komponentsystemet."
 
