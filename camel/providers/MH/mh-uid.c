@@ -88,20 +88,27 @@ mh_save_uid_list (CamelMhFolder *mh_folder)
 	gchar *uidfile_path;
 	int fd;
 	int i;
-
+	
+	
 	uidfile_path = g_strdup_printf ("%s/%s", directory_path, ".camel-uid-list");
+	CAMEL_LOG_FULL_DEBUG ("In the process of writing %s\n", uidfile_path);
 	fd = open (uidfile_path, O_WRONLY | O_CREAT );
+	
+	if (!fd) {
+		CAMEL_LOG_FULL_DEBUG ("could not open file %s for writing. Exiting.\n", uidfile_path);
+		g_free (uidfile_path);
+		return;
+	}
 	g_free (uidfile_path);
-	if (!fd) return;
 
 	uid_array = mh_folder->uid_array;
 	first_uid_couple = (MhUidCouple *)uid_array->data;
 
 	/* write the number of uid contained in the file */
-	write (fd, &(uid_array->len), sizeof (uid_array->len));
-	
+	write (fd, &(uid_array->len), sizeof (guint));
+	CAMEL_LOG_FULL_DEBUG ("%d entrie present in the list\n", uid_array->len);
 	/* now write the array of uid self */
-	write (fd, first_uid_couple, sizeof (first_uid_couple) * uid_array->len);
+	write (fd, first_uid_couple, sizeof (MhUidCouple) * uid_array->len);
 	
 	close (fd);
 }
@@ -116,22 +123,36 @@ mh_load_uid_list (CamelMhFolder *mh_folder)
 	gchar *uidfile_path;
 	int fd;
 	guint uid_nb;
-
+	struct stat stat_buf;
+	gint stat_error = 0;
+	
 	uidfile_path = g_strdup_printf ("%s/%s", directory_path, ".camel-uid-list");
+
+	/* tests if file exists */
+	stat_error = stat (uidfile_path, &stat_buf);
+	
+
+	if (!((stat_error != -1) && S_ISREG (stat_buf.st_mode))) {
+		CAMEL_LOG_FULL_DEBUG ("file %s does not exist. Exiting.\n", uidfile_path);
+		g_free (uidfile_path);
+		return -1;
+	}
+
 	fd = open (uidfile_path, O_RDONLY);
 	g_free (uidfile_path);
 	if (!fd) return -1;
-
+	
 	if (mh_folder->uid_array) g_array_free (mh_folder->uid_array, FALSE);
 
-	read (fd, &uid_nb, sizeof (uid_nb));
-
+	/* read the number of uids in the file */
+	read (fd, &uid_nb, sizeof (guint));
+	CAMEL_LOG_FULL_DEBUG ("reading %d uid_entries\n", uid_nb);
 	new_uid_array = g_array_new (FALSE, FALSE, sizeof (MhUidCouple));
 	new_uid_array = g_array_set_size (new_uid_array, uid_nb);
 	first_uid_couple = (MhUidCouple *)new_uid_array->data;
 	
-	/* read the number of uids in the file */
-	read (fd, first_uid_couple, sizeof (first_uid_couple) * uid_nb);
+	
+	read (fd, first_uid_couple, sizeof (MhUidCouple) * uid_nb);
 	
 	mh_folder->uid_array = new_uid_array;		
 
@@ -151,13 +172,19 @@ mh_generate_uid_list (CamelMhFolder *mh_folder)
 	MhUidCouple *uid_couple;
 	guint file_number;
 
-	g_assert(mh_folder);
-
+	g_assert (mh_folder);
+	CAMEL_LOG_FULL_DEBUG ("in the process of creating uid list \n");
 	directory_path = mh_folder->directory_path;
-	if (!directory_path) return -1;
+	if (!directory_path) {
+		CAMEL_LOG_FULL_DEBUG ("folder has no directory path. Exiting\n");
+		return -1;
+	}
 		
 	msg_count = camel_folder_get_message_count (CAMEL_FOLDER (mh_folder));
-	if (!msg_count) return -1;
+	if (!msg_count) {
+		CAMEL_LOG_FULL_DEBUG ("no message in %s. Exiting\n", directory_path);
+		return -1;
+	}
 	
 	new_uid_array = g_array_new (FALSE, FALSE, sizeof (MhUidCouple));
 	new_uid_array = g_array_set_size (new_uid_array, msg_count);
@@ -187,5 +214,5 @@ mh_generate_uid_list (CamelMhFolder *mh_folder)
 	}
 
 	closedir (dir_handle);
-	
+	mh_folder->uid_array = new_uid_array;
 }

@@ -1,3 +1,16 @@
+1999-09-08  bertrand  <Bertrand.Guiheneuf@aful.org>
+
+	* tests/ui-tests/store_listing.c (close_all): 
+	close all open folders and stores. (necessary
+	for UID list saving ).
+
+	* camel/providers/MH/mh-uid.c (mh_generate_uid_list): 
+	fix: store UID list in CamelMHFolder object.
+
+	* camel/providers/MH/camel-mh-folder.c (_open): 
+	read or create UID list.
+	(_close): save UID list.
+
 1999-09-07  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* camel/md5-utils.c (md5_get_digest_from_file): 

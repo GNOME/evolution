@@ -20,6 +20,9 @@ static GladeXML *xml;
 static CamelSession *_session;
 static CamelFolder *currently_selected_folder = NULL;
 
+static GList *store_list;
+static GList *folder_list;
+
 static void add_mail_store (const gchar *store_url);
 static void show_folder_messages (CamelFolder *folder);
 
@@ -153,7 +156,7 @@ show_folder_messages (CamelFolder *folder)
 			clist_row_text [0] = msg_info->date;
 			clist_row_text [1] = msg_info->sender;			
 			clist_row_text [2] = msg_info->subject;
-			printf ("New message : subject = %s\n", msg_info->subject);
+			
 			current_row = gtk_clist_append (GTK_CLIST (message_clist), clist_row_text);
 
 			message_info_list = message_info_list->next;
@@ -204,6 +207,9 @@ add_mail_store (const gchar *store_url)
 	store = camel_session_get_store (_session, store_url);
 	if (!store) return;
 
+	/* remember store */
+	store_list = g_list_prepend (store_list, store);
+
 	//store_list = g_list_append (store_list, (gpointer)store);
 	mailbox_and_store_tree = glade_xml_get_widget (xml, "store-and-mailbox-tree");
 	new_tree_text[0] = g_strdup (store_url);
@@ -227,6 +233,7 @@ add_mail_store (const gchar *store_url)
 		new_tree_text[0] = subfolder_list->data;
 		new_folder = camel_store_get_folder (store, subfolder_list->data);
 		camel_folder_open (new_folder, FOLDER_OPEN_RW);
+		folder_list = g_list_prepend (folder_list, new_folder);
 
 		new_folder_node = gtk_ctree_insert_node (GTK_CTREE (mailbox_and_store_tree),
 							 new_store_node,
@@ -244,8 +251,6 @@ add_mail_store (const gchar *store_url)
 		gtk_ctree_node_set_row_data (GTK_CTREE (mailbox_and_store_tree), new_folder_node, (gpointer)new_folder);
 		subfolder_list = subfolder_list->next;
 	}
-	
-	
 }
 
 static void 
@@ -305,10 +310,26 @@ expunge_selected_folders ()
 	
 }
 
+void
+close_all ()
+{
+	while (folder_list) {
+		camel_folder_close (CAMEL_FOLDER (folder_list->data), TRUE);
+		folder_list = folder_list->next;
+	}
+
+	while (store_list) {
+		//camel_store_close (CAMEL_STORE (store_list->data));
+		store_list = store_list->next;
+	}
+
+}
+
 /* ----- libglade callbacks */
 void
 on_exit_activate (GtkWidget *widget, void *data)
 {
+	close_all ();
 	gtk_main_quit ();
 }
 

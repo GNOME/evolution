@@ -62,6 +62,7 @@ static gint _append_message (CamelFolder *folder, CamelMimeMessage *message);
 static void _expunge (CamelFolder *folder);
 static void _copy_message_to (CamelFolder *folder, CamelMimeMessage *message, CamelFolder *dest_folder);
 static void _open (CamelFolder *folder, CamelFolderOpenMode mode);
+static void _close (CamelFolder *folder, gboolean expunge);
 
 
 /* some utility functions */
@@ -88,6 +89,7 @@ camel_mh_folder_class_init (CamelMhFolderClass *camel_mh_folder_class)
 	camel_folder_class->expunge = _expunge;
 	camel_folder_class->copy_message_to = _copy_message_to;
 	camel_folder_class->open = _open;
+	camel_folder_class->close = _close;
 	
 }
 
@@ -235,7 +237,7 @@ _open (CamelFolder *folder, CamelFolderOpenMode mode)
 	_create_summary (folder);
 	
 	/* get (or create) uid list */
-	if (!mh_load_uid_list (mh_folder))
+	if (!(mh_load_uid_list (mh_folder) > 0))
 		mh_generate_uid_list (mh_folder);
 }
 
@@ -245,10 +247,9 @@ static void
 _close (CamelFolder *folder, gboolean expunge)
 {
 	CamelMhFolder *mh_folder = CAMEL_MH_FOLDER (folder);
-	
 	if (mh_folder->uid_array)
 		mh_save_uid_list (mh_folder);
-
+	
 	/* call parent implementation */
 	parent_class->close (folder, expunge);
 }
