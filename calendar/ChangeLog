@@ -1,5 +1,10 @@
 2001-12-17  JP Rosevear  <jpr@ximian.com>
  
+ 	* gui/e-meeting-model.c (process_free_busy): indicate the meeting
+ 	attendee has calendar info
+
+2001-12-17  JP Rosevear  <jpr@ximian.com>
+ 
  	* gui/e-itip-control.c (send_item): use get_real_item
  	(get_refresh_options): uncomment out
  	(get_real_item): obtain the real object which has the uid of the

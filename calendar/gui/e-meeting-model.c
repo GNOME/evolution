@@ -1181,6 +1181,8 @@ process_free_busy (EMeetingModel *im, EMeetingAttendee *ia, char *text)
 	if (main_comp == NULL)
 		return;
 
+	e_meeting_attendee_set_has_calendar_info (ia, TRUE);
+	
 	kind = icalcomponent_isa (main_comp);
 	if (kind == ICAL_VCALENDAR_COMPONENT) {	
 		icalcompiter iter;
