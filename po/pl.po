@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2001-12-04 17:34+0100\n"
-"PO-Revision-Date: 2001-12-04 17:36+0100\n"
+"POT-Creation-Date: 2001-12-12 22:35+0100\n"
+"PO-Revision-Date: 2001-12-12 22:48+0100\n"
 "Last-Translator: GNOME PL Team <translators@gnome.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -65,6 +65,7 @@ msgstr "Asystent"
 
 #: addressbook/backend/ebook/e-card-simple.c:1
 #: addressbook/backend/ebook/e-card-simple.c:1
+#: addressbook/gui/contact-editor/contact-editor.glade.h:1
 #: addressbook/gui/contact-editor/e-contact-editor.c:1
 #: addressbook/gui/contact-editor/e-contact-editor.c:1
 msgid "Business"
@@ -91,6 +92,7 @@ msgstr "Frma"
 
 #: addressbook/backend/ebook/e-card-simple.c:1
 #: addressbook/backend/ebook/e-card-simple.c:1
+#: addressbook/gui/contact-editor/contact-editor.glade.h:1
 #: addressbook/gui/contact-editor/e-contact-editor.c:1
 #: addressbook/gui/contact-editor/e-contact-editor.c:1
 msgid "Home"
@@ -106,6 +108,7 @@ msgid "Org"
 msgstr "Org"
 
 #: addressbook/backend/ebook/e-card-simple.c:1
+#: addressbook/gui/contact-editor/contact-editor.glade.h:1
 #: addressbook/gui/contact-editor/e-contact-editor.c:1
 msgid "Mobile"
 msgstr "Przeno¶ny"
@@ -116,6 +119,7 @@ msgid "Car"
 msgstr "Samochód"
 
 #: addressbook/backend/ebook/e-card-simple.c:1
+#: addressbook/gui/contact-editor/contact-editor.glade.h:1
 #: addressbook/gui/contact-editor/e-contact-editor.c:1
 #: addressbook/gui/widgets/e-addressbook-view.c:1
 msgid "Business Fax"
@@ -1077,7 +1081,7 @@ msgstr "Usuñ wszystko"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:1
 msgid "Send HTML Mail?"
-msgstr "Wys³anie listu jako HTML"
+msgstr "Wys³anie listu w formacie HTML"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:1
 msgid "Edit Contact List"
@@ -1162,16 +1166,24 @@ msgid "_Message Recipients:"
 msgstr "Odbiorcy _listu:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:1
+msgid "A_ssistant's name:"
+msgstr "_Nazwisko asystenta:"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:1
+msgid "Add_ress..."
+msgstr "Adre_s..."
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:1
 msgid "Anni_versary:"
 msgstr "_Rocznica:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:1
-msgid "B_usiness"
-msgstr "Pra_ca"
+msgid "Birthda_y:"
+msgstr "_Urodziny:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:1
-msgid "Business _Fax"
-msgstr "_Faks s³u¿bowy"
+msgid "C_ontacts..."
+msgstr "_Kontakty..."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:1
 #: calendar/gui/dialogs/event-page.glade.h:1
@@ -1190,6 +1202,10 @@ msgid "Contact Editor"
 msgstr "Edytor kontaktów"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:1
+msgid "D_epartment:"
+msgstr "_Oddzia³:"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:1
 #: calendar/gui/dialogs/task-editor.c:1
 msgid "Details"
 msgstr "Szczegó³y"
@@ -1201,6 +1217,10 @@ msgstr "URL sygnalizuj±cy zajêto¶æ:"
 #: addressbook/gui/contact-editor/contact-editor.glade.h:1
 msgid "File A_s:"
 msgstr "N_azwa karty:"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:1
+msgid "Full _Name..."
+msgstr "Pe³na _nazwa..."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:1
 msgid "General"
@@ -1229,34 +1249,24 @@ msgid "Organi_zation:"
 msgstr "_Organizacja:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:1
+msgid "P_rofession:"
+msgstr "Z_awód:"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:1
 msgid "Phone Types"
 msgstr "Typy telefonów"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:1
+msgid "S_pouse:"
+msgstr "_Ma³¿onek:"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:1
+msgid "This is the _mailing address"
+msgstr "_To jest adres pocztowy"
+
+#: addressbook/gui/contact-editor/contact-editor.glade.h:1
 msgid "Wants to receive _HTML mail"
 msgstr "Chce otrzymywaæ listy w HTML-u"
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:1
-msgid "_Address..."
-msgstr "Adre_s..."
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:1
-msgid "_Assistant's name:"
-msgstr "_Nazwisko asystenta:"
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:1
-msgid "_Birthday:"
-msgstr "_Urodziny:"
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:1
-msgid "_Business"
-msgstr "_Praca"
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:1
-#: calendar/gui/dialogs/event-page.glade.h:1
-#: calendar/gui/dialogs/task-page.glade.h:1
-msgid "_Contacts..."
-msgstr "_Kontakty..."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:1
 #: calendar/gui/dialogs/alarm-page.glade.h:1
@@ -1268,28 +1278,12 @@ msgid "_Delete"
 msgstr "_Usuñ"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:1
-msgid "_Department:"
-msgstr "_Oddzia³:"
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:1
-msgid "_Full Name..."
-msgstr "Pe³na _nazwa..."
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:1
-msgid "_Home"
-msgstr "_Dom"
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:1
 msgid "_Job title:"
 msgstr "Tytu³ s³u¿_bowy:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:1
 msgid "_Manager's Name:"
 msgstr "Nazwisko _szefa:"
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:1
-msgid "_Mobile"
-msgstr "P_rzeno¶ny"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:1
 msgid "_Nickname:"
@@ -1300,20 +1294,8 @@ msgid "_Office:"
 msgstr "_Biuro:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:1
-msgid "_Profession:"
-msgstr "Z_awód:"
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:1
 msgid "_Public Calendar URL:"
 msgstr "URL publicznego _kalendarza:"
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:1
-msgid "_Spouse:"
-msgstr "_Ma³¿onek:"
-
-#: addressbook/gui/contact-editor/contact-editor.glade.h:1
-msgid "_This is the mailing address"
-msgstr "_To jest adres pocztowy"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:1
 msgid "_Web page address:"
@@ -1338,6 +1320,10 @@ msgstr "Edytor kategorii nie jest dostêpny."
 #: addressbook/gui/contact-editor/e-contact-editor.c:1
 msgid "This contact belongs to these categories:"
 msgstr "Ten kontakt przynale¿y do nastêpuj±cych kategorii:"
+
+#: addressbook/gui/contact-editor/e-contact-editor.c:1
+msgid "Save Contact as VCard"
+msgstr "Zapis kontaktu w formacie VCard"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:1
 msgid "TTY/TDD"
@@ -2451,7 +2437,7 @@ msgstr "Edytor listy kontaktów"
 
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:1
 msgid "Save List as VCard"
-msgstr "Zapisz listê jako VCard"
+msgstr "Zapisz listê w formacie VCard"
 
 #: addressbook/gui/merging/e-card-duplicate-detected.glade.h:1
 msgid "Add Anyway"
@@ -2528,7 +2514,7 @@ msgstr "liczba kart: %d"
 #: addressbook/gui/widgets/e-addressbook-view.c:1
 #: ui/evolution-addressbook.xml.h:1
 msgid "Save as VCard"
-msgstr "Zapisz jako VCard"
+msgstr "Zapisz w formacie VCard"
 
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:1
 #: ui/evolution-message-composer.xml.h:1
@@ -3994,6 +3980,11 @@ msgstr "Data i czas"
 msgid "F_ree"
 msgstr "_Wolny"
 
+# FIXME (cyba): skrót klawiszowy
+#: calendar/gui/dialogs/event-page.glade.h:1
+msgid "L_ocation:"
+msgstr "P_o³o¿enie:"
+
 #: calendar/gui/dialogs/event-page.glade.h:1
 #: calendar/gui/dialogs/task-page.glade.h:1
 msgid "Pri_vate"
@@ -4013,6 +4004,11 @@ msgstr "Forma wy¶wietlania czasu"
 #: calendar/gui/dialogs/task-page.glade.h:1
 msgid "Su_mmary:"
 msgstr "Z_estawienie:"
+
+#: calendar/gui/dialogs/event-page.glade.h:1
+#: calendar/gui/dialogs/task-page.glade.h:1
+msgid "_Contacts..."
+msgstr "_Kontakty..."
 
 #: calendar/gui/dialogs/event-page.glade.h:1
 msgid "_End time:"
@@ -4615,7 +4611,7 @@ msgstr "Anuluj"
 #: calendar/gui/e-itip-control.c:1
 #, c-format
 msgid "<b>%s</b> has published meeting information."
-msgstr "<b>%s</b> opublikowa³ informacje o spotkaniu."
+msgstr "Informacja o spotkaniu opublikowana przez <b>%s</b>."
 
 #: calendar/gui/e-itip-control.c:1
 msgid "Meeting Information"
@@ -4679,7 +4675,7 @@ msgstr "Niepoprawna wiadomo¶æ o spotkaniu"
 #: calendar/gui/e-itip-control.c:1
 #, c-format
 msgid "<b>%s</b> has published task information."
-msgstr "<b>%s</b> opublikowa³ informacje o spotkaniu."
+msgstr "Informacja o zadaniu opublikowana przez <b>%s</b>."
 
 #: calendar/gui/e-itip-control.c:1
 msgid "Task Information"
@@ -4737,7 +4733,7 @@ msgstr "Niepoprawna wiadomo¶æ o zadaniu"
 #: calendar/gui/e-itip-control.c:1
 #, c-format
 msgid "<b>%s</b> has published free/busy information."
-msgstr "<b>%s</b> opublikowa³ informacjê o zajêto¶ci."
+msgstr "Informacja o zajêto¶ci opublikowana przez <b>%s</b>."
 
 #: calendar/gui/e-itip-control.c:1
 msgid "Free/Busy Information"
@@ -5133,6 +5129,35 @@ msgstr "Wymagany jest co najmniej jeden uczestnik"
 #: calendar/gui/itip-utils.c:1
 msgid "An organizer must be set."
 msgstr "Nale¿y podaæ organizatora."
+
+#: calendar/gui/itip-utils.c:1 calendar/gui/itip-utils.c:1
+msgid "Event information"
+msgstr "Informacja o spotkaniu"
+
+#: calendar/gui/itip-utils.c:1 calendar/gui/itip-utils.c:1
+msgid "Task information"
+msgstr "Informacja o zadaniu"
+
+#: calendar/gui/itip-utils.c:1 calendar/gui/itip-utils.c:1
+msgid "Journal information"
+msgstr "Informacja dziennika"
+
+#: calendar/gui/itip-utils.c:1 calendar/gui/itip-utils.c:1
+msgid "Free/Busy information"
+msgstr "Informacja o zajêto¶ci"
+
+#: calendar/gui/itip-utils.c:1
+msgid "Calendar information"
+msgstr "Informacja kalendarza"
+
+#: calendar/gui/itip-utils.c:1
+#, c-format
+msgid "Free/Busy information (%s to %s)"
+msgstr "Informacja o zajêto¶ci (od %s do %s)"
+
+#: calendar/gui/itip-utils.c:1
+msgid "iCalendar information"
+msgstr "Informacja iKalendarza"
 
 #: calendar/gui/itip-utils.c:1
 msgid "You must be an attendee of the event."
@@ -8606,7 +8631,7 @@ msgstr "S_kopiuj do folderu..."
 msgid "_Undelete"
 msgstr "_Cofnij usuniêcie"
 
-#: mail/folder-browser.c:1
+#: mail/folder-browser.c:1 ui/evolution-mail-message.xml.h:1
 msgid "Add Sender to Address Book"
 msgstr "Dodaj nadawcê do ksi±¿ki adresowej"
 
@@ -8976,6 +9001,10 @@ msgstr "Filtry"
 #: mail/mail-callbacks.c:1
 msgid "Print Message"
 msgstr "Wydruk listu"
+
+#: mail/mail-callbacks.c:1
+msgid "US-Letter"
+msgstr "Listowy-US"
 
 #: mail/mail-callbacks.c:1
 msgid "Printing of message failed"
@@ -10039,6 +10068,10 @@ msgstr ""
 #: mail/mail-vfolder.c:1
 msgid "VFolders"
 msgstr "VFoldery"
+
+#: mail/mail-vfolder.c:1
+msgid "vFolders"
+msgstr "vFoldery"
 
 #: mail/mail-vfolder.c:1
 msgid "Edit VFolder"
@@ -11678,6 +11711,39 @@ msgstr ""
 #: shell/e-setup.c:1
 #, c-format
 msgid ""
+"Evolution could not create directory\n"
+"%s:\n"
+"%s"
+msgstr ""
+"Nie mo¿na stworzyæ katalogu\n"
+"%s\n"
+"%s"
+
+#: shell/e-setup.c:1
+#, c-format
+msgid ""
+"Directory %s\n"
+"does not have the right permissions. Please make it\n"
+"readable and executable and restart Evolution."
+msgstr ""
+"Katalog %s\n"
+"ma niew³a¶ciwe uprawnienia. Ustaw prawa do jego odczytu\n"
+"oraz wykonania i uruchom Evolution ponownie."
+
+#: shell/e-setup.c:1
+#, c-format
+msgid ""
+"File %s\n"
+"should be removed to allow Evolution to work correctly.\n"
+"Please remove this file and restart Evolution."
+msgstr ""
+"Aby Evolution mog³o poprawnie dzia³aæ, nale¿y usun±æ\n"
+"plik %s.\n"
+"Usuñ ten plik i uruchom Evolution ponownie."
+
+#: shell/e-setup.c:1
+#, c-format
+msgid ""
 "The file `%s' is not a directory.\n"
 "Please move it in order to allow installation\n"
 "of the Evolution user files."
@@ -11873,6 +11939,11 @@ msgstr ""
 #, c-format
 msgid "File %s does not exist"
 msgstr "Plik %s nie istnieje."
+
+#: shell/e-shell-importer.c:1 shell/e-shell-importer.c:1
+#: shell/e-shell-importer.c:1 shell/e-shell-importer.c:1
+msgid "Evolution Error"
+msgstr "B³±d Evolution"
 
 #: shell/e-shell-importer.c:1
 msgid "You may only import to local folders"
@@ -12701,7 +12772,7 @@ msgstr "Wy_drukuj..."
 
 #: ui/evolution-addressbook.xml.h:1
 msgid "_Save as VCard"
-msgstr "Z_apisz jako VCard"
+msgstr "Z_apisz w formacie VCard"
 
 #: ui/evolution-addressbook.xml.h:1
 msgid "_Search for Contacts"
@@ -12939,7 +13010,7 @@ msgstr "Anuluje spotkanie zwi±zane z tym elementem"
 
 #: ui/evolution-event-editor.xml.h:1 ui/evolution-task-editor.xml.h:1
 msgid "Forward as i_Calendar"
-msgstr "Prze¶lij jako i_Calendar"
+msgstr "Prze¶lij w formacie i_Calendar"
 
 #: ui/evolution-event-editor.xml.h:1 ui/evolution-task-editor.xml.h:1
 msgid "Forward this item via email"
