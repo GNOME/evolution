@@ -51,9 +51,7 @@
 #define FACTORY_ID "OAFIID:GNOME_Evolution_Calendar_Factory:" BASE_VERSION
 
 #define CALENDAR_COMPONENT_ID  "OAFIID:GNOME_Evolution_Calendar_Component:" BASE_VERSION
-#define CALENDAR_CONTROL_ID    "OAFIID:GNOME_Evolution_Calendar_Control:" BASE_VERSION
 #define TASKS_COMPONENT_ID     "OAFIID:GNOME_Evolution_Tasks_Component:" BASE_VERSION
-#define TASKS_CONTROL_ID       "OAFIID:GNOME_Evolution_Tasks_Control:" BASE_VERSION
 #define ITIP_CONTROL_ID        "OAFIID:GNOME_Evolution_Calendar_iTip_Control:" BASE_VERSION
 #define CONFIG_CONTROL_ID      "OAFIID:GNOME_Evolution_Calendar_ConfigControl:" BASE_VERSION
 #define COMP_EDITOR_FACTORY_ID "OAFIID:GNOME_Evolution_Calendar_CompEditorFactory:" BASE_VERSION
@@ -162,15 +160,11 @@ factory (BonoboGenericFactory *factory,
 		BonoboObject *object = BONOBO_OBJECT (calendar_component_peek ());
 		bonobo_object_ref (object);
 		return object;
-	} else if (strcmp (component_id, CALENDAR_CONTROL_ID) == 0)
-		return BONOBO_OBJECT (control_factory_new_control ());
-	else if (strcmp (component_id, TASKS_COMPONENT_ID) == 0) {
+	} else if (strcmp (component_id, TASKS_COMPONENT_ID) == 0) {
 		BonoboObject *object = BONOBO_OBJECT (tasks_component_peek ());
 		bonobo_object_ref (object);
 		return object;
-	} else if (strcmp (component_id, TASKS_CONTROL_ID) == 0)
-		return BONOBO_OBJECT (tasks_control_new ());
-	else if (strcmp (component_id, ITIP_CONTROL_ID) == 0)
+	} else if (strcmp (component_id, ITIP_CONTROL_ID) == 0)
 		return BONOBO_OBJECT (itip_bonobo_control_new ());
 	else if (strcmp (component_id, CONFIG_CONTROL_ID) == 0)
 		return BONOBO_OBJECT (cal_prefs_dialog_new ());

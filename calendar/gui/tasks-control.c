@@ -39,7 +39,6 @@
 #include <libgnomeprintui/gnome-print-preview.h>
 #include <libgnomeprintui/gnome-print-dialog.h>
 #include <bonobo/bonobo-control.h>
-#include <bonobo/bonobo-property-bag.h>
 #include <bonobo/bonobo-ui-util.h>
 #include <gal/widgets/e-gui-utils.h>
 #include <e-util/e-dialog-utils.h>
@@ -52,23 +51,9 @@
 #include "tasks-control.h"
 #include "evolution-shell-component-utils.h"
 
-#define TASKS_CONTROL_PROPERTY_URI		"folder_uri"
-#define TASKS_CONTROL_PROPERTY_URI_IDX		1
 #define FIXED_MARGIN                            .05
 
 
-static void tasks_control_properties_init	(BonoboControl		*control,
-						 ETasks			*tasks);
-static void tasks_control_get_property		(BonoboPropertyBag	*bag,
-						 BonoboArg		*arg,
-						 guint			 arg_id,
-						 CORBA_Environment      *ev,
-						 gpointer		 user_data);
-static void tasks_control_set_property		(BonoboPropertyBag	*bag,
-						 const BonoboArg	*arg,
-						 guint			 arg_id,
-						 CORBA_Environment      *ev,
-						 gpointer		 user_data);
 static void tasks_control_activate_cb		(BonoboControl		*control,
 						 gboolean		 activate,
 						 gpointer		 user_data);
@@ -125,105 +110,9 @@ tasks_control_new (void)
 		return NULL;
 	}
 
-	tasks_control_properties_init (control, E_TASKS (tasks));
-
 	g_signal_connect (control, "activate", G_CALLBACK (tasks_control_activate_cb), tasks);
 
 	return control;
-}
-
-
-/* Creates the property bag for our new control. */
-static void
-tasks_control_properties_init		(BonoboControl		*control,
-					 ETasks			*tasks)
-					 
-{
-	BonoboPropertyBag *pbag;
-
-	pbag = bonobo_property_bag_new (tasks_control_get_property,
-					tasks_control_set_property, tasks);
-
-	bonobo_property_bag_add (pbag,
-				 TASKS_CONTROL_PROPERTY_URI,
-				 TASKS_CONTROL_PROPERTY_URI_IDX,
-				 BONOBO_ARG_STRING,
-				 NULL,
-				 _("The URI of the tasks folder to display"),
-				 0);
-
-	bonobo_control_set_properties (control, bonobo_object_corba_objref (BONOBO_OBJECT (pbag)), NULL);
-	bonobo_object_unref (BONOBO_OBJECT (pbag));
-}
-
-
-/* Gets a property of our control. FIXME: Finish. */
-static void
-tasks_control_get_property		(BonoboPropertyBag	*bag,
-					 BonoboArg		*arg,
-					 guint			 arg_id,
-					 CORBA_Environment      *ev,
-					 gpointer		 user_data)
-{
-	ETasks *tasks = user_data;
-	const char *uri;
-	ECalModel *model;
-
-	switch (arg_id) {
-
-	case TASKS_CONTROL_PROPERTY_URI_IDX:
-		model = e_calendar_table_get_model (e_tasks_get_calendar_table (tasks));
-		uri = e_cal_get_uri (e_cal_model_get_default_client (model));
-		BONOBO_ARG_SET_STRING (arg, uri);
-		break;
-
-	default:
-		g_warning ("Unhandled arg %d\n", arg_id);
-	}
-}
-
-
-static void
-tasks_control_set_property		(BonoboPropertyBag	*bag,
-					 const BonoboArg	*arg,
-					 guint			 arg_id,
-					 CORBA_Environment      *ev,
-					 gpointer		 user_data)
-{
-	ETasks *tasks = user_data;
-	char *uri;
-	ESource *source;
-	ESourceGroup *group;
-
-	switch (arg_id) {
-
-	case TASKS_CONTROL_PROPERTY_URI_IDX:
-		/* FIXME Remove the old uri? */
-		uri = BONOBO_ARG_GET_STRING (arg);
-
-		group = e_source_group_new ("", uri);
-		source = e_source_new ("", "");
-		e_source_set_group (source, group);
-
-		if (!e_tasks_add_todo_source (tasks, source)) {
-			char *msg;
-
-			msg = g_strdup_printf (_("Could not load the tasks in `%s'"), uri);
-			gnome_error_dialog_parented (
-				msg,
-				GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (tasks))));
-			g_free (msg);
-		}
-
-		g_object_unref (source);
-		g_object_unref (group);
-
-		break;
-
-	default:
-		g_warning ("Unhandled arg %d\n", arg_id);
-		break;
-	}
 }
 
 
