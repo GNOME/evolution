@@ -1,3 +1,27 @@
+2002-05-15  Not Zed  <NotZed@Ximian.com>
+
+	* mail-ops.c (prep_offline_do): 
+	(prep_offline_done): 
+	(prep_offline_free): 
+	(mail_prep_offline): Implement prep_offline for an individual
+	folder.
+	(set_offline_do): Only call disco_store_set_status or disconnect
+	for the store, dont do any offline prep stuff.
+
+	* mail-offline-handler.c: Applied patch from Ettore to hook in
+	extra offline interfaces.
+	(impl_destroy): Dont free listener here anymore, its removed, but
+	free sync table.
+	(mail_offline_handler_init): Same for setup.
+	(impl_syncFolder): Implement.
+	(sync_done): handles finalising synchronisation of 1 folder.
+	(sync_status): progress reporting, camel side.
+	(sync_timeout): progress reporting, gmainloop side.
+	(impl_cancelSyncFolder): Implement.
+	(impl_goOffline, storage_go_offline, went_offline): Dont copy the
+	listener to our struct - its an argument, not a member, so give
+	each thread its own copy.
+
 2002-05-15  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* message-list.c (ml_tree_value_at): Instead of g_assert()ing that

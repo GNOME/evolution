@@ -2085,6 +2085,85 @@ mail_save_part (CamelMimePart *part, const char *path,
 }
 
 
+/* ** PREPARE OFFLINE ***************************************************** */
+
+struct _prep_offline_msg {
+	struct _mail_msg msg;
+
+	CamelOperation *cancel;
+	char *uri;
+	void (*done)(const char *uri, void *data);
+	void *data;
+};
+
+static void prep_offline_do(struct _mail_msg *mm)
+{
+	struct _prep_offline_msg *m = (struct _prep_offline_msg *)mm;
+	CamelFolder *folder;
+
+	if (m->cancel)
+		camel_operation_register(m->cancel);
+
+	folder = mail_tool_uri_to_folder(m->uri, 0, &mm->ex);
+	if (folder) {
+		if (CAMEL_IS_DISCO_FOLDER(folder)) {
+			camel_disco_folder_prepare_for_offline((CamelDiscoFolder *)folder,
+							       "(match-all (not (system-flag \"Seen\")))",
+							       &mm->ex);
+		}
+		/* prepare_for_offline should do this? */
+		/* of course it should all be atomic, but ... */
+		camel_folder_sync(folder, FALSE, NULL);
+		camel_object_unref((CamelObject *)folder);
+	}
+
+	if (m->cancel)
+		camel_operation_unregister(m->cancel);
+}
+
+static void prep_offline_done(struct _mail_msg *mm)
+{
+	struct _prep_offline_msg *m = (struct _prep_offline_msg *)mm;
+
+	if (m->done)
+		m->done(m->uri, m->data);
+}
+
+static void prep_offline_free(struct _mail_msg *mm)
+{
+	struct _prep_offline_msg *m = (struct _prep_offline_msg *)mm;
+
+	if (m->cancel)
+		camel_operation_unref(m->cancel);
+	g_free(m->uri);
+}
+
+static struct _mail_msg_op prep_offline_op = {
+	NULL, /* DO NOT CHANGE THIS, IT MUST BE NULL FOR CANCELLATION TO WORK */
+	prep_offline_do,
+	prep_offline_done,
+	prep_offline_free,
+};
+
+void
+mail_prep_offline(const char *uri,
+		  CamelOperation *cancel,
+		  void (*done)(const char *, void *data),
+		  void *data)
+{
+	struct _prep_offline_msg *m;
+
+	m = mail_msg_new(&prep_offline_op, NULL, sizeof(*m));
+	m->cancel = cancel;
+	if (cancel)
+		camel_operation_ref(cancel);
+	m->uri = g_strdup(uri);
+	m->data = data;
+	m->done = done;
+
+	e_thread_put(mail_thread_queued, (EMsg *)m);
+}
+
 /* ** GO OFFLINE ***************************************************** */
 
 struct _set_offline_msg {
@@ -2102,9 +2181,9 @@ static char *set_offline_desc(struct _mail_msg *mm, int done)
 	char *service_name = camel_service_get_name (CAMEL_SERVICE (m->store), TRUE);
 	char *msg;
 
-	msg = g_strdup_printf (m->offline ? _("Disconnecting from %s") :
-			       _("Reconnecting to %s"), service_name);
-	g_free (service_name);
+	msg = g_strdup_printf(m->offline?_("Disconnecting from %s"):_("Reconnecting to %s"),
+			      service_name);
+	g_free(service_name);
 	return msg;
 }
 
@@ -2118,29 +2197,11 @@ static void set_offline_do(struct _mail_msg *mm)
 			camel_service_disconnect (CAMEL_SERVICE (m->store),
 						  TRUE, &mm->ex);
 		}
-		return;
+	} else {
+		camel_disco_store_set_status (CAMEL_DISCO_STORE (m->store),
+					      m->offline ? CAMEL_DISCO_STORE_OFFLINE : CAMEL_DISCO_STORE_ONLINE,
+					      &mm->ex);
 	}
-
-	if (m->offline && camel_disco_store_status (CAMEL_DISCO_STORE (m->store)) == CAMEL_DISCO_STORE_ONLINE) {
-		CamelFolder *inbox;
-
-		/* FIXME. Something more generic here... (bug 10755) */
-		inbox = camel_store_get_inbox (m->store, NULL);
-		if (inbox) {
-			camel_disco_folder_prepare_for_offline (
-				CAMEL_DISCO_FOLDER (inbox),
-				"(match-all (not (system-flag \"Seen\")))",
-				&mm->ex);
-			camel_folder_sync (inbox, FALSE, NULL);
-			camel_object_unref (CAMEL_OBJECT (inbox));
-			if (camel_exception_is_set (&mm->ex))
-				return;
-		}
-	}
-
-	camel_disco_store_set_status (CAMEL_DISCO_STORE (m->store),
-				      m->offline ? CAMEL_DISCO_STORE_OFFLINE :
-				      CAMEL_DISCO_STORE_ONLINE, &mm->ex);
 }
 
 static void set_offline_done(struct _mail_msg *mm)
@@ -2187,7 +2248,6 @@ mail_store_set_offline (CamelStore *store, gboolean offline,
 
 	e_thread_put(mail_thread_queued, (EMsg *)m);
 }
-
 
 /* ** Execute Shell Command ***************************************************** */
 
