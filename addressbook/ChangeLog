@@ -1,8 +1,18 @@
+2001-10-22  Christopher James Lahey  <clahey@ximian.com>
+
+	* gui/contact-editor/e-contact-save-as.c (save_it): Put up an
+	error dialog if there's an error while saving.  If the person hits
+	cancel on the "file exists" dialog, don't close the file selection
+	dialog.  Fixes Ximian bug #7055.
+
 2001-10-21  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/widgets/e-addressbook-reflow-adapter.c
 	(model_and_selection_free): right_click_up here when we let go of
 	the popup.
+
+	* gui/widgets/e-minicard-view.c (e_minicard_view_selection_event):
+	right_click_up here.
 
 2001-10-21  Christopher James Lahey  <clahey@ximian.com>
 

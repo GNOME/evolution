@@ -33,6 +33,8 @@
 #include <libgnome/gnome-i18n.h>
 #include <errno.h>
 #include <string.h>
+#include <libgnomeui/gnome-messagebox.h>
+#include <libgnomeui/gnome-stock.h>
 
 static int file_exists(GtkFileSelection *filesel, const char *filename);
 
@@ -58,8 +60,21 @@ save_it(GtkWidget *widget, SaveAsInfo *info)
 				e_write_file(filename, info->vcard, O_WRONLY | O_CREAT | O_TRUNC);
 				break;
 			case 1 : /* cancel */
-				break;
+				return;
 		}
+	} else if (error != 0) {
+		GtkWidget *dialog;
+		char *str;
+
+		str = g_strdup_printf ("Error saving %s: %s", filename, strerror(errno));
+		dialog = gnome_message_box_new (str, GNOME_MESSAGE_BOX_ERROR, GNOME_STOCK_BUTTON_OK, NULL);
+		g_free (str);
+
+		gnome_dialog_set_parent (GNOME_DIALOG (dialog), GTK_WINDOW (info->filesel));
+
+		gtk_widget_show (dialog);
+		
+		return;
 	}
 	
 	g_free (info->vcard);
