@@ -1,5 +1,14 @@
 2005-02-01  Not Zed  <NotZed@Ximian.com>
 
+	** See bug #72020.
+
+	* camel-filter-driver.c (do_score): don't use
+	camel_folder_set_message_user_tag anymore, use the messageinfo
+	interface.
+	(do_adjust_score): implement missing function.
+
+2005-02-01  Not Zed  <NotZed@Ximian.com>
+
 	** See bug #65329
 
 	* camel-vtrash-folder.c (camel_vtrash_folder_new): api chagne and
