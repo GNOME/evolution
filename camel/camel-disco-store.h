@@ -57,6 +57,11 @@ struct _CamelDiscoStore {
 typedef struct {
 	CamelRemoteStoreClass parent_class;
 
+	void              (*set_status)              (CamelDiscoStore *,
+						      CamelDiscoStoreStatus,
+						      CamelException *);
+	gboolean          (*can_work_offline)        (CamelDiscoStore *);
+
 	gboolean          (*connect_online)          (CamelService *,
 						      CamelException *);
 	gboolean          (*connect_offline)         (CamelService *,
@@ -92,7 +97,11 @@ typedef struct {
 CamelType camel_disco_store_get_type (void);
 
 /* Public methods */
-CamelDiscoStoreStatus camel_disco_store_status       (CamelDiscoStore *store);
+CamelDiscoStoreStatus camel_disco_store_status           (CamelDiscoStore *);
+void                  camel_disco_store_set_status       (CamelDiscoStore *,
+							  CamelDiscoStoreStatus,
+							  CamelException *);
+gboolean              camel_disco_store_can_work_offline (CamelDiscoStore *);
 
 /* Convenience functions */
 gboolean camel_disco_store_check_online (CamelDiscoStore *store, CamelException *ex);

@@ -40,6 +40,10 @@ static CamelFolder *disco_get_folder (CamelStore *store, const char *name,
 static CamelFolderInfo *disco_get_folder_info (CamelStore *store,
 					       const char *top, guint32 flags,
 					       CamelException *ex);
+static void set_status (CamelDiscoStore *disco_store,
+			CamelDiscoStoreStatus status,
+			CamelException *ex);
+static gboolean can_work_offline (CamelDiscoStore *disco_store);
 
 static void
 camel_disco_store_class_init (CamelDiscoStoreClass *camel_disco_store_class)
@@ -50,6 +54,10 @@ camel_disco_store_class_init (CamelDiscoStoreClass *camel_disco_store_class)
 		CAMEL_STORE_CLASS (camel_disco_store_class);
 
 	remote_store_class = CAMEL_REMOTE_STORE_CLASS (camel_type_get_global_classfuncs (camel_remote_store_get_type ()));
+
+	/* virtual method definition */
+	camel_disco_store_class->set_status = set_status;
+	camel_disco_store_class->can_work_offline = can_work_offline;
 
 	/* virtual method overload */
 	camel_service_class->connect = disco_connect;
@@ -172,6 +180,12 @@ disco_get_folder_info (CamelStore *store, const char *top,
 }
 
 
+/**
+ * camel_disco_store_status:
+ * @store: a disconnectable store
+ *
+ * Return value: the current online/offline status of @store.
+ **/
 CamelDiscoStoreStatus
 camel_disco_store_status (CamelDiscoStore *store)
 {
@@ -180,6 +194,75 @@ camel_disco_store_status (CamelDiscoStore *store)
 	return store->status;
 }
 
+
+static void
+set_status (CamelDiscoStore *disco_store, CamelDiscoStoreStatus status,
+	    CamelException *ex)
+{
+	if (disco_store->status == status)
+		return;
+
+	camel_store_sync (CAMEL_STORE (disco_store), ex);
+	if (camel_exception_is_set (ex))
+		return;
+	if (!camel_service_disconnect (CAMEL_SERVICE (disco_store), TRUE, ex))
+		return;
+
+	disco_store->status = status;
+	camel_service_connect (CAMEL_SERVICE (disco_store), ex);
+}
+
+/**
+ * camel_disco_store_set_status:
+ * @store: a disconnectable store
+ * @status: the new status
+ * @ex: a CamelException
+ *
+ * Sets @store to @status. If an error occurrs and the status cannot
+ * be set to @status, @ex will be set.
+ **/
+void
+camel_disco_store_set_status (CamelDiscoStore *store,
+			      CamelDiscoStoreStatus status,
+			      CamelException *ex)
+{
+	CDS_CLASS (store)->set_status (store, status, ex);
+}
+
+
+static gboolean
+can_work_offline (CamelDiscoStore *disco_store)
+{
+	g_warning ("CamelDiscoStore::can_work_offline not implemented for `%s'",
+		   camel_type_to_name (CAMEL_OBJECT_GET_TYPE (disco_store)));
+	return FALSE;
+}
+
+/**
+ * camel_disco_store_can_work_offline:
+ * @store: a disconnectable store
+ *
+ * Return value: whether or not @store can be used offline. (Will be
+ * %FALSE if the store is not caching data to local disk, for example.)
+ **/
+gboolean
+camel_disco_store_can_work_offline (CamelDiscoStore *store)
+{
+	return CDS_CLASS (store)->can_work_offline (store);
+}
+
+
+/**
+ * camel_disco_store_check_online:
+ * @store: a disconnectable store
+ * @ex: a CamelException
+ *
+ * This checks that @store is online, and sets @ex if it is not. This
+ * can be used as a simple way to set a generic error message in @ex
+ * for operations that won't work offline.
+ *
+ * Return value: whether or not @store is online.
+ **/
 gboolean
 camel_disco_store_check_online (CamelDiscoStore *store, CamelException *ex)
 {

@@ -74,6 +74,12 @@ typedef struct {
 	void (*move_offline)   (CamelFolder *source, GPtrArray *uids,
 				CamelFolder *destination, CamelException *ex);
 
+	void (*cache_message)       (CamelDiscoFolder *disco_folder,
+				     const char *uid, CamelException *ex);
+	void (*prepare_for_offline) (CamelDiscoFolder *disco_folder,
+				     const char *expression,
+				     CamelException *ex);
+
 	void (*update_uid) (CamelFolder *folder, const char *old_uid,
 			    const char *new_uid);
 } CamelDiscoFolderClass;
@@ -83,6 +89,12 @@ typedef struct {
 void camel_disco_folder_expunge_uids (CamelFolder *folder, GPtrArray *uids,
 				      CamelException *ex);
 
+void camel_disco_folder_cache_message       (CamelDiscoFolder *disco_folder,
+					     const char *uid,
+					     CamelException *ex);
+void camel_disco_folder_prepare_for_offline (CamelDiscoFolder *disco_folder,
+					     const char *expression,
+					     CamelException *ex);
 
 /* Standard Camel function */
 CamelType camel_disco_folder_get_type (void);

@@ -37,6 +37,8 @@ extern "C" {
 #include <camel/camel-exception.h>
 #include <camel/camel-folder.h>
 #include <camel/camel-digest-folder.h>
+#include <camel/camel-disco-folder.h>
+#include <camel/camel-disco-store.h>
 #include <camel/camel-vee-folder.h>
 #include <camel/camel-medium.h>
 #include <camel/camel-mime-filter-basic.h>

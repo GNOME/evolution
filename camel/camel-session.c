@@ -81,6 +81,7 @@ static CamelProvider vee_provider = {
 static void
 camel_session_init (CamelSession *session)
 {
+	session->online = TRUE;
 	session->modules = camel_provider_init ();
 	session->providers = g_hash_table_new (g_strcase_hash, g_strcase_equal);
 	session->priv = g_malloc0(sizeof(*session->priv));
@@ -639,4 +640,30 @@ camel_session_remove_timeout (CamelSession *session, guint handle)
 	g_return_val_if_fail (CAMEL_IS_SESSION (session), FALSE);
 
 	return CS_CLASS (session)->remove_timeout (session, handle);
+}
+
+
+/**
+ * camel_session_is_online:
+ * @session: the session.
+ *
+ * Return value: whether or not @session is online.
+ **/
+gboolean
+camel_session_is_online (CamelSession *session)
+{
+	return session->online;
+}
+
+/**
+ * camel_session_set_online:
+ * @session: the session
+ * @online: whether or not the session should be online
+ *
+ * Sets the online status of @session to @online.
+ **/
+void
+camel_session_set_online (CamelSession *session, gboolean online)
+{
+	session->online = online;
 }

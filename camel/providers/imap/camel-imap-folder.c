@@ -73,6 +73,7 @@ static void imap_sync_offline (CamelFolder *folder, CamelException *ex);
 static const char *imap_get_full_name (CamelFolder *folder);
 static void imap_expunge_uids_online (CamelFolder *folder, GPtrArray *uids, CamelException *ex);
 static void imap_expunge_uids_offline (CamelFolder *folder, GPtrArray *uids, CamelException *ex);
+static void imap_cache_message (CamelDiscoFolder *disco_folder, const char *uid, CamelException *ex);
 
 /* message manipulation */
 static CamelMimeMessage *imap_get_message (CamelFolder *folder, const gchar *uid,
@@ -118,6 +119,7 @@ camel_imap_folder_class_init (CamelImapFolderClass *camel_imap_folder_class)
 	camel_disco_folder_class->append_offline = imap_append_offline;
 	camel_disco_folder_class->copy_online = imap_copy_online;
 	camel_disco_folder_class->copy_offline = imap_copy_offline;
+	camel_disco_folder_class->cache_message = imap_cache_message;
 }
 
 static void
@@ -1078,6 +1080,18 @@ imap_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 	camel_folder_summary_info_free (folder->summary, mi);
 
 	return msg;
+}
+
+static void
+imap_cache_message (CamelDiscoFolder *disco_folder, const char *uid,
+		    CamelException *ex)
+{
+	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (disco_folder);
+	CamelStream *stream;
+
+	stream = camel_imap_folder_fetch_data (imap_folder, uid, "", FALSE, ex);
+	if (stream)
+		camel_object_unref (CAMEL_OBJECT (stream));
 }
 
 static void

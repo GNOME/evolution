@@ -57,6 +57,7 @@ struct _CamelSession
 
 	char *storage_path;
 	GHashTable *providers, *modules;
+	gboolean online;
 };
 
 typedef struct {
@@ -161,6 +162,11 @@ guint           camel_session_register_timeout      (CamelSession *session,
 
 gboolean        camel_session_remove_timeout        (CamelSession *session,
 						     guint handle);
+
+
+gboolean        camel_session_is_online             (CamelSession *session);
+void            camel_session_set_online            (CamelSession *session,
+						     gboolean online);
 
 #ifdef __cplusplus
 }

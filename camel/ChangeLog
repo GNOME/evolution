@@ -1,3 +1,34 @@
+2001-05-09  Dan Winship  <danw@ximian.com>
+
+	* camel-disco-store.c (camel_disco_set_status): Set the
+	disconnected status.
+	(camel_disco_store_can_work_offline): Return whether or not a
+	given CamelDiscoStore can work offline or not.
+
+	* camel-disco-folder.c (camel_disco_folder_cache_message):
+	Explicitly tell a folder to cache a message. (Better than using
+	get_message, because for IMAP that doesn't guarantee you'll get
+	all the message parts.)
+	(camel_disco_folder_prepare_for_offline): Prepare a folder for
+	offline use by caching all messages meeting given search criteria
+	(and doing anything else the particular folder implementation
+	needs).
+
+	* camel-session.c (camel_session_set_online,
+	camel_session_is_online): A session-wide online/offline toggle.
+	(camel_session_init): Set online to TRUE.
+
+	* providers/imap/camel-imap-store.c (can_work_offline):
+	Implementation of CamelDiscoStore::can_work_offline. (Checks that
+	the store has been used online at least once.)
+	(imap_get_folder_online, imap_get_folder_offline): Deal with
+	request for "inbox" properly. ("Don't you mean... 'INBOX'?").
+
+	* providers/imap/camel-imap-folder.c (imap_cache_message):
+	Implementation of CamelDiscoFolder::cache_message.
+
+	* camel.h: Add camel-disco-store.h and camel-disco-folder.h
+
 2001-05-09  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-part.c (camel_mime_part_set_content_id): Wrap the

@@ -63,6 +63,7 @@ static char imap_tag_prefix = 'A';
 static void construct (CamelService *service, CamelSession *session,
 		       CamelProvider *provider, CamelURL *url,
 		       CamelException *ex);
+static gboolean can_work_offline (CamelDiscoStore *disco_store);
 static gboolean imap_connect_online (CamelService *service, CamelException *ex);
 static gboolean imap_connect_offline (CamelService *service, CamelException *ex);
 static gboolean imap_disconnect_online (CamelService *service, gboolean clean, CamelException *ex);
@@ -117,6 +118,7 @@ camel_imap_store_class_init (CamelImapStoreClass *camel_imap_store_class)
 
 	camel_remote_store_class->keepalive = imap_keepalive;
 
+	camel_disco_store_class->can_work_offline = can_work_offline;
 	camel_disco_store_class->connect_online = imap_connect_online;
 	camel_disco_store_class->connect_offline = imap_connect_offline;
 	camel_disco_store_class->disconnect_online = imap_disconnect_online;
@@ -539,6 +541,19 @@ imap_auth_loop (CamelService *service, CamelException *ex)
 #define IMAP_STOREINFO_VERSION 1
 
 static gboolean
+can_work_offline (CamelDiscoStore *disco_store)
+{
+	CamelImapStore *store = CAMEL_IMAP_STORE (disco_store);
+	char *path;
+	gboolean can;
+
+	path = g_strdup_printf ("%s/storeinfo", store->storage_path);
+	can = access (path, F_OK) == 0;
+	g_free (path);
+	return can;
+}
+
+static gboolean
 imap_connect_online (CamelService *service, CamelException *ex)
 {
 	CamelImapStore *store = CAMEL_IMAP_STORE (service);
@@ -751,11 +766,11 @@ imap_disconnect_online (CamelService *service, gboolean clean, CamelException *e
 	CamelImapStore *store = CAMEL_IMAP_STORE (service);
 	CamelImapResponse *response;
 	
-	imap_disconnect_offline (service, clean, ex);
 	if (store->connected && clean) {
 		response = camel_imap_command (store, NULL, ex, "LOGOUT");
 		camel_imap_response_free (store, response);
 	}
+	imap_disconnect_offline (service, clean, ex);
 
 	return TRUE;
 }
@@ -800,6 +815,9 @@ get_folder_online (CamelStore *store, const char *folder_name,
 
 	if (!camel_remote_store_connected (CAMEL_REMOTE_STORE (store), ex))
 		return NULL;
+
+	if (!g_strcasecmp (folder_name, "INBOX"))
+		folder_name = "INBOX";
 
 	/* Lock around the whole lot to check/create atomically */
 	CAMEL_IMAP_STORE_LOCK (imap_store, command_lock);
@@ -857,6 +875,9 @@ get_folder_offline (CamelStore *store, const char *folder_name,
 	if (!imap_store->connected &&
 	    !camel_service_connect (CAMEL_SERVICE (store), ex))
 		return NULL;
+
+	if (!g_strcasecmp (folder_name, "INBOX"))
+		folder_name = "INBOX";
 
 	folder_dir = e_path_to_physical (imap_store->storage_path, folder_name);
 	if (access (folder_dir, F_OK) != 0)
