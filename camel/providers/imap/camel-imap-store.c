@@ -40,6 +40,7 @@
 #include "camel-imap-folder.h"
 #include "camel-imap-utils.h"
 #include "camel-imap-command.h"
+#include "camel-disco-diary.h"
 #include "camel-file-utils.h"
 #include "camel-folder.h"
 #include "camel-exception.h"
@@ -58,6 +59,7 @@
 #define IMAP_PORT 143
 
 static CamelDiscoStoreClass *disco_store_class = NULL;
+static CamelRemoteStoreClass *remote_store_class = NULL;
 static char imap_tag_prefix = 'A';
 
 static void construct (CamelService *service, CamelSession *session,
@@ -103,6 +105,7 @@ camel_imap_store_class_init (CamelImapStoreClass *camel_imap_store_class)
 		CAMEL_DISCO_STORE_CLASS (camel_imap_store_class);
 
 	disco_store_class = CAMEL_DISCO_STORE_CLASS (camel_type_get_global_classfuncs (camel_disco_store_get_type ()));
+	remote_store_class = CAMEL_REMOTE_STORE_CLASS (camel_type_get_global_classfuncs (camel_remote_store_get_type ()));
 
 	/* virtual method overload */
 	camel_service_class->construct = construct;
@@ -125,8 +128,10 @@ camel_imap_store_class_init (CamelImapStoreClass *camel_imap_store_class)
 	camel_disco_store_class->disconnect_offline = imap_disconnect_offline;
 	camel_disco_store_class->get_folder_online = get_folder_online;
 	camel_disco_store_class->get_folder_offline = get_folder_offline;
+	camel_disco_store_class->get_folder_resyncing = get_folder_online;
 	camel_disco_store_class->get_folder_info_online = get_folder_info_online;
 	camel_disco_store_class->get_folder_info_offline = get_folder_info_offline;
+	camel_disco_store_class->get_folder_info_resyncing = get_folder_info_online;
 }
 
 static gboolean
@@ -211,7 +216,7 @@ construct (CamelService *service, CamelSession *session,
 		return;
 
 	imap_store->storage_path = camel_session_get_storage_path (session, service, ex);
-	if (camel_exception_is_set (ex)) 
+	if (!imap_store->storage_path)
 		return;
 
 	/* FIXME */
@@ -322,8 +327,11 @@ query_auth_types (CamelService *service, CamelException *ex)
 	GList *types, *sasl_types, *t, *next;
 	gboolean connected;
 
+	if (!camel_disco_store_check_online (CAMEL_DISCO_STORE (store), ex))
+		return NULL;
+
 	CAMEL_IMAP_STORE_LOCK (store, command_lock);
-	connected = connect_to_server (service, ex);
+	connected = CAMEL_SERVICE_CLASS (remote_store_class)->connect (service, ex) && connect_to_server (service, ex);
 	CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
 	if (!connected)
 		return NULL;
@@ -558,11 +566,11 @@ static gboolean
 imap_connect_online (CamelService *service, CamelException *ex)
 {
 	CamelImapStore *store = CAMEL_IMAP_STORE (service);
+	CamelDiscoStore *disco_store = CAMEL_DISCO_STORE (service);
 	CamelImapResponse *response;
 	int i, flags, len;
 	char *result, *name, *path;
 	FILE *storeinfo;
-
 
 	CAMEL_IMAP_STORE_LOCK (store, command_lock);
 	if (!connect_to_server (service, ex) ||
@@ -668,6 +676,10 @@ imap_connect_online (CamelService *service, CamelException *ex)
 		camel_imap_response_free (store, response);
 	}
 
+	path = g_strdup_printf ("%s/journal", store->storage_path);
+	disco_store->diary = camel_disco_diary_new (disco_store, path, ex);
+	g_free (path);
+
  done:
 	fclose (storeinfo);
 	CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
@@ -683,9 +695,16 @@ static gboolean
 imap_connect_offline (CamelService *service, CamelException *ex)
 {
 	CamelImapStore *store = CAMEL_IMAP_STORE (service);
+	CamelDiscoStore *disco_store = CAMEL_DISCO_STORE (service);
 	char *buf, *name, *path;
 	FILE *storeinfo;
 	guint32 tmp;
+
+	path = g_strdup_printf ("%s/journal", store->storage_path);
+	disco_store->diary = camel_disco_diary_new (disco_store, path, ex);
+	g_free (path);
+	if (!disco_store->diary)
+		return FALSE;
 
 	path = g_strdup_printf ("%s/storeinfo", store->storage_path);
 	storeinfo = fopen (path, "r");
@@ -732,6 +751,7 @@ static gboolean
 imap_disconnect_offline (CamelService *service, gboolean clean, CamelException *ex)
 {
 	CamelImapStore *store = CAMEL_IMAP_STORE (service);
+	CamelDiscoStore *disco = CAMEL_DISCO_STORE (service);
 
 	store->connected = FALSE;
 	if (store->current_folder) {
@@ -756,6 +776,11 @@ imap_disconnect_offline (CamelService *service, gboolean clean, CamelException *
 	if (store->namespace && !(store->parameters & IMAP_PARAM_OVERRIDE_NAMESPACE)) {
 		g_free (store->namespace);
 		store->namespace = NULL;
+	}
+
+	if (disco->diary) {
+		camel_object_unref (CAMEL_OBJECT (disco->diary));
+		disco->diary = NULL;
 	}
 
 	return TRUE;

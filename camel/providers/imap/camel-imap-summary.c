@@ -197,3 +197,33 @@ content_info_save (CamelFolderSummary *s, FILE *out,
 	} else
 		return fputc (0, out);
 }
+
+void
+camel_imap_summary_add_offline (CamelFolderSummary *summary, const char *uid,
+				CamelMimeMessage *message,
+				const CamelMessageInfo *info)
+{
+	CamelMessageInfo *mi;
+	CamelFlag *flag;
+	CamelTag *tag;
+
+	/* Create summary entry */
+	mi = camel_folder_summary_info_new_from_message (summary, message);
+
+	/* Copy flags 'n' tags */
+	mi->flags = info->flags;
+	flag = info->user_flags;
+	while (flag) {
+		camel_flag_set (&mi->user_flags, flag->name, TRUE);
+		flag = flag->next;
+	}
+	tag = info->user_tags;
+	while (tag) {
+		camel_tag_set (&mi->user_tags, tag->name, tag->value);
+		tag = tag->next;
+	}
+
+	/* Set uid and add to summary */
+	camel_message_info_set_uid (mi, g_strdup (uid));
+	camel_folder_summary_add (summary, mi);
+}

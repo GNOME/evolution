@@ -182,9 +182,11 @@ imap_read_response (CamelImapStore *store, CamelException *ex)
 	}
 
 	response = g_new0 (CamelImapResponse, 1);
-	response->folder = store->current_folder;
-	if (response->folder)
-		camel_object_ref (CAMEL_OBJECT (response->folder));
+	if (camel_disco_store_status (CAMEL_DISCO_STORE (store)) != CAMEL_DISCO_STORE_RESYNCING) {
+		response->folder = store->current_folder;
+		if (response->folder)
+			camel_object_ref (CAMEL_OBJECT (response->folder));
+	}
 	response->untagged = g_ptr_array_new ();
 
 	/* Check for untagged data */
@@ -209,7 +211,7 @@ imap_read_response (CamelImapStore *store, CamelException *ex)
 	}
 
 	if (!respbuf || camel_exception_is_set (ex)) {
-		camel_imap_response_free (store, response);
+		camel_imap_response_free_without_processing (store, response);
 		return NULL;
 	}
 
@@ -231,7 +233,7 @@ imap_read_response (CamelImapStore *store, CamelException *ex)
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
 				      _("Unexpected response from IMAP "
 					"server: %s"), respbuf);
-		camel_imap_response_free (store, response);
+		camel_imap_response_free_without_processing (store, response);
 		return NULL;
 	}
 
@@ -239,7 +241,7 @@ imap_read_response (CamelImapStore *store, CamelException *ex)
 	camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
 			      _("IMAP command failed: %s"),
 			      retcode ? retcode : _("Unknown error"));
-	camel_imap_response_free (store, response);
+	camel_imap_response_free_without_processing (store, response);
 	return NULL;
 }
 

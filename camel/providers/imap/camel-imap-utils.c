@@ -585,8 +585,11 @@ get_summary_uid_numeric (CamelFolderSummary *summary, int index)
  * @summary: summary for the folder the UIDs come from
  * @uids: a (sorted) array of UIDs
  *
- * Return value: an IMAP "set" covering the listed UIDs, which the
- * caller must free with g_free().
+ * Creates an IMAP "set" covering the listed UIDs and not covering
+ * any UIDs that are in @summary but not in @uids. It doesn't
+ * actually require that all (or any) of the UIDs be in @summary.
+ * 
+ * Return value: the set, which the caller must free with g_free()
  **/
 char *
 imap_uid_array_to_set (CamelFolderSummary *summary, GPtrArray *uids)
@@ -596,6 +599,8 @@ imap_uid_array_to_set (CamelFolderSummary *summary, GPtrArray *uids)
 	gboolean range = FALSE;
 	GString *gset;
 	char *set;
+
+	g_return_val_if_fail (uids->len > 0, NULL);
 
 	gset = g_string_new (uids->pdata[0]);
 	last_uid = strtoul (uids->pdata[0], NULL, 10);
@@ -613,7 +618,7 @@ imap_uid_array_to_set (CamelFolderSummary *summary, GPtrArray *uids)
 
 		/* Now get the next UID from @uids */
 		this_uid = strtoul (uids->pdata[ui], NULL, 10);
-		if (this_uid == next_summary_uid)
+		if (this_uid == next_summary_uid || this_uid == last_uid + 1)
 			range = TRUE;
 		else {
 			if (range) {
