@@ -68,7 +68,8 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih)
 	remote_uih = bonobo_control_get_remote_ui_handler (control);
 	bonobo_ui_handler_set_container (uih, remote_uih);		
 
-	bonobo_ui_handler_menu_new_item (uih, "/Actions/New Contact", N_("_New Contact"),       
+	bonobo_ui_handler_menu_new_item (uih, "/Actions/New Contact",
+					 N_("_New Contact"),       
 					 NULL, -1,
 					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
 					 0, 0, do_nothing_cb, NULL);
@@ -198,24 +199,32 @@ addressbook_factory (BonoboGenericFactory *Factory, void *closure)
 	EBook *book;
 	GtkWidget *vbox, *scrollbar;
 	AddressbookView *view;
+
+	gtk_widget_push_visual (gdk_rgb_get_visual ());
+	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
+	
 	view = g_new (AddressbookView, 1);
 	
 	vbox = gtk_vbox_new(FALSE, 0);
 	
 	view->canvas = e_canvas_new();
-	view->rect = gnome_canvas_item_new( gnome_canvas_root( GNOME_CANVAS( view->canvas ) ),
-					    gnome_canvas_rect_get_type(),
-					    "x1", (double) 0,
-					    "y1", (double) 0,
-					    "x2", (double) 100,
-					    "y2", (double) 100,
-					    "fill_color", "white",
-					    NULL );
-	view->view = gnome_canvas_item_new( gnome_canvas_root( GNOME_CANVAS( view->canvas ) ),
-					    e_minicard_view_get_type(),
-					    "height", (double) 100,
-					    "minimum_width", (double) 100,
-					    NULL );
+	view->rect = gnome_canvas_item_new(
+		gnome_canvas_root( GNOME_CANVAS( view->canvas ) ),
+		gnome_canvas_rect_get_type(),
+		"x1", (double) 0,
+		"y1", (double) 0,
+		"x2", (double) 100,
+		"y2", (double) 100,
+		"fill_color", "white",
+		NULL );
+
+	view->view = gnome_canvas_item_new(
+		gnome_canvas_root( GNOME_CANVAS( view->canvas ) ),
+		e_minicard_view_get_type(),
+		"height", (double) 100,
+		"minimum_width", (double) 100,
+		NULL );
+
 	gtk_signal_connect( GTK_OBJECT( view->canvas ), "reflow",
 			    GTK_SIGNAL_FUNC( resize ),
 			    view);
@@ -226,7 +235,8 @@ addressbook_factory (BonoboGenericFactory *Factory, void *closure)
 
 	gtk_box_pack_start(GTK_BOX(vbox), view->canvas, TRUE, TRUE, 0);
 
-	scrollbar = gtk_hscrollbar_new(gtk_layout_get_hadjustment(GTK_LAYOUT(view->canvas)));
+	scrollbar = gtk_hscrollbar_new(
+		gtk_layout_get_hadjustment(GTK_LAYOUT(view->canvas)));
 
 	gtk_box_pack_start(GTK_BOX(vbox), scrollbar, FALSE, FALSE, 0);
 
@@ -241,9 +251,9 @@ addressbook_factory (BonoboGenericFactory *Factory, void *closure)
 
 	gtk_widget_show_all( vbox );
 #if 0
-	gdk_window_set_back_pixmap( GTK_LAYOUT(view->canvas)->bin_window, NULL, FALSE);
+	gdk_window_set_back_pixmap(
+		GTK_LAYOUT(view->canvas)->bin_window, NULL, FALSE);
 #endif
-
 
 	book = ebook_create(view);
 
@@ -252,6 +262,9 @@ addressbook_factory (BonoboGenericFactory *Factory, void *closure)
 	
 	gtk_signal_connect (GTK_OBJECT (control), "activate",
 			    control_activate_cb, NULL);	
+
+	gtk_widget_pop_visual ();
+	gtk_widget_pop_colormap ();	
 
 	return BONOBO_OBJECT (control);
 }

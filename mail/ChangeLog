@@ -1,3 +1,8 @@
+2000-04-09  Matt Loper  <matt@helixcode.com>
+
+	* folder-browser.c (folder_browser_new): set folder_browser->uri
+	to NULL, so that we know when to free it.
+
 2000-04-07  Miguel de Icaza  <miguel@gnu.org>
 
 	* message-list.c (states_pixmaps): Add more beautiful art from

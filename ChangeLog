@@ -1,3 +1,9 @@
+2000-04-09  Matt Loper  <matt@helixcode.com>
+
+	* addressbook/gui/component/addressbook.c (addressbook_factory):
+	Added gtk_widget_push/pop_colormap/visual, which I assume is
+	necessary for canvas use.
+
 2000-04-08  Christopher James Lahey  <clahey@helixcode.com>
 
 	* addressbook/contact-editor/Makefile.am,
