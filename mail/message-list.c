@@ -2182,7 +2182,6 @@ message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder, g
 		
 		camel_object_ref (camel_folder);
 		
-		/* FIXME: probably listen for updates to show_deleted? */
 		gconf = gconf_client_get_default ();
 		hide_deleted = !gconf_client_get_bool (gconf, "/apps/evolution/mail/display/show_deleted", NULL);
 		message_list->hidedeleted = hide_deleted && !(camel_folder->folder_flags & CAMEL_FOLDER_IS_TRASH);

@@ -1,3 +1,8 @@
+2003-01-27  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* message-list.c (message_list_set_folder): Removed a FIXME that
+	I've decided is no longer needed.
+
 2003-01-24  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* folder-browser-ui.c (folder_browser_ui_add_global): Set the
