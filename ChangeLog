@@ -1,3 +1,9 @@
+2000-07-07  Tuomas Kuosmanen  <tigert@gimp.org>
+
+	* art/evolution-contacts.png: Changed icon (hi ettore)
+	The old handshake one was a little too firm handshake..
+	this is a rolodex icon..
+
 2000-07-07  Dan Winship  <danw@helixcode.com>
 
 	* configure.in: make pthreads not required again, since they
