@@ -641,8 +641,6 @@ table_click_cb (ETable *et, gint r, gint c, GdkEvent *ev, gpointer data)
 void
 e_completion_view_construct (ECompletionView *cv, ECompletion *completion)
 {
-	GtkWidget *frame;
-
 	g_return_if_fail (cv != NULL);
 	g_return_if_fail (E_IS_COMPLETION_VIEW (cv));
 	g_return_if_fail (completion != NULL);
