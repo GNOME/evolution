@@ -1,3 +1,11 @@
+2000-10-07  Dan Winship  <danw@helixcode.com>
+
+	* src/libical/icalyacc.y (weekday_list): Fix the semicolons in
+	this rule. Noticed by x-virge.
+
+	* src/test/Makefile.in: While I'm here, remove this from CVS, as
+	it's a generated file.
+
 2000-09-12  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* configure.in: AC_OUTPUT the Makefile in `src' before the stuff

@@ -6,7 +6,7 @@
   
   DESCRIPTION:
   
-  $Id: icalyacc.y,v 1.6 2000/09/01 15:24:30 jpr Exp $
+  $Id: icalyacc.y,v 1.7 2000/10/07 21:57:08 danw Exp $
   $Locker:  $
 
   (C) COPYRIGHT 1999 Eric Busboom 
@@ -377,10 +377,11 @@ weekday:
 
 
 weekday_list:
-	weekday {dow_pos = 0};
+	weekday {dow_pos = 0}
 	| DIGITS weekday { dow_pos = atoi($1)} 
-	| weekday_list COMMA weekday {dow_pos = 0};
-	| weekday_list COMMA DIGITS weekday { dow_pos = atoi($3)} 
+	| weekday_list COMMA weekday {dow_pos = 0}
+	| weekday_list COMMA DIGITS weekday { dow_pos = atoi($3)}
+	;
 	
 
 recur_list: 
