@@ -1,5 +1,14 @@
 2001-07-16  Peter Williams  <peterw@ximian.com>
 
+	* mail-folder-cache.c (outbox_folder): prototype outbox_folder so we
+	can check if a folder is it.
+	(make_folder_name): If the folder is the outbox, display the count of
+	total messages as "unsent".
+	(make_folder_status): If the folder is the outbox, display "unsent"
+	instead of "total"
+
+2001-07-16  Peter Williams  <peterw@ximian.com>
+
 	* mail-display.c (mail_display_redisplay): Use our own display_style
 	member instead of the global setting.
 	(mail_display_init): Initialize display_style.
