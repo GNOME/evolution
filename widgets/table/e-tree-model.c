@@ -564,6 +564,7 @@ gboolean
 e_tree_model_node_is_expandable (ETreeModel *etree, ETreePath node)
 {
 	g_return_val_if_fail(etree != NULL, FALSE);
+	g_return_val_if_fail(node != NULL, FALSE);
 
 	if (ETM_CLASS(etree)->is_expandable)
 		return ETM_CLASS(etree)->is_expandable(etree, node);
