@@ -346,6 +346,9 @@ is_all_day (CalClient *client, CalComponentDateTime *dt_start, CalComponentDateT
 {
 	time_t dt_start_time, dt_end_time;
 	icaltimezone *timezone;
+
+	if (dt_start->value->is_date && dt_end->value->is_date)
+		return TRUE;
 	
 	timezone = get_timezone (client, dt_start->tzid);
 	dt_start_time = icaltime_as_timet_with_zone (*dt_start->value, timezone);
@@ -537,7 +540,7 @@ local_record_from_comp (ECalLocalRecord *local, CalComponent *comp, ECalConduitC
 	CalComponentText *description;
 	CalComponentDateTime dt_start, dt_end;
 	CalComponentClassification classif;
-	icaltimezone *default_tz = get_default_timezone ();
+	icaltimezone *default_tz = ctxt->timezone;
 	int i;
 	
 	g_return_if_fail (local != NULL);
