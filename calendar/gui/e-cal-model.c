@@ -1322,6 +1322,20 @@ e_cal_view_objects_added_cb (ECalView *query, GList *objects, gpointer user_data
 	priv = model->priv;
 
 	for (l = objects; l; l = l->next) {
+		ECalModelComponent *comp_data;
+
+		/* remove the components if they are already present and re-add them */
+		while ((comp_data = search_by_uid_and_client (priv, e_cal_view_get_client (query),
+							      icalcomponent_get_uid (l->data)))) {
+			int pos;
+
+			pos = get_position_in_array (priv->objects, comp_data);
+			e_table_model_row_deleted (E_TABLE_MODEL (model), pos);
+
+			g_ptr_array_remove (priv->objects, comp_data);
+			e_cal_model_free_component_data (comp_data);
+		}
+
 		if ((priv->flags & E_CAL_MODEL_FLAGS_EXPAND_RECURRENCES)) {
 			RecurrenceExpansionData rdata;
 
@@ -1334,8 +1348,6 @@ e_cal_view_objects_added_cb (ECalView *query, GList *objects, gpointer user_data
 							     (ECalRecurInstanceFn) add_instance_cb,
 							     &rdata);
 		} else {
-			ECalModelComponent *comp_data;
-
 			e_table_model_pre_change (E_TABLE_MODEL (model));
 
 			comp_data = g_new0 (ECalModelComponent, 1);
