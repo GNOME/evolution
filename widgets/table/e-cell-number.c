@@ -19,7 +19,7 @@ static ECellTextClass *parent_class;
 static char *
 ecn_get_text(ECellText *cell, ETableModel *model, int col, int row)
 {
-	return g_strdup_printf ("%d", GPOINTER_TO_INT (e_table_model_value_at(model, col, row)));
+	return e_format_number(GPOINTER_TO_INT (e_table_model_value_at(model, col, row)));
 }
 
 static void
