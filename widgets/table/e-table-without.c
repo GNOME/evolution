@@ -348,14 +348,14 @@ e_table_without_show_all   (ETableWithout *etw)
 	}
 	etw->priv->hash = g_hash_table_new (etw->priv->hash_func, etw->priv->compare_func);
 
-	g_free (etss->map_table);
 	row_count = e_table_model_row_count (E_TABLE_MODEL(etw));
+	g_free (etss->map_table);
 	etss->map_table = g_new (int, row_count);
 
 	for (i = 0; i < row_count; i++) {
-		etss->map_table[i++] = i;
+		etss->map_table[i] = i;
 	}
-	etss->n_map = i;
+	etss->n_map = row_count;
 
 	e_table_model_changed (E_TABLE_MODEL (etw));
 }
