@@ -31,6 +31,7 @@
 #include <bonobo/bonobo-i18n.h>
 #include <bonobo/bonobo-exception.h>
 #include "e-pub-utils.h"
+#include "e-cal-view.h"
 #include "calendar-config-keys.h"
 #include "calendar-config.h"
 #include "calendar-component.h"
@@ -226,48 +227,6 @@ update_primary_selection (CalendarComponent *calendar_component)
 		if (source)
 			e_source_selector_set_primary_selection (E_SOURCE_SELECTOR (priv->source_selector), source);
 	}
-}
-
-/* FIXME This is duplicated from comp-editor-factory.c, should it go in comp-util? */
-static ECalComponent *
-get_default_event (ECal *client, gboolean all_day) 
-{
-	ECalComponent *comp;
-	struct icaltimetype itt;
-	ECalComponentDateTime dt;
-	char *location;
-	icaltimezone *zone;
-
-	comp = cal_comp_event_new_with_defaults (client);
-
-	g_return_val_if_fail (comp, NULL);
-	
-	location = calendar_config_get_timezone ();
-	zone = icaltimezone_get_builtin_timezone (location);
-
-	if (all_day) {
-		itt = icaltime_from_timet_with_zone (time (NULL), 1, zone);
-
-		dt.value = &itt;
-		dt.tzid = icaltimezone_get_tzid (zone);
-		
-		e_cal_component_set_dtstart (comp, &dt);
-		e_cal_component_set_dtend (comp, &dt);		
-	} else {
-		itt = icaltime_current_time_with_zone (zone);
-		icaltime_adjust (&itt, 0, 1, -itt.minute, -itt.second);
-		
-		dt.value = &itt;
-		dt.tzid = icaltimezone_get_tzid (zone);
-		
-		e_cal_component_set_dtstart (comp, &dt);
-		icaltime_adjust (&itt, 0, 1, 0, 0);
-		e_cal_component_set_dtend (comp, &dt);
-	}
-
-	e_cal_component_commit_sequence (comp);
-
-	return comp;
 }
 
 /* Callbacks.  */
@@ -808,30 +767,34 @@ setup_create_ecal (CalendarComponent *calendar_component)
 static void
 create_new_event (CalendarComponent *calendar_component, gboolean is_allday, gboolean is_meeting, CORBA_Environment *ev)
 {
-	CalendarComponentPrivate *priv;
-	ECalComponent *comp;
-	EventEditor *editor;
+	CalendarComponentPrivate *priv = calendar_component->priv;
 	gboolean read_only;
-	
-	priv = calendar_component->priv;
-	
+	ECalendarView *view;
+
 	if (!setup_create_ecal (calendar_component)) {
 		bonobo_exception_set (ev, ex_GNOME_Evolution_Component_Failed);
 		return;
 	}
-	
-	if (!e_cal_is_read_only (priv->create_ecal, &read_only, NULL) || read_only);
+	if (!e_cal_is_read_only (priv->create_ecal, &read_only, NULL) || read_only)
 		return;
 
-	editor = event_editor_new (priv->create_ecal);
-	comp = get_default_event (priv->create_ecal, is_allday);
+	view = E_CALENDAR_VIEW (gnome_calendar_get_current_view_widget (priv->calendar));
+	if (view)
+		e_calendar_view_new_appointment_full (view, is_allday, is_meeting);
+	else {
+		ECalComponent *comp;
+		EventEditor *editor;
 
-	comp_editor_edit_comp (COMP_EDITOR (editor), comp);
-	if (is_meeting)
-		event_editor_show_meeting (editor);
-	comp_editor_focus (COMP_EDITOR (editor));
+		editor = event_editor_new (priv->create_ecal);
+		comp = cal_comp_event_new_with_current_time (priv->create_ecal, is_allday);
 
-	e_comp_editor_registry_add (comp_editor_registry, COMP_EDITOR (editor), TRUE);
+		comp_editor_edit_comp (COMP_EDITOR (editor), comp);
+		if (is_meeting)
+			event_editor_show_meeting (editor);
+		comp_editor_focus (COMP_EDITOR (editor));
+
+		e_comp_editor_registry_add (comp_editor_registry, COMP_EDITOR (editor), TRUE);
+	}
 }
 
 static void
@@ -840,23 +803,18 @@ impl_requestCreateItem (PortableServer_Servant servant,
 			CORBA_Environment *ev)
 {
 	CalendarComponent *calendar_component = CALENDAR_COMPONENT (bonobo_object_from_servant (servant));
-	CalendarComponentPrivate *priv;
 	
-	priv = calendar_component->priv;
-	
-	if (strcmp (item_type_name, CREATE_EVENT_ID) == 0) {
+	if (strcmp (item_type_name, CREATE_EVENT_ID) == 0)
 		create_new_event (calendar_component, FALSE, FALSE, ev);
- 	} else if (strcmp (item_type_name, CREATE_ALLDAY_EVENT_ID) == 0) {
+ 	else if (strcmp (item_type_name, CREATE_ALLDAY_EVENT_ID) == 0)
 		create_new_event (calendar_component, TRUE, FALSE, ev);
-	} else if (strcmp (item_type_name, CREATE_MEETING_ID) == 0) {
+	else if (strcmp (item_type_name, CREATE_MEETING_ID) == 0)
 		create_new_event (calendar_component, FALSE, TRUE, ev);
-	} else if (strcmp (item_type_name, CREATE_CALENDAR_ID) == 0) {
-		calendar_setup_new_calendar (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (priv->calendar))));
-	} else {
+	else if (strcmp (item_type_name, CREATE_CALENDAR_ID) == 0)
+		calendar_setup_new_calendar (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (calendar_component->priv->calendar))));
+	else
 		bonobo_exception_set (ev, ex_GNOME_Evolution_Component_UnknownType);
-	}
 }
-
 
 /* Initialization.  */
 

@@ -1,3 +1,35 @@
+2004-01-15  Radek Doulik  <rodo@ximian.com>
+
+	* gui/calendar-component.c (impl_requestCreateItem): merge with
+	JP's changes
+
+2004-01-14  Radek Doulik  <rodo@ximian.com>
+
+	* gui/e-cal-list-view.c (e_cal_list_view_get_selected_time_range):
+	new implementation, use time range from selected event
+
+	* gui/e-cal-view.c (e_calendar_view_get_selected_time_range):
+	return gboolean, TRUE if requested time was set, FALSE otherwise
+	(e_calendar_view_new_appointment_full): use current time if time
+	range is unavailable
+
+	* gui/calendar-component.c (impl_requestCreateItem): use
+	e_calendar_view_new_appointment_full instead of
+	cal_comp_event_new_with_current_time
+
+	* gui/e-cal-view.c (e_calendar_view_new_appointment_full): new
+	helper function
+
+	* gui/comp-editor-factory.c (edit_new): use
+	cal_comp_event_new_with_current_time
+
+	* gui/calendar-component.c (impl_requestCreateItem): use
+	cal_comp_event_new_with_current_time
+
+	* gui/comp-util.c (cal_comp_event_new_with_current_time): new
+	function, cut'n'pasted from get_default_event
+	(calendar-component.c and comp-editor-factory.c)
+
 2004-01-14  JP Rosevear <jpr@ximian.com>
 
 	* gui/tasks-component.c (impl_requestCreateItem): new utility

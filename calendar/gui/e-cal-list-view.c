@@ -76,6 +76,7 @@ static void      e_cal_list_view_destroy                (GtkObject *object);
 static void      e_cal_list_view_update_query           (ECalendarView *cal_view);
 
 static GList    *e_cal_list_view_get_selected_events    (ECalendarView *cal_view);
+static gboolean  e_cal_list_view_get_selected_time_range (ECalendarView *cal_view, time_t *start_time, time_t *end_time);
 static gboolean  e_cal_list_view_get_visible_time_range (ECalendarView *cal_view, time_t *start_time,
 							 time_t *end_time);
 
@@ -109,6 +110,7 @@ e_cal_list_view_class_init (ECalListViewClass *class)
 	widget_class->popup_menu = e_cal_list_view_popup_menu;
 
 	view_class->get_selected_events = e_cal_list_view_get_selected_events;
+	view_class->get_selected_time_range = e_cal_list_view_get_selected_time_range;
 	view_class->get_visible_time_range = e_cal_list_view_get_visible_time_range;
 
 	view_class->update_query        = e_cal_list_view_update_query;
@@ -428,6 +430,50 @@ e_cal_list_view_on_table_right_click (GtkWidget *table, gint row, gint col, GdkE
 
 	e_cal_list_view_show_popup_menu (cal_list_view, row, event);
 	return TRUE;
+}
+
+static gboolean
+e_cal_list_view_get_selected_time_range (ECalendarView *cal_view, time_t *start_time, time_t *end_time)
+{
+	GList *selected;
+	icaltimezone *zone;
+
+	selected = e_calendar_view_get_selected_events (cal_view);
+	if (selected) {
+		ECalendarViewEvent *event = (ECalendarViewEvent *) selected->data;
+		ECalComponentDateTime dtstart, dtend;
+		ECalComponent *comp;
+
+		comp = e_cal_component_new ();
+		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
+		if (start_time) {
+			e_cal_component_get_dtstart (comp, &dtstart);
+			if (dtstart.tzid) {
+				zone = icalcomponent_get_timezone (e_cal_component_get_icalcomponent (comp), dtstart.tzid);
+			} else {
+				zone = NULL;
+			}
+			*start_time = icaltime_as_timet_with_zone (*dtstart.value, zone);
+			e_cal_component_free_datetime (&dtstart);
+		}
+		if (end_time) {
+			e_cal_component_get_dtend (comp, &dtend);
+			if (dtend.tzid) {
+				zone = icalcomponent_get_timezone (e_cal_component_get_icalcomponent (comp), dtend.tzid);
+			} else {
+				zone = NULL;
+			}
+			*end_time = icaltime_as_timet_with_zone (*dtend.value, zone);
+			e_cal_component_free_datetime (&dtend);
+		}
+
+		g_object_unref (comp);
+		g_list_free (selected);
+
+		return TRUE;
+	}
+
+	return FALSE;
 }
 
 static GList *

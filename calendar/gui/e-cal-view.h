@@ -91,7 +91,7 @@ struct _ECalendarViewClass {
 
 	/* Virtual methods */
 	GList * (* get_selected_events) (ECalendarView *cal_view); /* a GList of ECalendarViewEvent's */
-	void (* get_selected_time_range) (ECalendarView *cal_view, time_t *start_time, time_t *end_time);
+	gboolean (* get_selected_time_range) (ECalendarView *cal_view, time_t *start_time, time_t *end_time);
 	void (* set_selected_time_range) (ECalendarView *cal_view, time_t start_time, time_t end_time);
 	gboolean (* get_visible_time_range) (ECalendarView *cal_view, time_t *start_time, time_t *end_time);
 	void (* update_query) (ECalendarView *cal_view);
@@ -115,7 +115,7 @@ void           e_calendar_view_set_use_24_hour_format (ECalendarView *view, gboo
 void           e_calendar_view_set_status_message (ECalendarView *cal_view, const gchar *message);
 
 GList         *e_calendar_view_get_selected_events (ECalendarView *cal_view);
-void           e_calendar_view_get_selected_time_range (ECalendarView *cal_view, time_t *start_time, time_t *end_time);
+gboolean       e_calendar_view_get_selected_time_range (ECalendarView *cal_view, time_t *start_time, time_t *end_time);
 void           e_calendar_view_set_selected_time_range (ECalendarView *cal_view, time_t start_time, time_t end_time);
 gboolean       e_calendar_view_get_visible_time_range (ECalendarView *cal_view, time_t *start_time, time_t *end_time);
 void           e_calendar_view_update_query (ECalendarView *cal_view);
@@ -132,10 +132,13 @@ GtkMenu       *e_calendar_view_create_popup_menu (ECalendarView *cal_view);
 void           e_calendar_view_add_event (ECalendarView *cal_view, ECal *client, time_t dtstart, 
 				     icaltimezone *default_zone, icalcomponent *icalcomp, gboolean in_top_canvas);
 void           e_calendar_view_new_appointment_for (ECalendarView *cal_view,
-					       time_t dtstart,
-					       time_t dtend,
-					       gboolean all_day,
-					       gboolean meeting);
+						    time_t dtstart,
+						    time_t dtend,
+						    gboolean all_day,
+						    gboolean meeting);
+void           e_calendar_view_new_appointment_full (ECalendarView *cal_view,
+						     gboolean all_day,
+						     gboolean meeting);
 void           e_calendar_view_new_appointment (ECalendarView *cal_view);
 void           e_calendar_view_edit_appointment (ECalendarView *cal_view,
 					    ECal *client,

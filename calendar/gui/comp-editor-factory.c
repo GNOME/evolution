@@ -291,48 +291,6 @@ edit_existing (OpenClient *oc, const char *uid)
 	e_comp_editor_registry_add (comp_editor_registry, editor, TRUE);
 }
 
-/* Creates a component with the appropriate defaults for the specified component
- * type.
- */
-static ECalComponent *
-get_default_event (ECal *client, gboolean all_day) 
-{
-	ECalComponent *comp;
-	struct icaltimetype itt;
-	ECalComponentDateTime dt;
-	char *location;
-	icaltimezone *zone;
-
-	comp = cal_comp_event_new_with_defaults (client);
-
-	location = calendar_config_get_timezone ();
-	zone = icaltimezone_get_builtin_timezone (location);
-
-	if (all_day) {
-		itt = icaltime_from_timet_with_zone (time (NULL), 1, zone);
-
-		dt.value = &itt;
-		dt.tzid = icaltimezone_get_tzid (zone);
-		
-		e_cal_component_set_dtstart (comp, &dt);
-		e_cal_component_set_dtend (comp, &dt);		
-	} else {
-		itt = icaltime_current_time_with_zone (zone);
-		icaltime_adjust (&itt, 0, 1, -itt.minute, -itt.second);
-		
-		dt.value = &itt;
-		dt.tzid = icaltimezone_get_tzid (zone);
-		
-		e_cal_component_set_dtstart (comp, &dt);
-		icaltime_adjust (&itt, 0, 1, 0, 0);
-		e_cal_component_set_dtend (comp, &dt);
-	}
-
-	e_cal_component_commit_sequence (comp);
-
-	return comp;
-}
-
 static ECalComponent *
 get_default_task (ECal *client)
 {
@@ -354,11 +312,11 @@ edit_new (OpenClient *oc, const GNOME_Evolution_Calendar_CompEditorFactory_CompE
 	case GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_EVENT:
 	case GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_MEETING:
 		editor = COMP_EDITOR (event_editor_new (oc->client));
-		comp = get_default_event (oc->client, FALSE);
+		comp = cal_comp_event_new_with_current_time (oc->client, FALSE);
 		break;
 	case GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_ALLDAY_EVENT:
 		editor = COMP_EDITOR (event_editor_new (oc->client));
-		comp = get_default_event (oc->client, TRUE);
+		comp = cal_comp_event_new_with_current_time (oc->client, TRUE);
 		break;
 	case GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_TODO:
 		editor = COMP_EDITOR (task_editor_new (oc->client));

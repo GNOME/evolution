@@ -24,6 +24,8 @@
 #endif
 
 #include <string.h>
+#include <time.h>
+#include "e-cal-view.h"
 #include "calendar-config.h"
 #include "comp-util.h"
 #include "dialogs/delete-comp.h"
@@ -310,6 +312,47 @@ cal_comp_event_new_with_defaults (ECal *client)
 
 	e_cal_component_add_alarm (comp, alarm);
 	e_cal_component_alarm_free (alarm);
+
+	return comp;
+}
+
+ECalComponent *
+cal_comp_event_new_with_current_time (ECal *client, gboolean all_day) 
+{
+	ECalComponent *comp;
+	struct icaltimetype itt;
+	ECalComponentDateTime dt;
+	char *location;
+	icaltimezone *zone;
+
+	comp = cal_comp_event_new_with_defaults (client);
+
+	g_return_val_if_fail (comp, NULL);
+	
+	location = calendar_config_get_timezone ();
+	zone = icaltimezone_get_builtin_timezone (location);
+
+	if (all_day) {
+		itt = icaltime_from_timet_with_zone (time (NULL), 1, zone);
+
+		dt.value = &itt;
+		dt.tzid = icaltimezone_get_tzid (zone);
+		
+		e_cal_component_set_dtstart (comp, &dt);
+		e_cal_component_set_dtend (comp, &dt);		
+	} else {
+		itt = icaltime_current_time_with_zone (zone);
+		icaltime_adjust (&itt, 0, 1, -itt.minute, -itt.second);
+		
+		dt.value = &itt;
+		dt.tzid = icaltimezone_get_tzid (zone);
+		
+		e_cal_component_set_dtstart (comp, &dt);
+		icaltime_adjust (&itt, 0, 1, 0, 0);
+		e_cal_component_set_dtend (comp, &dt);
+	}
+
+	e_cal_component_commit_sequence (comp);
 
 	return comp;
 }

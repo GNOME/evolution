@@ -23,6 +23,7 @@
 
 #include <config.h>
 #include <string.h>
+#include <time.h>
 #include <gtk/gtkimage.h>
 #include <gtk/gtkstock.h>
 #include <gdk/gdkkeysyms.h>
@@ -617,15 +618,17 @@ e_calendar_view_get_selected_events (ECalendarView *cal_view)
 	return NULL;
 }
 
-void
+gboolean
 e_calendar_view_get_selected_time_range (ECalendarView *cal_view, time_t *start_time, time_t *end_time)
 {
-	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
+	g_return_val_if_fail (E_IS_CALENDAR_VIEW (cal_view), FALSE);
 
 	if (E_CALENDAR_VIEW_CLASS (G_OBJECT_GET_CLASS (cal_view))->get_selected_time_range) {
-		E_CALENDAR_VIEW_CLASS (G_OBJECT_GET_CLASS (cal_view))->get_selected_time_range (
+		return E_CALENDAR_VIEW_CLASS (G_OBJECT_GET_CLASS (cal_view))->get_selected_time_range (
 			cal_view, start_time, end_time);
 	}
+
+	return FALSE;
 }
 
 void
@@ -935,21 +938,17 @@ on_new_appointment (GtkWidget *widget, gpointer user_data)
 static void
 on_new_event (GtkWidget *widget, gpointer user_data)
 {
-	time_t dtstart, dtend;
 	ECalendarView *cal_view = (ECalendarView *) user_data;
 
-	e_calendar_view_get_selected_time_range (cal_view, &dtstart, &dtend);
-	e_calendar_view_new_appointment_for (cal_view, dtstart, dtend, TRUE, FALSE);
+	e_calendar_view_new_appointment_full (cal_view, TRUE, FALSE);
 }
 
 static void
 on_new_meeting (GtkWidget *widget, gpointer user_data)
 {
-	time_t dtstart, dtend;
 	ECalendarView *cal_view = (ECalendarView *) user_data;
 
-	e_calendar_view_get_selected_time_range (cal_view, &dtstart, &dtend);
-	e_calendar_view_new_appointment_for (cal_view, dtstart, dtend, FALSE, TRUE);
+	e_calendar_view_new_appointment_full (cal_view, FALSE, TRUE);
 }
 
 static void
@@ -1417,9 +1416,9 @@ e_calendar_view_open_event (ECalendarView *cal_view)
  */
 void
 e_calendar_view_new_appointment_for (ECalendarView *cal_view,
-				time_t dtstart, time_t dtend,
-				gboolean all_day,
-				gboolean meeting)
+				     time_t dtstart, time_t dtend,
+				     gboolean all_day,
+				     gboolean meeting)
 {
 	ECalendarViewPrivate *priv;
 	struct icaltimetype itt;
@@ -1489,14 +1488,25 @@ e_calendar_view_new_appointment_for (ECalendarView *cal_view,
  * the calendar view.
  */
 void
-e_calendar_view_new_appointment (ECalendarView *cal_view)
+e_calendar_view_new_appointment_full (ECalendarView *cal_view, gboolean all_day, gboolean meeting)
 {
 	time_t dtstart, dtend;
 
 	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
 
-	e_calendar_view_get_selected_time_range (cal_view, &dtstart, &dtend);
-	e_calendar_view_new_appointment_for (cal_view, dtstart, dtend, FALSE, FALSE);
+	if (!e_calendar_view_get_selected_time_range (cal_view, &dtstart, &dtend)) {
+		dtstart = time (NULL);
+		dtend = dtstart + 3600;
+	}
+	e_calendar_view_new_appointment_for (cal_view, dtstart, dtend, all_day, meeting);
+}
+
+void
+e_calendar_view_new_appointment (ECalendarView *cal_view)
+{
+	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
+
+	e_calendar_view_new_appointment_full (cal_view, FALSE, FALSE);
 }
 
 /**

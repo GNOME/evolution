@@ -160,7 +160,7 @@ static gboolean e_day_view_do_key_press (GtkWidget *widget,
 					 GdkEventKey *event);
 static gboolean e_day_view_popup_menu (GtkWidget *widget);
 static GList *e_day_view_get_selected_events (ECalendarView *cal_view);
-static void e_day_view_get_selected_time_range (ECalendarView *cal_view, time_t *start_time, time_t *end_time);
+static gboolean e_day_view_get_selected_time_range (ECalendarView *cal_view, time_t *start_time, time_t *end_time);
 static void e_day_view_set_selected_time_range (ECalendarView *cal_view, time_t start_time, time_t end_time);
 static gboolean e_day_view_get_visible_time_range (ECalendarView *cal_view, time_t *start_time, time_t *end_time);
 static void e_day_view_update_query (ECalendarView *cal_view);
@@ -2033,7 +2033,7 @@ e_day_view_find_work_week_start		(EDayView	*day_view,
 }
 
 /* Returns the selected time range. */
-static void
+static gboolean
 e_day_view_get_selected_time_range (ECalendarView *cal_view, time_t *start_time, time_t *end_time)
 {
 	gint start_col, start_row, end_col, end_row;
@@ -2068,6 +2068,8 @@ e_day_view_get_selected_time_range (ECalendarView *cal_view, time_t *start_time,
 
 	if (end_time)
 		*end_time = end;
+
+	return TRUE;
 }
 
 /* Gets the visible time range. Returns FALSE if no time range has been set. */

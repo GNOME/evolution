@@ -120,7 +120,7 @@ static gboolean e_week_view_get_next_tab_event (EWeekView *week_view,
 static gboolean e_week_view_focus (GtkWidget *widget,
 				   GtkDirectionType direction);
 static GList *e_week_view_get_selected_events (ECalendarView *cal_view);
-static void e_week_view_get_selected_time_range (ECalendarView *cal_view, time_t *start_time, time_t *end_time);
+static gboolean e_week_view_get_selected_time_range (ECalendarView *cal_view, time_t *start_time, time_t *end_time);
 static void e_week_view_set_selected_time_range (ECalendarView *cal_view, time_t start_time, time_t end_time);
 static gboolean e_week_view_get_visible_time_range (ECalendarView *cal_view, time_t *start_time, time_t *end_time);
 static void e_week_view_update_query (ECalendarView *cal_view);
@@ -1364,7 +1364,7 @@ e_week_view_set_selected_time_range_visible	(EWeekView	*week_view,
 
 
 /* Returns the selected time range. */
-static void
+static gboolean
 e_week_view_get_selected_time_range	(ECalendarView	*cal_view,
 					 time_t		*start_time,
 					 time_t		*end_time)
@@ -1385,6 +1385,8 @@ e_week_view_get_selected_time_range	(ECalendarView	*cal_view,
 
 	if (end_time)
 		*end_time = week_view->day_starts[end_day + 1];
+
+	return  TRUE;
 }
 
 /* Gets the visible time range. Returns FALSE if no time range has been set. */
