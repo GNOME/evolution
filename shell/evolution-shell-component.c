@@ -400,7 +400,6 @@ impl_setOwner (PortableServer_Servant servant,
 	BonoboObject *bonobo_object;
 	EvolutionShellComponent *shell_component;
 	EvolutionShellComponentPrivate *priv;
-	GNOME_Evolution_Shell shell_duplicate;
 
 	bonobo_object = bonobo_object_from_servant (servant);
 	shell_component = EVOLUTION_SHELL_COMPONENT (bonobo_object);
@@ -427,10 +426,8 @@ impl_setOwner (PortableServer_Servant servant,
 		return;
 	}
 
-	shell_duplicate = CORBA_Object_duplicate (shell, ev);
-
 	if (ev->_major == CORBA_NO_EXCEPTION) {
-		priv->owner_client = evolution_shell_client_new (shell_duplicate);
+		priv->owner_client = evolution_shell_client_new (shell);
 		g_signal_emit (shell_component, signals[OWNER_SET], 0, priv->owner_client, evolution_homedir);
 
 		setup_owner_pinging (shell_component);

@@ -87,7 +87,6 @@ config_control_apply_callback (EvolutionConfigControl *config_control,
 GtkWidget *
 e_shell_config_autocompletion_create_widget (EShell *shell, EvolutionConfigControl *config_control)
 {
-	GNOME_Evolution_Shell shell_dup;
 	EvolutionAutocompletionConfig *ac;
 	CORBA_Environment ev;
 	GConfClient *client;
@@ -98,8 +97,7 @@ e_shell_config_autocompletion_create_widget (EShell *shell, EvolutionConfigContr
 
 	CORBA_exception_init (&ev);
 
-	shell_dup = CORBA_Object_duplicate (BONOBO_OBJREF (shell), &ev);
-	ac->shell_client = evolution_shell_client_new (shell_dup);
+	ac->shell_client = evolution_shell_client_new (BONOBO_OBJREF (shell));
 
 	client = gconf_client_get_default ();
 	xml = gconf_client_get_string (client, "/apps/evolution/addressbook/completion/uris", NULL);

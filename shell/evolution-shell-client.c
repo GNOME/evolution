@@ -393,10 +393,11 @@ evolution_shell_client_construct (EvolutionShellClient *shell_client,
 	priv = shell_client->priv;
 	g_return_if_fail (priv->activity_interface == CORBA_OBJECT_NIL);
 
-	priv->corba_objref = corba_shell;
-
 	CORBA_exception_init (&ev);
+
+	priv->corba_objref = CORBA_Object_duplicate (corba_shell, &ev);
 	Bonobo_Unknown_ref (priv->corba_objref, &ev);
+
 	CORBA_exception_free (&ev);
 
 	priv->activity_interface = query_shell_interface (shell_client, "IDL:GNOME/Evolution/Activity:1.0");
@@ -408,8 +409,7 @@ evolution_shell_client_construct (EvolutionShellClient *shell_client,
  * evolution_shell_client_new:
  * @corba_shell: A pointer to the CORBA Evolution::Shell interface.
  * 
- * Create a new client object for @corba_shell. The shell client will
- * free @corba_shell when it is destroyed.
+ * Create a new client object for @corba_shell.
  * 
  * Return value: A pointer to the Evolution::Shell client BonoboObject.
  **/

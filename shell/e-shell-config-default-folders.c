@@ -162,17 +162,13 @@ setup_folder_selector (EvolutionDefaultFolderConfig *dfc,
 GtkWidget*
 e_shell_config_default_folders_create_widget (EShell *shell, EvolutionConfigControl *config_control)
 {
-	GNOME_Evolution_Shell shell_dup;
 	CORBA_Environment ev;
 	EvolutionDefaultFolderConfig *dfc;
 	GtkWidget *widget;
 
 	dfc = g_new0 (EvolutionDefaultFolderConfig, 1);
 
-	CORBA_exception_init (&ev);
-	shell_dup = CORBA_Object_duplicate (BONOBO_OBJREF (shell), &ev);
-	CORBA_exception_free (&ev);
-	dfc->shell_client = evolution_shell_client_new (shell_dup);
+	dfc->shell_client = evolution_shell_client_new (BONOBO_OBJREF (shell));
 
 	dfc->glade = glade_xml_new (EVOLUTION_GLADEDIR "/e-shell-config-default-folders.glade", NULL, NULL);
 

@@ -1,3 +1,20 @@
+2003-01-10  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution-shell-component.c (impl_setOwner): Don't duplicate the
+	shell object here before passing to evolution_shell_client_new().
+
+	* evolution-shell-client.c (evolution_shell_client_construct):
+	Dupliate the @corba_shell before storing into the
+	EvolutionShellClientPrivate struct.
+
+	* e-shell-config-default-folders.c
+	(e_shell_config_default_folders_create_widget): Do not duplicate
+	the shell's CORBA objref.
+
+	* e-shell-config-autocompletion.c
+	(e_shell_config_autocompletion_create_widget): Do not duplicate
+	the shell's CORBA objref.
+
 2003-01-10  Dan Winship  <danw@ximian.com>
 
 	* e-storage-set-view.c (popup_folder_menu): Make this work again.
