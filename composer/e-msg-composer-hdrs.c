@@ -810,7 +810,7 @@ e_msg_composer_hdrs_set_from_account (EMsgComposerHdrs *hdrs,
 	g_return_if_fail (hdrs != NULL);
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
 	
-	omenu = GTK_OPTION_MENU (gtk_object_get_data (GTK_OBJECT (hdrs->priv->from.entry), "from_menu"));
+	omenu = GTK_OPTION_MENU (e_msg_composer_hdrs_get_from_omenu (hdrs));
 	
 	if (account_name)
 		default_account = -1;
@@ -1123,4 +1123,13 @@ e_msg_composer_hdrs_get_from_hbox (EMsgComposerHdrs *hdrs)
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
 	
 	return hdrs->priv->from.entry;
+}
+
+GtkWidget *
+e_msg_composer_hdrs_get_from_omenu (EMsgComposerHdrs *hdrs)
+{
+	g_return_val_if_fail (hdrs != NULL, NULL);
+	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
+	
+	return GTK_WIDGET (gtk_object_get_data (GTK_OBJECT (hdrs->priv->from.entry), "from_menu"));
 }

@@ -1,3 +1,13 @@
+2002-06-10  Radek Doulik  <rodo@ximian.com>
+
+	* e-msg-composer.c (signature_cb): added "Set as default" menu
+	item
+
+	* e-msg-composer-hdrs.c (e_msg_composer_hdrs_get_from_omenu): new
+	method
+	(e_msg_composer_hdrs_set_from_account): use
+	e_msg_composer_hdrs_get_from_omenu
+
 2002-06-07  Radek Doulik  <rodo@ximian.com>
 
 	* e-msg-composer.c (get_signature_html): use new script signature

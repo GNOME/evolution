@@ -115,6 +115,7 @@ GtkWidget  *e_msg_composer_hdrs_get_cc_entry       (EMsgComposerHdrs *hdrs);
 GtkWidget  *e_msg_composer_hdrs_get_bcc_entry      (EMsgComposerHdrs *hdrs);
 GtkWidget  *e_msg_composer_hdrs_get_subject_entry  (EMsgComposerHdrs *hdrs);
 GtkWidget  *e_msg_composer_hdrs_get_from_hbox      (EMsgComposerHdrs *hdrs);
+GtkWidget  *e_msg_composer_hdrs_get_from_omenu     (EMsgComposerHdrs *hdrs);
 
 void        e_msg_composer_set_hdrs_visible        (EMsgComposerHdrs *hdrs,
 						    gint flags);
