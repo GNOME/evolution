@@ -71,6 +71,7 @@ static guint ethi_signals [LAST_SIGNAL] = { 0, };
 #define PARENT_OBJECT_TYPE gnome_canvas_item_get_type ()
 
 #define ELEMENTS(x) (sizeof (x) / sizeof (x[0]))
+#define d(x)
 
 static GnomeCanvasItemClass *ethi_parent_class;
 
@@ -384,21 +385,28 @@ ethi_find_col_by_x (ETableHeaderItem *ethi, int x)
 	const int cols = e_table_header_count (ethi->eth);
 	int x1 = 0;
 	int col;
-
-	if (x < x1)
-		return -1;
+	
+	d(g_print ("%s:%d: x = %d, x1 = %d\n", __FUNCTION__, __LINE__, x, x1));
 
 	x1 += ethi->group_indent_width;
 	
+	if (x < x1) {
+		d(g_print ("%s:%d: Returning 0\n", __FUNCTION__, __LINE__));
+		return 0;
+	}
+
 	for (col = 0; col < cols; col++){
 		ETableCol *ecol = e_table_header_get_column (ethi->eth, col);
 
-		if ((x >= x1) && (x <= x1 + ecol->width))
+		if ((x >= x1) && (x <= x1 + ecol->width)) {
+			d(g_print ("%s:%d: Returning %d\n", __FUNCTION__, __LINE__, col));
 			return col;
+		}
 
 		x1 += ecol->width;
 	}
-	return -1;
+	d(g_print ("%s:%d: Returning %d\n", __FUNCTION__, __LINE__, cols - 1));
+	return cols - 1;
 }
 
 static int
@@ -408,11 +416,11 @@ ethi_find_col_by_x_nearest (ETableHeaderItem *ethi, int x)
 	int x1 = 0;
 	int col;
 
-	if (x < x1)
-		return -1;
-
 	x1 += ethi->group_indent_width;
 	
+	if (x < x1)
+		return 0;
+
 	for (col = 0; col < cols; col++){
 		ETableCol *ecol = e_table_header_get_column (ethi->eth, col);
 
