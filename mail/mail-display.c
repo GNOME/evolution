@@ -298,7 +298,7 @@ on_link_clicked (GtkHTML *html, const char *url, MailDisplay *md)
 {
 
 	if (!strncasecmp (url, "mailto:", 7)) {
-		send_to_url (url);
+		send_to_url (url, NULL);
 	} else if (*url == '#') {
 		mail_display_jump_to_anchor (md, url);
 	} else {

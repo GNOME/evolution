@@ -869,7 +869,7 @@ handle_external_uri_cb (EvolutionShellComponent *shell_component,
 	
 	/* FIXME: Sigh.  This shouldn't be here.  But the code is messy, so
 	   I'll just put it here anyway.  */
-	send_to_url (uri);
+	send_to_url (uri, NULL);
 }
 
 static void
@@ -880,7 +880,7 @@ user_create_new_item_cb (EvolutionShellComponent *shell_component,
 			 gpointer data)
 {
 	if (!strcmp (id, "message")) {
-		send_to_url (NULL);
+		send_to_url (NULL, parent_folder_physical_uri);
 		return;
 	} else if (!strcmp (id, "post")) {
 		post_to_url (parent_folder_physical_uri);

@@ -48,7 +48,7 @@ void fetch_mail            (GtkWidget *widget, gpointer user_data);
 void send_queued_mail      (GtkWidget *widget, gpointer user_data);
 
 void compose_msg           (GtkWidget *widget, gpointer user_data);
-void send_to_url           (const char *url);
+void send_to_url           (const char *url, const char *parent_uri);
 
 void forward_inline        (GtkWidget *widget, gpointer user_data);
 void forward_quoted        (GtkWidget *widget, gpointer user_data);
