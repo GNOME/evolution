@@ -1,3 +1,9 @@
+2003-09-05  Not Zed  <NotZed@Ximian.com>
+
+	* providers/imap/camel-imap-store.c (imap_noop): call
+	camel_folder_sync bypassing the folder lock.  See
+	imap_store_refresh_folders too.
+
 2003-08-29  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #46674.
