@@ -282,10 +282,10 @@ pas_book_factory_process_request (PASBookFactory              *factory,
 		if (!backend)
 			goto out;
 
-		if (!pas_backend_add_client (backend, listener))
+		if (!pas_backend_load_uri (backend, uri))
 			goto out;
 
-		pas_backend_load_uri (backend, uri);
+		pas_backend_add_client (backend, listener);
 
 		goto out;
 	}

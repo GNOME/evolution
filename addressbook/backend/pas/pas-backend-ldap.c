@@ -2549,9 +2549,8 @@ pas_backend_ldap_add_client (PASBackend             *backend,
 		pas_book_respond_open (
 			book, GNOME_Evolution_Addressbook_BookListener_Success);
 	} else {
-		/* Open the book. */
 		pas_book_respond_open (
-			book, GNOME_Evolution_Addressbook_BookListener_Success);
+			book, GNOME_Evolution_Addressbook_BookListener_OtherError);
 	}
 
 	pas_book_report_writable (book, bl->priv->writable);

@@ -1236,7 +1236,6 @@ pas_backend_file_load_uri (PASBackend             *backend,
 	PASBackendFile *bf = PAS_BACKEND_FILE (backend);
 	char           *filename;
 	gboolean        writable = FALSE;
-	GList          *l;
 	int             db_error;
 	DB *db;
 	int major, minor, patch;
@@ -1326,13 +1325,6 @@ pas_backend_file_load_uri (PASBackend             *backend,
 	g_free(bf->priv->uri);
 	bf->priv->uri = g_strdup (uri);
 
-	/* report the writable status of the book to all its clients */
-	for (l = bf->priv->clients; l; l = g_list_next (l)) {
-		PASBook *book = l->data;
-
-		pas_book_report_writable (book, writable);
-	}
-
 	return TRUE;
 }
 
@@ -1386,11 +1378,8 @@ pas_backend_file_add_client (PASBackend             *backend,
 		if (bf->priv->writable)
 			pas_book_report_writable (book, bf->priv->writable);
 	} else {
-		/* Open the book. */
 		pas_book_respond_open (
-			book, GNOME_Evolution_Addressbook_BookListener_Success);
-		if (bf->priv->writable)
-			pas_book_report_writable (book, bf->priv->writable);
+		       book, GNOME_Evolution_Addressbook_BookListener_OtherError);
 	}
 
 	bonobo_object_unref (BONOBO_OBJECT (book));

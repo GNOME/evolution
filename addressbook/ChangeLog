@@ -1,5 +1,26 @@
 2001-11-09  Chris Toshok  <toshok@ximian.com>
 
+	[ Fixes Ximian bug #14687 ]
+	* backend/pas/pas-backend-file.c
+
+	* backend/pas/pas-book-factory.c
+	(pas_book_factory_process_request): do load_uri before add_client,
+	so we know if the load actually worked (add_client uses this
+	information to respond to the new client.)  before this change,
+	the client would still think the book was in a useful state even
+	if the load_uri failed.
+
+	* backend/pas/pas-backend-ldap.c (pas_backend_ldap_add_client): if
+	the we're not connected, say so.
+
+	* backend/pas/pas-backend-file.c (pas_backend_file_add_client):
+	same.
+	(pas_backend_file_load_uri): don't report_writable here,
+	add_client does it.  was only needed before because of the
+	improper ordering in pas-book-factory.c above.
+
+2001-11-09  Chris Toshok  <toshok@ximian.com>
+
 	[ Fixes Ximian bug #14646 ]
 	* gui/component/addressbook.c (addressbook_default_book_open): new
 	function.  if the default_book failed to load, load the local
