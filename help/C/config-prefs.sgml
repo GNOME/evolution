@@ -729,7 +729,7 @@ smtp.omniport.com:143
 		  <term>Search scope</term>
 		  <listitem>
 		    <para>
-		      The scope of the search <!-- FIXME: THIS DEFINITION SUCKS -->
+How broad the search is in the directory.
 		    </para>
 		  </listitem>
 		</varlistentry>

@@ -418,7 +418,7 @@
            many or as few categories as you like.
         </para>
 
-       <!-- FIXME: Feature Not Implemented
+       <!-- Feature Not Implemented
 	<para>
 
            If the master list of categories doesn't suit you, you can
@@ -550,8 +550,7 @@
               Network folders are only available when you are
               connected to the network.  If you use a laptop or have a
               modem connection, you may wish to copy or cache the
-              network directory and then synchronize your copy with
-              the networked version periodically.  <!-- FIXME: HOW? -->
+              network directory.  You do this by dragging and dropping your desired contacts into the local contacts list.
 	  </para>
 	  </listitem>
 
@@ -601,7 +600,7 @@
 	 particular group if you choose.
       </para>
 
-<!-- FIXME this feature not yet implemented 
+<!-- this feature not yet implemented 
 
       <para>
          You can also use the address book to print postal addresses
@@ -615,7 +614,7 @@
 
     </sect1>
 
-    <!---  FIXME this feature not yet implemented 
+    <!--- this feature not yet implemented 
   <sect1 id="usage-contact-automation-extra">
   <title>Map It!</title>
   <para>

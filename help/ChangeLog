@@ -1,5 +1,13 @@
 2001-10-26  Kevin Breit  <mrproper@ximian.com>
 
+	* C/usage-contact.sgml: One more FIXME...done
+
+	* C/config-prefs.sgml: Fixed a definition, one less FIXME to deal with.
+
+	* C/usage-mail-org.sgml: Moved importing information here.
+
+	* C/usage-mail.sgml: Moved importing information to -org.sgml
+
 	* C/usage-mail-org.sgml: Added a note
 
 	* C/usage-mainwindow.sgml: Added screenshot and labels of stuff for summary.
@@ -42,6 +50,7 @@
 2001-10-07  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* C/usage-mail-org.sgml: Add a missing </orderedlist>
+	
 	* C/apx-authors.sgml: Fix my name.
 	
 2001-10-05  Aaron Weber  <aaron@ximian.com>
