@@ -1,5 +1,7 @@
 2003-10-22  Dan Winship  <danw@ximian.com>
 
+	* e-bonobo-factory-util.[ch]: Gone; unused since 1.2
+
 	* e-proxy.[ch]: Gone; nothing in evo uses soup any more.
 
 	* Makefile.am (eutilinclude_HEADERS, libeutil_la_SOURCES): Remove
