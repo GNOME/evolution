@@ -328,6 +328,7 @@ event_editor_destroy (GtkObject *object)
 	gtk_object_unref (GTK_OBJECT (priv->meet_page));
 	gtk_object_unref (GTK_OBJECT (priv->sched_page));
 
+	gtk_object_destroy (GTK_OBJECT (priv->model));
 	gtk_object_unref (GTK_OBJECT (priv->model));
 
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
