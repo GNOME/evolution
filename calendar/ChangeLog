@@ -1,3 +1,9 @@
+2005-01-10  Chenthill Palanisamy <pchenthill@novell.com>
+
+	* gui/dialogs/event-page.glade
+	* gui/dialogs/task-page.glade: Showed the send options
+	button and label. Hided the Send options Frame.
+
 2005-01-10  Harish Krishnaswamy  <kharish@novell.com>
 
 	* gui/dialogs/cal-attachment-bar.[ch]: (destroy), (init),
