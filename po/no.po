@@ -5837,7 +5837,7 @@ msgstr "Under arbeid"
 #: calendar/gui/e-meeting-time-sel-item.c:475
 #: calendar/gui/e-meeting-time-sel.c:2114
 msgid "%A, %B %d, %Y"
-msgstr "%A, %B %d, %Y"
+msgstr "%A, %d %B, %Y"
 
 #. This is a strftime() format string %a = abbreviated weekday
 #. name, %m = month number, %d = month day, %Y = full year.
@@ -6278,11 +6278,11 @@ msgstr "Lø."
 #. Day
 #: calendar/gui/print.c:1863
 msgid "Selected day (%a %b %d %Y)"
-msgstr "Valgt dag (%a %b %d %Y)"
+msgstr "Valgt dag (%a %d %b %Y)"
 
 #: calendar/gui/print.c:1888 calendar/gui/print.c:1892
 msgid "%a %b %d"
-msgstr "%a %b %d"
+msgstr "%a %d %b"
 
 #: calendar/gui/print.c:1889
 msgid "%a %d %Y"
@@ -6291,7 +6291,7 @@ msgstr "%a %d %Y"
 #: calendar/gui/print.c:1893 calendar/gui/print.c:1895
 #: calendar/gui/print.c:1896
 msgid "%a %b %d %Y"
-msgstr "%a %b %d %Y"
+msgstr "%a %d %b %Y"
 
 #: calendar/gui/print.c:1900
 #, c-format
@@ -10742,7 +10742,7 @@ msgstr "%H.%M.%S"
 #. strptime format for a time of day, in 24-hour format.
 #: e-util/e-time-utils.c:330 e-util/e-time-utils.c:417
 msgid "%H:%M:%S"
-msgstr "%H:%M:%S"
+msgstr "%H.%M.%S"
 
 #. strptime format for time of day, without seconds,
 #. in 12-hour format.
@@ -12039,7 +12039,7 @@ msgstr "en ukjent avsender"
 
 #: mail/mail-callbacks.c:1255
 msgid "On %a, %Y-%m-%d at %H:%M, %%s wrote:"
-msgstr "%a, %Y-%m-%d kl. %H:%M skrev %%s:"
+msgstr "%a, %d.%m.%Y kl. %H.%M skrev %%s:"
 
 #: mail/mail-callbacks.c:1765 mail/message-browser.c:132
 msgid "Move message(s) to"
@@ -12924,7 +12924,7 @@ msgstr "Utgått:"
 
 #: mail/mail-display.c:1793
 msgid "by %B %d, %Y, %l:%M %P"
-msgstr "ved %d %B %Y, %k:%M"
+msgstr "ved %d %B %Y, %H.%M"
 
 #: mail/mail-display.c:2120
 msgid "Open Link in Browser"
@@ -13483,19 +13483,19 @@ msgstr "?"
 
 #: mail/message-list.c:1073
 msgid "Today %l:%M %p"
-msgstr "I dag %k:%M"
+msgstr "I dag %H.%M"
 
 #: mail/message-list.c:1082
 msgid "Yesterday %l:%M %p"
-msgstr "I går %k:%M"
+msgstr "I går %H.%M"
 
 #: mail/message-list.c:1094
 msgid "%a %l:%M %p"
-msgstr "%a %k:%M"
+msgstr "%a %H.%M"
 
 #: mail/message-list.c:1102
 msgid "%b %d %l:%M %p"
-msgstr "%d %b %k:%M"
+msgstr "%d %b %H.%M"
 
 #: mail/message-list.c:1104
 msgid "%b %d %Y"
@@ -23482,11 +23482,11 @@ msgstr "Ingen avtaler"
 
 #: my-evolution/e-summary-calendar.c:418
 msgid "%k:%M %d %B"
-msgstr "%k:%M %d %B"
+msgstr "%d %B kl. %H.%M"
 
 #: my-evolution/e-summary-calendar.c:420
 msgid "%l:%M %d %B"
-msgstr "%l: %M %d %B"
+msgstr "%d %B kl. %H.%M"
 
 #: my-evolution/e-summary-calendar.c:438
 msgid "No description"
