@@ -1,3 +1,8 @@
+2005-03-06  Rodrigo Moya <rodrigo@novell.com>
+
+	* gui/dialogs/recur-comp.c (recur_component_dialog): disable dialog for
+	asking user which instance(s) to modify.
+
 2005-03-04  Rodrigo Moya <rodrigo@novell.com>
 
 	Fixes #72835
