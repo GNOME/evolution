@@ -1,3 +1,7 @@
+2001-03-20  Not Zed  <NotZed@Ximian.com>
+
+	* mail-local.c (init_trash): Fixed vfolder_new api.
+
 2001-03-26  Dan Winship  <danw@ximian.com>
 
 	* mail-format.c (get_cid): Make fake content-id URLs be guaranteed
