@@ -39,7 +39,7 @@ e_xml_get_child_by_name (const xmlNode *parent, const xmlChar *child_name)
 	g_return_val_if_fail (parent != NULL, NULL);
 	g_return_val_if_fail (child_name != NULL, NULL);
 	
-	for (child = parent->childs; child != NULL; child = child->next) {
+	for (child = parent->xmlChildrenNode; child != NULL; child = child->next) {
 		if (xmlStrcmp (child->name, child_name) == 0) {
 			return child;
 		}
@@ -70,7 +70,7 @@ e_xml_get_child_by_name_by_lang (const xmlNode *parent,
 		lang = setlocale (LC_CTYPE, NULL);
 #endif
 	}
-	for (child = parent->childs; child != NULL; child = child->next) {
+	for (child = parent->xmlChildrenNode; child != NULL; child = child->next) {
 		if (xmlStrcmp (child->name, child_name) == 0) {
 			xmlChar *this_lang = xmlGetProp (child, "lang");
 			if (this_lang == NULL) {
@@ -91,7 +91,7 @@ e_xml_get_child_by_name_by_lang_list_with_score (const xmlNode *parent,
 {
 	xmlNodePtr best_node = NULL, node;
 
-	for (node = parent->childs; node != NULL; node = node->next) {
+	for (node = parent->xmlChildrenNode; node != NULL; node = node->next) {
 		xmlChar *lang;
 
 		if (node->name == NULL || strcmp (node->name, name) != 0) {
@@ -159,7 +159,7 @@ e_xml_get_child_by_name_no_lang (const xmlNode *parent, const gchar *name)
 	g_return_val_if_fail (parent != NULL, NULL);
 	g_return_val_if_fail (name != NULL, NULL);
 
-	for (node = parent->childs; node != NULL; node = node->next) {
+	for (node = parent->xmlChildrenNode; node != NULL; node = node->next) {
 		xmlChar *lang;
 
 		if (node->name == NULL || strcmp (node->name, name) != 0) {

@@ -886,7 +886,7 @@ e_tree_table_adapter_load_expanded_state (ETreeTableAdapter *etta, const char *f
 		return;
 	}
 
-	for (child = root->childs; child; child = child->next) {
+	for (child = root->xmlChildrenNode; child; child = child->next) {
 		char *id;
 
 		if (strcmp (child->name, "node")) {

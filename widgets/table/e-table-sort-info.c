@@ -362,14 +362,14 @@ e_table_sort_info_load_from_node (ETableSortInfo *info,
 
 	if (state_version <= 0.05) {
 		i = 0;
-		for (grouping = node->childs; grouping && !strcmp (grouping->name, "group"); grouping = grouping->childs) {
+		for (grouping = node->xmlChildrenNode; grouping && !strcmp (grouping->name, "group"); grouping = grouping->xmlChildrenNode) {
 			ETableSortColumn column;
 			column.column = e_xml_get_integer_prop_by_name (grouping, "column");
 			column.ascending = e_xml_get_bool_prop_by_name (grouping, "ascending");
 			e_table_sort_info_grouping_set_nth(info, i++, column);
 		}
 		i = 0;
-		for (; grouping && !strcmp (grouping->name, "leaf"); grouping = grouping->childs) {
+		for (; grouping && !strcmp (grouping->name, "leaf"); grouping = grouping->xmlChildrenNode) {
 			ETableSortColumn column;
 			column.column = e_xml_get_integer_prop_by_name (grouping, "column");
 			column.ascending = e_xml_get_bool_prop_by_name (grouping, "ascending");
@@ -377,7 +377,7 @@ e_table_sort_info_load_from_node (ETableSortInfo *info,
 		}
 	} else {
 		i = 0;
-		for (grouping = node->childs; grouping && !strcmp (grouping->name, "group"); grouping = grouping->next) {
+		for (grouping = node->xmlChildrenNode; grouping && !strcmp (grouping->name, "group"); grouping = grouping->next) {
 			ETableSortColumn column;
 			column.column = e_xml_get_integer_prop_by_name (grouping, "column");
 			column.ascending = e_xml_get_bool_prop_by_name (grouping, "ascending");
