@@ -1007,17 +1007,23 @@ reply_body (CamelDataWrapper *data, gboolean *html)
 {
 	CamelMultipart *mp;
 	CamelMimePart *subpart;
-	int i, nparts, disparts;
+	int i, nparts;
 	char *subtext, *old;
-	const char *boundary, *disp, *subtype;
+	const char *boundary, *disp;
 	char *text = NULL;
 	GMimeContentField *mime_type;
 
 	/* We only include text, message, and multipart bodies. */
 	mime_type = camel_data_wrapper_get_mime_type_field (data);
 
-	if (strcasecmp (mime_type->type, "message") == 0)
+	/* FIXME: This is wrong. We don't want to include large
+	 * images. But if we don't do it this way, we don't get
+	 * the headers...
+	 */
+	if (strcasecmp (mime_type->type, "message") == 0) {
+		*html = FALSE;
 		return get_data_wrapper_text (data);
+	}
 
 	if (strcasecmp (mime_type->type, "text") == 0) {
 		*html = !strcasecmp (mime_type->subtype, "html");
@@ -1039,64 +1045,47 @@ reply_body (CamelDataWrapper *data, gboolean *html)
 		if (!subpart)
 			return NULL;
 
-		return reply_body (camel_medium_get_content_object (CAMEL_MEDIUM (subpart)), html);
+		data = camel_medium_get_content_object (
+			CAMEL_MEDIUM (subpart));
+		return reply_body (data, html);
 	}
 
 	nparts = camel_multipart_get_number (mp);
 
-	/* If any subpart is HTML, pull it out and reply to it by itself.
-	 * (If we supported any other non-plain text types, we'd do the
-	 * same for them here.)
+	/* Otherwise, concatenate all the parts that we can. If we find
+	 * an HTML part in there though, return just that: We don't want
+	 * to deal with merging HTML and non-HTML parts.
 	 */
+	boundary = camel_multipart_get_boundary (mp);
 	for (i = 0; i < nparts; i++) {
 		subpart = CAMEL_MIME_PART (camel_multipart_get_part (mp, i));
-		subtype = camel_mime_part_get_content_type (subpart)->subtype;
-
-		if (strcasecmp (subtype, "html") == 0)
-			return reply_body (camel_medium_get_content_object (CAMEL_MEDIUM (subpart)), html);
-	}
-
-	/* Otherwise, concatenate all the parts that:
-	 *   - are text/plain or message
-	 *   - are not explicitly tagged with non-inline disposition
-	 */
-	*html = FALSE;
-	boundary = camel_multipart_get_boundary (mp);
-	for (i = disparts = 0; i < nparts; i++) {
-		subpart = CAMEL_MIME_PART (camel_multipart_get_part (mp, i));
-
-		mime_type = camel_mime_part_get_content_type (subpart);
-		if (strcasecmp (mime_type->type, "text") == 0) {
-			if (strcasecmp (mime_type->subtype, "plain") != 0)
-				continue;
-		} else if (strcasecmp (mime_type->type, "message") != 0)
-			continue;
 
 		disp = camel_mime_part_get_disposition (subpart);
 		if (disp && strcasecmp (disp, "inline") != 0)
 			continue;
 
-		data = camel_medium_get_content_object (CAMEL_MEDIUM (subpart));
-		subtext = get_data_wrapper_text (data);
+		data = camel_medium_get_content_object (
+			CAMEL_MEDIUM (subpart));
+		subtext = reply_body (data, html);
+		if (!subtext)
+			continue;
+		if (*html) {
+			g_free (text);
+			return subtext;
+		}
+
 		if (text) {
 			old = text;
 			text = g_strdup_printf ("%s\n--%s\n%s", text,
 						boundary, subtext);
 			g_free (subtext);
 			g_free (old);
-			disparts++;
 		} else
 			text = subtext;
 	}
 
 	if (!text)
 		return NULL;
-
-	if (disparts > 1) {
-		old = text;
-		text = g_strdup_printf ("%s\n--%s--\n", text, boundary);
-		g_free (old);
-	}
 
 	return text;
 }
@@ -1169,14 +1158,14 @@ mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 	repl_to = camel_mime_message_get_reply_to (message);
 	if (!repl_to)
 		repl_to = camel_mime_message_get_from (message);
-	to = g_list_append (NULL, repl_to);
+	to = g_list_append (NULL, (gpointer)repl_to);
 
 	if (to_all) {
 		const GList *recip;
 
 		recip = camel_mime_message_get_recipients (message, 
 			CAMEL_RECIPIENT_TYPE_TO);
-		cc = g_list_copy (recip);
+		cc = g_list_copy ((GList*)recip);
 
 		recip = camel_mime_message_get_recipients (message,
 			CAMEL_RECIPIENT_TYPE_CC);
@@ -1188,7 +1177,7 @@ mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 		cc = NULL;
 
 	/* Set the subject of the new message. */
-	subject = camel_mime_message_get_subject (message);
+	subject = (char *)camel_mime_message_get_subject (message);
 	if (!subject)
 		subject = g_strdup ("");
 	else if (!strncasecmp (subject, "Re: ", 4))

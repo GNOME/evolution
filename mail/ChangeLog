@@ -10,6 +10,7 @@
 	second part. Since the second part is usually
 	application/octet-stream, this doesn't work very well still
 	usually.
+	(reply_body): Make this deal better with multiparts.
 
 	* mail-display.c, mail-format.c: Redo large chunks of this. The
 	mail display now consists of a vbox in a scrolled window, in which
