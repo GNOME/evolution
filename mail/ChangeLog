@@ -1,3 +1,11 @@
+2003-01-14  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-account-gui.c (mail_account_gui_save): Call
+	mail_config_save_accounts ().
+
+	* mail-config.c (mail_config_save_accounts): New function to save
+	accounts without having to re-load them.
+
 2003-01-14  Radek Doulik  <rodo@ximian.com>
 
 	* folder-browser.c (etree_key): use gtk_scrolled_window_*

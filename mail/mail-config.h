@@ -183,6 +183,7 @@ void                      mail_config_set_default_account       (const MailConfi
 const MailConfigIdentity *mail_config_get_default_identity (void);
 const MailConfigService  *mail_config_get_default_transport (void);
 
+void mail_config_save_accounts (void);
 
 /* uri's got changed by the store, etc */
 void mail_config_uri_renamed(GCompareFunc uri_cmp, const char *old, const char *new);

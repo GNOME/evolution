@@ -1963,6 +1963,7 @@ mail_account_gui_save (MailAccountGui *gui)
 	if (gtk_toggle_button_get_active (gui->default_account))
 		mail_config_set_default_account (account);
 	
+	mail_config_save_accounts ();
 	mail_config_write_account_sig (account, -1);
 	
 	mail_autoreceive_setup ();

@@ -78,6 +78,7 @@ typedef struct {
 	gboolean corrupt;
 	
 	GSList *accounts;
+	guint accounts_notify_id;
 	
 	GHashTable *threaded_hash;
 	
@@ -631,6 +632,17 @@ accounts_save (void)
 	gconf_client_suggest_sync (config->gconf, NULL);
 }
 
+void
+mail_config_save_accounts (void)
+{
+	 gconf_client_notify_remove (config->gconf, config->accounts_notify_id);
+	 
+	 accounts_save ();
+	 
+	 config->accounts_notify_id = gconf_client_notify_add (config->gconf, "/apps/evolution/mail/accounts",
+							       accounts_changed, NULL, NULL, NULL);
+}
+
 /* Config struct routines */
 void
 mail_config_init (void)
@@ -644,8 +656,8 @@ mail_config_init (void)
 	gconf_client_add_dir (config->gconf, "/apps/evolution/mail/accounts",
 			      GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
 	
-	gconf_client_notify_add (config->gconf, "/apps/evolution/mail/accounts",
-				 accounts_changed, NULL, NULL, NULL);
+	config->accounts_notify_id = gconf_client_notify_add (config->gconf, "/apps/evolution/mail/accounts",
+							      accounts_changed, NULL, NULL, NULL);
 	
 	config_read ();
 }
@@ -1198,7 +1210,7 @@ mail_config_add_account (MailConfigAccount *account)
 {
 	config->accounts = g_slist_append (config->accounts, account);
 	
-	accounts_save ();
+	mail_config_save_accounts ();
 }
 
 const GSList *
@@ -1222,7 +1234,7 @@ mail_config_remove_account (MailConfigAccount *account)
 	config->accounts = g_slist_remove (config->accounts, account);
 	account_destroy (account);
 	
-	accounts_save ();
+	mail_config_save_accounts ();
 	
 	return config->accounts;
 }
