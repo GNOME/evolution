@@ -73,6 +73,7 @@ calendar/gui/tasks-migrate.c
 calendar/gui/weekday-picker.c
 calendar/pcs/query.c
 camel/camel-cipher-context.c
+camel/camel-cms-context.h
 camel/camel-disco-store.c
 camel/camel-filter-driver.c
 camel/camel-filter-search.c
