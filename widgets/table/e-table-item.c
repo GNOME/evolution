@@ -1321,20 +1321,13 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			
 		default:
 			if (!eti_editing (eti)){
-				if ((e->key.state & (GDK_MOD1_MASK | GDK_CONTROL_MASK)) != 0)
-					return_val = FALSE;
-
-				if (!(e->key.keyval >= 0x20 && e->key.keyval <= 0xff))
-					return_val = FALSE;
+				gtk_signal_emit (GTK_OBJECT (eti), eti_signals [KEY_PRESS],
+						 eti->cursor_row, eti->cursor_col, e, &return_val);
+			} else {
 				ecol = e_table_header_get_column (eti->header, eti->cursor_col);
 				ecell_view = eti->cell_views [eti->cursor_col];
 				e_cell_event (ecell_view, e, ecol->col_idx, eti->cursor_col, eti->cursor_row);
-
-			} else {
-				gtk_signal_emit (GTK_OBJECT (eti), eti_signals [KEY_PRESS],
-						 eti->cursor_row, eti->cursor_col, e, &return_val);
 			}
-
 		}
 		break;
 		

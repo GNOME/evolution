@@ -1,5 +1,11 @@
 2000-06-01  Christopher James Lahey  <clahey@helixcode.com>
 
+	* e-table.c: Copy and paste error.
+
+	* e-table-item.c: Mixed up parity on eti->editing.
+
+2000-06-01  Christopher James Lahey  <clahey@helixcode.com>
+
 	* e-table-group-container.c, e-table-group-leaf.c,
 	e-table-group.c, e-table-group.h, e-table-item.c, e-table-item.h,
 	e-table.c, e-table.h: Added a "key_press" signal.

@@ -770,7 +770,7 @@ e_table_class_init (GtkObjectClass *object_class)
 				gtk_marshal_NONE__INT,
 				GTK_TYPE_NONE, 1, GTK_TYPE_INT);
 
-	et_signals [DOUBLE_CLICK] =
+	et_signals [KEY_PRESS] =
 		gtk_signal_new ("key_press",
 				GTK_RUN_LAST,
 				object_class->type,
