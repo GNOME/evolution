@@ -1405,23 +1405,47 @@ imap_disconnect_online (CamelService *service, gboolean clean, CamelException *e
 	return TRUE;
 }
 
+
+static gboolean
+imap_summary_is_dirty (CamelFolderSummary *summary)
+{
+	CamelMessageInfo *info;
+	int max, i;
+	
+	max = camel_folder_summary_count (summary);
+	for (i = 0; i < max; i++) {
+		info = camel_folder_summary_index (summary, i);
+		if (info && (info->flags & CAMEL_MESSAGE_FOLDER_FLAGGED))
+			return TRUE;
+	}
+	
+	return FALSE;
+}
+
 static void
 imap_noop (CamelStore *store, CamelException *ex)
 {
 	CamelImapStore *imap_store = (CamelImapStore *) store;
 	CamelDiscoStore *disco = (CamelDiscoStore *) store;
 	CamelImapResponse *response;
+	CamelFolder *current_folder;
 	
-	switch (camel_disco_store_status (disco)) {
-	case CAMEL_DISCO_STORE_ONLINE:
-	case CAMEL_DISCO_STORE_RESYNCING:
-		response = camel_imap_command (imap_store, NULL, NULL, "NOOP");
+	if (camel_disco_store_status (disco) != CAMEL_DISCO_STORE_ONLINE)
+		return;
+	
+	CAMEL_IMAP_STORE_LOCK (imap_store, command_lock);
+	
+	current_folder = imap_store->current_folder;
+	if (current_folder && imap_summary_is_dirty (current_folder->summary)) {
+		/* let's sync the flags instead */
+		camel_folder_sync (current_folder, FALSE, ex);
+	} else {
+		response = camel_imap_command (imap_store, NULL, ex, "NOOP");
 		if (response)
 			camel_imap_response_free (imap_store, response);
-		break;
-	case CAMEL_DISCO_STORE_OFFLINE:
-		break;
 	}
+	
+	CAMEL_IMAP_STORE_UNLOCK (imap_store, command_lock);
 }
 
 static guint

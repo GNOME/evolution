@@ -380,7 +380,7 @@ imap_parse_list_response (CamelImapStore *store, const char *buf, int *flags, ch
 		 * can ya do when ya got the ignorance of marketing breathing
 		 * down your neck?)
 		 */
-		if (is_lsub && !strcasecmp (mailbox, "INBOX"))
+		if (is_lsub && flags && !strcasecmp (mailbox, "INBOX"))
 			*flags &= ~CAMEL_FOLDER_NOSELECT;
 		
 		*folder = mailbox;

@@ -1,5 +1,9 @@
 2002-08-22  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/imap/camel-imap-store.c (imap_noop): If current_folder
+	is not NULL and the summary for that folder is dirty, sync the
+	flags rather than sending a NOOP.
+
 	* providers/imap/camel-imap-utils.c (imap_parse_list_response):
 	Workaround for Courier imap's brokeness when LSUBing the INBOX
 	folder when it isn't subscribed to. Fixes bug #28929.
