@@ -94,7 +94,8 @@ mail_composer_prefs_finalise (GtkObject *obj)
 	MailComposerPrefs *prefs = (MailComposerPrefs *) obj;
 	
 	gtk_object_unref (GTK_OBJECT (prefs->gui));
-	
+	gtk_object_unref (GTK_OBJECT (prefs->pman));
+
         ((GtkObjectClass *)(parent_class))->finalize (obj);
 }
 
@@ -104,13 +105,18 @@ mail_composer_prefs_destroy (GtkObject *obj)
 	MailComposerPrefs *prefs = (MailComposerPrefs *) obj;
 	
 	mail_config_signature_unregister_client ((MailConfigSignatureClient) sig_event_client, prefs);
+	
+	if (GTK_OBJECT_CLASS (parent_class))
+		(* GTK_OBJECT_CLASS (parent_class)->destroy) (obj);
 }
 
+#if 0
 static void
 colorpicker_set_color (GnomeColorPicker *color, guint32 rgb)
 {
 	gnome_color_picker_set_i8 (color, (rgb & 0xff0000) >> 16, (rgb & 0xff00) >> 8, rgb & 0xff, 0xff);
 }
+#endif 
 
 static guint32
 colorpicker_get_color (GnomeColorPicker *color)
@@ -549,10 +555,24 @@ mail_composer_prefs_construct (MailComposerPrefs *prefs)
 	
 	/* Spell Checking */
 	/* FIXME: do stuff with these */
-	prefs->spell_check = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkEnableSpellChecking"));
+	{
+		char *names[][2] = {{"live_spell_check", "chkEnableSpellChecking"},
+				    {"gtk_html_prop_keymap_option", "omenuShortcutsType"},
+				    {NULL, NULL}};
+		
+		prefs->pman = GTK_HTML_PROPMANAGER (gtk_html_propmanager_new (NULL));
+		gtk_object_ref (GTK_OBJECT (prefs->pman));
+		gtk_object_sink (GTK_OBJECT (prefs->pman));
+
+		gtk_html_propmanager_set_names (prefs->pman, names);
+		gtk_html_propmanager_set_gui (prefs->pman, gui, NULL);
+		gtk_signal_connect (GTK_OBJECT (prefs->pman), "changed", toggle_button_toggled, prefs);
+	}
+	/*
 	prefs->colour = GNOME_COLOR_PICKER (glade_xml_get_widget (gui, "colorpickerSpellCheckColor"));
 	prefs->language = GTK_COMBO (glade_xml_get_widget (gui, "cmboSpellCheckLanguage"));
-	
+	*/
+
 	/* Forwards and Replies */
 	prefs->forward_style = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuForwardStyle"));
 	gtk_option_menu_set_history (prefs->forward_style, mail_config_get_default_forward_style ());
@@ -667,6 +687,7 @@ mail_composer_prefs_apply (MailComposerPrefs *prefs)
 	
 	/* Spell Checking */
 	/* FIXME: implement me */
+	gtk_html_propmanager_apply (prefs->pman);
 	
 	/* Forwards and Replies */
 	menu = gtk_option_menu_get_menu (prefs->forward_style);

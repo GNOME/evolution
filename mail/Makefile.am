@@ -69,6 +69,8 @@ evolution_mail_SOURCES =		\
 	mail-callbacks.h		\
 	mail-composer-prefs.c		\
 	mail-composer-prefs.h		\
+	mail-font-prefs.c		\
+	mail-font-prefs.h		\
 	mail-config.c			\
 	mail-config.h			\
 	mail-config-druid.c		\

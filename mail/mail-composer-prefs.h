@@ -35,6 +35,7 @@ extern "C" {
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-file-entry.h>
 #include <gtkhtml/gtkhtml.h>
+#include <gtkhtml/gtkhtml-propmanager.h>
 
 #include "mail-signature-editor.h"
 
@@ -67,6 +68,7 @@ struct _MailComposerPrefs {
 	GtkOptionMenu *charset;
 	
 	/* Spell Checking */
+	GtkHTMLPropmanager *pman;
 	GtkToggleButton *spell_check;
 	GnomeColorPicker *colour;
 	GtkCombo *language;

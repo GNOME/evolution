@@ -71,8 +71,8 @@ mail_font_prefs_init (MailFontPrefs *prefs)
 	GtkWidget *toplevel;
 	GladeXML *gui;
 
-	prefs->gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config.glade", "font_tab");
-
+	gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config.glade", "font_tab");
+	prefs->gui = gui;
 
 	prefs->pman = GTK_HTML_PROPMANAGER (gtk_html_propmanager_new (NULL));
 	gtk_html_propmanager_set_gui (prefs->pman, gui, NULL);

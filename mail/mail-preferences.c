@@ -93,6 +93,7 @@ mail_preferences_finalise (GtkObject *obj)
 	MailPreferences *prefs = (MailPreferences *) obj;
 	
 	gtk_object_unref (GTK_OBJECT (prefs->gui));
+	gtk_object_unref (GTK_OBJECT (prefs->pman));
 	gtk_object_unref (GTK_OBJECT (prefs->gconf));
 	
         ((GtkObjectClass *)(parent_class))->finalize (obj);
@@ -289,20 +290,22 @@ mail_preferences_construct (MailPreferences *prefs)
 			    toggle_button_toggled, prefs);
 	
 	/* Some GtkHTML settings */
-	/* FIXME: use the gtkhtml interfaces for these settings when lewing gets around to adding them */
-	prefs->show_animated = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkShowAnimatedImages"));
-	gtk_toggle_button_set_active (prefs->show_animated,
-				      gconf_client_get_bool (prefs->gconf, GTK_HTML_GCONF_DIR "/animations", NULL));
-	gtk_signal_connect (GTK_OBJECT (prefs->show_animated), "toggled",
-			    toggle_button_toggled, prefs);
-	
-	prefs->autodetect_links = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkAutoDetectLinks"));
-	gtk_toggle_button_set_active (prefs->autodetect_links,
-				      gconf_client_get_bool (prefs->gconf, GTK_HTML_GCONF_DIR "/magic_links", NULL));
-	gtk_signal_connect (GTK_OBJECT (prefs->autodetect_links), "toggled",
-			    toggle_button_toggled, prefs);
-	
-	
+	{
+		char *names[][2] = {{"anim_check", "chkShowAnimatedImages"},
+				    {"magic_check", "chkAutoDetectLinks"},
+				    {"gtk_html_prop_keymap_option", "omenuShortcutsType"},
+				    {NULL, NULL}};
+
+		prefs->pman = GTK_HTML_PROPMANAGER (gtk_html_propmanager_new (prefs->gconf));
+		gtk_object_ref (GTK_OBJECT (prefs->pman));
+		gtk_object_sink (GTK_OBJECT (prefs->pman));
+
+		gtk_html_propmanager_set_names (prefs->pman, names);
+		gtk_html_propmanager_set_gui (prefs->pman, gui, NULL);
+		gtk_signal_connect (GTK_OBJECT (prefs->pman), "changed", toggle_button_toggled, prefs);
+
+	}		
+
 	prefs->prompt_unwanted_html = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkPromptWantHTML"));
 	gtk_toggle_button_set_active (prefs->prompt_unwanted_html, mail_config_get_confirm_unwanted_html ());
 	gtk_signal_connect (GTK_OBJECT (prefs->prompt_unwanted_html), "toggled",
@@ -409,11 +412,7 @@ mail_preferences_apply (MailPreferences *prefs)
 	else
 		mail_config_set_http_mode (MAIL_CONFIG_HTTP_NEVER);
 	
-	gconf_client_set_bool (prefs->gconf, GTK_HTML_GCONF_DIR "/animations",
-			       gtk_toggle_button_get_active (prefs->show_animated), NULL);
-	
-	gconf_client_set_bool (prefs->gconf, GTK_HTML_GCONF_DIR "/magic_links",
-			       gtk_toggle_button_get_active (prefs->autodetect_links), NULL);
+	gtk_html_propmanager_apply (prefs->pman);
 	
 	mail_config_set_confirm_unwanted_html (gtk_toggle_button_get_active (prefs->prompt_unwanted_html));
 	
@@ -437,3 +436,4 @@ mail_preferences_apply (MailPreferences *prefs)
 		mail_config_set_label_color (i, rgb);
 	}
 }
+

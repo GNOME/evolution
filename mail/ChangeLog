@@ -1,5 +1,32 @@
 2002-04-29  Larry Ewing  <lewing@ximian.com>
 
+	* mail-config-factory.c (config_control_factory_cb): handle
+	requests for the font manager control.
+
+	* mail-config.glade: add fonts tabs and reorder composer options
+	to match the new dialogs from anna.
+
+	* GNOME_Evolution_Mail.oaf.in: add font manager control definition.
+
+	* mail-composer-prefs.c (mail_composer_prefs_construct): hook to
+	the gtkhtml propmanager.
+	(mail_composer_prefs_apply): apply propmanager changes.
+	(mail_composer_prefs_finalise): unref the propmanager.
+
+	* mail-composer-prefs.h: add propmanager member.
+	
+	* mail-font-prefs.c: initialize gui properly.
+	
+	* mail-preferences.c (mail_preferences_construct): hook to
+	gtkhtml's propmanager.
+	(mail_preferences_apply): apply propmanager changes.
+	(mail_preferences_finalise): unref the propmanager.
+
+	* mail-preferences.h: add propmanager member.
+
+	* Makefile.am (evolution_mail_SOURCES): add mail-font-prefs.[ch]
+	to the build.
+
 	* mail-tools.c (mail_tool_quote_message): use the html reply logic
 	even for plain parts so that we can test out the new gtkhtml cite logic.
 

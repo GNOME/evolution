@@ -34,7 +34,7 @@ extern "C" {
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-file-entry.h>
 #include <glade/glade.h>
-
+#include <gtkhtml/gtkhtml-propmanager.h>
 #include <gconf/gconf-client.h>
 
 #include "evolution-config-control.h"
@@ -89,6 +89,9 @@ struct _MailPreferences {
 	GtkToggleButton *show_animated;
 	GtkToggleButton *autodetect_links;
 	GtkToggleButton *prompt_unwanted_html;
+
+	/* GtkHTML Properties */
+	GtkHTMLPropmanager *pman;
 	
 	/* Security tab */
 	GnomeFileEntry *pgp_path;

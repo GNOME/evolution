@@ -28,6 +28,7 @@
 #include "mail-accounts.h"
 #include "mail-preferences.h"
 #include "mail-composer-prefs.h"
+#include "mail-font-prefs.h"
 
 #include "mail-config-factory.h"
 
@@ -51,6 +52,7 @@ config_control_destroy_callback (EvolutionConfigControl *config_control, void *u
 	struct _config_data *data = user_data;
 	
 	gtk_widget_unref (data->prefs);
+
 	g_free (data);
 }
 
@@ -61,7 +63,6 @@ config_control_apply_callback (EvolutionConfigControl *config_control, void *use
 	
 	data->apply (data->prefs);
 }
-
 
 static BonoboObject *
 config_control_factory_cb (BonoboGenericFactory *factory, const char *component_id, void *user_data)
@@ -82,6 +83,9 @@ config_control_factory_cb (BonoboGenericFactory *factory, const char *component_
 	} else if (!strcmp (component_id, MAIL_COMPOSER_PREFS_CONTROL_ID)) {
 		prefs = mail_composer_prefs_new ();
 		data->apply = (ApplyFunc) mail_composer_prefs_apply;
+	} else if (!strcmp (component_id, MAIL_FONT_PREFS_CONTROL_ID)) {
+		prefs = mail_font_prefs_new ();
+		data->apply = (ApplyFunc) mail_font_prefs_apply;
 	} else {
 		g_assert_not_reached ();
 	}
@@ -99,6 +103,8 @@ config_control_factory_cb (BonoboGenericFactory *factory, const char *component_
 		MAIL_PREFERENCES (prefs)->control = control;
 	} else if (!strcmp (component_id, MAIL_COMPOSER_PREFS_CONTROL_ID)) {
 		MAIL_COMPOSER_PREFS (prefs)->control = control;
+	} else if (!strcmp (component_id, MAIL_FONT_PREFS_CONTROL_ID)) {
+		MAIL_FONT_PREFS (prefs)->control = control;
 	} else {
 		g_assert_not_reached ();
 	}
