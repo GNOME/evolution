@@ -1723,7 +1723,6 @@ save_service (MailAccountGuiService *gsvc, GHashTable *extra_config,
 	char *str;
 	
 	if (!gsvc->provider) {
-		printf ("no provider??\n");
 		g_free (service->url);
 		service->url = NULL;
 		return;
