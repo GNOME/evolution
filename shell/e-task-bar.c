@@ -34,6 +34,54 @@
 static GtkHBoxClass *parent_class = NULL;
 
 
+/* WARNING: Ugly hack starts here.  */
+
+#define MAX_ACTIVITIES_PER_COMPONENT 2
+
+static void
+reduce_displayed_activities_per_component (ETaskBar *task_bar)
+{
+	GHashTable *component_ids_hash;
+	GtkBox *box;
+	GList *p;
+
+	component_ids_hash = g_hash_table_new (g_str_hash, g_str_equal);
+
+	box = GTK_BOX (task_bar);
+
+	for (p = box->children; p != NULL; p = p->next) {
+		GtkBoxChild *child;
+		const char *component_id;
+		void *hash_item;
+
+		child = (GtkBoxChild *) p->data;
+		component_id = e_task_widget_get_component_id (E_TASK_WIDGET (child->widget));
+
+		hash_item = g_hash_table_lookup (component_ids_hash, component_id);
+
+		if (hash_item == NULL) {
+			gtk_widget_show (child->widget);
+			g_hash_table_insert (component_ids_hash, (void *) component_id, GINT_TO_POINTER (1));
+		} else {
+			int num_items;
+
+			num_items = GPOINTER_TO_INT (hash_item);
+			g_assert (num_items <= MAX_ACTIVITIES_PER_COMPONENT);
+
+			if (num_items == MAX_ACTIVITIES_PER_COMPONENT) {
+				gtk_widget_hide (child->widget);
+			} else {
+				num_items ++;
+				gtk_widget_show (child->widget);
+				g_hash_table_insert (component_ids_hash, (void *) component_id, GINT_TO_POINTER (num_items));
+			}
+		}
+	}
+
+	g_hash_table_destroy (component_ids_hash);
+}
+
+
 /* GtkObject methods.  */
 
 static void
@@ -119,6 +167,8 @@ e_task_bar_prepend_task (ETaskBar *task_bar,
 			gtk_widget_map (GTK_WIDGET (task_widget));
 		gtk_widget_queue_resize (GTK_WIDGET (task_widget));
 	}
+
+	reduce_displayed_activities_per_component (task_bar);
 }
 
 void
@@ -133,6 +183,8 @@ e_task_bar_remove_task (ETaskBar *task_bar,
 
 	task_widget = e_task_bar_get_task_widget (task_bar, n);
 	gtk_widget_destroy (GTK_WIDGET (task_widget));
+
+	reduce_displayed_activities_per_component (task_bar);
 }
 	
 ETaskWidget *

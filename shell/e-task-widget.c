@@ -44,6 +44,8 @@
 static GtkEventBoxClass *parent_class = NULL;
 
 struct _ETaskWidgetPrivate {
+	char *component_id;
+
 	GdkPixbuf *icon_pixbuf;
 	GtkWidget *label;
 	GtkWidget *pixmap;
@@ -60,6 +62,8 @@ impl_destroy (GtkObject *object)
 
 	task_widget = E_TASK_WIDGET (object);
 	priv = task_widget->priv;
+
+	g_free (priv->component_id);
 
 	gdk_pixbuf_unref (priv->icon_pixbuf);
 
@@ -84,6 +88,11 @@ init (ETaskWidget *task_widget)
 
 	priv = g_new (ETaskWidgetPrivate, 1);
 
+	priv->component_id = NULL;
+	priv->icon_pixbuf  = NULL;
+	priv->label        = NULL;
+	priv->pixmap       = NULL;
+
 	task_widget->priv = priv;
 }
 
@@ -91,6 +100,7 @@ init (ETaskWidget *task_widget)
 void
 e_task_widget_construct (ETaskWidget *task_widget,
 			 GdkPixbuf *icon_pixbuf,
+			 const char *component_id,
 			 const char *information)
 {
 	ETaskWidgetPrivate *priv;
@@ -102,9 +112,12 @@ e_task_widget_construct (ETaskWidget *task_widget,
 	g_return_if_fail (task_widget != NULL);
 	g_return_if_fail (E_IS_TASK_WIDGET (task_widget));
 	g_return_if_fail (icon_pixbuf != NULL);
+	g_return_if_fail (component_id != NULL);
 	g_return_if_fail (information != NULL);
 
 	priv = task_widget->priv;
+
+	priv->component_id = g_strdup (component_id);
 
 	frame = gtk_frame_new (NULL);
 	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_IN);
@@ -138,6 +151,7 @@ e_task_widget_construct (ETaskWidget *task_widget,
 
 GtkWidget *
 e_task_widget_new (GdkPixbuf *icon_pixbuf,
+		   const char *component_id,
 		   const char *information)
 {
 	ETaskWidget *task_widget;
@@ -146,7 +160,7 @@ e_task_widget_new (GdkPixbuf *icon_pixbuf,
 	g_return_val_if_fail (information != NULL, NULL);
 
 	task_widget = gtk_type_new (e_task_widget_get_type ());
-	e_task_widget_construct (task_widget, icon_pixbuf, information);
+	e_task_widget_construct (task_widget, icon_pixbuf, component_id, information);
 
 	return GTK_WIDGET (task_widget);
 }
@@ -194,5 +208,15 @@ e_task_wiget_unalert (ETaskWidget *task_widget)
 	g_return_if_fail (E_IS_TASK_WIDGET (task_widget));
 }
 	
+
+const char *
+e_task_widget_get_component_id  (ETaskWidget *task_widget)
+{
+	g_return_val_if_fail (task_widget != NULL, NULL);
+	g_return_val_if_fail (E_IS_TASK_WIDGET (task_widget), NULL);
+
+	return task_widget->priv->component_id;
+}
+
 
 E_MAKE_TYPE (e_task_widget, "ETaskWidget", ETaskWidget, class_init, init, PARENT_TYPE)

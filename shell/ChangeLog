@@ -1,3 +1,41 @@
+2001-09-19  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution-test-component.c: Removed globals `activity_client',
+	`progress'.
+	(timeout_callback_3): Get the activity client from @data.
+	(timeout_callback_2): Likewise here.  Pass the activity client as
+	the user data pointer for `gtk_timeout_add()'.  Put the progress
+	count in a "my_progress" GtkObject data key.
+	(timeout_callback_1): Pass the newly created EActivityClient as
+	the user data pointer for `gtk_timeout_add()'.  Also, dispatch
+	itself again with a random timeout delay, for a maximum of
+	NUM_ACTIVITES times.  Initialize the "my_progress" GtkObject data
+	to be -1.
+
+	[Lame hack to reduce the number of parallel operations reported by
+	the same component displayed in the task bar.]
+
+	* e-activity-handler.c: New member `component_id' in
+	`ActivityInfo'.
+	(activity_info_new): New arg @component_id.  Init the
+	`component_id' member accordingly.
+	(activity_info_free): Free the `component_id' member.
+	(impl_operationStarted): Pass the component_id to
+	`activity_info_new()'.
+	(task_widget_new_from_activity_info): Pass the component_id to the
+	activity_info.
+
+	* e-task-widget.c: New member `component_id' in
+	`ETaskWidgetPrivate'.
+	(impl_destroy): Free it.
+	(init): Init to NULL.  Also init all the other members to NULL as
+	well.
+	(e_task_widget_construct): New arg @component_id.  Assign
+	->component_id to match it.
+	(e_task_widget_new): New arg @component_id here as well.  Pass it
+	over to `e_task_widget_construct()'.
+	(e_task_widget_get_component_id): New.
+
 2001-09-18  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-storage-set-view.c (handle_evolution_path_drag_motion): New

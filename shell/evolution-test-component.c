@@ -45,10 +45,8 @@ static const EvolutionShellComponentFolderType folder_types[] = {
 
 
 static EvolutionShellClient *parent_shell = NULL;
-static EvolutionActivityClient *activity_client;
 
 static int timeout_id = 0;
-static int progress = -1;
 
 
 /* Test the ::Shortcut interface.  */
@@ -124,6 +122,10 @@ activity_client_show_details_callback (EvolutionActivityClient *client,
 static int
 timeout_callback_3 (void *data)
 {
+	EvolutionActivityClient *activity_client;
+
+	activity_client = EVOLUTION_ACTIVITY_CLIENT (data);
+
 	gtk_object_unref (GTK_OBJECT (activity_client));
 
 	g_print ("--> Done.\n");
@@ -135,6 +137,12 @@ timeout_callback_3 (void *data)
 static int
 timeout_callback_2 (void *data)
 {
+	EvolutionActivityClient *activity_client;
+	int progress;
+
+	activity_client = EVOLUTION_ACTIVITY_CLIENT (data);
+	progress = GPOINTER_TO_INT (gtk_object_get_data (GTK_OBJECT (activity_client), "my_progress"));
+
 	if (progress < 0)
 		progress = 0;
 
@@ -147,8 +155,10 @@ timeout_callback_2 (void *data)
 	}
 
 	progress ++;
+	gtk_object_set_data (GTK_OBJECT (activity_client), "my_progress", GINT_TO_POINTER (progress));
+
 	if (progress > 100) {
-		gtk_timeout_add (200, timeout_callback_3, NULL);
+		gtk_timeout_add (200, timeout_callback_3, activity_client);
 		return FALSE;
 	}
 
@@ -159,8 +169,12 @@ timeout_callback_2 (void *data)
 static int
 timeout_callback_1 (void *data)
 {
+	EvolutionActivityClient *activity_client;
 	gboolean suggest_display;
 	GdkPixbuf *animated_icon[2];
+	static int count = 0;
+
+#define NUM_ACTIVITIES 10
 
 	animated_icon[0] = gdk_pixbuf_new_from_file (gnome_pixmap_file ("gnome-money.png"));
 	animated_icon[1] = NULL;
@@ -177,6 +191,8 @@ timeout_callback_1 (void *data)
 		return FALSE;
 	}
 
+	gtk_object_set_data (GTK_OBJECT (activity_client), "my_progress", GINT_TO_POINTER (-1));
+
 	gtk_signal_connect (GTK_OBJECT (activity_client), "cancel",
 			    GTK_SIGNAL_FUNC (activity_client_cancel_callback), NULL);
 	gtk_signal_connect (GTK_OBJECT (activity_client), "show_details",
@@ -186,7 +202,12 @@ timeout_callback_1 (void *data)
 	if (suggest_display)
 		g_print (" --> Could display dialog box.\n");
 
-	gtk_timeout_add (100, timeout_callback_2, NULL);
+	gtk_timeout_add (100, timeout_callback_2, activity_client);
+
+	if (count < NUM_ACTIVITIES) {
+		count ++;
+		gtk_timeout_add ((rand () % 5 + 1) * 500, timeout_callback_1, NULL);
+	}
 
 	return FALSE;
 }

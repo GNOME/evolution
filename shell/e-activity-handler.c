@@ -45,6 +45,7 @@ static BonoboXObjectClass *parent_class = NULL;
 
 
 struct _ActivityInfo {
+	char *component_id;
 	GdkPixbuf *icon_pixbuf;
 	GNOME_Evolution_Activity_ActivityId id;
 	CORBA_char *information;
@@ -257,7 +258,8 @@ task_widget_button_press_event_callback (GtkWidget *widget,
 /* Creating and destroying ActivityInfos.  */
 
 static ActivityInfo *
-activity_info_new (GNOME_Evolution_Activity_ActivityId id,
+activity_info_new (const char *component_id,
+		   GNOME_Evolution_Activity_ActivityId id,
 		   GdkPixbuf *icon,
 		   const CORBA_char *information,
 		   CORBA_boolean cancellable,
@@ -269,6 +271,7 @@ activity_info_new (GNOME_Evolution_Activity_ActivityId id,
 	CORBA_exception_init (&ev);
 
 	info = g_new (ActivityInfo, 1);
+	info->component_id   = g_strdup (component_id);
 	info->id             = id;
 	info->icon_pixbuf    = gdk_pixbuf_ref (icon);
 	info->information    = CORBA_string_dup (information);
@@ -289,6 +292,8 @@ activity_info_free (ActivityInfo *info)
 
 	CORBA_exception_init (&ev);
 
+	g_free (info->component_id);
+
 	gdk_pixbuf_unref (info->icon_pixbuf);
 	CORBA_free (info->information);
 	CORBA_Object_release (info->event_listener, &ev);
@@ -306,7 +311,9 @@ task_widget_new_from_activity_info (ActivityInfo *activity_info)
 {
 	GtkWidget *widget;
 
-	widget = e_task_widget_new (activity_info->icon_pixbuf, activity_info->information);
+	widget = e_task_widget_new (activity_info->icon_pixbuf,
+				    activity_info->component_id,
+				    activity_info->information);
 	gtk_widget_show (widget);
 
 	gtk_signal_connect (GTK_OBJECT (widget), "button_press_event",
@@ -415,7 +422,8 @@ impl_operationStarted (PortableServer_Servant servant,
 
 	activity_id = get_new_activity_id (activity_handler);
 
-	activity_info = activity_info_new (activity_id, icon_pixbuf, information, cancellable, event_listener);
+	activity_info = activity_info_new (component_id, activity_id, icon_pixbuf, information,
+					   cancellable, event_listener);
 
 	for (p = priv->task_bars; p != NULL; p = p->next)
 		e_task_bar_prepend_task (E_TASK_BAR (p->data),
