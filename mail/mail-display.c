@@ -1107,6 +1107,7 @@ html_button_press_event (GtkWidget *widget, GdkEventButton *event, MailDisplay *
 				email = (const gchar *) html_object_get_data (point->object, "email");
 				if (email) {
 					name = (const gchar *) html_object_get_data (point->object, "name");
+					g_print ("address: %s name: %s\n", email, name);
 					e_popup_menu_run (address_menu, (GdkEvent *) event, 0, 0, mail_display);
 				} else if ((link = html_engine_get_link_at (GTK_HTML (widget)->engine,
 									    event->x, event->y))) {
