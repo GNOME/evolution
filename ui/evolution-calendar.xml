@@ -19,6 +19,8 @@
     <cmd name="Paste" _tip="Paste the clipboard" accel="*Control*v"/>
 
     <cmd name="Delete" _tip="Delete the appointment" accel="*Control*d"/>
+    <cmd name="DeleteOccurrence" _tip="Delete this occurrence"/>
+    <cmd name="DeleteAllOccurrences" _tip="Delete All Occurrences"/>
 
     <cmd name="PublishFreeBusy" _tip="Publish Free/Busy information for this calendar"/>
   </commands>
@@ -45,6 +47,8 @@
       	<separator/>
 
       	<menuitem name="Delete" verb="" _label="_Delete" pixtype="pixbuf"/>
+	<menuitem name="DeleteOccurrence" verb="" _label="Delete this Occurrence" pixtype="pixbuf"/>
+	<menuitem name="DeleteAllOccurrences" verb="" _label="Delete All Occurrences" pixtype="pixbuf"/>
       </submenu>
     </placeholder>
 

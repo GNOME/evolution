@@ -1,3 +1,9 @@
+2003-04-21  Rodrigo Moya <rodrigo@ximian.com>
+
+	Fixes #22444
+
+	* evolution-calendar.xml: added occurrence-related menu items.
+
 2003-04-17  Not Zed  <NotZed@Ximian.com>
 
 	* evolution-signature-editor.xml: Remove the Help menu.
