@@ -45,6 +45,7 @@ contact_editor_test_LDADD =					\
 	$(top_builddir)/widgets/misc/libemiscwidgets.a \
 	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/widgets/e-text/libetext.a		\
+	$(GNOME_PRINT_LIBS)					\
 	$(EXTRA_GNOME_LIBS)
 
 evolutiondir = $(datadir)/evolution

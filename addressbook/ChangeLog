@@ -1,3 +1,8 @@
+2000-09-14  Christopher James Lahey  <clahey@helixcode.com>
+
+	* contact-editor/Makefile.am, gui/widgets/Makefile.am: Added
+	$(GNOME_PRINT_LIBS) to all of the test files in these directories.
+
 2000-09-14  Michael Meeks  <michael@helixcode.com>
 
 	* gui/component/Makefile.am (evolution_addressbook_LDADD): fix path.
