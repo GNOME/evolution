@@ -577,6 +577,21 @@ e_utf8_to_locale_string (const gchar *string)
 	return e_utf8_to_locale_string_sized (string, strlen (string));
 }
 
+gboolean
+e_utf8_is_ascii (const gchar *string)
+{
+	char c;
+
+	g_return_val_if_fail (string != NULL, FALSE);
+
+	for (; (c = *string); string++) {
+		if (c & 0x80)
+			return FALSE;
+	}
+
+	return TRUE;
+}
+
 gchar *
 e_utf8_gtk_entry_get_text (GtkEntry *entry)
 {
