@@ -1926,7 +1926,7 @@ handle_multipart_related (CamelMimePart *part, const char *mime_type,
 			body_part = camel_multipart_get_part (mp, i);
 			cid = camel_mime_part_get_content_id (body_part);
 			
-			if (!strncmp (cid, start + 1, len) &&
+			if (cid && !strncmp (cid, start + 1, len) &&
 			    strlen (cid) == len) {
 				display_part = body_part;
 				break;
