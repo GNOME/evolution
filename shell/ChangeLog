@@ -1,5 +1,11 @@
 2001-10-26  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-view-menu.c (command_about_box): Set the GtkWindow
+	policy so that @allow_shrink, @allow_grow and @auto_shrink are all
+	%FALSE.
+
+2001-10-26  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-folder-commands.c (e_shell_command_rename_folder): Don't
 	allow invalid folder names.  [#12027]
 
