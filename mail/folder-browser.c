@@ -100,6 +100,16 @@ folder_browser_load_folder (FolderBrowser *fb, const char *name)
 		g_free(newquery);
 		g_free(store_name);
 
+	} else if (!strncmp(name, "imap:", 5)) {
+		/* uhm, I'm just guessing here - this code might be wrong */
+		fprintf(stderr, "\n*** name = %s ***\n\n", name);
+		store = camel_session_get_store (session, name, ex);
+		if (store) {
+			char *folder_name;
+
+			folder_name = name += 5;
+			new_folder = camel_store_get_folder (store, folder_name, TRUE, ex);
+		}
 	} else if (!strncmp(name, "file:", 5)) {
 		/* Change "file:" to "mbox:". */
 		store_name = g_strdup_printf ("mbox:%s", name + 5);
@@ -127,7 +137,7 @@ folder_browser_load_folder (FolderBrowser *fb, const char *name)
 		gnome_error_dialog (msg);
 		camel_exception_free (ex);
 		if (new_folder)
-			gtk_object_unref((GtkObject *)new_folder);
+			gtk_object_unref(GTK_OBJECT (new_folder));
 		return FALSE;
 	}
 	
@@ -393,5 +403,7 @@ folder_browser_new (void)
 
 
 E_MAKE_TYPE (folder_browser, "FolderBrowser", FolderBrowser, folder_browser_class_init, folder_browser_init, PARENT_TYPE);
+
+
 
 

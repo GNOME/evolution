@@ -1,3 +1,15 @@
+2000-06-18  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* folder-browser.c (folder_browser_load_folder): started to add
+	code to load an IMAP folder.
+	
+	* component-factory.c: Started to add a create_imap_storage 
+	method so that we can eventually have our IMAP store displayed 
+	in the tree view.
+	(create_vfolder_storage): Renamed from
+	create_test_storage().
+	(owner_set_cb): Updated.
+
 2000-06-17  Dan Winship  <danw@helixcode.com>
 
 	* message-list.c (message_list_set_folder): Prevent double-freeing

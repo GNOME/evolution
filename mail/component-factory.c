@@ -38,9 +38,9 @@
 #include "filter/filter-driver.h"
 #include "component-factory.h"
 
-static void create_test_storage (EvolutionShellComponent *shell_component);
+static void create_vfolder_storage (EvolutionShellComponent *shell_component);
+/*static void create_imap_storage (EvolutionShellComponent *shell_component);*/
 
-
 #ifdef USING_OAF
 #define COMPONENT_FACTORY_ID "OAFIID:evolution-shell-component-factory:evolution-mail:0ea887d5-622b-4b8c-b525-18aa1cbe18a6"
 #else
@@ -56,7 +56,6 @@ static const EvolutionShellComponentFolderType folder_types[] = {
 
 static GList *browsers;
 
-
 /* EvolutionShellComponent methods and signals.  */
 
 static EvolutionShellComponentResult
@@ -84,8 +83,8 @@ create_view (EvolutionShellComponent *shell_component,
 	browsers = g_list_prepend (browsers, folder_browser_widget);
 
 	/* dum de dum, hack to let the folder browser know the storage its in */
-	gtk_object_set_data((GtkObject *)folder_browser_widget, "e-storage",
-			    gtk_object_get_data((GtkObject *)shell_component, "e-storage"));
+	gtk_object_set_data(GTK_OBJECT (folder_browser_widget), "e-storage",
+			    gtk_object_get_data(GTK_OBJECT (shell_component), "e-storage"));
 
 	*control_return = control;
 
@@ -119,7 +118,7 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 {
 	g_print ("evolution-mail: Yeeeh! We have an owner!\n");	/* FIXME */
 
-	create_test_storage (shell_component);
+	create_vfolder_storage (shell_component);
 }
 
 static void
@@ -139,12 +138,10 @@ owner_unset_cb (EvolutionShellComponent *shell_component, gpointer user_data)
 	gtk_main_quit ();
 }
 
-
 /* The factory function.  */
 
 static BonoboObject *
-factory_fn (BonoboGenericFactory *factory,
-	    void *closure)
+factory_fn (BonoboGenericFactory *factory, void *closure)
 {
 	EvolutionShellComponent *shell_component;
 
@@ -162,7 +159,6 @@ factory_fn (BonoboGenericFactory *factory,
 	return BONOBO_OBJECT (shell_component);
 }
 
-
 void
 component_factory_init (void)
 {
@@ -179,7 +175,7 @@ component_factory_init (void)
 }
 
 static void
-create_test_storage (EvolutionShellComponent *shell_component)
+create_vfolder_storage (EvolutionShellComponent *shell_component)
 {
 	Evolution_Shell corba_shell;
 	EvolutionStorage *storage;
@@ -191,14 +187,13 @@ create_test_storage (EvolutionShellComponent *shell_component)
 	}
     
 	storage = evolution_storage_new ("VFolders");
-	if (evolution_storage_register_on_shell (storage, corba_shell)
-	    != EVOLUTION_STORAGE_OK) {
+	if (evolution_storage_register_on_shell (storage, corba_shell) != EVOLUTION_STORAGE_OK) {
 		g_warning ("Cannot register storage");
 		return;
 	}
 
 	/* save the storage for later */
-	gtk_object_set_data((GtkObject *)shell_component, "e-storage", storage);
+	gtk_object_set_data(GTK_OBJECT (shell_component), "e-storage", storage);
 
 	/* this is totally not the way we want to do this - but the
 	   filter stuff needs work before we can remove it */
@@ -216,7 +211,7 @@ create_test_storage (EvolutionShellComponent *shell_component)
 		g_free(system);
 		count = filter_driver_rule_count(fe);
 
-		for (i=0;i<count;i++) {
+		for (i = 0; i < count; i++) {
 			struct filter_option *fo;
 			GString *query;
 			struct filter_desc *desc = NULL;
@@ -232,7 +227,7 @@ create_test_storage (EvolutionShellComponent *shell_component)
 			if (desc)
 				desctext = desc->data;
 			else {
-				sprintf(descunknown, "volder-%p", fo);
+				sprintf(descunknown, "vfolder-%p", fo);
 				desctext = descunknown;
 			}
 			g_string_sprintf(query, "vfolder:%s/vfolder/%s?", evolution_dir, desctext);
@@ -246,7 +241,32 @@ create_test_storage (EvolutionShellComponent *shell_component)
 			g_string_free(query, TRUE);
 			g_free(name);
 		}
-		gtk_object_unref((GtkObject *)fe);
+		gtk_object_unref(GTK_OBJECT (fe));
 	}
 }
 
+#if 0
+static void
+create_imap_storage (EvolutionShellComponent *shell_component)
+{
+	Evolution_Shell corba_shell;
+	EvolutionStorage *storage;
+	
+	corba_shell = evolution_shell_component_get_owner (shell_component);
+	if (corba_shell == CORBA_OBJECT_NIL) {
+		g_warning ("We have no shell!?");
+		return;
+	}
+    
+	storage = evolution_storage_new ("IMAP Folders");
+	if (evolution_storage_register_on_shell (storage, corba_shell) != EVOLUTION_STORAGE_OK) {
+		g_warning ("Cannot register storage");
+		return;
+	}
+
+	/* save the storage for later */
+	gtk_object_set_data(GTK_OBJECT (shell_component), "e-storage", storage);
+
+	evolution_storage_new_folder (storage, "name", "mail", "some string or other", "description");
+}
+#endif
