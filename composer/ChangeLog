@@ -1,3 +1,8 @@
+2003-06-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (best_encoding): Use e_iconv_open/close so that
+	we get charset aliasing for free. Fixes bug #44991.
+
 2003-06-16  Jeffrey Stedfast  <fejj@ximian.com>
 
 	Fixes bug #44139.

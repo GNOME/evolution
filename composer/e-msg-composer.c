@@ -202,7 +202,7 @@ best_encoding (GByteArray *buf, const char *charset)
 	if (!charset)
 		return -1;
 	
-	cd = iconv_open (charset, "utf-8");
+	cd = e_iconv_open (charset, "utf-8");
 	if (cd == (iconv_t) -1)
 		return -1;
 	
@@ -211,13 +211,13 @@ best_encoding (GByteArray *buf, const char *charset)
 	do {
 		out = outbuf;
 		outlen = sizeof (outbuf);
-		status = iconv (cd, &in, &inlen, &out, &outlen);
+		status = e_iconv (cd, &in, &inlen, &out, &outlen);
 		for (ch = out - 1; ch >= outbuf; ch--) {
 			if ((unsigned char)*ch > 127)
 				count++;
 		}
 	} while (status == (size_t) -1 && errno == E2BIG);
-	iconv_close (cd);
+	e_iconv_close (cd);
 	
 	if (status == (size_t) -1)
 		return -1;
