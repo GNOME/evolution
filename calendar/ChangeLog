@@ -1,3 +1,7 @@
+2004-02-18  Kidd Wang  <kidd.wang@sun.com>
+
+	* gui/itip-utils.c: (itip_send_comp): set the string length properly.
+
 2004-02-16  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/alarm-notify/alarm-queue.c (tray_icon_clicked_cb): removed buggy
