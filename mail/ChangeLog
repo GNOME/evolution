@@ -1,3 +1,7 @@
+2002-01-22  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (guess_me): Simplified.
+
 2002-01-21  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-format.c (handle_text_plain): If the first "token" in the

@@ -842,47 +842,47 @@ list_add_addresses (GList *list, const CamelInternetAddress *cia, const GSList *
 static const MailConfigAccount *
 guess_me (const CamelInternetAddress *to, const CamelInternetAddress *cc, const GSList *accounts)
 {
-	const char *name, *addr;
+	const MailConfigAccount *account;
+	GHashTable *account_hash;
+	const char *addr;
 	const GSList *l;
-	gboolean notme;
-	char *full;
 	int i;
 	
+	/* "optimization" */
+	if (!to && !cc)
+		return NULL;
+	
+	account_hash = g_hash_table_new (g_strcase_hash, g_strcase_equal);
+	l = accounts;
+	while (l) {
+		account = l->data;
+		g_hash_table_insert (account_hash, (char *) account->id->address, (void *) account);
+		l = l->next;
+	}
+	
 	if (to) {
-		for (i = 0; camel_internet_address_get (to, i, &name, &addr); i++) {
-			full = camel_internet_address_format_address (name, addr);
-			l = accounts;
-			while (l) {
-				const MailConfigAccount *acnt = l->data;
-				
-				if (!g_strcasecmp (acnt->id->address, addr)) {
-					notme = FALSE;
-					return acnt;
-				}
-				
-				l = l->next;
-			}
+		for (i = 0; camel_internet_address_get (to, i, NULL, &addr); i++) {
+			account = g_hash_table_lookup (account_hash, addr);
+			if (account)
+				goto found;
 		}
 	}
 	
 	if (cc) {
-		for (i = 0; camel_internet_address_get (cc, i, &name, &addr); i++) {
-			full = camel_internet_address_format_address (name, addr);
-			l = accounts;
-			while (l) {
-				const MailConfigAccount *acnt = l->data;
-				
-				if (!g_strcasecmp (acnt->id->address, addr)) {
-					notme = FALSE;
-					return acnt;
-				}
-				
-				l = l->next;
-			}
+		for (i = 0; camel_internet_address_get (cc, i, NULL, &addr); i++) {
+			account = g_hash_table_lookup (account_hash, addr);
+			if (account)
+				goto found;
 		}
 	}
 	
-	return NULL;
+	account = NULL;
+	
+ found:
+	
+	g_hash_table_destroy (account_hash);
+	
+	return account;
 }
 
 static EMsgComposer *
