@@ -1,3 +1,31 @@
+2003-06-11  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #22542
+	
+	* component-factory.c (storage_create_folder): If we're creating a
+	folder on a vstore, popup a vFolder editor rather than failing.
+
+2003-06-05  Not Zed  <NotZed@Ximian.com>
+
+	** Part of #42691.
+	
+	* importers/Makefile.am (BUILT_SOURCES): added server_DATA.
+
+	* Makefile.am (%.server.in): create a proper implicit rule for
+	temporary .in file.
+
+2003-06-04  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #43974
+
+	* mail-tools.c (mail_tool_do_movemail): use a proper CamelURL to
+	decode the uri, not hacky strcmp stuff.
+
+	* mail-account-gui.c (extract_values): if we have an conf_entry,
+	ignore username, hostname, and path ones, as these are handled
+	implicitly in the url itself.  Came about because of the fix for
+	#42838.
+
 2003-06-03  Federico Mena Quintero  <federico@ximian.com>
 
 	* mail-search.c (mail_search_construct): Put the buttons in HIG

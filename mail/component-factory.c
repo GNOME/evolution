@@ -32,6 +32,7 @@
 #include <gconf/gconf-client.h>
 
 #include <camel/camel.h>
+#include <camel/camel-vee-store.h>
 
 #include <bonobo/bonobo-generic-factory.h>
 #include <bonobo/bonobo-shlib-factory.h>
@@ -219,7 +220,7 @@ create_folder (EvolutionShellComponent *shell_component,
 	CORBA_Environment ev;
 
 	CORBA_exception_init (&ev);
-	
+
 	if (type_is_mail (type)) {
 		mail_get_folder (physical_uri, CAMEL_STORE_FOLDER_CREATE, create_folder_done,
 				 CORBA_Object_duplicate (listener, &ev), mail_thread_new);
@@ -1143,7 +1144,7 @@ storage_create_folder (EvolutionStorage *storage,
 	CamelException ex;
 	
 	/* We could just use 'path' always here? */
-	
+
 	if (!type_is_mail (type)) {
 		notify_listener (listener, GNOME_Evolution_Storage_UNSUPPORTED_TYPE);
 		return;
@@ -1155,33 +1156,42 @@ storage_create_folder (EvolutionStorage *storage,
 		return;
 	}
 	name++;
-	
-	camel_exception_init (&ex);
-	if (*parent_physical_uri) {
-		url = camel_url_new (parent_physical_uri, NULL);
-		if (!url) {
-			notify_listener (listener, GNOME_Evolution_Storage_INVALID_URI);
+
+	/* we can not directly create folders on a vfolder store, so fudge it */
+	if (CAMEL_IS_VEE_STORE(store)) {
+		VfolderRule *rule;
+		rule = vfolder_rule_new();
+
+		filter_rule_set_name((FilterRule *)rule, path+1);
+		vfolder_gui_add_rule(rule);
+	} else {
+		camel_exception_init (&ex);
+		if (*parent_physical_uri) {
+			url = camel_url_new (parent_physical_uri, NULL);
+			if (!url) {
+				notify_listener (listener, GNOME_Evolution_Storage_INVALID_URI);
+				return;
+			}
+		
+			root = camel_store_create_folder (store, url->fragment?url->fragment:url->path + 1, name, &ex);
+			camel_url_free (url);
+		} else
+			root = camel_store_create_folder (store, NULL, name, &ex);
+
+		if (camel_exception_is_set (&ex)) {
+			notify_listener_exception(listener, &ex);
+			camel_exception_clear (&ex);
 			return;
 		}
-		
-		root = camel_store_create_folder (store, url->fragment?url->fragment:url->path + 1, name, &ex);
-		camel_url_free (url);
-	} else
-		root = camel_store_create_folder (store, NULL, name, &ex);
 	
-	if (camel_exception_is_set (&ex)) {
-		notify_listener_exception(listener, &ex);
-		camel_exception_clear (&ex);
-		return;
+		if (camel_store_supports_subscriptions (store)) {
+			for (fi = root; fi; fi = fi->child)
+				camel_store_subscribe_folder (store, fi->full_name, NULL);
+		}
+	
+		camel_store_free_folder_info (store, root);
 	}
-	
-	if (camel_store_supports_subscriptions (store)) {
-		for (fi = root; fi; fi = fi->child)
-			camel_store_subscribe_folder (store, fi->full_name, NULL);
-	}
-	
-	camel_store_free_folder_info (store, root);
-	
+
 	notify_listener (listener, GNOME_Evolution_Storage_OK);
 }
 

@@ -1029,6 +1029,11 @@ extract_values (MailAccountGuiService *source, GHashTable *extra_config, CamelUR
 			break;
 			
 		case CAMEL_PROVIDER_CONF_ENTRY:
+			if (strcmp (entries[i].name, "username") == 0
+			    || strcmp (entries[i].name, "hostname") == 0
+			    || strcmp (entries[i].name, "path") == 0) {
+				break;
+			}
 			entry = g_hash_table_lookup (extra_config, entries[i].name);
 			camel_url_set_param (url, entries[i].name, gtk_entry_get_text (entry));
 			break;

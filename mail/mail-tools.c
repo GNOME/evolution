@@ -125,27 +125,33 @@ mail_tool_get_local_movemail_path (const unsigned char *uri)
 	return path;
 }
 
-/* why is this function so stupidly complex when allthe work is done elsehwere? */
 char *
 mail_tool_do_movemail (const char *source_url, CamelException *ex)
 {
 	char *dest_path;
-	const char *source;
 	struct stat sb;
-	
-	g_return_val_if_fail (strncmp (source_url, "mbox:", 5) == 0, NULL);
+	CamelURL *uri;
+
+	uri = camel_url_new(source_url, ex);
+	if (uri == NULL)
+		return NULL;
+
+	if (strcmp(uri->protocol, "mbox") != 0) {
+		/* FIXME: use right text here post 1.4 */
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_URL_INVALID,
+				      _("Could not parse URL `%s'"),
+				      source_url);
+		camel_url_free(uri);
+		return NULL;
+	}
 	
 	/* Set up our destination. */
 	dest_path = mail_tool_get_local_movemail_path (source_url);
 	
-	/* Skip over "mbox:" plus host part (if any) of url. */
-	source = source_url + 5;
-	if (!strncmp (source, "//", 2))
-		source = strchr (source + 2, '/');
-	
 	/* Movemail from source (source_url) to dest_path */
-	camel_movemail (source, dest_path, ex);
-	
+	camel_movemail (uri->path, dest_path, ex);
+	camel_url_free(uri);
+
 	if (stat (dest_path, &sb) < 0 || sb.st_size == 0) {
 		unlink (dest_path); /* Clean up the movemail.foo file. */
 		g_free (dest_path);

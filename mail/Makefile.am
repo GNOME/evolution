@@ -174,7 +174,7 @@ libevolution_mail_la_LDFLAGS =				\
 server_in_files = GNOME_Evolution_Mail.server.in.in
 
 server_DATA = $(server_in_files:.server.in.in=.server)
-$(server_in_files:.server.in.in=.server.in): $(server_in_files)
+%.server.in: %.server.in.in
 	sed -e "s|\@COMPONENTDIR\@|$(componentdir)|" $< > $@
 @INTLTOOL_SERVER_RULE@
 

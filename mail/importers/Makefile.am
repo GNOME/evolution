@@ -97,7 +97,7 @@ server_DATA = $(server_in_files:.server.in.in=.server)
 
 EXTRA_DIST = $(server_in_files) $(server_DATA)
 
-BUILT_SOURCES = $(MAIL_GENERATED)
+BUILT_SOURCES = $(MAIL_GENERATED) $(server_DATA)
 CLEANFILES = $(BUILT_SOURCES)
 
 
