@@ -79,7 +79,7 @@ static void e_table_item_focus (ETableItem *eti, int col, int row, GdkModifierTy
 static void eti_cursor_change (ESelectionModel *selection, int row, int col, ETableItem *eti);
 static void eti_cursor_activated (ESelectionModel *selection, int row, int col, ETableItem *eti);
 static void eti_selection_change (ESelectionModel *selection, ETableItem *eti);
-#if 0
+#ifdef SHOW_ON_CHANGED
 static void eti_request_region_show (ETableItem *eti,
 				     int start_col, int start_row,
 				     int end_col, int end_row);
@@ -602,7 +602,7 @@ eti_table_model_changed (ETableModel *table_model, ETableItem *eti)
 {
 	if (!(GTK_OBJECT_FLAGS(eti) & GNOME_CANVAS_ITEM_REALIZED))
 		return;
-#if 0
+#ifdef SHOW_ON_CHANGED
 	int view_row;
 #endif
 
@@ -615,7 +615,7 @@ eti_table_model_changed (ETableModel *table_model, ETableItem *eti)
 	eti->needs_redraw = 1;
 	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (eti));
 
-#if 0
+#ifdef SHOW_ON_CHANGED
 	view_row = model_to_view_row(eti, eti->cursor_row);
 	if (view_row >= 0 && eti->cursor_col >= 0)
 		eti_request_region_show (eti, eti->cursor_col, view_row, eti->cursor_col, view_row);
@@ -1162,12 +1162,7 @@ eti_realize (GnomeCanvasItem *item)
 	eti->fill_gc = gdk_gc_new (window);
 
 	eti->grid_gc = gdk_gc_new (window);
-#if 0
-	/* This sets it to gray */
-/*	gdk_gc_set_foreground (eti->grid_gc, &canvas_widget->style->bg [GTK_STATE_NORMAL]); */
-#else
 	gdk_gc_set_foreground (eti->grid_gc, &canvas_widget->style->dark [GTK_STATE_NORMAL]);
-#endif
 	eti->focus_gc = gdk_gc_new (window);
 	gdk_gc_set_foreground (eti->focus_gc, &canvas_widget->style->bg [GTK_STATE_NORMAL]);
 	gdk_gc_set_background (eti->focus_gc, &canvas_widget->style->fg [GTK_STATE_NORMAL]);
@@ -1240,15 +1235,6 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 	ArtPoint eti_base, eti_base_item, lower_right;
 	GtkWidget *canvas = GTK_WIDGET(item->canvas);
 	int height_extra = eti->horizontal_draw_grid ? 1 : 0;
-	
-	/*
-	 * Clear the background
-	 */
-#if 0
-	gdk_draw_rectangle (
-		drawable, eti->fill_gc, TRUE,
-		eti->x1 - x, eti->y1 - y, eti->width, eti->height);
-#endif
 
 	/*
 	 * Find out our real position after grouping
@@ -1376,7 +1362,7 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 				background = &canvas->style->base [GTK_STATE_NORMAL];
 			}
 
-#if 0
+#if ALTERNATE_COLORS
 			if (row % 2) {
 				
 			} else {
@@ -1575,32 +1561,6 @@ eti_cursor_move_right (ETableItem *eti)
 
 	eti_cursor_move (eti, model_to_view_row(eti, cursor_row), model_to_view_col(eti, cursor_col) + 1);
 }
-
-#if 0
-static void
-eti_cursor_move_up (ETableItem *eti)
-{
-	int cursor_col, cursor_row;
-	gtk_object_get(GTK_OBJECT(eti->selection),
-		       "cursor_col", &cursor_col,
-		       "cursor_row", &cursor_row,
-		       NULL);
-
-	eti_cursor_move (eti, model_to_view_row(eti, cursor_row) - 1, model_to_view_col(eti, cursor_col));
-}
-
-static void
-eti_cursor_move_down (ETableItem *eti)
-{
-	int cursor_col, cursor_row;
-	gtk_object_get(GTK_OBJECT(eti->selection),
-		       "cursor_col", &cursor_col,
-		       "cursor_row", &cursor_row,
-		       NULL);
-
-	eti_cursor_move (eti, model_to_view_row(eti, cursor_row) + 1, model_to_view_col(eti, cursor_col));
-}
-#endif
 
 #ifdef DO_TOOLTIPS
 static int
@@ -1929,21 +1889,6 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		case GDK_Down:
 			return_val = e_selection_model_key_press(E_SELECTION_MODEL (eti->selection), (GdkEventKey *) e);
 			break;
-#if 0
-		case GDK_Up:
-			if (cursor_row != view_to_model_row(eti, 0))
-				eti_cursor_move_up (eti);
-			else
-				return_val = FALSE;
-			break;
-			
-		case GDK_Down:
-			if (cursor_row != view_to_model_row(eti, eti->rows - 1))
-				eti_cursor_move_down (eti);
-			else
-				return_val = FALSE;
-			break;
-#endif
 		case GDK_Home:
 		case GDK_KP_Home:
 			if (eti->cursor_mode != E_CURSOR_LINE) {
