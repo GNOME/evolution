@@ -490,6 +490,7 @@ source_type_changed (GtkWidget *widget, gpointer user_data)
 	MailAccountGui *gui = user_data;
 	GtkWidget *file_entry, *label, *frame, *dwidget = NULL;
 	CamelProvider *provider;
+	gboolean writeable;
 	
 	provider = g_object_get_data ((GObject *) widget, "provider");
 	
@@ -501,6 +502,18 @@ source_type_changed (GtkWidget *widget, gpointer user_data)
 		transport_provider_set_available (gui, gui->source.provider, FALSE);
 	
 	gui->source.provider = provider;
+	
+	if (gui->source.provider) {
+		writeable = e_account_writable_option (gui->account, gui->source.provider->protocol, "auth");
+		gtk_widget_set_sensitive ((GtkWidget *) gui->source.authtype, writeable);
+		gtk_widget_set_sensitive ((GtkWidget *) gui->source.check_supported, writeable);
+		
+		writeable = e_account_writable_option (gui->account, gui->source.provider->protocol, "use_ssl");
+		gtk_widget_set_sensitive ((GtkWidget *) gui->source.use_ssl, writeable);
+		
+		writeable = e_account_writable (gui->account, E_ACCOUNT_SOURCE_SAVE_PASSWD);
+		gtk_widget_set_sensitive ((GtkWidget *) gui->source.remember, writeable);
+	}
 	
 	if (provider)
 		gtk_label_set_text (gui->source.description, provider->description);
@@ -608,9 +621,22 @@ transport_type_changed (GtkWidget *widget, gpointer user_data)
 	MailAccountGui *gui = user_data;
 	CamelProvider *provider;
 	GtkWidget *label, *frame;
+	gboolean writeable;
 	
 	provider = g_object_get_data ((GObject *) widget, "provider");
 	gui->transport.provider = provider;
+	
+	if (gui->transport.provider) {
+		writeable = e_account_writable_option (gui->account, gui->transport.provider->protocol, "auth");
+		gtk_widget_set_sensitive ((GtkWidget *) gui->transport.authtype, writeable);
+		gtk_widget_set_sensitive ((GtkWidget *) gui->transport.check_supported, writeable);
+		
+		writeable = e_account_writable_option (gui->account, gui->transport.provider->protocol, "use_ssl");
+		gtk_widget_set_sensitive ((GtkWidget *) gui->transport.use_ssl, writeable);
+		
+		writeable = e_account_writable (gui->account, E_ACCOUNT_TRANSPORT_SAVE_PASSWD);
+		gtk_widget_set_sensitive ((GtkWidget *) gui->transport.remember, writeable);
+	}
 	
 	/* description */
 	gtk_label_set_text (gui->transport.description, provider->description);
@@ -1704,7 +1730,8 @@ mail_account_gui_setup (MailAccountGui *gui, GtkWidget *top)
 	char *max_authname = NULL;
 	char *source_proto, *transport_proto;
 	GList *providers, *l;
-
+	gboolean writeable;
+	
 	printf("account gui setup\n");
 	
 	if (gui->account->source && gui->account->source->url) {
@@ -1881,24 +1908,40 @@ mail_account_gui_setup (MailAccountGui *gui, GtkWidget *top)
 	}
 
 	/* FIXME: drive by table?? */
-	if (gui->source.provider == NULL
-	    || !e_account_writable(gui->account, E_ACCOUNT_SOURCE_URL)) {
-		gtk_widget_set_sensitive(gui->source.container, FALSE);
+	if (!e_account_writable (gui->account, E_ACCOUNT_SOURCE_URL)) {
+		gtk_widget_set_sensitive (gui->source.container, FALSE);
 	} else {
-		gtk_widget_set_sensitive(gui->source.container, TRUE);
-		gtk_widget_set_sensitive((GtkWidget *)gui->source.authtype, e_account_writable_option(gui->account, gui->source.provider->protocol, "auth"));
-		gtk_widget_set_sensitive((GtkWidget *)gui->source.check_supported, e_account_writable_option(gui->account, gui->source.provider->protocol, "auth"));
-		gtk_widget_set_sensitive((GtkWidget *)gui->source.use_ssl, e_account_writable_option(gui->account, gui->source.provider->protocol, "use_ssl"));
-		gtk_widget_set_sensitive((GtkWidget *)gui->source.remember, e_account_writable(gui->account, E_ACCOUNT_SOURCE_SAVE_PASSWD));
+		gtk_widget_set_sensitive (gui->source.container, TRUE);
+		
+		if (gui->source.provider) {
+			writeable = e_account_writable_option (gui->account, gui->source.provider->protocol, "auth");
+			gtk_widget_set_sensitive ((GtkWidget *) gui->source.authtype, writeable);
+			gtk_widget_set_sensitive ((GtkWidget *) gui->source.check_supported, writeable);
+			
+			writeable = e_account_writable_option (gui->account, gui->source.provider->protocol, "use_ssl");
+			gtk_widget_set_sensitive ((GtkWidget *) gui->source.use_ssl, writeable);
+			
+			writeable = e_account_writable (gui->account, E_ACCOUNT_SOURCE_SAVE_PASSWD);
+			gtk_widget_set_sensitive ((GtkWidget *) gui->source.remember, writeable);
+		}
 	}
-	if (gui->transport.provider == NULL
-		|| !e_account_writable(gui->account, E_ACCOUNT_TRANSPORT_URL)) {
-		gtk_widget_set_sensitive(gui->transport.container, FALSE);
+	
+	if (!e_account_writable (gui->account, E_ACCOUNT_TRANSPORT_URL)) {
+		gtk_widget_set_sensitive (gui->transport.container, FALSE);
 	} else {
-		gtk_widget_set_sensitive((GtkWidget *)gui->transport.authtype, e_account_writable_option(gui->account, gui->transport.provider->protocol, "auth"));
-		gtk_widget_set_sensitive((GtkWidget *)gui->transport.check_supported, e_account_writable_option(gui->account, gui->transport.provider->protocol, "auth"));
-		gtk_widget_set_sensitive((GtkWidget *)gui->transport.use_ssl, e_account_writable_option(gui->account, gui->transport.provider->protocol, "use_ssl"));
-		gtk_widget_set_sensitive((GtkWidget *)gui->transport.remember, e_account_writable(gui->account, E_ACCOUNT_TRANSPORT_SAVE_PASSWD));
+		gtk_widget_set_sensitive (gui->transport.container, TRUE);
+		
+		if (gui->transport.provider) {
+			writeable = e_account_writable_option (gui->account, gui->transport.provider->protocol, "auth");
+			gtk_widget_set_sensitive ((GtkWidget *) gui->transport.authtype, writeable);
+			gtk_widget_set_sensitive ((GtkWidget *) gui->transport.check_supported, writeable);
+			
+			writeable = e_account_writable_option (gui->account, gui->transport.provider->protocol, "use_ssl");
+			gtk_widget_set_sensitive ((GtkWidget *) gui->transport.use_ssl, writeable);
+			
+			writeable = e_account_writable (gui->account, E_ACCOUNT_TRANSPORT_SAVE_PASSWD);
+			gtk_widget_set_sensitive ((GtkWidget *) gui->transport.remember, writeable);
+		}
 	}
 
 	gtk_widget_set_sensitive((GtkWidget *)gui->drafts_folder_button, e_account_writable(gui->account, E_ACCOUNT_DRAFTS_FOLDER_URI));

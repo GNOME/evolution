@@ -1,5 +1,12 @@
 2004-03-18  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-account-gui.c (mail_account_gui_setup): Don't set the
+	account source/transport types to disabled simply because the
+	provider is NULL (think of the "None" option).
+	(source_type_changed): Need to update widget sensitivity based on
+	locked'ness here.
+	(transport_type_changed): Same.
+
 	* em-utils.c (em_utils_add_address): rfc2047 decode the address
 	here before passing it off to the addressbook (which expects it to
 	be in human-readable form, not encoded). Fixes bug #55591.
