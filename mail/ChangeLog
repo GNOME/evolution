@@ -1,3 +1,16 @@
+2003-10-01  Not Zed  <NotZed@Ximian.com>
+
+	* em-format-html.c (efh_init): turn off blocking writes.
+	(efh_format_timeout): don't do a htmlbegin on the page yet, it'll
+	be handled by em-html-stream when it has data, to reduce flicker.
+	(efh_format_do): close the main gtkhtml stream as soon as we're
+	done writing the body.  any sub-jobs should be using frames etc.
+	(efh_text_plain): dont write a table around the text, try to
+	reduce flickering.  layout may be out now though.
+
+	* em-html-stream.c (emhs_sync_write): if we have no html_stream
+	yet, begin a new one.
+
 2003-09-30  Rodney Dawes  <dobey@ximian.com>
 
 	* em-format-html-print.c: Use "Sans Regular" instead of "Helvetica"
