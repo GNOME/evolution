@@ -61,6 +61,7 @@ images_DATA = \
 	evolution-trash.png 		\
 	executive-summary-bg.png	\
 	executive-summary-curve.png	\
+   faq-16.png \
 	fetch-mail.png			\
    folder-copy-16.png \
    folder-move-16.png \
@@ -75,6 +76,7 @@ images_DATA = \
 	mail-config-druid-receive.png	\
 	mail-config-druid-send.png	\
 	mail-config-druid-account-name.png \
+   mark-as-important-16.png \
 	myevo-appointments.png		\
 	myevo-mail-summary.png		\
 	myevo-post-it.png		\

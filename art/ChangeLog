@@ -8,6 +8,7 @@
      tree view and everything
    * undelete_message-16.png, folder-move-16.png,
      open-in-new-window-16.png, folder-copy-16.png: tree view icons
+   * faq-16.png, mark-as-important-16.png: menu icons
 	* Makefile.am (images_DATA): add new icons, change some xpms to pngs
       
 
