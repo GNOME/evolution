@@ -539,6 +539,6 @@ vfolder_gui_add_from_mlist(CamelMimeMessage *msg, const char *mlist, const char 
 EvolutionStorage *
 mail_vfolder_get_vfolder_storage (void)
 {
-	gtk_object_ref (GTK_OBJECT (vfolder_storage));
+	bonobo_object_ref (BONOBO_OBJECT (vfolder_storage));
 	return vfolder_storage;
 }

@@ -999,7 +999,7 @@ mail_lookup_storage (CamelStore *store)
 	
 	storage = g_hash_table_lookup (storages_hash, store);
 	if (storage)
-		gtk_object_ref (GTK_OBJECT (storage));
+		bonobo_object_ref (BONOBO_OBJECT (storage));
 	
 	return storage;
 }
