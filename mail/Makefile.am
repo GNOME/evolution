@@ -195,7 +195,7 @@ MARSHAL_GENERATED = em-marshal.c em-marshal.h
 
 glade_DATA = mail-config.glade local-config.glade subscribe-dialog.glade message-tags.glade mail-search.glade
 
-etspec_DATA = mail-accounts.etspec message-list.etspec
+etspec_DATA = message-list.etspec
 
 schemadir   = $(GCONF_SCHEMA_FILE_DIR)
 schema_DATA = evolution-mail.schemas
