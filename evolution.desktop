@@ -1,8 +1,10 @@
 [Desktop Entry]
 Name=Evolution
+Name[it]=Evolution
 Name[sl]=Evolucija
 Name[tr]=Evolution
 Comment=The Evolution groupware suite
+Comment[it]=La suite di produttivita' personale Evolution
 Comment[sl]=Programje za delo v skupini Evolucija
 Comment[tr]=Evolution kitlesel iþlemler uygulamasý
 Exec=evolution
