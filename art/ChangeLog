@@ -1,3 +1,7 @@
+2001-07-20  JP Rosevear  <jpr@ximian.com>
+
+	* Pull in new splash screen
+
 2001-07-20  Rodrigo Moya <rodrigo@ximian.com>
 
 	* Makefile.am: install 2 new category icons (16_category_suppliers.png
