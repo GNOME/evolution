@@ -428,19 +428,20 @@ stresexptree (ESExpTerm *node)
 	if (str) {
 		if (r_str) {
 			if (l_str)
-				node_str = g_strdup_printf ("(%s (%s)) %s", str, r_str, l_str);
+				node_str = g_strdup_printf ("%s %s %s", str, r_str, l_str);
 			else
-				node_str = g_strdup_printf ("(%s %s)", str, r_str);
+				node_str = g_strdup_printf ("%s %s", str, r_str);
 		} else {
 			if (l_str)
-				node_str = g_strdup_printf ("(%s) %s", str, l_str);
+				node_str = g_strdup_printf ("%s %s", str, l_str);
 			else
-				node_str = g_strdup_printf ("(%s)", str);
+				node_str = g_strdup_printf ("%s", str);
 		}
 	} else {
+
 		if (r_str) {
 			if (l_str)
-				node_str = g_strdup_printf ("(%s) %s", r_str, l_str);
+				node_str = g_strdup_printf ("%s %s", r_str, l_str);
 			else
 				node_str = g_strdup_printf ("%s", r_str);
 		} else {

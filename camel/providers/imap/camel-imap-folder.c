@@ -192,8 +192,10 @@ camel_imap_folder_new (CamelStore *parent, char *folder_name, CamelException *ex
 		folder->can_hold_messages = FALSE;
 	
 	imap_get_subfolder_names_internal (folder, ex);
-	imap_get_summary_internal (folder, ex);
-
+	
+	if (folder->can_hold_messages)
+		imap_get_summary_internal (folder, ex);
+	
 	return folder;
 }
 
