@@ -73,6 +73,8 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
     #39961 - Appointment schedule autopick menu displays under File.
              (Rodrigo)
     #40133 - wombat startup error. (Toshok)
+    #40195 - Cannot create new calendar folders (JP)
+    #40252 - LOG(e...) syntax error (Michael)
     #40258 - Recurring event displayed truncated description.  (Hans Petter)
     #40578 - Event summaries cut off in month view.  (Hans Petter)
     #40655 - Mini-calendar always showed January 1970.  (Hans Petter)
@@ -82,7 +84,13 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
     #40790 - Didn't launch programs added as reminders.  (JP)
     #40792 - Buttons in Select File dialog for sound reminder didn't
              work.  (Ettore)
+    #40876 - Cannot create a meeting with a resource in Exchange 
+	     calendar (JP)
+    #40894 - calendar switching weeks selected in small right subcalendars 
+	     (JP)
+    #41127 - Evolution crashed when sending new meeting invitation (JP)
 
+	
   * Mail
 
     #29564 - Message list loses focus when you expunge.  (Michael)
@@ -205,6 +213,8 @@ Other bugs:
     - GtkObject -> GObject fixes.  (Everyone)
     - Connector-related fixes.  (Dan)
     - Made meeting/scheduling work correctly.  (JP)
+    - Only remove alarms for backends that request it (Rodrigo)
+    - HIG'ify dialogs (Ettore)
 
   * Mail
 
