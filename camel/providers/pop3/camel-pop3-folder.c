@@ -166,9 +166,6 @@ pop3_generate_uids (CamelFolder *folder, int count, CamelException *ex)
 		uids->pdata[i] = uid;
 	}
 	
-	if (i < count)
-		g_ptr_array_set_size (uids, i);
-	
 	return uids;
 	
  exception:
