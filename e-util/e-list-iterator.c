@@ -208,12 +208,7 @@ e_list_iterator_delete   (EIterator *_iterator)
 {
 	EListIterator *iterator = E_LIST_ITERATOR(_iterator);
 	if (iterator->iterator) {
-		GList *temp = iterator->iterator->next;
-		if (iterator->list->free)
-			iterator->list->free(iterator->iterator->data, iterator->list->closure);
-		iterator->list->list = g_list_remove_link(iterator->list->list, iterator->iterator);
-		iterator->iterator = temp;
-		e_list_invalidate_iterators(iterator->list, E_ITERATOR(iterator));
+		e_list_remove_link (iterator->list, iterator->iterator);
 	}
 }
 

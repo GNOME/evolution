@@ -50,10 +50,12 @@ void       e_list_append               (EList         *list,
 int        e_list_length               (EList         *list);
 
 /* For iterators to call. */
-void       e_list_invalidate_iterators (EList         *list, 
-					EIterator     *skip);
+void       e_list_remove_link          (EList         *list, 
+					GList         *link);
 void       e_list_remove_iterator      (EList         *list,
 					EIterator     *iterator);
+void       e_list_invalidate_iterators (EList         *list,
+					EIterator     *skip);
 
 /* Standard Gtk function */
 GtkType    e_list_get_type             (void);

@@ -1,5 +1,12 @@
 2000-09-18  Christopher James Lahey  <clahey@helixcode.com>
 
+	* e-list-iterator.c, e-list.c, e-list.h: Made e_list a bit more
+	reentrant.  If a iterator gets its data pulled out from under it
+	while in a loop, it goes back one so that loops will be able to
+	continue.
+
+2000-09-18  Christopher James Lahey  <clahey@helixcode.com>
+
 	* Makefile.am: Removed all the files moved to gal.
 
 	* e-dialog-widgets.c: Fixed the #include lines to deal properly

@@ -140,6 +140,24 @@ e_list_invalidate_iterators (EList *list, EIterator *skip)
 	}
 }
 
+/* FIXME: This doesn't work properly if the iterator is the first
+   iterator in the list.  Well, the iterator doesn't continue on after
+   the next time next is called, at least. */
+void
+e_list_remove_link (EList *list, GList *link)
+{
+	GList *iterators = list->iterators;
+	for (; iterators; iterators = iterators->next) {
+		if (((EListIterator *)iterators->data)->iterator == link) {
+			e_iterator_prev(iterators->data);
+		}
+	}
+	if (list->free)
+		list->free(link->data, list->closure);
+	list->list = g_list_remove_link(list->list, link);
+	g_list_free_1(link);
+}
+
 void
 e_list_remove_iterator (EList *list, EIterator *iterator)
 {
@@ -156,3 +174,4 @@ e_list_destroy (GtkObject *object)
 	g_list_foreach(list->list, (GFunc) list->free, list->closure);
 	g_list_free(list->list);
 }
+
