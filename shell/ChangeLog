@@ -1,3 +1,10 @@
+2001-08-21  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-folder-title-bar.c (label_realize_callback): Fix a leak:
+	unref the EFont after we have used it.  Also, don't crash if
+	`e_font_to_gdk_font()' returns NULL.  [This should fix #7666,
+	Folder View crashes Evo.]
+
 2001-08-21  Iain Holmes  <iain@ximian.com>
 
 	* e-shell-importer.c (start_import): Don't print a NULL.

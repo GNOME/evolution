@@ -147,9 +147,12 @@ label_realize_callback (GtkWidget *widget,
 
 	e_font = e_font_from_gdk_font (style->font);
 	bolded_font = e_font_to_gdk_font (e_font, E_FONT_BOLD);
+	e_font_unref (e_font);
 
-	gdk_font_unref (style->font);
-	style->font = bolded_font;
+	if (bolded_font != NULL) {
+		gdk_font_unref (style->font);
+		style->font = bolded_font;
+	}
 
 	gtk_style_attach (style, widget->window);
 
