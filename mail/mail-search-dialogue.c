@@ -1,5 +1,6 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- *  Copyright (C) 2000, 2001 Ximian, Inc.
+ *  Copyright (C) 2000, 2003 Ximian, Inc.
  *
  *  Authors: Not Zed <notzed@lostzed.mmc.com.au>
  *
@@ -159,7 +160,7 @@ mail_search_dialogue_new_with_rule (FilterRule *rule)
 {
 	MailSearchDialogue *o = (MailSearchDialogue *)g_object_new (mail_search_dialogue_get_type (), NULL);
 	if (rule)
-		g_object_ref((rule));
+		g_object_ref (rule);
 	mail_search_dialogue_construct (o, rule);
 	return o;
 }

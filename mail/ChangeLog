@@ -1,3 +1,14 @@
+2003-02-23  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-search.c (mail_search_destroy): New overloaded virtual
+	method, does what dialog_destroy_cb was trying to do.
+	(mail_search_construct): Connect to the "response" signal rather
+	than "clicked" to correspond to the GtkDialog API
+	(instead og the old GnomeDialog API).
+	(dialog_response_cb): Changed the function name and made it check
+	button == GTK_RESPONSE_ACCEPT to search, any other button
+	closes. Fixes bug #37947.
+
 2003-02-21  Hans Petter Jansson  <hpj@ximian.com>
 
 	* component-factory.c (factory): Don't try to get a FontPrefs control.

@@ -1,28 +1,25 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-
 /*
- * mail-search.c
+ *  Authors: Jon Trowbridge <trow@ximian.com>
  *
- * Copyright (C) 2001 Ximian, Inc.
+ *  Copyright 2001-2003 Ximian, Inc. (www.ximian.com)
  *
- * Developed by Jon Trowbridge <trow@ximian.com>
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
+ *
  */
 
-/*
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of version 2 of the GNU General Public
- * License as published by the Free Software Foundation.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * 
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
- * USA.
- */
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -42,39 +39,54 @@ static void
 mail_search_finalise (GObject *obj)
 {
 	MailSearch *ms = MAIL_SEARCH (obj);
-
+	
 	g_signal_handler_disconnect(ms->mail->html->engine->ht, ms->match_handler);
 	g_signal_handler_disconnect(ms->mail->html->engine->ht, ms->begin_handler);
-
+	
 	g_free (ms->last_search);
-	g_object_unref((ms->mail));
+	g_object_unref (ms->mail);
+	
+	G_OBJECT_CLASS (parent_class)->finalize (obj);
+}
 
-	((GObjectClass *)parent_class)->finalize(obj);
+static void
+mail_search_destroy (GtkObject *obj)
+{
+	MailSearch *ms = (MailSearch *) obj;
+	ESearchingTokenizer *st = mail_search_tokenizer (ms);
+	
+	e_searching_tokenizer_set_primary_search_string (st, NULL);
+	mail_search_redisplay_message (ms);
+	
+	GTK_OBJECT_CLASS (parent_class)->destroy (obj);
 }
 
 static void
 mail_search_class_init (MailSearchClass *klass)
 {
 	GObjectClass *object_class = (GObjectClass *) klass;
-
-	parent_class = GTK_OBJECT_CLASS (g_type_class_ref(gtk_dialog_get_type ()));
+	GtkObjectClass *gtk_object_class = (GtkObjectClass *) klass;
+	
+	parent_class = (GtkObjectClass *) g_type_class_ref (GTK_TYPE_DIALOG);
 	
 	object_class->finalize = mail_search_finalise;
+	
+	gtk_object_class->destroy = mail_search_destroy;
 }
 
 static void
 mail_search_init (MailSearch *ms)
 {
-
+	
 }
 
 GtkType
 mail_search_get_type (void)
 {
-	static GType mail_search_type = 0;
+	static GType type = 0;
 
-	if (! mail_search_type) {
-		GTypeInfo mail_search_info = {
+	if (!type) {
+		static const GTypeInfo info = {
 			sizeof (MailSearchClass),
 			NULL, NULL,
 			(GClassInitFunc) mail_search_class_init,
@@ -83,11 +95,11 @@ mail_search_get_type (void)
 			0,
 			(GInstanceInitFunc) mail_search_init,
 		};
-
-		mail_search_type = g_type_register_static (GTK_TYPE_DIALOG, "MailSearch", &mail_search_info, 0);
+		
+		type = g_type_register_static (GTK_TYPE_DIALOG, "MailSearch", &info, 0);
 	}
-
-	return mail_search_type;
+	
+	return type;
 }
 
 /*
@@ -160,20 +172,11 @@ toggled_fwd_cb (GtkToggleButton *b, MailSearch *ms)
 #endif
 
 static void
-dialog_destroy_cb (GtkWidget *w, MailSearch *ms)
+dialog_response_cb (GtkWidget *widget, int button, MailSearch *ms)
 {
 	ESearchingTokenizer *st = mail_search_tokenizer (ms);
 	
-	e_searching_tokenizer_set_primary_search_string (st, NULL);
-	mail_search_redisplay_message (ms);
-}
-
-static void
-dialog_clicked_cb (GtkWidget *widget, gint button_number, MailSearch *ms)
-{
-	ESearchingTokenizer *st = mail_search_tokenizer (ms);
-	
-	if (button_number == 0) {        /* "Search" */
+	if (button == GTK_RESPONSE_ACCEPT) {
 		char *search_text;
 		
 		search_text = gtk_editable_get_chars (GTK_EDITABLE (ms->entry), 0, -1);
@@ -182,7 +185,7 @@ dialog_clicked_cb (GtkWidget *widget, gint button_number, MailSearch *ms)
 		if (search_text && *search_text) {
 			if (ms->last_search && !strcmp (ms->last_search, search_text)) {
 				
-				if (! gtk_html_engine_search_next (ms->mail->html)) {
+				if (!gtk_html_engine_search_next (ms->mail->html)) {
 					g_free (ms->last_search);
 					ms->last_search = NULL;
 				}
@@ -204,7 +207,7 @@ dialog_clicked_cb (GtkWidget *widget, gint button_number, MailSearch *ms)
 		}
 		
 		g_free (search_text);
-	} else if (button_number == 1) { /* "Close"  */
+	} else if (button == GTK_RESPONSE_CANCEL) {
 		gtk_widget_destroy (widget);
 	}
 }
@@ -237,7 +240,7 @@ match_cb (ESearchingTokenizer *st, MailSearch *ms)
 }
 
 static void
-entry_run_search(GtkWidget *w, MailSearch *ms)
+entry_run_search (GtkWidget *w, MailSearch *ms)
 {
 	/* run search when enter pressed on widget */
 	gtk_dialog_response ((GtkDialog *) ms, GTK_RESPONSE_ACCEPT);
@@ -362,9 +365,8 @@ mail_search_construct (MailSearch *ms, MailDisplay *mail)
 #if 0
 	g_signal_connect (fwd_check, "toggled", G_CALLBACK (toggled_fwd_cb), ms);
 #endif
-	g_signal_connect (ms, "clicked", G_CALLBACK (dialog_clicked_cb), ms);
+	g_signal_connect (ms, "response", G_CALLBACK (dialog_response_cb), ms);
 	
-	g_object_weak_ref ((GObject *) ms, (GWeakNotify) dialog_destroy_cb, ms);
 	g_object_weak_ref ((GObject *) ms->mail, (GWeakNotify) gtk_widget_destroy, ms);
 }
 
@@ -373,7 +375,7 @@ mail_search_new (MailDisplay *mail)
 {
 	GtkWidget *widget;
 	
-	g_return_val_if_fail (mail && IS_MAIL_DISPLAY (mail), NULL);
+	g_return_val_if_fail (IS_MAIL_DISPLAY (mail), NULL);
 	
 	widget = g_object_new (mail_search_get_type (), NULL);
 	mail_search_construct (MAIL_SEARCH (widget), mail);
