@@ -35,3 +35,5 @@ $killcmd -9 evolution-pine-importer 2>/dev/null
 $killcmd -9 evolution-pine-i 2>/dev/null
 $killcmd -9 evolution-netscape-importer 2>/dev/null
 $killcmd -9 evolution-netsca 2>/dev/null
+$killcmd -9 evolution-vcard-import 2>/dev/null
+$killcmd -9 evolution-vcard- 2>/dev/null
