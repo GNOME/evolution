@@ -22,6 +22,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
 
 #include <gtk/gtk.h>
 #include "camel-imap-utils.h"
@@ -30,23 +31,8 @@
 
 #define d(x) x
 
-static char *esexp_keys[] = { "and", "or", "body-contains", "header-contains", "match-all", "user-flag", NULL };
-static char *imap_keys[]  = { NULL, "OR", "BODY", "HEADER", NULL, NULL };
-
-struct sexp_node {
-	struct sexp_node *l_node, *r_node;
-	char *function;
-	char *data;
-};
-
 static char *get_quoted_token (char *string, int *len);
 static char *get_token (char *string, int *len);
-struct sexp_node *get_sexp_node (const char *exp);
-static void print_node (struct sexp_node *node, int depth);
-static const char *get_func (struct sexp_node *node);
-static char *get_data (struct sexp_node *node);
-static char *str_sexp_node (struct sexp_node *node);
-static void free_sexp_node (struct sexp_node *node);
 
 
 char *
@@ -162,230 +148,396 @@ get_token (char *string, int *len)
 	return g_strndup (p, *len);
 }
 
-struct sexp_node *
-get_sexp_node (const char *exp)
+static ESExpResult *
+func_and (struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
 {
-	struct sexp_node *node = NULL;
-	char *left_exp, *right_exp, *this_exp;
-	char *p, *ep;
-	int len, pbal;
+	GList **list = data;
+	ESExpResult *r;
 	
-	if (exp && *exp) {	
-		node = g_malloc0 (sizeof (struct sexp_node));
-		node->l_node = NULL;
-		node->r_node = NULL;
-		node->function = NULL;
-		node->data = NULL;
+	fprintf (stderr, "in AND func (argc = %d)\n", argc);
+	if (argc > 0) {
+		char **strings;
+		int i;
 		
-		p = (char *) exp + 1;
-		for (ep = p, pbal = 1; *ep && pbal; ep++) {
-			if (*ep == '(')
-				pbal++;
-			if (*ep == ')')
-				pbal--;
+		strings = g_new (char*, argc+1);
+		strings[argc] = NULL;
+		
+		for (i = 0; i < argc; i++) {
+			GList *list_head = *list;
+			
+			fprintf (stderr, "\tAND func: %s\n", (*list) ? (char *) (*list)->data : "(null)");
+			strings[argc - (i+1)] = (*list) ? (*list)->data : g_strdup ("");
+			*list = g_list_remove_link (*list, *list);
+			g_list_free_1 (list_head);
 		}
 		
-		this_exp = g_strndup (p, (gint)(ep - p));
+		*list = g_list_prepend (*list, g_strjoinv (" ", strings));
+		fprintf (stderr, "%s\n", (char *) (*list)->data);
 		
-		for (left_exp = ep; *left_exp && *left_exp != '('; left_exp++);
-		left_exp = g_strdup (left_exp);
+		for (i = 0 ; i < argc; i ++)
+			g_free (strings[i]);
 		
-		for (right_exp = this_exp; *right_exp && *right_exp != '('; right_exp++);
-		pbal = 1;
-		for (ep = right_exp; *ep && pbal; ep++) {
-			if (*ep == '(')
-				pbal++;
-			if (*ep == ')')
-				pbal--;
+		g_free (strings);
+	}
+	
+	r = e_sexp_result_new (ESEXP_RES_BOOL);
+	r->value.bool = FALSE;
+	
+	return r;
+}
+
+static ESExpResult *
+func_or (struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
+{
+	GList **list = data;
+	ESExpResult *r;
+	
+	fprintf (stderr, "in OR func (argc = %d)\n", argc);
+	if (argc == 2 && (*list)->data && (*list)->next && (*list)->next->data) {
+		char **strings;
+		int i;
+		
+		strings = g_new (char*, argc+2);
+		strings[0] = g_strdup ("OR");
+		strings[argc+2 - 1] = NULL;
+		
+		for (i = 0; i < 2; i++) {
+			GList *list_head = *list;
+			
+			fprintf (stderr, "\tOR func: %s\n", (*list) ? (char *) (*list)->data : "(null)");
+			strings[argc - i] = (*list) ? (*list)->data : g_strdup ("");
+			*list = g_list_remove_link (*list, *list);
+			g_list_free_1 (list_head);
 		}
-		right_exp = g_strndup (right_exp, (gint)(ep - right_exp));
 		
-		/* fill in the node */
-		node->function = get_token (this_exp, &len);
-		p = this_exp + len;
-		for (ep = p; *ep && *ep != '(' && *ep != ')'; ep++);
-		node->data = g_strndup (p, (gint)(ep - p));
+		*list = g_list_prepend (*list, g_strjoinv (" ", strings));
+		fprintf (stderr, "%s\n", (char *) (*list)->data);
 		
-		g_strstrip (node->data);
-
-		node->l_node = get_sexp_node (left_exp);
-		node->r_node = get_sexp_node (right_exp);
-
-		g_free (this_exp);
-		g_free (left_exp);
-		g_free (right_exp);
+		for (i = 0 ; i < argc + 2; i ++)
+			g_free (strings[i]);
+		
+		g_free (strings);
 	}
 	
-	return node;
+	r = e_sexp_result_new (ESEXP_RES_BOOL);
+	r->value.bool = FALSE;
+	
+	return r;
 }
 
-static void
-print_node (struct sexp_node *node, int depth)
+static ESExpResult *
+func_not (struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
 {
-	int i;
+	GList **list = data;
+	ESExpResult *r;
 	
-	for (i = 0; i < depth; i++)
-		d(fprintf (stderr, "   "));
-	
-	d(fprintf (stderr, "%s\n", node->function));
-	
-	if (*node->data) {
-		for (i = 0; i < depth + 1; i++)
-			d(fprintf (stderr, "   "));
+	fprintf (stderr, "in NOT func\n");
+	/* just replace the head of the list with the NOT of it. */
+	if (argc > 0) {
+		char *term = (*list)->data;
 		
-		d(fprintf (stderr, "%s\n", node->data));
+		(*list)->data = g_strdup_printf ("NOT %s", term);
+		fprintf (stderr, "%s\n", (char *) (*list)->data);
+		g_free (term);
 	}
 	
-	if (node->r_node)
-		print_node (node->r_node, depth + 1);
+	r = e_sexp_result_new (ESEXP_RES_BOOL);
+	r->value.bool = FALSE;
 	
-	if (node->l_node)
-		print_node (node->l_node, depth);
+	return r;
 }
 
-static const char *
-get_func (struct sexp_node *node)
-{
-	int i;
-	
-	for (i = 0; esexp_keys[i]; i++)
-		if (!strncmp (esexp_keys[i], node->function, strlen (node->function)))
-			break;
-	
-	if (esexp_keys[i])
-		return imap_keys[i];
-	else
-		return node->function;
-}
+static char *tz_months [] = {
+	"Jan", "Feb", "Mar", "Apr", "May", "Jun",
+	"Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+};
 
 static char *
-get_data (struct sexp_node *node)
+format_date (time_t time, int offset)
 {
-	GPtrArray *args;
-	const char *func;
-	char *data, *token, *p;
-	int i, len;
+	struct tm tm;
 	
-	func = get_func (node);
+	time += ((offset / 100) * (60*60)) + (offset % 100)*60;
 	
-	args = g_ptr_array_new ();
+	d(printf("converting date %s", ctime (&time)));
 	
-	p = node->data;
-	while (p && *p) {
-		token = get_token (p, &len);
-		g_ptr_array_add (args, token);
-		p += len;
-	}
-	
-	if (func && !strcmp ("HEADER", func) && args->len > 0)
-		string_unquote (args->pdata[0]);
-	
-	if (args->len > 0) {
-		data = g_strjoinv (" ", (char **) args->pdata);
-	} else {
-		data = g_strdup ("");
-	}
-	
-	for (i = 0; i < args->len; i++)
-		g_free (args->pdata[i]);
-	
-	g_ptr_array_free (args, TRUE);
-	
-	return data;
+	memcpy (&tm, gmtime (&time), sizeof (tm));
+
+	return g_strdup_printf ("%d-%s-%04d",
+				tm.tm_mday, tz_months[tm.tm_mon],
+				tm.tm_year + 1900);
 }
 
-static char *
-str_sexp_node (struct sexp_node *node)
+static ESExpResult *
+func_lt (struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
 {
-	char *node_str, *data, *str, *l_str, *r_str;
-	const char *func;
+	GList **list = data;
+	char *type = (*list)->data;
+	time_t date = (time_t) (argv[1])->value.number;
+	ESExpResult *r;
 	
-	func = get_func (node);
-	data = get_data (node);
-	
-	if (func) {
-		if (*data)
-			str = g_strdup_printf ("%s %s", func, data);
-		else
-			str = g_strdup (func);
-	} else {
-		str = NULL;
+	fprintf (stderr, "in less-than func: (%d) (%s) (%d)\n", argc, type, (int) date);
+	if (argc > 0) {
+		char *string, *date_str;
+		
+		date_str = format_date (date, 0);
+		
+		if (!strcmp ("SENT", type)) {
+			string = g_strdup_printf ("SENTBEFORE \"%s\"", date_str);
+		} else {
+			string = g_strdup_printf ("BEFORE \"%s\"", date_str);
+		}
+		
+		(*list)->data = string;
+		g_free (type);
 	}
 	
-	g_free (data);
+	r = e_sexp_result_new (ESEXP_RES_BOOL);
+	r->value.bool = FALSE;
 	
-	r_str = NULL;
-	if (node->r_node)
-		r_str = str_sexp_node (node->r_node);
-	
-	l_str = NULL;
-	if (node->l_node)
-		l_str = str_sexp_node (node->l_node);
-	
-	if (str) {
-		if (r_str) {
-			if (l_str)
-				node_str = g_strdup_printf ("%s %s %s", str, r_str, l_str);
-			else
-				node_str = g_strdup_printf ("%s %s", str, r_str);
-		} else {
-			if (l_str)
-				node_str = g_strdup_printf ("%s %s", str, l_str);
-			else
-				node_str = g_strdup_printf ("%s", str);
-		}
-	} else {
-		if (r_str) {
-			if (l_str)
-				node_str = g_strdup_printf ("%s %s", r_str, l_str);
-			else
-				node_str = g_strdup_printf ("%s", r_str);
-		} else {
-			if (l_str)
-				node_str = g_strdup_printf ("%s", l_str);
-			else
-				node_str = g_strdup ("");
-		}
-	}
-	
-	g_free (str);
-	g_free (l_str);
-	g_free (r_str);
-	
-	return node_str;
+	return r;
 }
 
-static void
-free_sexp_node (struct sexp_node *node)
+static ESExpResult *
+func_gt (struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
 {
-	if (node->r_node)
-		free_sexp_node (node->r_node);
+	GList **list = data;
+	char *type = (*list)->data;
+	time_t date = (time_t) (argv[1])->value.number;
+	ESExpResult *r;
 	
-	if (node->l_node)
-		free_sexp_node (node->l_node);
+	fprintf (stderr, "in greater-than func: (%d) (%s) (%d)\n", argc, type, (int) date);
+	if (argc > 0) {
+		char *string, *date_str;
+		
+		date_str = format_date (date, 0);
+		
+		if (!strcmp ("SENT", type)) {
+			string = g_strdup_printf ("SENTSINCE \"%s\"", date_str);
+		} else {
+			string = g_strdup_printf ("SINCE \"%s\"", date_str);
+		}
+		
+		(*list)->data = string;
+		g_free (type);
+	}
 	
-	g_free (node->function);
-	g_free (node->data);
-	g_free (node);
+	r = e_sexp_result_new (ESEXP_RES_BOOL);
+	r->value.bool = FALSE;
+	
+	return r;
 }
+
+static ESExpResult *
+func_eq (struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
+{
+	GList **list = data;
+	char *type = (*list)->data;
+	time_t date = (time_t) (argv[1])->value.number;
+	ESExpResult *r;
+	
+	fprintf (stderr, "in equal-to func: (%d) (%s) (%d)\n", argc, type, (int) date);
+	if (argc > 0) {
+		char *string, *date_str;
+		
+		date_str = format_date (date, 0);
+		
+		if (!strcmp ("SENT", type)) {
+			string = g_strdup_printf ("SENTON \"%s\"", date_str);
+		} else {
+			string = g_strdup_printf ("ON \"%s\"", date_str);
+		}
+		
+		(*list)->data = string;
+		g_free (type);
+	}
+	
+	r = e_sexp_result_new (ESEXP_RES_BOOL);
+	r->value.bool = FALSE;
+	
+	return r;
+}
+
+static ESExpResult *
+func_match_all (struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
+{
+	/* match-all doesn't have a IMAP equiv */
+	ESExpResult *r;
+	
+	r = e_sexp_result_new (ESEXP_RES_BOOL);
+	r->value.bool = FALSE;
+	
+	return r;
+}
+
+static ESExpResult *
+func_body_contains (struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
+{
+	GList **list = data;
+	char *value = (*argv)->value.string;
+	ESExpResult *r;
+	
+	if (argc > 0) {
+		char *string;
+		
+		string = g_strdup_printf ("BODY \"%s\"", value);
+		
+		*list = g_list_prepend (*list, string);
+	}
+	
+	r = e_sexp_result_new (ESEXP_RES_BOOL);
+	r->value.bool = FALSE;
+	
+	return r;
+}
+
+static ESExpResult *
+func_header_contains (struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
+{
+	GList **list = data;
+	char *header = (argv[0])->value.string;
+	char *match = (argv[1])->value.string;
+	ESExpResult *r;
+	
+	if (argc == 2) {
+		char *string;
+		string = g_strdup_printf ("HEADER %s \"%s\"", header, match);
+		
+		*list = g_list_prepend (*list, string);
+	}
+	
+	r = e_sexp_result_new (ESEXP_RES_BOOL);
+	r->value.bool = FALSE;
+	
+	return r;
+}
+
+static ESExpResult *
+func_user_tag (struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
+{
+	/* FIXME: what do I do here? */
+	ESExpResult *r;
+	
+	r = e_sexp_result_new (ESEXP_RES_BOOL);
+	r->value.bool = FALSE;
+	
+	return r;
+}
+
+static ESExpResult *
+func_user_flag (struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
+{
+	/* FIXME: what do I do here? */
+	ESExpResult *r;
+	
+	r = e_sexp_result_new (ESEXP_RES_BOOL);
+	r->value.bool = FALSE;
+	
+	return r;
+}
+
+static ESExpResult *
+func_get_sent_date (struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
+{
+	GList **list = data;
+	ESExpResult *r;
+	
+	*list = g_list_prepend (*list, g_strdup ("SENT"));
+	
+	r = e_sexp_result_new (ESEXP_RES_BOOL);
+	r->value.bool = FALSE;
+	
+	return r;
+}
+
+static ESExpResult *
+func_get_received_date (struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
+{
+	GList **list = data;
+	ESExpResult *r;
+	
+	*list = g_list_prepend (*list, g_strdup ("RECEIVED"));
+	
+	r = e_sexp_result_new (ESEXP_RES_BOOL);
+	r->value.bool = FALSE;
+	
+	return r;
+}
+
+static ESExpResult *
+func_get_current_date (struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
+{
+	/* FIXME: what do I do here? */
+	ESExpResult *r;
+	
+	r = e_sexp_result_new (ESEXP_RES_BOOL);
+	r->value.bool = FALSE;
+	
+	return r;
+}
+
+/* builtin functions */
+static struct {
+	char *name;
+	ESExpFunc *func;
+	int type;		/* set to 1 if a function can perform shortcut evaluation, or
+				   doesn't execute everything, 0 otherwise */
+} symbols[] = {
+	{ "and",               (ESExpFunc *) func_and,               0 },
+	{ "or",                (ESExpFunc *) func_or,                0 },
+	{ "not",               (ESExpFunc *) func_not,               0 },
+	{ "<",                 (ESExpFunc *) func_lt,                0 },
+	{ ">",                 (ESExpFunc *) func_gt,                0 },
+	{ "=",                 (ESExpFunc *) func_eq,                0 },
+	{ "match-all",         (ESExpFunc *) func_match_all,         0 },
+	{ "body-contains",     (ESExpFunc *) func_body_contains,     0 },
+	{ "header-contains",   (ESExpFunc *) func_header_contains,   0 },
+	{ "user-tag",          (ESExpFunc *) func_user_tag,          1 },
+	{ "user-flag",         (ESExpFunc *) func_user_flag,         1 },
+	{ "get-sent-date",     (ESExpFunc *) func_get_sent_date,     1 },
+	{ "get-received-date", (ESExpFunc *) func_get_received_date, 1 },
+	{ "get-current-date",  (ESExpFunc *) func_get_current_date,  1 }
+};
 
 char *
 imap_translate_sexp (const char *expression)
 {
-	struct sexp_node *root;
-	char *sexp, *exp;
+	ESExp *sexp;
+	ESExpResult *r;
+	gchar *retval;
+	GList *list = NULL;
+	int i;
 	
-	exp = g_strdup (expression);
-	strip (exp, '\n');
-	root = get_sexp_node (exp);
-	g_free (exp);
+	sexp = e_sexp_new ();
 	
-	d(print_node (root, 0));
-	d(fprintf (stderr, "\n"));
+	for (i = 0; i < sizeof (symbols) / sizeof (symbols[0]); i++) {
+		if (symbols[i].type == 1) {
+			e_sexp_add_ifunction (sexp, 0, symbols[i].name,
+					      (ESExpIFunc *)symbols[i].func, &list);
+		} else {
+			e_sexp_add_function (sexp, 0, symbols[i].name,
+					     symbols[i].func, &list);
+		}
+	}
 	
-	sexp = str_sexp_node (root);
+	e_sexp_input_text (sexp, expression, strlen (expression));
 	
-	free_sexp_node (root);
+	e_sexp_parse (sexp);
 	
-	return sexp;
+	r = e_sexp_eval (sexp);
+	
+	gtk_object_unref (GTK_OBJECT (sexp));
+	e_sexp_result_free (r);
+	
+	if (list->next) {
+		g_warning ("conversion to IMAP SEARCH string failed");
+		retval = NULL;
+		g_list_foreach (list, (GFunc)g_free, NULL);
+	} else {
+		retval = list->data;
+	}
+	
+	g_list_free (list);
+	
+	return retval;
 }

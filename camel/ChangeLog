@@ -1,5 +1,11 @@
 2000-08-31  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* providers/imap/camel-imap-utils.c (imap_translate_sexp):
+	Reimplemented. It should now work correctly for most possible
+	VFolder rules.
+
+2000-08-31  Jeffrey Stedfast  <fejj@helixcode.com>
+
 	* providers/imap/camel-imap-store.c (camel_imap_command_extended):
 	Don't save any exceptions caused by camel_imap_folder_changed
 	(camel_imap_fetch_command): Same.
