@@ -1,3 +1,10 @@
+2004-11-10  Jeffrey Stedfast  <fejj@novell.com>
+
+	* providers/imap4/camel-imap4-summary.c (imap4_summary_fetch_all):
+	Use the expanded ALL macro as on closer inspection of the RFC,
+	we're not allowed to use macros in conjunction with other FETCH
+	items (such as UID in our case).
+
 2004-11-09  Not Zed  <NotZed@Ximian.com>
 
 	* providers/imap/camel-imap-folder.c (imap_get_message): before

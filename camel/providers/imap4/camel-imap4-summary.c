@@ -965,6 +965,8 @@ untagged_fetch_all (CamelIMAP4Engine *engine, CamelIMAP4Command *ic, guint32 ind
 	return -1;
 }
 
+#define IMAP4_ALL "FLAGS INTERNALDATE RFC822.SIZE ENVELOPE"
+
 static CamelIMAP4Command *
 imap4_summary_fetch_all (CamelFolderSummary *summary, guint32 first, guint32 last)
 {
@@ -988,18 +990,10 @@ imap4_summary_fetch_all (CamelFolderSummary *summary, guint32 first, guint32 las
 	fetch->total = total;
 	fetch->count = 0;
 	
-	/* From rfc2060, Section 6.4.5:
-	 * 
-	 * The currently defined data items that can be fetched are:
-	 *
-	 * ALL            Macro equivalent to: (FLAGS INTERNALDATE
-	 *                RFC822.SIZE ENVELOPE)
-	 **/
-	
 	if (last != 0)
-		ic = camel_imap4_engine_queue (engine, folder, "FETCH %u:%u (UID ALL)\r\n", first, last);
+		ic = camel_imap4_engine_queue (engine, folder, "FETCH %u:%u (UID %s)\r\n", first, last, IMAP4_ALL);
 	else
-		ic = camel_imap4_engine_queue (engine, folder, "FETCH %u:* (UID ALL)\r\n", first);
+		ic = camel_imap4_engine_queue (engine, folder, "FETCH %u:* (UID %s)\r\n", first, IMAP4_ALL);
 	
 	camel_imap4_command_register_untagged (ic, "FETCH", untagged_fetch_all);
 	ic->user_data = fetch;

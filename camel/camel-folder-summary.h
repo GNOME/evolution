@@ -63,13 +63,13 @@ enum _CamelMessageFlags {
 	CAMEL_MESSAGE_DRAFT = 1<<2,
 	CAMEL_MESSAGE_FLAGGED = 1<<3,
 	CAMEL_MESSAGE_SEEN = 1<<4,
-
+	
 	/* these aren't really system flag bits, but are convenience flags */
 	CAMEL_MESSAGE_ATTACHMENTS = 1<<5,
 	CAMEL_MESSAGE_ANSWERED_ALL = 1<<6,
 	CAMEL_MESSAGE_JUNK = 1<<7,
 	CAMEL_MESSAGE_SECURE = 1<<8,
-
+	
 	/* following flags are for the folder, and are not really permanent flags */
 	CAMEL_MESSAGE_FOLDER_FLAGGED = 1<<16, /* for use by the folder implementation */
 
