@@ -1,3 +1,15 @@
+2003-12-01  Radek Doulik  <rodo@ximian.com>
+
+	* camel-store.c (add_special_info): set SUBSCRIBED and NOINFERIORS
+	flags to special folders, renamed method from
+	add_vtrash_or_vjunk_info
+	(camel_store_get_folder_info): call add_special_info directly
+
+2003-11-28  Radek Doulik  <rodo@ximian.com>
+
+	* camel-store.c (camel_store_get_folder_info): use old code from
+	mail-ops to add vtrash/vjunk info
+
 2003-11-28  David Woodhouse  <dwmw2@redhat.com>
 
 	* providers/imap/camel-imap-provider.c: Enable GUI option for
