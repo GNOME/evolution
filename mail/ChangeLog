@@ -4,6 +4,7 @@
 	reason the etable was getting into some infinite resize loop or
 	something. I probably did something wrong but I can't figure out
 	what so I'm using a clist for now.
+	(account_cursor_change): Make sure that event is non-NULL here.
 
 2002-03-27  Ettore Perazzoli  <ettore@ximian.com>
 

@@ -362,7 +362,7 @@ account_double_click (ETable *table, int row, int col, GdkEvent *event, gpointer
 }
 #else
 static void
-account_cursor_change (GtkCList *table, int row, int column, GdkEvent *event, gpointer user_data)
+account_cursor_change (GtkCList *table, int row, int column, GdkEventButton *event, gpointer user_data)
 {
 	MailAccountsTab *prefs = user_data;
 	
@@ -380,7 +380,7 @@ account_cursor_change (GtkCList *table, int row, int column, GdkEvent *event, gp
 		gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_default), TRUE);
 		gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_able), TRUE);
 		
-		if (event->type == GDK_2BUTTON_PRESS)
+		if (event && event->type == GDK_2BUTTON_PRESS)
 			account_edit_clicked (NULL, user_data);
 	} else {
 		gtk_widget_set_sensitive (GTK_WIDGET (prefs->mail_edit), FALSE);
