@@ -1,5 +1,9 @@
 2001-10-01  Ettore Perazzoli  <ettore@ximian.com>
 
+	* configure.in: 0.15.99.
+
+2001-10-01  Ettore Perazzoli  <ettore@ximian.com>
+
 	* configure.in: 0.15.  Require gal 0.13 and gtkhtml 0.14.
 
 2001-10-01  Christopher James Lahey  <clahey@ximian.com>
