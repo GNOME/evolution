@@ -1,3 +1,20 @@
+2000-12-12  Federico Mena Quintero  <federico@helixcode.com>
+
+	* cal-util/cal-component.c (get_text_list): Constify for new
+	libical API.
+	(set_text_list): Likewise.
+
+	* cal-util/cal-recur.c (cal_recur_get_rule_end_date): Likewise.
+	(cal_recur_set_rule_end_date): Likewise.
+
+	* gui/e-itip-control.c (find_attendee): Likewise.
+	(pstream_load): Likewise.
+
+	* gui/gnome-cal.c (released_event_object_cb): Removed unused function.
+
+	* gui/dialogs/task-editor.c (status_string_map): Removed unused
+	variable.
+
 2000-12-11  Federico Mena Quintero  <federico@helixcode.com>
 
 	* cal-util/Makefile.am (test_recur_LDADD): Link to the libical

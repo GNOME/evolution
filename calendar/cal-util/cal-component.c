@@ -1422,7 +1422,7 @@ cal_component_set_classification (CalComponent *comp, CalComponentClassification
 /* Gets a text list value */
 static void
 get_text_list (GSList *text_list,
-	       char *(* get_prop_func) (icalproperty *prop),
+	       const char *(* get_prop_func) (icalproperty *prop),
 	       GSList **tl)
 {
 	GSList *l;
@@ -1456,7 +1456,7 @@ get_text_list (GSList *text_list,
 /* Sets a text list value */
 static void
 set_text_list (CalComponent *comp,
-	       icalproperty *(* new_prop_func) (char *value),
+	       icalproperty *(* new_prop_func) (const char *value),
 	       GSList **text_list,
 	       GSList *tl)
 {

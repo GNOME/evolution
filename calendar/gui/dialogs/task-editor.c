@@ -98,15 +98,6 @@ static const int status_map[] = {
 	-1
 };
 
-static const char* status_string_map[] = {
-	"NEEDS-ACTION",
-	"IN-PROCESS",
-	"COMPLETED",
-	"CANCELLED",
-	NULL
-};
-
-
 typedef enum {
 	PRIORITY_HIGH,
 	PRIORITY_NORMAL,

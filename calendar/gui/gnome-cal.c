@@ -1702,29 +1702,6 @@ gnome_calendar_get_selected_time_range (GnomeCalendar *gcal,
 }
 
 
-/* Callback used when an event editor finishes editing an object */
-static void
-released_event_object_cb (EventEditor *ee, const char *uid, gpointer data)
-{
-	GnomeCalendar *gcal;
-	GnomeCalendarPrivate *priv;
-	gboolean result;
-	gpointer orig_key;
-	char *orig_uid;
-
-	gcal = GNOME_CALENDAR (data);
-	priv = gcal->priv;
-
-	result = g_hash_table_lookup_extended (priv->object_editor_hash, uid, &orig_key, NULL);
-	g_assert (result != FALSE);
-
-	orig_uid = orig_key;
-
-	g_hash_table_remove (priv->object_editor_hash, orig_uid);
-	g_free (orig_uid);
-}
-
-
 /* Callback used when an event editor dialog is closed */
 struct editor_closure
 {

@@ -3693,7 +3693,7 @@ static time_t
 cal_recur_get_rule_end_date	(icalproperty	*prop)
 {
 	icalparameter *param;
-	char *xname, *xvalue;
+	const char *xname, *xvalue;
 	icalvalue *value;
 	struct icaltimetype icaltime;
 
@@ -3727,7 +3727,7 @@ cal_recur_set_rule_end_date	(icalproperty	*prop,
 	icalparameter *param;
 	icalvalue *value;
 	struct icaltimetype icaltime;
-	char *end_date_string, *xname;
+	const char *end_date_string, *xname;
 
 	icaltime = icaltime_from_timet (end_date, FALSE, FALSE);
 	value = icalvalue_new_datetime (icaltime);

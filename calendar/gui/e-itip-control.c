@@ -63,7 +63,7 @@ static icalproperty *
 find_attendee (icalcomponent *comp, char *address)
 {
 	icalproperty *prop;
-	char *attendee, *text;
+	const char *attendee, *text;
 	icalvalue *value;
 	
 	for (prop = icalcomponent_get_first_property (comp, ICAL_ATTENDEE_PROPERTY);
@@ -685,8 +685,9 @@ pstream_load (BonoboPersistStream *ps, const Bonobo_Stream stream,
 	 all the things I'll show in my control. */
 	{
 		icalproperty *prop;
-		gchar *new_text;
-		gchar *organizer, *description, *summary;
+		const char *description, *summary;
+		const char *new_text;
+		const char *organizer;
 		struct icaltimetype dtstart, dtend;
 		time_t tstart, tend;
 
