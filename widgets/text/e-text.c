@@ -807,7 +807,9 @@ calc_line_widths (EText *text)
 			    clip_width >= 0) {
 				if (text->font) {
 					lines->ellipsis_length = 0;
-					for (p = lines->text; p && *p && (p - lines->text) < lines->length; p = g_utf8_next_char (p)) {
+					for (p = lines->text;
+					     p && *p && g_unichar_validate (g_utf8_get_char (p)) && (p - lines->text) < lines->length;
+					     p = g_utf8_next_char (p)) {
 						gint text_width = text_width_with_objects (text->model,
 											   text->font, text->style,
 											   lines->text, p - lines->text);
@@ -3206,7 +3208,7 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 
 			p = g_utf8_next_char (text->text + text->selection_end);
 
-			while (p && *p) {
+			while (p && *p && g_unichar_validate (g_utf8_get_char (p))) {
 				if (*p == '\n') {
 					new_pos = p - text->text;
 					p = NULL;
@@ -3253,7 +3255,7 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 
 			p = g_utf8_next_char (text->text + text->selection_end);
 
-			while (p && *p) {
+			while (p && *p && g_unichar_validate (g_utf8_get_char (p))) {
 				unival = g_utf8_get_char (p);
 				if (g_unichar_isspace (unival)) {
 					new_pos = p - text->text;
@@ -3275,7 +3277,7 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 			if (p != text->text) {
 				p = g_utf8_find_prev_char (text->text, p);
 
-				while (p && p > text->text) {
+				while (p && p > text->text && g_unichar_validate (g_utf8_get_char (p))) {
 					unival = g_utf8_get_char (p);
 					if (g_unichar_isspace (unival)) {
 						new_pos = g_utf8_next_char (p) - text->text; 
@@ -3328,7 +3330,7 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 		}
 		p = g_utf8_find_prev_char (text->text, p);
 
-		while (p && p > text->text) {
+		while (p && p > text->text && g_unichar_validate (g_utf8_get_char (p))) {
 			unival = g_utf8_get_char (p);
 			if (g_unichar_isspace (unival)) {
 				p = g_utf8_next_char (p);
@@ -3353,7 +3355,7 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 
 		p = g_utf8_next_char (text->text + text->selection_end);
 
-		while (p && *p) {
+		while (p && *p && g_unichar_validate (g_utf8_get_char (p))) {
 			unival = g_utf8_get_char (p);
 			if (g_unichar_isspace (unival)) {
 				new_pos =  p - text->text;
