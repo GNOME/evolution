@@ -224,7 +224,6 @@ command_toggle_shortcut_bar (BonoboUIComponent           *component,
 			     Bonobo_UIComponent_EventType type,
 			     const char                  *state,
 			     gpointer                     user_data)
-
 {
 	EShellView *shell_view;
 	EShellViewSubwindowMode mode;

@@ -1,3 +1,16 @@
+2001-01-13  Jason Leach  <jasonleach@usa.net>
+
+	(Fix bug #934: Add Right-click item to hide the shortcut bar)
+
+	* e-shortcuts-view.c (class_init): Create a new hide_requested
+	signal.
+	(hide_shortcut_bar_cb): New function that gets called from the
+	right click menu items, it emits the hide_requested signal.
+
+	* e-shell-view.c (setup_widgets): Connect the hide_requested from
+	the shortcut bar.
+	(hide_requested_cb): New function.
+
 2001-01-13  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-storage-set-view.h: New signal `dnd_action'.

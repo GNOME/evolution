@@ -365,6 +365,19 @@ activate_shortcut_cb (EShortcutsView *shortcut_view,
 	e_shell_view_display_uri (shell_view, uri);
 }
 
+/* Callback when user chooses "Hide shortcut bar" via a right click */
+static void
+hide_requested_cb (EShortcutsView *shortcut_view,
+		   void *data)
+{
+	EShellView *shell_view;
+
+	shell_view = E_SHELL_VIEW (data);
+
+	e_shell_view_set_shortcut_bar_mode (shell_view,
+					    E_SHELL_VIEW_SUBWINDOW_HIDDEN);
+}
+
 /* Callback called when a folder on the tree view gets clicked.  */
 static void
 folder_selected_cb (EStorageSetView *storage_set_view,
@@ -507,6 +520,9 @@ setup_widgets (EShellView *shell_view)
 	priv->shortcut_bar = e_shortcuts_new_view (e_shell_get_shortcuts (priv->shell));
 	gtk_signal_connect (GTK_OBJECT (priv->shortcut_bar), "activate_shortcut",
 			    GTK_SIGNAL_FUNC (activate_shortcut_cb), shell_view);
+
+	gtk_signal_connect (GTK_OBJECT (priv->shortcut_bar), "hide_requested",
+			    GTK_SIGNAL_FUNC (hide_requested_cb), shell_view);
 
 	/* The storage set view.  */
 

@@ -43,6 +43,7 @@ struct _EShortcutsViewPrivate {
 
 enum {
 	ACTIVATE_SHORTCUT,
+	HIDE_REQUESTED,
 	LAST_SIGNAL
 };
 
@@ -205,6 +206,20 @@ toggle_small_icons_cb (GtkWidget *widget,
 }
 
 static void
+hide_shortcut_bar_cb (GtkWidget *widget,
+		      void *data)
+{
+	RightClickMenuData *menu_data;
+	EShortcutsView *shortcut_view;
+
+	menu_data = (RightClickMenuData *) data;
+
+	shortcut_view = E_SHORTCUTS_VIEW (menu_data->shortcuts_view);
+
+	gtk_signal_emit (GTK_OBJECT (shortcut_view), signals[HIDE_REQUESTED]);
+}
+
+static void
 create_new_group_cb (GtkWidget *widget,
 		     void *data)
 {
@@ -267,6 +282,12 @@ static GnomeUIInfo right_click_menu_uiinfo[] = {
 	  NULL, 0, 0, 0, 0 },
 	{ GNOME_APP_UI_ITEM, N_("_Remove This Group..."),
 	  N_("Remove this shortcut group"), destroy_group_cb, NULL,
+	  NULL, 0, 0, 0, 0 },
+
+	GNOMEUIINFO_SEPARATOR,
+
+	{ GNOME_APP_UI_ITEM, N_("_Hide the Shortcut Bar"), 
+	  N_("Hide the shortcut bar"), hide_shortcut_bar_cb, NULL,
 	  NULL, 0, 0, 0, 0 },
 
 	GNOMEUIINFO_END
@@ -495,6 +516,15 @@ class_init (EShortcutsViewClass *klass)
 				GTK_TYPE_NONE, 2,
 				GTK_TYPE_POINTER,
 				GTK_TYPE_STRING);
+
+	signals[HIDE_REQUESTED] =
+		gtk_signal_new ("hide_requested",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EShortcutsViewClass,
+						   hide_requested),
+				gtk_marshal_NONE__NONE,
+				GTK_TYPE_NONE, 0);
 
 	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 }

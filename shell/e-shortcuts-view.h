@@ -58,9 +58,11 @@ struct _EShortcutsView {
 struct _EShortcutsViewClass {
 	EShortcutBarClass parent_class;
 
-	void (*  activate_shortcut) (EShortcutsView *view,
-				     EShortcuts *shortcuts,
-				     const char *uri);
+	void (* activate_shortcut) (EShortcutsView *view,
+				    EShortcuts *shortcuts,
+				    const char *uri);
+
+	void (* hide_requested) (EShortcutsView *view);
 };
 
 
