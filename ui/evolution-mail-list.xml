@@ -101,10 +101,10 @@
 
       <placeholder name="MailListView">
         <separator/>
-        <menuitem name="ViewShowAll" verb="" _label="Show _All"/>
         <menuitem name="ViewHideSelected" verb="" _label="Hide S_elected Messages"/>
         <menuitem name="ViewHideRead" verb="" _label="Hide _Read Messages"/>
-      </placeholder>
+        <menuitem name="ViewShowAll" verb="" _label="Sh_ow Hidden Messages"/>
+     </placeholder>
     </submenu>
 
     <submenu name="Actions">

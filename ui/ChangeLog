@@ -1,3 +1,8 @@
+2001-08-08  Anna Marie Dirks <anna@ximian.com> 
+	* evolution-mail-list.xml: Changed the "Show All" menu item
+	to be "Show Hidden Messages". 
+
+
 2001-08-08  Chris Toshok  <toshok@ximian.com>
 
 	* evolution-contact-list-editor.xml: improvements, make it look
