@@ -1,0 +1,38 @@
+<Root>
+  <menu>
+    <submenu name="Edit" _label="_Edit">
+
+        <menuitem name="EditSelectAll" verb=""
+        _label="Select _All"/>
+
+        <menuitem name="EditUnSelectAll" verb=""
+        _label="_Unselect All"/>
+
+    </submenu>
+
+    <placeholder name="Component">
+
+      <submenu name="Folder" _label="F_older">
+
+        <menuitem name="SubscribeFolder" verb=""
+        _label="Subscribe"/>
+
+        <menuitem name="UnsubscribeFolder" verb=""
+        _label="Unsubscribe"/>
+
+      </submenu>
+    </placeholder>
+  </menu>
+
+  <dockitem name="Toolbar" relief="none">
+
+    <toolitem name="SubscribeFolder" verb=""
+    _label="Subscribe" _descr="Add folder to your list of subscribed folders"
+    pixtype="pixbuf"/>
+
+    <toolitem name="UnsubscribeFolder" verb=""
+    _label="Unsubscribe" _descr="Remove folder from your list of subscribed folders"
+    pixtype="pixbuf"/>
+
+  </dockitem>
+</Root>

@@ -1,3 +1,9 @@
+2000-09-27  Chris Toshok  <toshok@helixcode.com>
+
+	* ui/Makefile.am (XML_FILES): add evolution-subscribe.xml.
+
+	* ui/evolution-subscribe.xml: new file.
+
 2000-09-25  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* ui/evolution-mail.xml: Moved the (un)select all menu items over
