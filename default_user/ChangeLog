@@ -1,3 +1,8 @@
+2000-07-12  Chris Toshok  <toshok@helixcode.com>
+
+	* Makefile.am (install-data-hook): create an empty news directory
+	in $(defaultdir).
+
 2000-07-06  Chris Toshok  <toshok@helixcode.com>
 
 	* ldapservers.xml: break up the uri into it's component pieces. -
