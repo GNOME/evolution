@@ -1,3 +1,10 @@
+2004-06-22  Chris Toshok  <toshok@ximian.com>
+
+	[ should fix #60495, #58635 ]
+	* gui/widgets/eab-popup-control.c (name_only_query_cb): don't free
+	the list of contacts - libebook still owns it.
+	(query_cb): same.
+
 2004-06-22  Larry Ewing  <lewing@ximian.com>
 
 	* gui/contact-list-editor/e-contact-list-editor.c (add_email_cb):
