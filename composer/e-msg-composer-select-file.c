@@ -202,7 +202,7 @@ select_attach_response(GtkWidget *selector, guint response, struct _EMsgComposer
 		names = NULL;
 		if ((files = gtk_file_selection_get_selections (GTK_FILE_SELECTION (selector)))) {
 			for (i = 0; files[i]; i++)
-				g_slist_prepend(names, files[i]);
+				names = g_slist_prepend(names, files[i]);
 			
 			g_free (files);
 			names = g_slist_reverse(names);

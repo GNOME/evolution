@@ -1,3 +1,8 @@
+2005-02-15  Jeffrey Stedfast  <fejj@novell.com>
+
+	* e-msg-composer-select-file.c (select_attach_response): Fix
+	previous patch for the !USE_GTKFILECHOOSER case.
+
 2005-02-16  Harry Lu  <harry.lu@sun.com>
 
 	Add a11y name for attachment button and bars
