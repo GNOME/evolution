@@ -1,3 +1,10 @@
+2005-04-05  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #74320
+
+	* em-format.c (em_format_part_as): if the snooped type is NULL,
+	fall back to application/octet-stream.
+
 2005-04-04  Rodney Dawes  <dobey@novell.com>
 
 	* em-folder-view.c (emfv_popup_items): Add Mark as Read/Unread back
