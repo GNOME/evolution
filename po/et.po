@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Evolution CVS HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-08-13 14:55-0400\n"
-"PO-Revision-Date: 2005-01-18 18:43+0200\n"
+"PO-Revision-Date: 2005-01-29 16:22+0200\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -9789,16 +9789,17 @@ msgid "The supplied context handle did not refer to a valid context."
 msgstr ""
 
 #: camel/camel-sasl-gssapi.c:182
+#, fuzzy
 msgid "The consistency checks performed on the input_token failed."
-msgstr ""
+msgstr "Tõrge input_token'i kooskõlalisuse kontrollimisel."
 
 #: camel/camel-sasl-gssapi.c:185
 msgid "The consistency checks performed on the credential failed."
-msgstr ""
+msgstr "Tõrge volituste kooskõlalisuse kontrollimisel."
 
 #: camel/camel-sasl-gssapi.c:188
 msgid "The referenced credentials have expired."
-msgstr ""
+msgstr "Osutatud volitused on aegunud."
 
 #: camel/camel-sasl-gssapi.c:194
 #: camel/camel-sasl-gssapi.c:242
@@ -11376,7 +11377,7 @@ msgstr "Maildir kataloogi ei saa avada %s: %s"
 
 #: camel/providers/local/camel-maildir-summary.c:549
 msgid "Checking folder consistency"
-msgstr ""
+msgstr "Kausta kooskõlalisuse kontroll"
 
 #: camel/providers/local/camel-maildir-summary.c:652
 msgid "Checking for new messages"
@@ -14128,7 +14129,7 @@ msgstr "Kausta `%s' ei saa kopeerida `%s': %s"
 #: mail/em-migrate.c:1813
 #, c-format
 msgid "Unable to scan for existing mailboxes at `%s': %s"
-msgstr ""
+msgstr "Olemasolevaid kaustu asukohas '%s' ei saa läbi vaadata: %s"
 
 #: mail/em-migrate.c:2017
 #, c-format
@@ -14152,9 +14153,9 @@ msgid "Failed to create local mail storage `%s': %s"
 msgstr ""
 
 #: mail/em-migrate.c:2657
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to create local mail folders at `%s': %s"
-msgstr "Ei saa luua kohalikku mailikausta @ `%s': %s"
+msgstr "Ei saa luua kohalikku mailikausta asukohas `%s': %s"
 
 #: mail/em-migrate.c:2675
 msgid "Unable to read settings from previous Evolution install, `evolution/config.xmldb' does not exist or is corrupt."
@@ -14458,11 +14459,11 @@ msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:52
 msgid "New Mail Notify sound file"
-msgstr ""
+msgstr "Helifail uutest sõnumitest teatamiseks"
 
 #: mail/evolution-mail.schemas.in.in.h:53
 msgid "New Mail Notify type"
-msgstr " "
+msgstr "Uuest sõnumist teatamise tüüp"
 
 #: mail/evolution-mail.schemas.in.in.h:54
 msgid "Prompt on empty subject"
