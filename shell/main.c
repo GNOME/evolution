@@ -171,6 +171,8 @@ shell_weak_notify (void *data,
 }
 
 
+#ifdef KILL_PROCESS_CMD
+
 static void
 kill_wombat (void)
 {
@@ -178,6 +180,9 @@ kill_wombat (void)
 
 	system (KILL_PROCESS_CMD " -9 lt-evolution-wombat 2> /dev/null");
 	system (KILL_PROCESS_CMD " -9 evolution-wombat 2> /dev/null");
+
+	system (KILL_PROCESS_CMD " -9 lt-evolution-alarm-notify 2> /dev/null");
+	system (KILL_PROCESS_CMD " -9 evolution-alarm-notify 2> /dev/null");
 }
 
 static void
@@ -216,6 +221,7 @@ kill_old_wombat (void)
 	CORBA_Object_release (iface, &ev);
 	CORBA_exception_free (&ev);
 }
+#endif
 
 
 /* Warning dialog to scare people off a little bit.  */
@@ -350,7 +356,9 @@ idle_cb (void *data)
 	gboolean display_default;
 	gboolean displayed_any;
 
+#ifdef KILL_PROCESS_CMD
 	kill_old_wombat ();
+#endif
 
 	CORBA_exception_init (&ev);
 
