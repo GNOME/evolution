@@ -33,7 +33,7 @@
 
 #include <gal/widgets/e-cursors.h>
 
-#include "alarm.h"
+#include "alarm-notify/alarm.h"
 #include "calendar-commands.h"
 #include "calendar-config.h"
 #include "component-factory.h"

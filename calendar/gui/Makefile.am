@@ -14,7 +14,6 @@ $(IDL_GENERATED): $(IDLS)
                 $(srcdir)/../../composer/Evolution-Composer.idl
 
 SUBDIRS = alarm-notify dialogs
-#SUBDIRS = dialogs
 
 help_base = $(datadir)/gnome/help/cal
 
@@ -47,8 +46,6 @@ glade_DATA = 					\
 
 evolution_calendar_SOURCES =			\
 	$(IDL_GENERATED)			\
-	alarm.c					\
-	alarm.h					\
 	calendar-config.c			\
 	calendar-config.h			\
 	calendar-commands.c			\
@@ -114,6 +111,7 @@ evolution_calendar_SOURCES =			\
 	widget-util.h
 
 evolution_calendar_LDADD =								\
+	alarm-notify/libalarm.a								\
 	$(top_builddir)/shell/libeshell.a						\
 	$(top_builddir)/calendar/cal-client/libcal-client.la				\
 	$(top_builddir)/calendar/cal-util/libcal-util.la				\

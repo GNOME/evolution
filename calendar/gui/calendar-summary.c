@@ -39,11 +39,10 @@
 #include <gnome-xml/parser.h>
 #include <gnome-xml/xmlmemory.h>
 
-#include "cal-util/cal-component.h"
-#include "cal-util/timeutil.h"
-#include "alarm.h"
+#include <cal-util/cal-component.h>
+#include <cal-util/timeutil.h>
+#include "alarm-notify/alarm.h"
 #include "calendar-model.h"
-
 #include "calendar-summary.h"
 
 typedef struct {
@@ -457,16 +456,13 @@ cal_opened_cb (CalClient *client,
 
 static void
 alarm_fn (gpointer alarm_id,
-	  time_t old_t,
+	  time_t trigger,
 	  gpointer data)
 {
 	CalSummary *summary;
 	time_t t, day_end;
 
 	summary = data;
-
-	/* Remove the old alarm, and start a new one for the next midnight */
-	alarm_remove (alarm_id);
 
 	t = time (NULL);
 	day_end = time_day_end (t);

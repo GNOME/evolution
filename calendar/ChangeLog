@@ -1,3 +1,21 @@
+2001-02-26  Federico Mena Quintero  <federico@ximian.com>
+
+	* gui/alarm-notify/Makefile.am (libalarm_a_SOURCES): Create a
+	little stand-alone library for the low-level alarm trigger
+	mechanism.  This is so that the GUI parts of the calendar can use
+	it in addition to the alarm daemon.
+
+	* gui/main.c: #include "alarm-notify/alarm.h".
+
+	* gui/calendar-summary.c: Likewise.
+	(alarm_fn): Do not remove the previous alarm; it is removed
+	automatically when it is triggered.
+
+	* gui/Makefile.am (evolution_calendar_SOURCES): Removed alarm.[ch]
+	from the sources.
+
+	* gui/alarm.[ch]: Removed obsolete files.
+
 2001-02-23  Federico Mena Quintero  <federico@ximian.com>
 
 	* gui/alarm-notify/alarm-notify.c (AlarmNotify_addCalendar):

@@ -13,6 +13,12 @@ $(CORBA_GENERATED): $(idls)
 
 bin_PROGRAMS = evolution-alarm-notify
 
+noinst_LIBRARIES = libalarm.a
+
+libalarm_a_SOURCES =	\
+	alarm.c		\
+	alarm.h
+
 INCLUDES = 						\
 	-DG_LOG_DOMAIN=\"evolution-alarm-notify\"	\
 	-I$(top_srcdir)					\
@@ -30,8 +36,6 @@ INCLUDES = 						\
 gladedir   = $(datadir)/evolution/glade
 
 evolution_alarm_notify_SOURCES =	\
-	alarm.c				\
-	alarm.h				\
 	alarm-notify.c			\
 	alarm-notify.h			\
 	alarm-queue.c			\
@@ -39,6 +43,7 @@ evolution_alarm_notify_SOURCES =	\
 	notify-main.c
 
 evolution_alarm_notify_LDADD =								\
+	libalarm.a									\
 	$(top_builddir)/calendar/cal-client/libcal-client.la				\
 	$(top_builddir)/calendar/cal-util/libcal-util.la				\
 	$(top_builddir)/libical/src/libical/libical.la					\
