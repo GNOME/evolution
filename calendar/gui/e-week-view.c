@@ -322,8 +322,8 @@ time_range_changed_cb (ECalModel *model, time_t start_time, time_t end_time, gpo
 
 	gtk_widget_queue_draw (week_view->main_canvas);
 
-	/* FIXME Only select one day */
-	e_week_view_set_selected_time_range (E_CALENDAR_VIEW (week_view), start_time, end_time);
+	/* FIXME Preserve selection if possible */
+	e_week_view_set_selected_time_range (E_CALENDAR_VIEW (week_view), start_time, start_time);
 }
 
 

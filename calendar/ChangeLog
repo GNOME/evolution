@@ -1,3 +1,7 @@
+2004-04-05  JP Rosevear <jpr@ximian.com>
+
+	* gui/e-week-view.c (time_range_changed_cb): only select one day
+
 2004-04-05  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/alarm-notify/alarm-queue.c: removed commented code.
