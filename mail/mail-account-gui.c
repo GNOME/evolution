@@ -1056,6 +1056,8 @@ static int
 delete_event_cb (GtkWidget *w, GdkEvent *event, ESignatureEditor *editor)
 {
 	do_exit (editor);
+	
+	return FALSE;
 }
 
 static void

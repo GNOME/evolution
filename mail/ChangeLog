@@ -1,5 +1,8 @@
 2002-01-25  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-account-gui.c (delete_event_cb): We need to return a value
+	here. I think FALSE is fine (I hope).
+
 	* mail-display.c (save_data_cb): Save the pathname.
 	(save_part): Use the new mail_config cruft to get the last used
 	save pathname.
