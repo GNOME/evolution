@@ -8229,15 +8229,15 @@ msgstr "Crear carpeta virtual de la búsqueda"
 
 #: mail/folder-browser.c:1338
 msgid "VFolder on _Subject"
-msgstr "VFolder según el a_sunto"
+msgstr "Carpeta virtual según el a_sunto"
 
 #: mail/folder-browser.c:1341
 msgid "VFolder on Se_nder"
-msgstr "VFolder según el _remitente"
+msgstr "Carpeta virtual según el _remitente"
 
 #: mail/folder-browser.c:1344
 msgid "VFolder on _Recipients"
-msgstr "VFolder según los _destinatarios"
+msgstr "Carpeta virtual según los _destinatarios"
 
 #: mail/folder-browser.c:1347
 msgid "VFolder on Mailing _List"
@@ -8756,7 +8756,7 @@ msgstr ""
 #: mail/mail-config.c:1629
 #, c-format
 msgid "%s: Inbox"
-msgstr "%s: Inbox"
+msgstr "%s: Buzón de entrada"
 
 #: mail/mail-config.c:1873
 msgid "Checking Service"
@@ -9500,7 +9500,7 @@ msgstr "Copiando"
 #: mail/mail-ops.c:996
 #, c-format
 msgid "Scanning folders in \"%s\""
-msgstr "Anzalianzando carpetas en «%s»"
+msgstr "Analizando carpetas en «%s»"
 
 #. Fill in the new fields
 #: mail/mail-ops.c:1043 shell/e-local-storage.c:179
@@ -11296,11 +11296,11 @@ msgstr "Cancelar Operación"
 
 #: shell/e-local-storage.c:175 shell/e-shortcuts.c:1053
 msgid "Inbox"
-msgstr "Inbox"
+msgstr "Buzón de entrada"
 
 #: shell/e-local-storage.c:176
 msgid "Outbox"
-msgstr "Salida"
+msgstr "Buzón de salida"
 
 #: shell/e-local-storage.c:624
 msgid "Local Folders"
@@ -11722,7 +11722,7 @@ msgstr "Seleccione la carpeta a la que quiere que apunte el atajo:"
 
 #: shell/e-shell-view-menu.c:595
 msgid "The GNOME Pilot tools do not appear to be installed on this system."
-msgstr ""
+msgstr "Las utilidades GNOME Pilot no aparecen instaladas en este sistema."
 
 #: shell/e-shell-view-menu.c:603
 #, fuzzy, c-format
@@ -13053,15 +13053,15 @@ msgstr "Carpeta virtual según la _Lista de Correo..."
 
 #: ui/evolution-mail-message.xml.h:81
 msgid "VFolder on Se_nder..."
-msgstr "VFolder según el Remite_nte..."
+msgstr "Carpeta virtual según el Remite_nte..."
 
 #: ui/evolution-mail-message.xml.h:82
 msgid "VFolder on _Recipients..."
-msgstr "VFolder según los Destinata_rios..."
+msgstr "Carpeta virtual según los Destinata_rios..."
 
 #: ui/evolution-mail-message.xml.h:83
 msgid "VFolder on _Subject..."
-msgstr "VFolder según el A_sunto..."
+msgstr "Carpeta virtual según el A_sunto..."
 
 #: ui/evolution-mail-message.xml.h:85
 msgid "_Apply Filters"
@@ -13505,7 +13505,7 @@ msgstr "_Ir a la carpeta..."
 #: ui/evolution.xml.h:41
 #, fuzzy
 msgid "_Import..."
-msgstr "Importando..."
+msgstr "_Importar..."
 
 #: ui/evolution.xml.h:42
 msgid "_Move..."
@@ -13733,7 +13733,7 @@ msgstr "Guardar búsqueda"
 
 #: widgets/misc/e-filter-bar.h:94
 msgid "Add to Saved Searches"
-msgstr "Añadir a la búsqueda guardada"
+msgstr "Añadir a las búsquedas guardadas"
 
 #: widgets/misc/e-filter-bar.h:95
 msgid "Clear"
