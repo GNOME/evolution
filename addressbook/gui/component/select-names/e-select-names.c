@@ -580,21 +580,9 @@ e_select_names_destroy (GtkObject *object)
 {
 	ESelectNames *e_select_names = E_SELECT_NAMES(object);
 
-	if (e_select_names->local_listener) {
-		gtk_signal_disconnect_by_data(GTK_OBJECT(e_select_names->local_listener), e_select_names);
-		gtk_object_unref(GTK_OBJECT(e_select_names->local_listener));
-	}
-
-	if (e_select_names->other_contacts_listener) {
-		gtk_signal_disconnect_by_data(GTK_OBJECT(e_select_names->other_contacts_listener), e_select_names);
-		gtk_object_unref(GTK_OBJECT(e_select_names->other_contacts_listener));
-	}
-
 	gtk_object_unref(GTK_OBJECT(e_select_names->gui));
 	g_hash_table_foreach(e_select_names->children, (GHFunc) e_select_names_child_free, e_select_names);
 	g_hash_table_destroy(e_select_names->children);
-	g_hash_table_destroy(e_select_names->folders);
-	g_hash_table_destroy(e_select_names->folders_by_uri);
 
 	g_free(e_select_names->def);
 }

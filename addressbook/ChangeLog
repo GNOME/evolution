@@ -1,3 +1,14 @@
+2002-08-01  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/select-names/e-select-names.h (struct
+	_ESelectNames): remove folders and folders_by_uri, and the 2
+	listeners.
+
+	* gui/component/select-names/e-select-names.c
+	(e_select_names_destroy): remove the hash_table_destroys of
+	folders and folders_by_uri, since they no longer exist.  same for
+	other_contacts_listener and local_listener.
+
 2002-08-01  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/component/addressbook-component.c (create_component): Use
