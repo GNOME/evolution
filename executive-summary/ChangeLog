@@ -1,3 +1,10 @@
+2001-05-10  Iain Holmes  <iain@ximian.com>
+
+	* test-service/rdf-summary.c (download_cb): Proxy clicked events to
+	download.
+	(property_control): Connect the Update Now button to the download_cb
+	instead of download to prevent a crash.
+
 2001-05-05  Gediminas Paulauskas <menesis@delfi.lt>
 
 	* component/Makefile.am, evolution-services/Makefile.am: no need of

@@ -632,6 +632,13 @@ download (RdfSummary *summary)
 }
 
 static void
+download_cb (GtkWidget *w,
+	     RdfSummary *summary)
+{
+	download (summary);
+}
+
+static void
 get_prop (BonoboPropertyBag *bag,
 	  BonoboArg *arg,
 	  guint arg_id,
@@ -777,7 +784,7 @@ property_control (BonoboPropertyControl *property_control,
 
 	button = gtk_button_new_with_label (_("Update now"));
 	gtk_signal_connect (GTK_OBJECT (button), "clicked",
-			    GTK_SIGNAL_FUNC (download), summary);
+			    GTK_SIGNAL_FUNC (download_cb), summary);
 	gtk_box_pack_start (GTK_BOX (hbox), button, TRUE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (container), hbox, FALSE, FALSE, 0);
 
