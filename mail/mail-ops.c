@@ -275,7 +275,7 @@ composer_send_cb (EMsgComposer *composer, gpointer data)
 
 
 void
-send (GtkWidget *widget, gpointer user_data)
+send_msg (GtkWidget *widget, gpointer user_data)
 {
 	GtkWidget *composer;
 
@@ -311,4 +311,21 @@ void
 reply_to_all (GtkWidget *button, gpointer user_data)
 {
 	reply (FOLDER_BROWSER (user_data), TRUE);
+}
+
+
+void
+forward_msg (GtkWidget *button, gpointer user_data)
+{
+	FolderBrowser *fb;
+	EMsgComposer *composer;
+
+	fb = FOLDER_BROWSER (user_data);
+	composer = mail_generate_forward (fb->mail_display->current_message,
+					  TRUE, TRUE);
+
+	gtk_signal_connect (GTK_OBJECT (composer), "send",
+			    GTK_SIGNAL_FUNC (composer_send_cb), NULL);
+
+	gtk_widget_show (GTK_WIDGET (composer));	
 }

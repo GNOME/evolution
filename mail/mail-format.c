@@ -1060,3 +1060,59 @@ mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 
 	return composer;
 }
+
+/* This is part of the temporary kludge below. */
+#ifndef HAVE_MKSTEMP
+#include <fcntl.h>
+#include <sys/stat.h>
+#endif
+
+EMsgComposer *
+mail_generate_forward (CamelMimeMessage *mime_message,
+		       gboolean forward_as_attachment,
+		       gboolean keep_attachments)
+{
+	EMsgComposer *composer;
+	char *tmpfile;
+	int fd;
+	CamelStream *stream;
+
+	if (!forward_as_attachment)
+		g_warning ("Forward as non-attachment not implemented.");
+	if (!keep_attachments)
+		g_warning ("Forwarding without attachments not implemented.");
+
+	/* For now, we kludge by writing out a temp file. Later,
+	 * EMsgComposer will support attaching CamelMimeParts directly,
+	 * or something. FIXME.
+	 */
+	tmpfile = g_strdup ("/tmp/evolution-kludge-XXXX");
+#ifdef HAVE_MKSTEMP
+	fd = mkstemp (tmpfile);
+#else
+	if (mktemp (tmpfile)) {
+		fd = open (tmpfile, O_RDWR | O_CREAT | O_EXCL,
+			   S_IRUSR | S_IWUSR);
+	} else
+		fd = -1;
+#endif
+	if (fd == -1) {
+		g_warning ("Couldn't create temp file for forwarding");
+		g_free (tmpfile);
+		return NULL;
+	}
+
+	stream = camel_stream_fs_new_with_fd (fd);
+	camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (mime_message),
+					    stream);
+	camel_stream_close (stream);
+
+	composer = E_MSG_COMPOSER (e_msg_composer_new ());
+	e_msg_composer_attachment_bar_attach (composer->attachment_bar,
+					      tmpfile);
+	g_free (tmpfile);
+
+	/* FIXME: should we default a subject? */
+
+	return composer;
+}

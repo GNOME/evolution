@@ -1,3 +1,15 @@
+2000-04-23  Dan Winship  <danw@helixcode.com>
+
+	* folder-browser-factory.c: rename "send" to "send_msg", to avoid
+	name clash with the tcp function. Connect the "forward" button.
+
+	* mail-ops.c: rename "send" to "send_msg", to avoid name clash
+	with the tcp function. Add forward_msg function.
+
+	* mail-format.c (mail_generate_forward): support function for
+	forward_msg. Pretty much a big kludge right now, pending the
+	attachment/attachment-bar changes.
+
 2000-04-22  Dan Winship  <danw@helixcode.com>
 
 	* mail-display.c (on_url_requested): Change cid expectations to
