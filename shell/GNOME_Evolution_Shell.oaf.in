@@ -9,7 +9,7 @@
 	</oaf_attribute>
 
 	<oaf_attribute name="description" type="string"
-                       value="The Evolution shell."/>
+                       _value="The Evolution shell."/>
 </oaf_server>
 
 </oaf_info>
