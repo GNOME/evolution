@@ -85,7 +85,7 @@ BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("MessageFilterSubj", filter_subject),
 	BONOBO_UI_UNSAFE_VERB ("MessageFilterSndr", filter_sender),
 	BONOBO_UI_UNSAFE_VERB ("MessageFilterRecip", filter_recipient),
-
+	
 	BONOBO_UI_UNSAFE_VERB ("MessageHideClear", hide_none),
 	BONOBO_UI_UNSAFE_VERB ("MessageHideRead", hide_read),
 	BONOBO_UI_UNSAFE_VERB ("MessageHideDeleted", hide_deleted),

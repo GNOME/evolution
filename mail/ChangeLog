@@ -1,3 +1,11 @@
+2001-02-08  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-ops.c (fetch_mail_fetch): Reworked some keep-mail-on-server
+	logic so that we ALWAYS look for a cached array of UIDs that we
+	may have downloaded previously so as not to download them again
+	even if we will be deleting them off the server. This fixes bug
+	#1344.
+
 2001-02-09  Not Zed  <NotZed@Ximian.com>
 
 	* mail-ops.c (filter_folder_free): only free driver, if set.
