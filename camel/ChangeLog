@@ -1,6 +1,12 @@
 2004-04-08  Not Zed  <NotZed@Ximian.com>
 
+	* camel-folder.h (camel_folder_delete_message): always set the
+	seen flag when we delete a message.  I demand that this may, or
+	may not, fix #56549.
+
 	* camel-folder.c: include camel-debug.h
+	(camel_folder_set_message_flags): fixed the doco slightly (well
+	reversed the flag and set explanation) and give an example.
 
 	* providers/local/camel-mbox-folder.c
 	(mbox_set_message_user_flag): message changed to folder_changed.

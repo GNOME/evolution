@@ -756,9 +756,12 @@ set_message_flags(CamelFolder *folder, const char *uid, guint32 flags, guint32 s
  * @flags: a set of CamelMessageFlag values to set
  * @set: the mask of values in @flags to use.
  *
- * Sets those flags specified by @set to the values specified by @flags
+ * Sets those flags specified by @flags to the values specified by @set
  * on the indicated message. (This may or may not persist after the
  * folder or store is closed. See camel_folder_get_permanent_flags().)
+ *
+ * E.g. to set the deleted flag and clear the draft flag, use
+ * set_message_flags(folder, uid, CAMEL_MESSAGE_DELETED|CAMEL_MESSAGE_DRAFT, CAMEL_MESSAGE_DELETED);
  *
  * Return Value: TRUE if the flags were changed, false otherwise.
  **/

@@ -280,7 +280,7 @@ CamelMimeMessage * camel_folder_get_message           (CamelFolder *folder,
 						       const char *uid, 
 						       CamelException *ex);
 #define camel_folder_delete_message(folder, uid) \
-	camel_folder_set_message_flags (folder, uid, CAMEL_MESSAGE_DELETED, CAMEL_MESSAGE_DELETED)
+	camel_folder_set_message_flags (folder, uid, CAMEL_MESSAGE_DELETED|CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_DELETED)
 
 GPtrArray *        camel_folder_get_uids              (CamelFolder *folder);
 void               camel_folder_free_uids             (CamelFolder *folder,
