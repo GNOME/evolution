@@ -59,9 +59,13 @@ struct _MessageList {
 
 	CamelFolder  *folder;
 
+	GPtrArray *summary_table; /* the summary of all messages */
+
 	char *search;		/* search string */
 	/* FIXME: This should use a better format ... */
 	GList *matches;		/* when a search has been performed ... */
+	int match_count;
+	GPtrArray *summary_search_cache; /* summary info cache for searches */
 
 	/* used by the idle-call to select a row */
 	int row_to_select;

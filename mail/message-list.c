@@ -59,24 +59,22 @@ CamelMessageInfo *get_message_info(MessageList *message_list, gint row)
 {
 	CamelMessageInfo *info = NULL;
 
-	if (message_list->matches) {
-		char *uid;
-
-		uid = g_list_nth_data(message_list->matches, row);
-		if (uid) {
-			info = camel_folder_summary_get_by_uid(message_list->folder, uid);
-		} else {
-			g_warning("trying to get data for nonexistant row %d", row);
+	if (message_list->search) {
+		if (row<message_list->match_count) {
+			info = message_list->summary_search_cache->pdata[row];
+			if (info == NULL) {
+				char *uid = g_list_nth_data(message_list->matches, row);
+				if (uid) {
+					info = message_list->summary_search_cache->pdata[row] =
+						camel_folder_summary_get_by_uid(message_list->folder, uid);
+				}
+			}
 		}
 	} else {
-		GPtrArray *msg_info_array;
-		msg_info_array = camel_folder_summary_get_message_info 
-			(message_list->folder, row, 1);
-		if (msg_info_array && msg_info_array->len > 0) {
-			info = msg_info_array->pdata[0];
-		}
-		g_ptr_array_free(msg_info_array, TRUE);
+		if (row<message_list->summary_table->len)
+			info = message_list->summary_table->pdata[row];
 	}
+
 	return info;
 }
 
@@ -135,21 +133,16 @@ static int
 ml_row_count (ETableModel *etm, void *data)
 {
 	MessageList *message_list = data;
-	CamelException ex;
 	int v;
 	
 	if (!message_list->folder) {
 		return 0;
 	}
 
-	if (message_list->matches) {
-		v = g_list_length(message_list->matches);
+	if (message_list->search) {
+		v = message_list->match_count;
 	} else {
-		camel_exception_init (&ex);
-	
-		v = camel_folder_get_message_count (message_list->folder, &ex);
-		if (camel_exception_get_id (&ex))
-			v = 0;
+		v = message_list->summary_table->len;
 	}
 
 	/* in the case where no message is available, return 1
@@ -544,6 +537,8 @@ message_list_init (GtkObject *object)
 	 */
 	gtk_object_ref (GTK_OBJECT (message_list->etable));
 	gtk_object_sink (GTK_OBJECT (message_list->etable));
+
+	message_list->summary_search_cache = g_ptr_array_new();
 }
 
 static void
@@ -566,6 +561,11 @@ message_list_destroy (GtkObject *object)
 	gtk_object_unref (GTK_OBJECT (message_list->render_attachment));
 	
 	gtk_object_unref (GTK_OBJECT (message_list->etable));
+
+	if (message_list->summary_search_cache)
+		g_ptr_array_free(message_list->summary_search_cache, TRUE);
+	if (message_list->summary_table)
+		g_ptr_array_free(message_list->summary_table, TRUE);
 
 	for (i = 0; i < COL_LAST; i++)
 		gtk_object_unref (GTK_OBJECT (message_list->table_cols [i]));
@@ -702,6 +702,9 @@ message_list_set_search (MessageList *message_list, const char *search)
 		camel_exception_init (&ex);
 		message_list->matches = camel_folder_search_by_expression(message_list->folder, search, &ex);
 		message_list->search = g_strdup(search);
+		message_list->match_count = g_list_length(message_list->matches);
+		g_ptr_array_set_size(message_list->summary_search_cache, message_list->match_count);
+		memset(message_list->summary_search_cache->pdata, 0, sizeof(message_list->summary_search_cache->pdata[0]) * message_list->match_count);
 	}
 
 	e_table_model_changed (message_list->table_model);
@@ -711,6 +714,10 @@ message_list_set_search (MessageList *message_list, const char *search)
 static void
 folder_changed(CamelFolder *f, int type, MessageList *message_list)
 {
+	if (message_list->summary_table)
+		g_ptr_array_free(message_list->summary_table, TRUE);		
+	message_list->summary_table = camel_folder_summary_get_message_info (message_list->folder, 0, INT_MAX);
+
 	message_list_set_search(message_list, message_list->search);
 }
 
@@ -731,6 +738,10 @@ message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder)
 		g_list_free(message_list->matches);
 		message_list->matches = NULL;
 	}
+
+	if (message_list->summary_table)
+		g_ptr_array_free(message_list->summary_table, TRUE);
+	message_list->summary_table = NULL;
 	
 	camel_exception_init (&ex);
 	
@@ -772,7 +783,8 @@ message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder)
 	gtk_signal_connect((GtkObject *)camel_folder, "folder_changed", folder_changed, message_list);
 
 	gtk_object_ref (GTK_OBJECT (camel_folder));
-	
+
+	message_list->summary_table = camel_folder_summary_get_message_info (message_list->folder, 0, INT_MAX);
 	e_table_model_changed (message_list->table_model);
 
 	select_msg (message_list, 0);

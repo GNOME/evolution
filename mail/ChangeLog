@@ -1,3 +1,23 @@
+2000-05-04  NotZed  <NotZed@HelixCode.com>
+
+	* message-list.c (message_list_set_folder): Get the whole message
+	summary right away.
+	(folder_changed): And if we change too.
+	(ml_row_count): Use the match count or summary table length as the
+	row count.
+	(get_message_info): Use array references to lookup message summary
+	info.  For the search result list, use the summary_search_cache to
+	cache the info lookup.
+	(message_list_init): Allocate the summary search cache.
+	(message_list_destroy): Free the summary search cache and the
+	summary table, if there is one to free.
+	(message_list_set_search): Save the match count, and clear the
+	summary search cache for reuse.
+	(folder_changed): Re-retrieve the summary list if the folder has
+	changed.
+	(message_list_set_folder): Retrieve the summary list when opening
+	the folder.
+
 2000-05-03  Jason Leach  <leach@wam.umd.edu>
 
 	* Makefile.am (evolution_mail_LDADD): s/-lunicode/$(UNICODE_LIBS)/
