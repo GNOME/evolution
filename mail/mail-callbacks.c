@@ -529,11 +529,15 @@ static void
 save_draft_done (CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *info, int ok,
 		 const char *appended_uid, void *data)
 {
+	CORBA_Environment ev;
 	struct _save_draft_info *sdi = data;
 	char *old_uid;
 	
 	if (!ok)
 		goto done;
+	CORBA_exception_init (&ev);
+	GNOME_GtkHTML_Editor_Engine_runCommand (sdi->composer->editor_engine, "saved", &ev);
+	CORBA_exception_free (&ev);
 	
 	old_uid = gtk_object_get_data (GTK_OBJECT (sdi->composer), "draft_uid");
 	if (old_uid) {
