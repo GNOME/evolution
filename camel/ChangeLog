@@ -1,3 +1,8 @@
+2002-07-22  Not Zed  <NotZed@Ximian.com>
+
+	* camel-vee-folder.c (vee_set_message_user_tag): Oops, forgot to
+	implement this.  Fixes #24604.
+
 2002-07-21  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-filter-crlf.c (filter): Only add a \r if the

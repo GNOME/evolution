@@ -65,6 +65,7 @@ static GPtrArray *vee_search_by_uids(CamelFolder *folder, const char *expression
 
 static void vee_set_message_flags (CamelFolder *folder, const char *uid, guint32 flags, guint32 set);
 static void vee_set_message_user_flag (CamelFolder *folder, const char *uid, const char *name, gboolean value);
+static void vee_set_message_user_tag(CamelFolder *folder, const char *uid, const char *name, const char *value);
 static void vee_rename(CamelFolder *folder, const char *new);
 
 static void camel_vee_folder_class_init (CamelVeeFolderClass *klass);
@@ -135,6 +136,7 @@ camel_vee_folder_class_init (CamelVeeFolderClass *klass)
 
 	folder_class->set_message_flags = vee_set_message_flags;
 	folder_class->set_message_user_flag = vee_set_message_user_flag;
+	folder_class->set_message_user_tag = vee_set_message_user_tag;
 
 	folder_class->rename = vee_rename;
 
@@ -792,6 +794,19 @@ vee_set_message_user_flag(CamelFolder *folder, const char *uid, const char *name
 		camel_folder_set_message_user_flag(mi->folder, camel_message_info_uid(mi) + 8, name, value);
 		camel_folder_summary_info_free(folder->summary, (CamelMessageInfo *)mi);
 		((CamelFolderClass *)camel_vee_folder_parent)->set_message_user_flag(folder, uid, name, value);
+	}
+}
+
+static void
+vee_set_message_user_tag(CamelFolder *folder, const char *uid, const char *name, const char *value)
+{
+	CamelVeeMessageInfo *mi;
+
+	mi = (CamelVeeMessageInfo *)camel_folder_summary_uid(folder->summary, uid);
+	if (mi) {
+		camel_folder_set_message_user_tag(mi->folder, camel_message_info_uid(mi) + 8, name, value);
+		camel_folder_summary_info_free(folder->summary, (CamelMessageInfo *)mi);
+		((CamelFolderClass *)camel_vee_folder_parent)->set_message_user_tag(folder, uid, name, value);
 	}
 }
 
