@@ -1005,7 +1005,7 @@ modify_card_handler (PASBackend *backend, LDAPOp *op)
 	LDAPModifyOp *modify_op = (LDAPModifyOp*)op;
 	PASBackendLDAP *bl = PAS_BACKEND_LDAP (backend);
 	ECard *new_ecard;
-	char *id;
+	const char *id;
 	int response;
 	int            ldap_error = LDAP_SUCCESS;
 	GPtrArray *mod_array;

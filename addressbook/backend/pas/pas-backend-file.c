@@ -275,12 +275,14 @@ static struct prop_info {
 #define PROP_TYPE_NORMAL   0x01
 #define PROP_TYPE_LIST     0x02
 #define PROP_TYPE_LISTITEM 0x03
+#define PROP_TYPE_ID 0x04
 	int prop_type;
 	gboolean (*list_compare)(ECardSimple *ecard, const char *str,
 				 char *(*compare)(const char*, const char*));
 
 } prop_info_table[] = {
 #define NORMAL_PROP(f,q,e) {f, q, e, PROP_TYPE_NORMAL, NULL}
+#define ID_PROP {0, "id", NULL, PROP_TYPE_ID, NULL}
 #define LIST_PROP(q,e,c) {0, q, e, PROP_TYPE_LIST, c}
 
 	/* query prop,  ecard prop,   type,              list compare function */
@@ -298,6 +300,7 @@ static struct prop_info {
 	NORMAL_PROP ( E_CARD_SIMPLE_FIELD_NICKNAME, "nickname", "nickname"),
 	NORMAL_PROP ( E_CARD_SIMPLE_FIELD_SPOUSE, "spouse", "spouse" ),
 	NORMAL_PROP ( E_CARD_SIMPLE_FIELD_NOTE, "note", "note"),
+	ID_PROP,
 	LIST_PROP ( "email", "email", compare_email ),
 	LIST_PROP ( "phone", "phone", compare_phone ),
 	LIST_PROP ( "address", "address", compare_address ),
@@ -341,10 +344,23 @@ entry_compare(PASBackendFileSearchContext *ctx, struct _ESExp *f,
 					if ((!prop) && compare("", argv[1]->value.string)) {
 						truth = TRUE;
 					}
-				}
-				else if (info->prop_type == PROP_TYPE_LIST) {
+					g_free (prop);
+				} else if (info->prop_type == PROP_TYPE_LIST) {
 				/* the special searches that match any of the list elements */
 					truth = info->list_compare (ctx->card, argv[1]->value.string, compare);
+				} else if (info->prop_type == PROP_TYPE_ID) {
+					const char *prop = NULL;
+					/* searches where the query's property
+					   maps directly to an ecard property */
+					
+					prop = e_card_get_id (ctx->card->card);
+
+					if (prop && compare(prop, argv[1]->value.string)) {
+						truth = TRUE;
+					}
+					if ((!prop) && compare("", argv[1]->value.string)) {
+						truth = TRUE;
+					}
 				}
 
 				/* if we're looking at all fields and find a match,
@@ -862,7 +878,7 @@ pas_backend_file_process_modify_card (PASBackend *backend,
 	int            db_error;
 	EIterator     *iterator;
 	ECard         *card;
-	char          *id;
+	const char    *id;
 	char          *old_vcard_string;
 
 	/* create a new ecard from the request data */
