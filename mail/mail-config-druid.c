@@ -368,37 +368,44 @@ management_activate_cb (GtkEntry *ent, gpointer user_data)
 }
 
 
+#define WIZARD_ICON(name) (EVOLUTION_IMAGES "/mail-config-druid-" name ".png")
+
 static struct {
-	const char *page_name;
+	const char *page_name, *title, *icon_path;
 	void (*prepare_func) (MailConfigWizard *mcw);
 	gboolean (*back_func) (MailConfigWizard *mcw);
 	gboolean (*next_func) (MailConfigWizard *mcw);
 	const char *help_text;
 } wizard_pages[] = {
-	{ "identity_page", identity_prepare, NULL, identity_next,
+	{ "identity_page", N_("Identity"), WIZARD_ICON ("identity"),
+	  identity_prepare, NULL, identity_next,
 	  N_("Please enter your name and email address below. "
 	     "The \"optional\" fields below do not need to be "
 	     "filled in, unless you wish to include this "
 	     "information in email you send.")
 	},
 
-	{ "source_page", source_prepare, NULL, source_next,
+	{ "source_page", N_("Receiving Mail"), WIZARD_ICON ("receive"),
+	  source_prepare, NULL, source_next,
 	  N_("Please enter information about your incoming "
 	     "mail server below. If you are not sure, ask your "
 	     "system administrator or Internet Service Provider.")
 	},
 
-	{ "extra_page", extra_prepare, NULL, NULL,
+	{ "extra_page", N_("Receiving Mail"), WIZARD_ICON ("receive"),
+	  extra_prepare, NULL, NULL,
 	  N_("Please select among the following options")
 	},
 
-	{ "transport_page", transport_prepare, transport_back, transport_next,
+	{ "transport_page", N_("Sending Mail"), WIZARD_ICON ("send"),
+	  transport_prepare, transport_back, transport_next,
 	  N_("Please enter information about the way you will "
 	     "send mail. If you are not sure, ask your system "
 	     "administrator or Internet Service Provider.")
 	},
 
-	{ "management_page", management_prepare, NULL, NULL,
+	{ "management_page", N_("Account Management"), WIZARD_ICON ("account-name"),
+	  management_prepare, NULL, NULL,
 	  N_("You are almost done with the mail configuration "
 	     "process. The identity, incoming mail server and "
 	     "outgoing mail transport method which you provided "
@@ -663,16 +670,6 @@ mail_config_druid_new (void)
 
 /* CORBA wizard */
 
-static BonoboControl *
-get_fn (EvolutionWizard *wizard,
-	int page_num,
-	void *closure)
-{
-	MailConfigWizard *mcw = closure;
-
-	return bonobo_control_new (get_page (mcw->gui->xml, page_num));
-}
-
 static void
 wizard_next_cb (EvolutionWizard *wizard,
 		int page_num,
@@ -717,7 +714,6 @@ wizard_back_cb (EvolutionWizard *wizard,
 
 static void
 wizard_finish_cb (EvolutionWizard *wizard,
-		  int page_num,
 		  MailConfigWizard *w)
 {
 	MailAccountGui *gui = w->gui;
@@ -735,7 +731,6 @@ wizard_finish_cb (EvolutionWizard *wizard,
 
 static void
 wizard_cancel_cb (EvolutionWizard *wizard,
-		  int page_num,
 		  MailConfigWizard *mcw)
 {
 	mail_account_gui_destroy (mcw->gui);
@@ -754,11 +749,19 @@ evolution_mail_config_wizard_new (void)
 {
 	EvolutionWizard *wizard;
 	MailConfigWizard *mcw;
+	GdkPixbuf *icon;
+	int i;
 	
 	mcw = config_wizard_new ();	
 	mail_account_gui_setup (mcw->gui, NULL);
 	
-	wizard = evolution_wizard_new (get_fn, 5, mcw);
+	wizard = evolution_wizard_new ();
+	for (i = 0; i < MAIL_CONFIG_WIZARD_NUM_PAGES; i++) {
+		icon = gdk_pixbuf_new_from_file (wizard_pages[i].icon_path, NULL);
+		evolution_wizard_add_page (wizard, _(wizard_pages[i].title),
+					   icon, get_page (mcw->gui->xml, i));
+		g_object_unref (icon);
+	}
 	
 	g_object_set_data_full (G_OBJECT (wizard), "MailConfigWizard",
 				mcw, (GDestroyNotify)free_config_wizard);

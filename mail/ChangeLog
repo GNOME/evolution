@@ -1,5 +1,9 @@
 2003-02-25  Dan Winship  <danw@ximian.com>
 
+	* mail-config-druid.c: Update for new EvolutionWizard interfaces.
+
+2003-02-25  Dan Winship  <danw@ximian.com>
+
 	* mail-config-druid.c: Redo this to not use the CORBA interfaces
 	in the local case (in preparation for redoing the CORBA
 	interfaces).
