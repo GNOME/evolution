@@ -1260,10 +1260,6 @@ handle_text_plain_flowed (char *buf, MailDisplay *md, GtkHTML *html, GtkHTMLStre
 	int prevquoting = 0, quoting, len, br_pending = 0;
 	guint32 citation_color = mail_config_get_citation_color ();
 
-	/* When printing, do citations in black -- grey tends to be hard to read. */
-	if (md->printing)
-		citation_color = 0xffffff;
-	
 	mail_html_write (html, stream,
 			 "\n<!-- text/plain, flowed -->\n"
 			 "<table cellspacing=0 cellpadding=10 width=\"100%\"><tr><td>\n<tt>\n");
@@ -1279,7 +1275,10 @@ handle_text_plain_flowed (char *buf, MailDisplay *md, GtkHTML *html, GtkHTMLStre
 			quoting++;
 		if (quoting != prevquoting) {
 			if (prevquoting == 0) {
-				gtk_html_stream_printf (stream, "<font color=\"#%06x\">", citation_color);
+				if (md->printing)
+					mail_html_write (html, stream, "<i>");
+				else
+					gtk_html_stream_printf (stream, "<font color=\"#%06x\">", citation_color);
 				if (br_pending)
 					br_pending--;
 			}
@@ -1292,7 +1291,7 @@ handle_text_plain_flowed (char *buf, MailDisplay *md, GtkHTML *html, GtkHTMLStre
 				prevquoting--;
 			}
 			if (quoting == 0) {
-				mail_html_write (html, stream, "</font>\n");
+				mail_html_write (html, stream, md->printing ? "</i>" : "</font>\n");
 				if (br_pending)
 					br_pending--;
 			}

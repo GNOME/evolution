@@ -1,3 +1,8 @@
+2002-01-30  Radek Doulik  <rodo@ximian.com>
+
+	* mail-format.c (handle_text_plain_flowed): print quoted text in
+	italic
+
 2002-01-30  Not Zed  <NotZed@Ximian.com>
 
 	* component-factory.c (create_component): re-enable popup menu.
