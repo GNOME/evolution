@@ -686,16 +686,19 @@ vee_search_by_expression(CamelFolder *folder, const char *expression, CamelExcep
 		/* make sure we only search each folder once - for unmatched folder to work right */
 		if (g_hash_table_lookup(searched, f) == NULL) {
 			camel_vee_folder_hash_folder(f, hash);
-			matches = camel_folder_search_by_expression(f, expression, ex);
-			for (i = 0; i < matches->len; i++) {
-				char *uid = matches->pdata[i], *vuid;
+			/* FIXME: shouldn't ignore search exception */
+			matches = camel_folder_search_by_expression(f, expression, NULL);
+			if (matches) {
+				for (i = 0; i < matches->len; i++) {
+					char *uid = matches->pdata[i], *vuid;
 
-				vuid = g_malloc(strlen(uid)+9);
-				memcpy(vuid, hash, 8);
-				strcpy(vuid+8, uid);
-				g_ptr_array_add(result, vuid);
+					vuid = g_malloc(strlen(uid)+9);
+					memcpy(vuid, hash, 8);
+					strcpy(vuid+8, uid);
+					g_ptr_array_add(result, vuid);
+				}
+				camel_folder_search_free(f, matches);
 			}
-			camel_folder_search_free(f, matches);
 			g_hash_table_insert(searched, f, f);
 		}
 		node = g_list_next(node);
