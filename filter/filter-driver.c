@@ -474,14 +474,10 @@ open_folder(FilterDriver *d, const char *folder_url)
 		goto fail;
 	}
 
-	camelfolder = camel_store_get_folder (camelstore, folder, p->ex);
+	camelfolder = camel_store_get_folder (camelstore, folder, TRUE, p->ex);
 	if (camel_exception_get_id (p->ex)) {
 		printf ("Could not open folder: %s: %s", folder, camel_exception_get_description (p->ex));
 		goto fail;
-	}
-
-	if (!camel_folder_exists(camelfolder, p->ex)) {
-		camel_folder_create(camelfolder, p->ex);
 	}
 
 	camel_folder_open(camelfolder, FOLDER_OPEN_RW, p->ex);
