@@ -122,7 +122,7 @@ config_control_destroy_notify (void *data,
 }
 
 static const char *mail_types[] = { "mail", NULL };
-static const char *contacts_types[] = { "contacts", "ldap-contacts", NULL };
+static const char *contacts_types[] = { "contacts", "contacts/ldap", NULL };
 static const char *calendar_types[] = { "calendar", NULL };
 static const char *tasks_types[] = { "tasks", NULL };
 

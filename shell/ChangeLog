@@ -1,3 +1,9 @@
+2002-12-05  Chris Toshok  <toshok@ximian.com>
+
+	* e-shell-config-default-folders.c: use "contacts",
+	"contacts/ldap" as the accepted contacts types, so it'll allow
+	both normal and ldap contact folders.
+
 2002-12-04  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-component-registry.c (component_free): Only invoke
