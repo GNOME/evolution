@@ -21,11 +21,9 @@ $(IDL_GENERATED): $(IDLS) $(selectnamesdir)/Evolution-Addressbook-SelectNames.id
 gladedir = $(datadir)/evolution/glade
 
 glade_DATA =					\
-	e-msg-composer-address-dialog.glade	\
 	e-msg-composer-attachment.glade
 
 glade_messages = \
-	e-msg-composer-address-dialog.glade.h	\
 	e-msg-composer-attachment.glade.h
 
 libcomposerincludedir = $(includedir)/composer
@@ -53,10 +51,6 @@ INCLUDES =								\
 
 libcomposer_la_SOURCES = 			\
 	$(IDL_GENERATED)			\
-	e-msg-composer-address-dialog.c		\
-	e-msg-composer-address-dialog.h		\
-	e-msg-composer-address-entry.c		\
-	e-msg-composer-address-entry.h		\
 	e-msg-composer-attachment-bar.c		\
 	e-msg-composer-attachment-bar.h		\
 	e-msg-composer-attachment.c		\

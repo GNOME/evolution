@@ -53,7 +53,6 @@
 #include <gal/widgets/e-scroll-frame.h>
 
 #include "e-msg-composer.h"
-#include "e-msg-composer-address-dialog.h"
 #include "e-msg-composer-attachment-bar.h"
 #include "e-msg-composer-hdrs.h"
 #include "e-msg-composer-select-file.h"
