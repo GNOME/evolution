@@ -57,7 +57,7 @@ struct _EMsgComposer {
 	GtkWidget *editor;
 
 	GtkWidget *attachment_bar;
-	GtkWidget *attachment_scrolled_window;
+	GtkWidget *attachment_scroll_frame;
 
 	GtkWidget *address_dialog;
 

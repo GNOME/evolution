@@ -1,3 +1,12 @@
+2000-06-12  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-msg-composer.c: Make the `attachment_scroll_frame' an
+	`EScrollFrame'.
+	(exit_cb): I18N the quit message.
+
+	* e-msg-composer.h: `attachment_scrolled_window' renamed to
+	`attachment_scroll_frame'.
+
 2000-06-12  Dan Winship  <danw@helixcode.com>
 
 	* e-msg-composer.c (format_text): Don't break on non-breaking

@@ -35,16 +35,17 @@
 #endif
 #include <errno.h>
 
-#include <gnome.h>
-#include <libgnorba/gnorba.h>
 #include <bonobo.h>
 #include <bonobo/bonobo-stream-memory.h>
-#include "e-util/e-html-utils.h"
-#include "e-util/e-setup.h"
-
 #include <glade/glade.h>
+#include <gnome.h>
+#include <libgnorba/gnorba.h>
 
 #include <camel/camel.h>
+
+#include "e-util/e-html-utils.h"
+#include "e-util/e-setup.h"
+#include "widgets/misc/e-scroll-frame.h"
 
 #include "e-msg-composer.h"
 #include "e-msg-composer-address-dialog.h"
@@ -418,10 +419,10 @@ show_attachments (EMsgComposer *composer,
 		  gboolean show)
 {
 	if (show) {
-		gtk_widget_show (composer->attachment_scrolled_window);
+		gtk_widget_show (composer->attachment_scroll_frame);
 		gtk_widget_show (composer->attachment_bar);
 	} else {
-		gtk_widget_hide (composer->attachment_scrolled_window);
+		gtk_widget_hide (composer->attachment_scroll_frame);
 		gtk_widget_hide (composer->attachment_bar);
 	}
 
@@ -498,7 +499,7 @@ exit_cb (GtkWidget *widget, gpointer data)
 		GTK_WINDOW (gtk_widget_get_ancestor (GTK_WIDGET (data),
 						     GTK_TYPE_WINDOW));
 
-	gnome_ok_cancel_dialog_parented ("Discard this message?",
+	gnome_ok_cancel_dialog_parented (_("Discard this message?"),
 					 exit_dialog_cb, composer, parent);
 }
 	
@@ -749,7 +750,7 @@ init (EMsgComposer *composer)
 	composer->address_dialog = NULL;
 
 	composer->attachment_bar = NULL;
-	composer->attachment_scrolled_window = NULL;
+	composer->attachment_scroll_frame = NULL;
 }
 
 
@@ -818,17 +819,16 @@ e_msg_composer_construct (EMsgComposer *composer)
 	/* Attachment editor, wrapped into a GtkScrolledWindow.  We don't
            show it for now.  */
 
-	composer->attachment_scrolled_window = gtk_scrolled_window_new (NULL,
-									NULL);
-	gtk_scrolled_window_set_policy
-		(GTK_SCROLLED_WINDOW (composer->attachment_scrolled_window),
-		 GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	composer->attachment_scroll_frame = e_scroll_frame_new (NULL, NULL);
+	e_scroll_frame_set_policy (E_SCROLL_FRAME (composer->attachment_scroll_frame),
+				   GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+
 	composer->attachment_bar = e_msg_composer_attachment_bar_new (NULL);
 	GTK_WIDGET_SET_FLAGS (composer->attachment_bar, GTK_CAN_FOCUS);
-	gtk_container_add (GTK_CONTAINER (composer->attachment_scrolled_window),
+	gtk_container_add (GTK_CONTAINER (composer->attachment_scroll_frame),
 			   composer->attachment_bar);
 	gtk_box_pack_start (GTK_BOX (vbox),
-			    composer->attachment_scrolled_window,
+			    composer->attachment_scroll_frame,
 			    FALSE, TRUE, GNOME_PAD_SMALL);
 
 	gtk_signal_connect (GTK_OBJECT (composer->attachment_bar), "changed",
