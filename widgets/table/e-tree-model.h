@@ -11,18 +11,19 @@
 #define E_IS_TREE_MODEL(o)       (GTK_CHECK_TYPE ((o), E_TREE_MODEL_TYPE))
 #define E_IS_TREE_MODEL_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_TREE_MODEL_TYPE))
 
-typedef GNode ETreePath;
+typedef struct ETreePath ETreePath;
 typedef struct ETreeModel ETreeModel;
 typedef struct ETreeModelClass ETreeModelClass;
-typedef gint (*ETreePathCompareFunc)(ETreeModel *, ETreePath *path1, ETreePath *path2);
+typedef gint (*ETreePathCompareFunc)(ETreeModel *model, ETreePath *path1, ETreePath *path2);
+typedef gboolean (*ETreePathFunc)(ETreeModel *model, ETreePath *path, gpointer data);
 
 struct ETreeModel {
 	ETableModel base;
-	GNode      *root;
-	gboolean   root_visible;
+	ETreePath  *root;
+	gboolean    root_visible;
 	GArray     *row_array; /* used in the mapping between ETable and our tree */
-	guint32    num_expanded_to_save;
-	guint32    num_collapsed_to_save;
+	guint32     num_expanded_to_save;
+	guint32     num_collapsed_to_save;
 	GHashTable *expanded_state; /* used for loading/saving expanded state */
 	GString    *sort_group;	/* for caching the last sort group info */
 };
@@ -35,10 +36,12 @@ struct ETreeModelClass {
 	 */
 	ETreePath *(*get_root)      (ETreeModel *etm);
 
-	ETreePath *(*get_parent)    (ETreeModel *etm, ETreePath* node);
-	ETreePath *(*get_next)      (ETreeModel *etm, ETreePath* node);
-	ETreePath *(*get_prev)      (ETreeModel *etm, ETreePath* node);
-	guint      (*get_children)         (ETreeModel *etm, ETreePath* node, ETreePath ***paths);
+	ETreePath *(*get_parent)      (ETreeModel *etm, ETreePath* node);
+	ETreePath *(*get_first_child) (ETreeModel *etm, ETreePath* node);
+	ETreePath *(*get_last_child)  (ETreeModel *etm, ETreePath* node);
+	ETreePath *(*get_next)        (ETreeModel *etm, ETreePath* node);
+	ETreePath *(*get_prev)        (ETreeModel *etm, ETreePath* node);
+	guint      (*get_children)    (ETreeModel *etm, ETreePath* node, ETreePath ***paths);
 
 	gboolean   (*is_expanded)          (ETreeModel *etm, ETreePath* node);
 	gboolean   (*is_visible)           (ETreeModel *etm, ETreePath* node);
@@ -73,10 +76,12 @@ void        e_tree_model_construct (ETreeModel *etree);
 ETreeModel *e_tree_model_new (void);
 
 /* tree traversal operations */
-ETreePath *e_tree_model_get_root        (ETreeModel *etree);
-ETreePath *e_tree_model_node_get_parent (ETreeModel *etree, ETreePath *path);
-ETreePath *e_tree_model_node_get_next   (ETreeModel *etree, ETreePath *path);
-ETreePath *e_tree_model_node_get_prev   (ETreeModel *etree, ETreePath *path);
+ETreePath *e_tree_model_get_root             (ETreeModel *etree);
+ETreePath *e_tree_model_node_get_parent      (ETreeModel *etree, ETreePath *path);
+ETreePath *e_tree_model_node_get_first_child (ETreeModel *etree, ETreePath *path);
+ETreePath *e_tree_model_node_get_last_child  (ETreeModel *etree, ETreePath *path);
+ETreePath *e_tree_model_node_get_next        (ETreeModel *etree, ETreePath *path);
+ETreePath *e_tree_model_node_get_prev        (ETreeModel *etree, ETreePath *path);
 
 /* node operations */
 ETreePath *e_tree_model_node_insert        (ETreeModel *etree, ETreePath *parent, int position, gpointer node_data);
@@ -122,5 +127,8 @@ gboolean   e_tree_model_load_expanded_state (ETreeModel *etm, const char *filena
 void       e_tree_model_node_set_save_id    (ETreeModel *etm, ETreePath *node, const char *id);
 ETreePath* e_tree_model_node_insert_id      (ETreeModel *tree_model, ETreePath *parent_path,
 					     int position, gpointer node_data, const char *save_id);
+
+/* depth first traversal of path's descendents, calling func on each one */
+void       e_tree_model_node_traverse (ETreeModel *model, ETreePath *path, ETreePathFunc func, gpointer data);
 
 #endif /* _E_TREE_MODEL_H */
