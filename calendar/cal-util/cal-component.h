@@ -104,7 +104,7 @@ icalcomponent *cal_component_get_icalcomponent (CalComponent *comp);
 
 CalComponentVType cal_component_get_vtype (CalComponent *comp);
 
-const char *cal_component_get_uid (CalComponent *comp);
+void cal_component_get_uid (CalComponent *comp, const char **uid);
 void cal_component_set_uid (CalComponent *comp, const char *uid);
 
 void cal_component_get_categories_list (CalComponent *comp, GSList **categ_list);
@@ -119,16 +119,24 @@ void cal_component_free_text_list (GSList *text_list);
 void cal_component_get_comment_list (CalComponent *comp, GSList **text_list);
 void cal_component_set_comment_list (CalComponent *comp, GSList *text_list);
 
+void cal_component_free_icaltimetype (struct icaltimetype *t);
+
+void cal_component_get_created (CalComponent *comp, struct icaltimetype **t);
+void cal_component_set_created (CalComponent *comp, struct icaltimetype *t);
+
 void cal_component_get_description_list (CalComponent *comp, GSList **text_list);
 void cal_component_set_description_list (CalComponent *comp, GSList *text_list);
 
 void cal_component_free_datetime (CalComponentDateTime *dt);
 
-void cal_component_get_dtstart (CalComponent *comp, CalComponentDateTime *dt);
-void cal_component_set_dtstart (CalComponent *comp, CalComponentDateTime *dt);
-
 void cal_component_get_dtend (CalComponent *comp, CalComponentDateTime *dt);
 void cal_component_set_dtend (CalComponent *comp, CalComponentDateTime *dt);
+
+void cal_component_get_dtstamp (CalComponent *comp, struct icaltimetype *t);
+void cal_component_set_dtstamp (CalComponent *comp, struct icaltimetype *t);
+
+void cal_component_get_dtstart (CalComponent *comp, CalComponentDateTime *dt);
+void cal_component_set_dtstart (CalComponent *comp, CalComponentDateTime *dt);
 
 void cal_component_get_due (CalComponent *comp, CalComponentDateTime *dt);
 void cal_component_set_due (CalComponent *comp, CalComponentDateTime *dt);

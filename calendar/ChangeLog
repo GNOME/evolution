@@ -1,3 +1,24 @@
+2000-07-06  Federico Mena Quintero  <federico@helixcode.com>
+
+	* cal-util/cal-component.c (scan_property): Handle the CREATED
+	property.
+	(free_icalcomponent): Ditto.
+	(cal_component_free_icaltimetype): Ditto.
+	(cal_component_get_created): Ditto.
+	(cal_component_set_created): Ditto.
+	(cal_component_init): Do not create an UID here.
+	(ensure_mandatory_properties): New function to ensure that the
+	mandatory RFC properties are indeed in the component.  If they are
+	not, we create them on the fly.
+	(cal_component_set_new_vtype): Use ensure_mandatory_properties().
+	(cal_component_set_icalcomponent): Ditto.
+	(cal_component_get_uid): Return the UID in a parameter, not as a
+	function return value, for consistency's sake.
+	(scan_property): Handle the DTSTAMP property.
+	(free_icalcomponent): Ditto.
+	(cal_component_get_dtstamp): Ditto.
+	(cal_component_set_dtstamp): Ditto.
+
 2000-07-04  Damon Chaplin  <damon@helixcode.com>
 
 	* gui/gncal-todo.c (gncal_todo_update): Use &obj instead of &ico in

@@ -34,7 +34,7 @@ typedef struct {
 
 	/* Properties */
 
-	icalproperty *uid_prop;
+	icalproperty *uid;
 
 	struct categories {
 		icalproperty *prop;
@@ -50,6 +50,8 @@ typedef struct {
 
 	GSList *comment_list;
 
+	icalproperty *created;
+
 	GSList *description_list;
 
 	struct datetime {
@@ -59,6 +61,9 @@ typedef struct {
 
 	struct datetime dtstart;
 	struct datetime dtend;
+
+	icalproperty *dtstamp;
+
 	struct datetime due;
 
 	struct {
@@ -79,11 +84,11 @@ static GtkObjectClass *parent_class;
 
 /**
  * cal_component_get_type:
- * @void: 
- * 
+ * @void:
+ *
  * Registers the #CalComponent class if necessary, and returns the type ID
  * associated to it.
- * 
+ *
  * Return value: The type ID of the #CalComponent class.
  **/
 GtkType
@@ -130,8 +135,6 @@ cal_component_init (CalComponent *comp)
 
 	priv = g_new0 (CalComponentPrivate, 1);
 	comp->priv = priv;
-
-	priv->uid_prop = cal_component_gen_uid ();
 }
 
 /* Does a simple g_free() of the elements of a GSList and then frees the list
@@ -171,20 +174,23 @@ free_icalcomponent (CalComponent *comp)
 
 	/* Free the mappings */
 
-	priv->uid_prop = NULL;
+	priv->uid = NULL;
 
 	priv->categories_list = free_slist (priv->categories_list);
 
 	priv->classification = NULL;
 	priv->comment_list = NULL;
+	priv->created = NULL;
 
 	priv->description_list = free_slist (priv->description_list);
 
-	priv->dtstart.prop = NULL;
-	priv->dtstart.tzid_param = NULL;
-
 	priv->dtend.prop = NULL;
 	priv->dtend.tzid_param = NULL;
+
+	priv->dtstamp = NULL;
+
+	priv->dtstart.prop = NULL;
+	priv->dtstart.tzid_param = NULL;
 
 	priv->due.prop = NULL;
 	priv->due.tzid_param = NULL;
@@ -219,10 +225,10 @@ cal_component_destroy (GtkObject *object)
 
 /**
  * cal_component_gen_uid:
- * @void: 
- * 
+ * @void:
+ *
  * Generates a unique identifier suitable for calendar components.
- * 
+ *
  * Return value: A unique identifier string.  Every time this function is called
  * a different string is returned.
  **/
@@ -256,11 +262,11 @@ cal_component_gen_uid (void)
 /**
  * cal_component_new:
  * @void:
- * 
+ *
  * Creates a new empty calendar component object.  You should set it from an
  * #icalcomponent structure by using cal_component_set_icalcomponent() or with a
  * new empty component type by using cal_component_set_new_vtype().
- * 
+ *
  * Return value: A newly-created calendar component object.
  **/
 CalComponent *
@@ -361,9 +367,9 @@ scan_summary (CalComponent *comp, icalproperty *prop)
 	     param;
 	     param = icalproperty_get_next_parameter (prop, ICAL_ANY_PARAMETER)) {
 		icalparameter_kind kind;
-		
+
 		kind = icalparameter_isa (param);
-		
+
 		switch (kind) {
 		case ICAL_ALTREP_PARAMETER:
 			priv->summary.altrep_param = param;
@@ -399,12 +405,20 @@ scan_property (CalComponent *comp, icalproperty *prop)
 		scan_text (comp, &priv->comment_list, prop);
 		break;
 
+	case ICAL_CREATED_PROPERTY:
+		priv->created = prop;
+		break;
+
 	case ICAL_DESCRIPTION_PROPERTY:
 		scan_text (comp, &priv->description_list, prop);
 		break;
 
 	case ICAL_DTEND_PROPERTY:
 		scan_datetime (comp, &priv->dtend, prop);
+		break;
+
+	case ICAL_DTSTAMP_PROPERTY:
+		priv->dtstamp = prop;
 		break;
 
 	case ICAL_DTSTART_PROPERTY:
@@ -414,13 +428,13 @@ scan_property (CalComponent *comp, icalproperty *prop)
 	case ICAL_DUE_PROPERTY:
 		scan_datetime (comp, &priv->due, prop);
 		break;
-		
+
 	case ICAL_SUMMARY_PROPERTY:
 		scan_summary (comp, prop);
 		break;
 
 	case ICAL_UID_PROPERTY:
-		priv->uid_prop = prop;
+		priv->uid = prop;
 		break;
 
 	default:
@@ -449,11 +463,44 @@ scan_icalcomponent (CalComponent *comp)
 	/* FIXME: parse ALARM subcomponents */
 }
 
+/* Ensures that the mandatory calendar component properties (uid, dtstamp) do
+ * exist.  If they don't exist, it creates them automatically.
+ */
+static void
+ensure_mandatory_properties (CalComponent *comp)
+{
+	CalComponentPrivate *priv;
+
+	priv = comp->priv;
+	g_assert (priv->icalcomp != NULL);
+
+	if (!priv->uid) {
+		char *uid;
+
+		uid = cal_component_gen_uid ();
+		priv->uid = icalproperty_new_uid (uid);
+		g_free (uid);
+
+		icalcomponent_add_property (priv->icalcomp, priv->uid);
+	}
+
+	if (!priv->dtstamp) {
+		time_t tim;
+		struct icaltimetype t;
+
+		tim = time (NULL);
+		t = icaltimetype_from_timet (tim, FALSE);
+
+		priv->dtstamp = icalproperty_new_dtstamp (t);
+		icalcomponent_add_property (priv->icalcomp, priv->dtstamp);
+	}
+}
+
 /**
  * cal_component_set_new_vtype:
  * @comp: A calendar component object.
  * @type: Type of calendar component to create.
- * 
+ *
  * Clears any existing component data from a calendar component object and
  * creates a new #icalcomponent of the specified type for it.  The only property
  * that will be set in the new component will be its unique identifier.
@@ -464,8 +511,6 @@ cal_component_set_new_vtype (CalComponent *comp, CalComponentVType type)
 	CalComponentPrivate *priv;
 	icalcomponent *icalcomp;
 	icalcomponent_kind kind;
-	char *uid;
-	icalproperty *prop;
 
 	g_return_if_fail (comp != NULL);
 	g_return_if_fail (IS_CAL_COMPONENT (comp));
@@ -477,7 +522,7 @@ cal_component_set_new_vtype (CalComponent *comp, CalComponentVType type)
 	if (type == CAL_COMPONENT_NO_TYPE)
 		return;
 
-	/* Figure out the kind */
+	/* Figure out the kind and create the icalcomponent */
 
 	switch (type) {
 	case CAL_COMPONENT_EVENT:
@@ -505,37 +550,27 @@ cal_component_set_new_vtype (CalComponent *comp, CalComponentVType type)
 		kind = ICAL_NO_COMPONENT;
 	}
 
-	/* Create an UID */
-
 	icalcomp = icalcomponent_new (kind);
 	if (!icalcomp) {
 		g_message ("cal_component_set_new_vtype(): Could not create the icalcomponent!");
 		return;
 	}
 
-	uid = cal_component_gen_uid ();
-	prop = icalproperty_new_uid (uid);
-	g_free (uid);
-
-	if (!prop) {
-		icalcomponent_free (icalcomp);
-		g_message ("cal_component_set_new_vtype(): Could not create the UID property!");
-		return;
-	}
-
-	icalcomponent_add_property (icalcomp, prop);
-
 	/* Scan the component to build our mapping table */
 
 	priv->icalcomp = icalcomp;
 	scan_icalcomponent (comp);
+
+	/* Add missing stuff */
+
+	ensure_mandatory_properties (comp);
 }
 
 /**
  * cal_component_set_icalcomponent:
  * @comp: A calendar component object.
  * @icalcomp: An #icalcomponent.
- * 
+ *
  * Sets the contents of a calendar component object from an #icalcomponent
  * structure.  If the @comp already had an #icalcomponent set into it, it will
  * will be freed automatically if the #icalcomponent does not have a parent
@@ -558,17 +593,20 @@ cal_component_set_icalcomponent (CalComponent *comp, icalcomponent *icalcomp)
 
 	priv->icalcomp = icalcomp;
 
-	if (priv->icalcomp)
-		scan_icalcomponent (comp);
+	if (!icalcomp)
+		return;
+
+	scan_icalcomponent (comp);
+	ensure_mandatory_properties (comp);
 }
 
 /**
  * cal_component_get_icalcomponent:
  * @comp: A calendar component object.
- * 
+ *
  * Queries the #icalcomponent structure that a calendar component object is
  * wrapping.
- * 
+ *
  * Return value: An #icalcomponent structure, or NULL if the @comp has no
  * #icalcomponent set to it.
  **/
@@ -587,9 +625,9 @@ cal_component_get_icalcomponent (CalComponent *comp)
 /**
  * cal_component_get_vtype:
  * @comp: A calendar component object.
- * 
+ *
  * Queries the type of a calendar component object.
- * 
+ *
  * Return value: The type of the component, as defined by RFC 2445.
  **/
 CalComponentVType
@@ -631,33 +669,33 @@ cal_component_get_vtype (CalComponent *comp)
 /**
  * cal_component_get_uid:
  * @comp: A calendar component object.
- * 
+ * @uid: Return value for the UID string.
+ *
  * Queries the unique identifier of a calendar component object.
- * 
- * Return value: The unique identifier string.
  **/
-const char *
-cal_component_get_uid (CalComponent *comp)
+void
+cal_component_get_uid (CalComponent *comp, const char **uid)
 {
 	CalComponentPrivate *priv;
 
-	g_return_val_if_fail (comp != NULL, NULL);
-	g_return_val_if_fail (IS_CAL_COMPONENT (comp), NULL);
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+	g_return_if_fail (uid != NULL);
 
 	priv = comp->priv;
-	g_return_val_if_fail (priv->icalcomp != NULL, NULL);
+	g_return_if_fail (priv->icalcomp != NULL);
 
 	/* This MUST exist, since we ensured that it did */
-	g_assert (priv->uid_prop != NULL);
+	g_assert (priv->uid != NULL);
 
-	return icalproperty_get_uid (priv->uid_prop);
+	*uid = icalproperty_get_uid (priv->uid);
 }
 
 /**
  * cal_component_set_uid:
  * @comp: A calendar component object.
  * @uid: Unique identifier.
- * 
+ *
  * Sets the unique identifier string of a calendar component object.
  **/
 void
@@ -673,9 +711,9 @@ cal_component_set_uid (CalComponent *comp, const char *uid)
 	g_return_if_fail (priv->icalcomp != NULL);
 
 	/* This MUST exist, since we ensured that it did */
-	g_assert (priv->uid_prop != NULL);
+	g_assert (priv->uid != NULL);
 
-	icalproperty_set_uid (priv->uid_prop, (char *) uid);
+	icalproperty_set_uid (priv->uid, (char *) uid);
 }
 
 /**
@@ -683,7 +721,7 @@ cal_component_set_uid (CalComponent *comp, const char *uid)
  * @comp: A calendar component object.
  * @categ_list: Return value for the list of strings, where each string is a
  * category.  This should be freed using cal_component_free_categories_list().
- * 
+ *
  * Queries the list of categories of a calendar component object.  Each element
  * in the returned categ_list is a string with the corresponding category.
  **/
@@ -756,7 +794,7 @@ stringify_categories (GSList *categ_list)
  * cal_component_set_categories_list:
  * @comp: A calendar component object.
  * @categ_list: List of strings, one for each category.
- * 
+ *
  * Sets the list of categories of a calendar component object.
  **/
 void
@@ -811,7 +849,7 @@ cal_component_set_categories_list (CalComponent *comp, GSList *categ_list)
 /**
  * cal_component_free_categories_list:
  * @categ_list: List of category strings.
- * 
+ *
  * Frees a list of category strings.
  **/
 void
@@ -829,7 +867,7 @@ cal_component_free_categories_list (GSList *categ_list)
  * cal_component_get_classification:
  * @comp: A calendar component object.
  * @classif: Return value for the classification.
- * 
+ *
  * Queries the classification of a calendar component object.  If the
  * classification property is not set on this component, this function returns
  * #CAL_COMPONENT_CLASS_NONE.
@@ -868,7 +906,7 @@ cal_component_get_classification (CalComponent *comp, CalComponentClassification
  * cal_component_set_classification:
  * @comp: A calendar component object.
  * @classif: Classification to use.
- * 
+ *
  * Sets the classification property of a calendar component object.  To unset
  * the property, specify CAL_COMPONENT_CLASS_NONE for @classif.
  **/
@@ -924,7 +962,7 @@ cal_component_set_classification (CalComponent *comp, CalComponentClassification
 /**
  * cal_component_free_text_list:
  * @text_list: List of #CalComponentText structures.
- * 
+ *
  * Frees a list of #CalComponentText structures.  This function should only be
  * used to free lists of text values as returned by the other getter functions
  * of #CalComponent.
@@ -1040,7 +1078,7 @@ set_text_list (CalComponent *comp,
  * @text_list: Return value for the comment properties and their parameters, as
  * a list of #CalComponentText structures.  This should be freed using the
  * cal_component_free_text_list() function.
- * 
+ *
  * Queries the comment of a calendar component object.  The comment property can
  * appear several times inside a calendar component, and so a list of
  * #CalComponentText is returned.
@@ -1064,7 +1102,7 @@ cal_component_get_comment_list (CalComponent *comp, GSList **text_list)
  * cal_component_set_comment_list:
  * @comp: A calendar component object.
  * @text_list: List of #CalComponentText structures.
- * 
+ *
  * Sets the comment of a calendar component object.  The comment property can
  * appear several times inside a calendar component, and so a list of
  * #CalComponentText structures is used.
@@ -1084,12 +1122,95 @@ cal_component_set_comment_list (CalComponent *comp, GSList *text_list)
 }
 
 /**
+ * cal_component_free_icaltimetype:
+ * @t: An #icaltimetype structure.
+ *
+ * Frees a struct #icaltimetype value as returned by the calendar component
+ * functions.
+ **/
+void
+cal_component_free_icaltimetype (struct icaltimetype *t)
+{
+	g_return_if_fail (t != NULL);
+
+	g_free (t);
+}
+
+/**
+ * cal_component_get_created:
+ * @comp: A calendar component object.
+ * @t: Return value for the creation date.  This should be freed using the
+ * cal_component_free_icaltimetype() function.
+ *
+ * Queries the date in which a calendar component object was created in the
+ * calendar store.
+ **/
+void
+cal_component_get_created (CalComponent *comp, struct icaltimetype **t)
+{
+	CalComponentPrivate *priv;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+	g_return_if_fail (t != NULL);
+
+	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
+
+	if (!priv->created) {
+		*t = NULL;
+		return;
+	}
+
+	*t = g_new (struct icaltimetype, 1);
+	**t = icalproperty_get_created (priv->created);
+}
+
+/**
+ * cal_component_set_created:
+ * @comp: A calendar component object.
+ * @t: Value for the creation date.
+ *
+ * Sets the date in which a calendar component object is created in the calendar
+ * store.  This should only be used inside a calendar store application, i.e.
+ * not by calendar user agents.
+ **/
+void
+cal_component_set_created (CalComponent *comp, struct icaltimetype *t)
+{
+	CalComponentPrivate *priv;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+
+	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
+
+	if (!t) {
+		if (priv->created) {
+			icalcomponent_remove_property (priv->icalcomp, priv->created);
+			icalproperty_free (priv->created);
+			priv->created = NULL;
+		}
+
+		return;
+	}
+
+	if (priv->created)
+		icalproperty_set_created (priv->created, *t);
+	else {
+		priv->created = icalproperty_new_created (*t);
+		icalcomponent_add_property (priv->icalcomp, priv->created);
+	}
+}
+
+/**
  * cal_component_get_description_list:
  * @comp: A calendar component object.
  * @text_list: Return value for the description properties and their parameters,
  * as a list of #CalComponentText structures.  This should be freed using the
  * cal_component_free_text_list() function.
- * 
+ *
  * Queries the description of a calendar component object.  Journal components
  * may have more than one description, and as such this function returns a list
  * of #CalComponentText structures.  All other types of components can have at
@@ -1114,7 +1235,7 @@ cal_component_get_description_list (CalComponent *comp, GSList **text_list)
  * cal_component_set_description_list:
  * @comp: A calendar component object.
  * @text_list: List of #CalComponentSummary structures.
- * 
+ *
  * Sets the description of a calendar component object.  Journal components may
  * have more than one description, and as such this function takes in a list of
  * #CalComponentDescription structures.  All other types of components can have
@@ -1137,7 +1258,7 @@ cal_component_set_description_list (CalComponent *comp, GSList *text_list)
 /**
  * cal_component_free_datetime:
  * @dt: A date/time structure.
- * 
+ *
  * Frees a date/time structure.
  **/
 void
@@ -1165,29 +1286,6 @@ get_datetime (struct datetime *datetime,
 		dt->tzid = icalparameter_get_tzid (datetime->tzid_param);
 	else
 		dt->tzid = NULL;
-}
-
-/**
- * cal_component_get_dtstart:
- * @comp: A calendar component object.
- * @dt: Return value for the date/time start.  This should be freed with the
- * cal_component_free_datetime() function.
- * 
- * Queries the date/time start of a calendar component object.
- **/
-void
-cal_component_get_dtstart (CalComponent *comp, CalComponentDateTime *dt)
-{
-	CalComponentPrivate *priv;
-
-	g_return_if_fail (comp != NULL);
-	g_return_if_fail (IS_CAL_COMPONENT (comp));
-	g_return_if_fail (dt != NULL);
-
-	priv = comp->priv;
-	g_return_if_fail (priv->icalcomp != NULL);
-
-	get_datetime (&priv->dtstart, icalproperty_get_dtstart, dt);
 }
 
 /* Sets a date/time and timezone pair */
@@ -1242,35 +1340,11 @@ set_datetime (CalComponent *comp, struct datetime *datetime,
 }
 
 /**
- * cal_component_set_dtstart:
- * @comp: A calendar component object.
- * @dt: Start date/time.
- * 
- * Sets the date/time start property of a calendar component object.
- **/
-void
-cal_component_set_dtstart (CalComponent *comp, CalComponentDateTime *dt)
-{
-	CalComponentPrivate *priv;
-
-	g_return_if_fail (comp != NULL);
-	g_return_if_fail (IS_CAL_COMPONENT (comp));
-
-	priv = comp->priv;
-	g_return_if_fail (priv->icalcomp != NULL);
-
-	set_datetime (comp, &priv->dtstart,
-		      icalproperty_new_dtstart,
-		      icalproperty_set_dtstart,
-		      dt);
-}
-
-/**
  * cal_component_get_dtend:
  * @comp: A calendar component object.
  * @dt: Return value for the date/time end.  This should be freed with the
  * cal_component_free_datetime() function.
- * 
+ *
  * Queries the date/time end of a calendar component object.
  **/
 void
@@ -1292,7 +1366,7 @@ cal_component_get_dtend (CalComponent *comp, CalComponentDateTime *dt)
  * cal_component_set_dtend:
  * @comp: A calendar component object.
  * @dt: End date/time.
- * 
+ *
  * Sets the date/time end property of a calendar component object.
  **/
 void
@@ -1313,11 +1387,111 @@ cal_component_set_dtend (CalComponent *comp, CalComponentDateTime *dt)
 }
 
 /**
+ * cal_component_get_dtstamp:
+ * @comp: A calendar component object.
+ * @t: Return value for the date/timestamp.
+ * 
+ * Queries the date/timestamp property of a calendar component object, which is
+ * the last time at which the object was modified by a calendar user agent.
+ **/
+void
+cal_component_get_dtstamp (CalComponent *comp, struct icaltimetype *t)
+{
+	CalComponentPrivate *priv;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+	g_return_if_fail (t != NULL);
+
+	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
+
+	/* This MUST exist, since we ensured that it did */
+	g_assert (priv->dtstamp != NULL);
+
+	*t = icalproperty_get_dtstamp (priv->dtstamp);
+}
+
+/**
+ * cal_component_set_dtstamp:
+ * @comp: A calendar component object.
+ * @t: Date/timestamp value.
+ * 
+ * Sets the date/timestamp of a calendar component object.  This should be
+ * called whenever a calendar user agent makes a change to a component's
+ * properties.
+ **/
+void
+cal_component_set_dtstamp (CalComponent *comp, struct icaltimetype *t)
+{
+	CalComponentPrivate *priv;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+	g_return_if_fail (t != NULL);
+
+	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
+
+	/* This MUST exist, since we ensured that it did */
+	g_assert (priv->dtstamp != NULL);
+
+	icalproperty_set_dtstamp (priv->dtstamp, *t);
+}
+
+/**
+ * cal_component_get_dtstart:
+ * @comp: A calendar component object.
+ * @dt: Return value for the date/time start.  This should be freed with the
+ * cal_component_free_datetime() function.
+ *
+ * Queries the date/time start of a calendar component object.
+ **/
+void
+cal_component_get_dtstart (CalComponent *comp, CalComponentDateTime *dt)
+{
+	CalComponentPrivate *priv;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+	g_return_if_fail (dt != NULL);
+
+	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
+
+	get_datetime (&priv->dtstart, icalproperty_get_dtstart, dt);
+}
+
+/**
+ * cal_component_set_dtstart:
+ * @comp: A calendar component object.
+ * @dt: Start date/time.
+ *
+ * Sets the date/time start property of a calendar component object.
+ **/
+void
+cal_component_set_dtstart (CalComponent *comp, CalComponentDateTime *dt)
+{
+	CalComponentPrivate *priv;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+
+	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
+
+	set_datetime (comp, &priv->dtstart,
+		      icalproperty_new_dtstart,
+		      icalproperty_set_dtstart,
+		      dt);
+}
+
+/**
  * cal_component_get_due:
  * @comp: A calendar component object.
  * @dt: Return value for the due date/time.  This should be freed with the
  * cal_component_free_datetime() function.
- * 
+ *
  * Queries the due date/time of a calendar component object.
  **/
 void
@@ -1339,7 +1513,7 @@ cal_component_get_due (CalComponent *comp, CalComponentDateTime *dt)
  * cal_component_set_due:
  * @comp: A calendar component object.
  * @dt: End date/time.
- * 
+ *
  * Sets the due date/time property of a calendar component object.
  **/
 void
@@ -1363,7 +1537,7 @@ cal_component_set_due (CalComponent *comp, CalComponentDateTime *dt)
  * cal_component_get_summary:
  * @comp: A calendar component object.
  * @summary: Return value for the summary property and its parameters.
- * 
+ *
  * Queries the summary of a calendar component object.
  **/
 void
@@ -1393,7 +1567,7 @@ cal_component_get_summary (CalComponent *comp, CalComponentText *summary)
  * cal_component_set_summary:
  * @comp: A calendar component object.
  * @summary: Summary property and its parameters.
- * 
+ *
  * Sets the summary of a calendar component object.
  **/
 void
