@@ -26,6 +26,7 @@ SUBDIRS =			\
         intl                    \
         macros                  \
         data                    \
+        po			\
         e-util                  \
 	libical			\
         widgets                 \
@@ -49,7 +50,6 @@ SUBDIRS =			\
         tools                   \
 	doc			\
 	help			\
-        po			\
 	omf-install
 
 %Conf.sh: %Conf.sh.in Makefile
