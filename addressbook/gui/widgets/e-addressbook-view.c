@@ -1287,7 +1287,6 @@ change_view_type (EABView *view, EABViewType view_type)
 
 	if (view->widget) {
 		gtk_container_remove (GTK_CONTAINER (view->paned), view->widget);
-		gtk_widget_destroy (view->widget);
 		view->widget = NULL;
 	}
 	view->object = NULL;
