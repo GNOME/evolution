@@ -130,46 +130,20 @@ show_new_group_dialog (EShortcutsView *view)
 	GtkWidget *label;
 	GtkWidget *entry;
 	GtkWidget *box;
-	const char *group_name;
+	char *group_name;
 	int button_num;
 
-	dialog = gnome_dialog_new (_("Create new shortcut group"),
-				   GNOME_STOCK_BUTTON_OK, GNOME_STOCK_BUTTON_CANCEL, NULL);
+	group_name = e_request_string (GTK_WIDGET (gtk_widget_get_toplevel (GTK_WIDGET (view))),
+				       _("Create new shortcut group"),
+				       _("Group name:"),
+				       NULL);
 
-	label = gtk_label_new (_("Group name:"));
-	gtk_widget_show (label);
-
-	entry = gtk_entry_new ();
-	gtk_widget_show (entry);
-
-	box = gtk_hbox_new (FALSE, GNOME_PAD_SMALL);
-	gtk_widget_show (box);
-
-	gtk_box_pack_start (GTK_BOX (box), label, FALSE, TRUE, 0);
-	gtk_box_pack_start (GTK_BOX (box), entry, TRUE, TRUE, 0);
-
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), box, FALSE, TRUE, 0);
-
-	gnome_dialog_set_parent (GNOME_DIALOG (dialog), GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (view))));
-	gnome_dialog_set_default (GNOME_DIALOG (dialog), 0);
-
-	gtk_widget_grab_focus (entry);
-	gnome_dialog_editable_enters (GNOME_DIALOG (dialog), GTK_EDITABLE (entry));
-
-	gtk_widget_show (dialog);
-
-	button_num = gnome_dialog_run (GNOME_DIALOG (dialog));
-	if (button_num == -1)
+	if (group_name == NULL)
 		return;
-	if (button_num != 0) {
-		gtk_widget_destroy (dialog);
-		return;
-	}
 
-	group_name = gtk_entry_get_text (GTK_ENTRY (entry));
 	e_shortcuts_add_group (view->priv->shortcuts, -1, group_name);
 
-	gtk_widget_destroy (dialog);
+	g_free (group_name);
 }
 
 
@@ -291,7 +265,7 @@ rename_group_cb (GtkWidget *widget,
 
 	old_name = e_shortcuts_get_group_title (shortcuts, menu_data->group_num);
 
-	new_name = e_request_string (GTK_WINDOW (gtk_widget_get_toplevel (widget)),
+	new_name = e_request_string (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (shortcuts_view))),
 				     _("Rename Shortcut Group"),
 				     _("Rename selected shortcut group to:"),
 				     old_name);
@@ -452,14 +426,13 @@ rename_shortcut_cb (GtkWidget *widget,
 
 	shortcut_item = e_shortcuts_get_shortcut (shortcuts, menu_data->group_num, menu_data->item_num);
 
-	new_name = e_request_string (GTK_WINDOW (gtk_widget_get_toplevel (widget)),
+	new_name = e_request_string (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (shortcuts_view))),
 				     _("Rename shortcut"),
 				     _("Rename selected shortcut to:"),
 				     shortcut_item->name);
 
 	if (new_name == NULL)
 		return;
-
 
 	e_shortcuts_update_shortcut (shortcuts, menu_data->group_num, menu_data->item_num,
 				     shortcut_item->uri, new_name, shortcut_item->unread_count, shortcut_item->type);

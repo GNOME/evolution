@@ -17,6 +17,7 @@
 #include <Evolution-ShellComponentDnd.idl>
 #include <Evolution-Offline.idl>
 #include <Evolution-ShellView.idl>
+#include <Evolution-Shortcuts.idl>
 #include <Evolution-Storage.idl>
 #include <Evolution-StorageSetView.idl>
 #include <Evolution-Shell.idl>

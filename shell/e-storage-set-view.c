@@ -908,6 +908,7 @@ tree_drag_begin (ETree *etree,
 	storage_set_view = E_STORAGE_SET_VIEW (etree);
 	priv = storage_set_view->priv;
 
+	g_print ("%s -- %d\n", __FUNCTION__, row);
 	priv->selected_row_path = e_tree_memory_node_get_data (E_TREE_MEMORY(priv->etree_model), path);
 
 	g_assert (priv->drag_corba_source_interface == CORBA_OBJECT_NIL);
@@ -1129,6 +1130,9 @@ tree_drag_motion (ETree *tree,
 	storage_set_view = E_STORAGE_SET_VIEW (tree);
 	priv = storage_set_view->priv;
 
+	g_print ("%s -- row %d x %d y %d\n", __FUNCTION__, row, x, y);
+	path = e_tree_node_at_row (E_TREE (storage_set_view), row);
+
 	component_client = get_component_at_node (storage_set_view, path);
 	if (component_client == NULL)
 		return FALSE;
@@ -1136,8 +1140,6 @@ tree_drag_motion (ETree *tree,
 	dnd_type = find_matching_target_for_drag_context (storage_set_view, path, context);
 	if (dnd_type == NULL)
 		return FALSE;
-
-	g_print ("drag_motion %s\n", dnd_type);
 
 	if (strcmp (dnd_type, EVOLUTION_PATH_TARGET_TYPE) == 0)
 		return handle_evolution_path_drag_motion (storage_set_view, path, context, time);
@@ -1154,6 +1156,8 @@ tree_drag_motion (ETree *tree,
 
 	folder = get_folder_at_node (storage_set_view, path);
 	
+	g_print ("drag_motion %s -- %s\n", dnd_type, e_folder_get_name (folder));
+
 	can_handle = GNOME_Evolution_ShellComponentDnd_DestinationFolder_handleMotion (destination_folder_interface,
 										       e_folder_get_physical_uri (folder),
 										       &corba_context,

@@ -1,3 +1,55 @@
+2001-08-04  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-folder-title-bar.c (e_shell_folder_title_bar_construct):
+	Add some padding to the label so that the title doesn't move
+	around when you switch between pop-up and non-pop-up folder bar.
+	Also, change all the GtkLabels to be GtkClippedLabels instead.
+	(e_shell_folder_title_bar_set_title): Updated to use
+	EClippedLabels instead of GtkLabels.
+	(e_shell_folder_title_bar_set_folder_bar_label): Likewise.
+
+	* e-shell.c (impl_Shell__get_displayName): New, implementation for
+	the `displayName' attribute.
+
+	* Evolution-Shell.idl: Added readonly attribute `displayName' to
+	get the canonicalized X11 display name for the shell.
+
+	* e-shell.c (e_shell_construct): Ooops.  Return
+	`E_SHELL_CONSTRUCT_RESULT_CANNOTREGISTER' if the OAF registration
+	fails, not `E_SHELL_CONSTRUCT_RESULT_GENERICERROR'.
+
+	* e-shortcuts-view.c (rename_group_cb): Get the toplevel from the
+	shortcuts view, not the widget.
+	(rename_shortcut_cb): Likewise.
+	(show_new_group_dialog): Changed to use `e_request_string()'.
+
+	* evolution-test-component.c: Add the %FALSE value for the
+	`user_creatable' field in the `folder_types' entry.
+
+	* evolution-shell-client.c: New member `shortcuts_interface' in
+	`EvolutionShellClientPrivate'.
+	(destroy): Unref it if not CORBA_OBJECT_NIL.
+	(init): Init to CORBA_OBJECT_NIL.
+	(query_shell_interface): New helper function to query an interface
+	on the shell and spit out warnings if it fails.
+	(evolution_shell_client_construct): Use it to query the ::Activity
+	interface.  Also query the ::Shortcuts interface and set the
+	`shortcuts_interface' member to point to it.
+
+	* e-shell.c: New member `corba_shortcuts' in `EShellPrivate'.
+	(init): Init to NULL.
+	(setup_shortcuts_interface): Helper function to add the
+	::Shortcuts CORBA interface to the shell.
+	(e_shell_construct): Call it.
+
+	* e-corba-shortcuts.c, e-corba-shortcuts.h: New objects
+	implementing the `Evolution::Shortcuts' CORBA interface.
+
+	* Evolution-Shortcuts.idl: New interface for accessing the
+	shortcuts in the shell.
+
+	* e-shell.c (e_shell_get_config_db): Moved down.
+
 2001-08-03  Christopher James Lahey  <clahey@ximian.com>
 
 	* e-storage-set-view.c (tree_drag_data_received): Some paths here

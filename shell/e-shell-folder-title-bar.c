@@ -379,15 +379,15 @@ e_shell_folder_title_bar_construct (EShellFolderTitleBar *folder_title_bar)
 	priv = folder_title_bar->priv;
 	widget = GTK_WIDGET (folder_title_bar);
 
-	priv->label = gtk_label_new ("");
+	priv->label = e_clipped_label_new ("");
 	gtk_misc_set_padding (GTK_MISC (priv->label), 5, 0);
 	gtk_misc_set_alignment (GTK_MISC (priv->label), 0.0, 0.5);
 
-	priv->folder_bar_label = gtk_label_new ("");
+	priv->folder_bar_label = e_clipped_label_new ("");
 	gtk_misc_set_alignment (GTK_MISC (priv->folder_bar_label), 1.0, 0.5);
 	gtk_widget_show (priv->folder_bar_label);
 
-	priv->button_label = gtk_label_new ("");
+	priv->button_label = e_clipped_label_new ("");
 	gtk_misc_set_padding (GTK_MISC (priv->button_label), 2, 0);
 	gtk_misc_set_alignment (GTK_MISC (priv->button_label), 0.0, 0.5);
 	gtk_widget_show (priv->button_label);
@@ -406,9 +406,17 @@ e_shell_folder_title_bar_construct (EShellFolderTitleBar *folder_title_bar)
 
 	priv->hbox = gtk_hbox_new (FALSE, 0);
 	gtk_container_set_border_width (GTK_CONTAINER (priv->hbox), 2);
-	gtk_box_pack_start (GTK_BOX (priv->hbox), priv->label, FALSE, TRUE, 0);
-	gtk_box_pack_start (GTK_BOX (priv->hbox), priv->button, FALSE, TRUE, 0);
-	gtk_box_pack_start (GTK_BOX (priv->hbox), priv->folder_bar_label, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (priv->hbox), priv->label, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (priv->hbox), priv->button, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (priv->hbox), priv->folder_bar_label, FALSE, TRUE, 0);
+
+	/* Make the label have a border as large as the button's.
+	   FIXME: This is really hackish.  The hardcoded numbers should be OK
+	   as the padding is hardcoded in GtkButton too (see CHILD_SPACING in
+	   gtkbutton.c).  */
+	gtk_misc_set_padding (GTK_MISC (priv->label),
+			      GTK_WIDGET (priv->button)->style->klass->xthickness + 3,
+			      GTK_WIDGET (priv->button)->style->klass->ythickness + 1);
 
 	gtk_widget_show (priv->hbox);
 
@@ -466,11 +474,11 @@ e_shell_folder_title_bar_set_title (EShellFolderTitleBar *folder_title_bar,
 	priv = folder_title_bar->priv;
 
 	if (title == NULL) {
-		gtk_label_set_text (GTK_LABEL (priv->button_label), _("(Untitled)"));
-		gtk_label_set_text (GTK_LABEL (priv->label), _("(Untitled)"));
+		e_clipped_label_set_text (E_CLIPPED_LABEL (priv->button_label), _("(Untitled)"));
+		e_clipped_label_set_text (E_CLIPPED_LABEL (priv->label), _("(Untitled)"));
 	} else {
-		gtk_label_set_text (GTK_LABEL (priv->button_label), title);
-		gtk_label_set_text (GTK_LABEL (priv->label), title);
+		e_clipped_label_set_text (E_CLIPPED_LABEL (priv->button_label), title);
+		e_clipped_label_set_text (E_CLIPPED_LABEL (priv->label), title);
 	}
 
 	/* FIXME: There seems to be a bug in EClippedLabel, this is just a workaround.  */
@@ -497,9 +505,9 @@ e_shell_folder_title_bar_set_folder_bar_label (EShellFolderTitleBar *folder_titl
 	priv = folder_title_bar->priv;
 
 	if (text == NULL)
-		gtk_label_set_text (GTK_LABEL (priv->folder_bar_label), "");
+		e_clipped_label_set_text (E_CLIPPED_LABEL (priv->folder_bar_label), "");
 	else
-		gtk_label_set_text (GTK_LABEL (priv->folder_bar_label), text);
+		e_clipped_label_set_text (E_CLIPPED_LABEL (priv->folder_bar_label), text);
 
 	/* FIXME: Might want to set the styles somewhere in here too,
            black text on grey background isn't the best combination */

@@ -26,6 +26,7 @@ IDLS = \
 	Evolution-ShellComponent.idl		\
 	Evolution-ShellComponentDnd.idl		\
 	Evolution-ShellView.idl			\
+	Evolution-Shortcuts.idl			\
 	Evolution-Storage.idl			\
 	Evolution-StorageSetView.idl		\
 	Evolution.idl
@@ -95,6 +96,8 @@ evolution_SOURCES =				\
 	e-activity-handler.h			\
 	e-component-registry.c			\
 	e-component-registry.h			\
+	e-corba-shortcuts.c			\
+	e-corba-shortcuts.h			\
 	e-corba-storage-registry.c		\
 	e-corba-storage-registry.h		\
 	e-corba-storage.c			\

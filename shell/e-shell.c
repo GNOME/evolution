@@ -32,6 +32,10 @@
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
 
+/* (For the displayName stuff.)  */
+#include <gdk/gdkprivate.h>
+#include <X11/Xlib.h>
+
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-moniker-util.h>
 
@@ -42,6 +46,7 @@
 
 #include "e-activity-handler.h"
 #include "e-component-registry.h"
+#include "e-corba-shortcuts.h"
 #include "e-corba-storage-registry.h"
 #include "e-folder-type-registry.h"
 #include "e-local-storage.h"
@@ -83,10 +88,14 @@ struct _EShellPrivate {
 
 	EComponentRegistry *component_registry;
 
+	/* ::StorageRegistry interface handler.  */
 	ECorbaStorageRegistry *corba_storage_registry; /* <aggregate> */
 
 	/* ::Activity interface handler.  */
 	EActivityHandler *activity_handler; /* <aggregate> */
+
+	/* ::Shortcuts interface handler.  */
+	ECorbaShortcuts *corba_shortcuts; /* <aggregate> */
 
 	/* This object handles going off-line.  If the pointer is not NULL, it
 	   means we have a going-off-line process in progress.  */
@@ -118,14 +127,6 @@ enum {
 };
 
 static guint signals[LAST_SIGNAL] = { 0 };
-
-Bonobo_ConfigDatabase 
-e_shell_get_config_db (EShell *shell)
-{
-	g_return_val_if_fail (shell != NULL, CORBA_OBJECT_NIL);
-
-	return shell->priv->db;
-}
 
 
 /* Callback for the folder selection dialog.  */
@@ -186,6 +187,23 @@ folder_selection_dialog_folder_selected_cb (EShellFolderSelectionDialog *folder_
 
 
 /* CORBA interface implementation.  */
+
+static CORBA_char *
+impl_Shell__get_displayName (PortableServer_Servant servant,
+			     CORBA_Environment *ev)
+{
+	char *display_string;
+	CORBA_char *retval;
+
+	display_string = DisplayString (gdk_display);
+	if (display_string == NULL) 
+		return CORBA_string_dup ("");
+
+	retval = CORBA_string_dup (display_string);
+	XFree (display_string);
+
+	return retval;
+}
 
 static GNOME_Evolution_ShellComponent
 impl_Shell_getComponentByType (PortableServer_Servant servant,
@@ -405,9 +423,27 @@ setup_activity_interface (EShell *shell)
 
 	activity_handler = e_activity_handler_new ();
 
-	bonobo_object_add_interface (BONOBO_OBJECT (shell),
-				     BONOBO_OBJECT (activity_handler));
+	bonobo_object_add_interface (BONOBO_OBJECT (shell), BONOBO_OBJECT (activity_handler));
 	priv->activity_handler = activity_handler;
+}
+
+
+/* Set up the ::Shortcuts interface.  */
+
+static void
+setup_shortcuts_interface (EShell *shell)
+{
+	ECorbaShortcuts *corba_shortcuts;
+	EShellPrivate *priv;
+
+	priv = shell->priv;
+
+	g_assert (priv->shortcuts != NULL);
+
+	corba_shortcuts = e_corba_shortcuts_new (priv->shortcuts);
+
+	bonobo_object_add_interface (BONOBO_OBJECT (shell), BONOBO_OBJECT (corba_shortcuts));
+	priv->corba_shortcuts = corba_shortcuts;
 }
 
 
@@ -694,6 +730,7 @@ destroy (GtkObject *object)
 	/* No unreffing for these as they are aggregate.  */
 	/* bonobo_object_unref (BONOBO_OBJECT (priv->corba_storage_registry)); */
 	/* bonobo_object_unref (BONOBO_OBJECT (priv->activity_handler)); */
+	/* bonobo_object_unref (BONOBO_OBJECT (priv->corba_shortcuts)); */
 
 	/* FIXME.  Maybe we should do something special here.  */
 	if (priv->offline_handler != NULL)
@@ -740,6 +777,7 @@ class_init (EShellClass *klass)
 	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 
 	epv = & klass->epv;
+	epv->_get_displayName     = impl_Shell__get_displayName;
 	epv->getComponentByType   = impl_Shell_getComponentByType;
 	epv->createNewView        = impl_Shell_createNewView;
 	epv->handleURI            = impl_Shell_handleURI;
@@ -768,6 +806,7 @@ init (EShell *shell)
 	priv->uri_schema_registry    = NULL;
 	priv->corba_storage_registry = NULL;
 	priv->activity_handler       = NULL;
+	priv->corba_shortcuts        = NULL;
 	priv->offline_handler        = NULL;
 	priv->crash_type_names       = NULL;
 	priv->line_status            = E_SHELL_LINE_STATUS_ONLINE;
@@ -843,7 +882,7 @@ e_shell_construct (EShell *shell,
 	corba_object = bonobo_object_corba_objref (BONOBO_OBJECT (shell));
 	if (oaf_active_server_register (iid, corba_object) != OAF_REG_SUCCESS) {
 		CORBA_exception_free (&ev);
-		return E_SHELL_CONSTRUCT_RESULT_GENERICERROR;
+		return E_SHELL_CONSTRUCT_RESULT_CANNOTREGISTER;
 	}
 
 	if (! show_splash) {
@@ -861,20 +900,7 @@ e_shell_construct (EShell *shell,
 	else
 		setup_components (shell, NULL);
 
-	/* The local storage depends on the component registry.  */
-	setup_local_storage (shell);
-
-	/* Set up the ::Activity interface.  This must be done before we notify
-	   the components, as they might want to use it.  */
-	setup_activity_interface (shell);
-
-	/* Now that we have a local storage and an ::Activity interface, we can
-	   tell the components we are here.  */
-	set_owner_on_components (shell);
-
-	/* Run the intelligent importers to find see if any data needs 
-	   importing. */
-	intelligent_importer_init ();
+	/* Set up the shortcuts.  */
 
 	shortcut_path = g_concat_dir_and_file (local_directory, "shortcuts.xml");
 	priv->shortcuts = e_shortcuts_new (priv->storage_set,
@@ -886,6 +912,26 @@ e_shell_construct (EShell *shell,
 		e_shortcuts_add_default_group (priv->shortcuts);
 
 	g_free (shortcut_path);
+
+	/* The local storage depends on the component registry.  */
+	setup_local_storage (shell);
+
+	/* Set up the ::Activity interface.  This must be done before we notify
+	   the components, as they might want to use it.  */
+	setup_activity_interface (shell);
+
+	/* Set up the shortcuts interface.  This has to be done after the
+	   shortcuts are actually initialized.  */
+
+	setup_shortcuts_interface (shell);
+
+	/* Now that we have a local storage and all the interfaces set up, we
+	   can tell the components we are here.  */
+	set_owner_on_components (shell);
+
+	/* Run the intelligent importers to find see if any data needs 
+	   importing. */
+	intelligent_importer_init ();
 
 	if (show_splash)
 		gtk_widget_destroy (splash);
@@ -1239,8 +1285,7 @@ e_shell_restore_from_settings (EShell *shell)
 
 	priv = shell->priv;
 
-	num_views = bonobo_config_get_long_with_default (priv->db, 
-                "/Shell/Views/NumberOfViews", 0, NULL);
+	num_views = bonobo_config_get_long_with_default (priv->db, "/Shell/Views/NumberOfViews", 0, NULL);
 
 	if (num_views == 0)
 		return FALSE;
@@ -1497,6 +1542,15 @@ e_shell_go_online (EShell *shell,
 
 	priv->line_status = E_SHELL_LINE_STATUS_ONLINE;
 	gtk_signal_emit (GTK_OBJECT (shell), signals[LINE_STATUS_CHANGED], priv->line_status);
+}
+
+
+Bonobo_ConfigDatabase 
+e_shell_get_config_db (EShell *shell)
+{
+	g_return_val_if_fail (shell != NULL, CORBA_OBJECT_NIL);
+
+	return shell->priv->db;
 }
 
 

@@ -40,7 +40,7 @@
 #define COMPONENT_ID         "OAFIID:GNOME_Evolution_TestComponent_ShellComponent"
 
 static const EvolutionShellComponentFolderType folder_types[] = {
-	{ "test", "/usr/share/pixmaps/gnome-money.png", NULL, NULL },
+	{ "test", "/usr/share/pixmaps/gnome-money.png", FALSE, NULL, NULL },
 	{ NULL }
 };
 
@@ -50,6 +50,60 @@ static EvolutionActivityClient *activity_client;
 
 static int timeout_id = 0;
 static int progress = -1;
+
+
+/* Test the ::Shortcut interface.  */
+
+static void
+spit_out_shortcuts (EvolutionShellClient *shell_client)
+{
+	GNOME_Evolution_Shortcuts shortcuts_interface;
+	GNOME_Evolution_Shortcuts_GroupList *groups;
+	CORBA_Environment ev;
+	int i, j;
+
+	g_print ("** Getting shortcuts from the shell:\n");
+
+	CORBA_exception_init (&ev);
+
+	shortcuts_interface = evolution_shell_client_get_shortcuts_interface (shell_client);
+	if (CORBA_Object_is_nil (shortcuts_interface, &ev)) {
+		g_warning ("No ::Shortcut interface on the shell");
+		CORBA_exception_free (&ev);
+		return;
+	}
+
+	groups = GNOME_Evolution_Shortcuts__get_groups (shortcuts_interface, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_warning ("Exception getting the groups: %s", ev._repo_id);
+		CORBA_exception_free (&ev);
+		return;
+	}
+
+	for (i = 0; i < groups->_length; i ++) {
+		GNOME_Evolution_Shortcuts_Group *group;
+		GNOME_Evolution_Shortcuts_ShortcutList *shortcuts;
+
+		group = groups->_buffer + i;
+		shortcuts = &group->shortcuts;
+
+		g_print ("\tGROUP: %s\n", group->name);
+
+		for (j = 0; j < shortcuts->_length; j ++) {
+			GNOME_Evolution_Shortcuts_Shortcut *shortcut;
+
+			shortcut = shortcuts->_buffer + j;
+
+			g_print ("\t\tName: %s\n", shortcut->name);
+			g_print ("\t\t\tType: %s\n", shortcut->type);
+			g_print ("\t\t\tURI: %s\n", shortcut->uri);
+		}
+	}
+
+	g_print ("** Done\n\n");
+
+	CORBA_exception_free (&ev);
+}
 
 
 /* Callbacks.  */
@@ -196,6 +250,8 @@ owner_set_callback (EvolutionShellComponent *shell_component,
 
 	if (evolution_shell_client_get_activity_interface (parent_shell) == CORBA_OBJECT_NIL)
 		g_warning ("Shell doesn't have a ::Activity interface -- weird!");
+
+	spit_out_shortcuts (shell_client);
 }
 
 static int

@@ -36,6 +36,7 @@
 
 struct _EvolutionShellClientPrivate {
 	GNOME_Evolution_Activity activity_interface;
+	GNOME_Evolution_Shortcuts shortcuts_interface;
 };
 
 #define PARENT_TYPE bonobo_object_client_get_type ()
@@ -56,6 +57,38 @@ struct _FolderSelectionListenerServant {
 };
 typedef struct _FolderSelectionListenerServant FolderSelectionListenerServant;
 
+
+/* Helper functions.  */
+
+static CORBA_Object
+query_shell_interface (EvolutionShellClient *shell_client,
+		       const char *interface_name)
+{
+	CORBA_Environment ev;
+	CORBA_Object interface_object;
+	EvolutionShellClientPrivate *priv;
+
+	priv = shell_client->priv;
+
+	CORBA_exception_init (&ev);
+
+ 	interface_object = Bonobo_Unknown_queryInterface (bonobo_object_corba_objref (BONOBO_OBJECT (shell_client)),
+							  interface_name, &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_warning ("EvolutionShellClient: Error querying interface %s on %p -- %s",
+			   interface_name, shell_client, ev._repo_id);
+		interface_object = CORBA_OBJECT_NIL;
+	} else if (CORBA_Object_is_nil (interface_object, &ev)) {
+		g_warning ("No interface %s for ShellClient %p", interface_name, shell_client);
+	}
+
+	CORBA_exception_free (&ev);
+
+	return interface_object;
+}
+
+
 static void
 impl_FolderSelectionListener_selected (PortableServer_Servant servant,
 				       const CORBA_char *uri,
@@ -238,6 +271,15 @@ destroy (GtkObject *object)
 		CORBA_Object_release (priv->activity_interface, &ev);
 	}
 
+	if (priv->shortcuts_interface != CORBA_OBJECT_NIL) {
+		Bonobo_Unknown_unref (priv->shortcuts_interface, &ev);
+		if (ev._major != CORBA_NO_EXCEPTION)
+			g_warning ("EvolutionShellClient::destroy: "
+				   "Error unreffing the ::Shortcuts interface -- %s\n",
+				   ev._repo_id);
+		CORBA_Object_release (priv->shortcuts_interface, &ev);
+	}
+
 	CORBA_exception_free (&ev);
 
 	g_free (priv);
@@ -264,7 +306,8 @@ init (EvolutionShellClient *shell_client)
 	EvolutionShellClientPrivate *priv;
 
 	priv = g_new (EvolutionShellClientPrivate, 1);
-	priv->activity_interface = CORBA_OBJECT_NIL;
+	priv->activity_interface  = CORBA_OBJECT_NIL;
+	priv->shortcuts_interface = CORBA_OBJECT_NIL;
 
 	shell_client->priv = priv;
 }
@@ -281,7 +324,6 @@ void
 evolution_shell_client_construct (EvolutionShellClient *shell_client,
 				  GNOME_Evolution_Shell corba_shell)
 {
-	CORBA_Environment ev;
 	EvolutionShellClientPrivate *priv;
 
 	g_return_if_fail (shell_client != NULL);
@@ -290,22 +332,11 @@ evolution_shell_client_construct (EvolutionShellClient *shell_client,
 
 	bonobo_object_construct (BONOBO_OBJECT (shell_client), (CORBA_Object) corba_shell);
 
-	CORBA_exception_init (&ev);
-
 	priv = shell_client->priv;
 	g_return_if_fail (priv->activity_interface == CORBA_OBJECT_NIL);
 
-	priv->activity_interface = Bonobo_Unknown_queryInterface (bonobo_object_corba_objref (BONOBO_OBJECT (shell_client)),
-								  "IDL:GNOME/Evolution/Activity:1.0",
-								  &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning ("EvolutionShellClient: Error querying interface ::Activity -- %s", ev._repo_id);
-		priv->activity_interface = CORBA_OBJECT_NIL;
-	} else if (CORBA_Object_is_nil (priv->activity_interface, &ev)) {
-		g_warning ("No ::Activity interface for ShellClient %p", shell_client);
-	}
-
-	CORBA_exception_free (&ev);
+	priv->activity_interface = query_shell_interface (shell_client, "IDL:GNOME/Evolution/Activity:1.0");
+	priv->shortcuts_interface = query_shell_interface (shell_client, "IDL:GNOME/Evolution/Shortcuts:1.0");
 }
 
 /**
@@ -382,6 +413,25 @@ evolution_shell_client_get_activity_interface (EvolutionShellClient *shell_clien
 	g_return_val_if_fail (EVOLUTION_IS_SHELL_CLIENT (shell_client), CORBA_OBJECT_NIL);
 
 	return shell_client->priv->activity_interface;
+}
+
+/**
+ * evolution_shell_client_get_activity_interface:
+ * @shell_client: An EvolutionShellClient object
+ * 
+ * Get the GNOME::Evolution::Shortcuts for the shell associated to
+ * @shell_client.
+ * 
+ * Return value: A CORBA Object represeting the GNOME::Evolution::Shortcuts
+ * interface.
+ **/
+GNOME_Evolution_Shortcuts
+evolution_shell_client_get_shortcuts_interface  (EvolutionShellClient *shell_client)
+{
+	g_return_val_if_fail (shell_client != NULL, CORBA_OBJECT_NIL);
+	g_return_val_if_fail (EVOLUTION_IS_SHELL_CLIENT (shell_client), CORBA_OBJECT_NIL);
+
+	return shell_client->priv->shortcuts_interface;
 }
 
 

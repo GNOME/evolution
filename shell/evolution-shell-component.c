@@ -682,4 +682,4 @@ evolution_shell_component_get_owner  (EvolutionShellComponent *shell_component)
 E_MAKE_X_TYPE (evolution_shell_component, "EvolutionShellComponent", EvolutionShellComponent,
 	       class_init, init, PARENT_TYPE,
 	       POA_GNOME_Evolution_ShellComponent__init,
-	       GTK_STRUCT_OFFSET (EvolutionShellComponentClass, epv));
+	       GTK_STRUCT_OFFSET (EvolutionShellComponentClass, epv))
