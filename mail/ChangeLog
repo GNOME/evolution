@@ -1,3 +1,16 @@
+2002-10-24  Jeffrey Stedfast  <fejj@ximian.com>
+
+	Update the upgrade script to handle the new url format introduced
+	with NotZed's most recent commits.
+
+	* upgrade-mailer.c (mailer_upgrade): Save an encoded version of
+	the namespace too, for use later.
+	(si_free): Free the encoded namespace too.
+	(imap_url_upgrade): Use the encoded namespace when creating the
+	new url.
+	(shortcuts_upgrade_xml_file): Upgrade the default: urls. Fixes bug
+	#32127.
+
 2002-10-25  Not Zed  <NotZed@Ximian.com>
 
 	* mail-config.c (mail_config_uri_renamed): Always strdup the new

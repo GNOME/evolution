@@ -51,6 +51,7 @@
 struct _storeinfo {
 	char *base_url;
 	char *namespace;
+	char *encoded_namespace;
 	char dir_sep;
 	GPtrArray *folders;
 };
@@ -96,6 +97,7 @@ si_free (struct _storeinfo *si)
 	
 	g_free (si->base_url);
 	g_free (si->namespace);
+	g_free (si->encoded_namespace);
 	if (si->folders) {
 		for (i = 0; i < si->folders->len; i++)
 			g_free (si->folders->pdata[i]);
@@ -533,10 +535,7 @@ imap_url_upgrade (GHashTable *imap_sources, const char *uri)
 				fprintf (stderr, "found: '%c'\n", dir_sep);
 				p = folder;
 				folder = hex_encode (folder, strlen (folder));
-				if (si->namespace[strlen (si->namespace) - 1] == dir_sep)
-					new = g_strdup_printf ("%s/%s%s", base_url, si->namespace, folder);
-				else
-					new = g_strdup_printf ("%s/%s%c%s", base_url, si->namespace, dir_sep, folder);
+				new = g_strdup_printf ("%s/%s%c%s", base_url, si->encoded_namespace, dir_sep, folder);
 				g_free (folder);
 				folder = p;
 				
@@ -862,7 +861,7 @@ shortcuts_upgrade_xml_file (GHashTable *accounts, GHashTable *imap_sources, cons
 	xmlNode *group, *item;
 	int account_len;
 	gboolean changed = FALSE;
-
+	
 	bak = g_strdup_printf ("%s.bak-1.0", filename);
 	if (stat (bak, &st) != -1) {
 		/* seems we have already converted this file? */
@@ -891,19 +890,33 @@ shortcuts_upgrade_xml_file (GHashTable *accounts, GHashTable *imap_sources, cons
 			/* Fix IMAP/Exchange URIs */
 			uri = xmlNodeGetContent (item);
 			if (!strncmp (uri, "evolution:/", 11)) {
-				account_len = strcspn (uri + 11, "/");
-				account = g_strndup (uri + 11, account_len);
-				if (g_hash_table_lookup (accounts, account)) {
-					folder = uri + 11 + account_len;
-					if (*folder)
-						folder++;
-					new = shortcuts_upgrade_uri (accounts, imap_sources, account, folder);
-					new_uri = g_strdup_printf ("evolution:/%s/%s", account, new);
-					xmlNodeSetContent (item, new_uri);
+				if (!strcmp (uri, "evolution:/local/Inbox")) {
+					xmlNodeSetContent (item, "default:mail");
 					changed = TRUE;
-					g_free (new_uri);
+				} else if (!strcmp (uri, "evolution:/local/Calendar")) {
+					xmlNodeSetContent (item, "default:calendar");
+					changed = TRUE;
+				} else if (!strcmp (uri, "evolution:/local/Contacts")) {
+					xmlNodeSetContent (item, "default:contacts");
+					changed = TRUE;
+				} else if (!strcmp (uri, "evolution:/local/Tasks")) {
+					xmlNodeSetContent (item, "default:tasks");
+					changed = TRUE;
+				} else {
+					account_len = strcspn (uri + 11, "/");
+					account = g_strndup (uri + 11, account_len);
+					if (g_hash_table_lookup (accounts, account)) {
+						folder = uri + 11 + account_len;
+						if (*folder)
+							folder++;
+						new = shortcuts_upgrade_uri (accounts, imap_sources, account, folder);
+						new_uri = g_strdup_printf ("evolution:/%s/%s", account, new);
+						xmlNodeSetContent (item, new_uri);
+						changed = TRUE;
+						g_free (new_uri);
+					}
+					g_free (account);
 				}
-				g_free (account);
 			}
 			xmlFree (uri);
 			
@@ -986,6 +999,7 @@ mailer_upgrade (Bonobo_ConfigDatabase db)
 			si = g_new (struct _storeinfo, 1);
 			si->base_url = get_base_url ("imap", uri);
 			si->namespace = imap_namespace (uri);
+			si->encoded_namespace = NULL;
 			si->dir_sep = '\0';
 			si->folders = NULL;
 			
@@ -1019,6 +1033,20 @@ mailer_upgrade (Bonobo_ConfigDatabase db)
 			if (si->folders && si->folders->len > 0)
 				si->dir_sep = find_dir_sep (si->folders->pdata[0]);
 			
+			if (si->namespace) {
+				/* strip trailing dir_sep from namespace if it's there */
+				j = strlen (si->namespace) - 1;
+				if (si->namespace[j] == si->dir_sep)
+					si->namespace[j] = '\0';
+				
+				/* set the encoded version of the namespace */
+				si->encoded_namespace = g_strdup (si->namespace);
+				for (j = 0; j < strlen (si->encoded_namespace); j++) {
+					if (si->encoded_namespace[j] == '/')
+						si->encoded_namespace[j] = '.';
+				}
+			}
+			
 			g_hash_table_insert (imap_sources, si->base_url, si);
 			
 			if (account)
@@ -1031,7 +1059,7 @@ mailer_upgrade (Bonobo_ConfigDatabase db)
 				bonobo_config_set_string (db, path, uri, NULL);
 			g_free (transport);
 			g_free (path);
-
+			
 			path = g_strdup_printf ("/Mail/Accounts/account_name_%d", i);
 			account = bonobo_config_get_string (db, path, NULL);
 			g_free (path);
