@@ -1,5 +1,9 @@
 2001-01-22  Dan Winship  <danw@ximian.com>
 
+	* mail-config-druid.c (incoming_type_changed): Change "Path:"
+	label to "Namespace:" for IMAP. Use $MAILDIR rather than $MAIL for
+	Maildir. If $MAIL isn't set, guess.
+
 	* component-factory.c (mail_hash_storage): Function to add a
 	store/storage mapping.
 	(add_storage): Use it.

@@ -453,13 +453,27 @@ incoming_type_changed (GtkWidget *widget, gpointer user_data)
 	
 	/* path */
 	label = glade_xml_get_widget (druid->gui, "lblSourcePath");
+	/* FIXME */
+	if (!strcmp (provider->protocol, "imap"))
+		gtk_label_set_text (GTK_LABEL (label), _("Namespace:"));
+	else
+		gtk_label_set_text (GTK_LABEL (label), _("Path:"));
 	if (provider && provider->url_flags & CAMEL_URL_ALLOW_PATH) {
 		if (!dwidget)
 			dwidget = GTK_WIDGET (druid->incoming_path);
 		
-		if (!strcmp (provider->protocol, "mbox") || !strcmp (provider->protocol, "maildir")){
+		if (!strcmp (provider->protocol, "mbox")) {
+			char *path;
+
 			if (getenv ("MAIL"))
-				gtk_entry_set_text (druid->incoming_path, getenv ("MAIL"));
+				path = g_strdup (getenv ("MAIL"));
+			else
+				path = g_strdup_printf (SYSTEM_MAIL_DIR "/%s", g_get_user_name ());
+			gtk_entry_set_text (druid->incoming_path, path);
+			g_free (path);
+		} else if (!strcmp (provider->protocol, "maildir") &&
+			   getenv ("MAILDIR")) {
+			gtk_entry_set_text (druid->incoming_path, getenv ("MAILDIR"));
 		} else {
 			gtk_entry_set_text (druid->incoming_path, "");
 		}
