@@ -51,10 +51,11 @@ struct _ESelectNamesCompletionPrivate {
 
 	EBook *book;
 	gboolean book_ready;
-	gboolean cancelled;
 
 	guint book_view_tag;
 	EBookView *book_view;
+	guint card_added_tag;
+	guint seq_complete_tag;
 
 	gchar *waiting_query;
 	gint waiting_pos, waiting_limit;
@@ -81,7 +82,6 @@ static void e_select_names_completion_do_query (ESelectNamesCompletion *, const 
 
 static void e_select_names_completion_handle_request  (ECompletion *, const gchar *txt, gint pos, gint limit);
 static void e_select_names_completion_end    (ECompletion *);
-static void e_select_names_completion_cancel (ECompletion *);
 
 static GtkObjectClass *parent_class;
 
@@ -319,23 +319,21 @@ match_name (ESelectNamesCompletion *comp, EDestination *dest)
 
 	} else if (first_match == E_CARD_MATCH_PART_ADDITIONAL_NAME) {
 
-		if (have_family) {
-			
-			menu_text = g_strdup_printf ("%s, %s%s%s <%s>",
-						     card->name->family,
-						     have_given ? card->name->given : "",
-						     have_given ? " " : "",
-						     card->name->additional,
-						     email);
+		if (have_given) {
 
+			menu_text = g_strdup_printf ("%s%s%s, %s <%s>",
+						     card->name->additional,
+						     have_family ? " " : "",
+						     have_family ? card->name->family : "",
+						     card->name->given,
+						     email);
 		} else {
 
 			menu_text = g_strdup_printf ("%s%s%s <%s>",
-						     have_given ? card->name->given : "",
-						     have_given ?  " " : "",
 						     card->name->additional,
+						     have_family ? " " : "",
+						     have_family ? card->name->family : "",
 						     email);
-
 		}
 
 	} else if (first_match == E_CARD_MATCH_PART_FAMILY_NAME) { 
@@ -706,7 +704,6 @@ e_select_names_completion_class_init (ESelectNamesCompletionClass *klass)
 
 	completion_class->request_completion = e_select_names_completion_handle_request;
 	completion_class->end_completion = e_select_names_completion_end;
-	completion_class->cancel_completion = e_select_names_completion_cancel;
 
 	if (getenv ("EVO_DEBUG_SELECT_NAMES_COMPLETION")) {
 		out = fopen ("/tmp/evo-debug-select-names-completion", "w");
@@ -732,6 +729,16 @@ e_select_names_completion_destroy (GtkObject *object)
 
 	if (comp->priv->book)
 		gtk_object_unref (GTK_OBJECT (comp->priv->book));
+
+	if (comp->priv->card_added_tag) {
+		gtk_signal_disconnect (GTK_OBJECT (comp->priv->book_view), comp->priv->card_added_tag);
+		comp->priv->card_added_tag = 0;
+	}
+
+	if (comp->priv->seq_complete_tag) {
+		gtk_signal_disconnect (GTK_OBJECT (comp->priv->book_view), comp->priv->seq_complete_tag);
+		comp->priv->seq_complete_tag = 0;
+	}
 
 	if (comp->priv->book_view)
 		gtk_object_unref (GTK_OBJECT (comp->priv->book_view));
@@ -797,24 +804,33 @@ e_select_names_completion_got_book_view_cb (EBook *book, EBookStatus status, EBo
 
 	comp = E_SELECT_NAMES_COMPLETION (user_data);
 
-	comp->priv->cancelled = FALSE;
-	
 	comp->priv->book_view_tag = 0;
 
+	if (comp->priv->card_added_tag) {
+		gtk_signal_disconnect (GTK_OBJECT (comp->priv->book_view), comp->priv->card_added_tag);
+		comp->priv->card_added_tag = 0;
+	}
+	if (comp->priv->seq_complete_tag) {
+		gtk_signal_disconnect (GTK_OBJECT (comp->priv->book_view), comp->priv->seq_complete_tag);
+		comp->priv->seq_complete_tag = 0;
+	}
+
+	gtk_object_ref (GTK_OBJECT (view));
 	if (comp->priv->book_view)
 		gtk_object_unref (GTK_OBJECT (comp->priv->book_view));
 	comp->priv->book_view = view;
-	gtk_object_ref (GTK_OBJECT (view));
 
-	gtk_signal_connect (GTK_OBJECT (view),
-			    "card_added",
-			    GTK_SIGNAL_FUNC (e_select_names_completion_card_added_cb),
-			    comp);
+	comp->priv->card_added_tag = 
+		gtk_signal_connect (GTK_OBJECT (view),
+				    "card_added",
+				    GTK_SIGNAL_FUNC (e_select_names_completion_card_added_cb),
+				    comp);
 
-	gtk_signal_connect (GTK_OBJECT (view),
-			    "sequence_complete",
-			    GTK_SIGNAL_FUNC (e_select_names_completion_seq_complete_cb),
-			    comp);
+	comp->priv->seq_complete_tag =
+		gtk_signal_connect (GTK_OBJECT (view),
+				    "sequence_complete",
+				    GTK_SIGNAL_FUNC (e_select_names_completion_seq_complete_cb),
+				    comp);
 }
 
 static void
@@ -823,7 +839,7 @@ e_select_names_completion_card_added_cb (EBookView *book_view, const GList *card
 	ESelectNamesCompletion *comp = E_SELECT_NAMES_COMPLETION (user_data);
 
 
-	if (! comp->priv->cancelled) {
+	if (e_completion_searching (E_COMPLETION (comp))) {
 		book_query_process_card_list (comp, cards);
 
 		/* Save the list of matching cards. */
@@ -892,6 +908,19 @@ e_select_names_completion_stop_query (ESelectNamesCompletion *comp)
 	}
 
 	if (comp->priv->book_view) {
+
+		if (out)
+			fprintf (out, "disconnecting book view signals\n");
+
+		if (comp->priv->card_added_tag) {
+			gtk_signal_disconnect (GTK_OBJECT (comp->priv->book_view), comp->priv->card_added_tag);
+			comp->priv->card_added_tag = 0;
+		}
+		if (comp->priv->seq_complete_tag) {
+			gtk_signal_disconnect (GTK_OBJECT (comp->priv->book_view), comp->priv->seq_complete_tag);
+			comp->priv->seq_complete_tag = 0;
+		}
+	
 		if (out)
 			fprintf (out, "unrefed book view\n");
 		gtk_object_unref (GTK_OBJECT (comp->priv->book_view));
@@ -996,7 +1025,6 @@ e_select_names_completion_do_query (ESelectNamesCompletion *comp, const gchar *q
 		comp->priv->query_text = clean;
 		if (out)
 			fprintf (out, "using existing query info: %s (vs %s)\n", comp->priv->query_text, comp->priv->cached_query_text);
-		comp->priv->cancelled = FALSE;
 		book_query_process_card_list (comp, comp->priv->cached_cards);
 		e_completion_end_search (E_COMPLETION (comp));
 		return;
@@ -1105,22 +1133,13 @@ e_select_names_completion_end (ECompletion *comp)
 }
 
 static void
-e_select_names_completion_cancel (ECompletion *comp)
-{
-	g_return_if_fail (comp != NULL);
-	g_return_if_fail (E_IS_COMPLETION (comp));
-
-	E_SELECT_NAMES_COMPLETION (comp)->priv->cancelled = TRUE;
-	
-	if (out)
-		fprintf (out, "completion cancelled\n");
-}
-
-static void
 check_capabilities (ESelectNamesCompletion *comp, EBook *book)
 {
 	gchar *cap = e_book_get_static_capabilities (book);
 	comp->priv->can_fail_due_to_too_many_hits = !strcmp (cap, "net");
+	if (comp->priv->can_fail_due_to_too_many_hits) {
+		g_message ("using LDAP source for completion!");
+	}
 	g_free (cap);
 }
 

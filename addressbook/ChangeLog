@@ -1,3 +1,20 @@
+2001-10-23  Jon Trowbridge  <trow@ximian.com>
+
+	* gui/component/select-names/e-select-names-completion.c: Removed
+	our cancelled flag and e_select_names_completion_cancel function,
+	since we were just duplicating stuff that had ended up in
+	ECompletion.
+	(match_name): Form our menu_text properly on an additional-name
+	match.
+	(e_select_names_completion_got_book_view_cb): Store handles for
+	our signals, disconnect them properly when we switch book views.
+	(e_select_names_completion_stop_query): Disconnect signals when we
+	stop our query.
+	(check_capabilities): Spew if we are using LDAP for completion.
+	(e_select_names_completion_destroy): Disconnect our signals when
+	we destroy.
+	This all should fix bug #10241.
+
 2001-10-23  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/component/select-names/e-select-names.c
