@@ -1,3 +1,8 @@
+2001-10-04  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-service.c (camel_service_connect): Unregister the
+	operation before unreffing it.
+
 2001-10-03    <NotZed@Ximian.com>
 
 	* providers/imap/camel-imap-folder.c (camel_imap_folder_changed):
