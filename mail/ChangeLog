@@ -5,6 +5,7 @@
 	ops, set local_font to NULL
 	(do_mail_print): get rid of static global variables, as they are
 	not thread safe (thanks to clahey for pointing this out)
+	(footer_info_free): unref footer font
 
 2002-01-28  Jeffrey Stedfast  <fejj@ximian.com>
 

@@ -2418,6 +2418,14 @@ footer_print_cb (GtkHTML *html, GnomePrintContext *print_context,
 	}
 }
 
+static void
+footer_info_free (struct footer_info *info)
+{
+	if (info->local_font)
+		gnome_font_unref (info->local_font);
+	g_free (info);
+}
+
 static struct footer_info *
 footer_info_new (GtkHTML *html, GnomePrintContext *pc, gdouble *line)
 {
@@ -2492,7 +2500,7 @@ do_mail_print (FolderBrowser *fb, gboolean preview)
 
 	info = footer_info_new (html, print_context, &line);
 	gtk_html_print_with_header_footer (html, print_context, 0.0, line, NULL, footer_print_cb, info);
-	g_free (info);
+	footer_info_free (info);
 
 	fb->mail_display->printing = FALSE;
 
