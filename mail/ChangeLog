@@ -1,5 +1,9 @@
 2004-11-26  JP Rosevear  <jpr@novell.com>
 
+	* em-format.c: wrap printf's in debug defines
+
+2004-11-26  JP Rosevear  <jpr@novell.com>
+	
 	* em-format-html-display.c (efhd_xpkcs7mime_button): get image
 	widget directly from icon factory
 
