@@ -116,6 +116,7 @@
 			  <property name="yalign">0.5</property>
 			  <property name="xpad">0</property>
 			  <property name="ypad">0</property>
+			  <property name="mnemonic_widget">timezone</property>
 			</widget>
 			<packing>
 			  <property name="left_attach">0</property>
@@ -217,6 +218,7 @@
 		      <child>
 			<widget class="Custom" id="timezone">
 			  <property name="visible">True</property>
+			  <property name="can_focus">True</property>
 			  <property name="creation_function">make_timezone_entry</property>
 			  <property name="int1">0</property>
 			  <property name="int2">0</property>

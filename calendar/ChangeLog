@@ -1,3 +1,12 @@
+2003-12-08 Carl Sun <carl.sun@sun.com>
+
+        Fixes #46351
+
+	* gui/e-timezone-entry.c  (e_timezone_entry_mnemonic_activate):
+	new function. override the  member function of GtkWidget to handle
+	nemonic_activate signal of custom class ETimezoneEntry.
+
+
 2003-12-08  Bolian Yin <bolian.yin@sun.com>
 
 	* gui/gnome-cal.c (gnome_calendar_class_init): correct argument mismatch in "goto_date" signal definition.
