@@ -639,6 +639,8 @@ handle_text_plain (CamelFormatter *formatter, CamelDataWrapper *wrapper)
 	
 	camel_stream_write_string (formatter->priv->stream,
 				   "\n<!-- text/plain below -->\n");
+	camel_stream_write_string (formatter->priv->stream,
+				   "<pre>\n");
 
 	if (strcmp (wrapper->mime_type->subtype, "richtext") == 0) {
 
@@ -688,6 +690,8 @@ handle_text_plain (CamelFormatter *formatter, CamelDataWrapper *wrapper)
 		camel_stream_write_string (formatter->priv->stream,
 					   "<b>(empty)</b>");
 	}
+	camel_stream_write_string (formatter->priv->stream,
+				   "</pre>\n");	
 	
 	debug ("handle_text_plain: exiting\n");
 }

@@ -1,3 +1,8 @@
+2000-03-30  Matt Loper  <matt@helixcode.com>
+
+	* camel-formatter.c (handle_text_plain): Use <pre> tag to force
+	the use of monospaced fonts.
+
 2000-03-30  Dan Winship  <danw@helixcode.com>
 
 	* camel-service.c (camel_service_getport): Add a htons in the
