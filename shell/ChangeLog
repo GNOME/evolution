@@ -1,3 +1,9 @@
+2002-12-05  Chris Toshok  <toshok@ximian.com>
+
+	* e-shell-config-default-folders.c: use "contacts",
+	"contacts/ldap" as the accepted contacts types, so it'll allow
+	both normal and ldap contact folders.
+
 2002-11-26  Ettore Perazzoli  <ettore@ximian.com>
 
 	* main.c (kill_old_wombat): New function to kill running wombat
