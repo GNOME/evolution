@@ -1,3 +1,8 @@
+2002-06-17  Not Zed  <NotZed@Ximian.com>
+
+	* message-list.c (regen_list_regen): If we dont support searching,
+	dont try to.
+
 2002-06-11  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* message-list.c (regen_list_regen): Move m->complete = TRUE; to

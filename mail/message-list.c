@@ -2454,7 +2454,10 @@ regen_list_regen (struct _mail_msg *mm)
 	int i;
 
 	/* if we have hidedeleted on, use a search to find it out, merge with existing search if set */
-	if (m->hidedel) {
+	if (!camel_folder_has_search_capability(m->folder)) {
+		/* if we have no search capability, dont let search or hide deleted work */
+		uids = camel_folder_get_uids(m->folder);
+	} else if (m->hidedel) {
 		char *expr;
 
 		if (m->search) {
@@ -2474,7 +2477,7 @@ regen_list_regen (struct _mail_msg *mm)
 		return;
 	
 	/* perform hiding */
-	if (m->hideexpr) {
+	if (m->hideexpr && camel_folder_has_search_capability(m->folder)) {
 		uidnew = camel_folder_search_by_expression (m->ml->folder, m->hideexpr, &mm->ex);
 		/* well, lets not abort just because this faileld ... */
 		camel_exception_clear (&mm->ex);

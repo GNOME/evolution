@@ -3112,6 +3112,7 @@ do_view_digest (CamelFolder *folder, char *uid, CamelMimeMessage *message, void 
 		camel_folder_set_message_flags (folder, uid, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
 		
 		fb = (FolderBrowser *) folder_browser_new (folder_browser->shell, NULL);
+		message_list_set_hidedeleted(fb->message_list, 0);
 		folder_browser_set_message_preview (fb, TRUE);
 		folder_browser_set_folder (fb, digest, "digest:/");
 		camel_object_unref (CAMEL_OBJECT (digest));
