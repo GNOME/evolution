@@ -48,6 +48,7 @@
 #include "importer/GNOME_Evolution_Importer.h"
 
 #include "e-timezone-dialog/e-timezone-dialog.h"
+#include "e-util/e-gtk-utils.h"
 
 #include <evolution-wizard.h>
 #include "Evolution.h"
@@ -156,7 +157,7 @@ make_mail_dialog_pages (SWData *data)
 	data->mailer = oaf_activate_from_id ("OAFIID:GNOME_Evolution_Mail_Wizard", 0, NULL, &ev);
 	if (BONOBO_EX (&ev)) {
 		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
-			  _("Could not start the Evolution Mailer Wizard interface\n%s"), CORBA_exception_id (&ev));
+			  _("(%s:%d)Could not start the Evolution Mailer Assistant interface\n%s"), __FUNCTION__, __LINE__, CORBA_exception_id (&ev));
 		g_warning ("Could not start mailer (%s)", CORBA_exception_id (&ev));
 		CORBA_exception_free (&ev);
 		return;
@@ -165,7 +166,7 @@ make_mail_dialog_pages (SWData *data)
 	CORBA_exception_free (&ev);
 	if (data->mailer == CORBA_OBJECT_NIL) {
 		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
-			  _("Cannot initialize the Evolution Mailer Wizard interface"));
+			  _("(%s:%d)Could not start the Evolution Mailer Assistant interface\n%s"), __FUNCTION__, __LINE__, "");
 		return;
 	}
 
@@ -554,15 +555,6 @@ get_intelligent_importers (void)
 	return iids_ret;
 }
 
-static void
-dialog_mapped (GtkWidget *w,
-	       gpointer data)
-{
-	while (gtk_events_pending ()) {
-		gtk_main_iteration ();
-	}
-}
-
 static gboolean
 prepare_importer_page (GnomeDruidPage *page,
 
@@ -580,10 +572,13 @@ prepare_importer_page (GnomeDruidPage *page,
 	}
 
 	dialog = gnome_message_box_new (_("Please wait...\nScanning for existing setups"), GNOME_MESSAGE_BOX_INFO, NULL);
-	gtk_signal_connect (GTK_OBJECT (dialog), "map",
-			    GTK_SIGNAL_FUNC (dialog_mapped), NULL);
+	e_make_widget_backing_stored (dialog);
+
 	gtk_window_set_title (GTK_WINDOW (dialog), _("Starting Intelligent Importers"));
 	gtk_widget_show_all (dialog);
+	gtk_widget_queue_draw (dialog);
+	gdk_flush ();
+
 	while (gtk_events_pending ()) {
 		gtk_main_iteration ();
 	}

@@ -718,8 +718,14 @@ prepare_intelligent_page (GnomeDruid *druid,
 	data->importerpage->prepared = TRUE;
 
 	dialog = gnome_message_box_new (_("Please wait...\nScanning for existing setups"), GNOME_MESSAGE_BOX_INFO, NULL);
+	e_make_widget_backing_stored (dialog);
+
 	gtk_window_set_title (GTK_WINDOW (dialog), _("Starting Intelligent Importers"));
 	gtk_widget_show_all (dialog);
+
+	gtk_widget_queue_draw (dialog);
+	gdk_flush ();
+
 	while (gtk_events_pending ()) {
 		gtk_main_iteration ();
 	}
