@@ -59,8 +59,7 @@ libfilter_la_SOURCES =				\
 	vfolder-rule.c				\
 	vfolder-rule.h
 
-EXTRA_DIST = blank.xpm check.xpm 		\
-	filtertypes.xml vfoldertypes.xml
+EXTRA_DIST = filtertypes.xml vfoldertypes.xml
 
 # basic rules.
 filterdir = $(prefix)/share/evolution
