@@ -92,15 +92,15 @@ e_paned_get_type (void)
 }
 
 static void
-e_paned_class_init (EPanedClass *class)
+e_paned_class_init (EPanedClass *klass)
 {
   GtkObjectClass *object_class;
   GtkWidgetClass *widget_class;
   GtkContainerClass *container_class;
 
-  object_class = (GtkObjectClass *) class;
-  widget_class = (GtkWidgetClass *) class;
-  container_class = (GtkContainerClass *) class;
+  object_class = (GtkObjectClass *) klass;
+  widget_class = (GtkWidgetClass *) klass;
+  container_class = (GtkContainerClass *) klass;
 
   parent_class = gtk_type_class (GTK_TYPE_CONTAINER);
 
@@ -117,6 +117,8 @@ e_paned_class_init (EPanedClass *class)
   container_class->remove = e_paned_remove;
   container_class->forall = e_paned_forall;
   container_class->child_type = e_paned_child_type;
+
+  klass->handle_shown = NULL;
 
   gtk_object_add_arg_type("EPaned::handle_size", GTK_TYPE_UINT,
 			  GTK_ARG_READWRITE, ARG_HANDLE_SIZE);
@@ -239,7 +241,8 @@ e_paned_realize (GtkWidget *widget)
 
   gdk_window_set_back_pixmap (widget->window, NULL, TRUE);
 
-  gdk_window_show (paned->handle);
+  if (e_paned_handle_shown(paned))
+    gdk_window_show (paned->handle);
 }
 
 static void
@@ -255,7 +258,7 @@ e_paned_map (GtkWidget *widget)
 
   if (paned->child1 &&
       GTK_WIDGET_VISIBLE (paned->child1) &&
-      !GTK_WIDGET_MAPPED (paned->child1))
+       !GTK_WIDGET_MAPPED (paned->child1))
     gtk_widget_map (paned->child1);
   if (paned->child2 &&
       GTK_WIDGET_VISIBLE (paned->child2) &&
@@ -318,12 +321,15 @@ e_paned_expose (GtkWidget      *widget,
     {
       paned = E_PANED (widget);
 
-      if (event->window == paned->handle)
+      if (paned->handle && event->window == paned->handle)
 	{
-	  child_event = *event;
-	  event->area.x += paned->handle_xpos;
-	  event->area.y += paned->handle_ypos;
-	  gtk_widget_draw (widget, &event->area);
+	  if (e_paned_handle_shown(paned))
+	    {
+	      child_event = *event;
+	      event->area.x += paned->handle_xpos;
+	      event->area.y += paned->handle_ypos;
+	      gtk_widget_draw (widget, &event->area);
+	    }
 	}
       else
 	{
@@ -547,6 +553,9 @@ e_paned_compute_position(EPaned *paned,
 {
   g_return_if_fail (paned != NULL);
   g_return_if_fail (E_IS_PANED (paned));
+  
+  if (e_paned_handle_shown(paned))
+    allocation -= (gint) paned->handle_size;
 
   paned->min_position = paned->child1_shrink ? 0 : child1_req;
 
@@ -584,4 +593,14 @@ e_paned_compute_position(EPaned *paned,
 			      paned->max_position);
 
   paned->last_allocation = allocation;
+}
+
+gboolean
+e_paned_handle_shown(EPaned *paned)
+{
+  EPanedClass *klass = E_PANED_CLASS(GTK_OBJECT(paned)->klass);
+  if (klass->handle_shown)
+    return (*klass->handle_shown)(paned);
+  else
+    return TRUE;
 }

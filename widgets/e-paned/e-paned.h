@@ -90,6 +90,9 @@ struct _EPaned
 struct _EPanedClass
 {
   GtkContainerClass parent_class;
+
+  /* Protected virtual method. */
+  gboolean (*handle_shown) (EPaned *paned);
 };
 
 
@@ -117,6 +120,8 @@ void    e_paned_compute_position (EPaned   *paned,
 				  gint      allocation,
 				  gint      child1_req,
 				  gint      child2_req);
+
+gboolean e_paned_handle_shown    (EPaned   *paned);
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

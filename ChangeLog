@@ -1,3 +1,10 @@
+2000-05-25  Christopher James Lahey  <clahey@helixcode.com>
+
+	* widgets/e-paned/e-hpaned.c, widgets/e-paned/e-paned.c,
+	widgets/e-paned/e-paned.h, widgets/e-paned/e-vpaned.c: Made
+	the handlebar disappear if either side is empty, hidden, or
+	requests 0 size.
+
 2000-05-24  Christopher James Lahey  <clahey@helixcode.com>
 
 	* configure.in: Added widgets/e-paned/Makefile.
