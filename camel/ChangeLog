@@ -1,4 +1,12 @@
 2001-03-08  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-store.c (camel_store_get_folder): Changes so that the
+	folder gets added to the vtrash reguardless of whether or not the
+	store is holding it's own folder lookup hash.
+	(init_trash): Oops, lets try locking the cache before we go and
+	add all the cached folders to the vtrash.
+
+2001-03-08  Jeffrey Stedfast  <fejj@ximian.com>
 	These fixes make it so that the CamelStore does not actually hold
 	a ref on it's vTrash folder. The vTrash folder is now created ONLY
 	when it is requested. This solves the problem of not being able to

@@ -217,20 +217,22 @@ camel_store_get_folder (CamelStore *store, const char *folder_name, guint32 flag
 			camel_object_ref (CAMEL_OBJECT (folder));
 		CAMEL_STORE_UNLOCK(store, cache_lock);
 	}
-
+	
 	if (!folder) {
 		folder = CS_CLASS (store)->get_folder (store, folder_name, flags, ex);
-		if (folder && store->folders) {
-			CAMEL_STORE_LOCK(store, cache_lock);
-			
-			g_hash_table_insert (store->folders, g_strdup (folder_name), folder);
-			
+		if (folder) {
 			/* Add the folder to the vTrash folder if this store implements it */
 			if (store->vtrash)
 				camel_vee_folder_add_folder (CAMEL_VEE_FOLDER (store->vtrash), folder);
 			
-			camel_object_hook_event (CAMEL_OBJECT (folder), "finalize", folder_finalize, store);
-			CAMEL_STORE_UNLOCK(store, cache_lock);
+			if (store->folders) {
+				CAMEL_STORE_LOCK(store, cache_lock);
+				
+				g_hash_table_insert (store->folders, g_strdup (folder_name), folder);
+				
+				camel_object_hook_event (CAMEL_OBJECT (folder), "finalize", folder_finalize, store);
+				CAMEL_STORE_UNLOCK(store, cache_lock);
+			}
 		}
 	}
 
@@ -390,8 +392,11 @@ init_trash (CamelStore *store)
 					 trash_finalize, store);
 		
 		/* add all the pre-opened folders to the vtrash */
-		if (store->folders)
+		if (store->folders) {
+			CAMEL_STORE_LOCK(store, cache_lock);
 			g_hash_table_foreach (store->folders, trash_add_folder, store);
+			CAMEL_STORE_UNLOCK(store, cache_lock);
+		}
 	}
 }
 
