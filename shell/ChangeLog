@@ -1,3 +1,36 @@
+2001-08-27  Ettore Perazzoli  <ettore@ximian.com>
+
+	* Evolution-ShellComponent.idl: Studlycapsize all the IDs that are
+	not.
+	* Evolution-common.idl: Likewise.
+	* evolution-activity-client.c: Updated accordingly.
+	* evolution-shell-component.c: Likewise.
+	* evolution-storage.c: Likewise.
+	* e-activity-handler.c: Likewise.
+	* e-component-registry.c: Likewise.
+	* e-corba-storage.c: Likewise.
+	* e-shell-user-creatable-items-handlers.c: Likewise.
+
+	* e-local-storage.c (remove_folder): Remove unused variable.
+
+	* e-shell-view.c (update_for_current_uri): Assign zero to
+	`unread_count', not NULL.
+
+	* e-shell-importer.c (import_druid_finish): Remove unused
+	variable.
+
+	* e-shell-user-creatable-items-handler.c: #include
+	"e-corba-utils.h".
+
+	* e-shell-startup-wizard.c: #include "e-shell-startup-wizard.h".
+
+	* e-shell-startup-wizard.h: #include <glib.h>
+
+2001-08-24  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-view.c (update_for_current_uri): Also display the unread
+	count in the title bar.
+
 2001-08-24  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-setup.c (copy_default_stuff): Remove the stupid "do you want

@@ -72,6 +72,7 @@ static BonoboWindowClass *parent_class = NULL;
 struct _View {
 	char *uri;
 	GtkWidget *control;
+	EFolder *folder;
 };
 typedef struct _View View;
 
@@ -1446,10 +1447,12 @@ update_for_current_uri (EShellView *shell_view)
 	EShellViewPrivate *priv;
 	EFolder *folder;
 	const char *path;
-	const char *title;
 	const char *type;
+	const char *folder_name;
+	char *title;
 	char *utf8_window_title;
 	char *gtk_window_title;
+	int unread_count;
 
 	priv = shell_view->priv;
 
@@ -1462,8 +1465,9 @@ update_for_current_uri (EShellView *shell_view)
 
 	path = get_storage_set_path_from_uri (priv->uri);
 
-	title = NULL;
+	folder_name = NULL;
 	type = NULL;
+	unread_count = 0;
 
 	if (path == NULL) {
 		folder = NULL;
@@ -1471,18 +1475,28 @@ update_for_current_uri (EShellView *shell_view)
 		folder = e_storage_set_get_folder (e_shell_get_storage_set (priv->shell), path);
 
 		if (folder != NULL) {
-			title = e_folder_get_name (folder);
+			folder_name = e_folder_get_name (folder);
 			type = e_folder_get_type_string (folder);
+			unread_count = e_folder_get_unread_count (folder);
 		} else if (path != NULL) {
 			EStorage *storage;
 
 			storage = e_storage_set_get_storage (e_shell_get_storage_set (priv->shell), path + 1);
+			unread_count = 0;
+
 			if (storage != NULL) {
-				title = e_storage_get_display_name (storage);
+				folder_name = e_storage_get_display_name (storage);
 				type = e_storage_get_toplevel_node_type (storage);
 			}
 		} 
 	}
+
+	if (unread_count > 0)
+		title = g_strdup_printf (_("%s (%d)"), folder_name, unread_count);
+	else if (folder_name == NULL)
+		title = g_strdup (_("(None)"));
+	else
+		title = g_strdup (folder_name);
 
 	if (SUB_VERSION[0] == '\0')
 		utf8_window_title = g_strdup_printf (_("%s - Evolution %s"), title, VERSION);
@@ -1491,11 +1505,13 @@ update_for_current_uri (EShellView *shell_view)
 
 	gtk_window_title = e_utf8_to_gtk_string (GTK_WIDGET (shell_view), utf8_window_title);
 	gtk_window_set_title (GTK_WINDOW (shell_view), gtk_window_title);
-	g_free (gtk_window_title);
-	g_free (utf8_window_title);
 
 	update_folder_title_bar (shell_view, title, type);
 	update_window_icon (shell_view, type);
+
+	g_free (gtk_window_title);
+	g_free (utf8_window_title);
+	g_free (title);
 
 	gtk_signal_handler_block_by_func (GTK_OBJECT (priv->storage_set_view),
 					  GTK_SIGNAL_FUNC (folder_selected_cb),

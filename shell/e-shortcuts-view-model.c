@@ -289,7 +289,7 @@ init (EShortcutsViewModel *shortcuts_view_model)
 	EShortcutsViewModelPrivate *priv;
 
 	priv = g_new (EShortcutsViewModelPrivate, 1);
-	priv->shortcuts = NULL;
+	priv->shortcuts      = NULL;
 
 	shortcuts_view_model->priv = priv;
 }

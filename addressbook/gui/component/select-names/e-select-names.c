@@ -361,11 +361,11 @@ new_folder      (EvolutionStorageListener *storage_listener,
 	if (!strcmp(folder->type, "contacts")) {
 		ESelectNamesFolder *e_folder = g_new(ESelectNamesFolder, 1);
 		e_folder->description  = g_strdup(folder->description );
-		e_folder->display_name = g_strdup(folder->display_name);
-		if (!strncmp (folder->physical_uri, "file:", 5))
-			e_folder->uri = g_strdup_printf ("%s/addressbook.db", folder->physical_uri);
+		e_folder->display_name = g_strdup(folder->displayName);
+		if (!strncmp (folder->physicalUri, "file:", 5))
+			e_folder->uri = g_strdup_printf ("%s/addressbook.db", folder->physicalUri);
 		else
-			e_folder->uri = g_strdup(folder->physical_uri);
+			e_folder->uri = g_strdup(folder->physicalUri);
 		g_hash_table_insert(e_select_names->folders,
 				    g_strdup(path), e_folder);
 		update_option_menu(e_select_names);

@@ -24,6 +24,8 @@
 #ifndef E_SHELL_STARTUP_WIZARD_H
 #define E_SHELL_STARTUP_WIZARD_H
 
+#include <glib.h>
+
 gboolean e_shell_startup_wizard_create (void);
 
 #endif

@@ -87,7 +87,7 @@ create_gdk_pixbuf_from_corba_icon (const GNOME_Evolution_Icon *icon)
 
 	for (i = 0; i < icon->height; i++) {
 		for (j = 0; j < total_width; j++)
-			p[j] = icon->rgba_data._buffer[src_offset ++];
+			p[j] = icon->rgbaData._buffer[src_offset ++];
 		p += rowstride;
 	}
 

@@ -1,3 +1,11 @@
+2001-08-27  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/component/addressbook-component.c: Get rid of a warning by
+	initializing the closing NULL element in folder_types correctly.
+
+	* gui/component/select-names/e-select-names.c: Updated to match
+	the studlyCapsification of attributes in shell/Evolution*.idl.
+
 2001-08-27  Jon Trowbridge  <trow@ximian.com>
 
 	* gui/component/select-names/e-select-names-completion.c

@@ -104,19 +104,19 @@ create_icon_from_pixbuf (GdkPixbuf *pixbuf,
 	icon_return->height = height;
 	icon_return->hasAlpha = has_alpha;
 
-	icon_return->rgba_data._length = icon_return->height * total_width;
-	icon_return->rgba_data._maximum = icon_return->rgba_data._length;
-	icon_return->rgba_data._buffer = CORBA_sequence_CORBA_octet_allocbuf (icon_return->rgba_data._maximum);
+	icon_return->rgbaData._length = icon_return->height * total_width;
+	icon_return->rgbaData._maximum = icon_return->rgbaData._length;
+	icon_return->rgbaData._buffer = CORBA_sequence_CORBA_octet_allocbuf (icon_return->rgbaData._maximum);
 
 	sp = gdk_pixbuf_get_pixels (pixbuf);
-	dp = icon_return->rgba_data._buffer;
+	dp = icon_return->rgbaData._buffer;
 	for (i = 0; i < height; i ++) {
 		for (j = 0; j < total_width; j++)
 			*(dp ++) = sp[j];
 		sp += rowstride;
 	}
 
-	CORBA_sequence_set_release (& icon_return->rgba_data, TRUE);
+	CORBA_sequence_set_release (& icon_return->rgbaData, TRUE);
 }
 
 /* Generate an AnimatedIcon from a NULL-terminated @pixbuf_array.  */

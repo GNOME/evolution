@@ -25,6 +25,8 @@
 #include <config.h>
 #endif
 
+#include "e-shell-startup-wizard.h"
+
 #include <errno.h>
 
 #include <glib.h>
@@ -39,8 +41,13 @@
 #include <bonobo/bonobo-moniker-util.h>
 #include <bonobo-conf/bonobo-config-database.h>
 
+#include <gal/widgets/e-gui-utils.h>
+
 #include <widgets/e-timezone-dialog/e-timezone-dialog.h>
+
 #include "importer/GNOME_Evolution_Importer.h"
+
+#include "e-timezone-dialog/e-timezone-dialog.h"
 
 #include <evolution-wizard.h>
 #include "Evolution.h"

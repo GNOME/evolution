@@ -68,12 +68,12 @@ static void
 do_get_info (struct _mail_msg *mm)
 {
 	struct _folder_info_msg *m = (struct _folder_info_msg *) mm;
-	char *uri_dup;
-	char *foldername, *start, *end;
-	char *storage, *protocol, *uri;
 	CamelFolder *folder;
 	CamelException *ex;
 #if 0
+	char *uri_dup;
+	char *foldername, *start, *end;
+	char *storage, *protocol, *uri;
 	/* Fixme: Do other stuff. Different stuff to the stuff below */
 	uri_dup = g_strdup (m->foldername);
 	start = uri_dup + 11;

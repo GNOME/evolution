@@ -14,16 +14,17 @@ module Evolution {
 struct Folder {
 	string type;
 	string description;
-	string display_name;
-	string physical_uri;
-	long unread_count;
+	string displayName;
+	string physicalUri;
+	long unreadCount;
 };
 
 struct Icon {
 	short width, height;
 	boolean hasAlpha;
-	sequence <octet> rgba_data; // Row-by-row, left-to-right, top-to-bottom RGBA bytes
+	sequence <octet> rgbaData; // Row-by-row, left-to-right, top-to-bottom RGBA bytes
 };
+
 typedef sequence <Icon> AnimatedIcon;
 
 };

@@ -618,7 +618,8 @@ fill_mail_shown_clist (GtkCList *clist,
 
 	for (p = pd->summary->preferences->display_folders; p; p = p->next) {
 		char *text[1];
-		char *name, *uri;
+		char *uri;
+		const char *name;
 		int row;
 
 		uri = g_strconcat ("file://", p->data, NULL);
@@ -627,7 +628,7 @@ fill_mail_shown_clist (GtkCList *clist,
 		if (name == NULL) {
 			text[0] = p->data;
 		} else {
-			text[0] = name + 1;
+			text[0] = (char *) name + 1; /* GtkCList sucks.  */
 		}
 		row = gtk_clist_append (clist, text);
 		gtk_clist_set_row_data (clist, row, p);

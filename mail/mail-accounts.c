@@ -271,7 +271,6 @@ mail_delete (GtkButton *button, gpointer data)
 	MailAccountsDialog *dialog = data;
 	MailConfigAccount *account;
 	GnomeDialog *confirm;
-	GtkWidget *label;
 	int ans;
 	
 	if (dialog->accounts_row < 0)

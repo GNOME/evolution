@@ -556,15 +556,15 @@ local_storage_new_folder_cb (EvolutionStorageListener *storage_listener,
 	int id;
 	
 	if (strcmp (folder->type, "mail") != 0 ||
-	    strncmp (folder->physical_uri, "file://", 7) != 0 ||
-	    strncmp (folder->physical_uri + 7, local_store->local_path,
+	    strncmp (folder->physicalUri, "file://", 7) != 0 ||
+	    strncmp (folder->physicalUri + 7, local_store->local_path,
 		     local_store->local_pathlen) != 0)
 		return;
 	
 	local_folder = g_new0 (MailLocalFolder, 1);
 	local_folder->name = g_strdup (strrchr (path, '/') + 1);
 	local_folder->path = g_strdup (path);
-	local_folder->uri = g_strdup (folder->physical_uri);
+	local_folder->uri = g_strdup (folder->physicalUri);
 	local_folder->local_store = local_store;
 	camel_object_ref ((CamelObject *)local_store);
 	

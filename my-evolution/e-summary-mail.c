@@ -16,6 +16,8 @@
 #include "e-summary.h"
 #include "e-summary-mail.h"
 
+#include "e-util/e-path.h"
+
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h> /* gnome_util_prepend_user_home */
@@ -160,14 +162,14 @@ new_folder_cb (EvolutionStorageListener *listener,
 
 	/* Don't care about non mail */
 	if (strcmp (folder->type, "mail") != 0 ||
-	    strncmp (folder->physical_uri, "file://", 7) != 0) {
+	    strncmp (folder->physicalUri, "file://", 7) != 0) {
 		return;
 	}
 
 	mail = summary->mail;
 
 	mail_folder = g_new (ESummaryMailFolder, 1);
-	mail_folder->path = g_strdup (folder->physical_uri);
+	mail_folder->path = g_strdup (folder->physicalUri);
 	mail_folder->name = g_strdup (path);
 	mail_folder->count = -1;
 	mail_folder->unread = -1;

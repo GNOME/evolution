@@ -55,7 +55,7 @@ typedef struct {
 
 	int id;
 	BonoboListener *listener;
-	Bonobo_EventSource *event_source;
+	Bonobo_EventSource event_source;
 } MailConfigDruid;
 
 typedef struct {

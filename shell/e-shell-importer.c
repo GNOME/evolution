@@ -612,7 +612,6 @@ import_druid_finish (GnomeDruidPage *page,
 		     ImportData *data)
 {
 	GtkWidget *folder;
-	const char *foldername;
 	char *filename;
 	char *iid;
 

@@ -1,3 +1,17 @@
+2001-08-27  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-summary-weather.c (weather_make_html): Make local variable
+	`icon_name' const.  Remove unused variable `uri'.
+
+	* e-summary.h: Reformatted in GTK+ style.
+	(e_summary_remove_online_connection): Added prototype.
+
+	* e-summary-preferences.c (fill_mail_shown_clist): Constify local
+	variable `name'.
+
+	* e-summary-mail.c: #include "e-util/e-path.h".  Updated to match
+	the new studlyCapsification in shell/Evolution*.idl.
+
 2001-08-23  Iain Holmes  <iain@ximian.com>
 
 	* e-summary-preferences.c (rdfs): Remove the 4 that don't work.

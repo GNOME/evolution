@@ -97,8 +97,8 @@ weather_make_html (Weather *w)
 {
 	GString *string;
 	ESummaryWeatherLocation *location;
-	char *sky, *temp, *cond, *uri, *url, *s;
-	char *icon_name;
+	char *sky, *temp, *cond, *url, *s;
+	const char *icon_name;
 
 	icon_name = icon_from_weather (w);
 	string = g_string_new ("");

@@ -1,3 +1,16 @@
+2001-08-27  Ettore Perazzoli  <ettore@ximian.com>
+
+	* mail-local.c: Match the studlyCapsification of
+	shell/Evolution*.idl.
+
+	* mail-config-druid.h: Change type of `event_source' from
+	`Bonobo_EventSource *' to `Bonobo_EventSource'.
+
+	* mail-accounts.c (mail_delete): Remove unused local variable
+	`label'.
+
+	* folder-info.c (do_get_info): `#if 0' unused variables.
+
 2001-08-27  Jon Trowbridge  <trow@ximian.com>
 
 	* mail-callbacks.c (mail_generate_reply): Check if we are trying

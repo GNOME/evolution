@@ -822,11 +822,11 @@ evolution_storage_new_folder (EvolutionStorage *evolution_storage,
 	CORBA_exception_init (&ev);
 
 	corba_folder = GNOME_Evolution_Folder__alloc ();
-	corba_folder->display_name = CORBA_string_dup (display_name);
-	corba_folder->description  = CORBA_string_dup (description);
-	corba_folder->type         = CORBA_string_dup (type);
-	corba_folder->physical_uri = CORBA_string_dup (physical_uri);
-	corba_folder->unread_count = unread_count;
+	corba_folder->displayName = CORBA_string_dup (display_name);
+	corba_folder->description = CORBA_string_dup (description);
+	corba_folder->type        = CORBA_string_dup (type);
+	corba_folder->physicalUri = CORBA_string_dup (physical_uri);
+	corba_folder->unreadCount = unread_count;
 
 	if (! e_folder_tree_add (priv->folder_tree, path, corba_folder)) {
 		CORBA_free (corba_folder);
@@ -915,9 +915,9 @@ evolution_storage_update_folder (EvolutionStorage *evolution_storage,
 	if (result == EVOLUTION_STORAGE_OK) {
 		corba_folder = e_folder_tree_get_folder (priv->folder_tree, path);
 		if (corba_folder != NULL) {
-			CORBA_free (corba_folder->display_name);
-			corba_folder->display_name = CORBA_string_dup (display_name);
-			corba_folder->unread_count = unread_count;
+			CORBA_free (corba_folder->displayName);
+			corba_folder->displayName = CORBA_string_dup (display_name);
+			corba_folder->unreadCount = unread_count;
 		} else
 			result = EVOLUTION_STORAGE_ERROR_NOTFOUND;
 	}
@@ -972,7 +972,7 @@ evolution_storage_removed_folder (EvolutionStorage *evolution_storage,
 	corba_folder = e_folder_tree_get_folder (priv->folder_tree, path);
 	if (corba_folder == NULL)
 		return EVOLUTION_STORAGE_ERROR_NOTFOUND;
-	if (g_hash_table_lookup_extended (priv->uri_to_path, corba_folder->physical_uri, &key, &value)) {
+	if (g_hash_table_lookup_extended (priv->uri_to_path, corba_folder->physicalUri, &key, &value)) {
 		g_hash_table_remove (priv->uri_to_path, key);
 		g_free (key);
 		g_free (value);

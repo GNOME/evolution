@@ -105,31 +105,40 @@ struct _ESummaryClass {
 	GtkVBoxClass parent_class;
 };
 
-GtkType e_summary_get_type (void);
-GtkWidget *e_summary_new (const GNOME_Evolution_Shell shell);
-void e_summary_print (GtkWidget *widget,
-		      ESummary *summary);
-void e_summary_reload (GtkWidget *widget,
-		       ESummary *summary);
-void e_summary_draw (ESummary *summary);
-void e_summary_change_current_view (ESummary *summary,
-				    const char *uri);
-void e_summary_set_message (ESummary *summary,
-			    const char *message,
-			    gboolean busy);
-void e_summary_unset_message (ESummary *summary);
-void e_summary_add_protocol_listener (ESummary *summary,
-				      const char *protocol,
-				      ESummaryProtocolListener listener,
-				      void *closure);
-void e_summary_reconfigure (ESummary *summary);
-int e_summary_count_connections (ESummary *summary);
-GList *e_summary_add_connections (ESummary *summary);
-void e_summary_set_online (ESummary *summary,
-			   GNOME_Evolution_OfflineProgressListener listener,
-			   gboolean online,
-			   ESummaryOnlineCallback callback,
-			   void *closure);
-void e_summary_add_online_connection (ESummary *summary,
-				      ESummaryConnection *connection);
+
+GtkType    e_summary_get_type                  (void);
+GtkWidget *e_summary_new                       (const GNOME_Evolution_Shell              shell);
+
+void       e_summary_print                     (GtkWidget                               *widget,
+						ESummary                                *summary);
+void       e_summary_reload                    (GtkWidget                               *widget,
+						ESummary                                *summary);
+void       e_summary_draw                      (ESummary                                *summary);
+void       e_summary_change_current_view       (ESummary                                *summary,
+						const char                              *uri);
+
+void       e_summary_set_message               (ESummary                                *summary,
+						const char                              *message,
+						gboolean                                 busy);
+void       e_summary_unset_message             (ESummary                                *summary);
+
+void       e_summary_add_protocol_listener     (ESummary                                *summary,
+						const char                              *protocol,
+						ESummaryProtocolListener                 listener,
+						void                                    *closure);
+
+void       e_summary_reconfigure               (ESummary                                *summary);
+
+int        e_summary_count_connections         (ESummary                                *summary);
+GList     *e_summary_add_connections           (ESummary                                *summary);
+void       e_summary_set_online                (ESummary                                *summary,
+						GNOME_Evolution_OfflineProgressListener  listener,
+						gboolean                                 online,
+						ESummaryOnlineCallback                   callback,
+						void                                    *closure);
+void       e_summary_add_online_connection     (ESummary                                *summary,
+						ESummaryConnection                      *connection);
+void       e_summary_remove_online_connection  (ESummary                                *summary,
+						ESummaryConnection                      *connection);
+
 #endif

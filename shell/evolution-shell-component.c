@@ -169,8 +169,8 @@ fill_corba_sequence_from_null_terminated_string_array (CORBA_sequence_CORBA_stri
 /* CORBA interface implementation.  */
 
 static GNOME_Evolution_FolderTypeList *
-impl__get_supported_types (PortableServer_Servant servant,
-			   CORBA_Environment *ev)
+impl__get_supportedTypes (PortableServer_Servant servant,
+			  CORBA_Environment *ev)
 {
 	BonoboObject *bonobo_object;
 	EvolutionShellComponent *shell_component;
@@ -196,15 +196,15 @@ impl__get_supported_types (PortableServer_Servant servant,
 		folder_type = (EvolutionShellComponentFolderType *) p->data;
 
 		corba_folder_type = folder_type_list->_buffer + i;
-		corba_folder_type->name           = CORBA_string_dup (folder_type->name);
-		corba_folder_type->icon_name      = CORBA_string_dup (folder_type->icon_name);
-		corba_folder_type->display_name   = CORBA_string_dup (folder_type->display_name);
-		corba_folder_type->description    = CORBA_string_dup (folder_type->description);
-		corba_folder_type->user_creatable = folder_type->user_creatable;
+		corba_folder_type->name          = CORBA_string_dup (folder_type->name);
+		corba_folder_type->iconName      = CORBA_string_dup (folder_type->icon_name);
+		corba_folder_type->displayName   = CORBA_string_dup (folder_type->display_name);
+		corba_folder_type->description   = CORBA_string_dup (folder_type->description);
+		corba_folder_type->userCreatable = folder_type->user_creatable;
 
-		fill_corba_sequence_from_null_terminated_string_array (& corba_folder_type->accepted_dnd_types,
+		fill_corba_sequence_from_null_terminated_string_array (& corba_folder_type->acceptedDndTypes,
 								       folder_type->accepted_dnd_types);
-		fill_corba_sequence_from_null_terminated_string_array (& corba_folder_type->exported_dnd_types,
+		fill_corba_sequence_from_null_terminated_string_array (& corba_folder_type->exportedDndTypes,
 								       folder_type->exported_dnd_types);
 	}
 
@@ -214,8 +214,8 @@ impl__get_supported_types (PortableServer_Servant servant,
 }
 
 static GNOME_Evolution_URISchemaList *
-impl__get_external_uri_schemas (PortableServer_Servant servant,
-				CORBA_Environment *ev)
+impl__get_externalUriSchemas (PortableServer_Servant servant,
+			      CORBA_Environment *ev)
 {
 	EvolutionShellComponent *shell_component;
 	EvolutionShellComponentPrivate *priv;
@@ -254,8 +254,8 @@ impl__get_external_uri_schemas (PortableServer_Servant servant,
 }
 
 static GNOME_Evolution_UserCreatableItemTypeList *
-impl__get_user_creatable_item_types (PortableServer_Servant servant,
-				     CORBA_Environment *ev)
+impl__get_userCreatableItemTypes (PortableServer_Servant servant,
+				  CORBA_Environment *ev)
 {
 	EvolutionShellComponent *shell_component;
 	EvolutionShellComponentPrivate *priv;
@@ -658,19 +658,19 @@ class_init (EvolutionShellComponentClass *klass)
 
 	parent_class = gtk_type_class (PARENT_TYPE);
 
-	epv->_get_supported_types           = impl__get_supported_types;
-	epv->_get_external_uri_schemas      = impl__get_external_uri_schemas;
-	epv->_get_user_creatable_item_types = impl__get_user_creatable_item_types;
-	epv->setOwner                       = impl_setOwner; 
-	epv->unsetOwner                     = impl_unsetOwner; 
-	epv->debug                          = impl_debug; 
-	epv->createView                     = impl_createView; 
-	epv->handleExternalURI              = impl_handleExternalURI; 
-	epv->createFolderAsync              = impl_createFolderAsync; 
-	epv->removeFolderAsync              = impl_removeFolderAsync; 
-	epv->xferFolderAsync                = impl_xferFolderAsync; 
-	epv->populateFolderContextMenu      = impl_populateFolderContextMenu;
-	epv->userCreateNewItem              = impl_userCreateNewItem;
+	epv->_get_supportedTypes         = impl__get_supportedTypes;
+	epv->_get_externalUriSchemas     = impl__get_externalUriSchemas;
+	epv->_get_userCreatableItemTypes = impl__get_userCreatableItemTypes;
+	epv->setOwner                    = impl_setOwner; 
+	epv->unsetOwner                  = impl_unsetOwner; 
+	epv->debug                       = impl_debug; 
+	epv->createView                  = impl_createView; 
+	epv->handleExternalURI           = impl_handleExternalURI; 
+	epv->createFolderAsync           = impl_createFolderAsync; 
+	epv->removeFolderAsync           = impl_removeFolderAsync; 
+	epv->xferFolderAsync             = impl_xferFolderAsync; 
+	epv->populateFolderContextMenu   = impl_populateFolderContextMenu;
+	epv->userCreateNewItem           = impl_userCreateNewItem;
 }
 
 static void

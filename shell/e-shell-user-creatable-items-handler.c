@@ -27,6 +27,8 @@
 
 #include "e-shell-user-creatable-items-handler.h"
 
+#include "e-util/e-corba-utils.h"
+
 #include <gal/util/e-util.h>
 
 #include <bonobo/bonobo-ui-util.h>
@@ -73,7 +75,7 @@ component_new_from_client (EvolutionShellComponentClient *client)
 	CORBA_exception_init (&ev);
 
 	objref = bonobo_object_corba_objref (BONOBO_OBJECT (client));
-	new->type_list = GNOME_Evolution_ShellComponent__get_user_creatable_item_types (objref, &ev);
+	new->type_list = GNOME_Evolution_ShellComponent__get_userCreatableItemTypes (objref, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION)
 		new->type_list = NULL;

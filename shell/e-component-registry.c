@@ -174,7 +174,7 @@ register_component (EComponentRegistry *component_registry,
 
 	/* Register the supported folder types.  */
 
-	supported_types = GNOME_Evolution_ShellComponent__get_supported_types (component_corba_interface, &ev);
+	supported_types = GNOME_Evolution_ShellComponent__get_supportedTypes (component_corba_interface, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION || supported_types->_length == 0) {
 		bonobo_object_unref (BONOBO_OBJECT (client));
 		CORBA_exception_free (&ev);
@@ -193,13 +193,13 @@ register_component (EComponentRegistry *component_registry,
 		type = supported_types->_buffer + i;
 
 		if (! register_type (component_registry,
-				     type->name, type->icon_name, 
-				     type->display_name, type->description,
-				     type->user_creatable,
-				     type->exported_dnd_types._length,
-				     (const char **) type->exported_dnd_types._buffer,
-				     type->accepted_dnd_types._length,
-				     (const char **) type->accepted_dnd_types._buffer,
+				     type->name, type->iconName, 
+				     type->displayName, type->description,
+				     type->userCreatable,
+				     type->exportedDndTypes._length,
+				     (const char **) type->exportedDndTypes._buffer,
+				     type->acceptedDndTypes._length,
+				     (const char **) type->acceptedDndTypes._buffer,
 				     component)) {
 			g_warning ("Cannot register type `%s' for component %s",
 				   type->name, component->id);
@@ -213,7 +213,7 @@ register_component (EComponentRegistry *component_registry,
 
 	/* Register the supported external URI schemas.  */
 
-	supported_schemas = GNOME_Evolution_ShellComponent__get_external_uri_schemas (component_corba_interface, &ev);
+	supported_schemas = GNOME_Evolution_ShellComponent__get_externalUriSchemas (component_corba_interface, &ev);
 	if (ev._major == CORBA_NO_EXCEPTION) {
 		EUriSchemaRegistry *uri_schema_registry;
 

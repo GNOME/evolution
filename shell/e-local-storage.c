@@ -502,7 +502,6 @@ remove_folder (ELocalStorage *local_storage,
 	EStorage *storage;
 	AsyncRemoveFolderCallbackData *callback_data;
 	EvolutionShellComponentClient *component_client;
-	EStorageResult result;
 	EFolder *folder;
 	char *physical_path;
 	GList *subfolder_paths;
