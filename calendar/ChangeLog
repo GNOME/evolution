@@ -1,3 +1,9 @@
+2004-05-26  Jeffrey Stedfast  <fejj@novell.com>
+
+	* gui/apps_evolution_calendar.schemas.in.in: Changed the default
+	"Tasks due today" colour to be a light-blue (one of the default
+	colour values in the colour picker dialog). Fixes bug #53412.
+
 2004-05-26  Rodrigo Moya <rodrigo@ximian.com>
 
 	Fixes #57759

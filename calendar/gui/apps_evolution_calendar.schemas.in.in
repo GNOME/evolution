@@ -221,7 +221,7 @@
       <applyto>/apps/evolution/calendar/tasks/colors/due_today</applyto>
       <owner>evolution-calendar</owner>
       <type>string</type>
-      <default>blue</default>
+      <default>#1e90ff</default>
       <locale name="C">
         <short>Color of tasks that are due today</short>
       </locale>
@@ -232,7 +232,7 @@
       <applyto>/apps/evolution/calendar/tasks/colors/overdue</applyto>
       <owner>evolution-calendar</owner>
       <type>string</type>
-      <default>red</default>
+      <default>#ff0000</default>
       <locale name="C">
         <short>Color of tasks that are overdue</short>
       </locale>
