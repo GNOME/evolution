@@ -296,6 +296,28 @@ e_table_selection_model_foreach     (ETableSelectionModel *selection,
 
 #define OPERATE(object, mask, grow) ((grow) ? ((object) |= ~(mask)) : ((object) &= (mask)))
 
+static void
+change_selection(ETableSelectionModel *selection, int start, int end, gboolean grow)
+{
+	int i, last;
+	if (start != end) {
+		i = BOX(start);
+		last = BOX(end);
+				
+		if (i == last) {
+			OPERATE(selection->selection[i], BITMASK_LEFT(start) | BITMASK_RIGHT(end), grow);
+		} else {
+			OPERATE(selection->selection[i], BITMASK_LEFT(start), grow);
+			if (grow)
+				for (i ++; i < last; i++)
+					selection->selection[i] = ONES;
+				for (i ++; i < last; i++)
+					selection->selection[i] = 0;
+			OPERATE(selection->selection[i], BITMASK_RIGHT(end), grow);
+		}
+	}
+}
+
 void             e_table_selection_model_do_something      (ETableSelectionModel *selection,
 							    guint                 row,
 							    guint                 col,
@@ -311,43 +333,24 @@ void             e_table_selection_model_do_something      (ETableSelectionModel
 	}
 	if (selection->row_count >= 0 && row < selection->row_count) {
 		if (shift_p) {
-			int grow_selection;
-			int i;
-			int last;
-			int first_row;
-			int last_row;
-			if ((selection->selection_start_row < row && row <= selection->cursor_row) ||
-			    (selection->selection_start_row >= row && row >= selection->cursor_row)) {
-				/* In this case, the selection is shrinking. */
-				grow_selection = FALSE;
-			} else if ((selection->selection_start_row <= selection->cursor_row && selection->cursor_row <= row) ||
-				   (selection->selection_start_row >  selection->cursor_row && selection->cursor_row >= row)) {
-				/* In this case, the selection is growing. */
-				grow_selection = TRUE;
-			} else {
-				/* In this case the selection is changing direction.  Ick.  Screw it. */
-				return;
-			}
-			first_row = MIN(selection->cursor_row, row);
-			last_row = MAX(selection->cursor_row, row) + 1;
-			if (first_row != last_row) {
-				i = BOX(first_row);
-				last = BOX(last_row);
-				
-				if (i == last) {
-					OPERATE(selection->selection[i], BITMASK_LEFT(first_row) | BITMASK_RIGHT(last_row), grow_selection);
-				} else {
-					OPERATE(selection->selection[i], BITMASK_LEFT(first_row), grow_selection);
-					for (i ++; i < last; i++)
-						if (grow_selection)
-							selection->selection[i] = ONES;
-						else
-							selection->selection[i] = 0;
-					OPERATE(selection->selection[i], BITMASK_RIGHT(last_row), grow_selection);
-				}
-				gtk_signal_emit(GTK_OBJECT(selection),
-						e_table_selection_model_signals [SELECTION_CHANGED]);
-			}
+			int old_start;
+			int old_end;
+			int new_start;
+			int new_end;
+			old_start = MIN (selection->selection_start_row, selection->cursor_row);
+			old_end = MAX (selection->selection_start_row, selection->cursor_row) + 1;
+			new_start = MIN (selection->selection_start_row, row);
+			new_end = MAX (selection->selection_start_row, row) + 1;
+			if (old_start < new_start)
+				change_selection(selection, old_start, new_start, FALSE);
+			if (new_start < old_start)
+				change_selection(selection, new_start, old_start, TRUE);
+			if (old_end < new_end)
+				change_selection(selection, old_end, new_end, TRUE);
+			if (new_end < old_end)
+				change_selection(selection, new_end, old_end, FALSE);
+			gtk_signal_emit(GTK_OBJECT(selection),
+					e_table_selection_model_signals [SELECTION_CHANGED]);
 		} else {
 			if (ctrl_p) {
 				if (selection->selection[BOX(row)] & BITMASK(row))
