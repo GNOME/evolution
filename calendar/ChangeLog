@@ -1,3 +1,10 @@
+2004-01-08  Kidd Wang  <kidd.wang@sun.com>
+
+        * gui/e-cal-view.h: delete the ECalViewMoveDirection type declaration
+        which was added by mistake yesterday.
+
+        * Changelog: add a missed entry for calender-commands.c.
+
 2004-01-07  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/alarm-notify/alarm-queue.c (load_alarms): call e_cal_view_start
@@ -72,6 +79,8 @@
 	* gui/e-tasks.[ch] (e_tasks_open_task): ditto.
 	* gui/tasks-control.c (tasks_control_sensitize_commands),
 	(tasks_control_open_task_cmd): add a menu item for "Open Task".
+	* gui/calender-commands.c: the event should also be allowed to open
+	even when it's readonly. 
 
 2004-01-05  Rodrigo Moya <rodrigo@ximian.com>
 
