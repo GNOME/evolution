@@ -415,7 +415,7 @@ cal_client_construct (CalClient *client)
 	CORBA_exception_free (&ev);
 
 	if (result) {
-		g_message ("cal_client_construct(): could not contact Tlacuache, "
+		g_message ("cal_client_construct(): could not contact Wombat, "
 			   "the personal calendar server");
 		return NULL;
 	}
