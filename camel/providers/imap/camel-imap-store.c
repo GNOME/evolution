@@ -803,7 +803,10 @@ get_folder_online (CamelStore *store, const char *folder_name,
 
 	/* Lock around the whole lot to check/create atomically */
 	CAMEL_IMAP_STORE_LOCK (imap_store, command_lock);
-	imap_store->current_folder = NULL;
+	if (imap_store->current_folder) {
+		camel_object_unref (CAMEL_OBJECT (imap_store->current_folder));
+		imap_store->current_folder = NULL;
+	}
 	response = camel_imap_command (imap_store, NULL, NULL,
 				       "SELECT %S", folder_name);
 	if (!response) {
@@ -833,7 +836,8 @@ get_folder_online (CamelStore *store, const char *folder_name,
 		if (camel_exception_is_set (ex)) {
 			camel_object_unref (CAMEL_OBJECT (new_folder));
 			new_folder = imap_store->current_folder = NULL;
-		}
+		} else
+			camel_object_ref (CAMEL_OBJECT (imap_store->current_folder));
 	}
 	camel_imap_response_free_without_processing (imap_store, response);
 

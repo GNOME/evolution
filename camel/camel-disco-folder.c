@@ -26,7 +26,6 @@
 #include <config.h>
 #endif
 
-#include "camel-disco-diary.h"
 #include "camel-disco-folder.h"
 #include "camel-disco-store.h"
 #include "camel-exception.h"

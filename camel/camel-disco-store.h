@@ -51,7 +51,6 @@ struct _CamelDiscoStore {
 	CamelRemoteStore parent_object;	
 
 	CamelDiscoStoreStatus status;
-	CamelDiscoDiary *diary;
 };
 
 
