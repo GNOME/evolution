@@ -1,3 +1,10 @@
+2001-09-25  Aaron Weber  <aaron@ximian.com>
+
+	* C/usage-mail.sgml: Added Right-click-bginfo a little.
+
+	* C/usage-mail-org.sgml: s/virtual folder/vFolder
+	also use of criterion/criteria.
+
 2001-09-24  Kevin Breit  <battery841@mediaone.net>
 
 	* C/usage-calendar.sgml: Fixed some brokenness

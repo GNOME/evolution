@@ -1000,7 +1000,9 @@
                   right. If you have text selected, the color will
                   apply to the selected text.  If you do not have text
                   selected, the color will apply to whatever you type
-                  next.
+                  next.  You can select a background color or image by
+                  right-clicking on the message background and
+                  selecting <guilabel>Page</guilabel>.
                </para>
             </listitem>
           </varlistentry>
@@ -1277,7 +1279,13 @@
 	  </listitem>
 	</orderedlist>
       </para>
-
+      <para>
+        You can insert an image into the background of your message by
+        right-clicking on the message background and selecting
+        <guimenuitem>Page</guimenuitem>. From that dialog, you may
+        also select background color and set other general options
+        about the html message you are composing.
+     </para>
       <sect3 id="html-templates">
 	<title>HTML Templates</title>
 	<para>

@@ -215,7 +215,7 @@
 
      <para>
         You'll see a similar approach to sorting messages when you
-        create filters and virtual folders in the next few sections.
+        create filters and vFolders in the next few sections.
      </para>
 
     </sect1>
@@ -366,7 +366,7 @@
 	  <listitem>
 	    <para>
 	      Select the criterion for the condition.   If you want multiple
-	      criterion for this filter, press <guibutton>Add
+	      criteria for this filter, press <guibutton>Add
 		criterion</guibutton> and repeat the previous step.
 	    </para>
 	  </listitem>
@@ -522,26 +522,26 @@
 	a vFolder. vFolders, or virtual folders, are an advanced way
 	of viewing your email messages within
 	<application>Ximian Evolution</application>.  If you get a lot of
-	mail or often forget where you put messages, virtual folders
+	mail or often forget where you put messages, vFolders
 	can help you stay on top of things.
       </para>
       <para>
-	A virtual folder is really a hybrid of all the other organizational
+	A vFolder is really a hybrid of all the other organizational
 	tools: it looks like a folder, it acts like a search, and you
 	set it up like a filter.  In other words, while a conventional
-	folder actually contains messages, a virtual folder is a view of
+	folder actually contains messages, a vFolder is a view of
 	messages that may be in several different folders.  The
 	messages it contains are determined on the fly using a set of
 	criteria you choose in advance.
       </para>
 
       <para>
-	As messages that meet the virtual folder criteria arrive or are
+	As messages that meet the vFolder criteria arrive or are
 	deleted, <application>Ximian Evolution</application> will
 	automatically place them in and remove them from the
-	virtual folder contents list.  When you delete a message, it gets
+	vFolder contents list.  When you delete a message, it gets
 	erased from the folder in which it actually exists, as well as
-	any virtual folders which display it.
+	any vFolders which display it.
       </para>
 
       <para>
@@ -550,7 +550,7 @@
 	changing groups of faculty, staff, administrators and
 	students.  The more mail you need to organize, the less you
 	can afford the sort of confusion that stems from an
-	organizational system that's not flexible enough.  Virtual folders
+	organizational system that's not flexible enough.  vFolders
 	make for better organization because they can accept
 	overlapping groups in a way that regular folders and filing
 	systems can't.
@@ -579,17 +579,17 @@
 	anything other than <application>Ximian Evolution</application>, it only shows up in the "Anna" folder.
 	When Anna sends him mail about the user interface for
 	<application>evolution</application>, he can see that message both in
-	the "Anna" virtual folder and in the "Internal Evolution Discussion"
-	virtual folder.
+	the "Anna" vFolder and in the "Internal Evolution Discussion"
+	vFolder.
        </para>
       </example>
 
-	<!--  (INSERT SCREENSHOT HERE: virtual folders in action) -->
+	<!--  (INSERT SCREENSHOT HERE: vFolders in action) -->
 
     <sect2 id="vfolder-create">
       <title>Creating vFolders</title>
       <para>
-	To create a virtual folder:
+	To create a vFolder:
 	<orderedlist numeration="arabic">
 	  <listitem>
 	    <para>
@@ -606,7 +606,7 @@
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Name your virtual folder in the <guilabel>Rule name</guilabel> field.
+	      Name your vFolder in the <guilabel>Rule name</guilabel> field.
 
 	    </para>
 	  </listitem>
@@ -630,7 +630,7 @@
 		  </para></listitem>
 		
 		<listitem><para>
-		    Specific Header - The virtual folder can look at any header you
+		    Specific Header - The vFolder can look at any header you
 		    want, even obscure or custom ones. Enter the header name
 		    in the first text box, and put your search text in the
 		    second one.
@@ -644,7 +644,7 @@
 		  <para>
 		    Expression - For programmers only: match a message according to an
 		    expression you write in the Scheme language, used to
-		    define virtual folders in <application>Ximian Evolution</application>.
+		    define vFolders in <application>Ximian Evolution</application>.
 		  </para>
 		</listitem>
 		
@@ -652,7 +652,7 @@
 		    which they were sent: First, choose the conditions you
 		    want a message to meet &mdash; <guilabel>before</guilabel>
 		    a given time, <guilabel>after</guilabel> it, and so forth.
-		    Then, choose the time. The virtual folder will compare the
+		    Then, choose the time. The vFolder will compare the
 		    message's time-stamp to the system clock when the filter
 		    is run, or to a specific time and date you choose from a
 		    calendar.  You can even have it look for messages within a
@@ -668,9 +668,9 @@
 		
 		<listitem><para>
 		    Score - Emails have a standard priority range from -3 (least
-		    important) to 3 (most important). You can have virtual folders set the
+		    important) to 3 (most important). You can have vFolders set the
 		    priority of messages you recieve, and then have other
-		    virtual folders 
+		    vFolders 
 		    applied only to those messages which have a certain priority.
 		  </para></listitem>
 		
@@ -689,7 +689,7 @@
 		
 		<listitem>
 		  <para>
-		    Attachments - Create a virtual folder based on  whether or not you have an
+		    Attachments - Create a vFolder based on  whether or not you have an
 		    attachment in the email.
 		  </para>
 		</listitem>
