@@ -246,6 +246,7 @@ initialize_yourcerts_ui (CertificateManagerData *cfm)
 							   cell,
 							   "text", 0,
 							   NULL);
+	gtk_tree_view_column_set_resizable(column, TRUE);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (cfm->yourcerts_treeview),
 				     column);
 	gtk_tree_view_column_set_sort_column_id (column, 0);
@@ -254,6 +255,7 @@ initialize_yourcerts_ui (CertificateManagerData *cfm)
 							   cell,
 							   "text", 1,
 							   NULL);
+	gtk_tree_view_column_set_resizable(column, TRUE);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (cfm->yourcerts_treeview),
 				     column);
 	gtk_tree_view_column_set_sort_column_id (column, 1);
@@ -436,6 +438,7 @@ initialize_contactcerts_ui (CertificateManagerData *cfm)
 							   cell,
 							   "text", 0,
 							   NULL);
+	gtk_tree_view_column_set_resizable(column, TRUE);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (cfm->contactcerts_treeview),
 				     column);
 	gtk_tree_view_column_set_sort_column_id (column, 0);
@@ -444,6 +447,7 @@ initialize_contactcerts_ui (CertificateManagerData *cfm)
 							   cell,
 							   "text", 1,
 							   NULL);
+	gtk_tree_view_column_set_resizable(column, TRUE);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (cfm->contactcerts_treeview),
 				     column);
 	gtk_tree_view_column_set_sort_column_id (column, 1);
@@ -452,6 +456,7 @@ initialize_contactcerts_ui (CertificateManagerData *cfm)
 							   cell,
 							   "text", 2,
 							   NULL);
+	gtk_tree_view_column_set_resizable(column, TRUE);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (cfm->contactcerts_treeview),
 				     column);
 	gtk_tree_view_column_set_sort_column_id (column, 2);

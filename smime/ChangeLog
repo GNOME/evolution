@@ -1,5 +1,9 @@
 2004-05-28  Not Zed  <NotZed@Ximian.com>
 
+	* gui/certificate-manager.c (initialize_yourcerts_ui): set some
+	columns resizable.
+	(initialize_contactcerts_ui): same.
+
 	** See bugs #52061 & #52669.
 
 	* gui/smime-ui.glade: added cert-trust-dialog and tweaked the
