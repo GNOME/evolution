@@ -1,3 +1,9 @@
+2002-07-24  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-view-menu.c (command_work_online): Remove debugging
+	message.
+	(command_work_offline): Likewise.
+
 2002-07-18  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-folder-selection-dialog.c (double_click_cb): Renamed

@@ -518,7 +518,6 @@ command_work_offline (BonoboUIComponent *uih,
 	shell_view = E_SHELL_VIEW (data);
 	shell = e_shell_view_get_shell (shell_view);
 
-	g_message ("Putting the shell offline");
 	e_shell_go_offline (shell, shell_view);
 }
 
@@ -533,7 +532,6 @@ command_work_online (BonoboUIComponent *uih,
 	shell_view = E_SHELL_VIEW (data);
 	shell = e_shell_view_get_shell (shell_view);
 
-	g_message ("Putting the shell online");
 	e_shell_go_online (shell, shell_view);
 }
 
