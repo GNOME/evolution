@@ -66,6 +66,8 @@ libcamel_la_SOURCES = 				\
 libcamelinclude_HEADERS =			\
 	broken-date-parser.h			\
 	camel-address.h				\
+	camel-charset-map.h			\
+	camel-charset-map-private.h		\
 	camel-data-wrapper.h			\
 	camel-exception-list.def		\
 	camel-exception.h			\

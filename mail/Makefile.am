@@ -128,12 +128,16 @@ oaf_DATA = evolution-mail.oafinfo
 gladedir   = $(datadir)/evolution/glade
 glade_DATA = mail-config.glade mail-config-druid.glade local-config.glade
 
+glade_messages = \
+	mail-config-druid.glade.h	\
+	mail-config.glade.h
+
 iconsdir = $(datadir)/images/evolution
 
 $(EVOLUTION_MAIL_CORBA_GENERATED): Mail.idl 
 	$(ORBIT_IDL) -I $(datadir)/idl -I `$(GNOME_CONFIG) --cflags idl` -I `$(GNOME_CONFIG) --datadir`/idl -I $(srcdir) $(srcdir)/Mail.idl
 
-EXTRA_DIST = Mail.idl $(glade_DATA) $(oaf_DATA)
+EXTRA_DIST = Mail.idl $(glade_DATA) $(oaf_DATA) $(glade_messages)
 
 if ENABLE_PURIFY
 PLINK = $(LIBTOOL) --mode=link $(PURIFY) $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@

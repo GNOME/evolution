@@ -1,3 +1,11 @@
+2000-10-19  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* providers/imap/Makefile.am (libcamelimapinclude_HEADERS): Add
+	`camel-imap-stream.h'.
+
+	* Makefile.am (libcamelinclude_HEADERS): Add `camel-charset-map.h'
+	and `camel-charset-map-private.h'.
+
 2000-10-18  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* camel-mime-part.c (camel_mime_part_set_description): The correct

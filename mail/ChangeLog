@@ -1,3 +1,8 @@
+2000-10-19  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* Makefile.am (glade_messages): New.
+	(EXTRA_DIST): Add `$(glade_messages)'.
+
 2000-10-19  Dan Winship  <danw@helixcode.com>
 
 	* mail-ops.c: Clean up some old #if 0 code.

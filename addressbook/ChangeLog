@@ -1,3 +1,13 @@
+2000-10-19  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* printing/Makefile.am (glade_DATA): Remove
+	`e-contact-print.glade.h'.
+	(EXTRA_DIST): Move here.
+
+	* gui/component/Makefile.am (glade_DATA): Remove
+	`ldap-server-dialog.glade.h'.
+	(EXTRA_DIST): Move here.
+
 2000-10-19  Christopher James Lahey  <clahey@helixcode.com>
 
 	* backend/ebook/e-card.c: Change how the extension field acts when

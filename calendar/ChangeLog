@@ -1,3 +1,8 @@
+2000-10-19  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* gui/Makefile.am: Add `event-editor-dialog.glade.h'.
+	(EXTRA_DIST): Add `$(glade_messages)'.
+
 2000-10-19  Michael Meeks  <michael@helixcode.com>
 
 	* gui/calendar-commands.c (tb_print_cb): remove; redundant.

@@ -1,3 +1,9 @@
+2000-10-19  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* Makefile.am (glade_data): Add `e-msg-composer-attachment.glade'.
+	(glade_messages): New.
+	(EXTRA_DIST): Add `$(glade_messages)'.
+
 2000-10-19  Michael Meeks  <michael@helixcode.com>
 
 	* e-msg-composer.c (create_menubar_file, create_menubar_edit),

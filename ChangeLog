@@ -1,3 +1,10 @@
+2000-10-19  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* configure.in (EVOLUTION_MICRO_VERSION): 6.
+
+	* Makefile.am (EXTRA_DIST): Remove `evolution.spec.in'.
+	(dist-hook:): Removed.
+
 2000-10-18  Michael Meeks  <michael@helixcode.com>
 
 	* notes/component-factory.c (control_activate, control_deactivate),

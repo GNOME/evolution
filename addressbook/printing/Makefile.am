@@ -8,8 +8,7 @@ ecps_DATA  =				\
 gladedir   = $(datadir)/evolution/glade
 
 glade_DATA = 				\
-	e-contact-print.glade		\
-	e-contact-print.glade.h
+	e-contact-print.glade
 
 INCLUDES =					\
 	$(GNOME_INCLUDEDIR)			\
@@ -62,4 +61,7 @@ contact_print_style_editor_test_LDADD =	\
 	libecontactprint.a	\
 	$(GNOME_PRINT_LIBS)
 
-EXTRA_DIST = $(glade_DATA) $(ecps_DATA)
+EXTRA_DIST = \
+	$(glade_DATA)	\
+	$(ecps_DATA)	\
+	e-contact-print.glade.h

@@ -14,7 +14,6 @@ EXTRA_DIST =			\
 	HACKING			\
 	MAINTAINERS		\
 	NEWS			\
-	evolution.spec.in	\
 	$(appicon_DATA)		\
 	$(application_DATA)
 
@@ -42,9 +41,5 @@ SUBDIRS =			\
         tools                   \
         po                      \
         doc
-
-
-dist-hook: evolution.spec
-	cp evolution.spec $(distdir)
 
 

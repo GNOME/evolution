@@ -21,8 +21,10 @@ gladedir = $(datadir)/evolution/glade
 
 glade_DATA =					\
 	e-msg-composer-address-dialog.glade	\
+	e-msg-composer-attachment.glade
+
+glade_messages = \
 	e-msg-composer-address-dialog.glade.h	\
-	e-msg-composer-attachment.glade		\
 	e-msg-composer-attachment.glade.h
 
 libcomposerincludedir = $(includedir)/composer
@@ -69,4 +71,5 @@ libcomposer_la_SOURCES = 			\
 
 EXTRA_DIST =					\
 	$(glade_DATA)				\
-	ChangeLog
+	$(glade_messages)			\
+	bad-icon.xpm
