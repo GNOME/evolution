@@ -1,5 +1,10 @@
 2004-03-18  Not Zed  <NotZed@Ximian.com>
 
+	* e-account.c: Added options for transport_url and source_url
+	permissions.
+
+2004-03-18  Not Zed  <NotZed@Ximian.com>
+
 	* e-account.c (e_account_writable, e_account_writable_option):
 	added interface to find out if various fields or server options
 	are writable.  to work around gconf limitations.

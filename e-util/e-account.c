@@ -606,8 +606,8 @@ enum {
 	EAP_LOCK_AUTOCHECK,
 	EAP_LOCK_DEFAULT_FOLDERS,
 	EAP_LOCK_SAVE_PASSWD,
-	EAP_LOCK_SOURCE_URL,
-	EAP_LOCK_TRANSPORT_URL,
+	EAP_LOCK_SOURCE,
+	EAP_LOCK_TRANSPORT,
 };
 
 static struct _system_info {
@@ -618,14 +618,14 @@ static struct _system_info {
 	{ "imap_namespace", 1<<EAP_IMAP_NAMESPACE },
 	{ "filter_inbox", 1<<EAP_FILTER_INBOX },
 	{ "filter_junk", 1<<EAP_FILTER_JUNK },
-	{ "force_ssl", 1<<EAP_FORCE_SSL },
+	{ "ssl", 1<<EAP_FORCE_SSL },
 	{ "signature", 1<<EAP_LOCK_SIGNATURE },
 	{ "authtype", 1<<EAP_LOCK_AUTH },
 	{ "autocheck", 1<<EAP_LOCK_AUTOCHECK },
 	{ "default_folders", 1<<EAP_LOCK_DEFAULT_FOLDERS },
 	{ "save_passwd" , 1<<EAP_LOCK_SAVE_PASSWD },
-/*	{ "source_url", 1<<EAP_LOCK_SOURCE_URL },
-	{ "transport_url", 1<<EAP_LOCK_TRANSPORT_URL },*/
+	{ "source", 1<<EAP_LOCK_SOURCE },
+	{ "transport", 1<<EAP_LOCK_TRANSPORT },
 };
 
 static struct {
@@ -638,13 +638,13 @@ static struct {
 	{ /* E_ACCOUNT_ID_DEF_SIGNATURE */ 1<<EAP_LOCK_SIGNATURE },
 	{ /* E_ACCOUNT_ID_AUTO_SIGNATURE */ 1<<EAP_LOCK_SIGNATURE },
 
-	{ /* E_ACCOUNT_SOURCE_URL */ },
+	{ /* E_ACCOUNT_SOURCE_URL */ 1<<EAP_LOCK_SOURCE },
 	{ /* E_ACCOUNT_SOURCE_KEEP_ON_SERVER */ },
 	{ /* E_ACCOUNT_SOURCE_AUTO_CHECK */ 1<<EAP_LOCK_AUTOCHECK },
 	{ /* E_ACCOUNT_SOURCE_AUTO_CHECK_TIME */ 1<<EAP_LOCK_AUTOCHECK },
 	{ /* E_ACCOUNT_SOURCE_SAVE_PASSWD */ 1<<EAP_LOCK_SAVE_PASSWD },
 
-	{ /* E_ACCOUNT_TRANSPORT_URL */ },
+	{ /* E_ACCOUNT_TRANSPORT_URL */ 1<<EAP_LOCK_TRANSPORT },
 	{ /* E_ACCOUNT_TRANSPORT_SAVE_PASSWD */ 1<<EAP_LOCK_SAVE_PASSWD },
 
 	{ /* E_ACCOUNT_DRAFTS_FOLDER_URI */ 1<<EAP_LOCK_DEFAULT_FOLDERS },
@@ -710,8 +710,6 @@ ea_setting_notify(GConfClient *gconf, guint cnxn_id, GConfEntry *entry, void *cr
 		else
 			ea_perms &= ~info->perm;
 	}
-
-	printf("checking key '%s', new perms '%08x'\n", tkey+1, ea_perms);
 }
 
 static void
