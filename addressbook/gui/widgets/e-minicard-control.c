@@ -160,7 +160,7 @@ pstream_load (BonoboPersistStream *ps, const Bonobo_Stream stream,
 		return;
 	}
 
-	card = e_card_new(vcard);
+	card = e_card_new_with_default_charset(vcard, "ISO-8859-1");
 	g_free(vcard);
 	gtk_object_set(GTK_OBJECT(minicard),
 		       "card", card,

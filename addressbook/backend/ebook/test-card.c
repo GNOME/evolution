@@ -99,7 +99,7 @@ main (int argc, char **argv)
 	  }
 	}
 #endif
-	card = e_card_new (cardstr);
+	card = e_card_new_with_default_charset (cardstr, "ISO-8859-1");
 	gtk_object_get(GTK_OBJECT(card),
 		       "full_name",  &fname,
 		       "name",       &name,
@@ -189,7 +189,7 @@ main (int argc, char **argv)
 	  }
 	  gtk_object_unref(GTK_OBJECT(iterator));
 	}
-	printf("%s", e_card_get_vcard(card));
+	printf("%s", e_card_get_vcard_assume_utf8(card));
 	gtk_object_unref (GTK_OBJECT (card));
 
 	return 0;

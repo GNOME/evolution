@@ -726,7 +726,7 @@ table_drag_data_received_cb (ETable *table, int row, int col,
 	target_type = gdk_atom_name (selection_data->target);
 
 	if (!strcmp (target_type, VCARD_TYPE)) {
-		GList *card_list = e_card_load_cards_from_string (selection_data->data);
+		GList *card_list = e_card_load_cards_from_string_with_default_charset (selection_data->data, "ISO-8859-1");
 		GList *c;
 
 		for (c = card_list; c; c = c->next) {

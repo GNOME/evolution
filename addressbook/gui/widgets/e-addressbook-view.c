@@ -1296,7 +1296,7 @@ selection_received (GtkWidget *invisible,
 	}
 	else {
 		/* XXX make sure selection_data->data = \0 terminated */
-		GList *card_list = e_card_load_cards_from_string (selection_data->data);
+		GList *card_list = e_card_load_cards_from_string_with_default_charset (selection_data->data, "ISO-8859-1");
 		GList *l;
 		
 		if (!card_list /* it wasn't a vcard list */)

@@ -346,7 +346,7 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *fol
 
 	g_print ("in destination_folder_handle_drop (%s)\n", physical_uri);
 
-	card_list = e_card_load_cards_from_string (data->bytes._buffer);
+	card_list = e_card_load_cards_from_string_with_default_charset (data->bytes._buffer, "ISO-8859-1");
 
 	expanded_uri = addressbook_expand_uri (physical_uri);
 

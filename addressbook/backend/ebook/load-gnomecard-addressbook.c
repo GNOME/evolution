@@ -25,7 +25,7 @@ static void
 add_card_cb (EBook *book, EBookStatus status, const gchar *id, gpointer closure)
 {
 	ECard *card = E_CARD(closure);
-	char *vcard = e_card_get_vcard(card);
+	char *vcard = e_card_get_vcard_assume_utf8(card);
 	g_print ("Saved card: %s\n", vcard);
 	g_free(vcard);
 	gtk_object_unref(GTK_OBJECT(card));
@@ -34,7 +34,7 @@ add_card_cb (EBook *book, EBookStatus status, const gchar *id, gpointer closure)
 static void
 book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 {
-	GList *list = e_card_load_cards_from_file("gnomecard.vcf");
+	GList *list = e_card_load_cards_from_file_with_default_charset("gnomecard.vcf", "ISO-8859-1");
 	GList *iterator;
 	for (iterator = list; iterator; iterator = g_list_next(iterator)) {
 		ECard *card = iterator->data;

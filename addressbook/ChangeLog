@@ -1,3 +1,55 @@
+2001-09-02  Christopher James Lahey  <clahey@ximian.com>
+
+	* backend/ebook/e-book.c (e_book_add_card, e_book_commit_card),
+	backend/pas/pas-backend-file.c (do_create),
+	backend/pas/pas-backend-ldap.c
+	(create_card_handler, remove_card_handler, modify_card_handler,
+	pas_backend_ldap_process_get_vcard, poll_ldap): Use
+	e_card_get_vcard_assume_utf8 instead of e_card_get_vcard here
+	since all internal communications and database storage are assumed
+	to be utf8.
+
+	* backend/ebook/e-card-simple.c, backend/ebook/e-card-simple.h
+	(e_card_simple_duplicate): Simplified this function considerably.
+	(e_card_simple_get_vcard_assume_utf8): Added this function.
+
+	* backend/ebook/e-card.c, backend/ebook/e-card.h (e_card_new,
+	e_card_load_cards_from_file, e_card_load_cards_from_string): Made
+	these functions pay attention to charset attributes.
+	(e_card_new_with_default_charset,
+	e_card_load_cards_from_file_with_default_charset,
+	e_card_load_cards_from_string_with_default_charset): New functions
+	that let you change the default charset from UTF-8.
+	(e_card_get_vcard): Made this write out charset attributes when
+	necessary.
+	(e_card_get_vcard_assume_utf8): New function that writes out a
+	card without writing out charset attributes.
+
+	* backend/ebook/evolution-vcard-importer.c (book_open_cb),
+	backend/ebook/load-gnomecard-addressbook.c (book_open_cb),
+	backend/ebook/test-card.c (main),
+	gui/component/addressbook-component.c
+	(destination_folder_handle_drop), gui/contact-editor/test-editor.c
+	(main), gui/contact-list-editor/e-contact-list-editor.c
+	(table_drag_data_received_cb), gui/widgets/e-addressbook-view.c
+	(selection_received), gui/widgets/e-minicard-control.c
+	(pstream_load): Changed the default charset to be used here to
+	ISO-8859-1.
+
+	* backend/ebook/load-gnomecard-addressbook.c (add_card_cb),
+	backend/ebook/load-pine-addressbook.c (add_card_cb),
+	backend/ebook/test-client-list.c (get_cursor_cb),
+	backend/ebook/test-client.c (get_cursor_cb, get_card_cb): Use
+	e_card_get_vcard_assume_utf8 to print out testing strings.
+
+	* gui/component/select-names/e-select-names-model.c,
+	gui/component/select-names/e-select-names-model.h
+	(e_select_names_model_contains): Changed this to be const
+	EDestination *dest to fix a warning.
+
+	* gui/contact-editor/e-contact-editor.c (e_contact_editor_init):
+	Translate window title here.
+
 2001-08-31  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* gui/component/addressbook-storage.c

@@ -472,7 +472,7 @@ do_create(PASBackend *backend,
 	
 	card = e_card_new(vcard_req);
 	e_card_set_id(card, id);
-	vcard = e_card_get_vcard(card);
+	vcard = e_card_get_vcard_assume_utf8(card);
 
 	string_to_dbt (vcard, &vcard_dbt);
 

@@ -116,68 +116,75 @@ struct _ECardClass {
 
 
 /* Simple functions */
-ECard                *e_card_new                            (char                       *vcard);
-const char           *e_card_get_id                         (ECard                      *card);
-void                  e_card_set_id                         (ECard                      *card,
-							     const char                 *character);
+ECard                *e_card_new                                          (char                       *vcard); /* Assumes utf8 */
+ECard                *e_card_new_with_default_charset                     (char                       *vcard,
+									   char                       *default_charset);
+const char           *e_card_get_id                                       (ECard                      *card);
+void                  e_card_set_id                                       (ECard                      *card,
+									   const char                 *character);
 
-struct _EBook        *e_card_get_book                       (ECard                      *card);
-void                  e_card_set_book                       (ECard                      *card,
-							     struct _EBook              *book);
-char                 *e_card_get_vcard                      (ECard                      *card);
-char                 *e_card_list_get_vcard                 (GList                      *list);
-ECard                *e_card_duplicate                      (ECard                      *card);
-float                 e_card_get_use_score                  (ECard                      *card);
-void                  e_card_touch                          (ECard                      *card);
+struct _EBook        *e_card_get_book                                     (ECard                      *card);
+void                  e_card_set_book                                     (ECard                      *card,
+									   struct _EBook              *book);
+char                 *e_card_get_vcard                                    (ECard                      *card);
+char                 *e_card_get_vcard_assume_utf8                        (ECard                      *card);
+char                 *e_card_list_get_vcard                               (GList                      *list);
+ECard                *e_card_duplicate                                    (ECard                      *card);
+float                 e_card_get_use_score                                (ECard                      *card);
+void                  e_card_touch                                        (ECard                      *card);
 
 /* Evolution List convenience functions */
 /*   used for encoding uids in email addresses */
-gboolean              e_card_evolution_list                 (ECard                      *card);
-gboolean              e_card_evolution_list_show_addresses  (ECard                      *card);
+gboolean              e_card_evolution_list                               (ECard                      *card);
+gboolean              e_card_evolution_list_show_addresses                (ECard                      *card);
 
 /* ECardPhone manipulation */
-ECardPhone           *e_card_phone_new                      (void);
-ECardPhone           *e_card_phone_copy                     (const ECardPhone           *phone);
-void                  e_card_phone_free                     (ECardPhone                 *phone);
+ECardPhone           *e_card_phone_new                                    (void);
+ECardPhone           *e_card_phone_copy                                   (const ECardPhone           *phone);
+void                  e_card_phone_free                                   (ECardPhone                 *phone);
 
 /* ECardDeliveryAddress manipulation */
-ECardDeliveryAddress *e_card_delivery_address_new           (void);
-ECardDeliveryAddress *e_card_delivery_address_copy          (const ECardDeliveryAddress *addr);
-void                  e_card_delivery_address_free          (ECardDeliveryAddress       *addr);
-gboolean              e_card_delivery_address_is_empty      (const ECardDeliveryAddress *addr);
-char                 *e_card_delivery_address_to_string     (const ECardDeliveryAddress *addr);
-ECardDeliveryAddress *e_card_delivery_address_from_label    (const ECardAddrLabel       *label);
-ECardAddrLabel       *e_card_delivery_address_to_label      (const ECardDeliveryAddress *addr);
+ECardDeliveryAddress *e_card_delivery_address_new                         (void);
+ECardDeliveryAddress *e_card_delivery_address_copy                        (const ECardDeliveryAddress *addr);
+void                  e_card_delivery_address_free                        (ECardDeliveryAddress       *addr);
+gboolean              e_card_delivery_address_is_empty                    (const ECardDeliveryAddress *addr);
+char                 *e_card_delivery_address_to_string                   (const ECardDeliveryAddress *addr);
+ECardDeliveryAddress *e_card_delivery_address_from_label                  (const ECardAddrLabel       *label);
+ECardAddrLabel       *e_card_delivery_address_to_label                    (const ECardDeliveryAddress *addr);
 
 /* ECardAddrLabel manipulation */
-ECardAddrLabel       *e_card_address_label_new              (void);
-ECardAddrLabel       *e_card_address_label_copy             (const ECardAddrLabel       *addr);
-void                  e_card_address_label_free             (ECardAddrLabel             *addr);
+ECardAddrLabel       *e_card_address_label_new                            (void);
+ECardAddrLabel       *e_card_address_label_copy                           (const ECardAddrLabel       *addr);
+void                  e_card_address_label_free                           (ECardAddrLabel             *addr);
 
 /* ECardName manipulation */
-ECardName            *e_card_name_new                       (void);
-ECardName            *e_card_name_copy                      (const ECardName            *name);
-void                  e_card_name_free                      (ECardName                  *name);
-char                 *e_card_name_to_string                 (const ECardName            *name);
-ECardName            *e_card_name_from_string               (const char                 *full_name);
-gboolean              e_card_name_match_string              (const ECardName            *name,
-							     const gchar                *str);
+ECardName            *e_card_name_new                                     (void);
+ECardName            *e_card_name_copy                                    (const ECardName            *name);
+void                  e_card_name_free                                    (ECardName                  *name);
+char                 *e_card_name_to_string                               (const ECardName            *name);
+ECardName            *e_card_name_from_string                             (const char                 *full_name);
+gboolean              e_card_name_match_string                            (const ECardName            *name,
+									   const gchar                *str);
 
 /* ECardArbitrary manipulation */
-ECardArbitrary       *e_card_arbitrary_new                  (void);
-ECardArbitrary       *e_card_arbitrary_copy                 (const ECardArbitrary       *arbitrary);
-void                  e_card_arbitrary_free                 (ECardArbitrary             *arbitrary);
+ECardArbitrary       *e_card_arbitrary_new                                (void);
+ECardArbitrary       *e_card_arbitrary_copy                               (const ECardArbitrary       *arbitrary);
+void                  e_card_arbitrary_free                               (ECardArbitrary             *arbitrary);
 
 /* ECard email manipulation */
-gboolean              e_card_email_match_string             (const ECard                *card,
-							     const gchar                *str);
-gint                  e_card_email_find_number              (const ECard                *card,
-							     const gchar                *email);
+gboolean              e_card_email_match_string                           (const ECard                *card,
+									   const gchar                *str);
+gint                  e_card_email_find_number                            (const ECard                *card,
+									   const gchar                *email);
 
 /* Specialized functionality */
-GList                *e_card_load_cards_from_file           (const char                 *filename);
-GList                *e_card_load_cards_from_string         (const char                 *str);
-void                  e_card_free_empty_lists               (ECard                      *card);
+GList                *e_card_load_cards_from_file                         (const char                 *filename);
+GList                *e_card_load_cards_from_file_with_default_charset    (const char                 *filename,
+									   char                       *default_charset);
+GList                *e_card_load_cards_from_string                       (const char                 *str);
+GList                *e_card_load_cards_from_string_with_default_charset  (const char                 *str,
+									   char                       *default_charset);
+void                  e_card_free_empty_lists                             (ECard                      *card);
 
 enum _ECardDisposition {
 	E_CARD_DISPOSITION_AS_ATTACHMENT,

@@ -31,9 +31,6 @@ static void
 add_card_cb (EBook *book, EBookStatus status, const gchar *id, gpointer closure)
 {
 	ECard *card = E_CARD(closure);
-	char *vcard = e_card_get_vcard(card);
-
-	g_free(vcard);
 	gtk_object_unref(GTK_OBJECT(card));
 }
 
@@ -42,7 +39,7 @@ book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 {
 	VCardImporter *gci = (VCardImporter *) closure;
 
-	gci->cardlist = e_card_load_cards_from_file(gci->filename);
+	gci->cardlist = e_card_load_cards_from_file_with_default_charset(gci->filename, "ISO-8859-1");
 	gci->ready = TRUE;
 }
 

@@ -1205,7 +1205,7 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 
 
 	/* Construct the app */
-	bonobo_win = bonobo_window_new ("contact-editor-dialog", "Contact Editor");
+	bonobo_win = bonobo_window_new ("contact-editor-dialog", _("Contact Editor"));
 
 	/* FIXME: The sucking bit */
 	{

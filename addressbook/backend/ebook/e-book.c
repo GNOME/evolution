@@ -917,7 +917,7 @@ e_book_add_card (EBook           *book,
 		return FALSE;
 	}
 
-	vcard = e_card_get_vcard (card);
+	vcard = e_card_get_vcard_assume_utf8 (card);
 
 	if (vcard == NULL) {
 		g_warning ("e_book_add_card: Cannot convert card to VCard string!\n");
@@ -999,7 +999,7 @@ e_book_commit_card (EBook         *book,
 		return FALSE;
 	}
 
-	vcard = e_card_get_vcard (card);
+	vcard = e_card_get_vcard_assume_utf8 (card);
 
 	if (vcard == NULL) {
 		g_warning ("e_book_commit_card: Error "

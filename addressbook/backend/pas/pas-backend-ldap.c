@@ -878,9 +878,9 @@ create_card_handler (PASBackend *backend, LDAPOp *op)
 			bonobo_object_dup_ref(bonobo_object_corba_objref(BONOBO_OBJECT(view->book_view)), &ev);
 
 			match = pas_backend_card_sexp_match_vcard (view->card_sexp,
-								   e_card_simple_get_vcard (new_card));
+								   e_card_simple_get_vcard_assume_utf8 (new_card));
 			if (match)
-				pas_book_view_notify_add_1 (view->book_view, e_card_simple_get_vcard (new_card));
+				pas_book_view_notify_add_1 (view->book_view, e_card_simple_get_vcard_assume_utf8 (new_card));
 			pas_book_view_notify_complete (view->book_view);
 
 			bonobo_object_release_unref(bonobo_object_corba_objref(BONOBO_OBJECT(view->book_view)), &ev);
@@ -971,7 +971,7 @@ remove_card_handler (PASBackend *backend, LDAPOp *op)
 				bonobo_object_dup_ref(bonobo_object_corba_objref(BONOBO_OBJECT(view->book_view)), &ev);
 
 				match = pas_backend_card_sexp_match_vcard (view->card_sexp,
-									   e_card_simple_get_vcard (simple));
+									   e_card_simple_get_vcard_assume_utf8 (simple));
 				if (match)
 					pas_book_view_notify_remove (view->book_view, remove_op->id);
 				pas_book_view_notify_complete (view->book_view);
@@ -1079,7 +1079,7 @@ modify_card_handler (PASBackend *backend, LDAPOp *op)
 					bonobo_object_dup_ref(bonobo_object_corba_objref(BONOBO_OBJECT(view->book_view)), &ev);
 
 					old_match = pas_backend_card_sexp_match_vcard (view->card_sexp,
-										       e_card_simple_get_vcard (current_card));
+										       e_card_simple_get_vcard_assume_utf8 (current_card));
 					new_match = pas_backend_card_sexp_match_vcard (view->card_sexp,
 										       modify_op->vcard);
 					if (old_match && new_match)
@@ -1166,7 +1166,7 @@ pas_backend_ldap_process_get_vcard (PASBackend *backend,
 	if (simple) {
 		pas_book_respond_get_vcard (book,
 					    GNOME_Evolution_Addressbook_BookListener_Success,
-					    e_card_simple_get_vcard (simple));
+					    e_card_simple_get_vcard_assume_utf8 (simple));
 		gtk_object_unref (GTK_OBJECT (simple));
 	}
 	else {
@@ -2005,7 +2005,7 @@ poll_ldap (LDAPSearchOp *op)
 	while (NULL != e) {
 		ECardSimple *card = build_card_from_entry (ldap, e);
 
-		cards = g_list_append (cards, e_card_simple_get_vcard (card));
+		cards = g_list_append (cards, e_card_simple_get_vcard_assume_utf8 (card));
 
 		gtk_object_unref (GTK_OBJECT(card));
 

@@ -26,7 +26,7 @@ static void
 add_card_cb (EBook *book, EBookStatus status, const gchar *id, gpointer closure)
 {
 	ECard *card = E_CARD(closure);
-	char *vcard = e_card_get_vcard(card);
+	char *vcard = e_card_get_vcard_assume_utf8(card);
 	g_print ("Saved card: %s\n", vcard);
 	g_free(vcard);
 	gtk_object_unref(GTK_OBJECT(card));

@@ -240,10 +240,8 @@ e_card_simple_new (ECard *card)
 ECardSimple *
 e_card_simple_duplicate(ECardSimple *simple)
 {
-	char *vcard = e_card_simple_get_vcard(simple);
-	ECard *card = e_card_new(vcard);
+	ECard *card = simple->card ? e_card_duplicate (simple->card) : e_card_new ("");
 	ECardSimple *new_simple = e_card_simple_new(card);
-	g_free (vcard);
 	return new_simple;
 }
 
@@ -289,6 +287,21 @@ e_card_simple_get_vcard (ECardSimple *simple)
 {
 	if (simple->card)
 		return e_card_get_vcard(simple->card);
+	else
+		return g_strdup("");
+}
+
+/**
+ * e_card_simple_get_vcard_assume_utf8:
+ * @simple: an #ECardSimple
+ *
+ * Returns: a string in vcard format, which is wrapped by the @simple.
+ */
+char *
+e_card_simple_get_vcard_assume_utf8 (ECardSimple *simple)
+{
+	if (simple->card)
+		return e_card_get_vcard_assume_utf8(simple->card);
 	else
 		return g_strdup("");
 }

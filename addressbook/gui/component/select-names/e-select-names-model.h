@@ -61,7 +61,7 @@ void                e_select_names_model_import_destinationv (ESelectNamesModel 
 ECard              *e_select_names_model_get_card            (ESelectNamesModel *model, gint index);
 const gchar        *e_select_names_model_get_string          (ESelectNamesModel *model, gint index);
 
-gboolean      e_select_names_model_contains       (ESelectNamesModel *model, EDestination *dest);
+gboolean      e_select_names_model_contains       (ESelectNamesModel *model, const EDestination *dest);
 
 void          e_select_names_model_insert         (ESelectNamesModel *model, gint index, EDestination *dest);
 void          e_select_names_model_append         (ESelectNamesModel *model, EDestination *dest);

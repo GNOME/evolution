@@ -466,7 +466,7 @@ disconnect_destination (ESelectNamesModel *model, EDestination *dest)
 }
 
 gboolean
-e_select_names_model_contains (ESelectNamesModel *model, EDestination *dest)
+e_select_names_model_contains (ESelectNamesModel *model, const EDestination *dest)
 {
 	GList *iter;
 

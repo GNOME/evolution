@@ -32,7 +32,7 @@ get_cursor_cb (EBook *book, EBookStatus status, ECardCursor *cursor, gpointer cl
 	printf ("Length: %d\n", (int) length);
 	for ( i = 0; i < length; i++ ) {
 		ECard *card = e_card_cursor_get_nth(cursor, i);
-		char *vcard = e_card_get_vcard(card);
+		char *vcard = e_card_get_vcard_assume_utf8(card);
 		printf("[%s]\n", vcard);
 		g_free(vcard);
 		gtk_object_unref(GTK_OBJECT(card));

@@ -13,6 +13,7 @@
 #include "e-card.h"
 
 #include <gal/util/e-i18n.h>
+#include <gal/widgets/e-unicode.h>
 
 #include <ctype.h>
 #include <stdio.h>
@@ -82,7 +83,7 @@ enum {
 #if 0
 static VObject *card_convert_to_vobject (ECard *crd);
 #endif
-static void parse(ECard *card, VObject *vobj);
+static void parse(ECard *card, VObject *vobj, char *default_charset);
 static void e_card_init (ECard *card);
 static void e_card_class_init (ECardClass *klass);
 
@@ -90,48 +91,48 @@ static void e_card_destroy (GtkObject *object);
 static void e_card_set_arg (GtkObject *object, GtkArg *arg, guint arg_id);
 static void e_card_get_arg (GtkObject *object, GtkArg *arg, guint arg_id);
 
-static void assign_string(VObject *vobj, char **string);
+static void assign_string(VObject *vobj, char *default_charset, char **string);
 
-char *e_v_object_get_child_value(VObject *vobj, char *name);
+char *e_v_object_get_child_value(VObject *vobj, char *name, char *default_charset);
 static ECardDate e_card_date_from_string (char *str);
 
-static void parse_bday(ECard *card, VObject *object);
-static void parse_full_name(ECard *card, VObject *object);
-static void parse_file_as(ECard *card, VObject *object);
-static void parse_name(ECard *card, VObject *object);
-static void parse_email(ECard *card, VObject *object);
-static void parse_phone(ECard *card, VObject *object);
-static void parse_address(ECard *card, VObject *object);
-static void parse_address_label(ECard *card, VObject *object);
-static void parse_url(ECard *card, VObject *object);
-static void parse_org(ECard *card, VObject *object);
-static void parse_office(ECard *card, VObject *object);
-static void parse_title(ECard *card, VObject *object);
-static void parse_role(ECard *card, VObject *object);
-static void parse_manager(ECard *card, VObject *object);
-static void parse_assistant(ECard *card, VObject *object);
-static void parse_nickname(ECard *card, VObject *object);
-static void parse_spouse(ECard *card, VObject *object);
-static void parse_anniversary(ECard *card, VObject *object);
-static void parse_mailer(ECard *card, VObject *object);
-static void parse_fburl(ECard *card, VObject *object);
-static void parse_note(ECard *card, VObject *object);
-static void parse_related_contacts(ECard *card, VObject *object);
-static void parse_categories(ECard *card, VObject *object);
-static void parse_wants_html(ECard *card, VObject *object);
-static void parse_list(ECard *card, VObject *object);
-static void parse_list_show_addresses(ECard *card, VObject *object);
-static void parse_arbitrary(ECard *card, VObject *object);
-static void parse_id(ECard *card, VObject *object);
-static void parse_last_use(ECard *card, VObject *object);
-static void parse_use_score(ECard *card, VObject *object);
+static void parse_bday(ECard *card, VObject *object, char *default_charset);
+static void parse_full_name(ECard *card, VObject *object, char *default_charset);
+static void parse_file_as(ECard *card, VObject *object, char *default_charset);
+static void parse_name(ECard *card, VObject *object, char *default_charset);
+static void parse_email(ECard *card, VObject *object, char *default_charset);
+static void parse_phone(ECard *card, VObject *object, char *default_charset);
+static void parse_address(ECard *card, VObject *object, char *default_charset);
+static void parse_address_label(ECard *card, VObject *object, char *default_charset);
+static void parse_url(ECard *card, VObject *object, char *default_charset);
+static void parse_org(ECard *card, VObject *object, char *default_charset);
+static void parse_office(ECard *card, VObject *object, char *default_charset);
+static void parse_title(ECard *card, VObject *object, char *default_charset);
+static void parse_role(ECard *card, VObject *object, char *default_charset);
+static void parse_manager(ECard *card, VObject *object, char *default_charset);
+static void parse_assistant(ECard *card, VObject *object, char *default_charset);
+static void parse_nickname(ECard *card, VObject *object, char *default_charset);
+static void parse_spouse(ECard *card, VObject *object, char *default_charset);
+static void parse_anniversary(ECard *card, VObject *object, char *default_charset);
+static void parse_mailer(ECard *card, VObject *object, char *default_charset);
+static void parse_fburl(ECard *card, VObject *object, char *default_charset);
+static void parse_note(ECard *card, VObject *object, char *default_charset);
+static void parse_related_contacts(ECard *card, VObject *object, char *default_charset);
+static void parse_categories(ECard *card, VObject *object, char *default_charset);
+static void parse_wants_html(ECard *card, VObject *object, char *default_charset);
+static void parse_list(ECard *card, VObject *object, char *default_charset);
+static void parse_list_show_addresses(ECard *card, VObject *object, char *default_charset);
+static void parse_arbitrary(ECard *card, VObject *object, char *default_charset);
+static void parse_id(ECard *card, VObject *object, char *default_charset);
+static void parse_last_use(ECard *card, VObject *object, char *default_charset);
+static void parse_use_score(ECard *card, VObject *object, char *default_charset);
 
 static ECardPhoneFlags get_phone_flags (VObject *vobj);
 static void set_phone_flags (VObject *vobj, ECardPhoneFlags flags);
 static ECardAddressFlags get_address_flags (VObject *vobj);
 static void set_address_flags (VObject *vobj, ECardAddressFlags flags);
 
-typedef void (* ParsePropertyFunc) (ECard *card, VObject *object);
+typedef void (* ParsePropertyFunc) (ECard *card, VObject *object, char *default_charset);
 
 struct {
 	char *key;
@@ -203,20 +204,14 @@ e_card_get_type (void)
 	return card_type;
 }
 
-/**
- * e_card_new:
- * @vcard: a string in vCard format
- *
- * Returns: a new #ECard that wraps the @vcard.
- */
 ECard *
-e_card_new (char *vcard)
+e_card_new_with_default_charset (char *vcard, char *default_charset)
 {
 	ECard *card = E_CARD(gtk_type_new(e_card_get_type()));
 	VObject *vobj = Parse_MIME(vcard, strlen(vcard));
 	while(vobj) {
 		VObject *next;
-		parse(card, vobj);
+		parse(card, vobj, default_charset);
 		next = nextVObjectInList(vobj);
 		cleanVObject(vobj);
 		vobj = next;
@@ -230,10 +225,22 @@ e_card_new (char *vcard)
 	return card;
 }
 
+/**
+ * e_card_new:
+ * @vcard: a string in vCard format
+ *
+ * Returns: a new #ECard that wraps the @vcard.
+ */
+ECard *
+e_card_new (char *vcard)
+{
+	return e_card_new_with_default_charset (vcard, "UTF-8");
+}
+
 ECard *
 e_card_duplicate(ECard *card)
 {
-	char *vcard = e_card_get_vcard(card);
+	char *vcard = e_card_get_vcard_assume_utf8(card);
 	ECard *new_card = e_card_new(vcard);
 	g_free (vcard);
 	
@@ -370,35 +377,50 @@ e_card_date_to_string (ECardDate *dt)
 }
 
 static VObject *
-e_card_get_vobject (ECard *card)
+addPropValueUTF8(VObject *o, const char *p, const char *v)
+{
+	VObject *prop = addPropValue (o, p, v);
+	if (!e_utf8_is_ascii (v))
+		addPropValue (prop, "CHARSET", "UTF-8");
+	return prop;
+}
+
+#define ADD_PROP_VALUE(o, p, v)              (assumeUTF8 ? (addPropValue ((o), (p), (v))) : addPropValueUTF8 ((o), (p), (v)))
+#define ADD_PROP_VALUE_SET_IS_ASCII(o, p, v) (addPropValue ((o), (p), (v)), is_ascii = is_ascii && e_utf8_is_ascii ((v)))
+
+static VObject *
+e_card_get_vobject (ECard *card, gboolean assumeUTF8)
 {
 	VObject *vobj;
 	
 	vobj = newVObject (VCCardProp);
 
 	if ( card->file_as && *card->file_as )
-		addPropValue(vobj, "X-EVOLUTION-FILE-AS", card->file_as);
+		ADD_PROP_VALUE(vobj, "X-EVOLUTION-FILE-AS", card->file_as);
 	else if (card->file_as)
 		addProp(vobj, "X-EVOLUTION-FILE_AS");
 
 	if ( card->fname )
-		addPropValue(vobj, VCFullNameProp, card->fname);
+		ADD_PROP_VALUE(vobj, VCFullNameProp, card->fname);
 	else if (card->fname)
 		addProp(vobj, VCFullNameProp);
 
 	if ( card->name && (card->name->prefix || card->name->given || card->name->additional || card->name->family || card->name->suffix) ) {
 		VObject *nameprop;
+		gboolean is_ascii = TRUE;
 		nameprop = addProp(vobj, VCNameProp);
 		if ( card->name->prefix )
-			addPropValue(nameprop, VCNamePrefixesProp, card->name->prefix);
-		if ( card->name->given )
-			addPropValue(nameprop, VCGivenNameProp, card->name->given);
+			ADD_PROP_VALUE_SET_IS_ASCII(nameprop, VCNamePrefixesProp, card->name->prefix);
+		if ( card->name->given ) 
+			ADD_PROP_VALUE_SET_IS_ASCII(nameprop, VCGivenNameProp, card->name->given);
 		if ( card->name->additional )
-			addPropValue(nameprop, VCAdditionalNamesProp, card->name->additional);
+			ADD_PROP_VALUE_SET_IS_ASCII(nameprop, VCAdditionalNamesProp, card->name->additional);
 		if ( card->name->family )
-			addPropValue(nameprop, VCFamilyNameProp, card->name->family);
+			ADD_PROP_VALUE_SET_IS_ASCII(nameprop, VCFamilyNameProp, card->name->family);
 		if ( card->name->suffix )
-			addPropValue(nameprop, VCNameSuffixesProp, card->name->suffix);
+			ADD_PROP_VALUE_SET_IS_ASCII(nameprop, VCNameSuffixesProp, card->name->suffix);
+		if (!(is_ascii || assumeUTF8))
+			addPropValue (nameprop, "CHARSET", "UTF-8");
 	}
 	else if (card->name)
 		addProp(vobj, VCNameProp);
@@ -409,24 +431,28 @@ e_card_get_vobject (ECard *card)
 		for ( ; e_iterator_is_valid(iterator) ;e_iterator_next(iterator) ) {
 			VObject *addressprop;
 			ECardDeliveryAddress *address = (ECardDeliveryAddress *) e_iterator_get(iterator);
+			gboolean is_ascii = TRUE;
+
 			addressprop = addProp(vobj, VCAdrProp);
 			
 			set_address_flags (addressprop, address->flags);
 			if ( address->po )
-				addPropValue(addressprop, VCPostalBoxProp, address->po);
+				ADD_PROP_VALUE_SET_IS_ASCII(addressprop, VCPostalBoxProp, address->po);
 			if ( address->ext )
-				addPropValue(addressprop, VCExtAddressProp, address->ext);
+				ADD_PROP_VALUE_SET_IS_ASCII(addressprop, VCExtAddressProp, address->ext);
 			if ( address->street )
-				addPropValue(addressprop, VCStreetAddressProp, address->street);
+				ADD_PROP_VALUE_SET_IS_ASCII(addressprop, VCStreetAddressProp, address->street);
 			if ( address->city )
-				addPropValue(addressprop, VCCityProp, address->city);
+				ADD_PROP_VALUE_SET_IS_ASCII(addressprop, VCCityProp, address->city);
 			if ( address->region )
-				addPropValue(addressprop, VCRegionProp, address->region);
+				ADD_PROP_VALUE_SET_IS_ASCII(addressprop, VCRegionProp, address->region);
 			if ( address->code )
-				addPropValue(addressprop, VCPostalCodeProp, address->code);
+				ADD_PROP_VALUE_SET_IS_ASCII(addressprop, VCPostalCodeProp, address->code);
 			if ( address->country )
-				addPropValue(addressprop, VCCountryNameProp, address->country);
+				ADD_PROP_VALUE_SET_IS_ASCII(addressprop, VCCountryNameProp, address->country);
 			addProp(addressprop, VCQuotedPrintableProp);
+			if (!(is_ascii || assumeUTF8))
+				addPropValue (addressprop, "CHARSET", "UTF-8");
 		}
 		gtk_object_unref(GTK_OBJECT(iterator));
 	}
@@ -437,7 +463,7 @@ e_card_get_vobject (ECard *card)
 			VObject *labelprop;
 			ECardAddrLabel *address_label = (ECardAddrLabel *) e_iterator_get(iterator);
 			if (address_label->data)
-				labelprop = addPropValue(vobj, VCDeliveryLabelProp, address_label->data);
+				labelprop = ADD_PROP_VALUE(vobj, VCDeliveryLabelProp, address_label->data);
 			else
 				labelprop = addProp(vobj, VCDeliveryLabelProp);
 			
@@ -452,7 +478,7 @@ e_card_get_vobject (ECard *card)
 		for ( ; e_iterator_is_valid(iterator) ;e_iterator_next(iterator) ) {
 			VObject *phoneprop;
 			ECardPhone *phone = (ECardPhone *) e_iterator_get(iterator);
-			phoneprop = addPropValue(vobj, VCTelephoneProp, phone->number);
+			phoneprop = ADD_PROP_VALUE(vobj, VCTelephoneProp, phone->number);
 			
 			set_phone_flags (phoneprop, phone->flags);
 		}
@@ -463,7 +489,7 @@ e_card_get_vobject (ECard *card)
 		EIterator *iterator = e_list_get_iterator(card->email);
 		for ( ; e_iterator_is_valid(iterator) ;e_iterator_next(iterator) ) {
 			VObject *emailprop;
-			emailprop = addPropValue(vobj, VCEmailAddressProp, (char *) e_iterator_get(iterator));
+			emailprop = ADD_PROP_VALUE(vobj, VCEmailAddressProp, (char *) e_iterator_get(iterator));
 			addProp (emailprop, VCInternetProp);
 		}
 		gtk_object_unref(GTK_OBJECT(iterator));
@@ -472,81 +498,84 @@ e_card_get_vobject (ECard *card)
 	if ( card->bday ) {
 		char *value;
 		value = e_card_date_to_string (card->bday);
-		addPropValue(vobj, VCBirthDateProp, value);
+		ADD_PROP_VALUE(vobj, VCBirthDateProp, value);
 		g_free(value);
 	}
 
 	if (card->url)
-		addPropValue(vobj, VCURLProp, card->url);
+		ADD_PROP_VALUE(vobj, VCURLProp, card->url);
 
 	if (card->org || card->org_unit) {
 		VObject *orgprop;
+		gboolean is_ascii = TRUE;
 		orgprop = addProp(vobj, VCOrgProp);
 		
 		if (card->org)
-			addPropValue(orgprop, VCOrgNameProp, card->org);
+			ADD_PROP_VALUE_SET_IS_ASCII(orgprop, VCOrgNameProp, card->org);
 		if (card->org_unit)
-			addPropValue(orgprop, VCOrgUnitProp, card->org_unit);
+			ADD_PROP_VALUE_SET_IS_ASCII(orgprop, VCOrgUnitProp, card->org_unit);
+		if (!(is_ascii || assumeUTF8))
+			addPropValue (orgprop, "CHARSET", "UTF-8");
 	}
 	
 	if (card->office)
-		addPropValue(vobj, "X-EVOLUTION-OFFICE", card->office);
+		ADD_PROP_VALUE(vobj, "X-EVOLUTION-OFFICE", card->office);
 
 	if (card->title)
-		addPropValue(vobj, VCTitleProp, card->title);
+		ADD_PROP_VALUE(vobj, VCTitleProp, card->title);
 
 	if (card->role)
-		addPropValue(vobj, VCBusinessRoleProp, card->role);
+		ADD_PROP_VALUE(vobj, VCBusinessRoleProp, card->role);
 	
 	if (card->manager)
-		addPropValue(vobj, "X-EVOLUTION-MANAGER", card->manager);
+		ADD_PROP_VALUE(vobj, "X-EVOLUTION-MANAGER", card->manager);
 	
 	if (card->assistant)
-		addPropValue(vobj, "X-EVOLUTION-ASSISTANT", card->assistant);
+		ADD_PROP_VALUE(vobj, "X-EVOLUTION-ASSISTANT", card->assistant);
 	
 	if (card->nickname)
-		addPropValue(vobj, "NICKNAME", card->nickname);
+		ADD_PROP_VALUE(vobj, "NICKNAME", card->nickname);
 
 	if (card->spouse)
-		addPropValue(vobj, "X-EVOLUTION-SPOUSE", card->spouse);
+		ADD_PROP_VALUE(vobj, "X-EVOLUTION-SPOUSE", card->spouse);
 
 	if ( card->anniversary ) {
 		char *value;
 		value = e_card_date_to_string (card->anniversary);
-		addPropValue(vobj, "X-EVOLUTION-ANNIVERSARY", value);
+		ADD_PROP_VALUE(vobj, "X-EVOLUTION-ANNIVERSARY", value);
 		g_free(value);
 	}
 
 	if (card->mailer) {
-		addPropValue(vobj, VCMailerProp, card->mailer);
+		ADD_PROP_VALUE(vobj, VCMailerProp, card->mailer);
 	}
 	
 	if (card->fburl)
-		addPropValue(vobj, "FBURL", card->fburl);
+		ADD_PROP_VALUE(vobj, "FBURL", card->fburl);
 	
 	if (card->note) {
 		VObject *noteprop;
 
-		noteprop = addPropValue(vobj, VCNoteProp, card->note);
+		noteprop = ADD_PROP_VALUE(vobj, VCNoteProp, card->note);
 		addProp(noteprop, VCQuotedPrintableProp);
 	}
 
 	if (card->last_use) {
 		char *value;
 		value = e_card_date_to_string (card->last_use);
-		addPropValue (vobj, "X-EVOLUTION-LAST-USE", value);
+		ADD_PROP_VALUE (vobj, "X-EVOLUTION-LAST-USE", value);
 		g_free (value);
 	}
 
 	if (card->raw_use_score > 0) {
 		char *value;
 		value = g_strdup_printf ("%f", card->raw_use_score);
-		addPropValue (vobj, "X-EVOLUTION-USE-SCORE", value);
+		ADD_PROP_VALUE (vobj, "X-EVOLUTION-USE-SCORE", value);
 		g_free (value);
 	}
 
 	if (card->related_contacts && *card->related_contacts) {
-		addPropValue(vobj, XEV_RELATED_CONTACTS, card->related_contacts);
+		ADD_PROP_VALUE(vobj, XEV_RELATED_CONTACTS, card->related_contacts);
 	}
 
 	if (card->categories) {
@@ -571,17 +600,17 @@ e_card_get_vobject (ECard *card)
 			stringptr --;
 			*stringptr = 0;
 		}
-		addPropValue (vobj, "CATEGORIES", string);
+		ADD_PROP_VALUE (vobj, "CATEGORIES", string);
 		g_free(string);
 	}
 
 	if (card->wants_html_set) {
-		addPropValue (vobj, XEV_WANTS_HTML, card->wants_html ? "TRUE" : "FALSE");
+		ADD_PROP_VALUE (vobj, XEV_WANTS_HTML, card->wants_html ? "TRUE" : "FALSE");
 	}
 
 	if (card->list) {
-		addPropValue (vobj, XEV_LIST, "TRUE");
-		addPropValue (vobj, XEV_LIST_SHOW_ADDRESSES, card->list_show_addresses ? "TRUE" : "FALSE");
+		ADD_PROP_VALUE (vobj, XEV_LIST, "TRUE");
+		ADD_PROP_VALUE (vobj, XEV_LIST_SHOW_ADDRESSES, card->list_show_addresses ? "TRUE" : "FALSE");
 	}
 
 	if (card->arbitrary) {
@@ -590,12 +619,12 @@ e_card_get_vobject (ECard *card)
 			const ECardArbitrary *arbitrary = e_iterator_get(iterator);
 			VObject *arb_object;
 			if (arbitrary->value) {
-				arb_object = addPropValue (vobj, XEV_ARBITRARY, arbitrary->value);
+				arb_object = ADD_PROP_VALUE (vobj, XEV_ARBITRARY, arbitrary->value);
 			} else {
 				arb_object = addProp (vobj, XEV_ARBITRARY);
 			}
 			if (arbitrary->type) {
-				addPropValue (arb_object, "TYPE", arbitrary->type);
+				ADD_PROP_VALUE (arb_object, "TYPE", arbitrary->type);
 			}
 			if (arbitrary->key) {
 				addProp (arb_object, arbitrary->key);
@@ -603,7 +632,7 @@ e_card_get_vobject (ECard *card)
 		}
 	}
 
-	addPropValue (vobj, VCUniqueStringProp, card->id);
+	ADD_PROP_VALUE (vobj, VCUniqueStringProp, card->id);
 
 #if 0	
 	if (crd->photo.prop.used) {
@@ -618,7 +647,7 @@ e_card_get_vobject (ECard *card)
 		
 		for (node = crd->xtension.l; node; node = node->next) {
 			CardXProperty *xp = (CardXProperty *) node->data;
-			addPropValue (vobj, xp->name, xp->data);
+			ADD_PROP_VALUE (vobj, xp->name, xp->data);
 			add_CardProperty (vobj, &xp->prop);
 		}
 	}
@@ -627,7 +656,7 @@ e_card_get_vobject (ECard *card)
 		char *str;
 		
 		str = card_timezn_str (crd->timezn);
-		vprop = addPropValue (vobj, VCTimeZoneProp, str);
+		vprop = ADD_PROP_VALUE (vobj, VCTimeZoneProp, str);
 		free (str);
 		add_CardProperty (vprop, &crd->timezn.prop);
 	}
@@ -636,7 +665,7 @@ e_card_get_vobject (ECard *card)
 		char *str;
 		
 		str = card_geopos_str (crd->geopos);
-		vprop = addPropValue (vobj, VCGeoLocationProp, str);
+		vprop = ADD_PROP_VALUE (vobj, VCGeoLocationProp, str);
 		free (str);
 		add_CardProperty (vprop, &crd->geopos.prop);
 	}
@@ -656,7 +685,7 @@ e_card_get_vobject (ECard *card)
 		  vprop = addPropSizedValue (vobj, VCPronunciationProp,
 					    crd->sound.data, crd->sound.size);
 		else
-		  vprop = addPropValue (vobj, VCPronunciationProp, 
+		  vprop = ADD_PROP_VALUE (vobj, VCPronunciationProp, 
 				       crd->sound.data);
 		
 		add_SoundType (vprop, crd->sound.type);
@@ -664,7 +693,7 @@ e_card_get_vobject (ECard *card)
 	}
 	
 	if (crd->key.prop.used) {
-		vprop = addPropValue (vobj, VCPublicKeyProp, crd->key.data);
+		vprop = ADD_PROP_VALUE (vobj, VCPublicKeyProp, crd->key.data);
 		add_KeyType (vprop, crd->key.type);
 		add_CardProperty (vprop, &crd->key.prop);
 	}
@@ -684,7 +713,21 @@ e_card_get_vcard (ECard *card)
 	VObject *vobj;
 	char *temp, *ret_val;
 
-	vobj = e_card_get_vobject (card);
+	vobj = e_card_get_vobject (card, FALSE);
+	temp = writeMemVObject(NULL, NULL, vobj);
+	ret_val = g_strdup(temp);
+	free(temp);
+	cleanVObject(vobj);
+	return ret_val;
+}
+
+char *
+e_card_get_vcard_assume_utf8 (ECard *card)
+{
+	VObject *vobj;
+	char *temp, *ret_val;
+
+	vobj = e_card_get_vobject (card, TRUE);
 	temp = writeMemVObject(NULL, NULL, vobj);
 	ret_val = g_strdup(temp);
 	free(temp);
@@ -711,7 +754,7 @@ e_card_list_get_vcard (GList *list)
 		VObject *tempvobj;
 		ECard *card = list->data;
 
-		tempvobj = e_card_get_vobject (card);
+		tempvobj = e_card_get_vobject (card, FALSE);
 		addList (&vobj, tempvobj);
 	}
 	temp = writeMemVObjects(NULL, NULL, vobj);
@@ -722,43 +765,43 @@ e_card_list_get_vcard (GList *list)
 }
 
 static void
-parse_file_as(ECard *card, VObject *vobj)
+parse_file_as(ECard *card, VObject *vobj, char *default_charset)
 {
 	if ( card->file_as )
 		g_free(card->file_as);
-	assign_string(vobj, &(card->file_as));
+	assign_string(vobj, default_charset, &(card->file_as));
 }
 
 static void
-parse_name(ECard *card, VObject *vobj)
+parse_name(ECard *card, VObject *vobj, char *default_charset)
 {
 	if ( card->name ) {
 		e_card_name_free(card->name);
 	}
 	card->name = g_new(ECardName, 1);
 
-	card->name->family     = e_v_object_get_child_value (vobj, VCFamilyNameProp);
-	card->name->given      = e_v_object_get_child_value (vobj, VCGivenNameProp);
-	card->name->additional = e_v_object_get_child_value (vobj, VCAdditionalNamesProp);
-	card->name->prefix     = e_v_object_get_child_value (vobj, VCNamePrefixesProp);
-	card->name->suffix     = e_v_object_get_child_value (vobj, VCNameSuffixesProp);
+	card->name->family     = e_v_object_get_child_value (vobj, VCFamilyNameProp,      default_charset);
+	card->name->given      = e_v_object_get_child_value (vobj, VCGivenNameProp,       default_charset);
+	card->name->additional = e_v_object_get_child_value (vobj, VCAdditionalNamesProp, default_charset);
+	card->name->prefix     = e_v_object_get_child_value (vobj, VCNamePrefixesProp,    default_charset);
+	card->name->suffix     = e_v_object_get_child_value (vobj, VCNameSuffixesProp,    default_charset);
 }
 
 static void
-parse_full_name(ECard *card, VObject *vobj)
+parse_full_name(ECard *card, VObject *vobj, char *default_charset)
 {
 	if ( card->fname )
 		g_free(card->fname);
-	assign_string(vobj, &(card->fname));
+	assign_string(vobj, default_charset, &(card->fname));
 }
 
 static void
-parse_email(ECard *card, VObject *vobj)
+parse_email(ECard *card, VObject *vobj, char *default_charset)
 {
 	char *next_email;
 	EList *list;
 
-	assign_string(vobj, &next_email);
+	assign_string(vobj, default_charset, &next_email);
 	gtk_object_get(GTK_OBJECT(card),
 		       "email", &list,
 		       NULL);
@@ -766,8 +809,9 @@ parse_email(ECard *card, VObject *vobj)
 	g_free (next_email);
 }
 
+/* Deal with charset */
 static void
-parse_bday(ECard *card, VObject *vobj)
+parse_bday(ECard *card, VObject *vobj, char *default_charset)
 {
 	if ( vObjectValueType (vobj) ) {
 		char *str = fakeCString (vObjectUStringZValue (vobj));
@@ -780,12 +824,12 @@ parse_bday(ECard *card, VObject *vobj)
 }
 
 static void
-parse_phone(ECard *card, VObject *vobj)
+parse_phone(ECard *card, VObject *vobj, char *default_charset)
 {
 	ECardPhone *next_phone = g_new(ECardPhone, 1);
 	EList *list;
 
-	assign_string(vobj, &(next_phone->number));
+	assign_string(vobj, default_charset, &(next_phone->number));
 	next_phone->flags = get_phone_flags(vobj);
 
 	gtk_object_get(GTK_OBJECT(card),
@@ -796,19 +840,19 @@ parse_phone(ECard *card, VObject *vobj)
 }
 
 static void
-parse_address(ECard *card, VObject *vobj)
+parse_address(ECard *card, VObject *vobj, char *default_charset)
 {
 	ECardDeliveryAddress *next_addr = g_new(ECardDeliveryAddress, 1);
 	EList *list;
 
 	next_addr->flags   = get_address_flags (vobj);
-	next_addr->po      = e_v_object_get_child_value (vobj, VCPostalBoxProp);
-	next_addr->ext     = e_v_object_get_child_value (vobj, VCExtAddressProp);
-	next_addr->street  = e_v_object_get_child_value (vobj, VCStreetAddressProp);
-	next_addr->city    = e_v_object_get_child_value (vobj, VCCityProp);
-	next_addr->region  = e_v_object_get_child_value (vobj, VCRegionProp);
-	next_addr->code    = e_v_object_get_child_value (vobj, VCPostalCodeProp);
-	next_addr->country = e_v_object_get_child_value (vobj, VCCountryNameProp);
+	next_addr->po      = e_v_object_get_child_value (vobj, VCPostalBoxProp,     default_charset);
+	next_addr->ext     = e_v_object_get_child_value (vobj, VCExtAddressProp,    default_charset);
+	next_addr->street  = e_v_object_get_child_value (vobj, VCStreetAddressProp, default_charset);
+	next_addr->city    = e_v_object_get_child_value (vobj, VCCityProp,          default_charset);
+	next_addr->region  = e_v_object_get_child_value (vobj, VCRegionProp,        default_charset);
+	next_addr->code    = e_v_object_get_child_value (vobj, VCPostalCodeProp,    default_charset);
+	next_addr->country = e_v_object_get_child_value (vobj, VCCountryNameProp,   default_charset);
 
 	gtk_object_get(GTK_OBJECT(card),
 		       "address", &list,
@@ -818,13 +862,13 @@ parse_address(ECard *card, VObject *vobj)
 }
 
 static void
-parse_address_label(ECard *card, VObject *vobj)
+parse_address_label(ECard *card, VObject *vobj, char *default_charset)
 {
 	ECardAddrLabel *next_addr = g_new(ECardAddrLabel, 1);
 	EList *list;
 
 	next_addr->flags   = get_address_flags (vobj);
-	assign_string(vobj, &next_addr->data);
+	assign_string(vobj, default_charset, &next_addr->data);
 
 	gtk_object_get(GTK_OBJECT(card),
 		       "address_label", &list,
@@ -834,85 +878,86 @@ parse_address_label(ECard *card, VObject *vobj)
 }
 
 static void
-parse_url(ECard *card, VObject *vobj)
+parse_url(ECard *card, VObject *vobj, char *default_charset)
 {
 	if (card->url)
 		g_free(card->url);
-	assign_string(vobj, &(card->url));
+	assign_string(vobj, default_charset, &(card->url));
 }
 
 static void
-parse_org(ECard *card, VObject *vobj)
+parse_org(ECard *card, VObject *vobj, char *default_charset)
 {
 	char *temp;
 	
-	temp = e_v_object_get_child_value(vobj, VCOrgNameProp);
+	temp = e_v_object_get_child_value(vobj, VCOrgNameProp, default_charset);
 	g_free(card->org);
 	card->org = temp;
 
-	temp = e_v_object_get_child_value(vobj, VCOrgUnitProp);
+	temp = e_v_object_get_child_value(vobj, VCOrgUnitProp, default_charset);
 	g_free(card->org_unit);
 	card->org_unit = temp;
 }
 
 static void
-parse_office(ECard *card, VObject *vobj)
+parse_office(ECard *card, VObject *vobj, char *default_charset)
 {
 	if ( card->office )
 		g_free(card->office);
-	assign_string(vobj, &(card->office));
+	assign_string(vobj, default_charset, &(card->office));
 }
 
 static void
-parse_title(ECard *card, VObject *vobj)
+parse_title(ECard *card, VObject *vobj, char *default_charset)
 {
 	if ( card->title )
 		g_free(card->title);
-	assign_string(vobj, &(card->title));
+	assign_string(vobj, default_charset, &(card->title));
 }
 
 static void
-parse_role(ECard *card, VObject *vobj)
+parse_role(ECard *card, VObject *vobj, char *default_charset)
 {
 	if (card->role)
 		g_free(card->role);
-	assign_string(vobj, &(card->role));
+	assign_string(vobj, default_charset, &(card->role));
 }
 
 static void
-parse_manager(ECard *card, VObject *vobj)
+parse_manager(ECard *card, VObject *vobj, char *default_charset)
 {
 	if ( card->manager )
 		g_free(card->manager);
-	assign_string(vobj, &(card->manager));
+	assign_string(vobj, default_charset, &(card->manager));
 }
 
 static void
-parse_assistant(ECard *card, VObject *vobj)
+parse_assistant(ECard *card, VObject *vobj, char *default_charset)
 {
 	if ( card->assistant )
 		g_free(card->assistant);
-	assign_string(vobj, &(card->assistant));
+	assign_string(vobj, default_charset, &(card->assistant));
 }
 
 static void
-parse_nickname(ECard *card, VObject *vobj)
+parse_nickname(ECard *card, VObject *vobj, char *default_charset)
 {
 	if (card->nickname)
 		g_free(card->nickname);
-	assign_string(vobj, &(card->nickname));
+	assign_string(vobj, default_charset, &(card->nickname));
 }
 
 static void
-parse_spouse(ECard *card, VObject *vobj)
+parse_spouse(ECard *card, VObject *vobj, char *default_charset)
 {
 	if ( card->spouse )
 		g_free(card->spouse);
-	assign_string(vobj, &(card->spouse));
+	assign_string(vobj, default_charset, &(card->spouse));
 }
 
+/* Deal with charset */
 static void
-parse_anniversary(ECard *card, VObject *vobj)
+parse_anniversary(ECard *card, VObject *vobj, char *default_charset)
 {
 	if ( vObjectValueType (vobj) ) {
 		char *str = fakeCString (vObjectUStringZValue (vobj));
@@ -925,32 +970,32 @@ parse_anniversary(ECard *card, VObject *vobj)
 }
 
 static void
-parse_mailer(ECard *card, VObject *vobj)
+parse_mailer(ECard *card, VObject *vobj, char *default_charset)
 {
 	if ( card->mailer )
 		g_free(card->mailer);
-	assign_string(vobj, &(card->mailer));
+	assign_string(vobj, default_charset, &(card->mailer));
 }
 
 static void
-parse_fburl(ECard *card, VObject *vobj)
+parse_fburl(ECard *card, VObject *vobj, char *default_charset)
 {
 	g_free(card->fburl);
-	assign_string(vobj, &(card->fburl));
+	assign_string(vobj, default_charset, &(card->fburl));
 }
 
 static void
-parse_note(ECard *card, VObject *vobj)
+parse_note(ECard *card, VObject *vobj, char *default_charset)
 {
 	g_free(card->note);
-	assign_string(vobj, &(card->note));
+	assign_string(vobj, default_charset, &(card->note));
 }
 
 static void
-parse_related_contacts(ECard *card, VObject *vobj)
+parse_related_contacts(ECard *card, VObject *vobj, char *default_charset)
 {
 	g_free(card->related_contacts);
-	assign_string(vobj, &(card->related_contacts));
+	assign_string(vobj, default_charset, &(card->related_contacts));
 }
 
 static void
@@ -1009,8 +1054,9 @@ do_parse_categories(ECard *card, char *str)
 	g_free(copy);
 }
 
+/* Deal with charset */
 static void
-parse_categories(ECard *card, VObject *vobj)
+parse_categories(ECard *card, VObject *vobj, char *default_charset)
 {
 	if ( vObjectValueType (vobj) ) {
 		char *str = fakeCString (vObjectUStringZValue (vobj));
@@ -1019,8 +1065,9 @@ parse_categories(ECard *card, VObject *vobj)
 	}
 }
 
+/* Deal with charset */
 static void
-parse_wants_html(ECard *card, VObject *vobj)
+parse_wants_html(ECard *card, VObject *vobj, char *default_charset)
 {
 	if ( vObjectValueType (vobj) ) {
 		char *str = fakeCString (vObjectUStringZValue (vobj));
@@ -1036,8 +1083,9 @@ parse_wants_html(ECard *card, VObject *vobj)
 	}
 }
 
+/* Deal with charset */
 static void
-parse_list(ECard *card, VObject *vobj)
+parse_list(ECard *card, VObject *vobj, char *default_charset)
 {
 	if ( vObjectValueType (vobj) ) {
 		char *str = fakeCString (vObjectUStringZValue (vobj));
@@ -1051,8 +1099,9 @@ parse_list(ECard *card, VObject *vobj)
 	}
 }
 
+/* Deal with charset */
 static void
-parse_list_show_addresses(ECard *card, VObject *vobj)
+parse_list_show_addresses(ECard *card, VObject *vobj, char *default_charset)
 {
 	if ( vObjectValueType (vobj) ) {
 		char *str = fakeCString (vObjectUStringZValue (vobj));
@@ -1084,7 +1133,7 @@ struct VObject {
 };
 
 static void
-parse_arbitrary(ECard *card, VObject *vobj)
+parse_arbitrary(ECard *card, VObject *vobj, char *default_charset)
 {
 	ECardArbitrary *arbitrary = e_card_arbitrary_new();
 	VObjectIterator iterator;
@@ -1094,14 +1143,14 @@ parse_arbitrary(ECard *card, VObject *vobj)
 		const char *name = vObjectName(temp);
 		if (name && !strcmp(name, "TYPE")) {
 			g_free(arbitrary->type);
-			assign_string(temp, &(arbitrary->type));
+			assign_string(temp, default_charset, &(arbitrary->type));
 		} else {
 			g_free(arbitrary->key);
 			arbitrary->key = g_strdup(name);
 		}
 	}
 
-	assign_string(vobj, &(arbitrary->value));
+	assign_string(vobj, default_charset, &(arbitrary->value));
 	
 	gtk_object_get(GTK_OBJECT(card),
 		       "arbitrary", &list,
@@ -1111,14 +1160,15 @@ parse_arbitrary(ECard *card, VObject *vobj)
 }
 
 static void
-parse_id(ECard *card, VObject *vobj)
+parse_id(ECard *card, VObject *vobj, char *default_charset)
 {
 	g_free(card->id);
-	assign_string(vobj, &(card->id));
+	assign_string(vobj, default_charset, &(card->id));
 }
 
+/* Deal with charset */
 static void
-parse_last_use(ECard *card, VObject *vobj)
+parse_last_use(ECard *card, VObject *vobj, char *default_charset)
 {
 	if ( vObjectValueType (vobj) ) {
 		char *str = fakeCString (vObjectUStringZValue (vobj));
@@ -1130,8 +1180,9 @@ parse_last_use(ECard *card, VObject *vobj)
 	}
 }
 
+/* Deal with charset */
 static void
-parse_use_score(ECard *card, VObject *vobj)
+parse_use_score(ECard *card, VObject *vobj, char *default_charset)
 {
 	card->raw_use_score = 0;
 	
@@ -1143,20 +1194,20 @@ parse_use_score(ECard *card, VObject *vobj)
 }
 
 static void
-parse_attribute(ECard *card, VObject *vobj)
+parse_attribute(ECard *card, VObject *vobj, char *default_charset)
 {
 	ParsePropertyFunc function = g_hash_table_lookup(E_CARD_CLASS(GTK_OBJECT(card)->klass)->attribute_jump_table, vObjectName(vobj));
 	if ( function )
-		function(card, vobj);
+		function(card, vobj, default_charset);
 }
 
 static void
-parse(ECard *card, VObject *vobj)
+parse(ECard *card, VObject *vobj, char *default_charset)
 {
 	VObjectIterator iterator;
 	initPropIterator(&iterator, vobj);
 	while(moreIteration (&iterator)) {
-		parse_attribute(card, nextVObject(&iterator));
+		parse_attribute(card, nextVObject(&iterator), default_charset);
 	}
 	if (!card->fname) {
 		card->fname = g_strdup("");
@@ -2278,14 +2329,38 @@ e_card_init (ECard *card)
 }
 
 GList *
-e_card_load_cards_from_file(const char *filename)
+e_card_load_cards_from_file_with_default_charset(const char *filename, char *default_charset)
 {
 	VObject *vobj = Parse_MIME_FromFileName((char *) filename);
 	GList *list = NULL;
 	while(vobj) {
 		VObject *next;
 		ECard *card = E_CARD(gtk_type_new(e_card_get_type()));
-		parse(card, vobj);
+		parse(card, vobj, default_charset);
+		next = nextVObjectInList(vobj);
+		cleanVObject(vobj);
+		vobj = next;
+		list = g_list_prepend(list, card);
+	}
+	list = g_list_reverse(list);
+	return list;
+}
+
+GList *
+e_card_load_cards_from_file(const char *filename)
+{
+	return e_card_load_cards_from_file_with_default_charset (filename, "UTF-8");
+}
+
+GList *
+e_card_load_cards_from_string_with_default_charset(const char *str, char *default_charset)
+{
+	VObject *vobj = Parse_MIME(str, strlen (str));
+	GList *list = NULL;
+	while(vobj) {
+		VObject *next;
+		ECard *card = E_CARD(gtk_type_new(e_card_get_type()));
+		parse(card, vobj, default_charset);
 		next = nextVObjectInList(vobj);
 		cleanVObject(vobj);
 		vobj = next;
@@ -2298,19 +2373,7 @@ e_card_load_cards_from_file(const char *filename)
 GList *
 e_card_load_cards_from_string(const char *str)
 {
-	VObject *vobj = Parse_MIME(str, strlen (str));
-	GList *list = NULL;
-	while(vobj) {
-		VObject *next;
-		ECard *card = E_CARD(gtk_type_new(e_card_get_type()));
-		parse(card, vobj);
-		next = nextVObjectInList(vobj);
-		cleanVObject(vobj);
-		vobj = next;
-		list = g_list_prepend(list, card);
-	}
-	list = g_list_reverse(list);
-	return list;
+	return e_card_load_cards_from_string_with_default_charset (str, "UTF-8");
 }
 
 void
@@ -2348,23 +2411,48 @@ e_card_free_empty_lists (ECard *card)
 }
 
 static void
-assign_string(VObject *vobj, char **string)
+assign_string(VObject *vobj, char *default_charset, char **string)
 {
 	int type = vObjectValueType(vobj);
 	char *str;
+	char *charset = default_charset;
+	gboolean free_charset = FALSE;
+	VObject *charset_obj;
+
+	if ((charset_obj = isAPropertyOf (vobj, "CHARSET"))) {
+		switch (vObjectValueType (charset_obj)) {
+		case VCVT_STRINGZ:
+			charset = (char *) vObjectStringZValue(charset_obj);
+			break;
+		case VCVT_USTRINGZ:
+			charset = fakeCString (vObjectUStringZValue (charset_obj));
+			free_charset = TRUE;
+			break;
+		}
+	}
 
 	switch(type) {
 	case VCVT_STRINGZ:
-		*string = g_strdup (vObjectStringZValue(vobj));
+		if (strcmp (charset, "UTF-8"))
+			*string = e_utf8_from_charset_string (charset, vObjectStringZValue(vobj));
+		else
+			*string = g_strdup(vObjectStringZValue(vobj));
 		break;
 	case VCVT_USTRINGZ:
-		str = (vObjectValueType (vobj) ? fakeCString (vObjectUStringZValue (vobj)) : calloc(1, 1));
-		*string = g_strdup(str);
+		str = fakeCString (vObjectUStringZValue (vobj));
+		if (strcmp (charset, "UTF-8"))
+			*string = e_utf8_from_charset_string (charset, str);
+		else
+			*string = g_strdup(str);
 		free(str);
 		break;
 	default:
 		*string = g_strdup("");
 		break;
+	}
+
+	if (free_charset) {
+		free (charset);
 	}
 }
 
@@ -3800,19 +3888,37 @@ e_card_date_from_string (char *str)
 }
 
 char *
-e_v_object_get_child_value(VObject *vobj, char *name)
+e_v_object_get_child_value(VObject *vobj, char *name, char *default_charset)
 {
 	char *ret_val;
 	VObjectIterator iterator;
+	gboolean free_charset = FALSE;
+	VObject *charset_obj;
+
+	if ((charset_obj = isAPropertyOf (vobj, "CHARSET"))) {
+		switch (vObjectValueType (charset_obj)) {
+		case VCVT_STRINGZ:
+			default_charset = (char *) vObjectStringZValue(charset_obj);
+			break;
+		case VCVT_USTRINGZ:
+			default_charset = fakeCString (vObjectUStringZValue (charset_obj));
+			free_charset = TRUE;
+			break;
+		}
+	}
+
 	initPropIterator(&iterator, vobj);
 	while(moreIteration (&iterator)) {
 		VObject *attribute = nextVObject(&iterator);
 		const char *id = vObjectName(attribute);
 		if ( ! strcmp(id, name) ) {
-			assign_string(attribute, &ret_val);
+			assign_string(attribute, default_charset, &ret_val);
 			return ret_val;
 		}
 	}
+	if (free_charset)
+		free (default_charset);
+
 	return NULL;
 }
 
@@ -4006,7 +4112,7 @@ e_card_list_send (GList *cards, ECardDisposition disposition)
 		while (cards != NULL) {
 			ECard *card = cards->data;
 			EIterator *iterator;
-			const gchar *name, *addr;
+			gchar *name, *addr;
 			char *file_as;
 			gboolean is_list, is_hidden, free_name_addr;
 			EList *email;
@@ -4047,7 +4153,7 @@ e_card_list_send (GList *cards, ECardDisposition disposition)
 						
 					} else { /* is just a plain old card */
 						name = file_as;
-						addr = e_iterator_get (iterator);
+						addr = (char *) e_iterator_get (iterator);
 					}
 				}
 
