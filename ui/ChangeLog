@@ -1,3 +1,9 @@
+2003-11-17  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution.xml: Rename verb "OpenFolderInNewWindow" to
+	"OpenNewWindow".  Add a separator before it in the File -> New
+	submenu.
+
 2003-11-13  Ettore Perazzoli  <ettore@ximian.com>
 
 	* evolution.xml: Remove type="toggle" from the "ToggleOffline"

@@ -30,10 +30,12 @@
 	<placeholder name="NewFirstItem"/>
 	<placeholder name="ComponentItems"/>
 
+	<separator f="" name="eshell8"/>
+
 	<menuitem name="EvolutionWindow"
-	  verb="OpenFolderInNewWindow"
-	  _label="Evolution _Window"
-	  _tip="Open a new Evolution window"
+	  verb="OpenNewWindow"
+	  _label="_Window"
+	  _tip="Open a new window"
 	  accel="*Control**Shift*w"/>
       </submenu>
 
@@ -122,7 +124,7 @@
 	<separator f="" name="eshell7"/>
 
 	<menuitem name="EvolutionWindow"
-	          verb="OpenFolderInNewWindow"
+	          verb="OpenNewWindow"
 		  _label="Evolution _Window"
 		  _tip="Create a new window displaying this folder"
 		  accel="*Control**Shift*w"/>
