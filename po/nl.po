@@ -38,15 +38,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.gnome-2-8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-09-22 11:15+0200\n"
-"PO-Revision-Date: 2004-09-22 15:14+0200\n"
+"POT-Creation-Date: 2004-09-23 11:10+0200\n"
+"PO-Revision-Date: 2004-09-23 14:05+0200\n"
 "Last-Translator: Vincent van Adrighem <adrighem@gnome.org>\n"
 "Language-Team: Dutch <nl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms:  nplurals=2; plural=(n != 1);\n"
-"X-Generator: KBabel 1.3.1\n"
+"Plural-Forms:  nplurals=2; plural=(n != 1);"
 
 #: a11y/addressbook/ea-addressbook-view.c:94
 #: a11y/addressbook/ea-addressbook-view.c:103
@@ -143,7 +142,8 @@ msgstr "Kan geen schema informatie verkrijgen voor de LDAP server."
 #. addressbook:ldap-invalid-schema primary
 #: addressbook/addressbook-errors.xml.h:18
 msgid "LDAP server did not respond with valid schema information."
-msgstr "Het antwoord van de LDAP server bevatte geen geldige schema informatie."
+msgstr ""
+"Het antwoord van de LDAP server bevatte geen geldige schema informatie."
 
 #. addressbook:remove-addressbook primary
 #: addressbook/addressbook-errors.xml.h:20
@@ -250,7 +250,8 @@ msgstr "Het Evolution adresboek is plotseling gesloten."
 
 #. addressbook:backend-died secondary
 #: addressbook/addressbook-errors.xml.h:53
-msgid "Your contacts for {0} will not be available until Evolution is restarted."
+msgid ""
+"Your contacts for {0} will not be available until Evolution is restarted."
 msgstr ""
 "Uw contacten voor {0} zullen niet beschikbaar zijn totdat Evolution herstart "
 "is."
@@ -459,7 +460,8 @@ msgstr ""
 #: addressbook/gui/component/addressbook-view.c:711
 #, c-format
 msgid "Address book '%s' will be removed. Are you sure you want to continue?"
-msgstr "Adresboek '%s' zal worden verwijderd. Weet u zeker dat u wilt doorgaan?"
+msgstr ""
+"Adresboek '%s' zal worden verwijderd. Weet u zeker dat u wilt doorgaan?"
 
 #: addressbook/gui/component/addressbook-view.c:814
 #: addressbook/gui/widgets/e-addressbook-view.c:1128
@@ -614,8 +616,10 @@ msgid "Email address"
 msgstr "E-mail adres"
 
 #: addressbook/gui/component/ldap-config.glade.h:21
-msgid "Evolution will use this email address to authenticate you with the server."
-msgstr "Evolution zal dit e-mailadres gebruiken om u te identificeren bij de server"
+msgid ""
+"Evolution will use this email address to authenticate you with the server."
+msgstr ""
+"Evolution zal dit e-mailadres gebruiken om u te identificeren bij de server"
 
 #: addressbook/gui/component/ldap-config.glade.h:22
 msgid "Find Possible Search Bases"
@@ -2948,10 +2952,9 @@ msgstr "Protocol niet ondersteund"
 #: calendar/gui/e-cal-component-preview.c:233
 #: calendar/gui/e-cal-model-tasks.c:353 calendar/gui/e-cal-model-tasks.c:656
 #: calendar/gui/e-calendar-table.c:473 calendar/gui/print.c:2349
-#: camel/camel-service.c:724 camel/camel-service.c:762
-#: camel/camel-service.c:846 camel/camel-service.c:886
-#: camel/providers/pop3/camel-pop3-store.c:456
-#: camel/providers/pop3/camel-pop3-store.c:537
+#: camel/camel-service.c:723 camel/camel-service.c:887
+#: camel/camel-service.c:1015 camel/providers/pop3/camel-pop3-store.c:463
+#: camel/providers/pop3/camel-pop3-store.c:544
 msgid "Cancelled"
 msgstr "Geannuleerd"
 
@@ -3086,13 +3089,11 @@ msgstr "Fout bij verwijderen kaart"
 msgid ""
 "Opening %d contact will open %d new window as well.\n"
 "Do you really want to display this contact?"
-msgid_plural ""
 "Opening %d contacts will open %d new windows as well.\n"
 "Do you really want to display all of these contacts?"
-msgstr[0] ""
+msgstr ""
 "Bij het openen van %d contact wordt %d nieuw venster geopend.\n"
 "Wilt u deze werkelijk openen?"
-msgstr[1] ""
 "Bij het openen van %d contacten worden %d nieuwe vensters geopend.\n"
 "Wilt u deze contacten werkelijk allemaal openen?"
 
@@ -3487,7 +3488,8 @@ msgid "Export in asynchronous mode "
 msgstr "Exporteer in asynchrone mode "
 
 #: addressbook/tools/evolution-addressbook-export.c:63
-msgid "The number of cards in one output file in asychronous mode,default size 100."
+msgid ""
+"The number of cards in one output file in asychronous mode,default size 100."
 msgstr ""
 "Het aantal kaarten in een uitvoerbestand in asynchrone modus, standaard "
 "aantal is 100."
@@ -3497,7 +3499,8 @@ msgid "NUMBER"
 msgstr "NUMMER"
 
 #: addressbook/tools/evolution-addressbook-export.c:91
-msgid "Command line arguments error, please use --help option to see the usage."
+msgid ""
+"Command line arguments error, please use --help option to see the usage."
 msgstr "Fout in argument op opdrachtregel, gebruik --help voor uitleg."
 
 #: addressbook/tools/evolution-addressbook-export.c:105
@@ -3569,7 +3572,8 @@ msgstr "Weet u zeker dat u deze vergadering wilt verwijderen?"
 
 #. calendar:prompt-delete-meeting secondary
 #: calendar/calendar-errors.xml.h:10
-msgid "All information on this meeting will be deleted and can not be restored."
+msgid ""
+"All information on this meeting will be deleted and can not be restored."
 msgstr ""
 "Alle informatie over deze bijeenkomst zal verwijderd worden en kan niet "
 "hersteld worden."
@@ -3636,7 +3640,8 @@ msgstr "Weet u zeker dat u afspraak genaamd '{0}' wilt verwijderen?"
 #. calendar:prompt-delete-titled-appointment secondary
 #. calendar:prompt-delete-appointment secondary
 #: calendar/calendar-errors.xml.h:34 calendar/calendar-errors.xml.h:38
-msgid "All information on this appointment will be deleted and can not be restored."
+msgid ""
+"All information on this appointment will be deleted and can not be restored."
 msgstr ""
 "Alle informatie over deze afspraak zullen worden verwijderd en kunnen niet "
 "hersteld worden."
@@ -3659,7 +3664,8 @@ msgstr "Weet u zeker dat u dagboekaantekening '{0}' wilt verwijderen?"
 #. calendar:prompt-delete-named-journal secondary
 #. calendar:prompt-delete-journal secondary
 #: calendar/calendar-errors.xml.h:50 calendar/calendar-errors.xml.h:54
-msgid "All information in this journal will be deleted and can not be restored."
+msgid ""
+"All information in this journal will be deleted and can not be restored."
 msgstr ""
 "Alle informatie in dit journaal zal verwijderd worden en kan niet hersteld "
 "worden."
@@ -3717,7 +3723,8 @@ msgstr "Wilt u de wijzigingen voor deze afspraak opslaan?"
 #. calendar:prompt-save-appointment secondary
 #: calendar/calendar-errors.xml.h:72
 msgid "You have made changes to this appointment, but not yet saved them."
-msgstr "U heeft deze afspraak gewijzigd maar de wijzigingen nog niet opgeslagen."
+msgstr ""
+"U heeft deze afspraak gewijzigd maar de wijzigingen nog niet opgeslagen."
 
 #: calendar/calendar-errors.xml.h:73 calendar/calendar-errors.xml.h:81
 msgid "Discard Changes"
@@ -3749,7 +3756,8 @@ msgstr "Wilt u uitnodigingen sturen voor de bijeenkomst naar alle deelnemers?"
 
 #. calendar:prompt-meeting-invite secondary
 #: calendar/calendar-errors.xml.h:86
-msgid "Email invitations will be sent to all participants and allow them to RSVP."
+msgid ""
+"Email invitations will be sent to all participants and allow them to RSVP."
 msgstr ""
 "Email uitnodigingen worden verstuurd naar alle deelnemers en verzoek hen tot "
 "antwoord."
@@ -3763,7 +3771,8 @@ msgstr "Verzenden"
 #. calendar:prompt-send-updated-meeting-info primary
 #: calendar/calendar-errors.xml.h:90
 msgid "Would you like to send updated meeting information to participants?"
-msgstr "Wilt u alle deelnemers de vernieuwde informatie over de bijeenkomst sturen?"
+msgstr ""
+"Wilt u alle deelnemers de vernieuwde informatie over de bijeenkomst sturen?"
 
 #. calendar:prompt-send-updated-meeting-info secondary
 #: calendar/calendar-errors.xml.h:92
@@ -3810,7 +3819,8 @@ msgstr "De Evolution taken zijn ploseling afgebroken."
 #. calendar:tasks-crashed secondary
 #: calendar/calendar-errors.xml.h:110
 msgid "Your tasks will not be available until Evolution is restarted."
-msgstr "Uw taken zullen niet beschikbaar zijn totdat Evolution opnieuw gestart is."
+msgstr ""
+"Uw taken zullen niet beschikbaar zijn totdat Evolution opnieuw gestart is."
 
 #. calendar:calendar-crashed primary
 #: calendar/calendar-errors.xml.h:112
@@ -3820,7 +3830,8 @@ msgstr "De Evolution-kalender is onverwacht afgesloten."
 #. calendar:calendar-crashed secondary
 #: calendar/calendar-errors.xml.h:114
 msgid "Your calendars will not be available until Evolution is restarted."
-msgstr "Uw agenda's zullen niet beschikbaar zijn totdat Evolution opnieuw gestart is."
+msgstr ""
+"Uw agenda's zullen niet beschikbaar zijn totdat Evolution opnieuw gestart is."
 
 #: calendar/common/authentication.c:47 calendar/gui/e-pub-utils.c:301
 #: smime/gui/component.c:48
@@ -4123,7 +4134,8 @@ msgstr "Weekdag waarmee de week begint"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:26
 msgid "Whether or not to use the notification tray for display alarms"
-msgstr "Gebruik het notificatie systeemvak voor het weergeven van waarschuwingen"
+msgstr ""
+"Gebruik het notificatie systeemvak voor het weergeven van waarschuwingen"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:27
 msgid "Whether to ask for confirmation on appointment deletion"
@@ -4756,7 +4768,8 @@ msgstr "voor het begin van elke afspraak"
 
 #: calendar/gui/dialogs/calendar-setup.c:172
 msgid "You must specify a location to get the calendar from."
-msgstr "U dient een lokatie te geven waar de agenda vandaan gehaalt dient te worden."
+msgstr ""
+"U dient een lokatie te geven waar de agenda vandaan gehaalt dient te worden."
 
 #: calendar/gui/dialogs/calendar-setup.c:180
 #, c-format
@@ -4861,7 +4874,8 @@ msgstr "Deze dagboekaantekening is gewijzigd."
 #: calendar/gui/dialogs/changed-comp.c:101
 #, c-format
 msgid "%s  You have made changes. Forget those changes and update the editor?"
-msgstr "%s U heeft iets veranderd. Deze veranderingen vergeten en de editor sluiten?"
+msgstr ""
+"%s U heeft iets veranderd. Deze veranderingen vergeten en de editor sluiten?"
 
 #: calendar/gui/dialogs/changed-comp.c:103
 #, c-format
@@ -4968,7 +4982,8 @@ msgstr "Dit item kon niet verwijderd worden door een CORBA-probleem"
 
 #: calendar/gui/dialogs/delete-error.c:70
 msgid "The event could not be deleted because permission was denied"
-msgstr "De gebeurtenis kon niet verwijderd worden omdat u geen recht hiertoe heeft"
+msgstr ""
+"De gebeurtenis kon niet verwijderd worden omdat u geen recht hiertoe heeft"
 
 #: calendar/gui/dialogs/delete-error.c:73
 msgid "The task could not be deleted because permission was denied"
@@ -5340,7 +5355,8 @@ msgstr ""
 "aanpassen?"
 
 #: calendar/gui/dialogs/recur-comp.c:59
-msgid "You are modifying a recurring journal entry, what would you like to modify?"
+msgid ""
+"You are modifying a recurring journal entry, what would you like to modify?"
 msgstr ""
 "U bent een dagboekaantekening aan het bewerken die meerdere keren voorkomt. "
 "Wat wilt u aanpassen?"
@@ -6278,7 +6294,8 @@ msgstr ""
 "vinden."
 
 #: calendar/gui/e-itip-control.c:1238
-msgid "The task has been cancelled, however it could not be found in your task lists"
+msgid ""
+"The task has been cancelled, however it could not be found in your task lists"
 msgstr ""
 "De taak is geannuleerd, echter deze is niet in uw takenlijsten terug te "
 "vinden."
@@ -6480,7 +6497,8 @@ msgstr ""
 
 #: calendar/gui/e-itip-control.c:1964
 msgid "Attendee status could not be updated because of an invalid status!\n"
-msgstr "Bezoekerstatus kon niet ververst worden vanwege een ongeldige status!\n"
+msgstr ""
+"Bezoekerstatus kon niet ververst worden vanwege een ongeldige status!\n"
 
 #: calendar/gui/e-itip-control.c:1981
 msgid "Attendee status updated\n"
@@ -6488,7 +6506,8 @@ msgstr "Bezoekerstatus ververst\n"
 
 #: calendar/gui/e-itip-control.c:1984
 msgid "Attendee status can not be updated because the item no longer exists"
-msgstr "Bezoekerstatus kan niet ververst worden omdat het object niet meer bestaat"
+msgstr ""
+"Bezoekerstatus kan niet ververst worden omdat het object niet meer bestaat"
 
 #: calendar/gui/e-itip-control.c:2011
 msgid "Removal Complete"
@@ -6934,7 +6953,8 @@ msgstr "Op het web"
 #. FIXME: set proper domain/code
 #: calendar/gui/migration.c:712 calendar/gui/migration.c:864
 msgid "Unable to migrate old settings from evolution/config.xmldb"
-msgstr "Het migreren van de oude instellingen van evolution/config.xmldb is mislukt"
+msgstr ""
+"Het migreren van de oude instellingen van evolution/config.xmldb is mislukt"
 
 #. FIXME: domain/code
 #: calendar/gui/migration.c:741
@@ -7178,7 +7198,8 @@ msgstr "Printerinstellingen"
 #: calendar/gui/tasks-component.c:314
 #, c-format
 msgid "Task List '%s' will be removed. Are you sure you want to continue?"
-msgstr "Takenlijst '%s' zal worden verwijderd. Weet u zeker dat u door wilt gaan?"
+msgstr ""
+"Takenlijst '%s' zal worden verwijderd. Weet u zeker dat u door wilt gaan?"
 
 #: calendar/gui/tasks-component.c:372
 msgid "New Task List"
@@ -9135,8 +9156,8 @@ msgstr ""
 
 #: camel/camel-gpg-context.c:804 camel/camel-gpg-context.c:1314
 #: camel/camel-gpg-context.c:1498 camel/camel-gpg-context.c:1589
-#: camel/camel-gpg-context.c:1697 camel/providers/nntp/camel-nntp-store.c:1234
-#: camel/providers/nntp/camel-nntp-store.c:1332 mail/mail-ops.c:705
+#: camel/camel-gpg-context.c:1697 camel/providers/nntp/camel-nntp-store.c:1244
+#: camel/providers/nntp/camel-nntp-store.c:1342 mail/mail-ops.c:705
 #: mail/mail-send-recv.c:611
 msgid "Cancelled."
 msgstr "Geannuleerd."
@@ -9154,7 +9175,8 @@ msgstr "Onverwacht antwoord van GnuPG: %s"
 
 #: camel/camel-gpg-context.c:880
 msgid "Failed to encrypt: No valid recipients specified."
-msgstr "Kan dit bericht niet versleutelen: er zijn geen geldige ontvangers opgegeven."
+msgstr ""
+"Kan dit bericht niet versleutelen: er zijn geen geldige ontvangers opgegeven."
 
 #: camel/camel-gpg-context.c:1157
 #, c-format
@@ -9203,7 +9225,8 @@ msgstr "Kan ondertekening niet verifiëren: Onjuist bericht formaat"
 #: camel/camel-gpg-context.c:1477
 #, c-format
 msgid "Cannot verify message signature: could not create temp file: %s"
-msgstr "Kan ondertekening niet verifiëren: kan geen tijdelijk bestand maken: %s"
+msgstr ""
+"Kan ondertekening niet verifiëren: kan geen tijdelijk bestand maken: %s"
 
 #: camel/camel-gpg-context.c:1565
 #, c-format
@@ -9433,15 +9456,15 @@ msgstr "Server 'challenge' ongeldig\n"
 msgid "Server challenge contained invalid \"Quality of Protection\" token\n"
 msgstr "Server 'challenge' bevat ongeldig 'Quality of Protection'-teken\n"
 
-#: camel/camel-sasl-digest-md5.c:850
+#: camel/camel-sasl-digest-md5.c:858
 msgid "Server response did not contain authorization data\n"
 msgstr "Het serverantwoord bevatte geen authorisatiegegevens\n"
 
-#: camel/camel-sasl-digest-md5.c:868
+#: camel/camel-sasl-digest-md5.c:876
 msgid "Server response contained incomplete authorization data\n"
 msgstr "Het serverantwoord bevatte onvolledige authorisatiegegevens\n"
 
-#: camel/camel-sasl-digest-md5.c:878
+#: camel/camel-sasl-digest-md5.c:886
 msgid "Server response does not match\n"
 msgstr "Het serverantwoord is onbegrijpelijk\n"
 
@@ -9517,15 +9540,10 @@ msgstr "De referentie-informatie is verlopen."
 
 #: camel/camel-sasl-gssapi.c:193 camel/camel-sasl-gssapi.c:242
 #: camel/camel-sasl-gssapi.c:278 camel/camel-sasl-gssapi.c:293
-#: camel/camel-sasl-kerberos4.c:219
-#: camel/providers/imap/camel-imap-store.c:1236
+#: camel/camel-sasl-kerberos4.c:225
+#: camel/providers/imap/camel-imap-store.c:1245
 msgid "Bad authentication response from server."
 msgstr "Fout aanmeldingsantwoord van server."
-
-#: camel/camel-sasl-gssapi.c:217
-#, c-format
-msgid "Failed to resolve host `%s': %s"
-msgstr "Kon computer '%s' niet vinden: %s"
 
 #: camel/camel-sasl-gssapi.c:303
 msgid "Unsupported security layer."
@@ -9541,7 +9559,7 @@ msgstr ""
 "Deze optie zal bij het verbinden met de server gebruik maken van Kerberos-4-"
 "aanmelding."
 
-#: camel/camel-sasl-kerberos4.c:162
+#: camel/camel-sasl-kerberos4.c:168
 #, c-format
 msgid ""
 "Could not get Kerberos ticket:\n"
@@ -9607,57 +9625,41 @@ msgstr "POP voor SMTP gebruikmakend van een niet-POP bron"
 msgid "Regular expression compilation failed: %s: %s"
 msgstr "Compileren van reguliere expressie mislukt: %s: %s"
 
-#: camel/camel-service.c:271
+#: camel/camel-service.c:273
 #, c-format
 msgid "URL '%s' needs a username component"
 msgstr "URL '%s' heeft een gebruikersnaamcomponent nodig"
 
-#: camel/camel-service.c:275
+#: camel/camel-service.c:277
 #, c-format
 msgid "URL '%s' needs a host component"
 msgstr "URL '%s' heeft een machinenaamcomponent nodig"
 
-#: camel/camel-service.c:279
+#: camel/camel-service.c:281
 #, c-format
 msgid "URL '%s' needs a path component"
 msgstr "URL '%s' heeft een padcomponent nodig"
 
-#: camel/camel-service.c:729
+#: camel/camel-service.c:742
+msgid "cannot create thread"
+msgstr "kan draad niet aanmaken"
+
+#: camel/camel-service.c:891
 #, c-format
 msgid "Resolving: %s"
 msgstr "Resolving \"%s\""
 
-#: camel/camel-service.c:760 camel/camel-service.c:884
-#, c-format
-msgid "Failure in name lookup: %s"
-msgstr "Fout bij opzoeken naam: %s"
+#: camel/camel-service.c:912
+msgid "Host lookup failed"
+msgstr "Opzoeken host mislukt"
 
-#: camel/camel-service.c:781 camel/camel-service.c:905
-#, c-format
-msgid "Host lookup failed: cannot create thread: %s"
-msgstr "Opzoeken host mislukt: kan draad niet creëren: %s"
-
-#: camel/camel-service.c:794
-#, c-format
-msgid "Host lookup failed: %s: host not found"
-msgstr "Machine niet gevonden: %s machine niet gevonden"
-
-#: camel/camel-service.c:797
-#, c-format
-msgid "Host lookup failed: %s: unknown reason"
-msgstr "Machine opzoeken faalde: %s onbekende reden"
-
-#: camel/camel-service.c:851
+#: camel/camel-service.c:1019
 msgid "Resolving address"
 msgstr "Adres wordt opgezocht"
 
-#: camel/camel-service.c:920
-msgid "Host lookup failed: host not found"
-msgstr "Opzoeken mislukt: computer niet gevonden"
-
-#: camel/camel-service.c:923
-msgid "Host lookup failed: unknown reason"
-msgstr "Opzoeken mislukt: onbekende fout"
+#: camel/camel-service.c:1039
+msgid "Name lookup failed"
+msgstr "Opzoeken van naam mislukt"
 
 #: camel/camel-session.c:282
 #, c-format
@@ -9753,7 +9755,8 @@ msgstr "Slechte handtekening"
 
 #: camel/camel-smime-context.c:520
 msgid "Content tampered with or altered in transit"
-msgstr "Er is met de inhoud geknoeit of de inhoud is gewijzigd tijdens verzending"
+msgstr ""
+"Er is met de inhoud geknoeit of de inhoud is gewijzigd tijdens verzending"
 
 #: camel/camel-smime-context.c:522
 msgid "Signing certificate not found"
@@ -9806,7 +9809,8 @@ msgstr "Bericht met enkel een certificaat, kan certificaten niet verifiëren"
 
 #: camel/camel-smime-context.c:631
 msgid "Certificate only message, certificates imported and verified"
-msgstr "Bericht met enkel certificaat, certificaten geimporteerd en geverifieerd"
+msgstr ""
+"Bericht met enkel certificaat, certificaten geimporteerd en geverifieerd"
 
 #: camel/camel-smime-context.c:635
 msgid "Cannot find signature digests"
@@ -10242,12 +10246,12 @@ msgstr "Aftekenlijst"
 #: camel/providers/imap/camel-imap-command.c:218
 #: camel/providers/imap/camel-imap-command.c:257
 #: camel/providers/imap/camel-imap-command.c:447
-#: camel/providers/imap/camel-imap-store.c:3220
+#: camel/providers/imap/camel-imap-store.c:3229
 msgid "Operation cancelled"
 msgstr "Operatie geannuleerd"
 
 #: camel/providers/imap/camel-imap-command.c:302
-#: camel/providers/imap/camel-imap-store.c:3223
+#: camel/providers/imap/camel-imap-store.c:3232
 #, c-format
 msgid "Server unexpectedly disconnected: %s"
 msgstr "Server verbrak onverwacht de verbinding: %s"
@@ -10255,9 +10259,9 @@ msgstr "Server verbrak onverwacht de verbinding: %s"
 #: camel/providers/imap/camel-imap-command.c:303
 #: camel/providers/imap/camel-imap-command.c:400
 #: camel/providers/imap4/camel-imap4-store.c:283
-#: camel/providers/pop3/camel-pop3-store.c:543
 #: camel/providers/pop3/camel-pop3-store.c:550
-#: camel/providers/pop3/camel-pop3-store.c:556 shell/e-shell.c:1228
+#: camel/providers/pop3/camel-pop3-store.c:557
+#: camel/providers/pop3/camel-pop3-store.c:563 shell/e-shell.c:1228
 msgid "Unknown error"
 msgstr "Onbekende fout"
 
@@ -10360,7 +10364,8 @@ msgstr "Het antwoord van de server is niet compleet: geen UID voor bericht %d"
 
 #: camel/providers/imap/camel-imap-folder.c:2482
 #, c-format
-msgid "Unexpected server response: Identical UIDs provided for messages %d and %d"
+msgid ""
+"Unexpected server response: Identical UIDs provided for messages %d and %d"
 msgstr "Onverwacht server antwoord: Identieke UIDs voor bericht %d en %d "
 
 #: camel/providers/imap/camel-imap-folder.c:2658
@@ -10446,80 +10451,78 @@ msgstr "IMAP-server %s"
 msgid "IMAP service for %s on %s"
 msgstr "IMAP-dienst voor %s op %s"
 
-#: camel/providers/imap/camel-imap-store.c:547
-#: camel/providers/imap/camel-imap-store.c:567
-#: camel/providers/imap4/camel-imap4-store.c:214
-#: camel/providers/imap4/camel-imap4-store.c:230
-#: camel/providers/imapp/camel-imapp-store.c:231
-#: camel/providers/nntp/camel-nntp-store.c:209
-#: camel/providers/pop3/camel-pop3-store.c:175
-#: camel/providers/smtp/camel-smtp-transport.c:269
-#: camel/providers/smtp/camel-smtp-transport.c:285
-#, c-format
-msgid "Could not connect to %s (port %d): %s"
-msgstr "Kon niet verbinden met %s (poort %d): %s"
-
-#: camel/providers/imap/camel-imap-store.c:549
-#: camel/providers/imap4/camel-imap4-store.c:216
+#: camel/providers/imap/camel-imap-store.c:552
+#: camel/providers/imap/camel-imap-store.c:576
+#: camel/providers/imapp/camel-imapp-store.c:239
+#: camel/providers/nntp/camel-nntp-store.c:219
 #: camel/providers/pop3/camel-pop3-store.c:177
 #: camel/providers/smtp/camel-smtp-transport.c:271
+#: camel/providers/smtp/camel-smtp-transport.c:292
+#, c-format
+msgid "Could not connect to %s (port %s): %s"
+msgstr "Kon niet verbinden met %s (poort %s): %s"
+
+#: camel/providers/imap/camel-imap-store.c:554
+#: camel/providers/imap4/camel-imap4-store.c:216
+#: camel/providers/pop3/camel-pop3-store.c:179
+#: camel/providers/smtp/camel-smtp-transport.c:273
 msgid "SSL unavailable"
 msgstr "SSL is niet beschikbaar"
 
-#: camel/providers/imap/camel-imap-store.c:564
-#: camel/providers/imap/camel-imap-store.c:841
+#: camel/providers/imap/camel-imap-store.c:573
+#: camel/providers/imap/camel-imap-store.c:850
 #: camel/providers/imap4/camel-imap4-store.c:227
-#: camel/providers/imapp/camel-imapp-store.c:228
-#: camel/providers/nntp/camel-nntp-store.c:206
-#: camel/providers/nntp/camel-nntp-store.c:224
-#: camel/providers/pop3/camel-pop3-store.c:192
+#: camel/providers/imapp/camel-imapp-store.c:236
+#: camel/providers/nntp/camel-nntp-store.c:216
+#: camel/providers/nntp/camel-nntp-store.c:234
+#: camel/providers/pop3/camel-pop3-store.c:199
 msgid "Connection cancelled"
 msgstr "Verbinding geannuleerd"
 
-#: camel/providers/imap/camel-imap-store.c:675
-#: camel/providers/imap/camel-imap-store.c:706
+#: camel/providers/imap/camel-imap-store.c:684
+#: camel/providers/imap/camel-imap-store.c:715
 #: camel/providers/imap4/camel-imap4-store.c:282
 #, c-format
 msgid "Failed to connect to IMAP server %s in secure mode: %s"
 msgstr "Fout bij opzetten van beveiligde verbinding met IMAP-server %s: %s"
 
-#: camel/providers/imap/camel-imap-store.c:676
-#: camel/providers/pop3/camel-pop3-store.c:233
+#: camel/providers/imap/camel-imap-store.c:685
+#: camel/providers/pop3/camel-pop3-store.c:240
 msgid "SSL/TLS extension not supported."
 msgstr "SSL/TLS extensie niet ondersteund"
 
-#: camel/providers/imap/camel-imap-store.c:707
-#: camel/providers/pop3/camel-pop3-store.c:274
+#: camel/providers/imap/camel-imap-store.c:716
+#: camel/providers/pop3/camel-pop3-store.c:281
 msgid "SSL negotiations failed"
 msgstr "SSL-onderhandelingen mislukt"
 
-#: camel/providers/imap/camel-imap-store.c:844
+#: camel/providers/imap/camel-imap-store.c:853
 #, c-format
 msgid "Could not connect with command \"%s\": %s"
 msgstr "Kon niet verbinden met opdracht \"%s\": %s"
 
-#: camel/providers/imap/camel-imap-store.c:1268
+#: camel/providers/imap/camel-imap-store.c:1277
 #, c-format
 msgid "IMAP server %s does not support requested authentication type %s"
 msgstr "IMAP-server %s ondersteunt het gevraagde aanmeldingstype %s niet"
 
-#: camel/providers/imap/camel-imap-store.c:1278
-#: camel/providers/smtp/camel-smtp-transport.c:486
+#: camel/providers/imap/camel-imap-store.c:1287
+#: camel/providers/smtp/camel-smtp-transport.c:493
 #, c-format
 msgid "No support for authentication type %s"
 msgstr "Geen ondersteuning voor aanmeldingstype %s"
 
-#: camel/providers/imap/camel-imap-store.c:1301
-#: camel/providers/imapp/camel-imapp-store.c:344
+#: camel/providers/imap/camel-imap-store.c:1310
+#: camel/providers/imapp/camel-imapp-store.c:352
 #, c-format
 msgid "%sPlease enter the IMAP password for %s@%s"
 msgstr "%sVoer het IMAP-wachtwoord voor %s@%s in"
 
-#: camel/providers/imap/camel-imap-store.c:1315
+#: camel/providers/imap/camel-imap-store.c:1324
 msgid "You didn't enter a password."
 msgstr "U heeft geen wachtwoord ingevoerd"
 
-#: camel/providers/imap/camel-imap-store.c:1344
+#: camel/providers/imap/camel-imap-store.c:1353
 #, c-format
 msgid ""
 "Unable to authenticate to IMAP server.\n"
@@ -10530,25 +10533,26 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: camel/providers/imap/camel-imap-store.c:1863
-#: camel/providers/imap/camel-imap-store.c:2053
+#: camel/providers/imap/camel-imap-store.c:1872
+#: camel/providers/imap/camel-imap-store.c:2062
 #, c-format
 msgid "No such folder %s"
 msgstr "Map `%s' bestaat niet."
 
-#: camel/providers/imap/camel-imap-store.c:1881
-#: camel/providers/imap/camel-imap-store.c:2259
+#: camel/providers/imap/camel-imap-store.c:1890
+#: camel/providers/imap/camel-imap-store.c:2268
 #: camel/providers/imap4/camel-imap4-store.c:764
 #, c-format
-msgid "The folder name \"%s\" is invalid because it contains the character \"%c\""
+msgid ""
+"The folder name \"%s\" is invalid because it contains the character \"%c\""
 msgstr "De mapnaam \"%s\" is ongeldig omdat deze het teken \"%c\" bevat"
 
-#: camel/providers/imap/camel-imap-store.c:1939
-#: camel/providers/imap/camel-imap-store.c:2320
+#: camel/providers/imap/camel-imap-store.c:1948
+#: camel/providers/imap/camel-imap-store.c:2329
 msgid "The parent folder is not allowed to contain subfolders"
 msgstr "De map kan geen submappen bevatten"
 
-#: camel/providers/imap/camel-imap-store.c:1994
+#: camel/providers/imap/camel-imap-store.c:2003
 #: camel/providers/local/camel-maildir-store.c:139
 #: camel/providers/local/camel-mbox-store.c:212
 #: camel/providers/local/camel-mh-store.c:236
@@ -10556,7 +10560,7 @@ msgstr "De map kan geen submappen bevatten"
 msgid "Cannot create folder `%s': folder exists."
 msgstr "Kan map `%s' niet aanmaken: map bestaat reeds."
 
-#: camel/providers/imap/camel-imap-store.c:2270
+#: camel/providers/imap/camel-imap-store.c:2279
 #, c-format
 msgid "Unknown parent folder: %s"
 msgstr "Onbekende oudermap: %s"
@@ -10603,7 +10607,8 @@ msgstr "Kan mapeigenschappen niet synchroniseren met map `%s': Onbekend"
 #: camel/providers/imap4/camel-imap4-folder.c:365
 #, c-format
 msgid "Cannot sync flags to folder `%s': Bad command"
-msgstr "Kan mapeigenschappen niet synchroniseren met map `%s': Ongeldige opdracht"
+msgstr ""
+"Kan mapeigenschappen niet synchroniseren met map `%s': Ongeldige opdracht"
 
 #: camel/providers/imap4/camel-imap4-folder.c:502
 #, c-format
@@ -10655,7 +10660,8 @@ msgstr ""
 #: camel/providers/imap4/camel-imap4-folder.c:951
 #, c-format
 msgid "Cannot copy messages from folder `%s' to folder `%s': Bad command"
-msgstr "Kan de berichten van map `%s' niet kopiëren naar map `%s': Opdracht onjuist"
+msgstr ""
+"Kan de berichten van map `%s' niet kopiëren naar map `%s': Opdracht onjuist"
 
 #: camel/providers/imap4/camel-imap4-provider.c:53
 msgid "IMAPv4rev1"
@@ -10663,13 +10669,21 @@ msgstr "IMAPv4rev1"
 
 #: camel/providers/imap4/camel-imap4-provider.c:55
 msgid "For reading and storing mail on IMAPv4rev1 servers. EXPERIMENTAL !!"
-msgstr "Voor het lezen en opslaan van post op IMAPv4rev1 servers. EXPERIMENTEEL !!"
+msgstr ""
+"Voor het lezen en opslaan van post op IMAPv4rev1 servers. EXPERIMENTEEL !!"
 
 #: camel/providers/imap4/camel-imap4-provider.c:72
-msgid "This option will connect to the IMAPv4rev1 server using a plaintext password."
+msgid ""
+"This option will connect to the IMAPv4rev1 server using a plaintext password."
 msgstr ""
 "Deze optie zal bij het verbinden met de IMAPv4rev1-server het wachtwoord "
 "versturen als platte tekst."
+
+#: camel/providers/imap4/camel-imap4-store.c:214
+#: camel/providers/imap4/camel-imap4-store.c:230
+#, c-format
+msgid "Could not connect to %s (port %d): %s"
+msgstr "Kon niet verbinden met %s (poort %d): %s"
 
 #: camel/providers/imap4/camel-imap4-store.c:257
 #, c-format
@@ -10682,7 +10696,8 @@ msgstr ""
 
 #: camel/providers/imap4/camel-imap4-store.c:363
 #, c-format
-msgid "Cannot authenticate to IMAP server %s using the %s authentication mechanism"
+msgid ""
+"Cannot authenticate to IMAP server %s using the %s authentication mechanism"
 msgstr ""
 "Authenticatie met de IMAP-server %s met het authenticatie mechanisme %s is "
 "mislukt"
@@ -10745,7 +10760,8 @@ msgstr "Kan map `%s' niet hernoemen naar `%s': Opdracht onjuist"
 #: camel/providers/imap4/camel-imap4-store.c:1221
 #, c-format
 msgid "Cannot get %s information for pattern `%s' on IMAP server %s: %s"
-msgstr "Kan geen %s informatie verkrijgen voor patroon `%s' van IMAP-server %s: %s"
+msgstr ""
+"Kan geen %s informatie verkrijgen voor patroon `%s' van IMAP-server %s: %s"
 
 #: camel/providers/imap4/camel-imap4-store.c:1223
 msgid "Bad command"
@@ -10807,7 +10823,7 @@ msgstr ""
 "\n"
 " !!! GEBRUIK VOOR PRODUCTIE EMAIL WORDT ZEER STERK AFGERADEN  !!!\n"
 
-#: camel/providers/imapp/camel-imapp-store.c:328
+#: camel/providers/imapp/camel-imapp-store.c:336
 #, c-format
 msgid "Could not connect to POP server on %s"
 msgstr "Kon niet verbinden met POP-server op %s"
@@ -11334,7 +11350,7 @@ msgstr ""
 "Map is wellicht beschadigd, kopie opgeslagen in '%s'"
 
 #: camel/providers/nntp/camel-nntp-auth.c:44
-#: camel/providers/nntp/camel-nntp-store.c:1126
+#: camel/providers/nntp/camel-nntp-store.c:1136
 #, c-format
 msgid "Please enter the NNTP password for %s@%s"
 msgstr "Voer het NNTP wachtwoord in voor %s@%s"
@@ -11411,8 +11427,10 @@ msgid "Unable to save grouplist file for %s: %s"
 msgstr "Kon groepslijstbestand voor %s niet opslaan: %s"
 
 #: camel/providers/nntp/camel-nntp-provider.c:43
-msgid "Show folders in short notation (e.g. c.o.linux rather than comp.os.linux)"
-msgstr "Toon mappen in verkorte notatie (b.v. c.o.linux in plaats van comp.os.linux)"
+msgid ""
+"Show folders in short notation (e.g. c.o.linux rather than comp.os.linux)"
+msgstr ""
+"Toon mappen in verkorte notatie (b.v. c.o.linux in plaats van comp.os.linux)"
 
 #: camel/providers/nntp/camel-nntp-provider.c:45
 msgid "In the subscription dialog, show relative folder names"
@@ -11432,31 +11450,32 @@ msgstr ""
 msgid ""
 "This option will authenticate with the NNTP server using a plaintext "
 "password."
-msgstr "Deze optie zal aanmelden bij de NNTP-server met een wachtwoord platte tekst."
+msgstr ""
+"Deze optie zal aanmelden bij de NNTP-server met een wachtwoord platte tekst."
 
 #: camel/providers/nntp/camel-nntp-store.c:118
-#: camel/providers/nntp/camel-nntp-store.c:1236
-#: camel/providers/nntp/camel-nntp-store.c:1334
+#: camel/providers/nntp/camel-nntp-store.c:1246
+#: camel/providers/nntp/camel-nntp-store.c:1344
 #, c-format
 msgid "NNTP Command failed: %s"
 msgstr "NNTP-Opdracht mislukt: %s"
 
-#: camel/providers/nntp/camel-nntp-store.c:227
+#: camel/providers/nntp/camel-nntp-store.c:237
 #, c-format
 msgid "Could not read greeting from %s: %s"
 msgstr "Kon groet van %s niet lezen: %s"
 
-#: camel/providers/nntp/camel-nntp-store.c:239
+#: camel/providers/nntp/camel-nntp-store.c:249
 #, c-format
 msgid "NNTP server %s returned error code %d: %s"
 msgstr "NNTP server %s retourneerde foutcode %d: %s"
 
-#: camel/providers/nntp/camel-nntp-store.c:403
+#: camel/providers/nntp/camel-nntp-store.c:413
 #, c-format
 msgid "USENET News via %s"
 msgstr "USENET-Nieuws via %s"
 
-#: camel/providers/nntp/camel-nntp-store.c:777
+#: camel/providers/nntp/camel-nntp-store.c:787
 #, c-format
 msgid ""
 "Error retrieving newsgroups:\n"
@@ -11467,7 +11486,7 @@ msgstr ""
 "\n"
 "%s"
 
-#: camel/providers/nntp/camel-nntp-store.c:872
+#: camel/providers/nntp/camel-nntp-store.c:882
 msgid ""
 "You cannot subscribe to this newsgroup:\n"
 "\n"
@@ -11478,7 +11497,7 @@ msgstr ""
 "Groep bestaat niet. Het geselecteerde item is waarschijnlijk een "
 "bovenliggende map."
 
-#: camel/providers/nntp/camel-nntp-store.c:904
+#: camel/providers/nntp/camel-nntp-store.c:914
 msgid ""
 "You cannot unsubscribe to this newsgroup:\n"
 "\n"
@@ -11488,17 +11507,17 @@ msgstr ""
 "\n"
 "nieuwsgroep bestaat niet!"
 
-#: camel/providers/nntp/camel-nntp-store.c:929
+#: camel/providers/nntp/camel-nntp-store.c:939
 msgid "You cannot create a folder in a News store: subscribe instead."
 msgstr ""
 "U kan geen map aanmaken in een nieuws opslag, in plaats hiervan kunt u "
 "inschrijven."
 
-#: camel/providers/nntp/camel-nntp-store.c:937
+#: camel/providers/nntp/camel-nntp-store.c:947
 msgid "You cannot rename a folder in a News store."
 msgstr "U kan geen mappen hernoemen in een nieuws opslag."
 
-#: camel/providers/nntp/camel-nntp-store.c:945
+#: camel/providers/nntp/camel-nntp-store.c:955
 msgid "You cannot remove a folder in a News store: unsubscribe instead."
 msgstr ""
 "Het is niet mogelijk om een map in een nieuws opslag te verwijderen, in "
@@ -11506,20 +11525,20 @@ msgstr ""
 
 # Engels spelfout: 'not'
 # Authentication requested but not username provided
-#: camel/providers/nntp/camel-nntp-store.c:1118
+#: camel/providers/nntp/camel-nntp-store.c:1128
 msgid "Authentication requested but not username provided"
 msgstr "Aanmeldingscontrole vereist maar geen gebruikersnaam gegeven"
 
-#: camel/providers/nntp/camel-nntp-store.c:1148
+#: camel/providers/nntp/camel-nntp-store.c:1158
 #, c-format
 msgid "Cannot authenticate to server: %s"
 msgstr "Aanmeldingscontrole bij server %s niet mogelijk"
 
-#: camel/providers/nntp/camel-nntp-store.c:1265
+#: camel/providers/nntp/camel-nntp-store.c:1275
 msgid "Not connected."
 msgstr "Niet verbonden."
 
-#: camel/providers/nntp/camel-nntp-store.c:1314
+#: camel/providers/nntp/camel-nntp-store.c:1324
 #, c-format
 msgid "No such folder: %s"
 msgstr "Map: %s bestaat niet"
@@ -11598,7 +11617,8 @@ msgstr "POP"
 
 #: camel/providers/pop3/camel-pop3-provider.c:56
 msgid "For connecting to and downloading mail from POP servers."
-msgstr "Voor het contact leggen met, en het downloaden van berichten van POP servers."
+msgstr ""
+"Voor het contact leggen met, en het downloaden van berichten van POP servers."
 
 #: camel/providers/pop3/camel-pop3-provider.c:73
 msgid ""
@@ -11619,30 +11639,30 @@ msgstr ""
 "wachtwoord via het APOP-protocol. Deze optie zal niet werken voor alle "
 "gebruikers, zelfs niet op servers die beweren het te ondersteunen."
 
-#: camel/providers/pop3/camel-pop3-store.c:195
+#: camel/providers/pop3/camel-pop3-store.c:202
 #, c-format
-msgid "Could not connect to POP server %s (port %d): %s"
-msgstr "Kon niet verbinden met POP-server %s (poort %d): %s"
+msgid "Could not connect to POP server %s (port %s): %s"
+msgstr "Kon niet verbinden met POP-server %s (poort %s): %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:214
+#: camel/providers/pop3/camel-pop3-store.c:221
 #, c-format
-msgid "Failed to read a valid greeting from POP server %s (port %d)"
-msgstr "Lezen mislukt van geldige begroeting van POP-server %s (poort %d)"
+msgid "Failed to read a valid greeting from POP server %s (port %s)"
+msgstr "Lezen mislukt van geldige begroeting van POP-server %s (poort %s)"
 
-#: camel/providers/pop3/camel-pop3-store.c:232
-#: camel/providers/pop3/camel-pop3-store.c:261
-#: camel/providers/pop3/camel-pop3-store.c:273
+#: camel/providers/pop3/camel-pop3-store.c:239
+#: camel/providers/pop3/camel-pop3-store.c:268
+#: camel/providers/pop3/camel-pop3-store.c:280
 #, c-format
 msgid "Failed to connect to POP server %s in secure mode: %s"
 msgstr "Fout bij opzetten van beveiligde verbinding met POP-server %s: %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:371
+#: camel/providers/pop3/camel-pop3-store.c:378
 #, c-format
 msgid "Could not connect to POP server %s"
 msgstr "Kon niet verbinden met POP-server %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:412
-#: camel/providers/pop3/camel-pop3-store.c:526
+#: camel/providers/pop3/camel-pop3-store.c:419
+#: camel/providers/pop3/camel-pop3-store.c:533
 #, c-format
 msgid ""
 "Unable to connect to POP server %s: No support for requested authentication "
@@ -11651,28 +11671,28 @@ msgstr ""
 "Kon niet verbinden met POP-server %s: Geen ondersteuning voor de ingestelde "
 "aanmeldingsmethode."
 
-#: camel/providers/pop3/camel-pop3-store.c:428
+#: camel/providers/pop3/camel-pop3-store.c:435
 #, c-format
 msgid "SASL `%s' Login failed for POP server %s: %s"
 msgstr "SASL `%s' aanmelding mislukt bij POP-server %s: %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:440
+#: camel/providers/pop3/camel-pop3-store.c:447
 #, c-format
 msgid "Cannot login to POP server %s: SASL Protocol error"
 msgstr "Kan niet inloggen bij POP server %s: SASL protocol fout"
 
-#: camel/providers/pop3/camel-pop3-store.c:459
+#: camel/providers/pop3/camel-pop3-store.c:466
 #, c-format
 msgid "Failed to authenticate on POP server %s: %s"
 msgstr "Identificatie op POP-server %s mislukt: %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:485
+#: camel/providers/pop3/camel-pop3-store.c:492
 #, c-format
 msgid "%sPlease enter the POP password for %s on host %s"
 msgstr "%sVoer het POP3-wachtwoord voor %s op host %s in"
 
-#: camel/providers/pop3/camel-pop3-store.c:540
-#: camel/providers/pop3/camel-pop3-store.c:553
+#: camel/providers/pop3/camel-pop3-store.c:547
+#: camel/providers/pop3/camel-pop3-store.c:560
 #, c-format
 msgid ""
 "Unable to connect to POP server %s.\n"
@@ -11681,7 +11701,7 @@ msgstr ""
 "Fout bij verbinden met de POP-server %s.\n"
 "Fout bij het versturen van het wachtwoord: %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:547
+#: camel/providers/pop3/camel-pop3-store.c:554
 #, c-format
 msgid ""
 "Unable to connect to POP server %s.\n"
@@ -11690,7 +11710,7 @@ msgstr ""
 "Kon geen verbinding maken met de POP-server %s.\n"
 "Fout bij het versturen van de gebruikersnaam: %s"
 
-#: camel/providers/pop3/camel-pop3-store.c:652
+#: camel/providers/pop3/camel-pop3-store.c:659
 #, c-format
 msgid "No such folder `%s'."
 msgstr "Map `%s' bestaat niet."
@@ -11858,40 +11878,40 @@ msgstr "Tijdelijke aanmeldingsfout"
 msgid "Authentication required"
 msgstr "Aanmelding is vereist"
 
-#: camel/providers/smtp/camel-smtp-transport.c:308
+#: camel/providers/smtp/camel-smtp-transport.c:315
 msgid "Welcome response error"
 msgstr "Fout in welkomstbericht"
 
-#: camel/providers/smtp/camel-smtp-transport.c:343
-#: camel/providers/smtp/camel-smtp-transport.c:382
+#: camel/providers/smtp/camel-smtp-transport.c:350
+#: camel/providers/smtp/camel-smtp-transport.c:389
 #, c-format
 msgid "Failed to connect to SMTP server %s in secure mode: %s"
 msgstr "Fout bij opzetten van beveiligde verbinding met SMTP-server %s: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:344
+#: camel/providers/smtp/camel-smtp-transport.c:351
 msgid "server does not appear to support SSL"
 msgstr "server lijkt geen SSL te ondersteunen"
 
-#: camel/providers/smtp/camel-smtp-transport.c:358
+#: camel/providers/smtp/camel-smtp-transport.c:365
 #, c-format
 msgid "STARTTLS command failed: %s"
 msgstr "STARTTLS-opdracht mislukt: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:373
+#: camel/providers/smtp/camel-smtp-transport.c:380
 msgid "STARTTLS command failed"
 msgstr "STARTTLS-opdracht mislukt: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:476
+#: camel/providers/smtp/camel-smtp-transport.c:483
 #, c-format
 msgid "SMTP server %s does not support requested authentication type %s."
 msgstr "SMTP-server %s ondersteunt het gevraagde aanmeldingstype %s niet."
 
-#: camel/providers/smtp/camel-smtp-transport.c:514
+#: camel/providers/smtp/camel-smtp-transport.c:521
 #, c-format
 msgid "%sPlease enter the SMTP password for %s on host %s"
 msgstr "%sVoer het SMTP wachtwoord in voor %s op host %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:533
+#: camel/providers/smtp/camel-smtp-transport.c:540
 #, c-format
 msgid ""
 "Unable to authenticate to SMTP server.\n"
@@ -11902,93 +11922,93 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: camel/providers/smtp/camel-smtp-transport.c:657
+#: camel/providers/smtp/camel-smtp-transport.c:664
 #, c-format
 msgid "SMTP server %s"
 msgstr "SMTP-server %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:659
+#: camel/providers/smtp/camel-smtp-transport.c:666
 #, c-format
 msgid "SMTP mail delivery via %s"
 msgstr "Postaflevering via %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:677
+#: camel/providers/smtp/camel-smtp-transport.c:684
 msgid "Cannot send message: service not connected."
 msgstr "Kan bericht niet versturen: service niet verbonden."
 
-#: camel/providers/smtp/camel-smtp-transport.c:683
+#: camel/providers/smtp/camel-smtp-transport.c:690
 msgid "Cannot send message: sender address not valid."
 msgstr "Kan berichten niet versturen: afzender niet geldig."
 
-#: camel/providers/smtp/camel-smtp-transport.c:687
+#: camel/providers/smtp/camel-smtp-transport.c:694
 msgid "Sending message"
 msgstr "Bericht wordt verstuurd"
 
-#: camel/providers/smtp/camel-smtp-transport.c:702
+#: camel/providers/smtp/camel-smtp-transport.c:709
 msgid "Cannot send message: no recipients defined."
 msgstr "Kan bericht niet versturen: Geen ontvangers gespecificeerd."
 
-#: camel/providers/smtp/camel-smtp-transport.c:713
+#: camel/providers/smtp/camel-smtp-transport.c:720
 msgid "Cannot send message: one or more invalid recipients"
 msgstr "Kan bericht niet versturen: een of meerdere ongeldige ontvangers"
 
-#: camel/providers/smtp/camel-smtp-transport.c:885
+#: camel/providers/smtp/camel-smtp-transport.c:889
 msgid "SMTP Greeting"
 msgstr "SMTP Begroeting"
 
-#: camel/providers/smtp/camel-smtp-transport.c:934
+#: camel/providers/smtp/camel-smtp-transport.c:906
 #, c-format
 msgid "HELO command failed: %s"
 msgstr "HELO-opdracht mislukt: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:951
+#: camel/providers/smtp/camel-smtp-transport.c:923
 msgid "HELO command failed"
 msgstr "HELO command mislukt"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1017
+#: camel/providers/smtp/camel-smtp-transport.c:989
 msgid "SMTP Authentication"
 msgstr "SMTP Aanmelding"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1023
+#: camel/providers/smtp/camel-smtp-transport.c:995
 msgid "Error creating SASL authentication object."
 msgstr "Fout bij aanmaken van SASL aanmeldingsobject"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1040
-#: camel/providers/smtp/camel-smtp-transport.c:1051
+#: camel/providers/smtp/camel-smtp-transport.c:1012
+#: camel/providers/smtp/camel-smtp-transport.c:1023
 #, c-format
 msgid "AUTH command failed: %s"
 msgstr "AUTH-opdracht mislukt: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1057
+#: camel/providers/smtp/camel-smtp-transport.c:1029
 msgid "AUTH command failed"
 msgstr "AUTH-opdracht mislukt: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1119
+#: camel/providers/smtp/camel-smtp-transport.c:1091
 msgid "Bad authentication response from server.\n"
 msgstr "Fout aanmeldingsantwoord van server.\n"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1144
+#: camel/providers/smtp/camel-smtp-transport.c:1116
 #, c-format
 msgid "MAIL FROM command failed: %s: mail not sent"
 msgstr "MAIL FROM opdracht mislukt: %s: bericht niet verzonden"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1161
+#: camel/providers/smtp/camel-smtp-transport.c:1133
 msgid "MAIL FROM command failed"
 msgstr "MAIL FROM-opdracht mislukt"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1185
+#: camel/providers/smtp/camel-smtp-transport.c:1157
 #, c-format
 msgid "RCPT TO command failed: %s: mail not sent"
 msgstr "RCPT TO opdracht mislukt: %s: bericht niet verzonden"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1204
+#: camel/providers/smtp/camel-smtp-transport.c:1176
 #, c-format
 msgid "RCPT TO <%s> failed"
 msgstr "RCPT TO <%s> mislukt"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1243
-#: camel/providers/smtp/camel-smtp-transport.c:1301
-#: camel/providers/smtp/camel-smtp-transport.c:1320
+#: camel/providers/smtp/camel-smtp-transport.c:1215
+#: camel/providers/smtp/camel-smtp-transport.c:1273
+#: camel/providers/smtp/camel-smtp-transport.c:1292
 #, c-format
 msgid "DATA command failed: %s: mail not sent"
 msgstr "DATA-opdracht mislukt: %s : bericht niet verstuurd"
@@ -11996,26 +12016,26 @@ msgstr "DATA-opdracht mislukt: %s : bericht niet verstuurd"
 #. we should have gotten instructions on how to use the DATA command:
 #. * 354 Enter mail, end with "." on a line by itself
 #.
-#: camel/providers/smtp/camel-smtp-transport.c:1260
-#: camel/providers/smtp/camel-smtp-transport.c:1336
+#: camel/providers/smtp/camel-smtp-transport.c:1232
+#: camel/providers/smtp/camel-smtp-transport.c:1308
 msgid "DATA command failed"
 msgstr "DATA-opdracht mislukt"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1359
+#: camel/providers/smtp/camel-smtp-transport.c:1331
 #, c-format
 msgid "RSET command failed: %s"
 msgstr "RSET-opdracht mislukt: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1375
+#: camel/providers/smtp/camel-smtp-transport.c:1347
 msgid "RSET command failed"
 msgstr "RSET-opdracht mislukt"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1398
+#: camel/providers/smtp/camel-smtp-transport.c:1370
 #, c-format
 msgid "QUIT command failed: %s"
 msgstr "QUIT-opdracht mislukt: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1412
+#: camel/providers/smtp/camel-smtp-transport.c:1384
 msgid "QUIT command failed"
 msgstr "QUIT-opdracht mislukt: %s"
 
@@ -12163,7 +12183,8 @@ msgid "Attach file(s)"
 msgstr "Bestand(en) bijvoegen"
 
 #: composer/e-msg-composer.c:704
-msgid "Cannot sign outgoing message: No signing certificate set for this account"
+msgid ""
+"Cannot sign outgoing message: No signing certificate set for this account"
 msgstr ""
 "Kan uitgaand bericht niet ondertekenen: Geen ondertekeningscertificaat voor "
 "dit account"
@@ -12933,8 +12954,10 @@ msgid "Composer Preferences"
 msgstr "Bericht opstellen - Voorkeuren"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:2
-msgid "Configure mail preferences, including security and message display, here"
-msgstr "Hier kunt u uw e-mailvoorkeuren instellen, inclusief beveiliging en weergave."
+msgid ""
+"Configure mail preferences, including security and message display, here"
+msgstr ""
+"Hier kunt u uw e-mailvoorkeuren instellen, inclusief beveiliging en weergave."
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:3
 msgid "Configure spell-checking, signatures, and the message composer here"
@@ -14093,7 +14116,8 @@ msgstr "Standaard doorstuurstijl"
 
 #: mail/evolution-mail.schemas.in.in.h:13
 msgid "Default height of the Composer Window"
-msgstr "Standaard hoogte van het berichtvenster bij het maken van nieuwe berichten"
+msgstr ""
+"Standaard hoogte van het berichtvenster bij het maken van nieuwe berichten"
 
 #: mail/evolution-mail.schemas.in.in.h:14
 msgid "Default height of the Message Window"
@@ -14110,7 +14134,8 @@ msgstr "Standaard antwoordstijl"
 
 #: mail/evolution-mail.schemas.in.in.h:17
 msgid "Default width of the Composer Window"
-msgstr "Standaard breedte van berichtvenster bij het maken van nieuwe berichten"
+msgstr ""
+"Standaard breedte van berichtvenster bij het maken van nieuwe berichten"
 
 #: mail/evolution-mail.schemas.in.in.h:18
 msgid "Default width of the Message Window"
@@ -14134,7 +14159,8 @@ msgstr "Alle Prullenbakken legen bij het afsluiten van Evolution."
 
 #: mail/evolution-mail.schemas.in.in.h:23
 msgid "Enable caret mode, so that you can see a cursor when reading mail."
-msgstr "Zet cursor mode aan zodat u een cursor kan zien bij het lezen van e-mail."
+msgstr ""
+"Zet cursor mode aan zodat u een cursor kan zien bij het lezen van e-mail."
 
 #: mail/evolution-mail.schemas.in.in.h:24
 msgid "Enable/disable caret mode"
@@ -14269,11 +14295,13 @@ msgstr "Berichtweergave stijl (normaal, volledige koppen, bron)"
 
 #: mail/evolution-mail.schemas.in.in.h:50
 msgid "Minimum days between emptying the trash on exit"
-msgstr "Minimum aantal dagen tussen het legen van de prullenbak bij het afsluiten"
+msgstr ""
+"Minimum aantal dagen tussen het legen van de prullenbak bij het afsluiten"
 
 #: mail/evolution-mail.schemas.in.in.h:51
 msgid "Minimum time between emptying the trash on exit, in days."
-msgstr "Minimum tijd tussen het legen van de prullenbak bij afsluiten, in dagen."
+msgstr ""
+"Minimum tijd tussen het legen van de prullenbak bij afsluiten, in dagen."
 
 #: mail/evolution-mail.schemas.in.in.h:52
 msgid "New Mail Notify sound file"
@@ -14289,10 +14317,12 @@ msgstr "Bericht bij een leeg onderwerp"
 
 #: mail/evolution-mail.schemas.in.in.h:55
 msgid "Prompt the user when he or she tries to expunge a folder."
-msgstr "Waarschuw de gebruiker wanneer hij of zij een map probeert op te ruimen."
+msgstr ""
+"Waarschuw de gebruiker wanneer hij of zij een map probeert op te ruimen."
 
 #: mail/evolution-mail.schemas.in.in.h:56
-msgid "Prompt the user when he or she tries to send a message without a Subject."
+msgid ""
+"Prompt the user when he or she tries to send a message without a Subject."
 msgstr ""
 "Waarschuw de gebruiker als hij of zij probeert om een bericht zonder "
 "onderwerp te versturen."
@@ -14315,7 +14345,8 @@ msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:60
 msgid "Prompt when user tries to send a message with no To or Cc recipients."
-msgstr "Waarschuwen wanneer berichten worden verstuurd zonder Aan of Cc-ontvangers"
+msgstr ""
+"Waarschuwen wanneer berichten worden verstuurd zonder Aan of Cc-ontvangers"
 
 #: mail/evolution-mail.schemas.in.in.h:61
 msgid "Prompt when user tries to send unwanted HTML"
@@ -14395,7 +14426,8 @@ msgstr "Terminal-lettertype"
 
 #: mail/evolution-mail.schemas.in.in.h:79
 msgid "The last time empty trash was run, in days since the epoch."
-msgstr "De vorige keer dat de prullenbak werd geleegd, in dagen sinds de epoch."
+msgstr ""
+"De vorige keer dat de prullenbak werd geleegd, in dagen sinds de epoch."
 
 #: mail/evolution-mail.schemas.in.in.h:80
 msgid "The terminal font for mail display"
@@ -14959,7 +14991,8 @@ msgstr "<b>Ta_len</b>"
 
 #: mail/mail-config.glade.h:8
 msgid "<small>This will make the the filter more reliable, but slower</small>"
-msgstr "<small>Dit zal het filter betrouwbaarder maken, maar ook langzamer</small>"
+msgstr ""
+"<small>Dit zal het filter betrouwbaarder maken, maar ook langzamer</small>"
 
 #: mail/mail-config.glade.h:9
 msgid "<span weight=\"bold\">Account Information</span>"
@@ -15099,7 +15132,8 @@ msgstr "Altijd een _blinde carbon kopie (bcc) naar:"
 
 #: mail/mail-config.glade.h:44
 msgid "Always _sign outgoing messages when using this account"
-msgstr "Uitgaande berichten _altijd ondertekenen bij het gebruik van dit account"
+msgstr ""
+"Uitgaande berichten _altijd ondertekenen bij het gebruik van dit account"
 
 #: mail/mail-config.glade.h:45
 msgid "Always _trust keys in my keyring when encrypting"
@@ -15308,7 +15342,8 @@ msgstr "_Geluid afspelen bij binnenkomst van nieuwe e-mail"
 
 #: mail/mail-config.glade.h:112
 msgid "Pr_ompt when sending messages with only Bcc recipients defined"
-msgstr "Waarschuwen wanneer berichten worden verstuurd met alleen _Bcc-ontvangers"
+msgstr ""
+"Waarschuwen wanneer berichten worden verstuurd met alleen _Bcc-ontvangers"
 
 #: mail/mail-config.glade.h:113
 msgid "Qmail maildir "
@@ -15726,7 +15761,8 @@ msgstr ""
 #. mail:ask-send-only-bcc primary
 #: mail/mail-errors.xml.h:22 mail/mail-errors.xml.h:29
 msgid "Are you sure you want to send a message with only BCC recipients?"
-msgstr "Weet u zeker dat u een bericht met enkel BCC-geadresseerden wilt versturen?"
+msgstr ""
+"Weet u zeker dat u een bericht met enkel BCC-geadresseerden wilt versturen?"
 
 #. mail:ask-send-only-bcc-contact secondary
 #: mail/mail-errors.xml.h:24
@@ -15761,7 +15797,8 @@ msgstr ""
 
 #. mail:send-no-recipients primary
 #: mail/mail-errors.xml.h:34
-msgid "This message cannot be sent because you have not specified any Recipients"
+msgid ""
+"This message cannot be sent because you have not specified any Recipients"
 msgstr ""
 "Dit bericht kan niet worden verzonden omdat u geen geadresseerden heeft "
 "opgegeven"
@@ -16052,7 +16089,8 @@ msgstr "Weet u zeker dat u deze account wilt verwijderen?"
 #. mail:ask-delete-account secondary
 #: mail/mail-errors.xml.h:168
 msgid "If you proceed, the account information will be deleted permanently."
-msgstr "Indien u verdergaat, zal de account-informatie permanent worden verwijderd."
+msgstr ""
+"Indien u verdergaat, zal de account-informatie permanent worden verwijderd."
 
 #: mail/mail-errors.xml.h:169
 msgid "Don't delete"
@@ -16722,7 +16760,8 @@ msgstr "Evolution configuratie versie"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:5
 msgid "ID or alias of the component to be shown by default at start-up."
-msgstr "ID of alias van het component dat bij het opstarten moet worden weergegeven."
+msgstr ""
+"ID of alias van het component dat bij het opstarten moet worden weergegeven."
 
 #: shell/apps_evolution_shell.schemas.in.in.h:6
 msgid ""
@@ -16745,7 +16784,8 @@ msgid "Last upgraded Evolution configuration version"
 msgstr "Laatst bijgewerkte Evolution configuratieversie"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:9
-msgid "List of paths for the folders to be synchronized to disk for offline usage"
+msgid ""
+"List of paths for the folders to be synchronized to disk for offline usage"
 msgstr ""
 "Lijst met paden voor de mappen die gesynchroniseerd dienen te worden voor "
 "offline gebruik"
@@ -17670,7 +17710,8 @@ msgid "You have certificates from these organizations that identify you:"
 msgstr "U hebt certificaten van deze organisaties die u indentificeren:"
 
 #: smime/gui/smime-ui.glade.h:43
-msgid "You have certificates on file that identify these certificate authorities:"
+msgid ""
+"You have certificates on file that identify these certificate authorities:"
 msgstr ""
 "U hebt certificaten in uw bestand die deze certificaat authoriteiten "
 "identificeren:"
@@ -18447,7 +18488,8 @@ msgid "Hide _Read Messages"
 msgstr "Ge_lezen berichten verbergen"
 
 #: ui/evolution-mail-list.xml.h:8
-msgid "Hide deleted messages rather than displaying them with a line through them"
+msgid ""
+"Hide deleted messages rather than displaying them with a line through them"
 msgstr ""
 "Weggegooide berichten verbergen in plaats van ze te laten zien met een "
 "streep erdoor"
@@ -18478,7 +18520,8 @@ msgstr "Selecteer alle en alleen de berichten die nu niet zijn geselecteerd"
 
 #: ui/evolution-mail-list.xml.h:16
 msgid "Select all messages in the same thread as the selected message"
-msgstr "Selecteer alle berichten in dezelfde thread als het geselecteerde bericht"
+msgstr ""
+"Selecteer alle berichten in dezelfde thread als het geselecteerde bericht"
 
 #: ui/evolution-mail-list.xml.h:17
 msgid "Select all visible messages"
@@ -18662,7 +18705,8 @@ msgstr "Forceer het laden van plaatjes in HTML-berichten"
 
 #: ui/evolution-mail-message.xml.h:43
 msgid "Forward the selected message in the body of a new message"
-msgstr "Stuur het geselecteerde bericht door in de inhoud van een nieuw bericht"
+msgstr ""
+"Stuur het geselecteerde bericht door in de inhoud van een nieuw bericht"
 
 #: ui/evolution-mail-message.xml.h:44
 msgid "Forward the selected message quoted like a reply"
@@ -19562,8 +19606,10 @@ msgstr "Evolution zoekopdracht"
 #. setup a dummy error
 #: widgets/misc/e-error.c:421
 #, c-format
-msgid "<span weight=\"bold\">Internal error, unknown error '%s' requested</span>"
-msgstr "<span weight=\"bold\">Interne fout, onbekende fout '%s' gevraagd</span>"
+msgid ""
+"<span weight=\"bold\">Internal error, unknown error '%s' requested</span>"
+msgstr ""
+"<span weight=\"bold\">Interne fout, onbekende fout '%s' gevraagd</span>"
 
 #: widgets/misc/e-expander.c:181
 msgid "Expanded"
@@ -19603,7 +19649,8 @@ msgstr "Labelwidget"
 
 #: widgets/misc/e-expander.c:216
 msgid "A widget to display in place of the usual expander label"
-msgstr "Een widget dat weergegeven wordt in plaats van het gebruikelijke uiklap-label"
+msgstr ""
+"Een widget dat weergegeven wordt in plaats van het gebruikelijke uiklap-label"
 
 #: widgets/misc/e-expander.c:222
 msgid "Expander Size"
@@ -19722,3 +19769,20 @@ msgstr "%s (...)"
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% voltooid)"
 
+#~ msgid "Failed to resolve host `%s': %s"
+#~ msgstr "Kon computer '%s' niet vinden: %s"
+
+#~ msgid "Failure in name lookup: %s"
+#~ msgstr "Fout bij opzoeken naam: %s"
+
+#~ msgid "Host lookup failed: cannot create thread: %s"
+#~ msgstr "Opzoeken host mislukt: kan draad niet creëren: %s"
+
+#~ msgid "Host lookup failed: %s: host not found"
+#~ msgstr "Machine niet gevonden: %s machine niet gevonden"
+
+#~ msgid "Host lookup failed: %s: unknown reason"
+#~ msgstr "Machine opzoeken faalde: %s onbekende reden"
+
+#~ msgid "Host lookup failed: host not found"
+#~ msgstr "Opzoeken mislukt: computer niet gevonden"
