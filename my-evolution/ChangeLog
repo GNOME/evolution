@@ -1,3 +1,12 @@
+2001-08-02  Jason Leach  <jleach@ximian.com>
+
+	* e-summary-calendar.c (generate_html): Use the new and beautiful
+	icon from Jakub.
+
+	* e-summary-mail.c (e_summary_mail_generate_html): Ditto.
+
+	* e-summary-tasks.c (generate_html): Ditto.	
+
 2001-07-23  Zbigniew Chyla  <cyba@gnome.pl>
 
        * e-summary-rdf.c (display_doc): Convert translated string to UTF8.

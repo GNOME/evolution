@@ -205,9 +205,9 @@ generate_html (gpointer data)
 		s1 = e_utf8_from_locale_string (_("Tasks"));
 		s2 = e_utf8_from_locale_string (_("No tasks"));
 		g_free (tasks->html);
-		tasks->html = g_strconcat ("<dl><dt><img src=\"ico-calendar.png\" align=\"middle\" "
-		                              "alt=\"\" width=\"48\" height=\"48\"> <b><a href=\"evolution:/local/Tasks\">",
-		                              s1, "</a></b></dt><dd><b>", s2, "</b></dd></dl>", NULL);
+		tasks->html = g_strconcat ("<dl><dt><img src=\"myevo-post-it.png\" align=\"middle\" "
+					   "alt=\"\" width=\"48\" height=\"48\"> <b><a href=\"evolution:/local/Tasks\">",
+					   s1, "</a></b></dt><dd><b>", s2, "</b></dd></dl>", NULL);
 		g_free (s1);
 		g_free (s2);
 
@@ -216,7 +216,7 @@ generate_html (gpointer data)
 	} else {
 		char *s;
 
-		string = g_string_new ("<dl><dt><img src=\"ico-calendar.png\" align=\"middle\" "
+		string = g_string_new ("<dl><dt><img src=\"myevo-post-it.png\" align=\"middle\" "
 		                       "alt=\"\" width=\"48\" height=\"48\"> <b><a href=\"evolution:/local/Tasks\">");
 		s = e_utf8_from_locale_string (_("Tasks"));
 		g_string_append (string, s);

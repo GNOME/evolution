@@ -18,6 +18,7 @@
 
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
+#include <libgnome/gnome-util.h> /* gnome_util_prepend_user_home */
 #include <gtk/gtksignal.h>
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-listener.h>
@@ -98,7 +99,7 @@ e_summary_mail_generate_html (ESummary *summary)
 	g_return_if_fail (IS_E_SUMMARY (summary));
 
 	mail = summary->mail;
-	string = g_string_new ("<dl><dt><img src=\"ico-mail.png\" "
+	string = g_string_new ("<dl><dt><img src=\"myevo-mail-summary.png\" "
 	                       "align=\"middle\" alt=\"\" width=\"48\" "
 	                       "height=\"48\"> <b><a href=\"evolution:/local/Inbox\">");
 	s = e_utf8_from_locale_string (_("Mail summary"));
@@ -180,6 +181,29 @@ new_folder_cb (EvolutionStorageListener *listener,
 	}
 
 	e_summary_mail_get_info (mail, mail_folder->path, mail->listener);
+}
+
+static void
+update_folder_cb (EvolutionStorageListener *listener,
+		  const char *path,
+		  const char *display_name,
+		  ESummary *summary)
+{
+	char *evolution_dir;
+	char *proto;
+	char *uri;
+
+	evolution_dir = gnome_util_prepend_user_home ("evolution/local");
+
+	proto = g_strconcat ("file://", evolution_dir, NULL);
+	uri = e_path_to_physical (proto, path);
+	printf ("uri in update: %s\n", uri);
+
+	e_summary_mail_get_info (summary->mail, uri, summary->mail->listener);
+
+	g_free (uri);
+	g_free (evolution_dir);
+	g_free (proto);
 }
 
 static void
@@ -265,7 +289,9 @@ e_summary_mail_register_storage (ESummary *summary,
 				    GTK_SIGNAL_FUNC (new_folder_cb), summary);
 		gtk_signal_connect (GTK_OBJECT (mail->storage_listener), "removed-folder",
 				    GTK_SIGNAL_FUNC (remove_folder_cb), summary);
-	} 
+		gtk_signal_connect (GTK_OBJECT (mail->storage_listener), "update_folder",
+				    GTK_SIGNAL_FUNC (update_folder_cb), summary);
+	}
 	listener = mail->storage_listener;
 	
 	corba_listener = evolution_storage_listener_corba_objref (listener);
@@ -278,10 +304,11 @@ e_summary_mail_register_storage (ESummary *summary,
 		CORBA_exception_free (&ev);
 		
 		g_free (mail);
-		return TRUE;
+		return FALSE;
 	}
 
 	CORBA_exception_free (&ev);
+
 	return TRUE;
 }
 
@@ -289,14 +316,13 @@ static gboolean
 e_summary_mail_register_storages (ESummary *summary,
 				  GNOME_Evolution_Shell corba_shell)
 {
-	GNOME_Evolution_LocalStorage local_storage;
+	GNOME_Evolution_Storage local_storage;
 	CORBA_Environment ev;
 
 	g_return_val_if_fail (summary != NULL, FALSE);
 	g_return_val_if_fail (IS_E_SUMMARY (summary), FALSE);
 
 	CORBA_exception_init (&ev);
-
 	local_storage = GNOME_Evolution_Shell_getLocalStorage (corba_shell, &ev);
 	if (BONOBO_EX (&ev)) {
 		g_warning ("Exception getting local storage: %s",
@@ -305,11 +331,12 @@ e_summary_mail_register_storages (ESummary *summary,
 		
 		return FALSE;
 	}
-
-	e_summary_mail_register_storage (summary, local_storage);
-
 	CORBA_exception_free (&ev);
-	return TRUE;
+
+	if (e_summary_mail_register_storage (summary, local_storage))
+		return TRUE;
+	else
+		return FALSE;
 }
 
 void

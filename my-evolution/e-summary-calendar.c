@@ -176,7 +176,7 @@ generate_html (gpointer data)
 		s1 = e_utf8_from_locale_string (_("Appointments"));
 		s2 = e_utf8_from_locale_string (_("No appointments"));
 		g_free (calendar->html);
-		calendar->html = g_strconcat ("<dl><dt><img src=\"ico-calendar.png\" align=\"middle\" "
+		calendar->html = g_strconcat ("<dl><dt><img src=\"myevo-appointments.png\" align=\"middle\" "
 		                              "alt=\"\" width=\"48\" height=\"48\"> <b><a href=\"evolution:/local/Calendar\">",
 		                              s1, "</a></b></dt><dd><b>", s2, "</b></dd></dl>", NULL);
 		g_free (s1);
@@ -189,7 +189,7 @@ generate_html (gpointer data)
 
 		uids = cal_list_sort (uids, sort_uids, summary);
 
-		string = g_string_new ("<dl><dt><img src=\"ico-calendar.png\" align=\"middle\" "
+		string = g_string_new ("<dl><dt><img src=\"myevo-appointments.png\" align=\"middle\" "
 		                       "alt=\"\" width=\"48\" height=\"48\"> <b><a href=\"evolution:/local/Calendar\">");
 		s = e_utf8_from_locale_string (_("Appointments"));
 		g_string_append (string, s);

@@ -69,6 +69,9 @@ images_DATA = \
 	mail-config-druid-receive.png	\
 	mail-config-druid-send.png	\
 	mail-config-druid-account-name.png \
+	myevo-appointments.png		\
+	myevo-mail-summary.png		\
+	myevo-post-it.png		\
 	myweather-rain.png		\
 	myweather-snow.png		\
 	myweather-storm.png		\
