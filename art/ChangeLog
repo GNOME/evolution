@@ -1,3 +1,8 @@
+2001-06-27  Tuomas Kuosmanen  <tigert@ximian.com>
+
+	* evolution-calendar-mini.png: New version of the folder tree's 
+	calendar icon. Doesnt look too much like the contacts icon.
+
 2001-06-19  Damon Chaplin  <damon@ximian.com>
 
 	* world_map-960.png: world map picture used for selecting timezones.
