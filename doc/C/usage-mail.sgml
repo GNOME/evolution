@@ -708,12 +708,12 @@ with quoted materials and the relevant replies interspersed-->
                   selected, the style will apply to whatever you type
                   next.  The buttons are:
                   <itemizedlist mark="none">      
-		  <listitem><para>Push <guibutton>B</guibutton> for bold text</para></listitem>   
-                  <listitem><para>Push <guibutton>I</guibutton> for italics</para></listitem>
-		  <listitem><para>Push <guibutton>U</guibutton> to underline</para></listitem>
-		  <listitem><para>Push <guibutton>S</guibutton> for a strikethrough.</para></listitem>
-                 </itemizedlist>
-               </para>               
+		    <listitem><para>Push <guibutton>B</guibutton> for bold text</para></listitem>   
+		    <listitem><para>Push <guibutton>I</guibutton> for italics</para></listitem>
+		    <listitem><para>Push <guibutton>U</guibutton> to underline</para></listitem>
+		    <listitem><para>Push <guibutton>S</guibutton> for a strikethrough.</para></listitem>
+		  </itemizedlist>
+		</para>               
 	      </listitem>    
 	    </varlistentry>
 	    <varlistentry>

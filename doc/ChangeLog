@@ -1,3 +1,7 @@
+2001-06-25  Kevin Breit  <battery841@mediaone.net>
+
+	* C/usage-calendar.sgml: Removed some *'s that are causing problems.
+
 2001-06-22  Kevin Breit  <battery841@mediaone.net>
 
 	* C/preface.sgml: Put in Contacts information in the quicktasks.
