@@ -6,7 +6,6 @@ INCLUDES =					\
 	-I$(top_srcdir)				\
 	$(GNOME_INCLUDEDIR)			\
 	$(EXTRA_GNOME_CFLAGS)			\
-	$(UNICODE_CFLAGS)			\
 	$(PISOCK_CFLAGS)			\
 	-DEVOLUTION_IMAGES=\""$(imagesdir)"\"	\
 	-DG_LOG_DOMAIN=\"e-utils\"
@@ -50,7 +49,7 @@ libeutil_la_SOURCES =			\
 	md5-utils.c			\
 	md5-utils.h
 
-libeutil_la_LIBADD = $(UNICODE_LIBS)
+libeutil_la_LIBADD = $(GAL_LIBS)
 
 libeutil_static_la_SOURCES = $(libeutil_la_SOURCES)
 libeutil_static_la_LDFLAGS = --all-static

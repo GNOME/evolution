@@ -1,3 +1,8 @@
+2001-04-26  Dan Winship  <danw@ximian.com>
+
+	* Makefile.am (INCLUDES): Remove UNICODE_CFLAGS
+	(libeutil_la_LIBADD): Change UNICODE_LIBS to GAL_LIBS
+
 2001-04-26  Not Zed  <NotZed@Ximian.com>
 
 	* e-memory.c (e_poolv_get): Modified to match e_strv_get
