@@ -1,5 +1,11 @@
 2001-10-04  Chris Toshok  <toshok@ximian.com>
 
+	* backend/ebook/e-book.c (activate_factories_for_uri): for some
+	reason, matching on protocol is causing problems for me.
+	disabling it for now.
+
+2001-10-04  Chris Toshok  <toshok@ximian.com>
+
 	* gui/component/addressbook-component.c: use ldap.png for ldap
 	contacts.
 
