@@ -813,6 +813,12 @@ do_scan_subfolders (gpointer in_data, gpointer op_data, CamelException * ex)
 	}
 
 	camel_folder_free_subfolder_names (folder, lsub);
+
+	/* FIXME: We intentionally lose a reference to the store here
+	 * for the benefit of the IMAP provider. Undo this when the
+	 * namespace situation is fixed.
+	 */
+	camel_object_ref (CAMEL_OBJECT (folder->parent_store));
 	camel_object_unref (CAMEL_OBJECT (folder));
 }
 
