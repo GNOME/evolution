@@ -416,9 +416,7 @@ save (RuleContext *rc, const char *user)
 		l = g_list_next (l);
 	}
 	
-#warning "xmlSaveFile used here"
-	ret = xmlSaveFile (user, doc);
-	/*ret = e_xml_save_file (user, doc);*/
+	ret = e_xml_save_file (user, doc);
 	
 	xmlFreeDoc (doc);
 	
