@@ -1,7 +1,7 @@
 2004-03-15  Hao Sheng <hao.sheng@sun.com>
 
-	* a11y/addressbook/Makefile.am:
-	* a11y/calendar/Makefile.am:
+	* a11y/addressbook/Makefile.am: make distcheck work
+	* a11y/calendar/Makefile.am: make distcheck work
 
 2004-03-15  Hao sheng  <hao.sheng@sun.com>
 
