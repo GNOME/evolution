@@ -1,3 +1,8 @@
+2001-02-06  Dan Winship  <danw@ximian.com>
+
+	* filter-option.c (get_widget): Translate the option title.
+	(Noticed by Kjartan).
+
 2001-02-05  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* filter-code.c, filter-colour.c, filter-context.c,
