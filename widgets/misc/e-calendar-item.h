@@ -221,6 +221,8 @@ struct _ECalendarItemClass
 
 GtkType  e_calendar_item_get_type		(void);
 
+/* FIXME: months are 0-11 throughout, but 1-12 may be better. */
+
 void	 e_calendar_item_get_first_month	(ECalendarItem	*calitem,
 						 gint		*year,
 						 gint		*month);

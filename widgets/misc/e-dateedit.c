@@ -53,6 +53,7 @@
 #include <gtk/gtkmenuitem.h>
 #include <gtk/gtkwindow.h>
 
+
 struct _EDateEditPrivate {
 	GtkWidget *date_entry;
 	GtkWidget *date_button;
@@ -65,14 +66,47 @@ struct _EDateEditPrivate {
 	GtkWidget *calendar;
 	GtkWidget *now_button;
 	GtkWidget *today_button;
-	GtkWidget *none_button;
+	GtkWidget *none_button;		/* This will only be visible if a
+					   'None' date/time is permitted. */
 
 	gboolean show_date;
 	gboolean show_time;
 	gboolean use_24_hour_format;
 
+	/* This is the range of hours we show in the time popup. */
 	gint lower_hour;
 	gint upper_hour;
+
+	/* This indicates whether the last date committed was invalid.
+	   (A date is committed by hitting Return, moving the keyboard focus,
+	   or selecting a date in the popup). Note that this only indicates
+	   that the date couldn't be parsed. A date set to 'None' is valid
+	   here, though e_date_edit_date_is_valid() will return FALSE if an
+	   empty date isn't actually permitted. */
+	gboolean date_is_valid;
+
+	/* This is the last valid date which was set. If the date was set to
+	   'None' or empty, date_set_to_none will be TRUE and the other fields
+	   are undefined, so don't use them. */
+	gboolean date_set_to_none;
+	gint year;
+	gint month;
+	gint day;
+
+	/* This indicates whether the last time committed was invalid.
+	   (A time is committed by hitting Return, moving the keyboard focus,
+	   or selecting a time in the popup). Note that this only indicates
+	   that the time couldn't be parsed. An empty/None time is valid
+	   here, though e_date_edit_time_is_valid() will return FALSE if an
+	   empty time isn't actually permitted. */
+	gboolean time_is_valid;
+
+	/* This is the last valid time which was set. If the time was set to
+	   'None' or empty, time_set_to_none will be TRUE and the other fields
+	   are undefined, so don't use them. */
+	gboolean time_set_to_none;
+	gint hour;
+	gint minute;
 };
 
 enum {
@@ -84,42 +118,74 @@ enum {
 static gint date_edit_signals [LAST_SIGNAL] = { 0 };
 
 
-static void e_date_edit_class_init	(EDateEditClass	*class);
-static void e_date_edit_init		(EDateEdit	*dedit);
-static void create_children		(EDateEdit	*dedit);
-static void e_date_edit_destroy		(GtkObject	*object);
-static void e_date_edit_forall		(GtkContainer   *container,
-					 gboolean	 include_internals,
-					 GtkCallback     callback,
-					 gpointer	 callback_data);
+static void e_date_edit_class_init		(EDateEditClass	*class);
+static void e_date_edit_init			(EDateEdit	*dedit);
+static void create_children			(EDateEdit	*dedit);
+static void e_date_edit_destroy			(GtkObject	*object);
+static void e_date_edit_forall			(GtkContainer   *container,
+						 gboolean	 include_internals,
+						 GtkCallback     callback,
+						 gpointer	 callback_data);
 
-static void on_date_button_clicked	(GtkWidget	*widget,
-					 EDateEdit	*dedit);
-static void position_date_popup		(EDateEdit	*dedit);
+static gint on_date_entry_key_press		(GtkWidget	*widget,
+						 GdkEventKey	*event,
+						 EDateEdit	*dedit);
+static void on_date_button_clicked		(GtkWidget	*widget,
+						 EDateEdit	*dedit);
+static void e_date_edit_show_date_popup		(EDateEdit	*dedit);
+static void position_date_popup			(EDateEdit	*dedit);
 static void on_date_popup_none_button_clicked	(GtkWidget	*button,
 						 EDateEdit	*dedit);
 static void on_date_popup_today_button_clicked	(GtkWidget	*button,
 						 EDateEdit	*dedit);
 static void on_date_popup_now_button_clicked	(GtkWidget	*button,
 						 EDateEdit	*dedit);
-static gint on_date_popup_delete_event	(GtkWidget	*widget,
-					 gpointer	 data);
-static gint on_date_popup_key_press	(GtkWidget	*widget,
-					 GdkEventKey	*event,
-					 gpointer	 data);
-static gint on_date_popup_button_press	(GtkWidget	*widget,
-					 GdkEventButton *event,
-					 gpointer	 data);
-static void on_date_popup_date_selected (ECalendarItem	*calitem,
-					 EDateEdit	*dedit);
-static void hide_date_popup		(EDateEdit	*dedit);
-static void rebuild_time_popup		(EDateEdit	*dedit);
-static void enable_time_combo		(EDateEdit	*dedit);
-static void disable_time_combo		(EDateEdit	*dedit);
-static gboolean date_is_none		(char		*date_text);
-static gboolean e_date_edit_parse_date	(EDateEdit	*dedit,
-					 char		*date_text,
-					 struct tm	*date_tm);
+static gint on_date_popup_delete_event		(GtkWidget	*widget,
+						 EDateEdit	*dedit);
+static gint on_date_popup_key_press		(GtkWidget	*widget,
+						 GdkEventKey	*event,
+						 EDateEdit	*dedit);
+static gint on_date_popup_button_press		(GtkWidget	*widget,
+						 GdkEventButton *event,
+						 gpointer	 data);
+static void on_date_popup_date_selected		(ECalendarItem	*calitem,
+						 EDateEdit	*dedit);
+static void hide_date_popup			(EDateEdit	*dedit);
+static void rebuild_time_popup			(EDateEdit	*dedit);
+static gboolean field_set_to_none		(char		*text);
+static gboolean e_date_edit_parse_date		(EDateEdit	*dedit,
+						 char		*date_text,
+						 struct tm	*date_tm);
+static gboolean e_date_edit_parse_time		(EDateEdit	*dedit,
+						 gchar		*time_text,
+						 struct tm	*time_tm);
+static void on_date_edit_time_selected		(GtkList	*list,
+						 EDateEdit	*dedit);
+static gint on_time_entry_key_press		(GtkWidget	*widget,
+						 GdkEventKey	*event,
+						 EDateEdit	*dedit);
+static gint on_date_entry_focus_out		(GtkEntry	*entry,
+						 GdkEventFocus  *event,
+						 EDateEdit	*dedit);
+static gint on_time_entry_focus_out		(GtkEntry	*entry,
+						 GdkEventFocus  *event,
+						 EDateEdit	*dedit);
+static void e_date_edit_update_date_entry	(EDateEdit	*dedit);
+static void e_date_edit_update_time_entry	(EDateEdit	*dedit);
+static void e_date_edit_update_time_combo_state	(EDateEdit	*dedit);
+static void e_date_edit_check_date_changed	(EDateEdit	*dedit);
+static void e_date_edit_check_time_changed	(EDateEdit	*dedit);
+static gboolean e_date_edit_set_date_internal	(EDateEdit	*dedit,
+						 gboolean	 valid,
+						 gboolean	 none,
+						 gint		 year,
+						 gint		 month,
+						 gint		 day);
+static gboolean e_date_edit_set_time_internal	(EDateEdit	*dedit,
+						 gboolean	 valid,
+						 gboolean	 none,
+						 gint		 hour,
+						 gint		 minute);
 
 
 static GtkHBoxClass *parent_class;
@@ -130,7 +196,7 @@ static GtkHBoxClass *parent_class;
  * Returns the GtkType for the EDateEdit widget
  */
 guint
-e_date_edit_get_type (void)
+e_date_edit_get_type		(void)
 {
 	static guint date_edit_type = 0;
 
@@ -153,7 +219,7 @@ e_date_edit_get_type (void)
 
 
 static void
-e_date_edit_class_init (EDateEditClass *class)
+e_date_edit_class_init		(EDateEditClass	*class)
 {
 	GtkObjectClass *object_class = (GtkObjectClass *) class;
 	GtkContainerClass *container_class = (GtkContainerClass *) class;
@@ -173,20 +239,20 @@ e_date_edit_class_init (EDateEditClass *class)
 	gtk_object_class_add_signals (object_class, date_edit_signals,
 				      LAST_SIGNAL);
 
-	container_class->forall = e_date_edit_forall;
+	object_class->destroy		= e_date_edit_destroy;
 
-	object_class->destroy = e_date_edit_destroy;
+	container_class->forall		= e_date_edit_forall;
 
 	class->changed = NULL;
 }
 
 
 static void
-e_date_edit_init (EDateEdit *dedit)
+e_date_edit_init		(EDateEdit	*dedit)
 {
 	EDateEditPrivate *priv;
 
-	dedit->_priv = priv = g_new0 (EDateEditPrivate, 1);
+	dedit->priv = priv = g_new0 (EDateEditPrivate, 1);
 
 	priv->show_date = TRUE;
 	priv->show_time = TRUE;
@@ -194,52 +260,18 @@ e_date_edit_init (EDateEdit *dedit)
 
 	priv->lower_hour = 0;
 	priv->upper_hour = 24;
+
+	priv->date_is_valid = TRUE;
+	priv->date_set_to_none = TRUE;
+	priv->time_is_valid = TRUE;
+	priv->time_set_to_none = TRUE;
+
+	create_children (dedit);
+
+	/* Set it to the current time. */
+	e_date_edit_set_time (dedit, 0);
 }
 
-/* Sets the displayed date and time from a time_t value; does not emit any
- * signals.
- */
-static void
-set_time (EDateEdit *dedit, time_t the_time)
-{
-	EDateEditPrivate *priv;
-	struct tm *mytm;
-	char buffer[40], *format;
-
-	priv = dedit->_priv;
-
-	if (the_time == -1) {
-		gtk_entry_set_text (GTK_ENTRY (priv->date_entry), _("None"));
-		disable_time_combo (dedit);
-		return;
-	}
-
-	enable_time_combo (dedit);
-
-	if (the_time == 0)
-		the_time = time (NULL);
-
-	mytm = localtime (&the_time);
-
-	/* Set the date */
-
-	/* This is a strftime() format for a short date. %m = month, %d = day
-	   of month, %Y = year (all digits). */
-	strftime (buffer, sizeof (buffer), _("%m/%d/%Y"), mytm);
-	gtk_entry_set_text (GTK_ENTRY (priv->date_entry), buffer);
-
-	/* Set the time */
-	if (priv->use_24_hour_format)
-		/* This is a strftime() format. %H = hour (0-23), %M = minute. */
-		format = _("%H:%M");
-	else
-		/* This is a strftime() format. %I = hour (1-12), %M = minute, %p = am/pm string. */
-		format = _("%I:%M %p");
-
-	strftime (buffer, sizeof (buffer), format, mytm);
-	gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (priv->time_combo)->entry),
-			    buffer);
-}
 
 /**
  * e_date_edit_new:
@@ -250,33 +282,38 @@ set_time (EDateEdit *dedit, time_t the_time)
  * Returns: a new #EDateEdit widget.
  */
 GtkWidget *
-e_date_edit_new (void)
+e_date_edit_new			(void)
 {
 	EDateEdit *dedit;
 
 	dedit = gtk_type_new (e_date_edit_get_type ());
-
-	create_children (dedit);
-	set_time (dedit, 0);
 
 	return GTK_WIDGET (dedit);
 }
 
 
 static void
-create_children (EDateEdit *dedit)
+create_children			(EDateEdit	*dedit)
 {
 	EDateEditPrivate *priv;
 	ECalendar *calendar;
 	GtkWidget *frame, *arrow;
 	GtkWidget *vbox, *bbox;
 
-	priv = dedit->_priv;
+	priv = dedit->priv;
 
 	priv->date_entry  = gtk_entry_new ();
 	gtk_widget_set_usize (priv->date_entry, 90, 0);
 	gtk_box_pack_start (GTK_BOX (dedit), priv->date_entry, FALSE, TRUE, 0);
 	
+	gtk_signal_connect (GTK_OBJECT (priv->date_entry), "key_press_event",
+			    (GtkSignalFunc) on_date_entry_key_press,
+			    dedit);
+	gtk_signal_connect_after (GTK_OBJECT (priv->date_entry),
+				  "focus_out_event",
+				  (GtkSignalFunc) on_date_entry_focus_out,
+				  dedit);
+
 	priv->date_button = gtk_button_new ();
 	gtk_signal_connect (GTK_OBJECT (priv->date_button), "clicked",
 			    GTK_SIGNAL_FUNC (on_date_button_clicked), dedit);
@@ -301,6 +338,19 @@ create_children (EDateEdit *dedit)
 	gtk_widget_set_usize (GTK_COMBO (priv->time_combo)->entry, 90, 0);
 	gtk_box_pack_start (GTK_BOX (dedit), priv->time_combo, FALSE, TRUE, 0);
 	rebuild_time_popup (dedit);
+
+	gtk_signal_connect (GTK_OBJECT (GTK_COMBO (priv->time_combo)->entry),
+			    "key_press_event",
+			    (GtkSignalFunc) on_time_entry_key_press,
+			    dedit);
+	gtk_signal_connect_after (GTK_OBJECT (GTK_COMBO (priv->time_combo)->entry),
+				  "focus_out_event",
+				  (GtkSignalFunc) on_time_entry_focus_out,
+				  dedit);
+	gtk_signal_connect_after (GTK_OBJECT (GTK_COMBO (priv->time_combo)->list),
+				  "selection_changed",
+				  (GtkSignalFunc) on_date_edit_time_selected,
+				  dedit);
 
 	if (priv->show_time)
 		gtk_widget_show (priv->time_combo);
@@ -335,7 +385,6 @@ create_children (EDateEdit *dedit)
 
 	priv->calendar = e_calendar_new ();
 	calendar = E_CALENDAR (priv->calendar);
-	/*e_calendar_set_buttons (calendar, TRUE, TRUE);*/
 	gnome_canvas_item_set (GNOME_CANVAS_ITEM (calendar->calitem),
 			       "maximum_days_selected", 1,
 			       "move_selection_when_moving", FALSE,
@@ -368,6 +417,8 @@ create_children (EDateEdit *dedit)
 	gtk_signal_connect (GTK_OBJECT (priv->today_button), "clicked",
 			    GTK_SIGNAL_FUNC (on_date_popup_today_button_clicked), dedit);
 
+	/* Note that we don't show this here, since by default a 'None' date
+	   is not permitted. */
 	priv->none_button = gtk_button_new_with_label (_("None"));
 	gtk_container_add (GTK_CONTAINER (bbox), priv->none_button);
 	gtk_signal_connect (GTK_OBJECT (priv->none_button), "clicked",
@@ -376,7 +427,7 @@ create_children (EDateEdit *dedit)
 
 
 static void
-e_date_edit_destroy (GtkObject *object)
+e_date_edit_destroy		(GtkObject	*object)
 {
 	EDateEdit *dedit;
 
@@ -384,11 +435,11 @@ e_date_edit_destroy (GtkObject *object)
 
 	dedit = E_DATE_EDIT (object);
 
-	gtk_widget_destroy (dedit->_priv->cal_popup);
-	dedit->_priv->cal_popup = NULL;
+	gtk_widget_destroy (dedit->priv->cal_popup);
+	dedit->priv->cal_popup = NULL;
 
-	g_free(dedit->_priv);
-	dedit->_priv = NULL;
+	g_free (dedit->priv);
+	dedit->priv = NULL;
 
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
@@ -396,324 +447,68 @@ e_date_edit_destroy (GtkObject *object)
 
 
 static void
-e_date_edit_forall (GtkContainer *container, gboolean include_internals,
-		    GtkCallback callback, gpointer callback_data)
+e_date_edit_forall		(GtkContainer	*container,
+				 gboolean	 include_internals,
+				 GtkCallback	 callback,
+				 gpointer	 callback_data)
 {
 	g_return_if_fail (E_IS_DATE_EDIT (container));
 	g_return_if_fail (callback != NULL);
 
-	/* Let GtkBox handle things only if the internal widgets need to be
-	 * poked.
-	 */
-	if (include_internals)
+	/* Let GtkBox handle the internal widgets if needed. */
+	if (include_internals) {
 		if (GTK_CONTAINER_CLASS (parent_class)->forall)
 			(* GTK_CONTAINER_CLASS (parent_class)->forall)
-				(container,
-				 include_internals,
-				 callback,
-				 callback_data);
-}
-
-
-/* The arrow button beside the date field has been clicked, so we show the
-   popup with the ECalendar in. */
-static void
-on_date_button_clicked (GtkWidget *widget, EDateEdit *dedit)
-{
-	EDateEditPrivate *priv;
-	ECalendar *calendar;
-	struct tm mtm;
-	gchar *date_text;
-	GDate selected_day;
-	gboolean clear_selection = FALSE;
-
-	priv = dedit->_priv;
-	calendar = E_CALENDAR (priv->calendar);
-
-	date_text = gtk_entry_get_text (GTK_ENTRY (dedit->_priv->date_entry));
-	if (date_is_none (date_text)
-	    || !e_date_edit_parse_date (dedit, date_text, &mtm))
-		clear_selection = TRUE;
-
-	if (clear_selection) {
-		e_calendar_item_set_selection (calendar->calitem, NULL, NULL);
-	} else {
-		g_date_clear (&selected_day, 1);
-		g_date_set_dmy (&selected_day, mtm.tm_mday, mtm.tm_mon + 1,
-				mtm.tm_year + 1900);
-		e_calendar_item_set_selection (calendar->calitem,
-					       &selected_day, NULL);
+				(container, include_internals,
+				 callback, callback_data);
 	}
-
-	/* FIXME: Hack. Change ECalendarItem so it doesn't queue signal
-	   emissions. */
-	calendar->calitem->selection_changed = FALSE;
-
-        position_date_popup (dedit);
-       
-	gtk_widget_realize (dedit->_priv->cal_popup);
-	gtk_widget_show (dedit->_priv->cal_popup);
-
-	gtk_widget_grab_focus (dedit->_priv->cal_popup);
-
-	gtk_grab_add (dedit->_priv->cal_popup);
-
-	gdk_pointer_grab (dedit->_priv->cal_popup->window, TRUE,
-			  (GDK_BUTTON_PRESS_MASK
-			   | GDK_BUTTON_RELEASE_MASK
-			   | GDK_POINTER_MOTION_MASK),
-			  NULL, NULL, GDK_CURRENT_TIME);
-}
-
-
-/* This positions the date popup below and to the left of the arrow button,
-   just before it is shown. */
-static void
-position_date_popup (EDateEdit *dedit)
-{
-	gint x, y;
-	gint bwidth, bheight;
-	GtkRequisition req;
-	gint screen_width, screen_height;
-
-	gtk_widget_size_request (dedit->_priv->cal_popup, &req);
-
-	gdk_window_get_origin (dedit->_priv->date_button->window, &x, &y);
-	gdk_window_get_size (dedit->_priv->date_button->window,
-			     &bwidth, &bheight);
-
-      	screen_width = gdk_screen_width ();
-	screen_height = gdk_screen_height ();
-
-	x += bwidth - req.width;
-	y += bheight;
-
-	x = CLAMP (x, 0, MAX (0, screen_width - req.width));
-	y = CLAMP (y, 0, MAX (0, screen_height - req.height));
-
-	gtk_widget_set_uposition (dedit->_priv->cal_popup, x, y);
-}
-
-
-/* A date has been selected in the date popup, so we set the date field
-   and hide the popup. */
-static void
-on_date_popup_date_selected (ECalendarItem *calitem, EDateEdit *dedit)
-{
-	GDate start_date, end_date;
-	struct tm tmp_tm;
-	char buffer [40];
-
-	if (!e_calendar_item_get_selection (calitem, &start_date, &end_date))
-		return;
-
-	g_date_to_struct_tm (&start_date, &tmp_tm);
-
-	/* This is a strftime() format for a short date. %m = month, %d = day
-	   of month, %Y = year (all digits). */
-	strftime (buffer, sizeof (buffer), _("%m/%d/%Y"), &tmp_tm);
-	gtk_entry_set_text (GTK_ENTRY (dedit->_priv->date_entry), buffer);
-
-	enable_time_combo (dedit);
-
-	gtk_signal_emit (GTK_OBJECT (dedit), date_edit_signals [CHANGED]);
-	hide_date_popup (dedit);
-}
-
-
-static void
-on_date_popup_now_button_clicked	(GtkWidget	*button,
-					 EDateEdit	*dedit)
-{
-	e_date_edit_set_time (dedit, time (NULL));
-	hide_date_popup (dedit);
-}
-
-
-static void
-on_date_popup_today_button_clicked	(GtkWidget	*button,
-					 EDateEdit	*dedit)
-{
-	struct tm *tmp_tm;
-	time_t t;
-	char buffer [40];
-
-	t = time (NULL);
-	tmp_tm = localtime (&t);
-	/* This is a strftime() format for a short date. %m = month, %d = day
-	   of month, %Y = year (all digits). */
-	strftime (buffer, sizeof (buffer), _("%m/%d/%Y"), tmp_tm);
-	gtk_entry_set_text (GTK_ENTRY (dedit->_priv->date_entry), buffer);
-
-	enable_time_combo (dedit);
-
-	gtk_signal_emit (GTK_OBJECT (dedit), date_edit_signals [CHANGED]);
-	hide_date_popup (dedit);
-}
-
-
-static void
-on_date_popup_none_button_clicked	(GtkWidget	*button,
-					 EDateEdit	*dedit)
-{
-	e_date_edit_set_time (dedit, -1);
-	hide_date_popup (dedit);
-}
-
-
-/* A key has been pressed while the date popup is showing. If it is the Escape
-   key we hide the popup. */
-static gint
-on_date_popup_key_press (GtkWidget *widget, GdkEventKey *event, gpointer data)
-{
-	EDateEdit *dedit;
-
-	if (event->keyval != GDK_Escape)
-		return FALSE;
-
-	dedit = data;
-	gtk_signal_emit_stop_by_name (GTK_OBJECT (widget), "key_press_event");
-	hide_date_popup (dedit);
-
-	return TRUE;
-}
-
-
-/* A mouse button has been pressed while the date popup is showing.
-   Any button press events used to select days etc. in the popup will have
-   have been handled elsewhere, so here we just hide the popup.
-   (This function is yanked from gtkcombo.c) */
-static gint
-on_date_popup_button_press (GtkWidget *widget,
-			    GdkEventButton *event,
-			    gpointer data)
-{
-	EDateEdit *dedit;
-	GtkWidget *child;
-
-	dedit = data;
-
-	child = gtk_get_event_widget ((GdkEvent *) event);
-
-	/* We don't ask for button press events on the grab widget, so
-	 *  if an event is reported directly to the grab widget, it must
-	 *  be on a window outside the application (and thus we remove
-	 *  the popup window). Otherwise, we check if the widget is a child
-	 *  of the grab widget, and only remove the popup window if it
-	 *  is not.
-	 */
-	if (child != widget) {
-		while (child) {
-			if (child == widget)
-				return FALSE;
-			child = child->parent;
-		}
-	}
-
-	hide_date_popup (dedit);
-
-	return TRUE;
-}
-
-
-/* A delete event has been received for the date popup, so we hide it and
-   return TRUE so it doesn't get destroyed. */
-static gint
-on_date_popup_delete_event (GtkWidget *widget, gpointer data)
-{
-	EDateEdit *dedit;
-
-	dedit = data;
-	hide_date_popup (dedit);
-
-	return TRUE;
-}
-
-
-/* Hides the date popup, removing any grabs. */
-static void
-hide_date_popup (EDateEdit *dedit)
-{
-	gtk_widget_hide (dedit->_priv->cal_popup);
-	gtk_grab_remove (dedit->_priv->cal_popup);
-	gdk_pointer_ungrab (GDK_CURRENT_TIME);
 }
 
 
 /**
  * e_date_edit_get_time:
- * @dedit: The EDateEdit widget
+ * @dedit: an #EDateEdit widget.
+ * @the_time: returns the last valid time entered.
+ * @Returns: the last valid time entered, or -1 if the time is not set.
  *
- * Returns the time entered in the EDateEdit widget, or -1 if the date is not
- * set or -2 if the date can't be parsed.
+ * Returns the last valid time entered. If empty times are valid, by calling
+ * e_date_edit_set_allow_no_date_set(), then it may return -1.
+ *
+ * Note that the last time entered may actually have been invalid. You can
+ * check this with e_date_edit_time_is_valid().
  */
 time_t
-e_date_edit_get_time (EDateEdit *dedit)
+e_date_edit_get_time		(EDateEdit	*dedit)
 {
 	EDateEditPrivate *priv;
-	struct tm date_tm = { 0 }, time_tm = { 0 };
-	char *date_text, *time_text, *format;
+	struct tm tmp_tm = { 0 };
 
 	g_return_val_if_fail (E_IS_DATE_EDIT (dedit), -1);
 	
-	priv = dedit->_priv;
+	priv = dedit->priv;
 
-	date_text = gtk_entry_get_text (GTK_ENTRY (priv->date_entry));
-	if (date_is_none (date_text))
+	/* Try to parse any new value now. */
+	e_date_edit_check_date_changed (dedit);
+	e_date_edit_check_time_changed (dedit);
+
+	if (priv->date_set_to_none)
 		return -1;
 
-	if (!e_date_edit_parse_date (dedit, date_text, &date_tm))
-		return -2;
+	tmp_tm.tm_year = priv->year;
+	tmp_tm.tm_mon = priv->month;
+	tmp_tm.tm_mday = priv->day;
 
-	if (dedit->_priv->show_time) {
-		time_text = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (priv->time_combo)->entry));
-
-		if (priv->use_24_hour_format)
-			/* This is a strptime() format. %H = hour (0-23), %M = minute. */
-			format = _("%H:%M");
-		else
-			/* This is a strptime() format. %I = hour (1-12), %M = minute, %p = am/pm string. */
-			format = _("%I:%M %p");
-
-		if (!strptime (time_text, format, &time_tm))
-			return -2;
-
-		date_tm.tm_hour = time_tm.tm_hour;
-		date_tm.tm_min = time_tm.tm_min;
+	if (!priv->show_time || priv->time_set_to_none) {
+		tmp_tm.tm_hour = 0;
+		tmp_tm.tm_min = 0;
+	} else {
+		tmp_tm.tm_hour = priv->hour;
+		tmp_tm.tm_min = priv->minute;
 	}
+	tmp_tm.tm_sec = 0;
+	tmp_tm.tm_isdst = -1;
 
-	date_tm.tm_isdst = -1;
-
-	return mktime (&date_tm);
-}
-
-
-static gboolean
-e_date_edit_parse_date (EDateEdit *dedit,
-			gchar	  *date_text,
-			struct tm *date_tm)
-{
-	struct tm *tmp_tm;
-	time_t t;
-
-	/* This is a strptime() format for a short date. %m = month,
-	   %d = day of month, %Y = year (all digits). */
-	if (!strptime (date_text, _("%m/%d/%Y"), date_tm))
-		return FALSE;
-
-	/* If the user entered a 2-digit year we use the current century. */
-	if (date_tm->tm_year < 0) {
-		t = time (NULL);
-		tmp_tm = localtime (&t);
-
-		/* This should convert it into a value from 0 to 99. */
-		date_tm->tm_year += 1900;
-
-		/* Now add on the century. */
-		date_tm->tm_year += tmp_tm->tm_year - (tmp_tm->tm_year % 100);
-	}
-
-	return TRUE;
+	return mktime (&tmp_tm);
 }
 
 
@@ -724,16 +519,122 @@ e_date_edit_parse_date (EDateEdit *dedit,
  *
  * Description:  Changes the displayed date and time in the EDateEdit
  * widget to be the one represented by @the_time.  If @the_time is 0
- * then current time is used.
+ * then current time is used. If it is -1, then the date is set to None.
  */
 void
-e_date_edit_set_time (EDateEdit *dedit, time_t the_time)
+e_date_edit_set_time		(EDateEdit	*dedit,
+				 time_t		 the_time)
 {
-	g_return_if_fail (dedit != NULL);
+	EDateEditPrivate *priv;
+	struct tm *tmp_tm;
+	gboolean date_changed = FALSE, time_changed = FALSE;
+
 	g_return_if_fail (E_IS_DATE_EDIT (dedit));
 
-	set_time (dedit, the_time);
-	gtk_signal_emit (GTK_OBJECT (dedit), date_edit_signals[CHANGED]);
+	priv = dedit->priv;
+
+	if (the_time == -1) {
+		date_changed = e_date_edit_set_date_internal (dedit, TRUE,
+							      TRUE, 0, 0, 0);
+		time_changed = e_date_edit_set_time_internal (dedit, TRUE,
+							      TRUE, 0, 0);
+	} else {
+		if (the_time == 0)
+			the_time = time (NULL);
+
+		tmp_tm = localtime (&the_time);
+
+		date_changed = e_date_edit_set_date_internal (dedit, TRUE,
+							      FALSE,
+							      tmp_tm->tm_year,
+							      tmp_tm->tm_mon,
+							      tmp_tm->tm_mday);
+		time_changed = e_date_edit_set_time_internal (dedit, TRUE,
+							      FALSE,
+							      tmp_tm->tm_hour,
+							      tmp_tm->tm_min);
+	}
+
+	e_date_edit_update_date_entry (dedit);
+	e_date_edit_update_time_entry (dedit);
+	e_date_edit_update_time_combo_state (dedit);
+
+	/* Emit the signals if the date and/or time has actually changed. */
+	if (date_changed || time_changed)
+		gtk_signal_emit (GTK_OBJECT (dedit),
+				 date_edit_signals [CHANGED]);
+}
+
+
+/**
+ * e_date_edit_get_date:
+ * @dedit: an #EDateEdit widget.
+ * @year: returns the year set.
+ * @month: returns the month set (1 - 12).
+ * @day: returns the day set (1 - 31).
+ * @Returns: TRUE if a time was set, or FALSE if the field is empty or 'None'.
+ *
+ * Returns the last valid date entered into the date field.
+ */
+gboolean
+e_date_edit_get_date		(EDateEdit	*dedit,
+				 gint		*year,
+				 gint		*month,
+				 gint		*day)
+{
+	EDateEditPrivate *priv;
+
+	g_return_val_if_fail (E_IS_DATE_EDIT (dedit), FALSE);
+
+	priv = dedit->priv;
+
+	/* Try to parse any new value now. */
+	e_date_edit_check_date_changed (dedit);
+
+	if (priv->date_set_to_none)
+		return FALSE;
+
+	*year = priv->year + 1900;
+	*month = priv->month + 1;
+	*day = priv->day;
+
+	return TRUE;
+}
+
+
+/**
+ * e_date_edit_set_date:
+ * @dedit: an #EDateEdit widget.
+ * @year: the year to set.
+ * @month: the month to set (1 - 12).
+ * @day: the day to set (1 - 31).
+ *
+ * Sets the date in the date field.
+ */
+void
+e_date_edit_set_date		(EDateEdit	*dedit,
+				 gint		 year,
+				 gint		 month,
+				 gint		 day)
+{
+	EDateEditPrivate *priv;
+	gboolean date_changed = FALSE;
+
+	g_return_if_fail (E_IS_DATE_EDIT (dedit));
+
+	priv = dedit->priv;
+
+	date_changed = e_date_edit_set_date_internal (dedit, TRUE, FALSE,
+						      year - 1900, month - 1,
+						      day);
+
+	e_date_edit_update_date_entry (dedit);
+	e_date_edit_update_time_combo_state (dedit);
+
+	/* Emit the signals if the date has actually changed. */
+	if (date_changed)
+		gtk_signal_emit (GTK_OBJECT (dedit),
+				 date_edit_signals [CHANGED]);
 }
 
 
@@ -742,9 +643,9 @@ e_date_edit_set_time (EDateEdit *dedit, time_t the_time)
  * @dedit: an #EDateEdit widget.
  * @hour: returns the hour set.
  * @minute: returns the minute set.
- * @Returns: TRUE if the time could be parsed.
+ * @Returns: TRUE if a time was set, or FALSE if the field is empty or 'None'.
  *
- * Description: Returns the current time in the time field.
+ * Returns the last valid time entered into the time field.
  */
 gboolean
 e_date_edit_get_time_of_day		(EDateEdit	*dedit,
@@ -752,27 +653,19 @@ e_date_edit_get_time_of_day		(EDateEdit	*dedit,
 					 gint		*minute)
 {
 	EDateEditPrivate *priv;
-	struct tm time_tm = { 0 };
-	char *time_text, *format;
 
 	g_return_val_if_fail (E_IS_DATE_EDIT (dedit), FALSE);
 
-	priv = dedit->_priv;
+	priv = dedit->priv;
 
-	time_text = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (priv->time_combo)->entry));
+	/* Try to parse any new value now. */
+	e_date_edit_check_time_changed (dedit);
 
-	if (priv->use_24_hour_format)
-		/* This is a strptime() format. %H = hour (0-23), %M = minute. */
-		format = _("%H:%M");
-	else
-		/* This is a strptime() format. %I = hour (1-12), %M = minute, %p = am/pm string. */
-		format = _("%I:%M %p");
-
-	if (!strptime (time_text, format, &time_tm))
+	if (priv->time_set_to_none)
 		return FALSE;
 
-	*hour = time_tm.tm_hour;
-	*minute = time_tm.tm_min;
+	*hour = priv->hour;
+	*minute = priv->minute;
 
 	return TRUE;
 }
@@ -792,32 +685,26 @@ e_date_edit_set_time_of_day		(EDateEdit	*dedit,
 					 gint		 minute)
 {
 	EDateEditPrivate *priv;
-	struct tm mytm = { 0 };
-	char buffer[40], *format;
+	gboolean time_changed = FALSE;
 
 	g_return_if_fail (E_IS_DATE_EDIT (dedit));
 
-	priv = dedit->_priv;
+	priv = dedit->priv;
 
-	mytm.tm_year = 2000;
-	mytm.tm_mon = 0;
-	mytm.tm_mday = 1;
-	mytm.tm_hour = hour;
-	mytm.tm_min = minute;
-	mytm.tm_sec = 0;
+	if (priv->time_set_to_none
+	    || priv->hour != hour
+	    || priv->minute != minute) {
+		priv->time_set_to_none = FALSE;
+		priv->hour = hour;
+		priv->minute = minute;
+		time_changed = TRUE;
+	}
 
-	if (priv->use_24_hour_format)
-		/* This is a strftime() format. %H = hour (0-23), %M = minute. */
-		format = _("%H:%M");
-	else
-		/* This is a strftime() format. %I = hour (1-12), %M = minute, %p = am/pm string. */
-		format = _("%I:%M %p");
+	e_date_edit_update_time_entry (dedit);
 
-	strftime (buffer, sizeof (buffer), format, &mytm);
-	gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (priv->time_combo)->entry),
-			    buffer);
-
-	gtk_signal_emit (GTK_OBJECT (dedit), date_edit_signals [CHANGED]);
+	if (time_changed)
+		gtk_signal_emit (GTK_OBJECT (dedit),
+				 date_edit_signals [CHANGED]);
 }
 
 
@@ -833,7 +720,7 @@ e_date_edit_get_show_date		(EDateEdit	*dedit)
 {
 	g_return_val_if_fail (E_IS_DATE_EDIT (dedit), TRUE);
 
-	return dedit->_priv->show_date;
+	return dedit->priv->show_date;
 }
 
 
@@ -853,7 +740,7 @@ e_date_edit_set_show_date		(EDateEdit	*dedit,
 
 	g_return_if_fail (E_IS_DATE_EDIT (dedit));
 
-	priv = dedit->_priv;
+	priv = dedit->priv;
 
 	if (priv->show_date == show_date)
 		return;
@@ -867,6 +754,8 @@ e_date_edit_set_show_date		(EDateEdit	*dedit,
 		gtk_widget_hide (priv->date_entry);
 		gtk_widget_hide (priv->date_button);
 	}
+
+	e_date_edit_update_time_combo_state (dedit);
 
 	if (priv->show_date && priv->show_time)
 		gtk_widget_show (priv->space);
@@ -887,7 +776,7 @@ e_date_edit_get_show_time		(EDateEdit	*dedit)
 {
 	g_return_val_if_fail (E_IS_DATE_EDIT (dedit), TRUE);
 
-	return dedit->_priv->show_time;
+	return dedit->priv->show_time;
 }
 
 
@@ -907,7 +796,7 @@ e_date_edit_set_show_time		(EDateEdit	*dedit,
 
 	g_return_if_fail (E_IS_DATE_EDIT (dedit));
 
-	priv = dedit->_priv;
+	priv = dedit->priv;
 
 	if (priv->show_time == show_time)
 		return;
@@ -943,7 +832,7 @@ e_date_edit_get_week_start_day		(EDateEdit	*dedit)
 
 	g_return_val_if_fail (E_IS_DATE_EDIT (dedit), 1);
 
-	gtk_object_get (GTK_OBJECT (E_CALENDAR (dedit->_priv->calendar)->calitem),
+	gtk_object_get (GTK_OBJECT (E_CALENDAR (dedit->priv->calendar)->calitem),
 			"week_start_day", &week_start_day,
 			NULL);
 
@@ -964,7 +853,7 @@ e_date_edit_set_week_start_day		(EDateEdit	*dedit,
 {
 	g_return_if_fail (E_IS_DATE_EDIT (dedit));
 
-	gnome_canvas_item_set (GNOME_CANVAS_ITEM (E_CALENDAR (dedit->_priv->calendar)->calitem),
+	gnome_canvas_item_set (GNOME_CANVAS_ITEM (E_CALENDAR (dedit->priv->calendar)->calitem),
 			"week_start_day", week_start_day,
 			NULL);
 }
@@ -978,7 +867,7 @@ e_date_edit_get_show_week_numbers	(EDateEdit	*dedit)
 
 	g_return_val_if_fail (E_IS_DATE_EDIT (dedit), FALSE);
 
-	gtk_object_get (GTK_OBJECT (E_CALENDAR (dedit->_priv->calendar)->calitem),
+	gtk_object_get (GTK_OBJECT (E_CALENDAR (dedit->priv->calendar)->calitem),
 			"show_week_numbers", &show_week_numbers,
 			NULL);
 
@@ -992,7 +881,7 @@ e_date_edit_set_show_week_numbers	(EDateEdit	*dedit,
 {
 	g_return_if_fail (E_IS_DATE_EDIT (dedit));
 
-	gnome_canvas_item_set (GNOME_CANVAS_ITEM (E_CALENDAR (dedit->_priv->calendar)->calitem),
+	gnome_canvas_item_set (GNOME_CANVAS_ITEM (E_CALENDAR (dedit->priv->calendar)->calitem),
 			"show_week_numbers", show_week_numbers,
 			NULL);
 }
@@ -1004,7 +893,7 @@ e_date_edit_get_use_24_hour_format	(EDateEdit	*dedit)
 {
 	g_return_val_if_fail (E_IS_DATE_EDIT (dedit), TRUE);
 
-	return dedit->_priv->use_24_hour_format;
+	return dedit->priv->use_24_hour_format;
 }
 
 
@@ -1014,12 +903,14 @@ e_date_edit_set_use_24_hour_format	(EDateEdit	*dedit,
 {
 	g_return_if_fail (E_IS_DATE_EDIT (dedit));
 
-	if (dedit->_priv->use_24_hour_format == use_24_hour_format)
+	if (dedit->priv->use_24_hour_format == use_24_hour_format)
 		return;
 
-	dedit->_priv->use_24_hour_format = use_24_hour_format;
+	dedit->priv->use_24_hour_format = use_24_hour_format;
 
 	rebuild_time_popup (dedit);
+
+	e_date_edit_update_time_entry (dedit);
 }
 
 
@@ -1030,7 +921,7 @@ e_date_edit_get_allow_no_date_set	(EDateEdit	*dedit)
 {
 	g_return_val_if_fail (E_IS_DATE_EDIT (dedit), FALSE);
 
-	return GTK_WIDGET_VISIBLE (dedit->_priv->none_button);
+	return GTK_WIDGET_VISIBLE (dedit->priv->none_button);
 }
 
 
@@ -1041,13 +932,20 @@ e_date_edit_set_allow_no_date_set	(EDateEdit	*dedit,
 	g_return_if_fail (E_IS_DATE_EDIT (dedit));
 
 	if (allow_no_date_set) {
-		gtk_widget_show (dedit->_priv->none_button);
+		gtk_widget_show (dedit->priv->none_button);
 	} else {
-		gtk_widget_hide (dedit->_priv->none_button);
+		gtk_widget_hide (dedit->priv->none_button);
 
-		/* If currently set to 'None' set to the current time. */
-		if (e_date_edit_get_time (dedit) == -1)
-			e_date_edit_set_time (dedit, time (NULL));
+		/* If the date is showing, we make sure it isn't 'None' (we
+		   don't really mind if the time is empty), else if just the
+		   time is showing we make sure it isn't 'None'. */
+		if (dedit->priv->show_date) {
+			if (dedit->priv->date_set_to_none)
+				e_date_edit_set_time (dedit, time (NULL));
+		} else {
+			if (dedit->priv->time_set_to_none)
+				e_date_edit_set_time (dedit, time (NULL));
+		}
 	}
 }
 
@@ -1060,8 +958,8 @@ e_date_edit_get_time_popup_range	(EDateEdit	*dedit,
 {
 	g_return_if_fail (E_IS_DATE_EDIT (dedit));
 
-	*lower_hour = dedit->_priv->lower_hour;
-	*upper_hour = dedit->_priv->upper_hour;
+	*lower_hour = dedit->priv->lower_hour;
+	*upper_hour = dedit->priv->upper_hour;
 }
 
 
@@ -1070,16 +968,240 @@ e_date_edit_set_time_popup_range	(EDateEdit	*dedit,
 					 gint		 lower_hour,
 					 gint		 upper_hour)
 {
+	EDateEditPrivate *priv;
+
 	g_return_if_fail (E_IS_DATE_EDIT (dedit));
 
-	if (dedit->_priv->lower_hour == lower_hour
-	    && dedit->_priv->upper_hour == upper_hour)
+	priv = dedit->priv;
+
+	if (priv->lower_hour == lower_hour
+	    && priv->upper_hour == upper_hour)
 		return;
 
-	dedit->_priv->lower_hour = lower_hour;
-	dedit->_priv->upper_hour = upper_hour;
+	priv->lower_hour = lower_hour;
+	priv->upper_hour = upper_hour;
 
 	rebuild_time_popup (dedit);
+
+	/* Setting the combo list items seems to mess up the time entry, so
+	   we set it again. We have to reset it to its last valid time. */
+	priv->time_is_valid = TRUE;
+	e_date_edit_update_time_entry (dedit);
+}
+
+
+/* The arrow button beside the date field has been clicked, so we show the
+   popup with the ECalendar in. */
+static void
+on_date_button_clicked		(GtkWidget	*widget,
+				 EDateEdit	*dedit)
+{
+	e_date_edit_show_date_popup (dedit);
+}
+
+
+static void
+e_date_edit_show_date_popup	(EDateEdit	*dedit)
+{
+	EDateEditPrivate *priv;
+	ECalendar *calendar;
+	struct tm mtm;
+	gchar *date_text;
+	GDate selected_day;
+	gboolean clear_selection = FALSE;
+
+	priv = dedit->priv;
+	calendar = E_CALENDAR (priv->calendar);
+
+	date_text = gtk_entry_get_text (GTK_ENTRY (priv->date_entry));
+	if (field_set_to_none (date_text)
+	    || !e_date_edit_parse_date (dedit, date_text, &mtm))
+		clear_selection = TRUE;
+
+	if (clear_selection) {
+		e_calendar_item_set_selection (calendar->calitem, NULL, NULL);
+	} else {
+		g_date_clear (&selected_day, 1);
+		g_date_set_dmy (&selected_day, mtm.tm_mday, mtm.tm_mon + 1,
+				mtm.tm_year + 1900);
+		e_calendar_item_set_selection (calendar->calitem,
+					       &selected_day, NULL);
+	}
+
+	/* FIXME: Hack. Change ECalendarItem so it doesn't queue signal
+	   emissions. */
+	calendar->calitem->selection_changed = FALSE;
+
+        position_date_popup (dedit);
+	gtk_widget_show (priv->cal_popup);
+	gtk_widget_grab_focus (priv->cal_popup);
+	gtk_grab_add (priv->cal_popup);
+	gdk_pointer_grab (priv->cal_popup->window, TRUE,
+			  (GDK_BUTTON_PRESS_MASK
+			   | GDK_BUTTON_RELEASE_MASK
+			   | GDK_POINTER_MOTION_MASK),
+			  NULL, NULL, GDK_CURRENT_TIME);
+}
+
+
+/* This positions the date popup below and to the left of the arrow button,
+   just before it is shown. */
+static void
+position_date_popup		(EDateEdit	*dedit)
+{
+	gint x, y;
+	gint bwidth, bheight;
+	GtkRequisition req;
+	gint screen_width, screen_height;
+
+	gtk_widget_size_request (dedit->priv->cal_popup, &req);
+
+	gdk_window_get_origin (dedit->priv->date_button->window, &x, &y);
+	gdk_window_get_size (dedit->priv->date_button->window,
+			     &bwidth, &bheight);
+
+      	screen_width = gdk_screen_width ();
+	screen_height = gdk_screen_height ();
+
+	x += bwidth - req.width;
+	y += bheight;
+
+	x = CLAMP (x, 0, MAX (0, screen_width - req.width));
+	y = CLAMP (y, 0, MAX (0, screen_height - req.height));
+
+	gtk_widget_set_uposition (dedit->priv->cal_popup, x, y);
+}
+
+
+/* A date has been selected in the date popup, so we set the date field
+   and hide the popup. */
+static void
+on_date_popup_date_selected	(ECalendarItem	*calitem,
+				 EDateEdit	*dedit)
+{
+	EDateEditPrivate *priv;
+	GDate start_date, end_date;
+
+	priv = dedit->priv;
+
+	hide_date_popup (dedit);
+
+	if (!e_calendar_item_get_selection (calitem, &start_date, &end_date))
+		return;
+
+	e_date_edit_set_date (dedit, g_date_year (&start_date),
+			      g_date_month (&start_date),
+			      g_date_day (&start_date));
+}
+
+
+static void
+on_date_popup_now_button_clicked	(GtkWidget	*button,
+					 EDateEdit	*dedit)
+{
+	hide_date_popup (dedit);
+	e_date_edit_set_time (dedit, time (NULL));
+}
+
+
+static void
+on_date_popup_today_button_clicked	(GtkWidget	*button,
+					 EDateEdit	*dedit)
+{
+	struct tm *tmp_tm;
+	time_t t;
+
+	hide_date_popup (dedit);
+
+	t = time (NULL);
+	tmp_tm = localtime (&t);
+
+	e_date_edit_set_date (dedit, tmp_tm->tm_year + 1900,
+			      tmp_tm->tm_mon + 1, tmp_tm->tm_mday);
+}
+
+
+static void
+on_date_popup_none_button_clicked	(GtkWidget	*button,
+					 EDateEdit	*dedit)
+{
+	hide_date_popup (dedit);
+	e_date_edit_set_time (dedit, -1);
+}
+
+
+/* A key has been pressed while the date popup is showing. If it is the Escape
+   key we hide the popup. */
+static gint
+on_date_popup_key_press			(GtkWidget	*widget,
+					 GdkEventKey	*event,
+					 EDateEdit	*dedit)
+{
+	if (event->keyval != GDK_Escape)
+		return FALSE;
+
+	gtk_signal_emit_stop_by_name (GTK_OBJECT (widget), "key_press_event");
+	hide_date_popup (dedit);
+
+	return TRUE;
+}
+
+
+/* A mouse button has been pressed while the date popup is showing.
+   Any button press events used to select days etc. in the popup will have
+   have been handled elsewhere, so here we just hide the popup.
+   (This function is yanked from gtkcombo.c) */
+static gint
+on_date_popup_button_press	(GtkWidget	*widget,
+				 GdkEventButton *event,
+				 gpointer	 data)
+{
+	EDateEdit *dedit;
+	GtkWidget *child;
+
+	dedit = data;
+
+	child = gtk_get_event_widget ((GdkEvent *) event);
+
+	/* We don't ask for button press events on the grab widget, so
+	 *  if an event is reported directly to the grab widget, it must
+	 *  be on a window outside the application (and thus we remove
+	 *  the popup window). Otherwise, we check if the widget is a child
+	 *  of the grab widget, and only remove the popup window if it
+	 *  is not.
+	 */
+	if (child != widget) {
+		while (child) {
+			if (child == widget)
+				return FALSE;
+			child = child->parent;
+		}
+	}
+
+	hide_date_popup (dedit);
+
+	return TRUE;
+}
+
+
+/* A delete event has been received for the date popup, so we hide it and
+   return TRUE so it doesn't get destroyed. */
+static gint
+on_date_popup_delete_event	(GtkWidget	*widget,
+				 EDateEdit	*dedit)
+{
+	hide_date_popup (dedit);
+	return TRUE;
+}
+
+
+/* Hides the date popup, removing any grabs. */
+static void
+hide_date_popup			(EDateEdit	*dedit)
+{
+	gtk_widget_hide (dedit->priv->cal_popup);
+	gtk_grab_remove (dedit->priv->cal_popup);
+	gdk_pointer_ungrab (GDK_CURRENT_TIME);
 }
 
 
@@ -1095,7 +1217,7 @@ rebuild_time_popup			(EDateEdit	*dedit)
 	struct tm tmp_tm;
 	gint hour, min;
 
-	priv = dedit->_priv;
+	priv = dedit->priv;
 
 	list = GTK_LIST (GTK_COMBO (priv->time_combo)->list);
 
@@ -1139,32 +1261,70 @@ rebuild_time_popup			(EDateEdit	*dedit)
 }
 
 
-/* Makes the time field & popup sensitive so the user can set the time. */
-static void
-enable_time_combo		(EDateEdit	*dedit)
+static gboolean
+e_date_edit_parse_date (EDateEdit *dedit,
+			gchar	  *date_text,
+			struct tm *date_tm)
 {
-	gtk_widget_set_sensitive (dedit->_priv->time_combo, TRUE);
+	struct tm *tmp_tm;
+	time_t t;
+
+	/* This is a strptime() format for a short date. %m = month,
+	   %d = day of month, %Y = year (all digits). */
+	if (!strptime (date_text, _("%m/%d/%Y"), date_tm))
+		return FALSE;
+
+	/* If the user entered a 2-digit year we use the current century. */
+	if (date_tm->tm_year < 0) {
+		t = time (NULL);
+		tmp_tm = localtime (&t);
+
+		/* This should convert it into a value from 0 to 99. */
+		date_tm->tm_year += 1900;
+
+		/* Now add on the century. */
+		date_tm->tm_year += tmp_tm->tm_year - (tmp_tm->tm_year % 100);
+	}
+
+	return TRUE;
 }
 
 
-/* Makes the time field & popup insensitive and clears it. This is used when
-   the date has been set to "None". */
-static void
-disable_time_combo		(EDateEdit	*dedit)
+static gboolean
+e_date_edit_parse_time	(EDateEdit	*dedit,
+			 gchar		*time_text,
+			 struct tm	*time_tm)
 {
-	gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (dedit->_priv->time_combo)->entry), "");
-	gtk_widget_set_sensitive (dedit->_priv->time_combo, FALSE);
+	gchar *format;
+
+	if (field_set_to_none (time_text)) {
+		time_tm->tm_hour = 0;
+		time_tm->tm_min = 0;
+		return TRUE;
+	}
+
+	if (dedit->priv->use_24_hour_format)
+		/* This is a strptime() format. %H = hour (0-23), %M = minute. */
+		format = _("%H:%M");
+	else
+		/* This is a strptime() format. %I = hour (1-12), %M = minute, %p = am/pm string. */
+		format = _("%I:%M %p");
+
+	if (!strptime (time_text, format, time_tm))
+		return FALSE;
+
+	return TRUE;
 }
 
 
 /* Returns TRUE if the string is empty or is "None" in the current locale.
    It ignores whitespace. */
 static gboolean
-date_is_none			(char		*date_text)
+field_set_to_none		(char		*text)
 {
 	char *pos, *none_string;
 
-	pos = date_text;
+	pos = text;
 	while (isspace (*pos))
 		pos++;
 
@@ -1175,3 +1335,389 @@ date_is_none			(char		*date_text)
 	return FALSE;
 }
 
+
+static void
+on_date_edit_time_selected	(GtkList	*list,
+				 EDateEdit	*dedit)
+{
+	GtkWidget *toplevel;
+
+	/* We only want to emit signals when an item is selected explicitly,
+	   not when it is selected by the silly combo update thing. */
+	if (!list->selection)
+		return;
+
+	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (list));
+	if (!GTK_WIDGET_MAPPED (toplevel))
+		return;
+
+	e_date_edit_check_time_changed (dedit);
+}
+
+
+static gint
+on_date_entry_key_press			(GtkWidget	*widget,
+					 GdkEventKey	*event,
+					 EDateEdit	*dedit)
+{
+	if (event->state & GDK_MOD1_MASK
+	    && (event->keyval == GDK_Up || event->keyval == GDK_Down
+		|| event->keyval == GDK_Return)) {
+		gtk_signal_emit_stop_by_name (GTK_OBJECT (widget),
+					      "key_press_event");
+		e_date_edit_show_date_popup (dedit);
+		return TRUE;
+	}
+
+	/* If the user hits the return key emit a "date_changed" signal if
+	   needed. But let the signal carry on. */
+	if (event->keyval == GDK_Return) {
+		e_date_edit_check_date_changed (dedit);
+		return FALSE;
+	}
+
+	return FALSE;
+}
+
+
+static gint
+on_time_entry_key_press			(GtkWidget	*widget,
+					 GdkEventKey	*event,
+					 EDateEdit	*dedit)
+{
+	/* I'd like to use Alt+Up/Down for popping up the list, like Win32,
+	   but the combo steals any Up/Down keys, so we use Alt+Return. */
+#if 0	   
+	if (event->state & GDK_MOD1_MASK
+	    && (event->keyval == GDK_Up || event->keyval == GDK_Down)) {
+#else
+	if (event->state & GDK_MOD1_MASK && event->keyval == GDK_Return) {
+#endif
+		gtk_signal_emit_stop_by_name (GTK_OBJECT (widget),
+					      "key_press_event");
+		gtk_signal_emit_by_name (GTK_OBJECT (GTK_COMBO (dedit->priv->time_combo)->entry), "activate");
+		return TRUE;
+	}
+
+	/* Stop the return key from emitting the activate signal, and check
+	   if we need to emit a "time_changed" signal. */
+	if (event->keyval == GDK_Return) {
+		gtk_signal_emit_stop_by_name (GTK_OBJECT (widget),
+					      "key_press_event");
+		e_date_edit_check_time_changed (dedit);
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+
+static gint
+on_date_entry_focus_out			(GtkEntry	*entry,
+					 GdkEventFocus  *event,
+					 EDateEdit	*dedit)
+{
+	e_date_edit_check_date_changed (dedit);
+	return FALSE;
+}
+
+
+static gint
+on_time_entry_focus_out			(GtkEntry	*entry,
+					 GdkEventFocus  *event,
+					 EDateEdit	*dedit)
+{
+	e_date_edit_check_time_changed (dedit);
+	return FALSE;
+}
+
+
+/* This sets the text in the date entry according to the current settings. */
+static void
+e_date_edit_update_date_entry		(EDateEdit	*dedit)
+{
+	EDateEditPrivate *priv;
+	char buffer[40];
+	struct tm tmp_tm = { 0 };
+
+	priv = dedit->priv;
+
+	if (priv->date_set_to_none || !priv->date_is_valid) {
+		gtk_entry_set_text (GTK_ENTRY (priv->date_entry), _("None"));
+	} else {
+		tmp_tm.tm_year = priv->year;
+		tmp_tm.tm_mon = priv->month;
+		tmp_tm.tm_mday = priv->day;
+		tmp_tm.tm_isdst = -1;
+
+		/* This is a strftime() format for a short date. %m = month,
+		   %d = day of month, %Y = year (all digits). */
+		strftime (buffer, sizeof (buffer), _("%m/%d/%Y"), &tmp_tm);
+		gtk_entry_set_text (GTK_ENTRY (priv->date_entry), buffer);
+	}
+}
+
+
+/* This sets the text in the time entry according to the current settings. */
+static void
+e_date_edit_update_time_entry		(EDateEdit	*dedit)
+{
+	EDateEditPrivate *priv;
+	char buffer[40], *format;
+	struct tm tmp_tm = { 0 };
+
+	priv = dedit->priv;
+
+	if (priv->time_set_to_none || !priv->time_is_valid) {
+		gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (priv->time_combo)->entry), "");
+	} else {
+		/* Set these to reasonable values just in case. */
+		tmp_tm.tm_year = 2000;
+		tmp_tm.tm_mon = 0;
+		tmp_tm.tm_mday = 1;
+
+		tmp_tm.tm_hour = priv->hour;
+		tmp_tm.tm_min = priv->minute;
+
+		tmp_tm.tm_sec = 0;
+		tmp_tm.tm_isdst = -1;
+
+		if (priv->use_24_hour_format)
+			/* This is a strftime() format. %H = hour (0-23), %M = minute. */
+			format = _("%H:%M");
+		else
+			/* This is a strftime() format. %I = hour (1-12), %M = minute, %p = am/pm string. */
+			format = _("%I:%M %p");
+
+		strftime (buffer, sizeof (buffer), format, &tmp_tm);
+		gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (priv->time_combo)->entry),
+				    buffer);
+	}
+}
+
+
+static void
+e_date_edit_update_time_combo_state	(EDateEdit	*dedit)
+{
+	EDateEditPrivate *priv;
+	gchar *text;
+
+	priv = dedit->priv;
+
+	/* If the date entry is currently shown, and it is set to None,
+	   clear the time entry and disable the time combo, else enable it. */
+	if (priv->show_date && priv->date_set_to_none) {
+		text = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (priv->time_combo)->entry));
+		if (text[0])
+			gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (priv->time_combo)->entry), "");
+		gtk_widget_set_sensitive (priv->time_combo, FALSE);
+	} else {
+		gtk_widget_set_sensitive (priv->time_combo, TRUE);
+	}
+}
+
+
+/* Parses the date, and if it is different from the current settings it
+   updates the settings and emits a "date_changed" signal. */
+static void
+e_date_edit_check_date_changed		(EDateEdit	*dedit)
+{
+	EDateEditPrivate *priv;
+	gchar *date_text;
+	struct tm tmp_tm;
+	gboolean none = FALSE, valid = TRUE, date_changed;
+
+	priv = dedit->priv;
+
+	date_text = gtk_entry_get_text (GTK_ENTRY (priv->date_entry));
+	if (field_set_to_none (date_text))
+		none = TRUE;
+	else if (!e_date_edit_parse_date (dedit, date_text, &tmp_tm))
+		valid = FALSE;
+
+	date_changed = e_date_edit_set_date_internal (dedit, valid, none,
+						      tmp_tm.tm_year,
+						      tmp_tm.tm_mon,
+						      tmp_tm.tm_mday);
+
+	if (date_changed)
+		gtk_signal_emit (GTK_OBJECT (dedit),
+				 date_edit_signals [CHANGED]);
+}
+
+
+/* Parses the time, and if it is different from the current settings it
+   updates the settings and emits a "time_changed" signal. */
+static void
+e_date_edit_check_time_changed		(EDateEdit	*dedit)
+{
+	EDateEditPrivate *priv;
+	gchar *time_text;
+	struct tm tmp_tm;
+	gboolean none = FALSE, valid = TRUE, time_changed;
+
+	priv = dedit->priv;
+
+	time_text = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (priv->time_combo)->entry));
+	if (field_set_to_none (time_text))
+		none = TRUE;
+	else if (!e_date_edit_parse_time (dedit, time_text, &tmp_tm))
+		valid = FALSE;
+
+	time_changed = e_date_edit_set_time_internal (dedit, valid, none,
+						      tmp_tm.tm_hour,
+						      tmp_tm.tm_min);
+
+	if (time_changed)
+		gtk_signal_emit (GTK_OBJECT (dedit),
+				 date_edit_signals [CHANGED]);
+}
+
+
+/**
+ * e_date_edit_date_is_valid:
+ * @dedit: an #EDateEdit widget.
+ * @Returns: TRUE if the last date entered was valid.
+ *
+ * Returns TRUE if the last date entered was valid.
+ *
+ * Note that if this returns FALSE, you can still use e_date_edit_get_time()
+ * or e_date_edit_get_date() to get the last time or date entered which was
+ * valid.
+ */
+gboolean
+e_date_edit_date_is_valid	(EDateEdit	*dedit)
+{
+	g_return_val_if_fail (E_IS_DATE_EDIT (dedit), FALSE);
+
+	if (!dedit->priv->date_is_valid)
+		return FALSE;
+
+	/* If the date is empty/None and that isn't permitted, return FALSE. */
+	if (dedit->priv->date_set_to_none
+	    && !e_date_edit_get_allow_no_date_set (dedit))
+		return FALSE;
+
+	return TRUE;
+}
+
+
+/**
+ * e_date_edit_time_is_valid:
+ * @dedit: an #EDateEdit widget.
+ * @Returns: TRUE if the last time entered was valid.
+ *
+ * Returns TRUE if the last time entered was valid.
+ *
+ * Note that if this returns FALSE, you can still use e_date_edit_get_time()
+ * or e_date_edit_get_time_of_day() to get the last time or time of the day
+ * entered which was valid.
+ */
+gboolean
+e_date_edit_time_is_valid	(EDateEdit	*dedit)
+{
+	g_return_val_if_fail (E_IS_DATE_EDIT (dedit), FALSE);
+
+	if (!dedit->priv->time_is_valid)
+		return FALSE;
+
+	/* If the time is empty and that isn't permitted, return FALSE.
+	   Note that we don't mind an empty time if the date field is shown
+	   - in that case we just assume 0:00. */
+	if (dedit->priv->time_set_to_none && !dedit->priv->show_date
+	    && !e_date_edit_get_allow_no_date_set (dedit))
+		return FALSE;
+
+	return TRUE;
+}
+
+
+static gboolean
+e_date_edit_set_date_internal	(EDateEdit	*dedit,
+				 gboolean	 valid,
+				 gboolean	 none,
+				 gint		 year,
+				 gint		 month,
+				 gint		 day)
+{
+	EDateEditPrivate *priv;
+	gboolean date_changed = FALSE;
+
+	priv = dedit->priv;
+
+	if (!valid) {
+		/* Date is invalid. */
+		if (priv->date_is_valid) {
+			priv->date_is_valid = FALSE;
+			date_changed = TRUE;
+		}
+	} else if (none) {
+		/* Date has been set to 'None'. */
+		if (!priv->date_is_valid
+		    || !priv->date_set_to_none) {
+			priv->date_is_valid = TRUE;
+			priv->date_set_to_none = TRUE;
+			date_changed = TRUE;
+		}
+	} else {
+		/* Date has been set to a specific date. */
+		if (!priv->date_is_valid
+		    || priv->date_set_to_none
+		    || priv->year != year
+		    || priv->month != month
+		    || priv->day != day) {
+			priv->date_is_valid = TRUE;
+			priv->date_set_to_none = FALSE;
+			priv->year = year;
+			priv->month = month;
+			priv->day = day;
+			date_changed = TRUE;
+		}
+	}
+
+	return date_changed;
+}
+
+
+static gboolean
+e_date_edit_set_time_internal	(EDateEdit	*dedit,
+				 gboolean	 valid,
+				 gboolean	 none,
+				 gint		 hour,
+				 gint		 minute)
+{
+	EDateEditPrivate *priv;
+	gboolean time_changed = FALSE;
+
+	priv = dedit->priv;
+
+	if (!valid) {
+		/* Time is invalid. */
+		if (priv->time_is_valid) {
+			priv->time_is_valid = FALSE;
+			time_changed = TRUE;
+		}
+	} else if (none) {
+		/* Time has been set to empty/'None'. */
+		if (!priv->time_is_valid
+		    || !priv->time_set_to_none) {
+			priv->time_is_valid = TRUE;
+			priv->time_set_to_none = TRUE;
+			time_changed = TRUE;
+		}
+	} else {
+		/* Time has been set to a specific time. */
+		if (!priv->time_is_valid
+		    || priv->time_set_to_none
+		    || priv->hour != hour
+		    || priv->minute != minute) {
+			priv->time_is_valid = TRUE;
+			priv->time_set_to_none = FALSE;
+			priv->hour = hour;
+			priv->minute = minute;
+			time_changed = TRUE;
+		}
+	}
+
+	return time_changed;
+}

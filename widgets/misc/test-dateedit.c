@@ -34,11 +34,21 @@
 
 #include "e-dateedit.h"
 
-static void delete_event_cb (GtkWidget *widget,
-			     GdkEventAny *event,
-			     gpointer data);
-static void on_get_date_clicked	(GtkWidget *button,
-				 EDateEdit *dedit);
+static void delete_event_cb		(GtkWidget	*widget,
+					 GdkEventAny	*event,
+					 GtkWidget	*app);
+static void on_get_date_clicked		(GtkWidget	*button,
+					 EDateEdit	*dedit);
+static void on_toggle_24_hour_clicked	(GtkWidget	*button,
+					 EDateEdit	*dedit);
+static void on_changed			(EDateEdit	*dedit,
+					 gchar		*name);
+#if 0
+static void on_date_changed		(EDateEdit	*dedit,
+					 gchar		*name);
+static void on_time_changed		(EDateEdit	*dedit,
+					 gchar		*name);
+#endif
 
 int
 main (int argc, char **argv)
@@ -55,9 +65,9 @@ main (int argc, char **argv)
 	gtk_container_set_border_width (GTK_CONTAINER (app), 8);
 
 	gtk_signal_connect (GTK_OBJECT (app), "delete_event",
-			    GTK_SIGNAL_FUNC (delete_event_cb), NULL);
+			    GTK_SIGNAL_FUNC (delete_event_cb), app);
 
-	table = gtk_table_new (3, 2, FALSE);
+	table = gtk_table_new (3, 3, FALSE);
 	gtk_table_set_row_spacings (GTK_TABLE (table), 4);
 	gtk_table_set_col_spacings (GTK_TABLE (table), 4);
 	gtk_widget_show (table);
@@ -68,6 +78,16 @@ main (int argc, char **argv)
 	gtk_table_attach (GTK_TABLE (table), (GtkWidget*) dedit,
 			  0, 1, 0, 1, GTK_FILL, GTK_EXPAND, 0, 0);
 	gtk_widget_show ((GtkWidget*) (dedit));
+
+#if 0
+	gtk_signal_connect (GTK_OBJECT (dedit), "date_changed",
+			    GTK_SIGNAL_FUNC (on_date_changed), "1");
+	gtk_signal_connect (GTK_OBJECT (dedit), "time_changed",
+			    GTK_SIGNAL_FUNC (on_time_changed), "1");
+#else
+	gtk_signal_connect (GTK_OBJECT (dedit), "changed",
+			    GTK_SIGNAL_FUNC (on_changed), "1");
+#endif
 
 	button = gtk_button_new_with_label ("Print Date");
 	gtk_table_attach (GTK_TABLE (table), button,
@@ -87,6 +107,16 @@ main (int argc, char **argv)
 	e_date_edit_set_time_popup_range (dedit, 8, 18);
 	e_date_edit_set_show_time (dedit, FALSE);
 
+#if 0
+	gtk_signal_connect (GTK_OBJECT (dedit), "date_changed",
+			    GTK_SIGNAL_FUNC (on_date_changed), "2");
+	gtk_signal_connect (GTK_OBJECT (dedit), "time_changed",
+			    GTK_SIGNAL_FUNC (on_time_changed), "2");
+#else
+	gtk_signal_connect (GTK_OBJECT (dedit), "changed",
+			    GTK_SIGNAL_FUNC (on_changed), "2");
+#endif
+
 	button = gtk_button_new_with_label ("Print Date");
 	gtk_table_attach (GTK_TABLE (table), button,
 			  1, 2, 1, 2, 0, 0, 0, 0);
@@ -105,6 +135,16 @@ main (int argc, char **argv)
 	e_date_edit_set_time_popup_range (dedit, 8, 18);
 	e_date_edit_set_allow_no_date_set (dedit, TRUE);
 
+#if 0
+	gtk_signal_connect (GTK_OBJECT (dedit), "date_changed",
+			    GTK_SIGNAL_FUNC (on_date_changed), "3");
+	gtk_signal_connect (GTK_OBJECT (dedit), "time_changed",
+			    GTK_SIGNAL_FUNC (on_time_changed), "3");
+#else
+	gtk_signal_connect (GTK_OBJECT (dedit), "changed",
+			    GTK_SIGNAL_FUNC (on_changed), "3");
+#endif
+
 	button = gtk_button_new_with_label ("Print Date");
 	gtk_table_attach (GTK_TABLE (table), button,
 			  1, 2, 2, 3, 0, 0, 0, 0);
@@ -112,7 +152,13 @@ main (int argc, char **argv)
 	gtk_signal_connect (GTK_OBJECT (button), "clicked",
 			    GTK_SIGNAL_FUNC (on_get_date_clicked), dedit);
 
-
+	button = gtk_button_new_with_label ("Toggle 24-hour");
+	gtk_table_attach (GTK_TABLE (table), button,
+			  2, 3, 2, 3, 0, 0, 0, 0);
+	gtk_widget_show (button);
+	gtk_signal_connect (GTK_OBJECT (button), "clicked",
+			    GTK_SIGNAL_FUNC (on_toggle_24_hour_clicked),
+			    dedit);
 
 	gtk_widget_show (app);
 
@@ -123,25 +169,111 @@ main (int argc, char **argv)
 
 
 static void
-delete_event_cb (GtkWidget *widget,
-		 GdkEventAny *event,
-		 gpointer data)
+delete_event_cb		(GtkWidget	*widget,
+			 GdkEventAny	*event,
+			 GtkWidget	*app)
 {
+	gtk_widget_destroy (app);
+
 	gtk_main_quit ();
 }
 
 
 static void
-on_get_date_clicked	(GtkWidget *button,
-			 EDateEdit *dedit)
+on_get_date_clicked	(GtkWidget	*button,
+			 EDateEdit	*dedit)
 {
 	time_t t;
 
 	t = e_date_edit_get_time (dedit);
-
 	if (t == -1)
 		g_print ("Time: None\n");
 	else
 		g_print ("Time: %s", ctime (&t));
+
+	if (!e_date_edit_date_is_valid (dedit))
+		g_print ("  Date invalid\n");
+
+	if (!e_date_edit_time_is_valid (dedit))
+		g_print ("  Time invalid\n");
 }
+
+
+static void
+on_toggle_24_hour_clicked	(GtkWidget	*button,
+				 EDateEdit	*dedit)
+{
+	e_date_edit_set_use_24_hour_format (dedit, !e_date_edit_get_use_24_hour_format (dedit));
+}
+
+
+#if 0
+static void
+on_date_changed		(EDateEdit	*dedit,
+			 gchar		*name)
+{
+	gint year, month, day;
+
+	if (e_date_edit_date_is_valid (dedit)) {
+		if (e_date_edit_get_date (dedit, &year, &month, &day)) {
+			g_print ("Date %s changed to: %i/%i/%i (M/D/Y)\n",
+				 name, month, day, year);
+		} else {
+			g_print ("Date %s changed to: None\n", name);
+		}
+	} else {
+		g_print ("Date %s changed to: Not Valid\n", name);
+	}
+}
+
+
+static void
+on_time_changed		(EDateEdit	*dedit,
+			 gchar		*name)
+{
+	gint hour, minute;
+
+	if (e_date_edit_time_is_valid (dedit)) {
+		if (e_date_edit_get_time_of_day (dedit, &hour, &minute)) {
+			g_print ("Time %s changed to: %02i:%02i\n", name,
+				 hour, minute);
+		} else {
+			g_print ("Time %s changed to: None\n", name);
+		}
+	} else {
+		g_print ("Time %s changed to: Not Valid\n", name);
+	}
+}
+#endif
+
+
+static void
+on_changed		(EDateEdit	*dedit,
+			 gchar		*name)
+{
+	gint year, month, day, hour, minute;
+
+	g_print ("Date %s changed ", name);
+
+	if (e_date_edit_date_is_valid (dedit)) {
+		if (e_date_edit_get_date (dedit, &year, &month, &day)) {
+			g_print ("M/D/Y: %i/%i/%i", month, day, year);
+		} else {
+			g_print ("None");
+		}
+	} else {
+		g_print ("Date Invalid");
+	}
+
+	if (e_date_edit_time_is_valid (dedit)) {
+		if (e_date_edit_get_time_of_day (dedit, &hour, &minute)) {
+			g_print (" %02i:%02i\n", hour, minute);
+		} else {
+			g_print (" None\n");
+		}
+	} else {
+		g_print (" Time Invalid\n");
+	}
+}
+
 

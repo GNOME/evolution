@@ -28,6 +28,14 @@
 /*
  * EDateEdit - a widget based on GnomeDateEdit to provide a date & optional
  * time field with popups for entering a date.
+ *
+ * It emits a "changed" signal when the date and/or time has changed.
+ * You can check if the last date or time entered was invalid by
+ * calling e_date_edit_date_is_valid() and e_date_edit_time_is_valid().
+ *
+ * Note that when the user types in a date or time, it will only emit the
+ * signals when the user presses the return key or switches the keyboard
+ * focus to another widget, or you call one of the _get_time/date functions.
  */
 
 #ifndef __E_DATE_EDIT_H_
@@ -54,7 +62,7 @@ struct _EDateEdit {
 	GtkHBox hbox;
 
 	/*< private >*/
-	EDateEditPrivate *_priv;
+	EDateEditPrivate *priv;
 };
 
 struct _EDateEditClass {
@@ -66,12 +74,33 @@ struct _EDateEditClass {
 guint      e_date_edit_get_type			(void);
 GtkWidget* e_date_edit_new			(void);
 
-time_t     e_date_edit_get_time			(EDateEdit	*dedit);
+/* Returns TRUE if the last date and time set were valid. The date and time
+   are only set when the user hits Return or switches keyboard focus, or
+   selects a date or time from the popup. */
+gboolean   e_date_edit_date_is_valid		(EDateEdit	*dedit);
+gboolean   e_date_edit_time_is_valid		(EDateEdit	*dedit);
+
+/* Returns the last valid date & time set, or -1 if the date & time was set to
+   'None' and this is permitted via e_date_edit_set_allow_no_date_set. */
+time_t	   e_date_edit_get_time			(EDateEdit	*dedit);
 void       e_date_edit_set_time			(EDateEdit	*dedit,
 						 time_t		 the_time);
 
-/* These get or set the value in the time field, useful if only a time is
-   being edited. */
+/* This returns the last valid date set, without the time. It returns TRUE
+   if a date is set, or FALSE if the date is set to 'None' and this is
+   permitted via e_date_edit_set_allow_no_date_set. */
+gboolean   e_date_edit_get_date			(EDateEdit	*dedit,
+						 gint		*year,
+						 gint		*month,
+						 gint		*day);
+void	   e_date_edit_set_date			(EDateEdit	*dedit,
+						 gint		 year,
+						 gint		 month,
+						 gint		 day);
+
+/* This returns the last valid time set, without the date. It returns TRUE
+   if a time is set, or FALSE if the time is set to 'None' and this is
+   permitted via e_date_edit_set_allow_no_date_set. */
 gboolean   e_date_edit_get_time_of_day		(EDateEdit	*dedit,
 						 gint		*hour,
 						 gint		*minute);

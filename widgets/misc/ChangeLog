@@ -1,3 +1,14 @@
+2000-10-26  Damon Chaplin  <damon@helixcode.com>
+
+	* e-dateedit.[hc]: updated to emit "changed" when appropriate, which
+	turned out to be amazingly difficult :(
+	Also added e_date_edit_get/set_date() to get/set just the date.
+	Added e_date_edit_date_is_valid() & e_date_edit_time_is_valid() so
+	you can check if the user has tried to enter an invalid date.
+	(All the get_date/time functions return the last valid date entered.)
+
+	* test-dateedit.c: updated a bit.
+
 2000-11-02  Federico Mena Quintero  <federico@helixcode.com>
 
 	* e-dateedit.h (EDateEditClass): Removed the "time_changed"
