@@ -1067,6 +1067,7 @@ calendar/gui/Makefile
 calendar/gui/alarm-notify/Makefile
 calendar/gui/dialogs/Makefile
 calendar/idl/Makefile
+calendar/importers/Makefile
 calendar/pcs/Makefile
 camel/Makefile
 camel/providers/Makefile

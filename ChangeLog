@@ -1,3 +1,7 @@
+2001-10-29  Rodrigo Moya <rodrigo@ximian.com>
+
+	* configure.in: added calendar/importers/Makefile
+
 2001-10-29  Christopher James Lahey  <clahey@ximian.com>
 
 	* configure.in: Bumped required version of gal to 0.15.99.7.
