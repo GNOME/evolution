@@ -1,3 +1,14 @@
+2004-06-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap4/camel-imap4-summary.c
+	(camel_imap4_summary_set_exists): Don't bother with
+	exists_changed. We don't need it afterall.
+	(camel_imap4_summary_flush_updates): Instead of updating flags if
+	update_flags or exists_changed is set, only bother if update_flags
+	is set or if exists is smaller than the summary count (since
+	updating flags is also sueful for determining which messages have
+	been removed).
+
 2004-06-11  Jeffrey Stedfast  <fejj@novell.com>
 
 	* providers/imap4/camel-imap4-folder.c (imap4_refresh_info): Force

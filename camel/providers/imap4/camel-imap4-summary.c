@@ -107,7 +107,6 @@ camel_imap4_summary_init (CamelIMAP4Summary *summary, CamelIMAP4SummaryClass *kl
 	folder_summary->message_info_size = sizeof (CamelIMAP4MessageInfo);
 	
 	summary->update_flags = TRUE;
-	summary->exists_changed = FALSE;
 	summary->uidvalidity_changed = FALSE;
 }
 
@@ -1010,11 +1009,7 @@ camel_imap4_summary_set_exists (CamelFolderSummary *summary, guint32 exists)
 	
 	g_return_if_fail (CAMEL_IS_IMAP4_SUMMARY (summary));
 	
-	if (imap4_summary->exists == exists)
-		return;
-	
 	imap4_summary->exists = exists;
-	imap4_summary->exists_changed = TRUE;
 }
 
 void
@@ -1131,14 +1126,14 @@ camel_imap4_summary_flush_updates (CamelFolderSummary *summary, CamelException *
 	g_return_val_if_fail (CAMEL_IS_IMAP4_SUMMARY (summary), -1);
 	
 	engine = ((CamelIMAP4Store *) imap4_summary->folder->parent_store)->engine;
+	scount = camel_folder_summary_count (summary);
 	
 	if (imap4_summary->uidvalidity_changed) {
 		first = 1;
-	} else if (imap4_summary->update_flags || imap4_summary->exists_changed) {
+	} else if (imap4_summary->update_flags || imap4_summary->exists < scount) {
 		/* this both updates flags and removes messages which
 		 * have since been expunged from the server by another
 		 * client */
-		scount = camel_folder_summary_count (summary);
 		ic = imap4_summary_fetch_flags (summary, 1, scount);
 		
 		while ((id = camel_imap4_engine_iterate (engine)) < ic->id && id != -1)
@@ -1155,6 +1150,8 @@ camel_imap4_summary_flush_updates (CamelFolderSummary *summary, CamelException *
 			first = scount + 1;
 		
 		camel_imap4_command_unref (ic);
+	} else {
+		first = scount;
 	}
 	
 	if (first != 0 && imap4_summary->exists > 0) {
@@ -1178,7 +1175,6 @@ camel_imap4_summary_flush_updates (CamelFolderSummary *summary, CamelException *
 	}
 	
 	imap4_summary->update_flags = FALSE;
-	imap4_summary->exists_changed = FALSE;
 	imap4_summary->uidvalidity_changed = FALSE;
 	
 	return 0;
