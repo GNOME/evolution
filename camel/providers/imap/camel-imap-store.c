@@ -2498,6 +2498,7 @@ get_folders(CamelStore *store, const char *top, guint32 flags, CamelException *e
 			fi = q->data;
 
 			q = g_slist_remove_link(q, q);
+			g_hash_table_insert(infos, fi->full_name, fi);
 			g_ptr_array_add(folders_out, fi);
 
 			d(printf("Checking folder '%s'\n", fi->full_name));
@@ -2574,10 +2575,10 @@ get_folder_info_online (CamelStore *store, const char *top, guint32 flags, Camel
 
 	if (folders == NULL)
 		return NULL;
-	
+
 	tree = camel_folder_info_build(folders, top, '/', TRUE);
 	g_ptr_array_free(folders, TRUE);
-	
+
 	if (!(flags & CAMEL_STORE_FOLDER_INFO_FAST))
 		get_folder_counts(imap_store, tree, ex);
 

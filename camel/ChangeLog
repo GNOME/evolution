@@ -8,6 +8,14 @@
 
 2003-12-09  Not Zed  <NotZed@Ximian.com>
 
+	** See bug #51899.
+
+	* providers/imap/camel-imap-store.c (get_folders): add the first
+	fi to the info's hash, so we dont duplicate it if we come across
+	it again (which we generally will).
+
+2003-12-09  Not Zed  <NotZed@Ximian.com>
+
 	* providers/smtp/camel-smtp-transport.c (smtp_send_to): encode the
 	address before sending it out, rather than using the raw/utf8
 	version.

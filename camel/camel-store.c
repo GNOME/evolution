@@ -953,6 +953,7 @@ camel_folder_info_build (GPtrArray *folders, const char *namespace,
 			name = fi->full_name;
 		if (*name == separator)
 			name++;
+
 		g_hash_table_insert (hash, g_strdup(name), fi);
 	}
 	
