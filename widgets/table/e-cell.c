@@ -125,10 +125,10 @@ e_cell_init (GtkObject *object)
 E_MAKE_TYPE(e_cell, "ECell", ECell, e_cell_class_init, e_cell_init, PARENT_TYPE);
 
 	
-void
+gint
 e_cell_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, int row)
 {
-	E_CELL_CLASS (GTK_OBJECT (ecell_view->ecell)->klass)->event (
+	return E_CELL_CLASS (GTK_OBJECT (ecell_view->ecell)->klass)->event (
 		ecell_view, event, model_col, view_col, row);
 }
 

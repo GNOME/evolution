@@ -80,7 +80,7 @@ GtkType    e_cell_get_type  (void);
 ECellView *e_cell_new_view  (ECell *ecell, ETableModel *table_model, void *e_table_item_view);
 void       e_cell_kill_view (ECellView *ecell_view);
 
-void       e_cell_event     (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, int row);
+gint       e_cell_event     (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, int row);
 
 void       e_cell_realize   (ECellView *ecell_view);
 void       e_cell_unrealize (ECellView *ecell_view);

@@ -1541,7 +1541,8 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 				e->button.x = x1;
 				e->button.y = y1;
 				
-				e_cell_event (ecell_view, e, view_to_model_col(eti, col), col, row);
+				return_val = e_cell_event (ecell_view, e,
+							   view_to_model_col(eti, col), col, row);
 			}
 
 			break;
@@ -1600,7 +1601,8 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 				e->button.x = x1;
 				e->button.y = y1;
 
-				e_cell_event (ecell_view, e, view_to_model_col(eti, col), col, row);
+				return_val = e_cell_event (ecell_view, e,
+							   view_to_model_col(eti, col), col, row);
 			}
 			break;
 		case 3:
@@ -1662,7 +1664,8 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			e->motion.x = x1;
 			e->motion.y = y1;
 			
-			e_cell_event (ecell_view, e, view_to_model_col(eti, col), col, row);
+			return_val = e_cell_event (ecell_view, e,
+						   view_to_model_col(eti, col), col, row);
 		}
 		break;
 	}
@@ -1751,7 +1754,9 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 				e_table_item_leave_edit (eti);
 #if 0
 				ecell_view = eti->cell_views [eti->editing_col];
-				e_cell_event (ecell_view, e, view_to_model_col(eti, eti->editing_col), eti->editing_col, eti->editing_row);
+				return_val = e_cell_event (ecell_view, e,
+							   view_to_model_col(eti, eti->editing_col),
+							   eti->editing_col, eti->editing_row);
 #endif
 			}
 			return_val = FALSE;
@@ -1777,7 +1782,9 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 						 model_to_view_row(eti, cursor_row), cursor_col, e, &return_val);
 			} else {
 				ecell_view = eti->cell_views [eti->editing_col];
-				e_cell_event (ecell_view, e, view_to_model_col(eti, eti->editing_col), eti->editing_col, eti->editing_row);
+				return_val = e_cell_event (ecell_view, e,
+							   view_to_model_col(eti, eti->editing_col),
+							   eti->editing_col, eti->editing_row);
 			}
 		}
 		break;
@@ -1796,7 +1803,9 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 
 		if (eti_editing (eti)){
 			ecell_view = eti->cell_views [eti->editing_col];
-			e_cell_event (ecell_view, e, view_to_model_col(eti, eti->editing_col), eti->editing_col, eti->editing_row);
+			return_val = e_cell_event (ecell_view, e,
+						   view_to_model_col(eti, eti->editing_col),
+						   eti->editing_col, eti->editing_row);
 		}
 		break;
 	}

@@ -339,8 +339,7 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 		default:
 			/* nada */
 		}
-		e_cell_event(tree_view->subcell_view, event, model_col, view_col, row);
-		return TRUE;
+		return e_cell_event(tree_view->subcell_view, event, model_col, view_col, row);
 	}
 }
 
