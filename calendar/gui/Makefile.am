@@ -85,11 +85,9 @@ evolution_calendar_SOURCES =			\
 	event-editor.h				\
 	evolution-calendar-control.c
 
+
 #	eventedit.c				\
 #	eventedit.h				\
-
-
-
 
 
 

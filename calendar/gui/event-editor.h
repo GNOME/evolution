@@ -32,6 +32,7 @@ GtkWidget *event_editor_new (GnomeCalendar *owner, iCalObject *ico);
 void event_editor_new_whole_day (GnomeCalendar *owner, time_t day);
 
 GtkWidget *make_date_edit (void);
+GtkWidget *make_date_edit_with_time (void);
 GtkWidget *date_edit_new (time_t the_time, int show_time);
 
 GtkWidget *make_spin_button (int val, int low, int high);

@@ -278,12 +278,12 @@
 	    <widget>
 	      <class>Custom</class>
 	      <name>start-time</name>
-	      <creation_function>make_date_edit</creation_function>
+	      <creation_function>make_date_edit_with_time</creation_function>
 	      <string1></string1>
 	      <string2></string2>
 	      <int1>0</int1>
 	      <int2>0</int2>
-	      <last_modification_time>Fri, 12 May 2000 16:49:54 GMT</last_modification_time>
+	      <last_modification_time>Tue, 16 May 2000 19:11:05 GMT</last_modification_time>
 	      <child>
 		<left_attach>1</left_attach>
 		<right_attach>2</right_attach>
@@ -303,10 +303,10 @@
 	    <widget>
 	      <class>Custom</class>
 	      <name>end-time</name>
-	      <creation_function>make_date_edit</creation_function>
+	      <creation_function>make_date_edit_with_time</creation_function>
 	      <int1>0</int1>
 	      <int2>0</int2>
-	      <last_modification_time>Fri, 12 May 2000 16:50:00 GMT</last_modification_time>
+	      <last_modification_time>Tue, 16 May 2000 19:11:10 GMT</last_modification_time>
 	      <child>
 		<left_attach>1</left_attach>
 		<right_attach>2</right_attach>
@@ -623,7 +623,7 @@ Days
 
 	    <widget>
 	      <class>GnomeFileEntry</class>
-	      <name>fileentry1</name>
+	      <name>run-program-file-entry</name>
 	      <max_saved>10</max_saved>
 	      <directory>False</directory>
 	      <modal>False</modal>

@@ -21,6 +21,8 @@ extern int week_starts_on_monday;
 
 
 static void append_exception (EventEditorDialog *dialog, time_t t);
+static void check_all_day (EventEditorDialog *dialog);
+static void alarm_toggle (GtkToggleButton *toggle, EventEditorDialog *dialog);
 
 static void
 fill_in_dialog_from_ical (EventEditorDialog *dialog)
@@ -28,10 +30,11 @@ fill_in_dialog_from_ical (EventEditorDialog *dialog)
 	iCalObject *ical = dialog->ical;
 	GladeXML *gui = dialog->gui;
 	GList *list;
+	GtkWidget *alarm_display, *alarm_program, *alarm_audio, *alarm_mail;
 
 	store_to_editable (gui, "general-owner",
-			  dialog->ical->organizer->addr ?
-			  dialog->ical->organizer->addr : _("?"));
+			   dialog->ical->organizer->addr ?
+			   dialog->ical->organizer->addr : _("?"));
 
 	store_to_editable (gui, "general-summary", ical->summary);
 
@@ -39,18 +42,26 @@ fill_in_dialog_from_ical (EventEditorDialog *dialog)
 	store_to_gnome_dateedit (gui, "start-time", ical->dtstart);
 	store_to_gnome_dateedit (gui, "end-time", ical->dtend);
 
-	/* all day event checkbox */
-	if (get_time_t_hour (ical->dtstart) <= day_begin &&
-	    get_time_t_hour (ical->dtend) >= day_end)
-		store_to_toggle (gui, "all-day-event", TRUE);
-	else
-		store_to_toggle (gui, "all-day-event", FALSE);
+	check_all_day (dialog);
 
 	/* alarms */
+	alarm_display = glade_xml_get_widget (dialog->gui, "alarm-display");
+	alarm_program = glade_xml_get_widget (dialog->gui, "alarm-program");
+	alarm_audio = glade_xml_get_widget (dialog->gui, "alarm-audio");
+	alarm_mail = glade_xml_get_widget (dialog->gui, "alarm-mail");
+
 	store_to_toggle (gui, "alarm-display", ical->dalarm.enabled);
 	store_to_toggle (gui, "alarm-program", ical->palarm.enabled);
 	store_to_toggle (gui, "alarm-audio", ical->aalarm.enabled);
 	store_to_toggle (gui, "alarm-mail", ical->malarm.enabled);
+	alarm_toggle (GTK_TOGGLE_BUTTON (alarm_display), dialog);
+	alarm_toggle (GTK_TOGGLE_BUTTON (alarm_program), dialog);
+	alarm_toggle (GTK_TOGGLE_BUTTON (alarm_audio), dialog);
+	alarm_toggle (GTK_TOGGLE_BUTTON (alarm_mail), dialog);
+	gtk_signal_connect (GTK_OBJECT (alarm_display), "toggled", GTK_SIGNAL_FUNC (alarm_toggle), dialog);
+	gtk_signal_connect (GTK_OBJECT (alarm_program), "toggled", GTK_SIGNAL_FUNC (alarm_toggle), dialog);
+	gtk_signal_connect (GTK_OBJECT (alarm_audio), "toggled", GTK_SIGNAL_FUNC (alarm_toggle), dialog);
+	gtk_signal_connect (GTK_OBJECT (alarm_mail), "toggled", GTK_SIGNAL_FUNC (alarm_toggle), dialog);
 
 	/* alarm counts */
 	store_to_spin (gui, "alarm-display-amount", ical->dalarm.count);
@@ -122,18 +133,20 @@ fill_in_dialog_from_ical (EventEditorDialog *dialog)
 		break;
 	}
 
-	/* recurrence ending date */
-	if (ical->recur->duration != 0) {
-		store_to_toggle (gui, "recurrence-ending-date-end-after", TRUE);
-		store_to_spin (gui, "recurrence-ending-date-end-after-count", ical->recur->duration);
-	}
-	else if (ical->recur->enddate != 0) {
+
+	if (ical->recur->_enddate == 0) {
+		if (ical->recur->duration == 0)
+			store_to_toggle (gui, "recurrence-ending-date-repeat-forever", TRUE);
+		else {
+			store_to_toggle (gui, "recurrence-ending-date-end-after", TRUE);
+			store_to_spin (gui, "recurrence-ending-date-end-after-count", ical->recur->duration);
+		}
+	} else {
 		store_to_toggle (gui, "recurrence-ending-date-end-on", TRUE);
 		/* Shorten by one day, as we store end-on date a day ahead */
+		/* FIX ME is this correct? */
 		store_to_gnome_dateedit (gui, "recurrence-ending-date-end-on-date", ical->recur->enddate - 86400);
 	}
-	/* else repeat forever */
-
 
 	/* fill the exceptions list */
 	for (list = ical->exdate; list; list = list->next)
@@ -152,6 +165,22 @@ fill_in_dialog_from_defaults (EventEditorDialog *dialog)
 	/* start and end time */
 	store_to_gnome_dateedit (dialog->gui, "start-time", now);
 	store_to_gnome_dateedit (dialog->gui, "end-time", soon);
+}
+
+
+static void
+free_exdate (iCalObject *ical)
+{
+	GList *list;
+
+	if (!ical->exdate)
+		return;
+
+	for (list = ical->exdate; list; list = list->next)
+		g_free (list->data);
+
+	g_list_free (ical->exdate);
+	ical->exdate = NULL;
 }
 
 
@@ -277,6 +306,9 @@ dialog_to_ical (EventEditorDialog *dialog)
 		int i;
 		time_t *t;
 		GtkCList *exception_list = GTK_CLIST (glade_xml_get_widget (dialog->gui, "recurrence-exceptions-list"));
+
+		free_exdate (ical);
+
 		for (i = 0; i < exception_list->rows; i++) {
 			t = gtk_clist_get_row_data (exception_list, i);
 			ical->exdate = g_list_prepend (ical->exdate, t);
@@ -307,6 +339,184 @@ ee_cancel (GtkWidget *widget, EventEditorDialog *dialog)
 		ical_object_unref (dialog->ical);
 		dialog->ical = NULL;
 	}
+}
+
+
+static void
+alarm_toggle (GtkToggleButton *toggle, EventEditorDialog *dialog)
+{
+	GtkWidget *alarm_display = glade_xml_get_widget (dialog->gui, "alarm-display");
+	GtkWidget *alarm_program = glade_xml_get_widget (dialog->gui, "alarm-program");
+	GtkWidget *alarm_audio = glade_xml_get_widget (dialog->gui, "alarm-audio");
+	GtkWidget *alarm_mail = glade_xml_get_widget (dialog->gui, "alarm-mail");
+	GtkWidget *alarm_amount, *alarm_unit;
+
+	if (GTK_WIDGET (toggle) == alarm_display) {
+		alarm_amount = glade_xml_get_widget (dialog->gui, "alarm-display-amount");
+		alarm_unit = glade_xml_get_widget (dialog->gui, "alarm-display-unit");
+	}
+	if (GTK_WIDGET (toggle) == alarm_audio) {
+		alarm_amount = glade_xml_get_widget (dialog->gui, "alarm-audio-amount");
+		alarm_unit = glade_xml_get_widget (dialog->gui, "alarm-audio-unit");
+	}
+	if (GTK_WIDGET (toggle) == alarm_program) {
+		GtkWidget *run_program;
+		alarm_amount = glade_xml_get_widget (dialog->gui, "alarm-program-amount");
+		alarm_unit = glade_xml_get_widget (dialog->gui, "alarm-program-unit");
+		run_program = glade_xml_get_widget (dialog->gui, "run-program-file-entry");
+		gtk_widget_set_sensitive (run_program, toggle->active);
+	}
+	if (GTK_WIDGET (toggle) == alarm_mail) {
+		GtkWidget *mail_to;
+		alarm_amount = glade_xml_get_widget (dialog->gui, "alarm-mail-amount");
+		alarm_unit = glade_xml_get_widget (dialog->gui, "alarm-mail-unit");
+		mail_to = glade_xml_get_widget (dialog->gui, "mail-to");
+		gtk_widget_set_sensitive (mail_to, toggle->active);
+	}
+
+	gtk_widget_set_sensitive (alarm_amount, toggle->active);
+	gtk_widget_set_sensitive (alarm_unit, toggle->active);
+}
+
+
+
+/*
+ * Checks if the day range occupies all the day, and if so, check the
+ * box accordingly
+ */
+static void
+check_all_day (EventEditorDialog *dialog)
+{
+	time_t ev_start = extract_from_gnome_dateedit (dialog->gui, "start-time");
+	time_t ev_end = extract_from_gnome_dateedit (dialog->gui, "end-time");
+
+	/* all day event checkbox */
+	if (get_time_t_hour (ev_start) <= day_begin &&
+	    get_time_t_hour (ev_end) >= day_end)
+		store_to_toggle (dialog->gui, "all-day-event", TRUE);
+	else
+		store_to_toggle (dialog->gui, "all-day-event", FALSE);
+}
+
+
+/*
+ * Callback: all day event box clicked
+ */
+static void
+set_all_day (GtkToggleButton *toggle, EventEditorDialog *dialog)
+{
+	struct tm tm;
+	time_t start_t;
+
+	start_t = extract_from_gnome_dateedit (dialog->gui, "start-time");
+	tm = *localtime (&start_t);
+	tm.tm_hour = day_begin;
+	tm.tm_min  = 0;
+	tm.tm_sec  = 0;
+	store_to_gnome_dateedit (dialog->gui, "start-time", mktime (&tm));
+	
+	if (toggle->active)
+		tm.tm_hour = day_end;
+	else
+		tm.tm_hour++;
+	
+	store_to_gnome_dateedit (dialog->gui, "end-time", mktime (&tm));
+}
+
+
+/*
+ * Callback: checks that the dates are start < end
+ */
+static void
+check_dates (GnomeDateEdit *gde, EventEditorDialog *dialog)
+{
+	time_t start, end;
+	struct tm tm_start, tm_end;
+	GtkWidget *start_time = glade_xml_get_widget (dialog->gui, "start-time");
+	GtkWidget *end_time = glade_xml_get_widget (dialog->gui, "end-time");
+
+
+	//start = gnome_date_edit_get_date (GNOME_DATE_EDIT (ee->start_time));
+	start = extract_from_gnome_dateedit (dialog->gui, "start-time");
+	//end = gnome_date_edit_get_date (GNOME_DATE_EDIT (ee->end_time));
+	end = extract_from_gnome_dateedit (dialog->gui, "end-time");
+
+	if (start > end) {
+		tm_start = *localtime (&start);
+		tm_end = *localtime (&end);
+
+		if (GTK_WIDGET (gde) == start_time) {
+			tm_end.tm_year = tm_start.tm_year;
+			tm_end.tm_mon  = tm_start.tm_mon;
+			tm_end.tm_mday = tm_start.tm_mday;
+
+			gnome_date_edit_set_time (GNOME_DATE_EDIT (end_time), mktime (&tm_end));
+		} else if (GTK_WIDGET (gde) == end_time) {
+			tm_start.tm_year = tm_end.tm_year;
+			tm_start.tm_mon  = tm_end.tm_mon;
+			tm_start.tm_mday = tm_end.tm_mday;
+
+			//gnome_date_edit_set_time (GNOME_DATE_EDIT (ee->start_time), mktime (&tm_start));
+		}
+	}
+}
+
+
+/*
+ * Callback: checks that start_time < end_time and whether the
+ * selected hour range spans all of the day
+ */
+static void
+check_times (GnomeDateEdit *gde, EventEditorDialog *dialog)
+{
+	time_t start, end;
+	struct tm tm_start, tm_end;
+	GtkWidget *start_time = glade_xml_get_widget (dialog->gui, "start-time");
+	GtkWidget *end_time = glade_xml_get_widget (dialog->gui, "end-time");
+
+
+	gdk_pointer_ungrab (GDK_CURRENT_TIME);
+	gdk_flush ();
+
+	start = gnome_date_edit_get_date (GNOME_DATE_EDIT (start_time));
+	end = gnome_date_edit_get_date (GNOME_DATE_EDIT (end_time));
+
+	if (start >= end) {
+		tm_start = *localtime (&start);
+		tm_end = *localtime (&end);
+
+		if (GTK_WIDGET (gde) == start_time) {
+			tm_end.tm_min  = tm_start.tm_min;
+			tm_end.tm_sec  = tm_start.tm_sec;
+
+			tm_end.tm_hour = tm_start.tm_hour + 1;
+
+			if (tm_end.tm_hour >= 24) {
+				tm_end.tm_hour = 24; /* mktime() will bump the day */
+				tm_end.tm_min = 0;
+				tm_end.tm_sec = 0;
+			}
+
+			gnome_date_edit_set_time (GNOME_DATE_EDIT (end_time), mktime (&tm_end));
+		} else if (GTK_WIDGET (gde) == end_time) {
+			tm_start.tm_min  = tm_end.tm_min;
+			tm_start.tm_sec  = tm_end.tm_sec;
+
+			tm_start.tm_hour = tm_end.tm_hour - 1;
+
+			if (tm_start.tm_hour < 0) {
+				tm_start.tm_hour = 0;
+				tm_start.tm_min = 0;
+				tm_start.tm_min = 0;
+			}
+
+			gnome_date_edit_set_time (GNOME_DATE_EDIT (start_time), mktime (&tm_start));
+		}
+	}
+
+	/* Check whether the event spans the whole day */
+
+	check_all_day (dialog);
 }
 
 
@@ -443,6 +653,28 @@ GtkWidget *event_editor_new (GnomeCalendar *gcal, iCalObject *ical)
 
 
 	{
+		GtkWidget *start_time = glade_xml_get_widget (dialog->gui, "start-time");
+		GtkWidget *end_time = glade_xml_get_widget (dialog->gui, "end-time");
+
+		gtk_signal_connect (GTK_OBJECT (start_time), "date_changed",
+				    GTK_SIGNAL_FUNC (check_dates), dialog);
+		gtk_signal_connect (GTK_OBJECT (start_time), "time_changed",
+				    GTK_SIGNAL_FUNC (check_times), dialog);
+
+		gtk_signal_connect (GTK_OBJECT (end_time), "date_changed",
+				    GTK_SIGNAL_FUNC (check_dates), dialog);
+		gtk_signal_connect (GTK_OBJECT (end_time), "time_changed",
+				    GTK_SIGNAL_FUNC (check_times), dialog);
+	}
+
+
+	{
+		GtkWidget *all_day_checkbox = glade_xml_get_widget (dialog->gui, "all-day-event");
+		gtk_signal_connect (GTK_OBJECT (all_day_checkbox), "toggled", GTK_SIGNAL_FUNC (set_all_day), dialog);
+	}
+
+
+	{
 		GtkWidget *recurrence_rule_none = glade_xml_get_widget (dialog->gui, "recurrence-rule-none");
 		GtkWidget *recurrence_rule_daily = glade_xml_get_widget (dialog->gui, "recurrence-rule-daily");
 		GtkWidget *recurrence_rule_weekly = glade_xml_get_widget (dialog->gui, "recurrence-rule-weekly");
@@ -494,11 +726,44 @@ GtkWidget *event_editor_new (GnomeCalendar *gcal, iCalObject *ical)
 
 void event_editor_new_whole_day (GnomeCalendar *owner, time_t day)
 {
+	struct tm tm;
+	iCalObject *ico;
+	GtkWidget *ee;
+
+	g_return_if_fail (owner != NULL);
+	g_return_if_fail (GNOME_IS_CALENDAR (owner));
+
+	ico = ical_new ("", user_name, "");
+	ico->new = TRUE;
+
+	tm = *localtime (&day);
+
+	/* Set the start time of the event to the beginning of the day */
+
+	tm.tm_hour = day_begin;
+	tm.tm_min  = 0;
+	tm.tm_sec  = 0;
+	ico->dtstart = mktime (&tm);
+
+	/* Set the end time of the event to the end of the day */
+
+	tm.tm_hour = day_end;
+	ico->dtend = mktime (&tm);
+
+	/* Launch the event editor */
+
+	ee = event_editor_new (owner, ico);
 }
 
 
 
 GtkWidget *make_date_edit (void)
+{
+	return date_edit_new (time (NULL), FALSE);
+}
+
+
+GtkWidget *make_date_edit_with_time (void)
 {
 	return date_edit_new (time (NULL), TRUE);
 }
@@ -535,19 +800,14 @@ make_spin_button (int val, int low, int high)
    build some of the recur stuff by hand to take into account
    the start-on-monday preference?
 
-   make the alarm controls insensitive until you enable them
-
-   get reading and storing of all_day_event to work
-
-   if you set the start time and it is after the end time, change
-   the end time
-
    get the apply button to work right
 
    make the properties stuff unglobal
 
    figure out why alarm units aren't sticking between edits
 
-   extract from and store to the ending date in the recurrence rule stuff
+   closing the dialog window with the wm caused a crash
+   Gtk-WARNING **: invalid cast from `(unknown)' to `GnomeDialog'
+   on line 669:  gnome_dialog_close (GNOME_DIALOG(dialog->dialog));
  */
 

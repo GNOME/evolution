@@ -1,3 +1,8 @@
+2000-05-17  Seth Alves  <alves@hungry.com>
+
+	* gui/event-editor.c: hooked up more widget signals to callbacks
+	to the gladified dialog acts more like the original one.
+
 2000-05-16  Seth Alves  <alves@hungry.com>
 
 	* gui/event-editor.c (recurrence_toggled): hook the radio buttons
