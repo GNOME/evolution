@@ -28,8 +28,8 @@
 #include <stdio.h>
 #include <libgnomeui/gnome-canvas.h>
 #include <gtk/gtksignal.h>
-#include <gnome-xml/parser.h>
-#include <gnome-xml/xmlmemory.h>
+#include <parser.h>
+#include <xmlmemory.h>
 
 #include "e-table.h"
 #include "e-table-scrolled.h"
@@ -42,7 +42,7 @@ static GtkObjectClass *parent_class;
 
 enum {
 	ARG_0,
-	ARG_TABLE
+	ARG_TABLE,
 };
 
 static void
@@ -220,5 +220,5 @@ e_table_scrolled_class_init (ETableScrolledClass *class)
 				 GTK_ARG_READABLE, ARG_TABLE);
 }
 
-E_MAKE_TYPE(e_table_scrolled, "ETableScrolled", ETableScrolled, e_table_scrolled_class_init, e_table_scrolled_init, PARENT_TYPE)
+E_MAKE_TYPE(e_table_scrolled, "ETableScrolled", ETableScrolled, e_table_scrolled_class_init, e_table_scrolled_init, PARENT_TYPE);
 

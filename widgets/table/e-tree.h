@@ -25,7 +25,7 @@
 #define _E_TREE_H_
 
 #include <gtk/gtktable.h>
-#include <gnome-xml/tree.h>
+#include <tree.h>
 #include <libgnomeui/gnome-canvas.h>
 
 #include <gal/widgets/e-printable.h>
@@ -34,8 +34,6 @@
 #include <gal/e-table/e-table-specification.h>
 #include <gal/e-table/e-table-state.h>
 #include <gal/e-table/e-tree-model.h>
-#include <gal/e-table/e-tree-table-adapter.h>
-#include <libgnome/gnome-defs.h>
 
 #define E_TREE_USE_TREE_SELECTION
 
@@ -50,6 +48,7 @@ BEGIN_GNOME_DECLS
 #define E_TREE_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TREE_TYPE, ETreeClass))
 #define E_IS_TREE(o)       (GTK_CHECK_TYPE ((o), E_TREE_TYPE))
 #define E_IS_TREE_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_TREE_TYPE))
+
 typedef struct _ETreeDragSourceSite ETreeDragSourceSite;
 typedef struct ETreePriv ETreePriv;
 
@@ -70,8 +69,6 @@ typedef struct {
 	gint        (*click)              (ETree *et, int row, ETreePath path, int col, GdkEvent *event);
 	gint        (*key_press)          (ETree *et, int row, ETreePath path, int col, GdkEvent *event);
 	gint        (*start_drag)         (ETree *et, int row, ETreePath path, int col, GdkEvent *event);
-	gint        (*state_change)       (ETree *et);
-	gint        (*white_space_event)  (ETree *et, GdkEvent *event);
 
 	void  (*set_scroll_adjustments)   (ETree	 *tree,
 					   GtkAdjustment *hadjustment,
@@ -185,9 +182,6 @@ void            e_tree_selected_row_foreach       (ETree                *e_tree,
 void            e_tree_selected_path_foreach      (ETree                *e_tree,
 						   ETreeForeachFunc      callback,
 						   gpointer              closure);
-void            e_tree_path_foreach               (ETree                *e_tree,
-						   ETreeForeachFunc      callback,
-						   gpointer              closure);
 #endif
 gint            e_tree_selected_count             (ETree                *e_tree);
 EPrintable     *e_tree_get_printable              (ETree                *e_tree);
@@ -215,7 +209,6 @@ void            e_tree_get_cell_geometry          (ETree                *tree,
 /* Useful accessors */
 ETreeModel *    e_tree_get_model                  (ETree *et);
 ESelectionModel *e_tree_get_selection_model       (ETree *et);
-ETreeTableAdapter *e_tree_get_table_adapter       (ETree *et);
 
 /* Drag & drop stuff. */
 /* Target */
@@ -288,20 +281,8 @@ void            e_tree_load_expanded_state        (ETree                *et,
 int             e_tree_row_count                  (ETree                *et);
 GtkWidget      *e_tree_get_tooltip                (ETree                *et);
 
-typedef enum {
-	E_TREE_FIND_NEXT_BACKWARD = 0,
-	E_TREE_FIND_NEXT_FORWARD  = 1 << 0,
-	E_TREE_FIND_NEXT_WRAP     = 1 << 1
-} ETreeFindNextParams;
-
-gboolean        e_tree_find_next                  (ETree                *et,
-						   ETreeFindNextParams   params,
-						   ETreePathFunc         func,
-						   gpointer              data);
-
 /* This function is only needed in single_selection_mode. */
 void            e_tree_right_click_up             (ETree                *et);
-
 
 END_GNOME_DECLS
 

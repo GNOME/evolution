@@ -25,7 +25,7 @@
 #define _E_TABLE_SORT_INFO_H_
 
 #include <gtk/gtkobject.h>
-#include <gnome-xml/tree.h>
+#include <tree.h>
 
 #ifdef __cplusplus
 extern "C" {

@@ -53,7 +53,7 @@ e_selection_model_simple_class_init (ESelectionModelSimpleClass *klass)
 }
 
 E_MAKE_TYPE(e_selection_model_simple, "ESelectionModelSimple", ESelectionModelSimple,
-	    e_selection_model_simple_class_init, e_selection_model_simple_init, PARENT_TYPE)
+	    e_selection_model_simple_class_init, e_selection_model_simple_init, PARENT_TYPE);
 
 /** 
  * e_selection_model_simple_new

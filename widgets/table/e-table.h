@@ -27,7 +27,6 @@
 
 #include <libgnomeui/gnome-canvas.h>
 #include <gtk/gtktable.h>
-#include <gnome-xml/tree.h>
 #include <gal/e-table/e-table-model.h>
 #include <gal/e-table/e-table-header.h>
 #include <gal/e-table/e-table-group.h>
@@ -39,8 +38,6 @@
 #include <gal/widgets/e-printable.h>
 #include <gal/e-table/e-table-state.h>
 #include <gal/e-table/e-table-sorter.h>
-#include <gal/e-table/e-table-search.h>
-#include <libgnome/gnome-defs.h>
 
 BEGIN_GNOME_DECLS
 
@@ -55,7 +52,7 @@ typedef struct _ETableDragSourceSite ETableDragSourceSite;
 typedef enum {
 	E_TABLE_CURSOR_LOC_NONE = 0,
 	E_TABLE_CURSOR_LOC_ETCTA = 1 << 0,
-	E_TABLE_CURSOR_LOC_TABLE = 1 << 1
+	E_TABLE_CURSOR_LOC_TABLE = 1 << 1,
 } ETableCursorLoc;
 
 typedef struct {
@@ -75,13 +72,6 @@ typedef struct {
 	ETableCursorLoc cursor_loc;
 	ETableSpecification *spec;
 
-	ETableSearch     *search;
-
-	ETableCol        *current_search_col;
-
-	guint   	  search_search_id;
-	guint   	  search_accept_id;
-
 	int table_model_change_id;
 	int table_row_change_id;
 	int table_cell_change_id;
@@ -89,11 +79,6 @@ typedef struct {
 	int table_rows_deleted_id;
 
 	int group_info_change_id;
-	int sort_info_change_id;
-
-	int structure_change_id;
-	int expansion_change_id;
-	int dimension_change_id;
 
 	int reflow_idle_id;
 	int scroll_idle_id;
@@ -119,26 +104,25 @@ typedef struct {
 	guint row_selection_active : 1;
 
 	guint horizontal_scrolling : 1;
-	guint horizontal_resize : 1;
 
 	guint is_grouped : 1;
 
-	guint scroll_direction : 4;
+	guint scroll_down : 1;
 
 	guint do_drag : 1;
 
 	guint uniform_row_height : 1;
 	guint allow_grouping : 1;
 	
-	guint always_search : 1;
-	guint search_col_set : 1;
-
 	char *click_to_add_message;
 	GnomeCanvasItem *click_to_add;
 	gboolean use_click_to_add;
 	gboolean use_click_to_add_end;
 
 	ECursorMode cursor_mode;
+
+	int drag_get_data_row;
+	int drag_get_data_col;
 
 	int drop_row;
 	int drop_col;
@@ -151,10 +135,6 @@ typedef struct {
 	int drag_row;
 	int drag_col;
 	ETableDragSourceSite *site;
-
-	int header_width;
-
-	char *domain;
 } ETable;
 
 typedef struct {
@@ -168,8 +148,6 @@ typedef struct {
 	gint        (*click)              (ETable *et, int row, int col, GdkEvent *event);
 	gint        (*key_press)          (ETable *et, int row, int col, GdkEvent *event);
 	gint        (*start_drag)         (ETable *et, int row, int col, GdkEvent *event);
-	void        (*state_change)       (ETable *et);
-	gint        (*white_space_event)  (ETable *et, GdkEvent *event);
 
 	void  (*set_scroll_adjustments)   (ETable	 *table,
 					   GtkAdjustment *hadjustment,
@@ -264,7 +242,7 @@ void             e_table_load_state                (ETable               *e_tabl
 void             e_table_set_cursor_row            (ETable               *e_table,
 						    int                   row);
 
-/* -1 means we don't have the cursor.  This is in model rows. */
+/* -1 means we don't have the cursor. */
 int              e_table_get_cursor_row            (ETable               *e_table);
 void             e_table_selected_row_foreach      (ETable               *e_table,
 						    EForeachFunc          callback,

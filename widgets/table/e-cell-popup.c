@@ -114,7 +114,7 @@ static ECellClass *parent_class;
 
 
 E_MAKE_TYPE (e_cell_popup, "ECellPopup", ECellPopup, e_cell_popup_class_init,
-	     e_cell_popup_init, e_cell_get_type())
+	     e_cell_popup_init, e_cell_get_type());
 
 
 static void

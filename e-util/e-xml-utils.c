@@ -343,19 +343,15 @@ void
 e_xml_set_double_prop_by_name(xmlNode *parent, const xmlChar *prop_name, gdouble value)
 {
 	char buffer[E_ASCII_DTOSTR_BUF_SIZE];
-	char *format;
 
 	g_return_if_fail (parent != NULL);
 	g_return_if_fail (prop_name != NULL);
 
 	if (fabs (value) < 1e9 && fabs (value) > 1e-5) {
-		format = g_strdup_printf ("%%.%df", DBL_DIG);
+		e_ascii_dtostr (buffer, sizeof (buffer), "%.17f", value);
 	} else {
-		format = g_strdup_printf ("%%.%dg", DBL_DIG);
+		e_ascii_dtostr (buffer, sizeof (buffer), "%.17g", value);
 	}
-	e_ascii_dtostr (buffer, sizeof (buffer), format, value);
-	g_free (format);
-
 	xmlSetProp (parent, prop_name, buffer);
 }
 

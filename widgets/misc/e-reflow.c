@@ -63,12 +63,11 @@ enum {
 	ARG_HEIGHT,
 	ARG_EMPTY_MESSAGE,
 	ARG_MODEL,
-	ARG_COLUMN_WIDTH
+	ARG_COLUMN_WIDTH,
 };
 
 enum {
 	SELECTION_EVENT,
-	COLUMN_WIDTH_CHANGED,
 	LAST_SIGNAL
 };
 
@@ -394,19 +393,22 @@ set_empty(EReflow *reflow)
 	if (reflow->count == 0) {
 		if (reflow->empty_text) {
 			if (reflow->empty_message) {
+				char *empty_message = e_utf8_to_gtk_string (GTK_WIDGET (GNOME_CANVAS_ITEM (reflow)->canvas), reflow->empty_message);
 				gnome_canvas_item_set(reflow->empty_text,
 						      "width", reflow->minimum_width,
-						      "text", reflow->empty_message,
+						      "text", empty_message,
 						      NULL);
 				e_canvas_item_move_absolute(reflow->empty_text,
 							    reflow->minimum_width / 2,
 							    0);
+				g_free (empty_message);
 			} else {
 				gtk_object_destroy(GTK_OBJECT(reflow->empty_text));
 				reflow->empty_text = NULL;
 			}
 		} else {
 			if (reflow->empty_message) {
+				char *empty_message = e_utf8_to_gtk_string (GTK_WIDGET (GNOME_CANVAS_ITEM (reflow)->canvas), reflow->empty_message);
 				reflow->empty_text =
 					gnome_canvas_item_new(GNOME_CANVAS_GROUP(reflow),
 							      e_text_get_type(),
@@ -417,9 +419,10 @@ set_empty(EReflow *reflow)
 							      "font_gdk", GTK_WIDGET(GNOME_CANVAS_ITEM(reflow)->canvas)->style->font,
 							      "fill_color", "black",
 							      "justification", GTK_JUSTIFY_CENTER,
-							      "text", reflow->empty_message,
+							      "text", empty_message,
 							      "draw_background", FALSE,
 							      NULL);
+				g_free (empty_message);
 				e_canvas_item_move_absolute(reflow->empty_text,
 							    reflow->minimum_width / 2,
 							    0);
@@ -566,12 +569,6 @@ disconnect_set_adjustment (EReflow *reflow)
 	}
 }
 
-static void
-column_width_changed (EReflow *reflow)
-{
-	gtk_signal_emit (GTK_OBJECT (reflow), signals[COLUMN_WIDTH_CHANGED], reflow->column_width);
-}
-
 
 
 
@@ -609,7 +606,6 @@ e_reflow_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	case ARG_COLUMN_WIDTH:
 		if (reflow->column_width != GTK_VALUE_INT (*arg)) {
 			GtkAdjustment *adjustment = gtk_layout_get_hadjustment(GTK_LAYOUT(item->canvas));
-			double old_width = reflow->column_width;
 
 			reflow->column_width = GTK_VALUE_INT (*arg);
 			adjustment->step_increment = (reflow->column_width + E_REFLOW_FULL_GUTTER) / 2;
@@ -620,9 +616,6 @@ e_reflow_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 
 			reflow->need_column_resize = TRUE;
 			gnome_canvas_item_request_update(item);
-
-			if (old_width != reflow->column_width)
-				column_width_changed (reflow);
 		}
 		break;
 	}
@@ -881,7 +874,6 @@ e_reflow_event (GnomeCanvasItem *item, GdkEvent *event)
 					gtk_adjustment_changed(adjustment);
 					e_reflow_resize_children(item);
 					e_canvas_item_request_reflow(item);
-					column_width_changed (reflow);
 				}
 				reflow->need_column_resize = TRUE;
 				gnome_canvas_item_request_update(item);
@@ -1216,13 +1208,7 @@ e_reflow_selection_event_real (EReflow *reflow, GnomeCanvasItem *item, GdkEvent 
 		case 1: /* Fall through. */
 		case 2:
 			row = er_find_item (reflow, item);
-			if (event->button.button == 1) {
-				reflow->maybe_did_something = 
-					e_selection_model_maybe_do_something(reflow->selection, row, 0, event->button.state);
-				reflow->maybe_in_drag = TRUE;
-			} else {
-				e_selection_model_do_something(reflow->selection, row, 0, event->button.state);
-			}
+			e_selection_model_do_something(reflow->selection, row, 0, event->button.state);
 			break;
 		case 3:
 			row = er_find_item (reflow, item);
@@ -1231,17 +1217,6 @@ e_reflow_selection_event_real (EReflow *reflow, GnomeCanvasItem *item, GdkEvent 
 		default:
 			return_val = FALSE;
 			break;
-		}
-		break;
-	case GDK_BUTTON_RELEASE:
-		if (event->button.button == 1) {
-			if (reflow->maybe_in_drag) {
-				reflow->maybe_in_drag = FALSE;
-				if (!reflow->maybe_did_something) {
-					row = er_find_item (reflow, item);
-					e_selection_model_do_something(reflow->selection, row, 0, event->button.state);
-				}
-			}
 		}
 		break;
 	case GDK_KEY_PRESS:
@@ -1287,14 +1262,6 @@ e_reflow_class_init (EReflowClass *klass)
 				e_marshal_INT__OBJECT_POINTER,
 				GTK_TYPE_INT, 2, GTK_TYPE_OBJECT, GTK_TYPE_GDK_EVENT);
 
-	signals [COLUMN_WIDTH_CHANGED] =
-		gtk_signal_new ("column_width_changed",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (EReflowClass, column_width_changed),
-				e_marshal_NONE__DOUBLE,
-				GTK_TYPE_NONE, 1, GTK_TYPE_DOUBLE);
-
 	E_OBJECT_CLASS_ADD_SIGNALS (object_class, signals, LAST_SIGNAL);
 
 	object_class->set_arg  = e_reflow_set_arg;
@@ -1310,7 +1277,6 @@ e_reflow_class_init (EReflowClass *klass)
 	item_class->point      = e_reflow_point;
 
 	klass->selection_event = e_reflow_selection_event_real;
-	klass->column_width_changed = NULL;
 }
 
 static void
@@ -1337,10 +1303,6 @@ e_reflow_init (EReflow *reflow)
 
 	reflow->need_height_update        = FALSE;
 	reflow->need_column_resize        = FALSE;
-	reflow->need_reflow_columns       = FALSE;
-
-	reflow->maybe_did_something       = FALSE;
-	reflow->maybe_in_drag             = FALSE;
 
 	reflow->default_cursor_shown      = TRUE;
 	reflow->arrow_cursor              = NULL;

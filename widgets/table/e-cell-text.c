@@ -402,6 +402,7 @@ ect_realize (ECellView *ecell_view)
 		text_view->font = e_font_from_gdk_name (ect->font_name);
 	}
 	if (!text_view->font){
+		gdk_font_ref (GTK_WIDGET (text_view->canvas)->style->font);
 		text_view->font = e_font_from_gdk_font (GTK_WIDGET (text_view->canvas)->style->font);
 	}
 	
@@ -748,20 +749,7 @@ ect_get_bg_color(ECellView *ecell_view, int row)
 
 	return color_spec;
 }
-
-
-static void
-ect_style_set(ECellView *ecell_view, GtkStyle *old_style)
-{
-	ECellTextView *text_view = (ECellTextView *) ecell_view;
-	ECellText *ect = (ECellText *) ecell_view->ecell;
-
-	if (!ect->font_name) {
-		e_font_unref (text_view->font);
-		text_view->font = e_font_from_gdk_font (GTK_WIDGET (text_view->canvas)->style->font);
-	}
-}
-				 			 		  			
+					 			 		  			
 
 
 /*
@@ -1105,50 +1093,6 @@ ect_leave_edit (ECellView *ecell_view, int model_col, int view_col, int row, voi
 	}
 }
 
-/*
- * ECellView::save_state method
- */
-static void *
-ect_save_state (ECellView *ecell_view, int model_col, int view_col, int row, void *edit_context)
-{
-	ECellTextView *text_view = (ECellTextView *) ecell_view;
-	CellEdit *edit = text_view->edit;
-
-	int *save_state = g_new (int, 2);
-
-	save_state[0] = edit->selection_start;
-	save_state[1] = edit->selection_end;
-	return save_state;
-}
-
-/*
- * ECellView::load_state method
- */
-static void
-ect_load_state (ECellView *ecell_view, int model_col, int view_col, int row, void *edit_context, void *save_state)
-{
-	ECellTextView *text_view = (ECellTextView *) ecell_view;
-	CellEdit *edit = text_view->edit;
-	int length;
-	int *selection = save_state;
-
-	length = strlen (edit->cell.text);
-
-	edit->selection_start = MIN (selection[0], length);
-	edit->selection_end = MIN (selection[1], length);
-
-	ect_queue_redraw (text_view, view_col, row);
-}
-
-/*
- * ECellView::free_state method
- */
-static void
-ect_free_state (ECellView *ecell_view, int model_col, int view_col, int row, void *save_state)
-{
-	g_free (save_state);
-}
-
 static void
 ect_print (ECellView *ecell_view, GnomePrintContext *context, 
 	   int model_col, int view_col, int row,
@@ -1219,34 +1163,6 @@ ect_max_width (ECellView *ecell_view,
 	}
 	
 	return max_width;
-}
-
-static int
-ect_max_width_by_row (ECellView *ecell_view,
-		      int model_col,
-		      int view_col,
-		      int row)
-{
-	/* New ECellText */
-	ECellTextView *text_view = (ECellTextView *) ecell_view;
-	CurrentCell cell;
-	struct line *line;
-	int width;
-
-	if (row >= e_table_model_row_count (ecell_view->e_table_model))
-		return 0;
-
-	build_current_cell (&cell, text_view, model_col, view_col, row);
-	split_into_lines (&cell);
-	calc_line_widths (&cell);
-
-	line = (struct line *)cell.breaks->lines;
-	width = e_font_utf8_text_width (text_view->font, cell.style,
-					line->text, line->length);
-	unref_lines (&cell);
-	unbuild_current_cell (&cell);
-	
-	return width;
 }
 
 static gint
@@ -1522,15 +1438,11 @@ ect_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	}
 }
 
-static char *ellipsis_default = NULL;
-static gboolean use_ellipsis_default = TRUE;
-
 static void
 e_cell_text_class_init (GtkObjectClass *object_class)
 {
 	ECellClass *ecc = (ECellClass *) object_class;
 	ECellTextClass *ectc = (ECellTextClass *) object_class;
-	char *ellipsis_env;
 
 	object_class->destroy = ect_destroy;
 
@@ -1543,16 +1455,11 @@ e_cell_text_class_init (GtkObjectClass *object_class)
 	ecc->height     = ect_height;
 	ecc->enter_edit = ect_enter_edit;
 	ecc->leave_edit = ect_leave_edit;
-	ecc->save_state = ect_save_state;
- 	ecc->load_state = ect_load_state;
-	ecc->free_state = ect_free_state;
 	ecc->print      = ect_print;
 	ecc->print_height = ect_print_height;
 	ecc->max_width = ect_max_width;
-	ecc->max_width_by_row = ect_max_width_by_row;
 	ecc->show_tooltip = ect_show_tooltip;
 	ecc->get_bg_color = ect_get_bg_color;
-	ecc->style_set = ect_style_set;
 
 	ectc->get_text = ect_real_get_text;
 	ectc->free_text = ect_real_free_text;
@@ -1576,22 +1483,13 @@ e_cell_text_class_init (GtkObjectClass *object_class)
 
 	if (!clipboard_atom)
 		clipboard_atom = gdk_atom_intern ("CLIPBOARD", FALSE);
-
-	ellipsis_env = g_getenv ("GAL_ELLIPSIS");
-	if (ellipsis_env) {
-		if (*ellipsis_env) {
-			ellipsis_default = g_strdup (ellipsis_env);
-		} else {
-			use_ellipsis_default = FALSE;
-		}
-	}
 }
 
 static void
 e_cell_text_init (ECellText *ect)
 {
-	ect->ellipsis = g_strdup (ellipsis_default);
-	ect->use_ellipsis = use_ellipsis_default;
+	ect->ellipsis = NULL;
+	ect->use_ellipsis = TRUE;
 	ect->strikeout_column = -1;
 	ect->bold_column = -1;
 	ect->color_column = -1;
@@ -1599,7 +1497,7 @@ e_cell_text_init (ECellText *ect)
 	ect->editable = TRUE;
 }
 
-E_MAKE_TYPE(e_cell_text, "ECellText", ECellText, e_cell_text_class_init, e_cell_text_init, PARENT_TYPE)
+E_MAKE_TYPE(e_cell_text, "ECellText", ECellText, e_cell_text_class_init, e_cell_text_init, PARENT_TYPE);
 
 /**
  * e_cell_text_construct:
@@ -1888,29 +1786,6 @@ _blink_scroll_timeout (gpointer data)
 }
 
 static int
-next_word (CellEdit *edit, int start)
-{
-	CurrentCell *cell = CURRENT_CELL(edit);
-	char *p;
-	int length;
-
-	length = strlen (cell->text);
-	if (start >= length)
-		return length;
-
-	p = g_utf8_next_char (cell->text + start);
-
-	while (*p && g_unichar_validate (g_utf8_get_char (p))) {
-		gunichar unival = g_utf8_get_char (p);
-		if (g_unichar_isspace (unival))
-			return p - cell->text;
-		p = g_utf8_next_char (p);
-	}
-
-	return p - cell->text;
-}
-
-static int
 _get_position (ECellTextView *text_view, ETextEventProcessorCommand *command)
 {
 	int length;
@@ -1990,7 +1865,19 @@ _get_position (ECellTextView *text_view, ETextEventProcessorCommand *command)
 		return p - cell->text;
 
 	case E_TEP_FORWARD_WORD:
-		return next_word (edit, edit->selection_end);
+
+		length = strlen (cell->text);
+		if (edit->selection_end >= length) return length;
+
+		p = g_utf8_next_char (cell->text + edit->selection_end);
+
+		while (*p && g_unichar_validate (g_utf8_get_char (p))) {
+			unival = g_utf8_get_char (p);
+			if (g_unichar_isspace (unival)) return p - cell->text;
+			p = g_utf8_next_char (p);
+		}
+
+		return p - cell->text;
 
 	case E_TEP_BACKWARD_WORD:
 
@@ -2083,58 +1970,6 @@ _insert (ECellTextView *text_view, char *string, int value)
 
 	edit->selection_start += value;
 	edit->selection_end = edit->selection_start;
-}
-
-static void
-capitalize (CellEdit *edit, int start, int end, ETextEventProcessorCaps type)
-{
-	CurrentCell *cell = CURRENT_CELL(edit);
-	ECellTextView *text_view = cell->text_view;
-
-	gboolean first = TRUE;
-	int character_length = g_utf8_strlen (cell->text + start, start - end);
-	const char *p = cell->text + start;
-	const char *text_end = cell->text + end;
-	char *new_text = g_new0 (char, character_length * 6 + 1);
-	char *output = new_text;
-
-	while (p && *p && p < text_end && g_unichar_validate (g_utf8_get_char (p))) {
-		gunichar unival = g_utf8_get_char (p);
-		gunichar newval = unival;
-
-		switch (type) {
-		case E_TEP_CAPS_UPPER:
-			newval = g_unichar_toupper (unival);
-			break;
-		case E_TEP_CAPS_LOWER:
-			newval = g_unichar_tolower (unival);
-			break;
-		case E_TEP_CAPS_TITLE:
-			if (g_unichar_isalpha (unival)) {
-				if (first)
-					newval = g_unichar_totitle (unival);
-				else
-					newval = g_unichar_tolower (unival);
-				first = FALSE;
-			} else {
-				first = TRUE;
-			}
-			break;
-		}
-		g_unichar_to_utf8 (newval, output);
-		output = g_utf8_next_char (output);
-
-		p = g_utf8_next_char (p);
-	}
-	*output = 0;
-
-	edit->selection_end = end;
-	edit->selection_start = start;
-	_delete_selection (text_view);
-
-	_insert (text_view, new_text, output - new_text);
-
-	g_free (new_text);
 }
 
 static void
@@ -2240,20 +2075,6 @@ e_cell_text_view_command (ETextEventProcessor *tep, ETextEventProcessorCommand *
 		break;
 	case E_TEP_UNGRAB:
 		edit->actions = E_CELL_UNGRAB;
-		break;
-	case E_TEP_CAPS:
-		if (edit->selection_start == edit->selection_end) {
-			capitalize (edit, edit->selection_start, next_word (edit, edit->selection_start), command->value);
-		} else {
-			int selection_start = MIN (edit->selection_start, edit->selection_end);
-			int selection_end = edit->selection_start + edit->selection_end - selection_start; /* Slightly faster than MAX */
-			capitalize (edit, selection_start, selection_end, command->value);
-		}
-		if (edit->timer) {
-			g_timer_reset (edit->timer);
-		}
-		redraw = TRUE;
-		change = TRUE;
 		break;
 	case E_TEP_NOP:
 		break;

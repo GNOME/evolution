@@ -176,7 +176,7 @@ ets_init (ETableSorter *ets)
 	ets->group_info_changed_id = 0;
 }
 
-E_MAKE_TYPE(e_table_sorter, "ETableSorter", ETableSorter, ets_class_init, ets_init, PARENT_TYPE)
+E_MAKE_TYPE(e_table_sorter, "ETableSorter", ETableSorter, ets_class_init, ets_init, PARENT_TYPE);
 
 ETableSorter *
 e_table_sorter_new (ETableModel *source, ETableHeader *full_header, ETableSortInfo *sort_info)

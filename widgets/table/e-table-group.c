@@ -47,7 +47,7 @@ enum {
 	LAST_SIGNAL
 };
 
-static guint etg_signals [LAST_SIGNAL] = { 0, };
+static gint etg_signals [LAST_SIGNAL] = { 0, };
 
 static gboolean etg_get_focus (ETableGroup      *etg);
 static void etg_destroy (GtkObject *object);
@@ -699,4 +699,4 @@ etg_class_init (GtkObjectClass *object_class)
 	E_OBJECT_CLASS_ADD_SIGNALS (object_class, etg_signals, LAST_SIGNAL);
 }
 
-E_MAKE_TYPE (e_table_group, "ETableGroup", ETableGroup, etg_class_init, NULL, PARENT_TYPE)
+E_MAKE_TYPE (e_table_group, "ETableGroup", ETableGroup, etg_class_init, NULL, PARENT_TYPE);

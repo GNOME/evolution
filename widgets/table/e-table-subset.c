@@ -163,7 +163,9 @@ etss_is_cell_editable (ETableModel *etm, int col, int row)
 static gboolean
 etss_has_save_id (ETableModel *etm)
 {
-	return TRUE;
+	ETableSubset *etss = (ETableSubset *)etm;
+
+	return e_table_model_has_save_id (etss->source);
 }
 
 static char *
@@ -171,10 +173,7 @@ etss_get_save_id (ETableModel *etm, int row)
 {
 	ETableSubset *etss = (ETableSubset *)etm;
 
-	if (e_table_model_has_save_id (etss->source))
-		return e_table_model_get_save_id (etss->source, etss->map_table [row]);
-	else
-		return g_strdup_printf ("%d", etss->map_table[row]);
+	return e_table_model_get_save_id (etss->source, etss->map_table [row]);
 }
 
 static void
@@ -266,7 +265,7 @@ etss_init (ETableSubset *etss)
 	etss->last_access = 0;
 }
 
-E_MAKE_TYPE(e_table_subset, "ETableSubset", ETableSubset, etss_class_init, etss_init, PARENT_TYPE)
+E_MAKE_TYPE(e_table_subset, "ETableSubset", ETableSubset, etss_class_init, etss_init, PARENT_TYPE);
 
 static void
 etss_proxy_model_pre_change_real (ETableSubset *etss, ETableModel *etm)

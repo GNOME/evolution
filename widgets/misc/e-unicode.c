@@ -39,13 +39,9 @@
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtkmenuitem.h>
 #include "e-font.h"
-#include <gnome-xml/xmlmemory.h>
+#include <xmlmemory.h>
 #include <stdlib.h>
 #include "gal/util/e-iconv.h"
-
-#ifdef HAVE_ALLOCA_H
-#include <alloca.h>
-#endif
 
 #define d(x) x
 

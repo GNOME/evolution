@@ -112,9 +112,6 @@ struct _EReflow
 	guint need_reflow_columns : 1;
 
 	guint default_cursor_shown : 1;
-
-	guint maybe_did_something : 1;
-	guint maybe_in_drag : 1;
 	GdkCursor *arrow_cursor;
 	GdkCursor *default_cursor;
 };
@@ -124,7 +121,6 @@ struct _EReflowClass
 	GnomeCanvasGroupClass parent_class;
 
 	int (*selection_event) (EReflow *reflow, GnomeCanvasItem *item, GdkEvent *event);
-	void (*column_width_changed) (EReflow *reflow, double width);
 };
 
 /* 

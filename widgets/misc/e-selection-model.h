@@ -48,7 +48,7 @@ typedef void (*EForeachFunc) (int model_row,
 typedef enum {
 	E_CURSOR_LINE,
 	E_CURSOR_SIMPLE,
-	E_CURSOR_SPREADSHEET
+	E_CURSOR_SPREADSHEET,
 } ECursorMode;
 
 typedef struct {

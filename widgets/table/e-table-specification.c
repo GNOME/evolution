@@ -28,8 +28,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <gtk/gtksignal.h>
-#include <gnome-xml/parser.h>
-#include <gnome-xml/xmlmemory.h>
+#include <parser.h>
+#include <xmlmemory.h>
 #include "gal/util/e-util.h"
 #include "gal/util/e-xml-utils.h"
 
@@ -54,12 +54,9 @@ etsp_destroy (GtkObject *object)
 		gtk_object_unref (GTK_OBJECT (etsp->state));
 	g_free (etsp->click_to_add_message);
 
-	g_free (etsp->domain);
-
 	etsp->columns              = NULL;
 	etsp->state                = NULL;
 	etsp->click_to_add_message = NULL;
-	etsp->domain		   = NULL;
 
 	GTK_OBJECT_CLASS (etsp_parent_class)->destroy (object);
 }
@@ -86,17 +83,15 @@ etsp_init (ETableSpecification *etsp)
 	etsp->vertical_draw_grid     = FALSE;
 	etsp->draw_focus             = TRUE;
 	etsp->horizontal_scrolling   = FALSE;
-	etsp->horizontal_resize      = FALSE;
 	etsp->allow_grouping         = TRUE;
 
 	etsp->cursor_mode            = E_CURSOR_SIMPLE;
 	etsp->selection_mode         = GTK_SELECTION_MULTIPLE;
 
 	etsp->click_to_add_message   = NULL;
-	etsp->domain                 = NULL;
 }
 
-E_MAKE_TYPE (e_table_specification, "ETableSpecification", ETableSpecification, etsp_class_init, etsp_init, PARENT_TYPE)
+E_MAKE_TYPE (e_table_specification, "ETableSpecification", ETableSpecification, etsp_class_init, etsp_init, PARENT_TYPE);
 
 /**
  * e_table_specification_new:
@@ -196,7 +191,6 @@ e_table_specification_load_from_node (ETableSpecification *specification,
 	}
 	specification->draw_focus = e_xml_get_bool_prop_by_name_with_default (node, "draw-focus", TRUE);
 	specification->horizontal_scrolling = e_xml_get_bool_prop_by_name_with_default (node, "horizontal-scrolling", FALSE);
-	specification->horizontal_resize = e_xml_get_bool_prop_by_name_with_default (node, "horizontal-resize", FALSE);
 	specification->allow_grouping = e_xml_get_bool_prop_by_name_with_default (node, "allow-grouping", TRUE);
 
 	specification->selection_mode = GTK_SELECTION_MULTIPLE;
@@ -218,20 +212,11 @@ e_table_specification_load_from_node (ETableSpecification *specification,
 		specification->cursor_mode = E_CURSOR_SPREADSHEET;
 	}
 	g_free (temp);
-
 	g_free (specification->click_to_add_message);
+
 	specification->click_to_add_message =
 		e_xml_get_string_prop_by_name (
 			node, "_click-to-add-message");
-
-	g_free (specification->domain);
-	specification->domain =
-		e_xml_get_string_prop_by_name (
-			node, "gettext-domain");
-	if (specification->domain && !*specification->domain) {
-		g_free (specification->domain);
-		specification->domain = NULL;
-	}
 
 	if (specification->state)
 		gtk_object_unref (GTK_OBJECT (specification->state));
@@ -350,7 +335,6 @@ e_table_specification_save_to_node (ETableSpecification *specification,
 	e_xml_set_bool_prop_by_name (node, "vertical-draw-grid", specification->vertical_draw_grid);
 	e_xml_set_bool_prop_by_name (node, "draw-focus", specification->draw_focus);
 	e_xml_set_bool_prop_by_name (node, "horizontal-scrolling", specification->horizontal_scrolling);
-	e_xml_set_bool_prop_by_name (node, "horizontal-resize", specification->horizontal_resize);
 	e_xml_set_bool_prop_by_name (node, "allow-grouping", specification->allow_grouping);
 
 	switch (specification->selection_mode){
@@ -372,7 +356,6 @@ e_table_specification_save_to_node (ETableSpecification *specification,
 	xmlSetProp (node, "cursor-mode", s);
 
 	xmlSetProp (node, "_click-to-add-message", specification->click_to_add_message);
-	xmlSetProp (node, "gettext-domain", specification->domain);
 
 	if (specification->columns){
 		int i;
