@@ -1,3 +1,9 @@
+2003-04-02  JP Rosevear  <jpr@ximian.com>
+
+	Fixes #39955
+	
+	* gui/itip-utils.c (comp_sentby): don't unref the the account
+
 2003-04-02  Rodrigo Moya <rodrigo@ximian.com>
 
 	Fixes #40661

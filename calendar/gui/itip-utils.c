@@ -625,7 +625,6 @@ comp_sentby (CalComponent *comp, CalClient *client)
 		
 		cal_component_set_organizer (comp, &organizer);
 		g_free ((char *) organizer.value);
-		g_object_unref(a);
 		
 		return;
 	}
@@ -644,7 +643,6 @@ comp_sentby (CalComponent *comp, CalClient *client)
 		g_free ((char *)organizer.sentby);
 		g_free ((char *)organizer.cn);
 		g_free ((char *)organizer.language);
-		g_object_unref(a);
 	}
 }
 static CalComponent *
