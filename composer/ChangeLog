@@ -1,3 +1,10 @@
+2004-06-14  Jeffrey Stedfast  <fejj@novell.com>
+
+	* e-msg-composer.c (create_composer): Don't connect to the
+	key_pressed_event.
+	(composer_key_pressed): Removed. We don't want to close the
+	compose on Escape. To do so would violate the HIG.
+
 2004-06-07  Dan Winship  <danw@novell.com>
 
 	* e-msg-composer.c (pixcache): s/stock_save_as/stock_save-as/
