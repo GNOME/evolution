@@ -52,6 +52,7 @@ typedef struct {
 	GtkObjectClass parent_class;
 
 	/* Virtual functions */
+	void (* set_cal_client) (CompEditor *page, CalClient *client);
 	void (* edit_comp) (CompEditor *page, CalComponent *comp);
 	void (* send_comp) (CompEditor *page, CalComponentItipMethod method);
 } CompEditorClass;

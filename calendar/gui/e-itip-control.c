@@ -523,10 +523,6 @@ write_error_html (EItipControl *itip, gchar *itip_err)
 {
 	EItipControlPrivate *priv;
 	GtkHTMLStream *html_stream;
-	CalComponentText text;
-	CalComponentOrganizer organizer;
-	CalComponentAttendee *attendee;
-	GSList *attendees, *l = NULL;
 	gchar *html;
 	
 	priv = itip->priv;

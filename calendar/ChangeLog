@@ -1,3 +1,60 @@
+2001-09-18  JP Rosevear  <jpr@ximian.com>
+
+	* gui/dialogs/schedule-page.*: A page that shows the meeting time
+	selector and free/busy data for attendees
+
+	* gui/dialogs/meeting-page.c: use the meeting model to track/edit
+	attendees, remove table value conversion routines and simple table
+	routines
+	(set_attendees): take a pointer array
+	(meeting_page_destroy): destroy the pointer array, save state
+	(meeting_page_init): new pointer array
+	(meeting_page_fill_widgets): don't null the deleted attendees
+	field
+	(popup_delegate_cb): array add
+	(popup_delete_cb): array add
+	(cleanup_attendees): iterate over the array to unref now
+	(meeting_page_fill_widgets): don't null out fields, no need to add
+	attendees here
+	(invite_entry_changed): use e_meeting_attendee routines
+	(popup_delegate_cb): ditto
+	(popup_delete_cb): ditto
+	(meeting_page_new): take new arg and pass it to construct
+	(meeting_page_construct): take new arg, use e-meeting-model
+	routines to construct table
+
+	* gui/dialogs/task-editor.c (task_editor_init): new meeting model
+	(task_editor_destroy): unref the model
+
+	* gui/dialogs/event-editor.c (event_editor_init): make new model
+	and pass it to meeting and schedule pages
+	(event_editor_set_cal_client): virtual function, set meeting model
+	client
+	(event_editor_edit_comp): add the attendees to the model
+	(event_editor_destroy): unref model
+	
+	* gui/dialogs/comp-editor.h: add virtual function
+
+	* gui/dialogs/comp-editor.c (comp_editor_set_cal_client): make
+	set_cal_client a virutal function
+
+	* gui/e-meeting-types.h: generally useful type defines
+
+	* gui/e-meeting-time-sel*.[hc]: Move here and use an e-table for
+	the attendee list and extract display information from the new
+	meeting model and attendees
+
+	* gui/e-meeting-time-sel.etspec: spec for the table
+
+	* gui/e-meeting-attendee.[hc]: meeting attendees for the model,
+	with to/from conversions for CalComponentAttendee structure, emits
+	changed signal and allows getting and setting of free busy
+	periods
+
+	* gui/e-meeting-model.[hc]: move the model out on its own
+
+	* gui/e-itip-control.c (write_error_html): clean up warnings
+	
 2001-09-18  Federico Mena Quintero  <federico@ximian.com>
 
 	Fixes bug #6350.

@@ -38,6 +38,8 @@ INCLUDES = 						\
 	-I$(top_builddir)/calendar/cal-client		\
 	-I$(top_srcdir)/libical/src/libical		\
 	-I$(top_builddir)/libical/src/libical		\
+	-I$(top_srcdir)/addressbook/backend/ebook	\
+	-I$(top_builddir)/addressbook/backend/ebook	\
 	-I$(top_srcdir)/widgets				\
 	-I$(includedir)					\
 	$(BONOBO_HTML_GNOME_CFLAGS)			\
@@ -58,7 +60,7 @@ glade_DATA = 					\
 	goto-dialog.glade
 
 etspecdir = $(datadir)/evolution/etspec/
-etspec_DATA = e-calendar-table.etspec
+etspec_DATA = e-calendar-table.etspec e-meeting-time-sel.etspec
 
 evolution_calendar_SOURCES =			\
 	$(IDL_GENERATED)			\
@@ -96,6 +98,15 @@ evolution_calendar_SOURCES =			\
 	e-day-view.h				\
 	e-itip-control.h			\
 	e-itip-control.c			\
+	e-meeting-attendee.c			\
+	e-meeting-attendee.h			\
+	e-meeting-model.c			\
+	e-meeting-model.h			\
+	e-meeting-time-sel.c			\
+	e-meeting-time-sel.h			\
+	e-meeting-time-sel-item.c		\
+	e-meeting-time-sel-item.h		\
+	e-meeting-types.h			\
 	e-week-view-event-item.c		\
 	e-week-view-event-item.h		\
 	e-week-view-layout.c			\
@@ -143,7 +154,6 @@ evolution_calendar_LDADD =								\
 	$(top_builddir)/libversit/libversit.la						\
 	$(top_builddir)/libical/src/libical/libical.la					\
 	$(top_builddir)/libwombat/libwombat.la						\
-	$(top_builddir)/widgets/meeting-time-sel/libevolutionmtsel.a			\
 	$(top_builddir)/addressbook/backend/ebook/libebook.la				\
 	$(top_builddir)/camel/libcamel.la						\
 	$(top_builddir)/libibex/libibex.la						\

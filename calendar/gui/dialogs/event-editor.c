@@ -35,6 +35,7 @@
 #include "alarm-page.h"
 #include "recurrence-page.h"
 #include "meeting-page.h"
+#include "schedule-page.h"
 #include "cancel-comp.h"
 #include "event-editor.h"
 
@@ -43,6 +44,9 @@ struct _EventEditorPrivate {
 	AlarmPage *alarm_page;
 	RecurrencePage *recur_page;
 	MeetingPage *meet_page;
+	SchedulePage *sched_page;
+
+	EMeetingModel *model;
 	
 	gboolean meeting_shown;
 };
@@ -51,6 +55,7 @@ struct _EventEditorPrivate {
 
 static void event_editor_class_init (EventEditorClass *class);
 static void event_editor_init (EventEditor *ee);
+static void event_editor_set_cal_client (CompEditor *editor, CalClient *client);
 static void event_editor_edit_comp (CompEditor *editor, CalComponent *comp);
 static void event_editor_send_comp (CompEditor *editor, CalComponentItipMethod method);
 static void event_editor_destroy (GtkObject *object);
@@ -117,6 +122,7 @@ event_editor_class_init (EventEditorClass *klass)
 
 	parent_class = gtk_type_class (TYPE_COMP_EDITOR);
 
+	editor_class->set_cal_client = event_editor_set_cal_client;
 	editor_class->edit_comp = event_editor_edit_comp;
 	editor_class->send_comp = event_editor_send_comp;
 	
@@ -164,11 +170,18 @@ event_editor_init (EventEditor *ee)
 	comp_editor_append_page (COMP_EDITOR (ee),
 				 COMP_EDITOR_PAGE (priv->recur_page),
 				 _("Recurrence"));
-
-	priv->meet_page = meeting_page_new ();
+	
+	priv->model = E_MEETING_MODEL (e_meeting_model_new ());
+	
+	priv->meet_page = meeting_page_new (priv->model);
 	comp_editor_append_page (COMP_EDITOR (ee),
 				 COMP_EDITOR_PAGE (priv->meet_page),
 				 _("Meeting"));
+
+	priv->sched_page = schedule_page_new (priv->model);
+	comp_editor_append_page (COMP_EDITOR (ee),
+				 COMP_EDITOR_PAGE (priv->sched_page),
+				 _("Scheduling"));
 
  	comp_editor_merge_ui (COMP_EDITOR (ee), EVOLUTION_DATADIR 
  			      "/gnome/ui/evolution-event-editor.xml",
@@ -176,6 +189,21 @@ event_editor_init (EventEditor *ee)
 	
 	priv->meeting_shown = TRUE;
 	set_menu_sens (ee);
+}
+
+static void
+event_editor_set_cal_client (CompEditor *editor, CalClient *client)
+{
+	EventEditor *ee;
+	EventEditorPrivate *priv;
+	
+	ee = EVENT_EDITOR (editor);
+	priv = ee->priv;
+
+	e_meeting_model_set_cal_client (priv->model, client);
+	
+	if (parent_class->set_cal_client)
+		parent_class->set_cal_client (editor, client);	
 }
 
 static void
@@ -191,9 +219,20 @@ event_editor_edit_comp (CompEditor *editor, CalComponent *comp)
 	cal_component_get_attendee_list (comp, &attendees);
 	if (attendees == NULL) {
 		comp_editor_remove_page (editor, COMP_EDITOR_PAGE (priv->meet_page));
+		comp_editor_remove_page (editor, COMP_EDITOR_PAGE (priv->sched_page));
+		e_meeting_model_remove_all_attendees (priv->model);
 		priv->meeting_shown = FALSE;
 		set_menu_sens (ee);
-	}
+	} else {
+		GSList *l;
+		for (l = attendees; l != NULL; l = l->next) {
+			CalComponentAttendee *ca = l->data;
+			EMeetingAttendee *ia = E_MEETING_ATTENDEE (e_meeting_attendee_new_from_cal_component_attendee (ca));
+			
+			e_meeting_model_add_attendee (priv->model, ia);
+			gtk_object_unref (GTK_OBJECT (ia));
+		}
+	}	
 	cal_component_free_attendee_list (attendees);
 		
 	if (parent_class->edit_comp)
@@ -240,6 +279,9 @@ event_editor_destroy (GtkObject *object)
 	gtk_object_unref (GTK_OBJECT (priv->alarm_page));
 	gtk_object_unref (GTK_OBJECT (priv->recur_page));
 	gtk_object_unref (GTK_OBJECT (priv->meet_page));
+	gtk_object_unref (GTK_OBJECT (priv->sched_page));
+
+	gtk_object_unref (GTK_OBJECT (priv->model));
 
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
@@ -271,6 +313,9 @@ schedule_meeting_cmd (GtkWidget *widget, gpointer data)
 		comp_editor_append_page (COMP_EDITOR (ee),
 					 COMP_EDITOR_PAGE (priv->meet_page),
 					 _("Meeting"));
+		comp_editor_append_page (COMP_EDITOR (ee),
+					 COMP_EDITOR_PAGE (priv->sched_page),
+					 _("Scheduling"));
 		priv->meeting_shown = TRUE;
 		set_menu_sens (ee);
 	}

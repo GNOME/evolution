@@ -41,6 +41,8 @@ struct _TaskEditorPrivate {
 	TaskDetailsPage *task_details_page;
 	MeetingPage *meet_page;
 
+	EMeetingModel *model;
+	
 	gboolean meeting_shown;
 };
 
@@ -155,7 +157,9 @@ task_editor_init (TaskEditor *te)
 				 COMP_EDITOR_PAGE (priv->task_details_page),
 				 _("Details"));
 
-	priv->meet_page = meeting_page_new ();
+	priv->model = E_MEETING_MODEL (e_meeting_model_new ());
+
+	priv->meet_page = meeting_page_new (priv->model);
 	comp_editor_append_page (COMP_EDITOR (te),
 				 COMP_EDITOR_PAGE (priv->meet_page),
 				 _("Assignment"));
@@ -206,6 +210,8 @@ task_editor_destroy (GtkObject *object)
 	gtk_object_unref (GTK_OBJECT (priv->task_page));
 	gtk_object_unref (GTK_OBJECT (priv->task_details_page));
 	gtk_object_unref (GTK_OBJECT (priv->meet_page));
+	
+	gtk_object_unref (GTK_OBJECT (priv->model));
 	
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);

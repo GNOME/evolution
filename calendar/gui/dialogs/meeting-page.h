@@ -25,6 +25,7 @@
 #ifndef MEETING_PAGE_H
 #define MEETING_PAGE_H
 
+#include "../e-meeting-model.h"
 #include "comp-editor-page.h"
 
 BEGIN_GNOME_DECLS
@@ -52,8 +53,8 @@ typedef struct {
 
 
 GtkType      meeting_page_get_type  (void);
-MeetingPage *meeting_page_construct (MeetingPage *mpage);
-MeetingPage *meeting_page_new       (void);
+MeetingPage *meeting_page_construct (MeetingPage *mpage, EMeetingModel *emm);
+MeetingPage *meeting_page_new       (EMeetingModel *emm);
 CalComponent *meeting_page_get_cancel_comp (MeetingPage *mpage);
 
 

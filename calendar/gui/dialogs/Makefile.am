@@ -69,6 +69,8 @@ libcal_dialogs_a_SOURCES =	\
 	recurrence-page.h	\
 	save-comp.c		\
 	save-comp.h		\
+	schedule-page.c		\
+	schedule-page.h		\
 	send-comp.c		\
 	send-comp.h		\
 	task-editor.c		\
@@ -87,6 +89,7 @@ glade_DATA =				\
 	event-page.glade		\
 	meeting-page.glade		\
 	recurrence-page.glade		\
+	schedule-page.glade		\
 	task-details-page.glade		\
 	task-page.glade
 

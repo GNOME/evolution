@@ -76,6 +76,7 @@ static void comp_editor_class_init (CompEditorClass *class);
 static void comp_editor_init (CompEditor *editor);
 static void comp_editor_destroy (GtkObject *object);
 
+static void real_set_cal_client (CompEditor *editor, CalClient *client);
 static void real_edit_comp (CompEditor *editor, CalComponent *comp);
 static void real_send_comp (CompEditor *editor, CalComponentItipMethod method);
 static void save_comp (CompEditor *editor);
@@ -174,6 +175,7 @@ comp_editor_class_init (CompEditorClass *klass)
 
 	parent_class = gtk_type_class (GTK_TYPE_OBJECT);
 
+	klass->set_cal_client = real_set_cal_client;
 	klass->edit_comp = real_edit_comp;
 	klass->send_comp = real_send_comp;
 
@@ -242,7 +244,6 @@ comp_editor_destroy (GtkObject *object)
 {
 	CompEditor *editor;
 	CompEditorPrivate *priv;
-	GList *l;
 
 	editor = COMP_EDITOR (object);
 	priv = editor->priv;
@@ -251,12 +252,6 @@ comp_editor_destroy (GtkObject *object)
 		gtk_widget_destroy (priv->window);
 		priv->window = NULL;
 	}
-
-	/* We want to destroy the pages after the widgets get destroyed,
-	   since they have lots of signal handlers connected to the widgets
-	   with the pages as the data. */
-	for (l = priv->pages; l != NULL; l = l->next)
-		gtk_object_unref (GTK_OBJECT (l->data));
 
 	gtk_signal_disconnect_by_data (GTK_OBJECT (priv->client), editor);
 	
@@ -398,41 +393,15 @@ comp_editor_show_page (CompEditor *editor, CompEditorPage *page)
 void
 comp_editor_set_cal_client (CompEditor *editor, CalClient *client)
 {
-	CompEditorPrivate *priv;
-	GList *elem;
-
+	CompEditorClass *klass;
+	
 	g_return_if_fail (editor != NULL);
 	g_return_if_fail (IS_COMP_EDITOR (editor));
 
-	priv = editor->priv;
-
-	if (client == priv->client)
-		return;
-
-	if (client) {
-		g_return_if_fail (IS_CAL_CLIENT (client));
-		g_return_if_fail (cal_client_get_load_state (client) ==
-				  CAL_CLIENT_LOAD_LOADED);
-		gtk_object_ref (GTK_OBJECT (client));
-	}
+	klass = COMP_EDITOR_CLASS (GTK_OBJECT (editor)->klass);
 	
-	if (priv->client) {
-		gtk_signal_disconnect_by_data (GTK_OBJECT (priv->client), 
-					       editor);
-		gtk_object_unref (GTK_OBJECT (priv->client));
-	}
-
-	priv->client = client;
-
-	/* Pass the client to any pages that need it. */
-	for (elem = priv->pages; elem; elem = elem->next)
-		comp_editor_page_set_cal_client (elem->data, client);
-
-	gtk_signal_connect (GTK_OBJECT (priv->client), "obj_updated",
-			    GTK_SIGNAL_FUNC (obj_updated_cb), editor);
-
-	gtk_signal_connect (GTK_OBJECT (priv->client), "obj_removed",
-			    GTK_SIGNAL_FUNC (obj_removed_cb), editor);
+	if (klass->set_cal_client)
+		klass->set_cal_client (editor, client);
 }
 
 /**
@@ -519,6 +488,46 @@ fill_widgets (CompEditor *editor)
 	
 	for (l = priv->pages; l != NULL; l = l->next)
 		comp_editor_page_fill_widgets (l->data, priv->comp);
+}		
+	
+static void
+real_set_cal_client (CompEditor *editor, CalClient *client)
+{
+	CompEditorPrivate *priv;
+	GList *elem;
+
+	g_return_if_fail (editor != NULL);
+	g_return_if_fail (IS_COMP_EDITOR (editor));
+
+	priv = editor->priv;
+
+	if (client == priv->client)
+		return;
+
+	if (client) {
+		g_return_if_fail (IS_CAL_CLIENT (client));
+		g_return_if_fail (cal_client_get_load_state (client) ==
+				  CAL_CLIENT_LOAD_LOADED);
+		gtk_object_ref (GTK_OBJECT (client));
+	}
+	
+	if (priv->client) {
+		gtk_signal_disconnect_by_data (GTK_OBJECT (priv->client), 
+					       editor);
+		gtk_object_unref (GTK_OBJECT (priv->client));
+	}
+
+	priv->client = client;
+
+	/* Pass the client to any pages that need it. */
+	for (elem = priv->pages; elem; elem = elem->next)
+		comp_editor_page_set_cal_client (elem->data, client);
+
+	gtk_signal_connect (GTK_OBJECT (priv->client), "obj_updated",
+			    GTK_SIGNAL_FUNC (obj_updated_cb), editor);
+
+	gtk_signal_connect (GTK_OBJECT (priv->client), "obj_removed",
+			    GTK_SIGNAL_FUNC (obj_removed_cb), editor);
 }
 
 static void
@@ -814,10 +823,14 @@ static void
 close_dialog (CompEditor *editor)
 {
 	CompEditorPrivate *priv;
+	GList *l;
 	
 	priv = editor->priv;
 
 	g_assert (priv->window != NULL);
+
+	for (l = priv->pages; l != NULL; l = l->next)
+		gtk_object_unref (GTK_OBJECT (l->data));
 
 	gtk_object_destroy (GTK_OBJECT (editor));
 }

@@ -13,8 +13,6 @@
   <ETableState>
      <column source="0"/>
      <column source="2"/>
-     <column source="3"/>
-     <column source="4"/>
      <column source="7"/>
      <grouping></grouping>
   </ETableState>

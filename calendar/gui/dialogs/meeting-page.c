@@ -52,6 +52,8 @@
 #include <e-destination.h>
 #include "Evolution-Addressbook-SelectNames.h"
 #include "../component-factory.h"
+#include "../e-meeting-attendee.h"
+#include "../e-meeting-model.h"
 #include "../itip-utils.h"
 #include "comp-editor-util.h"
 #include "e-delegate-dialog.h"
@@ -74,27 +76,10 @@ enum columns {
 	MEETING_COLUMN_COUNT
 };
 
-struct attendee {
-	char *address;
-	char *member;
-
-	icalparameter_cutype cutype;
-	icalparameter_role role;
-	icalparameter_partstat status;
-	gboolean rsvp;
-
-	char *delto;
-	char *delfrom;
-	char *sentby;
-	char *cn;
-	char *language;
-};
-
 /* Private part of the MeetingPage structure */
 struct _MeetingPagePrivate {
 	/* Lists of attendees */
-	GSList *attendees;
-	GSList *deleted_attendees;
+	GPtrArray *deleted_attendees;
 
 	/* To use in case of cancellation */
 	CalComponent *comp;
@@ -121,8 +106,8 @@ struct _MeetingPagePrivate {
 	GtkWidget *invite;
 	
 	/* E Table stuff */
-	ETableModel *model;
-	GtkWidget *etable;
+	EMeetingModel *model;
+	ETableScrolled *etable;
 	gint row;
 	
 	/* For handling who the organizer is */
@@ -145,8 +130,6 @@ static void meeting_page_focus_main_widget (CompEditorPage *page);
 static void meeting_page_fill_widgets (CompEditorPage *page, CalComponent *comp);
 static void meeting_page_fill_component (CompEditorPage *page, CalComponent *comp);
 
-static int row_count (ETableModel *etm, void *data);
-static void *init_value (ETableModel *etm, int col, void *data);
 static gint right_click_cb (ETable *etable, gint row, gint col, GdkEvent *event, gpointer data);
 
 static CompEditorPageClass *parent_class = NULL;
@@ -217,8 +200,7 @@ meeting_page_init (MeetingPage *mpage)
 	priv = g_new0 (MeetingPagePrivate, 1);
 	mpage->priv = priv;
 
-	priv->attendees = NULL;
-	priv->deleted_attendees = NULL;
+	priv->deleted_attendees = g_ptr_array_new ();
 
 	priv->comp = NULL;
 	
@@ -233,56 +215,35 @@ meeting_page_init (MeetingPage *mpage)
 }
 
 static void
-set_attendees (CalComponent *comp, GSList *attendees)
+set_attendees (CalComponent *comp, const GPtrArray *attendees)
 {
-	GSList *comp_attendees = NULL;
-	GSList *l;
+	GSList *comp_attendees = NULL, *l;
+	int i;
 	
-	for (l = attendees; l != NULL; l = l->next) {
-		struct attendee *attendee = l->data;
-		CalComponentAttendee *att = g_new0 (CalComponentAttendee, 1);
+	for (i = 0; i < attendees->len; i++) {
+		EMeetingAttendee *ia = g_ptr_array_index (attendees, i);
+		CalComponentAttendee *ca;
 		
+		ca = e_meeting_attendee_as_cal_component_attendee (ia);
 		
-		att->value = attendee->address;
-		att->member = (attendee->member && *attendee->member) ? attendee->member : NULL;
-		att->cutype= attendee->cutype;
-		att->role = attendee->role;
-		att->status = attendee->status;
-		att->rsvp = attendee->rsvp;
-		att->delto = (attendee->delto && *attendee->delto) ? attendee->delto : NULL;
-		att->delfrom = (attendee->delfrom && *attendee->delfrom) ? attendee->delfrom : NULL;
-		att->sentby = (attendee->sentby && *attendee->sentby) ? attendee->sentby : NULL;
-		att->cn = (attendee->cn && *attendee->cn) ? attendee->cn : NULL;
-		att->language = (attendee->language && *attendee->language) ? attendee->language : NULL;
-		
-		comp_attendees = g_slist_prepend (comp_attendees, att);
+		comp_attendees = g_slist_prepend (comp_attendees, ca);
 		
 	}
 	comp_attendees = g_slist_reverse (comp_attendees);
 	cal_component_set_attendee_list (comp, comp_attendees);
+	
+	for (l = comp_attendees; l != NULL; l = l->next)
+		g_free (l->data);	
 	g_slist_free (comp_attendees);
 }
 
 static void
-cleanup_attendees (GSList *attendees)
+cleanup_attendees (GPtrArray *attendees)
 {
-	GSList *l;
+	int i;
 	
-	for (l = attendees; l != NULL; l = l->next) {
-		struct attendee *a = l->data;
-
-		g_free (a->address);
-		g_free (a->member);
-		g_free (a->delto);
-		g_free (a->delfrom);
-		g_free (a->sentby);
-		g_free (a->cn);
-		g_free (a->language);
-		
-		g_free (a);
-	}
-
-	g_slist_free (attendees);
+	for (i = 0; i < attendees->len; i++)
+		gtk_object_unref (GTK_OBJECT (g_ptr_array_index (attendees, i)));
 }
 
 /* Destroy handler for the task page */
@@ -291,6 +252,8 @@ meeting_page_destroy (GtkObject *object)
 {
 	MeetingPage *mpage;
 	MeetingPagePrivate *priv;
+	ETable *real_table;
+	char *filename;
 	
 	g_return_if_fail (object != NULL);
 	g_return_if_fail (IS_MEETING_PAGE (object));
@@ -301,12 +264,21 @@ meeting_page_destroy (GtkObject *object)
 	if (priv->comp != NULL)
 		gtk_object_unref (GTK_OBJECT (priv->comp));
 	
-	cleanup_attendees (priv->attendees);
 	cleanup_attendees (priv->deleted_attendees);
+	g_ptr_array_free (priv->deleted_attendees, FALSE);
 	
 	itip_addresses_free (priv->addresses);
 	g_list_free (priv->address_strings);
 
+	gtk_object_unref (GTK_OBJECT (priv->model));
+
+	/* Save state */
+	filename = g_strdup_printf ("%s/config/et-header-meeting-page", 
+				    evolution_dir);
+	real_table = e_table_scrolled_get_table (priv->etable);
+	e_table_save_state (real_table, filename);
+	g_free (filename);
+	
 	if (priv->xml) {
 		gtk_object_unref (GTK_OBJECT (priv->xml));
 		priv->xml = NULL;
@@ -376,8 +348,8 @@ meeting_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	MeetingPage *mpage;
 	MeetingPagePrivate *priv;
 	CalComponentOrganizer organizer;
-	GSList *attendees, *l;
-	GList *l2;
+	GSList *attendees;
+	GList *l;
 	
 	mpage = MEETING_PAGE (page);
 	priv = mpage->priv;
@@ -389,10 +361,7 @@ meeting_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 		gtk_object_unref (GTK_OBJECT (priv->comp));
 	priv->comp = NULL;
 	
-	cleanup_attendees (priv->attendees);
 	cleanup_attendees (priv->deleted_attendees);
-	priv->attendees = NULL;	
-	priv->deleted_attendees = NULL;	
 
 	/* Clean the screen */
 	clear_widgets (mpage);
@@ -403,8 +372,8 @@ meeting_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	/* Organizer */
 	cal_component_get_organizer (comp, &organizer);
 	priv->addresses = itip_addresses_get ();
-	for (l2 = priv->addresses; l2 != NULL; l2 = l2->next) {
-		ItipAddress *a = l2->data;
+	for (l = priv->addresses; l != NULL; l = l->next) {
+		ItipAddress *a = l->data;
 		
 		priv->address_strings = g_list_append (priv->address_strings, a->full);
 		if (a->default_address)
@@ -431,36 +400,11 @@ meeting_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 		e_dialog_editable_set (GTK_COMBO (priv->organizer)->entry, priv->default_address);
 	}
 
-	/* Attendees */
-	cal_component_get_attendee_list (comp, &attendees);
-	for (l = attendees; l != NULL; l = l->next) {
-		CalComponentAttendee *att = l->data;
-		struct attendee *attendee = g_new0 (struct attendee, 1);
-
-		attendee->address = att->value ? g_strdup (att->value) : g_strdup ("");
-		attendee->member = att->member ? g_strdup (att->member) : g_strdup ("");
-		attendee->cutype= att->cutype;
-		attendee->role = att->role;
-		attendee->status = att->status;
-		attendee->rsvp = att->rsvp;
-		attendee->delto = att->delto ? g_strdup (att->delto) : g_strdup ("");
-		attendee->delfrom = att->delfrom ? g_strdup (att->delfrom) : g_strdup ("");
-		attendee->sentby = att->sentby ? g_strdup (att->sentby) : g_strdup ("");
-		attendee->cn = att->cn ? g_strdup (att->cn) : g_strdup ("");
-		attendee->language = att->language ? g_strdup (att->language) : g_strdup ("");
-		
-		priv->attendees = g_slist_prepend (priv->attendees, attendee);
-	
-	}
-	priv->attendees = g_slist_reverse (priv->attendees);
-	cal_component_free_attendee_list (attendees);
-	
-	/* Table */
-	e_table_model_rows_inserted (priv->model, 0, row_count (priv->model, mpage));
-
 	/* So the comp editor knows we need to send if anything changes */
-	if (priv->attendees != NULL)
+	cal_component_get_attendee_list (comp, &attendees);
+	if (attendees != NULL)
 		comp_editor_page_notify_needs_send (COMP_EDITOR_PAGE (mpage));
+	cal_component_free_attendee_list (attendees);
 
 	priv->updating = FALSE;
 }
@@ -514,7 +458,7 @@ meeting_page_fill_component (CompEditorPage *page, CalComponent *comp)
 		g_free (cn);
 	}
 
-	set_attendees (comp, priv->attendees);
+	set_attendees (comp, e_meeting_model_get_attendees (priv->model));
 }
 
 
@@ -561,167 +505,6 @@ get_widgets (MeetingPage *mpage)
 		&& priv->existing_organizer_btn);
 }
 
-
-static icalparameter_cutype
-text_to_type (const char *type)
-{
-	if (!g_strcasecmp (type, _("Individual")))
-		return ICAL_CUTYPE_INDIVIDUAL;
-	else if (!g_strcasecmp (type, _("Group")))
-		return ICAL_CUTYPE_GROUP;
-	else if (!g_strcasecmp (type, _("Resource")))
-		return ICAL_CUTYPE_RESOURCE;
-	else if (!g_strcasecmp (type, _("Room")))
-		return ICAL_CUTYPE_ROOM;
-	else
-		return ICAL_CUTYPE_NONE;
-}
-
-static char *
-type_to_text (icalparameter_cutype type)
-{
-	switch (type) {
-	case ICAL_CUTYPE_INDIVIDUAL:
-		return _("Individual");
-	case ICAL_CUTYPE_GROUP:
-		return _("Group");
-	case ICAL_CUTYPE_RESOURCE:
-		return _("Resource");
-	case ICAL_CUTYPE_ROOM:
-		return _("Room");
-	default:
-		return _("Unknown");
-	}
-
-	return NULL;
-
-}
-
-static icalparameter_role
-text_to_role (const char *role)
-{
-	if (!g_strcasecmp (role, _("Chair")))
-		return ICAL_ROLE_CHAIR;
-	else if (!g_strcasecmp (role, _("Required Participant")))
-		return ICAL_ROLE_REQPARTICIPANT;
-	else if (!g_strcasecmp (role, _("Optional Participant")))
-		return ICAL_ROLE_OPTPARTICIPANT;
-	else if (!g_strcasecmp (role, _("Non-Participant")))
-		return ICAL_ROLE_NONPARTICIPANT;
-	else
-		return ICAL_ROLE_NONE;
-}
-
-static char *
-role_to_text (icalparameter_role role) 
-{
-	switch (role) {
-	case ICAL_ROLE_CHAIR:
-		return _("Chair");
-	case ICAL_ROLE_REQPARTICIPANT:
-		return _("Required Participant");
-	case ICAL_ROLE_OPTPARTICIPANT:
-		return _("Optional Participant");
-	case ICAL_ROLE_NONPARTICIPANT:
-		return _("Non-Participant");
-	default:
-		return _("Unknown");
-	}
-
-	return NULL;
-}
-
-static gboolean
-text_to_boolean (const char *role)
-{
-	if (!g_strcasecmp (role, _("Yes")))
-		return TRUE;
-	else
-		return FALSE;
-}
-
-static char *
-boolean_to_text (gboolean b) 
-{
-	if (b)
-		return _("Yes");
-	else
-		return _("No");
-}
-
-static icalparameter_partstat
-text_to_partstat (const char *partstat)
-{
-	if (!g_strcasecmp (partstat, _("Needs Action")))
-		return ICAL_PARTSTAT_NEEDSACTION;
-	else if (!g_strcasecmp (partstat, _("Accepted")))
-		return ICAL_PARTSTAT_ACCEPTED;
-	else if (!g_strcasecmp (partstat, _("Declined")))
-		return ICAL_PARTSTAT_DECLINED;
-	else if (!g_strcasecmp (partstat, _("Tentative")))
-		return ICAL_PARTSTAT_TENTATIVE;
-	else if (!g_strcasecmp (partstat, _("Delegated")))
-		return ICAL_PARTSTAT_DELEGATED;
-	else if (!g_strcasecmp (partstat, _("Completed")))
-		return ICAL_PARTSTAT_COMPLETED;
-	else if (!g_strcasecmp (partstat, _("In Process")))
-		return ICAL_PARTSTAT_INPROCESS;
-	else
-		return ICAL_PARTSTAT_NONE;
-}
-
-static char *
-partstat_to_text (icalparameter_partstat partstat) 
-{
-	switch (partstat) {
-	case ICAL_PARTSTAT_NEEDSACTION:
-		return _("Needs Action");
-	case ICAL_PARTSTAT_ACCEPTED:
-		return _("Accepted");
-	case ICAL_PARTSTAT_DECLINED:
-		return _("Declined");
-	case ICAL_PARTSTAT_TENTATIVE:
-		return _("Tentative");
-	case ICAL_PARTSTAT_DELEGATED:
-		return _("Delegated");
-	case ICAL_PARTSTAT_COMPLETED:
-		return _("Completed");
-	case ICAL_PARTSTAT_INPROCESS:
-		return _("In Process");
-	default:
-		return _("Unknown");
-	}
-
-	return NULL;
-}
-
-static struct attendee *
-find_match (MeetingPage *mpage, const char *address, int *pos)
-{
-	MeetingPagePrivate *priv;
-	struct attendee *a;
-	GSList *l;
-	int i;
-	
-	priv = mpage->priv;
-	
-	if (address == NULL)
-		return NULL;
-	
-	/* Make sure we can add the new delegatee person */
-	for (l = priv->attendees, i = 0; l != NULL; l = l->next, i++) {
-		a = l->data;
-			
-		if (a->address != NULL && !g_strcasecmp (itip_strip_mailto (a->address), itip_strip_mailto (address))) {
-			if (pos != NULL)
-				*pos = i;
-			return a;
-		}
-	}
-
-	return NULL;
-}
-
 static void
 duplicate_error (void)
 {
@@ -759,50 +542,28 @@ invite_entry_changed (BonoboListener    *listener,
 		return;
 	
 	for (i = 0; destv[i] != NULL; i++) {
-		struct attendee *a;
+		EMeetingAttendee *ia;
 		const char *name, *address;
-		char *str;
-		int row_cnt;
 		
 		name = e_destination_get_name (destv[i]);		
 		address = e_destination_get_email (destv[i]);
 		
-		if (find_match (mpage, address, NULL) == NULL) {
-			a = g_new0 (struct attendee, 1);
+		if (e_meeting_model_find_attendee (priv->model, address, NULL) == NULL) {
+			ia = e_meeting_model_add_attendee_with_defaults (priv->model);
 
-			a->address = g_strdup_printf ("MAILTO:%s", address);
-			a->member = init_value (NULL, MEETING_MEMBER_COL, mpage);
-			str = init_value (NULL, MEETING_TYPE_COL, mpage);
-			a->cutype = text_to_type (str);
-			g_free (str);
-
+			e_meeting_attendee_set_address (ia, g_strdup_printf ("MAILTO:%s", address));
 			if (!strcmp (section, _("Chair Persons")))
-				a->role = ICAL_ROLE_CHAIR;
+				e_meeting_attendee_set_role (ia, ICAL_ROLE_CHAIR);
 			else if (!strcmp (section, _("Required Participants")))
-				a->role = ICAL_ROLE_REQPARTICIPANT;
+				e_meeting_attendee_set_role (ia, ICAL_ROLE_REQPARTICIPANT);
 			else if (!strcmp (section, _("Optional Participants")))
-				a->role = ICAL_ROLE_OPTPARTICIPANT;
+				e_meeting_attendee_set_role (ia, ICAL_ROLE_OPTPARTICIPANT);
 			else if (!strcmp (section, _("Non-Participants")))
-				a->role = ICAL_ROLE_NONPARTICIPANT;
-			
-			str = init_value (NULL, MEETING_RSVP_COL, mpage);
-			a->rsvp = text_to_boolean (str);
-			g_free (str);
-			a->delto = init_value (NULL, MEETING_DELTO_COL, mpage);
-			a->delfrom = init_value (NULL, MEETING_DELTO_COL, mpage);
-			str = init_value (NULL, MEETING_STATUS_COL, mpage);
-			a->status = text_to_partstat (str);
-			g_free (str);
-			a->cn = name ? g_strdup (name) : g_strdup ("");
-			a->language = init_value (NULL, MEETING_LANG_COL, mpage);	
+				e_meeting_attendee_set_role (ia, ICAL_ROLE_NONPARTICIPANT);
+			e_meeting_attendee_set_cn (ia, g_strdup (name));
 
-			priv->attendees = g_slist_append (priv->attendees, a);
-
-			row_cnt = row_count (priv->model, mpage) - 1;
-			e_table_model_row_inserted (priv->model, row_cnt);
-
-			comp_editor_page_notify_needs_send (COMP_EDITOR_PAGE (mpage));
-			comp_editor_page_notify_changed (COMP_EDITOR_PAGE (mpage));
+ 			comp_editor_page_notify_needs_send (COMP_EDITOR_PAGE (mpage));
+ 			comp_editor_page_notify_changed (COMP_EDITOR_PAGE (mpage));
 		}
 	}
 	e_destination_freev (destv);
@@ -976,373 +737,6 @@ init_widgets (MeetingPage *mpage)
 			    GTK_SIGNAL_FUNC (invite_cb), mpage);
 }
 
-static int
-column_count (ETableModel *etm, void *data)
-{
-	return MEETING_COLUMN_COUNT;
-}
-
-static int
-row_count (ETableModel *etm, void *data)
-{
-	MeetingPage *mpage;
-	MeetingPagePrivate *priv;
-
-	mpage = MEETING_PAGE (data);	
-	priv = mpage->priv;
-
-	return g_slist_length (priv->attendees);
-}
-
-static void
-append_row (ETableModel *etm, ETableModel *model, int row, void *data)
-{	
-	MeetingPage *mpage;
-	MeetingPagePrivate *priv;
-	struct attendee *attendee;
-	char *address;
-	gint row_cnt;
-	
-	mpage = MEETING_PAGE (data);	
-	priv = mpage->priv;
-	
-	address = (char *) e_table_model_value_at (model, MEETING_ATTENDEE_COL, row);
-	if (find_match (mpage, address, NULL) != NULL) {
-		duplicate_error ();
-		return;
-	}
-	
-	attendee = g_new0 (struct attendee, 1);
-	
-	attendee->address = g_strdup_printf ("MAILTO:%s", address);
-	attendee->member = g_strdup (e_table_model_value_at (model, MEETING_MEMBER_COL, row));
-	attendee->cutype = text_to_type (e_table_model_value_at (model, MEETING_TYPE_COL, row));
-	attendee->role = text_to_role (e_table_model_value_at (model, MEETING_ROLE_COL, row));
-	attendee->rsvp = text_to_boolean (e_table_model_value_at (model, MEETING_RSVP_COL, row));
-	attendee->delto = g_strdup (e_table_model_value_at (model, MEETING_DELTO_COL, row));
-	attendee->delfrom = g_strdup (e_table_model_value_at (model, MEETING_DELFROM_COL, row));
-	attendee->status = text_to_partstat (e_table_model_value_at (model, MEETING_STATUS_COL, row));
-	attendee->cn = g_strdup (e_table_model_value_at (model, MEETING_CN_COL, row));
-	attendee->language = g_strdup (e_table_model_value_at (model, MEETING_LANG_COL, row));
-
-	priv->attendees = g_slist_append (priv->attendees, attendee);
-	
-	row_cnt = row_count (etm, data) - 1;
-	e_table_model_row_inserted (E_TABLE_MODEL (etm), row_cnt);
-
-	comp_editor_page_notify_needs_send (COMP_EDITOR_PAGE (mpage));
-	comp_editor_page_notify_changed (COMP_EDITOR_PAGE (mpage));
-}
-
-static void *
-value_at (ETableModel *etm, int col, int row, void *data)
-{
-	MeetingPage *mpage;
-	MeetingPagePrivate *priv;
-	struct attendee *attendee;
-
-	mpage = MEETING_PAGE (data);	
-	priv = mpage->priv;
-
-	attendee = g_slist_nth_data (priv->attendees, row);
-	
-	switch (col) {
-	case MEETING_ATTENDEE_COL:
-		return (void *)itip_strip_mailto (attendee->address);
-	case MEETING_MEMBER_COL:
-		return attendee->member;
-	case MEETING_TYPE_COL:
-		return type_to_text (attendee->cutype);
-	case MEETING_ROLE_COL:
-		return role_to_text (attendee->role);
-	case MEETING_RSVP_COL:
-		return boolean_to_text (attendee->rsvp);
-	case MEETING_DELTO_COL:
-		return (void *)itip_strip_mailto (attendee->delto);
-	case MEETING_DELFROM_COL:
-		return (void *)itip_strip_mailto (attendee->delfrom);
-	case MEETING_STATUS_COL:
-		return partstat_to_text (attendee->status);
-	case MEETING_CN_COL:
-		return attendee->cn;
-	case MEETING_LANG_COL:
-		return attendee->language;
-	}
-	
-	return NULL;
-}
-
-static void
-set_value_at (ETableModel *etm, int col, int row, const void *val, void *data)
-{
-	MeetingPage *mpage;
-	MeetingPagePrivate *priv;
-	struct attendee *attendee;
-
-	mpage = MEETING_PAGE (data);	
-	priv = mpage->priv;
-	
-	attendee = g_slist_nth_data (priv->attendees, row);
-	
-	switch (col) {
-	case MEETING_ATTENDEE_COL:
-		if (attendee->address)
-			g_free (attendee->address);
-		attendee->address = g_strdup_printf ("MAILTO:%s", (char *) val);
-		break;
-	case MEETING_MEMBER_COL:
-		if (attendee->member)
-			g_free (attendee->member);
-		attendee->member = g_strdup (val);
-		break;
-	case MEETING_TYPE_COL:
-		attendee->cutype = text_to_type (val);
-		break;
-	case MEETING_ROLE_COL:
-		attendee->role = text_to_role (val);
-		break;
-	case MEETING_RSVP_COL:
-		attendee->rsvp = text_to_boolean (val);
-		break;
-	case MEETING_DELTO_COL:
-		if (attendee->delto)
-			g_free (attendee->delto);
-		attendee->delto = g_strdup (val);
-		break;
-	case MEETING_DELFROM_COL:
-		if (attendee->delfrom)
-			g_free (attendee->delfrom);
-		attendee->delto = g_strdup (val);
-		break;
-	case MEETING_STATUS_COL:
-		attendee->status = text_to_partstat (val);
-		break;
-	case MEETING_CN_COL:
-		if (attendee->cn)
-			g_free (attendee->cn);
-		attendee->cn = g_strdup (val);
-		break;
-	case MEETING_LANG_COL:
-		if (attendee->language)
-			g_free (attendee->language);
-		attendee->language = g_strdup (val);
-		break;
-	}
-
-	if (!priv->updating) {		
-		comp_editor_page_notify_needs_send (COMP_EDITOR_PAGE (mpage));
-		comp_editor_page_notify_changed (COMP_EDITOR_PAGE (mpage));
-	}
-}
-
-static gboolean
-is_cell_editable (ETableModel *etm, int col, int row, void *data)
-{
-	switch (col) {
-	case MEETING_DELTO_COL:
-	case MEETING_DELFROM_COL:
-		return FALSE;
-
-	default:
-	}
-
-	return TRUE;
-}
-
-static void *
-duplicate_value (ETableModel *etm, int col, const void *val, void *data)
-{
-	return g_strdup (val);
-}
-
-static void
-free_value (ETableModel *etm, int col, void *val, void *data)
-{
-	g_free (val);
-}
-
-static void *
-init_value (ETableModel *etm, int col, void *data)
-{
-	switch (col) {
-	case MEETING_ATTENDEE_COL:
-		return g_strdup ("");
-	case MEETING_MEMBER_COL:
-		return g_strdup ("");
-	case MEETING_TYPE_COL:
-		return g_strdup (_("Individual"));
-	case MEETING_ROLE_COL:
-		return g_strdup (_("Required Participant"));
-	case MEETING_RSVP_COL:
-		return g_strdup (_("Yes"));
-	case MEETING_DELTO_COL:
-		return g_strdup ("");
-	case MEETING_DELFROM_COL:
-		return g_strdup ("");
-	case MEETING_STATUS_COL:
-		return g_strdup (_("Needs Action"));
-	case MEETING_CN_COL:
-		return g_strdup ("");
-	case MEETING_LANG_COL:
-		return g_strdup ("en");
-	}
-	
-	return g_strdup ("");
-}
-
-static gboolean
-value_is_empty (ETableModel *etm, int col, const void *val, void *data)
-{
-	
-	switch (col) {
-	case MEETING_ATTENDEE_COL:
-	case MEETING_MEMBER_COL:
-	case MEETING_DELTO_COL:
-	case MEETING_DELFROM_COL:
-	case MEETING_CN_COL:
-		if (val && !g_strcasecmp (val, ""))
-			return TRUE;
-		else
-			return FALSE;
-	default:
-	}
-	
-	return TRUE;
-}
-
-static char *
-value_to_string (ETableModel *etm, int col, const void *val, void *data)
-{
-	return g_strdup (val);
-}
-
-static void
-etable_destroy_cb (ETable *real_table, MeetingPage *mpage)
-{
-	char *filename;
-
-	filename = g_strdup_printf ("%s/config/et-header-meeting-page", 
-				    evolution_dir);
-	e_table_save_state (real_table, filename);
-	g_free (filename);
-}
-
-static void
-build_etable (MeetingPage *mpage)
-{
-	MeetingPagePrivate *priv;
-	ETable *real_table;
-	ETableExtras *extras;
-	GList *strings;
-	ECell *popup_cell, *cell;
-	
-	char *filename;
-	
-	priv = mpage->priv;
-	
-	extras = e_table_extras_new ();
-
-	/* For type */
-	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
-	popup_cell = e_cell_combo_new ();
-	e_cell_popup_set_child (E_CELL_POPUP (popup_cell), cell);
-	gtk_object_unref (GTK_OBJECT (cell));
-	
-	strings = NULL;
-	strings = g_list_append (strings, _("Individual"));
-	strings = g_list_append (strings, _("Group"));
-	strings = g_list_append (strings, _("Resource"));
-	strings = g_list_append (strings, _("Room"));
-	strings = g_list_append (strings, _("Unknown"));
-
-	e_cell_combo_set_popdown_strings (E_CELL_COMBO (popup_cell), strings);
-	e_table_extras_add_cell (extras, "typeedit", popup_cell);
-	
-	/* For role */
-	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
-	popup_cell = e_cell_combo_new ();
-	e_cell_popup_set_child (E_CELL_POPUP (popup_cell), cell);
-	gtk_object_unref (GTK_OBJECT (cell));
-	
-	strings = NULL;
-	strings = g_list_append (strings, _("Chair"));
-	strings = g_list_append (strings, _("Required Participant"));
-	strings = g_list_append (strings, _("Optional Participant"));
-	strings = g_list_append (strings, _("Non-Participant"));
-	strings = g_list_append (strings, _("Unknown"));
-
-	e_cell_combo_set_popdown_strings (E_CELL_COMBO (popup_cell), strings);
-	e_table_extras_add_cell (extras, "roleedit", popup_cell);
-
-	/* For rsvp */
-	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
-	popup_cell = e_cell_combo_new ();
-	e_cell_popup_set_child (E_CELL_POPUP (popup_cell), cell);
-	gtk_object_unref (GTK_OBJECT (cell));
-
-	strings = NULL;
-	strings = g_list_append (strings, _("Yes"));
-	strings = g_list_append (strings, _("No"));
-
-	e_cell_combo_set_popdown_strings (E_CELL_COMBO (popup_cell), strings);
-	e_table_extras_add_cell (extras, "rsvpedit", popup_cell);
-
-	/* For status */
-	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
-	popup_cell = e_cell_combo_new ();
-	e_cell_popup_set_child (E_CELL_POPUP (popup_cell), cell);
-	gtk_object_unref (GTK_OBJECT (cell));
-
-	strings = NULL;
-	strings = g_list_append (strings, _("Needs Action"));
-	strings = g_list_append (strings, _("Accepted"));
-	strings = g_list_append (strings, _("Declined"));
-	strings = g_list_append (strings, _("Tentative"));
-	strings = g_list_append (strings, _("Delegated"));
-
-	e_cell_combo_set_popdown_strings (E_CELL_COMBO (popup_cell), strings);
-	e_table_extras_add_cell (extras, "statusedit", popup_cell);
-
-
-	/* The table itself */
-	priv->model = e_table_simple_new (column_count,
-					  row_count,
-					  append_row,
-
-					  value_at,
-					  set_value_at,
-					  is_cell_editable,
-
-					  NULL,
-					  NULL,
-
-					  duplicate_value,
-					  free_value,
-					  init_value,
-					  value_is_empty,
-					  value_to_string,
-					  mpage);
-	
-	priv->etable = e_table_scrolled_new_from_spec_file (priv->model,
-							    extras, 
-							    EVOLUTION_ETSPECDIR "/meeting-page.etspec",
-							    NULL);
-	filename = g_strdup_printf ("%s/config/et-header-meeting-page", 
-				    evolution_dir);
-	real_table = e_table_scrolled_get_table (E_TABLE_SCROLLED (priv->etable));
-	e_table_load_state (real_table, filename);
-	g_free (filename);
-
-	gtk_signal_connect (GTK_OBJECT (real_table),
-			    "destroy", GTK_SIGNAL_FUNC (etable_destroy_cb),
-			    mpage);
-
-	gtk_signal_connect (GTK_OBJECT (real_table),
-			    "right_click", GTK_SIGNAL_FUNC (right_click_cb), mpage);
-
-	gtk_object_unref (GTK_OBJECT (extras));
-}
-
 static void
 popup_delegate_cb (GtkWidget *widget, gpointer data) 
 {
@@ -1350,78 +744,49 @@ popup_delegate_cb (GtkWidget *widget, gpointer data)
 	MeetingPagePrivate *priv;
 	EDelegateDialog *edd;
 	GtkWidget *dialog;
-	struct attendee *a;
+	EMeetingAttendee *ia;
 	char *address = NULL, *name = NULL;
-	gint row_cnt;
 	
 	priv = mpage->priv;
 
-	a = g_slist_nth_data (priv->attendees, priv->row);
+	ia = e_meeting_model_find_attendee_at_row (priv->model, priv->row);
 
 	/* Show dialog. */
-	edd = e_delegate_dialog_new (NULL, itip_strip_mailto (a->delto));
+	edd = e_delegate_dialog_new (NULL, itip_strip_mailto (e_meeting_attendee_get_delto (ia)));
 	dialog = e_delegate_dialog_get_toplevel (edd);
 
 	if (gnome_dialog_run_and_close (GNOME_DIALOG (dialog)) == 0){
-		struct attendee *a;
-		char *str;
+		EMeetingAttendee *ic;
 		
 		name = e_delegate_dialog_get_delegate_name (edd);
 		address = e_delegate_dialog_get_delegate (edd);
 
 		/* Make sure we can add the new delegatee person */
-		if (find_match (mpage, address, NULL) != NULL) {
+		if (e_meeting_model_find_attendee (priv->model, address, NULL) != NULL) {
 			duplicate_error ();
 			goto cleanup;
 		}
 		
 		/* Update information for attendee */
-		a = g_slist_nth_data (priv->attendees, priv->row);		
-		if (a->delto) {
-			struct attendee *b;
+		if (e_meeting_attendee_is_set_delto (ia)) {
+			EMeetingAttendee *ib;
 			
-			b = find_match (mpage, a->delto, NULL);
-			if (b != NULL) {			
-				priv->attendees = g_slist_remove (priv->attendees, b);
-				priv->deleted_attendees = g_slist_append (priv->deleted_attendees, b);
+			ib = e_meeting_model_find_attendee (priv->model, itip_strip_mailto (e_meeting_attendee_get_delto (ia)), NULL);
+			if (ib != NULL) {
+				gtk_object_ref (GTK_OBJECT (ib));
+				g_ptr_array_add (priv->deleted_attendees, ib);
 				
-				e_table_model_row_deleted (priv->model, priv->row);
+				e_meeting_model_remove_attendee (priv->model, ib);
 			}			
-			g_free (a->delto);
 		}
-		
-		a->delto = g_strdup_printf ("MAILTO:%s", address);
+		e_meeting_attendee_set_delto (ia, g_strdup_printf ("MAILTO:%s", address));
 
 		/* Construct delegatee information */
-		a = g_new0 (struct attendee, 1);
+		ic = e_meeting_model_add_attendee_with_defaults (priv->model);
 		
-		a->address = g_strdup_printf ("MAILTO:%s", address);
-		a->member = init_value (NULL, MEETING_MEMBER_COL, mpage);
-		str = init_value (NULL, MEETING_TYPE_COL, mpage);
-		a->cutype = text_to_type (str);
-		g_free (str);
-		str = init_value (NULL, MEETING_ROLE_COL, mpage);
-		a->role = text_to_role (str);
-		g_free (str);
-		str = init_value (NULL, MEETING_RSVP_COL, mpage);
-		a->rsvp = text_to_boolean (str);
-		g_free (str);
-		a->delto = init_value (NULL, MEETING_DELTO_COL, mpage);
-		a->delfrom = g_strdup_printf ("MAILTO:%s", (char *) value_at (NULL, MEETING_ATTENDEE_COL, priv->row, mpage));
-		str = init_value (NULL, MEETING_STATUS_COL, mpage);
-		a->status = text_to_partstat (str);
-		g_free (str);
-		a->cn = name ? g_strdup (name) : g_strdup ("");
-		a->language = init_value (NULL, MEETING_LANG_COL, mpage);
-		
-		priv->attendees = g_slist_append (priv->attendees, a);
-
-		row_cnt = row_count (priv->model, mpage) - 1;
-		e_table_model_row_changed (priv->model, priv->row);
-		e_table_model_row_inserted (priv->model, row_cnt);
-
-		comp_editor_page_notify_needs_send (COMP_EDITOR_PAGE (mpage));
-		comp_editor_page_notify_changed (COMP_EDITOR_PAGE (mpage));
+ 		e_meeting_attendee_set_address (ic, g_strdup_printf ("MAILTO:%s", address));
+		e_meeting_attendee_set_delfrom (ic, g_strdup (e_meeting_attendee_get_address (ia)));
+		e_meeting_attendee_set_cn (ic, g_strdup (name));
 	}
 
  cleanup:
@@ -1435,44 +800,33 @@ popup_delete_cb (GtkWidget *widget, gpointer data)
 {
 	MeetingPage *mpage = MEETING_PAGE (data);
 	MeetingPagePrivate *priv;
-	struct attendee *a;
+	EMeetingAttendee *ia;
 	int pos = 0;
 	
 	priv = mpage->priv;
-	
-	a = g_slist_nth_data (priv->attendees, priv->row);
+
+	ia = e_meeting_model_find_attendee_at_row (priv->model, priv->row);
 
 	/* If this was a delegatee, no longer delegate */
-	if (a->delfrom != NULL && *a->delfrom != '\0') {
-		struct attendee *b;
+	if (e_meeting_attendee_is_set_delfrom (ia)) {
+		EMeetingAttendee *ib;
 		
-		b = find_match (mpage, a->delfrom, &pos);
-		if (b != NULL && b->delto) {
-			g_free (b->delto);
-			b->delto = g_strdup ("");
-
-			e_table_model_row_changed (priv->model, pos);
-		}
+		ib = e_meeting_model_find_attendee (priv->model, e_meeting_attendee_get_delfrom (ia), &pos);
+		if (ib != NULL)
+			e_meeting_attendee_set_delto (ib, NULL);
 	}
 	
 	/* Handle deleting all attendees in the delegation chain */	
-	pos = priv->row;
-	while (a != NULL) {
-		struct attendee *b = NULL;
+	while (ia != NULL) {
+		EMeetingAttendee *ib = NULL;
 
-		e_table_model_pre_change (priv->model);
-	
-		priv->attendees = g_slist_remove (priv->attendees, a);		
-		priv->deleted_attendees = g_slist_append (priv->deleted_attendees, a);
+		gtk_object_ref (GTK_OBJECT (ia));
+		g_ptr_array_add (priv->deleted_attendees, ia);
+		e_meeting_model_remove_attendee (priv->model, ia);
 
-		e_table_model_row_deleted (priv->model, pos);
-
-		comp_editor_page_notify_needs_send (COMP_EDITOR_PAGE (mpage));
-		comp_editor_page_notify_changed (COMP_EDITOR_PAGE (mpage));
-
-		if (a->delto != NULL)
-			b = find_match (mpage, a->delto, &pos);
-		a = b;
+		if (e_meeting_attendee_get_delto (ia) != NULL)
+			ib = e_meeting_model_find_attendee (priv->model, e_meeting_attendee_get_delto (ia), NULL);
+		ia = ib;
 	}
 }
 
@@ -1527,9 +881,11 @@ right_click_cb (ETable *etable, gint row, gint col, GdkEvent *event, gpointer da
  * be created.
  **/
 MeetingPage *
-meeting_page_construct (MeetingPage *mpage)
+meeting_page_construct (MeetingPage *mpage, EMeetingModel *emm)
 {
 	MeetingPagePrivate *priv;
+	ETable *real_table;
+	gchar *filename;
 	
 	priv = mpage->priv;
 
@@ -1548,9 +904,21 @@ meeting_page_construct (MeetingPage *mpage)
 	}
 	
 	/* The etable displaying attendees and their status */
-	build_etable (mpage);	
-	gtk_widget_show (priv->etable);
-	gtk_box_pack_start (GTK_BOX (priv->main), priv->etable, TRUE, TRUE, 2);
+	gtk_object_ref (GTK_OBJECT (emm));
+	priv->model = emm;
+
+	filename = g_strdup_printf ("%s/config/et-header-meeting-page", evolution_dir);
+	priv->etable = e_meeting_model_etable_from_model (priv->model, 
+							  EVOLUTION_ETSPECDIR "/meeting-page.etspec", 
+							  filename);
+	g_free (filename);
+
+	real_table = e_table_scrolled_get_table (priv->etable);
+	gtk_signal_connect (GTK_OBJECT (real_table),
+			    "right_click", GTK_SIGNAL_FUNC (right_click_cb), mpage);
+
+	gtk_widget_show (GTK_WIDGET (priv->etable));
+	gtk_box_pack_start (GTK_BOX (priv->main), GTK_WIDGET (priv->etable), TRUE, TRUE, 2);
 	
 	/* Init the widget signals */
 	init_widgets (mpage);
@@ -1567,12 +935,12 @@ meeting_page_construct (MeetingPage *mpage)
  * not be created.
  **/
 MeetingPage *
-meeting_page_new (void)
+meeting_page_new (EMeetingModel *emm)
 {
 	MeetingPage *mpage;
 
 	mpage = gtk_type_new (TYPE_MEETING_PAGE);
-	if (!meeting_page_construct (mpage)) {
+	if (!meeting_page_construct (mpage, emm)) {
 		gtk_object_unref (GTK_OBJECT (mpage));
 		return NULL;
 	}
@@ -1605,4 +973,3 @@ meeting_page_get_cancel_comp (MeetingPage *mpage)
 	
 	return cal_component_clone (priv->comp);
 }
-
