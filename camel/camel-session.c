@@ -347,8 +347,9 @@ camel_session_get_storage_path (CamelSession *session, CamelService *service,
 {
 	char *path, *p;
 
-	path = g_strdup_printf ("%s/%s", session->storage_path,
-				camel_service_get_path (service));
+	p = camel_service_get_path (service);
+	path = g_strdup_printf ("%s/%s", session->storage_path, p);
+	g_free (p);
 
 	if (access (path, F_OK) == 0)
 		return path;

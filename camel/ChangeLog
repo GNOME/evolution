@@ -1,5 +1,10 @@
 2000-09-07  Dan Winship  <danw@helixcode.com>
 
+	* camel-session.c (camel_session_get_storage_path): Make this not
+	leak.
+	
+2000-09-07  Dan Winship  <danw@helixcode.com>
+
 	* camel-session.c (camel_session_new): Make this take a path to a
 	directory that Camel can use for its own nefarious purposes.
 	(camel_session_get_storage_path): New function to return a path
