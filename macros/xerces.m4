@@ -22,9 +22,12 @@ AC_DEFUN([AC_CHECK_XERCES],[
 	  fi
 	])
 
+	AC_MSG_CHECKING(for xerces)
 	if test x$XERCES_INCLUDE_DIR = x; then
 		if test x$XERCESCROOT = x; then
-			AC_MSG_ERROR("You must set XERCESCROOT or use --with-xerces")
+			if test "x$prefix" != "xNONE"; then
+				XERCESCROOT="$prefix"
+			fi
 		fi
 		XERCES_INCLUDE_DIR=$XERCESCROOT/include
 	fi
@@ -35,6 +38,12 @@ AC_DEFUN([AC_CHECK_XERCES],[
 
 	XERCES_VER=`ls $XERCES_LIB_DIR/libxerces*.so | 
 		    perl macros/xerces-version.pl`
+
+	if test "x$XERCES_VER" = "x0_0"; then
+		AC_MSG_ERROR("You must have Xerces installed and set XERCESCROOT or use --with-xerces")
+	else
+		AC_MSG_RESULT(found)
+	fi
 
 	XERCES_LIBNAME=xerces-c
 	XERCES_LIBRARY_NAMES=-l${XERCES_LIBNAME}${XERCES_VER}
