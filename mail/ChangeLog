@@ -1,5 +1,7 @@
 2001-08-07  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-callbacks.c (manage_subscriptions): Hide the app->window.
+
 	* subscribe-dialog.c (subscribe_dialog_new): This should return a
 	GtkWidget not a GtkObject.
 

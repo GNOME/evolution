@@ -1908,7 +1908,7 @@ manage_subscriptions (BonoboUIComponent *uih, void *user_data, const char *path)
 		subscribe_dialog_run_and_close (SUBSCRIBE_DIALOG (subscribe_dialog));
 		gtk_object_unref (GTK_OBJECT (subscribe_dialog));
 	} else {
-		gdk_window_raise (GTK_WIDGET (subscribe_dialog)->window);
+		gdk_window_raise (SUBSCRIBE_DIALOG (subscribe_dialog)->app->window);
 	}
 }
 
