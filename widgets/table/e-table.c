@@ -22,6 +22,7 @@
 #include "gal/util/e-util.h"
 #include "gal/widgets/e-canvas.h"
 #include "gal/widgets/e-canvas-vbox.h"
+#include "gal/widgets/e-unicode.h"
 #include "e-table.h"
 #include "e-table-header-item.h"
 #include "e-table-header-utils.h"
