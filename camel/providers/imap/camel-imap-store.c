@@ -459,7 +459,7 @@ try_auth (CamelImapStore *store, const char *mech, CamelException *ex)
 		if (!resp)
 			goto lose;
 		
-		sasl_resp = camel_sasl_challenge_base64 (sasl, resp + 2, ex);
+		sasl_resp = camel_sasl_challenge_base64 (sasl, imap_next_word (resp), ex);
 		g_free (resp);
 		if (camel_exception_is_set (ex))
 			goto break_and_lose;

@@ -1,3 +1,18 @@
+2002-02-07  Dan Winship  <danw@ximian.com>
+
+	* camel-sasl-ntlm.c: Implementation of NTLM (aka "Secure Password
+	Authentication") auth, taken from soup.
+
+	* Makefile.am (libcamel_la_SOURCES, libcamel_la_HEADERS): Add
+	camel-sasl-ntlm.
+
+	* camel-sasl.c: Add refs to camel-sasl-ntlm.
+
+	* providers/imap/camel-imap-store.c (try_auth): Use
+	imap_next_word() to skip over the "+ " of the continuation rather
+	than just "resp + 2" since Exchange (incorrectly) returns "+"
+	instead of "+ " for an empty continuation response.
+
 2002-02-06  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-folder-summary.h: Remove the CAMEL_MESSAGE_NEEDS_REPLY
