@@ -1,3 +1,26 @@
+2001-07-03  Damon Chaplin  <damon@ximian.com>
+
+	* pcs/cal-backend.[hc]: added virtual method to get a VTIMEZONE
+	component given a TZID. We need this to resolve TZIDs when expanding
+	an event using cal_recur_generate_instances() in query.c.
+
+	* pcs/cal-backend-file.c (cal_backend_file_get_timezone): implemented
+	virtual method.
+	(cal_backend_file_update_object): fixed bug, kind -> child_kind.
+
+	* pcs/query.c (func_occur_in_time_range): use the virtual method for
+	resolving TZIDs. The other way didn't work anyway, as we didn't have
+	the entire VCALENDAR with VTIMEZONEs in it.
+
+	* gui/dialogs/recurrence-page.c (init_widgets): 
+	(make_ending_until_special): moved the call to
+	e_date_edit_set_get_time_callback() from init_widgets to
+	make_ending_until_special(), since that is where the widget gets
+	created.
+
+	* gui/e-timezone-entry.c (e_timezone_entry_set_timezone): handle zone
+	being NULL.
+
 2001-07-02  Federico Mena Quintero  <federico@ximian.com>
 
 	* gui/dialogs/alarm-options.[ch]: New files with the alarm options

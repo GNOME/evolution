@@ -442,17 +442,16 @@ instance_occur_cb (CalComponent *comp, time_t start, time_t end, gpointer data)
 	return FALSE;
 }
 
-/* FIXME. This is the same as the function in cal-backend-file.c. It needs
-   to be added to the backend interface, I think.  */
+/* Call the backend function to get a timezone from a TZID. */
 static icaltimezone*
 resolve_tzid (const char *tzid, gpointer data)
 {
-	icalcomponent *vcalendar_comp = data;
+	Query *query = data;
 
-	if (!strcmp (tzid, "UTC"))
-		return icaltimezone_get_utc_timezone ();
+	if (!tzid || !tzid[0])
+		return NULL;
 	else
-		return icalcomponent_get_timezone (vcalendar_comp, tzid);
+		return cal_backend_get_timezone (query->priv->backend, tzid);
 }
 
 
@@ -473,7 +472,6 @@ func_occur_in_time_range (ESExp *esexp, int argc, ESExpResult **argv, void *data
 	time_t start, end;
 	gboolean occurs;
 	ESExpResult *result;
-	icalcomponent *icalcomp, *vcalendar_comp;
 
 	query = QUERY (data);
 	priv = query->priv;
@@ -506,12 +504,9 @@ func_occur_in_time_range (ESExp *esexp, int argc, ESExpResult **argv, void *data
 
 	occurs = FALSE;
 
-	/* Get the parent VCALENDAR component, so we can resolve TZIDs. */
-	icalcomp = cal_component_get_icalcomponent (comp);
-	vcalendar_comp = icalcomponent_get_parent (icalcomp);
-	g_assert (vcalendar_comp != NULL);
-
-	cal_recur_generate_instances (comp, start, end, instance_occur_cb, &occurs, resolve_tzid, vcalendar_comp);
+	cal_recur_generate_instances (comp, start, end,
+				      instance_occur_cb, &occurs,
+				      resolve_tzid, query);
 
 	result = e_sexp_result_new (esexp, ESEXP_RES_BOOL);
 	result->value.bool = occurs;

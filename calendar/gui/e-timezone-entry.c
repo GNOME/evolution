@@ -286,7 +286,7 @@ e_timezone_entry_set_timezone		(ETimezoneEntry	*tentry,
 	priv->changed = FALSE;
 
 	gtk_entry_set_text (GTK_ENTRY (priv->entry),
-			    e_timezone_entry_get_display_name (zone));
+			    zone ? e_timezone_entry_get_display_name (zone) : "");
 }
 
 

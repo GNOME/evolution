@@ -1220,6 +1220,12 @@ make_ending_until_special (RecurrencePage *rpage)
 
 	gtk_signal_connect (GTK_OBJECT (de), "changed",
 			    GTK_SIGNAL_FUNC (ending_until_changed_cb), rpage);
+
+	/* Make sure the EDateEdit widget uses our timezones to get the
+	   current time. */
+	e_date_edit_set_get_time_callback (de,
+					   (EDateEditGetTimeCallback) comp_editor_get_current_time,
+					   rpage, NULL);
 }
 
 /* Callback used when the ending-count value changes */
@@ -2111,9 +2117,6 @@ init_widgets (RecurrencePage *rpage)
 	/* Make sure the EDateEdit widgets and ECalendarItem use our timezones
 	   to get the current time. */
 	e_date_edit_set_get_time_callback (E_DATE_EDIT (priv->exception_date),
-					   (EDateEditGetTimeCallback) comp_editor_get_current_time,
-					   rpage, NULL);
-	e_date_edit_set_get_time_callback (E_DATE_EDIT (priv->ending_date_edit),
 					   (EDateEditGetTimeCallback) comp_editor_get_current_time,
 					   rpage, NULL);
 	e_calendar_item_set_get_time_callback (ecal->calitem,

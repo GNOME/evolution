@@ -588,3 +588,28 @@ cal_backend_obj_removed (CalBackend *backend, const char *uid)
 	gtk_signal_emit (GTK_OBJECT (backend), cal_backend_signals[OBJ_REMOVED],
 			 uid);
 }
+
+
+/**
+ * cal_backend_get_timezone:
+ * @backend: A calendar backend.
+ * @tzid: Unique identifier of a VTIMEZONE object. Note that this must not be
+ * NULL.
+ * 
+ * Returns the icaltimezone* corresponding to the TZID, or NULL if the TZID
+ * can't be found.
+ * 
+ * Return value: TRUE on success, FALSE on being passed an UID for an object
+ * that does not exist in the backend.
+ **/
+icaltimezone*
+cal_backend_get_timezone (CalBackend *backend, const char *tzid)
+{
+	g_return_val_if_fail (backend != NULL, NULL);
+	g_return_val_if_fail (IS_CAL_BACKEND (backend), NULL);
+	g_return_val_if_fail (tzid != NULL, NULL);
+
+	g_assert (CLASS (backend)->get_timezone != NULL);
+	return (* CLASS (backend)->get_timezone) (backend, tzid);
+}
+

@@ -93,6 +93,8 @@ static gboolean cal_backend_file_update_object (CalBackend *backend, const char 
 					       const char *calobj);
 static gboolean cal_backend_file_remove_object (CalBackend *backend, const char *uid);
 
+static icaltimezone* cal_backend_file_get_timezone (CalBackend *backend, const char *tzid);
+
 static CalBackendClass *parent_class;
 
 
@@ -159,6 +161,8 @@ cal_backend_file_class_init (CalBackendFileClass *class)
 	backend_class->get_alarms_for_object = cal_backend_file_get_alarms_for_object;
 	backend_class->update_object = cal_backend_file_update_object;
 	backend_class->remove_object = cal_backend_file_remove_object;
+
+	backend_class->get_timezone = cal_backend_file_get_timezone;
 }
 
 /* Object initialization function for the file backend */
@@ -947,13 +951,14 @@ add_instance (CalComponent *comp, time_t start, time_t end, gpointer data)
 }
 
 
-/* FIXME */
 static icaltimezone*
 resolve_tzid (const char *tzid, gpointer data)
 {
 	icalcomponent *vcalendar_comp = data;
 
-	if (!strcmp (tzid, "UTC"))
+	if (!tzid || !tzid[0])
+		return NULL;
+	else if (!strcmp (tzid, "UTC"))
 		return icaltimezone_get_utc_timezone ();
 	else
 		return icalcomponent_get_timezone (vcalendar_comp, tzid);
@@ -1664,9 +1669,9 @@ cal_backend_file_update_object (CalBackend *backend, const char *uid, const char
 							     ICAL_ANY_COMPONENT);
 		while (subcomp) {
 			child_kind = icalcomponent_isa (subcomp);
-			if (kind == ICAL_VEVENT_COMPONENT
-			    || kind == ICAL_VTODO_COMPONENT
-			    || kind == ICAL_VJOURNAL_COMPONENT) {
+			if (child_kind == ICAL_VEVENT_COMPONENT
+			    || child_kind == ICAL_VTODO_COMPONENT
+			    || child_kind == ICAL_VJOURNAL_COMPONENT) {
 				icalcomp = subcomp;
 				num_found++;
 			}
@@ -1759,5 +1764,23 @@ cal_backend_file_remove_object (CalBackend *backend, const char *uid)
 	notify_remove (cbfile, uid);
 
 	return TRUE;
+}
+
+
+static icaltimezone*
+cal_backend_file_get_timezone (CalBackend *backend, const char *tzid)
+{
+	CalBackendFile *cbfile;
+	CalBackendFilePrivate *priv;
+
+	cbfile = CAL_BACKEND_FILE (backend);
+	priv = cbfile->priv;
+
+	g_return_val_if_fail (priv->icalcomp != NULL, NULL);
+
+	if (!strcmp (tzid, "UTC"))
+		return icaltimezone_get_utc_timezone ();
+	else
+		return icalcomponent_get_timezone (priv->icalcomp, tzid);
 }
 
