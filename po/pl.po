@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2001-10-12 10:26+0200\n"
-"PO-Revision-Date: 2001-10-12 10:31+0200\n"
+"POT-Creation-Date: 2001-10-17 00:01+0200\n"
+"PO-Revision-Date: 2001-10-17 00:13+0200\n"
 "Last-Translator: GNOME PL Team <translators@gnome.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1078,17 +1078,19 @@ msgstr "Kontakt bez nazwy"
 
 #: addressbook/gui/component/select-names/e-select-names.c:1
 msgid ""
-"Evolution is unable to get the addressbook local storage. This may have been "
-"caused by the evolution-addressbook component crashing. To help us better "
-"understand and ultimately resolve this problem, please send an e-mail to Jon "
-"Trowbridge <trow@ximian.com> with a detailed description of the "
-"circumstances under which this error occurred.  Thank you."
+"Evolution is unable to get the addressbook local storage.\n"
+"This may have been caused by the evolution-addressbook component crashing.\n"
+"To help us better understand and ultimately resolve this problem,\n"
+"please send an e-mail to Jon Trowbridge <trow@ximian.com> with a\n"
+"detailed description of the circumstances under which this error\n"
+"occurred.  Thank you."
 msgstr ""
-"Nie mo¿na uzyskaæ lokalnego miejsca przechowywania ksi±¿ki adresowej. Mo¿e "
-"to byæ spowodowane nieprawid³owym dzia³aniem komponentu "
-"evolution-addressbook. Aby pomóc nam w zrozumieniu i rozwi±zaniu tego "
-"problemu, wy¶lij e-mail (w jêzyku angielskim) do Jona Trowbridge'a "
-"<trow@ximian.com>, szczegó³owo opisuj±c warunki, w jakich pojawi³ siê "
+"Nie mo¿na uzyskaæ lokalnego miejsca przechowywania ksi±¿ki adresowej.\n"
+"Mo¿e to byæ spowodowane nieprawid³owym dzia³aniem "
+"komponentuevolution-addressbook. Aby pomóc nam w zrozumieniu i rozwi±zaniu "
+"tego\n"
+"problemu, wy¶lij e-mail (w jêzyku angielskim) do Jona Trowbridge'a\n"
+"<trow@ximian.com>, szczegó³owo opisuj±c warunki, w jakich pojawi³ siê\n"
 "problem. Dziêkujemy."
 
 #: addressbook/gui/component/select-names/e-select-names.c:1
@@ -1326,6 +1328,15 @@ msgstr "Pe³na nazwa"
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:1
 msgid "E-mail"
 msgstr "E-mail"
+
+#. This is a filename. Translators take note.
+#: addressbook/gui/contact-editor/e-contact-save-as.c:1
+msgid "card.vcf"
+msgstr "karta.vcf"
+
+#: addressbook/gui/contact-editor/e-contact-save-as.c:1
+msgid "list"
+msgstr "lista"
 
 #: addressbook/gui/contact-editor/e-contact-save-as.c:1
 #, c-format
@@ -3984,8 +3995,8 @@ msgid "_Start time:"
 msgstr "Cza_s rozpoczêcia:"
 
 #: calendar/gui/dialogs/meeting-page.c:1
-msgid "That person is already attending the meeting!"
-msgstr "Ta osoba ju¿ uczestniczy w spotkaniu!"
+msgid "An organizer is required."
+msgstr "Wymagany jest organizator."
 
 #: calendar/gui/dialogs/meeting-page.c:1
 #: calendar/gui/dialogs/meeting-page.c:1
@@ -4007,6 +4018,10 @@ msgstr "Opcjonalni uczestnicy"
 #: calendar/gui/dialogs/meeting-page.c:1
 msgid "Non-Participants"
 msgstr "Nie uczestnicy"
+
+#: calendar/gui/dialogs/meeting-page.c:1
+msgid "That person is already attending the meeting!"
+msgstr "Ta osoba ju¿ uczestniczy w spotkaniu!"
 
 #: calendar/gui/dialogs/meeting-page.c:1
 msgid "_Delegate To..."
@@ -5011,6 +5026,10 @@ msgstr "Wymagany jest co najmniej jeden uczestnik"
 #: calendar/gui/itip-utils.c:1
 msgid "An organizer must be set."
 msgstr "Nale¿y podaæ organizatora."
+
+#: calendar/gui/itip-utils.c:1
+msgid "You must be an attendee of the event."
+msgstr "Musisz nale¿eæ do uczestników zdarzenia."
 
 #: calendar/gui/main.c:1
 msgid "Could not create the component editor factory"
@@ -7474,8 +7493,20 @@ msgid "Compose a message"
 msgstr "Tworzenie listu"
 
 #: composer/e-msg-composer.c:1
-msgid "Could not create composer window."
-msgstr "Nie mo¿na stworzyæ okna tworzenia listu."
+msgid ""
+"Could not create composer window:\n"
+"Unable to activate address selector control."
+msgstr ""
+"Nie mo¿na otworzyæ okna tworzenia listu:\n"
+"Nie mo¿na uaktywniæ formantu wyboru adresu."
+
+#: composer/e-msg-composer.c:1
+msgid ""
+"Could not create composer window:\n"
+"Unable to activate HTML editor component."
+msgstr ""
+"Nie mo¿na otworzyæ okna tworzenia listu:\n"
+"Nie mo¿na uaktywniæ komponentu edytora HTML-a."
 
 #: composer/evolution-composer.c:1
 msgid ""
@@ -8915,10 +8946,6 @@ msgid "Always encrypt to myself when sending encrypted mail"
 msgstr "Przy wysy³aniy zaszyfrowanych listów szyfrowanie zawsze do siebie"
 
 #: mail/mail-config.glade.h:1
-msgid "Always encrypt to myself when sending encrypyed mail"
-msgstr "Przy wysy³aniy zaszyfrowanych listów szyfrowanie zawsze do siebie"
-
-#: mail/mail-config.glade.h:1
 msgid "Always sign outgoing messages when using this account"
 msgstr "Podpisywanie wszystkich listów wychodz±cych przy u¿yciu tego konta"
 
@@ -10016,8 +10043,8 @@ msgid "Folder containing the Evolution Summary"
 msgstr "Folder zawieraj±cy Zestawienie Evolution"
 
 #: my-evolution/component-factory.c:1
-msgid "Cannot initialize Evolution's Executive Summary component."
-msgstr "Nie mo¿na zainicjowaæ komponentu zestawienia wykonawczego Evolution."
+msgid "Cannot initialize Evolution's Summary component."
+msgstr "Nie mo¿na zainicjowaæ komponentu zestawienia Evolution."
 
 #: my-evolution/e-summary-calendar.c:1 my-evolution/e-summary-calendar.c:1
 msgid "Appointments"
@@ -10028,13 +10055,13 @@ msgid "No appointments"
 msgstr "Brak terminów"
 
 #: my-evolution/e-summary-calendar.c:1
-msgid "%k%M %d %B"
-msgstr "%k%M %d %B"
+msgid "%k:%M %d %B"
+msgstr "%d %B, %k:%M"
 
 # [cyba] Wypada zostawiæ ten format 12-godzinny, bo jest te¿ alternatywa (z %k) wybierana przez program
 #: my-evolution/e-summary-calendar.c:1
 msgid "%l:%M %d %B"
-msgstr "%l:%M %d %B"
+msgstr "%d %B, %l:%M"
 
 #: my-evolution/e-summary-mail.c:1
 msgid "Mail summary"
@@ -10254,9 +10281,6 @@ msgstr "Pó³nocny zachód"
 msgid "North - Northwest"
 msgstr "Pó³noc - pó³nocny zachód"
 
-#. NONE                         VICINITY                             LIGHT                      MODERATE                      HEAVY                      SHALLOW                      PATCHES                         PARTIAL                      THUNDERSTORM                    BLOWING                      SHOWERS                         DRIFTING                      FREEZING
-#. ******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************
-#. NONE
 #. DRIZZLE
 #: my-evolution/metar.c:1
 msgid "Drizzle"
@@ -10842,8 +10866,8 @@ msgid "Partial smoke"
 msgstr "Czê¶ciowy dym"
 
 #: my-evolution/metar.c:1
-msgid "Smoke w/ thunders"
-msgstr "Dym z grzmotami"
+msgid "Thunderous smoke"
+msgstr "Og³uszaj±cy dym"
 
 #: my-evolution/metar.c:1
 msgid "Smoke with wind"
@@ -10883,15 +10907,15 @@ msgid "Partial volcanic ash"
 msgstr "Czê¶ciowy popió³ wulkaniczny"
 
 #: my-evolution/metar.c:1
-msgid "Volcanic ash w/ thunders"
-msgstr "Popió³ wulkaniczny z grzmotami"
+msgid "Thunderous volcanic ash"
+msgstr "Og³uszaj±cy popió³ wulkaniczny"
 
 #: my-evolution/metar.c:1
 msgid "Blowing volcanic ash"
 msgstr "Szalej±cy popió³ wulkaniczny"
 
 #: my-evolution/metar.c:1
-msgid "Showers of volcanic ash "
+msgid "Showers of volcanic ash"
 msgstr "Krótkotrwa³y popió³ wulkaniczny"
 
 #: my-evolution/metar.c:1
@@ -10986,47 +11010,47 @@ msgstr "Utrzymuj±ce siê zamglenie"
 
 #. SPRAY
 #: my-evolution/metar.c:1
-msgid "Sprays"
+msgid "Spray"
 msgstr "Py³ wodny"
 
 #: my-evolution/metar.c:1
-msgid "Sprays in the vicinity"
+msgid "Spray in the vicinity"
 msgstr "Nadchodz±cy py³ wodny"
 
 #: my-evolution/metar.c:1
-msgid "Light sprays"
+msgid "Light spray"
 msgstr "Lekki py³ wodny"
 
 #: my-evolution/metar.c:1
-msgid "Moderate sprays"
+msgid "Moderate spray"
 msgstr "Umiarkowany py³ wodny"
 
 #: my-evolution/metar.c:1
-msgid "Heavy sprays"
+msgid "Heavy spray"
 msgstr "Obfity py³ wodny"
 
 #: my-evolution/metar.c:1
-msgid "Shallow sprays"
+msgid "Shallow spray"
 msgstr "S³aby py³ wodny"
 
 #: my-evolution/metar.c:1
-msgid "Patches of sprays"
+msgid "Patches of spray"
 msgstr "£agodny py³ wodny"
 
 #: my-evolution/metar.c:1
-msgid "Partial sprays"
+msgid "Partial spray"
 msgstr "Czê¶ciowy py³ wodny"
 
 #: my-evolution/metar.c:1
-msgid "Blowing sprays"
+msgid "Blowing spray"
 msgstr "Szalej±cy py³ wodny"
 
 #: my-evolution/metar.c:1
-msgid "Drifting sprays"
+msgid "Drifting spray"
 msgstr "Zbli¿aj±cy siê py³ wodny"
 
 #: my-evolution/metar.c:1
-msgid "Freezing sprays"
+msgid "Freezing spray"
 msgstr "Utrzymuj±cy siê py³ wodny"
 
 #. DUST
@@ -11239,7 +11263,7 @@ msgid "Drifting funnel cloud"
 msgstr "Zbli¿aj±ca siê tr±ba powietrzna"
 
 #. TORNADO
-#: my-evolution/metar.c:1
+#: my-evolution/metar.c:1 my-evolution/metar.c:1
 msgid "Tornado"
 msgstr "Tornado"
 
@@ -11796,18 +11820,14 @@ msgstr "Import"
 msgid "Closing connections..."
 msgstr "Zamykanie po³±czeñ..."
 
-#: shell/e-shell-startup-wizard.c:1
+#: shell/e-shell-startup-wizard.c:1 shell/e-shell-startup-wizard.c:1
 #, c-format
 msgid ""
-"Could not start the Evolution Mailer Wizard interface\n"
+"(%s:%d)Could not start the Evolution Mailer Assistant interface\n"
 "%s"
 msgstr ""
-"Nie mo¿na uruchomiæ interfejsu druida pocztowego Evolution\n"
+"(%s:%d)Nie mo¿na uruchomiæ interfejsu druida pocztowego Evolution\n"
 "%s"
-
-#: shell/e-shell-startup-wizard.c:1
-msgid "Cannot initialize the Evolution Mailer Wizard interface"
-msgstr "Nie mo¿na zainicjowaæ interfejsu druida pocztowego Evolution"
 
 #: shell/e-shell-startup-wizard.c:1
 msgid ""
@@ -12115,6 +12135,10 @@ msgid "Not enough space to create the folder"
 msgstr "Brak miejsca na stworzenie folderu"
 
 #: shell/e-storage.c:1
+msgid "The folder is not empty"
+msgstr "Folder nie jest pusty"
+
+#: shell/e-storage.c:1
 msgid "The specified folder was not found"
 msgstr "Nie odnaleziono okre¶lonego folderu"
 
@@ -12138,6 +12162,10 @@ msgstr "Nie mo¿na zmodyfikowaæ ani usun±æ podanego folderu"
 msgid "Cannot make a folder a child of one of its descendants"
 msgstr "Nie mo¿na ustawiæ folderu jako potomka jednego z folderów podrzêdnych"
 
+#: shell/e-storage.c:1
+msgid "Cannot create a folder with that name"
+msgstr "Nie mo¿na stworzyæ folderu o tej nazwie"
+
 #: shell/e-task-widget.c:1
 #, c-format
 msgid "%s (...)"
@@ -12147,6 +12175,43 @@ msgstr "%s (...)"
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (zakoñczono %d%%)"
+
+#: shell/evolution-shell-component-utils.c:1
+#, c-format
+msgid ""
+"%s\n"
+"\n"
+"Unknown error."
+msgstr ""
+"%s\n"
+"\n"
+"Nieznany b³±d."
+
+#: shell/evolution-shell-component-utils.c:1
+#, c-format
+msgid ""
+"%s\n"
+"\n"
+"The error from the component system is:\n"
+"%s"
+msgstr ""
+"%s\n"
+"\n"
+"Opis b³êdu otrzymany od systemu komponentów:\n"
+"%s"
+
+#: shell/evolution-shell-component-utils.c:1
+#, c-format
+msgid ""
+"%s\n"
+"\n"
+"The error from the activation system is:\n"
+"%s"
+msgstr ""
+"%s\n"
+"\n"
+"Opis b³êdu otrzymany od systemu aktywacji:\n"
+"%s"
 
 #: shell/glade/e-active-connection-dialog.glade.h:1
 msgid "Active connections"
