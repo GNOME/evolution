@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.0.5\n"
 "POT-Creation-Date: 2003-02-24 15:49+0200\n"
-"PO-Revision-Date: 2003-02-24 05:20--500\n"
+"PO-Revision-Date: 2003-02-24 06:07--500\n"
 "Last-Translator: Yuriy Syrota <yuri@renome.rovno.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -7635,7 +7635,7 @@ msgstr "Азія/Калькутта"
 
 #: calendar/zones.h:203
 msgid "Asia/Choibalsan"
-msgstr ""
+msgstr "Азія/Чойбалсан"
 
 #: calendar/zones.h:204
 msgid "Asia/Chongqing"
@@ -7731,7 +7731,7 @@ msgstr "Азія/Куала-Лумпур"
 
 #: calendar/zones.h:227
 msgid "Asia/Kuching"
-msgstr ""
+msgstr "Азія/Кучінґ"
 
 #: calendar/zones.h:228
 msgid "Asia/Kuwait"
@@ -7739,11 +7739,11 @@ msgstr "Азія/Кувейт"
 
 #: calendar/zones.h:229
 msgid "Asia/Macao"
-msgstr ""
+msgstr "Азія/Макао"
 
 #: calendar/zones.h:230
 msgid "Asia/Macau"
-msgstr ""
+msgstr "Азія/Макау"
 
 #: calendar/zones.h:231
 msgid "Asia/Magadan"
@@ -7751,7 +7751,7 @@ msgstr "Азія/Магадан"
 
 #: calendar/zones.h:232
 msgid "Asia/Makassar"
-msgstr ""
+msgstr "Азія/Макассар"
 
 #: calendar/zones.h:233
 msgid "Asia/Manila"
@@ -7763,7 +7763,7 @@ msgstr "Азія/Мускат"
 
 #: calendar/zones.h:235
 msgid "Asia/Nicosia"
-msgstr ""
+msgstr "Азія/Нікосія"
 
 #: calendar/zones.h:236
 msgid "Asia/Novosibirsk"
@@ -7775,15 +7775,15 @@ msgstr "Азія/Омськ"
 
 #: calendar/zones.h:238
 msgid "Asia/Oral"
-msgstr ""
+msgstr "Азія/Орал"
 
 #: calendar/zones.h:239
 msgid "Asia/Phnom_Penh"
-msgstr ""
+msgstr "Азія/Пньомпень"
 
 #: calendar/zones.h:240
 msgid "Asia/Pontianak"
-msgstr ""
+msgstr "Азія/Понтіанак"
 
 #: calendar/zones.h:241
 msgid "Asia/Pyongyang"
@@ -7795,11 +7795,11 @@ msgstr "Азія/Катар"
 
 #: calendar/zones.h:243
 msgid "Asia/Qyzylorda"
-msgstr ""
+msgstr "Азія/Кізіл-Орда"
 
 #: calendar/zones.h:244
 msgid "Asia/Rangoon"
-msgstr ""
+msgstr "Азія/Раґун"
 
 #: calendar/zones.h:245
 msgid "Asia/Riyadh"
@@ -7855,7 +7855,7 @@ msgstr "Азія/Токіо"
 
 #: calendar/zones.h:258
 msgid "Asia/Ujung_Pandang"
-msgstr ""
+msgstr "Азія/Унджунґ-Панданґ"
 
 #: calendar/zones.h:259
 msgid "Asia/Ulaanbaatar"
@@ -7887,7 +7887,7 @@ msgstr "Азія/Єреван"
 
 #: calendar/zones.h:266
 msgid "Atlantic/Azores"
-msgstr ""
+msgstr "Атлантика/Азори"
 
 #: calendar/zones.h:267
 msgid "Atlantic/Bermuda"
@@ -7895,7 +7895,7 @@ msgstr "Атлантика/Бермудські остр."
 
 #: calendar/zones.h:268
 msgid "Atlantic/Canary"
-msgstr ""
+msgstr "Атлантика/Канари"
 
 #: calendar/zones.h:269
 msgid "Atlantic/Cape_Verde"
@@ -7903,11 +7903,11 @@ msgstr "Атлантика/Капе Верде"
 
 #: calendar/zones.h:270
 msgid "Atlantic/Faeroe"
-msgstr ""
+msgstr "Атлантика/Фаеро"
 
 #: calendar/zones.h:271
 msgid "Atlantic/Jan_Mayen"
-msgstr ""
+msgstr "Атлантика/Ян-Маєн"
 
 #: calendar/zones.h:272
 msgid "Atlantic/Madeira"
@@ -7919,15 +7919,15 @@ msgstr "Атлантика/Рейк'явік"
 
 #: calendar/zones.h:274
 msgid "Atlantic/South_Georgia"
-msgstr ""
+msgstr "Атлантика/Південна Джорджія"
 
 #: calendar/zones.h:275
 msgid "Atlantic/St_Helena"
-msgstr ""
+msgstr "Атлантика/острів Святої Єлени"
 
 #: calendar/zones.h:276
 msgid "Atlantic/Stanley"
-msgstr ""
+msgstr "Атлантика/Стенлі"
 
 #: calendar/zones.h:277
 msgid "Australia/Adelaide"
@@ -10953,11 +10953,11 @@ msgstr ""
 
 #: designs/OOA/ooa.glade.h:8
 msgid "I am currently in the office"
-msgstr ""
+msgstr "Я зараз в офісі"
 
 #: designs/OOA/ooa.glade.h:9
 msgid "I am currently out of the office"
-msgstr ""
+msgstr "Я зараз за межами офісу"
 
 #: designs/OOA/ooa.glade.h:10
 msgid "No, Don't Change Status"
@@ -14238,7 +14238,7 @@ msgstr "Абакан"
 
 #: my-evolution/Locations.h:3
 msgid "Abbotsford"
-msgstr ""
+msgstr "Абботсфорд"
 
 #: my-evolution/Locations.h:4
 msgid "Aberdeen"
@@ -14246,15 +14246,15 @@ msgstr "Абердін"
 
 #: my-evolution/Locations.h:5
 msgid "Abha"
-msgstr ""
+msgstr "Абха"
 
 #: my-evolution/Locations.h:6
 msgid "Abilene"
-msgstr ""
+msgstr "Абілін"
 
 #: my-evolution/Locations.h:7
 msgid "Abingdon"
-msgstr ""
+msgstr "Абінґтон"
 
 #: my-evolution/Locations.h:8
 msgid "Abu Dhabi"
@@ -14318,7 +14318,7 @@ msgstr "Африка"
 
 #: my-evolution/Locations.h:23
 msgid "Afyon"
-msgstr ""
+msgstr "Афьон"
 
 #: my-evolution/Locations.h:24
 msgid "Agen"
@@ -14326,7 +14326,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:25
 msgid "Aguascaliantes"
-msgstr ""
+msgstr "Аґуаскальєнтес"
 
 #: my-evolution/Locations.h:26
 msgid "Ahmadabad"
@@ -14334,11 +14334,11 @@ msgstr "Агмадабад"
 
 #: my-evolution/Locations.h:27
 msgid "Ahwaz"
-msgstr ""
+msgstr "Ахваз"
 
 #: my-evolution/Locations.h:28
 msgid "Ainsworth"
-msgstr ""
+msgstr "Ейнсворт"
 
 #: my-evolution/Locations.h:29
 msgid "Air Force"
@@ -14490,15 +14490,15 @@ msgstr ""
 
 #: my-evolution/Locations.h:68
 msgid "Altamira"
-msgstr ""
+msgstr "Альтаміра"
 
 #: my-evolution/Locations.h:69
 msgid "Alton"
-msgstr ""
+msgstr "Елтон"
 
 #: my-evolution/Locations.h:70
 msgid "Altoona"
-msgstr ""
+msgstr "Алтуна"
 
 #: my-evolution/Locations.h:71
 msgid "Alturas"
@@ -14506,7 +14506,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:72
 msgid "Altus"
-msgstr ""
+msgstr "Алтус"
 
 #: my-evolution/Locations.h:73
 msgid "Amami Airport"
@@ -14610,11 +14610,11 @@ msgstr ""
 
 #: my-evolution/Locations.h:98
 msgid "Annaba"
-msgstr ""
+msgstr "Аннаба"
 
 #: my-evolution/Locations.h:99
 msgid "Ann Arbor"
-msgstr ""
+msgstr "Анн-Арбор"
 
 #: my-evolution/Locations.h:100
 msgid "Annette"
@@ -14622,7 +14622,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:101
 msgid "Anniston"
-msgstr ""
+msgstr "Анністон"
 
 #: my-evolution/Locations.h:102
 msgid "Antalya"
@@ -14634,7 +14634,7 @@ msgstr "Антарктика"
 
 #: my-evolution/Locations.h:104
 msgid "Antigo"
-msgstr ""
+msgstr "Антіґо"
 
 #: my-evolution/Locations.h:105
 msgid "Antigua"
@@ -14646,23 +14646,23 @@ msgstr "Антіґуа і Барбуда"
 
 #: my-evolution/Locations.h:107
 msgid "Antofagasta"
-msgstr ""
+msgstr "Антофаґаста"
 
 #: my-evolution/Locations.h:108
 msgid "Antwerpen/Deurne"
-msgstr ""
+msgstr "Антверпен (Деурне)"
 
 #: my-evolution/Locations.h:109
 msgid "Aomori Airport"
-msgstr ""
+msgstr "Аоморі (аеропорт)"
 
 #: my-evolution/Locations.h:110
 msgid "Apalachicola"
-msgstr ""
+msgstr "Апалічікола"
 
 #: my-evolution/Locations.h:111
 msgid "Appleton"
-msgstr ""
+msgstr "Аплтон"
 
 #: my-evolution/Locations.h:112
 msgid "Aquadilla"
@@ -14690,15 +14690,15 @@ msgstr ""
 
 #: my-evolution/Locations.h:118
 msgid "Ardmore"
-msgstr ""
+msgstr "Ардмор"
 
 #: my-evolution/Locations.h:119
 msgid "Arequipa"
-msgstr ""
+msgstr "Арекіпа"
 
 #: my-evolution/Locations.h:121
 msgid "Arica"
-msgstr ""
+msgstr "Аріка"
 
 #: my-evolution/Locations.h:122
 msgid "Arizona"
@@ -14714,7 +14714,7 @@ msgstr "Архангельськ"
 
 #: my-evolution/Locations.h:125
 msgid "Arlington"
-msgstr ""
+msgstr "Арлінґтон"
 
 #: my-evolution/Locations.h:126
 msgid "Artigas"
@@ -14722,7 +14722,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:127
 msgid "Asahikawa Ab"
-msgstr ""
+msgstr "Асахікава-Аб"
 
 #: my-evolution/Locations.h:128
 msgid "Asahikawa Airport"
@@ -14734,19 +14734,19 @@ msgstr ""
 
 #: my-evolution/Locations.h:130
 msgid "Asheville"
-msgstr ""
+msgstr "Ешвіль"
 
 #: my-evolution/Locations.h:131
 msgid "Ashfield"
-msgstr ""
+msgstr "Ешфілд"
 
 #: my-evolution/Locations.h:132
 msgid "Ashiya Ab"
-msgstr ""
+msgstr "Ашія-Аб"
 
 #: my-evolution/Locations.h:133
 msgid "Ashland"
-msgstr ""
+msgstr "Ешленд"
 
 #: my-evolution/Locations.h:134
 msgid "Asia"
@@ -14754,11 +14754,11 @@ msgstr "Азія"
 
 #: my-evolution/Locations.h:135
 msgid "Aspen"
-msgstr ""
+msgstr "Аспен"
 
 #: my-evolution/Locations.h:136
 msgid "Asswan"
-msgstr ""
+msgstr "Асуан"
 
 #: my-evolution/Locations.h:137
 msgid "Astoria"
@@ -14790,7 +14790,7 @@ msgstr "Атланта"
 
 #: my-evolution/Locations.h:144
 msgid "Atlantic"
-msgstr ""
+msgstr "Атлантика"
 
 #: my-evolution/Locations.h:145
 msgid "Atlantic City"
@@ -14802,19 +14802,19 @@ msgstr ""
 
 #: my-evolution/Locations.h:147
 msgid "Auburn"
-msgstr ""
+msgstr "Оберн"
 
 #: my-evolution/Locations.h:148
 msgid "Auckland"
-msgstr ""
+msgstr "Окленд"
 
 #: my-evolution/Locations.h:149
 msgid "Augsburg"
-msgstr ""
+msgstr "Авґсбурґ"
 
 #: my-evolution/Locations.h:150
 msgid "Augusta"
-msgstr ""
+msgstr "Авґуста"
 
 #: my-evolution/Locations.h:151
 msgid "Aurora"
@@ -14826,19 +14826,19 @@ msgstr "Остін"
 
 #: my-evolution/Locations.h:153
 msgid "Australasia"
-msgstr ""
+msgstr "Океанія"
 
 #: my-evolution/Locations.h:156
 msgid "Avalon"
-msgstr ""
+msgstr "Авалон"
 
 #: my-evolution/Locations.h:157
 msgid "Aviano"
-msgstr ""
+msgstr "Авіано"
 
 #: my-evolution/Locations.h:158
 msgid "Ayacucho"
-msgstr ""
+msgstr "Аякучо"
 
 #: my-evolution/Locations.h:159
 msgid "Bage"
@@ -14862,7 +14862,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:166
 msgid "Bakersfield"
-msgstr ""
+msgstr "Бейкерсфілд"
 
 #: my-evolution/Locations.h:167
 msgid "Bale-Mulhouse"
@@ -14894,11 +14894,11 @@ msgstr ""
 
 #: my-evolution/Locations.h:174
 msgid "Bandarabbass"
-msgstr ""
+msgstr "Бандараббас"
 
 #: my-evolution/Locations.h:175
 msgid "Bangor"
-msgstr ""
+msgstr "Банґор"
 
 #: my-evolution/Locations.h:176
 msgid "Baracoa"
@@ -14918,11 +14918,11 @@ msgstr ""
 
 #: my-evolution/Locations.h:180
 msgid "Bar Harbor"
-msgstr ""
+msgstr "Бар-Харбор"
 
 #: my-evolution/Locations.h:181
 msgid "Bari"
-msgstr ""
+msgstr "Барі"
 
 #: my-evolution/Locations.h:182
 msgid "Bariloche"
@@ -14930,7 +14930,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:183
 msgid "Barinas"
-msgstr ""
+msgstr "Барінас"
 
 #: my-evolution/Locations.h:184
 msgid "Barking Sand"
@@ -14954,7 +14954,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:189
 msgid "Barrow"
-msgstr ""
+msgstr "Барроу"
 
 #: my-evolution/Locations.h:190
 msgid "Barter Island"
@@ -14962,15 +14962,15 @@ msgstr ""
 
 #: my-evolution/Locations.h:191
 msgid "Bartlesville"
-msgstr ""
+msgstr "Бартсвіль"
 
 #: my-evolution/Locations.h:192
 msgid "Bartow"
-msgstr ""
+msgstr "Бартоу"
 
 #: my-evolution/Locations.h:193
 msgid "Bastia"
-msgstr ""
+msgstr "Бастія"
 
 #: my-evolution/Locations.h:194
 msgid "Batesville"
@@ -14978,15 +14978,15 @@ msgstr ""
 
 #: my-evolution/Locations.h:195
 msgid "Batman"
-msgstr ""
+msgstr "Батман"
 
 #: my-evolution/Locations.h:196
 msgid "Baton Rouge"
-msgstr ""
+msgstr "Батон-Руж"
 
 #: my-evolution/Locations.h:197
 msgid "Battle Creek"
-msgstr ""
+msgstr "Батл-Крік"
 
 #: my-evolution/Locations.h:198
 msgid "Battle Mountain"
@@ -14994,7 +14994,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:199
 msgid "Bauru"
-msgstr ""
+msgstr "Бауру"
 
 #: my-evolution/Locations.h:200
 msgid "Bayamo"
@@ -15006,11 +15006,11 @@ msgstr ""
 
 #: my-evolution/Locations.h:202
 msgid "Beatrice"
-msgstr ""
+msgstr "Біатріс"
 
 #: my-evolution/Locations.h:203
 msgid "Beaufort"
-msgstr ""
+msgstr "Бофорт"
 
 #: my-evolution/Locations.h:204
 msgid "Beaumont"
@@ -16386,19 +16386,19 @@ msgstr ""
 
 #: my-evolution/Locations.h:562
 msgid "Dayton"
-msgstr ""
+msgstr "Бейтон"
 
 #: my-evolution/Locations.h:563
 msgid "Daytona Beach"
-msgstr ""
+msgstr "Дайтона-Біч"
 
 #: my-evolution/Locations.h:564
 msgid "Dayton-Fairborn"
-msgstr ""
+msgstr "Дейтон (Фейрборн)"
 
 #: my-evolution/Locations.h:565
 msgid "Dayton-South Airport"
-msgstr ""
+msgstr "Дейтон (південний аеропорт)"
 
 #: my-evolution/Locations.h:566
 msgid "Dead Horse"
@@ -17648,7 +17648,7 @@ msgstr "Галіфакс"
 
 #: my-evolution/Locations.h:891
 msgid "Hamamatsu Ab"
-msgstr ""
+msgstr "Хамамацу-Аб"
 
 #: my-evolution/Locations.h:892
 msgid "Hamburg"
@@ -17656,11 +17656,11 @@ msgstr "Гамбург"
 
 #: my-evolution/Locations.h:893
 msgid "Hamburg-Finkenwerder"
-msgstr ""
+msgstr "Гамбург (Фінкенвердер)"
 
 #: my-evolution/Locations.h:894
 msgid "Hamilton"
-msgstr ""
+msgstr "Гамільтон"
 
 #: my-evolution/Locations.h:895
 msgid "Hammerfest"
@@ -19392,15 +19392,15 @@ msgstr ""
 
 #: my-evolution/Locations.h:1343
 msgid "Matsumoto Airport"
-msgstr ""
+msgstr "Мацумото (аеропорт)"
 
 #: my-evolution/Locations.h:1344
 msgid "Matsushima Ab"
-msgstr ""
+msgstr "Мацушіма-Аб"
 
 #: my-evolution/Locations.h:1345
 msgid "Matsuyama Airport"
-msgstr ""
+msgstr "Мацушіма (аеропорт)"
 
 #: my-evolution/Locations.h:1346
 msgid "Mattoon"
@@ -19680,7 +19680,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1416
 msgid "Misawa Ab"
-msgstr ""
+msgstr "Місава-Аб"
 
 #: my-evolution/Locations.h:1417
 msgid "Mississippi"
@@ -19704,11 +19704,11 @@ msgstr ""
 
 #: my-evolution/Locations.h:1422
 msgid "Miyakejima Airport"
-msgstr ""
+msgstr "Міякеджіма (аеропорт)"
 
 #: my-evolution/Locations.h:1423
 msgid "Miyazaki Airport"
-msgstr ""
+msgstr "Міязакі (аеропорт)"
 
 #: my-evolution/Locations.h:1424
 msgid "Moa"
@@ -20020,7 +20020,7 @@ msgstr "Нагасакі аеропорт"
 
 #: my-evolution/Locations.h:1502
 msgid "Nagoya Airport"
-msgstr ""
+msgstr "Наґоя (аеропорт)"
 
 #: my-evolution/Locations.h:1503
 msgid "Nagpur Sonegaon"
@@ -20028,7 +20028,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1504
 msgid "Naha Airport"
-msgstr ""
+msgstr "Нага (аеропорт)"
 
 #: my-evolution/Locations.h:1505
 msgid "Najran"
@@ -20036,7 +20036,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1506
 msgid "Nakashibetsu Airport"
-msgstr ""
+msgstr "Накашібецу (аеропорт)"
 
 #: my-evolution/Locations.h:1507
 msgid "Nalchik"
@@ -20092,7 +20092,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1520
 msgid "Nashua"
-msgstr ""
+msgstr "Нашуа"
 
 #: my-evolution/Locations.h:1521
 msgid "Nashville"
@@ -20248,7 +20248,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1562
 msgid "Niigata Airport"
-msgstr ""
+msgstr "Нііґата (аеропорт)"
 
 #: my-evolution/Locations.h:1563
 msgid "Nimes-Garons"
@@ -20512,7 +20512,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1631
 msgid "Ominato Ab"
-msgstr ""
+msgstr "Омінато-Аб"
 
 #: my-evolution/Locations.h:1632
 msgid "Omsk"
@@ -20640,7 +20640,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1663
 msgid "Ozuki Ab"
-msgstr ""
+msgstr "Озукі-Аб"
 
 #: my-evolution/Locations.h:1664
 msgid "Paderborn-Haxterberg"
@@ -21168,7 +21168,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1802
 msgid "Pretoria"
-msgstr ""
+msgstr "Преторія"
 
 #: my-evolution/Locations.h:1803
 msgid "Preveza"
@@ -21180,7 +21180,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1805
 msgid "Pristina"
-msgstr ""
+msgstr "Пріштіна"
 
 #: my-evolution/Locations.h:1806
 msgid "Providence"
@@ -24063,7 +24063,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:2515
 msgid "Yokota Ab"
-msgstr ""
+msgstr "Йокота-Аб"
 
 #: my-evolution/Locations.h:2516
 msgid "Yongsan/H-208 Hp"
