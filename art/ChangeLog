@@ -1,3 +1,8 @@
+2003-12-04  Radek Doulik  <rodo@ximian.com>
+
+	* Makefile.am (buttons_DATA): added stock junk button and notjunk
+	placeholder (until artists have the right one)
+
 2003-12-02  Rodney Dawes  <dobey@ximian.com>
 
 	* Makefile.am: Add flag-for-followup-done.xpm to EXTRA_DIST
