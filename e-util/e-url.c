@@ -115,6 +115,9 @@ e_uri_new (const char *uri_string)
 	const char *end, *hash, *colon, *semi, *at, *slash, *question;
 	const char *p;
 
+	if (!uri_string)
+		return NULL;
+
 	uri = g_new0 (EUri, 1);
 
 	/* find fragment */

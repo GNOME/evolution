@@ -1,3 +1,9 @@
+2003-05-07  Rodrigo Moya <rodrigo@ximian.com>
+
+	Fixes crash in #42212
+
+	* e-url.c (e_uri_new): check for 'uri_string' being NULL.
+
 2003-05-02  Not Zed  <NotZed@Ximian.com>
 
 	* e-request.c (e_request_string): remove the assert, if we dont
