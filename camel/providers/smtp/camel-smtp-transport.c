@@ -473,9 +473,9 @@ smtp_helo (CamelSmtpTransport *transport, CamelException *ex)
 
 	/* hiya server! how are you today? */
 	if (smtp_is_esmtp)
-		cmdbuf = g_strdup_printf ("EHLO %s\r\n", host->h_name);
+		cmdbuf = g_strdup_printf ("EHLO %s\r\n", host && host->h_name ? host->h_name : inet_ntoa(localaddr.sin_addr));
 	else
-		cmdbuf = g_strdup_printf ("HELO %s\r\n", host->h_name);
+		cmdbuf = g_strdup_printf ("HELO %s\r\n", host && host->h_name ? host->h_name : inet_ntoa(localaddr.sin_addr));
 	if ( camel_stream_write (transport->ostream, cmdbuf, strlen(cmdbuf), ex) == -1) {
 		g_free(cmdbuf);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,

@@ -1,3 +1,8 @@
+2000-05-17  Jeffrey Stedfast  <fejj@stampede.org>
+
+	* providers/smtp/camel-smtp-transport.c: (smtp_helo): Error
+	checking on gethostbyaddr() eliminating a possible segfault.
+
 2000-05-16  NotZed  <NotZed@HelixCode.com>
 
 	* providers/mbox/camel-mbox-folder.c (mbox_delete_message_by_uid):
