@@ -492,7 +492,6 @@ set_empty(EReflow *reflow)
 							      "width", reflow->minimum_width,
 							      "clip", TRUE,
 							      "use_ellipsis", TRUE,
-							      "fill_color", "black",
 							      "justification", GTK_JUSTIFY_CENTER,
 							      "text", reflow->empty_message,
 							      "draw_background", FALSE,

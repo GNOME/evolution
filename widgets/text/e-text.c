@@ -1982,7 +1982,6 @@ _do_tooltip (gpointer data)
 				      "y1", (double) 0,
 				      "x2", (double) max_width + 4,
 				      "y2", (double) text->height + 4,
-				      "fill_color", "light gray",
 				      NULL);
 
 	tooltip_text = gnome_canvas_item_new (gnome_canvas_root (GNOME_CANVAS (canvas)),
