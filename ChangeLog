@@ -1,3 +1,12 @@
+2002-07-22  Dan Winship  <danw@ximian.com>
+
+	* configure.in: Check if we're trying to build with the old
+	libversit module borrowed from gnome-pim instead of our own new
+	one, and refuse to build if so.
+
+	* libversit/Makefile.am: Remove libversit.la stuff since we don't
+	want it and it messes up the build slightly.
+
 2002-07-18  Ettore Perazzoli  <ettore@ximian.com>
 
 	* configure.in: Prepend "$(WERROR)" to all the *_CFLAGS variables

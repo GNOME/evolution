@@ -2,6 +2,21 @@
 AC_INIT(camel)
 AM_CONFIG_HEADER(config.h)
 
+if test -f libversit/CVS/Repository; then
+	case `cat libversit/CVS/Repository` in
+	gnome-pim*)
+		echo ""
+		echo "ERROR: CVS working directory is out of date"
+		echo "Please do:"
+		echo "    rm -rf libversit"
+		echo "    cvs update -d libversit"
+		echo "    automake libversit/Makefile"
+		echo "and try again. We apologize for the inconvenience"
+		exit 1
+		;;
+	esac
+fi
+
 EVOLUTION_MAJOR_VERSION=1
 EVOLUTION_MINOR_VERSION=1
 EVOLUTION_MICRO_VERSION=0
