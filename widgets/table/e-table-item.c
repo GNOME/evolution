@@ -1028,9 +1028,13 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 	case GDK_2BUTTON_PRESS: {
 		double x1, y1;
 		int col, row;
-		
+
+		if (e->button.button == 5 ||
+		    e->button.button == 4)
+			return FALSE;
+
 		gnome_canvas_item_w2i (item, &e->button.x, &e->button.y);
-		
+
 		if (!find_cell (eti, e->button.x, e->button.y, &col, &row, &x1, &y1))
 			return TRUE;
 

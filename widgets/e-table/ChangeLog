@@ -1,3 +1,11 @@
+2000-04-16  Anders Carlsson  <andersca@gnu.org>
+
+	* e-table-item.c (eti_event): Propagate mouse wheel events upwards.
+
+	* e-table.c (et_real_construct): Use a GtkScrolledWindow here 
+	instead of a GtkScrollbar, since it makes mouse wheel scrolling 
+	much easier.
+
 2000-04-15  Matt Loper  <matt@helixcode.com>
 
 	* e-table.c (et_xml_to_header): sanity-check our parameters.

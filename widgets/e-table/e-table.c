@@ -769,7 +769,7 @@ et_real_construct (ETable *e_table, ETableHeader *full_header, ETableModel *etm,
 	xmlNode *xmlColumns;
 	xmlNode *xmlGrouping;
 	
-	GtkWidget *vscrollbar;
+	GtkWidget *scrolledwindow;
 	GtkWidget *vbox;
 
 	e_table->full_header = full_header;
@@ -797,6 +797,15 @@ et_real_construct (ETable *e_table, ETableHeader *full_header, ETableModel *etm,
 	e_table_setup_table (e_table, full_header, e_table->header, etm);
 	e_table_fill_table (e_table, etm);
 
+	scrolledwindow = gtk_scrolled_window_new (gtk_layout_get_hadjustment (GTK_LAYOUT (e_table->table_canvas)),
+						  gtk_layout_get_vadjustment (GTK_LAYOUT (e_table->table_canvas)));
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow),
+					GTK_POLICY_NEVER,
+					GTK_POLICY_AUTOMATIC);
+	
+	gtk_container_add (GTK_CONTAINER (scrolledwindow), e_table->table_canvas);
+	gtk_widget_show (scrolledwindow);
+	
 	/*
 	 * The header
 	 */
@@ -810,20 +819,11 @@ et_real_construct (ETable *e_table, ETableHeader *full_header, ETableModel *etm,
 	 * The body
 	 */
 	gtk_table_attach (
-		GTK_TABLE (e_table), GTK_WIDGET (e_table->table_canvas),
+		GTK_TABLE (e_table), GTK_WIDGET (scrolledwindow),
 		1, 2, 2, 3,
 		GTK_FILL | GTK_EXPAND,
 		GTK_FILL | GTK_EXPAND, 0, 0);
 		
-	vscrollbar = gtk_vscrollbar_new (gtk_layout_get_vadjustment (GTK_LAYOUT (e_table->table_canvas)));
-	gtk_widget_show (vscrollbar);
-
-	gtk_table_attach (
-		GTK_TABLE (e_table), vscrollbar,
-		2, 3, 2, 3,
-		GTK_FILL,
-		GTK_FILL | GTK_EXPAND, 0, 0);
-	
 	gtk_widget_pop_colormap ();
 	gtk_widget_pop_visual ();
 }
