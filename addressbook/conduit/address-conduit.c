@@ -18,7 +18,6 @@
 #include <gpilotd/gnome-pilot-conduit.h>
 #include <gpilotd/gnome-pilot-conduit-standard-abs.h>
 #include <address-conduit.h>
-#include <libversit/vcc.h>
 #include "ebook/e-book-types.h"
 
 #include <bonobo.h>
@@ -275,92 +274,105 @@ static ECard *
 ecard_from_remote_record(AddressbookConduitContext *ctxt,
 			 PilotRecord *remote)
 {
-	ECard *ecard;
 	struct Address address;
-	VObject *vobj;
-	VObject *nameprop, *addressprop;
+	ECard *ecard;
+	ECardSimple *simple;
 	int i;
-	char *temp;
+	char *string;
+	char *stringparts[4];
+	char *commaparts[3];
+	char *spaceparts[3];
+	char *commastring, *spacestring;
 
 	g_return_val_if_fail(remote!=NULL,NULL);
 	memset (&address, 0, sizeof (struct Address));
 	unpack_Address (&address, remote->record, remote->length);
-	
-	vobj = newVObject (VCCardProp);
-	nameprop = addProp (vobj, VCNameProp);
 
-#define ADD_PROP(v,pilotprop,vprop) \
-	if (address.entry [(pilotprop)]) \
-		addPropValue ((v), (vprop), address.entry [(pilotprop)])
 
-	ADD_PROP (nameprop, entryFirstname, VCGivenNameProp);
-	ADD_PROP (nameprop, entryLastname, VCFamilyNameProp);
+	ecard = e_card_new("");
+	simple = e_card_simple_new(ecard);
 
-	addressprop = addProp (vobj, VCAdrProp);
+#define get(pilotprop) \
+        (address.entry [(pilotprop)])
+#define check(pilotprop) \
+        (address.entry [(pilotprop)] && *address.entry [(pilotprop)])
 
-	ADD_PROP (addressprop, entryAddress, VCStreetAddressProp);
-	ADD_PROP (addressprop, entryCity, VCCityProp);
-	ADD_PROP (addressprop, entryState, VCRegionProp);
-	ADD_PROP (addressprop, entryZip, VCPostalCodeProp);
-	ADD_PROP (addressprop, entryCountry, VCCountryNameProp);
+	i = 0;
+	if (check(entryFirstname))
+		stringparts[i++] = get(entryFirstname);
+	if (check(entryLastname))
+		stringparts[i++] = get(entryLastname);
+	stringparts[i] = NULL;
+	string = g_strjoinv(" ", stringparts);
+	e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_FULL_NAME, string);
+	g_free(string);
 
-	ADD_PROP (vobj, entryTitle, VCTitleProp);
+	i = 0;
+	if (check (entryAddress))
+		spaceparts[i++] = get (entryAddress);
+	if (check (entryZip))
+		spaceparts[i++] = get (entryZip);
+	spaceparts[i] = 0;
+	spacestring = g_strjoinv(" ", spaceparts);
 
-	if (address.entry [entryCompany]) {
-		VObject *orgprop;
-		orgprop = addProp (vobj, VCOrgProp);
-		ADD_PROP (orgprop, entryCompany, VCOrgNameProp);
-	}
+	i = 0;
+	if (check (entryCity))
+		commaparts[i++] = get (entryCity);
+	if (spacestring && *spacestring)
+		commaparts[i++] = spacestring;
+	commaparts[i] = 0;
+	commastring = g_strjoinv(", ", commaparts);
+
+	i = 0;
+	if (check (entryAddress))
+		stringparts[i++] = get (entryAddress);
+	if (commastring && *commastring)
+		stringparts[i++] = commastring;
+	if (check (entryCountry))
+		stringparts[i++] = get (entryCountry);
+	stringparts[i] = NULL;
+	string = g_strjoinv("\n", stringparts);
+	e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_ADDRESS_HOME, string);
+
+	g_free(spacestring);
+	g_free(commastring);
+	g_free(string);
+
+	if (check (entryTitle))
+		e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_TITLE, get (entryTitle));
+
+	if (check (entryCompany))
+		e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_ORG, get (entryCompany));
 
 	for (i = entryPhone1; i <= entryPhone5; i ++) {
-		if (address.entry [i]) {
+		if (address.entry [i] && *(address.entry [i])) {
 			char *phonelabel = ctxt->ai.phoneLabels[address.phoneLabel[i - entryPhone1]];
-			if (!strcmp (phonelabel, "E-mail")) {
-				VObject *emailprop = addPropValue (vobj,
-								   VCEmailAddressProp,
-								   address.entry[i]);
-				addProp (emailprop, VCInternetProp);
-			}
-			else {
-				const char* phone_type = VCHomeProp;
-				VObject *phoneprop = addPropValue (vobj,
-								   VCTelephoneProp,
-								   address.entry[i]);
-
-				printf ("added '%s' phone entry %s\n",
-					phonelabel,
-					address.entry[i]);
-
-				if (!strcmp (phonelabel, "Home"))
-					phone_type = VCHomeProp;
-				else if (!strcmp (phonelabel, "Work"))
-					phone_type = VCWorkProp;
-				else if (!strcmp (phonelabel, "Fax"))
-					phone_type = VCFaxProp;
-				else if (!strcmp (phonelabel, "Other"))
-					phone_type = VCHomeProp; /* XXX */
-				else if (!strcmp (phonelabel, "Main")) { /* XXX */
-					addProp (phoneprop, VCHomeProp);
-					phone_type = VCPreferredProp;
-				}
-				else if (!strcmp (phonelabel, "Pager"))
-					phone_type = VCPagerProp;
-				else if (!strcmp (phonelabel, "Mobile"))
-					phone_type = VCCellularProp;
-				addProp (phoneprop, phone_type);
-			}
+			if (!strcmp (phonelabel, "E-mail"))
+				e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_EMAIL, address.entry[i]);
+			else if (!strcmp (phonelabel, "Home"))
+				e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_PHONE_HOME, address.entry[i]);
+			else if (!strcmp (phonelabel, "Work"))
+				e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_PHONE_BUSINESS, address.entry[i]);
+			else if (!strcmp (phonelabel, "Fax"))
+				e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_PHONE_BUSINESS_FAX, address.entry[i]);
+			else if (!strcmp (phonelabel, "Other"))
+				e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_PHONE_OTHER, address.entry[i]);
+			else if (!strcmp (phonelabel, "Main"))
+				e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_PHONE_PRIMARY, address.entry[i]);
+			else if (!strcmp (phonelabel, "Pager"))
+				e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_PHONE_PAGER, address.entry[i]);
+			else if (!strcmp (phonelabel, "Mobile"))
+				e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_PHONE_MOBILE, address.entry[i]);
 		}
 	}
-#undef ADD_PROP
-
-	temp = writeMemVObject (NULL, NULL, vobj);
-	ecard = e_card_new (temp);
-	free (temp);
-	cleanVObject (vobj);
+#undef get
+#undef set
 
 	free_Address(&address);
 
 	gtk_object_set (GTK_OBJECT(ecard), "pilot_id", remote->ID, NULL);
+
+	gtk_object_unref(GTK_OBJECT(simple));
 
 	return ecard;
 }
@@ -1186,7 +1198,9 @@ conduit_get_gpilot_conduit (guint32 pilotId)
 	printf ("in address's conduit_get_gpilot_conduit\n");
 
 #ifdef NEED_OAF_INIT_HACK
+#ifndef NO_WARNINGS
 #warning "need a better way to do this"
+#endif
 	/* we need to find wombat with oaf, so make sure oaf
 	   is initialized here.  once the desktop is converted
 	   to oaf and gpilotd is built with oaf, this can go away */

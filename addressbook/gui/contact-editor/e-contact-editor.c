@@ -938,6 +938,7 @@ setup_tab_order(GladeXML *gui)
 		list = add_to_tab_order(list, gui, "alignment-contacts");
 		list = g_list_reverse(list);
 		e_container_change_tab_order(GTK_CONTAINER(container), list);
+		g_list_free(list);
 	}
 }
 

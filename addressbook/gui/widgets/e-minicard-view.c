@@ -211,12 +211,14 @@ e_minicard_view_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	case ARG_BOOK:
 		if (view->book)
 			gtk_object_unref(GTK_OBJECT(view->book));
-		view->book = E_BOOK(GTK_VALUE_OBJECT (*arg));
-		if (view->book) {
+		if (GTK_VALUE_OBJECT (*arg)) {
+			view->book = E_BOOK(GTK_VALUE_OBJECT (*arg));
 			gtk_object_ref(GTK_OBJECT(view->book));
 			if (view->get_view_idle == 0)
 				view->get_view_idle = g_idle_add((GSourceFunc)get_view, view);
 		}
+		else
+			view->book = NULL;
 		break;
 	case ARG_QUERY:
 		g_free(view->query);
@@ -360,6 +362,10 @@ disconnect_signals(EMinicardView *view)
 	if (view->book_view && view->modify_card_id)
 		gtk_signal_disconnect(GTK_OBJECT (view->book_view),
 				      view->modify_card_id);
+
+	view->create_card_id = 0;
+	view->remove_card_id = 0;
+	view->modify_card_id = 0;
 }
 
 static void

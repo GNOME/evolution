@@ -11,6 +11,7 @@
 #include <gpilotd/gnome-pilot-conduit.h>
 #include <gpilotd/gnome-pilot-conduit-standard-abs.h>
 #include "ebook/e-card.h"
+#include "ebook/e-card-simple.h"
 #include "ebook/e-book.h"
 #include "ebook/e-book-view.h"
 

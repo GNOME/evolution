@@ -20,6 +20,7 @@
 #include <e-util/e-util.h>
 #include <e-util/e-popup-menu.h>
 #include "e-minicard-view-widget.h"
+#include "addressbook/gui/search/e-addressbook-search-dialog.h"
 
 #include <e-table.h>
 #include <e-cell-text.h>
@@ -85,6 +86,7 @@ control_deactivate (BonoboControl *control, BonoboUIHandler *uih)
 #ifdef HAVE_LDAP
 	bonobo_ui_handler_menu_remove (uih, "/Actions/New Directory Server");
 #endif
+	bonobo_ui_handler_menu_remove (uih, "/Tools/Search");
 	/* remove our toolbar */
 	bonobo_ui_handler_dock_remove (uih, "/Toolbar");
 }
@@ -224,6 +226,23 @@ new_server_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 	}
 }
 #endif
+
+static void
+search_cb (BonoboUIHandler *uih, void *user_data, const char *path)
+{
+	EBook *book;
+	AddressbookView *view = (AddressbookView *) user_data;
+	GtkObject *object;
+
+	if (view->minicard_view)
+		object = GTK_OBJECT(view->minicard_view);
+	else
+		object = GTK_OBJECT(view->model);
+	gtk_object_get(object, "book", &book, NULL);
+	g_assert (E_IS_BOOK (book));
+
+	gtk_widget_show(e_addressbook_search_dialog_new(book));
+}
 
 static char *
 get_query (AddressbookView *view)
@@ -520,6 +539,13 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 					 0, 0, new_server_cb,
 					 (gpointer)view);
 #endif
+
+	bonobo_ui_handler_menu_new_item (uih, "/Tools/Search",
+					 N_("_Search for contacts"),       
+					 NULL, -1,
+					 BONOBO_UI_HANDLER_PIXMAP_STOCK, GNOME_STOCK_MENU_SEARCH,
+					 0, 0, search_cb,
+					 (gpointer)view);
 
 	toolbar = gtk_toolbar_new (GTK_ORIENTATION_HORIZONTAL,
 				   GTK_TOOLBAR_BOTH);
@@ -870,19 +896,66 @@ table_double_click(ETableScrolled *table, gint row, AddressbookView *view)
 	gtk_object_unref(GTK_OBJECT(card));
 }
 
+typedef struct {
+	EBook *book;
+	ECard *card;
+} CardAndBook;
+
 static void
-save_as (GtkWidget *widget, ECard *card)
+card_and_book_free (CardAndBook *card_and_book)
 {
-	e_contact_save_as(_("Save as VCard"), card);
+	gtk_object_unref(GTK_OBJECT(card_and_book->card));
+	gtk_object_unref(GTK_OBJECT(card_and_book->book));
+}
+
+static void
+save_as (GtkWidget *widget, CardAndBook *card_and_book)
+{
+	e_contact_save_as(_("Save as VCard"), card_and_book->card);
+	card_and_book_free(card_and_book);
+}
+
+static void
+print (GtkWidget *widget, CardAndBook *card_and_book)
+{
+	gtk_widget_show(e_contact_print_card_dialog_new(card_and_book->card));
+	card_and_book_free(card_and_book);
+}
+
+static void
+delete (GtkWidget *widget, CardAndBook *card_and_book)
+{
+	if (e_contact_editor_confirm_delete()) {
+		/* Add the card in the contact editor to our ebook */
+		e_book_remove_card (card_and_book->book,
+				    card_and_book->card,
+				    NULL,
+				    NULL);
+	}
+	card_and_book_free(card_and_book);
 }
 
 static gint
 table_right_click(ETableScrolled *table, gint row, gint col, GdkEvent *event, AddressbookView *view)
 {
-	ECard *card = e_addressbook_model_get_card(E_ADDRESSBOOK_MODEL(view->model), row);
-	EPopupMenu menu[] = { {"Save as VCard", NULL, GTK_SIGNAL_FUNC(save_as), 0}, {NULL, NULL, NULL, 0} };
+	CardAndBook *card_and_book;
 
-	e_popup_menu_run (menu, (GdkEventButton *)event, 0, 0, card);
+	EPopupMenu menu[] = {
+		{"Save as VCard", NULL, GTK_SIGNAL_FUNC(save_as), 0}, 
+		{"Print", NULL, GTK_SIGNAL_FUNC(print), 0},
+		{"Delete", NULL, GTK_SIGNAL_FUNC(delete), 0}, 
+		{NULL, NULL, NULL, 0}
+	};
+
+	card_and_book = g_new(CardAndBook, 1);
+	card_and_book->card = e_addressbook_model_get_card(E_ADDRESSBOOK_MODEL(view->model), row);
+	gtk_object_get(GTK_OBJECT(view->model),
+		       "book", &(card_and_book->book),
+		       NULL);
+
+	gtk_object_ref(GTK_OBJECT(card_and_book->book));
+
+	e_popup_menu_run (menu, (GdkEventButton *)event, 0, 0, card_and_book);
 
 	return TRUE;
 }
