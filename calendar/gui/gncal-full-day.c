@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* Full day widget for gncal
  *
  * Copyright (C) 1998 The Free Software Foundation
@@ -249,6 +250,7 @@ child_realize (GncalFullDay *fullday, Child *child)
 	gdk_window_set_background (child->decor_window, &c);
 	gdk_window_set_user_data (child->decor_window, widget);
 
+	/*
 	if (!pixmap_bell){
 		GdkImlibImage *imlib_bell, *imlib_recur;
 		GdkPixmap *mask;
@@ -271,6 +273,42 @@ child_realize (GncalFullDay *fullday, Child *child)
 		if (mask)
 			gdk_gc_set_clip_mask (fullday->recur_gc, mask);
 	}
+	*/
+
+	if (!pixmap_bell){
+		GdkPixmap *mask;
+
+		GdkImlibImage *imlib_bell;
+		GdkImlibImage *imlib_recur;
+
+		imlib_bell  = gdk_imlib_create_image_from_xpm_data (bell_xpm);
+		gdk_imlib_render (imlib_bell, DECOR_WIDTH, DECOR_HEIGHT);
+		pixmap_bell = gdk_imlib_move_image (imlib_bell);
+
+		mask = gdk_imlib_move_mask  (imlib_bell);
+		gdk_imlib_destroy_image (imlib_bell);
+
+		imlib_recur = gdk_imlib_create_image_from_xpm_data (recur_xpm);
+		gdk_imlib_render (imlib_recur, DECOR_WIDTH, DECOR_HEIGHT);
+		pixmap_recur = gdk_imlib_move_image (imlib_recur);
+		mask   = gdk_imlib_move_mask (imlib_recur);
+		gdk_imlib_destroy_image (imlib_recur);
+	}
+
+#warning "fix this"
+
+	fullday->bell_gc = gdk_gc_new (child->decor_window);
+	/*
+	if (mask)
+		gdk_gc_set_clip_mask (fullday->bell_gc, mask);
+	*/
+
+	fullday->recur_gc = gdk_gc_new (child->decor_window);
+	/*
+	if (mask)
+		gdk_gc_set_clip_mask (fullday->recur_gc, mask);
+	*/
+
 	child_set_text_pos (child);
 }
 

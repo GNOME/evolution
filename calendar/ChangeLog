@@ -1,3 +1,9 @@
+2000-04-20  Seth Alves  <alves@hungry.com>
+
+	* gui/gncal-full-day.c (child_realize): create fullday's gcs
+	even if pixmap_bell has already been created.  this was
+	causing crashes if the calendar was run twice.
+
 2000-04-19  Seth Alves  <alves@hungry.com>
 
 	* gui/eventedit.c (ee_rp_init_rule): changed the order around
@@ -7,7 +13,7 @@
 	the todo clist
 
 	* cal-client/cal-client.c (cal_client_get_uids): don't check
-	type again CALOBJ_TYPE_ANY since it will always match.
+	type against CALOBJ_TYPE_ANY since it will always match.
 	(cal_client_get_uids): same (re: CALOBJ_TYPE_ANY)
 
 	* pcs/cal-backend.c (build_uids_list): same (re: CALOBJ_TYPE_ANY)
