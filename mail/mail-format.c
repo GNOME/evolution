@@ -36,6 +36,7 @@
 
 struct mail_format_data {
 	CamelMimeMessage *root;
+	GHashTable *urls;
 	GtkHTML *html;
 	GtkHTMLStream *stream;
 };
@@ -91,6 +92,8 @@ static void write_headers (struct mail_format_data *mfd);
 static void call_handler_function (CamelMimePart *part,
 				   struct mail_format_data *mfd);
 
+static void free_urls (gpointer data);
+
 
 /**
  * mail_format_mime_message: 
@@ -113,70 +116,65 @@ mail_format_mime_message (CamelMimeMessage *mime_message,
 	mfd.html = html;
 	mfd.stream = stream;
 	mfd.root = root;
+	mfd.urls = gtk_object_get_data (GTK_OBJECT (root), "urls");
+	if (!mfd.urls) {
+		mfd.urls = g_hash_table_new (g_str_hash, g_str_equal);
+		gtk_object_set_data_full (GTK_OBJECT (root), "urls",
+					  mfd.urls, free_urls);
+	}
 
 	write_headers (&mfd);
 	call_handler_function (CAMEL_MIME_PART (mime_message), &mfd);
 }
 
-static char *
-get_cid (CamelMimePart *part, CamelMimeMessage *root)
+static void
+free_url (gpointer key, gpointer value, gpointer data)
 {
-	CamelDataWrapper *wrapper =
-		camel_medium_get_content_object (CAMEL_MEDIUM (part));
+	char *url = key;
+
+	/* If it's an "x-evolution-data" URL, the value is a byte
+	 * array. Otherwise it's a CamelMimePart which is part of the
+	 * message and will be freed from elsewhere.
+	 */
+	if (!strncmp (url, "x-evolution-data:", 17))
+		g_byte_array_free (value, TRUE);
+	g_free (key);
+}
+
+static void
+free_urls (gpointer data)
+{
+	GHashTable *urls = data;
+
+	g_hash_table_foreach (urls, free_url, NULL);
+	g_hash_table_destroy (urls);
+}
+
+static const char *
+get_cid (CamelMimePart *part, struct mail_format_data *mfd)
+{
 	char *cid;
 	const char *filename;
+	gpointer orig_name, value;
 
 	/* If we have a real Content-ID, use it. If we don't,
 	 * make a (syntactically invalid) fake one.
 	 */
-	if (camel_mime_part_get_content_id (part))
-		cid = g_strdup (camel_mime_part_get_content_id (part));
-	else
-		cid = g_strdup_printf ("@@@%p", wrapper);
+	if (camel_mime_part_get_content_id (part)) {
+		cid = g_strdup_printf ("cid:%s",
+				       camel_mime_part_get_content_id (part));
+	} else
+		cid = g_strdup_printf ("cid:@@@%p", part);
 
-	gtk_object_set_data (GTK_OBJECT (root), cid, wrapper);
-
-	/* Record the filename, in case the user wants to save this
-	 * data later.
-	 */
-	filename = camel_mime_part_get_filename (part);
-	if (filename) {
-		char *safe, *p;
-
-		safe = strrchr (filename, '/');
-		if (safe)
-			safe = g_strdup (safe + 1);
-		else
-			safe = g_strdup (filename);
-
-		for (p = safe; *p; p++) {
-			if (!isascii ((unsigned char)*p) ||
-			    strchr (" /'\"`&();|<>${}!", *p))
-				*p = '_';
-		}
-
-		gtk_object_set_data (GTK_OBJECT (wrapper), "filename", safe);
-	}
+	if (g_hash_table_lookup_extended (mfd->urls, cid, &orig_name, &value)) {
+		g_free (cid);
+		return orig_name;
+	} else
+		g_hash_table_insert (mfd->urls, cid, part);
 
 	return cid;
 }
 
-static void
-write_iframe_string (CamelMimePart *part, struct mail_format_data *mfd,
-		     char *string)
-{
-	char *cid, *xed;
-
-	cid = get_cid (part, mfd->root);
-	xed = g_strdup_printf ("x-evolution-data:%s", cid);
-	g_free (cid);
-	gtk_object_set_data_full (GTK_OBJECT (mfd->root), xed, string,
-				  g_free);
-	mail_html_write (mfd->html, mfd->stream,
-			 "<iframe src=\"%s\" frameborder=0 scrolling=no>"
-			 "</iframe>", xed);
-	g_free (xed);
-}
 
 
 /* We're maintaining a hashtable of mimetypes -> functions;
@@ -562,7 +560,7 @@ handle_text_enriched (CamelMimePart *part, const char *mime_type,
 	GString *string;
 	CamelStream *memstream;
 	GByteArray *ba;
-	char *p;
+	char *p, *xed;
 	int len, nofill = 0;
 	gboolean enriched;
 
@@ -608,6 +606,10 @@ handle_text_enriched (CamelMimePart *part, const char *mime_type,
 		mail_html_write (mfd->html, mfd->stream,
 				 "\n<!-- text/enriched -->\n");
 	}
+
+	/* This is not great code, but I don't feel like fixing it right
+	 * now. I mean, it's just text/enriched...
+	 */
 
 	ba = g_byte_array_new ();
 	memstream = camel_stream_mem_new_with_byte_array (ba);
@@ -697,33 +699,34 @@ handle_text_enriched (CamelMimePart *part, const char *mime_type,
 	}
 	gtk_object_unref (GTK_OBJECT (memstream));
 
-	write_iframe_string (part, mfd, string->str);
-	g_string_free (string, FALSE);
+	ba = g_byte_array_new ();
+	g_byte_array_append (ba, (const guint8 *)string->str,
+			     strlen (string->str));
+	g_string_free (string, TRUE);
+
+	xed = g_strdup_printf ("x-evolution-data:%p", part);
+	g_hash_table_insert (mfd->urls, xed, ba);
+	mail_html_write (mfd->html, mfd->stream,
+			 "<iframe src=\"%s\" frameborder=0 scrolling=no>"
+			 "</iframe>", xed);
 }
 
 static void
 handle_text_html (CamelMimePart *part, const char *mime_type,
 		  struct mail_format_data *mfd)
 {
-	CamelDataWrapper *wrapper =
-		camel_medium_get_content_object (CAMEL_MEDIUM (part));
-	char *text;
-
 	mail_html_write (mfd->html, mfd->stream, "\n<!-- text/html -->\n");
-
-	text = get_data_wrapper_text (wrapper);
-	write_iframe_string (part, mfd, text);
+	mail_html_write (mfd->html, mfd->stream,
+			 "<iframe src=\"%s\" frameborder=0 scrolling=no>"
+			 "</iframe>", get_cid (part, mfd));
 }
 
 static void
 handle_image (CamelMimePart *part, const char *mime_type,
 	      struct mail_format_data *mfd)
 {
-	char *cid;
-
-	cid = get_cid (part, mfd->root);
-	mail_html_write (mfd->html, mfd->stream, "<img src=\"cid:%s\">", cid);
-	g_free (cid);
+	mail_html_write (mfd->html, mfd->stream, "<img src=\"%s\">",
+			 get_cid (part, mfd));
 }
 
 static void
@@ -804,7 +807,7 @@ handle_multipart_related (CamelMimePart *part, const char *mime_type,
 		if (body_part == display_part)
 			continue;
 
-		g_free (get_cid (body_part, mfd->root));
+		get_cid (body_part, mfd);
 	}
 
 	/* Now, display the displayed part. */
@@ -874,6 +877,52 @@ handle_multipart_appledouble (CamelMimePart *part, const char *mime_type,
 	call_handler_function (part, mfd);
 }
 
+static const char *
+get_url_for_icon (const char *icon_name, struct mail_format_data *mfd)
+{
+	static GHashTable *icons;
+	char *icon_path = gnome_pixmap_file (icon_name), buf[1024], *url;
+	int fd, nread;
+	GByteArray *ba;
+
+	if (!icons)
+		icons = g_hash_table_new (g_str_hash, g_str_equal);
+
+	if (!icon_path)
+		return "file:///dev/null";
+
+	url = g_hash_table_lookup (icons, icon_path);
+	if (url) {
+		g_free (icon_path);
+		return url;
+	}
+
+	fd = open (icon_path, O_RDONLY);
+	if (fd == -1) {
+		g_free (icon_path);
+		return "file:///dev/null";
+	}
+
+	ba = g_byte_array_new ();
+
+	while (1) {
+		nread = read (fd, buf, sizeof (buf));
+		if (nread < 1)
+			break;
+		g_byte_array_append (ba, buf, nread);
+	}
+	close (fd);
+
+	g_hash_table_insert (icons, icon_path, ba);
+	g_free (icon_path);
+
+	url = g_strdup_printf ("x-evolution-data:%p", ba);
+	g_hash_table_insert (mfd->urls, url, ba);
+
+	return url;
+}
+	
+
 static void
 handle_mystery (CamelMimePart *part, struct mail_format_data *mfd,
 		const char *url, const char *icon_name, const char *id,
@@ -895,8 +944,9 @@ handle_mystery (CamelMimePart *part, struct mail_format_data *mfd,
 		mail_html_write (mfd->html, mfd->stream,
 				 "<table border=2><tr><td>");
 	}
-	mail_html_write (mfd->html, mfd->stream,
-			 "<img src=\"x-gnome-icon:%s\">", icon_name);
+	mail_html_write (mfd->html, mfd->stream, "<img src=\"%s\">",
+			 get_url_for_icon (icon_name, mfd));
+
 	if (url)
 		mail_html_write (mfd->html, mfd->stream, "</a>");
 	else
@@ -937,7 +987,7 @@ static void
 handle_audio (CamelMimePart *part, const char *mime_type,
 	      struct mail_format_data *mfd)
 {
-	char *id, *cid, *cidstr;
+	char *id;
 	const char *desc;
 
 	desc = gnome_mime_get_value (mime_type, "description");
@@ -947,12 +997,8 @@ handle_audio (CamelMimePart *part, const char *mime_type,
 		id = g_strdup_printf ("Audio data in \"%s\" format.",
 				      mime_type);
 	}
-	cid = get_cid (part, mfd->root);
-	cidstr = g_strdup_printf ("cid:%s", cid);
-	g_free (cid);
-	handle_mystery (part, mfd, cid, "gnome-audio2.png",
+	handle_mystery (part, mfd, get_cid (part, mfd), "gnome-audio2.png",
 			id, "play it");
-	g_free (cidstr);
 	g_free (id);
 }
 
@@ -1085,19 +1131,15 @@ handle_undisplayable (CamelMimePart *part, const char *mime_type,
 		      struct mail_format_data *mfd)
 {
 	const char *desc;
-	char *id, *cid, *cidstr;
+	char *id;
 
 	desc = gnome_mime_get_value (mime_type, "description");
 	if (desc)
 		id = g_strdup (desc);
 	else
 		id = g_strdup_printf ("Data of type \"%s\".", mime_type);
-	cid = get_cid (part, mfd->root);
-	cidstr = g_strdup_printf ("cid:%s", cid);
-	g_free (cid);
-	handle_mystery (part, mfd, cid, "gnome-question.png", id,
-			"save it to disk");
-	g_free (cidstr);
+	handle_mystery (part, mfd, get_cid (part, mfd), "gnome-question.png",
+			id, "save it to disk");
 	g_free (id);
 }
 
@@ -1132,13 +1174,9 @@ static void
 handle_via_bonobo (CamelMimePart *part, const char *mime_type,
 		   struct mail_format_data *mfd)
 {
-	char *cid;
-
-	cid = get_cid (part, mfd->root);
 	mail_html_write (mfd->html, mfd->stream,
-			 "<object classid=\"cid:%s\" type=\"%s\">",
-			 cid, mime_type);
-	g_free (cid);
+			 "<object classid=\"%s\" type=\"%s\">",
+			 get_cid (part, mfd), mime_type);
 
 	/* Call handle_undisplayable to output its HTML inside the
 	 * <object> ... </object>. It will only be displayed if the

@@ -10,6 +10,7 @@
  */
 #include <config.h>
 #include <sys/stat.h>
+#include <ctype.h>
 #include <fcntl.h>
 #include <errno.h>
 #include <gnome.h>
@@ -90,20 +91,39 @@ save_data_cb (GtkWidget *widget, gpointer user_data)
 static void
 save_data (const char *cid, CamelMimeMessage *message)
 {
+	GHashTable *urls;
+	CamelMimePart *part;
 	CamelDataWrapper *data;
 	GtkFileSelection *file_select;
 	char *filename;
 
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
-	data = gtk_object_get_data (GTK_OBJECT (message), cid);
-	g_return_if_fail (CAMEL_IS_DATA_WRAPPER (data));
+	urls = gtk_object_get_data (GTK_OBJECT (message), "urls");
+	part = g_hash_table_lookup (urls, cid);
+	g_return_if_fail (CAMEL_IS_MIME_PART (part));
+	data = camel_medium_get_content_object (CAMEL_MEDIUM (part));
+
+	filename = (char *)camel_mime_part_get_filename (part);
+	if (filename) {
+		char *p;
+
+		p = strrchr (filename, '/');
+		if (p)
+			filename = g_strdup_printf ("%s%s", evolution_dir, p);
+		else {
+			filename = g_strdup_printf ("%s/%s", evolution_dir,
+						    filename);
+		}
+
+		for (p = strrchr (filename, '/') + 1; *p; p++) {
+			if (!isascii ((unsigned char)*p) ||
+			    strchr (" /'\"`&();|<>${}!", *p))
+				*p = '_';
+		}
+	} else
+		filename = g_strdup_printf ("%s/attachment", evolution_dir);
 
 	file_select = GTK_FILE_SELECTION (gtk_file_selection_new ("Save Attachment"));
-	filename = gtk_object_get_data (GTK_OBJECT (data), "filename");
-	if (filename)
-		filename = g_strdup_printf ("%s/%s", evolution_dir, filename);
-	else
-		filename = g_strdup_printf ("%s/attachment", evolution_dir);
 	gtk_file_selection_set_filename (file_select, filename);
 	g_free (filename);
 
@@ -120,13 +140,17 @@ save_data (const char *cid, CamelMimeMessage *message)
 static void
 on_link_clicked (GtkHTML *html, const char *url, gpointer user_data)
 {
+	CamelMimeMessage *message;
+
+	message = gtk_object_get_data (GTK_OBJECT (html), "message");
+
 	if (!strncasecmp (url, "news:", 5) ||
 	    !strncasecmp (url, "nntp:", 5))
 		g_warning ("Can't handle news URLs yet.");
 	else if (!strncasecmp (url, "mailto:", 7))
 		send_to_url (url);
 	else if (!strncasecmp (url, "cid:", 4))
-		save_data (url + 4, user_data);
+		save_data (url, message);
 	else
 		gnome_url_show (url);
 }
@@ -163,6 +187,8 @@ static gboolean
 on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 {
 	CamelMimeMessage *message;
+	GHashTable *urls;
+	CamelMedium *medium;
 	CamelDataWrapper *wrapper;
 	const char *goad_id;
 	GtkWidget *embedded;
@@ -176,8 +202,10 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 	if (strncmp (eb->classid, "cid:", 4) != 0)
 		return FALSE;
 	message = gtk_object_get_data (GTK_OBJECT (html), "message");
-	wrapper = gtk_object_get_data (GTK_OBJECT (message), eb->classid + 4);
-	g_return_val_if_fail (CAMEL_IS_DATA_WRAPPER (wrapper), FALSE);
+	urls = gtk_object_get_data (GTK_OBJECT (message), "urls");
+	medium = g_hash_table_lookup (urls, eb->classid);
+	g_return_val_if_fail (CAMEL_IS_MEDIUM (medium), FALSE);
+	wrapper = camel_medium_get_content_object (medium);
 
 	goad_id = gnome_mime_get_value (eb->type, "bonobo-goad-id");
 	if (!goad_id) {
@@ -241,39 +269,22 @@ on_url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle,
 		  gpointer user_data)
 {
 	CamelMimeMessage *message;
+	GHashTable *urls;
 
 	message = gtk_object_get_data (GTK_OBJECT (html), "message");
+	urls = gtk_object_get_data (GTK_OBJECT (message), "urls");
 
-	if (strncmp (url, "x-gnome-icon:", 13) == 0) {
-		const char *name = url + 13;
-		/* FIXME: gnome_pixmap_file will cheerily accept icon
-		 * names like "../../../dev/zero". Anyway, this whole
-		 * hack needs to be replaced with something more
-		 * efficient anyway.
-		 */
-		char *path = gnome_pixmap_file (name), buf[1024];
-		int fd, nread;
+	user_data = g_hash_table_lookup (urls, url);
+	g_return_if_fail (user_data != NULL);
 
-		g_return_if_fail (path != NULL);
-		fd = open (path, O_RDONLY);
-		g_free (path);
-		g_return_if_fail (fd != -1);
-
-		while (1) {
-			nread = read (fd, buf, sizeof (buf));
-			if (nread < 1)
-				break;
-			gtk_html_write (html, handle, buf, nread);
-		}
-		close (fd);
-	} else if (strncmp (url, "cid:", 4) == 0) {
-		const char *cid = url + 4;
+	if (strncmp (url, "cid:", 4) == 0) {
+		CamelMedium *medium = user_data;
 		CamelDataWrapper *data;
 		CamelStream *stream_mem;
 		GByteArray *ba;
 
-		data = gtk_object_get_data (GTK_OBJECT (message), cid);
-		g_return_if_fail (CAMEL_IS_DATA_WRAPPER (data));
+		g_return_if_fail (CAMEL_IS_MEDIUM (medium));
+		data = camel_medium_get_content_object (medium);
 
 		ba = g_byte_array_new ();
 		stream_mem = camel_stream_mem_new_with_byte_array (ba);
@@ -281,12 +292,10 @@ on_url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle,
 		gtk_html_write (html, handle, ba->data, ba->len);
 		gtk_object_unref (GTK_OBJECT (stream_mem));
 	} else if (strncmp (url, "x-evolution-data:", 17) == 0) {
-		char *string;
+		GByteArray *ba = user_data;
 
-		string = gtk_object_get_data (GTK_OBJECT (message), url);
-		g_return_if_fail (string != NULL);
-
-		gtk_html_write (html, handle, string, strlen (string));
+		g_return_if_fail (ba != NULL);
+		gtk_html_write (html, handle, ba->data, ba->len);
 	}
 }
 

@@ -1,3 +1,28 @@
+2000-05-31  Dan Winship  <danw@helixcode.com>
+
+	* mail-format.c (mail_format_mime_message): Initialize the "urls"
+	hash table stored on the message and store cid and other URLs
+	there rather than as object data on the message.
+	(get_cid): rewrite this a bunch
+	(handle_text_enriched): move the code from write_iframe_string()
+	into here, since it's the only place that actually needs it.
+	(handle_text_html): simplify this a lot. We can use a cid: URL
+	here rather than x-evolution-data.
+	(get_url_for_icon): New routine to return URLs for icons, and
+	cache the results, so we don't have to keep re-reading the icon
+	files (and so we can't be spoofed into reading non-icon files).
+	(handle_mystery, handle_audio): use get_url_for_icon.
+
+	* mail-display.c (save_data): move the CamelMimePart filename
+	extracting code from get_cid to here.
+	(on_link_clicked, on_object_requested): Update for cid: changes.
+	(on_url_requested): Kill off the kludgy, exploitable x-gnome-icon
+	URL schema, update cid and x-evolution-data to match
+	mail-format.c.
+
+	It should now be easier to implement RFC 2557 (Content-Location,
+	etc), but that RFC still pretty much sucks.
+
 2000-05-30  Dan Winship  <danw@helixcode.com>
 
 	* mail-format.c: Redo this back to the old way: a single GtkHTML
