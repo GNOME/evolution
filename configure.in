@@ -1253,7 +1253,7 @@ dnl ******************************
 EVOLUTION_LIBDIR="-L${libdir}"
 EVOLUTION_DATADIR="${datadir}"
 EVOLUTION_INCLUDEDIR="-I${includedir}/evolution"
-CAMEL_INCLUDEDIR="-I${includedir}/camel"
+CAMEL_INCLUDEDIR="-I${includedir}"
 
 AC_SUBST(EVOLUTION_LIBDIR)
 AC_SUBST(EVOLUTION_DATADIR)

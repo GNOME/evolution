@@ -1,3 +1,8 @@
+2003-02-20  Dan Winship  <danw@ximian.com>
+
+	* configure.in (CAMEL_INCLUDEDIR): Remove the "/camel" since
+	you're supposed to be able to do "#include <camel/foo.h>"
+
 2003-02-19  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* configure.in (ENABLE_IPv6): AC_DEFINE() ENABLE_IPv6 if it should
