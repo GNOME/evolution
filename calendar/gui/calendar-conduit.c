@@ -43,7 +43,7 @@ GnomePilotConduit * conduit_get_gpilot_conduit (guint32);
 void conduit_destroy_gpilot_conduit (GnomePilotConduit*);
 void local_record_from_icalobject(GCalLocalRecord *local,iCalObject *obj); 
 
-#define CONDUIT_VERSION "0.8.9"
+#define CONDUIT_VERSION "0.8.10p1"
 #ifdef G_LOG_DOMAIN
 #undef G_LOG_DOMAIN
 #endif
@@ -597,7 +597,7 @@ check_for_slow_setting(GnomePilotConduit *c,
 		LOG (_("Calendar holds %d entries"),entry_number);
 		/* If the local base is empty, do a slow sync */
 		if ( entry_number <= 0) {
-			gnome_pilot_conduit_standard_set_slow(c);
+			gnome_pilot_conduit_standard_set_slow(GNOME_PILOT_CONDUIT_STANDARD(c));
 		}
 	}
 }
@@ -616,6 +616,8 @@ pre_sync(GnomePilotConduit *c,
 	
 	if (start_calendar_server(GNOME_PILOT_CONDUIT_STANDARD_ABS(c),ctxt) != 0) {
 		WARN(_("Could not start gnomecal server"));
+		gnome_pilot_conduit_error(GNOME_PILOT_CONDUIT(c),
+					  _("Could not start gnomecal server"));
 		return -1;
 	}
   
@@ -624,8 +626,11 @@ pre_sync(GnomePilotConduit *c,
 	/* load_records(c); */
 
 	buf = (unsigned char*)g_malloc(0xffff);
-	if((l=dlp_ReadAppBlock(dbi->pilot_socket,dbi->db_handle,0,(unsigned char *)buf,0xffff))<0) {
+	if((l=dlp_ReadAppBlock(dbi->pilot_socket,dbi->db_handle,0,(unsigned char *)buf,0xffff)) < 0) {
 		WARN(_("Could not read pilot's DateBook application block"));
+		WARN("dlp_ReadAppBlock(...) = %d",l);
+		gnome_pilot_conduit_error(GNOME_PILOT_CONDUIT(c),
+			     _("Could not read pilot's DateBook application block"));
 		return -1;
 	}
 	unpack_AppointmentAppInfo(&(ctxt->ai),buf,l);
