@@ -3275,8 +3275,8 @@ e_msg_composer_new_with_type (int type)
 
 	if (new) {
 		e_msg_composer_set_send_html (new, send_html);
-		set_editor_text (new, "");
 		set_editor_signature (new);
+		e_msg_composer_set_body_text (new, "");
 	}
 
 	return new;

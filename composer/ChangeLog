@@ -1,3 +1,10 @@
+2004-01-27  Radek Doulik  <rodo@ximian.com>
+
+	* e-msg-composer.c (e_msg_composer_new_with_type): set body text
+	after setting composer's signature, so that signature is shown
+
+	Fixes #53367
+
 2004-01-28  Not Zed  <NotZed@Ximian.com>
 
 	** See Bug #53176, probably fixes others too.
