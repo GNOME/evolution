@@ -3317,9 +3317,9 @@ Quoted
 
 	  <widget>
 	    <class>GtkRadioButton</class>
-	    <name>radioNotifyExec</name>
+	    <name>radioNotifyPlaySound</name>
 	    <can_focus>True</can_focus>
-	    <label>Execute command line when new mail arrives</label>
+	    <label>Play sound file when new mail arrives</label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
 	    <group>new_mail_notify</group>
@@ -3344,7 +3344,7 @@ Quoted
 	    <widget>
 	      <class>GtkLabel</class>
 	      <name>label54</name>
-	      <label>Specify command:</label>
+	      <label>Specify filename:</label>
 	      <justify>GTK_JUSTIFY_CENTER</justify>
 	      <wrap>False</wrap>
 	      <xalign>0.5</xalign>
@@ -3360,7 +3360,7 @@ Quoted
 
 	    <widget>
 	      <class>GnomeFileEntry</class>
-	      <name>fileNotifyExecCommandLine</name>
+	      <name>fileNotifyPlaySound</name>
 	      <max_saved>10</max_saved>
 	      <title>Execute Command...</title>
 	      <directory>False</directory>

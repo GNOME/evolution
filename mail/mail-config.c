@@ -108,7 +108,7 @@ typedef struct {
 	char *filter_log_path;
 	
 	MailConfigNewMailNotify notify;
-	char *notify_command;
+	char *notify_filename;
 } MailConfig;
 
 static MailConfig *config = NULL;
@@ -650,8 +650,8 @@ config_read (void)
 		config->db, "/Mail/Notify/new_mail_notification", 
 		MAIL_CONFIG_NOTIFY_NOT, NULL);
 	
-	config->notify_command = bonobo_config_get_string (
-		config->db, "/Mail/Notify/new_mail_notification_command", NULL);
+	config->notify_filename = bonobo_config_get_string (
+		config->db, "/Mail/Notify/new_mail_notification_sound_file", NULL);
 }
 
 #define bonobo_config_set_string_wrapper(db, path, val, ev) bonobo_config_set_string (db, path, val ? val : "", ev)
@@ -954,8 +954,8 @@ mail_config_write_on_exit (void)
 	bonobo_config_set_long (config->db, "/Mail/Notify/new_mail_notification", 
 				config->notify, NULL);
 	
-	bonobo_config_set_string_wrapper (config->db, "/Mail/Notify/new_mail_notification_command",
-					  config->notify_command, NULL);
+	bonobo_config_set_string_wrapper (config->db, "/Mail/Notify/new_mail_notification_sound_file",
+					  config->notify_filename, NULL);
 	
 	if (config->threaded_hash)
 		g_hash_table_foreach_remove (config->threaded_hash, hash_save_state, "Threads");
@@ -1693,16 +1693,16 @@ mail_config_set_new_mail_notify (MailConfigNewMailNotify type)
 }
 
 const char *
-mail_config_get_new_mail_notify_command (void)
+mail_config_get_new_mail_notify_sound_file (void)
 {
-	return config->notify_command;
+	return config->notify_filename;
 }
 
 void
-mail_config_set_new_mail_notify_command (const char *command)
+mail_config_set_new_mail_notify_sound_file (const char *filename)
 {
-	g_free (config->notify_command);
-	config->notify_command = g_strdup (command);
+	g_free (config->notify_filename);
+	config->notify_filename = g_strdup (filename);
 }
 
 gboolean

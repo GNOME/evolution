@@ -120,6 +120,7 @@ filter_folder_filter (struct _mail_msg *mm)
 		folder_uids = uids = camel_folder_get_uids (folder);
 	
 	camel_filter_driver_filter_folder (m->driver, folder, m->cache, uids, m->delete, &mm->ex);
+	camel_filter_driver_flush (m->driver, &mm->ex);
 	
 	if (folder_uids)
 		camel_folder_free_uids (folder, folder_uids);
@@ -255,7 +256,7 @@ fetch_mail_fetch (struct _mail_msg *mm)
 {
 	struct _fetch_mail_msg *m = (struct _fetch_mail_msg *)mm;
 	struct _filter_mail_msg *fm = (struct _filter_mail_msg *)mm;
-	int count, i;
+	int i;
 	
 	if (m->cancel)
 		camel_operation_register (m->cancel);
@@ -347,22 +348,6 @@ fetch_mail_fetch (struct _mail_msg *mm)
 	if (m->cancel)
 		camel_operation_unregister (m->cancel);
 	
-	count = camel_filter_driver_get_filtered_count (fm->driver);
-	camel_filter_driver_reset_filtered_count (fm->driver);
-	
-	if (count > 0) {
-		switch (mail_config_get_new_mail_notify ()) {
-		case MAIL_CONFIG_NOTIFY_BEEP:
-			gdk_beep ();
-			break;
-		case MAIL_CONFIG_NOTIFY_EXEC:
-			mail_execute_shell_command (fm->driver, mail_config_get_new_mail_notify_command (), NULL);
-			break;
-		default:
-			break;
-		}
-	}
-	
 	/* we unref this here as it may have more work to do (syncing
 	   folders and whatnot) before we are really done */
 	/* should this be cancellable too? (i.e. above unregister above) */
@@ -422,7 +407,6 @@ mail_fetch_mail (const char *source, int keep, const char *type, CamelOperation 
 	
 	fm->driver = camel_session_get_filter_driver (session, type, NULL);
 	camel_filter_driver_set_folder_func (fm->driver, get_folder, get_data);
-	camel_filter_driver_set_shell_exec_func (fm->driver, mail_execute_shell_command, NULL);
 	if (status)
 		camel_filter_driver_set_status_func (fm->driver, status, status_data);
 	

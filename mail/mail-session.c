@@ -26,6 +26,7 @@
 #include <stdlib.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-config.h>
+#include <libgnome/gnome-sound.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-dialog-util.h>
 #include <libgnomeui/gnome-messagebox.h>
@@ -40,6 +41,7 @@
 #include "mail-session.h"
 #include "mail-tools.h"
 #include "mail-mt.h"
+#include "mail-ops.h"
 #include "e-util/e-passwords.h"
 #include "e-util/e-msgport.h"
 
@@ -806,6 +808,15 @@ get_folder (CamelFilterDriver *d, const char *uri, void *data, CamelException *e
 	return mail_tool_uri_to_folder (uri, 0, ex);
 }
 
+static void
+session_play_sound (CamelFilterDriver *driver, const char *filename, gpointer user_data)
+{
+	if (!filename || !*filename)
+		gdk_beep ();
+	else
+		gnome_sound_play (filename);
+}
+
 static CamelFilterDriver *
 main_get_filter_driver (CamelSession *session, const char *type, CamelException *ex)
 {
@@ -838,6 +849,9 @@ main_get_filter_driver (CamelSession *session, const char *type, CamelException 
 			camel_filter_driver_set_logfile (driver, ms->filter_logfile);
 	}
 	
+	camel_filter_driver_set_shell_exec_func (driver, mail_execute_shell_command, NULL);
+	camel_filter_driver_set_play_sound_func (driver, session_play_sound, NULL);
+	
 	fsearch = g_string_new ("");
 	faction = g_string_new ("");
 	
@@ -850,6 +864,31 @@ main_get_filter_driver (CamelSession *session, const char *type, CamelException 
 		
 		camel_filter_driver_add_rule (driver, rule->name,
 					      fsearch->str, faction->str);
+	}
+	
+	/* FIXME: we need a way to distinguish between filtering new
+           mail and re-filtering a folder because both use the
+           "incoming" filter type */
+	if (mail_config_get_new_mail_notify () && !strcmp (type, "incoming")) {
+		g_string_truncate (faction, 0);
+		
+		g_string_append (faction, "(only-once \"new-mail-notification\" ");
+		
+		switch (mail_config_get_new_mail_notify ()) {
+		case MAIL_CONFIG_NOTIFY_BEEP:
+			g_string_append (faction, "\"(beep)\"");
+			break;
+		case MAIL_CONFIG_NOTIFY_PLAY_SOUND:
+			g_string_sprintfa (faction, "\"(play-sound \\\"%s\\\")\"",
+					   mail_config_get_new_mail_notify_sound_file ());
+			break;
+		default:
+			break;
+		}
+		
+		g_string_append (faction, ")");
+		
+		camel_filter_driver_add_rule (driver, "new-mail-notification", "(begin #t)", faction->str);
 	}
 	
 	g_string_free (fsearch, TRUE);

@@ -826,7 +826,7 @@ handle_external_uri_cb (EvolutionShellComponent *shell_component,
 		g_warning ("Invalid URI requested to mail component -- %s", uri);
 		return;
 	}
-		
+	
 	/* FIXME: Sigh.  This shouldn't be here.  But the code is messy, so
 	   I'll just put it here anyway.  */
 	send_to_url (uri);

@@ -95,7 +95,7 @@ typedef enum {
 typedef enum {
 	MAIL_CONFIG_NOTIFY_NOT,
 	MAIL_CONFIG_NOTIFY_BEEP,
-	MAIL_CONFIG_NOTIFY_EXEC,
+	MAIL_CONFIG_NOTIFY_PLAY_SOUND,
 } MailConfigNewMailNotify;
 
 /* Identities */
@@ -188,8 +188,8 @@ void                   mail_config_set_message_display_style (MailConfigDisplayS
 
 MailConfigNewMailNotify mail_config_get_new_mail_notify (void);
 void                    mail_config_set_new_mail_notify (MailConfigNewMailNotify type);
-const char             *mail_config_get_new_mail_notify_command (void);
-void                    mail_config_set_new_mail_notify_command (const char *command);
+const char             *mail_config_get_new_mail_notify_sound_file (void);
+void                    mail_config_set_new_mail_notify_sound_file (const char *filename);
 
 const char *mail_config_get_default_charset (void);
 void        mail_config_set_default_charset (const char *charset);

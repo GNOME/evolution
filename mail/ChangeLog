@@ -1,3 +1,24 @@
+2002-01-07  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-config.c (mail_config_set_new_mail_notify_sound_file): Renamed.
+	(mail_config_get_new_mail_notify_sound_file): Renamed.
+
+	* mail-accounts.c (notify_radio_toggled): Replace EXEC with
+	PLAY_SOUND.
+	(construct): renamed the exec_command stuff to play_sound.
+
+	* main.c (main): Init and shutdown gnome_sound.
+
+	* mail-ops.c (fetch_mail_fetch): Don't do any new-mail
+	notification here.
+	(filter_folder_filter): call camel_filter_driver_flush.
+
+	* mail-session.c (main_get_filter_driver): Set the filter-driver
+	exec_func here instead.
+
+	* mail-ops.c (mail_fetch_mail): Don't set the filter-driver
+	exec_func here.
+
 2002-01-03  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c (composer_get_message): Add an Organization
