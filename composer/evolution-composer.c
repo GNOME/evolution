@@ -27,7 +27,7 @@
 #include <camel/camel.h>
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-gui-utils.h>
-
+#include <bonobo/bonobo-item-handler.h>
 #include "evolution-composer.h"
 
 #define PARENT_TYPE BONOBO_OBJECT_TYPE
@@ -247,15 +247,39 @@ init (EvolutionComposer *composer)
 }
 
 
+static Bonobo_ItemContainer_ObjectList *
+enum_objects (BonoboItemHandler *handler, gpointer data, CORBA_Environment *ev)
+{
+#warning "This function is not implemented because enumObjects has a broken CORBA prototype");
+}
+
+static Bonobo_Unknown 
+get_object (BonoboItemHandler *h, const char *item_name, gboolean only_if_exists,
+	    gpointer data, CORBA_Environment *ev)
+{
+	EvolutionComposer *composer = data;
+	
+	if (strcmp (item_name, "composer_window") == 0)
+		return bonobo_object_dup_ref (
+			BONOBO_OBJECT (composer->composer)->corba_objref, ev);
+
+	return CORBA_OBJECT_NIL;
+}
+
 void
 evolution_composer_construct (EvolutionComposer *composer,
 			      GNOME_Evolution_Composer corba_object)
 {
+	BonoboObject *item_handler;
+	
 	g_return_if_fail (composer != NULL);
 	g_return_if_fail (EVOLUTION_IS_COMPOSER (composer));
 	g_return_if_fail (corba_object != CORBA_OBJECT_NIL);
 
 	bonobo_object_construct (BONOBO_OBJECT (composer), corba_object);
+
+	item_handler = bonobo_item_handler_new (enum_objects, get_object, composer);
+	bonobo_object_add_interface (BONOBO_OBJECT (composer), BONOBO_OBJECT (item_handler));
 }
 
 EvolutionComposer *

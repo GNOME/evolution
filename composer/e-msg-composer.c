@@ -37,6 +37,7 @@
 
 #include <bonobo.h>
 #include <bonobo/bonobo-stream-memory.h>
+#include <bonobo/bonobo-item-handler.h>
 #include <glade/glade.h>
 #include <gnome.h>
 #include <libgnorba/gnorba.h>
@@ -1429,6 +1430,54 @@ e_msg_composer_construct (EMsgComposer *composer)
 	gtk_widget_grab_focus (composer->editor);
 }
 
+static Bonobo_ItemContainer_ObjectList *
+msg_composer_enum_objects (BonoboItemHandler *handler, gpointer data, CORBA_Environment *ev)
+{
+#warning "This function is not implemented because enumObjects has a broken CORBA prototype"
+	return NULL;
+}
+
+
+static Bonobo_Unknown 
+msg_composer_get_object (BonoboItemHandler *h, const char *item_name,
+			 gboolean only_if_exists,
+			 gpointer data, CORBA_Environment *ev)
+{
+	EMsgComposer *composer = data;
+	GSList *options, *l;
+	
+	options = bonobo_item_option_parse (item_name);
+	for (l = options; l; l = l->next){
+		BonoboItemOption *option = l->data;
+
+		if (strcmp (option->key, "visible")){
+			gboolean show = 1;
+			
+			if (option->value)
+				show = atoi (option->value);
+
+			if (show)
+				gtk_widget_show (GTK_WIDGET (composer));
+			else
+				gtk_widget_hide (GTK_WIDGET (composer));
+		}
+	}
+	return bonobo_object_dup_ref (
+		BONOBO_OBJECT (composer)->corba_objref, ev);
+}
+
+static void
+setup_item_container (EMsgComposer *composer)
+{
+	composer->item_container = BONOBO_OBJECT (bonobo_item_handler_new (
+		msg_composer_enum_objects,
+		msg_composer_get_object, composer));
+
+	bonobo_object_add_interface (
+		BONOBO_OBJECT (composer),
+		composer->item_container);
+}
+
 static EMsgComposer *
 create_composer (void)
 {
@@ -1443,7 +1492,8 @@ create_composer (void)
 		return NULL;
 	}
 	prepare_engine (new);
-
+	setup_item_container (new);
+	
 	return new;
 }
 

@@ -68,7 +68,8 @@ struct _EMsgComposer {
 	GNOME_GtkHTML_Editor_Engine  editor_engine;
 	BonoboObject            *editor_listener;
 	GHashTable              *inline_images;
-
+	BonoboObject            *item_container;
+	
 	char *sig_file;
 	
 	gboolean attachment_bar_visible : 1;

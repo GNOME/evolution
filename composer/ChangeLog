@@ -1,3 +1,9 @@
+2001-01-10  Miguel de Icaza  <miguel@helixcode.com>
+
+	* evolution-composer.c (evolution_composer_construct): Add an
+	ItemContainer Bonobo interface to allow client applications to
+	locate the Message Composer component.
+
 2001-01-11  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* e-msg-composer.c (menu_file_save_draft_cb): New callback to save
@@ -8,6 +14,8 @@
 	* e-msg-composer.c: Removed more UNSAFE stuff.  Maybe we should
 	kill this macro, and have people that want these broken things
 	define their own macros.
+	(setup_item_container): Add an ItemContainer bonobo interface to
+	handle options to the window component.
 
 2001-01-08  Jeffrey Stedfast  <fejj@helixcode.com>
 
