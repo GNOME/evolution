@@ -1187,7 +1187,8 @@ emf_multipart_signed(EMFormat *emf, CamelStream *stream, CamelMimePart *part, co
 		CamelCipherContext *cipher = NULL;
 
 		/* FIXME: Should be done via a plugin interface */
-		if (g_ascii_strcasecmp("application/x-pkcs7-signature", mps->protocol) == 0)
+		if (g_ascii_strcasecmp("application/x-pkcs7-signature", mps->protocol) == 0
+		    || g_ascii_strcasecmp("application/pkcs7-signature", mps->protocol) == 0)
 			cipher = camel_smime_context_new(emf->session);
 		else if (g_ascii_strcasecmp("application/pgp-signature", mps->protocol) == 0)
 			cipher = camel_gpg_context_new(emf->session);

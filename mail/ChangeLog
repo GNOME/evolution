@@ -1,5 +1,11 @@
 2003-12-10  Not Zed  <NotZed@Ximian.com>
 
+	* em-format-html-display.c (efhd_multipart_signed):
+	* em-format-html.c (efh_multipart_signed): 
+	* em-format.c (emf_multipart_signed): treat
+	application/pkcs7-signature as application/x-pkcs-signature.
+	Stupud non-rfc-compliant mailers from apple.  Bug #51750.
+
 	* em-folder-selection.c (em_select_folder): rewritten to get rid
 	of hte old crap that should've been gotten rid of before.  Bug
 	#51602.
