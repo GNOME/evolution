@@ -1,3 +1,26 @@
+1999-11-05  Ettore Perazzoli  <ettore@gnu.org>
+
+	* Makefile.am: Compile the new files in a `libevolutionwidgets'
+	library.
+	(CPPFLAGS): #define `E_GUIDIR'.
+
+	* e-msg-composer.c, e-msg-composer.h: New files implementing an
+	initial version of the Evolution message composer widget.
+
+	* e-msg-composer-address-entry.c, e-msg-composer-address-entry.h:
+	New files implementing a GtkEntry customized for entering email
+	address lists.
+
+	* e-msg-composer-attachment-bar.c, e-msg-composer-attachment-bar.h:
+	New files implementing a widget for editing mail attachments.
+
+	* e-msg-composer-attachment.c, e-msg-composer-attachment.h: New
+	files implementing file attachment objects for the message
+	composer.
+
+	* e-msg-composer-hdrs.c, e-msg-composer-hdrs.h: New files
+	implementing a widget for editing of email message headers.
+
 1999-10-31  Miguel de Icaza  <miguel@gnu.org>
 
 	* widgets/e-table-column.c, e-table-column.h: New file, implements the

@@ -1,3 +1,41 @@
+1999-11-05  Ettore Perazzoli  <ettore@gnu.org>
+
+	* tests/ui-tests/msg-composer-test.c: New file for testing the
+	`EMsgComposer' widget.
+	* tests/ui-tests/Makefile.am (noinst_PROGRAMS): Compile it.  Do
+	not compile `store_listing' for now because it's currently broken.
+	(INCLUDES): Added the `widgets' source directory to the include
+	path list.
+	(LDADD): Removed the MH dependency; link with
+	`libevolutionwidgets.la' from the `widgets' directory.
+
+	* configure.in: Create `widgets/Makefile'.
+
+	* camel/gmime-rfc2047.c (rfc2047_clean): Removed C++-like comment.
+	* camel/camel-folder.c (camel_folder_get_message_uid_by_number):
+	Likewise.
+	* camel/gmime-content-field.c (gmime_content_field_get_parameter):
+	Likewise.
+	* camel/camel.c (camel_init): Likewise.
+	* camel/camel-provider.c (camel_provider_register): Likewise.
+	* camel/camel-multipart.c (_construct_from_stream): Likewise.
+	* camel/camel-mime-part.c (_write_content_to_stream): Likewise.
+	* camel/camel-medium.c (camel_medium_class_init): Likewise.
+
+	* camel/camel-data-wrapper.h (camel_data_wrapper_get_type): Make
+	prototype non-static.
+
+	* camel/Makefile.am (libcamelinclude_HEADERS): Move
+	`camel-exception-list.def' from `EXTRA_DIST' to
+	`libcamelinclude_HEADERS'.
+
+	* camel/camel.h: Do not #include <config.h>.
+	* camel/data-wrapper-repository.h: Likewise.
+
+1999-11-05  Ettore Perazzoli  <ettore@gnu.org>
+
+	* tests/Makefile.am (INCLUDES): Add `-I$(top_srcdir)'.
+
 1999-10-13  bertrand <Bertrand.Guiheneuf@aful.org>
 
 	* camel/camel-folder.c (camel_folder_close): the 

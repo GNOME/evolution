@@ -1128,8 +1128,8 @@ _get_message_uid_by_number (CamelFolder *folder, gint message_number, CamelExcep
 const gchar * 
 camel_folder_get_message_uid_by_number (CamelFolder *folder, gint message_number, CamelException *ex)
 {
-	//if (!folder->has_uid_capability) return NULL;
-	//return CF_CLASS (folder)->get_message_uid_by_number (folder, message_number, ex);
+	/*  if (!folder->has_uid_capability) return NULL; */
+	/*  return CF_CLASS (folder)->get_message_uid_by_number (folder, message_number, ex); */
 }
 
 

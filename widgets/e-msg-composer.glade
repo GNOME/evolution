@@ -1,0 +1,576 @@
+<?xml version="1.0"?>
+<GTK-Interface>
+
+<project>
+  <name>Message Composer</name>
+  <program_name>e-msg-composer</program_name>
+  <directory></directory>
+  <source_directory>src</source_directory>
+  <pixmaps_directory>pixmaps</pixmaps_directory>
+  <language>C</language>
+  <gnome_support>True</gnome_support>
+  <gettext_support>True</gettext_support>
+  <use_widget_names>False</use_widget_names>
+  <output_main_file>True</output_main_file>
+  <output_support_files>True</output_support_files>
+  <output_build_files>True</output_build_files>
+  <backup_source_files>True</backup_source_files>
+  <main_source_file>interface.c</main_source_file>
+  <main_header_file>interface.h</main_header_file>
+  <handler_source_file>callbacks.c</handler_source_file>
+  <handler_header_file>callbacks.h</handler_header_file>
+  <support_source_file>support.c</support_source_file>
+  <support_header_file>support.h</support_header_file>
+  <translatable_strings_file></translatable_strings_file>
+</project>
+
+<widget>
+  <class>GnomeApp</class>
+  <name>app1</name>
+  <title>Message Composer</title>
+  <type>GTK_WINDOW_TOPLEVEL</type>
+  <position>GTK_WIN_POS_NONE</position>
+  <modal>False</modal>
+  <allow_shrink>False</allow_shrink>
+  <allow_grow>True</allow_grow>
+  <auto_shrink>False</auto_shrink>
+  <enable_layout_config>True</enable_layout_config>
+
+  <widget>
+    <class>GnomeDock</class>
+    <child_name>GnomeApp:dock</child_name>
+    <name>dock1</name>
+    <allow_floating>True</allow_floating>
+    <child>
+      <padding>0</padding>
+      <expand>True</expand>
+      <fill>True</fill>
+    </child>
+
+    <widget>
+      <class>GnomeDockItem</class>
+      <name>dockitem1</name>
+      <border_width>2</border_width>
+      <placement>GNOME_DOCK_TOP</placement>
+      <band>0</band>
+      <position>0</position>
+      <offset>0</offset>
+      <locked>False</locked>
+      <exclusive>True</exclusive>
+      <never_floating>False</never_floating>
+      <never_vertical>True</never_vertical>
+      <never_horizontal>False</never_horizontal>
+      <shadow_type>GTK_SHADOW_OUT</shadow_type>
+
+      <widget>
+	<class>GtkMenuBar</class>
+	<name>menubar</name>
+	<shadow_type>GTK_SHADOW_NONE</shadow_type>
+
+	<widget>
+	  <class>GtkMenuItem</class>
+	  <name>file</name>
+	  <stock_item>GNOMEUIINFO_MENU_FILE_TREE</stock_item>
+
+	  <widget>
+	    <class>GtkMenu</class>
+	    <name>file_menu</name>
+
+	    <widget>
+	      <class>GtkPixmapMenuItem</class>
+	      <name>open</name>
+	      <signal>
+		<name>activate</name>
+		<handler>on_open_activate</handler>
+		<last_modification_time>Wed, 27 Oct 1999 22:25:08 GMT</last_modification_time>
+	      </signal>
+	      <stock_item>GNOMEUIINFO_MENU_OPEN_ITEM</stock_item>
+	    </widget>
+
+	    <widget>
+	      <class>GtkPixmapMenuItem</class>
+	      <name>save</name>
+	      <signal>
+		<name>activate</name>
+		<handler>on_save_activate</handler>
+		<last_modification_time>Wed, 27 Oct 1999 22:25:13 GMT</last_modification_time>
+	      </signal>
+	      <stock_item>GNOMEUIINFO_MENU_SAVE_ITEM</stock_item>
+	    </widget>
+
+	    <widget>
+	      <class>GtkPixmapMenuItem</class>
+	      <name>save_as</name>
+	      <signal>
+		<name>activate</name>
+		<handler>on_save_as_activate</handler>
+		<last_modification_time>Wed, 27 Oct 1999 22:25:16 GMT</last_modification_time>
+	      </signal>
+	      <stock_item>GNOMEUIINFO_MENU_SAVE_AS_ITEM</stock_item>
+	    </widget>
+
+	    <widget>
+	      <class>GtkPixmapMenuItem</class>
+	      <name>save_in_folder</name>
+	      <signal>
+		<name>activate</name>
+		<handler>on_save_in_folder_activate</handler>
+		<last_modification_time>Wed, 27 Oct 1999 22:25:20 GMT</last_modification_time>
+	      </signal>
+	      <label>Save in _Folder...</label>
+	      <right_justify>False</right_justify>
+	      <stock_icon>GNOME_STOCK_MENU_SAVE_AS</stock_icon>
+	    </widget>
+
+	    <widget>
+	      <class>GtkMenuItem</class>
+	      <name>separator8</name>
+	      <right_justify>False</right_justify>
+	    </widget>
+
+	    <widget>
+	      <class>GtkPixmapMenuItem</class>
+	      <name>menu_send</name>
+	      <signal>
+		<name>activate</name>
+		<handler>on_send_activate</handler>
+		<last_modification_time>Wed, 27 Oct 1999 22:25:29 GMT</last_modification_time>
+	      </signal>
+	      <label>S_end</label>
+	      <right_justify>False</right_justify>
+	      <stock_icon>GNOME_STOCK_MENU_MAIL_SND</stock_icon>
+	    </widget>
+
+	    <widget>
+	      <class>GtkMenuItem</class>
+	      <name>postpone</name>
+	      <signal>
+		<name>activate</name>
+		<handler>on_postpone_activate</handler>
+		<last_modification_time>Wed, 27 Oct 1999 22:25:37 GMT</last_modification_time>
+	      </signal>
+	      <label>_Postpone</label>
+	      <right_justify>False</right_justify>
+	    </widget>
+
+	    <widget>
+	      <class>GtkMenuItem</class>
+	      <name>separator1</name>
+	      <right_justify>False</right_justify>
+	    </widget>
+
+	    <widget>
+	      <class>GtkPixmapMenuItem</class>
+	      <name>exit</name>
+	      <signal>
+		<name>activate</name>
+		<handler>on_exit_activate</handler>
+		<last_modification_time>Wed, 27 Oct 1999 22:25:59 GMT</last_modification_time>
+	      </signal>
+	      <stock_item>GNOMEUIINFO_MENU_EXIT_ITEM</stock_item>
+	    </widget>
+	  </widget>
+	</widget>
+
+	<widget>
+	  <class>GtkMenuItem</class>
+	  <name>edit</name>
+	  <stock_item>GNOMEUIINFO_MENU_EDIT_TREE</stock_item>
+
+	  <widget>
+	    <class>GtkMenu</class>
+	    <name>edit_menu</name>
+
+	    <widget>
+	      <class>GtkPixmapMenuItem</class>
+	      <name>undo</name>
+	      <signal>
+		<name>activate</name>
+		<handler>on_undo_activate</handler>
+		<last_modification_time>Wed, 27 Oct 1999 22:26:10 GMT</last_modification_time>
+	      </signal>
+	      <stock_item>GNOMEUIINFO_MENU_UNDO_ITEM</stock_item>
+	    </widget>
+
+	    <widget>
+	      <class>GtkPixmapMenuItem</class>
+	      <name>redo</name>
+	      <signal>
+		<name>activate</name>
+		<handler>on_redo_activate</handler>
+		<last_modification_time>Wed, 27 Oct 1999 22:26:15 GMT</last_modification_time>
+	      </signal>
+	      <stock_item>GNOMEUIINFO_MENU_REDO_ITEM</stock_item>
+	    </widget>
+
+	    <widget>
+	      <class>GtkMenuItem</class>
+	      <name>separator3</name>
+	      <right_justify>False</right_justify>
+	    </widget>
+
+	    <widget>
+	      <class>GtkPixmapMenuItem</class>
+	      <name>cut</name>
+	      <signal>
+		<name>activate</name>
+		<handler>on_cut_activate</handler>
+		<last_modification_time>Wed, 27 Oct 1999 22:26:21 GMT</last_modification_time>
+	      </signal>
+	      <stock_item>GNOMEUIINFO_MENU_CUT_ITEM</stock_item>
+	    </widget>
+
+	    <widget>
+	      <class>GtkPixmapMenuItem</class>
+	      <name>copy</name>
+	      <signal>
+		<name>activate</name>
+		<handler>on_copy_activate</handler>
+		<last_modification_time>Wed, 27 Oct 1999 22:26:26 GMT</last_modification_time>
+	      </signal>
+	      <stock_item>GNOMEUIINFO_MENU_COPY_ITEM</stock_item>
+	    </widget>
+
+	    <widget>
+	      <class>GtkPixmapMenuItem</class>
+	      <name>paste</name>
+	      <signal>
+		<name>activate</name>
+		<handler>on_paste_activate</handler>
+		<last_modification_time>Wed, 27 Oct 1999 22:26:31 GMT</last_modification_time>
+	      </signal>
+	      <stock_item>GNOMEUIINFO_MENU_PASTE_ITEM</stock_item>
+	    </widget>
+
+	    <widget>
+	      <class>GtkMenuItem</class>
+	      <name>separator2</name>
+	      <right_justify>False</right_justify>
+	    </widget>
+
+	    <widget>
+	      <class>GtkPixmapMenuItem</class>
+	      <name>select_all</name>
+	      <signal>
+		<name>activate</name>
+		<handler>on_select_all_activate</handler>
+		<last_modification_time>Wed, 27 Oct 1999 22:26:37 GMT</last_modification_time>
+	      </signal>
+	      <stock_item>GNOMEUIINFO_MENU_SELECT_ALL_ITEM</stock_item>
+	    </widget>
+
+	    <widget>
+	      <class>GtkMenuItem</class>
+	      <name>separator5</name>
+	      <right_justify>False</right_justify>
+	    </widget>
+
+	    <widget>
+	      <class>GtkPixmapMenuItem</class>
+	      <name>find</name>
+	      <signal>
+		<name>activate</name>
+		<handler>on_find_activate</handler>
+		<last_modification_time>Wed, 27 Oct 1999 22:26:42 GMT</last_modification_time>
+	      </signal>
+	      <stock_item>GNOMEUIINFO_MENU_FIND_ITEM</stock_item>
+	    </widget>
+
+	    <widget>
+	      <class>GtkPixmapMenuItem</class>
+	      <name>find_again</name>
+	      <signal>
+		<name>activate</name>
+		<handler>on_find_again_activate</handler>
+		<last_modification_time>Wed, 27 Oct 1999 22:26:47 GMT</last_modification_time>
+	      </signal>
+	      <stock_item>GNOMEUIINFO_MENU_FIND_AGAIN_ITEM</stock_item>
+	    </widget>
+
+	    <widget>
+	      <class>GtkPixmapMenuItem</class>
+	      <name>replace</name>
+	      <signal>
+		<name>activate</name>
+		<handler>on_replace_activate</handler>
+		<last_modification_time>Wed, 27 Oct 1999 22:26:53 GMT</last_modification_time>
+	      </signal>
+	      <stock_item>GNOMEUIINFO_MENU_REPLACE_ITEM</stock_item>
+	    </widget>
+
+	    <widget>
+	      <class>GtkMenuItem</class>
+	      <name>separator6</name>
+	      <right_justify>False</right_justify>
+	    </widget>
+
+	    <widget>
+	      <class>GtkPixmapMenuItem</class>
+	      <name>properties</name>
+	      <signal>
+		<name>activate</name>
+		<handler>on_properties_activate</handler>
+		<last_modification_time>Wed, 27 Oct 1999 22:26:58 GMT</last_modification_time>
+	      </signal>
+	      <stock_item>GNOMEUIINFO_MENU_PROPERTIES_ITEM</stock_item>
+	    </widget>
+	  </widget>
+	</widget>
+
+	<widget>
+	  <class>GtkMenuItem</class>
+	  <name>view1</name>
+	  <stock_item>GNOMEUIINFO_MENU_VIEW_TREE</stock_item>
+
+	  <widget>
+	    <class>GtkMenu</class>
+	    <name>view1_menu</name>
+
+	    <widget>
+	      <class>GtkCheckMenuItem</class>
+	      <name>menu_view_attachments</name>
+	      <signal>
+		<name>activate</name>
+		<handler>on_view_attachments_activate</handler>
+		<last_modification_time>Fri, 05 Nov 1999 18:31:16 GMT</last_modification_time>
+	      </signal>
+	      <label>Attachments</label>
+	      <active>False</active>
+	      <always_show_toggle>False</always_show_toggle>
+	    </widget>
+	  </widget>
+	</widget>
+
+	<widget>
+	  <class>GtkMenuItem</class>
+	  <name>insert</name>
+	  <label>_Insert</label>
+	  <right_justify>False</right_justify>
+
+	  <widget>
+	    <class>GtkMenu</class>
+	    <name>insert_menu</name>
+
+	    <widget>
+	      <class>GtkMenuItem</class>
+	      <name>menu_add_attachment</name>
+	      <signal>
+		<name>activate</name>
+		<handler>on_attachment_activate</handler>
+		<last_modification_time>Wed, 27 Oct 1999 22:27:05 GMT</last_modification_time>
+	      </signal>
+	      <label>Attachment...</label>
+	      <right_justify>False</right_justify>
+	    </widget>
+
+	    <widget>
+	      <class>GtkMenuItem</class>
+	      <name>text_from_file</name>
+	      <signal>
+		<name>activate</name>
+		<handler>on_text_from_file_activate</handler>
+		<last_modification_time>Wed, 27 Oct 1999 22:27:16 GMT</last_modification_time>
+	      </signal>
+	      <label>Text from file...</label>
+	      <right_justify>False</right_justify>
+	    </widget>
+
+	    <widget>
+	      <class>GtkMenuItem</class>
+	      <name>separator6</name>
+	      <right_justify>False</right_justify>
+	    </widget>
+
+	    <widget>
+	      <class>GtkMenuItem</class>
+	      <name>hypertext_link</name>
+	      <signal>
+		<name>activate</name>
+		<handler>on_hypertext_link_activate</handler>
+		<last_modification_time>Wed, 27 Oct 1999 22:27:21 GMT</last_modification_time>
+	      </signal>
+	      <label>Hypertext link...</label>
+	      <right_justify>False</right_justify>
+	    </widget>
+	  </widget>
+	</widget>
+
+	<widget>
+	  <class>GtkMenuItem</class>
+	  <name>settings</name>
+	  <stock_item>GNOMEUIINFO_MENU_SETTINGS_TREE</stock_item>
+
+	  <widget>
+	    <class>GtkMenu</class>
+	    <name>settings_menu</name>
+
+	    <widget>
+	      <class>GtkPixmapMenuItem</class>
+	      <name>preferences</name>
+	      <signal>
+		<name>activate</name>
+		<handler>on_preferences_activate</handler>
+		<last_modification_time>Wed, 27 Oct 1999 22:27:37 GMT</last_modification_time>
+	      </signal>
+	      <stock_item>GNOMEUIINFO_MENU_PREFERENCES_ITEM</stock_item>
+	    </widget>
+	  </widget>
+	</widget>
+
+	<widget>
+	  <class>GtkMenuItem</class>
+	  <name>tools</name>
+	  <label>_Tools</label>
+	  <right_justify>False</right_justify>
+
+	  <widget>
+	    <class>GtkMenu</class>
+	    <name>tools_menu</name>
+
+	    <widget>
+	      <class>GtkPixmapMenuItem</class>
+	      <name>spell_check1</name>
+	      <signal>
+		<name>activate</name>
+		<handler>on_spell_check_activate</handler>
+		<last_modification_time>Wed, 27 Oct 1999 22:27:44 GMT</last_modification_time>
+	      </signal>
+	      <label>_Spell check</label>
+	      <right_justify>False</right_justify>
+	      <stock_icon>GNOME_STOCK_MENU_SPELLCHECK</stock_icon>
+	    </widget>
+
+	    <widget>
+	      <class>GtkMenuItem</class>
+	      <name>separator7</name>
+	      <right_justify>False</right_justify>
+	    </widget>
+
+	    <widget>
+	      <class>GtkMenuItem</class>
+	      <name>check_names</name>
+	      <signal>
+		<name>activate</name>
+		<handler>on_check_names_activate</handler>
+		<last_modification_time>Wed, 27 Oct 1999 22:27:49 GMT</last_modification_time>
+	      </signal>
+	      <label>Check names</label>
+	      <right_justify>False</right_justify>
+	    </widget>
+
+	    <widget>
+	      <class>GtkPixmapMenuItem</class>
+	      <name>address_book</name>
+	      <signal>
+		<name>activate</name>
+		<handler>on_address_book_activate</handler>
+		<last_modification_time>Wed, 27 Oct 1999 22:27:53 GMT</last_modification_time>
+	      </signal>
+	      <label>Address book...</label>
+	      <right_justify>False</right_justify>
+	      <stock_icon>GNOME_STOCK_MENU_BOOK_RED</stock_icon>
+	    </widget>
+	  </widget>
+	</widget>
+
+	<widget>
+	  <class>GtkMenuItem</class>
+	  <name>help</name>
+	  <stock_item>GNOMEUIINFO_MENU_HELP_TREE</stock_item>
+
+	  <widget>
+	    <class>GtkMenu</class>
+	    <name>help_menu</name>
+
+	    <widget>
+	      <class>GtkPixmapMenuItem</class>
+	      <name>about</name>
+	      <signal>
+		<name>activate</name>
+		<handler>on_about_activate</handler>
+		<last_modification_time>Wed, 27 Oct 1999 22:28:01 GMT</last_modification_time>
+	      </signal>
+	      <stock_item>GNOMEUIINFO_MENU_ABOUT_ITEM</stock_item>
+	    </widget>
+	  </widget>
+	</widget>
+      </widget>
+    </widget>
+
+    <widget>
+      <class>GnomeDockItem</class>
+      <name>dockitem2</name>
+      <border_width>1</border_width>
+      <placement>GNOME_DOCK_TOP</placement>
+      <band>1</band>
+      <position>0</position>
+      <offset>0</offset>
+      <locked>False</locked>
+      <exclusive>True</exclusive>
+      <never_floating>False</never_floating>
+      <never_vertical>False</never_vertical>
+      <never_horizontal>False</never_horizontal>
+      <shadow_type>GTK_SHADOW_OUT</shadow_type>
+
+      <widget>
+	<class>GtkToolbar</class>
+	<name>toolbar</name>
+	<border_width>1</border_width>
+	<orientation>GTK_ORIENTATION_HORIZONTAL</orientation>
+	<type>GTK_TOOLBAR_BOTH</type>
+	<space_size>16</space_size>
+	<space_style>GTK_TOOLBAR_SPACE_LINE</space_style>
+	<relief>GTK_RELIEF_NONE</relief>
+	<tooltips>True</tooltips>
+
+	<widget>
+	  <class>GtkButton</class>
+	  <child_name>Toolbar:button</child_name>
+	  <name>toolbar_send</name>
+	  <tooltip>Send this message</tooltip>
+	  <label>Send</label>
+	  <stock_pixmap>GNOME_STOCK_PIXMAP_MAIL_SND</stock_pixmap>
+	</widget>
+
+	<widget>
+	  <class>GtkToggleButton</class>
+	  <child_name>Toolbar:button</child_name>
+	  <name>toolbar_view_attachments</name>
+	  <tooltip>Show attachments for this message</tooltip>
+	  <label>Show
+attachments</label>
+	  <active>False</active>
+	</widget>
+
+	<widget>
+	  <class>GtkButton</class>
+	  <child_name>Toolbar:button</child_name>
+	  <name>toolbar_add_attachment</name>
+	  <tooltip>Attach a file</tooltip>
+	  <label>Attach
+file</label>
+	</widget>
+      </widget>
+    </widget>
+
+    <widget>
+      <class>Placeholder</class>
+      <child_name>GnomeDock:contents</child_name>
+    </widget>
+  </widget>
+
+  <widget>
+    <class>GnomeAppBar</class>
+    <child_name>GnomeApp:appbar</child_name>
+    <name>appbar</name>
+    <has_progress>True</has_progress>
+    <has_status>True</has_status>
+    <child>
+      <padding>0</padding>
+      <expand>True</expand>
+      <fill>True</fill>
+    </child>
+  </widget>
+</widget>
+
+</GTK-Interface>

@@ -628,10 +628,13 @@ _write_content_to_stream (CamelMimePart *mime_part, CamelStream *stream)
 	CAMEL_LOG_FULL_DEBUG ( "Entering CamelMimePart::_write_content_to_stream\n");
 	CAMEL_LOG_FULL_DEBUG ( "CamelMimePart::_write_content_to_stream, content=%p\n", content);
 	if (!content) return;
-	//	buffer_size = camel_data_wrapper_size (content);
-	//buffer = g_malloc (buffer_size);
+
+	/* buffer_size = camel_data_wrapper_size (content); */
+	/* buffer = g_malloc (buffer_size); */
+
 	camel_data_wrapper_write_to_stream (content, stream);
-	
+
+#if 0
 	//if (mime_part->encoding) {
 		// encoded_buffer_size = gmime_encoded_size(buffer, buffer_size, encoding);
 		// encoded_buffer = g_malloc (encoded_buffer_size);
@@ -642,6 +645,8 @@ _write_content_to_stream (CamelMimePart *mime_part, CamelStream *stream)
 		//fwrite (buffer, buffer_size, 1, file);
 		//camel_stream_write (stream, buffer, buffer_size);
 	//g_free (buffer);
+#endif
+
 	CAMEL_LOG_FULL_DEBUG ( "Leaving CamelMimePart::_write_content_to_stream\n");
 }
 

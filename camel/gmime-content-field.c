@@ -261,7 +261,7 @@ gmime_content_field_get_parameter (GMimeContentField *content_field, const gchar
 	g_assert (content_field->parameters);
 	g_assert (name);
 	CAMEL_LOG_FULL_DEBUG ("GMimeContentField::get_parameter looking for parameter \"%s\"\n", name);
-	//parameter = (const gchar *)g_hash_table_lookup (content_field->parameters, name);
+	/* parameter = (const gchar *)g_hash_table_lookup (content_field->parameters, name); */
 	parameter_exists = g_hash_table_lookup_extended (content_field->parameters, 
 							 name, 
 							 (gpointer *) &old_name,

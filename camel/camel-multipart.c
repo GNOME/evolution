@@ -474,7 +474,8 @@ _construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 	CAMEL_LOG_FULL_DEBUG ("CamelMultipart::construct_from_stream freeing new_part_stream:%p\n", new_part_stream);
 	gtk_object_unref (GTK_OBJECT (new_part_stream));
 	if (multipart->preface) g_free (multipart->preface);
-	//if ( (new_part->str)[0] != '\0') multipart->preface = g_strdup (new_part->str);
+
+	/* if ( (new_part->str)[0] != '\0') multipart->preface = g_strdup (new_part->str); */
 	
 	/* read all the real parts */
 	while (!end_of_multipart) {
@@ -490,12 +491,14 @@ _construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 		
 	}
 
-	//g_string_assign (new_part, "");
-	//_read_part (new_part, stream, real_boundary_line, end_boundary_line);
-	if (multipart->postface) g_free (multipart->postface);
-	//if ( (new_part->str)[0] != '\0') multipart->postface = g_strdup (new_part->str);
+	/* g_string_assign (new_part, ""); */
+	/* _read_part (new_part, stream, real_boundary_line, end_boundary_line); */
 
-	//g_string_free (new_part, TRUE);
+	if (multipart->postface) g_free (multipart->postface);
+	/* if ( (new_part->str)[0] != '\0') multipart->postface = g_strdup (new_part->str); */
+
+	/* g_string_free (new_part, TRUE); */
+
 	g_free (real_boundary_line);
 	g_free (end_boundary_line);
 	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMultipart::_construct_from_stream\n");

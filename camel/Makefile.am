@@ -98,6 +98,7 @@ libcamelinclude_HEADERS =			\
 	md5-utils.h				\
 	string-utils.h				\
 	url-util.h				\
+	camel-exception-list.def		\
 	$(pthread_HDR)
 
 libcamel_extra_sources = \
@@ -106,4 +107,4 @@ libcamel_extra_sources = \
 libcamel_la_LDFLAGS = -version-info 0:0:0 -rpath $(libdir)
 
 
-EXTRA_DIST = README camel-exception-list.def
+EXTRA_DIST = README 

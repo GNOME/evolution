@@ -72,15 +72,14 @@ camel_provider_register (CamelProvider *provider)
 		old_provider_node = g_list_find_custom (_provider_list, provider, _provider_name_cmp);
 
 	if (old_provider_node != NULL) {
-		// camel_provider_unref (CAMEL_PROVIDER (old_provider_node->data));
+		/* camel_provider_unref (CAMEL_PROVIDER (old_provider_node->data)); */
 		old_provider_node->data = provider;
 	} else {
 		/* be careful, we use prepend here, so that last registered
 		   providers come first */
 		_provider_list = g_list_prepend (_provider_list, provider);
 	}
-	// camel_provider_ref (provider);
-	
+	/* camel_provider_ref (provider); */
 }
 
 

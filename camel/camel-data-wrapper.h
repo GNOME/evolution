@@ -79,7 +79,7 @@ GtkType camel_data_wrapper_get_type (void);
 void camel_data_wrapper_write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
 void camel_data_wrapper_construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
 void camel_data_wrapper_set_mime_type (CamelDataWrapper *data_wrapper, gchar *mime_type);
-static gchar *camel_data_wrapper_get_mime_type (CamelDataWrapper *data_wrapper);
+gchar *camel_data_wrapper_get_mime_type (CamelDataWrapper *data_wrapper);
 GMimeContentField *camel_data_wrapper_get_mime_type_field (CamelDataWrapper *data_wrapper);
 void camel_data_wrapper_set_mime_type_field (CamelDataWrapper *data_wrapper, GMimeContentField *mime_type);
 

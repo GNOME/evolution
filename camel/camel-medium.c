@@ -67,11 +67,9 @@ camel_medium_class_init (CamelMediumClass *camel_medium_class)
 	camel_medium_class->set_content_object = _set_content_object;
 	camel_medium_class->get_content_object = _get_content_object;
 	
-	
-	
 	/* virtual method overload */
-	//	camel_data_wrapper_class->write_to_stream = _write_to_stream;
-	//camel_data_wrapper_class->construct_from_stream = _construct_from_stream;
+	/* camel_data_wrapper_class->write_to_stream = _write_to_stream; */
+	/* camel_data_wrapper_class->construct_from_stream = _construct_from_stream; */
 
 	gtk_object_class->finalize = _finalize;
 }

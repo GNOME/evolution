@@ -106,4 +106,5 @@ devel-docs/Makefile
 devel-docs/camel/Makefile
 tests/Makefile
 tests/ui-tests/Makefile
+widgets/Makefile
 ])

@@ -34,7 +34,6 @@ extern "C" {
 #endif /* __cplusplus }*/
 
 #include <glib.h>
-#include <config.h>
 #include "camel-data-wrapper.h"
 
 

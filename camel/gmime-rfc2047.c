@@ -240,8 +240,9 @@ gmime_rfc2047_decode (const gchar *data, const gchar *into_what)
 #define isnt_ascii(a) ((a) <= 0x1f || (a) >= 0x7f)
 
 static int 
-rfc2047_clean (const gchar *string, const gchar *max) {
-	//	if (strstr (string, "?=")) return 1;
+rfc2047_clean (const gchar *string, const gchar *max)
+{
+	/* if (strstr (string, "?=")) return 1; */
 	while (string < max) {
 		if (isnt_ascii ((unsigned char)*string))
 			return 0;

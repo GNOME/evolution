@@ -35,6 +35,5 @@ camel_init()
 	printf ("Threads are not supported by glib\n");
 #endif /* G_THREADS_ENABLED */
 
-	//return data_wrapper_repository_init ();
-	
+	/* return data_wrapper_repository_init (); */
 }
