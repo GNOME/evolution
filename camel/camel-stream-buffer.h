@@ -53,7 +53,7 @@ typedef enum
 	CAMEL_STREAM_BUFFER_MODE = 0x80
 } CamelStreamBufferMode;
 
-typedef struct 
+struct _CamelStreamBuffer
 {
 	CamelStream parent_object;
 
@@ -67,7 +67,7 @@ typedef struct
 
 	CamelStreamBufferMode mode;
 	unsigned int flags;	/* internal flags */
-} CamelStreamBuffer;
+};
 
 
 
@@ -94,6 +94,8 @@ CamelStream *camel_stream_buffer_set_vbuf (CamelStreamBuffer *b, CamelStreamBuff
 
 /* read a line of characters */
 int camel_stream_buffer_gets(CamelStreamBuffer *b, char *buf, int max);
+
+char *camel_stream_buffer_read_line (CamelStreamBuffer *sbf);
 
 #ifdef __cplusplus
 }

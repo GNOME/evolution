@@ -53,6 +53,7 @@ extern "C" {
 #include <camel/camel-session.h>
 #include <camel/camel-store.h>
 #include <camel/camel-stream.h>
+#include <camel/camel-stream-buffer.h>
 #include <camel/camel-stream-fs.h>
 #include <camel/camel-stream-mem.h>
 #include <camel/camel-thread-proxy.h>

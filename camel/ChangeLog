@@ -1,3 +1,9 @@
+2000-03-23  Dan Winship  <danw@helixcode.com>
+
+	* camel-stream-buffer.c (camel_stream_buffer_read_line): Function
+	to read one line of any size from a stream and return it in
+	allocated memory.
+
 2000-03-22  Dan Winship  <danw@helixcode.com>
 
 	* camel-service.c (camel_service_query_auth_types): New function

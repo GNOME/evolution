@@ -452,3 +452,46 @@ int camel_stream_buffer_gets(CamelStreamBuffer *sbf, char *buf, int max)
 
 	return outptr-buf;
 }
+
+/**
+ * camel_stream_buffer_read_line: read a complete line from the stream
+ * @sbf: A CamelStreamBuffer
+ *
+ * This function reads a complete newline-terminated line from the stream
+ * and returns it in allocated memory. The trailing newline (and carriage
+ * return if any) are not included in the returned string.
+ *
+ * Return value: the line read, which the caller must free when done with,
+ * or NULL on eof or error.
+ **/
+char *
+camel_stream_buffer_read_line (CamelStreamBuffer *sbf)
+{
+	char *buf, *p;
+	int bufsiz, nread;
+
+	bufsiz = 80;
+	p = buf = g_malloc (bufsiz);
+
+	while (1) {
+		nread = camel_stream_buffer_gets (sbf, p, bufsiz - (p - buf));
+		if (nread == 0) {
+			g_free (buf);
+			return NULL;
+		}
+
+		p += nread;
+		if (*(p - 1) == '\n')
+			break;
+
+		nread = p - buf;
+		bufsiz *= 2;
+		buf = g_realloc (buf, bufsiz);
+		p = buf + nread;
+	}
+
+	*--p = '\0';
+	if (*(p - 1) == '\r')
+		*--p = '\0';
+	return buf;
+}
