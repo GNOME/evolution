@@ -24,6 +24,7 @@
 #include <gnome.h>
 #include <glade/glade.h>
 #include "e-table-field-chooser.h"
+#include "e-table-header.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -53,7 +54,9 @@ struct _ETableFieldChooserDialog
 	GnomeDialog parent;
 	
 	/* item specific fields */
-	ETableFieldChooser *chooser;
+	ETableFieldChooser *etfc;
+	gchar              *dnd_code;
+	ETableHeader       *full_header;
 };
 
 struct _ETableFieldChooserDialogClass

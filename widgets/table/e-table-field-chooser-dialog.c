@@ -28,12 +28,15 @@ static void e_table_field_chooser_dialog_init		(ETableFieldChooserDialog		 *card
 static void e_table_field_chooser_dialog_class_init	(ETableFieldChooserDialogClass	 *klass);
 static void e_table_field_chooser_dialog_set_arg (GtkObject *o, GtkArg *arg, guint arg_id);
 static void e_table_field_chooser_dialog_get_arg (GtkObject *object, GtkArg *arg, guint arg_id);
+static void e_table_field_chooser_dialog_destroy (GtkObject *object);
 
 static GnomeDialogClass *parent_class = NULL;
 
 /* The arguments we take */
 enum {
 	ARG_0,
+	ARG_DND_CODE,
+	ARG_FULL_HEADER,
 };
 
 GtkType
@@ -55,7 +58,7 @@ e_table_field_chooser_dialog_get_type (void)
 				(GtkClassInitFunc) NULL,
 			};
 
-			table_field_chooser_dialog_type = gtk_type_unique (gtk_vbox_get_type (), &table_field_chooser_dialog_info);
+			table_field_chooser_dialog_type = gtk_type_unique (gnome_dialog_get_type (), &table_field_chooser_dialog_info);
 		}
 
 	return table_field_chooser_dialog_type;
@@ -65,20 +68,46 @@ static void
 e_table_field_chooser_dialog_class_init (ETableFieldChooserDialogClass *klass)
 {
 	GtkObjectClass *object_class;
-	GtkVBoxClass *vbox_class;
 
 	object_class = (GtkObjectClass*) klass;
-	vbox_class = (GtkVBoxClass *) klass;
 
-	parent_class = gtk_type_class (gtk_vbox_get_type ());
+	parent_class = gtk_type_class (gnome_dialog_get_type ());
 
+	object_class->destroy = e_table_field_chooser_dialog_destroy;
 	object_class->set_arg = e_table_field_chooser_dialog_set_arg;
 	object_class->get_arg = e_table_field_chooser_dialog_get_arg;
+
+	gtk_object_add_arg_type ("ETableFieldChooserDialog::dnd_code", GTK_TYPE_STRING,
+				 GTK_ARG_READWRITE, ARG_DND_CODE);
+	gtk_object_add_arg_type ("ETableFieldChooserDialog::full_header", GTK_TYPE_OBJECT,
+				 GTK_ARG_READWRITE, ARG_FULL_HEADER);
 }
 
 static void
 e_table_field_chooser_dialog_init (ETableFieldChooserDialog *e_table_field_chooser_dialog)
 {
+	GtkWidget *widget;
+
+	e_table_field_chooser_dialog->etfc = NULL;
+	e_table_field_chooser_dialog->dnd_code = g_strdup("");
+	e_table_field_chooser_dialog->full_header = NULL;
+
+	gnome_dialog_append_buttons(GNOME_DIALOG(e_table_field_chooser_dialog),
+				    GNOME_STOCK_BUTTON_CLOSE,
+				    NULL);
+
+	widget = e_table_field_chooser_new();
+	e_table_field_chooser_dialog->etfc = E_TABLE_FIELD_CHOOSER(widget);
+	
+	gtk_object_set(GTK_OBJECT(widget),
+		       "dnd_code", e_table_field_chooser_dialog->dnd_code,
+		       "full_header", e_table_field_chooser_dialog->full_header,
+		       NULL);
+	
+	gtk_box_pack_start(GTK_BOX(GNOME_DIALOG(e_table_field_chooser_dialog)->vbox),
+			   widget, TRUE, TRUE, 0);
+
+	gtk_widget_show(GTK_WIDGET(widget));
 }
 
 GtkWidget*
@@ -89,9 +118,41 @@ e_table_field_chooser_dialog_new (void)
 }
 
 static void
-e_table_field_chooser_dialog_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
+e_table_field_chooser_dialog_destroy (GtkObject *object)
 {
+	ETableFieldChooserDialog *etfcd = E_TABLE_FIELD_CHOOSER_DIALOG (object);
+	g_free(etfcd->dnd_code);
+	if (etfcd->full_header)
+		gtk_object_unref(GTK_OBJECT(etfcd->full_header));
+}
+
+static void
+e_table_field_chooser_dialog_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
+{
+	ETableFieldChooserDialog *etfcd = E_TABLE_FIELD_CHOOSER_DIALOG(object);
 	switch (arg_id){
+	case ARG_DND_CODE:
+		g_free(etfcd->dnd_code);
+		etfcd->dnd_code = g_strdup(GTK_VALUE_STRING (*arg));
+		if (etfcd->etfc)
+			gtk_object_set(GTK_OBJECT(etfcd->etfc),
+				       "dnd_code", etfcd->dnd_code,
+				       NULL);
+		break;
+	case ARG_FULL_HEADER:
+		if (etfcd->full_header)
+			gtk_object_unref(GTK_OBJECT(etfcd->full_header));
+		if (GTK_VALUE_OBJECT(*arg))
+			etfcd->full_header = E_TABLE_HEADER(GTK_VALUE_OBJECT(*arg));
+		else
+			etfcd->full_header = NULL;
+		if (etfcd->full_header)
+			gtk_object_ref(GTK_OBJECT(etfcd->full_header));
+		if (etfcd->etfc)
+			gtk_object_set(GTK_OBJECT(etfcd->etfc),
+				       "full_header", etfcd->full_header,
+				       NULL);
+		break;
 	default:
 		break;
 	}
@@ -100,7 +161,14 @@ e_table_field_chooser_dialog_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 static void
 e_table_field_chooser_dialog_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 {
+	ETableFieldChooserDialog *etfcd = E_TABLE_FIELD_CHOOSER_DIALOG(object);
 	switch (arg_id) {
+	case ARG_DND_CODE:
+		GTK_VALUE_STRING (*arg) = g_strdup (etfcd->dnd_code);
+		break;
+	case ARG_FULL_HEADER:
+		GTK_VALUE_OBJECT (*arg) = GTK_OBJECT(etfcd->full_header);
+		break;
 	default:
 		arg->type = GTK_TYPE_INVALID;
 		break;

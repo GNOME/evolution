@@ -22,6 +22,7 @@
 #include "e-table-header-item.h"
 #include "e-table-col-dnd.h"
 #include "e-table-defines.h"
+#include "e-table-field-chooser-dialog.h"
 
 #include "add-col.xpm"
 #include "remove-col.xpm"
@@ -67,6 +68,7 @@ static GdkPixmap *add_col_pixmap, *add_col_mask;
 enum {
 	ARG_0,
 	ARG_TABLE_HEADER,
+	ARG_FULL_HEADER,
 	ARG_DND_CODE,
 	ARG_TABLE_FONTSET,
 	ARG_SORT_INFO
@@ -213,6 +215,14 @@ ethi_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		ethi_add_table_header (ethi, E_TABLE_HEADER(GTK_VALUE_OBJECT (*arg)));
 		break;
 
+	case ARG_FULL_HEADER:
+		if (ethi->full_header)
+			gtk_object_unref(GTK_OBJECT(ethi->full_header));
+		ethi->full_header = E_TABLE_HEADER(GTK_VALUE_OBJECT (*arg));
+		if (ethi->full_header)
+			gtk_object_ref(GTK_OBJECT(ethi->full_header));
+		break;
+
 	case ARG_DND_CODE:
 		g_free(ethi->dnd_code);
 		ethi->dnd_code = g_strdup (GTK_VALUE_STRING (*arg));
@@ -259,6 +269,9 @@ ethi_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	ethi = E_TABLE_HEADER_ITEM (o);
 
 	switch (arg_id){
+	case ARG_FULL_HEADER:
+		GTK_VALUE_OBJECT (*arg) = GTK_OBJECT (ethi->full_header);
+		break;
 	case ARG_DND_CODE:
 		GTK_VALUE_STRING (*arg) = g_strdup (ethi->dnd_code);
 		break;
@@ -464,7 +477,32 @@ ethi_drag_data_received (GtkWidget *canvas,
 			 guint time,
 			 ETableHeaderItem *ethi)
 {
-	e_table_header_move (ethi->eth, ethi->drag_col, ethi->drop_col);
+	int found = FALSE;
+	int count = e_table_header_count(ethi->eth);
+	int column = atoi(data->data);
+	int drop_col = ethi->drop_col;
+	int i;
+	ethi->drop_col = -1;
+	if (column < 0)
+		return;
+	for (i = 0; i < count; i++) {
+		ETableCol *ecol = e_table_header_get_column (ethi->eth, i);
+		if (ecol->col_idx == column) {
+			e_table_header_move(ethi->eth, i, drop_col);
+			found = TRUE;
+			break;
+		}
+	}
+	if (!found) {
+		count = e_table_header_count(ethi->full_header);
+		for (i = 0; i < count; i++) {
+			ETableCol *ecol = e_table_header_get_column (ethi->full_header, i);
+			if (ecol->col_idx == column) {
+				e_table_header_add_column (ethi->eth, ecol, drop_col);
+				break;
+			}
+		}
+	}
 	gnome_canvas_item_request_update(GNOME_CANVAS_ITEM(ethi));
 }
 
@@ -1032,6 +1070,12 @@ ethi_popup_remove_column(GtkWidget *widget, EthiHeaderInfo *info)
 static void
 ethi_popup_field_chooser(GtkWidget *widget, EthiHeaderInfo *info)
 {
+	GtkWidget *etfcd = e_table_field_chooser_dialog_new();
+	gtk_object_set(GTK_OBJECT(etfcd),
+		       "full_header", info->ethi->full_header,
+		       "dnd_code", info->ethi->dnd_code,
+		       NULL);
+	gtk_widget_show(etfcd);
 }
 
 static void
@@ -1062,7 +1106,7 @@ static EPopupMenu ethi_context_menu [] = {
 	{ "Group By Box",              NULL, GTK_SIGNAL_FUNC(ethi_popup_group_box),       1},
 	{ "",                          NULL, GTK_SIGNAL_FUNC(NULL),                       1},
 	{ "Remove This Column",        NULL, GTK_SIGNAL_FUNC(ethi_popup_remove_column),   0},
-	{ "Field Chooser",             NULL, GTK_SIGNAL_FUNC(ethi_popup_field_chooser),   1},
+	{ "Field Chooser",             NULL, GTK_SIGNAL_FUNC(ethi_popup_field_chooser),   0},
 	{ "",                          NULL, GTK_SIGNAL_FUNC(NULL),                       1},
 	{ "Alignment",                 NULL, GTK_SIGNAL_FUNC(ethi_popup_alignment),       1},
 	{ "Best Fit",                  NULL, GTK_SIGNAL_FUNC(ethi_popup_best_fit),        1},
@@ -1265,8 +1309,10 @@ ethi_class_init (GtkObjectClass *object_class)
 	
 	gtk_object_add_arg_type ("ETableHeaderItem::ETableHeader", GTK_TYPE_OBJECT,
 				 GTK_ARG_WRITABLE, ARG_TABLE_HEADER);
+	gtk_object_add_arg_type ("ETableHeaderItem::full_header", GTK_TYPE_OBJECT,
+				 GTK_ARG_READWRITE, ARG_FULL_HEADER);
 	gtk_object_add_arg_type ("ETableHeaderItem::dnd_code", GTK_TYPE_STRING,
-				 GTK_ARG_WRITABLE, ARG_DND_CODE);
+				 GTK_ARG_READWRITE, ARG_DND_CODE);
 	gtk_object_add_arg_type ("ETableHeaderItem::fontset", GTK_TYPE_STRING,
 				 GTK_ARG_WRITABLE, ARG_TABLE_FONTSET);
 	gtk_object_add_arg_type ("ETableHeaderItem::sort_info", GTK_TYPE_OBJECT,

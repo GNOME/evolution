@@ -13,7 +13,7 @@ glade_headers = 				\
 INCLUDES =					\
 	$(EXTRA_GNOME_CFLAGS)			\
 	$(GNOME_INCLUDEDIR)			\
-	-DETABLE_GLADEDIR=\""$(gladedir)"\"	\
+	-DETABLE_GLADEDIR=\"$(gladedir)\"	\
 	-I$(top_srcdir)/widgets/e-text		\
 	-I$(top_srcdir)/e-util			\
 	-I$(top_srcdir)                         \

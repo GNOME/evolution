@@ -44,9 +44,8 @@ static void etfci_drop_table_header (ETableFieldChooserItem *etfci);
 
 enum {
 	ARG_0,
-	ARG_TABLE_HEADER,
+	ARG_FULL_HEADER,
 	ARG_DND_CODE,
-	ARG_TABLE_FONTSET,
 	ARG_WIDTH,
 	ARG_HEIGHT,
 };
@@ -140,10 +139,15 @@ etfci_drop_table_header (ETableFieldChooserItem *etfci)
 		return;
 
 	header = GTK_OBJECT (etfci->full_header);
-	gtk_signal_disconnect (header, etfci->structure_change_id);
-	gtk_signal_disconnect (header, etfci->dimension_change_id);
+	if (etfci->structure_change_id)
+		gtk_signal_disconnect (header, etfci->structure_change_id);
+	if (etfci->dimension_change_id)
+		gtk_signal_disconnect (header, etfci->dimension_change_id);
+	etfci->structure_change_id = 0;
+	etfci->dimension_change_id = 0;
 
-	gtk_object_unref (header);
+	if (header)
+		gtk_object_unref (header);
 	etfci->full_header = NULL;
 	etfci->height = 0;
 }
@@ -185,19 +189,15 @@ etfci_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	etfci = E_TABLE_FIELD_CHOOSER_ITEM (o);
 
 	switch (arg_id){
-	case ARG_TABLE_HEADER:
+	case ARG_FULL_HEADER:
 		etfci_drop_table_header (etfci);
-		etfci_add_table_header (etfci, E_TABLE_HEADER(GTK_VALUE_OBJECT (*arg)));
+		if (GTK_VALUE_OBJECT (*arg))
+			etfci_add_table_header (etfci, E_TABLE_HEADER(GTK_VALUE_OBJECT (*arg)));
 		break;
 
 	case ARG_DND_CODE:
 		g_free(etfci->dnd_code);
 		etfci->dnd_code = g_strdup(GTK_VALUE_STRING (*arg));
-		break;
-
-	case ARG_TABLE_FONTSET:
-		etfci_font_load (etfci, GTK_VALUE_STRING (*arg));
-		e_canvas_item_request_reflow(item);
 		break;
 
 	case ARG_WIDTH:
@@ -506,17 +506,14 @@ etfci_class_init (GtkObjectClass *object_class)
 	item_class->point       = etfci_point;
 	item_class->event       = etfci_event;
 	
-	gtk_object_add_arg_type ("ETableFieldChooserItem::ETableHeader", GTK_TYPE_OBJECT,
-				 GTK_ARG_WRITABLE, ARG_TABLE_HEADER);
 	gtk_object_add_arg_type ("ETableFieldChooserItem::dnd_code", GTK_TYPE_STRING,
 				 GTK_ARG_READWRITE, ARG_DND_CODE);
-	gtk_object_add_arg_type ("ETableFieldChooserItem::fontset", GTK_TYPE_STRING,
-				 GTK_ARG_WRITABLE, ARG_TABLE_FONTSET);
+	gtk_object_add_arg_type ("ETableFieldChooserItem::full_header", GTK_TYPE_OBJECT,
+				 GTK_ARG_WRITABLE, ARG_FULL_HEADER);
 	gtk_object_add_arg_type ("ETableFieldChooserItem::width", GTK_TYPE_DOUBLE,
 				 GTK_ARG_READWRITE, ARG_WIDTH);
 	gtk_object_add_arg_type ("ETableFieldChooserItem::height", GTK_TYPE_DOUBLE,
 				 GTK_ARG_READABLE, ARG_HEIGHT);
-
 }
 
 static void

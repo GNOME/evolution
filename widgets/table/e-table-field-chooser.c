@@ -36,6 +36,8 @@ static GtkVBoxClass *parent_class = NULL;
 /* The arguments we take */
 enum {
 	ARG_0,
+	ARG_FULL_HEADER,
+	ARG_DND_CODE,
 };
 
 GtkType
@@ -77,37 +79,110 @@ e_table_field_chooser_class_init (ETableFieldChooserClass *klass)
 	object_class->set_arg = e_table_field_chooser_set_arg;
 	object_class->get_arg = e_table_field_chooser_get_arg;
 	object_class->destroy = e_table_field_chooser_destroy;
+	gtk_object_add_arg_type ("ETableFieldChooser::dnd_code", GTK_TYPE_STRING,
+				 GTK_ARG_READWRITE, ARG_DND_CODE);
+	gtk_object_add_arg_type ("ETableFieldChooser::full_header", GTK_TYPE_OBJECT,
+				 GTK_ARG_READWRITE, ARG_FULL_HEADER);
+}
+
+static void allocate_callback(GtkWidget *canvas, GtkAllocation *allocation, ETableFieldChooser *etfc)
+{
+	double height;
+	etfc->last_alloc = *allocation;
+	gnome_canvas_item_set( etfc->item,
+			       "width", (double) allocation->width,
+			       NULL );
+	gtk_object_get(GTK_OBJECT(etfc->item),
+		       "height", &height,
+		       NULL);
+	gnome_canvas_set_scroll_region(GNOME_CANVAS( etfc->canvas ), 0, 0, allocation->width, height );
+	gnome_canvas_item_set( etfc->rect,
+			       "x2", (double) allocation->width,
+			       "y2", (double) height,
+			       NULL );
+}
+
+static void resize(GnomeCanvas *canvas, ETableFieldChooser *etfc)
+{
+	double height;
+	gtk_object_get(GTK_OBJECT(etfc->item),
+		       "height", &height,
+		       NULL);
+
+	gnome_canvas_set_scroll_region (GNOME_CANVAS(etfc->canvas), 0, 0, etfc->last_alloc.width, height);
+	gnome_canvas_item_set( etfc->rect,
+			       "x2", (double) etfc->last_alloc.width,
+			       "y2", (double) height,
+			       NULL );	
 }
 
 static void
-e_table_field_chooser_init (ETableFieldChooser *e_table_field_chooser)
+e_table_field_chooser_init (ETableFieldChooser *etfc)
 {
 	GladeXML *gui;
 	GtkWidget *widget;
 
-	gui = glade_xml_new (ETABLE_GLADEDIR "/fullname.glade", NULL);
-	e_table_field_chooser->gui = gui;
+	gui = glade_xml_new (ETABLE_GLADEDIR "/e-table-field-chooser.glade", NULL);
+	etfc->gui = gui;
 
 	widget = glade_xml_get_widget(gui, "vbox-top");
 	if (!widget) {
 		return;
 	}
 	gtk_widget_reparent(widget,
-			    GTK_WIDGET(e_table_field_chooser));
+			    GTK_WIDGET(etfc));
 
-	e_table_field_chooser->canvas = GNOME_CANVAS(glade_xml_get_widget(gui, "canvas-buttons"));
-	e_table_field_chooser->item = gnome_canvas_item_new(GNOME_CANVAS_GROUP(e_table_field_chooser->canvas->root),
-							    e_table_field_chooser_item_get_type(),
-							    NULL);
+	gtk_widget_push_visual (gdk_rgb_get_visual ());
+	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
+
+	etfc->canvas = GNOME_CANVAS(glade_xml_get_widget(gui, "canvas-buttons"));
+
+	etfc->rect = gnome_canvas_item_new(gnome_canvas_root( GNOME_CANVAS( etfc->canvas ) ),
+					   gnome_canvas_rect_get_type(),
+					   "x1", (double) 0,
+					   "y1", (double) 0,
+					   "x2", (double) 100,
+					   "y2", (double) 100,
+					   "fill_color", "white",
+					   NULL );
+
+	etfc->item = gnome_canvas_item_new(gnome_canvas_root(etfc->canvas),
+					   e_table_field_chooser_item_get_type(),
+					   "height", (double) 100,
+					   "width", (double) 100,
+					   "full_header", etfc->full_header,
+					   "dnd_code", etfc->dnd_code,
+					   NULL );
+
+	gtk_signal_connect( GTK_OBJECT( etfc->canvas ), "reflow",
+			    GTK_SIGNAL_FUNC( resize ),
+			    etfc);
+
+	gnome_canvas_set_scroll_region ( GNOME_CANVAS( etfc->canvas ),
+					 0, 0,
+					 100, 100 );
+
+	/* Connect the signals */
+	gtk_signal_connect (GTK_OBJECT (etfc->canvas), "size_allocate",
+			    GTK_SIGNAL_FUNC (allocate_callback),
+			    etfc);
+
+	gtk_widget_pop_visual ();
+	gtk_widget_pop_colormap ();
+	gtk_widget_show(widget);
 }
 
-void
+static void
 e_table_field_chooser_destroy (GtkObject *object)
 {
-	ETableFieldChooser *e_table_field_chooser = E_TABLE_FIELD_CHOOSER(object);
+	ETableFieldChooser *etfc = E_TABLE_FIELD_CHOOSER(object);
 
-	if (e_table_field_chooser->gui)
-		gtk_object_unref(GTK_OBJECT(e_table_field_chooser->gui));
+	g_free(etfc->dnd_code);
+	if (etfc->full_header)
+		gtk_object_unref(GTK_OBJECT(etfc->full_header));
+
+	if (etfc->gui)
+		gtk_object_unref(GTK_OBJECT(etfc->gui));
 }
 
 GtkWidget*
@@ -118,9 +193,33 @@ e_table_field_chooser_new (void)
 }
 
 static void
-e_table_field_chooser_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
+e_table_field_chooser_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 {
+	ETableFieldChooser *etfc = E_TABLE_FIELD_CHOOSER(object);
+
 	switch (arg_id){
+	case ARG_DND_CODE:
+		g_free(etfc->dnd_code);
+		etfc->dnd_code = g_strdup(GTK_VALUE_STRING (*arg));
+		if (etfc->item)
+			gtk_object_set(GTK_OBJECT(etfc->item),
+				       "dnd_code", etfc->dnd_code,
+				       NULL);
+		break;
+	case ARG_FULL_HEADER:
+		if (etfc->full_header)
+			gtk_object_unref(GTK_OBJECT(etfc->full_header));
+		if (GTK_VALUE_OBJECT(*arg))
+			etfc->full_header = E_TABLE_HEADER(GTK_VALUE_OBJECT(*arg));
+		else
+			etfc->full_header = NULL;
+		if (etfc->full_header)
+			gtk_object_ref(GTK_OBJECT(etfc->full_header));
+		if (etfc->item)
+			gtk_object_set(GTK_OBJECT(etfc->item),
+				       "full_header", etfc->full_header,
+				       NULL);
+		break;
 	default:
 		break;
 	}
@@ -129,7 +228,15 @@ e_table_field_chooser_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 static void
 e_table_field_chooser_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 {
+	ETableFieldChooser *etfc = E_TABLE_FIELD_CHOOSER(object);
+
 	switch (arg_id) {
+	case ARG_DND_CODE:
+		GTK_VALUE_STRING (*arg) = g_strdup (etfc->dnd_code);
+		break;
+	case ARG_FULL_HEADER:
+		GTK_VALUE_OBJECT (*arg) = GTK_OBJECT(etfc->full_header);
+		break;
 	default:
 		arg->type = GTK_TYPE_INVALID;
 		break;

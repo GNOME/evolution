@@ -23,6 +23,7 @@
 
 #include <gnome.h>
 #include <glade/glade.h>
+#include "e-table-header.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -55,6 +56,12 @@ struct _ETableFieldChooser
 	GladeXML *gui;
 	GnomeCanvas *canvas;
 	GnomeCanvasItem *item;
+
+	GnomeCanvasItem *rect;
+	GtkAllocation last_alloc;
+
+	gchar *dnd_code;
+	ETableHeader *full_header;
 };
 
 struct _ETableFieldChooserClass

@@ -142,6 +142,7 @@ e_table_setup_header (ETable *e_table)
 		gnome_canvas_root (e_table->header_canvas),
 		e_table_header_item_get_type (),
 		"ETableHeader", e_table->header,
+		"full_header", e_table->full_header,
 		"sort_info", e_table->sort_info,
 		NULL);
 
