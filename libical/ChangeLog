@@ -1,5 +1,9 @@
 2000-12-11  Federico Mena Quintero  <federico@helixcode.com>
 
+	* configure.in: Added check for Perl.
+
+2000-12-11  Federico Mena Quintero  <federico@helixcode.com>
+
 	* configure.in (AC_OUTPUT): Fixed order of generated files to make
 	"make distcheck" work.  Turn on AM_MAINTAINER_MODE.
 
@@ -22,7 +26,7 @@
 
 	* src/libical/icalrecur.c: Likewise.
 
-	* src/libical/icalvalue.c: Likewise.
+	* src/libical/icalvalue.c.in: Likewise.
 
 	* src/libical/icalyacc.y: Likewise.
 

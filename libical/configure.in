@@ -39,6 +39,9 @@ AC_STRUCT_TM
 dnl Checks for library functions.
 AC_CHECK_FUNCS(strdup)
 
+dnl Check for perl
+AC_CHECK_PROGS(PERL, perl5 perl)
+
 AC_OUTPUT([
 Makefile
 design-data/Makefile
@@ -48,8 +51,6 @@ scripts/Makefile
 src/Makefile
 src/libical/Makefile
 src/libical/icalversion.h
-src/libicalss/Makefile
 src/libicalvcal/Makefile
-src/test/Makefile
 test-data/Makefile
 ])
