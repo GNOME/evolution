@@ -1,3 +1,7 @@
+2004-03-22  Hari Prasad Nadig <hp@ndeepak.info>
+
+	* evolution-calendar.xml: Naming issue resolved ( Bug 48293 )
+
 2004-03-08  Radek Doulik  <rodo@ximian.com>
 
 	* evolution-mail-message.xml: added filter junk command and
