@@ -408,6 +408,11 @@ CAMEL_LIBS="`gnome-config --libs gal xml` $THREADS_LIBS"
 AC_SUBST(CAMEL_CFLAGS)
 AC_SUBST(CAMEL_LIBS)
 
+MAILER_CFLAGS="`gnome-config --cflags gtkhtml libglade gdk_pixbuf gnomecanvaspixbuf gnomeui gal bonobox bonobox_print vfs` $THREADS_CFLAGS"
+MAILER_LIBS="`gnome-config --libs gtkhtml libglade gdk_pixbuf gnomecanvaspixbuf gnomeui gal bonobox bonobox_print vfs` $THREADS_LIBS"
+AC_SUBST(MAILER_CFLAGS)
+AC_SUBST(MAILER_LIBS)
+
 dnl ******************************
 dnl Pilot checking
 dnl ******************************
