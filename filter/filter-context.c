@@ -105,7 +105,8 @@ filter_context_finalise(GtkObject *obj)
 {
 	FilterContext *o = (FilterContext *)obj;
 
-	o = o;
+	g_list_foreach(o->actions, (GFunc)gtk_object_unref, NULL);
+	g_list_free(o->actions);
 
         ((GtkObjectClass *)(parent_class))->finalize(obj);
 }

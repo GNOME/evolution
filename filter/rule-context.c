@@ -103,36 +103,45 @@ rule_context_init(RuleContext * o)
 }
 
 static void
+free_part_set(struct _part_set_map *map, void *data)
+{
+	g_free(map->name);
+	g_free(map);
+}
+
+static void
+free_rule_set(struct _rule_set_map *map, void *data)
+{
+	g_free(map->name);
+	g_free(map);
+}
+
+static void
 rule_context_finalise(GtkObject * obj)
 {
 	RuleContext *o = (RuleContext *) obj;
-	struct _part_set_map *psm;
-	struct _rule_set_map *rsm;
-	GList *next;
 
-	g_free(o->priv);
-	g_hash_table_destroy(o->part_set_map);
+	g_list_foreach(o->rule_set_list, (GFunc)free_rule_set, NULL);
+	g_list_free(o->rule_set_list);
 	g_hash_table_destroy(o->rule_set_map);
 
-	for (; o->part_set_list; o->part_set_list = next) {
-		psm = o->part_set_list->data;
-		g_free (psm->name);
-		g_free (psm);
-		next = o->part_set_list->next;
-		g_list_free_1 (o->part_set_list);
-	}
-	for (; o->rule_set_list; o->rule_set_list = next) {
-		rsm = o->rule_set_list->data;
-		g_free (rsm->name);
-		g_free (rsm);
-		next = o->rule_set_list->next;
-		g_list_free_1 (o->rule_set_list);
-	}
+	g_list_foreach(o->part_set_list, (GFunc)free_part_set, NULL);
+	g_list_free(o->part_set_list);
+	g_hash_table_destroy(o->part_set_map);
+
+	g_free(o->error);
+
+	g_list_foreach(o->parts, (GFunc)gtk_object_unref, NULL);
+	g_list_free(o->parts);
+	g_list_foreach(o->rules, (GFunc)gtk_object_unref, NULL);
+	g_list_free(o->rules);
 
 	if (o->system)
 		xmlFreeDoc(o->system);
 	if (o->user)
 		xmlFreeDoc(o->user);
+
+	g_free(o->priv);
 
 	((GtkObjectClass *) (parent_class))->finalize(obj);
 }
@@ -157,6 +166,8 @@ rule_context_add_part_set(RuleContext * f, const char *setname, int part_type, R
 {
 	struct _part_set_map *map;
 
+	g_assert(g_hash_table_lookup(f->part_set_map, setname) == NULL);
+
 	map = g_malloc0(sizeof(*map));
 	map->type = part_type;
 	map->append = append;
@@ -171,6 +182,8 @@ void
 rule_context_add_rule_set(RuleContext * f, const char *setname, int rule_type, RCRuleFunc append, RCNextRuleFunc next)
 {
 	struct _rule_set_map *map;
+
+	g_assert(g_hash_table_lookup(f->rule_set_map, setname) == NULL);
 
 	map = g_malloc0(sizeof(*map));
 	map->type = rule_type;

@@ -120,8 +120,12 @@ static void
 filter_input_finalise (GtkObject *obj)
 {
 	FilterInput *o = (FilterInput *)obj;
-	
-	o = o;
+
+	g_free(o->type);
+	g_list_foreach(o->values, (GFunc)g_free, NULL);
+	g_list_free(o->values);
+
+	g_free(o->priv);
 	
         ((GtkObjectClass *)(parent_class))->finalize(obj);
 }
@@ -269,7 +273,8 @@ xml_decode (FilterElement *fe, xmlNodePtr node)
 			gchar *decstr;
 			str = xmlNodeGetContent (n);
 			decstr = e_utf8_xml1_decode (str);
-			if (str) xmlFree (str);
+			if (str)
+				xmlFree (str);
 			d(printf ("  '%s'\n", decstr));
 			fi->values = g_list_append (fi->values, decstr);
 		} else {

@@ -51,7 +51,6 @@ static void filter_rule_finalise (GtkObject * obj);
 #define _PRIVATE(x) (((FilterRule *)(x))->priv)
 
 struct _FilterRulePrivate {
-	GtkWidget *parts;	/* where the parts are stored */
 };
 
 static GtkObjectClass *parent_class;
@@ -113,22 +112,16 @@ filter_rule_init (FilterRule * o)
 }
 
 static void
-unref_list (GList * l)
-{
-	while (l) {
-		gtk_object_unref (GTK_OBJECT (l->data));
-		l = g_list_next (l);
-	}
-}
-
-static void
 filter_rule_finalise (GtkObject * obj)
 {
 	FilterRule *o = (FilterRule *) obj;
 
 	g_free (o->name);
 	g_free (o->source);
-	unref_list (o->parts);
+	g_list_foreach(o->parts, (GFunc)gtk_object_unref, NULL);
+	g_list_free(o->parts);
+
+	g_free(o->priv);
 	
 	((GtkObjectClass *) (parent_class))->finalize(obj);
 }

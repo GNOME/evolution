@@ -110,7 +110,7 @@ filter_element_finalise (GtkObject *obj)
 {
 	FilterElement *o = (FilterElement *)obj;
 
-	o = o;
+	g_free(o->name);
 
         ((GtkObjectClass *)(parent_class))->finalize(obj);
 }

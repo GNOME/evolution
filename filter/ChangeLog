@@ -1,3 +1,26 @@
+2001-08-07  Not Zed  <NotZed@Ximian.com>
+
+	* filter-rule.c (filter_rule_finalise): Properly free the list of
+	parts, and the private data.
+	(FilterRulePrivate): Remove unused 'parts' member.
+
+	* filter-option.c (free_option): For freeing options.
+	(filter_option_finalise): Free options list.
+
+	* filter-element.c (filter_element_finalise): free name.
+
+	* filter-input.c (filter_input_finalise): Free type and values
+	list.
+
+	* filter-context.c (filter_context_finalise): Free the actions.
+
+	* rule-context.c (rule_context_finalise): Remove the totally weird
+	arsed *_set_list free code.
+	(free_part_set): 
+	(free_rule_set): Use this to free stuff using g_list_foreach.
+	(rule_context_finalise): Free the error string.
+	(rule_context_finalise): Free the rules and parts.
+
 2001-08-07  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* filtertypes.xml: Reverted my previous change, I fixed the filter

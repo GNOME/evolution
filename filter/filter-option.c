@@ -113,11 +113,21 @@ filter_option_init (FilterOption *o)
 }
 
 static void
+free_option(struct _filter_option *o, void *data)
+{
+	g_free(o->title);
+	g_free(o->value);
+	g_free(o->code);
+	g_free(o);
+}
+
+static void
 filter_option_finalise (GtkObject *obj)
 {
 	FilterOption *o = (FilterOption *)obj;
-	
-	o = o;
+
+	g_list_foreach(o->options, (GFunc)free_option, NULL);
+	g_list_free(o->options);
 	
         ((GtkObjectClass *)(parent_class))->finalize(obj);
 }
