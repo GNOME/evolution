@@ -1,5 +1,9 @@
 2001-03-17  Not Zed  <NotZed@Ximian.com>
 
+	* providers/local/camel-maildir-summary.c (maildir_summary_sync): 
+	Modified patch from Dan Berger <dberger@ix.netcom.com> to re-check
+	the maildir directory for new/updated messages at sync time.
+
 	* camel-folder.c (camel_folder_ref_message_info): Implemented.
 	(ref_message_info): And default implementation.
 

@@ -681,6 +681,9 @@ maildir_summary_sync(CamelLocalSummary *cls, gboolean expunge, CamelFolderChange
 
 	d(printf("summary_sync(expunge=%s)\n", expunge?"true":"false"));
 
+	if (camel_local_summary_check(cls, changes, ex) == -1)
+		return -1;
+
 	if (cls->index) {
 		ibex_save(cls->index);
 	}
