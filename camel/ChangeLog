@@ -1,5 +1,10 @@
 2001-07-06  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-mime-utils.c (header_encode_param): Don't allow in to be
+	NULL, so instead of doing if (in == NULL) return;, make it a
+	g_return_val_if_fail and later we can make it an assert or
+	something.
+
 	* providers/local/camel-maildir-store.c (get_inbox): Fixes bug
 	#1138.
 

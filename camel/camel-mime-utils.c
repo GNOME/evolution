@@ -2730,10 +2730,8 @@ header_encode_param (const unsigned char *in, gboolean *encoded)
 	
 	*encoded = FALSE;
 	
+	g_return_val_if_fail (in != NULL, NULL);
 	g_return_val_if_fail (g_utf8_validate (in, -1, NULL), NULL);
-	
-	if (in == NULL)
-		return NULL;
 	
 	/* do a quick us-ascii check (the common case?) */
 	while (*inptr) {
