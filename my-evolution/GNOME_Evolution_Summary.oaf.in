@@ -1,23 +1,36 @@
 <oaf_info>
 
   <oaf_server iid="OAFIID:GNOME_Evolution_Summary_ShellComponent"
-	      type="exe"
-	      location="evolution-executive-summary">
+	      type="factory"
+	      location="OAFIID:GNOME_Evolution_Summary_ShellComponentFactory">
 
     <oaf_attribute name="repo_ids" type="stringv">
       <item value="IDL:GNOME/Evolution/ShellComponent:1.0"/>
     </oaf_attribute>
 
     <oaf_attribute name="description" type="string"
-		   _value="Evolution component for the executive summary."/>
+		   _value="Evolution Summary component."/>
 
     <oaf_attribute name="evolution:shell-component-icon" type="string"
 		   value="evolution-today.png"/>
   </oaf_server>
 
+  <oaf_server iid="OAFIID:GNOME_Evolution_Summary_ShellComponentFactory"
+	      type="shlib"
+	      location="libevolution-executive-summary.so">
+
+    <oaf_attribute name="repo_ids" type="stringv">
+      <item value="IDL:GNOME/GenericFactory:1.0"/>
+    </oaf_attribute>
+
+    <oaf_attribute name="description" type="string"
+		   _value="Factory for the Evolution Summary component."/>
+
+  </oaf_server>
+
   <oaf_server iid="OAFIID:GNOME_Evolution_Summary_ConfigControlFactory"
-	      type="exe"
-	      location="evolution-executive-summary">
+	      type="shlib"
+	      location="libevolution-executive-summary.so">
 
     <oaf_attribute name="repo_ids" type="stringv">
       <item value="IDL:GNOME/GenericFactory:1.0"/>

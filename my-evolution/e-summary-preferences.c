@@ -40,6 +40,8 @@
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-generic-factory.h>
 #include <bonobo/bonobo-moniker-util.h>
+#include <bonobo/bonobo-shlib-factory.h>
+
 #include <bonobo-conf/bonobo-config-database.h>
 
 #include "e-summary.h"

@@ -248,7 +248,8 @@ update_folder_cb (EvolutionStorageListener *listener,
 	}
 	uri = e_path_to_physical (proto, path);
 
-	e_summary_mail_get_info (summary->mail, uri, summary->mail->listener);
+	if (summary->mail != NULL)
+		e_summary_mail_get_info (summary->mail, uri, summary->mail->listener);
 
 	g_free (uri);
 }

@@ -1,3 +1,9 @@
+2002-03-30  Ettore Perazzoli  <ettore@ximian.com>
+
+	* configure.in: Add argument `--enable-shlib-components'.  New
+	substitutions OAF_SHLIB_LOCATION, OAF_SHLIB_PREFIX,
+	OAF_SHLIB_SUFFIX.
+
 2002-03-29  Ettore Perazzoli  <ettore@ximian.com>
 
 	* configure.in: Check for GConf.  Add gthreads to LIBIBEX_CFLAGS

@@ -1,3 +1,18 @@
+2002-03-30  Ettore Perazzoli  <ettore@ximian.com>
+
+	* Makefile.am: Added support for the ENABLE_SHLIB_COMPONENTS
+	conditional.
+
+	* GNOME_Evolution_Summary.oaf.in.in: New.
+
+	* e-summary-mail.c (update_folder_cb): Protect against
+	summary->mail being NULL.
+
+	* component-factory.c: Add a shlib factory.
+	(create_component): Get a @factory and @data.
+	(component_factory_init): Actually make it use a
+	BonoboGenericFactory again.
+
 2002-03-29  Ettore Perazzoli  <ettore@ximian.com>
 
 	* GNOME_Evolution_Summary.oaf.in: Add priority.

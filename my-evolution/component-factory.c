@@ -27,6 +27,7 @@
 #include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-generic-factory.h>
 #include <bonobo/bonobo-context.h>
+#include <bonobo/bonobo-shlib-factory.h>
 
 #include <shell/evolution-shell-component.h>
 #include <shell/Evolution.h>
@@ -37,7 +38,8 @@
 #include "component-factory.h"
 #include <gal/widgets/e-gui-utils.h>
 
-#define COMPONENT_ID "OAFIID:GNOME_Evolution_Summary_ShellComponent"
+#define COMPONENT_ID         "OAFIID:GNOME_Evolution_Summary_ShellComponent"
+#define COMPONENT_FACTORY_ID "OAFIID:GNOME_Evolution_Summary_ShellComponentFactory"
 
 static gint running_objects = 0;
 static ESummaryPrefs *global_preferences = NULL;
@@ -113,7 +115,8 @@ component_destroy (BonoboObject *factory,
 }
 
 static BonoboObject *
-create_component (void)
+create_component (BonoboGenericFactory *factory,
+		  void *data)
 {
 	EvolutionShellComponent *shell_component;
 	ESummaryOfflineHandler *offline_handler;
@@ -145,18 +148,19 @@ create_component (void)
 	return BONOBO_OBJECT (shell_component);
 }
 
+/* Factory for the out-of-proc case.  */
 void
 component_factory_init (void)
 {
-	BonoboObject *object;
-	int result;
+	BonoboGenericFactory *factory;
 
-	object = create_component ();
+	factory = bonobo_generic_factory_new (COMPONENT_FACTORY_ID,
+					      create_component,
+					      NULL);
 
-	result = oaf_active_server_register (COMPONENT_ID, bonobo_object_corba_objref (object));
-	if (result == OAF_REG_ERROR) {
-		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
-			  _("Cannot initialize Evolution's Summary component."));
-		exit (1);
-	}
+	if (factory == NULL)
+		g_error ("Cannot register Evolution Summary component factory.");
 }
+
+/* Factory for the shlib case.  */
+BONOBO_OAF_SHLIB_FACTORY (COMPONENT_FACTORY_ID, "Evolution Summary component", create_component, NULL)
