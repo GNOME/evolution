@@ -1,3 +1,31 @@
+2002-07-24  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-config.c (mail_config_folder_to_safe_url): Use
+	mail_tools_folder_to_url().
+
+	* mail-tools.c (mail_tools_folder_to_url): New convenience
+	function to take a CamelFolder and return the URL associated with
+	it.
+
+	* mail-callbacks.c (composer_get_message): Pass in a 'post'
+	argument so we know whether or not we can ignore a NULL set of
+	recipients.
+	(composer_send_cb): Default send->send to TRUE unless we are in
+	Post-To mode, in which case set send->send to FALSE (since we'll
+	have nothing to send). Also, if we are in Post-To mode, append to
+	the folder the user wants to post to rather than appending to
+	Outbox.
+	(composer_send_queued_cb): Only queue a send thread if send->send
+	is TRUE (ie, the composer was not in Post mode - if it was in Post
+	mode, then the message post has already been saved in the correct
+	folder so there is nothing to do).
+	(post_message): New function to create an empty composer widget in
+	Post mode.
+	(post_reply): New function that calls mail_reply with the new mode
+	of REPLY_POST.
+	(mail_generate_reply): If the mode is REPLY_POST, create a Post
+	composer widget otherwise create a normal composer widget.
+
 2002-07-25  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-ops.c (mail_execute_shell_command): Update to take argc and
@@ -70,8 +98,9 @@
 
 2002-07-23  Jeffrey Stedfast  <fejj@ximian.com>
 
-	* message-tag-followup.c (message_tag_followup_decode): Don't use
-	strncmp here or reply-all will match reply.
+	* message-tag-followup.c (message_tag_followup_decode): Don't pass
+	the length of the tag name into strncmp, instead use the length up
+	to the first ':' in the value string.
 
 2002-07-22  Peter Williams  <peterw@ximian.com>
 

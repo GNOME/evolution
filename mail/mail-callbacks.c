@@ -343,6 +343,7 @@ free_psd (GtkWidget *composer, gpointer user_data)
 struct _send_data {
 	EMsgComposer *composer;
 	struct post_send_data *psd;
+	gboolean send;
 };
 
 static void
@@ -358,7 +359,7 @@ composer_send_queued_cb (CamelFolder *folder, CamelMimeMessage *msg, CamelMessag
 		}
 		gtk_widget_destroy (GTK_WIDGET (send->composer));
 		
-		if (camel_session_is_online (session)) {
+		if (send->send && camel_session_is_online (session)) {
 			/* queue a message send */
 			mail_send ();
 		}
@@ -374,7 +375,7 @@ composer_send_queued_cb (CamelFolder *folder, CamelMimeMessage *msg, CamelMessag
 }
 
 static CamelMimeMessage *
-composer_get_message (EMsgComposer *composer, gboolean save_html_object_data)
+composer_get_message (EMsgComposer *composer, gboolean post, gboolean save_html_object_data)
 {
 	const MailConfigAccount *account;
 	CamelMimeMessage *message = NULL;
@@ -389,17 +390,17 @@ composer_get_message (EMsgComposer *composer, gboolean save_html_object_data)
 	   (e.g. to get a passphrase to sign a message) */
 	
 	/* get the message recipients */
-	recipients = e_msg_composer_get_recipients(composer);
+	recipients = e_msg_composer_get_recipients (composer);
 	
 	/* see which ones are visible/present, etc */
 	if (recipients) {
-		for (i=0; recipients[i] != NULL;i++) {
-			const char *addr = e_destination_get_address(recipients[i]);
+		for (i = 0; recipients[i] != NULL; i++) {
+			const char *addr = e_destination_get_address (recipients[i]);
 			
 			if (addr && addr[0]) {
 				num++;
-				if (e_destination_is_evolution_list(recipients[i])
-				    && !e_destination_list_show_addresses(recipients[i])) {
+				if (e_destination_is_evolution_list (recipients[i])
+				    && !e_destination_list_show_addresses (recipients[i])) {
 					hidden++;
 				} else {
 					shown++;
@@ -408,10 +409,10 @@ composer_get_message (EMsgComposer *composer, gboolean save_html_object_data)
 		}
 	}
 	
-	recipients_bcc = e_msg_composer_get_bcc(composer);
+	recipients_bcc = e_msg_composer_get_bcc (composer);
 	if (recipients_bcc) {
-		for (i=0; recipients_bcc[i] != NULL;i++) {
-			const char *addr = e_destination_get_address(recipients_bcc[i]);
+		for (i = 0; recipients_bcc[i] != NULL; i++) {
+			const char *addr = e_destination_get_address (recipients_bcc[i]);
 			
 			if (addr && addr[0])
 				num_bcc++;
@@ -420,7 +421,7 @@ composer_get_message (EMsgComposer *composer, gboolean save_html_object_data)
 	}
 	
 	/* I'm sensing a lack of love, er, I mean recipients. */
-	if (num == 0) {
+	if (num == 0 && !post) {
 		GtkWidget *message_box;
 		
 		message_box = gnome_message_box_new (_("You must specify recipients in order to "
@@ -433,7 +434,7 @@ composer_get_message (EMsgComposer *composer, gboolean save_html_object_data)
 		goto finished;
 	}
 	
-	if (num == num_bcc || shown == 0) {
+	if (num > 0 && (num == num_bcc || shown == 0)) {
 		/* this means that the only recipients are Bcc's */		
 		if (!ask_confirm_for_only_bcc (composer, shown == 0))
 			goto finished;
@@ -442,13 +443,15 @@ composer_get_message (EMsgComposer *composer, gboolean save_html_object_data)
 	/* Only show this warning if our default is to send html.  If it isn't, we've
 	   manually switched into html mode in the composer and (presumably) had a good
 	   reason for doing this. */
-	if (e_msg_composer_get_send_html (composer)
-	    && mail_config_get_send_html ()
+	if (e_msg_composer_get_send_html (composer) && mail_config_get_send_html ()
 	    && mail_config_get_confirm_unwanted_html ()) {
 		gboolean html_problem = FALSE;
-		for (i = 0; recipients[i] != NULL && !html_problem; ++i) {
-			if (!e_destination_get_html_mail_pref (recipients[i]))
-				html_problem = TRUE;
+		
+		if (recipients) {
+			for (i = 0; recipients[i] != NULL && !html_problem; ++i) {
+				if (!e_destination_get_html_mail_pref (recipients[i]))
+					html_problem = TRUE;
+			}
 		}
 		
 		if (html_problem) {
@@ -485,41 +488,79 @@ composer_get_message (EMsgComposer *composer, gboolean save_html_object_data)
 	}
 	
 	/* Get the message recipients and 'touch' them, boosting their use scores */
-	e_destination_touchv (recipients);
+	if (recipients)
+		e_destination_touchv (recipients);
 	
  finished:
 	
-	e_destination_freev (recipients);
+	if (recipients)
+		e_destination_freev (recipients);
 	
 	return message;
+}
+
+static void
+got_post_folder (char *uri, CamelFolder *folder, void *data)
+{
+	CamelFolder **fp = data;
+	
+	*fp = folder;
+	
+	if (folder)
+		camel_object_ref (CAMEL_OBJECT (folder));
 }
 
 void
 composer_send_cb (EMsgComposer *composer, gpointer user_data)
 {
+	struct post_send_data *psd = user_data;
 	extern CamelFolder *outbox_folder;
 	CamelMimeMessage *message;
 	CamelMessageInfo *info;
-	struct post_send_data *psd = user_data;
 	struct _send_data *send;
+	gboolean post = FALSE;
+	CamelFolder *folder;
+	XEvolution *xev;
+	char *url;
 	
-	message = composer_get_message (composer, FALSE);
+	url = e_msg_composer_hdrs_get_post_to ((EMsgComposerHdrs *) composer->hdrs);
+	if (url != NULL) {
+		post = TRUE;
+		mail_msg_wait (mail_get_folder (url, 0, got_post_folder, &folder, mail_thread_new));
+	} else {
+		folder = outbox_folder;
+		camel_object_ref (folder);
+	}
+	
+	message = composer_get_message (composer, post, FALSE);
 	if (!message)
 		return;
+	
+	if (post) {
+		/* Remove the X-Evolution* headers if we are in Post-To mode */
+		xev = mail_tool_remove_xevolution_headers (message);
+		mail_tool_destroy_xevolution (xev);
+	}
 	
 	info = camel_message_info_new ();
 	info->flags = CAMEL_MESSAGE_SEEN;
 	
 	send = g_malloc (sizeof (*send));
 	send->psd = psd;
+	send->send = !post;
 	send->composer = composer;
 	gtk_object_ref (GTK_OBJECT (composer));
 	gtk_widget_hide (GTK_WIDGET (composer));
 	
 	e_msg_composer_set_enable_autosave (composer, FALSE);
 	
-	mail_append_mail (outbox_folder, message, info, composer_send_queued_cb, send);
+	if (post) {
+		
+	}
+	
+	mail_append_mail (folder, message, info, composer_send_queued_cb, send);
 	camel_object_unref (message);
+	camel_object_unref (folder);
 }
 
 struct _save_draft_info {
@@ -640,7 +681,7 @@ composer_save_draft_cb (EMsgComposer *composer, int quit, gpointer user_data)
 }
 
 static GtkWidget *
-create_msg_composer (const MailConfigAccount *account, const char *url)
+create_msg_composer (const MailConfigAccount *account, gboolean post, const char *url)
 {
 	EMsgComposer *composer;
 	gboolean send_html;
@@ -654,7 +695,12 @@ create_msg_composer (const MailConfigAccount *account, const char *url)
 	
 	send_html = mail_config_get_send_html ();
 	
-	composer = url ? e_msg_composer_new_from_url (url) : e_msg_composer_new ();
+	if (post)
+		composer = e_msg_composer_new_post ();
+	else if (url)
+		composer = e_msg_composer_new_from_url (url);
+	else
+		composer = e_msg_composer_new ();
 	
 	if (composer) {
 		e_msg_composer_hdrs_set_from_account (E_MSG_COMPOSER_HDRS (composer->hdrs), account->name);
@@ -679,7 +725,7 @@ compose_msg (GtkWidget *widget, gpointer user_data)
 	/* Figure out which account we want to initially compose from */
 	account = mail_config_get_account_by_source_url (fb->uri);
 	
-	composer = create_msg_composer (account, NULL);
+	composer = create_msg_composer (account, FALSE, NULL);
 	if (!composer)
 		return;
 	
@@ -703,7 +749,7 @@ send_to_url (const char *url)
 		return;
 	
 	/* Tell create_msg_composer to use the default email profile */
-	composer = create_msg_composer (NULL, url);
+	composer = create_msg_composer (NULL, FALSE, url);
 	if (!composer)
 		return;
 	
@@ -836,8 +882,18 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 	EMsgComposer *composer;
 	CamelMimePart *part;
 	time_t date;
+	char *url;
 	
-	composer = e_msg_composer_new ();	
+	if (mode == REPLY_POST) {
+		composer = e_msg_composer_new_post ();
+		if (composer != NULL) {
+			url = mail_tools_folder_to_url (folder);
+			e_msg_composer_hdrs_set_post_to ((EMsgComposerHdrs *) composer->hdrs, url);
+			g_free (url);
+		}
+	} else
+		composer = e_msg_composer_new ();
+	
 	if (!composer)
 		return NULL;
 	
@@ -1007,7 +1063,7 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 	}
 	
 	/* Set the subject of the new message. */
-	subject = (char *)camel_mime_message_get_subject (message);
+	subject = (char *) camel_mime_message_get_subject (message);
 	if (!subject)
 		subject = g_strdup ("");
 	else {
@@ -1083,7 +1139,7 @@ mail_reply (CamelFolder *folder, CamelMimeMessage *msg, const char *uid, int mod
 	EMsgComposer *composer;
 	struct post_send_data *psd;
 	
-	g_return_if_fail (folder != NULL);
+	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 	g_return_if_fail (uid != NULL);
 	
 	if (!msg) {
@@ -1310,6 +1366,45 @@ forward (GtkWidget *widget, gpointer user_data)
 		forward_message (user_data, style);
 }
 
+
+void
+post_message (GtkWidget *widget, gpointer user_data)
+{
+	FolderBrowser *fb = FOLDER_BROWSER (user_data);
+	GtkWidget *composer;
+	char *url;
+	
+	if (FOLDER_BROWSER_IS_DESTROYED (fb) || !check_send_configuration (fb))
+		return;
+	
+	composer = create_msg_composer (NULL, TRUE, NULL);
+	if (!composer)
+		return;
+	
+	url = mail_tools_folder_to_url (fb->folder);
+	e_msg_composer_hdrs_set_post_to ((EMsgComposerHdrs *) ((EMsgComposer *) composer)->hdrs, url);
+	g_free (url);
+	
+	gtk_signal_connect (GTK_OBJECT (composer), "send",
+			    GTK_SIGNAL_FUNC (composer_send_cb), NULL);
+	gtk_signal_connect (GTK_OBJECT (composer), "save-draft",
+			    GTK_SIGNAL_FUNC (composer_save_draft_cb), NULL);
+	
+	gtk_widget_show (composer);
+}
+
+void
+post_reply (GtkWidget *widget, gpointer user_data)
+{
+	FolderBrowser *fb = FOLDER_BROWSER (user_data);
+	
+	if (FOLDER_BROWSER_IS_DESTROYED (fb) || !check_send_configuration (fb))
+		return;
+	
+	mail_reply (fb->folder, NULL, fb->message_list->cursor_uid, REPLY_POST);
+}
+
+
 static EMsgComposer *
 redirect_get_composer (CamelMimeMessage *message)
 {
@@ -1318,7 +1413,7 @@ redirect_get_composer (CamelMimeMessage *message)
 	const GSList *accounts = NULL;
 	EMsgComposer *composer;
 	
-	g_return_val_if_fail (message != NULL, NULL);
+	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), NULL);
 	
 	accounts = mail_config_get_accounts ();
 	to_addrs = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO);

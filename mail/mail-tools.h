@@ -40,44 +40,40 @@ typedef struct _xevolution {
 CamelFolder *mail_tool_get_local_inbox (CamelException *ex);
 
 /* Get the "inbox" for a url (uses global session) */
-CamelFolder *mail_tool_get_inbox (const gchar *url, CamelException *ex);
+CamelFolder *mail_tool_get_inbox (const char *url, CamelException *ex);
 
 /* Get the "trash" for a url (uses global session) */
-CamelFolder *mail_tool_get_trash (const gchar *url, int connect, CamelException *ex);
+CamelFolder *mail_tool_get_trash (const char *url, int connect, CamelException *ex);
 
 /* Does a camel_movemail into the local movemail folder
  * and returns the path to the new movemail folder that was created. which shoudl be freed later */
-char *
-mail_tool_do_movemail (const gchar *source_url, CamelException *ex);
+char *mail_tool_do_movemail (const char *source_url, CamelException *ex);
 
 /* Transfers all the messages from source into dest;
  * source is emptied and synced. */
-void
-mail_tool_move_folder_contents (CamelFolder *source, CamelFolder *dest, gboolean use_cache, CamelException *ex);
+void mail_tool_move_folder_contents (CamelFolder *source, CamelFolder *dest, gboolean use_cache, CamelException *ex);
 
 XEvolution *mail_tool_remove_xevolution_headers (CamelMimeMessage *message);
 void mail_tool_restore_xevolution_headers (CamelMimeMessage *message, XEvolution *xev);
 void mail_tool_destroy_xevolution (XEvolution *xev);
 
 /* Generates the subject for a message forwarding @msg */
-gchar *
-mail_tool_generate_forward_subject (CamelMimeMessage *msg);
+gchar *mail_tool_generate_forward_subject (CamelMimeMessage *msg);
 
 /* Make a message into an attachment */
-CamelMimePart *
-mail_tool_make_message_attachment (CamelMimeMessage *message);
+CamelMimePart *mail_tool_make_message_attachment (CamelMimeMessage *message);
 
 /* Parse the ui into a real CamelFolder any way we know how. */
-CamelFolder *
-mail_tool_uri_to_folder (const char *uri, guint32 flags, CamelException *ex);
+CamelFolder *mail_tool_uri_to_folder (const char *uri, guint32 flags, CamelException *ex);
 
-GHashTable *
-mail_lookup_url_table (CamelMimeMessage *mime_message);
+GHashTable *mail_lookup_url_table (CamelMimeMessage *mime_message);
 
 gchar *mail_tool_quote_message (CamelMimeMessage *message, const char *fmt, ...);
 
 gchar *mail_tool_forward_message (CamelMimeMessage *message, gboolean quoted);
 
 CamelFolder *mail_tools_x_evolution_message_parse (char *in, unsigned int inlen, GPtrArray **uids);
+
+char *mail_tools_folder_to_url (CamelFolder *folder);
 
 #endif

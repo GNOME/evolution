@@ -59,6 +59,7 @@ static BonoboUIVerb message_verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("MessageFollowUpFlag", flag_for_followup),
 	BONOBO_UI_UNSAFE_VERB ("MessageMove", move_msg),
 	BONOBO_UI_UNSAFE_VERB ("MessageOpen", open_message),
+	BONOBO_UI_UNSAFE_VERB ("MessagePostReply", post_reply),
 	BONOBO_UI_UNSAFE_VERB ("MessageReplyAll", reply_to_all),
 	BONOBO_UI_UNSAFE_VERB ("MessageReplyList", reply_to_list),
 	BONOBO_UI_UNSAFE_VERB ("MessageReplySender", reply_to_sender),
@@ -108,6 +109,7 @@ static BonoboUIVerb global_verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("EmptyTrash", empty_trash),
 	BONOBO_UI_UNSAFE_VERB ("ForgetPasswords", mail_session_forget_passwords),
 	BONOBO_UI_UNSAFE_VERB ("MailCompose", compose_msg),
+	BONOBO_UI_UNSAFE_VERB ("MailPost", post_message),
 	BONOBO_UI_UNSAFE_VERB ("MailStop", stop_threads),
 	BONOBO_UI_UNSAFE_VERB ("ToolsFilters", filter_edit),
 	BONOBO_UI_UNSAFE_VERB ("ToolsSubscriptions", manage_subscriptions),
@@ -202,6 +204,7 @@ struct _UINode default_ui_nodes[] = {
 	{ "MessageResend",            IS_SENT_FOLDER | SELECTION_SINGLE },
 	
 	/* actions that work on exactly 1 message */
+	{ "MessagePostReply",         IS_ANY_FOLDER | SELECTION_SINGLE },
 	{ "MessageReplyAll",          IS_ANY_FOLDER | SELECTION_SINGLE },
 	{ "MessageReplyList",         IS_ANY_FOLDER | SELECTION_SINGLE },
 	{ "MessageReplySender",       IS_ANY_FOLDER | SELECTION_SINGLE },

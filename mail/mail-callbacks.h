@@ -31,13 +31,14 @@
 #ifdef __cplusplus
 extern "C" {
 #pragma }
-#endif /* __cplusplus }*/
+#endif /* __cplusplus */
 
 /* these are the possible modes for replying */
 enum {
 	REPLY_SENDER,
 	REPLY_LIST,
 	REPLY_ALL,
+	REPLY_POST,
 	REPLY_NO_QUOTE = 0x80	/* dont quote reply */
 };
 
@@ -53,6 +54,9 @@ void forward_inline        (GtkWidget *widget, gpointer user_data);
 void forward_quoted        (GtkWidget *widget, gpointer user_data);
 void forward_attached      (GtkWidget *widget, gpointer user_data);
 void forward               (GtkWidget *widget, gpointer user_data);
+
+void post_message          (GtkWidget *widget, gpointer user_data);
+void post_reply            (GtkWidget *widget, gpointer user_data);
 
 void redirect              (GtkWidget *widget, gpointer user_data);
 

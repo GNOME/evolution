@@ -2506,14 +2506,11 @@ mail_config_service_set_save_passwd (MailConfigService *service, gboolean save_p
 char *
 mail_config_folder_to_safe_url (CamelFolder *folder)
 {
-	CamelService *service = CAMEL_SERVICE (folder->parent_store);
-	char *service_url, *url;
+	char *url;
 	
-	service_url = camel_url_to_string (service->url, CAMEL_URL_HIDE_ALL);
-	url = g_strdup_printf ("%s/%s", service_url, folder->full_name);
-	g_free (service_url);
-	
+	url = mail_tools_folder_to_url (folder);
 	e_filename_make_safe (url);
+	
 	return url;
 }
 

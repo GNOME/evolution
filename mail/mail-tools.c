@@ -448,3 +448,26 @@ mail_tools_x_evolution_message_parse (char *in, unsigned int inlen, GPtrArray **
 	
 	return folder;
 }
+
+
+char *
+mail_tools_folder_to_url (CamelFolder *folder)
+{
+	char *service_url, *url;
+	const char *full_name;
+	CamelService *service;
+	
+	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), NULL);
+	
+	full_name = folder->full_name;
+	while (*full_name == '/')
+		full_name++;
+	
+	service = (CamelService *) folder->parent_store;
+	service_url = camel_url_to_string (service->url, CAMEL_URL_HIDE_ALL);
+	url = g_strdup_printf ("%s%s%s", service_url, service_url[strlen (service_url)-1] != '/' ? "/" : "",
+			       full_name);
+	g_free (service_url);
+	
+	return url;
+}
