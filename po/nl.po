@@ -1711,7 +1711,7 @@ msgstr "S"
 
 #: calendar/gui/calendar-model.c:465
 msgid "E"
-msgstr "E
+msgstr "E"
 
 # calendar/gui/print.c:326
 #: calendar/gui/calendar-model.c:465
@@ -4778,7 +4778,7 @@ msgstr "Time-out tijdens AUTH-verzoek: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:777
 msgid "Bad authentication response from server.\n"
-msgstr "Fout aanmeldingsantwoord van server."
+msgstr "Fout aanmeldingsantwoord van server.\n"
 
 #: camel/providers/smtp/camel-smtp-transport.c:802
 #, c-format
