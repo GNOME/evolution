@@ -1,3 +1,11 @@
+2003-10-29  Chris Toshok  <toshok@ximian.com>
+
+	* Makefile.am (SUBDIRS): use $SMIME_DIR. instead of explicitly
+	including smime.
+
+	* configure.in: add some smime foo - a status message, an
+	AM_CONDITIONAL (ENABLE_SMIME)
+
 2003-10-17  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* configure.in: added a configure check for AI_ADDRCONFIG

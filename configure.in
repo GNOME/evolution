@@ -722,6 +722,7 @@ dnl
 dnl The Evolution security extensions are only built if these libraries are found
 dnl ********************************************************************************
 msg_ssl="no"
+msg_smime="no"
 
 dnl these 2 enable's are inverses of each other
 AC_ARG_ENABLE(nss, [  --enable-nss=[yes,no,static]        Attempt to use Mozilla libnss for SSL support.],
@@ -760,6 +761,8 @@ dnl If the user specifies --with-foo or --enable-nss=static, then we have to do 
 		PKG_CHECK_MODULES(NSS, mozilla-nss, have_nss="yes")
 		if test "x${have_nss}" = "xyes"; then
 			msg_ssl="yes (Mozilla NSS)"
+			msg_smime="yes (Mozilla NSS)"
+			enable_smime="yes"
 			mozilla_nspr="mozilla-nspr"
 			mozilla_nss="mozilla-nss"
 			AC_DEFINE(HAVE_NSS,1,[Define if you have NSS])
@@ -910,8 +913,10 @@ dnl If the user specifies --with-foo or --enable-nss=static, then we have to do 
 				AC_DEFINE(HAVE_SSL)
 				if test "$enable_nss" = "static"; then
 					msg_ssl="yes (Mozilla NSS:static)"
+					msg_smime="yes (Mozilla NSS:static)"
 		 		else
 					msg_ssl="yes (Mozilla NSS)"
+					msg_smime="yes (Mozilla NSS)"
 				fi # static_nss
 				MANUAL_NSS_LIBS="-L$with_nss_libs $nsslibs"
 			else
@@ -928,6 +933,8 @@ dnl If the user specifies --with-foo or --enable-nss=static, then we have to do 
 		MANUAL_NSS_LIBS="$MANUAL_NSPR_LIBS $MANUAL_NSS_LIBS"
 	fi
 fi
+
+AM_CONDITIONAL(ENABLE_SMIME, test x$enable_smime = xyes)
 
 AC_SUBST(MANUAL_NSPR_CFLAGS)
 AC_SUBST(MANUAL_NSPR_LIBS)
@@ -1453,6 +1460,7 @@ echo "\
 	Pilot conduits:   $msg_pilot
 	Kerberos 4/5:     $msg_krb4/$msg_krb5
 	SSL support:      $msg_ssl
+	SMIME support:    $msg_smime
 	IPv6 support:     $msg_ipv6
 	Dot Locking:	  $msg_dot
 	File Locking:	  $msg_file

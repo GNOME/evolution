@@ -24,6 +24,10 @@ EXTRA_DIST = 			\
 	intltool-extract.in	\
 	$(pkgconfig_DATA:.pc=.pc.in)
 
+if ENABLE_SMIME
+SMIME_DIR=smime
+endif
+
 SUBDIRS = 			\
         data                    \
         e-util                  \
@@ -34,7 +38,7 @@ SUBDIRS = 			\
         shell                   \
 	camel			\
 	filter			\
-	smime			\
+	$(SMIME_DIR)		\
 	addressbook		\
 	calendar		\
         art                     \
