@@ -96,6 +96,11 @@ static const EvolutionShellComponentFolderType folder_types[] = {
 	{ NULL, NULL, NULL, NULL }
 };
 
+static const char *schema_types[] = {
+	"mailto",
+	NULL
+};
+
 /* EvolutionShellComponent methods and signals.  */
 
 static EvolutionShellComponentResult
@@ -571,6 +576,23 @@ debug_cb (EvolutionShellComponent *shell_component, gpointer user_data)
 	camel_verbose_debug = 1;
 }
 
+static void
+handle_external_uri_cb (EvolutionShellComponent *shell_component,
+			const char *uri,
+			void *data)
+{
+	if (strncmp (uri, "mailto:", 7) != 0) {
+		/* FIXME: Exception?  The EvolutionShellComponent object should
+		   give me a chance to do so, but currently it doesn't.  */
+		g_warning ("Invalid URI requested to mail component -- %s", uri);
+		return;
+	}
+		
+	/* FIXME: Sigh.  This shouldn't be here.  But the code is messy, so
+	   I'll just put it here anyway.  */
+	send_to_url (uri);
+}
+
 static BonoboObject *
 component_fn (BonoboGenericFactory *factory, void *closure)
 {
@@ -578,7 +600,7 @@ component_fn (BonoboGenericFactory *factory, void *closure)
 	MailOfflineHandler *offline_handler;
 	
 	shell_component = evolution_shell_component_new (folder_types,
-							 NULL,
+							 schema_types,
 							 create_view,
 							 create_folder,
 							 remove_folder,
@@ -602,6 +624,8 @@ component_fn (BonoboGenericFactory *factory, void *closure)
 			    GTK_SIGNAL_FUNC (debug_cb), NULL);
 	gtk_signal_connect (GTK_OBJECT (shell_component), "destroy",
 			    GTK_SIGNAL_FUNC (owner_unset_cb), NULL);
+	gtk_signal_connect (GTK_OBJECT (shell_component), "handle_external_uri",
+			    GTK_SIGNAL_FUNC (handle_external_uri_cb), NULL);
 	
 	offline_handler = mail_offline_handler_new ();
 	bonobo_object_add_interface (BONOBO_OBJECT (shell_component), BONOBO_OBJECT (offline_handler));
