@@ -473,6 +473,7 @@ static void
 impl_createControls (PortableServer_Servant servant,
 		     Bonobo_Control *corba_sidebar_control,
 		     Bonobo_Control *corba_view_control,
+		     Bonobo_Control *corba_statusbar_control,
 		     CORBA_Environment *ev)
 {
 	TasksComponent *component = TASKS_COMPONENT (bonobo_object_from_servant (servant));
@@ -536,6 +537,16 @@ impl_createControls (PortableServer_Servant servant,
 	/* Return the controls */
 	*corba_sidebar_control = CORBA_Object_duplicate (BONOBO_OBJREF (sidebar_control), ev);
 	*corba_view_control = CORBA_Object_duplicate (BONOBO_OBJREF (view_control), ev);
+
+	/* FIXME temporary for testing.  */
+	{
+		GtkLabel *label = gtk_label_new ("Hey hey this is the tasks component");
+		BonoboControl *control;
+
+		gtk_widget_show (label);
+		control = bonobo_control_new (label);
+		*corba_statusbar_control = CORBA_Object_duplicate (BONOBO_OBJREF (control), ev);
+	}
 }
 
 static GNOME_Evolution_CreatableItemTypeList *

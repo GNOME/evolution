@@ -64,7 +64,6 @@ const char *e_shell_window_peek_current_component_id  (EShellWindow *shell);
 
 EShell            *e_shell_window_peek_shell                (EShellWindow *window);
 BonoboUIComponent *e_shell_window_peek_bonobo_ui_component  (EShellWindow *window);
-GtkWidget         *e_shell_window_peek_task_bar             (EShellWindow *window);
 
 void  e_shell_window_save_defaults  (EShellWindow *window);
 void  e_shell_window_show_settings  (EShellWindow *window);

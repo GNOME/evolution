@@ -318,6 +318,7 @@ static void
 impl_createControls (PortableServer_Servant servant,
 		     Bonobo_Control *corba_tree_control,
 		     Bonobo_Control *corba_view_control,
+		     Bonobo_Control *corba_statusbar_control,
 		     CORBA_Environment *ev)
 {
 	MailComponent *mail_component = MAIL_COMPONENT (bonobo_object_from_servant (servant));
@@ -343,6 +344,16 @@ impl_createControls (PortableServer_Servant servant,
 	g_signal_connect (view_control, "activate", G_CALLBACK (view_control_activate_cb), view_widget);
 	
 	g_signal_connect (tree_widget, "folder-selected", G_CALLBACK (folder_selected_cb), view_widget);
+
+	/* FIXME temporary for testing.  */
+	{
+		GtkWidget *label = gtk_label_new ("Hey hey this is the mailer");
+		BonoboControl *control;
+
+		gtk_widget_show (label);
+		control = bonobo_control_new (label);
+		*corba_statusbar_control = CORBA_Object_duplicate (BONOBO_OBJREF (control), ev);
+	}
 }
 
 

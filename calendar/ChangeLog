@@ -1,3 +1,11 @@
+2003-12-01  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/calendar-component.c (impl_createControls): Pass a label for
+	the status bar control for now.
+
+	* gui/tasks-component.c (impl_createControls): Pass a label for
+	the status bar control for now.
+
 2003-12-01  Rodney Dawes  <dobey@ximian.com>
 
 	* gui/GNOME_Evolution_Calendar.server.in.in:

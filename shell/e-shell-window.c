@@ -30,7 +30,6 @@
 #include "e-shell-window-commands.h"
 #include "e-shell-marshal.h"
 #include "e-sidebar.h"
-#include "e-task-bar.h"
 
 #include "e-util/e-lang-utils.h"
 
@@ -72,6 +71,7 @@ struct _ComponentView {
 
 	GtkWidget *sidebar_widget;
 	GtkWidget *view_widget;
+	GtkWidget *statusbar_widget;
 
 	int notebook_page_num;
 };
@@ -90,6 +90,7 @@ struct _EShellWindowPrivate {
 	/* Notebooks used to switch between components.  */
 	GtkWidget *sidebar_notebook;
 	GtkWidget *view_notebook;
+	GtkWidget *statusbar_notebook;
 
 	/* Bonobo foo.  */
 	BonoboUIComponent *ui_component;
@@ -105,7 +106,6 @@ struct _EShellWindowPrivate {
 	GtkWidget *offline_toggle;
 	GtkWidget *offline_toggle_image;
 	GtkWidget *menu_hint_label;
-	GtkWidget *task_bar;
 };
 
 
@@ -191,9 +191,11 @@ init_view (EShellWindow *window,
 	Bonobo_UIContainer container;
 	Bonobo_Control sidebar_control;
 	Bonobo_Control view_control;
+	Bonobo_Control statusbar_control;
 	CORBA_Environment ev;
 	int sidebar_notebook_page_num;
 	int view_notebook_page_num;
+	int statusbar_notebook_page_num;
 
 	g_assert (view->view_widget == NULL);
 	g_assert (view->sidebar_widget == NULL);
@@ -214,7 +216,7 @@ init_view (EShellWindow *window,
 
 	/* 2. Set up view.  */
 
-	GNOME_Evolution_Component_createControls (component_iface, &sidebar_control, &view_control, &ev);
+	GNOME_Evolution_Component_createControls (component_iface, &sidebar_control, &view_control, &statusbar_control, &ev);
 	if (BONOBO_EX (&ev)) {
 		g_warning ("Cannot create view for %s", view->component_id);
 
@@ -239,11 +241,17 @@ init_view (EShellWindow *window,
 	gtk_widget_show (view->view_widget);
 	bonobo_object_release_unref (view_control, NULL);
 
+	view->statusbar_widget = bonobo_widget_new_control_from_objref (statusbar_control, container);
+	gtk_widget_show (view->statusbar_widget);
+	bonobo_object_release_unref (statusbar_control, NULL);
+
 	gtk_notebook_append_page (GTK_NOTEBOOK (priv->sidebar_notebook), view->sidebar_widget, NULL);
 	gtk_notebook_append_page (GTK_NOTEBOOK (priv->view_notebook), view->view_widget, NULL);
+	gtk_notebook_append_page (GTK_NOTEBOOK (priv->statusbar_notebook), view->statusbar_widget, NULL);
 
 	sidebar_notebook_page_num = gtk_notebook_page_num (GTK_NOTEBOOK (priv->sidebar_notebook), view->sidebar_widget);
 	view_notebook_page_num = gtk_notebook_page_num (GTK_NOTEBOOK (priv->view_notebook), view->view_widget);
+	statusbar_notebook_page_num = gtk_notebook_page_num (GTK_NOTEBOOK (priv->view_notebook), view->statusbar_widget);
 
 	/* Since we always add a view page and a sidebar page at the same time...  */
 	g_assert (sidebar_notebook_page_num == view_notebook_page_num);
@@ -254,6 +262,7 @@ init_view (EShellWindow *window,
 
 	gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->view_notebook), view_notebook_page_num);
 	gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->sidebar_notebook), view_notebook_page_num);
+	gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->statusbar_notebook), view_notebook_page_num);
 
 	if (priv->current_view != NULL)
 		component_view_deactivate (priv->current_view);
@@ -279,6 +288,7 @@ switch_view (EShellWindow *window, ComponentView *component_view)
 
 		gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->view_notebook), component_view->notebook_page_num);
 		gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->sidebar_notebook), component_view->notebook_page_num);
+		gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->statusbar_notebook), component_view->notebook_page_num);
 	}
 
 	gconf_client_set_string (gconf_client, "/apps/evolution/shell/view_defaults/component_id",
@@ -411,7 +421,7 @@ ui_engine_add_hint_callback (BonoboUIEngine *engine,
 {
 	gtk_label_set_text (GTK_LABEL (window->priv->menu_hint_label), hint);
 	gtk_widget_show (window->priv->menu_hint_label);
-	gtk_widget_hide (window->priv->task_bar);
+	gtk_widget_hide (window->priv->statusbar_notebook);
 }
 
 static void
@@ -419,7 +429,7 @@ ui_engine_remove_hint_callback (BonoboUIEngine *engine,
 				EShellWindow *window)
 {
 	gtk_widget_hide (window->priv->menu_hint_label);
-	gtk_widget_show (window->priv->task_bar);
+	gtk_widget_show (window->priv->statusbar_notebook);
 }
 
 
@@ -494,18 +504,18 @@ setup_menu_hint_label (EShellWindow *window)
 }
 
 static void
-setup_task_bar (EShellWindow *window)
+setup_statusbar_notebook (EShellWindow *window)
 {
 	EShellWindowPrivate *priv;
 
 	priv = window->priv;
 
-	priv->task_bar = e_task_bar_new ();
+	priv->statusbar_notebook = gtk_notebook_new ();
+	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (priv->statusbar_notebook), FALSE);
+	gtk_notebook_set_show_border (GTK_NOTEBOOK (priv->statusbar_notebook), FALSE);
 
-	g_assert (priv->status_bar != NULL);
-
-	gtk_box_pack_start (GTK_BOX (priv->status_bar), priv->task_bar, TRUE, TRUE, 0);
-	gtk_widget_show (priv->task_bar);
+	gtk_box_pack_start (GTK_BOX (priv->status_bar), priv->statusbar_notebook, TRUE, TRUE, 0);
+	gtk_widget_show (priv->statusbar_notebook);
 }
 
 static void
@@ -521,7 +531,7 @@ setup_status_bar (EShellWindow *window)
 
 	setup_offline_toggle (window);
 	setup_menu_hint_label (window);
-	setup_task_bar (window);
+	setup_statusbar_notebook (window);
 
 	ui_engine = bonobo_window_get_ui_engine (BONOBO_WINDOW (window));
  
@@ -598,7 +608,7 @@ impl_dispose (GObject *object)
 	}
 
 	if (priv->tooltips != NULL) {
-		gtk_object_destroy (priv->tooltips);
+		gtk_object_destroy (GTK_OBJECT (priv->tooltips));
 		priv->tooltips = NULL;
 	}
 
@@ -780,14 +790,6 @@ e_shell_window_peek_bonobo_ui_component (EShellWindow *window)
 	g_return_val_if_fail (E_IS_SHELL_WINDOW (window), NULL);
 
 	return window->priv->ui_component;
-}
-
-GtkWidget *
-e_shell_window_peek_task_bar (EShellWindow *window)
-{
-	g_return_val_if_fail (E_IS_SHELL_WINDOW (window), NULL);
-
-	return window->priv->task_bar;
 }
 
 void

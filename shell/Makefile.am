@@ -109,6 +109,7 @@ eshellincludedir = $(privincludedir)/shell
 
 eshellinclude_HEADERS = 			\
 	Evolution.h				\
+	e-activity-handler.h			\
 	e-folder-list.h				\
 	e-folder-tree.h				\
 	e-folder.h				\
@@ -129,6 +130,7 @@ eshellinclude_HEADERS = 			\
 libeshell_la_SOURCES = 				\
 	$(IDL_GENERATED)			\
 	$(MARSHAL_GENERATED)			\
+	e-activity-handler.c			\
 	e-folder-list.c				\
 	e-folder-tree.c				\
 	e-folder.c				\
@@ -155,8 +157,6 @@ libeshell_la_LIBADD =				\
 evolution_SOURCES =				\
 	$(SELECT_NAMES_IDL_GENERATED)		\
 	$(DATASERVER_IDL_GENERATED)		\
-	e-activity-handler.c			\
-	e-activity-handler.h			\
 	e-component-registry.c			\
 	e-component-registry.h			\
 	e-config-upgrade.c			\

@@ -39,7 +39,8 @@ module Evolution {
 
 		/* Create the controls for embedding in the shell.  */
 		void createControls (out Bonobo::Control sidebar_control,
-				     out Bonobo::Control view_control)
+				     out Bonobo::Control view_control,
+				     out Bonobo::Control statusbar_control)
 			raises (Failed);
 
 		/* Request the component to quit.  The component will reply

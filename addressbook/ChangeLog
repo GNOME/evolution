@@ -1,3 +1,8 @@
+2003-12-01  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/component/addressbook-component.c (impl_createControls):
+	Pass a label for the status bar control for now.
+
 2003-12-01  Larry Ewing  <lewing@ximian.com>
 
 	* gui/component/Makefile.am (INCLUDES): remove

@@ -1,3 +1,33 @@
+2003-12-01  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell.c (struct _EShellPrivate): Remove member
+	activity_handler.
+	(setup_activity_interface): Remove.
+	(e_shell_init): Don't call.
+	(create_window): Don't attach the task bar to the activity
+	handler.
+
+	* e-shell-window.c (struct _ComponentView): New member
+	statusbar_widget.
+	(struct _EShellWindowPrivate): Remove member task_bar.
+	(init_view): Get the status bar control from createControls and
+	put it in the ComponentView struct.
+	(setup_task_bar): New.
+	(setup_statusbar_notebook): New.
+	(switch_view): Switch the statusbar notebook too.
+	(impl_dispose): Add missing GTK_OBJECT() cast.
+	(e_shell_window_peek_task_bar): Remove.
+
+	* Evolution-Component.idl (Component::createControls): New out arg
+	"statusbar_control"; this way components can provide their own
+	status bar.
+
+	* e-activity-handler.c, e-activity-handler.h: Turn into a plain
+	GObject; translate all the CORBA methods into plain C methods.
+
+	* Makefile.am: Move e-activity-handler to libeshell instead of it
+	being in the shell.
+
 2003-12-01  Rodney Dawes  <dobey@ximian.com>
 
 	* GNOME_Evolution_Shell.server.in.in:

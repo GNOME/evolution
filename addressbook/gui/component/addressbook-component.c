@@ -39,6 +39,7 @@
 #include <gtk/gtkmenu.h>
 #include <gtk/gtkimage.h>
 #include <gtk/gtkimagemenuitem.h>
+#include <gtk/gtklabel.h>	/* FIXME */
 #include <gtk/gtkmessagedialog.h>
 #include <gtk/gtkstock.h>
 #include <gconf/gconf-client.h>
@@ -149,6 +150,7 @@ static void
 impl_createControls (PortableServer_Servant servant,
 		     Bonobo_Control *corba_sidebar_control,
 		     Bonobo_Control *corba_view_control,
+		     Bonobo_Control *corba_statusbar_control,
 		     CORBA_Environment *ev)
 {
 	AddressbookComponent *addressbook_component = ADDRESSBOOK_COMPONENT (bonobo_object_from_servant (servant));
@@ -183,6 +185,16 @@ impl_createControls (PortableServer_Servant servant,
 
 	*corba_sidebar_control = CORBA_Object_duplicate (BONOBO_OBJREF (sidebar_control), ev);
 	*corba_view_control = CORBA_Object_duplicate (BONOBO_OBJREF (view_control), ev);
+
+	/* FIXME temporary for testing.  */
+	{
+		GtkWidget *label = gtk_label_new ("Hey hey this is the addressbook");
+		BonoboControl *control;
+
+		gtk_widget_show (label);
+		control = bonobo_control_new (label);
+		*corba_statusbar_control = CORBA_Object_duplicate (BONOBO_OBJREF (control), ev);
+	}
 }
 
 static GNOME_Evolution_CreatableItemTypeList *

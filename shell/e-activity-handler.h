@@ -1,7 +1,7 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 /* e-activity-handler.h
  *
- * Copyright (C) 2001  Ximian, Inc.
+ * Copyright (C) 2001, 2002, 2003 Novell, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -27,7 +27,7 @@
 
 #include "e-task-bar.h"
 
-#include <bonobo/bonobo-object.h>
+#include <glib-object.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -40,30 +40,43 @@ extern "C" {
 #define E_IS_ACTIVITY_HANDLER(obj)		(GTK_CHECK_TYPE ((obj), E_TYPE_ACTIVITY_HANDLER))
 #define E_IS_ACTIVITY_HANDLER_CLASS(klass)	(GTK_CHECK_CLASS_TYPE ((obj), E_TYPE_ACTIVITY_HANDLER))
 
-
+
 typedef struct _EActivityHandler        EActivityHandler;
 typedef struct _EActivityHandlerPrivate EActivityHandlerPrivate;
 typedef struct _EActivityHandlerClass   EActivityHandlerClass;
 
 struct _EActivityHandler {
-	BonoboObject parent;
+	GObject parent;
 
 	EActivityHandlerPrivate *priv;
 };
 
 struct _EActivityHandlerClass {
-	BonoboObjectClass parent_class;
-
-	POA_GNOME_Evolution_Activity__epv epv;
+	GObjectClass parent_class;
 };
 
-
-GtkType           e_activity_handler_get_type   (void);
-void              e_activity_handler_construct  (EActivityHandler *activity_hanlder);
-EActivityHandler *e_activity_handler_new        (void);
+
+GtkType  e_activity_handler_get_type  (void);
+
+EActivityHandler *e_activity_handler_new  (void);
 
 void  e_activity_handler_attach_task_bar  (EActivityHandler *activity_hanlder,
 					   ETaskBar         *task_bar);
+
+guint  e_activity_handler_operation_started  (EActivityHandler *activity_handler,
+					      const char       *component_id,
+					      GdkPixbuf        *icon_pixbuf,
+					      const char       *information,
+					      gboolean          cancellable);
+
+void  e_activity_handler_operation_progressing  (EActivityHandler *activity_handler,
+						 guint             activity_id,
+						 const char       *information,
+						 double            progress);
+
+void  e_activity_client_operation_finished  (EActivityHandler *activity_handler,
+					     guint             activity_id);
+
 
 #ifdef __cplusplus
 }
