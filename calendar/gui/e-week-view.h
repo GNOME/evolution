@@ -368,6 +368,9 @@ struct _EWeekView
 struct _EWeekViewClass
 {
 	GtkTableClass parent_class;
+
+	/* Notification signals */
+	void (* selection_changed) (EWeekView *week_view);
 };
 
 
@@ -450,6 +453,10 @@ void       e_week_view_cut_clipboard            (EWeekView      *week_view);
 void       e_week_view_copy_clipboard           (EWeekView      *week_view);
 void       e_week_view_paste_clipboard          (EWeekView      *week_view);
 
+void       e_week_view_delete_event		(EWeekView      *week_view);
+
+/* Returns the number of selected events (0 or 1 at present). */
+gint	   e_week_view_get_num_events_selected	(EWeekView	*week_view);
 
 /*
  * Internal functions called by the associated canvas items.

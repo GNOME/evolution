@@ -1,3 +1,70 @@
+2001-09-03  Damon Chaplin  <damon@ximian.com>
+
+	* gui/calendar-commands.c (calendar_control_activate): 
+	* gui/tasks-control.c (tasks_control_activate): don't call
+	calendar_config_check_timezone_set() now, since the startup wizard
+	handles that.
+
+	* gui/e-tasks.c (e_tasks_class_init): changed selection_changed signal
+	to GTK_RUN_LAST. It has no reason to be GTK_RUN_FIRST.
+
+	* gui/gnome-cal.c: 
+	* gui/e-week-view.c: 
+	* gui/e-day-view.c: added "selection_changed" signal,
+	XX_delete_event() and XX_get_num_events_selected().
+
+	* gui/e-day-view-top-item.c (e_day_view_top_item_draw): fix the shadow
+	around the dates at the top - it was 1 pixel off.
+
+	* gui/calendar-commands.c: added sensitize_commands(), similar to in
+	tasks-control.c, so we only make Cut/Copy/Delete sensitive when an
+	event is selected. Also added delete_event_cmd().
+
+	* gui/dialogs/task-page.c (task_page_set_summary): 
+	* gui/dialogs/event-page.c (event_page_set_summary): do nothing,
+	since the summary only gets changed on the main event/task page now.
+	Fixes bug #6939.
+
+	* gui/e-day-view.c (e_day_view_on_main_canvas_drag_data_received): 
+	(e_day_view_on_top_canvas_drag_data_received): check that we are
+	dragging an event from the same EDayView. We currently don't support
+	DnD from other widgets.
+	(e_day_view_update_top_canvas_drag): only get the summary if we
+	actually have an event. Fixes bug #5162.
+
+	* gui/e-day-view.c (e_day_view_on_editing_stopped): if the text hasn't
+	changed we need to call e_day_view_update_event_label() to show the
+	times again if necessary. Fixes bug #1813.
+
+	* gui/dialogs/comp-editor.c (comp_editor_destroy): destroy the
+	CompEditorPage objects here rather than in close_dialog(), after the
+	widgets have been destroyed. We do this because the widgets have lots
+	of signal handlers connected with the CompEditorPage objects as the
+	signal data, so we want to ensure that the data pointer is always
+	valid. (Alternatively we could disconnect all the handlers when the
+	CompEditorPage objects are destroyed, or use connect_while_alive()).
+	Fixes bug #7543.
+
+	Note: there is still a small bug in that if you type in a time and
+	then hit 'Save and Close', the time won't be saved. I'm not sure
+	where this should be fixed - should the actions which close the
+	dialog grab the focus to the toplevel, so any widgets currently
+	being edited finish the edit and emit 'changed'?
+	
+	* gui/dialogs/recurrence-page.c (append_exception): use
+	gtk_clist_set_row_data_full() so freeing is handled automatically by
+	the GtkClist. This helps avoid problems at destroy-time.
+	(exception_delete_cb): just call gtk_clist_remove() now. No need to
+	free the row data as GtkCList now handles it.
+	(recurrence_page_destroy): no need to free the data in the clist.
+
+	* gui/dialogs/alarm-page.c: ditto.
+
+	* gui/dialogs/meeting-page.c: ditto.
+	(etable_destroy_cb): save the ETable state in this new handler cb
+	rather than in the destroy method, since the widget will already be
+	destroyed by then.
+
 2001-08-31  Damon Chaplin  <damon@ximian.com>
 
 	* gui/e-itip-control.c: changed 3 occurrences of 'Replyed' to 'replied'

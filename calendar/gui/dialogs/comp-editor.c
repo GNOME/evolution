@@ -242,6 +242,7 @@ comp_editor_destroy (GtkObject *object)
 {
 	CompEditor *editor;
 	CompEditorPrivate *priv;
+	GList *l;
 
 	editor = COMP_EDITOR (object);
 	priv = editor->priv;
@@ -250,6 +251,12 @@ comp_editor_destroy (GtkObject *object)
 		gtk_widget_destroy (priv->window);
 		priv->window = NULL;
 	}
+
+	/* We want to destroy the pages after the widgets get destroyed,
+	   since they have lots of signal handlers connected to the widgets
+	   with the pages as the data. */
+	for (l = priv->pages; l != NULL; l = l->next)
+		gtk_object_unref (GTK_OBJECT (l->data));
 
 	gtk_signal_disconnect_by_data (GTK_OBJECT (priv->client), editor);
 	
@@ -807,14 +814,10 @@ static void
 close_dialog (CompEditor *editor)
 {
 	CompEditorPrivate *priv;
-	GList *l;
 	
 	priv = editor->priv;
 
 	g_assert (priv->window != NULL);
-
-	for (l = priv->pages; l != NULL; l = l->next)
-		gtk_object_unref (GTK_OBJECT (l->data));
 
 	gtk_object_destroy (GTK_OBJECT (editor));
 }

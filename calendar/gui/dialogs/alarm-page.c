@@ -211,32 +211,6 @@ alarm_page_init (AlarmPage *apage)
 	priv->updating = FALSE;
 }
 
-/* Frees all the alarm data and empties the list */
-static void
-free_alarms (AlarmPage *apage)
-{
-	AlarmPagePrivate *priv;
-	int i;
-
-	priv = apage->priv;
-
-	if (priv->list != NULL) {
-		GtkCList *clist = GTK_CLIST (priv->list);
-
-		for (i = 0; i < clist->rows; i++) {
-			CalComponentAlarm *alarm;
-			
-			alarm = gtk_clist_get_row_data (clist, i);
-			g_assert (alarm != NULL);
-			cal_component_alarm_free (alarm);
-			
-			gtk_clist_set_row_data (clist, i, NULL);
-		}
-	
-		gtk_clist_clear (clist);
-	}
-}
-
 /* Destroy handler for the alarm page */
 static void
 alarm_page_destroy (GtkObject *object)
@@ -254,8 +228,6 @@ alarm_page_destroy (GtkObject *object)
 		gtk_object_unref (GTK_OBJECT (priv->xml));
 		priv->xml = NULL;
 	}
-
-	free_alarms (apage);
 
 	if (priv->alarm) {
 		cal_component_alarm_free (priv->alarm);
@@ -319,7 +291,7 @@ clear_widgets (AlarmPage *apage)
 	e_dialog_option_menu_set (priv->time, CAL_ALARM_TRIGGER_RELATIVE_START, time_map);
 
 	/* List data */
-	free_alarms (apage);
+	gtk_clist_clear (GTK_CLIST (priv->list));
 }
 
 static char *
@@ -453,7 +425,7 @@ append_reminder (AlarmPage *apage, CalComponentAlarm *alarm)
 	c[0] = get_alarm_string (alarm);
 	i = gtk_clist_append (clist, c);
 
-	gtk_clist_set_row_data (clist, i, alarm);
+	gtk_clist_set_row_data_full (clist, i, alarm, (GtkDestroyNotify) cal_component_alarm_free);
 	gtk_clist_select_row (clist, i, 0);
 	g_free (c[0]);
 
@@ -704,7 +676,6 @@ delete_clicked_cb (GtkButton *button, gpointer data)
 	AlarmPage *apage;
 	AlarmPagePrivate *priv;
 	GtkCList *clist;
-	CalComponentAlarm *alarm;
 	int sel;
 
 	apage = ALARM_PAGE (data);
@@ -715,11 +686,6 @@ delete_clicked_cb (GtkButton *button, gpointer data)
 		return;
 
 	sel = GPOINTER_TO_INT (clist->selection->data);
-
-	alarm = gtk_clist_get_row_data (clist, sel);
-	g_assert (alarm != NULL);
-	cal_component_alarm_free (alarm);
-	gtk_clist_set_row_data (clist, sel, NULL);
 
 	gtk_clist_remove (clist, sel);
 	if (sel >= clist->rows)

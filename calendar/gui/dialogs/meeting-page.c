@@ -291,8 +291,6 @@ meeting_page_destroy (GtkObject *object)
 {
 	MeetingPage *mpage;
 	MeetingPagePrivate *priv;
-	ETable *real_table;
-	char *filename;
 	
 	g_return_if_fail (object != NULL);
 	g_return_if_fail (IS_MEETING_PAGE (object));
@@ -309,12 +307,6 @@ meeting_page_destroy (GtkObject *object)
 	itip_addresses_free (priv->addresses);
 	g_list_free (priv->address_strings);
 
-	filename = g_strdup_printf ("%s/config/et-header-meeting-page", 
-				    evolution_dir);
-	real_table = e_table_scrolled_get_table (E_TABLE_SCROLLED (priv->etable));
-	e_table_save_state (real_table, filename);
-	g_free (filename);
-	
 	if (priv->xml) {
 		gtk_object_unref (GTK_OBJECT (priv->xml));
 		priv->xml = NULL;
@@ -1227,6 +1219,17 @@ value_to_string (ETableModel *etm, int col, const void *val, void *data)
 }
 
 static void
+etable_destroy_cb (ETable *real_table, MeetingPage *mpage)
+{
+	char *filename;
+
+	filename = g_strdup_printf ("%s/config/et-header-meeting-page", 
+				    evolution_dir);
+	e_table_save_state (real_table, filename);
+	g_free (filename);
+}
+
+static void
 build_etable (MeetingPage *mpage)
 {
 	MeetingPagePrivate *priv;
@@ -1328,6 +1331,10 @@ build_etable (MeetingPage *mpage)
 	real_table = e_table_scrolled_get_table (E_TABLE_SCROLLED (priv->etable));
 	e_table_load_state (real_table, filename);
 	g_free (filename);
+
+	gtk_signal_connect (GTK_OBJECT (real_table),
+			    "destroy", GTK_SIGNAL_FUNC (etable_destroy_cb),
+			    mpage);
 
 	gtk_signal_connect (GTK_OBJECT (real_table),
 			    "right_click", GTK_SIGNAL_FUNC (right_click_cb), mpage);

@@ -696,15 +696,7 @@ event_page_fill_component (CompEditorPage *page, CalComponent *comp)
 static void
 event_page_set_summary (CompEditorPage *page, const char *summary)
 {
-	EventPage *epage;
-	EventPagePrivate *priv;
-
-	epage = EVENT_PAGE (page);
-	priv = epage->priv;
-
-	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->summary), epage);
-	e_utf8_gtk_entry_set_text (GTK_ENTRY (priv->summary), summary);
-	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->summary), epage);
+	/* nothing */
 }
 
 static void

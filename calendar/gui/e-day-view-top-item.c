@@ -218,13 +218,13 @@ e_day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 
 	/* Draw the shadow around the dates. */
 	gdk_draw_line (drawable, light_gc,
-		       left_edge + 1 - x, 1 - y,
+		       left_edge - x, 1 - y,
 		       canvas_width - 2 - x, 1 - y);
 	gdk_draw_line (drawable, light_gc,
-		       left_edge + 1 - x, 2 - y,
-		       left_edge + 1 - x, item_height - 1 - y);
+		       left_edge - x, 2 - y,
+		       left_edge - x, item_height - 2 - y);
 	gdk_draw_line (drawable, dark_gc,
-		       left_edge + 2 - x, item_height - 1 - y,
+		       left_edge - x, item_height - 1 - y,
 		       canvas_width - 1 - x, item_height - 1 - y);
 	gdk_draw_line (drawable, dark_gc,
 		       canvas_width - 1 - x, 1 - y,

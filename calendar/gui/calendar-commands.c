@@ -316,6 +316,18 @@ paste_event_cmd (BonoboUIComponent *uic, gpointer data, const gchar *path)
 }
 
 static void
+delete_event_cmd (BonoboUIComponent *uic, gpointer data, const gchar *path)
+{
+	GnomeCalendar *gcal;
+
+	gcal = GNOME_CALENDAR (data);
+
+	set_clock_cursor (gcal);
+	gnome_calendar_delete_event (gcal);
+	set_normal_cursor (gcal);
+}
+
+static void
 publish_freebusy_cmd (BonoboUIComponent *uic, gpointer data, const gchar *path)
 {
 	GnomeCalendar *gcal;
@@ -480,6 +492,42 @@ control_util_set_folder_bar_label (BonoboControl *control, char *label)
 	CORBA_exception_free (&ev);
 }
 
+/* Sensitizes the UI Component menu/toolbar commands based on the number of
+ * selected events. (This will always be 0 or 1 currently.)
+ */
+static void
+sensitize_commands (GnomeCalendar *gcal, BonoboControl *control)
+{
+	BonoboUIComponent *uic;
+	int n_selected;
+	
+	uic = bonobo_control_get_ui_component (control);
+	g_assert (uic != NULL);
+
+	n_selected = gnome_calendar_get_num_events_selected (gcal);
+
+	bonobo_ui_component_set_prop (uic, "/commands/CutEvent", "sensitive",
+				      n_selected == 0 ? "0" : "1",
+				      NULL);
+	bonobo_ui_component_set_prop (uic, "/commands/CopyEvent", "sensitive",
+				      n_selected == 0 ? "0" : "1",
+				      NULL);
+	bonobo_ui_component_set_prop (uic, "/commands/DeleteEvent", "sensitive",
+				      n_selected == 0 ? "0" : "1",
+				      NULL);
+}
+
+/* Callback used when the selection in the calendar views changes */
+static void
+selection_changed_cb (GnomeCalendar *gcal, gpointer data)
+{
+	BonoboControl *control;
+
+	control = BONOBO_CONTROL (data);
+
+	sensitize_commands (gcal, control);
+}
+
 static BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("CalendarPrint", file_print_cb),
 	BONOBO_UI_VERB ("CalendarPrintPreview", file_print_preview_cb),
@@ -493,6 +541,7 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("CutEvent", cut_event_cmd),
 	BONOBO_UI_VERB ("CopyEvent", copy_event_cmd),
 	BONOBO_UI_VERB ("PasteEvent", paste_event_cmd),
+	BONOBO_UI_VERB ("DeleteEvent", delete_event_cmd),
 
 	BONOBO_UI_VERB ("CalendarPrev", previous_clicked),
 	BONOBO_UI_VERB ("CalendarToday", today_clicked),
@@ -566,11 +615,19 @@ calendar_control_activate (BonoboControl *control,
 
 	gnome_calendar_setup_view_menus (gcal, uic);
 
+	gtk_signal_connect (GTK_OBJECT (gcal), "selection_changed",
+			    GTK_SIGNAL_FUNC (selection_changed_cb), control);
+
+	sensitize_commands (gcal, control);
+
 	bonobo_ui_component_thaw (uic, NULL);
 
 	/* Show the dialog for setting the timezone if the user hasn't chosen
-	   a default timezone already. */
+	   a default timezone already. This is done in the startup wizard now,
+	   so we don't do it here. */
+#if 0
 	calendar_config_check_timezone_set ();
+#endif
 
 	calendar_set_folder_bar_label (gcal, control);
 }
@@ -582,6 +639,9 @@ calendar_control_deactivate (BonoboControl *control, GnomeCalendar *gcal)
 	g_assert (uic != NULL);
 
 	gnome_calendar_discard_view_menus (gcal);
+
+	/* Stop monitoring the "selection_changed" signal */
+	gtk_signal_disconnect_by_data (GTK_OBJECT (gcal), control);
 
 	bonobo_ui_component_rm (uic, "/", NULL);
  	bonobo_ui_component_unset_container (uic);

@@ -154,6 +154,7 @@ struct _GnomeCalendarPrivate {
 
 enum {
 	DATES_SHOWN_CHANGED,
+	SELECTION_CHANGED,
 	LAST_SIGNAL
 };
 
@@ -233,6 +234,15 @@ gnome_calendar_class_init (GnomeCalendarClass *class)
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
 
+	gnome_calendar_signals[SELECTION_CHANGED] =
+		gtk_signal_new ("selection_changed",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (GnomeCalendarClass,
+						   selection_changed),
+				gtk_marshal_NONE__NONE,
+				GTK_TYPE_NONE, 0);
+
 	gtk_object_class_add_signals (object_class,
 				      gnome_calendar_signals,
 				      LAST_SIGNAL);
@@ -240,6 +250,7 @@ gnome_calendar_class_init (GnomeCalendarClass *class)
 	object_class->destroy = gnome_calendar_destroy;
 
 	class->dates_shown_changed = NULL;
+	class->selection_changed = NULL;
 }
 
 /* Callback used when the calendar query reports of an updated object */
@@ -318,6 +329,35 @@ dn_query_eval_error_cb (CalQuery *query, const char *error_str, gpointer data)
 	/* FIXME */
 
 	fprintf (stderr, "eval error: %s\n", error_str);
+}
+
+/* Returns the current view widget, a EDayView or EWeekView. */
+static GtkWidget*
+gnome_calendar_get_current_view_widget (GnomeCalendar *gcal)
+{
+	GnomeCalendarPrivate *priv;
+	GtkWidget *retval = NULL;
+
+	priv = gcal->priv;
+
+	switch (priv->current_view_type) {
+	case GNOME_CAL_DAY_VIEW:
+		retval = priv->day_view;
+		break;
+	case GNOME_CAL_WORK_WEEK_VIEW:
+		retval = priv->work_week_view;
+		break;
+	case GNOME_CAL_WEEK_VIEW:
+		retval = priv->week_view;
+		break;
+	case GNOME_CAL_MONTH_VIEW:
+		retval = priv->month_view;
+		break;
+	default:
+		g_assert_not_reached ();
+	}
+
+	return retval;
 }
 
 /* Computes the range of time that the date navigator is showing */
@@ -548,6 +588,16 @@ search_bar_category_changed_cb (CalSearchBar *cal_search, const char *category, 
 }
 
 static void
+view_selection_changed_cb (GtkWidget *view, GnomeCalendar *gcal)
+{
+	g_print ("In view_selection_changed_cb\n");
+
+	gtk_signal_emit (GTK_OBJECT (gcal),
+			 gnome_calendar_signals[SELECTION_CHANGED]);
+}
+
+
+static void
 setup_widgets (GnomeCalendar *gcal)
 {
 	GnomeCalendarPrivate *priv;
@@ -630,6 +680,8 @@ setup_widgets (GnomeCalendar *gcal)
 	gtk_widget_show (priv->day_view);
 	gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook),
 				  priv->day_view, gtk_label_new (""));
+	gtk_signal_connect (GTK_OBJECT (priv->day_view), "selection_changed",
+			    GTK_SIGNAL_FUNC (view_selection_changed_cb), gcal);
 
 	/* The Work Week View. */
 	priv->work_week_view = e_day_view_new ();
@@ -640,6 +692,8 @@ setup_widgets (GnomeCalendar *gcal)
 	gtk_widget_show (priv->work_week_view);
 	gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook),
 				  priv->work_week_view, gtk_label_new (""));
+	gtk_signal_connect (GTK_OBJECT (priv->work_week_view), "selection_changed",
+			    GTK_SIGNAL_FUNC (view_selection_changed_cb), gcal);
 
 	/* The Week View. */
 	priv->week_view = e_week_view_new ();
@@ -647,6 +701,8 @@ setup_widgets (GnomeCalendar *gcal)
 	gtk_widget_show (priv->week_view);
 	gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook),
 				  priv->week_view, gtk_label_new (""));
+	gtk_signal_connect (GTK_OBJECT (priv->week_view), "selection_changed",
+			    GTK_SIGNAL_FUNC (view_selection_changed_cb), gcal);
 
 	/* The Month View. */
 	priv->month_view = e_week_view_new ();
@@ -655,6 +711,8 @@ setup_widgets (GnomeCalendar *gcal)
 	gtk_widget_show (priv->month_view);
 	gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook),
 				  priv->month_view, gtk_label_new (""));
+	gtk_signal_connect (GTK_OBJECT (priv->month_view), "selection_changed",
+			    GTK_SIGNAL_FUNC (view_selection_changed_cb), gcal);
 
 	gnome_calendar_update_config_settings (gcal, TRUE);
 }
@@ -2077,6 +2135,8 @@ gnome_calendar_get_visible_time_range (GnomeCalendar *gcal,
 	GnomeCalendarPrivate *priv;
 	gboolean retval = FALSE;
 
+	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), FALSE);
+
 	priv = gcal->priv;
 
 	switch (priv->current_view_type) {
@@ -2477,3 +2537,39 @@ gnome_calendar_notify_dates_shown_changed (GnomeCalendar *gcal)
 				 gnome_calendar_signals[DATES_SHOWN_CHANGED]);
 	}
 }
+
+
+/* Returns the number of selected events (0 or 1 at present). */
+gint
+gnome_calendar_get_num_events_selected (GnomeCalendar *gcal)
+{
+	GtkWidget *view;
+	gint retval = 0;
+
+	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), 0);
+
+	view = gnome_calendar_get_current_view_widget (gcal);
+	if (E_IS_DAY_VIEW (view))
+		retval = e_day_view_get_num_events_selected (E_DAY_VIEW (view));
+	else
+		retval = e_week_view_get_num_events_selected (E_WEEK_VIEW (view));
+
+	return retval;
+}
+
+
+void
+gnome_calendar_delete_event		(GnomeCalendar  *gcal)
+{
+	GtkWidget *view;
+
+	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
+
+	view = gnome_calendar_get_current_view_widget (gcal);
+	if (E_IS_DAY_VIEW (view))
+		e_day_view_delete_event (E_DAY_VIEW (view));
+	else
+		e_week_view_delete_event (E_WEEK_VIEW (view));
+}
+
+

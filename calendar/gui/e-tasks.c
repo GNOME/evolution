@@ -96,7 +96,7 @@ e_tasks_class_init (ETasksClass *class)
 
 	e_tasks_signals[SELECTION_CHANGED] =
 		gtk_signal_new ("selection_changed",
-				GTK_RUN_FIRST,
+				GTK_RUN_LAST,
 				object_class->type,
 				GTK_SIGNAL_OFFSET (ETasksClass, selection_changed),
 				gtk_marshal_NONE__INT,

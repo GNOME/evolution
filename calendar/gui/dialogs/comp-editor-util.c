@@ -339,8 +339,9 @@ comp_editor_show_contacts_dialog (GNOME_Evolution_Addressbook_SelectNames corba_
 }
 
 
-/* A simple 'name <email>' parser.
-   FIXME: Should probably use camel functions or something. */
+/* A simple 'name <email>' parser. Input should be UTF8.
+   FIXME: Should probably use camel functions or something.
+   Also note that this is broken wrt UTF8 - can't use strchr etc. */
 static void
 parse_contact_string (const char *value, char **name, char **email)
 {

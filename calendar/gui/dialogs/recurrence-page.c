@@ -277,30 +277,13 @@ recurrence_page_init (RecurrencePage *rpage)
 	priv->comp = NULL;
 }
 
-/* Frees the rows and the row data in the exceptions GtkCList */
+/* Frees the CalComponentDateTime stored in the GtkCList */
 static void
-free_exception_clist_data (RecurrencePage *rpage)
+free_exception_date_time (CalComponentDateTime *dt)
 {
-	RecurrencePagePrivate *priv;
-	int i;
-
-	priv = rpage->priv;
-
-	if (priv->exception_list) {
-		GtkCList *clist = GTK_CLIST (priv->exception_list);
-
-		for (i = 0; i < clist->rows; i++) {
-			CalComponentDateTime *dt;
-			
-			dt = gtk_clist_get_row_data (clist, i);
-			g_free (dt->value);
-			g_free ((char*)dt->tzid);
-			g_free (dt);
-			gtk_clist_set_row_data (clist, i, NULL);
-		}
-	
-		gtk_clist_clear (clist);
-	}
+	g_free (dt->value);
+	g_free ((char*)dt->tzid);
+	g_free (dt);
 }
 
 /* Destroy handler for the recurrence page */
@@ -320,8 +303,6 @@ recurrence_page_destroy (GtkObject *object)
 		gtk_object_unref (GTK_OBJECT (priv->xml));
 		priv->xml = NULL;
 	}
-
-	free_exception_clist_data (rpage);
 
 	g_free (priv);
 	rpage->priv = NULL;
@@ -411,7 +392,7 @@ clear_widgets (RecurrencePage *rpage)
 	gtk_signal_handler_unblock_by_data (GTK_OBJECT (menu), rpage);
 
 	/* Exceptions list */
-	free_exception_clist_data (rpage);
+	gtk_clist_clear (GTK_CLIST (priv->exception_list));
 }
 
 /* Builds a static string out of an exception date */
@@ -462,7 +443,7 @@ append_exception (RecurrencePage *rpage, CalComponentDateTime *datetime)
 	c[0] = get_exception_string (dt);
 	i = gtk_clist_append (clist, c);
 
-	gtk_clist_set_row_data (clist, i, dt);
+	gtk_clist_set_row_data_full (clist, i, dt, (GtkDestroyNotify) free_exception_date_time);
 
 	gtk_clist_select_row (clist, i, 0);
 	gtk_signal_handler_unblock_by_data (GTK_OBJECT (clist), rpage);
@@ -2026,7 +2007,6 @@ exception_delete_cb (GtkWidget *widget, gpointer data)
 	RecurrencePagePrivate *priv;
 	GtkCList *clist;
 	int sel;
-	CalComponentDateTime *dt;
 
 	rpage = RECURRENCE_PAGE (data);
 	priv = rpage->priv;
@@ -2038,12 +2018,6 @@ exception_delete_cb (GtkWidget *widget, gpointer data)
 	field_changed (rpage);
 
 	sel = GPOINTER_TO_INT (clist->selection->data);
-
-	dt = gtk_clist_get_row_data (clist, sel);
-	g_assert (dt != NULL);
-	g_free (dt->value);
-	g_free ((char*)dt->tzid);
-	g_free (dt);
 
 	gtk_clist_remove (clist, sel);
 	if (sel >= clist->rows)

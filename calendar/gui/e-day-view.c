@@ -97,6 +97,14 @@
 #define E_DAY_VIEW_LAYOUT_TIMEOUT	100
 
 
+/* Signal IDs */
+enum {
+	SELECTION_CHANGED,
+	LAST_SIGNAL
+};
+static guint e_day_view_signals[LAST_SIGNAL] = { 0 };
+
+
 /* Drag and Drop stuff. */
 enum {
 	TARGET_CALENDAR_EVENT
@@ -470,6 +478,16 @@ e_day_view_class_init (EDayViewClass *class)
 	object_class = (GtkObjectClass *) class;
 	widget_class = (GtkWidgetClass *) class;
 
+	e_day_view_signals[SELECTION_CHANGED] =
+		gtk_signal_new ("selection_changed",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EDayViewClass, selection_changed),
+				gtk_marshal_NONE__NONE,
+				GTK_TYPE_NONE, 0);
+
+	gtk_object_class_add_signals (object_class, e_day_view_signals, LAST_SIGNAL);
+
 	/* Method override */
 	object_class->destroy		= e_day_view_destroy;
 
@@ -480,6 +498,8 @@ e_day_view_class_init (EDayViewClass *class)
 	widget_class->focus_in_event	= e_day_view_focus_in;
 	widget_class->focus_out_event	= e_day_view_focus_out;
 	widget_class->key_press_event	= e_day_view_key_press;
+
+	class->selection_changed = NULL;
 
 	/* clipboard atom */
 	if (!clipboard_atom)
@@ -1889,7 +1909,7 @@ e_day_view_remove_event_cb (EDayView *day_view,
 		event = &g_array_index (day_view->events[day],
 					EDayViewEvent, event_num);
 
-	/* If we were editing this event, set editing_event_num to -1 so
+	/* If we were editing this event, set editing_event_day to -1 so
 	   on_editing_stopped doesn't try to update the event. */
 	if (day_view->editing_event_day == day
 	    && day_view->editing_event_num == event_num)
@@ -2657,7 +2677,7 @@ get_current_event (EDayView *day_view)
 {
 	g_return_val_if_fail (E_IS_DAY_VIEW (day_view), NULL);
 
-	if (day_view->editing_event_num == -1)
+	if (day_view->editing_event_day == -1)
 		return NULL;
 
 	if (day_view->editing_event_day == E_DAY_VIEW_LONG_EVENT)
@@ -3582,26 +3602,15 @@ e_day_view_on_delete_occurrence (GtkWidget *widget, gpointer data)
 	gtk_object_unref (GTK_OBJECT (comp));
 }
 
-
 static void
-e_day_view_on_delete_appointment (GtkWidget *widget, gpointer data)
+e_day_view_delete_event_internal (EDayView *day_view, EDayViewEvent *event)
 {
-	EDayView *day_view;
-	EDayViewEvent *event;
 	CalComponentVType vtype;
-
-	day_view = E_DAY_VIEW (data);
-
-	event = e_day_view_get_popup_menu_event (day_view);
-	if (event == NULL)
-		return;
-
-	if (day_view->editing_event_day >= 0)
-		e_day_view_stop_editing_event (day_view);
 
 	vtype = cal_component_get_vtype (event->comp);
 
-	if (delete_component_dialog (event->comp, 1, vtype, widget)) {
+	if (delete_component_dialog (event->comp, 1, vtype,
+				     GTK_WIDGET (day_view))) {
 		const char *uid;
 
 		cal_component_get_uid (event->comp, &uid);
@@ -3612,6 +3621,47 @@ e_day_view_on_delete_appointment (GtkWidget *widget, gpointer data)
 		cal_client_remove_object (day_view->client, uid);
 	}
 }
+
+static void
+e_day_view_on_delete_appointment (GtkWidget *widget, gpointer data)
+{
+	EDayView *day_view;
+	EDayViewEvent *event;
+
+	day_view = E_DAY_VIEW (data);
+
+	event = e_day_view_get_popup_menu_event (day_view);
+	if (event == NULL)
+		return;
+
+	if (day_view->editing_event_day >= 0)
+		e_day_view_stop_editing_event (day_view);
+
+	e_day_view_delete_event_internal (day_view, event);
+}
+
+void
+e_day_view_delete_event		(EDayView       *day_view)
+{
+	EDayViewEvent *event;
+
+	g_return_if_fail (E_IS_DAY_VIEW (day_view));
+
+	if (day_view->editing_event_day == -1)
+		return;
+
+	if (day_view->editing_event_day == E_DAY_VIEW_LONG_EVENT)
+		event = &g_array_index (day_view->long_events,
+					EDayViewEvent,
+					day_view->editing_event_num);
+	else
+		event = &g_array_index (day_view->events[day_view->editing_event_day],
+					EDayViewEvent,
+					day_view->editing_event_num);
+
+	e_day_view_delete_event_internal (day_view, event);
+}
+
 
 static void
 e_day_view_on_cut (GtkWidget *widget, gpointer data)
@@ -5032,10 +5082,8 @@ e_day_view_key_press (GtkWidget *widget, GdkEventKey *event)
 
 	cal_component_set_categories (comp, day_view->default_category);
 
-	/* We add the event locally and start editing it. When we get the
-	   "update_event" callback from the server, we basically ignore it.
-	   If we were to wait for the "update_event" callback it wouldn't be
-	   as responsive and we may lose a few keystrokes. */
+	/* We add the event locally and start editing it. We don't send it
+	   to the server until the user finishes editing it. */
 	e_day_view_add_event (comp, dtstart, dtend, day_view);
 	e_day_view_check_layout (day_view);
 	gtk_widget_queue_draw (day_view->top_canvas);
@@ -5494,6 +5542,9 @@ e_day_view_on_editing_started (EDayView *day_view,
 		e_day_view_update_event_label (day_view, day, event_num);
 		e_day_view_reshape_main_canvas_resize_bars (day_view);
 	}
+
+	gtk_signal_emit (GTK_OBJECT (day_view),
+			 e_day_view_signals[SELECTION_CHANGED]);
 }
 
 
@@ -5545,28 +5596,29 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 	gtk_object_get (GTK_OBJECT (event->canvas_item),
 			"text", &text,
 			NULL);
+	g_assert (text != NULL);
 
 	/* Only update the summary if necessary. */
 	cal_component_get_summary (event->comp, &summary);
-	if (text && summary.value && !strcmp (text, summary.value)) {
-		g_free (text);
-
+	if (summary.value && !strcmp (text, summary.value)) {
 		if (day == E_DAY_VIEW_LONG_EVENT)
 			e_day_view_reshape_long_event (day_view, event_num);
-		return;
-	}
-
-	if (text) {
+		else
+			e_day_view_update_event_label (day_view, day,
+						       event_num);
+	} else {
 		summary.value = text;
 		summary.altrep = NULL;
 		cal_component_set_summary (event->comp, &summary);
 
-		g_free (text);
-	} else
-		cal_component_set_summary (event->comp, NULL);
+		if (!cal_client_update_object (day_view->client, event->comp))
+			g_message ("e_day_view_on_editing_stopped(): Could not update the object!");
+	}
 
-	if (!cal_client_update_object (day_view->client, event->comp))
-		g_message ("e_day_view_on_editing_stopped(): Could not update the object!");
+	g_free (text);
+
+	gtk_signal_emit (GTK_OBJECT (day_view),
+			 e_day_view_signals[SELECTION_CHANGED]);
 }
 
 
@@ -6164,7 +6216,6 @@ e_day_view_update_top_canvas_drag (EDayView *day_view,
 	      & GNOME_CANVAS_ITEM_VISIBLE)) {
 		CalComponentText summary;
 
-		cal_component_get_summary (event->comp, &summary);
 		if (event) {
 			cal_component_get_summary (event->comp, &summary);
 			text = g_strdup (summary.value);
@@ -6500,7 +6551,9 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 	struct icaltimetype itt;
 	time_t dt;
 
-	if ((data->length >= 0) && (data->format == 8)) {
+	/* Note that we only support DnD within the EDayView at present. */
+	if ((data->length >= 0) && (data->format == 8)
+	    && (day_view->drag_event_day != -1)) {
 		pos = e_day_view_convert_position_in_top_canvas (day_view,
 								 x, y, &day,
 								 NULL);
@@ -6527,7 +6580,7 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 
 				start_offset = event->start_minute;
 				end_offset = event->end_minute;
-			} else if (day_view->drag_event_day != -1) {
+			} else {
 				event = &g_array_index (day_view->events[day_view->drag_event_day],
 							EDayViewEvent,
 							day_view->drag_event_num);
@@ -6613,7 +6666,9 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 	x += scroll_x;
 	y += scroll_y;
 
-	if ((data->length >= 0) && (data->format == 8)) {
+	/* Note that we only support DnD within the EDayView at present. */
+	if ((data->length >= 0) && (data->format == 8)
+	    && (day_view->drag_event_day != -1)) {
 		pos = e_day_view_convert_position_in_main_canvas (day_view,
 								  x, y, &day,
 								  &row, NULL);
@@ -6626,7 +6681,7 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 			if (day_view->drag_event_day == E_DAY_VIEW_LONG_EVENT) {
 				event = &g_array_index (day_view->long_events, EDayViewEvent,
 							day_view->drag_event_num);
-			} else if (day_view->drag_event_day != -1) {
+			} else {
 				event = &g_array_index (day_view->events[day_view->drag_event_day],
 							EDayViewEvent,
 							day_view->drag_event_num);
@@ -6929,4 +6984,14 @@ e_day_view_layout_timeout_cb (gpointer data)
 
 	day_view->layout_timeout_id = 0;
 	return FALSE;
+}
+
+
+/* Returns the number of selected events (0 or 1 at present). */
+gint
+e_day_view_get_num_events_selected (EDayView *day_view)
+{
+	g_return_val_if_fail (E_IS_DAY_VIEW (day_view), 0);
+
+	return (day_view->editing_event_day != -1) ? 1 : 0;
 }

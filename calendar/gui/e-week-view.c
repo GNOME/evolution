@@ -80,6 +80,14 @@
 #define E_WEEK_VIEW_LAYOUT_TIMEOUT	100
 
 
+/* Signal IDs */
+enum {
+	SELECTION_CHANGED,
+	LAST_SIGNAL
+};
+static guint e_week_view_signals[LAST_SIGNAL] = { 0 };
+
+
 static void e_week_view_class_init (EWeekViewClass *class);
 static void e_week_view_init (EWeekView *week_view);
 static void e_week_view_destroy (GtkObject *object);
@@ -242,6 +250,16 @@ e_week_view_class_init (EWeekViewClass *class)
 	object_class = (GtkObjectClass *) class;
 	widget_class = (GtkWidgetClass *) class;
 
+	e_week_view_signals[SELECTION_CHANGED] =
+		gtk_signal_new ("selection_changed",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EWeekViewClass, selection_changed),
+				gtk_marshal_NONE__NONE,
+				GTK_TYPE_NONE, 0);
+
+	gtk_object_class_add_signals (object_class, e_week_view_signals, LAST_SIGNAL);
+
 	/* Method override */
 	object_class->destroy		= e_week_view_destroy;
 
@@ -254,6 +272,8 @@ e_week_view_class_init (EWeekViewClass *class)
 	widget_class->key_press_event	= e_week_view_key_press;
 	widget_class->expose_event	= e_week_view_expose_event;
 	widget_class->draw		= e_week_view_draw;
+
+	class->selection_changed = NULL;
 
 	/* clipboard atom */
 	if (!clipboard_atom)
@@ -2982,6 +3002,9 @@ e_week_view_on_editing_started (EWeekView *week_view,
 		e_week_view_reshape_event_span (week_view, event_num,
 						span_num);
 	}
+
+	gtk_signal_emit (GTK_OBJECT (week_view),
+			 e_week_view_signals[SELECTION_CHANGED]);
 }
 
 
@@ -3021,23 +3044,27 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 	gtk_object_get (GTK_OBJECT (span->text_item),
 			"text", &text,
 			NULL);
+	g_assert (text != NULL);
 
 	/* Only update the summary if necessary. */
 	cal_component_get_summary (event->comp, &summary);
-	if (text && summary.value && !strcmp (text, summary.value)) {
-		g_free (text);
+	if (summary.value && !strcmp (text, summary.value)) {
 		if (!e_week_view_is_one_day_event (week_view, event_num))
 			e_week_view_reshape_event_span (week_view, event_num,
 							span_num);
-		return;
+	} else {
+		summary.value = text;
+		summary.altrep = NULL;
+		cal_component_set_summary (event->comp, &summary);
+
+		if (!cal_client_update_object (week_view->client, event->comp))
+			g_message ("e_week_view_on_editing_stopped(): Could not update the object!");
 	}
 
-	summary.value = text;
-	cal_component_set_summary (event->comp, &summary);
 	g_free (text);
 
-	if (!cal_client_update_object (week_view->client, event->comp))
-		g_message ("e_week_view_on_editing_stopped(): Could not update the object!");
+	gtk_signal_emit (GTK_OBJECT (week_view),
+			 e_week_view_signals[SELECTION_CHANGED]);
 }
 
 
@@ -3191,11 +3218,8 @@ e_week_view_key_press (GtkWidget *widget, GdkEventKey *event)
 
 	cal_component_set_categories (comp, week_view->default_category);
 
-	/* We add the event locally and start editing it. We don't send the
-	   new event to the server until the edit is finished.
-	   FIXME: If we get an obj-updated or obj-removed signal while editing
-	   the event, and we have to do a re-layout, we may lose this new
-	   event. */
+	/* We add the event locally and start editing it. We don't send it
+	   to the server until the user finishes editing it. */
 	e_week_view_add_event (comp, dtstart, dtend, week_view);
 	e_week_view_check_layout (week_view);
 	gtk_widget_queue_draw (week_view->main_canvas);
@@ -3428,23 +3452,18 @@ e_week_view_on_delete_occurrence (GtkWidget *widget, gpointer data)
 
 
 static void
-e_week_view_on_delete_appointment (GtkWidget *widget, gpointer data)
+e_week_view_delete_event_internal (EWeekView *week_view, gint event_num)
 {
-	EWeekView *week_view;
-	EWeekViewEvent *event;
 	CalComponentVType vtype;
-
-	week_view = E_WEEK_VIEW (data);
-
-	if (week_view->popup_event_num == -1)
-		return;
+	EWeekViewEvent *event;
 
 	event = &g_array_index (week_view->events, EWeekViewEvent,
-				week_view->popup_event_num);
+				event_num);
 
 	vtype = cal_component_get_vtype (event->comp);
 
-	if (delete_component_dialog (event->comp, 1, vtype, widget)) {
+	if (delete_component_dialog (event->comp, 1, vtype,
+				     GTK_WIDGET (week_view))) {
 		const char *uid;
 
 		cal_component_get_uid (event->comp, &uid);
@@ -3455,6 +3474,35 @@ e_week_view_on_delete_appointment (GtkWidget *widget, gpointer data)
 		cal_client_remove_object (week_view->client, uid);
 	}
 }
+
+
+static void
+e_week_view_on_delete_appointment (GtkWidget *widget, gpointer data)
+{
+	EWeekView *week_view;
+
+	week_view = E_WEEK_VIEW (data);
+
+	if (week_view->popup_event_num == -1)
+		return;
+
+	e_week_view_delete_event_internal (week_view,
+					   week_view->popup_event_num);
+}
+
+
+void
+e_week_view_delete_event		(EWeekView       *week_view)
+{
+	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
+
+	if (week_view->editing_event_num == -1)
+		return;
+
+	e_week_view_delete_event_internal (week_view,
+					   week_view->editing_event_num);
+}
+
 
 static void
 e_week_view_on_cut (GtkWidget *widget, gpointer data)
@@ -3838,4 +3886,14 @@ e_week_view_layout_timeout_cb (gpointer data)
 
 	week_view->layout_timeout_id = 0;
 	return FALSE;
+}
+
+
+/* Returns the number of selected events (0 or 1 at present). */
+gint
+e_week_view_get_num_events_selected (EWeekView *week_view)
+{
+	g_return_val_if_fail (E_IS_WEEK_VIEW (week_view), 0);
+
+	return (week_view->editing_event_num != -1) ? 1 : 0;
 }
