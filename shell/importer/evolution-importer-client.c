@@ -162,7 +162,8 @@ evolution_importer_client_support_format (EvolutionImporterClient *client,
  * evolution_importer_client_load_file:
  * @client: The EvolutionImporterClient.
  * @filename: The file to load.
- * @folderpath: The full path to the folder, or NULL for Inbox.
+ * @folderpath: The full path to the folder, or NULL for the default store for
+ * the component (Inbox for the mailer, etc).
  *
  * Loads and initialises the importer.
  *
@@ -174,6 +175,7 @@ evolution_importer_client_load_file (EvolutionImporterClient *client,
 				     const char *folderpath)
 {
 	GNOME_Evolution_Importer corba_importer;
+	CORBA_char *folderpath_dup;
 	gboolean result;
 	CORBA_Environment ev;
 
@@ -183,8 +185,10 @@ evolution_importer_client_load_file (EvolutionImporterClient *client,
 
 	CORBA_exception_init (&ev);
 	corba_importer = bonobo_object_corba_objref (BONOBO_OBJECT (client));
+	folderpath_dup = CORBA_string_dup (folderpath ? folderpath : "");
 	result = GNOME_Evolution_Importer_loadFile (corba_importer,
-						    filename, folderpath, &ev);
+						    filename, 
+						    folderpath_dup, &ev);
 	CORBA_exception_free (&ev);
 
 	return result;

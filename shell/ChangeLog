@@ -1,3 +1,8 @@
+2001-03-30  Iain Holmes  <iain@ximian.com>
+
+	* importer/evolution-importer-client.c (evolution_importer_client_load_file):
+	Duplicate the string setting it to be nonNULL.
+
 2001-03-30  Dan Winship  <danw@ximian.com>
 
 	* Evolution-ShellComponent.idl: add a "debug" method to tell a
