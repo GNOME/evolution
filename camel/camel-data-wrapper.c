@@ -71,6 +71,7 @@ camel_data_wrapper_init (gpointer object, gpointer klass)
 
 	camel_data_wrapper->mime_type = header_content_type_new ("application", "octet-stream");
 	camel_data_wrapper->offline = FALSE;
+	camel_data_wrapper->rawtext = FALSE;
 }
 
 static void

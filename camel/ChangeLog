@@ -1,3 +1,20 @@
+2001-08-27  Not Zed  <NotZed@Ximian.com>
+
+	* camel-mime-part-utils.c (convert_buffer): re-read the iconv man
+	page, and treat the return value properly.  It returns the number
+	of non-reversible conversions performed, not the number of output
+	characters, sigh.
+	(check_html_charset): Changed to just take a buffer of data, and
+	not the mime parser.
+	(simple_data_wrapper_construct_from_parser): Since we dont need
+	the charset till we have all the data, search for the charset
+	after we've read the data, if we have html data with no charset in
+	the header.
+	(simple_data_wrapper_construct_from_parser): Remove the
+	seekable_source stuff.
+
+	* Re-apply patches from before.
+
 2001-08-25  Not Zed  <NotZed@Ximian.com>
 
 	["Summarising" and "Synchronising" are spelt with a "s" in 
