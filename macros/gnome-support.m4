@@ -69,7 +69,7 @@ AC_DEFUN([GNOME_SUPPORT_CHECKS],[
   AC_CHECK_FUNCS(realpath,,LIBOBJS="$LIBOBJS canonicalize.o")
 
   # to include `error.c' error.c has some HAVE_* checks
-  AC_CHECK_FUNCS(vprintf doprnt sterror_r)
+  AC_CHECK_FUNCS(vprintf doprnt strerror_r)
   AM_FUNC_ERROR_AT_LINE
 
   # This is required if we declare setreuid () and setregid ().

@@ -1,3 +1,7 @@
+1998-11-06  Raja R Harinath  <harinath@cs.umn.edu>
+
+	* gnome-support.m4: Fix stupid type (sterror_r -> strerror_r).
+
 1998-11-04  Raja R Harinath  <harinath@cs.umn.edu>
 
 	* gnome-support.m4 (need_gnome_support): Set this unconditionally
