@@ -528,45 +528,29 @@ item_key_press (ETableItem *eti, int row, int col, GdkEvent *event, ETree *et)
 {
 	int return_val = 0;
 	GdkEventKey *key = (GdkEventKey *) event;
-	GdkEventButton click;
 	ETreePath path;
+	int y, row_local, col_local;
+	GtkAdjustment *vadj;
 
 	switch (key->keyval) {
 	case GDK_Page_Down:
-		gtk_adjustment_set_value(
-			gtk_layout_get_vadjustment (GTK_LAYOUT (et->priv->table_canvas)),
-			CLAMP(gtk_layout_get_vadjustment (GTK_LAYOUT (et->priv->table_canvas))->value +
-			      (gtk_layout_get_vadjustment (GTK_LAYOUT (et->priv->table_canvas))->page_size - 20),
-			      0,
-			      gtk_layout_get_vadjustment (GTK_LAYOUT (et->priv->table_canvas))->upper -
-			      gtk_layout_get_vadjustment (GTK_LAYOUT (et->priv->table_canvas))->page_size));
-		click.type = GDK_BUTTON_PRESS;
-		click.window = GTK_LAYOUT (et->priv->table_canvas)->bin_window;
-		click.send_event = key->send_event;
-		click.time = key->time;
-		click.x = 30;
-		click.y = gtk_layout_get_vadjustment (GTK_LAYOUT (et->priv->table_canvas))->page_size - 1;
-		click.state = key->state;
-		click.button = 1;
-		gtk_widget_event(GTK_WIDGET(et->priv->table_canvas),
-				 (GdkEvent *) &click);
+		vadj = gtk_layout_get_vadjustment (GTK_LAYOUT (et->priv->table_canvas));
+		y = CLAMP(vadj->value + (2 * vadj->page_size - 20), 0, vadj->upper);
+		y -= vadj->value;
+		e_tree_get_cell_at (et, 30, y, &row_local, &col_local);
+		row_local = e_tree_view_to_model_row (et, row_local);
+		col_local = e_selection_model_cursor_col(E_SELECTION_MODEL (et->priv->selection));
+		e_selection_model_do_something(E_SELECTION_MODEL (et->priv->selection), row_local, col_local, key->state);
 		return_val = 1;
 		break;
 	case GDK_Page_Up:
-		gtk_adjustment_set_value(
-			gtk_layout_get_vadjustment (GTK_LAYOUT (et->priv->table_canvas)),
-			gtk_layout_get_vadjustment (GTK_LAYOUT (et->priv->table_canvas))->value -
-			(gtk_layout_get_vadjustment (GTK_LAYOUT (et->priv->table_canvas))->page_size - 20));
-		click.type = GDK_BUTTON_PRESS;
-		click.window = GTK_LAYOUT (et->priv->table_canvas)->bin_window;
-		click.send_event = key->send_event;
-		click.time = key->time;
-		click.x = 30;
-		click.y = 1;
-		click.state = key->state;
-		click.button = 1;
-		gtk_widget_event(GTK_WIDGET(et->priv->table_canvas),
-				 (GdkEvent *) &click);
+		vadj = gtk_layout_get_vadjustment (GTK_LAYOUT (et->priv->table_canvas));
+		y = CLAMP(vadj->value - (vadj->page_size - 20), 0, vadj->upper);
+		y -= vadj->value;
+		e_tree_get_cell_at (et, 30, y, &row_local, &col_local);
+		row_local = e_tree_view_to_model_row (et, row_local);
+		col_local = e_selection_model_cursor_col(E_SELECTION_MODEL (et->priv->selection));
+		e_selection_model_do_something(E_SELECTION_MODEL (et->priv->selection), row_local, col_local, key->state);
 		return_val = 1;
 		break;
 	case '=':
