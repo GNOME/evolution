@@ -1,3 +1,8 @@
+2002-01-09  Christian Rose  <menthos@menthos.com>
+
+	* POTFILES.in: Sorted and added LOTS of missing files.
+	* sv.po: Updated Swedish translation.
+
 2002-01-05  Christian Rose  <menthos@menthos.com>
 
 	* sv.po: Updated Swedish translation.
