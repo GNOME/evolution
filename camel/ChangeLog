@@ -1,5 +1,14 @@
 2002-03-07  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-pgp-mime.c (camel_pgp_mime_part_sign): Add support for
+	hash type RIPEMD160.
+
+	* camel-cipher-context.h: Add RIPEMD160 hash type.
+
+	* camel-pgp-context.c (pgp_sign): Updated to consider hash
+	function for pgp5 and pgp6.
+	(pgp_clearsign): Same.
+
 	* camel-tcp-stream-openssl.c (stream_read): Add a timeout on the
 	select.
 	(stream_write): Same.

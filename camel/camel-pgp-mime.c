@@ -294,6 +294,9 @@ camel_pgp_mime_part_sign (CamelPgpContext *context, CamelMimePart **mime_part, c
 	case CAMEL_CIPHER_HASH_SHA1:
 		hash_type = "pgp-sha1";
 		break;
+	case CAMEL_CIPHER_HASH_RIPEMD160:
+		hash_type = "pgp-ripemd160";
+		break;
 	default:
 		/* set a reasonable default */
 		hash = CAMEL_CIPHER_HASH_SHA1;

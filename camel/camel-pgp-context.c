@@ -540,6 +540,53 @@ crypto_exec_with_passwd (const char *path, char *argv[], const char *input, int 
  *                     Public crypto functions
  *----------------------------------------------------------------------*/
 
+static char *
+hash_string (CamelPgpContext *ctx, CamelCipherHash hash)
+{
+	if (hash == CAMEL_CIPHER_HASH_DEFAULT)
+		return NULL;
+	
+	switch (ctx->priv->type) {
+	case CAMEL_PGP_TYPE_GPG:
+		switch (hash) {
+		case CAMEL_CIPHER_HASH_MD2:
+			return "MD2";
+		case CAMEL_CIPHER_HASH_MD5:
+			return "MD5";
+		case CAMEL_CIPHER_HASH_SHA1:
+			return "SHA1";
+		case CAMEL_CIPHER_HASH_RIPEMD160:
+			return "RIPEMD160";
+		default:
+			g_assert_not_reached ();
+		}
+		break;
+	case CAMEL_PGP_TYPE_PGP2:
+		/* FIXME: find a way to specify a hash algorithm for pgp2 */
+		return NULL;
+	case CAMEL_PGP_TYPE_PGP5:
+	case CAMEL_PGP_TYPE_PGP6:
+		switch (hash) {
+		case CAMEL_CIPHER_HASH_MD2:
+			return "+hashnum=5";
+		case CAMEL_CIPHER_HASH_MD5:
+			return "+hashnum=1";
+		case CAMEL_CIPHER_HASH_SHA1:
+			return "+hashnum=2";
+		case CAMEL_CIPHER_HASH_RIPEMD160:
+			return "+hashnum=3";
+		default:
+			g_assert_not_reached ();
+		}
+		break;
+	default:
+		g_assert_not_reached ();
+		break;
+	}
+	
+	return NULL;
+}
+
 static int
 pgp_sign (CamelCipherContext *ctx, const char *userid, CamelCipherHash hash,
 	  CamelStream *istream, CamelStream *ostream, CamelException *ex)
@@ -590,20 +637,7 @@ pgp_sign (CamelCipherContext *ctx, const char *userid, CamelCipherHash hash,
 		goto exception;
 	}
 	
-	switch (hash) {
-	case CAMEL_CIPHER_HASH_DEFAULT:
-		hash_str = NULL;
-		break;
-	case CAMEL_CIPHER_HASH_MD5:
-		hash_str = "MD5";
-		break;
-	case CAMEL_CIPHER_HASH_SHA1:
-		hash_str = "SHA1";
-		break;
-	default:
-		g_assert_not_reached ();
-		break;
-	}
+	hash_str = hash_string (context, hash);
 	
 	i = 0;
 	switch (context->priv->type) {
@@ -639,38 +673,44 @@ pgp_sign (CamelCipherContext *ctx, const char *userid, CamelCipherHash hash,
 		argv[i++] = passwd_fd;
 		break;
 	case CAMEL_PGP_TYPE_PGP5:
-		/* FIXME: respect hash */
 		argv[i++] = "pgps";
+		
+		if (hash_str)
+			argv[i++] = hash_str;
 		
 		if (userid) {
 			argv[i++] = "-u";
 			argv[i++] = (char *) userid;
 		}
 		
-		argv[i++] = "-b";
-		argv[i++] = "-f";
-		argv[i++] = "-z";
-		argv[i++] = "-a";
-		argv[i++] = "-o";
-		argv[i++] = "-";        /* output to stdout */
+		argv[i++] = "-b";  /* -b means break off (detach) the signature */
+		argv[i++] = "-f";  /* -f means act as a unix-style filter */
+		argv[i++] = "-v";  /* -v means verbose diagnostic messages */
+		argv[i++] = "-z";  /* FIXME: do we want this option!? */
+		argv[i++] = "-a";  /* -a means ascii armor */
+		argv[i++] = "-o";  /* -o specifies an output stream */
+		argv[i++] = "-";   /* ...in this case, stdout */
 		
 		sprintf (passwd_fd, "PGPPASSFD=%d", passwd_fds[0]);
 		putenv (passwd_fd);
 		break;
 	case CAMEL_PGP_TYPE_PGP2:
 	case CAMEL_PGP_TYPE_PGP6:
-		/* FIXME: respect hash */
 		argv[i++] = "pgp";
+		
+		if (hash_str)
+			argv[i++] = hash_str;
 		
 		if (userid) {
 			argv[i++] = "-u";
 			argv[i++] = (char *) userid;
 		}
 		
-		argv[i++] = "-f";
-		argv[i++] = "-a";
-		argv[i++] = "-o";
-		argv[i++] = "-";
+		argv[i++] = "-f";  /* -f means act as a unix-style filter */
+		argv[i++] = "-l";  /* -l means show longer more descriptive diagnostic messages */
+		argv[i++] = "-a";  /* -a means ascii armor */
+		argv[i++] = "-o";  /* -o specifies an output stream */
+		argv[i++] = "-";   /* ...in this case, stdout */
 		
 		argv[i++] = "-sb"; /* create a detached signature */
 		sprintf (passwd_fd, "PGPPASSFD=%d", passwd_fds[0]);
@@ -771,20 +811,7 @@ pgp_clearsign (CamelCipherContext *ctx, const char *userid, CamelCipherHash hash
 		goto exception;
 	}
 	
-	switch (hash) {
-	case CAMEL_CIPHER_HASH_DEFAULT:
-		hash_str = NULL;
-		break;
-	case CAMEL_CIPHER_HASH_MD5:
-		hash_str = "MD5";
-		break;
-	case CAMEL_CIPHER_HASH_SHA1:
-		hash_str = "SHA1";
-		break;
-	default:
-		g_assert_not_reached ();
-		break;
-	}
+	hash_str = hash_string (context, hash);
 	
 	i = 0;
 	switch (context->priv->type) {
@@ -820,37 +847,43 @@ pgp_clearsign (CamelCipherContext *ctx, const char *userid, CamelCipherHash hash
 		argv[i++] = passwd_fd;
 		break;
 	case CAMEL_PGP_TYPE_PGP5:
-		/* FIXME: modify to respect hash */
 		argv[i++] = "pgps";
+		
+		if (hash_str)
+			argv[i++] = hash_str;
 		
 		if (userid) {
 			argv[i++] = "-u";
 			argv[i++] = (char *) userid;
 		}
 		
-		argv[i++] = "-f";
-		argv[i++] = "-z";
-		argv[i++] = "-a";
-		argv[i++] = "-o";
-		argv[i++] = "-";        /* output to stdout */
+		argv[i++] = "-f";  /* -f means act as a unix-style filter */
+		argv[i++] = "-v";  /* -v means verbose diagnostic messages */
+		argv[i++] = "-z";  /* FIXME: do we want this option!? */
+		argv[i++] = "-a";  /* -a means ascii armor */
+		argv[i++] = "-o";  /* -o specifies an output stream */
+		argv[i++] = "-";   /* ...in this case, stdout */
 		
 		sprintf (passwd_fd, "PGPPASSFD=%d", passwd_fds[0]);
 		putenv (passwd_fd);
 		break;
 	case CAMEL_PGP_TYPE_PGP2:
 	case CAMEL_PGP_TYPE_PGP6:
-		/* FIXME: modify to respect hash */
 		argv[i++] = "pgp";
+		
+		if (hash_str)
+			argv[i++] = hash_str;
 		
 		if (userid) {
 			argv[i++] = "-u";
 			argv[i++] = (char *) userid;
 		}
 		
-		argv[i++] = "-f";
-		argv[i++] = "-a";
-		argv[i++] = "-o";
-		argv[i++] = "-";
+		argv[i++] = "-f";  /* -f means act as a unix-style filter */
+		argv[i++] = "-l";  /* -l means show longer more descriptive diagnostic messages */
+		argv[i++] = "-a";  /* -a means ascii armor */
+		argv[i++] = "-o";  /* -o specifies an output stream */
+		argv[i++] = "-";   /* ...in this case, stdout */
 		
 		argv[i++] = "-st";
 		sprintf (passwd_fd, "PGPPASSFD=%d", passwd_fds[0]);
@@ -1383,6 +1416,7 @@ pgp_decrypt (CamelCipherContext *ctx, CamelStream *istream,
 		break;
 	case CAMEL_PGP_TYPE_PGP5:
 		argv[i++] = "pgpv";
+		
 		argv[i++] = "-f";
 		argv[i++] = "+batchmode=1";
 		
@@ -1392,6 +1426,7 @@ pgp_decrypt (CamelCipherContext *ctx, CamelStream *istream,
 	case CAMEL_PGP_TYPE_PGP2:
 	case CAMEL_PGP_TYPE_PGP6:
 		argv[i++] = "pgp";
+		
 		argv[i++] = "-f";
 		
 		sprintf (passwd_fd, "PGPPASSFD=%d", passwd_fds[0]);
