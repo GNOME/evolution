@@ -14,7 +14,6 @@
 <!ENTITY USAGE-CALENDAR SYSTEM "usage-calendar.xml">
 <!ENTITY USAGE-EXCHANGE SYSTEM "usage-exchange.xml">
 <!ENTITY USAGE-SYNC SYSTEM "usage-sync.xml">
-<!ENTITY USAGE-PRINT SYSTEM "usage-print.xml">
 <!ENTITY CONFIG-PREFS SYSTEM "config-prefs.xml">
 <!ENTITY CONFIG-SYNC SYSTEM "config-sync.xml">
 <!ENTITY MENUREF SYSTEM "menuref.xml">
@@ -32,11 +31,12 @@
 <!-- Almost every chapter is an entity.  Files, Chapter id's, and
 entity names correspond.  APX is for appendix.  -->
 
-<!-- STYLE RULES: Use "guilabel" instead of "guibutton everywhere. -->
-<!-- "Address Book" is two words. -->
-<!-- The "application" tag is not used around "Evolution." -->
-<!-- filenames use  command tags so they appear in the same font as commands -->
-<!-- there is one bar and it is the Shortcut Bar. The folder bar is dead. -->
+<!-- STYLE RULES:
+* Use "guilabel" instead of "guibutton" everywhere.
+* "Address Book" is two words, used instead of "Contacts" where possible.
+* The "application" tag is not used around "Evolution."
+* Filenames use  command tags so they appear in the same font as commands 
+* There is one bar and it is the Shortcut Bar. The folder bar is dead. -->
 
 <!-- FIXME, TODO:   take new screenshots, -->
 
@@ -95,7 +95,6 @@ entity names correspond.  APX is for appendix.  -->
     &USAGE-CALENDAR;
     &USAGE-EXCHANGE;
     &USAGE-SYNC; 
-    &USAGE-PRINT;
   </part>
   <part id="config">
   <title>Configuring and Managing Ximian Evolution</title>

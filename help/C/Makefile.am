@@ -21,8 +21,6 @@ figs = \
 	figures/mail-threaded.png		\
 	figures/mainwindow-pic.png		\
 	figures/newmsg.png			\
-	figures/print-dest.png			\
-	figures/print-preview.png		\
 	figures/replymsg.png			\
 	figures/schedule.png			\
 	figures/summary.png			\
@@ -48,7 +46,6 @@ entities =	\
 	usage-mail-org.xml	\
 	usage-mail.xml		\
 	usage-mainwindow.xml	\
-	usage-print.xml		\
 	usage-sync.xml
 
 include $(top_srcdir)/help/xmldocs.make

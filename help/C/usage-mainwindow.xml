@@ -27,8 +27,8 @@
       <para>
         With Ximian Evolution, you can
         accomplish your most common daily tasks faster.  For example, it
-        takes only one or two clicks to enter an appointment or an
-        address card sent to you by email, or to send email to a contact
+        takes only one or two clicks to enter appointment or
+        contact information sent to you by email, or to send email to a contact
         or appointment.  Ximian Evolution
         makes displays faster and more efficient, so searches are faster
         and memory usage is lower.  People who get lots of mail will
@@ -593,7 +593,7 @@
 	files:
           <variablelist>
            <varlistentry>
-	    <term>VCard (.vcf, gcrd):</term>
+	    <term>VCard (.vcf, .gcrd):</term>
 	    <listitem>
 	      <para>
 	         The address book format used by the GNOME, KDE, and
@@ -882,7 +882,7 @@ standard mbox file format, which
         Ximian Evolution's most important job is
         to give you access to your information and help you use it
         quickly.  One way it does that is through the
-        <interface>shortcut bar</interface>, the column on the left
+        shortcut bar, the column on the left
         hand side of the main window.  The  buttons with names
         like <guilabel>Mail</guilabel> and
         <guilabel>Contacts</guilabel> are the shortcuts. Above them
@@ -902,124 +902,32 @@ standard mbox file format, which
     </para>
 
     <para>
-       
-      A typical <guilabel>Local</guilabel> folder contains the following folders:
-      <itemizedlist>
-	 <listitem>
-	    <para>
-	     <guilabel>Calendar</guilabel>, for appointments and
-	     event listings.
-	   </para>
-	 </listitem> 
-	 <listitem>
-	    <para>
-	    <guilabel>Contacts</guilabel>, for address cards.
-	   </para>
-	 </listitem>
-         <listitem>
-	    <para>
-	    <guilabel>Drafts</guilabel>, for messages you started and didn't finish.
-	   </para>
-	 </listitem>
-	 <listitem>
-	    <para>
-	     <guilabel>Inbox</guilabel>, for incoming mail. 
-	   </para>
-	 </listitem>
-
-	<listitem>
-	   <para>
-	    <guilabel>Outbox</guilabel>, for messages you have written
-	    but not yet sent.  This will be empty unless you use
-	    Ximian Evolution while offline.
-	   </para>
-	 </listitem>
-
-	<listitem>
-	   <para>
-	    <guilabel>Sent</guilabel>, for sent mail.
-	   </para>
-	 </listitem>
-
-	<listitem>
-	   <para>
-	    <guilabel>Tasks</guilabel>, for your task list. Portions
-            of your task list are reflected in the calendar, as well
-            as in the summary folder.
-	   </para>
-	 </listitem>
-
-	<listitem>
-	    <para>
-	    <guilabel>Trash</guilabel>, a vFolder view of all the
-	    messages you have marked for deletion but not yet
-	    <glossterm linkend="expunge">expunged</glossterm>.
-	   </para>
-	 </listitem>
-      </itemizedlist>
-
-    </para>
-    <tip id="foldertips">
-    <title>Navigating without the Shortcut Bar</title>
-       <para>
-         You don't need the folder bar or the shortcut bar to move
-         around the main window. You can use the <keycap>Tab</keycap>
-         key to switch from one part of the window to another.
-       </para>
-     </tip>
-
-    <para>
        If you get large volumes of mail, you'll want more folders than
-       just your Inbox.  To create a new folder:
+       just your Inbox; you can also create multiple calendar, task,
+      or address book folders. 
+    </para>
+    <para>
+      To create a new folder:
 	<orderedlist numeration="arabic">
 	  <listitem>
 	    <para>
-	      Select
-	      <menuchoice> <guimenu>File</guimenu>
-		<guisubmenu>New</guisubmenu>
-		<guimenuitem>Folder</guimenuitem></menuchoice>
-	or press the keyboard shortcut 
+              Right click on the list of folders, and select 
+              <guilabel>New Folder</guilabel>.
+                <!--  FIXME: this was taken out: or press the keyboard shortcut  
                 <keycombo action="simul">
 		<keycap>Shift</keycap>
 		<keycap>Ctrl</keycap>
-		<keycap>E</keycap>
-	      </keycombo>.
+		<keycap>F</keycap>
+	      </keycombo>.  -->
 	    </para>
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Select the name of the folder in the <guilabel>Folder
+	      Enter the name of the folder in the <guilabel>Folder
 		Name</guilabel> field.
 	    </para>
 	  </listitem>
-	  <listitem>
-	    <para>
-	      Select the folder type.  The available options are.
-	      <itemizedlist>
-		<listitem>
-		  <para>
-		    Calendar
-		  </para>
-		</listitem>
-		<listitem>
-		  <para>
-		    Contacts
-		  </para>
-		</listitem>
-		<listitem>
-		  <para>
-		    Mail
-		  </para>
-		</listitem>
-		<listitem>
-		  <para>
-		    Tasks
-		  </para>
-		</listitem>
-	      </itemizedlist>
-
-	    </para>
-	  </listitem>
+	 
 	  <listitem>
 	    <para>
 	      Choose the location of the new folder.
@@ -1027,7 +935,7 @@ standard mbox file format, which
 	  </listitem>
 	</orderedlist>
       </para>
-    
+
     <sect3 id="subfolders">
     <title>Subfolders</title>
       <para>
@@ -1036,28 +944,18 @@ standard mbox file format, which
 	organizational system.
       </para>
 
-       <note>
-	  <title>Folders Have Limits</title>
-	  <para>
-              Calendars must go in calendar folders, mail in mail
-	      folders, and contacts in contact folders.
-           </para>
-	</note>
-
     <para>
       Right-clicking will bring up a menu for just about anything in
       Ximian Evolution.  If you right-click on a
       folder, you'll have a menu with the following options:
       <itemizedlist>
-	<listitem><para><guimenuitem>View</guimenuitem>, to view the folder. </para></listitem>
-	<listitem><para><guimenuitem>Open in New Window</guimenuitem> to view the folder in another window. </para></listitem>
+	<listitem><para><guimenuitem>Copy</guimenuitem>, to copy the folder to another place. When you select this item, Evolution offers a choice of locations to copy to. </para></listitem>
 	<listitem><para><guimenuitem>Move</guimenuitem>, to move the folder to another location. </para></listitem>
-	<listitem><para><guimenuitem>Copy</guimenuitem>, to duplicate the folder. </para></listitem>
 	<listitem><para><guimenuitem>Delete</guimenuitem>, to delete the folder and all its contents. </para></listitem>
+	<listitem><para><guimenuitem>New Folder</guimenuitem>, to create another folder in the same location. </para></listitem>
 	<listitem><para><guimenuitem>Rename</guimenuitem>, to change its name. </para></listitem>
-	<listitem><para><guimenuitem>Create New Folder</guimenuitem>, to create another folder in the same location. </para></listitem>
-	<listitem><para><guimenuitem>Add to Shortcut Bar</guimenuitem>, to add the folder to your shortcut bar. </para></listitem>
-	<listitem><para><guimenuitem>Properties</guimenuitem>, to view or change the folder properties. </para></listitem>
+        <listitem><para><guimenuitem>Delete</guimenuitem>, to delete the folder.</para></listitem>
+        <listitem><para><guimenuitem>Properties</guimenuitem>, which lets you check the number of total and unread messages in a folder, and, for remote folders, lets you decide whether to copy the folder to your local system for offline operation.</para></listitem>
       </itemizedlist>
     </para>
     <para>
@@ -1076,7 +974,7 @@ standard mbox file format, which
     <sect2 id="usage-mainwindow-menubar">
     <title>The Menu Bar</title>
     <para>
-      The <interface>menu bar</interface>'s contents will always
+      The menu bar's contents will always
       provide all the possible actions for any given view of your
       data.  If you're looking at your Inbox, most of the menu items
       will relate to mail; some will relate to other components of
@@ -1126,17 +1024,11 @@ standard mbox file format, which
        <varlistentry>
           <term> <guimenu>Tools</guimenu>:</term>
           <listitem><para>
-             Tools for configuring, changing, and
-          setting up  go here.  For mail, that means things like
-           and the
-          <guimenuitem>Virtual Folder Editor</guimenuitem>.  For the
-          <interface>Calendar</interface> and the <interface>Contact
-          Manager</interface>, it's color, network, and layout
-          configuration.
-          </para></listitem>
+             For all components of Evolution, you can access the
+          settings and configuration options in the tools menu. You
+          can also find things like filter settings and the Virtual
+          Folder editor.</para></listitem>
         </varlistentry>
-
-
 
        <varlistentry>
           <term> <guimenu>Search</guimenu>:</term>
@@ -1152,17 +1044,16 @@ standard mbox file format, which
        <varlistentry>
           <term> <guimenu>Help</guimenu>:</term>
           <listitem><para>
-             Select among these items to open the 
-             Help Browser 
-             and read the Ximian Evolution manual.
+             Select among these items to open the
+             Ximian Evolution manual.
           </para></listitem>
         </varlistentry>
       </variablelist>
    </para>
 
    <para>
-      Once you've familiarized yourself with the <interface>main
-      window</interface> you can start doing things with it.  We'll
+      Once you've familiarized yourself with the main
+      window you can start doing things with it.  We'll
       start with the <guilabel>Summary</guilabel>, which provides a
       quick overview of your Ximian
       Evolution information.
@@ -1256,9 +1147,9 @@ linkend="usage-mail-organize-vfolders">vFolder</link>, an advanced
       </para>
 
       <para>
-     If you find the <interface>view pane</interface> too small, you can resize
+     If you find the view pane too small, you can resize
         the pane, enlarge the whole window, or double-click on the
-        message in the <interface>message list</interface> to have it
+        message in the message list to have it
         open in a new window.  To change the sizes of a pane, just click
         and hold on the divider between the two panes.  Then you can drag
         up and down to select the size of the panes.
@@ -1292,8 +1183,8 @@ linkend="usage-mail-organize-vfolders">vFolder</link>, an advanced
       <title>Introducing the Calendar</title>
       <para>
        To begin using the calendar, click the 
-       <guilabel>Calendar</guilabel> button in the <interface>shortcut
-       bar</interface>.  By default, the calendar starts showing
+       <guilabel>Calendar</guilabel> button in the shortcut
+       bar.  By default, the calendar starts showing
        today's schedule on a ruled background.  At the upper right,
        there's a monthly calendar you can use to switch days.  Below
        that, there's a <guilabel>Task</guilabel> pad, where you can
@@ -1320,9 +1211,7 @@ linkend="usage-mail-organize-vfolders">vFolder</link>, an advanced
       </para>
   
       <para>
-	The <guilabel>Appointment List</guilabel> is responsible for showing you all of
-	your scheduled appointments, whether they are all day appointments or simply one time
-	appointments that last a half an hour.
+	The appointment list displays all your scheduled appointments.
       </para>
 
       <para>
@@ -1331,13 +1220,9 @@ linkend="usage-mail-organize-vfolders">vFolder</link>, an advanced
       </para>
 
       <para>
-        The <guilabel>Task List</guilabel> compliments the
-        <guilabel>Appointment List </guilabel> as it keeps track of
-        tasks which don't have a time associated with them. Tasks can
-        have complex notes associated with them, and you can also note
-        their completeness on a percentage scale. To display more
-        information about your notes, drag the column border to the
-        left. For a very detailed view of your tasks, click the
+        Tasks are distinct from appointments in that they generally
+        don't have times associated with them. You can see a larger
+        view of your task list by clicking the
         <guilabel>Tasks</guilabel> button in the shortcut bar.
       </para>
 
@@ -1347,11 +1232,11 @@ linkend="usage-mail-organize-vfolders">vFolder</link>, an advanced
       </para>
 
       <para>
-	The month pane is a small view of your calendar by month.  To
-	display more months here, drag the column border to the left.
-	To view a specific series of days, select them in the month 
-	view and they will display all the planned events in the 
-	<interface>Appointment List</interface>. 
+	The month pane is a small view of a calendar month.
+        To display additional months, drag the column border to
+        the left. You can also select a range of days in the month
+        pane to get a custom range of days displayed in the
+        appointment list.
       </para>
 
       <para>
@@ -1366,8 +1251,7 @@ linkend="usage-mail-organize-vfolders">vFolder</link>, an advanced
         The Ximian Evolution address book
         can handle all of the functions of an address book, phone
         book, or Rolodex.  Of course, it's a lot easier to update
-        Ximian Evolution than it is to
-        change an actual paper book. Ximian
+        Evolution than it is to change an actual paper book. Ximian
         Evolution also allows easy synchronization with
         hand-held devices and functions with <glossterm
         linkend="ldap">LDAP</glossterm> directories on a network.
@@ -1375,15 +1259,15 @@ linkend="usage-mail-organize-vfolders">vFolder</link>, an advanced
       <para>
         Another advantage of the Ximian Evolution
         address book is its integration with the rest of the
-        application.  For example, you can create an address card from
-        an email just by right-clicking on the sender's email address.
+        application.  For example, you can right-click on an email
+        address in Evolution mail to create a contact entry instantly.
       </para>
       <para>
         To open your address book, click on
         <guilabel>Contacts</guilabel> in the shortcut bar.  <xref
         linkend="usage-contact-fig"/> shows the address book in all its
         organizational glory.  By default, the address book shows all
-        your cards in alphabetical order, in a <glossterm
+        your contacts in alphabetical order, in a <glossterm
         linkend="minicard">minicard</glossterm> view.  You can select
         other views from the <guimenu>View</guimenu> menu, and adjust
         the width of the columns by clicking and dragging the gray
@@ -1409,7 +1293,7 @@ linkend="usage-mail-organize-vfolders">vFolder</link>, an advanced
 
       <para>
         The largest section of the address book lists your
-        contacts. You can also search through the cards in the same way
+        contacts. You can also search through the contacts in the same way
         that you search email folders, with the search tool on the
         right side of the toolbar.
       </para>

@@ -266,7 +266,7 @@
 
 
     <para>
-      To check your email, press the <guilabel>Check Mail</guilabel>
+      To check your email, press the <guilabel>Send/Receive</guilabel>
       button.  If this is your first time checking mail, or you
       haven't asked Evolution to store your
       password, you'll be prompted for the password.  Enter your
@@ -369,7 +369,7 @@
 	 <listitem>
 	   <para>
 	     Click the downward pointing arrow on the attachment icon
-	     and select <guimenuitem>Save to Disk</guimenuitem>.
+	     and select <guimenuitem>Save As...</guimenuitem>.
 	   </para>
 	 </listitem>
 	 <listitem>
@@ -407,6 +407,11 @@
 	</orderedlist>
       </para>
       <para>
+          The options available for an attachment will vary depending
+        on the type of attachment. For example, attached email
+        messages can be replied to or forwarded, while attached
+        compressed archive files can be opened in the File Roller
+        application.
       </para>
       </sect3>
 
@@ -419,7 +424,11 @@
          will display the image inside the message.  You can create
          messages like this by using the
          <menuchoice><guimenu>Insert</guimenu><guimenuitem>Image</guimenuitem></menuchoice>
-         tool in the message composer.
+         tool in the message composer (you must have HTML mail enabled
+         to do this-- select
+         <menuchoice><guimenu>Format</guimenu><guimenuitem>HTML</guimenuitem></menuchoice>
+         to turn HTML composition on and off). Alternately, just drag
+         an image into the message composition area.
       </para>
 
       <para>
@@ -444,12 +453,13 @@
          load remotely hosted images more often, select
          <menuchoice>
 	   <guimenu>Tools</guimenu>
-	   <guimenuitem>Settings</guimenuitem> </menuchoice> and go to
-	   the mail settings tool. There, click the <guilabel>HTML
+           <guimenuitem>Settings</guimenuitem> </menuchoice> and click the <guilabel>Mail Preferences</guilabel>
+	   button. There, click the <guilabel>HTML
            Mail</guilabel> tab and select one of the items there:
-<guilabel>Never load images off the net</guilabel>, <guilabel>Load
-images if sender is in address book</guilabel>, or <guilabel>Always
-load images off the net.</guilabel>
+           <guilabel>Never load images off the net</guilabel>,
+           <guilabel>Load images if sender is in address
+           book</guilabel>, or <guilabel>Always load images off the
+           net.</guilabel>
       </para>
       <note id="http-proxy">
 	<title>Loading Images from the Net through an HTTP Proxy</title>
@@ -690,24 +700,22 @@ load images off the net.</guilabel>
 	  </orderedlist>
 	</para>
 	<para>
-          You can drag a file into the address area or, if it is
-          already displayed, the attachment display area, of the composer
+          You can drag a file into the address area or to the
+          attachment portion of the composer
           window. If you are attaching an image and wish to send it
           inline rather than attached, drag the image into the text
           composition area of the composer window. Non-image files
           cannot be dragged into the text composition area.
         </para>
         <para>
-            To hide the display of files you've attached to the
-            message, unselect <menuchoice>
-            <guimenu>View</guimenu> <guimenuitem>Show
-            Attachments</guimenuitem> </menuchoice>; to show them
-            again, select <guimenuitem>Show Attachments</guimenuitem>.
+           The attachment display area is at the bottom of the
+          composer window; you can expand or shrink it by clicking the
+          small triangle in its upper right corner.
         </para>
         <para>
             When you send the message, a copy of the attached file
-            will go with it.  Be aware that big attachments can take a
-            long time to download.
+            will go with it.  Be aware that big attachments may take a
+          long time to send and receive.
         </para>
        </sect3>
 
@@ -797,12 +805,6 @@ load images off the net.</guilabel>
           with more than one card, Evolution will open a dialog box to
           ask you which person you meant. 
 
-<!-- 
-     Also, Evolution will add a
-          domain to any unqualified addresses.  By default, this is
-          your domain, but you can choose which one mail preferences
-          dialog. NOTE: ex-feature, may be reinstated, but probably not. 
--->
           </para>
 
           <para>
@@ -1099,7 +1101,7 @@ load images off the net.</guilabel>
                   selected, the color will apply to whatever you type
                   next.  You can select a background color or image by
                   right-clicking on the message background and
-                  selecting <menuchoice> <guimenuitem>Style</guimenuitem> 
+                  selecting <menuchoice> <guimenu>Style</guimenu> 
                   <guimenuitem>Page Style</guimenuitem>
                    </menuchoice>.
                </para>
@@ -1118,7 +1120,9 @@ load images off the net.</guilabel>
 		Lets you link some text to a website.  Use this tool to put hyperlinks in your HTML
                   messages.  If you don't want special link text, you can just enter the address
                   directly, and Evolution
-                  will recognize it as a link.  To add a link:
+                  will recognize it as a link.  To add a link, first make sure you have enabled
+                  HTML mode by selecting <menuchoice> <guimenu>Format</guimenu> <guimenuitem>
+                    HTML</guimenuitem></menuchoice>.
 		<orderedlist numeration="arabic">
 		  <listitem>
 		    <para>
@@ -1247,7 +1251,7 @@ load images off the net.</guilabel>
 	    </listitem>
 	  </varlistentry>
 	  <varlistentry>
-	    <term>Insert Table</term>
+            <term><guimenuitem>Insert Table</guimenuitem></term>
 	    <listitem>
 	      <para>
 		Inserts a table into the text to help divide two
@@ -1301,21 +1305,21 @@ load images off the net.</guilabel>
 	    </listitem>
 	  </varlistentry>
           <varlistentry>
-            <term>Templates</term>
+            <term><guimenuitem>Templates</guimenuitem></term>
             <listitem>
               <para>
-          Evolution not only allows you to
-	  decorate your email with HTML text and graphics, but
-	  provides you with prebuilt templates for you to use when
-	  making these improvements.  You can use these to emphasize a
-	  point or frame an image in an attractive manner.
-        </para>
-	<para>
-	  To include a template into your HTML based email:
-	  <orderedlist numeration="arabic">
-	    <listitem>
-	      <para>
-		Make sure that the
+                Evolution not only allows you to
+                decorate your email with HTML text and graphics, but
+                provides you with prebuilt templates for you to use when
+                making these improvements.  You can use these to emphasize a
+                point or frame an image in an attractive manner.
+              </para>
+              <para>
+                To include a template into your HTML based email:
+                <orderedlist numeration="arabic">
+                  <listitem>
+                    <para>
+                      Make sure that the
 		<menuchoice>
 		  <guimenu>
 		    Format
@@ -1428,11 +1432,11 @@ action="simul"><keycap>Ctrl</keycap><keycap>J</keycap></keycombo>.  If
           <itemizedlist>
             <listitem>
               <para>
-                 Don't send spam or forward chain mail.  If you must,
-                 watch out for hoaxes and urban legends, and make sure
-                 the message doesn't have multiple layers of
-                 greater-than signs, (&gt;) indicating multiple layers
-                 of careless in-line forwarding.
+                 Don't forward chain letters.  If you must, watch out for
+                hoaxes and urban legends, and make sure the message
+                doesn't have multiple layers of greater-than signs,
+                (&gt;) indicating multiple layers of careless in-line
+                forwarding.
               </para>
             </listitem>
 
@@ -1652,17 +1656,22 @@ action="simul"><keycap>Ctrl</keycap><keycap>J</keycap></keycombo>.  If
 
       <para>
 	You can use encryption in two different ways:
-        <simplelist>
-          <member>
+        <itemizedlist>
+          <listitem>
+            <para>
+
              Encrypt the entire message, so that nobody but the recipient can read it.
-          </member>
-          <member>
+            </para>
+          </listitem>
+          <listitem>
+            <para>
             Attach an encrypted signature to a plain text message, so
             that the recipient can read the message without decrypting
             it, and only needs decryption to verify the sender's
-            identity. 
-           </member>
-         </simplelist>
+            identity.
+            </para>
+          </listitem> 
+        </itemizedlist>
       </para>
 
 	<example> 

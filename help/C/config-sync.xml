@@ -2,20 +2,12 @@
      <title>Setting up your synchronization system</title> 
      <para>
         Synchronization presents you with two issues you'll need to
-        address. 
-        <simplelist>
-          <member>
-            Your computer needs to recognize and access your handheld.
-            At this time, Ximian Evolution only
-            supports Palm-OS devices like the Palm Pilot and the
-            Handspring Visor.
-          </member>
-          <member>
-           You should decide what sort of synchronization behavior you
-           want.
-          </member>
-        </simplelist>
-    </para>
+        address. First, your computer needs to recognize and access
+       your handheld.  At this time, Ximian Evolution only supports
+       PalmOS devices like the Palm Pilot and the Handspring Visor.
+       Secondly, you should decide what sort of synchronization
+       behavior you want.
+     </para>
 
     <para>
        If you haven't used a handheld device with your computer
@@ -31,7 +23,7 @@
        <userinput>chmod 777 /dev/ttyUSB0</userinput>.
     </para>
     <para>
-        Once your computer and your Palm-OS device are talking happily
+        Once your computer and your PalmOS device are talking happily
         to each other, select the <glossterm
         linkend="conduit">conduits</glossterm> you want under the
         <guilabel>Pilot Conduits</guilabel> section of the Control

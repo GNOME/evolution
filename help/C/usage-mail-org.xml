@@ -10,14 +10,14 @@
     </para>
 
   <sect1 id="importing-mail-and-settings">
-    <title>Importing Your Old Email and Settings</title>
+    <title>Importing Your Old Email</title>
     <para>
       Evolution allows you to import old
-      email and data so that you don't need to worry about losing your
-      old information.
+      email and contacts so that you don't need to worry about losing
+      your old information.
     </para>
     <sect2 id="importing-mail">
-      <title>Importing Email and Other Data</title>
+      <title>Importing Single Files</title>
       <para>
         Ximian Evolution can import the
         following types of files:
@@ -87,17 +87,18 @@
           </listitem>
           <listitem>
             <para>
-              Click <guilabel>Next</guilabel> after reading the Welcome screen.
+              Click <guilabel>Forward</guilabel> after reading the welcome screen.
             </para>
           </listitem>
           <listitem>
             <para>
-              Select <guilabel>Import a single file</guilabel>.
+              Select <guilabel>Import a single file</guilabel> and click <guilabel>Forward</guilabel>.
             </para>
           </listitem>
           <listitem>
             <para>
-              Find the file that you wish to import into Evolution.
+              Indicate the file that you wish to import into Evolution
+              and click <guilabel>Forward.</guilabel>
             </para>
           </listitem>
           <listitem>
@@ -109,12 +110,10 @@
       </para>
     </sect2>
     <sect2 id="importing-preferences">
-      <title>Importing Preferences</title>
+      <title>Importing Multiple Files</title>
       <para>
-        Evolution can import all your old
-        mail, contacts, and other information from other applications,
-        making your transition to Evolution
-        easy.
+        Evolution automates the import process for several
+        applications it can recognize.
       </para>
       <para>
         To import your old information:
@@ -126,30 +125,20 @@
           </listitem>
           <listitem>
             <para>
-              Click <guilabel>Next</guilabel> after reading the Welcome screen.
+              Click <guilabel>Forward</guilabel> after reading the welcome screen.
             </para>
           </listitem>
           <listitem>
             <para>
-              Select <guilabel>Import data and settings from older programs</guilabel>.
+              Select <guilabel>Import data and settings from older
+            programs</guilabel> and click <guilabel>Forward</guilabel>.
             </para>
           </listitem>
+         
           <listitem>
             <para>
-              The left-most column shows the application which your
-              information will be imported from.  You then select
-              checkboxes on each component to import different
-              properties of each application.
-            </para>
-          </listitem>
-          <listitem>
-            <para>
-              Click <guilabel>Next</guilabel>
-            </para>
-          </listitem>
-          <listitem>
-            <para>
-              Click <guilabel>Import</guilabel>
+              Evolution will search for old mail programs it
+              recognizes and, if possible, import data from them.
             </para>
           </listitem>
         </orderedlist>
@@ -195,11 +184,12 @@
 	<note>
 	  <title>Netscape Users</title>
 	  <para>
-	    Before importing mail from Netscape, make sure you select
+            Mozilla and Netscape users will need to choose
 	    <menuchoice><guimenu>File</guimenu><guimenuitem>Compact All
-		Folders</guimenuitem></menuchoice>. If you don't,
+		Folders</guimenuitem></menuchoice> from within
+            Netscape or Mozilla. Otherwise,
 	    Ximian Evolution will import and undelete
-	    the messages in your Trash folders.
+	    the messages in Trash folders.
 	  </para>
 	</note>     
 	
@@ -210,34 +200,11 @@
   <sect1 id="usage-mail-organize-columns">
     <title>Sorting Mail with Column Headers</title>
     <para>
-      By default, the message list has columns with the following
-      headings: an envelope icon indicating whether you have read
-      or replied to a message, an exclamation point indicating priority, and the
-      <guilabel>From</guilabel>, <guilabel>Subject</guilabel>, and
-      <guilabel>Date</guilabel> fields. You can change their order
-      and remove them by dragging and dropping them.  
-      
-      To add columns:
-      <orderedlist numeration="arabic">
-	<listitem>
-	  <para>
-	    Right click on the column header
-	  </para>
-	</listitem>
-	<listitem>
-	  <para>
-	    Click <guimenuitem>Add a Column</guimenuitem>
-	  </para>
-	</listitem>
-	<listitem>
-	  <para>
-	    Click and drag a column you want into a space between
-	    existing column headers.  A red arrow will show you where
-	    the column will be placed.
-	  </para>
-	</listitem>
-      </orderedlist>
-      </para>
+      The message list normally has columns to indicate whether a
+      message has been read, whether it has attachments, how important
+      it is, and the sender, date, and subject. You can change their
+      order and remove them by dragging and dropping them.
+    </para>
       <para>
 	Right-click on one of the column headers to get a list of
 	options:
@@ -256,6 +223,16 @@
 	      </para></listitem>
 	  </varlistentry>
 	  
+	  <varlistentry>
+	    <term><guimenuitem>Unsort</guimenuitem>:</term>
+	    <listitem><para>
+            Removes sorting from the message list. <!-- displaying
+            messages in the order they exist on disk. This is
+            typically the order in which the messages
+            were added to the mailbox file, and is therefore similar
+            to, but not exactly the same as, sorting by date. -->
+	      </para></listitem>
+	  </varlistentry>
 	<varlistentry>
 	  <term><guimenuitem>Remove this
 	      Column</guimenuitem>:</term> 
@@ -268,16 +245,39 @@
 	  </listitem>
 	</varlistentry>
 	  
-	  <varlistentry>
-	    <term><guimenuitem>Customize Current
-	      View</guimenuitem>:</term> <listitem><para> Choose this
-	      item to pick a more complex sort order for messages, or
-	      to choose which columns of information about your
-	      messages you wish to display
-            </para></listitem>
-	</varlistentry>
-	</variablelist>
-      </para>
+	<varlistentry>
+	  <term><guimenuitem>Add a Column</guimenuitem>:</term> 
+	  <listitem>
+	    <para>
+              When you select this item, a dialog box appears, listing
+              the possible columns.  Drag the column you want into a
+              space between existing column headers.  A red arrow will
+              show you where the column will be placed.
+            </para>
+          </listitem>
+        </varlistentry>	
+	  
+	<varlistentry>
+	  <term><guimenuitem>Best Fit</guimenuitem>:</term> 
+	  <listitem>
+	    <para>
+              Automatically adjusts the widths of the columns for the
+              most efficient use of space.
+            </para>
+          </listitem>
+        </varlistentry>	
+	  
+        <varlistentry>
+          <term><guimenuitem>Customize Current
+          View</guimenuitem>:</term> <listitem><para> Choose this
+          item to pick a more complex sort order for messages, or
+          to choose which columns of information about your
+          messages you wish to display
+        </para></listitem>
+      </varlistentry>
+
+    </variablelist>
+  </para>
 
       <sect2 id="usage-mail-organize-columns-followup">
         <title>Column Sorting with the Follow Up Feature</title>
@@ -336,12 +336,10 @@
 	few mail folders, such as <guilabel>Inbox</guilabel>,
 	<guilabel>Outbox</guilabel>, and <guilabel>Drafts</guilabel>,
 	but you can create as many as you like.  Create new folders by
-	selecting <guisubmenu>New</guisubmenu> and then
-	<guimenuitem>Folder</guimenuitem> from the
-	<guimenu>File</guimenu> menu.
-	Ximian Evolution will ask you for the name
-	and the type of the folder, and will provide you with a folder
-	tree so you can pick where it goes.
+        right clicking on the folder list and selecting 
+        <guimenuitem>New Folder</guimenuitem>. Evolution will
+        ask you for the name and the type of the folder, and will
+        provide you with a folder tree so you can pick where it goes.
       </para>
       <para>
         When you click <guilabel>OK</guilabel>, your new folder will
@@ -375,33 +373,13 @@
     <title>Searching for Messages</title>
     <para>
       Most mail clients can search through your messages for you,
-      but Ximian Evolution does it faster. You
-      can search through just the message subjects, just the message
-      body, or both body and subject.
+      but Ximian Evolution does it faster than most, thanks to its
+      automatic search index.
     </para>
     <para>
       To start searching, enter a word or phrase in the text area
       right below the toolbar, and choose a search type:
       <variablelist>
-	<varlistentry>
-	  <term><guilabel>Body or subject contains</guilabel>:</term>
-	  <listitem>
-	    <para>
-	      This will search message subjects and the messages
-	      themselves for the word or phrase you've entered in
-	      the search field.
-	    </para>
-	  </listitem>
-	</varlistentry>
-	<varlistentry>
-	  <term> <guilabel>Body contains</guilabel>:</term>
-	  <listitem>
-	    <para>
-	      This will search only in message text, not the subject
-	      lines.
-	    </para>
-	  </listitem>
-	</varlistentry>
 	<varlistentry>
 	  <term><guilabel>Subject contains:</guilabel></term>
 	  <listitem>
@@ -412,6 +390,44 @@
 	    </para>
 	  </listitem>
 	</varlistentry>
+	<varlistentry>
+	  <term><guilabel>Subject does not contain:</guilabel></term>
+	  <listitem>
+	    <para>
+              Finds messages that do not contain the search text in
+              the subject.
+	    </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><guilabel>Sender contains:</guilabel></term>
+	  <listitem>
+	    <para>
+              Finds messages that do not contain the search text in
+              the subject.
+	    </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><guilabel>Recipients contain:</guilabel></term>
+	  <listitem>
+	    <para>
+              Finds messages with the search text in the To: and Cc:
+              headers.
+	    </para>
+	  </listitem>
+	</varlistentry>
+
+	<varlistentry>
+	  <term> <guilabel>Body contains</guilabel>:</term>
+	  <listitem>
+	    <para>
+	      This will search only in message text, not the subject
+	      lines.
+	    </para>
+	  </listitem>
+	</varlistentry>
+
 	<varlistentry>
 	  <term><guilabel>Body does not contain:</guilabel></term>
 	  <listitem>
@@ -424,49 +440,45 @@
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><guilabel>Subject does not contain:</guilabel></term>
+	  <term><guilabel>Body or subject contains</guilabel>:</term>
 	  <listitem>
 	    <para>
-	      This finds every mail whose subject does not contain
-	      the search text.
+	      This will search message subjects and the messages
+	      themselves for the word or phrase you've entered in
+	      the search field.
+	    </para>
+	  </listitem>
+	</varlistentry>
+	<varlistentry>
+	  <term><guilabel>Message contains:</guilabel></term>
+	  <listitem>
+	    <para>
+              Searches the message body and all headers for the
+              entered text.
 	    </para>
 	  </listitem>
 	</varlistentry>
       </variablelist>
       
       When you've entered your search phrase, press
-      <keycap>Enter</keycap>.  Ximian Evolution
-      will show your search results in the message list.
+      <keycap>Enter</keycap> or click the <guilabel>Find
+      Now</guilabel> button. Evolution will show your search results
+      in the message list.
     </para>
     
     <para>
-      If you think you'll want to return to a search again, you can
-      save it and execute it later. Just click <guilabel> Save
-      Search</guilabel> from the <guimenu>Search</guimenu> menu. Then,
-      you can run that search on any folder by selecting it from the
-      <guimenu>Search</guimenu> menu. You may also want to create a
+      For more complex search rules, select
+      <guilabel>Advanced</guilabel> from the
+      <guilabel>Search</guilabel> menu. You may want to create a
       vFolder instead; see <xref
       linkend="usage-mail-organize-vfolders" /> for more detail.
     </para>
 
       <para>
-         When you're done with the search, go back to seeing all your
-         messages by choosing <guimenuitem>Show All</guimenuitem> from
-         the <guilabel>Search</guilabel> drop-down box, or enter a
-         blank search.
+        When you're done with the search, go back to seeing all your
+        messages by clicking the <guimenuitem>Clear</guimenuitem> button, 
+        or by entering a blank search.
       </para>
-
-      <para>
-        If you'd like to perform a more complex search, open the
-        advanced search dialog by selecting
-        <guilabel>Advanced...</guilabel> from the
-        <guilabel>Search</guilabel> drop-down menu.  Then, create your
-        search criteria (each with the same options you saw in the
-        regular search bar), and decide whether you want to find
-        messages that match all of them, or messages that match even
-        one. Then, click <guilabel>Search</guilabel> to go and find
-        those messages.
-     </para>
 
      <para>
         You'll see a similar approach to sorting messages when you
@@ -602,7 +614,7 @@
 	<orderedlist numeration="arabic">
 	  <listitem>
 	    <para>
-	      Click 
+              Select
 	      <menuchoice>
 		<guimenu>Tools</guimenu>
 		<guimenuitem>Filters</guimenuitem>
@@ -617,9 +629,14 @@
 	  <listitem>
 	    <para>
 	      Name your filter in the <guilabel>Rule name</guilabel> field.
-	      For each filter criterion, you must first select 
-	      which of the following parts of the message you want the filter to 
-	      examine:
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            Define the criteria for the filter in the
+            <guilabel>If</guilabel> section.  For each filter
+            criterion, you must first select which of the following
+            parts of the message you want the filter to examine:
 	      
 	      <itemizedlist>
 		<listitem><para>
@@ -671,38 +688,6 @@
 		  </para>
 
 <para>
-
-   <figure id="usage-mail-filter-fig-createrule">
-	<title>Creating a Mail Filter</title>
-	<screenshot>
-	  <screeninfo>Creating a Mail Filter</screeninfo>
-	    <mediaobject>
-	      <imageobject>
-		<imagedata fileref="figures/filter-new-fig" format="PNG"
-			   srccredit="Aaron Weber"/>
-	      </imageobject>
-	    </mediaobject>
-	  </screenshot>
-	</figure>
-
-      <note id="lots-of-filters">
-        <title>What if Multiple Filters Match One Message?</title>
-         <para>
-            If you have several filters that match a single message,
-            they will all be applied to the message, in order, unless
-            one of the filters has the action <guilabel>Stop
-            Processing</guilabel>. If you use that action in a
-            filter, the messages that it affects will not be touched
-            by other filters.
-         </para>
-         <para>
-           When you first open the filters dialog, you are shown the
-           list of filters sorted in the order in which they will be
-           applied. You can move them up and down in the priority list
-           by clicking the <guilabel>Up</guilabel> and
-           <guilabel>Down</guilabel> buttons.
-         </para>
-      </note>
 </para>
 		</listitem>
 	
@@ -733,16 +718,38 @@
         the scores you seek.
 		  </para></listitem>
 		
+
 		<listitem>
 		  <para>
-		    Size (kb) - Sorts based on the size of the message in kilobytes.
+                    Label - Messages may have labels of
+                    <guilabel>Important</guilabel>,
+                    <guilabel>Work</guilabel>,
+                    <guilabel>Personal</guilabel>, <guilabel>To
+                    Do</guilabel>, or <guilabel>Later</guilabel>. You
+                    can set these labels with other filters or by hand.
 		  </para>
 		</listitem>
 
 		<listitem>
 		  <para>
-		    Status - Filters according to the status of a message, such as
-		    'New'.
+		    Size (kB) - Sorts based on the size of the message in kilobytes.
+		  </para>
+		</listitem>
+
+		<listitem>
+		  <para>
+                    Status - Filters according to the status of a
+                    message.  Status may be <guilabel>Replied
+                  To</guilabel>, <guilabel>Draft</guilabel>,
+                  <guilabel>Important</guilabel>,
+                  <guilabel>Read</guilabel>, or
+                  <guilabel>Junk</guilabel>.
+		  </para>
+		</listitem>
+		
+		<listitem>
+		  <para>
+		    Flagged - Check whether the message is flagged for follow-up or not.
 		  </para>
 		</listitem>
 		
@@ -788,11 +795,29 @@
 		
 		<listitem>
 		  <para>
-		    Source Account - Filter messages according the server you got them from.
-		    You can enter a URL or choose one from the drop-down
-		    list.  This ability is only relevant if you use more
-		    than one mail source.
-		  </para>
+                    Source Account - Filter messages according the
+                    server you got them from.  This is most useful if
+                    you use multiple POP mail accounts.
+                  </para>
+		</listitem>
+
+		
+		<listitem>
+		  <para>
+                    Pipe Message to Shell Command - Evolution can use
+                    an external command to process a message, then
+                    process it based on the return value. Commands
+                    used in this way must return an integer. This is
+                    most commonly used to add an external junk mail
+                    filter.
+                  </para>
+		</listitem>
+
+		<listitem>
+		  <para>
+                    Junk Test - Filter based on the results of the
+                    junk mail test.
+                  </para>
 		</listitem>
 	      </itemizedlist>
 	    </para>
@@ -806,7 +831,8 @@
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Select the actions for the filter in the <guilabel>Then</guilabel>
+              Select the actions for the filter in the
+              <guilabel>Then</guilabel>
 	      section.  You can select any of the following options.
 	      <itemizedlist>
 		<listitem><para>
@@ -823,11 +849,6 @@
 		    to select a folder. 
 		  </para></listitem>
 		
-		<listitem><para>
-		    Forward to Address - Select this, enter an address, and the addressee will
-		    get a copy of the message.
-		  </para></listitem>
-
 		<listitem><para>
 		    Delete - Marks the message for deletion.  You can still get the message
 		    back, at least until you <guimenuitem>Expunge</guimenuitem> your
@@ -846,11 +867,49 @@
 		  </para></listitem>
 		
 		<listitem><para> 
-		    Assign Score - If you know that all mail with
-		    "important" somewhere in the message body line is
-		    important, you can give it a high priority score. In a subsequent filter you can 
-		    then arrange your messages by their priority score.
+		    Assign Score - Assign the message a numeric score. 
 		  </para></listitem>
+
+		<listitem><para> 
+		    Adjust Score - Change the numeric score by the amount you set here.
+		  </para></listitem>
+
+
+		<listitem><para> 
+		    Set Status - Set the status of the message.  Status may be <guilabel>Replied
+                  To</guilabel>, <guilabel>Draft</guilabel>,
+                  <guilabel>Important</guilabel>,
+                  <guilabel>Read</guilabel>, or
+                  <guilabel>Junk</guilabel>.
+		  </para></listitem>
+
+		<listitem><para> 
+		    Unset Status - If the message has a status value,
+                set it to the opposite. If that status value is not
+                set, do nothing.
+		  </para></listitem>
+
+		<listitem><para> 
+                Beep - Make the system beep.
+		  </para></listitem>
+
+		<listitem><para> 
+                Play Sound - Select a sound file, and Evolution will play it.
+		  </para></listitem>
+
+		<listitem><para> 
+                Shell Command - Run a shell command. No return value
+                is expected.
+              </para></listitem>
+
+		<listitem><para> 
+                Pipe Message to Shell Command - Send the message to a
+                shell command. No return value is expected. This
+                feature can be used to create automatic web postings
+                from email messages or to perform additional message
+                post-processing not supported by Evolution.
+              </para></listitem>
+
 	      </itemizedlist>
 	    </para>
 	  </listitem>
@@ -862,24 +921,68 @@
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Press <guilabel>OK</guilabel>.
+	      Click <guilabel>OK</guilabel> in the filter editor dialog.
 	    </para>
 	  </listitem>
+
+	  <listitem>
+	    <para>
+              Click <guilabel>OK</guilabel> in the filter manager
+            window.
+	    </para>
+	  </listitem>
+
 	</orderedlist>
       </para>
       
       <note id="when-filters-go-wrong">
         <title>When Are Filters Applied?</title>
          <para>
-           If you use Ximian Connector to store your mail on an
-           Exchange server, filters are not applied until you open
+           For POP mail, filters are applied as messages are
+           downloaded. For IMAP mail, filters are applied to new
+           messages when you enter the INBOX folder. On Exchange
+           servers, filters are not applied until you enter
            your INBOX folder and select
            <menuchoice><guimenu>Actions</guimenu><guimenuitem>Apply
            Filters</guimenuitem></menuchoice> or press
-           <keycombo><keycap>Ctrl</keycap><keycap>Y</keycap></keycombo>
+           <keycombo><keycap>Ctrl</keycap><keycap>Y</keycap></keycombo>.
+           To force your filters to act on all messages in the folder,
+           select the entire folder
+           (<keycombo><keycap>Ctrl</keycap><keycap>A</keycap></keycombo>)
+           and then apply the filters
+           (<keycombo><keycap>Ctrl</keycap><keycap>Y</keycap></keycombo>.)
          </para>
       </note>
 
+
+   <figure id="usage-mail-filter-fig-createrule">
+	<title>Creating a Mail Filter</title>
+	<screenshot>
+	  <screeninfo>Creating a Mail Filter</screeninfo>
+	    <mediaobject>
+	      <imageobject>
+		<imagedata fileref="figures/filter-new-fig" format="PNG"
+			   srccredit="Aaron Weber"/>
+	      </imageobject>
+	    </mediaobject>
+	  </screenshot>
+	</figure>
+
+         <para>
+            If you have several filters that match a single message,
+            they will all be applied to the message, in order, unless
+            one of the filters has the action <guilabel>Stop
+            Processing</guilabel>. If you use that action in a
+            filter, the messages that it affects will not be touched
+            by other filters.
+         </para>
+         <para>
+           When you first open the filters dialog, you are shown the
+           list of filters sorted in the order in which they will be
+           applied. You can move them up and down in the priority list
+           by clicking the <guilabel>Up</guilabel> and
+           <guilabel>Down</guilabel> buttons.
+         </para>
    </sect2>
    
    <sect2 id="filters-edit">
@@ -931,15 +1034,23 @@
 	      Select
 	      <menuchoice>
 		<guimenu>Tools</guimenu>
-		<guimenu>Filters</guimenu>
+		<guimenuitem>Filters</guimenuitem>
 	    </menuchoice>
 	    </para>
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Select the filter and press <guilabel>Delete</guilabel>.
+	      Select the filter and press <guilabel>Remove</guilabel>.
 	    </para>
 	  </listitem>
+
+	  <listitem>
+	    <para>
+              Click <guilabel>OK</guilabel> in the filter manager
+            window.
+	    </para>
+	  </listitem>
+
 	</orderedlist>
       </para>
       <para>
@@ -985,11 +1096,10 @@
 
       <para>
 	As messages that meet the vFolder criteria arrive or are
-	deleted, Ximian Evolution will
-	automatically place them in and remove them from the
-	vFolder contents list.  When you delete a message, it gets
-	erased from the folder in which it actually exists, as well as
-	any vFolders which display it.
+	deleted, Evolution will automatically adjust the vFolder
+        contents.  When you delete a message, it gets erased from the
+        folder in which it actually exists, as well as any vFolders
+        that display it.
       </para>
 
       <para>
@@ -1008,9 +1118,8 @@
     <note id="unmatched-vfolder">
       <title>The "Unmatched" vFolder</title>
       <para>
-	 The Unmatched vFolder is the mirror of all your other
-         vFolders: it displays whatever messages are not matched by
-         other vFolders.
+        The Unmatched vFolder is the opposite of the others: it
+        displays whatever messages are not matched by other vFolders.
       </para>
       <para>
         If you use remote email storage like IMAP or Microsoft
@@ -1056,7 +1165,7 @@
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Click <guilabel>Add</guilabel>
+              Click <guilabel>Add</guilabel>.
 	    </para>
 	  </listitem>
 	  <listitem>
@@ -1099,14 +1208,6 @@
 		    Subject - The subject line of the message.
 		  </para></listitem>
 
-<!--		No, can't vfolder on arbitrary headers
-		<listitem><para>
-		    Specific Header - The vFolder can look at any header you
-		    want, even obscure or custom ones. Enter the header name
-		    in the first text box, and put your search text in the
-		    second one.
-		  </para></listitem>
--->	
 
 		<listitem><para>
 		    Message Body - Search in the actual text of the message.
@@ -1146,26 +1247,29 @@
 		  </para></listitem>
 		
 		<listitem><para>
-		    Score - Emails have a standard priority range from -3 (least
-		    important) to 3 (most important). You can have vFolders set the
-		    priority of messages you receive, and then have other
-		    vFolders 
-		    applied only to those messages which have a certain priority.
+		    Score - a numeric score that you can assign to
+                messages using filters
 		  </para></listitem>
 		
 		<listitem>
 		  <para>
-		    Size (kb) - Sorts based on the size of the message in kilobytes.
+		    Size (kB) - Sorts based on the size of the message in kilobytes.
 		  </para>
 		</listitem>
 		
 		<listitem>
 		  <para>
 		    Status - Searches according to the status of a message, such as
-		    'New'.
+		    'Draft'.
 		  </para>
 		</listitem>
 		
+		<listitem>
+		  <para>
+                    Follow Up - Checks whether you have flagged the message for follow up.
+		  </para>
+		</listitem>
+
 		<listitem>
 		  <para>
 		    Attachments - Create a vFolder based on  whether or not you have an
@@ -1178,31 +1282,17 @@
 		    Mailing List - Search based on the mailing list it came from.
 		  </para>
 		</listitem>
-		
-		<listitem>
-		  <para>
-		    Source Account - Search messages according the server you got them from.
-		    You can enter a URL or choose one from the drop-down
-		    list.  This ability is only relevant if you use more
-		    than one mail source.
-		  </para>
-		</listitem>
-	      </itemizedlist>
-	    </para>
-	  </listitem>
-	  <listitem>
+              </itemizedlist>
+            </para>
+          </listitem>
+          <listitem>
 	    <para>
-	      Select the folder sources.  You can select:
+	      Select the folders in which this vFolder will search. Your options are:
 	      <itemizedlist>
 		<listitem>
 		  <para>
-		    Specific folders only
-		    <note>
-		      <para>
-			If you select specific folders only, you need to specify the
-			source folders in the box below.
-		      </para>
-		    </note>
+		    Specific folders only - Use individual folders for the vFolder to
+                        use as its sources.
 		  </para>
 		</listitem>
 		<listitem>
@@ -1212,26 +1302,23 @@
 		</listitem>
 		<listitem>
 		  <para>
-		    With all active remote folders
-		  </para>
+		    With all active remote folders - Remote folders
+                    are considered active if you are connected to the
+                    server; you must be connected to your mail server
+                    for the vFolder to include any messages from that
+                    source.
+                  </para>
 		</listitem>
 		<listitem>
 		  <para>
-		    With all local and active folders
+		    With all local and active remote folders
 		  </para>
 		</listitem>
 	      </itemizedlist>
-	      
 	    </para>
 	  </listitem>
 	</orderedlist>
       </para>
-      <para>
-	Remote folders are considered active if you are connected to the
-	server; you must be connected to your mail server for the vFolder to
-	include any messages from that source.
-      </para>
-   
     </sect2>
   </sect1>
 </chapter>

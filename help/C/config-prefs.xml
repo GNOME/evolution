@@ -233,7 +233,7 @@ smtp.omniport.com:143
                      <para>
                    <itemizedlist>
 			  <listitem>
-			    <para>Checking for new mail: If you would
+			    <para><guilabel>Checking for new mail:</guilabel> If you would
 	                     like Evolution
 	                     to check for new mail automatically,
 	                     check the box and select a frequency in
@@ -243,7 +243,7 @@ smtp.omniport.com:143
 
 			  <listitem>
 			    <para>
-                             Message Storage: If you'd like to store
+                             <guilabel>Leave messages on server:</guilabel> If you'd like to store
 	                      copies of your mail on the server, check
 	                      this option.
                            </para>
@@ -251,13 +251,14 @@ smtp.omniport.com:143
 		
 			
                            <listitem>
-			    <para>Store Store status headers in
-			    Elm/Pine/Mutt format: If you would like to
-			    use the X-Status header format used by the
-			    mail clients Elm, Pine, and Mutt, select
-			    this option. This option is useful if you
-			    plan to check your mail with those clients
-			    from time to time.
+                             <para><guilabel>Disable support for all
+                             POP3 extensions:</guilabel> Some email
+                             servers refuse to work with the extended
+                             POP3 command set; select this item to
+                             have Evolution use a more limited set of
+                             interactions with the server. If your
+                             server periodically drops your
+                             connection, this option may help.
                            </para>
 			  </listitem>
 	               </itemizedlist>
@@ -365,16 +366,6 @@ smtp.omniport.com:143
             account, check this box.
           </para>
 	  </listitem>
-
-	   <listitem>
-	    <para><guilabel>Store status headers in Elm/Pine/Mutt format</guilabel>:
-	    If you would like to use the X-Status header format used
-	    by the mail clients Elm, Pine, and Mutt, select this
-	    option. This option is useful if you plan to check your
-	    mail with those clients from time to time.
-	   </para>
-	  </listitem>
-
 	</itemizedlist>
                      </para>
                    </listitem>
@@ -445,14 +436,14 @@ smtp.omniport.com:143
       <title>Folder Settings</title>
       <para>
         There are three sets of folder options. In the first,
-        <guilabel>Defaults</guilabel>, select which folders will be
-        your usual mail, contact, calendar, and task folders. These
-        are the folders opened when you click items in the shortcut
-        bar, and when you want to save a calendar attachment or
-        address card.
+        <guilabel>Default Folders</guilabel>, select which folders will be
+        your usual mail, address book, calendar, and tasks
+        folders. When you save a contact or appointment attached to an
+        email, it will be stored in your default contact or calendar
+        folder.
       </para>
       <para>
-        The <guilabel>Offline Folders</guilabel> are the ones which
+        The <guilabel>Offline Folders</guilabel> are the ones that
         will be cached when you activate the <guilabel>Go
         Offline</guilabel> feature. 
       </para>
@@ -465,7 +456,7 @@ smtp.omniport.com:143
     </sect1>
 
     <sect1 id="config-prefs-mail">
-      <title>Mail Options</title>
+      <title>Mail Preferences</title>
       <para>
         The <guilabel>Mail Options</guilabel> tool lets you choose how
         to display citations, how long to wait before marking a
@@ -502,7 +493,7 @@ smtp.omniport.com:143
              you. 
              <variablelist>
                <varlistentry>
-                 <term>Mark Messages as Read</term>
+                 <term><guilabel>Mark Messages as Read...</guilabel></term>
                  <listitem>
                    <para> 
                    Normally, Evolution will mark a message as read as soon
@@ -514,7 +505,7 @@ smtp.omniport.com:143
                </varlistentry>
            
                <varlistentry>
-                 <term>Default Character Encoding</term>
+                 <term><guilabel>Default Character Encoding</guilabel></term>
                  <listitem>
                    <para>
                      This setting allows you to select character
@@ -527,7 +518,7 @@ smtp.omniport.com:143
                </varlistentry>
            
                <varlistentry>
-                 <term>Quotation Highlight Color</term>
+                 <term><guilabel>Highlight Quotations</guilabel></term>
                  <listitem>
                    <para>
                      Choose a color to highlight quotations from other
@@ -541,7 +532,7 @@ smtp.omniport.com:143
        </varlistentry>
        
        <varlistentry>
-         <term>Deleting Mail</term>
+         <term><guilabel>Deleting Mail</guilabel></term>
          <listitem>
            <para>
              Here, choose whether to delete messages automatically
@@ -552,7 +543,7 @@ smtp.omniport.com:143
        </varlistentry>
            
        <varlistentry>
-         <term>New Mail Notification</term>
+         <term><guilabel>New Mail Notification</guilabel></term>
          <listitem>
            <para>
               Evolution can alert you to the arrival of new mail with
@@ -564,11 +555,11 @@ smtp.omniport.com:143
      </variablelist>
    </para>
    <para>
-     The options in the <guilabel>HTML Mail</guilabel> section are:
+     The options in the <guilabel>HTML Mail</guilabel> tab are:
    <variablelist>
     
        <varlistentry>
-         <term>Loading Images</term>
+         <term><guilabel>Loading Image</guilabel></term>
          <listitem>
            <para>
              You can embed a image in an email and have it load only
@@ -619,7 +610,7 @@ smtp.omniport.com:143
 
 
     <sect1 id="config-prefs-mail-composer">
-      <title>Message Composer Preferences</title>
+      <title>Composer Preferences</title>
       <para>
         There are three  tabs of settings you can change for the
         message composer. The <guilabel>General</guilabel> tab covers shortcuts and
@@ -629,7 +620,7 @@ smtp.omniport.com:143
          <variablelist>
 
 	  <varlistentry>
-	    <term><guilabel>Default Behavior</guilabel></term>
+	    <term>Default Behavior</term>
 	    <listitem>
 	      <para>
                  Choose how you will normally forward and reply
@@ -642,13 +633,13 @@ smtp.omniport.com:143
 
 
 	  <varlistentry>
-	    <term><guilabel>Alerts</guilabel></term>
+	    <term>Alerts</term>
 	    <listitem>
 	      <para>
                  There are two optional alerts here:
                  <variablelist>
 	         <varlistentry>
-		    <term><guilabel>Prompt when sending messages with an empty subject</guilabel></term>
+		    <term><guilabel>Prompt when sending messages with an empty subject line</guilabel></term>
 		    <listitem>
 		      <para>
 			 The composer will warn you if you try to send a
@@ -701,7 +692,7 @@ smtp.omniport.com:143
       <menuchoice><guimenu>Tools</guimenu><guisubmenu>Settings</guisubmenu></menuchoice>,
       click on the <guiicon>Composer preferences</guiicon> icon, then
       select the <guilabel>Spell Checking</guilabel> tab and check the
-      <guilabel>Check spelling while i type</guilabel> box, and
+      <guilabel>Check spelling while I type</guilabel> box, and
       choose a color for your misspelled words.
   </para>
 </sect1>
@@ -732,7 +723,7 @@ smtp.omniport.com:143
 
 
     <sect1 id="config-prefs-cal">
-       <title>Calendar and Task List Settings</title>
+       <title>Calendar and Tasks Settings</title>
        <para>
           The calendar configuration tool has two tabs
           <guilabel>General</guilabel> and
@@ -752,7 +743,7 @@ smtp.omniport.com:143
         </para>
 
       <para>
-        The <guilabel>General</guilabel> tab lets you set the
+        The General tab lets you set the
         following:
         <variablelist>
 	  <varlistentry>
@@ -776,11 +767,9 @@ smtp.omniport.com:143
 	    <term><guilabel>Work Week</guilabel></term>
 	    <listitem>
 	      <para>
-                When does your work day start, and when does it end?
-		In the day and week views,
-		Evolution displays all the
+		In the day and week views, Evolution displays all the
 		hours in the range you select here, even if there are
-		no appointments for those times.  Of course, you can
+		no appointments for those times.  You can
 		still schedule an appointment outside of these hours,
 		and if you do, the display will be extended to show
 		it.
@@ -830,7 +819,7 @@ smtp.omniport.com:143
        </para>
 
       <para>
-	The <interface>Display</interface> section lets you choose how
+	The Display tab lets you choose how
 	your appointments and tasks will appear in your calendar.
       </para>
       <para>The display properties you can set are:
@@ -840,9 +829,9 @@ smtp.omniport.com:143
 	    <term><guilabel>Time divisions</guilabel></term>
 	    <listitem>
               <para>
-		Sets the increments shown on the daily view in the
-		calendar.  You can set this to be anywhere from five
-		minutes to an hour, in five minute increments.</para>
+                Sets the time increments shown as fine lines on the
+                daily view in the calendar.
+              </para>
             </listitem>
 	  </varlistentry>
 
@@ -850,8 +839,7 @@ smtp.omniport.com:143
 	    <term><guilabel>Show appointment end times in week and month views</guilabel></term>
 	    <listitem>
 	      <para>
-		If there is space,
-		Evolution will show the end
+		If there is space, Evolution will show the end
 		times in the week and month views for each
 		appointment.
               </para>
@@ -881,8 +869,7 @@ smtp.omniport.com:143
 	   <term><guilabel>Tasks due today</guilabel></term>
 	    <listitem>
 	      <para>
-		Configures what color to set your tasks that are due
-		today to.
+                Select the color for tasks due today.
 	      </para>
 	    </listitem>
 	  </varlistentry>
@@ -894,11 +881,24 @@ smtp.omniport.com:143
 	      </para>
 	    </listitem>
 	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guilabel>Hide Completed Tasks</guilabel></term>
+	    <listitem>
+	      <para>
+                Check this box to have completed tasks hidden after a
+                period of time measured in days, hours,
+                or minutes.  If you leave the box unchecked,
+                completed tasks will remain in your task list, marked
+                as complete.
+	      </para>
+	    </listitem>
+	  </varlistentry>
 	</variablelist>
       </para>
   </sect1>
   <sect1 id="config-prefs-contact">
-    <title>Directory Server Settings</title>
+    <title>Directory Servers</title>
     <para>
         Address book settings are limited to the usage and
         configuration of directory servers (LDAP and
@@ -909,33 +909,46 @@ smtp.omniport.com:143
     </para>
       
       <para>
-	To add a new <glossterm linkend="ldap">LDAP</glossterm> server
-	to your available contact folders:
+        To add a new address book, either local or remote, do the following:
     </para>
 	<orderedlist numeration="arabic">
 	  <listitem>
 	    <para>
-	      Select 
-	      <menuchoice>
-		<guimenu>Tools</guimenu>
-		<guimenuitem>Settings</guimenuitem>
-	      </menuchoice>
-	      and click the <guilabel>Directory Servers</guilabel>
-	      shortcut button.
+              Open the address book by clicking the
+              <guilabel>Contacts</guilabel> button.
 	    </para>
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Click the <guilabel>Add</guilabel> button on the right
-	      side to open a Directory Server addition assistant.
+              Right-click on the list of address books and select <guimenuitem>New Address</guimenuitem>
 	    </para>
 	  </listitem>
+          <listitem>
+            <para>
+            Select a name and group for the address book. The name is
+              for display only. </para>
+
+            </listitem>
+
+            <listitem>
+              <para>
+                Click <guilabel>Forward</guilabel>.  If the address book is stored locally,
+              in the <guilabel>On This Computer</guilabel> group, then
+              you don't have to provide any more information. Click
+              <guilabel>OK</guilabel> and you are done.
+              </para>
+            </listitem>
+
+
 	  <listitem>
+
 	    <para>
-	      Enter the server information as requested by the assistant:
+              If you are creating an <glossterm
+              linkend="ldap">LDAP</glossterm> server, enter the server information
+            as requested by the assistant:
 	    <variablelist>
 		<varlistentry>
-		  <term>Server name</term>
+                  <term><guilabel>Server name</guilabel></term>
 		  <listitem>
 		    <para>
 		      Address of the server where the address book is located.
@@ -943,18 +956,19 @@ smtp.omniport.com:143
 		  </listitem>
 		</varlistentry>
 		<varlistentry>
-		  <term>Login Method</term>
+                  <term><guilabel>Login Method</guilabel></term>
 		  <listitem>
 		    <para>
 		      Specify whether your login is anonymous, using
                       an email address, or a "distinguished name." If
-                      the login is not anonymous, enter the login name
-                      required by the server.
+                      the login is not anonymous, enter the email
+                      address or distinguished name (DN) required by
+                      the server.
 		    </para>
 		  </listitem>
 		</varlistentry>
 		<varlistentry>
-		  <term>Port</term>
+                  <term><guilabel>Port</guilabel></term>
 		  <listitem>
 		    <para>
 		      The internet port
@@ -965,7 +979,7 @@ smtp.omniport.com:143
 		  </listitem>
 		</varlistentry>
                 <varlistentry>
-                  <term>Use SSL/TLS</term>
+                  <term><guilabel>Use SSL/TLS</guilabel></term>
 		  <listitem>
 		    <para>
                       SSL and TLS are security mechanisms. If you
@@ -981,7 +995,7 @@ smtp.omniport.com:143
 
 
 		<varlistentry>
-		  <term>Search base</term>
+                  <term><guilabel>Search base</guilabel></term>
 		  <listitem>
 		    <para>
 		      The <glossterm linkend="search-base">search
@@ -992,7 +1006,7 @@ smtp.omniport.com:143
 		  </listitem>
 		</varlistentry>
 		<varlistentry>
-		  <term>Search scope</term>
+                  <term><guilabel>Search scope</guilabel></term>
 		  <listitem>
 		    <para>
                       The <glossterm linkend="search-scope">search
@@ -1023,7 +1037,7 @@ smtp.omniport.com:143
                 </varlistentry>
 
                 <varlistentry>
-                  <term>Timeout Limit</term>
+                  <term><guilabel>Timeout (minutes)</guilabel></term>
 		  <listitem>
 		    <para>
                       This is the maximum time Evolution will attempt to
@@ -1034,7 +1048,7 @@ smtp.omniport.com:143
 
 
                 <varlistentry>
-                  <term>Download Limit</term>
+                  <term><guilabel>Download Limit</guilabel></term>
 		  <listitem>
 		    <para>
 		      Set the maximum number of results for a given
@@ -1048,7 +1062,7 @@ smtp.omniport.com:143
 
 
                 <varlistentry>
-                  <term>Display name</term>
+                  <term><guilabel>Display name</guilabel></term>
 		  <listitem>
 		    <para>
 		      This is the name you will use to label this
@@ -1062,14 +1076,7 @@ smtp.omniport.com:143
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Click <guilabel>OK</guilabel>.
-	    </para>
-	  </listitem>
-	  <listitem>
-	    <para>
-	      Click <guilabel>OK</guilabel> to permanently make
-	      changes or <guilabel>Apply</guilabel> to temporarily
-	      set the changes.
+	      Click <guilabel>Apply</guilabel>.
 	    </para>
 	  </listitem>
 	</orderedlist>

@@ -22,20 +22,19 @@
 	    <term>New Item:</term>
 	    <listitem>
 	      <para>
-                Press <keycombo action="simul"> <keycap>Ctrl</keycap>
-		  <keycap>N</keycap> </keycombo> to open a new item
+                Press <keycombo action="simul"> <keycap>Ctrl</keycap>		  <keycap>N</keycap></keycombo> to open a new item
 		  for whatever part of Ximian
 		  Evolution you're working on. In mail,
 		  that means you'll create a new message. If you're
 		  looking at your address book, <keycombo
 		  action="simul"> <keycap>Ctrl</keycap>
-		  <keycap>N</keycap> </keycombo> creates a new contact
+		  <keycap>N</keycap></keycombo> creates a new contact
 		  card, and in the calendar, a new appointment.
                 </para>
 	    </listitem>
 	  </varlistentry>
 
-
+<!--
 	  <varlistentry>
 	    <term>Create a new folder:</term>
 	    <listitem>
@@ -50,7 +49,7 @@
                 </para>
 	    </listitem>
 	  </varlistentry>
-
+-->
 	  <varlistentry>
 	    <term>Create a new Shortcut in the Evolution Bar:</term>
 	    <listitem>
@@ -225,11 +224,11 @@
 	    <listitem>
 	      <para>
                 Double-click the message you want to view, or select
-                it and press <keycap>Return</keycap>
+                it and press <keycap>Return</keycap> or
                 <keycombo action="simul">
 		  <keycap>Ctrl</keycap>
 		  <keycap>O</keycap>
-                </keycombo>
+                </keycombo>.
 	      </para>
 	    </listitem>
 	  </varlistentry>
@@ -275,7 +274,7 @@
 	      <para>       
                   <menuchoice><guimenu>File</guimenu>
 		  <guisubmenu>New</guisubmenu>
-		  <guimenuitem>Appointment</guimenuitem> </menuchoice>  or 
+		  <guimenuitem>Appointment</guimenuitem> </menuchoice> or
                 <keycombo action="simul">
 		  <keycap>Ctrl</keycap>
 		  <keycap>Shift</keycap>
@@ -379,15 +378,17 @@
 	    <listitem>
 	      <para>
                   Double-click in any blank space in the contact
-                  manager to create a new address card.  You can also
+                  manager to create a new address card, or right-click anywhere
+	      in the address book and select <guilabel>New
+		Contact</guilabel>. You can also select
                   use <menuchoice><guimenu>File</guimenu>
                   <guisubmenu>New</guisubmenu>
-                  <guimenuitem>Contact</guimenuitem> </menuchoice> or
+                  <guimenuitem>Contact</guimenuitem> </menuchoice> or press 
                 <keycombo action="simul">
 		  <keycap>Ctrl</keycap>
 		  <keycap>Shift</keycap>
 		  <keycap>C</keycap>
-                </keycombo>
+                </keycombo>.
 	      </para>
 	    </listitem>
 	  </varlistentry>
