@@ -397,6 +397,7 @@ emfv_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 		emfv->priv->folder_changed_id = camel_object_hook_event(folder, "folder_changed",
 									(CamelObjectEventHookFunc)emfv_folder_changed, emfv);
 		camel_object_ref(folder);
+		mail_refresh_folder(folder, NULL, NULL);
 	}
 	
 	emfv_enable_menus(emfv);

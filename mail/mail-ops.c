@@ -1557,7 +1557,7 @@ mail_refresh_folder(CamelFolder *folder, void (*done) (CamelFolder *folder, void
 	m->data = data;
 	m->done = done;
 
-	e_thread_put(mail_thread_new, (EMsg *)m);
+	e_thread_put(mail_thread_queued_slow, (EMsg *)m);
 }
 
 /* ******************************************************************************** */

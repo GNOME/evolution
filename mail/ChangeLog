@@ -1,5 +1,11 @@
 2004-04-13  Not Zed  <NotZed@Ximian.com>
 
+	* mail-ops.c (mail_refresh_folder): run this in the
+	thread_queued_slow, so it runs in sequence and after folder_sync.
+
+	* em-folder-view.c (emfv_set_folder): fire off a refresh_folder
+	once the folder is loaded.  Addresses #56871.
+
 	* em-format-html.c (efh_format_headers): use %% for %%.
 	(efh_format_done): reset load_http_now once we've done, should
 	fix #56338 finally.
