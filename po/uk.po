@@ -1047,120 +1047,108 @@ msgid "123"
 msgstr "123"
 
 #: addressbook/gui/widgets/alphabet.glade.h:2
-#, fuzzy
 msgid "a"
-msgstr "дп"
+msgstr "a"
 
 #: addressbook/gui/widgets/alphabet.glade.h:3
 msgid "b"
-msgstr ""
+msgstr "b"
 
 #: addressbook/gui/widgets/alphabet.glade.h:4
 msgid "c"
-msgstr ""
+msgstr "c"
 
 #: addressbook/gui/widgets/alphabet.glade.h:5
 msgid "d"
-msgstr ""
+msgstr "d"
 
 #: addressbook/gui/widgets/alphabet.glade.h:6
-#, fuzzy
 msgid "e"
-msgstr "Срд"
+msgstr "e"
 
 #: addressbook/gui/widgets/alphabet.glade.h:7
-#, fuzzy
 msgid "f"
-msgstr "Якщо"
+msgstr "f"
 
 #: addressbook/gui/widgets/alphabet.glade.h:8
 msgid "g"
-msgstr ""
+msgstr "g"
 
 #: addressbook/gui/widgets/alphabet.glade.h:9
-#, fuzzy
 msgid "h"
-msgstr " "
+msgstr "h"
 
 #: addressbook/gui/widgets/alphabet.glade.h:10
 msgid "i"
-msgstr ""
+msgstr "i"
 
 #: addressbook/gui/widgets/alphabet.glade.h:11
 msgid "j"
-msgstr ""
+msgstr "j"
 
 #: addressbook/gui/widgets/alphabet.glade.h:12
-#, fuzzy
 msgid "k"
-msgstr "Гаразд"
+msgstr "k"
 
 #: addressbook/gui/widgets/alphabet.glade.h:13
 msgid "l"
-msgstr ""
+msgstr "l"
 
 #: addressbook/gui/widgets/alphabet.glade.h:14
-#, fuzzy
 msgid "m"
-msgstr "дп"
+msgstr "m"
 
 #: addressbook/gui/widgets/alphabet.glade.h:15
-#, fuzzy
 msgid "n"
-msgstr "Пнд"
+msgstr "n"
 
 #: addressbook/gui/widgets/alphabet.glade.h:16
-#, fuzzy
 msgid "o"
-msgstr "Пнд"
+msgstr "o"
 
 #: addressbook/gui/widgets/alphabet.glade.h:17
-#, fuzzy
 msgid "p"
-msgstr "пп"
+msgstr "p"
 
 #: addressbook/gui/widgets/alphabet.glade.h:18
 msgid "q"
-msgstr ""
+msgstr "q"
 
 #: addressbook/gui/widgets/alphabet.glade.h:19
-#, fuzzy
 msgid "r"
-msgstr "Птн"
+msgstr "r"
 
 #: addressbook/gui/widgets/alphabet.glade.h:20
 msgid "s"
-msgstr ""
+msgstr "s"
 
 #: addressbook/gui/widgets/alphabet.glade.h:21
-#, fuzzy
 msgid "t"
-msgstr " "
+msgstr "t"
 
 #: addressbook/gui/widgets/alphabet.glade.h:22
-#, fuzzy
 msgid "u"
-msgstr "Ндл"
+msgstr "u"
 
 #: addressbook/gui/widgets/alphabet.glade.h:23
 msgid "v"
-msgstr ""
+msgstr "v"
 
 #: addressbook/gui/widgets/alphabet.glade.h:24
 msgid "w"
-msgstr ""
+msgstr "w"
 
 #: addressbook/gui/widgets/alphabet.glade.h:25
 msgid "x"
-msgstr ""
+msgstr "x"
 
 #: addressbook/gui/widgets/alphabet.glade.h:26
 msgid "y"
-msgstr ""
+msgstr "y"
 
 #: addressbook/gui/widgets/alphabet.glade.h:27
 msgid "z"
-msgstr ""
+msgstr "z"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:513
 #: addressbook/gui/widgets/e-addressbook-view.c:573
@@ -2873,29 +2861,24 @@ msgid " %d seconds"
 msgstr "В╕д╕слати"
 
 #: calendar/gui/event-editor.c:1570
-#, fuzzy
 msgid " 1 second"
-msgstr "секунда"
+msgstr " 1 секунда"
 
 #: calendar/gui/event-editor.c:1617
-#, fuzzy
 msgid " before start of appointment"
-msgstr "Створити нову зустр╕ч"
+msgstr " перед початком зустр╕ч╕"
 
 #: calendar/gui/event-editor.c:1619
-#, fuzzy
 msgid " after start of appointment"
-msgstr "Створити нову зустр╕ч"
+msgstr " п╕сля початку зустр╕ч╕"
 
 #: calendar/gui/event-editor.c:1627
-#, fuzzy
 msgid " before end of appointment"
-msgstr "Нагадувати про вс╕ зустр╕ч╕"
+msgstr " перед к╕нцем зустр╕ч╕"
 
 #: calendar/gui/event-editor.c:1629
-#, fuzzy
 msgid " after end of appointment"
-msgstr "Створити нову зустр╕ч"
+msgstr " п╕сля к╕нця зустр╕ч╕"
 
 #: calendar/gui/event-editor.c:3137 calendar/gui/print.c:1097
 #: calendar/gui/print.c:1099 calendar/gui/print.c:1100
@@ -2941,24 +2924,20 @@ msgid "Factory for the sample Calendar control"
 msgstr "Не вдалося ╕н╕ц╕ал╕зувати поштовий компонент Evolutuion."
 
 #: calendar/gui/gnome-cal.c:223
-#, fuzzy
 msgid "Show all "
-msgstr "Показати все"
+msgstr "Показати все "
 
 #: calendar/gui/gnome-cal.c:237
-#, fuzzy
 msgid "Summary contains"
-msgstr "Електронна адреса м╕стить"
+msgstr "Зведення м╕стить"
 
 #: calendar/gui/gnome-cal.c:238
-#, fuzzy
 msgid "Description contains"
-msgstr "Опис:"
+msgstr "Опис м╕стить"
 
 #: calendar/gui/gnome-cal.c:239
-#, fuzzy
 msgid "Comment contains"
-msgstr "╤м'я м╕стить"
+msgstr "Коментар м╕стить"
 
 #: calendar/gui/gnome-cal.c:240
 #, fuzzy
