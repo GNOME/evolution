@@ -932,8 +932,11 @@ pstream_get_content_types (BonoboPersistStream *ps, void *closure,
 }
 
 static void
-get_prop ( BonoboPropertyBag *bag, BonoboArg *arg,
-	   guint arg_id, gpointer user_data )
+get_prop ( BonoboPropertyBag *bag, 
+	   BonoboArg *arg,
+	   guint arg_id, 	      
+	   CORBA_Environment *ev,
+	   gpointer user_data)
 {
 	EItipControlPrivate *priv = user_data;
 
@@ -946,8 +949,11 @@ get_prop ( BonoboPropertyBag *bag, BonoboArg *arg,
 }
 
 static void
-set_prop ( BonoboPropertyBag *bag, const BonoboArg *arg,
-	   guint arg_id, gpointer user_data )
+set_prop ( BonoboPropertyBag *bag, 
+	   const BonoboArg *arg,
+	   guint arg_id, 
+	   CORBA_Environment *ev,
+	   gpointer user_data)
 {
 	EItipControlPrivate *priv = user_data;
 

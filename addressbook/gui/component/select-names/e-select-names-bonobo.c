@@ -57,6 +57,7 @@ static void
 entry_get_property_fn (BonoboPropertyBag *bag,
 		       BonoboArg *arg,
 		       unsigned int arg_id,
+		       CORBA_Environment *ev,
 		       void *user_data)
 {
 	GtkWidget *widget;
@@ -78,6 +79,7 @@ static void
 entry_set_property_fn (BonoboPropertyBag *bag,
 		       const BonoboArg *arg,
 		       guint arg_id,
+		       CORBA_Environment *ev,
 		       gpointer user_data)
 {
 	GtkWidget *widget;

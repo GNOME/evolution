@@ -112,6 +112,7 @@ static void
 set_property (BonoboPropertyBag *bag,
 	      const BonoboArg *arg,
 	      guint arg_id,
+	      CORBA_Environment *ev,
 	      gpointer user_data)
 {
 	switch (arg_id) {
@@ -132,6 +133,7 @@ static void
 get_property (BonoboPropertyBag *bag,
 	      BonoboArg *arg,
 	      guint arg_id,
+	      CORBA_Environment *ev,
 	      gpointer user_data)
 {
 	UserData *ud = (UserData *) user_data;

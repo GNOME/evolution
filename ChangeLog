@@ -1,3 +1,8 @@
+2001-01-15  Dietmar Maurer  <dietmar@ximian.com>
+
+	* *.c: changed the signature of the property_bag get/set
+	functions.
+
 2001-01-14  JP Rosevear  <jpr@ximian.com>
 
 	* configure.in: remove old config message

@@ -39,10 +39,12 @@ static void tasks_control_properties_init	(BonoboControl		*control,
 static void tasks_control_get_property		(BonoboPropertyBag	*bag,
 						 BonoboArg		*arg,
 						 guint			 arg_id,
+						 CORBA_Environment      *ev,
 						 gpointer		 user_data);
 static void tasks_control_set_property		(BonoboPropertyBag	*bag,
 						 const BonoboArg	*arg,
 						 guint			 arg_id,
+						 CORBA_Environment      *ev,
 						 gpointer		 user_data);
 static void tasks_control_activate_cb		(BonoboControl		*control,
 						 gboolean		 activate,
@@ -112,6 +114,7 @@ static void
 tasks_control_get_property		(BonoboPropertyBag	*bag,
 					 BonoboArg		*arg,
 					 guint			 arg_id,
+					 CORBA_Environment      *ev,
 					 gpointer		 user_data)
 {
 	/*GnomeCalendar *gcal = user_data;*/
@@ -137,6 +140,7 @@ static void
 tasks_control_set_property		(BonoboPropertyBag	*bag,
 					 const BonoboArg	*arg,
 					 guint			 arg_id,
+					 CORBA_Environment      *ev,
 					 gpointer		 user_data)
 {
 	ETasks *tasks = user_data;

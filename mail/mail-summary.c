@@ -388,6 +388,7 @@ static void
 get_property (BonoboPropertyBag *bag,
 	      BonoboArg *arg,
 	      guint arg_id,
+	      CORBA_Environment *ev,
 	      gpointer user_data)
 {
 	MailSummary *summary = (MailSummary *) user_data;

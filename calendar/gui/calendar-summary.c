@@ -216,6 +216,7 @@ static void
 get_property (BonoboPropertyBag *bag,
 	      BonoboArg *arg,
 	      guint arg_id,
+	      CORBA_Environment *ev,
 	      gpointer data)
 {
 	CalSummary *summary = (CalSummary *) data;
