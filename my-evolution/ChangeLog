@@ -1,3 +1,7 @@
+2001-06-14  JP Rosevear  <jpr@ximian.com>
+
+	* Makefile.am: add my-evolution-html.h to the sources
+
 2001-06-13  JP Rosevear  <jpr@ximian.com>
 
 	* Makefile.am: Make e-summary-type.h a source so it gets disted
