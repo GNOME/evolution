@@ -1444,7 +1444,7 @@ static EPopupMenu context_menu[] = {
 	{ N_("_Open"),                      NULL, GTK_SIGNAL_FUNC (open_msg),         NULL,  0 },
 	{ N_("_Edit as New Message..."),    NULL, GTK_SIGNAL_FUNC (resend_msg),       NULL,  CAN_RESEND },
 	{ N_("_Save As..."),                NULL, GTK_SIGNAL_FUNC (save_msg),         NULL,  0 },
-	{ N_("_Print"),                     NULL, GTK_SIGNAL_FUNC (print_msg),        NULL,  0 },
+	{ N_("_Print"),                     NULL, GTK_SIGNAL_FUNC (print_msg),        NULL,  SELECTION_SET },
 	
 	E_POPUP_SEPARATOR,
 	
@@ -1509,7 +1509,7 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 	int i;
 	char *mlist = NULL;
 	GtkMenu *menu;
-
+	
 	if (fb->folder != sent_folder) {
 		enable_mask |= CAN_RESEND;
 		hide_mask |= CAN_RESEND;
@@ -1519,20 +1519,20 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 		enable_mask |= SELECTION_SET;
 	} else {
 		char *mname, *p, c, *o;
-
-		mname = header_raw_check_mailing_list(&((CamelMimePart *)fb->mail_display->current_message)->headers);
+		
+		mname = header_raw_check_mailing_list (&((CamelMimePart *)fb->mail_display->current_message)->headers);
 		/* Escape the mailing list name before showing it */
 		if (mname) {
-			mlist = alloca(strlen(mname)+2);
+			mlist = alloca (strlen (mname)+2);
 			p = mname;
 			o = mlist;
 			while ((c = *p++)) {
-				if (c=='_')
-					*o++='_';
+				if (c == '_')
+					*o++ = '_';
 				*o++ = c;
 			}
 			*o = 0;
-			g_free(mname);
+			g_free (mname);
 		}
 	}
 	

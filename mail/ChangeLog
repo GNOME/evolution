@@ -1,3 +1,8 @@
+2001-10-28  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* folder-browser.c: Deactivate the Print right-click menu option
+	if the message isn't loaded. Fixes bug #10346.
+
 2001-10-28    <NotZed@Ximian.com>
 
 	* mail-vfolder.c (mail_vfolder_rename_uri): Implemented.
