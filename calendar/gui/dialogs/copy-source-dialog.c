@@ -140,6 +140,7 @@ copy_source_dialog (GtkWindow *parent, ESource *source, ECalSourceType obj_type)
 	gboolean result = FALSE;
 	const char *gconf_key;
 	GtkWidget *label;
+	gchar *label_text;
 
 	g_return_val_if_fail (E_IS_SOURCE (source), FALSE);
 
@@ -161,7 +162,12 @@ copy_source_dialog (GtkWindow *parent, ESource *source, ECalSourceType obj_type)
 						   NULL);
 	gtk_dialog_set_response_sensitive (GTK_DIALOG (csdd.dialog), GTK_RESPONSE_OK, FALSE);
 
-	label = gtk_label_new (_("Select destination source"));
+	label_text = g_strdup_printf (_("Select destination %s"),
+				      obj_type == E_CAL_SOURCE_TYPE_EVENT ?
+				      _("calendar") : _("task list"));
+	label = gtk_label_new (label_text);
+	g_free (label_text);
+
 	gtk_widget_show (label);
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (csdd.dialog)->vbox), label, FALSE, FALSE, 6);
 
