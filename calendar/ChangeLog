@@ -1,3 +1,8 @@
+2001-10-15  Damon Chaplin  <damon@ximian.com>
+
+	* gui/dialogs/cal-prefs-dialog.glade: removed Help button. Do we have
+	any others?
+
 2001-10-15  Larry Ewing  <lewing@ximian.com>
 
 	* gui/dialogs/comp-editor.c (set_icon_from_comp): remove warnings.
