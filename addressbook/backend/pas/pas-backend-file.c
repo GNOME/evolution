@@ -21,6 +21,12 @@ struct _PASBackendFilePrivate {
 	DB       *file_db;
 };
 
+static char *
+pas_backend_file_create_unique_id (char *vcard)
+{
+	return g_strdup ("foo");  /* XXX create unique id here */
+}
+
 static void
 pas_backend_file_process_create_card (PASBackend *backend,
 				      PASBook    *book,
@@ -30,21 +36,38 @@ pas_backend_file_process_create_card (PASBackend *backend,
 	DB             *db = bf->priv->file_db;
 	DBT            id_dbt, vcard_dbt;
 	int            db_error;
+	char           *id;
 
-	id_dbt.data = "foo"; /* XXX create unique id here */
+	id = pas_backend_file_create_unique (req->vcard);
+
+	id_dbt.data = id;
 	id_dbt.size = strlen(id_dbt.data);
 
 	vcard_dbt.data = (void*)req->vcard;
 	vcard_dbt.size = strlen(req->vcard);
 
-	db_error = db->put(db, &id_dbt, &vcard_dbt, 0);
+	db_error = db->put (db, &id_dbt, &vcard_dbt, 0);
 
-	pas_book_respond_create (
-		book,
-		(db_error == 0 
-		 ? Evolution_BookListener_Success 
-		 : Evolution_BookListener_CardNotFound));
+	if (0 == db_error) {
+		pas_book_notify_add(book, id);
 
+		pas_book_respond_create (
+				 book,
+				 Evolution_BookListener_Success);
+
+		db_error = db->sync (db, 0);
+		if (db_error != 0)
+			g_warning ("db->sync failed.\n");
+	}
+	else {
+		/* XXX need a different call status for this case, i
+                   think */
+		pas_book_respond_create (
+				 book,
+				 Evolution_BookListener_CardNotFound);
+	}
+
+	g_free (id);
 	g_free (req->vcard);
 }
 
@@ -61,13 +84,24 @@ pas_backend_file_process_remove_card (PASBackend *backend,
 	id_dbt.data = (void*)req->id;
 	id_dbt.size = strlen(req->id);
 
-	db_error = db->del(db, &id_dbt, 0);
+	db_error = db->del (db, &id_dbt, 0);
 
-	pas_book_respond_remove (
-		book,
-		(db_error == 0 
-		 ? Evolution_BookListener_Success 
-		 : Evolution_BookListener_CardNotFound));
+	if (0 == db_error) {
+		pas_book_notify_remove (book, req->id);
+
+		pas_book_respond_remove (
+				  book,
+				  Evolution_BookListener_Success);
+
+		db_error = db->sync (db, 0);
+		if (db_error != 0)
+			g_warning ("db->sync failed.\n");
+	}
+	else {
+		pas_book_respond_remove (
+				 book,
+				 Evolution_BookListener_CardNotFound);
+	}
 
 	g_free (req->id);
 }
@@ -88,13 +122,25 @@ pas_backend_file_process_modify_card (PASBackend *backend,
 	vcard_dbt.data = (void*)req->vcard;
 	vcard_dbt.size = strlen(req->vcard);
 
-	db_error = db->put(db, &id_dbt, &vcard_dbt, 0);
+	db_error = db->put (db, &id_dbt, &vcard_dbt, 0);
 
-	pas_book_respond_modify (
-		book,
-		(db_error == 0 
-		 ? Evolution_BookListener_Success 
-		 : Evolution_BookListener_CardNotFound));
+	if (0 == db_error) {
+
+		pas_book_notify_change (book, req->id);
+
+		pas_book_respond_modify (
+				 book,
+				 Evolution_BookListener_Success);
+
+		db_error = db->sync (db, 0);
+		if (db_error != 0)
+			g_warning ("db->sync failed.\n");
+	}
+	else {
+		pas_book_respond_modify (
+				 book,
+				 Evolution_BookListener_CardNotFound);
+	}
 
 	g_free (req->vcard);
 }
@@ -132,7 +178,8 @@ pas_backend_file_process_client_requests (PASBook *book)
 
 	case ModifyCard:
 		pas_backend_file_process_modify_card (backend, book, req);
-		
+		break;
+
 	case CheckConnection:
 		pas_backend_file_process_check_connection (backend, book, req);
 		break;
@@ -165,18 +212,18 @@ pas_backend_file_get_vcard (PASBook *book, const char *id)
 	id_dbt.data = (void*)id;
 	id_dbt.size = strlen(id);
 
-	db_error = db->get(db, &id_dbt, &vcard_dbt, 0);
+	db_error = db->get (db, &id_dbt, &vcard_dbt, 0);
 	if (db_error == 0) {
 		/* success */
-		return g_strndup(vcard_dbt.data, vcard_dbt.size);
+		return g_strndup (vcard_dbt.data, vcard_dbt.size);
 	}
 	else if (db_error == 1) {
 		/* key was not in file */
-		return g_strdup(""); /* XXX */
+		return g_strdup (""); /* XXX */
 	}
 	else /* if (db_error < 0)*/ {
 		/* error */
-		return g_strdup(""); /* XXX */
+		return g_strdup (""); /* XXX */
 	}
 
 	return g_strdup ("blah blah blah");
@@ -206,7 +253,7 @@ pas_backend_file_load_uri (PASBackend             *backend,
 	if (bf->priv->file_db != NULL)
 		bf->priv->loaded = TRUE;
 	else
-		g_warning("pas_backend_file_load_uri failed for '%s'\n", filename);
+		g_warning ("pas_backend_file_load_uri failed for '%s'\n", filename);
 
 	g_free (filename);
 }
