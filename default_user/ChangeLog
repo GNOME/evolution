@@ -1,5 +1,9 @@
 2000-07-12  Chris Toshok  <toshok@helixcode.com>
 
+	(install-data-hook): ignore error on mkdir.
+	
+2000-07-12  Chris Toshok  <toshok@helixcode.com>
+
 	* Makefile.am (install-data-hook): create an empty news directory
 	in $(defaultdir).
 
