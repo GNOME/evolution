@@ -4087,7 +4087,7 @@ msgstr "_Bir hatırlatıcı göster"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
 msgid "Show week _numbers in date navigator"
-msgstr "Gün gezgininde tarih numaralarını göster"
+msgstr "_Gün gezgininde tarih numaralarını göster"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:21
 #: calendar/gui/dialogs/recurrence-page.c:1050
@@ -4743,18 +4743,24 @@ msgstr "_Boş"
 msgid "L_ocation:"
 msgstr "Konum: "
 
-#: calendar/gui/dialogs/event-page.glade.h:11
+#: calendar/gui/dialogs/task-page.glade.h:7
+msgid "Ca_tegories..."
+msgstr "_Kategoriler..."
+
 #: calendar/gui/dialogs/task-page.glade.h:8
 msgid "Pri_vate"
 msgstr "Ö_zel"
 
-#: calendar/gui/dialogs/event-page.glade.h:12
+msgid "Calendar:"
+msgstr "Takvim:"
+
 #: calendar/gui/dialogs/task-page.glade.h:9
 msgid "Pu_blic"
 msgstr "_Genel"
 
-#: calendar/gui/dialogs/event-page.glade.h:13
-#, fuzzy
+msgid "Co_nfidential"
+msgstr "_Gizli"
+
 msgid "Show Time As"
 msgstr "Zamanı Farklı Göster"
 
@@ -13877,15 +13883,15 @@ msgstr ""
 
 #: mail/mail-config.glade.h:17
 msgid "Always _blind carbon-copy (Bcc) to:"
-msgstr "Her zaman gizli karbon kopyala (Bcc): "
+msgstr "_Her zaman gizli karbon kopyala (Bcc): "
 
 #: mail/mail-config.glade.h:18
 msgid "Always _carbon-copy (Cc) to:"
-msgstr "Her zaman karbon kopyala (Cc): "
+msgstr "_Her zaman karbon kopyala (Cc):"
 
 #: mail/mail-config.glade.h:19
 msgid "Always _trust keys in my keyring when encrypting"
-msgstr "Şifrelerken her zaman anahtar listemdeki anahtarlara güven"
+msgstr "Şi_frelerken her zaman anahtar listemdeki anahtarlara güven"
 
 #: mail/mail-config.glade.h:20
 #, fuzzy
@@ -14047,7 +14053,7 @@ msgstr "_Başlıklar"
 
 #: mail/mail-config.glade.h:63
 msgid "Highlight _quotations with"
-msgstr "Cevapları her zaman "
+msgstr "_Cevapları renklendir: "
 
 #: mail/mail-config.glade.h:64
 msgid "IMAPv4 "
@@ -14148,7 +14154,7 @@ msgstr "_Bu parolayı hatırla"
 
 #: mail/mail-config.glade.h:97
 msgid "Re_ply-To:"
-msgstr "Cevapla:"
+msgstr "_Cevapla:"
 
 #: mail/mail-config.glade.h:98
 msgid "Receiving Email"
@@ -14303,7 +14309,7 @@ msgstr "_Kimlik denetim türü: "
 
 #: mail/mail-config.glade.h:141
 msgid "_Automatically check for new mail every"
-msgstr "Yeni iletilerin denetlenme aralığı: "
+msgstr "_Yeni iletilerin denetlenme aralığı: "
 
 #: mail/mail-config.glade.h:142
 msgid "_Automatically insert smiley images"
@@ -16591,7 +16597,7 @@ msgstr "Önizleme _Panosu"
 
 #: ui/evolution-addressbook.xml.h:41
 msgid "_Save as VCard"
-msgstr "VCard Olarak Kaydet"
+msgstr "_VCard Olarak Kaydet"
 
 #: ui/evolution-addressbook.xml.h:42
 msgid "_Search for Contacts"
@@ -16870,7 +16876,7 @@ msgstr "T_oplantıyı Tazele"
 
 #: ui/evolution-event-editor.xml.h:9
 msgid "Schedule _Meeting"
-msgstr "Toplantı Zamanı Düzenle"
+msgstr "_Toplantı Düzenle"
 
 #: ui/evolution-event-editor.xml.h:10
 msgid "Schedule a meeting for this item"
@@ -16959,13 +16965,12 @@ msgid "Cut selected message(s) to the clipboard"
 msgstr "Seçilen iletileri panoya kes"
 
 #: ui/evolution-mail-list.xml.h:4
-#, fuzzy
 msgid "E_xpunge"
 msgstr "_Sil"
 
 #: ui/evolution-mail-list.xml.h:5
 msgid "Hide S_elected Messages"
-msgstr "Seçili İletileri Gizle"
+msgstr "_Seçili İletileri Gizle"
 
 #: ui/evolution-mail-list.xml.h:6
 msgid "Hide _Deleted Messages"
@@ -17296,7 +17301,7 @@ msgstr "Seçilen iletiyi düzenleyicide yeniden göndermek üzere aç"
 
 #: ui/evolution-mail-message.xml.h:70
 msgid "Original Si_ze"
-msgstr "Asıl Boyut"
+msgstr "_Asıl Boyut"
 
 #: ui/evolution-mail-message.xml.h:71
 msgid "P_revious Unread Message"
