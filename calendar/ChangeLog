@@ -1,4 +1,10 @@
 2004-07-31  JP Rosevear  <jpr@novell.com>
+ 
+ 	* gui/dialogs/event-editor.c (show_meeting): use Invitations not
+ 	Meetings
+ 	(event_editor_edit_comp): ditto
+	
+2004-07-31  JP Rosevear  <jpr@novell.com>
 
 	* gui/e-day-view.c (e_day_view_finish_long_event_resize): guard
 	with is_instance instead of has_recurrences because most of the

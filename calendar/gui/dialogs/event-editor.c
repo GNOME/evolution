@@ -239,7 +239,7 @@ event_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 						 _("Scheduling"));
 			comp_editor_append_page (COMP_EDITOR (ee),
 						 COMP_EDITOR_PAGE (priv->meet_page),
-						 _("Meeting"));
+						 _("Invitations"));
 		}
 	
 		for (l = attendees; l != NULL; l = l->next) {
@@ -381,7 +381,7 @@ show_meeting (EventEditor *ee)
 					 _("Scheduling"));
 		comp_editor_append_page (COMP_EDITOR (ee),
 					 COMP_EDITOR_PAGE (priv->meet_page),
-					 _("Meeting"));
+					 _("Invitations"));
 		priv->meeting_shown = TRUE;
 
  		comp_editor_set_changed (COMP_EDITOR (ee), priv->meeting_shown);
