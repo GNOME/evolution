@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-08-14 22:47+0300\n"
+"POT-Creation-Date: 2004-08-23 08:07+0300\n"
 "PO-Revision-Date: 2004-08-15 10:20+0300\n"
 "Last-Translator: Ilkka Tuohela <hile@iki.fi>\n"
 "Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
@@ -4167,7 +4167,7 @@ msgstr "Poista vanhemmat tapahtumat kuin"
 #: calendar/gui/dialogs/alarm-dialog.glade.h:21
 #: calendar/gui/dialogs/calendar-setup.glade.h:12 filter/filter.glade.h:13
 msgid "days"
-msgstr "päivää"
+msgstr "päivä"
 
 #: calendar/gui/calendar-commands.c:432
 msgid "%A %d %B %Y"
@@ -4378,7 +4378,7 @@ msgstr "Ponnahdusikkuna hälytykselle"
 #: calendar/gui/dialogs/alarm-dialog.glade.h:11
 #: calendar/gui/e-alarm-list.c:456
 msgid "Run a program"
-msgstr "Aja ohjelma"
+msgstr "Suorita ohjelma"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:12
 msgid "Send To:"
@@ -4399,7 +4399,7 @@ msgstr "_Ohjelma:"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:16
 msgid "_Repeat the alarm"
-msgstr "_Toista hälytystä"
+msgstr "_Toista hälytys"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:17
 msgid "_Sound:"
@@ -4420,11 +4420,11 @@ msgstr "päivä(ä)"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:22
 msgid "end of appointment"
-msgstr "tapaamisen päätös"
+msgstr "tapaamisen päättymistä"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:23
 msgid "extra times every"
-msgstr "ylimääräisiä kertoja joka"
+msgstr "ylimääräistä kertaa joka"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:24
 msgid "hour(s)"
@@ -4433,15 +4433,15 @@ msgstr "tunti(a)"
 #: calendar/gui/dialogs/alarm-dialog.glade.h:25
 #: calendar/gui/dialogs/calendar-setup.glade.h:13 filter/filter.glade.h:14
 msgid "hours"
-msgstr "tuntia"
+msgstr "tunti"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:26
 msgid "minute(s)"
-msgstr "minuutti"
+msgstr "minuutti(a)"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:28
 msgid "start of appointment"
-msgstr "tapaamisen alku"
+msgstr "tapaamisen alkua"
 
 #: calendar/gui/dialogs/alarm-list-dialog.c:192
 msgid "Action/Trigger"
@@ -5408,7 +5408,7 @@ msgstr "kunnes"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:12
 msgid "week(s)"
-msgstr "viikkoa"
+msgstr "viikko(a)"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:13
 msgid "year(s)"
