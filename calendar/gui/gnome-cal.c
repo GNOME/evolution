@@ -322,7 +322,6 @@ gnome_calendar_add_object (GnomeCalendar *gcal, iCalObject *obj)
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
 	g_return_if_fail (obj != NULL);
 
-	/*calendar_add_object (gcal->cal, obj); DELETE */
 	obj_string = ical_object_to_string (obj);
 	cal_client_update_object (gcal->client, obj->uid, obj_string);
 	g_free (obj_string);
@@ -346,15 +345,15 @@ gnome_calendar_remove_object (GnomeCalendar *gcal, iCalObject *obj)
 void
 gnome_calendar_object_changed (GnomeCalendar *gcal, iCalObject *obj, int flags)
 {
+	char *obj_string;
 	g_return_if_fail (gcal != NULL);
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
 	g_return_if_fail (obj != NULL);
 
-	/* FIXME -- i don't know what to do here */
-	/* gcal->cal->modified = TRUE; */
-
-	gnome_calendar_update_all (gcal, obj, flags);
-	/* calendar_object_changed (gcal->cal, obj, flags); */
+	obj_string = ical_object_to_string (obj);
+	cal_client_update_object (gcal->client, obj->uid, obj_string);
+	g_free (obj_string);
+	gnome_calendar_update_all (gcal, obj, CHANGE_NEW);
 }
 
 static int
