@@ -216,10 +216,10 @@ best_encoding (GByteArray *buf, const char *charset)
 			if ((unsigned char)*ch > 127)
 				count++;
 		}
-	} while (status == -1 && errno == E2BIG);
+	} while (status == (size_t) -1 && errno == E2BIG);
 	iconv_close (cd);
 	
-	if (status == -1)
+	if (status == (size_t) -1)
 		return -1;
 	
 	if (count == 0)
@@ -2939,6 +2939,8 @@ create_composer (int visible_mask)
 		return NULL;
 	}
 	
+	gtk_container_set_border_width (GTK_CONTAINER (vbox), 6);
+	gtk_box_set_spacing (GTK_BOX (vbox), 6);
 	gtk_box_pack_start (GTK_BOX (vbox), composer->hdrs, FALSE, FALSE, 0);
 	g_signal_connect (composer->hdrs, "subject_changed",
 			  G_CALLBACK (subject_changed_cb), composer);

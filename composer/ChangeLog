@@ -1,3 +1,15 @@
+2003-06-16  Jeffrey Stedfast  <fejj@ximian.com>
+
+	Fixes bug #44139.
+
+	* e-msg-composer-hdrs.c (attach_couple): Set the vertical and
+	horizontal padding to 3 always.
+	(create_from_optionmenu): Change the hbox spacing to 6 pixels.
+
+	* e-msg-composer.c (create_composer): Set the border width around
+	the composer's vbox to HIG specification and make the box_spacing
+	6 pixels as well.
+
 2003-06-10  Larry Ewing  <lewing@ximian.com>
 
 	* e-msg-composer-hdrs.c (e_msg_composer_hdrs_and_string_free):

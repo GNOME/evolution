@@ -386,7 +386,7 @@ create_from_optionmenu (EMsgComposerHdrs *hdrs)
 		g_signal_emit_by_name (first, "activate", hdrs);
 	}
 	
-	hbox = gtk_hbox_new (FALSE, 3);
+	hbox = gtk_hbox_new (FALSE, 6);
 	gtk_box_pack_start_defaults (GTK_BOX (hbox), omenu);
 	gtk_widget_show (omenu);
 	gtk_widget_show (hbox);
@@ -557,22 +557,15 @@ create_headers (EMsgComposerHdrs *hdrs)
 static void
 attach_couple (EMsgComposerHdrs *hdrs, EMsgComposerHdrPair *pair, int line)
 {
-	int pad;
-	
-	if (GTK_IS_LABEL (pair->label))
-		pad = GNOME_PAD;
-	else
-		pad = 2;
-	
 	gtk_table_attach (GTK_TABLE (hdrs),
 			  pair->label, 0, 1,
 			  line, line + 1,
-			  GTK_FILL, GTK_FILL, pad, pad);
+			  GTK_FILL, GTK_FILL, 3, 3);
 	
 	gtk_table_attach (GTK_TABLE (hdrs),
 			  pair->entry, 1, 2,
 			  line, line + 1,
-			  GTK_FILL | GTK_EXPAND, 0, 2, 2);
+			  GTK_FILL | GTK_EXPAND, 0, 3, 3);
 }
 
 static void
