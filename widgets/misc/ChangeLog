@@ -1,3 +1,8 @@
+2003-11-07  JP Rosevear <jpr@ximian.com>
+
+	* Makefile.am: make sure the marshal stuff is in the sources and
+	remove the built files when disting
+
 2003-10-28  Rodrigo Moya <rodrigo@ximian.com>
 
 	* e-source-selector.c (class_init): fill_popup_menu signal has

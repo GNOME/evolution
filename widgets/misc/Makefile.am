@@ -36,6 +36,7 @@ widgetsinclude_HEADERS =			\
 	e-url-entry.h
 
 libemiscwidgets_la_SOURCES =			\
+	$(MARSHAL_GENERATED)			\
 	$(widgetsinclude_HEADERS)		\
 	e-calendar.c				\
 	e-calendar-item.c			\
@@ -54,8 +55,7 @@ libemiscwidgets_la_SOURCES =			\
 	e-search-bar.c				\
 	e-source-selector.c			\
 	e-title-bar.c				\
-	e-url-entry.c				\
-	e-util-marshal.c
+	e-url-entry.c
 
 MARSHAL_GENERATED = e-util-marshal.c e-util-marshal.h
 @EVO_MARSHAL_RULE@
@@ -142,3 +142,6 @@ CLEANFILES    = $(BUILT_SOURCES)
 EXTRA_DIST =			\
 	e-util-marshal.list	\
 	ChangeLog.pre-1-4
+
+dist-hook:
+	cd $(distdir); rm -f $(BUILT_SOURCES)
