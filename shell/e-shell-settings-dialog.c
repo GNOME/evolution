@@ -160,6 +160,8 @@ load_pages (EShellSettingsDialog *dialog)
 		return;
 	}
 
+	CORBA_exception_free (&ev);
+
 	language_list = e_get_language_list ();
 
 	page_list = NULL;
@@ -173,6 +175,8 @@ load_pages (EShellSettingsDialog *dialog)
 		Bonobo_ActivationProperty *type;
 		int priority;
 		GdkPixbuf *icon;
+
+		CORBA_exception_init (&ev);
 
 		info = & control_list->_buffer[i];
 
@@ -213,11 +217,15 @@ load_pages (EShellSettingsDialog *dialog)
 
 			page_list = g_list_prepend (page_list, page);
 		} else {
-			g_warning ("Cannot activate %s -- %s", info->iid, BONOBO_EX_REPOID (&ev));
+			char *bonobo_ex_text = bonobo_exception_get_text (&ev);
+			g_warning ("Cannot activate %s -- %s", info->iid, bonobo_ex_text);
+			g_free (bonobo_ex_text);
 		}
 
 		if (icon != NULL)
 			gdk_pixbuf_unref (icon);
+
+		CORBA_exception_free (&ev);
 	}
 
 	page_list = sort_page_list (page_list);
@@ -249,8 +257,6 @@ load_pages (EShellSettingsDialog *dialog)
 	g_list_free (page_list);
 	e_free_language_list (language_list);
 	CORBA_free (control_list);
-
-	CORBA_exception_free (&ev);
 }
 
 

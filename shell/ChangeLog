@@ -1,3 +1,9 @@
+2002-11-16  Chris Toshok  <toshok@ximian.com>
+
+	* e-shell-settings-dialog.c (load_pages): init the corba exception
+	before loading each config page, so previous errors don't make
+	subsequence pages to fail to load.
+
 2002-11-15  Ettore Perazzoli  <ettore@ximian.com>
 
 	* Makefile.am: Added rule to generate
