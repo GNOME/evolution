@@ -1,5 +1,11 @@
 2004-02-19  Chris Toshok  <toshok@ximian.com>
 
+	* gui/component/component-factory.c: s/HAVE_NSS/ENABLE_SMIME.
+
+	* gui/component/addressbook-component.c: s/HAVE_NSS/ENABLE_SMIME.
+
+2004-02-19  Chris Toshok  <toshok@ximian.com>
+
 	* gui/component/addressbook.c (activate_source): split out the
 	majority of the set_prop code for PROPERTY_SOURCE_UID_IDX here, so
 	it can be used for both SOURCE_UID and FOLDER_URI.

@@ -48,7 +48,7 @@
 #include <gconf/gconf-client.h>
 #include <gal/util/e-util.h>
 
-#if HAVE_NSS
+#ifdef ENABLE_SMIME
 #include "smime/gui/component.h"
 #endif
 
@@ -491,7 +491,7 @@ addressbook_component_init (AddressbookComponent *component)
 
 	component->priv = priv;
 
-#if HAVE_NSS
+#ifdef ENABLE_SMIME
 	smime_component_init ();
 #endif
 }

@@ -30,7 +30,7 @@
 #include "eab-popup-control.h"
 #include "eab-vcard-control.h"
 #include "select-names/e-select-names-bonobo.h"
-#if HAVE_NSS
+#ifdef ENABLE_SMIME
 #include "smime/gui/certificate-manager.h"
 #endif
 #include <bonobo/bonobo-shlib-factory.h>
@@ -75,7 +75,7 @@ factory (BonoboGenericFactory *factory,
 #endif
 	if (strcmp (component_id, SELECT_NAMES_ID) == 0)
 		return BONOBO_OBJECT (e_select_names_bonobo_new ());
-#if HAVE_NSS
+#ifdef ENABLE_SMIME
         if (strcmp (component_id, CERTIFICATE_MANAGER_CONFIG_CONTROL_ID) == 0)
                 return BONOBO_OBJECT (certificate_manager_config_control_new ());
 #endif
