@@ -590,11 +590,20 @@ format_mime_part (CamelMimePart *part, MailDisplay *md)
 	if (!handler) {
 		char *id_type;
 
-		id_type = mail_identify_mime_part (part, md);
-		if (id_type) {
-			g_free (mime_type);
-			mime_type = id_type;
-			handler = mail_lookup_handler (id_type);
+		/* Special case MIME types that we know that we can't
+		 * display but are some kind of plain text to prevent
+		 * evil infinite recursion.
+		 */
+
+		if (!strcmp (mime_type, "application/mac-binhex40")) {
+			handler = NULL;
+		} else {
+			id_type = mail_identify_mime_part (part, md);
+			if (id_type) {
+				g_free (mime_type);
+				mime_type = id_type;
+				handler = mail_lookup_handler (id_type);
+			}
 		}
 	}
 

@@ -1,3 +1,9 @@
+2001-07-06  Peter Williams  <peterw@ximian.com>
+
+	* mail-format.c (format_mime_part): Prevent infinite recursion when
+	viewing attachments that we can't / shouldn't display but are some
+	form of plaintext. Cf bug #2234
+
 2001-07-06  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* folder-browser.c (folder_browser_copy): Freeze and Thaw the
