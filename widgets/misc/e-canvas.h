@@ -97,7 +97,7 @@ GtkWidget *e_canvas_new      (void);
 /* Used to send all of the keystroke events to a specific item as well as
  * GDK_FOCUS_CHANGE events.
  */
-void e_canvas_item_grab_focus (GnomeCanvasItem *item);
+void e_canvas_item_grab_focus (GnomeCanvasItem *item, gboolean widget_too);
 
 void e_canvas_item_request_reflow (GnomeCanvasItem *item);
 void e_canvas_item_request_parent_reflow (GnomeCanvasItem *item);

@@ -288,13 +288,14 @@ e_canvas_key (GtkWidget *widget, GdkEventKey *event)
 /**
  * e_canvas_item_grab_focus:
  * @item: A canvas item.
+ * @widget_too: Whether or not to grab the widget-level focus too
  *
- * Makes the specified item take the keyboard focus, so all keyboard events will
- * be sent to it.  If the canvas widget itself did not have the focus, it grabs
- * it as well.
+ * Makes the specified item take the keyboard focus, so all keyboard
+ * events will be sent to it. If the canvas widget itself did not have
+ * the focus and @widget_too is %TRUE, it grabs that focus as well.
  **/
 void
-e_canvas_item_grab_focus (GnomeCanvasItem *item)
+e_canvas_item_grab_focus (GnomeCanvasItem *item, gboolean widget_too)
 {
 	GnomeCanvasItem *focused_item;
 	GdkEvent ev;
@@ -316,7 +317,7 @@ e_canvas_item_grab_focus (GnomeCanvasItem *item)
 
 	item->canvas->focused_item = item;
 
-	if (!GTK_WIDGET_HAS_FOCUS (GTK_WIDGET(item->canvas))) {
+	if (widget_too && !GTK_WIDGET_HAS_FOCUS (GTK_WIDGET(item->canvas))) {
 		gtk_widget_grab_focus (GTK_WIDGET (item->canvas));
 	}
 

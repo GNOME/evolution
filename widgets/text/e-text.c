@@ -2982,7 +2982,7 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 		    && event->button.button == 1) {
 			GdkEventButton button = event->button;
 
-			e_canvas_item_grab_focus (item);
+			e_canvas_item_grab_focus (item, TRUE);
 
 			e_tep_event.type = GDK_BUTTON_RELEASE;
 			e_tep_event.button.time = button.time;
@@ -2999,7 +2999,7 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 		    && text->editable 
 		    && (event->button.button == 1 ||
 			event->button.button == 2)) {
-			e_canvas_item_grab_focus (item);
+			e_canvas_item_grab_focus (item, TRUE);
 		}
 #endif
 
