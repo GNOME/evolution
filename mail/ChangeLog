@@ -1,3 +1,11 @@
+2003-12-09  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #51899.
+
+	* em-folder-tree-model.c (em_folder_tree_model_set_folder_info):
+	CAMEL_FOLDER_CHILDREN is only advisory, some servers don't give it
+	to you.
+
 2003-12-06  JP Rosevear <jpr@ximian.com>
 
 	* Makefile.am: Remove hard coded disable deprecated flags
