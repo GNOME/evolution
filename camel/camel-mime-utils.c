@@ -41,6 +41,8 @@
 #include <ctype.h>
 #include <errno.h>
 
+#include <regex.h>
+
 #include "camel-mime-utils.h"
 #include "camel-charset-map.h"
 
@@ -2892,6 +2894,42 @@ header_raw_clear(struct _header_raw **list)
 	*list = NULL;
 }
 
+static struct {
+	char *name;
+	char *pattern;
+} mail_list_magic[] = {
+	{ "Sender", "^Sender: owner-([^@]+)" },
+	{ "X-BeenThere", "^X-BeenThere: ([^@]+)" },
+	{ "Delivered-To", "^Delivered-To: mailing list ([^@]+)" },
+	{ "X-Mailing-List", "^X-Mailing-List: ([^@]+)" },
+	{ "X-Loop", "^X-Loop: ([^@]+)" },
+	{ "List-Id", "^List-Id: ([^<]+)" },
+};
+
+char *
+header_raw_check_mailing_list(struct _header_raw **list)
+{
+	const char *v;
+	regex_t pattern;
+	regmatch_t match[1];
+	int i;
+
+	for (i=0;i<sizeof(mail_list_magic)/sizeof(mail_list_magic[0]);i++) {
+		if (regcomp(&pattern, mail_list_magic[i].pattern, REG_EXTENDED|REG_ICASE) == -1) {
+			g_warning("Internal error, compiling regex failed: %s: %s", mail_list_magic[i].pattern, strerror(errno));
+			continue;
+		}
+
+		v = header_raw_find(list, mail_list_magic[i].name, NULL);
+		if (v != NULL && regexec(&pattern, v, 1, match, 0) == 0 && match[0].rm_so != -1) {
+			regfree(&pattern);
+			return g_strndup(v+match[0].rm_so, match[0].rm_eo-match[0].rm_so);
+		}
+		regfree(&pattern);
+	}
+
+	return NULL;
+}
 
 /* ok, here's the address stuff, what a mess ... */
 struct _header_address *header_address_new(void)

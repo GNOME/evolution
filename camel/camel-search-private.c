@@ -30,13 +30,12 @@
 #include <ctype.h>
 #include <stdio.h>
 
-#include <gal/widgets/e-unicode.h>
-
 #include "camel-exception.h"
 #include "camel-mime-message.h"
 #include "camel-multipart.h"
 #include "camel-stream-mem.h"
 #include "e-util/e-sexp.h"
+#include <unicode.h>
 
 #include "camel-search-private.h"
 
@@ -183,6 +182,169 @@ header_soundex(const char *header, const char *match)
 	return truth;
 }
 
+static guint16 utf8_get(const char **inp)
+{
+	guint32 c, v = 0, s, shift;
+	const unsigned char *p = *inp;
+
+	if (p == NULL)
+		return 0;
+
+	s = *p++;
+	if ((s & 0x80) == 0) {	/* 7 bit char */
+		v = s;
+	} else if (s>0xf7) {	/* invalid char, we can only have upto 4 bits encoded */
+		p = NULL;
+	} else if (s>=0xc0) {	/* valid start char */
+		shift = 0;
+		do {
+			c = *p++;
+			if ((c & 0xc0) == 0x80) {
+				v = (v<<6) | (c&0x3f);
+				shift += 5;
+			} else {
+				*inp = NULL;
+				return 0;
+			}
+			s <<= 1;
+		} while ((s & 0x80) != 0);
+		v |= s << shift;
+	} else {		/* invalid start char, internal char */
+		p = NULL;
+	}
+
+	*inp = p;
+	return v;
+}
+
+static const char *
+camel_ustrstrcase(const char *haystack, const char *needle)
+{
+	unicode_char_t *uni, *puni, *suni, u, v;
+	const char *p, *s, *l;
+
+	if (haystack == NULL || needle == NULL)
+		return NULL;
+
+	if (needle[0] == 0)
+		return haystack;
+
+	if (haystack[0] == 0)
+		return NULL;
+
+	puni = uni = alloca(sizeof(*uni)*(strlen(needle)+1));
+	p = needle;
+	while ((u = utf8_get(&p)))
+		*puni++ = unicode_tolower(u);
+
+	if (p == NULL)
+		return NULL;
+
+	l = p = haystack;
+	while ( (u = utf8_get(&p)) ) {
+		v = unicode_tolower(u);
+		if (uni[0] == v) {
+			s = p;
+			suni = uni+1;
+			while (suni < puni) {
+				u = utf8_get(&s);
+				v = unicode_tolower(u);
+				if (v != *suni)
+					goto next;
+				suni++;
+			}
+			return l;
+		}
+	next:
+		l = p;
+	}
+
+	return NULL;
+}
+
+static int
+camel_ustrcasecmp(const char *s1, const char *s2)
+{
+	guint16 u1, u2=0;
+
+	if (s1 == NULL) {
+		if (s2 == NULL)
+			return 0;
+		else
+			return -1;
+	}
+	if (s2 == NULL)
+		return 1;
+  
+	while ((u1 = utf8_get(&s1)) && (u2 = utf8_get(&s2))) {
+		u1 = unicode_tolower(u1);
+		u2 = unicode_tolower(u2);
+		if (u1 < u2)
+			return -1;
+		else if (u1 > u2)
+			return 1;
+	}
+
+	/* if we have invalid utf8 sequence ?  */
+	if (s2 == NULL || s1 == NULL)
+		return 1;
+
+	if (u1 == 0) {
+		if (u2 == 0)
+			return 0;
+		else
+			return -1;
+	}
+	if (u2 == 0)
+		return 1;
+
+	return 0;
+}
+
+static int
+camel_ustrncasecmp(const char *s1, const char *s2, size_t len)
+{
+	guint16 u1, u2=0;
+
+	if (s1 == NULL) {
+		if (s2 == NULL)
+			return 0;
+		else
+			return -1;
+	}
+	if (s2 == NULL)
+		return 1;
+  
+	while (len > 0 && (u1 = utf8_get(&s1)) && (u2 = utf8_get(&s2))) {
+		u1 = unicode_tolower(u1);
+		u2 = unicode_tolower(u2);
+		if (u1 < u2)
+			return -1;
+		else if (u1 > u2)
+			return 1;
+		len--;
+	}
+
+	if (len == 0)
+		return 0;
+
+	/* if we have invalid utf8 sequence ?  */
+	if (s2 == NULL || s1 == NULL)
+		return 1;
+
+	if (u1 == 0) {
+		if (u2 == 0)
+			return 0;
+		else
+			return -1;
+	}
+	if (u2 == 0)
+		return 1;
+
+	return 0;
+}
+
+
 /* searhces for match inside value, if match is mixed case, hten use case-sensitive,
    else insensitive */
 gboolean camel_search_header_match(const char *value, const char *match, camel_search_match_t how)
@@ -221,13 +383,13 @@ gboolean camel_search_header_match(const char *value, const char *match, camel_s
 	}
 	switch(how) {
 	case CAMEL_SEARCH_MATCH_EXACT:
-		return strcasecmp(value, match) == 0;
+		return camel_ustrcasecmp(value, match) == 0;
 	case CAMEL_SEARCH_MATCH_CONTAINS:
-		return e_utf8_strstrcase(value, match) != NULL;
+		return camel_ustrstrcase(value, match) != NULL;
 	case CAMEL_SEARCH_MATCH_STARTS:
-		return strncasecmp(value, match, strlen(match)) == 0;
+		return camel_ustrncasecmp(value, match, strlen(match)) == 0;
 	case CAMEL_SEARCH_MATCH_ENDS:
-		return strcasecmp(value+strlen(value)-strlen(match), match) == 0;
+		return camel_ustrcasecmp(value+strlen(value)-strlen(match), match) == 0;
 	default:
 		break;
 	}

@@ -1,3 +1,24 @@
+2001-02-06  Not Zed  <NotZed@Ximian.com>
+
+	* camel-search-private.c: Removed unwanted header.  It was never
+	put in for a reason.  Stop fixing irrelevant warnings.
+	
+	(camel_ustrstrcase): Our own strstrcase impl for utf8 strings.
+	(camel_ustrcasecmp): Ditto for strcasecmp.
+	(camel_ustrncasecmp): And strncasecmp.
+	(utf8_get): Simpler interface to utf8 string processing.
+	(camel_search_header_match): Use the new things.
+
+2001-02-05  Not Zed  <NotZed@Ximian.com>
+
+	* camel-folder.c (get_summary): Removed some old variables/a small
+	memleak.
+	(free_summary): Removed old variables.
+
+	* camel-mime-utils.c (header_raw_check_mailing_list): New utility
+	function to get the mailing list (if any) that a set of headers
+	came from.
+
 2001-02-05  Christopher James Lahey  <clahey@helixcode.com>
 
 	* camel-stream-fs.c: Added a missing #include.

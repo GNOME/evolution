@@ -924,9 +924,6 @@ camel_folder_free_uids (CamelFolder *folder, GPtrArray *array)
 static GPtrArray *
 get_summary(CamelFolder *folder)
 {
-	GPtrArray *res = g_ptr_array_new();
-	int i, count;
-
 	g_assert(folder->summary != NULL);
 
 	return camel_folder_summary_array(folder->summary);
@@ -957,8 +954,6 @@ camel_folder_get_summary (CamelFolder *folder)
 static void
 free_summary(CamelFolder *folder, GPtrArray *summary)
 {
-	int i;
-
 	g_assert(folder->summary != NULL);
 
 	camel_folder_summary_array_free(folder->summary, summary);
