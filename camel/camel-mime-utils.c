@@ -2803,6 +2803,10 @@ header_address_decode(const char *in)
 	if (in == NULL)
 		return NULL;
 
+	header_decode_lwsp(&inptr);
+	if (*inptr == 0)
+		return NULL;
+
 	do {
 		last = inptr;
 		addr = header_decode_address(&inptr);
