@@ -1,3 +1,13 @@
+2002-08-28  Not Zed  <NotZed@Ximian.com>
+
+	* providers/imap/camel-imap-utils.c (imap_mailbox_encode): Chagned
+	to use camel_utf8_utf7 code.
+	(imap_mailbox_decode): As above, using camel_utf8_utf7.  'UTF-7'
+	isn't a widely support iconv() codeset, and besides the new code
+	is simpler.
+
+	* camel-utf8.[ch]: robust utilities for working with utf8 and utf7.
+
 2002-08-27  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-folder-thread.c (camel_folder_thread_messages_new): Now

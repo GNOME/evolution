@@ -109,6 +109,7 @@ libcamel_la_SOURCES = 				\
 	camel-transport.c			\
 	camel-uid-cache.c			\
 	camel-url.c				\
+	camel-utf8.c				\
 	camel-vee-folder.c			\
 	camel-vee-store.c			\
 	camel-vtrash-folder.c			\
@@ -208,6 +209,7 @@ libcamelinclude_HEADERS =			\
 	camel-types.h				\
 	camel-uid-cache.h			\
 	camel-url.h				\
+	camel-utf8.h				\
 	camel-vee-folder.h			\
 	camel-vee-store.h			\
 	camel-vtrash-folder.h			\
