@@ -1,4 +1,4 @@
-2003-05-08  Ettore Perazzoli  <ettore@ximian.com>
+2003-05-09  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-combo-button.c (menu_deactivate_callback): Set in_button to
 	FALSE; this makes sure the button gets the right appearance after
