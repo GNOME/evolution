@@ -317,7 +317,6 @@ shell/e-shell-offline-sync.c
 shell/e-shell-settings-dialog.c
 shell/e-shell-shared-folder-picker-dialog.c
 shell/e-shell-startup-wizard.c
-shell/e-shell-user-creatable-items-handler.c
 shell/e-shell-utils.c
 shell/e-shell-view-menu.c
 shell/e-shell-view.c

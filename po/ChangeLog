@@ -1,3 +1,7 @@
+2003-11-13  JP Rosevear <jpr@ximian.com>
+
+	* POTFILES.in: remove dead file
+
 2003-11-11  Chris Toshok  <toshok@ximian.com>
 
 	* POTFILES.in: add smime/lib/e-cert-db.c
