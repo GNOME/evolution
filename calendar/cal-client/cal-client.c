@@ -632,7 +632,7 @@ cal_client_construct (CalClient *client)
 
 		factory = (GNOME_Evolution_Calendar_CalFactory)
 			oaf_activate_from_id (info->iid, 0, NULL, &ev);
-		if (ev._major != CORBA_NO_EXCEPTION) {
+		if (BONOBO_EX (&ev)) {
 			g_warning ("cal_client_construct: Could not activate calendar server %s", info->iid);
 			CORBA_free (servers);
 			CORBA_exception_free (&ev);
@@ -759,14 +759,19 @@ cal_client_open_calendar (CalClient *client, const char *str_uri, gboolean only_
 		GNOME_Evolution_Calendar_CalFactory_open (f->data, str_uri,
 							  only_if_exists,
 							  corba_listener, &ev);
-		if (ev._major == CORBA_NO_EXCEPTION)
+		if (!BONOBO_EX (&ev))
 			break;
 	}
 
 	if (BONOBO_EX (&ev)) {
 		CORBA_exception_free (&ev);
 
-		g_message ("cal_client_open_calendar(): open request failed");
+		if (BONOBO_USER_EX (&ev, ex_GNOME_Evolution_Calendar_CalFactory_InvalidURI))
+			g_message ("cal_client_open_calendar: invalid URI");
+		else if (BONOBO_USER_EX (&ev, ex_GNOME_Evolution_Calendar_CalFactory_UnsupportedMethod))
+			 g_message ("cal_client_open_calendar: unsupported method");
+		else
+			g_message ("cal_client_open_calendar(): open request failed");
 		bonobo_object_unref (BONOBO_OBJECT (priv->listener));
 		priv->listener = NULL;
 		priv->load_state = CAL_CLIENT_LOAD_NOT_LOADED;
