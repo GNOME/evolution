@@ -12740,21 +12740,18 @@ msgid "Schedule a meeting for this item"
 msgstr "Планування зустр╕ч╕"
 
 #: ui/evolution-executive-summary.xml.h:1
-#, fuzzy
 msgid "Customise My Evolution"
-msgstr "%s - Evolution %s"
+msgstr "Налаштувати м╕й Evolution"
 
 #: ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
-msgstr "В╕дм╕нити"
+msgstr "Скасувати"
 
 #: ui/evolution-mail-global.xml.h:2
-#, fuzzy
 msgid "Cancel the current mail operation"
-msgstr "Зберегти поточний файл"
+msgstr "Скасувати поточну поштову операц╕ю"
 
 #: ui/evolution-mail-global.xml.h:3
-#, fuzzy
 msgid "Compose _New Message"
 msgstr "Скласти нове пов╕домлення"
 
@@ -12791,14 +12788,12 @@ msgid "Open a window for composing a mail message"
 msgstr "В╕дкрити в╕кно для написання нового пов╕домлення"
 
 #: ui/evolution-mail-global.xml.h:12
-#, fuzzy
 msgid "Permanently remove all deleted messages from all folders"
-msgstr "Перенести пов╕домлення у нову теку"
+msgstr "Остаточно видалити вс╕ стерт╕ пов╕домлення з ус╕х тек"
 
 #: ui/evolution-mail-global.xml.h:13
-#, fuzzy
 msgid "Send / Receive"
-msgstr "Дата отримання"
+msgstr "В╕д╕слати / отримати"
 
 #: ui/evolution-mail-global.xml.h:14
 msgid "Send queued mail and retrieve new mail"
@@ -13026,38 +13021,32 @@ msgid "Create a virtual folder for this subject"
 msgstr "Створити в╕ртуальну теку з пов╕домлення"
 
 #: ui/evolution-mail-message.xml.h:17
-#, fuzzy
 msgid "Display the next important message"
-msgstr "В╕дпов╕сти в╕дправнику цього пов╕домлення"
+msgstr "Показати наступне важливе пов╕домлення"
 
 #: ui/evolution-mail-message.xml.h:18
-#, fuzzy
 msgid "Display the next message"
-msgstr "Перейти до наступного пов╕домлення"
+msgstr "Показати наступне пов╕домлення"
 
 #: ui/evolution-mail-message.xml.h:19
-#, fuzzy
 msgid "Display the next unread message"
-msgstr "Стерти вибран╕ пов╕домлення"
+msgstr "Показати попередн╓ пов╕домлення"
 
 #: ui/evolution-mail-message.xml.h:20
 msgid "Display the next unread thread"
-msgstr ""
+msgstr "Показати наступну непрочитану г╕лку"
 
 #: ui/evolution-mail-message.xml.h:21
-#, fuzzy
 msgid "Display the previous important message"
-msgstr "Перейти до попереднього пов╕домлення"
+msgstr "Показати попередн╓ важливе пов╕домлення"
 
 #: ui/evolution-mail-message.xml.h:22
-#, fuzzy
 msgid "Display the previous message"
-msgstr "Перейти до попереднього пов╕домлення"
+msgstr "Показати попередн╓ пов╕домлення"
 
 #: ui/evolution-mail-message.xml.h:23
-#, fuzzy
 msgid "Display the previous unread message"
-msgstr "Перейти до попереднього пов╕домлення"
+msgstr "Показати попередн╓ непрочитане пов╕домлення"
 
 #: ui/evolution-mail-message.xml.h:24
 #, fuzzy
@@ -13065,19 +13054,16 @@ msgid "Filter on Mailing _List..."
 msgstr "Ф╕льтр списку розсилки"
 
 #: ui/evolution-mail-message.xml.h:25
-#, fuzzy
 msgid "Filter on Se_nder..."
-msgstr "Ф╕льтр в╕дправника"
+msgstr "Ф╕льтр в╕дправника..."
 
 #: ui/evolution-mail-message.xml.h:26
-#, fuzzy
 msgid "Filter on _Recipients..."
-msgstr "Ф╕льтр отримувач╕в"
+msgstr "Ф╕льтр отримувач╕в..."
 
 #: ui/evolution-mail-message.xml.h:27
-#, fuzzy
 msgid "Filter on _Subject..."
-msgstr "Ф╕льтр теми"
+msgstr "Ф╕льтр теми..."
 
 #: ui/evolution-mail-message.xml.h:28
 msgid "Force images in HTML mail to be loaded"
@@ -13672,7 +13658,7 @@ msgstr "Створити нову теку..."
 
 #: ui/evolution.xml.h:8
 msgid "Create a link to this folder in the shortcut bar"
-msgstr ""
+msgstr "Створити посилання на цю теку в панел╕ ярлик╕в"
 
 #: ui/evolution.xml.h:9
 msgid "Create a new folder"
@@ -13700,7 +13686,7 @@ msgstr "Вийти з програми"
 
 #: ui/evolution.xml.h:15
 msgid "Import data from other programs"
-msgstr ""
+msgstr "╤мпорт даних з ╕нших програм"
 
 #: ui/evolution.xml.h:17
 msgid "Move this folder to another place"
@@ -13805,36 +13791,30 @@ msgid "_Shortcut Bar"
 msgstr "Панель ярлик╕в"
 
 #: ui/evolution.xml.h:51
-#, fuzzy
 msgid "_Work Offline"
-msgstr "Перенесення"
+msgstr "Працювати не на л╕н╕╖"
 
 #: ui/my-evolution.xml.h:1
-#, fuzzy
 msgid "Change the settings for the summary"
-msgstr "Зм╕нити властивост╕ ц╕╓╖ теки"
+msgstr "Зм╕нити параметри зведення"
 
 #: ui/my-evolution.xml.h:4
-#, fuzzy
 msgid "Print summary"
-msgstr "Нед╕ля"
+msgstr "Надрукувати зведення"
 
 #: ui/my-evolution.xml.h:5
-#, fuzzy
 msgid "Reload"
-msgstr "Прочитано"
+msgstr "Перезавантажити"
 
 #: ui/my-evolution.xml.h:6
 msgid "Reload the view"
 msgstr ""
 
 #: ui/my-evolution.xml.h:8
-#, fuzzy
 msgid "_Summary Settings..."
-msgstr "Установки пошти..."
+msgstr "Параметри зведення..."
 
 #: views/addressbook/galview.xml.h:1
-#, fuzzy
 msgid "Address Cards"
 msgstr "Адресн╕ картки"
 
@@ -13870,9 +13850,8 @@ msgstr ""
 "Категор╕╖: "
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:1
-#, fuzzy
 msgid "Select a Time Zone"
-msgstr "Вибрати файл"
+msgstr "Вибрати часовий пояс"
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:2
 #, fuzzy
