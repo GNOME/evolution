@@ -1,3 +1,17 @@
+1998-04-28  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* gnome-cal.c (calendar_notify): Apply black magic to get mail
+	notifications to work. 
+
+	* gncal-full-day.c (child_focus_out): Temporary optimization, the
+	child_focus_out is constantly calling the
+	gnome_calendar_object_changed when the property editor has been
+	invoked.  This happens every time the mouse moves crosses the main
+	window.
+
+	* calendar.c (calendar_object_changed): Reschedule alarms when a
+	calendar object has changed its times.
+
 Sat Apr 25 22:20:45 1998  Havoc Pennington  <hp@pobox.com>
 
 	* eventedit.c, eventedit.h: Descend from GnomeDialog. Took vbox

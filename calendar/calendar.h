@@ -51,6 +51,9 @@ void      calendar_iterate              (Calendar *cal, time_t start, time_t end
 /* Note this routine returns a GList with CalendarObjects */
 GList    *calendar_get_events_in_range  (Calendar *cal, time_t start, time_t end);
 
+/* Informs the calendar that obj information has changed */
+void      calendar_object_changed       (Calendar *cal, iCalObject *obj, int flags);
+
 /* Destroy the above list with this method */
 void      calendar_destroy_event_list (GList *l);
 

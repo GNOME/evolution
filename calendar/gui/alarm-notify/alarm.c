@@ -103,7 +103,7 @@ alarm_add (time_t alarm_time, AlarmFunction fn, void *closure)
 	}
 }
 
-void
+int 
 alarm_kill (void *closure_key)
 {
 	GList *p;
@@ -117,9 +117,10 @@ alarm_kill (void *closure_key)
 				head_alarm = alarms->data;
 			else
 				head_alarm = NULL;
-			return;
+			return 1;
 		}
 	}
+	return 0;
 }
 
 void

@@ -457,15 +457,20 @@ child_focus_out (GtkWidget *widget, GdkEventFocus *event, gpointer data)
 {
 	Child *child;
 	GncalFullDay *fullday;
-
+	char *text;
+	
 	child = data;
 
 	/* Update summary in calendar object */
 
+	text = gtk_editable_get_chars (GTK_EDITABLE (widget), 0, -1);
+	if (child->ico->summary && strcmp (text, child->ico->summary) == 0)
+		return;
+	
 	if (child->ico->summary)
 		g_free (child->ico->summary);
 
-	child->ico->summary = gtk_editable_get_chars (GTK_EDITABLE (widget), 0, -1);
+	child->ico->summary = text;
 
 	child_set_size (child);
 

@@ -196,14 +196,10 @@ gnome_calendar_object_changed (GnomeCalendar *gcal, iCalObject *obj, int flags)
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
 	g_return_if_fail (obj != NULL);
 
-	/* FIXME: for now we only update the views.  Most likely we
-	 * need to do something else like set the last_mod field on
-	 * the iCalObject and such - Federico
-	 */
-
 	gcal->cal->modified = TRUE;
 
 	gnome_calendar_update_all (gcal, obj, flags);
+	calendar_object_changed (gcal->cal, obj, flags);
 }
 
 static int
@@ -269,6 +265,35 @@ execute (char *command, int close_standard)
 }
 
 void
+mail_notify (char *mail_address, char *text, time_t app_time)
+{
+	pid_t pid;
+	int   p [2];
+	char *command;
+	
+	pipe (p);
+	pid = fork ();
+	if (pid == 0){
+		const int top = max_open_files ();
+		int dev_null, i;
+
+		dev_null = open ("/dev/null", O_RDWR);
+		dup2 (p [0], 0);
+		dup2 (dev_null, 1);
+		dup2 (dev_null, 2);
+		execl ("/usr/lib/sendmail", "/usr/lib/sendmail",
+		       mail_address, NULL);
+		_exit (127);
+	}
+	command = g_copy_strings ("To: ", mail_address, "\n",
+				  "Subject: ", _("Reminder of your appointment at "),
+				  ctime (&app_time), "\n\n", text, "\n", NULL);
+	write (p [1], command, strlen (command));
+	
+	g_free (command);
+}
+
+void
 calendar_notify (time_t time, void *data)
 {
 	iCalObject *ico = data;
@@ -284,31 +309,9 @@ calendar_notify (time_t time, void *data)
 	}
 
 	if (ico->malarm.enabled && ico->malarm.trigger == time){
-		char *command;
 		time_t app = ico->malarm.trigger + ico->malarm.offset;
-		pid_t pid;
-		int   p [2];
 
-		pipe (p);
-		pid = fork ();
-		if (pid == 0){
-			const int top = max_open_files ();
-			int dev_null, i;
-			dev_null = open ("/dev/null", O_RDWR);
-			dup2 (p [1], 0);
-			dup2 (dev_null, 1);
-			dup2 (dev_null, 2);
-			execl ("/usr/lib/sendmail", "/usr/lib/sendmail",
-			       ico->malarm.data, NULL);
-			_exit (127);
-		}
-		close (p [1]);
-		command = g_copy_strings ("To: ", ico->malarm.data, "\n",
-					  "Subject: ", _("Reminder of your appointment at "),
-					  ctime (&app), "\n\n", NULL);
-		write (p [0], command, strlen (command));
-
-		g_free (command);
+		mail_notify (ico->malarm.data, ico->summary, app);
 		return;
 	}
 
@@ -325,3 +328,4 @@ calendar_notify (time_t time, void *data)
 		return;
 	}
 }
+

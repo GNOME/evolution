@@ -382,3 +382,15 @@ calendar_get_events_in_range (Calendar *cal, time_t start, time_t end)
 	calendar_iterate (cal, start, end, assemble_event_list, &l);
 	return l;
 }
+
+void
+calendar_object_changed (Calendar *cal, iCalObject *obj, int flags)
+{
+	if (!(flags & CHANGE_DATES))
+		return;
+	
+	/* Remove any alarms on the alarm list for this object */
+	while (alarm_kill (obj))
+		;
+	ical_object_try_alarms (obj);
+}
