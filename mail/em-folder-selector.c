@@ -263,6 +263,7 @@ em_folder_selector_create_new (EMFolderTree *emft, guint32 flags, const char *ti
 	w = gtk_label_new_with_mnemonic (_("Folder _name:"));
 	gtk_box_pack_start ((GtkBox *) hbox, w, FALSE, FALSE, 6);
 	emfs->name_entry = (GtkEntry *) gtk_entry_new ();
+	gtk_label_set_mnemonic_widget (GTK_LABEL (w), emfs->name_entry);
 	g_signal_connect (emfs->name_entry, "changed", G_CALLBACK (emfs_create_name_changed), emfs);
 	g_signal_connect (emfs->name_entry, "activate", G_CALLBACK (emfs_create_name_activate), emfs);
 	gtk_box_pack_start ((GtkBox *) hbox, (GtkWidget *) emfs->name_entry, TRUE, FALSE, 6);

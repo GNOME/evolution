@@ -1,3 +1,9 @@
+2004-01-23  Rodney Dawes  <dobey@ximian.com>
+
+	* em-folder-selector.c: Set the mnemonic widget for "Folder _name:"
+
+	Fixes #53088
+
 2004-01-23  Radek Doulik  <rodo@ximian.com>
 
 	* em-junk-filter.c: use mail_session_get_sa_daemon_port
