@@ -284,7 +284,7 @@ struct _UINode default_ui_nodes[] = {
 	
 	{ "EditCut",                  IS_NMESSAGE },
 	{ "EditCopy",                 IS_NMESSAGE },
-	{ "EditPaste",                IS_NMESSAGE },
+	{ "EditPaste",                IS_0MESSAGE },
 	{ "EditSelectThread",	      IS_ANY_FOLDER | SELECTION_ANYTHING | IS_THREADED | HAS_FLAGS},
 
 	{ "ViewHideSelected",         IS_NMESSAGE },

@@ -1,3 +1,8 @@
+2003-07-11  Antonio Xu  <antonio.xu@sun.com>
+
+	* folder-browser-ui.c: Change the EditPaste mask to IS_0MESSAGE so
+	that it is always activatable. Fixes bug #46018.
+
 2003-07-02  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-tools.c (mail_tool_forward_message): Strip the signature
