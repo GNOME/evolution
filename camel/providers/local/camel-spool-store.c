@@ -96,8 +96,6 @@ camel_spool_store_get_type (void)
 static void
 construct (CamelService *service, CamelSession *session, CamelProvider *provider, CamelURL *url, CamelException *ex)
 {
-	int len;
-	char *path, *name;
 	struct stat st;
 
 	d(printf("constructing store of type %s '%s:%s'\n",
@@ -113,25 +111,10 @@ construct (CamelService *service, CamelSession *session, CamelProvider *provider
 		return;
 	}
 
-	len = strlen (service->url->path);
-	if (len > 0 && service->url->path[len - 1] == '/') {
-		service->url->path = g_realloc (service->url->path, len + 2);
-		service->url->path[len-1] = 0;
-	}
-
-	path = service->url->path;
-	len = strlen(path);
-	name = path;
-#if 0
-	name = alloca(len+1);
-	strcpy(name, path);
-	name[len-1] = 0;
-#endif
-
-	if (stat(name, &st) == -1 || !S_ISREG(st.st_mode)) {
+	if (stat(service->url->path, &st) == -1 || !S_ISREG(st.st_mode)) {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
 				     _("Spool `%s' does not exist or is not a regular file"),
-				     path);
+				     service->url->path);
 		return;
 	}
 }

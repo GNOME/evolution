@@ -41,6 +41,7 @@ extern "C" {
 
 typedef struct {
 	CamelStore parent_object;	
+	char *toplevel_dir;
 	
 } CamelLocalStore;
 

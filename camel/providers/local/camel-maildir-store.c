@@ -95,7 +95,7 @@ static CamelFolder *get_folder(CamelStore * store, const char *folder_name, guin
 	if (camel_exception_is_set(ex))
 		return NULL;
 
-	name = g_strdup_printf("%s%s", CAMEL_SERVICE(store)->url->path, folder_name);
+	name = g_strdup_printf("%s%s", CAMEL_LOCAL_STORE(store)->toplevel_dir, folder_name);
 	tmp = g_strdup_printf("%s/tmp", name);
 	cur = g_strdup_printf("%s/cur", name);
 	new = g_strdup_printf("%s/new", name);
@@ -153,7 +153,7 @@ static void delete_folder(CamelStore * store, const char *folder_name, CamelExce
 	char *name, *tmp, *cur, *new;
 	struct stat st;
 
-	name = g_strdup_printf("%s%s", CAMEL_SERVICE(store)->url->path, folder_name);
+	name = g_strdup_printf("%s%s", CAMEL_LOCAL_STORE(store)->toplevel_dir, folder_name);
 
 	tmp = g_strdup_printf("%s/tmp", name);
 	cur = g_strdup_printf("%s/cur", name);
@@ -395,12 +395,12 @@ static CamelFolderInfo *
 get_folder_info (CamelStore *store, const char *top, guint32 flags, CamelException *ex)
 {
 	CamelFolderInfo *fi = NULL;
-	CamelService *service = (CamelService *)store;
+	CamelLocalStore *local_store = (CamelLocalStore *)store;
 	GHashTable *visited;
 
 	visited = g_hash_table_new(inode_hash, inode_equal);
 
-	if (scan_dir(store, visited, service->url->path, top?top:".", flags, NULL, &fi, ex) == -1 && fi != NULL) {
+	if (scan_dir(store, visited, local_store->toplevel_dir, top?top:".", flags, NULL, &fi, ex) == -1 && fi != NULL) {
 		camel_store_free_folder_info_full(store, fi);
 		fi = NULL;
 	}

@@ -1,5 +1,21 @@
 2001-10-01  Dan Winship  <danw@ximian.com>
 
+	* providers/local/camel-local-store.c (construct): Don't munge the
+	URL; CamelSession's caching relies on it not changing. Instead,
+	add a toplevel_dir field to CamelLocalStore, and set that to the
+	path, but always ending with /.
+	(camel_local_store_finalize): Free toplevel_dir
+	(camel_local_store_get_toplevel_dir): Return toplevel_dir rather
+	than url->path.
+
+	* providers/local/*: Lots of s/url->path/toplevel_dir/
+
+	* providers/local/camel-spool-store.c (construct): Likewise, don't
+	try to strip a trailing / from url->path here, but I didn't make
+	the corresponding toplevel_dir change, because there's no good
+	reason someone should expect "/var/spool/mail/danw/" to work since
+	that's not a directory.
+
 	* providers/pop3/camel-pop3-folder.c (pop3_refresh_info): if STAT
 	returns 0, don't bother sending UIDL. Speeds things up slightly
 	and also works around a bug in a particular random POP server.

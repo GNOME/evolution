@@ -72,6 +72,13 @@ camel_local_store_class_init (CamelLocalStoreClass *camel_local_store_class)
 	camel_store_class->rename_folder = rename_folder;
 }
 
+static void
+camel_local_store_finalize (CamelLocalStore *local_store)
+{
+	if (local_store->toplevel_dir)
+		g_free (local_store->toplevel_dir);
+}
+
 CamelType
 camel_local_store_get_type (void)
 {
@@ -84,7 +91,7 @@ camel_local_store_get_type (void)
 							     (CamelObjectClassInitFunc) camel_local_store_class_init,
 							     NULL,
 							     NULL,
-							     NULL);
+							     (CamelObjectFinalizeFunc) camel_local_store_finalize);
 	}
 	
 	return camel_local_store_type;
@@ -93,6 +100,7 @@ camel_local_store_get_type (void)
 static void
 construct (CamelService *service, CamelSession *session, CamelProvider *provider, CamelURL *url, CamelException *ex)
 {
+	CamelLocalStore *local_store = CAMEL_LOCAL_STORE (service);
 	int len;
 
 	CAMEL_SERVICE_CLASS (parent_class)->construct (service, session, provider, url, ex);
@@ -100,26 +108,23 @@ construct (CamelService *service, CamelSession *session, CamelProvider *provider
 		return;
 
 	len = strlen (service->url->path);
-	if (service->url->path[len - 1] != '/') {
-		service->url->path = g_realloc (service->url->path, len + 2);
-		strcpy (service->url->path + len, "/");
-	}
+	if (service->url->path[len - 1] != '/')
+		local_store->toplevel_dir = g_strdup_printf ("%s/", service->url->path);
+	else
+		local_store->toplevel_dir = g_strdup (service->url->path);
 }
 
 const char *
 camel_local_store_get_toplevel_dir (CamelLocalStore *store)
 {
-	CamelURL *url = CAMEL_SERVICE (store)->url;
-
-	g_assert (url != NULL);
-	return url->path;
+	return store->toplevel_dir;
 }
 
 static CamelFolder *
 get_folder(CamelStore * store, const char *folder_name, guint32 flags, CamelException * ex)
 {
 	struct stat st;
-	char *path = ((CamelService *)store)->url->path;
+	char *path = ((CamelLocalStore *)store)->toplevel_dir;
 	char *sub, *slash;
 
 	if (path[0] != '/') {
@@ -177,10 +182,12 @@ get_inbox(CamelStore *store, CamelException *ex)
 static char *
 get_name (CamelService *service, gboolean brief)
 {
+	char *dir = ((CamelLocalStore*)service)->toplevel_dir;
+
 	if (brief)
-		return g_strdup (service->url->path);
+		return g_strdup (dir);
 	else
-		return g_strdup_printf (_("Local mail file %s"), service->url->path);
+		return g_strdup_printf (_("Local mail file %s"), dir);
 }
 
 static CamelFolderInfo *
@@ -250,7 +257,7 @@ static int xrename(const char *oldp, const char *newp, const char *prefix, const
 static void
 rename_folder(CamelStore *store, const char *old, const char *new, CamelException *ex)
 {
-	char *path = CAMEL_SERVICE (store)->url->path;
+	char *path = CAMEL_LOCAL_STORE (store)->toplevel_dir;
 
 	/* try to rollback failures, has obvious races */
 	if (xrename(old, new, path, ".ibex", TRUE, ex)) {
@@ -275,7 +282,7 @@ delete_folder(CamelStore *store, const char *folder_name, CamelException *ex)
 	char *str;
 
 	/* remove metadata only */
-	name = g_strdup_printf("%s%s", CAMEL_SERVICE(store)->url->path, folder_name);
+	name = g_strdup_printf("%s%s", CAMEL_LOCAL_STORE(store)->toplevel_dir, folder_name);
 	str = g_strdup_printf("%s.ev-summary", name);
 	if (unlink(str) == -1 && errno != ENOENT) {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
@@ -301,7 +308,7 @@ delete_folder(CamelStore *store, const char *folder_name, CamelException *ex)
 	fi = g_new0 (CamelFolderInfo, 1);
 	fi->full_name = g_strdup (folder_name);
 	fi->name = g_strdup (g_basename (folder_name));
-	fi->url = g_strdup_printf ("%s%s", CAMEL_SERVICE(store)->url->path, folder_name);
+	fi->url = g_strdup_printf ("%s%s", CAMEL_LOCAL_STORE(store)->toplevel_dir, folder_name);
 	fi->unread_message_count = -1;
 	camel_folder_info_build_path(fi, '/');
 

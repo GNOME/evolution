@@ -82,7 +82,7 @@ static CamelFolder *get_folder(CamelStore * store, const char *folder_name, guin
 	if (camel_exception_is_set(ex))
 		return NULL;
 
-	name = g_strdup_printf("%s%s", CAMEL_SERVICE(store)->url->path, folder_name);
+	name = g_strdup_printf("%s%s", CAMEL_LOCAL_STORE(store)->toplevel_dir, folder_name);
 
 	if (stat(name, &st) == -1) {
 		if (errno != ENOENT) {
@@ -121,7 +121,7 @@ static void delete_folder(CamelStore * store, const char *folder_name, CamelExce
 	char *name;
 
 	/* remove folder directory - will fail if not empty */
-	name = g_strdup_printf("%s%s", CAMEL_SERVICE(store)->url->path, folder_name);
+	name = g_strdup_printf("%s%s", CAMEL_LOCAL_STORE(store)->toplevel_dir, folder_name);
 	if (rmdir(name) == -1) {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
 				     _("Could not delete folder `%s': %s"),
