@@ -502,6 +502,9 @@ smtp_helo (CamelSmtpTransport *transport, CamelException *ex)
 		/* Check for "250" */
 		g_free(respbuf);
 		respbuf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (transport->istream));
+
+		fprintf(stderr, "received: %s\n", respbuf ? respbuf : "(null)");
+
 		if ( !respbuf || strncmp(respbuf, "250", 3) ) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 					      "HELO response error: "
@@ -509,9 +512,6 @@ smtp_helo (CamelSmtpTransport *transport, CamelException *ex)
 					      g_strerror (errno));
 			return FALSE;
 		}
-
-		fprintf(stderr, "received: %s\n", respbuf);
-
 		if (transport->smtp_is_esmtp && strstr(respbuf, "AUTH")) {
 			/* parse for supported AUTH types */
 			g_strchomp(respbuf);
@@ -548,6 +548,9 @@ smtp_mail (CamelSmtpTransport *transport, gchar *sender, CamelException *ex)
 		/* Check for "250 Sender OK..." */
 		g_free(respbuf);
 		respbuf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (transport->istream));
+
+		fprintf(stderr, "received: %s\n", respbuf ? respbuf : "(null)");
+
 		if ( !respbuf || strncmp(respbuf, "250", 3) ) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 					      "MAIL FROM response error: "
@@ -555,9 +558,6 @@ smtp_mail (CamelSmtpTransport *transport, gchar *sender, CamelException *ex)
 					      g_strerror (errno));
 			return FALSE;
 		}
-
-		fprintf(stderr, "received: %s\n", respbuf);
-
 	} while ( *(respbuf+3) == '-' ); /* if we got "250-" then loop again */
 	g_free(respbuf);
 
@@ -590,6 +590,9 @@ smtp_rcpt (CamelSmtpTransport *transport, gchar *recipient, CamelException *ex)
 		/* Check for "250 Sender OK..." */
 		g_free(respbuf);
 		respbuf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (transport->istream));
+
+		fprintf(stderr, "received: %s\n", respbuf ? respbuf : "(null)");
+
 		if ( !respbuf || strncmp(respbuf, "250", 3) ) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 					      "RCPT TO response error: "
@@ -597,9 +600,6 @@ smtp_rcpt (CamelSmtpTransport *transport, gchar *recipient, CamelException *ex)
 					      g_strerror (errno));
 			return FALSE;
 		}
-
-		fprintf(stderr, "received: %s\n", respbuf);
-
 	} while ( *(respbuf+3) == '-' ); /* if we got "250-" then loop again */
 	g_free(respbuf);
   
@@ -631,6 +631,9 @@ smtp_data (CamelSmtpTransport *transport, CamelMedium *message, CamelException *
 	g_free(cmdbuf);
 
 	respbuf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (transport->istream));
+
+	fprintf(stderr, "received: %s\n", respbuf ? respbuf : "(null)");
+
 	if ( !respbuf || strncmp(respbuf, "354", 3) ) {
 		/* we should have gotten instructions on how to use the DATA command:
 		 * 354 Enter mail, end with "." on a line by itself
@@ -642,8 +645,6 @@ smtp_data (CamelSmtpTransport *transport, CamelMedium *message, CamelException *
 				      g_strerror (errno));
 		return FALSE;
 	}
-
-	fprintf(stderr, "received: %s\n", respbuf);
 	
 	/* setup stream filtering */
 	mimefilter = camel_mime_filter_smtp_new();
@@ -678,6 +679,9 @@ smtp_data (CamelSmtpTransport *transport, CamelMedium *message, CamelException *
 		/* Check for "250 Sender OK..." */
 		g_free(respbuf);
 		respbuf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (transport->istream));
+
+		fprintf(stderr, "received: %s\n", respbuf ? respbuf : "(null)");
+
 		if ( !respbuf || strncmp(respbuf, "250", 3) ) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 					      "DATA response error: message termination: "
@@ -685,9 +689,6 @@ smtp_data (CamelSmtpTransport *transport, CamelMedium *message, CamelException *
 					      g_strerror (errno));
 			return FALSE;
 		}
-
-		fprintf(stderr, "received: %s\n", respbuf);
-
 	} while ( *(respbuf+3) == '-' ); /* if we got "250-" then loop again */
 	g_free(respbuf);
 
@@ -718,6 +719,9 @@ smtp_rset (CamelSmtpTransport *transport, CamelException *ex)
 		/* Check for "250" */
 		g_free(respbuf);
 		respbuf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (transport->istream));
+
+		fprintf(stderr, "received: %s\n", respbuf ? respbuf : "(null)");
+
 		if ( !respbuf || strncmp(respbuf, "250", 3) ) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 					      "RSET response error: "
@@ -725,9 +729,6 @@ smtp_rset (CamelSmtpTransport *transport, CamelException *ex)
 					      g_strerror (errno));
 			return FALSE;
 		}
-
-		fprintf(stderr, "received: %s\n", respbuf);
-
 	} while ( *(respbuf+3) == '-' ); /* if we got "250-" then loop again */
 	g_free(respbuf);
 
@@ -758,6 +759,9 @@ smtp_quit (CamelSmtpTransport *transport, CamelException *ex)
 		/* Check for "221" */
 		g_free(respbuf);
 		respbuf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (transport->istream));
+
+		fprintf(stderr, "received: %s\n", respbuf ? respbuf : "(null)");
+
 		if ( !respbuf || strncmp(respbuf, "221", 3) ) {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 					      "QUIT response error: "
@@ -765,9 +769,6 @@ smtp_quit (CamelSmtpTransport *transport, CamelException *ex)
 					      g_strerror (errno));
 			return FALSE;
 		}
-
-		fprintf(stderr, "received: %s\n", respbuf);
-
 	} while ( *(respbuf+3) == '-' ); /* if we got "221-" then loop again */
 	g_free(respbuf);
 

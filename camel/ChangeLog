@@ -1,3 +1,10 @@
+2000-06-02  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/smtp/camel-smtp-transport.c: Rearanged where debug
+	fprintf statements we placed so that any data the server sends 
+	back is printed out before an exception is set and the function
+	returns.
+
 2000-06-02  Not Zed  <NotZed@HelixCode.com>
 
 	* camel-mime-utils.c (header_decode_date): If we get a funny
