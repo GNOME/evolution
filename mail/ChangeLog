@@ -1,3 +1,9 @@
+2001-09-10  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (mail_generate_reply): Don't use
+	new_with_sig_file, that function no longer exists.
+	(forward_get_composer): Same here.
+
 2001-09-10  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* mail-config.c

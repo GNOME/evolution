@@ -763,7 +763,7 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 	EMsgComposer *composer;
 	time_t date;
 	
-	composer = e_msg_composer_new_with_sig_file ();
+	composer = e_msg_composer_new ();
 	if (!composer)
 		return NULL;
 	
@@ -1029,7 +1029,7 @@ forward_get_composer (CamelMimeMessage *message, const char *subject)
 	if (!account)
 		account = mail_config_get_default_account ();
 	
-	composer = e_msg_composer_new_with_sig_file ();
+	composer = e_msg_composer_new ();
 	if (composer) {
 		gtk_signal_connect (GTK_OBJECT (composer), "send",
 				    GTK_SIGNAL_FUNC (composer_send_cb), NULL);

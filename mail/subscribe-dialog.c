@@ -148,18 +148,19 @@ recursive_add_folder (EvolutionStorage *storage, const char *path, const char *n
 
 typedef void (*SubscribeShortFolderinfoFunc) (CamelStore *store, gchar *prefix, CamelFolderInfo *info, gpointer data);
 
-int subscribe_get_short_folderinfo (CamelStore *store, gchar *prefix, SubscribeShortFolderinfoFunc func, gpointer user_data);
+int subscribe_get_short_folderinfo (CamelStore *store, const char *prefix,
+				    SubscribeShortFolderinfoFunc func, gpointer user_data);
 
 struct _get_short_folderinfo_msg {
-	struct _mail_msg              msg;
+	struct _mail_msg msg;
 
-	gchar                        *prefix;
+	char *prefix;
 
-	CamelStore                   *store;
-	CamelFolderInfo              *info;
+	CamelStore *store;
+	CamelFolderInfo *info;
 
-	SubscribeShortFolderinfoFunc  func;
-	gpointer                      user_data;
+	SubscribeShortFolderinfoFunc func;
+	gpointer user_data;
 };
 
 static char *
@@ -225,7 +226,7 @@ static struct _mail_msg_op get_short_folderinfo_op = {
 
 int
 subscribe_get_short_folderinfo (CamelStore *store, 
-				gchar *prefix,
+				const char *prefix,
 				SubscribeShortFolderinfoFunc func, 
 				gpointer user_data)
 {

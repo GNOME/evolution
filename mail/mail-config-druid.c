@@ -884,7 +884,8 @@ evolution_mail_config_wizard_factory_fn (BonoboGenericFactory *factory,
 	account_wizard = wizard;
 	
 	gtk_object_set_data_full (GTK_OBJECT (account_wizard),
-				  "account-data", gui, wizard_free);
+				  "account-data", gui,
+				  (GtkDestroyNotify) wizard_free);
 	gui->wizard = wizard;
 	
         gtk_signal_connect (GTK_OBJECT (wizard), "next",
