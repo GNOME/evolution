@@ -269,14 +269,14 @@ Listener_cal_loaded (PortableServer_Servant servant,
 /* Listener::obj_added method */
 static void
 Listener_obj_added (PortableServer_Servant servant,
-		    Evolution_Calendar_CalObj calobj,
+		    Evolution_Calendar_CalObjUID uid,
 		    CORBA_Environment *ev)
 {
 	CalListener *listener;
 
 	listener = CAL_LISTENER (bonobo_object_from_servant (servant));
 	gtk_signal_emit (GTK_OBJECT (listener), cal_listener_signals[OBJ_ADDED],
-			 calobj);
+			 uid);
 }
 
 /* Listener::obj_removed method */
@@ -295,14 +295,14 @@ Listener_obj_removed (PortableServer_Servant servant,
 /* Listener::obj_changed method */
 static void
 Listener_obj_changed (PortableServer_Servant servant,
-		      Evolution_Calendar_CalObj calobj,
+		      Evolution_Calendar_CalObjUID uid,
 		      CORBA_Environment *ev)
 {
 	CalListener *listener;
 
 	listener = CAL_LISTENER (bonobo_object_from_servant (servant));
 	gtk_signal_emit (GTK_OBJECT (listener), cal_listener_signals[OBJ_CHANGED],
-			 calobj);
+			 uid);
 }
 
 /**

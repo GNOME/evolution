@@ -245,17 +245,17 @@ cal_loaded_cb (CalListener *listener,
 
 /* Handle the obj_added signal from the listener */
 static void
-obj_added_cb (CalListener *listener, Evolution_Calendar_CalObj calobj, gpointer data)
+obj_added_cb (CalListener *listener, const Evolution_Calendar_CalObjUID uid, gpointer data)
 {
 	CalClient *client;
 
 	client = CAL_CLIENT (data);
-	gtk_signal_emit (GTK_OBJECT (client), cal_client_signals[OBJ_ADDED], calobj);
+	gtk_signal_emit (GTK_OBJECT (client), cal_client_signals[OBJ_ADDED], uid);
 }
 
 /* Handle the obj_removed signal from the listener */
 static void
-obj_removed_cb (CalListener *listener, Evolution_Calendar_CalObjUID uid, gpointer data)
+obj_removed_cb (CalListener *listener, const Evolution_Calendar_CalObjUID uid, gpointer data)
 {
 	CalClient *client;
 
@@ -265,12 +265,12 @@ obj_removed_cb (CalListener *listener, Evolution_Calendar_CalObjUID uid, gpointe
 
 /* Handle the obj_changed signal from the listener */
 static void
-obj_changed_cb (CalListener *listener, Evolution_Calendar_CalObj calobj, gpointer data)
+obj_changed_cb (CalListener *listener, const Evolution_Calendar_CalObjUID uid, gpointer data)
 {
 	CalClient *client;
 
 	client = CAL_CLIENT (data);
-	gtk_signal_emit (GTK_OBJECT (client), cal_client_signals[OBJ_CHANGED], calobj);
+	gtk_signal_emit (GTK_OBJECT (client), cal_client_signals[OBJ_CHANGED], uid);
 }
 
 
@@ -432,8 +432,9 @@ cal_client_load_calendar (CalClient *client, const char *str_uri)
  * 
  * Queries a calendar for a calendar object based on its unique identifier.
  * 
- * Return value: The string representation of the calendar object corresponding
- * to the specified @uid, or NULL if no such object was found.
+ * Return value: The string representation of a complete calendar wrapping the
+ * sought object, or NULL if no object had the specified UID.  A complete
+ * calendar is returned because you also need the timezone data.
  **/
 char *
 cal_client_get_object (CalClient *client, const char *uid)

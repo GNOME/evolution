@@ -61,9 +61,9 @@ struct _CalListenerClass {
 	void (* cal_loaded) (CalListener *listener,
 			     CalListenerLoadStatus status,
 			     Evolution_Calendar_Cal cal);
-	void (* obj_added) (CalListener *listener, Evolution_Calendar_CalObj calobj);
-	void (* obj_removed) (CalListener *listener, Evolution_Calendar_CalObjUID uid);
-	void (* obj_changed) (CalListener *listener, Evolution_Calendar_CalObj calobj);
+	void (* obj_added) (CalListener *listener, const Evolution_Calendar_CalObjUID uid);
+	void (* obj_removed) (CalListener *listener, const Evolution_Calendar_CalObjUID uid);
+	void (* obj_changed) (CalListener *listener, const Evolution_Calendar_CalObjUID uid);
 };
 
 GtkType cal_listener_get_type (void);

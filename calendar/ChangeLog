@@ -1,5 +1,26 @@
 2000-02-04  Federico Mena Quintero  <federico@helixcode.com>
 
+	* cal-backend.c (get_calendar_base_vobject): New function to
+	create the base VObject for a calendar.
+	(cal_backend_get_object): Create the base calendar and add the
+	sought object to it, then stringify it.
+
+	* evolution-calendar.idl (Listener::obj_added
+	Listener::obj_changed): Now these pass in just the UIDs, not the
+	complete objects.
+
+	* cal-listener.c (Listener_obj_added): Changed to pass in the uid,
+	not the object.
+	(Listener_obj_changed): Likewise.
+
+	* cal-client.h (CalClientClass): Made the obj_added and
+	obj_changed signals take in the UIDs, not the full objects.
+
+	* cal-client.c (obj_added_cb): Likewise.
+	(obj_changed_cb): Likewise.
+
+2000-02-04  Federico Mena Quintero  <federico@helixcode.com>
+
 	* cal-backend.c (CalBackendPrivate): Renamed the event_hash field
 	to object_hash.  Now we hash all the calendar's objects here based
 	on their UIDs.

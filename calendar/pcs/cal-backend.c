@@ -26,6 +26,11 @@
 
 
 
+/* VCalendar product ID */
+#define PRODID "-//Helix Code//NONSGML Tlacuache//EN"
+
+
+
 /* Private part of the CalBackend structure */
 typedef struct {
 	/* URI where the calendar data is stored */
@@ -265,6 +270,35 @@ load_from_vobject (CalBackend *backend, VObject *vobject)
 	}
 }
 
+/* Creates a VObject with the base information of a calendar */
+static VObject *
+get_calendar_base_vobject (CalBackend *backend)
+{
+	VObject *vobj;
+	time_t now;
+	struct tm tm;
+
+	/* We call localtime for the side effect of setting tzname */
+
+	now = time (NULL);
+	tm = *localtime (&now);
+
+	vobj = newVObject (VCCalProp);
+
+	addPropValue (vobj, VCProdIdProp, PRODID);
+
+#if defined (HAVE_TM_ZONE)
+	addPropValue (vobj, VCTimeZoneProp, tm.tm_zone);
+#elif defined (HAVE_TZNAME)
+	addPropValue (vobj, VCTimeZoneProp, tzname[0]);
+#endif
+
+	/* Per the vCalendar spec, this must be "1.0" */
+	addPropValue (vobj, VCVersionProp, "1.0");
+
+	return vobj;
+}
+
 
 
 /**
@@ -433,6 +467,7 @@ cal_backend_get_object (CalBackend *backend, const char *uid)
 {
 	CalBackendPrivate *priv;
 	iCalObject *ico;
+	VObject *vcalobj, *vobj;
 	char *buf;
 
 	g_return_val_if_fail (backend != NULL, NULL);
@@ -450,5 +485,14 @@ cal_backend_get_object (CalBackend *backend, const char *uid)
 	if (!ico)
 		return NULL;
 
-	/* FIXME */
+	vcalobj = get_calendar_base_vobject (backend);
+	vobj = ical_object_to_vobject (ico);
+	addVObjectProp (vcalobj, vobj);
+
+	buf = writeMemVObject (NULL, NULL, vcalobj);
+
+	cleanVObject (vcalobj);
+	cleanStrTbl ();
+
+	return buf;
 }

@@ -51,13 +51,13 @@ module Calendar {
 		void cal_loaded (in LoadStatus status, in Cal cal);
 
 		/* Called from a Calendar when an object is added */
-		void obj_added (in CalObj calobj);
+		void obj_added (in CalObjUID uid);
 
 		/* Called from a Calendar when an object is removed */
 		void obj_removed (in CalObjUID uid);
 
 		/* Called from a Calendar when an object is changed */
-		void obj_changed (in CalObj calobj);
+		void obj_changed (in CalObjUID uid);
 	};
 
 	/* A calendar factory, can load and create calendars */
