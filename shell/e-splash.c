@@ -29,6 +29,7 @@
 #include <gtk/gtkmain.h>
 #include <gtk/gtksignal.h>
 #include <gdk-pixbuf/gnome-canvas-pixbuf.h>
+#include <libgnomeui/gnome-window-icon.h>
 #include <gal/util/e-util.h>
 
 #include "e-splash.h"
