@@ -315,8 +315,11 @@ support_format_fn (EvolutionImporter *importer,
 	if (contents) {
 		icalcomp = icalparser_parse_string (contents);
 		if (icalcomp) {
+			if (icalcomponent_is_valid (icalcomp))
+				ret = TRUE;
+			else 
+				ret = FALSE;
 			icalcomponent_free (icalcomp);
-			ret = TRUE;
 		}
 	}
 
