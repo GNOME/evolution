@@ -32,6 +32,9 @@ struct _EAccount;
 struct _EAccountList;
 struct _EAccountService;
 
+struct _ESignature;
+struct _ESignatureList;
+
 struct _GConfClient;
 struct _GtkWindow;
 
@@ -98,10 +101,6 @@ typedef struct {
 #define LABEL_DEFAULTS_NUM 5
 extern MailConfigLabel label_defaults[5];
 
-/* signatures */
-MailConfigSignature *signature_copy (const MailConfigSignature *sig);
-void                 signature_destroy (MailConfigSignature *sig);
-
 /* Configuration */
 void mail_config_init (void);
 void mail_config_clear (void);
@@ -122,30 +121,37 @@ const char **mail_config_get_allowable_mime_types (void);
 
 void mail_config_service_set_save_passwd (struct _EAccountService *service, gboolean save_passwd);
 
-gboolean      mail_config_find_account                 (struct _EAccount *account);
-struct _EAccount     *mail_config_get_default_account          (void);
-struct _EAccount     *mail_config_get_account_by_name          (const char *account_name);
-struct _EAccount     *mail_config_get_account_by_uid           (const char *uid);
-struct _EAccount     *mail_config_get_account_by_source_url    (const char *url);
-struct _EAccount     *mail_config_get_account_by_transport_url (const char *url);
-struct _EAccountList *mail_config_get_accounts                 (void);
-void          mail_config_add_account                  (struct _EAccount *account);
-void          mail_config_remove_account               (struct _EAccount *account);
+/* accounts */
+gboolean mail_config_find_account (struct _EAccount *account);
+struct _EAccount *mail_config_get_default_account (void);
+struct _EAccount *mail_config_get_account_by_name (const char *account_name);
+struct _EAccount *mail_config_get_account_by_uid (const char *uid);
+struct _EAccount *mail_config_get_account_by_source_url (const char *url);
+struct _EAccount *mail_config_get_account_by_transport_url (const char *url);
 
-void          mail_config_set_default_account          (struct _EAccount *account);
+struct _EAccountList *mail_config_get_accounts (void);
+void mail_config_add_account (struct _EAccount *account);
+void mail_config_remove_account (struct _EAccount *account);
+void mail_config_set_default_account (struct _EAccount *account);
 
 struct _EAccountIdentity *mail_config_get_default_identity (void);
 struct _EAccountService  *mail_config_get_default_transport (void);
 
 void mail_config_save_accounts (void);
 
-GSList *mail_config_get_signature_list (void);
-MailConfigSignature *mail_config_signature_new (gboolean html, const char *script);
-void mail_config_signature_add          (MailConfigSignature *sig);
-void mail_config_signature_delete       (MailConfigSignature *sig);
-void mail_config_signature_set_name     (MailConfigSignature *sig, const char *name);
-void mail_config_signature_set_html     (MailConfigSignature *sig, gboolean html);
-void mail_config_signature_set_filename (MailConfigSignature *sig, const char *filename);
+/* signatures */
+struct _ESignature *mail_config_signature_new (const char *filename, gboolean script, gboolean html);
+struct _ESignature *mail_config_get_signature_by_uid (const char *uid);
+struct _ESignature *mail_config_get_signature_by_name (const char *name);
+
+struct _ESignatureList *mail_config_get_signatures (void);
+void mail_config_add_signature (struct _ESignature *signature);
+void mail_config_remove_signature (struct _ESignature *signature);
+
+void mail_config_save_signatures (void);
+
+char *mail_config_signature_run_script (const char *script);
+
 
 /* uri's got changed by the store, etc */
 void mail_config_uri_renamed (GCompareFunc uri_cmp, const char *old, const char *new);
@@ -161,23 +167,6 @@ gboolean mail_config_check_service (const char *url, CamelProviderType type, GLi
 GType evolution_mail_config_get_type (void);
 
 gboolean evolution_mail_config_factory_init (void);
-
-typedef enum {
-	MAIL_CONFIG_SIG_EVENT_NAME_CHANGED,
-	MAIL_CONFIG_SIG_EVENT_CONTENT_CHANGED,
-	MAIL_CONFIG_SIG_EVENT_HTML_CHANGED,
-	MAIL_CONFIG_SIG_EVENT_ADDED,
-	MAIL_CONFIG_SIG_EVENT_DELETED
-} MailConfigSigEvent;
-
-typedef void (*MailConfigSignatureClient)(MailConfigSigEvent, MailConfigSignature *sig, gpointer data);
-
-void mail_config_signature_register_client (MailConfigSignatureClient client, gpointer data);
-void mail_config_signature_unregister_client (MailConfigSignatureClient client, gpointer data);
-void mail_config_signature_emit_event (MailConfigSigEvent event, MailConfigSignature *sig);
-
-void mail_config_write_account_sig (struct _EAccount *account, int i);
-char *mail_config_signature_run_script (char *script);
 
 #ifdef __cplusplus
 }

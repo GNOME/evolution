@@ -1,6 +1,24 @@
+2004-04-01  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* importers/netscape-importer.c (netscape_import_accounts):
+	Updated for signature API changes.
+
+	* mail-account-gui.c: Same.
+
+	* mail-signature-editor.c: Same.
+
+	* em-composer-prefs.c: Same.
+
+	* mail-config.c: Rewrote the signature stuff to use ESignatureList
+	instead. Much cleaner and less broken.
+
+	* em-mailer-prefs.c (em_mailer_prefs_construct): Always make the
+	Add/Remove Header buttons de-sensitised at the start. Fixes bug
+	#56284.
+
 2004-04-01  Eric Zhao  <eric.zhao@sun.com>
 
-	* mail-account-gui.c: (transport_type_changed): Commented grabbing
+	* mail-account-gui.c (transport_type_changed): Commented grabbing
 	focus on hostname edit, fix the focus issue of Account Assistant.
 
 2004-03-31  Jeffrey Stedfast  <fejj@ximian.com>

@@ -26,15 +26,18 @@
 #include <config.h>
 #endif
 
+#include <string.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <errno.h>
 
-#include <string.h>
+#include <gtk/gtk.h>
+
 #include <bonobo.h>
 #include <bonobo/bonobo-stream-memory.h>
 
+#include <e-util/e-signature-list.h>
 #include <e-util/e-dialog-utils.h>
 
 #include "e-msg-composer.h"
@@ -44,19 +47,18 @@
 #define d(x) 
 
 
-struct _ESignatureEditor {
+typedef struct _ESignatureEditor {
 	GtkWidget *win;
 	GtkWidget *control;
 	GtkWidget *name_entry;
 	GtkWidget *info_frame;
 	
-	MailConfigSignature *sig;
+	ESignature *sig;
 	gboolean is_new;
 	gboolean html;
 	
 	GNOME_GtkHTML_Editor_Engine engine;
-};
-typedef struct _ESignatureEditor ESignatureEditor;
+} ESignatureEditor;
 
 #define E_SIGNATURE_EDITOR(o) ((ESignatureEditor *) o)
 
@@ -181,14 +183,15 @@ menu_file_save_cb (BonoboUIComponent *uic, void *user_data, const char *path)
 	
 	g_free (filename);
 	
-	mail_config_signature_set_html (editor->sig, editor->html);
-
+	editor->sig->html = editor->html;
+	
 	/* if the signature isn't already saved in the config, save it there now... */
 	if (editor->is_new) {
-		mail_config_signature_add (editor->sig);
+		mail_config_add_signature (editor->sig);
 		editor->is_new = FALSE;
-	} else
-		mail_config_signature_emit_event (MAIL_CONFIG_SIG_EVENT_CONTENT_CHANGED, editor->sig);
+	} else {
+		e_signature_list_change (mail_config_get_signatures (), editor->sig);
+	}
 	
 	return;
 	
@@ -256,7 +259,7 @@ delete_event_cb (GtkWidget *w, GdkEvent *event, ESignatureEditor *editor)
 }
 
 static void
-menu_file_close_cb (BonoboUIComponent *uic, gpointer data, const gchar *path)
+menu_file_close_cb (BonoboUIComponent *uic, gpointer data, const char *path)
 {
 	ESignatureEditor *editor;
 	
@@ -265,7 +268,7 @@ menu_file_close_cb (BonoboUIComponent *uic, gpointer data, const gchar *path)
 }
 
 static void
-menu_file_save_close_cb (BonoboUIComponent *uic, gpointer data, const gchar *path)
+menu_file_save_close_cb (BonoboUIComponent *uic, gpointer data, const char *path)
 {
 	ESignatureEditor *editor;
 	
@@ -340,12 +343,11 @@ sig_name_changed (GtkWidget *w, ESignatureEditor *editor)
 	
 	name = gtk_entry_get_text (GTK_ENTRY (editor->name_entry));
 	
-	if (editor->is_new) {
-		g_free (editor->sig->name);
-		editor->sig->name = g_strdup (name);
-	} else {
-		mail_config_signature_set_name (editor->sig, name);
-	}
+	g_free (editor->sig->name);
+	editor->sig->name = g_strdup (name);
+	
+	if (!editor->is_new)
+		e_signature_list_change (mail_config_get_signatures (), editor->sig);
 }
 
 static void
@@ -366,7 +368,7 @@ format_html_cb (BonoboUIComponent           *component,
 }
 
 void
-mail_signature_editor (MailConfigSignature *sig, GtkWindow *parent, gboolean is_new)
+mail_signature_editor (ESignature *sig, GtkWindow *parent, gboolean is_new)
 {
 	CORBA_Environment ev;
 	ESignatureEditor *editor;

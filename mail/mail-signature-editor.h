@@ -29,11 +29,10 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus */
 
-#include <glib.h>
-#include <gtk/gtkwindow.h>
-#include <mail-config.h>
+struct _ESignature;
+struct _GtkWindow;
 
-void mail_signature_editor (MailConfigSignature *sig, GtkWindow *parent, gboolean is_new);
+void mail_signature_editor (struct _ESignature *sig, struct _GtkWindow *parent, int is_new);
 
 #ifdef __cplusplus
 }

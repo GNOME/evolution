@@ -57,6 +57,7 @@
 #include <filter/filter-int.h>
 
 #include "e-util/e-account-list.h"
+#include "e-util/e-signature-list.h"
 
 #include "mail/mail-mt.h"
 #include "mail/mail-config.h"
@@ -1482,13 +1483,13 @@ netscape_import_accounts (NsImporter *importer)
 
 	nstr = netscape_get_string ("mail.signature_file");
 	if (nstr != NULL) {
-		MailConfigSignature *sig;
+		ESignature *sig;
 		char *cmd;
-
-		sig = mail_config_signature_new(FALSE, NULL);
-		mail_config_signature_add(sig);
-		account->id->def_signature = sig->id;
-		account->id->auto_signature = FALSE;
+		
+		sig = mail_config_signature_new (NULL, FALSE, FALSE);
+		mail_config_add_signature (sig);
+		account->id->sig_uid = g_strdup (sig->uid);
+		
 		/* HACK: yeah this is a hack, who cares? */
 		cmd = g_strdup_printf("cp \'%s\' \'%s\'", nstr, sig->filename);
 		system(cmd);

@@ -69,10 +69,11 @@ typedef struct _MailAccountGui {
 	struct _GtkEntry *organization;
 	
 	/* signatures */
-	struct _GtkWidget *sig_option_menu;
-	
-	struct _MailConfigSignature *def_signature;
-	gboolean auto_signature;
+	struct _GtkOptionMenu *sig_menu;
+	guint sig_added_id;
+	guint sig_removed_id;
+	guint sig_changed_id;
+	const char *sig_uid;
 	
 	/* incoming mail */
 	MailAccountGuiService source;

@@ -53,6 +53,8 @@ extern "C" {
 typedef struct _EMComposerPrefs EMComposerPrefs;
 typedef struct _EMComposerPrefsClass EMComposerPrefsClass;
 
+struct _ESignature;
+
 struct _EMComposerPrefs {
 	GtkVBox parent_object;
 	
@@ -94,14 +96,19 @@ struct _EMComposerPrefs {
 	
 	/* Signatures */
 	GtkTreeView *sig_list;
+	GHashTable *sig_hash;
 	GtkButton *sig_add;
+	GtkButton *sig_add_script;
 	GtkButton *sig_edit;
 	GtkButton *sig_delete;
 	GtkHTML *sig_preview;
-	gboolean sig_switch;
-	int sig_row;
+	
 	GladeXML *sig_script_gui;
 	GtkWidget *sig_script_dialog;
+	
+	guint sig_added_id;
+	guint sig_removed_id;
+	guint sig_changed_id;
 };
 
 struct _EMComposerPrefsClass {
@@ -118,7 +125,7 @@ GtkWidget *em_composer_prefs_new (void);
 
 void em_composer_prefs_apply (EMComposerPrefs *prefs);
 
-MailConfigSignature *em_composer_prefs_new_signature (GtkWindow *parent, gboolean html, const char *script);
+void em_composer_prefs_new_signature (GtkWindow *parent, gboolean html, const char *script);
 
 /* needed by global config */
 #define EM_COMPOSER_PREFS_CONTROL_ID "OAFIID:GNOME_Evolution_Mail_ComposerPrefs_ConfigControl:" BASE_VERSION

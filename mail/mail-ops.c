@@ -38,6 +38,7 @@
 #include <camel/camel-vtrash-folder.h>
 #include <camel/camel-vee-store.h>
 #include "mail-component.h"
+#include "mail-config.h"
 #include "mail-tools.h"
 #include "mail-ops.h"
 #include "mail-vfolder.h"

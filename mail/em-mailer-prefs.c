@@ -679,11 +679,13 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs)
 	/* headers */
 	locked = !gconf_client_key_is_writable (prefs->gconf, "/apps/evolution/mail/display/headers", NULL);
 	
+	/* always de-sensitised until the user types something in the entry */
 	prefs->add_header = GTK_BUTTON (glade_xml_get_widget (gui, "cmdHeadersAdd"));
-	gtk_widget_set_sensitive ((GtkWidget *) prefs->add_header, !locked);
+	gtk_widget_set_sensitive ((GtkWidget *) prefs->add_header, FALSE);
 	
+	/* always de-sensitised until the user selects a header in the list */
 	prefs->remove_header = GTK_BUTTON (glade_xml_get_widget (gui, "cmdHeadersRemove"));
-	gtk_widget_set_sensitive ((GtkWidget *) prefs->remove_header, !locked);
+	gtk_widget_set_sensitive ((GtkWidget *) prefs->remove_header, FALSE);
 	
 	prefs->entry_header = GTK_ENTRY (glade_xml_get_widget (gui, "txtHeaders"));
 	gtk_widget_set_sensitive ((GtkWidget *) prefs->entry_header, !locked);
@@ -783,7 +785,6 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs)
 	}
 	
 	g_slist_free (header_add_list);
-	emmp_header_remove_sensitivity (prefs);
 	
 	/* Junk prefs */
 	prefs->check_incoming = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkCheckIncomingMail"));
