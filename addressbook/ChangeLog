@@ -1,5 +1,14 @@
 2002-11-26  Chris Toshok  <toshok@ximian.com>
 
+	[ roll forward from 1.2 branch ]
+	* backend/pas/pas-backend-file.c
+	(pas_backend_file_process_get_vcard): never pass NULL as the vcard
+	to the corba call, it causes a crash.  This particular bug bit us
+	when we opened a card that contained an unresolvable related
+	contact.
+
+2002-11-26  Chris Toshok  <toshok@ximian.com>
+
 	[ roll forward from 1.2 branch, Fixes addressbook bug #28945 ]
 	* backend/ebook/e-card.c (e_card_get_vobject): if the email
 	property is xml, get the real address from the e-destination.
