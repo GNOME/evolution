@@ -1,3 +1,23 @@
+2005-01-07  JP Rosevear  <jpr@novell.com>
+
+	* itip-view.h: add protos
+
+	* itip-view.c (set_sender_text): update descriptions better
+	(set_status_text): show/hide status
+	(set_comment_text): show/hide comment
+	(set_buttons): update buttons for add an refresh
+	(itip_view_destroy): free comment/status
+	(itip_view_init): add status/comment widgets
+	(itip_view_set_status): accessor
+	(itip_view_get_status): ditto
+	(itip_view_set_comment): ditto
+	(itip_view_get_comment): ditto
+
+	* itip-formatter.c (find_cal_opened_cb): make sure rsvp is off for
+	publish
+	(format_itip_object): decline counter is sent by an organizer; set
+	status and comment when appropriate
+
 2005-01-05  Rodney Dawes  <dobey@novell.com>
 
 	* Makefile.am: Dist the errors data properly, and add the .eplug

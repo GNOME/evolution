@@ -111,6 +111,12 @@ const char *itip_view_get_summary (ItipView *view);
 void itip_view_set_location (ItipView *view, const char *location);
 const char *itip_view_get_location (ItipView *view);
 
+void itip_view_set_status (ItipView *view, const char *status);
+const char *itip_view_get_status (ItipView *view);
+
+void itip_view_set_comment (ItipView *view, const char *comment);
+const char *itip_view_get_comment (ItipView *view);
+
 void itip_view_set_description (ItipView *view, const char *description);
 const char *itip_view_get_description (ItipView *view);
 

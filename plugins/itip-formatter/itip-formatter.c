@@ -397,6 +397,7 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 		/* Provide extra info, since its not in the component */
 		/* FIXME Check sequence number of meeting? */
 		/* FIXME Do we need to adjust elsewhere for the delegated calendar item? */
+		/* FIXME Need to update the fields in the view now */
 		if (pitip->method == ICAL_METHOD_REPLY || pitip->method == ICAL_METHOD_REFRESH)
 			adjust_item (pitip, pitip->comp);
 
@@ -448,8 +449,8 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 
 			/* The only method that RSVP makes sense for is REQUEST */
 			/* FIXME Default to the suggestion for RSVP for my attendee */
-			itip_view_set_rsvp (ITIP_VIEW (pitip->view), TRUE);
-			itip_view_set_show_rsvp (ITIP_VIEW (pitip->view), pitip->method == ICAL_METHOD_REQUEST ? TRUE : FALSE );
+			itip_view_set_rsvp (ITIP_VIEW (pitip->view), pitip->method == ICAL_METHOD_REQUEST ? TRUE : FALSE);
+			itip_view_set_show_rsvp (ITIP_VIEW (pitip->view), pitip->method == ICAL_METHOD_REQUEST ? TRUE : FALSE);
 			
 			itip_view_remove_lower_info_item (ITIP_VIEW (pitip->view), pitip->progress_info_id);
 			pitip->progress_info_id = 0;
@@ -1039,6 +1040,7 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 	case ICAL_METHOD_REQUEST:
 	case ICAL_METHOD_ADD:
 	case ICAL_METHOD_CANCEL:
+	case ICAL_METHOD_DECLINECOUNTER:
 		/* An organizer sent this */
 		e_cal_component_get_organizer (pitip->comp, &organizer);
 		itip_view_set_organizer (ITIP_VIEW (pitip->view), organizer.cn ? organizer.cn : itip_strip_mailto (organizer.value));
@@ -1054,7 +1056,6 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 	case ICAL_METHOD_REPLY:
 	case ICAL_METHOD_REFRESH:
 	case ICAL_METHOD_COUNTER:
-	case ICAL_METHOD_DECLINECOUNTER:
 		/* An attendee sent this */
 		e_cal_component_get_attendee_list (pitip->comp, &list);
 		if (list != NULL) {
@@ -1066,11 +1067,11 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 
 			e_cal_component_free_attendee_list (list);
 		}
-		
 		break;		
 	default:
 		/* FIXME What to do here? */
 		itip_view_set_mode (ITIP_VIEW (pitip->view), ITIP_VIEW_MODE_ERROR);
+		break;
 	}	
 
 	e_cal_component_get_summary (pitip->comp, &text);
@@ -1079,16 +1080,51 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 	e_cal_component_get_location (pitip->comp, &string);
 	itip_view_set_location (ITIP_VIEW (pitip->view), string);
 
-	e_cal_component_get_location (pitip->comp, &string);
-	itip_view_set_location (ITIP_VIEW (pitip->view), string);
+	/* Status really only applies for REPLY */
+	if (pitip->method == ICAL_METHOD_REPLY) {
+		e_cal_component_get_attendee_list (pitip->comp, &list);
+		if (list != NULL) {
+			ECalComponentAttendee *a = list->data;			
+			
+			switch (a->status) {
+			case ICAL_PARTSTAT_ACCEPTED:
+				itip_view_set_status (ITIP_VIEW (pitip->view), _("Accepted"));
+				break;
+			case ICAL_PARTSTAT_TENTATIVE:
+				itip_view_set_status (ITIP_VIEW (pitip->view), _("Tentatively Accepted"));
+				break;
+			case ICAL_PARTSTAT_DECLINED:
+				itip_view_set_status (ITIP_VIEW (pitip->view), _("Declined"));
+				break;
+			default:
+				itip_view_set_status (ITIP_VIEW (pitip->view), _("Unknown"));
+			}
+		}		
+		e_cal_component_free_attendee_list (list);
+	}
 
+	if (pitip->method == ICAL_METHOD_REPLY 
+	    || pitip->method == ICAL_METHOD_COUNTER 
+	    || pitip->method == ICAL_METHOD_DECLINECOUNTER) {
+		/* FIXME Check spec to see if multiple comments are actually valid */
+		/* Comments for ITIP are limited to one per object */
+		e_cal_component_get_comment_list (pitip->comp, &list);
+		if (list) {
+			ECalComponentText *text = list->data;
+			
+			if (text->value)			
+				itip_view_set_comment (ITIP_VIEW (pitip->view), text->value);
+		}		
+		e_cal_component_free_text_list (list);
+	}
+	
 	e_cal_component_get_description_list (pitip->comp, &list);
 	for (l = list; l; l = l->next) {
 		ECalComponentText *text = l->data;
 		
-		if (!gstring)
+		if (!gstring && text->value)
 			gstring = g_string_new (text->value);
-		else
+		else if (text->value)
 			g_string_append_printf (gstring, "\n\n%s", text->value);
 	}
 	e_cal_component_free_text_list (list);

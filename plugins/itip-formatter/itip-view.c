@@ -73,6 +73,14 @@ struct _ItipViewPrivate {
 	GtkWidget *location_label;
 	char *location;
 
+	GtkWidget *status_header;
+	GtkWidget *status_label;
+	char *status;
+
+	GtkWidget *comment_header;
+	GtkWidget *comment_label;
+	char *comment;
+
 	GtkWidget *start_header;
 	GtkWidget *start_label;
 	struct tm *start_tm;
@@ -303,19 +311,22 @@ set_sender_text (ItipView *view)
 		sender = g_strdup_printf (_("<b>%s</b> wishes to receive the latest information for the following meeting:"), attendee);
 		break;
 	case ITIP_VIEW_MODE_REPLY:
-		sender = g_strdup_printf (_("<b>%s</b> has accepted the following meeting:"), attendee);
+		sender = g_strdup_printf (_("<b>%s</b> has sent back the following meeting response:"), attendee);
 		break;
 	case ITIP_VIEW_MODE_CANCEL:
 		if (priv->sentby)
-			sender = g_strdup_printf (_("<b>%s</b> through %s has cancelled the follow meeting:"), organizer, priv->sentby);
+			sender = g_strdup_printf (_("<b>%s</b> through %s has cancelled the following meeting:"), organizer, priv->sentby);
 		else
 			sender = g_strdup_printf (_("<b>%s</b> has cancelled the following meeting."), organizer);
 		break;
 	case ITIP_VIEW_MODE_COUNTER:
+		sender = g_strdup_printf (_("<b>%s</b> has proposed the following meeting changes."), attendee);
+		break;
+	case ITIP_VIEW_MODE_DECLINECOUNTER:
 		if (priv->sentby)
-			sender = g_strdup_printf (_("<b>%s</b> through %s has cancelled the follow meeting:"), organizer, priv->sentby);
+			sender = g_strdup_printf (_("<b>%s</b> through %s has declined the following meeting changes:"), organizer, priv->sentby);
 		else
-			sender = g_strdup_printf (_("<b>%s</b> has cancelled the following meeting."), organizer);
+			sender = g_strdup_printf (_("<b>%s</b> has declined the following meeting changes."), organizer);
 		break;
 	default:
 		break;
@@ -354,6 +365,32 @@ set_location_text (ItipView *view)
 
 	priv->location ? gtk_widget_show (priv->location_header) : gtk_widget_hide (priv->location_header);
 	priv->location ? gtk_widget_show (priv->location_label) : gtk_widget_hide (priv->location_label);
+}
+
+static void
+set_status_text (ItipView *view)
+{
+	ItipViewPrivate *priv;
+
+	priv = view->priv;
+
+	gtk_label_set_text (GTK_LABEL (priv->status_label), priv->status);
+
+	priv->status ? gtk_widget_show (priv->status_header) : gtk_widget_hide (priv->status_header);
+	priv->status ? gtk_widget_show (priv->status_label) : gtk_widget_hide (priv->status_label);
+}
+
+static void
+set_comment_text (ItipView *view)
+{
+	ItipViewPrivate *priv;
+
+	priv = view->priv;
+
+	gtk_label_set_text (GTK_LABEL (priv->comment_label), priv->comment);
+
+	priv->comment ? gtk_widget_show (priv->comment_header) : gtk_widget_hide (priv->comment_header);
+	priv->comment ? gtk_widget_show (priv->comment_label) : gtk_widget_hide (priv->comment_label);
 }
 
 static void
@@ -533,12 +570,13 @@ set_buttons (ItipView *view)
 		set_one_button (view, "_Accept", GTK_STOCK_APPLY, ITIP_VIEW_RESPONSE_ACCEPT);
 		break;
 	case ITIP_VIEW_MODE_ADD:
-		/* FIXME Right response? */
-		set_one_button (view, "_Add", GTK_STOCK_ADD, ITIP_VIEW_RESPONSE_UPDATE);
+		set_one_button (view, "_Decline", GTK_STOCK_CANCEL, ITIP_VIEW_RESPONSE_DECLINE);
+		set_one_button (view, "_Tentative", GTK_STOCK_DIALOG_QUESTION, ITIP_VIEW_RESPONSE_TENTATIVE);
+		set_one_button (view, "_Accept", GTK_STOCK_APPLY, ITIP_VIEW_RESPONSE_ACCEPT);
 		break;
 	case ITIP_VIEW_MODE_REFRESH:
 		/* FIXME Is this really the right button? */
-		set_one_button (view, "_Send Meeting Information", GTK_STOCK_REFRESH, ITIP_VIEW_RESPONSE_REFRESH);
+		set_one_button (view, "_Send Information", GTK_STOCK_REFRESH, ITIP_VIEW_RESPONSE_REFRESH);
 		break;
 	case ITIP_VIEW_MODE_REPLY:
 		/* FIXME Is this really the right button? */
@@ -574,6 +612,8 @@ itip_view_destroy (GtkObject *object)
 		g_free (priv->delegator);
 		g_free (priv->attendee);
 		g_free (priv->location);
+		g_free (priv->status);
+		g_free (priv->comment);
 		g_free (priv->start_tm);
 		g_free (priv->end_tm);
 
@@ -621,14 +661,14 @@ static void
 itip_view_init (ItipView *view)
 {
 	ItipViewPrivate *priv;
-	GtkWidget *icon, *vbox, *separator, *table;
+	GtkWidget *icon, *vbox, *details_vbox, *separator, *table;
 
 	priv = g_new0 (ItipViewPrivate, 1);	
 	view->priv = priv;
 
 	priv->mode = ITIP_VIEW_MODE_NONE;
 	
-	/* The icon on the LHS */
+	/* The meeting icon */
 	icon = e_icon_factory_get_image (MEETING_ICON, E_ICON_SIZE_LARGE_TOOLBAR);
 	gtk_misc_set_alignment (GTK_MISC (icon), 0, 0);
 	gtk_widget_show (icon);
@@ -652,7 +692,7 @@ itip_view_init (ItipView *view)
 	gtk_box_pack_start (GTK_BOX (vbox), separator, FALSE, FALSE, 6);
 
 	/* A table with information on the meeting and any extra info/warnings */
-	table = gtk_table_new (3, 2, FALSE);
+	table = gtk_table_new (6, 2, FALSE);
 	gtk_table_set_row_spacings (GTK_TABLE (table), 6);
 	gtk_table_set_col_spacings (GTK_TABLE (table), 6);
 	gtk_widget_show (table);
@@ -689,6 +729,22 @@ itip_view_init (ItipView *view)
 	gtk_table_attach (GTK_TABLE (table), priv->end_header, 0, 1, 3, 4, GTK_FILL, 0, 0, 0);
 	gtk_table_attach (GTK_TABLE (table), priv->end_label, 1, 2, 3, 4, GTK_FILL, 0, 0, 0);
 
+	/* Status */
+	priv->status_header = gtk_label_new (_("Status:"));
+	priv->status_label = gtk_label_new (NULL);
+	gtk_misc_set_alignment (GTK_MISC (priv->status_header), 0, 0.5);
+	gtk_misc_set_alignment (GTK_MISC (priv->status_label), 0, 0.5);
+	gtk_table_attach (GTK_TABLE (table), priv->status_header, 0, 1, 4, 5, GTK_FILL, 0, 0, 0);
+	gtk_table_attach (GTK_TABLE (table), priv->status_label, 1, 2, 4, 5, GTK_FILL, 0, 0, 0);
+
+	/* Comment */
+	priv->comment_header = gtk_label_new (_("Comment:"));
+	priv->comment_label = gtk_label_new (NULL);
+	gtk_misc_set_alignment (GTK_MISC (priv->comment_header), 0, 0.5);
+	gtk_misc_set_alignment (GTK_MISC (priv->comment_label), 0, 0.5);
+	gtk_table_attach (GTK_TABLE (table), priv->comment_header, 0, 1, 5, 6, GTK_FILL, 0, 0, 0);
+	gtk_table_attach (GTK_TABLE (table), priv->comment_label, 1, 2, 5, 6, GTK_FILL, 0, 0, 0);
+
 	/* Upper Info items */
 	priv->upper_info_box = gtk_vbox_new (FALSE, 0);
 	gtk_widget_show (priv->upper_info_box);
@@ -710,12 +766,16 @@ itip_view_init (ItipView *view)
 	gtk_box_pack_start (GTK_BOX (vbox), priv->lower_info_box, FALSE, FALSE, 6);
 
 	/* Detail area */
+	details_vbox = gtk_vbox_new (FALSE, 0);
+	gtk_widget_show (details_vbox);
+	gtk_box_pack_start (GTK_BOX (vbox), details_vbox, FALSE, FALSE, 0);
+
 	priv->details_box = gtk_hbox_new (FALSE, 0);
 	gtk_widget_show (priv->details_box);
-	gtk_box_pack_start (GTK_BOX (vbox), priv->details_box, FALSE, FALSE, 6);
+	gtk_box_pack_start (GTK_BOX (details_vbox), priv->details_box, FALSE, FALSE, 0);
 	
 	priv->rsvp_check = gtk_check_button_new_with_mnemonic ("Send _reply to sender");
-	gtk_box_pack_end (GTK_BOX (priv->details_box), priv->rsvp_check, FALSE, FALSE, 6);
+	gtk_box_pack_end (GTK_BOX (details_vbox), priv->rsvp_check, FALSE, FALSE, 6);
 
 	/* The buttons for actions */
 	priv->button_box = gtk_hbutton_box_new ();
@@ -919,7 +979,69 @@ itip_view_get_location (ItipView *view)
 	return priv->location;
 }
 
-/* FIXME Status and description */
+void
+itip_view_set_status (ItipView *view, const char *status)
+{
+	ItipViewPrivate *priv;
+	
+	g_return_if_fail (view != NULL);
+	g_return_if_fail (ITIP_IS_VIEW (view));	
+	
+	priv = view->priv;
+	
+	if (priv->status)
+		g_free (priv->status);
+
+	priv->status = status ? g_strstrip (g_strdup (status)) : NULL;
+
+	set_status_text (view);
+}
+
+const char *
+itip_view_get_status (ItipView *view)
+{
+	ItipViewPrivate *priv;
+
+	g_return_val_if_fail (view != NULL, NULL);
+	g_return_val_if_fail (ITIP_IS_VIEW (view), NULL);
+	
+	priv = view->priv;
+	
+	return priv->status;
+}
+
+void
+itip_view_set_comment (ItipView *view, const char *comment)
+{
+	ItipViewPrivate *priv;
+	
+	g_return_if_fail (view != NULL);
+	g_return_if_fail (ITIP_IS_VIEW (view));	
+	
+	priv = view->priv;
+	
+	if (priv->comment)
+		g_free (priv->comment);
+
+	priv->comment = comment ? g_strstrip (g_strdup (comment)) : NULL;
+
+	set_comment_text (view);
+}
+
+const char *
+itip_view_get_comment (ItipView *view)
+{
+	ItipViewPrivate *priv;
+
+	g_return_val_if_fail (view != NULL, NULL);
+	g_return_val_if_fail (ITIP_IS_VIEW (view), NULL);
+	
+	priv = view->priv;
+	
+	return priv->comment;
+}
+
+
 void
 itip_view_set_description (ItipView *view, const char *description)
 {
