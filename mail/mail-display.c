@@ -23,6 +23,7 @@
 #include <libgnorba/gnorba.h>
 #include <bonobo/bonobo-stream-memory.h>
 #include <libgnomevfs/gnome-vfs-mime-info.h>
+#include <libgnomevfs/gnome-vfs-mime-handlers.h>
 
 #define PARENT_TYPE (gtk_vbox_get_type ())
 
@@ -42,28 +43,26 @@ save_data_eexist_cb (int reply, gpointer user_data)
 	gtk_main_quit ();
 }
 
-static void
-save_data_cb (GtkWidget *widget, gpointer user_data)
+static gboolean
+write_data_to_file (CamelMimePart *part, const char *name, gboolean unique)
 {
-	CamelDataWrapper *data = user_data;
+	CamelDataWrapper *data;
 	CamelStream *stream_fs;
-	GtkFileSelection *file_select = (GtkFileSelection *)
-		gtk_widget_get_ancestor (widget, GTK_TYPE_FILE_SELECTION);
-	char *name;
 	int fd;
 
-	name = gtk_file_selection_get_filename (file_select);
+	g_return_val_if_fail (CAMEL_IS_MIME_PART (part), FALSE);
+	data = camel_medium_get_content_object (CAMEL_MEDIUM (part));
 
 	fd = open (name, O_WRONLY | O_CREAT | O_EXCL, S_IRUSR | S_IWUSR);
-	if (fd == -1 && errno == EEXIST) {
+	if (fd == -1 && errno == EEXIST && !unique) {
 		gboolean ok = FALSE;
 
-		gnome_ok_cancel_dialog_modal_parented (
+		gnome_ok_cancel_dialog_modal (
 			"A file by that name already exists.\nOverwrite it?",
-			save_data_eexist_cb, &ok, GTK_WINDOW (file_select));
+			save_data_eexist_cb, &ok);
 		gtk_main ();
 		if (!ok)
-			return;
+			return FALSE;
 		fd = open (name, O_WRONLY | O_TRUNC);
 	}
 
@@ -72,8 +71,9 @@ save_data_cb (GtkWidget *widget, gpointer user_data)
 
 		msg = g_strdup_printf ("Could not open file %s:\n%s",
 				       name, g_strerror (errno));
-		gnome_error_dialog_parented (msg, GTK_WINDOW (file_select));
-		return;
+		gnome_error_dialog (msg);
+		g_free (msg);
+		return FALSE;
 	}
 
 	stream_fs = camel_stream_fs_new_with_fd (fd);
@@ -81,55 +81,129 @@ save_data_cb (GtkWidget *widget, gpointer user_data)
 	    || camel_stream_flush (stream_fs) == -1) {
 		char *msg;
 
-		msg = g_strdup_printf ("Could not write data: %s", strerror(errno));
-		gnome_error_dialog_parented (msg, GTK_WINDOW (file_select));
+		msg = g_strdup_printf ("Could not write data: %s",
+				       strerror (errno));
+		gnome_error_dialog (msg);
+		g_free (msg);
+		gtk_object_unref (GTK_OBJECT (stream_fs));
+		return FALSE;
 	}
 	gtk_object_unref (GTK_OBJECT (stream_fs));
 
+	return TRUE;
+}
+
+static char *
+make_safe_filename (const char *prefix, CamelMimePart *part)
+{
+	GMimeContentField *type;
+	const char *name;
+	char *safe, *p;
+
+	type = camel_mime_part_get_content_type (part);
+	if (type)
+		name = gmime_content_field_get_parameter (type, "name");
+	if (!name)
+		name = camel_mime_part_get_filename (part);
+	if (!name)
+		name = "attachment";
+
+	p = strrchr (name, '/');
+	if (p)
+		safe = g_strdup_printf ("%s%s", prefix, p);
+	else
+		safe = g_strdup_printf ("%s/%s", prefix, name);
+
+	for (p = strrchr (safe, '/') + 1; *p; p++) {
+		if (!isascii ((unsigned char)*p) ||
+		    strchr (" /'\"`&();|<>${}!", *p))
+			*p = '_';
+	}
+
+	return safe;
+}
+
+CamelMimePart *
+part_for_url (const char *url, CamelMimeMessage *message)
+{
+	GHashTable *urls;
+
+	urls = gtk_object_get_data (GTK_OBJECT (message), "urls");
+	g_return_val_if_fail (urls != NULL, NULL);
+	return g_hash_table_lookup (urls, url);
+}
+
+static void
+launch_external (const char *url, CamelMimeMessage *message)
+{
+	const char *command = url + 21;
+	char *tmpl, *tmpdir, *filename, *argv[2];
+	CamelMimePart *part = part_for_url (url, message);
+
+	tmpl = g_strdup ("/tmp/evolution.XXXXXX");
+#ifdef HAVE_MKDTEMP
+	tmpdir = mkdtemp (tmpl);
+#else
+	tmpdir = mktemp (tmpl);
+	if (tmpdir) {
+		if (mkdir (tmpdir, S_IRWXU) == -1)
+			tmpdir = NULL;
+	}
+#endif
+	if (!tmpdir) {
+		char *msg = g_strdup_printf ("Could not create temporary "
+					     "directory: %s",
+					     g_strerror (errno));
+		gnome_error_dialog (msg);
+		g_free (msg);
+		return;
+	}
+
+	filename = make_safe_filename (tmpdir, part);
+
+	if (!write_data_to_file (part, filename, TRUE)) {
+		g_free (tmpl);
+		g_free (filename);
+		return;
+	}
+
+	argv[0] = (char *)command;
+	argv[1] = filename;
+
+	gnome_execute_async (tmpdir, 2, argv);
+	g_free (tmpdir);
+	g_free (filename);
+}
+
+static void
+save_data_cb (GtkWidget *widget, gpointer user_data)
+{
+	GtkFileSelection *file_select = (GtkFileSelection *)
+		gtk_widget_get_ancestor (widget, GTK_TYPE_FILE_SELECTION);
+
+	write_data_to_file (user_data,
+			    gtk_file_selection_get_filename (file_select),
+			    FALSE);
 	gtk_widget_destroy (GTK_WIDGET (file_select));
 }
 
 static void
 save_data (const char *cid, CamelMimeMessage *message)
 {
-	GHashTable *urls;
-	CamelMimePart *part;
-	CamelDataWrapper *data;
 	GtkFileSelection *file_select;
 	char *filename;
+	CamelMimePart *part;
 
-	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
-	urls = gtk_object_get_data (GTK_OBJECT (message), "urls");
-	part = g_hash_table_lookup (urls, cid);
-	g_return_if_fail (CAMEL_IS_MIME_PART (part));
-	data = camel_medium_get_content_object (CAMEL_MEDIUM (part));
-
-	filename = (char *)camel_mime_part_get_filename (part);
-	if (filename) {
-		char *p;
-
-		p = strrchr (filename, '/');
-		if (p)
-			filename = g_strdup_printf ("%s%s", g_get_home_dir(), p);
-		else {
-			filename = g_strdup_printf ("%s/%s", g_get_home_dir(),
-						    filename);
-		}
-
-		for (p = strrchr (filename, '/') + 1; *p; p++) {
-			if (!isascii ((unsigned char)*p) ||
-			    strchr (" /'\"`&();|<>${}!", *p))
-				*p = '_';
-		}
-	} else
-		filename = g_strdup_printf ("%s/attachment", g_get_home_dir());
+	part = part_for_url (cid, message);
+	g_return_if_fail (part != NULL);
+	filename = make_safe_filename (g_get_home_dir (), part);
 
 	file_select = GTK_FILE_SELECTION (gtk_file_selection_new ("Save Attachment"));
 	gtk_file_selection_set_filename (file_select, filename);
 	g_free (filename);
 
 	gtk_signal_connect (GTK_OBJECT (file_select->ok_button), "clicked", 
-			    GTK_SIGNAL_FUNC (save_data_cb), data);
+			    GTK_SIGNAL_FUNC (save_data_cb), part);
 	gtk_signal_connect_object (GTK_OBJECT (file_select->cancel_button),
 				   "clicked",
 				   GTK_SIGNAL_FUNC (gtk_widget_destroy),
@@ -152,36 +226,10 @@ on_link_clicked (GtkHTML *html, const char *url, gpointer user_data)
 		send_to_url (url);
 	else if (!strncasecmp (url, "cid:", 4))
 		save_data (url, message);
+	else if (!strncasecmp (url, "x-evolution-external:", 21))
+		launch_external (url, message);
 	else
 		gnome_url_show (url);
-}
-
-static void 
-embeddable_destroy_cb (GtkObject *obj, gpointer user_data)
-{
-	BonoboWidget *be;      /* bonobo embeddable */
-	BonoboViewFrame *vf;   /* the embeddable view frame */
-	BonoboObjectClient* server;
-	CORBA_Environment ev;
-
-	be = BONOBO_WIDGET (obj);
-	server = bonobo_widget_get_server (be);
-
-	vf = bonobo_widget_get_view_frame (be);
-	bonobo_control_frame_control_deactivate (
-		BONOBO_CONTROL_FRAME (vf));
-	/* w = bonobo_control_frame_get_widget (BONOBO_CONTROL_FRAME (vf)); */
-	
-	/* gtk_widget_destroy (w); */
-	
-	CORBA_exception_init (&ev);
-	Bonobo_Unknown_unref (
-		bonobo_object_corba_objref (BONOBO_OBJECT(server)), &ev);
-	CORBA_Object_release (
-		bonobo_object_corba_objref (BONOBO_OBJECT(server)), &ev);
-
-	CORBA_exception_free (&ev);
-	bonobo_object_unref (BONOBO_OBJECT (vf));
 }
 
 static gboolean
@@ -191,7 +239,7 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 	GHashTable *urls;
 	CamelMedium *medium;
 	CamelDataWrapper *wrapper;
-	const char *goad_id;
+	OAF_ServerInfo *component;
 	GtkWidget *embedded;
 	BonoboObjectClient *server;
 	Bonobo_PersistStream persist;	
@@ -208,29 +256,20 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 	g_return_val_if_fail (CAMEL_IS_MEDIUM (medium), FALSE);
 	wrapper = camel_medium_get_content_object (medium);
 
-	goad_id = gnome_vfs_mime_get_value (eb->type, "bonobo-goad-id");
-	if (!goad_id) {
-		char *main_type =
-			g_strndup (eb->type, strcspn (eb->type, "/"));
-
-		goad_id = gnome_vfs_mime_get_value (main_type,
-						    "bonobo-goad-id");
-		g_free (main_type);
-	}
-	if (!goad_id)
+	component = gnome_vfs_mime_get_default_component (eb->type);
+	if (!component)
 		return FALSE;
 
-	embedded = bonobo_widget_new_subdoc (goad_id, NULL);
+	embedded = bonobo_widget_new_subdoc (component->iid, NULL);
+	CORBA_free (component);
 	if (!embedded)
 		return FALSE;
-	gtk_signal_connect (GTK_OBJECT (embedded), "destroy",
-			    embeddable_destroy_cb, NULL);
 	server = bonobo_widget_get_server (BONOBO_WIDGET (embedded));
 
 	persist = (Bonobo_PersistStream) bonobo_object_client_query_interface (
 		server, "IDL:Bonobo/PersistStream:1.0", NULL);
 	if (persist == CORBA_OBJECT_NIL) {
-		bonobo_object_unref (BONOBO_OBJECT (embedded));
+		gtk_object_sink (GTK_OBJECT (embedded));
 		return FALSE;
 	}
 
@@ -254,7 +293,7 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 	CORBA_Object_release (persist, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
-		bonobo_object_unref (BONOBO_OBJECT (embedded));
+		gtk_object_sink (GTK_OBJECT (embedded));
 		CORBA_exception_free (&ev);				
 		return FALSE;
 	}

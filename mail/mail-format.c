@@ -30,6 +30,7 @@
 #include "e-util/e-setup.h" /*for evolution_dir*/
 #include <libgnome/libgnome.h>
 #include <libgnomevfs/gnome-vfs-mime-info.h>
+#include <libgnomevfs/gnome-vfs-mime-handlers.h>
 
 #include <ctype.h>    /* for isprint */
 #include <string.h>   /* for strstr  */
@@ -82,6 +83,9 @@ static gboolean handle_unknown_type          (CamelMimePart *part,
 					      const char *mime_type,
 					      struct mail_format_data *mfd);
 static gboolean handle_via_bonobo            (CamelMimePart *part,
+					      const char *mime_type,
+					      struct mail_format_data *mfd);
+static gboolean handle_via_external          (CamelMimePart *part,
 					      const char *mime_type,
 					      struct mail_format_data *mfd);
 
@@ -229,8 +233,8 @@ static mime_handler_fn
 lookup_handler (const char *mime_type, gboolean *generic)
 {
 	mime_handler_fn handler_function;
-	const char *whole_goad_id, *generic_goad_id;
 	char *mime_type_main;
+	GnomeVFSMimeAction *action;
 
 	if (mime_function_table == NULL)
 		setup_function_table ();
@@ -242,10 +246,10 @@ lookup_handler (const char *mime_type, gboolean *generic)
 	/* OK. There are 6 possibilities, which we try in this order:
 	 *   1) full match in the main table
 	 *   2) partial match in the main table
-	 *   3) full match in bonobo
+	 *   3) full match in gnome_vfs_mime_*
 	 *   4) full match in the fallback table
 	 *   5) partial match in the fallback table
-	 *   6) partial match in bonobo
+	 *   6) partial match in gnome_vfs_mime_*
 	 *
 	 * Of these, 1-4 are considered exact matches, and 5 and 6 are
 	 * considered generic.
@@ -271,20 +275,24 @@ lookup_handler (const char *mime_type, gboolean *generic)
 		return handler_function;
 	}
 
-	whole_goad_id = gnome_vfs_mime_get_value (mime_type, "bonobo-goad-id");
-	generic_goad_id = gnome_vfs_mime_get_value (mime_type_main,
-						    "bonobo-goad-id");
+/* FIXME: Remove this #ifdef after gnome-vfs 0.3 is released */
+#ifdef HAVE_GNOME_VFS_MIME_GET_DEFAULT_ACTION_WITHOUT_FALLBACK
+	action = gnome_vfs_mime_get_default_action_without_fallback (mime_type);
+	if (action) {
+		if (action->action_type == GNOME_VFS_MIME_ACTION_TYPE_COMPONENT)
+			handler_function = handle_via_bonobo;
+		else
+			handler_function = handle_via_external;
 
-	if (whole_goad_id && (!generic_goad_id ||
-			      strcmp (whole_goad_id, generic_goad_id) != 0)) {
 		/* Optimize this for the next time through. */
 		g_hash_table_insert (mime_function_table,
-				     g_strdup (mime_type),
-				     handle_via_bonobo);
+				     g_strdup (mime_type), handler_function);
 		g_free (mime_type_main);
+		gnome_vfs_mime_action_free (action);
 		*generic = FALSE;
-		return handle_via_bonobo;
+		return handler_function;
 	}
+#endif
 
 	handler_function = g_hash_table_lookup (mime_fallback_table,
 						mime_type);
@@ -293,8 +301,17 @@ lookup_handler (const char *mime_type, gboolean *generic)
 	else {
 		handler_function = g_hash_table_lookup (mime_fallback_table,
 							mime_type_main);
-		if (!handler_function && generic_goad_id)
-			handler_function = handle_via_bonobo;
+		if (!handler_function) {
+			action = gnome_vfs_mime_get_default_action (mime_type_main);
+			if (action) {
+				if (action->action_type ==
+				    GNOME_VFS_MIME_ACTION_TYPE_COMPONENT)
+					handler_function = handle_via_bonobo;
+				else
+					handler_function = handle_via_external;
+				gnome_vfs_mime_action_free (action);
+			}
+		}
 		*generic = TRUE;
 	}
 
@@ -902,14 +919,19 @@ static const char *
 get_url_for_icon (const char *icon_name, struct mail_format_data *mfd)
 {
 	static GHashTable *icons;
-	char *icon_path = gnome_pixmap_file (icon_name), buf[1024], *url;
+	char *icon_path, buf[1024], *url;
 	GByteArray *ba;
 
 	if (!icons)
 		icons = g_hash_table_new (g_str_hash, g_str_equal);
 
-	if (!icon_path)
-		return "file:///dev/null";
+	if (*icon_name == '/')
+		icon_path = g_strdup (icon_name);
+	else {
+		icon_path = gnome_pixmap_file (icon_name);
+		if (!icon_path)
+			return "file:///dev/null";
+	}
 
 	ba = g_hash_table_lookup (icons, icon_path);
 	if (!ba) {
@@ -1214,6 +1236,33 @@ handle_via_bonobo (CamelMimePart *part, const char *mime_type,
 
 	return TRUE;
 }
+
+static gboolean
+handle_via_external (CamelMimePart *part, const char *mime_type,
+		     struct mail_format_data *mfd)
+{
+	GnomeVFSMimeApplication *app;
+	const char *desc, *icon;
+	char *action, *url;
+
+	app = gnome_vfs_mime_get_default_application (mime_type);
+	g_return_val_if_fail (app != NULL, FALSE);
+
+	desc = gnome_vfs_mime_get_value (mime_type, "description");
+	icon = gnome_vfs_mime_get_value (mime_type, "icon-filename");
+	if (!icon)
+		icon = "gnome-unknown.png";
+	action = g_strdup_printf ("open the file in %s", app->name);
+	url = g_strdup_printf ("x-evolution-external:%s", app->command);
+	g_hash_table_insert (mfd->urls, url, part);
+
+	handle_mystery (part, mfd, url, icon, desc, action);
+
+	g_free (action);
+
+	return TRUE;
+}
+
 
 static char *
 reply_body (CamelDataWrapper *data, gboolean want_plain, gboolean *is_html)

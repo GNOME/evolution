@@ -1,3 +1,17 @@
+2000-07-26  Dan Winship  <danw@helixcode.com>
+
+	* mail-format.c (lookup_handler): Update for OAF and for external
+	apps as well as components.
+	(handle_via_external): Handler to set up for data that can be
+	displayed by an external application.
+
+	* mail-display.c (on_link_clicked, etc): Refactor the save_data()
+	code and add launch_external() as a handler for
+	x-evolution-external URLs.
+	(embeddable_destroy_cb): Remove this, since it seems like it's all
+	wrong.
+	(on_object_requested): Update for OAF, and fix some bugs.
+
 2000-07-25  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-config.c (get_service_url): Always prepend a leading "/" to
