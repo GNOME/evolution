@@ -1,3 +1,10 @@
+2001-03-24  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-sasl-digest-md5.c (digest_response): Do charset conversion
+	on the username param here if needed.
+	(parse_server_challenge): Protect against possibly empty-string
+	charset values.
+
 2001-03-23  Jon Trowbridge  <trow@ximian.com>
 
 	* camel-filter-driver.c (camel_filter_driver_filter_message):

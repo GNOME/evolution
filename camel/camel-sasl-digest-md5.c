@@ -29,6 +29,8 @@
 #include <ctype.h>
 #include <unistd.h>
 
+#include <iconv.h>
+
 #define d(x)
 
 #define PARANOID(x) x
@@ -479,7 +481,10 @@ parse_server_challenge (const char *tokens, gboolean *abort)
 		case DIGEST_CHARSET:
 			PARANOID (digest_abort (&got_charset, abort));
 			g_free (challenge->charset);
-			challenge->charset = param->value;
+			if (param->value && *param->value)
+				challenge->charset = param->value;
+			else
+				challenge->charset = NULL;
 			g_free (param->name);
 			g_free (param);
 			break;
@@ -651,12 +656,16 @@ generate_response (struct _DigestChallenge *challenge, struct hostent *host,
 	
 	/* charsets... yay */
 	if (challenge->charset) {
-		resp->charset = NULL;
+		/* I believe that this is only ever allowed to be
+		 * UTF-8. We strdup the charset specified by the
+		 * challenge anyway, just in case it's not UTF-8.
+		 */
+		resp->charset = g_strdup (challenge->charset);
 	}
 	
 	resp->cipher = CIPHER_INVALID;
 	if (resp->qop == QOP_AUTH_CONF) {
-		/* FIXME: choose a cipher */
+		/* FIXME: choose a cipher? */
 		resp->cipher = CIPHER_INVALID;
 	}
 	
@@ -677,7 +686,36 @@ digest_response (struct _DigestResponse *resp)
 	
 	buffer = g_byte_array_new ();
 	g_byte_array_append (buffer, "username=\"", 10);
-	g_byte_array_append (buffer, resp->username, strlen (resp->username));
+	if (resp->charset) {
+		/* Encode the username using the requested charset */
+		char *charset, *username, *outbuf;
+		size_t len, outlen;
+		const char *buf;
+		iconv_t cd;
+		
+		charset = getenv ("CHARSET");
+		if (!charset)
+			charset = "ISO-8859-1";
+		
+		cd = iconv_open (resp->charset, charset);
+		
+		len = strlen (resp->username);
+		outlen = 2 * len; /* plenty of space */
+		
+		outbuf = username = g_malloc0 (outlen + 1);
+		buf = resp->username;
+		if (cd == (iconv_t) -1 || iconv (cd, &buf, &len, &outbuf, &outlen) == -1) {
+			g_free (username);
+			username = g_strdup (resp->username);
+		}
+		
+		if (cd != (iconv_t) -1)
+			iconv_close (cd);
+		
+		g_byte_array_append (buffer, username, strlen (username));
+	} else {
+		g_byte_array_append (buffer, resp->username, strlen (resp->username));
+	}
 	
 	g_byte_array_append (buffer, "\",realm=\"", 9);
 	g_byte_array_append (buffer, resp->realm, strlen (resp->realm));
