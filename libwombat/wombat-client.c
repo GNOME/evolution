@@ -38,8 +38,8 @@ static void wombat_client_destroy    (GtkObject *objct);
  */
 static CORBA_char *
 impl_GNOME_Evolution_WombatClient_getPassword (PortableServer_Servant servant,
-					       CORBA_char *prompt,
-					       CORBA_char *key,
+					       const CORBA_char *prompt,
+					       const CORBA_char *key,
 					       CORBA_Environment *ev)
 {
 	WombatClient *client;
@@ -56,7 +56,7 @@ impl_GNOME_Evolution_WombatClient_getPassword (PortableServer_Servant servant,
 
 static void
 impl_GNOME_Evolution_WombatClient_forgetPassword (PortableServer_Servant servant,
-						  CORBA_char *key,
+						  const CORBA_char *key,
 						  CORBA_Environment *ev)
 {
 	WombatClient *client;
