@@ -52,6 +52,7 @@
 #include "addressbook/gui/widgets/e-addressbook-util.h"
 #include "e-util/e-gui-utils.h"
 #include "widgets/misc/e-dateedit.h"
+#include "widgets/misc/e-url-entry.h"
 #include "shell/evolution-shell-component-utils.h"
 
 #include "e-card-merging.h"
@@ -644,6 +645,17 @@ set_entry_changed_signal_field(EContactEditor *editor, char *id)
 }
 
 static void
+set_urlentry_changed_signal_field (EContactEditor *editor, char *id)
+{
+	GtkWidget *widget = glade_xml_get_widget(editor->gui, id);
+	if (widget && E_IS_URL_ENTRY(widget)) {
+		GtkWidget *entry = e_url_entry_get_entry (E_URL_ENTRY (widget));
+		g_signal_connect (entry, "changed",
+				  G_CALLBACK (field_changed), editor);
+	}
+}
+
+static void
 set_entry_changed_signals(EContactEditor *editor)
 {
 	GtkWidget *widget;
@@ -673,7 +685,10 @@ set_entry_changed_signals(EContactEditor *editor)
 				  G_CALLBACK (company_entry_changed), editor);
 	}
 
-	set_entry_changed_signal_field(editor, "entry-web");
+	set_urlentry_changed_signal_field (editor, "entry-web");
+	set_urlentry_changed_signal_field (editor, "entry-caluri");
+	set_urlentry_changed_signal_field (editor, "entry-fburl");
+
 	set_entry_changed_signal_field(editor, "entry-categories");
 	set_entry_changed_signal_field(editor, "entry-jobtitle");
 	set_entry_changed_signal_field(editor, "entry-file-as");
@@ -701,10 +716,6 @@ set_entry_changed_signals(EContactEditor *editor)
 		g_signal_connect (widget, "changed",
 				  G_CALLBACK (widget_changed), editor);
 	}
-
-	set_entry_changed_signal_field(editor, "entry-caluri");
-	set_entry_changed_signal_field(editor, "entry-fburl");
-
 }
 
 static void
@@ -2131,6 +2142,10 @@ static void
 fill_in_field(EContactEditor *editor, char *id, char *value)
 {
 	GtkWidget *widget = glade_xml_get_widget(editor->gui, id);
+
+	if (widget && E_IS_URL_ENTRY (widget))
+		widget = e_url_entry_get_entry (E_URL_ENTRY (widget));
+
 	if (widget && GTK_IS_EDITABLE(widget)) {
 		int position = 0;
 		GtkEditable *editable = GTK_EDITABLE(widget);
@@ -2498,6 +2513,9 @@ extract_field(EContactEditor *editor, ECard *card, char *editable_id, char *key)
 {
 	GtkWidget *widget = glade_xml_get_widget(editor->gui, editable_id);
 
+	if (widget && E_IS_URL_ENTRY (widget))
+		widget = e_url_entry_get_entry (E_URL_ENTRY (widget));
+
 	if (widget && GTK_IS_EDITABLE (widget)) {
 		GtkEditable *editable = GTK_EDITABLE(widget);
 		char *string = gtk_editable_get_chars(editable, 0, -1);
@@ -2650,6 +2668,22 @@ e_contact_editor_create_date(gchar *name,
 					   TRUE);
 	e_date_edit_set_show_time (E_DATE_EDIT (widget), FALSE);
 	e_date_edit_set_time (E_DATE_EDIT (widget), -1);
+	gtk_widget_show (widget);
+	return widget;
+}
+
+GtkWidget *
+e_contact_editor_create_web(gchar *name,
+			    gchar *string1, gchar *string2,
+			    gint int1, gint int2);
+
+GtkWidget *
+e_contact_editor_create_web(gchar *name,
+			    gchar *string1, gchar *string2,
+			    gint int1, gint int2)
+{
+	GtkWidget *widget = e_url_entry_new ();
+	gtk_widget_show (widget);
 	return widget;
 }
 
@@ -2666,6 +2700,10 @@ enable_widget (GtkWidget *widget, gboolean enabled)
 		gtk_editable_set_editable (GTK_EDITABLE (GTK_COMBO (widget)->entry),
 					   enabled);
 		gtk_widget_set_sensitive (GTK_COMBO (widget)->button, enabled);
+	}
+	else if (E_IS_URL_ENTRY (widget)) {
+		GtkWidget *e = e_url_entry_get_entry (E_URL_ENTRY (widget));
+		gtk_editable_set_editable (GTK_EDITABLE (e), enabled);
 	}
 	else if (E_IS_DATE_EDIT (widget)) {
 		e_date_edit_set_editable (E_DATE_EDIT (widget), enabled);
