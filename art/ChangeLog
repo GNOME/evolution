@@ -1,5 +1,10 @@
 2001-10-23  Tuomas Kuosmanen  <tigert@ximian.com>
 
+	* splash.png: Remove the "1" from "1.0 Release Candidate 1" so it
+	looks better.
+
+2001-10-23  Tuomas Kuosmanen  <tigert@ximian.com>
+
 	* Makefile.am (appicon_DATA): Changed the filename here too 
 	so the icon gets installed.
 
