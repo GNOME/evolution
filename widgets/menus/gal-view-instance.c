@@ -383,7 +383,6 @@ gal_view_instance_set_current_view_id (GalViewInstance *instance, const char *vi
 
 	save_current_view (instance);
 	gal_view_instance_changed(instance);
-	gal_view_instance_display_view (instance, instance->current_view);
 }
 
 GalView *
