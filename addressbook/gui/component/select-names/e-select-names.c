@@ -810,6 +810,7 @@ e_select_names_add_section(ESelectNames *e_select_names, char *name, char *id, E
 	gtk_object_set(GTK_OBJECT(label),
 		       "draw_background", FALSE,
 		       "draw_borders", FALSE,
+		       "draw_button", TRUE,
 		       "editable", FALSE,
 		       "text", "",
 		       "use_ellipsis", TRUE,
