@@ -1,3 +1,8 @@
+2002-01-16  JP Rosevear  <jpr@ximian.com>
+
+	* conduit/address-conduit.c: move all functions here, get rid of
+	header files, use e-pilot-settings to display gui
+
 2002-01-15  JP Rosevear  <jpr@ximian.com>
 
 	* gui/component/select-names/select-names.glade: remove misleading

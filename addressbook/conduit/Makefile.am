@@ -14,9 +14,7 @@ e_address_conduitsdir=$(libdir)/gnome-pilot/conduits
 e_address_conduits_LTLIBRARIES = libeaddress_conduit.la
 
 libeaddress_conduit_la_SOURCES = \
-	address-conduit.c \
-	address-conduit.h \
-	address-conduit-config.h
+	address-conduit.c
 
 libeaddress_conduit_la_LDFLAGS = -module -avoid-version
 libeaddress_conduit_la_LIBADD = 					\
