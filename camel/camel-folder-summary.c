@@ -692,7 +692,7 @@ int
 camel_folder_summary_decode_token(FILE *in, char **str)
 {
 	char *ret;
-	int len;
+	guint32 len;
 
 	io(printf("Decode token ...\n"));
 	
@@ -755,7 +755,7 @@ camel_folder_summary_encode_string(FILE *out, char *str)
 int
 camel_folder_summary_decode_string(FILE *in, char **str)
 {
-	int len;
+	guint32 len;
 	register char *ret;
 
 	io(printf("Decode string ...\n", str));
@@ -825,8 +825,7 @@ my_list_size(struct _node **list)
 static int
 summary_header_load(CamelFolderSummary *s, FILE *in)
 {
-	guint32 version, flags, nextuid, count;
-	time_t time;
+	gint32 version, flags, nextuid, count, utime;
 
 	fseek(in, 0, SEEK_SET);
 
@@ -835,14 +834,14 @@ summary_header_load(CamelFolderSummary *s, FILE *in)
 	if (camel_folder_summary_decode_fixed_int32(in, &version) == -1
 	    || camel_folder_summary_decode_fixed_int32(in, &flags) == -1
 	    || camel_folder_summary_decode_fixed_int32(in, &nextuid) == -1
-	    || camel_folder_summary_decode_fixed_int32(in, &time) == -1	/* TODO: yes i know this warns, to be fixed later */
+	    || camel_folder_summary_decode_fixed_int32(in, &utime) == -1
 	    || camel_folder_summary_decode_fixed_int32(in, &count) == -1) {
 		return -1;
 	}
 
 	s->nextuid = nextuid;
 	s->flags = flags;
-	s->time = time;
+	s->time = (time_t) utime;
 	s->saved_count = count;
 	if (s->version != version) {
 		g_warning("Summary header version mismatch");
@@ -974,6 +973,7 @@ static CamelMessageInfo *
 message_info_load(CamelFolderSummary *s, FILE *in)
 {
 	CamelMessageInfo *mi;
+	guint32 udate_sent, udate_received;
 	guint count;
 	int i;
 
@@ -983,14 +983,17 @@ message_info_load(CamelFolderSummary *s, FILE *in)
 
 	camel_folder_summary_decode_string(in, &mi->uid);
 	camel_folder_summary_decode_uint32(in, &mi->flags);
-	camel_folder_summary_decode_uint32(in, &mi->date_sent);	/* warnings, leave them here */
-	camel_folder_summary_decode_uint32(in, &mi->date_received);
+	camel_folder_summary_decode_uint32(in, &udate_sent);	/* warnings, leave them here */
+	camel_folder_summary_decode_uint32(in, &udate_received);
 /*	ms->xev_offset = camel_folder_summary_decode_uint32(in);*/
 	camel_folder_summary_decode_string(in, &mi->subject);
 	camel_folder_summary_decode_string(in, &mi->from);
 	camel_folder_summary_decode_string(in, &mi->to);
 	camel_folder_summary_decode_string(in, &mi->cc);
 	mi->content = NULL;
+
+	mi->date_sent = (time_t) udate_sent;
+	mi->date_received = (time_t) udate_received;
 
 	camel_folder_summary_decode_string(in, &mi->message_id);
 
@@ -1079,17 +1082,21 @@ content_info_load(CamelFolderSummary *s, FILE *in)
 {
 	CamelMessageContentInfo *ci;
 	char *type, *subtype;
-	guint32 count, i;
+	guint32 count, i, upos, ubodypos, uendpos;
 	struct _header_content_type *ct;
 
 	io(printf("Loading content info\n"));
 
 	ci = g_malloc0(s->content_info_size);
 
-	camel_folder_summary_decode_uint32(in, &ci->pos);
-	camel_folder_summary_decode_uint32(in, &ci->bodypos);
-	camel_folder_summary_decode_uint32(in, &ci->endpos);
+	camel_folder_summary_decode_uint32(in, &upos);
+	camel_folder_summary_decode_uint32(in, &ubodypos);
+	camel_folder_summary_decode_uint32(in, &uendpos);
 
+	ci->pos = (off_t) upos;
+        ci->bodypos = (off_t) ubodypos;
+	ci->endpos = (off_t) uendpos;
+	
 	camel_folder_summary_decode_token(in, &type);
 	camel_folder_summary_decode_token(in, &subtype);
 	ct = header_content_type_new(type, subtype);
