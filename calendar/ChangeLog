@@ -1,3 +1,8 @@
+2004-08-12  Carlos Garnacho Parro  <carlosg@gnome.org>
+
+	* gui/dialogs/alarm-dialog.glade: added the property
+	"use_filechooser" to the GnomeFileEntry
+
 2004-08-10  Not Zed  <NotZed@Ximian.com>
 
 	* gui/e-pub-utils.c (e_pub_publish): 
