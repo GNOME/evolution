@@ -717,11 +717,12 @@ right_click_cb (ETable *etable, gint row, gint col, GdkEvent *event, gpointer da
 	MeetingPage *mpage = MEETING_PAGE (data);
 	MeetingPagePrivate *priv;
 	GtkMenu *menu;
-	int enable_mask = 0, hide_mask = 0;
+	int enable_mask = 0, hide_mask = 0, view_row;
 
 	priv = mpage->priv;
 
-	priv->row = e_meeting_model_etable_view_to_model_row (priv->model, row);
+	view_row = e_table_model_to_view_row (etable, row);
+	priv->row = e_meeting_model_etable_view_to_model_row (etable, priv->model, view_row);
 
 	menu = e_popup_menu_create (context_menu, enable_mask, hide_mask, data);
 	e_auto_kill_popup_menu_on_hide (menu);

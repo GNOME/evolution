@@ -1530,29 +1530,39 @@ e_meeting_model_etable_from_model (EMeetingModel *im, const gchar *spec_file, co
 }
 
 int
-e_meeting_model_etable_model_to_view_row (EMeetingModel *im, int model_row)
+e_meeting_model_etable_model_to_view_row (ETable *et, EMeetingModel *im, int model_row)
 {
 	EMeetingModelPrivate *priv;
+	int row;
 	
 	g_return_val_if_fail (im != NULL, -1);
 	g_return_val_if_fail (E_IS_MEETING_MODEL (im), -1);
 	
 	priv = im->priv;
 	
-	return e_table_subset_model_to_view_row (E_TABLE_SUBSET (priv->without), model_row);
+	row = e_table_model_to_view_row (et, model_row);
+	if (row == -1)
+		return -1;
+	
+	return e_table_subset_model_to_view_row (E_TABLE_SUBSET (priv->without), row);
 }
 
 int
-e_meeting_model_etable_view_to_model_row (EMeetingModel *im, int view_row)
+e_meeting_model_etable_view_to_model_row (ETable *et, EMeetingModel *im, int view_row)
 {
 	EMeetingModelPrivate *priv;
+	int row;
 	
 	g_return_val_if_fail (im != NULL, -1);
 	g_return_val_if_fail (E_IS_MEETING_MODEL (im), -1);
 	
 	priv = im->priv;
 	
-	return e_table_subset_view_to_model_row (E_TABLE_SUBSET (priv->without), view_row);
+	row = e_table_view_to_model_row (et, view_row);
+	if (row == -1)
+		return -1;
+	
+	return e_table_subset_view_to_model_row (E_TABLE_SUBSET (priv->without), row);
 }
 
 

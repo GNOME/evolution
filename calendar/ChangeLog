@@ -1,3 +1,19 @@
+2002-02-24  JP Rosevear  <jpr@ximian.com>
+
+	* gui/e-meeting-time-sel-item.c
+	(e_meeting_time_selector_item_draw): pass the real table
+	to e_meeting_model_etable_view_to_model_row
+	(e_meeting_time_selector_item_paint_busy_periods): ditto
+
+	* gui/dialogs/meeting-page.c (right_click_cb): ditto
+	
+	* gui/e-meeting-model.h: update protos
+
+	* gui/e-meeting-model.c
+	(e_meeting_model_etable_model_to_view_row): take in to account the
+	fact the table used the without model
+	(e_meeting_model_etable_view_to_model_row): ditto
+
 2002-02-24  Chris Toshok  <toshok@ximian.com>
 
 	* gui/cal-search-bar.c (cal_search_bar_class_init): change
