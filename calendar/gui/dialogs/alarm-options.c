@@ -255,17 +255,20 @@ alarm_to_palarm_widgets (Dialog *dialog, CalComponentAlarm *alarm)
 {
 	struct icalattachtype *attach;
 	CalComponentText description;
-	char *url;
 
 	cal_component_alarm_get_attach (alarm, &attach);
 	cal_component_alarm_get_description (alarm, &description);
 
-	url = icalattachtype_get_url (attach);
+	if (attach) {
+		char *url;
 
-	e_dialog_editable_set (dialog->palarm_program, url);
+		url = icalattachtype_get_url (attach);
+		e_dialog_editable_set (dialog->palarm_program, url);
+
+		icalattachtype_free (attach);
+	}
+
 	e_dialog_editable_set (dialog->palarm_args, description.value);
-
-	icalattachtype_free (attach);
 }
 
 enum duration_units {
@@ -541,6 +544,14 @@ dialog_to_alarm (Dialog *dialog, CalComponentAlarm *alarm)
 
 
 
+/**
+ * alarm_options_dialog_run:
+ * @alarm: Alarm that is to be edited.
+ * 
+ * Runs an alarm options dialog modally.
+ * 
+ * Return value: TRUE if the dialog could be created, FALSE otherwise.
+ **/
 gboolean
 alarm_options_dialog_run (CalComponentAlarm *alarm)
 {

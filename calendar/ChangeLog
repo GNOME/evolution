@@ -1,3 +1,8 @@
+2001-08-21  Federico Mena Quintero  <federico@ximian.com>
+
+	* gui/dialogs/alarm-options.c (alarm_to_palarm_widgets): Handle
+	the case where there is no attachment.  Fixes bug #7257.
+
 2001-08-21  JP Rosevear  <jpr@ximian.com>
 
 	* gui/e-itip-control.c (write_html): strip the mailto bit for the
