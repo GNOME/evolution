@@ -1,3 +1,10 @@
+2005-02-23  JP Rosevear  <jpr@novell.com>
+
+	Fixes #70000
+	
+	* gui/gnome-cal.c (gnome_calendar_goto_today): set the view type
+	to day view
+
 2005-02-23  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #72006	
