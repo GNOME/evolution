@@ -60,6 +60,11 @@ struct _ESearchBar
 	GtkWidget *dropdown;
 	GtkWidget *option;
 	GtkWidget *entry;
+
+	/* PRIVATE */
+	GtkWidget *dropdown_holder;	/* holds the dropdown */
+	GtkWidget *menu;
+
 	int        option_choice;
 };
 
@@ -73,6 +78,8 @@ struct _ESearchBarClass
 
 
 GtkType    e_search_bar_get_type   (void);
+void       e_search_bar_set_menu   (ESearchBar *search_bar, ESearchBarItem *menu_items);
+void       e_search_bar_set_option (ESearchBar *search_bar, ESearchBarItem *option_items);
 void       e_search_bar_construct  (ESearchBar     *search_bar,
 				    ESearchBarItem *menu_items,
 				    ESearchBarItem *option_items);

@@ -1,3 +1,13 @@
+2001-02-24  Not Zed  <NotZed@Ximian.com>
+
+	* e-search-bar.c (add_dropdown): Move the event box into the
+	esb->dropdown_holder.  Changed so it can be called again on the
+	same esb, to rebuild the menu.
+	(e_search_bar_set_menu): New function to (re)set the menu.
+	(add_option): Setup so it can be re-called to rebuild the option
+	list.
+	(e_search_bar_set_option): New function to build the menu's.
+
 2001-02-05  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* .cvsignore: Ignore test-dropdown-button

@@ -110,7 +110,7 @@ add_dropdown (ESearchBar *esb,
 	      ESearchBarItem *items)
 {
 	GtkWidget *menu;
-	GtkWidget *event_box;
+	GtkWidget *dropdown;
 	int i;
 
 	menu = gtk_menu_new ();
@@ -132,19 +132,29 @@ add_dropdown (ESearchBar *esb,
 	}
 	gtk_widget_show_all (menu);
 
-	esb->dropdown = e_dropdown_button_new (_("Sear_ch"), GTK_MENU (menu));
-	GTK_WIDGET_UNSET_FLAGS (esb->dropdown, GTK_CAN_FOCUS);
-	gtk_widget_show (esb->dropdown);
+	dropdown = e_dropdown_button_new (_("Sear_ch"), GTK_MENU (menu));
+	GTK_WIDGET_UNSET_FLAGS (dropdown, GTK_CAN_FOCUS);
+	gtk_widget_show (dropdown);
 
-	/* So, GtkOptionMenu is stupid; it adds a 1-pixel-wide empty border
-           around the button for no reason.  So we add a 1-pixel-wide border
-           around the button as well, by using an event box.  */
-	event_box = gtk_event_box_new ();
-	gtk_container_set_border_width (GTK_CONTAINER (event_box), 1);
-	gtk_container_add (GTK_CONTAINER (event_box), esb->dropdown);
-	gtk_widget_show (event_box);
+	if (esb->dropdown_holder == NULL) {
 
-	gtk_box_pack_start(GTK_BOX(esb), event_box, FALSE, FALSE, 0);
+		/* So, GtkOptionMenu is stupid; it adds a 1-pixel-wide empty border
+	           around the button for no reason.  So we add a 1-pixel-wide border
+	           around the button as well, by using an event box.  */
+
+		esb->dropdown_holder = gtk_event_box_new ();
+		gtk_container_set_border_width (GTK_CONTAINER (esb->dropdown_holder), 1);
+		esb->dropdown = dropdown;
+		gtk_container_add (GTK_CONTAINER (esb->dropdown_holder), esb->dropdown);
+		gtk_widget_show (esb->dropdown_holder);
+
+		gtk_box_pack_start(GTK_BOX(esb), esb->dropdown_holder, FALSE, FALSE, 0);
+	} else {
+		gtk_container_remove(GTK_CONTAINER(esb->dropdown_holder), esb->dropdown);
+		gtk_widget_destroy(esb->dropdown);
+		esb->dropdown = dropdown;
+		gtk_container_add (GTK_CONTAINER (esb->dropdown_holder), esb->dropdown);
+	}
 }
 
 static void
@@ -155,11 +165,16 @@ add_option(ESearchBar *esb, ESearchBarItem *items)
 	GtkRequisition option_requisition;
 	int i;
 
-	esb->option = gtk_option_menu_new();
-	gtk_widget_show(esb->option);
-	gtk_box_pack_start(GTK_BOX(esb), esb->option, FALSE, FALSE, 0);
+	if (esb->option) {
+		gtk_option_menu_remove_menu((GtkOptionMenu *)esb->option);
+		gtk_widget_destroy(esb->menu);
+	} else {
+		esb->option = gtk_option_menu_new();
+		gtk_widget_show(esb->option);
+		gtk_box_pack_start(GTK_BOX(esb), esb->option, FALSE, FALSE, 0);
+	}
 
-	menu = gtk_menu_new ();
+	esb->menu = menu = gtk_menu_new ();
 	for (i = 0; items[i].id != -1; i++) {
 		GtkWidget *item;
 
@@ -337,6 +352,26 @@ e_search_bar_construct (ESearchBar *search_bar,
 	add_entry (search_bar);
 
 	add_spacer (search_bar);
+}
+
+void
+e_search_bar_set_menu(ESearchBar *search_bar, ESearchBarItem *menu_items)
+{
+	g_return_if_fail (search_bar != NULL);
+	g_return_if_fail (E_IS_SEARCH_BAR (search_bar));
+	g_return_if_fail (menu_items != NULL);
+
+	add_dropdown (search_bar, menu_items);
+}
+
+void
+e_search_bar_set_option(ESearchBar *search_bar, ESearchBarItem *option_items)
+{
+	g_return_if_fail (search_bar != NULL);
+	g_return_if_fail (E_IS_SEARCH_BAR (search_bar));
+	g_return_if_fail (option_items != NULL);
+
+	add_option (search_bar, option_items);
 }
 
 GtkWidget *
