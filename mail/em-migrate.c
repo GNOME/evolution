@@ -1181,6 +1181,49 @@ is_mail_folder (const char *metadata)
 	return FALSE;
 }
 
+static int
+get_local_et_expanded (const char *dirname)
+{
+	xmlNodePtr node;
+	xmlDocPtr doc;
+	struct stat st;
+	char *buf, *p;
+	int thread_list;
+	
+	buf = g_strdup_printf ("%s/evolution/config/file:%s", g_get_home_dir (), dirname);
+	p = buf + strlen (g_get_home_dir ()) + strlen ("/evolution/config/file:");
+	e_filename_make_safe (p);
+	
+	if (stat (buf, &st) == -1) {
+		g_free (buf);
+		return -1;
+	}
+	
+	if (!(doc = xmlParseFile (buf))) {
+		g_free (buf);
+		return -1;
+	}
+	
+	g_free (buf);
+	
+	if (!(node = xmlDocGetRootElement (doc)) || strcmp (node->name, "expanded_state") != 0) {
+		xmlFreeDoc (doc);
+		return -1;
+	}
+	
+	if (!(buf = xmlGetProp (node, "default"))) {
+		xmlFreeDoc (doc);
+		return -1;
+	}
+	
+	thread_list = strcmp (buf, "0") == 0 ? 0 : 1;
+	xmlFree (buf);
+	
+	xmlFreeDoc (doc);
+	
+	return thread_list;
+}
+
 static char *
 get_local_store_uri (const char *dirname, const char *metadata, char **namep, int *index, CamelException *ex)
 {
@@ -1421,6 +1464,7 @@ em_migrate_dir (EMMigrateSession *session, const char *dirname, const char *full
 	char *path, *name, *uri;
 	GPtrArray *uids;
 	struct stat st;
+	int thread_list;
 	int index, i;
 	DIR *dir;
 	
@@ -1441,7 +1485,7 @@ em_migrate_dir (EMMigrateSession *session, const char *dirname, const char *full
 	
 	/* get old store & folder */
 	path = g_strdup_printf ("%s/local-metadata.xml", dirname);
-	if (!(uri = get_local_store_uri (dirname, path, &name, &index, &ex))) {
+	if (!(uri = get_local_store_uri (dirname, path, &name, &index, &thread_list, &ex))) {
 		g_warning ("error opening old store for `%s': %s", full_name, ex.desc);
 		camel_exception_clear (&ex);
 		g_free (path);
@@ -1454,10 +1498,15 @@ em_migrate_dir (EMMigrateSession *session, const char *dirname, const char *full
 	
 	em_migrate_set_folder_name (full_name);
 	
+	thread_list = get_local_et_expanded (dirname);
+	
 	if (!strncmp (uri, "mbox:", 5)) {
+		static char *ibex_ext[] = { ".ibex.index", ".ibex.index.data" };
 		GString *src, *dest;
 		size_t slen, dlen;
+		FILE *fp;
 		char *p;
+		int i;
 		
 		src = g_string_new ("");
 		g_string_append_printf (src, "%s/%s", uri + 5, name);
@@ -1487,62 +1536,63 @@ em_migrate_dir (EMMigrateSession *session, const char *dirname, const char *full
 		g_string_append (dest, ".ev-summary");
 		cp (src->str, dest->str, FALSE);
 		
-		if (index) {
-			static char *ibex_ext[] = { ".ibex.index", ".ibex.index.data" };
-			FILE *fp;
-			int i;
+		/* create a .cmeta file specifying to index and/or thread the folder */
+		g_string_truncate (dest, dlen);
+		g_string_append (dest, ".cmeta");
+		if ((fp = fopen (dest->str, "w")) != NULL) {
+			int fd = fileno (fp);
 			
-			/* create a .cmeta file specifying to index the folder */
+			/* write the magic string */
+			if (fwrite ("CLMD", 4, 1, fp) != 1)
+				goto cmeta_err;
+			
+			/* write the version (1) */
+			if (camel_file_util_encode_uint32 (fp, 1) == -1)
+				goto cmeta_err;
+			
+			/* write the meta count */
+			if (camel_file_util_encode_uint32 (fp, threaded != -1 ? 1 : 0) == -1)
+				goto cmeta_err;
+			
+			if (threaded != -1) {
+				if (camel_file_util_encode_string (fp, "evolution:thread_list") == -1)
+					goto cmeta_err;
+				
+				if (camel_file_util_encode_string (fp, threaded ? "1" : "0") == -1)
+					goto cmeta_err;
+			}
+			
+			/* write the prop count (only prop is the index prop) */
+			if (camel_file_util_encode_uint32 (fp, 1) == -1)
+				goto cmeta_err;
+			
+			/* write the index prop tag (== CAMEL_FOLDER_ARG_LAST|CAMEL_ARG_BOO) */
+			if (camel_file_util_encode_uint32 (fp, CAMEL_FOLDER_ARG_LAST|CAMEL_ARG_BOO) == -1)
+				goto cmeta_err;
+			
+			/* write the index prop value */
+			if (camel_file_util_encode_uint32 (fp, 1) == -1)
+				goto cmeta_err;
+			
+			fflush (fp);
+			
+			if (fsync (fd) == -1) {
+			cmeta_err:
+				fclose (fp);
+				unlink (dest->str);
+			} else {
+				fclose (fp);
+			}
+		}
+		
+		/* copy over the ibex files */
+		for (i = 0; i < 2; i++) {
+			g_string_truncate (src, slen);
 			g_string_truncate (dest, dlen);
-			g_string_append (dest, ".cmeta");
-			if ((fp = fopen (dest->str, "w+")) != NULL) {
-				int fd = fileno (fp);
-				
-				/* write the magic string */
-				if (fwrite ("CLMD", 4, 1, fp) != 1)
-					goto cmeta_err;
-				
-				/* write the version (1) */
-				if (camel_file_util_encode_uint32 (fp, 1) == -1)
-					goto cmeta_err;
-				
-				/* write the meta count */
-				if (camel_file_util_encode_uint32 (fp, 0) == -1)
-					goto cmeta_err;
-				
-				/* write the prop count (only prop is the index prop) */
-				if (camel_file_util_encode_uint32 (fp, 1) == -1)
-					goto cmeta_err;
-				
-				/* write the index prop tag (== CAMEL_FOLDER_ARG_LAST|CAMEL_ARG_BOO) */
-				if (camel_file_util_encode_uint32 (fp, CAMEL_FOLDER_ARG_LAST|CAMEL_ARG_BOO) == -1)
-					goto cmeta_err;
-				
-				/* write the index prop value */
-				if (camel_file_util_encode_uint32 (fp, 1) == -1)
-					goto cmeta_err;
-				
-				fflush (fp);
-				
-				fd = fileno (fp);
-				if (fsync (fd) == -1) {
-				cmeta_err:
-					fclose (fp);
-					unlink (dest->str);
-				} else {
-					fclose (fp);
-				}
-			}
 			
-			/* copy over the ibex files */
-			for (i = 0; i < 2; i++) {
-				g_string_truncate (src, slen);
-				g_string_truncate (dest, dlen);
-				
-				g_string_append (src, ibex_ext[i]);
-				g_string_append (dest, ibex_ext[i]);
-				cp (src->str, dest->str, FALSE);
-			}
+			g_string_append (src, ibex_ext[i]);
+			g_string_append (dest, ibex_ext[i]);
+			cp (src->str, dest->str, FALSE);
 		}
 		
 		g_string_free (dest, TRUE);
@@ -1579,6 +1629,11 @@ em_migrate_dir (EMMigrateSession *session, const char *dirname, const char *full
 			
 			/* try subfolders anyway? */
 			goto try_subdirs;
+		}
+		
+		if (thread_list != -1) {
+			camel_object_meta_set (new_folder, "evolution:thread_list", thread_list ? "1" : "0");
+			camel_object_state_write (new_folder);
 		}
 		
 		uids = camel_folder_get_uids (old_folder);
@@ -1915,7 +1970,7 @@ em_migrate_imap_caches_1_4 (const char *evolution_dir, CamelException *ex)
 	dest = g_build_filename (evolution_dir, "mail", "imap", NULL);
 	
 	/* we don't care if this fails, it's only a cache... */
-	cp_r (src, dest);
+	rename (src, dest);
 	
 	g_free (dest);
 	g_free (src);

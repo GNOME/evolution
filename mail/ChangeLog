@@ -1,3 +1,8 @@
+2004-04-05  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-migrate.c (em_migrate_dir): Migrate the thread_list
+	setting. Fixes bug #56297.
+
 2004-04-05  Not Zed  <NotZed@Ximian.com>
 
 	* em-format-html-display.c (efhd_xpkcs7mime_button): if we have no
