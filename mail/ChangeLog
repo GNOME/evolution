@@ -1,3 +1,16 @@
+2002-07-24  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-format.c (handle_multipart_encrypted): Commit a fix that I
+	thought I committed a while ago:
+
+	* mail-format.c (handle_multipart_encrypted): Pass the correct
+	pointer into camel_multipart_encrypted_decrypt().
+
+	* mail-ops.c (mail_send_message): Rework the logic a bit. If we
+	find an account, use that to set the sent_folder_uri and the
+	transport_url, otherwise use the X-Evolution-Transport and
+	X-Evolution-Fcc headers.
+
 2002-07-23  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* message-tag-followup.c (message_tag_followup_decode): Don't use

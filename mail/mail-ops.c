@@ -447,6 +447,7 @@ static void
 mail_send_message (CamelMimeMessage *message, const char *destination,
 		   CamelFilterDriver *driver, CamelException *ex)
 {
+	const MailConfigAccount *account = NULL;
 	const CamelInternetAddress *iaddr;
 	CamelAddress *from, *recipients;
 	CamelMessageInfo *info;
@@ -466,21 +467,28 @@ mail_send_message (CamelMimeMessage *message, const char *destination,
 	xev = mail_tool_remove_xevolution_headers (message);
 	
 	if (xev->account) {
-		const MailConfigAccount *account;
 		char *name;
 		
 		name = g_strstrip (g_strdup (xev->account));
 		account = mail_config_get_account_by_name (name);
 		g_free (name);
 		
-		if (account && account->transport && account->transport->url)
-			transport_url = g_strdup (account->transport->url);
-	} else if (xev->transport) {
-		transport_url = g_strstrip (g_strdup (xev->transport));
+		if (account) {
+			if (account->transport && account->transport->url)
+				transport_url = g_strdup (account->transport->url);
+			
+			sent_folder_uri = g_strdup (account->sent_folder_uri);
+		}
 	}
 	
-	if (xev->fcc)
-		sent_folder_uri = g_strstrip (g_strdup (xev->fcc));
+	if (!account) {
+		/* default back to these headers */
+		if (xev->transport)
+			transport_url = g_strstrip (g_strdup (xev->transport));
+		
+		if (xev->fcc)
+			sent_folder_uri = g_strstrip (g_strdup (xev->fcc));
+	}
 	
 	xport = camel_session_get_transport (session, transport_url ? transport_url : destination, ex);
 	g_free (transport_url);

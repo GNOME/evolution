@@ -1743,6 +1743,7 @@ static gboolean
 handle_multipart_encrypted (CamelMimePart *part, const char *mime_type,
 			    MailDisplay *md, GtkHTML *html, GtkHTMLStream *stream)
 {
+	CamelMultipartEncrypted *mpe;
 	CamelMimePart *mime_part;
 	CamelCipherContext *cipher;
 	CamelDataWrapper *wrapper;
@@ -1755,11 +1756,11 @@ handle_multipart_encrypted (CamelMimePart *part, const char *mime_type,
 	
 	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));
 	
-	g_assert (CAMEL_IS_MULTIPART (wrapper));
+	mpe = CAMEL_MULTIPART_ENCRYPTED (wrapper);
 	
 	camel_exception_init (&ex);
 	cipher = mail_crypto_get_pgp_cipher_context (NULL);
-	mime_part = camel_multipart_encrypted_decrypt (CAMEL_MULTIPART_ENCRYPTED (wrapper), cipher, &ex);
+	mime_part = camel_multipart_encrypted_decrypt (mpe, cipher, &ex);
 	camel_object_unref (cipher);
 	
 	if (camel_exception_is_set (&ex)) {
