@@ -1,3 +1,8 @@
+2001-04-23  Dan Winship  <danw@ximian.com>
+
+	* mail-callbacks.c (save_msg): Append a "/" to the result of
+	g_get_home_dir so gets the default dir it was supposed to.
+
 2001-04-22  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-ops.c (mail_send_message): Lets do proper refcounting on

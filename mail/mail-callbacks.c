@@ -1251,7 +1251,7 @@ save_msg (GtkWidget *widget, gpointer user_data)
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 	GtkFileSelection *filesel;
 	GPtrArray *uids;
-	char *title;
+	char *title, *path;
 	
 	uids = g_ptr_array_new ();
 	message_list_foreach (fb->message_list, enumerate_msg, uids);
@@ -1262,7 +1262,9 @@ save_msg (GtkWidget *widget, gpointer user_data)
 		title = _("Save Messages As...");
 	
 	filesel = GTK_FILE_SELECTION (gtk_file_selection_new (title));
-	gtk_file_selection_set_filename (filesel, g_get_home_dir ());
+	path = g_strdup_printf ("%s/", g_get_home_dir ());
+	gtk_file_selection_set_filename (filesel, path);
+	g_free (path);
 	gtk_object_set_data_full (GTK_OBJECT (filesel), "uids", uids, save_msg_destroy);
 	gtk_object_set_data (GTK_OBJECT (filesel), "folder", fb->folder);
 	gtk_signal_connect (GTK_OBJECT (filesel->ok_button),
