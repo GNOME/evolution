@@ -101,7 +101,7 @@ Location_DATA = Locations
 
 oaf_files = GNOME_Evolution_Summary.oaf
 oaf_in_files = $(oaf_files:.oaf=.oaf.in)
-oaf_in_in_files  = $(oaf_files:oaf=.oaf.in.in)
+oaf_in_in_files  = $(oaf_files:.oaf=.oaf.in.in)
 
 oafdir = $(datadir)/oaf
 oaf_DATA = $(oaf_files)

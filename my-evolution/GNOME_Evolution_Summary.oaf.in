@@ -16,8 +16,8 @@
   </oaf_server>
 
   <oaf_server iid="OAFIID:GNOME_Evolution_Summary_ShellComponentFactory"
-	      type="shlib"
-	      location="libevolution-executive-summary.so">
+	      type="exe"
+	      location="evolution-executive-summary">
 
     <oaf_attribute name="repo_ids" type="stringv">
       <item value="IDL:GNOME/GenericFactory:1.0"/>
@@ -29,8 +29,8 @@
   </oaf_server>
 
   <oaf_server iid="OAFIID:GNOME_Evolution_Summary_ConfigControlFactory"
-	      type="shlib"
-	      location="libevolution-executive-summary.so">
+	      type="exe"
+	      location="evolution-executive-summary">
 
     <oaf_attribute name="repo_ids" type="stringv">
       <item value="IDL:GNOME/GenericFactory:1.0"/>
