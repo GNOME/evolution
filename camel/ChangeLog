@@ -1,3 +1,13 @@
+2004-01-31  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/pop3/camel-pop3-store.c (pop3_try_authenticate): Same
+	as below.
+
+	* providers/smtp/camel-smtp-transport.c (smtp_connect): Instead of
+	using the form %s@%s in the password prompt, use %s on host %s,
+	hopefully this will be less confusing to users who have usernames
+	of the form user@vhost.
+
 2004-01-30  Rodney Dawes <dobey@ximian.com>
 
 	* providers/groupwise/camel-groupwise-provider.c: Fix spelling error in

@@ -511,7 +511,7 @@ smtp_connect (CamelService *service, CamelException *ex)
 			if (!service->url->passwd) {
 				char *prompt;
 				
-				prompt = g_strdup_printf (_("%sPlease enter the SMTP password for %s@%s"),
+				prompt = g_strdup_printf (_("%sPlease enter the SMTP password for %s on host %s"),
 							  errbuf ? errbuf : "", service->url->user,
 							  service->url->host);
 				
