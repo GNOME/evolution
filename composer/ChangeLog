@@ -1,7 +1,8 @@
 2002-07-26  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-msg-composer-attachment-bar.c (pixbuf_for_mime_type):
-	Special-case message/digest and give it a nice icon.  [#9786]
+	Special-case message/digest, multipart/digest and message/rfc822
+	and give them a nice icon.  [#9786]
 
 	* Makefile.am (INCLUDES): Add -D for EVOLUTION_ICONSDIR.
 
