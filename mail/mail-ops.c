@@ -609,18 +609,71 @@ reply_to_all (GtkWidget *button, gpointer user_data)
 	reply (FOLDER_BROWSER (user_data), TRUE);
 }
 
+static void
+attach_msg (MessageList *ml, const char *uid, gpointer data)
+{
+	EMsgComposer *composer = data;
+	CamelMimeMessage *message;
+	CamelMimePart *part;
+	const char *subject;
+	char *desc;
+
+	message = camel_folder_get_message (ml->folder, uid, NULL);
+	if (!message)
+		return;
+	subject = camel_mime_message_get_subject (message);
+	if (subject)
+		desc = g_strdup_printf ("Forwarded message - %s", subject);
+	else
+		desc = g_strdup ("Forwarded message");
+
+	part = camel_mime_part_new ();
+	camel_mime_part_set_disposition (part, "inline");
+	camel_mime_part_set_description (part, desc);
+	camel_medium_set_content_object (CAMEL_MEDIUM (part),
+					 CAMEL_DATA_WRAPPER (message));
+	camel_mime_part_set_content_type (part, "message/rfc822");
+
+	e_msg_composer_attach (composer, part);
+
+	gtk_object_unref (GTK_OBJECT (part));
+	gtk_object_unref (GTK_OBJECT (message));
+	g_free (desc);
+}
+
 void
 forward_msg (GtkWidget *button, gpointer user_data)
 {
 	FolderBrowser *fb;
 	EMsgComposer *composer;
+	CamelMimeMessage *cursor_msg;
+	const char *from, *subject;
+	char *fwd_subj;
 	
 	if (!check_configured ())
 		return;
 	
 	fb = FOLDER_BROWSER (user_data);
-	composer = mail_generate_forward (fb->mail_display->current_message,
-					  TRUE, TRUE);
+
+	composer = E_MSG_COMPOSER (e_msg_composer_new ());
+	message_list_foreach (fb->message_list, attach_msg, composer);
+
+	cursor_msg = fb->mail_display->current_message;
+
+	from = camel_mime_message_get_from (cursor_msg);
+	subject = camel_mime_message_get_subject (cursor_msg);
+	if (from) {
+		if (subject && *subject) {
+			while (*subject == ' ')
+				subject++;
+			fwd_subj = g_strdup_printf ("[%s] %s", from, subject);
+		} else {
+			fwd_subj = g_strdup_printf ("[%s] (forwarded message)",
+						    from);
+		}
+	}
+	e_msg_composer_set_headers (composer, NULL, NULL, NULL, fwd_subj);
+	g_free (fwd_subj);
 
 	gtk_signal_connect (GTK_OBJECT (composer), "send",
 			    GTK_SIGNAL_FUNC (composer_send_cb), NULL);

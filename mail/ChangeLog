@@ -1,3 +1,11 @@
+2000-07-08  Dan Winship  <danw@helixcode.com>
+
+	* mail-ops.c (forward_msg): Deal with having multiple selected
+	messages.
+
+	* mail-format.c (mail_generate_forward): Removed. (Integrated into
+	forward_msg)
+
 2000-07-08  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* message-list.c (build_tree): Small fix to stop uid data from

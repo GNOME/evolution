@@ -42,10 +42,6 @@ void mail_format_mime_message (CamelMimeMessage *mime_message,
 EMsgComposer *mail_generate_reply (CamelMimeMessage *mime_message,
 				   gboolean to_all);
 
-EMsgComposer *mail_generate_forward (CamelMimeMessage *mime_message,
-				     gboolean forward_as_attachment,
-				     gboolean keep_attachments);
-
 /* mail-identify */
 char *mail_identify_mime_part (CamelMimePart *part);
 
