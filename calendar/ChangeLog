@@ -1,3 +1,8 @@
+2000-10-18  JP Rosevear  <jpr@helixcode.com>
+
+	* pcs/cal-backend-file.c (save): Remove gratuitous
+	gnome_vfs_uri_exists call.
+
 2000-10-17  JP Rosevear  <jpr@helixcode.com>
 
 	* conduits/todo/todo-conduit-control-applet.c: Add defines
