@@ -69,6 +69,7 @@ struct _EStorageSetViewPrivate {
 
 enum {
 	FOLDER_SELECTED,
+	STORAGE_SELECTED,
 	LAST_SIGNAL
 };
 
@@ -678,6 +679,15 @@ class_init (EStorageSetViewClass *klass)
 				  GTK_TYPE_NONE, 1,
 				  GTK_TYPE_STRING);
 
+	signals[FOLDER_SELECTED]
+		= gtk_signal_new ("storage_selected",
+				  GTK_RUN_FIRST,
+				  object_class->type,
+				  GTK_SIGNAL_OFFSET (EStorageSetViewClass, storage_selected),
+				  gtk_marshal_NONE__STRING,
+				  GTK_TYPE_NONE, 1,
+				  GTK_TYPE_STRING);
+
 	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 
 	/* Set up DND.  */
@@ -859,14 +869,18 @@ on_cursor_change (EStorageSetView *storage_set_view, int row, gpointer user_data
 
 	node = e_tree_model_node_at_row (priv->etree_model, row);
 
-	/* don't emit the folder selected signal for storages */
-	if (e_tree_model_node_depth (priv->etree_model, node) < 2)
-		return;
-
 	priv->selected_row_path = e_tree_model_node_get_data (priv->etree_model, node);
 
-	gtk_signal_emit (GTK_OBJECT (storage_set_view), signals[FOLDER_SELECTED],
-			 priv->selected_row_path);
+	if (e_tree_model_node_depth (priv->etree_model, node) >= 2) {
+		/* it was a folder */
+		gtk_signal_emit (GTK_OBJECT (storage_set_view), signals[FOLDER_SELECTED],
+				 priv->selected_row_path);
+	}
+	else {
+		/* it was a storage */
+		gtk_signal_emit (GTK_OBJECT (storage_set_view), signals[STORAGE_SELECTED],
+				 priv->selected_row_path);
+	}
 }
 
 void

@@ -1,3 +1,23 @@
+2000-10-02  Chris Toshok  <toshok@helixcode.com>
+
+	* evolution-storage-set-view.c: add storage_selected behavior -
+	loop over the listeners calling _storage_selected.
+
+	* Evolution-StorageSetView.idl: add storage_selected to the
+	Listener interface.
+
+	* e-storage-set-view.c add storage_selected signal.
+	(on_cursor_change): if the depth is less than 2, emit
+	"storage_selected", otherwise emit "folder_selected".
+
+	* e-storage-set-view.h: add storage_selected signal.
+
+	* evolution-storage-set-view-listener.h: add storage_selected
+	signal.
+
+	* evolution-storage-set-view-listener.c: add storage_selected
+	signal.
+
 2000-10-02  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* evolution-storage-set-view-listener.c: New.

@@ -67,6 +67,33 @@ storage_set_view_widget_folder_selected_cb (EStorageSetView *storage_set_view_wi
 	}
 }
 
+static void
+storage_set_view_widget_storage_selected_cb (EStorageSetView *storage_set_view_widget,
+					     const char *uri,
+					     void *data)
+{
+	EvolutionStorageSetView *storage_set_view;
+	EvolutionStorageSetViewPrivate *priv;
+	GList *p;
+
+	storage_set_view = EVOLUTION_STORAGE_SET_VIEW (data);
+	priv = storage_set_view->priv;
+
+	for (p = priv->listeners; p != NULL; p = p->next) {
+		CORBA_Environment ev;
+		Evolution_StorageSetViewListener listener;
+
+		CORBA_exception_init (&ev);
+
+		listener = (Evolution_StorageSetViewListener) p->data;
+		Evolution_StorageSetViewListener_storage_selected (listener, uri, &ev);
+
+		/* FIXME: What if we fail?  */
+
+		CORBA_exception_free (&ev);
+	}
+}
+
 
 /* Listener handling.  */
 
@@ -345,6 +372,8 @@ evolution_storage_set_view_construct (EvolutionStorageSetView *storage_set_view,
 
 	gtk_signal_connect (GTK_OBJECT (priv->storage_set_view_widget), "folder_selected",
 			    GTK_SIGNAL_FUNC (storage_set_view_widget_folder_selected_cb), storage_set_view);
+	gtk_signal_connect (GTK_OBJECT (priv->storage_set_view_widget), "storage_selected",
+			    GTK_SIGNAL_FUNC (storage_set_view_widget_storage_selected_cb), storage_set_view);
 }
 
 EvolutionStorageSetView *

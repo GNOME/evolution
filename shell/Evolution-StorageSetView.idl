@@ -13,6 +13,7 @@
 module Evolution {
 	interface StorageSetViewListener {
 		void folder_selected (in string uri);
+		void storage_selected (in string uri);
 	};
 
 	/* FIXME: Maybe we should have a generic Bonobo::Listener interface.  */

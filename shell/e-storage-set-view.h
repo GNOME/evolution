@@ -60,6 +60,8 @@ struct _EStorageSetViewClass {
 
 	void (* folder_selected)  (EStorageSetView *storage_set_view,
 				   const char *uri);
+	void (* storage_selected)  (EStorageSetView *storage_set_view,
+				    const char *uri);
 };
 
 
