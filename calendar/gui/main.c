@@ -9,7 +9,6 @@
 
 #include <config.h>
 #include <gnome.h>
-#include <libgnorba/gnorba.h>
 #include <pwd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -22,7 +21,7 @@
 #include "gnome-cal.h"
 #include "main.h"
 #include "timeutil.h"
-#include "corba-cal-factory.h"
+
 
 #define COOKIE_USER_HOME_DIR ((char *) -1)
 
@@ -62,7 +61,9 @@ struct color_prop color_props[] = {
 	{ 0xd364, 0xc6b7, 0x7969, N_("Highlighted day:"),      "/calendar/Colors/prelight_bg" },
 	{ 0x01f0, 0x01f0, 0x01f0, N_("Day numbers:"),          "/calendar/Colors/day_fg" },
 	{ 0x0000, 0x0000, 0xffff, N_("Current day's number:"), "/calendar/Colors/current_fg" },
-	{ 0x0000, 0xaaaa, 0xaaaa, N_("Overdue To Do item"),     "/calendar/Coloirs/todo_overdue" }
+ 	{ 0xbbbb, 0xbbbb, 0x0000, N_("To-Do item that is not yet due:"), "/calendar/Colors/todo_not_yet" },
+ 	{ 0xdddd, 0xbbbb, 0x0000, N_("To-Do item that is due today:"),   "/calendar/Colors/todo_today" },
+ 	{ 0xbbbb, 0xdddd, 0x0000, N_("To-Do item that is overdue:"),     "/calendar/Colors/todo_overdue" }
 };
 
 /* Number of active calendars */
@@ -70,6 +71,8 @@ int active_calendars = 0;
 
 /* A list of all of the calendars started */
 GList *all_calendars = NULL;
+
+static void new_calendar (char *full_name, char *calendar_file, char *geometry, char *view, gboolean hidden);
 
 /* For dumping part of a calendar */
 static time_t from_t, to_t;
@@ -143,9 +146,14 @@ init_calendar (void)
 
 	/* read todolist settings */
 
+	todo_show_time_remaining = gnome_config_get_bool("/calendar/Todo/show_time_remain");
 	todo_show_due_date = gnome_config_get_bool("/calendar/Todo/show_due_date");
 
-	todo_due_date_overdue_highlight = gnome_config_get_bool("/calendar/Todo/highlight_overdue_tasks");
+	todo_item_dstatus_highlight_overdue = gnome_config_get_bool("/calendar/Todo/highlight_overdue");
+	
+	todo_item_dstatus_highlight_due_today = gnome_config_get_bool("/calendar/Todo/highlight_due_today");
+	
+	todo_item_dstatus_highlight_not_due_yet = gnome_config_get_bool("/calendar/Todo/highlight_not_due_yet");
 
         todo_current_sort_column = gnome_config_get_int("/calendar/Todo/sort_column");
 	
@@ -206,29 +214,10 @@ display_objedit_today (GtkWidget *widget, GnomeCalendar *gcal)
 	gtk_widget_show (ee);
 }
 
-GnomeCalendar *
-gnome_calendar_locate (const char *pathname)
-{
-	GList *l;
-
-	if (pathname == NULL || pathname [0] == 0)
-		pathname = user_calendar_file;
-	
-	for (l = all_calendars; l; l = l->next){
-		GnomeCalendar *gcal = l->data;
-
-		if (strcmp (gcal->cal->filename, pathname) == 0){
-			return gcal;
-		}
-	}
-	return NULL;
-}
-
 static void
 close_cmd (GtkWidget *widget, GnomeCalendar *gcal)
 {
 	all_calendars = g_list_remove (all_calendars, gcal);
-
 	if (gcal->cal->modified){
 		if (!gcal->cal->filename)
 			save_calendar_cmd (widget, gcal);
@@ -239,10 +228,8 @@ close_cmd (GtkWidget *widget, GnomeCalendar *gcal)
 	gtk_widget_destroy (GTK_WIDGET (gcal));
 	active_calendars--;
 
-	if (active_calendars == 0){
-		unregister_calendar_services ();
+	if (active_calendars == 0)
 		gtk_main_quit ();
-	}
 }
 
 void
@@ -383,14 +370,15 @@ static void
 save_ok (GtkWidget *widget, GtkFileSelection *fs)
 {
 	GnomeCalendar *gcal;
-	gchar *fname;
 
 	gcal = GNOME_CALENDAR (gtk_object_get_user_data (GTK_OBJECT (fs)));
 	gtk_window_set_wmclass (GTK_WINDOW (gcal), "gnomecal", "gnomecal");
 
-	fname = g_strdup (gtk_file_selection_get_filename (fs));
-	calendar_save (gcal->cal, fname);
-	g_free(fname);
+	if (gcal->cal->filename)
+		g_free (gcal->cal->filename);
+
+	gcal->cal->filename = g_strdup (gtk_file_selection_get_filename (fs));
+	calendar_save (gcal->cal, gcal->cal->filename);
 	gtk_main_quit ();
 }
 
@@ -460,6 +448,7 @@ save_calendar_cmd (GtkWidget *widget, void *data)
 			g_free (str);
 			gnome_dialog_set_default (GNOME_DIALOG (box), 1);
 			b = gnome_dialog_run (GNOME_DIALOG (box));
+			gtk_object_destroy (GTK_OBJECT (box));
 
 			if (b != 0)
 				return;
@@ -590,7 +579,7 @@ calendar_close_event (GtkWidget *widget, GdkEvent *event, GnomeCalendar *gcal)
 	return TRUE;
 }
 
-GnomeCalendar *
+static void
 new_calendar (char *full_name, char *calendar_file, char *geometry, char *page, gboolean hidden)
 {
 	GtkWidget   *toplevel;
@@ -598,8 +587,7 @@ new_calendar (char *full_name, char *calendar_file, char *geometry, char *page, 
 	int         xpos, ypos, width, height;
 
 	/* i18n: This "%s%s" indicates possession. Languages where the order is
-	 * the inverse should translate it to "%2$s%1$s".
-	 */
+       the inverse should translate it to "%2$s%1$s". */
 	g_snprintf(title, 128, _("%s%s"), full_name, _("'s calendar"));
 
 	toplevel = gnome_calendar_new (title);
@@ -646,8 +634,6 @@ new_calendar (char *full_name, char *calendar_file, char *geometry, char *page, 
 	}
 	
 	gtk_widget_show (toplevel);
-
-	return GNOME_CALENDAR (toplevel);
 }
 
 static void
@@ -888,23 +874,13 @@ int
 main(int argc, char *argv[])
 {
 	GnomeClient *client;
-	CORBA_Environment ev;
 
 	bindtextdomain (PACKAGE, GNOMELOCALEDIR);
 	textdomain (PACKAGE);
 
-	CORBA_exception_init (&ev);
+	gnome_init_with_popt_table ("calendar", VERSION, argc, argv,
+				    options, 0, NULL);
 
-	gnome_CORBA_init_with_popt_table (
-		"calendar", VERSION, &argc, argv,
-		options, 0, NULL, GNORBA_INIT_SERVER_FUNC, &ev);
-
-	orb = gnome_CORBA_ORB ();
-	poa = (PortableServer_POA)CORBA_ORB_resolve_initial_references (orb, "RootPOA", &ev);
-	if (ev._major == CORBA_NO_EXCEPTION){
-		init_corba_server ();
-	}
-	
 	if (show_events)
 		dump_events ();
 	if (show_todo)

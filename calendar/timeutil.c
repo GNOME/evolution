@@ -40,7 +40,6 @@ time_from_isodate (char *str)
 		t -= timezone
 #endif
 		;
-	    
 	return t;
 }
 
@@ -91,11 +90,11 @@ format_simple_hour (int hour, int use_am_pm)
 	 */
 
 	if (use_am_pm)
-		g_snprintf (buf, sizeof(buf), "%d%s",
+		sprintf (buf, "%d%s",
 			 (hour == 0) ? 12 : (hour > 12) ? (hour - 12) : hour,
 			 (hour < 12) ? _("am") : _("pm"));
 	else
-		g_snprintf (buf, sizeof(buf), "%02d%s", hour, _("h"));
+		sprintf (buf, "%02d%s", hour, _("h"));
 
 	return buf;
 

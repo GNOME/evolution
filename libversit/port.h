@@ -43,16 +43,18 @@ DFARS 252.227-7013 or 48 CFR 52.227-19, as applicable.
 #if defined(__CPLUSPLUS__) || defined(__cplusplus)
 extern "C" {
 #endif
-                     
-/* some of these #defines are commented out because */
-/* Visual C++ sets them on the compiler command line instead */
 
-/* #define _DEBUG */
-/* #define WIN32 */
-/* #define WIN16 */
-/* #define _WINDOWS */
-/* #define __MWERKS__ */
-/* #define INCLUDEMFC */
+#if 0
+ some of these #defines are commented out because
+ Visual C++ sets them on the compiler command line instead
+
+#define _DEBUG
+#define WIN32
+#define WIN16
+#define _WINDOWS
+#define __MWERKS__
+#define INCLUDEMFC
+#endif
 
 #define	vCardClipboardFormat		"+//ISBN 1-887687-00-9::versit::PDI//vCard"
 #define	vCalendarClipboardFormat	"+//ISBN 1-887687-00-9::versit::PDI//vCalendar"
@@ -85,4 +87,4 @@ For example:
 }
 #endif
 
-#endif /* __PORT_H__ */
+#endif // __PORT_H__

@@ -27,13 +27,13 @@ dist-hook:
 	-cp images/*.gif images/*.jpg $(distdir)/images
 
 install-data-local: gnomecal.html
-	$(mkinstalldirs) $(DESTDIR)$(gnomecal_helpdir)/images
+	$(mkinstalldirs) $(gnomecal_helpdir)/images
 	-for file in $(srcdir)/gnomecal/*.html $(srcdir)/gnomecal/*.css; do \
 	basefile=`basename $$file`; \
-	$(INSTALL_DATA) $(srcdir)/$$file $(DESTDIR)$(gnomecal_helpdir)/$$basefile; \
+	$(INSTALL_DATA) $(srcdir)/$$file $(gnomecal_helpdir)/$$basefile; \
 	done
 	-for file in $(srcdir)/images/*.jpg $(srcdir)/images/*.gif; do \
-	$(INSTALL_DATA) $(srcdir)/$$file $(DESTDIR)$(gnomecal_helpdir)/images;\
+	$(INSTALL_DATA) $(srcdir)/$$file $(gnomecal_helpdir)/images;\
 	done
 
 gnomecal.ps: gnomecal.sgml

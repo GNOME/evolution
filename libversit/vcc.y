@@ -117,7 +117,7 @@ DFARS 252.227-7013 or 48 CFR 52.227-19, as applicable.
 
 /****  Types, Constants  ****/
 
-#define YYDEBUG		1	/* 1 to compile in some debugging code */
+#define YYDEBUG		0	/* 1 to compile in some debugging code */
 #define MAXTOKEN	256	/* maximum token (line) length */
 #define YYSTACKSIZE 	50	/* ~unref ? */
 #define MAXLEVEL	10	/* max # of nested objects parseable */
@@ -296,7 +296,8 @@ values: value SEMICOLON { enterValues($1); } values
 	;
 
 value: STRING
-	| { $$ = 0; }
+	|
+	{ $$ = 0; }
 	;
 
 vcal:
@@ -790,7 +791,7 @@ void initLex(const char *inputstring, unsigned long inputlen, CFile *inputfile)
 void initLex(const char *inputstring, unsigned long inputlen, FILE *inputfile)
 #endif
     {
-    /* initialize lex mode stack */
+	    /* initialize lex mode stack */
     lexBuf.lexModeStack[lexBuf.lexModeStackTop=0] = L_NORMAL;
 
     /* iniatialize lex buffer. */
@@ -1006,9 +1007,7 @@ static int yylex() {
 	if (c == ';') {
 	    DBG_(("db: SEMICOLON\n"));
 	    lexPushLookaheadc(c);
-#ifdef _SUPPORT_LINE_FOLDING
 	    handleMoreRFC822LineBreak(c);
-#endif		
 	    lexSkipLookahead();
 	    return SEMICOLON;
 	    }
@@ -1059,12 +1058,12 @@ static int yylex() {
 		case ':': {
 		    /* consume all line separator(s) adjacent to each other */
 		    /* ignoring linesep immediately after colon. */
-/*		    c = lexLookahead();
+		    c = lexLookahead();
 		    while (strchr("\n",c)) {
 			lexSkipLookahead();
 			c = lexLookahead();
 			++mime_lineNum;
-			}*/
+			}
 		    DBG_(("db: COLON\n"));
 		    return COLON;
 		    }

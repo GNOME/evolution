@@ -44,7 +44,13 @@ static GnomeCanvasItem *month_item;
 
 /* Widgets for the todo page */
 static GtkWidget *due_date_show_button;
-static GtkWidget *due_date_overdue_highlight;
+
+static GtkWidget *todo_item_time_remaining_show_button;
+
+static GtkWidget *todo_item_highlight_overdue;
+static GtkWidget *todo_item_highlight_not_due_yet;
+static GtkWidget *todo_item_highlight_due_today;
+
 static GtkWidget *priority_show_button;
 
 /* Callback used when the property box is closed -- just sets the prop_win variable to null. */
@@ -116,13 +122,24 @@ static void
 prop_apply_todo(void) 
 {
 	todo_show_due_date = GTK_TOGGLE_BUTTON (due_date_show_button)->active;
-	todo_due_date_overdue_highlight = GTK_TOGGLE_BUTTON (due_date_overdue_highlight)->active;
+	
+	todo_item_dstatus_highlight_overdue = GTK_TOGGLE_BUTTON(todo_item_highlight_overdue)->active;
+	todo_item_dstatus_highlight_not_due_yet = GTK_TOGGLE_BUTTON(todo_item_highlight_not_due_yet)->active;
+	todo_item_dstatus_highlight_due_today = GTK_TOGGLE_BUTTON(todo_item_highlight_due_today)->active;
 
 	todo_show_priority = GTK_TOGGLE_BUTTON (priority_show_button)->active;
 
+	todo_show_time_remaining = GTK_TOGGLE_BUTTON (todo_item_time_remaining_show_button)->active;
+
 	/* storing the values */
+
+	gnome_config_set_bool("/calendar/Todo/show_time_remain", todo_show_time_remaining);
+	gnome_config_set_bool("/calendar/Todo/highlight_overdue", todo_item_dstatus_highlight_overdue);
+	
+	gnome_config_set_bool("/calendar/Todo/highlight_due_today", todo_item_dstatus_highlight_due_today);
+	
+        gnome_config_set_bool("/calendar/Todo/highlight_not_due_yet", todo_item_dstatus_highlight_not_due_yet);
 	gnome_config_set_bool("/calendar/Todo/show_due_date", todo_show_due_date);
-	gnome_config_set_bool("/calendar/Todo/highlight_overdue_tasks", todo_due_date_overdue_highlight);
 	gnome_config_set_bool("/calendar/Todo/show_priority", todo_show_priority);
 	/* need to sync our config changes. */
 	gnome_config_sync ();
@@ -475,7 +492,7 @@ create_colors_page (void)
 	GtkWidget *w;
 	int i;
 
-	frame = gtk_frame_new (_("Colors for months"));
+	frame = gtk_frame_new (_("Colors for display"));
 	gtk_container_set_border_width (GTK_CONTAINER (frame), GNOME_PAD_SMALL);
 	gnome_property_box_append_page (GNOME_PROPERTY_BOX (prop_win), frame,
 					gtk_label_new (_("Colors")));
@@ -536,15 +553,8 @@ create_colors_page (void)
 static void
 set_todo_page_options(void)
 {
-	if(!GTK_TOGGLE_BUTTON (due_date_show_button)->active) {
-		/* disable everything */
-		gtk_widget_set_sensitive(due_date_overdue_highlight,0);
-	}
-	else
-	{
-		gtk_widget_set_sensitive(due_date_overdue_highlight,1);
-	}
-
+  
+  
 	while (gtk_events_pending ())
 		gtk_main_iteration ();
 }
@@ -562,22 +572,30 @@ build_list_options_frame(void)
 {
 	GtkWidget *frame;
 	GtkWidget *vbox;
-	frame = gtk_frame_new (_("Show on TODO List:"));
+	frame = gtk_frame_new (_("Show on To Do List:"));
 	
 	vbox = gtk_vbox_new (FALSE, 0);
 	gtk_container_add (GTK_CONTAINER (frame), vbox);
 	
-	due_date_show_button = gtk_check_button_new_with_label (_("Summary"));
 	due_date_show_button = gtk_check_button_new_with_label (_("Due Date"));
 	priority_show_button = gtk_check_button_new_with_label (_("Priority"));
-	
+	todo_item_time_remaining_show_button = gtk_check_button_new_with_label (_("Time Until Due"));
+
 	gtk_toggle_button_set_state (GTK_TOGGLE_BUTTON(due_date_show_button), todo_show_due_date);
 	gtk_signal_connect (GTK_OBJECT(due_date_show_button),
 			    "clicked",
 			    (GtkSignalFunc) todo_option_set,
 			    NULL);
 	gtk_box_pack_start (GTK_BOX (vbox), due_date_show_button, FALSE, FALSE, 0);
-	
+
+	gtk_toggle_button_set_state (GTK_TOGGLE_BUTTON(todo_item_time_remaining_show_button), todo_show_time_remaining);
+	gtk_signal_connect (GTK_OBJECT(todo_item_time_remaining_show_button),
+			    "clicked",
+			    (GtkSignalFunc) todo_option_set,
+			    NULL);
+	gtk_box_pack_start (GTK_BOX (vbox), todo_item_time_remaining_show_button, FALSE, FALSE, 0);
+
+
 	gtk_toggle_button_set_state (GTK_TOGGLE_BUTTON(priority_show_button), todo_show_priority);
 	gtk_signal_connect (GTK_OBJECT(priority_show_button), 
 			    "clicked",
@@ -597,14 +615,32 @@ build_style_list_options_frame(void)
 	vbox = gtk_vbox_new (FALSE, 0);
 	gtk_container_add (GTK_CONTAINER (frame), vbox);
 	
-	due_date_overdue_highlight = gtk_check_button_new_with_label (_("Highlight overdue items"));
-	
-	gtk_toggle_button_set_state (GTK_TOGGLE_BUTTON(due_date_overdue_highlight), todo_due_date_overdue_highlight);
-	gtk_signal_connect (GTK_OBJECT(due_date_overdue_highlight),
+	todo_item_highlight_overdue = gtk_check_button_new_with_label (_("Highlight overdue items"));
+	gtk_toggle_button_set_state (GTK_TOGGLE_BUTTON(todo_item_highlight_overdue),
+				     todo_item_dstatus_highlight_overdue);
+	todo_item_highlight_not_due_yet = gtk_check_button_new_with_label (_("Highlight not yet due items"));
+	gtk_toggle_button_set_state (GTK_TOGGLE_BUTTON(todo_item_highlight_not_due_yet),
+				     todo_item_dstatus_highlight_overdue);
+	todo_item_highlight_due_today = gtk_check_button_new_with_label (_("Highlight items due today"));
+	gtk_toggle_button_set_state (GTK_TOGGLE_BUTTON(todo_item_highlight_due_today),
+				     todo_item_dstatus_highlight_overdue);
+		
+	gtk_signal_connect (GTK_OBJECT(todo_item_highlight_overdue),
 			    "clicked",
 			    (GtkSignalFunc) todo_option_set,
 			    NULL);
-	gtk_box_pack_start (GTK_BOX (vbox), due_date_overdue_highlight, FALSE, FALSE, 0);
+	gtk_signal_connect (GTK_OBJECT(todo_item_highlight_not_due_yet),
+			    "clicked",
+			    (GtkSignalFunc) todo_option_set,
+			    NULL);
+	gtk_signal_connect (GTK_OBJECT(todo_item_highlight_due_today),
+			    "clicked",
+			    (GtkSignalFunc) todo_option_set,
+			    NULL);
+	
+	gtk_box_pack_start (GTK_BOX (vbox), todo_item_highlight_overdue, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), todo_item_highlight_due_today, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), todo_item_highlight_not_due_yet, FALSE, FALSE, 0);
 	return frame;
 }
 static void
