@@ -1,5 +1,14 @@
 2000-07-03  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* camel-folder-summary.c (camel_folder_summary_next_uid_string):
+	New.
+	(camel_folder_summary_add): Use
+	`camel_folder_summary_next_uid_string()' instead of recomputing
+	the UID manually here.
+	(camel_folder_summary_add_from_parser): Likewise.
+
+2000-07-03  Ettore Perazzoli  <ettore@helixcode.com>
+
 	* camel-folder-summary.c (camel_folder_summary_set_uid): Removed.
 
 2000-07-03  Dan Winship  <danw@helixcode.com>

@@ -269,6 +269,12 @@ guint32 camel_folder_summary_next_uid(CamelFolderSummary *s)
 	return uid;
 }
 
+char *
+camel_folder_summary_next_uid_string (CamelFolderSummary *s)
+{
+	return g_strdup_printf ("%u", camel_folder_summary_next_uid (s));
+}
+
 /* loads the content descriptions, recursively */
 static CamelMessageContentInfo *
 perform_content_info_load(CamelFolderSummary *s, FILE *in)
@@ -412,7 +418,7 @@ void camel_folder_summary_add(CamelFolderSummary *s, CamelMessageInfo *info)
 		return;
 retry:
 	if (info->uid == NULL) {
-		info->uid = g_strdup_printf("%u", s->nextuid++);
+		info->uid = camel_folder_summary_next_uid_string (s);
 	}
 	if (g_hash_table_lookup(s->messages_uid, info->uid)) {
 		g_warning("Trying to insert message with clashing uid.  new uid re-assigned");
@@ -453,7 +459,7 @@ CamelMessageInfo *camel_folder_summary_add_from_parser(CamelFolderSummary *s, Ca
 
 		/* FIXME: better uid assignment method? */
 		if (info->uid == NULL) {
-			info->uid = g_strdup_printf("%u", s->nextuid++);
+			info->uid = camel_folder_summary_next_uid_string (s);
 		}
 
 		if (p->index) {
