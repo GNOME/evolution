@@ -162,18 +162,23 @@ camel_mbox_folder_get_full_path (const char *toplevel_dir, const char *full_name
 	path = g_malloc (strlen (toplevel_dir) + (inptr - full_name) + (4 * subdirs) + 1);
 	p = g_stpcpy (path, toplevel_dir);
 	
-	inptr = full_name;
-	while (*inptr != '\0') {
-		while (*inptr != '/' && *inptr != '\0')
-			*p++ = *inptr++;
-		
-		if (*inptr == '/') {
-			p = g_stpcpy (p, ".sbd/");
-			inptr++;
+	if (strcmp (toplevel_dir, "/") == 0) {
+		/* FIXME: temporary hack until we merge new-ui-branch into trunk */
+		p = g_stpcpy (p, full_name);
+	} else {
+		inptr = full_name;
+		while (*inptr != '\0') {
+			while (*inptr != '/' && *inptr != '\0')
+				*p++ = *inptr++;
 			
-			/* strip extranaeous '/'s */
-			while (*inptr == '/')
+			if (*inptr == '/') {
+				p = g_stpcpy (p, ".sbd/");
 				inptr++;
+				
+				/* strip extranaeous '/'s */
+				while (*inptr == '/')
+					inptr++;
+			}
 		}
 	}
 	

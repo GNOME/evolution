@@ -1,5 +1,9 @@
 2003-09-16  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/local/camel-mbox-folder.c
+	(camel_mbox_folder_get_full_path): Implement a temp hack so trunk
+	works until we merge in new-ui-branch.
+
 	* camel-stream-filter.c (do_flush): Don't warning about how we
 	haven't written anything to the stream, this is not an
 	error. fflush() doesn't care if you try to fflush() a stream
