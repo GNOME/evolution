@@ -1,3 +1,10 @@
+2000-10-31  Federico Mena Quintero  <federico@helixcode.com>
+
+	* filter-rule.c (get_widget): Do not pad around the Name hbox;
+	its parent already has spacing.  
+	Do not pad around the inframe's children; the inframe already has
+	spacing.
+
 2000-10-30  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* filter-option.c (option_activate): If a regex option is

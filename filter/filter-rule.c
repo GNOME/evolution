@@ -532,7 +532,7 @@ get_widget (FilterRule *fr, struct _RuleContext *f)
 	hbox = gtk_hbox_new (FALSE, 3);
 	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (hbox), name, TRUE, TRUE, 0);
-	gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 3);
+	gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
 	gtk_signal_connect (GTK_OBJECT (name), "changed", name_changed, fr);
 	
 	frame = gtk_frame_new (_("If"));
@@ -591,7 +591,7 @@ get_widget (FilterRule *fr, struct _RuleContext *f)
 	gtk_box_pack_end (GTK_BOX (hbox), omenu, FALSE, FALSE, 0);
 	gtk_box_pack_end (GTK_BOX (hbox), label, FALSE, FALSE, 0);
 	
-	gtk_box_pack_start (GTK_BOX (inframe), hbox, FALSE, FALSE, 3);
+	gtk_box_pack_start (GTK_BOX (inframe), hbox, FALSE, FALSE, 0);
 	
 	l = fr->parts;
 	while (l) {
@@ -610,11 +610,11 @@ get_widget (FilterRule *fr, struct _RuleContext *f)
 	
 	gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (scrolledwindow), parts);
 	
-	gtk_box_pack_start (GTK_BOX (inframe), scrolledwindow, TRUE, TRUE, 3);
+	gtk_box_pack_start (GTK_BOX (inframe), scrolledwindow, TRUE, TRUE, 0);
 	
 	/*gtk_box_pack_start (GTK_BOX (inframe), parts, FALSE, FALSE, 3); */
 	
-	gtk_box_pack_start (GTK_BOX (vbox), frame, TRUE, TRUE, 3);
+	gtk_box_pack_start (GTK_BOX (vbox), frame, TRUE, TRUE, 0);
 	
 	gtk_widget_show_all (vbox);
 	
