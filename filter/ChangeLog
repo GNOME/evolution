@@ -1,3 +1,12 @@
+2003-03-06  Jeffrey Stedfast  <fejj@ximian.com>
+
+	Fixes for bug #39170
+
+	* filter-element.c (filter_element_xml_create): Remove return
+	keyword.
+	(filter_element_build_code): Same.
+	(filter_element_format_sexp): Here too.
+
 2003-02-20  Not Zed  <NotZed@Ximian.com>
 
 	* filter-source.c (filter_source_get_sources): Change to use

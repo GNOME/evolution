@@ -149,7 +149,7 @@ filter_element_eq (FilterElement *fe, FilterElement *cm)
 void
 filter_element_xml_create (FilterElement *fe, xmlNodePtr node)
 {
-	return FILTER_ELEMENT_GET_CLASS (fe)->xml_create (fe, node);
+	FILTER_ELEMENT_GET_CLASS (fe)->xml_create (fe, node);
 }
 
 /**
@@ -221,7 +221,7 @@ filter_element_get_widget (FilterElement *fe)
 void
 filter_element_build_code (FilterElement *fe, GString *out, struct _FilterPart *ff)
 {
-	return FILTER_ELEMENT_GET_CLASS (fe)->build_code (fe, out, ff);
+	FILTER_ELEMENT_GET_CLASS (fe)->build_code (fe, out, ff);
 }
 
 /**
@@ -235,7 +235,7 @@ filter_element_build_code (FilterElement *fe, GString *out, struct _FilterPart *
 void
 filter_element_format_sexp (FilterElement *fe, GString *out)
 {
-	return FILTER_ELEMENT_GET_CLASS (fe)->format_sexp (fe, out);
+	FILTER_ELEMENT_GET_CLASS (fe)->format_sexp (fe, out);
 }
 
 /**
