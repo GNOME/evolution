@@ -198,8 +198,5 @@ main (int argc, char **argv)
 	bonobo_object_unref (BONOBO_OBJECT (cal_factory));
 	cal_factory = NULL;
 
-	while (1)
-		;
-
 	return 0;
 }
