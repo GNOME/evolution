@@ -1204,7 +1204,7 @@ camel_store_folder_uri_equal (CamelStore *store, const char *uri0, const char *u
 	int equal;
 	
 	g_return_val_if_fail (CAMEL_IS_STORE (store), FALSE);
-	g_return_val_if_fail (uri0 == NULL || uri1 == NULL, FALSE);
+	g_return_val_if_fail (uri0 && uri1, FALSE);
 	
 	provider = ((CamelService *) store)->provider;
 	
