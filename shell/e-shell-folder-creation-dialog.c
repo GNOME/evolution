@@ -457,12 +457,12 @@ get_type_from_parent_path (EShell *shell,
 	set = e_shell_get_storage_set (shell);
 	folder = e_storage_set_get_folder (set, path);
 	if (folder == NULL) {
-		return NULL;
+		return "mail";
 	}
 
 	folder_type = e_folder_get_type_string (folder);
-	if (folder_type == NULL) {
-		return NULL;
+	if (folder_type == NULL || strcmp (folder_type, "noselect") == 0) {
+		return "mail";
 	} else {
 		return folder_type;
 	}

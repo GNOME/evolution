@@ -1,5 +1,11 @@
 2002-09-23  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-folder-creation-dialog.c (get_type_from_parent_path):
+	Return "mail" instead of NULL when we don't have a parent folder.
+	[#28232]
+
+2002-09-23  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-about-box.c: Added some missing names.
 
 	* main.c (main): Declare --force-upgrade correctly so it works.
