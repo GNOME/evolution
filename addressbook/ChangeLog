@@ -1,11 +1,14 @@
 2001-03-17  Jon Trowbridge  <trow@ximian.com>
 
+	* gui/component/select-names/e-select-names-completion.c: Brutally
+	refactored to boost performance in large-addressbook situations.
+	These fixes give accepable performance (even with the suboptimal
+	pas-backend-file searching) using tigert's addressbook-of-death.
+
 	* backend/pas/pas-backend-file.c (pas_backend_file_search): 
 	Start feeding query matches back to the caller before the
 	entire search is complete; this gives us some "instant feedback"
 	rather than causing evolution to totally lock up...
-
-2001-03-17  Jon Trowbridge  <trow@ximian.com>
 
 	* backend/ebook/e-book.c (e_book_queue_op): Tag all queued ops.
 	(e_book_cancel_op): Added.  Search for a pending op with a given
