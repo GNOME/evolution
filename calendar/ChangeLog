@@ -1,3 +1,8 @@
+1998-11-11  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* calendar.c (calendar_save): Backup the old file before saving
+	the caledar.
+
 1998-11-06  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* calobj.c: Add ctype.h

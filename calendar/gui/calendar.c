@@ -13,7 +13,7 @@
  */
 
 #include <config.h>
-
+#include <unistd.h>
 #include "alarm.h"
 #include "calendar.h"
 #include "timeutil.h"
@@ -338,7 +338,17 @@ calendar_save (Calendar *cal, char *fname)
 		addVObjectProp (vcal, obj);
 	}
 
+	if (g_file_exists (fname)){
+		char *backup_name = g_copy_strings (fname, "~", NULL);
+
+		if (g_file_exists (backup_name)){
+			unlink (backup_name);
+		}
+		rename (fname, backup_name);
+		g_free (backup_name);
+	}
 	writeVObjectToFile (fname, vcal);
+	
 	cleanVObject (vcal);
 	cleanStrTbl ();
 }
