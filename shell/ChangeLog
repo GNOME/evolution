@@ -1,5 +1,10 @@
 2001-07-15  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-storage-set-view.c (etree_icon_at): Return an icon for depths
+	greater than 2 as well.
+
+2001-07-15  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-view-menu.c (e_shell_view_menu_setup): Connect the
 	"line_status_changed" signal with
 	`gtk_signal_connect_while_alive()' for the shell views, so we
