@@ -1,3 +1,11 @@
+2004-05-27  Rodney Dawes  <dobey@novell.com>
+
+	* Makefile.am (EXTRA_DIST): Don't dist $(error_i18n) as it requires
+	e-error-tool to be built
+
+	* shell-errors.xml.(h|in): Remove these from CVS, the .in is not used
+	any more, and the .h is generated from the .xml
+
 2004-05-26  Sarfraaz Ahmed <asarfraaz@novell.com>
 
 	* e-shell.c (set_interactive): Implemented. Sends the "interactive"
