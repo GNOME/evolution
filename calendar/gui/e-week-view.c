@@ -428,6 +428,8 @@ e_week_view_new (void)
 
 	week_view = GTK_WIDGET (g_object_new (e_week_view_get_type (), "model", model, NULL));
 
+	g_object_unref (model);
+	
 	return week_view;
 }
 

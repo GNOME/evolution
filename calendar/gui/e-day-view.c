@@ -855,6 +855,8 @@ e_day_view_new (void)
 
 	day_view = GTK_WIDGET (g_object_new (e_day_view_get_type (), "model", model, NULL));
 
+	g_object_unref (model);
+	
 	return day_view;
 }
 

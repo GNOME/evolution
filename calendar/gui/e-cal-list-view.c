@@ -334,13 +334,18 @@ GtkWidget *
 e_cal_list_view_new (const gchar *table_state_path)
 {
 	ECalListView *cal_list_view;
+	ECalModel *model;
+	
+	model = E_CAL_MODEL (e_cal_model_calendar_new ());
 
-	cal_list_view = g_object_new (e_cal_list_view_get_type (), NULL);
+	cal_list_view = g_object_new (e_cal_list_view_get_type (), "model", model, NULL);
 	if (!e_cal_list_view_construct (cal_list_view, table_state_path)) {
-		g_message ("e_cal_list_view(): Could not construct the calendar list GUI");
+		g_message (G_STRLOC ": Could not construct the calendar list GUI");
 		g_object_unref (cal_list_view);
 		return NULL;
 	}
+
+	g_object_unref (model);
 
 	return GTK_WIDGET (cal_list_view);
 }

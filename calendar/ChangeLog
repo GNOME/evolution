@@ -8,6 +8,41 @@
 	of g_signal_handlers_disconnect_by_func, so that all handlers are
 	disconnected.
 
+2003-10-23  JP Rosevear <jpr@ximian.com>
+ 
+ 	* pcs/cal.c (cal_notify_object_modified): guard against irrelevant
+ 	args (ie if there was an error) 
+ 	(cal_notify_object_removed): ditto
+ 	(cal_notify_timezone_added): ditto
+ 
+ 	* pcs/cal-backend-sync.c (_cal_backend_is_read_only): init value
+ 	to something known
+ 	(_cal_backend_get_cal_address): ditto
+ 	(_cal_backend_get_alarm_email_address): ditto
+ 	(_cal_backend_get_ldap_attribute): ditto
+ 	(_cal_backend_get_static_capabilities): ditto
+ 	(_cal_backend_modify_object): ditto
+ 	(_cal_backend_remove_object): ditto
+ 	(_cal_backend_get_object_list): ditto
+ 
+2003-10-22  JP Rosevear <jpr@ximian.com>
+ 
+ 	* gui/e-cal-list-view.c (e_cal_list_view_new): create a model and
+ 	pass it as an arg during creation
+ 
+ 	* gui/e-day-view.c (e_day_view_new): unref the model
+ 
+ 	* gui/e-week-view.c (e_week_view_new): ditto
+	
+2003-10-22  JP Rosevear <jpr@ximian.com>
+ 
+ 	* cal-client/cal-client.c (cal_client_get_object): only change to
+ 	invalid object error code if we got the object but couldn't parse
+ 	it, and only check for timezones if we had success
+ 
+ 	* gui/comp-util.c (cal_comp_is_on_server): don't throw a warning
+ 	if the object simply does not exist
+	
 2003-10-22  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/gnome-cal.[ch] (gnome_calendar_remove_event_uri): new

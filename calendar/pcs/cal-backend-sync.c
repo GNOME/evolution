@@ -263,7 +263,7 @@ static void
 _cal_backend_is_read_only (CalBackend *backend, Cal *cal)
 {
 	CalBackendSyncStatus status;
-	gboolean read_only;
+	gboolean read_only = TRUE;
 
 	status = cal_backend_sync_is_read_only (CAL_BACKEND_SYNC (backend), cal, &read_only);
 
@@ -274,7 +274,7 @@ static void
 _cal_backend_get_cal_address (CalBackend *backend, Cal *cal)
 {
 	CalBackendSyncStatus status;
-	char *address;
+	char *address = NULL;
 
 	status = cal_backend_sync_get_cal_address (CAL_BACKEND_SYNC (backend), cal, &address);
 
@@ -287,7 +287,7 @@ static void
 _cal_backend_get_alarm_email_address (CalBackend *backend, Cal *cal)
 {
 	CalBackendSyncStatus status;
-	char *address;
+	char *address = NULL;
 
 	status = cal_backend_sync_get_cal_address (CAL_BACKEND_SYNC (backend), cal, &address);
 
@@ -300,7 +300,7 @@ static void
 _cal_backend_get_ldap_attribute (CalBackend *backend, Cal *cal)
 {
 	CalBackendSyncStatus status;
-	char *attribute;
+	char *attribute = NULL;
 
 	status = cal_backend_sync_get_cal_address (CAL_BACKEND_SYNC (backend), cal, &attribute);
 
@@ -313,7 +313,7 @@ static void
 _cal_backend_get_static_capabilities (CalBackend *backend, Cal *cal)
 {
 	CalBackendSyncStatus status;
-	char *capabilities;
+	char *capabilities = NULL;
 
 	status = cal_backend_sync_get_cal_address (CAL_BACKEND_SYNC (backend), cal, &capabilities);
 
@@ -360,7 +360,7 @@ static void
 _cal_backend_modify_object (CalBackend *backend, Cal *cal, const char *calobj, CalObjModType mod)
 {
 	CalBackendSyncStatus status;
-	char *old_object;
+	char *old_object = NULL;
 	
 	status = cal_backend_sync_modify_object (CAL_BACKEND_SYNC (backend), cal, 
 						 calobj, mod, &old_object);
@@ -372,7 +372,7 @@ static void
 _cal_backend_remove_object (CalBackend *backend, Cal *cal, const char *uid, const char *rid, CalObjModType mod)
 {
 	CalBackendSyncStatus status;
-	char *object;
+	char *object = NULL;
 	
 	status = cal_backend_sync_remove_object (CAL_BACKEND_SYNC (backend), cal, uid, rid, mod, &object);
 
@@ -441,7 +441,7 @@ static void
 _cal_backend_get_object_list (CalBackend *backend, Cal *cal, const char *sexp)
 {
 	CalBackendSyncStatus status;
-	GList *objects, *l;
+	GList *objects = NULL, *l;
 
 	status = cal_backend_sync_get_object_list (CAL_BACKEND_SYNC (backend), cal, sexp, &objects);
 

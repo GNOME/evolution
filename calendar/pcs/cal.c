@@ -826,7 +826,7 @@ cal_notify_object_modified (Cal *cal, GNOME_Evolution_Calendar_CallStatus status
 	queries = cal_backend_get_queries (priv->backend);
 	iter = e_list_get_iterator (queries);
 
-	while (e_iterator_is_valid (iter)) {
+	while (object && old_object && e_iterator_is_valid (iter)) {
 		Query *query = QUERY (e_iterator_get (iter));
 		gboolean old_match, new_match;
 		
@@ -881,7 +881,7 @@ cal_notify_object_removed (Cal *cal, GNOME_Evolution_Calendar_CallStatus status,
 	queries = cal_backend_get_queries (priv->backend);
 	iter = e_list_get_iterator (queries);
 
-	while (e_iterator_is_valid (iter)) {
+	while (uid && object && e_iterator_is_valid (iter)) {
 		Query *query = QUERY (e_iterator_get (iter));
 
 		bonobo_object_dup_ref (BONOBO_OBJREF (query), NULL);
@@ -1127,7 +1127,7 @@ cal_notify_timezone_added (Cal *cal, GNOME_Evolution_Calendar_CallStatus status,
 	g_return_if_fail (priv->listener != CORBA_OBJECT_NIL);
 
 	CORBA_exception_init (&ev);
-	GNOME_Evolution_Calendar_Listener_notifyTimezoneAdded (priv->listener, status, tzid, &ev);
+	GNOME_Evolution_Calendar_Listener_notifyTimezoneAdded (priv->listener, status, tzid ? tzid : "", &ev);
 
 	if (BONOBO_EX (&ev))
 		g_warning (G_STRLOC ": could not notify the listener of timezone added");

@@ -227,11 +227,11 @@ cal_comp_is_on_server (CalComponent *comp, CalClient *client)
 		return TRUE;
 	}
 
-	if (error) {
-		g_warning ("cal_comp_is_on_server(): %s", error->message);
-		g_error_free (error);
-	}
-	
+	if (error->code != E_CALENDAR_STATUS_OBJECT_NOT_FOUND)
+		g_warning (G_STRLOC ": %s", error->message);
+
+	g_clear_error (&error);
+
 	return FALSE;
 }
 

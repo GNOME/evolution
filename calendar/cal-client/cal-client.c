@@ -2171,9 +2171,9 @@ cal_client_get_object (CalClient *client, const char *uid, const char *rid, ical
 	*icalcomp = icalparser_parse_string (our_op->string);
 	g_free (our_op->string);
 
-	if (!*icalcomp) {
+	if (status == E_CALENDAR_STATUS_OK && !*icalcomp) {
 		status = E_CALENDAR_STATUS_INVALID_OBJECT;
-	} else {
+	} else if (status == E_CALENDAR_STATUS_OK){
 		CalClientGetTimezonesData cb_data;
 		
 		/* Now make sure we have all timezones needed for this object.
