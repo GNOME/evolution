@@ -3840,7 +3840,7 @@ e_day_view_on_event_right_click (EDayView *day_view,
 		if (cal_component_has_organizer (event->comp)) {
 			disable_mask |= MASK_MEETING;
 
-			if (!itip_organizer_is_user (event->comp))
+			if (!itip_organizer_is_user (event->comp, day_view->client))
 				disable_mask |= MASK_MEETING_ORGANIZER;
 		}
 	}
@@ -4173,7 +4173,7 @@ e_day_view_delete_event_internal (EDayView *day_view, EDayViewEvent *event)
 				     GTK_WIDGET (day_view))) {
 		const char *uid;
 
-		if (itip_organizer_is_user (event->comp) 
+		if (itip_organizer_is_user (event->comp, day_view->client) 
 		    && cancel_component_dialog (day_view->client, event->comp, TRUE))
 			itip_send_comp (CAL_COMPONENT_METHOD_CANCEL, event->comp, day_view->client, NULL);
 
@@ -4252,7 +4252,7 @@ e_day_view_on_cut (GtkWidget *widget, gpointer data)
 
 	e_day_view_on_copy (widget, data);
 
-	if (itip_organizer_is_user (event->comp) 
+	if (itip_organizer_is_user (event->comp, day_view->client) 
 	    && cancel_component_dialog (day_view->client, event->comp, TRUE))
 		itip_send_comp (CAL_COMPONENT_METHOD_CANCEL, event->comp, day_view->client, NULL);
 
@@ -4892,7 +4892,7 @@ e_day_view_finish_long_event_resize (EDayView *day_view)
 
 		if (recur_component_dialog (comp, &mod, NULL)) {
 			if (cal_client_update_object_with_mod (day_view->client, comp, mod) == CAL_CLIENT_RESULT_SUCCESS) {
-				if (itip_organizer_is_user (comp) && send_component_dialog (day_view->client, comp, FALSE))
+				if (itip_organizer_is_user (comp, day_view->client) && send_component_dialog (day_view->client, comp, FALSE))
 					itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, comp, day_view->client, NULL);
 			} else {
 				g_message ("e_day_view_finish_resize(): Could not update the object!");
@@ -4901,7 +4901,7 @@ e_day_view_finish_long_event_resize (EDayView *day_view)
 			gtk_widget_queue_draw (day_view->top_canvas);
 		}		
 	} else if (cal_client_update_object (day_view->client, comp) == CAL_CLIENT_RESULT_SUCCESS) {
-		if (itip_organizer_is_user (comp) && send_component_dialog (day_view->client, comp, TRUE))
+		if (itip_organizer_is_user (comp, day_view->client) && send_component_dialog (day_view->client, comp, TRUE))
 			itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, comp, day_view->client, NULL);
 	} else {
 		g_message ("e_day_view_finish_long_event_resize(): Could not update the object!");
@@ -4959,7 +4959,7 @@ e_day_view_finish_resize (EDayView *day_view)
 
 		if (recur_component_dialog (comp, &mod, NULL)) {
 			if (cal_client_update_object_with_mod (day_view->client, comp, mod) == CAL_CLIENT_RESULT_SUCCESS) {
-				if (itip_organizer_is_user (comp) && send_component_dialog (day_view->client, comp, FALSE))
+				if (itip_organizer_is_user (comp, day_view->client) && send_component_dialog (day_view->client, comp, FALSE))
 					itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, comp, day_view->client, NULL);
 			} else {
 				g_message ("e_day_view_finish_resize(): Could not update the object!");
@@ -4968,7 +4968,7 @@ e_day_view_finish_resize (EDayView *day_view)
 			gtk_widget_queue_draw (day_view->main_canvas);
 		}		
 	} else if (cal_client_update_object (day_view->client, comp) == CAL_CLIENT_RESULT_SUCCESS) {
-		if (itip_organizer_is_user (comp) && send_component_dialog (day_view->client, comp, FALSE))
+		if (itip_organizer_is_user (comp, day_view->client) && send_component_dialog (day_view->client, comp, FALSE))
 			itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, comp, day_view->client, NULL);
 	} else {
 		g_message ("e_day_view_finish_resize(): Could not update the object!");
@@ -6320,7 +6320,7 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 			
 			if (recur_component_dialog (event->comp, &mod, NULL)) {
 				if (cal_client_update_object_with_mod (day_view->client, event->comp, mod) == CAL_CLIENT_RESULT_SUCCESS) {
-					if (itip_organizer_is_user (event->comp) 
+					if (itip_organizer_is_user (event->comp, day_view->client) 
 					    && send_component_dialog (day_view->client, event->comp, FALSE))
 						itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, event->comp, 
 								day_view->client, NULL);
@@ -6329,7 +6329,7 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 				}
 			}
 		} else if (cal_client_update_object (day_view->client, event->comp) == CAL_CLIENT_RESULT_SUCCESS) {
-			if (itip_organizer_is_user (event->comp) && send_component_dialog (day_view->client, event->comp, FALSE))
+			if (itip_organizer_is_user (event->comp, day_view->client) && send_component_dialog (day_view->client, event->comp, FALSE))
 				itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, event->comp,
 						day_view->client, NULL);
 		} else {
@@ -7398,7 +7398,7 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 				
 				if (recur_component_dialog (comp, &mod, NULL)) {
 					if (cal_client_update_object_with_mod (day_view->client, comp, mod) == CAL_CLIENT_RESULT_SUCCESS) {
-						if (itip_organizer_is_user (comp) 
+						if (itip_organizer_is_user (comp, day_view->client) 
 						    && send_component_dialog (day_view->client, comp, FALSE))
 							itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, comp, 
 									day_view->client, NULL);
@@ -7409,7 +7409,7 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 				}
 			} else if (cal_client_update_object (day_view->client, comp)
 			    == CAL_CLIENT_RESULT_SUCCESS) {
-				if (itip_organizer_is_user (comp) && send_component_dialog (day_view->client, comp, FALSE))
+				if (itip_organizer_is_user (comp, day_view->client) && send_component_dialog (day_view->client, comp, FALSE))
 					itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, comp,
 							day_view->client, NULL);
 			} else {
@@ -7526,7 +7526,7 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 				
 				if (recur_component_dialog (comp, &mod, NULL)) {
 					if (cal_client_update_object_with_mod (day_view->client, comp, mod) == CAL_CLIENT_RESULT_SUCCESS) {
-						if (itip_organizer_is_user (comp) 
+						if (itip_organizer_is_user (comp, day_view->client) 
 						    && send_component_dialog (day_view->client, comp, FALSE))
 							itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, comp, 
 									day_view->client, NULL);
@@ -7537,7 +7537,7 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 				}
 			} else if (cal_client_update_object (day_view->client, comp)
 			    == CAL_CLIENT_RESULT_SUCCESS) {
-				if (itip_organizer_is_user (comp) && send_component_dialog (day_view->client, comp, FALSE))
+				if (itip_organizer_is_user (comp, day_view->client) && send_component_dialog (day_view->client, comp, FALSE))
 					itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, comp,
 							day_view->client, NULL);
 			} else {
@@ -7729,7 +7729,7 @@ selection_received (GtkWidget *invisible,
 
 		cal_client_update_object (day_view->client, comp);
 
-		if (itip_organizer_is_user (comp) && send_component_dialog (day_view->client, comp, TRUE))
+		if (itip_organizer_is_user (comp, day_view->client) && send_component_dialog (day_view->client, comp, TRUE))
 			itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, comp, day_view->client, NULL);
 
 		gtk_object_unref (GTK_OBJECT (comp));

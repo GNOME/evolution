@@ -853,7 +853,7 @@ calendar_model_value_at (ETableModel *etm, int col, int row)
 		if (cal_component_has_recurrences (comp))
 			return GINT_TO_POINTER (1);
 
-		if (itip_organizer_is_user (comp))
+		if (itip_organizer_is_user (comp, priv->client))
 			return GINT_TO_POINTER (3);
 		
 		cal_component_get_attendee_list (comp, &attendees);

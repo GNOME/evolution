@@ -331,6 +331,7 @@ build_fb_seq (GList *obj_list)
 
 	seq = GNOME_Evolution_Calendar_CalObjSeq__alloc ();
 	CORBA_sequence_set_release (seq, TRUE);
+	seq->_maximum = n;
 	seq->_length = n;
 	seq->_buffer = CORBA_sequence_GNOME_Evolution_Calendar_CalObj_allocbuf (n);
 

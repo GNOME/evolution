@@ -231,6 +231,7 @@ task_editor_edit_comp (CompEditor *editor, CalComponent *comp)
 	TaskEditor *te;
 	TaskEditorPrivate *priv;
 	CalComponentOrganizer organizer;
+	CalClient *client;
 	GSList *attendees = NULL;
 	
 	te = TASK_EDITOR (editor);
@@ -241,10 +242,12 @@ task_editor_edit_comp (CompEditor *editor, CalComponent *comp)
 	if (parent_class->edit_comp)
 		parent_class->edit_comp (editor, comp);
 
+	client = comp_editor_get_cal_client (COMP_EDITOR (editor));
+
 	/* Get meeting related stuff */
 	cal_component_get_organizer (comp, &organizer);
 	cal_component_get_attendee_list (comp, &attendees);
-
+	
 	/* Clear things up */
 	e_meeting_model_remove_all_attendees (priv->model);
 
@@ -297,7 +300,7 @@ task_editor_edit_comp (CompEditor *editor, CalComponent *comp)
 					e_meeting_attendee_set_edit_level (ia, E_MEETING_ATTENDEE_EDIT_STATUS);
 			}
 			itip_addresses_free (addresses);
-		} else if (cal_client_get_organizer_must_attend (comp_editor_get_cal_client (COMP_EDITOR (editor)))) {
+		} else if (cal_client_get_organizer_must_attend (client)) {
 			EMeetingAttendee *ia;
 
 			ia = e_meeting_model_find_attendee (priv->model, organizer.value, &row);
@@ -310,7 +313,7 @@ task_editor_edit_comp (CompEditor *editor, CalComponent *comp)
 	cal_component_free_attendee_list (attendees);
 
 	set_menu_sens (te);
-	comp_editor_set_needs_send (COMP_EDITOR (te), priv->assignment_shown && itip_organizer_is_user (comp));
+	comp_editor_set_needs_send (COMP_EDITOR (te), priv->assignment_shown && itip_organizer_is_user (comp, client));
 
 	priv->updating = FALSE;
 }

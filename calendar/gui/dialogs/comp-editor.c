@@ -327,7 +327,7 @@ save_comp (CompEditor *editor)
 	}
 	
 	/* If we are not the organizer, we don't update the sequence number */
-	if (!cal_component_has_organizer (clone) || itip_organizer_is_user (clone))
+	if (!cal_component_has_organizer (clone) || itip_organizer_is_user (clone, priv->client))
 		cal_component_commit_sequence (clone);
 	else
 		cal_component_abort_sequence (clone);
@@ -388,7 +388,7 @@ save_comp_with_send (CompEditor *editor)
 		return FALSE;
 
  	if (send && send_component_dialog (priv->client, priv->comp, !priv->existing_org)) {
- 		if (itip_organizer_is_user (priv->comp))
+ 		if (itip_organizer_is_user (priv->comp, priv->client))
  			return comp_editor_send_comp (editor, CAL_COMPONENT_METHOD_REQUEST);
  		else
  			return comp_editor_send_comp (editor, CAL_COMPONENT_METHOD_REPLY);
@@ -952,7 +952,7 @@ real_edit_comp (CompEditor *editor, CalComponent *comp)
 		priv->comp = cal_component_clone (comp);
 	
  	priv->existing_org = cal_component_has_organizer (comp);
- 	priv->user_org = itip_organizer_is_user (comp);
+ 	priv->user_org = itip_organizer_is_user (comp, priv->client);
  	priv->warned = FALSE;
  		
 	set_title_from_comp (editor);
@@ -1276,7 +1276,7 @@ delete_cmd (GtkWidget *widget, gpointer data)
 	vtype = cal_component_get_vtype (priv->comp);
 
 	if (delete_component_dialog (priv->comp, FALSE, 1, vtype, GTK_WIDGET (editor))) {
-		if (itip_organizer_is_user (priv->comp) 
+		if (itip_organizer_is_user (priv->comp, priv->client) 
 		    && cancel_component_dialog (priv->client, priv->comp, TRUE))
 			itip_send_comp (CAL_COMPONENT_METHOD_CANCEL, priv->comp, priv->client, NULL);
 

@@ -1,3 +1,20 @@
+2003-01-12  JP Rosevear  <jpr@ximian.com>
+
+	* gui/dialogs/meeting-page.c (meeting_page_fill_widgets): don't
+	allow the organizer to be changed if its not an email address
+
+	* gui/e-day-view.c, calendar-model.c, e-week-view.c,
+	task-editor.c, event-editor.c, comp-editor.c, meeting-page.c: pass
+	additional param
+
+	* gui/itip-utils.c (itip_organizer_is_user): take client as param,
+	and if organizer-not-email-address and email address and organizer
+	match, assume the user is the organizer
+
+	* gui/itip-utils.h: update proto
+
+	* pcs/cal.c (build_fb_seq): set the max
+
 2003-01-09  JP Rosevear  <jpr@ximian.com>
 
 	* gui/e-meeting-model.c

@@ -79,7 +79,7 @@ struct _MeetingPagePrivate {
 	/* List of identities */
 	GList *addresses;
 	GList *address_strings;
-	ItipAddress *default_address;
+	gchar *default_address;
 	
 	/* Glade XML data */
 	GladeXML *xml;
@@ -353,8 +353,10 @@ meeting_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 
 			gtk_widget_hide (priv->organizer_table);
 			gtk_widget_show (priv->existing_organizer_table);
-			if (itip_organizer_is_user (comp)) {
+			if (itip_organizer_is_user (comp, page->client)) {
 				gtk_widget_show (priv->invite);
+				if (cal_client_get_static_capability (page->client, "organizer-not-email-address"))
+					gtk_widget_hide (priv->existing_organizer_btn);
 				e_meeting_model_etable_click_to_add (priv->model, TRUE);
 			} else {
 				gtk_widget_hide (priv->invite);
@@ -373,7 +375,7 @@ meeting_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 			priv->existing = TRUE;
 		}
 	} else {
-		e_dialog_editable_set (GTK_COMBO (priv->organizer)->entry, priv->default_address->full);
+		e_dialog_editable_set (GTK_COMBO (priv->organizer)->entry, priv->default_address);
 	}
 	
 	priv->updating = FALSE;
@@ -524,7 +526,7 @@ change_clicked_cb (GtkWidget *widget, gpointer data)
 	gtk_widget_show (priv->invite);
 	e_meeting_model_etable_click_to_add (priv->model, TRUE);
 
-	e_dialog_editable_set (GTK_COMBO (priv->organizer)->entry, priv->default_address->full);
+	e_dialog_editable_set (GTK_COMBO (priv->organizer)->entry, priv->default_address);
 	comp_editor_page_notify_needs_send (COMP_EDITOR_PAGE (mpage));
 	
 	priv->existing = FALSE;
@@ -635,7 +637,7 @@ popup_delete_cb (GtkWidget *widget, gpointer data)
 	priv = mpage->priv;
 
 	ia = e_meeting_model_find_attendee_at_row (priv->model, priv->row);
-	
+
 	/* If this was a delegatee, no longer delegate */
 	if (e_meeting_attendee_is_set_delfrom (ia)) {
 		EMeetingAttendee *ib;
@@ -778,9 +780,9 @@ meeting_page_construct (MeetingPage *mpage, EMeetingModel *emm,
 		 * precedence over the default mail address.
 		 */
 		if (backend_address && !strcmp (backend_address, a->address))
-			priv->default_address = a;
+			priv->default_address = a->full;
 		else if (a->default_address && !priv->default_address)
-			priv->default_address = a;
+			priv->default_address = a->full;
 	}
 	
 	/* The etable displaying attendees and their status */
