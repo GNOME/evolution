@@ -2275,7 +2275,8 @@ e_day_view_find_work_week_start		(EDayView	*day_view,
 					 time_t		 start_time)
 {
 	GDate date;
-	gint weekday, day, i, offset;
+	gint weekday, day, i;
+	guint offset;
 	struct icaltimetype tt = icaltime_null_time ();
 
 	time_to_gdate_with_zone (&date, start_time, day_view->zone);
@@ -2297,9 +2298,13 @@ e_day_view_find_work_week_start		(EDayView	*day_view,
 	}
 
 	/* Calculate how many days we need to go back to the first workday. */
-	offset = (weekday + 7 - day) % 7;
-
-	g_date_subtract_days (&date, offset);
+	if (weekday < day) {
+		offset = (day - weekday) % 7;
+		g_date_add_days (&date, offset);
+	} else {
+		offset = (weekday - day) % 7;
+		g_date_subtract_days (&date, offset);
+	}
 
 	tt.year = g_date_year (&date);
 	tt.month = g_date_month (&date);
