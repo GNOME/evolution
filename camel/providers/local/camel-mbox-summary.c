@@ -461,7 +461,6 @@ mbox_summary_check(CamelLocalSummary *cls, CamelFolderChangeInfo *changes, Camel
 	if (st.st_size == 0) {
 		/* empty?  No need to scan at all */
 		d(printf("Empty mbox, clearing summary\n"));
-		camel_folder_summary_clear(s);
 		count= camel_folder_summary_count(s);
 		for (i=0;i<count;i++) {
 			CamelMessageInfo *info = camel_folder_summary_index(s, i);
@@ -471,6 +470,7 @@ mbox_summary_check(CamelLocalSummary *cls, CamelFolderChangeInfo *changes, Camel
 				camel_folder_summary_info_free(s, info);
 			}
 		}
+		camel_folder_summary_clear(s);
 		ret = 0;
 	} else {
 		/* is the summary uptodate? */

@@ -1,5 +1,8 @@
 2002-08-02  Not Zed  <NotZed@Ximian.com>
 
+	* providers/local/camel-mbox-summary.c (mbox_summary_check): Clear
+	the summary after building the 'removed uid' list.
+
 	* camel-folder-summary.c (message_info_load): revert jeff's patch
 	below, and do it slightly differently, and stop the auto-reformatting
 	bullshit.
