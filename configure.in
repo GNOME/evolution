@@ -312,19 +312,6 @@ EVO_CHECK_LIB(GtkHTML, 0.8, gtkhtml)
 EVO_CHECK_LIB(GNOME-VFS, 0.4.2, vfs)
 EVO_CHECK_LIB(libxml, 1.8.10, xml)
 
-dnl **********
-dnl libunicode
-dnl **********
-AC_MSG_CHECKING(for libunicode)
-if unicode-config --libs > /dev/null 2>&1; then 
-    UNICODE_LIBS=`unicode-config --libs`
-    UNICODE_CFLAGS=`unicode-config --cflags`
-    AC_SUBST(UNICODE_LIBS)
-    AC_SUBST(UNICODE_CFLAGS)
-    AC_MSG_RESULT(found)
-else
-    AC_MSG_ERROR(libunicode not found)
-fi
 
 
 dnl *************************
@@ -335,19 +322,24 @@ GLIB_LIBS="`glib-config --libs`"
 AC_SUBST(GLIB_CFLAGS)
 AC_SUBST(GLIB_LIBS)
 
-EXTRA_GNOME_LIBS="`gnome-config --libs libglade gdk_pixbuf gnomecanvaspixbuf gnomeui gal` $THREADS_LIBS $UNICODE_LIBS"
-EXTRA_GNOME_CFLAGS="`gnome-config --cflags libglade gdk_pixbuf gnomecanvaspixbuf gnomeui gal` $THREADS_CFLAGS $UNICODE_CFLAGS"
+GAL_CFLAGS="`gnome-config --cflags gal`"
+GAL_LIBS="`gnome-config --libs gal`"
+AC_SUBST(GAL_CFLAGS)
+AC_SUBST(GAL_LIBS)
+
+EXTRA_GNOME_LIBS="`gnome-config --libs libglade gdk_pixbuf gnomecanvaspixbuf gnomeui gal` $THREADS_LIBS"
+EXTRA_GNOME_CFLAGS="`gnome-config --cflags libglade gdk_pixbuf gnomecanvaspixbuf gnomeui gal` $THREADS_CFLAGS"
 
 AC_SUBST(EXTRA_GNOME_LIBS)
 AC_SUBST(EXTRA_GNOME_CFLAGS)
 
-BONOBO_GNOME_LIBS="`gnome-config --libs bonobox_print libglade gdk_pixbuf gnomecanvaspixbuf gnomeui` $UNICODE_LIBS $OAF_LIBS"
-BONOBO_GNOME_CFLAGS="`gnome-config --cflags bonobox_print libglade gdk_pixbuf gnomecanvaspixbuf gnomeui ` $UNICODE_CFLAGS $OAF_CFLAGS"
+BONOBO_GNOME_LIBS="`gnome-config --libs bonobox_print libglade gdk_pixbuf gnomecanvaspixbuf gnomeui` $OAF_LIBS"
+BONOBO_GNOME_CFLAGS="`gnome-config --cflags bonobox_print libglade gdk_pixbuf gnomecanvaspixbuf gnomeui` $OAF_CFLAGS"
 AC_SUBST(BONOBO_GNOME_LIBS)
 AC_SUBST(BONOBO_GNOME_CFLAGS)
 
-BONOBO_HTML_GNOME_LIBS="`gnome-config --libs bonobox_print libglade gdk_pixbuf gtkhtml gnomecanvaspixbuf gnomeui ` $THREAD_LIBS $UNICODE_LIBS"
-BONOBO_HTML_GNOME_CFLAGS="`gnome-config --cflags bonobox_print libglade gdk_pixbuf gtkhtml gnomecanvaspixbuf gnomeui ` $THREAD_CFLAGS $UNICODE_CFLAGS"
+BONOBO_HTML_GNOME_LIBS="`gnome-config --libs bonobox_print libglade gdk_pixbuf gtkhtml gnomecanvaspixbuf gnomeui ` $THREAD_LIBS"
+BONOBO_HTML_GNOME_CFLAGS="`gnome-config --cflags bonobox_print libglade gdk_pixbuf gtkhtml gnomecanvaspixbuf gnomeui ` $THREAD_CFLAGS"
 AC_SUBST(BONOBO_HTML_GNOME_LIBS)
 AC_SUBST(BONOBO_HTML_GNOME_CFLAGS)
 

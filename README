@@ -141,8 +141,6 @@ and -devel packages for each library.
    *** either gnome-libs or evolution for the Makefiles to work
    *** properly.
 
- - libunicode - 0.4.gnome (*)
-
  - gal (GNOME Application Library) - 0.5.99.5 or later
 
  - gtkhtml - 0.8.2 or later

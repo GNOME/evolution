@@ -1,3 +1,11 @@
+2001-04-26  Dan Winship  <danw@ximian.com>
+
+	* README: We no longer depend on libunicode.
+
+	* configure.in: Remove check for libunicode. Remove unicode cflags
+	and libs from all CFLAGS and LIBS variables. Add GAL_LIBS for
+	things that need to depend on just gal (for gunicode).
+
 2001-04-24  Dan Winship  <danw@ximian.com>
 
 	* configure.in: Bump up the gal requirement
