@@ -1,0 +1,13 @@
+<Root>
+  <commands>
+    <cmd name="EPluginManagerManage" _label="Manage Plugins..."
+      _tip="Enable and disable plugins"/>
+  </commands>
+
+  <menu>
+    <submenu name="Tools">
+      <placeholder name="ComponentPlaceholder"/>
+      <menuitem name="EPluginManagerManage" verb=""/>
+    </submenu>
+  </menu>
+</Root>
