@@ -1,4 +1,4 @@
-got t/* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
+/* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 /* mail-component-factory.c
  *
  * Authors: Ettore Perazzoli <ettore@ximian.com>
