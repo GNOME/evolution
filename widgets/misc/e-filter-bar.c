@@ -138,7 +138,7 @@ do_advanced (ESearchBar *esb)
 	EFilterBar *efb = (EFilterBar *)esb;
 	
 	d(printf("Advanced search!\n"));
-		
+	
 	if (!efb->save_dialogue && !efb->setquery) {
 		GtkWidget *w, *gd;
 		FilterRule *rule;
@@ -166,7 +166,7 @@ do_advanced (ESearchBar *esb)
 		gtk_object_set_data_full (GTK_OBJECT (gd), "rule", rule, (GtkDestroyNotify)gtk_object_unref);
 		gtk_signal_connect (GTK_OBJECT (gd), "clicked", rule_advanced_clicked, efb);
 		gtk_signal_connect (GTK_OBJECT (gd), "destroy", rule_editor_destroyed, efb);
-			
+		
 		e_search_bar_set_menu_sensitive (esb, E_FILTERBAR_SAVE_ID, FALSE);
 		gtk_widget_set_sensitive (esb->entry, FALSE);
 		
@@ -243,7 +243,7 @@ menubar_activated (ESearchBar *esb, int id, void *data)
 			
 			efb->current_query = (FilterRule *)efb->menu_rules->pdata[id - efb->menu_base];
 			efb->setquery = TRUE;
-
+			
 			e_search_bar_set_item_id (esb, E_FILTERBAR_ADVANCED_ID);
 			
 			gtk_widget_set_sensitive (esb->entry, FALSE);
@@ -279,7 +279,7 @@ option_changed (ESearchBar *esb, void *data)
 			}
 			gtk_widget_set_sensitive (esb->entry, TRUE);
 		} else {
-			gtk_widget_set_sensitive (esb->entry, FALSE);
+			gtk_widget_set_sensitive (esb->entry, id == E_SEARCHBAR_CLEAR_ID);
 			efb->current_query = NULL;
 		}
 	}

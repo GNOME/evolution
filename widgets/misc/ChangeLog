@@ -1,3 +1,16 @@
+2002-10-23  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-filter-bar.c (option_changed): If the clear button was
+	pressed, we want the entry to be sensitive (not insensitive).
+
+	* e-search-bar.c (e_search_bar_set_item_id): If the item id is
+	CLEAR_ID, we want to select the first item (0) but still set the
+	esb->item_id to CLEAR_ID.
+	(set_find_now_sensitive): Don't bother getting the GtkEntry text,
+	we don't even use it?
+	(clear_search): Set the item id as E_SEARCHBAR_CLEAR_ID rather
+	than 0 so that it can be checked for.
+
 2002-10-23  Ettore Perazzoli  <ettore@ximian.com>
 
 	[#26128, thanks to Federico Mena Quintero <federico@ximian.com>

@@ -81,11 +81,11 @@ struct _EFilterBarClass
 /* "preset" items */
 enum {
 	/* preset menu options */
-	E_FILTERBAR_SAVE_ID = -2,
-	E_FILTERBAR_EDIT_ID = -3,
+	E_FILTERBAR_SAVE_ID = -3,
+	E_FILTERBAR_EDIT_ID = -4,
 
 	/* preset option options */
-	E_FILTERBAR_ADVANCED_ID = -4,
+	E_FILTERBAR_ADVANCED_ID = -5,
 };
 
 #define E_FILTERBAR_SAVE      { N_("_Save Search..."), E_FILTERBAR_SAVE_ID, NULL }

@@ -102,8 +102,8 @@ struct _ESearchBarClass
 };
 
 enum {
-	E_SEARCHBAR_FIND_NOW_ID = 0,
-	E_SEARCHBAR_CLEAR_ID    = 1
+	E_SEARCHBAR_FIND_NOW_ID = -1,
+	E_SEARCHBAR_CLEAR_ID    = -2
 };
 
 

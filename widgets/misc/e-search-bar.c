@@ -78,15 +78,11 @@ static void
 set_find_now_sensitive (ESearchBar *search_bar,
 			gboolean sensitive)
 {
-	const char *text;
-
-	text = gtk_entry_get_text (GTK_ENTRY (search_bar->entry));
-
 	if (search_bar->ui_component != NULL)
 		bonobo_ui_component_set_prop (search_bar->ui_component,
 					      "/commands/ESearchBar:FindNow",
 					      "sensitive", sensitive ? "1" : "0", NULL);
-
+	
 	gtk_widget_set_sensitive (search_bar->activate_button, sensitive);
 }
 
@@ -103,7 +99,7 @@ static void
 clear_search (ESearchBar *esb)
 {
 	e_search_bar_set_text (esb, "");
-	e_search_bar_set_item_id (esb, 0);
+	e_search_bar_set_item_id (esb, E_SEARCHBAR_CLEAR_ID);
 }
 
 /* Frees an array of subitem information */
@@ -966,10 +962,9 @@ e_search_bar_set_suboption (ESearchBar *search_bar, int option_id, ESearchBarSub
 	GtkWidget *item;
 	ESearchBarSubitem *old_subitems;
 	ESearchBarSubitem *new_subitems;
-
-	g_return_if_fail (search_bar != NULL);
+	
 	g_return_if_fail (E_IS_SEARCH_BAR (search_bar));
-
+	
 	row = find_id (search_bar->option_menu, option_id, "EsbChoiceId", &item);
 	g_return_if_fail (row != -1);
 	g_assert (item != NULL);
@@ -1079,13 +1074,13 @@ void
 e_search_bar_set_item_id (ESearchBar *search_bar, int id)
 {
 	int row;
-
-	g_return_if_fail (search_bar != NULL);
+	
 	g_return_if_fail (E_IS_SEARCH_BAR (search_bar));
-
-	row = find_id (search_bar->option_menu, id, "EsbChoiceId", NULL);
+	
+	row = id == E_SEARCHBAR_CLEAR_ID ? 0 : id;
+	row = find_id (search_bar->option_menu, row, "EsbChoiceId", NULL);
 	g_return_if_fail (row != -1);
-
+	
 	search_bar->item_id = id;
 	gtk_option_menu_set_history (GTK_OPTION_MENU (search_bar->option), row);
 	emit_query_changed (search_bar);
@@ -1185,7 +1180,6 @@ e_search_bar_set_ids (ESearchBar *search_bar, int item_id, int subitem_id)
 void
 e_search_bar_set_text (ESearchBar *search_bar, const char *text)
 {
-	g_return_if_fail (search_bar != NULL);
 	g_return_if_fail (E_IS_SEARCH_BAR (search_bar));
 
 	e_utf8_gtk_editable_set_text (GTK_EDITABLE (search_bar->entry), text);
