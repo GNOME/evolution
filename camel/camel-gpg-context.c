@@ -557,6 +557,7 @@ gpg_ctx_op_start (struct _GpgCtx *gpg)
 	char *status_fd = NULL, *passwd_fd = NULL;
 	int i, maxfd, errnosave, fds[10];
 	GPtrArray *argv;
+	int flags;
 	
 	for (i = 0; i < 10; i++)
 		fds[i] = -1;
@@ -617,13 +618,21 @@ gpg_ctx_op_start (struct _GpgCtx *gpg)
 	if (gpg->need_passwd) {
 		close (fds[8]);
 		gpg->passwd_fd = fds[9];
-		fcntl (gpg->passwd_fd, F_SETFL, O_NONBLOCK);
+		flags = fcntl (gpg->passwd_fd, F_GETFL);
+		fcntl (gpg->passwd_fd, F_SETFL, flags | O_NONBLOCK);
 	}
 	
-	fcntl (gpg->stdin_fd, F_SETFL, O_NONBLOCK);
-	fcntl (gpg->stdout_fd, F_SETFL, O_NONBLOCK);
-	fcntl (gpg->stderr_fd, F_SETFL, O_NONBLOCK);
-	fcntl (gpg->status_fd, F_SETFL, O_NONBLOCK);
+	flags = fcntl (gpg->stdin_fd, F_GETFL);
+	fcntl (gpg->stdin_fd, F_SETFL, flags | O_NONBLOCK);
+	
+	flags = fcntl (gpg->stdout_fd, F_GETFL);
+	fcntl (gpg->stdout_fd, F_SETFL, flags | O_NONBLOCK);
+	
+	flags = fcntl (gpg->stderr_fd, F_GETFL);
+	fcntl (gpg->stderr_fd, F_SETFL, flags | O_NONBLOCK);
+	
+	flags = fcntl (gpg->status_fd, F_GETFL);
+	fcntl (gpg->status_fd, F_SETFL, flags | O_NONBLOCK);
 	
 	return 0;
 	

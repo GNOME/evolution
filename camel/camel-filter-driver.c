@@ -715,7 +715,6 @@ pipe_to_system (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFil
 	
 	/* parent process */
 	close (fds[0]);
-	fcntl (fds[1], F_SETFL, O_NONBLOCK);
 	close (fds[3]);
 	
 	stream = camel_stream_fs_new_with_fd (fds[1]);

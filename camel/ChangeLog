@@ -1,3 +1,15 @@
+2003-12-05  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-gpg-context.c (gpg_ctx_op_start): Properly set the
+	O_NONBLOCK flag along with any previously set flags.
+
+	* camel-filter-search.c (run_command): Don't set O_NONBLOCK on the
+	pipe (1. we don't need to, and 2. we should have been setting
+	O_NONBLOCK|prev_flags but we weren't, and so the pipe got
+	O_RDONLY|O_NONBLOCK even tho we wanted to write to it).
+
+	* camel-filter-driver.c (pipe_to_system): Same.
+
 2003-12-04  Radek Doulik  <rodo@ximian.com>
 
 	* camel-folder.c (folder_changed): check recent messages for junk

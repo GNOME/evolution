@@ -553,12 +553,10 @@ run_command (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessa
 	
 	/* parent process */
 	close (in_fds[0]);
-	fcntl (in_fds[1], F_SETFL, O_NONBLOCK);
-	
-	stream = camel_stream_fs_new_with_fd (in_fds[1]);
 	
 	message = camel_filter_search_get_message (fms, f);
 	
+	stream = camel_stream_fs_new_with_fd (in_fds[1]);
 	camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), stream);
 	camel_stream_flush (stream);
 	camel_object_unref (stream);
