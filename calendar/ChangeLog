@@ -1,3 +1,9 @@
+2004-10-11  Not Zed  <NotZed@Ximian.com>
+
+	* gui/alarm-notify/alarm-queue.c (tray_icon_clicked_cb): convert
+	to epopup.
+	(add_popup_menu_item): removed, now redundant.
+
 2004-10-08  Rodrigo Moya <rodrigo@novell.com>
 
 	Fixes #45951
@@ -992,7 +998,7 @@
 
 	Partially fixes #56171
 
-2004-07-11  Jürg Billeter <j@bitron.ch>
+2004-07-11  JÃ�rg Billeter <j@bitron.ch>
 
 	* gui/dialogs/event-page.c (event_page_fill_component):
 	busy should be opaque, not transparent
