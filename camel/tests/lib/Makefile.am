@@ -1,5 +1,5 @@
 
-INCLUDES = -I$(includedir)
+INCLUDES = -I$(includedir) -I$(top_srcdir) -I$(top_srcdir)/camel
 
 check_LIBRARIES = libcameltest.a
 

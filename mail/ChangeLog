@@ -1,3 +1,9 @@
+2001-06-28  Peter Williams  <peterw@ximian.com>
+
+	* mail-ops.c (mail_send_message): Revert fejj's Bcc header removal;
+	this unsets the BCC recipients and so doesn't send to the Bcc'd
+	people at all.
+
 2001-06-28  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-send-recv.c (free_send_data): The e_iterator_get() returns

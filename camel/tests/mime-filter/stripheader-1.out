@@ -1,0 +1,5 @@
+Subject: this is a simple test
+CC: this header should be preserved
+BCC: as should this one
+
+This is the body of the message.

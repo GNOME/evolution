@@ -1,3 +1,22 @@
+2001-06-28  Peter Williams  <peterw@ximian.com>
+
+	* camel-mime-filter-stripheader.c: New file. Filter that strips a
+	header from mime output.
+
+	* camel-mime-filter-stripheader.h: New file. Header for the above.
+
+	* providers/smtp/camel-smtp-transport.c (smtp_data): Use the stripheader
+	filter to remove the "Bcc" header.
+
+	* Makefile.am: Add the stripheader files.
+
+	* tests/lib/Makefile.am (INCLUDES): Get this to compile again.
+
+	* tests/mime-filter/test-stripheader.c: New file. Test suite for
+	the CamelMimeFilterStripHeader.
+
+	* tests/mime-filter/Makefile.am: New test section: mime filters.
+
 2001-06-28  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-utils.c (header_decode_param_list): Fix a memory

@@ -40,6 +40,7 @@
 #undef MIN
 #undef MAX
 #include "camel-mime-filter-crlf.h"
+#include "camel-mime-filter-stripheader.h"
 #include "camel-mime-filter-linewrap.h"
 #include "camel-stream-filter.h"
 #include "camel-smtp-transport.h"
@@ -911,7 +912,7 @@ smtp_data (CamelSmtpTransport *transport, CamelMedium *message, gboolean has_8bi
 	/* now we can actually send what's important :p */
 	gchar *cmdbuf, *respbuf = NULL;
 	CamelStreamFilter *filtered_stream;
-	CamelMimeFilter *crlffilter;
+	CamelMimeFilter *crlffilter, *bccfilter;
 	
 	/* if the message contains 8bit mime parts and the server
            doesn't support it, encode 8bit parts to the best
@@ -955,7 +956,9 @@ smtp_data (CamelSmtpTransport *transport, CamelMedium *message, gboolean has_8bi
 	
 	/* setup stream filtering */
 	crlffilter = camel_mime_filter_crlf_new (CAMEL_MIME_FILTER_CRLF_ENCODE, CAMEL_MIME_FILTER_CRLF_MODE_CRLF_DOTS);
+	bccfilter = camel_mime_filter_stripheader_new ("Bcc");
 	filtered_stream = camel_stream_filter_new_with_stream (transport->ostream);
+	camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (bccfilter));
 	camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (crlffilter));
 	
 	if (camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), CAMEL_STREAM (filtered_stream)) == -1) {
