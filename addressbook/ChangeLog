@@ -1,3 +1,13 @@
+2003-05-11  Chris Toshok  <toshok@ximian.com>
+
+	[ fixes bug #41245 ]
+	* gui/component/select-names/select-names.glade: fix
+	spacing/border widths as per HIG.
+
+	* gui/component/select-names/e-select-names.c
+	(e_select_names_init): set the border width/spacing on widgets we
+	create here.
+	
 2003-05-09  Jeremy Katz  <katzj@redhat.com>
 
 	* printing/e-contact-print.c (e_contact_print_response): Use glib

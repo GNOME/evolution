@@ -500,6 +500,10 @@ e_select_names_init (ESelectNames *e_select_names)
 	gtk_dialog_set_default_response (GTK_DIALOG (e_select_names),
 					 GTK_RESPONSE_OK);
 
+	gtk_container_set_border_width (GTK_CONTAINER (e_select_names), 12);
+	gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (e_select_names)->vbox), 6);
+	gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (e_select_names)->action_area), 12);
+
 	gtk_window_set_modal (GTK_WINDOW (e_select_names), TRUE);
 
 	gtk_window_set_title(GTK_WINDOW(e_select_names), _("Select Contacts from Addressbook")); 
@@ -578,8 +582,6 @@ static void
 e_select_names_dispose (GObject *object)
 {
 	ESelectNames *e_select_names = E_SELECT_NAMES(object);
-
-	printf("eselectnames dispose\n");
 
 	if (e_select_names->status_id) {
 		g_signal_handler_disconnect(e_select_names->model, e_select_names->status_id);
