@@ -627,6 +627,11 @@ gint	   e_day_view_convert_time_to_row	(EDayView	*day_view,
 gint	   e_day_view_convert_time_to_position	(EDayView	*day_view,
 						 gint		 hour,
 						 gint		 minute);
+gboolean   e_day_view_get_event_rows            (EDayView *day_view,
+						 gint day,
+						 gint event_num,
+						 gint *start_row_out,
+						 gint *end_row_out);
 gboolean   e_day_view_get_event_position	(EDayView	*day_view,
 						 gint		 day,
 						 gint		 event_num,
