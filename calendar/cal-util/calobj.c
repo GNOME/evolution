@@ -1112,6 +1112,9 @@ duration_callback (iCalObject *ico, time_t start, time_t end, void *closure)
 {
 	int *count = closure;
 
+	if (ico->exdate && is_date_in_list (ico->exdate, &start))
+		return;
+
 	(*count)++;
 	if (ico->recur->duration == *count) {
 		ico->recur->enddate = time_end_of_day (end);

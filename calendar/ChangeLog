@@ -1,5 +1,8 @@
 1998-04-20  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* calobj.c (duration_callback): Take exception dates into
+	account. 
+
 	* gncal-full-day.c (new_appointment): Setup the event editor dates
 	to those of the currently displayed day. 
 	(gncal_full_day_selection_range): Use sensible values in the case

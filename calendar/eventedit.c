@@ -714,6 +714,7 @@ ee_ok (GtkWidget *widget, EventEditor *ee)
 	else
 		gnome_calendar_object_changed (ee->gnome_cal, ee->ical, CHANGE_ALL);
 
+	ee->ical->new = 0;
 	gtk_widget_destroy (GTK_WIDGET (ee));
 }
 

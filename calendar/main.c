@@ -379,9 +379,9 @@ process_dates (void)
 
 static struct argp_option argp_options [] = {
 	{ "events", 'e', NULL, 0, N_("Show events and quit"),                 0 },
-	{ "from ",  'f', N_("FROM"), 0, N_("Specifies start date [for --events]"),  1 },
+	{ "from",   'f', N_("DATE"), 0, N_("Specifies start date [for --events]"),  1 },
 	{ "file",   'F', N_("FILE"), 0, N_("File to load calendar from"),           1 },
-	{ "to",     't', N_("TO"), 0, N_("Specifies ending date [for --events]"), 1 },
+	{ "to",     't', N_("DATE"), 0, N_("Specifies ending date [for --events]"), 1 },
 	{ NULL, 0, NULL, 0, NULL, 0 },
 };
 
