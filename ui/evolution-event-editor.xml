@@ -20,7 +20,7 @@
         _tip="Obtain the latest meeting information"/>
 
 	<cmd name="ActionCancelMeeting" _label="Cancel Mee_ting"
-        _tip="Cancel then meeting for this item"/>
+        _tip="Cancel the meeting for this item"/>
 
 	<cmd name="ActionForward" _label="Forward as i_Calendar"
         _tip="Forward this item via email"/>
