@@ -132,6 +132,41 @@ save_metainfo(struct _local_meta *meta)
 	return ret;
 }
 
+/* maps a local uri to the real type */
+char *
+mail_local_map_uri(const char *uri)
+{
+	CamelURL *url;
+	char *metapath;
+	char *storename;
+	struct _local_meta *meta;
+	CamelException *ex;
+
+	if (strncmp(uri, "file:", 5)) {
+		g_warning("Trying to map non-local uri: %s", uri);
+		return g_strdup(uri);
+	}
+
+	ex = camel_exception_new();
+	url = camel_url_new(uri, ex);
+	if (camel_exception_is_set(ex)) {
+		camel_exception_free(ex);
+		return g_strdup(uri);
+	}
+	camel_exception_free(ex);
+
+	metapath = g_strdup_printf("%s/local-metadata.xml", url->path);
+	meta = load_metainfo(metapath);
+	g_free(metapath);
+
+	/* change file: to format: */
+	camel_url_set_protocol(url, meta->format);
+	storename = camel_url_to_string(url, TRUE);
+	camel_url_free(url);
+
+	return storename;
+}
+
 CamelFolder *
 mail_tool_local_uri_to_folder(const char *uri, CamelException *ex)
 {
@@ -341,6 +376,7 @@ do_reconfigure_folder(gpointer in_data, gpointer op_data, CamelException *ex)
 		goto cleanup;
 	}
 
+	update_progress("Copying messages", 0.0);
 	mail_tool_move_folder_contents (fromfolder, tofolder, FALSE, ex);
 
 	printf("delete old mbox ...\n");
@@ -373,10 +409,8 @@ do_reconfigure_folder(gpointer in_data, gpointer op_data, CamelException *ex)
 		camel_object_unref (CAMEL_OBJECT (fromstore));
 	if (tostore)
 		camel_object_unref (CAMEL_OBJECT (tostore));
-	if (fromurl)
-		g_free(fromurl);
-	if (tourl)
-		g_free(tourl);
+	g_free(fromurl);
+	g_free(tourl);
 	if (url)
 		camel_url_free (url);
 }

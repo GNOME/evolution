@@ -120,6 +120,17 @@ mail_tool_get_folder_from_urlname (const gchar *url, const gchar *name,
 gchar *
 mail_tool_get_local_inbox_url (void)
 {
+	char *uri, *new;
+
+	uri = g_strdup_printf("file://%s/local/Inbox", evolution_dir);
+	new = mail_local_map_uri(uri);
+	g_free(uri);
+	return new;
+}
+
+gchar *
+mail_tool_get_local_movemail_url (void)
+{
 	return g_strdup_printf ("mbox://%s/local/Inbox", evolution_dir);
 }
 
@@ -164,7 +175,7 @@ mail_tool_do_movemail (const gchar *source_url, CamelException *ex)
 
 	/* Set up our destination. */
 
-	dest_url = mail_tool_get_local_inbox_url();
+	dest_url = mail_tool_get_local_movemail_url();
 	dest_path = mail_tool_get_local_movemail_path();
 
 	/* Create a new movemail mailbox file of 0 size */
@@ -447,7 +458,7 @@ mail_tool_fetch_mail_into_searchable (const char *source_url, gboolean keep_on_s
 		 * so that the folder browser can search it. */
 		gchar *url;
 
-		url = mail_tool_get_local_inbox_url();
+		url = mail_tool_get_local_movemail_url();
 		search_folder = mail_tool_get_folder_from_urlname (url, "movemail", TRUE, ex);
 		g_free (url);
 		if (camel_exception_is_set (ex))

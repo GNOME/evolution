@@ -32,5 +32,6 @@
 /* mail-local.c */
 CamelFolder *mail_tool_local_uri_to_folder(const char *uri, CamelException *ex);
 void local_reconfigure_folder(FolderBrowser *fb);
+char *mail_local_map_uri(const char *uri);
 
 #endif
