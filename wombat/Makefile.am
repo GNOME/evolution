@@ -46,7 +46,7 @@ oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
 @XML_I18N_MERGE_OAF_RULE@
 
 
-EXTRA_DIST = $(oaf_DATA) $(oaf_in_files)
+EXTRA_DIST = $(oaf_DATA) $(oaf_in_files) wombat.idl
 
 if ENABLE_PURIFY
 PLINK = $(LIBTOOL) --mode=link $(PURIFY) $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
