@@ -73,18 +73,15 @@ EStorage *e_storage_new         (void);
 gboolean  e_storage_path_is_relative  (const char *path);
 gboolean  e_storage_path_is_absolute  (const char *path);
 
-GList           *e_storage_list_folders          (EStorage   *storage,
-						  const char *path);
-EStorageWatcher *e_storage_get_watcher_for_path  (EStorage   *storage,
-						  const char *path);
-EFolder         *e_storage_get_folder            (EStorage   *storage,
-						  const char *path);
+GList           *e_storage_list_folders          (EStorage   *storage, const char *path);
+EStorageWatcher *e_storage_get_watcher_for_path  (EStorage   *storage, const char *path);
+EFolder         *e_storage_get_folder            (EStorage   *storage, const char *path);
 
 const char *e_storage_get_name  (EStorage *storage);
 
 /* Protected.  C++ anyone?  */
-void e_storage_new_folder (EStorage *storage, const char *path, EFolder *folder);
-void e_storage_remove_folder (EStorage *storage, const char *path);
+gboolean  e_storage_new_folder     (EStorage *storage, const char *path, EFolder *folder);
+gboolean  e_storage_remove_folder  (EStorage *storage, const char *path);
 
 #ifdef __cplusplus
 }

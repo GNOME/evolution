@@ -18,7 +18,6 @@
 #include "folder-browser.h"
 #include "mail.h"
 #include "shell/Evolution.h"
-#include "shell/evolution-service-repository.h"
 
 #ifdef USING_OAF
 #define CONTROL_FACTORY_ID "OAFIID:control-factory:evolution-mail:25902062-543b-4f44-8702-d90145fcdbf2"
@@ -26,49 +25,6 @@
 #define CONTROL_FACTORY_ID "control-factory:evolution-mail"
 #endif
 			
-static void
-folder_browser_set_shell (EvolutionServiceRepository *sr,
-			  Evolution_Shell shell, 
-			  void *closure)
-{
-	FolderBrowser *folder_browser;
-	CORBA_Environment ev;
-
-	g_return_if_fail (closure);
-	g_return_if_fail (IS_FOLDER_BROWSER (closure));
-	g_return_if_fail (shell != CORBA_OBJECT_NIL);
-
-	CORBA_exception_init (&ev);
-
-	folder_browser = FOLDER_BROWSER (closure);
-
-	folder_browser->shell = shell;
-
-	/* test the component->shell registration */
-	Evolution_Shell_register_service (shell, Evolution_Shell_MAIL_STORE, "a_service", &ev);
-
-	CORBA_exception_free (&ev);
-}
-
-static void 
-folder_browser_control_add_service_repository_interface (BonoboControl *control,
-							 GtkWidget *folder_browser)
-{
-	EvolutionServiceRepository *sr;
-
-	/* 
-	 * create an implementation for the Evolution::ServiceRepository
-	 * interface
-	 */
-	sr = evolution_service_repository_new (folder_browser_set_shell,
-					       (void *)folder_browser);
-	
-	/* add the interface to the control */
-	bonobo_object_add_interface (BONOBO_OBJECT (control), 
-				     BONOBO_OBJECT (sr));
-}
-
-
 static void
 random_cb (GtkWidget *button, gpointer user_data)
 {
@@ -204,13 +160,6 @@ folder_browser_factory (BonoboGenericFactory *factory, void *closure)
 	bonobo_control_set_property_bag (control,
 					 FOLDER_BROWSER (folder_browser)->properties);
 
-	/* for the moment, the control has the ability to register 
-	 * some services itself, but this should not last. 
-	 * 
-	 * It's not the way to do it, but we don't have the 
-	 * correct infrastructure in the shell now.    
-	 */
-	folder_browser_control_add_service_repository_interface (control, folder_browser); 	       	
 	return BONOBO_OBJECT (control);
 }
 

@@ -1,3 +1,39 @@
+2000-05-23  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-shell.c: New member `corba_storage_registry' in
+	`EShellPrivate'.
+	(init): Initialize it to NULL.
+	(destroy): Unref it if not NULL.
+	(setup_corba_storages): New function to set up the CORBA storage
+	registry and `bonobo_object_add_interface()' it to the shell.
+	(setup_storages): Call it from here.
+
+	* e-shell.h, e-shell.c: Derive EShell from BonoboObject instead of
+	GtkObject.
+
+	* e-storage.c (e_storage_remove_folder): Return value changed into
+	`gboolean'; return false if an error occurs, true otherwise.
+	(e_storage_new_folder): Likewise.
+
+	* e-corba-storage-registry.c: New.
+	* e-corba-storage-registry.h: New.
+
+	* e-corba-storage.c: New.
+	* e-corba-storage.h: New.
+
+	* Evolution.idl: Include the new IDLs, but no
+	`evolution-service-repository.idl' anymore.
+
+	* Evolution-Shell.idl: New.
+	* Evolution-ShellComponent.idl: New.
+	* Evolution-Storage.idl: New.
+
+	* evolution-service-repository.idl: Removed.
+	* evolution-service-repository.c: Removed.
+	* evolution-service-repository.h: Removed.
+
+	* e-folder-type-repository.c (folder_type_new): Free `icon_path'.
+
 2000-05-18  Dan Winship  <danw@helixcode.com>
 
 	* main.c (new_view_idle_cb): add development_warning (moved from

@@ -83,7 +83,7 @@ remove (EFolder *folder)
 static const char *
 get_physical_uri (EFolder *folder)
 {
-	g_warning ("`%s' does not implement `EFolder::remove()'",
+	g_warning ("`%s' does not implement `EFolder::get_physical_uri()'",
 		   gtk_type_name (GTK_OBJECT_TYPE (folder)));
 	return NULL;
 }

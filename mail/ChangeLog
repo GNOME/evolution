@@ -1,3 +1,11 @@
+2000-05-23  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* Makefile.am: Don't link to `evolution-service-repository.o'
+	anymore.
+
+	* folder-browser-factory.c: Don't use crufty service-repository
+	anymore.
+
 2000-05-21  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* message-list.c (get_message_info): Made static.

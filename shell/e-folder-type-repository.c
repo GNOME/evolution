@@ -89,6 +89,8 @@ folder_type_new (const char *name,
 	else
 		new->icon_pixbuf = gdk_pixbuf_new_from_file (icon_path);
 
+	g_free (icon_path);
+
 	icon_path = e_shell_get_icon_path (icon_name, TRUE);
 	if (icon_path != NULL) {
 		new->mini_icon_pixbuf = gdk_pixbuf_new_from_file (icon_path);

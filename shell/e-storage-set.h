@@ -28,8 +28,9 @@
 #include <config.h>
 #endif
 
-#include "e-folder-type-repository.h"
+#include <gtk/gtkwidget.h>
 
+#include "e-folder-type-repository.h"
 #include "e-storage.h"
 
 #ifdef __cplusplus

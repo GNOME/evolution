@@ -21,8 +21,18 @@ EVOLUTION_CORBA_GENERATED = 	\
 
 CLEANFILES = $(EVOLUTION_CORBA_GENERATED)
 
+IDLS = 					\
+	Evolution.idl			\
+	Evolution-Shell.idl		\
+	Evolution-ShellComponent.idl	\
+	Evolution-Storage.idl
+
 evolution_SOURCES = 			\
 	$(EVOLUTION_CORBA_GENERATED)	\
+	e-corba-storage.c		\
+	e-corba-storage.h		\
+	e-corba-storage-registry.c	\
+	e-corba-storage-registry.h	\
 	e-folder-type-repository.c	\
 	e-folder-type-repository.h	\
 	e-folder.c			\
@@ -54,13 +64,11 @@ evolution_SOURCES = 			\
 	e-storage-watcher.h		\
 	e-storage.c			\
 	e-storage.h			\
-	evolution-service-repository.c	\
-	evolution-service-repository.h  \
 	main.c
 
 Evolution-impl.o: Evolution.h
 
-$(EVOLUTION_CORBA_GENERATED): Evolution.idl evolution-service-repository.idl
+$(EVOLUTION_CORBA_GENERATED): $(IDLS)
 	$(ORBIT_IDL) -I$(datadir)/idl -I`$(GNOME_CONFIG) --datadir`/idl -I$(srcdir) $(srcdir)/Evolution.idl
 
 evolution_LDADD =						\
@@ -70,9 +78,7 @@ evolution_LDADD =						\
 	$(top_builddir)/e-util/libeutil.la			\
 	$(BONOBO_GNOME_LIBS)
 
-EXTRA_DIST = Evolution.idl			\
-	Shell.idl				\
-	evolution-service-repository.idl
+EXTRA_DIST = $(IDLS)
 
 if ENABLE_PURIFY
 PLINK = $(LIBTOOL) --mode=link $(PURIFY) $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@

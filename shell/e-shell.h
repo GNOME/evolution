@@ -28,8 +28,9 @@
 #include <config.h>
 #endif
 
-#include <gtk/gtkobject.h>
+#include <bonobo/bonobo-object.h>
 
+#include "Evolution.h"
 #include "e-shortcuts.h"
 
 #ifdef __cplusplus
@@ -49,25 +50,26 @@ typedef struct _EShellPrivate EShellPrivate;
 typedef struct _EShellClass   EShellClass;
 
 struct _EShell {
-	GtkObject parent;
+	BonoboObject parent;
 
 	EShellPrivate *priv;
 };
 
 struct _EShellClass {
-	GtkObjectClass parent_class;
+	BonoboObjectClass parent_class;
 
 	void (* no_views_left) (EShell *shell);
 };
 
 
-GtkType     e_shell_get_type       (void);
-void        e_shell_construct      (EShell     *shell,
-				    const char *local_directory);
-EShell     *e_shell_new            (const char *local_directory);
+GtkType    e_shell_get_type   (void);
+void       e_shell_construct  (EShell          *shell,
+			       Evolution_Shell  corba_object,
+			       const char      *local_directory);
+EShell    *e_shell_new        (const char      *local_directory);
 
-GtkWidget  *e_shell_new_view       (EShell     *shell,
-				    const char *uri);
+GtkWidget *e_shell_new_view   (EShell          *shell,
+			       const char      *uri);
 
 EShortcuts            *e_shell_get_shortcuts               (EShell *shell);
 EStorageSet           *e_shell_get_storage_set             (EShell *shell);

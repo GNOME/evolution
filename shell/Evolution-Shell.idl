@@ -1,6 +1,6 @@
 /* -*- Mode: IDL; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * CORBA interface for the Evolution shell.
+ * Interface for the Evolution shell.
  *
  * Authors:
  *   Ettore Perazzoli <ettore@helixcode.com>
@@ -10,6 +10,9 @@
 
 #include <Bonobo.idl>
 
-#include <Evolution-Storage.idl>
-#include <Evolution-Shell.idl>
-#include <Evolution-ShellComponent.idl>
+module Evolution {
+	interface Shell : Bonobo::Unknown {
+		/* Nothing for now.  */
+		void dummy_method ();
+	};
+};

@@ -28,8 +28,11 @@
 #include <gtk/gtkobject.h>
 #include <gtk/gtktypeutils.h>
 
+#include "Evolution.h"
+
 #include "e-util/e-util.h"
 
+#include "e-corba-storage-registry.h"
 #include "e-folder-type-repository.h"
 #include "e-local-storage.h"
 #include "e-shell-view.h"
@@ -39,8 +42,8 @@
 #include "e-shell.h"
 
 
-#define PARENT_TYPE GTK_TYPE_OBJECT
-static GtkObjectClass *parent_class = NULL;
+#define PARENT_TYPE BONOBO_OBJECT_TYPE
+static BonoboObjectClass *parent_class = NULL;
 
 struct _EShellPrivate {
 	char *local_directory;
@@ -50,6 +53,8 @@ struct _EShellPrivate {
 	EStorageSet *storage_set;
 	EShortcuts *shortcuts;
 	EFolderTypeRepository *folder_type_repository;
+
+	ECorbaStorageRegistry *corba_storage_registry;
 };
 
 #define SHORTCUTS_FILE_NAME     "shortcuts.xml"
@@ -63,7 +68,61 @@ enum {
 static guint signals[LAST_SIGNAL] = { 0 };
 
 
+/* CORBA interface implementation.  */
+
+static POA_Evolution_Shell__vepv shell_vepv;
+
+static POA_Evolution_Shell *
+create_servant (void)
+{
+	POA_Evolution_Shell *servant;
+	CORBA_Environment ev;
+
+	servant = (POA_Evolution_Shell *) g_new0 (BonoboObjectServant, 1);
+	servant->vepv = &shell_vepv;
+
+	CORBA_exception_init (&ev);
+
+	POA_Evolution_Shell__init ((PortableServer_Servant) servant, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_free (servant);
+		CORBA_exception_free (&ev);
+		return NULL;
+	}
+
+	CORBA_exception_free (&ev);
+
+	return servant;
+}
+
+static void
+impl_Shell_dummy_method (PortableServer_Servant servant,
+			 CORBA_Environment *ev)
+{
+	g_print ("Evolution::Shell::dummy_method invoked!\n");
+}
+
+
 /* Initialization of the storages.  */
+
+static gboolean
+setup_corba_storages (EShell *shell)
+{
+	EShellPrivate *priv;
+
+	priv = shell->priv;
+
+	g_assert (priv->storage_set != NULL);
+	priv->corba_storage_registry = e_corba_storage_registry_new (priv->storage_set);
+
+	if (priv->corba_storage_registry == NULL)
+		return FALSE;
+
+	bonobo_object_add_interface (BONOBO_OBJECT (shell),
+				     BONOBO_OBJECT (priv->corba_storage_registry));
+
+	return TRUE;
+}
 
 static gboolean
 setup_storages (EShell *shell)
@@ -89,7 +148,7 @@ setup_storages (EShell *shell)
 	priv->storage_set = e_storage_set_new (shell->priv->folder_type_repository);
 	e_storage_set_add_storage (priv->storage_set, local_storage);
 
-	return TRUE;
+	return setup_corba_storages (shell);
 }
 
 
@@ -144,18 +203,43 @@ destroy (GtkObject *object)
 
 	g_list_free (priv->views);
 
+	if (priv->corba_storage_registry != NULL)
+		bonobo_object_unref (BONOBO_OBJECT (priv->corba_storage_registry));
+
 	g_free (priv);
 
 	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
 
+/* Initialization.  */
+
+static void
+corba_class_init (void)
+{
+	POA_Evolution_Shell__vepv *vepv;
+	POA_Evolution_Shell__epv *epv;
+	PortableServer_ServantBase__epv *base_epv;
+
+	base_epv = g_new0 (PortableServer_ServantBase__epv, 1);
+	base_epv->_private    = NULL;
+	base_epv->finalize    = NULL;
+	base_epv->default_POA = NULL;
+
+	epv = g_new0 (POA_Evolution_Shell__epv, 1);
+	epv->dummy_method = impl_Shell_dummy_method;
+
+	vepv = &shell_vepv;
+	vepv->Bonobo_Unknown_epv = bonobo_object_get_epv ();
+	vepv->Evolution_Shell_epv = epv;
+}
+
 static void
 class_init (EShellClass *klass)
 {
 	GtkObjectClass *object_class;
 
-	parent_class = gtk_type_class (gtk_object_get_type ());
+	parent_class = gtk_type_class (PARENT_TYPE);
 
 	object_class = GTK_OBJECT_CLASS (klass);
 	object_class->destroy = destroy;
@@ -169,6 +253,8 @@ class_init (EShellClass *klass)
 				GTK_TYPE_NONE, 0);
 
 	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
+
+	corba_class_init ();
 }
 
 static void
@@ -184,6 +270,7 @@ init (EShell *shell)
 	priv->storage_set            = NULL;
 	priv->shortcuts              = NULL;
 	priv->folder_type_repository = NULL;
+	priv->corba_storage_registry = NULL;
 
 	shell->priv = priv;
 }
@@ -191,6 +278,7 @@ init (EShell *shell)
 
 void
 e_shell_construct (EShell *shell,
+		   Evolution_Shell corba_object,
 		   const char *local_directory)
 {
 	EShellPrivate *priv;
@@ -201,12 +289,11 @@ e_shell_construct (EShell *shell,
 	g_return_if_fail (local_directory != NULL);
 	g_return_if_fail (g_path_is_absolute (local_directory));
 
-	GTK_OBJECT_UNSET_FLAGS (shell, GTK_FLOATING);
+	bonobo_object_construct (BONOBO_OBJECT (shell), corba_object);
 
 	priv = shell->priv;
 
 	priv->local_directory = g_strdup (local_directory);
-
 	priv->folder_type_repository = e_folder_type_repository_new ();
 
 	if (! setup_storages (shell))
@@ -231,14 +318,22 @@ e_shell_new (const char *local_directory)
 {
 	EShell *new;
 	EShellPrivate *priv;
+	Evolution_Shell corba_object;
+	POA_Evolution_Shell *servant;
+
+	servant = create_servant ();
+	if (servant == NULL)
+		return NULL;
 
 	new = gtk_type_new (e_shell_get_type ());
-	e_shell_construct (new, local_directory);
+
+	corba_object = bonobo_object_activate_servant (BONOBO_OBJECT (new), servant);
+	e_shell_construct (new, corba_object, local_directory);
 
 	priv = new->priv;
 
 	if (priv->shortcuts == NULL || priv->storage_set == NULL) {
-		gtk_object_unref (GTK_OBJECT (new));
+		bonobo_object_unref (BONOBO_OBJECT (new));
 		return NULL;
 	}
 
@@ -303,7 +398,7 @@ e_shell_quit (EShell *shell)
 	g_return_if_fail (shell != NULL);
 	g_return_if_fail (E_IS_SHELL (shell));
 
-	gtk_object_destroy (GTK_OBJECT (shell));
+	bonobo_object_unref (BONOBO_OBJECT (shell));
 }
 
 

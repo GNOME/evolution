@@ -400,7 +400,7 @@ e_storage_get_name (EStorage *storage)
 /* These functions are used by subclasses to add and remove folders from the
    state stored in the storage object.  */
 
-void
+gboolean
 e_storage_new_folder (EStorage *storage,
 		      const char *path,
 		      EFolder *e_folder)
@@ -411,12 +411,12 @@ e_storage_new_folder (EStorage *storage,
 	const char *name;
 	char *full_path;
 
-	g_return_if_fail (storage != NULL);
-	g_return_if_fail (E_IS_STORAGE (storage));
-	g_return_if_fail (path != NULL);
-	g_return_if_fail (g_path_is_absolute (path));
-	g_return_if_fail (e_folder != NULL);
-	g_return_if_fail (E_IS_FOLDER (e_folder));
+	g_return_val_if_fail (storage != NULL, FALSE);
+	g_return_val_if_fail (E_IS_STORAGE (storage), FALSE);
+	g_return_val_if_fail (path != NULL, FALSE);
+	g_return_val_if_fail (g_path_is_absolute (path), FALSE);
+	g_return_val_if_fail (e_folder != NULL, FALSE);
+	g_return_val_if_fail (E_IS_FOLDER (e_folder), FALSE);
 
 	priv = storage->priv;
 
@@ -424,12 +424,12 @@ e_storage_new_folder (EStorage *storage,
 	if (parent_folder == NULL) {
 		g_warning ("%s: Trying to add a subfolder to a path that does not exist yet -- %s",
 			   __FUNCTION__, path);
-		return;
+		return FALSE;
 	}
 
 	name = e_folder_get_name (e_folder);
 	g_assert (name != NULL);
-	g_return_if_fail (*name != G_DIR_SEPARATOR);
+	g_return_val_if_fail (*name != G_DIR_SEPARATOR, FALSE);
 
 	full_path = g_concat_dir_and_file (path, name);
 
@@ -437,36 +437,40 @@ e_storage_new_folder (EStorage *storage,
 	if (folder != NULL) {
 		g_warning ("%s: Trying to add a subfolder for a path that already exists -- %s",
 			   __FUNCTION__, full_path);
-		return;
+		return FALSE;
 	}
 
 	folder = folder_new (e_folder);
 	folder_add_subfolder (parent_folder, folder);
 
 	g_hash_table_insert (priv->path_to_folder, full_path, folder);
+
+	return TRUE;
 }
 
-void
+gboolean
 e_storage_remove_folder (EStorage *storage,
 			 const char *path)
 {
 	EStoragePrivate *priv;
 	Folder *folder;
 
-	g_return_if_fail (storage != NULL);
-	g_return_if_fail (E_IS_STORAGE (storage));
-	g_return_if_fail (path != NULL);
-	g_return_if_fail (g_path_is_absolute (path));
+	g_return_val_if_fail (storage != NULL, FALSE);
+	g_return_val_if_fail (E_IS_STORAGE (storage), FALSE);
+	g_return_val_if_fail (path != NULL, FALSE);
+	g_return_val_if_fail (g_path_is_absolute (path), FALSE);
 
 	priv = storage->priv;
 
 	folder = g_hash_table_lookup (priv->path_to_folder, path);
 	if (folder == NULL) {
 		g_warning ("%s: Folder not found -- %s", __FUNCTION__, path);
-		return;
+		return FALSE;
 	}
 
 	folder_destroy (folder);
+
+	return TRUE;
 }
 
 

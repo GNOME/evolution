@@ -279,7 +279,7 @@ GnomeUIInfo e_shell_view_menu [] = {
 	{ GNOME_APP_UI_SUBTREE, N_("_Actions"), NULL, menu_actions },
 	GNOMEUIINFO_MENU_HELP_TREE (menu_help),
 
-#warning Should provide a help menu here;  Bonobo needs it
+	/* FIXME: Should provide a help menu here; Bonobo needs it.  */
 
 	GNOMEUIINFO_END
 };
