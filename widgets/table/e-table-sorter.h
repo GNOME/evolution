@@ -24,7 +24,7 @@
 #ifndef _E_TABLE_SORTER_H_
 #define _E_TABLE_SORTER_H_
 
-#include <gtk/gtkobject.h>
+#include <glib-object.h>
 #include <gal/util/e-sorter.h>
 #include <gal/e-table/e-table-model.h>
 #include <gal/e-table/e-table-subset-variable.h>
@@ -34,10 +34,10 @@
 G_BEGIN_DECLS
 
 #define E_TABLE_SORTER_TYPE        (e_table_sorter_get_type ())
-#define E_TABLE_SORTER(o)          (GTK_CHECK_CAST ((o), E_TABLE_SORTER_TYPE, ETableSorter))
-#define E_TABLE_SORTER_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TABLE_SORTER_TYPE, ETableSorterClass))
-#define E_IS_TABLE_SORTER(o)       (GTK_CHECK_TYPE ((o), E_TABLE_SORTER_TYPE))
-#define E_IS_TABLE_SORTER_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_TABLE_SORTER_TYPE))
+#define E_TABLE_SORTER(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TABLE_SORTER_TYPE, ETableSorter))
+#define E_TABLE_SORTER_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_TABLE_SORTER_TYPE, ETableSorterClass))
+#define E_IS_TABLE_SORTER(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TABLE_SORTER_TYPE))
+#define E_IS_TABLE_SORTER_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TABLE_SORTER_TYPE))
 
 typedef struct {
 	ESorter base;
@@ -65,7 +65,7 @@ typedef struct {
 	ESorterClass parent_class;
 } ETableSorterClass;
 
-GtkType       e_table_sorter_get_type                   (void);
+GType         e_table_sorter_get_type                   (void);
 ETableSorter *e_table_sorter_new                        (ETableModel     *etm,
 							 ETableHeader    *full_header,
 							 ETableSortInfo  *sort_info);

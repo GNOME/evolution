@@ -1445,12 +1445,12 @@ ethi_popup_customize_view(GtkWidget *widget, EthiHeaderInfo *info)
 		ethi->config = e_table_config_new (
 				_("Customize Current View"),
 				spec, state);
-		gtk_signal_connect (
-			GTK_OBJECT (ethi->config), "destroy",
-			GTK_SIGNAL_FUNC (config_destroyed), ethi);
-		gtk_signal_connect (
-			GTK_OBJECT (ethi->config), "changed",
-			GTK_SIGNAL_FUNC (apply_changes), ethi);
+		g_signal_connect (
+			ethi->config, "destroy",
+			G_CALLBACk (config_destroyed), ethi);
+		g_signal_connect (
+			ethi->config, "changed",
+			G_CALLBACk (apply_changes), ethi);
 	}
 }
 

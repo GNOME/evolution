@@ -1258,9 +1258,9 @@ e_table_set_state_object(ETable *e_table, ETableState *state)
 		e_table->sort_info = NULL;
 
 	if (e_table->sorter)
-		gtk_object_set(GTK_OBJECT(e_table->sorter),
-			       "sort_info", e_table->sort_info,
-			       NULL);
+		g_object_set(e_table->sorter,
+			     "sort_info", e_table->sort_info,
+			     NULL);
 	if (e_table->header_item)
 		gtk_object_set(GTK_OBJECT(e_table->header_item),
 			       "ETableHeader", e_table->header,
@@ -1494,7 +1494,6 @@ et_real_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 
 	e_table->sorter = e_table_sorter_new(etm, e_table->full_header, e_table->sort_info);
 	g_object_ref (e_table->sorter);
-	gtk_object_sink (GTK_OBJECT (e_table->sorter));
 
 	g_object_set (e_table->selection,
 		      "model", etm,

@@ -24,6 +24,7 @@
 #include <config.h>
 #include <stdlib.h>
 #include <string.h>
+#include "gal/util/e-i18n.h"
 #include "gal/util/e-util.h"
 #include "e-table-sorter.h"
 
@@ -31,8 +32,8 @@
 
 /* The arguments we take */
 enum {
-	ARG_0,
-	ARG_SORT_INFO
+	PROP_0,
+	PROP_SORT_INFO
 };
 
 #define PARENT_TYPE e_sorter_get_type()
@@ -58,36 +59,44 @@ static void    	ets_get_sorted_to_model_array (ESorter *sorter, int **array, int
 static gboolean ets_needs_sorting             (ESorter *ets);
 
 static void
-ets_destroy (GtkObject *object)
+ets_dispose (GObject *object)
 {
 	ETableSorter *ets = E_TABLE_SORTER (object);
 
-	g_signal_handler_disconnect (G_OBJECT (ets->source),
-			             ets->table_model_changed_id);
-	g_signal_handler_disconnect (G_OBJECT (ets->source),
-			             ets->table_model_row_changed_id);
-	g_signal_handler_disconnect (G_OBJECT (ets->source),
-			             ets->table_model_cell_changed_id);
-	g_signal_handler_disconnect (G_OBJECT (ets->source),
-			             ets->table_model_rows_inserted_id);
-	g_signal_handler_disconnect (G_OBJECT (ets->source),
-			             ets->table_model_rows_deleted_id);
-	g_signal_handler_disconnect (G_OBJECT (ets->sort_info),
-			             ets->sort_info_changed_id);
-	g_signal_handler_disconnect (G_OBJECT (ets->sort_info),
-			             ets->group_info_changed_id);
+	if (ets->sort_info) {
+		if (ets->table_model_changed_id)
+			g_signal_handler_disconnect (ets->source,
+						     ets->table_model_changed_id);
+		if (ets->table_model_row_changed_id)
+			g_signal_handler_disconnect (ets->source,
+						     ets->table_model_row_changed_id);
+		if (ets->table_model_cell_changed_id)
+			g_signal_handler_disconnect (ets->source,
+						     ets->table_model_cell_changed_id);
+		if (ets->table_model_rows_inserted_id)
+			g_signal_handler_disconnect (ets->source,
+						     ets->table_model_rows_inserted_id);
+		if (ets->table_model_rows_deleted_id)
+			g_signal_handler_disconnect (ets->source,
+						     ets->table_model_rows_deleted_id);
+		if (ets->sort_info_changed_id)
+			g_signal_handler_disconnect (ets->sort_info,
+						     ets->sort_info_changed_id);
+		if (ets->group_info_changed_id)
+			g_signal_handler_disconnect (ets->sort_info,
+						     ets->group_info_changed_id);
 
-	ets->table_model_changed_id = 0;
-	ets->table_model_row_changed_id = 0;
-	ets->table_model_cell_changed_id = 0;
-	ets->table_model_rows_inserted_id = 0;
-	ets->table_model_rows_deleted_id = 0;
-	ets->sort_info_changed_id = 0;
-	ets->group_info_changed_id = 0;
-	
-	if (ets->sort_info)
+		ets->table_model_changed_id = 0;
+		ets->table_model_row_changed_id = 0;
+		ets->table_model_cell_changed_id = 0;
+		ets->table_model_rows_inserted_id = 0;
+		ets->table_model_rows_deleted_id = 0;
+		ets->sort_info_changed_id = 0;
+		ets->group_info_changed_id = 0;
+
 		g_object_unref(ets->sort_info);
-	ets->sort_info = NULL;
+		ets->sort_info = NULL;
+	}
 
 	if (ets->full_header)
 		g_object_unref(ets->full_header);
@@ -97,29 +106,29 @@ ets_destroy (GtkObject *object)
 		g_object_unref(ets->source);
 	ets->source = NULL;
 
-	GTK_OBJECT_CLASS (parent_class)->destroy (object);
+	G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 static void
-ets_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
+ets_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
 {
 	ETableSorter *ets = E_TABLE_SORTER (object);
 
-	switch (arg_id) {
-	case ARG_SORT_INFO:
+	switch (prop_id) {
+	case PROP_SORT_INFO:
 		if (ets->sort_info) {
 			if (ets->sort_info_changed_id)
-				g_signal_handler_disconnect(G_OBJECT(ets->sort_info), ets->sort_info_changed_id);
+				g_signal_handler_disconnect(ets->sort_info, ets->sort_info_changed_id);
 			if (ets->group_info_changed_id)
-				g_signal_handler_disconnect(G_OBJECT(ets->sort_info), ets->group_info_changed_id);
+				g_signal_handler_disconnect(ets->sort_info, ets->group_info_changed_id);
 			g_object_unref(ets->sort_info);
 		}
 
-		ets->sort_info = E_TABLE_SORT_INFO(GTK_VALUE_POINTER (*arg));
+		ets->sort_info = E_TABLE_SORT_INFO(g_value_get_object (value));
 		g_object_ref(ets->sort_info);
-		ets->sort_info_changed_id = g_signal_connect (G_OBJECT (ets->sort_info), "sort_info_changed",
+		ets->sort_info_changed_id = g_signal_connect (ets->sort_info, "sort_info_changed",
 							      G_CALLBACK (ets_sort_info_changed), ets);
-		ets->group_info_changed_id = g_signal_connect (G_OBJECT (ets->sort_info), "group_info_changed",
+		ets->group_info_changed_id = g_signal_connect (ets->sort_info, "group_info_changed",
 							       G_CALLBACK (ets_sort_info_changed), ets);
 
 		ets_clean (ets);
@@ -130,12 +139,12 @@ ets_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 }
 
 static void
-ets_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
+ets_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
 {
 	ETableSorter *ets = E_TABLE_SORTER (object);
-	switch (arg_id) {
-	case ARG_SORT_INFO:
-		GTK_VALUE_POINTER (*arg) = G_OBJECT(ets->sort_info);
+	switch (prop_id) {
+	case PROP_SORT_INFO:
+		g_value_set_object (value, ets->sort_info);
 		break;
 	}
 }
@@ -143,14 +152,14 @@ ets_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 static void
 ets_class_init (ETableSorterClass *klass)
 {
-	GtkObjectClass *object_class = GTK_OBJECT_CLASS(klass);
+	GObjectClass *object_class = G_OBJECT_CLASS(klass);
 	ESorterClass *sorter_class = E_SORTER_CLASS(klass);
 
 	parent_class                            = g_type_class_peek_parent (klass);
 
-	object_class->destroy                   = ets_destroy;
-	object_class->set_arg                   = ets_set_arg;
-	object_class->get_arg                   = ets_get_arg;
+	object_class->dispose                   = ets_dispose;
+	object_class->set_property              = ets_set_property;
+	object_class->get_property              = ets_get_property;
 
 	sorter_class->model_to_sorted           = ets_model_to_sorted           ;
 	sorter_class->sorted_to_model           = ets_sorted_to_model           ;
@@ -158,8 +167,12 @@ ets_class_init (ETableSorterClass *klass)
 	sorter_class->get_sorted_to_model_array = ets_get_sorted_to_model_array ;		
 	sorter_class->needs_sorting             = ets_needs_sorting             ;
 
-	gtk_object_add_arg_type ("ETableSorter::sort_info", GTK_TYPE_POINTER, 
-				 GTK_ARG_READWRITE, ARG_SORT_INFO); 
+	g_object_class_install_property (object_class, PROP_SORT_INFO, 
+					 g_param_spec_object ("sort_info",
+							      _("Sort Info"),
+							      /*_( */"XXX blurb" /*)*/,
+							      E_TABLE_SORT_INFO_TYPE,
+							      G_PARAM_READWRITE));
 }
 
 static void
@@ -185,7 +198,7 @@ E_MAKE_TYPE(e_table_sorter, "ETableSorter", ETableSorter, ets_class_init, ets_in
 ETableSorter *
 e_table_sorter_new (ETableModel *source, ETableHeader *full_header, ETableSortInfo *sort_info)
 {
-	ETableSorter *ets = gtk_type_new (E_TABLE_SORTER_TYPE);
+	ETableSorter *ets = g_object_new (E_TABLE_SORTER_TYPE, NULL);
 	
 	ets->sort_info = sort_info;
 	g_object_ref(ets->sort_info);
@@ -194,19 +207,19 @@ e_table_sorter_new (ETableModel *source, ETableHeader *full_header, ETableSortIn
 	ets->source = source;
 	g_object_ref(ets->source);
 
-	ets->table_model_changed_id = g_signal_connect (G_OBJECT (source), "model_changed",
+	ets->table_model_changed_id = g_signal_connect (source, "model_changed",
 							G_CALLBACK (ets_model_changed), ets);
-	ets->table_model_row_changed_id = g_signal_connect (G_OBJECT (source), "model_row_changed",
+	ets->table_model_row_changed_id = g_signal_connect (source, "model_row_changed",
 							G_CALLBACK (ets_model_row_changed), ets);
-	ets->table_model_cell_changed_id = g_signal_connect (G_OBJECT (source), "model_cell_changed",
+	ets->table_model_cell_changed_id = g_signal_connect (source, "model_cell_changed",
 						        G_CALLBACK (ets_model_cell_changed), ets);
-	ets->table_model_rows_inserted_id = g_signal_connect (G_OBJECT (source), "model_rows_inserted",
+	ets->table_model_rows_inserted_id = g_signal_connect (source, "model_rows_inserted",
 							G_CALLBACK (ets_model_rows_inserted), ets);
-	ets->table_model_rows_deleted_id = g_signal_connect (G_OBJECT (source), "model_rows_deleted",
+	ets->table_model_rows_deleted_id = g_signal_connect (source, "model_rows_deleted",
 							G_CALLBACK (ets_model_rows_deleted), ets);
-	ets->sort_info_changed_id = g_signal_connect (G_OBJECT (sort_info), "sort_info_changed",
+	ets->sort_info_changed_id = g_signal_connect (sort_info, "sort_info_changed",
 							G_CALLBACK (ets_sort_info_changed), ets);
-	ets->group_info_changed_id = g_signal_connect (G_OBJECT (sort_info), "group_info_changed",
+	ets->group_info_changed_id = g_signal_connect (sort_info, "group_info_changed",
 							G_CALLBACK (ets_sort_info_changed), ets);
 	
 	return ets;
