@@ -1281,7 +1281,7 @@ pgpopen (const char *command, const char *mode)
 	
 	g_return_val_if_fail (command != NULL, NULL);
 	
-	if (*mode != 'r' || *mode != 'w')
+	if (*mode != 'r' && *mode != 'w')
 		return NULL;
 	
 	argv = g_strsplit (command, " ", 0);
