@@ -286,7 +286,8 @@ e_cell_date_edit_destroy		(GtkObject *object)
 
 	e_cell_date_edit_set_get_time_callback (ecde, NULL, NULL, NULL);
 
-	gtk_widget_unref (ecde->popup_window);
+	gtk_widget_destroy (ecde->popup_window);
+	ecde->popup_window = NULL;
 
 	GTK_OBJECT_CLASS (parent_class)->destroy (object);
 }

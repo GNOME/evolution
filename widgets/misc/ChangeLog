@@ -1,5 +1,10 @@
 2001-08-14  Federico Mena Quintero  <federico@ximian.com>
 
+	* e-cell-date-edit.c (e_cell_date_edit_destroy): Destroy, do not
+	unref, the popup_window.
+
+2001-08-14  Federico Mena Quintero  <federico@ximian.com>
+
 	* e-search-bar.c (activate_by_subitems): Correctness fixes for
 	when the entry and submenu must be interchanged.
 
