@@ -48,7 +48,6 @@
 #include "alarm-notify-dialog.h"
 #include "alarm-queue.h"
 #include "config-data.h"
-#include "save.h"
 #include "util.h"
 
 
@@ -274,7 +273,7 @@ alarm_trigger_cb (gpointer alarm_id, time_t trigger, gpointer data)
 	cqa = data;
 	comp = cqa->alarms->comp;
 
-	save_notification_time (trigger);
+	config_data_set_last_notification_time (trigger);
 	saved_notification_time = trigger;
 
 	qa = lookup_queued_alarm (cqa, alarm_id);
@@ -1097,7 +1096,7 @@ procedure_notification_dialog (const char *cmd, const char *url)
 	char *str;
 	int btn;
 	
-	if (is_blessed_program (url))
+	if (config_data_is_blessed_program (url))
 		return TRUE;
 	
 	dialog = gtk_dialog_new_with_buttons (_("Warning"),
@@ -1128,7 +1127,7 @@ procedure_notification_dialog (const char *cmd, const char *url)
 	/* Run the dialog */
 	btn = gtk_dialog_run (GTK_DIALOG (dialog));
 	if (btn == GTK_RESPONSE_OK && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbox)))
-		save_blessed_program (url);
+		config_data_save_blessed_program (url);
 	gtk_widget_destroy (dialog);
 
 	return (btn == GTK_RESPONSE_OK);
@@ -1213,10 +1212,10 @@ alarm_queue_init (void)
 	client_alarms_hash = g_hash_table_new (g_direct_hash, g_direct_equal);
 	queue_midnight_refresh ();
 
-	saved_notification_time = get_saved_notification_time ();
+	saved_notification_time = config_data_get_last_notification_time ();
 	if (saved_notification_time == -1) {
 		saved_notification_time = time (NULL);
-		save_notification_time (saved_notification_time);
+		config_data_set_last_notification_time (saved_notification_time);
 	}
 
 	alarm_queue_inited = TRUE;

@@ -25,10 +25,14 @@
 #include <libical/ical.h>
 #include <gconf/gconf-client.h>
 
-GConfClient *config_data_get_conf_client (void);
+GConfClient  *config_data_get_conf_client (void);
 
 icaltimezone *config_data_get_timezone (void);
-gboolean config_data_get_24_hour_format (void);
-GPtrArray *config_data_get_calendars_to_load (void);
+gboolean      config_data_get_24_hour_format (void);
+GPtrArray    *config_data_get_calendars_to_load (void);
+void          config_data_set_last_notification_time (time_t t);
+time_t        config_data_get_last_notification_time (void);
+void          config_data_save_blessed_program (const char *program);
+gboolean      config_data_is_blessed_program (const char *program);
 
 #endif

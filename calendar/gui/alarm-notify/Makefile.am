@@ -43,8 +43,6 @@ evolution_alarm_notify_SOURCES =	\
 	config-data.c			\
 	config-data.h			\
 	notify-main.c			\
-	save.c				\
-	save.h				\
 	util.c				\
 	util.h
 

@@ -1,3 +1,24 @@
+2004-01-15  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/alarm-notify/save.[ch]: removed.
+
+	* gui/alarm-notify/Makefile.am: removed save.[ch].
+
+	* gui/alarm-notify/notify-main.c: removed obsolete headers.
+
+	* gui/alarm-notify/config-data.[ch]
+	(config_data_set_last_notification_time,
+	config_data_get_last_notification_time,
+	config_data_save_blessed_program, config_data_is_blessed_program):
+	new functions.
+
+	* gui/alarm-notify/alarm-queue.c: dont use removed functions.
+	(alarm_trigger_cb, procedure_notification_dialog,
+	alarm_queue_init):
+	use config_data_* functions.
+	
+	* gui/alarm-notify/alarm-notify.c: dont use removed functions.
+
 2004-01-15  JP Rosevear <jpr@ximian.com>
 
 	* gui/tasks-component.h: update protos
