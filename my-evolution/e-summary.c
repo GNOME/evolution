@@ -65,9 +65,8 @@ struct _ESummaryMailFolderInfo {
 typedef struct _DownloadInfo {
 	GtkHTMLStream *stream;
 	char *uri;
-	char *buffer;
-
-	gboolean error;
+	char *buffer, *ptr;
+	guint32 bufsize;
 } DownloadInfo;
 
 struct _ESummaryPrivate {
@@ -256,17 +255,16 @@ close_callback (GnomeVFSAsyncHandle *handle,
 {
 	DownloadInfo *info = data;
 
-	if (info->error) {
-		gtk_html_stream_close (info->stream, GTK_HTML_STREAM_ERROR);
-	} else {
-		gtk_html_stream_close (info->stream, GTK_HTML_STREAM_OK);
-	}
-
 	g_free (info->uri);
 	g_free (info->buffer);
 	g_free (info);
 }
 
+/* The way this behaves is a workaround for ximian bug 10235: loading
+ * the image into gtkhtml progressively will result in garbage being
+ * drawn, so we wait until we've read the whole thing and then write
+ * it all at once.
+ */
 static void
 read_callback (GnomeVFSAsyncHandle *handle,
 	       GnomeVFSResult result,
@@ -278,16 +276,18 @@ read_callback (GnomeVFSAsyncHandle *handle,
 	DownloadInfo *info = data;
 
 	if (result != GNOME_VFS_OK && result != GNOME_VFS_ERROR_EOF) {
-		info->error = TRUE;
+		gtk_html_stream_close (info->stream, GTK_HTML_STREAM_ERROR);
 		gnome_vfs_async_close (handle, close_callback, info);
-	}
-
-	if (bytes_read == 0) {
-		info->error = FALSE;
+	} else if (bytes_read == 0) {
+		gtk_html_stream_write (info->stream, info->buffer, info->ptr - info->buffer);
+		gtk_html_stream_close (info->stream, GTK_HTML_STREAM_OK);
 		gnome_vfs_async_close (handle, close_callback, info);
 	} else {
-		gtk_html_stream_write (info->stream, buffer, bytes_read);
-		gnome_vfs_async_read (handle, buffer, 4095, read_callback, info);
+		bytes_read += info->ptr - info->buffer;
+		info->bufsize += 4096;
+		info->buffer = g_realloc (info->buffer, info->bufsize);
+		info->ptr = info->buffer + bytes_read;
+		gnome_vfs_async_read (handle, info->ptr, 4095, read_callback, info);
 	}
 }
 
@@ -303,7 +303,8 @@ open_callback (GnomeVFSAsyncHandle *handle,
 		return;
 	}
 
-	info->buffer = g_new (char, 4096);
+	info->bufsize = 4096;
+	info->buffer = info->ptr = g_new (char, info->bufsize);
 	gnome_vfs_async_read (handle, info->buffer, 4095, read_callback, info);
 }
 
@@ -364,7 +365,6 @@ e_summary_url_requested (GtkHTML *html,
 	info = g_new (DownloadInfo, 1);
 	info->stream = stream;
 	info->uri = filename;
-	info->error = FALSE;
 
 	gnome_vfs_async_open (&handle, filename, GNOME_VFS_OPEN_READ,
 			      (GnomeVFSAsyncOpenCallback) open_callback, info);
