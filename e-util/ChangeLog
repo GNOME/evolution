@@ -1,3 +1,8 @@
+2003-11-18  JP Rosevear <jpr@ximian.com>
+
+	* Makefile.am: remove db3 library, if you really want it, get it
+	from e-d-s
+
 2003-11-14  JP Rosevear <jpr@ximian.com>
 
 	* Makefile.am: don't build the e-source stuff anymore, its in

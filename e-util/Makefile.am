@@ -1,6 +1,5 @@
 eutilincludedir = $(privincludedir)/e-util
 econdincludedir = $(privincludedir)/e-conduit
-edb3includedir  = $(privincludedir)/e-db3util
 
 INCLUDES =								\
 	-I$(top_srcdir)							\
@@ -9,11 +8,10 @@ INCLUDES =								\
 	-DG_LOG_DOMAIN=\"e-utils\"					\
 	-DG_DISABLE_DEPRECATED						\
 	-DGTK_DISABLE_DEPRECATED					\
-	$(DB3_CFLAGS)							\
 	$(GNOME_PILOT_CFLAGS)						\
 	$(E_UTIL_CFLAGS)
 
-privlib_LTLIBRARIES = libeutil.la libedb3util.la libeconduit.la
+privlib_LTLIBRARIES = libeutil.la libeconduit.la
 
 eutilinclude_HEADERS = 				\
 	e-account-list.h			\
@@ -113,18 +111,6 @@ EXTRA_DIST =				\
 	$(pilot_sources)		\
 	ChangeLog.pre-1-4		\
 	e-util-marshal.list
-
-edb3include_HEADERS =			\
-	e-db3-utils.h			\
-	e-dbhash.h
-
-libedb3util_la_SOURCES =		\
-	$(edb3include_HEADERS)		\
-	e-db3-utils.c			\
-	e-dbhash.c
-
-libedb3util_la_LIBADD =			\
-	$(DB3_LDADD)
 
 BUILT_SOURCES = $(MARSHAL_GENERATED)
 CLEANFILES    = $(BUILT_SOURCES)
