@@ -631,13 +631,13 @@ imap_sync_online (CamelFolder *folder, CamelException *ex)
 			continue;
 		}
 		
-		/* Note: Cyrus will not accept an empty-set of flags
-                   so... if this is true then we want to unset the
-                   previously set flags.*/
-		unset = info->flags == CAMEL_MESSAGE_FOLDER_FLAGGED;
+		/* Note: Cyrus is broken and will not accept an
+                   empty-set of flags so... if this is true then we
+                   want to unset the previously set flags.*/
+		unset = !(info->flags & CAMEL_IMAP_SERVER_FLAGS);
 		
 		/* FIXME: since we don't know the previously set
-                   flags, if unset is TRUE then assume all were set? */
+                   flags, if unset is TRUE then just unset all the flags? */
 		flaglist = imap_create_flag_list (unset ? CAMEL_IMAP_SERVER_FLAGS : info->flags);
 		
 		matches = get_matching (folder, info->flags & (CAMEL_IMAP_SERVER_FLAGS | CAMEL_MESSAGE_FOLDER_FLAGGED),
