@@ -1,3 +1,10 @@
+2000-06-29  Federico Mena Quintero  <federico@helixcode.com>
+
+	* gui/Makefile.am: Do not link and include the pilot stuff for the
+	calendar component, just for the Pilot conduit.  Commented out the
+	Pilot part so that Evolution can build.  Sigh, we'll have to
+	modify gnome-pilot to use OAF.
+
 2000-06-29  Peter Williams  <peterw@helixcode.com>
 
 	* gui/Makefile.am (LINK_FLAGS): Make the calendar-pilot-sync

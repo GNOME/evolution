@@ -2,11 +2,11 @@ SUBDIRS = dialogs
 
 help_base = $(datadir)/gnome/help/cal
 
-if HAVE_GNOME_PILOT
-CPS = calendar-pilot-sync #empty-pilot-calendar
-else
+# if HAVE_GNOME_PILOT
+# CPS = calendar-pilot-sync #empty-pilot-calendar
+# else
 CPS =
-endif
+# endif
 
 bin_PROGRAMS = evolution-calendar $(CPS)
 
@@ -23,17 +23,12 @@ INCLUDES = 						\
 	-I$(top_srcdir)/widgets				\
 	-I$(includedir)					\
 	$(BONOBO_VFS_GNOME_CFLAGS)			\
-	$(GNOME_CONDUIT_INCLUDEDIR)			\
-	$(GNOME_PILOT_CFLAGS)				\
-	$(PISOCK_INCLUDEDIR)                  		\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
         -DGNOMELOCALEDIR=\""$(datadir)/locale"\"
 
 LINK_FLAGS =							\
 	$(BONOBO_VFS_GNOME_LIBS)				\
 	$(INTLLIBS)						\
-	$(GNOME_PILOT_LIBS)					\
-	$(PISOCK_LIBS)						\
 	dialogs/libcal-dialogs.a				\
 	$(top_builddir)/calendar/cal-client/libcal-client.la	\
 	$(top_builddir)/calendar/cal-util/libcal-util.la	\
@@ -111,31 +106,25 @@ evolution_calendar_LDADD =					\
 
 evolution_calendar_LDFLAGS = `gnome-config --libs gdk_pixbuf`
 
-if HAVE_GNOME_PILOT
-
-calendar_pilot_sync_SOURCES =			\
-	calendar-pilot-sync.c
-
-calendar_pilot_sync_LDADD = -lpisock		\
-	$(EXTRA_GNOME_LIBS)			\
-	$(BONOBO_HTML_GNOME_LIBS)		\
-	$(LINK_FLAGS)
-
-endif
-
-#empty_pilot_calendar_SOURCES =			\
-#	empty-pilot-calendar.c
-
-#empty_pilot_calendar_LDADD = -lpisock		\
-#	$(EXTRA_GNOME_LIBS)			\
-#	$(BONOBO_HTML_GNOME_LIBS)		\
-#	$(LINK_FLAGS)
-
-
-#calendar_pilot_sync_LDADD =			\
-#	$(PISOCK_LIBDIR) $(PISOCK_LIBS)		\
-#	$(LINK_FLAGS)
-
+# if HAVE_GNOME_PILOT
+# 
+# calendar_pilot_sync_SOURCES =			\
+# 	  calendar-pilot-sync.c
+# 
+# calendar_pilot_sync_INCLUDES =		\
+# 	  $(INCLUDES)			\
+# 	  $(GNOME_PILOT_CFLAGS)		\
+# 	  $(PISOCK_INCLUDEDIR)		\
+# 	  $(GNOME_CONDUIT_INCLUDEDIR)
+# 
+# calendar_pilot_sync_LDADD = -lpisock		\
+# 	  $(LINK_FLAGS)				\
+# 	  $(EXTRA_GNOME_LIBS)			\
+# 	  $(BONOBO_HTML_GNOME_LIBS)		\
+# 	  $(GNOME_PILOT_LIBS)			\
+# 	  $(PISOCK_LIBS)
+# 
+# endif
 
 if USING_OAF
 oafdir = $(datadir)/oaf
