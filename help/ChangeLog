@@ -1,3 +1,8 @@
+2002-05-30  Kevin Breit  <mrproper@ximian.com>
+
+	* C/usage-mail.sgml: Reworded the signature introduction paragraph. 
+	Started work on documenting the new signature editor.  I am kind of unsure of the full functionality, so I'm going to wait a little bit on it.
+
 2002-05-30  Aaron Weber  <aaron@ximian.com>
 
 	* C/usage-mail.sgml: links to conf.

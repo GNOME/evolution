@@ -1735,8 +1735,8 @@
 	<title>HTML Signatures in Your Email</title>
 	<para>
 	  The last few lines of an email message are often devoted to
-	  a signature block, typically a few lines of text appended
-	  automatically to every email by the mail program itself. You
+	  a signature block.  Typically, the signature block is
+	  inserted by the mail program.   You
 	  can use the signature to add your address and any other
 	  contact information you think is important, or simply to
 	  provide an amusing or interesting closing line for your
@@ -1744,72 +1744,75 @@
 	  option of designing your signatures in HTML or in plain
 	  text.
 	</para>
-	<para>
-	  To set up an HTML signature:
-	  <orderedlist numeration="arabic">
-	    <listitem>
-	      <para>
+	<sect4 id=html-signature-howto">
+	  <title>Setting Up Your HTML Signature</title>
+	  <para>
+	    To set up an HTML signature:
+	    <orderedlist numeration="arabic">
+	      <listitem>
+		<para>
                 Select
-		<menuchoice>
-		  <guimenu>Tools</guimenu>
-		  <guimenuitem>Configure</guimenuitem>
-		</menuchoice>.
-	      </para>
-	    </listitem>
-	    <listitem>
-	      <para>
-		Click the <guibutton>Mail Accounts</guibutton> button
-		and choose the account for which you are creating a
-		signature.
-	      </para>
-	    </listitem>
-	    <listitem>
-	      <para>
-		At the bottom you'll see a field for an <guilabel>HTML
-		Signature</guilabel>.  Click the box next to it to
-		enable a signature.
-	      </para>
-	    </listitem>
-	    <listitem>
-	      <para>
-		If you have a pre-made signature, click the
-		<guibutton>Browse</guibutton> to select your
-		signature.  You can find pre-made signatures at <ulink
-		url="http://www.ximian.com/devzone/projects/art/signatures.html">the
-		Ximian signature page</ulink>.
-	      </para>
-	    </listitem>
-	    <listitem>
-	      <para>
-		If you are creating a new signature, click the
-		<guibutton>Edit</guibutton> button to open up the HTML
-		signature editor.
-	      </para>
-	    </listitem>
-	    <listitem>
-	      <para>
-		The HTML signature editor uses the same interface as
-		the composer.  You can create your signature in this
-		window.
-	      </para>
-	    </listitem>
-	    <listitem>
-	      <para>
-		Once you have completed your signature, click
-		<menuchoice>
-		  <guimenu>File</guimenu>
-		  <guimenuitem>Save and Close</guimenuitem>
-		</menuchoice>
-	      </para>
-	    </listitem>
-	    <listitem>
-	      <para>
-		When you select your mail to be composed in HTML
-		format, your HTML signature will automatically show up.
-	      </para>
-	    </listitem>
-	  </orderedlist>
-	</para>
+		  <menuchoice>
+		    <guimenu>Tools</guimenu>
+		    <guimenuitem>Configure</guimenuitem>
+		  </menuchoice>.
+		</para>
+	      </listitem>
+	      <listitem>
+		<para>
+		  Click the <guibutton>Composer
+		  Preferences</guibutton> on the left side of the
+		  configuration window.
+		</para>
+	      </listitem>
+	      <listitem>
+		<para>
+		  In the <guilabel>Composer Preferences</guilabel>
+		  window, click the second tab on the top labeled
+		  <guibutton>Signatures</guibutton>.
+		</para>
+	      </listitem>
+	      <listitem>
+		<para>
+		  If you have a pre-made signature, click the
+		  <guibutton>Browse</guibutton> to select your
+		  signature.  You can find pre-made signatures at <ulink
+									 url="http://www.ximian.com/devzone/projects/art/signatures.html">the
+		    Ximian signature page</ulink>.
+		</para>
+	      </listitem>
+	      <listitem>
+		<para>
+		  If you are creating a new signature, click the
+		  <guibutton>Edit</guibutton> button to open up the HTML
+		  signature editor.
+		</para>
+	      </listitem>
+	      <listitem>
+		<para>
+		  The HTML signature editor uses the same interface as
+		  the composer.  You can create your signature in this
+		  window.
+		</para>
+	      </listitem>
+	      <listitem>
+		<para>
+		  Once you have completed your signature, click
+		  <menuchoice>
+		    <guimenu>File</guimenu>
+		    <guimenuitem>Save and Close</guimenuitem>
+		  </menuchoice>
+		</para>
+	      </listitem>
+	      <listitem>
+		<para>
+		  When you select your mail to be composed in HTML
+		  format, your HTML signature will automatically show up.
+		</para>
+	      </listitem>
+	    </orderedlist>
+	  </para>
+	</sect4>
       </sect3>
     </sect2>
   </sect1>
