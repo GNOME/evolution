@@ -89,6 +89,7 @@ BonoboUIComponent *e_shell_view_get_bonobo_ui_component  (EShellView *shell_view
 BonoboUIContainer *e_shell_view_get_bonobo_ui_container  (EShellView *shell_view);
 GtkWidget         *e_shell_view_get_appbar               (EShellView *shell_view);
 const char        *e_shell_view_get_current_uri          (EShellView *shell_view);
+const char        *e_shell_view_get_current_path         (EShellView *shell_view);
 
 gboolean  e_shell_view_save_settings  (EShellView *shell_view,
 				       const char *prefix);

@@ -360,6 +360,17 @@ command_move_folder (BonoboUIComponent *uih,
 	e_shell_command_move_folder (e_shell_view_get_shell (shell_view), shell_view);
 }
 
+static void
+command_copy_folder (BonoboUIComponent *uih,
+		     void *data,
+		     const char *path)
+{
+	EShellView *shell_view;
+
+	shell_view = E_SHELL_VIEW (data);
+	e_shell_command_copy_folder (e_shell_view_get_shell (shell_view), shell_view);
+}
+
 
 /* Going to a folder.  */
 
@@ -532,6 +543,7 @@ BonoboUIVerb file_verbs [] = {
 BonoboUIVerb folder_verbs [] = {
 	BONOBO_UI_VERB ("OpenFolderInNewWindow", command_open_folder_in_new_window),
 	BONOBO_UI_VERB ("MoveFolder", command_move_folder),
+	BONOBO_UI_VERB ("CopyFolder", command_copy_folder),
 
 	BONOBO_UI_VERB_END
 };

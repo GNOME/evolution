@@ -1770,6 +1770,14 @@ e_shell_view_get_appbar (EShellView *shell_view)
 	return shell_view->priv->appbar;
 }
 
+/**
+ * e_shell_view_get_current_uri:
+ * @shell_view: A pointer to an EShellView object
+ * 
+ * Get the URI currently displayed by this shell view.
+ * 
+ * Return value: 
+ **/
 const char *
 e_shell_view_get_current_uri (EShellView *shell_view)
 {
@@ -1777,6 +1785,32 @@ e_shell_view_get_current_uri (EShellView *shell_view)
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
 
 	return shell_view->priv->uri;
+}
+
+/**
+ * e_shell_view_get_current_path:
+ * @shell_view: A pointer to an EShellView object
+ * 
+ * Get the path of the current displayed folder.
+ * 
+ * Return value: 
+ **/
+const char *
+e_shell_view_get_current_path (EShellView *shell_view)
+{
+	const char *current_uri;
+	const char *current_path;
+
+	current_uri = e_shell_view_get_current_uri (shell_view);
+	if (current_uri == NULL)
+		return NULL;
+
+	if (strncmp (current_uri, E_SHELL_URI_PREFIX, E_SHELL_URI_PREFIX_LEN) == 0)
+		current_path = current_uri + E_SHELL_URI_PREFIX_LEN;
+	else
+		current_path = NULL;
+
+	return current_path;
 }
 
 static void

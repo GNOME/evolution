@@ -1,4 +1,47 @@
+2001-05-20  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-view-menu.c: Define the verb for "CopyFolder" as well.
+	(command_copy_folder): Implementation for the "CopyFolder" verb.
+
+	* e-shell-folder-commands.c: New struct `FolderCommandData'.
+	(folder_command_data_new): New function to allocate and initialize
+	it.
+	(folder_command_data_free): New function to free it.
+	(e_shell_command_move_folder): Pass a pointer to a filled-in
+	`FolderCommandData' struct to the callbacks instead of just
+	passing a pointer to the shell object.
+	(move_folder_selected_callback): Removed.
+	(move_folder_cancelled_callback): Removed.
+	(folder_selection_dialog_folder_selected_callback): New generic
+	callback for the folder selection dialog.
+	(folder_selection_dialog_cancelled_callback): New generic callback
+	for the folder selection dialog.
+	(connect_folder_selection_dialog_signals): New function to connect
+	these two handlers to a folder selection dialog.
+	(xfer_result_callback): New callback for the async xfer function.
+	(get_folder_name): New utility function.
+	(e_shell_command_copy_folder): Implement.
+
 2001-05-19  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-folder-commands.c
+	(e_shell_command_create_new_folder): Changed to use
+	`e_shell_view_get_current_path()' to get the default path, instead
+	of computing it itself.
+	(move_folder_cancelled_callback) (move_folder_selected_callback):
+	New, callbacks for the "cancelled" and "folder_selected" signals
+	on the folder selection dialog for the "Move folder" operation.
+	(e_shell_command_move_folder): Implemented.
+
+	* e-shell-view-menu.c (command_move_folder): New, implementation
+	for the "MoveFolder" verb.
+
+	* e-shell-view.c (e_shell_view_get_current_path): New.
+
+2001-05-19  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-folder-selection-dialog.h: Rename @default_path to
+	@default_uri.
 
 	* e-shell.c (impl_Shell_selectUserFolder): Pass a NULL @caption to
 	`e_shell_folder_selection_dialog_new()'.
