@@ -264,7 +264,7 @@ USE_NCURSES
 
     dnl
     dnl Try SunOS 4.x /usr/5{lib,include} ncurses
-    dnl The flags HAS_SUNOS_CURSES, USE_BSD_CURSES and BUGGY_CURSES
+    dnl The flags USE_SUNOS_CURSES, USE_BSD_CURSES and BUGGY_CURSES
     dnl should be replaced by a more fine grained selection routine
     dnl
     if $search_ncurses
