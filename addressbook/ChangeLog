@@ -1,3 +1,10 @@
+2002-07-10  Peter Williams  <peterw@ximian.com>
+
+	* backend/ebook/e-book-view-listener.h: Oops, missed this one.
+
+	* backend/ebook/Makefile.am (libebookinclude_HEADERS): Also
+	put addressbook.h here because several headers reference it.
+
 2002-07-08  Peter Williams  <peterw@ximian.com>
 
 	* backend/ebook/e-book.h: Normalize includes to <ebook/foo.h>, so

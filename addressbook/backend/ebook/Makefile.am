@@ -66,7 +66,8 @@ libebookinclude_HEADERS =				\
 	e-card-types.h					\
 	e-card.h					\
 	e-card-compare.h				\
-	e-destination.h
+	e-destination.h					\
+	addressbook.h
 
 
 #
