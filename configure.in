@@ -227,8 +227,36 @@ fi
 if $bonobo_ok; then
 	AC_MSG_RESULT($vers found)
 else
-	AC_MSG_ERROR(Bonobo newer than 0.16 is required to compile Evolution)
+	AC_MSG_ERROR(Bonobo newer than 0.17 is required to compile Evolution)
 fi
+
+dnl ******************************
+dnl Whether to use OAF
+dnl ******************************
+
+AC_MSG_CHECKING(if Bonobo uses OAF)
+if ( gnome-config --libs bonobo | grep oaf ) > /dev/null 2>&1 ; then
+	enable_oaf="yes"
+	AC_MSG_RESULT(yes)
+        AC_PATH_PROG(OAF_CONFIG,oaf-config,no)
+        if test x$OAF_CONFIG = xno; then
+                AC_MSG_ERROR("The oaf-config program was not found")
+        else
+                OAF_LIBS=`$OAF_CONFIG --libs`
+                OAF_CFLAGS=`$OAF_CONFIG --cflags`
+		AC_MSG_RESULT(yes)
+        fi
+else
+	enable_oaf="no"
+	AC_MSG_ERROR(no, a Bonobo using OAF is required for Evolution)
+fi
+
+AC_SUBST(OAF_LIBS)
+AC_SUBST(OAF_CFLAGS)
+
+AM_CONDITIONAL(USING_OAF, test "x$enable_oaf" = "xyes")
+AC_DEFINE(USING_OAF)
+
 
 dnl ******************************
 dnl LibGlade checking
@@ -278,8 +306,8 @@ AC_SUBST(EXTRA_GNOME_LIBS)
 AC_SUBST(EXTRA_GNOME_CFLAGS)
 
 
-BONOBO_GNOME_LIBS="`gnome-config --libs bonobox libglade gdk_pixbuf gnomecanvaspixbuf gnomeui` $UNICODE_LIBS"
-BONOBO_GNOME_CFLAGS="`gnome-config --cflags bonobox libglade gdk_pixbuf gnomecanvaspixbuf gnomeui ` $UNICODE_CFLAGS"
+BONOBO_GNOME_LIBS="`gnome-config --libs bonobox libglade gdk_pixbuf gnomecanvaspixbuf gnomeui` $UNICODE_LIBS $OAF_LIBS"
+BONOBO_GNOME_CFLAGS="`gnome-config --cflags bonobox libglade gdk_pixbuf gnomecanvaspixbuf gnomeui ` $UNICODE_CFLAGS $OAF_CFLAGS"
 AC_SUBST(BONOBO_GNOME_LIBS)
 AC_SUBST(BONOBO_GNOME_CFLAGS)
 
@@ -382,44 +410,6 @@ fi
 
 AC_SUBST(CAPPLET_LIBS)
 
-dnl ******************************
-dnl Whether to use OAF
-dnl ******************************
-
-AC_MSG_CHECKING(if Bonobo uses OAF)
-if ( gnome-config --libs bonobo | grep oaf ) > /dev/null 2>&1 ; then
-	enable_oaf="yes"
-else
-	enable_oaf="no"
-fi
-
-AC_MSG_RESULT("$enable_oaf")
-
-if test "x$enable_oaf" = "xyes"; then
-        AC_PATH_PROG(OAF_CONFIG,oaf-config,no)
-        if test x$OAF_CONFIG = xno; then
-                AC_MSG_ERROR("You enabled OAF support but oaf-config was not found")
-        else
-                OAF_LIBS=`$OAF_CONFIG --libs`
-                OAF_CFLAGS=`$OAF_CONFIG --cflags`
-                GNORBA_LIBNAME=
-        fi
-else
-        OAF_LIBS=
-        OAF_CFLAGS=
-        GNORBA_LIBNAME=gnorba
-fi
-
-AC_SUBST(OAF_LIBS)
-AC_SUBST(OAF_CFLAGS)
-
-AM_CONDITIONAL(USING_OAF, test "x$enable_oaf" = "xyes")
-
-if test "x$enable_oaf" = "xyes"; then
-	AC_DEFINE(USING_OAF)
-	BONOBO_GNOME_LIBS="`oaf-config --libs` $BONOBO_GNOME_LIBS"
-	BONOBO_GNOME_CFLAGS="`oaf-config --cflags ` $BONOBO_GNOME_CFLAGS"
-fi
 
 dnl ********
 dnl Kerberos
