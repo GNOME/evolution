@@ -948,7 +948,7 @@ send_receive_cb (EvolutionShellComponent *shell_component,
 	   FolderBrowser, and then we will be able to call configure_mail from
 	   here properly.  */
 	if (!mail_config_is_configured () /* && !configure_mail (fb) */)
-			return;
+		return;
 	
 	account = mail_config_get_default_account ();
 	if (!account || !account->transport) {

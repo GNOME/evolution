@@ -2143,7 +2143,7 @@ static void prep_offline_do(struct _mail_msg *mm)
 	if (folder) {
 		if (CAMEL_IS_DISCO_FOLDER(folder)) {
 			camel_disco_folder_prepare_for_offline((CamelDiscoFolder *)folder,
-							       "(match-all (not (system-flag \"Seen\")))",
+							       "(match-all (or (not (system-flag \"Seen\")) (system-flag \"Flagged\")))",
 							       &mm->ex);
 		}
 		/* prepare_for_offline should do this? */

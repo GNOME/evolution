@@ -1,5 +1,11 @@
 2002-09-17  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-display.c (mail_display_render): Use e_strftime_fix_am_pm
+	here which fixes locale issues as well as working around systems
+	that don't support %P (afaik).
+
+	* mail-ops.c (prep_offline_do): Cache important messages too.
+
 	* mail-composer-prefs.c (d): Disable debugging printf's
 
 	* mail-ops.c: fixed a comment
