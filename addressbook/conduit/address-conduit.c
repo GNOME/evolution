@@ -502,8 +502,32 @@ is_syncable (EAddrConduitContext *ctxt, EAddrLocalRecord *local)
 	ECardSimpleField next_mail, next_home, next_work, next_fax;
 	ECardSimpleField next_other, next_main, next_pager, next_mobile;
 	gboolean syncable = TRUE;
-	int i;
+	int i, l = 0, lastphone = entryPhone5;
 
+	/* See if the fields are in priority order */
+	for ( ; lastphone >= entryPhone1; lastphone--) {
+		const char *phone_str = local->addr->entry[lastphone];
+
+		if (phone_str && *phone_str)
+			break;
+	}
+
+	/* if they are all blank */
+	if (lastphone < entryPhone1)
+		return TRUE;
+
+	/* See if the fields are in priority order */
+	for (i = entryPhone1; i <= lastphone && priority_label[l] != NULL; i++) {
+		char *phonelabel = ctxt->ai.phoneLabels[local->addr->phoneLabel[i - entryPhone1]];
+
+		for ( ; priority_label[l] != NULL; l++)
+			if (!strcmp (phonelabel, priority_label[l]))
+				break;
+	}
+	
+	if (priority_label[l] == NULL)
+		return FALSE;
+			 
 	/* See if there are fields we can't sync */
 	get_next_init (&next_mail, &next_home, &next_work, &next_fax,
 		       &next_other, &next_main, &next_pager, &next_mobile);
