@@ -63,7 +63,9 @@ libeselectnames_la_SOURCES = 			\
 	e-select-names-text-model.c		\
 	e-select-names-text-model.h		\
 	e-select-names.c			\
-	e-select-names.h
+	e-select-names.h			\
+	e-simple-card-bonobo.c			\
+	e-simple-card-bonobo.h
 
 gladedir   = $(datadir)/evolution/glade
 glade_DATA = select-names.glade

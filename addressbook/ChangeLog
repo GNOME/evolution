@@ -1,3 +1,18 @@
+2002-05-10  Christopher James Lahey  <clahey@ximian.com>
+
+	* gui/component/select-names/Evolution-Addressbook-SelectNames.idl:
+	Added SimpleCard interface.
+
+	* gui/component/select-names/Makefile.am: Added
+	e-simple-card-bonobo.c and e-simple-card-bonobo.h.
+
+	* gui/component/select-names/e-select-names-bonobo.c
+	(entry_get_property_fn): Added SIMPLE_CARD_LIST arg.
+
+	* gui/component/select-names/e-simple-card-bonobo.c,
+	gui/component/select-names/e-simple-card-bonobo.h: New class to
+	represent an ECardSimple across Bonobo.
+
 2002-05-09  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/component/select-names/e-select-names-bonobo.c

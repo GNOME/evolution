@@ -25,6 +25,7 @@
 #endif
 
 #include "e-select-names-bonobo.h"
+#include "e-simple-card-bonobo.h"
 
 #include <bonobo/bonobo-property-bag.h>
 #include <bonobo/bonobo-control.h>
@@ -53,7 +54,7 @@ struct _ESelectNamesBonoboPrivate {
 enum _EntryPropertyID {
 	ENTRY_PROPERTY_ID_TEXT,
 	ENTRY_PROPERTY_ID_DESTINATIONS,
-	ENTRY_PROPERTY_ID_FIRST_EMAIL,
+	ENTRY_PROPERTY_ID_SIMPLE_CARD_LIST,
 	ENTRY_PROPERTY_ID_ALLOW_CONTACT_LISTS,
 	ENTRY_PROPERTY_ID_ENTRY_CHANGED
 };
@@ -98,20 +99,35 @@ entry_get_property_fn (BonoboPropertyBag *bag,
 		}
 		break;
 
-	case ENTRY_PROPERTY_ID_FIRST_EMAIL:
+	case ENTRY_PROPERTY_ID_SIMPLE_CARD_LIST:
 		{
 			ESelectNamesModel *model;
+			int count;
+			int i;
+			GNOME_Evolution_Addressbook_SimpleCardList *card_list;
 
 			model = E_SELECT_NAMES_MODEL (gtk_object_get_data (GTK_OBJECT (w), "select_names_model"));
 			g_assert (model != NULL);
 
-			if (e_select_names_model_count (model) > 0) {
-				const EDestination *destination = e_select_names_model_get_destination (model, 0);
-				const char *text = e_destination_get_email (destination);
-				BONOBO_ARG_SET_STRING (arg, text);
-			} else {
-				BONOBO_ARG_SET_STRING (arg, "");
+			count = e_select_names_model_count (model);
+
+			card_list = GNOME_Evolution_Addressbook_SimpleCardList__alloc ();
+			card_list->_buffer = CORBA_sequence_GNOME_Evolution_Addressbook_SimpleCard_allocbuf (count);
+			card_list->_maximum = count;
+			card_list->_length = count;
+
+			for (i = 0; i < count; i++) {
+				const EDestination *destination = e_select_names_model_get_destination (model, i);
+				const ECard *card = e_destination_get_card (destination);
+				ECardSimple *simple = e_card_simple_new ((ECard *) card);
+				ESimpleCardBonobo *simple_card = e_simple_card_bonobo_new (simple);
+				gtk_object_unref (GTK_OBJECT (simple));
+
+				card_list->_buffer[i] = bonobo_object_corba_objref (BONOBO_OBJECT (simple_card));
 			}
+
+			CORBA_free (arg->_value);
+			BONOBO_ARG_SET_GENERAL (arg, card_list, TC_GNOME_Evolution_Addressbook_SimpleCardList, GNOME_Evolution_Addressbook_SimpleCardList *, NULL);
 		}
 		break;
 
@@ -333,8 +349,8 @@ impl_SelectNames_get_entry_for_section (PortableServer_Servant servant,
 	bonobo_property_bag_add (property_bag, "destinations", ENTRY_PROPERTY_ID_DESTINATIONS,
 				 BONOBO_ARG_STRING, NULL, NULL,
 				 BONOBO_PROPERTY_READABLE | BONOBO_PROPERTY_WRITEABLE);
-	bonobo_property_bag_add (property_bag, "first_email", ENTRY_PROPERTY_ID_FIRST_EMAIL,
-				 BONOBO_ARG_STRING, NULL, NULL,
+	bonobo_property_bag_add (property_bag, "simple_card_list", ENTRY_PROPERTY_ID_SIMPLE_CARD_LIST,
+				 TC_GNOME_Evolution_Addressbook_SimpleCardList, NULL, NULL,
 				 BONOBO_PROPERTY_READABLE);
 	bonobo_property_bag_add (property_bag, "allow_contact_lists", ENTRY_PROPERTY_ID_ALLOW_CONTACT_LISTS,
 				 BONOBO_ARG_BOOLEAN, NULL, NULL,
