@@ -1,3 +1,8 @@
+2002-04-08  Dan Winship  <danw@ximian.com>
+
+	* component-factory.c (create_view): Add view_info arg but don't
+	do anything with it.
+
 2002-04-06  JP Rosevear  <jpr@ximian.com>
 
 	* GNOME_Evolution_Summary.oaf.in.in: add config_item:priority
