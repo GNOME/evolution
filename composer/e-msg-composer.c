@@ -3306,6 +3306,22 @@ setup_cut_copy_paste (EMsgComposer *composer)
 	entry = e_msg_composer_hdrs_get_reply_to_entry (hdrs);
 	g_signal_connect (entry, "focus_in_event", G_CALLBACK (composer_entry_focus_in_event_cb), composer);
 	g_signal_connect (entry, "focus_out_event", G_CALLBACK (composer_entry_focus_out_event_cb), composer);
+
+	entry = e_msg_composer_hdrs_get_to_entry (hdrs);
+	g_signal_connect (entry, "focus_in_event", G_CALLBACK (composer_entry_focus_in_event_cb), composer);
+	g_signal_connect (entry, "focus_out_event", G_CALLBACK (composer_entry_focus_out_event_cb), composer);
+
+	entry = e_msg_composer_hdrs_get_cc_entry (hdrs);
+	g_signal_connect (entry, "focus_in_event", G_CALLBACK (composer_entry_focus_in_event_cb), composer);
+	g_signal_connect (entry, "focus_out_event", G_CALLBACK (composer_entry_focus_out_event_cb), composer);
+
+	entry = e_msg_composer_hdrs_get_bcc_entry (hdrs);
+	g_signal_connect (entry, "focus_in_event", G_CALLBACK (composer_entry_focus_in_event_cb), composer);
+	g_signal_connect (entry, "focus_out_event", G_CALLBACK (composer_entry_focus_out_event_cb), composer);
+
+	entry = e_msg_composer_hdrs_get_post_to_label (hdrs);
+	g_signal_connect (entry, "focus_in_event", G_CALLBACK (composer_entry_focus_in_event_cb), composer);
+	g_signal_connect (entry, "focus_out_event", G_CALLBACK (composer_entry_focus_out_event_cb), composer);
 }
 
 static void
