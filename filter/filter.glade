@@ -15,11 +15,12 @@
 <widget>
   <class>GnomeDialog</class>
   <name>edit_filter</name>
+  <title>Edit Filters</title>
   <type>GTK_WINDOW_TOPLEVEL</type>
   <position>GTK_WIN_POS_NONE</position>
   <modal>False</modal>
   <allow_shrink>False</allow_shrink>
-  <allow_grow>False</allow_grow>
+  <allow_grow>True</allow_grow>
   <auto_shrink>False</auto_shrink>
   <auto_close>False</auto_close>
   <hide_on_close>False</hide_on_close>
@@ -107,8 +108,8 @@ Outgoing
 	  <class>GtkScrolledWindow</class>
 	  <name>scrolledwindow1</name>
 	  <width>256</width>
-	  <hscrollbar_policy>GTK_POLICY_ALWAYS</hscrollbar_policy>
-	  <vscrollbar_policy>GTK_POLICY_ALWAYS</vscrollbar_policy>
+	  <hscrollbar_policy>GTK_POLICY_AUTOMATIC</hscrollbar_policy>
+	  <vscrollbar_policy>GTK_POLICY_AUTOMATIC</vscrollbar_policy>
 	  <hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
 	  <vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
 	  <child>
@@ -162,6 +163,7 @@ Outgoing
 	      <can_default>True</can_default>
 	      <can_focus>True</can_focus>
 	      <label>Add</label>
+	      <relief>GTK_RELIEF_NORMAL</relief>
 	    </widget>
 
 	    <widget>
@@ -170,6 +172,7 @@ Outgoing
 	      <can_default>True</can_default>
 	      <can_focus>True</can_focus>
 	      <label>Edit</label>
+	      <relief>GTK_RELIEF_NORMAL</relief>
 	    </widget>
 
 	    <widget>
@@ -178,6 +181,7 @@ Outgoing
 	      <can_default>True</can_default>
 	      <can_focus>True</can_focus>
 	      <label>Delete</label>
+	      <relief>GTK_RELIEF_NORMAL</relief>
 	    </widget>
 
 	    <widget>
@@ -186,6 +190,7 @@ Outgoing
 	      <can_default>True</can_default>
 	      <can_focus>True</can_focus>
 	      <stock_button>GNOME_STOCK_BUTTON_UP</stock_button>
+	      <relief>GTK_RELIEF_NORMAL</relief>
 	    </widget>
 
 	    <widget>
@@ -194,6 +199,7 @@ Outgoing
 	      <can_default>True</can_default>
 	      <can_focus>True</can_focus>
 	      <stock_button>GNOME_STOCK_BUTTON_DOWN</stock_button>
+	      <relief>GTK_RELIEF_NORMAL</relief>
 	    </widget>
 	  </widget>
 	</widget>
@@ -210,7 +216,7 @@ Outgoing
   <position>GTK_WIN_POS_NONE</position>
   <modal>False</modal>
   <allow_shrink>False</allow_shrink>
-  <allow_grow>False</allow_grow>
+  <allow_grow>True</allow_grow>
   <auto_shrink>False</auto_shrink>
   <auto_close>False</auto_close>
   <hide_on_close>False</hide_on_close>
@@ -284,8 +290,8 @@ Outgoing
 	  <name>scrolledwindow2</name>
 	  <width>256</width>
 	  <height>167</height>
-	  <hscrollbar_policy>GTK_POLICY_ALWAYS</hscrollbar_policy>
-	  <vscrollbar_policy>GTK_POLICY_ALWAYS</vscrollbar_policy>
+	  <hscrollbar_policy>GTK_POLICY_AUTOMATIC</hscrollbar_policy>
+	  <vscrollbar_policy>GTK_POLICY_AUTOMATIC</vscrollbar_policy>
 	  <hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
 	  <vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
 	  <child>
@@ -339,6 +345,7 @@ Outgoing
 	      <can_default>True</can_default>
 	      <can_focus>True</can_focus>
 	      <label>Add</label>
+	      <relief>GTK_RELIEF_NORMAL</relief>
 	    </widget>
 
 	    <widget>
@@ -347,6 +354,7 @@ Outgoing
 	      <can_default>True</can_default>
 	      <can_focus>True</can_focus>
 	      <label>Edit</label>
+	      <relief>GTK_RELIEF_NORMAL</relief>
 	    </widget>
 
 	    <widget>
@@ -355,6 +363,7 @@ Outgoing
 	      <can_default>True</can_default>
 	      <can_focus>True</can_focus>
 	      <label>Delete</label>
+	      <relief>GTK_RELIEF_NORMAL</relief>
 	    </widget>
 
 	    <widget>
@@ -363,6 +372,7 @@ Outgoing
 	      <can_default>True</can_default>
 	      <can_focus>True</can_focus>
 	      <stock_button>GNOME_STOCK_BUTTON_UP</stock_button>
+	      <relief>GTK_RELIEF_NORMAL</relief>
 	    </widget>
 
 	    <widget>
@@ -371,6 +381,7 @@ Outgoing
 	      <can_default>True</can_default>
 	      <can_focus>True</can_focus>
 	      <stock_button>GNOME_STOCK_BUTTON_DOWN</stock_button>
+	      <relief>GTK_RELIEF_NORMAL</relief>
 	    </widget>
 	  </widget>
 	</widget>
@@ -523,6 +534,7 @@ Outgoing
 	      <can_default>True</can_default>
 	      <can_focus>True</can_focus>
 	      <label>Add</label>
+	      <relief>GTK_RELIEF_NORMAL</relief>
 	    </widget>
 
 	    <widget>
@@ -531,6 +543,7 @@ Outgoing
 	      <can_default>True</can_default>
 	      <can_focus>True</can_focus>
 	      <label>Remove</label>
+	      <relief>GTK_RELIEF_NORMAL</relief>
 	    </widget>
 	  </widget>
 	</widget>
@@ -683,6 +696,7 @@ Outgoing
 	      <can_default>True</can_default>
 	      <can_focus>True</can_focus>
 	      <label>Add</label>
+	      <relief>GTK_RELIEF_NORMAL</relief>
 	    </widget>
 
 	    <widget>
@@ -691,6 +705,7 @@ Outgoing
 	      <can_default>True</can_default>
 	      <can_focus>True</can_focus>
 	      <label>Remove</label>
+	      <relief>GTK_RELIEF_NORMAL</relief>
 	    </widget>
 	  </widget>
 	</widget>
