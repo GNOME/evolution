@@ -65,11 +65,11 @@
 
 
 MailConfigLabel label_defaults[5] = {
-	{ N_("Important"), 0x00ff0000, NULL },  /* red */
-	{ N_("Work"),      0x00ff8c00, NULL },  /* orange */
-	{ N_("Personal"),  0x00008b00, NULL },  /* forest green */
-	{ N_("To Do"),     0x000000ff, NULL },  /* blue */
-	{ N_("Later"),     0x008b008b, NULL }   /* magenta */
+	{ N_("Important"), "#ff0000" },  /* red */
+	{ N_("Work"),      "#ff8c00" },  /* orange */
+	{ N_("Personal"),  "#008b00" },  /* forest green */
+	{ N_("To Do"),     "#0000ff" },  /* blue */
+	{ N_("Later"),     "#8b008b" }   /* magenta */
 };
 
 typedef struct {
@@ -78,14 +78,13 @@ typedef struct {
 	gboolean corrupt;
 	
 	EAccountList *accounts;
-	guint accounts_notify_id;
 	
 	GSList *signatures;
 	int sig_nextid;
-	
-	MailConfigLabel labels[5];
-	
 	gboolean signature_info;
+	
+	GSList *labels;
+	guint label_notify_id;
 	
 	/* readonly fields from calendar */
 	int time_24hour;
@@ -359,6 +358,101 @@ config_write_signatures (void)
 	gconf_client_suggest_sync (config->gconf, NULL);
 }
 
+static void
+config_clear_labels (void)
+{
+	MailConfigLabel *label;
+	GSList *list, *n;
+	
+	list = config->labels;
+	while (list != NULL) {
+		label = list->data;
+		g_free (label->name);
+		g_free (label->colour);
+		g_free (label);
+		
+		n = list->next;
+		g_slist_free_1 (list);
+		list = n;
+	}
+	
+	config->labels = NULL;
+}
+
+static void
+config_cache_labels (void)
+{
+	GSList *labels, *list, *tail, *n;
+	char *buf, *name, *colour;
+	MailConfigLabel *label;
+	int num = 0;
+	
+	tail = labels = NULL;
+	
+	list = gconf_client_get_list (config->gconf, "/apps/evolution/mail/labels", GCONF_VALUE_STRING, NULL);
+	
+	while (list != NULL) {
+		buf = list->data;
+		
+		if ((colour = strrchr (buf, ':'))) {
+			label = g_new (MailConfigLabel, 1);
+			
+			*colour++ = '\0';
+			label->name = g_strdup (buf);
+			label->colour = g_strdup (colour);
+			
+			n = g_slist_alloc ();
+			n->next = NULL;
+			n->data = label;
+			
+			if (tail == NULL)
+				labels = n;
+			else
+				tail->next = n;
+			
+			tail = n;
+			
+			num++;
+		}
+		
+		g_free (buf);
+		
+		n = list->next;
+		g_slist_free_1 (list);
+		list = n;
+	}
+	
+	while (num < 5) {
+		/* complete the list with defaults */
+		label = g_new (MailConfigLabel, 1);
+		label->name = g_strdup (_(label_defaults[num].name));
+		label->colour = g_strdup (label_defaults[num].colour);
+		
+		n = g_slist_alloc ();
+		n->next = NULL;
+		n->data = label;
+		
+		if (tail == NULL)
+			labels = n;
+		else
+			tail->next = n;
+		
+		tail = n;
+		
+		num++;
+	}
+	
+	config->labels = labels;
+}
+
+static void
+gconf_labels_changed (GConfClient *client, guint cnxn_id,
+		      GConfEntry *entry, gpointer user_data)
+{
+	config_clear_labels ();
+	config_cache_labels ();
+}
+
 /* Config struct routines */
 void
 mail_config_init (void)
@@ -371,6 +465,13 @@ mail_config_init (void)
 	
 	mail_config_clear ();
 	
+	gconf_client_add_dir (config->gconf, "/apps/evolution/mail/labels",
+			      GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
+	config->label_notify_id =
+		gconf_client_notify_add (config->gconf, "/apps/evolution/mail/labels",
+					 gconf_labels_changed, NULL, NULL, NULL);
+	
+	config_cache_labels ();
 	config_read_signatures ();
 	
 	config->accounts = e_account_list_new (config->gconf);
@@ -379,8 +480,6 @@ mail_config_init (void)
 void
 mail_config_clear (void)
 {
-	int i;
-	
 	if (!config)
 		return;
 	
@@ -389,12 +488,7 @@ mail_config_clear (void)
 		config->accounts = NULL;
 	}
 	
-	for (i = 0; i < 5; i++) {
-		g_free (config->labels[i].name);
-		config->labels[i].name = NULL;
-		g_free (config->labels[i].string);
-		config->labels[i].string = NULL;
-	}
+	config_clear_labels ();
 }
 
 void
@@ -510,66 +604,40 @@ uri_to_key (const char *uri)
 	return rval;
 }
 
-const char *
-mail_config_get_label_name (int label)
+GSList *
+mail_config_get_labels (void)
 {
-	g_return_val_if_fail (label >= 0 && label < 5, NULL);
-	
-	if (!config->labels[label].name)
-		config->labels[label].name = g_strdup (_(label_defaults[label].name));
-	
-	return config->labels[label].name;
-}
-
-void
-mail_config_set_label_name (int label, const char *name)
-{
-	g_return_if_fail (label >= 0 && label < 5);
-	
-	if (!name)
-		name = _(label_defaults[label].name);
-	
-	g_free (config->labels[label].name);
-	config->labels[label].name = g_strdup (name);
-}
-
-guint32
-mail_config_get_label_color (int label)
-{
-	g_return_val_if_fail (label >= 0 && label < 5, 0);
-	
-	return config->labels[label].color;
-}
-
-void
-mail_config_set_label_color (int label, guint32 color)
-{
-	g_return_if_fail (label >= 0 && label < 5);
-	
-	g_free (config->labels[label].string);
-	config->labels[label].string = NULL;
-	
-	config->labels[label].color = color;
+	return config->labels;
 }
 
 const char *
-mail_config_get_label_color_string (int label)
+mail_config_get_label_color_by_name (const char *name)
 {
-	g_return_val_if_fail (label >= 0 && label < 5, NULL);
+	MailConfigLabel *label;
+	GSList *node;
 	
-	if (!config->labels[label].string) {
-		guint32 rgb = config->labels[label].color;
-		char *colour;
-		
-		colour = g_strdup_printf ("#%.2x%.2x%.2x",
-					  (rgb & 0xff0000) >> 16,
-					  (rgb & 0xff00) >> 8,
-					  rgb & 0xff);
-		
-		config->labels[label].string = colour;
+	node = config->labels;
+	while (node != NULL) {
+		label = node->data;
+		if (!strcmp (label->name, name))
+			return label->colour;
+		node = node->next;
 	}
 	
-	return config->labels[label].string;
+	return NULL;
+}
+
+const char *
+mail_config_get_label_color_by_index (int index)
+{
+	MailConfigLabel *label;
+	
+	label = g_slist_nth_data (config->labels, index);
+	
+	if (label)
+		return label->colour;
+	
+	return NULL;
 }
 
 gboolean

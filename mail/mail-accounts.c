@@ -87,8 +87,6 @@ mail_accounts_tab_class_init (MailAccountsTabClass *klass)
 	parent_class = g_type_class_ref (gtk_vbox_get_type ());
 	
 	object_class->finalize = mail_accounts_tab_finalise;
-	/* override methods */
-	
 	
 	/* setup static data */
 	disabled_pixbuf = NULL;
@@ -113,7 +111,7 @@ mail_accounts_tab_finalise (GObject *obj)
 	gdk_pixmap_unref (prefs->mark_pixmap);
 	g_object_unref (prefs->mark_bitmap);
 	
-        ((GObjectClass *)(parent_class))->finalize (obj);
+        G_OBJECT_CLASS (parent_class)->finalize (obj);
 }
 
 static void

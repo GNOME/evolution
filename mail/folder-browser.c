@@ -26,6 +26,7 @@
 #include <config.h>
 #endif
 
+#include <string.h>
 #include <ctype.h>
 #include <errno.h>
 
@@ -1633,51 +1634,6 @@ hide_sender (GtkWidget *w, FolderBrowser *fb)
 	}
 }
 
-#if 0
-struct _colour_data {
-	FolderBrowser *fb;
-	guint32 rgb;
-};
-
-#define COLOUR_NONE (~0)
-
-static void
-colourise_msg (GtkWidget *widget, gpointer user_data)
-{
-	struct _colour_data *data = user_data;
-	char *colour = NULL;
-	GPtrArray *uids;
-	int i;
-	
-	if (data->rgb != COLOUR_NONE) {
-		colour = alloca (8);
-		sprintf (colour, "#%.2x%.2x%.2x", (data->rgb & 0xff0000) >> 16,
-			 (data->rgb & 0xff00) >> 8, data->rgb & 0xff);
-	}
-	
-	uids = g_ptr_array_new ();
-	message_list_foreach (data->fb->message_list, enumerate_msg, uids);
-	for (i = 0; i < uids->len; i++) {
-		camel_folder_set_message_user_tag (data->fb->folder, uids->pdata[i], "colour", colour);
-	}
-	g_ptr_array_free (uids, TRUE);
-}
-
-static void
-colour_closures_free (GPtrArray *closures)
-{
-	struct _colour_data *data;
-	int i;
-	
-	for (i = 0; i < closures->len; i++) {
-		data = closures->pdata[i];
-		g_object_unref (data->fb);
-		g_free (data);
-	}
-	g_ptr_array_free (closures, TRUE);
-}
-#endif
-
 struct _label_data {
 	FolderBrowser *fb;
 	const char *label;
@@ -1900,7 +1856,7 @@ setup_popup_icons (void)
 			char *filename;
 			
 			filename = g_strdup_printf ("%s/%s", EVOLUTION_IMAGES, context_pixmaps[i]);
-			context_menu[i].pixmap_widget = gtk_image_new_from_file(filename);
+			context_menu[i].pixmap_widget = gtk_image_new_from_file (filename);
 			g_free (filename);
 		}
 	}
@@ -1910,14 +1866,15 @@ setup_popup_icons (void)
 static int
 on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event, FolderBrowser *fb)
 {
-	CamelMessageInfo *info;
+	struct _filter_data *fdata = NULL;
 	GPtrArray *uids, *closures;
+	CamelMessageInfo *info;
+	GSList *labels, *next;
 	int enable_mask = 0;
 	int hide_mask = 0;
-	int i;
 	char *mlist = NULL;
 	GtkMenu *menu;
-	struct _filter_data *fdata = NULL;
+	int i;
 	
 	if (!folder_browser_is_sent (fb)) {
 		enable_mask |= CAN_RESEND;
@@ -2103,41 +2060,40 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 	((struct _label_data *) label_menu[0].closure)->fb = fb;
 	((struct _label_data *) label_menu[0].closure)->label = NULL;
 	
-	/* FIXME: don't hard code the label values */
-#define NUM_LABELS (sizeof (label_defaults) / sizeof (label_defaults[0]))
-	for (i = 0; i < NUM_LABELS; i++) {
+	i = 0;
+	labels = mail_config_get_labels ();
+	while (labels != NULL && i < 5) {
 		struct _label_data *closure;
+		MailConfigLabel *label;
 		GdkPixmap *pixmap;
 		GdkColormap *map;
-		GdkColor color;
-		guint32 rgb;
+		GdkColor colour;
 		GdkGC *gc;
 		
-		rgb = mail_config_get_label_color (i);
-		
-		color.red = ((rgb & 0xff0000) >> 8) | 0xff;
-		color.green = (rgb & 0xff00) | 0xff;
-		color.blue = ((rgb & 0xff) << 8) | 0xff;
-		
+		label = labels->data;
+		gdk_color_parse (label->colour, &colour);
 		map = gdk_colormap_get_system ();
-		gdk_color_alloc (map, &color);
+		gdk_color_alloc (map, &colour);
 		
 		pixmap = gdk_pixmap_new (GTK_WIDGET (fb)->window, 16, 16, -1);
 		gc = gdk_gc_new (GTK_WIDGET (fb)->window);
-		gdk_gc_set_foreground (gc, &color);
+		gdk_gc_set_foreground (gc, &colour);
 		gdk_draw_rectangle (pixmap, gc, TRUE, 0, 0, 16, 16);
 		gdk_gc_unref (gc);
 		
 		closure = g_new (struct _label_data, 1);
 		g_object_ref (fb);
 		closure->fb = fb;
-		closure->label = mail_config_get_label_name (i);
+		closure->label = label->name;
 		
 		g_ptr_array_add (closures, closure);
 		
-		label_menu[i + 2].name = (char *)mail_config_get_label_name (i);
-		label_menu[i + 2].pixmap_widget = gtk_image_new_from_pixmap(pixmap, NULL);
+		label_menu[i + 2].name = label->name;
+		label_menu[i + 2].pixmap_widget = gtk_image_new_from_pixmap (pixmap, NULL);
 		label_menu[i + 2].closure = closure;
+		
+		i++;
+		labels = labels->next;
 	}
 	
 	setup_popup_icons ();
@@ -2148,10 +2104,10 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 	menu = e_popup_menu_create (context_menu, enable_mask, hide_mask, fb);
 	e_auto_kill_popup_menu_on_hide (menu);
 	
-	g_object_set_data_full (G_OBJECT(menu), "label_closures", closures, (GtkDestroyNotify) label_closures_free);
+	g_object_set_data_full ((GObject *) menu, "label_closures", closures, (GtkDestroyNotify) label_closures_free);
 	
 	if (fdata)
-		g_object_set_data_full (G_OBJECT(menu), "filter_data", fdata, (GtkDestroyNotify) filter_data_free);
+		g_object_set_data_full ((GObject *) menu, "filter_data", fdata, (GtkDestroyNotify) filter_data_free);
 	
 	if (event->type == GDK_KEY_PRESS) {
 		struct cmpf_data closure;

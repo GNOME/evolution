@@ -100,8 +100,14 @@ mail_preferences_finalise (GObject *obj)
 
 
 static void
-colorpicker_set_color (GnomeColorPicker *color, guint32 rgb)
+colorpicker_set_color (GnomeColorPicker *color, const char *str)
 {
+	GdkColor colour;
+	guint32 rgb;
+	
+	gdk_color_parse (str, &colour);
+	rgb = ((colour.red & 0xff00) << 8) | (colour.green & 0xff00) | ((colour.blue & 0xff00) >> 8);
+	
 	gnome_color_picker_set_i8 (color, (rgb & 0xff0000) >> 16, (rgb & 0xff00) >> 8, rgb & 0xff, 0xff);
 }
 
@@ -148,7 +154,7 @@ restore_labels_clicked (GtkWidget *widget, gpointer user_data)
 	
 	for (i = 0; i < 5; i++) {
 		gtk_entry_set_text (prefs->labels[i].name, _(label_defaults[i].name));
-		colorpicker_set_color (prefs->labels[i].color, label_defaults[i].color);
+		colorpicker_set_color (prefs->labels[i].color, label_defaults[i].colour);
 	}
 }
 
@@ -183,10 +189,8 @@ mail_preferences_construct (MailPreferences *prefs)
 	GtkWidget *widget, *toplevel, *menu;
 	const char *text;
 	GSList *list, *l;
-	GdkColor colour;
 	GladeXML *gui;
 	gboolean bool;
-	guint32 rgb;
 	int i, val;
 	char *buf;
 	char *names[][2] = {
@@ -234,9 +238,7 @@ mail_preferences_construct (MailPreferences *prefs)
 	
 	prefs->citation_color = GNOME_COLOR_PICKER (glade_xml_get_widget (gui, "colorpickerHighlightCitations"));
 	buf = gconf_client_get_string (prefs->gconf, "/apps/evolution/mail/display/citation_colour", NULL);
-	gdk_color_parse (buf ? buf : "#737373", &colour);
-	rgb = ((colour.red & 0xff00) << 8) | (colour.green & 0xff00) | ((colour.blue & 0xff00) >> 8);
-	colorpicker_set_color (prefs->citation_color, rgb);
+	colorpicker_set_color (prefs->citation_color, buf ? buf : "#737373");
 	g_signal_connect (prefs->citation_color, "color-set", G_CALLBACK (color_set), prefs);
 	g_free (buf);
 	
@@ -307,11 +309,13 @@ mail_preferences_construct (MailPreferences *prefs)
 	gtk_toggle_button_set_active (prefs->prompt_unwanted_html, bool);
 	g_signal_connect (prefs->prompt_unwanted_html, "toggled", G_CALLBACK (settings_changed), prefs);
 	
-	l = list = gconf_client_get_list (prefs->gconf, "/apps/evolution/mail/labels", GCONF_VALUE_STRING, NULL);
-	
-	/* Labels and Colours tab */
-	for (i = 0; i < 5; i++) {
-		char *widget_name, *label, *p;
+	i = 0;
+	list = mail_config_get_labels ();
+	while (list != NULL && i < 5) {
+		MailConfigLabel *label;
+		char *widget_name;
+		
+		label = list->data;
 		
 		widget_name = g_strdup_printf ("txtLabel%d", i);
 		prefs->labels[i].name = GTK_ENTRY (glade_xml_get_widget (gui, widget_name));
@@ -321,34 +325,15 @@ mail_preferences_construct (MailPreferences *prefs)
 		prefs->labels[i].color = GNOME_COLOR_PICKER (glade_xml_get_widget (gui, widget_name));
 		g_free (widget_name);
 		
-		label = l ? (char *) l->data : g_strdup (_(label_defaults[i].name));
-		if ((p = strrchr (label, ':'))) {
-			*p++ = '\0';
-			gdk_color_parse (p, &colour);
-			rgb = ((colour.red & 0xff00) << 8) | (colour.green & 0xff00) | ((colour.blue & 0xff) >> 8);
-		} else {
-			rgb = label_defaults[i].color;
-		}
-		
-		gtk_entry_set_text (prefs->labels[i].name, label);
-		g_free (label);
-		
+		gtk_entry_set_text (prefs->labels[i].name, label->name);
 		g_signal_connect (prefs->labels[i].name, "changed", G_CALLBACK (settings_changed), prefs);
 		
-		colorpicker_set_color (prefs->labels[i].color, rgb);
+		colorpicker_set_color (prefs->labels[i].color, label->colour);
 		g_signal_connect (prefs->labels[i].color, "color_set", G_CALLBACK (color_set), prefs);
 		
-		if (l != NULL)
-			l = l->next;
+		i++;
+		list = list->next;
 	}
-	
-	/* this is in case somehow the gconf list is longer than 5... */
-	while (l != NULL) {
-		g_free (l->data);
-		l = l->next;
-	}
-	
-	g_slist_free (list);
 	
 	prefs->restore_labels = GTK_BUTTON (glade_xml_get_widget (gui, "cmdRestoreLabels"));
 	g_signal_connect (prefs->restore_labels, "clicked", G_CALLBACK (restore_labels_clicked), prefs);

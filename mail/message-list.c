@@ -990,8 +990,14 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
 		completed = camel_tag_get ((CamelTag **) &msg_info->user_tags, "completed-on");
 		label = camel_tag_get ((CamelTag **) &msg_info->user_tags, "label");
 		if (colour == NULL) {
+		find_colour:
 			if (label != NULL) {
-				colour = mail_config_get_label_color_string (filter_label_index (label));
+				colour = mail_config_get_label_color_by_name (label);
+				if (colour == NULL) {
+					/* dead label? */
+					label = NULL;
+					goto find_colour;
+				}
 			} else if (msg_info->flags & CAMEL_MESSAGE_FLAGGED) {
 				/* FIXME: extract from the xpm somehow. */
 				colour = "#A7453E";

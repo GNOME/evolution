@@ -1,3 +1,24 @@
+2003-01-31  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-config.c (mail_config_get_labels): New function to return a
+	cached list of labels.
+	(mail_config_get_label_color_by_name): New convenience function to
+	search the cached labels.
+	(mail_config_get_label_color_by_index): Same.
+	(mail_config_init): Cache the labels and also listen for changes
+	to them in the gconf db.
+	(config_cache_labels): Internal function to cache the labels.
+
+	* folder-browser.c (on_right_click): Fixed the label colours in
+	the menu by using the cached linked list of labels.
+
+	* mail-preferences.c (colorpicker_set_color): Now takes a string
+	argument allowing us to get rid of converting a string into an rgb
+	guint32 all over the place when trying to set defaults, since we
+	now store colors in gconf as strings.
+	(mail_preferences_construct): Use the cached labels (they are
+	already parsed for us).
+
 2003-01-27  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* component-factory.c (storage_remove_folder): Change

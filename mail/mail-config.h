@@ -83,10 +83,10 @@ typedef enum {
 
 typedef struct {
 	char *name;
-	guint32 color;
-	char *string;
+	char *colour;
 } MailConfigLabel;
 
+#define LABEL_DEFAULTS_NUM 5
 extern MailConfigLabel label_defaults[5];
 
 /* signatures */
@@ -103,11 +103,9 @@ void mail_config_write_on_exit (void);
 gboolean mail_config_is_configured            (void);
 gboolean mail_config_is_corrupt               (void);
 
-const char *mail_config_get_label_name  (int label);
-void        mail_config_set_label_name  (int label, const char *name);
-guint32     mail_config_get_label_color (int label);
-void        mail_config_set_label_color (int label, guint32 color);
-const char *mail_config_get_label_color_string (int label);
+GSList *mail_config_get_labels (void);
+const char *mail_config_get_label_color_by_name (const char *name);
+const char *mail_config_get_label_color_by_index (int index);
 
 void mail_config_service_set_save_passwd (EAccountService *service, gboolean save_passwd);
 
