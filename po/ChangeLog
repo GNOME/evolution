@@ -1,3 +1,7 @@
+2003-05-14  Christian Rose  <menthos@menthos.com>
+
+	* sv.po: Fix #113003 in bugzilla.gnome.org.
+
 2003-05-14  Kenneth Rohde Christiansen  <kenneth@gnu.org>
 
 	* da.po: Updated a bit.

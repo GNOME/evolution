@@ -6,13 +6,13 @@
 # Martin Norbäck <d95mback@dtek.chalmers.se>, 2001.
 # Johan Dahlin <zilch.am@home.se>, 2001.
 #
-# $Id: sv.po,v 1.173 2003/04/29 21:35:38 ettore Exp $
+# $Id: sv.po,v 1.174 2003/05/14 17:11:19 menthos Exp $
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2003-04-29 16:32-0400\n"
-"PO-Revision-Date: 2003-04-28 21:47+0200\n"
+"POT-Creation-Date: 2003-05-14 19:08+0200\n"
+"PO-Revision-Date: 2003-05-14 19:09+0200\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -831,7 +831,7 @@ msgstr "Redigera kontaktinformation"
 msgid "Add to Contacts"
 msgstr "Lägg till i kontakter"
 
-#: addressbook/gui/component/e-address-popup.c:1052
+#: addressbook/gui/component/e-address-popup.c:1053
 msgid "Merge E-Mail Address"
 msgstr "Slå samman e-postadress"
 
@@ -929,52 +929,48 @@ msgid "Connecting"
 msgstr "Ansluter"
 
 #: addressbook/gui/component/ldap-config.glade.h:20
-msgid "De_lete"
-msgstr "_Ta bort"
-
-#: addressbook/gui/component/ldap-config.glade.h:21
 msgid "Distinguished _name:"
 msgstr "Distinguished _name:"
 
-#: addressbook/gui/component/ldap-config.glade.h:22
+#: addressbook/gui/component/ldap-config.glade.h:21
 msgid "Edit LDAP Server"
 msgstr "Redigera LDAP-server"
 
-#: addressbook/gui/component/ldap-config.glade.h:23
+#: addressbook/gui/component/ldap-config.glade.h:22
 msgid "Email Address:"
 msgstr "E-postadress:"
 
-#: addressbook/gui/component/ldap-config.glade.h:24
+#: addressbook/gui/component/ldap-config.glade.h:23
 msgid "Evolution will use this DN to authenticate you with the server"
 msgstr ""
 "Evolution kommer att använda detta DN för att autentisera dig till servern"
 
-#: addressbook/gui/component/ldap-config.glade.h:25
+#: addressbook/gui/component/ldap-config.glade.h:24
 msgid ""
 "Evolution will use this email address to authenticate you with the server"
 msgstr ""
 "Evolution kommer att använda denna e-postadress för att autentisera dig till "
 "servern"
 
-#: addressbook/gui/component/ldap-config.glade.h:26
+#: addressbook/gui/component/ldap-config.glade.h:25
 msgid "Finished"
 msgstr "Klar"
 
-#: addressbook/gui/component/ldap-config.glade.h:27
+#: addressbook/gui/component/ldap-config.glade.h:26
 #: addressbook/gui/contact-editor/contact-editor.glade.h:16
 msgid "General"
 msgstr "Allmänt"
 
-#: addressbook/gui/component/ldap-config.glade.h:28
+#: addressbook/gui/component/ldap-config.glade.h:27
 msgid "LDAP Configuration Assistant"
 msgstr "LDAP-konfigurationsassistent"
 
-#: addressbook/gui/component/ldap-config.glade.h:29 mail/mail-account-gui.c:63
+#: addressbook/gui/component/ldap-config.glade.h:28 mail/mail-account-gui.c:63
 #: mail/mail-config.glade.h:77
 msgid "Never"
 msgstr "Aldrig"
 
-#: addressbook/gui/component/ldap-config.glade.h:30
+#: addressbook/gui/component/ldap-config.glade.h:29
 msgid ""
 "Now, you must specify how you want to connect to the LDAP server. The SSL "
 "(Secure Sockets Layer)\n"
@@ -988,26 +984,26 @@ msgstr ""
 "servrar för att kryptografiskt skydda din anslutning. Fråga din "
 "systemadministratör om din LDAP-server använder dessa protokoll."
 
-#: addressbook/gui/component/ldap-config.glade.h:33
+#: addressbook/gui/component/ldap-config.glade.h:32
 msgid "One"
 msgstr "En"
 
-#: addressbook/gui/component/ldap-config.glade.h:34
+#: addressbook/gui/component/ldap-config.glade.h:33
 msgid "S_earch scope: "
 msgstr "S_ökomfattning: "
 
 #. No time range is set, so don't start a query
-#: addressbook/gui/component/ldap-config.glade.h:35
+#: addressbook/gui/component/ldap-config.glade.h:34
 #: calendar/gui/calendar-model.c:1982 calendar/gui/e-day-view.c:1666
 #: calendar/gui/e-week-view.c:1237
 msgid "Searching"
 msgstr "Söker"
 
-#: addressbook/gui/component/ldap-config.glade.h:36
+#: addressbook/gui/component/ldap-config.glade.h:35
 msgid "Selected:"
 msgstr "Markerat:"
 
-#: addressbook/gui/component/ldap-config.glade.h:37
+#: addressbook/gui/component/ldap-config.glade.h:36
 msgid ""
 "Selecting this option means that Evolution will only connect to your LDAP "
 "server if\n"
@@ -1017,7 +1013,7 @@ msgstr ""
 "till din\n"
 "LDAP-server om den stöder SSL eller TLS."
 
-#: addressbook/gui/component/ldap-config.glade.h:39
+#: addressbook/gui/component/ldap-config.glade.h:38
 msgid ""
 "Selecting this option means that Evolution will only try to use SSL/TLS if "
 "you are in a \n"
@@ -1034,7 +1030,7 @@ msgstr ""
 "på jobbet behöver inte Evolution inte använda SSL/TLS eftersom din anlutning "
 "redan är säker."
 
-#: addressbook/gui/component/ldap-config.glade.h:43
+#: addressbook/gui/component/ldap-config.glade.h:42
 msgid ""
 "Selecting this option means that your server does not support either SSL or "
 "TLS.  This \n"
@@ -1048,7 +1044,7 @@ msgstr ""
 "att vara\n"
 "sårbar för säkerhetsluckor."
 
-#: addressbook/gui/component/ldap-config.glade.h:46
+#: addressbook/gui/component/ldap-config.glade.h:45
 msgid ""
 "Selecting this option will let you change Evolution's default settings for "
 "LDAP\n"
@@ -1058,7 +1054,7 @@ msgstr ""
 "inställningar\n"
 "för LDAP-sökningar, och för skapande och redigering av kontakter."
 
-#: addressbook/gui/component/ldap-config.glade.h:48
+#: addressbook/gui/component/ldap-config.glade.h:47
 msgid ""
 "Specifying a display name is the last required step in configuring an LDAP "
 "server."
@@ -1066,31 +1062,31 @@ msgstr ""
 "Att välja ett visningsnamn är det sista nödvändiga steget vid konfiguration "
 "av en LDAP-server."
 
-#: addressbook/gui/component/ldap-config.glade.h:49
+#: addressbook/gui/component/ldap-config.glade.h:48
 msgid "Step 1: Server Information"
 msgstr "Steg 1: Serverinformation"
 
-#: addressbook/gui/component/ldap-config.glade.h:50
+#: addressbook/gui/component/ldap-config.glade.h:49
 msgid "Step 2: Connecting to Server"
 msgstr "Steg 2: Ansluter till server"
 
-#: addressbook/gui/component/ldap-config.glade.h:51
+#: addressbook/gui/component/ldap-config.glade.h:50
 msgid "Step 3: Searching the Directory"
 msgstr "Steg 3: Söker i katalogen"
 
-#: addressbook/gui/component/ldap-config.glade.h:52
+#: addressbook/gui/component/ldap-config.glade.h:51
 msgid "Step 4: Display Name"
 msgstr "Steg 4: Visar namn"
 
-#: addressbook/gui/component/ldap-config.glade.h:53
+#: addressbook/gui/component/ldap-config.glade.h:52
 msgid "Sub"
 msgstr "Pren"
 
-#: addressbook/gui/component/ldap-config.glade.h:54
+#: addressbook/gui/component/ldap-config.glade.h:53
 msgid "Supported Search Bases"
 msgstr "Sökbaser som stöds"
 
-#: addressbook/gui/component/ldap-config.glade.h:55
+#: addressbook/gui/component/ldap-config.glade.h:54
 msgid ""
 "The first step in configuring an LDAP server is to provide its name, and "
 "your log in\n"
@@ -1102,7 +1098,7 @@ msgstr ""
 "inloggningsinformation. Fråga din systemadministratör om du är osäker "
 "angående denna information."
 
-#: addressbook/gui/component/ldap-config.glade.h:57
+#: addressbook/gui/component/ldap-config.glade.h:56
 msgid ""
 "The options on this page control how many entries should be included in "
 "your\n"
@@ -1116,7 +1112,7 @@ msgstr ""
 "måste ändra\n"
 "dessa alternativ."
 
-#: addressbook/gui/component/ldap-config.glade.h:60
+#: addressbook/gui/component/ldap-config.glade.h:59
 msgid ""
 "The search base is the distinguished name (DN)  of the entry where your "
 "searches will \n"
@@ -1128,7 +1124,7 @@ msgstr ""
 "Om du lämnar detta tomt kommer sökningen att börja vid roten av "
 "katalogträdet."
 
-#: addressbook/gui/component/ldap-config.glade.h:62
+#: addressbook/gui/component/ldap-config.glade.h:61
 msgid ""
 "The search scope defines how deep you would like the search to extend down "
 "the \n"
@@ -1144,7 +1140,7 @@ msgstr ""
 "En sökomfattning som är \"one\" kommer endast att inkludera de poster som är "
 "en nivå under din sökbas.\n"
 
-#: addressbook/gui/component/ldap-config.glade.h:66
+#: addressbook/gui/component/ldap-config.glade.h:65
 msgid ""
 "This assistant will help you to access online directory services\n"
 "using LDAP (Lightweight Directory Access Protocol) servers. \n"
@@ -1160,7 +1156,7 @@ msgstr ""
 "servern. Kontakta din systemadministratör om behöver hjälp med att hitta\n"
 "denna information."
 
-#: addressbook/gui/component/ldap-config.glade.h:72
+#: addressbook/gui/component/ldap-config.glade.h:71
 msgid ""
 "This is the full name of your ldap server. For example, \"ldap.mycompany.com"
 "\"."
@@ -1168,7 +1164,7 @@ msgstr ""
 "Detta är det fullständiga namnet på din ldap-server. Till exempel \"ldap."
 "mittforetag.se\"."
 
-#: addressbook/gui/component/ldap-config.glade.h:73
+#: addressbook/gui/component/ldap-config.glade.h:72
 msgid ""
 "This is the maximum number of entries to download. Setting this number to "
 "be \n"
@@ -1178,7 +1174,7 @@ msgstr ""
 "högt\n"
 "kommer att slöa ned adressboken."
 
-#: addressbook/gui/component/ldap-config.glade.h:75
+#: addressbook/gui/component/ldap-config.glade.h:74
 msgid ""
 "This is the method evolution will use to authenticate you.  Note that "
 "setting this to \"Email Address\" requires anonymous access to your ldap "
@@ -1188,7 +1184,7 @@ msgstr ""
 "Observera att ställa in detta till \"E-postadress\" kräver anonym åtkomst "
 "till din ldap-server."
 
-#: addressbook/gui/component/ldap-config.glade.h:76
+#: addressbook/gui/component/ldap-config.glade.h:75
 msgid ""
 "This is the name for this server that will appear in your Evolution folder "
 "list.\n"
@@ -1198,7 +1194,7 @@ msgstr ""
 "mapplista.\n"
 "Det används endast för visning."
 
-#: addressbook/gui/component/ldap-config.glade.h:78
+#: addressbook/gui/component/ldap-config.glade.h:77
 msgid ""
 "This is the port on the LDAP server that Evolution will try to connect to. "
 "A \n"
@@ -1210,42 +1206,36 @@ msgstr ""
 "En lista med standardportar tillhandahålls. Fråga din systemadministratör "
 "vilken port du ska ange."
 
-#: addressbook/gui/component/ldap-config.glade.h:81
+#: addressbook/gui/component/ldap-config.glade.h:80
 msgid "This option controls how long a search will be run."
 msgstr "Detta alternativ styr hur lång tid en sökning kommer att köras."
 
-#: addressbook/gui/component/ldap-config.glade.h:82
+#: addressbook/gui/component/ldap-config.glade.h:81
 msgid "U_se SSL/TLS:"
 msgstr "An_vänd SSL/TLS:"
 
-#: addressbook/gui/component/ldap-config.glade.h:83
+#: addressbook/gui/component/ldap-config.glade.h:82
 msgid "Using distinguished name (DN)"
 msgstr "Använder distinguished name (DN)"
 
-#: addressbook/gui/component/ldap-config.glade.h:84
+#: addressbook/gui/component/ldap-config.glade.h:83
 msgid "Using email address"
 msgstr "Använder e-postadress"
 
-#: addressbook/gui/component/ldap-config.glade.h:85 mail/mail-account-gui.c:62
+#: addressbook/gui/component/ldap-config.glade.h:84 mail/mail-account-gui.c:62
 #: mail/mail-config.glade.h:132
 msgid "Whenever Possible"
 msgstr "Närsomhelst"
 
-#: addressbook/gui/component/ldap-config.glade.h:86
-#: addressbook/gui/contact-editor/contact-editor.glade.h:29
-#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:7
-msgid "_Add"
-msgstr "_Lägg till"
-
-#: addressbook/gui/component/ldap-config.glade.h:87
+#: addressbook/gui/component/ldap-config.glade.h:85
 msgid "_Display name:"
 msgstr "_Visa namn:"
 
-#: addressbook/gui/component/ldap-config.glade.h:88
+#: addressbook/gui/component/ldap-config.glade.h:86
 msgid "_Download limit:"
 msgstr "_Hämtningsgräns:"
 
-#: addressbook/gui/component/ldap-config.glade.h:89 filter/filter.glade.h:14
+#: addressbook/gui/component/ldap-config.glade.h:87 filter/filter.glade.h:14
 #: mail/mail-config.glade.h:148 ui/evolution-addressbook.xml.h:33
 #: ui/evolution-calendar.xml.h:31 ui/evolution-composer-entries.xml.h:8
 #: ui/evolution-mail-list.xml.h:25 ui/evolution-mail-messagedisplay.xml.h:6
@@ -1255,39 +1245,39 @@ msgstr "_Hämtningsgräns:"
 msgid "_Edit"
 msgstr "_Redigera"
 
-#: addressbook/gui/component/ldap-config.glade.h:90
+#: addressbook/gui/component/ldap-config.glade.h:88
 msgid "_Log in method:"
 msgstr "_Inloggningsmetod:"
 
-#: addressbook/gui/component/ldap-config.glade.h:91
+#: addressbook/gui/component/ldap-config.glade.h:89
 msgid "_Port number:"
 msgstr "_Portnummer:"
 
-#: addressbook/gui/component/ldap-config.glade.h:92
+#: addressbook/gui/component/ldap-config.glade.h:90
 msgid "_Search base:"
 msgstr "_Utgångspunkt för sökning:"
 
-#: addressbook/gui/component/ldap-config.glade.h:93
+#: addressbook/gui/component/ldap-config.glade.h:91
 msgid "_Server name:"
 msgstr "_Servernamn:"
 
-#: addressbook/gui/component/ldap-config.glade.h:94
+#: addressbook/gui/component/ldap-config.glade.h:92
 msgid "_Timeout (minutes):"
 msgstr "_Timeout (minuter):"
 
-#: addressbook/gui/component/ldap-config.glade.h:95
+#: addressbook/gui/component/ldap-config.glade.h:93
 msgid "cards"
 msgstr "kort"
 
-#: addressbook/gui/component/ldap-config.glade.h:96
+#: addressbook/gui/component/ldap-config.glade.h:94
 msgid "connecting-tab"
 msgstr "anslutningsflik"
 
-#: addressbook/gui/component/ldap-config.glade.h:97
+#: addressbook/gui/component/ldap-config.glade.h:95
 msgid "general-tab"
 msgstr "allmän-flik"
 
-#: addressbook/gui/component/ldap-config.glade.h:98
+#: addressbook/gui/component/ldap-config.glade.h:96
 msgid "searching-tab"
 msgstr "sökflik"
 
@@ -1300,7 +1290,7 @@ msgid "Remove All"
 msgstr "Ta bort alla"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:211
-#: addressbook/gui/component/select-names/e-select-names.c:692
+#: addressbook/gui/component/select-names/e-select-names.c:694
 #: composer/e-msg-composer-attachment-bar.c:507
 msgid "Remove"
 msgstr "Ta bort"
@@ -1327,11 +1317,11 @@ msgstr "Namnlös kontakt:"
 msgid "Source"
 msgstr "Källkod"
 
-#: addressbook/gui/component/select-names/e-select-names.c:505
+#: addressbook/gui/component/select-names/e-select-names.c:509
 msgid "Select Contacts from Addressbook"
 msgstr "Välj kontakter från adressboken"
 
-#: addressbook/gui/component/select-names/e-select-names.c:648
+#: addressbook/gui/component/select-names/e-select-names.c:650
 msgid "Find contact in"
 msgstr "Sök kontakt i"
 
@@ -1458,8 +1448,12 @@ msgstr "Detta är _postadressen"
 msgid "Wants to receive _HTML mail"
 msgstr "Vill ha _HTML-post"
 
+#: addressbook/gui/contact-editor/contact-editor.glade.h:29
+msgid "_Add"
+msgstr "_Lägg till"
+
 #: addressbook/gui/contact-editor/contact-editor.glade.h:30
-#: calendar/gui/dialogs/meeting-page.c:715 calendar/gui/e-calendar-table.c:967
+#: calendar/gui/dialogs/meeting-page.c:717 calendar/gui/e-calendar-table.c:967
 #: calendar/gui/e-day-view.c:3706 calendar/gui/e-week-view.c:3590
 #: mail/folder-browser.c:1783 ui/evolution-addressbook.xml.h:32
 #: ui/evolution-calendar.xml.h:30 ui/evolution-mail-message.xml.h:97
@@ -2742,16 +2736,11 @@ msgstr "Medlemmar"
 msgid "Type an email address or drag a contact into the list below:"
 msgstr "Ange en e-postadress eller dra en kontakt till listan nedan:"
 
-#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:8
+#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:7
 msgid "_Hide addresses when sending mail to this list"
 msgstr "_Dölj adresser då e-post skickas till denna lista"
 
-#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:9
-#: calendar/gui/dialogs/recurrence-page.glade.h:12
-msgid "_Remove"
-msgstr "_Ta bort"
-
-#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:10
+#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:8
 msgid "contact-list-editor"
 msgstr "kontaktlisteredigerare"
 
@@ -2852,7 +2841,7 @@ msgstr "Fel vid hämtande av bokvy"
 msgid "Model"
 msgstr "Modell"
 
-#: addressbook/gui/widgets/e-addressbook-table-adapter.c:142
+#: addressbook/gui/widgets/e-addressbook-table-adapter.c:145
 #: addressbook/gui/widgets/e-addressbook-util.c:105
 #: addressbook/gui/widgets/e-minicard.c:531
 msgid "Error modifying card"
@@ -3273,8 +3262,8 @@ msgstr "Kortvy"
 msgid "GTK Tree View"
 msgstr "GTK-trädvy"
 
-#: addressbook/printing/e-contact-print-envelope.c:216
-#: addressbook/printing/e-contact-print-envelope.c:237
+#: addressbook/printing/e-contact-print-envelope.c:217
+#: addressbook/printing/e-contact-print-envelope.c:238
 msgid "Print envelope"
 msgstr "Skriv ut kuvert"
 
@@ -3711,17 +3700,17 @@ msgstr "Slumringstid (minuter)"
 msgid "_Edit appointment"
 msgstr "_Redigera möte"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:778
+#: calendar/gui/alarm-notify/alarm-queue.c:770
 msgid "No description available."
 msgstr "Ingen beskrivning finns tillgänglig."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:851
-#: calendar/gui/alarm-notify/alarm-queue.c:875
+#: calendar/gui/alarm-notify/alarm-queue.c:843
+#: calendar/gui/alarm-notify/alarm-queue.c:867
 #: calendar/gui/tasks-control.c:463 widgets/misc/e-messagebox.c:161
 msgid "Warning"
 msgstr "Varning"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:855
+#: calendar/gui/alarm-notify/alarm-queue.c:847
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -3733,7 +3722,7 @@ msgstr ""
 "konfigurerad att skicka e-post. Evolution kommer att\n"
 "visa en normal dialogruta istället."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:881
+#: calendar/gui/alarm-notify/alarm-queue.c:873
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -3750,7 +3739,7 @@ msgstr ""
 "\n"
 "Är du säker på att du vill köra detta program?"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:895
+#: calendar/gui/alarm-notify/alarm-queue.c:887
 msgid "Do not ask me about this program again."
 msgstr "Fråga mig inte om detta program igen."
 
@@ -3867,7 +3856,7 @@ msgstr "Skapa ett nytt möte"
 
 #: calendar/gui/calendar-component.c:737
 msgid "New meeting"
-msgstr "Nytt möte"
+msgstr "Nytt sammanträde"
 
 #: calendar/gui/calendar-component.c:737
 msgid "M_eeting"
@@ -3875,7 +3864,7 @@ msgstr "M_öte"
 
 #: calendar/gui/calendar-component.c:738
 msgid "Create a new meeting request"
-msgstr "Skapa en ny mötesbegäran"
+msgstr "Skapa en ny sammanträdesbegäran"
 
 #: calendar/gui/calendar-component.c:742
 msgid "New task"
@@ -3956,8 +3945,8 @@ msgstr "Pågår"
 
 #: calendar/gui/calendar-model.c:755 calendar/gui/calendar-model.c:1181
 #: calendar/gui/dialogs/task-details-page.glade.h:4
-#: calendar/gui/e-calendar-table.c:469 calendar/gui/e-meeting-model.c:296
-#: calendar/gui/e-meeting-model.c:319 calendar/gui/print.c:2316
+#: calendar/gui/e-calendar-table.c:469 calendar/gui/e-meeting-model.c:294
+#: calendar/gui/e-meeting-model.c:317 calendar/gui/print.c:2316
 msgid "Completed"
 msgstr "Färdigt"
 
@@ -3978,8 +3967,8 @@ msgstr ""
 #: mail/mail-account-gui.c:1685 mail/mail-accounts.c:442
 #: mail/mail-config.glade.h:79
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:194
-#: widgets/misc/e-cell-date-edit.c:257 widgets/misc/e-dateedit.c:443
-#: widgets/misc/e-dateedit.c:1459 widgets/misc/e-dateedit.c:1574
+#: widgets/misc/e-cell-date-edit.c:257 widgets/misc/e-dateedit.c:441
+#: widgets/misc/e-dateedit.c:1457 widgets/misc/e-dateedit.c:1572
 msgid "None"
 msgstr "Ingen"
 
@@ -3991,14 +3980,14 @@ msgstr "Återkommande"
 msgid "Assigned"
 msgstr "Tilldelad"
 
-#: calendar/gui/calendar-model.c:1718 calendar/gui/e-meeting-model.c:268
-#: calendar/gui/e-meeting-model.c:278 calendar/gui/e-meeting-model.c:536
-#: calendar/gui/e-meeting-model.c:835
+#: calendar/gui/calendar-model.c:1718 calendar/gui/e-meeting-model.c:266
+#: calendar/gui/e-meeting-model.c:276 calendar/gui/e-meeting-model.c:534
+#: calendar/gui/e-meeting-model.c:784
 msgid "Yes"
 msgstr "Ja"
 
-#: calendar/gui/calendar-model.c:1718 calendar/gui/e-meeting-model.c:280
-#: calendar/gui/e-meeting-model.c:836
+#: calendar/gui/calendar-model.c:1718 calendar/gui/e-meeting-model.c:278
+#: calendar/gui/e-meeting-model.c:785
 msgid "No"
 msgstr "Nej"
 
@@ -4401,12 +4390,12 @@ msgid ""
 "The event being deleted is a meeting, would you like to send a cancellation "
 "notice?"
 msgstr ""
-"Evenemanget som tas bort är ett möte. Vill du skicka ett "
+"Evenemanget som tas bort är ett sammanträde. Vill du skicka ett "
 "avbokningsmeddelande?"
 
 #: calendar/gui/dialogs/cancel-comp.c:61
 msgid "Are you sure you want to cancel and delete this meeting?"
-msgstr "Är du säker på att du vill avboka och ta bort detta möte?"
+msgstr "Är du säker på att du vill avboka och ta bort detta sammanträde?"
 
 #: calendar/gui/dialogs/cancel-comp.c:67
 msgid ""
@@ -4425,8 +4414,8 @@ msgid ""
 "The journal entry being deleted is published, would you like to send a "
 "cancellation notice?"
 msgstr ""
-"E som tas bort är ett möte. Vill du skicka ett meddelande om att det är "
-"inställt?"
+"Dagboksposten som tas bort är publicerad. Vill du skicka ett meddelande om "
+"att det är inställt?"
 
 #: calendar/gui/dialogs/cancel-comp.c:79
 msgid "Are you sure you want to cancel and delete this journal entry?"
@@ -4676,15 +4665,15 @@ msgstr "Upprepning"
 
 #: calendar/gui/dialogs/event-editor.c:220
 #: calendar/gui/dialogs/event-editor.c:292
-#: calendar/gui/dialogs/event-editor.c:438
+#: calendar/gui/dialogs/event-editor.c:436
 msgid "Scheduling"
 msgstr "Schemaläggning"
 
 #: calendar/gui/dialogs/event-editor.c:227
 #: calendar/gui/dialogs/event-editor.c:295
-#: calendar/gui/dialogs/event-editor.c:441 ui/evolution-event-editor.xml.h:6
+#: calendar/gui/dialogs/event-editor.c:439 ui/evolution-event-editor.xml.h:6
 msgid "Meeting"
-msgstr "Möte"
+msgstr "Sammanträde"
 
 #: calendar/gui/dialogs/event-page.c:603 calendar/gui/dialogs/task-page.c:507
 msgid "Start date is wrong"
@@ -4772,13 +4761,13 @@ msgstr "En organisatör krävs."
 
 #: calendar/gui/dialogs/meeting-page.c:458
 msgid "At least one attendee is required."
-msgstr "Det måste finnas åtminstone en närvarande person."
+msgstr "Det måste finnas åtminstone en deltagare."
 
 #: calendar/gui/dialogs/meeting-page.c:629
 msgid "That person is already attending the meeting!"
-msgstr "Personen är redan närvarande på mötet!"
+msgstr "Personen är redan närvarande på sammanträdet!"
 
-#: calendar/gui/dialogs/meeting-page.c:711
+#: calendar/gui/dialogs/meeting-page.c:713
 msgid "_Delegate To..."
 msgstr "_Delegera till..."
 
@@ -4790,7 +4779,7 @@ msgstr "Deltagare"
 #: calendar/gui/dialogs/meeting-page.etspec.h:2
 #: calendar/gui/e-meeting-time-sel.etspec.h:2
 msgid "Click here to add an attendee"
-msgstr "Klicka här för att lägga till en närvarande person"
+msgstr "Klicka här för att lägga till en deltagare"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:3
 #: calendar/gui/e-meeting-time-sel.etspec.h:3
@@ -4950,6 +4939,10 @@ msgstr "_Ändra"
 msgid "_No recurrence"
 msgstr "_Ingen upprepning"
 
+#: calendar/gui/dialogs/recurrence-page.glade.h:12
+msgid "_Remove"
+msgstr "_Ta bort"
+
 #: calendar/gui/dialogs/recurrence-page.glade.h:13
 msgid "_Simple recurrence"
 msgstr "_Enkel upprepning"
@@ -4980,11 +4973,11 @@ msgstr "år"
 
 #: calendar/gui/dialogs/send-comp.c:58
 msgid "The meeting information has been created. Send it?"
-msgstr "Mötesinformationen har skapats. Skicka den?"
+msgstr "Sammanträdesinformationen har skapats. Skicka den?"
 
 #: calendar/gui/dialogs/send-comp.c:61
 msgid "The meeting information has changed. Send an updated version?"
-msgstr "Mötesinformationen har ändrats. Skicka en uppdaterad version?"
+msgstr "Sammanträdesinformationen har ändrats. Skicka en uppdaterad version?"
 
 #: calendar/gui/dialogs/send-comp.c:68
 msgid "The task assignment information has been created. Send it?"
@@ -4994,7 +4987,7 @@ msgstr "Uppgiftstilldelningsinformationen har ändrats. Skicka den?"
 msgid "The task information has changed. Send an updated version?"
 msgstr "Uppgiftsinformationen har ändrats. Skicka en uppdaterad version?"
 
-#: calendar/gui/dialogs/task-details-page.c:400
+#: calendar/gui/dialogs/task-details-page.c:401
 msgid "Completed date is wrong"
 msgstr "Utförtdatumet är fel"
 
@@ -5031,7 +5024,7 @@ msgstr "Grundläggande"
 
 #: calendar/gui/dialogs/task-editor.c:204
 #: calendar/gui/dialogs/task-editor.c:252
-#: calendar/gui/dialogs/task-editor.c:390
+#: calendar/gui/dialogs/task-editor.c:387
 msgid "Assignment"
 msgstr "Tilldelning"
 
@@ -5129,12 +5122,12 @@ msgstr "%s %s innan starten på mötet"
 #: calendar/gui/e-alarm-list.c:507
 #, c-format
 msgid "%s %s after the end of the appointment"
-msgstr "%s %s efter slut på möte"
+msgstr "%s %s efter slut på mötet"
 
 #: calendar/gui/e-alarm-list.c:512
 #, c-format
 msgid "%s at the end of the appointment"
-msgstr "%s efter slut på möte"
+msgstr "%s efter slut på mötet"
 
 #: calendar/gui/e-alarm-list.c:536
 #, c-format
@@ -5147,57 +5140,46 @@ msgid "%s for an unknown trigger type"
 msgstr "%s för en okänd triggertyp"
 
 #: calendar/gui/e-calendar-table.c:416
-#, c-format
 msgid "0%"
 msgstr "0%"
 
 #: calendar/gui/e-calendar-table.c:417
-#, c-format
 msgid "10%"
 msgstr "10%"
 
 #: calendar/gui/e-calendar-table.c:418
-#, c-format
 msgid "20%"
 msgstr "20%"
 
 #: calendar/gui/e-calendar-table.c:419
-#, c-format
 msgid "30%"
 msgstr "30%"
 
 #: calendar/gui/e-calendar-table.c:420
-#, c-format
 msgid "40%"
 msgstr "40%"
 
 #: calendar/gui/e-calendar-table.c:421
-#, c-format
 msgid "50%"
 msgstr "50%"
 
 #: calendar/gui/e-calendar-table.c:422
-#, c-format
 msgid "60%"
 msgstr "60%"
 
 #: calendar/gui/e-calendar-table.c:423
-#, c-format
 msgid "70%"
 msgstr "70%"
 
 #: calendar/gui/e-calendar-table.c:424
-#, c-format
 msgid "80%"
 msgstr "80%"
 
 #: calendar/gui/e-calendar-table.c:425
-#, c-format
 msgid "90%"
 msgstr "90%"
 
 #: calendar/gui/e-calendar-table.c:426
-#, c-format
 msgid "100%"
 msgstr "100%"
 
@@ -5382,7 +5364,7 @@ msgstr "Nytt _heldagsarrangemang"
 
 #: calendar/gui/e-day-view.c:3649 calendar/gui/e-week-view.c:3542
 msgid "New Meeting"
-msgstr "Nytt möte"
+msgstr "Nytt sammanträde"
 
 #: calendar/gui/e-day-view.c:3651 calendar/gui/e-week-view.c:3543
 msgid "New Task"
@@ -5418,7 +5400,7 @@ msgstr "_Spara som..."
 
 #: calendar/gui/e-day-view.c:3701 calendar/gui/e-week-view.c:3585
 msgid "_Schedule Meeting..."
-msgstr "_Boka möte..."
+msgstr "_Boka sammanträde..."
 
 #: calendar/gui/e-day-view.c:3702 calendar/gui/e-week-view.c:3586
 msgid "_Forward as iCalendar..."
@@ -5558,8 +5540,8 @@ msgstr "Plats:"
 msgid "Status:"
 msgstr "Status:"
 
-#: calendar/gui/e-itip-control.c:1083 calendar/gui/e-meeting-model.c:288
-#: calendar/gui/e-meeting-model.c:311 calendar/gui/e-meeting-model.c:849
+#: calendar/gui/e-itip-control.c:1083 calendar/gui/e-meeting-model.c:286
+#: calendar/gui/e-meeting-model.c:309 calendar/gui/e-meeting-model.c:798
 #: calendar/gui/itip-utils.c:414
 msgid "Accepted"
 msgstr "Godtaget"
@@ -5568,16 +5550,16 @@ msgstr "Godtaget"
 msgid "Tentatively Accepted"
 msgstr "Preliminärt godtaget"
 
-#: calendar/gui/e-itip-control.c:1091 calendar/gui/e-meeting-model.c:290
-#: calendar/gui/e-meeting-model.c:313 calendar/gui/e-meeting-model.c:850
+#: calendar/gui/e-itip-control.c:1091 calendar/gui/e-meeting-model.c:288
+#: calendar/gui/e-meeting-model.c:311 calendar/gui/e-meeting-model.c:799
 #: calendar/gui/itip-utils.c:420 calendar/gui/itip-utils.c:446
 msgid "Declined"
 msgstr "Avböjt"
 
 #: calendar/gui/e-itip-control.c:1095 calendar/gui/e-itip-control.c:1303
-#: calendar/gui/e-meeting-model.c:224 calendar/gui/e-meeting-model.c:259
-#: calendar/gui/e-meeting-model.c:324 calendar/gui/e-meeting-model.c:807
-#: calendar/gui/e-meeting-model.c:823 camel/camel-gpg-context.c:1574
+#: calendar/gui/e-meeting-model.c:222 calendar/gui/e-meeting-model.c:257
+#: calendar/gui/e-meeting-model.c:322 calendar/gui/e-meeting-model.c:756
+#: calendar/gui/e-meeting-model.c:772 camel/camel-gpg-context.c:1574
 #: camel/camel-gpg-context.c:1625 camel/camel-tcp-stream-openssl.c:634
 #: camel/providers/smtp/camel-smtp-transport.c:173
 #: camel/providers/smtp/camel-smtp-transport.c:228 mail/folder-browser.c:345
@@ -5628,7 +5610,7 @@ msgid "Send Latest Information"
 msgstr "Skicka senaste information"
 
 #: calendar/gui/e-itip-control.c:1244 calendar/gui/itip-utils.c:434
-#: mail/mail-send-recv.c:383 mail/mail-send-recv.c:440
+#: mail/mail-send-recv.c:386 mail/mail-send-recv.c:443
 #: shell/evolution-shell-component.c:1182 ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
 msgstr "Avbryt"
@@ -5636,61 +5618,61 @@ msgstr "Avbryt"
 #: calendar/gui/e-itip-control.c:1325
 #, c-format
 msgid "<b>%s</b> has published meeting information."
-msgstr "<b>%s</b> har publicerat mötesinformation."
+msgstr "<b>%s</b> har publicerat sammanträdesinformation."
 
 #: calendar/gui/e-itip-control.c:1326
 msgid "Meeting Information"
-msgstr "Mötesinformation"
+msgstr "Sammanträdesinformation"
 
 #: calendar/gui/e-itip-control.c:1331
 #, c-format
 msgid "<b>%s</b> requests the presence of %s at a meeting."
-msgstr "<b>%s</b> begär att %s närvarar vid ett möte."
+msgstr "<b>%s</b> begär att %s närvarar vid ett sammanträde."
 
 #: calendar/gui/e-itip-control.c:1333
 #, c-format
 msgid "<b>%s</b> requests your presence at a meeting."
-msgstr "<b>%s</b> begär din närvaro vid ett möte."
+msgstr "<b>%s</b> begär din närvaro vid ett sammanträde."
 
 #: calendar/gui/e-itip-control.c:1334
 msgid "Meeting Proposal"
-msgstr "Mötesförslag"
+msgstr "Sammanträdesförslag"
 
 #: calendar/gui/e-itip-control.c:1338
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing meeting."
-msgstr "<b>%s</b> vill lägga till i ett befintligt möte."
+msgstr "<b>%s</b> vill lägga till i ett befintligt sammanträde."
 
 #: calendar/gui/e-itip-control.c:1339
 msgid "Meeting Update"
-msgstr "Mötesuppdatering"
+msgstr "Sammanträdesuppdatering"
 
 #: calendar/gui/e-itip-control.c:1343
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest meeting information."
-msgstr "<b>%s</b> vill få den senaste mötesinformationen."
+msgstr "<b>%s</b> vill få den senaste sammanträdesinformationen."
 
 #: calendar/gui/e-itip-control.c:1344
 msgid "Meeting Update Request"
-msgstr "Begäran av mötesuppdatering"
+msgstr "Begäran av sammanträdesuppdatering"
 
 #: calendar/gui/e-itip-control.c:1351
 #, c-format
 msgid "<b>%s</b> has replied to a meeting request."
-msgstr "<b>%s</b> har svarat på en mötesbegäran."
+msgstr "<b>%s</b> har svarat på en sammanträdesbegäran."
 
 #: calendar/gui/e-itip-control.c:1352
 msgid "Meeting Reply"
-msgstr "Mötessvar"
+msgstr "Sammanträdessvar"
 
 #: calendar/gui/e-itip-control.c:1359
 #, c-format
 msgid "<b>%s</b> has cancelled a meeting."
-msgstr "<b>%s</b> har avbokat ett möte."
+msgstr "<b>%s</b> har avbokat ett sammanträde."
 
 #: calendar/gui/e-itip-control.c:1360
 msgid "Meeting Cancellation"
-msgstr "Mötesavbokning"
+msgstr "Sammanträdesavbokning"
 
 #: calendar/gui/e-itip-control.c:1367 calendar/gui/e-itip-control.c:1434
 #: calendar/gui/e-itip-control.c:1469
@@ -5700,12 +5682,12 @@ msgstr "<b>%s</b> har skickat ett obegripligt meddelande."
 
 #: calendar/gui/e-itip-control.c:1368
 msgid "Bad Meeting Message"
-msgstr "Felaktigt mötesmeddelande"
+msgstr "Felaktigt sammanträdesmeddelande"
 
 #: calendar/gui/e-itip-control.c:1392
 #, c-format
 msgid "<b>%s</b> has published task information."
-msgstr "<b>%s</b> har publicerat mötesinformation."
+msgstr "<b>%s</b> har publicerat uppgiftsinformation."
 
 #: calendar/gui/e-itip-control.c:1393
 msgid "Task Information"
@@ -5840,17 +5822,16 @@ msgstr "Kalenderfilen kunde inte uppdateras!\n"
 #: calendar/gui/e-itip-control.c:1956 calendar/gui/e-itip-control.c:2022
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
-"Närvarandestatusen kan inte uppdateras eftersom objektet inte längre finns"
+"Närvarostatusen kan inte uppdateras eftersom objektet inte längre finns"
 
 #: calendar/gui/e-itip-control.c:1977
 msgid "This response is not from a current attendee.  Add as an attendee?"
 msgstr ""
-"Detta svar är inte från en nuvarande mötesdeltagare. Lägg till som "
-"mötesdeltagare?"
+"Detta svar är inte från en nuvarande deltagare. Lägg till som deltagare?"
 
 #: calendar/gui/e-itip-control.c:1989
 msgid "Attendee status could not be updated because of an invalid status!\n"
-msgstr "Närvarandestatus kunde inte uppdateras på grund av ogiltig status!\n"
+msgstr "Närvarostatus kunde inte uppdateras på grund av ogiltig status!\n"
 
 #: calendar/gui/e-itip-control.c:2013
 msgid "You don't have the right permissions to update the calendar\n"
@@ -5858,11 +5839,11 @@ msgstr "Du har inte rätt rättigheter för att uppdatera kalendern\n"
 
 #: calendar/gui/e-itip-control.c:2016
 msgid "Attendee status updated\n"
-msgstr "Närvarandestatus är uppdaterad\n"
+msgstr "Närvarostatus är uppdaterad\n"
 
 #: calendar/gui/e-itip-control.c:2019
 msgid "Attendee status could not be updated!\n"
-msgstr "Närvarandestatus kunde inte uppdateras!\n"
+msgstr "Närvarostatus kunde inte uppdateras!\n"
 
 #: calendar/gui/e-itip-control.c:2056
 msgid "Removal Complete"
@@ -5921,78 +5902,78 @@ msgstr "slutdatum"
 msgid "date-start"
 msgstr "startdatum"
 
-#: calendar/gui/e-meeting-model.c:81
+#: calendar/gui/e-meeting-model.c:79
 msgid "Chair Persons"
 msgstr "Ordförandepersoner"
 
-#: calendar/gui/e-meeting-model.c:82 calendar/gui/e-meeting-model.c:1697
+#: calendar/gui/e-meeting-model.c:80 calendar/gui/e-meeting-model.c:1636
 msgid "Required Participants"
 msgstr "Nödvändiga deltagare"
 
-#: calendar/gui/e-meeting-model.c:83
+#: calendar/gui/e-meeting-model.c:81
 msgid "Optional Participants"
 msgstr "Valfria deltagare"
 
-#: calendar/gui/e-meeting-model.c:84
+#: calendar/gui/e-meeting-model.c:82
 msgid "Resources"
 msgstr "Resurser"
 
-#: calendar/gui/e-meeting-model.c:199 calendar/gui/e-meeting-model.c:216
-#: calendar/gui/e-meeting-model.c:532 calendar/gui/e-meeting-model.c:803
+#: calendar/gui/e-meeting-model.c:197 calendar/gui/e-meeting-model.c:214
+#: calendar/gui/e-meeting-model.c:530 calendar/gui/e-meeting-model.c:752
 msgid "Individual"
 msgstr "Person"
 
-#: calendar/gui/e-meeting-model.c:201 calendar/gui/e-meeting-model.c:218
-#: calendar/gui/e-meeting-model.c:804
+#: calendar/gui/e-meeting-model.c:199 calendar/gui/e-meeting-model.c:216
+#: calendar/gui/e-meeting-model.c:753
 msgid "Group"
 msgstr "Grupp"
 
-#: calendar/gui/e-meeting-model.c:203 calendar/gui/e-meeting-model.c:220
-#: calendar/gui/e-meeting-model.c:805
+#: calendar/gui/e-meeting-model.c:201 calendar/gui/e-meeting-model.c:218
+#: calendar/gui/e-meeting-model.c:754
 msgid "Resource"
 msgstr "Resurs"
 
-#: calendar/gui/e-meeting-model.c:205 calendar/gui/e-meeting-model.c:222
-#: calendar/gui/e-meeting-model.c:806
+#: calendar/gui/e-meeting-model.c:203 calendar/gui/e-meeting-model.c:220
+#: calendar/gui/e-meeting-model.c:755
 msgid "Room"
 msgstr "Rum"
 
-#: calendar/gui/e-meeting-model.c:234 calendar/gui/e-meeting-model.c:251
-#: calendar/gui/e-meeting-model.c:819
+#: calendar/gui/e-meeting-model.c:232 calendar/gui/e-meeting-model.c:249
+#: calendar/gui/e-meeting-model.c:768
 msgid "Chair"
 msgstr "Mötesordförande"
 
-#: calendar/gui/e-meeting-model.c:236 calendar/gui/e-meeting-model.c:253
-#: calendar/gui/e-meeting-model.c:534 calendar/gui/e-meeting-model.c:820
+#: calendar/gui/e-meeting-model.c:234 calendar/gui/e-meeting-model.c:251
+#: calendar/gui/e-meeting-model.c:532 calendar/gui/e-meeting-model.c:769
 msgid "Required Participant"
 msgstr "Nödvändig deltagare"
 
-#: calendar/gui/e-meeting-model.c:238 calendar/gui/e-meeting-model.c:255
-#: calendar/gui/e-meeting-model.c:821
+#: calendar/gui/e-meeting-model.c:236 calendar/gui/e-meeting-model.c:253
+#: calendar/gui/e-meeting-model.c:770
 msgid "Optional Participant"
 msgstr "Valfri deltagare"
 
-#: calendar/gui/e-meeting-model.c:240 calendar/gui/e-meeting-model.c:257
-#: calendar/gui/e-meeting-model.c:822
+#: calendar/gui/e-meeting-model.c:238 calendar/gui/e-meeting-model.c:255
+#: calendar/gui/e-meeting-model.c:771
 msgid "Non-Participant"
 msgstr "Icke-deltagare"
 
-#: calendar/gui/e-meeting-model.c:286 calendar/gui/e-meeting-model.c:309
-#: calendar/gui/e-meeting-model.c:542 calendar/gui/e-meeting-model.c:848
+#: calendar/gui/e-meeting-model.c:284 calendar/gui/e-meeting-model.c:307
+#: calendar/gui/e-meeting-model.c:540 calendar/gui/e-meeting-model.c:797
 msgid "Needs Action"
 msgstr "Behöver åtgärd"
 
-#: calendar/gui/e-meeting-model.c:292 calendar/gui/e-meeting-model.c:315
-#: calendar/gui/e-meeting-model.c:851 calendar/gui/e-meeting-time-sel.c:406
+#: calendar/gui/e-meeting-model.c:290 calendar/gui/e-meeting-model.c:313
+#: calendar/gui/e-meeting-model.c:800 calendar/gui/e-meeting-time-sel.c:406
 msgid "Tentative"
 msgstr "Preliminärt"
 
-#: calendar/gui/e-meeting-model.c:294 calendar/gui/e-meeting-model.c:317
-#: calendar/gui/e-meeting-model.c:852
+#: calendar/gui/e-meeting-model.c:292 calendar/gui/e-meeting-model.c:315
+#: calendar/gui/e-meeting-model.c:801
 msgid "Delegated"
 msgstr "Delegerat"
 
-#: calendar/gui/e-meeting-model.c:298 calendar/gui/e-meeting-model.c:321
+#: calendar/gui/e-meeting-model.c:296 calendar/gui/e-meeting-model.c:319
 msgid "In Process"
 msgstr "Pågår"
 
@@ -6014,7 +5995,7 @@ msgstr "%a %Y-%m-%d"
 #. This is a strftime() format string %m = month number,
 #. %d = month day, %Y = full year.
 #: calendar/gui/e-meeting-time-sel-item.c:466 e-util/e-time-utils.c:224
-#: e-util/e-time-utils.c:285 widgets/misc/e-dateedit.c:1583
+#: e-util/e-time-utils.c:285 widgets/misc/e-dateedit.c:1581
 msgid "%m/%d/%Y"
 msgstr "%Y-%m-%d"
 
@@ -6072,11 +6053,11 @@ msgstr "Folk som krävs _och en resurs"
 
 #: calendar/gui/e-meeting-time-sel.c:629
 msgid "Meeting _start time:"
-msgstr "Mötets _starttid:"
+msgstr "Sammanträdets _starttid:"
 
 #: calendar/gui/e-meeting-time-sel.c:648
 msgid "Meeting _end time:"
-msgstr "Mötets slu_ttid:"
+msgstr "Sammanträdets slu_ttid:"
 
 #: calendar/gui/e-tasks.c:358 calendar/gui/gnome-cal.c:1983
 #: calendar/gui/gnome-cal.c:1994
@@ -6235,7 +6216,7 @@ msgstr "En organisatör måste vara angiven."
 
 #: calendar/gui/itip-utils.c:298
 msgid "At least one attendee is necessary"
-msgstr "Åtminstone en närvarande person krävs"
+msgstr "Åtminstone en deltagare krävs"
 
 #: calendar/gui/itip-utils.c:386 calendar/gui/itip-utils.c:495
 msgid "Event information"
@@ -6280,7 +6261,7 @@ msgstr "iCalendar-information"
 
 #: calendar/gui/itip-utils.c:669
 msgid "You must be an attendee of the event."
-msgstr "Du måste vara närvarande på detta evenemang."
+msgstr "Du måste delta i evenemanget."
 
 #: calendar/gui/print.c:551
 msgid "Su"
@@ -8337,7 +8318,7 @@ msgstr ""
 
 #: camel/camel-gpg-context.c:821 camel/camel-gpg-context.c:1297
 #: camel/camel-gpg-context.c:1403 camel/camel-gpg-context.c:1473
-#: camel/camel-gpg-context.c:1529 mail/mail-send-recv.c:573
+#: camel/camel-gpg-context.c:1529 mail/mail-send-recv.c:576
 msgid "Cancelled."
 msgstr "Avbruten."
 
@@ -9271,7 +9252,7 @@ msgstr "Kontroll av ny e-post"
 msgid "Check for new messages in all folders"
 msgstr "Kontrollera nya meddelanden i alla mappar"
 
-#: camel/providers/imap/camel-imap-provider.c:48 shell/e-shell-view.c:1176
+#: camel/providers/imap/camel-imap-provider.c:48 shell/e-shell-view.c:1177
 msgid "Folders"
 msgstr "Mappar"
 
@@ -10309,57 +10290,57 @@ msgstr "Kan inte skicka meddelande: en eller flera ogiltiga mottagare"
 msgid "SMTP Greeting"
 msgstr "SMTP-hälsning"
 
-#: camel/providers/smtp/camel-smtp-transport.c:926
+#: camel/providers/smtp/camel-smtp-transport.c:927
 #, c-format
 msgid "HELO request timed out: %s"
 msgstr "HELO-begäran gjorde time-out: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:948
+#: camel/providers/smtp/camel-smtp-transport.c:949
 msgid "HELO response error"
 msgstr "Fel i HELO-svar"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1014
+#: camel/providers/smtp/camel-smtp-transport.c:1015
 msgid "SMTP Authentication"
 msgstr "SMTP-autentisering"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1020
+#: camel/providers/smtp/camel-smtp-transport.c:1021
 msgid "Error creating SASL authentication object."
 msgstr "Fel vid skapande av SASL-autentiseringsobjekt."
 
-#: camel/providers/smtp/camel-smtp-transport.c:1037
-#: camel/providers/smtp/camel-smtp-transport.c:1049
+#: camel/providers/smtp/camel-smtp-transport.c:1038
+#: camel/providers/smtp/camel-smtp-transport.c:1050
 #, c-format
 msgid "AUTH request timed out: %s"
 msgstr "AUTH-begäran gjorde time-out: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1058
+#: camel/providers/smtp/camel-smtp-transport.c:1059
 msgid "AUTH request failed."
 msgstr "AUTH-begäran misslyckades."
 
-#: camel/providers/smtp/camel-smtp-transport.c:1119
+#: camel/providers/smtp/camel-smtp-transport.c:1120
 msgid "Bad authentication response from server.\n"
 msgstr "Felaktigt autentiseringssvar från servern.\n"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1144
+#: camel/providers/smtp/camel-smtp-transport.c:1145
 #, c-format
 msgid "MAIL FROM request timed out: %s: mail not sent"
 msgstr "MAIL FROM-begäran gjorde time-out: %s: brevet skickades inte"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1164
+#: camel/providers/smtp/camel-smtp-transport.c:1165
 msgid "MAIL FROM response error"
 msgstr "Fel i MAIL FROM-svar"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1188
+#: camel/providers/smtp/camel-smtp-transport.c:1189
 #, c-format
 msgid "RCPT TO request timed out: %s: mail not sent"
 msgstr "RCPT TO-begäran gjorde time-out: %s: brevet skickades inte"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1210
+#: camel/providers/smtp/camel-smtp-transport.c:1211
 #, c-format
 msgid "RCPT TO <%s> failed"
 msgstr "RCPT TO <%s> misslyckades"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1249
+#: camel/providers/smtp/camel-smtp-transport.c:1250
 #, c-format
 msgid "DATA request timed out: %s: mail not sent"
 msgstr "DATA-begäran gjorde time-out: %s: brevet skickades inte"
@@ -10367,36 +10348,36 @@ msgstr "DATA-begäran gjorde time-out: %s: brevet skickades inte"
 #. we should have gotten instructions on how to use the DATA command:
 #. * 354 Enter mail, end with "." on a line by itself
 #.
-#: camel/providers/smtp/camel-smtp-transport.c:1269
+#: camel/providers/smtp/camel-smtp-transport.c:1270
 msgid "DATA response error"
 msgstr "Fel i DATA-svar"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1310
-#: camel/providers/smtp/camel-smtp-transport.c:1333
+#: camel/providers/smtp/camel-smtp-transport.c:1311
+#: camel/providers/smtp/camel-smtp-transport.c:1334
 #, c-format
 msgid "DATA send timed out: message termination: %s: mail not sent"
 msgstr ""
 "DATA-skickande gjorde time-out: meddelandeslut: %s: brevet skickades inte"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1353
+#: camel/providers/smtp/camel-smtp-transport.c:1354
 msgid "DATA termination response error"
 msgstr "Fel i DATA-termineringssvar"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1376
+#: camel/providers/smtp/camel-smtp-transport.c:1377
 #, c-format
 msgid "RSET request timed out: %s"
 msgstr "RSET-begäran gjorde time-out: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1396
+#: camel/providers/smtp/camel-smtp-transport.c:1397
 msgid "RSET response error"
 msgstr "Fel i RSET-svar"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1419
+#: camel/providers/smtp/camel-smtp-transport.c:1420
 #, c-format
 msgid "QUIT request timed out: %s"
 msgstr "QUIT-begäran gjorde time-out: %s"
 
-#: camel/providers/smtp/camel-smtp-transport.c:1439
+#: camel/providers/smtp/camel-smtp-transport.c:1440
 msgid "QUIT response error"
 msgstr "Fel i QUIT-svar"
 
@@ -10958,13 +10939,13 @@ msgstr "%H.%M.%S"
 #. strptime format for time of day, without seconds,
 #. in 12-hour format.
 #: e-util/e-time-utils.c:334 e-util/e-time-utils.c:421
-#: widgets/misc/e-dateedit.c:1405 widgets/misc/e-dateedit.c:1618
+#: widgets/misc/e-dateedit.c:1403 widgets/misc/e-dateedit.c:1616
 msgid "%I:%M %p"
 msgstr "%H.%M %p"
 
 #. strptime format for time of day, without seconds 24-hour format.
 #: e-util/e-time-utils.c:338 e-util/e-time-utils.c:413
-#: widgets/misc/e-dateedit.c:1402 widgets/misc/e-dateedit.c:1615
+#: widgets/misc/e-dateedit.c:1400 widgets/misc/e-dateedit.c:1613
 msgid "%H:%M"
 msgstr "%H.%M"
 
@@ -12145,11 +12126,13 @@ msgstr "Ta inte bort"
 
 #: mail/mail-accounts.c:312 mail/mail-accounts.c:351 mail/mail-accounts.c:391
 #: mail/mail-composer-prefs.c:676 mail/mail-composer-prefs.c:694
+#: mail/mail-composer-prefs.c:718
 msgid "Disable"
 msgstr "Inaktivera"
 
 #: mail/mail-accounts.c:312 mail/mail-accounts.c:351 mail/mail-accounts.c:393
 #: mail/mail-composer-prefs.c:676 mail/mail-composer-prefs.c:694
+#: mail/mail-composer-prefs.c:718
 msgid "Enable"
 msgstr "Aktivera"
 
@@ -12158,8 +12141,10 @@ msgstr "Aktivera"
 msgid "[Default]"
 msgstr "[Standard]"
 
+#. FIXME: This routine should just be a "toggled" event handler on the checkbox cell renderer which
+#. has "activatable" set.
 #: mail/mail-accounts.c:481 mail/mail-accounts.etspec.h:2
-#: mail/mail-composer-prefs.c:706 mail/mail-composer-prefs.c:862
+#: mail/mail-composer-prefs.c:709 mail/mail-composer-prefs.c:866
 msgid "Enabled"
 msgstr "Aktiverad"
 
@@ -12424,7 +12409,7 @@ msgstr ""
 "Är du säker på att du vill öppna alla %d meddelanden i separata fönster?"
 
 #: mail/mail-composer-prefs.c:227 mail/mail-composer-prefs.c:350
-#: mail/mail-config.c:1347
+#: mail/mail-config.c:1348
 msgid "Unnamed"
 msgstr "Namnlös"
 
@@ -12436,15 +12421,15 @@ msgstr "Du måste ange ett giltigt skriptnamn."
 msgid "[script]"
 msgstr "[skript]"
 
-#: mail/mail-composer-prefs.c:866
+#: mail/mail-composer-prefs.c:870
 msgid "Language(s)"
 msgstr "Språk"
 
-#: mail/mail-composer-prefs.c:908
+#: mail/mail-composer-prefs.c:912
 msgid "Add script signature"
 msgstr "Lägg till skriptsignatur"
 
-#: mail/mail-composer-prefs.c:928
+#: mail/mail-composer-prefs.c:932
 msgid "Signature(s)"
 msgstr "Signatur(er)"
 
@@ -12507,11 +12492,11 @@ msgstr ""
 "att sammanställas för att skapa ett Evolution-epostkonto. Ange ett namn för "
 "detta konto nedan. Detta namn kommer endast att användas för visning."
 
-#: mail/mail-config.c:1051
+#: mail/mail-config.c:1052
 msgid "Checking Service"
 msgstr "Kontrollerar tjänst"
 
-#: mail/mail-config.c:1129 mail/mail-config.c:1133
+#: mail/mail-config.c:1130 mail/mail-config.c:1134
 msgid "Connecting to server..."
 msgstr "Ansluter till server..."
 
@@ -12660,7 +12645,7 @@ msgstr "Citera inte originalmeddelandet"
 
 #: mail/mail-config.glade.h:47
 msgid "Don't sign _meeting requests (for Outlook compatibility)"
-msgstr "Signera inte _mötesbegäran (för kompatibilitet med Outlook)"
+msgstr "Signera inte _sammanträdesbegäran (för kompatibilitet med Outlook)"
 
 #: mail/mail-config.glade.h:48 shell/glade/evolution-startup-wizard.glade.h:1
 msgid "Done"
@@ -13180,27 +13165,27 @@ msgstr "Hämtar bilder"
 msgid "Loading message content"
 msgstr "Läser in meddelandeinnehåll"
 
-#: mail/mail-display.c:1879
+#: mail/mail-display.c:1884
 msgid "Overdue:"
 msgstr "Skulle ha utförts:"
 
-#: mail/mail-display.c:1883
+#: mail/mail-display.c:1888
 msgid "by %B %d, %Y, %l:%M %P"
 msgstr "den %d %B %Y %H.%M"
 
-#: mail/mail-display.c:2240
+#: mail/mail-display.c:2245
 msgid "Open Link in Browser"
 msgstr "Öppna länk i webbläsare"
 
-#: mail/mail-display.c:2241
+#: mail/mail-display.c:2246
 msgid "Copy Link Location"
 msgstr "Kopiera länkplats"
 
-#: mail/mail-display.c:2243
+#: mail/mail-display.c:2248
 msgid "Save Link as (FIXME)"
 msgstr "Spara länk som (FIXME)"
 
-#: mail/mail-display.c:2245
+#: mail/mail-display.c:2250
 msgid "Save Image as..."
 msgstr "Spara bild som..."
 
@@ -13395,7 +13380,7 @@ msgstr "Skickar meddelande %d av %d"
 msgid "Failed on message %d of %d"
 msgstr "Meddelande %d av %d misslyckades"
 
-#: mail/mail-ops.c:750 mail/mail-send-recv.c:577
+#: mail/mail-ops.c:750 mail/mail-send-recv.c:580
 msgid "Complete."
 msgstr "Färdig."
 
@@ -13547,38 +13532,38 @@ msgstr "Sök:"
 msgid "Matches:"
 msgstr "Träffar:"
 
-#: mail/mail-send-recv.c:143
+#: mail/mail-send-recv.c:146
 msgid "Cancelling..."
 msgstr "Avbryter..."
 
-#: mail/mail-send-recv.c:250
+#: mail/mail-send-recv.c:253
 #, c-format
 msgid "Server: %s, Type: %s"
 msgstr "Server: %s, typ: %s"
 
-#: mail/mail-send-recv.c:252
+#: mail/mail-send-recv.c:255
 #, c-format
 msgid "Path: %s, Type: %s"
 msgstr "Sökväg: %s, typ: %s"
 
-#: mail/mail-send-recv.c:254
+#: mail/mail-send-recv.c:257
 #, c-format
 msgid "Type: %s"
 msgstr "Typ: %s"
 
-#: mail/mail-send-recv.c:302
+#: mail/mail-send-recv.c:305
 msgid "Send & Receive Mail"
 msgstr "Skicka och ta emot e-post"
 
-#: mail/mail-send-recv.c:303
+#: mail/mail-send-recv.c:306
 msgid "Cancel _All"
 msgstr "Avbryt _allt"
 
-#: mail/mail-send-recv.c:385
+#: mail/mail-send-recv.c:388
 msgid "Updating..."
 msgstr "Uppdaterar..."
 
-#: mail/mail-send-recv.c:386 mail/mail-send-recv.c:442
+#: mail/mail-send-recv.c:389 mail/mail-send-recv.c:445
 msgid "Waiting..."
 msgstr "Väntar..."
 
@@ -13595,11 +13580,11 @@ msgstr "Ange lösenord för %s"
 msgid "Enter Password"
 msgstr "Ange lösenord"
 
-#: mail/mail-session.c:282
+#: mail/mail-session.c:283
 msgid "_Remember this password"
 msgstr "_Kom ihåg detta lösenord"
 
-#: mail/mail-session.c:283
+#: mail/mail-session.c:284
 msgid "_Remember this password for the remainder of this session"
 msgstr "_Kom ihåg detta lösenord för resten av denna session"
 
@@ -13764,7 +13749,7 @@ msgstr "%d %b %H.%M"
 msgid "%b %d %Y"
 msgstr "%d %b %Y"
 
-#: mail/message-list.c:2617
+#: mail/message-list.c:2630
 msgid "Generating message list"
 msgstr "Genererar meddelandelista"
 
@@ -23769,11 +23754,11 @@ msgstr "Lägg till en nyhetskälla"
 msgid "Enter the URL of the news feed you wish to add"
 msgstr "Ange URL:en till den nyhetskälla som du vill lägga till"
 
-#: my-evolution/e-summary-rdf.c:305
+#: my-evolution/e-summary-rdf.c:315
 msgid "Error downloading RDF"
 msgstr "Fel vid hämtning av RDF"
 
-#: my-evolution/e-summary-rdf.c:443
+#: my-evolution/e-summary-rdf.c:453
 msgid "News Feed"
 msgstr "Nyhetskälla"
 
@@ -25142,8 +25127,8 @@ msgstr "Lägg till en mapp"
 msgid "Drafts"
 msgstr "Utkast"
 
-#: shell/e-local-storage.c:180 shell/e-shell-view.c:486
-#: shell/e-shell-view.c:490 shell/e-shortcuts.c:1084
+#: shell/e-local-storage.c:180 shell/e-shell-view.c:480
+#: shell/e-shortcuts.c:1084
 msgid "Inbox"
 msgstr "Inkorg"
 
@@ -25201,7 +25186,7 @@ msgstr ""
 "katalogen. Var vänlig och flytta den så att\n"
 "Evolutions användarfiler kan installeras."
 
-#: shell/e-shell-about-box.c:43
+#: shell/e-shell-about-box.c:45
 msgid "Brought to you by"
 msgstr "Presenteras av"
 
@@ -25609,31 +25594,31 @@ msgstr "A_rbeta frånkopplad"
 msgid "Work Offline"
 msgstr "Arbeta frånkopplad"
 
-#: shell/e-shell-view.c:262
+#: shell/e-shell-view.c:263
 msgid "(No folder displayed)"
 msgstr "(Ingen mapp visas)"
 
-#: shell/e-shell-view.c:2045
+#: shell/e-shell-view.c:2039
 #, c-format
 msgid "%s (%d)"
 msgstr "%s (%d)"
 
-#: shell/e-shell-view.c:2047
+#: shell/e-shell-view.c:2041
 msgid "(None)"
 msgstr "(Ingen)"
 
-#: shell/e-shell-view.c:2091
+#: shell/e-shell-view.c:2082
 msgid ""
 "Ximian Evolution is currently online.  Click on this button to work offline."
 msgstr ""
 "Ximian Evolution är just nu ansluten. Klicka på denna knapp för att koppla "
 "från."
 
-#: shell/e-shell-view.c:2098
+#: shell/e-shell-view.c:2089
 msgid "Ximian Evolution is in the process of going offline."
 msgstr "Ximian Evolution håller på att koppla från."
 
-#: shell/e-shell-view.c:2104
+#: shell/e-shell-view.c:2095
 msgid ""
 "Ximian Evolution is currently offline.  Click on this button to work online."
 msgstr ""
@@ -26132,16 +26117,16 @@ msgstr "Fråga mig inte igen"
 msgid "Evolution can import data from the following files:"
 msgstr "Evolution kan importera data från följande filer:"
 
-#: shell/main.c:112 shell/main.c:564
+#: shell/main.c:113 shell/main.c:565
 msgid "Evolution"
 msgstr "Evolution"
 
-#: shell/main.c:118
+#: shell/main.c:119
 msgid "Evolution is now exiting ..."
 msgstr "Evolution avslutar nu..."
 
 #. Preview/Alpha/Beta version warning message
-#: shell/main.c:266
+#: shell/main.c:267
 #, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
@@ -26178,7 +26163,7 @@ msgstr ""
 "Vi hoppas att du gläds åt resultatet av vårt hårda arbete, och vi\n"
 "inväntar med spänning dina bidrag!\n"
 
-#: shell/main.c:290
+#: shell/main.c:291
 msgid ""
 "Thanks\n"
 "The Ximian Evolution Team\n"
@@ -26186,44 +26171,44 @@ msgstr ""
 "Tack\n"
 "Ximian Evolution-teamet\n"
 
-#: shell/main.c:298
+#: shell/main.c:299
 msgid "Don't tell me again"
 msgstr "Tala inte om för mig igen"
 
-#: shell/main.c:387
+#: shell/main.c:388
 msgid "Cannot access the Ximian Evolution shell."
 msgstr "Kan inte komma åt Ximian Evolution-skalet."
 
-#: shell/main.c:396
+#: shell/main.c:397
 #, c-format
 msgid "Cannot initialize the Ximian Evolution shell: %s"
 msgstr "Kan inte initiera Ximian Evolution-skalet: %s"
 
-#: shell/main.c:528
+#: shell/main.c:529
 msgid "Disable splash screen"
 msgstr "Inaktivera startbild"
 
-#: shell/main.c:530
+#: shell/main.c:531
 msgid "Start in offline mode"
 msgstr "Starta i frånkopplat läge"
 
-#: shell/main.c:532
+#: shell/main.c:533
 msgid "Start in online mode"
 msgstr "Starta i anslutet läge"
 
-#: shell/main.c:535
+#: shell/main.c:536
 msgid "Forcibly shut down all evolution components"
 msgstr "Tvinga fram nedstängning av alla evolution-komponenter"
 
-#: shell/main.c:538
+#: shell/main.c:539
 msgid "Send the debugging output of all components to a file."
 msgstr "Skicka felsökningsinformation från alla komponenter till en fil."
 
-#: shell/main.c:541
+#: shell/main.c:542
 msgid "Force upgrading of configuration files from Evolution 1.0.x"
 msgstr "Tvinga uppgradering av konfigurationsfiler från Evolution 1.0.x"
 
-#: shell/main.c:568
+#: shell/main.c:569
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -26616,7 +26601,7 @@ msgstr "Avboka m_öte"
 
 #: ui/evolution-event-editor.xml.h:2
 msgid "Cancel the meeting for this item"
-msgstr "Avboka mötet för detta objekt"
+msgstr "Avboka sammanträdet för detta objekt"
 
 #: ui/evolution-event-editor.xml.h:3 ui/evolution-task-editor.xml.h:5
 msgid "Forward as i_Calendar"
@@ -26628,19 +26613,19 @@ msgstr "Vidarebefordra detta objekt via e-post"
 
 #: ui/evolution-event-editor.xml.h:7
 msgid "Obtain the latest meeting information"
-msgstr "Få tag i den senaste mötesinformationen"
+msgstr "Få tag i den senaste sammanträdesinformationen"
 
 #: ui/evolution-event-editor.xml.h:8
 msgid "Re_fresh Meeting"
-msgstr "U_ppdatera möte"
+msgstr "U_ppdatera sammanträde"
 
 #: ui/evolution-event-editor.xml.h:9
 msgid "Schedule _Meeting"
-msgstr "Boka _möte"
+msgstr "Boka _sammanträde"
 
 #: ui/evolution-event-editor.xml.h:10
 msgid "Schedule a meeting for this item"
-msgstr "Boka ett möte för detta objekt"
+msgstr "Boka ett sammanträde för detta objekt"
 
 #: ui/evolution-executive-summary.xml.h:1
 msgid "Customize My Evolution"
@@ -27819,11 +27804,11 @@ msgstr "MTOTFLS"
 msgid "%B %Y"
 msgstr "%B %Y"
 
-#: widgets/misc/e-cell-date-edit.c:241 widgets/misc/e-dateedit.c:429
+#: widgets/misc/e-cell-date-edit.c:241 widgets/misc/e-dateedit.c:427
 msgid "Now"
 msgstr "Nu"
 
-#: widgets/misc/e-cell-date-edit.c:249 widgets/misc/e-dateedit.c:435
+#: widgets/misc/e-cell-date-edit.c:249 widgets/misc/e-dateedit.c:433
 msgid "Today"
 msgstr "Idag"
 
@@ -27999,6 +27984,9 @@ msgstr "Evolutions kalenderbakände för lokal fil"
 msgid "Evolution Addressbook local file backend"
 msgstr "Evolutions adressboksbakände för lokal fil"
 
+#~ msgid "De_lete"
+#~ msgstr "_Ta bort"
+
 #~ msgid "Message to Display"
 #~ msgstr "Meddelande att visa"
 
@@ -28006,7 +27994,7 @@ msgstr "Evolutions adressboksbakände för lokal fil"
 #~ msgstr "Kontrollera _automatiskt ny e-post"
 
 #~ msgid "_Meeting"
-#~ msgstr "_Möte"
+#~ msgstr "_Sammanträde"
 
 #~ msgid "_every"
 #~ msgstr "_var"
@@ -28826,7 +28814,7 @@ msgstr "Evolutions adressboksbakände för lokal fil"
 #~ msgstr "Kunde inte skapa fabriken för alarmnotifieringstjänsten"
 
 #~ msgid "Meeting begins: <b>"
-#~ msgstr "Mötet börjar: <b>"
+#~ msgstr "Sammanträdet börjar: <b>"
 
 #~ msgid "Task begins: <b>"
 #~ msgstr "Uppgiften börjar: <b>"
@@ -28838,7 +28826,7 @@ msgstr "Evolutions adressboksbakände för lokal fil"
 #~ msgstr "Börjar: <b>"
 
 #~ msgid "Meeting ends: <b>"
-#~ msgstr "Mötet slutar: <b>"
+#~ msgstr "Sammanträdet slutar: <b>"
 
 #~ msgid "Free/Busy info ends: <b>"
 #~ msgstr "Ledig-/upptageninformation slutar: <b>"
@@ -28898,7 +28886,7 @@ msgstr "Evolutions adressboksbakände för lokal fil"
 #~ msgstr "_Bläddra..."
 
 #~ msgid "The meeting status has changed. Send an updated version?"
-#~ msgstr "Mötestatusen har ändrats. Skicka en uppdaterad version?"
+#~ msgstr "Sammanträdestatusen har ändrats. Skicka en uppdaterad version?"
 
 #~ msgid "_Delete this Appointment"
 #~ msgstr "_Ta bort detta möte"
@@ -29250,7 +29238,7 @@ msgstr "Evolutions adressboksbakände för lokal fil"
 #~ msgstr "_Annat"
 
 #~ msgid "Unable to find any of your identities in the attendees list!\n"
-#~ msgstr "Kan inte hitta någon av dina identiteter i närvarandelistan!\n"
+#~ msgstr "Kan inte hitta någon av dina identiteter i närvarolistan!\n"
 
 #~ msgid "Error hashing password."
 #~ msgstr "Fel vid hashning av lösenord."
@@ -30347,7 +30335,7 @@ msgstr "Evolutions adressboksbakände för lokal fil"
 #~ msgstr "Informationen i denna bilaga var inte giltig"
 
 #~ msgid "Unable to find any of your identitiesin the attendees list!\n"
-#~ msgstr "Kan inte hitta någon av dina identiteter i närvarandelistan!\n"
+#~ msgstr "Kan inte hitta någon av dina identiteter i närvarolistan!\n"
 
 #~ msgid "I couldn't update your calendar file!\n"
 #~ msgstr "Jag kunde inte uppdatera din kalenderfil!\n"
@@ -30524,10 +30512,10 @@ msgstr "Evolutions adressboksbakände för lokal fil"
 #~ msgstr "Detta är ett evenemang som kan läggas till i din kalender."
 
 #~ msgid "This is a meeting request."
-#~ msgstr "Detta är en mötesbegäran."
+#~ msgstr "Detta är en sammanträdesbegäran."
 
 #~ msgid "This is one or more additions to a current meeting."
-#~ msgstr "Detta är en eller flera tillägg till ett aktuellt möte."
+#~ msgstr "Detta är en eller flera tillägg till ett aktuellt sammanträde."
 
 #~ msgid "This is a request for the latest event information."
 #~ msgstr "Detta är en begäran av den senaste evenemangsinformationen."
@@ -31102,7 +31090,7 @@ msgstr "Evolutions adressboksbakände för lokal fil"
 #~ "Meeting"
 #~ msgstr ""
 #~ "Avboka\n"
-#~ "möte"
+#~ "sammanträde"
 
 #~ msgid "Organizer: "
 #~ msgstr "Organisatör:"
@@ -31200,7 +31188,7 @@ msgstr "Evolutions adressboksbakände för lokal fil"
 #~ msgstr "Skrivar_inställning..."
 
 #~ msgid "Schedule some sort of a meeting"
-#~ msgstr "Boka någon typ av möte"
+#~ msgstr "Boka någon typ av sammanträde"
 
 #~ msgid "_About..."
 #~ msgstr "_Om..."
