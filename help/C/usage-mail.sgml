@@ -1411,6 +1411,22 @@ with quoted materials and the relevant replies interspersed-->
       <para> Happy mailing! </para>
     </sect2>
   </sect1>
+  <sect1 id="rsvp-stuff">
+    <title>RSVPs in Mail</title>
+    <para>
+      If an event is created in the calendar component, an attendee list can be used to invite users to the event.  The invite card is sent as an attachment in iCal format.
+    </para>
+    <para>
+      If you click on the attachment button and click the  <guibutton>View Inline</guibutton>, the card will show up in your email.  It gives information about:
+      <itemizedlist>
+	<listitem>
+	  <para>
+	    Meeting hours
+	  </para>
+	</listitem>
+      </itemizedlist>
+    </para>
+  </sect1>
 
     <sect1 id="usage-mail-subscriptions">
       <title>Subscription Management</title>

@@ -202,7 +202,7 @@
       </para>
     </sect2>
     <sect2 id="usage-calendar-rsvp">
-      <title>Sending a RSVP with the Calendar</title>
+      <title>Sending an RSVP with the Calendar</title>
       <para>
 	<application>Evolution</application> can be used to setup group appointments
 	and help you manage RSVPs.
