@@ -792,7 +792,7 @@ msgstr "El. paðto adresas:"
 #: addressbook/gui/component/addressbook-config.glade.h:10
 msgid ""
 "Evolution will use this email address to authenticate you with the server"
-msgstr "Evolution naudos ðá el. paðto adresà autentikuotis á paðo serverá"
+msgstr "Evolution naudos ðá el. paðto adresà autentikuotis á paðto serverá"
 
 #: addressbook/gui/component/addressbook-config.glade.h:11
 msgid "One"
@@ -1156,7 +1156,7 @@ msgid ""
 msgstr ""
 "Jei ðis asmuo skelbia laisvas-uþsiëmæs ar kità kalendoriaus informacijà "
 "internete, ávesk\n"
-"ts informacijos adresà èia."
+"tos informacijos adresà èia."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:13
 msgid "New phone type"
@@ -1763,7 +1763,7 @@ msgstr "Jordanas"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:111
 msgid "Kazakhstan"
-msgstr "Kazakstanas"
+msgstr "Kazachstanas"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:112
 msgid "Kenya"
@@ -3413,7 +3413,7 @@ msgstr "Data/Laikas:"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:5
 msgid "Reminders"
-msgstr "Uþuomino"
+msgstr "Uþuominos"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:7
 #: calendar/gui/dialogs/recurrence-page.glade.h:8
@@ -6916,7 +6916,7 @@ msgstr "Prisegti bylà prie ðio laiðko"
 #: composer/e-msg-composer-attachment.c:184
 #, c-format
 msgid "Cannot attach file %s: %s"
-msgstr "Negalëjau prisegtibylos %s: %s"
+msgstr "Negalëjau prisegti bylos %s: %s"
 
 #: composer/e-msg-composer-attachment.c:176
 #, c-format
@@ -9095,7 +9095,7 @@ msgstr "Blogai suformuota iðorinio kûno dalis."
 
 #: mail/mail-local.c:589
 msgid "Reconfiguring folder"
-msgstr "Iðnaujo konfigûruojamas aplankas"
+msgstr "Ið naujo konfigûruojamas aplankas"
 
 #: mail/mail-local.c:670
 #, fuzzy, c-format
@@ -9215,7 +9215,7 @@ msgstr "Laiðkai kopijuojami á %s"
 #: mail/mail-ops.c:891
 #, c-format
 msgid "Cannot copy a folder `%s' to itself"
-msgstr "Negalu kopijuoti aplanko '%s' á já patá"
+msgstr "Negaliu kopijuoti aplanko '%s' á já patá"
 
 #: mail/mail-ops.c:898
 msgid "Moving"
@@ -9441,7 +9441,7 @@ msgstr "Kuriamas aplankas %s"
 #: mail/mail-vfolder.c:204
 #, c-format
 msgid "Updating vfolders for uri: %s"
-msgstr "Atnaujinami vaplankai pagal uri: %s"
+msgstr "Atnaujinami vAplankai pagal uri: %s"
 
 #: mail/mail-vfolder.c:415
 #, c-format
