@@ -576,14 +576,6 @@ save_default_calendar (GnomeCalendar *gcal)
 	save_calendar_cmd (NULL, gcal);
 }
 
-#if 0
-static void
-make_html_cmd (GtkWidget *widget, GtkWidget *gcal)
-{
-	make_month_html (gcal, "output.html");
-}
-#endif
-
 static GnomeUIInfo gnome_cal_file_menu [] = {
         GNOMEUIINFO_MENU_NEW_ITEM(N_("_New calendar"),
 				  N_("Create a new calendar"),
@@ -595,13 +587,6 @@ static GnomeUIInfo gnome_cal_file_menu [] = {
 
 	GNOMEUIINFO_MENU_SAVE_AS_ITEM(save_as_calendar_cmd, NULL),
 
-	GNOMEUIINFO_SEPARATOR,
-
-#if 0
-	GNOMEUIINFO_ITEM(N_("Create HTML for this month"),
-			 N_("Creates an HTML version of this month's appointments"),
-			 make_html_cmd, NULL);
-#endif
 	GNOMEUIINFO_SEPARATOR,
 
 	GNOMEUIINFO_MENU_CLOSE_ITEM(close_cmd, NULL),

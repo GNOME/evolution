@@ -105,7 +105,7 @@ quick_view_map_event (GtkWidget *widget, GdkEventAny *event)
  * items to create and returns the y position of the next item to create.  Also takes in the current
  * maximum width for items and returns the new maximum width.
  */
-void
+static void
 create_items_for_event (QuickView *qv, CalendarObject *co, double *y, double *max_width)
 {
 	GnomeCanvas *canvas;

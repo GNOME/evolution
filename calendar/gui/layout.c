@@ -93,7 +93,7 @@ build_partition (struct layout_info *li)
 }
 
 /* Returns the index of the element in the partition that corresponds to the specified time */
-int
+static int
 find_index (struct layout_info *li, time_t t)
 {
 	int i;

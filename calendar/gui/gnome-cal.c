@@ -10,6 +10,7 @@
 #include <signal.h>
 #include <sys/wait.h>
 #include <fcntl.h>
+#include "alarm.h"
 #include "calendar.h"
 #include "gnome-cal.h"
 #include "gncal-day-panel.h"
@@ -357,7 +358,7 @@ execute (char *command, int close_standard)
 	sigaction (SIGQUIT, &save_quit, NULL);
 }
 
-void
+static void
 mail_notify (char *mail_address, char *text, time_t app_time)
 {
 	pid_t pid;

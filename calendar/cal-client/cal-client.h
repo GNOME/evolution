@@ -74,6 +74,8 @@ gboolean cal_client_load_calendar (CalClient *client, const char *str_uri);
 
 char *cal_client_get_object (CalClient *client, const char *uid);
 
+GList *cal_client_get_uids (CalClient *client, CalObjType type);
+
 GList *cal_client_get_events_in_range (CalClient *client, time_t start, time_t end);
 
 

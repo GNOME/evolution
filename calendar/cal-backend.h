@@ -70,6 +70,8 @@ CalBackendLoadStatus cal_backend_load (CalBackend *backend, GnomeVFSURI *uri);
 
 char *cal_backend_get_object (CalBackend *backend, const char *uid);
 
+GList *cal_backend_get_uids (CalBackend *backend, CalObjType type);
+
 GList *cal_backend_get_events_in_range (CalBackend *backend, time_t start, time_t end);
 
 

@@ -5,7 +5,7 @@
 CORBA_ORB          orb;
 PortableServer_POA poa;
 
-void corba_server_init (void);
+void init_corba_server (void);
 void unregister_calendar_services (void);
 
 #endif /* _CORBA_CAL_FACTORY_H_ */

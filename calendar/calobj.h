@@ -201,6 +201,15 @@ void        ical_object_add_exdate          (iCalObject *o, time_t t);
 /* Computes the enddate field of the recurrence based on the duration */
 void        ical_object_compute_end         (iCalObject *ico);
 
+typedef enum {
+	CAL_OBJ_FIND_SUCCESS,
+	CAL_OBJ_FIND_SYNTAX_ERROR,
+	CAL_OBJ_FIND_NOT_FOUND
+} CalObjFindStatus;
+
+CalObjFindStatus ical_object_find_in_string (const char *uid, const char *vcalobj, iCalObject **ico);
+
+
 /* Returns the first toggled day in a weekday mask -- we do this because we do not support multiple
  * days on a monthly-by-pos recurrence.  If no days are toggled, it returns -1.
  */

@@ -2,6 +2,7 @@
 #define ALARM_H
 
 #include <time.h>
+#include "calobj.h"
 
 typedef void (*AlarmFunction)(time_t time, CalendarAlarm *which, void *closuse);
 

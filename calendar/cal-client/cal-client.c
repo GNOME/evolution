@@ -473,6 +473,60 @@ cal_client_get_object (CalClient *client, const char *uid)
 }
 
 GList *
+cal_client_get_uids (CalClient *client, CalObjType type)
+{
+	CalClientPrivate *priv;
+	CORBA_Environment ev;
+	Evolution_Calendar_CalObjUIDSeq *seq;
+	int t;
+	GList *uids;
+	int i;
+
+	g_return_val_if_fail (client != NULL, NULL);
+	g_return_val_if_fail (IS_CAL_CLIENT (client), NULL);
+
+	priv = client->priv;
+	g_return_val_if_fail (priv->load_state == LOAD_STATE_LOADED, NULL);
+
+	t = (((type & CALOBJ_TYPE_EVENT) ? Evolution_Calendar_TYPE_EVENT : 0)
+	     | ((type & CALOBJ_TYPE_TODO) ? Evolution_Calendar_TYPE_TODO : 0)
+	     | ((type & CALOBJ_TYPE_JOURNAL) ? Evolution_Calendar_TYPE_JOURNAL : 0)
+	     | ((type & CALOBJ_TYPE_OTHER) ? Evolution_Calendar_TYPE_OTHER : 0)
+	     | ((type & CALOBJ_TYPE_ANY) ? Evolution_Calendar_TYPE_ANY : 0));
+
+	CORBA_exception_init (&ev);
+
+	seq = Evolution_Calendar_Cal_get_uids (priv->cal, t, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_message ("cal_client_get_uids(): could not get the list of UIDs");
+		CORBA_exception_free (&ev);
+		return NULL;
+	}
+
+	/* Create the list */
+
+	uids = NULL;
+
+	for (i = 0; i < seq->_length; i++)
+		uids = g_list_prepend (uids, g_strdup (seq->_buffer[i]));
+
+	CORBA_free (seq);
+
+	return uids;
+}
+
+/**
+ * cal_client_get_events_in_range:
+ * @client: A calendar client.
+ * @start: Start time for query.
+ * @end: End time for query.
+ * 
+ * Queries a calendar for the events that occur or recur in the specified range
+ * of time.
+ * 
+ * Return value: A list of #CalObjInstance structures.
+ **/
+GList *
 cal_client_get_events_in_range (CalClient *client, time_t start, time_t end)
 {
 	CalClientPrivate *priv;
@@ -513,6 +567,7 @@ cal_client_get_events_in_range (CalClient *client, time_t start, time_t end)
 		corba_icoi = &seq->_buffer[i];
 		icoi = g_new (CalObjInstance, 1);
 
+		icoi->uid = g_strdup (corba_icoi->uid);
 		icoi->calobj = g_strdup (corba_icoi->calobj);
 		icoi->start = corba_icoi->start;
 		icoi->end = corba_icoi->end;

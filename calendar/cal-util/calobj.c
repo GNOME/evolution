@@ -23,10 +23,10 @@ ical_gen_uid (void)
 	static char *hostname;
 	time_t t = time (NULL);
 	static int serial;
-	
+
 	if (!hostname){
 		char buffer [128];
-		
+
 		if ((gethostname (buffer, sizeof (buffer)-1) == 0) &&
 		    (buffer [0] != 0))
 			hostname = g_strdup (buffer);
@@ -50,14 +50,14 @@ ical_object_new (void)
 	iCalObject *ico;
 
 	ico = g_new0 (iCalObject, 1);
-	
+
 	ico->seq = -1;
 	ico->dtstamp = time (NULL);
 	ico->uid = ical_gen_uid ();
 
 	ico->pilot_id = 0;
 	ico->pilot_status = ICAL_PILOT_SYNC_MOD;
-	
+
 	return ico;
 }
 
@@ -91,7 +91,7 @@ ical_new (char *comment, char *organizer, char *summary)
 	default_alarm  (ico, &ico->palarm, organizer, ALARM_PROGRAM);
 	default_alarm  (ico, &ico->malarm, organizer, ALARM_MAIL);
 	default_alarm  (ico, &ico->aalarm, organizer, ALARM_AUDIO);
-	
+
 	return ico;
 }
 
@@ -144,10 +144,10 @@ set_list (char *str)
 {
 	GList *list = 0;
 	char *s;
-	
+
 	for (s = strtok (str, ";"); s; s = strtok (NULL, ";"))
 		list = g_list_prepend (list, g_strdup (s));
-	
+
 	return list;
 }
 
@@ -224,7 +224,7 @@ weekdaylist (iCalObject *o, char **str)
 			}
 		}
 	} while (isalpha (**str));
-	
+
 	if (o->recur->weekday == 0){
 		struct tm tm = *localtime (&o->dtstart);
 
@@ -266,21 +266,23 @@ static void
 ocurrencelist (iCalObject *o, char **str)
 {
 	char *p;
-	
+
 	ignore_space (str);
 	p = *str;
 	if (!isdigit (*p))
 		return;
-	
+
 	if (!(*p >= '1' && *p <= '5'))
 		return;
 
 	if (!(*(p+1) == '+' || *(p+1) == '-'))
 		return;
-	
+
 	o->recur->u.month_pos = (*p-'0') * (*(p+1) == '+' ? 1 : -1);
 	*str += 2;
 }
+
+#if 0
 
 static void
 daynumber (iCalObject *o, char **str)
@@ -294,7 +296,7 @@ daynumber (iCalObject *o, char **str)
 		*str += 2;
 		return;
 	}
-	
+
 	if (!(isdigit (*p)))
 		return;
 
@@ -311,12 +313,14 @@ daynumber (iCalObject *o, char **str)
 	o->recur->u.month_day = val;
 }
 
+#endif
+
 static void
 daynumberlist (iCalObject *o, char **str)
 {
 	int first = 0;
 	int val = 0;
-		
+
 	ignore_space (str);
 
 	while (**str){
@@ -332,7 +336,7 @@ daynumberlist (iCalObject *o, char **str)
 			 */
 			if (val == 0){
 				struct tm day = *localtime (&o->dtstart);
-				
+
 				val = day.tm_mday;
 			}
 			o->recur->u.month_day = val;
@@ -385,7 +389,7 @@ static void
 duration (iCalObject *o, char **str)
 {
 	unsigned int duration = 0;
-	
+
 	ignore_space (str);
 	if (**str != '#')
 		return;
@@ -412,17 +416,17 @@ load_recurrence (iCalObject *o, char *str)
 {
 	enum RecurType type;
 	int  interval = 0;
-	
+
 	type = -1;
 	switch (*str++){
 	case 'D':
 		type = RECUR_DAILY;
 		break;
-		
+
 	case 'W':
 		type = RECUR_WEEKLY;
 		break;
-		
+
 	case 'M':
 		if (*str == 'P')
 			type = RECUR_MONTHLY_BY_POS;
@@ -430,7 +434,7 @@ load_recurrence (iCalObject *o, char *str)
 			type = RECUR_MONTHLY_BY_DAY;
 		str++;
 		break;
-		
+
 	case 'Y':
 		if (*str == 'M')
 			type = RECUR_YEARLY_BY_MONTH;
@@ -452,14 +456,14 @@ load_recurrence (iCalObject *o, char *str)
 
 	if (interval == 0)
 		interval = 1;
-	
+
 	o->recur->interval = interval;
 
 	/* this is the default per the spec */
 	o->recur->duration = 2;
-	
+
 	ignore_space (&str);
-	
+
 	switch (type){
 	case RECUR_DAILY:
 		break;
@@ -514,7 +518,7 @@ setup_alarm_at (iCalObject *ico, CalendarAlarm *alarm, char *iso_time, VObject *
 	int d = difftime (base, alarm_time);
 	VObject *a;
 	char *the_str;
-	
+
 	alarm->enabled = 1;
 	if (d > HOURS (2)){
 		if (d > HOURS (48)){
@@ -548,7 +552,9 @@ ical_object_duplicate (iCalObject *o)
 {
 	VObject *vo;
 	iCalObject *new;
-	
+
+	/* FIXME!!!!!  The UID needs to change!!! */
+
 	vo = ical_object_to_vobject (o);
 	switch (o->type){
 	case ICAL_EVENT:
@@ -564,7 +570,7 @@ ical_object_duplicate (iCalObject *o)
 	cleanVObject (vo);
 	return new;
 }
-	
+
 /* FIXME: we need to load the recurrence properties */
 iCalObject *
 ical_object_create_from_vobject (VObject *o, const char *object_name)
@@ -576,7 +582,7 @@ ical_object_create_from_vobject (VObject *o, const char *object_name)
 	char *the_str;
 
 	ical = g_new0 (iCalObject, 1);
-	
+
 	if (strcmp (object_name, VCEventProp) == 0)
 		ical->type = ICAL_EVENT;
 	else if (strcmp (object_name, VCTodoProp) == 0)
@@ -600,7 +606,7 @@ ical_object_create_from_vobject (VObject *o, const char *object_name)
 		free (the_str);
 	} else
 		ical->seq = 0;
-	
+
 	/* dtstart */
 	if (has (o, VCDTstartProp)){
 		ical->dtstart = time_from_isodate (str_val (vo));
@@ -614,26 +620,26 @@ ical_object_create_from_vobject (VObject *o, const char *object_name)
 		if (has (o, VCDTendProp)){
 			ical->dtend = time_from_isodate (str_val (vo));
 			free (the_str);
-		} 
+		}
 	} else if (ical->type == ICAL_TODO){
 		if (has (o, VCDueProp)){
 			ical->dtend = time_from_isodate (str_val (vo));
 			free (the_str);
-		} 
+		}
 	}
-	
+
 	/* dcreated */
 	if (has (o, VCDCreatedProp)){
 		ical->created = time_from_isodate (str_val (vo));
 		free (the_str);
 	}
-	
+
 	/* completed */
 	if (has (o, VCCompletedProp)){
 		ical->completed = time_from_isodate (str_val (vo));
 		free (the_str);
 	}
-	
+
 	/* last_mod */
 	if (has (o, VCLastModifiedProp)){
 		ical->last_mod = time_from_isodate (str_val (vo));
@@ -652,7 +658,7 @@ ical_object_create_from_vobject (VObject *o, const char *object_name)
 		ical->comment = g_strdup (str_val (vo));
 		free (the_str);
 	}
-	
+
 	/* summary */
 	if (has (o, VCSummaryProp)){
 		ical->summary = g_strdup (str_val (vo));
@@ -678,19 +684,19 @@ ical_object_create_from_vobject (VObject *o, const char *object_name)
 		ical->categories = set_list (str_val (vo));
 		free (the_str);
 	}
-	
+
 	/* resources */
 	if (has (o, VCResourcesProp)){
 		ical->resources = set_list (str_val (vo));
 		free (the_str);
 	}
-	
+
 	/* priority */
 	if (has (o, VCPriorityProp)){
 		ical->priority = atoi (str_val (vo));
 		free (the_str);
 	}
-	
+
 	/* tranparency */
 	if (has (o, VCTranspProp)){
 		ical->transp = atoi (str_val (vo)) ? ICAL_TRANSPARENT : ICAL_OPAQUE;
@@ -702,13 +708,13 @@ ical_object_create_from_vobject (VObject *o, const char *object_name)
 		ical->organizer = g_strdup (str_val (vo));
 		free (the_str);
 	}
-					   
+
 	/* related */
 	if (has (o, VCRelatedToProp)){
 		ical->related = set_list (str_val (vo));
 		free (the_str);
 	}
-	
+
 	/* attach */
 	initPropIterator (&i, o);
 	while (moreIteration (&i)){
@@ -724,7 +730,7 @@ ical_object_create_from_vobject (VObject *o, const char *object_name)
 		ical->url = g_strdup (str_val (vo));
 		free (the_str);
 	}
-	
+
 	/* dalarm */
 	ical->dalarm.type = ALARM_DISPLAY;
 	ical->dalarm.enabled = 0;
@@ -734,7 +740,7 @@ ical_object_create_from_vobject (VObject *o, const char *object_name)
 			free (the_str);
 		}
 	}
-	
+
 	/* aalarm */
 	ical->aalarm.type = ALARM_AUDIO;
 	ical->aalarm.enabled = 0;
@@ -770,7 +776,7 @@ ical_object_create_from_vobject (VObject *o, const char *object_name)
 		if ((a = is_a_prop_of (vo, VCRunTimeProp))){
 			setup_alarm_at (ical, &ical->malarm, str_val (a), vo);
 			free (the_str);
-			
+
 			if ((a = is_a_prop_of (vo, VCEmailAddressProp))){
 				ical->malarm.data = g_strdup (str_val (a));
 				free (the_str);
@@ -802,7 +808,7 @@ ical_object_create_from_vobject (VObject *o, const char *object_name)
 		free (the_str);
 	} else
 		ical->pilot_status = ICAL_PILOT_SYNC_MOD;
-	
+
 	return ical;
 }
 
@@ -824,7 +830,7 @@ store_list (VObject *o, char *prop, GList *values)
 	GList *l;
 	int len;
 	char *result, *p;
-	
+
 	for (len = 0, l = values; l; l = l->next)
 		len += strlen (l->data) + 1;
 
@@ -832,7 +838,7 @@ store_list (VObject *o, char *prop, GList *values)
 
 	for (p = result, l = values; l; l = l->next) {
 		int len = strlen (l->data);
-		
+
 		strcpy (p, l->data);
 
 		if (l->next) {
@@ -880,7 +886,7 @@ save_alarm (VObject *o, CalendarAlarm *alarm, iCalObject *ical)
 	VObject *alarm_object;
 	struct tm tm;
 	time_t alarm_time;
-	
+
 	if (!alarm->enabled)
 		return NULL;
 	tm = *localtime (&ical->dtstart);
@@ -888,16 +894,16 @@ save_alarm (VObject *o, CalendarAlarm *alarm, iCalObject *ical)
 	case ALARM_MINUTES:
 		tm.tm_min -= alarm->count;
 		break;
-		
+
 	case ALARM_HOURS:
 		tm.tm_hour -= alarm->count;
 		break;
-		
+
 	case ALARM_DAYS:
 		tm.tm_mday -= alarm->count;
 		break;
 	}
-	
+
 	alarm_time = mktime (&tm);
 	alarm_object = addProp (o, alarm_names [alarm->type]);
 	addPropValue (alarm_object, VCRunTimeProp, isodate_from_time_t (alarm_time));
@@ -913,7 +919,7 @@ save_alarm (VObject *o, CalendarAlarm *alarm, iCalObject *ical)
 		sprintf (buf, "%d", alarm->snooze_repeat);
 		addPropValue (alarm_object, VCRepeatCountProp, buf);
 	} else
-		addPropValue (alarm_object, VCRepeatCountProp, "");		
+		addPropValue (alarm_object, VCRepeatCountProp, "");
 	return alarm_object;
 }
 
@@ -922,7 +928,7 @@ ical_object_to_vobject (iCalObject *ical)
 {
 	VObject *o, *alarm, *s;
 	GList *l;
-	
+
 	if (ical->type == ICAL_EVENT)
 		o = newVObject (VCEventProp);
 	else
@@ -974,7 +980,7 @@ ical_object_to_vobject (iCalObject *ical)
 	} else {
 		addPropValue (o, VCSummaryProp, _("Appointment"));
 	}
-	
+
 	/* status */
 	addPropValue (o, VCStatusProp, ical->status);
 
@@ -998,7 +1004,7 @@ ical_object_to_vobject (iCalObject *ical)
 	/* Owenr/organizer */
 	if (ical->organizer)
 		addPropValue (o, VCOrgNameProp, ical->organizer);
-	
+
 	/* related */
 	if (ical->related)
 		store_list (o, VCRelatedToProp, ical->related);
@@ -1015,12 +1021,12 @@ ical_object_to_vobject (iCalObject *ical)
 		char result [256];
 		char buffer [80];
 		int i;
-		
+
 		sprintf (result, "%s%d ", recur_type_name [ical->recur->type], ical->recur->interval);
 		switch (ical->recur->type){
 		case RECUR_DAILY:
 			break;
-			
+
 		case RECUR_WEEKLY:
 			for (i = 0; i < 7; i++){
 				if (ical->recur->weekday & (1 << i)){
@@ -1029,27 +1035,27 @@ ical_object_to_vobject (iCalObject *ical)
 				}
 			}
 			break;
-			
+
 		case RECUR_MONTHLY_BY_POS: {
 			int nega = ical->recur->u.month_pos < 0;
-				
+
 			sprintf (buffer, "%d%s ", nega ? -ical->recur->u.month_pos : ical->recur->u.month_pos,
 				 nega ? "-" : "+");
 			strcat (result, buffer);
 			/* the gui is set up for a single day, not a set here in this case */
-			sprintf (buffer, "%s ", recur_day_list [ical->recur->weekday]); 
+			sprintf (buffer, "%s ", recur_day_list [ical->recur->weekday]);
 			strcat (result, buffer);
 		}
 		break;
-			
+
 		case RECUR_MONTHLY_BY_DAY:
 			sprintf (buffer, "%d ", ical->recur->u.month_pos);
 			strcat (result, buffer);
 			break;
-			
+
 		case RECUR_YEARLY_BY_MONTH:
 			break;
-			
+
 		case RECUR_YEARLY_BY_DAY:
 			break;
 		}
@@ -1060,10 +1066,10 @@ ical_object_to_vobject (iCalObject *ical)
 		strcat (result, buffer);
 		addPropValue (o, VCRRuleProp, result);
 	}
-	
+
 	save_alarm (o, &ical->aalarm, ical);
 	save_alarm (o, &ical->dalarm, ical);
-	
+
 	if ((alarm = save_alarm (o, &ical->palarm, ical)))
 		addPropValue (alarm, VCProcedureNameProp, ical->palarm.data);
 	if ((alarm = save_alarm (o, &ical->malarm, ical)))
@@ -1072,13 +1078,13 @@ ical_object_to_vobject (iCalObject *ical)
 	/* Pilot */
 	{
 		char buffer [20];
-		
+
 		sprintf (buffer, "%d", ical->pilot_id);
 		addPropValue (o, XPilotIdProp, buffer);
 		sprintf (buffer, "%d", ical->pilot_status);
 		addPropValue (o, XPilotStatusProp, buffer);
 	}
-	
+
 	return o;
 }
 
@@ -1087,7 +1093,7 @@ ical_foreach (GList *events, calendarfn fn, void *closure)
 {
 	for (; events; events = events->next){
 		iCalObject *ical = events->data;
-		
+
 		(*fn) (ical, ical->dtstart, ical->dtend, closure);
 	}
 }
@@ -1096,10 +1102,10 @@ static int
 is_date_in_list (GList *list, struct tm *date)
 {
 	struct tm tm;
-	
+
 	for (; list; list = list->next){
 		time_t *timep = list->data;
-		
+
 		tm = *localtime (timep);
 		if (date->tm_mday == tm.tm_mday &&
 		    date->tm_mon  == tm.tm_mon &&
@@ -1141,7 +1147,7 @@ generate (iCalObject *ico, time_t reference, calendarfn cb, void *closure)
 
 	if (ico->exdate && is_date_in_list (ico->exdate, &dt_start))
 		return 1;
-	
+
 	e_t = mktime (&dt_end);
 
 	if ((s_t == -1) || (e_t == -1)) {
@@ -1230,7 +1236,7 @@ ical_object_generate_events (iCalObject *ico, time_t start, time_t end, calendar
 		} while ((current < end) || (end == 0));
 
 		break;
-		
+
 	case RECUR_WEEKLY:
 		do {
 			struct tm tm;
@@ -1299,7 +1305,7 @@ ical_object_generate_events (iCalObject *ico, time_t start, time_t end, calendar
 				current = mktime (&tm);
 				continue;
 			}
-			
+
 			switch( tm.tm_mon )
 			{
 			case 3:
@@ -1316,11 +1322,11 @@ ical_object_generate_events (iCalObject *ico, time_t start, time_t end, calendar
 				break;
 			case 1:
 				if( ((tm.tm_year+1900)%4) == 0
-					&& ((tm.tm_year+1900)%400) != 100 
-					&& ((tm.tm_year+1900)%400) != 200 
+					&& ((tm.tm_year+1900)%400) != 100
+					&& ((tm.tm_year+1900)%400) != 200
 					&& ((tm.tm_year+1900)%400) != 300 )
 				{
-					
+
 					if( tm.tm_mday > 29 )
 					{
 						tm.tm_mday = 1;
@@ -1341,7 +1347,7 @@ ical_object_generate_events (iCalObject *ico, time_t start, time_t end, calendar
 				}
 				break;
 			}
-			
+
 			t = mktime (&tm);
 
 			if (time_in_range (t, start, end) && recur_in_range (current, ico->recur))
@@ -1351,7 +1357,7 @@ ical_object_generate_events (iCalObject *ico, time_t start, time_t end, calendar
 			/* Advance by the appropriate number of months */
 
 			current = mktime (&tm);
-			
+
 			tm.tm_mday = 1;
 			tm.tm_mon += ico->recur->interval;
 			current = mktime (&tm);
@@ -1392,7 +1398,7 @@ ical_object_generate_events (iCalObject *ico, time_t start, time_t end, calendar
 		} while (current < end || (end == 0));
 
 		break;
-		
+
 	case RECUR_YEARLY_BY_MONTH:
 	case RECUR_YEARLY_BY_DAY:
 		do {
@@ -1466,7 +1472,7 @@ ical_object_new_from_string (const char *vcal_string)
 	VObject *cal, *event;
 	VObjectIterator i;
 	const char *object_name;
-	
+
 	cal = Parse_MIME (vcal_string, strlen (vcal_string));
 
 	initPropIterator (&i, cal);
@@ -1475,7 +1481,7 @@ ical_object_new_from_string (const char *vcal_string)
 		event = nextVObject (&i);
 
 		object_name = vObjectName (event);
-		
+
 		if (strcmp (object_name, VCEventProp) == 0){
 			ical = ical_object_create_from_vobject (event, object_name);
 			break;
@@ -1488,3 +1494,74 @@ ical_object_new_from_string (const char *vcal_string)
 	return ical;
 }
 
+/**
+ * ical_object_find_in_string:
+ * @uid: Unique identifier of the sought object.
+ * @vcalobj: String representation of a complete calendar object.
+ * @ico: The resulting #iCalObject is stored here.
+ *
+ * Parses a complete vCalendar object string and tries to find the calendar
+ * object that matches the specified @uid.  If found, it stores the resulting
+ * #iCalObject in the @ico parameter.
+ *
+ * Return value: A result code depending on whether the parse and search were
+ * successful.
+ **/
+CalObjFindStatus
+ical_object_find_in_string (const char *uid, const char *vcalobj, iCalObject **ico)
+{
+	VObject *vcal;
+	VObjectIterator i;
+	CalObjFindStatus status;
+
+	g_return_val_if_fail (uid != NULL, CAL_OBJ_FIND_SYNTAX_ERROR);
+	g_return_val_if_fail (vcalobj != NULL, CAL_OBJ_FIND_SYNTAX_ERROR);
+	g_return_val_if_fail (ico != NULL, CAL_OBJ_FIND_SYNTAX_ERROR);
+
+	*ico = NULL;
+	status = CAL_OBJ_FIND_NOT_FOUND;
+
+	vcal = Parse_MIME (vcalobj, strlen (vcalobj));
+
+	if (!vcal)
+		return CAL_OBJ_FIND_SYNTAX_ERROR;
+
+	initPropIterator (&i, vcal);
+
+	while (moreIteration (&i)) {
+		VObject *vobj;
+		VObject *uid_prop;
+		char *the_str;
+
+		vobj = nextVObject (&i);
+
+		uid_prop = isAPropertyOf (vobj, VCUniqueStringProp);
+		if (!uid_prop)
+			continue;
+
+		/* str_val() sets the_str to the string representation of the
+		 * property.
+		 */
+		str_val (uid_prop);
+
+		if (strcmp (the_str, uid) == 0) {
+			const char *object_name;
+
+			object_name = vObjectName (vobj);
+			*ico = ical_object_create_from_vobject (vobj, object_name);
+
+			if (*ico)
+				status = CAL_OBJ_FIND_SUCCESS;
+		}
+
+		free (the_str);
+
+		if (status == CAL_OBJ_FIND_SUCCESS)
+			break;
+	}
+
+	cleanVObject (vcal);
+	cleanStrTbl ();
+
+	return status;
+}

@@ -521,6 +521,74 @@ cal_backend_get_object (CalBackend *backend, const char *uid)
 	return retval;
 }
 
+struct get_uids_closure {
+	CalObjType type;
+	GList *uid_list;
+};
+
+/* Builds a list of UIDs for objects that match the sought type.  Called from
+ * g_hash_table_foreach().
+ */
+static void
+build_uids_list (gpointer key, gpointer value, gpointer data)
+{
+	iCalObject *ico;
+	struct get_uids_closure *c;
+	gboolean store;
+
+	ico = value;
+	c = data;
+
+	store = FALSE;
+
+	if (c->type & CALOBJ_TYPE_ANY)
+		store = TRUE;
+	else if (ico->type == ICAL_EVENT)
+		store = (c->type & CALOBJ_TYPE_EVENT) ? TRUE : FALSE;
+	else if (ico->type == ICAL_TODO)
+		store = (c->type & CALOBJ_TYPE_TODO) ? TRUE : FALSE;
+	else if (ico->type == ICAL_JOURNAL)
+		store = (c->type & CALOBJ_TYPE_JOURNAL) ? TRUE : FALSE;
+	else
+		store = (c->type & CALOBJ_TYPE_OTHER) ? TRUE : FALSE;
+
+	if (store)
+		c->uid_list = g_list_prepend (c->uid_list, g_strdup (ico->uid));
+}
+
+/**
+ * cal_backend_get_uids:
+ * @backend: A calendar backend.
+ * @type: Bitmask with types of objects to return.
+ * 
+ * Builds a list of unique identifiers corresponding to calendar objects whose
+ * type matches one of the types specified in the @type flags.
+ * 
+ * Return value: A list of strings that are the sought UIDs.
+ **/
+GList *
+cal_backend_get_uids (CalBackend *backend, CalObjType type)
+{
+	CalBackendPrivate *priv;
+	struct get_uids_closure c;
+
+	g_return_val_if_fail (backend != NULL, NULL);
+	g_return_val_if_fail (IS_CAL_BACKEND (backend), NULL);
+
+	priv = backend->priv;
+	g_return_val_if_fail (priv->loaded, NULL);
+
+	/* We go through the hash table instead of the lists of particular
+	 * object types so that we can pick up CALOBJ_TYPE_OTHER objects.
+	 */
+
+	c.type = type;
+	c.uid_list = NULL;
+	g_hash_table_foreach (priv->object_hash, build_uids_list, &c);
+
+	return c.uid_list;
+}
+
 struct build_event_list_closure {
 	CalBackend *backend;
 	GList *event_list;
@@ -538,6 +606,9 @@ build_event_list (iCalObject *ico, time_t start, time_t end, void *data)
 	c = data;
 
 	icoi = g_new (CalObjInstance, 1);
+
+	g_assert (ico->uid != NULL);
+	icoi->uid = g_strdup (ico->uid);
 	icoi->calobj = string_from_ical_object (c->backend, ico);
 	icoi->start = start;
 	icoi->end = end;

@@ -1,5 +1,74 @@
 2000-02-08  Federico Mena Quintero  <federico@helixcode.com>
 
+	* evolution-calendar.idl (Cal): Added get_uids() method to get a
+	list of UIDs based on object types.
+
+	* cal-backend.c (cal_backend_get_uids): Implemented get_uids() in
+	the backend.
+
+	* cal.c (Cal_get_uids): Implemented get_uids() method.
+
+	* cal-client.c (cal_client_get_uids): Implemented client-side
+	function.
+
+	* cal-util.c (cal_obj_instance_list_free): Doh.  Free the list,
+	not the last link.
+	(cal_obj_uid_list_free): New function to free a list of UIDs.
+
+	* GnomeCal.idl (Repository): Removed unused method
+	get_object_by_id_list().  This is just for cleanup purposes and to
+	remind me exactly of what needs to be moved over to
+	evolution-calendar.idl.
+	(Repository): Removed unused get_objects() method.
+
+	* corba-cal.c (init_calendar_repo_class): Removed the unused
+	get_objects method.
+
+	* calobj.h (CalObjFindStatus): New status value enumeration for
+	the find function.
+
+	* calobj.c (ical_object_find_in_string): New function to parse a
+	complete calendar and find a calendar object in it.  This should
+	be used instead ical_object_new_from_string() in the future.
+
+	* evolution-calendar.idl (CalObjInstance): Added an uid field.
+	Now the idea is that whenever calendar object strings are passed
+	around, their UIDs are passed along with them so that the actual
+	object can be pulled from the whole VCAL object using its UID to
+	identify it.
+
+	* cal-util.h (CalObjInstance): Added uid field.
+
+	* cal-util.c (cal_obj_instance_list_free): Free the UIDs.
+
+	* cal-backend.c (build_event_list): Store the object's UID in the
+	instance structure.
+
+	* cal.c (Cal_get_events_in_range): Copy the UID field to the CORBA
+	structure.
+
+	* cal-client.c (cal_client_get_events_in_range): Copy the UID
+	field from the CORBA structure.
+
+	* main.c (gnome_cal_file_menu): Removed unfinished html-month stuff.
+
+	* Makefile.am (gnomecal_SOURCES): Removed html-month.c.
+
+	* gnome-cal.c: #include "alarm.h"
+	(mail_notify): Made static.
+
+	* alarm.h: #include "calobj.h"
+
+	* corba-cal-factory.h (init_corba_server): Fixed prototype.
+
+	* quick-view.c (create_items_for_event): Made static.
+
+	* gncal-todo.c (column_resized): Made static.
+
+	* layout.c (find_index): Made static.
+
+2000-02-08  Federico Mena Quintero  <federico@helixcode.com>
+
 	* evolution-calendar.idl (CalObjInstance): New struct to wrap
 	instances of calendar objects for recurrencies and alarms.
 	(Cal::get_events_in_range): New method to get ocurring and

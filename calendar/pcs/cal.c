@@ -196,6 +196,54 @@ Cal_get_object (PortableServer_Servant servant,
 	}
 }
 
+/* Cal::get_uids method */
+static Evolution_Calendar_CalObjUIDSeq *
+Cal_get_uids (PortableServer_Servant servant,
+	      const Evolution_Calendar_CalObjType type,
+	      CORBA_Environment *ev)
+{
+	Cal *cal;
+	CalPrivate *priv;
+	GList *uids, *l;
+	Evolution_Calendar_CalObjUIDSeq *seq;
+	int t;
+	int n, i;
+
+	cal = CAL (bonobo_object_from_servant (servant));
+	priv = cal->priv;
+
+	/* Translate the CORBA flags to our own flags */
+
+	t = (((type & Evolution_Calendar_TYPE_EVENT) ? CALOBJ_TYPE_EVENT : 0)
+	     | ((type & Evolution_Calendar_TYPE_TODO) ? CALOBJ_TYPE_TODO : 0)
+	     | ((type & Evolution_Calendar_TYPE_JOURNAL) ? CALOBJ_TYPE_JOURNAL : 0)
+	     | ((type & Evolution_Calendar_TYPE_OTHER) ? CALOBJ_TYPE_OTHER : 0)
+	     | ((type & Evolution_Calendar_TYPE_ANY) ? CALOBJ_TYPE_ANY : 0));
+
+	uids = cal_backend_get_uids (priv->backend, t);
+	n = g_list_length (uids);
+
+	seq = Evolution_Calendar_CalObjUIDSeq__alloc ();
+	seq->_length = n;
+	seq->_buffer = CORBA_sequence_Evolution_Calendar_CalObjUID_allocbuf (n);
+
+	/* Fill the sequence */
+
+	for (i = 0, l = uids; l; i++, l = l->next) {
+		char *uid;
+
+		uid = l->data;
+
+		seq->_buffer[i] = CORBA_string_dup (uid);
+	}
+
+	/* Done */
+
+	cal_obj_uid_list_free (uids);
+
+	return seq;
+}
+
 /* Cal::get_events_in_range method */
 static Evolution_Calendar_CalObjInstanceSeq *
 Cal_get_events_in_range (PortableServer_Servant servant,
@@ -234,13 +282,14 @@ Cal_get_events_in_range (PortableServer_Servant servant,
 
 	/* Fill the sequence */
 
-	for (i = 0, l = elist; i < n; i++, l = l->next) {
+	for (i = 0, l = elist; l; i++, l = l->next) {
 		CalObjInstance *icoi;
 		Evolution_Calendar_CalObjInstance *corba_icoi;
 
 		icoi = l->data;
 		corba_icoi = &seq->_buffer[i];
 
+		corba_icoi->uid = CORBA_string_dup (icoi->uid);
 		corba_icoi->calobj = CORBA_string_dup (icoi->calobj);
 		corba_icoi->start = icoi->start;
 		corba_icoi->end = icoi->end;
@@ -269,6 +318,7 @@ cal_get_epv (void)
 	epv = g_new0 (POA_Evolution_Calendar_Cal__epv, 1);
 	epv->_get_uri = Cal_get_uri;
 	epv->get_object = Cal_get_object;
+	epv->get_uids = Cal_get_uids;
 	epv->get_events_in_range = Cal_get_events_in_range;
 
 	return epv;

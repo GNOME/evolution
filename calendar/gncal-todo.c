@@ -354,7 +354,7 @@ clist_row_selected (GtkCList *clist, gint row, gint column, GdkEventButton *even
  * once we get a call back stating that a column
  * has been resized never ever automatically resize again
  */
-void
+static void
 column_resized (GtkWidget *widget, GncalTodo *todo)
 {
 	/* disabling autoresize of columns */

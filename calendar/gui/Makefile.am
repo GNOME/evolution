@@ -90,7 +90,6 @@ gnomecal_SOURCES =				\
 	gnome-month-item.h			\
 	gnome-cal.c				\
 	gnome-cal.h				\
-	html-month.c				\
 	goto.c					\
 	layout.c				\
 	layout.h				\

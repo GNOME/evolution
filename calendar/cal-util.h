@@ -25,6 +25,7 @@
 #include <libgnome/gnome-defs.h>
 #include <time.h>
 #include <glib.h>
+#include "calobj.h"
 
 BEGIN_GNOME_DECLS
 
@@ -34,6 +35,7 @@ BEGIN_GNOME_DECLS
  * recurrence, or an alarm trigger of a `real' calendar object.
  */
 typedef struct {
+	char *uid;			/* Identifier for the object wrapped in calobj */
 	char *calobj;			/* String representation of calendar object */
 	time_t start;			/* Start time of instance */
 	time_t end;			/* End time of instance */
@@ -41,6 +43,16 @@ typedef struct {
 
 void cal_obj_instance_list_free (GList *list);
 
+/* Used for multiple UID queries */
+typedef enum {
+	CALOBJ_TYPE_EVENT   = 1 << 0,
+	CALOBJ_TYPE_TODO    = 1 << 1,
+	CALOBJ_TYPE_JOURNAL = 1 << 2,
+	CALOBJ_TYPE_OTHER   = 1 << 3,
+	CALOBJ_TYPE_ANY     = 0x0f
+} CalObjType;
+
+void cal_obj_uid_list_free (GList *list);
 
 
 

@@ -41,11 +41,34 @@ cal_obj_instance_list_free (GList *list)
 		i = l->data;
 
 		g_assert (i != NULL);
+		g_assert (i->uid != NULL);
 		g_assert (i->calobj != NULL);
 
+		g_free (i->uid);
 		g_free (i->calobj);
 		g_free (i);
 	}
 
-	g_list_free (l);
+	g_list_free (list);
+}
+
+/**
+ * cal_obj_uid_list_free:
+ * @list: List of strings with unique identifiers.
+ *
+ * Frees a list of unique identifiers for calendar objects.
+ **/
+void
+cal_obj_uid_list_free (GList *list)
+{
+	GList *l;
+
+	for (l = list; l; l = l->next) {
+		char *uid;
+
+		uid = l->data;
+		g_free (uid);
+	}
+
+	g_list_free (list);
 }

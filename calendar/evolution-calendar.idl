@@ -23,6 +23,17 @@ module Calendar {
 	/* An unique identifier for a calendar object */
 	typedef string CalObjUID;
 
+	/* Sequence of unique identifiers */
+	typedef sequence<CalObjUID> CalObjUIDSeq;
+
+	/* Flags for getting UID sequences */
+	typedef long CalObjType;
+	const CalObjType TYPE_EVENT   = 1 << 0;
+	const CalObjType TYPE_TODO    = 1 << 1;
+	const CalObjType TYPE_JOURNAL = 1 << 2;
+	const CalObjType TYPE_OTHER   = 1 << 3;
+	const CalObjType TYPE_ANY     = 0x0f;
+
 	/* Used to store a time_t */
 	typedef unsigned long Time_t;
 
@@ -33,6 +44,7 @@ module Calendar {
 	 * trigger.  
 	 */
 	struct CalObjInstance {
+		CalObjUID uid;
 		CalObj calobj;
 		Time_t start;
 		Time_t end;
@@ -53,6 +65,9 @@ module Calendar {
 		/* Gets an object based on its URI */
 		CalObj get_object (in CalObjUID uid)
 			raises (NotFound);
+
+		/* Gets a list of UIDs based on object type */
+		CalObjUIDSeq get_uids (in CalObjType type);
 
 		/* Gets the events that occur or recur in the specified time range */
 		CalObjInstanceSeq get_events_in_range (in Time_t start, in Time_t end)
