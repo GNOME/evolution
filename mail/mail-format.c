@@ -45,6 +45,7 @@
 static char *get_data_wrapper_text (CamelDataWrapper *data);
 
 static char *try_inline_pgp (char *start, MailDisplay *md);
+static char *try_inline_pgp_sig (char *start, MailDisplay *md);
 static char *try_uudecoding (char *start, MailDisplay *md);
 static char *try_inline_binhex (char *start, MailDisplay *md);
 
@@ -763,6 +764,7 @@ struct {
 	char * (*handler) (char *start, MailDisplay *md);
 } text_specials[] = {
 	{ "-----BEGIN PGP MESSAGE-----\n", try_inline_pgp },
+	{ "-----BEGIN PGP SIGNED MESSAGE-----\n", try_inline_pgp_sig },
 	{ "begin ", try_uudecoding },
 	{ "(This file must be converted with BinHex 4.0)\n", try_inline_binhex }
 };
@@ -957,15 +959,13 @@ try_inline_pgp (char *start, MailDisplay *md)
 {
 	char *end, *ciphertext, *plaintext;
 	int outlen;
-
-	/* FIXME: This should deal with signed data as well. */
-
+	
 	end = strstr (start, "-----END PGP MESSAGE-----");
 	if (!end)
 		return start;
-
+	
 	end += strlen ("-----END PGP MESSAGE-----") - 1;
-
+	
 	mail_html_write (md->html, md->stream, "<hr>");
 	
 	/* FIXME: uhm, pgp decrypted data doesn't have to be plaintext
@@ -981,7 +981,57 @@ try_inline_pgp (char *start, MailDisplay *md)
 		mail_html_write (md->html, md->stream, "</td></tr></table>");
 		g_free (plaintext);
 	}
+	
+	return end;
+}
 
+static char *
+try_inline_pgp_sig (char *start, MailDisplay *md)
+{
+	char *end, *ciphertext;
+	CamelException *ex;
+	gboolean valid;
+	
+	end = strstr (start, "-----END PGP SIGNATURE-----");
+	if (!end)
+		return start;
+	
+	end += strlen ("-----END PGP SIGNATURE-----") - 1;
+	
+	mail_html_write (md->html, md->stream, "<hr>");
+	
+	ciphertext = g_strndup (start, end - start);
+	ex = camel_exception_new ();
+	valid = openpgp_verify (ciphertext, end - start, NULL, 0, ex);
+	g_free (ciphertext);
+	
+	mail_text_write (md->html, md->stream, "%s", start);
+	
+	/* Now display the "seal-of-authenticity" or something... */
+	if (valid) {
+		mail_html_write (md->html, md->stream,
+				 "<hr>\n<table><tr valign=top>"
+				 "<td><img src=\"%s\"></td>"
+				 "<td><font size=-1>%s<br><br></font></td></table>",
+				 get_url_for_icon ("wax-seal2.png", md),
+				 _("This message is digitally signed and "
+				   "has been found to be authentic."));
+	} else {
+		mail_html_write (md->html, md->stream,
+				 "<hr>\n<table><tr valign=top>"
+				 "<td><img src=\"%s\"></td>"
+				 "<td><font size=-1>%s<br><br>",
+				 get_url_for_icon ("wax-seal-broken.png", md),
+				 _("This message is digitally signed but can "
+				   "not be proven to be authentic."));
+		mail_error_write (md->html, md->stream,
+				  camel_exception_get_description (ex));
+		mail_html_write (md->html, md->stream,
+				 "<br><br></font></td></table>");
+	}
+	
+	camel_exception_free (ex);
+	
 	return end;
 }
 
@@ -1339,9 +1389,6 @@ handle_multipart_signed (CamelMimePart *part, const char *mime_type,
 	
 	/* Now display the "seal-of-authenticity" or something... */
 	if (valid) {
-		/* FIXME: maybe the pgp verify func should ALWAYS set
-                   an exception so that we can get more details even
-                   if it did pass the check. */
 		mail_html_write (md->html, md->stream,
 				 "<hr>\n<table><tr valign=top>"
 				 "<td><img src=\"%s\"></td>"
