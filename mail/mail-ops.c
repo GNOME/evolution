@@ -207,9 +207,8 @@ do_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 				free_info = TRUE;
 			}
 			
-			filter_driver_run (filter, message, info,
-					   input->destination, FILTER_SOURCE_INCOMING,
-					   FALSE, ex);
+			filter_driver_run (filter, message, info, input->destination,
+					   FILTER_SOURCE_INCOMING, ex);
 			
 			if (free_info)
 				camel_message_info_free (info);
@@ -227,6 +226,8 @@ do_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 			}
 			camel_object_unref (CAMEL_OBJECT (message));
 		}
+		
+		gtk_object_unref (GTK_OBJECT (filter));
 		
 		camel_folder_sync (folder, FALSE, ex);
 		
@@ -304,7 +305,7 @@ mail_do_fetch_mail (const gchar *source_url, gboolean keep_on_server,
 
 typedef struct filter_ondemand_input_s
 {
-	FilterDriver *driver;
+	FilterContext *context;
 	CamelFolder *source;
 	CamelFolder *destination;
 } filter_ondemand_input_t;
@@ -338,9 +339,9 @@ setup_filter_ondemand (gpointer in_data, gpointer op_data, CamelException *ex)
 	filter_ondemand_input_t *input = (filter_ondemand_input_t *) in_data;
 	filter_ondemand_data_t *data = (filter_ondemand_data_t *) op_data;
 	
-	if (!IS_FILTER_DRIVER (input->driver)) {
+	if (!IS_FILTER_CONTEXT (input->context)) {
 		camel_exception_set (ex, CAMEL_EXCEPTION_INVALID_PARAM,
-				     _("Bad filter driver specified"));
+				     _("Bad filter context specified"));
 		return;
 	}
 	
@@ -364,7 +365,7 @@ setup_filter_ondemand (gpointer in_data, gpointer op_data, CamelException *ex)
 	
 	data->empty = FALSE;
 	
-	gtk_object_ref (GTK_OBJECT (input->driver));
+	gtk_object_ref (GTK_OBJECT (input->context));
 	camel_object_ref (CAMEL_OBJECT (input->source));
 	camel_object_ref (CAMEL_OBJECT (input->destination));
 }
@@ -379,12 +380,15 @@ do_filter_ondemand (gpointer in_data, gpointer op_data, CamelException *ex)
 	if (camel_folder_get_message_count (input->source) == 0) {
 		data->empty = TRUE;
 	} else {
+		FilterDriver *driver;
 		GPtrArray *uids;
 		int i;
 		
 		uids = camel_folder_get_uids (input->source);
 		
 		camel_folder_freeze (input->source);
+		
+		driver = filter_driver_new (input->context, mail_tool_filter_get_folder_func, NULL);
 		
 		for (i = 0; i < uids->len; i++) {
 			CamelMimeMessage *message;
@@ -404,8 +408,8 @@ do_filter_ondemand (gpointer in_data, gpointer op_data, CamelException *ex)
 				free_info = TRUE;
 			}
 			
-			filtered = filter_driver_run (input->driver, message, info, NULL,
-						      FILTER_SOURCE_DEMAND, TRUE, ex);
+			filtered = filter_driver_run (driver, message, info, NULL,
+						      FILTER_SOURCE_DEMAND, ex);
 			
 			if (free_info)
 				camel_message_info_free (info);
@@ -422,6 +426,8 @@ do_filter_ondemand (gpointer in_data, gpointer op_data, CamelException *ex)
 			
 			camel_object_unref (CAMEL_OBJECT (message));
 		}
+		
+		gtk_object_unref (GTK_OBJECT (driver));
 		
 		camel_folder_sync (input->source, TRUE, ex);
 		
@@ -446,8 +452,8 @@ cleanup_filter_ondemand (gpointer in_data, gpointer op_data, CamelException *ex)
 	if (input->destination)
 		camel_object_unref (CAMEL_OBJECT (input->destination));
 	
-	if (input->driver)
-		gtk_object_unref (GTK_OBJECT (input->driver));
+	if (input->context)
+		gtk_object_unref (GTK_OBJECT (input->context));
 }
 
 static const mail_operation_spec op_filter_ondemand = {
@@ -459,12 +465,12 @@ static const mail_operation_spec op_filter_ondemand = {
 };
 
 void
-mail_do_filter_ondemand (FilterDriver *driver, CamelFolder *source, CamelFolder *destination)
+mail_do_filter_ondemand (FilterContext *context, CamelFolder *source, CamelFolder *destination)
 {
 	filter_ondemand_input_t *input;
 	
 	input = g_new (filter_ondemand_input_t, 1);
-	input->driver = driver;
+	input->context = context;
 	input->source = source;
 	input->destination = destination;
 	

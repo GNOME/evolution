@@ -730,20 +730,9 @@ void
 run_filter_ondemand (BonoboUIHandler *uih, gpointer user_data, const char *path)
 {
 	struct fb_ondemand_closure *oc = (struct fb_ondemand_closure *) user_data;
-	FilterDriver *d;
 	
 	if (oc->fb->folder == NULL)
 		return;
 	
-	printf ("Running filter \"%s\"\n", oc->rule->name);
-	
-	d = filter_driver_new (oc->fb->filter_context, 
-			       mail_tool_filter_get_folder_func,
-			       NULL);
-	
-	mail_do_filter_ondemand (d, oc->fb->folder, oc->fb->folder);
-	
-	/*filter_driver_run (d, oc->fb->folder, oc->fb->folder,
-	  FILTER_SOURCE_DEMAND, TRUE,
-	  NULL, NULL, NULL);*/
+	mail_do_filter_ondemand (oc->fb->filter_context, oc->fb->folder, oc->fb->folder);
 }
