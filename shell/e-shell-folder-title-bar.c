@@ -480,10 +480,10 @@ e_shell_folder_title_bar_set_icon (EShellFolderTitleBar *folder_title_bar,
 
 	priv = folder_title_bar->priv;
 
-	gdk_pixbuf_ref (icon);
+	gdk_pixbuf_ref ((GdkPixbuf *) icon);
 	if (priv->icon)
 		gdk_pixbuf_unref (priv->icon);
-	priv->icon = icon;
+	priv->icon = (GdkPixbuf *) icon;
 
 	pixmap = make_icon_pixmap (folder_title_bar, icon);
 
