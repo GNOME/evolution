@@ -440,7 +440,7 @@ mail_config_write_on_exit (void)
 	g_object_unref (iter);
 	
 	/* then we clear out our component passwords */
-	e_passwords_clear_component_passwords ("Mail");
+	e_passwords_clear_passwords ("Mail");
 	
 	/* then we remember them */
 	iter = e_list_get_iterator ((EList *) config->accounts);

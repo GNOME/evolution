@@ -1,3 +1,14 @@
+2004-08-10  Not Zed  <NotZed@Ximian.com>
+
+	* mail-session.c (get_password): just call
+	e_passwords_ask_password directly.
+	(pass_activate, pass_response, request_password, do_get_pass)
+	(do_free_pass, main_forget_password): no longer required as
+	e_password now handles the magic, and is thread safe.
+
+	* mail-config.c (mail_config_write_on_exit): epasswords api
+	change.
+
 2004-08-06  Jeffrey Stedfast  <fejj@novell.com>
 
 	* em-folder-tree-model.c (em_folder_tree_model_get_selected):

@@ -166,258 +166,87 @@ make_key (CamelService *service, const char *item)
 
 /* ********************************************************************** */
 
-static GtkDialog *password_dialog = NULL;
-static EDList password_list = E_DLIST_INITIALISER(password_list);
-
-struct _pass_msg {
-	struct _mail_msg msg;
-	
-	CamelSession *session;
-	CamelService *service;
-	const char *domain;
-	const char *prompt;
-	const char *item;
-	guint32 flags;
-	CamelException *ex;
-	
-	char *service_url;
-	char *key;
-
-	EAccountService *config_service;
-	GtkWidget *check;
-	GtkWidget *entry;
-	char *result;
-	int ismain;
-};
-
-static void do_get_pass(struct _mail_msg *mm);
-
-static void
-pass_activate (GtkEntry *entry, void *data)
-{
-	if (password_dialog)
-		gtk_dialog_response (password_dialog, GTK_RESPONSE_OK);
-}
-
-static void
-pass_response (GtkDialog *dialog, int button, void *data)
-{
-	struct _pass_msg *m = data;
-	
-	switch (button) {
-	case GTK_RESPONSE_OK:
-	{
-		gboolean cache, remember;
-		
-		m->result = g_strdup (gtk_entry_get_text ((GtkEntry *) m->entry));
-		remember = cache = m->check ? gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (m->check)) : FALSE;
-		
-		if (m->service_url) {
-			if (m->config_service) {
-				mail_config_service_set_save_passwd (m->config_service, cache);
-				
-				/* set `cache' to TRUE because people don't want to have to
-				   re-enter their passwords for this session even if they told
-				   us not to cache their passwords in the dialog...*sigh* */
-				cache = TRUE;
-			}
-		} else {
-			/* we can't remember the password if it isn't for an account (pgp?) */
-			remember = FALSE;
-		}
-		
-		if (cache) {
-			/* cache the password for the session */
-			e_passwords_add_password (m->key, m->result);
-			
-			/* should we remember it between sessions? */
-			if (remember)
-				e_passwords_remember_password ("Mail", m->key);
-		}
-		break;
-	}
-	default:
-		camel_exception_set (m->ex, CAMEL_EXCEPTION_USER_CANCEL, _("User canceled operation."));
-		break;
-	}
-
-	gtk_widget_destroy ((GtkWidget *) dialog);
-
-	password_dialog = NULL;
-	e_msgport_reply ((EMsg *)m);
-	
-	if ((m = (struct _pass_msg *) e_dlist_remhead (&password_list)))
-		do_get_pass ((struct _mail_msg *) m);
-}
-
-static void
-request_password (struct _pass_msg *m)
-{
-	EAccount *mca = NULL;
-	GtkWidget *vbox;
-	char *title;
-	
-	/* If we already have a password_dialog up, save this request till later */
-	if (!m->ismain && password_dialog) {
-		e_dlist_addtail (&password_list, (EDListNode *)m);
-		return;
-	}
-	
-	if (m->service_url) {
-		if ((mca = mail_config_get_account_by_source_url (m->service_url)))
-			m->config_service = mca->source;
-		else if ((mca = mail_config_get_account_by_transport_url (m->service_url)))
-			m->config_service = mca->transport;
-	}
-	
-	if (mca)
-		title = g_strdup_printf (_("Enter Password for %s"), mca->name);
-	else
-		title = g_strdup (_("Enter Password"));
-	
-	password_dialog = (GtkDialog *)e_error_new(NULL, "mail:ask-session-password", m->prompt, NULL);
-	gtk_window_set_title (GTK_WINDOW (password_dialog), title);
-	g_free (title);
-
-	vbox = gtk_vbox_new (FALSE, 6);
-	gtk_widget_show (vbox);
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (password_dialog)->vbox), vbox, TRUE, FALSE, 0);
-	gtk_container_set_border_width((GtkContainer *)vbox, 6);
-	
-	m->entry = gtk_entry_new ();
-	gtk_entry_set_visibility ((GtkEntry *) m->entry, !(m->flags & CAMEL_SESSION_PASSWORD_SECRET));
-	g_signal_connect (m->entry, "activate", G_CALLBACK (pass_activate), password_dialog);
-	gtk_box_pack_start (GTK_BOX (vbox), m->entry, TRUE, FALSE, 3);
-	gtk_widget_show (m->entry);
-	gtk_widget_grab_focus (m->entry);
-	
-	if ((m->flags & CAMEL_SESSION_PASSWORD_REPROMPT) && m->result) {
-		gtk_entry_set_text ((GtkEntry *) m->entry, m->result);
-		g_free (m->result);
-		m->result = NULL;
-	}
-
-	/* static password, shouldn't be remembered between sessions,
-	   but will be remembered within the session beyond our control */
-	if ((m->service_url == NULL || m->service != NULL)
-	    && (m->flags & CAMEL_SESSION_PASSWORD_STATIC) == 0) {
-		m->check = gtk_check_button_new_with_mnemonic (m->service_url ? _("_Remember this password")
-							       : _("_Remember this password for the remainder of this session"));
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (m->check),
-					      m->config_service ? m->config_service->save_passwd : FALSE);
-		gtk_box_pack_start (GTK_BOX (vbox), m->check, TRUE, FALSE, 3);
-		gtk_widget_show (m->check);
-	}
-	
-	if (m->ismain) {
-		pass_response(password_dialog, gtk_dialog_run (password_dialog), m);
-	} else {
-		g_signal_connect (password_dialog, "response", G_CALLBACK (pass_response), m);
-		gtk_widget_show ((GtkWidget *) password_dialog);
-	}
-}
-
-static void
-do_get_pass(struct _mail_msg *mm)
-{
-	struct _pass_msg *m = (struct _pass_msg *)mm;
-	MailSession *mail_session = MAIL_SESSION (m->session);
-	
-	if (!strcmp (m->item, "popb4smtp_uri")) {
-		char *url = camel_url_to_string (m->service->url, 0);
-		EAccount *account = mail_config_get_account_by_transport_url (url);
-		
-		g_free(url);
-		if (account)
-			m->result = g_strdup(account->source->url);
-	} else if (m->key) {
-		m->result = e_passwords_get_password (m->domain?m->domain:"Mail", m->key);
-		if (m->result == NULL || (m->flags & CAMEL_SESSION_PASSWORD_REPROMPT)) {
-			if (mail_session->interactive) {
-				request_password(m);
-				return;
-			}
-		}
-	}
-
-	e_msgport_reply((EMsg *)mm);
-}
-
-static void
-do_free_pass(struct _mail_msg *mm)
-{
-	struct _pass_msg *m = (struct _pass_msg *)mm;
-
-	g_free(m->service_url);
-	g_free(m->key);
-}
-
-static struct _mail_msg_op get_pass_op = {
-	NULL,
-	do_get_pass,
-	NULL,
-	do_free_pass,
-};
-
 static char *
 get_password (CamelSession *session, CamelService *service, const char *domain,
 	      const char *prompt, const char *item, guint32 flags, CamelException *ex)
 {
-	struct _pass_msg *m, *r;
-	EMsgPort *pass_reply;
-	char *ret;
-	
-	/* We setup an async request and send it off, and wait for it to return */
-	/* If we're really in main, we dont of course ...
-	   ... but this shouldn't be allowed because of locking issues */
-	pass_reply = e_msgport_new ();
-	m = mail_msg_new(&get_pass_op, pass_reply, sizeof(struct _pass_msg));
-	m->ismain = pthread_self() == mail_gui_thread;
-	m->session = session;
-	m->prompt = prompt;
-	m->flags = flags;
-	m->service = service;
-	m->domain = domain;
-	m->item = item;
-	m->ex = ex;
-	if (service)
-		m->service_url = camel_url_to_string (service->url, CAMEL_URL_HIDE_ALL);
-	m->key = make_key(service, item);
+	char *url;
+	char *ret = NULL;
+	EAccount *account = NULL;
 
-	if (m->ismain) {
-		do_get_pass((struct _mail_msg *)m);
+	url = service?camel_url_to_string(service->url, CAMEL_URL_HIDE_ALL):NULL;
+
+	if (!strcmp(item, "popb4smtp_uri")) {
+		/* not 100% mt safe, but should be ok */
+		if (url
+		    && (account = mail_config_get_account_by_transport_url(url)))
+			ret = g_strdup(account->source->url);
 	} else {
-		extern EMsgPort *mail_gui_port2;
-		
-		e_msgport_put(mail_gui_port2, (EMsg *)m);
+		char *key = make_key(service, item);
+		EAccountService *config_service = NULL;
+
+		if (domain == NULL)
+			domain = "Mail";
+
+		ret = e_passwords_get_password(domain, key);
+		if (ret == NULL || (flags & CAMEL_SESSION_PASSWORD_REPROMPT)) {
+			guint32 eflags;
+			gboolean remember;
+			char *title;
+
+			if (url) {
+				if  ((account = mail_config_get_account_by_source_url(url)))
+					config_service = account->source;
+				else if ((account = mail_config_get_account_by_transport_url(url)))
+					config_service = account->transport;
+			}
+
+			remember = config_service?config_service->save_passwd:FALSE;
+
+			if (account)
+				title = g_strdup_printf (_("Enter Password for %s"), account->name);
+			else
+				title = g_strdup (_("Enter Password"));
+
+			if ((flags & CAMEL_SESSION_PASSWORD_STATIC) != 0)
+				eflags = E_PASSWORDS_REMEMBER_NEVER;
+			else if (config_service == NULL)
+				eflags = E_PASSWORDS_REMEMBER_SESSION;
+			else
+				eflags = E_PASSWORDS_REMEMBER_FOREVER;
+
+			if (flags & CAMEL_SESSION_PASSWORD_REPROMPT)
+				eflags |= E_PASSWORDS_REPROMPT;
+
+			if (flags & CAMEL_SESSION_PASSWORD_SECRET)
+				eflags |= E_PASSWORDS_SECRET;
+
+			ret = e_passwords_ask_password(title, domain, key, prompt, eflags, &remember, NULL);
+
+			g_free(title);
+
+			if (ret && config_service)
+				mail_config_service_set_save_passwd(config_service, remember);
+		}
+
+		g_free(key);
 	}
-	
-	e_msgport_wait(pass_reply);
-	r = (struct _pass_msg *)e_msgport_get(pass_reply);
-	g_assert(m == r);
 
-	ret = m->result;
-	mail_msg_free(m);
-	e_msgport_destroy(pass_reply);
-	
+	g_free(url);
+
+	if (ret == NULL)
+		camel_exception_set(ex, CAMEL_EXCEPTION_USER_CANCEL, _("User canceled operation."));
+
 	return ret;
-}
-
-static void
-main_forget_password (CamelSession *session, CamelService *service, const char *domain, const char *item, CamelException *ex)
-{
-	char *key = make_key (service, item);
-	
-	e_passwords_forget_password (domain?domain:"Mail", key);
-	
-	g_free (key);
 }
 
 static void
 forget_password (CamelSession *session, CamelService *service, const char *domain, const char *item, CamelException *ex)
 {
-	mail_call_main(MAIL_CALL_p_ppppp, (MailMainFunc)main_forget_password,
-		       session, service, domain, item, ex);
+	char *key = make_key (service, item);
+
+	e_passwords_forget_password (domain?domain:"Mail", key);
+	g_free (key);
 }
 
 /* ********************************************************************** */
@@ -834,21 +663,10 @@ mail_session_set_interactive (gboolean interactive)
 		struct _user_message_msg *um;
 		
 		d(printf ("Gone non-interactive, checking for outstanding interactive tasks\n"));
+
+		e_passwords_cancel();
 		
-		/* clear out pending password requests */
-		while ((pm = (struct _pass_msg *) e_dlist_remhead (&password_list))) {
-			d(printf ("Flushing password request : %s\n", pm->prompt));
-			e_msgport_reply ((EMsg *) pm);
-		}
-		
-		/* destroy the current */
-		if (password_dialog) {
-			d(printf ("Destroying password dialogue\n"));
-			gtk_widget_destroy ((GtkWidget *) password_dialog);
-			password_dialog =  NULL;
-		}
-		
-		/* same for pending user messages */
+		/* flush/cancel pending user messages */
 		while ((um = (struct _user_message_msg *) e_dlist_remhead (&message_list))) {
 			d(printf ("Flusing message request: %s\n", um->prompt));
 			e_msgport_reply((EMsg *) um);
