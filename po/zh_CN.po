@@ -63,12 +63,12 @@ msgstr "助手"
 #: addressbook/gui/contact-editor/e-contact-editor.c:1645
 #: addressbook/gui/contact-editor/e-contact-editor.c:1712
 msgid "Business"
-msgstr "商业"
+msgstr "商务"
 
 #: addressbook/backend/ebook/e-card-simple.c:65
 #: addressbook/backend/ebook/e-card-simple.c:70
 msgid "Bus"
-msgstr "商业"
+msgstr "商务"
 
 #: addressbook/backend/ebook/e-card-simple.c:66
 #: addressbook/gui/contact-editor/e-contact-editor.c:1648
@@ -114,11 +114,11 @@ msgstr "汽车"
 #: addressbook/gui/contact-editor/e-contact-editor.c:1647
 #: addressbook/gui/widgets/e-addressbook-view.c:863
 msgid "Business Fax"
-msgstr "商业传真"
+msgstr "商务传真"
 
 #: addressbook/backend/ebook/e-card-simple.c:74
 msgid "Bus Fax"
-msgstr "商业传真"
+msgstr "商务传真"
 
 #: addressbook/backend/ebook/e-card-simple.c:75
 #: addressbook/gui/contact-editor/e-contact-editor.c:1653
@@ -129,11 +129,11 @@ msgstr "家庭传真"
 #: addressbook/backend/ebook/e-card-simple.c:76
 #: addressbook/gui/contact-editor/e-contact-editor.c:1646
 msgid "Business 2"
-msgstr "商业 2"
+msgstr "商务 2"
 
 #: addressbook/backend/ebook/e-card-simple.c:76
 msgid "Bus 2"
-msgstr "商业 2"
+msgstr "商务 2"
 
 #: addressbook/backend/ebook/e-card-simple.c:77
 #: addressbook/gui/contact-editor/e-contact-editor.c:1652
@@ -503,7 +503,7 @@ msgid ""
 "Business Role: "
 msgstr ""
 "\n"
-"商业角色："
+"商务角色："
 
 #: addressbook/backend/ebook/e-card.c:3856
 msgid ""
@@ -750,19 +750,19 @@ msgstr "含有联系人信息的 LDAP 服务器"
 #: addressbook/gui/component/addressbook-component.c:526
 #: ui/evolution-addressbook.xml.h:11
 msgid "New Contact"
-msgstr "新联系人"
+msgstr "新建联系人"
 
 #: addressbook/gui/component/addressbook-component.c:526
 msgid "New _Contact"
-msgstr "新联系人(_C)"
+msgstr "新建联系人(_C)"
 
 #: addressbook/gui/component/addressbook-component.c:527
 msgid "New Contact List"
-msgstr "新联系人列表"
+msgstr "新建联系人列表"
 
 #: addressbook/gui/component/addressbook-component.c:527
 msgid "New Contact _List"
-msgstr "新联系人列表(_L)"
+msgstr "新建联系人列表(_L)"
 
 #: addressbook/gui/component/addressbook-config.c:186
 msgid "Edit Addressbook"
@@ -1216,7 +1216,7 @@ msgstr "生日(_B)："
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:23
 msgid "_Business"
-msgstr "商业(_B)"
+msgstr "商务(_B)"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:24
 #: calendar/gui/dialogs/event-page.glade.h:12
@@ -5874,7 +5874,7 @@ msgstr "IMAP"
 
 #: camel/providers/imap/camel-imap-provider.c:65
 msgid "For reading and storing mail on IMAP servers."
-msgstr "关于 IMAP 服务器上的邮件的读写。"
+msgstr "IMAP 服务器上的邮件的读写。"
 
 #: camel/providers/imap/camel-imap-provider.c:82
 msgid "This option will connect to the IMAP server using a plaintext password."
@@ -5883,13 +5883,13 @@ msgstr "该选项将使用普通文本密码连接到 IMAP 服务器。"
 #: camel/providers/imap/camel-imap-store.c:518
 #, c-format
 msgid "IMAP server %s does not support requested authentication type %s"
-msgstr "IMAP 服务器 %s 不支持请求的认证类型 %s"
+msgstr "IMAP 服务器 %s 不支持要求的验证类型 %s"
 
 #: camel/providers/imap/camel-imap-store.c:528
 #: camel/providers/smtp/camel-smtp-transport.c:386
 #, c-format
 msgid "No support for authentication type %s"
-msgstr "不支持认证类型 %s"
+msgstr "不支持验证类型 %s"
 
 #: camel/providers/imap/camel-imap-store.c:552
 #, c-format
@@ -5927,7 +5927,7 @@ msgstr "MH-格式的邮件目录"
 
 #: camel/providers/local/camel-local-provider.c:43
 msgid "For storing local mail in MH-like mail directories."
-msgstr "关于将本地邮件存储在类MH邮件目录。"
+msgstr "在类似于 MH 的邮件目录中存储本地邮件。"
 
 #: camel/providers/local/camel-local-provider.c:52
 msgid "Local delivery"
@@ -5935,7 +5935,7 @@ msgstr "本地发送"
 
 #: camel/providers/local/camel-local-provider.c:53
 msgid "For retrieving local mail from standard mbox formated spools."
-msgstr "关于在按照标准邮件箱格式化的脱机文件中检索本地邮件。"
+msgstr "在按照标准邮件箱格式化的脱机文件中检索本地邮件。"
 
 #: camel/providers/local/camel-local-provider.c:62
 msgid "Apply filters to new messages in INBOX"
@@ -5943,19 +5943,19 @@ msgstr "把过滤器应用到收件箱中的新邮件"
 
 #: camel/providers/local/camel-local-provider.c:68
 msgid "Maildir-format mail directories"
-msgstr ""
+msgstr "Maildir 格式的邮件目录"
 
 #: camel/providers/local/camel-local-provider.c:69
 msgid "For storing local mail in maildir directories."
-msgstr "关于在邮件目录中存储本地邮件。"
+msgstr "在 maildir 邮件目录中存储本地邮件。"
 
 #: camel/providers/local/camel-local-provider.c:80
 msgid "Standard Unix mbox spools"
-msgstr "标准 Unix 邮件箱脱机文件"
+msgstr "标准 Unix 邮件箱"
 
 #: camel/providers/local/camel-local-provider.c:81
 msgid "For reading and storing local mail in standard mbox spool files."
-msgstr "关于在标准邮件箱脱机文件中读取和存储本地文件。"
+msgstr "在标准邮件箱文件中读取和存储本地邮件。"
 
 #: camel/providers/local/camel-local-store.c:138
 #: camel/providers/local/camel-local-store.c:227
@@ -6236,7 +6236,7 @@ msgstr "无法打开临时邮件箱： %s"
 #: camel/providers/local/camel-spool-summary.c:978
 #: camel/providers/local/camel-spool-summary.c:986
 msgid "Summary and folder mismatch, even after a sync"
-msgstr "即时同步后，概要和文件夹仍然不匹配"
+msgstr "即使同步后，概要和文件夹仍然不匹配"
 
 #: camel/providers/local/camel-mbox-summary.c:595
 #: camel/providers/local/camel-spool-summary.c:749
@@ -6479,8 +6479,8 @@ msgid ""
 "This option will connect to the POP server using a plaintext password. This "
 "is the only option supported by many POP servers."
 msgstr ""
-"该选项将以普通文本密码连接到 POP 服务器。这是许多 POP "
-"服务器所唯一支持的选项。"
+"该选项使 Evolution 在连接到 POP 服务器时使用明文密码。这是许多 POP "
+"服务器唯一支持的选项。"
 
 #: camel/providers/pop3/camel-pop3-provider.c:79
 msgid ""
@@ -6488,8 +6488,8 @@ msgid ""
 "the APOP protocol. This may not work for all users even on servers that "
 "claim to support it."
 msgstr ""
-"该选项将通过 APOP 协议并使用加密密码连接到 POP "
-"服务器。即使是声称支持这一功能的服务器，也不一定能使所有用户工作。"
+"该选项使 Evolution 在连接到 POP 服务器时使用 APOP 协议。"
+"即使是声称支持这一功能的服务器，也不一定能使所有用户工作。"
 
 #: camel/providers/pop3/camel-pop3-provider.c:91
 msgid ""
@@ -6536,7 +6536,7 @@ msgid ""
 "No support for requested authentication mechanism."
 msgstr ""
 "无法连接到 POP 服务器。\n"
-"不支持请求的认证机制。"
+"不支持所要求的验证机制。"
 
 #: camel/providers/pop3/camel-pop3-store.c:416
 #, c-format
@@ -6550,7 +6550,7 @@ msgstr ""
 #: camel/providers/pop3/camel-pop3-store.c:483
 #, c-format
 msgid "No such folder `%s'."
-msgstr "没有文件夹‘%s’。"
+msgstr "没有文件夹“%s”。"
 
 #: camel/providers/pop3/camel-pop3-store.c:566
 #, c-format
@@ -6566,7 +6566,7 @@ msgstr "Sendmail"
 msgid ""
 "For delivering mail by passing it to the \"sendmail\" program on the local "
 "system."
-msgstr "关于将邮件传递到本地系统的“sendmail”来发送邮件。"
+msgstr "将邮件传递到本地系统的“sendmail”来发送邮件。"
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:106
 #, c-format
@@ -6600,7 +6600,7 @@ msgstr "sendmail 以状态码 %d 退出： 邮件未发送。"
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:193
 msgid "Could not find 'From' address in message"
-msgstr "无法在邮件中找到‘收件人’地址"
+msgstr "无法在邮件中找到“收件人”地址"
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:246
 msgid "sendmail"
@@ -6616,11 +6616,11 @@ msgstr "SMTP"
 
 #: camel/providers/smtp/camel-smtp-provider.c:39
 msgid "For delivering mail by connecting to a remote mailhub using SMTP.\n"
-msgstr "关于通过SMTP连接到远程 mailhub 来发送邮件。\n"
+msgstr "通过SMTP连接到远程邮件服务器来发送邮件。\n"
 
 #: camel/providers/smtp/camel-smtp-transport.c:169
 msgid "Syntax error, command unrecognized"
-msgstr "语法错误，无法识别德命令"
+msgstr "语法错误，无法识别的命令"
 
 #: camel/providers/smtp/camel-smtp-transport.c:171
 msgid "Syntax error in parameters or arguments"
@@ -8424,8 +8424,8 @@ msgid ""
 "below do not need to be filled in,\n"
 "unless you wish to include this information in email you send."
 msgstr ""
-"请在下面输入您的名字和电子邮件地址。除非您希望在您\n"
-"发送的邮件中含有这种信息，以下的“可选”域可以不填。"
+"请在下面输入您的名字和电子邮件地址。“可选”域可以不填写，\n"
+"除非您希望在您发送的邮件中含有这些信息。"
 
 #: mail/mail-config-druid.c:148
 msgid ""
@@ -8433,12 +8433,12 @@ msgid ""
 "not sure, ask your system\n"
 "administrator or Internet Service Provider."
 msgstr ""
-"请在下面输入您的接收邮件服务器信息。如果您不确信，\n"
+"请在下面输入您的接收邮件服务器的信息。如果您不能确定，\n"
 "请询问您的系统管理员或互联网服务提供商。"
 
 #: mail/mail-config-druid.c:150
 msgid "Please select among the following options"
-msgstr "请在以下选项中选择"
+msgstr "请从以下选项中选择"
 
 #: mail/mail-config-druid.c:152
 msgid ""
@@ -8446,8 +8446,8 @@ msgid ""
 "sure, ask your system\n"
 "administrator or Internet Service Provider."
 msgstr ""
-"请输入您将发送邮件方式的信息。如果您不确定，\n"
-"询问您的系统管理员或互联网服务提供商。"
+"请输入您发送邮件的方式的信息。如果您不能确定，\n"
+"请询问您的系统管理员或互联网服务提供商。"
 
 #: mail/mail-config-druid.c:154
 msgid ""
@@ -8459,9 +8459,9 @@ msgid ""
 "space below.\n"
 "This name will be used for display purposes only."
 msgstr ""
-"您已经几乎完成邮件配置过程。标识、邮件接收服务器和您提供\n"
+"您基本上完成了邮件配置过程。身份标识、邮件接收服务器和您提供\n"
 "的邮件发送传输方法将组合起来构成 Evolution 邮件账号。\n"
-"请在以下空白中输入该账号的名称。\n"
+"请在下面输入该账号的名称。\n"
 "该名称仅用于显示。"
 
 #. set window title
@@ -8534,7 +8534,7 @@ msgstr "附件"
 
 #: mail/mail-config.glade.h:12
 msgid "Authentication"
-msgstr "认证"
+msgstr "身份验证"
 
 #: mail/mail-config.glade.h:13
 msgid "Checking for New Mail"
@@ -11279,7 +11279,7 @@ msgstr ""
 
 #: shell/e-shell-importer.c:724 shell/e-shell-startup-wizard.c:631
 msgid "Starting Intelligent Importers"
-msgstr "启动只能导入器"
+msgstr "启动智能导入器"
 
 #: shell/e-shell-importer.c:848 shell/e-shell-startup-wizard.c:754
 #, c-format
@@ -11300,7 +11300,7 @@ msgstr "导入"
 
 #: shell/e-shell-offline-handler.c:572
 msgid "Closing connections..."
-msgstr "关闭联接..."
+msgstr "正在关闭连接..."
 
 #: shell/e-shell-startup-wizard.c:159
 #, c-format
@@ -11329,7 +11329,7 @@ msgstr "文件夹名不能含有斜线。"
 
 #: shell/e-shell-utils.c:133
 msgid "'.' and '..' are reserved folder names."
-msgstr "‘.’和‘..’是保留文件夹名。"
+msgstr "“.”和“..”是保留文件夹名。"
 
 #: shell/e-shell-view-menu.c:165
 msgid "Bug buddy was not found in your $PATH."
@@ -11462,7 +11462,7 @@ msgstr ""
 
 #: shell/e-shortcuts-view.c:180
 msgid "Don't remove"
-msgstr "不要删除"
+msgstr "不删除"
 
 #: shell/e-shortcuts-view.c:209
 msgid "Rename Shortcut Group"
@@ -12091,11 +12091,11 @@ msgstr "月"
 
 #: ui/evolution-calendar.xml.h:21
 msgid "New Appointment"
-msgstr "新约会"
+msgstr "新建约会"
 
 #: ui/evolution-calendar.xml.h:22 ui/evolution-tasks.xml.h:10
 msgid "New Task"
-msgstr "新任务"
+msgstr "新建任务"
 
 #: ui/evolution-calendar.xml.h:24
 msgid "Previews the calendar to be printed"
@@ -12325,7 +12325,7 @@ msgstr "保存的密码被丢弃，所以将再次提示您输入密码"
 
 #: ui/evolution-mail-global.xml.h:10
 msgid "New Message"
-msgstr "新邮件"
+msgstr "新建邮件"
 
 #: ui/evolution-mail-global.xml.h:11
 msgid "Open a window for composing a mail message"
@@ -13301,7 +13301,7 @@ msgstr "重新载入视图"
 
 #: ui/my-evolution.xml.h:8
 msgid "_Summary Settings..."
-msgstr "概要设定(_S)..."
+msgstr "概要设置(_S)..."
 
 #: views/addressbook/galview.xml.h:1
 msgid "Address Cards"
@@ -13531,305 +13531,3 @@ msgstr "init_corba()： 无法初始化 GNOME"
 #: wombat/wombat.c:225
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo()： 无法初始化 Bonobo"
-
-#~ msgid "Other Contacts"
-#~ msgstr "其他联系人"
-
-#~ msgid ""
-#~ "Are you sure you want\n"
-#~ "to delete this contact?"
-#~ msgstr ""
-#~ "您确信您希望\n"
-#~ "删除该联系人？"
-
-#~ msgid "Starting:"
-#~ msgstr "开始："
-
-#~ msgid "Ending:"
-#~ msgstr "结束："
-
-#~ msgid "Evolution Alarm"
-#~ msgstr "Evolution 报警器"
-
-#~ msgid "Click here to add an attendee"
-#~ msgstr "点击此处以便添加参与者"
-
-#~ msgid "0%"
-#~ msgstr "0%"
-
-#~ msgid "10%"
-#~ msgstr "10%"
-
-#~ msgid "20%"
-#~ msgstr "20%"
-
-#~ msgid "30%"
-#~ msgstr "30%"
-
-#~ msgid "40%"
-#~ msgstr "40%"
-
-#~ msgid "50%"
-#~ msgstr "50%"
-
-#~ msgid "60%"
-#~ msgstr "60%"
-
-#~ msgid "70%"
-#~ msgstr "70%"
-
-#~ msgid "80%"
-#~ msgstr "80%"
-
-#~ msgid "90%"
-#~ msgstr "90%"
-
-#~ msgid "100%"
-#~ msgstr "100%"
-
-#~ msgid "Meeting begins: <b>"
-#~ msgstr "会议开始： <b>"
-
-#~ msgid "Task begins: <b>"
-#~ msgstr "任务开始： <b>"
-
-#~ msgid "Free/Busy info begins: <b>"
-#~ msgstr "忙闲信息开始： <b>"
-
-#~ msgid "Begins: <b>"
-#~ msgstr "开始： <b>"
-
-#~ msgid "Meeting ends: <b>"
-#~ msgstr "会议结束： <b>"
-
-#~ msgid "Free/Busy info ends: <b>"
-#~ msgstr "忙闲信息结束： <b>"
-
-#~ msgid "Ends: <b>"
-#~ msgstr "结束： <b>"
-
-#~ msgid "Task Completed: <b>"
-#~ msgstr "任务完成： <b>"
-
-#~ msgid "Task Due: <b>"
-#~ msgstr "任务预定： <b>"
-
-#~ msgid "iCalendar Information"
-#~ msgstr "iCalendar信息"
-
-#~ msgid "iCalendar Error"
-#~ msgstr "iCalendar 错误"
-
-#~ msgid "An unknown person"
-#~ msgstr "未知的人员"
-
-#~ msgid ""
-#~ "<br> Please review the following information, and then select an action from "
-#~ "the menu below."
-#~ msgstr "<br>请查看以下信息，而后在下面的菜单中选择动作。"
-
-#~ msgid "<i>None</i>"
-#~ msgstr "<i>无</i>"
-
-#~ msgid "Choose an action:"
-#~ msgstr "选择一个动作："
-
-#~ msgid "Update"
-#~ msgstr "更新"
-
-#~ msgid "Accept"
-#~ msgstr "接受"
-
-#~ msgid "Tentatively accept"
-#~ msgstr "暂时接受"
-
-#~ msgid "Decline"
-#~ msgstr "拒绝"
-
-#~ msgid "Send Free/Busy Information"
-#~ msgstr "发送忙/闲信息"
-
-#~ msgid "Update respondent status"
-#~ msgstr "更新应答状态"
-
-#~ msgid "Send Latest Information"
-#~ msgstr "发送最新信息"
-
-#~ msgid "<b>%s</b> has published meeting information."
-#~ msgstr "<b>%s</b> 已经发布了会议信息"
-
-#~ msgid "Meeting Information"
-#~ msgstr "会议信息"
-
-#~ msgid "<b>%s</b> requests your presence at a meeting."
-#~ msgstr "<b>%s</b> 要求您出席会议。"
-
-#~ msgid "Meeting Proposal"
-#~ msgstr "会议提议"
-
-#~ msgid "<b>%s</b> wishes to add to an existing meeting."
-#~ msgstr "<b>%s</b> 希望加入现有会议。"
-
-#~ msgid "Meeting Update"
-#~ msgstr "会议更新"
-
-#~ msgid "<b>%s</b> wishes to receive the latest meeting information."
-#~ msgstr "<b>%s</b> 希望获取最新会议信息"
-
-#~ msgid "Meeting Update Request"
-#~ msgstr "会议更新请求"
-
-#~ msgid "<b>%s</b> has replied to a meeting request."
-#~ msgstr "<b>%s</b> 已经对会议请求做出应答。"
-
-#~ msgid "Meeting Reply"
-#~ msgstr "会议应答"
-
-#~ msgid "<b>%s</b> has cancelled a meeting."
-#~ msgstr "<b>%s</b> 已经取消一个会议。"
-
-#~ msgid "Meeting Cancellation"
-#~ msgstr "取消会议"
-
-#~ msgid "<b>%s</b> has sent an unintelligible message."
-#~ msgstr "<b>%s</b> 发送了一条难以理解的消息。"
-
-#~ msgid "Bad Meeting Message"
-#~ msgstr "错误的会议消息"
-
-#~ msgid "<b>%s</b> has published task information."
-#~ msgstr "<b>%s</b> 已经发布任务信息。"
-
-#~ msgid "Task Information"
-#~ msgstr "任务信息"
-
-#~ msgid "<b>%s</b> requests you perform a task."
-#~ msgstr "<b>%s</b> 要求您完成一项任务。"
-
-#~ msgid "Task Proposal"
-#~ msgstr "任务提议"
-
-#~ msgid "<b>%s</b> wishes to add to an existing task."
-#~ msgstr "<b>%s</b> 希望加入一项现有任务。"
-
-#~ msgid "Task Update"
-#~ msgstr "任务更新"
-
-#~ msgid "<b>%s</b> wishes to receive the latest task information."
-#~ msgstr "<b>%s</b> 希望收到最新的任务信息。"
-
-#~ msgid "Task Update Request"
-#~ msgstr "任务更新请求"
-
-#~ msgid "<b>%s</b> has replied to a task assignment."
-#~ msgstr "<b>%s</b> 已经对委派的任务做出回复。"
-
-#~ msgid "Task Reply"
-#~ msgstr "任务回复"
-
-#~ msgid "<b>%s</b> has cancelled a task."
-#~ msgstr "<b>%s</b> 已取消一项任务。"
-
-#~ msgid "Task Cancellation"
-#~ msgstr "取消任务"
-
-#~ msgid "Bad Task Message"
-#~ msgstr "错误的任务消息"
-
-#~ msgid "<b>%s</b> has published free/busy information."
-#~ msgstr "<b>%s</b> 已经发布忙/闲信息。"
-
-#~ msgid "Free/Busy Information"
-#~ msgstr "忙闲信息"
-
-#~ msgid "<b>%s</b> requests your free/busy information."
-#~ msgstr "<b>%s</b> 需要您的忙闲信息。"
-
-#~ msgid "Free/Busy Request"
-#~ msgstr "忙闲请求"
-
-#~ msgid "<b>%s</b> has replied to a free/busy request."
-#~ msgstr "<b>%s</b> 已经回复忙闲请求。"
-
-#~ msgid "Free/Busy Reply"
-#~ msgstr "忙闲应答"
-
-#~ msgid "Bad Free/Busy Message"
-#~ msgstr "错误的忙闲消息"
-
-#~ msgid "The message does not appear to be properly formed"
-#~ msgstr "消息的格式好像不正确"
-
-#~ msgid "The message contains only unsupported requests."
-#~ msgstr "消息只含有不支持的请求。"
-
-#~ msgid "The attachment does not contain a valid calendar message"
-#~ msgstr "附件不含有合法的日历消息"
-
-#~ msgid "The attachment has no viewable calendar items"
-#~ msgstr "附件不含有可查看的日历项目"
-
-#~ msgid "Task"
-#~ msgstr "任务"
-
-#~ msgid "Status: %s"
-#~ msgstr "状态： %s"
-
-#~ msgid "Priority: %s"
-#~ msgstr "优先级： %s"
-
-#~ msgid "Percent Complete: %i"
-#~ msgstr "完成比例： %i"
-
-#~ msgid "URL: %s"
-#~ msgstr "URL： %s"
-
-#~ msgid "Categories: %s"
-#~ msgstr "类别： %s"
-
-#~ msgid "Contacts: "
-#~ msgstr "联系人： "
-
-#~ msgid "Mail to %s"
-#~ msgstr "给 %s 的邮件"
-
-#~ msgid "Subject is %s"
-#~ msgstr "主题是 %s"
-
-#~ msgid "Mail from %s"
-#~ msgstr "来自 %s 的邮件"
-
-#~ msgid "%s mailing list"
-#~ msgstr "%s 邮件列表"
-
-#~ msgid "Account %d"
-#~ msgstr "帐号 %d"
-
-#~ msgid "%s: Inbox"
-#~ msgstr "%s： 收件箱"
-
-#~ msgid ""
-#~ "This message is digitally signed. Click the lock icon for more information."
-#~ msgstr "该邮件含有数字签名。详情请点击锁图标。"
-
-#~ msgid "Evolution does not recognize this type of signed message."
-#~ msgstr "Evolution 无法识别此类型的签名邮件。"
-
-#~ msgid "This message is digitally signed and has been found to be authentic."
-#~ msgstr "该邮件是数字签名的并被发现是可靠的。"
-
-#~ msgid ""
-#~ "This message is digitally signed but can not be proven to be authentic."
-#~ msgstr "该邮件是数字签名的并被证明是可靠的。"
-
-#~ msgid "Trash"
-#~ msgstr "废件箱"
-
-#~ msgid "VFolders"
-#~ msgstr "虚拟文件夹"
-
-#~ msgid "Outbox"
-#~ msgstr "发件箱"
-
-#~ msgid "Local Folders"
-#~ msgstr "本地文件夹"
