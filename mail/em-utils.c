@@ -1213,6 +1213,9 @@ reply_to_message (CamelFolder *folder, const char *uid, CamelMimeMessage *messag
 	guint32 flags;
 	int mode;
 	
+	if (message == NULL)
+		return;
+	
 	mode = GPOINTER_TO_INT (user_data);
 
 	account = guess_account (message, folder);
@@ -1280,6 +1283,9 @@ post_reply_to_message (CamelFolder *folder, const char *uid, CamelMimeMessage *m
 	char *subject, *url;
 	EAccount *account;
 	guint32 flags;
+	
+	if (message == NULL)
+		return;
 	
 	account = guess_account (message, folder);
 	flags = CAMEL_MESSAGE_ANSWERED | CAMEL_MESSAGE_SEEN;

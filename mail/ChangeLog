@@ -1,5 +1,10 @@
 2004-03-15  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* em-utils.c (reply_to_message): If the mail_get_message() async
+	op fails, it will still call us with a NULL message to check for
+	that. Fixes bug #55612.
+	(post_reply_to_message): Same.
+
 	* em-folder-tree.c (emft_copy_folders__copy): Use
 	camel_store_rename_folder() when appropriate (m->tostore ==
 	m->fromstore && m->delete)
