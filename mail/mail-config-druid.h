@@ -85,7 +85,7 @@ struct _MailConfigDruid {
 	
 };
 
-typedef struct _MailConfigDialog MailConfigDialog;
+typedef struct _MailConfigDruid MailConfigDruid;
 
 typedef struct {
 	GtkWindowClass parent_class;

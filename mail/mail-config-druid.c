@@ -68,7 +68,7 @@ mail_config_druid_class_init (MailConfigDruidClass *class)
 	GtkObjectClass *object_class;
 	
 	object_class = (GtkObjectClass *) class;
-	parent_class = gtk_type_class (gnome_dialog_get_type ());
+	parent_class = gtk_type_class (gtk_window_get_type ());
 	
 	object_class->finalize = mail_config_druid_finalise;
 	/* override methods */
@@ -637,18 +637,18 @@ static void
 construct (MailConfigDruid *druid)
 {
 	GladeXML *gui;
-	GnomeDruid *druid;
+	GtkWidget *widget;
 	
 	gui = glade_xml_new (EVOLUTION_DATA_DIR "/mail-config-druid.glade", "mail-config-window");
 	druid->gui = gui;
 	
 	/* get our toplevel widget */
-	druid = GNOME_DRUID (glade_xml_get_widget (gui, "gnome-config-druid"));
+	widget = glade_xml_get_widget (gui, "gnome-config-druid");
 	
 	/* reparent */
-	gtk_widget_reparent (notebook, GTK_WIDGET (druid));
+	gtk_widget_reparent (widget, GTK_WIDGET (druid));
 	
-	druid->druid = druid;
+	druid->druid = GNOME_DRUID (widget);
 	
 	/* get our cared-about widgets */
 	druid->account_text = glade_xml_get_widget (gui, "htmlAccountInfo");

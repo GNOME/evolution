@@ -1,5 +1,12 @@
 2001-01-04  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* mail-config-druid.c: Fixed a few 'Oops'es.
+
+	* mail-config-druid.glade: Added a "Default" button for marking an
+	account as the default.
+
+2001-01-04  Jeffrey Stedfast  <fejj@helixcode.com>
+
 	* mail-config-druid.glade: Updated. What else can I say?
 
 2001-01-04  Dan Winship  <danw@helixcode.com>
