@@ -1,3 +1,20 @@
+2001-10-10  JP Rosevear  <jpr@ximian.com>
+
+	* pcs/cal-factory.c (add_uri): fix logic checks
+
+	* gui/dialogs/event-editor.c (event_editor_init): init the
+	exisiting_org boolean
+	(set_menu_sens): base sensitivity on existing_org boolean
+	(event_editor_edit_comp): set exisiting_org boolean
+
+	* gui/dialogs/task-editor.c: same as above
+
+	* gui/calendar-offline-handler.c (add_connection): handle the
+	protocol or host being unknown
+
+	* cal-util/cal-component.c (cal_component_has_organizer):
+	implement
+
 2001-10-09  Federico Mena Quintero  <federico@ximian.com>
 
 	Fixes bug #884.

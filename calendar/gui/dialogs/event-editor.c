@@ -49,6 +49,7 @@ struct _EventEditorPrivate {
 	EMeetingModel *model;
 
 	gboolean meeting_shown;
+	gboolean existing_org;
 	gboolean updating;	
 };
 
@@ -137,18 +138,22 @@ static void
 set_menu_sens (EventEditor *ee) 
 {
 	EventEditorPrivate *priv;
+	gboolean sens;
 	
 	priv = ee->priv;
 
+	sens = priv->meeting_shown;
 	comp_editor_set_ui_prop (COMP_EDITOR (ee), 
 				 "/commands/ActionScheduleMeeting", 
-				 "sensitive", priv->meeting_shown ? "0" : "1");
+				 "sensitive", sens ? "0" : "1");
+
+	sens = sens && priv->existing_org;
 	comp_editor_set_ui_prop (COMP_EDITOR (ee), 
 				 "/commands/ActionRefreshMeeting", 
-				 "sensitive", priv->meeting_shown ? "1" : "0");
+				 "sensitive", sens ? "1" : "0");
 	comp_editor_set_ui_prop (COMP_EDITOR (ee), 
 				 "/commands/ActionCancelMeeting", 
-				 "sensitive", priv->meeting_shown ? "1" : "0");
+				 "sensitive", sens ? "1" : "0");
 }
 
 static void
@@ -207,6 +212,7 @@ event_editor_init (EventEditor *ee)
  			      verbs);
 
 	priv->meeting_shown = TRUE;
+	priv->existing_org = FALSE;
 	priv->updating = FALSE;	
 
 	init_widgets (ee);
@@ -239,6 +245,8 @@ event_editor_edit_comp (CompEditor *editor, CalComponent *comp)
 	priv = ee->priv;
 	
 	priv->updating = TRUE;
+
+	priv->existing_org = cal_component_has_organizer (comp);
 	
 	cal_component_get_attendee_list (comp, &attendees);
 	if (attendees == NULL) {

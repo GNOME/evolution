@@ -2853,6 +2853,28 @@ cal_component_set_organizer (CalComponent *comp, CalComponentOrganizer *organize
 
 
 }
+
+
+/**
+ * cal_component_has_organizer:
+ * @comp: 
+ * 
+ * 
+ * 
+ * Return value: 
+ **/
+gboolean
+cal_component_has_organizer (CalComponent *comp)
+{
+	CalComponentPrivate *priv;
+
+	g_return_val_if_fail (comp != NULL, FALSE);
+	g_return_val_if_fail (IS_CAL_COMPONENT (comp), FALSE);
+
+	priv = comp->priv;
+
+	return priv->organizer.prop != NULL;
+}
 		
 /**
  * cal_component_get_percent:

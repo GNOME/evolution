@@ -44,6 +44,7 @@ struct _TaskEditorPrivate {
 	EMeetingModel *model;
 	
 	gboolean meeting_shown;
+	gboolean existing_org;
 	gboolean updating;	
 };
 
@@ -128,18 +129,22 @@ static void
 set_menu_sens (TaskEditor *te) 
 {
 	TaskEditorPrivate *priv;
+	gboolean sens;
 	
 	priv = te->priv;
 
+	sens = priv->meeting_shown;
 	comp_editor_set_ui_prop (COMP_EDITOR (te), 
 				 "/commands/ActionAssignTask", 
-				 "sensitive", priv->meeting_shown ? "0" : "1");
+				 "sensitive", sens ? "0" : "1");
+
+	sens = sens && priv->existing_org;
 	comp_editor_set_ui_prop (COMP_EDITOR (te), 
 				 "/commands/ActionRefreshTask", 
-				 "sensitive", priv->meeting_shown ? "1" : "0");
+				 "sensitive", sens ? "1" : "0");
 	comp_editor_set_ui_prop (COMP_EDITOR (te), 
 				 "/commands/ActionCancelTask", 
-				 "sensitive", priv->meeting_shown ? "1" : "0");
+				 "sensitive", sens ? "1" : "0");
 }
 
 static void
@@ -188,6 +193,7 @@ task_editor_init (TaskEditor *te)
 			      verbs);
 
 	priv->meeting_shown = TRUE;
+	priv->existing_org = FALSE;
 	priv->updating = FALSE;	
 
 	init_widgets (te);
@@ -206,6 +212,8 @@ task_editor_edit_comp (CompEditor *editor, CalComponent *comp)
 
 	priv->updating = TRUE;
 
+	priv->existing_org = cal_component_has_organizer (comp);
+	
 	cal_component_get_attendee_list (comp, &attendees);
 	if (attendees == NULL) {
 		comp_editor_remove_page (editor, COMP_EDITOR_PAGE (priv->meet_page));

@@ -54,8 +54,14 @@ add_connection (gpointer data, gpointer user_data)
 
 	g_return_if_fail (uri != NULL);
 	
-	list->_buffer[list->_length].hostName = CORBA_string_dup (uri->host);
-	list->_buffer[list->_length].type = CORBA_string_dup (uri->protocol);	
+	if (uri->host != NULL)
+		list->_buffer[list->_length].hostName = CORBA_string_dup (uri->host);
+	else
+		list->_buffer[list->_length].hostName = CORBA_string_dup ("Unknown");
+	if (uri->protocol != NULL)
+		list->_buffer[list->_length].type = CORBA_string_dup (uri->protocol);
+	else
+		list->_buffer[list->_length].type = CORBA_string_dup ("Unknown");
 	list->_length++;
 
 	e_uri_free (uri);
@@ -70,7 +76,7 @@ create_connection_list (CalendarOfflineHandler *offline_handler)
 
 	priv = offline_handler->priv;
 
-	uris = cal_client_uri_list (priv->client, CAL_MODE_REMOTE);	
+ 	uris = cal_client_uri_list (priv->client, CAL_MODE_REMOTE);	
 
 	list = GNOME_Evolution_ConnectionList__alloc ();
 	list->_length = 0;

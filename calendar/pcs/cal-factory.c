@@ -349,12 +349,12 @@ add_uri (gpointer key, gpointer value, gpointer data)
 	switch (mode) {
 	case GNOME_Evolution_Calendar_MODE_LOCAL:
 		backend = lookup_backend (factory, uri_string);
-		if (backend == NULL && cal_backend_get_mode (backend) == CAL_MODE_LOCAL)
+		if (backend == NULL || cal_backend_get_mode (backend) != CAL_MODE_LOCAL)
 			return;
 		break;		
 	case GNOME_Evolution_Calendar_MODE_REMOTE:
 		backend = lookup_backend (factory, uri_string);
-		if (backend == NULL && cal_backend_get_mode (backend) == CAL_MODE_REMOTE)
+		if (backend == NULL || cal_backend_get_mode (backend) != CAL_MODE_REMOTE)
 			return;
 		break;		
 	case GNOME_Evolution_Calendar_MODE_ANY:
