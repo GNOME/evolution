@@ -173,6 +173,7 @@ create_optionmenu (EMsgComposerHdrs *hdrs,
 			/* this is so we can later set which one we want */
 			hdrs->priv->from_options = g_slist_append (hdrs->priv->from_options, item);
 			
+			gtk_menu_append (GTK_MENU (menu), item);
 			gtk_widget_show (item);
 			
 			accounts = accounts->next;
