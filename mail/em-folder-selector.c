@@ -166,7 +166,8 @@ emfs_response (GtkWidget *dialog, int response, EMFolderSelector *emfs)
 	dialog = em_folder_selector_create_new (emft, 0, _("Create New Folder"), _("Specify where to create the folder:"));
 	gtk_window_set_transient_for ((GtkWindow *) dialog, (GtkWindow *) emfs);
 	uri = em_folder_selector_get_selected_uri (emfs);
-	em_folder_tree_set_selected (emft, uri);
+	if (uri)
+		em_folder_tree_set_selected (emft, uri);
 	
 	if (gtk_dialog_run ((GtkDialog *) dialog) == GTK_RESPONSE_OK) {
 		uri = em_folder_selector_get_selected_uri ((EMFolderSelector *) dialog);
@@ -189,16 +190,17 @@ emfs_response (GtkWidget *dialog, int response, EMFolderSelector *emfs)
 static void
 emfs_create_name_changed (GtkEntry *entry, EMFolderSelector *emfs)
 {
-	const char *path, *text = NULL;
+	char *path;
+	const char *text = NULL;
 	gboolean active;
 	
 	if (emfs->name_entry->text_length > 0)
 		text = gtk_entry_get_text (emfs->name_entry);
 	
 	path = em_folder_tree_get_selected_uri(emfs->emft);
-
 	active = text && path && !strchr (text, '/');
-	
+	g_free(path);
+
 	gtk_dialog_set_response_sensitive ((GtkDialog *) emfs, GTK_RESPONSE_OK, active);
 }
 
@@ -276,13 +278,15 @@ static void
 emfs_create_name_activate (GtkEntry *entry, EMFolderSelector *emfs)
 {
 	if (emfs->name_entry->text_length > 0) {
-		const char *path, *text;
+		char *path;
+		const char *text;
 		
 		text = gtk_entry_get_text (emfs->name_entry);
 		path = em_folder_tree_get_selected_uri(emfs->emft);
 		
 		if (text && path && !strchr (text, '/'))
 			g_signal_emit_by_name (emfs, "response", GTK_RESPONSE_OK);
+		g_free(path);
 	}
 }
 
@@ -333,7 +337,8 @@ em_folder_selector_set_selected_list (EMFolderSelector *emfs, GList *list)
 const char *
 em_folder_selector_get_selected_uri (EMFolderSelector *emfs)
 {
-	const char *uri, *name;
+	char *uri;
+	const char *name;
 	
 	if (!(uri = em_folder_tree_get_selected_uri (emfs->emft))) {
 		d(printf ("no selected folder?\n"));
@@ -397,32 +402,36 @@ em_folder_selector_get_selected_paths (EMFolderSelector *emfs)
 const char *
 em_folder_selector_get_selected_path (EMFolderSelector *emfs)
 {
-	const char *path;
+	char *uri, *path;
 	
 	if (emfs->selected_path) {
 		/* already did the work in a previous call */
 		return emfs->selected_path;
 	}
 
-	if (!em_folder_tree_get_selected_uri(emfs->emft)) {
+	if ((uri = em_folder_tree_get_selected_uri(emfs->emft)) == NULL) {
 		d(printf ("no selected folder?\n"));
 		return NULL;
 	}
+	g_free(uri);
 
 	path = em_folder_tree_get_selected_path(emfs->emft);
-	path = path?path:"";
 	if (emfs->name_entry) {
 		const char *name;
 		char *newpath;
 		
 		name = gtk_entry_get_text (emfs->name_entry);
 		if (strcmp (path, "") != 0)
-			newpath = g_strdup_printf ("%s/%s", path, name);
+			newpath = g_strdup_printf ("%s/%s", path?path:"", name);
 		else
 			newpath = g_strdup (name);
 		
-		path = emfs->selected_path = newpath;
+		g_free(path);
+		emfs->selected_path = newpath;
+	} else {
+		g_free(emfs->selected_path);
+		emfs->selected_path = path?path:g_strdup("");
 	}
-	
-	return path;
+
+	return emfs->selected_path;
 }

@@ -86,9 +86,6 @@ struct _EMFolderTreePrivate {
 	GSList *select_uris;	/* selected_uri structures of each path pending selection. */
 	GHashTable *select_uris_table; /*Removed as they're encountered, so use this to find uri's not presnet but selected */
 	
-	char *selected_uri;
-	char *selected_path;
-
 	guint32 excluded;
 
 	int do_multiselect:1;	/* multiple select mode */
@@ -378,8 +375,6 @@ em_folder_tree_init (EMFolderTree *emft)
 	
 	priv = g_new0 (struct _EMFolderTreePrivate, 1);
 	priv->select_uris_table = g_hash_table_new(g_str_hash, g_str_equal);
-	priv->selected_uri = NULL;
-	priv->selected_path = NULL;
 	priv->treeview = NULL;
 	priv->model = NULL;
 	priv->drag_row = NULL;
@@ -399,8 +394,6 @@ em_folder_tree_finalize (GObject *obj)
 		emft->priv->select_uris = NULL;
 	}
 
-	g_free (emft->priv->selected_uri);
-	g_free (emft->priv->selected_path);
 	g_free (emft->priv);
 	
 	G_OBJECT_CLASS (parent_class)->finalize (obj);
@@ -1933,14 +1926,11 @@ emft_tree_row_activated (GtkTreeView *treeview, GtkTreePath *tree_path, GtkTreeV
 
 	emft_clear_selected_list(emft);
 	
-	g_free (priv->selected_uri);
-	priv->selected_uri = uri;
-	
-	g_free (priv->selected_path);
-	priv->selected_path = full_name;
-	
 	g_signal_emit (emft, signals[FOLDER_SELECTED], 0, full_name, uri, flags);
 	g_signal_emit (emft, signals[FOLDER_ACTIVATED], 0, full_name, uri);
+
+	g_free(full_name);
+	g_free(uri);
 }
 
 #if 0
@@ -2141,7 +2131,7 @@ emft_popup_copy_folder_selected (const char *uri, void *data)
 	struct _copy_folder_data *cfd = data;
 	struct _EMFolderTreePrivate *priv;
 	CamelStore *fromstore = NULL, *tostore = NULL;
-	char *tobase = NULL, *frombase;
+	char *tobase = NULL, *frombase = NULL, *fromuri = NULL;
 	CamelException ex;
 	CamelURL *url;
 
@@ -2155,9 +2145,13 @@ emft_popup_copy_folder_selected (const char *uri, void *data)
 	d(printf ("%sing folder '%s' to '%s'\n", cfd->delete ? "move" : "copy", priv->selected_path, uri));
 	
 	camel_exception_init (&ex);
-	frombase = priv->selected_path;
-	
-	if (!(fromstore = camel_session_get_store (session, priv->selected_uri, &ex))) {
+
+	fromuri = em_folder_tree_get_selected_uri(cfd->emft);
+	g_return_if_fail(fromuri != NULL);
+	frombase = em_folder_tree_get_selected_path(cfd->emft);
+	g_return_if_fail(frombase != NULL);
+
+	if (!(fromstore = camel_session_get_store (session, fromuri, &ex))) {
 		e_error_run((GtkWindow *)gtk_widget_get_toplevel((GtkWidget *) cfd->emft),
 			    cfd->delete?"mail:no-move-folder-notexist":"mail:no-copy-folder-notexist", frombase, uri, ex.desc, NULL);
 		goto fail;
@@ -2191,6 +2185,8 @@ fail:
 		camel_object_unref(fromstore);
 	if (tostore)
 		camel_object_unref(tostore);
+	g_free(frombase);
+	g_free(fromuri);
 	camel_exception_clear (&ex);
 	g_free (cfd);
 }
@@ -2427,11 +2423,14 @@ emft_popup_new_folder (GtkWidget *item, EMFolderTree *emft)
 {
 	EMFolderTree *folder_tree;
 	GtkWidget *dialog;
-	
+	char *uri;
+
 	folder_tree = (EMFolderTree *) em_folder_tree_new_with_model (emft->priv->model);
 	
 	dialog = em_folder_selector_create_new (folder_tree, 0, _("Create folder"), _("Specify where to create the folder:"));
-	em_folder_selector_set_selected ((EMFolderSelector *) dialog, emft->priv->selected_uri);
+	uri = em_folder_tree_get_selected_uri(emft);
+	em_folder_selector_set_selected ((EMFolderSelector *) dialog, uri);
+	g_free(uri);
 	g_signal_connect (dialog, "response", G_CALLBACK (emft_popup_new_folder_response), emft);
 	gtk_widget_show (dialog);
 }
@@ -2840,7 +2839,6 @@ emft_tree_user_event (GtkTreeView *treeview, GdkEvent *e, EMFolderTree *emft)
 static void
 emft_tree_selection_changed (GtkTreeSelection *selection, EMFolderTree *emft)
 {
-	struct _EMFolderTreePrivate *priv = emft->priv;
 	char *full_name, *uri;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
@@ -2852,15 +2850,10 @@ emft_tree_selection_changed (GtkTreeSelection *selection, EMFolderTree *emft)
 	gtk_tree_model_get (model, &iter, COL_STRING_FULL_NAME, &full_name,
 			    COL_STRING_URI, &uri, COL_UINT_FLAGS, &flags, -1);
 
-	g_free (priv->selected_uri);
-	priv->selected_uri = uri;
-	
-	g_free (priv->selected_path);
-	priv->selected_path = full_name;
-	
 	g_signal_emit (emft, signals[FOLDER_SELECTED], 0, full_name, uri, flags);
+	g_free(uri);
+	g_free(full_name);
 }
-
 
 void
 em_folder_tree_set_selected (EMFolderTree *emft, const char *uri)
@@ -2873,23 +2866,39 @@ em_folder_tree_set_selected (EMFolderTree *emft, const char *uri)
 	g_list_free(l);
 }
 
-const char *
+char *
 em_folder_tree_get_selected_uri (EMFolderTree *emft)
 {
+	GtkTreeSelection *selection;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	char *uri = NULL;
+
 	g_return_val_if_fail (EM_IS_FOLDER_TREE (emft), NULL);
+
+	selection = gtk_tree_view_get_selection(emft->priv->treeview);
+	if (gtk_tree_selection_get_selected(selection, &model, &iter))
+		gtk_tree_model_get(model, &iter, COL_STRING_URI, &uri, -1);
 	
-	return emft->priv->selected_uri;
+	return uri;
 }
 
-
-const char *
+char *
 em_folder_tree_get_selected_path (EMFolderTree *emft)
 {
-	g_return_val_if_fail (EM_IS_FOLDER_TREE (emft), NULL);
-	
-	return emft->priv->selected_path;
-}
+	GtkTreeSelection *selection;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	char *name = NULL;
 
+	g_return_val_if_fail (EM_IS_FOLDER_TREE (emft), NULL);
+
+	selection = gtk_tree_view_get_selection(emft->priv->treeview);
+	if (gtk_tree_selection_get_selected(selection, &model, &iter))
+		gtk_tree_model_get(model, &iter, COL_STRING_FULL_NAME, &name, -1);
+	
+	return name;
+}
 
 EMFolderTreeModel *
 em_folder_tree_get_model (EMFolderTree *emft)
