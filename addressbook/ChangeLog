@@ -1,5 +1,18 @@
 2001-01-25  Christopher James Lahey  <clahey@helixcode.com>
 
+	* backend/pas/pas-backend-file.c (pas_backend_file_load_uri): Made
+	this only add the initial VCard if it finds a file
+	"create-initial" in the directory it's creating the database in.
+
+	* gui/component/addressbook-component.c (factory_fn): Added a
+	create_folder function.
+
+	* gui/search/e-addressbook-search-dialog.c
+	(e_addressbook_search_dialog_init): Fixed an unused variable
+	warning.
+
+2001-01-25  Christopher James Lahey  <clahey@helixcode.com>
+
 	* gui/widgets/e-addressbook-view.c
 	(e_addressbook_view_setup_menus): Setup the view collection
 	properly and handle the "display_view" signal.

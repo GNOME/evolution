@@ -76,6 +76,26 @@ create_view (EvolutionShellComponent *shell_component,
 	return EVOLUTION_SHELL_COMPONENT_OK;
 }
 
+static void
+create_folder (EvolutionShellComponent *shell_component,
+	       const char *physical_uri,
+	       const char *type,
+	       const GNOME_Evolution_ShellComponentListener listener,
+	       void *closure)
+{
+	CORBA_Environment ev;
+	GNOME_Evolution_ShellComponentListener_Result result;
+
+	if (g_strcasecmp (type, "contacts") != 0)
+		result = GNOME_Evolution_ShellComponentListener_UNSUPPORTED_TYPE;
+	else 
+		result = GNOME_Evolution_ShellComponentListener_OK;
+
+	CORBA_exception_init(&ev);
+	GNOME_Evolution_ShellComponentListener_notifyResult(listener, result, &ev);
+	CORBA_exception_free(&ev);
+}
+
 static int owner_count = 0;
 
 static void
@@ -111,7 +131,7 @@ factory_fn (BonoboGenericFactory *factory,
 {
 	EvolutionShellComponent *shell_component;
 
-	shell_component = evolution_shell_component_new (folder_types, create_view, NULL, NULL, NULL, NULL, NULL);
+	shell_component = evolution_shell_component_new (folder_types, create_view, create_folder, NULL, NULL, NULL, NULL);
 
 	gtk_signal_connect (GTK_OBJECT (shell_component), "owner_set",
 			    GTK_SIGNAL_FUNC (owner_set_cb), NULL);

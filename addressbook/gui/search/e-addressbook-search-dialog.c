@@ -139,7 +139,6 @@ button_press (GtkWidget *widget, int button, EAddressbookSearchDialog *dialog)
 static void
 e_addressbook_search_dialog_init (EAddressbookSearchDialog *view)
 {
-	GtkWidget *button;
 	GnomeDialog *dialog = GNOME_DIALOG (view);
 
 	gtk_window_set_policy(GTK_WINDOW(view), FALSE, TRUE, FALSE);

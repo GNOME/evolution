@@ -8,6 +8,7 @@
 
 #include "config.h"  
 #include <gtk/gtksignal.h>
+#include <gnome.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include <time.h>
@@ -1291,9 +1292,20 @@ pas_backend_file_load_uri (PASBackend             *backend,
 		bf->priv->file_db = dbopen (filename, O_RDWR | O_CREAT, 0666, DB_HASH, NULL);
 
 		if (bf->priv->file_db) {
-			char *id;
-			id = do_create(backend, INITIAL_VCARD, NULL);
-			g_free (id);
+			char *create_initial_file;
+			char *dir;
+
+			dir = g_dirname(filename);
+			create_initial_file = g_concat_dir_and_file(dir, "create-initial");
+
+			if (g_file_exists(create_initial_file)) {
+				char *id;
+				id = do_create(backend, INITIAL_VCARD, NULL);
+				g_free (id);
+			}
+
+			g_free(create_initial_file);
+			g_free(dir);
 		}
 	}
 
