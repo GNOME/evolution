@@ -1,5 +1,10 @@
 2002-11-05  Ettore Perazzoli  <ettore@ximian.com>
 
+	* All: g_object_unref instead of bonobo_object_unref for the
+	EvolutionShellComponentClient and EvolutionShellClient interfaces.
+
+2002-11-05  Ettore Perazzoli  <ettore@ximian.com>
+
 	* evolution-shell-client.c (impl_dispose): New.
 	(impl_finalize): New.
 	(destroy): Removed.

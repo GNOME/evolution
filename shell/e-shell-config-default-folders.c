@@ -110,7 +110,8 @@ config_control_destroy_cb (EvolutionConfigControl *config_control,
 	g_free (dfc->tasks_path);
 
 	g_object_unref (dfc->glade);
-	bonobo_object_unref (BONOBO_OBJECT (dfc->shell_client));
+	g_object_unref (dfc->shell_client);
+
 	g_free (dfc);
 }
 

@@ -321,7 +321,7 @@ component_async_create_folder_callback (EvolutionShellComponentClient *shell_com
 		}
 	}
 
-	bonobo_object_unref (BONOBO_OBJECT (shell_component_client));
+	g_object_unref (shell_component_client);
 
 	if (callback_data->listener != CORBA_OBJECT_NIL)
 		notify_listener (callback_data->listener, storage_result,
@@ -547,7 +547,7 @@ component_async_remove_folder_callback (EvolutionShellComponentClient *shell_com
 		g_print ("...Error removing %s!\n", path);
 	}
 
-	bonobo_object_unref (BONOBO_OBJECT (shell_component_client));
+	g_object_unref (shell_component_client);
 
 	/* Now go on and delete the next subfolder in the list that still
 	   exists, deallocating the elements in the list in the process.  */

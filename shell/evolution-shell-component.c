@@ -775,11 +775,8 @@ impl_finalize (GObject *object)
 	CORBA_exception_init (&ev);
 
 	if (priv->owner_client != NULL) {
-		BonoboObject *owner_client_object;
-
-		owner_client_object = BONOBO_OBJECT (priv->owner_client);
+		g_object_unref (priv->owner_client);
 		priv->owner_client = NULL;
-		bonobo_object_unref (BONOBO_OBJECT (owner_client_object));
 	}
 
 	CORBA_exception_free (&ev);
@@ -819,7 +816,6 @@ static void
 impl_owner_unset (EvolutionShellComponent *shell_component)
 {
 	EvolutionShellComponentPrivate *priv;
-	BonoboObject *owner_client_object;
 
 	priv = shell_component->priv;
 
@@ -828,22 +824,19 @@ impl_owner_unset (EvolutionShellComponent *shell_component)
 		priv->ping_timeout_id = -1;
 	}
 
-	owner_client_object = BONOBO_OBJECT (priv->owner_client);
+	g_object_unref (priv->owner_client);
 	priv->owner_client = NULL;
-	bonobo_object_unref (BONOBO_OBJECT (owner_client_object));
 }
 
 static void
 impl_owner_died (EvolutionShellComponent *shell_component)
 {
 	EvolutionShellComponentPrivate *priv;
-	BonoboObject *owner_client_object;
 
 	priv = shell_component->priv;
 
-	owner_client_object = BONOBO_OBJECT (priv->owner_client);
+	g_object_unref (priv->owner_client);
 	priv->owner_client = NULL;
-	bonobo_object_unref (BONOBO_OBJECT (owner_client_object));
 
 	/* The default implementation for ::owner_died emits ::owner_unset, so
 	   that we make the behavior for old components kind of correct without

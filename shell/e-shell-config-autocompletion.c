@@ -59,8 +59,7 @@ static void
 config_control_destroy_callback (EvolutionConfigControl *config_control,
 				 EvolutionAutocompletionConfig *ac)
 {
-	bonobo_object_unref (BONOBO_OBJECT (ac->shell_client));
-
+	g_object_unref (ac->shell_client);
 	g_object_unref (ac->config_listener);
 
 	g_free (ac);
