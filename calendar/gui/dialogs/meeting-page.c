@@ -777,6 +777,7 @@ meeting_page_construct (MeetingPage *mpage, EMeetingStore *ems,
 
 	gtk_widget_show (GTK_WIDGET (priv->list_view));
 	sw = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw), GTK_SHADOW_IN);
 	gtk_widget_show (sw);
 	gtk_container_add (GTK_CONTAINER (sw), GTK_WIDGET (priv->list_view));
 	gtk_box_pack_start (GTK_BOX (priv->main), sw, TRUE, TRUE, 6);

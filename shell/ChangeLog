@@ -1,5 +1,17 @@
 2003-10-22  Ettore Perazzoli  <ettore@ximian.com>
 
+	* importer/intelligent.c (create_gui): Make the scrolled window
+	have a GTK_SHADOW_IN shadow.
+
+2003-10-22  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-window.c (setup_widgets): Make the notebooks not have
+	borders.
+	(setup_widgets): Fix typo: e_get_language_list() returns a GSList,
+	not a GList.
+
+2003-10-22  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-storage-browser.c (struct _EStorageBrowserPrivate): New member
 	"storage_set_view_scrolled".
 	(e_storage_browser_new): Put the storage_set_view in a scrolled

@@ -1,5 +1,11 @@
 2003-10-22  Ettore Perazzoli  <ettore@ximian.com>
 
+	* gui/calendar-component.c (impl_createControls): Make the
+	scrolled window have a GTK_SHADOW_IN shadow.
+	* gui/dialogs/meeting-page.c (meeting_page_construct): Likewise.
+
+2003-10-22  Ettore Perazzoli  <ettore@ximian.com>
+
 	* gui/calendar-component.c (impl_createControls): Set the
 	scrollbar policy to "automatic" for both the horizontal and
 	vertical scrollbars around the source selector.
