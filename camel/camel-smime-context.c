@@ -42,8 +42,6 @@
 #include <pkcs11.h>
 #include <smime.h>
 
-#include <gtk/gtk.h> /* for _() macro */
-
 #define d(x)
 
 struct _CamelSMimeContextPrivate {
