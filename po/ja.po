@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-08-13 14:55-0400\n"
-"PO-Revision-Date: 2004-08-12 14:12+0900\n"
+"POT-Creation-Date: 2004-08-19 00:23+0900\n"
+"PO-Revision-Date: 2004-08-19 00:21+0900\n"
 "Last-Translator: Takeshi AIHANA <aihana@gnome.gr.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
@@ -182,8 +182,6 @@ msgid ""
 msgstr "この連絡先を変更しています。これらの変更を保存しますか？"
 
 #: addressbook/addressbook-errors.xml.h:43
-#: addressbook/gui/contact-editor/e-contact-editor.c:2803
-#: addressbook/gui/contact-editor/e-contact-editor.c:2827
 msgid "_Discard"
 msgstr "破棄(_D)"
 
@@ -2140,22 +2138,6 @@ msgstr ""
 msgid "Invalid contact."
 msgstr "連絡先が正しくありません。"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2799
-msgid ""
-"The contact cannot be saved to the selected address book. Do you want to "
-"discard changes?"
-msgstr ""
-"選択したアドレス帳へ連絡先を保存できませんでした。変更を破棄してもよろしいで"
-"すか？"
-
-#: addressbook/gui/contact-editor/e-contact-editor.c:2822
-msgid ""
-"You are moving the contact from one address book to another, but it cannot "
-"be removed from the source. Do you want to save a copy instead?"
-msgstr ""
-"連絡先をあるアドレス帳から別のアドレス帳へ移動する際に、その連絡先を異動元か"
-"ら削除できませんでした。連絡先を移動する代わりにコピーでよろしいですか？"
-
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:280
 msgid "Contact Quick-Add"
 msgstr "連絡先の簡易追加"
@@ -3036,7 +3018,7 @@ msgid "Error adding list"
 msgstr "一覧を追加する際にエラーが発生しました"
 
 #: addressbook/gui/widgets/eab-gui-util.c:170
-#: addressbook/gui/widgets/eab-gui-util.c:640
+#: addressbook/gui/widgets/eab-gui-util.c:643
 msgid "Error adding contact"
 msgstr "連絡先を追加する際にエラーが発生しました"
 
@@ -3053,20 +3035,26 @@ msgid "Error removing list"
 msgstr "一覧を削除する際にエラーが発生しました"
 
 #: addressbook/gui/widgets/eab-gui-util.c:193
-#: addressbook/gui/widgets/eab-gui-util.c:598
+#: addressbook/gui/widgets/eab-gui-util.c:601
 msgid "Error removing contact"
 msgstr "連絡先を削除する際にエラーが発生しました"
 
 #: addressbook/gui/widgets/eab-gui-util.c:275
 #, c-format
 msgid ""
+"Opening %d contact will open %d new window as well.\n"
+"Do you really want to display this contact?"
+msgid_plural ""
 "Opening %d contacts will open %d new windows as well.\n"
 "Do you really want to display all of these contacts?"
-msgstr ""
+msgstr[0] ""
+"%d 個の連絡先を %d 個の新しいウィンドウで開くことになります。\n"
+"本当にこの連絡先を表示してもよろしいですか？"
+msgstr[1] ""
 "%d 個の連絡先を %d 個の新しいウィンドウで開くことになります。\n"
 "本当に全ての連絡先を表示してもよろしいですか？"
 
-#: addressbook/gui/widgets/eab-gui-util.c:301
+#: addressbook/gui/widgets/eab-gui-util.c:304
 #, c-format
 msgid ""
 "%s already exists\n"
@@ -3075,44 +3063,44 @@ msgstr ""
 "既に %s があります。\n"
 "上書きしてもよろしいですか？"
 
-#: addressbook/gui/widgets/eab-gui-util.c:305
+#: addressbook/gui/widgets/eab-gui-util.c:308
 msgid "Overwrite"
 msgstr "上書き"
 
 #. This is a filename. Translators take note.
-#: addressbook/gui/widgets/eab-gui-util.c:383
+#: addressbook/gui/widgets/eab-gui-util.c:386
 msgid "card.vcf"
 msgstr "card.vcf"
 
-#: addressbook/gui/widgets/eab-gui-util.c:545
+#: addressbook/gui/widgets/eab-gui-util.c:548
 msgid "list"
 msgstr "一覧"
 
-#: addressbook/gui/widgets/eab-gui-util.c:694
+#: addressbook/gui/widgets/eab-gui-util.c:697
 msgid "Move contact to"
 msgstr "連絡先の移動先"
 
-#: addressbook/gui/widgets/eab-gui-util.c:696
+#: addressbook/gui/widgets/eab-gui-util.c:699
 msgid "Copy contact to"
 msgstr "連絡先のコピー先"
 
-#: addressbook/gui/widgets/eab-gui-util.c:699
+#: addressbook/gui/widgets/eab-gui-util.c:702
 msgid "Move contacts to"
 msgstr "複数の連絡先の移動先"
 
-#: addressbook/gui/widgets/eab-gui-util.c:701
+#: addressbook/gui/widgets/eab-gui-util.c:704
 msgid "Copy contacts to"
 msgstr "複数の連絡先のコピー先"
 
-#: addressbook/gui/widgets/eab-gui-util.c:704
+#: addressbook/gui/widgets/eab-gui-util.c:707
 msgid "Select target addressbook."
 msgstr "アドレス帳の選択"
 
-#: addressbook/gui/widgets/eab-gui-util.c:927
+#: addressbook/gui/widgets/eab-gui-util.c:930
 msgid "Multiple VCards"
 msgstr "複数の vCard"
 
-#: addressbook/gui/widgets/eab-gui-util.c:930
+#: addressbook/gui/widgets/eab-gui-util.c:933
 #, c-format
 msgid "VCard for %s"
 msgstr "%s の vCard"
@@ -4757,9 +4745,8 @@ msgid "_Add Calendar"
 msgstr "カレンダの追加(_A)"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:7
-#, fuzzy
 msgid "_Add Task List"
-msgstr "タスク一覧の追加"
+msgstr "タスク一覧の追加(_A)"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:9
 msgid "_Refresh:"
@@ -10129,7 +10116,6 @@ msgid "Automatically synchronize remote mail locally"
 msgstr "リモートとローカルのメールを自動的に同期する"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:69
-#, fuzzy
 msgid "Address Book and Calendar"
 msgstr "アドレス帳とカレンダ"
 
@@ -10142,9 +10128,8 @@ msgid "Post Office Agent SOAP Port:"
 msgstr "ポスト・オフィス・エージェントの SOAP ポート:"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:78
-#, fuzzy
 msgid "Use Secure Connection (SSL)"
-msgstr "セキュリティ保護された接続 (SSL) の利用(_U):"
+msgstr "セキュリティ保護された接続 (SSL) の利用"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:92
 msgid "Novell GroupWise"
@@ -12346,9 +12331,8 @@ msgid "Evolution"
 msgstr "Evolution"
 
 #: data/evolution.desktop.in.in.h:2
-#, fuzzy
 msgid "The Evolution Groupware Suite"
-msgstr "Ximian Evolution グループウェア・スイートです"
+msgstr "Evolution グループウェア・スイートです"
 
 #: data/evolution.keys.in.in.h:1
 msgid "address card"
@@ -14765,7 +14749,7 @@ msgid ""
 "information in email you send."
 msgstr ""
 "あなたのお名前と E-メール・アドレスを入力して下さい。\"追加情報\" の欄は必須"
-"ではありませんが、送信する E-メールの中にこの情報を挿入する場合は入力して下さ"
+"ではありませんが、この情報を送信する E-メールの中に挿入する場合は入力して下さ"
 "い。"
 
 #: mail/mail-config-druid.c:370 mail/mail-config-druid.c:377
@@ -14843,7 +14827,7 @@ msgstr "<b>言語(_L)</b> "
 
 #: mail/mail-config.glade.h:8
 msgid "<small>This will make the the filter more reliable, but slower</small>"
-msgstr "<small>これは、より信頼性の高いフィルタですが、低速です</small>"
+msgstr "<small>これは、より信頼性の高いフィルタですが、低速です。</small>"
 
 #: mail/mail-config.glade.h:9
 msgid "<span weight=\"bold\">Account Information</span>"
@@ -16437,7 +16421,7 @@ msgstr "%B%e日 %p %l時%M分"
 msgid "%b %d %Y"
 msgstr "%Y年 %B%e日"
 
-#: mail/message-list.c:3376
+#: mail/message-list.c:3380
 msgid "Generating message list"
 msgstr "メッセージ一覧の作成中"
 
@@ -16632,7 +16616,7 @@ msgstr "(タイトルなし)"
 
 #: shell/e-shell-importer.c:146
 msgid "Choose the type of importer to run:"
-msgstr "インポート種別を選択して下さい:"
+msgstr "インポートの種類を選択して下さい:"
 
 #: shell/e-shell-importer.c:149
 msgid ""
@@ -16642,9 +16626,10 @@ msgid ""
 "You can select \"Automatic\" if you do not know, and Evolution will attempt "
 "to work it out."
 msgstr ""
-"Evolution へインポートするファイルを選択し、一覧から\n"
-"ファイルの種別を選択して下さい。わからない場合は\n"
-"\"自動\" を選択して、Evolution に解決させてみて下さい。"
+"Evolution へインポートするファイルを選択し、\n"
+"一覧からファイルの種類を選択して下さい。\n"
+"不明な場合は、\"自動\" を選択して、\n"
+"Evolution に解決させてみて下さい。"
 
 #: shell/e-shell-importer.c:155
 msgid "Choose the destination for this import"
@@ -16828,7 +16813,7 @@ msgstr "Bug buddy を実行できませんでした"
 
 #: shell/e-shell-window-commands.c:323
 msgid "Groupware Suite"
-msgstr "Groupwise スイート"
+msgstr "Groupwise スイートです。"
 
 #: shell/e-shell-window-commands.c:563
 msgid "_Work Online"
@@ -16957,15 +16942,15 @@ msgstr "Evolution インポート・アシスタント"
 
 #: shell/importer/import.glade.h:3
 msgid "Import File"
-msgstr "ファイルのインポート"
+msgstr "インポートするファイル"
 
 #: shell/importer/import.glade.h:4
 msgid "Import Location"
-msgstr "場所のインポート"
+msgstr "インポートする場所"
 
 #: shell/importer/import.glade.h:5
 msgid "Importer Type"
-msgstr "種類のインポート"
+msgstr "インポートの種類"
 
 #: shell/importer/import.glade.h:6
 msgid "Select Importers"
@@ -17154,13 +17139,12 @@ msgstr ""
 "フォルダ \"evolution\" の内容を手動で削除できます。\n"
 
 #: shell/shell-errors.xml.h:25
-#, fuzzy
 msgid "_Remind Me Later"
-msgstr "リマインダです！！"
+msgstr "後で通知する(_R)"
 
 #: shell/shell-errors.xml.h:26
 msgid "_Keep Data"
-msgstr ""
+msgstr "そのままにする(_K)"
 
 #. shell:upgrade-remove-1-4-confirm title
 #. shell:upgrade-remove-1-4-confirm primary
@@ -19527,21 +19511,3 @@ msgstr "%s (...)"
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% 完了)"
-
-#~ msgid "_Add Group"
-#~ msgstr "グループの追加(_A)"
-
-#~ msgid "Use ssl"
-#~ msgstr "SSL を使用する"
-
-#~ msgid "Ximian Evolution (Unstable)"
-#~ msgstr "Ximian Evolution (開発版)"
-
-#~ msgid "Remember this password"
-#~ msgstr "このパスワードを記憶する"
-
-#~ msgid "Remember this password for the remainder of this session"
-#~ msgstr "このパスワードをこのセッション用に保存する"
-
-#~ msgid "Keep"
-#~ msgstr "そのままにする"
