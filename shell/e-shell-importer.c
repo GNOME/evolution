@@ -379,7 +379,19 @@ get_iid_for_filetype (const char *filename)
 		return NULL;
 	}
 }
-		    
+
+static void
+show_error (const char *message,
+	    const char *title)
+{
+	GtkWidget *box;
+
+	box = gnome_message_box_new (message, GNOME_MESSAGE_BOX_ERROR, GNOME_STOCK_BUTTON_OK, NULL);
+	gtk_window_set_title (GTK_WINDOW (box), title);
+
+	gtk_widget_show (box);
+}
+
 static void
 start_import (const char *folderpath,
 	      const char *filename,
@@ -395,7 +407,7 @@ start_import (const char *folderpath,
 		char *message;
 
 		message = g_strdup_printf (_("File %s does not exist"), filename);
-		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR, message);
+		show_error (message, _("Evolution Error"));
 		g_free (message);
 
 		return;
@@ -405,8 +417,7 @@ start_import (const char *folderpath,
 	localpath = "/" E_LOCAL_STORAGE_NAME "/";
 	if (folderpath != NULL) {
 		if (strncmp (folderpath, localpath, strlen (localpath))) {
-			e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
-				  _("You may only import to local folders"));
+			show_error (_("You may only import to local folders"), _("Evolution Error"));
 			return;
 		}
 	}
@@ -422,7 +433,7 @@ start_import (const char *folderpath,
 		char *message;
 
 		message = g_strdup_printf (_("There is no importer that is able to handle\n%s"), filename);
-		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR, message);
+		show_error (message, _("Evolution Error"));
 		g_free (message);
 
 		return;
@@ -472,7 +483,7 @@ start_import (const char *folderpath,
 
 	if (evolution_importer_client_load_file (icd->client, filename, folderpath) == FALSE) {
 		label = g_strdup_printf (_("Error loading %s"), filename);
-		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR, label);
+		show_error (label, _("Evolution Error"));
 
 		gtk_label_set_text (GTK_LABEL (icd->contents), label);
 		g_free (label);
@@ -900,6 +911,8 @@ folder_selected (EShellFolderSelectionDialog *dialog,
 	filename = gnome_file_entry_get_full_path (GNOME_FILE_ENTRY (data->filepage->filename), FALSE);
 
 	gtk_widget_destroy (data->dialog);
+	gtk_widget_hide (GTK_WIDGET (dialog));
+
 	start_import (path, filename, iid);
 
 	g_free (iid);

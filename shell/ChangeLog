@@ -1,3 +1,11 @@
+2002-01-15  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Fix #17441, Crash trying to import Multiple VCard file into LDAP
+	folder.]
+
+	* e-shell-importer.c (show_error): Add a NULL in the call to
+	`gnome_message_box_new()'.
+
 2001-12-14  Michael Meeks  <michael@ximian.com>
 
 	* e-shell-view.c (set_current_notebook_page): re-order
