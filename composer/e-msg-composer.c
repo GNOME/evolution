@@ -1023,13 +1023,14 @@ struct _AutosaveManager {
 
 static AutosaveManager *am = NULL;
 
-static void
+static gboolean
 autosave_save_draft (EMsgComposer *composer)
 {
 	CamelMimeMessage *msg;
 	CamelStream *stream;
 	char *file;
 	gint fd;
+	gboolean success = TRUE;
 
 	fd = composer->autosave_fd;
 	file = composer->autosave_file;
@@ -1037,7 +1038,7 @@ autosave_save_draft (EMsgComposer *composer)
 	if (fd == -1) {
 		e_notice (GTK_WINDOW (composer), GNOME_MESSAGE_BOX_ERROR,
 			  _("Error accessing file: %s"), file);
-		return;
+		return FALSE;
 	}
 
 	msg = e_msg_composer_get_message_draft (composer);
@@ -1045,19 +1046,19 @@ autosave_save_draft (EMsgComposer *composer)
 	if (msg == NULL) {
 		e_notice (GTK_WINDOW (composer), GNOME_MESSAGE_BOX_ERROR,
 			  _("Unable to retrieve message from editor"));
-		return;
+		return FALSE;
 	}
 
 	if (lseek (fd, (off_t)0, SEEK_SET) == -1) {
 		e_notice (GTK_WINDOW (composer), GNOME_MESSAGE_BOX_ERROR,
 			  _("Unable to seek on file: %s\n%s"), file, strerror(errno));
-		return;
+		return FALSE;
 	}
 
 	if (ftruncate (fd, (off_t)0) == -1) {
 		e_notice (GTK_WINDOW (composer), GNOME_MESSAGE_BOX_ERROR,
 			  _("Unable to truncate file: %s\n%s"), file, strerror(errno));
-		return;
+		return FALSE;
 	}
 	
 	/* this does an lseek so we don't have to */
@@ -1066,11 +1067,14 @@ autosave_save_draft (EMsgComposer *composer)
 	    || camel_stream_flush((CamelStream *)stream) == -1) {
 		e_notice (GTK_WINDOW (composer), GNOME_MESSAGE_BOX_ERROR,
 			  _("Error autosaving message: %s\n %s"), file, strerror(errno));
-			
+		
+		success = FALSE;
 	}
 	/* set the fd to -1 in the stream so camel doesn't close it we want to keep it open */
 	CAMEL_STREAM_FS (stream)->fd = -1;
 	camel_object_unref((CamelObject *)stream);
+
+	return success;
 }
 
 static EMsgComposer * 
@@ -1205,8 +1209,10 @@ autosave_manager_start (AutosaveManager *am)
 static void
 autosave_manager_stop (AutosaveManager *am)
 {
-	if (am->id)
+	if (am->id) {
 		gtk_timeout_remove (am->id);
+		am->id = 0;
+	}
 }
 
 AutosaveManager *
@@ -1233,8 +1239,10 @@ autosave_manager_register (AutosaveManager *am, EMsgComposer *composer)
 		key = g_basename (composer->autosave_file);
 		g_hash_table_insert (am->table, key, composer);
 		if (am->ask) {
+			/* keep recursion out of our bedrooms. */
 			am->ask = FALSE;
 			autosave_manager_query_load_orphans (am, composer);
+			am->ask = TRUE;
 		} 
 			
 	}
@@ -1246,8 +1254,12 @@ autosave_manager_unregister (AutosaveManager *am, EMsgComposer *composer)
 {
 	g_hash_table_remove (am->table, g_basename (composer->autosave_file));
 	
+	/* only remove the file if we can successfully save it */
+	/* FIXME this test could probably be more efficient */
+	if (autosave_save_draft (composer)) {
+		unlink (composer->autosave_file);
+	}
 	close (composer->autosave_fd);
-	unlink (composer->autosave_file);
 	g_free (composer->autosave_file);
 	
 	if (g_hash_table_size (am->table) == 0)
@@ -1859,6 +1871,8 @@ destroy (GtkObject *object)
 	
 	composer = E_MSG_COMPOSER (object);
 
+	autosave_manager_unregister (am, composer);
+
 	CORBA_exception_init (&ev);
 
 	if (composer->config_db) {
@@ -1894,8 +1908,6 @@ destroy (GtkObject *object)
 	g_hash_table_destroy (composer->inline_images);
 	
 	g_free (composer->charset);
-
-	autosave_manager_unregister (am, composer);
 
 	CORBA_exception_init (&ev);
 	

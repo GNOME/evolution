@@ -1,3 +1,14 @@
+2001-07-06  Larry Ewing  <lewing@ximian.com>
+
+	* e-msg-composer.c (autosave_manager_unregister): make sure we
+	only remove the file if we think we saved it properly.
+	(autosave_manager_stop): make sure we set the timeout back to 0 so
+	that we will restart next time since we stop the timer when there
+	are no active composers.
+	(destroy): move this to the beginning of the destroy process.
+	(autosave_save_draft): add a return value indicating success.
+	(autosave_manager_register): go ahead and ask next time.
+
 2001-07-05  Larry Ewing  <lewing@ximian.com>
 
 	* e-msg-composer.c: add ask argment.
