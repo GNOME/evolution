@@ -1,3 +1,8 @@
+2001-07-02  Rodrigo Moya <rodrigo@ximian.com>
+
+	* evolution-tasks.xml: make the 'Task Preferences' menu item appear
+	as the first item in the 'Tools' menu
+
 2001-07-02  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* evolution-message-composer.xml: Set it up to have an

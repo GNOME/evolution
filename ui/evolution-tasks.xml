@@ -13,6 +13,9 @@
 		 _tip="Copy selected task" verb="TasksCopy" accel="*Control*c"/>
 		<cmd name="TasksPaste" pixtype="stock" pixname="Paste"
 		 _tip="Paste task from the clipboard" verb="TasksPaste" accel="*Control*v"/>
+
+		<cmd name="TasksPreferences" _tip="Set task view preferences"
+		 _verb="TasksPreferences"/>
   	</commands>
   
 	<menu>
@@ -58,10 +61,13 @@
 
 		</submenu>
 
-		<submenu name="Settings">
+		<submenu name="Tools">
 
-			<menuitem name="Preferences" _label="Tasks Preferences..."
-			verb="TasksPreferences" _tip="Alter preferences"/>
+			<placeholder name="Component">
+				<menuitem name="Preferences"
+				 _label="Tasks Preferences..."
+				 verb="TasksPreferences"/>
+			</placeholder>
 
 		</submenu>
 	</menu>
