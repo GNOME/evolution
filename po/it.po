@@ -8372,69 +8372,69 @@ msgstr "Annullato."
 
 #: camel/camel-gpg-context.c:771
 msgid "Failed to unlock secret key: 3 bad passphrases given."
-msgstr ""
+msgstr "Fallito lo sblocco della chiave segreta: sono state fornite 3 passphrases errate."
 
 #: camel/camel-gpg-context.c:777
-#, fuzzy, c-format
+#, c-format
 msgid "Unexpected response from GnuPG: %s"
-msgstr "Risposta inaspettata dal server IMAP: %s"
+msgstr "Risposta inaspettata da GnuPG: %s"
 
 #: camel/camel-gpg-context.c:787
-#, fuzzy
 msgid "No data provided"
-msgstr "È necessario fornire un nome di file."
+msgstr "Nessun dato fornito"
 
 #: camel/camel-gpg-context.c:830
-#, fuzzy
 msgid "Failed to encrypt: No valid recipients specified."
-msgstr "Impossibile cifrare questo messaggio: mancano i destinatari"
+msgstr "Impossibile cifrare: nessun destinatario valido specificato."
 
 #: camel/camel-gpg-context.c:1082
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Failed to GPG %s message: %s\n"
 "\n"
 "%.*s"
-msgstr "Impossibile salvare messaggio %s nella cache: %s"
+msgstr ""
+"Impossibile elaborare con GPG %s il messaggio: %s\n"
+"\n"
+"%.*s"
 
 #: camel/camel-gpg-context.c:1088
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to GPG %s message: %s\n"
-msgstr "Impossibile salvare messaggio %s nella cache: %s"
+msgstr "Impossibile elaborare con GPG %s il messaggio: %s\n"
 
 #: camel/camel-gpg-context.c:1197
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to execute gpg: %s"
-msgstr "Decodifica messaggio non riuscita."
+msgstr "Fallita l'esecuzione di gpg: %s"
 
 #: camel/camel-gpg-context.c:1227 camel/camel-gpg-context.c:1305
 #: camel/camel-gpg-context.c:1379 camel/camel-gpg-context.c:1409
 #: camel/camel-gpg-context.c:1436 camel/camel-gpg-context.c:1466
-#, fuzzy
 msgid "Failed to execute gpg."
-msgstr "Decodifica messaggio non riuscita."
+msgstr "Fallita l'esecuzione di gpg."
 
 #: camel/camel-gpg-context.c:1290
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot verify message signature: could not create temp file: %s"
 msgstr ""
-"Impossibile verificare questo messaggio: impossibile creare un file "
-"temporaneo: %s"
+"Impossibile verificare la firma di questo messaggio: impossibile creare "
+"un file temporaneo: %s"
 
 #: camel/camel-lock-client.c:111
 #, c-format
 msgid "Cannot build locking helper pipe: %s"
-msgstr ""
+msgstr "Impossibile creare una pipe di blocco: %s"
 
 #: camel/camel-lock-client.c:124
 #, c-format
 msgid "Cannot fork locking helper: %s"
-msgstr ""
+msgstr "Impossibile eseguire un fork di blocco: %s"
 
 #: camel/camel-lock-client.c:202 camel/camel-lock-client.c:225
 #, c-format
 msgid "Could not lock '%s': protocol error with lock-helper"
-msgstr ""
+msgstr "Impossibile bloccare '%s': errore di protocollo con il lock-helpe"
 
 #: camel/camel-lock-client.c:215
 #, c-format
@@ -8520,26 +8520,23 @@ msgstr "Errore nella copia del file temp di posta: %s"
 
 #: camel/camel-multipart-encrypted.c:259 camel/camel-multipart-encrypted.c:274
 msgid "Failed to decrypt MIME part: protocol error"
-msgstr ""
+msgstr "Fallita la decrittografazione della parte MIME: errore di protocollo"
 
 #: camel/camel-multipart-encrypted.c:287
-#, fuzzy
 msgid "Failed to decrypt MIME part: invalid structure"
-msgstr "Impossibile decifrare: motivo sconosciuto"
+msgstr "Impossibile decrittografare la parte MIME: struttura non valida"
 
 #: camel/camel-multipart-encrypted.c:327
-#, fuzzy
 msgid "Failed to decrypt MIME part: parse error"
-msgstr "Impossibile decifrare: motivo sconosciuto"
+msgstr "Impossibile decrittografare la parte MIME: errore di analisi del testo"
 
 #: camel/camel-multipart-signed.c:624
 msgid "This is a digitally signed message part"
 msgstr "Questa parte del messaggio è firmata"
 
 #: camel/camel-multipart-signed.c:678
-#, fuzzy
 msgid "parse error"
-msgstr "Altro errore"
+msgstr "errore di analisi del testo"
 
 #: camel/camel-provider.c:131
 #, c-format
@@ -8576,6 +8573,8 @@ msgid ""
 "Invalid email address trace information:\n"
 "%s"
 msgstr ""
+"Informazioni di percorso di indirizzo email non valide:\n"
+"%s"
 
 #: camel/camel-sasl-anonymous.c:131
 #, c-format
@@ -8583,6 +8582,8 @@ msgid ""
 "Invalid opaque trace information:\n"
 "%s"
 msgstr ""
+"Informazioni di percorso opaco non valide:\n"
+"%s"
 
 #: camel/camel-sasl-anonymous.c:143
 #, c-format
@@ -8590,6 +8591,8 @@ msgid ""
 "Invalid trace information:\n"
 "%s"
 msgstr ""
+"Informazioni di percorso non valide:\n"
+"%s"
 
 #: camel/camel-sasl-cram-md5.c:35
 msgid "CRAM-MD5"
@@ -8675,18 +8678,19 @@ msgstr "Stato di Autenticazione sconosciuto."
 
 #: camel/camel-sasl-ntlm.c:31
 msgid "NTLM / SPA"
-msgstr ""
+msgstr "NTLM / SPA"
 
 #: camel/camel-sasl-ntlm.c:33
-#, fuzzy
 msgid ""
 "This option will connect to a Windows-based server using NTLM / Secure "
 "Password Authentication."
-msgstr "Con questa ci si connette al server usando Kerberos 4 per l'autenticazione."
+msgstr ""
+"Con questa opzione ci si connette ad un server di tipo Windows usando "
+"NTLM / Secure Password Authentication per l'autenticazione."
 
 #: camel/camel-sasl-plain.c:32
 msgid "PLAIN"
-msgstr ""
+msgstr "IN CHIARO"
 
 #: camel/camel-sasl-popb4smtp.c:34
 msgid "POP before SMTP"
@@ -8749,19 +8753,16 @@ msgid "Host lookup failed: %s: unknown reason"
 msgstr "Ricerca dell'Host fallita: %s: motivo sconosciuto"
 
 #: camel/camel-service.c:851
-#, fuzzy
 msgid "Resolving address"
-msgstr "Sto risolvendo: %s"
+msgstr "Risoluzione indirizzo"
 
 #: camel/camel-service.c:913
-#, fuzzy
 msgid "Host lookup failed: host not found"
-msgstr "Ricerca dell'Host fallita: %s: host non trovato"
+msgstr "Ricerca dell'Host fallita: host non trovato"
 
 #: camel/camel-service.c:916
-#, fuzzy
 msgid "Host lookup failed: unknown reason"
-msgstr "Ricerca dell'Host fallita: %s: motivo sconosciuto"
+msgstr "Ricerca dell'Host fallita: motivo sconosciuto"
 
 #: camel/camel-session.c:75
 msgid "Virtual folder email provider"
@@ -8831,131 +8832,120 @@ msgid "Cannot create folder: Invalid operation on this store"
 msgstr "Impossibile creare una cartella: Operazione non supportata in questo store"
 
 #: camel/camel-tcp-stream-openssl.c:566
-#, fuzzy
 msgid "Unable to get issuer's certificate"
-msgstr "Verifica certificati non riuscita."
+msgstr "Impossibile ottenere il certificato dall'emittente"
 
 #: camel/camel-tcp-stream-openssl.c:568
 msgid "Unable to get Certificate Revocation List"
-msgstr ""
+msgstr "Impossibile ottenere l'elenco revoche dei certificati"
 
 #: camel/camel-tcp-stream-openssl.c:570
-#, fuzzy
 msgid "Unable to decrypt certificate signature"
-msgstr "Verifica certificati non riuscita."
+msgstr "Impossibile decrittografare la firma del certificato"
 
 #: camel/camel-tcp-stream-openssl.c:572
 msgid "Unable to decrypt Certificate Revocation List signature"
-msgstr ""
+msgstr "Impossibile decrttigrafare la firma dell'elenco revoche dei certificati"
 
 #: camel/camel-tcp-stream-openssl.c:574
 msgid "Unable to decode issuer's public key"
-msgstr ""
+msgstr "Impossibile decodificare la chiave pubblica dell'emittente"
 
 #: camel/camel-tcp-stream-openssl.c:576
-#, fuzzy
 msgid "Certificate signature failure"
-msgstr "File con la firma:"
+msgstr "Fallita la firma del certificato"
 
 #: camel/camel-tcp-stream-openssl.c:578
 msgid "Certificate Revocation List signature failure"
-msgstr ""
+msgstr "Fallita la firma dell'elenco revoche dei certificati"
 
 #: camel/camel-tcp-stream-openssl.c:580
 msgid "Certificate not yet valid"
-msgstr ""
+msgstr "Certificato non ancora valido"
 
 #: camel/camel-tcp-stream-openssl.c:582
-#, fuzzy
 msgid "Certificate has expired"
-msgstr "ID del _Certificato:"
+msgstr "Certificato scaduto"
 
 #: camel/camel-tcp-stream-openssl.c:584
 msgid "CRL not yet valid"
-msgstr ""
+msgstr "CRL non ancora valido"
 
 #: camel/camel-tcp-stream-openssl.c:586
 msgid "CRL has expired"
-msgstr ""
+msgstr "CRL scaduto"
 
 #: camel/camel-tcp-stream-openssl.c:591
-#, fuzzy
 msgid "Error in CRL"
-msgstr "Errore nel caricare: %s"
+msgstr "Errore nel CRL"
 
 #: camel/camel-tcp-stream-openssl.c:593
-#, fuzzy
 msgid "Out of memory"
-msgstr "Assente"
+msgstr "Memoria esaurita"
 
 #: camel/camel-tcp-stream-openssl.c:595
 msgid "Zero-depth self-signed certificate"
-msgstr ""
+msgstr "Certificato autofirmato di profondità zero"
 
 #: camel/camel-tcp-stream-openssl.c:597
 msgid "Self-signed certificate in chain"
-msgstr ""
+msgstr "Certificato autofirmato in catena"
 
 #: camel/camel-tcp-stream-openssl.c:599
 msgid "Unable to get issuer's certificate locally"
-msgstr ""
+msgstr "Impossibile ottenere localmente il certificato dell'emittente"
 
 #: camel/camel-tcp-stream-openssl.c:601
-#, fuzzy
 msgid "Unable to verify leaf signature"
-msgstr "Verifica certificati non riuscita."
+msgstr "Impossibile verificare la firma foglia"
 
 #: camel/camel-tcp-stream-openssl.c:603
 msgid "Certificate chain too long"
-msgstr ""
+msgstr "Certificato in catena troppo lungo"
 
 #: camel/camel-tcp-stream-openssl.c:605
-#, fuzzy
 msgid "Certificate Revoked"
-msgstr "ID del _Certificato:"
+msgstr "Certificato Revocato"
 
 #: camel/camel-tcp-stream-openssl.c:607
 msgid "Invalid Certificate Authority (CA)"
-msgstr ""
+msgstr "Autorità di Certificazione (CA) non valida"
 
 #: camel/camel-tcp-stream-openssl.c:609
 msgid "Path length exceeded"
-msgstr ""
+msgstr "Lunghezza percorso eccessiva"
 
 #: camel/camel-tcp-stream-openssl.c:611
-#, fuzzy
 msgid "Invalid purpose"
-msgstr "Argomento non valido"
+msgstr "Scopo non valido"
 
 #: camel/camel-tcp-stream-openssl.c:613
-#, fuzzy
 msgid "Certificate untrusted"
-msgstr "ID del _Certificato:"
+msgstr "Certificato insicuro (untrusted)"
 
 #: camel/camel-tcp-stream-openssl.c:615
-#, fuzzy
 msgid "Certificate rejected"
-msgstr "ID del _Certificato:"
+msgstr "Certificato respinto"
 
 #: camel/camel-tcp-stream-openssl.c:618
 msgid "Subject/Issuer mismatch"
-msgstr ""
+msgstr "Soggetto/Emittente sconnessi"
 
 #: camel/camel-tcp-stream-openssl.c:620
 msgid "AKID/SKID mismatch"
-msgstr ""
+msgstr "AKID/SKID sconnessi"
 
 #: camel/camel-tcp-stream-openssl.c:622
 msgid "AKID/Issuer serial mismatch"
-msgstr ""
+msgstr "AKID/Seriale Emittente sconnessi"
 
 #: camel/camel-tcp-stream-openssl.c:624
 msgid "Key usage does not support certificate signing"
-msgstr ""
+msgstr "L'uso della chiave non consente la firma del certificato"
 
 #: camel/camel-tcp-stream-openssl.c:627
 msgid "Error in application verification"
-msgstr ""
+msgstr "Errore nella verifica dell'applicazione"
 
 #: camel/camel-tcp-stream-openssl.c:694 camel/camel-tcp-stream-ssl.c:805
 #, c-format
@@ -8979,7 +8969,7 @@ msgid "BAD"
 msgstr "MALE"
 
 #: camel/camel-tcp-stream-openssl.c:702
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Bad certificate from %s:\n"
 "\n"
@@ -8992,6 +8982,9 @@ msgstr ""
 "Certificato non corretto da %s:\n"
 "\n"
 "%s\n"
+"\n"
+"%s\n"
+"\n"
 "Accettare comunque?"
 
 #. construct our user prompt
@@ -9015,6 +9008,8 @@ msgid ""
 "Certificate problem: %s\n"
 "Issuer: %s"
 msgstr ""
+"Problema con il certificato: %s\n"
+"Emittente: %s"
 
 #: camel/camel-tcp-stream-ssl.c:911
 #, c-format
@@ -9022,20 +9017,27 @@ msgid ""
 "Bad certificate domain: %s\n"
 "Issuer: %s"
 msgstr ""
+"Errato dominio del certificato: %s\n"
+"Emittente: %s"
 
 #: camel/camel-tcp-stream-ssl.c:929
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Certificate expired: %s\n"
 "Issuer: %s"
-msgstr "ID del _Certificato:"
+msgstr ""
+"Certificato scaduto: %s\n"
+"Emittente: %s"
 
 #: camel/camel-tcp-stream-ssl.c:946
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Certificate revocation list expired: %s\n"
 "Issuer: %s"
-msgstr "ID del _Certificato:"
+msgstr ""
+"Elenco revoche certificati scaduto: %s\n"
+"Emittente: %s"
+
 
 #: camel/camel-url.c:288
 #, c-format
@@ -9043,9 +9045,9 @@ msgid "Could not parse URL `%s'"
 msgstr "Impossibile interpretare URL `%s'"
 
 #: camel/camel-vee-folder.c:618
-#, fuzzy, c-format
+#, c-format
 msgid "Error storing `%s': %s"
-msgstr "Errore nell'avvio di %s"
+msgstr "Errore durante la memorizzazione di `%s': %s"
 
 #: camel/camel-vee-folder.c:656
 #, c-format
@@ -9053,29 +9055,28 @@ msgid "No such message %s in %s"
 msgstr "Non é presente il messaggio %s in %s"
 
 #: camel/camel-vee-folder.c:816 camel/camel-vee-folder.c:822
-#, fuzzy
 msgid "Cannot copy or move messages into a Virtual Folder"
-msgstr "Controlla se ci sono nuovi messaggio in tutte le cartelle"
+msgstr "Impossibile copiare o spostare messaggi in una cartella virtuale"
 
 #: camel/camel-vee-store.c:296
 #, c-format
 msgid "Cannot delete folder: %s: Invalid operation"
-msgstr "Impossibile eliminare la cartella: %s: Operazione non valida"
+msgstr "Impossibile eliminare la cartella: %s: operazione non valida"
 
 #: camel/camel-vee-store.c:319
 #, c-format
 msgid "Cannot delete folder: %s: No such folder"
-msgstr "Impossibile eliminare la cartella %s: Cartella inesistente"
+msgstr "Impossibile eliminare la cartella %s: cartella inesistente"
 
 #: camel/camel-vee-store.c:332
 #, c-format
 msgid "Cannot rename folder: %s: Invalid operation"
-msgstr "Impossibile rinominare la cartella %s: Operazione non valida"
+msgstr "Impossibile rinominare la cartella %s: operazione non valida"
 
 #: camel/camel-vee-store.c:340
 #, c-format
 msgid "Cannot rename folder: %s: No such folder"
-msgstr "Impossibile rinominare la cartella %s: Cartella inesistente"
+msgstr "Impossibile rinominare la cartella %s: cartella inesistente"
 
 #: camel/providers/imap/camel-imap-command.c:224
 #: camel/providers/imap/camel-imap-command.c:263
