@@ -9,8 +9,9 @@
 dnl AM_PATH_BONOBO ([MINIMUM-VERSION, [ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]]])
 dnl Test for Bonobo, and define BONOBO_CFLAGS and BONOBO_LIBS
 dnl
-AC_DEFUN(AM_PATH_BONOBO
-[dnl 
+AC_DEFUN([AM_PATH_BONOBO],
+[
+dnl 
 dnl Get the cflags and libraries from the gnome-config script
 dnl
 AC_ARG_WITH(bonobo-prefix,[  --with-bonobo-prefix=PFX   Prefix where Bonobo is installed (optional)],
@@ -41,7 +42,7 @@ AC_ARG_ENABLE(bonobotest, [  --disable-bonobotest       Do not try to compile an
     no_bonobo=yes
   else
     BONOBO_CFLAGS=`$GNOME_CONFIG $bonoboconf_args --cflags bonobo`
-    BONOBO_LIBS=`$GNOME_CONFIG $bonoboconf_args --libs print`
+    BONOBO_LIBS=`$GNOME_CONFIG $bonoboconf_args --libs bonobo`
 
     bonobo_major_version=`$GNOME_CONFIG $bonobo_args --version | \
            sed 's/\([[0-9]]*\).\([[0-9]]*\).\([[0-9]]*\)/\1/'`
@@ -63,7 +64,7 @@ dnl
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <libgnomeprint/bonobo.h>
+#include <bonobo/gnome-object.h>
 
 static char*
 my_strdup (char *str)
@@ -87,32 +88,7 @@ int main ()
   char *tmp_version;
 
   system ("touch conf.bonobotest");
-
-  /* HP/UX 9 (%@#!) writes to sscanf strings */
-  tmp_version = my_strdup("$min_bonobo_version");
-  if (sscanf(tmp_version, "%d.%d.%d", &major, &minor, &micro) != 3) {
-     printf("%s, bad version string\n", "$min_bonobo_version");
-     exit(1);
-   }
-  return 0;
-#if 0
-   if (($bonobo_major_version > major) ||
-      (($bonobo_major_version == major) && ($bonobo_minor_version > minor)) ||
-      (($bonobo_major_version == major) && ($bonobo_minor_version == minor) && ($bonobo_micro_version >= micro)))
-    {
-      return 0;
-    }
-  else
-    {
-      printf("\n*** 'gnome-config print --version' returned %d.%d.%d, but the minimum version\n", $bonobo_major_version, $bonobo_minor_version, $bonobo_micro_version);
-      printf("*** of BONOBO required is %d.%d.%d. If gnome-config is correct, then it is\n", major, minor, micro);
-      printf("*** best to upgrade to the required version.\n");
-      printf("*** If gnome-config was wrong, set the environment variable GNOME_CONFIG\n");
-      printf("*** to point to the correct copy of gnome-config, and remove the file\n");
-      printf("*** config.cache before re-running configure\n");
-      return 1;
-    }
-#endif
+  gnome_object_get_type ();
 }
 
 ],, no_bonobo=yes,[echo $ac_n "cross compiling; assumed OK... $ac_c"])
