@@ -1,3 +1,9 @@
+2002-08-08  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/camel-imap-folder.c (camel_imap_folder_init): Set
+	some default permanent_flags. This is the other cause of bug
+	#28038.
+
 2002-08-07  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-utils.c (header_encode_param): Oops - outbuf pointed
