@@ -478,7 +478,7 @@
 	<screenshot>
 	  <screeninfo>Appointment Scheduling Window</screeninfo>
 	  <mediaobject><imageobject>
-	      <imagedata  format="png" fileref="figures/freebusy"
+	      <imagedata  format="png" fileref="figures/schedule"
 	  srccredit="Kevin Breit">
 	    </imageobject></mediaobject>
 	</screenshot>

@@ -1663,7 +1663,7 @@
 	    <title>Images in an email</title>
 	    <screenshot>
 	      <screeninfo></screeninfo>
-	      <graphic  format="png" fileref="small_desktop" srccredit="Kevin Breit">
+	      <graphic  format="png" fileref="figures/small_desktop" srccredit="Kevin Breit">
 	    </screenshot>
 	  </figure>
 	</para>
