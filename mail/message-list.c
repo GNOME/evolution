@@ -717,7 +717,7 @@ void
 message_list_paste(MessageList *ml)
 {
 	gtk_selection_convert(ml->priv->invisible, GDK_SELECTION_CLIPBOARD,
-			      gdk_atom_intern("x-evolution-message", FALSE),
+			      gdk_atom_intern ("x-uid-list", FALSE),
 			      GDK_CURRENT_TIME);
 }
 
@@ -1425,12 +1425,12 @@ ml_selection_get(GtkWidget *widget, GtkSelectionData *data, guint info, guint ti
 		return;
 
 	if (info & 2) {
-		/* text_plain */
+		/* text/plain */
 		printf("setting text/plain selection for uids\n");
 		em_utils_selection_set_mailbox(data, ml->folder, uids);
 	} else {
-		/* x-evolution-message */
-		printf("setting x-evolution-message selection for uids\n");
+		/* x-uid-list */
+		printf("setting x-uid-list selection for uids\n");
 		em_utils_selection_set_uidlist(data, ml->folder_uri, uids);
 	}
 }
@@ -1479,7 +1479,7 @@ ml_selection_received_uidlist(MessageList *ml, GtkSelectionData *data)
 static void
 ml_selection_received(GtkWidget *widget, GtkSelectionData *data, guint time, MessageList *ml)
 {
-	if (data->target != gdk_atom_intern("x-evolution-message", FALSE)) {
+	if (data->target != gdk_atom_intern ("x-uid-list", FALSE)) {
 		printf("Unknown selection received by message-list\n");
 
 		return;
@@ -1489,7 +1489,7 @@ ml_selection_received(GtkWidget *widget, GtkSelectionData *data, guint time, Mes
 }
 
 static GtkTargetEntry ml_drag_types[] = {
-	{ "x-evolution-message", 0, 0 },
+	{ "x-uid-list", 0, 0 },
 	{ "message/rfc822", 0, 1 },
 	/* not included in dest types */
 	{ "text/uri-list", 0, 2 },
@@ -1506,7 +1506,7 @@ ml_tree_drag_data_get (ETree *tree, int row, ETreePath path, int col,
 
 	if (uids->len > 0) {
 		switch (info) {
-		case 0 /*DND_TARGET_TYPE_X_EVOLUTION_MESSAGE*/:
+		case 0 /*DND_TARGET_TYPE_X_UID_LIST */:
 			em_utils_selection_set_uidlist(data, ml->folder_uri, uids);
 			break;
 		case 1 /*DND_TARGET_TYPE_MESSAGE_RFC822*/:
@@ -1578,7 +1578,7 @@ message_list_init (GtkObject *object)
 	g_object_ref(p->invisible);
 	gtk_object_sink((GtkObject *)p->invisible);
 
-	matom = gdk_atom_intern("x-evolution-message", FALSE);
+	matom = gdk_atom_intern ("x-uid-list", FALSE);
 	gtk_selection_add_target(p->invisible, GDK_SELECTION_CLIPBOARD, matom, 0);
 	gtk_selection_add_target(p->invisible, GDK_SELECTION_PRIMARY, matom, 1);
 	gtk_selection_add_target(p->invisible, GDK_SELECTION_CLIPBOARD, GDK_SELECTION_TYPE_STRING, 2);

@@ -578,55 +578,27 @@ folder_dragged_cb (EStorageSetView *view, const char *path, GdkDragContext *cont
 	}
 }
 
-static gboolean
-parse_uid_list (const char *in, int inlen, char **path, GPtrArray **uids)
-{
-	const char *inptr, *inend;
-	
-	inend = in + inlen;
-	
-	*path = g_strdup (in);
-	
-	*uids = g_ptr_array_new ();
-	
-	inptr = in + inlen + 1;
-	while (inptr < inend) {
-		g_ptr_array_add (*uids, g_strdup (inptr));
-		inptr += strlen (inptr) + 1;
-	}
-	
-	if ((*uids)->len == 0) {
-		g_ptr_array_free (*uids, TRUE);
-		g_free (*path);
-		
-		return FALSE;
-	}
-	
-	return TRUE;
-}
-
 static void
 drop_uid_list (EStorageSetView *view, const char *path, gboolean move, GtkSelectionData *selection, gpointer user_data)
 {
 	CamelFolder *src, *dest;
 	CamelException ex;
 	GPtrArray *uids;
-	char *src_path;
+	char *src_uri;
 	
-	if (!parse_uid_list (selection->data, selection->length, &src_path, &uids))
-		return;
+	em_utils_selection_get_uidlist (selection, &src_uri, &uids);
 	
 	camel_exception_init (&ex);
 	
-	if (!(src = foo_get_folder (view, src_path, &ex))) {
+	if (!(src = mail_tool_uri_to_folder (src_uri, 0, &ex))) {
 		/* FIXME: report error to user? */
 		camel_exception_clear (&ex);
 		em_utils_uids_free (uids);
-		g_free (src_path);
+		g_free (src_uri);
 		return;
 	}
 	
-	g_free (src_path);
+	g_free (src_uri);
 	
 	if (!(dest = foo_get_folder (view, path, &ex))) {
 		/* FIXME: report error to user? */
@@ -846,22 +818,28 @@ folder_receive_drop_cb (EStorageSetView *view, const char *path, GdkDragContext 
 	case DND_DROP_TYPE_UID_LIST:
 		/* import a list of uids from another evo folder */
 		drop_uid_list (view, path, move, selection, user_data);
+		printf ("* dropped a x-uid-list\n");
 		break;
 	case DND_DROP_TYPE_FOLDER:
 		/* rename a folder */
 		drop_folder (view, path, move, selection, user_data);
+		printf ("* dropped a x-folder\n");
 		break;
 	case DND_DROP_TYPE_MESSAGE_RFC822:
 		/* import a message/rfc822 stream */
 		drop_message_rfc822 (view, path, selection, user_data);
+		printf ("* dropped a message/rfc822\n");
 		break;
 	case DND_DROP_TYPE_TEXT_URI_LIST:
 		/* import an mbox, maildir, or mh folder? */
 		drop_text_uri_list (view, path, selection, user_data);
+		printf ("* dropped a text/uri-list\n");
 		break;
 	default:
 		g_assert_not_reached ();
 	}
+	
+	gtk_drag_finish (context, TRUE, TRUE, time);
 }
 
 

@@ -1,3 +1,18 @@
+2003-10-22  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-component.c (parse_uid_list): Removed, use
+	em_utils_selection_get_uidlist() instead.
+	(drop_uid_list): Use em_utils_selection_get_uidlist() to parse the
+	x-uid-list selection data and use mail_tool_uri_to_folder()
+	directly since we have the uri (originally we expected the first
+	component of the selection data to be the e-storage-set-view
+	folder path rather than the uri).
+	(folder_receive_drop_cb): Call gtk_drag_finish() here.
+
+	* message-list.c: s/x-evolution-message/x-uid-list/
+
+	* em-utils.c: Same.
+
 2003-10-22  Ettore Perazzoli  <ettore@ximian.com>
 
 	* mail-component.c (impl_createControls): Use

@@ -1790,7 +1790,7 @@ em_utils_selection_get_mailbox(GtkSelectionData *data, CamelFolder *folder)
  * @uri:
  * @uids: 
  * 
- * Sets a "x-evolution-message" format selection data.
+ * Sets a "x-uid-list" format selection data.
  *
  * FIXME: be nice if this could take a folder argument rather than uri
  **/
@@ -1801,8 +1801,7 @@ em_utils_selection_set_uidlist(GtkSelectionData *data, const char *uri, GPtrArra
 	int i;
 
 	/* format: "uri\0uid1\0uid2\0uid3\0...\0uidn\0" */
-	/* NB: original form missed trailing \0 */
-
+	
 	g_byte_array_append(array, uri, strlen(uri)+1);
 
 	for (i=0; i<uids->len; i++)
@@ -1818,7 +1817,7 @@ em_utils_selection_set_uidlist(GtkSelectionData *data, const char *uri, GPtrArra
  * @urip: Pointer to uri string, to be free'd by caller
  * @uidsp: Pointer to an array of uid's.
  * 
- * Convert an x-evolution-message type to a uri and a uid list.
+ * Convert an x-uid-list type to a uri and a uid list.
  * 
  * Return value: The number of uid's found.  If 0, then @urip and
  * @uidsp will be empty.
