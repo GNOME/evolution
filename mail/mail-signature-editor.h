@@ -30,9 +30,10 @@ extern "C" {
 #endif /* __cplusplus */
 
 #include <glib.h>
+#include <gtk/gtkwindow.h>
 #include <mail-config.h>
 
-void mail_signature_editor (MailConfigSignature *sig);
+void mail_signature_editor (MailConfigSignature *sig, GtkWindow *parent, gboolean is_new);
 
 #ifdef __cplusplus
 }

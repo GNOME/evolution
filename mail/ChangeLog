@@ -1,5 +1,45 @@
 2003-03-07  Jeffrey Stedfast  <fejj@ximian.com>
 
+	All this snot just to fix bug #38925 and an attempt to fix bug
+	#38926 (but it seems no matter what I do, I can't work around the
+	bonoboness/modality/whatever of the shell's preferences dialog).
+
+	* mail-account-gui.c (sig_add_new_signature): Get the toplevel
+	parent GtkWindow and pass that along to
+	mail_composer_prefs_new_signature() so that window layering can be
+	done correctly.
+
+	* mail-composer-prefs.c (mail_composer_prefs_new_signature):
+	Simplify. We don't want to add the signature to the list until
+	after they have saved.
+	(sig_edit_cb): Pass FALSE as the is_new argument to
+	mail_signature_editor().
+	(sig_event_client): Listen for signatures being added.
+	(mail_composer_prefs_new_signature): Now takes a GtkWindow arg as
+	the first arg rather than a MailComposerPrefs arg since we don't
+	really need it to be a MailComposerPrefs object. We'd rather use
+	the first arg as the parent GtkWindow so that we can set
+	transience for the editor window.
+
+	* mail-signature-editor.c (mail_signature_editor): Now takes a
+	'parent' argument (so we can set transient_for()) and a 'is_new'
+	argument specifying whether the editor is editing a new signature
+	or not. If it is, when the user saves, it will be added to the
+	signature list. otherwise it won't.
+	(sig_name_changed): Only use the mail_config_signature_set_name()
+	interface if it is *not* a new signature.
+	(menu_file_save_cb): If is_new, then save the signature to the
+	config - otherwise do what we did before and set the modifications
+	to it and emit the CHANGED event.
+
+	* mail-config.c (mail_config_signature_new): Renamed from
+	mail_config_signature_add(). We no longer immediately add the
+	signature to the list of saved signatures.
+	(mail_config_signature_add): New function which adds the signature
+	and emits the SIG_ADDED event.
+
+2003-03-07  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* mail-display.c (on_url_requested): If the part url is a text
 	part, use mail_format_data_wrapper_write_to_stream(). This should
 	fix bug #39204.

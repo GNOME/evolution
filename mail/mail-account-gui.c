@@ -1290,6 +1290,7 @@ sig_add_new_signature (GtkWidget *w, MailAccountGui *gui)
 {
 	GConfClient *gconf;
 	gboolean send_html;
+	GtkWidget *parent;
 	
 	if (!gui->dialog)
 		return;
@@ -1299,7 +1300,10 @@ sig_add_new_signature (GtkWidget *w, MailAccountGui *gui)
 	gconf = gconf_client_get_default ();
 	send_html = gconf_client_get_bool (gconf, "/apps/evolution/mail/composer/send_html", NULL);
 	
-	gui->def_signature = mail_composer_prefs_new_signature (NULL, send_html, NULL);
+	parent = gtk_widget_get_toplevel (w);
+	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
+	
+	gui->def_signature = mail_composer_prefs_new_signature ((GtkWindow *) parent, send_html, NULL);
 	gui->auto_signature = FALSE;
 	
 	gtk_option_menu_set_history (GTK_OPTION_MENU (gui->sig_option_menu), sig_gui_get_index (gui));

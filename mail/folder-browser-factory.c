@@ -107,7 +107,7 @@ control_activate (BonoboControl     *control,
 	folder_browser_ui_add_global (fb);
 	folder_browser_ui_add_list (fb);
 	folder_browser_ui_add_message (fb);
-
+	
 	/*bonobo_ui_component_thaw (uic, NULL);*/
 	
 	folder_browser_set_shell_view (fb, fb_get_svi (control));

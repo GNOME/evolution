@@ -123,8 +123,7 @@ GtkWidget *mail_composer_prefs_new (void);
 
 void mail_composer_prefs_apply (MailComposerPrefs *prefs);
 
-
-MailConfigSignature *mail_composer_prefs_new_signature (MailComposerPrefs *prefs, gboolean html, const char *script);
+MailConfigSignature *mail_composer_prefs_new_signature (GtkWindow *parent, gboolean html, const char *script);
 
 /* needed by global config */
 #define MAIL_COMPOSER_PREFS_CONTROL_ID "OAFIID:GNOME_Evolution_Mail_ComposerPrefs_ConfigControl"

@@ -1206,14 +1206,14 @@ get_new_signature_filename (void)
 	return NULL;
 }
 
+
 MailConfigSignature *
-mail_config_signature_add (gboolean html, const char *script)
+mail_config_signature_new (gboolean html, const char *script)
 {
 	MailConfigSignature *sig;
 	
 	sig = g_new0 (MailConfigSignature, 1);
 	
-	/* printf ("mail_config_signature_add %d\n", config->sig_nextid); */
 	sig->id = config->sig_nextid++;
 	sig->name = g_strdup (_("Unnamed"));
 	if (script)
@@ -1222,14 +1222,17 @@ mail_config_signature_add (gboolean html, const char *script)
 		sig->filename = get_new_signature_filename ();
 	sig->html = html;
 	
-	config->signatures = g_slist_append (config->signatures, sig);
-	
-	config_write_signatures ();
-	
-	mail_config_signature_emit_event (MAIL_CONFIG_SIG_EVENT_ADDED, sig);
-	/* printf ("mail_config_signature_add end\n"); */
-	
 	return sig;
+}
+
+
+void
+mail_config_signature_add (MailConfigSignature *sig)
+{
+	g_assert (g_slist_find (config->signatures, sig) == NULL);
+	
+	config->signatures = g_slist_append (config->signatures, sig);
+	mail_config_signature_emit_event (MAIL_CONFIG_SIG_EVENT_ADDED, sig);
 }
 
 static void

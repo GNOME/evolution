@@ -184,7 +184,7 @@ sig_load_preview (MailComposerPrefs *prefs, MailConfigSignature *sig)
 	else
 		str = e_msg_composer_get_sig_file_content (sig->filename, sig->html);
 	if (!str)
-		str = g_strdup (" ");
+		str = g_strdup ("");
 	
 	/* printf ("HTML: %s\n", str); */
 	if (sig->html) {
@@ -206,12 +206,13 @@ sig_load_preview (MailComposerPrefs *prefs, MailConfigSignature *sig)
 }
 
 static void
-sig_edit (GtkWidget *widget, MailComposerPrefs *prefs)
+sig_edit_cb (GtkWidget *widget, MailComposerPrefs *prefs)
 {
+	GtkTreeSelection *selection;
 	MailConfigSignature *sig;
 	GtkTreeModel *model;
+	GtkWidget *parent;
 	GtkTreeIter iter;
-	GtkTreeSelection *selection;
 	
 	selection = gtk_tree_view_get_selection (prefs->sig_list);
 	if (!gtk_tree_selection_get_selected (selection, &model, &iter))
@@ -219,60 +220,36 @@ sig_edit (GtkWidget *widget, MailComposerPrefs *prefs)
 	
 	gtk_tree_model_get (model, &iter, 1, &sig, -1);
 	
-	if (sig->filename && *sig->filename)
-		mail_signature_editor (sig);
-	else
-		e_notice (GTK_WINDOW (prefs), GTK_MESSAGE_ERROR,
-			  _("Please specify signature filename\nin Advanced section of signature settings."));
+	if (!sig->filename || *sig->filename == '\0') {
+		g_free (sig->filename);
+		sig->filename = g_strdup (_("Unnamed"));
+	}
+	
+	parent = gtk_widget_get_toplevel ((GtkWidget *) prefs);
+	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
+	
+	mail_signature_editor (sig, (GtkWindow *) parent, FALSE);
 }
 
 MailConfigSignature *
-mail_composer_prefs_new_signature (MailComposerPrefs *prefs, gboolean html, const char *script)
+mail_composer_prefs_new_signature (GtkWindow *parent, gboolean html, const char *script)
 {
 	MailConfigSignature *sig;
 	
-	sig = mail_config_signature_add (html, script);
-	
-	if (prefs) {
-		GtkListStore *model;
-		GtkTreeIter iter;
-		GtkTreeSelection *selection;
-		char *name = NULL, *val;
-		
-		model = (GtkListStore *) gtk_tree_view_get_model (prefs->sig_list);
-		selection = gtk_tree_view_get_selection (prefs->sig_list);
-		if (sig->name) {
-			if (sig->script)
-				val = name = g_strconcat (sig->name, " ", _("[script]"), NULL);
-			else
-				val = sig->name;
-		} else {
-			if (sig->script)
-				val = _("Unnamed [script]");
-			else
-				val = _("[script]");
-		}
-		
-		gtk_list_store_append (model, &iter);
-		gtk_list_store_set (model, &iter, 0, val, 1, sig, -1);
-		gtk_tree_selection_select_iter (selection, &iter);
-		g_free (name);
-	}
-	
-	if (sig->filename && *sig->filename)
-		mail_signature_editor (sig);
+	sig = mail_config_signature_new (html, script);
+	mail_signature_editor (sig, parent, TRUE);
 	
 	return sig;
 }
 
 static void
-sig_delete (GtkWidget *widget, MailComposerPrefs *prefs)
+sig_delete_cb (GtkWidget *widget, MailComposerPrefs *prefs)
 {
 	MailConfigSignature *sig;
 	GtkTreeModel *model;
 	GtkTreeSelection *selection;
 	GtkTreeIter iter;
-
+	
 	selection = gtk_tree_view_get_selection (prefs->sig_list);
 	if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
 		gtk_tree_model_get (model, &iter, 1, &sig, -1);
@@ -282,15 +259,19 @@ sig_delete (GtkWidget *widget, MailComposerPrefs *prefs)
 }
 
 static void
-sig_add (GtkWidget *widget, MailComposerPrefs *prefs)
+sig_add_cb (GtkWidget *widget, MailComposerPrefs *prefs)
 {
 	GConfClient *gconf;
 	gboolean send_html;
+	GtkWidget *parent;
 	
 	gconf = gconf_client_get_default ();
 	send_html = gconf_client_get_bool (gconf, "/apps/evolution/mail/composer/send_html", NULL);
 	
-	mail_composer_prefs_new_signature (prefs, send_html, NULL);
+	parent = gtk_widget_get_toplevel ((GtkWidget *) prefs);
+	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
+	
+	mail_composer_prefs_new_signature ((GtkWindow *) parent, send_html, NULL);
 }
 
 static void
@@ -309,10 +290,14 @@ sig_add_script_response (GtkWidget *widget, int button, MailComposerPrefs *prefs
 		if (script && *script) {
 			struct stat st;
 			
-			if (!stat (script, &st) && S_ISREG (st.st_mode) && (st.st_mode & (S_IXOTH | S_IXGRP | S_IXUSR))) {
+			if (!stat (script, &st) && S_ISREG (st.st_mode) && access (script, X_OK) == 0) {
 				MailConfigSignature *sig;
+				GtkWidget *parent;
 				
-				sig = mail_composer_prefs_new_signature (prefs, TRUE, script);
+				parent = gtk_widget_get_toplevel ((GtkWidget *) prefs);
+				parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
+				
+				sig = mail_composer_prefs_new_signature ((GtkWindow *) parent, TRUE, script);
 				mail_config_signature_set_name (sig, name);
 				gtk_widget_hide (prefs->sig_script_dialog);
 				
@@ -322,8 +307,7 @@ sig_add_script_response (GtkWidget *widget, int button, MailComposerPrefs *prefs
 		
 		dialog = gtk_message_dialog_new (GTK_WINDOW (prefs->sig_script_dialog),
 						 GTK_DIALOG_DESTROY_WITH_PARENT,
-						 GTK_MESSAGE_ERROR,
-						 GTK_BUTTONS_CLOSE,
+						 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
 						 "%s", _("You must specify a valid script name."));
 		
 		gtk_dialog_run ((GtkDialog *) dialog);
@@ -334,7 +318,7 @@ sig_add_script_response (GtkWidget *widget, int button, MailComposerPrefs *prefs
 }
 
 static void
-sig_add_script (GtkWidget *widget, MailComposerPrefs *prefs)
+sig_add_script_cb (GtkWidget *widget, MailComposerPrefs *prefs)
 {
 	GtkWidget *entry;
 	
@@ -346,19 +330,19 @@ sig_add_script (GtkWidget *widget, MailComposerPrefs *prefs)
 }
 
 static void
-sig_selection_changed(GtkTreeSelection *selection, MailComposerPrefs *prefs)
+sig_selection_changed (GtkTreeSelection *selection, MailComposerPrefs *prefs)
 {
+	MailConfigSignature *sig;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
-	MailConfigSignature *sig;
 	int state;
-
+	
 	state = gtk_tree_selection_get_selected (selection, &model, &iter);
 	if (state) {
 		gtk_tree_model_get (model, &iter, 1, &sig, -1);
 		sig_load_preview (prefs, sig);
 	}
-
+	
 	gtk_widget_set_sensitive ((GtkWidget *) prefs->sig_delete, state);
 	gtk_widget_set_sensitive ((GtkWidget *) prefs->sig_edit, state);
 }
@@ -418,16 +402,23 @@ url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle)
 static void
 sig_event_client (MailConfigSigEvent event, MailConfigSignature *sig, MailComposerPrefs *prefs)
 {
-	GtkTreeIter iter;
-	char path[16];
-	GtkTreeModel *model;
 	MailConfigSignature *current;
 	GtkTreeSelection *selection;
-
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	char path[16];
+	
 	switch (event) {
+	case MAIL_CONFIG_SIG_EVENT_ADDED:
+		d(printf ("signature ADDED\n"));
+		
+		model = gtk_tree_view_get_model (prefs->sig_list);
+		gtk_list_store_append ((GtkListStore *) model, &iter);
+		gtk_list_store_set ((GtkListStore *) model, &iter, 0, sig->name, 1, sig, -1);
+		break;
 	case MAIL_CONFIG_SIG_EVENT_NAME_CHANGED:
-		d(printf ("accounts NAME CHANGED\n"));
-
+		d(printf ("signature NAME CHANGED\n"));
+		
 		/* this is one bizarro interface */
 		model = gtk_tree_view_get_model (prefs->sig_list);
 		sprintf (path, "%d", sig->id);
@@ -444,7 +435,7 @@ sig_event_client (MailConfigSigEvent event, MailConfigSignature *sig, MailCompos
 		}
 		break;
 	case MAIL_CONFIG_SIG_EVENT_CONTENT_CHANGED:
-		d(printf ("accounts CONTENT CHANGED\n"));
+		d(printf ("signature CONTENT CHANGED\n"));
 		selection = gtk_tree_view_get_selection (prefs->sig_list);
 		if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
 			gtk_tree_model_get (model, &iter, 1, &current, -1);
@@ -859,25 +850,24 @@ mail_composer_prefs_construct (MailComposerPrefs *prefs)
 	/* Signatures */
 	dialog = (GtkDialog *) gtk_dialog_new ();
 	prefs->sig_script_dialog = (GtkWidget *) dialog;
-	gtk_dialog_add_buttons (dialog,
-				GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
-				GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
-				NULL);
+	gtk_dialog_add_buttons (dialog, GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
+				GTK_STOCK_OK, GTK_RESPONSE_ACCEPT, NULL);
 	gtk_window_set_title ((GtkWindow *) dialog, _("Add script signature"));
 	g_signal_connect (dialog, "response", G_CALLBACK (sig_add_script_response), prefs);
 	widget = glade_xml_get_widget (prefs->sig_script_gui, "vbox_add_script_signature");
 	gtk_box_pack_start_defaults ((GtkBox *) dialog->vbox, widget);
 	
 	prefs->sig_add = GTK_BUTTON (glade_xml_get_widget (gui, "cmdSignatureAdd"));
-	g_signal_connect (prefs->sig_add, "clicked", G_CALLBACK (sig_add), prefs);
+	g_signal_connect (prefs->sig_add, "clicked", G_CALLBACK (sig_add_cb), prefs);
 	
-	glade_xml_signal_connect_data (gui, "cmdSignatureAddScriptClicked", G_CALLBACK(sig_add_script), prefs);
+	glade_xml_signal_connect_data (gui, "cmdSignatureAddScriptClicked",
+				       G_CALLBACK (sig_add_script_cb), prefs);
 	
 	prefs->sig_edit = GTK_BUTTON (glade_xml_get_widget (gui, "cmdSignatureEdit"));
-	g_signal_connect (prefs->sig_edit, "clicked", G_CALLBACK (sig_edit), prefs);
+	g_signal_connect (prefs->sig_edit, "clicked", G_CALLBACK (sig_edit_cb), prefs);
 	
 	prefs->sig_delete = GTK_BUTTON (glade_xml_get_widget (gui, "cmdSignatureDelete"));
-	g_signal_connect (prefs->sig_delete, "clicked", G_CALLBACK (sig_delete), prefs);
+	g_signal_connect (prefs->sig_delete, "clicked", G_CALLBACK (sig_delete_cb), prefs);
 	
 	prefs->sig_list = GTK_TREE_VIEW (glade_xml_get_widget (gui, "clistSignatures"));
 	model = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_POINTER);
