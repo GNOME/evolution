@@ -205,8 +205,8 @@
 		  <property name="right_attach">2</property>
 		  <property name="top_attach">4</property>
 		  <property name="bottom_attach">5</property>
-		  <property name="x_options">fill</property>
-		  <property name="y_options">fill</property>
+		  <property name="x_options">expand|shrink|fill</property>
+		  <property name="y_options">expand|shrink|fill</property>
 		</packing>
 	      </child>
 
