@@ -47,7 +47,7 @@ struct ETreeSelectionModelPriv {
 
 	GHashTable *paths;
 	ETreePath cursor_path;
-	ETreePath end_path;
+	ETreePath start_path;
 	gint cursor_col;
 	gchar *cursor_save_id;
 
@@ -74,7 +74,7 @@ static void
 clear_selection (ETreeSelectionModel *etsm)
 {
 	g_hash_table_destroy (etsm->priv->paths);
-	etsm->priv->paths = g_hash_table_new (NULL, NULL);;
+	etsm->priv->paths = g_hash_table_new (NULL, NULL);
 }
 
 static void
@@ -95,6 +95,7 @@ select_single_path (ETreeSelectionModel *etsm, ETreePath path)
 	clear_selection (etsm);
 	change_one_path(etsm, path, TRUE);
 	etsm->priv->cursor_path = path;
+	etsm->priv->start_path = NULL;
 }
 
 static void
@@ -516,6 +517,7 @@ etsm_invert_selection (ESelectionModel *selection)
 
 	etsm->priv->cursor_col = -1;
 	etsm->priv->cursor_path = NULL;
+	etsm->priv->start_path = NULL;
 	e_selection_model_selection_changed(E_SELECTION_MODEL(etsm));
 	e_selection_model_cursor_changed(E_SELECTION_MODEL(etsm), -1, -1);
 }
@@ -595,6 +597,7 @@ etsm_toggle_single_row (ESelectionModel *selection, gint row)
 	else
 		g_hash_table_insert (etsm->priv->paths, path, path);
 
+	etsm->priv->start_path = NULL;
 	e_selection_model_selection_changed(E_SELECTION_MODEL(etsm));
 }
 
@@ -602,13 +605,13 @@ static void
 etsm_real_move_selection_end (ETreeSelectionModel *etsm, gint row)
 {
 	ETreePath end_path = e_tree_table_adapter_node_at_row (etsm->priv->etta, row);
-	gint cursor;
+	gint start;
 
 	g_return_if_fail (end_path);
 
-	cursor = e_tree_table_adapter_row_of_node(etsm->priv->etta, etsm->priv->cursor_path);
+	start = e_tree_table_adapter_row_of_node(etsm->priv->etta, etsm->priv->start_path);
 	clear_selection (etsm);
-	select_range (etsm, cursor, row);
+	select_range (etsm, start, row);
 }
 
 static void
@@ -629,6 +632,8 @@ etsm_set_selection_end (ESelectionModel *selection, gint row)
 
 	g_return_if_fail (etsm->priv->cursor_path);
 
+	if (!etsm->priv->start_path)
+		etsm->priv->start_path = etsm->priv->cursor_path;
 	etsm_real_move_selection_end(etsm, row);
 	e_selection_model_selection_changed(E_SELECTION_MODEL(etsm));
 }
@@ -709,6 +714,7 @@ e_tree_selection_model_init (ETreeSelectionModel *etsm)
 	priv->paths                           = g_hash_table_new (NULL, NULL);
 
 	priv->cursor_path                     = NULL;
+	priv->start_path                      = NULL;
 	priv->cursor_col                      = -1;
 	priv->cursor_save_id		      = NULL;
 
