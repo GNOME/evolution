@@ -12,8 +12,7 @@
   <sect1 id="importing-mail-and-settings">
     <title>Importing Your Old Email and Settings</title>
     <para>
-
-      <application>Evolution</application> allows you to import your old
+      <application>Evolution</application> allows you to import old
       email and data so that you don't need to worry about losing your
       old information.
     </para>
@@ -27,7 +26,7 @@
             <term>VCard (.vcf, gcrd):</term>
             <listitem>
               <para>
-                The addressbook format used by GNOME, KDE, and
+                The addressbook format used by the GNOME, KDE, and
                 many other contact management applications. You
                 should be able to export to VCard format from any
                 address book application.
@@ -74,16 +73,12 @@
         <orderedlist numeration="arabic">
           <listitem>
             <para>
-              Click <menuchoice>
-		<guimenu>File</guimenu>
-		<guimenuitem>Import</guimenuitem>
-	      </menuchoice>.
+              Click <menuchoice><guimenu>File</guimenu><guimenuitem>Import</guimenuitem></menuchoice>.
             </para>
           </listitem>
           <listitem>
             <para>
-              Click <guibutton>Next</guibutton> after reading the
-              Welcome screen.
+              Click <guibutton>Next</guibutton> after reading the Welcome screen.
             </para>
           </listitem>
           <listitem>
@@ -93,8 +88,7 @@
           </listitem>
           <listitem>
             <para>
-              Find the file that you wish to import into
-              <application>Evolution</application>.
+              Find the file that you wish to import into <application>Evolution</application>.
             </para>
           </listitem>
           <listitem>
@@ -118,11 +112,7 @@
         <orderedlist numeration="arabic">
           <listitem>
             <para>
-              Click 
-	      <menuchoice>
-		<guimenu>File</guimenu>
-		<guimenuitem>Import</guimenuitem>
-	      </menuchoice>.
+              Click <menuchoice><guimenu>File</guimenu><guimenuitem>Import</guimenuitem></menuchoice>.
             </para>
           </listitem>
           <listitem>
@@ -137,38 +127,34 @@
           </listitem>
           <listitem>
             <para>
-              The left-most column shows the application from which
-              your information will be imported from.  Then, select
+              The left-most column shows the application which your
+              information will be imported from.  You then select
               checkboxes on each component to import different
               properties of each application.
             </para>
           </listitem>
           <listitem>
             <para>
-              Click <guibutton>Next</guibutton>.
+              Click <guibutton>Next</guibutton>
             </para>
           </listitem>
           <listitem>
             <para>
-              Click <guibutton>Import</guibutton>.
+              Click <guibutton>Import</guibutton>
             </para>
           </listitem>
         </orderedlist>
       </para>
+
       <para>
 	<note>
 	  <title>Microsoft Outlook and Outlook Express Users</title>
 	  <para>
 	    Microsoft Outlook, and versions of Outlook Express after
-	    version 4, use proprietary formats that
-	    <application>Ximian Evolution</application> cannot read or
-	    import.  For contacts, you may wish to consider using
-	    OutPort, a third-party conversion tool.  Ximian does not
-	    support OutPort but you can find more information about it
-	    at <ulink
-	    url="http://www.cyberus.ca/~phoenix/outport/">the Outport
-	    homepage.</ulink> For email, there is a more simple
-	    workaround:
+	    version 4, use proprietary formats that <application>Ximian
+	      Evolution</application> cannot read or import.  For contacts,
+	    you may have to email them to yourself and import them that
+	    way.  For email, there is a simpler workaround:
 	    <orderedlist numeration="arabic">
 	      
 	      <listitem>
@@ -190,7 +176,7 @@
 		<para>
 		  Use the <application>Ximian Evolution</application> import
 		  tool to import the files.  There's more information about
-		  why this works, and how, at the <ulink url="http://support.ximian.com">Ximian support website</ulink>.
+		  why this works, and how, at the Ximian support website.
 		</para>
 	      </listitem>
 	    </orderedlist>
@@ -207,6 +193,7 @@
 	    the messages in your Trash folders.
 	  </para>
 	</note>     
+	
       </para>
       
     </sect2>
@@ -454,6 +441,18 @@
 	person with a pile of envelopes.
       </para>
 
+      
+	  <tip id="easy-filter">
+	      <title>Quick Filter Creation</title>
+	      <para>
+		There is an easy shortcut for fast filter or vFolder
+                creation. Right-click on the message in the message
+                list, and select one of the items under the
+                <guimenuitem>Create Rule from Message</guimenuitem>
+                submenu.
+	      </para>
+	    </tip>
+
     <sect2 id="usage-mail-org-filters-new">
       <title>Making New Filters</title>
       <para>
@@ -511,8 +510,25 @@
 		    expression you write in the Scheme language, used to
 		    define filters in <application>Ximian Evolution</application>.
 		  </para>
+
+<para>
+
+      <note id="lots-of-filters">
+        <title>What if Multiple Filters Match One Message?</title>
+         <para>
+            If you have several filters that match a single message,
+            they will all be applied to the message, in order, unless
+            one of the filters has the action <guibutton>Stop
+            Processing</guibutton>. If you use that action in a
+            filter, the messages that it affects will not be touched
+            by other filters.
+         </para>
+      </note>
+</para>
 		</listitem>
-		
+	
+
+	
 		<listitem><para> Date sent - Filter messages according to the date on
 		    which they were sent: First, choose the conditions you
 		    want a message to meet &mdash; <guilabel>before</guilabel>
@@ -525,11 +541,11 @@
 		    looking for messages less than two days old.
 		  </para></listitem>
 		
-		<listitem><para> Date Received - This works the same
-		    way as the <guilabel>Date Sent</guilabel> option,
-		    except that it compares the time you got the
-		    message with the dates you specify.
-		    </para></listitem>
+		<listitem><para>
+		    Date Received - This works the same way as the <guilabel>Date Sent</guilabel> 
+		    option, except that it compares the time you got the message 
+		    with the dates you specify.
+		  </para></listitem>
 		
 		<listitem><para>
 		    Score - Emails have a standard priority range from -3 (least
@@ -655,17 +671,8 @@
 	  <listitem>
 	    <para>
 	      Set Status - If you want to add multiple actions for this filter, press
-	      <guibutton>Add filter</guibutton> and repeat the previous step.
+	      <guibutton>Add action</guibutton> and repeat the previous step.
 	    </para>
-            <note>
-              <para>
-                If you wish to set status while moving an email to a
-                different folder at the same time, you will need to
-                tell <application>Ximian Evolution</application> to
-                set status before you move the message to another
-                folder.
-              </para>
-            </note>
 	  </listitem>
 	  <listitem>
 	    <para>
@@ -674,6 +681,7 @@
 	  </listitem>
 	</orderedlist>
       </para>
+      
       <note id="when-filters-go-wrong">
         <title>When Are Filters Applied?</title>
          <para>
@@ -682,11 +690,19 @@
            time you check for mail.
         </para>
         <para>
-           If you use an IMAP or Microsoft Exchange server and keep
-           your mail on the server, filters are applied to the INBOX
-           when you open it. In some cases, you will see a number of
-           unread messages in the INBOX, click the INBOX, and then
-           have the messages move elsewhere as they are filtered out.
+           If you store your mail on the mail server and check your
+           mail with IMAP, filters are applied to the INBOX when you
+           open it. In some cases, you will see a number of unread
+           messages in the INBOX, click the INBOX, and then have the
+           messages move elsewhere as they are filtered out.
+         </para>
+         <para>
+           If you use Ximian Connector to store your mail on an
+           Exchange server, filters are not applied until you open
+           your INBOX folder and select
+           <menuchoice><guimenu>Actions</guimenu><guimenuitem>Apply
+           Filters</guimenuitem></menuchoice> or press
+           <keycombo><keycap>Ctrl</keycap><keycap>Y</keycap></keycombo>
          </para>
       </note>
       <example id="filter-example">
@@ -700,6 +716,8 @@
            However, if you filter out all the mail with that header,
            you'll catch a lot of the mail you don't want to get.
          </para>
+
+
          <para>
            To catch them and automatically mark them for deletion, do
            the following:

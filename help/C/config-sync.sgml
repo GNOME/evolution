@@ -23,7 +23,12 @@
        Center</application> by selecting
        <menuchoice><guimenu>System</guimenu><guimenuitem>Settings</guimenuitem></menuchoice>,
        and make sure that <application>Pilot Link</application> is
-       properly configured.
+       properly configured. You will need to make sure that you have
+       read and write permissions on the device, which is normally
+       /dev/pilot. If that does not work, check /dev/ttyS0 if you have
+       a serial connection, or /dev/ttyUSB0 for a USB connection. You
+       can do this by becoming root and running the command:
+       <userinput>chmod 777 /dev/ttyUSB0</userinput>.
     </para>
     <para>
         Once your computer and your Palm-OS device are talking happily
