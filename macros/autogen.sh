@@ -71,7 +71,7 @@ esac
 for coin in `find $srcdir -name configure.in -print`
 do 
   dr=`dirname $coin`
-  if test -f $i/NO-AUTO-GEN; then
+  if test -f $coin/NO-AUTO-GEN; then
     echo skipping $dr -- flagged as no auto-gen
   else
     echo processing $dr
@@ -90,11 +90,11 @@ do
 	  : do nothing -- we still have an old unmodified configure.in
 	else
 	  echo "Creating $d4/aclocal.m4 ..."
-	  test -e $dr/aclocal.m4 || touch $dr/aclocal.m4
+	  test -r $dr/aclocal.m4 || touch $dr/aclocal.m4
 	  echo "Running gettextize...  Ignore non-fatal messages."
 	  echo "no" | gettextize --force --copy
 	  echo "Making $dr/aclocal.m4 writable ..."
-	  test -e $dr/aclocal.m4 && chmod u+w $dr/aclocal.m4
+	  test -r $dr/aclocal.m4 && chmod u+w $dr/aclocal.m4
         fi
       fi
       if grep "^AM_PROG_LIBTOOL" configure.in >/dev/null; then
