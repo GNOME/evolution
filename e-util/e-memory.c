@@ -427,6 +427,16 @@ void *e_mempool_alloc(MemPool *pool, int size)
 	}
 }
 
+char *e_mempool_strdup(EMemPool *pool, const char *str)
+{
+	char *out;
+
+	out = e_mempool_alloc(pool, strlen(str));
+	strcpy(out, str);
+
+	return out;
+}
+
 /**
  * e_mempool_flush:
  * @pool: 

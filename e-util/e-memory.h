@@ -46,6 +46,7 @@ typedef enum {
 
 EMemPool *e_mempool_new(int blocksize, int threshold, EMemPoolFlags flags);
 void *e_mempool_alloc(EMemPool *pool, int size);
+char *e_mempool_strdup(EMemPool *pool, const char *str);
 void e_mempool_flush(EMemPool *pool, int freeall);
 void e_mempool_destroy(EMemPool *pool);
 

@@ -2,6 +2,7 @@
 
 	* e-memory.c (e_memchunk_alloc0): New function to allocate a
 	zero'd out chunk.
+	(e_mempool_strdup): New function to strdup into a mempool.
 
 2000-11-20  Not Zed  <NotZed@HelixCode.com>
 
