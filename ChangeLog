@@ -1,3 +1,7 @@
+2001-11-13  JP Rosevear  <jpr@ximian.com>
+
+	* configure.in: restore cflags and ldflags properly
+
 2001-11-12  JP Rosevear  <jpr@ximian.com>
 
 	* configure.in: save the ldflags properly

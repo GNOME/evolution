@@ -681,8 +681,8 @@ int main (int argc, char **argv)
 }
 ], ac_cv_pilot_link_utf8=yes, ac_cv_pilot_link_utf8=no, ac_cv_pilot_link_utf8=no))
 
-	CFLAGS="$save_CFLAGS"
-	LDFLAGS="$save_LDFLAGS"
+	CFLAGS="$CFLAGS_save"
+	LDFLAGS="$LDFLAGS_save"
 
 	if test "$ac_cv_pilot_link_utf8" = no; then
 		AC_MSG_ERROR(evolution requires pilot-link to have working UTF-8 conversion routines)
