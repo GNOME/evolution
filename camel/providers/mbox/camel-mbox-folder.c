@@ -332,7 +332,7 @@ mbox_append_message (CamelFolder *folder, CamelMimeMessage *message, guint32 fla
 	/* assign a new x-evolution header/uid */
 	camel_medium_remove_header (CAMEL_MEDIUM (message), "X-Evolution");
 	uid = camel_folder_summary_next_uid (CAMEL_FOLDER_SUMMARY (mbox_folder->summary));
-	xev = g_strdup_printf ("%08x-%08x", uid, flags);
+	xev = g_strdup_printf ("%08x-%04x", uid, flags);
 	camel_medium_add_header (CAMEL_MEDIUM (message), "X-Evolution", xev);
 	g_print ("%s -- %s\n", __FUNCTION__, xev);
 	g_free (xev);
