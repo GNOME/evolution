@@ -1,5 +1,10 @@
 2000-05-30  Christopher James Lahey  <clahey@helixcode.com>
 
+	* gui/component/alphabet.glade: Added a bit of space around the
+	alphabet bar.
+
+2000-05-30  Christopher James Lahey  <clahey@helixcode.com>
+
 	* gui/component/Makefile.am: Added alphabet.glade and
 	alphabet.glade.h.
 

@@ -42,6 +42,7 @@
     <widget>
       <class>GtkViewport</class>
       <name>viewport1</name>
+      <border_width>4</border_width>
       <shadow_type>GTK_SHADOW_NONE</shadow_type>
 
       <widget>
@@ -49,11 +50,11 @@
 	<name>vbox2</name>
 	<width>27</width>
 	<homogeneous>False</homogeneous>
-	<spacing>0</spacing>
+	<spacing>4</spacing>
 
 	<widget>
 	  <class>GtkButton</class>
-	  <name>button-1</name>
+	  <name>button-123</name>
 	  <can_focus>True</can_focus>
 	  <label>123</label>
 	  <child>
