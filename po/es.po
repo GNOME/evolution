@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-04-24 21:35+0200\n"
-"PO-Revision-Date: 2004-04-24 21:41+0200\n"
+"PO-Revision-Date: 2004-04-24 21:59+0200\n"
 "Last-Translator: Francisco Javier F. Serrador <serrador@cvs.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -493,7 +493,7 @@ msgstr ""
 "El seleccionar esta opción significa que su servidor no soporta ni SSL ni "
 "TLS. Esto\n"
 "significa que su conexión será insegura y que usted será vulnerable a fallos "
-"de seguridad."
+"de seguridad. "
 
 #: addressbook/gui/component/ldap-config.glade.h:41
 msgid ""
@@ -503,7 +503,7 @@ msgid ""
 msgstr ""
 "Seleccionando esta opción se le permitirá cambiar la configuración "
 "predeterminada de Evolution para consultas LDAP\n"
-"y para crear y editar contactos."
+"y para crear y editar contactos. "
 
 #: addressbook/gui/component/ldap-config.glade.h:43
 msgid ""
@@ -630,16 +630,17 @@ msgid ""
 "list.\n"
 "It is for display purposes only. "
 msgstr ""
-"Este nombre será usado para identificar este servidor.\n"
-"Es sólo para poder mostrarlo en pantalla."
+"Este nombre que identificará este servidor en la lista de carpetas "
+"de Evolution.\n"
+"Es sólo para poder mostrarlo en pantalla. "
 
 #: addressbook/gui/component/ldap-config.glade.h:73
 msgid ""
 "This is the name that will appear in your Evolution folder list. It is for "
 "display purposes only. "
 msgstr ""
-"Este es el nombre aparecerá en su lista de carpetas de Evolution.Es sólo "
-"para poder mostrarlo en pantalla."
+"Este es el nombre aparecerá en su lista de carpetas de Evolution. Es sólo "
+"para poder mostrarlo en pantalla. "
 
 #: addressbook/gui/component/ldap-config.glade.h:74
 msgid ""
@@ -907,7 +908,7 @@ msgstr "Departamento:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:25
 msgid "Free/Busy:"
-msgstr "URL de _disponibilidad:"
+msgstr "URL de disponibilidad:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:26
 msgid "Full _Name..."
@@ -974,7 +975,7 @@ msgstr "Estado/Provincia:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:41
 msgid "Wants to receive HTML mail"
-msgstr "Quiere recibir el correo como _HTML"
+msgstr "Quiere recibir el correo como HTML"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:42
 msgid "Webcam:"
@@ -10549,7 +10550,7 @@ msgstr ""
 #: camel/providers/local/camel-spool-store.c:180
 #, c-format
 msgid "`%s' is not a mailbox file."
-msgstr "«%s» no es un archivo mailbox"
+msgstr "«%s» no es un archivo mailbox."
 
 #: camel/providers/local/camel-spool-store.c:197
 msgid "Store does not support an INBOX"
@@ -10677,7 +10678,7 @@ msgstr "No puede publicar mensajes NNTP mientras trabaja desconectado."
 
 #: camel/providers/nntp/camel-nntp-folder.c:487
 msgid "You cannot copy messages from a NNTP folder!"
-msgstr "No puede copiar mensajes desde una carpeta NNTP"
+msgstr "No puede copiar mensajes desde una carpeta NNTP."
 
 #: camel/providers/nntp/camel-nntp-grouplist.c:45
 msgid "Could not get group list from server."
@@ -10767,7 +10768,7 @@ msgid ""
 msgstr ""
 "No puede suscribirse a este grupo de noticias:\n"
 "\n"
-"el grupo de noticias no existe"
+"el grupo de noticias no existe."
 
 #: camel/providers/nntp/camel-nntp-store.c:792
 msgid "You cannot create a folder in a News store: subscribe instead."
@@ -11060,7 +11061,7 @@ msgstr "Acción de correo requerida en orden, completada"
 
 #: camel/providers/smtp/camel-smtp-transport.c:194
 msgid "User not local; will forward to <forward-path>"
-msgstr "El usuario no es local; lo reenviaré a <forward-path>"
+msgstr "El usuario no es local; se reenviará a <forward-path>"
 
 #: camel/providers/smtp/camel-smtp-transport.c:196
 msgid "Requested mail action not taken: mailbox unavailable"
@@ -11434,7 +11435,7 @@ msgid ""
 "account"
 msgstr ""
 "No se puede cifrar el mensaje saliente: no hay establecido un certificado de "
-"cifrado para la cuenta remitente."
+"cifrado para la cuenta remitente"
 
 #: composer/e-msg-composer.c:831
 #, c-format
@@ -11541,7 +11542,7 @@ msgstr "Auto-generado"
 
 #: composer/e-msg-composer.c:2156
 msgid "Signature:"
-msgstr "Firma"
+msgstr "Firma:"
 
 #: composer/e-msg-composer.c:2357
 #, c-format
@@ -11740,11 +11741,11 @@ msgstr "Recordar esta clave durante el resto de esta sesión"
 
 #: e-util/e-pilot-settings.c:93
 msgid "Sync Private Records:"
-msgstr "Sincronizando registros privados"
+msgstr "Sincr. de registros privados:"
 
 #: e-util/e-pilot-settings.c:102
 msgid "Sync Categories:"
-msgstr "Sincronizando categorías:"
+msgstr "Sincr. de categorías:"
 
 #. strptime format of a weekday, a date and a time,
 #. in 12-hour format, without seconds.
@@ -13628,7 +13629,7 @@ msgstr "Preguntar al mandar mensajes en HTML a contactos que no los quieren."
 
 #: mail/evolution-mail.schemas.in.in.h:58
 msgid "Prompt when user tries to send a message with no To or Cc recipients."
-msgstr "Preguntar al mandar mensajes que sin destinatarios Para o Cc"
+msgstr "Preguntar cuando el usuario intente enviar un mensaje sin destinatarios Para o Cc."
 
 #: mail/evolution-mail.schemas.in.in.h:59
 msgid "Prompt when user tries to send unwanted HTML"
@@ -13780,7 +13781,7 @@ msgstr "Usar sólo los tests de spam local."
 
 #: mail/evolution-mail.schemas.in.in.h:94
 msgid "Use only the local spam tests (no DNS)."
-msgstr "Usar sólo los tests de spam local (Sin DNS)"
+msgstr "Usar sólo los tests de spam local (sin DNS)."
 
 #: mail/evolution-mail.schemas.in.in.h:95
 msgid "Variable width font"
@@ -13832,7 +13833,7 @@ msgid ""
 "not contain In-Reply-To or References headers."
 msgstr ""
 "Indica si se debe o no volver al hilado de conversaciones por asuntos cuando "
-"los mensajes no contienen cabeceras In-Reply-To o References"
+"los mensajes no contienen cabeceras In-Reply-To o References."
 
 #: mail/evolution-mail.schemas.in.in.h:107
 msgid "port for starting user runned spamd"
@@ -14456,7 +14457,7 @@ msgstr "Comprueba si el correo entrante es spam"
 
 #: mail/mail-config.glade.h:56
 msgid "Color for _misspelled words:"
-msgstr "Color para las palabras _mal escritas"
+msgstr "Color para las palabras _mal escritas:"
 
 #: mail/mail-config.glade.h:57
 msgid "Colors"
@@ -14488,7 +14489,7 @@ msgstr "_Predeterminada"
 
 #: mail/mail-config.glade.h:67
 msgid "Default character e_ncoding:"
-msgstr "_Codificación de caracteres predeterminada: "
+msgstr "_Codificación de caracteres predeterminada:"
 
 #: mail/mail-config.glade.h:68
 msgid "Defaults"
@@ -14554,6 +14555,7 @@ msgstr "Correo en HTML"
 msgid "Headers"
 msgstr "Cabeceras"
 
+# Esta cadena debe permanecer así
 #: mail/mail-config.glade.h:87
 msgid "Highlight _quotations with"
 msgstr "_Resaltar texto citado con este color:"
@@ -14618,7 +14620,7 @@ msgstr "Citado"
 
 #: mail/mail-config.glade.h:113
 msgid "Re_member password"
-msgstr "Recordar contraseña"
+msgstr "_Recordar contraseña"
 
 #: mail/mail-config.glade.h:114
 msgid "Re_ply-To:"
@@ -14678,7 +14680,7 @@ msgstr "El ser_vidor requiere autenticación"
 
 #: mail/mail-config.glade.h:132
 msgid "Server _Type: "
-msgstr "_Tipo de servidor:"
+msgstr "_Tipo de servidor: "
 
 #: mail/mail-config.glade.h:133
 msgid "Si_gning certificate:"
@@ -14710,7 +14712,7 @@ msgstr "Tipografía del _terminal:"
 
 #: mail/mail-config.glade.h:140
 msgid "T_ype: "
-msgstr "_Tipo:"
+msgstr "_Tipo: "
 
 #: mail/mail-config.glade.h:141
 msgid ""
@@ -14718,9 +14720,9 @@ msgid ""
 "signature. The name you specify will be used\n"
 "for display purposes only. "
 msgstr ""
-"La salida de este script será usada como su\n"
-"firma. El nombre que especifique será usado\n"
-"únicamente para mostrarlo por pantalla."
+"La salida de este script se usará como su\n"
+"firma. El nombre que especifique se usará\n"
+"únicamente para mostrarlo por pantalla. "
 
 #: mail/mail-config.glade.h:144
 msgid ""
@@ -14764,7 +14766,7 @@ msgstr "_Añadir firma"
 
 #: mail/mail-config.glade.h:157
 msgid "_Always load images from the Internet"
-msgstr "Siempre cargar las imágenes desde Internet"
+msgstr "_Siempre cargar las imágenes desde Internet"
 
 #: mail/mail-config.glade.h:158
 msgid "_Digitally sign outgoing messages (by default)"
@@ -14834,6 +14836,7 @@ msgstr "U_sar conexión segura (SSL):"
 msgid "_Use the same fonts as other applications"
 msgstr "_Usar las mismas tipografías que en otras aplicaciones"
 
+# Esta traducción debe mantenerse así
 #: mail/mail-config.glade.h:180
 msgid "color"
 msgstr " "
@@ -15426,11 +15429,11 @@ msgstr "Anchura predeterminada del panel de la barra de atajos"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:5
 msgid "Default window height"
-msgstr "Altura predeterminada de la ventana:"
+msgstr "Altura predeterminada de la ventana"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:6
 msgid "Default window width"
-msgstr "Anchura predeterminada de la ventana:"
+msgstr "Anchura predeterminada de la ventana"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:7
 msgid "Evolution configuration version"
@@ -18130,7 +18133,7 @@ msgid ""
 "for the mnemonic accelerator key"
 msgstr ""
 "Si se establece, un subrayado en el texto indica que el siguiente carácter "
-"deberá ser usado como tecla mnemotécnica."
+"debería usarse para la combinación de teclas mnemotécnica"
 
 #: widgets/misc/e-expander.c:205
 msgid "Spacing"
