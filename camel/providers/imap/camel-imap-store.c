@@ -556,6 +556,7 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 		respbuf = camel_stream_buffer_read_line (stream);
 		if (!respbuf || !strncmp(respbuf, cmdid, strlen(cmdid)) ) {	
 			/* IMAP's last response starts with our command id */
+			fprintf(stderr, "received: %s\n", respbuf ? respbuf : "(null)");
 			break;
 		}
 

@@ -27,6 +27,8 @@
 
 #include <bonobo.h>
 
+#include "camel.h"
+
 #include "Evolution.h"
 #include "evolution-storage.h"
 
@@ -39,7 +41,7 @@
 #include "component-factory.h"
 
 static void create_vfolder_storage (EvolutionShellComponent *shell_component);
-/*static void create_imap_storage (EvolutionShellComponent *shell_component);*/
+static void create_imap_storage (EvolutionShellComponent *shell_component);
 
 #ifdef USING_OAF
 #define COMPONENT_FACTORY_ID "OAFIID:evolution-shell-component-factory:evolution-mail:0ea887d5-622b-4b8c-b525-18aa1cbe18a6"
@@ -83,8 +85,8 @@ create_view (EvolutionShellComponent *shell_component,
 	browsers = g_list_prepend (browsers, folder_browser_widget);
 
 	/* dum de dum, hack to let the folder browser know the storage its in */
-	gtk_object_set_data(GTK_OBJECT (folder_browser_widget), "e-storage",
-			    gtk_object_get_data(GTK_OBJECT (shell_component), "e-storage"));
+	gtk_object_set_data (GTK_OBJECT (folder_browser_widget), "e-storage",
+			     gtk_object_get_data(GTK_OBJECT (shell_component), "e-storage"));
 
 	*control_return = control;
 
@@ -104,9 +106,7 @@ create_folder (EvolutionShellComponent *shell_component,
 
 	CORBA_exception_init (&ev);
 
-	Evolution_ShellComponentListener_report_result (listener,
-							Evolution_ShellComponentListener_OK,
-							&ev);
+	Evolution_ShellComponentListener_report_result (listener, Evolution_ShellComponentListener_OK, &ev);
 
 	CORBA_exception_free (&ev);
 }
@@ -119,6 +119,7 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	g_print ("evolution-mail: Yeeeh! We have an owner!\n");	/* FIXME */
 
 	create_vfolder_storage (shell_component);
+	create_imap_storage (shell_component);
 }
 
 static void
@@ -245,28 +246,86 @@ create_vfolder_storage (EvolutionShellComponent *shell_component)
 	}
 }
 
-#if 0
 static void
 create_imap_storage (EvolutionShellComponent *shell_component)
 {
+	/* FIXME: KLUDGE! */
+	extern gchar *evolution_dir;
 	Evolution_Shell corba_shell;
 	EvolutionStorage *storage;
+	char *path, *source, *server, *p;
+	CamelStore *store;
+	CamelFolder *folder;
+	CamelException *ex;
+	GPtrArray *lsub;
+	int i, max;
+
+	path = g_strdup_printf ("=%s/config=/mail/source", evolution_dir);
+	source = gnome_config_get_string (path);
+	g_free (path);
+
+	if (strncasecmp (source, "imap://", 7))
+		return;
 	
 	corba_shell = evolution_shell_component_get_owner (shell_component);
 	if (corba_shell == CORBA_OBJECT_NIL) {
 		g_warning ("We have no shell!?");
 		return;
 	}
-    
-	storage = evolution_storage_new ("IMAP Folders");
+
+	if (!(server = strchr (source, '@')))
+		return;
+	server++;
+	for (p = server; *p && *p != '/'; p++);
+
+	server = g_strndup (server, (gint)(p - server));
+	
+	storage = evolution_storage_new (server);
+	g_free (server);
+
 	if (evolution_storage_register_on_shell (storage, corba_shell) != EVOLUTION_STORAGE_OK) {
 		g_warning ("Cannot register storage");
 		return;
 	}
 
 	/* save the storage for later */
-	gtk_object_set_data(GTK_OBJECT (shell_component), "e-storage", storage);
+	gtk_object_set_data (GTK_OBJECT (shell_component), "e-storage", storage);
+	
+	ex = camel_exception_new ();
+	
+	store = camel_session_get_store (session, source, ex);
+	if (!store) {
+		goto cleanup;
+	}
+	
+	camel_service_connect (CAMEL_SERVICE (store), ex);
+	if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
+		goto cleanup;
+	}
 
-	evolution_storage_new_folder (storage, "name", "mail", "some string or other", "description");
+	folder = camel_store_get_root_folder (store, ex);
+	if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
+		goto cleanup;
+	}
+
+	/* we need a way to set the namespace */
+	lsub = camel_folder_get_subfolder_names (folder, ex);
+
+	evolution_storage_new_folder (storage, "/INBOX", "mail", source, "description");
+
+	max = lsub->len;
+	fprintf (stderr, "\n************* We have %d folders\n\n", max + 1);
+	for (i = 0; i < max; i++) {
+		char *path;
+
+		path = g_strdup_printf ("/%s", (char *)lsub->pdata[i]);
+		g_print ("Adding %s\n", path);
+		evolution_storage_new_folder (storage, path, "mail", source, "description");
+	}
+
+ cleanup:
+	camel_exception_free (ex);
 }
-#endif
+
+
+

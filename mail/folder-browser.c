@@ -102,13 +102,19 @@ folder_browser_load_folder (FolderBrowser *fb, const char *name)
 
 	} else if (!strncmp(name, "imap:", 5)) {
 		/* uhm, I'm just guessing here - this code might be wrong */
-		fprintf(stderr, "\n*** name = %s ***\n\n", name);
+		fprintf (stderr, "\n****** name = %s ******\n\n", name);
 		store = camel_session_get_store (session, name, ex);
 		if (store) {
 			char *folder_name;
 
-			folder_name = name += 5;
-			new_folder = camel_store_get_folder (store, folder_name, TRUE, ex);
+			folder_name = strstr (name, "//");
+			if (folder_name) {
+				for (folder_name += 2; *folder_name && *folder_name != '/'; folder_name++);
+				if (*folder_name) {
+					folder_name++;
+					new_folder = camel_store_get_folder (store, folder_name, TRUE, ex);
+				}
+			}
 		}
 	} else if (!strncmp(name, "file:", 5)) {
 		/* Change "file:" to "mbox:". */

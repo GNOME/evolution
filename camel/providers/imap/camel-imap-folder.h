@@ -47,6 +47,7 @@ typedef struct {
 
 	CamelFolderSearch *search; /* used to run searches */
 	GPtrArray *summary;
+	gchar *namespace;
 	gint count;
 } CamelImapFolder;
 
@@ -61,6 +62,7 @@ typedef struct {
 
 /* public methods */
 CamelFolder *camel_imap_folder_new (CamelStore *parent, CamelException *ex);
+void camel_imap_folder_set_namespace (CamelFolder *folder, gchar *namespace);
 
 /* Standard Gtk function */
 GtkType camel_imap_folder_get_type (void);

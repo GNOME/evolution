@@ -1,3 +1,8 @@
+2000-06-20  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* component-factory.c (create_imap_storage): Now creates the IMAP
+	storage (listing subfolders and such)
+
 2000-06-19  Dan Winship  <danw@helixcode.com>
 
 	* mail-format.c (find_preferred_alternative): add an option to
