@@ -1030,12 +1030,22 @@ generate (iCalObject *ico, time_t reference, calendarfn cb, void *closure)
 	dt_end.tm_mon  = ref.tm_mon;
 	dt_end.tm_year = ref.tm_year;
 
+
+	if (ref.tm_isdst > dt_start.tm_isdst){
+		dt_start.tm_hour--;
+		dt_end.tm_hour--;
+	} else if (ref.tm_isdst < dt_start.tm_isdst){
+		dt_start.tm_hour++;
+		dt_end.tm_hour++;
+	}
+
 	s_t = mktime (&dt_start);
+
 	if (ico->exdate && is_date_in_list (ico->exdate, &dt_start))
 		return 1;
 	
 	e_t = mktime (&dt_end);
-	
+
 	if ((s_t == -1) || (e_t == -1)) {
 		g_warning ("Produced invalid dates!\n");
 		return 0;
@@ -1131,9 +1141,10 @@ ical_object_generate_events (iCalObject *ico, time_t start, time_t end, calendar
 
 			if (time_in_range (current, start, end) && recur_in_range (current, ico->recur)) {
 				/* Weekdays to recur on are specified as a bitmask */
-				if (ico->recur->weekday & (1 << tm->tm_wday))
+			  if (ico->recur->weekday & (1 << tm->tm_wday)) {
 					if (!generate (ico, current, cb, closure))
 						return;
+			  }
 			}
 
 			/* Advance by day for scanning the week or by interval at week end */

@@ -109,13 +109,24 @@ time_add_day (time_t time, int days)
 {
 	struct tm *tm = localtime (&time);
 	time_t new_time;
+	int dst_flag = tm->tm_isdst;
 
 	tm->tm_mday += days;
+
 	if ((new_time = mktime (tm)) == -1){
 		g_warning ("mktime could not handling adding a day with\n");
 		print_time_t (time);
 		return time;
 	}
+
+	if (dst_flag > tm->tm_isdst){
+		tm->tm_hour++;
+		new_time += 3600;
+	} else if (dst_flag < tm->tm_isdst){
+		tm->tm_hour--;
+		new_time -= 3600;
+	}
+
 	return new_time;
 }
 
@@ -306,27 +317,60 @@ time_t
 time_day_begin (time_t t)
 {
 	struct tm tm;
+	time_t temp = t - 43200;
+	int dstflag, dstflag2;
 	
+	tm = *localtime(&temp); /* one day */
+	dstflag = tm.tm_isdst;
+
 	tm = *localtime (&t);
-	tm.tm_hour = 0;
+	dstflag2 = tm.tm_isdst;
+
+	if (dstflag < dstflag2)
+		tm.tm_hour = 1;
+	else
+		tm.tm_hour = 0;
+
 	tm.tm_min  = 0;
 	tm.tm_sec  = 0;
+	
+	temp = mktime(&tm);
+	if (dstflag > dstflag2){
+		temp += 3600; 
+	}
 
-	return mktime (&tm);
+	return temp;
 }
 
 time_t
 time_day_end (time_t t)
 {
 	struct tm tm;
-	
+	time_t temp;
+	int dstflag, dstflag2;
+
+	t += 10800;
+	temp = t - 86400;
+
+	tm = *localtime(&temp); /* one day */
+	dstflag = tm.tm_isdst;
+
 	tm = *localtime (&t);
-	tm.tm_hour = 0;
+	dstflag2 = tm.tm_isdst;
+
+	if (dstflag < dstflag2)
+		tm.tm_hour = 23;
+	else {
+		tm.tm_mday++;
+		tm.tm_hour = 0;
+	}
 	tm.tm_min  = 0;
 	tm.tm_sec  = 0;
-	tm.tm_mday++;
 	
-	return mktime (&tm);
+	temp = mktime(&tm);
+	if(dstflag > dstflag2) {
+	}
+	return temp;
 }
 
 static char *

@@ -71,13 +71,14 @@ calendar_day_selected (GtkCalendar *calendar, GncalDayPanel *dpanel)
 {
 	gint y, m, d;
 	struct tm tm;
+	time_t time;
 
 	gtk_calendar_get_date (calendar, &y, &m, &d);
 
 	tm.tm_year = y - 1900;
 	tm.tm_mon  = m;
 	tm.tm_mday = d;
-	tm.tm_hour = 0;
+	tm.tm_hour = 5; /* for daylight savings time fix */
 	tm.tm_min  = 0;
 	tm.tm_sec  = 0;
 
@@ -233,7 +234,7 @@ gncal_day_panel_set (GncalDayPanel *dpanel, time_t start_of_day)
 	g_return_if_fail (dpanel != NULL);
 	g_return_if_fail (GNCAL_IS_DAY_PANEL (dpanel));
 
-	dpanel->start_of_day = time_day_begin (start_of_day);
+	dpanel->start_of_day = time_day_begin(start_of_day);
 	if (dpanel->fullday->lower == dpanel->start_of_day)
 		return;
 

@@ -401,6 +401,7 @@ assemble_event_list (iCalObject *obj, time_t start, time_t end, void *c)
 	GList **l = c;
 	
 	co = g_new (CalendarObject, 1);
+
 	co->ev_start = start;
 	co->ev_end   = end;
 	co->ico      = obj;

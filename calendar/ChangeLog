@@ -1,3 +1,8 @@
+1999-03-10  Craig A Soules (soules+@andrew.cmu.edu)
+
+	* timeutil.c, calendar.c, calobj.c, gncal-day-panel.c: Add support
+	for daylight time savings.
+
 1999-02-28  Martin Baulig  <martin@home-of-linux.org>
 
 	* gncal-full-day.c (recompute_motion): For DRAG_MOVE, DRAG_SIZE_TOP
