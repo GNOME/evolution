@@ -560,7 +560,7 @@ config_read (void)
 	
 	/* HTTP images */
 	config->http_mode = bonobo_config_get_long_with_default (config->db, 
-		"/Mail/Display/http_images", MAIL_CONFIG_HTTP_SOMETIMES, NULL);
+		"/Mail/Display/http_images", MAIL_CONFIG_HTTP_NEVER, NULL);
 	
 	/* Forwarding */
 	config->default_forward_style = bonobo_config_get_long_with_default (

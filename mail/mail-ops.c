@@ -403,10 +403,10 @@ mail_send_message(CamelMimeMessage *message, const char *destination, CamelFilte
 {
 	CamelMessageInfo *info;
 	CamelTransport *xport = NULL;
+	char *transport_url = NULL;
+	char *sent_folder_uri = NULL;
 	CamelFolder *folder;
-	const char *version, *header;
-	gchar *acct_header;
-	char *transport_url = NULL, *sent_folder_uri = NULL;
+	const char *version;
 	XEvolution *xev;
 	
 	if (SUB_VERSION[0] == '\0')
@@ -416,39 +416,36 @@ mail_send_message(CamelMimeMessage *message, const char *destination, CamelFilte
 	camel_medium_add_header (CAMEL_MEDIUM (message), "X-Mailer", version);
 	camel_mime_message_set_date (message, CAMEL_MESSAGE_DATE_CURRENT, 0);
 	
-	/* Get information about the account this was composed by. */
-	acct_header = g_strdup (camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Account"));
-	if (acct_header) {
+	xev = mail_tool_remove_xevolution_headers (message);
+	
+	if (xev->transport) {
+		transport_url = g_strstrip (g_strdup (xev->transport));
+	} else if (xev->account) {
 		const MailConfigAccount *account;
+		char *name;
 		
-		account = mail_config_get_account_by_name (acct_header);
-		if (account) {
+		name = g_strstrip (g_strdup (xev->account));
+		account = mail_config_get_account_by_name (name);
+		g_free (name);
+		
+		if (account && account->transport && account->transport->url)
 			transport_url = g_strdup (account->transport->url);
-			sent_folder_uri = g_strdup (account->sent_folder_uri);
-		}
 	}
 	
-	if (!transport_url) {
-		header = camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Transport");
-		if (header)
-			transport_url = g_strstrip (g_strdup (header));
-	}
-	
-	if (!sent_folder_uri) {
-		header = camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Fcc");
-		if (header)
-			sent_folder_uri = g_strstrip (g_strdup (header));
-	}
+	if (xev->fcc)
+		sent_folder_uri = g_strstrip (g_strdup (xev->fcc));
 	
 	xport = camel_session_get_transport (session, transport_url ? transport_url : destination, ex);
 	g_free (transport_url);
 	if (!xport) {
+		mail_tool_restore_xevolution_headers (message, xev);
+		mail_tool_destroy_xevolution (xev);
 		g_free (sent_folder_uri);
 		return;
 	}
 	
-	xev = mail_tool_remove_xevolution_headers (message);
 	camel_transport_send (xport, CAMEL_MEDIUM (message), ex);
+	
 	mail_tool_restore_xevolution_headers (message, xev);
 	mail_tool_destroy_xevolution (xev);
 	
@@ -461,12 +458,6 @@ mail_send_message(CamelMimeMessage *message, const char *destination, CamelFilte
 	/* post-process */
 	info = camel_message_info_new ();
 	info->flags = CAMEL_MESSAGE_SEEN;
-	
-	/* Re-attach account header */
-	if (acct_header) {
-		camel_medium_add_header (CAMEL_MEDIUM (message), "X-Evolution-Account", acct_header);
-		g_free (acct_header);
-	}
 	
 	if (driver) {
 		camel_filter_driver_filter_message (driver, message, info,
@@ -483,6 +474,8 @@ mail_send_message(CamelMimeMessage *message, const char *destination, CamelFilte
 			g_free (description);
 			
 			camel_message_info_free (info);
+			g_free (sent_folder_uri);
+			
 			return;
 		}
 	}

@@ -656,7 +656,10 @@ static void
 images_radio_toggled (GtkWidget *radio, gpointer data)
 {
 	MailAccountsDialog *dialog = data;
-
+	
+	if (!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (radio)))
+		return;
+	
 	if (radio == (GtkWidget *)dialog->images_always)
 		mail_config_set_http_mode (MAIL_CONFIG_HTTP_ALWAYS);
 	else if (radio == (GtkWidget *)dialog->images_sometimes)

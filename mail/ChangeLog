@@ -1,3 +1,11 @@
+2001-10-04  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-accounts.c (images_radio_toggled): Ignore the signal if the
+	radio button is not "on". This fixes bug #10532 because the on/off
+	signals don't always come in the off->on order.
+
+	* mail-ops.c (mail_send_message): Reduced some redundancy.
+
 2001-10-04  Dan Winship  <danw@ximian.com>
 
 	* mail-format.c (write_address): Fix so that an email address with
@@ -19,7 +27,8 @@
 
 2001-10-04  Jeffrey Stedfast  <fejj@ximian.com>
 
-	* mail-account-gui.c (mail_account_gui_save): Added some more NULL checks.
+	* mail-account-gui.c (mail_account_gui_save): Added some more NULL
+	checks.
 
 2001-10-04    <NotZed@Ximian.com>
 
