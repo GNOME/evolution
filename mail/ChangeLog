@@ -1,3 +1,8 @@
+2004-01-05  Radek Doulik  <rodo@ximian.com>
+
+	* em-junk-filter.c: add NULL at the end of argv for execvp (poited
+	out by Frank Solensky, thanks)
+
 2004-01-05  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-folder-browser.c (emfb_list_message_selected): Check that the

@@ -166,9 +166,10 @@ pipe_to_sa (CamelMimeMessage *msg, gchar *in, int argc, gchar **argv)
 static int
 em_junk_sa_test_spamd_running (gint port)
 {
-	static gchar *sac_args [3] = {
+	static gchar *sac_args [4] = {
 		"/bin/sh",
 		"-c",
+		NULL,
 		NULL
 	};
 	int retval;
@@ -186,10 +187,11 @@ static void
 em_junk_sa_test_spamd ()
 {
 	gint i, port = 7830;
-	static gchar *args [3] = {
+	static gchar *args [4] = {
 		"/bin/sh",
 		"-c",
-		"spamassassin --version"
+		"spamassassin --version",
+		NULL
 	};
 
 	if (pipe_to_sa (NULL, NULL, 3, args))
@@ -213,9 +215,10 @@ em_junk_sa_test_spamd ()
 		/* } */
 
 		if (!em_junk_sa_use_spamc) {
-			static gchar *sad_args [3] = {
+			static gchar *sad_args [4] = {
 				"/bin/sh",
 				"-c",
+				NULL,
 				NULL
 			};
 			gint i, port = 7830;
@@ -258,9 +261,10 @@ em_junk_sa_is_available ()
 static gboolean
 em_junk_sa_check_junk (CamelMimeMessage *msg)
 {
-	static gchar *args [3] = {
+	static gchar *args [4] = {
 		"/bin/sh",
 		"-c",
+		NULL,
 		NULL
 	};
 	gint retval;
@@ -293,14 +297,15 @@ em_junk_sa_check_junk (CamelMimeMessage *msg)
 static void
 em_junk_sa_report_junk (CamelMimeMessage *msg)
 {
-	static gchar *args [3] = {
+	static gchar *args [4] = {
 		"/bin/sh",
 		"-c",
 		"sa-learn"
 		" --no-rebuild"        /* do not rebuild db */
 		" --spam"              /* report junk */
 		" --single"            /* single message */
-		" --local"             /* local only */
+		" --local",            /* local only */
+		NULL
 	};
 
 	d(fprintf (stderr, "em_junk_sa_report_junk\n"));
@@ -312,14 +317,15 @@ em_junk_sa_report_junk (CamelMimeMessage *msg)
 static void
 em_junk_sa_report_notjunk (CamelMimeMessage *msg)
 {
-	static gchar *args [3] = {
+	static gchar *args [4] = {
 		"/bin/sh",
 		"-c",
 		"sa-learn"
 		" --no-rebuild"        /* do not rebuild db */
 		" --ham"               /* report notjunk */
 		" --single"            /* single message */
-		" --local"             /* local only */
+		" --local",            /* local only */
+		NULL
 	};
 
 	d(fprintf (stderr, "em_junk_sa_report_notjunk\n"));
@@ -331,12 +337,13 @@ em_junk_sa_report_notjunk (CamelMimeMessage *msg)
 static void
 em_junk_sa_commit_reports (void)
 {
-	static gchar *args [3] = {
+	static gchar *args [4] = {
 		"/bin/sh",
 		"-c",
 		"sa-learn"
 		" --rebuild"           /* do not rebuild db */
-		" --local"             /* local only */
+		" --local",            /* local only */
+		NULL
 	};
 
 	d(fprintf (stderr, "em_junk_sa_commit_reports\n");)
