@@ -387,8 +387,13 @@ iconv_t e_iconv_open(const char *oto, const char *ofrom)
 		cd(printf("using existing iconv converter '%s'\n", ic->conv));
 		ip = in->ip;
 		if (ip != (iconv_t)-1) {
+			/* work around some broken iconv implementations 
+			 * that die if the length arguments are NULL 
+			 */
+			size_t buggy_iconv = 0;
+
 			/* resets the converter */
-			iconv(ip, NULL, NULL, NULL, NULL);
+			iconv(ip, NULL, &buggy_iconv, NULL, &buggy_iconv);
 			in->busy = TRUE;
 			e_dlist_remove((EDListNode *)in);
 			e_dlist_addhead(&ic->open, (EDListNode *)in);
