@@ -110,7 +110,10 @@ make_match (EDestination *dest, const gchar *menu_form, double score)
 	match = e_completion_match_new (e_destination_get_name (dest), menu_form, score);
 
 	e_completion_match_set_text (match, e_destination_get_name (dest), menu_form);
-	match->sort_major = card ? floor (e_card_get_use_score (card)) : 0;
+
+	/* Since we sort low to high, we negate so that larger use scores will come first */
+	match->sort_major = card ? -floor (e_card_get_use_score (card)) : 0;
+
 	match->sort_minor = e_destination_get_email_num (dest);
 
 	match->user_data = dest;

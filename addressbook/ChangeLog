@@ -1,4 +1,9 @@
-2001-10-27  Jon Trowbridge  <trow@gnu.org>
+2001-10-27  Jon Trowbridge  <trow@ximian.com>
+
+	* gui/component/select-names/e-select-names-completion.c
+	(make_match): Doh!  We should be sorting our contacts so that the
+	most frequently used ones are at the top of the list, not the
+	bottom.
 
 	* backend/pas/pas-book.c (pas_book_check_queue): That should be a
 	bonobo_object_unref, not a gtk_object_unref.
