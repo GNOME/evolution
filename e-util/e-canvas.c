@@ -121,6 +121,8 @@ e_canvas_destroy (GtkObject *object)
 	ECanvas *canvas = E_CANVAS(object);
 	if (canvas->idle_id)
 		g_source_remove(canvas->idle_id);
+	if ((GTK_OBJECT_CLASS (parent_class))->destroy)
+		(*(GTK_OBJECT_CLASS (parent_class))->destroy) (object);
 }
 
 GtkWidget *

@@ -1,4 +1,9 @@
-2000-07-25  Peter Williams  <peterw@helixcode.com>
+2000-07-27  Peter Williams  <peterw@helixcode.com>
+
+	* e-canvas.c (e_canvas_destroy): Chain the
+	destroy handler.
+	
+2000-07-25  Peter Williams  <peterw@helixcode.com>	
 	
 	* e-canvas.c (emit_event): Don't bother with 
 	dereferencing the event pointer.
