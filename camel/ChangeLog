@@ -1,3 +1,31 @@
+2001-12-20  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-address.h: Change the prototype for camel_address_get_type
+	to return a CamelType (since internally this is what it returns
+	and also in case we decide to write a replacement for the current
+	CamelObject it'd be easier to drop in).
+
+	* camel-internet-address.h: Same but for
+	camel_internet_address_get_type()
+
+	* providers/smtp/camel-smtp-transport.c (smtp_send_to): Updated to
+	use a CamelAddress of recipients.
+	(smtp_send): Since smtp_send_to now takes a CamelAddress
+	recipients argument, our lives have been simplified and we can now
+	just concat To/Cc/Bcc into a recipients addr and send away.
+
+	* providers/sendmail/camel-sendmail-transport.c
+	(sendmail_send_to): Updated to use a CamelAddress of recipients.
+
+	* camel-transport.c (camel_transport_send_to): Now takes a
+	CamelAddress argument for the recipient list rather than a GList.
+
+2001-12-19  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/smtp/Makefile.am: Remove the providerdir variable.
+
+	* providers/sendmail/Makefile.am: Same.
+
 2001-12-17  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-charset-map.c (camel_charset_iso_to_windows): New function

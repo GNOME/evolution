@@ -52,7 +52,7 @@ struct _CamelAddressClass {
 	void  (*remove)		(CamelAddress *, int index);
 };
 
-guint		camel_address_get_type	(void);
+CamelType	camel_address_get_type	(void);
 CamelAddress   *camel_address_new	(void);
 CamelAddress   *camel_address_new_clone	(const CamelAddress *);
 int		camel_address_length	(CamelAddress *);

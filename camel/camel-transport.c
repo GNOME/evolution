@@ -132,7 +132,7 @@ camel_transport_send (CamelTransport *transport, CamelMedium *message,
  **/
 gboolean
 camel_transport_send_to (CamelTransport *transport, CamelMedium *message,
-			 GList *recipients, CamelException *ex)
+			 CamelAddress *recipients, CamelException *ex)
 {
 	gboolean sent;
 	

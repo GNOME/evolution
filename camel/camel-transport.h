@@ -59,9 +59,8 @@ typedef struct {
 	gboolean (*can_send) (CamelTransport *transport, CamelMedium *message);
 	gboolean (*send) (CamelTransport *transport, CamelMedium *message,
 			  CamelException *ex);
-	gboolean (*send_to) (CamelTransport *transport,
-			     CamelMedium *message, GList *recipients,
-			     CamelException *ex);
+	gboolean (*send_to) (CamelTransport *transport, CamelMedium *message,
+			     CamelAddress *recipients, CamelException *ex);
 } CamelTransportClass;
 
 
@@ -76,7 +75,7 @@ gboolean camel_transport_send (CamelTransport *transport,
 /* FIXME: This should use a camel-address */
 gboolean camel_transport_send_to (CamelTransport *transport,
 				  CamelMedium *message,
-				  GList *recipients,
+				  CamelAddress *recipients,
 				  CamelException *ex);
 
 /* Standard Camel function */

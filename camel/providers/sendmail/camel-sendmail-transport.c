@@ -45,7 +45,7 @@ static gboolean sendmail_can_send (CamelTransport *transport, CamelMedium *messa
 static gboolean sendmail_send (CamelTransport *transport, CamelMedium *message,
 			       CamelException *ex);
 static gboolean sendmail_send_to (CamelTransport *transport, CamelMedium *message,
-				  GList *recipients, CamelException *ex);
+				  CamelAddress *recipients, CamelException *ex);
 
 
 static void
@@ -198,37 +198,46 @@ get_from (CamelMedium *message, CamelException *ex)
 
 static gboolean
 sendmail_send_to (CamelTransport *transport, CamelMedium *message,
-		  GList *recipients, CamelException *ex)
+		  CamelAddress *recipients, CamelException *ex)
 {
-	GList *r;
-	const char *from, **argv;
-	int i, len;
+	const char *from, *addr, **argv;
 	gboolean status;
-
+	int i, len;
+	
 	from = get_from (message, ex);
 	if (!from)
 		return FALSE;
-
-	len = g_list_length (recipients);
+	
+	len = camel_address_length (recipients);
 	argv = g_malloc ((len + 6) * sizeof (char *));
 	argv[0] = "sendmail";
 	argv[1] = "-i";
 	argv[2] = "-f";
 	argv[3] = from;
 	argv[4] = "--";
-
-	for (i = 1, r = recipients; i <= len; i++, r = r->next)
-		argv[i + 4] = r->data;
-	argv[i + 4] = NULL;
-
+	
+	for (i = 0; i < len; i++) {
+		if (!camel_internet_address_get (CAMEL_INTERNET_ADDRESS (recipients), i, NULL, &addr)) {
+			camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
+					     _("Could not parse recipient list"));
+			g_free (argv);
+			return FALSE;
+		}
+		
+		argv[i + 5] = addr;
+	}
+	
+	argv[i + 5] = NULL;
+	
 	status = sendmail_send_internal (message, argv, ex);
 	g_free (argv);
+	
 	return status;
 }
 
 static gboolean
 sendmail_send (CamelTransport *transport, CamelMedium *message,
-       CamelException *ex)
+	       CamelException *ex)
 {
 	const char *argv[6] = { "sendmail", "-t", "-i", "-f", NULL, NULL };
 

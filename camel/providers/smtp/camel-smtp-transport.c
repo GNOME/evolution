@@ -69,7 +69,8 @@
 /* camel smtp transport class prototypes */
 static gboolean smtp_can_send (CamelTransport *transport, CamelMedium *message);
 static gboolean smtp_send (CamelTransport *transport, CamelMedium *message, CamelException *ex);
-static gboolean smtp_send_to (CamelTransport *transport, CamelMedium *message, GList *recipients, CamelException *ex);
+static gboolean smtp_send_to (CamelTransport *transport, CamelMedium *message,
+			      CamelAddress *recipients, CamelException *ex);
 
 /* support prototypes */
 static void smtp_construct (CamelService *service, CamelSession *session,
@@ -566,14 +567,13 @@ smtp_can_send (CamelTransport *transport, CamelMedium *message)
 
 static gboolean
 smtp_send_to (CamelTransport *transport, CamelMedium *message,
-	      GList *recipients, CamelException *ex)
+	      CamelAddress *recipients, CamelException *ex)
 {
 	CamelSmtpTransport *smtp_transport = CAMEL_SMTP_TRANSPORT (transport);
 	const CamelInternetAddress *cia;
-	char *recipient;
-	const char *addr;
 	gboolean has_8bit_parts;
-	GList *r;
+	const char *addr;
+	int i, len;
 	
 	cia = camel_mime_message_get_from (CAMEL_MIME_MESSAGE (message));
 	if (!cia) {
@@ -603,18 +603,24 @@ smtp_send_to (CamelTransport *transport, CamelMedium *message,
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Cannot send message: "
 					"no recipients defined."));
-		camel_operation_end(NULL);
+		camel_operation_end (NULL);
 		return FALSE;
 	}
 	
-	for (r = recipients; r; r = r->next) {
-		recipient = (char *) r->data;
-		if (!smtp_rcpt (smtp_transport, recipient, ex)) {
-			g_free (recipient);
+	len = camel_address_length (recipients);
+	cia = CAMEL_INTERNET_ADDRESS (recipients);
+	for (i = 0; i < len; i++) {
+		if (!camel_internet_address_get (cia, i, NULL, &addr)) {
+			camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
+					     _("Cannot send message: one or more invalid recipients"));
 			camel_operation_end (NULL);
 			return FALSE;
 		}
-		g_free (recipient);
+		
+		if (!smtp_rcpt (smtp_transport, addr, ex)) {
+			camel_operation_end (NULL);
+			return FALSE;
+		}
 	}
 	
 	/* passing in has_8bit_parts saves time as we don't have to
@@ -637,41 +643,23 @@ static gboolean
 smtp_send (CamelTransport *transport, CamelMedium *message, CamelException *ex)
 {
 	const CamelInternetAddress *to, *cc, *bcc;
-	GList *recipients = NULL;
-	guint index, len;
+	CamelInternetAddress *recipients = NULL;
+	gboolean status;
 	
 	to = camel_mime_message_get_recipients (CAMEL_MIME_MESSAGE (message), CAMEL_RECIPIENT_TYPE_TO);
 	cc = camel_mime_message_get_recipients (CAMEL_MIME_MESSAGE (message), CAMEL_RECIPIENT_TYPE_CC);
 	bcc = camel_mime_message_get_recipients (CAMEL_MIME_MESSAGE (message), CAMEL_RECIPIENT_TYPE_BCC);
 	
-	/* get all of the To addresses into our recipient list */
-	len = camel_address_length (CAMEL_ADDRESS (to));
-	for (index = 0; index < len; index++) {
-		const char *addr;
-		
-		if (camel_internet_address_get (to, index, NULL, &addr))
-			recipients = g_list_append (recipients, g_strdup (addr));
-	}
+	recipients = camel_internet_address_new ();
+	camel_address_cat (CAMEL_ADDRESS (recipients), CAMEL_ADDRESS (to));
+	camel_address_cat (CAMEL_ADDRESS (recipients), CAMEL_ADDRESS (cc));
+	camel_address_cat (CAMEL_ADDRESS (recipients), CAMEL_ADDRESS (bcc));
 	
-	/* get all of the Cc addresses into our recipient list */
-	len = camel_address_length (CAMEL_ADDRESS (cc));
-	for (index = 0; index < len; index++) {
-		const char *addr;
-		
-		if (camel_internet_address_get (cc, index, NULL, &addr))
-			recipients = g_list_append (recipients, g_strdup (addr));
-	}
+	status = smtp_send_to (transport, message, CAMEL_ADDRESS (recipients), ex);
 	
-	/* get all of the Bcc addresses into our recipient list */
-	len = camel_address_length (CAMEL_ADDRESS (bcc));
-	for (index = 0; index < len; index++) {
-		const char *addr;
-		
-		if (camel_internet_address_get (bcc, index, NULL, &addr))
-			recipients = g_list_append (recipients, g_strdup (addr));
-	}
+	camel_object_unref (CAMEL_OBJECT (recipients));
 	
-	return smtp_send_to (transport, message, recipients, ex);
+	return status;
 }
 
 static gboolean

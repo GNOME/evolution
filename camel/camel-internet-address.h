@@ -39,7 +39,7 @@ struct _CamelInternetAddressClass {
 	CamelAddressClass parent_class;
 };
 
-guint			camel_internet_address_get_type	(void);
+CamelType		camel_internet_address_get_type	(void);
 CamelInternetAddress   *camel_internet_address_new	(void);
 
 int			camel_internet_address_add	(CamelInternetAddress *, const char *, const char *);
