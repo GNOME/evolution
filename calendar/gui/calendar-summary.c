@@ -35,6 +35,9 @@
 #include <evolution-services/executive-summary-component.h>
 #include <evolution-services/executive-summary-html-view.h>
 
+#include <gnome-xml/parser.h>
+#include <gnome-xml/xmlmemory.h>
+
 #include "cal-util/cal-component.h"
 #include "cal-util/timeutil.h"
 #include "calendar-model.h"
@@ -44,8 +47,15 @@
 typedef struct {
 	ExecutiveSummaryComponent *component;
 	ExecutiveSummaryHtmlView *view;
+	BonoboPropertyControl *property_control;
 	CalClient *client;
 	gboolean cal_loaded;
+
+	GtkWidget *show_appointments;
+	GtkWidget *show_tasks;
+
+	gboolean appointments;
+	gboolean tasks;
 
 	char *title;
 	char *icon;
@@ -81,111 +91,123 @@ generate_html_summary (CalSummary *summary)
 	datestr = g_new (char, 256);
 	timeptr = localtime (&t);
 	strftime (datestr, 255, _("%A, %e %B %Y"), timeptr);
-	ret_html = g_strdup_printf ("<p align=\"center\">Appointments</p>"
-				    "<hr><b>%s</b><br><ul>", datestr);
+	ret_html = g_strdup_printf ("<b>%s</b>", datestr);
 	g_free (datestr);
 
-	uids = cal_client_get_objects_in_range (summary->client, 
-						CALOBJ_TYPE_EVENT, day_begin,
-						day_end);
-	for (l = uids; l; l = l->next){
-		CalComponent *comp;
-		CalComponentText text;
-		CalClientGetStatus status;
-		CalComponentDateTime start, end;
-		struct icaltimetype *end_time;
-		time_t start_t, end_t;
-		struct tm *start_tm, *end_tm;
-		char *start_str, *end_str;
-		char *uid;
-		char *tmp2;
-		
-		uid = l->data;
-		status = cal_client_get_object (summary->client, uid, &comp);
-		if (status != CAL_CLIENT_GET_SUCCESS)
-			continue;
-		
-		cal_component_get_summary (comp, &text);
-		cal_component_get_dtstart (comp, &start);
-		cal_component_get_dtend (comp, &end);
-
-		g_print ("text.value: %s\n", text.value);
-		end_time = end.value;
-
-		start_t = icaltime_as_timet (*start.value);
-
-		start_str = g_new (char, 20);
-		start_tm = localtime (&start_t);
-		strftime (start_str, 19, _("%I:%M%p"), start_tm);
-
-		if (end_time) {
-			end_str = g_new (char, 20);
-			end_t = icaltime_as_timet (*end_time);
-			end_tm = localtime (&end_t);
-			strftime (end_str, 19, _("%I:%M%p"), end_tm);
-		} else {
-			end_str = g_strdup ("...");
-		}
-
-		tmp2 = g_strdup_printf ("<li>%s:%s -> %s</li>", text.value, start_str, end_str);
-		g_free (start_str);
-		g_free (end_str);
-
+	if (summary->appointments) {
 		tmp = ret_html;
-		ret_html = g_strconcat (ret_html, tmp2, NULL);
+		ret_html = g_strdup_printf ("%s<p align=\"center\">Appointments</p><hr><ul>",
+					    tmp);
 		g_free (tmp);
-		g_free (tmp2);
-	}
-	
-	cal_obj_uid_list_free (uids);
-	
-	tmp = ret_html;
-	ret_html = g_strconcat (ret_html, 
-				"</ul><p align=\"center\">Tasks<hr><ul>", 
-				NULL);
-	g_free (tmp);
-
-	/* Generate a list of tasks */
-	uids = cal_client_get_uids (summary->client, CALOBJ_TYPE_TODO);
-	for (l = uids; l; l = l->next){
-		CalComponent *comp;
-		CalComponentText text;
-		CalClientGetStatus status;
-		struct icaltimetype *completed;
-		char *uid;
-		char *tmp2;
 		
-		uid = l->data;
-		status = cal_client_get_object (summary->client, uid, &comp);
-		if (status != CAL_CLIENT_GET_SUCCESS)
-			continue;
-		
-		cal_component_get_summary (comp, &text);
-		cal_component_get_completed (comp, &completed);
-
-		if (completed == NULL) {
-			tmp2 = g_strdup_printf ("<li>%s</li>", text.value);
-		} else {
-			tmp2 = g_strdup_printf ("<li><strike>%s</strike></li>",
-						text.value);
-			cal_component_free_icaltimetype (completed);
+		uids = cal_client_get_objects_in_range (summary->client, 
+							CALOBJ_TYPE_EVENT, day_begin,
+							day_end);
+		for (l = uids; l; l = l->next){
+			CalComponent *comp;
+			CalComponentText text;
+			CalClientGetStatus status;
+			CalComponentDateTime start, end;
+			struct icaltimetype *end_time;
+			time_t start_t, end_t;
+			struct tm *start_tm, *end_tm;
+			char *start_str, *end_str;
+			char *uid;
+			char *tmp2;
+			
+			uid = l->data;
+			status = cal_client_get_object (summary->client, uid, &comp);
+			if (status != CAL_CLIENT_GET_SUCCESS)
+				continue;
+			
+			cal_component_get_summary (comp, &text);
+			cal_component_get_dtstart (comp, &start);
+			cal_component_get_dtend (comp, &end);
+			
+			g_print ("text.value: %s\n", text.value);
+			end_time = end.value;
+			
+			start_t = icaltime_as_timet (*start.value);
+			
+			start_str = g_new (char, 20);
+			start_tm = localtime (&start_t);
+			strftime (start_str, 19, _("%I:%M%p"), start_tm);
+			
+			if (end_time) {
+				end_str = g_new (char, 20);
+				end_t = icaltime_as_timet (*end_time);
+				end_tm = localtime (&end_t);
+				strftime (end_str, 19, _("%I:%M%p"), end_tm);
+			} else {
+				end_str = g_strdup ("...");
+			}
+			
+			tmp2 = g_strdup_printf ("<li>%s:%s -> %s</li>", text.value, start_str, end_str);
+			g_free (start_str);
+			g_free (end_str);
+			
+			tmp = ret_html;
+			ret_html = g_strconcat (ret_html, tmp2, NULL);
+			g_free (tmp);
+			g_free (tmp2);
 		}
-
+		
+		cal_obj_uid_list_free (uids);
+	
 		tmp = ret_html;
-		ret_html = g_strconcat (ret_html, tmp2, NULL);
+		ret_html = g_strconcat (ret_html, "</ul>", NULL);
 		g_free (tmp);
-		g_free (tmp2);
 	}
-	
-	cal_obj_uid_list_free (uids);
-	
-	tmp = ret_html;
-	ret_html = g_strconcat (ret_html, "</ul>", NULL);
-	g_free (tmp);
-	
+
+	if (summary->tasks) {
+		tmp = ret_html;
+		ret_html = g_strconcat (ret_html, 
+					"<p align=\"center\">Tasks</p><hr><ul>",
+					NULL);
+		g_free (tmp);
+		
+		/* Generate a list of tasks */
+		uids = cal_client_get_uids (summary->client, CALOBJ_TYPE_TODO);
+		for (l = uids; l; l = l->next){
+			CalComponent *comp;
+			CalComponentText text;
+			CalClientGetStatus status;
+			struct icaltimetype *completed;
+			char *uid;
+			char *tmp2;
+			
+			uid = l->data;
+			status = cal_client_get_object (summary->client, uid, &comp);
+			if (status != CAL_CLIENT_GET_SUCCESS)
+				continue;
+			
+			cal_component_get_summary (comp, &text);
+			cal_component_get_completed (comp, &completed);
+			
+			if (completed == NULL) {
+				tmp2 = g_strdup_printf ("<li>%s</li>", text.value);
+			} else {
+				tmp2 = g_strdup_printf ("<li><strike>%s</strike></li>",
+							text.value);
+				cal_component_free_icaltimetype (completed);
+			}
+			
+			tmp = ret_html;
+			ret_html = g_strconcat (ret_html, tmp2, NULL);
+			g_free (tmp);
+			g_free (tmp2);
+		}
+		
+		cal_obj_uid_list_free (uids);
+		
+		tmp = ret_html;
+		ret_html = g_strconcat (ret_html, "</ul>", NULL);
+		g_free (tmp);
+	}
+
 	executive_summary_html_view_set_html (summary->view, ret_html);
 	g_free (ret_html);
-
+	
 	summary->idle = 0;
 	return FALSE;
 }
@@ -309,6 +331,194 @@ alarm_fn (gpointer alarm_id,
 	generate_html_summary (summary);
 }
 
+/* PersistStream callbacks */
+static void
+load_from_stream (BonoboPersistStream *ps,
+		  Bonobo_Stream stream,
+		  Bonobo_Persist_ContentType type,
+		  gpointer data,
+		  CORBA_Environment *ev)
+{
+	CalSummary *summary = (CalSummary *) data;
+	char *str;
+	xmlChar *xml_str;
+	xmlDocPtr doc;
+	xmlNodePtr root, children;
+
+	if (*type && g_strcasecmp (type, "application/x-evolution-calendar-summary") != 0) {
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION, 
+				     ex_Bonobo_Persist_WrongDataType, NULL);
+		return;
+	}
+
+	bonobo_stream_client_read_string (stream, &str, ev);
+	if (ev->_major != CORBA_NO_EXCEPTION || str == NULL) {
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+				     ex_Bonobo_Persist_WrongDataType, NULL);
+		return;
+	}
+
+	doc = xmlParseDoc ((xmlChar *) str);
+
+	if (doc == NULL) {
+		g_warning ("Bad data: %s!", str);
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+				     ex_Bonobo_Persist_WrongDataType, NULL);
+		g_free (str);
+		return;
+	}
+
+	g_free (str);
+	root = doc->root;
+	children = root->childs;
+	while (children) {
+		if (strcasecmp (children->name, "showappointments") == 0) {
+			xml_str = xmlNodeListGetString (doc, children->childs, 1);
+			if (strcmp (xml_str, "TRUE") == 0)
+				summary->appointments = TRUE;
+			else 
+				summary->appointments = FALSE;
+			xmlFree (xml_str);
+
+			children = children->next;
+			continue;
+		}
+
+		if (strcasecmp (children->name, "showtasks") == 0) {
+			xml_str = xmlNodeListGetString (doc, children->childs, 1);
+			if (strcmp (xml_str, "TRUE") == 0)
+				summary->tasks = TRUE;
+			else
+				summary->tasks = FALSE;
+			xmlFree (xml_str);
+
+			children = children->next;
+			continue;
+		}
+
+		g_print ("Unknown name: %s\n", children->name);
+		children = children->next;
+	}
+	xmlFreeDoc (doc);
+
+	summary->idle = g_idle_add (generate_html_summary, summary);
+}
+
+static char *
+summary_to_string (CalSummary *summary)
+{
+	xmlChar *out_str;
+	int out_len = 0;
+	xmlDocPtr doc;
+	xmlNsPtr ns;
+
+	doc = xmlNewDoc ("1.0");
+	ns = xmlNewGlobalNs (doc, "http://www.helixcode.com", "calendar-summary");
+	doc->root = xmlNewDocNode (doc, ns, "calendar-summary", NULL);
+
+	xmlNewChild (doc->root, ns, "showappointments", 
+		     summary->appointments ? "TRUE" : "FALSE");
+	xmlNewChild (doc->root, ns, "showtasks", summary->tasks ? "TRUE" : "FALSE");
+	
+	xmlDocDumpMemory (doc, &out_str, &out_len);
+	return out_str;
+}
+
+static void
+save_to_stream (BonoboPersistStream *ps,
+		const Bonobo_Stream stream,
+		Bonobo_Persist_ContentType type,
+		gpointer data,
+		CORBA_Environment *ev)
+{
+	CalSummary *summary = (CalSummary *) data;
+	char *str;
+
+	if (*type && g_strcasecmp (type, "application/x-evolution-calendar-summary") != 0) {
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+				     ex_Bonobo_Persist_WrongDataType, NULL);
+		return;
+	}
+
+	str = summary_to_string (summary);
+	if (str)
+		bonobo_stream_client_printf (stream, TRUE, ev, str);
+	xmlFree (str);
+
+	return;
+}
+
+static Bonobo_Persist_ContentTypeList *
+content_types (BonoboPersistStream *ps,
+	       void *closure,
+	       CORBA_Environment *ev)
+{
+	return bonobo_persist_generate_content_types (1, "application/x-evolution-calendar-summary");
+}
+
+static void
+property_dialog_changed (GtkWidget *widget,
+			 CalSummary *summary)
+{
+	bonobo_property_control_changed (summary->property_control, NULL);
+}
+
+static void
+property_dialog (BonoboPropertyControl *property_control,
+		 int page_num,
+		 gpointer user_data)
+{
+	BonoboControl *control;
+	CalSummary *summary = (CalSummary *) user_data;
+	GtkWidget *container, *vbox;
+
+	container = gtk_frame_new (_("Display"));
+	gtk_container_set_border_width (GTK_CONTAINER (container), 2);
+	vbox = gtk_vbox_new (FALSE, 2);
+	gtk_container_add (GTK_CONTAINER (container), vbox);
+	
+	summary->show_appointments = gtk_check_button_new_with_label (_("Show appointments"));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (summary->show_appointments), 
+				      summary->appointments);
+	gtk_signal_connect (GTK_OBJECT (summary->show_appointments), "toggled",
+			    GTK_SIGNAL_FUNC (property_dialog_changed), summary);
+	gtk_box_pack_start (GTK_BOX (vbox), summary->show_appointments, 
+			    TRUE, TRUE, 0);
+	
+	summary->show_tasks = gtk_check_button_new_with_label (_("Show tasks"));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (summary->show_tasks),
+				      summary->tasks);
+	gtk_signal_connect (GTK_OBJECT (summary->show_tasks), "toggled",
+			    GTK_SIGNAL_FUNC (property_dialog_changed), summary);
+	gtk_box_pack_start (GTK_BOX (vbox), summary->show_tasks, TRUE, TRUE, 0);
+	gtk_widget_show_all (container);
+
+	control = bonobo_control_new (container);
+	return control;
+}
+
+static void
+property_action (GtkObject *property_control,
+		 int page_num,
+		 Bonobo_PropertyControl_Action action,
+		 CalSummary *summary)
+{
+	switch (action) {
+	case Bonobo_PropertyControl_APPLY:
+		summary->appointments = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (summary->show_appointments));
+		summary->tasks = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (summary->show_tasks));
+		summary->idle = g_idle_add (generate_html_summary, summary);
+		break;
+
+	case Bonobo_PropertyControl_HELP:
+		g_print ("HELP\n");
+		break;
+
+	default:
+		break;
+	}
+}
+
 BonoboObject *
 create_summary_view (ExecutiveSummaryComponentFactory *_factory,
 		     void *closure)
@@ -316,6 +526,7 @@ create_summary_view (ExecutiveSummaryComponentFactory *_factory,
 	BonoboObject *component, *view;
 	BonoboPersistStream *stream;
 	BonoboPropertyBag *bag;
+	BonoboPropertyControl *property_control;
 	BonoboEventSource *event_source;
 	CalSummary *summary;
 	char *html, *file;
@@ -333,6 +544,8 @@ create_summary_view (ExecutiveSummaryComponentFactory *_factory,
 	summary->client = cal_client_new ();
 	summary->cal_loaded = FALSE;
 	summary->idle = 0;
+	summary->appointments = TRUE;
+	summary->tasks = TRUE;
 
 	t = time (NULL);
 	day_end = time_day_end (t);
@@ -377,6 +590,18 @@ create_summary_view (ExecutiveSummaryComponentFactory *_factory,
 				 BONOBO_ARG_STRING, NULL, 
 				 "The icon for this component's window", 0);
 	bonobo_object_add_interface (component, BONOBO_OBJECT (bag));
+
+	property_control = bonobo_property_control_new_full (property_dialog, 
+							     1, event_source,
+							     summary);
+	summary->property_control = property_control;
+	gtk_signal_connect (GTK_OBJECT (property_control), "action",
+			    GTK_SIGNAL_FUNC (property_action), summary);
+	bonobo_object_add_interface (component, BONOBO_OBJECT (property_control));
+			    
+	stream = bonobo_persist_stream_new (load_from_stream, save_to_stream,
+					    NULL, content_types, summary);
+	bonobo_object_add_interface (component, BONOBO_OBJECT (stream));
 
 	running_views++;
 
