@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 
-libcamelsendmailincludedir = $(includedir)/camel
+libcamelsendmailincludedir = $(includedir)/evolution-$(BASE_VERSION)/camel
 
 camel_provider_LTLIBRARIES = libcamelsendmail.la
 camel_provider_DATA = libcamelsendmail.urls

@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 
-libcamellocalincludedir = $(includedir)/camel
+libcamellocalincludedir = $(includedir)/evolution-$(BASE_VERSION)/camel
 
 camel_provider_LTLIBRARIES = libcamellocal.la
 camel_provider_DATA = libcamellocal.urls

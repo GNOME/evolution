@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 
-libcamelpop3includedir = $(includedir)/camel
+libcamelpop3includedir = $(includedir)/evolution-$(BASE_VERSION)/camel
 
 camel_provider_LTLIBRARIES = libcamelpop3.la
 camel_provider_DATA = libcamelpop3.urls

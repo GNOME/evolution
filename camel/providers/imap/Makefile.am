@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 
-libcamelimapincludedir = $(includedir)/camel
+libcamelimapincludedir = $(includedir)/evolution-$(BASE_VERSION)/camel
 
 camel_provider_LTLIBRARIES = libcamelimap.la
 camel_provider_DATA = libcamelimap.urls

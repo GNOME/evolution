@@ -1,3 +1,26 @@
+2003-01-22  Ettore Perazzoli  <ettore@ximian.com>
+
+	* providers/imap/Makefile.am (libcamelimapincludedir): Update to
+	the new $(BASE_VERSION)-versioned path.
+	* providers/smtp/Makefile.am (libcamelsmtpincludedir): Likewise.
+	* providers/sendmail/Makefile.am (libcamelsendmailincludedir):
+	Likewise.
+	* providers/pop3/Makefile.am (libcamelpop3includedir): Likewise.
+	* providers/nntp/Makefile.am (libcamelnntpincludedir): Likewise.
+	* providers/local/Makefile.am (libcamellocalincludedir): Likewise.
+
+	* camel-lock-client.c (camel_lock_helper_init): Use
+	CAMEL_LIBEXECDIR instead of CAMEL_SBINDIR to find
+	camel-lock-helper.
+
+	* Makefile.am: Install camel-lock-helper and camel-index-control
+	in $(libexec)/evolution/$(BASE_VERSION)/camel.  Install
+	libcamel.la in $privlibdir.
+	(install-exec-hook): Update for the new location of
+	camel-lock-helper.
+	(libcamelincludedir): Version using $(BASE_VERSION).
+	(INCLUDES): Define CAMEL_LIBEXECDIR.
+
 2003-01-21  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-filter-canon.c (complete): Set the backbuflen to 0 so

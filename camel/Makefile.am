@@ -2,17 +2,18 @@
 
 SUBDIRS = . providers tests
 
-libcamelincludedir = $(includedir)/camel
+libcamelincludedir = $(includedir)/evolution-$(BASE_VERSION)/camel
 
-sbin_PROGRAMS =	camel-lock-helper camel-index-control
+camellibexecdir = $(libexec)/evolution/$(BASE_VERSION)/camel/
+camellibexec_PROGRAMS =	camel-lock-helper camel-index-control
 
-lib_LTLIBRARIES = libcamel.la
+privlib_LTLIBRARIES = libcamel.la
 noinst_LTLIBRARIES = libcamel-static.la
 
 INCLUDES = -I.. -I$(srcdir)/.. 			 	\
 	-I$(top_srcdir)/intl			 	\
 	-I$(top_srcdir)/e-util			 	\
-	-DCAMEL_SBINDIR=\""$(sbindir)"\"	 	\
+	-DCAMEL_LIBEXECDIR=\""$(camellibexecdir)"\"	\
 	-DCAMEL_PROVIDERDIR=\""$(camel_providerdir)"\" 	\
 	-DG_LOG_DOMAIN=\"camel\"			\
 	-DG_DISABLE_DEPRECATED				\
@@ -252,8 +253,8 @@ camel_index_control_LDADD =			\
 install-exec-hook:
 	@if test -n "$(CAMEL_LOCK_HELPER_USER)"; then \
 	    if test `whoami` = root ; then \
-	 	chown $(CAMEL_LOCK_HELPER_USER) $(DESTDIR)$(sbindir)/camel-lock-helper ; \
-		chmod u+s $(DESTDIR)$(sbindir)/camel-lock-helper ; \
+	 	chown $(CAMEL_LOCK_HELPER_USER) $(DESTDIR)$(camellibexecdir)/camel-lock-helper ; \
+		chmod u+s $(DESTDIR)$(camellibexecdir)/camel-lock-helper ; \
 	    else \
 	    	echo '*** WARNING ***' ; \
 		    echo "Camel will not be able to open mbox files until you perform the following steps:" ; \
@@ -267,14 +268,14 @@ install-exec-hook:
 	fi
 	@if test -n "$(CAMEL_LOCK_HELPER_GROUP)"; then \
 	    if test `whoami` = root ; then \
-	    	chgrp $(CAMEL_LOCK_HELPER_GROUP) $(DESTDIR)$(sbindir)/camel-lock-helper ; \
-		    chmod g+s $(DESTDIR)$(sbindir)/camel-lock-helper ; \
+	    	chgrp $(CAMEL_LOCK_HELPER_GROUP) $(DESTDIR)$(camellibexecdir)/camel-lock-helper ; \
+		    chmod g+s $(DESTDIR)$(camellibexecdir)/camel-lock-helper ; \
 	    else \
 	    	echo '*** WARNING ***' ; \
 		    echo "Camel will not be able to open mbox files until you perform the following steps:" ; \
 		    echo "    1. Become root" ; \
-		    echo "    2. chgrp $(CAMEL_LOCK_HELPER_GROUP) $(DESTDIR)$(sbindir)/camel-lock-helper" ; \
-		    echo "    3. chmod g+s $(DESTDIR)$(sbindir)/camel-lock-helper" ; \
+		    echo "    2. chgrp $(CAMEL_LOCK_HELPER_GROUP) $(DESTDIR)$(camellibexecdir)/camel-lock-helper" ; \
+		    echo "    3. chmod g+s $(DESTDIR)$(camellibexecdir)/camel-lock-helper" ; \
 		    echo '*** WARNING ***' ; \
 	    fi \
 	else \
