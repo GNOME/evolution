@@ -1,3 +1,21 @@
+2002-08-28  Aaron Weber  <aaron@ximian.com>
+
+	* C/preface.sgml: nav-by-letters
+
+2002-08-23  Aaron Weber  <aaron@ximian.com>
+
+	* C/preface.sgml: remove shortcuts that didn't actually get added
+	to the app.
+
+2002-08-22  Aaron Weber  <aaron@ximian.com>
+
+	* C/usage-mail-org.sgml: change Exchange description
+
+	* C/config-prefs.sgml: add RDF note to newsfeed item.
+
+	* C/preface.sgml: update as per Christine's comments in
+	http://bugzilla.ximian.com/show_bug.cgi?id=29239
+
 2002-07-09  Kevin Breit  <mrproper@ximian.com>
 
 	* C/usage-mail-org.sgml: Added note about set status filter action.

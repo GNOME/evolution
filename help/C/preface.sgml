@@ -170,10 +170,22 @@ Lastly, we'll have warnings, in cases where you should be careful:
 	  <varlistentry>
 	    <term>Keyboard Navigation Overhaul</term>
 	    <listitem>
+              <para>
+                All unmodified letter keys have changed function-- the
+                <keycap>N</keycap> and <keycap>P</keycap> keys, for
+                example, no longer take you to the next you to the
+                next or previous message.  Pressing a letter will now
+                take you to the nearest message whose data in the sort
+                column begins with that letter. That is, if you press
+                N and you are sorting your list by sender, you will
+                move to a message from Nadine. If you are sorting by
+                subject, you'll move to the message about
+                nectarines. This should also work in the folder list
+                for folder navigation.
               </para>
 	      <para>
-               Some keyboard shortcuts from Evolution 1.0 have been
-                changed. The new shortcuts are:
+               This means that the old single letter shortcuts have
+               changed as well.  The new shortcuts:
                 <simplelist>
 		  <member>
                     <keycap>,</keycap> (comma) and <keycap>.</keycap>
@@ -187,7 +199,7 @@ Lastly, we'll have warnings, in cases where you should be careful:
                    the message preview pane.
                  </member>
 		</simplelist>
-                Shortcuts that used the <keycap>Control</keycap> key
+                Shortcuts that use the <keycap>Control</keycap> key
                 have not changed.
              </para>
 	    </listitem>
