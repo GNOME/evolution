@@ -149,19 +149,19 @@ cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer data)
 		if (cal_client_update_object (client, priv->cal_comp) == FALSE) {
 			GtkWidget *dialog;
 	
-			dialog = gnome_warning_dialog("I couldn't update your calendar file!\n");
+			dialog = gnome_warning_dialog(_("I couldn't update your calendar file!\n"));
 			gnome_dialog_run (GNOME_DIALOG(dialog));
 		} else {
 			/* We have success. */
 			GtkWidget *dialog;
 	
-			dialog = gnome_ok_dialog("Component successfully updated.");
+			dialog = gnome_ok_dialog(_("Component successfully updated."));
 			gnome_dialog_run (GNOME_DIALOG(dialog));
 		}
 	} else {
 		GtkWidget *dialog;
 
-		dialog = gnome_ok_dialog("There was an error loading the calendar file.");
+		dialog = gnome_ok_dialog(_("There was an error loading the calendar file."));
 		gnome_dialog_run (GNOME_DIALOG(dialog));
 	}
 
@@ -185,7 +185,7 @@ update_calendar (EItipControlPrivate *priv)
 	if (cal_client_open_calendar (client, cal_uri, FALSE) == FALSE) {
 		GtkWidget *dialog;
 
-		dialog = gnome_warning_dialog("I couldn't open your calendar file!\n");
+		dialog = gnome_warning_dialog(_("I couldn't open your calendar file!\n"));
 		gnome_dialog_run (GNOME_DIALOG(dialog));
 		gtk_object_unref (GTK_OBJECT (client));
 	
@@ -446,7 +446,7 @@ update_reply_cb (GtkWidget *widget, gpointer data)
 	if (load_calendar_store (NULL, &cal_client) == FALSE) {
 		GtkWidget *dialog;
 
-		dialog = gnome_warning_dialog("I couldn't load your calendar file!\n");
+		dialog = gnome_warning_dialog(_("I couldn't load your calendar file!\n"));
 		gnome_dialog_run (GNOME_DIALOG(dialog));
 		gtk_object_unref (GTK_OBJECT (cal_client));
 	
@@ -458,7 +458,7 @@ update_reply_cb (GtkWidget *widget, gpointer data)
 	if (cal_client_get_object (cal_client, uid, &cal_comp) != CAL_CLIENT_GET_SUCCESS) {
 		GtkWidget *dialog;
 
-		dialog = gnome_warning_dialog("I couldn't read your calendar file!\n");
+		dialog = gnome_warning_dialog(_("I couldn't read your calendar file!\n"));
 		gnome_dialog_run (GNOME_DIALOG(dialog));
 		gtk_object_unref (GTK_OBJECT (cal_client));
 	
@@ -471,7 +471,7 @@ update_reply_cb (GtkWidget *widget, gpointer data)
 	if (!prop) {
 		GtkWidget *dialog;
 
-		dialog = gnome_warning_dialog("This is a reply from someone who was uninvited!");
+		dialog = gnome_warning_dialog(_("This is a reply from someone who was uninvited!"));
 		gnome_dialog_run (GNOME_DIALOG(dialog));
 		gtk_object_unref (GTK_OBJECT (cal_client));
 		gtk_object_unref (GTK_OBJECT (cal_comp));
@@ -487,7 +487,7 @@ update_reply_cb (GtkWidget *widget, gpointer data)
 	if (!cal_client_update_object (cal_client, cal_comp)) {
 		GtkWidget *dialog;
 
-		dialog = gnome_warning_dialog("I couldn't update your calendar store.");
+		dialog = gnome_warning_dialog(_("I couldn't update your calendar store."));
 		gnome_dialog_run (GNOME_DIALOG(dialog));
 		gtk_object_unref (GTK_OBJECT (cal_client));
 		gtk_object_unref (GTK_OBJECT (cal_comp));
@@ -498,7 +498,7 @@ update_reply_cb (GtkWidget *widget, gpointer data)
 		/* We have success. */
 		GtkWidget *dialog;
 
-		dialog = gnome_ok_dialog("Component successfully updated.");
+		dialog = gnome_ok_dialog(_("Component successfully updated."));
 		gnome_dialog_run (GNOME_DIALOG(dialog));
 	}
 
@@ -517,7 +517,7 @@ cancel_meeting_cb (GtkWidget *widget, gpointer data)
 	if (load_calendar_store (NULL, &cal_client) == FALSE) {
 		GtkWidget *dialog;
 
-		dialog = gnome_warning_dialog("I couldn't load your calendar file!\n");
+		dialog = gnome_warning_dialog(_("I couldn't load your calendar file!\n"));
 		gnome_dialog_run (GNOME_DIALOG(dialog));
 		gtk_object_unref (GTK_OBJECT (cal_client));
 	
@@ -528,7 +528,7 @@ cancel_meeting_cb (GtkWidget *widget, gpointer data)
 	if (cal_client_remove_object (cal_client, uid) == FALSE) {
 		GtkWidget *dialog;
 
-		dialog = gnome_warning_dialog("I couldn't delete the calendar component!\n");
+		dialog = gnome_warning_dialog(_("I couldn't delete the calendar component!\n"));
 		gnome_dialog_run (GNOME_DIALOG(dialog));
 		gtk_object_unref (GTK_OBJECT (cal_client));
 	
@@ -538,7 +538,7 @@ cancel_meeting_cb (GtkWidget *widget, gpointer data)
 		/* We have success! */
 		GtkWidget *dialog;
 
-		dialog = gnome_ok_dialog("Component successfully deleted.");
+		dialog = gnome_ok_dialog(_("Component successfully deleted."));
 		gnome_dialog_run (GNOME_DIALOG(dialog));
 	}
 		
@@ -682,7 +682,7 @@ pstream_load (BonoboPersistStream *ps, const Bonobo_Stream stream,
 		{
 		GtkWidget *dialog;
 
-		dialog = gnome_warning_dialog("I don't recognize this type of calendar component.");
+		dialog = gnome_warning_dialog(_("I don't recognize this type of calendar component."));
 		gnome_dialog_run (GNOME_DIALOG(dialog));
 
 		g_free (priv->vcalendar);
@@ -768,7 +768,7 @@ pstream_load (BonoboPersistStream *ps, const Bonobo_Stream stream,
 				 	  "No reply is necessary.", 
 				 priv->from_address);
 			
-			button =  gtk_button_new_with_label ("Add to Calendar");
+			button =  gtk_button_new_with_label (_("Add to Calendar"));
 			gtk_box_pack_start (GTK_BOX (priv->button_box), button, FALSE, FALSE, 3);
 			gtk_widget_show (button);
 
@@ -802,9 +802,9 @@ pstream_load (BonoboPersistStream *ps, const Bonobo_Stream stream,
 			if (rsvp) {
 				GtkWidget *accept_button, *decline_button, *tentative_button;
 
-				accept_button = gtk_button_new_with_label ("Accept");
-				decline_button = gtk_button_new_with_label ("Decline");
-				tentative_button = gtk_button_new_with_label ("Tentative");
+				accept_button = gtk_button_new_with_label (_("Accept"));
+				decline_button = gtk_button_new_with_label (_("Decline"));
+				tentative_button = gtk_button_new_with_label (_("Tentative"));
 
 				gtk_box_pack_start (GTK_BOX (priv->button_box), accept_button, FALSE, FALSE, 3);
 				gtk_box_pack_start (GTK_BOX (priv->button_box), decline_button, FALSE, FALSE, 3);
@@ -848,7 +848,7 @@ pstream_load (BonoboPersistStream *ps, const Bonobo_Stream stream,
 			else {
 				GtkWidget *button;
 		
-				button =  gtk_button_new_with_label ("Update Calendar");
+				button =  gtk_button_new_with_label (_("Update Calendar"));
 				gtk_box_pack_start (GTK_BOX (priv->button_box), button, FALSE, FALSE, 3);
 				gtk_widget_show (button);
 	
@@ -871,7 +871,7 @@ pstream_load (BonoboPersistStream *ps, const Bonobo_Stream stream,
 			else {
 				GtkWidget *button;
 
-				button =  gtk_button_new_with_label ("Cancel Meeting");
+				button =  gtk_button_new_with_label (_("Cancel Meeting"));
 				gtk_box_pack_start (GTK_BOX (priv->button_box), button, FALSE, FALSE, 3);
 				gtk_widget_show (button);
 

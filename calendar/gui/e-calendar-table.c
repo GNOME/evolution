@@ -162,7 +162,8 @@ static char *list [] = {
 	N_("Summary"),
 	N_("Transparency"),
 	N_("URL"),
-	N_("Alarms")
+	N_("Alarms"),
+	N_("Click here to add a task")
 };
 #endif
 

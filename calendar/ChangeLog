@@ -1,3 +1,8 @@
+2001-01-30  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* gui/e-calendar-table.c: Mark a string for translation.
+	* gui/e-itip-control.c: Mark a bunch of strings for translation.
+	
 2001-01-30  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/print.c: #include <sys/time.h>.
