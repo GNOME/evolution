@@ -1,3 +1,8 @@
+2001-06-29  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* rule-editor.c (rule_editor_construct): Set the filter-rule
+	dialog to be user-resizable.
+
 2001-06-27  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* filtertypes.xml: Make "Move" the default action.
@@ -8,10 +13,10 @@
 
 2001-05-08  Gediminas Paulauskas <menesis@delfi.lt>
 
-	* filter-rule.c (xml_decode): allow "_title" in user rules. translate
-	them and encode to utf8.
-	(get_rule_part_widget): do not call gettext on part->title. It is always
-	translated already.
+	* filter-rule.c (xml_decode): allow "_title" in user
+	rules. translate them and encode to utf8.
+	(get_rule_part_widget): do not call gettext on part->title. It is
+	always translated already.
 
 2001-04-26  Jeffrey Stedfast  <fejj@ximian.com>
 

@@ -115,20 +115,22 @@ vfolder_rule_finalise(GtkObject *obj)
  * Return value: A new #VfolderRule object.
  **/
 VfolderRule *
-vfolder_rule_new(void)
+vfolder_rule_new (void)
 {
 	VfolderRule *o = (VfolderRule *)gtk_type_new(vfolder_rule_get_type ());
 	return o;
 }
 
-void		vfolder_rule_add_source		(VfolderRule *vr, const char *uri)
+void
+vfolder_rule_add_source (VfolderRule *vr, const char *uri)
 {
 	g_assert(IS_VFOLDER_RULE(vr));
 
 	vr->sources = g_list_append(vr->sources, g_strdup(uri));
 }
 
-const char	*vfolder_rule_find_source	(VfolderRule *vr, const char *uri)
+const char *
+vfolder_rule_find_source (VfolderRule *vr, const char *uri)
 {
 	GList *l;
 
@@ -145,7 +147,8 @@ const char	*vfolder_rule_find_source	(VfolderRule *vr, const char *uri)
 	return NULL;
 }
 
-void		vfolder_rule_remove_source	(VfolderRule *vr, const char *uri)
+void
+vfolder_rule_remove_source (VfolderRule *vr, const char *uri)
 {
 	char *found;
 
@@ -158,7 +161,8 @@ void		vfolder_rule_remove_source	(VfolderRule *vr, const char *uri)
 	}
 }
 
-const char	*vfolder_rule_next_source	(VfolderRule *vr, const char *last)
+const char *
+vfolder_rule_next_source (VfolderRule *vr, const char *last)
 {
 	GList *node;
 
@@ -176,7 +180,8 @@ const char	*vfolder_rule_next_source	(VfolderRule *vr, const char *last)
 	return NULL;
 }
 
-static xmlNodePtr xml_encode(FilterRule *fr)
+static xmlNodePtr
+xml_encode (FilterRule *fr)
 {
 	xmlNodePtr node, set, work;
 	GList *l;
@@ -196,7 +201,8 @@ static xmlNodePtr xml_encode(FilterRule *fr)
 	return node;
 }
 
-static int xml_decode(FilterRule *fr, xmlNodePtr node, struct _RuleContext *f)
+static int
+xml_decode (FilterRule *fr, xmlNodePtr node, struct _RuleContext *f)
 {
 	xmlNodePtr set, work;
 	int result;
@@ -272,7 +278,8 @@ select_source_with(GtkWidget *w, struct _source_data *data)
 	filter_rule_set_source((FilterRule *)data->vr, source);
 }
 
-static void source_add(GtkWidget *widget, struct _source_data *data)
+static void
+source_add(GtkWidget *widget, struct _source_data *data)
 {
 	const char *allowed_types[] = { "mail", NULL };
 	char *def, *uri;
@@ -304,7 +311,8 @@ static void source_add(GtkWidget *widget, struct _source_data *data)
 	set_sensitive(data);
 }
 
-static void source_remove(GtkWidget *widget, struct _source_data *data)
+static void
+source_remove(GtkWidget *widget, struct _source_data *data)
 {
 	const char *source;
 	int index = 0;
@@ -335,7 +343,8 @@ const char *source_names[] = {
 	"local_remote_active"
 };
 
-static GtkWidget *get_widget(FilterRule *fr, struct _RuleContext *f)
+static GtkWidget *
+get_widget(FilterRule *fr, struct _RuleContext *f)
 {
 	GtkWidget *widget, *frame, *w;
 	GladeXML *gui;

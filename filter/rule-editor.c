@@ -460,22 +460,24 @@ rule_editor_construct(RuleEditor *re, RuleContext *context, GladeXML *gui, const
 	int i;
 	
 	re->context = context;
-	gtk_object_ref((GtkObject *)context);
-
-        w = glade_xml_get_widget(gui, "rule_editor");
-	gtk_box_pack_start((GtkBox *)GNOME_DIALOG(re)->vbox, w, TRUE, TRUE, 0);
+	gtk_object_ref (GTK_OBJECT (context));
 	
-	for (i=0; i<BUTTON_LAST; i++) {
-		re->priv->buttons[i] = (GtkButton *)w = glade_xml_get_widget(gui, edit_buttons[i].name);
-		gtk_signal_connect(GTK_OBJECT(w), "clicked", edit_buttons[i].func, re);
+	gtk_window_set_policy (GTK_WINDOW (re), FALSE, TRUE, FALSE);
+	
+        w = glade_xml_get_widget (gui, "rule_editor");
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (re)->vbox), w, TRUE, TRUE, 0);
+	
+	for (i = 0; i < BUTTON_LAST; i++) {
+		re->priv->buttons[i] = (GtkButton *)w = glade_xml_get_widget (gui, edit_buttons[i].name);
+		gtk_signal_connect (GTK_OBJECT (w), "clicked", edit_buttons[i].func, re);
 	}
-
+	
         re->list = (GtkList *) w = glade_xml_get_widget(gui, "rule_list");
-	gtk_signal_connect(GTK_OBJECT(w), "select_child", select_rule, re);
-	gtk_signal_connect(GTK_OBJECT(w), "button_press_event", double_click, re);
-
-	rule_editor_set_source(re, source);
-
-	gnome_dialog_append_buttons ((GnomeDialog *)re, GNOME_STOCK_BUTTON_OK,
+	gtk_signal_connect (GTK_OBJECT (w), "select_child", select_rule, re);
+	gtk_signal_connect (GTK_OBJECT (w), "button_press_event", double_click, re);
+	
+	rule_editor_set_source (re, source);
+	
+	gnome_dialog_append_buttons (GNOME_DIALOG (re), GNOME_STOCK_BUTTON_OK,
 				     GNOME_STOCK_BUTTON_CANCEL, NULL);
 }
