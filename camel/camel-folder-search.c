@@ -256,6 +256,7 @@ camel_folder_search_execute_expression(CamelFolderSearch *search, const char *ex
 	ESExpResult *r;
 	GPtrArray *matches = g_ptr_array_new ();
 	int i;
+	GHashTable *results;
 
 	/* only re-parse if the search has changed */
 	if (search->last_search == NULL
@@ -271,9 +272,25 @@ camel_folder_search_execute_expression(CamelFolderSearch *search, const char *ex
 	if (r
 	    && r->type == ESEXP_RES_ARRAY_PTR) {
 		d(printf("got result ...\n"));
-		for (i=0;i<r->value.ptrarray->len;i++) {
-			d(printf("adding match: %s\n", (char *)g_ptr_array_index(r->value.ptrarray, i)));
-			g_ptr_array_add(matches, g_strdup(g_ptr_array_index(r->value.ptrarray, i)));
+		if (search->summary) {
+			/* reorder result in summary order */
+			results = g_hash_table_new(g_str_hash, g_str_equal);
+			for (i=0;i<r->value.ptrarray->len;i++) {
+				d(printf("adding match: %s\n", (char *)g_ptr_array_index(r->value.ptrarray, i)));
+				g_hash_table_insert(results, g_ptr_array_index(r->value.ptrarray, i), (void *)1);
+			}
+			for (i=0;i<search->summary->len;i++) {
+				CamelMessageInfo *info = g_ptr_array_index(search->summary, i);
+				if (g_hash_table_lookup(results, info->uid)) {
+					g_ptr_array_add(matches, g_strdup(info->uid));
+				}
+			}
+			g_hash_table_destroy(results);
+		} else {
+			for (i=0;i<r->value.ptrarray->len;i++) {
+				d(printf("adding match: %s\n", (char *)g_ptr_array_index(r->value.ptrarray, i)));
+				g_ptr_array_add(matches, g_strdup(g_ptr_array_index(r->value.ptrarray, i)));
+			}
 		}
 		e_sexp_result_free(r);
 	} else {

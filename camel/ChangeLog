@@ -1,3 +1,9 @@
+2000-08-09  Not Zed  <NotZed@HelixCode.com>
+
+	* camel-folder-search.c (camel_folder_search_execute_expression):
+	Reorder search result in summary order if we searched with a
+	summary.
+
 2000-08-08  Dan Winship  <danw@helixcode.com>
 
 	* camel-uid-cache.c: New code to keep an on-disk cache of what
