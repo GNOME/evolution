@@ -107,6 +107,20 @@
       </varlistentry>
 -->
 
+
+	<varlistentry>
+	  <term> <guibutton>Executive Summary:</guibutton></term>
+	  <listitem>
+	    <para>
+	      Start your day here.  The Executive summary gives you
+              lists of new or important messages, daily appointments
+              and urgent tasks.  You can customize its appearance and
+              content, and use it to access Evolution services.
+	    </para>
+	  </listitem>
+	</varlistentry>
+
+
 	<varlistentry>
 	  <term> <guibutton>Inbox:</guibutton></term>
 	  <listitem>
@@ -130,6 +144,15 @@
 	  </listitem>
 	</varlistentry>
 
+       <varlistentry>
+         <term><guibutton>Tasks:</guibutton></term>
+	<listitem>
+	  <para>
+	     A full-size view of your calendar's task pad.
+	  </para>
+	</listitem>
+      </varlistentry>
+
 	<varlistentry>
 	  <term><guibutton>Contacts:</guibutton></term>
 	  <listitem>
@@ -143,15 +166,7 @@
 	</varlistentry>
 
 <!-- NOT IMPLEMENTED YET
-       <varlistentry>
-	<listitem>
-	  <para>
-	     The <guibutton>Tasks:</guibutton> tool combines a "to
-	     do" list with reminders to help you keep track of
-	     daily events.
-	  </para>
-	</listitem>
-      </varlistentry>
+
 
 	<varlistentry>
 	  <term> <guibutton>Notes:</guibutton></term>

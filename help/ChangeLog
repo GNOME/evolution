@@ -1,8 +1,25 @@
+2001-02-08  Aaron Weber  <aaron@helixcode.com>
+
+	* C/usage-contact.sgml: Minor Changes.
+
+	* C/usage-mail.sgml: Minor Changes.
+
+2001-02-07  Aaron Weber  <aaron@helixcode.com>
+
+	* C/menuref.sgml: Added section, but left blank til UI stabilizes.
+
+	* C/usage-exec-summary.sgml: A little functionality described.
+
+	* C/usage-mainwindow.sgml: Added tasks and Exec-summary.
+
+	* C/usage-calendar.sgml: Describe semi-autonomy of task pad.
+
 2001-02-06 Aaron Weber <aaron@ximian.com>
+
 	* C/usage-contact.sgml: s/contact manager/address book/ and
 	revised text.
 
-	*C/usage-exec-summary.sgml: New file. Describes Executive Summary.
+	* C/usage-exec-summary.sgml: New file. Describes Executive Summary.
 	
 2001-01-19  Aaron Weber  <aaron@helixcode.com>
 

@@ -11,7 +11,16 @@
    <sect1 id="exec-intro">
      <title>Introducing the Executive Summary</title>
      <para>
+       The first thing you'll want to do with the executive summary is
+       add a service. Click the <guibutton>Add Service</guibutton>
+       button in the toolbar, then select one of the available
+       services.
      </para>
-
+     <para>
+       Each service appears in a small box on the screen; you can
+       remove the service by clicking the <guibutton>x</guibutton>
+       button in the upper right, or bring up a settings dialog by
+       clicking the little wrench icon below that.
+     </para>
    </sect1>
 </chapter>

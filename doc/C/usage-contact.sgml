@@ -73,19 +73,19 @@
          </para></listitem>
 	
 	<listitem><para>
-	    Press <guibutton>Print</guibutton> to print one or more cards.
+	    <guibutton>Print</guibutton> sends one or more of your cards to the printer.
 	</para></listitem>
         <listitem><para>
            <guibutton>Delete</guibutton> deletes a selected card.
         </para></listitem>
 
-        <listitem><para> <guibutton>View All</guibutton> Displays all
+        <listitem><para> <guibutton>View All</guibutton> displays all
            the address information in the folder.  Use this button to
            refresh the display for a network folder, or to switch from
            viewing the results of a search and see the whole contents.
            </para></listitem>
 
-        <listitem><para> <guibutton>Stop</guibutton> Stop loading
+        <listitem><para> <guibutton>Stop</guibutton> stops loading
            contact data from the network.  This button is only
            relevant if you are looking at contact information on a
            network.  </para></listitem>
@@ -93,10 +93,7 @@
     </para>
 
     <para>
-       Your contact information fills the rest of the display. By
-       default, <application>Evolution</application> shows it as a set
-       of small address cards, but you can set it to appear as a table
-       with the options in the <guimenu>View</guimenu> menu. Move
+       Your contact information fills the rest of the display.  Move
        through the cards alphabetically with the buttons and the
        scrollbar at the right of the window. Of course, if you have
        more than a few people listed, you'll want some way of finding
@@ -107,24 +104,22 @@
       <title>Searching for Contacts</title>
       <para>
 	   Between <guilabel>Delete</guilabel> and <guilabel>View
-    	   All</guilabel> is <guilabel>Quick Search</guilabel>. To use
-    	   it, just type in one or more words you're looking for and
-    	   hit <keycap>Enter</keycap>.
+    	   All</guilabel> is a quick search field. To use it, select
+    	   where you'd like to search in a card (The whole card, just
+    	   the name, or just the email address), then enter one or
+    	   more words you're looking for and press
+    	   <keycap>Enter</keycap>.
     	   <application>Evolution</application> will search through
     	   the contents of every displayed card to find one that
-    	   matches. In other words, you can refine searches by doing
-    	   several in succession.
+    	   matches. You can refine searches by doing several in
+    	   succession, or start over by pressing the <guibutton>View
+    	   All</guibutton> button.
 	</para>
       <para>
 	   If there are no matches, the card display will be
 	   blank. When you'd like to see all the cards again, press
 	   <guilabel>Show All</guilabel>.
- <!--  **************************************************
-           If you're sneaky, you can
-	   enter a blank search &mdash; every contact has at least one
-	   space in it, so you'll display them all. NOTE: This may not actually work.
- ******  -->
-      </para>
+       </para>
       <example id="contact-quicksearch-ex">
 	<title>Refining a Quick Search</title>
 	<para>
@@ -148,10 +143,10 @@
         If you prefer to perform a more complex search, press
         <guibutton>Find</guibutton> or choose
         <menuchoice><guimenu>Tools</guimenu><guimenuitem>Search for
-        Contact</guimenuitem></menuchoice>. This will open the in-depth search window, which
-        lets you use multiple search criteria in the same way that
-        email filters and <glossterm linkend="vfolder">vFolders</glossterm> do..
-      </para>    
+        Contact</guimenuitem></menuchoice>. This will open the
+        in-depth search window, which lets you use multiple search
+        criteria in the same way that email filters and <glossterm
+        linkend="vfolder">virtual folders</glossterm> do..  </para>
       <para>
         Click <guibutton>Add Criterion</guibutton> to increase the
         number of criteria you'd like to use in the search, and
@@ -174,8 +169,8 @@
     <title>Destroy, Create, and Change: The Contact Editor</title>
     <para>
        To delete a card, click on it once to select it, then press the
-       <guibutton>Delete Card</guibutton> button.  If you have
-       multiple cards selected, you'll delete multiple cards.
+       <guibutton>Delete</guibutton> button.  If you have multiple
+       cards selected, you'll delete multiple cards.
     </para>
     <para>
        Adding or changing cards is slightly more complicated.  Any

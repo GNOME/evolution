@@ -168,6 +168,15 @@
     </sect2>
   </sect1>
 
+  <sect1 id="menuref-exec">
+   <title>Executive Summary Menus</title>
+   <para>
+     We'll leave this section blank until the UI stabilizes a little
+     more.
+   <para>
+  </sect1>
+
+
 
   <sect1 id="menuref-mail">
     <title>Mail Menus</title>

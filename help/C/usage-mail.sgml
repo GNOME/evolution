@@ -103,6 +103,14 @@
          whichever way you like best; the idea is that the software
          should work the way you want, rather than making you work the
          way the it does.
+	 <tip id="view-headers">
+	 <title>Take a look at the headers</title>
+	 <para>
+	 To look at the entire source of your email message, including
+	 all the header information, select
+	 <menuchoice><guimenu>View</guimenu><guimenuitem>Source</guimenu></menuchoice>
+	 </para>
+	 </tip>
        </para>
 
       <sect3 id="usage-mail-listorder">
@@ -1004,9 +1012,9 @@ possibly never will be due to security evil. -->
 	  </varlistentry>
 	</variablelist>
 
-        Then, press <keycap>Enter</keycap>.
-        <application>Evolution</application> will show your search
-        results in the message list.
+        When you've entered your search phrase, press
+        <keycap>Enter</keycap>.  <application>Evolution</application>
+        will show your search results in the message list.
 
       </para>
     </sect2>
@@ -1029,14 +1037,13 @@ possibly never will be due to security evil. -->
         Most often, you'll want to have
         <application>Evolution</application> put mail into different
         folders, but you can have it do almost anything you like.
-        People who subscribe to multiple mailing lists, or who often
-        need to refer to messages they have sent, find filters
-        especially helpful to separate personal from list-related
-        mail, but they're good for anybody who gets more than a few
-        messages a day.  To create a filter, open the
-        <interface>filter assistant</interface> by selecting
+        People who get lots of mail, or who often need to refer to old
+        messages, find filters especially helpful, but they're good
+        for anybody who gets more than a few messages a day.  To
+        create a filter, open the <interface>filter
+        assistant</interface> by selecting
 	<menuchoice>
-	  <guimenu>Tools</guimenu> 
+	  <guimenu>Settings</guimenu> 
           <guimenuitem>Mail Filters</guimenuitem>
         </menuchoice>.
       </para>
@@ -1055,8 +1062,8 @@ possibly never will be due to security evil. -->
         list of your current filters, sorted by the order in which
         they are used.  From the drop-down box at the top of the
         window, choose <guilabel>Incoming</guilabel> to display
-        filters for incoming mail, and <guilabel>On Demand</guilabel>
-        for those which sort your mail only when you want.
+        filters for incoming mail, and <guilabel>Outgoing</guilabel>
+        for those which sort only outgoing mail.
       </para>
       <para>
          The <interface>filter assistant</interface> also has a set of
@@ -1086,15 +1093,15 @@ possibly never will be due to security evil. -->
         </itemizedlist>
 
         If you don't have any filters set up, the only one of those
-        buttons you can click is <guibutton>Add</guibutton>.  When you
-        do that, (or when you click <guibutton>Edit</guibutton> with a
-        filter selected), the <interface>Add Rule</interface> window
-        appears.
+        buttons you can click is <guibutton>Add</guibutton>, which
+        will open a dialog to let you add a filter rule.  If you do
+        have filters, you can either add a new filter rule, or select
+        one from your list and click <guibutton>Edit</guibutton>.
       </para>
       <para>
-        That window, shown in <xref
+        The filter rule editor, shown in <xref
         linkend="usage-mail-filters-fig-new">, is where you'll
-        actually create your filtering rule.  
+        actually create your filtering rule.
 
        <figure id="usage-mail-filters-fig-new">
 	 <title>Creating a new Filter</title>
@@ -1107,8 +1114,9 @@ possibly never will be due to security evil. -->
       </para>
       <para>
         Enter a name for your filter in the <guilabel>Rule
-        Name</guilabel> field, and then begin choosing criteria.
-        Choose how many criteria you'd like by pressing <guibutton>Add
+        Name</guilabel> field, and then begin choosing the criteria
+        you'd like to use as you sort your mail.  Choose how many
+        criteria you'd like by pressing <guibutton>Add
         Criterion</guibutton> and <guibutton>Remove
         Criterion</guibutton>.  If you have multiple criteria, you
         should then decide whether to have the filter do its job only
@@ -1143,45 +1151,46 @@ possibly never will be due to security evil. -->
 
 	  <varlistentry>
 	    <term><guilabel>Specific Header</guilabel></term>
-	    <listitem><para> The filter can look at any header you
-	    want, even obscure or custom ones like X-Bonus or
-	    X-Archive. Enter the header name, and what text you'd like to find
-	     inside it.  </para></listitem>
+	    <listitem><para>
+              The filter can look at any header you
+	      want, even obscure or custom ones. Enter the header name
+	      in the first text box, and put your search text in the
+	      second one.
+            </para></listitem>
 	  </varlistentry>
 
 	  <varlistentry>
 	    <term><guilabel>Message Body</guilabel></term>
 	    <listitem><para>
-                The actual text of the message.
+                Search in the actual text of the message.
             </para></listitem>
 	  </varlistentry>
 
 	  <varlistentry>
 	    <term><guilabel>Expression</guilabel></term>
-	    <listitem><para> Enter a <glossterm
-	    linkend="regular-expression">regular
-	    expression</glossterm>, and
-	    <application>Evolution</application> will search the
-	    entire message, headers and all, to match it for you.
-	    </para></listitem>
+	    <listitem>
+             <para>
+               Enter a <glossterm linkend="regular-expression">regular
+	       expression</glossterm>, and
+	       <application>Evolution</application> will search the
+	       entire message, including headers, to match it for you.
+	     </para>
+           </listitem>
 	  </varlistentry>
 
 
 	  <varlistentry>
 	    <term><guilabel>Date Sent</guilabel></term>
-	    <listitem><para>
-                You can filter messages by when they were sent: First,
-                choose how you'd like to match the time&mdash;
-                <guilabel>before</guilabel>,
-                <guilabel>after</guilabel> and so forth.  Then, choose
-                the time. The filter compare the message's time-stamp
-                to the system clock when the filter is run, or to a
-                specific time and date you choose from a calendar.
-                You can even have it look for messages within a range
-                of time relative to the filter.  For example, you could have
-                the filter catch all messages sent less
-                than a week before the filter is run.
-            </para></listitem>
+	    <listitem><para> Filter messages by when they were sent:
+	    First, choose the conditions you want a message to
+	    meet&mdash; <guilabel>before</guilabel> a given time,
+	    <guilabel>after</guilabel> it, and so forth.  Then, choose
+	    the time. The filter will compare the message's time-stamp
+	    to the system clock when the filter is run, or to a
+	    specific time and date you choose from a calendar.  You
+	    can even have it look for messages within a range of time
+	    relative to the filter&mdash perhaps you're looking for
+	    messages less than two days old.  </para></listitem>
 	  </varlistentry>
 
 	  <varlistentry>
@@ -1208,27 +1217,30 @@ possibly never will be due to security evil. -->
 	    <listitem>
               <para>
                 If you know your way around a <glossterm
-  	        linkend="regular-expression">regex </glossterm>, or
-  	        regular expression, put your knowledge to use
-  	        here.
-               </para>
+  	        linkend="regular-expression">regex</glossterm>, or
+  	        regular expression, put your knowledge to use here.
+  	       </para>
             </listitem>
           </varlistentry>
 
 	  <varlistentry>
 	    <term><guilabel>Source</guilabel></term>
-	    <listitem><para>
-               Filter messages according the server you got them from.  You can enter a URL or
-               choose one from the drop-down list.  This criterion is only relevant if you
-               use more than one mail source.
-            </para></listitem>
+	    <listitem>
+               <para>
+               Filter messages according the server you got them from.
+               You can enter a URL or choose one from the drop-down
+               list.  This ability is only relevant if you use more
+               than one mail source.
+             </para>
+            </listitem>
 	  </varlistentry>
 	</variablelist>
       </para>
         <para>
-        Now, tell it what to do with those messages.  If you want multiple
-        actions, click <guibutton>Add Action</guibutton>; if you want fewer,
-        click <guibutton>Remove Action</guibutton>.  And choose again:
+        Now, tell it what to do with those messages.  If you want more
+        actions, click <guibutton>Add Action</guibutton>; if you want
+        fewer, click <guibutton>Remove Action</guibutton>.  And choose
+        again:
         <variablelist>
 
 	  <varlistentry>
@@ -1372,7 +1384,7 @@ possibly never will be due to security evil. -->
       <para>
 	As messages that meet the virtual folder criteria arrive or are
 	deleted, <application>Evolution</application> will
-	automatically place them in and and remove them from the
+	automatically place them in and remove them from the
 	virtual folder contents list.  When you delete a message, it gets
 	erased from the folder in which it actually exists, as well as
 	any virtual folders which display it.
@@ -1384,7 +1396,7 @@ possibly never will be due to security evil. -->
 	changing groups of faculty, staff, administrators and
 	students.  The more mail you need to organize, the less you
 	can afford the sort of confusion that stems from an
-	organizational system that's not flexible enough.  virtual folders
+	organizational system that's not flexible enough.  Virtual folders
 	make for better organization because they can accept
 	overlapping groups in a way that regular folders and filing
 	systems can't.
@@ -1393,17 +1405,17 @@ possibly never will be due to security evil. -->
       <example id="usage-mail-organize-vFolders-ex">
 	<title>Using Folders, Searches, and Virtual Folders</title>
 	<para>
-	   To organize my mail box, I set up a virtual folder for emails from
-	   my friend and co-worker Anna.  I have another one for
-	   messages from anybody at work that have "Evolution" in the
-	   subject line, so I can keep a record of what people from
-	   work send me about <application>Evolution</application>.
-	   If Anna sends a message about a picnic on Saturday, it only
-	   shows up in the "Anna" folder. When Anna sends me mail
-	   about the user interface for
-	   <application>Evolution</application>, I can see that
-	   message both in the "Anna" virtual folder and in the "Internal
-	   Evolution Discussion" virtual folder.
+	   To organize my mail box, I set up a virtual folder for
+	   emails from my friend and co-worker Anna.  I have another
+	   one for messages that have "ximian.com" in the address and
+	   "Evolution" in the subject line, so I can keep a record of
+	   what people from work send me about
+	   <application>Evolution</application>.  If Anna sends me a
+	   message about anything other than Evolution, it only shows
+	   up in the "Anna" folder. When Anna sends me mail about the
+	   user interface for <application>Evolution</application>, I
+	   can see that message both in the "Anna" virtual folder and
+	   in the "Internal Evolution Discussion" virtual folder.
 	</para>
       </example>
 
@@ -1411,7 +1423,7 @@ possibly never will be due to security evil. -->
 
       <para>
 	 To create a virtual folder, select <menuchoice>
-	 <guimenu>Tools</guimenu> <guimenuitem>Virtual Folder
+	 <guimenu>Settings</guimenu> <guimenuitem>Virtual Folder
 	 Editor</guimenuitem> </menuchoice>.  This will bring up a
 	 dialog box that looks suspiciously like the filter window
 	 (for more information on filters, see <xref
@@ -1421,7 +1433,7 @@ possibly never will be due to security evil. -->
 	 here, and you can select, edit or remove them if you wish.
 	 If you have not created any, there will be only one available
 	 option: click <guibutton>Add</guibutton> to add a new
-	 vFolder.
+	 Virtual Folder.
       </para>
       <para>
 	 You can enter a name for your virtual folder in the
@@ -1437,7 +1449,7 @@ possibly never will be due to security evil. -->
        </para>
        <para>
          The second part, however, is slightly different.  In the
-         section of the window labelled <guilabel>vFolder Sources
+         section of the window labelled <guilabel>Virtual Folder Sources
          </guilabel> is a list of folders in which
          <application>Evolution</application> will search for the
          contents of your vFolder.  Click <guibutton>Add</guibutton>

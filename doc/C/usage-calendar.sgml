@@ -258,7 +258,10 @@ lack of time, resources, and interest.
        calendar events.  Tasks are colored and sorted by priority and
        due-date (see <xref linkend="config-prefs"> for more
        information), and are included with calendar data during
-       synchronization with a hand-held device.
+       synchronization with a hand-held device.  You can also see the
+       list in a larger format by choosing the
+       <guibutton>Tasks</guibutton> button in the shortcut bar or in
+       the folder tree.
     </para>
     <para>
        To record a new task, click the <guibutton>Add</guibutton>
