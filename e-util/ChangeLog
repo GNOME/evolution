@@ -1,3 +1,16 @@
+2004-07-02  Chris Toshok  <toshok@ximian.com>
+
+	[ fixes #60691 ]
+	
+	* e-iterator.h: rename the "delete" member to
+	"remove", to fix c++ build.
+
+	* e-iterator.c (e_iterator_delete): same.
+	(e_iterator_class_init): same.
+
+	* e-list-iterator.c (e_list_iterator_class_init): same.
+	(e_list_iterator_remove): same.
+
 2004-06-03  Dan Winship  <danw@novell.com>
 
 	* e-icon-factory.c (load_icon): If the icon_name is an abolute

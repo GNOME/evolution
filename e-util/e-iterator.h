@@ -41,7 +41,7 @@ struct _EIteratorClass {
 	void         (*last)       (EIterator  *iterator);
 	gboolean     (*next)       (EIterator  *iterator);
 	gboolean     (*prev)       (EIterator  *iterator);
-	void         (*delete)     (EIterator  *iterator);
+	void         (*remove)     (EIterator  *iterator);
 	void         (*insert)     (EIterator  *iterator,
 				    const void *object,
 				    gboolean   	before);

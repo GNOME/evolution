@@ -83,7 +83,7 @@ e_iterator_class_init (EIteratorClass *klass)
 	klass->last       = NULL;
 	klass->next       = NULL;
 	klass->prev       = NULL;
-	klass->delete     = NULL;
+	klass->remove     = NULL;
 	klass->insert     = NULL;
 	klass->set        = NULL;
 	klass->is_valid   = NULL;
@@ -144,8 +144,8 @@ e_iterator_prev     (EIterator *iterator)
 void
 e_iterator_delete   (EIterator *iterator)
 {
-	if (E_ITERATOR_GET_CLASS(iterator)->delete)
-		E_ITERATOR_GET_CLASS(iterator)->delete(iterator);
+	if (E_ITERATOR_GET_CLASS(iterator)->remove)
+		E_ITERATOR_GET_CLASS(iterator)->remove(iterator);
 }
 
 void           e_iterator_insert     (EIterator  *iterator,
