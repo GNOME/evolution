@@ -1,3 +1,11 @@
+2000-07-29  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-table-click-to-add.c: Made enter key destroy and recreate the
+	ETableItem.
+
+	* e-table-item.c: Grab focus when person clicks even if cursor
+	isn't changing.
+
 2000-07-28  Dan Winship  <danw@helixcode.com>
 
 	* e-table-header.c (eth_destroy): Remove the idle handler before

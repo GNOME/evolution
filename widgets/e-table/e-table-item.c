@@ -1361,6 +1361,8 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		gint ctrled = e->button.state & GDK_CONTROL_MASK;
 		gint cursor_row, cursor_col;
 
+		e_canvas_item_grab_focus(GNOME_CANVAS_ITEM(eti));
+
 		switch (e->button.button) {
 		case 1: /* Fall through. */
 		case 2:

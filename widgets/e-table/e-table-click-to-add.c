@@ -319,14 +319,26 @@ etcta_event (GnomeCanvasItem *item, GdkEvent *e)
 		case GDK_3270_Enter:
 			if (etcta->row) {
 				ETableModel *one;
-				e_table_selection_model_clear(etcta->selection);
 
 				e_table_one_commit(E_TABLE_ONE(etcta->one));
 				etcta_drop_one (etcta);
+				gtk_object_destroy(GTK_OBJECT(etcta->row));
+				etcta->row = NULL;
 
 				one = e_table_one_new(etcta->model);
 				etcta_add_one (etcta, one);
 				gtk_object_unref(GTK_OBJECT(one));
+
+				e_table_selection_model_clear(etcta->selection);
+
+				etcta->row = gnome_canvas_item_new(GNOME_CANVAS_GROUP(item),
+								   e_table_item_get_type(),
+								   "ETableHeader", etcta->eth,
+								   "ETableModel", etcta->one,
+								   "minimum_width", etcta->width,
+								   "drawgrid", TRUE,
+								   "table_selection_model", etcta->selection,
+								   NULL);
 
 				e_table_item_set_cursor(E_TABLE_ITEM(etcta->row), 0, 0);
 			}
