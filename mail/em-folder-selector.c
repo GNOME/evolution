@@ -360,7 +360,7 @@ em_folder_selector_get_selected_uri (EMFolderSelector *emfs)
 			char *path;
 
 			path = g_strdup_printf("%s/%s", (url->path == NULL || strcmp(url->path, "/") == 0) ? "":url->path, name);
-			camel_url_set_path(url, newpath);
+			camel_url_set_path(url, path);
 			if (path[0] == '/') {
 				newpath = g_strdup(path+1);
 				g_free(path);

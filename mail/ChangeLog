@@ -1,5 +1,8 @@
 2004-06-01  Not Zed  <NotZed@Ximian.com>
 
+	* em-folder-selector.c (em_folder_selector_get_selected_uri): set
+	the right path on the url.
+
 	* mail-signature-editor.c (load_signature): ugh, unlike camel
 	exceptions, you can't pass NULL to CORBA calls.
 	(mail_signature_editor): ditto.  See bug #58815.
