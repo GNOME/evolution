@@ -1077,7 +1077,7 @@ esac
 AM_PATH_ORBIT2(2.8.0)
 
 AC_MSG_CHECKING(for CORBA include paths)
-IDL_INCLUDES="-I "`pkg-config --variable=idldir libbonobo-2.0`" -I "`pkg-config --variable=idldir bonobo-activation-2.0`
+IDL_INCLUDES="-I "`pkg-config --variable=idldir libbonobo-2.0`" -I "`pkg-config --variable=idldir bonobo-activation-2.0`" -I "`pkg-config --variable=idldir evolution-data-server-1.0`
 AC_MSG_RESULT($IDL_INCLUDES)
 AC_SUBST(IDL_INCLUDES)
 
@@ -1114,6 +1114,10 @@ AC_CHECK_HEADERS(libgnomeui/gnome-thumbnail.h)
 CPPFLAGS="$CPPFLAGS_save"
 
 dnl --- Flags for the various libraries we build
+
+EVO_SET_COMPILE_FLAGS(TZDIALOG, libecal-1.0, $GNOME_FULL_CFLAGS, $GNOME_FULL_LIBS)
+AC_SUBST(TZDIALOG_CFLAGS)
+AC_SUBST(TZDIALOG_LIBS)
 
 EVO_SET_COMPILE_FLAGS(CAMEL, glib-2.0 gthread-2.0 gal-2.2 >= $GAL_REQUIRED $mozilla_nss,
 		      $THREADS_CFLAGS $KRB4_CFLAGS $KRB5_CFLAGS $MANUAL_NSS_CFLAGS $OPENSSL_CFLAGS,
@@ -1165,7 +1169,7 @@ AC_SUBST(SHELL_LIBS)
 
 dnl --- evolution-addressbook flags
 
-EVOLUTION_ADDRESSBOOK_DEPS="gconf-2.0 libbonoboui-2.0 libglade-2.0 gal-2.2 >= $GAL_REQUIRED libgnomeui-2.0 libgnome-2.0 libgnomecanvas-2.0 gnome-vfs-2.0 libgnomeprintui-2.2 libgtkhtml-3.1 >= $GTKHTML_REQUIRED"
+EVOLUTION_ADDRESSBOOK_DEPS="gconf-2.0 libbonoboui-2.0 libglade-2.0 gal-2.2 >= $GAL_REQUIRED libgnomeui-2.0 libgnome-2.0 libgnomecanvas-2.0 gnome-vfs-2.0 libgnomeprintui-2.2 libgtkhtml-3.1 >= $GTKHTML_REQUIRED libebook-1.0"
 
 EVO_SET_COMPILE_FLAGS(EVOLUTION_ADDRESSBOOK, $EVOLUTION_ADDRESSBOOK_DEPS)
 AC_SUBST(EVOLUTION_ADDRESSBOOK_CFLAGS)
@@ -1179,27 +1183,33 @@ fi
 
 dnl --- evolution-calendar flags
 
-EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR, libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 gal-2.2 >= $GAL_REQUIRED libglade-2.0 gnome-vfs-2.0 libgnomeprint-2.2 libgnomeprintui-2.2 libgtkhtml-3.1 >= $GTKHTML_REQUIRED, ${GTKHTML_CFLAGS}, ${GTKHTML_LIBS})
+EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR, libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 gal-2.2 >= $GAL_REQUIRED libglade-2.0 gnome-vfs-2.0 libgnomeprint-2.2 libgnomeprintui-2.2 libgtkhtml-3.1 >= $GTKHTML_REQUIRED libebook-1.0 libecal-1.0)
 AC_SUBST(EVOLUTION_CALENDAR_CFLAGS)
 AC_SUBST(EVOLUTION_CALENDAR_LIBS)
 
 if test x$enable_pilot_conduits = xyes; then
-EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR_CONDUIT, gnome-pilot-2.0 $EVOLUTION_CALENDAR_DEPS)
+EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR_CONDUIT, gnome-pilot-2.0, $EVOLUTION_CALENDAR_CFLAGS, $EVOLUTION_CALENDAR_LIBS)
 AC_SUBST(EVOLUTION_CALENDAR_CONDUIT_CFLAGS)
 AC_SUBST(EVOLUTION_CALENDAR_CONDUIT_LIBS)
 fi
 
 dnl --- evolution-mail flags
 
-EVO_SET_COMPILE_FLAGS(EVOLUTION_MAIL, libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 gal-2.2 >= $GAL_REQUIRED libglade-2.0 gnome-vfs-module-2.0 libgnomeprint-2.2 libgnomeprintui-2.2 libgtkhtml-3.1 >= $GTKHTML_REQUIRED libxml-2.0 bonobo-activation-2.0 gthread-2.0 gconf-2.0 $mozilla_nss)
+EVO_SET_COMPILE_FLAGS(EVOLUTION_MAIL, libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 gal-2.2 >= $GAL_REQUIRED libglade-2.0 gnome-vfs-module-2.0 libgnomeprint-2.2 libgnomeprintui-2.2 libgtkhtml-3.1 >= $GTKHTML_REQUIRED libxml-2.0 bonobo-activation-2.0 gthread-2.0 gconf-2.0 $mozilla_nss libebook-1.0)
 AC_SUBST(EVOLUTION_MAIL_CFLAGS)
 AC_SUBST(EVOLUTION_MAIL_LIBS)
 
-dnl -- wombat flags
+dnl -- evolution-data-server IDL
 
-EVO_SET_COMPILE_FLAGS(WOMBAT, gal-2.2 libgnome-2.0, $LDAP_CFLAGS, $LDAP_LIBS)
-AC_SUBST(WOMBAT_CFLAGS)
-AC_SUBST(WOMBAT_LIBS)
+AC_MSG_CHECKING(for evolution-data-server IDL)
+DATASERVER_IDL=`pkg-config --variable=idldir evolution-data-server-1.0`/Evolution-DataServer.idl
+echo $DATASERVER_IDL
+if test -f "$DATASERVER_IDL"; then
+	   AC_MSG_RESULT($DATASERVER_IDL)
+	   AC_SUBST(DATASERVER_IDL)
+else
+	AC_MSG_ERROR(no)
+fi
 
 dnl *******************
 dnl Special directories
@@ -1374,13 +1384,6 @@ addressbook/gui/contact-list-editor/Makefile
 addressbook/gui/merging/Makefile
 addressbook/gui/search/Makefile
 addressbook/gui/widgets/Makefile
-addressbook/backend/Makefile
-addressbook/backend/ebook/Makefile
-addressbook/backend/ebook/tests/Makefile
-addressbook/backend/ebook/tests/ebook/Makefile
-addressbook/backend/ebook/tests/vcard/Makefile
-addressbook/backend/pas/Makefile
-addressbook/backend/idl/Makefile
 addressbook/conduit/Makefile
 addressbook/printing/Makefile
 addressbook/util/Makefile
@@ -1444,16 +1447,12 @@ widgets/Makefile
 widgets/e-timezone-dialog/Makefile
 widgets/menus/Makefile
 widgets/misc/Makefile
-wombat/Makefile
 calendar/Makefile
 calendar/importers/Makefile
 calendar/idl/Makefile
-calendar/cal-util/Makefile
-calendar/cal-client/Makefile
 calendar/conduits/Makefile
 calendar/conduits/todo/Makefile
 calendar/conduits/calendar/Makefile
-calendar/pcs/Makefile
 calendar/gui/Makefile
 calendar/gui/alarm-notify/Makefile
 calendar/gui/dialogs/Makefile
@@ -1464,8 +1463,6 @@ smime/lib/Makefile
 smime/gui/Makefile
 tools/Makefile
 evolution-shell.pc
-evolution-addressbook.pc
-evolution-calendar.pc
 camel.pc
 ])
 

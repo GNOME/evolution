@@ -32,7 +32,7 @@
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-canvas-utils.h>
 #include <gal/widgets/e-canvas.h>
-#include "addressbook/backend/ebook/e-book.h"
+#include <libebook/e-book.h>
 #include "eab-marshal.h"
 #include "eab-gui-util.h"
 #include "e-minicard.h"

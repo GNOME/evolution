@@ -36,10 +36,10 @@ static void ea_cal_view_class_init (EaCalViewClass *klass);
 static AtkObject* ea_cal_view_get_parent (AtkObject *accessible);
 static void ea_cal_view_real_initialize (AtkObject *accessible, gpointer data);
 
-static void ea_cal_view_event_changed_cb (ECalView *cal_view,
-                                          ECalViewEvent *event, gpointer data);
-static void ea_cal_view_event_added_cb (ECalView *cal_view,
-                                        ECalViewEvent *event, gpointer data);
+static void ea_cal_view_event_changed_cb (ECalendarView *cal_view,
+                                          ECalendarViewEvent *event, gpointer data);
+static void ea_cal_view_event_added_cb (ECalendarView *cal_view,
+                                        ECalendarViewEvent *event, gpointer data);
 
 static gboolean idle_dates_changed (gpointer data);
 static void ea_cal_view_dates_change_cb (GnomeCalendar *gcal, gpointer data);
@@ -123,7 +123,7 @@ ea_cal_view_new (GtkWidget *widget)
 	GObject *object;
 	AtkObject *accessible;
 
-	g_return_val_if_fail (E_IS_CAL_VIEW (widget), NULL);
+	g_return_val_if_fail (E_IS_CALENDAR_VIEW (widget), NULL);
 
 	object = g_object_new (EA_TYPE_CAL_VIEW, NULL);
 
@@ -136,18 +136,18 @@ ea_cal_view_new (GtkWidget *widget)
 static void
 ea_cal_view_real_initialize (AtkObject *accessible, gpointer data)
 {
-	ECalView *cal_view;
+	ECalendarView *cal_view;
 	GnomeCalendar *gcal;
 	static AtkRole role = ATK_ROLE_INVALID;
 
 	g_return_if_fail (EA_IS_CAL_VIEW (accessible));
-	g_return_if_fail (E_IS_CAL_VIEW (data));
+	g_return_if_fail (E_IS_CALENDAR_VIEW (data));
 
         ATK_OBJECT_CLASS (parent_class)->initialize (accessible, data);
 	if (role == ATK_ROLE_INVALID)
 		role = atk_role_register ("Calendar View");
 	accessible->role = role;
-	cal_view = E_CAL_VIEW (data);
+	cal_view = E_CALENDAR_VIEW (data);
 
 	/* add listener for event_changed, event_added
 	 * we don't need to listen on event_removed. When the e_text
@@ -160,7 +160,7 @@ ea_cal_view_real_initialize (AtkObject *accessible, gpointer data)
 			  G_CALLBACK (ea_cal_view_event_added_cb), NULL);
 
 	/* listen for date changes of calendar */
-	gcal = e_cal_view_get_calendar (cal_view);
+	gcal = e_calendar_view_get_calendar (cal_view);
 
 	if (gcal)
 		g_signal_connect (gcal, "dates_shown_changed",
@@ -171,29 +171,29 @@ ea_cal_view_real_initialize (AtkObject *accessible, gpointer data)
 static AtkObject* 
 ea_cal_view_get_parent (AtkObject *accessible)
 {
-	ECalView *cal_view;
+	ECalendarView *cal_view;
 	GnomeCalendar *gnomeCalendar;
 
 	g_return_val_if_fail (EA_IS_CAL_VIEW (accessible), NULL);
 
 	if (!GTK_ACCESSIBLE (accessible)->widget)
 		return NULL;
-	cal_view = E_CAL_VIEW (GTK_ACCESSIBLE (accessible)->widget);
+	cal_view = E_CALENDAR_VIEW (GTK_ACCESSIBLE (accessible)->widget);
 
-	gnomeCalendar = e_cal_view_get_calendar (cal_view);
+	gnomeCalendar = e_calendar_view_get_calendar (cal_view);
 
 	return gtk_widget_get_accessible (GTK_WIDGET(gnomeCalendar));
 }
 
 static void
-ea_cal_view_event_changed_cb (ECalView *cal_view, ECalViewEvent *event,
+ea_cal_view_event_changed_cb (ECalendarView *cal_view, ECalendarViewEvent *event,
                               gpointer data)
 {
 	AtkObject *atk_obj;
 	EaCalView *ea_cal_view;
 	AtkObject *event_atk_obj = NULL;
 
-	g_return_if_fail (E_IS_CAL_VIEW (cal_view));
+	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
 
 	atk_obj = gtk_widget_get_accessible (GTK_WIDGET(cal_view));
 	if (!EA_IS_CAL_VIEW (atk_obj))
@@ -225,7 +225,7 @@ ea_cal_view_event_changed_cb (ECalView *cal_view, ECalViewEvent *event,
 }
 
 static void
-ea_cal_view_event_added_cb (ECalView *cal_view, ECalViewEvent *event,
+ea_cal_view_event_added_cb (ECalendarView *cal_view, ECalendarViewEvent *event,
                             gpointer data)
 {
 	AtkObject *atk_obj;
@@ -233,7 +233,7 @@ ea_cal_view_event_added_cb (ECalView *cal_view, ECalViewEvent *event,
 	AtkObject *event_atk_obj = NULL;
 	gint index;
 
-	g_return_if_fail (E_IS_CAL_VIEW (cal_view));
+	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
 
 	atk_obj = gtk_widget_get_accessible (GTK_WIDGET(cal_view));
 	if (!EA_IS_CAL_VIEW (atk_obj))
@@ -327,7 +327,7 @@ action_interface_do_action (AtkAction *action, gint index)
 	GtkWidget *widget;
 	gboolean return_value = TRUE;
 	time_t dtstart, dtend;
-	ECalView *cal_view;
+	ECalendarView *cal_view;
 
 	widget = GTK_ACCESSIBLE (action)->widget;
 	if (widget == NULL)
@@ -339,33 +339,33 @@ action_interface_do_action (AtkAction *action, gint index)
 	if (!GTK_WIDGET_IS_SENSITIVE (widget) || !GTK_WIDGET_VISIBLE (widget))
 		return FALSE;
 
-	cal_view = E_CAL_VIEW (widget);
+	cal_view = E_CALENDAR_VIEW (widget);
 	 switch (index) {
 	 case 0:
 		 /* New Appointment */
-		 e_cal_view_new_appointment (cal_view);
+		 e_calendar_view_new_appointment (cal_view);
 		 break;
 	 case 1:
 		 /* New Event */
-		 e_cal_view_get_selected_time_range (cal_view,
+		 e_calendar_view_get_selected_time_range (cal_view,
 						     &dtstart, &dtend);
-		 e_cal_view_new_appointment_for (cal_view,
+		 e_calendar_view_new_appointment_for (cal_view,
 						 dtstart, dtend, TRUE, FALSE);
 		 break;
 	 case 2:
 		 /* New Meeting */
-		 e_cal_view_get_selected_time_range (cal_view,
+		 e_calendar_view_get_selected_time_range (cal_view,
 						     &dtstart, &dtend);
-		 e_cal_view_new_appointment_for (cal_view,
+		 e_calendar_view_new_appointment_for (cal_view,
 						 dtstart, dtend, FALSE, TRUE);
 		 break;
 	 case 3:
 		 /* Go to today */
 		 break;
-		 calendar_goto_today (e_cal_view_get_calendar (cal_view));
+		 calendar_goto_today (e_calendar_view_get_calendar (cal_view));
 	 case 4:
 		 /* Go to date */
-		 goto_dialog (e_cal_view_get_calendar (cal_view));
+		 goto_dialog (e_calendar_view_get_calendar (cal_view));
 		 break;
 	 default:
 		 return_value = FALSE;

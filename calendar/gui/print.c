@@ -45,7 +45,7 @@
 #include <e-util/e-dialog-widgets.h>
 #include <e-util/e-time-utils.h>
 #include <gal/widgets/e-unicode.h>
-#include <cal-util/timeutil.h>
+#include <libecal/e-cal-time-util.h>
 #include "calendar-commands.h"
 #include "calendar-config.h"
 #include "e-day-view.h"
@@ -523,7 +523,7 @@ format_date(time_t time, int flags, char *buffer, int bufflen)
 }
 
 static gboolean 
-instance_cb (CalComponent *comp, time_t instance_start, time_t instance_end, gpointer data)
+instance_cb (ECalComponent *comp, time_t instance_start, time_t instance_end, gpointer data)
 {
 	gboolean *found = data;
 	
@@ -543,7 +543,7 @@ print_month_small (GnomePrintContext *pc, GnomeCalendar *gcal, time_t month,
 		   int bordertitle)
 {
 	icaltimezone *zone = get_timezone ();
-	CalClient *client;
+	ECal *client;
 	GnomeFont *font, *font_bold, *font_normal;
 	time_t now, next;
 	int x, y;
@@ -640,7 +640,7 @@ print_month_small (GnomePrintContext *pc, GnomeCalendar *gcal, time_t month,
 				sprintf (buf, "%d", day);
 
 				/* this is a slow messy way to do this ... but easy ... */
-				cal_client_generate_instances (client, now, CALOBJ_TYPE_EVENT, 
+				e_cal_generate_instances (client, now, CALOBJ_TYPE_EVENT, 
 							       time_day_end_with_zone (now, zone),
 							       instance_cb, &found);
 				
@@ -856,7 +856,7 @@ print_day_background (GnomePrintContext *pc, GnomeCalendar *gcal,
 
 /* This adds one event to the view, adding it to the appropriate array. */
 static gint
-print_day_add_event (CalComponent *comp,
+print_day_add_event (ECalComponent *comp,
 		     time_t	    start,
 		     time_t	    end,
 		     gint	    days_shown,
@@ -932,7 +932,7 @@ print_day_add_event (CalComponent *comp,
 
 
 static gboolean
-print_day_details_cb (CalComponent *comp, time_t istart, time_t iend,
+print_day_details_cb (ECalComponent *comp, time_t istart, time_t iend,
 		      gpointer data)
 {
 	struct pdinfo *pdi = (struct pdinfo *)data;
@@ -1124,7 +1124,7 @@ print_day_details (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 		   double left, double right, double top, double bottom)
 {
 	icaltimezone *zone = get_timezone ();
-	CalClient *client;
+	ECal *client;
 	EDayViewEvent *event;
 	GnomeFont *font;
 	time_t start, end;
@@ -1152,7 +1152,7 @@ print_day_details (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 
 	/* Get the events from the server. */
 	client = gnome_calendar_get_default_client (gcal);
-	cal_client_generate_instances (client, CALOBJ_TYPE_EVENT, start, end,
+	e_cal_generate_instances (client, CALOBJ_TYPE_EVENT, start, end,
 				       print_day_details_cb, &pdi);
 	qsort (pdi.long_events->data, pdi.long_events->len,
 	       sizeof (EDayViewEvent), e_day_view_event_sort_func);
@@ -1242,7 +1242,7 @@ print_day_details (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 
 /* This adds one event to the view, adding it to the appropriate array. */
 static gboolean
-print_week_summary_cb (CalComponent *comp,
+print_week_summary_cb (ECalComponent *comp,
 		       time_t	  start,
 		       time_t	  end,
 		       gpointer	  data)
@@ -1550,7 +1550,7 @@ print_week_summary (GnomePrintContext *pc, GnomeCalendar *gcal,
 		    double left, double right, double top, double bottom)
 {
 	icaltimezone *zone = get_timezone ();
-	CalClient *client;
+	ECal *client;
 	EWeekViewEvent *event;
 	struct psinfo psi;
 	time_t day_start;
@@ -1588,7 +1588,7 @@ print_week_summary (GnomePrintContext *pc, GnomeCalendar *gcal,
 
 	/* Get the events from the server. */
 	client = gnome_calendar_get_default_client (gcal);
-	cal_client_generate_instances (client, CALOBJ_TYPE_EVENT,
+	e_cal_generate_instances (client, CALOBJ_TYPE_EVENT,
 				       psi.day_starts[0],
 				       psi.day_starts[psi.days_shown],
 				       print_week_summary_cb, &psi);
@@ -1773,7 +1773,7 @@ print_todo_details (GnomePrintContext *pc, GnomeCalendar *gcal,
 		    time_t start, time_t end,
 		    double left, double right, double top, double bottom)
 {
-	CalClient *client;
+	ECal *client;
 	GnomeFont *font_summary;
 	double y, yend, x, xend;
 	struct icaltimetype *tt;
@@ -1787,7 +1787,7 @@ print_todo_details (GnomePrintContext *pc, GnomeCalendar *gcal,
 	task_pad = gnome_calendar_get_task_pad (gcal);
 	table = e_calendar_table_get_table (task_pad);
 	model = e_calendar_table_get_model (task_pad);
-	client = gnome_calendar_get_task_pad_cal_client (gcal);
+	client = gnome_calendar_get_task_pad_e_cal (gcal);
 
 	font_summary = get_font_for_size (10, GNOME_FONT_BOOK, FALSE);
 
@@ -1803,8 +1803,8 @@ print_todo_details (GnomePrintContext *pc, GnomeCalendar *gcal,
 	rows = e_table_model_row_count (E_TABLE_MODEL (model));
 	for (row = 0; row < rows; row++) {
 		ECalModelComponent *comp_data;
-		CalComponent *comp;
-		CalComponentText summary;
+		ECalComponent *comp;
+		ECalComponentText summary;
 		int model_row;
 
 		model_row = e_table_view_to_model_row (table, row);
@@ -1812,10 +1812,10 @@ print_todo_details (GnomePrintContext *pc, GnomeCalendar *gcal,
 		if (!comp_data)
 			continue;
 
-		comp = cal_component_new ();
-		cal_component_set_icalcomponent (comp, icalcomponent_new_clone (comp_data->icalcomp));
+		comp = e_cal_component_new ();
+		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (comp_data->icalcomp));
 
-		cal_component_get_summary (comp, &summary);
+		e_cal_component_get_summary (comp, &summary);
 		if (!summary.value) {
 			g_object_unref (comp);
 			continue;
@@ -1831,9 +1831,9 @@ print_todo_details (GnomePrintContext *pc, GnomeCalendar *gcal,
 		print_border (pc, x + 2, x + 8, y - 3, y - 11, 0.1, -1.0);
 
 		/* If the task is complete, print a tick in the box. */
-		cal_component_get_completed (comp, &tt);
+		e_cal_component_get_completed (comp, &tt);
 		if (tt) {
-			cal_component_free_icaltimetype (tt);
+			e_cal_component_free_icaltimetype (tt);
 
 			gnome_print_setrgbcolor (pc, 0, 0, 0);
 			gnome_print_setlinewidth (pc, 1.0);
@@ -2163,7 +2163,7 @@ write_label_piece (time_t t, char *buffer, int size, char *stext, char *etext)
 }
 
 static icaltimezone*
-get_zone_from_tzid (CalClient *client, const char *tzid)
+get_zone_from_tzid (ECal *client, const char *tzid)
 {
 	icaltimezone *zone;
 
@@ -2171,7 +2171,7 @@ get_zone_from_tzid (CalClient *client, const char *tzid)
 	   the builtin timezone with the TZID first. */
 	zone = icaltimezone_get_builtin_timezone_from_tzid (tzid);
 	if (!zone) {
-		if (!cal_client_get_timezone (client, tzid, &zone, NULL)) 
+		if (!e_cal_get_timezone (client, tzid, &zone, NULL)) 
 			/* FIXME: Handle error better. */
 			g_warning ("Couldn't get timezone from server: %s",
 				   tzid ? tzid : "");
@@ -2181,44 +2181,44 @@ get_zone_from_tzid (CalClient *client, const char *tzid)
 }
 
 static void
-print_date_label (GnomePrintContext *pc, CalComponent *comp, CalClient *client,
+print_date_label (GnomePrintContext *pc, ECalComponent *comp, ECal *client,
 		  double left, double right, double top, double bottom)
 {
 	icaltimezone *start_zone, *end_zone, *due_zone, *completed_zone;
-	CalComponentDateTime datetime;
+	ECalComponentDateTime datetime;
 	time_t start = 0, end = 0, complete = 0, due = 0;
 	static char buffer[1024];
 
-	cal_component_get_dtstart (comp, &datetime);
+	e_cal_component_get_dtstart (comp, &datetime);
 	if (datetime.value) {
 		start_zone = get_zone_from_tzid (client, datetime.tzid);
 		start = icaltime_as_timet_with_zone (*datetime.value,
 						     start_zone);
 	}
-	cal_component_free_datetime (&datetime);
+	e_cal_component_free_datetime (&datetime);
 
-	cal_component_get_dtend (comp, &datetime);
+	e_cal_component_get_dtend (comp, &datetime);
 	if (datetime.value) {
 		end_zone = get_zone_from_tzid (client, datetime.tzid);
 		end = icaltime_as_timet_with_zone (*datetime.value,
 						   end_zone);
 	}
-	cal_component_free_datetime (&datetime);
+	e_cal_component_free_datetime (&datetime);
 
-	cal_component_get_due (comp, &datetime);
+	e_cal_component_get_due (comp, &datetime);
 	if (datetime.value) {
 		due_zone = get_zone_from_tzid (client, datetime.tzid);
 		due = icaltime_as_timet_with_zone (*datetime.value,
 						   due_zone);
 	}
-	cal_component_free_datetime (&datetime);
+	e_cal_component_free_datetime (&datetime);
 
-	cal_component_get_completed (comp, &datetime.value);
+	e_cal_component_get_completed (comp, &datetime.value);
 	if (datetime.value) {
 		completed_zone = icaltimezone_get_utc_timezone ();
 		complete = icaltime_as_timet_with_zone (*datetime.value,
 							completed_zone);
-		cal_component_free_icaltimetype (datetime.value);
+		e_cal_component_free_icaltimetype (datetime.value);
 	}
 
 	buffer[0] = '\0';
@@ -2248,24 +2248,24 @@ print_date_label (GnomePrintContext *pc, CalComponent *comp, CalClient *client,
 }
 
 static void
-print_comp_item (GnomePrintContext *pc, CalComponent *comp, CalClient *client,
+print_comp_item (GnomePrintContext *pc, ECalComponent *comp, ECal *client,
 		 double left, double right, double top, double bottom)
 {
 	GnomeFont *font;
-	CalComponentVType vtype;
-	CalComponentText text;
+	ECalComponentVType vtype;
+	ECalComponentText text;
 	GSList *desc, *l;
 	const char *title, *categories;
 	char *categories_string;
 	GSList *contact_list, *elem;
 	gint header_size;
 
-	vtype = cal_component_get_vtype (comp);
+	vtype = e_cal_component_get_vtype (comp);
 
 	/* We should only be asked to print VEVENTs or VTODOs. */
-	if (vtype == CAL_COMPONENT_EVENT)
+	if (vtype == E_CAL_COMPONENT_EVENT)
 		title = _("Appointment");
-	else if (vtype == CAL_COMPONENT_TODO)
+	else if (vtype == E_CAL_COMPONENT_TODO)
 		title = _("Task");
 	else
 		return;
@@ -2285,7 +2285,7 @@ print_comp_item (GnomePrintContext *pc, CalComponent *comp, CalClient *client,
 
 	/* Summary */
 	font = get_font_for_size (18, GNOME_FONT_BOLD, FALSE);
-	cal_component_get_summary (comp, &text);
+	e_cal_component_get_summary (comp, &text);
 	top = bound_text (pc, font, text.value, left, right,
 			  top - 3, bottom, 0);
 	g_object_unref (font);
@@ -2297,7 +2297,7 @@ print_comp_item (GnomePrintContext *pc, CalComponent *comp, CalClient *client,
 	font = get_font_for_size (12, GNOME_FONT_BOOK, FALSE);
 
 	/* For a VTODO we print the Status, Priority, % Complete and URL. */
-	if (vtype == CAL_COMPONENT_TODO) {
+	if (vtype == E_CAL_COMPONENT_TODO) {
 		icalproperty_status status;
 		const char *status_string = NULL;
 		int *percent;
@@ -2305,7 +2305,7 @@ print_comp_item (GnomePrintContext *pc, CalComponent *comp, CalClient *client,
 		const char *url;
 
 		/* Status */
-		cal_component_get_status (comp, &status);
+		e_cal_component_get_status (comp, &status);
 		if (status != ICAL_STATUS_NONE) {
 			switch (status) {
 			case ICAL_STATUS_NEEDSACTION:
@@ -2335,12 +2335,12 @@ print_comp_item (GnomePrintContext *pc, CalComponent *comp, CalClient *client,
 		}
 
 		/* Priority */
-		cal_component_get_priority (comp, &priority);
+		e_cal_component_get_priority (comp, &priority);
 		if (priority && *priority >= 0) {
 			char *priority_string, *text;
 
-			priority_string = cal_util_priority_to_string (*priority);
-			cal_component_free_priority (priority);
+			priority_string = e_cal_util_priority_to_string (*priority);
+			e_cal_component_free_priority (priority);
 
 			text = g_strdup_printf (_("Priority: %s"), priority_string);
 			top = bound_text (pc, font, text,
@@ -2350,12 +2350,12 @@ print_comp_item (GnomePrintContext *pc, CalComponent *comp, CalClient *client,
 		}
 
 		/* Percent Complete */
-		cal_component_get_percent (comp, &percent);
+		e_cal_component_get_percent (comp, &percent);
 		if (percent) {
 			char *percent_string;
 
 			percent_string = g_strdup_printf (_("Percent Complete: %i"), *percent);
-			cal_component_free_percent (percent);
+			e_cal_component_free_percent (percent);
 
 			top = bound_text (pc, font, percent_string,
 					  left, right, top, bottom, 0);
@@ -2364,7 +2364,7 @@ print_comp_item (GnomePrintContext *pc, CalComponent *comp, CalClient *client,
 
 
 		/* URL */
-		cal_component_get_url (comp, &url);
+		e_cal_component_get_url (comp, &url);
 		if (url && url[0]) {
 			char *url_string = g_strdup_printf (_("URL: %s"),
 							    url);
@@ -2378,7 +2378,7 @@ print_comp_item (GnomePrintContext *pc, CalComponent *comp, CalClient *client,
 	}
 
 	/* Categories */
-	cal_component_get_categories (comp, &categories);
+	e_cal_component_get_categories (comp, &categories);
 	if (categories && categories[0]) {
 		categories_string = g_strdup_printf (_("Categories: %s"),
 						     categories);
@@ -2389,17 +2389,17 @@ print_comp_item (GnomePrintContext *pc, CalComponent *comp, CalClient *client,
 	}
 
 	/* Contacts */
-	cal_component_get_contact_list (comp, &contact_list);
+	e_cal_component_get_contact_list (comp, &contact_list);
 	if (contact_list) {
 		GString *contacts = g_string_new (_("Contacts: "));
 		for (elem = contact_list; elem; elem = elem->next) {
-			CalComponentText *t = elem->data;
+			ECalComponentText *t = elem->data;
 			/* Put a comma between contacts. */
 			if (elem != contact_list)
 				g_string_append (contacts, ", ");
 			g_string_append (contacts, t->value);
 		}
-		cal_component_free_text_list (contact_list);
+		e_cal_component_free_text_list (contact_list);
 
 		top = bound_text (pc, font, contacts->str,
 				  left, right, top, bottom, 0);
@@ -2411,14 +2411,14 @@ print_comp_item (GnomePrintContext *pc, CalComponent *comp, CalClient *client,
 	top -= 16;
 
 	/* Description */
-	cal_component_get_description_list (comp, &desc);
+	e_cal_component_get_description_list (comp, &desc);
 	for (l = desc; l != NULL; l = l->next) {
-		CalComponentText *text = l->data;
+		ECalComponentText *text = l->data;
 
 		if (text->value != NULL)
 			top = bound_text (pc, font, text->value, left, right, top-3, bottom, 0);
 	}
-	cal_component_free_text_list (desc);
+	e_cal_component_free_text_list (desc);
 	g_object_unref (font);
 
 	gnome_print_showpage (pc);
@@ -2542,7 +2542,7 @@ print_calendar (GnomeCalendar *gcal, gboolean preview, time_t date,
 
 
 void
-print_comp (CalComponent *comp, CalClient *client, gboolean preview)
+print_comp (ECalComponent *comp, ECal *client, gboolean preview)
 {
 	GnomePrintJob *gpm;
 	GnomePrintContext *pc;
@@ -2550,7 +2550,7 @@ print_comp (CalComponent *comp, CalClient *client, gboolean preview)
 	double l, r, t, b;
 
 	g_return_if_fail (comp != NULL);
-	g_return_if_fail (IS_CAL_COMPONENT (comp));
+	g_return_if_fail (E_IS_CAL_COMPONENT (comp));
 
 	if (!print_config)
 		print_config = gnome_print_config_default ();

@@ -73,9 +73,9 @@ struct _TaskPagePrivate {
 };
 
 static const int classification_map[] = {
-	CAL_COMPONENT_CLASS_PUBLIC,
-	CAL_COMPONENT_CLASS_PRIVATE,
-	CAL_COMPONENT_CLASS_CONFIDENTIAL,
+	E_CAL_COMPONENT_CLASS_PUBLIC,
+	E_CAL_COMPONENT_CLASS_PRIVATE,
+	E_CAL_COMPONENT_CLASS_CONFIDENTIAL,
 	-1
 };
 
@@ -87,8 +87,8 @@ static void task_page_finalize (GObject *object);
 
 static GtkWidget *task_page_get_widget (CompEditorPage *page);
 static void task_page_focus_main_widget (CompEditorPage *page);
-static void task_page_fill_widgets (CompEditorPage *page, CalComponent *comp);
-static gboolean task_page_fill_component (CompEditorPage *page, CalComponent *comp);
+static void task_page_fill_widgets (CompEditorPage *page, ECalComponent *comp);
+static gboolean task_page_fill_component (CompEditorPage *page, ECalComponent *comp);
 static void task_page_set_summary (CompEditorPage *page, const char *summary);
 static void task_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates);
 
@@ -231,14 +231,14 @@ clear_widgets (TaskPage *tpage)
 
 	/* Classification */
 	e_dialog_radio_set (priv->classification_public,
-			    CAL_COMPONENT_CLASS_PRIVATE, classification_map);
+			    E_CAL_COMPONENT_CLASS_PRIVATE, classification_map);
 
 	/* Categories */
 	e_dialog_editable_set (priv->categories, NULL);
 }
 
 /* Decode the radio button group for classifications */
-static CalComponentClassification
+static ECalComponentClassification
 classification_get (GtkWidget *widget)
 {
 	return e_dialog_radio_get (widget, classification_map);
@@ -246,13 +246,13 @@ classification_get (GtkWidget *widget)
 
 /* fill_widgets handler for the task page */
 static void
-task_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
+task_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 {
 	TaskPage *tpage;
 	TaskPagePrivate *priv;
-	CalComponentText text;
-	CalComponentDateTime d;
-	CalComponentClassification cl;
+	ECalComponentText text;
+	ECalComponentDateTime d;
+	ECalComponentClassification cl;
 	GSList *l;
 	const char *categories;
 	icaltimezone *zone, *default_zone;
@@ -267,25 +267,25 @@ task_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	clear_widgets (tpage);
 
         /* Summary, description(s) */
-	cal_component_get_summary (comp, &text);
+	e_cal_component_get_summary (comp, &text);
 	e_dialog_editable_set (priv->summary, text.value);
 
-	cal_component_get_description_list (comp, &l);
+	e_cal_component_get_description_list (comp, &l);
 	if (l) {
-		text = *(CalComponentText *)l->data;
+		text = *(ECalComponentText *)l->data;
 		gtk_text_buffer_set_text (gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->description)),
 					  text.value, -1);
 	} else {
 		gtk_text_buffer_set_text (gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->description)),
 					  "", 0);
 	}
-	cal_component_free_text_list (l);
+	e_cal_component_free_text_list (l);
 
 	location = calendar_config_get_timezone ();
 	default_zone = icaltimezone_get_builtin_timezone (location);
 
 	/* Due Date. */
-	cal_component_get_due (comp, &d);
+	e_cal_component_get_due (comp, &d);
 	zone = NULL;
 	if (d.value) {
 		struct icaltimetype *due_tt = d.value;
@@ -316,7 +316,7 @@ task_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	if (!zone)
 		zone = icaltimezone_get_builtin_timezone_from_tzid (d.tzid);
 	if (!zone) {
-		if (!cal_client_get_timezone (page->client, d.tzid, &zone, NULL))
+		if (!e_cal_get_timezone (page->client, d.tzid, &zone, NULL))
 			/* FIXME: Handle error better. */
 			g_warning ("Couldn't get timezone from server: %s",
 				   d.tzid ? d.tzid : "");
@@ -324,11 +324,11 @@ task_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	e_timezone_entry_set_timezone (E_TIMEZONE_ENTRY (priv->due_timezone),
 				       zone);
 
-	cal_component_free_datetime (&d);
+	e_cal_component_free_datetime (&d);
 
 
 	/* Start Date. */
-	cal_component_get_dtstart (comp, &d);
+	e_cal_component_get_dtstart (comp, &d);
 	zone = NULL;
 	if (d.value) {
 		struct icaltimetype *start_tt = d.value;
@@ -356,7 +356,7 @@ task_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	if (!zone)
 		zone = icaltimezone_get_builtin_timezone_from_tzid (d.tzid);
 	if (!zone) {
-		if (!cal_client_get_timezone (page->client, d.tzid, &zone, NULL))
+		if (!e_cal_get_timezone (page->client, d.tzid, &zone, NULL))
 			/* FIXME: Handle error better. */
 			g_warning ("Couldn't get timezone from server: %s",
 				   d.tzid ? d.tzid : "");
@@ -364,40 +364,40 @@ task_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	e_timezone_entry_set_timezone (E_TIMEZONE_ENTRY (priv->start_timezone),
 				       zone);
 
-	cal_component_free_datetime (&d);
+	e_cal_component_free_datetime (&d);
 
 	/* Classification. */
-	cal_component_get_classification (comp, &cl);
+	e_cal_component_get_classification (comp, &cl);
 
 	switch (cl) {
-	case CAL_COMPONENT_CLASS_PUBLIC:
+	case E_CAL_COMPONENT_CLASS_PUBLIC:
 	    	e_dialog_radio_set (priv->classification_public,
-				    CAL_COMPONENT_CLASS_PUBLIC,
+				    E_CAL_COMPONENT_CLASS_PUBLIC,
 				    classification_map);
 		break;
 
-	case CAL_COMPONENT_CLASS_PRIVATE:
+	case E_CAL_COMPONENT_CLASS_PRIVATE:
 	    	e_dialog_radio_set (priv->classification_public,
-				    CAL_COMPONENT_CLASS_PRIVATE,
+				    E_CAL_COMPONENT_CLASS_PRIVATE,
 				    classification_map);
 		break;
 
-	case CAL_COMPONENT_CLASS_CONFIDENTIAL:
+	case E_CAL_COMPONENT_CLASS_CONFIDENTIAL:
 	    	e_dialog_radio_set (priv->classification_public,
-				    CAL_COMPONENT_CLASS_CONFIDENTIAL,
+				    E_CAL_COMPONENT_CLASS_CONFIDENTIAL,
 				    classification_map);
 		break;
 
 	default:
 		/* default to PUBLIC */
                 e_dialog_radio_set (priv->classification_public,
-                                    CAL_COMPONENT_CLASS_PUBLIC,
+                                    E_CAL_COMPONENT_CLASS_PUBLIC,
                                     classification_map);
                 break;
 	}
 
 	/* Categories */
-	cal_component_get_categories (comp, &categories);
+	e_cal_component_get_categories (comp, &categories);
 	e_dialog_editable_set (priv->categories, categories);
 
 
@@ -406,11 +406,11 @@ task_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 
 /* fill_component handler for the task page */
 static gboolean
-task_page_fill_component (CompEditorPage *page, CalComponent *comp)
+task_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 {
 	TaskPage *tpage;
 	TaskPagePrivate *priv;
-	CalComponentDateTime date;
+	ECalComponentDateTime date;
 	struct icaltimetype start_tt, due_tt;
 	char *cat, *str;
 	gboolean start_date_set, due_date_set, time_set;
@@ -428,14 +428,14 @@ task_page_fill_component (CompEditorPage *page, CalComponent *comp)
 
 	str = e_dialog_editable_get (priv->summary);
 	if (!str || strlen (str) == 0)
-		cal_component_set_summary (comp, NULL);
+		e_cal_component_set_summary (comp, NULL);
 	else {
-		CalComponentText text;
+		ECalComponentText text;
 
 		text.value = str;
 		text.altrep = NULL;
 
-		cal_component_set_summary (comp, &text);
+		e_cal_component_set_summary (comp, &text);
 	}
 
 	if (str)
@@ -448,17 +448,17 @@ task_page_fill_component (CompEditorPage *page, CalComponent *comp)
 	str = gtk_text_buffer_get_text (text_buffer, &text_iter_start, &text_iter_end, FALSE);
 
 	if (!str || strlen (str) == 0)
-		cal_component_set_description_list (comp, NULL);
+		e_cal_component_set_description_list (comp, NULL);
 	else {
 		GSList l;
-		CalComponentText text;
+		ECalComponentText text;
 
 		text.value = str;
 		text.altrep = NULL;
 		l.data = &text;
 		l.next = NULL;
 
-		cal_component_set_description_list (comp, &l);
+		e_cal_component_set_description_list (comp, &l);
 	}
 
 	if (str)
@@ -493,9 +493,9 @@ task_page_fill_component (CompEditorPage *page, CalComponent *comp)
 			due_tt.is_date = TRUE;
 			date.tzid = NULL;
 		}
-		cal_component_set_due (comp, &date);
+		e_cal_component_set_due (comp, &date);
 	} else {
-		cal_component_set_due (comp, NULL);
+		e_cal_component_set_due (comp, NULL);
 	}
 
 	/* Start Date. */
@@ -522,9 +522,9 @@ task_page_fill_component (CompEditorPage *page, CalComponent *comp)
 			start_tt.is_date = TRUE;
 			date.tzid = NULL;
 		}
-		cal_component_set_dtstart (comp, &date);
+		e_cal_component_set_dtstart (comp, &date);
 	} else {
-		cal_component_set_dtstart (comp, NULL);
+		e_cal_component_set_dtstart (comp, NULL);
 	}
 
 	/* Check whether due datetime is before start datetime */
@@ -544,7 +544,7 @@ task_page_fill_component (CompEditorPage *page, CalComponent *comp)
 
 
 	/* Classification. */
-	cal_component_set_classification (comp, classification_get (priv->classification_public));
+	e_cal_component_set_classification (comp, classification_get (priv->classification_public));
 
 	/* Categories */
 	cat = e_dialog_editable_get (priv->categories);
@@ -552,7 +552,7 @@ task_page_fill_component (CompEditorPage *page, CalComponent *comp)
 	if (cat)
 		g_free (cat);
 
-	cal_component_set_categories (comp, str);
+	e_cal_component_set_categories (comp, str);
 
 	if (str)
 		g_free (str);
@@ -680,7 +680,7 @@ date_changed_cb (EDateEdit *dedit, gpointer data)
 	TaskPagePrivate *priv;
 	CompEditorPageDates dates;
 	gboolean date_set, time_set;
-	CalComponentDateTime start_dt, due_dt;
+	ECalComponentDateTime start_dt, due_dt;
 	struct icaltimetype start_tt = icaltime_null_time();
 	struct icaltimetype due_tt = icaltime_null_time();
 

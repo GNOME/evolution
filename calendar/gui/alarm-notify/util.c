@@ -21,7 +21,7 @@
 
 #include <libgnome/gnome-i18n.h>
 #include <e-util/e-time-utils.h>
-#include <cal-util/timeutil.h>
+#include <libecal/e-cal-time-util.h>
 #include "config-data.h"
 #include "util.h"
 

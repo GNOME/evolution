@@ -346,7 +346,7 @@ e_week_view_main_item_draw_day (EWeekViewMainItem *wvmitem,
 
 		/* Check if we are drawing today */		
 		tt = icaltime_from_timet_with_zone (time (NULL), FALSE,
-						    e_cal_view_get_timezone (E_CAL_VIEW (week_view)));
+						    e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
 		if (g_date_year (date) == tt.year 
 		    && g_date_month (date) == tt.month
 		    && g_date_day (date) == tt.day)

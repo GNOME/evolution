@@ -32,14 +32,14 @@
 #include <bonobo/bonobo-i18n.h>
 #include <gal/util/e-util.h>
 #include "e-util/e-url.h"
-#include <cal-client/cal-client.h>
+#include <libecal/e-cal.h>
 #include "calendar-offline-handler.h"
 
 #define PARENT_TYPE bonobo_object_get_type ()
 static BonoboObjectClass *parent_class = NULL;
 
 struct _CalendarOfflineHandlerPrivate {
-	CalClient *client;
+	ECal *client;
 
 	GNOME_Evolution_OfflineProgressListener listener_interface;
 
@@ -76,7 +76,7 @@ create_connection_list (CalendarOfflineHandler *offline_handler)
 
 	priv = offline_handler->priv;
 
- 	uris = cal_client_uri_list (priv->client, CAL_MODE_REMOTE);	
+ 	uris = e_cal_uri_list (priv->client, CAL_MODE_REMOTE);	
 
 	list = GNOME_Evolution_ConnectionList__alloc ();
 	list->_length = 0;
@@ -139,7 +139,7 @@ update_offline (CalendarOfflineHandler *offline_handler)
 }
 
 static void
-backend_cal_set_mode (CalClient *client, CalClientSetModeStatus status, CalMode mode, gpointer data)
+backend_cal_set_mode (ECal *client, ECalSetModeStatus status, CalMode mode, gpointer data)
 {
 	CalendarOfflineHandler *offline_handler = data;
 
@@ -148,29 +148,29 @@ backend_cal_set_mode (CalClient *client, CalClientSetModeStatus status, CalMode 
 }
 
 static void
-backend_cal_opened_offline (CalClient *client, CalClientOpenStatus status, gpointer data)
+backend_cal_opened_offline (ECal *client, ECalOpenStatus status, gpointer data)
 {
 	CalendarOfflineHandler *offline_handler = data;
 
-	if (status != CAL_CLIENT_OPEN_SUCCESS) {
+	if (status != E_CAL_OPEN_SUCCESS) {
 		update_offline (offline_handler);
 		g_object_unref (client);
 		return;
 	}
 
 	g_signal_connect (client, "cal_set_mode", G_CALLBACK (backend_cal_set_mode), offline_handler);
-	cal_client_set_mode (client, CAL_MODE_LOCAL);
+	e_cal_set_mode (client, CAL_MODE_LOCAL);
 }
 
 static void
-backend_cal_opened_online (CalClient *client, CalClientOpenStatus status, gpointer data)
+backend_cal_opened_online (ECal *client, ECalOpenStatus status, gpointer data)
 {
-	if (status != CAL_CLIENT_OPEN_SUCCESS) {
+	if (status != E_CAL_OPEN_SUCCESS) {
 		g_object_unref (G_OBJECT (client));
 		return;
 	}
 
-	cal_client_set_mode (client, CAL_MODE_REMOTE);
+	e_cal_set_mode (client, CAL_MODE_REMOTE);
 	g_object_unref (client);
 }
 
@@ -179,13 +179,13 @@ backend_go_offline (gpointer data, gpointer user_data)
 {
 	CalendarOfflineHandler *offline_handler = user_data;
 	char *uri = data;
-	CalClient *client;
+	ECal *client;
 	gboolean success;
 	GError *error = NULL;
 	
-	client = cal_client_new (uri, CALOBJ_TYPE_ANY);
+	client = e_cal_new (uri, CALOBJ_TYPE_ANY);
 	g_signal_connect (client, "cal_opened", G_CALLBACK (backend_cal_opened_offline), offline_handler);
-	success = cal_client_open (client, TRUE, &error);
+	success = e_cal_open (client, TRUE, &error);
 	if (!success) {
 		g_warning (_("backend_go_offline(): %s"), error->message);
 		update_offline (offline_handler);
@@ -200,14 +200,14 @@ backend_go_online (gpointer data, gpointer user_data)
 {
 	CalendarOfflineHandler *offline_handler = user_data;
 	char *uri = data;
-	CalClient *client;
+	ECal *client;
 	gboolean success;
 	GError *error = NULL;
 	
-	client = cal_client_new (uri, CALOBJ_TYPE_ANY);
+	client = e_cal_new (uri, CALOBJ_TYPE_ANY);
 	g_signal_connect (G_OBJECT (client), "cal_opened", 
 			  G_CALLBACK (backend_cal_opened_online), offline_handler);
-	success = cal_client_open (client, TRUE, &error);
+	success = e_cal_open (client, TRUE, &error);
 	if (!success) {
 		g_warning (_("backend_go_online(): %s"), error->message);
 		g_object_unref (G_OBJECT (client));
@@ -231,7 +231,7 @@ impl_goOffline (PortableServer_Servant servant,
 	/* To update the status */
 	priv->listener_interface = CORBA_Object_duplicate (progress_listener, ev);
 
-	uris = cal_client_uri_list (priv->client, CAL_MODE_REMOTE);
+	uris = e_cal_uri_list (priv->client, CAL_MODE_REMOTE);
 
 	g_list_foreach (uris, backend_go_offline, offline_handler);	
 }
@@ -247,7 +247,7 @@ impl_goOnline (PortableServer_Servant servant,
 	offline_handler = CALENDAR_OFFLINE_HANDLER (bonobo_object_from_servant (servant));
 	priv = offline_handler->priv;
 
-	uris = cal_client_uri_list (priv->client, CAL_MODE_LOCAL);
+	uris = e_cal_uri_list (priv->client, CAL_MODE_LOCAL);
 
 	g_list_foreach (uris, backend_go_online, offline_handler);
 }
@@ -327,7 +327,7 @@ calendar_offline_handler_init (CalendarOfflineHandler *offline_handler)
 	offline_handler->priv = priv;
 
 	/* FIXME: what URI to use? */
-	priv->client = cal_client_new ("", CALOBJ_TYPE_ANY);
+	priv->client = e_cal_new ("", CALOBJ_TYPE_ANY);
 	priv->listener_interface = CORBA_OBJECT_NIL;
 	priv->is_offline = FALSE;
 }

@@ -32,13 +32,13 @@
 #include <libgnome/gnome-i18n.h>
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-exception.h>
-#include <cal-client.h>
+#include <libecal/e-cal.h>
 #include <importer/evolution-importer.h>
 #include <importer/evolution-intelligent-importer.h>
 #include <importer/GNOME_Evolution_Importer.h>
 #include <shell/e-shell.h>
 #include <shell/evolution-shell-client.h>
-#include "icalvcal.h"
+#include <libical/icalvcal.h>
 #include "evolution-calendar-importer.h"
 
 /* We timeout after 2 minutes, when opening the folders. */
@@ -46,8 +46,8 @@
 
 
 typedef struct {
-	CalClient *client;
-	CalClient *tasks_client;
+	ECal *client;
+	ECal *tasks_client;
 	EvolutionImporter *importer;
 	icalcomponent *icalcomp;
 	gboolean folder_contains_events;
@@ -179,34 +179,34 @@ prepare_tasks (icalcomponent *icalcomp, GList *vtodos)
 	g_list_free (vtodos);
 }
 
-static CalClientResult
-update_single_object (CalClient *client, icalcomponent *icalcomp)
+static ECalResult
+update_single_object (ECal *client, icalcomponent *icalcomp)
 {
 	char *uid;
 	icalcomponent *tmp_icalcomp;
 
 	uid = (char *) icalcomponent_get_uid (icalcomp);
 	
-	if (cal_client_get_object (client, uid, NULL, &tmp_icalcomp, NULL))
-		return cal_client_modify_object (client, icalcomp, CALOBJ_MOD_ALL, NULL)
-			? CAL_CLIENT_RESULT_SUCCESS : CAL_CLIENT_RESULT_CORBA_ERROR;
+	if (e_cal_get_object (client, uid, NULL, &tmp_icalcomp, NULL))
+		return e_cal_modify_object (client, icalcomp, CALOBJ_MOD_ALL, NULL)
+			? E_CAL_RESULT_SUCCESS : E_CAL_RESULT_CORBA_ERROR;
 
-	return cal_client_create_object (client, icalcomp, &uid, NULL)
-		? CAL_CLIENT_RESULT_SUCCESS : CAL_CLIENT_RESULT_CORBA_ERROR;
+	return e_cal_create_object (client, icalcomp, &uid, NULL)
+		? E_CAL_RESULT_SUCCESS : E_CAL_RESULT_CORBA_ERROR;
 }
 
-static CalClientResult
-update_objects (CalClient *client, icalcomponent *icalcomp)
+static ECalResult
+update_objects (ECal *client, icalcomponent *icalcomp)
 {
 	icalcomponent *subcomp;
 	icalcomponent_kind kind;
-	CalClientResult result;
+	ECalResult result;
 
 	kind = icalcomponent_isa (icalcomp);
 	if (kind == ICAL_VTODO_COMPONENT || kind == ICAL_VEVENT_COMPONENT)
 		return update_single_object (client, icalcomp);
 	else if (kind != ICAL_VCALENDAR_COMPONENT)
-		return CAL_CLIENT_RESULT_INVALID_OBJECT;
+		return E_CAL_RESULT_INVALID_OBJECT;
 
 	subcomp = icalcomponent_get_first_component (icalcomp, ICAL_ANY_COMPONENT);
 	while (subcomp) {
@@ -217,21 +217,21 @@ update_objects (CalClient *client, icalcomponent *icalcomp)
 			zone = icaltimezone_new ();
 			icaltimezone_set_component (zone, subcomp);
 
-			result = cal_client_add_timezone (client, zone, NULL);
+			result = e_cal_add_timezone (client, zone, NULL);
 			icaltimezone_free (zone, 1);
-			if (result != CAL_CLIENT_RESULT_SUCCESS)
+			if (result != E_CAL_RESULT_SUCCESS)
 				return result;
 		} else if (kind == ICAL_VTODO_COMPONENT ||
 			   kind == ICAL_VEVENT_COMPONENT) {
 			result = update_single_object (client, subcomp);
-			if (result != CAL_CLIENT_RESULT_SUCCESS)
+			if (result != E_CAL_RESULT_SUCCESS)
 				return result;
 		}
 
 		subcomp = icalcomponent_get_next_component (icalcomp, ICAL_ANY_COMPONENT);
 	}
 
-	return CAL_CLIENT_RESULT_SUCCESS;
+	return E_CAL_RESULT_SUCCESS;
 }
 
 static void
@@ -240,27 +240,27 @@ process_item_fn (EvolutionImporter *importer,
 		 void *closure,
 		 CORBA_Environment *ev)
 {
-	CalClientLoadState state, tasks_state;
+	ECalLoadState state, tasks_state;
 	ICalImporter *ici = (ICalImporter *) closure;
 	GNOME_Evolution_ImporterListener_ImporterResult result;
 
 	result = GNOME_Evolution_ImporterListener_OK;
 
 	g_return_if_fail (ici != NULL);
-	g_return_if_fail (IS_CAL_CLIENT (ici->client));
+	g_return_if_fail (E_IS_CAL (ici->client));
 	g_return_if_fail (ici->icalcomp != NULL);
 
-	state = cal_client_get_load_state (ici->client);
-	tasks_state = cal_client_get_load_state (ici->tasks_client);
-	if (state == CAL_CLIENT_LOAD_LOADING
-	    || tasks_state == CAL_CLIENT_LOAD_LOADING) {
+	state = e_cal_get_load_state (ici->client);
+	tasks_state = e_cal_get_load_state (ici->tasks_client);
+	if (state == E_CAL_LOAD_LOADING
+	    || tasks_state == E_CAL_LOAD_LOADING) {
 		GNOME_Evolution_ImporterListener_notifyResult (
 			listener,
 			GNOME_Evolution_ImporterListener_BUSY,
 			TRUE, ev);
 		return;
-	} else if (state != CAL_CLIENT_LOAD_LOADED
-		   || tasks_state != CAL_CLIENT_LOAD_LOADED) {
+	} else if (state != E_CAL_LOAD_LOADED
+		   || tasks_state != E_CAL_LOAD_LOADED) {
 		GNOME_Evolution_ImporterListener_notifyResult (
 			listener,
 			GNOME_Evolution_ImporterListener_UNSUPPORTED_OPERATION,
@@ -274,20 +274,20 @@ process_item_fn (EvolutionImporter *importer,
 	   contains just tasks, we strip out the VEVENTs, which do not get
 	   imported at all. */
 	if (ici->folder_contains_events && ici->folder_contains_tasks) {
-		if (update_objects (ici->client, ici->icalcomp) != CAL_CLIENT_RESULT_SUCCESS)
+		if (update_objects (ici->client, ici->icalcomp) != E_CAL_RESULT_SUCCESS)
 			result = GNOME_Evolution_ImporterListener_BAD_DATA;
 	} else if (ici->folder_contains_events) {
 		GList *vtodos = prepare_events (ici->icalcomp);
-		if (update_objects (ici->client, ici->icalcomp) != CAL_CLIENT_RESULT_SUCCESS)
+		if (update_objects (ici->client, ici->icalcomp) != E_CAL_RESULT_SUCCESS)
 			result = GNOME_Evolution_ImporterListener_BAD_DATA;
 
 		prepare_tasks (ici->icalcomp, vtodos);
 		if (update_objects (ici->tasks_client,
-					       ici->icalcomp) != CAL_CLIENT_RESULT_SUCCESS)
+					       ici->icalcomp) != E_CAL_RESULT_SUCCESS)
 			result = GNOME_Evolution_ImporterListener_BAD_DATA;
 	} else {
 		prepare_tasks (ici->icalcomp, NULL);
-		if (update_objects (ici->client, ici->icalcomp) != CAL_CLIENT_RESULT_SUCCESS)
+		if (update_objects (ici->client, ici->icalcomp) != E_CAL_RESULT_SUCCESS)
 			result = GNOME_Evolution_ImporterListener_BAD_DATA;
 	}
 
@@ -369,14 +369,14 @@ load_file_fn (EvolutionImporter *importer,
 			} else
 				real_uri = g_strdup (physical_uri);
 
-			/* create CalClient's */
+			/* create ECal's */
 			if (!ici->client)
-				ici->client = cal_client_new (real_uri, CALOBJ_TYPE_EVENT);
+				ici->client = e_cal_new (real_uri, CALOBJ_TYPE_EVENT);
 			if (!ici->tasks_client)
-				ici->tasks_client = cal_client_new ("", CALOBJ_TYPE_TODO); /* FIXME */
+				ici->tasks_client = e_cal_new ("", CALOBJ_TYPE_TODO); /* FIXME */
 
-			if (cal_client_open (ici->client, TRUE, NULL)
-			    && cal_client_open (ici->tasks_client, FALSE, NULL)) {
+			if (e_cal_open (ici->client, TRUE, NULL)
+			    && e_cal_open (ici->tasks_client, FALSE, NULL)) {
 				ici->icalcomp = icalcomp;
 				ret = TRUE;
 			}
@@ -521,14 +521,14 @@ vcal_load_file_fn (EvolutionImporter *importer,
 		} else
 			real_uri = g_strdup (physical_uri);
 
-		/* create CalClient's */
+		/* create ECal's */
 		if (!ici->client)
-			ici->client = cal_client_new (real_uri, CALOBJ_TYPE_EVENT);
+			ici->client = e_cal_new (real_uri, CALOBJ_TYPE_EVENT);
 		if (!ici->tasks_client)
-			ici->tasks_client = cal_client_new ("", CALOBJ_TYPE_TODO);
+			ici->tasks_client = e_cal_new ("", CALOBJ_TYPE_TODO);
 
-		if (cal_client_open (ici->client, TRUE, NULL)
-		    && cal_client_open (ici->tasks_client, FALSE, NULL)) {
+		if (e_cal_open (ici->client, TRUE, NULL)
+		    && e_cal_open (ici->tasks_client, FALSE, NULL)) {
 			ici->icalcomp = icalcomp;
 			ret = TRUE;
 		}
@@ -601,7 +601,7 @@ gnome_calendar_import_data_fn (EvolutionIntelligentImporter *ii,
 	icalcomponent *icalcomp = NULL;
 	char *filename;
 	GList *vtodos;
-	CalClient *calendar_client = NULL, *tasks_client = NULL;
+	ECal *calendar_client = NULL, *tasks_client = NULL;
 	int t;
 
 	/* If neither is selected, just return. */
@@ -611,14 +611,14 @@ gnome_calendar_import_data_fn (EvolutionIntelligentImporter *ii,
 
 	/* Try to open the default calendar & tasks folders. */
 	if (ici->do_calendar) {
-		calendar_client = cal_client_new ("", CALOBJ_TYPE_EVENT); /* FIXME: use default folder */
-		if (!cal_client_open (calendar_client, FALSE, NULL))
+		calendar_client = e_cal_new ("", CALOBJ_TYPE_EVENT); /* FIXME: use default folder */
+		if (!e_cal_open (calendar_client, FALSE, NULL))
 			goto out;
 	}
 
 	if (ici->do_tasks) {
-		tasks_client = cal_client_new ("", CALOBJ_TYPE_TODO); /* FIXME: use default folder */
-		if (!cal_client_open (tasks_client, FALSE, NULL))
+		tasks_client = e_cal_new ("", CALOBJ_TYPE_TODO); /* FIXME: use default folder */
+		if (!e_cal_open (tasks_client, FALSE, NULL))
 			goto out;
 	}
 
@@ -638,23 +638,23 @@ gnome_calendar_import_data_fn (EvolutionIntelligentImporter *ii,
 
 	/* Wait for client to finish opening the calendar & tasks folders. */
 	for (t = 0; t < IMPORTER_TIMEOUT_SECONDS; t++) {
-		CalClientLoadState calendar_state, tasks_state;
+		ECalLoadState calendar_state, tasks_state;
 
-		calendar_state = tasks_state = CAL_CLIENT_LOAD_LOADED;
+		calendar_state = tasks_state = E_CAL_LOAD_LOADED;
 
-		/* We need this so the CalClient gets notified that the
+		/* We need this so the ECal gets notified that the
 		   folder is opened, via Corba. */
 		while (gtk_events_pending ())
 			gtk_main_iteration ();
 
 		if (ici->do_calendar)
-			calendar_state = cal_client_get_load_state (calendar_client);
+			calendar_state = e_cal_get_load_state (calendar_client);
 
 		if (ici->do_tasks)
-			tasks_state = cal_client_get_load_state (tasks_client);
+			tasks_state = e_cal_get_load_state (tasks_client);
 
-		if (calendar_state == CAL_CLIENT_LOAD_LOADED
-		    && tasks_state == CAL_CLIENT_LOAD_LOADED)
+		if (calendar_state == E_CAL_LOAD_LOADED
+		    && tasks_state == E_CAL_LOAD_LOADED)
 			break;
 
 		sleep (1);

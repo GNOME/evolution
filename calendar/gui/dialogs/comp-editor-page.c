@@ -225,7 +225,7 @@ comp_editor_page_focus_main_widget (CompEditorPage *page)
  * Fills the widgets of an editor page with the data from a calendar component.
  **/
 void
-comp_editor_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
+comp_editor_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 {
 	g_return_if_fail (page != NULL);
 	g_return_if_fail (IS_COMP_EDITOR_PAGE (page));
@@ -247,7 +247,7 @@ comp_editor_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
  * Returns: TRUE if the component could be filled, FALSE otherwise
  **/
 gboolean
-comp_editor_page_fill_component (CompEditorPage *page, CalComponent *comp)
+comp_editor_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 {
 	g_return_val_if_fail (page != NULL, FALSE);
 	g_return_val_if_fail (IS_COMP_EDITOR_PAGE (page), FALSE);
@@ -260,14 +260,14 @@ comp_editor_page_fill_component (CompEditorPage *page, CalComponent *comp)
 }
 
 /**
- * comp_editor_page_set_cal_client:
+ * comp_editor_page_set_e_cal:
  * @page: An editor page
- * @client: A #CalClient object
+ * @client: A #ECal object
  *
- * Sets the #CalClient for the dialog page to use.
+ * Sets the #ECal for the dialog page to use.
  **/
 void
-comp_editor_page_set_cal_client (CompEditorPage *page, CalClient *client)
+comp_editor_page_set_e_cal (CompEditorPage *page, ECal *client)
 {
 	g_return_if_fail (page != NULL);
         g_return_if_fail (IS_COMP_EDITOR_PAGE (page));

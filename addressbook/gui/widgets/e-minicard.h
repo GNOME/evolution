@@ -23,7 +23,7 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include "addressbook/gui/contact-editor/e-contact-editor.h"
 #include <libgnomecanvas/gnome-canvas.h>
-#include "addressbook/backend/ebook/e-contact.h"
+#include <libebook/e-contact.h>
 
 #ifdef __cplusplus
 extern "C" {

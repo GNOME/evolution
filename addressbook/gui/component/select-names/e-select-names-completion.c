@@ -34,10 +34,10 @@
 
 #include <gtk/gtksignal.h>
 
+#include <libebook/e-contact.h>
 #include <addressbook/util/eab-book-util.h>
 #include <addressbook/util/eab-destination.h>
 #include <addressbook/gui/merging/eab-contact-compare.h>
-#include <addressbook/backend/ebook/e-contact.h>
 
 typedef struct {
 	EBook *book;

@@ -15,7 +15,7 @@
 #include <gtk/gtkobject.h>
 #include <stdio.h>
 #include <e-util/e-list.h>
-#include <addressbook/backend/ebook/e-contact.h>
+#include <libebook/e-contact.h>
 #include <addressbook/util/eab-destination.h>
 
 #define E_TYPE_SELECT_NAMES_MODEL            (e_select_names_model_get_type ())

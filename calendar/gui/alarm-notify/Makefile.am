@@ -20,9 +20,6 @@ privlibexec_PROGRAMS = evolution-alarm-notify
 INCLUDES = 						\
 	-DG_LOG_DOMAIN=\"evolution-alarm-notify\"	\
 	-I$(top_srcdir)					\
-	-I$(top_srcdir)/calendar			\
-	-I$(top_builddir)/calendar			\
-	-I$(top_srcdir)/libical/src			\
 	-I$(top_srcdir)/widgets				\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
 	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"	\
@@ -51,8 +48,7 @@ evolution_alarm_notify_SOURCES =	\
 	util.h
 
 evolution_alarm_notify_LDADD =						\
-	$(top_builddir)/calendar/cal-client/libcal-client.la		\
-	$(top_builddir)/calendar/cal-util/libcal-util.la		\
+	$(top_builddir)/e-util/libeutil.la				\
 	$(EVOLUTION_CALENDAR_LIBS)
 
 server_in_files = GNOME_Evolution_Calendar_AlarmNotify.server.in.in

@@ -127,7 +127,7 @@ get_dtend (ECalModelComponent *comp_data)
 		comp_data->dtend->tt = tt_end;
 
 		/* FIXME: handle errors */
-		cal_client_get_timezone (comp_data->client,
+		e_cal_get_timezone (comp_data->client,
 					 icaltime_get_tzid (tt_end),
 					 &zone, NULL);
 		comp_data->dtend->zone = zone;
@@ -309,7 +309,7 @@ ecmc_set_value_at (ETableModel *etm, int col, int row, const void *value)
 	}
 
 	/* FIXME ask about mod type */
-	if (!cal_client_modify_object (comp_data->client, comp_data->icalcomp, CALOBJ_MOD_ALL, NULL)) {
+	if (!e_cal_modify_object (comp_data->client, comp_data->icalcomp, CALOBJ_MOD_ALL, NULL)) {
 		g_warning (G_STRLOC ": Could not modify the object!");
 		
 		/* FIXME Show error dialog */

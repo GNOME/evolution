@@ -34,7 +34,7 @@ typedef enum {
 } PrintView;
 
 void print_calendar (GnomeCalendar *gcal, gboolean preview, time_t at, PrintView default_view);
-void print_comp (CalComponent *comp, CalClient *client, gboolean preview);
+void print_comp (ECalComponent *comp, ECal *client, gboolean preview);
 
 void print_setup (void);
 

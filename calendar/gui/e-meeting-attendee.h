@@ -28,7 +28,7 @@
 #endif
 
 #include <gtk/gtk.h>
-#include <cal-util/cal-component.h>
+#include <libecal/e-cal-component.h>
 #include "e-meeting-types.h"
 
 #ifdef __cplusplus
@@ -80,9 +80,9 @@ struct _EMeetingAttendeeClass {
 
 GType      e_meeting_attendee_get_type (void);
 GObject   *e_meeting_attendee_new      (void);
-GObject   *e_meeting_attendee_new_from_cal_component_attendee (CalComponentAttendee *ca);
+GObject   *e_meeting_attendee_new_from_e_cal_component_attendee (ECalComponentAttendee *ca);
 
-CalComponentAttendee *e_meeting_attendee_as_cal_component_attendee (EMeetingAttendee *ia);
+ECalComponentAttendee *e_meeting_attendee_as_e_cal_component_attendee (EMeetingAttendee *ia);
 
 const gchar *e_meeting_attendee_get_address (EMeetingAttendee *ia);
 void e_meeting_attendee_set_address (EMeetingAttendee *ia, gchar *address);

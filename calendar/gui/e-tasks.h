@@ -27,7 +27,7 @@
 
 #include <bonobo/bonobo-ui-component.h>
 #include <gtk/gtktable.h>
-#include <cal-client/cal-client.h>
+#include <libecal/e-cal.h>
 #include "e-calendar-table.h"
 
 #define E_TYPE_TASKS            (e_tasks_get_type ())

@@ -169,7 +169,7 @@ tasks_control_get_property		(BonoboPropertyBag	*bag,
 
 	case TASKS_CONTROL_PROPERTY_URI_IDX:
 		model = e_calendar_table_get_model (e_tasks_get_calendar_table (tasks));
-		uri = cal_client_get_uri (e_cal_model_get_default_client (model));
+		uri = e_cal_get_uri (e_cal_model_get_default_client (model));
 		BONOBO_ARG_SET_STRING (arg, uri);
 		break;
 
@@ -240,7 +240,7 @@ sensitize_commands (ETasks *tasks, BonoboControl *control, int n_selected)
 	g_assert (uic != NULL);
 
 	model = e_calendar_table_get_model (e_tasks_get_calendar_table (tasks));
-	cal_client_is_read_only (e_cal_model_get_default_client (model), &read_only, NULL);
+	e_cal_is_read_only (e_cal_model_get_default_client (model), &read_only, NULL);
 
 	bonobo_ui_component_set_prop (uic, "/commands/TasksCut", "sensitive",
 				      n_selected == 0 || read_only ? "0" : "1",

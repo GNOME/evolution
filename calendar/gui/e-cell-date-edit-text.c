@@ -23,7 +23,7 @@
 
 /*
  * ECellDateEditText - a subclass of ECellText used to show and edit the text
- * representation of the date, from a CalComponentDateTime* model value.
+ * representation of the date, from a ECalComponentDateTime* model value.
  */
 
 #include <config.h>
@@ -38,7 +38,7 @@
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-unicode.h>
 #include <e-util/e-time-utils.h>
-#include <cal-util/timeutil.h>
+#include <libecal/e-cal-time-util.h>
 
 #include "e-cell-date-edit-text.h"
 
@@ -214,7 +214,7 @@ e_cell_date_edit_text_init (GtkObject *object)
  *
  * Creates a new ECell renderer that can be used to render and edit dates that
  * that come from the model.  The value returned from the model is
- * interpreted as being a CalComponentDateTime*.
+ * interpreted as being a ECalComponentDateTime*.
  *
  * Returns: an ECell object that can be used to render dates.
  */

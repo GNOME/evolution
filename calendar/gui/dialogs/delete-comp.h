@@ -22,11 +22,11 @@
 #define DELETE_COMP_H
 
 #include <gtk/gtkwidget.h>
-#include <cal-util/cal-component.h>
+#include <libecal/e-cal-component.h>
 
-gboolean delete_component_dialog (CalComponent *comp,
+gboolean delete_component_dialog (ECalComponent *comp,
 				  gboolean consider_as_untitled,
-				  int n_comps, CalComponentVType vtype,
+				  int n_comps, ECalComponentVType vtype,
 				  GtkWidget *widget);
 
 #endif

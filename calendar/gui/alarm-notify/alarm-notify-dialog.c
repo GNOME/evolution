@@ -37,7 +37,7 @@
 #include <gal/widgets/e-unicode.h>
 #include <gtkhtml/gtkhtml.h>
 #include <gtkhtml/gtkhtml-stream.h>
-#include "cal-util/timeutil.h"
+#include <libecal/e-cal-time-util.h>
 #include "alarm-notify-dialog.h"
 #include "config-data.h"
 #include "util.h"
@@ -219,7 +219,7 @@ write_times (GtkHTMLStream *stream, char *start, char *end)
 /* Creates a heading for the alarm notification dialog */
 static void
 write_html_heading (GtkHTMLStream *stream, const char *message,
-		    CalComponentVType vtype, time_t occur_start, time_t occur_end)
+		    ECalComponentVType vtype, time_t occur_start, time_t occur_end)
 {
 	char *buf;
 	char *start, *end;
@@ -258,11 +258,11 @@ write_html_heading (GtkHTMLStream *stream, const char *message,
 	/* Write the times */
 
 	switch (vtype) {
-	case CAL_COMPONENT_EVENT:
+	case E_CAL_COMPONENT_EVENT:
 		write_times (stream, start, end);
 		break;
 
-	case CAL_COMPONENT_TODO:
+	case E_CAL_COMPONENT_TODO:
 		write_times (stream, start, end);
 		break;
 
@@ -293,7 +293,7 @@ write_html_heading (GtkHTMLStream *stream, const char *message,
  **/
 gpointer
 alarm_notify_dialog (time_t trigger, time_t occur_start, time_t occur_end,
-		     CalComponentVType vtype, const char *message,
+		     ECalComponentVType vtype, const char *message,
 		     AlarmNotifyFunc func, gpointer func_data)
 {
 	AlarmNotify *an;
@@ -304,7 +304,7 @@ alarm_notify_dialog (time_t trigger, time_t occur_start, time_t occur_end,
 	g_return_val_if_fail (trigger != -1, NULL);
 
 	/* Only VEVENTs or VTODOs can have alarms */
-	g_return_val_if_fail (vtype == CAL_COMPONENT_EVENT || vtype == CAL_COMPONENT_TODO, NULL);
+	g_return_val_if_fail (vtype == E_CAL_COMPONENT_EVENT || vtype == E_CAL_COMPONENT_TODO, NULL);
 	g_return_val_if_fail (message != NULL, NULL);
 	g_return_val_if_fail (func != NULL, NULL);
 

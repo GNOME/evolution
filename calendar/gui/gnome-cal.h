@@ -30,7 +30,7 @@
 #include <bonobo/bonobo-ui-component.h>
 #include <gal/widgets/e-popup-menu.h>
 #include <widgets/misc/e-calendar.h>
-#include <cal-client/cal-client.h>
+#include <libecal/e-cal.h>
 
 #include "e-calendar-table.h"
 
@@ -106,8 +106,8 @@ void gnome_calendar_set_ui_component (GnomeCalendar *cal,
 ECalendarTable *gnome_calendar_get_task_pad	(GnomeCalendar *gcal);
 
 ECalModel *gnome_calendar_get_calendar_model    (GnomeCalendar *gcal);
-CalClient *gnome_calendar_get_default_client    (GnomeCalendar *gcal);
-CalClient *gnome_calendar_get_task_pad_cal_client(GnomeCalendar *gcal);
+ECal *gnome_calendar_get_default_client    (GnomeCalendar *gcal);
+ECal *gnome_calendar_get_task_pad_e_cal(GnomeCalendar *gcal);
 
 gboolean   gnome_calendar_add_event_uri         (GnomeCalendar *gcal, const char *str_uri);
 gboolean   gnome_calendar_remove_event_uri      (GnomeCalendar *gcal, const char *str_uri);

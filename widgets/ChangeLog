@@ -1,3 +1,7 @@
+2003-11-07  JP Rosevear  <jpr@ximian.com>
+
+	* e-timezone-dialog/Makefile.am: use TZDIALOG_FLAGS
+
 2003-10-09  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-timezone-dialog/Makefile.am: INCLUDE path fixes for changes

@@ -19,6 +19,7 @@ INCLUDES =							\
 	-DDATADIR=\""$(datadir)"\"				\
 	-DLIBDIR=\""$(datadir)"\"				\
 	-DG_LOG_DOMAIN=\"evolution-shell\"			\
+	$(TZDIALOG_CFLAGS)					\
 	$(SHELL_CFLAGS)
 
 noinst_PROGRAMS = evolution evolution-test-component
@@ -79,25 +80,21 @@ $(SELECT_NAMES_IDL_GENERATED_H): $(SELECT_NAMES_IDL)
 $(SELECT_NAMES_IDL_GENERATED_C): $(SELECT_NAMES_IDL_GENERATED_H)
 
 
-# Wombat CORBA stuff
+# Data Server CORBA stuff
+DATASERVER_IDL_GENERATED_H =			\
+	Evolution-DataServer.h
 
-WOMBAT_IDL = \
-	$(top_srcdir)/wombat/Evolution-Wombat.idl
+DATASERVER_IDL_GENERATED_C =			\
+	Evolution-DataServer-common.c		\
+	Evolution-DataServer-skels.c		\
+	Evolution-DataServer-stubs.c
 
-WOMBAT_IDL_GENERATED_H =			\
-	Evolution-Wombat.h
+DATASERVER_IDL_GENERATED = $(DATASERVER_IDL_GENERATED_C) $(DATASERVER_IDL_GENERATED_H)
 
-WOMBAT_IDL_GENERATED_C =			\
-	Evolution-Wombat-common.c		\
-	Evolution-Wombat-skels.c		\
-	Evolution-Wombat-stubs.c
+$(DATASERVER_IDL_GENERATED_H): $(DATASERVER_IDL)
+	$(ORBIT_IDL) -I $(srcdir) $(IDL_INCLUDES) $(DATASERVER_IDL)
 
-WOMBAT_IDL_GENERATED = $(WOMBAT_IDL_GENERATED_C) $(WOMBAT_IDL_GENERATED_H)
-
-$(WOMBAT_IDL_GENERATED_H): $(WOMBAT_IDL)
-	$(ORBIT_IDL) -I $(srcdir) $(IDL_INCLUDES) $(WOMBAT_IDL)
-
-$(WOMBAT_IDL_GENERATED_C): $(WOMBAT_IDL_GENERATED_H)
+$(DATASERVER_IDL_GENERATED_C): $(DATASERVER_IDL_GENERATED_H)
 
 
 # IDL install
@@ -182,7 +179,7 @@ libeshell_la_LIBADD =				\
 
 evolution_SOURCES =				\
 	$(SELECT_NAMES_IDL_GENERATED)		\
-	$(WOMBAT_IDL_GENERATED)			\
+	$(DATASERVER_IDL_GENERATED)		\
 	e-component-registry.c			\
 	e-component-registry.h			\
 	e-config-upgrade.c			\
@@ -232,7 +229,7 @@ evolution_LDADD =							\
 	$(top_builddir)/widgets/e-timezone-dialog/libetimezonedialog.la	\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
 	$(top_builddir)/e-util/libeutil.la				\
-	$(top_builddir)/libical/src/libical/libical-evolution.la	\
+	$(TZDIALOG_LIBS)						\
 	$(SHELL_LIBS)
 
 # Test component
@@ -327,7 +324,7 @@ evolution.pure: evolution
 
 endif
 
-BUILT_SOURCES = $(IDL_GENERATED) $(SELECT_NAMES_IDL_GENERATED) $(MARSHAL_GENERATED) $(server_DATA) $(WOMBAT_IDL_GENERATED)
+BUILT_SOURCES = $(IDL_GENERATED) $(SELECT_NAMES_IDL_GENERATED) $(MARSHAL_GENERATED) $(server_DATA) $(DATASERVER_IDL_GENERATED)
 CLEANFILES = $(BUILT_SOURCES)
 
 dist-hook:

@@ -25,7 +25,7 @@
 
 #include <gtk/gtkvbox.h>
 #include <gtkhtml/gtkhtml.h>
-#include <ebook/e-contact.h>
+#include <libebook/e-contact.h>
 
 #define EAB_TYPE_CONTACT_DISPLAY        (eab_contact_display_get_type ())
 #define EAB_CONTACT_DISPLAY(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), EAB_TYPE_CONTACT_DISPLAY, EABContactDisplay))

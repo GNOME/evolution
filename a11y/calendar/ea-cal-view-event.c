@@ -134,7 +134,7 @@ ea_cal_view_event_new (GObject *obj)
 {
 	AtkObject *atk_obj = NULL;
 	GObject *target_obj;
-	ECalView *cal_view;
+	ECalendarView *cal_view;
 
 	g_return_val_if_fail (E_IS_TEXT (obj), NULL);
 	cal_view = ea_calendar_helpers_get_cal_view_from (GNOME_CANVAS_ITEM (obj));
@@ -194,7 +194,7 @@ ea_cal_view_event_get_name (AtkObject *accessible)
 {
 	AtkGObjectAccessible *atk_gobj;
 	GObject *g_obj;
-	ECalViewEvent *event;
+	ECalendarViewEvent *event;
 	gchar *tmp_name;
 	gchar *new_name = g_strdup ("");
         const char *summary;
@@ -273,7 +273,7 @@ ea_cal_view_event_get_parent (AtkObject *accessible)
 	AtkGObjectAccessible *atk_gobj;
 	GObject *g_obj;
 	GnomeCanvasItem *canvas_item;
-	ECalView *cal_view;
+	ECalendarView *cal_view;
 
 	g_return_val_if_fail (EA_IS_CAL_VIEW_EVENT (accessible), NULL);
 	atk_gobj = ATK_GOBJECT_ACCESSIBLE (accessible);
@@ -297,8 +297,8 @@ ea_cal_view_event_get_index_in_parent (AtkObject *accessible)
 {
 	GObject *g_obj;
 	GnomeCanvasItem *canvas_item;
-	ECalView *cal_view;
-	ECalViewEvent *cal_view_event;
+	ECalendarView *cal_view;
+	ECalendarViewEvent *cal_view_event;
 
 	g_return_val_if_fail (EA_IS_CAL_VIEW_EVENT (accessible), -1);
 	g_obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE(accessible));
@@ -325,7 +325,7 @@ ea_cal_view_event_get_index_in_parent (AtkObject *accessible)
 		     --event_num) {
 			day_view_event = &g_array_index (day_view->long_events,
 							 EDayViewEvent, event_num);
-			if (cal_view_event == (ECalViewEvent*)day_view_event)
+			if (cal_view_event == (ECalendarViewEvent*)day_view_event)
 				return event_num;
 
 		}
@@ -336,7 +336,7 @@ ea_cal_view_event_get_index_in_parent (AtkObject *accessible)
 			     --event_num) {
 				day_view_event = &g_array_index (day_view->events[day],
 							EDayViewEvent, event_num);
-				if (cal_view_event == (ECalViewEvent*)day_view_event)
+				if (cal_view_event == (ECalendarViewEvent*)day_view_event)
 					return num_before + event_num;
 			}
 			num_before += day_view->events[day]->len;
@@ -350,7 +350,7 @@ ea_cal_view_event_get_index_in_parent (AtkObject *accessible)
 		for (index = week_view->events->len - 1; index >= 0; --index) {
 			week_view_event = &g_array_index (week_view->events,
 							  EWeekViewEvent, index);
-			if (cal_view_event == (ECalViewEvent*)week_view_event)
+			if (cal_view_event == (ECalendarViewEvent*)week_view_event)
 				return index;
 		}
 	}
@@ -383,7 +383,7 @@ ea_cal_view_get_extents (AtkComponent   *component,
 	GnomeCanvasItem *canvas_item;
 	gint x_window, y_window;
 	gint scroll_x, scroll_y;
-	ECalView *cal_view;
+	ECalendarView *cal_view;
 	gint item_x, item_y, item_w, item_h;
 	GtkWidget *canvas = NULL;
 

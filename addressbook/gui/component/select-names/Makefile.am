@@ -70,7 +70,6 @@ libeselectnames_la_SOURCES = 			\
 	e-select-names.h
 
 libeselectnames_la_LIBADD =					\
-	$(top_builddir)/addressbook/backend/ebook/libebook.la	\
 	$(EVOLUTION_ADDRESSBOOK_LIBS)
 
 # We'll need these again when we split out the select names control

@@ -39,9 +39,9 @@
 #include <ebook/e-book.h>
 #include <ebook/e-book-async.h>
 #include <ebook/e-contact.h>
-#include <cal-util/cal-component.h>
-#include <cal-util/cal-util.h>
-#include <cal-util/timeutil.h>
+#include <libecal/e-cal-component.h>
+#include <libecal/e-cal-util.h>
+#include <libecal/e-cal-time-util.h>
 #include "Evolution-Addressbook-SelectNames.h"
 #include "calendar-config.h"
 #include "itip-utils.h"
@@ -57,7 +57,7 @@ struct _EMeetingModelPrivate
 
 	GList *tables;
 	
-	CalClient *client;
+	ECal *client;
 	icaltimezone *zone;
 	
 	EBook *ebook;
@@ -678,8 +678,8 @@ e_meeting_model_new (void)
 }
 
 
-CalClient *
-e_meeting_model_get_cal_client (EMeetingModel *im)
+ECal *
+e_meeting_model_get_e_cal (EMeetingModel *im)
 {
 	EMeetingModelPrivate *priv;
 	
@@ -689,7 +689,7 @@ e_meeting_model_get_cal_client (EMeetingModel *im)
 }
 
 void
-e_meeting_model_set_cal_client (EMeetingModel *im, CalClient *client)
+e_meeting_model_set_e_cal (EMeetingModel *im, ECal *client)
 {
 	EMeetingModelPrivate *priv;
 	
@@ -1234,7 +1234,7 @@ process_free_busy (EMeetingModelQueueData *qdata, char *text)
 		icalcompiter iter;
 		icalcomponent *tz_top_level, *sub_comp;
 
-		tz_top_level = cal_util_new_top_level ();
+		tz_top_level = e_cal_util_new_top_level ();
 		
 		iter = icalcomponent_begin_component (main_comp, ICAL_VTIMEZONE_COMPONENT);
 		while ((sub_comp = icalcompiter_deref (&iter)) != NULL) {
@@ -1407,16 +1407,16 @@ refresh_busy_periods (gpointer data)
 		users = g_list_append (users, g_strdup (user));
 
 		/* FIXME Error checking */
-		cal_client_get_free_busy (priv->client, users, startt, endt, &fb_data, NULL);
+		e_cal_get_free_busy (priv->client, users, startt, endt, &fb_data, NULL);
 
 		g_list_foreach (users, (GFunc)g_free, NULL);
 		g_list_free (users);
 
 		if (fb_data != NULL) {
-			CalComponent *comp = fb_data->data;
+			ECalComponent *comp = fb_data->data;
 			char *comp_str;
 				
-			comp_str = cal_component_get_as_string (comp);
+			comp_str = e_cal_component_get_as_string (comp);
 			process_free_busy (qdata, comp_str);
 			g_free (comp_str);
 			return TRUE;
@@ -1660,7 +1660,7 @@ process_section (EMeetingModel *im, EABDestination **destv, icalparameter_role r
 		name = eab_destination_get_name (dest);
 
 		/* Get the field as attendee from the backend */
-		if (cal_client_get_ldap_attribute (priv->client, &attr, NULL) && attr) {
+		if (e_cal_get_ldap_attribute (priv->client, &attr, NULL) && attr) {
 			/* FIXME this should be more general */
 			if (!strcmp (attr, "icscalendar")) {
 				EContact *contact = eab_destination_get_contact (dest);

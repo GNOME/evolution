@@ -28,10 +28,10 @@
 #ifndef __EAB_UTIL_H__
 #define __EAB_UTIL_H__
 
-#include "ebook/e-book-async.h"
-#include "e-util/e-config-listener.h"
 #include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-moniker-util.h>
+#include <libebook/e-book-async.h>
+#include "e-util/e-config-listener.h"
 
 G_BEGIN_DECLS
 

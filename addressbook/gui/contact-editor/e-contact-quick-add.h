@@ -27,7 +27,7 @@
 #ifndef __E_CONTACT_QUICK_ADD_H__
 #define __E_CONTACT_QUICK_ADD_H__
 
-#include <addressbook/backend/ebook/e-contact.h>
+#include <libebook/e-contact.h>
 
 typedef void (*EContactQuickAddCallback) (EContact *new_contact, gpointer closure);
 

@@ -23,7 +23,7 @@
 #include <config.h>
 #endif
 
-#include <cal-util/timeutil.h>
+#include <libecal/e-cal-time-util.h>
 #include "calendar-config.h"
 #include "tag-calendar.h"
 
@@ -85,22 +85,22 @@ prepare_tag (ECalendar *ecal, struct calendar_tag_closure *c, icaltimezone *zone
 	return TRUE;
 }
 
-/* Marks the specified range in an ECalendar; called from cal_client_generate_instances() */
+/* Marks the specified range in an ECalendar; called from e_cal_generate_instances() */
 static gboolean
-tag_calendar_cb (CalComponent *comp,
+tag_calendar_cb (ECalComponent *comp,
 		 time_t istart,
 		 time_t iend,
 		 gpointer data)
 {
 	struct calendar_tag_closure *c = data;
 	struct icaltimetype start_tt, end_tt;
-	CalComponentTransparency transparency;
+	ECalComponentTransparency transparency;
 
 	/* If we are skipping TRANSPARENT events, return if the event is
 	   transparent. */
 	if (c->skip_transparent_events) {
-		cal_component_get_transparency (comp, &transparency);
-		if (transparency == CAL_COMPONENT_TRANSP_TRANSPARENT)
+		e_cal_component_get_transparency (comp, &transparency);
+		if (transparency == E_CAL_COMPONENT_TRANSP_TRANSPARENT)
 			return TRUE;
 	}
 
@@ -125,20 +125,20 @@ tag_calendar_cb (CalComponent *comp,
  * range.  The occurrences are extracted from the specified calendar @client.
  **/
 void
-tag_calendar_by_client (ECalendar *ecal, CalClient *client)
+tag_calendar_by_client (ECalendar *ecal, ECal *client)
 {
 	struct calendar_tag_closure c;
 
 	g_return_if_fail (ecal != NULL);
 	g_return_if_fail (E_IS_CALENDAR (ecal));
 	g_return_if_fail (client != NULL);
-	g_return_if_fail (IS_CAL_CLIENT (client));
+	g_return_if_fail (E_IS_CAL (client));
 
 	/* If the ECalendar isn't visible, we just return. */
 	if (!GTK_WIDGET_VISIBLE (ecal))
 		return;
 
-	if (cal_client_get_load_state (client) != CAL_CLIENT_LOAD_LOADED)
+	if (e_cal_get_load_state (client) != E_CAL_LOAD_LOADED)
 		return;
 
 	if (!prepare_tag (ecal, &c, NULL, TRUE))
@@ -149,7 +149,7 @@ tag_calendar_by_client (ECalendar *ecal, CalClient *client)
 #if 0
 	g_print ("DateNavigator generating instances\n");
 #endif
-	cal_client_generate_instances (client, CALOBJ_TYPE_EVENT,
+	e_cal_generate_instances (client, CALOBJ_TYPE_EVENT,
 				       c.start_time, c.end_time,
 				       tag_calendar_cb, &c);
 }
@@ -160,20 +160,20 @@ tag_calendar_by_client (ECalendar *ecal, CalClient *client)
 static icaltimezone*
 resolve_tzid_cb (const char *tzid, gpointer data)
 {
-	CalClient *client;
+	ECal *client;
 	icaltimezone *zone = NULL;
 
 	g_return_val_if_fail (data != NULL, NULL);
-	g_return_val_if_fail (IS_CAL_CLIENT (data), NULL);
+	g_return_val_if_fail (E_IS_CAL (data), NULL);
 	
-	client = CAL_CLIENT (data);
+	client = E_CAL (data);
 
 	/* Try to find the builtin timezone first. */
 	zone = icaltimezone_get_builtin_timezone_from_tzid (tzid);
 
 	if (!zone) {
 		/* FIXME: Handle errors. */
-		cal_client_get_timezone (client, tzid, &zone, NULL);
+		e_cal_get_timezone (client, tzid, &zone, NULL);
 	}
 
 	return zone;
@@ -194,7 +194,7 @@ resolve_tzid_cb (const char *tzid, gpointer data)
  * have been added to the calendar on the server yet.
  **/
 void
-tag_calendar_by_comp (ECalendar *ecal, CalComponent *comp, CalClient *client, icaltimezone *display_zone, 
+tag_calendar_by_comp (ECalendar *ecal, ECalComponent *comp, ECal *client, icaltimezone *display_zone, 
 		      gboolean clear_first, gboolean comp_is_on_server)
 {
 	struct calendar_tag_closure c;
@@ -202,7 +202,7 @@ tag_calendar_by_comp (ECalendar *ecal, CalComponent *comp, CalClient *client, ic
 	g_return_if_fail (ecal != NULL);
 	g_return_if_fail (E_IS_CALENDAR (ecal));
 	g_return_if_fail (comp != NULL);
-	g_return_if_fail (IS_CAL_COMPONENT (comp));
+	g_return_if_fail (E_IS_CAL_COMPONENT (comp));
 
 	/* If the ECalendar isn't visible, we just return. */
 	if (!GTK_WIDGET_VISIBLE (ecal))
@@ -217,12 +217,12 @@ tag_calendar_by_comp (ECalendar *ecal, CalComponent *comp, CalClient *client, ic
 	g_print ("DateNavigator generating instances\n");
 #endif
 	if (comp_is_on_server) {
-		cal_recur_generate_instances (comp, c.start_time, c.end_time,
+		e_cal_recur_generate_instances (comp, c.start_time, c.end_time,
 					      tag_calendar_cb, &c,
-					      cal_client_resolve_tzid_cb,
+					      e_cal_resolve_tzid_cb,
 					      client, c.zone);
 	} else {
-		cal_recur_generate_instances (comp, c.start_time, c.end_time,
+		e_cal_recur_generate_instances (comp, c.start_time, c.end_time,
 					      tag_calendar_cb, &c,
 					      resolve_tzid_cb,
 					      client, c.zone);

@@ -1,3 +1,9 @@
+2003-11-07  JP Rosevear <jpr@ximian.com>
+
+	* main.c: use e-d-s idl to check interface version
+
+	* Makefile.am: build e-d-s idl
+
 2003-11-03  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-shared-folder-picker-dialog.c (setup_name_selector):

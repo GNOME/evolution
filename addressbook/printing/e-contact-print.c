@@ -38,8 +38,8 @@
 #include <libgnomeprint/gnome-print-job.h>
 #include <libgnomeprintui/gnome-print-dialog.h>
 #include <libgnomeprintui/gnome-print-job-preview.h>
-#include <addressbook/backend/ebook/e-book-async.h>
-#include <addressbook/backend/ebook/e-contact.h>
+#include <libebook/e-book-async.h>
+#include <libebook/e-contact.h>
 #include <addressbook/util/eab-destination.h>
 
 #define SCALE 5

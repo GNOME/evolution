@@ -5,9 +5,7 @@ changelogs =				\
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = 			\
 	camel.pc			\
-	evolution-shell.pc		\
-	evolution-addressbook.pc	\
-	evolution-calendar.pc
+	evolution-shell.pc
 
 EXTRA_DIST = 			\
 	AUTHORS			\
@@ -31,7 +29,6 @@ endif
 SUBDIRS = 			\
         data                    \
         e-util                  \
-	libical			\
 	libversit		\
 	a11y			\
         widgets                 \
@@ -47,7 +44,6 @@ SUBDIRS = 			\
 	ui			\
         default_user            \
 	views			\
-	wombat			\
 	tools			\
 	help			\
 	po

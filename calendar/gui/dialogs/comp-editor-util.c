@@ -32,7 +32,7 @@
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-widget.h>
 #include <e-util/e-time-utils.h>
-#include <cal-util/timeutil.h>
+#include <libecal/e-cal-time-util.h>
 #include "../calendar-config.h"
 #include "../e-date-edit-config.h"
 #include "comp-editor-util.h"
@@ -49,37 +49,37 @@
  * results.
  **/
 void
-comp_editor_dates (CompEditorPageDates *dates, CalComponent *comp)
+comp_editor_dates (CompEditorPageDates *dates, ECalComponent *comp)
 {
-	CalComponentDateTime dt;
+	ECalComponentDateTime dt;
 
 	dates->start = NULL;
 	dates->end = NULL;
 	dates->due = NULL;
 	dates->complete = NULL;
 	
-	/* Note that the CalComponentDateTime's returned contain allocated
+	/* Note that the ECalComponentDateTime's returned contain allocated
 	   icaltimetype and tzid values, so we just take over ownership of
 	   those. */
-	cal_component_get_dtstart (comp, &dt);
+	e_cal_component_get_dtstart (comp, &dt);
 	if (dt.value) {
-		dates->start = g_new (CalComponentDateTime, 1);
+		dates->start = g_new (ECalComponentDateTime, 1);
 		*dates->start = dt;
 	}
 
-	cal_component_get_dtend (comp, &dt);
+	e_cal_component_get_dtend (comp, &dt);
 	if (dt.value) {
-		dates->end = g_new (CalComponentDateTime, 1);
+		dates->end = g_new (ECalComponentDateTime, 1);
 		*dates->end = dt;
 	}
 
-	cal_component_get_due (comp, &dt);
+	e_cal_component_get_due (comp, &dt);
 	if (dt.value) {
-		dates->due = g_new (CalComponentDateTime, 1);
+		dates->due = g_new (ECalComponentDateTime, 1);
 		*dates->due = dt;
 	}
 
-	cal_component_get_completed (comp, &dates->complete);
+	e_cal_component_get_completed (comp, &dates->complete);
 }
 
 
@@ -89,25 +89,25 @@ comp_editor_dates (CompEditorPageDates *dates, CalComponent *comp)
 void
 comp_editor_free_dates (CompEditorPageDates *dates)
 {
-	/* Note that cal_component_free_datetime() only frees the fields in
+	/* Note that e_cal_component_free_datetime() only frees the fields in
 	   the struct. It doesn't free the struct itself, so we do that. */
 	if (dates->start) {
-		cal_component_free_datetime (dates->start);
+		e_cal_component_free_datetime (dates->start);
 		g_free (dates->start);
 	}
 
 	if (dates->end) {
-		cal_component_free_datetime (dates->end);
+		e_cal_component_free_datetime (dates->end);
 		g_free (dates->end);
 	}
 
 	if (dates->due) {
-		cal_component_free_datetime (dates->due);
+		e_cal_component_free_datetime (dates->due);
 		g_free (dates->due);
 	}
 
 	if (dates->complete)
-		cal_component_free_icaltimetype (dates->complete);
+		e_cal_component_free_icaltimetype (dates->complete);
 }
 
 

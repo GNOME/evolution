@@ -23,7 +23,7 @@
 #define E_CAL_MODEL_H
 
 #include <gal/e-table/e-table-model.h>
-#include <cal-client/cal-client.h>
+#include <libecal/e-cal.h>
 #include "e-cell-date-edit-text.h"
 
 G_BEGIN_DECLS
@@ -53,7 +53,7 @@ typedef enum {
 } ECalModelField;
 
 typedef struct {
-	CalClient *client;
+	ECal *client;
 	icalcomponent *icalcomp;
 
 	/* private data */
@@ -88,12 +88,12 @@ void                e_cal_model_set_default_category (ECalModel *model, const gc
 gboolean            e_cal_model_get_use_24_hour_format (ECalModel *model);
 void                e_cal_model_set_use_24_hour_format (ECalModel *model, gboolean use24);
 
-CalClient          *e_cal_model_get_default_client (ECalModel *model);
-void                e_cal_model_set_default_client (ECalModel *model, CalClient *client);
+ECal          *e_cal_model_get_default_client (ECalModel *model);
+void                e_cal_model_set_default_client (ECalModel *model, ECal *client);
 GList              *e_cal_model_get_client_list (ECalModel *model);
-CalClient          *e_cal_model_get_client_for_uri (ECalModel *model, const char *uri);
-void                e_cal_model_add_client (ECalModel *model, CalClient *client);
-void                e_cal_model_remove_client (ECalModel *model, CalClient *client);
+ECal          *e_cal_model_get_client_for_uri (ECalModel *model, const char *uri);
+void                e_cal_model_add_client (ECalModel *model, ECal *client);
+void                e_cal_model_remove_client (ECalModel *model, ECal *client);
 void                e_cal_model_remove_all_clients (ECalModel *model);
 
 void                e_cal_model_set_query (ECalModel *model, const gchar *sexp);

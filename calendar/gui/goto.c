@@ -70,7 +70,7 @@ static void
 ecal_date_range_changed (ECalendarItem *calitem, gpointer user_data)
 {
 	GoToDialog *dlg = user_data;
-	CalClient *client;
+	ECal *client;
 	
 	client = gnome_calendar_get_default_client (dlg->gcal);
 	if (client)

@@ -53,7 +53,7 @@
 #include "addressbook/printing/e-contact-print.h"
 #include "addressbook/util/eab-book-util.h"
 
-#include <ebook/e-book-async.h>
+#include <libebook/e-book-async.h>
 #include <widgets/misc/e-search-bar.h>
 #include <widgets/misc/e-filter-bar.h>
 

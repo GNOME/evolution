@@ -35,10 +35,10 @@
 #include <gtk/gtkstock.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-app.h>
+#include <libebook/e-book.h>
+#include <libebook/e-contact.h>
 #include <addressbook/gui/component/addressbook.h>
-#include <addressbook/backend/ebook/e-book.h>
 #include <addressbook/util/eab-book-util.h>
-#include <addressbook/backend/ebook/e-contact.h>
 #include "e-contact-editor.h"
 #include "e-contact-quick-add.h"
 #include "eab-contact-merging.h"

@@ -23,8 +23,8 @@
 
 #include <glib.h>
 #include <gtk/gtkwindow.h>
-#include <cal-util/cal-component.h>
+#include <libecal/e-cal-component.h>
 
-gboolean changed_component_dialog (GtkWindow *window, CalComponent *comp, gboolean deleted, gboolean changed);
+gboolean changed_component_dialog (GtkWindow *window, ECalComponent *comp, gboolean deleted, gboolean changed);
 
 #endif

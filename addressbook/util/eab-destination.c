@@ -31,7 +31,7 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
-#include "ebook/e-book.h"
+#include <libebook/e-book.h>
 #include "eab-marshal.h"
 #include "eab-book-util.h"
 #include <gal/widgets/e-unicode.h>

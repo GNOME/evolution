@@ -23,7 +23,7 @@
 
 /*
  * ECellDateEditText - a subclass of ECellText used to show and edit the text
- * representation of the date, from a CalComponentDateTime* model value.
+ * representation of the date, from a ECalComponentDateTime* model value.
  */
 
 #ifndef _E_CELL_DATE_EDIT_TEXT_H_

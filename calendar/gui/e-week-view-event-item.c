@@ -84,7 +84,7 @@ static gboolean e_week_view_event_item_button_release (EWeekViewEventItem *wveit
 						       GdkEvent		  *event);
 static gboolean e_week_view_event_item_double_click (EWeekViewEventItem *wveitem,
 						     GdkEvent		*bevent);
-static ECalViewPosition e_week_view_event_item_get_position (EWeekViewEventItem *wveitem,
+static ECalendarViewPosition e_week_view_event_item_get_position (EWeekViewEventItem *wveitem,
 							      gdouble x,
 							      gdouble y);
 
@@ -287,7 +287,7 @@ e_week_view_event_item_draw (GnomeCanvasItem  *canvas_item,
 		rect_x = x1 + E_WEEK_VIEW_EVENT_L_PAD;
 		rect_w = x2 - x1 - E_WEEK_VIEW_EVENT_L_PAD - E_WEEK_VIEW_EVENT_R_PAD + 1;
 
-		if (gdk_color_parse (e_cal_model_get_color_for_component (e_cal_view_get_model (E_CAL_VIEW (week_view)),
+		if (gdk_color_parse (e_cal_model_get_color_for_component (e_calendar_view_get_model (E_CALENDAR_VIEW (week_view)),
 									  event->comp_data),
 				     &bg_color)) {
 			GdkColormap *colormap;
@@ -377,7 +377,7 @@ e_week_view_event_item_draw (GnomeCanvasItem  *canvas_item,
 			rect_w -= 2;
 		}
 
-		if (gdk_color_parse (e_cal_model_get_color_for_component (e_cal_view_get_model (E_CAL_VIEW (week_view)),
+		if (gdk_color_parse (e_cal_model_get_color_for_component (e_calendar_view_get_model (E_CALENDAR_VIEW (week_view)),
 									  event->comp_data),
 				     &bg_color)) {
 			GdkColormap *colormap;
@@ -550,7 +550,7 @@ e_week_view_draw_time	(EWeekView	*week_view,
 		time_x += week_view->small_digit_width * 2;
 
 		/* Draw the 'am'/'pm' suffix, if 12-hour format. */
-		if (!e_cal_view_get_use_24_hour_format (E_CAL_VIEW (week_view))) {
+		if (!e_calendar_view_get_use_24_hour_format (E_CALENDAR_VIEW (week_view))) {
 			pango_layout_set_text (layout, suffix, -1);
 			gdk_draw_layout (drawable, gc,
 					 time_x,
@@ -592,7 +592,7 @@ e_week_view_event_item_draw_icons (EWeekViewEventItem *wveitem,
 	EWeekView *week_view;
 	EWeekViewEvent *event;
 	EWeekViewEventSpan *span;
-	CalComponent *comp;
+	ECalComponent *comp;
 	GdkGC *gc;
 	gint num_icons = 0, icon_x_inc;
 	gboolean draw_reminder_icon = FALSE, draw_recurrence_icon = FALSE;
@@ -605,17 +605,17 @@ e_week_view_event_item_draw_icons (EWeekViewEventItem *wveitem,
 				wveitem->event_num);
 	span = &g_array_index (week_view->spans, EWeekViewEventSpan,
 			       event->spans_index + wveitem->span_num);
-	comp = cal_component_new ();
-	cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
+	comp = e_cal_component_new ();
+	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
 
 	gc = week_view->main_gc;
 
-	if (cal_component_has_alarms (comp)) {
+	if (e_cal_component_has_alarms (comp)) {
 		draw_reminder_icon = TRUE;
 		num_icons++;
 	}
 
-	if (cal_component_has_recurrences (comp)) {
+	if (e_cal_component_has_recurrences (comp)) {
 		draw_recurrence_icon = TRUE;
 		num_icons++;
 	}
@@ -625,7 +625,7 @@ e_week_view_event_item_draw_icons (EWeekViewEventItem *wveitem,
 		num_icons++;
 	}
 
-	cal_component_get_categories_list (comp, &categories_list);
+	e_cal_component_get_categories_list (comp, &categories_list);
 	for (elem = categories_list; elem; elem = elem->next) {
 		char *category;
 		GdkPixmap *pixmap = NULL;
@@ -700,7 +700,7 @@ e_week_view_event_item_draw_icons (EWeekViewEventItem *wveitem,
 			gdk_bitmap_unref (mask);
 	}
 
-	cal_component_free_categories_list (categories_list);
+	e_cal_component_free_categories_list (categories_list);
 
 	gdk_gc_set_clip_mask (gc, NULL);
 }
@@ -790,7 +790,7 @@ e_week_view_event_item_button_press (EWeekViewEventItem *wveitem,
 				     GdkEvent		*bevent)
 {
 	EWeekView *week_view;
-	ECalViewPosition pos;
+	ECalendarViewPosition pos;
 	EWeekViewEvent *event;
 	EWeekViewEventSpan *span;
 	GnomeCanvasItem *item;
@@ -811,7 +811,7 @@ e_week_view_event_item_button_press (EWeekViewEventItem *wveitem,
 
 	pos = e_week_view_event_item_get_position (wveitem, bevent->button.x,
 						   bevent->button.y);
-	if (pos == E_CAL_VIEW_POS_NONE)
+	if (pos == E_CALENDAR_VIEW_POS_NONE)
 		return FALSE;
 
 	if (bevent->button.button == 1) {
@@ -901,13 +901,13 @@ e_week_view_event_item_double_click (EWeekViewEventItem *wveitem,
 
 	e_week_view_stop_editing_event (week_view);
 
-	e_cal_view_edit_appointment (E_CAL_VIEW (week_view), event->comp_data->client, event->comp_data->icalcomp, FALSE);
+	e_calendar_view_edit_appointment (E_CALENDAR_VIEW (week_view), event->comp_data->client, event->comp_data->icalcomp, FALSE);
 
 	return TRUE;
 }
 
 
-static ECalViewPosition
+static ECalendarViewPosition
 e_week_view_event_item_get_position (EWeekViewEventItem *wveitem,
 				     gdouble x,
 				     gdouble y)
@@ -918,7 +918,7 @@ e_week_view_event_item_get_position (EWeekViewEventItem *wveitem,
 	item = GNOME_CANVAS_ITEM (wveitem);
 
 	week_view = E_WEEK_VIEW (GTK_WIDGET (item->canvas)->parent);
-	g_return_val_if_fail (E_IS_WEEK_VIEW (week_view), E_CAL_VIEW_POS_NONE);
+	g_return_val_if_fail (E_IS_WEEK_VIEW (week_view), E_CALENDAR_VIEW_POS_NONE);
 
 #if 0
 	g_print ("In e_week_view_event_item_get_position item: %g,%g %g,%g point: %g,%g\n", item->x1, item->y1, item->x2, item->y2, x, y);
@@ -926,20 +926,20 @@ e_week_view_event_item_get_position (EWeekViewEventItem *wveitem,
 
 	if (x < item->x1 + E_WEEK_VIEW_EVENT_L_PAD
 	    || x >= item->x2 - E_WEEK_VIEW_EVENT_R_PAD)
-		return E_CAL_VIEW_POS_NONE;
+		return E_CALENDAR_VIEW_POS_NONE;
 
 	/* Support left/right edge for long events only. */
 	if (!e_week_view_is_one_day_event (week_view, wveitem->event_num)) {
 		if (x < item->x1 + E_WEEK_VIEW_EVENT_L_PAD
 		    + E_WEEK_VIEW_EVENT_BORDER_WIDTH
 		    + E_WEEK_VIEW_EVENT_EDGE_X_PAD)
-			return E_CAL_VIEW_POS_LEFT_EDGE;
+			return E_CALENDAR_VIEW_POS_LEFT_EDGE;
 
 		if (x >= item->x2 + 1 - E_WEEK_VIEW_EVENT_R_PAD
 		    - E_WEEK_VIEW_EVENT_BORDER_WIDTH
 		    - E_WEEK_VIEW_EVENT_EDGE_X_PAD)
-			return E_CAL_VIEW_POS_RIGHT_EDGE;
+			return E_CALENDAR_VIEW_POS_RIGHT_EDGE;
 	}
 
-	return E_CAL_VIEW_POS_EVENT;
+	return E_CALENDAR_VIEW_POS_EVENT;
 }

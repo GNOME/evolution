@@ -22,9 +22,9 @@
 #define DELETE_ERROR_H
 
 #include <glib.h>
-#include <cal-client/cal-client.h>
-#include <cal-util/cal-component.h>
+#include <libecal/e-cal.h>
+#include <libecal/e-cal-component.h>
 
-void delete_error_dialog (GError *error, CalComponentVType vtype);
+void delete_error_dialog (GError *error, ECalComponentVType vtype);
 
 #endif

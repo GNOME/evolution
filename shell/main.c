@@ -60,7 +60,7 @@
 #include <glade/glade.h>
 
 #include "e-config-upgrade.h"
-#include "Evolution-Wombat.h"
+#include "Evolution-DataServer.h"
 
 #ifdef GTKHTML_HAVE_GCONF
 #include <gconf/gconf.h>
@@ -178,20 +178,20 @@ kill_wombat (void)
 static void
 kill_old_wombat (void)
 {
-	GNOME_Evolution_WombatInterfaceCheck iface;
+	GNOME_Evolution_DataServer_InterfaceCheck iface;
 	CORBA_Environment ev;
 	CORBA_char *version;
 
 	CORBA_exception_init (&ev);
 
-	iface = bonobo_activation_activate_from_id ("OAFIID:GNOME_Evolution_Wombat_InterfaceCheck", 0, NULL, &ev);
+	iface = bonobo_activation_activate_from_id ("OAFIID:GNOME_Evolution_DataServer_InterfaceCheck", 0, NULL, &ev);
 	if (BONOBO_EX (&ev) || iface == CORBA_OBJECT_NIL) {
 		kill_wombat ();
 		CORBA_exception_free (&ev);
 		return;
 	}
 
-	version = GNOME_Evolution_WombatInterfaceCheck__get_interfaceVersion (iface, &ev);
+	version = GNOME_Evolution_DataServer_InterfaceCheck__get_interfaceVersion (iface, &ev);
 	if (BONOBO_EX (&ev)) {
 		kill_wombat ();
 		CORBA_Object_release (iface, &ev);

@@ -5,6 +5,19 @@ IDLS =												   	\
 	$(top_srcdir)/calendar/idl/evolution-calendar.idl						\
 	$(top_srcdir)/addressbook/gui/component/select-names/Evolution-Addressbook-SelectNames.idl
 
+CALENDAR_IDL_GENERATED_H =              		\
+	evolution-calendar.h
+CALENDAR_IDL_GENERATED_C =		\
+	evolution-calendar-common.c	\
+	evolution-calendar-skels.c	\
+	evolution-calendar-stubs.c
+CALENDAR_IDL_GENERATED = $(CALENDAR_IDL_GENERATED_C) $(CALENDAR_IDL_GENERATED_H)
+
+$(CALENDAR_IDL_GENERATED_H): $(IDLS)
+	$(ORBIT_IDL) -I $(srcdir) $(IDL_INCLUDES)   \
+                $(top_srcdir)/calendar/idl/evolution-calendar.idl
+$(CALENDAR_IDL_GENERATED_C): $(CALENDAR_IDL_GENERATED_H)
+
 # Message composer IDL files
 
 COMPOSER_IDL_GENERATED_H = \
@@ -19,7 +32,6 @@ $(COMPOSER_IDL_GENERATED_H): $(IDLS)
 	$(ORBIT_IDL) -I $(srcdir) $(IDL_INCLUDES)   \
                 $(srcdir)/../../composer/Evolution-Composer.idl
 $(COMPOSER_IDL_GENERATED_C): $(COMPOSER_IDL_GENERATED_H)
-
 
 # SelectNames IDL files
 
@@ -37,8 +49,11 @@ $(SELECT_NAMES_IDL_GENERATED_H): $(IDLS)
 $(SELECT_NAMES_IDL_GENERATED_C): $(SELECT_NAMES_IDL_GENERATED_H)
 
 
-IDL_GENERATED = $(COMPOSER_IDL_GENERATED) $(SELECT_NAMES_IDL_GENERATED)
+IDL_GENERATED = $(CALENDAR_IDL_GENERATED) $(COMPOSER_IDL_GENERATED) $(SELECT_NAMES_IDL_GENERATED)
 
+# The marshallers
+MARSHAL_GENERATED = e-calendar-marshal.c e-calendar-marshal.h
+@EVO_MARSHAL_RULE@
 
 SUBDIRS = alarm-notify dialogs
 
@@ -53,8 +68,6 @@ INCLUDES =						\
 	-I$(top_srcdir)/calendar/cal-client		\
 	-I$(top_builddir)/calendar/cal-client		\
 	-I$(top_srcdir)/libical/src			\
-	-I$(top_srcdir)/addressbook/backend		\
-	-I$(top_builddir)/addressbook/backend		\
 	-I$(top_srcdir)/widgets				\
 	-I$(top_srcdir)/a11y/calendar			\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
@@ -77,6 +90,7 @@ etspec_DATA =				\
 
 libevolution_calendar_la_SOURCES =		\
 	$(IDL_GENERATED)			\
+	$(MARSHAL_GENERATED)			\
 	cal-search-bar.c			\
 	cal-search-bar.h			\
 	calendar-config.c			\
@@ -203,8 +217,6 @@ libevolution_calendar_la_LIBADD =					\
 	$(DB3_LDADD)							\
 	$(top_builddir)/widgets/menus/libmenus.la			\
 	$(top_builddir)/shell/libeshell.la				\
-	$(top_builddir)/calendar/cal-client/libcal-client.la		\
-	$(top_builddir)/addressbook/backend/ebook/libebook.la		\
 	$(top_builddir)/calendar/gui/dialogs/libcal-dialogs.la		\
 	$(top_builddir)/widgets/e-timezone-dialog/libetimezonedialog.la	\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
@@ -226,6 +238,7 @@ schemadir   = $(GCONF_SCHEMA_FILE_DIR)
 schema_DATA = apps_evolution_calendar.schemas
 
 EXTRA_DIST =	 			\
+	e-calendar-marshal.list		\
 	$(glade_DATA)			\
 	$(schema_DATA)                  \
 	$(etspec_DATA)			\

@@ -1,3 +1,10 @@
+2003-11-07  JP Rosevear <jpr@ximian.com>
+
+	* In the gui this is a search and replace commit for moving the
+	calendar to evolution-data-server; it also deletes the old backend
+	files; e-cal-view was rename to e-calendar-view to remove name
+	conflict
+	
 2003-11-05  JP Rosevear <jpr@ximian.com>
 
 	* gui/migration.c: fix typo

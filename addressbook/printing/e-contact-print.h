@@ -24,8 +24,8 @@
 
 #include <glib.h>
 #include <gtk/gtkwidget.h>
-#include <addressbook/backend/ebook/e-book.h>
-#include <addressbook/backend/ebook/e-contact.h>
+#include <libebook/e-book.h>
+#include <libebook/e-contact.h>
 #include "e-contact-print-types.h"
 
 GtkWidget *e_contact_print_dialog_new(EBook *book, char *query);

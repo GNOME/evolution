@@ -33,7 +33,7 @@
 #define __E_TIMEZONE_ENTRY_H_ 
 
 #include <gtk/gtkhbox.h>
-#include <cal-client/cal-client.h>
+#include <libecal/e-cal.h>
  
 G_BEGIN_DECLS
 

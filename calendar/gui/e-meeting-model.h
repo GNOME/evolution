@@ -26,7 +26,7 @@
 #include <gtk/gtk.h>
 #include <gal/e-table/e-table-scrolled.h>
 #include <gal/e-table/e-table-model.h>
-#include <cal-client/cal-client.h>
+#include <libecal/e-cal.h>
 #include "e-meeting-attendee.h"
 
 G_BEGIN_DECLS
@@ -72,8 +72,8 @@ typedef void	(* EMeetingModelRefreshCallback) (gpointer data);
 GtkType    e_meeting_model_get_type (void);
 GtkObject *e_meeting_model_new      (void);
 
-CalClient *e_meeting_model_get_cal_client (EMeetingModel *im);
-void e_meeting_model_set_cal_client (EMeetingModel *im, CalClient *client);
+ECal *e_meeting_model_get_e_cal (EMeetingModel *im);
+void e_meeting_model_set_e_cal (EMeetingModel *im, ECal *client);
 
 icaltimezone *e_meeting_model_get_zone (EMeetingModel *im);
 void e_meeting_model_set_zone (EMeetingModel *im, icaltimezone *zone);

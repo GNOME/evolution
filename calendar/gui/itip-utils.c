@@ -36,8 +36,8 @@
 #include <Evolution-Composer.h>
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-time-utils.h>
-#include <cal-util/timeutil.h>
-#include <cal-util/cal-util.h>
+#include <libecal/e-cal-time-util.h>
+#include <libecal/e-cal-util.h>
 #include "calendar-config.h"
 #include "itip-utils.h"
 
@@ -86,24 +86,24 @@ itip_addresses_get_default (void)
 }
 
 gboolean
-itip_organizer_is_user (CalComponent *comp, CalClient *client)
+itip_organizer_is_user (ECalComponent *comp, ECal *client)
 {
-	CalComponentOrganizer organizer;
+	ECalComponentOrganizer organizer;
 	const char *strip;
 	gboolean user_org = FALSE;
 	
-	if (!cal_component_has_organizer (comp))
+	if (!e_cal_component_has_organizer (comp))
 		return FALSE;
 
-	cal_component_get_organizer (comp, &organizer);
+	e_cal_component_get_organizer (comp, &organizer);
 	if (organizer.value != NULL) {
 
   		strip = itip_strip_mailto (organizer.value);
   
- 		if (cal_client_get_static_capability (client, CAL_STATIC_CAPABILITY_ORGANIZER_NOT_EMAIL_ADDRESS)) { 
+ 		if (e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_ORGANIZER_NOT_EMAIL_ADDRESS)) { 
  			char *email;
  			
-  			if (cal_client_get_cal_address (client, &email, NULL) && !g_strcasecmp (email, strip)) {
+  			if (e_cal_get_cal_address (client, &email, NULL) && !g_strcasecmp (email, strip)) {
 				g_free (email);
 				
  				return TRUE;
@@ -119,16 +119,16 @@ itip_organizer_is_user (CalComponent *comp, CalClient *client)
 }
 
 gboolean
-itip_sentby_is_user (CalComponent *comp)
+itip_sentby_is_user (ECalComponent *comp)
 {
-	CalComponentOrganizer organizer;
+	ECalComponentOrganizer organizer;
 	const char *strip;
 	gboolean user_sentby = FALSE;
 	
-	if (!cal_component_has_organizer (comp))
+	if (!e_cal_component_has_organizer (comp))
 		return FALSE;
 
-	cal_component_get_organizer (comp, &organizer);
+	e_cal_component_get_organizer (comp, &organizer);
 	if (organizer.sentby != NULL) {
 		strip = itip_strip_mailto (organizer.sentby);
 		user_sentby = e_account_list_find(itip_addresses_get(), E_ACCOUNT_FIND_ID_ADDRESS, strip) != NULL;
@@ -167,7 +167,7 @@ get_label (struct icaltimetype *tt)
 typedef struct {
 	GHashTable *tzids;
 	icalcomponent *icomp;	
-	CalClient *client;
+	ECal *client;
 	icalcomponent *zones;
 } ItipUtilTZData;
 
@@ -191,7 +191,7 @@ foreach_tzid_callback (icalparameter *param, gpointer data)
 	if (zone == NULL)
 		zone = icaltimezone_get_builtin_timezone_from_tzid (tzid);
 	if (zone == NULL && tz_data->client != NULL)		
-		cal_client_get_timezone (tz_data->client, tzid, &zone, NULL);
+		e_cal_get_timezone (tz_data->client, tzid, &zone, NULL);
 	if (zone == NULL)
 		return;
 
@@ -205,21 +205,21 @@ foreach_tzid_callback (icalparameter *param, gpointer data)
 }
 
 static icalcomponent *
-comp_toplevel_with_zones (CalComponentItipMethod method, CalComponent *comp, CalClient *client, icalcomponent *zones)
+comp_toplevel_with_zones (ECalComponentItipMethod method, ECalComponent *comp, ECal *client, icalcomponent *zones)
 {
 	icalcomponent *top_level, *icomp;
 	icalproperty *prop;
 	icalvalue *value;
 	ItipUtilTZData tz_data;
 
-	top_level = cal_util_new_top_level ();
+	top_level = e_cal_util_new_top_level ();
 
 	prop = icalproperty_new (ICAL_METHOD_PROPERTY);
 	value = icalvalue_new_method (itip_methods_enum[method]);
 	icalproperty_set_value (prop, value);
 	icalcomponent_add_property (top_level, prop);
 
-	icomp = cal_component_get_icalcomponent (comp);
+	icomp = e_cal_component_get_icalcomponent (comp);
 	icomp = icalcomponent_new_clone (icomp);
 	
 	tz_data.tzids = g_hash_table_new (g_str_hash, g_str_equal);
@@ -248,21 +248,21 @@ users_has_attendee (GList *users, const char *address)
 }
 
 static CORBA_char *
-comp_from (CalComponentItipMethod method, CalComponent *comp)
+comp_from (ECalComponentItipMethod method, ECalComponent *comp)
 {
-	CalComponentOrganizer organizer;
-	CalComponentAttendee *attendee;
+	ECalComponentOrganizer organizer;
+	ECalComponentAttendee *attendee;
 	GSList *attendees;
 	CORBA_char *str;
 	
 	switch (method) {
-	case CAL_COMPONENT_METHOD_PUBLISH:
+	case E_CAL_COMPONENT_METHOD_PUBLISH:
 		return CORBA_string_dup ("");
 		
-	case CAL_COMPONENT_METHOD_REQUEST:
-	case CAL_COMPONENT_METHOD_CANCEL:
-	case CAL_COMPONENT_METHOD_ADD:
-		cal_component_get_organizer (comp, &organizer);
+	case E_CAL_COMPONENT_METHOD_REQUEST:
+	case E_CAL_COMPONENT_METHOD_CANCEL:
+	case E_CAL_COMPONENT_METHOD_ADD:
+		e_cal_component_get_organizer (comp, &organizer);
 		if (organizer.value == NULL) {
 			e_notice (NULL, GTK_MESSAGE_ERROR,
 				  _("An organizer must be set."));
@@ -272,36 +272,36 @@ comp_from (CalComponentItipMethod method, CalComponent *comp)
 		return CORBA_string_dup (itip_strip_mailto (organizer.value));
 
 	default:
-		if (!cal_component_has_attendees (comp))
+		if (!e_cal_component_has_attendees (comp))
 			return CORBA_string_dup ("");
 
-		cal_component_get_attendee_list (comp, &attendees);
+		e_cal_component_get_attendee_list (comp, &attendees);
 		attendee = attendees->data;
 		str = CORBA_string_dup (attendee->value ? itip_strip_mailto (attendee->value) : "");
-		cal_component_free_attendee_list (attendees);
+		e_cal_component_free_attendee_list (attendees);
 
 		return str;
 	}
 }
 
 static GNOME_Evolution_Composer_RecipientList *
-comp_to_list (CalComponentItipMethod method, CalComponent *comp, GList *users)
+comp_to_list (ECalComponentItipMethod method, ECalComponent *comp, GList *users)
 {
 	GNOME_Evolution_Composer_RecipientList *to_list;
 	GNOME_Evolution_Composer_Recipient *recipient;
-	CalComponentOrganizer organizer;
+	ECalComponentOrganizer organizer;
 	GSList *attendees, *l;
 	gint len;
 
 	switch (method) {
-	case CAL_COMPONENT_METHOD_REQUEST:
-	case CAL_COMPONENT_METHOD_CANCEL:
-		cal_component_get_attendee_list (comp, &attendees);
+	case E_CAL_COMPONENT_METHOD_REQUEST:
+	case E_CAL_COMPONENT_METHOD_CANCEL:
+		e_cal_component_get_attendee_list (comp, &attendees);
 		len = g_slist_length (attendees);
 		if (len <= 0) {
 			e_notice (NULL, GTK_MESSAGE_ERROR,
 				  _("At least one attendee is necessary"));
-			cal_component_free_attendee_list (attendees);
+			e_cal_component_free_attendee_list (attendees);
 			return NULL;
 		}
 		
@@ -310,7 +310,7 @@ comp_to_list (CalComponentItipMethod method, CalComponent *comp, GList *users)
 		to_list->_length = 0;
 		to_list->_buffer = CORBA_sequence_GNOME_Evolution_Composer_Recipient_allocbuf (len);
 
-		cal_component_get_organizer (comp, &organizer);
+		e_cal_component_get_organizer (comp, &organizer);
 		if (organizer.value == NULL) {
 			e_notice (NULL, GTK_MESSAGE_ERROR,
 				  _("An organizer must be set."));
@@ -318,7 +318,7 @@ comp_to_list (CalComponentItipMethod method, CalComponent *comp, GList *users)
 		}
 
 		for (l = attendees; l != NULL; l = l->next) {
-			CalComponentAttendee *att = l->data;
+			ECalComponentAttendee *att = l->data;
 
 			if (users_has_attendee (users, att->value))
 				continue;
@@ -334,15 +334,15 @@ comp_to_list (CalComponentItipMethod method, CalComponent *comp, GList *users)
 			
 			to_list->_length++;
 		}
-		cal_component_free_attendee_list (attendees);
+		e_cal_component_free_attendee_list (attendees);
 		break;
 
-	case CAL_COMPONENT_METHOD_REPLY:
-	case CAL_COMPONENT_METHOD_ADD:
-	case CAL_COMPONENT_METHOD_REFRESH:
-	case CAL_COMPONENT_METHOD_COUNTER:
-	case CAL_COMPONENT_METHOD_DECLINECOUNTER:
-		cal_component_get_organizer (comp, &organizer);
+	case E_CAL_COMPONENT_METHOD_REPLY:
+	case E_CAL_COMPONENT_METHOD_ADD:
+	case E_CAL_COMPONENT_METHOD_REFRESH:
+	case E_CAL_COMPONENT_METHOD_COUNTER:
+	case E_CAL_COMPONENT_METHOD_DECLINECOUNTER:
+		e_cal_component_get_organizer (comp, &organizer);
 		if (organizer.value == NULL) {
 			e_notice (NULL, GTK_MESSAGE_ERROR,
 				  _("An organizer must be set."));
@@ -375,25 +375,25 @@ comp_to_list (CalComponentItipMethod method, CalComponent *comp, GList *users)
 }
 	
 static CORBA_char *
-comp_subject (CalComponentItipMethod method, CalComponent *comp)
+comp_subject (ECalComponentItipMethod method, ECalComponent *comp)
 {
-	CalComponentText caltext;
+	ECalComponentText caltext;
 	const char *description, *prefix = NULL;
 	GSList *alist;
 	CORBA_char *subject;
 
-	cal_component_get_summary (comp, &caltext);
+	e_cal_component_get_summary (comp, &caltext);
 	if (caltext.value != NULL)	
 		description = caltext.value;
 	else {
-		switch (cal_component_get_vtype (comp)) {
-		case CAL_COMPONENT_EVENT:
+		switch (e_cal_component_get_vtype (comp)) {
+		case E_CAL_COMPONENT_EVENT:
 			description = _("Event information");
-		case CAL_COMPONENT_TODO:
+		case E_CAL_COMPONENT_TODO:
 			description = _("Task information");
-		case CAL_COMPONENT_JOURNAL:
+		case E_CAL_COMPONENT_JOURNAL:
 			description = _("Journal information");
-		case CAL_COMPONENT_FREEBUSY:
+		case E_CAL_COMPONENT_FREEBUSY:
 			description = _("Free/Busy information");
 		default:
 			description = _("Calendar information");
@@ -401,18 +401,18 @@ comp_subject (CalComponentItipMethod method, CalComponent *comp)
 	}
 
 	switch (method) {
-	case CAL_COMPONENT_METHOD_PUBLISH:
-	case CAL_COMPONENT_METHOD_REQUEST:
+	case E_CAL_COMPONENT_METHOD_PUBLISH:
+	case E_CAL_COMPONENT_METHOD_REQUEST:
 		/* FIXME: If this is an update to a previous
 		 * PUBLISH or REQUEST, then
 			prefix = U_("Updated");
 		 */
 		break;
 
-	case CAL_COMPONENT_METHOD_REPLY:
-		cal_component_get_attendee_list (comp, &alist);
+	case E_CAL_COMPONENT_METHOD_REPLY:
+		e_cal_component_get_attendee_list (comp, &alist);
 		if (alist != NULL) {
-			CalComponentAttendee *a = alist->data;
+			ECalComponentAttendee *a = alist->data;
 
 			switch (a->status) {
 			case ICAL_PARTSTAT_ACCEPTED:
@@ -427,27 +427,27 @@ comp_subject (CalComponentItipMethod method, CalComponent *comp)
 			default:
 				break;
 			}
-			cal_component_free_attendee_list (alist);
+			e_cal_component_free_attendee_list (alist);
 		}
 		break;
 
-	case CAL_COMPONENT_METHOD_ADD:
+	case E_CAL_COMPONENT_METHOD_ADD:
 		prefix = _("Updated");
 		break;
 
-	case CAL_COMPONENT_METHOD_CANCEL:
+	case E_CAL_COMPONENT_METHOD_CANCEL:
 		prefix = _("Cancel");
 		break;
 
-	case CAL_COMPONENT_METHOD_REFRESH:
+	case E_CAL_COMPONENT_METHOD_REFRESH:
 		prefix = _("Refresh");
 		break;
 
-	case CAL_COMPONENT_METHOD_COUNTER:
+	case E_CAL_COMPONENT_METHOD_COUNTER:
 		prefix = _("Counter-proposal");
 		break;
 
-	case CAL_COMPONENT_METHOD_DECLINECOUNTER:
+	case E_CAL_COMPONENT_METHOD_DECLINECOUNTER:
 		prefix = _("Declined");
 		break;
 
@@ -466,22 +466,22 @@ comp_subject (CalComponentItipMethod method, CalComponent *comp)
 }
 
 static CORBA_char *
-comp_content_type (CalComponent *comp, CalComponentItipMethod method)
+comp_content_type (ECalComponent *comp, ECalComponentItipMethod method)
 {
 	char tmp[256];	
 
 	sprintf (tmp, "text/calendar; name=\"%s\"; charset=utf-8; METHOD=%s",
-		 cal_component_get_vtype (comp) == CAL_COMPONENT_FREEBUSY ?
+		 e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_FREEBUSY ?
 		 "freebusy.ifb" : "calendar.ics", itip_methods[method]);
 	return CORBA_string_dup (tmp);
 
 }
 
 static CORBA_char *
-comp_filename (CalComponent *comp)
+comp_filename (ECalComponent *comp)
 {
-        switch (cal_component_get_vtype (comp)) {
-        case CAL_COMPONENT_FREEBUSY:
+        switch (e_cal_component_get_vtype (comp)) {
+        case E_CAL_COMPONENT_FREEBUSY:
                 return CORBA_string_dup ("freebusy.ifb");
         default:
                 return CORBA_string_dup ("calendar.ics");
@@ -489,29 +489,29 @@ comp_filename (CalComponent *comp)
 }
 
 static CORBA_char *
-comp_description (CalComponent *comp)
+comp_description (ECalComponent *comp)
 {
         CORBA_char *description;
-        CalComponentDateTime dt;
+        ECalComponentDateTime dt;
         char *start = NULL, *end = NULL;
 
-        switch (cal_component_get_vtype (comp)) {
-        case CAL_COMPONENT_EVENT:
+        switch (e_cal_component_get_vtype (comp)) {
+        case E_CAL_COMPONENT_EVENT:
                 return CORBA_string_dup (_("Event information"));
-        case CAL_COMPONENT_TODO:
+        case E_CAL_COMPONENT_TODO:
                 return CORBA_string_dup (_("Task information"));
-        case CAL_COMPONENT_JOURNAL:
+        case E_CAL_COMPONENT_JOURNAL:
                 return CORBA_string_dup (_("Journal information"));
-        case CAL_COMPONENT_FREEBUSY:
-                cal_component_get_dtstart (comp, &dt);
+        case E_CAL_COMPONENT_FREEBUSY:
+                e_cal_component_get_dtstart (comp, &dt);
                 if (dt.value)
                         start = get_label (dt.value);
-		cal_component_free_datetime (&dt);
+		e_cal_component_free_datetime (&dt);
 
-		cal_component_get_dtend (comp, &dt);
+		e_cal_component_get_dtend (comp, &dt);
 		if (dt.value)
 			end = get_label (dt.value);
-		cal_component_free_datetime (&dt);
+		e_cal_component_free_datetime (&dt);
 
                 if (start != NULL && end != NULL) {
                         char *tmp;
@@ -530,7 +530,7 @@ comp_description (CalComponent *comp)
 }
 
 static gboolean
-comp_server_send (CalComponentItipMethod method, CalComponent *comp, CalClient *client, 
+comp_server_send (ECalComponentItipMethod method, ECalComponent *comp, ECal *client, 
 		  icalcomponent *zones, GList **users)
 {
 	icalcomponent *top_level;
@@ -538,7 +538,7 @@ comp_server_send (CalComponentItipMethod method, CalComponent *comp, CalClient *
 	GError *error = NULL;
 	
 	top_level = comp_toplevel_with_zones (method, comp, client, zones);
-	if (!cal_client_send_objects (client, top_level, &error)) {
+	if (!e_cal_send_objects (client, top_level, &error)) {
 		/* FIXME Really need a book problem status code */
 		if (error->code != E_CALENDAR_STATUS_OK) {
 			/* FIXME Better error message */
@@ -556,14 +556,14 @@ comp_server_send (CalComponentItipMethod method, CalComponent *comp, CalClient *
 }
 
 static gboolean
-comp_limit_attendees (CalComponent *comp) 
+comp_limit_attendees (ECalComponent *comp) 
 {
 	icalcomponent *icomp;
 	icalproperty *prop;
 	gboolean found = FALSE, match = FALSE;
 	GSList *l, *list = NULL;
 
-	icomp = cal_component_get_icalcomponent (comp);
+	icomp = e_cal_component_get_icalcomponent (comp);
 
 	for (prop = icalcomponent_get_first_property (icomp, ICAL_ATTENDEE_PROPERTY);
 	     prop != NULL;
@@ -607,11 +607,11 @@ comp_limit_attendees (CalComponent *comp)
 }
 
 static void
-comp_sentby (CalComponent *comp, CalClient *client)
+comp_sentby (ECalComponent *comp, ECal *client)
 {
-	CalComponentOrganizer organizer;
+	ECalComponentOrganizer organizer;
 	
-	cal_component_get_organizer (comp, &organizer);
+	e_cal_component_get_organizer (comp, &organizer);
 	if (!organizer.value) {
 		EAccount *a = itip_addresses_get_default ();
 
@@ -620,7 +620,7 @@ comp_sentby (CalComponent *comp, CalClient *client)
 		organizer.cn = a->id->name;
 		organizer.language = NULL;
 		
-		cal_component_set_organizer (comp, &organizer);
+		e_cal_component_set_organizer (comp, &organizer);
 		g_free ((char *) organizer.value);
 		
 		return;
@@ -634,7 +634,7 @@ comp_sentby (CalComponent *comp, CalClient *client)
 		organizer.cn = g_strdup (organizer.cn);
 		organizer.language = g_strdup (organizer.language);
 		
-		cal_component_set_organizer (comp, &organizer);
+		e_cal_component_set_organizer (comp, &organizer);
 
 		g_free ((char *)organizer.value);
 		g_free ((char *)organizer.sentby);
@@ -642,26 +642,26 @@ comp_sentby (CalComponent *comp, CalClient *client)
 		g_free ((char *)organizer.language);
 	}
 }
-static CalComponent *
-comp_minimal (CalComponent *comp, gboolean attendee)
+static ECalComponent *
+comp_minimal (ECalComponent *comp, gboolean attendee)
 {
-	CalComponent *clone;
+	ECalComponent *clone;
 	icalcomponent *icomp, *icomp_clone;
 	icalproperty *prop;
-	CalComponentOrganizer organizer;
+	ECalComponentOrganizer organizer;
 	const char *uid;
 	GSList *comments;
 	struct icaltimetype itt;
-	CalComponentRange recur_id;
+	ECalComponentRange recur_id;
 	
-	clone = cal_component_new ();
-	cal_component_set_new_vtype (clone, cal_component_get_vtype (comp));
+	clone = e_cal_component_new ();
+	e_cal_component_set_new_vtype (clone, e_cal_component_get_vtype (comp));
 
 	if (attendee) {
 		GSList *attendees;
 		
-		cal_component_get_attendee_list (comp, &attendees);
-		cal_component_set_attendee_list (clone, attendees);
+		e_cal_component_get_attendee_list (comp, &attendees);
+		e_cal_component_set_attendee_list (clone, attendees);
 
 		if (!comp_limit_attendees (clone)) {
 			e_notice (NULL, GTK_MESSAGE_ERROR,
@@ -672,34 +672,34 @@ comp_minimal (CalComponent *comp, gboolean attendee)
 	
 	itt = icaltime_from_timet_with_zone (time (NULL), FALSE,
 					     icaltimezone_get_utc_timezone ());
-	cal_component_set_dtstamp (clone, &itt);
+	e_cal_component_set_dtstamp (clone, &itt);
 
-	cal_component_get_organizer (comp, &organizer);
+	e_cal_component_get_organizer (comp, &organizer);
 	if (organizer.value == NULL)
 		goto error;
-	cal_component_set_organizer (clone, &organizer);
+	e_cal_component_set_organizer (clone, &organizer);
 
-	cal_component_get_uid (comp, &uid);
-	cal_component_set_uid (clone, uid);
+	e_cal_component_get_uid (comp, &uid);
+	e_cal_component_set_uid (clone, uid);
 
-	cal_component_get_comment_list (comp, &comments);
+	e_cal_component_get_comment_list (comp, &comments);
 	if (g_slist_length (comments) <= 1) {
-		cal_component_set_comment_list (clone, comments);
+		e_cal_component_set_comment_list (clone, comments);
 	} else {
 		GSList *l = comments;
 		
 		comments = g_slist_remove_link (comments, l);
-		cal_component_set_comment_list (clone, l);
-		cal_component_free_text_list (l);
+		e_cal_component_set_comment_list (clone, l);
+		e_cal_component_free_text_list (l);
 	}
-	cal_component_free_text_list (comments);
+	e_cal_component_free_text_list (comments);
 	
-	cal_component_get_recurid (comp, &recur_id);
+	e_cal_component_get_recurid (comp, &recur_id);
 	if (recur_id.datetime.value != NULL)
-		cal_component_set_recurid (clone, &recur_id);
+		e_cal_component_set_recurid (clone, &recur_id);
 	
-	icomp = cal_component_get_icalcomponent (comp);
-	icomp_clone = cal_component_get_icalcomponent (clone);
+	icomp = e_cal_component_get_icalcomponent (comp);
+	icomp_clone = e_cal_component_get_icalcomponent (clone);
 	for (prop = icalcomponent_get_first_property (icomp, ICAL_X_PROPERTY);
 	     prop != NULL;
 	     prop = icalcomponent_get_next_property (icomp, ICAL_X_PROPERTY))
@@ -710,7 +710,7 @@ comp_minimal (CalComponent *comp, gboolean attendee)
 		icalcomponent_add_property (icomp_clone, p);
 	}
 
-	cal_component_rescan (clone);
+	e_cal_component_rescan (clone);
 	
 	return clone;
 
@@ -719,31 +719,31 @@ comp_minimal (CalComponent *comp, gboolean attendee)
 	return NULL;
 }
 
-static CalComponent *
-comp_compliant (CalComponentItipMethod method, CalComponent *comp, CalClient *client, icalcomponent *zones)
+static ECalComponent *
+comp_compliant (ECalComponentItipMethod method, ECalComponent *comp, ECal *client, icalcomponent *zones)
 {
-	CalComponent *clone, *temp_clone;
+	ECalComponent *clone, *temp_clone;
 	struct icaltimetype itt;
 	
-	clone = cal_component_clone (comp);
+	clone = e_cal_component_clone (comp);
 	itt = icaltime_from_timet_with_zone (time (NULL), FALSE,
 					     icaltimezone_get_utc_timezone ());
-	cal_component_set_dtstamp (clone, &itt);
+	e_cal_component_set_dtstamp (clone, &itt);
 
 	/* Make UNTIL date a datetime in a simple recurrence */
-	if (cal_component_has_recurrences (clone)
-	    && cal_component_has_simple_recurrence (clone)) {
+	if (e_cal_component_has_recurrences (clone)
+	    && e_cal_component_has_simple_recurrence (clone)) {
 		GSList *rrule_list;
 		struct icalrecurrencetype *r;
 		
-		cal_component_get_rrule_list (clone, &rrule_list);
+		e_cal_component_get_rrule_list (clone, &rrule_list);
 		r = rrule_list->data;
 
 		if (!icaltime_is_null_time (r->until) && r->until.is_date) {
-			CalComponentDateTime dt;
+			ECalComponentDateTime dt;
 			icaltimezone *from_zone = NULL, *to_zone;
 			
-			cal_component_get_dtstart (clone, &dt);
+			e_cal_component_get_dtstart (clone, &dt);
 
 			if (dt.value->is_date) {
 				from_zone = icaltimezone_get_builtin_timezone (calendar_config_get_timezone ());
@@ -756,7 +756,7 @@ comp_compliant (CalComponentItipMethod method, CalComponent *comp, CalClient *cl
 					from_zone = icaltimezone_get_builtin_timezone_from_tzid (dt.tzid);
 				if (from_zone == NULL && client != NULL)
 					/* FIXME Error checking */
-					cal_client_get_timezone (client, dt.tzid, &from_zone, NULL);
+					e_cal_get_timezone (client, dt.tzid, &from_zone, NULL);
 			}
 			
 			to_zone = icaltimezone_get_utc_timezone ();
@@ -769,44 +769,44 @@ comp_compliant (CalComponentItipMethod method, CalComponent *comp, CalClient *cl
 			icaltimezone_convert_time (&r->until, from_zone, to_zone);
 			r->until.is_utc = TRUE;
 
-			cal_component_set_rrule_list (clone, rrule_list);
-			cal_component_abort_sequence (clone);
+			e_cal_component_set_rrule_list (clone, rrule_list);
+			e_cal_component_abort_sequence (clone);
 		}
 
-		cal_component_free_recur_list (rrule_list);
+		e_cal_component_free_recur_list (rrule_list);
 	}
 	
 	/* We delete incoming alarms anyhow, and this helps with outlook */
-	cal_component_remove_all_alarms (clone);
+	e_cal_component_remove_all_alarms (clone);
 
 	/* Strip X-LIC-ERROR stuff */
-	cal_component_strip_errors (clone);
+	e_cal_component_strip_errors (clone);
 	
 	/* Comply with itip spec */
 	switch (method) {
-	case CAL_COMPONENT_METHOD_PUBLISH:
+	case E_CAL_COMPONENT_METHOD_PUBLISH:
 		comp_sentby (clone, client);
-		cal_component_set_attendee_list (clone, NULL);
+		e_cal_component_set_attendee_list (clone, NULL);
 		break;
-	case CAL_COMPONENT_METHOD_REQUEST:
+	case E_CAL_COMPONENT_METHOD_REQUEST:
 		comp_sentby (clone, client);
 		break;
-	case CAL_COMPONENT_METHOD_CANCEL:
+	case E_CAL_COMPONENT_METHOD_CANCEL:
 		comp_sentby (clone, client);
 		break;	
-	case CAL_COMPONENT_METHOD_REPLY:
+	case E_CAL_COMPONENT_METHOD_REPLY:
 		break;
-	case CAL_COMPONENT_METHOD_ADD:
+	case E_CAL_COMPONENT_METHOD_ADD:
 		break;
-	case CAL_COMPONENT_METHOD_REFRESH:
+	case E_CAL_COMPONENT_METHOD_REFRESH:
 		/* Need to remove almost everything */
 		temp_clone = comp_minimal (clone, TRUE);
 		g_object_unref (clone);
 		clone = temp_clone;
 		break;
-	case CAL_COMPONENT_METHOD_COUNTER:
+	case E_CAL_COMPONENT_METHOD_COUNTER:
 		break;
-	case CAL_COMPONENT_METHOD_DECLINECOUNTER:
+	case E_CAL_COMPONENT_METHOD_DECLINECOUNTER:
 		/* Need to remove almost everything */
 		temp_clone = comp_minimal (clone, FALSE);
 		g_object_unref (clone);
@@ -820,11 +820,11 @@ comp_compliant (CalComponentItipMethod method, CalComponent *comp, CalClient *cl
 }
 
 gboolean
-itip_send_comp (CalComponentItipMethod method, CalComponent *send_comp,
-		CalClient *client, icalcomponent *zones)
+itip_send_comp (ECalComponentItipMethod method, ECalComponent *send_comp,
+		ECal *client, icalcomponent *zones)
 {
 	GNOME_Evolution_Composer composer_server;
-	CalComponent *comp = NULL;
+	ECalComponent *comp = NULL;
 	icalcomponent *top_level = NULL;
 	GList *users = NULL;
 	GNOME_Evolution_Composer_RecipientList *to_list = NULL;
@@ -840,7 +840,7 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *send_comp,
 	CORBA_exception_init (&ev);
 
 	/* Give the server a chance to manipulate the comp */
-	if (method != CAL_COMPONENT_METHOD_PUBLISH) {
+	if (method != E_CAL_COMPONENT_METHOD_PUBLISH) {
 		if (!comp_server_send (method, send_comp, client, zones, &users))
 			goto cleanup;
 	}
@@ -852,7 +852,7 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *send_comp,
 
 	/* Recipients */
 	to_list = comp_to_list (method, comp, users);
-	if (method != CAL_COMPONENT_METHOD_PUBLISH) {
+	if (method != E_CAL_COMPONENT_METHOD_PUBLISH) {
 		if (to_list == NULL || to_list->_length == 0) {
 			/* We sent them all via the server */
 			retval = TRUE;
@@ -894,7 +894,7 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *send_comp,
 	top_level = comp_toplevel_with_zones (method, comp, client, zones);
 	ical_string = icalcomponent_as_ical_string (top_level);
 
-	if (cal_component_get_vtype (comp) == CAL_COMPONENT_EVENT) {
+	if (e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_EVENT) {
 		GNOME_Evolution_Composer_setBody (composer_server, ical_string, content_type, &ev);
 	} else {
 		GNOME_Evolution_Composer_setMultipartType (composer_server, GNOME_Evolution_Composer_MIXED, &ev);
@@ -929,7 +929,7 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *send_comp,
 		goto cleanup;
 	}
 	
-	if (method == CAL_COMPONENT_METHOD_PUBLISH) {
+	if (method == E_CAL_COMPONENT_METHOD_PUBLISH) {
 		GNOME_Evolution_Composer_show (composer_server, &ev);
 		if (BONOBO_EX (&ev))
 			g_warning ("Unable to show the composer while sending iTip message");

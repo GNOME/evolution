@@ -41,7 +41,8 @@
 #include <libgnomeui/gnome-dialog-util.h>
 #include <libgnomeui/gnome-uidefs.h>
 #include <e-util/eggtrayicon.h>
-#include <cal-util/timeutil.h>
+#include <libecal/e-cal-time-util.h>
+#include "evolution-calendar.h"
 #include "alarm.h"
 #include "alarm-notify-dialog.h"
 #include "alarm-queue.h"
@@ -66,7 +67,7 @@ static GHashTable *client_alarms_hash = NULL;
 /* Structure that stores a client we are monitoring */
 typedef struct {
 	/* Monitored client */
-	CalClient *client;
+	ECal *client;
 
 	/* Number of times this client has been registered */
 	int refcount;
@@ -80,7 +81,7 @@ typedef struct {
 	GHashTable *uid_alarms_hash;
 } ClientAlarms;
 
-/* Pair of a CalComponentAlarms and the mapping from queued alarm IDs to the
+/* Pair of a ECalComponentAlarms and the mapping from queued alarm IDs to the
  * actual alarm instance structures.
  */
 typedef struct {
@@ -91,7 +92,7 @@ typedef struct {
 	char *uid;
 
 	/* The actual component and its alarm instances */
-	CalComponentAlarms *alarms;
+	ECalComponentAlarms *alarms;
 
 	/* List of QueuedAlarm structures */
 	GSList *queued_alarms;
@@ -106,7 +107,7 @@ typedef struct {
 	gpointer alarm_id;
 
 	/* Instance from our parent CompQueuedAlarms->alarms->alarms list */
-	CalAlarmInstance *instance;
+	ECalComponentAlarmInstance *instance;
 
 	/* Whether this is a snoozed queued alarm or a normal one */
 	guint snooze : 1;
@@ -176,7 +177,7 @@ midnight_refresh_cb (gpointer alarm_id, time_t trigger, gpointer data)
 
 /* Looks up a client in the client alarms hash table */
 static ClientAlarms *
-lookup_client (CalClient *client)
+lookup_client (ECal *client)
 {
 	return g_hash_table_lookup (client_alarms_hash, client);
 }
@@ -226,7 +227,7 @@ remove_queued_alarm (CompQueuedAlarms *cqa, gpointer alarm_id,
 
 	if (remove_alarm) {
 		cqa->expecting_update = TRUE;
-		cal_client_discard_alarm (cqa->parent_client->client, cqa->alarms->comp,
+		e_cal_discard_alarm (cqa->parent_client->client, cqa->alarms->comp,
 					  qa->instance->auid, NULL);
 		cqa->expecting_update = FALSE;
 	}
@@ -245,10 +246,10 @@ remove_queued_alarm (CompQueuedAlarms *cqa, gpointer alarm_id,
 		g_free (cqa->uid);
 		cqa->uid = NULL;
 		cqa->parent_client = NULL;
-		cal_component_alarms_free (cqa->alarms);
+		e_cal_component_alarms_free (cqa->alarms);
 		g_free (cqa);
 	} else {
-		cal_component_alarms_free (cqa->alarms);
+		e_cal_component_alarms_free (cqa->alarms);
 		cqa->alarms = NULL;
 	}
 }
@@ -258,10 +259,10 @@ static void
 alarm_trigger_cb (gpointer alarm_id, time_t trigger, gpointer data)
 {
 	CompQueuedAlarms *cqa;
-	CalComponent *comp;
+	ECalComponent *comp;
 	QueuedAlarm *qa;
-	CalComponentAlarm *alarm;
-	CalAlarmAction action;
+	ECalComponentAlarm *alarm;
+	ECalComponentAlarmAction action;
 
 	cqa = data;
 	comp = cqa->alarms->comp;
@@ -279,26 +280,26 @@ alarm_trigger_cb (gpointer alarm_id, time_t trigger, gpointer data)
 	 * occurrence.
 	 */
 
-	alarm = cal_component_get_alarm (comp, qa->instance->auid);
+	alarm = e_cal_component_get_alarm (comp, qa->instance->auid);
 	g_assert (alarm != NULL);
 
-	cal_component_alarm_get_action (alarm, &action);
-	cal_component_alarm_free (alarm);
+	e_cal_component_alarm_get_action (alarm, &action);
+	e_cal_component_alarm_free (alarm);
 
 	switch (action) {
-	case CAL_ALARM_AUDIO:
+	case E_CAL_COMPONENT_ALARM_AUDIO:
 		audio_notification (trigger, cqa, alarm_id);
 		break;
 
-	case CAL_ALARM_DISPLAY:
+	case E_CAL_COMPONENT_ALARM_DISPLAY:
 		display_notification (trigger, cqa, alarm_id, TRUE);
 		break;
 
-	case CAL_ALARM_EMAIL:
+	case E_CAL_COMPONENT_ALARM_EMAIL:
 		mail_notification (trigger, cqa, alarm_id);
 		break;
 
-	case CAL_ALARM_PROCEDURE:
+	case E_CAL_COMPONENT_ALARM_PROCEDURE:
 		procedure_notification (trigger, cqa, alarm_id);
 		break;
 
@@ -308,11 +309,11 @@ alarm_trigger_cb (gpointer alarm_id, time_t trigger, gpointer data)
 	}
 }
 
-/* Adds the alarms in a CalComponentAlarms structure to the alarms queued for a
+/* Adds the alarms in a ECalComponentAlarms structure to the alarms queued for a
  * particular client.  Also puts the triggers in the alarm timer queue.
  */
 static void
-add_component_alarms (ClientAlarms *ca, CalComponentAlarms *alarms)
+add_component_alarms (ClientAlarms *ca, ECalComponentAlarms *alarms)
 {
 	const char *uid;
 	CompQueuedAlarms *cqa;
@@ -320,7 +321,7 @@ add_component_alarms (ClientAlarms *ca, CalComponentAlarms *alarms)
 
 	/* No alarms? */
 	if (alarms->alarms == NULL) {
-		cal_component_alarms_free (alarms);
+		e_cal_component_alarms_free (alarms);
 		return;
 	}
 
@@ -332,7 +333,7 @@ add_component_alarms (ClientAlarms *ca, CalComponentAlarms *alarms)
 	cqa->queued_alarms = NULL;
 
 	for (l = alarms->alarms; l; l = l->next) {
-		CalAlarmInstance *instance;
+		ECalComponentAlarmInstance *instance;
 		gpointer alarm_id;
 		QueuedAlarm *qa;
 
@@ -353,14 +354,14 @@ add_component_alarms (ClientAlarms *ca, CalComponentAlarms *alarms)
 		cqa->queued_alarms = g_slist_prepend (cqa->queued_alarms, qa);
 	}
 
-	cal_component_get_uid (alarms->comp, &uid);
+	e_cal_component_get_uid (alarms->comp, &uid);
 
 	/* If we failed to add all the alarms, then we should get rid of the cqa */
 	if (cqa->queued_alarms == NULL) {
 		g_message ("add_component_alarms(): Could not add any of the alarms "
 			   "for the component `%s'; discarding it...", uid);
 
-		cal_component_alarms_free (cqa->alarms);
+		e_cal_component_alarms_free (cqa->alarms);
 		cqa->alarms = NULL;
 
 		g_free (cqa);
@@ -379,10 +380,10 @@ load_alarms (ClientAlarms *ca, time_t start, time_t end)
 	GSList *comp_alarms;
 	GSList *l;
 
-	comp_alarms = cal_client_get_alarms_in_range (ca->client, start, end);
+	comp_alarms = e_cal_get_alarms_in_range (ca->client, start, end);
 
 	for (l = comp_alarms; l; l = l->next) {
-		CalComponentAlarms *alarms;
+		ECalComponentAlarms *alarms;
 
 		alarms = l->data;
 		add_component_alarms (ca, alarms);
@@ -427,13 +428,13 @@ load_missed_alarms (ClientAlarms *ca)
 
 /* Called when a calendar client finished loading; we load its alarms */
 static void
-cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer data)
+cal_opened_cb (ECal *client, ECalOpenStatus status, gpointer data)
 {
 	ClientAlarms *ca;
 
 	ca = data;
 
-	if (status != CAL_CLIENT_OPEN_SUCCESS)
+	if (status != E_CAL_OPEN_SUCCESS)
 		return;
 
 	load_alarms_for_today (ca);
@@ -496,11 +497,11 @@ remove_comp (ClientAlarms *ca, const char *uid)
  * alarms.
  */
 static void
-obj_updated_cb (CalClient *client, const char *uid, gpointer data)
+obj_updated_cb (ECal *client, const char *uid, gpointer data)
 {
 	ClientAlarms *ca;
 	time_t now, day_end;
-	CalComponentAlarms *alarms;
+	ECalComponentAlarms *alarms;
 	gboolean found;
 	icaltimezone *zone;
 	CompQueuedAlarms *cqa;
@@ -513,7 +514,7 @@ obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 
 	day_end = time_day_end_with_zone (now, zone);
 
-	found = cal_client_get_alarms_for_object (ca->client, uid, now, day_end, &alarms);
+	found = e_cal_get_alarms_for_object (ca->client, uid, now, day_end, &alarms);
 
 	if (!found) {
 		remove_comp (ca, uid);
@@ -533,7 +534,7 @@ obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 
 		/* add the new alarms */
 		for (l = cqa->alarms->alarms; l; l = l->next) {
-			CalAlarmInstance *instance;
+			ECalComponentAlarmInstance *instance;
 			gpointer alarm_id;
 			QueuedAlarm *qa;
 
@@ -566,7 +567,7 @@ obj_updated_cb (CalClient *client, const char *uid, gpointer data)
  * alarms.
  */
 static void
-obj_removed_cb (CalClient *client, const char *uid, gpointer data)
+obj_removed_cb (ECal *client, const char *uid, gpointer data)
 {
 	ClientAlarms *ca;
 
@@ -610,16 +611,16 @@ create_snooze (CompQueuedAlarms *cqa, gpointer alarm_id, int snooze_mins)
 
 /* Launches a component editor for a component */
 static void
-edit_component (CalClient *client, CalComponent *comp)
+edit_component (ECal *client, ECalComponent *comp)
 {
 	const char *uid;
 	const char *uri;
 	CORBA_Environment ev;
 	GNOME_Evolution_Calendar_CompEditorFactory factory;
 
-	cal_component_get_uid (comp, &uid);
+	e_cal_component_get_uid (comp, &uid);
 
-	uri = cal_client_get_uri (client);
+	uri = e_cal_get_uri (client);
 
 	/* Get the factory */
 
@@ -695,15 +696,15 @@ typedef struct {
 	time_t trigger;
 	CompQueuedAlarms *cqa;
 	gpointer alarm_id;
-	CalComponent *comp;
-	CalClient *client;
+	ECalComponent *comp;
+	ECal *client;
 	GtkWidget *tray_icon;
 	GtkWidget *image;
 	GtkWidget *alarm_dialog;
 } TrayIconData;
 
 static void
-on_dialog_obj_updated_cb (CalClient *client, const char *uid, gpointer data)
+on_dialog_obj_updated_cb (ECal *client, const char *uid, gpointer data)
 {
 /* commented out so gcc won't complain about the unused variable
 	struct notify_dialog_closure *c = data;
@@ -711,12 +712,12 @@ on_dialog_obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 }
 
 static void
-on_dialog_obj_removed_cb (CalClient *client, const char *uid, gpointer data)
+on_dialog_obj_removed_cb (ECal *client, const char *uid, gpointer data)
 {
 	const char *our_uid;
 	TrayIconData *tray_data = data;
 
-	cal_component_get_uid (tray_data->comp, &our_uid);
+	e_cal_component_get_uid (tray_data->comp, &our_uid);
 	g_return_if_fail (our_uid && *our_uid);
 
 	if (!strcmp (uid, our_uid)) {
@@ -798,7 +799,7 @@ tray_icon_clicked_cb (GtkWidget *widget, GdkEventButton *event, gpointer user_da
 					tray_data->trigger,
 					qa->instance->occur_start,
 					qa->instance->occur_end,
-					cal_component_get_vtype (tray_data->comp),
+					e_cal_component_get_vtype (tray_data->comp),
 					tray_data->message,
 					notify_dialog_cb, tray_data);
 				if (tray_data->alarm_dialog) {
@@ -838,15 +839,15 @@ display_notification (time_t trigger, CompQueuedAlarms *cqa,
 		      gpointer alarm_id, gboolean use_description)
 {
 	QueuedAlarm *qa;
-	CalComponent *comp;
-	CalClient *client;
-	CalComponentVType vtype;
+	ECalComponent *comp;
+	ECal *client;
+	ECalComponentVType vtype;
 	const char *message;
-	CalComponentAlarm *alarm;
+	ECalComponentAlarm *alarm;
 	GtkWidget *tray_icon, *image, *ebox;
 	GtkTooltips *tooltips;
 	TrayIconData *tray_data;
-	CalComponentText text;
+	ECalComponentText text;
 	char *str, *start_str, *end_str, *alarm_str;
 	icaltimezone *current_zone;
 
@@ -855,19 +856,19 @@ display_notification (time_t trigger, CompQueuedAlarms *cqa,
 	if (!qa)
 		return;
 
-	vtype = cal_component_get_vtype (comp);
+	vtype = e_cal_component_get_vtype (comp);
 
 	/* get a sensible description for the event */
-	alarm = cal_component_get_alarm (comp, qa->instance->auid);
+	alarm = e_cal_component_get_alarm (comp, qa->instance->auid);
 	g_assert (alarm != NULL);
 
-	cal_component_alarm_get_description (alarm, &text);
-	cal_component_alarm_free (alarm);
+	e_cal_component_alarm_get_description (alarm, &text);
+	e_cal_component_alarm_free (alarm);
 
 	if (text.value)
 		message = text.value;
 	else {
-		cal_component_get_summary (comp, &text); 
+		e_cal_component_get_summary (comp, &text); 
  		if (text.value)
  			message = text.value;
  		else
@@ -909,7 +910,7 @@ display_notification (time_t trigger, CompQueuedAlarms *cqa,
 	tray_data->trigger = trigger;
 	tray_data->cqa = cqa;
 	tray_data->alarm_id = alarm_id;
-	tray_data->comp = cal_component_clone (comp);
+	tray_data->comp = e_cal_component_clone (comp);
 	tray_data->client = cqa->parent_client->client;
 	tray_data->image = image;
 	tray_data->blink_state = FALSE;
@@ -932,8 +933,8 @@ audio_notification (time_t trigger, CompQueuedAlarms *cqa,
 		    gpointer alarm_id)
 {
 	QueuedAlarm *qa;
-	CalComponent *comp;
-	CalComponentAlarm *alarm;
+	ECalComponent *comp;
+	ECalComponentAlarm *alarm;
 	icalattach *attach;
 
 	comp = cqa->alarms->comp;
@@ -941,11 +942,11 @@ audio_notification (time_t trigger, CompQueuedAlarms *cqa,
 	if (!qa)
 		return;
 
-	alarm = cal_component_get_alarm (comp, qa->instance->auid);
+	alarm = e_cal_component_get_alarm (comp, qa->instance->auid);
 	g_assert (alarm != NULL);
 
-	cal_component_alarm_get_attach (alarm, &attach);
-	cal_component_alarm_free (alarm);
+	e_cal_component_alarm_get_attach (alarm, &attach);
+	e_cal_component_alarm_free (alarm);
 
 	if (attach && icalattach_get_is_url (attach)) {
 		const char *url;
@@ -1038,9 +1039,9 @@ static void
 procedure_notification (time_t trigger, CompQueuedAlarms *cqa, gpointer alarm_id)
 {
 	QueuedAlarm *qa;
-	CalComponent *comp;
-	CalComponentAlarm *alarm;
-	CalComponentText description;
+	ECalComponent *comp;
+	ECalComponentAlarm *alarm;
+	ECalComponentText description;
 	icalattach *attach;
 	const char *url;
 	char *cmd;
@@ -1051,12 +1052,12 @@ procedure_notification (time_t trigger, CompQueuedAlarms *cqa, gpointer alarm_id
 	if (!qa)
 		return;
 
-	alarm = cal_component_get_alarm (comp, qa->instance->auid);
+	alarm = e_cal_component_get_alarm (comp, qa->instance->auid);
 	g_assert (alarm != NULL);
 
-	cal_component_alarm_get_attach (alarm, &attach);
-	cal_component_alarm_get_description (alarm, &description);
-	cal_component_alarm_free (alarm);
+	e_cal_component_alarm_get_attach (alarm, &attach);
+	e_cal_component_alarm_get_description (alarm, &description);
+	e_cal_component_alarm_free (alarm);
 
 	/* If the alarm has no attachment, simply display a notification dialog. */
 	if (!attach)
@@ -1125,7 +1126,7 @@ alarm_queue_init (void)
 static void
 free_client_alarms_cb (gpointer key, gpointer value, gpointer user_data)
 {
-	CalClient *client = key;
+	ECal *client = key;
 	ClientAlarms *ca = value;
 
 	if (ca) {
@@ -1175,13 +1176,13 @@ alarm_queue_done (void)
  * queueing system when it is no longer wanted.
  **/
 void
-alarm_queue_add_client (CalClient *client)
+alarm_queue_add_client (ECal *client)
 {
 	ClientAlarms *ca;
 
 	g_return_if_fail (alarm_queue_inited);
 	g_return_if_fail (client != NULL);
-	g_return_if_fail (IS_CAL_CLIENT (client));
+	g_return_if_fail (E_IS_CAL (client));
 
 	ca = lookup_client (client);
 	if (ca) {
@@ -1199,7 +1200,7 @@ alarm_queue_add_client (CalClient *client)
 
 	ca->uid_alarms_hash = g_hash_table_new (g_str_hash, g_str_equal);
 
-	if (cal_client_get_load_state (client) != CAL_CLIENT_LOAD_LOADED)
+	if (e_cal_get_load_state (client) != E_CAL_LOAD_LOADED)
 		g_signal_connect (client, "cal_opened",
 				  G_CALLBACK (cal_opened_cb),
 				  ca);
@@ -1211,7 +1212,7 @@ alarm_queue_add_client (CalClient *client)
 			  G_CALLBACK (obj_removed_cb),
 			  ca);
 
-	if (cal_client_get_load_state (client) == CAL_CLIENT_LOAD_LOADED) {
+	if (e_cal_get_load_state (client) == E_CAL_LOAD_LOADED) {
 		load_alarms_for_today (ca);
 		load_missed_alarms (ca);
 	}
@@ -1264,13 +1265,13 @@ remove_client_alarms (ClientAlarms *ca)
  * Removes a calendar client from the alarm queueing system.
  **/
 void
-alarm_queue_remove_client (CalClient *client)
+alarm_queue_remove_client (ECal *client)
 {
 	ClientAlarms *ca;
 
 	g_return_if_fail (alarm_queue_inited);
 	g_return_if_fail (client != NULL);
-	g_return_if_fail (IS_CAL_CLIENT (client));
+	g_return_if_fail (E_IS_CAL (client));
 
 	ca = lookup_client (client);
 	g_return_if_fail (ca != NULL);

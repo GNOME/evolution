@@ -36,7 +36,7 @@
 #include "e-util/e-categories-config.h"
 #include "e-util/e-dialog-widgets.h"
 #include "widgets/misc/e-dateedit.h"
-#include "cal-util/timeutil.h"
+#include <libecal/e-cal-time-util.h>
 #include "../calendar-config.h"
 #include "../e-timezone-entry.h"
 #include "comp-editor-util.h"
@@ -91,8 +91,8 @@ static void event_page_finalize (GObject *object);
 
 static GtkWidget *event_page_get_widget (CompEditorPage *page);
 static void event_page_focus_main_widget (CompEditorPage *page);
-static void event_page_fill_widgets (CompEditorPage *page, CalComponent *comp);
-static gboolean event_page_fill_component (CompEditorPage *page, CalComponent *comp);
+static void event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp);
+static gboolean event_page_fill_component (CompEditorPage *page, ECalComponent *comp);
 static void event_page_set_summary (CompEditorPage *page, const char *summary);
 static void event_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates);
 
@@ -198,15 +198,15 @@ event_page_finalize (GObject *object)
 
 
 static const int classification_map[] = {
-	CAL_COMPONENT_CLASS_PUBLIC,
-	CAL_COMPONENT_CLASS_PRIVATE,
-	CAL_COMPONENT_CLASS_CONFIDENTIAL,
+	E_CAL_COMPONENT_CLASS_PUBLIC,
+	E_CAL_COMPONENT_CLASS_PRIVATE,
+	E_CAL_COMPONENT_CLASS_CONFIDENTIAL,
 	-1
 };
 
 static const int transparency_map[] = {
-	CAL_COMPONENT_TRANSP_TRANSPARENT,
-	CAL_COMPONENT_TRANSP_OPAQUE,
+	E_CAL_COMPONENT_TRANSP_TRANSPARENT,
+	E_CAL_COMPONENT_TRANSP_OPAQUE,
 	-1
 };
 
@@ -265,7 +265,7 @@ set_all_day (EventPage *epage, gboolean all_day)
 }
 
 static void
-update_time (EventPage *epage, CalComponentDateTime *start_date, CalComponentDateTime *end_date)
+update_time (EventPage *epage, ECalComponentDateTime *start_date, ECalComponentDateTime *end_date)
 {
 	EventPagePrivate *priv;
 	struct icaltimetype *start_tt, *end_tt, implied_tt;
@@ -280,7 +280,7 @@ update_time (EventPage *epage, CalComponentDateTime *start_date, CalComponentDat
 	start_zone = icaltimezone_get_builtin_timezone_from_tzid (start_date->tzid);
 	if (!start_zone) {
 		/* FIXME: Handle error better. */
-		if (!cal_client_get_timezone (COMP_EDITOR_PAGE (epage)->client,
+		if (!e_cal_get_timezone (COMP_EDITOR_PAGE (epage)->client,
 					      start_date->tzid, &start_zone, NULL)) {
 			g_warning ("Couldn't get timezone from server: %s",
 				   start_date->tzid ? start_date->tzid : "");			
@@ -289,7 +289,7 @@ update_time (EventPage *epage, CalComponentDateTime *start_date, CalComponentDat
 
 	end_zone = icaltimezone_get_builtin_timezone_from_tzid (end_date->tzid);
 	if (!end_zone) {
-		if (!cal_client_get_timezone (COMP_EDITOR_PAGE (epage)->client,
+		if (!e_cal_get_timezone (COMP_EDITOR_PAGE (epage)->client,
 					      end_date->tzid, &end_zone, NULL)) {
 			/* FIXME: Handle error better. */
 			g_warning ("Couldn't get timezone from server: %s",
@@ -395,11 +395,11 @@ clear_widgets (EventPage *epage)
 
 	/* Classification */
 	e_dialog_radio_set (priv->classification_public,
-			    CAL_COMPONENT_CLASS_PRIVATE, classification_map);
+			    E_CAL_COMPONENT_CLASS_PRIVATE, classification_map);
 
 	/* Show Time As (Transparency) */
 	e_dialog_radio_set (priv->show_time_as_free,
-			    CAL_COMPONENT_TRANSP_OPAQUE, transparency_map);
+			    E_CAL_COMPONENT_TRANSP_OPAQUE, transparency_map);
 
 	/* Categories */
 	e_dialog_editable_set (priv->categories, NULL);
@@ -408,14 +408,14 @@ clear_widgets (EventPage *epage)
 
 /* fill_widgets handler for the event page */
 static void
-event_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
+event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 {
 	EventPage *epage;
 	EventPagePrivate *priv;
-	CalComponentText text;
-	CalComponentClassification cl;
-	CalComponentTransparency transparency;
-	CalComponentDateTime start_date, end_date;
+	ECalComponentText text;
+	ECalComponentClassification cl;
+	ECalComponentTransparency transparency;
+	ECalComponentDateTime start_date, end_date;
 	const char *location;
 	const char *categories;
 	GSList *l;
@@ -433,84 +433,84 @@ event_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 
 	/* Summary, location, description(s) */
 
-	cal_component_get_summary (comp, &text);
+	e_cal_component_get_summary (comp, &text);
 	e_dialog_editable_set (priv->summary, text.value);
 
-	cal_component_get_location (comp, &location);
+	e_cal_component_get_location (comp, &location);
 	e_dialog_editable_set (priv->location, location);
 
-	cal_component_get_description_list (comp, &l);
+	e_cal_component_get_description_list (comp, &l);
 	if (l) {
-		text = *(CalComponentText *)l->data;
+		text = *(ECalComponentText *)l->data;
 		gtk_text_buffer_set_text (gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->description)),
 					  text.value, -1);
 	}
-	cal_component_free_text_list (l);
+	e_cal_component_free_text_list (l);
 
 	/* Start and end times */
 
-	cal_component_get_dtstart (comp, &start_date);
-	cal_component_get_dtend (comp, &end_date);
+	e_cal_component_get_dtstart (comp, &start_date);
+	e_cal_component_get_dtend (comp, &end_date);
 
 	update_time (epage, &start_date, &end_date);
 	
-	cal_component_free_datetime (&start_date);
-	cal_component_free_datetime (&end_date);
+	e_cal_component_free_datetime (&start_date);
+	e_cal_component_free_datetime (&end_date);
 
 	/* Classification */
 
-	cal_component_get_classification (comp, &cl);
+	e_cal_component_get_classification (comp, &cl);
 
 	switch (cl) {
-	case CAL_COMPONENT_CLASS_PUBLIC:
+	case E_CAL_COMPONENT_CLASS_PUBLIC:
 	    	e_dialog_radio_set (priv->classification_public,
-				    CAL_COMPONENT_CLASS_PUBLIC,
+				    E_CAL_COMPONENT_CLASS_PUBLIC,
 				    classification_map);
 		break;
 
-	case CAL_COMPONENT_CLASS_PRIVATE:
+	case E_CAL_COMPONENT_CLASS_PRIVATE:
 	    	e_dialog_radio_set (priv->classification_public,
-				    CAL_COMPONENT_CLASS_PRIVATE,
+				    E_CAL_COMPONENT_CLASS_PRIVATE,
 				    classification_map);
 		break;
 
-	case CAL_COMPONENT_CLASS_CONFIDENTIAL:
+	case E_CAL_COMPONENT_CLASS_CONFIDENTIAL:
 	    	e_dialog_radio_set (priv->classification_public,
-				    CAL_COMPONENT_CLASS_CONFIDENTIAL,
+				    E_CAL_COMPONENT_CLASS_CONFIDENTIAL,
 				    classification_map);
 		break;
 
 	default:
 		/* default to PUBLIC */
 		e_dialog_radio_set (priv->classification_public,
-				    CAL_COMPONENT_CLASS_PUBLIC,
+				    E_CAL_COMPONENT_CLASS_PUBLIC,
 				    classification_map);
 		break;
 	}
 
 
 	/* Show Time As (Transparency) */
-	cal_component_get_transparency (comp, &transparency);
+	e_cal_component_get_transparency (comp, &transparency);
 	switch (transparency) {
-	case CAL_COMPONENT_TRANSP_TRANSPARENT:
+	case E_CAL_COMPONENT_TRANSP_TRANSPARENT:
 	    	e_dialog_radio_set (priv->show_time_as_free,
-				    CAL_COMPONENT_TRANSP_TRANSPARENT,
+				    E_CAL_COMPONENT_TRANSP_TRANSPARENT,
 				    transparency_map);
 		break;
 
 	default:
 	    	e_dialog_radio_set (priv->show_time_as_free,
-				    CAL_COMPONENT_TRANSP_OPAQUE,
+				    E_CAL_COMPONENT_TRANSP_OPAQUE,
 				    transparency_map);
 		break;
 	}
-	if (cal_client_get_static_capability (page->client, CAL_STATIC_CAPABILITY_NO_TRANSPARENCY))
+	if (e_cal_get_static_capability (page->client, CAL_STATIC_CAPABILITY_NO_TRANSPARENCY))
 		gtk_widget_hide (priv->show_time_frame);
 	else
 		gtk_widget_show (priv->show_time_frame);
 
 	/* Categories */
-	cal_component_get_categories (comp, &categories);
+	e_cal_component_get_categories (comp, &categories);
 	e_dialog_editable_set (priv->categories, categories);
 
 	priv->updating = FALSE;
@@ -518,16 +518,16 @@ event_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 
 /* fill_component handler for the event page */
 static gboolean
-event_page_fill_component (CompEditorPage *page, CalComponent *comp)
+event_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 {
 	EventPage *epage;
 	EventPagePrivate *priv;
-	CalComponentDateTime start_date, end_date;
+	ECalComponentDateTime start_date, end_date;
 	struct icaltimetype start_tt, end_tt;
 	gboolean all_day_event, start_date_set, end_date_set;
 	char *cat, *str;
-	CalComponentClassification classif;
-	CalComponentTransparency transparency;
+	ECalComponentClassification classif;
+	ECalComponentTransparency transparency;
 	GtkTextBuffer *text_buffer;
 	GtkTextIter text_iter_start, text_iter_end;
 
@@ -539,14 +539,14 @@ event_page_fill_component (CompEditorPage *page, CalComponent *comp)
 
 	str = e_dialog_editable_get (priv->summary);
 	if (!str || strlen (str) == 0)
-		cal_component_set_summary (comp, NULL);
+		e_cal_component_set_summary (comp, NULL);
 	else {
-		CalComponentText text;
+		ECalComponentText text;
 
 		text.value = str;
 		text.altrep = NULL;
 
-		cal_component_set_summary (comp, &text);
+		e_cal_component_set_summary (comp, &text);
 	}
 
 	if (str)
@@ -556,9 +556,9 @@ event_page_fill_component (CompEditorPage *page, CalComponent *comp)
 
 	str = e_dialog_editable_get (priv->location);
 	if (!str || strlen (str) == 0)
-		cal_component_set_location (comp, NULL);
+		e_cal_component_set_location (comp, NULL);
 	else
-		cal_component_set_location (comp, str);
+		e_cal_component_set_location (comp, str);
 
 	if (str)
 		g_free (str);
@@ -570,17 +570,17 @@ event_page_fill_component (CompEditorPage *page, CalComponent *comp)
 	str = gtk_text_buffer_get_text (text_buffer, &text_iter_start, &text_iter_end, FALSE);
 
 	if (!str || strlen (str) == 0)
-		cal_component_set_description_list (comp, NULL);
+		e_cal_component_set_description_list (comp, NULL);
 	else {
 		GSList l;
-		CalComponentText text;
+		ECalComponentText text;
 
 		text.value = str;
 		text.altrep = NULL;
 		l.data = &text;
 		l.next = NULL;
 
-		cal_component_set_description_list (comp, &l);
+		e_cal_component_set_description_list (comp, &l);
 	}
 
 	if (str)
@@ -649,8 +649,8 @@ event_page_fill_component (CompEditorPage *page, CalComponent *comp)
 		end_date.tzid = icaltimezone_get_tzid (end_zone);
 	}
 
-	cal_component_set_dtstart (comp, &start_date);
-	cal_component_set_dtend (comp, &end_date);
+	e_cal_component_set_dtstart (comp, &start_date);
+	e_cal_component_set_dtend (comp, &end_date);
 
 
 	/* Categories */
@@ -660,7 +660,7 @@ event_page_fill_component (CompEditorPage *page, CalComponent *comp)
 	if (cat)
 		g_free (cat);
 
-	cal_component_set_categories (comp, str);
+	e_cal_component_set_categories (comp, str);
 
 	if (str)
 		g_free (str);
@@ -669,13 +669,13 @@ event_page_fill_component (CompEditorPage *page, CalComponent *comp)
 
 	classif = e_dialog_radio_get (priv->classification_public,
 				      classification_map);
-	cal_component_set_classification (comp, classif);
+	e_cal_component_set_classification (comp, classif);
 
 	/* Show Time As (Transparency) */
 
 	transparency = e_dialog_radio_get (priv->show_time_as_free,
 					   transparency_map);
-	cal_component_set_transparency (comp, transparency);
+	e_cal_component_set_transparency (comp, transparency);
 
 	return TRUE;
 }
@@ -800,7 +800,7 @@ notify_dates_changed (EventPage *epage, struct icaltimetype *start_tt,
 {
 	EventPagePrivate *priv;
 	CompEditorPageDates dates;
-	CalComponentDateTime start_dt, end_dt;
+	ECalComponentDateTime start_dt, end_dt;
 	gboolean all_day_event;
 	icaltimezone *start_zone = NULL, *end_zone = NULL;
 

@@ -12,19 +12,14 @@ ename_libs = 						\
 	libename.la 					\
 	$(E_NAME_LIBS)
 
-privlib_LTLIBRARIES = libename.la
+noinst_LTLIBRARIES = libename.la
 
 libename_la_SOURCES =					\
-	e-address-western.c				\
-	e-name-western.c
-
-libenameincludedir = $(privincludedir)/ename
-
-libenameinclude_HEADERS =				\
 	e-address-western.h				\
 	e-name-western-tables.h				\
-	e-name-western.h
-
+	e-name-western.h				\
+	e-address-western.c				\
+	e-name-western.c
 
 noinst_PROGRAMS =		\
 	test-ename-western	\

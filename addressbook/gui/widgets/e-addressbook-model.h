@@ -4,8 +4,8 @@
 
 #include <glib.h>
 #include <glib-object.h>
-#include "addressbook/backend/ebook/e-book-async.h"
-#include "addressbook/backend/ebook/e-book-view.h"
+#include <libebook/e-book-async.h>
+#include <libebook/e-book-view.h>
 
 #define EAB_TYPE_MODEL                  (eab_model_get_type ())
 #define EAB_MODEL(o)                    (G_TYPE_CHECK_INSTANCE_CAST ((o), EAB_TYPE_MODEL, EABModel))

@@ -37,7 +37,7 @@
 #include <bonobo/bonobo-property-bag.h>
 #include <bonobo/bonobo-generic-factory.h>
 #include <gal/widgets/e-popup-menu.h>
-#include <addressbook/backend/ebook/e-book-async.h>
+#include <libebook/e-book-async.h>
 #include <addressbook/util/eab-book-util.h>
 #include <addressbook/gui/contact-editor/e-contact-editor.h>
 #include <addressbook/gui/contact-editor/e-contact-quick-add.h>

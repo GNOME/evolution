@@ -27,7 +27,7 @@
 #include <glib.h>
 #include <e-util/e-time-utils.h>
 #include "e-date-time-list.h"
-#include "cal-util/timeutil.h"
+#include <libecal/e-cal-time-util.h>
 #include "calendar-config.h"
 
 #define G_LIST(x)                        ((GList *) x)
@@ -262,7 +262,7 @@ e_date_time_list_get_column_type (GtkTreeModel *tree_model,
 	return column_types [index];
 }
 
-const CalComponentDateTime *
+const ECalComponentDateTime *
 e_date_time_list_get_date_time (EDateTimeList *date_time_list, GtkTreeIter *iter)
 {
 	g_return_val_if_fail (IS_VALID_ITER (date_time_list, iter), NULL);
@@ -271,7 +271,7 @@ e_date_time_list_get_date_time (EDateTimeList *date_time_list, GtkTreeIter *iter
 }
 
 static void
-free_datetime (CalComponentDateTime *datetime)
+free_datetime (ECalComponentDateTime *datetime)
 {
 	g_free (datetime->value);
 	if (datetime->tzid)
@@ -279,12 +279,12 @@ free_datetime (CalComponentDateTime *datetime)
 	g_free (datetime);
 }
 
-static CalComponentDateTime *
-copy_datetime (const CalComponentDateTime *datetime)
+static ECalComponentDateTime *
+copy_datetime (const ECalComponentDateTime *datetime)
 {
-	CalComponentDateTime *datetime_copy;
+	ECalComponentDateTime *datetime_copy;
 
-	datetime_copy = g_new0 (CalComponentDateTime, 1);
+	datetime_copy = g_new0 (ECalComponentDateTime, 1);
 	datetime_copy->value  = g_new (struct icaltimetype, 1);
 	*datetime_copy->value = *datetime->value;
 
@@ -295,16 +295,16 @@ copy_datetime (const CalComponentDateTime *datetime)
 }
 
 static gint
-compare_datetime (const CalComponentDateTime *datetime1, const CalComponentDateTime *datetime2)
+compare_datetime (const ECalComponentDateTime *datetime1, const ECalComponentDateTime *datetime2)
 {
 	return icaltime_compare (*datetime1->value, *datetime2->value);
 }
 
 void
 e_date_time_list_set_date_time (EDateTimeList *date_time_list, GtkTreeIter *iter,
-				const CalComponentDateTime *datetime)
+				const ECalComponentDateTime *datetime)
 {
-	CalComponentDateTime *datetime_old;
+	ECalComponentDateTime *datetime_old;
 
 	g_return_if_fail (IS_VALID_ITER (date_time_list, iter));
 
@@ -316,7 +316,7 @@ e_date_time_list_set_date_time (EDateTimeList *date_time_list, GtkTreeIter *iter
 
 void
 e_date_time_list_append (EDateTimeList *date_time_list, GtkTreeIter *iter,
-			 const CalComponentDateTime *datetime)
+			 const ECalComponentDateTime *datetime)
 {
 	g_return_if_fail (datetime != NULL);
 
@@ -339,7 +339,7 @@ e_date_time_list_remove (EDateTimeList *date_time_list, GtkTreeIter *iter)
 	g_return_if_fail (IS_VALID_ITER (date_time_list, iter));
 
 	n = g_list_position (date_time_list->list, G_LIST (iter->user_data));
-	free_datetime ((CalComponentDateTime *) G_LIST (iter->user_data)->data);
+	free_datetime ((ECalComponentDateTime *) G_LIST (iter->user_data)->data);
 	date_time_list->list = g_list_delete_link (date_time_list->list, G_LIST (iter->user_data));
 	row_deleted (date_time_list, n);
 }
@@ -352,7 +352,7 @@ e_date_time_list_clear (EDateTimeList *date_time_list)
 	all_rows_deleted (date_time_list);
 
 	for (l = date_time_list->list; l; l = g_list_next (l)) {
-		free_datetime ((CalComponentDateTime *) l->data);
+		free_datetime ((ECalComponentDateTime *) l->data);
 	}
 
 	g_list_free (date_time_list->list);
@@ -403,7 +403,7 @@ e_date_time_list_get_path (GtkTreeModel *tree_model,
 
 /* Builds a static string out of an exception date */
 static char *
-get_exception_string (CalComponentDateTime *dt)
+get_exception_string (ECalComponentDateTime *dt)
 {
 	static char buf [256];
 	struct tm tmp_tm;
@@ -433,7 +433,7 @@ e_date_time_list_get_value (GtkTreeModel *tree_model,
 			    GValue       *value)
 {
 	EDateTimeList        *date_time_list = E_DATE_TIME_LIST (tree_model);
-	CalComponentDateTime *datetime;
+	ECalComponentDateTime *datetime;
 	GList                *l;
 	const gchar          *str;
 

@@ -3,8 +3,8 @@
 #define _E_ADDRESSBOOK_REFLOW_ADAPTER_H_
 
 #include <gal/widgets/e-reflow-model.h>
+#include <libebook/e-contact.h>
 #include "e-addressbook-model.h"
-#include "addressbook/backend/ebook/e-contact.h"
 
 #define E_TYPE_ADDRESSBOOK_REFLOW_ADAPTER        (e_addressbook_reflow_adapter_get_type ())
 #define E_ADDRESSBOOK_REFLOW_ADAPTER(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TYPE_ADDRESSBOOK_REFLOW_ADAPTER, EAddressbookReflowAdapter))

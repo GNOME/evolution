@@ -31,7 +31,7 @@
 #include <pi-socket.h>
 #include <pi-dlp.h>
 #include <pi-address.h>
-#include <ebook/e-book.h>
+#include <libebook/e-book.h>
 #include <gpilotd/gnome-pilot-conduit.h>
 #include <gpilotd/gnome-pilot-conduit-sync-abs.h>
 #include <libgpilotdCM/gnome-pilot-conduit-management.h>

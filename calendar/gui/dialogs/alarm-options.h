@@ -21,8 +21,8 @@
 #ifndef ALARM_OPTIONS_H
 #define ALARM_OPTIONS_H
 
-#include <cal-util/cal-component.h>
+#include <libecal/e-cal-component.h>
 
-gboolean alarm_options_dialog_run (CalComponentAlarm *alarm, const char *email, gboolean repeat);
+gboolean alarm_options_dialog_run (ECalComponentAlarm *alarm, const char *email, gboolean repeat);
 
 #endif

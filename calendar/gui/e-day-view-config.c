@@ -167,7 +167,7 @@ set_timezone (EDayView *day_view)
 	if (!zone)
 		zone = icaltimezone_get_utc_timezone ();
 	
-	e_cal_view_set_timezone (E_CAL_VIEW (day_view), zone);
+	e_calendar_view_set_timezone (E_CALENDAR_VIEW (day_view), zone);
 
 	g_free (location);
 }
@@ -214,7 +214,7 @@ set_twentyfour_hour (EDayView *day_view)
 
 	use_24_hour = calendar_config_get_24_hour_format ();
 
-	e_cal_view_set_use_24_hour_format (E_CAL_VIEW (day_view), use_24_hour);
+	e_calendar_view_set_use_24_hour_format (E_CALENDAR_VIEW (day_view), use_24_hour);
 }
 
 static void

@@ -1,4 +1,4 @@
-/* Evolution calendar - Utilities for manipulating CalComponent objects
+/* Evolution calendar - Utilities for manipulating ECalComponent objects
  *
  * Copyright (C) 2000 Ximian, Inc.
  * Copyright (C) 2000 Ximian, Inc.
@@ -23,23 +23,23 @@
 #define COMP_UTIL_H
 
 #include <gtk/gtkwidget.h>
-#include <cal-util/cal-component.h>
-#include <cal-client/cal-client.h>
+#include <libecal/e-cal-component.h>
+#include <libecal/e-cal.h>
 
-void cal_comp_util_add_exdate (CalComponent *comp, time_t t, icaltimezone *zone);
+void cal_comp_util_add_exdate (ECalComponent *comp, time_t t, icaltimezone *zone);
 
 
 /* Returns TRUE if the component uses the given timezone for both DTSTART
    and DTEND, or if the UTC offsets of the start and end times are the same
    as in the given zone. */
-gboolean cal_comp_util_compare_event_timezones (CalComponent *comp,
-						CalClient *client,
+gboolean cal_comp_util_compare_event_timezones (ECalComponent *comp,
+						ECal *client,
 						icaltimezone *zone);
 
-gboolean cal_comp_is_on_server (CalComponent *comp,
-				CalClient *client);
+gboolean cal_comp_is_on_server (ECalComponent *comp,
+				ECal *client);
 
-CalComponent *cal_comp_event_new_with_defaults (CalClient *client);
-CalComponent *cal_comp_task_new_with_defaults (CalClient *client);
+ECalComponent *cal_comp_event_new_with_defaults (ECal *client);
+ECalComponent *cal_comp_task_new_with_defaults (ECal *client);
 
 #endif

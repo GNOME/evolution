@@ -225,7 +225,7 @@ get_current_category (CalSearchBar *cal_search)
 
 /* Sets the query string to be (contains? "field" "text") */
 static void
-notify_query_contains (CalSearchBar *cal_search, const char *field)
+notify_e_cal_view_contains (CalSearchBar *cal_search, const char *field)
 {
 	char *text;
 	char *sexp;
@@ -294,19 +294,19 @@ regen_query (CalSearchBar *cal_search)
 
 	switch (id) {
 	case SEARCH_ANY_FIELD_CONTAINS:
-		notify_query_contains (cal_search, "any");
+		notify_e_cal_view_contains (cal_search, "any");
 		break;
 
 	case SEARCH_SUMMARY_CONTAINS:
-		notify_query_contains (cal_search, "summary");
+		notify_e_cal_view_contains (cal_search, "summary");
 		break;
 
 	case SEARCH_DESCRIPTION_CONTAINS:
-		notify_query_contains (cal_search, "description");
+		notify_e_cal_view_contains (cal_search, "description");
 		break;
 
 	case SEARCH_COMMENT_CONTAINS:
-		notify_query_contains (cal_search, "comment");
+		notify_e_cal_view_contains (cal_search, "comment");
 		break;
 
 	case SEARCH_CATEGORY_IS:

@@ -27,7 +27,7 @@
 #include <gtk/gtktreednd.h>
 #include <libgnome/gnome-i18n.h>
 #include <glib.h>
-#include <cal-util/timeutil.h>
+#include <libecal/e-cal-time-util.h>
 #include <e-util/e-time-utils.h>
 #include "calendar-config.h"
 #include "e-alarm-list.h"
@@ -264,7 +264,7 @@ e_alarm_list_get_column_type (GtkTreeModel *tree_model,
 	return column_types [index];
 }
 
-const CalComponentAlarm *
+const ECalComponentAlarm *
 e_alarm_list_get_alarm (EAlarmList *alarm_list, GtkTreeIter *iter)
 {
 	g_return_val_if_fail (IS_VALID_ITER (alarm_list, iter), NULL);
@@ -273,22 +273,22 @@ e_alarm_list_get_alarm (EAlarmList *alarm_list, GtkTreeIter *iter)
 }
 
 static void
-free_alarm (CalComponentAlarm *alarm)
+free_alarm (ECalComponentAlarm *alarm)
 {
-	cal_component_alarm_free (alarm);
+	e_cal_component_alarm_free (alarm);
 }
 
-static CalComponentAlarm *
-copy_alarm (const CalComponentAlarm *alarm)
+static ECalComponentAlarm *
+copy_alarm (const ECalComponentAlarm *alarm)
 {
-	return cal_component_alarm_clone ((CalComponentAlarm *) alarm);
+	return e_cal_component_alarm_clone ((ECalComponentAlarm *) alarm);
 }
 
 void
 e_alarm_list_set_alarm (EAlarmList *alarm_list, GtkTreeIter *iter,
-			const CalComponentAlarm *alarm)
+			const ECalComponentAlarm *alarm)
 {
-	CalComponentAlarm *alarm_old;
+	ECalComponentAlarm *alarm_old;
 
 	g_return_if_fail (IS_VALID_ITER (alarm_list, iter));
 
@@ -300,7 +300,7 @@ e_alarm_list_set_alarm (EAlarmList *alarm_list, GtkTreeIter *iter,
 
 void
 e_alarm_list_append (EAlarmList *alarm_list, GtkTreeIter *iter,
-		     const CalComponentAlarm *alarm)
+		     const ECalComponentAlarm *alarm)
 {
 	g_return_if_fail (alarm != NULL);
 
@@ -321,7 +321,7 @@ e_alarm_list_remove (EAlarmList *alarm_list, GtkTreeIter *iter)
 	g_return_if_fail (IS_VALID_ITER (alarm_list, iter));
 
 	n = g_list_position (alarm_list->list, G_LIST (iter->user_data));
-	free_alarm ((CalComponentAlarm *) G_LIST (iter->user_data)->data);
+	free_alarm ((ECalComponentAlarm *) G_LIST (iter->user_data)->data);
 	alarm_list->list = g_list_delete_link (alarm_list->list, G_LIST (iter->user_data));
 	row_deleted (alarm_list, n);
 }
@@ -334,7 +334,7 @@ e_alarm_list_clear (EAlarmList *alarm_list)
 	all_rows_deleted (alarm_list);
 
 	for (l = alarm_list->list; l; l = g_list_next (l)) {
-		free_alarm ((CalComponentAlarm *) l->data);
+		free_alarm ((ECalComponentAlarm *) l->data);
 	}
 
 	g_list_free (alarm_list->list);
@@ -444,37 +444,37 @@ get_alarm_duration_string (struct icaldurationtype *duration)
 }
 
 static char *
-get_alarm_string (CalComponentAlarm *alarm)
+get_alarm_string (ECalComponentAlarm *alarm)
 {
-	CalAlarmAction action;
-	CalAlarmTrigger trigger;
+	ECalComponentAlarmAction action;
+	ECalComponentAlarmTrigger trigger;
 	char string[256];
 	char *base, *str = NULL, *dur;
 
 	string [0] = '\0';
 
-	cal_component_alarm_get_action (alarm, &action);
-	cal_component_alarm_get_trigger (alarm, &trigger);
+	e_cal_component_alarm_get_action (alarm, &action);
+	e_cal_component_alarm_get_trigger (alarm, &trigger);
 
 	switch (action) {
-	case CAL_ALARM_AUDIO:
+	case E_CAL_COMPONENT_ALARM_AUDIO:
 		base = _("Play a sound");
 		break;
 
-	case CAL_ALARM_DISPLAY:
+	case E_CAL_COMPONENT_ALARM_DISPLAY:
 		base = _("Display a message");
 		break;
 
-	case CAL_ALARM_EMAIL:
+	case E_CAL_COMPONENT_ALARM_EMAIL:
 		base = _("Send an email");
 		break;
 
-	case CAL_ALARM_PROCEDURE:
+	case E_CAL_COMPONENT_ALARM_PROCEDURE:
 		base = _("Run a program");
 		break;
 
-	case CAL_ALARM_NONE:
-	case CAL_ALARM_UNKNOWN:
+	case E_CAL_COMPONENT_ALARM_NONE:
+	case E_CAL_COMPONENT_ALARM_UNKNOWN:
 	default:
 		base = _("Unknown action to be performed");
 		break;
@@ -483,7 +483,7 @@ get_alarm_string (CalComponentAlarm *alarm)
 	/* FIXME: This does not look like it will localize correctly. */
 
 	switch (trigger.type) {
-	case CAL_ALARM_TRIGGER_RELATIVE_START:
+	case E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_START:
 		dur = get_alarm_duration_string (&trigger.u.rel_duration);
 
 		if (dur) {
@@ -500,7 +500,7 @@ get_alarm_string (CalComponentAlarm *alarm)
 
 		break;
 
-	case CAL_ALARM_TRIGGER_RELATIVE_END:
+	case E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_END:
 		dur = get_alarm_duration_string (&trigger.u.rel_duration);
 
 		if (dur) {
@@ -517,7 +517,7 @@ get_alarm_string (CalComponentAlarm *alarm)
 
 		break;
 
-	case CAL_ALARM_TRIGGER_ABSOLUTE: {
+	case E_CAL_COMPONENT_ALARM_TRIGGER_ABSOLUTE: {
 		struct icaltimetype itt;
 		icaltimezone *utc_zone, *current_zone;
 		char *location;
@@ -541,7 +541,7 @@ get_alarm_string (CalComponentAlarm *alarm)
 
 		break; }
 
-	case CAL_ALARM_TRIGGER_NONE:
+	case E_CAL_COMPONENT_ALARM_TRIGGER_NONE:
 	default:
 		str = g_strdup_printf (_("%s for an unknown trigger type"), base);
 		break;
@@ -557,7 +557,7 @@ e_alarm_list_get_value (GtkTreeModel *tree_model,
 			GValue       *value)
 {
 	EAlarmList        *alarm_list = E_ALARM_LIST (tree_model);
-	CalComponentAlarm *alarm;
+	ECalComponentAlarm *alarm;
 	GList             *l;
 	const gchar       *str;
 

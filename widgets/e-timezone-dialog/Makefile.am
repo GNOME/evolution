@@ -3,7 +3,7 @@ INCLUDES =								\
 	-I$(top_srcdir)/libical/src					\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"				\
 	-DG_LOG_DOMAIN=__FILE__						\
-	$(GNOME_FULL_CFLAGS)
+	$(TZDIALOG_CFLAGS)
 
 noinst_LTLIBRARIES =	\
 	libetimezonedialog.la

@@ -30,8 +30,8 @@
 
 #include <glib.h>
 #include <glib-object.h>
-#include <ebook/e-contact.h>
-#include <ebook/e-book.h>
+#include <libebook/e-contact.h>
+#include <libebook/e-book.h>
 #include <libxml/tree.h>
 
 #define EAB_TYPE_DESTINATION           (eab_destination_get_type ())

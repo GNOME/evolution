@@ -28,8 +28,8 @@
 #ifndef __EAB_CONTACT_COMPARE_H__
 #define __EAB_CONTACT_COMPARE_H__
 
-#include "ebook/e-book.h"
-#include "ebook/e-contact.h"
+#include <libebook/e-book.h>
+#include <libebook/e-contact.h>
 
 typedef enum {
 	EAB_CONTACT_MATCH_NOT_APPLICABLE = 0,

@@ -22,7 +22,7 @@
 
 #include <gtk/gtkdialog.h>
 #include <glade/glade.h>
-#include <ebook/e-contact.h>
+#include <libebook/e-contact.h>
 
 G_BEGIN_DECLS
 

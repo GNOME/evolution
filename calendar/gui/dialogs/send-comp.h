@@ -23,9 +23,9 @@
 
 #include <glib.h>
 #include <gtk/gtkwindow.h>
-#include <cal-client/cal-client.h>
-#include <cal-util/cal-component.h>
+#include <libecal/e-cal.h>
+#include <libecal/e-cal-component.h>
 
-gboolean send_component_dialog (GtkWindow *parent, CalClient *client, CalComponent *comp, gboolean new);
+gboolean send_component_dialog (GtkWindow *parent, ECal *client, ECalComponent *comp, gboolean new);
 
 #endif

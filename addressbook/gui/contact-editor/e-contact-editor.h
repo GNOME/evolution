@@ -25,8 +25,8 @@
 #include <bonobo/bonobo-ui-component.h>
 #include <glade/glade.h>
 
-#include "addressbook/backend/ebook/e-book-async.h"
-#include "addressbook/backend/ebook/e-contact.h"
+#include <libebook/e-book-async.h>
+#include <libebook/e-contact.h>
 
 G_BEGIN_DECLS
 

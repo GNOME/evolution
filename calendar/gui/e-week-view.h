@@ -143,7 +143,7 @@ struct _EWeekViewEventSpan {
 
 typedef struct _EWeekViewEvent EWeekViewEvent;
 struct _EWeekViewEvent {
-	E_CAL_VIEW_EVENT_FIELDS
+	E_CALENDAR_VIEW_EVENT_FIELDS
 	gint spans_index;
 	guint8 num_spans;
 };
@@ -159,7 +159,7 @@ typedef struct _EWeekViewClass  EWeekViewClass;
 
 struct _EWeekView
 {
-	ECalView cal_view;
+	ECalendarView cal_view;
 
 	/* The top canvas where the dates are shown. */
 	GtkWidget *titles_canvas;
@@ -175,7 +175,7 @@ struct _EWeekView
 	GtkWidget *vscrollbar;
 
 	/* The query object */
-	CalQuery *query;
+	ECalView *query;
 
 	/* The array of EWeekViewEvent elements. */
 	GArray *events;
@@ -332,7 +332,7 @@ struct _EWeekView
 
 struct _EWeekViewClass
 {
-	ECalViewClass parent_class;
+	ECalendarViewClass parent_class;
 };
 
 

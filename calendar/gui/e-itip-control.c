@@ -43,9 +43,9 @@
 #include <gtkhtml/gtkhtml.h>
 #include <gtkhtml/gtkhtml-stream.h>
 #include <libical/ical.h>
-#include <cal-util/cal-component.h>
-#include <cal-util/timeutil.h>
-#include <cal-client/cal-client.h>
+#include <libecal/e-cal-component.h>
+#include <libecal/e-cal-time-util.h>
+#include <libecal/e-cal.h>
 #include <e-util/e-time-utils.h>
 #include <e-util/e-dialog-widgets.h>
 #include <evolution-shell-client.h>
@@ -60,12 +60,12 @@ struct _EItipControlPrivate {
 	GtkWidget *html;
 	
 	GPtrArray *event_clients;
-	CalClient *event_client;
+	ECal *event_client;
 	GPtrArray *task_clients;
-	CalClient *task_client;
+	ECal *task_client;
 
 	char *vcalendar;
-	CalComponent *comp;
+	ECalComponent *comp;
 	icalcomponent *main_comp;
 	icalcomponent *ical_comp;
 	icalcomponent *top_level;
@@ -130,15 +130,15 @@ class_init (EItipControlClass *klass)
 	object_class->finalize = finalize;
 }
 
-static CalClient *
+static ECal *
 start_calendar_server (EItipControl *itip, char *uri)
 {
-	CalClient *client;
+	ECal *client;
 	GError *error = NULL;
 
-	client = cal_client_new (uri, CALOBJ_TYPE_EVENT);
+	client = e_cal_new (uri, CALOBJ_TYPE_EVENT);
 
-	if (!cal_client_open (client, TRUE, &error)) {
+	if (!e_cal_open (client, TRUE, &error)) {
 		g_warning (_("start_calendar_server(): %s"), error->message);
 		g_error_free (error);
  		g_object_unref (client);
@@ -149,13 +149,13 @@ start_calendar_server (EItipControl *itip, char *uri)
 }
 
 static gboolean
-start_default_server (EItipControl *itip, CalClient *client, gboolean tasks)
+start_default_server (EItipControl *itip, ECal *client, gboolean tasks)
 {
 #if 0
 	if (tasks)
-		return cal_client_open_default_tasks (client, FALSE);
+		return e_cal_open_default_tasks (client, FALSE);
 	else
-		return cal_client_open_default_calendar (client, FALSE);
+		return e_cal_open_default_calendar (client, FALSE);
 #endif
 }
 
@@ -201,7 +201,7 @@ get_servers (EItipControl *itip, EvolutionShellClient *shell_client, const char 
 			
 			folder = folder_list->_buffer[j];
 			for (k = 0; possible_types[k] != NULL; k++) {
-				CalClient *client;
+				ECal *client;
 				char *uri;
 				
 				if (itip->priv->destroyed)
@@ -210,7 +210,7 @@ get_servers (EItipControl *itip, EvolutionShellClient *shell_client, const char 
 				if (strcmp (possible_types[k], folder.type))
 					continue;
 
-				uri = cal_util_expand_uri (folder.physicalUri, tasks);
+				uri = e_cal_util_expand_uri (folder.physicalUri, tasks);
 				client = start_calendar_server (itip, uri);
 				if (client != NULL)
 					g_ptr_array_add (servers, client);			
@@ -229,19 +229,19 @@ get_servers (EItipControl *itip, EvolutionShellClient *shell_client, const char 
 }
 #endif
 
-static CalClient *
-find_server (GPtrArray *servers, CalComponent *comp)
+static ECal *
+find_server (GPtrArray *servers, ECalComponent *comp)
 {
 	const char *uid;
 	int i;
 
-	cal_component_get_uid (comp, &uid);	
+	e_cal_component_get_uid (comp, &uid);	
 	for (i = 0; i < servers->len; i++) {
-		CalClient *client;
+		ECal *client;
 		icalcomponent *icalcomp;
 		
 		client = g_ptr_array_index (servers, i);
-		if (cal_client_get_object (client, uid, NULL, &icalcomp, NULL)) {
+		if (e_cal_get_object (client, uid, NULL, &icalcomp, NULL)) {
 			icalcomponent_free (icalcomp);
 			g_object_ref (client);
 
@@ -527,7 +527,7 @@ find_attendee (icalcomponent *ical_comp, const char *address)
 }
 
 static void
-write_label_piece (EItipControl *itip, CalComponentDateTime *dt,
+write_label_piece (EItipControl *itip, ECalComponentDateTime *dt,
 		   char *buffer, int size,
 		   const char *stext, const char *etext,
 		   gboolean just_date)
@@ -597,7 +597,7 @@ nth (int n)
 	else if (n < 1 || n > 31)
 		return "?";
 	else
-		return cal_recur_nth[n];
+		return e_cal_recur_nth[n];
 }
 
 static const char *dayname[] = {
@@ -622,7 +622,7 @@ get_dayname (struct icalrecurrencetype *r, int i)
 }
 
 static void
-write_recurrence_piece (EItipControl *itip, CalComponent *comp,
+write_recurrence_piece (EItipControl *itip, ECalComponent *comp,
 			char *buffer, int size)
 {
 	GSList *rrules;
@@ -634,12 +634,12 @@ write_recurrence_piece (EItipControl *itip, CalComponent *comp,
 	buffer += len;
 	size -= len;
 
-	if (!cal_component_has_simple_recurrence (comp)) {
+	if (!e_cal_component_has_simple_recurrence (comp)) {
 		strcpy (buffer, _("Yes. (Complex Recurrence)"));
 		return;
 	}
 
-	cal_component_get_rrule_list (comp, &rrules);
+	e_cal_component_get_rrule_list (comp, &rrules);
 	g_return_if_fail (rrules && !rrules->next);
 
 	r = rrules->data;
@@ -722,7 +722,7 @@ write_recurrence_piece (EItipControl *itip, CalComponent *comp,
 	if (r->count) {
 		sprintf (buffer, _(" a total of %d times"), r->count);
 	} else if (!icaltime_is_null_time (r->until)) {
-		CalComponentDateTime dt;
+		ECalComponentDateTime dt;
 
 		/* FIXME This should get the tzid id, not the whole zone */
 		dt.value = &r->until;
@@ -737,20 +737,20 @@ write_recurrence_piece (EItipControl *itip, CalComponent *comp,
 
 static void
 set_date_label (EItipControl *itip, GtkHTML *html, GtkHTMLStream *html_stream,
-		CalComponent *comp)
+		ECalComponent *comp)
 {
 	EItipControlPrivate *priv;
-	CalComponentDateTime datetime;
+	ECalComponentDateTime datetime;
 	static char buffer[1024];
 	gboolean wrote = FALSE, task_completed = FALSE;
-	CalComponentVType type;
+	ECalComponentVType type;
 
 	priv = itip->priv;
 
-	type = cal_component_get_vtype (comp);
+	type = e_cal_component_get_vtype (comp);
 
 	buffer[0] = '\0';
-	cal_component_get_dtstart (comp, &datetime);
+	e_cal_component_get_dtstart (comp, &datetime);
 	if (datetime.value) {
 		write_label_piece (itip, &datetime, buffer, 1024,
 				   _("<b>Starts:</b> "),
@@ -758,19 +758,19 @@ set_date_label (EItipControl *itip, GtkHTML *html, GtkHTMLStream *html_stream,
 		gtk_html_write (html, html_stream, buffer, strlen(buffer));
 		wrote = TRUE;
 	}
-	cal_component_free_datetime (&datetime);
+	e_cal_component_free_datetime (&datetime);
 
 	buffer[0] = '\0';
-	cal_component_get_dtend (comp, &datetime);
+	e_cal_component_get_dtend (comp, &datetime);
 	if (datetime.value){
 		write_label_piece (itip, &datetime, buffer, 1024, _("<b>Ends:</b> "), "<br>", FALSE);
 		gtk_html_write (html, html_stream, buffer, strlen (buffer));
 		wrote = TRUE;
 	}
-	cal_component_free_datetime (&datetime);
+	e_cal_component_free_datetime (&datetime);
 
 	buffer[0] = '\0';
-	if (cal_component_has_recurrences (comp)) {
+	if (e_cal_component_has_recurrences (comp)) {
 		write_recurrence_piece (itip, comp, buffer, 1024);
 		gtk_html_write (html, html_stream, buffer, strlen (buffer));
 		wrote = TRUE;
@@ -778,8 +778,8 @@ set_date_label (EItipControl *itip, GtkHTML *html, GtkHTMLStream *html_stream,
 
 	buffer[0] = '\0';
 	datetime.tzid = NULL;
-	cal_component_get_completed (comp, &datetime.value);
-	if (type == CAL_COMPONENT_TODO && datetime.value) {
+	e_cal_component_get_completed (comp, &datetime.value);
+	if (type == E_CAL_COMPONENT_TODO && datetime.value) {
 		/* Pass TRUE as is_utc, so it gets converted to the current
 		   timezone. */
 		datetime.value->is_utc = TRUE;
@@ -788,17 +788,17 @@ set_date_label (EItipControl *itip, GtkHTML *html, GtkHTMLStream *html_stream,
 		wrote = TRUE;
 		task_completed = TRUE;
 	}
-	cal_component_free_datetime (&datetime);
+	e_cal_component_free_datetime (&datetime);
 
 	buffer[0] = '\0';
-	cal_component_get_due (comp, &datetime);
-	if (type == CAL_COMPONENT_TODO && !task_completed && datetime.value) {
+	e_cal_component_get_due (comp, &datetime);
+	if (type == E_CAL_COMPONENT_TODO && !task_completed && datetime.value) {
 		write_label_piece (itip, &datetime, buffer, 1024, _("<b>Due:</b> "), "<br>", FALSE);
 		gtk_html_write (html, html_stream, buffer, strlen (buffer));
 		wrote = TRUE;
 	}
 
-	cal_component_free_datetime (&datetime);
+	e_cal_component_free_datetime (&datetime);
 
 	if (wrote)
 		gtk_html_stream_printf (html_stream, "<br>");
@@ -866,9 +866,9 @@ write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title,
 {
 	EItipControlPrivate *priv;
 	GtkHTMLStream *html_stream;
-	CalComponentText text;
-	CalComponentOrganizer organizer;
-	CalComponentAttendee *attendee;
+	ECalComponentText text;
+	ECalComponentOrganizer organizer;
+	ECalComponentAttendee *attendee;
 	GSList *attendees, *l = NULL;
 	const char *string;
 	gchar *html;
@@ -906,7 +906,7 @@ write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title,
 	case ICAL_METHOD_REFRESH:
 	case ICAL_METHOD_REPLY:
 		/* An attendee sent this */
-		cal_component_get_attendee_list (priv->comp, &attendees);
+		e_cal_component_get_attendee_list (priv->comp, &attendees);
 		if (attendees != NULL) {
 			attendee = attendees->data;
 			html = g_strdup_printf (itip_desc,
@@ -919,7 +919,7 @@ write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title,
 		break;
 	case ICAL_METHOD_REQUEST:
 		/* The organizer sent this */
-		cal_component_get_organizer (priv->comp, &organizer);
+		e_cal_component_get_organizer (priv->comp, &organizer);
 		if (priv->delegator_address != NULL) {
 			if (organizer.value != NULL)
 				html = g_strdup_printf (itip_desc,
@@ -951,7 +951,7 @@ write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title,
 	case ICAL_METHOD_CANCEL:
 	default:
 		/* The organizer sent this */
-		cal_component_get_organizer (priv->comp, &organizer);
+		e_cal_component_get_organizer (priv->comp, &organizer);
 		if (organizer.value != NULL)
 			html = g_strdup_printf (itip_desc,
 						organizer.cn ?
@@ -979,7 +979,7 @@ write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title,
 	set_date_label (itip, GTK_HTML (priv->html), html_stream, priv->comp);
 
 	/* Summary */
-	cal_component_get_summary (priv->comp, &text);
+	e_cal_component_get_summary (priv->comp, &text);
 	html = text.value ? camel_text_to_html (text.value, CAMEL_MIME_FILTER_TOHTML_CONVERT_NL, 0) : _("<i>None</i>");
 	gtk_html_stream_printf (html_stream, "<b>%s</b><br>%s<br><br>",
 				_("Summary:"), html);
@@ -987,7 +987,7 @@ write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title,
 		g_free (html);
 	
 	/* Location */
-	cal_component_get_location (priv->comp, &string);
+	e_cal_component_get_location (priv->comp, &string);
 	if (string != NULL) {
 		html = camel_text_to_html (string, CAMEL_MIME_FILTER_TOHTML_CONVERT_NL, 0);
 		gtk_html_stream_printf (html_stream, "<b>%s</b><br>%s<br><br>", 
@@ -999,10 +999,10 @@ write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title,
 	if (priv->method == ICAL_METHOD_REPLY) {
 		GSList *alist;
 
-		cal_component_get_attendee_list (priv->comp, &alist);
+		e_cal_component_get_attendee_list (priv->comp, &alist);
 		
 		if (alist != NULL) {
-			CalComponentAttendee *a = alist->data;
+			ECalComponentAttendee *a = alist->data;
 
 			gtk_html_stream_printf (html_stream, "<b>%s</b><br>",
 						_("Status:"));
@@ -1026,13 +1026,13 @@ write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title,
 			}
 		}
 		
-		cal_component_free_attendee_list (alist);
+		e_cal_component_free_attendee_list (alist);
 	}
 	
 	/* Description */
-	cal_component_get_description_list (priv->comp, &l);
+	e_cal_component_get_description_list (priv->comp, &l);
 	if (l)
-		text = *((CalComponentText *)l->data);
+		text = *((ECalComponentText *)l->data);
 
 	if (l && text.value) {
 		html = camel_text_to_html (text.value, CAMEL_MIME_FILTER_TOHTML_CONVERT_NL, 0);
@@ -1040,7 +1040,7 @@ write_html (EItipControl *itip, const gchar *itip_desc, const gchar *itip_title,
 					_("Description:"), html);
 		g_free (html);
 	}
-	cal_component_free_text_list (l);
+	e_cal_component_free_text_list (l);
 
 	/* Separator */
 	gtk_html_write (GTK_HTML (priv->html), html_stream, HTML_SEP, strlen (HTML_SEP));
@@ -1176,29 +1176,29 @@ get_cancel_options ()
 }
 
 
-static CalComponent *
+static ECalComponent *
 get_real_item (EItipControl *itip) 
 {
 	EItipControlPrivate *priv;
-	CalComponent *comp;
+	ECalComponent *comp;
 	icalcomponent *icalcomp;
-	CalComponentVType type;
+	ECalComponentVType type;
 	gboolean found = FALSE;
 	const char *uid;
 	
 	priv = itip->priv;
 
-	type = cal_component_get_vtype (priv->comp);
-	cal_component_get_uid (priv->comp, &uid);
+	type = e_cal_component_get_vtype (priv->comp);
+	e_cal_component_get_uid (priv->comp, &uid);
 
 	switch (type) {
-	case CAL_COMPONENT_EVENT:
+	case E_CAL_COMPONENT_EVENT:
 		if (priv->event_client != NULL)
-			found = cal_client_get_object (priv->event_client, uid, NULL, &icalcomp, NULL);
+			found = e_cal_get_object (priv->event_client, uid, NULL, &icalcomp, NULL);
 		break;
-	case CAL_COMPONENT_TODO:
+	case E_CAL_COMPONENT_TODO:
 		if (priv->task_client != NULL)
-			found = cal_client_get_object (priv->task_client, uid, NULL, &icalcomp, NULL);
+			found = e_cal_get_object (priv->task_client, uid, NULL, &icalcomp, NULL);
 		break;
 	default:
 		found = FALSE;
@@ -1207,8 +1207,8 @@ get_real_item (EItipControl *itip)
 	if (!found)
 		return NULL;
 
-	comp = cal_component_new ();
-	if (!cal_component_set_icalcomponent (comp, icalcomp)) {
+	comp = e_cal_component_new ();
+	if (!e_cal_component_set_icalcomponent (comp, icalcomp)) {
 		g_object_unref (comp);
 		icalcomponent_free (icalcomp);
 		return NULL;
@@ -1218,29 +1218,29 @@ get_real_item (EItipControl *itip)
 }
 
 static void
-adjust_item (EItipControl *itip, CalComponent *comp)
+adjust_item (EItipControl *itip, ECalComponent *comp)
 {
-	CalComponent *real_comp;
+	ECalComponent *real_comp;
 	
 	real_comp = get_real_item (itip);
 	if (real_comp != NULL) {
-		CalComponentText text;
+		ECalComponentText text;
 		const char *string;
 		GSList *l;
 		
-		cal_component_get_summary (real_comp, &text);
-		cal_component_set_summary (comp, &text);
-		cal_component_get_location (real_comp, &string);
-		cal_component_set_location (comp, string);
-		cal_component_get_description_list (real_comp, &l);
-		cal_component_set_description_list (comp, l);
-		cal_component_free_text_list (l);
+		e_cal_component_get_summary (real_comp, &text);
+		e_cal_component_set_summary (comp, &text);
+		e_cal_component_get_location (real_comp, &string);
+		e_cal_component_set_location (comp, string);
+		e_cal_component_get_description_list (real_comp, &l);
+		e_cal_component_set_description_list (comp, l);
+		e_cal_component_free_text_list (l);
 		
 		g_object_unref (real_comp);
 	} else {
-		CalComponentText text = {_("Unknown"), NULL};
+		ECalComponentText text = {_("Unknown"), NULL};
 		
-		cal_component_set_summary (comp, &text);
+		e_cal_component_set_summary (comp, &text);
 	}
 }
 
@@ -1435,7 +1435,7 @@ static void
 show_current (EItipControl *itip)
 {
 	EItipControlPrivate *priv;
-	CalComponentVType type;
+	ECalComponentVType type;
 	icalcomponent *alarm_comp;
 	icalcompiter alarm_iter;
 	icalproperty *prop;
@@ -1479,8 +1479,8 @@ show_current (EItipControl *itip)
 		icalcompiter_next (&alarm_iter);
 	}
 
-	priv->comp = cal_component_new ();
-	if (!cal_component_set_icalcomponent (priv->comp, priv->ical_comp)) {
+	priv->comp = e_cal_component_new ();
+	if (!e_cal_component_set_icalcomponent (priv->comp, priv->ical_comp)) {
 		write_error_html (itip, _("The message does not appear to be properly formed"));
 		g_object_unref (priv->comp);
 		priv->comp = NULL;
@@ -1490,19 +1490,19 @@ show_current (EItipControl *itip)
 
 	/* Add default reminder if the config says so */
 	if (calendar_config_get_use_default_reminder ()) {
-		CalComponentAlarm *acomp;
+		ECalComponentAlarm *acomp;
 		int interval;
 		CalUnits units;
-		CalAlarmTrigger trigger;
+		ECalComponentAlarmTrigger trigger;
 
 		interval = calendar_config_get_default_reminder_interval ();
 		units = calendar_config_get_default_reminder_units ();
 
-		acomp = cal_component_alarm_new ();
+		acomp = e_cal_component_alarm_new ();
 
-		cal_component_alarm_set_action (acomp, CAL_ALARM_DISPLAY);
+		e_cal_component_alarm_set_action (acomp, E_CAL_COMPONENT_ALARM_DISPLAY);
 
-		trigger.type = CAL_ALARM_TRIGGER_RELATIVE_START;
+		trigger.type = E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_START;
 		memset (&trigger.u.rel_duration, 0, sizeof (trigger.u.rel_duration));
 
 		trigger.u.rel_duration.is_neg = TRUE;
@@ -1521,16 +1521,16 @@ show_current (EItipControl *itip)
 			g_assert_not_reached ();
 		}
 
-		cal_component_alarm_set_trigger (acomp, trigger);
-		cal_component_add_alarm (priv->comp, acomp);
+		e_cal_component_alarm_set_trigger (acomp, trigger);
+		e_cal_component_add_alarm (priv->comp, acomp);
 
-		cal_component_alarm_free (acomp);
+		e_cal_component_alarm_free (acomp);
 	}
 
-	type = cal_component_get_vtype (priv->comp);
+	type = e_cal_component_get_vtype (priv->comp);
 
 	switch (type) {
-	case CAL_COMPONENT_EVENT:
+	case E_CAL_COMPONENT_EVENT:
 		if (!priv->event_clients) {
 			priv->event_clients = g_ptr_array_new ();
 			/* EPFIXME */
@@ -1538,14 +1538,14 @@ show_current (EItipControl *itip)
 		}
 		show_current_event (itip);
 		break;
-	case CAL_COMPONENT_TODO:
+	case E_CAL_COMPONENT_TODO:
 		if (!priv->task_clients) {
 			/* EPFIXME */
 			/* priv->task_clients = get_servers (itip, global_shell_client, tasks_types, TRUE); */
 		}
 		show_current_todo (itip);
 		break;
-	case CAL_COMPONENT_FREEBUSY:
+	case E_CAL_COMPONENT_FREEBUSY:
 		show_current_freebusy (itip);
 		break;
 	default:
@@ -1576,7 +1576,7 @@ e_itip_control_set_data (EItipControl *itip, const gchar *text)
 	}
 	
 	priv->vcalendar = g_strdup (text);
-	priv->top_level = cal_util_new_top_level ();
+	priv->top_level = e_cal_util_new_top_level ();
 
 	priv->main_comp = icalparser_parse_string (priv->vcalendar);
 	if (priv->main_comp == NULL) {
@@ -1818,8 +1818,8 @@ update_item (EItipControl *itip)
 	struct icaltimetype stamp;
 	icalproperty *prop;
 	icalcomponent *clone;
-	CalClient *client;
-	CalComponentVType type;
+	ECal *client;
+	ECalComponentVType type;
 	GtkWidget *dialog;
 
 	priv = itip->priv;
@@ -1838,8 +1838,8 @@ update_item (EItipControl *itip)
 	icalproperty_set_x_name (prop, "X-MICROSOFT-CDO-REPLYTIME");
 	icalcomponent_add_property (priv->ical_comp, prop);
  
-	type = cal_component_get_vtype (priv->comp);
-	if (type == CAL_COMPONENT_TODO)
+	type = e_cal_component_get_vtype (priv->comp);
+	if (type == E_CAL_COMPONENT_TODO)
 		client = priv->task_client;
 	else
 		client = priv->event_client;
@@ -1849,7 +1849,7 @@ update_item (EItipControl *itip)
 	icalcomponent_set_method (priv->top_level, priv->method);
 
 	/* FIXME Better error dialog */
-	if (!cal_client_receive_objects (client, priv->top_level, NULL)) {
+	if (!e_cal_receive_objects (client, priv->top_level, NULL)) {
 		dialog = gnome_warning_dialog (_("Calendar file could not be updated!\n"));
 	} else {
 		dialog = gnome_ok_dialog (_("Update complete\n"));
@@ -1864,19 +1864,19 @@ static void
 update_attendee_status (EItipControl *itip)
 {
 	EItipControlPrivate *priv;
-	CalClient *client;
-	CalClientGetStatus status;
-	CalComponent *comp = NULL;
+	ECal *client;
+	ECalGetStatus status;
+	ECalComponent *comp = NULL;
 	icalcomponent *icalcomp = NULL;
-	CalComponentVType type;
+	ECalComponentVType type;
 	const char *uid;
 	GtkWidget *dialog;
-	CalClientResult result;
+	ECalResult result;
 
 	priv = itip->priv;
 
-	type = cal_component_get_vtype (priv->comp);
-	if (type == CAL_COMPONENT_TODO)
+	type = e_cal_component_get_vtype (priv->comp);
+	if (type == E_CAL_COMPONENT_TODO)
 		client = priv->task_client;
 	else
 		client = priv->event_client;
@@ -1888,21 +1888,21 @@ update_attendee_status (EItipControl *itip)
 	}
 	
 	/* Obtain our version */
-	cal_component_get_uid (priv->comp, &uid);
-	status = cal_client_get_object (client, uid, NULL, &icalcomp);
+	e_cal_component_get_uid (priv->comp, &uid);
+	status = e_cal_get_object (client, uid, NULL, &icalcomp);
 
-	if (status == CAL_CLIENT_GET_SUCCESS) {
+	if (status == E_CAL_GET_SUCCESS) {
 		GSList *attendees;
 
-		comp = cal_component_new ();
-		if (!cal_component_set_icalcomponent (comp, icalcomp)) {
+		comp = e_cal_component_new ();
+		if (!e_cal_component_set_icalcomponent (comp, icalcomp)) {
 			icalcomponent_free (icalcomp);
 
 			dialog = gnome_warning_dialog (_("Object is invalid and cannot be updated\n"));
 		} else {
-			cal_component_get_attendee_list (priv->comp, &attendees);
+			e_cal_component_get_attendee_list (priv->comp, &attendees);
 			if (attendees != NULL) {
-				CalComponentAttendee *a = attendees->data;
+				ECalComponentAttendee *a = attendees->data;
 				icalproperty *prop;
 
 				prop = find_attendee (icalcomp, itip_strip_mailto (a->value));
@@ -1915,7 +1915,7 @@ update_attendee_status (EItipControl *itip)
 						change_status (icalcomp,
 							       itip_strip_mailto (a->value),
 							       a->status);
-						cal_component_rescan (comp);
+						e_cal_component_rescan (comp);
 					} else {
 						goto cleanup;
 					}
@@ -1928,26 +1928,26 @@ update_attendee_status (EItipControl *itip)
 					change_status (icalcomp,
 						       itip_strip_mailto (a->value),
 						       a->status);
-					cal_component_rescan (comp);			
+					e_cal_component_rescan (comp);			
 				}
 			}
 		}
 
-		result = cal_client_update_object (client, comp);
+		result = e_cal_update_object (client, comp);
 		switch (result) {
-		case CAL_CLIENT_RESULT_INVALID_OBJECT :
+		case E_CAL_RESULT_INVALID_OBJECT :
 			dialog = gnome_warning_dialog (_("Object is invalid and cannot be updated\n"));
 			break;
-		case CAL_CLIENT_RESULT_CORBA_ERROR :
+		case E_CAL_RESULT_CORBA_ERROR :
 			dialog = gnome_warning_dialog (_("There was an error on the CORBA system\n"));
 			break;
-		case CAL_CLIENT_RESULT_NOT_FOUND :
+		case E_CAL_RESULT_NOT_FOUND :
 			dialog = gnome_warning_dialog (_("Object could not be found\n"));
 			break;
-		case CAL_CLIENT_RESULT_PERMISSION_DENIED :
+		case E_CAL_RESULT_PERMISSION_DENIED :
 			dialog = gnome_warning_dialog (_("You don't have the right permissions to update the calendar\n"));
 			break;
-		case CAL_CLIENT_RESULT_SUCCESS :
+		case E_CAL_RESULT_SUCCESS :
 			dialog = gnome_ok_dialog (_("Attendee status updated\n"));
 			break;
 		default :
@@ -1969,16 +1969,16 @@ static void
 remove_item (EItipControl *itip)
 {
 	EItipControlPrivate *priv;
-	CalClient *client;
-	CalComponentVType type;
+	ECal *client;
+	ECalComponentVType type;
 	const char *uid;
 	GtkWidget *dialog;
 	GError *error = NULL;
 	
 	priv = itip->priv;
 
-	type = cal_component_get_vtype (priv->comp);
-	if (type == CAL_COMPONENT_TODO)
+	type = e_cal_component_get_vtype (priv->comp);
+	if (type == E_CAL_COMPONENT_TODO)
 		client = priv->task_client;
 	else
 		client = priv->event_client;
@@ -1986,8 +1986,8 @@ remove_item (EItipControl *itip)
 	if (client == NULL)
 		return;
 	
-	cal_component_get_uid (priv->comp, &uid);
-	cal_client_remove_object (client, uid, &error);
+	e_cal_component_get_uid (priv->comp, &uid);
+	e_cal_remove_object (client, uid, &error);
 	if (!error || error->code == E_CALENDAR_STATUS_OBJECT_NOT_FOUND) {
 		dialog = gnome_ok_dialog (_("Removal Complete"));
 		gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
@@ -2002,25 +2002,25 @@ static void
 send_item (EItipControl *itip)
 {
 	EItipControlPrivate *priv;
-	CalComponent *comp;
-	CalComponentVType vtype;
+	ECalComponent *comp;
+	ECalComponentVType vtype;
 	GtkWidget *dialog;
 
 	priv = itip->priv;
 
 	comp = get_real_item (itip);
-	vtype = cal_component_get_vtype (comp);
+	vtype = e_cal_component_get_vtype (comp);
 	
 	if (comp != NULL) {
 		switch (vtype) {
-		case CAL_COMPONENT_EVENT:
-			itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, comp, priv->event_client, NULL);
+		case E_CAL_COMPONENT_EVENT:
+			itip_send_comp (E_CAL_COMPONENT_METHOD_REQUEST, comp, priv->event_client, NULL);
 			break;
-		case CAL_COMPONENT_TODO:
-			itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, comp, priv->task_client, NULL);
+		case E_CAL_COMPONENT_TODO:
+			itip_send_comp (E_CAL_COMPONENT_METHOD_REQUEST, comp, priv->task_client, NULL);
 			break;
 		default:
-			itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, comp, NULL, NULL);
+			itip_send_comp (E_CAL_COMPONENT_METHOD_REQUEST, comp, NULL, NULL);
 		}
 		g_object_unref (comp);
 		dialog = gnome_ok_dialog (_("Item sent!\n"));
@@ -2034,7 +2034,7 @@ static void
 send_freebusy (EItipControl *itip)
 {
 	EItipControlPrivate *priv;
-	CalComponentDateTime datetime;
+	ECalComponentDateTime datetime;
 	time_t start, end;
 	GtkWidget *dialog;
 	GList *comp_list = NULL;
@@ -2042,7 +2042,7 @@ send_freebusy (EItipControl *itip)
 
 	priv = itip->priv;
 
-	cal_component_get_dtstart (priv->comp, &datetime);
+	e_cal_component_get_dtstart (priv->comp, &datetime);
 	if (datetime.tzid) {
 		zone = icalcomponent_get_timezone (priv->top_level,
 						   datetime.tzid);
@@ -2050,9 +2050,9 @@ send_freebusy (EItipControl *itip)
 		zone = NULL;
 	}
 	start = icaltime_as_timet_with_zone (*datetime.value, zone);
-	cal_component_free_datetime (&datetime);
+	e_cal_component_free_datetime (&datetime);
 
-	cal_component_get_dtend (priv->comp, &datetime);
+	e_cal_component_get_dtend (priv->comp, &datetime);
 	if (datetime.tzid) {
 		zone = icalcomponent_get_timezone (priv->top_level,
 						   datetime.tzid);
@@ -2060,14 +2060,14 @@ send_freebusy (EItipControl *itip)
 		zone = NULL;
 	}
 	end = icaltime_as_timet_with_zone (*datetime.value, zone);
-	cal_component_free_datetime (&datetime);
+	e_cal_component_free_datetime (&datetime);
 
-	if (cal_client_get_free_busy (priv->event_client, NULL, start, end, &comp_list, NULL)) {
+	if (e_cal_get_free_busy (priv->event_client, NULL, start, end, &comp_list, NULL)) {
 		GList *l;
 
 		for (l = comp_list; l; l = l->next) {
-			CalComponent *comp = CAL_COMPONENT (l->data);
-			itip_send_comp (CAL_COMPONENT_METHOD_REPLY, comp, priv->event_client, NULL);
+			ECalComponent *comp = E_CAL_COMPONENT (l->data);
+			itip_send_comp (E_CAL_COMPONENT_METHOD_REPLY, comp, priv->event_client, NULL);
 
 			g_object_unref (comp);
 		}
@@ -2085,16 +2085,16 @@ button_selected_cb (EvolutionFolderSelectorButton *button, GNOME_Evolution_Folde
 {
 	EItipControl *itip = E_ITIP_CONTROL (data);
 	EItipControlPrivate *priv;
-	CalComponentVType type;
+	ECalComponentVType type;
 	char *uri;
 	
 	priv = itip->priv;
 	
-	type = cal_component_get_vtype (priv->comp);
-	if (type == CAL_COMPONENT_TODO)
-		uri = cal_util_expand_uri (folder->physicalUri, TRUE);
+	type = e_cal_component_get_vtype (priv->comp);
+	if (type == E_CAL_COMPONENT_TODO)
+		uri = e_cal_util_expand_uri (folder->physicalUri, TRUE);
 	else
-		uri = cal_util_expand_uri (folder->physicalUri, FALSE);
+		uri = e_cal_util_expand_uri (folder->physicalUri, FALSE);
 
 	g_object_unref (priv->event_client);
 	priv->event_client = start_calendar_server (itip, uri);
@@ -2137,21 +2137,21 @@ typedef struct
 {
 	EItipControl    *itip;
 	GtkHTMLEmbedded *eb;
-	CalClient       *client;
+	ECal       *client;
 }
 ObjectRequestContext;
 
 static void
-default_server_started_cb (CalClient *client, CalClientOpenStatus status, gpointer data)
+default_server_started_cb (ECal *client, ECalOpenStatus status, gpointer data)
 {
 	ObjectRequestContext *context = data;
 	EItipControlPrivate *priv;
 	GtkWidget *button;
-	CalComponentVType vtype;
+	ECalComponentVType vtype;
 
 	priv = context->itip->priv;	
 
-	if (status != CAL_CLIENT_OPEN_SUCCESS ||
+	if (status != E_CAL_OPEN_SUCCESS ||
 	    context->itip->priv->destroyed    ||
 	    context->itip->priv->html == NULL) {
 		g_object_unref (context->client);
@@ -2161,17 +2161,17 @@ default_server_started_cb (CalClient *client, CalClientOpenStatus status, gpoint
 	}
 
 	priv->event_client = client;
-	vtype = cal_component_get_vtype (priv->comp);
+	vtype = e_cal_component_get_vtype (priv->comp);
 
 	switch (vtype) {
 #if 0				/* EPFIXME */
-	case CAL_COMPONENT_EVENT:
+	case E_CAL_COMPONENT_EVENT:
 		button = evolution_folder_selector_button_new (
 			global_shell_client, _("Select Calendar Folder"),
 			calendar_config_default_calendar_folder (), 
 			calendar_types);
 		break;
-	case CAL_COMPONENT_TODO:
+	case E_CAL_COMPONENT_TODO:
 		button = evolution_folder_selector_button_new (
 			global_shell_client, _("Select Tasks Folder"),
 			calendar_config_default_tasks_folder (), 
@@ -2198,23 +2198,23 @@ object_requested_cb (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 	EItipControl *itip = E_ITIP_CONTROL (data);
 	ObjectRequestContext *context;
 	EItipControlPrivate *priv;
-	CalComponentVType vtype;
+	ECalComponentVType vtype;
 	gboolean success;
 
 	priv = itip->priv;	
-	vtype = cal_component_get_vtype (priv->comp);
+	vtype = e_cal_component_get_vtype (priv->comp);
 
 	context = g_new0 (ObjectRequestContext, 1);
 	context->itip   = itip;
 	context->eb     = eb;
 
 	switch (vtype) {
-	case CAL_COMPONENT_EVENT:
-		context->client = cal_client_new ("", CALOBJ_TYPE_EVENT);
+	case E_CAL_COMPONENT_EVENT:
+		context->client = e_cal_new ("", CALOBJ_TYPE_EVENT);
 		success = start_default_server (itip, context->client, FALSE);
 		break;
-	case CAL_COMPONENT_TODO:
-		context->client = cal_client_new ("", CALOBJ_TYPE_TODO);
+	case E_CAL_COMPONENT_TODO:
+		context->client = e_cal_new ("", CALOBJ_TYPE_TODO);
 		success = start_default_server (itip, context->client, TRUE);
 		break;
 	default:
@@ -2262,7 +2262,7 @@ ok_clicked_cb (GtkHTML *html, const gchar *method, const gchar *url, const gchar
 				status = change_status (priv->ical_comp, priv->my_address, 
 							ICAL_PARTSTAT_ACCEPTED);
 				if (status) {
-					cal_component_rescan (priv->comp);
+					e_cal_component_rescan (priv->comp);
 					update_item (itip);
 				}
 				break;
@@ -2270,7 +2270,7 @@ ok_clicked_cb (GtkHTML *html, const gchar *method, const gchar *url, const gchar
 				status = change_status (priv->ical_comp, priv->my_address,
 							ICAL_PARTSTAT_TENTATIVE);
 				if (status) {
-					cal_component_rescan (priv->comp);
+					e_cal_component_rescan (priv->comp);
 					update_item (itip);
 				}
 				break;
@@ -2278,7 +2278,7 @@ ok_clicked_cb (GtkHTML *html, const gchar *method, const gchar *url, const gchar
 				status = change_status (priv->ical_comp, priv->my_address,
 							ICAL_PARTSTAT_DECLINED);
 				if (status) {
-					cal_component_rescan (priv->comp);
+					e_cal_component_rescan (priv->comp);
 					remove_item (itip);
 				}
 				break;
@@ -2308,24 +2308,24 @@ ok_clicked_cb (GtkHTML *html, const gchar *method, const gchar *url, const gchar
 	g_strfreev (fields);
 
 	if (rsvp && status) {
-		CalComponent *comp = NULL;
-		CalComponentVType vtype;
+		ECalComponent *comp = NULL;
+		ECalComponentVType vtype;
 		icalcomponent *ical_comp;
 		icalproperty *prop;
 		icalvalue *value;
 		const char *attendee;
 		GSList *l, *list = NULL;
 		
-		comp = cal_component_clone (priv->comp);
+		comp = e_cal_component_clone (priv->comp);
 		if (comp == NULL)
 			return;
-		vtype = cal_component_get_vtype (comp);
+		vtype = e_cal_component_get_vtype (comp);
 		
 		if (priv->my_address == NULL)
 			find_my_address (itip, priv->ical_comp);
 		g_assert (priv->my_address != NULL);
 		
-		ical_comp = cal_component_get_icalcomponent (comp);
+		ical_comp = e_cal_component_get_icalcomponent (comp);
 		
 		for (prop = icalcomponent_get_first_property (ical_comp, ICAL_ATTENDEE_PROPERTY);
 		     prop != NULL;
@@ -2353,18 +2353,18 @@ ok_clicked_cb (GtkHTML *html, const gchar *method, const gchar *url, const gchar
 		}
 		g_slist_free (list);
 		
-		cal_component_rescan (comp);
+		e_cal_component_rescan (comp);
 		switch (vtype) {
-		case CAL_COMPONENT_EVENT:
-			itip_send_comp (CAL_COMPONENT_METHOD_REPLY, comp,
+		case E_CAL_COMPONENT_EVENT:
+			itip_send_comp (E_CAL_COMPONENT_METHOD_REPLY, comp,
 					priv->event_client, priv->top_level);
 			break;
-		case CAL_COMPONENT_TODO:
-			itip_send_comp (CAL_COMPONENT_METHOD_REPLY, comp,
+		case E_CAL_COMPONENT_TODO:
+			itip_send_comp (E_CAL_COMPONENT_METHOD_REPLY, comp,
 					priv->task_client, priv->top_level);
 			break;
 		default:
-			itip_send_comp (CAL_COMPONENT_METHOD_REPLY, comp, NULL, NULL);
+			itip_send_comp (E_CAL_COMPONENT_METHOD_REPLY, comp, NULL, NULL);
 		}
 		g_object_unref (comp);
 	}

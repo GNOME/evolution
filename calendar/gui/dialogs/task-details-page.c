@@ -94,8 +94,8 @@ static void task_details_page_finalize (GObject *object);
 
 static GtkWidget *task_details_page_get_widget (CompEditorPage *page);
 static void task_details_page_focus_main_widget (CompEditorPage *page);
-static void task_details_page_fill_widgets (CompEditorPage *page, CalComponent *comp);
-static gboolean task_details_page_fill_component (CompEditorPage *page, CalComponent *comp);
+static void task_details_page_fill_widgets (CompEditorPage *page, ECalComponent *comp);
+static gboolean task_details_page_fill_component (CompEditorPage *page, ECalComponent *comp);
 
 static CompEditorPageClass *parent_class = NULL;
 
@@ -278,7 +278,7 @@ clear_widgets (TaskDetailsPage *tdpage)
 
 /* fill_widgets handler for the task page */
 static void
-task_details_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
+task_details_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 {
 	TaskDetailsPage *tdpage;
 	TaskDetailsPagePrivate *priv;
@@ -297,7 +297,7 @@ task_details_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	clear_widgets (tdpage);
 	
 	/* Percent Complete. */
-	cal_component_get_percent (comp, &percent);
+	e_cal_component_get_percent (comp, &percent);
 	if (percent) {
 		e_dialog_spin_set (priv->percent_complete, *percent);
 	} else {
@@ -306,7 +306,7 @@ task_details_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	}
 
 	/* Status. */
-	cal_component_get_status (comp, &status);
+	e_cal_component_get_status (comp, &status);
 	if (status == ICAL_STATUS_NONE || status == ICAL_STATUS_NEEDSACTION) {
 		/* Try to use the percent value. */
 		if (percent) {
@@ -322,10 +322,10 @@ task_details_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	e_dialog_option_menu_set (priv->status, status, status_map);
 
 	if (percent)
-		cal_component_free_percent (percent);
+		e_cal_component_free_percent (percent);
 
 	/* Completed Date. */
-	cal_component_get_completed (comp, &completed);
+	e_cal_component_get_completed (comp, &completed);
 	if (completed) {
 		icaltimezone *utc_zone, *zone;
 		char *location;
@@ -345,21 +345,21 @@ task_details_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 					     completed->hour,
 					     completed->minute);
 
-		cal_component_free_icaltimetype (completed);
+		e_cal_component_free_icaltimetype (completed);
 	}
 
 	/* Priority. */
-	cal_component_get_priority (comp, &priority_value);
+	e_cal_component_get_priority (comp, &priority_value);
 	if (priority_value) {
 		priority = priority_value_to_index (*priority_value);
-		cal_component_free_priority (priority_value);
+		e_cal_component_free_priority (priority_value);
 	} else {
 		priority = PRIORITY_UNDEFINED;
 	}
 	e_dialog_option_menu_set (priv->priority, priority, priority_map);
 
 	/* URL */
-	cal_component_get_url (comp, &url);
+	e_cal_component_get_url (comp, &url);
 	e_dialog_editable_set (priv->url, url);
 	
 	priv->updating = FALSE;
@@ -367,7 +367,7 @@ task_details_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 
 /* fill_component handler for the task page */
 static gboolean
-task_details_page_fill_component (CompEditorPage *page, CalComponent *comp)
+task_details_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 {
 	TaskDetailsPage *tdpage;
 	TaskDetailsPagePrivate *priv;
@@ -383,16 +383,16 @@ task_details_page_fill_component (CompEditorPage *page, CalComponent *comp)
 
 	/* Percent Complete. */
 	percent = e_dialog_spin_get_int (priv->percent_complete);
-	cal_component_set_percent (comp, &percent);
+	e_cal_component_set_percent (comp, &percent);
 
 	/* Status. */
 	status = e_dialog_option_menu_get (priv->status, status_map);
-	cal_component_set_status (comp, status);
+	e_cal_component_set_status (comp, status);
 
 	/* Priority. */
 	priority = e_dialog_option_menu_get (priv->priority, priority_map);
 	priority_value = priority_index_to_value (priority);
-	cal_component_set_priority (comp, &priority_value);
+	e_cal_component_set_priority (comp, &priority_value);
 
 	icaltime = icaltime_null_time ();
 
@@ -424,14 +424,14 @@ task_details_page_fill_component (CompEditorPage *page, CalComponent *comp)
 		icaltimezone *zone = icaltimezone_get_builtin_timezone (location);
 		icaltimezone_convert_time (&icaltime, zone,
 					   icaltimezone_get_utc_timezone ());
-		cal_component_set_completed (comp, &icaltime);
+		e_cal_component_set_completed (comp, &icaltime);
 	} else {
-		cal_component_set_completed (comp, NULL);
+		e_cal_component_set_completed (comp, NULL);
 	}
 
 	/* URL. */
 	url = e_dialog_editable_get (priv->url);
-	cal_component_set_url (comp, url);
+	e_cal_component_set_url (comp, url);
 	if (url)
 		g_free (url);
 

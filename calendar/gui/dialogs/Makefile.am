@@ -20,8 +20,6 @@ INCLUDES = 								\
 	-I$(top_srcdir)/libical/src					\
 	-I$(top_builddir)/shell						\
 	-I$(top_srcdir)/shell						\
-	-I$(top_srcdir)/addressbook/backend				\
-	-I$(top_builddir)/addressbook/backend				\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"				\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"				\
 	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"			\

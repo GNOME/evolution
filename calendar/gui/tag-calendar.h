@@ -23,11 +23,11 @@
 #define TAG_CALENDAR_H
 
 #include <widgets/misc/e-calendar.h>
-#include <cal-client/cal-client.h>
+#include <libecal/e-cal.h>
 
-void tag_calendar_by_client (ECalendar *ecal, CalClient *client);
-void tag_calendar_by_comp (ECalendar *ecal, CalComponent *comp,
-			   CalClient *client, icaltimezone *display_zone,
+void tag_calendar_by_client (ECalendar *ecal, ECal *client);
+void tag_calendar_by_comp (ECalendar *ecal, ECalComponent *comp,
+			   ECal *client, icaltimezone *display_zone,
 			   gboolean clear_first, gboolean comp_is_on_server);
 
 #endif

@@ -107,7 +107,7 @@ e_comp_editor_registry_add (ECompEditorRegistry *reg, CompEditor *editor, gboole
 {
 	ECompEditorRegistryPrivate *priv;
 	ECompEditorRegistryData *rdata;
-	CalComponent *comp;
+	ECalComponent *comp;
 	const char *uid;
 	
 	g_return_if_fail (reg != NULL);
@@ -118,7 +118,7 @@ e_comp_editor_registry_add (ECompEditorRegistry *reg, CompEditor *editor, gboole
 	priv = reg->priv;
 	
 	comp = comp_editor_get_comp (editor);
-	cal_component_get_uid (comp, &uid);
+	e_cal_component_get_uid (comp, &uid);
 
 	rdata = g_new0 (ECompEditorRegistryData, 1);
 
@@ -193,14 +193,14 @@ editor_destroy_cb (GtkWidget *widget, gpointer data)
 	ECompEditorRegistry *reg;
 	ECompEditorRegistryPrivate *priv;
 	ECompEditorRegistryData *rdata;
-	CalComponent *comp;
+	ECalComponent *comp;
 	const char *uid;
 	
 	reg = E_COMP_EDITOR_REGISTRY (data);
 	priv = reg->priv;
 	
 	comp = comp_editor_get_comp (COMP_EDITOR (widget));
-	cal_component_get_uid (comp, &uid);
+	e_cal_component_get_uid (comp, &uid);
 
 	rdata = g_hash_table_lookup (priv->editors, uid);
 

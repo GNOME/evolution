@@ -30,7 +30,7 @@
 #include <libgnome/gnome-i18n.h>
 #include <gal/util/e-util.h>
 #include "e-util/e-categories-config.h"
-#include "cal-util/timeutil.h"
+#include <libecal/e-cal-time-util.h>
 #include "e-day-view-top-item.h"
 
 static void e_day_view_top_item_class_init	(EDayViewTopItemClass *class);
@@ -316,7 +316,7 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 	gint start_day, end_day;
 	gint item_x, item_y, item_w, item_h;
 	gint text_x, icon_x, icon_y, icon_x_inc;
-	CalComponent *comp;
+	ECalComponent *comp;
 	gchar buffer[16];
 	gint hour, display_hour, minute, offset, time_width, time_x;
 	gint min_end_time_x, suffix_width, max_icon_x;
@@ -348,8 +348,8 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 	gc = day_view->main_gc;
 	fg_gc = style->fg_gc[GTK_STATE_NORMAL];
 	bg_gc = style->bg_gc[GTK_STATE_NORMAL];
-	comp = cal_component_new ();
-	cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
+	comp = e_cal_component_new ();
+	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
 
 	/* Draw the lines across the top & bottom of the entire event. */
 	gdk_gc_set_foreground (gc, &day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BORDER]);
@@ -361,7 +361,7 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 		       item_x + item_w - 1 - x, item_y + item_h - 1 - y);
 
 	/* Fill it in. */
-	if (gdk_color_parse (e_cal_model_get_color_for_component (e_cal_view_get_model (E_CAL_VIEW (day_view)),
+	if (gdk_color_parse (e_cal_model_get_color_for_component (e_calendar_view_get_model (E_CALENDAR_VIEW (day_view)),
 								  event->comp_data),
 			     &bg_color)) {
 		GdkColormap *colormap;
@@ -380,13 +380,13 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 	/* When resizing we don't draw the triangles.*/
 	draw_start_triangle = TRUE;
 	draw_end_triangle = TRUE;
-	if (day_view->resize_drag_pos != E_CAL_VIEW_POS_NONE
+	if (day_view->resize_drag_pos != E_CALENDAR_VIEW_POS_NONE
 	    && day_view->resize_event_day == E_DAY_VIEW_LONG_EVENT
 	    && day_view->resize_event_num == event_num) {
-		if (day_view->resize_drag_pos == E_CAL_VIEW_POS_LEFT_EDGE)
+		if (day_view->resize_drag_pos == E_CALENDAR_VIEW_POS_LEFT_EDGE)
 			draw_start_triangle = FALSE;
 
-		if  (day_view->resize_drag_pos == E_CAL_VIEW_POS_RIGHT_EDGE)
+		if  (day_view->resize_drag_pos == E_CALENDAR_VIEW_POS_RIGHT_EDGE)
 			draw_end_triangle = FALSE;
 	}
 
@@ -448,7 +448,7 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 		e_day_view_convert_time_to_display (day_view, hour,
 						    &display_hour,
 						    &suffix, &suffix_width);
-		if (e_cal_view_get_use_24_hour_format (E_CAL_VIEW (day_view))) {
+		if (e_calendar_view_get_use_24_hour_format (E_CALENDAR_VIEW (day_view))) {
 			g_snprintf (buffer, sizeof (buffer), "%i:%02i",
 				    display_hour, minute);
 		} else {
@@ -497,7 +497,7 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 							    &display_hour,
 							    &suffix,
 							    &suffix_width);
-			if (e_cal_view_get_use_24_hour_format (E_CAL_VIEW (day_view))) {
+			if (e_calendar_view_get_use_24_hour_format (E_CALENDAR_VIEW (day_view))) {
 				g_snprintf (buffer, sizeof (buffer),
 					    "%i:%02i", display_hour, minute);
 			} else {
@@ -527,7 +527,7 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 	icon_y = item_y + E_DAY_VIEW_LONG_EVENT_BORDER_HEIGHT
 		+ E_DAY_VIEW_ICON_Y_PAD - y;
 
-	if (icon_x <= max_icon_x && cal_component_has_recurrences (comp)) {
+	if (icon_x <= max_icon_x && e_cal_component_has_recurrences (comp)) {
 		gdk_gc_set_clip_origin (gc, icon_x, icon_y);
 		gdk_gc_set_clip_mask (gc, day_view->recurrence_mask);
 		gdk_draw_pixmap (drawable, gc,
@@ -538,7 +538,7 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 		icon_x -= icon_x_inc;
 	}
 
-	if (icon_x <= max_icon_x && cal_component_has_alarms (comp)) {
+	if (icon_x <= max_icon_x && e_cal_component_has_alarms (comp)) {
 		gdk_gc_set_clip_origin (gc, icon_x, icon_y);
 		gdk_gc_set_clip_mask (gc, day_view->reminder_mask);
 		gdk_draw_pixmap (drawable, gc,
@@ -550,7 +550,7 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 	}
 
 	/* draw categories icons */
-	cal_component_get_categories_list (comp, &categories_list);
+	e_cal_component_get_categories_list (comp, &categories_list);
 	for (elem = categories_list; elem; elem = elem->next) {
 		char *category;
 		GdkPixmap *pixmap = NULL;
@@ -578,7 +578,7 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 			gdk_bitmap_unref (mask);
 	}
 
-	cal_component_free_categories_list (categories_list);
+	e_cal_component_free_categories_list (categories_list);
 	g_object_unref (comp);
 
 	gdk_gc_set_clip_mask (gc, NULL);
@@ -672,7 +672,7 @@ e_day_view_top_item_get_day_label (EDayView *day_view, gint day,
 
 	day_start_tt = icaltime_from_timet_with_zone (day_view->day_starts[day],
 						      FALSE,
-						      e_cal_view_get_timezone (E_CAL_VIEW (day_view)));
+						      e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
 	day_start.tm_year = day_start_tt.year - 1900;
 	day_start.tm_mon = day_start_tt.month - 1;
 	day_start.tm_mday = day_start_tt.day;

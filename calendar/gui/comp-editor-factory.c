@@ -27,7 +27,7 @@
 #include <bonobo/bonobo-i18n.h>
 #include <evolution-calendar.h>
 #include <e-util/e-url.h>
-#include <cal-client/cal-client.h>
+#include <libecal/e-cal.h>
 #include "calendar-config.h"
 #include "e-comp-editor-registry.h"
 #include "comp-editor-factory.h"
@@ -69,7 +69,7 @@ typedef struct {
 	char *uri;
 
 	/* Client of the calendar */
-	CalClient *client;
+	ECal *client;
  
 	/* Count editors using this client */
 	int editor_count;
@@ -239,23 +239,23 @@ editor_destroy_cb (GtkObject *object, gpointer data)
 static void
 edit_existing (OpenClient *oc, const char *uid)
 {
-	CalComponent *comp;
+	ECalComponent *comp;
 	icalcomponent *icalcomp;
 	CompEditor *editor;
-	CalComponentVType vtype;
+	ECalComponentVType vtype;
 
 	g_assert (oc->open);
 
 	/* Get the object */
-	if (!cal_client_get_object (oc->client, uid, NULL, &icalcomp, NULL)) {
+	if (!e_cal_get_object (oc->client, uid, NULL, &icalcomp, NULL)) {
 		/* FIXME Better error handling */
 		g_warning (G_STRLOC ": Syntax error while getting component `%s'", uid);
 
 		return;
 	}
 	
-	comp = cal_component_new ();
-	if (!cal_component_set_icalcomponent (comp, icalcomp)) {
+	comp = e_cal_component_new ();
+	if (!e_cal_component_set_icalcomponent (comp, icalcomp)) {
 		g_object_unref (comp);
 		icalcomponent_free (icalcomp);
 		return;
@@ -263,14 +263,14 @@ edit_existing (OpenClient *oc, const char *uid)
 	
 	/* Create the appropriate type of editor */
 	
-	vtype = cal_component_get_vtype (comp);
+	vtype = e_cal_component_get_vtype (comp);
 
 	switch (vtype) {
-	case CAL_COMPONENT_EVENT:
+	case E_CAL_COMPONENT_EVENT:
 		editor = COMP_EDITOR (event_editor_new (oc->client));
 		break;
 
-	case CAL_COMPONENT_TODO:
+	case E_CAL_COMPONENT_TODO:
 		editor = COMP_EDITOR (task_editor_new (oc->client));
 		break;
 
@@ -293,12 +293,12 @@ edit_existing (OpenClient *oc, const char *uid)
 /* Creates a component with the appropriate defaults for the specified component
  * type.
  */
-static CalComponent *
-get_default_event (CalClient *client, gboolean all_day) 
+static ECalComponent *
+get_default_event (ECal *client, gboolean all_day) 
 {
-	CalComponent *comp;
+	ECalComponent *comp;
 	struct icaltimetype itt;
-	CalComponentDateTime dt;
+	ECalComponentDateTime dt;
 	char *location;
 	icaltimezone *zone;
 
@@ -313,8 +313,8 @@ get_default_event (CalClient *client, gboolean all_day)
 		dt.value = &itt;
 		dt.tzid = icaltimezone_get_tzid (zone);
 		
-		cal_component_set_dtstart (comp, &dt);
-		cal_component_set_dtend (comp, &dt);		
+		e_cal_component_set_dtstart (comp, &dt);
+		e_cal_component_set_dtend (comp, &dt);		
 	} else {
 		itt = icaltime_current_time_with_zone (zone);
 		icaltime_adjust (&itt, 0, 1, -itt.minute, -itt.second);
@@ -322,20 +322,20 @@ get_default_event (CalClient *client, gboolean all_day)
 		dt.value = &itt;
 		dt.tzid = icaltimezone_get_tzid (zone);
 		
-		cal_component_set_dtstart (comp, &dt);
+		e_cal_component_set_dtstart (comp, &dt);
 		icaltime_adjust (&itt, 0, 1, 0, 0);
-		cal_component_set_dtend (comp, &dt);
+		e_cal_component_set_dtend (comp, &dt);
 	}
 
-	cal_component_commit_sequence (comp);
+	e_cal_component_commit_sequence (comp);
 
 	return comp;
 }
 
-static CalComponent *
-get_default_task (CalClient *client)
+static ECalComponent *
+get_default_task (ECal *client)
 {
-	CalComponent *comp;
+	ECalComponent *comp;
 	
 	comp = cal_comp_task_new_with_defaults (client);
 
@@ -346,7 +346,7 @@ get_default_task (CalClient *client)
 static void
 edit_new (OpenClient *oc, const GNOME_Evolution_Calendar_CompEditorFactory_CompEditorMode type)
 {
-	CalComponent *comp;
+	ECalComponent *comp;
 	CompEditor *editor;
 	
 	switch (type) {
@@ -400,7 +400,7 @@ resolve_pending_requests (OpenClient *oc)
 	zone = icaltimezone_get_builtin_timezone (location);
 	if (zone)
 		/* FIXME Error handling? */
-		cal_client_set_default_timezone (oc->client, zone, NULL);
+		e_cal_set_default_timezone (oc->client, zone, NULL);
 
 	for (l = oc->pending; l; l = l->next) {
 		Request *request;
@@ -428,7 +428,7 @@ resolve_pending_requests (OpenClient *oc)
  * requests.
  */
 static void
-cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer data)
+cal_opened_cb (ECal *client, ECalOpenStatus status, gpointer data)
 {
 	OpenClient *oc;
 	CompEditorFactory *factory;
@@ -440,29 +440,29 @@ cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer data)
 	priv = factory->priv;
 
 	switch (status) {
-	case CAL_CLIENT_OPEN_SUCCESS:
+	case E_CAL_OPEN_SUCCESS:
 		oc->open = TRUE;
 		resolve_pending_requests (oc);
 		return;
 
-	case CAL_CLIENT_OPEN_ERROR:
+	case E_CAL_OPEN_ERROR:
 		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
 						 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
 						 _("Error while opening the calendar"));
 		break;
 
-	case CAL_CLIENT_OPEN_NOT_FOUND:
+	case E_CAL_OPEN_NOT_FOUND:
 		/* bullshit; we specified only_if_exists = FALSE */
 		g_assert_not_reached ();
 		return;
 
-	case CAL_CLIENT_OPEN_METHOD_NOT_SUPPORTED:
+	case E_CAL_OPEN_METHOD_NOT_SUPPORTED:
 		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
 						 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
 						 _("Method not supported when opening the calendar"));
 		break;
 
-	case CAL_CLIENT_OPEN_PERMISSION_DENIED :
+	case E_CAL_OPEN_PERMISSION_DENIED :
 		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
 						 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
 						 _("Permission denied to open the calendar"));
@@ -488,13 +488,13 @@ static OpenClient *
 open_client (CompEditorFactory *factory, const char *uristr)
 {
 	CompEditorFactoryPrivate *priv;
-	CalClient *client;
+	ECal *client;
 	OpenClient *oc;
 	GError *error = NULL;
 
 	priv = factory->priv;
 
-	client = cal_client_new (uristr, CALOBJ_TYPE_ANY);
+	client = e_cal_new (uristr, CALOBJ_TYPE_ANY);
 	if (!client)
 		return NULL;
 
@@ -512,7 +512,7 @@ open_client (CompEditorFactory *factory, const char *uristr)
 
 	g_hash_table_insert (priv->uri_client_hash, oc->uri, oc);
 
-	if (!cal_client_open (oc->client, FALSE, &error)) {
+	if (!e_cal_open (oc->client, FALSE, &error)) {
 		g_warning (_("open_client(): %s"), error->message);
 		g_free (oc->uri);
 		g_object_unref (oc->client);

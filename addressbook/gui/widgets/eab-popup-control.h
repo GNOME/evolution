@@ -28,10 +28,10 @@
 #ifndef __EAB_POPUP_CONTROL_H__
 #define __EAB_POPUP_CONTROL_H__
 
-#include <gtk/gtk.h>
-#include <addressbook/backend/ebook/e-book-async.h>
-#include <addressbook/backend/ebook/e-contact.h>
 #include <bonobo/bonobo-event-source.h>
+#include <gtk/gtk.h>
+#include <libebook/e-book-async.h>
+#include <libebook/e-contact.h>
 
 G_BEGIN_DECLS
 

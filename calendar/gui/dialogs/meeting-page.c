@@ -59,7 +59,7 @@ struct _MeetingPagePrivate {
 	GPtrArray *deleted_attendees;
 
 	/* To use in case of cancellation */
-	CalComponent *comp;
+	ECalComponent *comp;
 	
 	/* List of identities */
 	EAccountList *accounts;
@@ -97,8 +97,8 @@ static void meeting_page_finalize (GObject *object);
 
 static GtkWidget *meeting_page_get_widget (CompEditorPage *page);
 static void meeting_page_focus_main_widget (CompEditorPage *page);
-static void meeting_page_fill_widgets (CompEditorPage *page, CalComponent *comp);
-static gboolean meeting_page_fill_component (CompEditorPage *page, CalComponent *comp);
+static void meeting_page_fill_widgets (CompEditorPage *page, ECalComponent *comp);
+static gboolean meeting_page_fill_component (CompEditorPage *page, ECalComponent *comp);
 
 static CompEditorPageClass *parent_class = NULL;
 
@@ -197,22 +197,22 @@ get_current_account (MeetingPage *mpage)
 }
 
 static void
-set_attendees (CalComponent *comp, const GPtrArray *attendees)
+set_attendees (ECalComponent *comp, const GPtrArray *attendees)
 {
 	GSList *comp_attendees = NULL, *l;
 	int i;
 	
 	for (i = 0; i < attendees->len; i++) {
 		EMeetingAttendee *ia = g_ptr_array_index (attendees, i);
-		CalComponentAttendee *ca;
+		ECalComponentAttendee *ca;
 		
-		ca = e_meeting_attendee_as_cal_component_attendee (ia);
+		ca = e_meeting_attendee_as_e_cal_component_attendee (ia);
 		
 		comp_attendees = g_slist_prepend (comp_attendees, ca);
 		
 	}
 	comp_attendees = g_slist_reverse (comp_attendees);
-	cal_component_set_attendee_list (comp, comp_attendees);
+	e_cal_component_set_attendee_list (comp, comp_attendees);
 	
 	for (l = comp_attendees; l != NULL; l = l->next)
 		g_free (l->data);	
@@ -319,11 +319,11 @@ clear_widgets (MeetingPage *mpage)
 
 /* fill_widgets handler for the meeting page */
 static void
-meeting_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
+meeting_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 {
 	MeetingPage *mpage;
 	MeetingPagePrivate *priv;
-	CalComponentOrganizer organizer;
+	ECalComponentOrganizer organizer;
 	
 	mpage = MEETING_PAGE (page);
 	priv = mpage->priv;
@@ -342,11 +342,11 @@ meeting_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	clear_widgets (mpage);
 
 	/* Component for cancellation */
-	priv->comp = cal_component_clone (comp);
+	priv->comp = e_cal_component_clone (comp);
 	
 	/* If there is an existing organizer show it properly */
-	if (cal_component_has_organizer (comp)) {
-		cal_component_get_organizer (comp, &organizer);
+	if (e_cal_component_has_organizer (comp)) {
+		e_cal_component_get_organizer (comp, &organizer);
 		if (organizer.value != NULL) {
 			const gchar *strip = itip_strip_mailto (organizer.value);
 			gchar *string;
@@ -355,12 +355,12 @@ meeting_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 			gtk_widget_show (priv->existing_organizer_table);
 			if (itip_organizer_is_user (comp, page->client)) {
 				gtk_widget_show (priv->invite);
-				if (cal_client_get_static_capability (
+				if (e_cal_get_static_capability (
 					    page->client,
 					    CAL_STATIC_CAPABILITY_ORGANIZER_NOT_EMAIL_ADDRESS))
 					gtk_widget_hide (priv->existing_organizer_btn);
 			} else {
-				if (cal_client_get_static_capability (
+				if (e_cal_get_static_capability (
 					    page->client,
 					    CAL_STATIC_CAPABILITY_ORGANIZER_NOT_EMAIL_ADDRESS))
 					gtk_widget_hide (priv->existing_organizer_btn);
@@ -395,11 +395,11 @@ meeting_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 
 /* fill_component handler for the meeting page */
 static gboolean
-meeting_page_fill_component (CompEditorPage *page, CalComponent *comp)
+meeting_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 {
 	MeetingPage *mpage;
 	MeetingPagePrivate *priv;
-	CalComponentOrganizer organizer = {NULL, NULL, NULL, NULL};
+	ECalComponentOrganizer organizer = {NULL, NULL, NULL, NULL};
 
 	mpage = MEETING_PAGE (page);
 	priv = mpage->priv;
@@ -428,7 +428,7 @@ meeting_page_fill_component (CompEditorPage *page, CalComponent *comp)
 	
 		organizer.value = addr;
 		organizer.cn = a->id->name;
-		cal_component_set_organizer (comp, &organizer);
+		e_cal_component_set_organizer (comp, &organizer);
 
 		g_free (addr);
 	}
@@ -691,7 +691,7 @@ add_btn_clicked_cb (GtkButton *btn, MeetingPage *mpage)
  **/
 MeetingPage *
 meeting_page_construct (MeetingPage *mpage, EMeetingStore *ems,
-			CalClient *client)
+			ECal *client)
 {
 	MeetingPagePrivate *priv;
 	ETable *real_table;
@@ -719,7 +719,7 @@ meeting_page_construct (MeetingPage *mpage, EMeetingStore *ems,
 	}
 
 	/* Address information */
-	if (!cal_client_get_cal_address (client, &backend_address, NULL))
+	if (!e_cal_get_cal_address (client, &backend_address, NULL))
 		return NULL;
 
 	priv->accounts = itip_addresses_get ();
@@ -797,7 +797,7 @@ meeting_page_construct (MeetingPage *mpage, EMeetingStore *ems,
  * not be created.
  **/
 MeetingPage *
-meeting_page_new (EMeetingStore *ems, CalClient *client)
+meeting_page_new (EMeetingStore *ems, ECal *client)
 {
 	MeetingPage *mpage;
 
@@ -818,7 +818,7 @@ meeting_page_new (EMeetingStore *ems, CalClient *client)
  * 
  * Return value: 
  **/
-CalComponent *
+ECalComponent *
 meeting_page_get_cancel_comp (MeetingPage *mpage)
 {
 	MeetingPagePrivate *priv;
@@ -833,5 +833,5 @@ meeting_page_get_cancel_comp (MeetingPage *mpage)
 	
 	set_attendees (priv->comp, priv->deleted_attendees);
 	
-	return cal_component_clone (priv->comp);
+	return e_cal_component_clone (priv->comp);
 }

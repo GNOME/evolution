@@ -81,8 +81,8 @@ static void schedule_page_finalize (GObject *object);
 
 static GtkWidget *schedule_page_get_widget (CompEditorPage *page);
 static void schedule_page_focus_main_widget (CompEditorPage *page);
-static void schedule_page_fill_widgets (CompEditorPage *page, CalComponent *comp);
-static gboolean schedule_page_fill_component (CompEditorPage *page, CalComponent *comp);
+static void schedule_page_fill_widgets (CompEditorPage *page, ECalComponent *comp);
+static gboolean schedule_page_fill_component (CompEditorPage *page, ECalComponent *comp);
 static void schedule_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates);
 
 static void times_changed_cb (GtkWidget *widget, gpointer data);
@@ -203,7 +203,7 @@ schedule_page_focus_main_widget (CompEditorPage *page)
 
 /* Set date/time */
 static void
-update_time (SchedulePage *spage, CalComponentDateTime *start_date, CalComponentDateTime *end_date) 
+update_time (SchedulePage *spage, ECalComponentDateTime *start_date, ECalComponentDateTime *end_date) 
 {
 	SchedulePagePrivate *priv;
 	struct icaltimetype start_tt, end_tt;
@@ -217,7 +217,7 @@ update_time (SchedulePage *spage, CalComponentDateTime *start_date, CalComponent
 	   first. */
 	start_zone = icaltimezone_get_builtin_timezone_from_tzid (start_date->tzid);
 	if (!start_zone) {
-		if (!cal_client_get_timezone (COMP_EDITOR_PAGE (spage)->client,
+		if (!e_cal_get_timezone (COMP_EDITOR_PAGE (spage)->client,
 					      start_date->tzid, &start_zone, NULL)) {
 			/* FIXME: Handle error better. */
 			g_warning ("Couldn't get timezone from server: %s",
@@ -227,7 +227,7 @@ update_time (SchedulePage *spage, CalComponentDateTime *start_date, CalComponent
 
 	end_zone = icaltimezone_get_builtin_timezone_from_tzid (end_date->tzid);
 	if (!end_zone) {
-		if (!cal_client_get_timezone (COMP_EDITOR_PAGE (spage)->client,
+		if (!e_cal_get_timezone (COMP_EDITOR_PAGE (spage)->client,
 					      end_date->tzid, &end_zone, NULL)) {
 			/* FIXME: Handle error better. */
 			g_warning ("Couldn't get timezone from server: %s",
@@ -286,11 +286,11 @@ clear_widgets (SchedulePage *spage)
 
 /* fill_widgets handler for the schedule page */
 static void
-schedule_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
+schedule_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 {
 	SchedulePage *spage;
 	SchedulePagePrivate *priv;
-	CalComponentDateTime start_date, end_date;
+	ECalComponentDateTime start_date, end_date;
 
 	spage = SCHEDULE_PAGE (page);
 	priv = spage->priv;
@@ -301,19 +301,19 @@ schedule_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	clear_widgets (spage);
 
 	/* Start and end times */
-	cal_component_get_dtstart (comp, &start_date);
-	cal_component_get_dtend (comp, &end_date);
+	e_cal_component_get_dtstart (comp, &start_date);
+	e_cal_component_get_dtend (comp, &end_date);
 	update_time (spage, &start_date, &end_date);
 	
-	cal_component_free_datetime (&start_date);
-	cal_component_free_datetime (&end_date);
+	e_cal_component_free_datetime (&start_date);
+	e_cal_component_free_datetime (&end_date);
 	
 	priv->updating = FALSE;
 }
 
 /* fill_component handler for the schedule page */
 static gboolean
-schedule_page_fill_component (CompEditorPage *page, CalComponent *comp)
+schedule_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 {
 	SchedulePage *spage;
 	SchedulePagePrivate *priv;
@@ -473,7 +473,7 @@ times_changed_cb (GtkWidget *widget, gpointer data)
 	SchedulePage *spage = data;
 	SchedulePagePrivate *priv;
 	CompEditorPageDates dates;
-	CalComponentDateTime start_dt, end_dt;
+	ECalComponentDateTime start_dt, end_dt;
 	struct icaltimetype start_tt = icaltime_null_time ();
 	struct icaltimetype end_tt = icaltime_null_time ();
 	

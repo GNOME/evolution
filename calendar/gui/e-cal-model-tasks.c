@@ -221,7 +221,7 @@ get_completed (ECalModelComponent *comp_data)
 		comp_data->completed->tt = tt_completed;
 
 		/* FIXME: handle errors */
-		cal_client_get_timezone (comp_data->client,
+		e_cal_get_timezone (comp_data->client,
 					 icaltime_get_tzid (tt_completed),
 					 &zone, NULL);
 		comp_data->completed->zone = zone;
@@ -251,7 +251,7 @@ get_due (ECalModelComponent *comp_data)
 		comp_data->due->tt = tt_due;
 
 		/* FIXME: handle errors */
-		cal_client_get_timezone (comp_data->client,
+		e_cal_get_timezone (comp_data->client,
 					 icaltime_get_tzid (tt_due),
 					 &zone, NULL);
 		comp_data->due->zone = zone;
@@ -300,7 +300,7 @@ get_priority (ECalModelComponent *comp_data)
 
 	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_PRIORITY_PROPERTY);
 	if (prop)
-		return cal_util_priority_to_string (icalproperty_get_priority (prop));
+		return e_cal_util_priority_to_string (icalproperty_get_priority (prop));
 
 	return "";
 }
@@ -374,7 +374,7 @@ get_due_status (ECalModelTasks *model, ECalModelComponent *comp_data)
 		return E_CAL_MODEL_TASKS_DUE_NEVER;
 	else {
 		struct icaltimetype now_tt, due_tt;
-		CalClientGetStatus status;
+		ECalGetStatus status;
 		icaltimezone *zone;
 
 		/* Second, is it already completed? */
@@ -397,10 +397,10 @@ get_due_status (ECalModelTasks *model, ECalModelComponent *comp_data)
 				return E_CAL_MODEL_TASKS_DUE_FUTURE;
 		} else {
 			/* Get the current time in the same timezone as the DUE date.*/
-			status = cal_client_get_timezone (comp_data->client,
+			status = e_cal_get_timezone (comp_data->client,
 							  icaltime_get_tzid (due_tt),
 							  &zone, NULL);
-			if (status != CAL_CLIENT_GET_SUCCESS)
+			if (status != E_CAL_GET_SUCCESS)
 				return E_CAL_MODEL_TASKS_DUE_FUTURE;
 			
 			now_tt = icaltime_current_time_with_zone (zone);
@@ -617,12 +617,12 @@ set_status (ECalModelComponent *comp_data, const char *value)
 
 /* 	if (status == ICAL_STATUS_NEEDSACTION) { */
 /* 		percent = 0; */
-/* 		cal_component_set_percent (comp, &percent); */
-/* 		cal_component_set_completed (comp, NULL); */
+/* 		e_cal_component_set_percent (comp, &percent); */
+/* 		e_cal_component_set_completed (comp, NULL); */
 /* 	} else if (status == ICAL_STATUS_INPROCESS) {	 */
 /* 		ensure_task_not_complete (comp);	 */
 /* 		percent = 50; */
-/* 		cal_component_set_percent (comp, &percent); */
+/* 		e_cal_component_set_percent (comp, &percent); */
 /* 	} else if (status == ICAL_STATUS_COMPLETED) { */
 /* 		ensure_task_complete (comp, -1); */
 /* 	} */
@@ -673,7 +673,7 @@ set_priority (ECalModelComponent *comp_data, const char *value)
 
 	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_PRIORITY_PROPERTY);
 
-	priority = cal_util_priority_from_string (value);
+	priority = e_cal_util_priority_from_string (value);
 	if (priority == -1) {
 		g_warning ("Invalid priority");
 		priority = 0;
@@ -757,7 +757,7 @@ ecmt_set_value_at (ETableModel *etm, int col, int row, const void *value)
 	}
 
 	/* FIXME ask about mod type */
-	if (!cal_client_modify_object (comp_data->client, comp_data->icalcomp, CALOBJ_MOD_ALL, NULL)) {
+	if (!e_cal_modify_object (comp_data->client, comp_data->icalcomp, CALOBJ_MOD_ALL, NULL)) {
 		g_warning (G_STRLOC ": Could not modify the object!");
 		
 		/* FIXME Show error dialog */

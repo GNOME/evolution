@@ -28,9 +28,10 @@
 #include <gal/e-table/e-table-without.h>
 #include <gal/widgets/e-popup-menu.h>
 
+#include <libebook/e-book-async.h>
+#include <libebook/e-contact.h>
 #include <addressbook/gui/widgets/e-addressbook-model.h>
 #include <addressbook/gui/widgets/e-addressbook-table-adapter.h>
-#include <addressbook/backend/ebook/e-book-async.h>
 #include <addressbook/util/eab-book-util.h>
 #include <addressbook/gui/component/addressbook-component.h>
 #include <addressbook/gui/component/addressbook-storage.h>
@@ -39,7 +40,6 @@
 #include <shell/evolution-folder-selector-button.h>
 
 #include "e-select-names.h"
-#include <addressbook/backend/ebook/e-contact.h>
 #include "e-select-names-table-model.h"
 #include <gal/widgets/e-categories-master-list-option-menu.h>
 #include <gal/e-text/e-entry.h>

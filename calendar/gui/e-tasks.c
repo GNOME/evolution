@@ -36,7 +36,7 @@
 #include "e-util/e-categories-config.h"
 #include "e-util/e-time-utils.h"
 #include "e-util/e-url.h"
-#include "cal-util/timeutil.h"
+#include <libecal/e-cal-time-util.h>
 #include "widgets/menus/gal-view-menus.h"
 #include "dialogs/delete-error.h"
 #include "dialogs/task-editor.h"
@@ -53,8 +53,8 @@
 /* Private part of the GnomeCalendar structure */
 struct _ETasksPrivate {
 	/* The calendar client object we monitor */
-	CalClient   *client;
-	CalQuery    *query;
+	ECal   *client;
+	ECalView    *query;
 	
 	/* The ECalendarTable showing the tasks. */
 	GtkWidget   *tasks_view;
@@ -80,8 +80,8 @@ static void e_tasks_init (ETasks *tasks);
 static void setup_widgets (ETasks *tasks);
 static void e_tasks_destroy (GtkObject *object);
 
-static void cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer data);
-static void backend_error_cb (CalClient *client, const char *message, gpointer data);
+static void cal_opened_cb (ECal *client, ECalOpenStatus status, gpointer data);
+static void backend_error_cb (ECal *client, const char *message, gpointer data);
 
 /* Signal IDs */
 enum {
@@ -117,17 +117,17 @@ timet_to_str_with_zone (time_t t, icaltimezone *zone)
 }
 
 static void
-write_html (GtkHTMLStream *stream, CalComponent *comp)
+write_html (GtkHTMLStream *stream, ECalComponent *comp)
 {
-	CalComponentText text;
-	CalComponentDateTime dt;
+	ECalComponentText text;
+	ECalComponentDateTime dt;
 	gchar *buf, *str;
 	icaltimezone *current_zone;
 	GSList *l;
 	icalproperty_status status;
 	int *priority_value;
 
-	g_return_if_fail (IS_CAL_COMPONENT (comp));
+	g_return_if_fail (E_IS_CAL_COMPONENT (comp));
 
 	str = calendar_config_get_timezone ();
 	if (str && str[0]) {
@@ -136,13 +136,13 @@ write_html (GtkHTMLStream *stream, CalComponent *comp)
 		current_zone = icaltimezone_get_utc_timezone ();
 
 	/* write document header */
-	cal_component_get_summary (comp, &text);
+	e_cal_component_get_summary (comp, &text);
 	gtk_html_stream_printf (stream,
 				"<HTML><BODY><H1>%s</H1>",
 				text.value);
 
 	/* write icons for the categories */
-	cal_component_get_categories_list (comp, &l);
+	e_cal_component_get_categories_list (comp, &l);
 	if (l) {
 		GSList *node;
 
@@ -156,7 +156,7 @@ write_html (GtkHTMLStream *stream, CalComponent *comp)
 			}
 		}
 
-		cal_component_free_categories_list (l);
+		e_cal_component_free_categories_list (l);
 	}
 	
 	/* write summary */
@@ -166,7 +166,7 @@ write_html (GtkHTMLStream *stream, CalComponent *comp)
 				_("Summary:"), text.value);
 
 	/* write start date */
-	cal_component_get_dtstart (comp, &dt);
+	e_cal_component_get_dtstart (comp, &dt);
 	if (dt.value != NULL) {
 		buf = timet_to_str_with_zone (icaltime_as_timet (*dt.value), current_zone);
 		str = g_locale_to_utf8 (buf, -1, NULL, NULL, NULL);
@@ -178,11 +178,11 @@ write_html (GtkHTMLStream *stream, CalComponent *comp)
 	gtk_html_stream_printf (stream, "<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\"><B>%s</B></TD><TD>%s</TD></TR>",
 				_("Start Date:"), str);
 
-	cal_component_free_datetime (&dt);
+	e_cal_component_free_datetime (&dt);
 	g_free (str);
 
 	/* write Due Date */
-	cal_component_get_due (comp, &dt);
+	e_cal_component_get_due (comp, &dt);
 	if (dt.value != NULL) {
 		buf = timet_to_str_with_zone (icaltime_as_timet (*dt.value), current_zone);
 		str = g_locale_to_utf8 (buf, -1, NULL, NULL, NULL);
@@ -194,12 +194,12 @@ write_html (GtkHTMLStream *stream, CalComponent *comp)
 	gtk_html_stream_printf (stream, "<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\"><B>%s</B></TD><TD>%s</TD></TR>",
 				_("Due Date:"), str);
 
-	cal_component_free_datetime (&dt);
+	e_cal_component_free_datetime (&dt);
 	g_free (str);
 
 	/* write status */
 	gtk_html_stream_printf (stream, "<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\"><B>%s</B></TD>", _("Status:"));
-	cal_component_get_status (comp, &status);
+	e_cal_component_get_status (comp, &status);
 	switch (status) {
 	case ICAL_STATUS_INPROCESS :
 		str = g_strdup (_("In Progress"));
@@ -221,7 +221,7 @@ write_html (GtkHTMLStream *stream, CalComponent *comp)
 
 	/* write priority */
 	gtk_html_stream_printf (stream, "<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\"><B>%s</B></TD>", _("Priority:"));
-	cal_component_get_priority (comp, &priority_value);
+	e_cal_component_get_priority (comp, &priority_value);
 	if (priority_value) {
 		if (*priority_value == 0)
 			str = g_strdup ("");
@@ -235,7 +235,7 @@ write_html (GtkHTMLStream *stream, CalComponent *comp)
 		gtk_html_stream_printf (stream, "<TD>%s</TD></TR>", str);
 
 		g_free (str);
-		cal_component_free_priority (priority_value);
+		e_cal_component_free_priority (priority_value);
 	} else
 		gtk_html_stream_printf (stream, "<TD></TD></TR>");
 	
@@ -243,7 +243,7 @@ write_html (GtkHTMLStream *stream, CalComponent *comp)
 	gtk_html_stream_printf (stream, "<TR><TD COLSPAN=\"2\"><HR></TD></TR>");
 
 	gtk_html_stream_printf (stream, "<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\"><B>%s</B></TD>", _("Description:"));
-	cal_component_get_description_list (comp, &l);
+	e_cal_component_get_description_list (comp, &l);
 	if (l) {
 		GSList *node;
 
@@ -253,7 +253,7 @@ write_html (GtkHTMLStream *stream, CalComponent *comp)
 			gint i;
 			GString *str = g_string_new ("");;
 
-			text = * (CalComponentText *) node->data;
+			text = * (ECalComponentText *) node->data;
 			for (i = 0; i < strlen (text.value ? text.value : 0); i++) {
 				if (text.value[i] == '\n')
 					str = g_string_append (str, "<BR>");
@@ -271,13 +271,13 @@ write_html (GtkHTMLStream *stream, CalComponent *comp)
 
 		gtk_html_stream_printf (stream, "</TD></TR>");
 
-		cal_component_free_text_list (l);
+		e_cal_component_free_text_list (l);
 	} else
 		gtk_html_stream_printf (stream, "<TD></TD></TR>");
 
 	/* URL */
 	gtk_html_stream_printf (stream, "<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\"><B>%s</B></TD>", _("Web Page:"));
-	cal_component_get_url (comp, (const char **) &str);
+	e_cal_component_get_url (comp, (const char **) &str);
 	if (str)
 		gtk_html_stream_printf (stream, "<TD><A HREF=\"%s\">%s</A></TD></TR>", str, str);
 	else
@@ -320,7 +320,7 @@ table_cursor_change_cb (ETable *etable, int row, gpointer data)
 		GtkHTMLStream *stream;
 		ECalModel *model;
 		ECalModelComponent *comp_data;
-		CalComponent *comp;
+		ECalComponent *comp;
 		const char *uid;
 
 		model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
@@ -328,13 +328,13 @@ table_cursor_change_cb (ETable *etable, int row, gpointer data)
 		stream = gtk_html_begin (GTK_HTML (priv->html));
 
 		comp_data = e_cal_model_get_component_at (model, e_table_get_cursor_row (etable));
-		comp = cal_component_new ();
-		cal_component_set_icalcomponent (comp, icalcomponent_new_clone (comp_data->icalcomp));
+		comp = e_cal_component_new ();
+		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (comp_data->icalcomp));
 		write_html (stream, comp);
 
 		gtk_html_stream_close (stream, GTK_HTML_STREAM_OK);
 
-		cal_component_get_uid (comp, &uid);
+		e_cal_component_get_uid (comp, &uid);
 		if (priv->current_uid)
 			g_free (priv->current_uid);
 		priv->current_uid = g_strdup (uid);
@@ -435,9 +435,9 @@ set_timezone (ETasks *tasks)
 	if (!zone)
 		zone = icaltimezone_get_utc_timezone ();
 
-	if (cal_client_get_load_state (priv->client) == CAL_CLIENT_LOAD_LOADED)
+	if (e_cal_get_load_state (priv->client) == E_CAL_LOAD_LOADED)
 		/* FIXME Error checking */
-		cal_client_set_default_timezone (priv->client, zone, NULL);
+		e_cal_set_default_timezone (priv->client, zone, NULL);
 }
 
 static void
@@ -581,7 +581,7 @@ e_tasks_init (ETasks *tasks)
 
 /* Callback used when the set of categories changes in the calendar client */
 static void
-client_categories_changed_cb (CalClient *client, GPtrArray *categories, gpointer data)
+client_categories_changed_cb (ECal *client, GPtrArray *categories, gpointer data)
 {
 	ETasks *tasks;
 	ETasksPrivate *priv;
@@ -593,7 +593,7 @@ client_categories_changed_cb (CalClient *client, GPtrArray *categories, gpointer
 }
 
 static void
-client_obj_updated_cb (CalClient *client, const char *uid, gpointer data)
+client_obj_updated_cb (ECal *client, const char *uid, gpointer data)
 {
 	ETasks *tasks;
 	ETasksPrivate *priv;
@@ -717,8 +717,8 @@ e_tasks_open			(ETasks		*tasks,
 	g_free (message);
 	g_free (urinopwd);
 
-	/* create the CalClient */
-	priv->client = cal_client_new (real_uri, CALOBJ_TYPE_TODO);
+	/* create the ECal */
+	priv->client = e_cal_new (real_uri, CALOBJ_TYPE_TODO);
 	if (!priv->client)
 		return FALSE;
 
@@ -736,7 +736,7 @@ e_tasks_open			(ETasks		*tasks,
 
 	e_cal_model_add_client (model, priv->client);
 
-	if (cal_client_open (priv->client, FALSE, &error)) {
+	if (e_cal_open (priv->client, FALSE, &error)) {
 		g_message ("e_tasks_open(): %s", error->message);
 		g_free (real_uri);
 		e_uri_free (uri);
@@ -798,8 +798,8 @@ permission_error (ETasks *tasks, const char *uri)
 
 /* Callback from the calendar client when a calendar is opened */
 static void
-cal_opened_cb				(CalClient	*client,
-					 CalClientOpenStatus status,
+cal_opened_cb				(ECal	*client,
+					 ECalOpenStatus status,
 					 gpointer	 data)
 {
 	ETasks *tasks;
@@ -811,26 +811,26 @@ cal_opened_cb				(CalClient	*client,
 	set_status_message (tasks, NULL);
 
 	switch (status) {
-	case CAL_CLIENT_OPEN_SUCCESS:
+	case E_CAL_OPEN_SUCCESS:
 		/* Everything is OK */
 		set_timezone (tasks);
 		return;
 
-	case CAL_CLIENT_OPEN_ERROR:
-		load_error (tasks, cal_client_get_uri (client));
+	case E_CAL_OPEN_ERROR:
+		load_error (tasks, e_cal_get_uri (client));
 		break;
 
-	case CAL_CLIENT_OPEN_NOT_FOUND:
+	case E_CAL_OPEN_NOT_FOUND:
 		/* bullshit; we did not specify only_if_exists */
 		g_assert_not_reached ();
 		return;
 
-	case CAL_CLIENT_OPEN_METHOD_NOT_SUPPORTED:
-		method_error (tasks, cal_client_get_uri (client));
+	case E_CAL_OPEN_METHOD_NOT_SUPPORTED:
+		method_error (tasks, e_cal_get_uri (client));
 		break;
 
-	case CAL_CLIENT_OPEN_PERMISSION_DENIED:
-		permission_error (tasks, cal_client_get_uri (client));
+	case E_CAL_OPEN_PERMISSION_DENIED:
+		permission_error (tasks, e_cal_get_uri (client));
 		break;
 
 	default:
@@ -840,7 +840,7 @@ cal_opened_cb				(CalClient	*client,
 
 /* Callback from the calendar client when an error occurs in the backend */
 static void
-backend_error_cb (CalClient *client, const char *message, gpointer data)
+backend_error_cb (ECal *client, const char *message, gpointer data)
 {
 	ETasks *tasks;
 	ETasksPrivate *priv;
@@ -850,7 +850,7 @@ backend_error_cb (CalClient *client, const char *message, gpointer data)
 	tasks = E_TASKS (data);
 	priv = tasks->priv;
 
-	urinopwd = get_uri_without_password (cal_client_get_uri (client));
+	urinopwd = get_uri_without_password (e_cal_get_uri (client));
 	errmsg = g_strdup_printf (_("Error on %s:\n %s"), urinopwd, message);
 	gnome_error_dialog_parented (errmsg, GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (tasks))));
 	g_free (errmsg);
@@ -862,7 +862,7 @@ e_tasks_new_task			(ETasks		*tasks)
 {
 	ETasksPrivate *priv;
 	TaskEditor *tedit;
-	CalComponent *comp;
+	ECalComponent *comp;
 	const char *category;
 
 	g_return_if_fail (E_IS_TASKS (tasks));
@@ -874,7 +874,7 @@ e_tasks_new_task			(ETasks		*tasks)
 	comp = cal_comp_task_new_with_defaults (priv->client);
 
 	category = cal_search_bar_get_category (CAL_SEARCH_BAR (priv->search_bar));
-	cal_component_set_categories (comp, category);
+	e_cal_component_set_categories (comp, category);
 
 	comp_editor_edit_comp (COMP_EDITOR (tedit), comp);
 	g_object_unref (comp);
@@ -966,7 +966,7 @@ e_tasks_delete_completed (ETasks *tasks)
 
 	set_status_message (tasks, _("Expunging"));
 	
-	if (!cal_client_get_object_list (priv->client, sexp, &objects, NULL)) {
+	if (!e_cal_get_object_list (priv->client, sexp, &objects, NULL)) {
 		set_status_message (tasks, NULL);
 		g_warning (G_STRLOC ": Could not get the objects");
 
@@ -975,7 +975,7 @@ e_tasks_delete_completed (ETasks *tasks)
 	
 	for (l = objects; l; l = l->next) {
 		/* FIXME Better error handling */
-		cal_client_remove_object (priv->client, icalcomponent_get_uid (l->data), NULL);
+		e_cal_remove_object (priv->client, icalcomponent_get_uid (l->data), NULL);
 	}
 
 	set_status_message (tasks, NULL);
@@ -1053,7 +1053,7 @@ e_tasks_setup_view_menus (ETasks *tasks, BonoboUIComponent *uic)
 		gal_view_collection_load (collection);
 	}
 
-	priv->view_instance = gal_view_instance_new (collection, cal_client_get_uri (priv->client));
+	priv->view_instance = gal_view_instance_new (collection, e_cal_get_uri (priv->client));
 
 	priv->view_menus = gal_view_menus_new (priv->view_instance);
 	gal_view_menus_apply (priv->view_menus, uic, NULL);

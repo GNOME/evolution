@@ -1,3 +1,8 @@
+2003-11-07  JP Rosevear <jpr@ximian.com>
+
+	* configure.in: pull in evolution-data-server stuff and remove
+	backends from output
+
 2003-10-31  JP Rosevear <jpr@ximian.com>
 
 	* configure.in: set up vars and rules for versioning the .server

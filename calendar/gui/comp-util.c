@@ -1,4 +1,4 @@
-/* Evolution calendar - Utilities for manipulating CalComponent objects
+/* Evolution calendar - Utilities for manipulating ECalComponent objects
  *
  * Copyright (C) 2000 Ximian, Inc.
  * Copyright (C) 2000 Ximian, Inc.
@@ -39,31 +39,31 @@
  * component object.
  **/
 void
-cal_comp_util_add_exdate (CalComponent *comp, time_t t, icaltimezone *zone)
+cal_comp_util_add_exdate (ECalComponent *comp, time_t t, icaltimezone *zone)
 {
 	GSList *list;
-	CalComponentDateTime *cdt;
+	ECalComponentDateTime *cdt;
 
 	g_return_if_fail (comp != NULL);
-	g_return_if_fail (IS_CAL_COMPONENT (comp));
+	g_return_if_fail (E_IS_CAL_COMPONENT (comp));
 
-	cal_component_get_exdate_list (comp, &list);
+	e_cal_component_get_exdate_list (comp, &list);
 
-	cdt = g_new (CalComponentDateTime, 1);
+	cdt = g_new (ECalComponentDateTime, 1);
 	cdt->value = g_new (struct icaltimetype, 1);
 	*cdt->value = icaltime_from_timet_with_zone (t, FALSE, zone);
 	cdt->tzid = g_strdup (icaltimezone_get_tzid (zone));
 
 	list = g_slist_append (list, cdt);
-	cal_component_set_exdate_list (comp, list);
-	cal_component_free_exdate_list (list);
+	e_cal_component_set_exdate_list (comp, list);
+	e_cal_component_free_exdate_list (list);
 }
 
 
 
 /* Returns TRUE if the TZIDs are equivalent, i.e. both NULL or the same. */
 static gboolean
-cal_component_compare_tzid (const char *tzid1, const char *tzid2)
+e_cal_component_compare_tzid (const char *tzid1, const char *tzid2)
 {
 	gboolean retval = TRUE;
 
@@ -81,7 +81,7 @@ cal_component_compare_tzid (const char *tzid1, const char *tzid2)
 /**
  * cal_comp_util_compare_event_timezones:
  * @comp: A calendar component object.
- * @client: A #CalClient.
+ * @client: A #ECal.
  * 
  * Checks if the component uses the given timezone for both the start and
  * the end time, or if the UTC offsets of the start and end times are the same
@@ -91,11 +91,11 @@ cal_component_compare_tzid (const char *tzid1, const char *tzid2)
  * offset in the given timezone.
  **/
 gboolean
-cal_comp_util_compare_event_timezones (CalComponent *comp,
-				       CalClient *client,
+cal_comp_util_compare_event_timezones (ECalComponent *comp,
+				       ECal *client,
 				       icaltimezone *zone)
 {
-	CalComponentDateTime start_datetime, end_datetime;
+	ECalComponentDateTime start_datetime, end_datetime;
 	const char *tzid;
 	gboolean retval = FALSE;
 	icaltimezone *start_zone, *end_zone;
@@ -103,8 +103,8 @@ cal_comp_util_compare_event_timezones (CalComponent *comp,
 
 	tzid = icaltimezone_get_tzid (zone);
 
-	cal_component_get_dtstart (comp, &start_datetime);
-	cal_component_get_dtend (comp, &end_datetime);
+	e_cal_component_get_dtstart (comp, &start_datetime);
+	e_cal_component_get_dtend (comp, &end_datetime);
 
 	/* If either the DTSTART or the DTEND is a DATE value, we return TRUE.
 	   Maybe if one was a DATE-TIME we should check that, but that should
@@ -133,8 +133,8 @@ cal_comp_util_compare_event_timezones (CalComponent *comp,
 	}
 
 	/* FIXME: DURATION may be used instead. */
-	if (cal_component_compare_tzid (tzid, start_datetime.tzid)
-	    && cal_component_compare_tzid (tzid, end_datetime.tzid)) {
+	if (e_cal_component_compare_tzid (tzid, start_datetime.tzid)
+	    && e_cal_component_compare_tzid (tzid, end_datetime.tzid)) {
 		/* If both TZIDs are the same as the given zone's TZID, then
 		   we know the timezones are the same so we return TRUE. */
 		retval = TRUE;
@@ -142,7 +142,7 @@ cal_comp_util_compare_event_timezones (CalComponent *comp,
 		/* If the TZIDs differ, we have to compare the UTC offsets
 		   of the start and end times, using their own timezones and
 		   the given timezone. */
-		if (!cal_client_get_timezone (client, start_datetime.tzid,
+		if (!e_cal_get_timezone (client, start_datetime.tzid,
 					      &start_zone, NULL))
 			goto out;
 
@@ -157,7 +157,7 @@ cal_comp_util_compare_event_timezones (CalComponent *comp,
 				goto out;
 		}
 
-		if (!cal_client_get_timezone (client, end_datetime.tzid,
+		if (!e_cal_get_timezone (client, end_datetime.tzid,
 					      &end_zone, NULL))
 			goto out;
 
@@ -177,8 +177,8 @@ cal_comp_util_compare_event_timezones (CalComponent *comp,
 
  out:
 
-	cal_component_free_datetime (&start_datetime);
-	cal_component_free_datetime (&end_datetime);
+	e_cal_component_free_datetime (&start_datetime);
+	e_cal_component_free_datetime (&end_datetime);
 
 	return retval;
 }
@@ -202,16 +202,16 @@ cal_comp_util_compare_event_timezones (CalComponent *comp,
  * user cancelled the deletion.
  **/
 gboolean
-cal_comp_is_on_server (CalComponent *comp, CalClient *client)
+cal_comp_is_on_server (ECalComponent *comp, ECal *client)
 {
 	const char *uid;
 	icalcomponent *icalcomp;
 	GError *error = NULL;
 
 	g_return_val_if_fail (comp != NULL, FALSE);
-	g_return_val_if_fail (IS_CAL_COMPONENT (comp), FALSE);
+	g_return_val_if_fail (E_IS_CAL_COMPONENT (comp), FALSE);
 	g_return_val_if_fail (client != NULL, FALSE);
-	g_return_val_if_fail (IS_CAL_CLIENT (client), FALSE);
+	g_return_val_if_fail (E_IS_CAL (client), FALSE);
 
 	/* See if the component is on the server.  If it is not, then it likely
 	 * means that the appointment is new, only in the day view, and we
@@ -219,9 +219,9 @@ cal_comp_is_on_server (CalComponent *comp, CalClient *client)
 	 * confirm and we can just delete the event.  Otherwise, we ask
 	 * the user.
 	 */
-	cal_component_get_uid (comp, &uid);
+	e_cal_component_get_uid (comp, &uid);
 
-	if (cal_client_get_object (client, uid, NULL, &icalcomp, &error)) {
+	if (e_cal_get_object (client, uid, NULL, &icalcomp, &error)) {
 		icalcomponent_free (icalcomp);
 
 		return TRUE;
@@ -243,22 +243,22 @@ cal_comp_is_on_server (CalComponent *comp, CalClient *client)
  * 
  * Return value: A newly-created calendar component.
  **/
-CalComponent *
-cal_comp_event_new_with_defaults (CalClient *client)
+ECalComponent *
+cal_comp_event_new_with_defaults (ECal *client)
 {
 	icalcomponent *icalcomp;
-	CalComponent *comp;
+	ECalComponent *comp;
 	int interval;
 	CalUnits units;
-	CalComponentAlarm *alarm;
+	ECalComponentAlarm *alarm;
 	icalproperty *icalprop;
-	CalAlarmTrigger trigger;
+	ECalComponentAlarmTrigger trigger;
 
-	if (!cal_client_get_default_object (client, &icalcomp, NULL))
+	if (!e_cal_get_default_object (client, &icalcomp, NULL))
 		return NULL;
 
-	comp = cal_component_new ();
-	if (!cal_component_set_icalcomponent (comp, icalcomp)) {
+	comp = e_cal_component_new ();
+	if (!e_cal_component_set_icalcomponent (comp, icalcomp)) {
 		g_object_unref (comp);
 		icalcomponent_free (icalcomp);
 		return NULL;
@@ -270,20 +270,20 @@ cal_comp_event_new_with_defaults (CalClient *client)
 	interval = calendar_config_get_default_reminder_interval ();
 	units = calendar_config_get_default_reminder_units ();
 
-	alarm = cal_component_alarm_new ();
+	alarm = e_cal_component_alarm_new ();
 
 	/* We don't set the description of the alarm; we'll copy it from the
 	 * summary when it gets committed to the server. For that, we add a
 	 * X-EVOLUTION-NEEDS-DESCRIPTION property to the alarm's component.
 	 */
-	icalcomp = cal_component_alarm_get_icalcomponent (alarm);
+	icalcomp = e_cal_component_alarm_get_icalcomponent (alarm);
 	icalprop = icalproperty_new_x ("1");
 	icalproperty_set_x_name (icalprop, "X-EVOLUTION-NEEDS-DESCRIPTION");
 	icalcomponent_add_property (icalcomp, icalprop);
 
-	cal_component_alarm_set_action (alarm, CAL_ALARM_DISPLAY);
+	e_cal_component_alarm_set_action (alarm, E_CAL_COMPONENT_ALARM_DISPLAY);
 
-	trigger.type = CAL_ALARM_TRIGGER_RELATIVE_START;
+	trigger.type = E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_START;
 
 	memset (&trigger.u.rel_duration, 0, sizeof (trigger.u.rel_duration));
 
@@ -306,33 +306,33 @@ cal_comp_event_new_with_defaults (CalClient *client)
 		g_assert_not_reached ();
 	}
 
-	cal_component_alarm_set_trigger (alarm, trigger);
+	e_cal_component_alarm_set_trigger (alarm, trigger);
 
-	cal_component_add_alarm (comp, alarm);
-	cal_component_alarm_free (alarm);
+	e_cal_component_add_alarm (comp, alarm);
+	e_cal_component_alarm_free (alarm);
 
 	return comp;
 }
 
-CalComponent *
-cal_comp_task_new_with_defaults (CalClient *client)
+ECalComponent *
+cal_comp_task_new_with_defaults (ECal *client)
 {
-	CalComponent *comp;
+	ECalComponent *comp;
 	icalcomponent *icalcomp;
 
-	if (!cal_client_get_default_object (client, &icalcomp, NULL))
+	if (!e_cal_get_default_object (client, &icalcomp, NULL))
 		return NULL;
 
-	comp = cal_component_new ();
-	if (!cal_component_set_icalcomponent (comp, icalcomp)) {
+	comp = e_cal_component_new ();
+	if (!e_cal_component_set_icalcomponent (comp, icalcomp)) {
 		g_object_unref (comp);
 		icalcomponent_free (icalcomp);
 
 		return NULL;
 	}
 
-	comp = cal_component_new ();
-	if (!cal_component_set_icalcomponent (comp, icalcomp)) {
+	comp = e_cal_component_new ();
+	if (!e_cal_component_set_icalcomponent (comp, icalcomp)) {
 		g_object_unref (comp);
 		icalcomponent_free (icalcomp);
 		return NULL;

@@ -32,30 +32,30 @@
 
 
 gboolean
-recur_component_dialog (CalClient *client,
-			CalComponent *comp,
+recur_component_dialog (ECal *client,
+			ECalComponent *comp,
 			CalObjModType *mod,
 			GtkWindow *parent)
 {
 	char *str;
 	GtkWidget *dialog, *rb_this, *rb_prior, *rb_future, *rb_all, *hbox;
-	CalComponentVType vtype;
+	ECalComponentVType vtype;
 	gboolean ret;
 	
-	g_return_val_if_fail (IS_CAL_COMPONENT (comp), CALOBJ_MOD_THIS);
+	g_return_val_if_fail (E_IS_CAL_COMPONENT (comp), CALOBJ_MOD_THIS);
 
-	vtype = cal_component_get_vtype (comp);
+	vtype = e_cal_component_get_vtype (comp);
 	
 	switch (vtype) {
-	case CAL_COMPONENT_EVENT:
+	case E_CAL_COMPONENT_EVENT:
 		str = g_strdup_printf (_("You are modifying a recurring event, what would you like to modify?"));
 		break;
 
-	case CAL_COMPONENT_TODO:
+	case E_CAL_COMPONENT_TODO:
 		str = g_strdup_printf (_("You are modifying a recurring task, what would you like to modify?"));
 		break;
 
-	case CAL_COMPONENT_JOURNAL:
+	case E_CAL_COMPONENT_JOURNAL:
 		str = g_strdup_printf (_("You are modifying a recurring journal entry, what would you like to modify?"));
 		break;
 
@@ -73,13 +73,13 @@ recur_component_dialog (CalClient *client,
 	rb_this = gtk_radio_button_new_with_label (NULL, _("This Instance Only"));
 	gtk_container_add (GTK_CONTAINER (hbox), rb_this);
 
-	if (!cal_client_get_static_capability (client, CAL_STATIC_CAPABILITY_NO_THISANDPRIOR)) {
+	if (!e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_NO_THISANDPRIOR)) {
 		rb_prior = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON (rb_this), _("This and Prior Instances"));
 		gtk_container_add (GTK_CONTAINER (hbox), rb_prior);
 	} else
 		rb_prior = NULL;
 
-	if (!cal_client_get_static_capability (client, CAL_STATIC_CAPABILITY_NO_THISANDFUTURE)) {
+	if (!e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_NO_THISANDFUTURE)) {
 		rb_future = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON (rb_this), _("This and Future Instances"));
 		gtk_container_add (GTK_CONTAINER (hbox), rb_future);
 	} else

@@ -63,7 +63,7 @@ ea_calendar_helpers_get_accessible_for (GnomeCanvasItem *canvas_item)
  * Get the cal view widget contains the canvas_item.
  * 
  **/
-ECalView *
+ECalendarView *
 ea_calendar_helpers_get_cal_view_from (GnomeCanvasItem *canvas_item)
 {
 	GnomeCanvas *canvas;
@@ -77,25 +77,25 @@ ea_calendar_helpers_get_cal_view_from (GnomeCanvasItem *canvas_item)
 	/* parent of canvas_item->canvas is the EDayView or EWeekView widget */
 	canvas = canvas_item->canvas;
 	view_widget = gtk_widget_get_parent (GTK_WIDGET(canvas));
-	if (!view_widget || !E_IS_CAL_VIEW (view_widget))
+	if (!view_widget || !E_IS_CALENDAR_VIEW (view_widget))
 		return NULL;
-	return E_CAL_VIEW (view_widget);
+	return E_CALENDAR_VIEW (view_widget);
 }
 
 /**
  * ea_calendar_helpers_get_cal_view_event_from
  * @canvas_item: the cavas_item (e_text) for the event
- * @returns: the ECalViewEvent
+ * @returns: the ECalendarViewEvent
  *
- * Get the ECalViewEvent for the canvas_item.
+ * Get the ECalendarViewEvent for the canvas_item.
  *
  **/
-ECalViewEvent *
+ECalendarViewEvent *
 ea_calendar_helpers_get_cal_view_event_from (GnomeCanvasItem *canvas_item)
 {
-	ECalView *cal_view;
+	ECalendarView *cal_view;
 	gboolean event_found;
-	ECalViewEvent *cal_view_event;
+	ECalendarViewEvent *cal_view_event;
 
 	g_return_val_if_fail (E_IS_TEXT (canvas_item), NULL);
 
@@ -122,7 +122,7 @@ ea_calendar_helpers_get_cal_view_event_from (GnomeCanvasItem *canvas_item)
 			day_view_event = &g_array_index (day_view->events[event_day],
 							 EDayViewEvent, event_num);
 		}
-		cal_view_event = (ECalViewEvent *) day_view_event;
+		cal_view_event = (ECalendarViewEvent *) day_view_event;
 	}
 	else if (E_IS_WEEK_VIEW (cal_view)) {
 		gint event_num, span_num;
@@ -138,7 +138,7 @@ ea_calendar_helpers_get_cal_view_event_from (GnomeCanvasItem *canvas_item)
 		week_view_event = &g_array_index (week_view->events, EWeekViewEvent,
 						  event_num);
 
-		cal_view_event = (ECalViewEvent *)week_view_event;
+		cal_view_event = (ECalendarViewEvent *)week_view_event;
 	}
 	else {
 		g_assert_not_reached ();

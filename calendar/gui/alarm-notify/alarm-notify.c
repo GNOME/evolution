@@ -23,7 +23,7 @@
 #endif
 
 #include <string.h>
-#include <cal-client/cal-client.h>
+#include <libecal/e-cal.h>
 #include "alarm-notify.h"
 #include "alarm-queue.h"
 #include "save.h"
@@ -92,7 +92,7 @@ static void
 free_client_hash (gpointer key, gpointer value, gpointer user_data)
 {
 	char *uri = key;
-	CalClient *client = value;
+	ECal *client = value;
 
 	g_free (uri);
 	g_object_unref (client);
@@ -248,7 +248,7 @@ AlarmNotify_removeCalendar (PortableServer_Servant servant,
 {
 	AlarmNotify *an;
 	AlarmNotifyPrivate *priv;
-	CalClient *client;	
+	ECal *client;	
 
 	an = ALARM_NOTIFY (bonobo_object_from_servant (servant));
 	priv = an->priv;
@@ -299,7 +299,7 @@ alarm_notify_add_calendar (AlarmNotify *an, const char *str_uri, gboolean load_a
 			   CORBA_Environment *ev)
 {
 	AlarmNotifyPrivate *priv;
-	CalClient *client;
+	ECal *client;
 
 	g_return_if_fail (an != NULL);
 	g_return_if_fail (IS_ALARM_NOTIFY (an));
@@ -312,10 +312,10 @@ alarm_notify_add_calendar (AlarmNotify *an, const char *str_uri, gboolean load_a
 	if (g_hash_table_lookup (priv->uri_client_hash, str_uri))
 		return;
 
-	client = cal_client_new (str_uri, CALOBJ_TYPE_EVENT);
+	client = e_cal_new (str_uri, CALOBJ_TYPE_EVENT);
 
 	if (client) {
-		if (cal_client_open (client, FALSE, NULL)) {
+		if (e_cal_open (client, FALSE, NULL)) {
 			add_uri_to_load (str_uri);
 			
 			g_hash_table_insert (priv->uri_client_hash,

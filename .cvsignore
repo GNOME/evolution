@@ -26,6 +26,4 @@ stamp.h
 xml-i18n-*
 xlibtool
 xltmain.sh
-evolution.spec
 intltool-*
-*.pc

@@ -24,7 +24,7 @@
 #define E_DATE_TIME_LIST_H
 
 #include <gtk/gtktreemodel.h>
-#include <cal-util/cal-component.h>
+#include <libecal/e-cal-component.h>
 
 G_BEGIN_DECLS
 
@@ -66,14 +66,14 @@ struct _EDateTimeListClass
 GtkType                     e_date_time_list_get_type         (void);
 EDateTimeList              *e_date_time_list_new              (void);
 
-const CalComponentDateTime *e_date_time_list_get_date_time    (EDateTimeList *date_time_list,
+const ECalComponentDateTime *e_date_time_list_get_date_time    (EDateTimeList *date_time_list,
 							       GtkTreeIter *iter);
 void                        e_date_time_list_set_date_time    (EDateTimeList *date_time_list,
 							       GtkTreeIter *iter,
-							       const CalComponentDateTime *datetime);
+							       const ECalComponentDateTime *datetime);
 void                        e_date_time_list_append           (EDateTimeList *date_time_list,
 							       GtkTreeIter *iter,
-							       const CalComponentDateTime *datetime);
+							       const ECalComponentDateTime *datetime);
 void                        e_date_time_list_remove           (EDateTimeList *date_time_list,
 							       GtkTreeIter *iter);
 void                        e_date_time_list_clear            (EDateTimeList *date_time_list);

@@ -22,7 +22,7 @@
 #ifndef UTIL_H
 #define UTIL_H
 
-#include <cal-util/cal-component.h>
+#include <libecal/e-cal-component.h>
 
 char *timet_to_str_with_zone (time_t t, icaltimezone *zone);
 

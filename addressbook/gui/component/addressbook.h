@@ -5,7 +5,7 @@
 #include <e-util/e-config-listener.h>
 #include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-moniker-util.h>
-#include <ebook/e-book-async.h>
+#include <libebook/e-book-async.h>
 
 /* use this instead of e_book_load_uri everywhere where you want the
    authentication to be handled for you. */

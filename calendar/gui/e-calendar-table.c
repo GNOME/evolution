@@ -24,7 +24,7 @@
  */
 
 /*
- * ECalendarTable - displays the CalComponent objects in a table (an ETable).
+ * ECalendarTable - displays the ECalComponent objects in a table (an ETable).
  * Used for calendar events and tasks.
  */
 
@@ -188,30 +188,30 @@ compare_priorities (int *a, int *b)
  * FIXME: Does this ever get called?? It doesn't seem to.
  * I specified that the table should be sorted by this column, but it still
  * never calls this function.
- * Also, this assumes it is passed pointers to CalComponents, but I think it
+ * Also, this assumes it is passed pointers to ECalComponents, but I think it
  * may just be passed pointers to the 2 cell values.
  */
 static gint
 task_compare_cb (gconstpointer a, gconstpointer b)
 {
-	CalComponent *ca, *cb;
-	CalComponentDateTime due_a, due_b;
+	ECalComponent *ca, *cb;
+	ECalComponentDateTime due_a, due_b;
 	int *prio_a, *prio_b;
 	int retval;
 
-	ca = CAL_COMPONENT (a);
-	cb = CAL_COMPONENT (b);
+	ca = E_CAL_COMPONENT (a);
+	cb = E_CAL_COMPONENT (b);
 
-	cal_component_get_due (ca, &due_a);
-	cal_component_get_due (cb, &due_b);
-	cal_component_get_priority (ca, &prio_a);
-	cal_component_get_priority (cb, &prio_b);
+	e_cal_component_get_due (ca, &due_a);
+	e_cal_component_get_due (cb, &due_b);
+	e_cal_component_get_priority (ca, &prio_a);
+	e_cal_component_get_priority (cb, &prio_b);
 
 	if (due_a.value && due_b.value) {
 		int v;
 
 		/* FIXME: TIMEZONES. But currently we have no way to get the
-		   CalClient, so we can't get the timezone. */
+		   ECal, so we can't get the timezone. */
 		v = icaltime_compare (*due_a.value, *due_b.value);
 
 		if (v == 0)
@@ -225,14 +225,14 @@ task_compare_cb (gconstpointer a, gconstpointer b)
 	else
 		retval = compare_priorities (prio_a, prio_b);
 
-	cal_component_free_datetime (&due_a);
-	cal_component_free_datetime (&due_b);
+	e_cal_component_free_datetime (&due_a);
+	e_cal_component_free_datetime (&due_b);
 
 	if (prio_a)
-		cal_component_free_priority (prio_a);
+		e_cal_component_free_priority (prio_a);
 
 	if (prio_b)
-		cal_component_free_priority (prio_b);
+		e_cal_component_free_priority (prio_b);
 
 	return retval;
 }
@@ -287,8 +287,8 @@ priority_compare_cb (gconstpointer a, gconstpointer b)
 {
 	int priority1, priority2;
 
-	priority1 = cal_util_priority_from_string ((const char*) a);
-	priority2 = cal_util_priority_from_string ((const char*) b);
+	priority1 = e_cal_util_priority_from_string ((const char*) a);
+	priority2 = e_cal_util_priority_from_string ((const char*) b);
 
 	/* We change undefined priorities so they appear after 'Low'. */
 	if (priority1 <= 0)
@@ -727,9 +727,9 @@ delete_selected_components (ECalendarTable *cal_table)
 		ECalModelComponent *comp_data = (ECalModelComponent *) l->data;
 		GError *error = NULL;
 		
-		cal_client_remove_object (comp_data->client, 
+		e_cal_remove_object (comp_data->client, 
 					  icalcomponent_get_uid (comp_data->icalcomp), &error);
-		delete_error_dialog (error, CAL_COMPONENT_TODO);
+		delete_error_dialog (error, E_CAL_COMPONENT_TODO);
 		g_clear_error (&error);
 	}
 
@@ -750,7 +750,7 @@ e_calendar_table_delete_selected (ECalendarTable *cal_table)
 	ETable *etable;
 	int n_selected;
 	ECalModelComponent *comp_data;
-	CalComponent *comp;
+	ECalComponent *comp;
 
 	g_return_if_fail (cal_table != NULL);
 	g_return_if_fail (E_IS_CALENDAR_TABLE (cal_table));
@@ -768,11 +768,11 @@ e_calendar_table_delete_selected (ECalendarTable *cal_table)
 
 	/* FIXME: this may be something other than a TODO component */
 
-	comp = cal_component_new ();
+	comp = e_cal_component_new ();
 	if (comp_data)
-		cal_component_set_icalcomponent (comp, icalcomponent_new_clone (comp_data->icalcomp));
+		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (comp_data->icalcomp));
 
-	if (delete_component_dialog (comp, FALSE, n_selected, CAL_COMPONENT_TODO,
+	if (delete_component_dialog (comp, FALSE, n_selected, E_CAL_COMPONENT_TODO,
 				     GTK_WIDGET (cal_table)))
 		delete_selected_components (cal_table);
 
@@ -813,7 +813,7 @@ copy_row_cb (int model_row, gpointer data)
 		return;
 
 	/* add timezones to the VCALENDAR component */
-	cal_util_add_timezones_from_component (cal_table->tmp_vcal, comp_data->icalcomp);
+	e_cal_util_add_timezones_from_component (cal_table->tmp_vcal, comp_data->icalcomp);
 
 	/* add the new component to the VCALENDAR component */
 	comp_str = icalcomponent_as_ical_string (comp_data->icalcomp);
@@ -845,7 +845,7 @@ e_calendar_table_copy_clipboard (ECalendarTable *cal_table)
 	}
 
 	/* create temporary VCALENDAR object */
-	cal_table->tmp_vcal = cal_util_new_top_level ();
+	cal_table->tmp_vcal = e_cal_util_new_top_level ();
 
 	etable = e_table_scrolled_get_table (E_TABLE_SCROLLED (cal_table->etable));
 	e_table_selected_row_foreach (etable, copy_row_cb, cal_table);
@@ -886,12 +886,12 @@ open_task (ECalendarTable *cal_table, ECalModelComponent *comp_data, gboolean as
 
 	tedit = e_comp_editor_registry_find (comp_editor_registry, uid);
 	if (tedit == NULL) {
-		CalComponent *comp;
+		ECalComponent *comp;
 
 		tedit = COMP_EDITOR (task_editor_new (comp_data->client));
 
-		comp = cal_component_new ();
-		cal_component_set_icalcomponent (comp, icalcomponent_new_clone (comp_data->icalcomp));
+		comp = e_cal_component_new ();
+		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (comp_data->icalcomp));
 		comp_editor_edit_comp (tedit, comp);
 		if (assign)
 			task_editor_show_assignment (TASK_EDITOR (tedit));
@@ -1074,11 +1074,11 @@ e_calendar_table_show_popup_menu (ETable *table,
 	} else
 		hide_mask = MASK_SINGLE;
 
-	cal_client_is_read_only (comp_data->client, &read_only, NULL);
+	e_cal_is_read_only (comp_data->client, &read_only, NULL);
 	if (!read_only)
 		disable_mask |= MASK_EDITABLE;
 
-	if (cal_client_get_static_capability (comp_data->client, CAL_STATIC_CAPABILITY_NO_TASK_ASSIGNMENT))
+	if (e_cal_get_static_capability (comp_data->client, CAL_STATIC_CAPABILITY_NO_TASK_ASSIGNMENT))
 		disable_mask |= MASK_ASSIGNABLE;
 
 	setup_popup_icons (tasks_popup_menu);
@@ -1143,7 +1143,7 @@ e_calendar_table_on_save_as (GtkWidget *widget, gpointer data)
 	if (filename == NULL)
 		return;
 	
-	ical_string = cal_client_get_component_as_string (comp_data->client, comp_data->icalcomp);
+	ical_string = e_cal_get_component_as_string (comp_data->client, comp_data->icalcomp);
 	if (ical_string == NULL) {
 		g_warning ("Couldn't convert item to a string");
 		return;
@@ -1165,7 +1165,7 @@ e_calendar_table_on_print_task (GtkWidget *widget, gpointer data)
 {
 	ECalendarTable *cal_table;
 	ECalModelComponent *comp_data;
-	CalComponent *comp;
+	ECalComponent *comp;
 
 	cal_table = E_CALENDAR_TABLE (data);
 
@@ -1173,8 +1173,8 @@ e_calendar_table_on_print_task (GtkWidget *widget, gpointer data)
 	if (comp_data == NULL)
 		return;
 	
-	comp = cal_component_new ();
-	cal_component_set_icalcomponent (comp, icalcomponent_new_clone (comp_data->icalcomp));
+	comp = e_cal_component_new ();
+	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (comp_data->icalcomp));
 	print_comp (comp, comp_data->client, FALSE);
 
 	g_object_unref (comp);
@@ -1230,11 +1230,11 @@ e_calendar_table_on_forward (GtkWidget *widget, gpointer data)
 
 	comp_data = get_selected_comp (cal_table);
 	if (comp_data) {
-		CalComponent *comp;
+		ECalComponent *comp;
 
-		comp = cal_component_new ();
-		cal_component_set_icalcomponent (comp, icalcomponent_new_clone (comp_data->icalcomp));
-		itip_send_comp (CAL_COMPONENT_METHOD_PUBLISH, comp, comp_data->client, NULL);
+		comp = e_cal_component_new ();
+		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (comp_data->icalcomp));
+		itip_send_comp (E_CAL_COMPONENT_METHOD_PUBLISH, comp, comp_data->client, NULL);
 
 		g_object_unref (comp);
 	}
@@ -1318,8 +1318,8 @@ selection_received (GtkWidget *invisible,
 	char *comp_str;
 	icalcomponent *icalcomp;
 	char *uid;
-	CalComponent *comp;
-	CalClient *client;
+	ECalComponent *comp;
+	ECal *client;
 	icalcomponent_kind kind;
 
 	g_return_if_fail (E_IS_CALENDAR_TABLE (cal_table));
@@ -1360,18 +1360,18 @@ selection_received (GtkWidget *invisible,
 			if (child_kind == ICAL_VEVENT_COMPONENT ||
 			    child_kind == ICAL_VTODO_COMPONENT ||
 			    child_kind == ICAL_VJOURNAL_COMPONENT) {
-				CalComponent *tmp_comp;
+				ECalComponent *tmp_comp;
 
-				uid = cal_component_gen_uid ();
-				tmp_comp = cal_component_new ();
-				cal_component_set_icalcomponent (
+				uid = e_cal_component_gen_uid ();
+				tmp_comp = e_cal_component_new ();
+				e_cal_component_set_icalcomponent (
 					tmp_comp, icalcomponent_new_clone (subcomp));
-				cal_component_set_uid (tmp_comp, uid);
+				e_cal_component_set_uid (tmp_comp, uid);
 				free (uid);
 
 				/* FIXME should we convert start/due/complete times? */
 				/* FIXME Error handling */
-				cal_client_create_object (client, cal_component_get_icalcomponent (tmp_comp), NULL, NULL);
+				e_cal_create_object (client, e_cal_component_get_icalcomponent (tmp_comp), NULL, NULL);
 
 				g_object_unref (tmp_comp);
 			}
@@ -1380,13 +1380,13 @@ selection_received (GtkWidget *invisible,
 		}
 	}
 	else {
-		comp = cal_component_new ();
-		cal_component_set_icalcomponent (comp, icalcomp);
-		uid = cal_component_gen_uid ();
-		cal_component_set_uid (comp, (const char *) uid);
+		comp = e_cal_component_new ();
+		e_cal_component_set_icalcomponent (comp, icalcomp);
+		uid = e_cal_component_gen_uid ();
+		e_cal_component_set_uid (comp, (const char *) uid);
 		free (uid);
 
-		cal_client_create_object (client, cal_component_get_icalcomponent (comp), NULL, NULL);
+		e_cal_create_object (client, e_cal_component_get_icalcomponent (comp), NULL, NULL);
 
 		g_object_unref (comp);
 	}

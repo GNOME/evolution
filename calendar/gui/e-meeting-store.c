@@ -29,10 +29,10 @@
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
 #include <libgnomevfs/gnome-vfs.h>
-#include <ebook/e-book.h>
-#include <cal-util/cal-component.h>
-#include <cal-util/cal-util.h>
-#include <cal-util/timeutil.h>
+#include <libebook/e-book.h>
+#include <libecal/e-cal-component.h>
+#include <libecal/e-cal-util.h>
+#include <libecal/e-cal-time-util.h>
 #include "calendar-config.h"
 #include "itip-utils.h"
 #include "e-meeting-utils.h"
@@ -45,7 +45,7 @@ struct _EMeetingStorePrivate {
 	GPtrArray *attendees;
 	gint stamp;
 
-	CalClient *client;
+	ECal *client;
 	icaltimezone *zone;
 	
 	EBook *ebook;
@@ -667,14 +667,14 @@ e_meeting_store_new (void)
 }
 
 
-CalClient *
-e_meeting_store_get_cal_client (EMeetingStore *store)
+ECal *
+e_meeting_store_get_e_cal (EMeetingStore *store)
 {
 	return store->priv->client;
 }
 
 void
-e_meeting_store_set_cal_client (EMeetingStore *store, CalClient *client)
+e_meeting_store_set_e_cal (EMeetingStore *store, ECal *client)
 {
 	if (store->priv->client != NULL)
 		g_object_unref (store->priv->client);
@@ -1057,7 +1057,7 @@ process_free_busy (EMeetingStoreQueueData *qdata, char *text)
 		icalcompiter iter;
 		icalcomponent *tz_top_level, *sub_comp;
 
-		tz_top_level = cal_util_new_top_level ();
+		tz_top_level = e_cal_util_new_top_level ();
 		
 		iter = icalcomponent_begin_component (main_comp, ICAL_VTIMEZONE_COMPONENT);
 		while ((sub_comp = icalcompiter_deref (&iter)) != NULL) {
@@ -1147,16 +1147,16 @@ refresh_busy_periods (gpointer data)
 
 		user = itip_strip_mailto (e_meeting_attendee_get_address (attendee));
 		users = g_list_append (users, g_strdup (user));
-		cal_client_get_free_busy (priv->client, users, startt, endt, &fb_data, NULL);
+		e_cal_get_free_busy (priv->client, users, startt, endt, &fb_data, NULL);
 
 		g_list_foreach (users, (GFunc)g_free, NULL);
 		g_list_free (users);
 
 		if (fb_data != NULL) {
-			CalComponent *comp = fb_data->data;
+			ECalComponent *comp = fb_data->data;
 			char *comp_str;
 				
-			comp_str = cal_component_get_as_string (comp);
+			comp_str = e_cal_component_get_as_string (comp);
 			process_free_busy (qdata, comp_str);
 			g_free (comp_str);
 			return TRUE;

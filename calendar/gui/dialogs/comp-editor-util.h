@@ -24,7 +24,7 @@
 #include <gtk/gtkwidget.h>
 #include "comp-editor-page.h"
 
-void comp_editor_dates (CompEditorPageDates *date, CalComponent *comp);
+void comp_editor_dates (CompEditorPageDates *date, ECalComponent *comp);
 void comp_editor_free_dates (CompEditorPageDates *dates);
 
 void comp_editor_date_label (CompEditorPageDates *dates, GtkWidget *label);

@@ -169,7 +169,7 @@ typedef enum
 
 typedef struct _EDayViewEvent EDayViewEvent;
 struct _EDayViewEvent {
-	E_CAL_VIEW_EVENT_FIELDS
+	E_CALENDAR_VIEW_EVENT_FIELDS
 
 	/* For events in the main canvas, this contains the start column.
 	   For long events in the top canvas, this is its row. */
@@ -194,7 +194,7 @@ typedef struct _EDayViewClass  EDayViewClass;
 
 struct _EDayView
 {
-	ECalView cal_view;
+	ECalendarView cal_view;
 
 	/* The top canvas where the dates and long appointments are shown. */
 	GtkWidget *top_canvas;
@@ -211,7 +211,7 @@ struct _EDayView
 	GtkWidget *vscrollbar;
 
 	/* S-expression for query and the query object */
-	CalQuery *query;
+	ECalView *query;
 
 	/* The start and end of the days shown. */
 	time_t lower;
@@ -408,7 +408,7 @@ struct _EDayView
 	/* These are used when resizing events. */
 	gint resize_event_day;
 	gint resize_event_num;
-	ECalViewPosition resize_drag_pos;
+	ECalendarViewPosition resize_drag_pos;
 	gint resize_start_row;
 	gint resize_end_row;
 
@@ -456,7 +456,7 @@ struct _EDayView
 
 struct _EDayViewClass
 {
-	ECalViewClass parent_class;
+	ECalendarViewClass parent_class;
 };
 
 

@@ -56,7 +56,7 @@
 #include <e-util/e-categories-config.h>
 #include <e-util/e-dialog-utils.h>
 
-#include "cal-util/timeutil.h"
+#include <libecal/e-cal-time-util.h>
 #include "e-cal-model-calendar.h"
 #include "e-cell-date-edit-text.h"
 #include "dialogs/delete-comp.h"
@@ -74,10 +74,10 @@
 static void      e_cal_list_view_class_init             (ECalListViewClass *class);
 static void      e_cal_list_view_init                   (ECalListView *cal_list_view);
 static void      e_cal_list_view_destroy                (GtkObject *object);
-static void      e_cal_list_view_update_query           (ECalView *cal_view);
+static void      e_cal_list_view_update_query           (ECalendarView *cal_view);
 
-static GList    *e_cal_list_view_get_selected_events    (ECalView *cal_view);
-static gboolean  e_cal_list_view_get_visible_time_range (ECalView *cal_view, time_t *start_time,
+static GList    *e_cal_list_view_get_selected_events    (ECalendarView *cal_view);
+static gboolean  e_cal_list_view_get_visible_time_range (ECalendarView *cal_view, time_t *start_time,
 							 time_t *end_time);
 
 static gboolean  e_cal_list_view_popup_menu             (GtkWidget *widget);
@@ -87,22 +87,22 @@ static void      e_cal_list_view_show_popup_menu        (ECalListView *cal_list_
 static gboolean  e_cal_list_view_on_table_right_click   (GtkWidget *table, gint row, gint col,
 							 GdkEvent *event, gpointer data);
 
-static GtkTableClass *parent_class;  /* Should be ECalViewClass? */
+static GtkTableClass *parent_class;  /* Should be ECalendarViewClass? */
 
 E_MAKE_TYPE (e_cal_list_view, "ECalListView", ECalListView, e_cal_list_view_class_init,
-	     e_cal_list_view_init, e_cal_view_get_type ());
+	     e_cal_list_view_init, e_calendar_view_get_type ());
 
 static void
 e_cal_list_view_class_init (ECalListViewClass *class)
 {
 	GtkObjectClass *object_class;
 	GtkWidgetClass *widget_class;
-	ECalViewClass *view_class;
+	ECalendarViewClass *view_class;
 
 	parent_class = g_type_class_peek_parent (class);
 	object_class = (GtkObjectClass *) class;
 	widget_class = (GtkWidgetClass *) class;
-	view_class = (ECalViewClass *) class;
+	view_class = (ECalendarViewClass *) class;
 
 	/* Method override */
 	object_class->destroy		= e_cal_list_view_destroy;
@@ -161,7 +161,7 @@ get_current_time_cb (ECellDateEdit *ecde, gpointer data)
 	struct tm tmp_tm = { 0 };
 	struct icaltimetype tt;
 
-	zone = e_cal_view_get_timezone (E_CAL_VIEW (cal_list_view));
+	zone = e_calendar_view_get_timezone (E_CALENDAR_VIEW (cal_list_view));
 	tt = icaltime_from_timet_with_zone (time (NULL), FALSE, zone);
 
 	/* Now copy it to the struct tm and return it. */
@@ -210,7 +210,7 @@ setup_e_table (ECalListView *cal_list_view)
 	GnomeCanvas       *canvas;
 	GtkStyle          *style;
 
-	model = E_CAL_MODEL_CALENDAR (e_cal_view_get_model (E_CAL_VIEW (cal_list_view)));
+	model = E_CAL_MODEL_CALENDAR (e_calendar_view_get_model (E_CALENDAR_VIEW (cal_list_view)));
 
 	if (cal_list_view->table_scrolled) {
 		save_table_state (cal_list_view);
@@ -392,15 +392,15 @@ setup_e_table_cb (gpointer data)
 }
 
 static void
-e_cal_list_view_update_query (ECalView *cal_list_view)
+e_cal_list_view_update_query (ECalendarView *cal_list_view)
 {
-	e_cal_view_set_status_message (E_CAL_VIEW (cal_list_view), _("Searching"));
+	e_calendar_view_set_status_message (E_CALENDAR_VIEW (cal_list_view), _("Searching"));
 
 	if (!E_CAL_LIST_VIEW (cal_list_view)->set_table_id)
 		E_CAL_LIST_VIEW (cal_list_view)->set_table_id =
 			g_idle_add (setup_e_table_cb, cal_list_view);
 
-	e_cal_view_set_status_message (E_CAL_VIEW (cal_list_view), NULL);
+	e_calendar_view_set_status_message (E_CALENDAR_VIEW (cal_list_view), NULL);
 }
 
 static void
@@ -408,7 +408,7 @@ e_cal_list_view_show_popup_menu (ECalListView *cal_list_view, gint row, GdkEvent
 {
 	GtkMenu *popup;
 
-	popup = e_cal_view_create_popup_menu (E_CAL_VIEW (cal_list_view));
+	popup = e_calendar_view_create_popup_menu (E_CALENDAR_VIEW (cal_list_view));
 	e_popup_menu (popup, gdk_event);
 }
 
@@ -432,7 +432,7 @@ e_cal_list_view_on_table_right_click (GtkWidget *table, gint row, gint col, GdkE
 }
 
 static GList *
-e_cal_list_view_get_selected_events (ECalView *cal_view)
+e_cal_list_view_get_selected_events (ECalendarView *cal_view)
 {
 	GList *event_list = NULL;
 	gint   cursor_row;
@@ -445,11 +445,11 @@ e_cal_list_view_get_selected_events (ECalView *cal_view)
 	cursor_row = e_table_get_cursor_row (e_table_scrolled_get_table (E_CAL_LIST_VIEW (cal_view)->table_scrolled));
 
 	if (cursor_row >= 0) {
-		ECalViewEvent *event;
+		ECalendarViewEvent *event;
 
-		event = E_CAL_LIST_VIEW (cal_view)->cursor_event = g_new0 (ECalViewEvent, 1);
+		event = E_CAL_LIST_VIEW (cal_view)->cursor_event = g_new0 (ECalendarViewEvent, 1);
 		event->comp_data =
-			e_cal_model_get_component_at (e_cal_view_get_model (cal_view),
+			e_cal_model_get_component_at (e_calendar_view_get_model (cal_view),
 						      cursor_row);
 		event_list = g_list_prepend (event_list, event);
 	}
@@ -476,19 +476,19 @@ adjust_range (icaltimetype icaltime, time_t *earliest, time_t *latest, gboolean 
  * ideal, since it's used in a couple of places. We could probably be smarter about it,
  * and use do it less frequently... */
 static gboolean
-e_cal_list_view_get_visible_time_range (ECalView *cal_view, time_t *start_time, time_t *end_time)
+e_cal_list_view_get_visible_time_range (ECalendarView *cal_view, time_t *start_time, time_t *end_time)
 {
 	time_t   earliest = G_MAXINT, latest = 0;
 	gboolean set = FALSE;
 	gint     n_rows, i;
 
-	n_rows = e_table_model_row_count (E_TABLE_MODEL (e_cal_view_get_model (cal_view)));
+	n_rows = e_table_model_row_count (E_TABLE_MODEL (e_calendar_view_get_model (cal_view)));
 
 	for (i = 0; i < n_rows; i++) {
 		ECalModelComponent *comp;
 		icalcomponent      *icalcomp;
 
-		comp = e_cal_model_get_component_at (e_cal_view_get_model (cal_view), i);
+		comp = e_cal_model_get_component_at (e_calendar_view_get_model (cal_view), i);
 		if (!comp)
 			continue;
 
@@ -515,11 +515,11 @@ e_cal_list_view_get_range_shown (ECalListView *cal_list_view, GDate *start_date,
 	time_t  first, last;
 	GDate   end_date;
 
-	if (!e_cal_list_view_get_visible_time_range (E_CAL_VIEW (cal_list_view), &first, &last))
+	if (!e_cal_list_view_get_visible_time_range (E_CALENDAR_VIEW (cal_list_view), &first, &last))
 		return FALSE;
 
-	time_to_gdate_with_zone (start_date, first, e_cal_view_get_timezone (E_CAL_VIEW (cal_list_view)));
-	time_to_gdate_with_zone (&end_date, last, e_cal_view_get_timezone (E_CAL_VIEW (cal_list_view)));
+	time_to_gdate_with_zone (start_date, first, e_calendar_view_get_timezone (E_CALENDAR_VIEW (cal_list_view)));
+	time_to_gdate_with_zone (&end_date, last, e_calendar_view_get_timezone (E_CALENDAR_VIEW (cal_list_view)));
 
 	*days_shown = g_date_days_between (start_date, &end_date);
 	return TRUE;

@@ -14,9 +14,8 @@
 #include <gtk/gtksignal.h>
 #include <gal/util/e-util.h>
 #include <libgnome/gnome-i18n.h>
-
+#include <libebook/e-contact.h>
 #include "e-select-names-table-model.h"
-#include "addressbook/backend/ebook/e-contact.h"
 
 /* Object argument IDs */
 enum {

@@ -34,10 +34,10 @@
 AtkObject *
 ea_calendar_helpers_get_accessible_for (GnomeCanvasItem *canvas_item);
 
-ECalView *
+ECalendarView *
 ea_calendar_helpers_get_cal_view_from (GnomeCanvasItem *canvas_item);
 
-ECalViewEvent *
+ECalendarViewEvent *
 ea_calendar_helpers_get_cal_view_event_from (GnomeCanvasItem *canvas_item);
 
 #endif /* _EA_CALENDAR_HELPERS_H__ */

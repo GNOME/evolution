@@ -19,16 +19,14 @@ INCLUDES =						\
 noinst_LTLIBRARIES = libeabutil.la
 
 libeabutil_la_SOURCES =					\
-	eab-marshal.c					\
+	eab-marshal.c					\
 	eab-destination.c				\
 	eab-destination.h				\
 	eab-book-util.c					\
 	eab-book-util.h
 
-libeabutil_la_LIBADD =					      \
-	$(top_builddir)/addressbook/backend/ebook/libebook.la \
-	$(top_builddir)/camel/libcamel.la		      \
-	$(top_builddir)/e-util/ename/libename.la	      \
+libeabutil_la_LIBADD =					\
+	$(top_builddir)/camel/libcamel.la		\
 	$(top_builddir)/e-util/libeutil.la
 
 MARSHAL_GENERATED = eab-marshal.c eab-marshal.h

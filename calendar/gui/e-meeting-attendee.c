@@ -199,7 +199,7 @@ e_meeting_attendee_new (void)
 }
 
 GObject *
-e_meeting_attendee_new_from_cal_component_attendee (CalComponentAttendee *ca)
+e_meeting_attendee_new_from_e_cal_component_attendee (ECalComponentAttendee *ca)
 {
 	EMeetingAttendee *ia;
 	
@@ -220,15 +220,15 @@ e_meeting_attendee_new_from_cal_component_attendee (CalComponentAttendee *ca)
 	return G_OBJECT (ia);
 }
 
-CalComponentAttendee *
-e_meeting_attendee_as_cal_component_attendee (EMeetingAttendee *ia)
+ECalComponentAttendee *
+e_meeting_attendee_as_e_cal_component_attendee (EMeetingAttendee *ia)
 {
 	EMeetingAttendeePrivate *priv;
-	CalComponentAttendee *ca;
+	ECalComponentAttendee *ca;
 
 	priv = ia->priv;
 	
-	ca = g_new0 (CalComponentAttendee, 1);
+	ca = g_new0 (ECalComponentAttendee, 1);
 
 	ca->value = priv->address;
 	ca->member = string_is_set (priv->member) ? priv->member : NULL;

@@ -24,7 +24,7 @@
 #define E_ALARM_LIST_H
 
 #include <gtk/gtktreemodel.h>
-#include <cal-util/cal-component.h>
+#include <libecal/e-cal-component.h>
 
 G_BEGIN_DECLS
 
@@ -66,11 +66,11 @@ struct _EAlarmListClass
 GtkType                  e_alarm_list_get_type  (void);
 EAlarmList              *e_alarm_list_new       (void);
 
-const CalComponentAlarm *e_alarm_list_get_alarm (EAlarmList *alarm_list, GtkTreeIter *iter);
+const ECalComponentAlarm *e_alarm_list_get_alarm (EAlarmList *alarm_list, GtkTreeIter *iter);
 void                     e_alarm_list_set_alarm (EAlarmList *alarm_list, GtkTreeIter *iter,
-						 const CalComponentAlarm *datetime);
+						 const ECalComponentAlarm *datetime);
 void                     e_alarm_list_append    (EAlarmList *alarm_list, GtkTreeIter *iter,
-						 const CalComponentAlarm *datetime);
+						 const ECalComponentAlarm *datetime);
 void                     e_alarm_list_remove    (EAlarmList *alarm_list, GtkTreeIter *iter);
 void                     e_alarm_list_clear     (EAlarmList *alarm_list);
 

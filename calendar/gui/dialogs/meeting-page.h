@@ -55,10 +55,10 @@ typedef struct {
 GtkType       meeting_page_get_type          (void);
 MeetingPage  *meeting_page_construct         (MeetingPage   *mpage,
 					      EMeetingStore *ems,
-					      CalClient     *client);
+					      ECal     *client);
 MeetingPage  *meeting_page_new               (EMeetingStore *ems,
-					      CalClient     *client);
-CalComponent *meeting_page_get_cancel_comp   (MeetingPage   *mpage);
+					      ECal     *client);
+ECalComponent *meeting_page_get_cancel_comp   (MeetingPage   *mpage);
 
 
 

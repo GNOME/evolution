@@ -39,8 +39,8 @@
 #include <gal/widgets/e-unicode.h>
 #include "e-util/e-dialog-widgets.h"
 #include "e-util/e-time-utils.h"
-#include "cal-util/cal-util.h"
-#include "cal-util/timeutil.h"
+#include <libecal/e-cal-util.h>
+#include <libecal/e-cal-time-util.h>
 #include "../calendar-config.h"
 #include "comp-editor-util.h"
 #include "alarm-options.h"
@@ -74,7 +74,7 @@ struct _AlarmPagePrivate {
 	GtkWidget *button_options;
 
 	/* Alarm options dialog and the alarm we maintain */
-	CalComponentAlarm *alarm;
+	ECalComponentAlarm *alarm;
 
 	/* Alarm store for the GtkTreeView list widget */
 	EAlarmList *list_store;
@@ -100,10 +100,10 @@ enum {
 
 /* Option menu maps */
 static const int action_map[] = {
-	CAL_ALARM_DISPLAY,
-	CAL_ALARM_AUDIO,
-	CAL_ALARM_PROCEDURE,
-	CAL_ALARM_EMAIL,
+	E_CAL_COMPONENT_ALARM_DISPLAY,
+	E_CAL_COMPONENT_ALARM_AUDIO,
+	E_CAL_COMPONENT_ALARM_PROCEDURE,
+	E_CAL_COMPONENT_ALARM_EMAIL,
 	-1
 };
 
@@ -128,8 +128,8 @@ static const int relative_map[] = {
 };
 
 static const int time_map[] = {
-	CAL_ALARM_TRIGGER_RELATIVE_START,
-	CAL_ALARM_TRIGGER_RELATIVE_END,
+	E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_START,
+	E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_END,
 	-1
 };
 
@@ -141,8 +141,8 @@ static void alarm_page_finalize (GObject *object);
 
 static GtkWidget *alarm_page_get_widget (CompEditorPage *page);
 static void alarm_page_focus_main_widget (CompEditorPage *page);
-static void alarm_page_fill_widgets (CompEditorPage *page, CalComponent *comp);
-static gboolean alarm_page_fill_component (CompEditorPage *page, CalComponent *comp);
+static void alarm_page_fill_widgets (CompEditorPage *page, ECalComponent *comp);
+static gboolean alarm_page_fill_component (CompEditorPage *page, ECalComponent *comp);
 static void alarm_page_set_summary (CompEditorPage *page, const char *summary);
 static void alarm_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates);
 
@@ -213,9 +213,9 @@ alarm_page_init (AlarmPage *apage)
 	/* create the default alarm, which will contain the
 	 * X-EVOLUTION-NEEDS-DESCRIPTION property, so that we
 	 * set a correct description if none is set */
-	priv->alarm = cal_component_alarm_new ();
+	priv->alarm = e_cal_component_alarm_new ();
 
-	icalcomp = cal_component_alarm_get_icalcomponent (priv->alarm);
+	icalcomp = e_cal_component_alarm_get_icalcomponent (priv->alarm);
 	icalprop = icalproperty_new_x ("1");
 	icalproperty_set_x_name (icalprop, "X-EVOLUTION-NEEDS-DESCRIPTION");
         icalcomponent_add_property (icalcomp, icalprop);
@@ -246,7 +246,7 @@ alarm_page_finalize (GObject *object)
 	}
 
 	if (priv->alarm) {
-		cal_component_alarm_free (priv->alarm);
+		e_cal_component_alarm_free (priv->alarm);
 		priv->alarm = NULL;
 	}
 
@@ -310,11 +310,11 @@ clear_widgets (AlarmPage *apage)
 	gtk_label_set_text (GTK_LABEL (priv->date_time), "");
 
 	/* Sane defaults */
-	e_dialog_option_menu_set (priv->action, CAL_ALARM_DISPLAY, action_map);
+	e_dialog_option_menu_set (priv->action, E_CAL_COMPONENT_ALARM_DISPLAY, action_map);
 	e_dialog_spin_set (priv->interval_value, 15);
 	e_dialog_option_menu_set (priv->value_units, MINUTES, value_map);
 	e_dialog_option_menu_set (priv->relative, BEFORE, relative_map);
-	e_dialog_option_menu_set (priv->time, CAL_ALARM_TRIGGER_RELATIVE_START, time_map);
+	e_dialog_option_menu_set (priv->time, E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_START, time_map);
 
 	/* List data */
 	e_alarm_list_clear (priv->list_store);
@@ -324,7 +324,7 @@ static void
 sensitize_buttons (AlarmPage *apage)
 {
 	AlarmPagePrivate *priv;
-	CalClient *client;
+	ECal *client;
 	GtkTreeSelection *selection;
 	GtkTreeIter iter;
 	gboolean have_selected;
@@ -336,13 +336,13 @@ sensitize_buttons (AlarmPage *apage)
 	have_selected = gtk_tree_selection_get_selected (selection, NULL, &iter);
 
 	gtk_widget_set_sensitive (priv->add,
-				  cal_client_get_one_alarm_only (client) && have_selected ? FALSE : TRUE);
+				  e_cal_get_one_alarm_only (client) && have_selected ? FALSE : TRUE);
 	gtk_widget_set_sensitive (priv->delete, have_selected);
 }
 
 /* Appends an alarm to the list */
 static void
-append_reminder (AlarmPage *apage, CalComponentAlarm *alarm)
+append_reminder (AlarmPage *apage, ECalComponentAlarm *alarm)
 {
 	AlarmPagePrivate *priv;
 	GtkTreeView *view;
@@ -359,12 +359,12 @@ append_reminder (AlarmPage *apage, CalComponentAlarm *alarm)
 
 /* fill_widgets handler for the alarm page */
 static void
-alarm_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
+alarm_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 {
 	AlarmPage *apage;
 	AlarmPagePrivate *priv;
 	GtkWidget *menu;
-	CalComponentText text;
+	ECalComponentText text;
 	GList *alarms, *l;
 	CompEditorPageDates dates;
 	int i;
@@ -379,7 +379,7 @@ alarm_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	clear_widgets (apage);
 
 	/* Summary */
-	cal_component_get_summary (comp, &text);
+	e_cal_component_get_summary (comp, &text);
 	alarm_page_set_summary (page, text.value);
 
 	/* Dates */
@@ -388,21 +388,21 @@ alarm_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	comp_editor_free_dates (&dates);
 
 	/* List */
-	if (!cal_component_has_alarms (comp))
+	if (!e_cal_component_has_alarms (comp))
 		goto out;
 
-	alarms = cal_component_get_alarm_uids (comp);
+	alarms = e_cal_component_get_alarm_uids (comp);
 
 	for (l = alarms; l != NULL; l = l->next) {
-		CalComponentAlarm *ca, *ca_copy;
+		ECalComponentAlarm *ca, *ca_copy;
 		const char *auid;
 
 		auid = l->data;
-		ca = cal_component_get_alarm (comp, auid);
+		ca = e_cal_component_get_alarm (comp, auid);
 		g_assert (ca != NULL);
 
-		ca_copy = cal_component_alarm_clone (ca);
-		cal_component_alarm_free (ca);
+		ca_copy = e_cal_component_alarm_clone (ca);
+		e_cal_component_alarm_free (ca);
 
 		append_reminder (apage, ca_copy);
 	}
@@ -413,7 +413,7 @@ alarm_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	/* Alarm types */
 	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (priv->action));
 	for (i = 0, l = GTK_MENU_SHELL (menu)->children; action_map[i] != -1; i++, l = l->next) {
-		if (cal_client_get_static_capability (page->client, action_map_cap[i]))
+		if (e_cal_get_static_capability (page->client, action_map_cap[i]))
 			gtk_widget_set_sensitive (l->data, FALSE);
 		else
 			gtk_widget_set_sensitive (l->data, TRUE);
@@ -426,7 +426,7 @@ alarm_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 
 /* fill_component handler for the alarm page */
 static gboolean
-alarm_page_fill_component (CompEditorPage *page, CalComponent *comp)
+alarm_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 {
 	AlarmPage *apage;
 	AlarmPagePrivate *priv;
@@ -441,12 +441,12 @@ alarm_page_fill_component (CompEditorPage *page, CalComponent *comp)
 
 	/* Remove all the alarms from the component */
 
-	list = cal_component_get_alarm_uids (comp);
+	list = e_cal_component_get_alarm_uids (comp);
 	for (l = list; l; l = l->next) {
 		const char *auid;
 
 		auid = l->data;
-		cal_component_remove_alarm (comp, auid);
+		e_cal_component_remove_alarm (comp, auid);
 	}
 	cal_obj_uid_list_free (list);
 
@@ -457,26 +457,26 @@ alarm_page_fill_component (CompEditorPage *page, CalComponent *comp)
 
 	for (valid_iter = gtk_tree_model_get_iter_first (model, &iter); valid_iter;
 	     valid_iter = gtk_tree_model_iter_next (model, &iter)) {
-		CalComponentAlarm *alarm, *alarm_copy;
+		ECalComponentAlarm *alarm, *alarm_copy;
 		icalcomponent *icalcomp;
 		icalproperty *icalprop;
 
-		alarm = (CalComponentAlarm *) e_alarm_list_get_alarm (priv->list_store, &iter);
+		alarm = (ECalComponentAlarm *) e_alarm_list_get_alarm (priv->list_store, &iter);
 		g_assert (alarm != NULL);
 
 		/* We set the description of the alarm if it's got
 		 * the X-EVOLUTION-NEEDS-DESCRIPTION property.
 		 */
-		icalcomp = cal_component_alarm_get_icalcomponent (alarm);
+		icalcomp = e_cal_component_alarm_get_icalcomponent (alarm);
 		icalprop = icalcomponent_get_first_property (icalcomp, ICAL_X_PROPERTY);
 		while (icalprop) {
 			const char *x_name;
-			CalComponentText summary;
+			ECalComponentText summary;
 
 			x_name = icalproperty_get_x_name (icalprop);
 			if (!strcmp (x_name, "X-EVOLUTION-NEEDS-DESCRIPTION")) {
-				cal_component_get_summary (comp, &summary);
-				cal_component_alarm_set_description (alarm, &summary);
+				e_cal_component_get_summary (comp, &summary);
+				e_cal_component_alarm_set_description (alarm, &summary);
 
 				icalcomponent_remove_property (icalcomp, icalprop);
 				break;
@@ -489,9 +489,9 @@ alarm_page_fill_component (CompEditorPage *page, CalComponent *comp)
 		 * structures in the list did *not* come from the component.
 		 */
 
-		alarm_copy = cal_component_alarm_clone (alarm);
-		cal_component_add_alarm (comp, alarm_copy);
-		cal_component_alarm_free (alarm_copy);
+		alarm_copy = e_cal_component_alarm_clone (alarm);
+		e_cal_component_add_alarm (comp, alarm_copy);
+		e_cal_component_alarm_free (alarm_copy);
 	}
 
 	return TRUE;
@@ -521,17 +521,17 @@ alarm_page_set_summary (CompEditorPage *page, const char *summary)
 
 		for (valid_iter = gtk_tree_model_get_iter_first (model, &iter); valid_iter;
 		     valid_iter = gtk_tree_model_iter_next (model, &iter)) {
-			CalComponentAlarm *alarm;
-			CalComponentText desc;
+			ECalComponentAlarm *alarm;
+			ECalComponentText desc;
 
-			alarm = (CalComponentAlarm *) e_alarm_list_get_alarm (priv->list_store, &iter);
+			alarm = (ECalComponentAlarm *) e_alarm_list_get_alarm (priv->list_store, &iter);
 			g_assert (alarm != NULL);
 
-			cal_component_alarm_get_description (alarm, &desc);
+			e_cal_component_alarm_get_description (alarm, &desc);
 			if (desc.value && *desc.value) {
 				if (!strcmp (desc.value, priv->old_summary)) {
 					desc.value = summary;
-					cal_component_alarm_set_description (alarm, &desc);
+					e_cal_component_alarm_set_description (alarm, &desc);
 				}
 			}
 		}
@@ -637,16 +637,16 @@ add_clicked_cb (GtkButton *button, gpointer data)
 {
 	AlarmPage *apage;
 	AlarmPagePrivate *priv;
-	CalComponentAlarm *alarm;
-	CalAlarmTrigger trigger;
-	CalAlarmAction action;
+	ECalComponentAlarm *alarm;
+	ECalComponentAlarmTrigger trigger;
+	ECalComponentAlarmAction action;
 	
 	apage = ALARM_PAGE (data);
 	priv = apage->priv;
 
-	alarm = cal_component_alarm_clone (priv->alarm);
+	alarm = e_cal_component_alarm_clone (priv->alarm);
 
-	memset (&trigger, 0, sizeof (CalAlarmTrigger));
+	memset (&trigger, 0, sizeof (ECalComponentAlarmTrigger));
 	trigger.type = e_dialog_option_menu_get (priv->time, time_map);
 	if (e_dialog_option_menu_get (priv->relative, relative_map) == BEFORE)
 		trigger.u.rel_duration.is_neg = 1;
@@ -672,22 +672,22 @@ add_clicked_cb (GtkButton *button, gpointer data)
 	default:
 		g_assert_not_reached ();
 	}
-	cal_component_alarm_set_trigger (alarm, trigger);
+	e_cal_component_alarm_set_trigger (alarm, trigger);
 
 	action = e_dialog_option_menu_get (priv->action, action_map);
-	cal_component_alarm_set_action (alarm, action);
-	if (action == CAL_ALARM_EMAIL && !cal_component_alarm_has_attendees (alarm)) {
+	e_cal_component_alarm_set_action (alarm, action);
+	if (action == E_CAL_COMPONENT_ALARM_EMAIL && !e_cal_component_alarm_has_attendees (alarm)) {
 		char *email;
 		
-		if (!cal_client_get_alarm_email_address (COMP_EDITOR_PAGE (apage)->client, &email, NULL)) {
-			CalComponentAttendee *a;
+		if (!e_cal_get_alarm_email_address (COMP_EDITOR_PAGE (apage)->client, &email, NULL)) {
+			ECalComponentAttendee *a;
 			GSList attendee_list;
 
-			a = g_new0 (CalComponentAttendee, 1);
+			a = g_new0 (ECalComponentAttendee, 1);
 			a->value = email;
 			attendee_list.data = a;
 			attendee_list.next = NULL;
-			cal_component_alarm_set_attendee_list (alarm, &attendee_list);
+			e_cal_component_alarm_set_attendee_list (alarm, &attendee_list);
 			g_free (email);
 			g_free (a);
 		}
@@ -746,13 +746,13 @@ button_options_clicked_cb (GtkWidget *widget, gpointer data)
 	apage = ALARM_PAGE (data);
 	priv = apage->priv;
 
-	cal_component_alarm_set_action (priv->alarm,
+	e_cal_component_alarm_set_action (priv->alarm,
 					e_dialog_option_menu_get (priv->action, action_map));
 
-	repeat = !cal_client_get_static_capability (COMP_EDITOR_PAGE (apage)->client,
+	repeat = !e_cal_get_static_capability (COMP_EDITOR_PAGE (apage)->client,
 						    CAL_STATIC_CAPABILITY_NO_ALARM_REPEAT);
 
-	if (cal_client_get_alarm_email_address (COMP_EDITOR_PAGE (apage)->client, &email, NULL)) {
+	if (e_cal_get_alarm_email_address (COMP_EDITOR_PAGE (apage)->client, &email, NULL)) {
 		if (!alarm_options_dialog_run (priv->alarm, email, repeat))
 			g_message ("button_options_clicked_cb(): Could not create the alarm options dialog");
 	}

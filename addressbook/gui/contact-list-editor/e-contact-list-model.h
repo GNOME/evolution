@@ -4,8 +4,8 @@
 
 #include <gtk/gtk.h>
 #include <gal/e-table/e-table-model.h>
-#include "addressbook/backend/ebook/e-book-async.h"
-#include "addressbook/backend/ebook/e-contact.h"
+#include <libebook/e-book-async.h>
+#include <libebook/e-contact.h>
 #include "addressbook/util/eab-destination.h"
 
 G_BEGIN_DECLS

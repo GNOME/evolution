@@ -12,7 +12,7 @@
 #ifndef __E_CONTACT_MERGING_H__
 #define __E_CONTACT_MERGING_H__
 
-#include <addressbook/backend/ebook/e-book-async.h>
+#include <libebook/e-book-async.h>
 
 G_BEGIN_DECLS
 

@@ -38,7 +38,7 @@
  * 
  **/
 void
-delete_error_dialog (GError *error, CalComponentVType vtype)
+delete_error_dialog (GError *error, ECalComponentVType vtype)
 {
 	GtkWidget *dialog;
 	const char *str;
@@ -49,13 +49,13 @@ delete_error_dialog (GError *error, CalComponentVType vtype)
 	switch (error->code) {
 	case E_CALENDAR_STATUS_CORBA_EXCEPTION:
 		switch (vtype) {
-		case CAL_COMPONENT_EVENT:
+		case E_CAL_COMPONENT_EVENT:
 			str = _("The event could not be deleted due to a corba error");
 			break;
-		case CAL_COMPONENT_TODO:
+		case E_CAL_COMPONENT_TODO:
 			str = _("The task could not be deleted due to a corba error");
 			break;
-		case CAL_COMPONENT_JOURNAL:
+		case E_CAL_COMPONENT_JOURNAL:
 			str = _("The journal entry could not be deleted due to a corba error");
 			break;
 		default:
@@ -65,13 +65,13 @@ delete_error_dialog (GError *error, CalComponentVType vtype)
 		break;
 	case E_CALENDAR_STATUS_PERMISSION_DENIED:
 		switch (vtype) {
-		case CAL_COMPONENT_EVENT:
+		case E_CAL_COMPONENT_EVENT:
 			str = _("The event could not be deleted because permission was denied");
 			break;
-		case CAL_COMPONENT_TODO:
+		case E_CAL_COMPONENT_TODO:
 			str = _("The task could not be deleted because permission was denied");
 			break;
-		case CAL_COMPONENT_JOURNAL:
+		case E_CAL_COMPONENT_JOURNAL:
 			str = _("The journal entry could not be deleted because permission was denied");
 			break;
 		default:
@@ -81,13 +81,13 @@ delete_error_dialog (GError *error, CalComponentVType vtype)
 		break;
 	case E_CALENDAR_STATUS_OTHER_ERROR:
 		switch (vtype) {
-		case CAL_COMPONENT_EVENT:
+		case E_CAL_COMPONENT_EVENT:
 			str = _("The event could not be deleted due to an error");
 			break;
-		case CAL_COMPONENT_TODO:
+		case E_CAL_COMPONENT_TODO:
 			str = _("The task could not be deleted due to an error");
 			break;
-		case CAL_COMPONENT_JOURNAL:
+		case E_CAL_COMPONENT_JOURNAL:
 			str = _("The journal entry could not be deleted due to an error");
 			break;
 		default:

@@ -50,7 +50,7 @@ typedef struct _ECalListViewClass  ECalListViewClass;
 
 struct _ECalListView
 {
-	ECalView cal_view;
+	ECalendarView cal_view;
 
 	/* The main display table */
 	ETableScrolled *table_scrolled;
@@ -59,7 +59,7 @@ struct _ECalListView
 	gchar *table_state_path;
 
 	/* S-expression for query and the query object */
-	CalQuery *query;
+	ECalView *query;
 
 	/* The default category for new events */
 	gchar *default_category;
@@ -67,8 +67,8 @@ struct _ECalListView
 	/* Date editing cell */
 	ECellDateEdit *dates_cell;
 
-	/* The last ECalViewEvent we returned from e_cal_list_view_get_selected_events(), to be freed */
-	ECalViewEvent *cursor_event;
+	/* The last ECalendarViewEvent we returned from e_cal_list_view_get_selected_events(), to be freed */
+	ECalendarViewEvent *cursor_event;
 
 	/* Idle handler ID for setting a new ETableModel */
 	gint set_table_id;
@@ -76,7 +76,7 @@ struct _ECalListView
 
 struct _ECalListViewClass
 {
-	ECalViewClass parent_class;
+	ECalendarViewClass parent_class;
 };
 
 

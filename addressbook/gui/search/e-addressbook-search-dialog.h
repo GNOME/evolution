@@ -21,7 +21,7 @@
 #ifndef __EAB_SEARCH_DIALOG_H__
 #define __EAB_SEARCH_DIALOG_H__
 
-#include <ebook/e-book.h>
+#include <libebook/e-book.h>
 
 #include "addressbook/gui/widgets/e-addressbook-view.h"
 #include "filter/rule-context.h"

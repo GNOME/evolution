@@ -34,11 +34,11 @@
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
 #include <libgnomevfs/gnome-vfs.h>
-#include <ebook/e-book.h>
-#include <ebook/e-vcard.h>
-#include <cal-util/cal-component.h>
-#include <cal-util/cal-util.h>
-#include <cal-util/timeutil.h>
+#include <libebook/e-book.h>
+#include <libebook/e-vcard.h>
+#include <libecal/e-cal-component.h>
+#include <libecal/e-cal-util.h>
+#include <libecal/e-cal-time-util.h>
 #include "Evolution-Addressbook-SelectNames.h"
 #include "calendar-config.h"
 #include "e-meeting-list-view.h"
@@ -318,7 +318,7 @@ process_section (EMeetingListView *view, EABDestination **cards, icalparameter_r
 		name = eab_destination_get_name (cards[i]);
 
 		/* Get the field as attendee from the backend */
-		if (cal_client_get_ldap_attribute (e_meeting_store_get_cal_client (priv->store),
+		if (e_cal_get_ldap_attribute (e_meeting_store_get_e_cal (priv->store),
 						   &attr, NULL)) {
 			/* FIXME this should be more general */
 			if (!g_ascii_strcasecmp (attr, "icscalendar")) {

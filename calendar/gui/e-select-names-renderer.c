@@ -24,7 +24,7 @@
 #include <gtk/gtkcellrenderertext.h>
 #include <gal/util/e-util.h>
 
-#include "cal-util/cal-util-marshal.h"
+#include "e-calendar-marshal.h"
 
 #include "e-select-names-editable.h"
 #include "e-select-names-renderer.h"
@@ -161,7 +161,7 @@ esnr_class_init (ESelectNamesRendererClass *class)
 					      G_SIGNAL_RUN_LAST,
 					      G_STRUCT_OFFSET (ESelectNamesRendererClass, cell_edited),
 					      NULL, NULL,
-					      cal_util_marshal_VOID__STRING_STRING_STRING,
+					      e_calendar_marshal_VOID__STRING_STRING_STRING,
 					      G_TYPE_NONE, 3,
 					      G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
 }

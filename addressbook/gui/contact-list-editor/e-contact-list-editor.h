@@ -26,8 +26,8 @@
 #include <glade/glade.h>
 #include <gal/e-table/e-table-model.h>
 
-#include "addressbook/backend/ebook/e-book-async.h"
-#include "addressbook/backend/ebook/e-contact.h"
+#include <libebook/e-book-async.h>
+#include <libebook/e-contact.h>
 
 G_BEGIN_DECLS
 

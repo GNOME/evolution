@@ -17,8 +17,6 @@ INCLUDES =						\
 	-I$(top_srcdir)/shell				\
 	-I$(top_srcdir)/shell/importer			\
 	-I$(top_builddir)/shell/importer		\
-	-I$(top_srcdir)/addressbook/backend		\
-	-I$(top_builddir)/addressbook/backend		\
 	$(EVOLUTION_MAIL_CFLAGS)			\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
 	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"	\
@@ -175,7 +173,6 @@ libevolution_mail_la_LIBADD =					\
 	$(top_builddir)/composer/libcomposer.la			\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la		\
 	$(top_builddir)/widgets/misc/libefilterbar.la		\
-	$(top_builddir)/addressbook/backend/ebook/libebook.la	\
 	$(top_builddir)/filter/libfilter.la			\
 	$(top_builddir)/widgets/menus/libmenus.la		\
 	$(EVOLUTION_MAIL_LIBS)

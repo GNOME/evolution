@@ -24,7 +24,7 @@
 #define _E_MEETING_STORE_H_
 
 #include <gtk/gtkliststore.h>
-#include <cal-client/cal-client.h>
+#include <libecal/e-cal.h>
 #include "e-meeting-attendee.h"
 
 G_BEGIN_DECLS
@@ -72,8 +72,8 @@ GObject *e_meeting_store_new      (void);
 
 void e_meeting_store_set_value (EMeetingStore *im, int row, int col, const gchar *val);
 
-CalClient *e_meeting_store_get_cal_client (EMeetingStore *im);
-void e_meeting_store_set_cal_client (EMeetingStore *im, CalClient *client);
+ECal *e_meeting_store_get_e_cal (EMeetingStore *im);
+void e_meeting_store_set_e_cal (EMeetingStore *im, ECal *client);
 
 icaltimezone *e_meeting_store_get_zone (EMeetingStore *im);
 void e_meeting_store_set_zone (EMeetingStore *im, icaltimezone *zone);

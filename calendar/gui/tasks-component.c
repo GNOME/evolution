@@ -29,7 +29,7 @@
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-i18n.h>
 #include <gconf/gconf-client.h>
-#include "cal-client/cal-client.h"
+#include <libecal/e-cal.h>
 #include "e-cal-model.h"
 #include "e-tasks.h"
 #include "tasks-component.h"
@@ -53,7 +53,7 @@ struct _TasksComponentPrivate {
 static void
 add_uri_for_source (ESource *source, ETasks *tasks)
 {
-	CalClient *client;
+	ECal *client;
 	ECalModel *model;
 	GError *error = NULL;
 	char *uri = e_source_get_uri (source);
@@ -61,8 +61,8 @@ add_uri_for_source (ESource *source, ETasks *tasks)
 	model = e_calendar_table_get_model (e_tasks_get_calendar_table (tasks));
 	client = e_cal_model_get_client_for_uri (model, uri);
 	if (!client) {
-		client = cal_client_new (uri, CALOBJ_TYPE_TODO);
-		if (cal_client_open (client, FALSE, &error)) {
+		client = e_cal_new (uri, CALOBJ_TYPE_TODO);
+		if (e_cal_open (client, FALSE, &error)) {
 			e_cal_model_add_client (model, client);
 		} else {
 			g_warning (G_STRLOC ": Could not open tasks at %s: %s", uri, error->message);
@@ -77,7 +77,7 @@ add_uri_for_source (ESource *source, ETasks *tasks)
 static void
 remove_uri_for_source (ESource *source, ETasks *tasks)
 {
-	CalClient *client;
+	ECal *client;
 	ECalModel *model;
 	char *uri = e_source_get_uri (source);
 
@@ -143,7 +143,7 @@ primary_source_selection_changed_cb (ESourceSelector *selector, TasksComponent *
 {
 	TasksComponentPrivate *priv;
 	ESource *source;
-	CalClient *client;
+	ECal *client;
 	char *uri;
 	ECalModel *model;
 
