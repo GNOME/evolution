@@ -1,3 +1,8 @@
+2002-06-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* pcs/cal-factory.c (open_fn): Free the uri_string once we're done
+	with it.
+
 2002-06-12  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* gui/dialogs/cal-prefs-dialog.glade: Fix a typo.
