@@ -1,5 +1,9 @@
 2003-01-13  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* folder-browser.c (folder_browser_copy): Correctly create the
+	clipboard buffer by using a nul to delimit the uri and the list of
+	uids.
+
 	* folder-browser-ui.c (folder_browser_ui_add_message): Check the
 	state of message_style in gconf and set the menus accordingly.
 

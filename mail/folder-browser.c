@@ -720,12 +720,12 @@ folder_browser_copy (GtkWidget *menuitem, FolderBrowser *fb)
 	uids = g_ptr_array_new ();
 	message_list_foreach (fb->message_list, add_uid, uids);
 	
-	/* format: "uri uid1\0uid2\0uid3\0...\0uidn" */
+	/* format: "uri\0uid1\0uid2\0uid3\0...\0uidn" */
 	
 	/* write the uri portion */
 	bytes = g_byte_array_new ();
 	g_byte_array_append (bytes, fb->uri, strlen (fb->uri));
-	g_byte_array_append (bytes, " ", 1);
+	g_byte_array_append (bytes, "", 1);
 	
 	/* write the uids */
 	camel_folder_freeze (fb->folder);
