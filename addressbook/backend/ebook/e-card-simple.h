@@ -13,8 +13,8 @@
 #define __E_CARD_SIMPLE_H__
 
 #include <time.h>
+#include <gtk/gtk.h>
 #include <stdio.h>
-#include <gtk/gtkobject.h>
 #include <addressbook/backend/ebook/e-card.h>
 #include <addressbook/backend/ebook/e-card-types.h>
 #include <e-util/e-list.h>
@@ -116,6 +116,7 @@ enum _ECardSimpleField {
         E_CARD_SIMPLE_FIELD_SPOUSE,
         E_CARD_SIMPLE_FIELD_NOTE,
         E_CARD_SIMPLE_FIELD_FBURL,
+	E_CARD_SIMPLE_FIELD_LAST_SIMPLE_STRING = E_CARD_SIMPLE_FIELD_FBURL,
         E_CARD_SIMPLE_FIELD_ANNIVERSARY,
         E_CARD_SIMPLE_FIELD_BIRTH_DATE,
 	E_CARD_SIMPLE_FIELD_MAILER,

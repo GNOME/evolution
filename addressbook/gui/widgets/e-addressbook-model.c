@@ -37,7 +37,7 @@ enum {
 	LAST_SIGNAL
 };
 
-#define COLS (E_CARD_SIMPLE_FIELD_LAST - 5)
+#define COLS (E_CARD_SIMPLE_FIELD_LAST)
 
 static guint e_addressbook_model_signals [LAST_SIGNAL] = {0, };
 
@@ -142,7 +142,7 @@ addressbook_set_value_at (ETableModel *etc, int col, int row, const void *val)
 static gboolean
 addressbook_is_cell_editable (ETableModel *etc, int col, int row)
 {
-	return E_ADDRESSBOOK_MODEL(etc)->editable;
+	return E_ADDRESSBOOK_MODEL(etc)->editable && col < E_CARD_SIMPLE_FIELD_LAST_SIMPLE_STRING;
 }
 
 static void
@@ -156,7 +156,7 @@ addressbook_append_row (ETableModel *etm, ETableModel *source, gint row)
 	card = e_card_new("");
 	simple = e_card_simple_new(card);
 
-	for (col = 0; col < COLS; col++) {
+	for (col = 0; col < E_CARD_SIMPLE_FIELD_LAST_SIMPLE_STRING; col++) {
 		const void *val = e_table_model_value_at(source, col, row);
 		e_card_simple_set(simple,
 				  col,

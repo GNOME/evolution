@@ -1,3 +1,12 @@
+2001-04-11  Christopher James Lahey  <clahey@ximian.com>
+
+	* backend/ebook/e-card-simple.h: Added
+	E_CARD_SIMPLE_FIELD_LAST_SIMPLE_STRING.
+
+	* gui/widgets/e-addressbook-model.c: Modified this to have more
+	columns, but not let them be edited if they're not a simple
+	string.
+
 2001-04-03  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/widgets/e-addressbook-view.c (table_double_click): Fixed a
