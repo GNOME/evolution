@@ -849,6 +849,10 @@ interactive_cb (EvolutionShellComponent *shell_component, gboolean on,
 		gulong new_view_xid, gpointer user_data)
 {
 	mail_session_set_interactive (on);
+
+	if (on)
+		/* how do we get the parent window? */
+		e_msg_composer_check_autosave(NULL);
 }
 
 static void
