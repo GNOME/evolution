@@ -132,8 +132,25 @@ calconduit_load_configuration (guint32 pilot_id)
 
 	c->secret = gnome_config_get_bool ("secret=FALSE");
 	c->multi_day_split = gnome_config_get_bool ("multi_day_split=TRUE");
-	c->last_uri = gnome_config_get_string ("last_uri");
-
+	if ((c->last_uri = gnome_config_get_string ("last_uri")) && !strncmp (c->last_uri, "file://", 7)) {
+		const char *path = c->last_uri + 7;
+		const char *home;
+		
+		home = g_get_home_dir ();
+		
+		if (!strncmp (path, home, strlen (home))) {
+			path += strlen (home);
+			if (*path == '/')
+				path++;
+			
+			if (!strcmp (path, "evolution/local/Calendar/calendar.ics")) {
+				/* need to upgrade the last_uri. yay. */
+				g_free (c->last_uri);
+				c->last_uri = g_strdup_printf ("file://%s/.evolution/calendar/local/system/calendar.ics", home);
+			}
+		}
+	}
+	
 	gnome_config_pop_prefix (); 
 
 	return c;

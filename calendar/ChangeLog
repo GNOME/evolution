@@ -1,3 +1,9 @@
+2004-06-03  Jeffrey Stedfast  <fejj@novell.com>
+
+	* conduits/calendar/calendar-conduit.c
+	(calconduit_load_configuration): If the last_uri string value is
+	the Evolution 1.4 URI, change it to the new URI. Fixes bug #54134.
+
 2004-06-03  Rodrigo Moya <rodrigo@novell.com>
 
 	Fixes #59481
