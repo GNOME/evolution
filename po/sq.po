@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-06-29 16:39+0200\n"
+"POT-Creation-Date: 2004-06-30 10:05+0200\n"
 "PO-Revision-Date: 2004-06-29 18:32+0200\n"
 "Last-Translator: Laurent Dhima <laurenti@alblinux.net>\n"
 "Language-Team: Albanian <gnome-albanian-perkthyesit@lists.sourceforge.net>\n"
@@ -61,8 +61,8 @@ msgid ""
 "This addressbook server might unreachable or the server name may be "
 "misspelled or your network connection could be down."
 msgstr ""
-"Serveri i rubrikës nuk arrihet ose emri i server-it mund të jetë i gabuar ose "
-"lidhja juaj e rrjetit mund të jetë e shkëputur."
+"Serveri i rubrikës nuk arrihet ose emri i server-it mund të jetë i gabuar "
+"ose lidhja juaj e rrjetit mund të jetë e shkëputur."
 
 #. addressbook:ldap-auth primary
 #: addressbook/addressbook-errors.xml.h:6
@@ -76,9 +76,10 @@ msgid ""
 "a supported login method. Remember that many passwords are case sensitive; "
 "your caps lock might be on."
 msgstr ""
-"Kontrolloni që keni shkruar si duhet fjalëkalimin dhe që jeni duke përdorur një "
-"metodë hyrje të suportuar. Kini parasysh që tek fjalëkalimet gërmat e mëdha "
-"ndikojnë dhe mund të keni shtypur pulsantin e shkrimit me gërma të mëdha."
+"Kontrolloni që keni shkruar si duhet fjalëkalimin dhe që jeni duke përdorur "
+"një metodë hyrje të suportuar. Kini parasysh që tek fjalëkalimet gërmat e "
+"mëdha ndikojnë dhe mund të keni shtypur pulsantin e shkrimit me gërma të "
+"mëdha."
 
 #. addressbook:ldap-search-base primary
 #: addressbook/addressbook-errors.xml.h:10
@@ -164,7 +165,8 @@ msgstr "Dëshiron të ruash ndryshimet e kryera?"
 msgid ""
 "You have made modifications to this contact. Do you want to save these "
 "changes?"
-msgstr "Keni kryer ndryshime tek ky kontakt. Dëshironi t'i ruani këto ndryshime?"
+msgstr ""
+"Keni kryer ndryshime tek ky kontakt. Dëshironi t'i ruani këto ndryshime?"
 
 #: addressbook/addressbook-errors.xml.h:43
 #: addressbook/gui/contact-editor/e-contact-editor.c:2803
@@ -183,8 +185,8 @@ msgid ""
 "You are attempting to move a contact from one addressbook to another but it "
 "cannot be removed from the source. Do you want to save a copy instead?"
 msgstr ""
-"Je duke lëvizur një kontakt nga një rubrikë tek tjetra por ai nuk mund të fshihet "
-"nga burimi. Dëshironi përkundrazi të ruani një kopje?"
+"Je duke lëvizur një kontakt nga një rubrikë tek tjetra por ai nuk mund të "
+"fshihet nga burimi. Dëshironi përkundrazi të ruani një kopje?"
 
 #. addressbook:save-error primary
 #: addressbook/addressbook-errors.xml.h:49
@@ -203,7 +205,8 @@ msgstr "Rubrika e Evolution përfundoi në menyrë të papritur."
 
 #. addressbook:backend-died secondary
 #: addressbook/addressbook-errors.xml.h:55
-msgid "Your contacts for {0} will not be available until Evolution is restarted."
+msgid ""
+"Your contacts for {0} will not be available until Evolution is restarted."
 msgstr ""
 "Kontektet tuaja për {0} do të jenë në dispozicion vetëm mbas rinisjes së "
 "Evolution."
@@ -373,8 +376,8 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
-"Pozicioni dhe gjerarkia e kartelave të kontakteve të Evolution ka "
-"ndryshuar në krahasim me versionin 1.x.\n"
+"Pozicioni dhe gjerarkia e kartelave të kontakteve të Evolution ka ndryshuar "
+"në krahasim me versionin 1.x.\n"
 "\n"
 "Ju lutem durim ndërkohë që Evolution migron kartelat tuaja..."
 
@@ -404,8 +407,8 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your Pilot Sync data..."
 msgstr ""
-"Files e kronollogjisë dhe mapimit të sinkronizimit Palm të "
-"Evolution kanë ndryshuar.\n"
+"Files e kronollogjisë dhe mapimit të sinkronizimit Palm të Evolution kanë "
+"ndryshuar.\n"
 "\n"
 "Ju lutem durim ndërkohë që Evolution migron të dhënat e sinkronizimit..."
 
@@ -467,7 +470,8 @@ msgstr ""
 
 #: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:4
 msgid "URI for the folder last used in the select names dialog"
-msgstr "URI për kartelën e përdorur së fundmi në dritaren e zgjedhjes së emrave"
+msgstr ""
+"URI për kartelën e përdorur së fundmi në dritaren e zgjedhjes së emrave"
 
 #: addressbook/gui/component/ldap-config.glade.h:1
 #: addressbook/gui/component/select-names/select-names.glade.h:1
@@ -573,8 +577,10 @@ msgid "Email address"
 msgstr "Adresa Email"
 
 #: addressbook/gui/component/ldap-config.glade.h:22
-msgid "Evolution will use this email address to authenticate you with the server."
-msgstr "Evolution do të përdorë këtë adresë email për t'ju autentifikuar me serverin."
+msgid ""
+"Evolution will use this email address to authenticate you with the server."
+msgstr ""
+"Evolution do të përdorë këtë adresë email për t'ju autentifikuar me serverin."
 
 #: addressbook/gui/component/ldap-config.glade.h:23
 msgid "Find Possible Search Bases"
@@ -628,8 +634,8 @@ msgid ""
 msgstr ""
 "Po të zgjidhni këtë opcion Evolution do të përpiqet të përdorë SSL/TLS nëse "
 "jeni në një ambient të pasigurt. Për shembull, nëqoftëse serveri juaj LDAP "
-"mbrohet nga një firewall gjatë punës, Evolution nuk ka nevojë të përdorë "
-"SSL/TLS sepse lidhja juaj është e sigurtë."
+"mbrohet nga një firewall gjatë punës, Evolution nuk ka nevojë të përdorë SSL/"
+"TLS sepse lidhja juaj është e sigurtë."
 
 #: addressbook/gui/component/ldap-config.glade.h:33
 msgid ""
@@ -638,8 +644,8 @@ msgid ""
 "vulnerable to security exploits. "
 msgstr ""
 "Po të zgjidhni këtë opcion do të thotë që serveri juaj nuk suporton SSL apo "
-"TLS.  Kjo do të ketë si pasojë që lidhja juaj të jetë e pasigurtë, dhe ju do të "
-"jeni i pambrojtur ndaj exploits. "
+"TLS.  Kjo do të ketë si pasojë që lidhja juaj të jetë e pasigurtë, dhe ju do "
+"të jeni i pambrojtur ndaj exploits. "
 
 #: addressbook/gui/component/ldap-config.glade.h:34
 msgid "Starting point and locations within it"
@@ -655,9 +661,9 @@ msgid ""
 "searches will begin. If you leave this blank, the search will begin at the "
 "root of the directory tree."
 msgstr ""
-"Baza e kërkimit është emri i veçantë (DN)  i zërit ku kërkimet tuaja do "
-"të fillojnë. Nëse kjo fushë lihet bosh kërkimi do të fillojë nga rrënja e "
-"pemës së kartelave."
+"Baza e kërkimit është emri i veçantë (DN)  i zërit ku kërkimet tuaja do të "
+"fillojnë. Nëse kjo fushë lihet bosh kërkimi do të fillojë nga rrënja e pemës "
+"së kartelave."
 
 #: addressbook/gui/component/ldap-config.glade.h:37
 msgid ""
@@ -684,8 +690,8 @@ msgid ""
 "This is the maximum number of entries to download. Setting this number to be "
 "too large will slow down your address book."
 msgstr ""
-"Ky është numri maksimum i zërave për tu shkarkuar. Duke vendosur këtë "
-"numër tepër të madh do të ngadalsoni në menyrë të ndjeshme rubrikën tuaj."
+"Ky është numri maksimum i zërave për tu shkarkuar. Duke vendosur këtë numër "
+"tepër të madh do të ngadalsoni në menyrë të ndjeshme rubrikën tuaj."
 
 #: addressbook/gui/component/ldap-config.glade.h:40
 msgid ""
@@ -2169,8 +2175,8 @@ msgid ""
 "You are moving the contact from one address book to another, but it cannot "
 "be removed from the source. Do you want to save a copy instead?"
 msgstr ""
-"Jeni duke lëvizur kontaktin nga një rubrikë në tjetrën, por ai nuk mund të fshihet "
-"nga burimi. Dëshironi përkundrazi të ruani një kopje?"
+"Jeni duke lëvizur kontaktin nga një rubrikë në tjetrën, por ai nuk mund të "
+"fshihet nga burimi. Dëshironi përkundrazi të ruani një kopje?"
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:280
 msgid "Contact Quick-Add"
@@ -2357,7 +2363,8 @@ msgstr "Emri i _listës:"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:11
 msgid "_Type an email address or drag a contact into the list below:"
-msgstr "_Shkruaj një adresë email ose zvarrit një kontakt nga lista e mëposhtme:"
+msgstr ""
+"_Shkruaj një adresë email ose zvarrit një kontakt nga lista e mëposhtme:"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:13
 #: smime/gui/smime-ui.glade.h:48
@@ -2988,7 +2995,9 @@ msgstr ""
 msgid ""
 "We were unable to open this addressbook.  This either means you have entered "
 "an incorrect URI, or the LDAP server is unreachable."
-msgstr "E pamundur hapja e kësaj rubrike.  Kjo do të thotë që është dhënë një URI e pasaktë, ose që server-i LDAP nuk është i arritshëm."
+msgstr ""
+"E pamundur hapja e kësaj rubrike.  Kjo do të thotë që është dhënë një URI e "
+"pasaktë, ose që server-i LDAP nuk është i arritshëm."
 
 #: addressbook/gui/widgets/eab-gui-util.c:103
 msgid ""
@@ -2996,15 +3005,17 @@ msgid ""
 "you want to use LDAP in Evolution, you must install an LDAP-enabled "
 "Evolution package."
 msgstr ""
-"Ky version i Evolution nuk ka të kompiluar suportin LDAP.  Nëse dëshironi "
-"të përdorni LDAP në Evolution do t'ju duhet të instaloni një pako të Evolution "
+"Ky version i Evolution nuk ka të kompiluar suportin LDAP.  Nëse dëshironi të "
+"përdorni LDAP në Evolution do t'ju duhet të instaloni një pako të Evolution "
 "me LDAP të aktivuar."
 
 #: addressbook/gui/widgets/eab-gui-util.c:110
 msgid ""
 "We were unable to open this addressbook.  This either means you have entered "
 "an incorrect URI, or the server is unreachable."
-msgstr "E pamundur hapja e kësaj rubrike.  Kjo do të thotë që është dhënë një URI e pasaktë, ose që server-i nuk është i arritshëm."
+msgstr ""
+"E pamundur hapja e kësaj rubrike.  Kjo do të thotë që është dhënë një URI e "
+"pasaktë, ose që server-i nuk është i arritshëm."
 
 #: addressbook/gui/widgets/eab-gui-util.c:130
 msgid ""
@@ -3483,7 +3494,8 @@ msgid "Export in asynchronous mode "
 msgstr ""
 
 #: addressbook/tools/evolution-addressbook-export.c:63
-msgid "The number of cards in one output file in asychronous mode,default size 100."
+msgid ""
+"The number of cards in one output file in asychronous mode,default size 100."
 msgstr ""
 
 #: addressbook/tools/evolution-addressbook-export.c:63
@@ -3491,7 +3503,8 @@ msgid "NUMBER"
 msgstr ""
 
 #: addressbook/tools/evolution-addressbook-export.c:91
-msgid "Command line arguments error, please use --help option to see the usage."
+msgid ""
+"Command line arguments error, please use --help option to see the usage."
 msgstr ""
 
 #: addressbook/tools/evolution-addressbook-export.c:105
@@ -3562,7 +3575,8 @@ msgstr "Jeni i sigurt që dëshironi të anulloni dhe të fshini këtë mbledhje
 
 #. calendar:prompt-delete-meeting secondary
 #: calendar/calendar-errors.xml.h:10
-msgid "All information on this meeting will be deleted and can not be restored."
+msgid ""
+"All information on this meeting will be deleted and can not be restored."
 msgstr ""
 
 #. calendar:prompt-cancel-task secondary
@@ -3621,7 +3635,8 @@ msgstr "Jeni i sigurt që dëshironi të eleminoni takimin `%s'?"
 #. calendar:prompt-delete-titled-appointment secondary
 #. calendar:prompt-delete-appointment secondary
 #: calendar/calendar-errors.xml.h:34 calendar/calendar-errors.xml.h:38
-msgid "All information on this appointment will be deleted and can not be restored."
+msgid ""
+"All information on this appointment will be deleted and can not be restored."
 msgstr ""
 
 #. calendar:prompt-delete-appointment primary
@@ -3645,7 +3660,8 @@ msgstr "Jeni i sigurt që dëshironi të eleminoni zërin e ditarit `%s'?"
 #. calendar:prompt-delete-named-journal secondary
 #. calendar:prompt-delete-journal secondary
 #: calendar/calendar-errors.xml.h:50 calendar/calendar-errors.xml.h:54
-msgid "All information in this journal will be deleted and can not be restored."
+msgid ""
+"All information in this journal will be deleted and can not be restored."
 msgstr ""
 
 #. calendar:prompt-delete-appointments primary
@@ -3721,7 +3737,8 @@ msgstr ""
 
 #. calendar:prompt-meeting-invite secondary
 #: calendar/calendar-errors.xml.h:78
-msgid "Email invitations will be sent to all participants and allow them to RSVP."
+msgid ""
+"Email invitations will be sent to all participants and allow them to RSVP."
 msgstr ""
 
 #: calendar/calendar-errors.xml.h:80 calendar/calendar-errors.xml.h:86
@@ -3838,7 +3855,8 @@ msgstr "Kalendari"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:5
 msgid "Configure your timezone, Calendar and Task List here "
-msgstr "Konfiguro këtu zonën tënde të orës, kalendarin dhe listën e aktiviteteve"
+msgstr ""
+"Konfiguro këtu zonën tënde të orës, kalendarin dhe listën e aktiviteteve"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:6
 msgid "Evolution Calendar and Tasks"
@@ -4822,7 +4840,8 @@ msgstr "Ky zë u eleminua."
 #: calendar/gui/dialogs/changed-comp.c:77
 #, c-format
 msgid "%s  You have made changes. Forget those changes and close the editor?"
-msgstr "%s  Keni kryer ndryshime. T'i harrojmë ndryshimet dhe të mbyll editorin?"
+msgstr ""
+"%s  Keni kryer ndryshime. T'i harrojmë ndryshimet dhe të mbyll editorin?"
 
 #: calendar/gui/dialogs/changed-comp.c:79
 #, c-format
@@ -5351,7 +5370,8 @@ msgid "You are modifying a recurring task, what would you like to modify?"
 msgstr ""
 
 #: calendar/gui/dialogs/recur-comp.c:58
-msgid "You are modifying a recurring journal entry, what would you like to modify?"
+msgid ""
+"You are modifying a recurring journal entry, what would you like to modify?"
 msgstr ""
 
 #: calendar/gui/dialogs/recur-comp.c:72
@@ -10278,7 +10298,8 @@ msgstr ""
 
 #: camel/providers/imap/camel-imap-folder.c:2484
 #, c-format
-msgid "Unexpected server response: Identical UIDs provided for messages %d and %d"
+msgid ""
+"Unexpected server response: Identical UIDs provided for messages %d and %d"
 msgstr ""
 
 #: camel/providers/imap/camel-imap-folder.c:2660
@@ -10466,7 +10487,8 @@ msgstr ""
 #: camel/providers/imap/camel-imap-store.c:2259
 #: camel/providers/imap4/camel-imap4-store.c:796
 #, fuzzy, c-format
-msgid "The folder name \"%s\" is invalid because it contains the character \"%c\""
+msgid ""
+"The folder name \"%s\" is invalid because it contains the character \"%c\""
 msgstr "Emri i kartelës nuk mund të përmbajë shenjën \"#\"."
 
 #: camel/providers/imap/camel-imap-store.c:1939
@@ -10595,7 +10617,8 @@ msgid "For reading and storing mail on IMAPv4rev1 servers. EXPERIMENTAL !!"
 msgstr ""
 
 #: camel/providers/imap4/camel-imap4-provider.c:72
-msgid "This option will connect to the IMAPv4rev1 server using a plaintext password."
+msgid ""
+"This option will connect to the IMAPv4rev1 server using a plaintext password."
 msgstr ""
 
 #: camel/providers/imap4/camel-imap4-store.c:271
@@ -10607,7 +10630,8 @@ msgstr ""
 
 #: camel/providers/imap4/camel-imap4-store.c:383
 #, c-format
-msgid "Cannot authenticate to IMAP server %s using the %s authentication mechanism"
+msgid ""
+"Cannot authenticate to IMAP server %s using the %s authentication mechanism"
 msgstr ""
 
 #: camel/providers/imap4/camel-imap4-store.c:428
@@ -11322,7 +11346,8 @@ msgid "Unable to save grouplist file for %s: %s"
 msgstr ""
 
 #: camel/providers/nntp/camel-nntp-provider.c:43
-msgid "Show folders in short notation (e.g. c.o.linux rather than comp.os.linux)"
+msgid ""
+"Show folders in short notation (e.g. c.o.linux rather than comp.os.linux)"
 msgstr ""
 
 #: camel/providers/nntp/camel-nntp-provider.c:45
@@ -12034,7 +12059,8 @@ msgid "Attach file(s)"
 msgstr ""
 
 #: composer/e-msg-composer.c:704
-msgid "Cannot sign outgoing message: No signing certificate set for this account"
+msgid ""
+"Cannot sign outgoing message: No signing certificate set for this account"
 msgstr ""
 
 #: composer/e-msg-composer.c:711
@@ -12767,7 +12793,8 @@ msgid "Composer Preferences"
 msgstr ""
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:3
-msgid "Configure mail preferences, including security and message display, here"
+msgid ""
+"Configure mail preferences, including security and message display, here"
 msgstr ""
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:4
@@ -14145,7 +14172,8 @@ msgid "Prompt the user when he or she tries to expunge a folder."
 msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:56
-msgid "Prompt the user when he or she tries to send a message without a Subject."
+msgid ""
+"Prompt the user when he or she tries to send a message without a Subject."
 msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:57
@@ -15950,7 +15978,8 @@ msgid ""
 msgstr ""
 
 #: shell/apps_evolution_shell.schemas.in.in.h:9
-msgid "List of paths for the folders to be synchronized to disk for offline usage"
+msgid ""
+"List of paths for the folders to be synchronized to disk for offline usage"
 msgstr ""
 
 #: shell/apps_evolution_shell.schemas.in.in.h:10
@@ -16665,7 +16694,8 @@ msgid "You have certificates from these organizations that identify you:"
 msgstr ""
 
 #: smime/gui/smime-ui.glade.h:43
-msgid "You have certificates on file that identify these certificate authorities:"
+msgid ""
+"You have certificates on file that identify these certificate authorities:"
 msgstr ""
 
 #: smime/gui/smime-ui.glade.h:44
@@ -17445,7 +17475,8 @@ msgid "Hide _Read Messages"
 msgstr ""
 
 #: ui/evolution-mail-list.xml.h:8
-msgid "Hide deleted messages rather than displaying them with a line through them"
+msgid ""
+"Hide deleted messages rather than displaying them with a line through them"
 msgstr ""
 
 #: ui/evolution-mail-list.xml.h:9
@@ -18581,7 +18612,8 @@ msgstr "Alarmi i Evolution"
 #. setup a dummy error
 #: widgets/misc/e-error.c:417
 #, c-format
-msgid "<span weight=\"bold\">Internal error, unknown error '%s' requested</span>"
+msgid ""
+"<span weight=\"bold\">Internal error, unknown error '%s' requested</span>"
 msgstr ""
 
 #: widgets/misc/e-expander.c:181
@@ -18740,4 +18772,3 @@ msgstr ""
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr ""
-
