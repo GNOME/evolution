@@ -19,6 +19,7 @@ privlib_LTLIBRARIES = libeutil.la libedb3util.la libeconduit.la
 noinst_LTLIBRARIES = libeutil-static.la libeconduit-static.la
 
 eutilinclude_HEADERS = 				\
+	e-config-listener.h			\
 	e-corba-utils.h				\
 	e-dialog-widgets.h			\
 	e-gtk-utils.h				\
@@ -41,6 +42,7 @@ eutilinclude_HEADERS = 				\
 
 libeutil_la_SOURCES =				\
 	$(eutilinclude_HEADERS)			\
+	e-config-listener.c			\
 	e-corba-utils.c				\
 	e-dialog-widgets.c			\
 	e-gtk-utils.c				\
@@ -81,7 +83,6 @@ MARSHAL_GENERATED = e-util-marshal.c e-util-marshal.h
 #	e-categories-config.c
 #	e-categories-master-list-wombat.[ch]
 #	e-component-listener.c
-#	e-config-listener.c
 #	e-dialog-utils.c
 #	e-passwords.c
 #	e-proxy.c

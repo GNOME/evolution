@@ -296,7 +296,6 @@ e_config_listener_get_float_with_default (EConfigListener *cl,
 	GConfValue *conf_value;
 	float value;
 	KeyData *kd;
-	gboolean d;
 	gpointer orig_key, orig_value;
 
 	g_return_val_if_fail (E_IS_CONFIG_LISTENER (cl), -1);
@@ -344,7 +343,6 @@ e_config_listener_get_long_with_default (EConfigListener *cl,
 	GConfValue *conf_value;
 	long value;
 	KeyData *kd;
-	gboolean d;
 	gpointer orig_key, orig_value;
 
 	g_return_val_if_fail (E_IS_CONFIG_LISTENER (cl), -1);
@@ -392,7 +390,6 @@ e_config_listener_get_string_with_default (EConfigListener *cl,
 	GConfValue *conf_value;
 	const char *str;
 	KeyData *kd;
-	gboolean d;
 	gpointer orig_key, orig_value;
 
 	g_return_val_if_fail (E_IS_CONFIG_LISTENER (cl), NULL);
