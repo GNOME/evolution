@@ -59,6 +59,13 @@ struct ETreeSelectionModelPriv {
 	int          tree_model_node_col_changed_id;
 	int          tree_model_node_inserted_id;
 	int          tree_model_node_removed_id;
+
+	int          sorted_model_pre_change_id;
+	int          sorted_model_node_changed_id;
+	int          sorted_model_node_data_changed_id;
+	int          sorted_model_node_col_changed_id;
+	int          sorted_model_node_inserted_id;
+	int          sorted_model_node_removed_id;
 };
 
 /* ETreeSelectionModelNode helpers */
@@ -369,10 +376,47 @@ etsm_node_removed (ETreeModel *etm, ETreePath parent, ETreePath child, int old_p
 }
 
 
+
+static void
+etsm_sorted_pre_change (ETreeModel *etm, ETreeSelectionModel *etsm)
+{
+}
+
+static void
+etsm_sorted_node_changed (ETreeModel *etm, ETreePath node, ETreeSelectionModel *etsm)
+{
+	e_selection_model_selection_changed(E_SELECTION_MODEL(etsm));
+	e_selection_model_cursor_changed(E_SELECTION_MODEL(etsm), etsm_cursor_row_real(etsm), etsm->priv->cursor_col);
+}
+
+static void
+etsm_sorted_node_data_changed (ETreeModel *etm, ETreePath node, ETreeSelectionModel *etsm)
+{
+}
+
+static void
+etsm_sorted_node_col_changed (ETreeModel *etm, ETreePath node, int col, ETreeSelectionModel *etsm)
+{
+}
+
+static void
+etsm_sorted_node_inserted (ETreeModel *etm, ETreePath parent, ETreePath child, ETreeSelectionModel *etsm)
+{
+	etsm_sorted_node_changed(etm, parent, etsm);
+}
+
+static void
+etsm_sorted_node_removed (ETreeModel *etm, ETreePath parent, ETreePath child, int old_position, ETreeSelectionModel *etsm)
+{
+	etsm_sorted_node_changed(etm, parent, etsm);
+}
+
+
 static void
 add_model(ETreeSelectionModel *etsm, ETreeModel *model)
 {
 	ETreeSelectionModelPriv *priv = etsm->priv;
+
 	priv->model = model;
 
 	if (!priv->model)
@@ -425,6 +469,64 @@ drop_model(ETreeSelectionModel *etsm)
 	priv->tree_model_node_removed_id = 0;
 }
 
+
+static void
+add_ets(ETreeSelectionModel *etsm, ETreeSorted *ets)
+{
+	ETreeSelectionModelPriv *priv = etsm->priv;
+
+	priv->ets = ets;
+
+	if (!priv->ets)
+		return;
+
+	gtk_object_ref(GTK_OBJECT(priv->ets));
+	priv->sorted_model_pre_change_id        = gtk_signal_connect (GTK_OBJECT (priv->ets), "pre_change",
+								      GTK_SIGNAL_FUNC (etsm_sorted_pre_change), etsm);
+	priv->sorted_model_node_changed_id      = gtk_signal_connect (GTK_OBJECT (priv->ets), "node_changed",
+								    GTK_SIGNAL_FUNC (etsm_sorted_node_changed), etsm);
+	priv->sorted_model_node_data_changed_id = gtk_signal_connect (GTK_OBJECT (priv->ets), "node_data_changed",
+								    GTK_SIGNAL_FUNC (etsm_sorted_node_data_changed), etsm);
+	priv->sorted_model_node_col_changed_id  = gtk_signal_connect (GTK_OBJECT (priv->ets), "node_col_changed",
+								    GTK_SIGNAL_FUNC (etsm_sorted_node_col_changed), etsm);
+	priv->sorted_model_node_inserted_id     = gtk_signal_connect (GTK_OBJECT (priv->ets), "node_inserted",
+								    GTK_SIGNAL_FUNC (etsm_sorted_node_inserted), etsm);
+	priv->sorted_model_node_removed_id      = gtk_signal_connect (GTK_OBJECT (priv->ets), "node_removed",
+								    GTK_SIGNAL_FUNC (etsm_sorted_node_removed), etsm);
+}
+
+static void
+drop_ets(ETreeSelectionModel *etsm)
+{
+	ETreeSelectionModelPriv *priv = etsm->priv;
+
+	if (!priv->ets)
+		return;
+
+	gtk_signal_disconnect (GTK_OBJECT (priv->ets),
+			       priv->sorted_model_pre_change_id);
+	gtk_signal_disconnect (GTK_OBJECT (priv->ets),
+			       priv->sorted_model_node_changed_id);
+	gtk_signal_disconnect (GTK_OBJECT (priv->ets),
+			       priv->sorted_model_node_data_changed_id);
+	gtk_signal_disconnect (GTK_OBJECT (priv->ets),
+			       priv->sorted_model_node_col_changed_id);
+	gtk_signal_disconnect (GTK_OBJECT (priv->ets),
+			       priv->sorted_model_node_inserted_id);
+	gtk_signal_disconnect (GTK_OBJECT (priv->ets),
+			       priv->sorted_model_node_removed_id);
+
+	gtk_object_unref (GTK_OBJECT (priv->ets));
+	priv->ets = NULL;
+
+	priv->sorted_model_pre_change_id = 0;
+	priv->sorted_model_node_changed_id = 0;
+	priv->sorted_model_node_data_changed_id = 0;
+	priv->sorted_model_node_col_changed_id = 0;
+	priv->sorted_model_node_inserted_id = 0;
+	priv->sorted_model_node_removed_id = 0;
+}
+
 /* Virtual functions */
 static void
 etsm_destroy (GtkObject *object)
@@ -435,6 +537,7 @@ etsm_destroy (GtkObject *object)
 
 	etsm_real_clear (etsm);
 	drop_model(etsm);
+	drop_ets(etsm);
 	g_free(etsm->priv);
 }
 
@@ -491,7 +594,8 @@ etsm_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		break;
 
 	case ARG_ETS:
-		etsm->priv->ets = (ETreeSorted *) GTK_VALUE_OBJECT(*arg);
+		drop_ets(etsm);
+		add_ets(etsm, (ETreeSorted *) GTK_VALUE_OBJECT(*arg));
 		break;
 	}
 }
@@ -965,6 +1069,12 @@ e_tree_selection_model_init (ETreeSelectionModel *etsm)
 	priv->tree_model_node_inserted_id     = 0;
 	priv->tree_model_node_removed_id      = 0;
 
+	priv->sorted_model_pre_change_id      = 0;
+	priv->sorted_model_node_changed_id      = 0;
+	priv->sorted_model_node_data_changed_id = 0;
+	priv->sorted_model_node_col_changed_id  = 0;
+	priv->sorted_model_node_inserted_id     = 0;
+	priv->sorted_model_node_removed_id      = 0;
 }
 
 static void
