@@ -1,3 +1,8 @@
+2003-01-27  Chris Toshok  <toshok@ximian.com>
+
+	* gui/contact-editor/contact-editor.glade: add a scrolled window
+	(SHADOW_IN) around the address textview.
+
 2003-01-26  Chris Toshok  <toshok@ximian.com>
 
 	* gui/contact-editor/contact-editor.glade: rename the category
