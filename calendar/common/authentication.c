@@ -30,6 +30,8 @@
 #include "e-util/e-passwords.h"
 #include "authentication.h"
 
+static GHashTable *source_lists_hash = NULL;
+
 static char *
 auth_func_cb (ECal *ecal, const char *prompt, const char *key, gpointer user_data)
 {
@@ -79,24 +81,63 @@ auth_new_cal_from_source (ESource *source, ECalSourceType type)
 ECal *
 auth_new_cal_from_uri (const char *uri, ECalSourceType type)
 {
-	ESourceGroup *group;
-	ESource *source;
+	ESourceGroup *group = NULL;
+	ESource *source = NULL;
 	ECal *cal;
+	ESourceList *source_list = NULL;
 
-	group = e_source_group_new ("", uri);
-	source = e_source_new ("", "");
-	e_source_set_group (source, group);
+	/* try to find the source in the source list in GConf */
+	source_list = g_hash_table_lookup (source_lists_hash, &type);
+	if (!source_list) {
+		if (e_cal_get_sources (&source_list, type, NULL)) {
+			if (!source_lists_hash)
+				source_lists_hash = g_hash_table_new (g_int_hash, g_int_equal);
 
-	/* we explicitly check for groupwise:// uris, to force authentication on them */
-	if (!strncmp (uri, "groupwise://", strlen ("groupwise://"))) {
-		e_source_set_property (source, "auth", "yes");
-		/* FIXME: need to retrieve the username */
+			g_hash_table_insert (source_lists_hash, &type, source_list);
+		}
+	}
+
+	if (source_list) {
+		GSList *gl;
+
+		for (gl = e_source_list_peek_groups (source_list); gl != NULL && source == NULL; gl = gl->next) {
+			GSList *sl;
+
+			for (sl = e_source_group_peek_sources (gl->data); sl != NULL; sl = sl->next) {
+				char *source_uri;
+
+				source_uri = e_source_get_uri (sl->data);
+				if (source_uri) {
+					if (!strcmp (source_uri, uri)) {
+						g_free (source_uri);
+						source = g_object_ref (sl->data);
+						break;
+					}
+
+					g_free (source_uri);
+				}
+			}
+		}
+	}
+
+	if (!source) {
+		group = e_source_group_new ("", uri);
+		source = e_source_new ("", "");
+		e_source_set_group (source, group);
+
+		/* we explicitly check for groupwise:// uris, to force authentication on them */
+		if (!strncmp (uri, "groupwise://", strlen ("groupwise://"))) {
+			e_source_set_property (source, "auth", "1");
+			e_source_set_property (source, "auth-domain", "Groupwise");
+			/* FIXME: need to retrieve the username */
+		}
 	}
 
 	cal = auth_new_cal_from_source (source, type);
 
 	g_object_unref (source);
-	g_object_unref (group);
+	if (group)
+		g_object_unref (group);
 
 	return cal;
 }

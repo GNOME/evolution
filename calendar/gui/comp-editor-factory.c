@@ -404,15 +404,11 @@ cal_opened_cb (ECal *client, ECalendarStatus status, gpointer data)
 		return;
 
 	case E_CALENDAR_STATUS_OTHER_ERROR:
+	case E_CALENDAR_STATUS_NO_SUCH_CALENDAR:
 		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
 						 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
 						 _("Error while opening the calendar"));
 		break;
-
-	case E_CALENDAR_STATUS_NO_SUCH_CALENDAR:
-		/* oops - we specified only_if_exists = FALSE */
-		g_assert_not_reached ();
-		return;
 
 	case E_CALENDAR_STATUS_PROTOCOL_NOT_SUPPORTED:
 		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
@@ -425,9 +421,17 @@ cal_opened_cb (ECal *client, ECalendarStatus status, gpointer data)
 						 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
 						 _("Permission denied to open the calendar"));
 		break;
-		
+
+	case E_CALENDAR_STATUS_AUTHENTICATION_FAILED :
+		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
+						 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
+						 _("Authentication Failed"));
+		break;
+
 	default:
-		g_assert_not_reached ();
+		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
+						 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
+						 _("Unknown error"));
 		return;
 	}
 
