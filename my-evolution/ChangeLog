@@ -1,3 +1,9 @@
+2001-10-14  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* e-summary-calendar.c (generate_html): Made temporary buffer for
+	strftime much bigger (it was too small for Polish month names), added
+	missing colon and conversion to UTF-8.
+
 2001-10-12  Iain Holmes  <iain@ximian.com>
 
 	* component-factory.c (component_factory_init): Fix message.

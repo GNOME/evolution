@@ -352,18 +352,17 @@ generate_html (gpointer data)
 			CalComponentText text;
 			time_t start_t;
 			struct tm *start_tm;
-			char *start_str, *img;
+			char start_str[64], *start_str_utf, *img;
 
 			event = uidarray->pdata[i];
 			cal_component_get_summary (event->comp, &text);
 			start_t = icaltime_as_timet (*event->dt.value);
 
-			start_str = g_new (char, 20);
 			start_tm = localtime (&start_t);
 			if (calendar->wants24hr == TRUE) {
-				strftime (start_str, 19, _("%k%M %d %B"), start_tm);
+				strftime (start_str, sizeof start_str, _("%k:%M %d %B"), start_tm);
 			} else {
-				strftime (start_str, 19, _("%l:%M %d %B"), start_tm);
+				strftime (start_str, sizeof start_str, _("%l:%M %d %B"), start_tm);
 			}
 
 			if (cal_component_has_alarms (event->comp)) {
@@ -376,12 +375,13 @@ generate_html (gpointer data)
 				img = "new_appointment.xpm";
 			}
 
+			start_str_utf = e_utf8_from_locale_string (start_str);
 			tmp = g_strdup_printf ("<img align=\"middle\" src=\"%s\" "
 					       "alt=\"\" width=\"16\" height=\"16\">  &#160; "
 					       "<font size=\"-1\"><a href=\"calendar:/%s\">%s, %s</a></font><br>", 
 					       img,
-					       event->uid, start_str, text.value);
-			g_free (start_str);
+					       event->uid, start_str_utf, text.value);
+			g_free (start_str_utf);
 			
 			g_string_append (string, tmp);
 			g_free (tmp);
