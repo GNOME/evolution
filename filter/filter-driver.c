@@ -290,7 +290,6 @@ start(void)
 
 	/* just hack up this for now */
 	x->ex = camel_exception_new ();
-	camel_provider_register_as_module ("../camel/providers/mbox/.libs/libcamelmbox.so.0");
 	x->session = camel_session_new (auth_callback);
 	printf("session = %p\n", x->session);
 	x->store = camel_session_get_store (x->session, store_url, x->ex);

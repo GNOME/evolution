@@ -1,3 +1,8 @@
+2000-04-30  Dan Winship  <danw@helixcode.com>
+
+	* filter-driver.c (start): Remove no-longer-necessary call to
+	camel_provider_register_as_module.
+
 2000-04-25  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* Makefile.am (INCLUDES): Use `$(GTKHTML_CFLAGS)'.
