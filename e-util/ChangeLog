@@ -1,3 +1,16 @@
+2000-11-29  Not Zed  <NotZed@HelixCode.com>
+
+	* e-sexp.c (term_eval_lt): Plug a memleak, need to free results
+	from term_eval().
+	(term_eval_gt): 
+	(term_eval_eq): 
+
+2000-11-27  Not Zed  <NotZed@HelixCode.com>
+
+	* e-memory.c (e_mempool_new): Added some locking to global data.
+	This should make the interfaces mt-safe, although each object is
+	only per-thread safe.
+
 2000-11-22  Not Zed  <NotZed@HelixCode.com>
 
 	* e-memory.c (e_mempool_alloc): If we dont get a big enough chunk

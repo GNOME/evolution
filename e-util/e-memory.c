@@ -336,6 +336,9 @@ typedef struct _EMemPool {
 
 /* a pool of mempool header blocks */
 static MemChunk *mempool_memchunk;
+#ifdef G_THREADS_ENABLED
+static GStaticMutex mempool_mutex = G_STATIC_MUTEX_INIT;
+#endif
 
 /**
  * e_mempool_new:
@@ -363,10 +366,16 @@ MemPool *e_mempool_new(int blocksize, int threshold, EMemPoolFlags flags)
 {
 	MemPool *pool;
 
+#ifdef G_THREADS_ENABLED
+	g_static_mutex_lock(&mempool_mutex);
+#endif
 	if (mempool_memchunk == NULL) {
 		mempool_memchunk = e_memchunk_new(8, sizeof(MemPool));
 	}
 	pool = e_memchunk_alloc(mempool_memchunk);
+#ifdef G_THREADS_ENABLED
+	g_static_mutex_unlock(&mempool_mutex);
+#endif
 	if (threshold >= blocksize)
 		threshold = blocksize * 2 / 3;
 	pool->blocksize = blocksize;

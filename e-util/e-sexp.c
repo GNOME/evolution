@@ -320,6 +320,8 @@ term_eval_lt(struct _ESExp *f, int argc, struct _ESExpTerm **argv, void *data)
 			r->type = ESEXP_RES_BOOL;
 			r->value.bool = strcmp(r1->value.string, r2->value.string) < 0;
 		}
+		e_sexp_result_free(r1);
+		e_sexp_result_free(r2);
 	}
 	return r;
 }
@@ -344,6 +346,8 @@ term_eval_gt(struct _ESExp *f, int argc, struct _ESExpTerm **argv, void *data)
 			r->type = ESEXP_RES_BOOL;
 			r->value.bool = strcmp(r1->value.string, r2->value.string) > 0;
 		}
+		e_sexp_result_free(r1);
+		e_sexp_result_free(r2);
 	}
 	return r;
 }
@@ -368,6 +372,8 @@ term_eval_eq(struct _ESExp *f, int argc, struct _ESExpTerm **argv, void *data)
 		} else if (r1->type == ESEXP_RES_STRING) {
 			r->value.bool = strcmp(r1->value.string, r2->value.string) == 0;
 		}
+		e_sexp_result_free(r1);
+		e_sexp_result_free(r2);
 	}
 	return r;
 }
