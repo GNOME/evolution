@@ -232,6 +232,22 @@ dialog_destroy_notify (void *data,
 }
 
 static void
+folder_name_entry_activate_cb (GtkEntry *entry,
+			       void *data)
+{
+	DialogData *dialog_data;
+	const char *parent_path;
+	
+	dialog_data = (DialogData *) data;
+
+	parent_path = e_storage_set_view_get_current_folder (E_STORAGE_SET_VIEW (dialog_data->storage_set_view));
+
+	if (parent_path != NULL
+	    && GTK_ENTRY (dialog_data->folder_name_entry)->text_length > 0)
+		gtk_dialog_response (GTK_DIALOG (dialog_data->dialog), GTK_RESPONSE_OK);	
+}
+
+static void
 folder_name_entry_changed_cb (GtkEditable *editable,
 			      void *data)
 {
@@ -540,6 +556,9 @@ e_shell_show_folder_creation_dialog (EShell *shell,
 
 	g_signal_connect (dialog_data->folder_name_entry, "changed",
 			  G_CALLBACK (folder_name_entry_changed_cb), dialog_data);
+
+	g_signal_connect (dialog_data->folder_name_entry, "activate",
+			  G_CALLBACK (folder_name_entry_activate_cb), dialog_data);
 
 	g_signal_connect (dialog_data->storage_set_view, "folder_selected",
 			  G_CALLBACK (storage_set_view_folder_selected_cb), dialog_data);

@@ -1,3 +1,9 @@
+2003-02-07  Larry Ewing  <lewing@ximian.com>
+
+	* e-shell-folder-creation-dialog.c
+	(folder_name_entry_activate_cb): add an activate handler that
+	returns a response OK if the OK response would be active.
+
 2003-02-06  Dan Winship  <danw@ximian.com>
 
 	* evolution-test-component.c (main): s/PACKAGE/GETTEXT_PACKAGE/ in
