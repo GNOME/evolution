@@ -457,11 +457,16 @@ evolution_shell_client_get_local_storage (EvolutionShellClient *shell_client)
 	CORBA_exception_init (&ev);
 
 	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));
-	if (corba_shell == CORBA_OBJECT_NIL)
+	if (corba_shell == CORBA_OBJECT_NIL) {
+		g_warning ("evolution_shell_client_get_local_storage() invoked on an "
+			   "EvolutionShellClient that doesn't have a CORBA objref???");
+		CORBA_exception_free (&ev);
 		return CORBA_OBJECT_NIL;
+	}
 
 	corba_local_storage = GNOME_Evolution_Shell_getLocalStorage (corba_shell, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_warning ("evolution_shell_client_get_local_storage() failing -- %s ???", ev._repo_id);
 		CORBA_exception_free (&ev);
 		return CORBA_OBJECT_NIL;
 	}
@@ -478,8 +483,8 @@ evolution_shell_client_set_line_status (EvolutionShellClient *shell_client,
 	GNOME_Evolution_Shell corba_shell;
 	CORBA_Environment ev;
 
-	g_return_val_if_fail (shell_client != NULL, CORBA_OBJECT_NIL);
-	g_return_val_if_fail (EVOLUTION_IS_SHELL_CLIENT (shell_client), CORBA_OBJECT_NIL);
+	g_return_if_fail (shell_client != NULL, CORBA_OBJECT_NIL);
+	g_return_if_fail (EVOLUTION_IS_SHELL_CLIENT (shell_client), CORBA_OBJECT_NIL);
 
 	CORBA_exception_init (&ev);
 

@@ -1,3 +1,11 @@
+2001-08-17  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution-shell-client.c
+	(evolution_shell_client_get_local_storage): Added some g_warnings
+	for when we return CORBA_OBJECT_NIL; this might help to figure out
+	what is wrong with bug #6625.  Also, added a missing
+	CORBA_exception_free().
+
 2001-08-17  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-shell.c (e_shell_construct): Don't destroy the splash twice.
