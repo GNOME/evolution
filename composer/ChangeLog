@@ -1,3 +1,9 @@
+2000-10-22  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-msg-composer-attachment-bar.c (attach_cb): Removed.
+	(add_from_user): Use `e_msg_composer_select_file()' instead of
+	doing the file selector widget magic by yourself.
+
 2000-10-20  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* .cvsignore: Ignore Evolution-Addressbook-SelectNames*
