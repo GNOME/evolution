@@ -1103,7 +1103,7 @@ dnl AC_SUBST(EVOLUTION_EXECUTIVE_SUMMARY_LIBS)
 
 dnl --- evolution-calendar flags
 
-EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR, libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 gal-2.0 libglade-2.0 gnome-vfs-2.0, ${GTKHTML_CFLAGS}, ${GTKHTML_LIBS})
+EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR, libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 gal-2.0 libglade-2.0 gnome-vfs-2.0 libgtkhtml-3.0, ${GTKHTML_CFLAGS}, ${GTKHTML_LIBS})
 AC_SUBST(EVOLUTION_CALENDAR_CFLAGS)
 AC_SUBST(EVOLUTION_CALENDAR_LIBS)
 
@@ -1281,6 +1281,10 @@ calendar/idl/Makefile
 calendar/cal-util/Makefile
 calendar/cal-client/Makefile
 calendar/pcs/Makefile
+calendar/gui/Makefile
+calendar/gui/alarm-notify/Makefile
+calendar/gui/dialogs/Makefile
+calendar/importers/Makefile
 
 my-evolution/GNOME_Evolution_Summary.oaf.in
 ])
