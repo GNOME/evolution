@@ -891,7 +891,7 @@ save_draft (EMsgComposer *composer, int quitok)
 	composer->send_html = old_send_html;
 	
 	info = g_new0 (CamelMessageInfo, 1);
-	info->flags = CAMEL_MESSAGE_DRAFT;
+	info->flags = CAMEL_MESSAGE_DRAFT | CAMEL_MESSAGE_SEEN;
 	
 	si = g_malloc (sizeof (*si));
 	si->composer = composer;
