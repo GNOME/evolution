@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.2\n"
-"POT-Creation-Date: 2003-01-29 13:57+0100\n"
+"POT-Creation-Date: 2003-02-04 12:25-0500\n"
 "PO-Revision-Date: 2003-01-28 01:00+0100\n"
 "Last-Translator: Szabó György <gyszabo@vnet.hu>\n"
 "Language-Team:  <hu@li.org>\n"
@@ -473,7 +473,7 @@ msgid "Factory for the sample Addressbook control"
 msgstr "Factory a minta címjegyzék kontrollhoz"
 
 #: addressbook/gui/component/addressbook-component.c:73
-#: addressbook/gui/component/addressbook-component.c:611
+#: addressbook/gui/component/addressbook-component.c:630
 #: calendar/gui/dialogs/comp-editor-util.c:310
 #: calendar/gui/dialogs/comp-editor-util.c:366
 #: importers/netscape-importer.c:1874 shell/e-local-storage.c:177
@@ -501,28 +501,28 @@ msgstr "Nyilvános kapcsolatok"
 msgid "Public folder containing contact information"
 msgstr "Kapcsolatokat tartalmazó nyilvános mappa"
 
-#: addressbook/gui/component/addressbook-component.c:567
+#: addressbook/gui/component/addressbook-component.c:586
 msgid "New Contact"
 msgstr "Új névjegy"
 
-#: addressbook/gui/component/addressbook-component.c:567
+#: addressbook/gui/component/addressbook-component.c:586
 msgid "_Contact"
 msgstr "_Névjegy"
 
-#: addressbook/gui/component/addressbook-component.c:568
+#: addressbook/gui/component/addressbook-component.c:587
 #: ui/evolution-addressbook.h:15
 msgid "Create a new contact"
 msgstr "Új névjegy készítése"
 
-#: addressbook/gui/component/addressbook-component.c:571
+#: addressbook/gui/component/addressbook-component.c:590
 msgid "New Contact List"
 msgstr "Új címlista"
 
-#: addressbook/gui/component/addressbook-component.c:571
+#: addressbook/gui/component/addressbook-component.c:590
 msgid "Contact _List"
 msgstr "_Címlista"
 
-#: addressbook/gui/component/addressbook-component.c:572
+#: addressbook/gui/component/addressbook-component.c:591
 msgid "Create a new contact list"
 msgstr "Új címlista készítése"
 
@@ -2597,15 +2597,15 @@ msgid "E-mail"
 msgstr "Email"
 
 #. This is a filename. Translators take note.
-#: addressbook/gui/contact-editor/e-contact-save-as.c:107
+#: addressbook/gui/contact-editor/e-contact-save-as.c:103
 msgid "card.vcf"
 msgstr "card.vcf"
 
-#: addressbook/gui/contact-editor/e-contact-save-as.c:183
+#: addressbook/gui/contact-editor/e-contact-save-as.c:179
 msgid "list"
 msgstr "lista"
 
-#: addressbook/gui/contact-editor/e-contact-save-as.c:221
+#: addressbook/gui/contact-editor/e-contact-save-as.c:217
 #, c-format
 msgid ""
 "%s already exists\n"
@@ -3541,11 +3541,11 @@ msgstr "Szundi idõ (percek)"
 msgid "_Edit appointment"
 msgstr "_Találkozó szerkesztése"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:680
+#: calendar/gui/alarm-notify/alarm-queue.c:681
 msgid "No description available."
 msgstr "Nincs leírás."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:741
+#: calendar/gui/alarm-notify/alarm-queue.c:742
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -3557,13 +3557,13 @@ msgstr ""
 "lett beállítva. Az Evolution a szokásos emlékeztetõ\n"
 "párbeszédablakot fogja ehelyett megjeleníteni."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:759
+#: calendar/gui/alarm-notify/alarm-queue.c:760
 #: calendar/gui/tasks-control.c:454 mail/mail-callbacks.c:2924
 #: widgets/misc/e-messagebox.c:159
 msgid "Warning"
 msgstr "Figyelmeztetés"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:764
+#: calendar/gui/alarm-notify/alarm-queue.c:765
 #, fuzzy, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -3580,7 +3580,7 @@ msgstr ""
 "\n"
 "Biztos futtatni akarod ezt a programot?"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:778
+#: calendar/gui/alarm-notify/alarm-queue.c:779
 #, fuzzy
 msgid "Do not ask me about this program again."
 msgstr "Ne kérdezze meg többet."
@@ -4547,21 +4547,21 @@ msgstr "Ütemezés"
 msgid "Meeting"
 msgstr "Értekezlet"
 
-#: calendar/gui/dialogs/event-page.c:656 calendar/gui/dialogs/task-page.c:567
+#: calendar/gui/dialogs/event-page.c:662 calendar/gui/dialogs/task-page.c:567
 #, fuzzy
 msgid "Start date is wrong"
 msgstr "Kezdés dátuma"
 
-#: calendar/gui/dialogs/event-page.c:666
+#: calendar/gui/dialogs/event-page.c:672
 msgid "End date is wrong"
 msgstr "Érvénytelen befejezési idõpont"
 
-#: calendar/gui/dialogs/event-page.c:689
+#: calendar/gui/dialogs/event-page.c:695
 #, fuzzy
 msgid "Start time is wrong"
 msgstr "_Kezdés idõpontja:"
 
-#: calendar/gui/dialogs/event-page.c:696
+#: calendar/gui/dialogs/event-page.c:702
 msgid "End time is wrong"
 msgstr "Helytelen befejezési idõpont"
 
@@ -4971,46 +4971,57 @@ msgid "_Due Date:"
 msgstr "Le_járat:"
 
 #: calendar/gui/e-calendar-table.c:440
+#, c-format
 msgid "0%"
 msgstr "0%"
 
 #: calendar/gui/e-calendar-table.c:441
+#, c-format
 msgid "10%"
 msgstr "10%"
 
 #: calendar/gui/e-calendar-table.c:442
+#, c-format
 msgid "20%"
 msgstr "20%"
 
 #: calendar/gui/e-calendar-table.c:443
+#, c-format
 msgid "30%"
 msgstr "30%"
 
 #: calendar/gui/e-calendar-table.c:444
+#, c-format
 msgid "40%"
 msgstr "40%"
 
 #: calendar/gui/e-calendar-table.c:445
+#, c-format
 msgid "50%"
 msgstr "50%"
 
 #: calendar/gui/e-calendar-table.c:446
+#, c-format
 msgid "60%"
 msgstr "60%"
 
 #: calendar/gui/e-calendar-table.c:447
+#, c-format
 msgid "70%"
 msgstr "70%"
 
 #: calendar/gui/e-calendar-table.c:448
+#, c-format
 msgid "80%"
 msgstr "80%"
 
 #: calendar/gui/e-calendar-table.c:449
+#, c-format
 msgid "90%"
 msgstr "90%"
 
 #: calendar/gui/e-calendar-table.c:450
+#, c-format
 msgid "100%"
 msgstr "100%"
 

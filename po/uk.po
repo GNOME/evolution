@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.2.1\n"
-"POT-Creation-Date: 2002-12-05 17:57-0500\n"
+"POT-Creation-Date: 2003-02-04 12:25-0500\n"
 "PO-Revision-Date: 2003-01-20 12:35+0200\n"
 "Last-Translator: Andrew V. Samoilov <sav@bcs.zp.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -37,7 +37,7 @@ msgstr "Файл як"
 
 #: addressbook/backend/ebook/e-card-simple.c:61
 #: addressbook/gui/component/select-names/e-select-names.etspec.h:1
-#: mail/mail-config.glade.h:74 my-evolution/e-summary-table.c:59
+#: mail/mail-config.glade.h:76 my-evolution/e-summary-table.c:59
 msgid "Name"
 msgstr "Ім'я:"
 
@@ -346,11 +346,12 @@ msgstr "vCard для %s"
 #: tools/evolution-addressbook-abuse.c:132
 #: tools/evolution-addressbook-export.c:60
 #: tools/evolution-addressbook-import.c:86
+#: tools/evolution-launch-composer.c:344
 msgid "Could not initialize Bonobo"
 msgstr "Не вдалось ініціалізувати Bonobo"
 
 #: addressbook/backend/pas/pas-backend-file.c:364
-#: addressbook/backend/pas/pas-backend-ldap.c:3010
+#: addressbook/backend/pas/pas-backend-ldap.c:3021
 msgid "Searching..."
 msgstr "Пошук..."
 
@@ -358,28 +359,28 @@ msgstr "Пошук..."
 msgid "Loading..."
 msgstr "Завантаження..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:719
+#: addressbook/backend/pas/pas-backend-ldap.c:730
 msgid "Reconnecting to LDAP server..."
 msgstr "Перепід'єднання до сервера LDAP..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:1262
+#: addressbook/backend/pas/pas-backend-ldap.c:1273
 msgid "Adding card to LDAP server..."
 msgstr "Додавання картки з сервером LDAP..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:1368
+#: addressbook/backend/pas/pas-backend-ldap.c:1379
 msgid "Removing card from LDAP server..."
 msgstr "Видалення картки з сервера LDAP..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:1604
-#: addressbook/backend/pas/pas-backend-ldap.c:1607
+#: addressbook/backend/pas/pas-backend-ldap.c:1615
+#: addressbook/backend/pas/pas-backend-ldap.c:1618
 msgid "Modifying card from LDAP server..."
 msgstr "Зміна картки на сервері LDAP..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:2921
+#: addressbook/backend/pas/pas-backend-ldap.c:2932
 msgid "Receiving LDAP search results..."
 msgstr "Отримання результатів пошуку на LDAP..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:3030
+#: addressbook/backend/pas/pas-backend-ldap.c:3041
 msgid "Error performing search"
 msgstr "Помилка виконання пошука"
 
@@ -470,11 +471,11 @@ msgid "Factory for the sample Addressbook control"
 msgstr "Фабрика для прикладу керуючого елементу книги адрес"
 
 #: addressbook/gui/component/addressbook-component.c:73
-#: addressbook/gui/component/addressbook-component.c:611
+#: addressbook/gui/component/addressbook-component.c:630
 #: calendar/gui/dialogs/comp-editor-util.c:310
 #: calendar/gui/dialogs/comp-editor-util.c:366
 #: importers/netscape-importer.c:1874 shell/e-local-storage.c:177
-#: shell/e-shortcuts.c:1067
+#: shell/e-shortcuts.c:1063
 msgid "Contacts"
 msgstr "Контакти"
 
@@ -500,28 +501,28 @@ msgstr "Контакти"
 msgid "Public folder containing contact information"
 msgstr "Тека, що містить контактну інформацію"
 
-#: addressbook/gui/component/addressbook-component.c:567
+#: addressbook/gui/component/addressbook-component.c:586
 msgid "New Contact"
 msgstr "Новий контакт"
 
-#: addressbook/gui/component/addressbook-component.c:567
+#: addressbook/gui/component/addressbook-component.c:586
 msgid "_Contact"
 msgstr "Контакт"
 
-#: addressbook/gui/component/addressbook-component.c:568
+#: addressbook/gui/component/addressbook-component.c:587
 #: ui/evolution-addressbook.h:15
 msgid "Create a new contact"
 msgstr "Створити новий контакт"
 
-#: addressbook/gui/component/addressbook-component.c:571
+#: addressbook/gui/component/addressbook-component.c:590
 msgid "New Contact List"
 msgstr "Новий контактний список"
 
-#: addressbook/gui/component/addressbook-component.c:571
+#: addressbook/gui/component/addressbook-component.c:590
 msgid "Contact _List"
 msgstr "Контактний _список"
 
-#: addressbook/gui/component/addressbook-component.c:572
+#: addressbook/gui/component/addressbook-component.c:591
 msgid "Create a new contact list"
 msgstr "Створити новий контактний список"
 
@@ -759,81 +760,87 @@ msgid "Enable Queries (Dangerous!)"
 msgstr "Дозволити запити (небезпечно!)"
 
 #: addressbook/gui/component/ldap-config.glade.h:1
+#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:1
+#: mail/mail-config.glade.h:1 mail/subscribe-dialog.glade.h:1
+msgid "\n"
+msgstr ""
+
+#: addressbook/gui/component/ldap-config.glade.h:3
 #, fuzzy
 msgid "  S_how Supported Bases "
 msgstr "Перевірка типів, що підтримуються"
 
-#: addressbook/gui/component/ldap-config.glade.h:2
+#: addressbook/gui/component/ldap-config.glade.h:4
 msgid "1234"
 msgstr "1234"
 
-#: addressbook/gui/component/ldap-config.glade.h:3
+#: addressbook/gui/component/ldap-config.glade.h:5
 msgid "1:00"
 msgstr "1:00"
 
-#: addressbook/gui/component/ldap-config.glade.h:4
+#: addressbook/gui/component/ldap-config.glade.h:6
 msgid "2:30"
 msgstr "2:30"
 
-#: addressbook/gui/component/ldap-config.glade.h:5
+#: addressbook/gui/component/ldap-config.glade.h:7
 msgid "3268"
 msgstr "3268"
 
-#: addressbook/gui/component/ldap-config.glade.h:6
+#: addressbook/gui/component/ldap-config.glade.h:8
 msgid "380"
 msgstr "380"
 
-#: addressbook/gui/component/ldap-config.glade.h:7
+#: addressbook/gui/component/ldap-config.glade.h:9
 msgid "389"
 msgstr "389"
 
-#: addressbook/gui/component/ldap-config.glade.h:8
+#: addressbook/gui/component/ldap-config.glade.h:10
 msgid "5:00"
 msgstr "5:00"
 
-#: addressbook/gui/component/ldap-config.glade.h:9
+#: addressbook/gui/component/ldap-config.glade.h:11
 msgid "636"
 msgstr "636"
 
-#: addressbook/gui/component/ldap-config.glade.h:10
+#: addressbook/gui/component/ldap-config.glade.h:12
 msgid "666"
 msgstr "666"
 
-#: addressbook/gui/component/ldap-config.glade.h:11
+#: addressbook/gui/component/ldap-config.glade.h:13
 msgid "<- _Remove"
 msgstr "<- Видалити"
 
-#: addressbook/gui/component/ldap-config.glade.h:12
+#: addressbook/gui/component/ldap-config.glade.h:14
 #, fuzzy
 msgid "<< Fewer Options"
 msgstr "Параметри"
 
-#: addressbook/gui/component/ldap-config.glade.h:13
+#: addressbook/gui/component/ldap-config.glade.h:15
 msgid "Add (or Edit) Attribute Mappings"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:14
+#: addressbook/gui/component/ldap-config.glade.h:16
 msgid "Addressbook Sources"
 msgstr "Джерело адресної книги"
 
-#: addressbook/gui/component/ldap-config.glade.h:15 mail/mail-account-gui.c:58
-#: mail/mail-config.glade.h:14
+#: addressbook/gui/component/ldap-config.glade.h:17 mail/mail-account-gui.c:58
+#: mail/mail-config.glade.h:16
 msgid "Always"
 msgstr "Завжди"
 
-#: addressbook/gui/component/ldap-config.glade.h:16
+#: addressbook/gui/component/ldap-config.glade.h:18
 msgid "Anonymously"
 msgstr "Анонімно"
 
-#: addressbook/gui/component/ldap-config.glade.h:17
+#: addressbook/gui/component/ldap-config.glade.h:19
 msgid "Associated LDAP Attribute"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:18
+#: addressbook/gui/component/ldap-config.glade.h:20
 msgid "Attribute"
 msgstr "Ознака"
 
-#: addressbook/gui/component/ldap-config.glade.h:19
+#: addressbook/gui/component/ldap-config.glade.h:21
 msgid ""
 "Congratulations, you are finished setting up this LDAP server. You\n"
 "are now ready to access this directory.\n"
@@ -842,75 +849,75 @@ msgid ""
 "here."
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:23
+#: addressbook/gui/component/ldap-config.glade.h:25
 msgid "Connecting"
 msgstr "З'єднання"
 
-#: addressbook/gui/component/ldap-config.glade.h:24
+#: addressbook/gui/component/ldap-config.glade.h:26
 msgid "Corresponding Evolution Attribute"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:25
+#: addressbook/gui/component/ldap-config.glade.h:27
 #, fuzzy
 msgid "DN Customization"
 msgstr "Немає інформації"
 
-#: addressbook/gui/component/ldap-config.glade.h:26
+#: addressbook/gui/component/ldap-config.glade.h:28
 msgid "De_lete"
 msgstr "Стерти"
 
-#: addressbook/gui/component/ldap-config.glade.h:27
+#: addressbook/gui/component/ldap-config.glade.h:29
 #, fuzzy
 msgid "Distinguished _name:"
 msgstr "Відокремлене ім'я:"
 
-#: addressbook/gui/component/ldap-config.glade.h:28
+#: addressbook/gui/component/ldap-config.glade.h:30
 msgid "Email Address:"
 msgstr "Електронна адреса:"
 
-#: addressbook/gui/component/ldap-config.glade.h:29
+#: addressbook/gui/component/ldap-config.glade.h:31
 msgid "Evolution Attribute"
 msgstr "Ознака Evolution"
 
-#: addressbook/gui/component/ldap-config.glade.h:30
+#: addressbook/gui/component/ldap-config.glade.h:32
 msgid "Evolution will use this DN to authenticate you with the server"
 msgstr "Для автентифікації на сервері Evolution буде використовувати цей DN"
 
-#: addressbook/gui/component/ldap-config.glade.h:31
+#: addressbook/gui/component/ldap-config.glade.h:33
 msgid ""
 "Evolution will use this email address to authenticate you with the server"
 msgstr ""
 "Для автентифікації на сервері Evolution буде використовувати електрону адресу"
 
-#: addressbook/gui/component/ldap-config.glade.h:32
+#: addressbook/gui/component/ldap-config.glade.h:34
 #, fuzzy
 msgid "Finished"
 msgstr "Знайти"
 
-#: addressbook/gui/component/ldap-config.glade.h:33
+#: addressbook/gui/component/ldap-config.glade.h:35
 #: addressbook/gui/contact-editor/contact-editor.glade.h:16
 msgid "General"
 msgstr "Загальне"
 
-#: addressbook/gui/component/ldap-config.glade.h:34
+#: addressbook/gui/component/ldap-config.glade.h:36
 msgid "LDAP Attribute"
 msgstr "Ознака LDAP"
 
-#: addressbook/gui/component/ldap-config.glade.h:35
+#: addressbook/gui/component/ldap-config.glade.h:37
 msgid "LDAP Configuration Assistant"
 msgstr "Помічник конфігурації LDAP"
 
-#: addressbook/gui/component/ldap-config.glade.h:36
+#: addressbook/gui/component/ldap-config.glade.h:38
 #, fuzzy
 msgid "Mappings"
 msgstr "Поля"
 
-#: addressbook/gui/component/ldap-config.glade.h:37 mail/mail-account-gui.c:60
-#: mail/mail-config.glade.h:75
+#: addressbook/gui/component/ldap-config.glade.h:39 mail/mail-account-gui.c:60
+#: mail/mail-config.glade.h:77
 msgid "Never"
 msgstr "Ніколи"
 
-#: addressbook/gui/component/ldap-config.glade.h:38
+#: addressbook/gui/component/ldap-config.glade.h:40
 msgid ""
 "Now, you must specify how you want to connect to the LDAP server. The SSL "
 "(Secure Sockets Layer)\n"
@@ -920,31 +927,25 @@ msgid ""
 "these protocols."
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:41
+#: addressbook/gui/component/ldap-config.glade.h:43
 msgid "Objectclasses"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:42
+#: addressbook/gui/component/ldap-config.glade.h:44
 msgid "Objectclasses Used in Evolution:"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:43
+#: addressbook/gui/component/ldap-config.glade.h:45
 msgid "Objectclasses Used on Server:"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:44
+#: addressbook/gui/component/ldap-config.glade.h:46
 msgid "One"
 msgstr "Один"
 
-#: addressbook/gui/component/ldap-config.glade.h:45
-msgid ""
-"Please select an Evolution attribute and an\n"
-"LDAP attribute to associate with it."
-msgstr ""
-
 #: addressbook/gui/component/ldap-config.glade.h:47
 msgid ""
-"Please select and Evolution attribute and an\n"
+"Please select an Evolution attribute and an\n"
 "LDAP attribute to associate with it."
 msgstr ""
 
@@ -1013,44 +1014,37 @@ msgstr ""
 
 #: addressbook/gui/component/ldap-config.glade.h:66
 msgid ""
-"Selecting this option will let you change Evolution's default settings for "
-"LDAP\n"
-"searches, and for creating and editting contacts. "
-msgstr ""
-
-#: addressbook/gui/component/ldap-config.glade.h:68
-msgid ""
 "Specifying a display name is the last required step in configuring an LDAP "
 "server."
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:69
+#: addressbook/gui/component/ldap-config.glade.h:67
 #, fuzzy
 msgid "Step 1: Server Information"
 msgstr "Вихідна інформація"
 
-#: addressbook/gui/component/ldap-config.glade.h:70
+#: addressbook/gui/component/ldap-config.glade.h:68
 msgid "Step 2: Connecting to Server"
 msgstr "Крок 2: З'єднання з сервером"
 
-#: addressbook/gui/component/ldap-config.glade.h:71
+#: addressbook/gui/component/ldap-config.glade.h:69
 msgid "Step 3: Searching the Directory"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:72
+#: addressbook/gui/component/ldap-config.glade.h:70
 msgid "Step 4: Display Name"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:73
+#: addressbook/gui/component/ldap-config.glade.h:71
 msgid "Sub"
 msgstr "Під"
 
-#: addressbook/gui/component/ldap-config.glade.h:74
+#: addressbook/gui/component/ldap-config.glade.h:72
 #, fuzzy
 msgid "Supported Search Bases"
 msgstr "Схема не підтримується"
 
-#: addressbook/gui/component/ldap-config.glade.h:75
+#: addressbook/gui/component/ldap-config.glade.h:73
 msgid ""
 "The first step in configuring an LDAP server is to provide its name, and "
 "your log in\n"
@@ -1058,7 +1052,7 @@ msgid ""
 "information."
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:77
+#: addressbook/gui/component/ldap-config.glade.h:75
 msgid ""
 "The options on this page control how many entries should be included in "
 "your\n"
@@ -1067,7 +1061,7 @@ msgid ""
 "need to change these options."
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:80
+#: addressbook/gui/component/ldap-config.glade.h:78
 msgid ""
 "The search base is the distinguished name (DN)  of the entry where your "
 "searches will \n"
@@ -1075,17 +1069,17 @@ msgid ""
 "directory tree."
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:82
+#: addressbook/gui/component/ldap-config.glade.h:80
 msgid ""
 "The search scope defines how deep you would like the search to extend down "
 "the \n"
 "directory tree. A search scope of \"sub\" will include all entries below "
 "your search base.\n"
 "A search scope of \"one\" will only include the entries one level beneath "
-"your base."
+"your base.\n"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:85
+#: addressbook/gui/component/ldap-config.glade.h:84
 msgid ""
 "This assistant will help you to access online directory services\n"
 "using LDAP (Lightweight Directory Access Protocol) servers. \n"
@@ -1095,20 +1089,20 @@ msgid ""
 "need help finding this information."
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:91
+#: addressbook/gui/component/ldap-config.glade.h:90
 msgid ""
 "This is the full name of your ldap server. For example, \"ldap.mycompany.com"
 "\"."
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:92
+#: addressbook/gui/component/ldap-config.glade.h:91
 msgid ""
 "This is the maximum number of entries to download. Setting this number to "
 "be \n"
 "too large will slow down your addressbook."
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:94
+#: addressbook/gui/component/ldap-config.glade.h:93
 msgid ""
 "This is the method evolution will use to authenticate you.  Note that "
 "setting this to \"Email Address\" requires anonymous access to your ldap "
@@ -1118,7 +1112,7 @@ msgstr ""
 "оберете тут \"Ел.адреса\" ви мусите мати анонімний доступ до вашого серверу "
 "LDAP"
 
-#: addressbook/gui/component/ldap-config.glade.h:95
+#: addressbook/gui/component/ldap-config.glade.h:94
 #, fuzzy
 msgid ""
 "This is the name for this server that will appear in your Evolution folder "
@@ -1128,7 +1122,7 @@ msgstr ""
 "Це ім'я буде використано для ідентифікації вашого облікового рахунку. Воно "
 "використовується тільки для показу."
 
-#: addressbook/gui/component/ldap-config.glade.h:97
+#: addressbook/gui/component/ldap-config.glade.h:96
 msgid ""
 "This is the port on the LDAP server that Evolution will try to connect to. "
 "A \n"
@@ -1136,11 +1130,11 @@ msgid ""
 "what port you should specify."
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:100
+#: addressbook/gui/component/ldap-config.glade.h:99
 msgid "This option controls how long a search will be run."
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:101
+#: addressbook/gui/component/ldap-config.glade.h:100
 msgid ""
 "To add an attribute to the DN, select it from the list and click the \"Add "
 "Attribute\" button.\n"
@@ -1149,76 +1143,76 @@ msgid ""
 "that you add to the directory on the LDAP server. "
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:104
+#: addressbook/gui/component/ldap-config.glade.h:103
 msgid "U_se SSL/TLS:"
 msgstr "Використовувати SSL/TLS:"
 
-#: addressbook/gui/component/ldap-config.glade.h:105
+#: addressbook/gui/component/ldap-config.glade.h:104
 #, fuzzy
 msgid "Using distinguished name (DN)"
 msgstr "Відокремлене ім'я (DN)"
 
-#: addressbook/gui/component/ldap-config.glade.h:106
+#: addressbook/gui/component/ldap-config.glade.h:105
 #, fuzzy
 msgid "Using email address"
 msgstr "Електронна адреса:"
 
-#: addressbook/gui/component/ldap-config.glade.h:107
-#: mail/mail-account-gui.c:59 mail/mail-config.glade.h:132
+#: addressbook/gui/component/ldap-config.glade.h:106
+#: mail/mail-account-gui.c:59 mail/mail-config.glade.h:134
 msgid "Whenever Possible"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:108
+#: addressbook/gui/component/ldap-config.glade.h:107
 #: addressbook/gui/contact-editor/contact-editor.glade.h:30
-#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:4
+#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:6
 #: calendar/gui/dialogs/alarm-page.glade.h:8 filter/filter.glade.h:14
-#: mail/mail-config.glade.h:135 shell/glade/e-folder-list.glade.h:1
+#: mail/mail-config.glade.h:137 shell/glade/e-folder-list.glade.h:1
 msgid "_Add"
 msgstr "Додати"
 
-#: addressbook/gui/component/ldap-config.glade.h:109
+#: addressbook/gui/component/ldap-config.glade.h:108
 msgid "_Add ->"
 msgstr "Додати ->"
 
-#: addressbook/gui/component/ldap-config.glade.h:110
+#: addressbook/gui/component/ldap-config.glade.h:109
 #, fuzzy
 msgid "_Add Mapping"
 msgstr "Додати дію"
 
-#: addressbook/gui/component/ldap-config.glade.h:111
+#: addressbook/gui/component/ldap-config.glade.h:110
 #, fuzzy
 msgid "_Add to DN"
 msgstr "Додати дію"
 
-#: addressbook/gui/component/ldap-config.glade.h:112
+#: addressbook/gui/component/ldap-config.glade.h:111
 msgid "_Always"
 msgstr "Завжди"
 
-#: addressbook/gui/component/ldap-config.glade.h:113
+#: addressbook/gui/component/ldap-config.glade.h:112
 #, fuzzy
 msgid "_Delete Mapping"
 msgstr "Стерти все"
 
-#: addressbook/gui/component/ldap-config.glade.h:114
+#: addressbook/gui/component/ldap-config.glade.h:113
 #, fuzzy
 msgid "_Display name:"
 msgstr "Відображати"
 
-#: addressbook/gui/component/ldap-config.glade.h:115
+#: addressbook/gui/component/ldap-config.glade.h:114
 #, fuzzy
 msgid "_Distinguished Name (DN):"
 msgstr "Відокремлене ім'я (DN)"
 
-#: addressbook/gui/component/ldap-config.glade.h:116
+#: addressbook/gui/component/ldap-config.glade.h:115
 msgid "_Don't use SSL/TLS"
 msgstr "Не використовувати SSL/TLS"
 
-#: addressbook/gui/component/ldap-config.glade.h:117
+#: addressbook/gui/component/ldap-config.glade.h:116
 msgid "_Download limit:"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:118 filter/filter.glade.h:16
-#: mail/mail-config.glade.h:150 ui/evolution-addressbook.xml.h:33
+#: addressbook/gui/component/ldap-config.glade.h:117 filter/filter.glade.h:16
+#: mail/mail-config.glade.h:152 ui/evolution-addressbook.xml.h:33
 #: ui/evolution-calendar.xml.h:28 ui/evolution-mail-list.xml.h:25
 #: ui/evolution-mail-messagedisplay.xml.h:6 ui/evolution-message-composer.h:40
 #: ui/evolution-message-composer.xml.h:41
@@ -1227,99 +1221,99 @@ msgstr ""
 msgid "_Edit"
 msgstr "Редагування"
 
-#: addressbook/gui/component/ldap-config.glade.h:119
+#: addressbook/gui/component/ldap-config.glade.h:118
 #, fuzzy
 msgid "_Edit Mapping"
 msgstr "Виправити зустріч"
 
-#: addressbook/gui/component/ldap-config.glade.h:120
+#: addressbook/gui/component/ldap-config.glade.h:119
 msgid "_Evolution attribute:"
 msgstr "Ознака Evolution:"
 
-#: addressbook/gui/component/ldap-config.glade.h:121
+#: addressbook/gui/component/ldap-config.glade.h:120
 msgid "_If necessary "
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:122
+#: addressbook/gui/component/ldap-config.glade.h:121
 msgid "_LDAP attribute:"
 msgstr "Ознака _LDAP:"
 
-#: addressbook/gui/component/ldap-config.glade.h:123
+#: addressbook/gui/component/ldap-config.glade.h:122
 msgid "_LDAP attributes:"
 msgstr "Ознаки _LDAP:"
 
-#: addressbook/gui/component/ldap-config.glade.h:124
+#: addressbook/gui/component/ldap-config.glade.h:123
 msgid "_Log in method:"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:125
+#: addressbook/gui/component/ldap-config.glade.h:124
 #, fuzzy
 msgid "_More Options >>"
 msgstr "Параметри"
 
-#: addressbook/gui/component/ldap-config.glade.h:126
+#: addressbook/gui/component/ldap-config.glade.h:125
 msgid "_Port number:"
 msgstr "Порт:"
 
-#: addressbook/gui/component/ldap-config.glade.h:127
+#: addressbook/gui/component/ldap-config.glade.h:126
 msgid "_Restore Defaults"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:128
+#: addressbook/gui/component/ldap-config.glade.h:127
 #, fuzzy
 msgid "_Search base:"
 msgstr "База пошуку:"
 
-#: addressbook/gui/component/ldap-config.glade.h:129
+#: addressbook/gui/component/ldap-config.glade.h:128
 msgid "_Server name:"
 msgstr "Назва сервера:"
 
-#: addressbook/gui/component/ldap-config.glade.h:130
+#: addressbook/gui/component/ldap-config.glade.h:129
 #, fuzzy
 msgid "_Timeout (minutes):"
 msgstr "Час засипання (в хвилинах)"
 
-#: addressbook/gui/component/ldap-config.glade.h:131
+#: addressbook/gui/component/ldap-config.glade.h:130
 #, fuzzy
 msgid "account-druid"
 msgstr "Обліковий рахунок %d"
 
-#: addressbook/gui/component/ldap-config.glade.h:132
+#: addressbook/gui/component/ldap-config.glade.h:131
 #, fuzzy
 msgid "account-editor"
 msgstr "Редактор контактів"
 
-#: addressbook/gui/component/ldap-config.glade.h:133
+#: addressbook/gui/component/ldap-config.glade.h:132
 msgid "cards"
 msgstr "картки"
 
-#: addressbook/gui/component/ldap-config.glade.h:134
+#: addressbook/gui/component/ldap-config.glade.h:133
 #, fuzzy
 msgid "connecting-tab"
 msgstr "Повторне встановлення з'єднання з %s"
 
-#: addressbook/gui/component/ldap-config.glade.h:135
+#: addressbook/gui/component/ldap-config.glade.h:134
 msgid "dn-customization-tab"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:136
+#: addressbook/gui/component/ldap-config.glade.h:135
 msgid "edit_server_window_simple"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:137
+#: addressbook/gui/component/ldap-config.glade.h:136
 #, fuzzy
 msgid "general-tab"
 msgstr "Загальне"
 
-#: addressbook/gui/component/ldap-config.glade.h:138
+#: addressbook/gui/component/ldap-config.glade.h:137
 msgid "mappings-tab"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:139
+#: addressbook/gui/component/ldap-config.glade.h:138
 msgid "objectclasses-tab"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:140
+#: addressbook/gui/component/ldap-config.glade.h:139
 #, fuzzy
 msgid "searching-tab"
 msgstr "Пошук"
@@ -1373,6 +1367,12 @@ msgstr "Вибрати контакти з книги адрес"
 #: addressbook/gui/component/select-names/e-select-names.c:572
 msgid "Find contact in"
 msgstr "Знайти контакт у"
+
+#: addressbook/gui/component/select-names/select-names.glade.h:1
+#: ui/evolution-addressbook.h:16
+#, fuzzy
+msgid "Find"
+msgstr "Знайти:"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:2
 msgid "Select Names"
@@ -1504,7 +1504,7 @@ msgstr "Хоче отримувати листи в HTML"
 #: calendar/gui/dialogs/meeting-page.c:674
 #: calendar/gui/e-calendar-table.c:1006 calendar/gui/e-day-view.c:3766
 #: calendar/gui/e-week-view.c:3563 filter/filter.glade.h:15
-#: mail/folder-browser.c:1756 mail/mail-config.glade.h:148
+#: mail/folder-browser.c:1756 mail/mail-config.glade.h:150
 #: shell/glade/e-folder-list.glade.h:2 ui/evolution-addressbook.xml.h:32
 #: ui/evolution-calendar.xml.h:27 ui/evolution-mail-message.xml.h:97
 #: ui/evolution-tasks.xml.h:16 ui/evolution.xml.h:48
@@ -2607,15 +2607,15 @@ msgid "E-mail"
 msgstr "Е-пошта"
 
 #. This is a filename. Translators take note.
-#: addressbook/gui/contact-editor/e-contact-save-as.c:107
+#: addressbook/gui/contact-editor/e-contact-save-as.c:103
 msgid "card.vcf"
 msgstr "card.vcf"
 
-#: addressbook/gui/contact-editor/e-contact-save-as.c:183
+#: addressbook/gui/contact-editor/e-contact-save-as.c:179
 msgid "list"
 msgstr "список"
 
-#: addressbook/gui/contact-editor/e-contact-save-as.c:221
+#: addressbook/gui/contact-editor/e-contact-save-as.c:217
 #, c-format
 msgid ""
 "%s already exists\n"
@@ -2736,29 +2736,29 @@ msgstr "Суфікс:"
 msgid "_Title:"
 msgstr "Титул:"
 
-#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:1
+#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:3
 msgid "List _name:"
 msgstr "Назва списку:"
 
-#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:2
+#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:4
 msgid "Members"
 msgstr "Члени"
 
-#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:3
+#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:5
 msgid "Type an email address or drag a contact into the list below:"
 msgstr ""
 "Наберіть ел.адресу або перетягніть контактну інформацію у нижчий список:"
 
-#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:5
+#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:7
 msgid "_Hide addresses when sending mail to this list"
 msgstr "Приховати адресу при надсиланні пошти до цього списку"
 
-#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:6
+#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:8
 #: calendar/gui/dialogs/recurrence-page.glade.h:12 filter/filter.glade.h:17
 msgid "_Remove"
 msgstr "Видалити"
 
-#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:7
+#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:9
 msgid "contact-list-editor"
 msgstr "Редактор контактів"
 
@@ -3303,7 +3303,7 @@ msgstr "Поля"
 msgid "Number of columns:"
 msgstr "Кількість стовпчиків:"
 
-#: addressbook/printing/e-contact-print.glade.h:23 mail/mail-config.glade.h:81
+#: addressbook/printing/e-contact-print.glade.h:23 mail/mail-config.glade.h:83
 msgid "Options"
 msgstr "Параметри"
 
@@ -3536,11 +3536,11 @@ msgstr "Час засипання (в хвилинах)"
 msgid "_Edit appointment"
 msgstr "Виправити зустріч"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:680
+#: calendar/gui/alarm-notify/alarm-queue.c:681
 msgid "No description available."
 msgstr "Немає опису."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:741
+#: calendar/gui/alarm-notify/alarm-queue.c:742
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -3552,13 +3552,13 @@ msgstr ""
 "Замість цього Evolution буде показувати звичайне вікно\n"
 "нагадування."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:759
+#: calendar/gui/alarm-notify/alarm-queue.c:760
 #: calendar/gui/tasks-control.c:454 mail/mail-callbacks.c:2924
 #: widgets/misc/e-messagebox.c:159
 msgid "Warning"
 msgstr "Попередження"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:764
+#: calendar/gui/alarm-notify/alarm-queue.c:765
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -3575,7 +3575,7 @@ msgstr ""
 "\n"
 "Ви впевнені, що бажаєте виконати цю програму?"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:778
+#: calendar/gui/alarm-notify/alarm-queue.c:779
 #, fuzzy
 msgid "Do not ask me about this program again."
 msgstr "Не питати знову."
@@ -3713,7 +3713,7 @@ msgstr ""
 #: calendar/gui/dialogs/meeting-page.glade.h:1 composer/e-msg-composer.c:1967
 #: mail/folder-browser.c:1718 mail/mail-account-gui.c:1230
 #: mail/mail-account-gui.c:1650 mail/mail-accounts.c:453
-#: mail/mail-accounts.c:468 mail/mail-config.glade.h:77
+#: mail/mail-accounts.c:468 mail/mail-config.glade.h:79
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:204
 #: widgets/misc/e-cell-date-edit.c:250 widgets/misc/e-dateedit.c:452
 #: widgets/misc/e-dateedit.c:1473 widgets/misc/e-dateedit.c:1588
@@ -3755,9 +3755,9 @@ msgstr "Показ тижня"
 msgid "Month View"
 msgstr "Показ місяця"
 
-#: calendar/gui/component-factory.c:71 calendar/gui/gnome-cal.c:1371
+#: calendar/gui/component-factory.c:71 calendar/gui/gnome-cal.c:1372
 #: importers/netscape-importer.c:1873 my-evolution/my-evolution.glade.h:3
-#: shell/e-local-storage.c:176 shell/e-shortcuts.c:1059
+#: shell/e-local-storage.c:176 shell/e-shortcuts.c:1055
 msgid "Calendar"
 msgstr "Календар"
 
@@ -3775,12 +3775,12 @@ msgstr "URL публічного календаря:"
 msgid "Public folder containing appointments and events"
 msgstr "Тека, що містить інформацію про зустрічі та події"
 
-#: calendar/gui/component-factory.c:81 calendar/gui/e-tasks.c:722
+#: calendar/gui/component-factory.c:81 calendar/gui/e-tasks.c:738
 #: calendar/gui/print.c:1777 calendar/gui/tasks-control.c:508
 #: calendar/importers/icalendar-importer.c:704
 #: importers/netscape-importer.c:1875 my-evolution/e-summary-tasks.c:327
 #: my-evolution/e-summary-tasks.c:345 shell/e-local-storage.c:182
-#: shell/e-shortcuts.c:1063
+#: shell/e-shortcuts.c:1059
 msgid "Tasks"
 msgstr "Завдання"
 
@@ -4087,7 +4087,7 @@ msgstr "кінець зустрічі"
 msgid "hour(s)"
 msgstr "годин(а)"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:16 mail/mail-config.glade.h:180
+#: calendar/gui/dialogs/alarm-page.glade.h:16 mail/mail-config.glade.h:182
 msgid "minute(s)"
 msgstr "хвилин(а)"
 
@@ -4115,7 +4115,7 @@ msgstr "30 хвилин"
 msgid "60 minutes"
 msgstr "60 хвилин"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:6 mail/mail-config.glade.h:12
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:6 mail/mail-config.glade.h:14
 #, fuzzy
 msgid "Alerts"
 msgstr "Сповіщення"
@@ -4269,7 +4269,7 @@ msgid "_Fri"
 msgstr "Птн"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:40
-#: mail/mail-config.glade.h:155
+#: mail/mail-config.glade.h:157
 msgid "_General"
 msgstr "Загальне"
 
@@ -4546,19 +4546,19 @@ msgstr "Планування"
 msgid "Meeting"
 msgstr "Засідання"
 
-#: calendar/gui/dialogs/event-page.c:656 calendar/gui/dialogs/task-page.c:567
+#: calendar/gui/dialogs/event-page.c:662 calendar/gui/dialogs/task-page.c:567
 msgid "Start date is wrong"
 msgstr "Дата початку невірна"
 
-#: calendar/gui/dialogs/event-page.c:666
+#: calendar/gui/dialogs/event-page.c:672
 msgid "End date is wrong"
 msgstr ""
 
-#: calendar/gui/dialogs/event-page.c:689
+#: calendar/gui/dialogs/event-page.c:695
 msgid "Start time is wrong"
 msgstr "Невірний час початку"
 
-#: calendar/gui/dialogs/event-page.c:696
+#: calendar/gui/dialogs/event-page.c:702
 msgid "End time is wrong"
 msgstr ""
 
@@ -4960,7 +4960,7 @@ msgstr ""
 
 #: calendar/gui/dialogs/task-page.glade.h:5 calendar/gui/e-itip-control.c:1081
 #: calendar/gui/e-itip-control.glade.h:6
-#: composer/e-msg-composer-attachment.glade.h:2 mail/mail-config.glade.h:42
+#: composer/e-msg-composer-attachment.glade.h:2 mail/mail-config.glade.h:44
 msgid "Description:"
 msgstr "Опис:"
 
@@ -5137,7 +5137,7 @@ msgstr "Дата початку"
 
 #: calendar/gui/e-calendar-table.etspec.h:16
 #: my-evolution/component-factory.c:51 shell/e-shell.c:748
-#: shell/e-shortcuts.c:1051
+#: shell/e-shortcuts.c:1047
 msgid "Summary"
 msgstr "Зведення"
 
@@ -5907,44 +5907,44 @@ msgstr "Час початку зібрання:"
 msgid "Meeting _end time:"
 msgstr "Час завершення зібрання:"
 
-#: calendar/gui/e-tasks.c:355 calendar/gui/gnome-cal.c:2013
-#: calendar/gui/gnome-cal.c:2024
+#: calendar/gui/e-tasks.c:358 calendar/gui/gnome-cal.c:2036
+#: calendar/gui/gnome-cal.c:2047
 #, c-format
 msgid "Opening tasks at %s"
 msgstr "Відкривання завдань на %s"
 
-#: calendar/gui/e-tasks.c:381 calendar/gui/tasks-control.c:196
+#: calendar/gui/e-tasks.c:387 calendar/gui/tasks-control.c:196
 #, c-format
 msgid "Could not load the tasks in `%s'"
 msgstr "Не вдалося завантажити завдання в \"%s\""
 
-#: calendar/gui/e-tasks.c:393
+#: calendar/gui/e-tasks.c:402
 #, c-format
 msgid "The method required to load `%s' is not supported"
 msgstr "Метод, необхідний для завантаження \"%s\", не підтримується"
 
-#: calendar/gui/e-tasks.c:404 calendar/gui/gnome-cal.c:1552
+#: calendar/gui/e-tasks.c:416 calendar/gui/gnome-cal.c:1561
 #, fuzzy, c-format
 msgid "You don't have permission to open the folder in `%s'"
 msgstr "Не вдалося відкрити теку в \"%s\""
 
-#: calendar/gui/e-tasks.c:469 calendar/gui/gnome-cal.c:1750
+#: calendar/gui/e-tasks.c:484 calendar/gui/gnome-cal.c:1765
 #, fuzzy, c-format
 msgid ""
 "Error on %s:\n"
 " %s"
 msgstr "Помилка запуску %s"
 
-#: calendar/gui/e-tasks.c:540
+#: calendar/gui/e-tasks.c:556
 msgid "Completing tasks..."
 msgstr "Виконання завдань..."
 
-#: calendar/gui/e-tasks.c:563
+#: calendar/gui/e-tasks.c:579
 #, fuzzy
 msgid "Deleting selected objects..."
 msgstr "Стерти вибрані об'єкти"
 
-#: calendar/gui/e-tasks.c:656
+#: calendar/gui/e-tasks.c:672
 #, fuzzy
 msgid "Expunging"
 msgstr "Викреслення теки"
@@ -5953,23 +5953,22 @@ msgstr "Викреслення теки"
 msgid "New _Appointment..."
 msgstr "Нова зустріч..."
 
-#: calendar/gui/gnome-cal.c:1530
+#: calendar/gui/gnome-cal.c:1533
 #, c-format
 msgid "Could not open the folder in `%s'"
 msgstr "Не вдалося відкрити теку в \"%s\""
 
-#: calendar/gui/gnome-cal.c:1541
+#: calendar/gui/gnome-cal.c:1547
 #, c-format
 msgid "The method required to open `%s' is not supported"
 msgstr "Метод, необхідний для завантаження \"%s\", не підтримується"
 
-#. add the alarms for this client
-#: calendar/gui/gnome-cal.c:1581
+#: calendar/gui/gnome-cal.c:1593
 #, fuzzy, c-format
 msgid "Adding alarms for %s"
 msgstr "Сповіщення на %s"
 
-#: calendar/gui/gnome-cal.c:1767
+#: calendar/gui/gnome-cal.c:1786
 #, c-format
 msgid ""
 "The calendar backend for\n"
@@ -5977,7 +5976,7 @@ msgid ""
 " has crashed. You will have to restart Evolution in order to use it again"
 msgstr ""
 
-#: calendar/gui/gnome-cal.c:1772
+#: calendar/gui/gnome-cal.c:1791
 #, c-format
 msgid ""
 "The task backend for\n"
@@ -5985,12 +5984,12 @@ msgid ""
 " has crashed. You will have to restart Evolution in order to use it again"
 msgstr ""
 
-#: calendar/gui/gnome-cal.c:1996
+#: calendar/gui/gnome-cal.c:2018
 #, c-format
 msgid "Opening calendar at %s"
 msgstr "Відкривання календаря на %s"
 
-#: calendar/gui/gnome-cal.c:2035
+#: calendar/gui/gnome-cal.c:2058
 #, fuzzy
 msgid "Opening default tasks folder"
 msgstr "Відкривання теки %s"
@@ -8489,11 +8488,11 @@ msgstr ""
 msgid "Failed to decrypt MIME part: parse error"
 msgstr ""
 
-#: camel/camel-multipart-signed.c:624
+#: camel/camel-multipart-signed.c:625
 msgid "This is a digitally signed message part"
 msgstr "Цю частина повідомлення підписано цифровим підписом"
 
-#: camel/camel-multipart-signed.c:678
+#: camel/camel-multipart-signed.c:679
 #, fuzzy
 msgid "parse error"
 msgstr "Інша помилка"
@@ -9200,7 +9199,7 @@ msgstr "Для зчитування та збереження пошти на с
 
 #: camel/providers/imap/camel-imap-provider.c:80
 #: camel/providers/nntp/camel-nntp-store.c:267
-#: camel/providers/pop3/camel-pop3-provider.c:69 mail/mail-config.glade.h:85
+#: camel/providers/pop3/camel-pop3-provider.c:69 mail/mail-config.glade.h:87
 msgid "Password"
 msgstr "Пароль"
 
@@ -9882,7 +9881,7 @@ msgstr "Залишати повідомлення на сервері"
 msgid "Delete after %s day(s)"
 msgstr "Стирати по завершенню %s днів"
 
-#: camel/providers/pop3/camel-pop3-provider.c:52 mail/mail-config.glade.h:84
+#: camel/providers/pop3/camel-pop3-provider.c:52 mail/mail-config.glade.h:86
 msgid "POP"
 msgstr "POP"
 
@@ -9971,7 +9970,7 @@ msgid "No such folder `%s'."
 msgstr "Невірна тека \"%s\"."
 
 #: camel/providers/sendmail/camel-sendmail-provider.c:36
-#: mail/mail-config.glade.h:109
+#: mail/mail-config.glade.h:111
 msgid "Sendmail"
 msgstr "Sendmail"
 
@@ -10025,7 +10024,7 @@ msgstr "sendmail"
 msgid "Mail delivery via the sendmail program"
 msgstr "Постачання пошти через програму sendmail"
 
-#: camel/providers/smtp/camel-smtp-provider.c:37 mail/mail-config.glade.h:101
+#: camel/providers/smtp/camel-smtp-provider.c:37 mail/mail-config.glade.h:103
 msgid "SMTP"
 msgstr "SMTP"
 
@@ -10197,7 +10196,7 @@ msgstr "Неможливо відіслати повідомлення: адре
 msgid "Sending message"
 msgstr "Відсилання повідомлення"
 
-#: camel/providers/smtp/camel-smtp-transport.c:703
+#: camel/providers/smtp/camel-smtp-transport.c:704
 msgid "Cannot send message: no recipients defined."
 msgstr "Неможливо відіслати повідомлення: не визначено отримувачів"
 
@@ -10638,12 +10637,12 @@ msgstr "Тема містить"
 msgid "Subject does not contain"
 msgstr "Тема не містить"
 
-#: e-util/e-component-listener.c:131
+#: e-util/e-component-listener.c:135
 msgid ""
 "ping_timeout_callback: could not determine if the CORBA object is nil or not"
 msgstr ""
 
-#: e-util/e-dialog-utils.c:237 mail/mail-callbacks.c:2563
+#: e-util/e-dialog-utils.c:241 mail/mail-callbacks.c:2563
 msgid ""
 "A file by that name already exists.\n"
 "Overwrite it?"
@@ -10755,7 +10754,7 @@ msgid "%I %p"
 msgstr "%I %p"
 
 #: filter/filter-datespec.c:70 filter/filter.glade.h:24
-#: mail/mail-config.glade.h:181
+#: mail/mail-config.glade.h:183
 msgid "seconds"
 msgstr "секунд"
 
@@ -10864,31 +10863,31 @@ msgstr ""
 "%s"
 
 #: filter/filter-label.c:136 filter/libfilter-i18n.h:26 mail/mail-config.c:68
-#: mail/mail-config.glade.h:62
+#: mail/mail-config.glade.h:64
 msgid "Important"
 msgstr "Важливо"
 
 #. red
 #: filter/filter-label.c:137 mail/mail-config.c:69
-#: mail/mail-config.glade.h:133
+#: mail/mail-config.glade.h:135
 #, fuzzy
 msgid "Work"
 msgstr "Робота"
 
 #. orange
-#: filter/filter-label.c:138 mail/mail-config.c:70 mail/mail-config.glade.h:86
+#: filter/filter-label.c:138 mail/mail-config.c:70 mail/mail-config.glade.h:88
 msgid "Personal"
 msgstr ""
 
 #. forest green
 #: filter/filter-label.c:139 mail/mail-config.c:71
-#: mail/mail-config.glade.h:124
+#: mail/mail-config.glade.h:126
 #, fuzzy
 msgid "To Do"
 msgstr "Того"
 
 #. blue
-#: filter/filter-label.c:140 mail/mail-config.c:72 mail/mail-config.glade.h:66
+#: filter/filter-label.c:140 mail/mail-config.c:72 mail/mail-config.glade.h:68
 #, fuzzy
 msgid "Later"
 msgstr "після"
@@ -11517,7 +11516,7 @@ msgstr "Без періодичності"
 msgid "Mail Accounts"
 msgstr "Поштові Рахунки"
 
-#: mail/GNOME_Evolution_Mail.oaf.in.h:19 mail/mail-config.glade.h:69
+#: mail/GNOME_Evolution_Mail.oaf.in.h:19 mail/mail-config.glade.h:71
 msgid "Mail Preferences"
 msgstr ""
 
@@ -11618,11 +11617,11 @@ msgstr "Не вдалося ініціалізувати поштовий ком
 msgid "Cannot initialize Evolution's folder info component."
 msgstr "Не вдалося ініціалізувати компонент інформації про теку Evolutuion."
 
-#: mail/component-factory.c:1340 mail/component-factory.c:1370
+#: mail/component-factory.c:1344 mail/component-factory.c:1374
 msgid "Connecting..."
 msgstr "З'єднання..."
 
-#: mail/component-factory.c:1381
+#: mail/component-factory.c:1385
 msgid "Cannot register storage with shell"
 msgstr "Неможливо зареєструвати сховище за допомогою оболонки"
 
@@ -11811,7 +11810,7 @@ msgstr "Фільтр списку листування (%s)"
 msgid "VFolder on M_ailing List (%s)"
 msgstr "Віртуальна тека списку листування (%s)"
 
-#: mail/folder-browser.h:26 mail/mail-config.glade.h:38
+#: mail/folder-browser.h:26 mail/mail-config.glade.h:40
 msgid "Default"
 msgstr "Типово"
 
@@ -11879,15 +11878,15 @@ msgstr "Ви ще не ввели потрібну інформацію."
 msgid "Evolution Account Editor"
 msgstr "Редактор облікових рахунків Evolution"
 
-#: mail/mail-account-gui.c:743 mail/mail-config.glade.h:157
+#: mail/mail-account-gui.c:743 mail/mail-config.glade.h:159
 msgid "_Host:"
 msgstr "Комп'ютер:"
 
-#: mail/mail-account-gui.c:747 mail/mail-config.glade.h:127
+#: mail/mail-account-gui.c:747 mail/mail-config.glade.h:129
 msgid "User_name:"
 msgstr "Назва користувача:"
 
-#: mail/mail-account-gui.c:751 mail/mail-config.glade.h:164
+#: mail/mail-account-gui.c:751 mail/mail-config.glade.h:166
 msgid "_Path:"
 msgstr "Шлях:"
 
@@ -11925,7 +11924,7 @@ msgid "[Default]"
 msgstr "Типово"
 
 #: mail/mail-accounts.c:538 mail/mail-accounts.etspec.h:2
-#: mail/mail-config.glade.h:53
+#: mail/mail-config.glade.h:55
 msgid "Enabled"
 msgstr "Увімкнено"
 
@@ -12261,7 +12260,7 @@ msgstr ""
 "у нижньому полі. Ця назва буде використовуватись тільки для показу."
 
 #. set window title
-#: mail/mail-config-druid.c:637
+#: mail/mail-config-druid.c:638
 msgid "Evolution Account Assistant"
 msgstr "Асистент з Облікових рахунків Evolution"
 
@@ -12278,131 +12277,131 @@ msgstr "Перевірка служби"
 msgid "Connecting to server..."
 msgstr "З'єднання з сервером..."
 
-#: mail/mail-config.glade.h:1
+#: mail/mail-config.glade.h:3
 msgid " _Check for supported types "
 msgstr "Перевірка типів, що підтримуються"
 
-#: mail/mail-config.glade.h:2
+#: mail/mail-config.glade.h:4
 #, fuzzy
 msgid "(SSL is not supported in this build of Evolution)"
 msgstr "(у цій версії Evolution SSL не підтримується)"
 
-#: mail/mail-config.glade.h:3
+#: mail/mail-config.glade.h:5
 msgid "(SSL is not supported in this build of evolution)"
 msgstr "(у цій версії Evolution SSL не підтримується)"
 
-#: mail/mail-config.glade.h:4
+#: mail/mail-config.glade.h:6
 msgid "A_lways encrypt to myself when sending encrypted mail"
 msgstr "Завжди шифрувати моїм ключем при надсиланні повідомлень"
 
-#: mail/mail-config.glade.h:5
+#: mail/mail-config.glade.h:7
 msgid "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"
 msgstr ""
 
-#: mail/mail-config.glade.h:6
+#: mail/mail-config.glade.h:8
 #, fuzzy
 msgid "Account Editor"
 msgstr "Обліковий рахунок %d"
 
-#: mail/mail-config.glade.h:7
+#: mail/mail-config.glade.h:9
 msgid "Account Information"
 msgstr "Інформація про рахунок"
 
-#: mail/mail-config.glade.h:8 shell/glade/evolution-startup-wizard.glade.h:1
+#: mail/mail-config.glade.h:10 shell/glade/evolution-startup-wizard.glade.h:1
 msgid "Account Management"
 msgstr "Керування рахунками"
 
-#: mail/mail-config.glade.h:9
+#: mail/mail-config.glade.h:11
 #, fuzzy
 msgid "Add Sc_ript"
 msgstr "Додати критерій"
 
-#: mail/mail-config.glade.h:10
+#: mail/mail-config.glade.h:12
 #, fuzzy
 msgid "Add new signature..."
 msgstr "Зберегти підпис"
 
-#: mail/mail-config.glade.h:11
+#: mail/mail-config.glade.h:13
 #, fuzzy
 msgid "Al_ways encrypt to myself when sending encrypted mail"
 msgstr "Завжди шифрувати моїм ключем при надсиланні повідомлень"
 
-#: mail/mail-config.glade.h:13
+#: mail/mail-config.glade.h:15
 #, fuzzy
 msgid "Alwa_ys sign outgoing messages when using this account"
 msgstr ""
 "Завжди підписувати повідомлення при використанні цього облікового рахунку"
 
-#: mail/mail-config.glade.h:15
+#: mail/mail-config.glade.h:17
 msgid "Always _blind carbon-copy (Bcc) to:"
 msgstr ""
 
-#: mail/mail-config.glade.h:16
+#: mail/mail-config.glade.h:18
 msgid "Always _carbon-copy (Cc) to:"
 msgstr ""
 
-#: mail/mail-config.glade.h:17
+#: mail/mail-config.glade.h:19
 msgid "Always _trust keys in my keyring when encrypting"
 msgstr ""
 
-#: mail/mail-config.glade.h:18
+#: mail/mail-config.glade.h:20
 #, fuzzy
 msgid "Attach original message"
 msgstr "Долучити файл до повідомлення"
 
-#: mail/mail-config.glade.h:19 mail/message-list.etspec.h:1
+#: mail/mail-config.glade.h:21 mail/message-list.etspec.h:1
 msgid "Attachment"
 msgstr "Долучення"
 
-#: mail/mail-config.glade.h:20
+#: mail/mail-config.glade.h:22
 msgid "Authentication"
 msgstr "Автентифікація"
 
-#: mail/mail-config.glade.h:21
+#: mail/mail-config.glade.h:23
 #, fuzzy
 msgid "Automatically _detect links"
 msgstr "Автоматично перевіряти нову пошту"
 
-#: mail/mail-config.glade.h:22
+#: mail/mail-config.glade.h:24
 msgid "Baltic (ISO-8859-13)"
 msgstr ""
 
-#: mail/mail-config.glade.h:23
+#: mail/mail-config.glade.h:25
 msgid "Baltic (ISO-8859-4)"
 msgstr ""
 
-#: mail/mail-config.glade.h:24
+#: mail/mail-config.glade.h:26
 #, fuzzy
 msgid "C_haracter set:"
 msgstr "Невідомий набір символів: %s"
 
-#: mail/mail-config.glade.h:25
+#: mail/mail-config.glade.h:27
 msgid "C_olors"
 msgstr "_Кольори"
 
-#: mail/mail-config.glade.h:26
+#: mail/mail-config.glade.h:28
 msgid "Check spelling while I _type"
 msgstr ""
 
-#: mail/mail-config.glade.h:27
+#: mail/mail-config.glade.h:29
 msgid "Checking for New Mail"
 msgstr "Перевірка нової пошти"
 
-#: mail/mail-config.glade.h:28
+#: mail/mail-config.glade.h:30
 #, fuzzy
 msgid "Color for _misspelled words:"
 msgstr "Кольори для сьогоднішніх завдань"
 
-#: mail/mail-config.glade.h:29
+#: mail/mail-config.glade.h:31
 #, fuzzy
 msgid "Composing Messages"
 msgstr "Підготувати повідомлення"
 
-#: mail/mail-config.glade.h:30
+#: mail/mail-config.glade.h:32
 msgid "Configuration"
 msgstr "Конфігурація"
 
-#: mail/mail-config.glade.h:31
+#: mail/mail-config.glade.h:33
 msgid ""
 "Congratulations, your mail configuration is complete.\n"
 "\n"
@@ -12418,338 +12417,338 @@ msgstr ""
 "\n"
 "Щоб зберегти інформацію натисніть \"Завершити\"."
 
-#: mail/mail-config.glade.h:37
+#: mail/mail-config.glade.h:39
 msgid "De_fault"
 msgstr "Типово"
 
-#: mail/mail-config.glade.h:39
+#: mail/mail-config.glade.h:41
 #, fuzzy
 msgid "Default Behavior"
 msgstr "Типово"
 
-#: mail/mail-config.glade.h:40
+#: mail/mail-config.glade.h:42
 #, fuzzy
 msgid "Default character _encoding:"
 msgstr "Типове кодування символів: "
 
-#: mail/mail-config.glade.h:41
+#: mail/mail-config.glade.h:43
 #, fuzzy
 msgid "Deleting Mail"
 msgstr "Отримання пошти"
 
-#: mail/mail-config.glade.h:43
+#: mail/mail-config.glade.h:45
 msgid "Digital IDs..."
 msgstr "Цифрові ідентифікатори..."
 
-#: mail/mail-config.glade.h:44
+#: mail/mail-config.glade.h:46
 #, fuzzy
 msgid "Do not quote original message"
 msgstr "Неможливо відкрити повідомлення"
 
-#: mail/mail-config.glade.h:45
+#: mail/mail-config.glade.h:47
 msgid "Don't sign _meeting requests (for Outlook compatibility)"
 msgstr ""
 
-#: mail/mail-config.glade.h:46 shell/glade/evolution-startup-wizard.glade.h:2
+#: mail/mail-config.glade.h:48 shell/glade/evolution-startup-wizard.glade.h:2
 msgid "Done"
 msgstr "Готово"
 
-#: mail/mail-config.glade.h:47
+#: mail/mail-config.glade.h:49
 #, fuzzy
 msgid "Drafts _folder:"
 msgstr "Тека чернеток:"
 
-#: mail/mail-config.glade.h:48
+#: mail/mail-config.glade.h:50
 msgid "E_nable"
 msgstr "Увімкнути"
 
-#: mail/mail-config.glade.h:49
+#: mail/mail-config.glade.h:51
 msgid "Emacs"
 msgstr "Emacs"
 
-#: mail/mail-config.glade.h:50
+#: mail/mail-config.glade.h:52
 #, fuzzy
 msgid "Email Accounts"
 msgstr "Рахунки"
 
-#: mail/mail-config.glade.h:51
+#: mail/mail-config.glade.h:53
 #, fuzzy
 msgid "Email _address:"
 msgstr "Електронна адреса:"
 
-#: mail/mail-config.glade.h:52
+#: mail/mail-config.glade.h:54
 #, fuzzy
 msgid "Empty _trash folders on exit"
 msgstr "Спорожнити теку смітника на виході"
 
-#: mail/mail-config.glade.h:54
+#: mail/mail-config.glade.h:56
 #, fuzzy
 msgid "Execute Command..."
 msgstr "Виконати дії"
 
-#: mail/mail-config.glade.h:55
+#: mail/mail-config.glade.h:57
 #, fuzzy
 msgid "Fi_xed -width:"
 msgstr "закінчується на"
 
-#: mail/mail-config.glade.h:56
+#: mail/mail-config.glade.h:58
 msgid "Font Properties"
 msgstr "Властивості шрифта"
 
-#: mail/mail-config.glade.h:57
+#: mail/mail-config.glade.h:59
 #, fuzzy
 msgid "Format messages in _HTML"
 msgstr "Переслані повідомлення"
 
-#: mail/mail-config.glade.h:58
+#: mail/mail-config.glade.h:60
 msgid "Get Digital ID..."
 msgstr "Отримати цифровий ідентифікатор..."
 
-#: mail/mail-config.glade.h:59
+#: mail/mail-config.glade.h:61
 #, fuzzy
 msgid "Highlight _quotations with"
 msgstr "Висвітлення процитованого"
 
-#: mail/mail-config.glade.h:60
+#: mail/mail-config.glade.h:62
 msgid "IMAPv4 "
 msgstr "IMAPv4 "
 
-#: mail/mail-config.glade.h:61 shell/glade/evolution-startup-wizard.glade.h:4
+#: mail/mail-config.glade.h:63 shell/glade/evolution-startup-wizard.glade.h:4
 msgid "Identity"
 msgstr "Назва"
 
-#: mail/mail-config.glade.h:63
+#: mail/mail-config.glade.h:65
 msgid "Inline"
 msgstr "В тілі"
 
-#: mail/mail-config.glade.h:64
+#: mail/mail-config.glade.h:66
 msgid "Kerberos "
 msgstr "Kerberos "
 
-#: mail/mail-config.glade.h:65
+#: mail/mail-config.glade.h:67
 #, fuzzy
 msgid "Labels and Colors"
 msgstr "Зберегти та закрити"
 
-#: mail/mail-config.glade.h:67
+#: mail/mail-config.glade.h:69
 #, fuzzy
 msgid "Loading Images"
 msgstr "Завантажити зображення"
 
-#: mail/mail-config.glade.h:68
+#: mail/mail-config.glade.h:70
 msgid "Mail Configuration"
 msgstr "Конфігурація пошти"
 
-#: mail/mail-config.glade.h:70
+#: mail/mail-config.glade.h:72
 msgid "Mailbox location"
 msgstr "Розміщення поштової скриньки"
 
-#: mail/mail-config.glade.h:71
+#: mail/mail-config.glade.h:73
 #, fuzzy
 msgid "Message Composer"
 msgstr "Повідомлення"
 
-#: mail/mail-config.glade.h:72
+#: mail/mail-config.glade.h:74
 #, fuzzy
 msgid "Message Display"
 msgstr "Показати повідомлення"
 
-#: mail/mail-config.glade.h:73
+#: mail/mail-config.glade.h:75
 msgid "Microsoft"
 msgstr "Microsoft"
 
-#: mail/mail-config.glade.h:76
+#: mail/mail-config.glade.h:78
 #, fuzzy
 msgid "New Mail Notification"
 msgstr "Конфігурація пошти"
 
-#: mail/mail-config.glade.h:78
+#: mail/mail-config.glade.h:80
 msgid ""
 "Note: you will not be prompted for a password until you connect for the "
 "first time"
 msgstr ""
 
-#: mail/mail-config.glade.h:79
+#: mail/mail-config.glade.h:81
 msgid "On Screen fonts"
 msgstr ""
 
-#: mail/mail-config.glade.h:80
+#: mail/mail-config.glade.h:82
 msgid "Optional Information"
 msgstr "Необов'язкова інформація"
 
-#: mail/mail-config.glade.h:82
+#: mail/mail-config.glade.h:84
 msgid "Or_ganization:"
 msgstr "Ор_ганізація:"
 
-#: mail/mail-config.glade.h:83
+#: mail/mail-config.glade.h:85
 #, fuzzy
 msgid "PGP/GPG _Key ID:"
 msgstr "Ідентифікатор ключа PGP:"
 
-#: mail/mail-config.glade.h:87
+#: mail/mail-config.glade.h:89
 msgid "Pick a color"
 msgstr "Вибір кольору"
 
-#: mail/mail-config.glade.h:88
+#: mail/mail-config.glade.h:90
 #, fuzzy
 msgid "Pr_ompt when sending messages with only Bcc recipients defined"
 msgstr ""
 "Попереджувати при надсиланні повідомлень, де визначені тільки отримувачі "
 "прихованої копії"
 
-#: mail/mail-config.glade.h:89
+#: mail/mail-config.glade.h:91
 #, fuzzy
 msgid "Pretty Good Privacy (PGP/GPG)"
 msgstr "Pretty Good Privacy"
 
-#: mail/mail-config.glade.h:90
+#: mail/mail-config.glade.h:92
 #, fuzzy
 msgid "Printed Fonts"
 msgstr "Надрукувати вибрані контакти"
 
-#: mail/mail-config.glade.h:91
+#: mail/mail-config.glade.h:93
 msgid "Qmail maildir "
 msgstr "Qmail maildir "
 
-#: mail/mail-config.glade.h:92
+#: mail/mail-config.glade.h:94
 #, fuzzy
 msgid "Quote original message"
 msgstr "Неможливо відкрити повідомлення"
 
-#: mail/mail-config.glade.h:93
+#: mail/mail-config.glade.h:95
 msgid "Quoted"
 msgstr "Процитовано"
 
-#: mail/mail-config.glade.h:94
+#: mail/mail-config.glade.h:96
 msgid "Re_member this password"
 msgstr "Запам'ятати цей пароль"
 
-#: mail/mail-config.glade.h:95
+#: mail/mail-config.glade.h:97
 #, fuzzy
 msgid "Re_ply-To:"
 msgstr "Відповідати на:"
 
-#: mail/mail-config.glade.h:96 shell/glade/evolution-startup-wizard.glade.h:6
+#: mail/mail-config.glade.h:98 shell/glade/evolution-startup-wizard.glade.h:6
 msgid "Receiving Email"
 msgstr "Отримання пошти"
 
-#: mail/mail-config.glade.h:97
+#: mail/mail-config.glade.h:99
 #, fuzzy
 msgid "Receiving _Options"
 msgstr "Параметри отримання"
 
-#: mail/mail-config.glade.h:98
+#: mail/mail-config.glade.h:100
 #, fuzzy
 msgid "Remember this _password"
 msgstr "Запам'ятати цей пароль"
 
-#: mail/mail-config.glade.h:99
+#: mail/mail-config.glade.h:101
 msgid "Required Information"
 msgstr "Необхідна інформація"
 
-#: mail/mail-config.glade.h:100
+#: mail/mail-config.glade.h:102
 #, fuzzy
 msgid "Restore Defaults"
 msgstr "Типово"
 
-#: mail/mail-config.glade.h:102
+#: mail/mail-config.glade.h:104
 #, fuzzy
 msgid "S_ecurity"
 msgstr "Безпека"
 
-#: mail/mail-config.glade.h:103
+#: mail/mail-config.glade.h:105
 #, fuzzy
 msgid "Secure MIME (S/MIME)"
 msgstr "Безпечний MIME"
 
-#: mail/mail-config.glade.h:104
+#: mail/mail-config.glade.h:106
 msgid "Select HTML fixed width font"
 msgstr ""
 
-#: mail/mail-config.glade.h:105
+#: mail/mail-config.glade.h:107
 msgid "Select HTML fixed width font for printing"
 msgstr ""
 
-#: mail/mail-config.glade.h:106
+#: mail/mail-config.glade.h:108
 msgid "Select HTML variable width font"
 msgstr ""
 
-#: mail/mail-config.glade.h:107
+#: mail/mail-config.glade.h:109
 msgid "Select HTML variable width font for printing"
 msgstr ""
 
-#: mail/mail-config.glade.h:108 shell/glade/evolution-startup-wizard.glade.h:7
+#: mail/mail-config.glade.h:110 shell/glade/evolution-startup-wizard.glade.h:7
 msgid "Sending Email"
 msgstr "Відсилання пошти"
 
-#: mail/mail-config.glade.h:110
+#: mail/mail-config.glade.h:112
 msgid "Sent _messages folder:"
 msgstr "Тека надісланих повідомлень:"
 
-#: mail/mail-config.glade.h:111
+#: mail/mail-config.glade.h:113
 msgid "Sent and Draft Messages"
 msgstr "Надіслані повідомлення та чернетки"
 
-#: mail/mail-config.glade.h:112
+#: mail/mail-config.glade.h:114
 msgid "Ser_ver requires authentication"
 msgstr "Сервер вимагає автентифікації"
 
-#: mail/mail-config.glade.h:113
+#: mail/mail-config.glade.h:115
 msgid "Server Configuration"
 msgstr "Конфігурація сервера"
 
-#: mail/mail-config.glade.h:114
+#: mail/mail-config.glade.h:116
 msgid "Server _Type: "
 msgstr "Тип сервера: "
 
-#: mail/mail-config.glade.h:115
+#: mail/mail-config.glade.h:117
 #, fuzzy
 msgid "Shortcuts _type:"
 msgstr "Ярлики"
 
-#: mail/mail-config.glade.h:116
+#: mail/mail-config.glade.h:118
 #, fuzzy
 msgid "Specify _filename:"
 msgstr "Назва стилю:"
 
-#: mail/mail-config.glade.h:117
+#: mail/mail-config.glade.h:119
 msgid "Spell Checking Language"
 msgstr ""
 
-#: mail/mail-config.glade.h:118
+#: mail/mail-config.glade.h:120
 msgid "Spell _Checking"
 msgstr ""
 
-#: mail/mail-config.glade.h:119
+#: mail/mail-config.glade.h:121
 msgid "Standard Unix mbox"
 msgstr "Стандартний Unix mbox"
 
-#: mail/mail-config.glade.h:120
+#: mail/mail-config.glade.h:122
 msgid ""
 "The output of this script will be used as your\n"
 "signature. The name you specify will be used\n"
 "for display purposes only. "
 msgstr ""
 
-#: mail/mail-config.glade.h:123
+#: mail/mail-config.glade.h:125
 msgid ""
 "This page allows you to configure spell checking behavior and language. The "
 "list of languages here reflects only the languages for which you have a "
 "dictionary installed."
 msgstr ""
 
-#: mail/mail-config.glade.h:125
+#: mail/mail-config.glade.h:127
 msgid ""
 "Type the name by which you would like to refer to this account.\n"
 "For example: \"Work\" or \"Personal\""
 msgstr ""
 
-#: mail/mail-config.glade.h:128
+#: mail/mail-config.glade.h:130
 #, fuzzy
 msgid "V_ariable-width:"
 msgstr "Перемінна"
 
-#: mail/mail-config.glade.h:129
+#: mail/mail-config.glade.h:131
 msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
@@ -12759,177 +12758,177 @@ msgstr ""
 "\n"
 "Щоб піти далі натисніть \"Далі\""
 
-#: mail/mail-config.glade.h:134
+#: mail/mail-config.glade.h:136
 #, fuzzy
 msgid "XEmacs"
 msgstr "Схід"
 
-#: mail/mail-config.glade.h:136
+#: mail/mail-config.glade.h:138
 #, fuzzy
 msgid "_Add Signature"
 msgstr "Підпис HTML:"
 
-#: mail/mail-config.glade.h:137
+#: mail/mail-config.glade.h:139
 msgid "_Always load images off the net"
 msgstr "Завжди завантажувати зображення"
 
-#: mail/mail-config.glade.h:138
+#: mail/mail-config.glade.h:140
 msgid "_Always sign outgoing messages when using this account"
 msgstr ""
 "Завжди підписувати повідомлення при використанні цього облікового рахунку"
 
-#: mail/mail-config.glade.h:139
+#: mail/mail-config.glade.h:141
 msgid "_Authentication Type: "
 msgstr "Тип автентифікації: "
 
-#: mail/mail-config.glade.h:140
+#: mail/mail-config.glade.h:142
 msgid "_Authentication type: "
 msgstr "Тип автентифікації: "
 
-#: mail/mail-config.glade.h:141
+#: mail/mail-config.glade.h:143
 msgid "_Automatically check for new mail"
 msgstr "Автоматично перевіряти нову пошту"
 
-#: mail/mail-config.glade.h:142
+#: mail/mail-config.glade.h:144
 #, fuzzy
 msgid "_Automatically insert smiley images"
 msgstr "Автоматично перевіряти нову пошту"
 
-#: mail/mail-config.glade.h:143
+#: mail/mail-config.glade.h:145
 msgid "_Beep when new mail arrives"
 msgstr ""
 
-#: mail/mail-config.glade.h:144
+#: mail/mail-config.glade.h:146
 msgid "_Certificate ID:"
 msgstr "Ідентифікатор сертифіката:"
 
-#: mail/mail-config.glade.h:145
+#: mail/mail-config.glade.h:147
 #, fuzzy
 msgid "_Confirm when expunging a folder"
 msgstr "Підтвердження при викресленні з теки"
 
-#: mail/mail-config.glade.h:146
+#: mail/mail-config.glade.h:148
 #, fuzzy
 msgid "_Default signature:"
 msgstr "Стерти все крім підпису"
 
-#: mail/mail-config.glade.h:147
+#: mail/mail-config.glade.h:149
 #, fuzzy
 msgid "_Defaults"
 msgstr "Типово"
 
-#: mail/mail-config.glade.h:149
-msgid "_Do not notify me when new mail arrives"
-msgstr ""
-
 #: mail/mail-config.glade.h:151
-#, fuzzy
-msgid "_Enable"
-msgstr "Увімкнути"
-
-#: mail/mail-config.glade.h:152
-msgid "_Fixed-width:"
+msgid "_Do not notify me when new mail arrives"
 msgstr ""
 
 #: mail/mail-config.glade.h:153
 #, fuzzy
+msgid "_Enable"
+msgstr "Увімкнути"
+
+#: mail/mail-config.glade.h:154
+msgid "_Fixed-width:"
+msgstr ""
+
+#: mail/mail-config.glade.h:155
+#, fuzzy
 msgid "_Forward style:"
 msgstr "Переслати як"
 
-#: mail/mail-config.glade.h:154
+#: mail/mail-config.glade.h:156
 msgid "_Full name:"
 msgstr "Повне ім'я:"
 
-#: mail/mail-config.glade.h:156
+#: mail/mail-config.glade.h:158
 msgid "_HTML Mail"
 msgstr "В HTML"
 
-#: mail/mail-config.glade.h:158
+#: mail/mail-config.glade.h:160
 #, fuzzy
 msgid "_Identity"
 msgstr "Назва"
 
-#: mail/mail-config.glade.h:159
+#: mail/mail-config.glade.h:161
 msgid "_Load images if sender is in addressbook"
 msgstr "Завантажувати зображення, якщо відправник у адресній книзі"
 
-#: mail/mail-config.glade.h:160
+#: mail/mail-config.glade.h:162
 msgid "_Make this my default account"
 msgstr "Зробити це моїм типовим рахунком"
 
-#: mail/mail-config.glade.h:161
+#: mail/mail-config.glade.h:163
 #, fuzzy
 msgid "_Mark messages as read after"
 msgstr "Позначати повідомлення як \"Прочитані\" після"
 
-#: mail/mail-config.glade.h:162
+#: mail/mail-config.glade.h:164
 msgid "_Name:"
 msgstr "Ім'я:"
 
-#: mail/mail-config.glade.h:163
+#: mail/mail-config.glade.h:165
 msgid "_Never load images off the net"
 msgstr "Ніколи не завантажувати зображення"
 
-#: mail/mail-config.glade.h:165
+#: mail/mail-config.glade.h:167
 msgid "_Play sound file when new mail arrives"
 msgstr ""
 
-#: mail/mail-config.glade.h:166
+#: mail/mail-config.glade.h:168
 msgid "_Prompt when sending HTML messages to contacts that don't want them"
 msgstr "Попереджувати при надсиланні HTML повідомлень тим, хто їх не бажає"
 
-#: mail/mail-config.glade.h:167
+#: mail/mail-config.glade.h:169
 msgid "_Prompt when sending messages with an empty subject line"
 msgstr "Попереджувати при надсиланні повідомлень з порожньою темою"
 
-#: mail/mail-config.glade.h:168
+#: mail/mail-config.glade.h:170
 msgid "_Receiving Mail"
 msgstr "Отримання пошти"
 
-#: mail/mail-config.glade.h:169
+#: mail/mail-config.glade.h:171
 #, fuzzy
 msgid "_Reply style:"
 msgstr "Відповісти всім"
 
-#: mail/mail-config.glade.h:170
+#: mail/mail-config.glade.h:172
 msgid "_Restore defaults"
 msgstr ""
 
-#: mail/mail-config.glade.h:171
+#: mail/mail-config.glade.h:173
 #, fuzzy
 msgid "_Script:"
 msgstr "Безпека"
 
-#: mail/mail-config.glade.h:172
+#: mail/mail-config.glade.h:174
 msgid "_Sending Mail"
 msgstr "Відсилання пошти"
 
-#: mail/mail-config.glade.h:173
+#: mail/mail-config.glade.h:175
 msgid "_Show animated images"
 msgstr "Показувати анімовані зображення"
 
-#: mail/mail-config.glade.h:174
+#: mail/mail-config.glade.h:176
 msgid "_Signatures"
 msgstr "Підписи"
 
-#: mail/mail-config.glade.h:175
+#: mail/mail-config.glade.h:177
 msgid "_Use secure connection (SSL):"
 msgstr "Використовувати безпечне з'єднання (SSL)"
 
-#: mail/mail-config.glade.h:176
+#: mail/mail-config.glade.h:178
 #, fuzzy
 msgid "_Variable-width:"
 msgstr "Перемінна"
 
-#: mail/mail-config.glade.h:177
+#: mail/mail-config.glade.h:179
 msgid "_every"
 msgstr "кожні"
 
-#: mail/mail-config.glade.h:178
+#: mail/mail-config.glade.h:180
 msgid "color"
 msgstr "колір"
 
-#: mail/mail-config.glade.h:179
+#: mail/mail-config.glade.h:181
 msgid "description"
 msgstr "опис"
 
@@ -13736,16 +13735,11 @@ msgstr "Не було вибрано сервера"
 msgid "Please select a server."
 msgstr "Будь ласка, виберіть сервер."
 
-#: mail/subscribe-dialog.glade.h:1
+#: mail/subscribe-dialog.glade.h:3
 msgid "All folders"
 msgstr "Всі теки"
 
-#: mail/subscribe-dialog.glade.h:2
-#, fuzzy
-msgid "Apri file"
-msgstr "Квітень"
-
-#: mail/subscribe-dialog.glade.h:3 ui/evolution-comp-editor.xml.h:2
+#: mail/subscribe-dialog.glade.h:4 ui/evolution-comp-editor.xml.h:2
 #: ui/evolution-contact-editor.xml.h:1
 #: ui/evolution-contact-list-editor.xml.h:1
 #: ui/evolution-mail-messagedisplay.xml.h:1 ui/evolution-message-composer.h:15
@@ -13754,38 +13748,38 @@ msgstr "Квітень"
 msgid "Close"
 msgstr "Закрити"
 
-#: mail/subscribe-dialog.glade.h:4
+#: mail/subscribe-dialog.glade.h:5
 #, fuzzy
 msgid "Display Options"
 msgstr "Параметри відображення"
 
-#: mail/subscribe-dialog.glade.h:5
+#: mail/subscribe-dialog.glade.h:6
 msgid "Folders whose names begin with:"
 msgstr "Теки, назви яких починаються з:"
 
-#: mail/subscribe-dialog.glade.h:6
+#: mail/subscribe-dialog.glade.h:7
 msgid "Manage Subscriptions"
 msgstr "Керування передплатами"
 
-#: mail/subscribe-dialog.glade.h:7 ui/evolution-subscribe.xml.h:3
+#: mail/subscribe-dialog.glade.h:8 ui/evolution-subscribe.xml.h:3
 msgid "Refresh List"
 msgstr "Оновити список"
 
-#: mail/subscribe-dialog.glade.h:8
+#: mail/subscribe-dialog.glade.h:9
+#, fuzzy
+msgid "Refresh folder listing"
+msgstr "Оновлення теки"
+
+#: mail/subscribe-dialog.glade.h:10
 #, fuzzy
 msgid "S_elect server: "
 msgstr "Вибір теки"
 
-#: mail/subscribe-dialog.glade.h:9
-#, fuzzy
-msgid "Salve file"
-msgstr "Вибрати файл"
-
-#: mail/subscribe-dialog.glade.h:10
+#: mail/subscribe-dialog.glade.h:11
 msgid "_Subscribe"
 msgstr "Передплатити"
 
-#: mail/subscribe-dialog.glade.h:11
+#: mail/subscribe-dialog.glade.h:12
 msgid "_Unsubscribe"
 msgstr "Припинити передплату"
 
@@ -25200,7 +25194,7 @@ msgid "Drafts"
 msgstr "Чернетки"
 
 #: shell/e-local-storage.c:179 shell/e-shell-view.c:400
-#: shell/e-shortcuts.c:1055
+#: shell/e-shortcuts.c:1051
 msgid "Inbox"
 msgstr "Вхідні"
 
@@ -25632,26 +25626,26 @@ msgstr ""
 msgid "Evolution Settings"
 msgstr "Параметри Evolution"
 
-#: shell/e-shell-shared-folder-picker-dialog.c:357
+#: shell/e-shell-shared-folder-picker-dialog.c:362
 msgid "Opening Folder"
 msgstr "Відкривання теки"
 
-#: shell/e-shell-shared-folder-picker-dialog.c:364
+#: shell/e-shell-shared-folder-picker-dialog.c:369
 #, c-format
 msgid "Opening Folder \"%s\""
 msgstr "Відкривання теки \"%s\""
 
-#: shell/e-shell-shared-folder-picker-dialog.c:369
+#: shell/e-shell-shared-folder-picker-dialog.c:374
 #, c-format
 msgid "in \"%s\" ..."
 msgstr "в \"%s\"..."
 
-#: shell/e-shell-shared-folder-picker-dialog.c:455
+#: shell/e-shell-shared-folder-picker-dialog.c:460
 #, fuzzy, c-format
 msgid "Could not open shared folder: %s."
 msgstr "Не вдалося перейменувати теку: %s"
 
-#: shell/e-shell-shared-folder-picker-dialog.c:513
+#: shell/e-shell-shared-folder-picker-dialog.c:518
 #, fuzzy
 msgid "Cannot find the specified shared folder."
 msgstr ""
@@ -25942,11 +25936,11 @@ msgstr "Видалити"
 msgid "Remove this shortcut from the shortcut bar"
 msgstr "Видалити цей ярлик з панелі ярликів"
 
-#: shell/e-shortcuts.c:641
+#: shell/e-shortcuts.c:637
 msgid "Error saving shortcuts."
 msgstr "Помилка збереження ярликів."
 
-#: shell/e-shortcuts.c:1080
+#: shell/e-shortcuts.c:1076
 msgid "Shortcuts"
 msgstr "Ярлики"
 
@@ -26354,6 +26348,33 @@ msgstr "Файл виводу"
 #: tools/evolution-addressbook-import.c:80
 msgid "No filename provided."
 msgstr "Не вказано назви файлу."
+
+#: tools/evolution-launch-composer.c:322
+#, fuzzy
+msgid "An attachment to add."
+msgstr "Долучити..."
+
+#: tools/evolution-launch-composer.c:323
+msgid "Content type of the attachment."
+msgstr ""
+
+#: tools/evolution-launch-composer.c:324
+msgid "The filename to display in the mail."
+msgstr ""
+
+#: tools/evolution-launch-composer.c:325
+#, fuzzy
+msgid "Description of the attachment."
+msgstr "Опис містить"
+
+#: tools/evolution-launch-composer.c:326
+msgid "Mark attachment to be shown inline by default."
+msgstr ""
+
+#: tools/evolution-launch-composer.c:327
+#, fuzzy
+msgid "Default subject for the message."
+msgstr "Вирізати вибрані повідомлення"
 
 #.
 #. *  This file is autogenerated from evolution-addressbook.xml, do not edit
@@ -28242,6 +28263,14 @@ msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): не вдалось ініціалізувати Bonobo"
 
 #, fuzzy
+#~ msgid "Apri file"
+#~ msgstr "Квітень"
+
+#, fuzzy
+#~ msgid "Salve file"
+#~ msgstr "Вибрати файл"
+
+#, fuzzy
 #~ msgid "Configuration control for the Evolution Summary."
 #~ msgstr "Тека, що містить зведення Evolution"
 
@@ -28308,9 +28337,6 @@ msgstr "init_bonobo(): не вдалось ініціалізувати Bonobo"
 
 #~ msgid "Copy selected messages"
 #~ msgstr "Скопіювати вибрані повідомлення"
-
-#~ msgid "Cut selected messages"
-#~ msgstr "Вирізати вибрані повідомлення"
 
 #~ msgid "&lt;- _Remove"
 #~ msgstr "&lt;- _Видалити"

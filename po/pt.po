@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.1\n"
-"POT-Creation-Date: 2002-12-05 17:57-0500\n"
+"POT-Creation-Date: 2003-02-04 12:25-0500\n"
 "PO-Revision-Date: 2000-04-16 16:33+01:00\n"
 "Last-Translator: Tiago Antão <tiagoantao@bigfoot.com>\n"
 "Language-Team: Gnome Portuguese <gnome@poli.org>\n"
@@ -37,7 +37,7 @@ msgstr "_Pasta"
 
 #: addressbook/backend/ebook/e-card-simple.c:61
 #: addressbook/gui/component/select-names/e-select-names.etspec.h:1
-#: mail/mail-config.glade.h:74 my-evolution/e-summary-table.c:59
+#: mail/mail-config.glade.h:76 my-evolution/e-summary-table.c:59
 #, fuzzy
 msgid "Name"
 msgstr "Nome"
@@ -366,11 +366,12 @@ msgstr ""
 #: tools/evolution-addressbook-abuse.c:132
 #: tools/evolution-addressbook-export.c:60
 #: tools/evolution-addressbook-import.c:86
+#: tools/evolution-launch-composer.c:344
 msgid "Could not initialize Bonobo"
 msgstr "Não se consegui inicializar Bonobo"
 
 #: addressbook/backend/pas/pas-backend-file.c:364
-#: addressbook/backend/pas/pas-backend-ldap.c:3010
+#: addressbook/backend/pas/pas-backend-ldap.c:3021
 #, fuzzy
 msgid "Searching..."
 msgstr "Ano"
@@ -380,29 +381,29 @@ msgstr "Ano"
 msgid "Loading..."
 msgstr "Imprimir calendário"
 
-#: addressbook/backend/pas/pas-backend-ldap.c:719
+#: addressbook/backend/pas/pas-backend-ldap.c:730
 #, fuzzy
 msgid "Reconnecting to LDAP server..."
 msgstr "Criar um novo calendário"
 
-#: addressbook/backend/pas/pas-backend-ldap.c:1262
+#: addressbook/backend/pas/pas-backend-ldap.c:1273
 msgid "Adding card to LDAP server..."
 msgstr ""
 
-#: addressbook/backend/pas/pas-backend-ldap.c:1368
+#: addressbook/backend/pas/pas-backend-ldap.c:1379
 msgid "Removing card from LDAP server..."
 msgstr ""
 
-#: addressbook/backend/pas/pas-backend-ldap.c:1604
-#: addressbook/backend/pas/pas-backend-ldap.c:1607
+#: addressbook/backend/pas/pas-backend-ldap.c:1615
+#: addressbook/backend/pas/pas-backend-ldap.c:1618
 msgid "Modifying card from LDAP server..."
 msgstr ""
 
-#: addressbook/backend/pas/pas-backend-ldap.c:2921
+#: addressbook/backend/pas/pas-backend-ldap.c:2932
 msgid "Receiving LDAP search results..."
 msgstr ""
 
-#: addressbook/backend/pas/pas-backend-ldap.c:3030
+#: addressbook/backend/pas/pas-backend-ldap.c:3041
 #, fuzzy
 msgid "Error performing search"
 msgstr "Erro a gravar os atalhos."
@@ -501,11 +502,11 @@ msgid "Factory for the sample Addressbook control"
 msgstr "Pressione aqui para o livro de endereços"
 
 #: addressbook/gui/component/addressbook-component.c:73
-#: addressbook/gui/component/addressbook-component.c:611
+#: addressbook/gui/component/addressbook-component.c:630
 #: calendar/gui/dialogs/comp-editor-util.c:310
 #: calendar/gui/dialogs/comp-editor-util.c:366
 #: importers/netscape-importer.c:1874 shell/e-local-storage.c:177
-#: shell/e-shortcuts.c:1067
+#: shell/e-shortcuts.c:1063
 #, fuzzy
 msgid "Contacts"
 msgstr "_Contacto"
@@ -535,33 +536,33 @@ msgstr "_Contacto"
 msgid "Public folder containing contact information"
 msgstr "Uma pasta contendo entradas de calendário"
 
-#: addressbook/gui/component/addressbook-component.c:567
+#: addressbook/gui/component/addressbook-component.c:586
 #, fuzzy
 msgid "New Contact"
 msgstr "_Contacto"
 
-#: addressbook/gui/component/addressbook-component.c:567
+#: addressbook/gui/component/addressbook-component.c:586
 #, fuzzy
 msgid "_Contact"
 msgstr "_Contacto"
 
-#: addressbook/gui/component/addressbook-component.c:568
+#: addressbook/gui/component/addressbook-component.c:587
 #: ui/evolution-addressbook.h:15
 #, fuzzy
 msgid "Create a new contact"
 msgstr "Criar um novo contacto"
 
-#: addressbook/gui/component/addressbook-component.c:571
+#: addressbook/gui/component/addressbook-component.c:590
 #, fuzzy
 msgid "New Contact List"
 msgstr "_Contacto"
 
-#: addressbook/gui/component/addressbook-component.c:571
+#: addressbook/gui/component/addressbook-component.c:590
 #, fuzzy
 msgid "Contact _List"
 msgstr "_Contacto"
 
-#: addressbook/gui/component/addressbook-component.c:572
+#: addressbook/gui/component/addressbook-component.c:591
 #, fuzzy
 msgid "Create a new contact list"
 msgstr "A sua lista de contactos"
@@ -798,83 +799,89 @@ msgid "Enable Queries (Dangerous!)"
 msgstr ""
 
 #: addressbook/gui/component/ldap-config.glade.h:1
-msgid "  S_how Supported Bases "
-msgstr ""
-
-#: addressbook/gui/component/ldap-config.glade.h:2
-msgid "1234"
+#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:1
+#: mail/mail-config.glade.h:1 mail/subscribe-dialog.glade.h:1
+msgid "\n"
 msgstr ""
 
 #: addressbook/gui/component/ldap-config.glade.h:3
-msgid "1:00"
+msgid "  S_how Supported Bases "
 msgstr ""
 
 #: addressbook/gui/component/ldap-config.glade.h:4
-msgid "2:30"
+msgid "1234"
 msgstr ""
 
 #: addressbook/gui/component/ldap-config.glade.h:5
-msgid "3268"
+msgid "1:00"
 msgstr ""
 
 #: addressbook/gui/component/ldap-config.glade.h:6
-msgid "380"
+msgid "2:30"
 msgstr ""
 
 #: addressbook/gui/component/ldap-config.glade.h:7
-msgid "389"
+msgid "3268"
 msgstr ""
 
 #: addressbook/gui/component/ldap-config.glade.h:8
-msgid "5:00"
+msgid "380"
 msgstr ""
 
 #: addressbook/gui/component/ldap-config.glade.h:9
-msgid "636"
+msgid "389"
 msgstr ""
 
 #: addressbook/gui/component/ldap-config.glade.h:10
-msgid "666"
+msgid "5:00"
 msgstr ""
 
 #: addressbook/gui/component/ldap-config.glade.h:11
+msgid "636"
+msgstr ""
+
+#: addressbook/gui/component/ldap-config.glade.h:12
+msgid "666"
+msgstr ""
+
+#: addressbook/gui/component/ldap-config.glade.h:13
 #, fuzzy
 msgid "<- _Remove"
 msgstr "Remover"
 
-#: addressbook/gui/component/ldap-config.glade.h:12
+#: addressbook/gui/component/ldap-config.glade.h:14
 #, fuzzy
 msgid "<< Fewer Options"
 msgstr "_Opções"
 
-#: addressbook/gui/component/ldap-config.glade.h:13
+#: addressbook/gui/component/ldap-config.glade.h:15
 msgid "Add (or Edit) Attribute Mappings"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:14
+#: addressbook/gui/component/ldap-config.glade.h:16
 #, fuzzy
 msgid "Addressbook Sources"
 msgstr "Adicionar Fonte"
 
-#: addressbook/gui/component/ldap-config.glade.h:15 mail/mail-account-gui.c:58
-#: mail/mail-config.glade.h:14
+#: addressbook/gui/component/ldap-config.glade.h:17 mail/mail-account-gui.c:58
+#: mail/mail-config.glade.h:16
 #, fuzzy
 msgid "Always"
 msgstr "Alarmes"
 
-#: addressbook/gui/component/ldap-config.glade.h:16
+#: addressbook/gui/component/ldap-config.glade.h:18
 msgid "Anonymously"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:17
+#: addressbook/gui/component/ldap-config.glade.h:19
 msgid "Associated LDAP Attribute"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:18
+#: addressbook/gui/component/ldap-config.glade.h:20
 msgid "Attribute"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:19
+#: addressbook/gui/component/ldap-config.glade.h:21
 msgid ""
 "Congratulations, you are finished setting up this LDAP server. You\n"
 "are now ready to access this directory.\n"
@@ -883,81 +890,81 @@ msgid ""
 "here."
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:23
+#: addressbook/gui/component/ldap-config.glade.h:25
 #, fuzzy
 msgid "Connecting"
 msgstr "Abrir ficheiro"
 
-#: addressbook/gui/component/ldap-config.glade.h:24
+#: addressbook/gui/component/ldap-config.glade.h:26
 msgid "Corresponding Evolution Attribute"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:25
+#: addressbook/gui/component/ldap-config.glade.h:27
 #, fuzzy
 msgid "DN Customization"
 msgstr "Nenhuma Informação"
 
-#: addressbook/gui/component/ldap-config.glade.h:26
+#: addressbook/gui/component/ldap-config.glade.h:28
 #, fuzzy
 msgid "De_lete"
 msgstr "Apagar"
 
-#: addressbook/gui/component/ldap-config.glade.h:27
+#: addressbook/gui/component/ldap-config.glade.h:29
 #, fuzzy
 msgid "Distinguished _name:"
 msgstr "Utilizador:"
 
-#: addressbook/gui/component/ldap-config.glade.h:28
+#: addressbook/gui/component/ldap-config.glade.h:30
 #, fuzzy
 msgid "Email Address:"
 msgstr "Endereço de correio:"
 
-#: addressbook/gui/component/ldap-config.glade.h:29
+#: addressbook/gui/component/ldap-config.glade.h:31
 #, fuzzy
 msgid "Evolution Attribute"
 msgstr "Evolution"
 
-#: addressbook/gui/component/ldap-config.glade.h:30
+#: addressbook/gui/component/ldap-config.glade.h:32
 msgid "Evolution will use this DN to authenticate you with the server"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:31
+#: addressbook/gui/component/ldap-config.glade.h:33
 msgid ""
 "Evolution will use this email address to authenticate you with the server"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:32
+#: addressbook/gui/component/ldap-config.glade.h:34
 #, fuzzy
 msgid "Finished"
 msgstr "Encontrar"
 
-#: addressbook/gui/component/ldap-config.glade.h:33
+#: addressbook/gui/component/ldap-config.glade.h:35
 #: addressbook/gui/contact-editor/contact-editor.glade.h:16
 msgid "General"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:34
+#: addressbook/gui/component/ldap-config.glade.h:36
 #, fuzzy
 msgid "LDAP Attribute"
 msgstr "Autenticação"
 
-#: addressbook/gui/component/ldap-config.glade.h:35
+#: addressbook/gui/component/ldap-config.glade.h:37
 #, fuzzy
 msgid "LDAP Configuration Assistant"
 msgstr "Configuração do correio"
 
-#: addressbook/gui/component/ldap-config.glade.h:36
+#: addressbook/gui/component/ldap-config.glade.h:38
 #, fuzzy
 msgid "Mappings"
 msgstr "Ícones _grandes"
 
-#: addressbook/gui/component/ldap-config.glade.h:37 mail/mail-account-gui.c:60
-#: mail/mail-config.glade.h:75
+#: addressbook/gui/component/ldap-config.glade.h:39 mail/mail-account-gui.c:60
+#: mail/mail-config.glade.h:77
 #, fuzzy
 msgid "Never"
 msgstr "Remover"
 
-#: addressbook/gui/component/ldap-config.glade.h:38
+#: addressbook/gui/component/ldap-config.glade.h:40
 msgid ""
 "Now, you must specify how you want to connect to the LDAP server. The SSL "
 "(Secure Sockets Layer)\n"
@@ -967,32 +974,26 @@ msgid ""
 "these protocols."
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:41
+#: addressbook/gui/component/ldap-config.glade.h:43
 #, fuzzy
 msgid "Objectclasses"
 msgstr "_Objecto"
 
-#: addressbook/gui/component/ldap-config.glade.h:42
+#: addressbook/gui/component/ldap-config.glade.h:44
 msgid "Objectclasses Used in Evolution:"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:43
+#: addressbook/gui/component/ldap-config.glade.h:45
 msgid "Objectclasses Used on Server:"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:44
+#: addressbook/gui/component/ldap-config.glade.h:46
 msgid "One"
-msgstr ""
-
-#: addressbook/gui/component/ldap-config.glade.h:45
-msgid ""
-"Please select an Evolution attribute and an\n"
-"LDAP attribute to associate with it."
 msgstr ""
 
 #: addressbook/gui/component/ldap-config.glade.h:47
 msgid ""
-"Please select and Evolution attribute and an\n"
+"Please select an Evolution attribute and an\n"
 "LDAP attribute to associate with it."
 msgstr ""
 
@@ -1065,46 +1066,39 @@ msgstr ""
 
 #: addressbook/gui/component/ldap-config.glade.h:66
 msgid ""
-"Selecting this option will let you change Evolution's default settings for "
-"LDAP\n"
-"searches, and for creating and editting contacts. "
-msgstr ""
-
-#: addressbook/gui/component/ldap-config.glade.h:68
-msgid ""
 "Specifying a display name is the last required step in configuring an LDAP "
 "server."
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:69
+#: addressbook/gui/component/ldap-config.glade.h:67
 #, fuzzy
 msgid "Step 1: Server Information"
 msgstr "Nenhuma Informação"
 
-#: addressbook/gui/component/ldap-config.glade.h:70
+#: addressbook/gui/component/ldap-config.glade.h:68
 #, fuzzy
 msgid "Step 2: Connecting to Server"
 msgstr "Abrir ficheiro"
 
-#: addressbook/gui/component/ldap-config.glade.h:71
+#: addressbook/gui/component/ldap-config.glade.h:69
 msgid "Step 3: Searching the Directory"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:72
+#: addressbook/gui/component/ldap-config.glade.h:70
 msgid "Step 4: Display Name"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:73
+#: addressbook/gui/component/ldap-config.glade.h:71
 #, fuzzy
 msgid "Sub"
 msgstr "Do"
 
-#: addressbook/gui/component/ldap-config.glade.h:74
+#: addressbook/gui/component/ldap-config.glade.h:72
 #, fuzzy
 msgid "Supported Search Bases"
 msgstr "_Nova pasta"
 
-#: addressbook/gui/component/ldap-config.glade.h:75
+#: addressbook/gui/component/ldap-config.glade.h:73
 msgid ""
 "The first step in configuring an LDAP server is to provide its name, and "
 "your log in\n"
@@ -1112,7 +1106,7 @@ msgid ""
 "information."
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:77
+#: addressbook/gui/component/ldap-config.glade.h:75
 msgid ""
 "The options on this page control how many entries should be included in "
 "your\n"
@@ -1121,7 +1115,7 @@ msgid ""
 "need to change these options."
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:80
+#: addressbook/gui/component/ldap-config.glade.h:78
 msgid ""
 "The search base is the distinguished name (DN)  of the entry where your "
 "searches will \n"
@@ -1129,17 +1123,17 @@ msgid ""
 "directory tree."
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:82
+#: addressbook/gui/component/ldap-config.glade.h:80
 msgid ""
 "The search scope defines how deep you would like the search to extend down "
 "the \n"
 "directory tree. A search scope of \"sub\" will include all entries below "
 "your search base.\n"
 "A search scope of \"one\" will only include the entries one level beneath "
-"your base."
+"your base.\n"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:85
+#: addressbook/gui/component/ldap-config.glade.h:84
 msgid ""
 "This assistant will help you to access online directory services\n"
 "using LDAP (Lightweight Directory Access Protocol) servers. \n"
@@ -1149,34 +1143,34 @@ msgid ""
 "need help finding this information."
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:91
+#: addressbook/gui/component/ldap-config.glade.h:90
 msgid ""
 "This is the full name of your ldap server. For example, \"ldap.mycompany.com"
 "\"."
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:92
+#: addressbook/gui/component/ldap-config.glade.h:91
 msgid ""
 "This is the maximum number of entries to download. Setting this number to "
 "be \n"
 "too large will slow down your addressbook."
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:94
+#: addressbook/gui/component/ldap-config.glade.h:93
 msgid ""
 "This is the method evolution will use to authenticate you.  Note that "
 "setting this to \"Email Address\" requires anonymous access to your ldap "
 "server."
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:95
+#: addressbook/gui/component/ldap-config.glade.h:94
 msgid ""
 "This is the name for this server that will appear in your Evolution folder "
 "list.\n"
 "It is for display purposes only. "
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:97
+#: addressbook/gui/component/ldap-config.glade.h:96
 msgid ""
 "This is the port on the LDAP server that Evolution will try to connect to. "
 "A \n"
@@ -1184,11 +1178,11 @@ msgid ""
 "what port you should specify."
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:100
+#: addressbook/gui/component/ldap-config.glade.h:99
 msgid "This option controls how long a search will be run."
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:101
+#: addressbook/gui/component/ldap-config.glade.h:100
 msgid ""
 "To add an attribute to the DN, select it from the list and click the \"Add "
 "Attribute\" button.\n"
@@ -1197,77 +1191,77 @@ msgid ""
 "that you add to the directory on the LDAP server. "
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:104
+#: addressbook/gui/component/ldap-config.glade.h:103
 msgid "U_se SSL/TLS:"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:105
+#: addressbook/gui/component/ldap-config.glade.h:104
 msgid "Using distinguished name (DN)"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:106
+#: addressbook/gui/component/ldap-config.glade.h:105
 #, fuzzy
 msgid "Using email address"
 msgstr "Endereço de correio:"
 
-#: addressbook/gui/component/ldap-config.glade.h:107
-#: mail/mail-account-gui.c:59 mail/mail-config.glade.h:132
+#: addressbook/gui/component/ldap-config.glade.h:106
+#: mail/mail-account-gui.c:59 mail/mail-config.glade.h:134
 msgid "Whenever Possible"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:108
+#: addressbook/gui/component/ldap-config.glade.h:107
 #: addressbook/gui/contact-editor/contact-editor.glade.h:30
-#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:4
+#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:6
 #: calendar/gui/dialogs/alarm-page.glade.h:8 filter/filter.glade.h:14
-#: mail/mail-config.glade.h:135 shell/glade/e-folder-list.glade.h:1
+#: mail/mail-config.glade.h:137 shell/glade/e-folder-list.glade.h:1
 #, fuzzy
 msgid "_Add"
 msgstr "Adicionar"
 
-#: addressbook/gui/component/ldap-config.glade.h:109
+#: addressbook/gui/component/ldap-config.glade.h:108
 #, fuzzy
 msgid "_Add ->"
 msgstr "Adicionar"
 
-#: addressbook/gui/component/ldap-config.glade.h:110
+#: addressbook/gui/component/ldap-config.glade.h:109
 #, fuzzy
 msgid "_Add Mapping"
 msgstr "_Acções"
 
-#: addressbook/gui/component/ldap-config.glade.h:111
+#: addressbook/gui/component/ldap-config.glade.h:110
 #, fuzzy
 msgid "_Add to DN"
 msgstr "_Acções"
 
-#: addressbook/gui/component/ldap-config.glade.h:112
+#: addressbook/gui/component/ldap-config.glade.h:111
 #, fuzzy
 msgid "_Always"
 msgstr "Alarmes"
 
-#: addressbook/gui/component/ldap-config.glade.h:113
+#: addressbook/gui/component/ldap-config.glade.h:112
 #, fuzzy
 msgid "_Delete Mapping"
 msgstr "Apagar"
 
-#: addressbook/gui/component/ldap-config.glade.h:114
+#: addressbook/gui/component/ldap-config.glade.h:113
 #, fuzzy
 msgid "_Display name:"
 msgstr "Dia"
 
-#: addressbook/gui/component/ldap-config.glade.h:115
+#: addressbook/gui/component/ldap-config.glade.h:114
 msgid "_Distinguished Name (DN):"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:116
+#: addressbook/gui/component/ldap-config.glade.h:115
 msgid "_Don't use SSL/TLS"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:117
+#: addressbook/gui/component/ldap-config.glade.h:116
 msgid "_Download limit:"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:118 filter/filter.glade.h:16
-#: mail/mail-config.glade.h:150 ui/evolution-addressbook.xml.h:33
+#: addressbook/gui/component/ldap-config.glade.h:117 filter/filter.glade.h:16
+#: mail/mail-config.glade.h:152 ui/evolution-addressbook.xml.h:33
 #: ui/evolution-calendar.xml.h:28 ui/evolution-mail-list.xml.h:25
 #: ui/evolution-mail-messagedisplay.xml.h:6 ui/evolution-message-composer.h:40
 #: ui/evolution-message-composer.xml.h:41
@@ -1277,102 +1271,102 @@ msgstr ""
 msgid "_Edit"
 msgstr "Editar..."
 
-#: addressbook/gui/component/ldap-config.glade.h:119
+#: addressbook/gui/component/ldap-config.glade.h:118
 #, fuzzy
 msgid "_Edit Mapping"
 msgstr "_Editar Compromisso"
 
-#: addressbook/gui/component/ldap-config.glade.h:120
+#: addressbook/gui/component/ldap-config.glade.h:119
 #, fuzzy
 msgid "_Evolution attribute:"
 msgstr "Evolution"
 
-#: addressbook/gui/component/ldap-config.glade.h:121
+#: addressbook/gui/component/ldap-config.glade.h:120
 msgid "_If necessary "
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:122
+#: addressbook/gui/component/ldap-config.glade.h:121
 msgid "_LDAP attribute:"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:123
+#: addressbook/gui/component/ldap-config.glade.h:122
 msgid "_LDAP attributes:"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:124
+#: addressbook/gui/component/ldap-config.glade.h:123
 msgid "_Log in method:"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:125
+#: addressbook/gui/component/ldap-config.glade.h:124
 #, fuzzy
 msgid "_More Options >>"
 msgstr "_Opções"
 
-#: addressbook/gui/component/ldap-config.glade.h:126
+#: addressbook/gui/component/ldap-config.glade.h:125
 #, fuzzy
 msgid "_Port number:"
 msgstr "Prioridade:"
 
-#: addressbook/gui/component/ldap-config.glade.h:127
+#: addressbook/gui/component/ldap-config.glade.h:126
 #, fuzzy
 msgid "_Restore Defaults"
 msgstr "Apagar"
 
-#: addressbook/gui/component/ldap-config.glade.h:128
+#: addressbook/gui/component/ldap-config.glade.h:127
 #, fuzzy
 msgid "_Search base:"
 msgstr "Ano"
 
-#: addressbook/gui/component/ldap-config.glade.h:129
+#: addressbook/gui/component/ldap-config.glade.h:128
 #, fuzzy
 msgid "_Server name:"
 msgstr "Encontrar mensagens"
 
-#: addressbook/gui/component/ldap-config.glade.h:130
+#: addressbook/gui/component/ldap-config.glade.h:129
 msgid "_Timeout (minutes):"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:131
+#: addressbook/gui/component/ldap-config.glade.h:130
 #, fuzzy
 msgid "account-druid"
 msgstr "Ícone_s pequenos"
 
-#: addressbook/gui/component/ldap-config.glade.h:132
+#: addressbook/gui/component/ldap-config.glade.h:131
 #, fuzzy
 msgid "account-editor"
 msgstr "_Contacto"
 
-#: addressbook/gui/component/ldap-config.glade.h:133
+#: addressbook/gui/component/ldap-config.glade.h:132
 #, fuzzy
 msgid "cards"
 msgstr "_Começando"
 
-#: addressbook/gui/component/ldap-config.glade.h:134
+#: addressbook/gui/component/ldap-config.glade.h:133
 #, fuzzy
 msgid "connecting-tab"
 msgstr "Abrir ficheiro"
 
-#: addressbook/gui/component/ldap-config.glade.h:135
+#: addressbook/gui/component/ldap-config.glade.h:134
 msgid "dn-customization-tab"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:136
+#: addressbook/gui/component/ldap-config.glade.h:135
 msgid "edit_server_window_simple"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:137
+#: addressbook/gui/component/ldap-config.glade.h:136
 msgid "general-tab"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:138
+#: addressbook/gui/component/ldap-config.glade.h:137
 msgid "mappings-tab"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:139
+#: addressbook/gui/component/ldap-config.glade.h:138
 msgid "objectclasses-tab"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:140
+#: addressbook/gui/component/ldap-config.glade.h:139
 #, fuzzy
 msgid "searching-tab"
 msgstr "Ano"
@@ -1582,7 +1576,7 @@ msgstr ""
 #: calendar/gui/dialogs/meeting-page.c:674
 #: calendar/gui/e-calendar-table.c:1006 calendar/gui/e-day-view.c:3766
 #: calendar/gui/e-week-view.c:3563 filter/filter.glade.h:15
-#: mail/folder-browser.c:1756 mail/mail-config.glade.h:148
+#: mail/folder-browser.c:1756 mail/mail-config.glade.h:150
 #: shell/glade/e-folder-list.glade.h:2 ui/evolution-addressbook.xml.h:32
 #: ui/evolution-calendar.xml.h:27 ui/evolution-mail-message.xml.h:97
 #: ui/evolution-tasks.xml.h:16 ui/evolution.xml.h:48
@@ -2755,16 +2749,16 @@ msgid "E-mail"
 msgstr "Correio electrónico 2"
 
 #. This is a filename. Translators take note.
-#: addressbook/gui/contact-editor/e-contact-save-as.c:107
+#: addressbook/gui/contact-editor/e-contact-save-as.c:103
 msgid "card.vcf"
 msgstr ""
 
-#: addressbook/gui/contact-editor/e-contact-save-as.c:183
+#: addressbook/gui/contact-editor/e-contact-save-as.c:179
 #, fuzzy
 msgid "list"
 msgstr "Pró_ximo"
 
-#: addressbook/gui/contact-editor/e-contact-save-as.c:221
+#: addressbook/gui/contact-editor/e-contact-save-as.c:217
 #, c-format
 msgid ""
 "%s already exists\n"
@@ -2890,30 +2884,30 @@ msgstr ""
 msgid "_Title:"
 msgstr ""
 
-#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:1
+#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:3
 #, fuzzy
 msgid "List _name:"
 msgstr "Utilizador:"
 
-#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:2
+#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:4
 msgid "Members"
 msgstr ""
 
-#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:3
+#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:5
 msgid "Type an email address or drag a contact into the list below:"
 msgstr ""
 
-#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:5
+#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:7
 msgid "_Hide addresses when sending mail to this list"
 msgstr ""
 
-#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:6
+#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:8
 #: calendar/gui/dialogs/recurrence-page.glade.h:12 filter/filter.glade.h:17
 #, fuzzy
 msgid "_Remove"
 msgstr "Remover"
 
-#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:7
+#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:9
 #, fuzzy
 msgid "contact-list-editor"
 msgstr "_Contacto"
@@ -3513,7 +3507,7 @@ msgstr "Ícones _grandes"
 msgid "Number of columns:"
 msgstr ""
 
-#: addressbook/printing/e-contact-print.glade.h:23 mail/mail-config.glade.h:81
+#: addressbook/printing/e-contact-print.glade.h:23 mail/mail-config.glade.h:83
 #, fuzzy
 msgid "Options"
 msgstr "_Opções"
@@ -3781,12 +3775,12 @@ msgstr ""
 msgid "_Edit appointment"
 msgstr "_Editar Compromisso"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:680
+#: calendar/gui/alarm-notify/alarm-queue.c:681
 #, fuzzy
 msgid "No description available."
 msgstr "Nenhum sumário"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:741
+#: calendar/gui/alarm-notify/alarm-queue.c:742
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -3794,14 +3788,14 @@ msgid ""
 "a normal reminder dialog box instead."
 msgstr ""
 
-#: calendar/gui/alarm-notify/alarm-queue.c:759
+#: calendar/gui/alarm-notify/alarm-queue.c:760
 #: calendar/gui/tasks-control.c:454 mail/mail-callbacks.c:2924
 #: widgets/misc/e-messagebox.c:159
 #, fuzzy
 msgid "Warning"
 msgstr "Seg"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:764
+#: calendar/gui/alarm-notify/alarm-queue.c:765
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -3812,7 +3806,7 @@ msgid ""
 "Are you sure you want to run this program?"
 msgstr ""
 
-#: calendar/gui/alarm-notify/alarm-queue.c:778
+#: calendar/gui/alarm-notify/alarm-queue.c:779
 #, fuzzy
 msgid "Do not ask me about this program again."
 msgstr "Enviar esta mensagem"
@@ -3957,7 +3951,7 @@ msgstr ""
 #: calendar/gui/dialogs/meeting-page.glade.h:1 composer/e-msg-composer.c:1967
 #: mail/folder-browser.c:1718 mail/mail-account-gui.c:1230
 #: mail/mail-account-gui.c:1650 mail/mail-accounts.c:453
-#: mail/mail-accounts.c:468 mail/mail-config.glade.h:77
+#: mail/mail-accounts.c:468 mail/mail-config.glade.h:79
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:204
 #: widgets/misc/e-cell-date-edit.c:250 widgets/misc/e-dateedit.c:452
 #: widgets/misc/e-dateedit.c:1473 widgets/misc/e-dateedit.c:1588
@@ -4004,9 +3998,9 @@ msgstr "Semana"
 msgid "Month View"
 msgstr "Mês"
 
-#: calendar/gui/component-factory.c:71 calendar/gui/gnome-cal.c:1371
+#: calendar/gui/component-factory.c:71 calendar/gui/gnome-cal.c:1372
 #: importers/netscape-importer.c:1873 my-evolution/my-evolution.glade.h:3
-#: shell/e-local-storage.c:176 shell/e-shortcuts.c:1059
+#: shell/e-local-storage.c:176 shell/e-shortcuts.c:1055
 #, fuzzy
 msgid "Calendar"
 msgstr "Novo Ca_lendário"
@@ -4026,12 +4020,12 @@ msgstr "Novo Ca_lendário"
 msgid "Public folder containing appointments and events"
 msgstr "Uma pasta contendo entradas de calendário"
 
-#: calendar/gui/component-factory.c:81 calendar/gui/e-tasks.c:722
+#: calendar/gui/component-factory.c:81 calendar/gui/e-tasks.c:738
 #: calendar/gui/print.c:1777 calendar/gui/tasks-control.c:508
 #: calendar/importers/icalendar-importer.c:704
 #: importers/netscape-importer.c:1875 my-evolution/e-summary-tasks.c:327
 #: my-evolution/e-summary-tasks.c:345 shell/e-local-storage.c:182
-#: shell/e-shortcuts.c:1063
+#: shell/e-shortcuts.c:1059
 #, fuzzy
 msgid "Tasks"
 msgstr "_Tarefa"
@@ -4367,7 +4361,7 @@ msgstr "_Editar Compromisso"
 msgid "hour(s)"
 msgstr "Horas"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:16 mail/mail-config.glade.h:180
+#: calendar/gui/dialogs/alarm-page.glade.h:16 mail/mail-config.glade.h:182
 #, fuzzy
 msgid "minute(s)"
 msgstr "Minutos"
@@ -4402,7 +4396,7 @@ msgstr "Minutos"
 msgid "60 minutes"
 msgstr "Minutos"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:6 mail/mail-config.glade.h:12
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:6 mail/mail-config.glade.h:14
 #, fuzzy
 msgid "Alerts"
 msgstr "Alarmes"
@@ -4573,7 +4567,7 @@ msgid "_Fri"
 msgstr "Sex"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:40
-#: mail/mail-config.glade.h:155
+#: mail/mail-config.glade.h:157
 msgid "_General"
 msgstr ""
 
@@ -4865,21 +4859,21 @@ msgstr "Fontes"
 msgid "Meeting"
 msgstr "Seg"
 
-#: calendar/gui/dialogs/event-page.c:656 calendar/gui/dialogs/task-page.c:567
+#: calendar/gui/dialogs/event-page.c:662 calendar/gui/dialogs/task-page.c:567
 #, fuzzy
 msgid "Start date is wrong"
 msgstr "Hora de ín_icio de encontro"
 
-#: calendar/gui/dialogs/event-page.c:666
+#: calendar/gui/dialogs/event-page.c:672
 msgid "End date is wrong"
 msgstr ""
 
-#: calendar/gui/dialogs/event-page.c:689
+#: calendar/gui/dialogs/event-page.c:695
 #, fuzzy
 msgid "Start time is wrong"
 msgstr "Hora de ín_icio de encontro"
 
-#: calendar/gui/dialogs/event-page.c:696
+#: calendar/gui/dialogs/event-page.c:702
 msgid "End time is wrong"
 msgstr ""
 
@@ -5325,7 +5319,7 @@ msgstr ""
 
 #: calendar/gui/dialogs/task-page.glade.h:5 calendar/gui/e-itip-control.c:1081
 #: calendar/gui/e-itip-control.glade.h:6
-#: composer/e-msg-composer-attachment.glade.h:2 mail/mail-config.glade.h:42
+#: composer/e-msg-composer-attachment.glade.h:2 mail/mail-config.glade.h:44
 #, fuzzy
 msgid "Description:"
 msgstr "Nenhuma descrição"
@@ -5518,7 +5512,7 @@ msgstr "Hora de ín_icio de encontro"
 
 #: calendar/gui/e-calendar-table.etspec.h:16
 #: my-evolution/component-factory.c:51 shell/e-shell.c:748
-#: shell/e-shortcuts.c:1051
+#: shell/e-shortcuts.c:1047
 #, fuzzy
 msgid "Summary"
 msgstr "Sumário"
@@ -6346,44 +6340,44 @@ msgstr "Hora de ín_icio de encontro"
 msgid "Meeting _end time:"
 msgstr "Hora de _fim de _encontro"
 
-#: calendar/gui/e-tasks.c:355 calendar/gui/gnome-cal.c:2013
-#: calendar/gui/gnome-cal.c:2024
+#: calendar/gui/e-tasks.c:358 calendar/gui/gnome-cal.c:2036
+#: calendar/gui/gnome-cal.c:2047
 #, fuzzy, c-format
 msgid "Opening tasks at %s"
 msgstr "Abrir ficheiro"
 
-#: calendar/gui/e-tasks.c:381 calendar/gui/tasks-control.c:196
+#: calendar/gui/e-tasks.c:387 calendar/gui/tasks-control.c:196
 #, fuzzy, c-format
 msgid "Could not load the tasks in `%s'"
 msgstr "Criar um novo calendário"
 
-#: calendar/gui/e-tasks.c:393
+#: calendar/gui/e-tasks.c:402
 #, c-format
 msgid "The method required to load `%s' is not supported"
 msgstr ""
 
-#: calendar/gui/e-tasks.c:404 calendar/gui/gnome-cal.c:1552
+#: calendar/gui/e-tasks.c:416 calendar/gui/gnome-cal.c:1561
 #, fuzzy, c-format
 msgid "You don't have permission to open the folder in `%s'"
 msgstr "Criar um novo calendário"
 
-#: calendar/gui/e-tasks.c:469 calendar/gui/gnome-cal.c:1750
+#: calendar/gui/e-tasks.c:484 calendar/gui/gnome-cal.c:1765
 #, fuzzy, c-format
 msgid ""
 "Error on %s:\n"
 " %s"
 msgstr "Erro a gravar os atalhos."
 
-#: calendar/gui/e-tasks.c:540
+#: calendar/gui/e-tasks.c:556
 msgid "Completing tasks..."
 msgstr ""
 
-#: calendar/gui/e-tasks.c:563
+#: calendar/gui/e-tasks.c:579
 #, fuzzy
 msgid "Deleting selected objects..."
 msgstr "Apagar um contacto"
 
-#: calendar/gui/e-tasks.c:656
+#: calendar/gui/e-tasks.c:672
 #, fuzzy
 msgid "Expunging"
 msgstr "Cabeçalhos:"
@@ -6393,23 +6387,22 @@ msgstr "Cabeçalhos:"
 msgid "New _Appointment..."
 msgstr "Novo compromisso"
 
-#: calendar/gui/gnome-cal.c:1530
+#: calendar/gui/gnome-cal.c:1533
 #, fuzzy, c-format
 msgid "Could not open the folder in `%s'"
 msgstr "Criar um novo calendário"
 
-#: calendar/gui/gnome-cal.c:1541
+#: calendar/gui/gnome-cal.c:1547
 #, c-format
 msgid "The method required to open `%s' is not supported"
 msgstr ""
 
-#. add the alarms for this client
-#: calendar/gui/gnome-cal.c:1581
+#: calendar/gui/gnome-cal.c:1593
 #, fuzzy, c-format
 msgid "Adding alarms for %s"
 msgstr "Alarmes"
 
-#: calendar/gui/gnome-cal.c:1767
+#: calendar/gui/gnome-cal.c:1786
 #, c-format
 msgid ""
 "The calendar backend for\n"
@@ -6417,7 +6410,7 @@ msgid ""
 " has crashed. You will have to restart Evolution in order to use it again"
 msgstr ""
 
-#: calendar/gui/gnome-cal.c:1772
+#: calendar/gui/gnome-cal.c:1791
 #, c-format
 msgid ""
 "The task backend for\n"
@@ -6425,12 +6418,12 @@ msgid ""
 " has crashed. You will have to restart Evolution in order to use it again"
 msgstr ""
 
-#: calendar/gui/gnome-cal.c:1996
+#: calendar/gui/gnome-cal.c:2018
 #, fuzzy, c-format
 msgid "Opening calendar at %s"
 msgstr "Abrir calendário"
 
-#: calendar/gui/gnome-cal.c:2035
+#: calendar/gui/gnome-cal.c:2058
 #, fuzzy
 msgid "Opening default tasks folder"
 msgstr "Abrir ficheiro"
@@ -8696,7 +8689,7 @@ msgstr "Anexar um ficheiro à mensagem"
 
 #: camel/camel-filter-search.c:550
 #, fuzzy, c-format
-msgid "Failed to create create child process '%s': %s"
+msgid "Failed to create child process '%s': %s"
 msgstr "Anexar um ficheiro à mensagem"
 
 #: camel/camel-filter-search.c:656 camel/camel-filter-search.c:664
@@ -8936,11 +8929,11 @@ msgstr ""
 msgid "Failed to decrypt MIME part: parse error"
 msgstr ""
 
-#: camel/camel-multipart-signed.c:624
+#: camel/camel-multipart-signed.c:625
 msgid "This is a digitally signed message part"
 msgstr ""
 
-#: camel/camel-multipart-signed.c:678
+#: camel/camel-multipart-signed.c:679
 #, fuzzy
 msgid "parse error"
 msgstr "Outro"
@@ -9621,7 +9614,7 @@ msgstr ""
 
 #: camel/providers/imap/camel-imap-provider.c:80
 #: camel/providers/nntp/camel-nntp-store.c:267
-#: camel/providers/pop3/camel-pop3-provider.c:69 mail/mail-config.glade.h:85
+#: camel/providers/pop3/camel-pop3-provider.c:69 mail/mail-config.glade.h:87
 #, fuzzy
 msgid "Password"
 msgstr "Esquecer _Senhas"
@@ -10291,7 +10284,7 @@ msgstr "Gravar a mensagem na pasta especificada"
 msgid "Delete after %s day(s)"
 msgstr "Apagar este item"
 
-#: camel/providers/pop3/camel-pop3-provider.c:52 mail/mail-config.glade.h:84
+#: camel/providers/pop3/camel-pop3-provider.c:52 mail/mail-config.glade.h:86
 msgid "POP"
 msgstr ""
 
@@ -10371,7 +10364,7 @@ msgid "No such folder `%s'."
 msgstr ""
 
 #: camel/providers/sendmail/camel-sendmail-provider.c:36
-#: mail/mail-config.glade.h:109
+#: mail/mail-config.glade.h:111
 #, fuzzy
 msgid "Sendmail"
 msgstr "Enviar"
@@ -10425,7 +10418,7 @@ msgstr ""
 msgid "Mail delivery via the sendmail program"
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-provider.c:37 mail/mail-config.glade.h:101
+#: camel/providers/smtp/camel-smtp-provider.c:37 mail/mail-config.glade.h:103
 msgid "SMTP"
 msgstr ""
 
@@ -10597,7 +10590,7 @@ msgstr ""
 msgid "Sending message"
 msgstr "Mensagens enviadas"
 
-#: camel/providers/smtp/camel-smtp-transport.c:703
+#: camel/providers/smtp/camel-smtp-transport.c:704
 msgid "Cannot send message: no recipients defined."
 msgstr ""
 
@@ -11035,12 +11028,12 @@ msgstr "Assunto"
 msgid "Subject does not contain"
 msgstr "Assunto"
 
-#: e-util/e-component-listener.c:131
+#: e-util/e-component-listener.c:135
 msgid ""
 "ping_timeout_callback: could not determine if the CORBA object is nil or not"
 msgstr ""
 
-#: e-util/e-dialog-utils.c:237 mail/mail-callbacks.c:2563
+#: e-util/e-dialog-utils.c:241 mail/mail-callbacks.c:2563
 msgid ""
 "A file by that name already exists.\n"
 "Overwrite it?"
@@ -11150,7 +11143,7 @@ msgid "%I %p"
 msgstr ""
 
 #: filter/filter-datespec.c:70 filter/filter.glade.h:24
-#: mail/mail-config.glade.h:181
+#: mail/mail-config.glade.h:183
 #, fuzzy
 msgid "seconds"
 msgstr " segundos"
@@ -11273,31 +11266,31 @@ msgid ""
 msgstr ""
 
 #: filter/filter-label.c:136 filter/libfilter-i18n.h:26 mail/mail-config.c:68
-#: mail/mail-config.glade.h:62
+#: mail/mail-config.glade.h:64
 msgid "Important"
 msgstr ""
 
 #. red
 #: filter/filter-label.c:137 mail/mail-config.c:69
-#: mail/mail-config.glade.h:133
+#: mail/mail-config.glade.h:135
 #, fuzzy
 msgid "Work"
 msgstr "Seg"
 
 #. orange
-#: filter/filter-label.c:138 mail/mail-config.c:70 mail/mail-config.glade.h:86
+#: filter/filter-label.c:138 mail/mail-config.c:70 mail/mail-config.glade.h:88
 msgid "Personal"
 msgstr ""
 
 #. forest green
 #: filter/filter-label.c:139 mail/mail-config.c:71
-#: mail/mail-config.glade.h:124
+#: mail/mail-config.glade.h:126
 #, fuzzy
 msgid "To Do"
 msgstr "Para:"
 
 #. blue
-#: filter/filter-label.c:140 mail/mail-config.c:72 mail/mail-config.glade.h:66
+#: filter/filter-label.c:140 mail/mail-config.c:72 mail/mail-config.glade.h:68
 #, fuzzy
 msgid "Later"
 msgstr "Data"
@@ -11719,7 +11712,7 @@ msgid "You must name this vfolder."
 msgstr "Apagar este item"
 
 #: filter/vfolder-rule.c:215
-msgid "You need to to specify at least one folder as a source."
+msgid "You need to specify at least one folder as a source."
 msgstr ""
 
 #: importers/elm-importer.c:95
@@ -11951,7 +11944,7 @@ msgstr "Preferências"
 msgid "Mail Accounts"
 msgstr "Ícone_s pequenos"
 
-#: mail/GNOME_Evolution_Mail.oaf.in.h:19 mail/mail-config.glade.h:69
+#: mail/GNOME_Evolution_Mail.oaf.in.h:19 mail/mail-config.glade.h:71
 #, fuzzy
 msgid "Mail Preferences"
 msgstr "Preferências"
@@ -12064,12 +12057,12 @@ msgstr "Não consigo inicializar o componente de mail do Evolution."
 msgid "Cannot initialize Evolution's folder info component."
 msgstr "Não consigo inicializar o componente de mail do Evolution."
 
-#: mail/component-factory.c:1340 mail/component-factory.c:1370
+#: mail/component-factory.c:1344 mail/component-factory.c:1374
 #, fuzzy
 msgid "Connecting..."
 msgstr "Ano"
 
-#: mail/component-factory.c:1381
+#: mail/component-factory.c:1385
 msgid "Cannot register storage with shell"
 msgstr ""
 
@@ -12276,7 +12269,7 @@ msgstr "Uma pasta contendo items de correio"
 msgid "VFolder on M_ailing List (%s)"
 msgstr "Uma pasta contendo items de correio"
 
-#: mail/folder-browser.h:26 mail/mail-config.glade.h:38
+#: mail/folder-browser.h:26 mail/mail-config.glade.h:40
 #, fuzzy
 msgid "Default"
 msgstr "Apagar"
@@ -12349,17 +12342,17 @@ msgstr ""
 msgid "Evolution Account Editor"
 msgstr "Atalho para _barra do Evolution"
 
-#: mail/mail-account-gui.c:743 mail/mail-config.glade.h:157
+#: mail/mail-account-gui.c:743 mail/mail-config.glade.h:159
 #, fuzzy
 msgid "_Host:"
 msgstr "Horas"
 
-#: mail/mail-account-gui.c:747 mail/mail-config.glade.h:127
+#: mail/mail-account-gui.c:747 mail/mail-config.glade.h:129
 #, fuzzy
 msgid "User_name:"
 msgstr "Utilizador:"
 
-#: mail/mail-account-gui.c:751 mail/mail-config.glade.h:164
+#: mail/mail-account-gui.c:751 mail/mail-config.glade.h:166
 #, fuzzy
 msgid "_Path:"
 msgstr "Caminho"
@@ -12400,7 +12393,7 @@ msgid "[Default]"
 msgstr "Apagar"
 
 #: mail/mail-accounts.c:538 mail/mail-accounts.etspec.h:2
-#: mail/mail-config.glade.h:53
+#: mail/mail-config.glade.h:55
 msgid "Enabled"
 msgstr ""
 
@@ -12687,7 +12680,7 @@ msgid ""
 msgstr ""
 
 #. set window title
-#: mail/mail-config-druid.c:637
+#: mail/mail-config-druid.c:638
 #, fuzzy
 msgid "Evolution Account Assistant"
 msgstr "Atalho para _barra do Evolution"
@@ -12705,131 +12698,131 @@ msgstr ""
 msgid "Connecting to server..."
 msgstr ""
 
-#: mail/mail-config.glade.h:1
+#: mail/mail-config.glade.h:3
 msgid " _Check for supported types "
 msgstr ""
 
-#: mail/mail-config.glade.h:2
+#: mail/mail-config.glade.h:4
 msgid "(SSL is not supported in this build of Evolution)"
 msgstr ""
 
-#: mail/mail-config.glade.h:3
+#: mail/mail-config.glade.h:5
 msgid "(SSL is not supported in this build of evolution)"
 msgstr ""
 
-#: mail/mail-config.glade.h:4
+#: mail/mail-config.glade.h:6
 msgid "A_lways encrypt to myself when sending encrypted mail"
 msgstr ""
 
-#: mail/mail-config.glade.h:5
+#: mail/mail-config.glade.h:7
 msgid "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"
 msgstr ""
 
-#: mail/mail-config.glade.h:6
+#: mail/mail-config.glade.h:8
 #, fuzzy
 msgid "Account Editor"
 msgstr "Ícone_s pequenos"
 
-#: mail/mail-config.glade.h:7
+#: mail/mail-config.glade.h:9
 #, fuzzy
 msgid "Account Information"
 msgstr "Nenhuma Informação"
 
-#: mail/mail-config.glade.h:8 shell/glade/evolution-startup-wizard.glade.h:1
+#: mail/mail-config.glade.h:10 shell/glade/evolution-startup-wizard.glade.h:1
 msgid "Account Management"
 msgstr ""
 
-#: mail/mail-config.glade.h:9
+#: mail/mail-config.glade.h:11
 #, fuzzy
 msgid "Add Sc_ript"
 msgstr "Nenhuma descrição"
 
-#: mail/mail-config.glade.h:10
+#: mail/mail-config.glade.h:12
 #, fuzzy
 msgid "Add new signature..."
 msgstr "Ficheiro com assinatura:"
 
-#: mail/mail-config.glade.h:11
+#: mail/mail-config.glade.h:13
 msgid "Al_ways encrypt to myself when sending encrypted mail"
 msgstr ""
 
-#: mail/mail-config.glade.h:13
+#: mail/mail-config.glade.h:15
 msgid "Alwa_ys sign outgoing messages when using this account"
 msgstr ""
 
-#: mail/mail-config.glade.h:15
+#: mail/mail-config.glade.h:17
 msgid "Always _blind carbon-copy (Bcc) to:"
 msgstr ""
 
-#: mail/mail-config.glade.h:16
+#: mail/mail-config.glade.h:18
 msgid "Always _carbon-copy (Cc) to:"
 msgstr ""
 
-#: mail/mail-config.glade.h:17
+#: mail/mail-config.glade.h:19
 msgid "Always _trust keys in my keyring when encrypting"
 msgstr ""
 
-#: mail/mail-config.glade.h:18
+#: mail/mail-config.glade.h:20
 #, fuzzy
 msgid "Attach original message"
 msgstr "Anexar um ficheiro à mensagem"
 
-#: mail/mail-config.glade.h:19 mail/message-list.etspec.h:1
+#: mail/mail-config.glade.h:21 mail/message-list.etspec.h:1
 #, fuzzy
 msgid "Attachment"
 msgstr "Anexo"
 
-#: mail/mail-config.glade.h:20
+#: mail/mail-config.glade.h:22
 #, fuzzy
 msgid "Authentication"
 msgstr "Autenticação"
 
-#: mail/mail-config.glade.h:21
+#: mail/mail-config.glade.h:23
 #, fuzzy
 msgid "Automatically _detect links"
 msgstr "Verificar novo correio"
 
-#: mail/mail-config.glade.h:22
+#: mail/mail-config.glade.h:24
 msgid "Baltic (ISO-8859-13)"
 msgstr ""
 
-#: mail/mail-config.glade.h:23
+#: mail/mail-config.glade.h:25
 msgid "Baltic (ISO-8859-4)"
 msgstr ""
 
-#: mail/mail-config.glade.h:24
-msgid "C_haracter set:"
-msgstr ""
-
-#: mail/mail-config.glade.h:25
-#, fuzzy
-msgid "C_olors"
-msgstr "Cores"
-
 #: mail/mail-config.glade.h:26
-msgid "Check spelling while I _type"
+msgid "C_haracter set:"
 msgstr ""
 
 #: mail/mail-config.glade.h:27
 #, fuzzy
-msgid "Checking for New Mail"
-msgstr "Verificar novo correio"
+msgid "C_olors"
+msgstr "Cores"
 
 #: mail/mail-config.glade.h:28
-msgid "Color for _misspelled words:"
+msgid "Check spelling while I _type"
 msgstr ""
 
 #: mail/mail-config.glade.h:29
 #, fuzzy
+msgid "Checking for New Mail"
+msgstr "Verificar novo correio"
+
+#: mail/mail-config.glade.h:30
+msgid "Color for _misspelled words:"
+msgstr ""
+
+#: mail/mail-config.glade.h:31
+#, fuzzy
 msgid "Composing Messages"
 msgstr "Criar uma nova mensagem"
 
-#: mail/mail-config.glade.h:30
+#: mail/mail-config.glade.h:32
 #, fuzzy
 msgid "Configuration"
 msgstr "Configuração do correio"
 
-#: mail/mail-config.glade.h:31
+#: mail/mail-config.glade.h:33
 msgid ""
 "Congratulations, your mail configuration is complete.\n"
 "\n"
@@ -12839,528 +12832,528 @@ msgid ""
 "Click \"Finish\" to save your settings."
 msgstr ""
 
-#: mail/mail-config.glade.h:37
+#: mail/mail-config.glade.h:39
 #, fuzzy
 msgid "De_fault"
 msgstr "Apagar"
 
-#: mail/mail-config.glade.h:39
+#: mail/mail-config.glade.h:41
 #, fuzzy
 msgid "Default Behavior"
 msgstr "Apagar"
 
-#: mail/mail-config.glade.h:40
+#: mail/mail-config.glade.h:42
 msgid "Default character _encoding:"
 msgstr ""
 
-#: mail/mail-config.glade.h:41
+#: mail/mail-config.glade.h:43
 #, fuzzy
 msgid "Deleting Mail"
 msgstr "Enviar"
 
-#: mail/mail-config.glade.h:43
+#: mail/mail-config.glade.h:45
 msgid "Digital IDs..."
 msgstr ""
 
-#: mail/mail-config.glade.h:44
+#: mail/mail-config.glade.h:46
 #, fuzzy
 msgid "Do not quote original message"
 msgstr "Encontrar mensagens"
 
-#: mail/mail-config.glade.h:45
+#: mail/mail-config.glade.h:47
 msgid "Don't sign _meeting requests (for Outlook compatibility)"
 msgstr ""
 
-#: mail/mail-config.glade.h:46 shell/glade/evolution-startup-wizard.glade.h:2
+#: mail/mail-config.glade.h:48 shell/glade/evolution-startup-wizard.glade.h:2
 #, fuzzy
 msgid "Done"
 msgstr "Nenhuma"
 
-#: mail/mail-config.glade.h:47
+#: mail/mail-config.glade.h:49
 #, fuzzy
 msgid "Drafts _folder:"
 msgstr "Criar um novo calendário"
 
-#: mail/mail-config.glade.h:48
+#: mail/mail-config.glade.h:50
 msgid "E_nable"
 msgstr ""
 
-#: mail/mail-config.glade.h:49
+#: mail/mail-config.glade.h:51
 #, fuzzy
 msgid "Emacs"
 msgstr "Colar"
 
-#: mail/mail-config.glade.h:50
+#: mail/mail-config.glade.h:52
 #, fuzzy
 msgid "Email Accounts"
 msgstr "Ícone_s pequenos"
 
-#: mail/mail-config.glade.h:51
+#: mail/mail-config.glade.h:53
 #, fuzzy
 msgid "Email _address:"
 msgstr "Endereço de correio:"
 
-#: mail/mail-config.glade.h:52
-msgid "Empty _trash folders on exit"
-msgstr ""
-
 #: mail/mail-config.glade.h:54
-#, fuzzy
-msgid "Execute Command..."
-msgstr "Sumário executivo"
-
-#: mail/mail-config.glade.h:55
-msgid "Fi_xed -width:"
+msgid "Empty _trash folders on exit"
 msgstr ""
 
 #: mail/mail-config.glade.h:56
 #, fuzzy
+msgid "Execute Command..."
+msgstr "Sumário executivo"
+
+#: mail/mail-config.glade.h:57
+msgid "Fi_xed -width:"
+msgstr ""
+
+#: mail/mail-config.glade.h:58
+#, fuzzy
 msgid "Font Properties"
 msgstr "Propriedades do alarme"
 
-#: mail/mail-config.glade.h:57
+#: mail/mail-config.glade.h:59
 #, fuzzy
 msgid "Format messages in _HTML"
 msgstr "Enviar esta mensagem"
 
-#: mail/mail-config.glade.h:58
+#: mail/mail-config.glade.h:60
 msgid "Get Digital ID..."
 msgstr ""
 
-#: mail/mail-config.glade.h:59
+#: mail/mail-config.glade.h:61
 msgid "Highlight _quotations with"
 msgstr ""
 
-#: mail/mail-config.glade.h:60
+#: mail/mail-config.glade.h:62
 msgid "IMAPv4 "
 msgstr ""
 
-#: mail/mail-config.glade.h:61 shell/glade/evolution-startup-wizard.glade.h:4
+#: mail/mail-config.glade.h:63 shell/glade/evolution-startup-wizard.glade.h:4
 msgid "Identity"
 msgstr ""
 
-#: mail/mail-config.glade.h:63
+#: mail/mail-config.glade.h:65
 msgid "Inline"
 msgstr ""
 
-#: mail/mail-config.glade.h:64
+#: mail/mail-config.glade.h:66
 #, fuzzy
 msgid "Kerberos "
 msgstr "Servidor:"
 
-#: mail/mail-config.glade.h:65
+#: mail/mail-config.glade.h:67
 #, fuzzy
 msgid "Labels and Colors"
 msgstr "Guardar Calendário como"
 
-#: mail/mail-config.glade.h:67
+#: mail/mail-config.glade.h:69
 #, fuzzy
 msgid "Loading Images"
 msgstr "Enviar esta mensagem"
 
-#: mail/mail-config.glade.h:68
+#: mail/mail-config.glade.h:70
 msgid "Mail Configuration"
 msgstr "Configuração do correio"
 
-#: mail/mail-config.glade.h:70
+#: mail/mail-config.glade.h:72
 #, fuzzy
 msgid "Mailbox location"
 msgstr "F_ormato"
 
-#: mail/mail-config.glade.h:71
+#: mail/mail-config.glade.h:73
 #, fuzzy
 msgid "Message Composer"
 msgstr "Situação das mensagens"
 
-#: mail/mail-config.glade.h:72
+#: mail/mail-config.glade.h:74
 #, fuzzy
 msgid "Message Display"
 msgstr "Mensagem de _correio"
 
-#: mail/mail-config.glade.h:73
+#: mail/mail-config.glade.h:75
 msgid "Microsoft"
 msgstr ""
 
-#: mail/mail-config.glade.h:76
+#: mail/mail-config.glade.h:78
 #, fuzzy
 msgid "New Mail Notification"
 msgstr "Configuração do correio"
 
-#: mail/mail-config.glade.h:78
+#: mail/mail-config.glade.h:80
 msgid ""
 "Note: you will not be prompted for a password until you connect for the "
 "first time"
 msgstr ""
 
-#: mail/mail-config.glade.h:79
+#: mail/mail-config.glade.h:81
 msgid "On Screen fonts"
 msgstr ""
 
-#: mail/mail-config.glade.h:80
+#: mail/mail-config.glade.h:82
 #, fuzzy
 msgid "Optional Information"
 msgstr "Nenhuma Informação"
 
-#: mail/mail-config.glade.h:82
+#: mail/mail-config.glade.h:84
 #, fuzzy
 msgid "Or_ganization:"
 msgstr "Organização:"
 
-#: mail/mail-config.glade.h:83
+#: mail/mail-config.glade.h:85
 msgid "PGP/GPG _Key ID:"
 msgstr ""
 
-#: mail/mail-config.glade.h:87
+#: mail/mail-config.glade.h:89
 msgid "Pick a color"
 msgstr ""
 
-#: mail/mail-config.glade.h:88
+#: mail/mail-config.glade.h:90
 msgid "Pr_ompt when sending messages with only Bcc recipients defined"
 msgstr ""
 
-#: mail/mail-config.glade.h:89
-msgid "Pretty Good Privacy (PGP/GPG)"
-msgstr ""
-
-#: mail/mail-config.glade.h:90
-#, fuzzy
-msgid "Printed Fonts"
-msgstr "Imprimir contactos"
-
 #: mail/mail-config.glade.h:91
-msgid "Qmail maildir "
+msgid "Pretty Good Privacy (PGP/GPG)"
 msgstr ""
 
 #: mail/mail-config.glade.h:92
 #, fuzzy
+msgid "Printed Fonts"
+msgstr "Imprimir contactos"
+
+#: mail/mail-config.glade.h:93
+msgid "Qmail maildir "
+msgstr ""
+
+#: mail/mail-config.glade.h:94
+#, fuzzy
 msgid "Quote original message"
 msgstr "Encontrar mensagens"
 
-#: mail/mail-config.glade.h:93
+#: mail/mail-config.glade.h:95
 #, fuzzy
 msgid "Quoted"
 msgstr "Nenhuma"
 
-#: mail/mail-config.glade.h:94
+#: mail/mail-config.glade.h:96
 #, fuzzy
 msgid "Re_member this password"
 msgstr "Mudar nome de atalho"
 
-#: mail/mail-config.glade.h:95
+#: mail/mail-config.glade.h:97
 #, fuzzy
 msgid "Re_ply-To:"
 msgstr "Responder"
 
-#: mail/mail-config.glade.h:96 shell/glade/evolution-startup-wizard.glade.h:6
+#: mail/mail-config.glade.h:98 shell/glade/evolution-startup-wizard.glade.h:6
 msgid "Receiving Email"
 msgstr ""
 
-#: mail/mail-config.glade.h:97
+#: mail/mail-config.glade.h:99
 #, fuzzy
 msgid "Receiving _Options"
 msgstr "Receber"
 
-#: mail/mail-config.glade.h:98
+#: mail/mail-config.glade.h:100
 #, fuzzy
 msgid "Remember this _password"
 msgstr "Mudar nome de atalho"
 
-#: mail/mail-config.glade.h:99
+#: mail/mail-config.glade.h:101
 #, fuzzy
 msgid "Required Information"
 msgstr "Nenhuma Informação"
 
-#: mail/mail-config.glade.h:100
+#: mail/mail-config.glade.h:102
 #, fuzzy
 msgid "Restore Defaults"
 msgstr "Apagar"
 
-#: mail/mail-config.glade.h:102
+#: mail/mail-config.glade.h:104
 msgid "S_ecurity"
 msgstr ""
 
-#: mail/mail-config.glade.h:103
+#: mail/mail-config.glade.h:105
 msgid "Secure MIME (S/MIME)"
 msgstr ""
 
-#: mail/mail-config.glade.h:104
+#: mail/mail-config.glade.h:106
 msgid "Select HTML fixed width font"
 msgstr ""
 
-#: mail/mail-config.glade.h:105
+#: mail/mail-config.glade.h:107
 msgid "Select HTML fixed width font for printing"
 msgstr ""
 
-#: mail/mail-config.glade.h:106
+#: mail/mail-config.glade.h:108
 msgid "Select HTML variable width font"
 msgstr ""
 
-#: mail/mail-config.glade.h:107
+#: mail/mail-config.glade.h:109
 msgid "Select HTML variable width font for printing"
 msgstr ""
 
-#: mail/mail-config.glade.h:108 shell/glade/evolution-startup-wizard.glade.h:7
+#: mail/mail-config.glade.h:110 shell/glade/evolution-startup-wizard.glade.h:7
 #, fuzzy
 msgid "Sending Email"
 msgstr "Enviar"
 
-#: mail/mail-config.glade.h:110
+#: mail/mail-config.glade.h:112
 #, fuzzy
 msgid "Sent _messages folder:"
 msgstr "Enviar a mensagem"
 
-#: mail/mail-config.glade.h:111
+#: mail/mail-config.glade.h:113
 #, fuzzy
 msgid "Sent and Draft Messages"
 msgstr "Enviar a mensagem"
 
-#: mail/mail-config.glade.h:112
+#: mail/mail-config.glade.h:114
 #, fuzzy
 msgid "Ser_ver requires authentication"
 msgstr "Autenticação"
 
-#: mail/mail-config.glade.h:113
+#: mail/mail-config.glade.h:115
 #, fuzzy
 msgid "Server Configuration"
 msgstr "Configuração do correio"
 
-#: mail/mail-config.glade.h:114
+#: mail/mail-config.glade.h:116
 #, fuzzy
 msgid "Server _Type: "
 msgstr "Servidor:"
 
-#: mail/mail-config.glade.h:115
+#: mail/mail-config.glade.h:117
 #, fuzzy
 msgid "Shortcuts _type:"
 msgstr "Mudar nome de atalho"
 
-#: mail/mail-config.glade.h:116
+#: mail/mail-config.glade.h:118
 #, fuzzy
 msgid "Specify _filename:"
 msgstr "Nome completo:"
 
-#: mail/mail-config.glade.h:117
+#: mail/mail-config.glade.h:119
 msgid "Spell Checking Language"
 msgstr ""
 
-#: mail/mail-config.glade.h:118
+#: mail/mail-config.glade.h:120
 msgid "Spell _Checking"
 msgstr ""
 
-#: mail/mail-config.glade.h:119
+#: mail/mail-config.glade.h:121
 msgid "Standard Unix mbox"
 msgstr ""
 
-#: mail/mail-config.glade.h:120
+#: mail/mail-config.glade.h:122
 msgid ""
 "The output of this script will be used as your\n"
 "signature. The name you specify will be used\n"
 "for display purposes only. "
 msgstr ""
 
-#: mail/mail-config.glade.h:123
+#: mail/mail-config.glade.h:125
 msgid ""
 "This page allows you to configure spell checking behavior and language. The "
 "list of languages here reflects only the languages for which you have a "
 "dictionary installed."
 msgstr ""
 
-#: mail/mail-config.glade.h:125
+#: mail/mail-config.glade.h:127
 msgid ""
 "Type the name by which you would like to refer to this account.\n"
 "For example: \"Work\" or \"Personal\""
 msgstr ""
 
-#: mail/mail-config.glade.h:128
+#: mail/mail-config.glade.h:130
 msgid "V_ariable-width:"
 msgstr ""
 
-#: mail/mail-config.glade.h:129
+#: mail/mail-config.glade.h:131
 msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
 "Click \"Next\" to begin. "
 msgstr ""
 
-#: mail/mail-config.glade.h:134
+#: mail/mail-config.glade.h:136
 #, fuzzy
 msgid "XEmacs"
 msgstr "Colar"
 
-#: mail/mail-config.glade.h:136
+#: mail/mail-config.glade.h:138
 #, fuzzy
 msgid "_Add Signature"
 msgstr "Ficheiro com assinatura:"
 
-#: mail/mail-config.glade.h:137
+#: mail/mail-config.glade.h:139
 msgid "_Always load images off the net"
 msgstr ""
 
-#: mail/mail-config.glade.h:138
+#: mail/mail-config.glade.h:140
 msgid "_Always sign outgoing messages when using this account"
 msgstr ""
 
-#: mail/mail-config.glade.h:139
+#: mail/mail-config.glade.h:141
 #, fuzzy
 msgid "_Authentication Type: "
 msgstr "Autenticação"
 
-#: mail/mail-config.glade.h:140
+#: mail/mail-config.glade.h:142
 #, fuzzy
 msgid "_Authentication type: "
 msgstr "Autenticação"
 
-#: mail/mail-config.glade.h:141
+#: mail/mail-config.glade.h:143
 #, fuzzy
 msgid "_Automatically check for new mail"
 msgstr "Verificar novo correio"
 
-#: mail/mail-config.glade.h:142
+#: mail/mail-config.glade.h:144
 #, fuzzy
 msgid "_Automatically insert smiley images"
 msgstr "Verificar novo correio"
 
-#: mail/mail-config.glade.h:143
+#: mail/mail-config.glade.h:145
 msgid "_Beep when new mail arrives"
 msgstr ""
 
-#: mail/mail-config.glade.h:144
+#: mail/mail-config.glade.h:146
 msgid "_Certificate ID:"
 msgstr ""
 
-#: mail/mail-config.glade.h:145
+#: mail/mail-config.glade.h:147
 msgid "_Confirm when expunging a folder"
 msgstr ""
 
-#: mail/mail-config.glade.h:146
+#: mail/mail-config.glade.h:148
 #, fuzzy
 msgid "_Default signature:"
 msgstr "Ficheiro com assinatura:"
 
-#: mail/mail-config.glade.h:147
+#: mail/mail-config.glade.h:149
 #, fuzzy
 msgid "_Defaults"
 msgstr "Apagar"
 
-#: mail/mail-config.glade.h:149
-msgid "_Do not notify me when new mail arrives"
-msgstr ""
-
 #: mail/mail-config.glade.h:151
-#, fuzzy
-msgid "_Enable"
-msgstr "Bip"
-
-#: mail/mail-config.glade.h:152
-msgid "_Fixed-width:"
+msgid "_Do not notify me when new mail arrives"
 msgstr ""
 
 #: mail/mail-config.glade.h:153
 #, fuzzy
+msgid "_Enable"
+msgstr "Bip"
+
+#: mail/mail-config.glade.h:154
+msgid "_Fixed-width:"
+msgstr ""
+
+#: mail/mail-config.glade.h:155
+#, fuzzy
 msgid "_Forward style:"
 msgstr "Enviar esta mensagem"
 
-#: mail/mail-config.glade.h:154
+#: mail/mail-config.glade.h:156
 #, fuzzy
 msgid "_Full name:"
 msgstr "Nome completo:"
 
-#: mail/mail-config.glade.h:156
+#: mail/mail-config.glade.h:158
 #, fuzzy
 msgid "_HTML Mail"
 msgstr "Enviar"
 
-#: mail/mail-config.glade.h:158
+#: mail/mail-config.glade.h:160
 msgid "_Identity"
 msgstr ""
 
-#: mail/mail-config.glade.h:159
+#: mail/mail-config.glade.h:161
 msgid "_Load images if sender is in addressbook"
 msgstr ""
 
-#: mail/mail-config.glade.h:160
+#: mail/mail-config.glade.h:162
 msgid "_Make this my default account"
 msgstr ""
 
-#: mail/mail-config.glade.h:161
+#: mail/mail-config.glade.h:163
 #, fuzzy
 msgid "_Mark messages as read after"
 msgstr "Situação das mensagens"
 
-#: mail/mail-config.glade.h:162
+#: mail/mail-config.glade.h:164
 #, fuzzy
 msgid "_Name:"
 msgstr "Nome"
 
-#: mail/mail-config.glade.h:163
+#: mail/mail-config.glade.h:165
 msgid "_Never load images off the net"
 msgstr ""
 
-#: mail/mail-config.glade.h:165
+#: mail/mail-config.glade.h:167
 msgid "_Play sound file when new mail arrives"
 msgstr ""
 
-#: mail/mail-config.glade.h:166
+#: mail/mail-config.glade.h:168
 msgid "_Prompt when sending HTML messages to contacts that don't want them"
 msgstr ""
 
-#: mail/mail-config.glade.h:167
+#: mail/mail-config.glade.h:169
 msgid "_Prompt when sending messages with an empty subject line"
 msgstr ""
 
-#: mail/mail-config.glade.h:168
+#: mail/mail-config.glade.h:170
 #, fuzzy
 msgid "_Receiving Mail"
 msgstr "Receber"
 
-#: mail/mail-config.glade.h:169
+#: mail/mail-config.glade.h:171
 #, fuzzy
 msgid "_Reply style:"
 msgstr "Reponder para todos"
 
-#: mail/mail-config.glade.h:170
+#: mail/mail-config.glade.h:172
 msgid "_Restore defaults"
 msgstr ""
 
-#: mail/mail-config.glade.h:171
+#: mail/mail-config.glade.h:173
 #, fuzzy
 msgid "_Script:"
 msgstr "Nenhuma descrição"
 
-#: mail/mail-config.glade.h:172
+#: mail/mail-config.glade.h:174
 #, fuzzy
 msgid "_Sending Mail"
 msgstr "Enviar"
 
-#: mail/mail-config.glade.h:173
+#: mail/mail-config.glade.h:175
 #, fuzzy
 msgid "_Show animated images"
 msgstr "Horas"
 
-#: mail/mail-config.glade.h:174
+#: mail/mail-config.glade.h:176
 #, fuzzy
 msgid "_Signatures"
 msgstr "Ficheiro com assinatura:"
 
-#: mail/mail-config.glade.h:175
+#: mail/mail-config.glade.h:177
 msgid "_Use secure connection (SSL):"
 msgstr ""
 
-#: mail/mail-config.glade.h:176
+#: mail/mail-config.glade.h:178
 msgid "_Variable-width:"
 msgstr ""
 
-#: mail/mail-config.glade.h:177
+#: mail/mail-config.glade.h:179
 #, fuzzy
 msgid "_every"
 msgstr "Remover"
 
-#: mail/mail-config.glade.h:178
+#: mail/mail-config.glade.h:180
 #, fuzzy
 msgid "color"
 msgstr "Cores"
 
-#: mail/mail-config.glade.h:179
+#: mail/mail-config.glade.h:181
 #, fuzzy
 msgid "description"
 msgstr "Nenhuma descrição"
@@ -14200,17 +14193,12 @@ msgstr "Situação das mensagens"
 msgid "Please select a server."
 msgstr ""
 
-#: mail/subscribe-dialog.glade.h:1
+#: mail/subscribe-dialog.glade.h:3
 #, fuzzy
 msgid "All folders"
 msgstr "_Pastas"
 
-#: mail/subscribe-dialog.glade.h:2
-#, fuzzy
-msgid "Apri file"
-msgstr "_Correio"
-
-#: mail/subscribe-dialog.glade.h:3 ui/evolution-comp-editor.xml.h:2
+#: mail/subscribe-dialog.glade.h:4 ui/evolution-comp-editor.xml.h:2
 #: ui/evolution-contact-editor.xml.h:1
 #: ui/evolution-contact-list-editor.xml.h:1
 #: ui/evolution-mail-messagedisplay.xml.h:1 ui/evolution-message-composer.h:15
@@ -14220,40 +14208,40 @@ msgstr "_Correio"
 msgid "Close"
 msgstr "Cores"
 
-#: mail/subscribe-dialog.glade.h:4
+#: mail/subscribe-dialog.glade.h:5
 #, fuzzy
 msgid "Display Options"
 msgstr "Mostrar uma pasta diferente"
 
-#: mail/subscribe-dialog.glade.h:5
+#: mail/subscribe-dialog.glade.h:6
 msgid "Folders whose names begin with:"
 msgstr ""
 
-#: mail/subscribe-dialog.glade.h:6
+#: mail/subscribe-dialog.glade.h:7
 #, fuzzy
 msgid "Manage Subscriptions"
 msgstr "Nenhuma descrição"
 
-#: mail/subscribe-dialog.glade.h:7 ui/evolution-subscribe.xml.h:3
+#: mail/subscribe-dialog.glade.h:8 ui/evolution-subscribe.xml.h:3
 msgid "Refresh List"
 msgstr ""
 
-#: mail/subscribe-dialog.glade.h:8
+#: mail/subscribe-dialog.glade.h:9
+#, fuzzy
+msgid "Refresh folder listing"
+msgstr "_Nova pasta"
+
+#: mail/subscribe-dialog.glade.h:10
 #, fuzzy
 msgid "S_elect server: "
 msgstr "_Nova pasta"
 
-#: mail/subscribe-dialog.glade.h:9
-#, fuzzy
-msgid "Salve file"
-msgstr "Ficheiro com assinatura:"
-
-#: mail/subscribe-dialog.glade.h:10
+#: mail/subscribe-dialog.glade.h:11
 #, fuzzy
 msgid "_Subscribe"
 msgstr "Fontes"
 
-#: mail/subscribe-dialog.glade.h:11
+#: mail/subscribe-dialog.glade.h:12
 #, fuzzy
 msgid "_Unsubscribe"
 msgstr "Fontes"
@@ -26294,7 +26282,7 @@ msgid "Drafts"
 msgstr "Data"
 
 #: shell/e-local-storage.c:179 shell/e-shell-view.c:400
-#: shell/e-shortcuts.c:1055
+#: shell/e-shortcuts.c:1051
 #, fuzzy
 msgid "Inbox"
 msgstr "Correio novo"
@@ -26696,27 +26684,27 @@ msgstr "Sincronizar"
 msgid "Evolution Settings"
 msgstr "Instalação do Evolution"
 
-#: shell/e-shell-shared-folder-picker-dialog.c:357
+#: shell/e-shell-shared-folder-picker-dialog.c:362
 #, fuzzy
 msgid "Opening Folder"
 msgstr "Abrir ficheiro"
 
-#: shell/e-shell-shared-folder-picker-dialog.c:364
+#: shell/e-shell-shared-folder-picker-dialog.c:369
 #, fuzzy, c-format
 msgid "Opening Folder \"%s\""
 msgstr "Abrir ficheiro"
 
-#: shell/e-shell-shared-folder-picker-dialog.c:369
+#: shell/e-shell-shared-folder-picker-dialog.c:374
 #, fuzzy, c-format
 msgid "in \"%s\" ..."
 msgstr "Segundos"
 
-#: shell/e-shell-shared-folder-picker-dialog.c:455
+#: shell/e-shell-shared-folder-picker-dialog.c:460
 #, fuzzy, c-format
 msgid "Could not open shared folder: %s."
 msgstr "Criar um novo calendário"
 
-#: shell/e-shell-shared-folder-picker-dialog.c:513
+#: shell/e-shell-shared-folder-picker-dialog.c:518
 #, fuzzy
 msgid "Cannot find the specified shared folder."
 msgstr "Gravar a mensagem na pasta especificada"
@@ -27018,11 +27006,11 @@ msgstr "Remover"
 msgid "Remove this shortcut from the shortcut bar"
 msgstr "Remover este atalho da barra de atalhos"
 
-#: shell/e-shortcuts.c:641
+#: shell/e-shortcuts.c:637
 msgid "Error saving shortcuts."
 msgstr "Erro a gravar os atalhos."
 
-#: shell/e-shortcuts.c:1080
+#: shell/e-shortcuts.c:1076
 #, fuzzy
 msgid "Shortcuts"
 msgstr "Mudar nome de atalho"
@@ -27437,6 +27425,33 @@ msgstr "Abrir ficheiro"
 #, fuzzy
 msgid "No filename provided."
 msgstr "(Nenhuma pasta mostrada)"
+
+#: tools/evolution-launch-composer.c:322
+#, fuzzy
+msgid "An attachment to add."
+msgstr "Adicionar anexo..."
+
+#: tools/evolution-launch-composer.c:323
+msgid "Content type of the attachment."
+msgstr ""
+
+#: tools/evolution-launch-composer.c:324
+msgid "The filename to display in the mail."
+msgstr ""
+
+#: tools/evolution-launch-composer.c:325
+#, fuzzy
+msgid "Description of the attachment."
+msgstr "Nenhuma descrição"
+
+#: tools/evolution-launch-composer.c:326
+msgid "Mark attachment to be shown inline by default."
+msgstr ""
+
+#: tools/evolution-launch-composer.c:327
+#, fuzzy
+msgid "Default subject for the message."
+msgstr "Introduza o assunto da carta"
 
 #.
 #. *  This file is autogenerated from evolution-addressbook.xml, do not edit
@@ -29512,6 +29527,14 @@ msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "Não se consegui inicializar Bonobo"
 
 #, fuzzy
+#~ msgid "Apri file"
+#~ msgstr "_Correio"
+
+#, fuzzy
+#~ msgid "Salve file"
+#~ msgstr "Ficheiro com assinatura:"
+
+#, fuzzy
 #~ msgid "Configuration control for the Evolution Summary."
 #~ msgstr "Não consigo inicializar o componente de mail do Evolution."
 
@@ -30347,9 +30370,6 @@ msgstr "Não se consegui inicializar Bonobo"
 #, fuzzy
 #~ msgid "Enter the identity you wish to send this message from"
 #~ msgstr "Introduza os receptores da mensagem"
-
-#~ msgid "Enter the subject of the mail"
-#~ msgstr "Introduza o assunto da carta"
 
 #, fuzzy
 #~ msgid "Save changes to message..."

@@ -45,21 +45,15 @@ Other fixes:
 
   * Mailer
 
-    -- Do more sanity checking to make sure the addressbook didn't
-       give us recipients with empty addresses.  (Jeff)
-
-    -- When deleting remote (IMAP) folders, don't notify the Shell
-       twice about not being able to delete the folder. This prevents 
-       a crash.  (Jeff)
-
-    -- Correctly create the x-evolution-messages drag-n-drop clipboard
-       buffer.  (Jeff)
-
-    -- Fixed a bug in the PGP/MIME code that would sometimes duplicate
-       the last line of text being signed.  (Jeff)
-
-    -- Don't canonicalise any MIME parts that we are attempting to
-       verify using PGP/MIME.  (Jeff)
+    - Do more sanity checking to make sure the addressbook didn't give
+      us recipients with empty addresses.  (Jeff)
+    - Fixed a possible crash when deleting IMAP folders.  (Jeff)
+    - Correctly create the x-evolution-messages drag-n-drop clipboard
+      buffer.  (Jeff)
+    - Fixed a bug in the PGP/MIME code that would sometimes duplicate
+      the last line of text being signed.  (Jeff)
+    - Don't canonicalize any MIME parts that we are attempting to
+      verify using PGP/MIME.  (Jeff)
 
   * Summary
 

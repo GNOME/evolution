@@ -3,7 +3,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Evolution 1.2\n"
-"POT-Creation-Date: 2003-01-23 11:39+0100\n"
+"POT-Creation-Date: 2003-02-04 12:25-0500\n"
 "PO-Revision-Date: 2003-01-28 11:37+0000\n"
 "Last-Translator: Görkem Çetin <gorkem@kde.org>\n"
 "Language-Team: Turkish <gnome-turk@gnome.org>\n"
@@ -467,11 +467,11 @@ msgid "Factory for the sample Addressbook control"
 msgstr "Örnek adres defteri kontrol mimarisi"
 
 #: addressbook/gui/component/addressbook-component.c:73
-#: addressbook/gui/component/addressbook-component.c:611
+#: addressbook/gui/component/addressbook-component.c:630
 #: calendar/gui/dialogs/comp-editor-util.c:310
 #: calendar/gui/dialogs/comp-editor-util.c:366
 #: importers/netscape-importer.c:1874 shell/e-local-storage.c:177
-#: shell/e-shortcuts.c:1067
+#: shell/e-shortcuts.c:1063
 msgid "Contacts"
 msgstr "Bağlantılar"
 
@@ -495,28 +495,28 @@ msgstr "Ortak Bağlantılar"
 msgid "Public folder containing contact information"
 msgstr "Bağlantı bilgisini içeren ortak dizin"
 
-#: addressbook/gui/component/addressbook-component.c:567
+#: addressbook/gui/component/addressbook-component.c:586
 msgid "New Contact"
 msgstr "Yeni Bağlantı"
 
-#: addressbook/gui/component/addressbook-component.c:567
+#: addressbook/gui/component/addressbook-component.c:586
 msgid "_Contact"
 msgstr "_Bağlantı"
 
-#: addressbook/gui/component/addressbook-component.c:568
+#: addressbook/gui/component/addressbook-component.c:587
 #: ui/evolution-addressbook.h:15
 msgid "Create a new contact"
 msgstr "Yeni bir bağlantı yarat"
 
-#: addressbook/gui/component/addressbook-component.c:571
+#: addressbook/gui/component/addressbook-component.c:590
 msgid "New Contact List"
 msgstr "Yeni Bağlantı Listesi"
 
-#: addressbook/gui/component/addressbook-component.c:571
+#: addressbook/gui/component/addressbook-component.c:590
 msgid "Contact _List"
 msgstr "B_ağlantı Listesi"
 
-#: addressbook/gui/component/addressbook-component.c:572
+#: addressbook/gui/component/addressbook-component.c:591
 msgid "Create a new contact list"
 msgstr "Yeni bir bağlantı listesi yarat"
 
@@ -871,7 +871,8 @@ msgid "Evolution will use this DN to authenticate you with the server"
 msgstr ""
 
 #: addressbook/gui/component/ldap-config.glade.h:33
-msgid "Evolution will use this email address to authenticate you with the server"
+msgid ""
+"Evolution will use this email address to authenticate you with the server"
 msgstr ""
 
 #: addressbook/gui/component/ldap-config.glade.h:34
@@ -2570,15 +2571,15 @@ msgid "E-mail"
 msgstr "E-posta"
 
 #. This is a filename. Translators take note.
-#: addressbook/gui/contact-editor/e-contact-save-as.c:107
+#: addressbook/gui/contact-editor/e-contact-save-as.c:103
 msgid "card.vcf"
 msgstr "kart.vcf"
 
-#: addressbook/gui/contact-editor/e-contact-save-as.c:183
+#: addressbook/gui/contact-editor/e-contact-save-as.c:179
 msgid "list"
 msgstr "liste"
 
-#: addressbook/gui/contact-editor/e-contact-save-as.c:221
+#: addressbook/gui/contact-editor/e-contact-save-as.c:217
 #, c-format
 msgid ""
 "%s already exists\n"
@@ -3503,11 +3504,11 @@ msgstr "Dinlenme zamanı (dakika)"
 msgid "_Edit appointment"
 msgstr "_Toplantıyı düzenle"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:680
+#: calendar/gui/alarm-notify/alarm-queue.c:681
 msgid "No description available."
 msgstr "Açıklama yok."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:741
+#: calendar/gui/alarm-notify/alarm-queue.c:742
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -3515,13 +3516,13 @@ msgid ""
 "a normal reminder dialog box instead."
 msgstr ""
 
-#: calendar/gui/alarm-notify/alarm-queue.c:759
+#: calendar/gui/alarm-notify/alarm-queue.c:760
 #: calendar/gui/tasks-control.c:454 mail/mail-callbacks.c:2924
 #: widgets/misc/e-messagebox.c:159
 msgid "Warning"
 msgstr "Uyarı"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:764
+#: calendar/gui/alarm-notify/alarm-queue.c:765
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -3532,7 +3533,7 @@ msgid ""
 "Are you sure you want to run this program?"
 msgstr ""
 
-#: calendar/gui/alarm-notify/alarm-queue.c:778
+#: calendar/gui/alarm-notify/alarm-queue.c:779
 msgid "Do not ask me about this program again."
 msgstr ""
 
@@ -3590,7 +3591,8 @@ msgid "%d %B"
 msgstr "%d %B"
 
 #: calendar/gui/calendar-commands.c:799
-msgid "Could not create the calendar view.  Please check your ORBit and OAF setup."
+msgid ""
+"Could not create the calendar view.  Please check your ORBit and OAF setup."
 msgstr "Takvim görünümü yaratılamadı. ORBit ve OAF kurulumunu gözden geçirin."
 
 #: calendar/gui/calendar-model.c:424 calendar/gui/calendar-model.c:983
@@ -3712,7 +3714,7 @@ msgstr "Ay Görünümü"
 
 #: calendar/gui/component-factory.c:71 calendar/gui/gnome-cal.c:1372
 #: importers/netscape-importer.c:1873 my-evolution/my-evolution.glade.h:3
-#: shell/e-local-storage.c:176 shell/e-shortcuts.c:1059
+#: shell/e-local-storage.c:176 shell/e-shortcuts.c:1055
 msgid "Calendar"
 msgstr "Takvim"
 
@@ -3734,7 +3736,7 @@ msgstr "Randevuları tutan dizin"
 #: calendar/importers/icalendar-importer.c:704
 #: importers/netscape-importer.c:1875 my-evolution/e-summary-tasks.c:327
 #: my-evolution/e-summary-tasks.c:345 shell/e-local-storage.c:182
-#: shell/e-shortcuts.c:1063
+#: shell/e-shortcuts.c:1059
 msgid "Tasks"
 msgstr "Görevler"
 
@@ -4412,7 +4414,8 @@ msgstr "Farklı kaydet..."
 #: calendar/gui/dialogs/comp-editor.c:1322
 #: calendar/gui/dialogs/comp-editor.c:1346
 #: calendar/gui/dialogs/comp-editor.c:1370
-msgid "Changes made to this item may be discarded if an update arrives via email"
+msgid ""
+"Changes made to this item may be discarded if an update arrives via email"
 msgstr ""
 
 #: calendar/gui/dialogs/comp-editor.c:1397
@@ -4498,20 +4501,20 @@ msgstr "Zaman Düzenleme"
 msgid "Meeting"
 msgstr "Toplantı"
 
-#: calendar/gui/dialogs/event-page.c:656 calendar/gui/dialogs/task-page.c:567
+#: calendar/gui/dialogs/event-page.c:662 calendar/gui/dialogs/task-page.c:567
 #, fuzzy
 msgid "Start date is wrong"
 msgstr "Başlangıç Tarihi"
 
-#: calendar/gui/dialogs/event-page.c:666
+#: calendar/gui/dialogs/event-page.c:672
 msgid "End date is wrong"
 msgstr "Bitiş tarihi yanlış"
 
-#: calendar/gui/dialogs/event-page.c:689
+#: calendar/gui/dialogs/event-page.c:695
 msgid "Start time is wrong"
 msgstr "Başlangıç tarihi yanlış"
 
-#: calendar/gui/dialogs/event-page.c:696
+#: calendar/gui/dialogs/event-page.c:702
 msgid "End time is wrong"
 msgstr "Bitiş tarihi yanlış"
 
@@ -4921,46 +4924,57 @@ msgid "_Due Date:"
 msgstr "_Tarihe Göre:"
 
 #: calendar/gui/e-calendar-table.c:440
+#, c-format
 msgid "0%"
 msgstr "%0"
 
 #: calendar/gui/e-calendar-table.c:441
+#, c-format
 msgid "10%"
 msgstr "%10"
 
 #: calendar/gui/e-calendar-table.c:442
+#, c-format
 msgid "20%"
 msgstr "%20"
 
 #: calendar/gui/e-calendar-table.c:443
+#, c-format
 msgid "30%"
 msgstr "%30"
 
 #: calendar/gui/e-calendar-table.c:444
+#, c-format
 msgid "40%"
 msgstr "%40"
 
 #: calendar/gui/e-calendar-table.c:445
+#, c-format
 msgid "50%"
 msgstr "%50"
 
 #: calendar/gui/e-calendar-table.c:446
+#, c-format
 msgid "60%"
 msgstr "%60"
 
 #: calendar/gui/e-calendar-table.c:447
+#, c-format
 msgid "70%"
 msgstr "%70"
 
 #: calendar/gui/e-calendar-table.c:448
+#, c-format
 msgid "80%"
 msgstr "%80"
 
 #: calendar/gui/e-calendar-table.c:449
+#, c-format
 msgid "90%"
 msgstr "%90"
 
 #: calendar/gui/e-calendar-table.c:450
+#, c-format
 msgid "100%"
 msgstr "%100"
 
@@ -5074,7 +5088,7 @@ msgstr "Başlangıç Tarihi"
 
 #: calendar/gui/e-calendar-table.etspec.h:16
 #: my-evolution/component-factory.c:51 shell/e-shell.c:748
-#: shell/e-shortcuts.c:1051
+#: shell/e-shortcuts.c:1047
 msgid "Summary"
 msgstr "Özet"
 
@@ -6285,7 +6299,8 @@ msgid "Print Setup"
 msgstr "Yazdırma Ayarları"
 
 #: calendar/gui/tasks-control-factory.c:75
-msgid "Could not create the tasks view.  Please check your ORBit and OAF setup."
+msgid ""
+"Could not create the tasks view.  Please check your ORBit and OAF setup."
 msgstr "Takvim görünümü yaratılamadı. ORBit ve OAF kurulumunu gözden geçirin."
 
 #: calendar/gui/tasks-control.c:147
@@ -6313,7 +6328,8 @@ msgstr "Yazdırma Görevleri"
 msgid ""
 "Evolution has taken the tasks that were in your calendar folder and "
 "automatically migrated them to the new tasks folder."
-msgstr "Evolution takvim dizininde bulunan tüm görevleri görevler dizinine aktardı."
+msgstr ""
+"Evolution takvim dizininde bulunan tüm görevleri görevler dizinine aktardı."
 
 #: calendar/gui/tasks-migrate.c:108
 msgid ""
@@ -8493,7 +8509,8 @@ msgstr "DIGEST-MD5"
 msgid ""
 "This option will connect to the server using a secure DIGEST-MD5 password, "
 "if the server supports it."
-msgstr "Bu seçenek sunucuya güvenli DIGEST-MD5 sistemi ile bağlantı kuracaktır. "
+msgstr ""
+"Bu seçenek sunucuya güvenli DIGEST-MD5 sistemi ile bağlantı kuracaktır. "
 
 #: camel/camel-sasl-digest-md5.c:810
 msgid "Server challenge too long (>2048 octets)\n"
@@ -8574,7 +8591,8 @@ msgstr "SMTP öncesi POP"
 
 #: camel/camel-sasl-popb4smtp.c:36
 msgid "This option will authorise a POP connection before attempting SMTP"
-msgstr "Bu özellik, SMTP bağlantısı yaratmadan önce bir POP bağlantısı kuracaktır"
+msgstr ""
+"Bu özellik, SMTP bağlantısı yaratmadan önce bir POP bağlantısı kuracaktır"
 
 #: camel/camel-sasl-popb4smtp.c:107
 msgid "POP Source URI"
@@ -9209,7 +9227,8 @@ msgstr "Bu isimde bir dizin yok: `%s'"
 
 #: camel/providers/imap/camel-imap-store.c:1848
 #, fuzzy, c-format
-msgid "The folder name \"%s\" is invalid because it containes the character \"%c\""
+msgid ""
+"The folder name \"%s\" is invalid because it containes the character \"%c\""
 msgstr "Dizin içinde yeni satır karakteri bulunamaz."
 
 #: camel/providers/imap/camel-imap-store.c:1860
@@ -9261,7 +9280,8 @@ msgstr "Yerel aktarım"
 msgid ""
 "For retrieving (moving) local mail from standard mbox formated spools into "
 "folders managed by Evolution."
-msgstr "Standart UNIX posta kutularından ileti alma ve göndermede kullanmak için"
+msgstr ""
+"Standart UNIX posta kutularından ileti alma ve göndermede kullanmak için"
 
 #: camel/providers/local/camel-local-provider.c:77
 #: camel/providers/local/camel-local-provider.c:94
@@ -9291,7 +9311,8 @@ msgstr "Standart UNIX posta kutusu dosyası"
 msgid ""
 "For reading and storing local mail in external standard mbox spool files.\n"
 "May also be used to read a tree of Elm, Pine, or Mutt style folders."
-msgstr "Standart UNIX posta kutularından ileti alma ve göndermede kullanmak için"
+msgstr ""
+"Standart UNIX posta kutularından ileti alma ve göndermede kullanmak için"
 
 #: camel/providers/local/camel-local-store.c:139
 #: camel/providers/local/camel-local-store.c:227
@@ -9821,7 +9842,8 @@ msgid ""
 "This option will connect to the POP server using an encrypted password via "
 "the APOP protocol. This may not work for all users even on servers that "
 "claim to support it."
-msgstr "Bu seçenek POP sunucuya şifreli APOP protokolünü kullanarak bağlantı kurar."
+msgstr ""
+"Bu seçenek POP sunucuya şifreli APOP protokolünü kullanarak bağlantı kurar."
 
 #: camel/providers/pop3/camel-pop3-store.c:183
 #, c-format
@@ -10544,11 +10566,12 @@ msgstr "Konu içerir"
 msgid "Subject does not contain"
 msgstr "Konu içermez"
 
-#: e-util/e-component-listener.c:131
-msgid "ping_timeout_callback: could not determine if the CORBA object is nil or not"
+#: e-util/e-component-listener.c:135
+msgid ""
+"ping_timeout_callback: could not determine if the CORBA object is nil or not"
 msgstr ""
 
-#: e-util/e-dialog-utils.c:237 mail/mail-callbacks.c:2563
+#: e-util/e-dialog-utils.c:241 mail/mail-callbacks.c:2563
 msgid ""
 "A file by that name already exists.\n"
 "Overwrite it?"
@@ -11358,7 +11381,8 @@ msgid "Configuration control for the Evolution Message Composer."
 msgstr "Evolution İleti Düzenleyici için yapılandırma denetimi"
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:6
-msgid "Configure mail preferences, including security and message display, here"
+msgid ""
+"Configure mail preferences, including security and message display, here"
 msgstr "İleti tercihleri, güvenlik ve diğer ayarları buradan yapılandırın"
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:7
@@ -11503,11 +11527,11 @@ msgstr "Evolution'ın ileti yapılandırma bileşeni başlatılamadı."
 msgid "Cannot initialize Evolution's folder info component."
 msgstr "Evolution'ın ileti dizin bilgi bileşeni başlatılamadı."
 
-#: mail/component-factory.c:1341 mail/component-factory.c:1371
+#: mail/component-factory.c:1344 mail/component-factory.c:1374
 msgid "Connecting..."
 msgstr "Bağlanıyor..."
 
-#: mail/component-factory.c:1382
+#: mail/component-factory.c:1385
 msgid "Cannot register storage with shell"
 msgstr "Depo kabuğa kayıt ettirilemedi"
 
@@ -12103,8 +12127,8 @@ msgid ""
 "sure, ask your system administrator or Internet Service Provider."
 msgstr ""
 "Lütfen giden e-posta sunucusu için protokol bilgisini aşağıda belirtin. Eğer "
-"hangi protokolü kullandığınızı bilmiyorsanız sistem yöneticinize, ya da İnternet servis sağlayıcınıza "
-"başvurun."
+"hangi protokolü kullandığınızı bilmiyorsanız sistem yöneticinize, ya da "
+"İnternet servis sağlayıcınıza başvurun."
 
 #: mail/mail-config-druid.c:154
 msgid ""
@@ -12115,9 +12139,9 @@ msgid ""
 "purposes only."
 msgstr ""
 "E-posta yapılandırma işlemi neredeyse tamamlandı. Kimlik ayarlarınız, gelen "
-"ve giden e-posta sunucunuz Evolution hesabınızı tanımlamak için yeterli olacaktır. Lütfen"
-"aşağıdaki boşluğa bu hesap için bir ad veriniz. Bu isim, sadece "
-"görüntüleme amaçlı olarak kullanılacaktır."
+"ve giden e-posta sunucunuz Evolution hesabınızı tanımlamak için yeterli "
+"olacaktır. Lütfenaşağıdaki boşluğa bu hesap için bir ad veriniz. Bu isim, "
+"sadece görüntüleme amaçlı olarak kullanılacaktır."
 
 #. set window title
 #: mail/mail-config-druid.c:638
@@ -12561,8 +12585,9 @@ msgid ""
 "list of languages here reflects only the languages for which you have a "
 "dictionary installed."
 msgstr ""
-"Bu sayfa imla denetimi ve bu denetim sırasında kullanılacak dili belirtmenizi "
-"sağlar. Buradaki liste, sözlüğü sistem kurulan dillerin oluşturduğu listedir."
+"Bu sayfa imla denetimi ve bu denetim sırasında kullanılacak dili "
+"belirtmenizi sağlar. Buradaki liste, sözlüğü sistem kurulan dillerin "
+"oluşturduğu listedir."
 
 #: mail/mail-config.glade.h:127
 msgid ""
@@ -12892,7 +12917,8 @@ msgid "Mailer"
 msgstr "E-postalayıcı"
 
 #: mail/mail-format.c:1848
-msgid "This message is digitally signed. Click the lock icon for more information."
+msgid ""
+"This message is digitally signed. Click the lock icon for more information."
 msgstr ""
 "Bu ileti dijital olarak imzalanmıştır ve güvenlidir. Daha fazla bilgi için "
 "kilit simgesi üzerine tıklayın."
@@ -12907,7 +12933,8 @@ msgstr "Bu ileti dijital olarak imzalanmıştır ve güvenlidir."
 
 #: mail/mail-format.c:1892
 msgid "This message is digitally signed but can not be proven to be authentic."
-msgstr "Bu ileti dijital olarak imzalanmış, fakat güvenli olduğu kanıtlanmamıştır."
+msgstr ""
+"Bu ileti dijital olarak imzalanmış, fakat güvenli olduğu kanıtlanmamıştır."
 
 #: mail/mail-format.c:2157
 #, c-format
@@ -24962,7 +24989,7 @@ msgid "Drafts"
 msgstr "Taslaklar"
 
 #: shell/e-local-storage.c:179 shell/e-shell-view.c:400
-#: shell/e-shortcuts.c:1055
+#: shell/e-shortcuts.c:1051
 msgid "Inbox"
 msgstr "Gelen"
 
@@ -25513,7 +25540,8 @@ msgid "(None)"
 msgstr "(Hiçbiri)"
 
 #: shell/e-shell-view.c:1910
-msgid "Ximian Evolution is currently online.  Click on this button to work offline."
+msgid ""
+"Ximian Evolution is currently online.  Click on this button to work offline."
 msgstr ""
 "Ximian Evolution çevrimiçi çlışıyor. Bu düğmeye tıklayarak çevrimdışı "
 "çalışmasını sağlayın."
@@ -25523,7 +25551,8 @@ msgid "Ximian Evolution is in the process of going offline."
 msgstr "Ximian Evolution çevrimdışı çalışmak üzere hazırlanıyor."
 
 #: shell/e-shell-view.c:1923
-msgid "Ximian Evolution is currently offline.  Click on this button to work online."
+msgid ""
+"Ximian Evolution is currently offline.  Click on this button to work online."
 msgstr ""
 "Ximian Evolution çevrimdışı çalışıyor. Bu düğmeye tıklayarak çevrimiçi "
 "çalışmasını sağlayın."
@@ -25690,11 +25719,11 @@ msgstr "_Sil"
 msgid "Remove this shortcut from the shortcut bar"
 msgstr "Bu kısayolu kısayol çubuğundan sil"
 
-#: shell/e-shortcuts.c:641
+#: shell/e-shortcuts.c:637
 msgid "Error saving shortcuts."
 msgstr "Kısayolları kaydederken hata oldu."
 
-#: shell/e-shortcuts.c:1080
+#: shell/e-shortcuts.c:1076
 msgid "Shortcuts"
 msgstr "Kısayollar"
 
@@ -26607,7 +26636,8 @@ msgid "Hide _Read Messages"
 msgstr "_Okunan İletileri Gizle"
 
 #: ui/evolution-mail-list.xml.h:8
-msgid "Hide deleted messages rather than displaying them with a line through them"
+msgid ""
+"Hide deleted messages rather than displaying them with a line through them"
 msgstr "Silinen iletileri üzerine çizgi çekmek yerine gizle"
 
 #: ui/evolution-mail-list.xml.h:9
@@ -28561,4 +28591,3 @@ msgstr "init_bonobo(): Bonobo başlatılamadı"
 
 #~ msgid "seconds."
 #~ msgstr "saniye sonra okunmuş işaretle"
-

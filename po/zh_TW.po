@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.16.99\n"
-"POT-Creation-Date: 2002-12-05 17:57-0500\n"
+"POT-Creation-Date: 2003-02-04 12:25-0500\n"
 "PO-Revision-Date: 2001-09-10 09:55+0800\n"
 "Last-Translator: Joe Man <trmetal@yahoo.com.hk>\n"
 "Language-Team: Chinese <zh-l10n@linux.org.tw>\n"
@@ -45,7 +45,7 @@ msgstr "歸檔為"
 # addressbook/gui/component/addressbook-config.glade.h:5
 #: addressbook/backend/ebook/e-card-simple.c:61
 #: addressbook/gui/component/select-names/e-select-names.etspec.h:1
-#: mail/mail-config.glade.h:74 my-evolution/e-summary-table.c:59
+#: mail/mail-config.glade.h:76 my-evolution/e-summary-table.c:59
 msgid "Name"
 msgstr "名稱"
 
@@ -435,13 +435,14 @@ msgstr "給 %s 的 VCard"
 #: tools/evolution-addressbook-abuse.c:132
 #: tools/evolution-addressbook-export.c:60
 #: tools/evolution-addressbook-import.c:86
+#: tools/evolution-launch-composer.c:344
 msgid "Could not initialize Bonobo"
 msgstr "不能初始化 Bonobo"
 
 # addressbook/gui/search/e-addressbook-search-dialog.c:158
 # mail/mail-search.c:242
 #: addressbook/backend/pas/pas-backend-file.c:364
-#: addressbook/backend/pas/pas-backend-ldap.c:3010
+#: addressbook/backend/pas/pas-backend-ldap.c:3021
 #, fuzzy
 msgid "Searching..."
 msgstr "尋找"
@@ -455,36 +456,36 @@ msgstr "正在等待..."
 
 # mail/mail-config.c:1213
 # mail/mail-config.c:1216
-#: addressbook/backend/pas/pas-backend-ldap.c:719
+#: addressbook/backend/pas/pas-backend-ldap.c:730
 #, fuzzy
 msgid "Reconnecting to LDAP server..."
 msgstr "正在連線至伺服器..."
 
 # mail/mail-config.c:1213
 # mail/mail-config.c:1216
-#: addressbook/backend/pas/pas-backend-ldap.c:1262
+#: addressbook/backend/pas/pas-backend-ldap.c:1273
 #, fuzzy
 msgid "Adding card to LDAP server..."
 msgstr "正在連線至伺服器..."
 
 # mail/mail-ops.c:1195
 # mail/mail-ops.c:1333
-#: addressbook/backend/pas/pas-backend-ldap.c:1368
+#: addressbook/backend/pas/pas-backend-ldap.c:1379
 #, fuzzy
 msgid "Removing card from LDAP server..."
 msgstr "移除名片..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:1604
-#: addressbook/backend/pas/pas-backend-ldap.c:1607
+#: addressbook/backend/pas/pas-backend-ldap.c:1615
+#: addressbook/backend/pas/pas-backend-ldap.c:1618
 msgid "Modifying card from LDAP server..."
 msgstr ""
 
-#: addressbook/backend/pas/pas-backend-ldap.c:2921
+#: addressbook/backend/pas/pas-backend-ldap.c:2932
 msgid "Receiving LDAP search results..."
 msgstr ""
 
 # executive-summary/component/e-summary.c:940
-#: addressbook/backend/pas/pas-backend-ldap.c:3030
+#: addressbook/backend/pas/pas-backend-ldap.c:3041
 #, fuzzy
 msgid "Error performing search"
 msgstr "移除名片時發生錯誤"
@@ -598,11 +599,11 @@ msgstr "簡易目錄服務控制項工廠"
 
 # ui/evolution-addressbook.xml.h:17
 #: addressbook/gui/component/addressbook-component.c:73
-#: addressbook/gui/component/addressbook-component.c:611
+#: addressbook/gui/component/addressbook-component.c:630
 #: calendar/gui/dialogs/comp-editor-util.c:310
 #: calendar/gui/dialogs/comp-editor-util.c:366
 #: importers/netscape-importer.c:1874 shell/e-local-storage.c:177
-#: shell/e-shortcuts.c:1067
+#: shell/e-shortcuts.c:1063
 msgid "Contacts"
 msgstr "連絡人"
 
@@ -636,35 +637,35 @@ msgid "Public folder containing contact information"
 msgstr "資料夾包含連絡人資訊"
 
 # ui/evolution-addressbook.xml.h:7
-#: addressbook/gui/component/addressbook-component.c:567
+#: addressbook/gui/component/addressbook-component.c:586
 msgid "New Contact"
 msgstr "新增連絡人"
 
 # ui/evolution-addressbook.xml.h:17
-#: addressbook/gui/component/addressbook-component.c:567
+#: addressbook/gui/component/addressbook-component.c:586
 msgid "_Contact"
 msgstr "連絡人(_C)"
 
 # ui/evolution-addressbook.xml.h:2
-#: addressbook/gui/component/addressbook-component.c:568
+#: addressbook/gui/component/addressbook-component.c:587
 #: ui/evolution-addressbook.h:15
 #, fuzzy
 msgid "Create a new contact"
 msgstr "新增連絡人"
 
 # ui/evolution-addressbook.xml.h:17
-#: addressbook/gui/component/addressbook-component.c:571
+#: addressbook/gui/component/addressbook-component.c:590
 msgid "New Contact List"
 msgstr "新增連絡人清單"
 
 # ui/evolution-addressbook.xml.h:17
-#: addressbook/gui/component/addressbook-component.c:571
+#: addressbook/gui/component/addressbook-component.c:590
 #, fuzzy
 msgid "Contact _List"
 msgstr "連絡人清單(_C)"
 
 # ui/evolution-addressbook.xml.h:2
-#: addressbook/gui/component/addressbook-component.c:572
+#: addressbook/gui/component/addressbook-component.c:591
 #, fuzzy
 msgid "Create a new contact list"
 msgstr "新增連絡人清單"
@@ -961,49 +962,55 @@ msgstr "關閉查詢"
 msgid "Enable Queries (Dangerous!)"
 msgstr "啟動查詢(非常危險！)"
 
-# mail/mail-config.glade.h:1
 #: addressbook/gui/component/ldap-config.glade.h:1
+#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:1
+#: mail/mail-config.glade.h:1 mail/subscribe-dialog.glade.h:1
+msgid "\n"
+msgstr ""
+
+# mail/mail-config.glade.h:1
+#: addressbook/gui/component/ldap-config.glade.h:3
 #, fuzzy
 msgid "  S_how Supported Bases "
 msgstr " 檢查可支援的類別(_C)"
 
-#: addressbook/gui/component/ldap-config.glade.h:2
+#: addressbook/gui/component/ldap-config.glade.h:4
 msgid "1234"
 msgstr ""
 
 # calendar/gui/e-calendar-table.c:377
-#: addressbook/gui/component/ldap-config.glade.h:3
+#: addressbook/gui/component/ldap-config.glade.h:5
 #, fuzzy
 msgid "1:00"
 msgstr "100%"
 
-#: addressbook/gui/component/ldap-config.glade.h:4
+#: addressbook/gui/component/ldap-config.glade.h:6
 msgid "2:30"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:5
+#: addressbook/gui/component/ldap-config.glade.h:7
 msgid "3268"
 msgstr ""
 
 # calendar/gui/e-calendar-table.c:375
-#: addressbook/gui/component/ldap-config.glade.h:6
+#: addressbook/gui/component/ldap-config.glade.h:8
 #, fuzzy
 msgid "380"
 msgstr "80%"
 
-#: addressbook/gui/component/ldap-config.glade.h:7
+#: addressbook/gui/component/ldap-config.glade.h:9
 msgid "389"
 msgstr "389"
 
-#: addressbook/gui/component/ldap-config.glade.h:8
+#: addressbook/gui/component/ldap-config.glade.h:10
 msgid "5:00"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:9
+#: addressbook/gui/component/ldap-config.glade.h:11
 msgid "636"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:10
+#: addressbook/gui/component/ldap-config.glade.h:12
 msgid "666"
 msgstr ""
 
@@ -1011,48 +1018,48 @@ msgstr ""
 # composer/e-msg-composer-attachment-bar.c:468
 # shell/e-shortcuts-view.c:265
 # shell/e-shortcuts-view.c:388
-#: addressbook/gui/component/ldap-config.glade.h:11
+#: addressbook/gui/component/ldap-config.glade.h:13
 #, fuzzy
 msgid "<- _Remove"
 msgstr "移除 (_R)"
 
 # addressbook/printing/e-contact-print.glade.h:23
-#: addressbook/gui/component/ldap-config.glade.h:12
+#: addressbook/gui/component/ldap-config.glade.h:14
 #, fuzzy
 msgid "<< Fewer Options"
 msgstr "選項"
 
-#: addressbook/gui/component/ldap-config.glade.h:13
+#: addressbook/gui/component/ldap-config.glade.h:15
 msgid "Add (or Edit) Attribute Mappings"
 msgstr ""
 
 # addressbook/gui/component/addressbook-config.glade.h:2
-#: addressbook/gui/component/ldap-config.glade.h:14
+#: addressbook/gui/component/ldap-config.glade.h:16
 msgid "Addressbook Sources"
 msgstr "目錄服務來源"
 
 # calendar/gui/e-calendar-table.c:162
-#: addressbook/gui/component/ldap-config.glade.h:15 mail/mail-account-gui.c:58
-#: mail/mail-config.glade.h:14
+#: addressbook/gui/component/ldap-config.glade.h:17 mail/mail-account-gui.c:58
+#: mail/mail-config.glade.h:16
 #, fuzzy
 msgid "Always"
 msgstr "提醒"
 
 # camel/camel-sasl-anonymous.c:33
-#: addressbook/gui/component/ldap-config.glade.h:16
+#: addressbook/gui/component/ldap-config.glade.h:18
 #, fuzzy
 msgid "Anonymously"
 msgstr "匿名"
 
-#: addressbook/gui/component/ldap-config.glade.h:17
+#: addressbook/gui/component/ldap-config.glade.h:19
 msgid "Associated LDAP Attribute"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:18
+#: addressbook/gui/component/ldap-config.glade.h:20
 msgid "Attribute"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:19
+#: addressbook/gui/component/ldap-config.glade.h:21
 msgid ""
 "Congratulations, you are finished setting up this LDAP server. You\n"
 "are now ready to access this directory.\n"
@@ -1062,17 +1069,17 @@ msgid ""
 msgstr ""
 
 # mail/mail-ops.c:1939
-#: addressbook/gui/component/ldap-config.glade.h:23
+#: addressbook/gui/component/ldap-config.glade.h:25
 #, fuzzy
 msgid "Connecting"
 msgstr "中斷與 %s 的連線"
 
-#: addressbook/gui/component/ldap-config.glade.h:24
+#: addressbook/gui/component/ldap-config.glade.h:26
 msgid "Corresponding Evolution Attribute"
 msgstr ""
 
 # widgets/meeting-time-sel/e-meeting-time-sel.c:395
-#: addressbook/gui/component/ldap-config.glade.h:25
+#: addressbook/gui/component/ldap-config.glade.h:27
 #, fuzzy
 msgid "DN Customization"
 msgstr "沒有資訊"
@@ -1088,77 +1095,77 @@ msgstr "沒有資訊"
 # ui/evolution-event-editor.xml.h:17
 # ui/evolution-mail.xml.h:22
 # ui/evolution-task-editor-dialog.xml.h:18
-#: addressbook/gui/component/ldap-config.glade.h:26
+#: addressbook/gui/component/ldap-config.glade.h:28
 msgid "De_lete"
 msgstr "刪除(_L)"
 
 # composer/e-msg-composer-attachment.glade.h:4
-#: addressbook/gui/component/ldap-config.glade.h:27
+#: addressbook/gui/component/ldap-config.glade.h:29
 #, fuzzy
 msgid "Distinguished _name:"
 msgstr "列出名稱 (_N)："
 
 # mail/mail-config.glade.h:29
-#: addressbook/gui/component/ldap-config.glade.h:28
+#: addressbook/gui/component/ldap-config.glade.h:30
 msgid "Email Address:"
 msgstr "電子郵件地址："
 
 # composer/e-msg-composer.c:935
 # data/evolution.desktop.in.h:1
 # shell/e-shell-view-menu.c:228
-#: addressbook/gui/component/ldap-config.glade.h:29
+#: addressbook/gui/component/ldap-config.glade.h:31
 #, fuzzy
 msgid "Evolution Attribute"
 msgstr "Evolution"
 
-#: addressbook/gui/component/ldap-config.glade.h:30
+#: addressbook/gui/component/ldap-config.glade.h:32
 msgid "Evolution will use this DN to authenticate you with the server"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:31
+#: addressbook/gui/component/ldap-config.glade.h:33
 msgid ""
 "Evolution will use this email address to authenticate you with the server"
 msgstr ""
 
 # mail/mail-search.c:316
-#: addressbook/gui/component/ldap-config.glade.h:32
+#: addressbook/gui/component/ldap-config.glade.h:34
 #, fuzzy
 msgid "Finished"
 msgstr "尋找(_I)"
 
 # addressbook/contact-editor/contact-editor.glade.h:10
 # executive-summary/component/executive-summary-config.glade.h:3
-#: addressbook/gui/component/ldap-config.glade.h:33
+#: addressbook/gui/component/ldap-config.glade.h:35
 #: addressbook/gui/contact-editor/contact-editor.glade.h:16
 msgid "General"
 msgstr "一般"
 
 # mail/mail-config.glade.h:10
-#: addressbook/gui/component/ldap-config.glade.h:34
+#: addressbook/gui/component/ldap-config.glade.h:36
 #, fuzzy
 msgid "LDAP Attribute"
 msgstr "LDAP 驗證"
 
 # mail/mail-config.glade.h:40
-#: addressbook/gui/component/ldap-config.glade.h:35
+#: addressbook/gui/component/ldap-config.glade.h:37
 #, fuzzy
 msgid "LDAP Configuration Assistant"
 msgstr "郵件設定"
 
 # addressbook/printing/e-contact-print.glade.h:21
-#: addressbook/gui/component/ldap-config.glade.h:36
+#: addressbook/gui/component/ldap-config.glade.h:38
 #, fuzzy
 msgid "Mappings"
 msgstr "邊界"
 
 # calendar/gui/event-editor-dialog.glade.h:10
-#: addressbook/gui/component/ldap-config.glade.h:37 mail/mail-account-gui.c:60
-#: mail/mail-config.glade.h:75
+#: addressbook/gui/component/ldap-config.glade.h:39 mail/mail-account-gui.c:60
+#: mail/mail-config.glade.h:77
 #, fuzzy
 msgid "Never"
 msgstr "每"
 
-#: addressbook/gui/component/ldap-config.glade.h:38
+#: addressbook/gui/component/ldap-config.glade.h:40
 msgid ""
 "Now, you must specify how you want to connect to the LDAP server. The SSL "
 "(Secure Sockets Layer)\n"
@@ -1168,32 +1175,26 @@ msgid ""
 "these protocols."
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:41
+#: addressbook/gui/component/ldap-config.glade.h:43
 msgid "Objectclasses"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:42
+#: addressbook/gui/component/ldap-config.glade.h:44
 msgid "Objectclasses Used in Evolution:"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:43
+#: addressbook/gui/component/ldap-config.glade.h:45
 msgid "Objectclasses Used on Server:"
 msgstr ""
 
 # addressbook/gui/component/addressbook-config.c:179
-#: addressbook/gui/component/ldap-config.glade.h:44
+#: addressbook/gui/component/ldap-config.glade.h:46
 msgid "One"
 msgstr "一"
 
-#: addressbook/gui/component/ldap-config.glade.h:45
-msgid ""
-"Please select an Evolution attribute and an\n"
-"LDAP attribute to associate with it."
-msgstr ""
-
 #: addressbook/gui/component/ldap-config.glade.h:47
 msgid ""
-"Please select and Evolution attribute and an\n"
+"Please select an Evolution attribute and an\n"
 "LDAP attribute to associate with it."
 msgstr ""
 
@@ -1269,48 +1270,41 @@ msgstr ""
 
 #: addressbook/gui/component/ldap-config.glade.h:66
 msgid ""
-"Selecting this option will let you change Evolution's default settings for "
-"LDAP\n"
-"searches, and for creating and editting contacts. "
-msgstr ""
-
-#: addressbook/gui/component/ldap-config.glade.h:68
-msgid ""
 "Specifying a display name is the last required step in configuring an LDAP "
 "server."
 msgstr ""
 
 # widgets/meeting-time-sel/e-meeting-time-sel.c:395
-#: addressbook/gui/component/ldap-config.glade.h:69
+#: addressbook/gui/component/ldap-config.glade.h:67
 #, fuzzy
 msgid "Step 1: Server Information"
 msgstr "來源資訊"
 
 # mail/mail-config.c:1213
 # mail/mail-config.c:1216
-#: addressbook/gui/component/ldap-config.glade.h:70
+#: addressbook/gui/component/ldap-config.glade.h:68
 #, fuzzy
 msgid "Step 2: Connecting to Server"
 msgstr "正在連線至伺服器..."
 
-#: addressbook/gui/component/ldap-config.glade.h:71
+#: addressbook/gui/component/ldap-config.glade.h:69
 msgid "Step 3: Searching the Directory"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:72
+#: addressbook/gui/component/ldap-config.glade.h:70
 msgid "Step 4: Display Name"
 msgstr ""
 
 # calendar/gui/print.c:362
-#: addressbook/gui/component/ldap-config.glade.h:73
+#: addressbook/gui/component/ldap-config.glade.h:71
 msgid "Sub"
 msgstr "日"
 
-#: addressbook/gui/component/ldap-config.glade.h:74
+#: addressbook/gui/component/ldap-config.glade.h:72
 msgid "Supported Search Bases"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:75
+#: addressbook/gui/component/ldap-config.glade.h:73
 msgid ""
 "The first step in configuring an LDAP server is to provide its name, and "
 "your log in\n"
@@ -1318,7 +1312,7 @@ msgid ""
 "information."
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:77
+#: addressbook/gui/component/ldap-config.glade.h:75
 msgid ""
 "The options on this page control how many entries should be included in "
 "your\n"
@@ -1327,7 +1321,7 @@ msgid ""
 "need to change these options."
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:80
+#: addressbook/gui/component/ldap-config.glade.h:78
 msgid ""
 "The search base is the distinguished name (DN)  of the entry where your "
 "searches will \n"
@@ -1335,17 +1329,17 @@ msgid ""
 "directory tree."
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:82
+#: addressbook/gui/component/ldap-config.glade.h:80
 msgid ""
 "The search scope defines how deep you would like the search to extend down "
 "the \n"
 "directory tree. A search scope of \"sub\" will include all entries below "
 "your search base.\n"
 "A search scope of \"one\" will only include the entries one level beneath "
-"your base."
+"your base.\n"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:85
+#: addressbook/gui/component/ldap-config.glade.h:84
 msgid ""
 "This assistant will help you to access online directory services\n"
 "using LDAP (Lightweight Directory Access Protocol) servers. \n"
@@ -1355,27 +1349,27 @@ msgid ""
 "need help finding this information."
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:91
+#: addressbook/gui/component/ldap-config.glade.h:90
 msgid ""
 "This is the full name of your ldap server. For example, \"ldap.mycompany.com"
 "\"."
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:92
+#: addressbook/gui/component/ldap-config.glade.h:91
 msgid ""
 "This is the maximum number of entries to download. Setting this number to "
 "be \n"
 "too large will slow down your addressbook."
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:94
+#: addressbook/gui/component/ldap-config.glade.h:93
 msgid ""
 "This is the method evolution will use to authenticate you.  Note that "
 "setting this to \"Email Address\" requires anonymous access to your ldap "
 "server."
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:95
+#: addressbook/gui/component/ldap-config.glade.h:94
 #, fuzzy
 msgid ""
 "This is the name for this server that will appear in your Evolution folder "
@@ -1383,7 +1377,7 @@ msgid ""
 "It is for display purposes only. "
 msgstr "此名稱將用於識別您的帳號.僅做為顯示之用。"
 
-#: addressbook/gui/component/ldap-config.glade.h:97
+#: addressbook/gui/component/ldap-config.glade.h:96
 msgid ""
 "This is the port on the LDAP server that Evolution will try to connect to. "
 "A \n"
@@ -1391,11 +1385,11 @@ msgid ""
 "what port you should specify."
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:100
+#: addressbook/gui/component/ldap-config.glade.h:99
 msgid "This option controls how long a search will be run."
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:101
+#: addressbook/gui/component/ldap-config.glade.h:100
 msgid ""
 "To add an attribute to the DN, select it from the list and click the \"Add "
 "Attribute\" button.\n"
@@ -1404,54 +1398,54 @@ msgid ""
 "that you add to the directory on the LDAP server. "
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:104
+#: addressbook/gui/component/ldap-config.glade.h:103
 msgid "U_se SSL/TLS:"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:105
+#: addressbook/gui/component/ldap-config.glade.h:104
 msgid "Using distinguished name (DN)"
 msgstr ""
 
 # addressbook/contact-editor/contact-editor.glade.h:34
-#: addressbook/gui/component/ldap-config.glade.h:106
+#: addressbook/gui/component/ldap-config.glade.h:105
 #, fuzzy
 msgid "Using email address"
 msgstr "這是郵寄地址 (_T)"
 
-#: addressbook/gui/component/ldap-config.glade.h:107
-#: mail/mail-account-gui.c:59 mail/mail-config.glade.h:132
+#: addressbook/gui/component/ldap-config.glade.h:106
+#: mail/mail-account-gui.c:59 mail/mail-config.glade.h:134
 msgid "Whenever Possible"
 msgstr ""
 
 # addressbook/contact-editor/contact-editor.glade.h:17
 # mail/mail-config.glade.h:84
-#: addressbook/gui/component/ldap-config.glade.h:108
+#: addressbook/gui/component/ldap-config.glade.h:107
 #: addressbook/gui/contact-editor/contact-editor.glade.h:30
-#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:4
+#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:6
 #: calendar/gui/dialogs/alarm-page.glade.h:8 filter/filter.glade.h:14
-#: mail/mail-config.glade.h:135 shell/glade/e-folder-list.glade.h:1
+#: mail/mail-config.glade.h:137 shell/glade/e-folder-list.glade.h:1
 msgid "_Add"
 msgstr "新增 (_A)"
 
 # addressbook/contact-editor/contact-editor.glade.h:17
 # mail/mail-config.glade.h:84
-#: addressbook/gui/component/ldap-config.glade.h:109
+#: addressbook/gui/component/ldap-config.glade.h:108
 #, fuzzy
 msgid "_Add ->"
 msgstr "新增 (_A)"
 
-#: addressbook/gui/component/ldap-config.glade.h:110
+#: addressbook/gui/component/ldap-config.glade.h:109
 #, fuzzy
 msgid "_Add Mapping"
 msgstr "新增動作"
 
-#: addressbook/gui/component/ldap-config.glade.h:111
+#: addressbook/gui/component/ldap-config.glade.h:110
 #, fuzzy
 msgid "_Add to DN"
 msgstr "新增動作"
 
 # calendar/gui/e-calendar-table.c:162
-#: addressbook/gui/component/ldap-config.glade.h:112
+#: addressbook/gui/component/ldap-config.glade.h:111
 #, fuzzy
 msgid "_Always"
 msgstr "提醒"
@@ -1463,27 +1457,27 @@ msgstr "提醒"
 # ui/evolution-mail.xml.h:103
 # ui/evolution-task-editor-dialog.xml.h:69
 # ui/evolution.xml.h:46
-#: addressbook/gui/component/ldap-config.glade.h:113
+#: addressbook/gui/component/ldap-config.glade.h:112
 #, fuzzy
 msgid "_Delete Mapping"
 msgstr "全部刪除(_D)"
 
 # calendar/gui/calendar-summary.c:622
 # mail/mail-config.glade.h:24
-#: addressbook/gui/component/ldap-config.glade.h:114
+#: addressbook/gui/component/ldap-config.glade.h:113
 #, fuzzy
 msgid "_Display name:"
 msgstr "顯示(_D)"
 
-#: addressbook/gui/component/ldap-config.glade.h:115
+#: addressbook/gui/component/ldap-config.glade.h:114
 msgid "_Distinguished Name (DN):"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:116
+#: addressbook/gui/component/ldap-config.glade.h:115
 msgid "_Don't use SSL/TLS"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:117
+#: addressbook/gui/component/ldap-config.glade.h:116
 msgid "_Download limit:"
 msgstr ""
 
@@ -1493,8 +1487,8 @@ msgstr ""
 # ui/evolution-subscribe.xml.h:10
 # ui/evolution-task-editor-dialog.xml.h:70
 # ui/evolution.xml.h:48
-#: addressbook/gui/component/ldap-config.glade.h:118 filter/filter.glade.h:16
-#: mail/mail-config.glade.h:150 ui/evolution-addressbook.xml.h:33
+#: addressbook/gui/component/ldap-config.glade.h:117 filter/filter.glade.h:16
+#: mail/mail-config.glade.h:152 ui/evolution-addressbook.xml.h:33
 #: ui/evolution-calendar.xml.h:28 ui/evolution-mail-list.xml.h:25
 #: ui/evolution-mail-messagedisplay.xml.h:6 ui/evolution-message-composer.h:40
 #: ui/evolution-message-composer.xml.h:41
@@ -1504,7 +1498,7 @@ msgid "_Edit"
 msgstr "編輯 (_E)"
 
 # calendar/gui/dialogs/alarm-notify.glade.h:2
-#: addressbook/gui/component/ldap-config.glade.h:119
+#: addressbook/gui/component/ldap-config.glade.h:118
 #, fuzzy
 msgid "_Edit Mapping"
 msgstr "編輯約會(_E)"
@@ -1512,68 +1506,68 @@ msgstr "編輯約會(_E)"
 # composer/e-msg-composer.c:935
 # data/evolution.desktop.in.h:1
 # shell/e-shell-view-menu.c:228
-#: addressbook/gui/component/ldap-config.glade.h:120
+#: addressbook/gui/component/ldap-config.glade.h:119
 #, fuzzy
 msgid "_Evolution attribute:"
 msgstr "Evolution"
 
-#: addressbook/gui/component/ldap-config.glade.h:121
+#: addressbook/gui/component/ldap-config.glade.h:120
 msgid "_If necessary "
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:122
+#: addressbook/gui/component/ldap-config.glade.h:121
 msgid "_LDAP attribute:"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:123
+#: addressbook/gui/component/ldap-config.glade.h:122
 msgid "_LDAP attributes:"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:124
+#: addressbook/gui/component/ldap-config.glade.h:123
 msgid "_Log in method:"
 msgstr ""
 
 # widgets/meeting-time-sel/e-meeting-time-sel.c:431
-#: addressbook/gui/component/ldap-config.glade.h:125
+#: addressbook/gui/component/ldap-config.glade.h:124
 #, fuzzy
 msgid "_More Options >>"
 msgstr "選項(_O)"
 
 # addressbook/gui/component/addressbook-config.c:409
-#: addressbook/gui/component/ldap-config.glade.h:126
+#: addressbook/gui/component/ldap-config.glade.h:125
 #, fuzzy
 msgid "_Port number:"
 msgstr "通訊埠(_P)："
 
-#: addressbook/gui/component/ldap-config.glade.h:127
+#: addressbook/gui/component/ldap-config.glade.h:126
 msgid "_Restore Defaults"
 msgstr ""
 
 # addressbook/gui/component/addressbook-config.c:430
-#: addressbook/gui/component/ldap-config.glade.h:128
+#: addressbook/gui/component/ldap-config.glade.h:127
 #, fuzzy
 msgid "_Search base:"
 msgstr "尋找起點(_B)："
 
 # calendar/gui/e-itip-control.glade.h:10
-#: addressbook/gui/component/ldap-config.glade.h:129
+#: addressbook/gui/component/ldap-config.glade.h:128
 msgid "_Server name:"
 msgstr "伺服器名稱(_S)："
 
 # calendar/gui/dialogs/alarm-notify.glade.h:4
-#: addressbook/gui/component/ldap-config.glade.h:130
+#: addressbook/gui/component/ldap-config.glade.h:129
 #, fuzzy
 msgid "_Timeout (minutes):"
 msgstr "延遲時間 (分鐘)"
 
 # mail/mail-config.glade.h:3
-#: addressbook/gui/component/ldap-config.glade.h:131
+#: addressbook/gui/component/ldap-config.glade.h:130
 #, fuzzy
 msgid "account-druid"
 msgstr "帳號"
 
 # addressbook/contact-editor/contact-editor.glade.h:7
-#: addressbook/gui/component/ldap-config.glade.h:132
+#: addressbook/gui/component/ldap-config.glade.h:131
 #, fuzzy
 msgid "account-editor"
 msgstr "連絡人清單編輯器"
@@ -1582,43 +1576,43 @@ msgstr "連絡人清單編輯器"
 # calendar/gui/calendar-model.c:1176
 # calendar/gui/dialogs/task-editor-dialog.glade.h:14
 # calendar/gui/e-calendar-table.c:419
-#: addressbook/gui/component/ldap-config.glade.h:133
+#: addressbook/gui/component/ldap-config.glade.h:132
 #, fuzzy
 msgid "cards"
 msgstr "沒有名片"
 
 # mail/mail-ops.c:1939
-#: addressbook/gui/component/ldap-config.glade.h:134
+#: addressbook/gui/component/ldap-config.glade.h:133
 #, fuzzy
 msgid "connecting-tab"
 msgstr "中斷與 %s 的連線"
 
-#: addressbook/gui/component/ldap-config.glade.h:135
+#: addressbook/gui/component/ldap-config.glade.h:134
 msgid "dn-customization-tab"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:136
+#: addressbook/gui/component/ldap-config.glade.h:135
 msgid "edit_server_window_simple"
 msgstr ""
 
 # addressbook/contact-editor/contact-editor.glade.h:10
 # executive-summary/component/executive-summary-config.glade.h:3
-#: addressbook/gui/component/ldap-config.glade.h:137
+#: addressbook/gui/component/ldap-config.glade.h:136
 #, fuzzy
 msgid "general-tab"
 msgstr "一般"
 
-#: addressbook/gui/component/ldap-config.glade.h:138
+#: addressbook/gui/component/ldap-config.glade.h:137
 msgid "mappings-tab"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:139
+#: addressbook/gui/component/ldap-config.glade.h:138
 msgid "objectclasses-tab"
 msgstr ""
 
 # addressbook/gui/search/e-addressbook-search-dialog.c:158
 # mail/mail-search.c:242
-#: addressbook/gui/component/ldap-config.glade.h:140
+#: addressbook/gui/component/ldap-config.glade.h:139
 #, fuzzy
 msgid "searching-tab"
 msgstr "尋找"
@@ -1871,7 +1865,7 @@ msgstr "允許接收 HTML 格式的電子郵件"
 #: calendar/gui/dialogs/meeting-page.c:674
 #: calendar/gui/e-calendar-table.c:1006 calendar/gui/e-day-view.c:3766
 #: calendar/gui/e-week-view.c:3563 filter/filter.glade.h:15
-#: mail/folder-browser.c:1756 mail/mail-config.glade.h:148
+#: mail/folder-browser.c:1756 mail/mail-config.glade.h:150
 #: shell/glade/e-folder-list.glade.h:2 ui/evolution-addressbook.xml.h:32
 #: ui/evolution-calendar.xml.h:27 ui/evolution-mail-message.xml.h:97
 #: ui/evolution-tasks.xml.h:16 ui/evolution.xml.h:48
@@ -3104,17 +3098,17 @@ msgid "E-mail"
 msgstr "電子郵件"
 
 #. This is a filename. Translators take note.
-#: addressbook/gui/contact-editor/e-contact-save-as.c:107
+#: addressbook/gui/contact-editor/e-contact-save-as.c:103
 msgid "card.vcf"
 msgstr ""
 
 # addressbook/contact-editor/fullname.glade.h:8
-#: addressbook/gui/contact-editor/e-contact-save-as.c:183
+#: addressbook/gui/contact-editor/e-contact-save-as.c:179
 #, fuzzy
 msgid "list"
 msgstr "靄"
 
-#: addressbook/gui/contact-editor/e-contact-save-as.c:221
+#: addressbook/gui/contact-editor/e-contact-save-as.c:217
 #, c-format
 msgid ""
 "%s already exists\n"
@@ -3264,20 +3258,20 @@ msgid "_Title:"
 msgstr "頭銜 (_T)："
 
 # composer/e-msg-composer-attachment.glade.h:4
-#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:1
+#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:3
 msgid "List _name:"
 msgstr "列出名稱 (_N)："
 
 # calendar/gui/goto-dialog.glade.h:12
-#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:2
+#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:4
 msgid "Members"
 msgstr "會員"
 
-#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:3
+#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:5
 msgid "Type an email address or drag a contact into the list below:"
 msgstr "輸入電子郵件地址或拖放連絡人到以下清單："
 
-#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:5
+#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:7
 msgid "_Hide addresses when sending mail to this list"
 msgstr "當傳送電子郵件至此清單時隱藏其地址(_H)"
 
@@ -3285,13 +3279,13 @@ msgstr "當傳送電子郵件至此清單時隱藏其地址(_H)"
 # composer/e-msg-composer-attachment-bar.c:468
 # shell/e-shortcuts-view.c:265
 # shell/e-shortcuts-view.c:388
-#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:6
+#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:8
 #: calendar/gui/dialogs/recurrence-page.glade.h:12 filter/filter.glade.h:17
 msgid "_Remove"
 msgstr "移除 (_R)"
 
 # addressbook/contact-editor/contact-editor.glade.h:7
-#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:7
+#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:9
 msgid "contact-list-editor"
 msgstr "連絡人清單編輯器"
 
@@ -4014,7 +4008,7 @@ msgid "Number of columns:"
 msgstr "欄數："
 
 # addressbook/printing/e-contact-print.glade.h:23
-#: addressbook/printing/e-contact-print.glade.h:23 mail/mail-config.glade.h:81
+#: addressbook/printing/e-contact-print.glade.h:23 mail/mail-config.glade.h:83
 msgid "Options"
 msgstr "選項"
 
@@ -4332,11 +4326,11 @@ msgid "_Edit appointment"
 msgstr "編輯約會(_E)"
 
 # calendar/gui/dialogs/alarm-notify-dialog.c:207
-#: calendar/gui/alarm-notify/alarm-queue.c:680
+#: calendar/gui/alarm-notify/alarm-queue.c:681
 msgid "No description available."
 msgstr "沒有描述。"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:741
+#: calendar/gui/alarm-notify/alarm-queue.c:742
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -4345,13 +4339,13 @@ msgid ""
 msgstr ""
 
 # widgets/misc/e-messagebox.c:159
-#: calendar/gui/alarm-notify/alarm-queue.c:759
+#: calendar/gui/alarm-notify/alarm-queue.c:760
 #: calendar/gui/tasks-control.c:454 mail/mail-callbacks.c:2924
 #: widgets/misc/e-messagebox.c:159
 msgid "Warning"
 msgstr "警告"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:764
+#: calendar/gui/alarm-notify/alarm-queue.c:765
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -4365,7 +4359,7 @@ msgstr ""
 # importers/elm-importer.c:528
 # importers/netscape-importer.c:807
 # importers/pine-importer.c:668
-#: calendar/gui/alarm-notify/alarm-queue.c:778
+#: calendar/gui/alarm-notify/alarm-queue.c:779
 #, fuzzy
 msgid "Do not ask me about this program again."
 msgstr "不要再顯示這個訊息。"
@@ -4563,7 +4557,7 @@ msgstr ""
 #: calendar/gui/dialogs/meeting-page.glade.h:1 composer/e-msg-composer.c:1967
 #: mail/folder-browser.c:1718 mail/mail-account-gui.c:1230
 #: mail/mail-account-gui.c:1650 mail/mail-accounts.c:453
-#: mail/mail-accounts.c:468 mail/mail-config.glade.h:77
+#: mail/mail-accounts.c:468 mail/mail-config.glade.h:79
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:204
 #: widgets/misc/e-cell-date-edit.c:250 widgets/misc/e-dateedit.c:452
 #: widgets/misc/e-dateedit.c:1473 widgets/misc/e-dateedit.c:1588
@@ -4615,9 +4609,9 @@ msgstr "月檢視"
 
 # calendar/gui/dialogs/cal-prefs-dialog.glade.h:11
 # ui/evolution-calendar.xml.h:3
-#: calendar/gui/component-factory.c:71 calendar/gui/gnome-cal.c:1371
+#: calendar/gui/component-factory.c:71 calendar/gui/gnome-cal.c:1372
 #: importers/netscape-importer.c:1873 my-evolution/my-evolution.glade.h:3
-#: shell/e-local-storage.c:176 shell/e-shortcuts.c:1059
+#: shell/e-local-storage.c:176 shell/e-shortcuts.c:1055
 msgid "Calendar"
 msgstr "行事曆"
 
@@ -4639,12 +4633,12 @@ msgstr "資料夾包含約會與事件"
 # calendar/gui/calendar-summary.c:275
 # calendar/gui/print.c:948
 # views/tasks/galview.xml.h:1
-#: calendar/gui/component-factory.c:81 calendar/gui/e-tasks.c:722
+#: calendar/gui/component-factory.c:81 calendar/gui/e-tasks.c:738
 #: calendar/gui/print.c:1777 calendar/gui/tasks-control.c:508
 #: calendar/importers/icalendar-importer.c:704
 #: importers/netscape-importer.c:1875 my-evolution/e-summary-tasks.c:327
 #: my-evolution/e-summary-tasks.c:345 shell/e-local-storage.c:182
-#: shell/e-shortcuts.c:1063
+#: shell/e-shortcuts.c:1059
 msgid "Tasks"
 msgstr "工作"
 
@@ -5022,7 +5016,7 @@ msgstr "時"
 
 # calendar/gui/event-editor-dialog.glade.h:42
 # mail/mail-config.glade.h:87
-#: calendar/gui/dialogs/alarm-page.glade.h:16 mail/mail-config.glade.h:180
+#: calendar/gui/dialogs/alarm-page.glade.h:16 mail/mail-config.glade.h:182
 msgid "minute(s)"
 msgstr "分"
 
@@ -5057,7 +5051,7 @@ msgid "60 minutes"
 msgstr "60 分"
 
 # calendar/gui/e-calendar-table.c:162
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:6 mail/mail-config.glade.h:12
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:6 mail/mail-config.glade.h:14
 #, fuzzy
 msgid "Alerts"
 msgstr "提醒"
@@ -5251,7 +5245,7 @@ msgstr "週五(_F)"
 # addressbook/contact-editor/contact-editor.glade.h:10
 # executive-summary/component/executive-summary-config.glade.h:3
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:40
-#: mail/mail-config.glade.h:155
+#: mail/mail-config.glade.h:157
 msgid "_General"
 msgstr "一般(_G)"
 
@@ -5585,22 +5579,22 @@ msgid "Meeting"
 msgstr "會議"
 
 # calendar/gui/e-calendar-table.c:154
-#: calendar/gui/dialogs/event-page.c:656 calendar/gui/dialogs/task-page.c:567
+#: calendar/gui/dialogs/event-page.c:662 calendar/gui/dialogs/task-page.c:567
 #, fuzzy
 msgid "Start date is wrong"
 msgstr "開始日期"
 
-#: calendar/gui/dialogs/event-page.c:666
+#: calendar/gui/dialogs/event-page.c:672
 msgid "End date is wrong"
 msgstr ""
 
 # calendar/gui/event-editor-dialog.glade.h:31
-#: calendar/gui/dialogs/event-page.c:689
+#: calendar/gui/dialogs/event-page.c:695
 #, fuzzy
 msgid "Start time is wrong"
 msgstr "開始時間 (_S)："
 
-#: calendar/gui/dialogs/event-page.c:696
+#: calendar/gui/dialogs/event-page.c:702
 msgid "End time is wrong"
 msgstr ""
 
@@ -6100,7 +6094,7 @@ msgstr ""
 # composer/e-msg-composer-attachment.glade.h:3
 #: calendar/gui/dialogs/task-page.glade.h:5 calendar/gui/e-itip-control.c:1081
 #: calendar/gui/e-itip-control.glade.h:6
-#: composer/e-msg-composer-attachment.glade.h:2 mail/mail-config.glade.h:42
+#: composer/e-msg-composer-attachment.glade.h:2 mail/mail-config.glade.h:44
 msgid "Description:"
 msgstr "描述："
 
@@ -6325,7 +6319,7 @@ msgstr "開始日期"
 # calendar/gui/e-calendar-table.c:159
 #: calendar/gui/e-calendar-table.etspec.h:16
 #: my-evolution/component-factory.c:51 shell/e-shell.c:748
-#: shell/e-shortcuts.c:1051
+#: shell/e-shortcuts.c:1047
 msgid "Summary"
 msgstr "摘要"
 
@@ -7274,32 +7268,32 @@ msgid "Meeting _end time:"
 msgstr "會議結束時間(_E)："
 
 # mail/mail-ops.c:1262
-#: calendar/gui/e-tasks.c:355 calendar/gui/gnome-cal.c:2013
-#: calendar/gui/gnome-cal.c:2024
+#: calendar/gui/e-tasks.c:358 calendar/gui/gnome-cal.c:2036
+#: calendar/gui/gnome-cal.c:2047
 #, fuzzy, c-format
 msgid "Opening tasks at %s"
 msgstr "開啟貯藏 %s"
 
 # calendar/gui/e-tasks.c:298
-#: calendar/gui/e-tasks.c:381 calendar/gui/tasks-control.c:196
+#: calendar/gui/e-tasks.c:387 calendar/gui/tasks-control.c:196
 #, c-format
 msgid "Could not load the tasks in `%s'"
 msgstr "不能載入 `%s' 裡的工作"
 
 # calendar/gui/e-tasks.c:310
-#: calendar/gui/e-tasks.c:393
+#: calendar/gui/e-tasks.c:402
 #, c-format
 msgid "The method required to load `%s' is not supported"
 msgstr "不支援用作載入 `%s'  必須的方法"
 
 # calendar/gui/gnome-cal.c:840
-#: calendar/gui/e-tasks.c:404 calendar/gui/gnome-cal.c:1552
+#: calendar/gui/e-tasks.c:416 calendar/gui/gnome-cal.c:1561
 #, fuzzy, c-format
 msgid "You don't have permission to open the folder in `%s'"
 msgstr "不能開啟 `%s' 內的資料夾"
 
 # shell/e-shell-importer.c:384
-#: calendar/gui/e-tasks.c:469 calendar/gui/gnome-cal.c:1750
+#: calendar/gui/e-tasks.c:484 calendar/gui/gnome-cal.c:1765
 #, fuzzy, c-format
 msgid ""
 "Error on %s:\n"
@@ -7307,19 +7301,19 @@ msgid ""
 msgstr "啟動 %s 時發生錯誤"
 
 # calendar/gui/e-calendar-table.c:152
-#: calendar/gui/e-tasks.c:540
+#: calendar/gui/e-tasks.c:556
 #, fuzzy
 msgid "Completing tasks..."
 msgstr "完成日期"
 
 # calendar/gui/e-calendar-table.c:714
-#: calendar/gui/e-tasks.c:563
+#: calendar/gui/e-tasks.c:579
 #, fuzzy
 msgid "Deleting selected objects..."
 msgstr "刪除選定的連絡人"
 
 # mail/mail-ops.c:1449
-#: calendar/gui/e-tasks.c:656
+#: calendar/gui/e-tasks.c:672
 #, fuzzy
 msgid "Expunging"
 msgstr "刪除資料夾"
@@ -7331,25 +7325,24 @@ msgid "New _Appointment..."
 msgstr "新增約會(_A)..."
 
 # calendar/gui/gnome-cal.c:840
-#: calendar/gui/gnome-cal.c:1530
+#: calendar/gui/gnome-cal.c:1533
 #, c-format
 msgid "Could not open the folder in `%s'"
 msgstr "不能開啟 `%s' 內的資料夾"
 
 # calendar/gui/gnome-cal.c:851
-#: calendar/gui/gnome-cal.c:1541
+#: calendar/gui/gnome-cal.c:1547
 #, c-format
 msgid "The method required to open `%s' is not supported"
 msgstr "不支援用作開啟 `%s'  必須的方法"
 
 # calendar/gui/e-calendar-table.c:162
-#. add the alarms for this client
-#: calendar/gui/gnome-cal.c:1581
+#: calendar/gui/gnome-cal.c:1593
 #, fuzzy, c-format
 msgid "Adding alarms for %s"
 msgstr "提醒"
 
-#: calendar/gui/gnome-cal.c:1767
+#: calendar/gui/gnome-cal.c:1786
 #, c-format
 msgid ""
 "The calendar backend for\n"
@@ -7357,7 +7350,7 @@ msgid ""
 " has crashed. You will have to restart Evolution in order to use it again"
 msgstr ""
 
-#: calendar/gui/gnome-cal.c:1772
+#: calendar/gui/gnome-cal.c:1791
 #, c-format
 msgid ""
 "The task backend for\n"
@@ -7367,14 +7360,14 @@ msgstr ""
 
 # mail/mail-ops.c:1195
 # mail/mail-ops.c:1333
-#: calendar/gui/gnome-cal.c:1996
+#: calendar/gui/gnome-cal.c:2018
 #, fuzzy, c-format
 msgid "Opening calendar at %s"
 msgstr "開啟資料夾 %s"
 
 # mail/mail-ops.c:1195
 # mail/mail-ops.c:1333
-#: calendar/gui/gnome-cal.c:2035
+#: calendar/gui/gnome-cal.c:2058
 #, fuzzy
 msgid "Opening default tasks folder"
 msgstr "開啟資料夾 %s"
@@ -9935,7 +9928,7 @@ msgstr "解密郵件失敗。"
 # camel/camel-filter-driver.c:679
 #: camel/camel-filter-search.c:550
 #, fuzzy, c-format
-msgid "Failed to create create child process '%s': %s"
+msgid "Failed to create child process '%s': %s"
 msgstr "解密郵件失敗。"
 
 # camel/camel-filter-search.c:439
@@ -10226,12 +10219,12 @@ msgstr ""
 msgid "Failed to decrypt MIME part: parse error"
 msgstr ""
 
-#: camel/camel-multipart-signed.c:624
+#: camel/camel-multipart-signed.c:625
 msgid "This is a digitally signed message part"
 msgstr ""
 
 # shell/e-storage.c:467
-#: camel/camel-multipart-signed.c:678
+#: camel/camel-multipart-signed.c:679
 #, fuzzy
 msgid "parse error"
 msgstr "其它錯誤"
@@ -11069,7 +11062,7 @@ msgstr "用作讀取及儲存郵件於 IMAP 伺服器。"
 # mail/mail-config.glade.h:52
 #: camel/providers/imap/camel-imap-provider.c:80
 #: camel/providers/nntp/camel-nntp-store.c:267
-#: camel/providers/pop3/camel-pop3-provider.c:69 mail/mail-config.glade.h:85
+#: camel/providers/pop3/camel-pop3-provider.c:69 mail/mail-config.glade.h:87
 msgid "Password"
 msgstr "密碼"
 
@@ -11922,7 +11915,7 @@ msgstr "刪除 %s 天後的郵件"
 
 # camel/providers/pop3/camel-pop3-provider.c:48
 # mail/mail-config.glade.h:51
-#: camel/providers/pop3/camel-pop3-provider.c:52 mail/mail-config.glade.h:84
+#: camel/providers/pop3/camel-pop3-provider.c:52 mail/mail-config.glade.h:86
 msgid "POP"
 msgstr "POP"
 
@@ -12027,7 +12020,7 @@ msgstr "沒有這個資料夾 `%s'。"
 # camel/providers/sendmail/camel-sendmail-provider.c:37
 # mail/mail-config.glade.h:67
 #: camel/providers/sendmail/camel-sendmail-provider.c:36
-#: mail/mail-config.glade.h:109
+#: mail/mail-config.glade.h:111
 msgid "Sendmail"
 msgstr "Sendmail"
 
@@ -12092,7 +12085,7 @@ msgstr "經由 sendmail 程式傳送郵件"
 
 # camel/providers/smtp/camel-smtp-provider.c:38
 # mail/mail-config.glade.h:62
-#: camel/providers/smtp/camel-smtp-provider.c:37 mail/mail-config.glade.h:101
+#: camel/providers/smtp/camel-smtp-provider.c:37 mail/mail-config.glade.h:103
 msgid "SMTP"
 msgstr "SMTP"
 
@@ -12306,7 +12299,7 @@ msgid "Sending message"
 msgstr "傳送郵件"
 
 # camel/providers/smtp/camel-smtp-transport.c:582
-#: camel/providers/smtp/camel-smtp-transport.c:703
+#: camel/providers/smtp/camel-smtp-transport.c:704
 msgid "Cannot send message: no recipients defined."
 msgstr "無法傳送郵件：沒有提供收件者。"
 
@@ -12836,14 +12829,14 @@ msgstr "主旨包含"
 msgid "Subject does not contain"
 msgstr "主旨不包含"
 
-#: e-util/e-component-listener.c:131
+#: e-util/e-component-listener.c:135
 msgid ""
 "ping_timeout_callback: could not determine if the CORBA object is nil or not"
 msgstr ""
 
 # mail/mail-callbacks.c:1144
 # mail/mail-display.c:96
-#: e-util/e-dialog-utils.c:237 mail/mail-callbacks.c:2563
+#: e-util/e-dialog-utils.c:241 mail/mail-callbacks.c:2563
 msgid ""
 "A file by that name already exists.\n"
 "Overwrite it?"
@@ -12996,7 +12989,7 @@ msgid "%I %p"
 msgstr "%I %p"
 
 #: filter/filter-datespec.c:70 filter/filter.glade.h:24
-#: mail/mail-config.glade.h:181
+#: mail/mail-config.glade.h:183
 msgid "seconds"
 msgstr "秒"
 
@@ -13114,7 +13107,7 @@ msgstr ""
 "%s"
 
 #: filter/filter-label.c:136 filter/libfilter-i18n.h:26 mail/mail-config.c:68
-#: mail/mail-config.glade.h:62
+#: mail/mail-config.glade.h:64
 msgid "Important"
 msgstr "重要"
 
@@ -13123,13 +13116,13 @@ msgstr "重要"
 # mail/mail-mt.c:880
 #. red
 #: filter/filter-label.c:137 mail/mail-config.c:69
-#: mail/mail-config.glade.h:133
+#: mail/mail-config.glade.h:135
 #, fuzzy
 msgid "Work"
 msgstr "正在工作"
 
 #. orange
-#: filter/filter-label.c:138 mail/mail-config.c:70 mail/mail-config.glade.h:86
+#: filter/filter-label.c:138 mail/mail-config.c:70 mail/mail-config.glade.h:88
 msgid "Personal"
 msgstr ""
 
@@ -13137,14 +13130,14 @@ msgstr ""
 # mail/message-list.c:1083
 #. forest green
 #: filter/filter-label.c:139 mail/mail-config.c:71
-#: mail/mail-config.glade.h:124
+#: mail/mail-config.glade.h:126
 #, fuzzy
 msgid "To Do"
 msgstr "多哥"
 
 # calendar/gui/event-editor-dialog.glade.h:33
 #. blue
-#: filter/filter-label.c:140 mail/mail-config.c:72 mail/mail-config.glade.h:66
+#: filter/filter-label.c:140 mail/mail-config.c:72 mail/mail-config.glade.h:68
 #, fuzzy
 msgid "Later"
 msgstr "之後"
@@ -13569,7 +13562,7 @@ msgstr "更改這個資料夾的名稱"
 
 #: filter/vfolder-rule.c:215
 #, fuzzy
-msgid "You need to to specify at least one folder as a source."
+msgid "You need to specify at least one folder as a source."
 msgstr "噢。您需要指定至少一個資料夾做為來源。"
 
 # mail/GNOME_Evolution_Mail.oaf.in.h:1
@@ -13843,7 +13836,7 @@ msgstr "非週期性約會(_N)"
 msgid "Mail Accounts"
 msgstr "帳號"
 
-#: mail/GNOME_Evolution_Mail.oaf.in.h:19 mail/mail-config.glade.h:69
+#: mail/GNOME_Evolution_Mail.oaf.in.h:19 mail/mail-config.glade.h:71
 msgid "Mail Preferences"
 msgstr ""
 
@@ -13972,13 +13965,13 @@ msgstr "不能初始化 Evolution 的 mail 元件。"
 
 # mail/mail-config.c:1213
 # mail/mail-config.c:1216
-#: mail/component-factory.c:1340 mail/component-factory.c:1370
+#: mail/component-factory.c:1344 mail/component-factory.c:1374
 #, fuzzy
 msgid "Connecting..."
 msgstr "正在連線至伺服器..."
 
 # mail/component-factory.c:410
-#: mail/component-factory.c:1381
+#: mail/component-factory.c:1385
 msgid "Cannot register storage with shell"
 msgstr "不能以此 shell 註冊儲存空間"
 
@@ -14224,7 +14217,7 @@ msgid "VFolder on M_ailing List (%s)"
 msgstr "郵件清單的虛擬資料夾 (%s)"
 
 # mail/mail-config.glade.h:21
-#: mail/folder-browser.h:26 mail/mail-config.glade.h:38
+#: mail/folder-browser.h:26 mail/mail-config.glade.h:40
 #, fuzzy
 msgid "Default"
 msgstr "預設值(_F)"
@@ -14308,19 +14301,19 @@ msgstr "Evolution 帳號編輯器"
 
 # addressbook/gui/component/addressbook-config.c:401
 # mail/mail-config.glade.h:33
-#: mail/mail-account-gui.c:743 mail/mail-config.glade.h:157
+#: mail/mail-account-gui.c:743 mail/mail-config.glade.h:159
 msgid "_Host:"
 msgstr "主機(_H)："
 
 # mail/mail-config.glade.h:80
-#: mail/mail-account-gui.c:747 mail/mail-config.glade.h:127
+#: mail/mail-account-gui.c:747 mail/mail-config.glade.h:129
 #, fuzzy
 msgid "User_name:"
 msgstr "使用者名稱(_U)："
 
 # addressbook/gui/component/addressbook-config.c:520
 # mail/mail-config.glade.h:53
-#: mail/mail-account-gui.c:751 mail/mail-config.glade.h:164
+#: mail/mail-account-gui.c:751 mail/mail-config.glade.h:166
 msgid "_Path:"
 msgstr "路徑(_P)："
 
@@ -14368,7 +14361,7 @@ msgstr "預設值(_F)"
 # mail/mail-accounts.c:199
 # mail/mail-config.glade.h:30
 #: mail/mail-accounts.c:538 mail/mail-accounts.etspec.h:2
-#: mail/mail-config.glade.h:53
+#: mail/mail-config.glade.h:55
 msgid "Enabled"
 msgstr "已啟用"
 
@@ -14738,7 +14731,7 @@ msgstr ""
 
 # mail/mail-config-druid.c:445
 #. set window title
-#: mail/mail-config-druid.c:637
+#: mail/mail-config-druid.c:638
 msgid "Evolution Account Assistant"
 msgstr "Evolution 帳號助理"
 
@@ -14759,80 +14752,80 @@ msgid "Connecting to server..."
 msgstr "正在連線至伺服器..."
 
 # mail/mail-config.glade.h:1
-#: mail/mail-config.glade.h:1
+#: mail/mail-config.glade.h:3
 #, fuzzy
 msgid " _Check for supported types "
 msgstr " 檢查可支援的類別(_C)"
 
-#: mail/mail-config.glade.h:2
+#: mail/mail-config.glade.h:4
 #, fuzzy
 msgid "(SSL is not supported in this build of Evolution)"
 msgstr "(此一版本的 evolution 並不支援 SSL)"
 
-#: mail/mail-config.glade.h:3
+#: mail/mail-config.glade.h:5
 msgid "(SSL is not supported in this build of evolution)"
 msgstr "(此一版本的 evolution 並不支援 SSL)"
 
-#: mail/mail-config.glade.h:4
+#: mail/mail-config.glade.h:6
 #, fuzzy
 msgid "A_lways encrypt to myself when sending encrypted mail"
 msgstr "當傳送加密郵件時永遠自我加密"
 
-#: mail/mail-config.glade.h:5
+#: mail/mail-config.glade.h:7
 msgid "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"
 msgstr ""
 
 # mail/mail-config.glade.h:3
-#: mail/mail-config.glade.h:6
+#: mail/mail-config.glade.h:8
 #, fuzzy
 msgid "Account Editor"
 msgstr "帳號"
 
 # mail/mail-config.glade.h:4
-#: mail/mail-config.glade.h:7
+#: mail/mail-config.glade.h:9
 msgid "Account Information"
 msgstr "帳號資訊"
 
 # mail/mail-config.glade.h:5
-#: mail/mail-config.glade.h:8 shell/glade/evolution-startup-wizard.glade.h:1
+#: mail/mail-config.glade.h:10 shell/glade/evolution-startup-wizard.glade.h:1
 msgid "Account Management"
 msgstr "帳號總管"
 
-#: mail/mail-config.glade.h:9
+#: mail/mail-config.glade.h:11
 #, fuzzy
 msgid "Add Sc_ript"
 msgstr "新增條件"
 
 # mail/mail-config.glade.h:74
-#: mail/mail-config.glade.h:10
+#: mail/mail-config.glade.h:12
 #, fuzzy
 msgid "Add new signature..."
 msgstr "儲存簽名檔"
 
-#: mail/mail-config.glade.h:11
+#: mail/mail-config.glade.h:13
 #, fuzzy
 msgid "Al_ways encrypt to myself when sending encrypted mail"
 msgstr "當傳送加密郵件時永遠自我加密"
 
-#: mail/mail-config.glade.h:13
+#: mail/mail-config.glade.h:15
 #, fuzzy
 msgid "Alwa_ys sign outgoing messages when using this account"
 msgstr "當使用這個帳號時永遠在寄送的郵件上加簽"
 
-#: mail/mail-config.glade.h:15
+#: mail/mail-config.glade.h:17
 msgid "Always _blind carbon-copy (Bcc) to:"
 msgstr ""
 
-#: mail/mail-config.glade.h:16
+#: mail/mail-config.glade.h:18
 msgid "Always _carbon-copy (Cc) to:"
 msgstr ""
 
-#: mail/mail-config.glade.h:17
+#: mail/mail-config.glade.h:19
 msgid "Always _trust keys in my keyring when encrypting"
 msgstr ""
 
 # composer/e-msg-composer-attachment-bar.c:501
-#: mail/mail-config.glade.h:18
+#: mail/mail-config.glade.h:20
 #, fuzzy
 msgid "Attach original message"
 msgstr "附加檔案至郵件"
@@ -14840,31 +14833,31 @@ msgstr "附加檔案至郵件"
 # composer/e-msg-composer-attachment.glade.h:1
 # mail/mail-config.glade.h:9
 # mail/message-list.c:1081
-#: mail/mail-config.glade.h:19 mail/message-list.etspec.h:1
+#: mail/mail-config.glade.h:21 mail/message-list.etspec.h:1
 msgid "Attachment"
 msgstr "附件"
 
 # mail/mail-config.glade.h:10
-#: mail/mail-config.glade.h:20
+#: mail/mail-config.glade.h:22
 msgid "Authentication"
 msgstr "驗證"
 
 # mail/mail-config.glade.h:12
-#: mail/mail-config.glade.h:21
+#: mail/mail-config.glade.h:23
 #, fuzzy
 msgid "Automatically _detect links"
 msgstr "自動檢查新郵件每隔(_A)"
 
-#: mail/mail-config.glade.h:22
+#: mail/mail-config.glade.h:24
 msgid "Baltic (ISO-8859-13)"
 msgstr ""
 
-#: mail/mail-config.glade.h:23
+#: mail/mail-config.glade.h:25
 msgid "Baltic (ISO-8859-4)"
 msgstr ""
 
 # mail/mail-config.glade.h:22
-#: mail/mail-config.glade.h:24
+#: mail/mail-config.glade.h:26
 #, fuzzy
 msgid "C_haracter set:"
 msgstr "不明的編碼：%s"
@@ -14876,42 +14869,42 @@ msgstr "不明的編碼：%s"
 # ui/evolution-subscribe.xml.h:2
 # ui/evolution-task-editor-dialog.xml.h:11
 # ui/evolution.xml.h:5
-#: mail/mail-config.glade.h:25
+#: mail/mail-config.glade.h:27
 #, fuzzy
 msgid "C_olors"
 msgstr "關閉 (_L)"
 
-#: mail/mail-config.glade.h:26
+#: mail/mail-config.glade.h:28
 msgid "Check spelling while I _type"
 msgstr ""
 
 # camel/providers/imap/camel-imap-provider.c:43
 # mail/mail-config.glade.h:13
-#: mail/mail-config.glade.h:27
+#: mail/mail-config.glade.h:29
 #, fuzzy
 msgid "Checking for New Mail"
 msgstr "檢查新郵件"
 
-#: mail/mail-config.glade.h:28
+#: mail/mail-config.glade.h:30
 #, fuzzy
 msgid "Color for _misspelled words:"
 msgstr "今天到期的工作色彩"
 
 # composer/e-msg-composer.c:1526
 # composer/e-msg-composer.c:1871
-#: mail/mail-config.glade.h:29
+#: mail/mail-config.glade.h:31
 #, fuzzy
 msgid "Composing Messages"
 msgstr "編輯郵件"
 
 # mail/mail-config.glade.h:40
-#: mail/mail-config.glade.h:30
+#: mail/mail-config.glade.h:32
 #, fuzzy
 msgid "Configuration"
 msgstr "郵件設定"
 
 # mail/mail-config.glade.h:15
-#: mail/mail-config.glade.h:31
+#: mail/mail-config.glade.h:33
 msgid ""
 "Congratulations, your mail configuration is complete.\n"
 "\n"
@@ -14928,87 +14921,87 @@ msgstr ""
 "請按 \"完成\" 來儲存您的設定。"
 
 # mail/mail-config.glade.h:21
-#: mail/mail-config.glade.h:37
+#: mail/mail-config.glade.h:39
 msgid "De_fault"
 msgstr "預設值(_F)"
 
 # mail/mail-config.glade.h:21
-#: mail/mail-config.glade.h:39
+#: mail/mail-config.glade.h:41
 #, fuzzy
 msgid "Default Behavior"
 msgstr "預設值(_F)"
 
 # mail/mail-config.glade.h:22
-#: mail/mail-config.glade.h:40
+#: mail/mail-config.glade.h:42
 #, fuzzy
 msgid "Default character _encoding:"
 msgstr "預設編碼："
 
 # mail/mail-config.glade.h:58
-#: mail/mail-config.glade.h:41
+#: mail/mail-config.glade.h:43
 #, fuzzy
 msgid "Deleting Mail"
 msgstr "接收郵件"
 
-#: mail/mail-config.glade.h:43
+#: mail/mail-config.glade.h:45
 msgid "Digital IDs..."
 msgstr "數位 ID..."
 
 # camel/camel-filter-driver.c:671
-#: mail/mail-config.glade.h:44
+#: mail/mail-config.glade.h:46
 #, fuzzy
 msgid "Do not quote original message"
 msgstr "不能開啟郵件"
 
-#: mail/mail-config.glade.h:45
+#: mail/mail-config.glade.h:47
 msgid "Don't sign _meeting requests (for Outlook compatibility)"
 msgstr ""
 
 # mail/mail-config.glade.h:25
-#: mail/mail-config.glade.h:46 shell/glade/evolution-startup-wizard.glade.h:2
+#: mail/mail-config.glade.h:48 shell/glade/evolution-startup-wizard.glade.h:2
 msgid "Done"
 msgstr "完成"
 
 # mail/mail-config.glade.h:27
-#: mail/mail-config.glade.h:47
+#: mail/mail-config.glade.h:49
 #, fuzzy
 msgid "Drafts _folder:"
 msgstr "草稿匣："
 
 # mail/mail-accounts.c:199
 # mail/mail-config.glade.h:30
-#: mail/mail-config.glade.h:48
+#: mail/mail-config.glade.h:50
 msgid "E_nable"
 msgstr "啟用(_E)"
 
-#: mail/mail-config.glade.h:49
+#: mail/mail-config.glade.h:51
 #, fuzzy
 msgid "Emacs"
 msgstr "東"
 
 # addressbook/gui/component/addressbook.c:620
-#: mail/mail-config.glade.h:50
+#: mail/mail-config.glade.h:52
 #, fuzzy
 msgid "Email Accounts"
 msgstr "電郵地址包含"
 
 # mail/mail-config.glade.h:29
-#: mail/mail-config.glade.h:51
+#: mail/mail-config.glade.h:53
 #, fuzzy
 msgid "Email _address:"
 msgstr "電子郵件地址："
 
-#: mail/mail-config.glade.h:52
+#: mail/mail-config.glade.h:54
 #, fuzzy
 msgid "Empty _trash folders on exit"
 msgstr "離開時清空垃圾桶資料夾(_E)"
 
-#: mail/mail-config.glade.h:54
+#: mail/mail-config.glade.h:56
 #, fuzzy
 msgid "Execute Command..."
 msgstr "執行動作"
 
-#: mail/mail-config.glade.h:55
+#: mail/mail-config.glade.h:57
 #, fuzzy
 msgid "Fi_xed -width:"
 msgstr "以此終結"
@@ -15016,313 +15009,313 @@ msgstr "以此終結"
 # mail/folder-browser-factory.c:198
 # ui/evolution-event-editor.xml.h:39
 # ui/evolution-task-editor-dialog.xml.h:42
-#: mail/mail-config.glade.h:56
+#: mail/mail-config.glade.h:58
 #, fuzzy
 msgid "Font Properties"
 msgstr "內容"
 
 # mail/mail-ops.c:1154
-#: mail/mail-config.glade.h:57
+#: mail/mail-config.glade.h:59
 #, fuzzy
 msgid "Format messages in _HTML"
 msgstr "已轉寄的郵件"
 
-#: mail/mail-config.glade.h:58
+#: mail/mail-config.glade.h:60
 msgid "Get Digital ID..."
 msgstr "取得數位 ID..."
 
-#: mail/mail-config.glade.h:59
+#: mail/mail-config.glade.h:61
 #, fuzzy
 msgid "Highlight _quotations with"
 msgstr "強調引文(_H)"
 
 # mail/mail-config.glade.h:34
-#: mail/mail-config.glade.h:60
+#: mail/mail-config.glade.h:62
 msgid "IMAPv4 "
 msgstr "IMAPv4 "
 
 # mail/mail-config.glade.h:35
-#: mail/mail-config.glade.h:61 shell/glade/evolution-startup-wizard.glade.h:4
+#: mail/mail-config.glade.h:63 shell/glade/evolution-startup-wizard.glade.h:4
 msgid "Identity"
 msgstr "身份"
 
 # mail/mail-config.glade.h:37
-#: mail/mail-config.glade.h:63
+#: mail/mail-config.glade.h:65
 msgid "Inline"
 msgstr "正常"
 
 # mail/mail-config.glade.h:38
-#: mail/mail-config.glade.h:64
+#: mail/mail-config.glade.h:66
 msgid "Kerberos "
 msgstr "Kerberos "
 
 # ui/evolution-contact-editor.xml.h:9
 # ui/evolution-event-editor.xml.h:42
 # ui/evolution-task-editor-dialog.xml.h:52
-#: mail/mail-config.glade.h:65
+#: mail/mail-config.glade.h:67
 #, fuzzy
 msgid "Labels and Colors"
 msgstr "儲存後關閉"
 
 # ui/evolution-mail.xml.h:46
-#: mail/mail-config.glade.h:67
+#: mail/mail-config.glade.h:69
 #, fuzzy
 msgid "Loading Images"
 msgstr "載入圖片(_I)"
 
 # mail/mail-config.glade.h:40
-#: mail/mail-config.glade.h:68
+#: mail/mail-config.glade.h:70
 msgid "Mail Configuration"
 msgstr "郵件設定"
 
 # mail/local-config.glade.h:2
-#: mail/mail-config.glade.h:70
+#: mail/mail-config.glade.h:72
 msgid "Mailbox location"
 msgstr "信箱位置"
 
 # views/mail/galview.xml.h:4
-#: mail/mail-config.glade.h:71
+#: mail/mail-config.glade.h:73
 #, fuzzy
 msgid "Message Composer"
 msgstr "郵件"
 
 # views/mail/galview.xml.h:4
-#: mail/mail-config.glade.h:72
+#: mail/mail-config.glade.h:74
 #, fuzzy
 msgid "Message Display"
 msgstr "檢視郵件(_M)"
 
-#: mail/mail-config.glade.h:73
+#: mail/mail-config.glade.h:75
 #, fuzzy
 msgid "Microsoft"
 msgstr "密克羅尼西亞"
 
 # mail/mail-config.glade.h:40
-#: mail/mail-config.glade.h:76
+#: mail/mail-config.glade.h:78
 #, fuzzy
 msgid "New Mail Notification"
 msgstr "郵件設定"
 
-#: mail/mail-config.glade.h:78
+#: mail/mail-config.glade.h:80
 msgid ""
 "Note: you will not be prompted for a password until you connect for the "
 "first time"
 msgstr ""
 
-#: mail/mail-config.glade.h:79
+#: mail/mail-config.glade.h:81
 msgid "On Screen fonts"
 msgstr ""
 
 # mail/mail-config.glade.h:47
-#: mail/mail-config.glade.h:80
+#: mail/mail-config.glade.h:82
 msgid "Optional Information"
 msgstr "選用的資訊"
 
 # addressbook/gui/widgets/e-addressbook-view.c:708
-#: mail/mail-config.glade.h:82
+#: mail/mail-config.glade.h:84
 #, fuzzy
 msgid "Or_ganization:"
 msgstr "團體(_Z)："
 
-#: mail/mail-config.glade.h:83
+#: mail/mail-config.glade.h:85
 #, fuzzy
 msgid "PGP/GPG _Key ID:"
 msgstr "PGP 鑰匙 ID："
 
 # calendar/gui/dialogs/cal-prefs-dialog.glade.h:33
 # mail/mail-config.glade.h:54
-#: mail/mail-config.glade.h:87
+#: mail/mail-config.glade.h:89
 msgid "Pick a color"
 msgstr "選取顏色"
 
 # ui/evolution-mail.xml.h:14
-#: mail/mail-config.glade.h:88
+#: mail/mail-config.glade.h:90
 #, fuzzy
 msgid "Pr_ompt when sending messages with only Bcc recipients defined"
 msgstr "當傳送的郵件只有指定密件副本收件者時顯示提示(_B)"
 
-#: mail/mail-config.glade.h:89
+#: mail/mail-config.glade.h:91
 #, fuzzy
 msgid "Pretty Good Privacy (PGP/GPG)"
 msgstr "相當高的隱私"
 
 # ui/evolution-addressbook.xml.h:11
-#: mail/mail-config.glade.h:90
+#: mail/mail-config.glade.h:92
 #, fuzzy
 msgid "Printed Fonts"
 msgstr "列印選定的連絡人"
 
 # mail/mail-config.glade.h:55
-#: mail/mail-config.glade.h:91
+#: mail/mail-config.glade.h:93
 msgid "Qmail maildir "
 msgstr "Qmail maildir "
 
 # camel/camel-filter-driver.c:671
-#: mail/mail-config.glade.h:92
+#: mail/mail-config.glade.h:94
 #, fuzzy
 msgid "Quote original message"
 msgstr "不能開啟郵件"
 
 # mail/mail-config.glade.h:56
-#: mail/mail-config.glade.h:93
+#: mail/mail-config.glade.h:95
 msgid "Quoted"
 msgstr "引用"
 
 # addressbook/gui/component/addressbook-config.c:352
 # mail/mail-config.glade.h:60
-#: mail/mail-config.glade.h:94
+#: mail/mail-config.glade.h:96
 #, fuzzy
 msgid "Re_member this password"
 msgstr "記下這個密碼"
 
 # composer/e-msg-composer-hdrs.c:361
-#: mail/mail-config.glade.h:95
+#: mail/mail-config.glade.h:97
 #, fuzzy
 msgid "Re_ply-To:"
 msgstr "回覆地址："
 
 # mail/mail-config.glade.h:57
-#: mail/mail-config.glade.h:96 shell/glade/evolution-startup-wizard.glade.h:6
+#: mail/mail-config.glade.h:98 shell/glade/evolution-startup-wizard.glade.h:6
 msgid "Receiving Email"
 msgstr "接收郵件"
 
 # mail/mail-config.glade.h:59
-#: mail/mail-config.glade.h:97
+#: mail/mail-config.glade.h:99
 #, fuzzy
 msgid "Receiving _Options"
 msgstr "接收郵件選項"
 
 # addressbook/gui/component/addressbook-config.c:352
 # mail/mail-config.glade.h:60
-#: mail/mail-config.glade.h:98
+#: mail/mail-config.glade.h:100
 #, fuzzy
 msgid "Remember this _password"
 msgstr "記下這個密碼"
 
 # mail/mail-config.glade.h:61
-#: mail/mail-config.glade.h:99
+#: mail/mail-config.glade.h:101
 msgid "Required Information"
 msgstr "所須資訊"
 
 # mail/mail-config.glade.h:21
-#: mail/mail-config.glade.h:100
+#: mail/mail-config.glade.h:102
 #, fuzzy
 msgid "Restore Defaults"
 msgstr "預設值(_F)"
 
 # ui/evolution-message-composer.xml.h:54
-#: mail/mail-config.glade.h:102
+#: mail/mail-config.glade.h:104
 #, fuzzy
 msgid "S_ecurity"
 msgstr "安全性"
 
-#: mail/mail-config.glade.h:103
+#: mail/mail-config.glade.h:105
 #, fuzzy
 msgid "Secure MIME (S/MIME)"
 msgstr "安全的 MIME"
 
-#: mail/mail-config.glade.h:104
+#: mail/mail-config.glade.h:106
 msgid "Select HTML fixed width font"
 msgstr ""
 
-#: mail/mail-config.glade.h:105
+#: mail/mail-config.glade.h:107
 msgid "Select HTML fixed width font for printing"
 msgstr ""
 
-#: mail/mail-config.glade.h:106
+#: mail/mail-config.glade.h:108
 msgid "Select HTML variable width font"
 msgstr ""
 
-#: mail/mail-config.glade.h:107
+#: mail/mail-config.glade.h:109
 msgid "Select HTML variable width font for printing"
 msgstr ""
 
 # mail/mail-config.glade.h:65
-#: mail/mail-config.glade.h:108 shell/glade/evolution-startup-wizard.glade.h:7
+#: mail/mail-config.glade.h:110 shell/glade/evolution-startup-wizard.glade.h:7
 msgid "Sending Email"
 msgstr "傳送郵件"
 
 # mail/mail-config.glade.h:70
-#: mail/mail-config.glade.h:110
+#: mail/mail-config.glade.h:112
 #, fuzzy
 msgid "Sent _messages folder:"
 msgstr "傳送郵件資料夾："
 
 # mail/mail-config.glade.h:69
-#: mail/mail-config.glade.h:111
+#: mail/mail-config.glade.h:113
 msgid "Sent and Draft Messages"
 msgstr "傳送與草稿郵件"
 
 # mail/mail-config.glade.h:73
-#: mail/mail-config.glade.h:112
+#: mail/mail-config.glade.h:114
 #, fuzzy
 msgid "Ser_ver requires authentication"
 msgstr "伺服器要求驗證(_A)"
 
 # mail/mail-config.glade.h:71
-#: mail/mail-config.glade.h:113
+#: mail/mail-config.glade.h:115
 msgid "Server Configuration"
 msgstr "伺服器設定"
 
 # mail/mail-config.glade.h:72
-#: mail/mail-config.glade.h:114
+#: mail/mail-config.glade.h:116
 #, fuzzy
 msgid "Server _Type: "
 msgstr "伺服器類別："
 
 # ui/evolution.xml.h:62
-#: mail/mail-config.glade.h:115
+#: mail/mail-config.glade.h:117
 #, fuzzy
 msgid "Shortcuts _type:"
 msgstr "功能"
 
 # addressbook/printing/e-contact-print.glade.h:38
-#: mail/mail-config.glade.h:116
+#: mail/mail-config.glade.h:118
 #, fuzzy
 msgid "Specify _filename:"
 msgstr "樣式名稱："
 
-#: mail/mail-config.glade.h:117
+#: mail/mail-config.glade.h:119
 msgid "Spell Checking Language"
 msgstr ""
 
-#: mail/mail-config.glade.h:118
+#: mail/mail-config.glade.h:120
 msgid "Spell _Checking"
 msgstr ""
 
 # mail/mail-config.glade.h:77
-#: mail/mail-config.glade.h:119
+#: mail/mail-config.glade.h:121
 msgid "Standard Unix mbox"
 msgstr "標準 Unix mbox"
 
-#: mail/mail-config.glade.h:120
+#: mail/mail-config.glade.h:122
 msgid ""
 "The output of this script will be used as your\n"
 "signature. The name you specify will be used\n"
 "for display purposes only. "
 msgstr ""
 
-#: mail/mail-config.glade.h:123
+#: mail/mail-config.glade.h:125
 msgid ""
 "This page allows you to configure spell checking behavior and language. The "
 "list of languages here reflects only the languages for which you have a "
 "dictionary installed."
 msgstr ""
 
-#: mail/mail-config.glade.h:125
+#: mail/mail-config.glade.h:127
 msgid ""
 "Type the name by which you would like to refer to this account.\n"
 "For example: \"Work\" or \"Personal\""
 msgstr ""
 
 # mail/mail-accounts.c:197
-#: mail/mail-config.glade.h:128
+#: mail/mail-config.glade.h:130
 #, fuzzy
 msgid "V_ariable-width:"
 msgstr "變數"
 
 # mail/mail-config.glade.h:81
-#: mail/mail-config.glade.h:129
+#: mail/mail-config.glade.h:131
 msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
@@ -15332,219 +15325,219 @@ msgstr ""
 "\n"
 "按 \"下一步\" 開始。"
 
-#: mail/mail-config.glade.h:134
+#: mail/mail-config.glade.h:136
 #, fuzzy
 msgid "XEmacs"
 msgstr "東"
 
 # mail/mail-config.glade.h:74
-#: mail/mail-config.glade.h:136
+#: mail/mail-config.glade.h:138
 #, fuzzy
 msgid "_Add Signature"
 msgstr "_HTML 簽名檔："
 
-#: mail/mail-config.glade.h:137
+#: mail/mail-config.glade.h:139
 msgid "_Always load images off the net"
 msgstr "永遠自網路下載圖片(_A)"
 
-#: mail/mail-config.glade.h:138
+#: mail/mail-config.glade.h:140
 #, fuzzy
 msgid "_Always sign outgoing messages when using this account"
 msgstr "當使用這個帳號時永遠在寄送的郵件上加簽"
 
 # mail/mail-config.glade.h:11
-#: mail/mail-config.glade.h:139
+#: mail/mail-config.glade.h:141
 #, fuzzy
 msgid "_Authentication Type: "
 msgstr "驗證類別："
 
 # mail/mail-config.glade.h:11
-#: mail/mail-config.glade.h:140
+#: mail/mail-config.glade.h:142
 #, fuzzy
 msgid "_Authentication type: "
 msgstr "驗證類別："
 
 # mail/mail-config.glade.h:12
-#: mail/mail-config.glade.h:141
+#: mail/mail-config.glade.h:143
 #, fuzzy
 msgid "_Automatically check for new mail"
 msgstr "自動檢查新郵件每隔(_A)"
 
 # mail/mail-config.glade.h:12
-#: mail/mail-config.glade.h:142
+#: mail/mail-config.glade.h:144
 #, fuzzy
 msgid "_Automatically insert smiley images"
 msgstr "自動檢查新郵件每隔(_A)"
 
-#: mail/mail-config.glade.h:143
+#: mail/mail-config.glade.h:145
 msgid "_Beep when new mail arrives"
 msgstr ""
 
-#: mail/mail-config.glade.h:144
+#: mail/mail-config.glade.h:146
 #, fuzzy
 msgid "_Certificate ID:"
 msgstr "證書 ID："
 
 # mail/mail-ops.c:1449
-#: mail/mail-config.glade.h:145
+#: mail/mail-config.glade.h:147
 #, fuzzy
 msgid "_Confirm when expunging a folder"
 msgstr "刪除資料夾"
 
 # calendar/gui/e-day-view.c:3179
-#: mail/mail-config.glade.h:146
+#: mail/mail-config.glade.h:148
 #, fuzzy
 msgid "_Default signature:"
 msgstr "刪除簽名檔以外的全部事件"
 
 # mail/mail-config.glade.h:21
-#: mail/mail-config.glade.h:147
+#: mail/mail-config.glade.h:149
 #, fuzzy
 msgid "_Defaults"
 msgstr "預設值(_F)"
 
-#: mail/mail-config.glade.h:149
+#: mail/mail-config.glade.h:151
 msgid "_Do not notify me when new mail arrives"
 msgstr ""
 
 # mail/mail-accounts.c:199
 # mail/mail-config.glade.h:30
-#: mail/mail-config.glade.h:151
+#: mail/mail-config.glade.h:153
 #, fuzzy
 msgid "_Enable"
 msgstr "啟用"
 
-#: mail/mail-config.glade.h:152
+#: mail/mail-config.glade.h:154
 msgid "_Fixed-width:"
 msgstr ""
 
 # ui/evolution-mail.xml.h:34
-#: mail/mail-config.glade.h:153
+#: mail/mail-config.glade.h:155
 #, fuzzy
 msgid "_Forward style:"
 msgstr "轉寄方式"
 
 # mail/mail-config.glade.h:31
-#: mail/mail-config.glade.h:154
+#: mail/mail-config.glade.h:156
 #, fuzzy
 msgid "_Full name:"
 msgstr "全名(_F)："
 
 # mail/mail-config.glade.h:36
-#: mail/mail-config.glade.h:156
+#: mail/mail-config.glade.h:158
 #, fuzzy
 msgid "_HTML Mail"
 msgstr "HTML 格式郵件"
 
 # mail/mail-config.glade.h:35
-#: mail/mail-config.glade.h:158
+#: mail/mail-config.glade.h:160
 #, fuzzy
 msgid "_Identity"
 msgstr "身份"
 
-#: mail/mail-config.glade.h:159
+#: mail/mail-config.glade.h:161
 msgid "_Load images if sender is in addressbook"
 msgstr "如果寄件者在目錄服務中就載入圖片(_L)"
 
 # mail/mail-config.glade.h:41
-#: mail/mail-config.glade.h:160
+#: mail/mail-config.glade.h:162
 #, fuzzy
 msgid "_Make this my default account"
 msgstr "設為預設帳號(_D)"
 
 # ui/evolution-mail.xml.h:51
-#: mail/mail-config.glade.h:161
+#: mail/mail-config.glade.h:163
 #, fuzzy
 msgid "_Mark messages as read after"
 msgstr "標示郵件為已閱讀(_M)"
 
 # addressbook/gui/component/addressbook-config.c:686
 # mail/mail-config.glade.h:43
-#: mail/mail-config.glade.h:162
+#: mail/mail-config.glade.h:164
 msgid "_Name:"
 msgstr "名稱(_N)："
 
-#: mail/mail-config.glade.h:163
+#: mail/mail-config.glade.h:165
 msgid "_Never load images off the net"
 msgstr "永遠不自網路下載圖片(_N)"
 
-#: mail/mail-config.glade.h:165
+#: mail/mail-config.glade.h:167
 msgid "_Play sound file when new mail arrives"
 msgstr ""
 
 # ui/evolution-mail.xml.h:14
-#: mail/mail-config.glade.h:166
+#: mail/mail-config.glade.h:168
 #, fuzzy
 msgid "_Prompt when sending HTML messages to contacts that don't want them"
 msgstr "當傳送沒有主旨的郵件時顯示提示(_E)"
 
 # ui/evolution-mail.xml.h:14
-#: mail/mail-config.glade.h:167
+#: mail/mail-config.glade.h:169
 #, fuzzy
 msgid "_Prompt when sending messages with an empty subject line"
 msgstr "當傳送沒有主旨的郵件時顯示提示(_E)"
 
 # mail/mail-config.glade.h:58
-#: mail/mail-config.glade.h:168
+#: mail/mail-config.glade.h:170
 #, fuzzy
 msgid "_Receiving Mail"
 msgstr "接收郵件"
 
 # mail/message-browser.c:191
 # ui/evolution-mail.xml.h:71
-#: mail/mail-config.glade.h:169
+#: mail/mail-config.glade.h:171
 #, fuzzy
 msgid "_Reply style:"
 msgstr "全部回覆"
 
-#: mail/mail-config.glade.h:170
+#: mail/mail-config.glade.h:172
 msgid "_Restore defaults"
 msgstr ""
 
 # ui/evolution-message-composer.xml.h:54
-#: mail/mail-config.glade.h:171
+#: mail/mail-config.glade.h:173
 #, fuzzy
 msgid "_Script:"
 msgstr "安全(_S)"
 
 # mail/mail-config.glade.h:66
-#: mail/mail-config.glade.h:172
+#: mail/mail-config.glade.h:174
 #, fuzzy
 msgid "_Sending Mail"
 msgstr "傳送郵件"
 
 # calendar/gui/dialogs/cal-prefs-dialog.glade.h:39
-#: mail/mail-config.glade.h:173
+#: mail/mail-config.glade.h:175
 #, fuzzy
 msgid "_Show animated images"
 msgstr "顯示時間為"
 
 # mail/mail-config.glade.h:74
-#: mail/mail-config.glade.h:174
+#: mail/mail-config.glade.h:176
 #, fuzzy
 msgid "_Signatures"
 msgstr "簽名檔(_S)："
 
 # mail/mail-config.glade.h:79
-#: mail/mail-config.glade.h:175
+#: mail/mail-config.glade.h:177
 #, fuzzy
 msgid "_Use secure connection (SSL):"
 msgstr "使用安全連結 (_SSL)"
 
 # mail/mail-accounts.c:197
-#: mail/mail-config.glade.h:176
+#: mail/mail-config.glade.h:178
 #, fuzzy
 msgid "_Variable-width:"
 msgstr "變數"
 
 # calendar/gui/event-editor-dialog.glade.h:10
-#: mail/mail-config.glade.h:177
+#: mail/mail-config.glade.h:179
 #, fuzzy
 msgid "_every"
 msgstr "每"
 
 # mail/mail-config.glade.h:2
-#: mail/mail-config.glade.h:178
+#: mail/mail-config.glade.h:180
 #, fuzzy
 msgid "color"
 msgstr " 色彩"
@@ -15552,7 +15545,7 @@ msgstr " 色彩"
 # addressbook/gui/component/addressbook-config.c:689
 # calendar/gui/e-itip-control.glade.h:6
 # composer/e-msg-composer-attachment.glade.h:3
-#: mail/mail-config.glade.h:179
+#: mail/mail-config.glade.h:181
 msgid "description"
 msgstr "描述"
 
@@ -16556,15 +16549,9 @@ msgid "Please select a server."
 msgstr "請選擇一個伺服器。"
 
 # shell/e-shell-importer.c:601
-#: mail/subscribe-dialog.glade.h:1
+#: mail/subscribe-dialog.glade.h:3
 msgid "All folders"
 msgstr "全部資料夾"
-
-# calendar/gui/goto-dialog.glade.h:1
-#: mail/subscribe-dialog.glade.h:2
-#, fuzzy
-msgid "Apri file"
-msgstr "4月"
 
 # calendar/gui/dialogs/alarm-notify.glade.h:1
 # ui/evolution-contact-editor.xml.h:1
@@ -16573,7 +16560,7 @@ msgstr "4月"
 # ui/evolution-subscribe.xml.h:2
 # ui/evolution-task-editor-dialog.xml.h:11
 # ui/evolution.xml.h:5
-#: mail/subscribe-dialog.glade.h:3 ui/evolution-comp-editor.xml.h:2
+#: mail/subscribe-dialog.glade.h:4 ui/evolution-comp-editor.xml.h:2
 #: ui/evolution-contact-editor.xml.h:1
 #: ui/evolution-contact-list-editor.xml.h:1
 #: ui/evolution-mail-messagedisplay.xml.h:1 ui/evolution-message-composer.h:15
@@ -16583,45 +16570,44 @@ msgid "Close"
 msgstr "關閉"
 
 # calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
-#: mail/subscribe-dialog.glade.h:4
+#: mail/subscribe-dialog.glade.h:5
 #, fuzzy
 msgid "Display Options"
 msgstr "顯示選項"
 
-#: mail/subscribe-dialog.glade.h:5
+#: mail/subscribe-dialog.glade.h:6
 msgid "Folders whose names begin with:"
 msgstr "資料夾名稱開頭為："
 
 # mail/subscribe-dialog.c:873
-#: mail/subscribe-dialog.glade.h:6
+#: mail/subscribe-dialog.glade.h:7
 msgid "Manage Subscriptions"
 msgstr "管理訂閱"
 
 # ui/evolution-subscribe.xml.h:4
-#: mail/subscribe-dialog.glade.h:7 ui/evolution-subscribe.xml.h:3
+#: mail/subscribe-dialog.glade.h:8 ui/evolution-subscribe.xml.h:3
 msgid "Refresh List"
 msgstr "重整清單"
 
+# mail/mail-local.c:812
+#: mail/subscribe-dialog.glade.h:9
+#, fuzzy
+msgid "Refresh folder listing"
+msgstr "重新載入資料夾"
+
 # mail/mail-account-gui.c:682
-#: mail/subscribe-dialog.glade.h:8
+#: mail/subscribe-dialog.glade.h:10
 #, fuzzy
 msgid "S_elect server: "
 msgstr "選擇資料夾"
 
-# shell/e-shell-importer.c:545
-# shell/importer/import.glade.h:5
-#: mail/subscribe-dialog.glade.h:9
-#, fuzzy
-msgid "Salve file"
-msgstr "選擇一個檔案"
-
 # ui/evolution-subscribe.xml.h:8
-#: mail/subscribe-dialog.glade.h:10
+#: mail/subscribe-dialog.glade.h:11
 msgid "_Subscribe"
 msgstr "訂閱(_S)"
 
 # ui/evolution-subscribe.xml.h:9
-#: mail/subscribe-dialog.glade.h:11
+#: mail/subscribe-dialog.glade.h:12
 msgid "_Unsubscribe"
 msgstr "取消訂閱(_U)"
 
@@ -30048,7 +30034,7 @@ msgstr "草稿"
 
 # mail/local-config.glade.h:8
 #: shell/e-local-storage.c:179 shell/e-shell-view.c:400
-#: shell/e-shortcuts.c:1055
+#: shell/e-shortcuts.c:1051
 msgid "Inbox"
 msgstr "Inbox"
 
@@ -30575,32 +30561,32 @@ msgstr "Evolution"
 
 # mail/mail-ops.c:1195
 # mail/mail-ops.c:1333
-#: shell/e-shell-shared-folder-picker-dialog.c:357
+#: shell/e-shell-shared-folder-picker-dialog.c:362
 #, fuzzy
 msgid "Opening Folder"
 msgstr "開啟資料夾 %s"
 
 # mail/mail-ops.c:1195
 # mail/mail-ops.c:1333
-#: shell/e-shell-shared-folder-picker-dialog.c:364
+#: shell/e-shell-shared-folder-picker-dialog.c:369
 #, fuzzy, c-format
 msgid "Opening Folder \"%s\""
 msgstr "開啟資料夾 %s"
 
 # mail/mail-display.c:299
-#: shell/e-shell-shared-folder-picker-dialog.c:369
+#: shell/e-shell-shared-folder-picker-dialog.c:374
 #, fuzzy, c-format
 msgid "in \"%s\" ..."
 msgstr "在 %s 內開啟..."
 
 # camel/providers/local/camel-mbox-summary.c:655
-#: shell/e-shell-shared-folder-picker-dialog.c:455
+#: shell/e-shell-shared-folder-picker-dialog.c:460
 #, fuzzy, c-format
 msgid "Could not open shared folder: %s."
 msgstr "無法將資料夾：%s 重新命名"
 
 # shell/e-shell-folder-creation-dialog.c:99
-#: shell/e-shell-shared-folder-picker-dialog.c:513
+#: shell/e-shell-shared-folder-picker-dialog.c:518
 #, fuzzy
 msgid "Cannot find the specified shared folder."
 msgstr ""
@@ -30940,12 +30926,12 @@ msgid "Remove this shortcut from the shortcut bar"
 msgstr "將功能項目從功能列移除"
 
 # shell/e-shortcuts.c:381
-#: shell/e-shortcuts.c:641
+#: shell/e-shortcuts.c:637
 msgid "Error saving shortcuts."
 msgstr "儲存功能項目時發生錯誤。"
 
 # ui/evolution.xml.h:62
-#: shell/e-shortcuts.c:1080
+#: shell/e-shortcuts.c:1076
 msgid "Shortcuts"
 msgstr "功能"
 
@@ -31444,6 +31430,36 @@ msgstr ""
 #, fuzzy
 msgid "No filename provided."
 msgstr "沒有指定資料夾名稱。"
+
+# composer/e-msg-composer-attachment-bar.c:500
+#: tools/evolution-launch-composer.c:322
+#, fuzzy
+msgid "An attachment to add."
+msgstr "新增附件..."
+
+#: tools/evolution-launch-composer.c:323
+msgid "Content type of the attachment."
+msgstr ""
+
+#: tools/evolution-launch-composer.c:324
+msgid "The filename to display in the mail."
+msgstr ""
+
+# calendar/gui/gnome-cal.c:235
+#: tools/evolution-launch-composer.c:325
+#, fuzzy
+msgid "Description of the attachment."
+msgstr "描述包含"
+
+#: tools/evolution-launch-composer.c:326
+msgid "Mark attachment to be shown inline by default."
+msgstr ""
+
+# mail/message-browser.c:199
+#: tools/evolution-launch-composer.c:327
+#, fuzzy
+msgid "Default subject for the message."
+msgstr "剪下選定的郵件"
 
 # calendar/gui/dialogs/task-editor-dialog.glade.h:24
 # calendar/gui/event-editor-dialog.glade.h:29
@@ -33851,6 +33867,17 @@ msgstr "init_corba()：不能初始化 GNOME"
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo()：不能初始化 Bonobo"
 
+# calendar/gui/goto-dialog.glade.h:1
+#, fuzzy
+#~ msgid "Apri file"
+#~ msgstr "4月"
+
+# shell/e-shell-importer.c:545
+# shell/importer/import.glade.h:5
+#, fuzzy
+#~ msgid "Salve file"
+#~ msgstr "選擇一個檔案"
+
 #, fuzzy
 #~ msgid "Configuration control for the Evolution Summary."
 #~ msgstr "資料夾包含 Evolution 摘要"
@@ -33967,10 +33994,6 @@ msgstr "init_bonobo()：不能初始化 Bonobo"
 # ui/evolution-mail.xml.h:42
 #~ msgid "Copy selected messages"
 #~ msgstr "複製選定郵件(_E)"
-
-# mail/message-browser.c:199
-#~ msgid "Cut selected messages"
-#~ msgstr "剪下選定的郵件"
 
 # addressbook/gui/component/select-names/e-select-names-popup.c:161
 # composer/e-msg-composer-attachment-bar.c:468

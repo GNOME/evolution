@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.0\n"
-"POT-Creation-Date: 2003-01-23 00:57+0100\n"
+"POT-Creation-Date: 2003-02-04 12:25-0500\n"
 "PO-Revision-Date: 2003-01-23 01:01+0100\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian <no@li.org>\n"
@@ -469,11 +469,11 @@ msgid "Factory for the sample Addressbook control"
 msgstr "Factory for eksempelkontroll for adressebok"
 
 #: addressbook/gui/component/addressbook-component.c:73
-#: addressbook/gui/component/addressbook-component.c:611
+#: addressbook/gui/component/addressbook-component.c:630
 #: calendar/gui/dialogs/comp-editor-util.c:310
 #: calendar/gui/dialogs/comp-editor-util.c:366
 #: importers/netscape-importer.c:1874 shell/e-local-storage.c:177
-#: shell/e-shortcuts.c:1067
+#: shell/e-shortcuts.c:1063
 msgid "Contacts"
 msgstr "Kontakter"
 
@@ -497,28 +497,28 @@ msgstr "Offentlige kontakter"
 msgid "Public folder containing contact information"
 msgstr "Offentlig mappe som inneholder kontaktinformasjon"
 
-#: addressbook/gui/component/addressbook-component.c:567
+#: addressbook/gui/component/addressbook-component.c:586
 msgid "New Contact"
 msgstr "Ny kontakt"
 
-#: addressbook/gui/component/addressbook-component.c:567
+#: addressbook/gui/component/addressbook-component.c:586
 msgid "_Contact"
 msgstr "_Kontakt"
 
-#: addressbook/gui/component/addressbook-component.c:568
+#: addressbook/gui/component/addressbook-component.c:587
 #: ui/evolution-addressbook.h:15
 msgid "Create a new contact"
 msgstr "Opprett en ny kontakt"
 
-#: addressbook/gui/component/addressbook-component.c:571
+#: addressbook/gui/component/addressbook-component.c:590
 msgid "New Contact List"
 msgstr "Ny kontaktliste"
 
-#: addressbook/gui/component/addressbook-component.c:571
+#: addressbook/gui/component/addressbook-component.c:590
 msgid "Contact _List"
 msgstr "Kontakt_liste"
 
-#: addressbook/gui/component/addressbook-component.c:572
+#: addressbook/gui/component/addressbook-component.c:591
 msgid "Create a new contact list"
 msgstr "Opprett en ny kontaktliste"
 
@@ -1094,7 +1094,8 @@ msgid ""
 "A search scope of \"one\" will only include the entries one level beneath "
 "your base.\n"
 msgstr ""
-"Søkeområdet definerer hvor dypt du ønsker at søket skal gå ned i katalogtreet.\n"
+"Søkeområdet definerer hvor dypt du ønsker at søket skal gå ned i "
+"katalogtreet.\n"
 "Et søkeområde som «sub» vil ta med alle oppføringer under din søkebase.\n"
 "Et søkeområde som «one» vil kun ta med oppføringer ett nivå under basen.\n"
 
@@ -2622,15 +2623,15 @@ msgid "E-mail"
 msgstr "E-post"
 
 #. This is a filename. Translators take note.
-#: addressbook/gui/contact-editor/e-contact-save-as.c:107
+#: addressbook/gui/contact-editor/e-contact-save-as.c:103
 msgid "card.vcf"
 msgstr "kort.vcf"
 
-#: addressbook/gui/contact-editor/e-contact-save-as.c:183
+#: addressbook/gui/contact-editor/e-contact-save-as.c:179
 msgid "list"
 msgstr "liste"
 
-#: addressbook/gui/contact-editor/e-contact-save-as.c:221
+#: addressbook/gui/contact-editor/e-contact-save-as.c:217
 #, c-format
 msgid ""
 "%s already exists\n"
@@ -3552,11 +3553,11 @@ msgstr "Utsett-tid (minutter)"
 msgid "_Edit appointment"
 msgstr "R_ediger avtale"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:680
+#: calendar/gui/alarm-notify/alarm-queue.c:681
 msgid "No description available."
 msgstr "Ingen beskrivelse tilgjengelig."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:741
+#: calendar/gui/alarm-notify/alarm-queue.c:742
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -3568,13 +3569,13 @@ msgstr ""
 "å sende e-post. Evolution vil vise en vanlig dialog\n"
 "for påminnelse i stedet."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:759
+#: calendar/gui/alarm-notify/alarm-queue.c:760
 #: calendar/gui/tasks-control.c:454 mail/mail-callbacks.c:2924
 #: widgets/misc/e-messagebox.c:159
 msgid "Warning"
 msgstr "Advarsel"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:764
+#: calendar/gui/alarm-notify/alarm-queue.c:765
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -3591,7 +3592,7 @@ msgstr ""
 "\n"
 "Er du sikker på at du ønsker å kjøre dette programmet?"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:778
+#: calendar/gui/alarm-notify/alarm-queue.c:779
 msgid "Do not ask me about this program again."
 msgstr "Ikke spør meg om dette programmet igjen."
 
@@ -3774,7 +3775,7 @@ msgstr "Månedsvisning"
 
 #: calendar/gui/component-factory.c:71 calendar/gui/gnome-cal.c:1372
 #: importers/netscape-importer.c:1873 my-evolution/my-evolution.glade.h:3
-#: shell/e-local-storage.c:176 shell/e-shortcuts.c:1059
+#: shell/e-local-storage.c:176 shell/e-shortcuts.c:1055
 msgid "Calendar"
 msgstr "Kalender"
 
@@ -3795,7 +3796,7 @@ msgstr "Offentlig mappe som inneholder avtaler og hendelser"
 #: calendar/importers/icalendar-importer.c:704
 #: importers/netscape-importer.c:1875 my-evolution/e-summary-tasks.c:327
 #: my-evolution/e-summary-tasks.c:345 shell/e-local-storage.c:182
-#: shell/e-shortcuts.c:1063
+#: shell/e-shortcuts.c:1059
 msgid "Tasks"
 msgstr "Oppgaver"
 
@@ -4558,19 +4559,19 @@ msgstr "Møteplanlegging"
 msgid "Meeting"
 msgstr "Møte"
 
-#: calendar/gui/dialogs/event-page.c:656 calendar/gui/dialogs/task-page.c:567
+#: calendar/gui/dialogs/event-page.c:662 calendar/gui/dialogs/task-page.c:567
 msgid "Start date is wrong"
 msgstr "Startdato er feil"
 
-#: calendar/gui/dialogs/event-page.c:666
+#: calendar/gui/dialogs/event-page.c:672
 msgid "End date is wrong"
 msgstr "Sluttdato er feil"
 
-#: calendar/gui/dialogs/event-page.c:689
+#: calendar/gui/dialogs/event-page.c:695
 msgid "Start time is wrong"
 msgstr "Tid for start er feil"
 
-#: calendar/gui/dialogs/event-page.c:696
+#: calendar/gui/dialogs/event-page.c:702
 msgid "End time is wrong"
 msgstr "Tid for slutt er feil"
 
@@ -5142,7 +5143,7 @@ msgstr "Startdato"
 
 #: calendar/gui/e-calendar-table.etspec.h:16
 #: my-evolution/component-factory.c:51 shell/e-shell.c:748
-#: shell/e-shortcuts.c:1051
+#: shell/e-shortcuts.c:1047
 msgid "Summary"
 msgstr "Sammendrag"
 
@@ -11587,11 +11588,11 @@ msgstr "Kan ikke initiere Evolutions konfigurasjonskomponent for e-post."
 msgid "Cannot initialize Evolution's folder info component."
 msgstr "Kan ikke initiere Evolutions mappeinfo-komponent."
 
-#: mail/component-factory.c:1341 mail/component-factory.c:1371
+#: mail/component-factory.c:1344 mail/component-factory.c:1374
 msgid "Connecting..."
 msgstr "Kobler til..."
 
-#: mail/component-factory.c:1382
+#: mail/component-factory.c:1385
 msgid "Cannot register storage with shell"
 msgstr "Kan ikke registrere lagring i skallet"
 
@@ -24890,7 +24891,7 @@ msgid "Drafts"
 msgstr "Skisser"
 
 #: shell/e-local-storage.c:179 shell/e-shell-view.c:400
-#: shell/e-shortcuts.c:1055
+#: shell/e-shortcuts.c:1051
 msgid "Inbox"
 msgstr "Innboks"
 
@@ -25622,11 +25623,11 @@ msgstr "_Fjern"
 msgid "Remove this shortcut from the shortcut bar"
 msgstr "Fjern denne snarveien fra snarveilinjen"
 
-#: shell/e-shortcuts.c:641
+#: shell/e-shortcuts.c:637
 msgid "Error saving shortcuts."
 msgstr "Feil under lagring av snarveier."
 
-#: shell/e-shortcuts.c:1080
+#: shell/e-shortcuts.c:1076
 msgid "Shortcuts"
 msgstr "Snarveier"
 

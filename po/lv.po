@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Evolution for latvian\n"
-"POT-Creation-Date: 2003-01-23 14:45+0200\n"
+"POT-Creation-Date: 2003-02-04 12:25-0500\n"
 "PO-Revision-Date: 2003-02-03 23:02+0200\n"
 "Last-Translator: Pēteris Krišjānis <peteris.krisjanis@os.lv>\n"
 "Language-Team: Latvian <lv@li.org>\n"
@@ -470,11 +470,11 @@ msgid "Factory for the sample Addressbook control"
 msgstr "Ražotne vienkāršai adrešu grāmatas kontrolei"
 
 #: addressbook/gui/component/addressbook-component.c:73
-#: addressbook/gui/component/addressbook-component.c:611
+#: addressbook/gui/component/addressbook-component.c:630
 #: calendar/gui/dialogs/comp-editor-util.c:310
 #: calendar/gui/dialogs/comp-editor-util.c:366
 #: importers/netscape-importer.c:1874 shell/e-local-storage.c:177
-#: shell/e-shortcuts.c:1067
+#: shell/e-shortcuts.c:1063
 msgid "Contacts"
 msgstr "Kontakti"
 
@@ -498,28 +498,28 @@ msgstr "Publiskie kontakti"
 msgid "Public folder containing contact information"
 msgstr "Publiskā mape, kas satur informāciju par kontaktiem"
 
-#: addressbook/gui/component/addressbook-component.c:567
+#: addressbook/gui/component/addressbook-component.c:586
 msgid "New Contact"
 msgstr "Jauns kontakts"
 
-#: addressbook/gui/component/addressbook-component.c:567
+#: addressbook/gui/component/addressbook-component.c:586
 msgid "_Contact"
 msgstr "_Kontakts"
 
-#: addressbook/gui/component/addressbook-component.c:568
+#: addressbook/gui/component/addressbook-component.c:587
 #: ui/evolution-addressbook.h:15
 msgid "Create a new contact"
 msgstr "Izveidot jaunu kontaktu"
 
-#: addressbook/gui/component/addressbook-component.c:571
+#: addressbook/gui/component/addressbook-component.c:590
 msgid "New Contact List"
 msgstr "Jauns kontaktu saraksts"
 
-#: addressbook/gui/component/addressbook-component.c:571
+#: addressbook/gui/component/addressbook-component.c:590
 msgid "Contact _List"
 msgstr "Kontaktu _saraksts"
 
-#: addressbook/gui/component/addressbook-component.c:572
+#: addressbook/gui/component/addressbook-component.c:591
 msgid "Create a new contact list"
 msgstr "Izveidot jaunu kontaktu sarakstu"
 
@@ -883,7 +883,8 @@ msgid "Evolution will use this DN to authenticate you with the server"
 msgstr "Evolution lietos šo DN, lai autentificētu jūs ar serveri"
 
 #: addressbook/gui/component/ldap-config.glade.h:33
-msgid "Evolution will use this email address to authenticate you with the server"
+msgid ""
+"Evolution will use this email address to authenticate you with the server"
 msgstr "Evolution lietos šo epasta adresi,lai autentificētu jūs ar serveri"
 
 #: addressbook/gui/component/ldap-config.glade.h:34
@@ -1109,8 +1110,8 @@ msgstr ""
 "Meklēšanas mērogs definē, cik dziļi jūs vēlaties meklēt direktoriju kokā.\n"
 "Meklēšanas mērogs \"sub\" iekļaus visus ierakstus zemāk par jūsu ieraksta "
 "bāzi.\n"
-"Meklēšanas mērogs \"one\" iekļaus ierakstus tikai vienu līmeni zemāk par jūsu "
-"bāzi.\n"
+"Meklēšanas mērogs \"one\" iekļaus ierakstus tikai vienu līmeni zemāk par "
+"jūsu bāzi.\n"
 
 #: addressbook/gui/component/ldap-config.glade.h:84
 msgid ""
@@ -1132,7 +1133,8 @@ msgstr ""
 msgid ""
 "This is the full name of your ldap server. For example, \"ldap.mycompany.com"
 "\"."
-msgstr "Šis ir pilnais LDAP servera nosaukums. Piemēram, \"ldap.manakompanija.com\"."
+msgstr ""
+"Šis ir pilnais LDAP servera nosaukums. Piemēram, \"ldap.manakompanija.com\"."
 
 #: addressbook/gui/component/ldap-config.glade.h:91
 msgid ""
@@ -2641,15 +2643,15 @@ msgid "E-mail"
 msgstr "E-pasts"
 
 #. This is a filename. Translators take note.
-#: addressbook/gui/contact-editor/e-contact-save-as.c:107
+#: addressbook/gui/contact-editor/e-contact-save-as.c:103
 msgid "card.vcf"
 msgstr "card.vcf"
 
-#: addressbook/gui/contact-editor/e-contact-save-as.c:183
+#: addressbook/gui/contact-editor/e-contact-save-as.c:179
 msgid "list"
 msgstr "saraksts"
 
-#: addressbook/gui/contact-editor/e-contact-save-as.c:221
+#: addressbook/gui/contact-editor/e-contact-save-as.c:217
 #, c-format
 msgid ""
 "%s already exists\n"
@@ -3572,11 +3574,11 @@ msgstr "Snaust kādu laiku (minūtes)"
 msgid "_Edit appointment"
 msgstr "R_ediģēt tikšanos"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:680
+#: calendar/gui/alarm-notify/alarm-queue.c:681
 msgid "No description available."
 msgstr "Apraksts nav pieejams."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:741
+#: calendar/gui/alarm-notify/alarm-queue.c:742
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -3588,13 +3590,13 @@ msgstr ""
 "nokonfigurēta nosūtīt epastu. Evolution tā vietā attēlos\n"
 "normālu atgādinātāja dialoga logu."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:759
+#: calendar/gui/alarm-notify/alarm-queue.c:760
 #: calendar/gui/tasks-control.c:454 mail/mail-callbacks.c:2924
 #: widgets/misc/e-messagebox.c:159
 msgid "Warning"
 msgstr "Brīdinājums"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:764
+#: calendar/gui/alarm-notify/alarm-queue.c:765
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -3611,7 +3613,7 @@ msgstr ""
 "\n"
 "Vai jūs patiešām vēlaties laist šo programmu?"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:778
+#: calendar/gui/alarm-notify/alarm-queue.c:779
 msgid "Do not ask me about this program again."
 msgstr "Neprasīt vairāk man par šo programmu."
 
@@ -3669,7 +3671,8 @@ msgid "%d %B"
 msgstr "%d %B"
 
 #: calendar/gui/calendar-commands.c:799
-msgid "Could not create the calendar view.  Please check your ORBit and OAF setup."
+msgid ""
+"Could not create the calendar view.  Please check your ORBit and OAF setup."
 msgstr ""
 "Nevarēju izveidot kalendāra skatu. Lūdzu pārbaudiet jūsu ORBit un OAF "
 "uzstādījumus."
@@ -3793,7 +3796,7 @@ msgstr "Mēneša skats"
 
 #: calendar/gui/component-factory.c:71 calendar/gui/gnome-cal.c:1372
 #: importers/netscape-importer.c:1873 my-evolution/my-evolution.glade.h:3
-#: shell/e-local-storage.c:176 shell/e-shortcuts.c:1059
+#: shell/e-local-storage.c:176 shell/e-shortcuts.c:1055
 msgid "Calendar"
 msgstr "Kalendārs"
 
@@ -3814,7 +3817,7 @@ msgstr "Publiska mape, kas satur tikšanos un notikumu ierakstus"
 #: calendar/importers/icalendar-importer.c:704
 #: importers/netscape-importer.c:1875 my-evolution/e-summary-tasks.c:327
 #: my-evolution/e-summary-tasks.c:345 shell/e-local-storage.c:182
-#: shell/e-shortcuts.c:1063
+#: shell/e-shortcuts.c:1059
 msgid "Tasks"
 msgstr "Uzdevumi"
 
@@ -4388,7 +4391,8 @@ msgstr "Šis žurnāla ieraksts ir izdzēsts."
 #: calendar/gui/dialogs/changed-comp.c:76
 #, c-format
 msgid "%s  You have made changes. Forget those changes and close the editor?"
-msgstr "%s  Jūs esat veicis izmaiņas. Aizmirst šīs izmaiņas un aizvērt redaktoru?"
+msgstr ""
+"%s  Jūs esat veicis izmaiņas. Aizmirst šīs izmaiņas un aizvērt redaktoru?"
 
 #: calendar/gui/dialogs/changed-comp.c:78
 #, c-format
@@ -4410,7 +4414,8 @@ msgstr "Žurnāla ieraksts tika izmainīts."
 #: calendar/gui/dialogs/changed-comp.c:100
 #, c-format
 msgid "%s  You have made changes. Forget those changes and update the editor?"
-msgstr "%s  Jūs esat veicat izmaiņas. Aizmirst šīs izmaiņas un atjaunināt redaktoru?"
+msgstr ""
+"%s  Jūs esat veicat izmaiņas. Aizmirst šīs izmaiņas un atjaunināt redaktoru?"
 
 #: calendar/gui/dialogs/changed-comp.c:102
 #, c-format
@@ -4490,7 +4495,8 @@ msgstr "Saglabāt kā..."
 #: calendar/gui/dialogs/comp-editor.c:1322
 #: calendar/gui/dialogs/comp-editor.c:1346
 #: calendar/gui/dialogs/comp-editor.c:1370
-msgid "Changes made to this item may be discarded if an update arrives via email"
+msgid ""
+"Changes made to this item may be discarded if an update arrives via email"
 msgstr ""
 "Izmaiņas, izdarītas šajā priekšmetā, varētu tikt atceltas, ja atjauninājums "
 "atnāk caur epastu"
@@ -4526,12 +4532,14 @@ msgstr "Vai jūs esat pārliecināts, ka vēlaties dzēst šo žurnāla ierakstu
 
 #: calendar/gui/dialogs/delete-comp.c:117
 msgid "Are you sure want to delete this untitled journal entry?"
-msgstr "Vai jūs esat pārliecināts, ka vēlaties dzēst šo nenosaukto žurnāla ierakstu?"
+msgstr ""
+"Vai jūs esat pārliecināts, ka vēlaties dzēst šo nenosaukto žurnāla ierakstu?"
 
 #: calendar/gui/dialogs/delete-comp.c:132
 #, c-format
 msgid "Are you sure you want to delete %d appointments?"
-msgstr "Vai jūs esat pārliecināts, ka vēlaties dzēst %d ierakstus par tikšanos?"
+msgstr ""
+"Vai jūs esat pārliecināts, ka vēlaties dzēst %d ierakstus par tikšanos?"
 
 #: calendar/gui/dialogs/delete-comp.c:137
 #, c-format
@@ -4579,19 +4587,19 @@ msgstr "Plānošana"
 msgid "Meeting"
 msgstr "Sanāksme"
 
-#: calendar/gui/dialogs/event-page.c:656 calendar/gui/dialogs/task-page.c:567
+#: calendar/gui/dialogs/event-page.c:662 calendar/gui/dialogs/task-page.c:567
 msgid "Start date is wrong"
 msgstr "Sākuma datums ir nepareizs"
 
-#: calendar/gui/dialogs/event-page.c:666
+#: calendar/gui/dialogs/event-page.c:672
 msgid "End date is wrong"
 msgstr "Beigu datums ir nepareizs"
 
-#: calendar/gui/dialogs/event-page.c:689
+#: calendar/gui/dialogs/event-page.c:695
 msgid "Start time is wrong"
 msgstr "Sākuma datums ir nepareizs"
 
-#: calendar/gui/dialogs/event-page.c:696
+#: calendar/gui/dialogs/event-page.c:702
 msgid "End time is wrong"
 msgstr "Beigu datums ir nepareizs"
 
@@ -4999,46 +5007,57 @@ msgid "_Due Date:"
 msgstr "_Datuma laikā:"
 
 #: calendar/gui/e-calendar-table.c:440
+#, c-format
 msgid "0%"
 msgstr "0%"
 
 #: calendar/gui/e-calendar-table.c:441
+#, c-format
 msgid "10%"
 msgstr "10%"
 
 #: calendar/gui/e-calendar-table.c:442
+#, c-format
 msgid "20%"
 msgstr "20%"
 
 #: calendar/gui/e-calendar-table.c:443
+#, c-format
 msgid "30%"
 msgstr "30%"
 
 #: calendar/gui/e-calendar-table.c:444
+#, c-format
 msgid "40%"
 msgstr "40%"
 
 #: calendar/gui/e-calendar-table.c:445
+#, c-format
 msgid "50%"
 msgstr "50%"
 
 #: calendar/gui/e-calendar-table.c:446
+#, c-format
 msgid "60%"
 msgstr "60%"
 
 #: calendar/gui/e-calendar-table.c:447
+#, c-format
 msgid "70%"
 msgstr "70%"
 
 #: calendar/gui/e-calendar-table.c:448
+#, c-format
 msgid "80%"
 msgstr "80%"
 
 #: calendar/gui/e-calendar-table.c:449
+#, c-format
 msgid "90%"
 msgstr "80%"
 
 #: calendar/gui/e-calendar-table.c:450
+#, c-format
 msgid "100%"
 msgstr "100%"
 
@@ -5151,7 +5170,7 @@ msgstr "Sākuma datums"
 
 #: calendar/gui/e-calendar-table.etspec.h:16
 #: my-evolution/component-factory.c:51 shell/e-shell.c:748
-#: shell/e-shortcuts.c:1051
+#: shell/e-shortcuts.c:1047
 msgid "Summary"
 msgstr "Kopsavilkums"
 
@@ -5682,7 +5701,9 @@ msgstr "Kalendāra fails nevarēja tikt atjaunināts!\n"
 
 #: calendar/gui/e-itip-control.c:1900 calendar/gui/e-itip-control.c:1966
 msgid "Attendee status can not be updated because the item no longer exists"
-msgstr "Apmeklētāja statuss nevar tikt atjaunināts, tāpēc ka priekšmets vairāk neeksistē"
+msgstr ""
+"Apmeklētāja statuss nevar tikt atjaunināts, tāpēc ka priekšmets vairāk "
+"neeksistē"
 
 #: calendar/gui/e-itip-control.c:1921
 msgid "This response is not from a current attendee.  Add as an attendee?"
@@ -5690,7 +5711,8 @@ msgstr "Šī atbilde nav no pašreizējā apmeklētāja. Pievienot kā apmeklēt
 
 #: calendar/gui/e-itip-control.c:1933
 msgid "Attendee status could not be updated because of an invalid status!\n"
-msgstr "Apmeklētāja statuss nevar tikt atjaunināts sakarā ar nepareizo statusu!\n"
+msgstr ""
+"Apmeklētāja statuss nevar tikt atjaunināts sakarā ar nepareizo statusu!\n"
 
 #: calendar/gui/e-itip-control.c:1957
 msgid "You don't have the right permissions to update the calendar\n"
@@ -6361,7 +6383,8 @@ msgid "Print Setup"
 msgstr "Drukāšanas Uzstādijumi"
 
 #: calendar/gui/tasks-control-factory.c:75
-msgid "Could not create the tasks view.  Please check your ORBit and OAF setup."
+msgid ""
+"Could not create the tasks view.  Please check your ORBit and OAF setup."
 msgstr ""
 "Nevar izveidot uzdevumu skatu. Lūdzu pārbaudiet jūsu ORBit un OAF "
 "uzstādījumu."
@@ -6408,8 +6431,8 @@ msgid ""
 msgstr ""
 "Evolution ir mēģinājusi pārvietot uzdevumus no jūsu kalendāra mapes uz jauno "
 "uzdevumu mapi.\n"
-"Daži no uzdevumu ierakstiem nevarēja tikt pārvietoti, tāpēc šis process var tikt "
-"vēlreiz mēģināts vēlāk."
+"Daži no uzdevumu ierakstiem nevarēja tikt pārvietoti, tāpēc šis process var "
+"tikt vēlreiz mēģināts vēlāk."
 
 #: calendar/gui/tasks-migrate.c:120
 #, c-format
@@ -8384,7 +8407,8 @@ msgstr "Neizdevās palaist gpg."
 #: camel/camel-gpg-context.c:1290
 #, c-format
 msgid "Cannot verify message signature: could not create temp file: %s"
-msgstr "Nevaru pārbaudīt vēstules parakstu: nevarēju izveidot pagaidu failu: %s"
+msgstr ""
+"Nevaru pārbaudīt vēstules parakstu: nevarēju izveidot pagaidu failu: %s"
 
 #: camel/camel-lock-client.c:111
 #, c-format
@@ -8415,7 +8439,8 @@ msgstr "Nevarēju izveidot slēguma failu %s: %s"
 #: camel/camel-lock.c:152
 #, c-format
 msgid "Timed out trying to get lock file on %s. Try again later."
-msgstr "Iztecējis laiks, mēģinot dabūt slēguma failu %s. Mēģiniet vēlāk velreiz."
+msgstr ""
+"Iztecējis laiks, mēģinot dabūt slēguma failu %s. Mēģiniet vēlāk velreiz."
 
 #: camel/camel-lock.c:206
 #, c-format
@@ -8589,7 +8614,8 @@ msgstr "Servera izaicinājums nepareizs\n"
 
 #: camel/camel-sasl-digest-md5.c:825
 msgid "Server challenge contained invalid \"Quality of Protection\" token\n"
-msgstr "Servera izaicinājums saturēja nepareizu \"Quality of Protection\" tokenu\n"
+msgstr ""
+"Servera izaicinājums saturēja nepareizu \"Quality of Protection\" tokenu\n"
 
 #: camel/camel-sasl-digest-md5.c:847
 msgid "Server response did not contain authorization data\n"
@@ -9289,7 +9315,8 @@ msgstr "Nav tādas mapes %s"
 
 #: camel/providers/imap/camel-imap-store.c:1848
 #, c-format
-msgid "The folder name \"%s\" is invalid because it containes the character \"%c\""
+msgid ""
+"The folder name \"%s\" is invalid because it containes the character \"%c\""
 msgstr "Mapes nosaukums \"%s\" ir nepareizs, jo satur rakstzīmi \"%c\""
 
 #: camel/providers/imap/camel-imap-store.c:1860
@@ -9370,8 +9397,7 @@ msgid ""
 "For reading and storing local mail in external standard mbox spool files.\n"
 "May also be used to read a tree of Elm, Pine, or Mutt style folders."
 msgstr ""
-"Lokālā pasta lasīšanai un glabāšanai ārējos standarta mbox spoļu "
-"failos.\n"
+"Lokālā pasta lasīšanai un glabāšanai ārējos standarta mbox spoļu failos.\n"
 "Var tikt arī izmantots, lai lasītu Elm, Pine vai Mutt stila mapju kokus."
 
 #: camel/providers/local/camel-local-store.c:139
@@ -9761,7 +9787,8 @@ msgstr "USENET ziņas"
 
 #: camel/providers/nntp/camel-nntp-provider.c:43
 msgid "This is a provider for reading from and posting toUSENET newsgroups."
-msgstr "Šis ir piegādātājs USENET ziņu grupu lasīšanai un ziņu publicēšanai uz to."
+msgstr ""
+"Šis ir piegādātājs USENET ziņu grupu lasīšanai un ziņu publicēšanai uz to."
 
 #: camel/providers/nntp/camel-nntp-store.c:151
 #, c-format
@@ -9782,7 +9809,8 @@ msgstr "USENET Ziņas caur %s"
 msgid ""
 "This option will authenticate with the NNTP server using a plaintext "
 "password."
-msgstr "Šī opcija autentificēsies ar NNTP serveri lietojot parasta teksta paroli."
+msgstr ""
+"Šī opcija autentificēsies ar NNTP serveri lietojot parasta teksta paroli."
 
 #: camel/providers/nntp/camel-nntp-summary.c:234
 #, c-format
@@ -10023,7 +10051,8 @@ msgstr "SMTP"
 
 #: camel/providers/smtp/camel-smtp-provider.c:39
 msgid "For delivering mail by connecting to a remote mailhub using SMTP.\n"
-msgstr "Pasta izsūtīšanai savienojoties uz attālinātu pasta hubu, izmantojot SMTP.\n"
+msgstr ""
+"Pasta izsūtīšanai savienojoties uz attālinātu pasta hubu, izmantojot SMTP.\n"
 
 #: camel/providers/smtp/camel-smtp-transport.c:174
 msgid "Syntax error, command unrecognized"
@@ -10562,7 +10591,8 @@ msgstr ""
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
-msgstr "<b>(Sacerētājs satur neteksta vēstules ķermeni, kas nevar tikt rediģēts.)<b>"
+msgstr ""
+"<b>(Sacerētājs satur neteksta vēstules ķermeni, kas nevar tikt rediģēts.)<b>"
 
 #: composer/evolution-composer.c:394
 msgid ""
@@ -10624,11 +10654,13 @@ msgstr "Subjekts satur"
 msgid "Subject does not contain"
 msgstr "Subjekts nesatur"
 
-#: e-util/e-component-listener.c:131
-msgid "ping_timeout_callback: could not determine if the CORBA object is nil or not"
-msgstr "ping_timeout_callback: nevarēju noteikt vai CORBA objekts ir nulle vai nav"
+#: e-util/e-component-listener.c:135
+msgid ""
+"ping_timeout_callback: could not determine if the CORBA object is nil or not"
+msgstr ""
+"ping_timeout_callback: nevarēju noteikt vai CORBA objekts ir nulle vai nav"
 
-#: e-util/e-dialog-utils.c:237 mail/mail-callbacks.c:2563
+#: e-util/e-dialog-utils.c:241 mail/mail-callbacks.c:2563
 msgid ""
 "A file by that name already exists.\n"
 "Overwrite it?"
@@ -11354,8 +11386,7 @@ msgstr ""
 "Daži no jūsu Netscape epasta filtriem izmanto\n"
 "\"Ignore Thread\" (Ignorēt pavedienu) vai\n"
 "\"Watch Thread\" (Skatīt pavedienu)\n"
-"iespēju, kas netiek atbalstīta Evolution. "
-"Šie filtri tiks ignorēti."
+"iespēju, kas netiek atbalstīta Evolution. Šie filtri tiks ignorēti."
 
 #: importers/netscape-importer.c:694
 msgid ""
@@ -11446,12 +11477,15 @@ msgid "Configuration control for the Evolution Message Composer."
 msgstr "Konfigurācijas kontrole Evolution vēstuļu sacerētājam."
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:6
-msgid "Configure mail preferences, including security and message display, here"
-msgstr "Šeit konfigurējiet pasta preferences, ieskaitot drošību un vēstuļu attēlošanu"
+msgid ""
+"Configure mail preferences, including security and message display, here"
+msgstr ""
+"Šeit konfigurējiet pasta preferences, ieskaitot drošību un vēstuļu attēlošanu"
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:7
 msgid "Configure spell-checking, signatures, and the message composer here"
-msgstr "Šeit konfigurējiet pareizrakstības pārbaudi, parakstus un vēstuļu sacerētājam"
+msgstr ""
+"Šeit konfigurējiet pareizrakstības pārbaudi, parakstus un vēstuļu sacerētājam"
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:8
 msgid "Configure the fonts used by Evolution here"
@@ -11593,11 +11627,11 @@ msgstr "Nevar initializēt Evolution pasta konfigurācijas komponentu."
 msgid "Cannot initialize Evolution's folder info component."
 msgstr "Nevar initializēt Evolution mapes informatīvo komponentu."
 
-#: mail/component-factory.c:1341 mail/component-factory.c:1371
+#: mail/component-factory.c:1344 mail/component-factory.c:1374
 msgid "Connecting..."
 msgstr "Savienojos..."
 
-#: mail/component-factory.c:1382
+#: mail/component-factory.c:1385
 msgid "Cannot register storage with shell"
 msgstr "Nevar reģistrēt glabātuvi ar čaulu"
 
@@ -12500,7 +12534,8 @@ msgstr "Ziņošana par jaunu pastu"
 msgid ""
 "Note: you will not be prompted for a password until you connect for the "
 "first time"
-msgstr "Piezīme: jums nepieprasīs ievadīt paroli līdz jūs savienosieties pirmo reizi"
+msgstr ""
+"Piezīme: jums nepieprasīs ievadīt paroli līdz jūs savienosieties pirmo reizi"
 
 #: mail/mail-config.glade.h:81
 msgid "On Screen fonts"
@@ -12989,7 +13024,8 @@ msgid "Mailer"
 msgstr "Pastnieks"
 
 #: mail/mail-format.c:1848
-msgid "This message is digitally signed. Click the lock icon for more information."
+msgid ""
+"This message is digitally signed. Click the lock icon for more information."
 msgstr ""
 "Šī vēstule ir digitāli parakstīta. Klikšķiniet uz slēdzenes ikonu, lai "
 "uzzinātu vairāk."
@@ -24901,7 +24937,7 @@ msgid "Drafts"
 msgstr "Melnraksti"
 
 #: shell/e-local-storage.c:179 shell/e-shell-view.c:400
-#: shell/e-shortcuts.c:1055
+#: shell/e-shortcuts.c:1051
 msgid "Inbox"
 msgstr "Iesūtne"
 
@@ -24927,7 +24963,8 @@ msgstr ""
 
 #: shell/e-setup.c:131
 msgid "Please click \"OK\" to install the files, or \"Cancel\" to exit."
-msgstr "Lūdzu klikšķiniet \"Labi\", lai instalētu failus, vai \"Atcelt\", lai izietu."
+msgstr ""
+"Lūdzu klikšķiniet \"Labi\", lai instalētu failus, vai \"Atcelt\", lai izietu."
 
 #: shell/e-setup.c:171
 msgid "Could not update files correctly"
@@ -25450,7 +25487,8 @@ msgid "(None)"
 msgstr "(Nekas)"
 
 #: shell/e-shell-view.c:1910
-msgid "Ximian Evolution is currently online.  Click on this button to work offline."
+msgid ""
+"Ximian Evolution is currently online.  Click on this button to work offline."
 msgstr ""
 "Ximian Evolution pašreiz ir tiešaistē. Klikšķiniet pogu lai strādātu "
 "nesaistē."
@@ -25460,7 +25498,8 @@ msgid "Ximian Evolution is in the process of going offline."
 msgstr "Ximian Evolution ieiet nesaistes režīmā."
 
 #: shell/e-shell-view.c:1923
-msgid "Ximian Evolution is currently offline.  Click on this button to work online."
+msgid ""
+"Ximian Evolution is currently offline.  Click on this button to work online."
 msgstr ""
 "Ximian Evolution pašreiz ir nesaistes režīmā. Klikšķiniet uz šīs pogas, lai "
 "strādātu tiešsaistē."
@@ -25629,11 +25668,11 @@ msgstr "_Izņemt"
 msgid "Remove this shortcut from the shortcut bar"
 msgstr "Izņemt šo saīsinājumu no saīsinājumu joslas"
 
-#: shell/e-shortcuts.c:641
+#: shell/e-shortcuts.c:637
 msgid "Error saving shortcuts."
 msgstr "Kļūda glabājot saīsinājumus."
 
-#: shell/e-shortcuts.c:1080
+#: shell/e-shortcuts.c:1076
 msgid "Shortcuts"
 msgstr "Saīsinājumi"
 
@@ -25818,7 +25857,8 @@ msgstr "Aktīvie savienojumi"
 
 #: shell/glade/e-active-connection-dialog.glade.h:2
 msgid "Click OK to close these connections and go offline"
-msgstr "Klikšķiniet 'Labi', lai aizvērtu šos savienojumus un ietu nesaistes režīmā"
+msgstr ""
+"Klikšķiniet 'Labi', lai aizvērtu šos savienojumus un ietu nesaistes režīmā"
 
 #: shell/glade/e-active-connection-dialog.glade.h:3
 msgid "Host"
@@ -26521,7 +26561,8 @@ msgid "Hide _Read Messages"
 msgstr "Slēpt _lasītās vēstules"
 
 #: ui/evolution-mail-list.xml.h:8
-msgid "Hide deleted messages rather than displaying them with a line through them"
+msgid ""
+"Hide deleted messages rather than displaying them with a line through them"
 msgstr "Slēpt dzēstās vēstules, nevis attēlot kā pārsvītrotas"
 
 #: ui/evolution-mail-list.xml.h:9
@@ -26550,11 +26591,13 @@ msgstr "Izvēlēties _pavedienu"
 
 #: ui/evolution-mail-list.xml.h:15
 msgid "Select all and only the messages that are not currently selected"
-msgstr "Izvēlēties visas un vienīgi tikai tās vēstules, kuras nav pašlaik izvēlētas"
+msgstr ""
+"Izvēlēties visas un vienīgi tikai tās vēstules, kuras nav pašlaik izvēlētas"
 
 #: ui/evolution-mail-list.xml.h:16
 msgid "Select all messages in the same thread as the selected message"
-msgstr "Izvēlēties visas vēstules no tā paša pavediena, kur atrodas izvēlētā vēstule"
+msgstr ""
+"Izvēlēties visas vēstules no tā paša pavediena, kur atrodas izvēlētā vēstule"
 
 #: ui/evolution-mail-list.xml.h:17
 msgid "Select all visible messages"
@@ -28914,4 +28957,3 @@ msgstr "init_bonobo(): nevaru inicializēt Bonobo"
 
 #~ msgid "Sear_ch"
 #~ msgstr "Mek_lēšana"
-

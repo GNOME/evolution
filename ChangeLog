@@ -1,3 +1,7 @@
+2003-02-04  Ettore Perazzoli  <ettore@ximian.com>
+
+	* configure.in: Bump version number to 1.2.2.
+
 2003-02-03  Rodney Dawes  <dobey@ximian.com>
 
 	* configure.in: Fix the KRB4_CFLAGS checks
