@@ -730,7 +730,7 @@ pipe_to_system (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFil
 	if (camel_mime_part_construct_from_parser ((CamelMimePart *) message, parser) == -1) {
 		camel_exception_setv (p->ex, CAMEL_EXCEPTION_SYSTEM,
 				     _("Invalid message stream received from %s"),
-				      argv[i]->value.string);
+				      argv[0]->value.string);
 		camel_object_unref (message);
 		message = NULL;
 	} else {
