@@ -1,5 +1,14 @@
 2003-01-20  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* evolution-mail.schemas: Default to hiding deleted
+	messages. Fixes bug #35929.
+
+	* mail-preferences.c (entry_changed): Removed.
+	(toggle_button_toggled): Removed.
+	(settings_changed): New callback that replaces the two above. No
+	need to have multiple callback functions when the signature is the
+	same.
+
 	* folder-browser.c (folder_browser_toggle_hide_deleted): Don't
 	!atoi (state) for the message_list_set_hidedeleted() call.
 

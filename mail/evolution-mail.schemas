@@ -195,7 +195,7 @@
       <applyto>/apps/evolution/mail/display/show_deleted</applyto>
       <owner>evolution-mail</owner>
       <type>bool</type>
-      <default>true</default>
+      <default>false</default>
       <locale name="C">
          <short>Show deleted messages in the message-list</short>
          <long>
@@ -223,7 +223,7 @@
       <applyto>/apps/evolution/mail/display/paned_size</applyto>
       <owner>evolution-mail</owner>
       <type>long</type>
-      <default>130</default>
+      <default>144</default>
       <locale name="C">
          <short>Height of the message-list pane</short>
          <long>
