@@ -583,11 +583,6 @@
   <code>(copy-to ${folder})</code>
   <input type="folder" name="folder"/>
  </part>
- <part name="forward-to">
-  <title>Forward to Address</title>
-  <code>(forward-to ${address})</code>
-  <input type="address" name="address"/>
- </part>
  <part name="delete">
   <title>Delete</title>
   <code>(delete)</code>

@@ -1,3 +1,7 @@
+2001-07-20  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* filtertypes.xml: Removed the "Forward To" filter action.
+
 2001-07-18  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* rule-context.c (rule_context_get_rank_rule): Return -1 if we

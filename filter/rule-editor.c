@@ -71,25 +71,25 @@ rule_editor_get_type(void)
 {
 	static guint type = 0;
 	
-	if(!type) {
+	if (!type) {
 		GtkTypeInfo type_info = {
 			"RuleEditor",
-			sizeof(RuleEditor),
-			sizeof(RuleEditorClass),
-			(GtkClassInitFunc)rule_editor_class_init,
-			(GtkObjectInitFunc)rule_editor_init,
-			(GtkArgSetFunc)NULL,
-			(GtkArgGetFunc)NULL
+			sizeof (RuleEditor),
+			sizeof (RuleEditorClass),
+			(GtkClassInitFunc) rule_editor_class_init,
+			(GtkObjectInitFunc) rule_editor_init,
+			(GtkArgSetFunc) NULL,
+			(GtkArgGetFunc) NULL
 		};
 		
-		type = gtk_type_unique(gnome_dialog_get_type(), &type_info);
+		type = gtk_type_unique (gnome_dialog_get_type (), &type_info);
 	}
 	
 	return type;
 }
 
 static void
-rule_editor_class_init(RuleEditorClass *class)
+rule_editor_class_init (RuleEditorClass *class)
 {
 	GtkObjectClass *object_class;
 	
@@ -97,33 +97,33 @@ rule_editor_class_init(RuleEditorClass *class)
 	parent_class = gtk_type_class(gnome_dialog_get_type());
 	
 	object_class->finalize = rule_editor_finalise;
-
+	
 	/* override methods */
 	class->set_source = set_source;
 	class->set_sensitive = set_sensitive;
 	class->create_rule = create_rule;
-
+	
 	/* signals */
 	
-	gtk_object_class_add_signals(object_class, signals, LAST_SIGNAL);
+	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 }
 
 static void
-rule_editor_init(RuleEditor *o)
+rule_editor_init (RuleEditor *o)
 {
-	o->priv = g_malloc0(sizeof(*o->priv));
+	o->priv = g_malloc0 (sizeof (*o->priv));
 }
 
 static void
-rule_editor_finalise(GtkObject *obj)
+rule_editor_finalise (GtkObject *obj)
 {
 	RuleEditor *o = (RuleEditor *)obj;
 
-	gtk_object_unref((GtkObject *)o->context);
-
-	g_free(o->priv);
-
-       ((GtkObjectClass *)(parent_class))->finalize(obj);
+	gtk_object_unref (GTK_OBJECT (o->context));
+	
+	g_free (o->priv);
+	
+	((GtkObjectClass *)(parent_class))->finalize (obj);
 }
 
 /**
@@ -134,54 +134,54 @@ rule_editor_finalise(GtkObject *obj)
  * Return value: A new #RuleEditor object.
  **/
 RuleEditor *
-rule_editor_new(RuleContext *f, const char *source)
+rule_editor_new (RuleContext *f, const char *source)
 {
 	GladeXML *gui;
-	RuleEditor *o = (RuleEditor *)gtk_type_new(rule_editor_get_type());
+	RuleEditor *o = (RuleEditor *)gtk_type_new (rule_editor_get_type ());
 	GtkWidget *w;
-
-	gui = glade_xml_new(FILTER_GLADEDIR "/filter.glade", "rule_editor");
-	rule_editor_construct(o, f, gui, source);
-
-        w = glade_xml_get_widget(gui, "rule_frame");
-	gtk_frame_set_label((GtkFrame *)w, _("Rules"));
-
-	gtk_object_unref((GtkObject *)gui);
-
+	
+	gui = glade_xml_new (FILTER_GLADEDIR "/filter.glade", "rule_editor");
+	rule_editor_construct (o, f, gui, source);
+	
+        w = glade_xml_get_widget (gui, "rule_frame");
+	gtk_frame_set_label ((GtkFrame *)w, _("Rules"));
+	
+	gtk_object_unref (GTK_OBJECT (gui));
+	
 	return o;
 }
 
 /* used internally by implementations if required */
 void
-rule_editor_set_sensitive(RuleEditor *re)
+rule_editor_set_sensitive (RuleEditor *re)
 {
 	return ((RuleEditorClass *)((GtkObject *)re)->klass)->set_sensitive(re);
 }
 
 /* used internally by implementations */
 void
-rule_editor_set_source(RuleEditor *re, const char *source)
+rule_editor_set_source (RuleEditor *re, const char *source)
 {
 	return ((RuleEditorClass *)((GtkObject *)re)->klass)->set_source(re, source);
 }
 
 /* factory method for "add" button */
 FilterRule *
-rule_editor_create_rule(RuleEditor *re)
+rule_editor_create_rule (RuleEditor *re)
 {
 	return ((RuleEditorClass *)((GtkObject *)re)->klass)->create_rule(re);
 }
 
 static FilterRule *
-create_rule(RuleEditor *re)
+create_rule (RuleEditor *re)
 {
-	FilterRule *rule = filter_rule_new();
+	FilterRule *rule = filter_rule_new ();
 	FilterPart *part;
-
+	
 	/* create a rule with 1 part in it */
-	part = rule_context_next_part(re->context, NULL);
-	filter_rule_add_part(rule, filter_part_clone(part));
-
+	part = rule_context_next_part (re->context, NULL);
+	filter_rule_add_part (rule, filter_part_clone (part));
+	
 	return rule;
 }
 
