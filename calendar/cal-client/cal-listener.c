@@ -51,7 +51,7 @@ static POA_GNOME_Calendar_Listener__vepv cal_listener_vepv;
 
 static guint cal_listener_signals[LAST_SIGNAL];
 
-static GnomeObjectClass *parent_class;
+static BonoboObjectClass *parent_class;
 
 
 
@@ -81,7 +81,7 @@ cal_listener_get_type (void)
 			(GtkClassInitFunc) NULL
 		};
 
-		cal_listener_type = gtk_type_unique (gnome_object_get_type (), &cal_listener_info);
+		cal_listener_type = gtk_type_unique (bonobo_object_get_type (), &cal_listener_info);
 	}
 
 	return cal_listener_type;
@@ -91,7 +91,7 @@ cal_listener_get_type (void)
 static void
 init_cal_listener_corba_class (void)
 {
-	cal_listener_vepv.GNOME_Unknown_epv = gnome_object_get_epv ();
+	cal_listener_vepv.Bonobo_Unknown_epv = bonobo_object_get_epv ();
 	cal_listener_vepv.GNOME_Calendar_Listener_epv = cal_listener_get_epv ();
 }
 
@@ -103,7 +103,7 @@ cal_listener_class_init (CalListenerClass *class)
 
 	object_class = (GtkObjectClass *) class;
 
-	parent_class = gtk_type_class (gnome_object_get_type ());
+	parent_class = gtk_type_class (bonobo_object_get_type ());
 
 	cal_listener_signals[CAL_LOADED] =
 		gtk_signal_new ("cal_loaded",
@@ -227,7 +227,7 @@ Listener_cal_loaded (PortableServer_Servant servant,
 	GNOME_Calendar_Cal cal_copy;
 	CalListenerLoadStatus load_status;
 
-	listener = CAL_LISTENER (gnome_object_from_servant (servant));
+	listener = CAL_LISTENER (bonobo_object_from_servant (servant));
 	priv = listener->priv;
 
 	if (priv->cal != CORBA_OBJECT_NIL) {
@@ -273,7 +273,7 @@ Listener_obj_added (PortableServer_Servant servant,
 {
 	CalListener *listener;
 
-	listener = CAL_LISTENER (gnome_object_from_servant (servant));
+	listener = CAL_LISTENER (bonobo_object_from_servant (servant));
 	gtk_signal_emit (GTK_OBJECT (listener), cal_listener_signals[OBJ_ADDED],
 			 calobj);
 }
@@ -286,7 +286,7 @@ Listener_obj_removed (PortableServer_Servant servant,
 {
 	CalListener *listener;
 
-	listener = CAL_LISTENER (gnome_object_from_servant (servant));
+	listener = CAL_LISTENER (bonobo_object_from_servant (servant));
 	gtk_signal_emit (GTK_OBJECT (listener), cal_listener_signals[OBJ_REMOVED],
 			 uid);
 }
@@ -299,7 +299,7 @@ Listener_obj_changed (PortableServer_Servant servant,
 {
 	CalListener *listener;
 
-	listener = CAL_LISTENER (gnome_object_from_servant (servant));
+	listener = CAL_LISTENER (bonobo_object_from_servant (servant));
 	gtk_signal_emit (GTK_OBJECT (listener), cal_listener_signals[OBJ_CHANGED],
 			 calobj);
 }
@@ -344,13 +344,13 @@ cal_listener_construct (CalListener *listener, GNOME_Calendar_Listener corba_lis
 	g_return_val_if_fail (listener != NULL, NULL);
 	g_return_val_if_fail (IS_CAL_LISTENER (listener), NULL);
 
-	gnome_object_construct (GNOME_OBJECT (listener), corba_listener);
+	bonobo_object_construct (BONOBO_OBJECT (listener), corba_listener);
 	return listener;
 }
 
 /**
  * cal_listener_corba_object_create:
- * @object: #GnomeObject that will wrap the CORBA object.
+ * @object: #BonoboObject that will wrap the CORBA object.
  *
  * Creates and activates the CORBA object that is wrapped by the specified
  * calendar listener @object.
@@ -359,7 +359,7 @@ cal_listener_construct (CalListener *listener, GNOME_Calendar_Listener corba_lis
  * failure.
  **/
 GNOME_Calendar_Listener
-cal_listener_corba_object_create (GnomeObject *object)
+cal_listener_corba_object_create (BonoboObject *object)
 {
 	POA_GNOME_Calendar_Listener *servant;
 	CORBA_Environment ev;
@@ -367,7 +367,7 @@ cal_listener_corba_object_create (GnomeObject *object)
 	g_return_val_if_fail (object != NULL, CORBA_OBJECT_NIL);
 	g_return_val_if_fail (IS_CAL_LISTENER (object), CORBA_OBJECT_NIL);
 
-	servant = (POA_GNOME_Calendar_Listener *) g_new0 (GnomeObjectServant, 1);
+	servant = (POA_GNOME_Calendar_Listener *) g_new0 (BonoboObjectServant, 1);
 	servant->vepv = &cal_listener_vepv;
 
 	CORBA_exception_init (&ev);
@@ -379,7 +379,7 @@ cal_listener_corba_object_create (GnomeObject *object)
 	}
 
 	CORBA_exception_free (&ev);
-	return (GNOME_Calendar_Listener) gnome_object_activate_servant (object, servant);
+	return (GNOME_Calendar_Listener) bonobo_object_activate_servant (object, servant);
 }
 
 /**
@@ -401,7 +401,7 @@ cal_listener_new (void)
 
 	listener = gtk_type_new (CAL_LISTENER_TYPE);
 
-	corba_listener = cal_listener_corba_object_create (GNOME_OBJECT (listener));
+	corba_listener = cal_listener_corba_object_create (BONOBO_OBJECT (listener));
 
 	CORBA_exception_init (&ev);
 	result = CORBA_Object_is_nil (corba_listener, &ev);

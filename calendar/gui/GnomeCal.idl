@@ -1,3 +1,5 @@
+#include <Bonobo.idl>
+
 module GNOME {
 
 	module Calendar {

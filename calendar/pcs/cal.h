@@ -23,7 +23,7 @@
 #define CAL_H
 
 #include <libgnome/gnome-defs.h>
-#include <bonobo/gnome-object.h>
+#include <bonobo/bonobo-object.h>
 #include "gnome-calendar.h"
 #include "cal-common.h"
 
@@ -38,14 +38,14 @@ BEGIN_GNOME_DECLS
 #define IS_CAL_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), CAL_TYPE))
 
 struct _Cal {
-	GnomeObject object;
+	BonoboObject object;
 
 	/* Private data */
 	gpointer priv;
 };
 
 struct _CalClass {
-	GnomeObjectClass parent_class;
+	BonoboObjectClass parent_class;
 };
 
 GtkType cal_get_type (void);
@@ -54,7 +54,7 @@ Cal *cal_construct (Cal *cal,
 		    GNOME_Calendar_Cal corba_cal,
 		    CalBackend *backend,
 		    GNOME_Calendar_Listener listener);
-GNOME_Calendar_Cal cal_corba_object_create (GnomeObject *object);
+GNOME_Calendar_Cal cal_corba_object_create (BonoboObject *object);
 
 Cal *cal_new (CalBackend *backend, GNOME_Calendar_Listener listener);
 

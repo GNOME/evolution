@@ -23,7 +23,7 @@
 #define CAL_FACTORY_H
 
 #include <libgnome/gnome-defs.h>
-#include <bonobo/gnome-object.h>
+#include <bonobo/bonobo-object.h>
 #include "gnome-calendar.h"
 
 BEGIN_GNOME_DECLS
@@ -41,20 +41,20 @@ typedef struct _CalFactory CalFactory;
 typedef struct _CalFactoryClass CalFactoryClass;
 
 struct _CalFactory {
-	GnomeObject object;
+	BonoboObject object;
 
 	/* Private data */
 	gpointer priv;
 };
 
 struct _CalFactoryClass {
-	GnomeObjectClass parent_class;
+	BonoboObjectClass parent_class;
 };
 
 GtkType cal_factory_get_type (void);
 
 CalFactory *cal_factory_construct (CalFactory *factory, GNOME_Calendar_CalFactory corba_factory);
-GNOME_Calendar_CalFactory cal_factory_corba_object_create (GnomeObject *object);
+GNOME_Calendar_CalFactory cal_factory_corba_object_create (BonoboObject *object);
 
 CalFactory *cal_factory_new (void);
 

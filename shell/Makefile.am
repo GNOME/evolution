@@ -35,7 +35,7 @@ evolution_SOURCES =		\
 
 Evolution-impl.o: Evolution.h
 
-$(EVOOLUTION_CORBA_GENERATED): Evolution.idl 
+$(EVOLUTION_CORBA_GENERATED): Evolution.idl 
 	orbit-idl -I`$(GNOME_CONFIG) --datadir`/idl -I$(srcdir) $(srcdir)/Evolution.idl
 
 evolution_LDADD = 					\

@@ -21,7 +21,7 @@
 
 #include <config.h>
 #include <libgnorba/gnorba.h>
-#include <bonobo/gnome-bonobo.h>
+#include <bonobo.h>
 #include <libgnomevfs/gnome-vfs.h>
 #include "cal-factory.h"
 #include "calobj.h"
@@ -68,7 +68,7 @@ create_cal_factory (void)
 		return FALSE;
 	}
 
-	object = gnome_object_corba_objref (GNOME_OBJECT (factory));
+	object = bonobo_object_corba_objref (BONOBO_OBJECT (factory));
 
 	CORBA_exception_init (&ev);
 	result = goad_server_register (CORBA_OBJECT_NIL,

@@ -7,11 +7,11 @@
  * (C) 2000 Helix Code, Inc.
  */
 
-#include <bonobo.idl>
+#include <Bonobo.idl>
 
 module Evolution {
 	
-	interface MessageList : GNOME::Unknown {
+	interface MessageList : Bonobo::Unknown {
 		
 		void select_message (in long message_number);
 		void open_message   (in long message_number);
@@ -23,7 +23,7 @@ module Evolution {
 	 * configuration of this widget is done trough 
 	 * Bonobo Properties
 	 */
-	interface FolderBrowser : GNOME::Unknown {
+	interface FolderBrowser : Bonobo::Unknown {
 		MessageList get_message_list ();
 	};
 };

@@ -23,7 +23,7 @@
 #define CAL_LISTENER_H
 
 #include <libgnome/gnome-defs.h>
-#include <bonobo/gnome-object.h>
+#include <bonobo/bonobo-object.h>
 #include "gnome-calendar.h"
 
 BEGIN_GNOME_DECLS
@@ -47,14 +47,14 @@ typedef enum {
 } CalListenerLoadStatus;
 
 struct _CalListener {
-	GnomeObject object;
+	BonoboObject object;
 
 	/* Private data */
 	gpointer priv;
 };
 
 struct _CalListenerClass {
-	GnomeObjectClass parent_class;
+	BonoboObjectClass parent_class;
 
 	void (* cal_loaded) (CalListener *listener,
 			     CalListenerLoadStatus status,
@@ -67,7 +67,7 @@ struct _CalListenerClass {
 GtkType cal_listener_get_type (void);
 
 CalListener *cal_listener_construct (CalListener *listener, GNOME_Calendar_Listener corba_listener);
-GNOME_Calendar_Listener cal_listener_corba_object_create (GnomeObject *object);
+GNOME_Calendar_Listener cal_listener_corba_object_create (BonoboObject *object);
 
 CalListener *cal_listener_new (void);
 

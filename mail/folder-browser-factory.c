@@ -8,12 +8,13 @@
  */
 #include <config.h>
 #include <gnome.h>
-#include <bonobo/gnome-main.h>
-#include <bonobo/gnome-object.h>
-#include <bonobo/gnome-generic-factory.h>
+#include <bonobo/bonobo-main.h>
+#include <bonobo/bonobo-object.h>
+#include <bonobo/bonobo-generic-factory.h>
+#include "e-util/e-util.h"
 
-static GnomeObject *
-folder_browser_factory (GnomeGenericFactory *factory, void *closure)
+static BonoboObject *
+folder_browser_factory (BonoboGenericFactory *factory, void *closure)
 {
 	g_error ("Fill me in!");
 		
@@ -23,13 +24,13 @@ folder_browser_factory (GnomeGenericFactory *factory, void *closure)
 void
 folder_browser_factory_init (void)
 {
-	static GnomeGenericFactory *bonobo_folder_browser_factory = NULL;
+	static BonoboGenericFactory *bonobo_folder_browser_factory = NULL;
 
 	if (bonobo_folder_browser_factory != NULL)
 		return;
 
 	bonobo_folder_browser_factory =
-		gnome_generic_factory_new (
+		bonobo_generic_factory_new (
 			"Evolution:FolderBrowser:1.0",
 			folder_browser_factory, NULL);
 

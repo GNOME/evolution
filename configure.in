@@ -69,12 +69,12 @@ dnl AC_SUBST(GNOMEGNORBA_LIBS)
 dnl ******************************
 dnl Check for Bonobo
 dnl ******************************
-AC_MSG_CHECKING(for Bonobo > 0.4)
+AC_MSG_CHECKING(for Bonobo > 0.5)
 if gnome-config --libs bonobo > /dev/null 2>&1; then
 	vers=`gnome-config --modversion bonobo`
 	case $vers
 	in
-	    bonobo-0.[[01234]]) bonobo_ok=false ;;
+	    bonobo-0.[[012345]]) bonobo_ok=false ;;
 	    *) bonobo_ok=true ;;
 	esac
 else
@@ -166,6 +166,7 @@ macros/Makefile
 intl/Makefile
 po/Makefile.in
 e-util/Makefile
+doc/Makefile
 camel/Makefile
 camel/providers/Makefile
 camel/providers/MH/Makefile

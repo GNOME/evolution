@@ -9,7 +9,7 @@
  */
 #include <config.h>
 #include <gnome.h>
-#include <bonobo/gnome-main.h>
+#include <bonobo/bonobo-main.h>
 #include "camel/camel-folder.h"
 #include "e-table/e-table.h"
 #include "e-table/e-table-simple.h"
@@ -40,9 +40,9 @@
 #define COL_SIZE_WIDTH        N_CHARS(6)
 #define COL_SIZE_WIDTH_MIN    32
 
-#define PARENT_TYPE (gnome_object_get_type ())
+#define PARENT_TYPE (bonobo_object_get_type ())
 
-static GnomeObjectClass *message_list_parent_class;
+static BonoboObjectClass *message_list_parent_class;
 static POA_Evolution_MessageList__vepv evolution_message_list_vepv;
 
 /*
@@ -303,7 +303,7 @@ evolution_message_list_get_epv (void)
 static void
 message_list_corba_class_init (void)
 {
-	evolution_message_list_vepv.GNOME_Unknown_epv = gnome_object_get_epv ();
+	evolution_message_list_vepv.Bonobo_Unknown_epv = bonobo_object_get_epv ();
 	evolution_message_list_vepv.Evolution_MessageList_epv = evolution_message_list_get_epv ();
 }
 
@@ -323,16 +323,16 @@ message_list_class_init (GtkObjectClass *object_class)
 static void
 message_list_construct (MessageList *message_list, Evolution_MessageList corba_message_list)
 {
-	gnome_object_construct (GNOME_OBJECT (message_list), corba_message_list);
+	bonobo_object_construct (BONOBO_OBJECT (message_list), corba_message_list);
 }
 
 static Evolution_MessageList
-create_corba_message_list (GnomeObject *object)
+create_corba_message_list (BonoboObject *object)
 {
 	POA_Evolution_MessageList *servant;
 	CORBA_Environment ev;
 
-	servant = (POA_Evolution_MessageList *) g_new0 (GnomeObjectServant, 1);
+	servant = (POA_Evolution_MessageList *) g_new0 (BonoboObjectServant, 1);
 	servant->vepv = &evolution_message_list_vepv;
 
 	CORBA_exception_init (&ev);
@@ -344,10 +344,10 @@ create_corba_message_list (GnomeObject *object)
 	}
 
 	CORBA_exception_free (&ev);
-	return (Evolution_MessageList) gnome_object_activate_servant (object, servant);
+	return (Evolution_MessageList) bonobo_object_activate_servant (object, servant);
 }
 
-GnomeObject *
+BonoboObject *
 message_list_new (void)
 {
 	Evolution_MessageList corba_object;
@@ -355,7 +355,7 @@ message_list_new (void)
 
 	message_list = gtk_type_new (message_list_get_type ());
 
-	corba_object = create_corba_message_list (GNOME_OBJECT (message_list));
+	corba_object = create_corba_message_list (BONOBO_OBJECT (message_list));
 	if (corba_object == CORBA_OBJECT_NIL){
 		gtk_object_destroy (GTK_OBJECT (message_list));
 		return NULL;
@@ -363,7 +363,7 @@ message_list_new (void)
 
 	message_list_construct (message_list, corba_object);
 
-	return GNOME_OBJECT (message_list);
+	return BONOBO_OBJECT (message_list);
 }
 
 void

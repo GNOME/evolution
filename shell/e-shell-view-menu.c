@@ -215,13 +215,13 @@ static GnomeUIInfo esv_menu [] = {
 void
 e_shell_view_setup_menus (EShellView *eshell_view)
 {
-	GnomeUIHandlerMenuItem *list;
+	BonoboUIHandlerMenuItem *list;
 
-	eshell_view->uih = gnome_ui_handler_new ();
-	gnome_ui_handler_set_app (eshell_view->uih, GNOME_APP (eshell_view));
-	gnome_ui_handler_create_menubar (eshell_view->uih);
+	eshell_view->uih = bonobo_ui_handler_new ();
+	bonobo_ui_handler_set_app (eshell_view->uih, GNOME_APP (eshell_view));
+	bonobo_ui_handler_create_menubar (eshell_view->uih);
 
-	list = gnome_ui_handler_menu_parse_uiinfo_list_with_data (esv_menu, eshell_view);
-	gnome_ui_handler_menu_add_list (eshell_view->uih, "/", list);
-	gnome_ui_handler_menu_free_list (list);
+	list = bonobo_ui_handler_menu_parse_uiinfo_list_with_data (esv_menu, eshell_view);
+	bonobo_ui_handler_menu_add_list (eshell_view->uih, "/", list);
+	bonobo_ui_handler_menu_free_list (list);
 }

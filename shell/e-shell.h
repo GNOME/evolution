@@ -1,7 +1,7 @@
 #ifndef E_SHELL_H
 #define E_SHELL_H
 
-#include <bonobo/gnome-object.h>
+#include <bonobo/bonobo-object.h>
 #include "evolution.h"
 #include "e-folder.h"
 #include "e-shortcut.h"
@@ -16,7 +16,7 @@
 #define E_IS_SHELL_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_SHELL_TYPE))
 
 struct _EShell {
-	GnomeObject base_object;
+	BonoboObject base_object;
 
 	/* A list of EShellViews */
 	GSList *views;
@@ -35,7 +35,7 @@ struct _EShell {
 };
 
 typedef struct {
-	GnomeObjectClass parent_class;
+	BonoboObjectClass parent_class;
 } EShellClass;
 
 EShell     *e_shell_new             (void);

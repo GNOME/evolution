@@ -270,7 +270,7 @@ cal_client_load_calendar (CalClient *client, const char *str_uri)
 		return FALSE;
 	}
 
-	corba_listener = (GNOME_Calendar_Listener) gnome_object_corba_objref (priv->listener);
+	corba_listener = (GNOME_Calendar_Listener) bonobo_object_corba_objref (priv->listener);
 
 	CORBA_exception_init (&ev);
 

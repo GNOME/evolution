@@ -14,8 +14,8 @@
 #include "alarm.h"
 #include "timeutil.h"
 #include "../libversit/vcc.h"
-#include <libgnorba/gnome-factory.h>
 #include <libgnorba/gnorba.h>
+#include <bonobo.h>
 #include "GnomeCal.h"
 #include "corba-cal-factory.h"
 #include "corba-cal.h"
@@ -24,14 +24,14 @@ CORBA_ORB                 orb;
 PortableServer_POA        poa;
 PortableServer_POAManager poa_manager;
 
-static POA_GNOME_GenericFactory__epv  calendar_epv;
-static POA_GNOME_GenericFactory__vepv calendar_vepv;
+static POA_Bonobo_GenericFactory__epv  calendar_epv;
+static POA_Bonobo_GenericFactory__vepv calendar_vepv;
 
 /*
  * Servant and Object Factory
  */
-static POA_GNOME_GenericFactory calendar_servant;
-static GNOME_GenericFactory     calendar_factory;
+static POA_Bonobo_GenericFactory calendar_servant;
+static Bonobo_GenericFactory     calendar_factory;
 
 static CORBA_boolean
 calendar_supports (PortableServer_Servant servant,
@@ -61,7 +61,7 @@ calendar_create_object (PortableServer_Servant servant,
 		
 	if (strcmp (goad_id, "IDL:GNOME:Calendar:Repository:1.0") != 0){
                 CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-                                     ex_GNOME_GenericFactory_CannotActivate,
+                                     ex_Bonobo_GenericFactory_CannotActivate,
                                      NULL);
 		return CORBA_OBJECT_NIL;
 	}
@@ -72,7 +72,7 @@ calendar_create_object (PortableServer_Servant servant,
 	
 	if (stat (name, &s) != 0){
                 CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-                                     ex_GNOME_GenericFactory_CannotActivate,
+                                     ex_Bonobo_GenericFactory_CannotActivate,
                                      NULL);
 		return CORBA_OBJECT_NIL;
 	}
@@ -99,12 +99,12 @@ init_corba_server (void)
 	PortableServer_POAManager_activate (poa_manager, &ev);
 
 	/* First create the locator for the repositories as a factory object */
-	calendar_vepv.GNOME_GenericFactory_epv = &calendar_epv;
+	calendar_vepv.Bonobo_GenericFactory_epv = &calendar_epv;
 	calendar_epv.supports = calendar_supports;
 	calendar_epv.create_object = calendar_create_object;
 
 	calendar_servant.vepv = &calendar_vepv;
-	POA_GNOME_GenericFactory__init ((PortableServer_Servant) &calendar_servant, &ev);
+	POA_Bonobo_GenericFactory__init ((PortableServer_Servant) &calendar_servant, &ev);
 	CORBA_free (PortableServer_POA_activate_object (
 		poa, (PortableServer_Servant)&calendar_servant, &ev));
 

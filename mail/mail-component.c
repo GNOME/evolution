@@ -8,7 +8,7 @@
  */
 #include <config.h>
 #include <gnome.h>
-#include <bonobo/gnome-main.h>
+#include <bonobo/bonobo-main.h>
 #include "e-util/e-gui-utils.h"
 
 CORBA_Environment ev;

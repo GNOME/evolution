@@ -776,7 +776,7 @@ create_alarm_page (void)
 	main_box = gtk_vbox_new (FALSE, GNOME_PAD);
 	gtk_container_set_border_width (GTK_CONTAINER (main_box), GNOME_PAD_SMALL);
 	gnome_property_box_append_page (GNOME_PROPERTY_BOX (prop_win), 
-				       main_box, gtk_label_new (_("Alarms")));
+					main_box, gtk_label_new (_("Alarms")));
 
 	/* build miscellaneous box */
 	misc_frame = gtk_frame_new (_("Alarm Properties"));

@@ -14,10 +14,10 @@
 #include "e-util/e-util.h"
 #include "e-shell.h"
 
-#define PARENT_TYPE (gnome_object_get_type ())
+#define PARENT_TYPE (bonobo_object_get_type ())
 
-static GnomeObjectClass *e_shell_parent_class;
-POA_GNOME_Evolution_Shell__vepv eshell_vepv;
+static BonoboObjectClass *e_shell_parent_class;
+POA_Evolution_Shell__vepv eshell_vepv;
 
 GtkType e_shell_get_type (void);
 
@@ -77,45 +77,45 @@ e_shell_new_note (EShell *eshell)
 
 static void
 EShell_cmd_new (PortableServer_Servant servant,
-		const GNOME_Evolution_Shell_NewType type,
+		const Evolution_Shell_NewType type,
 		CORBA_Environment *ev)
 {
-	EShell *eshell = E_SHELL (gnome_object_from_servant (servant));
+	EShell *eshell = E_SHELL (bonobo_object_from_servant (servant));
 
 	switch (type){
-	case GNOME_Evolution_Shell_APPOINTMENT:
+	case Evolution_Shell_APPOINTMENT:
 		e_shell_new_appointment (eshell);
 		break;
 		
-	case GNOME_Evolution_Shell_MEETING_REQUEST:
+	case Evolution_Shell_MEETING_REQUEST:
 		e_shell_new_meeting_request (eshell);
 		break;
 
-	case GNOME_Evolution_Shell_TASK:
+	case Evolution_Shell_TASK:
 		e_shell_new_task (eshell);
 		break;
 
-	case GNOME_Evolution_Shell_TASK_REQUEST:
+	case Evolution_Shell_TASK_REQUEST:
 		e_shell_new_task_request (eshell);
 		break;
 
-	case GNOME_Evolution_Shell_CONTACT:
+	case Evolution_Shell_CONTACT:
 		e_shell_new_contact (eshell);
 		break;
 
-	case GNOME_Evolution_Shell_MAIL_MESSAGE:
+	case Evolution_Shell_MAIL_MESSAGE:
 		e_shell_new_mail_message (eshell);
 		break;
 
-	case GNOME_Evolution_Shell_DISTRIBUTION_LIST:
+	case Evolution_Shell_DISTRIBUTION_LIST:
 		e_shell_new_distribution_list (eshell);
 		break;
 
-	case GNOME_Evolution_Shell_JOURNAL_ENTRY:
+	case Evolution_Shell_JOURNAL_ENTRY:
 		e_shell_new_journal_entry (eshell);
 		break;
 		
-	case GNOME_Evolution_Shell_NOTE:
+	case Evolution_Shell_NOTE:
 		e_shell_new_note (eshell);
 		break;
 		
@@ -123,12 +123,12 @@ EShell_cmd_new (PortableServer_Servant servant,
 	}
 }
 
-static POA_GNOME_Evolution_Shell__epv *
+static POA_Evolution_Shell__epv *
 e_shell_get_epv (void)
 {
-	POA_GNOME_Evolution_Shell__epv *epv;
+	POA_Evolution_Shell__epv *epv;
 
-	epv = g_new0 (POA_GNOME_Evolution_Shell__epv, 1);
+	epv = g_new0 (POA_Evolution_Shell__epv, 1);
 
 	epv->new = EShell_cmd_new;
 
@@ -138,8 +138,8 @@ e_shell_get_epv (void)
 static void
 init_e_shell_corba_class (void)
 {
-	eshell_vepv.GNOME_Unknown_epv = gnome_object_get_epv ();
-	eshell_vepv.GNOME_Evolution_Shell_epv = e_shell_get_epv ();
+	eshell_vepv.Bonobo_Unknown_epv = bonobo_object_get_epv ();
+	eshell_vepv.Evolution_Shell_epv = e_shell_get_epv ();
 }
 
 static void
@@ -199,17 +199,17 @@ e_shell_quit (EShell *eshell)
 }
 
 static CORBA_Object
-create_corba_eshell (GnomeObject *object)
+create_corba_eshell (BonoboObject *object)
 {
-	POA_GNOME_Evolution_Shell *servant;
+	POA_Evolution_Shell *servant;
 	CORBA_Environment ev;
 
-	servant = (POA_GNOME_Evolution_Shell *)g_new0 (GnomeObjectServant, 1);
+	servant = (POA_Evolution_Shell *)g_new0 (BonoboObjectServant, 1);
 	servant->vepv = &eshell_vepv;
 
 	CORBA_exception_init (&ev);
 
-	POA_GNOME_Evolution_Shell__init ((PortableServer_Servant) servant, &ev);
+	POA_Evolution_Shell__init ((PortableServer_Servant) servant, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION){
 		CORBA_exception_free (&ev);
 		g_free (servant);
@@ -218,7 +218,7 @@ create_corba_eshell (GnomeObject *object)
 
 	CORBA_exception_free (&ev);
 
-	return gnome_object_activate_servant (object, servant);
+	return bonobo_object_activate_servant (object, servant);
 }
 
 static void
@@ -297,20 +297,20 @@ e_shell_init (GtkObject *object)
 }
 
 static void
-e_shell_construct (EShell *eshell, GNOME_Evolution_Shell corba_eshell)
+e_shell_construct (EShell *eshell, Evolution_Shell corba_eshell)
 {
-	gnome_object_construct (GNOME_OBJECT (eshell), corba_eshell);
+	bonobo_object_construct (BONOBO_OBJECT (eshell), corba_eshell);
 }
 
 EShell *
 e_shell_new (void)
 {
-	GNOME_Evolution_Shell corba_eshell;
+	Evolution_Shell corba_eshell;
 	EShell *eshell;
 
 	eshell = gtk_type_new (e_shell_get_type ());
 
-	corba_eshell = create_corba_eshell (GNOME_OBJECT (eshell));
+	corba_eshell = create_corba_eshell (BONOBO_OBJECT (eshell));
 	if (corba_eshell == CORBA_OBJECT_NIL){
 		gtk_object_destroy (GTK_OBJECT (eshell));
 		return NULL;

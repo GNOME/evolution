@@ -9,7 +9,7 @@
 #include <config.h>
 #include <gnome.h>
 #include <libgnorba/gnorba.h>
-#include <bonobo/gnome-main.h>
+#include <bonobo/bonobo-main.h>
 #include "e-util/e-gui-utils.h"
 #include "main.h"
 
@@ -32,7 +32,7 @@ init_bonobo (int argc, char **argv)
 	}
 }
 
-void
+int
 main (int argc, char *argv [])
 {
 	bindtextdomain (PACKAGE, EVOLUTION_LOCALEDIR);

@@ -10,6 +10,7 @@ EXTRA_DIST =			\
 	NEWS
 
 SUBDIRS =			\
+	intl			\
 	po			\
 	macros			\
 	data			\

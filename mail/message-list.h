@@ -1,8 +1,8 @@
 #ifndef _MESSAGE_LIST_H_
 #define _MESSAGE_LIST_H_
 
-#include <bonobo/gnome-main.h>
-#include <bonobo/gnome-object.h>
+#include <bonobo/bonobo-main.h>
+#include <bonobo/bonobo-object.h>
 #include "camel/camel-folder.h"
 
 #define MESSAGE_LIST_TYPE        (message_list_get_type ())
@@ -29,7 +29,7 @@ enum {
 };
 
 typedef struct {
-	GnomeObject parent;
+	BonoboObject parent;
 
 	ETableModel  *table_model;
 	ETableHeader *header_model;
@@ -48,11 +48,11 @@ typedef struct {
 } MessageList;
 
 typedef struct {
-	GnomeObjectClass parent_class;
+	BonoboObjectClass parent_class;
 } MessageListClass;
 
 GtkType        message_list_get_type   (void);
-GnomeObject   *message_list_new        (void);
+BonoboObject   *message_list_new        (void);
 void           message_list_set_folder (MessageList *message_list,
 					CamelFolder *camel_folder);
 GtkWidget     *message_list_get_widget (MessageList *message_list);

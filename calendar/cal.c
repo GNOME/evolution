@@ -42,7 +42,7 @@ static void cal_destroy (GtkObject *object);
 
 static POA_GNOME_Calendar_Cal__vepv cal_vepv;
 
-static GnomeObjectClass *parent_class;
+static BonoboObjectClass *parent_class;
 
 
 
@@ -72,7 +72,7 @@ cal_get_type (void)
 			(GtkClassInitFunc) NULL
 		};
 
-		cal_type = gtk_type_unique (GNOME_OBJECT_TYPE, &cal_info);
+		cal_type = gtk_type_unique (BONOBO_OBJECT_TYPE, &cal_info);
 	}
 
 	return cal_type;
@@ -82,7 +82,7 @@ cal_get_type (void)
 static void
 init_cal_corba_class (void)
 {
-	cal_vepv.GNOME_Unknown_epv = gnome_object_get_epv ();
+	cal_vepv.Bonobo_Unknown_epv = bonobo_object_get_epv ();
 	cal_vepv.GNOME_Calendar_Cal_epv = cal_get_epv ();
 }
 
@@ -94,7 +94,7 @@ cal_class_init (CalClass *class)
 
 	object_class = (GtkObjectClass *) class;
 
-	parent_class = gtk_type_class (GNOME_OBJECT_TYPE);
+	parent_class = gtk_type_class (BONOBO_OBJECT_TYPE);
 
 	object_class->destroy = cal_destroy;
 
@@ -155,7 +155,7 @@ Cal_get_uri (PortableServer_Servant servant,
 	char *str_uri;
 	CORBA_char *str_uri_copy;
 
-	cal = CAL (gnome_object_from_servant (servant));
+	cal = CAL (bonobo_object_from_servant (servant));
 	priv = cal->priv;
 
 	uri = cal_backend_get_uri (priv->backend);
@@ -230,13 +230,13 @@ cal_construct (Cal *cal,
 
 	priv->backend = backend;
 
-	gnome_object_construct (GNOME_OBJECT (cal), corba_cal);
+	bonobo_object_construct (BONOBO_OBJECT (cal), corba_cal);
 	return cal;
 }
 
 /**
  * cal_corba_object_create:
- * @object: #GnomeObject that will wrap the CORBA object.
+ * @object: #BonoboObject that will wrap the CORBA object.
  *
  * Creates and activates the CORBA object that is wrapped by the specified
  * calendar client interface @object.
@@ -245,7 +245,7 @@ cal_construct (Cal *cal,
  * failure.
  **/
 GNOME_Calendar_Cal
-cal_corba_object_create (GnomeObject *object)
+cal_corba_object_create (BonoboObject *object)
 {
 	POA_GNOME_Calendar_Cal *servant;
 	CORBA_Environment ev;
@@ -253,7 +253,7 @@ cal_corba_object_create (GnomeObject *object)
 	g_return_val_if_fail (object != NULL, CORBA_OBJECT_NIL);
 	g_return_val_if_fail (IS_CAL (object), CORBA_OBJECT_NIL);
 
-	servant = (POA_GNOME_Calendar_Cal *) g_new0 (GnomeObjectServant, 1);
+	servant = (POA_GNOME_Calendar_Cal *) g_new0 (BonoboObjectServant, 1);
 	servant->vepv = &cal_vepv;
 
 	CORBA_exception_init (&ev);
@@ -266,7 +266,7 @@ cal_corba_object_create (GnomeObject *object)
 	}
 
 	CORBA_exception_free (&ev);
-	return (GNOME_Calendar_Cal) gnome_object_activate_servant (object, servant);
+	return (GNOME_Calendar_Cal) bonobo_object_activate_servant (object, servant);
 }
 
 /**
@@ -292,7 +292,7 @@ cal_new (CalBackend *backend, GNOME_Calendar_Listener listener)
 	g_return_val_if_fail (IS_CAL_BACKEND (backend), NULL);
 
 	cal = CAL (gtk_type_new (CAL_TYPE));
-	corba_cal = cal_corba_object_create (GNOME_OBJECT (cal));
+	corba_cal = cal_corba_object_create (BONOBO_OBJECT (cal));
 
 	CORBA_exception_init (&ev);
 	ret = CORBA_Object_is_nil ((CORBA_Object) corba_cal, &ev);

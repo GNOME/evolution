@@ -41,7 +41,7 @@ static void cal_factory_destroy (GtkObject *object);
 
 static POA_GNOME_Calendar_CalFactory__vepv cal_factory_vepv;
 
-static GnomeObjectClass *parent_class;
+static BonoboObjectClass *parent_class;
 
 
 
@@ -71,7 +71,7 @@ cal_factory_get_type (void)
 			(GtkClassInitFunc) NULL
 		};
 
-		cal_factory_type = gtk_type_unique (gnome_object_get_type (), &cal_factory_info);
+		cal_factory_type = gtk_type_unique (bonobo_object_get_type (), &cal_factory_info);
 	}
 
 	return cal_factory_type;
@@ -81,7 +81,7 @@ cal_factory_get_type (void)
 static void
 init_cal_factory_corba_class (void)
 {
-	cal_factory_vepv.GNOME_Unknown_epv = gnome_object_get_epv ();
+	cal_factory_vepv.Bonobo_Unknown_epv = bonobo_object_get_epv ();
 	cal_factory_vepv.GNOME_Calendar_CalFactory_epv = cal_factory_get_epv ();
 }
 
@@ -93,7 +93,7 @@ cal_factory_class_init (CalFactoryClass *class)
 
 	object_class = (GtkObjectClass *) class;
 
-	parent_class = gtk_type_class (gnome_object_get_type ());
+	parent_class = gtk_type_class (bonobo_object_get_type ());
 
 	object_class->destroy = cal_factory_destroy;
 
@@ -165,7 +165,7 @@ CalFactory_load (PortableServer_Servant servant,
 	CORBA_Environment ev2;
 	gboolean result;
 
-	factory = CAL_FACTORY (gnome_object_from_servant (servant));
+	factory = CAL_FACTORY (bonobo_object_from_servant (servant));
 	priv = factory->priv;
 
 	CORBA_exception_init (&ev2);
@@ -194,7 +194,7 @@ CalFactory_create (PortableServer_Servant servant,
 	CalFactory *factory;
 	CalFactoryPrivate *priv;
 
-	factory = CAL_FACTORY (gnome_object_from_servant (servant));
+	factory = CAL_FACTORY (bonobo_object_from_servant (servant));
 	priv = factory->priv;
 
 	cal_factory_create (factory, uri, listener);
@@ -309,7 +309,7 @@ add_calendar_client (CalFactory *factory, CalBackend *backend, GNOME_Calendar_Li
 	CORBA_exception_init (&ev);
 	GNOME_Calendar_Listener_cal_loaded (listener,
 					    GNOME_Calendar_Listener_SUCESSS,
-					    gnome_object_corba_objref (GNOME_OBJECT (cal)),
+					    bonobo_object_corba_objref (BONOBO_OBJECT (cal)),
 					    &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
@@ -395,13 +395,13 @@ cal_factory_construct (CalFactory *factory, GNOME_Calendar_CalFactory corba_fact
 	g_return_val_if_fail (factory != NULL, NULL);
 	g_return_val_if_fail (IS_CAL_FACTORY (factory), NULL);
 
-	gnome_object_construct (GNOME_OBJECT (factory), corba_factory);
+	bonobo_object_construct (BONOBO_OBJECT (factory), corba_factory);
 	return factory;
 }
 
 /**
  * cal_factory_corba_object_create:
- * @object: #GnomeObject that will wrap the CORBA object.
+ * @object: #BonoboObject that will wrap the CORBA object.
  *
  * Creates and activates the CORBA object that is wrapped by the specified
  * calendar factory @object.
@@ -410,7 +410,7 @@ cal_factory_construct (CalFactory *factory, GNOME_Calendar_CalFactory corba_fact
  * failure.
  **/
 GNOME_Calendar_CalFactory
-cal_factory_corba_object_create (GnomeObject *object)
+cal_factory_corba_object_create (BonoboObject *object)
 {
 	POA_GNOME_Calendar_CalFactory *servant;
 	CORBA_Environment ev;
@@ -418,7 +418,7 @@ cal_factory_corba_object_create (GnomeObject *object)
 	g_return_val_if_fail (object != NULL, CORBA_OBJECT_NIL);
 	g_return_val_if_fail (IS_CAL_FACTORY (object), CORBA_OBJECT_NIL);
 
-	servant = (POA_GNOME_Calendar_CalFactory *) g_new0 (GnomeObjectServant, 1);
+	servant = (POA_GNOME_Calendar_CalFactory *) g_new0 (BonoboObjectServant, 1);
 	servant->vepv = &cal_factory_vepv;
 
 	CORBA_exception_init (&ev);
@@ -432,7 +432,7 @@ cal_factory_corba_object_create (GnomeObject *object)
 	}
 
 	CORBA_exception_free (&ev);
-	return (GNOME_Calendar_CalFactory) gnome_object_activate_servant (object, servant);
+	return (GNOME_Calendar_CalFactory) bonobo_object_activate_servant (object, servant);
 }
 
 /**
@@ -454,7 +454,7 @@ cal_factory_new (void)
 
 	factory = gtk_type_new (CAL_FACTORY_TYPE);
 
-	corba_factory = cal_factory_corba_object_create (GNOME_OBJECT (factory));
+	corba_factory = cal_factory_corba_object_create (BONOBO_OBJECT (factory));
 
 	CORBA_exception_init (&ev);
 	retval = CORBA_Object_is_nil (corba_factory, &ev);

@@ -138,8 +138,7 @@ tlacuache_SOURCES =				\
 	tlacuache.c
 
 LINK_FLAGS = \
-	$(GNOME_LIBDIR) \
-	$(GNOMEGNORBA_LIBS) \
+	$(BONOBO_VFS_GNOME_LIBS) \
 	$(INTLLIBS) \
 	../libversit/libversit.la
 

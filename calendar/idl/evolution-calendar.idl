@@ -10,7 +10,7 @@
 #ifndef _GNOME_CALENDAR_IDL_
 #define _GNOME_CALENDAR_IDL_
 
-#include <gnome-unknown.idl>
+#include <Bonobo.idl>
 
 module GNOME {
 
@@ -26,13 +26,13 @@ module Calendar {
 	interface Listener;
 
 	/* Calendar client interface */
-	interface Cal : Unknown {
+	interface Cal : Bonobo::Unknown {
 		/* A calendar is identified by its URI */
 		readonly attribute string uri;
 	};
 
 	/* Listener for changes in a calendar */
-	interface Listener : Unknown {
+	interface Listener : Bonobo::Unknown {
 		/* Return status when loading a calendar; we need better error reporting */
 		enum LoadStatus {
 			SUCESSS,
@@ -55,7 +55,7 @@ module Calendar {
 	};
 
 	/* A calendar factory, can load and create calendars */
-	interface CalFactory : Unknown {
+	interface CalFactory : Bonobo::Unknown {
 		exception NilListener {};
 
 		/* Load a calendar from an URI */

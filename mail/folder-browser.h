@@ -13,7 +13,7 @@
 typedef struct {
 	GtkTable parent;
 
-	GnomePropertyBag *properties;
+	BonoboPropertyBag *properties;
 
 	/*
 	 * The current URI being displayed by the FolderBrowser

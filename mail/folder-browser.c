@@ -42,7 +42,7 @@ folder_browser_set_uri (FolderBrowser *folder_browser, const char *uri)
 }
 
 static void
-folder_browser_property_changed (GnomePropertyBag *properties,
+folder_browser_property_changed (BonoboPropertyBag *properties,
 				 const char *name,
 				 const char *type,
 				 gpointer old_value,
@@ -62,9 +62,9 @@ folder_browser_init (GtkObject *object)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (object);
 
-	fb->properties = gnome_property_bag_new ();
+	fb->properties = bonobo_property_bag_new ();
 
-	gnome_property_bag_add (
+	bonobo_property_bag_add (
 		fb->properties, PROPERTY_FOLDER_URI, "string",
 		NULL, NULL, _("The URI that the Folder Browser will display", 0);
 

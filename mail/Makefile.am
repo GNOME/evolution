@@ -8,7 +8,7 @@ INCLUDES = \
 	-I$(srcdir)/../widgets				\
 	$(BONOBO_HTML_GNOME_CFLAGS)
 
-EVOLUTION_CORBA_GENERATED = 	\
+EVOLUTION_MAIL_CORBA_GENERATED = \
 	Mail.h			\
 	Mail-common.c		\
 	Mail-skels.c		\
@@ -24,7 +24,7 @@ evolution_mail_SOURCES =	\
 	main.c			\
 	message-list.c		\
 	message-list.h		\
-	$(EVOLUTION_CORBA_GENERATED)
+	$(EVOLUTION_MAIL_CORBA_GENERATED)
 
 evolution_mail_LDADD = 					\
 	../widgets/e-table/libetable.a			\

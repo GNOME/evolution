@@ -1,8 +1,8 @@
 #ifndef E_SHELL_VIEW_H
 #define E_SHELL_VIEW_H
 
-#include <bonobo/gnome-object.h>
-#include <bonobo/gnome-ui-handler.h>
+#include <bonobo/bonobo-object.h>
+#include <bonobo/bonobo-ui-handler.h>
 #include "e-shell.h"
 
 #define E_SHELL_VIEW_TYPE        (e_shell_view_get_type ())
@@ -18,7 +18,7 @@ struct _EShellView {
 	EShell  *eshell;
 
 	/* Our user interface handler */
-	GnomeUIHandler *uih;
+	BonoboUIHandler *uih;
 
 
 	EFolder   *efolder;

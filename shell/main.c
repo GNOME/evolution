@@ -8,7 +8,7 @@
 #include <config.h>
 #include <gnome.h>
 #include <libgnorba/gnorba.h>
-#include <bonobo/gnome-bonobo.h>
+#include <bonobo.h>
 #include <e-util/e-gui-utils.h>
 #include <e-util/e-cursors.h>
 #include <glade/glade.h>
