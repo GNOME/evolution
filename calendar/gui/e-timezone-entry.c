@@ -43,24 +43,19 @@
 #include "art/timezone-16.xpm"
 
 struct _ETimezoneEntryPrivate {
-	/* This is the timezone set in e_timezone_entry_set_timezone().
-	   Note that we don't copy it or use a ref count - we assume it is
-	   never destroyed for the lifetime of this widget. */
+	/* The current timezone, set in e_timezone_entry_set_timezone()
+	   or from the timezone dialog. Note that we don't copy it or
+	   use a ref count - we assume it is never destroyed for the
+	   lifetime of this widget. */
 	icaltimezone *zone;
-	
-	/* This is TRUE if the timezone has been changed since being set.
-	   If it hasn't, we can just return zone, If it has, we return the
-	   builtin timezone with tzid. (It can only be changed to a builtin
-	   timezone, or to 'local time', i.e. no timezone.) */
-	gboolean changed;
-
-	GtkWidget *entry;
-	GtkWidget *button;
 
 	/* This can be set to the default timezone. If the current timezone
 	   setting in the ETimezoneEntry matches this, then the entry field
 	   is hidden. This makes the user interface simpler. */
 	icaltimezone *default_zone;
+
+	GtkWidget *entry;
+	GtkWidget *button;
 };
 
 
@@ -79,10 +74,7 @@ static void on_entry_changed		(GtkEntry	*entry,
 static void on_button_clicked		(GtkWidget	*widget,
 					 ETimezoneEntry	*tentry);
 
-static char* e_timezone_entry_get_display_name	(ETimezoneEntry *tentry,
-						 icaltimezone	*zone);
-
-static void e_timezone_entry_set_entry_visibility (ETimezoneEntry *tentry);
+static void e_timezone_entry_set_entry  (ETimezoneEntry *tentry);
 
 
 static GtkHBoxClass *parent_class;
@@ -128,7 +120,6 @@ e_timezone_entry_init		(ETimezoneEntry	*tentry)
 	tentry->priv = priv = g_new0 (ETimezoneEntryPrivate, 1);
 
 	priv->zone = NULL;
-	priv->changed = FALSE;
 	priv->default_zone = NULL;
 
 	priv->entry  = gtk_entry_new ();
@@ -199,37 +190,18 @@ on_button_clicked		(GtkWidget	*widget,
 	ETimezoneEntryPrivate *priv;
 	ETimezoneDialog *timezone_dialog;
 	GtkWidget *dialog;
-	char *tzid = NULL;
-	const gchar *old_display_name;
-	const gchar *display_name;
 
 	priv = tentry->priv;
-	display_name = gtk_entry_get_text (GTK_ENTRY (priv->entry));
-
-	if (priv->zone)
-		tzid = icaltimezone_get_tzid (priv->zone);
 
 	timezone_dialog = e_timezone_dialog_new ();
 
-	/* e_timezone_dialog_set_timezone() should really take (const gchar *) */
-	e_timezone_dialog_set_timezone (timezone_dialog, tzid, (gchar *) display_name);
+	e_timezone_dialog_set_timezone (timezone_dialog, priv->zone);
 
 	dialog = e_timezone_dialog_get_toplevel (timezone_dialog);
 
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT) {
-		tzid = e_timezone_dialog_get_timezone (E_TIMEZONE_DIALOG (timezone_dialog), &display_name);
-		old_display_name = gtk_entry_get_text (GTK_ENTRY (priv->entry));
-		/* See if the timezone has been changed. It can only have been
-		   changed to a builtin timezone, in which case the returned
-		   TZID will be NULL. */
-		if (strcmp (old_display_name, display_name)
-		    || (!tzid && priv->zone)) {
-			priv->changed = TRUE;
-			priv->zone = NULL;
-		}
-
-		gtk_entry_set_text (GTK_ENTRY (priv->entry), display_name);
-		e_timezone_entry_set_entry_visibility (tentry);
+		priv->zone = e_timezone_dialog_get_timezone (timezone_dialog);
+		e_timezone_entry_set_entry (tentry);
 	}
 
 	g_object_unref (timezone_dialog);
@@ -248,22 +220,12 @@ icaltimezone*
 e_timezone_entry_get_timezone		(ETimezoneEntry	*tentry)
 {
 	ETimezoneEntryPrivate *priv;
-	const char *display_name;
 
 	g_return_val_if_fail (E_IS_TIMEZONE_ENTRY (tentry), NULL);
 
 	priv = tentry->priv;
 
-	/* If the timezone hasn't been change, we can just return the same
-	   zone we were passed in. */
-	if (!priv->changed)
-		return priv->zone;
-
-	/* If the timezone has changed, it can only have been changed to a
-	   builtin timezone or 'local time' (i.e. no timezone). */
-	display_name = gtk_entry_get_text (GTK_ENTRY (priv->entry));
-
-	return e_timezone_dialog_get_builtin_timezone (display_name);
+	return priv->zone;
 }
 
 
@@ -272,49 +234,14 @@ e_timezone_entry_set_timezone		(ETimezoneEntry	*tentry,
 					 icaltimezone	*zone)
 {
 	ETimezoneEntryPrivate *priv;
-	gchar *display_name;
 
 	g_return_if_fail (E_IS_TIMEZONE_ENTRY (tentry));
 
 	priv = tentry->priv;
 
 	priv->zone = zone;
-	priv->changed = FALSE;
 
-	display_name = e_timezone_entry_get_display_name (tentry, zone);
-	gtk_entry_set_text (GTK_ENTRY (priv->entry),
-			    display_name ? display_name : "");
-	g_free (display_name);
-
-	e_timezone_entry_set_entry_visibility (tentry);
-}
-
-
-/* Returns the timezone name to display to the user, in the locale's encoding.
-   We prefer to use the Olson city name, but fall back on the TZNAME, or
-   finally the TZID. We don't want to use "" as it may be wrongly interpreted
-   as a 'local time'. If zone is NULL, NULL is returned. The returned string
-   should be freed. */
-static char*
-e_timezone_entry_get_display_name	(ETimezoneEntry *tentry,
-					 icaltimezone	*zone)
-{
-	char *display_name;
-
-	if (!zone)
-		return NULL;
-
-	/* Get the UTF-8 display name from the icaltimezone. */
-	display_name = icaltimezone_get_display_name (zone);
-
-	/* We check if it is one of our builtin timezone names, in which case
-	   we call gettext to translate it. If it isn't a builtin timezone
-	   name, we don't. */
-	if (icaltimezone_get_builtin_timezone (display_name)) {
-		return g_strdup (_(display_name));
-	} else {
-		return g_strdup (display_name);
-	}
+	e_timezone_entry_set_entry (tentry);
 }
 
 
@@ -333,26 +260,33 @@ e_timezone_entry_set_default_timezone	(ETimezoneEntry	*tentry,
 
 	priv->default_zone = zone;
 
-	e_timezone_entry_set_entry_visibility (tentry);
+	e_timezone_entry_set_entry (tentry);
 }
 
 
 static void
-e_timezone_entry_set_entry_visibility (ETimezoneEntry	*tentry)
+e_timezone_entry_set_entry (ETimezoneEntry *tentry)
 {
 	ETimezoneEntryPrivate *priv;
-	icaltimezone *zone;
-	gboolean show_entry = TRUE;
+	const char *display_name;
 
 	priv = tentry->priv;
 
-	if (priv->default_zone) {
-		zone = e_timezone_entry_get_timezone (tentry);
-		if (zone == priv->default_zone)
-			show_entry = FALSE;
-	}
+	if (priv->zone) {
+		display_name = icaltimezone_get_display_name (priv->zone);
 
-	if (show_entry)
+		/* We check if it is one of our builtin timezone
+		   names, in which case we call gettext to translate
+		   it. If it isn't a builtin timezone name, we
+		   don't. */
+		if (icaltimezone_get_builtin_timezone (display_name))
+			display_name = _(display_name);
+	} else
+		display_name = "";
+
+	gtk_entry_set_text (GTK_ENTRY (priv->entry), display_name);
+
+	if (!priv->default_zone || (priv->zone != priv->default_zone))
 		gtk_widget_show (priv->entry);
 	else
 		gtk_widget_hide (priv->entry);

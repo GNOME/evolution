@@ -1,3 +1,10 @@
+2003-03-11  Dan Winship  <danw@ximian.com>
+
+	* gui/calendar-config.c (on_timezone_set): Update for timezone
+	dialog API changes.
+
+	* gui/e-timezone-entry.c: Likewise
+
 2003-03-11  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/gnome-cal.c (gnome_calendar_open): issue more descriptive
