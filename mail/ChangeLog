@@ -1,5 +1,10 @@
 2000-08-12  Dan Winship  <danw@helixcode.com>
 
+	* component-factory.c (create_imap_storage): Take the source as a
+	command-line argument rather than fetching it from mail-config.
+	(owner_set_cb): Call create_imap_storage on each configured IMAP
+	store.
+
 	* mail-format.c (decode_pgp): Redo this so that the lock icon
 	remains active after a failed decryption so you can click on it
 	and try again.

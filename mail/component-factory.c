@@ -45,7 +45,8 @@ CamelFolder *drafts_folder = NULL;
 char *evolution_dir;
 
 static void create_vfolder_storage (EvolutionShellComponent *shell_component);
-static void create_imap_storage (EvolutionShellComponent *shell_component);
+static void create_imap_storage (EvolutionShellComponent *shell_component,
+				 const char *source);
 static void create_news_storage (EvolutionShellComponent *shell_component);
 
 #define COMPONENT_FACTORY_ID "OAFIID:evolution-shell-component-factory:evolution-mail:0ea887d5-622b-4b8c-b525-18aa1cbe18a6"
@@ -103,6 +104,9 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	      const char *evolution_homedir,
 	      gpointer user_data)
 {
+	GSList *sources;
+	MailConfigService *s;
+
 	g_print ("evolution-mail: Yeeeh! We have an owner!\n");	/* FIXME */
 	
 	evolution_dir = g_strdup (evolution_homedir);
@@ -110,8 +114,15 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	mail_config_init ();
 	mail_do_setup_draftbox ();
 	create_vfolder_storage (shell_component);
-	create_imap_storage (shell_component);
 	create_news_storage (shell_component);
+
+	sources = mail_config_get_sources ();
+	while (sources) {
+		s = sources->data;
+		if (!g_strncasecmp (s->url, "imap:", 5))
+			create_imap_storage (shell_component, s->url);
+		sources = sources->next;
+	}
 }
 
 static void
@@ -187,21 +198,14 @@ create_vfolder_storage (EvolutionShellComponent *shell_component)
 }
 
 static void
-create_imap_storage (EvolutionShellComponent *shell_component)
+create_imap_storage (EvolutionShellComponent *shell_component,
+		     const char *source)
 {
-	const MailConfigService *s;
 	EvolutionShellClient *shell_client;
 	Evolution_Shell corba_shell;
 	EvolutionStorage *storage;
-	char *source = NULL, *server, *p;
-	
-	s = mail_config_get_default_source ();
-	if (s)
-		source = s->url;
+	char *server, *p;
 
-	if (!source || g_strncasecmp (source, "imap://", 7))
-		return;
-	
 	shell_client = evolution_shell_component_get_owner (shell_component);
 	if (shell_client == NULL) {
 		g_warning ("We have no shell!?");
@@ -210,10 +214,8 @@ create_imap_storage (EvolutionShellComponent *shell_component)
 	
 	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));
 	
-	if (!(server = strchr (source, '@'))) {
-		g_free (source);
+	if (!(server = strchr (source, '@')))
 		return;
-	}
 	
 	server++;
 	for (p = server; *p && *p != '/'; p++);
@@ -225,7 +227,6 @@ create_imap_storage (EvolutionShellComponent *shell_component)
 
 	if (evolution_storage_register_on_shell (storage, corba_shell) != EVOLUTION_STORAGE_OK) {
 		g_warning ("Cannot register storage");
-		g_free (source);
 		return;
 	}
 
@@ -266,7 +267,6 @@ create_news_storage (EvolutionShellComponent *shell_component)
 
 	if (evolution_storage_register_on_shell (storage, corba_shell) != EVOLUTION_STORAGE_OK) {
 		g_warning ("Cannot register storage");
-		g_free (source);
 		return;
 	}
 
