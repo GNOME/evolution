@@ -1,3 +1,39 @@
+2004-09-21  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #63521.
+
+	* camel-movemail.c (camel_movemail): don't clear exception on entry.
+
+	* camel-folder-search.c (match_words_message): use local exception.
+
+	* camel-operation.c (camel_operation_cancel_check): soak up all
+	cancellation requests as soon as we get one.
+	(camel_operation_uncancel): soak up all cancellation reqeusts when
+	we uncancel.
+
+	* camel-uid-cache.c (camel_uid_cache_save): open the file O_TRUNC
+	rather than O_EXCL, otherwise a crash would mean this file never
+	gets updated.
+	(camel_uid_cache_save): block cancellation around writes otherwise
+	we could be interupted from old cancellation.
+
+	* providers/local/camel-local-folder.c
+	(camel_local_folder_construct): don't clear exception here, just
+	don't pass it to summary load.
+
+	* providers/pop3/camel-pop3-store.c (pop3_connect): only clear the
+	exception when we received one we handled.
+
+	* camel-filter-driver.c (close_folder): if exception is already
+	set, don't pass it to folder.sync().
+
+	* camel-lock.c (camel_lock_folder): don't clear the exception
+	here, if it came in set its a programming error.
+
+	* camel-filter-driver.c (camel_filter_driver_filter_message): if
+	the exception is set after evaluating the expression, stop
+	immediately.
+
 2004-09-13  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #47821.

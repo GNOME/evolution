@@ -92,8 +92,6 @@ camel_movemail(const char *source, const char *dest, CamelException *ex)
 	int sfd, dfd;
 	struct stat st;
 
-	camel_exception_clear(ex);
-
 	/* Stat and then open the spool file. If it doesn't exist or
 	 * is empty, the user has no mail. (There's technically a race
 	 * condition here in that an MDA might have just now locked it

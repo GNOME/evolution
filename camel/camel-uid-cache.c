@@ -153,7 +153,7 @@ camel_uid_cache_save (CamelUIDCache *cache)
 	int fd;
 	
 	filename = g_strdup_printf ("%s~", cache->filename);
-	if ((fd = open (filename, O_WRONLY | O_CREAT | O_EXCL, 0666)) == -1) {
+	if ((fd = open (filename, O_WRONLY | O_CREAT | O_TRUNC, 0666)) == -1) {
 		g_free (filename);
 		return FALSE;
 	}
@@ -267,7 +267,7 @@ camel_uid_cache_get_new_uids (CamelUIDCache *cache, GPtrArray *uids)
 	
 	new_uids = g_ptr_array_new ();
 	cache->level++;
-	
+
 	for (i = 0; i < uids->len; i++) {
 		struct _uid_state *state;
 		
@@ -303,7 +303,7 @@ camel_uid_cache_save_uid (CamelUIDCache *cache, const char *uid)
 	gpointer old_uid;
 	
 	g_return_if_fail (uid != NULL);
-	
+
 	if (g_hash_table_lookup_extended (cache->uids, uid, (void **)&old_uid, (void **)&state)) {
 		state->save = TRUE;
 		state->level = cache->level;
@@ -311,7 +311,7 @@ camel_uid_cache_save_uid (CamelUIDCache *cache, const char *uid)
 		state = g_new (struct _uid_state, 1);
 		state->save = TRUE;
 		state->level = cache->level;
-		
+
 		g_hash_table_insert (cache->uids, g_strdup (uid), state);
 	}
 }

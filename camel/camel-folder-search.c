@@ -1108,15 +1108,16 @@ match_words_message(CamelFolder *folder, const char *uid, struct _camel_search_w
 {
 	guint32 mask;
 	CamelMimeMessage *msg;
+	CamelException x = CAMEL_EXCEPTION_INITIALISER;
 	int truth;
 
-	msg = camel_folder_get_message(folder, uid, ex);
+	msg = camel_folder_get_message(folder, uid, &x);
 	if (msg) {
 		mask = 0;
 		truth = match_words_1message((CamelDataWrapper *)msg, words, &mask);
 		camel_object_unref((CamelObject *)msg);
 	} else {
-		camel_exception_clear(ex);
+		camel_exception_clear(&x);
 		truth = FALSE;
 	}
 

@@ -937,7 +937,7 @@ close_folder (void *key, void *value, void *data)
 	g_free (key);
 
 	if (folder != FOLDER_INVALID) {
-		camel_folder_sync (folder, FALSE, p->ex);
+		camel_folder_sync (folder, FALSE, camel_exception_is_set(p->ex)?NULL : p->ex);
 		camel_folder_thaw (folder);
 		camel_object_unref (folder);
 	}
@@ -1422,6 +1422,9 @@ camel_filter_driver_filter_message (CamelFilterDriver *driver, CamelMimeMessage 
 				goto error;
 			}
 			r = e_sexp_eval (p->eval);
+			if (camel_exception_is_set(p->ex))
+				goto error;
+
 			if (r == NULL) {
 				camel_exception_setv (ex, 1, _("Error executing filter: %s: %s"),
 						      e_sexp_error (p->eval), node->action);
