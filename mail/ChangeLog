@@ -1,3 +1,11 @@
+2001-11-01  Dan Winship  <danw@ximian.com>
+
+	* mail-format.c (handle_multipart_signed): Write out the url
+	before callind add_url since add_url may free it. Fixes #13839.
+	Remove debug printf.
+
+	* mail-display.c (on_object_requested): Remove debug printf.
+
 2001-10-31  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c (list_add_addresses): Don't use a

@@ -1786,14 +1786,13 @@ handle_multipart_signed (CamelMimePart *part, const char *mime_type,
 		/* Write out the click-for-info object */
 		url = g_strdup_printf ("signature:%p/%lu", subpart,
 				       (unsigned long)time (NULL));
-		printf ("adding %s\n", url);
-		add_url ("part_urls", url, subpart, md);
 		mail_html_write (md->html, md->stream,
 				 "<br><table cellspacing=0 cellpadding=0>"
 				 "<tr><td><table width=10 cellspacing=0 cellpadding=0><tr><td></td></tr></table></td>"
 				 "<td><object classid=\"%s\"></object></td>"
 				 "<td><table width=3 cellspacing=0 cellpadding=0><tr><td></td></tr></table></td>"
 				 "<td><font size=-1>", url);
+		add_url ("part_urls", url, subpart, md);
 		
 		mail_html_write_string (md->html, md->stream, 
 					U_("This message is digitally signed. "

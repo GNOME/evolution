@@ -963,8 +963,6 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 		return do_attachment_header (html, eb, part, md);
 	} else if (!strncmp (eb->classid, "signature:", 10)) {
 		part = g_hash_table_lookup (urls, eb->classid);
-		printf ("%s -> %p (IS%s a mime part)\n",
-			eb->classid, part, CAMEL_IS_MIME_PART (part) ? "" : " NOT");
 		if (!CAMEL_IS_MIME_PART (part))
 			return FALSE;
 		return do_signature (html, eb, part, md);
