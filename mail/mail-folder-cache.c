@@ -214,13 +214,13 @@ update_idle (gpointer user_data)
 	/* Check if this makes sense */
 
 	if (!(mfi->flags & MAIL_FIF_NAME_VALID)) {
-		g_warning ("Folder cache update info without \'name\' set");
+		g_warning ("Folder cache update info of \'%s\' without \'name\' set", mfi->uri);
 		UNLOCK_FOLDERS ();
 		return FALSE;
 	}
 
 	if (mfi->update_mode == MAIL_FIUM_UNKNOWN) {
-		g_warning ("Folder cache update info without \'mode\' set");
+		g_warning ("Folder cache update info of \'%s\' without \'mode\' set", mfi->uri);
 		UNLOCK_FOLDERS ();
 		return FALSE;
 	}

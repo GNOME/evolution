@@ -1,5 +1,10 @@
 2001-07-24  Peter Williams  <peterw@ximian.com>
 
+	* mail-folder-cache.c (update_idle): Make the error reporting a little
+	but more descriptive.
+
+2001-07-24  Peter Williams  <peterw@ximian.com>
+
 	* mail-config.glade: Add new label widgets with a message that SSL
 	isn't supported.
 	
