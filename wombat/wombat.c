@@ -29,6 +29,7 @@
 #endif
 
 #include "wombat-moniker.h"
+#include "wombat-private-moniker.h"
 
 #define CAL_FACTORY_OAF_ID "OAFIID:GNOME_Evolution_Wombat_CalendarFactory"
 #define PAS_BOOK_FACTORY_OAF_ID "OAFIID:GNOME_Evolution_Wombat_ServerFactory"
@@ -169,6 +170,22 @@ setup_config (int argc, char **argv)
 	return TRUE;
 }
 
+static gboolean
+setup_private (int argc, char **argv)
+{
+	BonoboGenericFactory *factory;
+	char *oafiid = "OAFIID:Bonobo_Moniker_wombat_private_Factory";
+
+	factory = bonobo_generic_factory_new_multi (oafiid, 
+						    wombat_private_moniker_factory,
+						    NULL);
+       
+	// bonobo_running_context_auto_exit_unref (BONOBO_OBJECT (factory));
+       
+
+	return TRUE;
+}
+
 static void
 setup_vfs (int argc, char **argv)
 {
@@ -206,7 +223,7 @@ init_bonobo (int *argc, char **argv)
 int
 main (int argc, char **argv)
 {
-	gboolean did_pas=FALSE, did_pcs=FALSE, did_config=FALSE;
+	gboolean did_pas=FALSE, did_pcs=FALSE, did_config=FALSE, did_private=FALSE;
 
 	bindtextdomain (PACKAGE, EVOLUTION_LOCALEDIR);
 	textdomain (PACKAGE);
@@ -222,7 +239,8 @@ main (int argc, char **argv)
 
 	if (!( (did_pas = setup_pas (argc, argv))
 	       && (did_pcs = setup_pcs (argc, argv))
-	       && (did_config = setup_config (argc, argv)))) {
+	       && (did_config = setup_config (argc, argv))
+	       && (did_private = setup_private (argc, argv)))) {
 
 		const gchar *failed = NULL;
 
@@ -232,6 +250,8 @@ main (int argc, char **argv)
 		  failed = "PCS";
 		else if (!did_config)
 		  failed = "Config";
+		else if (!did_private)
+		  failed = "Private Config";
 
 		g_message ("main(): could not initialize Wombat service \"%s\"; terminating", failed);
 

@@ -1,3 +1,15 @@
+2001-10-11  Chris Toshok  <toshok@ximian.com>
+
+	* Makefile.am (wombat_SOURCES): add wombat-private-moniker.[ch].
+
+	* GNOME_Evolution_WombatLDAP.oaf.in: add wombat-private
+	factory/moniker.
+
+	* GNOME_Evolution_WombatNOLDAP.oaf.in: same.
+
+	* wombat-private-moniker.[ch]: xmldb for private database -- non
+	configuration settings, basically.
+
 2001-10-02  Chris Toshok  <toshok@ximian.com>
 
 	* GNOME_Evolution_WombatNOLDAP.oaf.in: add
