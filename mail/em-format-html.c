@@ -1660,7 +1660,7 @@ static void efh_format_message(EMFormat *emf, CamelStream *stream, CamelMedium *
 	if (!efh->hide_headers)
 		efh_format_headers(efh, stream, part);
 	
-	camel_stream_printf(stream, "<table height=6><tr><td><a></a></td></tr></table>\n");
+	camel_stream_printf(stream, EM_FORMAT_HTML_VPAD);
 	em_format_part(emf, stream, (CamelMimePart *)part);
 
 	if (emf->message != (CamelMimeMessage *)part)

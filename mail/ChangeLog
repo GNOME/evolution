@@ -1,3 +1,14 @@
+2004-03-23  Radek Doulik  <rodo@ximian.com>
+
+	* em-format-html-display.c (efhd_format_attachment): use
+	EM_FORMAT_HTML_VPAD
+
+	* em-format-html.h (EM_FORMAT_HTML_VPAD): added new define for
+	vertical padding
+
+	* em-format-html.c (efh_format_message): change padding table so
+	that it works OK with fixed gtkhtml
+
 2004-03-23  Not Zed  <NotZed@Ximian.com>
 
 	* em-format-html-display.c (efhd_attachment_popup): dont add the

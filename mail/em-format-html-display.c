@@ -1470,7 +1470,7 @@ efhd_format_attachment(EMFormat *emf, CamelStream *stream, CamelMimePart *part, 
 	info->snoop_mime_type = emf->snoop_mime_type;
 
 	camel_stream_write_string(stream,
-				  "<table height=6><tr><td><a></a></td></tr></table>\n"
+				  EM_FORMAT_HTML_VPAD
 				  "<table cellspacing=0 cellpadding=0><tr><td>"
 				  "<table width=10 cellspacing=0 cellpadding=0>"
 				  "<tr><td></td></tr></table></td>");
@@ -1491,7 +1491,7 @@ efhd_format_attachment(EMFormat *emf, CamelStream *stream, CamelMimePart *part, 
 
 	camel_stream_write_string(stream,
 				  "</font></td></tr><tr></table>\n"
-				  "<table height=6><tr><td><a></a></td></tr></table>\n");
+				  EM_FORMAT_HTML_VPAD);
 
 	if (handle) {
 		if (info->shown)

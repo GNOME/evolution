@@ -97,6 +97,8 @@ struct _EMFormatHTMLPObject {
 #define EM_FORMAT_HTML_XMAILER_OTHER     (1<<1)
 #define EM_FORMAT_HTML_XMAILER_RUPERT    (1<<2)
 
+#define EM_FORMAT_HTML_VPAD "<table cellspacing=0 cellpadding=3><tr><td><a name=\"padding\"></a></td></tr></table>\n"
+
 struct _EMFormatHTML {
 	EMFormat format;
 
