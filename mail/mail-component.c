@@ -195,6 +195,19 @@ add_storage (MailComponent *component,
 	g_signal_connect(storage, "async_open_folder",
 			 G_CALLBACK (storage_async_open_folder_callback), store);
 
+#if 0	/* Some private test code - zed */
+	{
+		static void *model;
+
+		if (model == NULL) {
+			model = em_store_model_new();
+			em_store_model_view_new(model);
+		}
+
+		em_store_model_add_store(model, store);
+	}
+#endif
+
 #if 0
 	/* EPFIXME these are not needed anymore.  */
 	g_signal_connect(storage, "create_folder", G_CALLBACK(storage_create_folder), store);

@@ -43,6 +43,7 @@
 #include <camel/camel-medium.h>
 #include <camel/camel-mime-message.h>
 #include <camel/camel-gpg-context.h>
+#include <camel/camel-smime-context.h>
 #include <camel/camel-string-utils.h>
 #include <camel/camel-stream-filter.h>
 #include <camel/camel-stream-null.h>
@@ -770,13 +771,19 @@ int em_format_is_inline(EMFormat *emf, CamelMimePart *part)
 	if (g_hash_table_lookup_extended(emf->inline_table, part, &dummy, &override))
 		return GPOINTER_TO_INT(override);
 
+	ct = camel_mime_part_get_content_type(part);
+
+	/* TODO: make this depend on libnss supported */
+	/* For some reason rfc2633 says we always add this as an attachment, which
+	   stuffs us up since we don't want to treat it that way at all ... */
+	if (camel_content_type_is(ct, "application", "x-pkcs7-mime"))
+		return TRUE;
+
 	tmp = camel_mime_part_get_disposition(part);
 	if (tmp)
 		return g_ascii_strcasecmp(tmp, "inline") == 0;
 
 	/* messages are always inline? */
-	ct = camel_mime_part_get_content_type(part);
-
 	return camel_content_type_is (ct, "message", "*");
 }
 
@@ -1165,7 +1172,6 @@ emf_multipart_signed(EMFormat *emf, CamelStream *stream, CamelMimePart *part, co
 	CamelException ex;
 	const char *message = NULL;
 	gboolean good = FALSE;
-	CamelCipherContext *cipher;
 
 	mps = (CamelMultipartSigned *)camel_medium_get_content_object((CamelMedium *)part);
 	if (!CAMEL_IS_MULTIPART_SIGNED(mps)
@@ -1176,22 +1182,34 @@ emf_multipart_signed(EMFormat *emf, CamelStream *stream, CamelMimePart *part, co
 
 	em_format_part(emf, stream, cpart);
 
+	/* FIXME: This sequence is also copied in em-format-html.c */
+
 	spart = camel_multipart_get_part((CamelMultipart *)mps, CAMEL_MULTIPART_SIGNED_SIGNATURE);
 	camel_exception_init(&ex);
 	if (spart == NULL) {
 		message = _("No signature present");
 	} else if (emf->session == NULL) {
 		message = _("Session not initialised");
-	} else if ((cipher = camel_gpg_context_new(emf->session)) == NULL) {
-		message = _("Could not create signature verfication context");
 	} else {
-		valid = camel_multipart_signed_verify(mps, cipher, &ex);
-		camel_object_unref(cipher);
-		if (valid) {
-			good = camel_cipher_validity_get_valid(valid);
-			message = camel_cipher_validity_get_description(valid);
+		CamelCipherContext *cipher = NULL;
+
+		/* FIXME: Should be done via a plugin interface */
+		if (g_ascii_strcasecmp("application/x-pkcs7-signature", mps->protocol) == 0)
+			cipher = camel_smime_context_new(emf->session);
+		else if (g_ascii_strcasecmp("application/pgp-signature", mps->protocol) == 0)
+			cipher = camel_gpg_context_new(emf->session);
+
+		if (cipher == NULL) {
+			message = _("Unsupported signature format");
 		} else {
-			message = camel_exception_get_description(&ex);
+			valid = camel_multipart_signed_verify(mps, cipher, &ex);
+			camel_object_unref(cipher);
+			if (valid) {
+				good = camel_cipher_validity_get_valid(valid);
+				message = camel_cipher_validity_get_description(valid);
+			} else {
+				message = camel_exception_get_description(&ex);
+			}
 		}
 	}
 	
@@ -1221,6 +1239,31 @@ emf_message_rfc822(EMFormat *emf, CamelStream *stream, CamelMimePart *part, cons
 	em_format_format_message(emf, stream, (CamelMedium *)dw);
 }
 
+static void
+emf_application_xpkcs7mime(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info)
+{
+	CamelCipherContext *context;
+	CamelMimePart *opart;
+	CamelException *ex;
+	extern CamelSession *session;
+
+	/* ... this could be anything; signed, enveloped, certs, crls, etc.
+	   ... assume encrypted content at this point */
+	ex = camel_exception_new();
+
+	context = camel_smime_context_new(session);
+	opart = camel_cipher_decrypt(context, part, ex);
+	camel_object_unref(context);
+
+	if (opart == NULL) {
+		em_format_format_error(emf, stream, ex->desc?ex->desc:_("Could not parse S/MIME message: Unknown error"));
+	} else {
+		em_format_part(emf, stream, opart);
+		camel_object_unref(opart);
+	}
+	camel_exception_free(ex);
+}
+
 static EMFormatHandler type_builtin_table[] = {
 	{ "multipart/alternative", emf_multipart_alternative },
 	{ "multipart/appledouble", emf_multipart_appledouble },
@@ -1232,6 +1275,9 @@ static EMFormatHandler type_builtin_table[] = {
 	{ "message/rfc822", emf_message_rfc822 },
 	{ "message/news", emf_message_rfc822 },
 	{ "message/*", emf_message_rfc822 },
+
+	/* TODO: This should be done via a plugin? */
+	{ "application/x-pkcs7-mime",(EMFormatFunc)emf_application_xpkcs7mime },
 };
 
 static void

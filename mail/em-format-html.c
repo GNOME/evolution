@@ -53,6 +53,7 @@
 #include <camel/camel-multipart.h>
 #include <camel/camel-multipart-signed.h>
 #include <camel/camel-gpg-context.h>
+#include <camel/camel-smime-context.h>
 #include <camel/camel-stream-mem.h>
 #include <camel/camel-url.h>
 #include <camel/camel-stream-fs.h>
@@ -60,6 +61,7 @@
 #include <camel/camel-http-stream.h>
 #include <camel/camel-data-cache.h>
 #include <camel/camel-file-utils.h>
+
 
 #include <e-util/e-msgport.h>
 
@@ -913,29 +915,41 @@ em_format_html_multipart_signed_sign(EMFormat *emf, CamelStream *stream, CamelMi
 	CamelException ex;
 	const char *message = NULL;
 	int good = 0;
-	CamelCipherContext *cipher;
 	char *classid;
 	EMFormatPURI *iconpuri;
 	CamelMimePart *iconpart;
 	static int iconid;
 
 	mps = (CamelMultipartSigned *)camel_medium_get_content_object((CamelMedium *)part);
+
+	/* FIXME: This sequence is also copied in em-format-html.c */
+
 	spart = camel_multipart_get_part((CamelMultipart *)mps, CAMEL_MULTIPART_SIGNED_SIGNATURE);
 	camel_exception_init(&ex);
 	if (spart == NULL) {
 		message = _("No signature present");
 	} else if (emf->session == NULL) {
 		message = _("Session not initialised");
-	} else if ((cipher = camel_gpg_context_new(emf->session)) == NULL) {
-		message = _("Could not create signature verfication context");
 	} else {
-		valid = camel_multipart_signed_verify(mps, cipher, &ex);
-		camel_object_unref(cipher);
-		if (valid) {
-			good = camel_cipher_validity_get_valid(valid)?1:0;
-			message = camel_cipher_validity_get_description(valid);
+		CamelCipherContext *cipher = NULL;
+
+		/* FIXME: Should be done via a plugin interface */
+		if (g_ascii_strcasecmp("application/x-pkcs7-signature", mps->protocol) == 0)
+			cipher = camel_smime_context_new(emf->session);
+		else if (g_ascii_strcasecmp("application/pgp-signature", mps->protocol) == 0)
+			cipher = camel_gpg_context_new(emf->session);
+
+		if (cipher == NULL) {
+			message = _("Unsupported signature format");
 		} else {
-			message = camel_exception_get_description(&ex);
+			valid = camel_multipart_signed_verify(mps, cipher, &ex);
+			camel_object_unref(cipher);
+			if (valid) {
+				good = camel_cipher_validity_get_valid(valid)?1:0;
+				message = camel_cipher_validity_get_description(valid);
+			} else {
+				message = camel_exception_get_description(&ex);
+			}
 		}
 	}
 

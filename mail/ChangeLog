@@ -1,3 +1,21 @@
+2003-10-30  Not Zed  <NotZed@Ximian.com>
+
+	* em-format.c (em_format_is_inline): show application/x-pkcs7-mime
+	inline always by default.
+
+2003-10-30  Not Zed  <NotZed@Ximian.com>
+
+	* em-format.c (emf_multipart_signed): handle
+	application/x-pkcs7-signature.
+
+2003-10-29  Not Zed  <NotZed@Ximian.com>
+
+	* em-format-html.c (em_format_html_multipart_signed_sign): handle
+	application/x-pkcs7-signature.
+
+	* em-format.c (emf_application_xpkcs7mime): Handle
+	application/x-pkcs7-mime.
+
 2003-10-29  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-account-prefs.h: Changed the OAFIID.
