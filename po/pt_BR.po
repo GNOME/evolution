@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.0.3\n"
 "POT-Creation-Date: 2002-01-30 14:04-0200\n"
-"PO-Revision-Date: 2002-01-30 16:52-0200\n"
+"PO-Revision-Date: 2002-01-30 17:16-0200\n"
 "Last-Translator: Gustavo Maciel Dias Vieira <gdvieira@zaz.com.br>\n"
 "Language-Team: Brazilian Portuguese <ldp-br@bazar.conectiva.com.br>\n"
 "MIME-Version: 1.0\n"
@@ -11844,7 +11844,7 @@ msgstr "Sem descrição"
 
 #: my-evolution/e-summary-mail.c:129
 msgid "Mail summary"
-msgstr "Resumo da mensagem"
+msgstr "Resumo das mensagens"
 
 #. translators: Put a list of codes for locations you want to see in
 #. My Evolution by default here. You can find the list of all
@@ -11936,11 +11936,11 @@ msgstr ""
 
 #: my-evolution/metar.c:29
 msgid " F"
-msgstr "°F"
+msgstr "° F"
 
 #: my-evolution/metar.c:29
 msgid " C"
-msgstr "°C"
+msgstr "° C"
 
 #: my-evolution/metar.c:33
 msgid "knots"
