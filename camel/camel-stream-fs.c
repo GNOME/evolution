@@ -26,6 +26,7 @@
  */
 #include <config.h>
 #include "camel-stream-fs.h"
+#include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
@@ -51,7 +52,10 @@ static void _finalize (GtkObject *object);
 static void _destroy (GtkObject *object);
 
 static void _init_with_fd (CamelStreamFs *stream_fs, int fd);
+static void _init_with_fd_and_bounds (CamelStreamFs *stream_fs, int fd, guint32 inf_bound, gint64 sup_bound);
 static void _init_with_name (CamelStreamFs *stream_fs, const gchar *name, CamelStreamFsMode mode);
+static void _init_with_name_and_bounds (CamelStreamFs *stream_fs, const gchar *name, CamelStreamFsMode mode,
+					guint32 inf_bound, gint64 sup_bound);
 
 static void
 camel_stream_fs_class_init (CamelStreamFsClass *camel_stream_fs_class)
@@ -63,8 +67,10 @@ camel_stream_fs_class_init (CamelStreamFsClass *camel_stream_fs_class)
 	
 	/* virtual method definition */
 	camel_stream_fs_class->init_with_fd = _init_with_fd;
+	camel_stream_fs_class->init_with_fd_and_bounds = _init_with_fd_and_bounds;
 	camel_stream_fs_class->init_with_name = _init_with_name;
-
+	camel_stream_fs_class->init_with_name_and_bounds = _init_with_name_and_bounds;
+	
 	/* virtual method overload */
 	camel_stream_class->read = _read;
 	camel_stream_class->write = _write;
@@ -146,11 +152,46 @@ _finalize (GtkObject *object)
 	CAMEL_LOG_FULL_DEBUG ("Leaving CamelStreamFs::finalize\n");
 }
 
+
+
+static void 
+_set_bounds (CamelStreamFs *stream_fs, guint32 inf_bound, gint64 sup_bound)
+{
+	/* store the bounds */
+	stream_fs->inf_bound = inf_bound;
+	stream_fs->sup_bound = sup_bound;
+
+	/* go to the first position */
+	lseek ((CAMEL_STREAM_FS (stream_fs))->fd, inf_bound, SEEK_SET);
+
+	stream_fs->cur_pos = inf_bound;
+}
+
+
+
+
 static void
 _init_with_fd (CamelStreamFs *stream_fs, int fd)
 {
+	/* no bounds by default */
+	_set_bounds (stream_fs, 0, -1);
+
 	stream_fs->fd = fd;
 }
+
+
+
+
+static void
+_init_with_fd_and_bounds (CamelStreamFs *stream_fs, int fd, guint32 inf_bound, gint64 sup_bound)
+{
+	
+	CSFS_CLASS (stream_fs)->init_with_fd (stream_fs, fd);
+	_set_bounds (stream_fs, inf_bound, sup_bound);
+	
+}
+
+
 
 static void
 _init_with_name (CamelStreamFs *stream_fs, const gchar *name, CamelStreamFsMode mode)
@@ -158,9 +199,11 @@ _init_with_name (CamelStreamFs *stream_fs, const gchar *name, CamelStreamFsMode 
 	struct stat s;
 	int v, fd;
 	int flags;
-
+	
 	g_assert (name);
 	CAMEL_LOG_FULL_DEBUG ( "Entering CamelStream::new_with_name, name=\"%s\", mode=%d\n", name, mode); 
+
+
 	v = stat (name, &s);
 	
 	if (mode & CAMEL_STREAM_FS_READ){
@@ -174,6 +217,7 @@ _init_with_name (CamelStreamFs *stream_fs, const gchar *name, CamelStreamFsMode 
 		else
 			return;
 	}
+
 	if ( (mode & CAMEL_STREAM_FS_READ) && !(mode & CAMEL_STREAM_FS_WRITE) )
 		if (v == -1) return;
 
@@ -187,9 +231,23 @@ _init_with_name (CamelStreamFs *stream_fs, const gchar *name, CamelStreamFsMode 
 	stream_fs->name = g_strdup (name);
 	CSFS_CLASS (stream_fs)->init_with_fd (stream_fs, fd);
 		
-	
+	/* no bounds by default */
+	_set_bounds (stream_fs, 0, -1);
+
 
 }
+
+
+
+static void
+_init_with_name_and_bounds (CamelStreamFs *stream_fs, const gchar *name, CamelStreamFsMode mode,
+			    guint32 inf_bound, gint64 sup_bound)
+{
+	CSFS_CLASS (stream_fs)->init_with_name (stream_fs, name, mode);
+	_set_bounds (stream_fs, inf_bound, sup_bound);
+}
+
+
 
 
 CamelStream *
@@ -202,6 +260,24 @@ camel_stream_fs_new_with_name (const gchar *name, CamelStreamFsMode mode)
 	return CAMEL_STREAM (stream_fs);
 	
 }
+ 
+
+CamelStream *
+camel_stream_fs_new_with_name_and_bounds (const gchar *name, CamelStreamFsMode mode,
+					  guint32 inf_bound, gint64 sup_bound)
+{
+	CamelStreamFs *stream_fs;
+	stream_fs = gtk_type_new (camel_stream_fs_get_type ());
+	CSFS_CLASS (stream_fs)->init_with_name_and_bounds (stream_fs, name, mode, inf_bound, sup_bound);
+	
+	return CAMEL_STREAM (stream_fs);
+	
+}
+
+
+
+
+
 
 CamelStream *
 camel_stream_fs_new_with_fd (int fd)
@@ -216,6 +292,22 @@ camel_stream_fs_new_with_fd (int fd)
 	return CAMEL_STREAM (stream_fs);
 }
 
+
+
+CamelStream *
+camel_stream_fs_new_with_fd_and_bounds (int fd, guint32 inf_bound, gint64 sup_bound)
+{
+	CamelStreamFs *stream_fs;
+	
+	CAMEL_LOG_FULL_DEBUG ( "Entering CamelStream::new_with_fd  fd=%d\n",fd);
+	stream_fs = gtk_type_new (camel_stream_fs_get_type ());
+	CSFS_CLASS (stream_fs)->init_with_fd_and_bounds (stream_fs, fd, inf_bound, sup_bound);
+	
+	return CAMEL_STREAM (stream_fs);
+}
+
+
+
 /**
  * _read: read bytes from a stream
  * @stream: stream
@@ -229,18 +321,29 @@ camel_stream_fs_new_with_fd (int fd)
 static gint
 _read (CamelStream *stream, gchar *buffer, gint n)
 {
+	CamelStreamFs *stream_fs = CAMEL_STREAM_FS (stream);
 	gint v;
+	gint nb_to_read;
+	
+	if (stream_fs->sup_bound != -1)
+		nb_to_read = stream_fs->sup_bound - stream_fs->cur_pos;
+	else 
+		nb_to_read = n;
+	
 	do {
-		v = read ( (CAMEL_STREAM_FS (stream))->fd, buffer, n);
+		v = read ( (CAMEL_STREAM_FS (stream))->fd, buffer, nb_to_read);
 	} while (v == -1 && errno == EINTR);
 	if (v<0)
 		CAMEL_LOG_FULL_DEBUG ("CamelStreamFs::read v=%d\n", v);
+	else 
+		stream_fs->cur_pos += v;
+
 	return v;
 }
 
 
 /**
- * _write: read bytes to a stream
+ * _write: write bytes to a stream
  * @stream: the stream
  * @buffer: byte buffer
  * @n: number of bytes to write
@@ -253,12 +356,21 @@ _read (CamelStream *stream, gchar *buffer, gint n)
 static gint
 _write (CamelStream *stream, const gchar *buffer, gint n)
 {
+	CamelStreamFs *stream_fs = CAMEL_STREAM_FS (stream);
 	int v;
+	gint nb_to_write;
+	
 	g_assert (stream);
-	g_assert ((CAMEL_STREAM_FS (stream))->fd);
+	g_assert (stream_fs->fd);
 	CAMEL_LOG_FULL_DEBUG ( "CamelStreamFs:: entering write. n=%d\n", n);
+
+	if (stream_fs->sup_bound != -1)
+		nb_to_write = stream_fs->sup_bound - stream_fs->cur_pos;
+	else 
+		nb_to_write = n;
+
 	do {
-		v = write ( (CAMEL_STREAM_FS (stream))->fd, buffer, n);
+		v = write ( stream_fs->fd, buffer, nb_to_write);
 	} while (v == -1 && errno == EINTR);
 	
 #if HARD_LOG_LEVEL >= FULL_DEBUG
@@ -267,6 +379,10 @@ _write (CamelStream *stream, const gchar *buffer, gint n)
 		CAMEL_LOG_FULL_DEBUG ( "CamelStreamFs::write could not write bytes in stream\n");
 	}
 #endif
+
+	if (v>0)
+		stream_fs->cur_pos += v;
+
 	return v;
 
 }
@@ -336,20 +452,62 @@ static gint
 _seek (CamelStream *stream, gint offset, CamelStreamSeekPolicy policy)
 {
 	int whence;
+	gint return_position;
+	gint real_offset; 
+	CamelStreamFs *stream_fs = CAMEL_STREAM_FS (stream);
+
 	switch  (policy) {
 	case CAMEL_STREAM_SET:
-		whence = SEEK_SET;
+		real_offset = MAX (stream_fs->inf_bound + offset, stream_fs->inf_bound);
+		if (stream_fs->sup_bound > 0)
+			real_offset = MIN (real_offset, stream_fs->sup_bound);
+		whence = SEEK_SET;		
 		break;
+
 	case CAMEL_STREAM_CUR:
-		whence = SEEK_CUR;
+		if ((stream_fs->sup_bound == -1) && ((stream_fs->cur_pos + offset) > stream_fs->sup_bound)) {
+			real_offset = stream_fs->sup_bound;
+			whence = SEEK_SET;	
+		} else if ((stream_fs->cur_pos + offset) < stream_fs->inf_bound) {
+			real_offset = stream_fs->inf_bound;
+			whence = SEEK_SET;	
+		} else 
+			{
+				real_offset = offset;
+				whence = SEEK_CUR;
+			}
 		break;
+
 	case CAMEL_STREAM_END:
-		whence = SEEK_END;
+		if (stream_fs->sup_bound != -1) {
+			real_offset = stream_fs->sup_bound - offset;
+			whence = SEEK_SET;
+		} else {
+			real_offset = offset;
+			whence = SEEK_END;
+		}
+		
+		
 		break;
 	default:
 		return -1;
 	}
 		
+	
 		
-	return lseek ((CAMEL_STREAM_FS (stream))->fd, offset, whence);
+	return_position =  lseek (stream_fs->fd, real_offset, whence) - stream_fs->inf_bound;
+	stream_fs->cur_pos = return_position;
+
+	return return_position;
 }
+
+
+
+
+
+
+
+
+
+
+

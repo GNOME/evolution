@@ -105,17 +105,15 @@ main (int argc, char**argv)
 			"Full description : %s\n", camel_exception_get_description (ex));
 		return -1;
 	}
-
+	
 	uid_list = camel_folder_get_uid_list (folder, ex);
-	while (uid_list) {
-		printf ("UID : %s\n", (gchar *)uid_list->data);
-		uid_list = uid_list->next;
-	}
-       
-	camel_folder_close (folder, FALSE, ex);
-
+	
+	
+	camel_folder_get_message_by_uid (folder, (gchar *)uid_list->data, ex);
+	camel_folder_close (folder, FALSE, ex);	
 	return 1;
-}  
+}
+
 
 
 

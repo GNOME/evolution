@@ -580,24 +580,31 @@ _write_one_recipient_to_stream (gchar *recipient_type,
 static void
 _write_recipients_to_stream (CamelMimeMessage *mime_message, CamelStream *stream)
 {
-	 camel_recipient_foreach_recipient_type (mime_message->recipients, 
-						 _write_one_recipient_to_stream, 
-						 (gpointer)stream);
+	camel_recipient_foreach_recipient_type (mime_message->recipients, 
+						_write_one_recipient_to_stream, 
+						(gpointer)stream);
 }
 
 static void
 _write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 {
 	CamelMimeMessage *mm = CAMEL_MIME_MESSAGE (data_wrapper);
+
 	CAMEL_LOG_FULL_DEBUG ( "CamelMimeMessage::write_to_stream\n");
+
+
 	CAMEL_LOG_FULL_DEBUG ( "CamelMimeMessage:: Writing \"From\"\n");
 	WHPT (stream, "From", mm->from);
+
 	CAMEL_LOG_FULL_DEBUG ( "CamelMimeMessage:: Writing \"Reply-To\"\n");
 	WHPT (stream, "Reply-To", mm->reply_to);
+
 	CAMEL_LOG_FULL_DEBUG ( "CamelMimeMessage:: Writing recipients\n");
 	_write_recipients_to_stream (mm, stream);
+
 	CAMEL_LOG_FULL_DEBUG ( "CamelMimeMessage:: Writing \"Date\"\n");
 	WHPT (stream, "Date", mm->received_date);
+
 	CAMEL_LOG_FULL_DEBUG ( "CamelMimeMessage:: Writing \"Subject\"\n");
 	WHPT (stream, "Subject", mm->subject);
 
@@ -616,10 +623,13 @@ static void
 _set_recipient_list_from_string (CamelMimeMessage *message, gchar *recipient_type, gchar *recipients_string)
 {
 	GList *recipients_list;
+	GList *tmp;
+
 	CAMEL_LOG_FULL_DEBUG ("CamelMimeMessage::_set_recipient_list_from_string parsing ##%s##\n", recipients_string);
 	recipients_list = string_split (
 					recipients_string, ',', "\t ",
 					STRING_TRIM_STRIP_TRAILING | STRING_TRIM_STRIP_LEADING);
+	
 	camel_recipient_table_add_list (message->recipients, recipient_type, recipients_list);
 	
 }

@@ -85,6 +85,7 @@ gmime_write_header_with_glist_to_stream (CamelStream *stream,
 	gchar *current;
 
 	CAMEL_LOG_FULL_DEBUG ( "write_header_with_glist_to_stream:: entering\n");
+	CAMEL_LOG_FULL_DEBUG ( "\theader name : %s\n", header_name);
 	if ( (header_name) && (header_values) )
 		{
 			gboolean first;
@@ -94,6 +95,7 @@ gmime_write_header_with_glist_to_stream (CamelStream *stream,
 			first = TRUE;
 			while (header_values) {
 				current = (gchar *)header_values->data;
+				CAMEL_LOG_FULL_DEBUG ( "write_header_with_glist_to_stream:: writing value : %s\n", current);
 				if (current) {
 					if (!first) camel_stream_write_string (stream, separator);
 					else first = FALSE;

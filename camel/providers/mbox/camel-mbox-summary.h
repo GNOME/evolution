@@ -4,7 +4,7 @@
  *
  * Author : Bertrand Guiheneuf <bertrand@helixcode.com> 
  *
- * Copyright (C) 1999 Helix Code .
+ * Copyright (C) 1999 Helix Code (http://www.helixcode.com).
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -32,6 +32,7 @@
 typedef struct {
 
 	guint32  position;
+	guint    size;
 	guint    x_evolution_offset;
 	guint32  uid;
 	guchar   status;

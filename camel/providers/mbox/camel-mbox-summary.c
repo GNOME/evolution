@@ -75,10 +75,10 @@ camel_mbox_save_summary (CamelMboxSummary *summary, const gchar *filename, Camel
 
 		msg_info = (CamelMboxSummaryInformation *)(summary->message_info->data) + cur_msg;
 
-		/* write message position  + x-evolution offset
-		 + uid + status */
+		/* write message position + message size 
+		   + x-evolution offset + uid + status */
 		write (fd, (gchar *)msg_info, 
-		       sizeof (guint32) + sizeof (guint) + 
+		       sizeof (guint32) + 2 * sizeof (guint) + 
 		       sizeof (guint32) + sizeof (guchar));
 		
 		/* write subject */
@@ -154,10 +154,10 @@ camel_mbox_load_summary (const gchar *filename, CamelException *ex)
 		
 		msg_info = (CamelMboxSummaryInformation *)(summary->message_info->data) + cur_msg;
 		
-		/* read message position  + x-evolution offset
-		 + uid + status */
+		/* read message position  + message size 
+		   + x-evolution offset + uid + status */
 		read (fd, (gchar *)msg_info, 
-		       sizeof (guint32) + sizeof (guint) + 
+		       sizeof (guint32) + 2 * sizeof (guint) + 
 		       sizeof (guint32) + sizeof (guchar));
 		
 

@@ -81,6 +81,7 @@ GtkType camel_store_get_type (void);
 void camel_store_init (CamelStore *store, CamelSession *session, const gchar *url_name, CamelException *ex);
 CamelFolder *camel_store_get_folder (CamelStore *store, const gchar *folder_name, CamelException *ex);
 gchar camel_store_get_separator (CamelStore *store, CamelException *ex);
+CamelSession *camel_store_get_session (CamelStore *store, CamelException *ex);
 
 #ifdef __cplusplus
 }

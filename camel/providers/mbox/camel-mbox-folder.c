@@ -25,6 +25,7 @@
 
 #include <config.h> 
 
+#include <stdlib.h>
 #include <sys/types.h>
 #include <dirent.h>
 #include <sys/stat.h>
@@ -70,12 +71,13 @@ static GList *_list_subfolders (CamelFolder *folder, CamelException *ex);
 static gint _get_message_count (CamelFolder *folder, CamelException *ex);
 static gint _append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException *ex);
 static GList *_get_uid_list  (CamelFolder *folder, CamelException *ex);
-#if 0
 static CamelMimeMessage *_get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *ex);
+#if 0
 static void _expunge (CamelFolder *folder, CamelException *ex);
 static void _copy_message_to (CamelFolder *folder, CamelMimeMessage *message, CamelFolder *dest_folder, CamelException *ex);
 static const gchar *_get_message_uid (CamelFolder *folder, CamelMimeMessage *message, CamelException *ex);
 #endif
+
 
 static void _finalize (GtkObject *object);
 
@@ -107,8 +109,9 @@ camel_mbox_folder_class_init (CamelMboxFolderClass *camel_mbox_folder_class)
 	camel_folder_class->expunge = _expunge;
 	camel_folder_class->copy_message_to = _copy_message_to;
 	camel_folder_class->get_message_uid = _get_message_uid;
-	camel_folder_class->get_message_by_uid = _get_message_by_uid;
 #endif
+	camel_folder_class->get_message_by_uid = _get_message_by_uid;
+
 	gtk_object_class->finalize = _finalize;
 	
 }
@@ -1033,6 +1036,73 @@ _get_uid_list (CamelFolder *folder, CamelException *ex)
 
 
 
+static CamelMimeMessage *
+_get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *ex)
+{
+	
+	CamelMboxFolder *mbox_folder = CAMEL_MBOX_FOLDER(folder);
+	GArray *message_info_array;
+	CamelMboxSummaryInformation *message_info;
+	guint32 searched_uid;
+	int i;
+	gboolean uid_found;
+	CamelStreamFs *message_stream;
+	CamelMimeMessage *message = NULL;
+	CamelStore *parent_store;
+
+	CAMEL_LOG_FULL_DEBUG ("Entering CamelMboxFolder::get_uid_list\n");
+	
+        searched_uid = strtoul(uid, (char **)NULL, 10);
+
+	message_info_array = mbox_folder->summary->message_info;
+	i=0;
+	uid_found = FALSE;
+	
+	/* first, look for the message that has the searched uid */
+	while ((i<message_info_array->len) && (!uid_found)) {
+		message_info = (CamelMboxSummaryInformation *)(message_info_array->data) + i;
+		uid_found = (message_info->uid == searched_uid);
+		i++;
+	}
+	
+	/* if the uid was not found, raise an exception and return */
+	if (!uid_found) {
+		camel_exception_setv (ex, 
+				     CAMEL_EXCEPTION_FOLDER_INVALID_UID,
+				     "uid %s not found in the folder",
+				      uid);
+		CAMEL_LOG_FULL_DEBUG ("Leaving CamelMboxFolder::get_uid_list\n");
+		return NULL;
+	}
+	
+	/* at this point, the message_info structure 
+	   contains the informations concerning the 
+	   message that was searched for */
+	
+        /* create a stream bound to the message */
+	message_stream = camel_stream_fs_new_with_name_and_bounds (mbox_folder->folder_file_path, 
+								   CAMEL_STREAM_FS_READ,
+								   message_info->position, 
+								   message_info->position + message_info->size);
+
+
+	/* get the parent store */
+	parent_store = camel_folder_get_parent_store (folder, ex);
+	if (camel_exception_get_id (ex)) {
+		gtk_object_unref (GTK_OBJECT (message_stream));
+		return NULL;
+	}
+
+	
+	message = camel_mime_message_new_with_session (camel_store_get_session (parent_store, ex));
+	camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (message), CAMEL_STREAM (message_stream));
+	
+	
+
+	
+	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMboxFolder::get_uid_list\n");	
+	return message;
+}
 
 
 

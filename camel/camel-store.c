@@ -260,4 +260,16 @@ _get_default_folder (CamelStore *store, CamelException *ex)
 }
 
 
+CamelSession *
+camel_store_get_session (CamelStore *store, CamelException *ex) 
+{
+	if (!store) {
+		camel_exception_set (ex,
+				     CAMEL_EXCEPTION_STORE_NULL,
+				     "Store is NULL");
+		return NULL;
+	}
+	
+	return store->session;	
+}
 

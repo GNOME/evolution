@@ -149,7 +149,6 @@ camel_recipient_table_add (CamelRecipientTable *recipient_table,
 	/* see if there is already a list for this recipient type */
 	existent_list = (GList *)g_hash_table_lookup (recipient_table->recipient_hash_table, recipient_type);
 	
-	
 	/* append the new recipient to the recipient list
 	   if the existent_list is NULL, then a new GList is
 	   automagically created */	
@@ -179,17 +178,16 @@ camel_recipient_table_add_list (CamelRecipientTable *recipient_table,
 				const gchar *recipient_type, 
 				GList *recipient_list)
 {
-	GList *recipients_list;
 	GList *existent_list;
-	
+
 	/* see if there is already a list for this recipient type */
 	existent_list = (GList *)g_hash_table_lookup (recipient_table->recipient_hash_table, recipient_type);
-	
-	
+
 	if (existent_list) 
 		g_list_concat (existent_list, recipient_list);
 	else 
-		g_hash_table_insert (recipient_table->recipient_hash_table, g_strdup (recipient_type), recipients_list);		
+		g_hash_table_insert (recipient_table->recipient_hash_table, g_strdup (recipient_type), recipient_list);		
+
 }
 
 

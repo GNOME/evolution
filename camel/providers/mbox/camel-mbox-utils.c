@@ -356,6 +356,8 @@ parsed_information_to_mbox_summary (GArray *parsed_information)
 
 		cur_sum_info->position = cur_msg_info->message_position;
 
+		cur_sum_info->size = cur_msg_info->size;
+
 		cur_sum_info->x_evolution_offset = cur_msg_info->x_evolution_offset;
 
 		cur_sum_info->uid = cur_msg_info->uid;
