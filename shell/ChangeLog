@@ -1,3 +1,8 @@
+2003-03-03  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution-folder-selector-button.c (impl_finalize): Protect
+	against priv->possible_types being NULL.
+
 2003-02-27  Rodney Dawes  <dobey@ximian.com>
 
 	* Makefile.am (evolution_SOURCES): Add e-config-upgrade.h

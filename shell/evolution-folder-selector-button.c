@@ -224,9 +224,12 @@ impl_finalize (GObject *object)
 	priv = folder_selector_button->priv;
 
 	g_free (priv->title);
-	for (i = 0; priv->possible_types[i]; i++)
-		g_free (priv->possible_types[i]);
-	g_free (priv->possible_types);
+
+	if (priv->possible_types != NULL) {
+		for (i = 0; priv->possible_types[i]; i++)
+			g_free (priv->possible_types[i]);
+		g_free (priv->possible_types);
+	}
 
 	if (priv->selected_folder)
 		CORBA_free (priv->selected_folder);
