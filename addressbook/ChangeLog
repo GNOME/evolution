@@ -1,3 +1,8 @@
+2002-09-23  JP Rosevear  <jpr@ximian.com>
+
+	* conduit/Makefile.am: add libeutil to the link and link with
+	libcamel instead of libcamel-static.la
+
 2002-09-22  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/select-names/e-select-names-manager.h: oops, add
