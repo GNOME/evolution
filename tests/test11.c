@@ -84,7 +84,8 @@ main (int argc, char**argv)
 	printf("Search for messages\n");
 
 	matches = camel_folder_search_by_expression  (folder,
-						      "(match-all (header-contains \"subject\" \"gnome\"))",
+/*						      "(match-all (header-contains \"subject\" \"gnome\"))",*/
+						      "(body-contains \"gnome\")",
 						      ex);
 
 	printf("search found matches:\n");
@@ -93,8 +94,9 @@ main (int argc, char**argv)
 		CamelMimeMessage *m;
 		
 		printf("uid: %s\n", (char *) n->data);
+#if 0
 		m = camel_folder_get_message_by_uid(folder, n->data, ex);
-		
+
 		if (camel_exception_get_id (ex)) {
 			printf ("Cannot get message\n"
 				"Full description : %s\n", camel_exception_get_description (ex));
@@ -111,6 +113,8 @@ main (int argc, char**argv)
 			camel_mime_message_set_flags(m, CAMEL_MESSAGE_DELETED, CAMEL_MESSAGE_DELETED);
 /*			camel_mime_message_set_flags(m, CAMEL_MESSAGE_ANSWERED, CAMEL_MESSAGE_ANSWERED);*/
 		}
+		camel_mime_message_unref(m);
+#endif
 		n = g_list_next(n);
 	}
 

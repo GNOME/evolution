@@ -1,6 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* tests mime message file parsing */
-#include "gmime-utils.h"
 #include "stdio.h"
 #include "camel-mime-message.h"
 #include "camel-mime-part.h"

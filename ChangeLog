@@ -1,3 +1,12 @@
+2000-05-02  NotZed  <NotZed@HelixCode.com>
+
+	* tests/test13.c: And here too.
+
+	* tests/test2.c (main): REmoved gmime-utils.h
+
+	* tests/Makefile.am (LDADD): Add libeutil to default link line.
+	(test_movemail_LDADD): Fixed order for libutil linking.
+
 2000-05-02  Matt Loper  <matt@helixcode.com>
 
 	* tests/Makefile.am: set G_LOG_DOMAIN.
