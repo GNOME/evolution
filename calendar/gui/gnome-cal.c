@@ -35,6 +35,7 @@
 #include <libgnome/gnome-util.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-dialog-util.h>
+#include <libgnomevfs/gnome-vfs-uri.h>
 #include <liboaf/liboaf.h>
 #include <gal/e-paned/e-hpaned.h>
 #include <gal/e-paned/e-vpaned.h>
@@ -1596,6 +1597,7 @@ gnome_calendar_open (GnomeCalendar *gcal, const char *str_uri)
 	GnomeCalendarPrivate *priv;
 	char *tasks_uri;
 	gboolean success;
+	GnomeVFSURI *uri;
 
 	g_return_val_if_fail (gcal != NULL, FALSE);
 	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), FALSE);
@@ -1618,15 +1620,47 @@ gnome_calendar_open (GnomeCalendar *gcal, const char *str_uri)
 
 	add_alarms (str_uri);
 
-	/* Open the appropriate Tasks folder to show in the TaskPad.
-	   Currently we just show the folder named "Tasks", but it will be
-	   a per-calendar option in future. */
+	/* Open the appropriate Tasks folder to show in the TaskPad */
 
-	tasks_uri = g_strdup_printf ("%s/local/Tasks/tasks.ics", evolution_dir);
-	success = cal_client_open_calendar (priv->task_pad_client, tasks_uri, FALSE);
+	uri = gnome_vfs_uri_new_private (str_uri, TRUE, TRUE, TRUE);
+	if (!uri) {
+		tasks_uri = g_strdup_printf ("%s/local/Tasks/tasks.ics", evolution_dir);
+		success = cal_client_open_calendar (priv->task_pad_client, tasks_uri, FALSE);
 
-	add_alarms (tasks_uri);
-	g_free (tasks_uri);
+		add_alarms (tasks_uri);
+		g_free (tasks_uri);
+	}
+	else {
+		if (gnome_vfs_uri_is_local (uri)) {
+			tasks_uri = g_strdup_printf ("%s/local/Tasks/tasks.ics", evolution_dir);
+			success = cal_client_open_calendar (priv->task_pad_client, tasks_uri, FALSE);
+
+			add_alarms (tasks_uri);
+			g_free (tasks_uri);
+		}
+		else {
+			CalendarModel *model;
+
+			/* we use the same CalClient for tasks than for events */
+			gtk_object_unref (GTK_OBJECT (priv->task_pad_client));
+			gtk_object_ref (GTK_OBJECT (priv->client));
+			priv->task_pad_client = priv->client;
+
+			gtk_signal_connect (GTK_OBJECT (priv->task_pad_client), "cal_opened",
+					    GTK_SIGNAL_FUNC (client_cal_opened_cb), gcal);
+			gtk_signal_connect (GTK_OBJECT (priv->task_pad_client), "categories_changed",
+					    GTK_SIGNAL_FUNC (client_categories_changed_cb), gcal);
+
+			model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo));
+			g_assert (model != NULL);
+
+			calendar_model_set_cal_client (model, priv->task_pad_client, CALOBJ_TYPE_TODO);
+
+			success = TRUE;
+		}
+
+		gnome_vfs_uri_unref (uri);
+	}
 
 	if (!success) {
 		g_message ("gnome_calendar_open(): Could not issue the request");

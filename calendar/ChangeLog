@@ -1,3 +1,12 @@
+2001-08-22  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/gnome-cal.c (gnome_calendar_open): open the tasks folder
+	associated with the calendar being opened, and not always the local
+	tasks.ics file
+
+	* pcs/cal-factory.c (open_fn): use gnome_vfs_uri_new_private when
+	parsing the URI to allow non-registered URIs
+
 2001-08-21  Federico Mena Quintero  <federico@ximian.com>
 
 	* gui/dialogs/alarm-options.c (alarm_to_palarm_widgets): Handle

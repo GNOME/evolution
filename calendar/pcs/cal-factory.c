@@ -323,7 +323,7 @@ open_fn (gpointer data)
 
 	/* Check the URI */
 
-	uri = gnome_vfs_uri_new (jd->uri);
+	uri = gnome_vfs_uri_new_private (jd->uri, TRUE, TRUE, TRUE);
 	g_free (jd->uri);
 
 	only_if_exists = jd->only_if_exists;
