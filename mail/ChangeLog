@@ -1,3 +1,9 @@
+2001-07-24  Jason Leach  <jleach@ximian.com>
+
+	* mail-callbacks.c (delete_msg): If we're deleting the last
+	message, select the previous, not next, which actually selects
+	nothing.  Fixes #5323.
+
 2001-07-24  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-ops.c (save_part_save): Pass the O_TRUNC flag to open so

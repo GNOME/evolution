@@ -1551,8 +1551,14 @@ delete_msg (GtkWidget *button, gpointer user_data)
 	if (deleted == 1) {
 		row = e_tree_row_of_node (fb->message_list->tree,
 					  e_tree_get_cursor (fb->message_list->tree));
-		message_list_select (fb->message_list, row, MESSAGE_LIST_SELECT_NEXT,
-				     0, 0);
+
+		/* If this is the last message, select the previous */
+		if (row+1 == e_tree_row_count (fb->message_list->tree))
+			message_list_select (fb->message_list, row, MESSAGE_LIST_SELECT_PREVIOUS,
+					     0, 0);
+		else
+			message_list_select (fb->message_list, row, MESSAGE_LIST_SELECT_NEXT,
+					     0, 0);
 	}
 }
 
