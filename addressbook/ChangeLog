@@ -1,5 +1,23 @@
 2000-09-22  Chris Toshok  <toshok@helixcode.com>
 
+	* backend/pas/pas-backend-ldap.c: lots of changes.  flesh out the
+	remove/modify/create functions.  add another flag for the property
+	table, PROP_DN, which makes it easy for us to determine when we
+	need to create a new DN for a record when we're modifying.  also
+	add a ber_func to the table for PROP_TYPE_LIST fields, which fills
+	in the list of bvalues that we send to the ldap server.  The
+	add/modify/delete stuff hasn't been tested yet, and it hopelessly
+	complex (yay ldap).
+	(ldap_search_handler): act synchronous when ldap_search responds
+	with -1.
+	(view_destroy): use pas_book_view_notify_status_message.
+	(ldap_op_process_current): same
+	(ldap_op_process): same
+	(poll_ldap): same
+	(ldap_search_handler): same
+
+2000-09-22  Chris Toshok  <toshok@helixcode.com>
+
 	* backend/ebook/e-card-simple.h: add E_CARD_SIMPLE_FIELD_FAMILY_NAME to the enum.
 
 	* backend/ebook/e-card-simple.c (field_data): add E_CARD_SIMPLE_FIELD_FAMILY_NAME.

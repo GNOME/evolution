@@ -20,7 +20,10 @@
 #include <e-util/e-sexp.h>
 #include <ebook/e-card-simple.h>
 
-#define LDAP_MAX_SEARCH_RESPONSES 500
+#define LDAP_MAX_SEARCH_RESPONSES 100
+
+/* this really needs addressing */
+#define OBJECT_CLASS "newPilotPerson"
 
 static gchar *query_prop_to_ldap(gchar *query_prop);
 
@@ -72,14 +75,59 @@ struct LDAPOp {
 	LDAPOpDtor    dtor;
 	PASBackend    *backend;
 	PASBook       *book;
+	PASBookView   *view;
 };
 
-static void     ldap_op_init (LDAPOp *op, PASBackend *backend, PASBook *book, LDAPOpHandler handler, LDAPOpDtor dtor);
+static void     ldap_op_init (LDAPOp *op, PASBackend *backend, PASBook *book, PASBookView *view, LDAPOpHandler handler, LDAPOpDtor dtor);
 static void     ldap_op_process_current (PASBackend *backend);
 static void     ldap_op_process (LDAPOp *op);
 static void     ldap_op_restart (LDAPOp *op);
 static gboolean ldap_op_process_on_idle (PASBackend *backend);
 static void     ldap_op_finished (LDAPOp *op);
+
+static ECardSimple *build_card_from_entry (LDAP *ldap, LDAPMessage *e);
+
+static void email_populate_func(ECardSimple *card, char **values);
+struct berval** email_ber_func(ECardSimple *card);
+gboolean email_compare_func (ECardSimple *ecard1, ECardSimple *ecard2);
+
+struct prop_info {
+	ECardSimpleField field_id;
+	char *query_prop;
+	char *ldap_attr;
+#define PROP_TYPE_NORMAL   0x01
+#define PROP_TYPE_LIST     0x02
+#define PROP_DN            0x04
+	int prop_type;
+
+	/* the remaining items are only used for the TYPE_LIST props */
+
+	/* used when reading from the ldap server populates ECard with the values in **values. */
+	void (*populate_ecard_func)(ECardSimple *card, char **values);
+	/* used when writing to an ldap server.  returns a NULL terminated array of berval*'s */
+	struct berval** (*ber_func)(ECardSimple *card);
+	/* used to compare list attributes */
+	gboolean (*compare_func)(ECardSimple *card1, ECardSimple *card2);
+
+} prop_info[] = {
+
+#define DN_NORMAL_PROP(fid,q,a) {fid, q, a, PROP_TYPE_NORMAL | PROP_DN, NULL}
+#define DN_LIST_PROP(fid,q,a,ctor,ber,cmp) {fid, q, a, PROP_TYPE_LIST | PROP_DN, ctor, ber, cmp}
+#define NORMAL_PROP(fid,q,a) {fid, q, a, PROP_TYPE_NORMAL, NULL}
+
+	DN_NORMAL_PROP (E_CARD_SIMPLE_FIELD_FULL_NAME, "full_name", "cn" ),
+	DN_NORMAL_PROP (E_CARD_SIMPLE_FIELD_FAMILY_NAME, "family_name", "sn" ),
+	NORMAL_PROP    (E_CARD_SIMPLE_FIELD_TITLE,     "title", "title"),
+	DN_NORMAL_PROP (E_CARD_SIMPLE_FIELD_ORG,       "org", "o"),
+	NORMAL_PROP    (E_CARD_SIMPLE_FIELD_PHONE_PRIMARY, "phone", "telephonenumber"),
+	DN_LIST_PROP   (E_CARD_SIMPLE_FIELD_EMAIL, "email", "mail", email_populate_func, email_ber_func, email_compare_func)
+
+#undef DN_NORMAL_PROP
+#undef DN_LIST_PROP
+#undef NORMAL_PROP
+};
+
+static int num_prop_infos = sizeof(prop_info) / sizeof(prop_info[0]);
 
 static void
 view_destroy(GtkObject *object, gpointer data)
@@ -99,8 +147,9 @@ view_destroy(GtkObject *object, gpointer data)
 				   ldap connection.  remove the idle
 				   handler and anbandon the msg id */
 				g_source_remove(view->search_idle);
-				printf ("abandoning search id %d\n", view->search_msgid);
-				ldap_abandon (bl->priv->ldap, view->search_msgid);
+				pas_book_view_notify_status_message (view->book_view, "Abandoning pending search");
+				if (view->search_msgid != -1)
+					ldap_abandon (bl->priv->ldap, view->search_msgid);
 
 				/* if the search op is the current op,
 				   finish it. else, remove it from the
@@ -141,7 +190,6 @@ pas_backend_ldap_connect (PASBackendLDAP *bl)
 {
 	PASBackendLDAPPrivate *blpriv = bl->priv;
 
-	printf ("connecting to LDAP server\n");
 	/* close connection first if it's open first */
 	if (blpriv->ldap)
 		ldap_unbind (blpriv->ldap);
@@ -164,10 +212,12 @@ pas_backend_ldap_connect (PASBackendLDAP *bl)
 
 static void
 ldap_op_init (LDAPOp *op, PASBackend *backend,
-	      PASBook *book, LDAPOpHandler handler, LDAPOpDtor dtor)
+	      PASBook *book, PASBookView *view,
+	      LDAPOpHandler handler, LDAPOpDtor dtor)
 {
 	op->backend = backend;
 	op->book = book;
+	op->view = view;
 	op->handler = handler;
 	op->dtor = dtor;
 }
@@ -178,8 +228,11 @@ ldap_op_process_current (PASBackend *backend)
 	PASBackendLDAP *bl = PAS_BACKEND_LDAP (backend);
 	LDAPOp *op = bl->priv->current_op;
 
-	if (!bl->priv->connected)
+	if (!bl->priv->connected) {
+		if (op->view)
+			pas_book_view_notify_status_message (op->view, "Connecting to LDAP server");
 		pas_backend_ldap_connect(bl);
+	}
 
 	if (op->handler (backend, op))
 		ldap_op_finished (op);
@@ -192,6 +245,8 @@ ldap_op_process (LDAPOp *op)
 
 	if (bl->priv->current_op) {
 		/* operation in progress.  queue this op for later and return. */
+		if (op->view)
+			pas_book_view_notify_status_message (op->view, "Waiting for connection to ldap server...");
 		bl->priv->pending_ops = g_list_append (bl->priv->pending_ops, op);
 	}
 	else {
@@ -245,7 +300,173 @@ ldap_op_finished (LDAPOp *op)
 	}
 }
 
+static int
+ldap_error_to_response (int ldap_error)
+{
+	if (ldap_error == LDAP_SUCCESS)
+		return Evolution_BookListener_Success;
+	else if (NAME_ERROR (ldap_error))
+		return Evolution_BookListener_CardNotFound;
+	else if (ldap_error == LDAP_INSUFFICIENT_ACCESS)
+		return Evolution_BookListener_PermissionDenied;
+	else if (ldap_error == LDAP_SERVER_DOWN)
+		return Evolution_BookListener_RepositoryOffline;
+	else
+		return Evolution_BookListener_OtherError;
+}
+
 
+static char *
+create_dn_from_ecard (ECardSimple *card)
+{
+	char *o, *o_part = NULL;
+	const char *mail;
+	char *mail_part = NULL;
+	char *cn, *cn_part = NULL;
+	char *dn;
+	gboolean need_comma = FALSE;
+
+	o = e_card_simple_get (card, E_CARD_SIMPLE_FIELD_ORG);
+	if (o) {
+		o_part = g_strdup_printf ("o=%s", o);
+		need_comma = TRUE;
+	}
+	else {
+		o_part = g_strdup ("");
+		need_comma = FALSE;
+	}
+
+	mail = e_card_simple_get_email (card, E_CARD_SIMPLE_EMAIL_ID_EMAIL);
+	if (mail) {
+		mail_part = g_strdup_printf ("mail=%s%s", mail, need_comma ? "," : "");
+		need_comma = TRUE;
+	}
+	else {
+		mail_part = g_strdup ("");
+	}
+
+	cn = e_card_simple_get (card, E_CARD_SIMPLE_FIELD_FULL_NAME);
+	if (cn) {
+		cn_part = g_strdup_printf ("cn=\"%s\"%s", cn, need_comma ? "," : "");
+	}
+	else {
+		cn_part = g_strdup ("");
+	}
+
+	dn = g_strdup_printf ("%s%s%s", cn_part, mail_part, o_part);
+
+	g_free (cn_part);
+	g_free (mail_part);
+	g_free (o_part);
+
+	g_print ("generated dn: %s\n", dn);
+
+	return dn;
+}
+
+static GPtrArray*
+build_mods_from_ecards (ECardSimple *current, ECardSimple *new, gboolean *new_dn_needed)
+{
+	gboolean adding = (current == NULL);
+	GPtrArray *result = g_ptr_array_new();
+	int i;
+
+	if (new_dn_needed)
+		*new_dn_needed = FALSE;
+
+	/* we walk down the list of properties we can deal with (that
+	 big table at the top of the file) */
+
+	for (i = 0; i < num_prop_infos; i ++) {
+		char *new_prop = NULL;
+		char *current_prop = NULL;
+		gboolean include;
+
+		/* get the value for the new card, and compare it to
+                   the value in the current card to see if we should
+                   update it -- if adding is TRUE, short circuit the
+                   check. */
+		new_prop = e_card_simple_get (new, prop_info[i].field_id);
+
+		/* need to set INCLUDE to true if the field needs to
+                   show up in the ldap modify request */
+		if (adding) {
+			/* if we're creating a new card, include it if the
+                           field is there at all */
+			include = (new_prop != NULL);
+		}
+		else {
+			/* if we're modifying an existing card,
+                           include it if the current field value is
+                           different than the new one, if it didn't
+                           exist previously, or if it's been
+                           removed. */
+			current_prop = e_card_simple_get (current, prop_info[i].field_id);
+
+			if (new_prop && current_prop)
+				include = strcmp (new_prop, current_prop);
+			else
+				include = (!!new_prop != !!current_prop);
+		}
+
+		if (include) {
+			LDAPMod *mod = g_new (LDAPMod, 1);
+
+			/* the included attribute has changed - we
+                           need to update the dn if it's one of the
+                           attributes we compute the dn from. */
+			if (new_dn_needed)
+				*new_dn_needed |= prop_info[i].prop_type & PROP_DN;
+
+			if (adding) {
+				mod->mod_op = LDAP_MOD_ADD;
+			}
+			else {
+				if (!new_prop)
+					mod->mod_op = LDAP_MOD_DELETE;
+				else if (!current_prop)
+					mod->mod_op = LDAP_MOD_ADD;
+				else
+					mod->mod_op = LDAP_MOD_REPLACE;
+			}
+			
+			mod->mod_type = g_strdup (prop_info[i].ldap_attr);
+
+			if (prop_info[i].prop_type & PROP_TYPE_NORMAL) {
+				mod->mod_values = g_new (char*, 2);
+				mod->mod_values[0] = e_card_simple_get (new, prop_info[i].field_id);
+				mod->mod_values[1] = NULL;
+			}
+			else {
+				mod->mod_bvalues = prop_info[i].ber_func (new);
+			}
+
+			g_ptr_array_add (result, mod);
+		}
+	}
+
+	/* NULL terminate the list of modifications */
+	g_ptr_array_add (result, NULL);
+
+	return result;
+}
+
+static void
+free_mods (GPtrArray *mods)
+{
+	int i = 0;
+	LDAPMod *mod;
+
+	while ((mod = g_ptr_array_index (mods, i++))) {
+		g_free (mod->mod_type);
+
+		/* XXX we leak the values */
+		g_free (mod);
+	}
+
+	g_ptr_array_free (mods, TRUE /* XXX ? */);
+}
+
 typedef struct {
 	LDAPOp op;
 	char *vcard;
@@ -254,7 +475,55 @@ typedef struct {
 static gboolean
 create_card_handler (PASBackend *backend, LDAPOp *op)
 {
-	/*	LDAPCreateOp *create_op = (LDAPCreateOp*)op;*/
+	LDAPCreateOp *create_op = (LDAPCreateOp*)op;
+	PASBackendLDAP *bl = PAS_BACKEND_LDAP (backend);
+	ECard *new_ecard;
+	ECardSimple *new_card;
+	char *dn;
+	int response;
+	int            ldap_error;
+	GPtrArray *mod_array;
+	LDAPMod **ldap_mods;
+	LDAPMod *objectclass_mod;
+	LDAP *ldap;
+
+	new_ecard = e_card_new (create_op->vcard);
+	new_card = e_card_simple_new (new_ecard);
+
+	dn = create_dn_from_ecard (new_card);
+
+	ldap = bl->priv->ldap;
+
+	/* build our mods */
+	mod_array = build_mods_from_ecards (NULL, new_card, NULL);
+	objectclass_mod = g_new (LDAPMod, 1);
+
+	objectclass_mod->mod_op = LDAP_MOD_ADD;
+	objectclass_mod->mod_type = g_strdup ("objectclass");
+	objectclass_mod->mod_values = g_new (char*, 1);
+	objectclass_mod->mod_values[0] = g_strdup (OBJECT_CLASS);
+	objectclass_mod->mod_values[1] = NULL;
+
+	g_ptr_array_add (mod_array, objectclass_mod);
+
+	ldap_mods = (LDAPMod**)mod_array->pdata;
+
+	/* actually perform the ldap add */
+	ldap_error = ldap_add_s (ldap, dn, ldap_mods);
+
+	g_print ("ldap_add_s returned 0x%x (%s) status\n", ldap_error, ldap_err2string(ldap_error));
+
+	/* and clean up */
+	free_mods (mod_array);
+	g_free (dn);
+
+	gtk_object_unref (GTK_OBJECT(new_card));
+
+	/* and lastly respond */
+	response = ldap_error_to_response (ldap_error);
+	pas_book_respond_create (create_op->op.book,
+				 response,
+				 dn);
 
 	/* we're synchronous */
 	return TRUE;
@@ -276,7 +545,9 @@ pas_backend_ldap_process_create_card (PASBackend *backend,
 {
 	LDAPCreateOp *create_op = g_new (LDAPCreateOp, 1);
 
-	ldap_op_init ((LDAPOp*)create_op, backend, book, create_card_handler, create_card_dtor);
+	ldap_op_init ((LDAPOp*)create_op, backend, book, NULL, create_card_handler, create_card_dtor);
+
+	create_op->vcard = req->vcard;
 
 	ldap_op_process ((LDAPOp*)create_op);
 }
@@ -291,25 +562,13 @@ static gboolean
 remove_card_handler (PASBackend *backend, LDAPOp *op)
 {
 	LDAPRemoveOp *remove_op = (LDAPRemoveOp*)op;
-	int response = Evolution_BookListener_Success;
-
-#if notyet
 	PASBackendLDAP *bl = PAS_BACKEND_LDAP (backend);
+	int response;
 	int ldap_error;
 
-	ldap_error = ldap_delete_s (bl->priv->ldap, req->id);
+	ldap_error = ldap_delete_s (bl->priv->ldap, remove_op->id);
 
-	if (ldap_error != SUCCESS) {
-		if (NAME_ERROR (ldap_error))
-			response = Evolution_BookListener_CardNotFound;
-		else if (ldap_error == LDAP_INSUFFICIENT_ACCESS)
-			response = Evolution_BookListener_PermissionDenied;
-		else if (ldap_error == )
-			response = Evolution_BookListener_RepositoryOffline;
-		else
-			response = Evolution_BookListener_OtherError;
-	}
-#endif
+	response = ldap_error_to_response (ldap_error);
 
 	pas_book_respond_remove (remove_op->op.book,
 				 response);
@@ -334,7 +593,7 @@ pas_backend_ldap_process_remove_card (PASBackend *backend,
 {
 	LDAPRemoveOp *remove_op = g_new (LDAPRemoveOp, 1);
 
-	ldap_op_init ((LDAPOp*)remove_op, backend, book, remove_card_handler, remove_card_dtor);
+	ldap_op_init ((LDAPOp*)remove_op, backend, book, NULL, remove_card_handler, remove_card_dtor);
 
 	remove_op->id = req->id;
 
@@ -351,20 +610,61 @@ static gboolean
 modify_card_handler (PASBackend *backend, LDAPOp *op)
 {
 	LDAPModifyOp *modify_op = (LDAPModifyOp*)op;
-
-#if 0
 	PASBackendLDAP *bl = PAS_BACKEND_LDAP (backend);
-	LDAP           *ldap;
+	ECard *new_ecard;
+	char *id;
+	int response;
 	int            ldap_error;
 	LDAPMessage    *res, *e;
+	char *query;
+	GPtrArray *mod_array;
+	LDAPMod **ldap_mods;
+	LDAP *ldap;
 
-	ldap = bl->ldap;
+	new_ecard = e_card_new (modify_op->vcard);
+	id = e_card_get_id(new_ecard);
 
-	ldap_modify_s ()
-#endif
-	pas_book_respond_modify (
-				 modify_op->op.book,
-				 Evolution_BookListener_CardNotFound);
+	ldap = bl->priv->ldap;
+
+	/* we don't get sent the original vcard along with the new one
+           in this call, so we have to query the ldap server for the
+           original record so we can compute our delta. */
+	query = g_strdup_printf ("(dn=%s)", id);
+	ldap_error = ldap_search_s (ldap,
+				    bl->priv->ldap_rootdn,
+				    bl->priv->ldap_scope,
+				    query, NULL, 0, &res);
+
+	if (ldap_error == LDAP_RES_SEARCH_ENTRY) {
+		/* get the single card from the list (we're guaranteed
+                   either 1 or 0 since we looked up by dn, which is
+                   unique) */
+		e = ldap_first_entry (ldap, res);
+		if (e)	{
+			ECardSimple *new_card = e_card_simple_new (new_ecard);
+			ECardSimple *current_card = build_card_from_entry (ldap, e);
+			gboolean need_new_dn;
+
+			/* build our mods */
+			mod_array = build_mods_from_ecards (current_card, new_card, &need_new_dn);
+			ldap_mods = (LDAPMod**)mod_array->pdata;
+
+			/* actually perform the ldap modify */
+			ldap_error = ldap_modify_s (ldap, id, ldap_mods);
+			g_print ("ldap_modify_s returned 0x%x (%s) status\n", ldap_error, ldap_err2string(ldap_error));
+
+			/* and clean up */
+			free_mods (mod_array);
+			gtk_object_unref (GTK_OBJECT(new_card));
+			gtk_object_unref (GTK_OBJECT(current_card));
+		}
+
+		ldap_msgfree(res);
+	}
+
+	response = ldap_error_to_response (ldap_error);
+	pas_book_respond_modify (modify_op->op.book,
+				 response);
 
 	/* we're synchronous */
 	return TRUE;
@@ -386,7 +686,7 @@ pas_backend_ldap_process_modify_card (PASBackend *backend,
 {
 	LDAPModifyOp *modify_op = g_new (LDAPModifyOp, 1);
 
-	ldap_op_init ((LDAPOp*)modify_op, backend, book, modify_card_handler, modify_card_dtor);
+	ldap_op_init ((LDAPOp*)modify_op, backend, book, NULL, modify_card_handler, modify_card_dtor);
 
 	modify_op->vcard = req->vcard;
 
@@ -549,13 +849,13 @@ pas_backend_ldap_process_get_cursor (PASBackend *backend,
 {
 	LDAPGetCursorOp *op = g_new (LDAPGetCursorOp, 1);
 
-	ldap_op_init ((LDAPOp*)op, backend, book, get_cursor_handler, get_cursor_dtor);
+	ldap_op_init ((LDAPOp*)op, backend, book, NULL, get_cursor_handler, get_cursor_dtor);
 
 	ldap_op_process ((LDAPOp*)op);
 }
 
 static void
-construct_email_list(ECardSimple *card, const char *prop, char **values)
+email_populate_func(ECardSimple *card, char **values)
 {
 	int i;
 
@@ -564,25 +864,58 @@ construct_email_list(ECardSimple *card, const char *prop, char **values)
 	}
 }
 
-struct prop_info {
-	ECardSimpleField field_id;
-	char *query_prop;
-	char *ldap_attr;
-#define PROP_TYPE_NORMAL   0x01
-#define PROP_TYPE_LIST     0x02
-#define PROP_TYPE_LISTITEM 0x03
-	int prop_type;
-	void (*construct_list_func)(ECardSimple *card, const char *prop, char **values);
-} prop_info_table[] = {
-	/* field_id,                         query prop,   ldap attr,        type,             list construct function */
-	{ E_CARD_SIMPLE_FIELD_FULL_NAME,     "full_name", "cn",              PROP_TYPE_NORMAL, NULL },
-	{ E_CARD_SIMPLE_FIELD_TITLE,         "title",     "title",           PROP_TYPE_NORMAL, NULL },
-	{ E_CARD_SIMPLE_FIELD_ORG,           "org",       "o",               PROP_TYPE_NORMAL, NULL },
-	{ E_CARD_SIMPLE_FIELD_PHONE_PRIMARY, "phone",     "telephonenumber", PROP_TYPE_NORMAL, NULL },
-	{ 0 /* unused */,                    "email",     "mail",            PROP_TYPE_LIST,   construct_email_list },
-};
+struct berval**
+email_ber_func(ECardSimple *card)
+{
+	struct berval** result;
+	const char *emails[3];
+	int i, j, num;
 
-static int num_prop_infos = sizeof(prop_info_table) / sizeof(prop_info_table[0]);
+	num = 0;
+	for (i = 0; i < 3; i ++) {
+		emails[i] = e_card_simple_get_email (card, E_CARD_SIMPLE_EMAIL_ID_EMAIL + i);
+		if (emails[i])
+			num++;
+	}
+
+	result = g_new (struct berval*, num + 1);
+
+	for (i = 0; i < num; i ++)
+		result[i] = g_new (struct berval, 1);
+
+	j = 0;
+	for (i = 0; i < 3; i ++) {
+		if (emails[i])
+			result[j++]->bv_val = g_strdup (emails[i]);
+	}
+
+	result[num] = NULL;
+
+	return result;
+}
+
+gboolean
+email_compare_func (ECardSimple *ecard1, ECardSimple *ecard2)
+{
+	const char *email1, *email2;
+	int i;
+
+	for (i = 0; i < 3; i ++) {
+		gboolean equal;
+		email1 = e_card_simple_get_email (ecard1, E_CARD_SIMPLE_EMAIL_ID_EMAIL + i);
+		email2 = e_card_simple_get_email (ecard2, E_CARD_SIMPLE_EMAIL_ID_EMAIL + i);
+
+		if (email1 && email2)
+			equal = !strcmp (email1, email2);
+		else
+			equal = (!!email1 == !!email2);
+
+		if (!equal)
+			return equal;
+	}
+
+	return FALSE;;
+}
 
 static ESExpResult *
 func_and(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
@@ -710,14 +1043,14 @@ func_contains(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data
 			query_length = strlen (header);
 
 			for (i = 0; i < num_prop_infos; i ++) {
-				query_length += 1 + strlen(prop_info_table[i].ldap_attr) + strlen (match_str);
+				query_length += 1 + strlen(prop_info[i].ldap_attr) + strlen (match_str);
 			}
 
 			big_query = g_malloc0(query_length + 1);
 			strcat (big_query, header);
 			for (i = 0; i < num_prop_infos; i ++) {
 				strcat (big_query, "(");
-				strcat (big_query, prop_info_table[i].ldap_attr);
+				strcat (big_query, prop_info[i].ldap_attr);
 				strcat (big_query, match_str);
 			}
 			strcat (big_query, footer);
@@ -895,8 +1228,8 @@ query_prop_to_ldap(gchar *query_prop)
 	int i;
 
 	for (i = 0; i < num_prop_infos; i ++)
-		if (!strcmp (query_prop, prop_info_table[i].query_prop))
-			return prop_info_table[i].ldap_attr;
+		if (!strcmp (query_prop, prop_info[i].query_prop))
+			return prop_info[i].ldap_attr;
 
 	return NULL;
 }
@@ -909,6 +1242,57 @@ typedef struct {
 	PASBackendLDAPBookView *view;
 } LDAPSearchOp;
 
+static ECardSimple *
+build_card_from_entry (LDAP *ldap, LDAPMessage *e)
+{
+	ECard *ecard = E_CARD(gtk_type_new(e_card_get_type()));
+	ECardSimple *card = e_card_simple_new (ecard);
+	char *dn = ldap_get_dn(ldap, e);
+	char *attr;
+	BerElement *ber = NULL;
+
+	g_print ("build_card_from_entry, dn = %s\n", dn);
+	e_card_simple_set_id (card, dn);
+
+	for (attr = ldap_first_attribute (ldap, e, &ber); attr;
+	     attr = ldap_next_attribute (ldap, e, ber)) {
+		int i;
+		struct prop_info *info = NULL;
+
+		for (i = 0; i < num_prop_infos; i ++)
+			if (!strcmp (attr, prop_info[i].ldap_attr))
+				info = &prop_info[i];
+
+		if (info) {
+			char **values;
+			values = ldap_get_values (ldap, e, attr);
+
+			if (info->prop_type & PROP_TYPE_NORMAL) {
+				/* if it's a normal property just set the string */
+				e_card_simple_set (card, info->field_id, values[0]);
+
+			}
+			else if (info->prop_type & PROP_TYPE_LIST) {
+				/* if it's a list call the ecard-populate function,
+				   which calls gtk_object_set to set the property */
+				info->populate_ecard_func(card,
+							  values);
+			}
+
+			ldap_value_free (values);
+		}
+	}
+
+	/* if ldap->ld_errno == LDAP_DECODING_ERROR there was an
+	   error decoding an attribute, and we shouldn't free ber,
+	   since the ldap library already did it. */
+	if (ldap->ld_errno != LDAP_DECODING_ERROR && ber)
+		ber_free (ber, 0);
+
+	e_card_simple_sync_card (card);
+
+	return card;
+}
 
 static gboolean
 poll_ldap (LDAPSearchOp *op)
@@ -921,12 +1305,12 @@ poll_ldap (LDAPSearchOp *op)
 	GList   *cards = NULL;
 	static int received = 0;
 
-	printf ("polling for ldap search result\n");
+	pas_book_view_notify_status_message (view->book_view, "Polling for LDAP search result");
 
 	rc = ldap_result (ldap, view->search_msgid, 0, NULL, &res);
 	
 	if (rc == -1 && received == 0) {
-		printf ("restarting search\n");
+		pas_book_view_notify_status_message (view->book_view, "Restarting search");
 		/* connection went down and we never got any. */
 		bl->priv->connected = FALSE;
 
@@ -940,7 +1324,7 @@ poll_ldap (LDAPSearchOp *op)
 		pas_book_view_notify_complete (view->book_view);
 		ldap_op_finished ((LDAPOp*)op);
 		received = 0;
-		printf ("done (rc = %d)\n", rc);
+		pas_book_view_notify_status_message (view->book_view, "Search complete");
 		return FALSE;
 	}
 
@@ -949,51 +1333,8 @@ poll_ldap (LDAPSearchOp *op)
 	e = ldap_first_entry(ldap, res);
 
 	while (NULL != e) {
-		ECard *ecard = E_CARD(gtk_type_new(e_card_get_type()));
-		ECardSimple *card = e_card_simple_new (ecard);
-		char *dn = ldap_get_dn(ldap, e);
-		char *attr;
-		BerElement *ber = NULL;
+		ECardSimple *card = build_card_from_entry (ldap, e);
 
-		e_card_simple_set_id (card, dn);
-
-		for (attr = ldap_first_attribute (ldap, e, &ber); attr;
-		     attr = ldap_next_attribute (ldap, e, ber)) {
-			int i;
-			struct prop_info *info = NULL;
-
-			for (i = 0; i < num_prop_infos; i ++)
-				if (!strcmp (attr, prop_info_table[i].ldap_attr))
-					info = &prop_info_table[i];
-
-			if (info) {
-				char **values;
-				values = ldap_get_values (ldap, e, attr);
-
-				if (info->prop_type == PROP_TYPE_NORMAL) {
-					/* if it's a normal property just set the string */
-					e_card_simple_set (card, info->field_id, values[0]);
-
-				}
-				else if (info->prop_type == PROP_TYPE_LIST) {
-					/* if it's a list call the construction function,
-					   which calls gtk_object_set to set the property */
-					info->construct_list_func(card,
-								  info->query_prop,
-								  values);
-				}
-
-				ldap_value_free (values);
-			}
-		}
-
-		/* if ldap->ld_errno == LDAP_DECODING_ERROR there was an
-		   error decoding an attribute, and we shouldn't free ber,
-		   since the ldap library already did it. */
-		if (ldap->ld_errno != LDAP_DECODING_ERROR && ber)
-			ber_free (ber, 0);
-
-		e_card_simple_sync_card (card);
 		cards = g_list_append (cards, e_card_simple_get_vcard (card));
 
 		gtk_object_unref (GTK_OBJECT(card));
@@ -1019,7 +1360,8 @@ ldap_search_handler (PASBackend *backend, LDAPOp *op)
 {
 	LDAPSearchOp *search_op = (LDAPSearchOp*) op;
 
-	printf ("doing ldap search\n");
+	if (op->view)
+		pas_book_view_notify_status_message (op->view, "Searching...");
 
 	/* it might not be NULL if we've been restarted */
 	if (search_op->ldap_query == NULL)
@@ -1038,7 +1380,8 @@ ldap_search_handler (PASBackend *backend, LDAPOp *op)
 						       bl->priv->ldap_scope,
 						       search_op->ldap_query,
 						       NULL, 0)) == -1) {
-			g_warning ("ldap error '%s' in pas_backend_ldap_search\n", ldap_err2string(ldap->ld_errno));
+			pas_book_view_notify_status_message (view->book_view, ldap_err2string(ldap->ld_errno));
+			return TRUE; /* act synchronous in this case */
 		}
 		else {
 			view->search_idle = g_idle_add((GSourceFunc)poll_ldap, search_op);
@@ -1071,7 +1414,7 @@ pas_backend_ldap_search (PASBackendLDAP  	*bl,
 {
 	LDAPSearchOp *op = g_new (LDAPSearchOp, 1);
 
-	ldap_op_init ((LDAPOp*)op, PAS_BACKEND(bl), book, ldap_search_handler, ldap_search_dtor);
+	ldap_op_init ((LDAPOp*)op, PAS_BACKEND(bl), book, view->book_view, ldap_search_handler, ldap_search_dtor);
 
 	op->ldap_query = NULL;
 	op->view = view;
@@ -1145,14 +1488,14 @@ pas_backend_ldap_process_check_connection (PASBackend *backend,
 static gboolean
 pas_backend_ldap_can_write (PASBook *book)
 {
-	return FALSE; /* XXX */
+	return TRUE; /* XXX */
 }
 
 static gboolean
 pas_backend_ldap_can_write_card (PASBook *book,
 				 const char *id)
 {
-	return FALSE; /* XXX */
+	return TRUE; /* XXX */
 }
 
 static void
