@@ -1,5 +1,8 @@
 1998-02-13  Raja R Harinath  <harinath@cs.umn.edu>
 
+	* gnome-objc-checks.m4 (GNOME_INIT_OBJC): Solaris /bin/sh doesn't
+	understand `test -e'.
+
 	* autogen.sh: New file.
 
 	* gnome.m4 (GNOME_INIT): Look for gnomeConf.sh in $libdir, where
