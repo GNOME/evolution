@@ -1,10 +1,14 @@
+2001-11-20  Wang Jian  <lark@linux.net.cn>
+
+	* zh_CN.po: Minor QA by Wang Jian.
+
 2001-11-20  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* no.po: Updated Norwegian (bokmål) translation.
 
 2001-11-20  Hector Garcia Alavrez <hector@scouts-es.org>
 
-        * es.po: Updated Spanish translation, last fuzzy string fixed
+	* es.po: Updated Spanish translation, last fuzzy string fixed
 	
 2001-11-20  Carlos Perelló Marín <carlos@gnome-db.org>
 
