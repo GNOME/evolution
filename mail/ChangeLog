@@ -1,7 +1,9 @@
 2004-01-16  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-migrate.c (cp): Oops, still need to stat() the src file so we
-	can report what percentage of the file has been completed so far.
+	can report what percentage of the file has been completed so far
+	and also so we don't quit copying until we've copied the whole
+	file.
 
 	* message-list.c (message_list_set_folder): Move
 	'message_list->folder = folder;' out of the uri compare if-block
