@@ -71,6 +71,8 @@ void manage_subscriptions  (BonoboUIComponent *uih, void *user_data, const char 
 
 void configure_folder      (BonoboUIComponent *uih, void *user_data, const char *path);
 
+void stop_threads          (BonoboUIComponent *uih, void *user_data, const char *path);
+
 void mail_reply            (CamelFolder *folder, CamelMimeMessage *msg, const char *uid, gboolean to_all);
 void composer_send_cb      (EMsgComposer *composer, gpointer data);
 void composer_postpone_cb  (EMsgComposer *composer, gpointer data);

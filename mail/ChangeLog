@@ -1,3 +1,19 @@
+2001-01-16  Not Zed  <NotZed@Ximian.com>
+
+	* mail-ops.c (mail_do_fetch_mail): Setup a cancellation handle.
+	(do_fetch_mail): REgister for cancellation here.
+	(cleanup_fetch_mail): And unregister for cancellation here.
+	(mail_get_message): Add a cancel handle.
+	(get_message_get): Register/deregister for cancel.
+	(get_message_free): & clean up.
+
+	* mail-mt.c (mail_msg_received): Removed debuggng.
+
+	* mail-callbacks.c (stop_threads): Callback for stopping.
+
+	* folder-browser-factory.c: Add a stop button verb thingy.
+	(control_activate): Disable the stop button by default.
+
 2001-01-15  Christopher James Lahey  <clahey@ximian.com>
 
 	* message-list.c, message-list.h: Change from using filters for

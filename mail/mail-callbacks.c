@@ -1139,3 +1139,11 @@ edit_message (BonoboUIComponent *uih, void *user_data, const char *path)
 {
         edit_msg (NULL, user_data);
 }
+
+
+void
+stop_threads(BonoboUIComponent *uih, void *user_data, const char *path)
+{
+	camel_cancel_cancel(NULL);
+}
+

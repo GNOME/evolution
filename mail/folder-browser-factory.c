@@ -93,6 +93,7 @@ BonoboUIVerb verbs [] = {
 	/* Toolbar specific */
 	BONOBO_UI_UNSAFE_VERB ("MailGet", send_receieve_mail),
 	BONOBO_UI_UNSAFE_VERB ("MailCompose", compose_msg),
+	BONOBO_UI_UNSAFE_VERB ("MailStop", stop_threads),
 	
 	BONOBO_UI_VERB_END
 };
@@ -178,6 +179,8 @@ control_activate (BonoboControl     *control,
 					  folder_browser);
 	
 	update_pixmaps (uic);
+
+        /*bonobo_ui_component_set_prop(uic, "/Toolbar/Stop", "sensitive", "0", NULL);*/
 
 	bonobo_ui_component_thaw (uic, NULL);
 }

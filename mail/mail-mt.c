@@ -191,7 +191,7 @@ mail_msg_received(EThread *e, EMsg *msg, void *data)
 
 	if (m->ops->describe_msg) {
 		char *text = m->ops->describe_msg(m, FALSE);
-		printf("message received at thread\n");
+		d(printf("message received at thread\n"));
 		mail_status_start(text);
 		g_free(text);
 	}

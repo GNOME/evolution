@@ -56,6 +56,7 @@ typedef struct fetch_mail_input_s
 	CamelFolder *destination;
 	gpointer hook_func;
 	gpointer hook_data;
+	CamelCancel *cancel;
 }
 fetch_mail_input_t;
 
@@ -201,6 +202,8 @@ do_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 	FILE *logfile = NULL;
 	CamelFolder *folder;
 	
+	camel_cancel_register(input->cancel);
+
 	/* FIXME: This shouldn't be checking for "imap" specifically. */
 	if (!strncmp (input->source_url, "imap:", 5)) {
 		CamelStore *store;
@@ -332,6 +335,9 @@ cleanup_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 	fetch_mail_input_t *input = (fetch_mail_input_t *) in_data;
 	fetch_mail_data_t *data = (fetch_mail_data_t *) op_data;
 
+	camel_cancel_unregister(input->cancel);
+	camel_cancel_unref(input->cancel);
+
 	if (data->empty && !camel_exception_is_set (ex))
 		mail_op_set_message (_("There is no new mail at %s."),
 				     input->source_url);
@@ -385,7 +391,8 @@ mail_do_fetch_mail (const gchar *source_url, gboolean keep_on_server,
 	input->destination = destination;
 	input->hook_func = hook_func;
 	input->hook_data = hook_data;
-	
+	input->cancel = camel_cancel_new();
+
 	mail_operation_queue (&op_fetch_mail, input, TRUE);
 }
 
@@ -528,19 +535,6 @@ struct _send_mail_msg {
 	void (*done)(char *uri, CamelMimeMessage *message, gboolean sent, void *data);
 	void *data;
 };
-
-#if 0
-{
-	/* If done_folder != NULL, will add done_flags to
-	 * the flags of the message done_uid in done_folder. */
-
-	CamelFolder *done_folder;
-	char *done_uid;
-	guint32 done_flags;
-
-	GtkWidget *composer;
-}
-#endif
 
 static char *send_mail_desc(struct _mail_msg *mm, int done)
 {
@@ -1434,6 +1428,7 @@ struct _get_message_msg {
 	void (*done) (CamelFolder *folder, char *uid, CamelMimeMessage *msg, void *data);
 	void *data;
 	CamelMimeMessage *message;
+	CamelCancel *cancel;
 };
 
 static char *get_message_desc(struct _mail_msg *mm, int done)
@@ -1447,7 +1442,9 @@ static void get_message_get(struct _mail_msg *mm)
 {
 	struct _get_message_msg *m = (struct _get_message_msg *)mm;
 
+	camel_cancel_register(m->cancel);
 	m->message = camel_folder_get_message(m->folder, m->uid, &mm->ex);
+	camel_cancel_unregister(m->cancel);
 }
 
 static void get_message_got(struct _mail_msg *mm)
@@ -1464,6 +1461,7 @@ static void get_message_free(struct _mail_msg *mm)
 
 	g_free(m->uid);
 	camel_object_unref((CamelObject *)m->folder);
+	camel_cancel_unref(m->cancel);
 }
 
 static struct _mail_msg_op get_message_op = {
@@ -1484,6 +1482,7 @@ mail_get_message(CamelFolder *folder, const char *uid, void (*done) (CamelFolder
 	m->uid = g_strdup(uid);
 	m->data = data;
 	m->done = done;
+	m->cancel = camel_cancel_new();
 
 	e_thread_put(thread, (EMsg *)m);
 }
