@@ -743,7 +743,7 @@ ee_create_buttons (EventEditor *ee)
         gnome_dialog_append_buttons(GNOME_DIALOG(ee), 
 				    GNOME_STOCK_BUTTON_OK,
 				    GNOME_STOCK_BUTTON_CANCEL, NULL);
-
+	gnome_dialog_set_default (GNOME_DIALOG (ee), 0);
 	gnome_dialog_button_connect (GNOME_DIALOG (ee), 0, GTK_SIGNAL_FUNC(ee_ok), ee);
 	gnome_dialog_button_connect (GNOME_DIALOG (ee), 1, GTK_SIGNAL_FUNC(ee_cancel), ee);
 	
