@@ -400,6 +400,13 @@ impl_requestCreateItem (PortableServer_Servant servant,
 	em_utils_compose_new_message ();
 }
 
+static void
+impl_sendAndReceive (PortableServer_Servant servant,
+		     CORBA_Environment *ev)
+{
+	mail_send_receive ();
+}
+
 
 /* Initialization.  */
 
@@ -417,6 +424,7 @@ mail_component_class_init (MailComponentClass *class)
 	epv->createControls          = impl_createControls;
 	epv->_get_userCreatableItems = impl__get_userCreatableItems;
 	epv->requestCreateItem       = impl_requestCreateItem;
+	epv->sendAndReceive          = impl_sendAndReceive;
 }
 
 static void
