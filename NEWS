@@ -23,6 +23,15 @@ Bugs fixed:
     #15941 -- Location missing for the calendar
     #15456 -- Typo in translatable string
     #16359 -- Calendar Crash
+    #7641  -- Crash in EMap widget when used in Evolution 
+    #15749 -- Empty end time in all-day-event crashes calendar.
+    #15798 -- Calendar Date Never Updates          
+    #16232 -- e-itip-control.c - init() doing odd stuff     
+    #16571 -- Weird URI in meeting request email   
+    #15774 -- Selecting decline in schedule meeting request makes evo crash
+    #16224 -- remove unsupported columns from Tasks view
+    #16880 -- Cannot import ical (ics) even its own       
+    #17344 -- iCalendar should not be translated   
 
   * Mail
 
