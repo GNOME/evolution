@@ -93,9 +93,13 @@ dict_check (gpointer ptr)
 	 && i < word_count
 	 && dict_info.count < 50
 	 && g_strncasecmp (dict_info.txt, word_array[i], dict_info.len) == 0) {
-    e_completion_found_match_full (dict_info.complete, word_array[i],
-				   dict_info.len / (double)strlen (word_array[i]),
-				   NULL, NULL);
+    
+    ECompletionMatch *match = g_new (ECompletionMatch, 1);
+    e_completion_match_construct (match);
+    e_completion_match_set_text (match, word_array[i], NULL);
+    match->score = dict_info.len / (double)strlen (word_array[i]);
+    e_completion_found_match (dict_info.complete, match);
+
     ++i;
     --limit;
     ++dict_info.count;

@@ -27,7 +27,7 @@
 
 
 #include <config.h>
-#include <string.h> /* strcmp() */
+#include <stdio.h>
 #include <gtk/gtk.h>
 #include "e-completion.h"
 
@@ -41,14 +41,6 @@ enum {
 };
 
 static guint e_completion_signals[E_COMPLETION_LAST_SIGNAL] = { 0 };
-
-typedef struct _Match Match;
-struct _Match {
-	gchar *text;
-	double score;
-	gpointer extra_data;
-	GtkDestroyNotify extra_destroy;
-};
 
 struct _ECompletionPrivate {
 	gboolean searching;
@@ -64,13 +56,11 @@ static void e_completion_class_init (ECompletionClass *klass);
 static void e_completion_init       (ECompletion *complete);
 static void e_completion_destroy    (GtkObject *object);
 
-static Match *match_new       (const gchar *txt, double score, gpointer extra_data, GtkDestroyNotify extra_destroy);
-static void   match_free      (Match *);
 static void   match_list_free (GList *);
 
-static void     e_completion_add_match     (ECompletion *complete, const gchar *txt, double score, gpointer extra_data, GtkDestroyNotify);
+static void     e_completion_add_match     (ECompletion *complete, ECompletionMatch *);
 static void     e_completion_clear_matches (ECompletion *complete);
-static gboolean e_completion_sort_by_score (ECompletion *complete);
+static gboolean e_completion_sort          (ECompletion *complete);
 static void     e_completion_restart       (ECompletion *complete);
 
 static GtkObjectClass *parent_class;
@@ -120,9 +110,9 @@ e_completion_class_init (ECompletionClass *klass)
 				GTK_RUN_LAST,
 				object_class->type,
 				GTK_SIGNAL_OFFSET (ECompletionClass, completion),
-				gtk_marshal_NONE__POINTER_POINTER,
-				GTK_TYPE_NONE, 2,
-				GTK_TYPE_POINTER, GTK_TYPE_POINTER);
+				gtk_marshal_NONE__POINTER,
+				GTK_TYPE_NONE, 1,
+				GTK_TYPE_POINTER);
 
 	e_completion_signals[E_COMPLETION_RESTART_COMPLETION] =
 		gtk_signal_new ("restart_completion",
@@ -176,56 +166,31 @@ e_completion_destroy (GtkObject *object)
 		(parent_class->destroy) (object);
 }
 
-static Match *
-match_new (const gchar *text, double score, gpointer extra_data, GtkDestroyNotify extra_destroy)
-{
-	Match *m;
-
-	if (text == NULL)
-		return NULL;
-
-	m = g_new (Match, 1);
-	m->text = g_strdup (text);
-	m->score = score;
-	m->extra_data = extra_data;
-	m->extra_destroy = extra_destroy;
-	
-	return m;
-}
-
-static void
-match_free (Match *m)
-{
-	if (m) {
-		g_free (m->text);
-		if (m->extra_destroy)
-			m->extra_destroy (m->extra_data);
-		g_free (m);
-	}
-}
-
 static void
 match_list_free (GList *i)
 {
 	while (i) {
-		match_free ( (Match *) i->data );
+		e_completion_match_unref ((ECompletionMatch *) i->data);
 		i = g_list_next (i);
 	}
 }
 
 static void
-e_completion_add_match (ECompletion *complete, const gchar *txt, double score, gpointer extra_data, GtkDestroyNotify extra_destroy)
+e_completion_add_match (ECompletion *complete, ECompletionMatch *match)
 {
-	complete->priv->matches = g_list_append (complete->priv->matches, match_new (txt, score, extra_data, extra_destroy));
+	g_return_if_fail (complete && E_IS_COMPLETION (complete));
+	g_return_if_fail (match != NULL);
+
+	complete->priv->matches = g_list_append (complete->priv->matches, match);
 
 	if (complete->priv->match_count == 0) {
 
-		complete->priv->min_score = complete->priv->max_score = score;
+		complete->priv->min_score = complete->priv->max_score = match->score;
 		
 	} else {
 
-		complete->priv->min_score = MIN (complete->priv->min_score, score);
-		complete->priv->max_score = MAX (complete->priv->max_score, score);
+		complete->priv->min_score = MIN (complete->priv->min_score, match->score);
+		complete->priv->max_score = MAX (complete->priv->max_score, match->score);
 
 	}
 
@@ -321,7 +286,7 @@ e_completion_match_count (ECompletion *complete)
 }
 
 void
-e_completion_foreach_match (ECompletion *complete, ECompletionMatchFn fn, gpointer user_data)
+e_completion_foreach_match (ECompletion *complete, ECompletionMatchFn fn, gpointer closure)
 {
 	GList *i;
 
@@ -332,26 +297,8 @@ e_completion_foreach_match (ECompletion *complete, ECompletionMatchFn fn, gpoint
 		return;
 
 	for (i = complete->priv->matches; i != NULL; i = g_list_next (i)) {
-		Match *m = (Match *) i->data;
-		fn (m->text, m->score, m->extra_data, user_data);
+		fn ((ECompletionMatch *) i->data, closure);
 	}
-}
-
-gpointer
-e_completion_find_extra_data (ECompletion *complete, const gchar *text)
-{
-	GList *i;
-
-	g_return_val_if_fail (complete != NULL, NULL);
-	g_return_val_if_fail (E_IS_COMPLETION (complete), NULL);
-
-	for (i = complete->priv->matches; i != NULL; i = g_list_next (i)) {
-		Match *m = (Match *) i->data;
-		if (strcmp (m->text, text) == 0)
-			return m->extra_data;
-	}
-	
-	return NULL;
 }
 
 ECompletion *
@@ -360,33 +307,34 @@ e_completion_new (void)
 	return E_COMPLETION (gtk_type_new (e_completion_get_type ()));
 }
 
-static gint
-score_cmp_fn (gconstpointer a, gconstpointer b)
-{
-	double sa = ((const Match *) a)->score;
-	double sb = ((const Match *) b)->score;
-	gint cmp =  (sa < sb) - (sb < sa);
-	if (cmp == 0)
-		cmp = g_strcasecmp (((const Match *) a)->text, ((const Match *) b)->text);
-	return cmp;
-}
-
 static gboolean
-e_completion_sort_by_score (ECompletion *complete)
+e_completion_sort (ECompletion *complete)
 {
 	GList *sort_list = NULL, *i, *j;
 	gboolean diff;
 	gint count;
 
-	/* If all scores are equal, there is nothing to do. */
-	if (complete->priv->min_score == complete->priv->max_score)
-		return FALSE;
+	FILE *out = fopen ("/tmp/assbarn", "a");
+	fprintf (out, "---------------------------------------\n");
 
 	for (i = complete->priv->matches; i != NULL; i = g_list_next (i)) {
 		sort_list = g_list_append (sort_list, i->data);
+		{
+			ECompletionMatch *match = (ECompletionMatch *) i->data;
+			fprintf (out, "%s / %s / %g / %d / %d\n", 
+				 match->match_text, 
+				 match->menu_text,
+				 match->score,
+				 match->sort_major,
+				 match->sort_minor);
+		}
+
+
 	}
 
-	sort_list = g_list_sort (sort_list, score_cmp_fn);
+	fclose (out);
+
+	sort_list = g_list_sort (sort_list, (GCompareFunc) e_completion_match_compare_alpha);
 
 
 	diff = FALSE;
@@ -420,44 +368,35 @@ e_completion_restart (ECompletion *complete)
 	
 	i = complete->priv->matches;
 	while (i != NULL && count < complete->priv->limit) {
-		Match *m = (Match *) i->data;
-		gtk_signal_emit (GTK_OBJECT (complete), e_completion_signals[E_COMPLETION_COMPLETION], m->text, m->extra_data);
-
+		ECompletionMatch *m = (ECompletionMatch *) i->data;
+		gtk_signal_emit (GTK_OBJECT (complete), e_completion_signals[E_COMPLETION_COMPLETION], m);
 		i = g_list_next (i);
 		++count;
 	}
 }
 
 void
-e_completion_found_match (ECompletion *complete, const gchar *text)
+e_completion_found_match (ECompletion *complete, ECompletionMatch *match)
 {
 	g_return_if_fail (complete);
 	g_return_if_fail (E_IS_COMPLETION (complete));
-	g_return_if_fail (text != NULL);
-
-	e_completion_found_match_full (complete, text, 0, NULL, NULL);
-}
-
-void
-e_completion_found_match_full (ECompletion *complete, const gchar *text, double score, gpointer extra_data, GtkDestroyNotify extra_destroy)
-{
-	g_return_if_fail (complete);
-	g_return_if_fail (E_IS_COMPLETION (complete));
-	g_return_if_fail (text != NULL);
+	g_return_if_fail (match != NULL);
 
 	if (! complete->priv->searching) {
-		g_warning ("e_completion_found_match(...,\"%s\",...) called outside of a search", text);
+		g_warning ("e_completion_found_match(...,\"%s\",...) called outside of a search", match->match_text);
 		return;
 	}
 
-	e_completion_add_match (complete, text, score, extra_data, extra_destroy);
+	e_completion_add_match (complete, match);
 
 	/* For now, do nothing when we hit the limit --- just don't announce the incoming matches. */
 	if (complete->priv->match_count >= complete->priv->limit) {
+		e_completion_match_unref (match);
 		return;
 	}
 
-	gtk_signal_emit (GTK_OBJECT (complete), e_completion_signals[E_COMPLETION_COMPLETION], text, extra_data);
+	gtk_signal_emit (GTK_OBJECT (complete), e_completion_signals[E_COMPLETION_COMPLETION], match);
+
 }
 
 void
@@ -468,7 +407,7 @@ e_completion_end_search (ECompletion *complete)
 	g_return_if_fail (complete->priv->searching);
 
 	/* If sorting by score accomplishes anything, issue a restart right before we end. */
-	if (e_completion_sort_by_score (complete))
+	if (e_completion_sort (complete))
 		e_completion_restart (complete);
 
 	gtk_signal_emit (GTK_OBJECT (complete), e_completion_signals[E_COMPLETION_END_COMPLETION]);

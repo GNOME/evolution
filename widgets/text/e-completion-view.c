@@ -143,9 +143,9 @@ e_completion_view_class_init (ECompletionViewClass *klass)
 				GTK_RUN_LAST,
 				object_class->type,
 				GTK_SIGNAL_OFFSET (ECompletionViewClass, activate),
-				gtk_marshal_NONE__POINTER_POINTER,
-				GTK_TYPE_NONE, 2,
-				GTK_TYPE_POINTER, GTK_TYPE_POINTER);
+				gtk_marshal_NONE__POINTER,
+				GTK_TYPE_NONE, 1,
+				GTK_TYPE_POINTER);
 
 	gtk_object_class_add_signals (object_class, e_completion_view_signals, E_COMPLETION_VIEW_LAST_SIGNAL);
 
@@ -217,8 +217,9 @@ e_completion_view_clear_choices (ECompletionView *cv)
 	g_return_if_fail (cv != NULL);
 	g_return_if_fail (E_IS_COMPLETION_VIEW (cv));
 
-	for (i = cv->choices; i != NULL; i = g_list_next (i))
-		g_free (i->data);
+	for (i = cv->choices; i != NULL; i = g_list_next (i)) {
+		e_completion_match_unref ((ECompletionMatch *) i->data);
+	}
 
 	g_list_free (cv->choices);
 	cv->choices = NULL;
@@ -293,12 +294,11 @@ e_completion_view_set_cursor_row (ECompletionView *cv, gint r)
 static void
 e_completion_view_select (ECompletionView *cv, gint r)
 {
-	const gchar *sel = (const gchar *) g_list_nth_data (cv->choices, r);
-	gpointer extra = e_completion_find_extra_data (cv->completion, sel);
+	ECompletionMatch *match = (ECompletionMatch *) g_list_nth_data (cv->choices, r);
 
 	cv->selection = r;
 	e_completion_view_set_cursor_row (cv, r);
-	gtk_signal_emit (GTK_OBJECT (cv), e_completion_view_signals[E_COMPLETION_VIEW_ACTIVATE], sel, extra);
+	gtk_signal_emit (GTK_OBJECT (cv), e_completion_view_signals[E_COMPLETION_VIEW_ACTIVATE], match);
 }
 
 static gint
@@ -421,13 +421,14 @@ cancel_completion_cb (ECompletion *completion, gpointer user_data)
 }
 
 static void
-completion_cb (ECompletion *completion, const gchar *text, gpointer extra_data, gpointer user_data)
+completion_cb (ECompletion *completion, ECompletionMatch *match, gpointer user_data)
 {
 	ECompletionView *cv = E_COMPLETION_VIEW (user_data);
 	gint r = cv->choice_count;
 	gboolean first = (cv->choices == NULL);
 
-	cv->choices = g_list_append (cv->choices, g_strdup (text));
+	cv->choices = g_list_append (cv->choices, match);
+	e_completion_match_ref (match);
 	++cv->choice_count;
 
 	e_table_model_row_inserted (cv->model, r);
@@ -486,11 +487,11 @@ static gpointer
 table_value_at (ETableModel *etm, gint c, gint r, gpointer data)
 {
 	ECompletionView *cv = E_COMPLETION_VIEW (data);
-	gpointer p;
+	ECompletionMatch *match;
 
-	p = g_list_nth_data (cv->choices, r);
+	match = (ECompletionMatch *) g_list_nth_data (cv->choices, r);
 
-	return p;
+	return (gpointer) e_completion_match_get_menu_text (match);
 }
 
 static gchar *

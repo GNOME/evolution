@@ -51,7 +51,7 @@ typedef struct _EEntry EEntry;
 typedef struct _EEntryClass EEntryClass;
 struct _EEntryPrivate;
 
-typedef void (*EEntryCompletionHandler) (EEntry *entry, const gchar *text, gpointer extra_data);
+typedef void (*EEntryCompletionHandler) (EEntry *entry, ECompletionMatch *match);
 
 struct _EEntry {
 	GtkTable parent;

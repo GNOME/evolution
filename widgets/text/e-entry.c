@@ -508,7 +508,7 @@ e_entry_show_popup (EEntry *entry, gboolean visible)
 		gtk_widget_show (pop);
 
 
-		if (! entry->priv->ptr_grab) {
+		if (getenv ("GAL_E_ENTRY_NO_GRABS_HACK") == NULL && !entry->priv->ptr_grab) {
 			entry->priv->ptr_grab = (0 == gdk_pointer_grab (GTK_WIDGET (entry->priv->completion_view)->window, TRUE,
 									grab_mask, NULL, NULL, GDK_CURRENT_TIME));
 			if (entry->priv->ptr_grab) {
@@ -614,11 +614,11 @@ full_cb (ECompletionView *view, gpointer user_data)
 }
 
 static void
-browse_cb (ECompletionView *view, const gchar *txt, gpointer user_data)
+browse_cb (ECompletionView *view, ECompletionMatch *match, gpointer user_data)
 {
 	EEntry *entry = E_ENTRY (user_data);
-
-	if (txt == NULL) {
+	
+	if (match == NULL) {
 		/* Requesting a completion. */
 		e_entry_start_completion (entry);
 		return;
@@ -630,7 +630,7 @@ browse_cb (ECompletionView *view, const gchar *txt, gpointer user_data)
 	/* If there is no other handler in place, echo the selected completion in
 	   the entry. */
 	if (entry->priv->handler == NULL)
-		e_entry_set_text_quiet (entry, txt);
+		e_entry_set_text_quiet (entry, e_completion_match_get_match_text (match));
 }
 
 static void
@@ -651,7 +651,7 @@ unbrowse_cb (ECompletionView *view, gpointer user_data)
 }
 
 static void
-activate_cb (ECompletionView *view, const gchar *txt, gpointer extra_data, gpointer user_data)
+activate_cb (ECompletionView *view, ECompletionMatch *match, gpointer user_data)
 {
 	EEntry *entry = E_ENTRY (user_data);
 
@@ -662,9 +662,9 @@ activate_cb (ECompletionView *view, const gchar *txt, gpointer extra_data, gpoin
 	e_entry_show_popup (entry, FALSE);
 
 	if (entry->priv->handler)
-		entry->priv->handler (entry, txt, extra_data);
+		entry->priv->handler (entry, match);
 	else
-		e_entry_set_text (entry, txt);
+		e_entry_set_text (entry, match->match_text);
 
 	e_entry_cancel_delayed_completion (entry);
 }

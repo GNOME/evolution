@@ -2962,7 +2962,7 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 			e_tep_event.key.time = key.time;
 			e_tep_event.key.state = key.state;
 			e_tep_event.key.keyval = key.keyval;
-
+			
 			// g_print ("etext got keyval \"%s\"\n", gdk_keyval_name (key.keyval));
 
 			/* This is probably ugly hack, but we have to handle UTF-8 input somehow */
@@ -2980,11 +2980,14 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 			_get_tep(text);
 			ret = e_text_event_processor_handle_event (text->tep, &e_tep_event);
 
-			if (e_tep_event.key.string) g_free (e_tep_event.key.string);
-
 			if (event->type == GDK_KEY_PRESS)
 				gtk_signal_emit (GTK_OBJECT (text), e_text_signals[E_TEXT_KEYPRESS],
 						 e_tep_event.key.keyval, e_tep_event.key.state);
+			
+
+			if (e_tep_event.key.string)
+				g_free (e_tep_event.key.string);
+
 
 			return ret;
 		}

@@ -79,9 +79,9 @@ struct _ECompletionViewClass {
 	void (*nonempty) (ECompletionView *cv);
 	void (*added)    (ECompletionView *cv);
 	void (*full)     (ECompletionView *cv);
-	void (*browse)   (ECompletionView *cv, const gchar *text);
+	void (*browse)   (ECompletionView *cv, ECompletionMatch *match);
 	void (*unbrowse) (ECompletionView *cv);
-	void (*activate) (ECompletionView *cv, const gchar *text, gpointer extra_data);
+	void (*activate) (ECompletionView *cv, ECompletionMatch *match);
 };
 
 GtkType    e_completion_view_get_type     (void);

@@ -30,6 +30,7 @@
 
 #include <libgnome/gnome-defs.h>
 #include <gtk/gtkobject.h>
+#include "e-completion-match.h"
 
 BEGIN_GNOME_DECLS
 
@@ -43,8 +44,6 @@ typedef struct _ECompletion ECompletion;
 typedef struct _ECompletionClass ECompletionClass;
 struct _ECompletionPrivate;
 
-typedef void (*ECompletionMatchFn) (const gchar *text, double score, gpointer extra_data, gpointer user_data);
-
 struct _ECompletion {
 	GtkObject parent;
 
@@ -56,7 +55,7 @@ struct _ECompletionClass {
 
 	/* Signals */
 	void     (*begin_completion)   (ECompletion *comp, const gchar *search_text, gint pos, gint limit);
-	void     (*completion)         (ECompletion *comp, const gchar *match_text, gpointer extra_data);
+	void     (*completion)         (ECompletion *comp, ECompletionMatch *match);
 	void     (*restart_completion) (ECompletion *comp);
 	void     (*cancel_completion)  (ECompletion *comp);
 	void     (*end_completion)     (ECompletion *comp);
@@ -72,7 +71,6 @@ const gchar *e_completion_search_text     (ECompletion *comp);
 gint         e_completion_search_text_pos (ECompletion *comp);
 gint         e_completion_match_count     (ECompletion *comp);
 void         e_completion_foreach_match   (ECompletion *comp, ECompletionMatchFn fn, gpointer user_data);
-gpointer     e_completion_find_extra_data (ECompletion *comp, const gchar *text);
 
 ECompletion *e_completion_new (void);
 
@@ -81,10 +79,8 @@ ECompletion *e_completion_new (void);
 /* These functions should only be called by derived classes or search callbacks,
    or very bad things might happen. */
 
-void         e_completion_found_match      (ECompletion *comp, const gchar *completion_text);
-void         e_completion_found_match_full (ECompletion *comp, const gchar *completion_text, double score,
-					    gpointer extra_data, GtkDestroyNotify extra_data_destructor);
-void         e_completion_end_search       (ECompletion *comp);
+void         e_completion_found_match (ECompletion *comp, ECompletionMatch *);
+void         e_completion_end_search  (ECompletion *comp);
 
 END_GNOME_DECLS
 
