@@ -3,158 +3,171 @@ Evolution 1.1.2, 2002-10-07
 
 Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
 
-  * Shell
-
-    - #11645 -- Shortcuts are not updated when a folder is moved.
-                (Ettore)
-    - #14019 -- Accessing the conduit settings from Evolution.
-                (Ettore)
-    - #16556 -- Start-up wizard doesn't propmpt for IMAP password.
-    		(Ettore)
-    - #19899 -- First-run code uses free() instead of g_free().
-                (Ettore)
-    - #24062 -- When removing a folder with unread messages, sometimes
-                its parent folder stays highlighted even when it
-                shouldn't be.  (Ettore)
-    - #27662 -- Unread count in shortcut bar doesn't update properly.
-                (Ettore)
-    - #27855 -- Send/Receive should be disabled when offline.
-                (Ettore)
-    - #28232 -- Default type for the folder creation dialog is
-	        sometimes "Contacts" instead of "mail".  (Ettore)
-    - #28317 -- File->Close doesn't work.  (Ettore)
-    - #28451 -- Renaming causes incorrect sorting in the folder tree.
-                (Ettore)
-    - #28495 -- Settings dialog resizes when you switch pages.
-                (Ettore)
-    - #29293 -- Back button on final page of new account doesn't work.
-                (Michael)
-    - #30248 -- Folder selection dialog crash.  (Mike)
-    - #30533 -- The folder creation dialog changes the parent folder
-                selection if you specify a name that already exists.
-                (Ettore)
-    - #31360 -- Crash when using the folder selection button.  (Dan)
-    - #31690 -- Importer crash.  (Ettore)
-
-  * Mail
-
-    - #236   -- Composer attachment bar wraps lines annoyingly.  (Ettore)
-    - #4224  -- camel-imap-cache needs better error checking.  (Jeff)
-    - #20849 -- Folder Properties should be on right click menu.
-                (Michael)
-    - #21027 -- Accept broken content-ids.  (Jeff)
-    - #22496 -- Evolution does not appear to support ALERT messages.
-                (Michael)
-    - #24732 -- Importing mailman mbox files doesn't work.  (Ettore)
-    - #27391 -- New Message Count not updated in vFolders.  (Michael)
-    - #28453 -- Forwarding PGP-signed message inline should discard
-                signature.  (Jeff)
-    - #28209 -- Error messages for Offline folder operations
-                misleading.  (Michael)
-    - #28834 -- Threaded + hide deleted messes up clear search.
-                (Michael)
-    - #29293 -- Back button on final page of new account doesn't work.
-                (Michael)
-    - #29625 -- Cannot clear a saved search.  (Michael)
-    - #29731 -- Crash in libsoup.  (Michael)
-    - #29808 -- Control-K to mark read broken when preview not shown.
-                (Michael)
-    - #29933 -- Mail component forgets pane size sometimes.  (Dan)
-    - #29965 -- Crash.  (Jeff)
-    - #30183 -- Advanced search broken.  (Jeff)
-    - #30269 -- Crash appending to an mbox that is too large (>2GB).
-                (Jeff)
-    - #30399 -- Vfolders of imap don't update.  (Michael)
-    - #30580 -- Closing drafts message asks to save again.  (Jeff)
-    - #30731 -- "automatically detect links" checkbox doesn't work.
-                (Jeff)
-    - #30827 -- Delete on Deleted Message Does not move to next.
-                (Jeff)
-    - #30877 -- Improper IMAP folder behavior.  (Michael)
-    - #30873 -- Cannot display many mails in zh_CN.GB2312.  (Jeff)
-    - #30876 -- Drag and drop a mail from Trash duplicates it.  (Jeff)
-    - #30915 -- Crash when upgrading from 1.0.x to 1.1.1.  (Jeff)
-    - #31000 -- evolution-mail random core dumps.  (Michael)
-    - #31031 -- Random crashes -- possible memory corruption bug on
-                SMP box.  (Michael)
-    - #31060 -- Advanced Search no longer works.  (Michael)
-    - #31087 -- Mailing list filters fail for yahoogroups.com.  (Michael)
-    - #31331 -- Crash upon opening a mail message.  (Michael)
-    - #31365 -- Enter password dialog not displaying extended ASCII
-                chars correctly.  (Michael)
-    - #31379 -- Can't see encrypted mail to myself (and maybe others?)
-                (Jeff)
-    - #31456 -- Evolution does not see IMAP mailboxes.  (Jeff)
-    - #31547 -- Quote the decrypted text when replying to encrypted
-                messages.  (Jeff)
-    - #31553 -- Next button disabled in Identity window of setup
-                assistant.  (Jeff)
-    - #31554 -- Cannot run evolution if Reply-to: is set to an invalid
-                address.  (Jeff)
-    - #31555 -- Account editor mangling reply-to: extended ASCII
-                characters.  (Jeff)
-    - #31559 -- Evolution crashes when going to Tools -> Preferences.
-                (Jeff)
-    - #31655 -- Don't strip 8bit characters from text attachments.
-	        (Jeff)
-    - #31681 -- Mail filter problem in 1.1.1.99.  (Jeff)
-    - #31693 -- Try harder to pick the correct From-account to use
-                when replying.  (Jeff)
-    - #31572 -- valgrind detects a deadlock.  (Michael)
-    - #31752 -- No EHLO to re-check AUTH capabilities after a STARTTLS
-                has been issued. (Jeff)
-
   * Calendar
 
-    #15892 -- Running out of disk space can cause loss of calender
-		entries and tasks (Rodrigo)
-    #19159 -- Application "evolution-alarm-notify" has crashed (Rodrigo)
-    #30057 -- calendar gui does not allow for read-only folders (Rodrigo)
-    #15710 -- Automatically-created reminder always says "Untitled
-		Appointment" (Rodrigo)
-    #30290 -- Importer Not Ready when importing .ics Ical file (Rodrigo)
-    #24210 -- Slow calendar. (Rodrigo)
-    #27961 -- vcalendar LAST-MODIFIED field not updated on change (Rodrigo)
-    #28310 -- Calendar re-runs alarms (Rodrigo)
     #14111 -- Gives 'are you sure you want to' prompt when no such
-		action has occurred (JP)
-    #30381 -- calendar recurrences "off-by-one" (JP)
-    #18162 -- double-click on calendar week/month view shouldn't do
-		all-day event (JP)
-    #29983 -- new appts using 25 hour day (JP)
+              action has occurred.
+    #15710 -- Automatically-created reminder always says "Untitled
+              Appointment".
+    #15892 -- Running out of disk space can cause loss of calender
+              entries and tasks.  (Rodrigo)
+    #18162 -- Double-click on calendar week/month view shouldn't do
+              all-day event.  (JP)
+    #19159 -- evolution-alarm-notify crash.  (Rodrigo)
+    #24210 -- Calendar is slow.  (Rodrigo)
+    #27961 -- vcalendar LAST-MODIFIED field not updated on change.
+              (Rodrigo)
+    #28310 -- Calendar re-runs alarms.  (Rodrigo)
+    #28853 -- Crash when deleting tasks in task editor.  (Mike)
+    #29983 -- New appointments use 25 hour day.  (JP)
+    #30057 -- Calendar GUI does not allow for read-only folders.
+              (Rodrigo)
+    #30290 -- Importer Not Ready when importing .ics Ical file.
+              (Rodrigo)
+    #30381 -- Calendar recurrences "off-by-one".  (JP)
 
   * Conduits
 
     #21631 -- Palm calendar event with no time should appear as "All
-		day event" (JP)
+              day event".  (JP)
     #23763 -- Problem with appointments that cross a day boundary and
-		pilot sync (JP)
+              pilot sync.  (JP)
 
-  * gal-0.20.1
+  * Mail
 
-    - #24179 -- Character set conversion problem under tr_TR locale. (Radek)
-    - #24879 -- Crash on folder change. (Mike)
-    - #28591 -- Crash on startup w/ connector installed. (Mike)
-    - #28853 -- Crash when deleting tasks in task editor. (Mike)
-    - #30249 -- Allow Tree searching without a sort column. (Mike)
+    #236   -- Composer attachment bar wraps lines annoyingly.  (Ettore)
+    #4224  -- camel-imap-cache needs better error checking.  (Jeff)
+    #20849 -- Folder Properties should be on right click menu.
+              (Michael)
+    #21027 -- Accept broken content-ids.  (Jeff)
+    #22496 -- Evolution does not appear to support ALERT messages.
+              (Michael)
+    #24179 -- Character set conversion problem under tr_TR
+              locale. (Radek)
+    #24732 -- Importing mailman mbox files doesn't work.  (Ettore)
+    #27391 -- New Message Count not updated in vFolders.  (Michael)
+    #28453 -- Forwarding PGP-signed message inline should discard
+              signature.  (Jeff)
+    #28209 -- Error messages for Offline folder operations
+              misleading.  (Michael)
+    #28834 -- Threaded + hide deleted messes up clear search.
+              (Michael)
+    #29293 -- Back button on final page of new account doesn't work.
+              (Michael)
+    #29625 -- Cannot clear a saved search.  (Michael)
+    #29731 -- Crash in libsoup.  (Michael)
+    #29808 -- Control-K to mark read broken when preview not shown.
+              (Michael)
+    #29933 -- Mail component forgets pane size sometimes.  (Dan)
+    #29965 -- Crash.  (Jeff)
+    #30183 -- Advanced search broken.  (Jeff)
+    #30269 -- Crash appending to an mbox that is too large (>2GB).
+              (Jeff)
+    #30399 -- Vfolders of imap do not update.  (Michael)
+    #30580 -- Closing drafts message asks to save again.  (Jeff)
+    #30731 -- "automatically detect links" checkbox doesn't work.
+              (Jeff)
+    #30827 -- Delete on Deleted Message Does not move to next.
+              (Jeff)
+    #30877 -- Improper IMAP folder behavior.  (Michael)
+    #30873 -- Cannot display many mails in zh_CN.GB2312.  (Jeff)
+    #30876 -- Drag and drop a mail from Trash duplicates it.  (Jeff)
+    #30915 -- Crash when upgrading from 1.0.x to 1.1.1.  (Jeff)
+    #31000 -- evolution-mail random core dumps.  (Michael)
+    #31031 -- Random crashes -- possible memory corruption bug on
+              SMP box.  (Michael)
+    #31060 -- Advanced Search no longer works.  (Michael)
+    #31087 -- Mailing list filters fail for yahoogroups.com.  (Michael)
+    #31331 -- Crash upon opening a mail message.  (Michael)
+    #31365 -- Enter password dialog not displaying extended ASCII
+              chars correctly.  (Michael)
+    #31379 -- Can't see encrypted mail to myself (and maybe others?)
+              (Jeff)
+    #31456 -- Evolution does not see IMAP mailboxes.  (Jeff)
+    #31547 -- Quote the decrypted text when replying to encrypted
+              messages.  (Jeff)
+    #31553 -- Next button disabled in Identity window of setup
+              assistant.  (Jeff)
+    #31554 -- Cannot run evolution if Reply-to: is set to an invalid
+              address.  (Jeff)
+    #31555 -- Account editor mangling reply-to: extended ASCII
+              characters.  (Jeff)
+    #31559 -- Evolution crashes when going to Tools -> Preferences.
+              (Jeff)
+    #31655 -- Do not strip 8bit characters from text attachments.
+              (Jeff)
+    #31681 -- Mail filter problem in 1.1.1.99.  (Jeff)
+    #31693 -- Try harder to pick the correct From-account to use
+              when replying.  (Jeff)
+    #31572 -- valgrind detects a deadlock.  (Michael)
+    #31752 -- No EHLO to re-check AUTH capabilities after a STARTTLS
+              has been issued. (Jeff)
+
+  * Shell
+
+    #11645 -- Shortcuts are not updated when a folder is moved.
+              (Ettore)
+    #14019 -- Cannot access the conduit settings directly from
+              Evolution.  (Ettore)
+    #16556 -- Start-up wizard doesn't propmpt for IMAP password.
+              (Ettore)
+    #19899 -- First-run code uses free() instead of g_free().
+              (Ettore)
+    #24062 -- When removing a folder with unread messages, sometimes
+              its parent folder stays highlighted even when it
+              shouldn't be.  (Ettore)
+    #27662 -- Unread count in shortcut bar doesn't update properly.
+              (Ettore)
+    #27855 -- Send/Receive should be disabled when offline.
+              (Ettore)
+    #24879 -- Crash on folder change.  (Mike)
+    #28232 -- Default type for the folder creation dialog is
+              sometimes "Contacts" instead of "mail".  (Ettore)
+    #28317 -- File->Close doesn't work.  (Ettore)
+    #28451 -- Renaming causes incorrect sorting in the folder tree.
+              (Ettore)
+    #28495 -- Settings dialog resizes when you switch pages.
+              (Ettore)
+    #28591 -- Crash on startup w/ connector installed.  (Mike)
+    #29293 -- Back button on final page of new account doesn't work.
+              (Michael)
+    #30248 -- Folder selection dialog crash.  (Mike)
+    #30533 -- The folder creation dialog changes the parent folder
+              selection if you specify a name that already exists.
+              (Ettore)
+    #31360 -- Crash when using the folder selection button.  (Dan)
+    #31690 -- Importer crash.  (Ettore)
+
+  * Summary
+
+    #15101 -- "My Weather" section shows up when it shouldn't.
+              (Ettore)
+    #20737 -- Israel missing from the weather station list.
+              (Sam Popper)
+    #28481 -- Crash during start-up.  (Ettore)
+    #28903 -- Unread message counts not reported correctly.
+              (Ettore)
 
 Other fixes:
+
+  * Calendar
+
+    - Do not allow empty attendee addresses for meetings.  (JP)
+
+    - Better alarm daemon activation.  (Rodrigo)
+
+    - Notification of calendar query errors.  (Rodrigo)
+
+    - Added status messages for all operations.  (Rodrigo)
+
+  * Conduits
+
+    - Fixed linking issues.  (JP)
 
   * Shell
 
     - Some strings that were not translated properly before now are.
       (Kjartan Maraas)
-
-  * Calendar
-    - Don't allow empty attendee addresses for meetings (JP)
-    - Better alarm daemon activation (Rodrigo)
-    - Notification of calendar query errors (Rodrigo)
-    - Status messages for all operations (Rodrigo)
-
-  * Conduits
-    - Fixing linking issues (JP)
-
-  * Misc
 
     - Sensitivity problem when using the folder selector.  (Toshok)
 
@@ -231,8 +244,6 @@ New features:
     - You now can drop objects (eg. mail messages, appointments)
       directly to the folders on the shortcut bar (in 1.0.x, you could
       only drop them in the folder folder bar).
-
-    - 
 
   * Calendar
 
@@ -346,7 +357,7 @@ New features:
     - When the message list is sorted by a certain field, it is possible
       to jump to the first item in the list that matches a certain
       string by just typing the first few characters.
-							
+                                                        
     - Filters are now updated automatically when the destination folder
       gets moved or removed.
 
