@@ -1830,19 +1830,14 @@ emfv_list_key_press(ETree *tree, int row, ETreePath path, int col, GdkEvent *ev,
 		break;
 	case GDK_Delete:
 	case GDK_KP_Delete:
-		/* If any messages are undeleted, run delete, if all are deleted, run undelete */
-		flags = 0;
 		uids = message_list_get_selected(emfv->list);
 		for (i = 0; i < uids->len; i++) {
 			if ((camel_folder_get_message_flags(emfv->folder, uids->pdata[i]) & CAMEL_MESSAGE_DELETED) == 0)
 				break;
 		}
 		message_list_free_uids(emfv->list, uids);
-		if (i == uids->len)
-			emfv_popup_undelete(NULL, emfv);
-		else
-			emfv_popup_delete(NULL, emfv);
-
+		emfv_popup_delete (NULL, emfv);
+		
 		if (!message_list_select (emfv->list, MESSAGE_LIST_SELECT_NEXT, 0, 0, FALSE) && emfv->hide_deleted)
 			message_list_select (emfv->list, MESSAGE_LIST_SELECT_PREVIOUS, 0, 0, FALSE);
 		break;

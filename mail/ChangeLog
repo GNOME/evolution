@@ -1,5 +1,9 @@
 2004-02-20  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* em-folder-view.c (emfv_list_key_press): Delete key should always
+	delete, never undelete (bug #53215). Also fixes a bug where
+	uids->len was being accessed after uids had been free'd.
+
 	Fix for bug #53997
 
 	* em-folder-view.c (emfv_list_message_selected): Ref the emfv
