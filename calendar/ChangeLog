@@ -1,3 +1,16 @@
+2003-03-18  Rodrigo Moya <rodrigo@ximian.com>
+
+	Fixes #34505
+
+	* gui/alarm-notify/alarm-queue.c (remove_queued_alarm): added removal
+	of the alarm itself in the calendar if the (new) argument says so.
+	Also, set expecting_update flag to TRUE.
+	(add_component_alarms): initialize expecting_update to FALSE.
+	(remove_alarms): don't remove the component if expecting_update is
+	TRUE.
+	(obj_updated_cb, notify_dialog_cb, procedure_notification): adapted
+	to changes in remove_queued_alarm.
+	
 2003-03-17  Hans Petter Jansson  <hpj@ximian.com>
 
 	Fixes #34095

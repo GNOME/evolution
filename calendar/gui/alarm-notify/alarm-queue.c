@@ -22,6 +22,7 @@
 #include <config.h>
 #endif
 
+#include <string.h>
 #include <glib.h>
 #include <bonobo-activation/bonobo-activation.h>
 #include <bonobo/bonobo-object.h>
@@ -86,6 +87,9 @@ typedef struct {
 
 	/* List of QueuedAlarm structures */
 	GSList *queued_alarms;
+
+	/* Flags */
+	gboolean expecting_update;
 } CompQueuedAlarms;
 
 /* Pair of a queued alarm ID and the alarm trigger instance it refers to */
@@ -192,7 +196,8 @@ lookup_queued_alarm (CompQueuedAlarms *cqa, gpointer alarm_id)
  * the last one listed for the component, it removes the component itself.
  */
 static void
-remove_queued_alarm (CompQueuedAlarms *cqa, gpointer alarm_id, gboolean free_object)
+remove_queued_alarm (CompQueuedAlarms *cqa, gpointer alarm_id,
+		     gboolean free_object, gboolean remove_alarm)
 {
 	QueuedAlarm *qa;
 	const char *uid;
@@ -211,6 +216,13 @@ remove_queued_alarm (CompQueuedAlarms *cqa, gpointer alarm_id, gboolean free_obj
 
 	cqa->queued_alarms = g_slist_remove_link (cqa->queued_alarms, l);
 	g_slist_free_1 (l);
+
+	if (remove_alarm) {
+		cal_component_remove_alarm (cqa->alarms->comp, qa->instance->auid);
+		cqa->expecting_update = TRUE;
+		cal_client_update_object (cqa->parent_client->client, cqa->alarms->comp);
+		cqa->expecting_update = FALSE;
+	}
 
 	g_free (qa);
 
@@ -307,6 +319,7 @@ add_component_alarms (ClientAlarms *ca, CalComponentAlarms *alarms)
 	cqa = g_new (CompQueuedAlarms, 1);
 	cqa->parent_client = ca;
 	cqa->alarms = alarms;
+	cqa->expecting_update = FALSE;
 
 	cqa->queued_alarms = NULL;
 
@@ -442,7 +455,7 @@ remove_alarms (CompQueuedAlarms *cqa, gboolean free_object)
 		l = l->next;
 
 		alarm_remove (qa->alarm_id);
-		remove_queued_alarm (cqa, qa->alarm_id, free_object);
+		remove_queued_alarm (cqa, qa->alarm_id, free_object, FALSE);
 	}
 
 }
@@ -532,9 +545,10 @@ obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 			cqa->queued_alarms = g_slist_prepend (cqa->queued_alarms, qa);
 		}
 
-		if (cqa->queued_alarms == NULL)
-			remove_comp (ca, uid);
-		else
+		if (cqa->queued_alarms == NULL) {
+			if (!cqa->expecting_update)
+				remove_comp (ca, uid);
+		} else
 			cqa->queued_alarms = g_slist_reverse (cqa->queued_alarms);
 	}
 }
@@ -704,7 +718,7 @@ notify_dialog_cb (AlarmNotifyResult result, int snooze_mins, gpointer data)
 	}
 
 	if (c->cqa != NULL)
-		remove_queued_alarm (c->cqa, c->alarm_id, TRUE);
+		remove_queued_alarm (c->cqa, c->alarm_id, TRUE, TRUE);
 	g_object_unref (c->comp);
 	g_object_unref (c->client);
 	g_free (c);
@@ -941,7 +955,7 @@ procedure_notification (time_t trigger, CompQueuedAlarms *cqa, gpointer alarm_id
 	if (result < 0)
 		goto fallback;
 
-	remove_queued_alarm (cqa, alarm_id, TRUE);
+	remove_queued_alarm (cqa, alarm_id, TRUE, TRUE);
 	return;
 
  fallback:
