@@ -1,3 +1,12 @@
+2004-12-02  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #69533.
+
+	* providers/imap/camel-imap-command.c (imap_read_untagged): gross
+	hack, if we get a blank line after a literal, assume the server
+	(read: groupwise) made a mistake.  Given the complexity of this
+	code i'm not sure it is the server anyway but what can you do.
+
 2004-12-01  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #69776.
