@@ -596,6 +596,7 @@ static char *list [] = {
 	N_("Spouse"),
 	N_("Note"),
 	N_("Free-busy URL"),
+	N_("Click here to add a contact")
 };
 #endif
 

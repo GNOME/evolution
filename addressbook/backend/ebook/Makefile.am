@@ -142,9 +142,12 @@ BUILT_SOURCES = $(CORBA_SOURCE)
 CLEANFILES   += $(BUILT_SOURCES)
 
 oafdir = $(datadir)/oaf
-oaf_DATA = GNOME_Evolution_Addressbook_GnomeCard_Importer.oafinfo
+oaf_in_files = GNOME_Evolution_Addressbook_GnomeCard_Importer.oaf.in
+oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
+
+@XML_I18N_MERGE_OAF_RULE@
 
 # add this back when you add the file to the archive ;)
 #	GNOME_Evolution_Addressbook_Pine_Importer.oafinfo
 
-EXTRA_DIST = $(oaf_DATA)
+EXTRA_DIST = $(oaf_in_files) $(oaf_DATA)

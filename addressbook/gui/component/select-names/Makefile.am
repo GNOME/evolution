@@ -16,9 +16,12 @@ $(IDL_GENERATED): $(IDLS)
 		$(srcdir)/Evolution-Addressbook-SelectNames.idl
 
 oafdir = $(datadir)/oaf
-oaf_DATA = GNOME_Evolution_Addressbook_SelectNames.oafinfo
 
-#
+oaf_in_files = GNOME_Evolution_Addressbook_SelectNames.oaf.in
+oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
+
+@XML_I18N_MERGE_OAF_RULE@
+
 
 INCLUDES =						\
 	-DG_LOG_DOMAIN=\"evolution-addressbook\"	\
@@ -66,6 +69,7 @@ glade_DATA = select-names.glade
 
 EXTRA_DIST = 			\
 	$(glade_DATA)		\
+	$(oaf_in_files)		\
 	$(oaf_DATA)		\
 	$(IDLS)
 

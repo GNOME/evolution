@@ -1,3 +1,13 @@
+2001-02-12  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* gui/component/select-names/GNOME_Evolution_Addressbook_SelectNames.oaf.in:
+	Marked strings for translation in this newly created file.
+	* gui/component/select-names/Makefile.am: Hook up the .oaf.in files in the
+	xml-i18n-tools framework.
+	* gui/component/Makefile.am: Same as above.
+	* gui/component/GNOME_Evolution_Addressbook.oaf.in: Marked stuff for translation here
+	too.
+	
 2001-02-11  Jason Leach  <jasonleach@usa.net>
 
 	* gui/component/addressbook.c: Removed an ancient #include

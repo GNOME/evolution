@@ -57,15 +57,20 @@ evolution_addressbook_LDADD =						\
 
 evolution_addressbook_LDFLAGS = `gnome-config --libs gdk_pixbuf` -export-dynamic
 
+@XML_I18N_MERGE_OAF_RULE@
+
 oafdir = $(datadir)/oaf
-oaf_DATA = GNOME_Evolution_Addressbook.oafinfo
+oaf_in_files = GNOME_Evolution_Addressbook.oaf.in
+oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
 
 gladedir   = $(datadir)/evolution/glade
 glade_DATA = addressbook-config.glade
 
 EXTRA_DIST = 			\
 	$(glade_DATA)		\
-	$(oaf_DATA)
+	$(oaf_DATA)		\
+	addressbook-config.glade\
+	$(oaf_in_files)
 
 if ENABLE_PURIFY
 PLINK = $(LIBTOOL) --mode=link $(PURIFY) $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@

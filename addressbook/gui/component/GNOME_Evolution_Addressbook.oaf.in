@@ -9,7 +9,7 @@
 	</oaf_attribute>
 
 	<oaf_attribute name="description" type="string"
-                       value="Factory for the Addressbook Minicard control"/>
+                       _value="Factory for the Addressbook Minicard control"/>
 
 </oaf_server>
 
@@ -28,9 +28,9 @@
 	</oaf_attribute>
 
 	<oaf_attribute name="name" type="string"
-		       value="Evolution Addressbook minicard viewer"/>
+		       _value="Evolution Addressbook minicard viewer"/>
 	<oaf_attribute name="description" type="string"
-	               value="Control that displays an Evolution addressbook minicard."/>
+	               _value="Control that displays an Evolution addressbook minicard."/>
 
 </oaf_server>
 
@@ -43,7 +43,7 @@
 	</oaf_attribute>
 
 	<oaf_attribute name="description" type="string"
-                       value="Factory for the sample Addressbook control"/>
+                       _value="Factory for the sample Addressbook control"/>
 
 </oaf_server>
 
@@ -57,7 +57,7 @@
 	</oaf_attribute>
 
 	<oaf_attribute name="description" type="string"
-                       value="A sample Bonobo control which displays an addressbook."/>
+                       _value="A sample Bonobo control which displays an addressbook."/>
 
 </oaf_server>
 
@@ -70,7 +70,7 @@
 	</oaf_attribute>
 
 	<oaf_attribute name="description" type="string"
-	               value="Factory for the Evolution addressbook component."/>
+	               _value="Factory for the Evolution addressbook component."/>
 
 </oaf_server>
 
@@ -83,7 +83,7 @@
 	</oaf_attribute>
 
 	<oaf_attribute name="description" type="string"
-	               value="Evolution component for handling contacts."/>
+	               _value="Evolution component for handling contacts."/>
 
 	<oaf_attribute name="evolution:shell-component-icon" type="string"
 		       value="evolution-contacts.png"/>

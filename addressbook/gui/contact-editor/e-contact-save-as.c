@@ -19,6 +19,7 @@
  * Boston, MA 02111-1307, USA.
  */
 
+#include <config.h>
 #include <e-contact-save-as.h>
 #include <gal/util/e-util.h>
 #include <unistd.h>
