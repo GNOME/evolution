@@ -333,7 +333,7 @@ http_method_invoke (CamelHttpStream *http)
 	}
 	
 	url = camel_url_to_string (http->url, 0);
-	if (camel_stream_printf (http->raw, "%s %s HTTP/1.1\r\nHost: %s\r\n\r\n",
+	if (camel_stream_printf (http->raw, "%s %s HTTP/1.0\r\nHost: %s\r\n\r\n",
 				 method, http->url->path ? http->url->path : "/",
 				 http->url->host) == -1 ||
 	    camel_stream_flush (http->raw) == -1) {

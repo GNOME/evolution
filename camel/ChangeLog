@@ -3,6 +3,7 @@
 	* camel-http-stream.c (stream_read): Use camel_mime_parser_read to
 	read internal parser data.
 	(camel_http_stream_get_content_type): Implemented.
+	(http_method_invoke): Use HTTP/1.0 instead of 1.1
 
 	* camel-mime-utils.c (header_decode_int): Made public.
 
