@@ -14,12 +14,7 @@
 #include <cal-client/cal-client.h>
 #include <cal-util/calobj.h>
 #include <cal-util/timeutil.h>
-
-#ifdef USING_OAF
 #include <liboaf/liboaf.h>
-#else
-#include <libgnorba/gnorba.h>
-#endif
 
 
 /* This is the local record structure for the GnomeCal conduit. */

@@ -1,38 +1,13 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 #include <config.h>
 #include <bonobo.h>
+#include <liboaf/liboaf.h>
 #include <gnome.h>
 #include <stdio.h>
 
 #include <e-book.h>
 
 static CORBA_Environment ev;
-
-#ifdef USING_OAF
-
-#include <liboaf/liboaf.h>
-
-static void
-init_corba (int *argc, char **argv)
-{
-	gnome_init_with_popt_table("blah", "0.0", *argc, argv, NULL, 0, NULL);
-
-	oaf_init (*argc, argv);
-}
-
-#else
-
-#include <libgnorba/gnorba.h>
-
-static void
-init_corba (int *argc, char **argv)
-{
-	gnome_CORBA_init_with_popt_table (
-		"blah", "0.0",
-		argc, argv, NULL, 0, NULL, GNORBA_INIT_SERVER_FUNC, &ev);
-}
-
-#endif
 
 static void
 init_bonobo (int argc, char **argv)
@@ -149,7 +124,8 @@ main (int argc, char **argv)
 
 	CORBA_exception_init (&ev);
 
-	init_corba (&argc, argv);
+	gnome_init_with_popt_table("blah", "0.0", argc, argv, NULL, 0, NULL);
+	oaf_init (argc, argv);
 	init_bonobo (argc, argv);
 
 	gtk_idle_add ((GtkFunction) ebook_create, NULL);

@@ -7,6 +7,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <gnome.h>
+#include <liboaf/liboaf.h>
 #include <pi-address.h>
 #include <gpilotd/gnome-pilot-conduit.h>
 #include <gpilotd/gnome-pilot-conduit-standard-abs.h>
@@ -14,12 +15,6 @@
 #include "ebook/e-card-simple.h"
 #include "ebook/e-book.h"
 #include "ebook/e-book-view.h"
-
-#ifdef USING_OAF
-#include <liboaf/liboaf.h>
-#else
-#include <libgnorba/gnorba.h>
-#endif
 
 
 /* This is the local record structure for the GnomeCal conduit. */

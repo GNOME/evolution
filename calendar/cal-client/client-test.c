@@ -21,6 +21,7 @@
 
 #include <config.h>
 #include <bonobo.h>
+#include <liboaf/liboaf.h>
 #include <gnome.h>
 #include <cal-client/cal-client.h>
 
@@ -190,45 +191,14 @@ create_client (CalClient **client, const char *uri, gboolean load)
 	}
 }
 
-#ifdef USING_OAF
-
-#include <liboaf/liboaf.h>
-
-static void
-init_corba (int *argc, char **argv)
-{
-	gnome_init ("tl-test", VERSION, *argc, argv);
-	oaf_init (*argc, argv);
-}
-
-#else
-
-#include <libgnorba/gnorba.h>
-
-static void
-init_corba (int *argc, char **argv)
-{
-	CORBA_Environment ev;
-
-	CORBA_exception_init (&ev);
-	gnome_CORBA_init ("tl-test", VERSION, &argc, argv, 0, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_message ("main(): could not initialize the ORB");
-		CORBA_exception_free (&ev);
-		exit (1);
-	}
-	CORBA_exception_free (&ev);
-}
-
-#endif
-
 int
 main (int argc, char **argv)
 {
 	bindtextdomain (PACKAGE, GNOMELOCALEDIR);
 	textdomain (PACKAGE);
 
-	init_corba (&argc, argv);
+	gnome_init ("tl-test", VERSION, argc, argv);
+	oaf_init (argc, argv);
 
 	if (!bonobo_init (CORBA_OBJECT_NIL, CORBA_OBJECT_NIL, CORBA_OBJECT_NIL)) {
 		g_message ("main(): could not initialize Bonobo");

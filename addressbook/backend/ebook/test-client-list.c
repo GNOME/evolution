@@ -2,12 +2,7 @@
 #include <config.h>
 #include <bonobo.h>
 #include <gnome.h>
-
-#ifdef USING_OAF
 #include <liboaf/liboaf.h>
-#else
-#include <libgnorba/gnorba.h>
-#endif
 
 #include "e-book.h"
 
@@ -16,14 +11,8 @@ CORBA_Environment ev;
 static void
 init_bonobo (int argc, char **argv)
 {
-#ifdef USING_OAF
 	gnome_init ("blah", "0.0", argc, argv);
 	oaf_init (argc, argv);
-#else
-	gnome_CORBA_init_with_popt_table (
-		"blah", "0.0",
-		&argc, argv, NULL, 0, NULL, GNORBA_INIT_SERVER_FUNC, &ev);
-#endif
 
 	if (bonobo_init (CORBA_OBJECT_NIL, CORBA_OBJECT_NIL, CORBA_OBJECT_NIL) == FALSE)
 		g_error (_("Could not initialize Bonobo"));

@@ -14,14 +14,6 @@
 #include <cal-util/calobj.h>
 #include <cal-util/timeutil.h>
 
-/*
-#ifdef USING_OAF
-#include <liboaf/liboaf.h>
-#else
-#include <libgnorba/gnorba.h>
-#endif
-*/
-
 #include <liboaf/liboaf.h>
 #include <libgnorba/gnorba.h>
 

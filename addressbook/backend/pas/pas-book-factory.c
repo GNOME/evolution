@@ -10,17 +10,12 @@
 #include <config.h>
 #include <ctype.h>
 #include <gnome.h>
+#include <liboaf/liboaf.h>
 
 #include "addressbook.h"
 #include "pas-book-factory.h"
 
-#ifdef USING_OAF
-#include <liboaf/liboaf.h>
 #define PAS_BOOK_FACTORY_OAF_ID "OAFIID:evolution:addressbook-server:0fbc844d-c721-4615-98d0-d67eacf42d80"
-#else
-#include <libgnorba/gnorba.h>
-#define PAS_BOOK_FACTORY_GOAD_ID "evolution:addressbook-server"
-#endif
 
 static BonoboObjectClass          *pas_book_factory_parent_class;
 POA_Evolution_BookFactory__vepv   pas_book_factory_vepv;
@@ -424,8 +419,6 @@ pas_book_factory_new (void)
 	return factory;
 }
 
-#ifdef USING_OAF
-
 static gboolean
 register_factory (CORBA_Object obj)
 {
@@ -450,43 +443,6 @@ register_factory (CORBA_Object obj)
 		return FALSE;
 	}
 }
-
-#else
-
-static gboolean
-register_factory (CORBA_Object obj)
-{
-	CORBA_Environment  ev;
-	int ret;
-
-	CORBA_exception_init (&ev);
-	ret = goad_server_register (NULL, obj, PAS_BOOK_FACTORY_GOAD_ID, "server", &ev);
-
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_message ("pas_book_factory_activate: Exception "
-			   "registering PASBookFactory!\n");
-		CORBA_exception_free (&ev);
-		return FALSE;
-	}
-
-	CORBA_exception_free (&ev);
-
-	switch (ret) {
-	case 0:
-		return TRUE;
-	case -2:
-		g_message ("pas_book_factory_activate: Another "
-			   "PASBookFactory is already running.\n");
-		return FALSE;
-	case -1:
-	default:
-		g_message ("pas_book_factory_activate: Error "
-			   "registering PASBookFactory!\n");
-		return FALSE;
-	}
-}
-
-#endif
 
 /**
  * pas_book_factory_activate:

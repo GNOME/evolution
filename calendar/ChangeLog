@@ -1,3 +1,10 @@
+2000-08-29  Dan Winship  <danw@helixcode.com>
+
+	* cal-client/client-test.c: 
+	* cal-client/cal-client.c:
+	* conduits/todo/todo-conduit.h: 
+	* conduits/calendar/calendar-conduit.h: remove USING_OAF checks.
+
 2000-08-29  JP Rosevear  <jpr@helixcode.com>
 
 	* gui/gnome-cal.c (gnome_calendar_edit_object): Use

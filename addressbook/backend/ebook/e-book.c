@@ -11,6 +11,7 @@
 #include <config.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtkmarshal.h>
+#include <liboaf/liboaf.h>
 
 #include "addressbook.h"
 #include "e-card-cursor.h"
@@ -19,13 +20,7 @@
 
 GtkObjectClass *e_book_parent_class;
 
-#ifdef USING_OAF
-#include <liboaf/liboaf.h>
 #define CARDSERVER_OAF_ID "OAFIID:evolution:addressbook-server:0fbc844d-c721-4615-98d0-d67eacf42d80"
-#else
-#include <libgnorba/gnorba.h>
-#define CARDSERVER_GOAD_ID "evolution:addressbook-server"
-#endif
 
 typedef enum {
 	URINotLoaded,
@@ -450,14 +445,8 @@ e_book_construct (EBook *book)
 	 * Connect to the Personal Addressbook Server.
 	 */
 
-#ifdef USING_OAF
 	book->priv->book_factory = (Evolution_BookFactory)
 		oaf_activate_from_id (CARDSERVER_OAF_ID, 0, NULL, NULL);
-#else
-	book->priv->book_factory = (Evolution_BookFactory)
-		goad_server_activate_with_id (NULL, CARDSERVER_GOAD_ID, 0, NULL);
-#endif
-
 	if (book->priv->book_factory == CORBA_OBJECT_NIL) {
 		g_warning ("e_book_construct: Could not obtain a handle "
 			   "to the Personal Addressbook Server!\n");

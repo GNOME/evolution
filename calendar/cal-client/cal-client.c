@@ -22,12 +22,7 @@
 
 #include <config.h>
 #include <gtk/gtksignal.h>
-
-#ifdef USING_OAF
 #include <liboaf/liboaf.h>
-#else
-#include <libgnorba/gnorba.h>
-#endif
 
 #include "cal-client.h"
 #include "cal-listener.h"
@@ -392,17 +387,9 @@ cal_client_construct (CalClient *client)
 
 	priv = client->priv;
 
-#ifdef USING_OAF
 	factory = (Evolution_Calendar_CalFactory) oaf_activate_from_id (
 		"OAFIID:evolution:calendar-factory:1c915858-ece3-4a6f-9d81-ea0f108a9554",
 		OAF_FLAG_NO_LOCAL, NULL, &ev);
-#else
-	factory = (Evolution_Calendar_CalFactory) goad_server_activate_with_id (
-		NULL,
-		"evolution:calendar-factory",
-		GOAD_ACTIVATE_REMOTE,
-		NULL);
-#endif
 
 	result = CORBA_Object_is_nil (factory, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {

@@ -1,3 +1,13 @@
+2000-08-29  Dan Winship  <danw@helixcode.com>
+
+	* backend/ebook/e-book.c: 
+	* backend/ebook/test-client.c: 
+	* backend/ebook/test-client-list.c: 
+	* backend/ebook/load-gnomecard-addressbook.c: 
+	* backend/ebook/load-pine-addressbook.c: 
+	* backend/pas/pas-book-factory.c: 
+	* conduit/address-conduit.h: Remove USING_OAF checks
+
 2000-08-28  Christopher James Lahey  <clahey@helixcode.com>
 
 	* gui/component/addressbook.c: Use the right argument name to turn
