@@ -207,16 +207,6 @@ print (GnomeCalendar *gcal, gboolean preview)
 	print_calendar (gcal, preview, start, print_view);
 }
 
-/* Toolbar/Print callback */
-static void
-tb_print_cb (GtkWidget *widget, gpointer data)
-{
-	GnomeCalendar *gcal;
-
-	gcal = GNOME_CALENDAR (data);
-	print (gcal, FALSE);
-}
-
 /* File/Print callback */
 static void
 file_print_cb (BonoboUIHandler *uih, void *data, const char *path)

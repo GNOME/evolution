@@ -1,3 +1,21 @@
+2000-10-19  Michael Meeks  <michael@helixcode.com>
+
+	* gui/calendar-commands.c (tb_print_cb): remove; redundant.
+
+	* gui/event-editor.c (create_menu, create_toolbar): kill.
+	(event_editor_destroy): upd.
+	(event_editor_construct): update to new UI handler, cast
+	priv->general_summary to a widget not an object.
+
+2000-10-18  Michael Meeks  <michael@helixcode.com>
+
+	* gui/dialogs/task-editor.c (create_menu, create_toolbar): die.
+	(debug_xml_cb): add debugging hook.
+
+	* gui/dialogs/Makefile.am: add EVOLUTION_DATADIR
+
+	* gui/dialogs/task-editor.c (task_editor_construct): upd for new UI.
+
 2000-10-17  JP Rosevear  <jpr@helixcode.com>
 
 	* conduits/todo/todo-conduit-control-applet.c: Add defines
