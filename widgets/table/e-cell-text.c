@@ -464,7 +464,10 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 		background = &canvas->style->bg [GTK_STATE_SELECTED];
 		foreground = &canvas->style->text [GTK_STATE_SELECTED];
 	} else {
-		background = &canvas->style->base [GTK_STATE_NORMAL];
+		if (row % 2)
+			background = &canvas->style->base [GTK_STATE_NORMAL];
+		else
+			background = &canvas->style->base [GTK_STATE_SELECTED];
 		foreground = &canvas->style->text [GTK_STATE_NORMAL];
 	}
 

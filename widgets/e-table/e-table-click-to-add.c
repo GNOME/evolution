@@ -317,6 +317,11 @@ etcta_event (GnomeCanvasItem *item, GdkEvent *e)
 		case GDK_KP_Enter:
 		case GDK_ISO_Enter:
 		case GDK_3270_Enter:
+
+		case GDK_Tab:
+		case GDK_KP_Tab:
+		case GDK_ISO_Left_Tab:
+
 			if (etcta->row) {
 				ETableModel *one;
 

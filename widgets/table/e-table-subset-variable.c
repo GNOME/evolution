@@ -28,7 +28,6 @@ etssv_add       (ETableSubsetVariable *etssv,
 {
 	ETableModel *etm = E_TABLE_MODEL(etssv);
 	ETableSubset *etss = E_TABLE_SUBSET(etssv);
-	int i;
 	
 	e_table_model_pre_change(etm);
 
@@ -36,10 +35,7 @@ etssv_add       (ETableSubsetVariable *etssv,
 		etss->map_table = g_realloc (etss->map_table, (etssv->n_vals_allocated + INCREMENT_AMOUNT) * sizeof(int));
 		etssv->n_vals_allocated += INCREMENT_AMOUNT;
 	}
-	if (row < e_table_model_row_count(etss->source) - 1)
-		for ( i = 0; i < etss->n_map; i++ )
-			if (etss->map_table[i] >= row)
-				etss->map_table[i] ++;
+
 	etss->map_table[etss->n_map++] = row;
 
 	e_table_model_row_inserted (etm, etss->n_map - 1);
@@ -73,27 +69,18 @@ etssv_remove    (ETableSubsetVariable *etssv,
 	ETableModel *etm = E_TABLE_MODEL(etssv);
 	ETableSubset *etss = E_TABLE_SUBSET(etssv);
 	int i;
-	int ret_val = FALSE;
 	
 	for (i = 0; i < etss->n_map; i++){
 		if (etss->map_table[i] == row) {
 			e_table_model_pre_change (etm);
 			memmove (etss->map_table + i, etss->map_table + i + 1, (etss->n_map - i - 1) * sizeof(int));
 			etss->n_map --;
-
-			e_table_model_changed (etm);
-			ret_val = TRUE;
-			break;
+			
+			e_table_model_row_deleted (etm, i);
+			return TRUE;
 		}
 	}
-	
-	for (i = 0; i < etss->n_map; i++){
-		if (etss->map_table[i] > row) {
-			etss->map_table[i] --;
-		}
-	}
-
-	return ret_val;
+	return FALSE;
 }
 
 static void
@@ -174,9 +161,22 @@ e_table_subset_variable_increment (ETableSubsetVariable *etssv,
 {
 	int i;
 	ETableSubset *etss = E_TABLE_SUBSET(etssv);
-	for (i = 0; i < etss->n_map; i++){
+	for (i = 0; i < etss->n_map; i++) {
 		if (etss->map_table[i] > position)
 			etss->map_table[i] += amount;
+	}
+}
+
+void
+e_table_subset_variable_decrement (ETableSubsetVariable *etssv,
+				   gint                  position,
+				   gint                  amount)
+{
+	int i;
+	ETableSubset *etss = E_TABLE_SUBSET(etssv);
+	for (i = 0; i < etss->n_map; i++) {
+		if (etss->map_table[i] > position)
+			etss->map_table[i] -= amount;
 	}
 }
 

@@ -480,6 +480,17 @@ etgc_increment (ETableGroup *etg, gint position, gint amount)
 }
 
 static void
+etgc_decrement (ETableGroup *etg, gint position, gint amount)
+{
+	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER(etg);
+	GList *list = etgc->children;
+
+	for (list = etgc->children ; list; list = g_list_next (list))
+		e_table_group_decrement (((ETableGroupContainerChildNode *)list->data)->child,
+					 position, amount);
+}
+
+static void
 etgc_set_cursor_row (ETableGroup *etg, gint row)
 {
 	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER(etg);
@@ -703,6 +714,7 @@ etgc_class_init (GtkObjectClass *object_class)
 	e_group_class->add_all = etgc_add_all;
 	e_group_class->remove = etgc_remove;
 	e_group_class->increment  = etgc_increment;
+	e_group_class->decrement  = etgc_decrement;
 	e_group_class->row_count  = etgc_row_count;
 	e_group_class->set_focus  = etgc_set_focus;
 	e_group_class->set_cursor_row = etgc_set_cursor_row;

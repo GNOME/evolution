@@ -21,8 +21,10 @@
 static ETableSubsetVariableClass *etsv_parent_class;
 
 static void etsv_proxy_model_changed      (ETableModel *etm, ETableSortedVariable *etsv);
+#if 0
 static void etsv_proxy_model_row_changed  (ETableModel *etm, int row, ETableSortedVariable *etsv);
 static void etsv_proxy_model_cell_changed (ETableModel *etm, int col, int row, ETableSortedVariable *etsv);
+#endif
 static void etsv_sort_info_changed        (ETableSortInfo *info, ETableSortedVariable *etsv);
 static void etsv_sort                     (ETableSortedVariable *etsv);
 static void etsv_add                      (ETableSubsetVariable *etssv, gint                  row);
@@ -36,10 +38,12 @@ etsv_destroy (GtkObject *object)
 
 	gtk_signal_disconnect (GTK_OBJECT (etss->source),
 			       etsv->table_model_changed_id);
+#if 0
 	gtk_signal_disconnect (GTK_OBJECT (etss->source),
 			       etsv->table_model_row_changed_id);
 	gtk_signal_disconnect (GTK_OBJECT (etss->source),
 			       etsv->table_model_cell_changed_id);
+#endif
 	gtk_signal_disconnect (GTK_OBJECT (etsv->sort_info),
 			       etsv->sort_info_changed_id);
 
@@ -146,10 +150,6 @@ etsv_add       (ETableSubsetVariable *etssv,
 		etssv->n_vals_allocated += INCREMENT_AMOUNT;
 		etss->map_table = g_realloc (etss->map_table, (etssv->n_vals_allocated) * sizeof(int));
 	}
-	if (row < e_table_model_row_count(etss->source) - 1)
-		for ( i = 0; i < etss->n_map; i++ )
-			if (etss->map_table[i] >= row)
-				etss->map_table[i] ++;
 	i = etss->n_map;
 	if (etsv->sort_idle_id == 0) {
 		i = 0;
@@ -208,10 +208,12 @@ e_table_sorted_variable_new (ETableModel *source, ETableHeader *full_header, ETa
 
 	etsv->table_model_changed_id = gtk_signal_connect (GTK_OBJECT (source), "model_changed",
 							   GTK_SIGNAL_FUNC (etsv_proxy_model_changed), etsv);
+#if 0
 	etsv->table_model_row_changed_id = gtk_signal_connect (GTK_OBJECT (source), "model_row_changed",
 							       GTK_SIGNAL_FUNC (etsv_proxy_model_row_changed), etsv);
 	etsv->table_model_cell_changed_id = gtk_signal_connect (GTK_OBJECT (source), "model_cell_changed",
 								GTK_SIGNAL_FUNC (etsv_proxy_model_cell_changed), etsv);
+#endif
 	etsv->sort_info_changed_id = gtk_signal_connect (GTK_OBJECT (sort_info), "sort_info_changed",
 							 GTK_SIGNAL_FUNC (etsv_sort_info_changed), etsv);
 	
@@ -223,7 +225,7 @@ etsv_proxy_model_changed (ETableModel *etm, ETableSortedVariable *etsv)
 {
 	/* FIXME: do_resort (); */
 }
-
+#if 0
 static void
 etsv_proxy_model_row_changed (ETableModel *etm, int row, ETableSortedVariable *etsv)
 {
@@ -241,6 +243,7 @@ etsv_proxy_model_cell_changed (ETableModel *etm, int col, int row, ETableSortedV
 	if (e_table_subset_variable_remove(etssv, row))
 		e_table_subset_variable_add (etssv, row);
 }
+#endif
 
 static void
 etsv_sort_info_changed (ETableSortInfo *info, ETableSortedVariable *etsv)

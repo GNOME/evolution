@@ -57,6 +57,7 @@ typedef struct {
 	gint        (*get_count)             (ETableGroup *etg);
 	gint        (*row_count)             (ETableGroup *etg);
 	void        (*increment)             (ETableGroup *etg, gint position, gint amount);
+	void        (*decrement)             (ETableGroup *etg, gint position, gint amount);
 	void        (*set_focus)             (ETableGroup *etg, EFocus direction, gint view_col);
 	void        (*set_cursor_row)        (ETableGroup *etg, gint row);
 	int         (*get_cursor_row)        (ETableGroup *etg);
@@ -76,6 +77,9 @@ gboolean         e_table_group_remove      	     (ETableGroup      *etg,
 					   	      gint              row);
 gint             e_table_group_get_count   	     (ETableGroup      *etg);
 void             e_table_group_increment   	     (ETableGroup      *etg,
+					   	      gint              position,
+					   	      gint              amount);
+void             e_table_group_decrement   	     (ETableGroup      *etg,
 					   	      gint              position,
 					   	      gint              amount);
 gint             e_table_group_row_count   	     (ETableGroup      *etg);

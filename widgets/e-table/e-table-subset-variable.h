@@ -39,6 +39,9 @@ gboolean     e_table_subset_variable_remove    (ETableSubsetVariable *ets,
 void         e_table_subset_variable_increment (ETableSubsetVariable *ets,
 						gint                  position,
 						gint                  amount);
+void         e_table_subset_variable_decrement (ETableSubsetVariable *ets,
+						gint                  position,
+						gint                  amount);
 void         e_table_subset_variable_set_allocation (ETableSubsetVariable *ets,
 						     gint                  total);
 #endif /* _E_TABLE_SUBSET_VARIABLE_H_ */

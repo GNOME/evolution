@@ -1,3 +1,26 @@
+2000-08-19  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-cell-text.c: Made background colors alternate.
+
+	* e-table-click-to-add.c: Made tabbing off the right edge of the
+	click to add commit the new values.
+
+	* e-table-group-container.c, e-table-group-leaf.c,
+	e-table-group.c, e-table-group.h, e-table-sorted-variable.c,
+	e-table-subset-variable.c, e-table-subset-variable.h: Added a
+	decrement method.  Made the add and remove methods not
+	automatically increment and decrement.
+
+	* e-table-item.c: Fixed some view vs model issues for both rows
+	and columns.
+
+	* e-table-model.c: Added debugging code.  Removed automatic
+	signalling of changes by the ETableModel set_value_at function
+	(the model should send these signals itself.)
+
+	* e-table.c: Added increment and decrement calls when a row is
+	removed or added from the source model.
+
 2000-08-09  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-table-item.c, e-table-selection-model.c,

@@ -14,7 +14,11 @@
 #define ETM_CLASS(e) ((ETableModelClass *)((GtkObject *)e)->klass)
 
 #define PARENT_TYPE gtk_object_get_type ()
-					  
+
+#define d(x)
+
+d(static gint depth = 0);
+
 
 static GtkObjectClass *e_table_model_parent_class;
 
@@ -66,15 +70,6 @@ e_table_model_set_value_at (ETableModel *e_table_model, int col, int row, const 
 	g_return_if_fail (E_IS_TABLE_MODEL (e_table_model));
 
 	ETM_CLASS (e_table_model)->set_value_at (e_table_model, col, row, data);
-
-	gtk_signal_emit (GTK_OBJECT (e_table_model),
-			 e_table_model_signals [MODEL_ROW_CHANGED], row);
-	gtk_signal_emit (GTK_OBJECT (e_table_model),
-			 e_table_model_signals [MODEL_CELL_CHANGED], col, row);
-
-	/*
-	 * Notice that "model_changed" is not emitted
-	 */
 }
 
 gboolean
@@ -264,14 +259,28 @@ e_table_model_get_type (void)
   return type;
 }
 
+#if d(!)0
+static void
+print_tabs (void)
+{
+	int i;
+	for (i = 0; i < depth; i++)
+		g_print("\t");
+}
+#endif
+
 void
 e_table_model_pre_change (ETableModel *e_table_model)
 {
 	g_return_if_fail (e_table_model != NULL);
 	g_return_if_fail (E_IS_TABLE_MODEL (e_table_model));
 	
+	d(print_tabs());
+	d(g_print("Emitting pre_change on model 0x%p.\n", e_table_model));
+	d(depth++);
 	gtk_signal_emit (GTK_OBJECT (e_table_model),
 			 e_table_model_signals [MODEL_PRE_CHANGE]);
+	d(depth--);
 }
 
 void
@@ -280,8 +289,12 @@ e_table_model_changed (ETableModel *e_table_model)
 	g_return_if_fail (e_table_model != NULL);
 	g_return_if_fail (E_IS_TABLE_MODEL (e_table_model));
 	
+	d(print_tabs());
+	d(g_print("Emitting model_changed on model 0x%p.\n", e_table_model));
+	d(depth++);
 	gtk_signal_emit (GTK_OBJECT (e_table_model),
 			 e_table_model_signals [MODEL_CHANGED]);
+	d(depth--);
 }
 
 void
@@ -290,8 +303,12 @@ e_table_model_row_changed (ETableModel *e_table_model, int row)
 	g_return_if_fail (e_table_model != NULL);
 	g_return_if_fail (E_IS_TABLE_MODEL (e_table_model));
 
+	d(print_tabs());
+	d(g_print("Emitting row_changed on model 0x%p, row %d.\n", e_table_model, row));
+	d(depth++);
 	gtk_signal_emit (GTK_OBJECT (e_table_model),
 			 e_table_model_signals [MODEL_ROW_CHANGED], row);
+	d(depth--);
 }
 
 void
@@ -300,8 +317,12 @@ e_table_model_cell_changed (ETableModel *e_table_model, int col, int row)
 	g_return_if_fail (e_table_model != NULL);
 	g_return_if_fail (E_IS_TABLE_MODEL (e_table_model));
 
+	d(print_tabs());
+	d(g_print("Emitting cell_changed on model 0x%p, row %d, col %d.\n", e_table_model, row, col));
+	d(depth++);
 	gtk_signal_emit (GTK_OBJECT (e_table_model),
 			 e_table_model_signals [MODEL_CELL_CHANGED], col, row);
+	d(depth--);
 }
 
 void
@@ -310,8 +331,12 @@ e_table_model_row_inserted (ETableModel *e_table_model, int row)
 	g_return_if_fail (e_table_model != NULL);
 	g_return_if_fail (E_IS_TABLE_MODEL (e_table_model));
 
+	d(print_tabs());
+	d(g_print("Emitting row_inserted on model 0x%p, row %d.\n", e_table_model, row));
+	d(depth++);
 	gtk_signal_emit (GTK_OBJECT (e_table_model),
 			 e_table_model_signals [MODEL_ROW_INSERTED], row);
+	d(depth--);
 }
 
 void
@@ -320,6 +345,10 @@ e_table_model_row_deleted (ETableModel *e_table_model, int row)
 	g_return_if_fail (e_table_model != NULL);
 	g_return_if_fail (E_IS_TABLE_MODEL (e_table_model));
 
+	d(print_tabs());
+	d(g_print("Emitting row_deleted on model 0x%p, row %d.\n", e_table_model, row));
+	d(depth++);
 	gtk_signal_emit (GTK_OBJECT (e_table_model),
 			 e_table_model_signals [MODEL_ROW_DELETED], row);
+	d(depth--);
 }

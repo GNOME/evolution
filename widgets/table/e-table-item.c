@@ -1204,7 +1204,7 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 			e_cell_draw (ecell_view, drawable, ecol->col_idx, col, row, col_selected,
 				     xd, yd, xd + ecol->width, yd + height);
 			
-			if (col == cursor_col && view_to_model_row(eti, row) == cursor_row){
+			if (view_to_model_col(eti, col) == cursor_col && view_to_model_row(eti, row) == cursor_row){
 				f_x1 = xd;
 				f_x2 = xd + ecol->width;
 				f_y1 = yd;
@@ -1245,11 +1245,8 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 	 * Draw focus
 	 */
 	if (f_found && eti->draw_focus){
-
-		if (!eti_editing (eti))
-			gdk_draw_rectangle (
-				drawable, eti->focus_gc, FALSE,
-				f_x1 + 1, f_y1, f_x2 - f_x1 - 2, f_y2 - f_y1 - 1);
+		gdk_draw_rectangle (drawable, eti->focus_gc, FALSE,
+				    f_x1 + 1, f_y1, f_x2 - f_x1 - 2, f_y2 - f_y1 - 1);
 	}
 }
 
@@ -1418,7 +1415,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			if (!find_cell (eti, e->button.x, e->button.y, &col, &row, &x1, &y1))
 				return TRUE;
 
-			e_table_selection_model_maybe_do_something(eti->selection, row, col, 0);
+			e_table_selection_model_maybe_do_something(eti->selection, view_to_model_row(eti, row), view_to_model_col(eti, col), 0);
 			
 			gtk_signal_emit (GTK_OBJECT (eti), eti_signals [RIGHT_CLICK],
 					 row, col, e, &return_val);
@@ -1570,14 +1567,14 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		case GDK_ISO_Left_Tab:
 			if ((e->key.state & GDK_SHIFT_MASK) != 0){
 				/* shift tab */
-				if (cursor_col > 0)
+				if (cursor_col != view_to_model_col(eti, 0))
 					eti_cursor_move_left (eti);
 				else if (cursor_row != view_to_model_row(eti, 0))
 					eti_cursor_move (eti, model_to_view_row(eti, cursor_row) - 1, eti->cols - 1);
 				else
 					return_val = FALSE;
 			} else {
-				if (cursor_col < eti->cols - 1)
+				if (cursor_col != view_to_model_col (eti, eti->cols - 1))
 					eti_cursor_move_right (eti);
 				else if (cursor_row != view_to_model_row(eti, eti->rows - 1))
 					eti_cursor_move (eti, model_to_view_row(eti, cursor_row) + 1, 0);
@@ -1589,7 +1586,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 				       "cursor_col", &cursor_col,
 				       NULL);
 
-			if (cursor_col > 0 && cursor_row > 0 && return_val &&
+			if (cursor_col >= 0 && cursor_row >= 0 && return_val &&
 			    (!eti_editing(eti)) && e_table_model_is_cell_editable(eti->selection->model, cursor_col, cursor_row)) {
 				e_table_item_enter_edit (eti, model_to_view_col(eti, cursor_col), model_to_view_row(eti, cursor_row));
 			}

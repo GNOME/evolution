@@ -156,6 +156,18 @@ e_table_group_increment (ETableGroup *etg,
 }
 
 void
+e_table_group_decrement (ETableGroup *etg,
+			 gint position,
+			 gint amount)
+{
+	g_return_if_fail (etg != NULL);
+	g_return_if_fail (E_IS_TABLE_GROUP (etg));
+
+	if (ETG_CLASS (etg)->decrement)
+		ETG_CLASS (etg)->decrement (etg, position, amount);
+}
+
+void
 e_table_group_set_focus (ETableGroup *etg,
 			 EFocus direction,
 			 gint row)
@@ -359,6 +371,7 @@ etg_class_init (GtkObjectClass *object_class)
 	klass->get_count  = NULL;
 	klass->row_count  = NULL;
 	klass->increment  = NULL;
+	klass->decrement  = NULL;
 	klass->set_focus  = NULL;
 	klass->set_cursor_row = NULL;
 	klass->get_cursor_row = NULL;

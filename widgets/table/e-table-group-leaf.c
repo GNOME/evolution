@@ -187,6 +187,13 @@ etgl_increment (ETableGroup *etg, gint position, gint amount)
 	e_table_subset_variable_increment (etgl->subset, position, amount);
 }
 
+static void
+etgl_decrement (ETableGroup *etg, gint position, gint amount)
+{
+	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (etg);
+	e_table_subset_variable_decrement (etgl->subset, position, amount);
+}
+
 static int
 etgl_row_count (ETableGroup *etg)
 {
@@ -363,6 +370,7 @@ etgl_class_init (GtkObjectClass *object_class)
 	e_group_class->add_all = etgl_add_all;
 	e_group_class->remove = etgl_remove;
 	e_group_class->increment  = etgl_increment;
+	e_group_class->decrement  = etgl_decrement;
 	e_group_class->row_count  = etgl_row_count;
 	e_group_class->set_focus  = etgl_set_focus;
 	e_group_class->set_cursor_row = etgl_set_cursor_row;
