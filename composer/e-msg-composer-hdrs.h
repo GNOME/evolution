@@ -64,9 +64,16 @@ struct _EMsgComposerHdrsClass {
 	void (* hdrs_changed) (EMsgComposerHdrs *hdrs);
 };
 
+typedef enum {
+	E_MSG_COMPOSER_VISIBLE_FROM    = 1,
+	E_MSG_COMPOSER_VISIBLE_CC      = 2,
+	E_MSG_COMPOSER_VISIBLE_BCC     = 4,
+	E_MSG_COMPOSER_VISIBLE_SUBJECT = 8
+} EMsgComposerHeaderVisibleFlags;
+
 
 GtkType     e_msg_composer_hdrs_get_type           (void);
-GtkWidget  *e_msg_composer_hdrs_new                (void);
+GtkWidget  *e_msg_composer_hdrs_new                (gint visible_flags);
 
 void        e_msg_composer_hdrs_to_message         (EMsgComposerHdrs *hdrs,
 						    CamelMimeMessage *msg);
@@ -92,6 +99,10 @@ GtkWidget  *e_msg_composer_hdrs_get_to_entry       (EMsgComposerHdrs *hdrs);
 GtkWidget  *e_msg_composer_hdrs_get_cc_entry       (EMsgComposerHdrs *hdrs);
 GtkWidget  *e_msg_composer_hdrs_get_bcc_entry      (EMsgComposerHdrs *hdrs);
 GtkWidget  *e_msg_composer_hdrs_get_subject_entry  (EMsgComposerHdrs *hdrs);
+
+gint        e_msg_composer_get_hdrs_visible        (EMsgComposerHdrs *hdrs);
+void        e_msg_composer_set_hdrs_visible        (EMsgComposerHdrs *hdrs,
+						    gint flags);
 
 #ifdef _cplusplus
 }

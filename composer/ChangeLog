@@ -1,3 +1,34 @@
+2001-03-06  Miguel de Icaza  <miguel@ximian.com>
+
+	* e-msg-composer.c (set_config): New function.  Used to store
+	integer values into the configuration engine.  Handles the case of
+	Bonobo-conf being installed, or falls back to gnome_config.
+
+	* e-msg-composer-hdrs.c (add_header): Renamed to be
+	header_new_recipient().  Now we take care of the other cases in
+	create_headers, which is a lot nicer now.
+	
+	(create_optionmenu): Removed extra "name" argument which was not
+	being used anyways (the only arg passed was From:).
+	(init): Removed all the redundant NULL initialization by using
+	nice g_new0
+	
+	(create_headers): New function, much cleaner. 
+
+	Use of Pair structure everywhere instead of individual widgets to
+	keep track of which ones are visible and which ones are not.
+	
+	* e-msg-composer.c (setup_ui): Handle ViewFrom and ViewBCC
+	commands. 
+	(menu_view_bcc_cb, menu_view_from_cb): New functions that
+	implement the features described.
+
+	(menu_format_html_cb): Removed unrequired test, as
+	e_msg_composer_set_send_html already optimizes the case of the
+	state being the same.
+	(menu_security_pgp_encrypt_cb): Remove redundant code.
+	(menu_security_pgp_sign_cb): ditto.
+
 2001-03-02  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-icon-list.c (icon_new_from_pixbuf): Added a comment reminding

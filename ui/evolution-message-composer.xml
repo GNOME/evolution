@@ -30,10 +30,21 @@
 		pixtype="stock" pixname="Send Mail"/> 
 
 		<cmd name="FileAttach" _label="Attach" _tip="Attach a file"
-		pixtype="stock" pixname="Attach" accel="*Ctrl**Alt*A"/>
+		pixtype="stock" pixname="Attach"/>
 
 		<cmd name="FormatHtml" _label="HTML" _tip="Send the mail in HTML format"
 		type="toggle" state="0"/> 
+
+		<cmd name="ViewFrom" _label="_From Field"
+		_tip="Toggles whether the From chooser is displayed" type="toggle" state="0"/>
+
+		<cmd name="ViewCC" _label="_Cc Field"
+		_tip="Toggles whether the CC field is displayed"
+		type="toggle" state="0"/>
+			    
+		<cmd name="ViewBCC" _label="_Bcc Field"
+		_tip="Toggles whether the BCC field is displayed"
+		type="toggle" state="0"/>
 
 		<cmd name="ViewAttach" _label="Show attachments" _tip="Show / hide attachments"
 		type="toggle" state="0"/> 
@@ -59,6 +70,12 @@
 
 			<placeholder name="FileOps"/>
 
+			<menuitem name="FileSend" verb="" _label="Send"/>
+
+			<menuitem name="FileSendLater" verb="" _label="Send _Later"/>
+
+			<separator/>
+	    
 			<menuitem name="FileSave" verb="" _label="_Save"/>
 
 			<menuitem name="FileSaveAs" verb="" _label="Save _As..."/>
@@ -74,11 +91,6 @@
 
 			<separator/>
 
-			<menuitem name="FileSend" verb="" _label="Send"/>
-
-			<menuitem name="FileSendLater" verb="" _label="Send _Later"/>
-
-			<separator/>
 
 			<menuitem name="FileClose" verb="" _label="_Close"/>
 
@@ -87,16 +99,29 @@
 
 		<submenu name="Edit" _label="_Edit"/>
               
+		<submenu name="View" _label="_View">
 
+			<menuitem name="ViewAttach" verb=""
+			_label="Show _attachments"/>
+	  
+	                <separator/>
+	    
+	                <menuitem name="ViewFrom" verb=""/>
+	                <menuitem name="ViewCC" verb=""/>
+	                <menuitem name="ViewBCC" verb=""/>
+		</submenu>
+
+                <submenu name="Insert" _label="_Insert">
+	                <menuitem name="FileAttach" verb=""
+	                _label="_File"/>
+	  
+                	<placeholder name="Component">
+	                </placeholder>
+                </submenu>
+      
 		<submenu name="Format" _label="F_ormat">
 
 			<menuitem name="FormatHtml" verb=""/>
-
-		</submenu>
-
-		<submenu name="View" _label="_View">
-
-			<menuitem name="ViewAttach" verb="" _label="Show _attachments"/>
 
 		</submenu>
 
@@ -126,9 +151,9 @@
 
 	</menu>
 
-	<dockitem name="Toolbar" behavior="exclusive">
+	<dockitem name="Toolbar" behavior="exclusive" hlook="text" vlook="icon">
 
-		<toolitem name="FileSend" verb=""  _tip="Send this message now"/>
+		<toolitem name="FileSend" verb=""  _tip="Send this message now" priority="1"/>
 
 		<toolitem name="FileAttach" verb=""/>
 

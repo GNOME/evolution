@@ -1,5 +1,18 @@
 2001-03-06  Miguel de Icaza  <miguel@ximian.com>
 
+	* evolution-message-composer.xml: Reorder menus to be File, Edit,
+	View, Insert, Format (instead of File, Edit, Format, View, Insert).
+
+	Add View/From Field and View/From BCC
+
+	Add Insert/File.
+
+	Add File/Send menu item.
+
+	Change the look to follow the "mailer" look (thiner display).
+
+	
+
 	* evolution-tasks.xml: Added "File/New/Task" as well.
 
 	* evolution-mail.xml: Added "File/New/Mail Message" at the top

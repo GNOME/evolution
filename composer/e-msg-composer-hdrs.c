@@ -43,11 +43,21 @@
 
 #define SELECT_NAMES_OAFID "OAFIID:GNOME_Evolution_Addressbook_SelectNames"
 
+/* Indexes in the GtkTable assigned to various items */
+
+#define LINE_FROM    0
+#define LINE_TO      1
+#define LINE_CC      2
+#define LINE_BCC     3
+#define LINE_SUBJECT 4
+
+typedef struct {
+	GtkWidget *label;
+	GtkWidget *entry;
+} Pair;
+
 struct _EMsgComposerHdrsPrivate {
 	GNOME_Evolution_Addressbook_SelectNames corba_select_names;
-
-	/* Total number of headers that we have.  */
-	guint num_hdrs;
 
 	/* The tooltips.  */
 	GtkTooltips *tooltips;
@@ -55,11 +65,7 @@ struct _EMsgComposerHdrsPrivate {
 	GSList *from_options;
 	
 	/* Standard headers.  */
-	GtkWidget *from_entry;
-	GtkWidget *to_entry;
-	GtkWidget *cc_entry;
-	GtkWidget *bcc_entry;
-	GtkWidget *subject_entry;
+	Pair from, to, cc, bcc, subject;
 };
 
 
@@ -70,12 +76,6 @@ enum {
 	SUBJECT_CHANGED,
 	HDRS_CHANGED,
 	LAST_SIGNAL
-};
-
-enum {
-	HEADER_ADDRBOOK,
-	HEADER_OPTIONMENU,
-	HEADER_ENTRYBOX
 };
 
 static gint signals[LAST_SIGNAL];
@@ -150,7 +150,8 @@ address_button_clicked_cb (GtkButton *button,
 
 	CORBA_exception_init (&ev);
 
-	GNOME_Evolution_Addressbook_SelectNames_activateDialog (priv->corba_select_names, emchas->string, &ev);
+	GNOME_Evolution_Addressbook_SelectNames_activateDialog (
+		priv->corba_select_names, emchas->string, &ev);
 
 	CORBA_exception_free (&ev);
 }
@@ -164,67 +165,65 @@ from_changed (GtkWidget *item, gpointer data)
 }
 
 static GtkWidget *
-create_optionmenu (EMsgComposerHdrs *hdrs,
-		   const char *name)
+create_from_optionmenu (EMsgComposerHdrs *hdrs)
 {
 	GtkWidget *omenu, *menu, *first = NULL;
+	const GSList *accounts;
+	GtkWidget *item;
 	int i = 0, history = 0;
 	
 	omenu = gtk_option_menu_new ();
 	menu = gtk_menu_new ();
 	
-	if (!strcmp (name, _("From:"))) {
-		const GSList *accounts;
-		GtkWidget *item;
 		
-		accounts = mail_config_get_accounts ();
-		while (accounts) {
-			const MailConfigAccount *account;
-			char *label;
-			char *native_label;
-
-			account = accounts->data;
-			
-			/* this should never ever fail */
-			if (!account || !account->name || !account->id) {
-				g_assert_not_reached ();
-				continue;
-			}
-			
-			if (strcmp (account->name, account->id->address))
-				label = g_strdup_printf ("%s <%s> (%s)", account->id->name,
-							 account->id->address, account->name);
-			else
-				label = g_strdup_printf ("%s <%s>", account->id->name, account->id->address);
-			    
-
-			native_label = e_utf8_to_gtk_string (GTK_WIDGET (menu), label);
-			item = gtk_menu_item_new_with_label (native_label);
-			g_free (native_label);
-			g_free (label);
-			
-			gtk_object_set_data (GTK_OBJECT (item), "account", account_copy (account));
-			gtk_signal_connect (GTK_OBJECT (item), "activate",
-					    GTK_SIGNAL_FUNC (from_changed), hdrs);
-			
-			if (account->default_account) {
-				first = item;
-				history = i;
-			}
-			
-			/* this is so we can later set which one we want */
-			hdrs->priv->from_options = g_slist_append (hdrs->priv->from_options, item);
-			
-			gtk_menu_append (GTK_MENU (menu), item);
-			gtk_widget_show (item);
-			
-			accounts = accounts->next;
-			i++;
+	accounts = mail_config_get_accounts ();
+	while (accounts) {
+		const MailConfigAccount *account;
+		char *label;
+		char *native_label;
+		
+		account = accounts->data;
+		
+		/* this should never ever fail */
+		if (!account || !account->name || !account->id) {
+			g_assert_not_reached ();
+			continue;
 		}
+		
+		if (strcmp (account->name, account->id->address))
+			label = g_strdup_printf ("%s <%s> (%s)", account->id->name,
+						 account->id->address, account->name);
+		else
+			label = g_strdup_printf ("%s <%s>", account->id->name, account->id->address);
+		
+		
+		native_label = e_utf8_to_gtk_string (GTK_WIDGET (menu), label);
+		item = gtk_menu_item_new_with_label (native_label);
+		g_free (native_label);
+		g_free (label);
+		
+		gtk_object_set_data (GTK_OBJECT (item), "account", account_copy (account));
+		gtk_signal_connect (GTK_OBJECT (item), "activate",
+				    GTK_SIGNAL_FUNC (from_changed), hdrs);
+		
+		if (account->default_account) {
+			first = item;
+			history = i;
+		}
+		
+		/* this is so we can later set which one we want */
+		hdrs->priv->from_options = g_slist_append (hdrs->priv->from_options, item);
+		
+		gtk_menu_append (GTK_MENU (menu), item);
+		gtk_widget_show (item);
+		
+		accounts = accounts->next;
+		i++;
 	}
 	
 	gtk_option_menu_set_menu (GTK_OPTION_MENU (omenu), menu);
-	if (first) {
+
+	if (first){
 		gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), history);
 		gtk_signal_emit_by_name (GTK_OBJECT (first), "activate", hdrs);
 	}
@@ -261,13 +260,16 @@ create_addressbook_entry (EMsgComposerHdrs *hdrs,
 
 	CORBA_exception_init (&ev);
 
-	GNOME_Evolution_Addressbook_SelectNames_addSection (corba_select_names, name, name, &ev);
+	GNOME_Evolution_Addressbook_SelectNames_addSection (
+		corba_select_names, name, name, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		CORBA_exception_free (&ev);
 		return NULL;
 	}
 
-	corba_control = GNOME_Evolution_Addressbook_SelectNames_getEntryBySection (corba_select_names, name, &ev);
+	corba_control =
+		GNOME_Evolution_Addressbook_SelectNames_getEntryBySection (
+			corba_select_names, name, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		CORBA_exception_free (&ev);
@@ -276,16 +278,45 @@ create_addressbook_entry (EMsgComposerHdrs *hdrs,
 
 	CORBA_exception_free (&ev);
 
-	control_widget = bonobo_widget_new_control_from_objref (corba_control, CORBA_OBJECT_NIL);
+	control_widget = bonobo_widget_new_control_from_objref (
+		corba_control, CORBA_OBJECT_NIL);
 
 	cf = bonobo_widget_get_control_frame (BONOBO_WIDGET (control_widget));
 	pb = bonobo_control_frame_get_control_property_bag (cf, NULL);
 
-	bonobo_event_source_client_add_listener (pb, addressbook_entry_changed,
-						 "Bonobo/Property:change:entry_changed",
-						 NULL, hdrs);
+	bonobo_event_source_client_add_listener (
+		pb, addressbook_entry_changed,
+		"Bonobo/Property:change:entry_changed",
+		NULL, hdrs);
 
 	return control_widget;
+}
+
+static Pair 
+header_new_recipient (EMsgComposerHdrs *hdrs, const gchar *name, const gchar *tip)
+{
+	EMsgComposerHdrsPrivate *priv;
+	Pair ret;
+	
+	priv = hdrs->priv;
+	
+	ret.label = gtk_button_new_with_label (name);
+	GTK_OBJECT_UNSET_FLAGS (ret.label, GTK_CAN_FOCUS);
+	gtk_signal_connect_full (
+		GTK_OBJECT (ret.label), "clicked",
+		GTK_SIGNAL_FUNC (address_button_clicked_cb), NULL,
+		e_msg_composer_hdrs_and_string_create(hdrs, name),
+		(GtkDestroyNotify) e_msg_composer_hdrs_and_string_free,
+		FALSE, FALSE);
+
+	gtk_tooltips_set_tip (
+		hdrs->priv->tooltips, ret.label,
+		_("Click here for the address book"),
+		NULL);
+
+	ret.entry = create_addressbook_entry (hdrs, name);
+
+	return ret;
 }
 
 static void
@@ -303,115 +334,131 @@ entry_changed (GtkWidget *entry, EMsgComposerHdrs *hdrs)
 	gtk_signal_emit (GTK_OBJECT (hdrs), signals[HDRS_CHANGED]);
 }
 
-static GtkWidget *
-add_header (EMsgComposerHdrs *hdrs,
-	    const gchar *name,
-	    const gchar *tip,
-	    const gchar *tip_private,
-	    int type)
+static void
+create_headers (EMsgComposerHdrs *hdrs)
 {
-	EMsgComposerHdrsPrivate *priv;
-	GtkWidget *label;
-	GtkWidget *entry;
-	guint pad;
-	
-	priv = hdrs->priv;
-	
-	if (type == HEADER_ADDRBOOK) {
-		label = gtk_button_new_with_label (name);
-		GTK_OBJECT_UNSET_FLAGS (label, GTK_CAN_FOCUS);
-		gtk_signal_connect_full (GTK_OBJECT (label), "clicked",
-					 GTK_SIGNAL_FUNC (address_button_clicked_cb), NULL,
-					 e_msg_composer_hdrs_and_string_create(hdrs, name),
-					 (GtkDestroyNotify) e_msg_composer_hdrs_and_string_free,
-					 FALSE, FALSE);
-		pad = 2;
-		gtk_tooltips_set_tip (hdrs->priv->tooltips, label,
-				      _("Click here for the address book"),
-				      NULL);
-	} else {
-		label = gtk_label_new (name);
-		pad = GNOME_PAD;
-	}
-	
-	gtk_table_attach (GTK_TABLE (hdrs), label,
-			  0, 1, priv->num_hdrs, priv->num_hdrs + 1,
-			  GTK_FILL, GTK_FILL,
-			  pad, pad);
-	gtk_widget_show (label);
-	
-	switch (type) {
-	case HEADER_ADDRBOOK:
-		entry = create_addressbook_entry (hdrs, name);
-		break;
-	case HEADER_OPTIONMENU:
-		entry = create_optionmenu (hdrs, name);
-		break;
-	case HEADER_ENTRYBOX:
-	default:
-		entry = e_entry_new ();
-		gtk_object_set (GTK_OBJECT(entry),
-				"editable", TRUE,
-				"use_ellipsis", TRUE,
-				"allow_newlines", FALSE,
-				NULL);
-		gtk_signal_connect (GTK_OBJECT (entry), "changed",
-				    GTK_SIGNAL_FUNC (entry_changed), hdrs);
-	}
+	EMsgComposerHdrsPrivate *priv = hdrs->priv;
 
-	if (entry != NULL) {
-		gtk_widget_show (entry);
-		
-		gtk_table_attach (GTK_TABLE (hdrs), entry,
-				  1, 2, priv->num_hdrs, priv->num_hdrs + 1,
-				  GTK_FILL | GTK_EXPAND, 0,
-				  2, 2);
-		
-		gtk_tooltips_set_tip (hdrs->priv->tooltips, entry, tip, tip_private);
-	}
-	
-	priv->num_hdrs++;
-	
-	return entry;
+	/*
+	 * From:
+	 */
+	priv->from.label = gtk_label_new (_("From:"));
+	priv->from.entry = create_from_optionmenu (hdrs);
+
+	/*
+	 * Subject:
+	 */
+	priv->subject.label = gtk_label_new (_("Subject:"));
+	priv->subject.entry = e_entry_new ();
+	gtk_object_set (GTK_OBJECT (priv->subject.entry),
+			"editable", TRUE,
+			"use_ellipsis", TRUE,
+			"allow_newlines", FALSE,
+			NULL);
+	gtk_signal_connect (GTK_OBJECT (priv->subject.entry), "changed",
+			    GTK_SIGNAL_FUNC (entry_changed), hdrs);
+
+	/*
+	 * To: CC: and Bcc:
+	 */
+	priv->to = header_new_recipient (
+		hdrs, _("To:"),
+		_("Enter the recipients of the message"));
+
+	priv->cc = header_new_recipient (
+		hdrs, _("Cc:"),
+		_("Enter the addresses that will receive a carbon copy of the message"));
+
+	priv->bcc = header_new_recipient (
+		hdrs, _("Bcc:"),
+		 _("Enter the addresses that will receive a carbon copy of "
+		   "the message without appearing in the recipient list of "
+		   "the message."));
 }
 
 static void
-setup_headers (EMsgComposerHdrs *hdrs)
+attach_couple (EMsgComposerHdrs *hdrs, Pair *pair, int line)
 {
-	EMsgComposerHdrsPrivate *priv;
-
-	priv = hdrs->priv;
+	int pad;
 	
-	priv->from_entry = add_header
-		(hdrs, _("From:"), 
-		 _("Enter the identity you wish to send this message from"),
-		 NULL,
-		 HEADER_OPTIONMENU);
-	priv->to_entry = add_header
-		(hdrs, _("To:"), 
-		 _("Enter the recipients of the message"),
-		 NULL,
-		 HEADER_ADDRBOOK);
-	priv->cc_entry = add_header
-		(hdrs, _("Cc:"),
-		 _("Enter the addresses that will receive a carbon copy of "
-		   "the message"),
-		 NULL,
-		 HEADER_ADDRBOOK);
-	priv->bcc_entry = add_header
-		(hdrs, _("Bcc:"),
-		 _("Enter the addresses that will receive a carbon copy of "
-		   "the message without appearing in the recipient list of "
-		   "the message."),
-		 NULL,
-		 HEADER_ADDRBOOK);
-	priv->subject_entry = add_header
-		(hdrs, _("Subject:"),
-		 _("Enter the subject of the mail"),
-		 NULL,
-		 HEADER_ENTRYBOX);
+	if (GTK_IS_LABEL (pair->label))
+		pad = GNOME_PAD;
+	else
+		pad = 2;
+	
+	gtk_table_attach (
+		GTK_TABLE (hdrs),
+		pair->label, 0, 1,
+		line, line + 1,
+		GTK_FILL, GTK_FILL, pad, pad);
+
+	gtk_table_attach (
+		GTK_TABLE (hdrs),
+		pair->entry, 1, 2,
+		line, line + 1,
+		GTK_FILL | GTK_EXPAND, 0, 2, 2);
 }
 
+static void
+attach_headers (EMsgComposerHdrs *hdrs)
+{
+	EMsgComposerHdrsPrivate *p = hdrs->priv;
+
+	attach_couple (hdrs, &p->from, LINE_FROM);
+	attach_couple (hdrs, &p->to, LINE_TO);
+	attach_couple (hdrs, &p->cc, LINE_CC);
+	attach_couple (hdrs, &p->bcc, LINE_BCC);
+	attach_couple (hdrs, &p->subject, LINE_SUBJECT);
+}
+
+static void
+set_pair_visibility (EMsgComposerHdrs *h, Pair *pair, gboolean visible)
+{
+	if (visible){
+		gtk_widget_show (pair->label);
+		gtk_widget_show (pair->entry);
+	} else {
+		gtk_widget_hide (pair->label);
+		gtk_widget_hide (pair->entry);
+	}
+}
+
+static void
+headers_set_visibility (EMsgComposerHdrs *h, gint visible_flags)
+{
+	EMsgComposerHdrsPrivate *p = h->priv;
+
+	set_pair_visibility (h, &p->from, visible_flags & E_MSG_COMPOSER_VISIBLE_FROM);
+	set_pair_visibility (h, &p->cc, visible_flags & E_MSG_COMPOSER_VISIBLE_CC);
+	set_pair_visibility (h, &p->bcc, visible_flags & E_MSG_COMPOSER_VISIBLE_BCC);
+	set_pair_visibility (h, &p->subject, visible_flags & E_MSG_COMPOSER_VISIBLE_SUBJECT);
+}
+
+void
+e_msg_composer_set_hdrs_visible (EMsgComposerHdrs *hdrs, gint visible_flags)
+{
+	g_return_if_fail (hdrs != NULL);
+	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
+
+	headers_set_visibility (hdrs, visible_flags);
+	gtk_widget_queue_resize (GTK_WIDGET (hdrs));
+}
+
+static void
+setup_headers (EMsgComposerHdrs *hdrs, gint visible_flags)
+{
+	create_headers (hdrs);
+	attach_headers (hdrs);
+
+	/*
+	 * To: is always visible
+	 */
+	gtk_widget_show (hdrs->priv->to.label);
+	gtk_widget_show (hdrs->priv->to.entry);
+	
+	headers_set_visibility (hdrs, visible_flags);
+}
+		
 
 /* GtkObject methods.  */
 
@@ -498,25 +545,11 @@ init (EMsgComposerHdrs *hdrs)
 {
 	EMsgComposerHdrsPrivate *priv;
 
-	priv = g_new (EMsgComposerHdrsPrivate, 1);
+	priv = g_new0 (EMsgComposerHdrsPrivate, 1);
 
-	priv->corba_select_names = CORBA_OBJECT_NIL;
-	
-	priv->from_options  = NULL;
-	
-	priv->from_entry    = NULL;
-	priv->to_entry      = NULL;
-	priv->cc_entry      = NULL;
-	priv->bcc_entry     = NULL;
-	priv->subject_entry = NULL;
-	
 	priv->tooltips = gtk_tooltips_new ();
 
-	priv->num_hdrs = 0;
-	
 	hdrs->priv = priv;
-	
-	hdrs->account = NULL;
 }
 
 
@@ -544,7 +577,7 @@ e_msg_composer_hdrs_get_type (void)
 }
 
 GtkWidget *
-e_msg_composer_hdrs_new (void)
+e_msg_composer_hdrs_new (gint visible_flags)
 {
 	EMsgComposerHdrs *new;
 	EMsgComposerHdrsPrivate *priv;
@@ -557,7 +590,7 @@ e_msg_composer_hdrs_new (void)
 		return NULL;
 	}
 	
-	setup_headers (new);
+	setup_headers (new, visible_flags);
 
 	return GTK_WIDGET (new);
 }
@@ -603,9 +636,9 @@ e_msg_composer_hdrs_to_message (EMsgComposerHdrs *hdrs,
 	camel_mime_message_set_from (msg, from);
 	camel_object_unref (CAMEL_OBJECT (from));
 	
-	set_recipients (msg, hdrs->priv->to_entry, CAMEL_RECIPIENT_TYPE_TO);
-	set_recipients (msg, hdrs->priv->cc_entry, CAMEL_RECIPIENT_TYPE_CC);
-	set_recipients (msg, hdrs->priv->bcc_entry, CAMEL_RECIPIENT_TYPE_BCC);
+	set_recipients (msg, hdrs->priv->to.entry, CAMEL_RECIPIENT_TYPE_TO);
+	set_recipients (msg, hdrs->priv->cc.entry, CAMEL_RECIPIENT_TYPE_CC);
+	set_recipients (msg, hdrs->priv->bcc.entry, CAMEL_RECIPIENT_TYPE_BCC);
 }
 
 
@@ -642,7 +675,7 @@ e_msg_composer_hdrs_set_from_account (EMsgComposerHdrs *hdrs,
 	g_return_if_fail (hdrs != NULL);
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
 
-	omenu = GTK_OPTION_MENU (hdrs->priv->from_entry);
+	omenu = GTK_OPTION_MENU (hdrs->priv->from.entry);
 
 	/* find the item that represents the account and activate it */
 	l = hdrs->priv->from_options;
@@ -670,7 +703,7 @@ e_msg_composer_hdrs_set_to (EMsgComposerHdrs *hdrs,
 	g_return_if_fail (hdrs != NULL);
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
 
-	set_entry (BONOBO_WIDGET (hdrs->priv->to_entry), to_list);
+	set_entry (BONOBO_WIDGET (hdrs->priv->to.entry), to_list);
 }
 
 void
@@ -680,7 +713,7 @@ e_msg_composer_hdrs_set_cc (EMsgComposerHdrs *hdrs,
 	g_return_if_fail (hdrs != NULL);
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
 
-	set_entry (BONOBO_WIDGET (hdrs->priv->cc_entry), cc_list);
+	set_entry (BONOBO_WIDGET (hdrs->priv->cc.entry), cc_list);
 }
 
 void
@@ -690,7 +723,7 @@ e_msg_composer_hdrs_set_bcc (EMsgComposerHdrs *hdrs,
 	g_return_if_fail (hdrs != NULL);
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
 
-	set_entry (BONOBO_WIDGET (hdrs->priv->bcc_entry), bcc_list);
+	set_entry (BONOBO_WIDGET (hdrs->priv->bcc.entry), bcc_list);
 }
 
 void
@@ -701,7 +734,7 @@ e_msg_composer_hdrs_set_subject (EMsgComposerHdrs *hdrs,
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
 	g_return_if_fail (subject != NULL);
 
-	gtk_object_set (GTK_OBJECT (hdrs->priv->subject_entry),
+	gtk_object_set (GTK_OBJECT (hdrs->priv->subject.entry),
 			"text", subject,
 			NULL);
 }
@@ -772,7 +805,7 @@ e_msg_composer_hdrs_get_subject (EMsgComposerHdrs *hdrs)
 	g_return_val_if_fail (hdrs != NULL, NULL);
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
 	
-	gtk_object_get (GTK_OBJECT (hdrs->priv->subject_entry),
+	gtk_object_get (GTK_OBJECT (hdrs->priv->subject.entry),
 			"text", &subject, NULL);
 	
 	return subject;
@@ -785,7 +818,7 @@ e_msg_composer_hdrs_get_to_entry (EMsgComposerHdrs *hdrs)
 	g_return_val_if_fail (hdrs != NULL, NULL);
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
 
-	return hdrs->priv->to_entry;
+	return hdrs->priv->to.entry;
 }
 
 GtkWidget *
@@ -794,7 +827,7 @@ e_msg_composer_hdrs_get_cc_entry (EMsgComposerHdrs *hdrs)
 	g_return_val_if_fail (hdrs != NULL, NULL);
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
 	
-	return hdrs->priv->cc_entry;
+	return hdrs->priv->cc.entry;
 }
 
 GtkWidget *
@@ -803,7 +836,7 @@ e_msg_composer_hdrs_get_bcc_entry (EMsgComposerHdrs *hdrs)
 	g_return_val_if_fail (hdrs != NULL, NULL);
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
 
-	return hdrs->priv->bcc_entry;
+	return hdrs->priv->bcc.entry;
 }
 
 GtkWidget *
@@ -812,5 +845,5 @@ e_msg_composer_hdrs_get_subject_entry (EMsgComposerHdrs *hdrs)
 	g_return_val_if_fail (hdrs != NULL, NULL);
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
 
-	return hdrs->priv->subject_entry;
+	return hdrs->priv->subject.entry;
 }

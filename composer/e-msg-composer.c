@@ -18,7 +18,11 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
  * Boston, MA 02111-1307, USA.
  *
- * Authors: Ettore Perazzoli, Jeffrey Stedfast
+ * Authors:
+ *   Ettore Perazzoli (ettore@ximian.com)
+ *   Jeffrey Stedfast (fejj@ximian.com)
+ *   Miguel de Icaza  (miguel@ximian.com)
+ * 
  */
 
 /*
@@ -28,6 +32,8 @@
    - Somehow users should be able to see if any file(s) are attached even when
      the attachment bar is not shown.
 
+   Should use EventSources to keep track of global changes made to configuration
+   values.  Right now it ignores the problem olympically. Miguel.
 */
 
 #ifdef HAVE_CONFIG_H
@@ -636,6 +642,26 @@ set_editor_text (EMsgComposer *composer, const char *sig_file, const char *text)
 	bonobo_object_unref (BONOBO_OBJECT(stream));
 }
 
+void
+set_config (EMsgComposer *composer, char *key, int val)
+{
+	if (composer->property_bag){
+		CORBA_Environment ev;
+		CORBA_exception_init (&ev);
+
+		bonobo_property_bag_client_set_value_gint (
+			composer->property_bag, key, val, &ev);
+		CORBA_exception_free (&ev);
+		return;
+	} else {
+		char *full_key;
+		
+		full_key = g_strconcat ("Evolution/Composer/", key, NULL);
+		gnome_config_set_int (full_key, val);
+		g_free (full_key);
+	}
+}
+
 
 /* Commands.  */
 
@@ -1098,21 +1124,10 @@ menu_format_html_cb (BonoboUIComponent           *component,
 		     gpointer                     user_data)
 
 {
-	EMsgComposer *composer;
-	gboolean new_state;
-	
 	if (type != Bonobo_UIComponent_STATE_CHANGED)
 		return;
 	
-	composer = E_MSG_COMPOSER (user_data);
-	
-	new_state = atoi (state);
-	
-	if ((new_state && composer->send_html) ||
-	    (! new_state && ! composer->send_html))
-		return;
-	
-	e_msg_composer_set_send_html (composer, new_state);
+	e_msg_composer_set_send_html (E_MSG_COMPOSER (user_data), atoi (state));
 }
 
 static void
@@ -1120,24 +1135,13 @@ menu_security_pgp_sign_cb (BonoboUIComponent           *component,
 			   const char                  *path,
 			   Bonobo_UIComponent_EventType type,
 			   const char                  *state,
-			   gpointer                     user_data)
+			   gpointer                     composer)
 
 {
-	EMsgComposer *composer;
-	gboolean new_state;
-	
 	if (type != Bonobo_UIComponent_STATE_CHANGED)
 		return;
-	
-	composer = E_MSG_COMPOSER (user_data);
-	
-	new_state = atoi (state);
-	
-	if ((new_state && composer->pgp_sign) ||
-	    (!new_state && ! composer->pgp_sign))
-		return;
-	
-	e_msg_composer_set_pgp_sign (composer, new_state);
+
+	e_msg_composer_set_pgp_sign (E_MSG_COMPOSER (composer), atoi (state));
 }
 
 static void
@@ -1145,24 +1149,52 @@ menu_security_pgp_encrypt_cb (BonoboUIComponent           *component,
 			      const char                  *path,
 			      Bonobo_UIComponent_EventType type,
 			      const char                  *state,
-			      gpointer                     user_data)
+			      gpointer                     composer)
 
 {
-	EMsgComposer *composer;
-	gboolean new_state;
-	
 	if (type != Bonobo_UIComponent_STATE_CHANGED)
 		return;
 	
-	composer = E_MSG_COMPOSER (user_data);
-	
-	new_state = atoi (state);
-	
-	if ((new_state && composer->pgp_encrypt) ||
-	    (!new_state && ! composer->pgp_encrypt))
+	e_msg_composer_set_pgp_encrypt (E_MSG_COMPOSER (composer), atoi (state));
+}
+
+static void
+menu_view_from_cb (BonoboUIComponent           *component,
+		   const char                  *path,
+		   Bonobo_UIComponent_EventType type,
+		   const char                  *state,
+		   gpointer                     user_data)
+{
+	if (type != Bonobo_UIComponent_STATE_CHANGED)
 		return;
-	
-	e_msg_composer_set_pgp_encrypt (composer, new_state);
+
+	e_msg_composer_set_view_from (E_MSG_COMPOSER (user_data), atoi (state));
+}
+
+static void
+menu_view_bcc_cb (BonoboUIComponent           *component,
+		  const char                  *path,
+		  Bonobo_UIComponent_EventType type,
+		  const char                  *state,
+		  gpointer                     user_data)
+{
+	if (type != Bonobo_UIComponent_STATE_CHANGED)
+		return;
+
+	e_msg_composer_set_view_bcc (E_MSG_COMPOSER (user_data), atoi (state));
+}
+
+static void
+menu_view_cc_cb (BonoboUIComponent           *component,
+		 const char                  *path,
+		 Bonobo_UIComponent_EventType type,
+		 const char                  *state,
+		 gpointer                     user_data)
+{
+	if (type != Bonobo_UIComponent_STATE_CHANGED)
+		return;
+
+	e_msg_composer_set_view_cc (E_MSG_COMPOSER (user_data), atoi (state));
 }
 
 
@@ -1203,29 +1235,60 @@ setup_ui (EMsgComposer *composer)
 			       "evolution-message-composer");
 	
 	/* Format -> HTML */
-	bonobo_ui_component_set_prop (composer->uic, "/commands/FormatHtml",
-				      "state", composer->send_html ? "1" : "0", NULL);
+	bonobo_ui_component_set_prop (
+		composer->uic, "/commands/FormatHtml",
+		"state", composer->send_html ? "1" : "0", NULL);
+	bonobo_ui_component_add_listener (
+		composer->uic, "FormatHtml",
+		menu_format_html_cb, composer);
+
+	/* View/From */
+	bonobo_ui_component_set_prop (
+		composer->uic, "/commands/ViewFrom",
+		"state", composer->view_from ? "1" : "0", NULL);
+	bonobo_ui_component_add_listener (
+		composer->uic, "ViewFrom",
+		menu_view_from_cb, composer);
+
+	/* View/BCC */
+	bonobo_ui_component_set_prop (
+		composer->uic, "/commands/ViewBCC",
+		"state", composer->view_bcc ? "1" : "0", NULL);
+	bonobo_ui_component_add_listener (
+		composer->uic, "ViewBCC",
+		menu_view_bcc_cb, composer);
+
+	/* View/CC */
+	bonobo_ui_component_set_prop (
+		composer->uic, "/commands/ViewCC",
+		"state", composer->view_cc ? "1" : "0", NULL);
+	bonobo_ui_component_add_listener (
+		composer->uic, "ViewCC",
+		menu_view_cc_cb, composer);
 	
-	bonobo_ui_component_add_listener (composer->uic, "FormatHtml",
-					  menu_format_html_cb, composer);
-	
+
 	/* Security -> PGP Sign */
-	bonobo_ui_component_set_prop (composer->uic, "/commands/SecurityPGPSign",
-				      "state", composer->pgp_sign ? "1" : "0", NULL);
+	bonobo_ui_component_set_prop (
+		composer->uic, "/commands/SecurityPGPSign",
+		"state", composer->pgp_sign ? "1" : "0", NULL);
 	
-	bonobo_ui_component_add_listener (composer->uic, "SecurityPGPSign",
-					  menu_security_pgp_sign_cb, composer);
+	bonobo_ui_component_add_listener (
+		composer->uic, "SecurityPGPSign",
+		menu_security_pgp_sign_cb, composer);
 	
 	/* Security -> PGP Encrypt */
-	bonobo_ui_component_set_prop (composer->uic, "/commands/SecurityPGPEncrypt",
-				      "state", composer->pgp_encrypt ? "1" : "0", NULL);
+	bonobo_ui_component_set_prop (
+		composer->uic, "/commands/SecurityPGPEncrypt",
+		"state", composer->pgp_encrypt ? "1" : "0", NULL);
 	
-	bonobo_ui_component_add_listener (composer->uic, "SecurityPGPEncrypt",
-					  menu_security_pgp_encrypt_cb, composer);
+	bonobo_ui_component_add_listener (
+		composer->uic, "SecurityPGPEncrypt",
+		menu_security_pgp_encrypt_cb, composer);
 	
 	/* View -> Attachments */
-	bonobo_ui_component_add_listener (composer->uic, "ViewAttach",
-					  menu_view_attachments_activate_cb, composer);
+	bonobo_ui_component_add_listener (
+		composer->uic, "ViewAttach",
+		menu_view_attachments_activate_cb, composer);
 }
 
 
@@ -1287,6 +1350,8 @@ destroy (GtkObject *object)
 	CORBA_Environment ev;
 	
 	composer = E_MSG_COMPOSER (object);
+
+	gnome_config_sync ();
 	
 	if (composer->uic)
 		bonobo_object_unref (BONOBO_OBJECT (composer->uic));
@@ -1474,6 +1539,96 @@ e_msg_composer_get_type (void)
 	return type;
 }
 
+static int
+get_config_value (const char *key)
+{
+	char *full_key = g_strconcat ("/Evolution/Composer/", key, NULL);
+	int v;
+
+	v = gnome_config_get_int (full_key);
+	g_free (full_key);
+	return v;
+}
+
+static gint
+load_with_failue_control (Bonobo_PropertyBag bag, char *key, gint default_if_fails)
+{
+	CORBA_Environment ev;
+	gint v;
+	
+	CORBA_exception_init (&ev);
+	v = bonobo_property_bag_client_get_value_gint (bag, key, &ev);
+	if (ev._major == CORBA_NO_EXCEPTION)
+		return v;
+	CORBA_exception_free (&ev);
+
+	return default_if_fails;
+}
+
+static void
+load_from_property_bag (EMsgComposer *composer)
+{
+	Bonobo_PropertyBag bag = composer->property_bag;
+	
+	composer->view_from = load_with_failue_control (bag, "ViewFrom", 1);
+	composer->view_bcc = load_with_failue_control (bag, "ViewBCC", 0);
+	composer->view_cc = load_with_failue_control (bag, "ViewCC", 1);
+	composer->view_subject = load_with_failue_control (bag, "ViewSubject", 1);
+}
+
+static void
+load_from_gnome_config (EMsgComposer *composer)
+{
+	composer->view_from = get_config_value ("ViewFrom=1");
+	composer->view_bcc  = get_config_value ("ViewBCC=0");
+	composer->view_cc   = get_config_value ("ViewCC=1");
+	composer->view_subject = get_config_value ("ViewSubject=1");
+}
+
+static void
+e_msg_composer_load_config (EMsgComposer *composer)
+{
+	Bonobo_PropertyBag pbag;
+	CORBA_Environment ev;
+
+	CORBA_exception_init (&ev);
+	pbag = bonobo_get_object (
+		"config:/Evolution/Mail/Composer", "IDL:Bonobo/PropertyBag:1.0",
+		&ev);
+	if (ev._major == CORBA_NO_EXCEPTION && pbag != CORBA_OBJECT_NIL){
+		composer->property_bag = pbag;
+		load_from_property_bag (composer);
+	} else {
+		composer->property_bag = CORBA_OBJECT_NIL;
+		load_from_gnome_config (composer);
+	}
+	CORBA_exception_free (&ev);
+}
+
+static gint
+e_msg_composer_get_visible_flags (EMsgComposer *composer)
+{
+	int flags = 0;
+
+	if (composer->view_from)
+		flags |= E_MSG_COMPOSER_VISIBLE_FROM;
+	if (composer->view_cc)
+		flags |= E_MSG_COMPOSER_VISIBLE_CC;
+	if (composer->view_bcc)
+		flags |= E_MSG_COMPOSER_VISIBLE_BCC;
+	if (composer->view_subject)
+		flags |= E_MSG_COMPOSER_VISIBLE_SUBJECT;
+
+	/*
+	 * Until we have a GUI way, lets make sure that
+	 * even if the user screws up, we will do the right
+	 * thing (screws up == edit the config file manually
+	 * and screw up).
+	 */
+	flags |= E_MSG_COMPOSER_VISIBLE_SUBJECT;	
+	return flags;
+}
+
 /**
  * e_msg_composer_construct:
  * @composer: A message composer widget
@@ -1485,7 +1640,8 @@ e_msg_composer_construct (EMsgComposer *composer)
 {
 	GtkWidget *vbox;
 	BonoboObject *editor_server;
-
+	gint vis;
+	
 	static GtkTargetEntry drop_types[] = {
 		{"text/uri-list", 0, 1}
 	};
@@ -1503,12 +1659,15 @@ e_msg_composer_construct (EMsgComposer *composer)
 			   drop_types, 1, GDK_ACTION_COPY);
 	gtk_signal_connect (GTK_OBJECT (composer), "drag_data_received",
 			    GTK_SIGNAL_FUNC (drag_data_received), NULL);
+	e_msg_composer_load_config (composer);
 	
 	setup_ui (composer);
 	
 	vbox = gtk_vbox_new (FALSE, 0);
+
+	vis = e_msg_composer_get_visible_flags (composer);
+	composer->hdrs = e_msg_composer_hdrs_new (vis);
 	
-	composer->hdrs = e_msg_composer_hdrs_new ();
 	gtk_box_pack_start (GTK_BOX (vbox), composer->hdrs, FALSE, FALSE, 0);
 	gtk_signal_connect (GTK_OBJECT (composer->hdrs), "subject_changed",
 			    GTK_SIGNAL_FUNC (subject_changed_cb), composer);
@@ -2183,8 +2342,11 @@ e_msg_composer_set_send_html (EMsgComposer *composer,
 
 	composer->send_html = send_html;
 
-	bonobo_ui_component_set_prop (composer->uic, "/commands/FormatHtml",
-				      "state", composer->send_html ? "1" : "0", NULL);
+	bonobo_ui_component_set_prop (
+		composer->uic, "/commands/FormatHtml",
+		"state", composer->send_html ? "1" : "0", NULL);
+
+	set_config (composer, "FormatHTML", composer->send_html);
 }
 
 /**
@@ -2249,7 +2411,6 @@ e_msg_composer_set_pgp_sign (EMsgComposer *composer, gboolean pgp_sign)
 				      "state", composer->pgp_sign ? "1" : "0", NULL);
 }
 
-
 /**
  * e_msg_composer_get_pgp_sign:
  * @composer: A message composer widget
@@ -2310,6 +2471,88 @@ e_msg_composer_get_pgp_encrypt (EMsgComposer *composer)
 	return composer->pgp_encrypt;
 }
 
+
+/**
+ * e_msg_composer_set_view_bcc:
+ * @composer: A message composer widget
+ * @state: whether to show or hide the bcc view
+ *
+ * Controls the state of the BCC display
+ */
+void
+e_msg_composer_set_view_bcc (EMsgComposer *composer, gboolean view_bcc)
+{
+	g_return_if_fail (composer != NULL);
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+
+	if ((composer->view_bcc && view_bcc) ||
+	    (!composer->view_bcc && !view_bcc))
+		return;
+
+	composer->view_bcc = view_bcc;
+	bonobo_ui_component_set_prop (
+		composer->uic, "/commands/ViewBCC",
+		"state", composer->view_bcc ? "1" : "0", NULL);
+	set_config (composer, "ViewBCC", composer->view_bcc);
+	e_msg_composer_set_hdrs_visible
+		(E_MSG_COMPOSER_HDRS (composer->hdrs),
+		 e_msg_composer_get_visible_flags (composer));
+		 
+}
+
+/**
+ * e_msg_composer_set_view_cc:
+ * @composer: A message composer widget
+ * @state: whether to show or hide the cc view
+ *
+ * Controls the state of the CC display
+ */
+void
+e_msg_composer_set_view_cc (EMsgComposer *composer, gboolean view_cc)
+{
+	g_return_if_fail (composer != NULL);
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+
+	if ((composer->view_cc && view_cc) ||
+	    (!composer->view_cc && !view_cc))
+		return;
+
+	composer->view_cc = view_cc;
+	bonobo_ui_component_set_prop (
+		composer->uic, "/commands/ViewCC",
+		"state", composer->view_cc ? "1" : "0", NULL);
+	set_config (composer, "ViewCC", composer->view_cc);
+	e_msg_composer_set_hdrs_visible
+		(E_MSG_COMPOSER_HDRS (composer->hdrs),
+		 e_msg_composer_get_visible_flags (composer));
+}
+
+/**
+ * e_msg_composer_set_view_from:
+ * @composer: A message composer widget
+ * @state: whether to show or hide the From selector
+ *
+ * Controls the state of the From selector
+ */
+void
+e_msg_composer_set_view_from (EMsgComposer *composer, gboolean view_from)
+{
+	g_return_if_fail (composer != NULL);
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+
+	if ((composer->view_from && view_from) ||
+	    (!composer->view_from && !view_from))
+		return;
+
+	composer->view_from = view_from;
+	bonobo_ui_component_set_prop (
+		composer->uic, "/commands/ViewFrom",
+		"state", composer->view_from ? "1" : "0", NULL);
+	set_config (composer, "ViewFrom", composer->view_from);
+	e_msg_composer_set_hdrs_visible
+		(E_MSG_COMPOSER_HDRS (composer->hdrs),
+		 e_msg_composer_get_visible_flags (composer));
+}
 
 /**
  * e_msg_composer_guess_mime_type:

@@ -1,7 +1,7 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 /* e-msg-composer.h
  *
- * Copyright (C) 1999  Helix Code, Inc.
+ * Copyright (C) 1999, 2000  Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -70,14 +70,19 @@ struct _EMsgComposer {
 	GNOME_GtkHTML_Editor_Engine  editor_engine;
 	BonoboObject            *editor_listener;
 	GHashTable              *inline_images;
+
+	Bonobo_PropertyBag     property_bag;
 	
 	char *sig_file;
 	
 	gboolean attachment_bar_visible : 1;
-	gboolean send_html : 1;
-	gboolean pgp_sign : 1;
+	gboolean send_html   : 1;
+	gboolean pgp_sign    : 1;
 	gboolean pgp_encrypt : 1;
-
+	gboolean view_from   : 1;
+	gboolean view_bcc    : 1;
+	gboolean view_cc     : 1;
+	gboolean view_subject: 1;
 	gboolean has_changed : 1;
 };
 
@@ -116,9 +121,18 @@ CamelMimeMessage *e_msg_composer_get_message          (EMsgComposer     *compose
 void              e_msg_composer_set_sig_file         (EMsgComposer     *composer,
 						       const char       *sig_file);
 const char       *e_msg_composer_get_sig_file         (EMsgComposer     *composer);
+gboolean          e_msg_composer_get_send_html        (EMsgComposer     *composer);
 void              e_msg_composer_set_send_html        (EMsgComposer     *composer,
 						       gboolean          send_html);
-gboolean          e_msg_composer_get_send_html        (EMsgComposer     *composer);
+gboolean          e_msg_composer_get_view_from        (EMsgComposer     *composer);
+void              e_msg_composer_set_view_from        (EMsgComposer     *composer,
+						       gboolean          view_from);
+gboolean          e_msg_composer_get_view_bcc         (EMsgComposer     *composer);
+void              e_msg_composer_set_view_bcc         (EMsgComposer     *composer,
+						       gboolean          view_bcc);
+gboolean          e_msg_composer_get_view_cc          (EMsgComposer     *composer);
+void              e_msg_composer_set_view_cc          (EMsgComposer     *composer,
+						       gboolean          view_cc);
 void              e_msg_composer_set_pgp_sign         (EMsgComposer     *composer,
 						       gboolean          pgp_sign);
 
