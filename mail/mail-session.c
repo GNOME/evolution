@@ -153,6 +153,17 @@ get_password (CamelSession *session, const char *prompt, gboolean secret,
 {
 	MailSession *mail_session = MAIL_SESSION (session);
 	char *key, *ans;
+
+	if (!strcmp(item, "popb4smtp_uri")) {
+		char *url = camel_url_to_string(service->url, 0);
+		const MailConfigAccount *account = mail_config_get_account_by_transport_url(url);
+
+		g_free(url);
+		if (account == NULL)
+			return NULL;
+
+		return g_strdup(account->source->url);
+	}
 	
 	key = make_key (service, item);
 	if (!key)
