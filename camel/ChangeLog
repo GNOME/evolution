@@ -1,3 +1,9 @@
+2003-04-09  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-filter-charset.c
+	(camel_mime_filter_charset_new_convert): NULL-protect the to/from
+	charsets in the g_warning call.
+
 2003-04-08  Jeffrey Stedfast  <fejj@ximian.com>
 
 	Fixes for bug #40778. Probably others as well.

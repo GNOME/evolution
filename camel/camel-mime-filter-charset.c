@@ -263,7 +263,9 @@ camel_mime_filter_charset_new_convert (const char *from_charset, const char *to_
 	new->ic = e_iconv_open (to_charset, from_charset);
 	if (new->ic == (iconv_t) -1) {
 		g_warning ("Cannot create charset conversion from %s to %s: %s",
-			   from_charset, to_charset, g_strerror (errno));
+			   from_charset ? from_charset : "(null)",
+			   to_charset ? to_charset : "(null)",
+			   g_strerror (errno));
 		camel_object_unref (new);
 		new = NULL;
 	} else {
