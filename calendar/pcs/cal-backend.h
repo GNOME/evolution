@@ -74,6 +74,7 @@ struct _CalBackendClass {
 	CalBackendOpenStatus (* open) (CalBackend *backend, GnomeVFSURI *uri,
 				       gboolean only_if_exists);
 
+	/* General object acquirement and information related virtual methods */
 	int (* get_n_objects) (CalBackend *backend, CalObjType type);
 	char *(* get_object) (CalBackend *backend, const char *uid);
 	CalObjType(* get_type_by_uid) (CalBackend *backend, const char *uid);
@@ -82,12 +83,18 @@ struct _CalBackendClass {
 	GList *(* get_objects_in_range) (CalBackend *backend, CalObjType type,
 					 time_t start, time_t end);
 
+	/* Change related virtual methods */
+	GNOME_Evolution_Calendar_CalObjChangeSeq * (* get_changes) (
+		CalBackend *backend, CalObjType type, const char *change_id);
+
+	/* Alarm related virtual methods */
 	GNOME_Evolution_Calendar_CalComponentAlarmsSeq *(* get_alarms_in_range) (
 		CalBackend *backend, time_t start, time_t end);
 	GNOME_Evolution_Calendar_CalComponentAlarms *(* get_alarms_for_object) (
 		CalBackend *backend, const char *uid,
 		time_t start, time_t end, gboolean *object_found);
 
+	/* Object manipulation virtual methods */
 	gboolean (* update_object) (CalBackend *backend, const char *uid, const char *calobj);
 	gboolean (* remove_object) (CalBackend *backend, const char *uid);
 };
@@ -107,10 +114,11 @@ char *cal_backend_get_object (CalBackend *backend, const char *uid);
 
 GList *cal_backend_get_uids (CalBackend *backend, CalObjType type);
 
-GNOME_Evolution_Calendar_CalObjChangeSeq * cal_backend_get_changes (CalBackend *backend, CalObjType type, const char *change_id);
-
 GList *cal_backend_get_objects_in_range (CalBackend *backend, CalObjType type,
 					 time_t start, time_t end);
+
+GNOME_Evolution_Calendar_CalObjChangeSeq * cal_backend_get_changes (
+	CalBackend *backend, CalObjType type, const char *change_id);
 
 GNOME_Evolution_Calendar_CalComponentAlarmsSeq *cal_backend_get_alarms_in_range (
 	CalBackend *backend, time_t start, time_t end, gboolean *valid_range);

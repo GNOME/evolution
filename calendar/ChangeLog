@@ -1,5 +1,22 @@
 2001-02-08  JP Rosevear  <jpr@ximian.com>
 
+	* pcs/cal-backend-file.c: Move the get_change code here
+
+	* pcs/cal-backend.c: Remove get_changes related stuff and
+	implement by calling the virtual method instead
+
+	* pcs/cal-backend.h: New virtual method.
+
+	* pcs/cal-backend-file.c (compute_alarm_range): Use
+	icaldurationtype_as_int (replace _as_timet)
+	(add_alarm_occurrences_cb): ditto
+	
+2001-02-08  JP Rosevear  <jpr@ximian.com>
+
+	* pcs/cal-backend-file.c (compute_alarm_range): Use
+	icaldurationtype_as_int (replace _as_timet)
+	(add_alarm_occurrences_cb): ditto
+
 	* gui/e-week-view.c (e_week_view_on_schedule_meet): new routine to
 	throw up the meeting schedule dialog
 	(e_week_view_show_popup_menu): add schedule meeting to the

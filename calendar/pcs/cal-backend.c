@@ -28,7 +28,6 @@
 #include <gnome-xml/parserInternals.h>
 #include <gnome-xml/xmlmemory.h>
 
-#include "e-util/e-dbhash.h"
 #include "cal-backend.h"
 #include "libversit/vcc.h"
 
@@ -230,150 +229,6 @@ cal_backend_get_uids (CalBackend *backend, CalObjType type)
 	return (* CLASS (backend)->get_uids) (backend, type);
 }
 
-typedef struct 
-{
-	CalBackend *backend;
-	GList *changes;
-	GList *change_ids;
-} CalBackendComputeChangesData;
-
-static void
-cal_backend_compute_changes_foreach_key (const char *key, gpointer data)
-{
-	CalBackendComputeChangesData *be_data = data;
-	char *calobj = cal_backend_get_object (be_data->backend, key);
-	
-	if (calobj == NULL) {
-		CalComponent *comp;
-		GNOME_Evolution_Calendar_CalObjChange *coc;
-
-		comp = cal_component_new ();
-		cal_component_set_new_vtype (comp, CAL_COMPONENT_TODO);
-		cal_component_set_uid (comp, key);
-
-		coc = GNOME_Evolution_Calendar_CalObjChange__alloc ();
-		coc->calobj =  CORBA_string_dup (cal_component_get_as_string (comp));
-		coc->type = GNOME_Evolution_Calendar_DELETED;
-		be_data->changes = g_list_prepend (be_data->changes, coc);
-		be_data->change_ids = g_list_prepend (be_data->change_ids, (gpointer) key);
- 	}
-}
-
-static GNOME_Evolution_Calendar_CalObjChangeSeq *
-cal_backend_compute_changes (CalBackend *backend, CalObjType type, const char *change_id)
-{
-	char    *filename;
-	EDbHash *ehash;
-	CalBackendComputeChangesData be_data;
-	GNOME_Evolution_Calendar_CalObjChangeSeq *seq;
-	GList *uids, *changes = NULL, *change_ids = NULL;
-	GList *i, *j;
-	int n;
-	
-	/* Find the changed ids - FIX ME, path should not be hard coded */
-	if (type == GNOME_Evolution_Calendar_TYPE_TODO)
-		filename = g_strdup_printf ("%s/evolution/local/Tasks/%s.db", g_get_home_dir (), change_id);
-	else 
-		filename = g_strdup_printf ("%s/evolution/local/Calendar/%s.db", g_get_home_dir (), change_id);
-	ehash = e_dbhash_new (filename);
-	g_free (filename);
-	
-	uids = cal_backend_get_uids (backend, type);
-	
-	/* Calculate adds and modifies */
-	for (i = uids; i != NULL; i = i->next) {
-		GNOME_Evolution_Calendar_CalObjChange *coc;
-		char *uid = i->data;
-		char *calobj = cal_backend_get_object (backend, uid);
-
-		g_assert (calobj != NULL);
-
-		/* check what type of change has occurred, if any */
-		switch (e_dbhash_compare (ehash, uid, calobj)) {
-		case E_DBHASH_STATUS_SAME:
-			break;
-		case E_DBHASH_STATUS_NOT_FOUND:
-			coc = GNOME_Evolution_Calendar_CalObjChange__alloc ();
-			coc->calobj =  CORBA_string_dup (calobj);
-			coc->type = GNOME_Evolution_Calendar_ADDED;
-			changes = g_list_prepend (changes, coc);
-			change_ids = g_list_prepend (change_ids, uid);
-			break;
-		case E_DBHASH_STATUS_DIFFERENT:
-			coc = GNOME_Evolution_Calendar_CalObjChange__alloc ();
-			coc->calobj =  CORBA_string_dup (calobj);
-			coc->type = GNOME_Evolution_Calendar_ADDED;
-			changes = g_list_append (changes, coc);
-			change_ids = g_list_prepend (change_ids, uid);
-			break;
-		}
-	}
-
-	/* Calculate deletions */
-	be_data.backend = backend;
-	be_data.changes = changes;
-	be_data.change_ids = change_ids;
-   	e_dbhash_foreach_key (ehash, (EDbHashFunc)cal_backend_compute_changes_foreach_key, &be_data);
-	changes = be_data.changes;
-	change_ids = be_data.change_ids;
-	
-	/* Build the sequence and update the hash */
-	n = g_list_length (changes);
-
-	seq = GNOME_Evolution_Calendar_CalObjChangeSeq__alloc ();
-	seq->_length = n;
-	seq->_buffer = CORBA_sequence_GNOME_Evolution_Calendar_CalObjChange_allocbuf (n);
-	CORBA_sequence_set_release (seq, TRUE);
-
-	for (i = changes, j = change_ids, n = 0; i != NULL; i = i->next, j = j->next, n++) {
-		GNOME_Evolution_Calendar_CalObjChange *coc = i->data;
-		GNOME_Evolution_Calendar_CalObjChange *seq_coc;
-		char *uid = j->data;
-
-		/* sequence building */
-		seq_coc = &seq->_buffer[n];
-		seq_coc->calobj = CORBA_string_dup (coc->calobj);
-		seq_coc->type = coc->type;
-
-		/* hash updating */
-		if (coc->type == GNOME_Evolution_Calendar_ADDED 
-		    || coc->type == GNOME_Evolution_Calendar_MODIFIED) {
-			e_dbhash_add (ehash, uid, coc->calobj);
-		} else {
-			e_dbhash_remove (ehash, uid);
-		}		
-
-		CORBA_free (coc);
-	}	
-  	e_dbhash_write (ehash);
-  	e_dbhash_destroy (ehash);
-
-	cal_obj_uid_list_free (uids);
-	g_list_free (change_ids);
-	g_list_free (changes);
-	
-	return seq;
-}
-
-/**
- * cal_backend_get_changes:
- * @backend: 
- * @type: 
- * @change_id: 
- * 
- * 
- * 
- * Return value: 
- **/
-GNOME_Evolution_Calendar_CalObjChangeSeq *
-cal_backend_get_changes (CalBackend *backend, CalObjType type, const char *change_id) 
-{
-	g_return_val_if_fail (backend != NULL, NULL);
-	g_return_val_if_fail (IS_CAL_BACKEND (backend), NULL);
-
-	return cal_backend_compute_changes (backend, type, change_id);
-}
-
 
 /**
  * cal_backend_get_objects_in_range:
@@ -399,6 +254,28 @@ cal_backend_get_objects_in_range (CalBackend *backend, CalObjType type,
 
 	g_assert (CLASS (backend)->get_objects_in_range != NULL);
 	return (* CLASS (backend)->get_objects_in_range) (backend, type, start, end);
+}
+
+/**
+ * cal_backend_get_changes:
+ * @backend: A calendar backend
+ * @type: Bitmask with types of objects to return.
+ * @change_id: A unique uid for the callers change list
+ * 
+ * Builds a sequence of objects and the type of change that occurred on them since
+ * the last time the give change_id was seen
+ * 
+ * Return value: A list of the objects that changed and the type of change
+ **/
+GNOME_Evolution_Calendar_CalObjChangeSeq *
+cal_backend_get_changes (CalBackend *backend, CalObjType type, const char *change_id) 
+{
+	g_return_val_if_fail (backend != NULL, NULL);
+	g_return_val_if_fail (IS_CAL_BACKEND (backend), NULL);
+	g_return_val_if_fail (change_id != NULL, NULL);
+
+	g_assert (CLASS (backend)->get_changes != NULL);
+	return (* CLASS (backend)->get_changes) (backend, type, change_id);
 }
 
 /**
