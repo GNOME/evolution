@@ -351,6 +351,7 @@ migrate_ical_folder (char *old_path, ESourceGroup *dest_group, char *source_name
 
 #define WEBCAL_BASE_URI "webcal://"
 #define CONTACTS_BASE_URI "contacts://"
+#define BAD_CONTACTS_BASE_URI "contact://"
 #define PERSONAL_RELATIVE_URI "system"
 
 static ESourceGroup *
@@ -403,6 +404,12 @@ create_calendar_sources (CalendarComponent *component,
 		for (g = groups; g; g = g->next) {
 
 			group = E_SOURCE_GROUP (g->data);
+
+			if (!strcmp (BAD_CONTACTS_BASE_URI, e_source_group_peek_base_uri (group)))
+				e_source_group_set_base_uri (group, CONTACTS_BASE_URI);
+
+			if (!strcmp (base_uri, e_source_group_peek_base_uri (group)))
+				e_source_group_set_base_uri (group, base_uri_proto);
 
 			if (!*on_this_computer && !strcmp (base_uri_proto, e_source_group_peek_base_uri (group)))
 				*on_this_computer = g_object_ref (group);

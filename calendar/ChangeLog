@@ -1,3 +1,8 @@
+2004-04-15  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-calendar-view.c (e_calendar_view_delete_selected_occurrence):
+	use the DTSTART for the recur-id if it's not available.
+
 2004-04-14  Larry Ewing  <lewing@ximian.com>
 
 	* gui/calendar-component.c (selector_tree_drag_motion): fix

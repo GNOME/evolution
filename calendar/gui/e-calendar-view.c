@@ -866,8 +866,19 @@ e_calendar_view_delete_selected_occurrence (ECalendarView *cal_view)
 	e_cal_component_get_uid (comp, &uid);
 	if (e_cal_component_is_instance (comp))
 		rid = e_cal_component_get_recurid_as_string (comp);
-	else
-		rid = "";
+	else {
+		ECalComponentDateTime dt;
+
+		/* get the RECUR-ID from the start date */
+		e_cal_component_get_dtstart (comp, &dt);
+		if (dt.value) {
+			rid = icaltime_as_ical_string (*dt.value);
+			e_cal_component_free_datetime (&dt);
+		} else {
+			g_object_unref (comp);
+			return;
+		}
+	}
 
 	if (delete_component_dialog (comp, FALSE, 1, e_cal_component_get_vtype (comp), GTK_WIDGET (cal_view))) {
 
