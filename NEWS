@@ -113,6 +113,9 @@ Summary:
 
   - Made the offline stuff work correctly (iain)
 
+  - Fixed a bug were the summary wouldn't retain settings if all folders,
+    or RDFs, or weather stations were removed. (iain)
+
 Importers:
 
   - Made the pine importer work for multidepth mail folders. (iain)
