@@ -1,3 +1,9 @@
+2003-04-29  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* importers/netscape-importer.c
+	(netscape_add_priority_workaround_filters): Updated for API change
+	in the filter code.
+
 2003-04-29  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #41972

@@ -776,19 +776,19 @@ netscape_add_priority_workaround_filters (FilterContext *fc)
 
 	fr = netscape_create_priority_converter (fc, LOWEST);
 	rule_context_add_rule (RULE_CONTEXT(fc), FILTER_RULE(fr));
-	rule_context_rank_rule (RULE_CONTEXT(fc), FILTER_RULE(fr), 0);
+	rule_context_rank_rule (RULE_CONTEXT(fc), FILTER_RULE(fr), FILTER_SOURCE_INCOMING, 0);
 
 	fr = netscape_create_priority_converter (fc, LOW);
 	rule_context_add_rule (RULE_CONTEXT(fc), FILTER_RULE(fr));
-	rule_context_rank_rule (RULE_CONTEXT(fc), FILTER_RULE(fr), 1);
+	rule_context_rank_rule (RULE_CONTEXT(fc), FILTER_RULE(fr), FILTER_SOURCE_INCOMING, 1);
 
 	fr = netscape_create_priority_converter (fc, HIGH);
 	rule_context_add_rule (RULE_CONTEXT(fc), FILTER_RULE(fr));
-	rule_context_rank_rule (RULE_CONTEXT(fc), FILTER_RULE(fr), 2);
+	rule_context_rank_rule (RULE_CONTEXT(fc), FILTER_RULE(fr), FILTER_SOURCE_INCOMING, 2);
 
 	fr = netscape_create_priority_converter (fc, HIGHEST);
 	rule_context_add_rule (RULE_CONTEXT(fc), FILTER_RULE(fr));
-	rule_context_rank_rule (RULE_CONTEXT(fc), FILTER_RULE(fr), 3);
+	rule_context_rank_rule (RULE_CONTEXT(fc), FILTER_RULE(fr), FILTER_SOURCE_INCOMING, 3);
 }
 
 
