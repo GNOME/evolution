@@ -20,11 +20,11 @@
 #include <liboaf/liboaf.h>
 
 static void
-init_corba (int argc, char *argv [])
+init_corba (int *argc, char *argv [])
 {
-	gnome_init_with_popt_table ("evolution-mail-component", VERSION, argc, argv,
+	gnome_init_with_popt_table ("evolution-mail-component", VERSION, *argc, argv,
 				    oaf_popt_options, 0, NULL);
-	oaf_init (argc, argv);
+	oaf_init (*argc, argv);
 }
 
 #else  /* USING_OAF */
@@ -40,7 +40,7 @@ init_corba (int *argc, char *argv [])
 
  	gnome_CORBA_init_with_popt_table (
 		"evolution-mail-component", "1.0",
-		&argc, argv, NULL, 0, NULL, GNORBA_INIT_SERVER_FUNC, &ev);
+		argc, argv, NULL, 0, NULL, GNORBA_INIT_SERVER_FUNC, &ev);
 
 	CORBA_exception_free (&ev);
 }
@@ -48,10 +48,8 @@ init_corba (int *argc, char *argv [])
 #endif /* USING_OAF */
 
 static void
-init_bonobo (int argc, char **argv)
+init_bonobo (void)
 {
-	init_corba (argc, argv);
-
 	if (bonobo_init (CORBA_OBJECT_NIL, CORBA_OBJECT_NIL, CORBA_OBJECT_NIL) == FALSE){
 		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
 			  _("Mail Component: I could not initialize Bonobo"));
@@ -65,7 +63,9 @@ main (int argc, char *argv [])
 	bindtextdomain (PACKAGE, EVOLUTION_LOCALEDIR);
 	textdomain (PACKAGE);
 
-	init_bonobo (argc, argv);
+	init_corba (&argc, argv);
+	init_bonobo ();
+
 	glade_gnome_init ();
 
 	session_init ();

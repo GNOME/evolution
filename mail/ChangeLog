@@ -1,3 +1,9 @@
+2000-04-28  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* main.c (init_bonobo): Don't call `init_corba()' and don't get
+	any args.
+	(init_corba) [!USING_OAF]: Fix args.
+
 2000-04-27  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* folder-browser-factory.c: New macro `CONTROL_FACTORY_ID', which
