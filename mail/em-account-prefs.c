@@ -250,8 +250,8 @@ account_delete_clicked (GtkButton *button, gpointer user_data)
 		
 		/* remove it from the folder-tree in the shell */
 		if (account->enabled && account->source && account->source->url)
-			mail_component_remove_storage_by_uri (mail_component_peek (), account->source->url);
-
+			mail_component_remove_store_by_uri (mail_component_peek (), account->source->url);
+		
 		/* remove it from the config file */
 		mail_config_remove_account (account);
 		accounts = mail_config_get_accounts ();
@@ -320,11 +320,11 @@ account_able_clicked (GtkButton *button, gpointer user_data)
 		   folder-tree, otherwise add it to the folder-tree */
 		if (account->source->url) {
 			if (account->enabled)
-				mail_component_load_storage_by_uri (component,
-								    account->source->url,
-								    account->name);
+				mail_component_load_store_by_uri (component,
+								  account->source->url,
+								  account->name);
 			else
-				mail_component_remove_storage_by_uri (component, account->source->url);
+				mail_component_remove_store_by_uri (component, account->source->url);
 		}
 		
 		mail_autoreceive_setup ();
@@ -360,14 +360,14 @@ account_able_toggled (GtkCellRendererToggle *renderer, char *arg1, gpointer user
 	
 	if (account) {
 		MailComponent *component = mail_component_peek ();
-
+		
 		/* if the account got disabled, remove it from the
 		   folder-tree, otherwise add it to the folder-tree */
 		if (account->source->url) {
 			if (account->enabled)
-				mail_component_load_storage_by_uri (component, account->source->url, account->name);
+				mail_component_load_store_by_uri (component, account->source->url, account->name);
 			else
-				mail_component_remove_storage_by_uri (component, account->source->url);
+				mail_component_remove_store_by_uri (component, account->source->url);
 		}
 		
 		mail_autoreceive_setup ();

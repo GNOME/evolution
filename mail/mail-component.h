@@ -63,24 +63,25 @@ GType  mail_component_get_type  (void);
 
 MailComponent *mail_component_peek  (void);
 
-const char  *mail_component_peek_base_directory  (MailComponent *component);
-RuleContext *mail_component_peek_search_context  (MailComponent *component);
+const char  *mail_component_peek_base_directory (MailComponent *component);
+RuleContext *mail_component_peek_search_context (MailComponent *component);
 
-void        mail_component_add_store              (MailComponent *component,
-						   CamelStore    *store,
-						   const char    *name);
-CamelStore *mail_component_load_storage_by_uri    (MailComponent *component,
-						   const char    *uri,
-						   const char    *name);
-void        mail_component_remove_storage         (MailComponent *component,
-						   CamelStore    *store);
-void        mail_component_remove_storage_by_uri  (MailComponent *component,
-						   const char    *uri);
+void        mail_component_add_store            (MailComponent *component,
+						 CamelStore    *store,
+						 const char    *name);
+CamelStore *mail_component_load_store_by_uri    (MailComponent *component,
+						 const char    *uri,
+						 const char    *name);
 
-int          mail_component_get_storage_count  (MailComponent *component);
-void         mail_component_storages_foreach   (MailComponent *component,
-						GHFunc         func,
-						void          *data);
+void        mail_component_remove_store         (MailComponent *component,
+						 CamelStore    *store);
+void        mail_component_remove_store_by_uri  (MailComponent *component,
+						 const char    *uri);
+
+int          mail_component_get_store_count  (MailComponent *component);
+void         mail_component_stores_foreach   (MailComponent *component,
+					      GHFunc         func,
+					      void          *data);
 
 void mail_component_remove_folder (MailComponent *component, CamelStore *store, const char *path);
 

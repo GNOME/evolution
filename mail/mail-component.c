@@ -92,12 +92,12 @@ struct _MailComponentPrivate {
 /* Utility functions.  */
 
 static void
-add_storage (MailComponent *component, const char *name, CamelService *store, CamelException *ex)
+add_store (MailComponent *component, const char *name, CamelStore *store, CamelException *ex)
 {
 	camel_object_ref (store);
 	g_hash_table_insert (component->priv->store_hash, store, g_strdup (name));
-	em_folder_tree_add_store (component->priv->emft, (CamelStore *) store, name);
-	mail_note_store ((CamelStore *) store, NULL, NULL, NULL);
+	em_folder_tree_add_store (component->priv->emft, store, name);
+	mail_note_store (store, NULL, NULL, NULL);
 }
 
 static void
@@ -121,7 +121,7 @@ load_accounts (MailComponent *component, EAccountList *accounts)
 		name = account->name;
 		
 		if (account->enabled && service->url != NULL)
-			mail_component_load_storage_by_uri (component, service->url, name);
+			mail_component_load_store_by_uri (component, service->url, name);
 		
 		e_iterator_next (iter);
 	}
@@ -130,7 +130,7 @@ load_accounts (MailComponent *component, EAccountList *accounts)
 }
 
 static void
-storage_go_online (gpointer key, gpointer value, gpointer data)
+store_go_online (gpointer key, gpointer value, gpointer data)
 {
 	CamelStore *store = key;
 	CamelService *service = CAMEL_SERVICE (store);
@@ -150,9 +150,9 @@ storage_go_online (gpointer key, gpointer value, gpointer data)
 static void
 go_online (MailComponent *component)
 {
-	camel_session_set_online(session, TRUE);
-	mail_session_set_interactive(TRUE);
-	mail_component_storages_foreach(component, storage_go_online, NULL);
+	camel_session_set_online (session, TRUE);
+	mail_session_set_interactive (TRUE);
+	mail_component_stores_foreach (component, store_go_online, NULL);
 }
 
 static void
@@ -207,9 +207,9 @@ setup_local_store(MailComponent *component)
 	g_assert(p->local_store == NULL);
 
 	/* EPFIXME It should use base_directory once we have moved it.  */
-	store_uri = g_strconcat("mbox:", g_get_home_dir(), "/.evolution/mail/local", NULL);
-	p->local_store = mail_component_load_storage_by_uri(component, store_uri, _("On this Computer"));
-	camel_object_ref(p->local_store);
+	store_uri = g_strconcat("mbox:", g_get_home_dir (), "/.evolution/mail/local", NULL);
+	p->local_store = mail_component_load_store_by_uri (component, store_uri, _("On this Computer"));
+	camel_object_ref (p->local_store);
 	
 	camel_exception_init (&ex);
 	for (i=0;i<sizeof(default_folders)/sizeof(default_folders[0]);i++) {
@@ -503,7 +503,7 @@ mail_component_peek (void)
 
 		/* FIXME: this should all be initialised in a starutp routine, not from the peek function,
 		   this covers much of the ::init method's content too */
-		vfolder_load_storage();
+		vfolder_load_storage ();
 	}
 
 	return component;
@@ -524,22 +524,20 @@ mail_component_peek_search_context (MailComponent *component)
 
 
 void
-mail_component_add_store (MailComponent *component,
-			  CamelStore *store,
-			  const char *name)
+mail_component_add_store (MailComponent *component, CamelStore *store, const char *name)
 {
 	CamelException ex;
-
+	
 	camel_exception_init (&ex);
 	
 	if (name == NULL) {
 		char *service_name;
 		
 		service_name = camel_service_get_name ((CamelService *) store, TRUE);
-		add_storage (component, service_name, (CamelService *) store, &ex);
+		add_store (component, service_name, store, &ex);
 		g_free (service_name);
 	} else {
-		add_storage (component, name, (CamelService *) store, &ex);
+		add_store (component, name, store, &ex);
 	}
 	
 	camel_exception_clear (&ex);
@@ -547,23 +545,19 @@ mail_component_add_store (MailComponent *component,
 
 
 /**
- * mail_component_load_storage_by_uri:
- * @component: 
- * @uri: 
- * @name: 
- * 
- * 
+ * mail_component_load_store_by_uri:
+ * @component: mail component
+ * @uri: uri of store
+ * @name: name of store (used for display purposes)
  * 
  * Return value: Pointer to the newly added CamelStore.  The caller is supposed
  * to ref the object if it wants to store it.
  **/
 CamelStore *
-mail_component_load_storage_by_uri (MailComponent *component,
-				    const char *uri,
-				    const char *name)
+mail_component_load_store_by_uri (MailComponent *component, const char *uri, const char *name)
 {
 	CamelException ex;
-	CamelService *store;
+	CamelStore *store;
 	CamelProvider *prov;
 	
 	camel_exception_init (&ex);
@@ -586,7 +580,7 @@ mail_component_load_storage_by_uri (MailComponent *component,
 	    (prov->flags & CAMEL_PROVIDER_IS_EXTERNAL))
 		return NULL;
 	
-	store = camel_session_get_service (session, uri, CAMEL_PROVIDER_STORE, &ex);
+	store = (CamelStore *) camel_session_get_service (session, uri, CAMEL_PROVIDER_STORE, &ex);
 	if (store == NULL) {
 		/* EPFIXME: real error dialog */
 		g_warning ("couldn't get service %s: %s\n", uri,
@@ -596,38 +590,37 @@ mail_component_load_storage_by_uri (MailComponent *component,
 	}
 	
 	if (name != NULL) {
-		add_storage (component, name, store, &ex);
+		add_store (component, name, store, &ex);
 	} else {
 		char *service_name;
 		
-		service_name = camel_service_get_name (store, TRUE);
-		add_storage (component, service_name, store, &ex);
+		service_name = camel_service_get_name ((CamelService *) store, TRUE);
+		add_store (component, service_name, store, &ex);
 		g_free (service_name);
 	}
 	
 	if (camel_exception_is_set (&ex)) {
 		/* EPFIXME: real error dialog */
-		g_warning ("Cannot load storage: %s",
+		g_warning ("Cannot load store: %s",
 			   camel_exception_get_description (&ex));
 		camel_exception_clear (&ex);
 	}
 	
-	camel_object_unref (CAMEL_OBJECT (store));
-	return CAMEL_STORE (store);		/* (Still has one ref in the hash.)  */
+	camel_object_unref (store);
+	
+	return store;
 }
 
 
 static void
-store_disconnect (CamelStore *store,
-		  void *event_data,
-		  void *data)
+store_disconnect (CamelStore *store, void *event_data, void *user_data)
 {
 	camel_service_disconnect (CAMEL_SERVICE (store), TRUE, NULL);
 	camel_object_unref (store);
 }
 
 void
-mail_component_remove_storage (MailComponent *component, CamelStore *store)
+mail_component_remove_store (MailComponent *component, CamelStore *store)
 {
 	MailComponentPrivate *priv = component->priv;
 	char *name;
@@ -655,36 +648,35 @@ mail_component_remove_storage (MailComponent *component, CamelStore *store)
 
 
 void
-mail_component_remove_storage_by_uri (MailComponent *component,
-				      const char *uri)
+mail_component_remove_store_by_uri (MailComponent *component, const char *uri)
 {
 	CamelProvider *prov;
-	CamelService *store;
-
-	prov = camel_session_get_provider (session, uri, NULL);
-	if (!prov)
+	CamelStore *store;
+	
+	if (!(prov = camel_session_get_provider (session, uri, NULL)))
 		return;
+	
 	if (!(prov->flags & CAMEL_PROVIDER_IS_STORAGE) ||
 	    (prov->flags & CAMEL_PROVIDER_IS_EXTERNAL))
 		return;
-
-	store = camel_session_get_service (session, uri, CAMEL_PROVIDER_STORE, NULL);
+	
+	store = (CamelStore *) camel_session_get_service (session, uri, CAMEL_PROVIDER_STORE, NULL);
 	if (store != NULL) {
-		mail_component_remove_storage (component, CAMEL_STORE (store));
-		camel_object_unref (CAMEL_OBJECT (store));
+		mail_component_remove_store (component, store);
+		camel_object_unref (store);
 	}
 }
 
 
 int
-mail_component_get_storage_count (MailComponent *component)
+mail_component_get_store_count (MailComponent *component)
 {
 	return g_hash_table_size (component->priv->store_hash);
 }
 
 
 void
-mail_component_storages_foreach (MailComponent *component, GHFunc func, void *user_data)
+mail_component_stores_foreach (MailComponent *component, GHFunc func, void *user_data)
 {
 	g_hash_table_foreach (component->priv->store_hash, func, user_data);
 }
@@ -693,8 +685,9 @@ mail_component_storages_foreach (MailComponent *component, GHFunc func, void *us
 void
 mail_component_remove_folder (MailComponent *component, CamelStore *store, const char *path)
 {
-	/* FIXME: implement me */
+	/* FIXME: implement me. but first, am I really even needed? */
 }
+
 
 EMFolderTreeModel *
 mail_component_get_tree_model (MailComponent *component)
@@ -706,6 +699,7 @@ mail_component_get_tree_model (MailComponent *component)
 	
 	return model;
 }
+
 
 extern struct _CamelSession *session;
 

@@ -48,8 +48,6 @@
 #include "mail-mt.h"
 #include "mail.h"
 
-#include "e-storage.h"
-
 #if defined (HAVE_NSS)
 #include "smime/gui/e-cert-selector.h"
 #endif
@@ -57,7 +55,6 @@
 #define d(x)
 
 extern char *default_drafts_folder_uri, *default_sent_folder_uri;
-extern EvolutionShellClient *global_shell_client;
 
 static void save_service (MailAccountGuiService *gsvc, GHashTable *extra_conf, EAccountService *service);
 static void service_changed (GtkEntry *entry, gpointer user_data);
@@ -1935,23 +1932,13 @@ save_service (MailAccountGuiService *gsvc, GHashTable *extra_config, EAccountSer
 static void
 add_new_store (char *uri, CamelStore *store, void *user_data)
 {
-	EAccount *account = user_data;
 	MailComponent *component = mail_component_peek ();
-	EStorage *storage;
+	EAccount *account = user_data;
 	
 	if (store == NULL)
 		return;
-
-	/* EPFIXME: Strange refcounting semantics here?!  */
 	
-	storage = mail_component_lookup_storage (component, store);
-	if (storage) {
-		/* store is already in the folder tree, so do nothing */
-		g_object_unref (storage);
-	} else {
-		/* store is *not* in the folder tree, so lets add it. */
-		mail_component_add_store (component, store, account->name);
-	}
+	mail_component_add_store (component, store, account->name);
 }
 
 gboolean
@@ -2064,11 +2051,11 @@ mail_account_gui_save (MailAccountGui *gui)
 	} else if (account->source->url) {
 		/* this means the account was edited - if the old and
                    new source urls are not identical, replace the old
-                   storage with the new storage */
+                   store with the new store */
 #define sources_equal(old,new) (new->url && !strcmp (old->url, new->url))
 		if (!sources_equal (account->source, new->source)) {
-			/* Remove the old storage from the folder-tree */
-			mail_component_remove_storage_by_uri (mail_component_peek (), account->source->url);
+			/* Remove the old store from the folder-tree */
+			mail_component_remove_store_by_uri (mail_component_peek (), account->source->url);
 		}
 	}
 	
@@ -2085,7 +2072,7 @@ mail_account_gui_save (MailAccountGui *gui)
 	/* if the account provider is something we can stick
 	   in the folder-tree and not added by some other
 	   component, then get the CamelStore and add it to
-	   the shell storages */
+	   the folder-tree */
 	if (is_storage && account->enabled)
 		mail_get_store (account->source->url, NULL, add_new_store, account);
 	

@@ -1,7 +1,24 @@
 2003-11-13  Jeffrey Stedfast  <fejj@ximian.com>
 
-	* mail-component.c (create_view_widget): If the user selects a
-	store node, don't try to open it as a folder.
+	* mail-vfolder.c (vfolder_load_storage): Updated for function name
+	changes in mail-component.c
+
+	* mail-offline-handler.c: Updated for function name changes in
+	mail-component.c
+
+	* mail-account-gui.c (add_new_store): Fixed to not use EStorage.
+	(mail_account_gui_save): Updated for function name changes.
+
+	* em-account-prefs.c (account_delete_clicked): Updated for
+	function name changes.
+	(account_able_clicked): Same.
+	(account_able_toggled): Same.
+
+	* mail-component.c: Renamed mail_component_*storage*() functions
+	to mail_component_*store*() since we are no longer dealing with
+	storages, but instead with CamelStore's.
+	(create_view_widget): If the user selects a store node, don't try
+	to open it as a folder.
 
 2003-11-13  Ettore Perazzoli  <ettore@ximian.com>
 

@@ -58,7 +58,7 @@ service_is_relevant (CamelService *service, gboolean going_offline)
 }
 
 static void
-add_connection (gpointer key, gpointer data, gpointer user_data)
+add_connection (gpointer key, gpointer value, gpointer user_data)
 {
 	CamelService *service = key;
 	GNOME_Evolution_ConnectionList *list = user_data;
@@ -78,11 +78,11 @@ create_connection_list (void)
 
 	list = GNOME_Evolution_ConnectionList__alloc ();
 	list->_length = 0;
-	list->_maximum = mail_component_get_storage_count (mail_component_peek ());
+	list->_maximum = mail_component_get_store_count (mail_component_peek ());
 	list->_buffer = CORBA_sequence_GNOME_Evolution_Connection_allocbuf (list->_maximum);
-
-	mail_component_storages_foreach (mail_component_peek (), add_connection, list);
-
+	
+	mail_component_stores_foreach (mail_component_peek (), add_connection, list);
+	
 	return list;
 }
 
@@ -234,12 +234,12 @@ went_offline (CamelStore *store, void *data)
 }
 
 static void
-storage_go_offline (gpointer key, gpointer value, gpointer data)
+store_go_offline (gpointer key, gpointer value, gpointer data)
 {
 	CamelStore *store = key;
 	GNOME_Evolution_OfflineProgressListener listener = data;
 	CORBA_Environment ev;
-
+	
 	CORBA_exception_init(&ev);
 	if (service_is_relevant (CAMEL_SERVICE (store), TRUE)) {
 		mail_store_set_offline (store, TRUE, went_offline, CORBA_Object_duplicate(listener, &ev));
@@ -261,14 +261,14 @@ impl_goOffline (PortableServer_Servant servant,
 
 	/* FIXME: If send/receive active, wait for it to finish */
 
-	mail_component_storages_foreach (mail_component_peek (), storage_go_offline, progress_listener);
+	mail_component_stores_foreach (mail_component_peek (), store_go_offline, progress_listener);
 }
 
 static void
-storage_go_online (gpointer key, gpointer value, gpointer data)
+store_go_online (gpointer key, gpointer value, gpointer data)
 {
 	CamelStore *store = key;
-
+	
 	if (service_is_relevant (CAMEL_SERVICE (store), FALSE)) {
 		mail_store_set_offline (store, FALSE, NULL, NULL);
 		mail_note_store (store, NULL, NULL, NULL);
@@ -281,14 +281,14 @@ impl_goOnline (PortableServer_Servant servant,
 {
 	MailOfflineHandler *offline_handler;
 	MailOfflineHandlerPrivate *priv;
-
+	
 	offline_handler = MAIL_OFFLINE_HANDLER (bonobo_object_from_servant (servant));
 	priv = offline_handler->priv;
-
+	
 	/* Enable auto-mail-checking */
 	camel_session_set_online (session, TRUE);
-
-	mail_component_storages_foreach (mail_component_peek (), storage_go_online, NULL);
+	
+	mail_component_stores_foreach (mail_component_peek (), store_go_online, NULL);
 }
 
 /* GObject methods.  */
