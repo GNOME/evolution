@@ -144,8 +144,9 @@ get_folder(CamelStore * store, const char *folder_name, guint32 flags, CamelExce
 		if (!S_ISDIR(st.st_mode)) {
 			camel_exception_setv(ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
 					     _("Store root %s is not a regular directory"), path);
+			return NULL;
 		}
-		return NULL;
+		return (CamelFolder *) 0xdeadbeef;
 	}
 
 	if (errno != ENOENT
@@ -175,7 +176,7 @@ get_folder(CamelStore * store, const char *folder_name, guint32 flags, CamelExce
 			*slash = '/';
 	} while (slash);
 
-	return NULL;
+	return (CamelFolder *) 0xdeadbeef;
 }
 
 static CamelFolder *
