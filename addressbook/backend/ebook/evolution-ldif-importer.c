@@ -18,11 +18,13 @@
 #include <string.h>
 
 #include <e-book.h>
+#include <e-book-util.h>
 #include <e-card-simple.h>
 #include <e-destination.h>
 
 #include <libgnome/gnome-init.h>
 #include <bonobo/bonobo-generic-factory.h>
+#include <bonobo/bonobo-main.h>
 
 #include <importer/evolution-importer.h>
 #include <importer/GNOME_Evolution_Importer.h>
@@ -238,17 +240,17 @@ parseLine( ECardSimple *simple, ECardDeliveryAddress *address, char **buf )
 
 		field_handled = FALSE;
 		for (i = 0; i < num_ldif_fields; i ++) {
-			if (!g_strcasecmp (ptr, ldif_fields[i].ldif_attribute)) {
+			if (!g_ascii_strcasecmp (ptr, ldif_fields[i].ldif_attribute)) {
 				if (ldif_fields[i].flags & FLAG_ADDRESS) {
-					if (!g_strcasecmp (ptr, "locality"))
+					if (!g_ascii_strcasecmp (ptr, "locality"))
 						address->city = g_strdup (ldif_value->str);
-					else if (!g_strcasecmp (ptr, "countryname"))
+					else if (!g_ascii_strcasecmp (ptr, "countryname"))
 						address->country = g_strdup (ldif_value->str);
-					else if (!g_strcasecmp (ptr, "postalcode"))
+					else if (!g_ascii_strcasecmp (ptr, "postalcode"))
 						address->code = g_strdup (ldif_value->str);
-					else if (!g_strcasecmp (ptr, "st"))
+					else if (!g_ascii_strcasecmp (ptr, "st"))
 						address->region = g_strdup (ldif_value->str);
-					else if (!g_strcasecmp (ptr, "streetaddress"))
+					else if (!g_ascii_strcasecmp (ptr, "streetaddress"))
 						address->street = g_strdup (ldif_value->str);
 				}
 				else {
@@ -262,12 +264,12 @@ parseLine( ECardSimple *simple, ECardDeliveryAddress *address, char **buf )
 
 		/* handle objectclass/dn/member out here */
 		if (!field_handled) {
-			if (!g_strcasecmp (ptr, "dn"))
+			if (!g_ascii_strcasecmp (ptr, "dn"))
 				g_hash_table_insert (dn_card_hash, g_strdup(ldif_value->str), simple->card);
-			else if (!g_strcasecmp (ptr, "objectclass") && !g_strcasecmp (ldif_value->str, "groupofnames")) {
+			else if (!g_ascii_strcasecmp (ptr, "objectclass") && !g_ascii_strcasecmp (ldif_value->str, "groupofnames")) {
 				e_card_simple_set (simple, E_CARD_SIMPLE_FIELD_IS_LIST, "true");
 			}
-			else if (!g_strcasecmp (ptr, "member")) {
+			else if (!g_ascii_strcasecmp (ptr, "member")) {
 				EList *email;
 				g_object_get (simple->card,
 					      "email", &email,
@@ -450,8 +452,10 @@ book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 static void
 ebook_create (LDIFImporter *gci)
 {
+#if 0
 	gchar *path, *uri;
-	
+#endif
+
 	gci->book = e_book_new ();
 
 	if (!gci->book) {
@@ -592,7 +596,7 @@ factory_fn (BonoboGenericFactory *_factory,
 		return BONOBO_OBJECT (importer);
 	}
 	else {
-		g_warning (COMPONENT_FACTORY_IID, ": Don't know what to do with %s", component_id);
+		g_warning (COMPONENT_FACTORY_IID ": Don't know what to do with %s", component_id);
 		return NULL;
 	}
 }

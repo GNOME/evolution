@@ -1925,7 +1925,7 @@ e_card_email_match_single_string (const gchar *a, const gchar *b)
 	for (xa=a; *xa && *xa != '@'; ++xa);
 	for (xb=b; *xb && *xb != '@'; ++xb);
 
-	if (xa-a != xb-b || *xa != *xb || g_strncasecmp (a, b, xa-a))
+	if (xa-a != xb-b || *xa != *xb || g_ascii_strncasecmp (a, b, xa-a))
 		return FALSE;
 
 	if (*xa == '\0')
@@ -1985,7 +1985,7 @@ e_card_email_find_number (const ECard *card, const gchar *email)
 
 	iter = e_list_get_iterator (card->email);
 	for (e_iterator_reset (iter); e_iterator_is_valid (iter); e_iterator_next (iter)) {
-		if (!g_strcasecmp (e_iterator_get (iter), email))
+		if (!g_ascii_strcasecmp (e_iterator_get (iter), email))
 			goto finished;
 		++count;
 	}

@@ -27,7 +27,6 @@ INCLUDES =						\
 	-DSYSCONFDIR=\"$(sysconfdir)\"			\
 	-DDATADIR=\"$(datadir)\"			\
 	-DLIBDIR=\"$(libdir)\"				\
-        -DGNOMELOCALEDIR=\""$(localedir)"\"        	\
 	-DG_LOG_DOMAIN=\"EBook\"			\
 	-I$(top_srcdir) 				\
 	-I$(top_srcdir)/camel				\
@@ -58,7 +57,7 @@ libebook_la_SOURCES =					\
 	e-destination.c
 
 
-libebookincludedir = $(includedir)/evolution-$(BASE_VERSION)/ebook
+libebookincludedir = $(privincludedir)/ebook
 
 libebookinclude_HEADERS =				\
 	e-book-listener.h				\
@@ -184,11 +183,10 @@ CLEANFILES    = $(BUILT_SOURCES)
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)
 
-serversdir = $(libdir)/bonobo/servers
 server_in_files = GNOME_Evolution_Addressbook_VCard_Importer.server.in \
 		  GNOME_Evolution_Addressbook_LDIF_Importer.server.in
-servers_DATA = $(server_in_files:.server.in=.server)
+server_DATA = $(server_in_files:.server.in=.server)
 
 @INTLTOOL_SERVER_RULE@
 
-EXTRA_DIST = $(server_in_files) $(servers_DATA) e-book-marshal.list
+EXTRA_DIST = $(server_in_files) $(server_DATA) e-book-marshal.list

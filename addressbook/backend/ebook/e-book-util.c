@@ -27,6 +27,7 @@
 #include <config.h>
 #include "e-book-util.h"
 
+#include <string.h>
 #include <glib.h>
 #include <glib-object.h>
 #include <e-util/e-config-listener.h>

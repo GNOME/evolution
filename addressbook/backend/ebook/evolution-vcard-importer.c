@@ -8,6 +8,7 @@
 #include <bonobo/bonobo-main.h>
 
 #include <e-book.h>
+#include <e-book-util.h>
 
 #include <importer/evolution-importer.h>
 #include <importer/GNOME_Evolution_Importer.h>
@@ -45,8 +46,10 @@ book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 static void
 ebook_create (VCardImporter *gci)
 {
+#if 0
 	gchar *path, *uri;
 	gchar *epath;
+#endif
 	
 	gci->book = e_book_new ();
 
@@ -224,9 +227,10 @@ factory_fn (BonoboGenericFactory *_factory,
 	
 		g_object_weak_ref (G_OBJECT (importer),
 				   importer_destroy_cb, gci);
+		return BONOBO_OBJECT (importer);
 	}
 	else {
-		g_warning (COMPONENT_FACTORY_IID, ": Don't know what to do with %s", component_id);
+		g_warning (COMPONENT_FACTORY_IID ": Don't know what to do with %s", component_id);
 		return NULL;
 	}
 }

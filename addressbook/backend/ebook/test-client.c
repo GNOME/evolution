@@ -4,6 +4,8 @@
 #include <bonobo/bonobo-i18n.h>
 #include <bonobo/bonobo-main.h>
 #include <libgnome/gnome-init.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include "e-book.h"
 #include "e-book-util.h"

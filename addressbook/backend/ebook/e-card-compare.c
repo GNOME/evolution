@@ -26,6 +26,7 @@
 
 #include <config.h>
 #include <ctype.h>
+#include <string.h>
 #include "e-book-util.h"
 #include "e-card-compare.h"
 

@@ -404,8 +404,10 @@ e_destination_equal (const EDestination *a, const EDestination *b)
 	if ((na || nb) && !(na && nb && ! e_utf8_casefold_collate (na, nb)))
 		return FALSE;
 	
-	if (!g_strcasecmp (e_destination_get_email (a), e_destination_get_email (b)))
+	if (!g_ascii_strcasecmp (e_destination_get_email (a), e_destination_get_email (b)))
 		return TRUE;
+	else
+		return FALSE;
 }
 
 void
