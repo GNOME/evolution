@@ -1342,7 +1342,9 @@ obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 #endif
 		/* The dates have changed, so we need to remove the
 		   old occurrrences before adding the new ones. */
+#if 0
 		g_print ("dates changed - removing occurrences\n");
+#endif
 		e_day_view_foreach_event_with_uid (day_view, uid,
 						   e_day_view_remove_event_cb,
 						   NULL);
@@ -3586,6 +3588,13 @@ e_day_view_add_event (CalComponent *comp,
 
 	day_view = E_DAY_VIEW (data);
 
+#if 0
+	g_print ("Day view lower: %s", ctime (&day_view->lower));
+	g_print ("Day view upper: %s", ctime (&day_view->upper));
+	g_print ("Event start: %s", ctime (&start));
+	g_print ("Event end  : %s\n", ctime (&end));
+#endif
+
 	/* Check that the event times are valid. */
 	g_return_val_if_fail (start <= end, TRUE);
 	g_return_val_if_fail (start < day_view->upper, TRUE);
@@ -3841,15 +3850,12 @@ e_day_view_reshape_long_event (EDayView *day_view,
 		use_max_width = TRUE;
 	}
 
-#if 0
 	if (show_icons) {
-		if (ico->dalarm.enabled || ico->malarm.enabled
-		    || ico->palarm.enabled || ico->aalarm.enabled)
+		if (cal_component_has_alarms (comp))
 			num_icons++;
-		if (ico->recur)
+		if (cal_component_has_recurrences (comp))
 			num_icons++;
 	}
-#endif
 
 	if (!event->canvas_item) {
 		event->canvas_item =
@@ -4192,11 +4198,8 @@ e_day_view_reshape_day_event (EDayView *day_view,
 		if (day_view->resize_drag_pos == E_DAY_VIEW_POS_NONE
 		    || day_view->resize_event_day != day
 		    || day_view->resize_event_num != event_num) {
-#if 0
-			if (ico->dalarm.enabled || ico->malarm.enabled
-			    || ico->palarm.enabled || ico->aalarm.enabled)
+			if (cal_component_has_alarms (comp))
 				num_icons++;
-#endif
 			if (cal_component_has_recurrences (comp))
 				num_icons++;
 		}

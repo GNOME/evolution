@@ -1,3 +1,33 @@
+2000-10-20  Damon Chaplin  <damon@helixcode.com>
+
+	* gui/e-calendar-table.c (E_CALENDAR_TABLE_SPEC): added
+	_click-to-add-message, though I'm not sure if i18n will work.
+
+	* cal-util/cal-recur.c (cal_obj_time_add_hours): 
+	(cal_obj_time_add_minutes): 
+	(cal_obj_time_add_seconds): updated to handle -ve args.
+
+	* cal-util/timeutil.c (time_add_day): set tm_isdst to -1 before calling
+	mktime().
+
+	* cal-util/cal-recur.c (generate_instances_for_chunk): don't call the
+	callback if the event ends exactly on the interval start time.
+
+	* gui/e-week-view.c (e_week_view_reshape_event_span): 
+	* gui/e-week-view-event-item.c (e_week_view_event_item_draw_icons): 
+	* gui/e-day-view-top-item.c (e_day_view_top_item_draw_long_event): 
+	* gui/e-day-view-main-item.c (e_day_view_main_item_draw_day_event): 
+	* gui/e-day-view.c (e_day_view_reshape_long_event): 
+	(e_day_view_reshape_day_event): use cal_component_has_alarms().
+
+	* cal-util/cal-component.[hc]: added cal_component_has_alarms().
+
+2000-10-16  Damon Chaplin  <damon@helixcode.com>
+
+	* gui/calendar-config.c (config_read): set default MonthVPanePosition
+	to 1 rather than 0, so if you move the hpane you'll see the date
+	navigator.
+
 2000-10-19  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* gui/Makefile.am (evolution_calendar_SOURCES): Add

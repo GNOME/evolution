@@ -3228,6 +3228,31 @@ cal_component_free_text_list (GSList *text_list)
 
 
 
+/**
+ * cal_component_has_alarms:
+ * @comp: A calendar component object.
+ *
+ * Checks whether the component has any alarms.
+ *
+ * Return value: TRUE if the component has any alarms.
+ **/
+gboolean
+cal_component_has_alarms (CalComponent *comp)
+{
+	CalComponentPrivate *priv;
+	icalcomponent *subcomp;
+
+	g_return_val_if_fail (comp != NULL, FALSE);
+	g_return_val_if_fail (IS_CAL_COMPONENT (comp), FALSE);
+
+	priv = comp->priv;
+	g_return_val_if_fail (priv->icalcomp != NULL, FALSE);
+
+	subcomp = icalcomponent_get_first_component (priv->icalcomp, ICAL_VALARM_COMPONENT);
+
+	return subcomp != NULL ? TRUE : FALSE;
+}
+
 /* Scans an icalproperty from a calendar component and adds its mapping to our
  * own alarm structure.
  */

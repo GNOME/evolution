@@ -136,6 +136,7 @@ time_add_day (time_t time, int days)
 #endif
 
 	tm->tm_mday += days;
+	tm->tm_isdst = -1;
 
 	if ((new_time = mktime (tm)) == -1){
 		g_message ("time_add_day(): mktime() could not handling adding %d days with\n",
