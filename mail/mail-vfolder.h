@@ -10,6 +10,7 @@
 #include "filter/filter-part.h"
 
 void vfolder_load_storage(void);
+void vfolder_revert(void);
 
 void vfolder_edit (void);
 void vfolder_edit_rule(const char *name);

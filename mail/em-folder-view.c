@@ -113,8 +113,6 @@ static const EMFolderViewEnable emfv_enable_map[];
 struct _EMFolderViewPrivate {
 	guint seen_id;
 	guint setting_notify_id;
-
-	char *displayed_uid;	/* only used to stop re-loads, don't use it to represent any selection state */
 	
 	CamelObjectHookID folder_changed_id, message_changed_id;
 
@@ -400,6 +398,8 @@ static void
 emfv_set_message(EMFolderView *emfv, const char *uid)
 {
 	message_list_select_uid(emfv->list, uid);
+	/* force an update, since we may not get an updated event if we select the same uid */
+	emfv_list_message_selected(emfv->list, uid, emfv);
 }
 
 /* ********************************************************************** */
@@ -1734,14 +1734,14 @@ emfv_list_message_selected(MessageList *ml, const char *uid, EMFolderView *emfv)
 
 	if (emfv->preview_active) {
 		if (uid) {
-			if (emfv->priv->displayed_uid == NULL || strcmp(emfv->priv->displayed_uid, uid) != 0) {
-				g_free(emfv->priv->displayed_uid);
-				emfv->priv->displayed_uid = g_strdup(uid);
+			if (emfv->displayed_uid == NULL || strcmp(emfv->displayed_uid, uid) != 0) {
+				g_free(emfv->displayed_uid);
+				emfv->displayed_uid = g_strdup(uid);
 				mail_get_message(emfv->folder, uid, emfv_list_done_message_selected, emfv, mail_thread_new);
 			}
 		} else {
-			g_free(emfv->priv->displayed_uid);
-			emfv->priv->displayed_uid = NULL;
+			g_free(emfv->displayed_uid);
+			emfv->displayed_uid = NULL;
 			em_format_format((EMFormat *)emfv->preview, NULL, NULL, NULL);
 		}
 	}

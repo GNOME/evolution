@@ -64,6 +64,8 @@ struct _EMFolderView {
 	struct _CamelFolder *folder;
 	char *folder_uri;
 
+	char *displayed_uid;	/* only used to stop re-loads, don't use it to represent any selection state */
+
 	/* used to load ui from base activate implementation */
 	GSList *ui_files;	/* const char * list, TODO: should this be on class? */
 	const char *ui_app_name;

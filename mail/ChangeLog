@@ -1,5 +1,26 @@
 2004-01-20  Not Zed  <NotZed@Ximian.com>
 
+	* em-folder-view.c (EMFolderView): Make displayed_uid public.
+
+	* em-folder-browser.c (em_folder_browser_show_preview): use
+	em_folder_view_set_message rather than message_list_select_uid.
+	When clearing, clear view->displayed_uid too.
+
+2004-01-20  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #52965.
+
+	* mail-component.c (mail_component_init): removed an epfixme, it
+	already is an object.
+	(impl_upgradeFromVersion): call mail_note_store after running the
+	upgrade for local folders.
+
+	* em-migrate.c (em_migrate): revert the vfolders.xml after we've
+	imported them.
+
+	* mail-vfolder.c (vfolder_revert): new api to re-load the vfolders
+	file.
+
 	** See bug #52885.
 
 	* em-folder-browser.c (emfb_create_view_menus): unref the view

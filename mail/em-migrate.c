@@ -54,6 +54,7 @@
 
 #include "mail-component.h" /* for em_uri_from_camel() */
 #include "em-migrate.h"
+#include "mail-vfolder.h"
 
 #define d(x) x
 
@@ -1990,6 +1991,7 @@ em_migrate (const char *evolution_dir, int major, int minor, int revision, Camel
 		if (vfolders) {
 			emm_save_xml (vfolders, path, "vfolders.xml");
 			xmlFreeDoc (vfolders);
+			vfolder_revert();
 		}
 		
 		g_free (path);

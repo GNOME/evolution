@@ -481,17 +481,21 @@ impl_upgradeFromVersion (PortableServer_Servant servant, short major, short mino
 {
 	MailComponent *component;
 	CamelException ex;
-	
+	int ok;
+
 	component = mail_component_peek ();
 	
 	camel_exception_init (&ex);
-	if (em_migrate (component->priv->base_directory, major, minor, revision, &ex) == -1) {
-		/* FIXME: report errors? */
-		camel_exception_clear (&ex);
-		return FALSE;
-	}
-	
-	return TRUE;
+	ok = em_migrate (component->priv->base_directory, major, minor, revision, &ex) != -1;
+
+	/* FIXME: report errors? */
+	camel_exception_clear (&ex);
+
+	/* This is a hack so that after importing new folders, they properly hook into vfolders, etc.
+	   Perhaps the CamelLocalStore class should emit folder_created events for folders when opened */
+	mail_note_store(component->priv->local_store, NULL, NULL, NULL);
+
+	return ok;
 }
 
 /* Initialization.  */
@@ -532,7 +536,6 @@ mail_component_init (MailComponent *component)
 	
 	priv->activity_handler = e_activity_handler_new ();
 	
-	/* EPFIXME: Turn into an object?  */
 	mail_session_init (priv->base_directory);
 	
 	priv->async_event = mail_async_event_new();

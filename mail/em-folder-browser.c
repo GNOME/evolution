@@ -115,6 +115,8 @@ static void emfb_search_query_changed(ESearchBar *esb, EMFolderBrowser *emfb);
 static int emfb_list_key_press(ETree *tree, int row, ETreePath path, int col, GdkEvent *ev, EMFolderBrowser *emfb);
 static void emfb_list_message_selected (MessageList *ml, const char *uid, EMFolderBrowser *emfb);
 
+static void emfb_create_view_menus(EMFolderBrowser *emfb, BonoboUIComponent *uic);
+
 static const EMFolderViewEnable emfb_enable_map[];
 
 enum {
@@ -298,13 +300,17 @@ void em_folder_browser_show_preview(EMFolderBrowser *emfb, gboolean state)
 		gtk_widget_show (GTK_WIDGET (emfb->priv->preview));
 
 		if (emfb->view.list->cursor_uid)
-			message_list_select_uid(emfb->view.list, emfb->view.list->cursor_uid);
+			em_folder_view_set_message(&emfb->view, emfb->view.list->cursor_uid);
 
 		/* need to load/show the current message? */
 		/*do_message_selected (emfb);*/
 		/*set_cursor_pos (emfb, y);*/
 	} else {
 		em_format_format((EMFormat *)emfb->view.preview, NULL, NULL, NULL);
+
+		g_free(emfb->view.displayed_uid);
+		emfb->view.displayed_uid = NULL;
+
 		gtk_widget_hide(emfb->priv->preview);
 		/*
 		mail_display_set_message (emfb->mail_display, NULL, NULL, NULL);

@@ -850,6 +850,17 @@ vfolder_load_storage(void)
 	g_free(storeuri);
 }
 
+void
+vfolder_revert(void)
+{
+	char *user;
+
+	d(printf("vfolder_revert\n"));
+	user = g_strdup_printf("%s/mail/vfolders.xml", mail_component_peek_base_directory (mail_component_peek ()));
+	rule_context_revert((RuleContext *)context, user);
+	g_free(user);
+}
+
 static GtkWidget *vfolder_editor = NULL;
 
 static void
