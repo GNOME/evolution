@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-01-06 14:30+0100\n"
-"PO-Revision-Date: 2004-01-06 16:58+0100\n"
+"POT-Creation-Date: 2004-01-07 03:23+0100\n"
+"PO-Revision-Date: 2004-01-07 19:35+0100\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -89,18 +89,18 @@ msgstr "Ovládací prvek nastavení složky Evolution"
 msgid "Manager your S/Mime certificates here"
 msgstr "Zde spravujte vaše certifikáty S/Mime"
 
-#: addressbook/gui/component/addressbook-component.c:211
+#: addressbook/gui/component/addressbook-component.c:217
 #: addressbook/gui/component/ldap-config.glade.h:28
 msgid "New Addressbook"
 msgstr "Nový adresář"
 
-#: addressbook/gui/component/addressbook-component.c:212
+#: addressbook/gui/component/addressbook-component.c:218
 msgid "Properties..."
 msgstr "Vlastnosti..."
 
-#: addressbook/gui/component/addressbook-component.c:213
+#: addressbook/gui/component/addressbook-component.c:219
 #: addressbook/gui/widgets/e-addressbook-view.c:1017
-#: calendar/gui/calendar-component.c:424 calendar/gui/tasks-component.c:418
+#: calendar/gui/calendar-component.c:423 calendar/gui/tasks-component.c:418
 #: filter/libfilter-i18n.h:10 mail/em-account-prefs.c:236
 #: ui/evolution-addressbook.xml.h:8 ui/evolution-comp-editor.xml.h:4
 #: ui/evolution-contact-editor.xml.h:3
@@ -108,61 +108,34 @@ msgstr "Vlastnosti..."
 msgid "Delete"
 msgstr "Odstranit"
 
-#: addressbook/gui/component/addressbook-component.c:214
-#: calendar/gui/calendar-component.c:423 calendar/gui/tasks-component.c:416
+#: addressbook/gui/component/addressbook-component.c:220
+#: calendar/gui/calendar-component.c:422 calendar/gui/tasks-component.c:416
 msgid "Rename"
 msgstr "Přejmenovat"
 
-#: addressbook/gui/component/addressbook-component.c:285
+#: addressbook/gui/component/addressbook-component.c:291
 msgid "New Contact"
 msgstr "Nový kontakt"
 
-#: addressbook/gui/component/addressbook-component.c:286
+#: addressbook/gui/component/addressbook-component.c:292
 msgid "_Contact"
 msgstr "_Kontakt"
 
-#: addressbook/gui/component/addressbook-component.c:287
+#: addressbook/gui/component/addressbook-component.c:293
 msgid "Create a new contact"
 msgstr "Vytvořit nový kontakt"
 
-#: addressbook/gui/component/addressbook-component.c:292
+#: addressbook/gui/component/addressbook-component.c:298
 msgid "New Contact List"
 msgstr "Nový seznam kontaktů"
 
-#: addressbook/gui/component/addressbook-component.c:293
+#: addressbook/gui/component/addressbook-component.c:299
 msgid "Contact _List"
 msgstr "_Seznam kontaktů"
 
-#: addressbook/gui/component/addressbook-component.c:294
+#: addressbook/gui/component/addressbook-component.c:300
 msgid "Create a new contact list"
 msgstr "Vytvořit nový seznam kontaktů"
-
-#: addressbook/gui/component/addressbook-component.c:443
-#: calendar/gui/calendar-component.c:819 calendar/gui/tasks-component.c:772
-msgid "On This Computer"
-msgstr "V tomto počítači"
-
-#. orange
-#: addressbook/gui/component/addressbook-component.c:453
-#: calendar/gui/calendar-component.c:827 calendar/gui/migration.c:123
-#: calendar/gui/migration.c:146 calendar/gui/tasks-component.c:780
-#: filter/filter-label.c:123 mail/mail-config.c:65 mail/mail-config.glade.h:88
-#: shell/e-config-upgrade.c:1456
-msgid "Personal"
-msgstr "Osobní"
-
-#. red
-#: addressbook/gui/component/addressbook-component.c:460
-#: calendar/gui/calendar-component.c:834 filter/filter-label.c:122
-#: mail/mail-config.c:64 mail/mail-config.glade.h:135
-#: shell/e-config-upgrade.c:1455
-msgid "Work"
-msgstr "Pracovní"
-
-#. Create the LDAP source group
-#: addressbook/gui/component/addressbook-component.c:468
-msgid "On LDAP Servers"
-msgstr "Na serverech LDAP"
 
 # Ouch
 #. FIXME: parent
@@ -239,26 +212,35 @@ msgstr "Tento dotaz nebyl úspěšně dokončen."
 msgid ""
 "We were unable to open this addressbook.  Please check that the path exists "
 "and that you have permission to access it."
-msgstr "Nemohu otevřít tento adresář. Ověřte prosím, že cesta existuje a že máte oprávnění k němu přistupovat."
+msgstr ""
+"Nemohu otevřít tento adresář. Ověřte prosím, že cesta existuje a že máte "
+"oprávnění k němu přistupovat."
 
 #: addressbook/gui/component/addressbook.c:599
 msgid ""
 "We were unable to open this addressbook.  This either means you have entered "
 "an incorrect URI, or the LDAP server is unreachable."
-msgstr "Nemohu otevřít tento adresář. To znamená, že jste buď zadali nesprávné URI nebo že server LDAP není dostupný."
+msgstr ""
+"Nemohu otevřít tento adresář. To znamená, že jste buď zadali nesprávné URI "
+"nebo že server LDAP není dostupný."
 
 #: addressbook/gui/component/addressbook.c:604
 msgid ""
 "This version of Evolution does not have LDAP support compiled in to it.  If "
 "you want to use LDAP in Evolution you must compile the program from the CVS "
 "sources after retrieving OpenLDAP from the link below."
-msgstr "Tato verze Evolution v sobě nemá zakompilovanou podporu LDAP. Pokud chcete LDAP v Evolution používat, musíte program překompilovat z CVS po získání OpenLDAP z níže uvedeného odkazu."
+msgstr ""
+"Tato verze Evolution v sobě nemá zakompilovanou podporu LDAP. Pokud chcete "
+"LDAP v Evolution používat, musíte program překompilovat z CVS po získání "
+"OpenLDAP z níže uvedeného odkazu."
 
 #: addressbook/gui/component/addressbook.c:613
 msgid ""
 "We were unable to open this addressbook.  This either means you have entered "
 "an incorrect URI, or the server is unreachable."
-msgstr "Nemohu otevřít tento adresář. To znamená, že jste buď zadali nesprávné URI nebo že server LDAP není dostupný."
+msgstr ""
+"Nemohu otevřít tento adresář. To znamená, že jste buď zadali nesprávné URI "
+"nebo že server LDAP není dostupný."
 
 #: addressbook/gui/component/addressbook.c:630
 msgid "Unable to open addressbook"
@@ -737,35 +719,35 @@ msgstr "vyhledávací přehled"
 msgid "Evolution Addressbook name selection interface"
 msgstr "Rozhraní pro výběr jména adresáře Evolution"
 
-#: addressbook/gui/component/select-names/e-select-names-popup.c:205
+#: addressbook/gui/component/select-names/e-select-names-popup.c:207
 msgid "Remove All"
 msgstr "Odstranit vše"
 
-#: addressbook/gui/component/select-names/e-select-names-popup.c:212
+#: addressbook/gui/component/select-names/e-select-names-popup.c:214
 #: addressbook/gui/component/select-names/e-select-names.c:694
 #: composer/e-msg-composer-attachment-bar.c:444
 msgid "Remove"
 msgstr "Odstranit"
 
-#: addressbook/gui/component/select-names/e-select-names-popup.c:219
+#: addressbook/gui/component/select-names/e-select-names-popup.c:221
 msgid "View Contact List"
 msgstr "Zobrazit seznam kontaktů"
 
-#: addressbook/gui/component/select-names/e-select-names-popup.c:219
+#: addressbook/gui/component/select-names/e-select-names-popup.c:221
 msgid "View Contact Info"
 msgstr "Zobrazit kontaktní info"
 
-#: addressbook/gui/component/select-names/e-select-names-popup.c:226
-#: addressbook/gui/component/select-names/e-select-names-popup.c:336
+#: addressbook/gui/component/select-names/e-select-names-popup.c:228
+#: addressbook/gui/component/select-names/e-select-names-popup.c:338
 msgid "Send HTML Mail?"
 msgstr "Poslat poštu v HTML?"
 
-#: addressbook/gui/component/select-names/e-select-names-popup.c:328
+#: addressbook/gui/component/select-names/e-select-names-popup.c:330
 #: addressbook/gui/widgets/eab-popup-control.c:1002
 msgid "Add to Contacts"
 msgstr "Přidat ke kontaktům"
 
-#: addressbook/gui/component/select-names/e-select-names-popup.c:354
+#: addressbook/gui/component/select-names/e-select-names-popup.c:356
 msgid "Unnamed Contact"
 msgstr "Nepojmenovaný kontakt"
 
@@ -1193,9 +1175,12 @@ msgid "Comoros"
 msgstr "Komorské ostrovy"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:185
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:186
 msgid "Congo"
 msgstr "Kongo"
+
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:186
+msgid "Congo, The Democratic Republic Of The"
+msgstr "Demokratická republika Kongo"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:187
 msgid "Cook Islands"
@@ -1242,116 +1227,116 @@ msgid "Dominican Republic"
 msgstr "Dominikánská republika"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:198
-msgid "East Timor"
-msgstr "Východní Timor"
-
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:199
 msgid "Ecuador"
 msgstr "Ekvádor"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:200
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:199
 msgid "Egypt"
 msgstr "Egypt"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:201
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:200
 msgid "El Salvador"
 msgstr "Salvador"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:202
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:201
 msgid "Equatorial Guinea"
 msgstr "Rovníková Guinea"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:203
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:202
 msgid "Eritrea"
 msgstr "Eritrea"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:204
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:203
 msgid "Estonia"
 msgstr "Estonsko"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:205
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:204
 msgid "Ethiopia"
 msgstr "Etiopie"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:206
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:205
 msgid "Falkland Islands"
 msgstr "Falklandské Ostrovy"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:207
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:206
 msgid "Faroe Islands"
 msgstr "Faerské ostrovy"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:208
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:207
 msgid "Fiji"
 msgstr "Fidži"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:209
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:208
 msgid "Finland"
 msgstr "Finsko"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:210
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:209
 msgid "France"
 msgstr "Francie"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:211
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:210
 msgid "French Guiana"
 msgstr "Francouzská Guyana"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:212
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:211
 msgid "French Polynesia"
 msgstr "Francouzská Polynésie"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:213
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:212
 msgid "French Southern Territories"
 msgstr "Francouzská jižní teritoria"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:214
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:213
 msgid "Gabon"
 msgstr "Gabon"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:215
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:214
 msgid "Gambia"
 msgstr "Gambie"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:216
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:215
 msgid "Georgia"
 msgstr "Gruzie"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:217
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:216
 msgid "Germany"
 msgstr "Německo"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:218
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:217
 msgid "Ghana"
 msgstr "Ghana"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:219
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:218
 msgid "Gibraltar"
 msgstr "Gibraltar"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:220
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:219
 msgid "Greece"
 msgstr "Řecko"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:221
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:220
 msgid "Greenland"
 msgstr "Grónsko"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:222
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:221
 msgid "Grenada"
 msgstr "Grenada"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:223
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:222
 msgid "Guadeloupe"
 msgstr "Guadeloupe"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:224
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:223
 msgid "Guam"
 msgstr "Guam"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:225
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:224
 msgid "Guatemala"
 msgstr "Guatemala"
+
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:225
+msgid "Guernsey"
+msgstr "Guernsey"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:226
 msgid "Guinea"
@@ -1402,530 +1387,562 @@ msgid "Indonesia"
 msgstr "Indonésie"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:238
+msgid "Iran"
+msgstr "Írán"
+
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:239
+msgid "Iraq"
+msgstr "Irák"
+
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:240
 msgid "Ireland"
 msgstr "Irsko"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:239
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:241
+msgid "Isle of Man"
+msgstr "Ostrov Man"
+
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:242
 msgid "Israel"
 msgstr "Izrael"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:240
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:243
 msgid "Italy"
 msgstr "Itálie"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:241
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:244
 msgid "Jamaica"
 msgstr "Jamajka"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:242
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:245
 msgid "Japan"
 msgstr "Japonsko"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:243
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:246
+msgid "Jersey"
+msgstr "Jersey"
+
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:247
 msgid "Jordan"
 msgstr "Jordánsko"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:244
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:248
 msgid "Kazakhstan"
 msgstr "Kazachstán"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:245
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:249
 msgid "Kenya"
 msgstr "Keňa"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:246
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:250
 msgid "Kiribati"
 msgstr "Kiribati"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:247
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:251
+msgid "Korea, Democratic People's Republic Of"
+msgstr "Korejská lidově demokratická republika"
+
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:252
 msgid "Korea, Republic Of"
 msgstr "Korejská republika"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:248
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:253
 msgid "Kuwait"
 msgstr "Kuvajt"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:249
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:254
 msgid "Kyrgyzstan"
 msgstr "Kyrgyzstán"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:250
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:255
 msgid "Laos"
 msgstr "Laos"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:251
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:256
 msgid "Latvia"
 msgstr "Lotyšsko"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:252
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:257
 msgid "Lebanon"
 msgstr "Libanon"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:253
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:258
 msgid "Lesotho"
 msgstr "Lesotho"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:254
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:259
 msgid "Liberia"
 msgstr "Libérie"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:255
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:260
+msgid "Libya"
+msgstr "Libye"
+
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:261
 msgid "Liechtenstein"
 msgstr "Lichtenštejnsko"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:256
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:262
 msgid "Lithuania"
 msgstr "Litva"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:257
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:263
 msgid "Luxembourg"
 msgstr "Lucembursko"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:258
-msgid "Macau"
-msgstr "Macau"
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:264
+msgid "Macao"
+msgstr "Macao"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:259
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:265
 msgid "Macedonia"
 msgstr "Makedonie"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:260
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:266
 msgid "Madagascar"
 msgstr "Madagaskar"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:261
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:267
 msgid "Malawi"
 msgstr "Malawi"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:262
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:268
 msgid "Malaysia"
 msgstr "Malajsie"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:263
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:269
 msgid "Maldives"
 msgstr "Maledivy"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:264
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:270
 msgid "Mali"
 msgstr "Mali"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:265
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:271
 msgid "Malta"
 msgstr "Malta"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:266
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:272
 msgid "Marshall Islands"
 msgstr "Marshallovy ostrovy"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:267
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:273
 msgid "Martinique"
 msgstr "Martinik"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:268
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:274
 msgid "Mauritania"
 msgstr "Mauretánie"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:269
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:275
 msgid "Mauritius"
 msgstr "Mauricius"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:270
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:276
 msgid "Mayotte"
 msgstr "Mayotte"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:271
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:277
 msgid "Mexico"
 msgstr "Mexiko"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:272
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:278
 msgid "Micronesia"
 msgstr "Mikronésie"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:273
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:279
 msgid "Moldova, Republic Of"
 msgstr "Moldavská Republika"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:274
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:280
 msgid "Monaco"
 msgstr "Monako"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:275
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:281
 msgid "Mongolia"
 msgstr "Mongolsko"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:276
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:282
 msgid "Montserrat"
 msgstr "Montserrat"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:277
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:283
 msgid "Morocco"
 msgstr "Maroko"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:278
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:284
 msgid "Mozambique"
 msgstr "Mozambik"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:279
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:285
 msgid "Myanmar"
 msgstr "Myanmar"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:280
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:286
 msgid "Namibia"
 msgstr "Namibie"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:281
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:287
 msgid "Nauru"
 msgstr "Nauru"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:282
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:288
 msgid "Nepal"
 msgstr "Nepál"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:283
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:289
 msgid "Netherlands"
 msgstr "Holandsko"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:284
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:290
 msgid "Netherlands Antilles"
 msgstr "Holandské Antily"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:285
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:291
 msgid "New Caledonia"
 msgstr "Nová Kaledonie"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:286
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:292
 msgid "New Zealand"
 msgstr "Nový Zéland"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:287
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:293
 msgid "Nicaragua"
 msgstr "Nikaragua"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:288
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:294
 msgid "Niger"
 msgstr "Niger"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:289
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:295
 msgid "Nigeria"
 msgstr "Nigérie"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:290
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:296
 msgid "Niue"
 msgstr "Niue"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:291
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:297
 msgid "Norfolk Island"
 msgstr "Norfolské ostrovy"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:292
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:298
 msgid "Northern Mariana Islands"
 msgstr "Severní Mariánské ostrovy"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:293
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:299
 msgid "Norway"
 msgstr "Norsko"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:294
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:300
 msgid "Oman"
 msgstr "Omán"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:295
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:301
 msgid "Pakistan"
 msgstr "Pákistán"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:296
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:302
 msgid "Palau"
 msgstr "Palau"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:297
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:303
 msgid "Palestinian Territory"
 msgstr "Palestinské teritorium"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:298
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:304
 msgid "Panama"
 msgstr "Panama"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:299
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:305
 msgid "Papua New Guinea"
 msgstr "Papua Nová Guinea"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:300
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:306
 msgid "Paraguay"
 msgstr "Paraguay"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:301
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:307
 msgid "Peru"
 msgstr "Peru"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:302
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:308
 msgid "Philippines"
 msgstr "Filipíny"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:303
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:309
 msgid "Pitcairn"
 msgstr "Pitcairn"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:304
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:310
 msgid "Poland"
 msgstr "Polsko"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:305
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:311
 msgid "Portugal"
 msgstr "Portugalsko"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:306
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:312
 msgid "Puerto Rico"
 msgstr "Portoriko"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:307
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:313
 msgid "Qatar"
 msgstr "Katar"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:308
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:314
 msgid "Reunion"
 msgstr "Reunion"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:309
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:315
 msgid "Romania"
 msgstr "Rumunsko"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:310
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:316
 msgid "Russian Federation"
 msgstr "Ruská federace"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:311
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:317
 msgid "Rwanda"
 msgstr "Rwanda"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:312
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:318
 msgid "Saint Kitts And Nevis"
 msgstr "Svatý Kitts a Nevis"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:313
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:319
 msgid "Saint Lucia"
 msgstr "Svatá Lucie"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:314
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:320
 msgid "Saint Vincent And The Grena-dines"
 msgstr "Svatý Vincent a Grena-dines"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:315
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:321
 msgid "Samoa"
 msgstr "Samoa"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:316
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:322
 msgid "San Marino"
 msgstr "San Marino"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:317
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:323
 msgid "Sao Tome And Principe"
 msgstr "Svatý Tomáš a Princův ostrov"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:318
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:324
 msgid "Saudi Arabia"
 msgstr "Saudská Arábie"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:319
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:325
 msgid "Senegal"
 msgstr "Senegal"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:320
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:326
+msgid "Serbia And Montenegro"
+msgstr "Srbsko a Černá hora"
+
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:327
 msgid "Seychelles"
 msgstr "Seychelské ostrovy"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:321
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:328
 msgid "Sierra Leone"
 msgstr "Sierra Leone"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:322
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:329
 msgid "Singapore"
 msgstr "Singapur"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:323
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:330
 msgid "Slovakia"
 msgstr "Slovensko"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:324
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:331
 msgid "Slovenia"
 msgstr "Slovinsko"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:325
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:332
 msgid "Solomon Islands"
 msgstr "Šalamounovy ostrovy"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:326
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:333
 msgid "Somalia"
 msgstr "Somálsko"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:327
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:334
 msgid "South Africa"
 msgstr "Jižní Afrika"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:328
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:335
 msgid "South Georgia And The South Sandwich Islands"
 msgstr "Jižní Georgie a Jižní Sandwichovy ostrovy"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:329
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:336
 msgid "Spain"
 msgstr "Španělsko"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:330
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:337
 msgid "Sri Lanka"
 msgstr "Srí Lanka"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:331
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:338
 msgid "St. Helena"
 msgstr "Sv. Helena"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:332
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:339
 msgid "St. Pierre And Miquelon"
 msgstr "Sv. Pierre a Miquelon"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:333
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:340
 msgid "Sudan"
 msgstr "Súdán"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:334
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:341
 msgid "Suriname"
 msgstr "Surinam"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:335
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:342
 msgid "Svalbard And Jan Mayen Islands"
 msgstr "Ostrovy Svalbard a Jan Mayen"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:336
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:343
 msgid "Swaziland"
 msgstr "Svazijsko"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:337
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:344
 msgid "Sweden"
 msgstr "Švédsko"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:338
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:345
 msgid "Switzerland"
 msgstr "Švýcarsko"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:339
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:346
+msgid "Syria"
+msgstr "Sýrie"
+
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:347
 msgid "Taiwan"
 msgstr "Tchaj-wan"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:340
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:348
 msgid "Tajikistan"
 msgstr "Tadžikistán"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:341
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:349
 msgid "Tanzania, United Republic Of"
 msgstr "Spojená republika Tanzanie"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:342
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:350
 msgid "Thailand"
 msgstr "Thajsko"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:343
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:351
+msgid "Timor-Leste"
+msgstr "Timor-Leste"
+
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:352
 msgid "Togo"
 msgstr "Togo"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:344
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:353
 msgid "Tokelau"
 msgstr "Tokelau"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:345
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:354
 msgid "Tonga"
 msgstr "Tonga"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:346
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:355
 msgid "Trinidad And Tobago"
 msgstr "Trinidad a Tobago"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:347
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:356
 msgid "Tunisia"
 msgstr "Tunis"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:348
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:357
 msgid "Turkey"
 msgstr "Turecko"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:349
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:358
 msgid "Turkmenistan"
 msgstr "Turkmenistán"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:350
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:359
 msgid "Turks And Caicos Islands"
 msgstr "Ostrovy Turks a Caicos"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:351
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:360
 msgid "Tuvalu"
 msgstr "Tuvalu"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:352
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:361
 msgid "Uganda"
 msgstr "Uganda"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:353
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:362
 msgid "Ukraine"
 msgstr "Ukrajina"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:354
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:363
 msgid "United Arab Emirates"
 msgstr "Spojené arabské emiráty"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:355
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:364
 msgid "United Kingdom"
 msgstr "Spojené království"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:356
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:365
 msgid "United States Minor Outlying Islands"
 msgstr "Spojené státy menších vzdálených ostrovů"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:357
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:366
 msgid "Uruguay"
 msgstr "Uruguay"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:358
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:367
 msgid "Uzbekistan"
 msgstr "Uzbekistán"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:359
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:368
 msgid "Vanuatu"
 msgstr "Vanuatu"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:360
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:369
 msgid "Venezuela"
 msgstr "Venezuela"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:361
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:370
 msgid "Viet Nam"
 msgstr "Vietnam"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:362
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:371
 msgid "Virgin Islands, British"
 msgstr "Britské panenské ostrovy"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:363
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:372
 msgid "Virgin Islands, U.S."
 msgstr "U.S. panenské ostrovy"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:364
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:373
 msgid "Wallis And Futuna Islands"
 msgstr "Ostrovy Wallis a Futuna"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:365
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:374
 msgid "Western Sahara"
 msgstr "Západní Sahara"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:366
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:375
 msgid "Yemen"
 msgstr "Jemen"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:367
-msgid "Yugoslavia"
-msgstr "Jugoslávie"
-
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:368
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:376
 msgid "Zambia"
 msgstr "Zambie"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:369
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:377
 msgid "Zimbabwe"
 msgstr "Zimbabwe"
 
@@ -2343,7 +2360,7 @@ msgstr "Vyjmout"
 
 #. create the dialog
 #: addressbook/gui/widgets/e-addressbook-view.c:1015
-#: calendar/gui/calendar-component.c:421
+#: calendar/gui/calendar-component.c:420
 #: calendar/gui/dialogs/copy-source-dialog.c:136
 #: calendar/gui/tasks-component.c:414 ui/evolution-addressbook.xml.h:2
 #: ui/evolution-mail-message.xml.h:9 ui/evolution-tasks.xml.h:2
@@ -3556,80 +3573,99 @@ msgstr "%d %B %Y"
 msgid "%d %B"
 msgstr "%d %B"
 
-#: calendar/gui/calendar-component.c:357
+#: calendar/gui/calendar-component.c:356
 #, c-format
 msgid "Calendar '%s' will be removed. Are you sure you want to continue?"
 msgstr "Kalendář '%s' bude odstraněn. Jste si jisti, že chcete pokračovat?"
 
-#: calendar/gui/calendar-component.c:398
+#: calendar/gui/calendar-component.c:397
 msgid "Rename this calendar to"
 msgstr "Přejmenovat tento kalendář na"
 
-#: calendar/gui/calendar-component.c:419
+#: calendar/gui/calendar-component.c:418
 msgid "New Calendar"
 msgstr "Nový kalendář"
 
-#: calendar/gui/calendar-component.c:603
+#: calendar/gui/calendar-component.c:533 calendar/gui/tasks-component.c:519
+msgid "On This Computer"
+msgstr "V tomto počítači"
+
+#. orange
+#: calendar/gui/calendar-component.c:541 calendar/gui/migration.c:123
+#: calendar/gui/migration.c:146 calendar/gui/tasks-component.c:527
+#: filter/filter-label.c:123 mail/mail-config.c:65 mail/mail-config.glade.h:88
+#: shell/e-config-upgrade.c:1456
+msgid "Personal"
+msgstr "Osobní"
+
+#. red
+#: calendar/gui/calendar-component.c:548 filter/filter-label.c:122
+#: mail/mail-config.c:64 mail/mail-config.glade.h:135
+#: shell/e-config-upgrade.c:1455
+msgid "Work"
+msgstr "Pracovní"
+
+#. create the remote source group
+#: calendar/gui/calendar-component.c:555
+msgid "On The Web"
+msgstr "Na WWW"
+
+#: calendar/gui/calendar-component.c:655
 msgid "New appointment"
 msgstr "Nová událost"
 
-#: calendar/gui/calendar-component.c:604
+#: calendar/gui/calendar-component.c:656
 msgid "_Appointment"
 msgstr "_Událost"
 
-#: calendar/gui/calendar-component.c:605
+#: calendar/gui/calendar-component.c:657
 msgid "Create a new appointment"
 msgstr "Vytvořit novou událost"
 
-#: calendar/gui/calendar-component.c:610
+#: calendar/gui/calendar-component.c:662
 msgid "New meeting"
 msgstr "Nová schůzka"
 
-#: calendar/gui/calendar-component.c:611
+#: calendar/gui/calendar-component.c:663
 msgid "M_eeting"
 msgstr "_Schůzka"
 
-#: calendar/gui/calendar-component.c:612
+#: calendar/gui/calendar-component.c:664
 msgid "Create a new meeting request"
 msgstr "Vytvořit požadavek na novou schůzku"
 
-#: calendar/gui/calendar-component.c:617
+#: calendar/gui/calendar-component.c:669
 msgid "New all day appointment"
 msgstr "Nová celodenní událost"
 
-#: calendar/gui/calendar-component.c:618
+#: calendar/gui/calendar-component.c:670
 msgid "All _Day Appointment"
 msgstr "_Celodenní událost"
 
-#: calendar/gui/calendar-component.c:619
+#: calendar/gui/calendar-component.c:671
 msgid "Create a new all-day appointment"
 msgstr "Vytvořit novou celodenní událost"
 
-#: calendar/gui/calendar-component.c:624
+#: calendar/gui/calendar-component.c:676
 msgid "New calendar"
 msgstr "Nový kalendář"
 
-#: calendar/gui/calendar-component.c:625
+#: calendar/gui/calendar-component.c:677
 msgid "C_alendar"
 msgstr "_Kalendář"
 
-#: calendar/gui/calendar-component.c:626
+#: calendar/gui/calendar-component.c:678
 msgid "Create a new calendar"
 msgstr "Vytvořit nový kalendář"
 
-#: calendar/gui/calendar-component.c:693
+#: calendar/gui/calendar-component.c:745
 #, c-format
 msgid "Unable to open the calendar '%s' for creating events and meetings"
 msgstr "Nemohu otevřít kalendář '%s' pro tvorbu událostí a schůzek"
 
-#: calendar/gui/calendar-component.c:706
+#: calendar/gui/calendar-component.c:758
 msgid "There is no calendar available for creating events and meetings"
 msgstr "Není k dispozici kalendář pro tvorbu událostí a schůzek"
-
-#. create the remote source group
-#: calendar/gui/calendar-component.c:843
-msgid "On The Web"
-msgstr "Na WWW"
 
 #: calendar/gui/calendar-offline-handler.c:192
 #, c-format
@@ -4166,54 +4202,53 @@ msgstr " (Termín dokončení "
 msgid "Due "
 msgstr "Termín dokončení "
 
-#: calendar/gui/dialogs/comp-editor.c:348
+#: calendar/gui/dialogs/comp-editor.c:402
 msgid "Could not update object"
 msgstr "Nemohu aktualizovat objekt"
 
-#: calendar/gui/dialogs/comp-editor.c:818
-#: calendar/gui/dialogs/comp-editor.c:855
+#: calendar/gui/dialogs/comp-editor.c:870
+#: calendar/gui/dialogs/comp-editor.c:907
 msgid "Edit Appointment"
 msgstr "Upravit událost"
 
-#: calendar/gui/dialogs/comp-editor.c:823
-#: calendar/gui/dialogs/comp-editor.c:860
+#: calendar/gui/dialogs/comp-editor.c:875
+#: calendar/gui/dialogs/comp-editor.c:912
 #, c-format
 msgid "Appointment - %s"
 msgstr "Událost - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:826
-#: calendar/gui/dialogs/comp-editor.c:863
+#: calendar/gui/dialogs/comp-editor.c:878
+#: calendar/gui/dialogs/comp-editor.c:915
 #, c-format
 msgid "Task - %s"
 msgstr "Úkol - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:829
-#: calendar/gui/dialogs/comp-editor.c:866
+#: calendar/gui/dialogs/comp-editor.c:881
+#: calendar/gui/dialogs/comp-editor.c:918
 #, c-format
 msgid "Journal entry - %s"
 msgstr "Zápis v deníku - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:840
-#: calendar/gui/dialogs/comp-editor.c:876
+#: calendar/gui/dialogs/comp-editor.c:892
+#: calendar/gui/dialogs/comp-editor.c:928
 msgid "No summary"
 msgstr "Není shrnutí"
 
-#: calendar/gui/dialogs/comp-editor.c:1313 calendar/gui/e-cal-view.c:992
+#: calendar/gui/dialogs/comp-editor.c:1353 calendar/gui/e-cal-view.c:992
 #: calendar/gui/e-calendar-table.c:1185 composer/e-msg-composer.c:1138
 msgid "Save as..."
 msgstr "Uložit jako..."
 
-#: calendar/gui/dialogs/comp-editor.c:1416
-#: calendar/gui/dialogs/comp-editor.c:1440
-#: calendar/gui/dialogs/comp-editor.c:1466
+#: calendar/gui/dialogs/comp-editor.c:1456
+#: calendar/gui/dialogs/comp-editor.c:1480
+#: calendar/gui/dialogs/comp-editor.c:1506
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr ""
 "Změny provedené v této položce mohou být ztraceny, pokud dorazí aktualizace"
 
-#: calendar/gui/dialogs/comp-editor.c:1506
-#: calendar/gui/dialogs/comp-editor.c:1515
-msgid "Unable to obtain current version!"
-msgstr "Nemohu získat aktuální verzi!"
+#: calendar/gui/dialogs/comp-editor.c:1545
+msgid "Unable to use current version!"
+msgstr "Nemohu používat aktuální verzi!"
 
 #: calendar/gui/dialogs/copy-source-dialog.c:142
 msgid "Select destination source"
@@ -6118,7 +6153,7 @@ msgstr ""
 "%s\n"
 "spadla. Chcete-li jej znovu použít, musíte znovu spustit Evolution"
 
-#: calendar/gui/gnome-cal.c:2787
+#: calendar/gui/gnome-cal.c:2785
 msgid "Purging"
 msgstr "Čistím"
 
@@ -6476,36 +6511,36 @@ msgstr "Přejmenovat tento seznam úkolů na"
 msgid "New Task List"
 msgstr "Nový seznam úkolů"
 
-#: calendar/gui/tasks-component.c:587
+#: calendar/gui/tasks-component.c:630
 msgid "New task"
 msgstr "Nový úkol"
 
-#: calendar/gui/tasks-component.c:588
+#: calendar/gui/tasks-component.c:631
 msgid "_Task"
 msgstr "Ú_kol"
 
-#: calendar/gui/tasks-component.c:589
+#: calendar/gui/tasks-component.c:632
 msgid "Create a new task"
 msgstr "Vytvořit nový úkol"
 
-#: calendar/gui/tasks-component.c:594
+#: calendar/gui/tasks-component.c:637
 msgid "New task list"
 msgstr "Nový seznam úkolů"
 
-#: calendar/gui/tasks-component.c:595
+#: calendar/gui/tasks-component.c:638
 msgid "_Task List"
 msgstr "_Seznam úkolů"
 
-#: calendar/gui/tasks-component.c:596
+#: calendar/gui/tasks-component.c:639
 msgid "Create a new task list"
 msgstr "Vytvořit nový seznam úkolů"
 
-#: calendar/gui/tasks-component.c:663
+#: calendar/gui/tasks-component.c:706
 #, c-format
 msgid "Unable to open the task list '%s' for creating events and meetings"
 msgstr "Nemohu otevřít seznam úkolů '%s' pro tvorbu událostí a schůzek"
 
-#: calendar/gui/tasks-component.c:676
+#: calendar/gui/tasks-component.c:719
 msgid "There is no calendar available for creating tasks"
 msgstr "Není k dispozici kalendář pro tvorbu úkolů"
 
@@ -12245,7 +12280,9 @@ msgstr "Nešifrována"
 msgid ""
 "This message is not encrypted.  Its content may be viewed in transit across "
 "the Internet."
-msgstr "Tato zpráva není šifrována. Její obsah může být čten při přenosu přes Internet."
+msgstr ""
+"Tato zpráva není šifrována. Její obsah může být čten při přenosu přes "
+"Internet."
 
 #: mail/em-format-html-display.c:622 mail/em-format-html.c:574
 msgid "Encrypted, weak"
@@ -17581,6 +17618,12 @@ msgstr "Text"
 #: widgets/misc/e-search-bar.c:930
 msgid "Find _Now"
 msgstr "Hledat _nyní"
+
+#~ msgid "On LDAP Servers"
+#~ msgstr "Na serverech LDAP"
+
+#~ msgid "East Timor"
+#~ msgstr "Východní Timor"
 
 #~ msgid "Could not open the folder in `%s'"
 #~ msgstr "Nemohu otevřít složku v `%s'"
