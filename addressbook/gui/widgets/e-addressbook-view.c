@@ -1739,6 +1739,7 @@ e_contact_print_button(GtkDialog *dialog, gint response, gpointer data)
 		pc = gnome_print_job_get_context( master );
 		e_printable_reset(printable);
 		while (e_printable_data_left(printable)) {
+			gnome_print_beginpage (pc, "Contacts");
 			if (gnome_print_gsave(pc) == -1)
 				/* FIXME */;
 			if (gnome_print_translate(pc, 72, 72) == -1)
@@ -1763,6 +1764,7 @@ e_contact_print_button(GtkDialog *dialog, gint response, gpointer data)
 		pc = gnome_print_job_get_context( master );
 		e_printable_reset(printable);
 		while (e_printable_data_left(printable)) {
+			gnome_print_beginpage (pc, "Contacts");
 			if (gnome_print_gsave(pc) == -1)
 				/* FIXME */;
 			if (gnome_print_translate(pc, 72, 72) == -1)
