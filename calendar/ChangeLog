@@ -1,3 +1,34 @@
+2004-01-09  Andrew Wu <Yang.Wu@sun.com>
+
+	* gui/e-cal-view.c (e_calendar_view_class_init):
+	add a new signal "event_move" and its key binding.
+
+	* gui/e-cal-view.h:
+	add a new type "ECalViewMoveDirection".
+	add a new virtual method "event_move" for ECalView.
+
+	* gui/e-day-view.c
+	(e_day_view_event_move), (e_day_view_change_event_time):
+	Use "Alt + Arrow" to move a selected event through time lines
+	or different days.
+
+	* gui/e-day-view.h:
+	add a new property "last_edited_comp_string" for EWeekView.
+
+	* gui/e-week-view.c (e_week_view_class_init), (e_week_view_init),
+	(e_week_view_reshape_events), (e_week_view_event_move),
+	(e_week_view_get_day_offset_of_event), (e_week_view_scroll_a_step),
+	(e_week_view_change_event_time), (e_week_view_do_key_press),
+	(e_week_view_move_selection_day),
+	(e_week_view_get_adjust_days_for_move_up),
+	(e_week_view_get_adjust_days_for_move_down),
+	(e_week_view_get_adjust_days_for_move_left),
+	(e_week_view_get_adjust_days_for_move_right):
+	Use "Alt + Arrow" to move a selected event through different days.
+
+	* gui/e-week-view.h:
+	add a new property "last_edited_comp_string" for EWeekView.
+
 2004-01-08  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/alarm-notify/alarm-queue.c (display_notification): store

@@ -97,6 +97,7 @@ enum {
 	EVENT_CHANGED,
 	EVENT_ADDED,
 	OPEN_EVENT,
+	EVENT_MOVE,
 	LAST_SIGNAL
 };
 
@@ -166,6 +167,7 @@ e_calendar_view_class_init (ECalendarViewClass *klass)
 	klass->get_visible_time_range = NULL;
 	klass->update_query = NULL;
 	klass->open_event = e_calendar_view_open_event;
+	klass->event_move = NULL;
 
 	g_object_class_install_property (gobject_class, PROP_MODEL, 
 					 g_param_spec_object ("model", NULL, NULL, E_TYPE_CAL_MODEL,
@@ -227,6 +229,16 @@ e_calendar_view_class_init (ECalendarViewClass *klass)
 			      G_TYPE_NONE, 1,
 			      G_TYPE_POINTER);
 
+	e_calendar_view_signals [EVENT_MOVE] =
+		g_signal_new ("event_move",
+			      G_TYPE_FROM_CLASS (klass),
+			      G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
+			      G_STRUCT_OFFSET (ECalendarViewClass, event_move),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__INT,
+			      G_TYPE_NONE, 1,
+			      G_TYPE_INT);
+
 	/* clipboard atom */
 	if (!clipboard_atom)
 		clipboard_atom = gdk_atom_intern ("CLIPBOARD", FALSE);
@@ -241,6 +253,48 @@ e_calendar_view_class_init (ECalendarViewClass *klass)
 	gtk_binding_entry_add_signal (binding_set, GDK_o,
                                       GDK_CONTROL_MASK,
                                       "open_event", 0);
+
+        /* Alt+Arrow, move the editing event*/
+        gtk_binding_entry_add_signal (binding_set, GDK_Up,
+                        GDK_MOD1_MASK,
+                        "event_move", 1,
+                        G_TYPE_ENUM,
+                        E_CAL_VIEW_MOVE_UP);
+        gtk_binding_entry_add_signal (binding_set, GDK_KP_Up,
+                        GDK_MOD1_MASK,
+                        "event_move", 1,
+                        G_TYPE_ENUM,
+                        E_CAL_VIEW_MOVE_UP);
+        gtk_binding_entry_add_signal (binding_set, GDK_Down,
+                        GDK_MOD1_MASK,
+                        "event_move", 1,
+                        G_TYPE_ENUM,
+                        E_CAL_VIEW_MOVE_DOWN);
+        gtk_binding_entry_add_signal (binding_set, GDK_KP_Down,
+                        GDK_MOD1_MASK,
+                        "event_move", 1,
+                        G_TYPE_ENUM,
+                        E_CAL_VIEW_MOVE_DOWN);
+	gtk_binding_entry_add_signal (binding_set, GDK_Left,
+                        GDK_MOD1_MASK,
+                        "event_move", 1,
+                        G_TYPE_ENUM,
+                        E_CAL_VIEW_MOVE_LEFT);
+        gtk_binding_entry_add_signal (binding_set, GDK_KP_Left,
+                        GDK_MOD1_MASK,
+                        "event_move", 1,
+                        G_TYPE_ENUM,
+                        E_CAL_VIEW_MOVE_LEFT);
+        gtk_binding_entry_add_signal (binding_set, GDK_Right,
+                        GDK_MOD1_MASK,
+                        "event_move", 1,
+                        G_TYPE_ENUM,
+                        E_CAL_VIEW_MOVE_RIGHT);
+        gtk_binding_entry_add_signal (binding_set, GDK_KP_Right,
+                        GDK_MOD1_MASK,
+                        "event_move", 1,
+                        G_TYPE_ENUM,
+                        E_CAL_VIEW_MOVE_RIGHT);
 
 	/* init the accessibility support for e_day_view */
  	e_cal_view_a11y_init ();
@@ -1519,4 +1573,21 @@ e_calendar_view_edit_appointment (ECalendarView *cal_view,
 	}
 
 	comp_editor_focus (ce);
+}
+
+void
+e_calendar_view_modify_and_send (ECalComponent *comp,
+				 ECal *client,
+				 CalObjModType mod,
+				 GtkWindow *toplevel,
+				 gboolean new)
+{
+	if (e_cal_modify_object (client, e_cal_component_get_icalcomponent (comp), mod, NULL)) {
+		if (itip_organizer_is_user (comp, client) &&
+				send_component_dialog (toplevel, client, comp, new)) {
+			itip_send_comp (E_CAL_COMPONENT_METHOD_REQUEST, comp, client, NULL);
+		} else {
+			g_message (G_STRLOC ": Could not update the object!");
+		}
+	}		
 }

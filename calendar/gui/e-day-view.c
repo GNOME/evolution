@@ -342,6 +342,9 @@ static void e_day_view_stop_editing_event (EDayView *day_view);
 static gboolean e_day_view_on_text_item_event (GnomeCanvasItem *item,
 					       GdkEvent *event,
 					       EDayView *day_view);
+static void e_day_view_event_move (ECalendarView *cal_view, ECalViewMoveDirection direction);
+static void e_day_view_change_event_time (EDayView *day_view, time_t start_dt,
+time_t end_dt);
 static void e_day_view_change_event_end_time_up (EDayView *day_view);
 static void e_day_view_change_event_end_time_down (EDayView *day_view);
 static void e_day_view_on_editing_started (EDayView *day_view,
@@ -476,6 +479,7 @@ e_day_view_class_init (EDayViewClass *class)
 	view_class->set_selected_time_range = e_day_view_set_selected_time_range;
 	view_class->get_visible_time_range = e_day_view_get_visible_time_range;
 	view_class->update_query        = e_day_view_update_query;
+	view_class->event_move		= e_day_view_event_move;
 
 	/* init the accessibility support for e_day_view */
  	e_day_view_a11y_init ();
@@ -572,6 +576,8 @@ e_day_view_init (EDayView *day_view)
 	day_view->resize_event_num = -1;
 	day_view->resize_bars_event_day = -1;
 	day_view->resize_bars_event_num = -1;
+
+	day_view->last_edited_comp_string = NULL;
 
 	day_view->selection_start_row = -1;
 	day_view->selection_start_day = -1;
@@ -3759,14 +3765,7 @@ e_day_view_finish_long_event_resize (EDayView *day_view)
 	
 	toplevel = GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (day_view)));
 	
- 	if (e_cal_modify_object (client, e_cal_component_get_icalcomponent (comp), mod, NULL)) {
-		if (itip_organizer_is_user (comp, client) &&
-		    send_component_dialog (toplevel, client, comp, TRUE)) {
-			itip_send_comp (E_CAL_COMPONENT_METHOD_REQUEST, comp, client, NULL);
-		} else {
-			g_message (G_STRLOC ": Could not update the object!");
-		}
-	}
+	e_calendar_view_modify_and_send (comp, client, mod, toplevel, TRUE);
 	
  out:
  	gnome_canvas_item_hide (day_view->resize_long_event_rect_item);
@@ -3822,6 +3821,9 @@ e_day_view_finish_resize (EDayView *day_view)
 		e_cal_component_set_dtend (comp, &date);
 	}
 
+	e_cal_component_commit_sequence (comp);
+	day_view->last_edited_comp_string = e_cal_component_get_as_string (comp);
+
 	gnome_canvas_item_hide (day_view->resize_rect_item);
 	gnome_canvas_item_hide (day_view->resize_bar_item);
 
@@ -3843,14 +3845,7 @@ e_day_view_finish_resize (EDayView *day_view)
 	toplevel = GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (day_view)));
 
 	e_cal_component_commit_sequence (comp);
- 	if (e_cal_modify_object (client, e_cal_component_get_icalcomponent (comp), mod, NULL)) {
-		if (itip_organizer_is_user (comp, client) &&
-		    send_component_dialog (toplevel, client, comp, TRUE)) {
-			itip_send_comp (E_CAL_COMPONENT_METHOD_REQUEST, comp, client, NULL);
-		} else {
-			g_message (G_STRLOC ": Could not update the object!");
-		}
-	}	
+	e_calendar_view_modify_and_send (comp, client, mod, toplevel, TRUE);
 
  out:	
 	g_object_unref (comp);
@@ -4293,12 +4288,17 @@ e_day_view_reshape_day_events (EDayView *day_view,
 
 	for (event_num = 0; event_num < day_view->events[day]->len;
 	     event_num++) {
+		EDayViewEvent *event;
+		gchar *current_comp_string;
+
 		e_day_view_reshape_day_event (day_view, day, event_num);
-		if (event_num == day_view->resize_event_num) {
-			EDayViewEvent *event;
-			event = &g_array_index (day_view->events[day], EDayViewEvent,
-				event_num);
+		event = &g_array_index (day_view->events[day], EDayViewEvent, event_num);
+		current_comp_string = icalcomponent_as_ical_string (event->comp_data->icalcomp);
+		if (day_view->last_edited_comp_string == NULL)
+			continue;
+		if (strncmp (current_comp_string, day_view->last_edited_comp_string,50) == 0) {
 			e_canvas_item_grab_focus (event->canvas_item, TRUE);
+			day_view-> last_edited_comp_string = NULL;
 		}
 	}
 }
@@ -5549,6 +5549,142 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 }
 
 static void 
+e_day_view_event_move (ECalendarView *cal_view, ECalViewMoveDirection direction)
+{
+	EDayViewEvent *event;
+	EDayView *day_view;
+	gint day, event_num, resize_start_row, resize_end_row;
+	time_t start_dt, end_dt;
+	struct icaltimetype start_time, end_time;
+
+	day_view = E_DAY_VIEW (cal_view);
+	day = day_view->editing_event_day;
+	event_num = day_view->editing_event_num;
+
+	if ((day == -1) || (day == E_DAY_VIEW_LONG_EVENT))
+		return;
+
+	event = &g_array_index (day_view->events[day], EDayViewEvent,
+				event_num);
+	day_view->resize_event_day = day;
+	day_view->resize_event_num = event_num;
+	day_view->resize_bars_event_day = day;
+	day_view->resize_bars_event_num = event_num;
+	resize_start_row = event->start_minute / day_view->mins_per_row;
+	resize_end_row = (event->end_minute - 1) / day_view->mins_per_row;
+	if (resize_end_row < resize_start_row)
+		resize_end_row = resize_start_row;
+	
+	switch (direction) {
+	case E_CAL_VIEW_MOVE_UP:
+		if (resize_start_row <= 0)
+			return;
+		resize_start_row--;
+		resize_end_row--;
+		start_dt = e_day_view_convert_grid_position_to_time (day_view, day, resize_start_row);
+		end_dt = e_day_view_convert_grid_position_to_time (day_view, day, resize_end_row + 1);		
+		break;
+	case E_CAL_VIEW_MOVE_DOWN:
+		if (resize_end_row >= day_view->rows - 1)
+			return;
+		resize_start_row++;
+		resize_end_row++;
+		start_dt = e_day_view_convert_grid_position_to_time (day_view, day, resize_start_row);
+		end_dt = e_day_view_convert_grid_position_to_time (day_view, day, resize_end_row + 1);		
+		break;
+	case E_CAL_VIEW_MOVE_LEFT:
+		if (day <= 0) 
+			return;
+		start_dt = e_day_view_convert_grid_position_to_time (day_view, day, resize_start_row);
+		end_dt = e_day_view_convert_grid_position_to_time (day_view, day, resize_end_row + 1);
+		start_time = icaltime_from_timet (start_dt, 0);
+		end_time = icaltime_from_timet (end_dt, 0);
+		icaltime_adjust	(&start_time ,-1,0,0,0);
+		icaltime_adjust	(&end_time ,-1,0,0,0);	
+		start_dt = icaltime_as_timet (start_time);
+		end_dt = icaltime_as_timet (end_time);
+		break;
+	case E_CAL_VIEW_MOVE_RIGHT:
+		if (day + 1 >= day_view->days_shown)
+			return;
+		start_dt = e_day_view_convert_grid_position_to_time (day_view, day, resize_start_row);
+		end_dt = e_day_view_convert_grid_position_to_time (day_view, day, resize_end_row + 1);
+		start_time = icaltime_from_timet (start_dt, 0);
+		end_time = icaltime_from_timet (end_dt, 0);
+		icaltime_adjust	(&start_time ,1,0,0,0);
+		icaltime_adjust	(&end_time ,1,0,0,0);	
+		start_dt = icaltime_as_timet (start_time);
+		end_dt = icaltime_as_timet (end_time);
+		break;	
+	default:
+		break;
+	}
+	
+	e_day_view_change_event_time (day_view, start_dt, end_dt);
+	e_day_view_ensure_rows_visible (day_view, resize_start_row, resize_end_row);
+}
+
+static void
+e_day_view_change_event_time (EDayView *day_view, time_t start_dt, time_t end_dt)
+{
+	EDayViewEvent *event;
+	gint day, event_num;
+	ECalComponent *comp;
+	ECalComponentDateTime date;
+	struct icaltimetype itt;
+	ECal *client;
+	CalObjModType mod = CALOBJ_MOD_ALL;
+	GtkWindow *toplevel;
+
+	day = day_view->editing_event_day;
+	event_num = day_view->editing_event_num;
+	event = &g_array_index (day_view->events[day], EDayViewEvent,
+				event_num);
+	client = event->comp_data->client;
+
+	/* We use a temporary shallow copy of the ico since we don't want to
+	   change the original ico here. Otherwise we would not detect that
+	   the event's time had changed in the "update_event" callback. */
+	comp = e_cal_component_new ();
+	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
+
+	date.value = &itt;
+	/* FIXME: Should probably keep the timezone of the original start
+	   and end times. */
+	date.tzid = icaltimezone_get_tzid (e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
+	
+	*date.value = icaltime_from_timet_with_zone (start_dt, FALSE,
+						     e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
+	e_cal_component_set_dtstart (comp, &date);
+	*date.value = icaltime_from_timet_with_zone (end_dt, FALSE,
+						     e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
+	e_cal_component_set_dtend (comp, &date);
+
+	e_cal_component_commit_sequence (comp);
+	day_view->last_edited_comp_string = e_cal_component_get_as_string (comp);
+
+	gnome_canvas_item_hide (day_view->resize_rect_item);
+	gnome_canvas_item_hide (day_view->resize_bar_item);
+
+	day_view->resize_drag_pos = E_CALENDAR_VIEW_POS_NONE;
+
+ 	if (e_cal_component_has_recurrences (comp)) {
+ 		if (!recur_component_dialog (client, comp, &mod, NULL)) {
+ 			gtk_widget_queue_draw (day_view->top_canvas);
+			goto out;
+ 		}
+	}
+	
+	toplevel = GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (day_view)));
+
+	e_cal_component_commit_sequence (comp);
+	e_calendar_view_modify_and_send (comp, client, mod, toplevel, TRUE);
+
+out:	
+	g_object_unref (comp);
+}
+
+static void 
 e_day_view_change_event_end_time_up (EDayView *day_view)
 {
 	EDayViewEvent *event;
@@ -5750,12 +5886,7 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 			
 			/* FIXME When sending here, what exactly should we send? */
 			toplevel = GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (day_view)));
-			if (e_cal_modify_object (client, icalcomp, mod, NULL)) {
-				if (itip_organizer_is_user (comp, client) 
-				    && send_component_dialog (toplevel, client, comp, FALSE))
-					itip_send_comp (E_CAL_COMPONENT_METHOD_REQUEST, comp, 
-							client, NULL);
-			}
+			e_calendar_view_modify_and_send (comp, client, mod, toplevel, FALSE);
 		}
 		
 	}
@@ -6860,12 +6991,7 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 			toplevel = GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (day_view)));
 			e_cal_component_commit_sequence (comp);
 	
-			if (e_cal_modify_object (client, e_cal_component_get_icalcomponent (comp), mod, NULL)) {
-				if (itip_organizer_is_user (comp, client) 
-				    && send_component_dialog (toplevel, client, comp, FALSE))
-					itip_send_comp (E_CAL_COMPONENT_METHOD_REQUEST, comp, 
-							client, NULL);
-			}
+			e_calendar_view_modify_and_send (comp, client, mod, toplevel, FALSE);
 			
 			g_object_unref (comp);
 
@@ -7056,12 +7182,7 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 			toplevel = GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (day_view)));
 			e_cal_component_commit_sequence (comp);
 	
-			if (e_cal_modify_object (client, e_cal_component_get_icalcomponent (comp), mod, NULL)) {
-				if (itip_organizer_is_user (comp, client) 
-				    && send_component_dialog (toplevel, client, comp, FALSE))
-					itip_send_comp (E_CAL_COMPONENT_METHOD_REQUEST, comp, 
-							client, NULL);
-			}
+			e_calendar_view_modify_and_send (comp, client, mod, toplevel, FALSE);
 
 			g_object_unref (comp);
 

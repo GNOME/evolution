@@ -316,6 +316,9 @@ struct _EWeekView
 	gint editing_event_num;
 	gint editing_span_num;
 
+	/* This is used to remember the last edited event. */
+	gchar *last_edited_comp_string;
+
 	/* The event that the context menu is for. */
 	gint popup_event_num;
 

@@ -25,6 +25,7 @@
 
 #include <libecal/e-cal.h>
 #include <gtk/gtktable.h>
+#include <gtk/gtkwindow.h>
 #include "e-cal-model.h"
 #include "gnome-cal.h"
 
@@ -47,6 +48,13 @@ typedef enum {
 	E_CALENDAR_VIEW_POS_TOP_EDGE,
 	E_CALENDAR_VIEW_POS_BOTTOM_EDGE
 } ECalendarViewPosition;
+
+typedef enum {
+	E_CAL_VIEW_MOVE_UP,
+	E_CAL_VIEW_MOVE_DOWN,
+	E_CAL_VIEW_MOVE_LEFT,
+	E_CAL_VIEW_MOVE_RIGHT
+} ECalViewMoveDirection;
 
 #define E_CALENDAR_VIEW_EVENT_FIELDS \
         GnomeCanvasItem *canvas_item; \
@@ -88,6 +96,7 @@ struct _ECalendarViewClass {
 	gboolean (* get_visible_time_range) (ECalendarView *cal_view, time_t *start_time, time_t *end_time);
 	void (* update_query) (ECalendarView *cal_view);
 	void (* open_event) (ECalendarView *cal_view);
+	void (* event_move) (ECalendarView *cal_view, ECalViewMoveDirection direction);
 };
 
 GType          e_calendar_view_get_type (void);
@@ -133,6 +142,11 @@ void           e_calendar_view_edit_appointment (ECalendarView *cal_view,
 					    icalcomponent *icalcomp,
 					    gboolean meeting);
 void           e_calendar_view_open_event (ECalendarView *cal_view);
+void           e_calendar_view_modify_and_send (ECalComponent *comp,
+					       ECal *client,
+					       CalObjModType mod,
+					       GtkWindow *toplevel,
+					       gboolean new);
 
 
 G_END_DECLS

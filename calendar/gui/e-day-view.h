@@ -409,6 +409,9 @@ struct _EDayView
 	gint resize_start_row;
 	gint resize_end_row;
 
+	/* This is used to remember the last edited event. */
+	gchar *last_edited_comp_string;
+
 	/* This is the event the mouse button was pressed on. If the button
 	   is released we start editing it, but if the mouse is dragged we set
 	   this to -1. */
