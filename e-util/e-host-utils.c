@@ -22,6 +22,7 @@
  */
 
 #include <config.h>
+#include <glib.h>
 #include "e-msgport.h"
 #include "e-host-utils.h"
 #include <string.h>
