@@ -7,7 +7,10 @@
 
     <cmd name="ViewSource"
       _label="S_ource" _tip="View Raw Message Source" type="toggle" />
- 
+
+    <cmd name="MailStop"
+      pixtype="stock" pixname="Stop"/>
+
   </commands>
 
   <keybindings>
@@ -249,9 +252,7 @@
     _label="Delete" _tip="Delete this message"
     pixtype="stock" pixname="Trash"/>
 
-    <toolitem name="Stop" verb="MailStop"
-    _label="Stop"
-    pixtype="stock" pixname="Stop"/>
+    <toolitem name="Stop" verb="MailStop" _label="Stop"/>
 
   </dockitem>
 </Root>
