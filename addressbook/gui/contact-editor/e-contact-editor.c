@@ -55,6 +55,7 @@
 #include "e-util/e-gui-utils.h"
 #include "widgets/misc/e-dateedit.h"
 #include "widgets/misc/e-url-entry.h"
+#include "widgets/misc/e-source-option-menu.h"
 #include "shell/evolution-shell-component-utils.h"
 
 #include "eab-contact-merging.h"
@@ -2035,6 +2036,18 @@ set_phone_field(EContactEditor *editor, GtkWidget *entry, const char *phone_numb
 }
 
 static void
+set_source_field (EContactEditor *editor)
+{
+	GtkWidget *source_menu;
+	ESource   *source;
+
+	source_menu = glade_xml_get_widget (editor->gui, "source-option-menu-source");
+	source = e_book_get_source (editor->book);
+
+	e_source_option_menu_select (E_SOURCE_OPTION_MENU (source_menu), source);
+}
+
+static void
 set_fields(EContactEditor *editor)
 {
 	EContactAddress *address;
@@ -2096,6 +2109,7 @@ set_fields(EContactEditor *editor)
 	}
 
 	set_address_field(editor, i);
+	set_source_field (editor);
 }
 
 static void
