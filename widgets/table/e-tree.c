@@ -241,6 +241,7 @@ et_destroy (GtkObject *object)
 	gtk_widget_destroy (GTK_WIDGET (et->priv->table_canvas));
 
 	g_free(et->priv);
+	et->priv = NULL;
 
 	(*parent_class->destroy)(object);
 }
