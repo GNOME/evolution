@@ -1,3 +1,8 @@
+2004-03-31  JP Rosevear <jpr@ximian.com>
+
+	* gui/migration.c (migrate_calendars): make sure we unset the
+	float value for the panes if converting from 1.4 and earlier
+
 2004-03-31  JP Rosevear  <jpr@ximian.com>
 
 	Fixes #56120

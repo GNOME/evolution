@@ -610,7 +610,7 @@ migrate_calendars (CalendarComponent *component, int major, int minor, int revis
 			dialog_close ();
 		}
 
-		if (minor == 5 && revision < 5) {
+		if (minor <= 4 || (minor == 5 && revision < 5)) {
 			GConfClient *gconf;	
 			GConfValue *gconf_val;
 			int i;
