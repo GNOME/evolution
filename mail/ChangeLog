@@ -1,3 +1,8 @@
+2004-05-10  Jeffrey Stedfast  <fejj@novell.com>
+
+	* em-mailer-prefs.c (em_mailer_prefs_construct): Default the
+	Mailer header to enabled. Fixes bug #58217.
+
 2004-05-10  JP Rosevear  <jpr@ximian.com>
 
 	* mail-ops.c (mail_send_message): set header to just Evolution

@@ -892,10 +892,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs)
 		h = g_malloc (sizeof (struct _EMMailerPrefsHeader));
 		h->is_default = TRUE;
 		h->name = g_strdup (default_headers[i].name);
-		if (g_ascii_strcasecmp (default_headers[i].name, EM_FORMAT_HEADER_XMAILER) == 0)
-			h->enabled = FALSE;
-		else
-			h->enabled = TRUE;
+		h->enabled = TRUE;
 		g_hash_table_insert (default_header_hash, (gpointer) default_headers[i].name, h);
 		header_add_list = g_slist_append (header_add_list, h);
 	}
