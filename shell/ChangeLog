@@ -1,5 +1,33 @@
 2002-07-08  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shortcuts-view.c (toggle_large_icons_cb): Change the group
+	icon size using e_shortcuts_set_group_uses_small_icons() instead
+	of changing it on the widget directly.
+	(toggle_small_icons_cb): Likewise.
+	(group_change_icon_size_callback): New, callback for the
+	"group_change_icon_size" signal on the EShortcuts object.
+	(e_shortcuts_view_construct): Connect.  Also, initialize the icon
+	sizes in the icon bars from the EShortcuts object.
+
+	* e-shell-view.c (e_shell_view_load_settings): Don't set the
+	shortcut group icon modes here anymore.
+
+	* e-shortcuts.c: New member use_small_icons in struct
+	ShortcutGroup.
+	(shortcut_group_new): Init to FALSE.
+	(e_shortcuts_set_group_uses_small_icons): New.
+	(e_shortcuts_get_group_uses_small_icons): New.
+	(class_init): Install "group_change_icon_size" signal.
+	(save_shortcuts): Save the icon size per-group
+	here, i.e. <group title="foo" icon_size="small">.
+	(load_shortcuts): Set the icon size from the group's definition
+	here.
+
+	* e-shortcuts.h: New signal "group_change_icon_size" in
+	EShortcutsClass.
+
+2002-07-08  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-folder.c (safe_corba_string_dup): New helper function.
 	(e_folder_to_corba): Use it here.
 

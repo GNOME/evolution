@@ -2678,7 +2678,7 @@ e_shell_view_load_settings (EShellView *shell_view,
 	Bonobo_ConfigDatabase db;
 	EShellViewPrivate *priv;
 	EShortcutBar *shortcut_bar;
-	int num_groups, group, val;
+	int num_groups, val;
 	long width, height;
 	char *stringval, *prefix, *filename, *key;
 	CORBA_Environment ev;
@@ -2753,17 +2753,6 @@ e_shell_view_load_settings (EShellView *shell_view,
 	}
 
 	num_groups = e_shortcut_model_get_num_groups (shortcut_bar->model);
-
-	for (group = 0; group < num_groups; group++) {
-		int iconmode;
-
-		key = g_strdup_printf ("%sShortcutBarGroup%dIconMode", prefix,
-				       group);
-		iconmode = bonobo_config_get_long (db, key, NULL);
-		g_free (key);
-
-		e_shortcut_bar_set_view_type (shortcut_bar, group, iconmode);
-	}
 
 	g_free (prefix);
 

@@ -76,6 +76,9 @@ struct _ShortcutGroup {
 
 	/* A list of shortcuts.  */
 	GSList *shortcuts;
+
+	/* Whether to use small icons for this group.  */
+	unsigned int use_small_icons : 1;
 };
 typedef struct _ShortcutGroup ShortcutGroup;
 
@@ -111,6 +114,7 @@ enum {
 	NEW_GROUP,
 	REMOVE_GROUP,
 	RENAME_GROUP,
+	GROUP_CHANGE_ICON_SIZE,
 	NEW_SHORTCUT,
 	REMOVE_SHORTCUT,
 	UPDATE_SHORTCUT,
@@ -200,8 +204,9 @@ shortcut_group_new (const char *title)
 	ShortcutGroup *new;
 
 	new = g_new (ShortcutGroup, 1);
-	new->title     = g_strdup (title);
-	new->shortcuts = NULL;
+	new->title           = g_strdup (title);
+	new->shortcuts       = NULL;
+	new->use_small_icons = FALSE;
 
 	return new;
 }
@@ -307,6 +312,7 @@ load_shortcuts (EShortcuts *shortcuts,
 	for (p = root->childs; p != NULL; p = p->next) {
 		ShortcutGroup *shortcut_group;
 		xmlChar *shortcut_group_title;
+		xmlChar *icon_size;
 
 		if (strcmp ((char *) p->name, "group") != 0)
 			continue;
@@ -317,6 +323,13 @@ load_shortcuts (EShortcuts *shortcuts,
 
 		shortcut_group = shortcut_group_new (shortcut_group_title);
 		xmlFree (shortcut_group_title);
+
+		icon_size = xmlGetProp (p, "icon_size");
+		if (icon_size != NULL && strcmp (icon_size, "small") == 0)
+			shortcut_group->use_small_icons = TRUE;
+		else
+			shortcut_group->use_small_icons = FALSE;
+		xmlFree (icon_size);
 
 		for (q = p->childs; q != NULL; q = q->next) {
 			EShortcutItem *shortcut_item;
@@ -398,6 +411,11 @@ save_shortcuts (EShortcuts *shortcuts,
 		group_node = xmlNewChild (root, NULL, (xmlChar *) "group", NULL);
 
 		xmlSetProp (group_node, (xmlChar *) "title", group->title);
+
+		if (group->use_small_icons)
+			xmlSetProp (group_node, (xmlChar *) "icon_size", "small");
+		else
+			xmlSetProp (group_node, (xmlChar *) "icon_size", "large");
 
 		for (q = group->shortcuts; q != NULL; q = q->next) {
 			EShortcutItem *shortcut;
@@ -662,6 +680,16 @@ class_init (EShortcutsClass *klass)
 				  GTK_TYPE_NONE, 2,
 				  GTK_TYPE_INT,
 				  GTK_TYPE_STRING);
+
+	signals[GROUP_CHANGE_ICON_SIZE]
+		= gtk_signal_new ("group_change_icon_size",
+				  GTK_RUN_FIRST,
+				  object_class->type,
+				  GTK_SIGNAL_OFFSET (EShortcutsClass, group_change_icon_size),
+				  gtk_marshal_NONE__INT_INT,
+				  GTK_TYPE_NONE, 2,
+				  GTK_TYPE_INT,
+				  GTK_TYPE_INT);
 
 	signals[NEW_SHORTCUT]
 		= gtk_signal_new ("new_shortcut",
@@ -1145,6 +1173,55 @@ e_shortcuts_get_group_title (EShortcuts *shortcuts,
 	group = (ShortcutGroup *) group_element->data;
 
 	return group->title;
+}
+
+void
+e_shortcuts_set_group_uses_small_icons  (EShortcuts *shortcuts,
+					 int group_num,
+					 gboolean use_small_icons)
+{
+	EShortcutsPrivate *priv;
+	ShortcutGroup *group;
+	GSList *group_element;
+
+	g_return_if_fail (E_IS_SHORTCUTS (shortcuts));
+
+	priv = shortcuts->priv;
+
+	group_element = g_slist_nth (priv->groups, group_num);
+	if (group_element == NULL)
+		return;
+
+	group = (ShortcutGroup *) group_element->data;
+
+	use_small_icons = !! use_small_icons;
+	if (group->use_small_icons != use_small_icons) {
+		group->use_small_icons = use_small_icons;
+		gtk_signal_emit (GTK_OBJECT (shortcuts), signals[GROUP_CHANGE_ICON_SIZE],
+				 group_num, use_small_icons);
+
+		make_dirty (shortcuts);
+	}
+}
+
+gboolean
+e_shortcuts_get_group_uses_small_icons  (EShortcuts *shortcuts,
+					 int group_num)
+{
+	EShortcutsPrivate *priv;
+	ShortcutGroup *group;
+	GSList *group_element;
+
+	g_return_val_if_fail (E_IS_SHORTCUTS (shortcuts), FALSE);
+
+	priv = shortcuts->priv;
+
+	group_element = g_slist_nth (priv->groups, group_num);
+	if (group_element == NULL)
+		return FALSE;
+
+	group = (ShortcutGroup *) group_element->data;
+	return group->use_small_icons;
 }
 
 

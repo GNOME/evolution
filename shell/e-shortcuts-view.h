@@ -36,8 +36,8 @@ extern "C" {
 #define E_TYPE_SHORTCUTS_VIEW			(e_shortcuts_view_get_type ())
 #define E_SHORTCUTS_VIEW(obj)			(GTK_CHECK_CAST ((obj), E_TYPE_SHORTCUTS_VIEW, EShortcutsView))
 #define E_SHORTCUTS_VIEW_CLASS(klass)		(GTK_CHECK_CLASS_CAST ((klass), E_TYPE_SHORTCUTS_VIEW, EShortcutsViewClass))
-#define E_IS_SHORTCUTS_VIEW(obj)			(GTK_CHECK_TYPE ((obj), E_TYPE_SHORTCUTS_VIEW))
-#define E_IS_SHORTCUTS_VIEW_CLASS(klass)		(GTK_CHECK_CLASS_TYPE ((obj), E_TYPE_SHORTCUTS_VIEW))
+#define E_IS_SHORTCUTS_VIEW(obj)		(GTK_CHECK_TYPE ((obj), E_TYPE_SHORTCUTS_VIEW))
+#define E_IS_SHORTCUTS_VIEW_CLASS(klass)	(GTK_CHECK_CLASS_TYPE ((obj), E_TYPE_SHORTCUTS_VIEW))
 
 
 typedef struct _EShortcutsView        EShortcutsView;

@@ -71,13 +71,15 @@ struct _EShortcutsClass {
 
 	/* Signals.  */
 
-	void  (* new_group)        (EShortcuts *shortcuts, int group_num);
-	void  (* remove_group)     (EShortcuts *shortcuts, int group_num);
-	void  (* rename_group)     (EShortcuts *shortcuts, int group_num, const char *new_title);
+	void  (* new_group)               (EShortcuts *shortcuts, int group_num);
+	void  (* remove_group)     	  (EShortcuts *shortcuts, int group_num);
+	void  (* rename_group)     	  (EShortcuts *shortcuts, int group_num, const char *new_title);
 
-	void  (* new_shortcut)     (EShortcuts *shortcuts, int group_num, int item_num);
-	void  (* remove_shortcut)  (EShortcuts *shortcuts, int group_num, int item_num);
-	void  (* update_shortcut)  (EShortcuts *shortcuts, int group_num, int item_num);
+	void  (* group_change_icon_size)  (EShortcuts *shortcuts, int group_num, gboolean use_small_icons);
+
+	void  (* new_shortcut)     	  (EShortcuts *shortcuts, int group_num, int item_num);
+	void  (* remove_shortcut)  	  (EShortcuts *shortcuts, int group_num, int item_num);
+	void  (* update_shortcut)  	  (EShortcuts *shortcuts, int group_num, int item_num);
 };
 
 
@@ -136,8 +138,14 @@ void  e_shortcuts_add_group     (EShortcuts *shortcuts,
 				 int         group_num,
 				 const char *group_title);
 void  e_shortcuts_rename_group  (EShortcuts *shortcuts,
-				 int         group_name,
+				 int         group_num,
 				 const char *new_title);
+
+void      e_shortcuts_set_group_uses_small_icons  (EShortcuts *shortcuts,
+						   int         group_num,
+						   gboolean    use_small_icons);
+gboolean  e_shortcuts_get_group_uses_small_icons  (EShortcuts *shortcuts,
+						   int         group_num);
 
 #ifdef __cplusplus
 }

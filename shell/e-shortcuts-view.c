@@ -65,6 +65,8 @@ enum {
 static guint signals[LAST_SIGNAL] = { 0 };
 
 
+/* Utility functions.  */
+
 static void
 show_new_group_dialog (EShortcutsView *view)
 {
@@ -106,9 +108,7 @@ toggle_large_icons_cb (GtkWidget *widget,
 	if (! GTK_CHECK_MENU_ITEM (widget)->active)
 		return;
 
-	e_shortcut_bar_set_view_type (E_SHORTCUT_BAR (menu_data->shortcuts_view),
-				      menu_data->group_num,
-				      E_ICON_BAR_LARGE_ICONS);
+	e_shortcuts_set_group_uses_small_icons (menu_data->shortcuts_view->priv->shortcuts, menu_data->group_num, FALSE);
 }
 
 static void
@@ -124,9 +124,7 @@ toggle_small_icons_cb (GtkWidget *widget,
 	if (! GTK_CHECK_MENU_ITEM (widget)->active)
 		return;
 
-	e_shortcut_bar_set_view_type (E_SHORTCUT_BAR (menu_data->shortcuts_view),
-				      menu_data->group_num,
-				      E_ICON_BAR_SMALL_ICONS);
+	e_shortcuts_set_group_uses_small_icons (menu_data->shortcuts_view->priv->shortcuts, menu_data->group_num, TRUE);
 }
 
 static void
@@ -218,14 +216,12 @@ rename_group_cb (GtkWidget *widget,
 	   to an actual ShortcutBar bug.  */
 
 	group = e_group_bar_get_current_group_num (E_GROUP_BAR (E_SHORTCUT_BAR (shortcuts_view)));
-	original_view_type = e_shortcut_bar_get_view_type (E_SHORTCUT_BAR (menu_data->shortcuts_view),
-							   group);
+	original_view_type = e_shortcut_bar_get_view_type (E_SHORTCUT_BAR (menu_data->shortcuts_view), group);
 	e_shortcuts_rename_group (shortcuts, menu_data->group_num, new_name);
 
 	g_free (new_name);
 	e_group_bar_set_current_group_num (E_GROUP_BAR (E_SHORTCUT_BAR (shortcuts_view)), group, FALSE);
-	e_shortcut_bar_set_view_type (E_SHORTCUT_BAR (menu_data->shortcuts_view),
-				      group, original_view_type);
+	e_shortcut_bar_set_view_type (E_SHORTCUT_BAR (menu_data->shortcuts_view), group, original_view_type);
 }
 
 static GnomeUIInfo icon_size_radio_group_uiinfo[] = {
@@ -421,6 +417,26 @@ pop_up_right_click_menu_for_shortcut (EShortcutsView *shortcuts_view,
 
 	g_free (menu_data);
 	gtk_widget_destroy (popup_menu);
+}
+
+
+/* View callbacks.  This part exists mostly because of breakage in the
+   EShortcutBar design.  */
+
+static void
+group_change_icon_size_callback (EShortcuts *shortucts,
+				 int group_num,
+				 gboolean use_small_icons,
+				 void *data)
+{
+	EShortcutsView *view;
+
+	view = E_SHORTCUTS_VIEW (data);
+
+	if (use_small_icons)
+		e_shortcut_bar_set_view_type (E_SHORTCUT_BAR (view), group_num, E_ICON_BAR_SMALL_ICONS);
+	else
+		e_shortcut_bar_set_view_type (E_SHORTCUT_BAR (view), group_num, E_ICON_BAR_LARGE_ICONS);
 }
 
 
@@ -685,6 +701,7 @@ e_shortcuts_view_construct (EShortcutsView *shortcuts_view,
 			    EShortcuts *shortcuts)
 {
 	EShortcutsViewPrivate *priv;
+	int i, num_groups;
 
 	g_return_if_fail (shortcuts != NULL);
 	g_return_if_fail (E_IS_SHORTCUTS (shortcuts));
@@ -696,6 +713,18 @@ e_shortcuts_view_construct (EShortcutsView *shortcuts_view,
 
 	e_shortcut_bar_set_model (E_SHORTCUT_BAR (shortcuts_view),
 				  E_SHORTCUT_MODEL (e_shortcuts_view_model_new (shortcuts)));
+
+	gtk_signal_connect_while_alive (GTK_OBJECT (shortcuts), "group_change_icon_size",
+					GTK_SIGNAL_FUNC (group_change_icon_size_callback),
+					shortcuts_view, GTK_OBJECT (shortcuts_view));
+
+	num_groups = e_shortcuts_get_num_groups (shortcuts);
+	for (i = 0; i < num_groups; i ++) {
+		if (e_shortcuts_get_group_uses_small_icons (shortcuts, i))
+			e_shortcut_bar_set_view_type (E_SHORTCUT_BAR (shortcuts_view), i, E_ICON_BAR_SMALL_ICONS);
+		else
+			e_shortcut_bar_set_view_type (E_SHORTCUT_BAR (shortcuts_view), i, E_ICON_BAR_LARGE_ICONS);
+	}
 }
 
 GtkWidget *
