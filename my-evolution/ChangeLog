@@ -1,3 +1,7 @@
+2001-11-14  Iain Holmes  <iain@ximian.com>
+
+	* my-evolution.glade: Spell celsius right.
+
 2001-11-13  Damon Chaplin  <damon@ximian.com>
 
 	* e-summary.c (e_summary_init): make the timezone default to UTC.

@@ -1227,7 +1227,7 @@
 	      <class>GtkRadioButton</class>
 	      <name>radiobutton7</name>
 	      <can_focus>True</can_focus>
-	      <label>C_elcius</label>
+	      <label>C_elsius</label>
 	      <active>False</active>
 	      <draw_indicator>True</draw_indicator>
 	      <group>units_group</group>
