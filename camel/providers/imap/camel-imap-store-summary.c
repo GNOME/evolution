@@ -364,7 +364,7 @@ camel_imap_store_summary_full_from_path(CamelImapStoreSummary *s, const char *pa
 CamelImapStoreNamespace *camel_imap_store_summary_namespace_new(CamelImapStoreSummary *s, const char *full_name, char dir_sep)
 {
 	CamelImapStoreNamespace *ns;
-	char *p;
+	char *p, *o, c;
 	int len;
 
 	ns = g_malloc0(sizeof(*ns));
@@ -374,12 +374,15 @@ CamelImapStoreNamespace *camel_imap_store_summary_namespace_new(CamelImapStoreSu
 		ns->full_name[len] = 0;
 	ns->sep = dir_sep;
 
-	p = ns->path = camel_imap_store_summary_full_to_path(s, ns->full_name, dir_sep);
-	while (*p) {
-		if (*p == '/')
-			*p = '.';
-		p++;
+	o = p = ns->path = camel_imap_store_summary_full_to_path(s, ns->full_name, dir_sep);
+	while ((c = *p++)) {
+		if (c != '#') {
+			if (c == '/')
+				c = '.';
+			*o++ = c;
+		}
 	}
+	*o = 0;
 
 	return ns;
 }
