@@ -59,7 +59,6 @@
 
 #include <gtk/gtkdialog.h>
 
-#include <gui/alarm-notify/alarm.h>
 #include <cal-util/timeutil.h>
 
 #include <gtk/gtkmain.h>
@@ -106,7 +105,7 @@ struct _ESummaryPrivate {
 
 	guint pending_reload_tag;
 
-	gpointer alarm;
+	guint tomorrow_timeout_id;
 
 	gboolean frozen;
 
@@ -168,8 +167,7 @@ destroy (GtkObject *object)
 		e_summary_tasks_free (summary);
 	}
 
-	alarm_remove (priv->alarm);
-	alarm_done ();
+	g_source_remove (priv->tomorrow_timeout_id);
 
 	if (priv->protocol_hash) {
 		g_hash_table_foreach (priv->protocol_hash, free_protocol, NULL);
@@ -466,20 +464,34 @@ e_summary_class_init (GtkObjectClass *object_class)
 	e_summary_parent_class = g_type_class_ref(PARENT_TYPE);
 }
 
+static gboolean tomorrow_timeout (gpointer data);
+
 static void
-alarm_fn (gpointer alarm_id,
-	  time_t trigger,
-	  gpointer data)
+reset_tomorrow_timeout (ESummary *summary)
 {
-	ESummary *summary;
-	time_t t, day_end;
+	time_t now, day_end;
 
-	summary = data;
-	t = time (NULL);
-	day_end = time_day_end_with_zone (t, summary->tz);
-	summary->priv->alarm = alarm_add (day_end, alarm_fn, summary, NULL);
+	now = time (NULL);
+	if (summary->tz)
+		day_end = time_day_end_with_zone (now, summary->tz);
+	else
+		day_end = time_day_end (now);
 
+	/* (Yes, the number of milliseconds in a day is less than UINT_MAX) */
+	summary->priv->tomorrow_timeout_id =
+		g_timeout_add ((day_end - now) * 1000,
+			       tomorrow_timeout, summary);
+}
+
+static gboolean
+tomorrow_timeout (gpointer data)
+{
+	ESummary *summary = data;
+
+	reset_tomorrow_timeout (summary);
 	e_summary_reconfigure (summary);
+
+	return FALSE;
 }
 	
 #define DEFAULT_HTML "<html><head><title>Summary</title></head><body bgcolor=\"#ffffff\">%s</body></html>" 
@@ -490,7 +502,6 @@ e_summary_init (ESummary *summary)
 	GConfClient *gconf_client;
 	ESummaryPrivate *priv;
 	GdkColor bgcolor = {0, 0xffff, 0xffff, 0xffff};
-	time_t t, day_end;
 	char *def, *default_utf;
 
 	summary->priv = g_new (ESummaryPrivate, 1);
@@ -534,17 +545,9 @@ e_summary_init (ESummary *summary)
 		summary->timezone = g_strdup ("UTC");
 	}
 	summary->tz = icaltimezone_get_builtin_timezone (summary->timezone);
+	reset_tomorrow_timeout (summary);
 
 	g_object_unref (gconf_client);
-
-	t = time (NULL);
-	if (summary->tz == NULL) {
-		day_end = time_day_end (t);
-	} else {
-		day_end = time_day_end_with_zone (t, summary->tz);
-	}
-
-	priv->alarm = alarm_add (day_end, alarm_fn, summary, NULL);
 
 	priv->queued_draw_idle_id = 0;
 }
