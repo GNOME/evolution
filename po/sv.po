@@ -5,13 +5,13 @@
 # Christian Rose <menthos@menthos.com>, 2000, 2001.
 # Martin Norbäck <d95mback@dtek.chalmers.se>, 2001.
 #
-# $Id: sv.po,v 1.94 2001/07/24 22:02:47 menthos Exp $
+# $Id: sv.po,v 1.95 2001/07/24 22:43:36 menthos Exp $
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2001-07-25 00:00+0200\n"
-"PO-Revision-Date: 2001-07-25 00:01+0200\n"
+"POT-Creation-Date: 2001-07-25 00:41+0200\n"
+"PO-Revision-Date: 2001-07-25 00:43+0200\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -836,7 +836,7 @@ msgstr "_Kontakter..."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:22
 #: calendar/gui/dialogs/alarm-page.glade.h:10
-#: calendar/gui/dialogs/meeting-page.c:1205
+#: calendar/gui/dialogs/meeting-page.c:1262
 #: calendar/gui/dialogs/recurrence-page.glade.h:12 mail/folder-browser.c:1302
 #: mail/mail-config.glade.h:108 ui/evolution-mail-message.xml.h:79
 #: ui/evolution-tasks.xml.h:15 ui/evolution.xml.h:45
@@ -2748,11 +2748,11 @@ msgstr "Slutti_d:"
 msgid "_Start time:"
 msgstr "_Starttid:"
 
-#: calendar/gui/dialogs/meeting-page.c:623
+#: calendar/gui/dialogs/meeting-page.c:618
 msgid "Sent By:"
 msgstr "Skickat av:"
 
-#: calendar/gui/dialogs/meeting-page.c:1200
+#: calendar/gui/dialogs/meeting-page.c:1257
 msgid "_Delegate To..."
 msgstr "_Delegera till..."
 
@@ -9060,6 +9060,10 @@ msgstr "Visa detaljer"
 #: shell/e-activity-handler.c:200
 msgid "Cancel Operation"
 msgstr "Avbryt åtgärd"
+
+#: shell/e-local-storage.c:554
+msgid "Local Folders"
+msgstr "Lokala mappar"
 
 #: shell/e-setup.c:125 shell/e-setup.c:196
 msgid "Evolution installation"
