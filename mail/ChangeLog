@@ -1,3 +1,17 @@
+2002-01-08  Iain Holmes  <iain@ximian.com>
+
+	* importers/evolution-mbox-importer.c (string_to_int): Takes a hex
+	string and converts it to an int.
+	(get_info_from_mozilla): Creates a CamelMessageInfo structure from
+	the X-Mozilla-Status header.
+	(process_item_fn): Check for the X-Mozilla-Status header and if it
+	is present call get_info_from_mozilla. If get_info_from_mozilla
+	returns that the message was marked as deleted but never expunged
+	it isn't imported.
+
+	* importers/mozilla-status-headers.h: Stuff Evolution cares about
+	from the mozilla header.
+
 2002-01-07  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-config.c (mail_config_set_new_mail_notify_sound_file): Renamed.

@@ -25,6 +25,7 @@
 #endif
 
 #include <stdio.h>
+#include <ctype.h>
 
 #include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-generic-factory.h>
@@ -36,6 +37,8 @@
 
 #include <importer/evolution-importer.h>
 #include <importer/GNOME_Evolution_Importer.h>
+
+#include "mozilla-status-headers.h"
 
 #include "mail/mail-importer.h"
 #include "mail-tools.h"
@@ -66,6 +69,67 @@ void mail_importer_module_init (void);
 
 /* EvolutionImporter methods */
 
+static int
+string_to_int (const char *str)
+{
+	int result = 0;
+	char *s;
+
+	for (s = (char *) str; *s; s++) {
+		char c = toupper (*s);
+
+		result *= 16;
+
+		if (c >= '0' && c <= '9') {
+			result += (c - '0');
+		} else if (c >= 'A' && c <= 'F') {
+			result += (c - 'A');
+		}
+	}
+
+	g_print ("%s became %d\n", str, result);
+
+	return result;
+}
+
+static CamelMessageInfo *
+get_info_from_mozilla (const char *mozilla_status,
+		       gboolean *deleted)
+{
+	int status;
+	CamelMessageInfo *info;
+
+	info = g_new0 (CamelMessageInfo, 1);
+
+	*deleted = FALSE;
+
+	status = string_to_int (mozilla_status);
+	if (status == 0) {
+		return info;
+	}
+
+	if (status & MSG_FLAG_EXPUNGED) {
+		*deleted = TRUE;
+		g_free (info);
+
+		return NULL;
+	}
+
+	if (status & MSG_FLAG_READ) {
+		info->flags |= CAMEL_MESSAGE_SEEN;
+	}
+
+	if (status & MSG_FLAG_MARKED) {
+		info->flags |= CAMEL_MESSAGE_FLAGGED;
+	}
+
+	if (status & MSG_FLAG_REPLIED) {
+		info->flags |= CAMEL_MESSAGE_ANSWERED;
+	}
+
+	return info;
+}
+
 static void
 process_item_fn (EvolutionImporter *eimporter,
 		 CORBA_Object listener,
@@ -76,6 +140,7 @@ process_item_fn (EvolutionImporter *eimporter,
 	MailImporter *importer = (MailImporter *) mbi;
 	gboolean done = FALSE;
 	CamelException *ex;
+	char *mozilla_status;
 
 	if (importer->folder == NULL) {
 		GNOME_Evolution_ImporterListener_notifyResult (listener,
@@ -96,6 +161,7 @@ process_item_fn (EvolutionImporter *eimporter,
 		/* Import the next message */
 		CamelMimeMessage *msg;
 		CamelMessageInfo *info;
+		gboolean deleted;
 
 		IN;
 		msg = camel_mime_message_new ();
@@ -106,10 +172,20 @@ process_item_fn (EvolutionImporter *eimporter,
 			done = TRUE;
 		}
 
+		mozilla_status = camel_medium_get_header (CAMEL_MEDIUM (msg), "X-Mozilla-Status");
+		if (mozilla_status != NULL) {
+			g_print ("Got Mozilla status header: %s\n", mozilla_status);
+			info = get_info_from_mozilla (mozilla_status, &deleted);
+		} else {
+			info = g_new0 (CamelMessageInfo, 1);
+		}
+
+		if (deleted == FALSE) {
 		/* write the mesg */
-		info = g_new0 (CamelMessageInfo, 1);
-		camel_folder_append_message (importer->folder, msg, info, ex);
-		g_free (info);
+			camel_folder_append_message (importer->folder, msg, info, ex);
+			g_free (info);
+		}
+
 		camel_object_unref (CAMEL_OBJECT (msg));
 		if (camel_exception_is_set (ex)) {
 			g_warning ("Failed message %d", mbi->num);

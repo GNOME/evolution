@@ -16,7 +16,8 @@ liboutlook_la_SOURCES =				\
 	evolution-outlook-importer.c
 liboutlook_la_LDFLAGS = -version-info 0:0:0
 
-libmbox_la_SOURCES = evolution-mbox-importer.c
+libmbox_la_SOURCES = evolution-mbox-importer.c \
+		     mozilla-status-headers.h
 libmbox_la_LDFLAGS = -version-info 0:0:0
 
 oafdir = $(datadir)/oaf
