@@ -1751,7 +1751,7 @@ filter_edit (BonoboUIComponent *uih, void *user_data, const char *path)
 	char *user, *system;
 	
 	if (filter_editor) {
-		/* FIXME: raise the filter_editor dialog? */
+		gdk_window_raise (GTK_WIDGET (filter_editor)->window);
 		return;
 	}
 	

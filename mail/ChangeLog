@@ -1,5 +1,8 @@
 2001-08-02  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-callbacks.c (filter_edit): Raise the filter-editor window
+	if it's already created.
+
 	* folder-browser.c (message_list_drag_data_received): I obviously
 	can't spell recieved, er, received...uh, yea.
 
