@@ -371,33 +371,24 @@ generate_html (gpointer data)
 
 	uids = cal_client_get_objects_in_range (calendar->client, 
 						CALOBJ_TYPE_EVENT, begin, end);
+	string = g_string_new ("<dl><dt><img src=\"myevo-appointments.png\" align=\"middle\" "
+			       "alt=\"\" width=\"48\" height=\"48\"> <b>");
+
+	if (calendar->default_uri != NULL)
+		g_string_append_printf (string, "<a href=\"%s\">", calendar->default_uri);
+
+	g_string_append (string, _("Appointments"));
+
+	if (calendar->default_uri != NULL)
+		g_string_append (string, "</a>");
+
+	g_string_append (string, "</b></dt><dd>");
+
 	if (uids == NULL) {
-		char *s1, *s2;
-
-		s1 = e_utf8_from_locale_string (_("Appointments"));
-		s2 = e_utf8_from_locale_string (_("No appointments"));
-		g_free (calendar->html);
-		calendar->html = g_strconcat ("<dl><dt><img src=\"myevo-appointments.png\" align=\"middle\" "
-		                              "alt=\"\" width=\"48\" height=\"48\"> <b><a href=\"", calendar->default_uri, "\">",
-		                              s1, "</a></b></dt><dd><b>", s2, "</b></dd></dl>", NULL);
-		g_free (s1);
-		g_free (s2);
-
- 		e_summary_draw (summary);
-		return FALSE;
-	} else {
+		g_string_append (string, _("No appointments."));
+	} else { 
 		GPtrArray *uidarray;
 		int i;
-		char *s;
-
-		string = g_string_new (NULL);
-		g_string_sprintf (string, "<dl><dt><img src=\"myevo-appointments.png\" align=\"middle\" "
-			      "alt=\"\" width=\"48\" height=\"48\"> <b><a href=\"%s\">",
-			      calendar->default_uri);
-		s = e_utf8_from_locale_string (_("Appointments"));
-		g_string_append (string, s);
-		g_free (s);
-		g_string_append (string, "</a></b></dt><dd>");
 
 		uidarray = uids_to_array (summary, calendar->client, uids, begin, end);
 		for (i = 0; i < uidarray->len; i++) {
@@ -439,8 +430,9 @@ generate_html (gpointer data)
 		}
 
 		free_event_array (uidarray);
-		g_string_append (string, "</dd></dl>");
 	}
+
+	g_string_append (string, "</dd></dl>");
 
 	if (calendar->html) {
 		g_free (calendar->html);

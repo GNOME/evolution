@@ -1,3 +1,9 @@
+2003-03-13  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-summary-calendar.c (generate_html): Changed so its printf()s
+	are protected against default_uri being NULL.  Also, no need to do
+	e_utf8_from_locale_string() anymore.
+
 2003-03-12  Dan Winship  <danw@ximian.com>
 
 	* e-summary-shown.c (e_summary_shown_freeze,
@@ -41,6 +47,7 @@
 	(e_summary_tasks_protocol): Likewise.
 	* e-summary-weather.c (e_summary_weather_update): Likewise.
 
+>>>>>>> 1.264
 2003-03-05  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-summary-weather.c (e_summary_weather_set_online): Likewise,
