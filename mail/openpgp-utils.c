@@ -1139,9 +1139,10 @@ openpgp_verify (const gchar *in, gint inlen, const gchar *sigin, gint siglen, Ca
 	
 	if (diagnostics) {
 		char *charset;
-		char *desc;
+		const char *buf;
+		char *desc, *outbuf;
 		iconv_t cd;
-		size_t len, inlen;
+		size_t len, outlen;
 		
 		charset = getenv ("CHARSET");
 		if (!charset)
@@ -1149,14 +1150,18 @@ openpgp_verify (const gchar *in, gint inlen, const gchar *sigin, gint siglen, Ca
 		
 		cd = iconv_open ("UTF-8", charset);
 		
-		inlen = strlen (diagnostics);
-		len = 2 * inlen;
-		desc = g_malloc0 (len);
-		if (iconv (cd, (const char **) &diagnostics, &inlen, &desc, &len) == -1) {
+		len = strlen (diagnostics);
+		outlen = 2 * len;
+		
+		outbuf = desc = g_malloc0 (outlen + 1);
+		buf = diagnostics;
+		if (cd == (iconv_t) -1 || iconv (cd, &buf, &len, &outbuf, &outlen) == -1) {
 			g_free (desc);
 			desc = g_strdup (diagnostics);
 		}
-		iconv_close (cd);
+		
+		if (cd != (iconv_t) -1)
+			iconv_close (cd);
 		
 		openpgp_validity_set_description (valid, desc);
 		g_free (desc);
@@ -1174,13 +1179,19 @@ openpgp_verify (const gchar *in, gint inlen, const gchar *sigin, gint siglen, Ca
 PgpValidity *
 openpgp_validity_new (void)
 {
-	return g_new0 (PgpValidity, 1);
+	PgpValidity *validity;
+	
+	validity = g_new (PgpValidity, 1);
+	validity->valid = FALSE;
+	validity->description = NULL;
+	
+	return validity;
 }
 
 void
 openpgp_validity_init (PgpValidity *validity)
 {
-	g_return_if_fail (validity != NULL);
+	g_assert (validity != NULL);
 	
 	validity->valid = FALSE;
 	validity->description = NULL;
@@ -1189,7 +1200,8 @@ openpgp_validity_init (PgpValidity *validity)
 gboolean
 openpgp_validity_get_valid (PgpValidity *validity)
 {
-	g_return_val_if_fail (validity != NULL, FALSE);
+	if (validity == NULL)
+		return FALSE;
 	
 	return validity->valid;
 }
@@ -1197,7 +1209,7 @@ openpgp_validity_get_valid (PgpValidity *validity)
 void
 openpgp_validity_set_valid (PgpValidity *validity, gboolean valid)
 {
-	g_return_if_fail (validity != NULL);
+	g_assert (validity != NULL);
 	
 	validity->valid = valid;
 }
@@ -1205,7 +1217,8 @@ openpgp_validity_set_valid (PgpValidity *validity, gboolean valid)
 gchar *
 openpgp_validity_get_description (PgpValidity *validity)
 {
-	g_return_val_if_fail (validity != NULL, NULL);
+	if (validity == NULL)
+		return NULL;
 	
 	return validity->description;
 }
@@ -1213,7 +1226,7 @@ openpgp_validity_get_description (PgpValidity *validity)
 void
 openpgp_validity_set_description (PgpValidity *validity, const gchar *description)
 {
-	g_return_if_fail (validity != NULL);
+	g_assert (validity != NULL);
 	
 	g_free (validity->description);
 	validity->description = g_strdup (description);
@@ -1222,7 +1235,7 @@ openpgp_validity_set_description (PgpValidity *validity, const gchar *descriptio
 void
 openpgp_validity_clear (PgpValidity *validity)
 {
-	g_return_if_fail (validity != NULL);
+	g_assert (validity != NULL);
 	
 	validity->valid = FALSE;
 	g_free (validity->description);
@@ -1232,7 +1245,8 @@ openpgp_validity_clear (PgpValidity *validity)
 void
 openpgp_validity_free (PgpValidity *validity)
 {
-	g_return_if_fail (validity != NULL);
+	if (validity == NULL)
+		return;
 	
 	g_free (validity->description);
 	g_free (validity);

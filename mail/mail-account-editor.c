@@ -197,6 +197,10 @@ apply_changes (MailAccountEditor *editor)
 		account->source->save_passwd = GTK_TOGGLE_BUTTON (editor->save_passwd)->active;
 		account->source->keep_on_server = GTK_TOGGLE_BUTTON (editor->keep_on_server)->active;
 		
+		account->source->enabled = GTK_TOGGLE_BUTTON (editor->source_enabled)->active;
+		account->source->auto_check = GTK_TOGGLE_BUTTON (editor->source_auto_check)->active;
+		account->source->auto_check_time = gtk_spin_button_get_value_as_int (editor->source_auto_timeout);
+		
 		if (editor->source_ssl)
 			account->source->use_ssl = GTK_TOGGLE_BUTTON (editor->source_ssl)->active;
 		
@@ -542,6 +546,14 @@ transport_type_init (MailAccountEditor *editor, CamelURL *url)
 }
 
 static void
+auto_check_toggled (GtkToggleButton *button, gpointer data)
+{
+	MailAccountEditor *editor = data;
+	
+	gtk_widget_set_sensitive (GTK_WIDGET (editor->source_auto_timeout), button->active);
+}
+
+static void
 source_check (MailAccountEditor *editor, CamelURL *url)
 {
 	GList *providers, *l;
@@ -747,6 +759,15 @@ construct (MailAccountEditor *editor, const MailConfigAccount *account)
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (editor->source_ssl), account->source->use_ssl);
 	editor->keep_on_server = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "chkKeepMailOnServer"));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (editor->keep_on_server), account->source->keep_on_server);
+	editor->source_auto_timeout = GTK_SPIN_BUTTON (glade_xml_get_widget (gui, "spinAutoCheckTimeout"));
+	gtk_spin_button_set_value (editor->source_auto_timeout,
+				   (gfloat) (account->source->auto_check_time * 1.0));
+	editor->source_auto_check = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "chkAutoCheckMail"));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (editor->source_auto_check), account->source->auto_check);
+	gtk_signal_connect (GTK_OBJECT (editor->source_auto_check), "toggled", auto_check_toggled, editor);
+	gtk_widget_set_sensitive (GTK_WIDGET (editor->source_auto_timeout), account->source->auto_check);
+	editor->source_enabled = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "chkEnabled"));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (editor->source_enabled), account->source->enabled);
 	source_check (editor, url);
 	source_auth_init (editor, url);
 	if (url)

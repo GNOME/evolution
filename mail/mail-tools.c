@@ -309,6 +309,8 @@ mail_tool_uri_to_folder (const char *uri, CamelException *ex)
 	CamelStore *store = NULL;
 	CamelFolder *folder = NULL;
 	
+	g_return_val_if_fail (uri != NULL, NULL);
+	
 	/* FIXME: This is a hack. */
 	if (!strncmp (uri, "vtrash:", 7)) {
 		folder = vtrash_uri_to_folder (uri, ex);
@@ -319,7 +321,7 @@ mail_tool_uri_to_folder (const char *uri, CamelException *ex)
 	url = camel_url_new (uri, ex);
 	if (!url)
 		return NULL;
-
+	
 	if (!strcmp (url->protocol, "vfolder")) {
 		folder = vfolder_uri_to_folder (uri, ex);
 	} else {

@@ -1,5 +1,34 @@
 2001-02-22  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* openpgp-utils.c (openpgp_verify): Fixed memory corruption bug.
+
+	* mail-format.c (try_inline_pgp_sig): Check to make sure the
+	validity isn't NULL.
+	(handle_multipart_signed): Check for NULL validities.
+
+2001-02-21  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-tools.c (mail_tool_uri_to_folder): Protect against NULL
+	uri's.
+
+	* mail-vtrash.c: Do mutex locking on the global hash table - this
+	should clear up some segfaults ;-)
+
+	* mail-config-druid.c (druid_finish): Set the 'enabled' member of
+	the source to TRUE if the URL exists else set to FALSE.
+	(incoming_type_changed): If the provider chosen is "None" then
+	gray-out the auto-check widgets and the check-settings, otherwise
+	sensitize them.
+
+	* mail-account-editor.c (construct): Added a few more settings.
+	(apply_changes): Save the new settings.
+
+	* mail-config.c (service_copy): Updated.
+	(config_read): Read in whether or not the account is enabled.
+	(mail_config_write): Save if the account is enabled or not.
+
+2001-02-22  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* mail-ops.c (mail_send_message): Updated to reflect changes to
 	the filter-driver code.
 

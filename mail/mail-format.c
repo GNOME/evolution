@@ -119,7 +119,7 @@ add_url (char *url, gpointer data, MailDisplay *md)
 
 	urls = g_datalist_get_data (md->data, "urls");
 	g_return_val_if_fail (urls != NULL, NULL);
-
+	
 	if (g_hash_table_lookup_extended (urls, url, &old_key, &old_value)) {
 		g_free (url);
 		url = old_key;
@@ -1010,7 +1010,7 @@ try_inline_pgp_sig (char *start, MailDisplay *md)
 	g_free (plaintext);
 	
 	/* Now display the "seal-of-authenticity" or something... */
-	if (openpgp_validity_get_valid (valid)) {
+	if (valid && openpgp_validity_get_valid (valid)) {
 		mail_html_write (md->html, md->stream,
 				 "<hr>\n<table><tr valign=top>"
 				 "<td><img src=\"%s\"></td>"
@@ -1028,7 +1028,7 @@ try_inline_pgp_sig (char *start, MailDisplay *md)
 				   "not be proven to be authentic."));
 	}
 	
-	if (openpgp_validity_get_description (valid)) {
+	if (valid && openpgp_validity_get_description (valid)) {
 		mail_error_write (md->html, md->stream,
 				  openpgp_validity_get_description (valid));
 		mail_html_write (md->html, md->stream, "<br><br>");
@@ -1339,6 +1339,7 @@ handle_multipart_encrypted (CamelMimePart *part, const char *mime_type,
 	CamelException ex;
 	
 	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));
+	
 	g_return_val_if_fail (CAMEL_IS_MULTIPART (wrapper), FALSE);
 	
 	/* Currently we only handle RFC2015-style PGP encryption. */
@@ -1372,6 +1373,7 @@ handle_multipart_signed (CamelMimePart *part, const char *mime_type,
 	int nparts, i;
 	
 	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));
+	
 	g_return_val_if_fail (CAMEL_IS_MULTIPART (wrapper), FALSE);
 	
 	/* Currently we only handle RFC2015-style PGP signatures. */
@@ -1395,7 +1397,7 @@ handle_multipart_signed (CamelMimePart *part, const char *mime_type,
 	}
 	
 	/* Now display the "seal-of-authenticity" or something... */
-	if (openpgp_validity_get_valid (valid)) {
+	if (valid && openpgp_validity_get_valid (valid)) {
 		mail_html_write (md->html, md->stream,
 				 "<hr>\n<table><tr valign=top>"
 				 "<td><img src=\"%s\"></td>"
@@ -1413,7 +1415,7 @@ handle_multipart_signed (CamelMimePart *part, const char *mime_type,
 				   "not be proven to be authentic."));
 	}
 
-	if (openpgp_validity_get_description (valid)) {
+	if (valid && openpgp_validity_get_description (valid)) {
 		mail_error_write (md->html, md->stream,
 				  openpgp_validity_get_description (valid));
 		mail_html_write (md->html, md->stream, "<br><br>");
@@ -1441,6 +1443,7 @@ handle_multipart_related (CamelMimePart *part, const char *mime_type,
 	int i, nparts;
 
 	g_return_val_if_fail (CAMEL_IS_MULTIPART (wrapper), FALSE);
+	
 	mp = CAMEL_MULTIPART (wrapper);
 	nparts = camel_multipart_get_number (mp);	
 
@@ -1523,10 +1526,11 @@ handle_multipart_alternative (CamelMimePart *part, const char *mime_type,
 		camel_medium_get_content_object (CAMEL_MEDIUM (part));
 	CamelMultipart *multipart;
 	CamelMimePart *mime_part;
-
+	
 	g_return_val_if_fail (CAMEL_IS_MULTIPART (wrapper), FALSE);
+	
 	multipart = CAMEL_MULTIPART (wrapper);
-
+	
 	mime_part = find_preferred_alternative (multipart, FALSE);
 	if (mime_part)
 		return call_handler_function (mime_part, md);
@@ -1544,6 +1548,7 @@ handle_multipart_appledouble (CamelMimePart *part, const char *mime_type,
 	CamelMultipart *multipart;
 
 	g_return_val_if_fail (CAMEL_IS_MULTIPART (wrapper), FALSE);
+	
 	multipart = CAMEL_MULTIPART (wrapper);
 
 	/* The first part is application/applefile and is not useful
@@ -1560,9 +1565,9 @@ handle_message_rfc822 (CamelMimePart *part, const char *mime_type,
 {
 	CamelDataWrapper *wrapper =
 		camel_medium_get_content_object (CAMEL_MEDIUM (part));
-
+	
 	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (wrapper), FALSE);
-
+	
 	mail_html_write (md->html, md->stream, "<blockquote>");
 	mail_format_mime_message (CAMEL_MIME_MESSAGE (wrapper), md);
 	mail_html_write (md->html, md->stream, "</blockquote>");

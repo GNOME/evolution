@@ -46,6 +46,7 @@ struct _MailAccountEditor {
 	
 	GladeXML *gui;
 	
+	/* Identity / General */
 	GtkEntry *account_name;
 	GtkEntry *name;
 	GtkEntry *email;
@@ -53,6 +54,7 @@ struct _MailAccountEditor {
 	GtkEntry *organization;
 	GnomeFileEntry *signature;
 	
+	/* Source */
 	GtkWidget *source_type;       /* this is generic because we don't know the widget-type */
 	GtkEntry *source_host;
 	GtkEntry *source_user;
@@ -62,12 +64,18 @@ struct _MailAccountEditor {
 	GtkOptionMenu *source_auth;
 	GtkCheckButton *source_ssl;
 	
+	GtkCheckButton *keep_on_server;
+	
+	GtkCheckButton *source_auto_check;
+	GtkSpinButton *source_auto_timeout;
+	
+	GtkCheckButton *source_enabled;
+	
+	/* Transport */
 	GtkWidget *transport_type;    /* Same here... */
 	GtkEntry *transport_host;
 	GtkOptionMenu *transport_auth;
 	GtkCheckButton *transport_ssl;
-	
-	GtkCheckButton *keep_on_server;
 	
 	const CamelProvider *transport;
 };

@@ -42,7 +42,11 @@
 
 #define d(x)
 
+#define VTRASH_LOCK(x) pthread_mutex_lock(&x)
+#define VTRASH_UNLOCK(x) pthread_mutex_unlock(&x)
+
 static GHashTable *vtrash_hash = NULL;
+static pthread_mutex_t vtrash_hash_lock = PTHREAD_MUTEX_INITIALIZER;
 
 extern char *evolution_dir;
 extern CamelSession *session;
@@ -51,17 +55,20 @@ extern CamelSession *session;
 CamelFolder *
 vtrash_uri_to_folder (const char *uri, CamelException *ex)
 {
-	CamelFolder *folder;
+	CamelFolder *folder = NULL;
 	
-	if (!vtrash_hash)
-		return NULL;
+	g_return_val_if_fail (uri != NULL, NULL);
 	
 	if (strncmp (uri, "vtrash:", 7))
-		return NULL;
+			return NULL;
 	
-	folder = g_hash_table_lookup (vtrash_hash, uri);
-	
-	camel_object_ref (CAMEL_OBJECT (folder));
+	VTRASH_LOCK (vtrash_hash_lock);
+	if (vtrash_hash) {
+		folder = g_hash_table_lookup (vtrash_hash, uri);
+		
+		camel_object_ref (CAMEL_OBJECT (folder));
+	}
+	VTRASH_UNLOCK (vtrash_hash_lock);
 	
 	return folder;
 }
@@ -76,9 +83,12 @@ vtrash_add (CamelStore *store, CamelFolder *folder, const char *store_uri, const
 	
 	uri = g_strdup_printf ("vtrash:%s", store_uri);
 	
+	VTRASH_LOCK (vtrash_hash_lock);
+	
 	if (!vtrash_hash) {
 		vtrash_hash = g_hash_table_new (g_str_hash, g_str_equal);
 	} else if (g_hash_table_lookup (vtrash_hash, uri) != NULL) {
+		VTRASH_UNLOCK (vtrash_hash_lock);
 		g_free (uri);
 		return;
 	}
@@ -90,6 +100,7 @@ vtrash_add (CamelStore *store, CamelFolder *folder, const char *store_uri, const
 	}
 	
 	if (!storage) {
+		VTRASH_UNLOCK (vtrash_hash_lock);
 		g_free (uri);
 		return;
 	}
@@ -99,10 +110,12 @@ vtrash_add (CamelStore *store, CamelFolder *folder, const char *store_uri, const
 				      "mail", uri, name, FALSE);
 	gtk_object_unref (GTK_OBJECT (storage));
 	
+	g_free (path);
+	
 	g_hash_table_insert (vtrash_hash, uri, folder);
 	camel_object_ref (CAMEL_OBJECT (folder));
 	
-	g_free (path);
+	VTRASH_UNLOCK (vtrash_hash_lock);
 }
 
 struct _get_trash_msg {
@@ -138,7 +151,9 @@ create_trash_vfolder (const char *name, GPtrArray *urls, CamelException *ex)
 	foldername = g_strdup ("mbox?(match-all (system-flag \"Deleted\"))");
 	
 	/* we dont have indexing on vfolders */
-	folder = mail_tool_get_folder_from_urlname (storeuri, foldername, CAMEL_STORE_FOLDER_CREATE|CAMEL_STORE_VEE_FOLDER_AUTO, ex);
+	folder = mail_tool_get_folder_from_urlname (storeuri, foldername,
+						    CAMEL_STORE_FOLDER_CREATE | CAMEL_STORE_VEE_FOLDER_AUTO,
+						    ex);
 	g_free (foldername);
 	g_free (storeuri);
 	if (camel_exception_is_set (ex))
@@ -284,9 +299,12 @@ free_folder (gpointer key, gpointer value, gpointer data)
 void
 vtrash_cleanup (void)
 {
-	if (!vtrash_hash)
-		return;
+	VTRASH_LOCK (vtrash_hash_lock);
 	
-	g_hash_table_foreach (vtrash_hash, free_folder, NULL);
-	g_hash_table_destroy (vtrash_hash);
+	if (vtrash_hash) {
+		g_hash_table_foreach (vtrash_hash, free_folder, NULL);
+		g_hash_table_destroy (vtrash_hash);
+	}
+	
+	VTRASH_UNLOCK (vtrash_hash_lock);
 }

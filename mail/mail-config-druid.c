@@ -217,8 +217,10 @@ druid_finish (GnomeDruidPage *page, gpointer arg1, gpointer user_data)
 			mail_session_remember_password (source->url);
 		}
 		camel_url_free (url);
+		source->enabled = TRUE;
 	} else {
 		source->url = NULL;
+		source->enabled = FALSE;
 	}
 	
 	/* construct the transport */
@@ -433,6 +435,10 @@ incoming_type_changed (GtkWidget *widget, gpointer user_data)
 	provider = gtk_object_get_data (GTK_OBJECT (widget), "provider");
 	
 	druid->source_provider = provider;
+	
+	gtk_widget_set_sensitive (GTK_WIDGET (druid->incoming_auto_check), provider ? TRUE : FALSE);
+	gtk_widget_set_sensitive (GTK_WIDGET (druid->incoming_auto_check_min), provider ? TRUE : FALSE);
+	gtk_widget_set_sensitive (GTK_WIDGET (druid->incoming_check_settings), provider ? TRUE : FALSE);
 	
 	/* hostname */
 	label = glade_xml_get_widget (druid->gui, "lblSourceHost");
