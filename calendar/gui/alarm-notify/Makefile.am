@@ -58,7 +58,7 @@ server_in_files = \
 	GNOME_Evolution_Calendar_AlarmNotify.server.in.in
 
 server_DATA = $(server_in_files:.server.in.in=.server)
-$(server_in_files:.server.in.in=.server.in): $(server_in_files)
+%.server.in: %.server.in.in
 	sed -e "s|\@LIBEXECDIR\@|$(privlibexecdir)|" $< > $@
 
 @INTLTOOL_SERVER_RULE@
@@ -68,7 +68,7 @@ EXTRA_DIST =		\
 	$(server_in_files)	\
 	$(glade_DATA)
 
-BUILT_SOURCES = $(CORBA_GENERATED)
+BUILT_SOURCES = $(CORBA_GENERATED) $(server_DATA)
 CLEANFILES = $(BUILT_SOURCES)
 
 dist-hook:

@@ -1,3 +1,14 @@
+2003-06-05  Not Zed  <NotZed@Ximian.com>
+
+	** For #42691.
+
+	* gui/Makefile.am (%.server.in): implicit rule for .in file.
+	(BUILT_SOURCES): added server_DATA.
+
+	* gui/alarm-notify/Makefile.am (%.server.in): added implicit rule
+	for .in file.
+	(BUILT_SOURCES): added server_DATA.
+
 2003-06-04  Rodrigo Moya <rodrigo@ximian.com>
 
 	* pcs/query.c (start_cached_query_cb): adapted to changes in

@@ -195,7 +195,7 @@ libevolution_calendar_la_LDFLAGS = -avoid-version -module
 server_in_files = GNOME_Evolution_Calendar.server.in.in
 
 server_DATA = $(server_in_files:.server.in.in=.server)
-$(server_in_files:.server.in.in=.server.in): $(server_in_files)
+%.server.in: %.server.in.in
 	sed -e "s|\@COMPONENTDIR\@|$(componentdir)|" $< > $@
 
 # GConf schemas
@@ -211,7 +211,7 @@ EXTRA_DIST =	 			\
 	$(etspec_DATA)			\
 	$(server_in_files)
 
-BUILT_SOURCES = $(IDL_GENERATED)
+BUILT_SOURCES = $(IDL_GENERATED) $(server_DATA)
 CLEANFILES = $(BUILT_SOURCES)
 
 install-data-local:
