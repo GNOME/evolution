@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* Evolution calendar - Main page of the task editor dialog
  *
  * Copyright (C) 2001 Ximian, Inc.
@@ -78,7 +79,8 @@ struct _MeetingPagePrivate {
 	GtkWidget *add;
 	GtkWidget *remove;
 	GtkWidget *invite;
-	
+	GtkWidget *att_label;
+
 	/* ListView stuff */
 	EMeetingStore *model;
 	EMeetingListView *list_view;
@@ -521,10 +523,14 @@ get_widgets (MeetingPage *mpage)
 	priv->add = GW ("add-attendee");
 	priv->remove = GW ("remove-attendee");
 	priv->invite = GW ("invite");
-	
+
+	/* Attendees Label */
+	priv->att_label = GW ("attendees-label");
+
 #undef GW
 
 	return (priv->list_box
+		&& priv->att_label
 		&& priv->invite
 		&& priv->add
 		&& priv->remove
@@ -897,8 +903,12 @@ meeting_page_construct (MeetingPage *mpage, EMeetingStore *ems,
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sw), GTK_SHADOW_IN);
 	gtk_widget_show (sw);
 	gtk_container_add (GTK_CONTAINER (sw), GTK_WIDGET (priv->list_view));
-	gtk_box_pack_start (GTK_BOX (priv->list_box), sw, TRUE, TRUE, 6);
+	gtk_box_pack_start (GTK_BOX (priv->list_box), sw, TRUE, TRUE, 0);
 	
+	/* Set the mnemonic widget for the Attendees label */
+	gtk_label_set_mnemonic_widget (GTK_LABEL (priv->att_label),
+				       priv->list_view);
+
 	/* Init the widget signals */
 	init_widgets (mpage);
 

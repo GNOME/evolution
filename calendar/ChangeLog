@@ -1,3 +1,18 @@
+2004-07-26  Rodney Dawes  <dobey@novell.com>
+
+	* gui/dialogs/event-page.glade: Fix mnemonic for "Location" to not
+	be duplicated with "OK"
+
+	* gui/dialogs/meeting-page.c (get_widgets): Get the "Attendees" label
+	(meeting_page_construct): Fix padding of GtkScrolledWindow widget
+	Set the mnemonic widget for the "Attendees" label
+
+	* gui/dialogs/meeting-page.glade: Fix HIG spacing to be correct
+	Fix the mnemonic for "Organizer" to not conflict
+	Add mnemonic for "Attendees"
+
+	* gui/dialogs/task-page.glade: Add mnemonic for "Description"
+
 2004-07-26  JP Rosevear  <jpr@novell.com>
  
  	* gui/dialogs/calendar-setup.c (calendar_setup_edit_calendar): set
