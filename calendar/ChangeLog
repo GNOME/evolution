@@ -1,3 +1,8 @@
+2001-01-17  JP Rosevear  <jpr@ximian.com>
+
+	* pcs/cal-backend.c (cal_backend_compute_changes): Fix transposition
+	of sync db location
+	
 2001-01-17  Federico Mena Quintero  <federico@ximian.com>
 
 	* */*: Ximianified email addresses and copyrights.

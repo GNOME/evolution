@@ -271,7 +271,7 @@ cal_backend_compute_changes (CalBackend *backend, CalObjType type, const char *c
 	int n;
 	
 	/* Find the changed ids - FIX ME, path should not be hard coded */
-	if (type == GNOME_Evolution_Calendar_TYPE_EVENT)
+	if (type == GNOME_Evolution_Calendar_TYPE_TODO)
 		filename = g_strdup_printf ("%s/evolution/local/Tasks/%s.db", g_get_home_dir (), change_id);
 	else 
 		filename = g_strdup_printf ("%s/evolution/local/Calendar/%s.db", g_get_home_dir (), change_id);
