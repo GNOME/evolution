@@ -169,7 +169,7 @@ evolution_shell_view_class_init (EvolutionShellViewClass *klass)
 				G_SIGNAL_RUN_FIRST,
 				G_STRUCT_OFFSET (EvolutionShellViewClass, set_message),
 				NULL, NULL,
-				e_shell_marshal_NONE__STRING_INT,
+				e_shell_marshal_NONE__STRING_BOOL,
 				G_TYPE_NONE, 2,
 				G_TYPE_STRING,
 				G_TYPE_BOOLEAN);

@@ -1,5 +1,14 @@
 2003-02-06  Not Zed  <NotZed@Ximian.com>
 
+	* e-shortcuts-view.c (class_init): use POINTER_STRING_BOOL for
+	activate_shortcut.
+
+	* e-shell-marshal.list: Added NONE,STRING,BOOL, and
+	POINTER,STRING,BOOL, removed POINTER,STRING,INT
+
+	* evolution-shell-view.c (evolution_shell_view_class_init): Use
+	STRING_BOOL for the set_message signal to match rest of command.
+
 	* e-shell-marshal.list: Added NONE,STRING,STRING,STRING
 
 	* evolution-shell-component.c

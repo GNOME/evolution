@@ -716,7 +716,7 @@ class_init (EShortcutsViewClass *klass)
 			      G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
 			      G_STRUCT_OFFSET (EShortcutsViewClass, activate_shortcut),
 			      NULL, NULL,
-			      e_shell_marshal_NONE__POINTER_STRING_INT,
+			      e_shell_marshal_NONE__POINTER_STRING_BOOL,
 			      G_TYPE_NONE, 3,
 			      G_TYPE_POINTER,
 			      G_TYPE_STRING,
