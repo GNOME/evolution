@@ -44,6 +44,8 @@
 #include "mail-ops.h"
 #include "Mail.h"
 
+#include "message-tag-followup.h"
+
 #include "art/mail-new.xpm"
 #include "art/mail-read.xpm"
 #include "art/mail-replied.xpm"
@@ -150,6 +152,7 @@ static struct {
 	{ score_high_xpm,       NULL },
 	{ score_higher_xpm,     NULL },
 	{ score_highest_xpm,    NULL },
+	{ priority_high_xpm,    NULL },  /* FIXME: replace with a flag icon */
 	{ NULL,			NULL }
 };
 
@@ -530,13 +533,16 @@ ml_duplicate_value (ETreeModel *etm, int col, const void *value, void *data)
 	case COL_SENT:
 	case COL_RECEIVED:
 	case COL_SIZE:
+	case COL_FOLLOWUP_FLAG_STATUS:
+	case COL_FOLLOWUP_DUE_BY:
 		return (void *) value;
-
+		
 	case COL_FROM:
 	case COL_SUBJECT:
 	case COL_TO:
+	case COL_FOLLOWUP_FLAG:
 		return g_strdup (value);
-
+		
 	default:
 		g_assert_not_reached ();
 	}
@@ -556,11 +562,14 @@ ml_free_value (ETreeModel *etm, int col, void *value, void *data)
 	case COL_SENT:
 	case COL_RECEIVED:
 	case COL_SIZE:
+	case COL_FOLLOWUP_FLAG_STATUS:
+	case COL_FOLLOWUP_DUE_BY:
 		break;
-
+		
 	case COL_FROM:
 	case COL_SUBJECT:
 	case COL_TO:
+	case COL_FOLLOWUP_FLAG:
 		g_free (value);
 		break;
 	default:
@@ -581,12 +590,15 @@ ml_initialize_value (ETreeModel *etm, int col, void *data)
 	case COL_SENT:
 	case COL_RECEIVED:
 	case COL_SIZE:
+	case COL_FOLLOWUP_FLAG_STATUS:
+	case COL_FOLLOWUP_DUE_BY:
 		return NULL;
-
+		
 	case COL_FROM:
 	case COL_SUBJECT:
 	case COL_TO:
-		return g_strdup("");
+	case COL_FOLLOWUP_FLAG:
+		return g_strdup ("");
 	default:
 		g_assert_not_reached ();
 	}
@@ -607,11 +619,14 @@ ml_value_is_empty (ETreeModel *etm, int col, const void *value, void *data)
 	case COL_SENT:
 	case COL_RECEIVED:
 	case COL_SIZE:
+	case COL_FOLLOWUP_FLAG_STATUS:
+	case COL_FOLLOWUP_DUE_BY:
 		return value == NULL;
-
+		
 	case COL_FROM:
 	case COL_SUBJECT:
 	case COL_TO:
+	case COL_FOLLOWUP_FLAG:
 		return !(value && *(char *)value);
 	default:
 		g_assert_not_reached ();
@@ -637,40 +652,44 @@ static const char *score_map[] = {
 	N_("Highest"),
 };
 
+
 static char *
 ml_value_to_string (ETreeModel *etm, int col, const void *value, void *data)
 {
 	unsigned int i;
-
+	
 	switch (col){
 	case COL_MESSAGE_STATUS:
 		i = (unsigned int)value;
 		if (i > 4)
-			return g_strdup("");
-		return g_strdup(_(status_map[i]));
-
+			return g_strdup ("");
+		return g_strdup (_(status_map[i]));
+		
 	case COL_SCORE:
-		i = (unsigned int)value + 3;
+		i = (unsigned int) value + 3;
 		if (i > 6)
 			i = 3;
-		return g_strdup(_(score_map[i]));
+		return g_strdup (_(score_map[i]));
 		
 	case COL_ATTACHMENT:
 	case COL_FLAGGED:
 	case COL_DELETED:
 	case COL_UNREAD:
-		return g_strdup_printf("%d", (int) value);
+	case COL_FOLLOWUP_FLAG_STATUS:
+		return g_strdup_printf ("%d", (int) value);
 		
 	case COL_SENT:
 	case COL_RECEIVED:
-		return filter_date (GPOINTER_TO_INT(value));
+	case COL_FOLLOWUP_DUE_BY:
+		return filter_date (GPOINTER_TO_INT (value));
 		
 	case COL_SIZE:
-		return filter_size (GPOINTER_TO_INT(value));
-
+		return filter_size (GPOINTER_TO_INT (value));
+		
 	case COL_FROM:
 	case COL_SUBJECT:
 	case COL_TO:
+	case COL_FOLLOWUP_FLAG:
 		return g_strdup (value);
 	default:
 		g_assert_not_reached ();
@@ -691,14 +710,14 @@ subtree_unread(MessageList *ml, ETreePath node)
 {
 	CamelMessageInfo *info;
 	ETreePath child;
-
+	
 	while (node) {
 		info = e_tree_memory_node_get_data((ETreeMemory *)ml->model, node);
 		g_assert(info);
-
+		
 		if (!(info->flags & CAMEL_MESSAGE_SEEN))
 			return TRUE;
-
+		
 		if ((child = e_tree_model_node_get_first_child (E_TREE_MODEL (ml->model), node)))
 			if (subtree_unread(ml, child))
 				return TRUE;
@@ -713,15 +732,15 @@ subtree_size(MessageList *ml, ETreePath node)
 	CamelMessageInfo *info;
 	int size = 0;
 	ETreePath child;
-
+	
 	while (node) {
 		info = e_tree_memory_node_get_data((ETreeMemory *)ml->model, node);
 		g_assert(info);
-
+		
 		size += info->size;
 		if ((child = e_tree_model_node_get_first_child (E_TREE_MODEL (ml->model), node)))
 			size += subtree_size(ml, child);
-
+		
 		node = e_tree_model_node_get_next (ml->model, node);
 	}
 	return size;
@@ -733,28 +752,28 @@ subtree_earliest(MessageList *ml, ETreePath node, int sent)
 	CamelMessageInfo *info;
 	time_t earliest = 0, date;
 	ETreePath *child;
-
+	
 	while (node) {
 		info = e_tree_memory_node_get_data((ETreeMemory *)ml->model, node);
 		g_assert(info);
-
+		
 		if (sent)
 			date = info->date_sent;
 		else
 			date = info->date_received;
-
+		
 		if (earliest == 0 || date < earliest)
 			earliest = date;
-
+		
 		if ((child = e_tree_model_node_get_first_child (ml->model, node))) {
 			date = subtree_earliest(ml, child, sent);
 			if (earliest == 0 || (date != 0 && date < earliest))
 				earliest = date;
 		}
-
+		
 		node = e_tree_model_node_get_next (ml->model, node);
 	}
-
+	
 	return earliest;
 }
 
@@ -763,15 +782,15 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
 {
 	MessageList *message_list = model_data;
 	CamelMessageInfo *msg_info;
-
+	
 	/* retrieve the message information array */
 	msg_info = e_tree_memory_node_get_data (E_TREE_MEMORY(etm), path);
 	g_assert(msg_info);
-
+	
 	switch (col){
 	case COL_MESSAGE_STATUS: {
 		ETreePath child;
-
+		
 		/* if a tree is collapsed, then scan its insides for details */
 		child = e_tree_model_node_get_first_child(etm, path);
 		if (child && !e_tree_node_is_expanded(message_list->tree, path)) {
@@ -780,7 +799,7 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
 			else
 				return (void *)4;
 		}
-
+		
 		if (msg_info->flags & CAMEL_MESSAGE_ANSWERED)
 			return GINT_TO_POINTER (2);
 		else if (msg_info->flags & CAMEL_MESSAGE_SEEN)
@@ -801,6 +820,46 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
 		
 		return GINT_TO_POINTER (score);
 	}
+	case COL_FOLLOWUP_FLAG_STATUS: {
+		const char *tag;
+		
+		tag = camel_tag_get ((CamelTag **) &msg_info->user_tags, "follow-up");
+		if (tag)
+			return GINT_TO_POINTER (TRUE);
+		else
+			return GINT_TO_POINTER (FALSE);
+	}
+	case COL_FOLLOWUP_DUE_BY: {
+		struct _FollowUpTag *tag;
+		const char *tag_value;
+		time_t due_by;
+		
+		tag_value = camel_tag_get ((CamelTag **) &msg_info->user_tags, "follow-up");
+		if (tag_value) {
+			tag = message_tag_followup_decode (tag_value);
+			due_by = tag->target_date;
+			g_free (tag);
+			return GINT_TO_POINTER (due_by);
+		} else {
+			return GINT_TO_POINTER (0);
+		}
+	}
+	case COL_FOLLOWUP_FLAG: {
+		struct _FollowUpTag *tag;
+		const char *tag_value;
+		int flag_type;
+		
+		tag_value = camel_tag_get ((CamelTag **) &msg_info->user_tags, "follow-up");
+		if (tag_value) {
+			tag = message_tag_followup_decode (tag_value);
+			flag_type = tag ? tag->type : FOLLOWUP_FLAG_NONE;
+			g_free (tag);
+			
+			return (void *) message_tag_followup_i18n_name (flag_type);
+		} else {
+			return NULL;
+		}
+	}
 	case COL_ATTACHMENT:
 		return GINT_TO_POINTER ((msg_info->flags & CAMEL_MESSAGE_ATTACHMENTS) != 0);
 	case COL_FROM:
@@ -819,29 +878,40 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
 		return GINT_TO_POINTER ((msg_info->flags & CAMEL_MESSAGE_DELETED) != 0);
 	case COL_UNREAD: {
 		ETreePath child;
-
+		
 		child = e_tree_model_node_get_first_child(etm, path);
 		if (child && !e_tree_node_is_expanded(message_list->tree, path)
 		    && (msg_info->flags & CAMEL_MESSAGE_SEEN)) {
 			return GINT_TO_POINTER (subtree_unread (message_list, child));
 		}
-
+		
 		return GINT_TO_POINTER (!(msg_info->flags & CAMEL_MESSAGE_SEEN));
 	}
 	case COL_COLOUR: {
-		const char *colour;
-
+		const char *colour, *followup;
+		
 		colour = camel_tag_get ((CamelTag **) &msg_info->user_tags, "colour");
-		if (colour == NULL && msg_info->flags & CAMEL_MESSAGE_FLAGGED)
+		followup = camel_tag_get ((CamelTag **) &msg_info->user_tags, "follow-up");
+		if (colour == NULL && msg_info->flags & CAMEL_MESSAGE_FLAGGED) {
 			/* FIXME: extract from the xpm somehow. */
 			colour = "#A7453E";
+		} else if (followup != NULL) {
+			struct _FollowUpTag *tag;
+			time_t now = time (NULL);
+			
+			tag = message_tag_followup_decode (followup);
+			if (tag && now >= tag->target_date) {
+				/* FIXME: extract from the xpm somehow. */
+				colour = "#A7453E";
+			}
+			g_free (tag);
+		}
 		return (void *)colour;
 	}
+	default:
+		g_assert_not_reached ();
+		return NULL;
 	}
-
-	g_assert_not_reached ();
-
-	return NULL;
 }
 
 static void
@@ -882,10 +952,10 @@ filter_date (time_t date)
 	struct tm then, now, yesterday;
 	char buf[26];
 	gboolean done = FALSE;
-
+	
 	if (date == 0)
 		return g_strdup (_("?"));
-
+	
 	localtime_r (&date, &then);
 	localtime_r (&nowdate, &now);
 	if (then.tm_mday == now.tm_mday &&
@@ -943,42 +1013,45 @@ message_list_create_extras (void)
 	GdkPixbuf *images [7];
 	ETableExtras *extras;
 	ECell *cell;
-
-	extras = e_table_extras_new();
-	e_table_extras_add_pixbuf(extras, "status", states_pixmaps [0].pixbuf);
-	e_table_extras_add_pixbuf(extras, "score", states_pixmaps [13].pixbuf);
-	e_table_extras_add_pixbuf(extras, "attachment", states_pixmaps [6].pixbuf);
-	e_table_extras_add_pixbuf(extras, "flagged", states_pixmaps [7].pixbuf);
 	
-	e_table_extras_add_compare(extras, "address_compare", address_compare);
-	e_table_extras_add_compare(extras, "subject_compare", subject_compare);
+	extras = e_table_extras_new ();
+	e_table_extras_add_pixbuf (extras, "status", states_pixmaps [0].pixbuf);
+	e_table_extras_add_pixbuf (extras, "score", states_pixmaps [13].pixbuf);
+	e_table_extras_add_pixbuf (extras, "attachment", states_pixmaps [6].pixbuf);
+	e_table_extras_add_pixbuf (extras, "flagged", states_pixmaps [7].pixbuf);
+	e_table_extras_add_pixbuf (extras, "followup", states_pixmaps [15].pixbuf);
+	
+	e_table_extras_add_compare (extras, "address_compare", address_compare);
+	e_table_extras_add_compare (extras, "subject_compare", subject_compare);
 	
 	for (i = 0; i < 5; i++)
 		images [i] = states_pixmaps [i].pixbuf;
-
-	e_table_extras_add_cell(extras, "render_message_status", e_cell_toggle_new (0, 5, images));
-
+	
+	e_table_extras_add_cell (extras, "render_message_status", e_cell_toggle_new (0, 5, images));
+	
 	for (i = 0; i < 2; i++)
 		images [i] = states_pixmaps [i + 5].pixbuf;
 	
-	e_table_extras_add_cell(extras, "render_attachment", e_cell_toggle_new (0, 2, images));
+	e_table_extras_add_cell (extras, "render_attachment", e_cell_toggle_new (0, 2, images));
 	
 	images [1] = states_pixmaps [7].pixbuf;
-	e_table_extras_add_cell(extras, "render_flagged", e_cell_toggle_new (0, 2, images));
-
+	e_table_extras_add_cell (extras, "render_flagged", e_cell_toggle_new (0, 2, images));
+	
+	images[1] = states_pixmaps [15].pixbuf;
+	e_table_extras_add_cell (extras, "render_flag_status", e_cell_toggle_new (0, 2, images));
+	
 	for (i = 0; i < 7; i++)
 		images[i] = states_pixmaps [i + 7].pixbuf;
 	
-	e_table_extras_add_cell(extras, "render_score", e_cell_toggle_new (0, 7, images));
-
-
+	e_table_extras_add_cell (extras, "render_score", e_cell_toggle_new (0, 7, images));
+	
 	/* date cell */
 	cell = e_cell_date_new (NULL, GTK_JUSTIFY_LEFT);
 	gtk_object_set (GTK_OBJECT (cell),
 			"bold_column", COL_UNREAD,
 			"color_column", COL_COLOUR,
 			NULL);
-	e_table_extras_add_cell(extras, "render_date", cell);
+	e_table_extras_add_cell (extras, "render_date", cell);
 	
 	/* text cell */
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
@@ -986,20 +1059,20 @@ message_list_create_extras (void)
 			"bold_column", COL_UNREAD,
 			"color_column", COL_COLOUR,
 			NULL);
-	e_table_extras_add_cell(extras, "render_text", cell);
+	e_table_extras_add_cell (extras, "render_text", cell);
 	
-	e_table_extras_add_cell(extras, "render_tree", 
-				e_cell_tree_new (NULL, NULL, /* let the tree renderer default the pixmaps */
-						 TRUE, cell));
-
+	e_table_extras_add_cell (extras, "render_tree", 
+				 e_cell_tree_new (NULL, NULL, /* let the tree renderer default the pixmaps */
+						  TRUE, cell));
+	
 	/* size cell */
 	cell = e_cell_size_new (NULL, GTK_JUSTIFY_RIGHT);
 	gtk_object_set (GTK_OBJECT (cell),
 			"bold_column", COL_UNREAD,
 			"color_column", COL_COLOUR,
 			NULL);
-	e_table_extras_add_cell(extras, "render_size", cell);
-
+	e_table_extras_add_cell (extras, "render_size", cell);
+	
 	return extras;
 }
 
@@ -1970,9 +2043,9 @@ on_cursor_activated_cmd (ETree *tree, int row, ETreePath path, gpointer user_dat
 static gint
 on_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event, MessageList *list)
 {
-	int flag;
 	CamelMessageInfo *info;
-
+	int flag;
+	
 	if (col == COL_MESSAGE_STATUS)
 		flag = CAMEL_MESSAGE_SEEN;
 	else if (col == COL_FLAGGED)
@@ -1988,14 +2061,12 @@ on_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event, Mess
 	/* If a message was marked as deleted and the user flags it as
 	   important, marks it as needing a reply, marks it as unread,
 	   then undelete the message. */
-	if (info->flags & CAMEL_MESSAGE_DELETED) {
-		
+	if (info->flags & CAMEL_MESSAGE_DELETED) {		
 		if (col == COL_FLAGGED && !(info->flags & CAMEL_MESSAGE_FLAGGED))
 			flag |= CAMEL_MESSAGE_DELETED;
-
+		
 		if (col == COL_MESSAGE_STATUS && (info->flags & CAMEL_MESSAGE_SEEN))
 			flag |= CAMEL_MESSAGE_DELETED;
-
 	}
 	
 	camel_folder_set_message_flags (list->folder, camel_message_info_uid (info), flag, ~info->flags);

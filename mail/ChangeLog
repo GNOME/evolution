@@ -1,3 +1,17 @@
+2002-02-11  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* message-list.c (ml_tree_value_at): Get followup-up message-list
+	values. Also highlight the message in red if the due-by date is
+	past due (this is what Outlook does).
+	(ml_duplicate_value): Handle follow-up columns.
+	(ml_free_value): Same.
+	(ml_initialize_value): Here too.
+	(ml_value_is_empty): And here.
+	(ml_value_to_string): And finally here.
+
+	* message-tag-followup.c (message_tag_followup_i18n_name): New
+	convenience function.
+
 2002-02-11  Radek Doulik  <rodo@ximian.com>
 
 	* mail-callbacks.c (create_msg_composer): unset changed, drop

@@ -47,17 +47,17 @@ static struct {
 	const char *name;
 	int value;
 } available_flags[] = {
-	{ N_("Call"),                  "call",           FLAG_CALL },
-	{ N_("Do Not Forward"),        "do-not-forward", FLAG_DO_NOT_FORWARD },
-	{ N_("Follow-Up"),             "follow-up",      FLAG_FOLLOWUP },
-	{ N_("For Your Information"),  "fyi",            FLAG_FYI },
-	{ N_("Forward"),               "forward",        FLAG_FORWARD },
-	{ N_("No Response Necessary"), "no-response",    FLAG_NO_RESPONSE_NECESSARY },
-	{ N_("Read"),                  "read",           FLAG_READ },
-	{ N_("Reply"),                 "reply",          FLAG_REPLY },
-	{ N_("Reply to All"),          "reply-all",      FLAG_REPLY_ALL },
-	{ N_("Review"),                "review",         FLAG_REVIEW },
-	{ N_("None"),                  NULL,             FLAG_NONE }
+	{ N_("Call"),                  "call",           FOLLOWUP_FLAG_CALL },
+	{ N_("Do Not Forward"),        "do-not-forward", FOLLOWUP_FLAG_DO_NOT_FORWARD },
+	{ N_("Follow-Up"),             "follow-up",      FOLLOWUP_FLAG_FOLLOWUP },
+	{ N_("For Your Information"),  "fyi",            FOLLOWUP_FLAG_FYI },
+	{ N_("Forward"),               "forward",        FOLLOWUP_FLAG_FORWARD },
+	{ N_("No Response Necessary"), "no-response",    FOLLOWUP_FLAG_NO_RESPONSE_NECESSARY },
+	{ N_("Read"),                  "read",           FOLLOWUP_FLAG_READ },
+	{ N_("Reply"),                 "reply",          FOLLOWUP_FLAG_REPLY },
+	{ N_("Reply to All"),          "reply-all",      FOLLOWUP_FLAG_REPLY_ALL },
+	{ N_("Review"),                "review",         FOLLOWUP_FLAG_REVIEW },
+	{ N_("None"),                  NULL,             FOLLOWUP_FLAG_NONE }
 };
 
 static MessageTagEditorClass *parent_class;
@@ -105,7 +105,7 @@ static void
 message_tag_followup_init (MessageTagFollowUp *editor)
 {
 	editor->tag = g_new (struct _FollowUpTag, 1);
-	editor->tag->type = FLAG_NONE;
+	editor->tag->type = FOLLOWUP_FLAG_NONE;
 	editor->tag->target_date = time (NULL);
 	editor->tag->completed = 0;
 	
@@ -190,7 +190,7 @@ message_tag_followup_decode (const char *value)
 	
 	tag = g_new (struct _FollowUpTag, 1);
 	
-	for (i = 0; i < FLAG_NONE; i++) {
+	for (i = 0; i < FOLLOWUP_FLAG_NONE; i++) {
 		if (!strncmp (value, available_flags[i].name, strlen (available_flags[i].name)))
 			break;
 	}
@@ -221,12 +221,23 @@ message_tag_followup_encode (struct _FollowUpTag *tag)
 {
 	g_return_val_if_fail (tag != NULL, NULL);
 	
-	if (tag->type == FLAG_NONE)
+	if (tag->type == FOLLOWUP_FLAG_NONE)
 		return NULL;
 	
 	return g_strdup_printf ("%s:%lx:%lx", available_flags[tag->type].name,
 				(unsigned long) tag->target_date,
 				(unsigned long) tag->completed);
+}
+
+const char *
+message_tag_followup_i18n_name (int type)
+{
+	g_return_val_if_fail (type >= 0 && type <= FOLLOWUP_FLAG_NONE, NULL);
+	
+	if (type != FOLLOWUP_FLAG_NONE)
+		return _(available_flags[type].i18n_name);
+	else
+		return NULL;
 }
 
 static void
@@ -235,7 +246,7 @@ clear_clicked (GtkButton *button, gpointer user_data)
 	MessageTagFollowUp *followup = user_data;
 	
 	gtk_widget_show (followup->none);
-	gtk_option_menu_set_history (followup->type, FLAG_NONE);
+	gtk_option_menu_set_history (followup->type, FOLLOWUP_FLAG_NONE);
 	gtk_signal_emit_by_name (GTK_OBJECT (followup->none), "activate", followup);
 	
 	e_date_edit_set_time (followup->target_date, time (NULL));
@@ -309,7 +320,7 @@ construct (MessageTagEditor *editor)
 	followup->type = GTK_OPTION_MENU (glade_xml_get_widget (gui, "followup_type"));
 	gtk_option_menu_remove_menu (followup->type);
 	menu = gtk_menu_new ();
-	for (i = 0; i <= FLAG_NONE; i++) {
+	for (i = 0; i <= FOLLOWUP_FLAG_NONE; i++) {
 		item = gtk_menu_item_new_with_label (_(available_flags[i].i18n_name));
 		gtk_object_set_data (GTK_OBJECT (item), "value",
 				     GINT_TO_POINTER (available_flags[i].value));
@@ -321,7 +332,7 @@ construct (MessageTagEditor *editor)
 	followup->none = item;
 	gtk_option_menu_set_menu (followup->type, menu);
 	gtk_signal_emit_by_name (GTK_OBJECT (item), "activate", followup);
-	gtk_option_menu_set_history (followup->type, FLAG_NONE);
+	gtk_option_menu_set_history (followup->type, FOLLOWUP_FLAG_NONE);
 	
 	followup->target_date = E_DATE_EDIT (glade_xml_get_widget (gui, "target_date"));
 	e_date_edit_set_time (followup->target_date, time (NULL));

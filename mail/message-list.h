@@ -26,7 +26,9 @@ enum {
 	COL_RECEIVED,
 	COL_TO,
 	COL_SIZE,
-	COL_NEED_REPLY,
+	COL_FOLLOWUP_FLAG_STATUS,
+	COL_FOLLOWUP_FLAG,
+	COL_FOLLOWUP_DUE_BY,
 	
 	COL_LAST,
 	
@@ -37,8 +39,7 @@ enum {
 };
 
 #define MESSAGE_LIST_COLUMN_IS_ACTIVE(col) (col == COL_MESSAGE_STATUS || \
-					    col == COL_FLAGGED || \
-                                            col == COL_NEED_REPLY)
+					    col == COL_FLAGGED)
 
 #define ML_HIDE_NONE_START (0)
 #define ML_HIDE_NONE_END (2147483647)

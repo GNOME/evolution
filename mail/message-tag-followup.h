@@ -41,17 +41,17 @@ extern "C" {
 #define IS_MESSAGE_TAG_FOLLOWUP(obj)      GTK_CHECK_TYPE (obj, message_tag_followup_get_type ())
 
 enum {
-	FLAG_CALL,
-	FLAG_DO_NOT_FORWARD,
-	FLAG_FOLLOWUP,
-	FLAG_FYI,
-	FLAG_FORWARD,
-	FLAG_NO_RESPONSE_NECESSARY,
-	FLAG_READ,
-	FLAG_REPLY,
-	FLAG_REPLY_ALL,
-	FLAG_REVIEW,
-	FLAG_NONE
+	FOLLOWUP_FLAG_CALL,
+	FOLLOWUP_FLAG_DO_NOT_FORWARD,
+	FOLLOWUP_FLAG_FOLLOWUP,
+	FOLLOWUP_FLAG_FYI,
+	FOLLOWUP_FLAG_FORWARD,
+	FOLLOWUP_FLAG_NO_RESPONSE_NECESSARY,
+	FOLLOWUP_FLAG_READ,
+	FOLLOWUP_FLAG_REPLY,
+	FOLLOWUP_FLAG_REPLY_ALL,
+	FOLLOWUP_FLAG_REVIEW,
+	FOLLOWUP_FLAG_NONE
 };
 
 struct _FollowUpTag {
@@ -90,7 +90,7 @@ GtkType message_tag_followup_get_type (void);
 /* utility functions */
 struct _FollowUpTag *message_tag_followup_decode (const char *tag_value);
 char *message_tag_followup_encode (struct _FollowUpTag *followup);
-
+const char *message_tag_followup_i18n_name (int type);
 
 MessageTagEditor *message_tag_followup_new (void);
 
