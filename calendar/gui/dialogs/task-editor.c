@@ -189,7 +189,7 @@ task_editor_init (TaskEditor *te)
 				 COMP_EDITOR_PAGE (priv->meet_page),
 				 _("Assignment"));
 
-	comp_editor_merge_ui (COMP_EDITOR (te), "evolution-task-editor.xml", verbs);
+	comp_editor_merge_ui (COMP_EDITOR (te), "evolution-task-editor.xml", verbs, NULL);
 
 	priv->assignment_shown = TRUE;
 	priv->existing_org = FALSE;

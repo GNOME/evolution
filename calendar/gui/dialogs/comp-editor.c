@@ -974,7 +974,10 @@ comp_editor_send_comp (CompEditor *editor, CalComponentItipMethod method)
  *
  **/
 void
-comp_editor_merge_ui (CompEditor *editor, const char *filename, BonoboUIVerb *verbs)
+comp_editor_merge_ui (CompEditor *editor,
+		      const char *filename,
+		      BonoboUIVerb *verbs,
+		      EPixmap *component_pixmaps)
 {
 	CompEditorPrivate *priv;
 
@@ -985,6 +988,9 @@ comp_editor_merge_ui (CompEditor *editor, const char *filename, BonoboUIVerb *ve
 
 	bonobo_ui_util_set_ui (priv->uic, EVOLUTION_DATADIR, filename, "evolution-calendar");
 	bonobo_ui_component_add_verb_list_with_data (priv->uic, verbs, editor);
+
+	if (component_pixmaps != NULL)
+		e_pixmaps_update (priv->uic, component_pixmaps);
 }
 
 /**

@@ -28,6 +28,7 @@
 #include "cal-client.h"
 #include "../itip-utils.h"
 #include "comp-editor-page.h"
+#include "evolution-shell-component-utils.h"
 
 BEGIN_GNOME_DECLS
 
@@ -84,7 +85,8 @@ void          comp_editor_send_comp        (CompEditor             *editor,
 					    CalComponentItipMethod  method);
 void          comp_editor_merge_ui         (CompEditor             *editor,
 					    const char             *filename,
-					    BonoboUIVerb           *verbs);
+					    BonoboUIVerb           *verbs,
+					    EPixmap                *pixmaps);
 void          comp_editor_set_ui_prop      (CompEditor             *editor,
 					    const char             *path,
 					    const char             *attr,

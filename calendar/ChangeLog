@@ -1,3 +1,11 @@
+2002-05-20  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/dialogs/event-editor.c (event_editor_init): Pass the
+	@component_pixmaps in so we give the new "Meeting" button an icon.
+
+	* gui/dialogs/comp-editor.c (comp_editor_merge_ui): New arg
+	@component_pixmaps to pass in custom pixmaps.
+
 2002-05-20  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/alarm-notify/alarm-notify.c:
