@@ -32,7 +32,9 @@ enum {
 	ARG_EMAIL,
 	ARG_BIRTH_DATE,
 	ARG_URL,
+	ARG_ORG,
 	ARG_TITLE,
+	ARG_ROLE,
 	ARG_NOTE,
 	ARG_ID
 };
@@ -61,7 +63,9 @@ static void parse_email(ECard *card, VObject *object);
 static void parse_phone(ECard *card, VObject *object);
 static void parse_address(ECard *card, VObject *object);
 static void parse_url(ECard *card, VObject *object);
+static void parse_org(ECard *card, VObject *object);
 static void parse_title(ECard *card, VObject *object);
+static void parse_role(ECard *card, VObject *object);
 static void parse_note(ECard *card, VObject *object);
 static void parse_id(ECard *card, VObject *object);
 
@@ -84,7 +88,9 @@ struct {
 	{ VCTelephoneProp,    parse_phone },
 	{ VCAdrProp,          parse_address },
 	{ VCURLProp,          parse_url },
+	{ VCOrgProp,          parse_org },
 	{ VCTitleProp,        parse_title },
+	{ VCBusinessRoleProp, parse_role },
 	{ VCNoteProp,         parse_note },
 	{ VCUniqueStringProp, parse_id }
 };
@@ -275,8 +281,19 @@ char
 	if (card->url)
 		addPropValue(vobj, VCURLProp, card->url);
 
+	if (card->org) {
+		VObject *orgprop;
+		orgprop = addProp(vobj, VCOrgProp);
+		
+		if (card->org)
+			addPropValue(orgprop, VCOrgNameProp, card->org);
+	}
+
 	if (card->title)
 		addPropValue(vobj, VCTitleProp, card->title);
+
+	if (card->role)
+		addPropValue(vobj, VCBusinessRoleProp, card->role);
 	
 	if (card->note)
 		addPropValue(vobj, VCNoteProp, card->note);
@@ -337,7 +354,6 @@ char
 		add_CardProperty (vprop, &crd->geopos.prop);
 	}
 	
-        add_CardStrProperty (vobj, VCTitleProp, &crd->title);
         add_CardStrProperty (vobj, VCBusinessRoleProp, &crd->role);
 	
 	if (crd->logo.prop.used) {
@@ -484,11 +500,32 @@ parse_url(ECard *card, VObject *vobj)
 }
 
 static void
+parse_org(ECard *card, VObject *vobj)
+{
+	char *temp;
+	
+	temp = e_v_object_get_child_value(vobj, VCOrgNameProp);
+	if (temp) {
+		if (card->org)
+			g_free(card->org);
+		card->org = temp;
+	}
+}
+
+static void
 parse_title(ECard *card, VObject *vobj)
 {
 	if ( card->title )
 		g_free(card->title);
 	assign_string(vobj, &(card->title));
+}
+
+static void
+parse_role(ECard *card, VObject *vobj)
+{
+	if (card->role)
+		g_free(card->role);
+	assign_string(vobj, &(card->role));
 }
 
 static void
@@ -553,8 +590,12 @@ e_card_class_init (ECardClass *klass)
 				 GTK_TYPE_POINTER, GTK_ARG_READWRITE, ARG_BIRTH_DATE);
 	gtk_object_add_arg_type ("ECard::url",
 				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_URL);  
+	gtk_object_add_arg_type ("ECard::org",
+				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_ORG);
 	gtk_object_add_arg_type ("ECard::title",
 				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_TITLE);  
+	gtk_object_add_arg_type ("ECard::role",
+				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_ROLE);
 	gtk_object_add_arg_type ("ECard::note",
 				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_NOTE);
 	gtk_object_add_arg_type ("ECard::id",
@@ -647,8 +688,12 @@ e_card_destroy (GtkObject *object)
 
 	if (card->url)
 		g_free(card->url);
+	if (card->org)
+		g_free(card->org);
 	if (card->title)
 		g_free(card->title);
+	if (card->role)
+		g_free(card->role);
 	if (card->note)
 		g_free(card->note);
 
@@ -690,10 +735,20 @@ e_card_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 			g_free(card->url);
 		card->url = g_strdup(GTK_VALUE_STRING(*arg));
 		break;
+	case ARG_ORG:
+		if (card->org)
+			g_free(card->org);
+		card->org = g_strdup(GTK_VALUE_STRING(*arg));
+		break;
 	case ARG_TITLE:
 		if ( card->title )
 			g_free(card->title);
 		card->title = g_strdup(GTK_VALUE_STRING(*arg));
+		break;
+	case ARG_ROLE:
+		if (card->role)
+			g_free(card->role);
+		card->role = g_strdup(GTK_VALUE_STRING(*arg));
 		break;
 	case ARG_NOTE:
 		if (card->note)
@@ -752,8 +807,14 @@ e_card_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	case ARG_URL:
 		GTK_VALUE_STRING(*arg) = card->url;
 		break;
+	case ARG_ORG:
+		GTK_VALUE_STRING(*arg) = card->org;
+		break;
 	case ARG_TITLE:
 		GTK_VALUE_STRING(*arg) = card->title;
+		break;
+	case ARG_ROLE:
+		GTK_VALUE_STRING(*arg) = card->role;
 		break;
 	case ARG_NOTE:
 		GTK_VALUE_STRING(*arg) = card->note;
@@ -783,7 +844,9 @@ e_card_init (ECard *card)
 	card->phone = NULL;
 	card->address = NULL;
 	card->url = NULL;
+	card->org = NULL;
 	card->title = NULL;
+	card->role = NULL;
 	card->note = NULL;
 #if 0
 
@@ -824,7 +887,6 @@ e_card_init (ECard *card)
 	c->mailer.prop.type     = PROP_MAILER;
 	c->timezn.prop.type     = PROP_TIMEZN;
 	c->geopos.prop.type     = PROP_GEOPOS;
-	c->title.prop.type      = PROP_TITLE;
 	c->role.prop.type       = PROP_ROLE;
 	c->logo.prop.type       = PROP_LOGO;
 	c->org.prop.type        = PROP_ORG;
@@ -897,7 +959,6 @@ e_card_free (ECard *card)
 	e_card_sound_free (card->sound);
 
 	e_card_prop_str_free (& card->mailer);
-	e_card_prop_str_free (& card->title);
 	e_card_prop_str_free (& card->role);
 	e_card_prop_str_free (& card->categories);
 	e_card_prop_str_free (& card->comment);
@@ -1682,11 +1743,6 @@ e_card_construct_from_vobject (ECard   *card,
 			prop = &crd->geopos.prop;
 			crd->geopos = strtoCardGeoPos (str_val (o));
 			break;
-		 case PROP_TITLE:
-			prop = &crd->title.prop;
-			crd->title.str = g_strdup (str_val (o));
-			free (the_str);
-			break;
 		 case PROP_ROLE:
 			prop = &crd->role.prop;
 			crd->role.str = g_strdup (str_val (o));
@@ -2232,7 +2288,6 @@ card_to_string (Card *crd)
 		free (str);
 	}
 	
-        add_CardStrProperty_to_string (string, _ ("\nTitle: "), &crd->title);
         add_CardStrProperty_to_string (string, _ ("\nBusiness Role: "), &crd->role);
 	
 /*	if (crd->logo.prop.used) {

@@ -47,7 +47,10 @@ struct _ECard {
 	char            *note;
 
 
+	char            *org;           /* The person's organization.       */
+	char            *role;          /* The person's role w/in his ord   */
 	char            *title;	        /* The person's title w/in his org  */
+
 #if 0
 	ECardOrg        *org;	        /* The person's organization.       */
 

@@ -1,3 +1,22 @@
+2000-04-16  Christopher James Lahey  <clahey@helixcode.com>
+
+	* addressbook/backend/ebook/e-card.c,
+	addressbook/backend/ebook/e-card.h,
+	addressbook/backend/ebook/test-card.c,
+	addressbook/backend/pas/pas-backend-file.c,
+	addressbook/gui/minicard/e-minicard.c: Added orginization and role
+	fields.
+
+	* addressbook/contact-editor/contact-editor.glade,
+	addressbook/contact-editor/e-contact-editor-strings.h: Renamed
+	some incorrectly named fields.
+
+	* addressbook/contact-editor/e-contact-editor.c: Added
+	orginization and role fields as well as hooking up the birth date
+	field.
+
+	* addressbook/gui/minicard/e-minicard-view.c: Added a missing include.
+
 2000-04-15  Matt Loper  <matt@helixcode.com>
 
 	* addressbook/gui/component/addressbook.c

@@ -448,7 +448,9 @@ remodel( EMinicard *e_minicard )
 	if (e_minicard->card) {
 		char *fname;
 		char *url;
+		char *org;
 		char *title;
+		char *role;
 		ECardList *address_list;
 		ECardList *phone_list;
 		ECardList *email_list;
@@ -469,7 +471,9 @@ remodel( EMinicard *e_minicard )
 			       "phone",      &phone_list,
 			       "email",      &email_list,
 			       "url",        &url,
+			       "org",        &org,
 			       "title",      &title,
+			       "role",       &role,
 			       NULL);
 
 		if (fname) {
@@ -484,8 +488,14 @@ remodel( EMinicard *e_minicard )
 						      "text", "",
 						      NULL);
 
+		if (org)
+			add_field(e_minicard, "Company:", org);
+
 		if (title)
 			add_field(e_minicard, "Title:", title);
+
+		if (role)
+			add_field(e_minicard, "Profession:", role);
 
 		if (address_list) {
 			for (iterator = e_card_list_get_iterator(address_list); e_card_iterator_is_valid(iterator); e_card_iterator_next(iterator)) {

@@ -44,5 +44,5 @@ gchar *s = N_("Add");
 gchar *s = N_("Delete");
 gchar *s = N_("Phone Types");
 gchar *s = N_("New phone type");
-gchar *s = N_("New phone type");
 gchar *s = N_("Add");
+gchar *s = N_("New phone type");

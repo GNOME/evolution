@@ -583,10 +583,13 @@ fill_in_info(EContactEditor *editor)
 		ECardList *phone_list;
 		ECardList *email_list;
 		char *title;
+		char *org;
 		char *url;
+		char *role;
 		char *note;
 		const ECardDeliveryAddress *address;
 		const ECardPhone *phone;
+		const ECardDate *bday;
 		GtkEditable *editable;
 		int position = 0;
 		const char *email;
@@ -599,8 +602,11 @@ fill_in_info(EContactEditor *editor)
 			       "phone",      &phone_list,
 			       "email",      &email_list,
 			       "url",        &url,
+			       "org",        &org,
 			       "title",      &title,
+			       "role",       &role,
 			       "note",       &note,
+			       "birth_date", &bday,
 			       NULL);
 		
 		position = 0;
@@ -643,16 +649,40 @@ fill_in_info(EContactEditor *editor)
 			gtk_editable_insert_text(editable, url, strlen(url), &position);
 
 		position = 0;
+		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "entry-company"));
+		gtk_editable_delete_text(editable, 0, -1);
+		if (org)
+			gtk_editable_insert_text(editable, org, strlen(org), &position);
+
+		position = 0;
 		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "entry-jobtitle"));
 		gtk_editable_delete_text(editable, 0, -1);
 		if (title)
 			gtk_editable_insert_text(editable, title, strlen(title), &position);
 
 		position = 0;
+		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "entry-profession"));
+		gtk_editable_delete_text(editable, 0, -1);
+		if (role)
+			gtk_editable_insert_text(editable, role, strlen(role), &position);
+
+		position = 0;
 		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "text-comments"));
 		gtk_editable_delete_text(editable, 0, -1);
 		if (note)
 			gtk_editable_insert_text(editable, note, strlen(note), &position);
+
+		if (bday) {
+			struct tm time_struct = {0,0,0,0,0,0,0,0,0};
+			time_t time_val;
+			GnomeDateEdit *dateedit;
+			time_struct.tm_mday = bday->day;
+			time_struct.tm_mon = bday->month;
+			time_struct.tm_year = bday->year;
+			time_val = mktime(&time_struct);
+			dateedit = GNOME_DATE_EDIT(glade_xml_get_widget(editor->gui, "dateedit-birthday"));
+			gnome_date_edit_set_time(dateedit, time_val);
+		}
 	}
 }
 
@@ -667,15 +697,21 @@ extract_info(EContactEditor *editor)
 		ECardList *phone_list;
 		ECardList *email_list;
 		char *url;
+		char *org;
 		char *title;
+		char *role;
 		char *note;
 		const ECardDeliveryAddress *address;
 		const ECardPhone *phone;
 		ECardDeliveryAddress *address_copy;
 		ECardPhone *phone_copy;
 		char *email;
+		ECardDate *bday;
 		GtkEditable *editable;
+		GnomeDateEdit *dateedit;
 		int position = 0;
+		struct tm time_struct;
+		time_t time_val;
 
 		ECardIterator *iterator;
 
@@ -761,6 +797,14 @@ extract_info(EContactEditor *editor)
 				       NULL);
 		g_free(url);
 
+		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "entry-company"));
+		org = gtk_editable_get_chars(editable, 0, -1);
+		if (org && *org)
+			gtk_object_set(GTK_OBJECT(card),
+				       "org", org,
+				       NULL);
+		g_free(org);
+
 		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "entry-jobtitle"));
 		title = gtk_editable_get_chars(editable, 0, -1);
 		if (title && *title)
@@ -768,6 +812,14 @@ extract_info(EContactEditor *editor)
 				       "title", title,
 				       NULL);
 		g_free(title);
+
+		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "entry-profession"));
+		role = gtk_editable_get_chars(editable, 0, -1);
+		if (role && *role)
+			gtk_object_set(GTK_OBJECT(card),
+				       "role", role,
+				       NULL);
+		g_free(role);
 
 		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "text-comments"));
 		note = gtk_editable_get_chars(editable, 0, -1);
@@ -777,5 +829,25 @@ extract_info(EContactEditor *editor)
 				       NULL);
 		g_free(note);
 
+		dateedit = GNOME_DATE_EDIT(glade_xml_get_widget(editor->gui, "dateedit-birthday"));
+		time_val = gnome_date_edit_get_date(dateedit);
+		gmtime_r(&time_val,
+			 &time_struct);
+		bday = g_new(ECardDate, 1);
+		bday->day   = time_struct.tm_mday;
+		bday->month = time_struct.tm_mon;
+		bday->year  = time_struct.tm_year;
+		gtk_object_set(GTK_OBJECT(card),
+			       "birth_date", bday,
+			       NULL);
 	}
 }
+
+
+
+
+
+
+
+
+

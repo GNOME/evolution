@@ -22,6 +22,7 @@
 
 #include <config.h>
 #include <gnome.h>
+#include "e-canvas.h"
 #include "e-minicard-view.h"
 #include "e-minicard.h"
 static void e_minicard_view_init		(EMinicardView		 *reflow);

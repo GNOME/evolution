@@ -8,8 +8,12 @@
 "                           \
 "N:Friedman;Nat;D;Mr.
 "             \
+"ORG:Helix Code, Inc.
+"             \
 "TITLE:Head Geek
 "                  \
+"ROLE:Programmer/Executive
+"        \
 "BDAY:1977-08-06
 "                  \
 "TEL;WORK:617 679 1984
@@ -62,7 +66,9 @@ main (int argc, char **argv)
 
 	/* Fields */
 	char *fname;
+	char *org;
         char *title;
+	char *role;
 	ECardName *name;
 	ECardList *address;
 	ECardList *phone;
@@ -95,7 +101,9 @@ main (int argc, char **argv)
 		       "address",    &address,
 		       "phone",      &phone,
 		       "email",      &email,
+		       "org",        &org,
 		       "title",      &title,
+		       "role",       &role,
 		       "birth_date", &bday,
 		       NULL);
 	if ( fname ) {
@@ -115,8 +123,14 @@ main (int argc, char **argv)
 	  if ( name->suffix )
 	    printf("  suffix     : %s\n", name->suffix);
 	}
+	if ( org ) {
+	  printf("Company : %s\n", org);
+        }
 	if ( title ) {
 	  printf("Title : %s\n", title);
+        }
+	if ( role ) {
+	  printf("Profession : %s\n", role);
         }
 	if ( bday ) {
 	  printf("BDay : %4d-%02d-%02d\n", bday->year, bday->month, bday->day);
