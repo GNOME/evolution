@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.16\n"
-"POT-Creation-Date: 2001-11-13 13:32+0100\n"
+"POT-Creation-Date: 2001-11-14 19:26-0500\n"
 "PO-Revision-Date: 2001-11-13 13:37CET\n"
 "Last-Translator: Stanislav Visnovsky <visnovsky@nenya.ms.mff.cuni.cz>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
@@ -616,7 +616,7 @@ msgstr "VKartapre %s"
 #: addressbook/conduit/address-conduit.c:1533
 #: addressbook/gui/component/addressbook-factory.c:50
 #: calendar/conduits/calendar/calendar-conduit.c:1449
-#: calendar/conduits/todo/todo-conduit.c:1128
+#: calendar/conduits/todo/todo-conduit.c:1130
 #: calendar/gui/alarm-notify/notify-main.c:171 calendar/gui/main.c:62
 #: tools/evolution-addressbook-export.c:60
 #: tools/evolution-addressbook-import.c:86
@@ -679,13 +679,13 @@ msgstr "EBook nenaèítaný\n"
 
 #: addressbook/conduit/address-conduit.c:1089
 #: calendar/conduits/calendar/calendar-conduit.c:981
-#: calendar/conduits/todo/todo-conduit.c:692
+#: calendar/conduits/todo/todo-conduit.c:694
 msgid "Could not start wombat server"
 msgstr "Nie je mo¾né spusti» server wombat"
 
 #: addressbook/conduit/address-conduit.c:1090
 #: calendar/conduits/calendar/calendar-conduit.c:982
-#: calendar/conduits/todo/todo-conduit.c:693
+#: calendar/conduits/todo/todo-conduit.c:695
 msgid "Could not start wombat"
 msgstr "Nie je mo¾né spusti» wombat"
 
@@ -812,7 +812,8 @@ msgid "Email Address:"
 msgstr "E-mailová adresa:"
 
 #: addressbook/gui/component/addressbook-config.glade.h:10
-msgid "Evolution will use this email address to authenticate you with the server"
+msgid ""
+"Evolution will use this email address to authenticate you with the server"
 msgstr "Evolution pou¾ije túto e-mailovú adresu pre prihlásenie na vá¹ server"
 
 #: addressbook/gui/component/addressbook-config.glade.h:11
@@ -2582,7 +2583,7 @@ msgid "Protocol not supported"
 msgstr "Protokol nepodporovaný"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:40
-#: calendar/gui/calendar-model.c:763 calendar/gui/calendar-model.c:1193
+#: calendar/gui/calendar-model.c:763 calendar/gui/calendar-model.c:1197
 #: calendar/gui/dialogs/task-details-page.glade.h:3
 #: calendar/gui/e-calendar-table.c:481 calendar/gui/print.c:2255
 #: camel/camel-service.c:607 camel/camel-service.c:643
@@ -2918,7 +2919,7 @@ msgid "High"
 msgstr "Vysoká"
 
 #: calendar/cal-util/cal-util.c:500 calendar/cal-util/cal-util.c:522
-#: calendar/gui/calendar-model.c:1703
+#: calendar/gui/calendar-model.c:1711
 #: calendar/gui/dialogs/task-details-page.glade.h:9
 #: calendar/gui/e-calendar-table.c:406 mail/message-list.c:650
 msgid "Normal"
@@ -2937,8 +2938,8 @@ msgstr "Nízka"
 msgid "Undefined"
 msgstr "Nedefinovaná"
 
-#: calendar/conduits/calendar/calendar-conduit.c:935
-#: calendar/conduits/todo/todo-conduit.c:647
+#: calendar/conduits/calendar/calendar-conduit.c:937
+#: calendar/conduits/todo/todo-conduit.c:649
 msgid "Error while communicating with calendar server"
 msgstr "Chyba pri komunikácii s kalendárovým serverom"
 
@@ -2947,8 +2948,8 @@ msgstr "Chyba pri komunikácii s kalendárovým serverom"
 msgid "Could not read pilot's Calendar application block"
 msgstr "Nie je mo¾né preèíta» blok aplikácie Calendar pilota"
 
-#: calendar/conduits/todo/todo-conduit.c:754
-#: calendar/conduits/todo/todo-conduit.c:757
+#: calendar/conduits/todo/todo-conduit.c:756
+#: calendar/conduits/todo/todo-conduit.c:759
 msgid "Could not read pilot's ToDo application block"
 msgstr "Nie je mo¾né preèíta» blok aplikácie ToDo pilota"
 
@@ -3116,17 +3117,18 @@ msgid "%d %B"
 msgstr "%d %B"
 
 #: calendar/gui/calendar-commands.c:805
-msgid "Could not create the calendar view.  Please check your ORBit and OAF setup."
+msgid ""
+"Could not create the calendar view.  Please check your ORBit and OAF setup."
 msgstr ""
 "Nie je mo¾né vytvori» kalendárový pohµad. Prosím, overte nastavenie ORBit a "
 "OAF."
 
-#: calendar/gui/calendar-model.c:418 calendar/gui/calendar-model.c:984
+#: calendar/gui/calendar-model.c:418 calendar/gui/calendar-model.c:988
 #: calendar/gui/e-calendar-table.c:384
 msgid "Private"
 msgstr "Súkromný"
 
-#: calendar/gui/calendar-model.c:421 calendar/gui/calendar-model.c:986
+#: calendar/gui/calendar-model.c:421 calendar/gui/calendar-model.c:990
 #: calendar/gui/e-calendar-table.c:385
 msgid "Confidential"
 msgstr "Tajný"
@@ -3151,7 +3153,7 @@ msgstr "V"
 msgid "W"
 msgstr "Z"
 
-#: calendar/gui/calendar-model.c:603 calendar/gui/calendar-model.c:1143
+#: calendar/gui/calendar-model.c:603 calendar/gui/calendar-model.c:1147
 #: calendar/gui/e-calendar-table.c:457
 msgid "Free"
 msgstr "Voµný"
@@ -3162,26 +3164,26 @@ msgstr "Voµný"
 msgid "Busy"
 msgstr "Zaneprázdnený"
 
-#: calendar/gui/calendar-model.c:754 calendar/gui/calendar-model.c:1187
+#: calendar/gui/calendar-model.c:754 calendar/gui/calendar-model.c:1191
 #: calendar/gui/dialogs/task-details-page.glade.h:10
 #: calendar/gui/e-calendar-table.c:478 calendar/gui/print.c:2246
 msgid "Not Started"
 msgstr "Nezaèal"
 
-#: calendar/gui/calendar-model.c:757 calendar/gui/calendar-model.c:1189
+#: calendar/gui/calendar-model.c:757 calendar/gui/calendar-model.c:1193
 #: calendar/gui/dialogs/task-details-page.glade.h:7
 #: calendar/gui/e-calendar-table.c:479 calendar/gui/print.c:2249
 msgid "In Progress"
 msgstr "Prebieha"
 
-#: calendar/gui/calendar-model.c:760 calendar/gui/calendar-model.c:1191
+#: calendar/gui/calendar-model.c:760 calendar/gui/calendar-model.c:1195
 #: calendar/gui/dialogs/task-details-page.glade.h:4
 #: calendar/gui/e-calendar-table.c:480 calendar/gui/e-meeting-model.c:329
 #: calendar/gui/e-meeting-model.c:352 calendar/gui/print.c:2252
 msgid "Completed"
 msgstr "Dokonèený"
 
-#: calendar/gui/calendar-model.c:1048
+#: calendar/gui/calendar-model.c:1052
 msgid ""
 "The geographical position must be entered in the format: \n"
 "\n"
@@ -3192,7 +3194,7 @@ msgstr ""
 "45.436845,125.862501"
 
 #. An empty string is the same as 'None'.
-#: calendar/gui/calendar-model.c:1185 calendar/gui/dialogs/meeting-page.c:312
+#: calendar/gui/calendar-model.c:1189 calendar/gui/dialogs/meeting-page.c:312
 #: calendar/gui/dialogs/meeting-page.glade.h:1 mail/mail-account-gui.c:1485
 #: mail/mail-accounts.c:148 mail/mail-accounts.c:405
 #: mail/mail-config.glade.h:47
@@ -3202,27 +3204,27 @@ msgstr ""
 msgid "None"
 msgstr "®iadna"
 
-#: calendar/gui/calendar-model.c:1705
+#: calendar/gui/calendar-model.c:1713
 msgid "Recurring"
 msgstr "Opakovanie"
 
-#: calendar/gui/calendar-model.c:1707
+#: calendar/gui/calendar-model.c:1715
 msgid "Assigned"
 msgstr "Priradené"
 
-#: calendar/gui/calendar-model.c:1713 calendar/gui/e-meeting-model.c:301
+#: calendar/gui/calendar-model.c:1721 calendar/gui/e-meeting-model.c:301
 #: calendar/gui/e-meeting-model.c:311 calendar/gui/e-meeting-model.c:536
 #: calendar/gui/e-meeting-model.c:803
 msgid "Yes"
 msgstr "Áno"
 
-#: calendar/gui/calendar-model.c:1713 calendar/gui/e-meeting-model.c:313
+#: calendar/gui/calendar-model.c:1721 calendar/gui/e-meeting-model.c:313
 #: calendar/gui/e-meeting-model.c:804
 msgid "No"
 msgstr "Nie"
 
 #. No time range is set, so don't start a query
-#: calendar/gui/calendar-model.c:1966 calendar/gui/e-day-view.c:1675
+#: calendar/gui/calendar-model.c:1974 calendar/gui/e-day-view.c:1675
 #: calendar/gui/e-week-view.c:1182
 msgid "Searching"
 msgstr "Hµadám"
@@ -3283,7 +3285,7 @@ msgstr "Prieèinok obsahujúci úlohy to-do"
 msgid "Create a new appointment"
 msgstr "Vytvori» novú schôdzku"
 
-#: calendar/gui/component-factory.c:643 calendar/gui/e-day-view.c:3447
+#: calendar/gui/component-factory.c:643 calendar/gui/e-day-view.c:3523
 msgid "New _Appointment"
 msgstr "Nová _schôdzka"
 
@@ -4286,60 +4288,60 @@ msgstr "90%"
 msgid "100%"
 msgstr "100%"
 
-#: calendar/gui/e-calendar-table.c:721 calendar/gui/e-day-view.c:2724
+#: calendar/gui/e-calendar-table.c:722 calendar/gui/e-day-view.c:2724
 #: calendar/gui/e-week-view.c:1822
 msgid "Deleting selected objects"
 msgstr "Odstráòujem vybrané objekty"
 
-#: calendar/gui/e-calendar-table.c:939 calendar/gui/e-day-view.c:3468
-#: calendar/gui/e-week-view.c:3393 mail/folder-browser.c:1447
+#: calendar/gui/e-calendar-table.c:941 calendar/gui/e-day-view.c:3544
+#: calendar/gui/e-week-view.c:3422 mail/folder-browser.c:1447
 #: shell/e-shortcuts-view.c:384
 msgid "_Open"
 msgstr "_Otvori»"
 
-#: calendar/gui/e-calendar-table.c:943 calendar/gui/e-day-view.c:3477
-#: calendar/gui/e-week-view.c:3402 ui/evolution-addressbook.xml.h:1
+#: calendar/gui/e-calendar-table.c:945 calendar/gui/e-day-view.c:3553
+#: calendar/gui/e-week-view.c:3431 ui/evolution-addressbook.xml.h:1
 #: ui/evolution-calendar.xml.h:1 ui/evolution-tasks.xml.h:1
 msgid "C_ut"
 msgstr "Vystri_hnú»"
 
-#: calendar/gui/e-calendar-table.c:945 calendar/gui/e-day-view.c:3479
-#: calendar/gui/e-week-view.c:3404 ui/evolution-addressbook.xml.h:33
+#: calendar/gui/e-calendar-table.c:947 calendar/gui/e-day-view.c:3555
+#: calendar/gui/e-week-view.c:3433 ui/evolution-addressbook.xml.h:33
 #: ui/evolution-calendar.xml.h:37 ui/evolution-mail-list.xml.h:24
 #: ui/evolution-tasks.xml.h:14
 msgid "_Copy"
 msgstr "_Kopírova»"
 
-#: calendar/gui/e-calendar-table.c:947 calendar/gui/e-day-view.c:3454
-#: calendar/gui/e-day-view.c:3481 calendar/gui/e-week-view.c:3380
-#: calendar/gui/e-week-view.c:3406 ui/evolution-addressbook.xml.h:36
+#: calendar/gui/e-calendar-table.c:949 calendar/gui/e-day-view.c:3530
+#: calendar/gui/e-day-view.c:3557 calendar/gui/e-week-view.c:3409
+#: calendar/gui/e-week-view.c:3435 ui/evolution-addressbook.xml.h:36
 #: ui/evolution-calendar.xml.h:40 ui/evolution-mail-list.xml.h:29
 #: ui/evolution-tasks.xml.h:17
 msgid "_Paste"
 msgstr "_Vlo¾i»"
 
-#: calendar/gui/e-calendar-table.c:952
+#: calendar/gui/e-calendar-table.c:954
 msgid "_Mark as Complete"
 msgstr "_Oznaèi» ako dokonèenú"
 
-#: calendar/gui/e-calendar-table.c:954
+#: calendar/gui/e-calendar-table.c:956
 msgid "_Delete this Task"
 msgstr "O_dstráni» túto úlohu"
 
-#: calendar/gui/e-calendar-table.c:957
+#: calendar/gui/e-calendar-table.c:959
 msgid "_Mark Tasks as Complete"
 msgstr "_Oznaèi» úlohy ako dokonèené"
 
-#: calendar/gui/e-calendar-table.c:959
+#: calendar/gui/e-calendar-table.c:961
 msgid "_Delete Selected Tasks"
 msgstr "O_dstráni» vybrané úlohy"
 
-#: calendar/gui/e-calendar-table.c:1141 calendar/gui/e-day-view.c:7029
-#: calendar/gui/e-week-view.c:3887
+#: calendar/gui/e-calendar-table.c:1145 calendar/gui/e-day-view.c:7115
+#: calendar/gui/e-week-view.c:3918
 msgid "Updating objects"
 msgstr "Aktualizujem objekty"
 
-#: calendar/gui/e-calendar-table.c:1224
+#: calendar/gui/e-calendar-table.c:1228
 #: calendar/gui/e-calendar-table.etspec.h:6
 msgid "Click to add a task"
 msgstr "Kliknutím pridáte úlohu"
@@ -4447,32 +4449,32 @@ msgstr "dopoludnia"
 msgid "pm"
 msgstr "popoludní"
 
-#: calendar/gui/e-day-view.c:3449 calendar/gui/e-week-view.c:3375
+#: calendar/gui/e-day-view.c:3525 calendar/gui/e-week-view.c:3404
 msgid "New All Day _Event"
 msgstr "Nová celodenná _udalos»"
 
-#: calendar/gui/e-day-view.c:3459 calendar/gui/e-week-view.c:3385
+#: calendar/gui/e-day-view.c:3535 calendar/gui/e-week-view.c:3414
 #: ui/evolution-calendar.xml.h:17
 msgid "Go to _Today"
 msgstr "Prejs» na d_ne¹ný dátum"
 
-#: calendar/gui/e-day-view.c:3461 calendar/gui/e-week-view.c:3387
+#: calendar/gui/e-day-view.c:3537 calendar/gui/e-week-view.c:3416
 msgid "_Go to Date..."
 msgstr "_Prejs» na dátum..."
 
-#: calendar/gui/e-day-view.c:3470 calendar/gui/e-week-view.c:3395
+#: calendar/gui/e-day-view.c:3546 calendar/gui/e-week-view.c:3424
 msgid "_Delete this Appointment"
 msgstr "O_dstráni» túto schôdzku"
 
-#: calendar/gui/e-day-view.c:3489 calendar/gui/e-week-view.c:3420
+#: calendar/gui/e-day-view.c:3565 calendar/gui/e-week-view.c:3449
 msgid "Make this Occurrence _Movable"
 msgstr "Nastavi» tento výskyt ako _presunuteµný"
 
-#: calendar/gui/e-day-view.c:3491 calendar/gui/e-week-view.c:3422
+#: calendar/gui/e-day-view.c:3567 calendar/gui/e-week-view.c:3451
 msgid "Delete this _Occurrence"
 msgstr "Odstráni» tento vý_skyt"
 
-#: calendar/gui/e-day-view.c:3493 calendar/gui/e-week-view.c:3424
+#: calendar/gui/e-day-view.c:3569 calendar/gui/e-week-view.c:3453
 msgid "Delete _All Occurrences"
 msgstr "Odstráni» _v¹etky výskyty"
 
@@ -4530,7 +4532,8 @@ msgstr "Neznáma osoba"
 msgid ""
 "<br> Please review the following information, and then select an action from "
 "the menu below."
-msgstr "<br> Prosím, skontrolujte tieto informácie a potom vyberte z menu akciu."
+msgstr ""
+"<br> Prosím, skontrolujte tieto informácie a potom vyberte z menu akciu."
 
 #: calendar/gui/e-itip-control.c:737
 msgid "<i>None</i>"
@@ -4760,7 +4763,8 @@ msgstr "Aktualizácia dokonèená\n"
 
 #: calendar/gui/e-itip-control.c:1276
 msgid "Attendee status could not be updated because of an invalid status!\n"
-msgstr "Stav úèastníka nie je mo¾né aktualizova», preto¾e jeho stav nie je platný!\n"
+msgstr ""
+"Stav úèastníka nie je mo¾né aktualizova», preto¾e jeho stav nie je platný!\n"
 
 #: calendar/gui/e-itip-control.c:1284
 msgid "Attendee status ould not be updated!\n"
@@ -4772,7 +4776,8 @@ msgstr "Stav úèastníka bol aktualizovaný\n"
 
 #: calendar/gui/e-itip-control.c:1288
 msgid "Attendee status can not be updated because the item no longer exists"
-msgstr "Stav úèastníka nie je mo¾né aktualizova», preto¾e polo¾ka u¾ neexistuje"
+msgstr ""
+"Stav úèastníka nie je mo¾né aktualizova», preto¾e polo¾ka u¾ neexistuje"
 
 #: calendar/gui/e-itip-control.c:1316
 msgid "Removal Complete"
@@ -5017,7 +5022,7 @@ msgstr "Nepodarilo sa naèíta» úlohy v `%s'"
 msgid "The method required to load `%s' is not supported"
 msgstr "Metódy potrebná pre naèítanie `%s' nie je podporovaná"
 
-#: calendar/gui/e-week-view.c:3373 calendar/gui/e-week-view.c:3411
+#: calendar/gui/e-week-view.c:3402 calendar/gui/e-week-view.c:3440
 msgid "New _Appointment..."
 msgstr "Nová _schôdzka..."
 
@@ -5331,7 +5336,7 @@ msgid "Print Calendar"
 msgstr "Tlaèi» kalendár"
 
 #: calendar/gui/print.c:2477 calendar/gui/print.c:2569
-#: mail/mail-callbacks.c:2358 my-evolution/e-summary.c:614
+#: mail/mail-callbacks.c:2358 my-evolution/e-summary.c:619
 #: ui/evolution-addressbook.xml.h:17 ui/evolution-mail-message.xml.h:67
 msgid "Print Preview"
 msgstr "Uká¾ka pred tlaèou"
@@ -5349,8 +5354,10 @@ msgid "The URI of the tasks folder to display"
 msgstr "URI, ktoré bude zobrazova» prieèinok úloh"
 
 #: calendar/gui/tasks-control-factory.c:75
-msgid "Could not create the tasks view.  Please check your ORBit and OAF setup."
-msgstr "Nie je mo¾né vytvori» pohµad úloh. Prosím, overte nastavenie ORBit a OAF."
+msgid ""
+"Could not create the tasks view.  Please check your ORBit and OAF setup."
+msgstr ""
+"Nie je mo¾né vytvori» pohµad úloh. Prosím, overte nastavenie ORBit a OAF."
 
 #: calendar/gui/tasks-migrate.c:105
 msgid ""
@@ -5601,7 +5608,7 @@ msgstr "Chyba pri spracovávaní filtra: %s: %s"
 msgid "Error executing filter: %s: %s"
 msgstr "Chyba pri vykonávaní filtra: %s: %s"
 
-#: camel/camel-filter-search.c:498 camel/camel-filter-search.c:505
+#: camel/camel-filter-search.c:502 camel/camel-filter-search.c:509
 #, c-format
 msgid "Error executing filter search: %s: %s"
 msgstr "Chyba pri vykonávaní hµadania filtra: %s: %s"
@@ -5772,7 +5779,8 @@ msgstr "Nie je mo¾né podpísa» správu: nezadané heslo"
 #: camel/camel-pgp-context.c:588 camel/camel-pgp-context.c:768
 #, c-format
 msgid "Cannot sign this message: couldn't create pipe to GPG/PGP: %s"
-msgstr "Nie je mo¾né podpísa» správu: nie je mo¾né vytvori» rúru do GPG/PGP: %s"
+msgstr ""
+"Nie je mo¾né podpísa» správu: nie je mo¾né vytvori» rúru do GPG/PGP: %s"
 
 #: camel/camel-pgp-context.c:755
 msgid "Cannot sign this message: no plaintext to clearsign"
@@ -5803,7 +5811,8 @@ msgstr "Nie je mo¾né za¹ifrova» správu: nezadané heslo"
 #: camel/camel-pgp-context.c:1160
 #, c-format
 msgid "Cannot encrypt this message: couldn't create pipe to GPG/PGP: %s"
-msgstr "Nie je mo¾né za¹ifrova» správu: nie je mo¾né vytvori» rúru do GPG/PGP: %s"
+msgstr ""
+"Nie je mo¾né za¹ifrova» správu: nie je mo¾né vytvori» rúru do GPG/PGP: %s"
 
 #: camel/camel-pgp-context.c:1169
 msgid "Cannot encrypt this message: no recipients specified"
@@ -5820,7 +5829,8 @@ msgstr "Nie je mo¾né de¹ifrova» správu: nezadané heslo"
 #: camel/camel-pgp-context.c:1352
 #, c-format
 msgid "Cannot decrypt this message: couldn't create pipe to GPG/PGP: %s"
-msgstr "Nie je mo¾né de¹ifrova» správu: nie je mo¾né vytvori» rúru do GPG/PGP: %s"
+msgstr ""
+"Nie je mo¾né de¹ifrova» správu: nie je mo¾né vytvori» rúru do GPG/PGP: %s"
 
 #: camel/camel-provider.c:130
 #, c-format
@@ -5948,7 +5958,8 @@ msgstr "Správa challenge pre server neplatná\n"
 
 #: camel/camel-sasl-digest-md5.c:825
 msgid "Server challenge contained invalid \"Quality of Protection\" token\n"
-msgstr "Správa challenge pre server obsahovala neplatný prvok \"Kvalita ochrany\"\n"
+msgstr ""
+"Správa challenge pre server obsahovala neplatný prvok \"Kvalita ochrany\"\n"
 
 #: camel/camel-sasl-digest-md5.c:847
 msgid "Server response did not contain authorization data\n"
@@ -5990,7 +6001,8 @@ msgstr "Prihlásenie NT"
 
 #: camel/camel-sasl-login.c:34 camel/camel-sasl-plain.c:34
 msgid "This option will connect to the server using a simple password."
-msgstr "Táto voµba pripojí na server pomocou hesiel prená¹aných ako èistý text."
+msgstr ""
+"Táto voµba pripojí na server pomocou hesiel prená¹aných ako èistý text."
 
 #: camel/camel-sasl-login.c:127
 msgid "Unknown authentication state."
@@ -6312,7 +6324,8 @@ msgstr "Priestor mien"
 
 #: camel/providers/imap/camel-imap-provider.c:57
 msgid "Apply filters to new messages in INBOX on this server"
-msgstr "Aplikova» filtre na nové správy v prieèinku novej po¹ty na tomto serveri"
+msgstr ""
+"Aplikova» filtre na nové správy v prieèinku novej po¹ty na tomto serveri"
 
 #: camel/providers/imap/camel-imap-provider.c:63
 msgid "IMAP"
@@ -6324,7 +6337,8 @@ msgstr "Pre èítanie a ukladanie po¹ty na IMAP serveroch."
 
 #: camel/providers/imap/camel-imap-provider.c:82
 msgid "This option will connect to the IMAP server using a plaintext password."
-msgstr "Táto voµba pripojí na IMAP server pomocou hesiel prená¹aných ako èistý text."
+msgstr ""
+"Táto voµba pripojí na IMAP server pomocou hesiel prená¹aných ako èistý text."
 
 #: camel/providers/imap/camel-imap-store.c:518
 #, c-format
@@ -6943,7 +6957,8 @@ msgstr ""
 "tento protokol podporuje."
 
 #: camel/providers/pop3/camel-pop3-provider.c:91
-msgid "This will connect to the POP server and use Kerberos 4 to authenticate to it."
+msgid ""
+"This will connect to the POP server and use Kerberos 4 to authenticate to it."
 msgstr "Táto voµba vás spojí s POP serverom pomocou overenia Kerberos 4."
 
 #: camel/providers/pop3/camel-pop3-store.c:198
@@ -7114,7 +7129,8 @@ msgstr "Pou¾ívateµ nie je lokálny, bude predaná podµa <forward-path>"
 
 #: camel/providers/smtp/camel-smtp-transport.c:191
 msgid "Requested mail action not taken: mailbox unavailable"
-msgstr "Po¾adovaná po¹tová akcia nevykonaná, po¹tová schránka nie je k dispozícii"
+msgstr ""
+"Po¾adovaná po¹tová akcia nevykonaná, po¹tová schránka nie je k dispozícii"
 
 #: camel/providers/smtp/camel-smtp-transport.c:193
 msgid "Requested action not taken: mailbox unavailable"
@@ -7453,29 +7469,29 @@ msgstr ""
 "Chyba pri èítaní súboru %s:\n"
 "%s"
 
-#: composer/e-msg-composer.c:879
+#: composer/e-msg-composer.c:894
 msgid "Save as..."
 msgstr "Ulo¾i» ako..."
 
-#: composer/e-msg-composer.c:888
+#: composer/e-msg-composer.c:903
 msgid "Warning!"
 msgstr "Varovanie!"
 
-#: composer/e-msg-composer.c:892
+#: composer/e-msg-composer.c:907
 msgid "File exists, overwrite?"
 msgstr "Súbor existuje, prepísa» ho?"
 
-#: composer/e-msg-composer.c:914
+#: composer/e-msg-composer.c:929
 #, c-format
 msgid "Error saving file: %s"
 msgstr "Chyba pri ukladaní súboru: %s"
 
-#: composer/e-msg-composer.c:933
+#: composer/e-msg-composer.c:948
 #, c-format
 msgid "Error loading file: %s"
 msgstr "Chyba pri naèítavaní súboru: %s"
 
-#: composer/e-msg-composer.c:1004
+#: composer/e-msg-composer.c:1019
 msgid ""
 "Unable to open the drafts folder for this account.\n"
 "Would you like to use the default drafts folder?"
@@ -7483,16 +7499,16 @@ msgstr ""
 "Nei je mo¾né otvori» prieèinok na koncepty pre tento úèet.\n"
 "Chcete pou¾i» ¹tandardný prieèinok na koncepty?"
 
-#: composer/e-msg-composer.c:1054
+#: composer/e-msg-composer.c:1069
 #, c-format
 msgid "Error accessing file: %s"
 msgstr "Chyba pri prístupe k súboru: %s"
 
-#: composer/e-msg-composer.c:1062
+#: composer/e-msg-composer.c:1077
 msgid "Unable to retrieve message from editor"
 msgstr "Nie je mo¾né získa» správu z editora"
 
-#: composer/e-msg-composer.c:1069
+#: composer/e-msg-composer.c:1084
 #, c-format
 msgid ""
 "Unable to seek on file: %s\n"
@@ -7501,7 +7517,7 @@ msgstr ""
 "Nepodarilo sa hµada» v súbore: %s\n"
 "%s"
 
-#: composer/e-msg-composer.c:1076
+#: composer/e-msg-composer.c:1091
 #, c-format
 msgid ""
 "Unable to truncate file: %s\n"
@@ -7510,7 +7526,7 @@ msgstr ""
 "Nepodarilo sa skráti» súbor: %s\n"
 " %s"
 
-#: composer/e-msg-composer.c:1085
+#: composer/e-msg-composer.c:1100
 #, c-format
 msgid ""
 "Error autosaving message: %s\n"
@@ -7519,7 +7535,7 @@ msgstr ""
 "Chyba pri automatickom ukladaní správ: %s\n"
 " %s"
 
-#: composer/e-msg-composer.c:1187
+#: composer/e-msg-composer.c:1202
 msgid ""
 "Ximian Evolution has found unsaved files from a previous session.\n"
 "Would you like to try to recover them?"
@@ -7527,7 +7543,7 @@ msgstr ""
 "Ximian Evolution na¹iel neulo¾ené súbory z predchádzajúceho sedenia.\n"
 "Chcete sa pokúsi» o ich záchranu?"
 
-#: composer/e-msg-composer.c:1341
+#: composer/e-msg-composer.c:1356
 msgid ""
 "This message has not been sent.\n"
 "\n"
@@ -7537,23 +7553,23 @@ msgstr ""
 "\n"
 "Chcete ulo¾i» zmeny?"
 
-#: composer/e-msg-composer.c:1348
+#: composer/e-msg-composer.c:1363
 msgid "Warning: Modified Message"
 msgstr "Varovanie: Zmenená správa"
 
-#: composer/e-msg-composer.c:1371
+#: composer/e-msg-composer.c:1386
 msgid "Open file"
 msgstr "Otvori» súbor"
 
-#: composer/e-msg-composer.c:1520
+#: composer/e-msg-composer.c:1535
 msgid "Insert File"
 msgstr "Vlo¾i» súbor"
 
-#: composer/e-msg-composer.c:1895 composer/e-msg-composer.c:2336
+#: composer/e-msg-composer.c:1910 composer/e-msg-composer.c:2351
 msgid "Compose a message"
 msgstr "Napísa» správu"
 
-#: composer/e-msg-composer.c:2353
+#: composer/e-msg-composer.c:2368
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate address selector control."
@@ -7561,7 +7577,7 @@ msgstr ""
 "Nepodarilo sa vytvori» okno pre písanie správ:\n"
 "Nepodarilo sa aktivova» ovládací prvok pre výber adresy."
 
-#: composer/e-msg-composer.c:2376
+#: composer/e-msg-composer.c:2391 composer/e-msg-composer.c:2446
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component."
@@ -7630,11 +7646,11 @@ msgid "Subject does not contain"
 msgstr "Predmet neobsahuje"
 
 #. Remember the password?
-#: e-util/e-passwords.c:347 mail/mail-session.c:258
+#: e-util/e-passwords.c:347 mail/mail-session.c:267
 msgid "Remember this password"
 msgstr "Ulo¾i» toto heslo"
 
-#: e-util/e-passwords.c:349 mail/mail-session.c:259
+#: e-util/e-passwords.c:349 mail/mail-session.c:268
 msgid "Remember this password for the remainder of this session"
 msgstr "Zapamäta» si heslo pre zvy¹ok tohto sedenia"
 
@@ -8374,7 +8390,8 @@ msgstr "Nie je mo¾né inicializova» konfiguraèný komponent pre po¹tu Evolution."
 
 #: mail/component-factory.c:990
 msgid "Cannot initialize Evolution's folder info component."
-msgstr "Nie je mo¾né inicializova» komponent pre infomácie o prieèinkoch Evolution."
+msgstr ""
+"Nie je mo¾né inicializova» komponent pre infomácie o prieèinkoch Evolution."
 
 #: mail/component-factory.c:1206
 msgid "Cannot register storage with shell"
@@ -8686,27 +8703,27 @@ msgstr "Naozaj chcete odstráni» tento úèet diskusných skupín?"
 msgid "Mail Settings"
 msgstr "Nastavenie po¹ty"
 
-#: mail/mail-autofilter.c:71
+#: mail/mail-autofilter.c:72
 #, c-format
 msgid "Mail to %s"
 msgstr "Po¹ta pre %s"
 
-#: mail/mail-autofilter.c:214
+#: mail/mail-autofilter.c:215
 #, c-format
 msgid "Subject is %s"
 msgstr "Predmet je %s"
 
-#: mail/mail-autofilter.c:230
+#: mail/mail-autofilter.c:231
 #, c-format
 msgid "Mail from %s"
 msgstr "Po¹ta od %s"
 
-#: mail/mail-autofilter.c:286
+#: mail/mail-autofilter.c:287
 #, c-format
 msgid "%s mailing list"
 msgstr "%s konferencia"
 
-#: mail/mail-autofilter.c:335 mail/mail-autofilter.c:355
+#: mail/mail-autofilter.c:336 mail/mail-autofilter.c:356
 msgid "Add Filter Rule"
 msgstr "Prida» pravidlo filtra"
 
@@ -9540,7 +9557,8 @@ msgid "Bcc"
 msgstr "Bcc"
 
 #: mail/mail-format.c:1813
-msgid "This message is digitally signed. Click the lock icon for more information."
+msgid ""
+"This message is digitally signed. Click the lock icon for more information."
 msgstr ""
 "Táto správa je digitálne podpísaná. Kliknutím na ikonu zámku získate "
 "podrobnosti."
@@ -9889,16 +9907,16 @@ msgstr "Èakám..."
 msgid "Cancelled."
 msgstr "Zru¹ené."
 
-#: mail/mail-session.c:211
+#: mail/mail-session.c:220
 msgid "User canceled operation."
 msgstr "Pou¾ívateµ zru¹il operáciu."
 
-#: mail/mail-session.c:310
+#: mail/mail-session.c:319
 #, c-format
 msgid "Enter Password for %s"
 msgstr "Zadajte va¹e heslo pre %s"
 
-#: mail/mail-session.c:313
+#: mail/mail-session.c:322
 msgid "Enter Password"
 msgstr "Zadajte heslo"
 
@@ -10204,11 +10222,11 @@ msgstr "Oblasti"
 msgid "%A, %B %e %Y"
 msgstr "%A, %B %e %Y"
 
-#: my-evolution/e-summary.c:575 ui/my-evolution.xml.h:3
+#: my-evolution/e-summary.c:580 ui/my-evolution.xml.h:3
 msgid "Print Summary"
 msgstr "Tlaè súhrnu"
 
-#: my-evolution/e-summary.c:621
+#: my-evolution/e-summary.c:626
 msgid "Printing of Summary failed"
 msgstr "Tlaè súhrnu zlyhala"
 
@@ -11416,7 +11434,8 @@ msgid "All news _feeds:"
 msgstr "V¹etky _kanály správ:"
 
 #: my-evolution/my-evolution.glade.h:6
-msgid "C_elcius"
+#, fuzzy
+msgid "C_elsius"
 msgstr "C_elzius"
 
 #: my-evolution/my-evolution.glade.h:8
@@ -11549,7 +11568,8 @@ msgstr ""
 
 #: shell/e-setup.c:129
 msgid "Please click \"OK\" to install the files, or \"Cancel\" to exit."
-msgstr "Prosím, stlaète \"OK\" pre in¹taláciu súborov, alebo \"Zru¹i»\" pre koniec."
+msgstr ""
+"Prosím, stlaète \"OK\" pre in¹taláciu súborov, alebo \"Zru¹i»\" pre koniec."
 
 #: shell/e-setup.c:169
 msgid "Could not update files correctly"
@@ -11968,7 +11988,8 @@ msgid "(None)"
 msgstr "(®iadna)"
 
 #: shell/e-shell-view.c:1623
-msgid "Ximian Evolution is currently online.  Click on this button to work offline."
+msgid ""
+"Ximian Evolution is currently online.  Click on this button to work offline."
 msgstr ""
 "Ximian Evolution je momentálne on-line. Stlaèením tohto tlaèidla prejdete do "
 "módu off-line."
@@ -11978,7 +11999,8 @@ msgid "Ximian Evolution is in the process of going offline."
 msgstr "Ximian Evolution prechádza do módu off-line."
 
 #: shell/e-shell-view.c:1636
-msgid "Ximian Evolution is currently offline.  Click on this button to work online."
+msgid ""
+"Ximian Evolution is currently offline.  Click on this button to work online."
 msgstr ""
 "Ximian Evolution je momentálne off-line. Stlaèením tohto tlaèidla prejdete "
 "do módu on-line."
@@ -12973,7 +12995,8 @@ msgid "Hide _Read Messages"
 msgstr "Skry» _preèítané správy"
 
 #: ui/evolution-mail-list.xml.h:8
-msgid "Hide deleted messages rather than displaying them with a line through them"
+msgid ""
+"Hide deleted messages rather than displaying them with a line through them"
 msgstr "Skryje zmazané správy namiesto zobrazenia ¹krtnutím"
 
 #: ui/evolution-mail-list.xml.h:9
@@ -13773,7 +13796,8 @@ msgstr "_Posla» správu o chybe"
 
 #: ui/evolution.xml.h:24
 msgid "Submit a bug report using Bug Buddy"
-msgstr "Po¹le správu o chybe pomocou nástroja pre oznamovanie chýb Priateµ v núdzi."
+msgstr ""
+"Po¹le správu o chybe pomocou nástroja pre oznamovanie chýb Priateµ v núdzi."
 
 #: ui/evolution.xml.h:25
 msgid "Toggle"
@@ -14104,4 +14128,3 @@ msgstr "init_corba(): Nie je mo¾né inicializova» GNOME"
 #: wombat/wombat.c:225
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): Nie je mo¾né inicializova» Bonobo"
-
