@@ -4,9 +4,6 @@ help_base = $(datadir)/gnome/help/cal
 
 bin_PROGRAMS = evolution-calendar
 
-CPPFLAGS =					\
-	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"
-
 INCLUDES = 						\
 	-DG_LOG_DOMAIN=\"calendar-gui\"			\
 	-I$(top_builddir)/shell				\

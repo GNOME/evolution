@@ -1,3 +1,15 @@
+2000-10-15  Dan Winship  <danw@helixcode.com>
+
+	* gui/component/select-names/Makefile.am:
+	* gui/component/Makefile.am: Remove CPPFLAGS since they just
+	duplicate flags that were already in INCLUDES.
+
+	* printing/Makefile.am (ecpsdir): 
+	* gui/widgets/Makefile.am:
+	* contact-editor/Makefile.am: Move -D flags from CPPFLAGS to
+	INCLUDES so they don't override any CPPFLAGS set at configure
+	time.
+
 2000-10-14  Michael Meeks  <michael@helixcode.com>
 
 	* gui/component/addressbook.c (control_activate): if we are in

@@ -1,3 +1,8 @@
+2000-10-15  Dan Winship  <danw@helixcode.com>
+
+	* gui/Makefile.am: Remove CPPFLAGS def since the -D there was
+	already in INCLUDES
+
 2000-10-14  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* gui/evolution-calendar.oafinfo: Added an

@@ -44,10 +44,8 @@ INCLUDES =								\
 	$(BONOBO_GNOME_CFLAGS)						\
 	$(GTKHTML_CFLAGS)						\
 	$(UNICODE_CFLAGS)						\
+	-DE_GLADEDIR=\"$(gladedir)\"					\
 	-DG_LOG_DOMAIN=\"composer\"
-
-CPPFLAGS =					\
-	-DE_GLADEDIR=\"$(gladedir)\"
 
 libcomposer_la_SOURCES = 			\
 	$(IDL_GENERATED)			\

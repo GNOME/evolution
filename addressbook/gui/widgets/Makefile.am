@@ -1,8 +1,6 @@
-CPPFLAGS =					\
-	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"
-
 INCLUDES =						\
 	-DG_LOG_DOMAIN=\"e-minicard\"			\
+	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/addressbook/backend/ebook	\
 	-I$(top_srcdir)/addressbook/contact-editor	\

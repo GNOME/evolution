@@ -11,18 +11,16 @@ glade_DATA = 				\
 	e-contact-print.glade		\
 	e-contact-print.glade.h
 
-CPPFLAGS = \
+INCLUDES =					\
+	$(GNOME_INCLUDEDIR)			\
+	-DG_LOG_DOMAIN=\"addressbook-printing\"	\
+	-I$(top_srcdir)/addressbook		\
+	-I$(top_srcdir)				\
         -DEVOLUTION_GLADEDIR=\""$(gladedir)"\"	\
 	-DEVOLUTION_ECPSDIR=\""$(ecpsdir)"\"	\
 	-DDATADIR=\""$(datadir)"\"		\
 	$(GNOME_PRINT_CFLAGS)			\
         $(BONOBO_GNOME_CFLAGS)
-
-INCLUDES =					\
-	$(GNOME_INCLUDEDIR)			\
-	-DG_LOG_DOMAIN=\"addressbook-printing\"	\
-	-I$(top_srcdir)/addressbook		\
-	-I$(top_srcdir)
 
 noinst_LIBRARIES =				\
 	libecontactprint.a

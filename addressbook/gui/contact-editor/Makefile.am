@@ -1,9 +1,3 @@
-CPPFLAGS =					\
-	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"	\
-	-DDATADIR=\""$(datadir)"\"		\
-	-DEVOLUTION_DATADIR=\""$(datadir)"\"	\
-	-DEVOLUTIONDIR=\""$(evolutiondir)"\"
-
 INCLUDES =					\
 	$(BONOBO_GNOME_CFLAGS)			\
 	$(EXTRA_GNOME_CFLAGS)			\
@@ -11,6 +5,10 @@ INCLUDES =					\
 	-I$(top_srcdir)/addressbook/		\
 	-I$(top_srcdir)/addressbook/backend	\
 	-I$(top_srcdir)/widgets/e-table		\
+	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"	\
+	-DDATADIR=\""$(datadir)"\"		\
+	-DEVOLUTION_DATADIR=\""$(datadir)"\"	\
+	-DEVOLUTIONDIR=\""$(evolutiondir)"\"	\
 	-DG_LOG_DOMAIN=\"contact-editor\"
 
 noinst_LIBRARIES =				\

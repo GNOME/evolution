@@ -1,3 +1,8 @@
+2000-10-15  Dan Winship  <danw@helixcode.com>
+
+	* Makefile.am: Move CPPFLAGS flags to INCLUDES to avoid bashing
+	any CPPFLAGS set at configure time.
+
 2000-10-14  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* e-msg-composer-attachment.c (set_entry): If the entry widget is

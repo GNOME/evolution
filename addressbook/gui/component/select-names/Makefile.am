@@ -20,9 +20,6 @@ oaf_DATA = evolution-addressbook-select-names.oafinfo
 
 #
 
-CPPFLAGS =					\
-	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"
-
 INCLUDES =						\
 	-DG_LOG_DOMAIN=\"evolution-addressbook\"	\
 	$(EXTRA_GNOME_CFLAGS)				\
