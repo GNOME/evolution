@@ -1,3 +1,8 @@
+2001-02-03  Michael Meeks  <michael@helixcode.com>
+
+	* mail-local.c (load_metainfo): Fix dodgy libxml allocation
+	pollution, and potential faults on NULL attributes.
+
 2001-02-02  Not Zed  <NotZed@Ximian.com>
 
 	* mail-send-recv.c (mail_send_receive): Cleaned up so we dont add

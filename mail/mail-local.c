@@ -97,9 +97,16 @@ load_metainfo(const char *path)
 	node = node->childs;
 	while (node) {
 		if (!strcmp(node->name, "folder")) {
-			char *index;
-			meta->format = xmlGetProp(node, "type");
-			meta->name = xmlGetProp(node, "name");
+			char *index, *txt;
+
+			txt = xmlGetProp(node, "type");
+			meta->format = g_strdup (txt ? txt : "mbox");
+			xmlFree (txt);
+
+			txt = xmlGetProp(node, "name");
+			meta->name = g_strdup (txt ? txt : "mbox");
+			xmlFree (txt);
+
 			index = xmlGetProp(node, "index");
 			if (index) {
 				meta->indexed = atoi(index);
