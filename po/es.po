@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD.es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2003-06-21 12:02+0200\n"
-"PO-Revision-Date: 2003-07-06 01:21+0200\n"
+"PO-Revision-Date: 2003-07-09 18:24+0200\n"
 "Last-Translator: Francisco Javier F. Serrador <serrador@arrakis.es>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -27036,7 +27036,7 @@ msgstr "Establecer la configuración de la página para la impresora actual"
 
 #: ui/evolution-mail-message.xml.h:82
 msgid "Show Email _Source"
-msgstr "Mostrar el _origen del mensaje"
+msgstr "Mostrar del mensaje _sin formato"
 
 #: ui/evolution-mail-message.xml.h:83
 msgid "Show Full _Headers"
