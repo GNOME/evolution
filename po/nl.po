@@ -35,7 +35,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.gnome-2-8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-12-20 12:54+0100\n"
+"POT-Creation-Date: 2005-01-23 12:49+0100\n"
 "PO-Revision-Date: 2004-10-08 14:42+0200\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: Dutch <vertaling@nl.linux.org>\n"
@@ -2187,20 +2187,20 @@ msgstr ""
 msgid "Invalid contact."
 msgstr "Ongeldig contact."
 
-#: addressbook/gui/contact-editor/e-contact-quick-add.c:280
+#: addressbook/gui/contact-editor/e-contact-quick-add.c:276
 msgid "Contact Quick-Add"
 msgstr "Contact snel toevoegen"
 
-#: addressbook/gui/contact-editor/e-contact-quick-add.c:283
+#: addressbook/gui/contact-editor/e-contact-quick-add.c:279
 msgid "_Edit Full"
 msgstr "Volledig be_werken"
 
-#: addressbook/gui/contact-editor/e-contact-quick-add.c:301
+#: addressbook/gui/contact-editor/e-contact-quick-add.c:297
 #: mail/mail-config.glade.h:166
 msgid "_Full Name:"
 msgstr "_Volledige naam:"
 
-#: addressbook/gui/contact-editor/e-contact-quick-add.c:307
+#: addressbook/gui/contact-editor/e-contact-quick-add.c:303
 msgid "E-_mail:"
 msgstr "E-_mail:"
 
@@ -5996,7 +5996,7 @@ msgstr "Geselecteerde taken als voltooid markeren"
 #. FIXME: need to disable for undeletable folders
 #: calendar/gui/e-calendar-table.c:1063 calendar/gui/e-calendar-table.c:1081
 #: calendar/gui/e-calendar-view.c:1451 calendar/gui/e-calendar-view.c:1484
-#: mail/em-folder-tree.c:2720 mail/em-folder-view.c:925
+#: mail/em-folder-tree.c:2728 mail/em-folder-view.c:925
 #: ui/evolution-addressbook.xml.h:33 ui/evolution-calendar.xml.h:40
 #: ui/evolution-comp-editor.xml.h:17 ui/evolution-contact-editor.xml.h:14
 #: ui/evolution-mail-message.xml.h:112 ui/evolution-tasks.xml.h:21
@@ -9174,7 +9174,7 @@ msgstr ""
 
 #: camel/camel-gpg-context.c:804 camel/camel-gpg-context.c:1314
 #: camel/camel-gpg-context.c:1498 camel/camel-gpg-context.c:1589
-#: camel/camel-gpg-context.c:1701 camel/providers/nntp/camel-nntp-store.c:1269
+#: camel/camel-gpg-context.c:1701 camel/providers/nntp/camel-nntp-store.c:1279
 #: mail/mail-ops.c:716 mail/mail-send-recv.c:611
 msgid "Cancelled."
 msgstr "Geannuleerd."
@@ -9367,7 +9367,7 @@ msgstr "Fout bij opslaan van tijdelijk postbusbestand: %s"
 msgid "Failed to decrypt MIME part: invalid structure"
 msgstr "Kan MIME-berichtdeel niet decoderen: ongeldige structuur"
 
-#: camel/camel-multipart-signed.c:676 camel/camel-multipart-signed.c:727
+#: camel/camel-multipart-signed.c:704 camel/camel-multipart-signed.c:755
 msgid "parse error"
 msgstr "analysefout"
 
@@ -10268,7 +10268,7 @@ msgstr "Aftekenlijst"
 
 #: camel/providers/imap/camel-imap-command.c:218
 #: camel/providers/imap/camel-imap-command.c:257
-#: camel/providers/imap/camel-imap-command.c:447
+#: camel/providers/imap/camel-imap-command.c:459
 #: camel/providers/imap/camel-imap-store.c:3240
 msgid "Operation cancelled"
 msgstr "Operatie geannuleerd"
@@ -10299,16 +10299,16 @@ msgstr "Onverwacht antwoord van IMAP-server: %s"
 msgid "IMAP command failed: %s"
 msgstr "IMAP-opdracht mislukt: %s"
 
-#: camel/providers/imap/camel-imap-command.c:457
+#: camel/providers/imap/camel-imap-command.c:469
 msgid "Server response ended too soon."
 msgstr "Het antwoord van de server eindigde te snel."
 
-#: camel/providers/imap/camel-imap-command.c:655
+#: camel/providers/imap/camel-imap-command.c:674
 #, c-format
 msgid "IMAP server response did not contain %s information"
 msgstr "Het antwoord van de IMAP-server bevatte geen %s informatie"
 
-#: camel/providers/imap/camel-imap-command.c:691
+#: camel/providers/imap/camel-imap-command.c:710
 #, c-format
 msgid "Unexpected OK response from IMAP server: %s"
 msgstr "De IMAP-server gaf onverwacht een 'OK' antwoord: %s"
@@ -10557,7 +10557,7 @@ msgstr "Map `%s' bestaat niet."
 
 #: camel/providers/imap/camel-imap-store.c:1901
 #: camel/providers/imap/camel-imap-store.c:2279
-#: camel/providers/imap4/camel-imap4-store.c:745
+#: camel/providers/imap4/camel-imap4-store.c:745 mail/em-folder-tree.c:2637
 #, c-format
 msgid ""
 "The folder name \"%s\" is invalid because it contains the character \"%c\""
@@ -11360,7 +11360,7 @@ msgstr ""
 "Map is wellicht beschadigd, kopie opgeslagen in '%s'"
 
 #: camel/providers/nntp/camel-nntp-auth.c:44
-#: camel/providers/nntp/camel-nntp-store.c:1151
+#: camel/providers/nntp/camel-nntp-store.c:1161
 #, c-format
 msgid "Please enter the NNTP password for %s@%s"
 msgstr "Voer het NNTP wachtwoord in voor %s@%s"
@@ -11478,7 +11478,7 @@ msgstr "NNTP server %s retourneerde foutcode %d: %s"
 msgid "USENET News via %s"
 msgstr "USENET-Nieuws via %s"
 
-#: camel/providers/nntp/camel-nntp-store.c:806
+#: camel/providers/nntp/camel-nntp-store.c:816
 #, c-format
 msgid ""
 "Error retrieving newsgroups:\n"
@@ -11489,7 +11489,7 @@ msgstr ""
 "\n"
 "%s"
 
-#: camel/providers/nntp/camel-nntp-store.c:900
+#: camel/providers/nntp/camel-nntp-store.c:910
 msgid ""
 "You cannot subscribe to this newsgroup:\n"
 "\n"
@@ -11500,7 +11500,7 @@ msgstr ""
 "Groep bestaat niet. Het geselecteerde item is waarschijnlijk een "
 "bovenliggende map."
 
-#: camel/providers/nntp/camel-nntp-store.c:932
+#: camel/providers/nntp/camel-nntp-store.c:942
 msgid ""
 "You cannot unsubscribe to this newsgroup:\n"
 "\n"
@@ -11510,41 +11510,41 @@ msgstr ""
 "\n"
 "nieuwsgroep bestaat niet!"
 
-#: camel/providers/nntp/camel-nntp-store.c:957
+#: camel/providers/nntp/camel-nntp-store.c:967
 msgid "You cannot create a folder in a News store: subscribe instead."
 msgstr ""
 "U kan geen map aanmaken in een nieuws opslag, in plaats hiervan kunt u "
 "inschrijven."
 
-#: camel/providers/nntp/camel-nntp-store.c:965
+#: camel/providers/nntp/camel-nntp-store.c:975
 msgid "You cannot rename a folder in a News store."
 msgstr "U kan geen mappen hernoemen in een nieuws opslag."
 
-#: camel/providers/nntp/camel-nntp-store.c:973
+#: camel/providers/nntp/camel-nntp-store.c:983
 msgid "You cannot remove a folder in a News store: unsubscribe instead."
 msgstr ""
 "Het is niet mogelijk om een map in een nieuws opslag te verwijderen, in "
 "plaats hiervan kunt u uitschrijven."
 
-#: camel/providers/nntp/camel-nntp-store.c:1143
+#: camel/providers/nntp/camel-nntp-store.c:1153
 msgid "Authentication requested but no username provided"
 msgstr "Aanmeldingscontrole vereist maar geen gebruikersnaam gegeven"
 
-#: camel/providers/nntp/camel-nntp-store.c:1155
+#: camel/providers/nntp/camel-nntp-store.c:1165
 #, c-format
 msgid "Cannot authenticate to server: %s"
 msgstr "Aanmeldingscontrole bij server %s niet mogelijk"
 
-#: camel/providers/nntp/camel-nntp-store.c:1271
+#: camel/providers/nntp/camel-nntp-store.c:1281
 #, c-format
 msgid "NNTP Command failed: %s"
 msgstr "NNTP-Opdracht mislukt: %s"
 
-#: camel/providers/nntp/camel-nntp-store.c:1327
+#: camel/providers/nntp/camel-nntp-store.c:1337
 msgid "Not connected."
 msgstr "Niet verbonden."
 
-#: camel/providers/nntp/camel-nntp-store.c:1380
+#: camel/providers/nntp/camel-nntp-store.c:1390
 #, c-format
 msgid "No such folder: %s"
 msgstr "Map: %s bestaat niet"
@@ -13049,18 +13049,18 @@ msgstr "Handtekening script toevoegen"
 msgid "Signature(s)"
 msgstr "Handtekening(en)"
 
-#: mail/em-composer-utils.c:889
+#: mail/em-composer-utils.c:902
 msgid "-------- Forwarded Message --------"
 msgstr "-------Doorgestuurd bericht-------"
 
-#: mail/em-composer-utils.c:1505
+#: mail/em-composer-utils.c:1518
 msgid "an unknown sender"
 msgstr "een onbekende afzender"
 
 #. Note to translators: this is the attribution string used when quoting messages.
 #. * each ${Variable} gets replaced with a value. To see a full list of available
 #. * variables, see em-composer-utils.c:1514
-#: mail/em-composer-utils.c:1552
+#: mail/em-composer-utils.c:1565
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
@@ -13311,7 +13311,7 @@ msgstr "begint met"
 msgid "Stop Processing"
 msgstr "Stop met Verwerken"
 
-#: mail/em-filter-i18n.h:64 mail/em-format-html.c:1553
+#: mail/em-filter-i18n.h:64 mail/em-format-html.c:1552
 #: mail/em-format-quote.c:305 mail/em-format.c:833 mail/em-mailer-prefs.c:87
 #: mail/message-list.etspec.h:13 mail/message-tag-followup.c:329
 #: smime/lib/e-cert.c:1131
@@ -13460,34 +13460,34 @@ msgstr "De \"%s\" map hernoemen naar:"
 msgid "Rename Folder"
 msgstr "Map hernoemen"
 
-#: mail/em-folder-tree.c:2708 ui/evolution-addressbook.xml.h:44
+#: mail/em-folder-tree.c:2716 ui/evolution-addressbook.xml.h:44
 #: ui/evolution-mail-global.xml.h:18 ui/evolution-mail-messagedisplay.xml.h:8
 #: ui/evolution-message-composer.xml.h:53 ui/evolution.xml.h:37
 msgid "_View"
 msgstr "Beel_d"
 
-#: mail/em-folder-tree.c:2709
+#: mail/em-folder-tree.c:2717
 msgid "Open in _New Window"
 msgstr "In _nieuw venster openen"
 
-#: mail/em-folder-tree.c:2713
+#: mail/em-folder-tree.c:2721
 msgid "_Copy..."
 msgstr "Kopiëren..."
 
-#: mail/em-folder-tree.c:2714
+#: mail/em-folder-tree.c:2722
 msgid "_Move..."
 msgstr "Verplaatsen..."
 
 #. FIXME: need to disable for nochildren folders
-#: mail/em-folder-tree.c:2718
+#: mail/em-folder-tree.c:2726
 msgid "_New Folder..."
 msgstr "_Nieuwe map..."
 
-#: mail/em-folder-tree.c:2721
+#: mail/em-folder-tree.c:2729
 msgid "_Rename..."
 msgstr "He_rnoemen..."
 
-#: mail/em-folder-tree.c:2724 ui/evolution-mail-list.xml.h:27
+#: mail/em-folder-tree.c:2732 ui/evolution-mail-list.xml.h:27
 msgid "_Properties"
 msgstr "_Eigenschappen"
 
@@ -13642,7 +13642,7 @@ msgid "Matches: %d"
 msgstr "Klopt: %d"
 
 # Niet ondertekend of positief getal?
-#: mail/em-format-html-display.c:643 mail/em-format-html.c:582
+#: mail/em-format-html-display.c:643 mail/em-format-html.c:581
 msgid "Unsigned"
 msgstr "Niet getekend"
 
@@ -13654,7 +13654,7 @@ msgstr ""
 "Dit bericht is niet ondertekend, Er kan niet worden aangetoond dat het "
 "authentiek is."
 
-#: mail/em-format-html-display.c:644 mail/em-format-html.c:583
+#: mail/em-format-html-display.c:644 mail/em-format-html.c:582
 msgid "Valid signature"
 msgstr "Geldige handtekening"
 
@@ -13666,7 +13666,7 @@ msgstr ""
 "Dit bericht is geldig en is ondertekend, de afzender van dit bericht is zeer "
 "waarschijnlijk degene die hij claimt te zijn."
 
-#: mail/em-format-html-display.c:645 mail/em-format-html.c:584
+#: mail/em-format-html-display.c:645 mail/em-format-html.c:583
 msgid "Invalid signature"
 msgstr "Ongeldige handtekening"
 
@@ -13690,7 +13690,7 @@ msgstr ""
 "Dit bericht is ondertekend met een geldige handtekening maar de afzender van "
 "het bericht kan niet worden geverifieerd."
 
-#: mail/em-format-html-display.c:652 mail/em-format-html.c:591
+#: mail/em-format-html-display.c:652 mail/em-format-html.c:590
 msgid "Unencrypted"
 msgstr "Niet versleuteld"
 
@@ -13702,7 +13702,7 @@ msgstr ""
 "Dit bericht is niet versleuteld.  De inhoud kan mogelijk door anderen "
 "bekeken worden tijdens de weg die het over het internet aflegt."
 
-#: mail/em-format-html-display.c:653 mail/em-format-html.c:592
+#: mail/em-format-html-display.c:653 mail/em-format-html.c:591
 msgid "Encrypted, weak"
 msgstr "Versleuteld, zwak"
 
@@ -13716,7 +13716,7 @@ msgstr ""
 "moeilijk maar niet onmogelijk voor een buitenstaander om de inhoud van dit "
 "bericht te bekijken in een redelijke tijd."
 
-#: mail/em-format-html-display.c:654 mail/em-format-html.c:593
+#: mail/em-format-html-display.c:654 mail/em-format-html.c:592
 msgid "Encrypted"
 msgstr "Versleuteld"
 
@@ -13725,10 +13725,10 @@ msgid ""
 "This message is encrypted.  It would be difficult for an outsider to view "
 "the content of this message."
 msgstr ""
-"Dit bericht is versleuteld.  His is moeilijk voor een buitenstaander om de "
+"Dit bericht is versleuteld.  Het is moeilijk voor een buitenstaander om de "
 "inhoud van het bericht te bekijken."
 
-#: mail/em-format-html-display.c:655 mail/em-format-html.c:594
+#: mail/em-format-html-display.c:655 mail/em-format-html.c:593
 msgid "Encrypted, strong"
 msgstr "Versleuteld, sterk"
 
@@ -13776,97 +13776,97 @@ msgstr "_Verbergen"
 msgid "Page %d of %d"
 msgstr "Pagina %d van %d"
 
-#: mail/em-format-html.c:475 mail/em-format-html.c:477
+#: mail/em-format-html.c:474 mail/em-format-html.c:476
 #, c-format
 msgid "Retrieving `%s'"
 msgstr "Bezig met ophalen `%s'"
 
-#: mail/em-format-html.c:585
+#: mail/em-format-html.c:584
 msgid "Valid signature but cannot verify sender"
 msgstr "Geldige handtekening, kan afzender niet verifiëren"
 
-#: mail/em-format-html.c:855
+#: mail/em-format-html.c:854
 msgid "Malformed external-body part."
 msgstr "Misvormd extern-berichtgedeelte"
 
-#: mail/em-format-html.c:885
+#: mail/em-format-html.c:884
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "Verwijzing naar FTP site (%s)"
 
-#: mail/em-format-html.c:896
+#: mail/em-format-html.c:895
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "Verwijzing naar lokaal bestand (%s) geldig bij site \"%s\""
 
-#: mail/em-format-html.c:898
+#: mail/em-format-html.c:897
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "Verwijzing naar lokaal bestand (%s)"
 
-#: mail/em-format-html.c:919
+#: mail/em-format-html.c:918
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "Verwijzing naar externe gegevens (%s)"
 
-#: mail/em-format-html.c:930
+#: mail/em-format-html.c:929
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Verwijzing naar onbekende externe gegevens (\"%s\" type)"
 
-#: mail/em-format-html.c:1157
+#: mail/em-format-html.c:1156
 msgid "Formatting message"
 msgstr "Bezig met opmaken van bericht"
 
-#: mail/em-format-html.c:1444 mail/em-format-quote.c:192 mail/em-format.c:828
+#: mail/em-format-html.c:1443 mail/em-format-quote.c:192 mail/em-format.c:828
 #: mail/em-mailer-prefs.c:82 mail/message-list.etspec.h:7
 #: mail/message-tag-followup.c:325
 msgid "From"
 msgstr "Van"
 
-#: mail/em-format-html.c:1444 mail/em-format-quote.c:192 mail/em-format.c:829
+#: mail/em-format-html.c:1443 mail/em-format-quote.c:192 mail/em-format.c:829
 #: mail/em-mailer-prefs.c:83
 msgid "Reply-To"
 msgstr "Antwoordadres"
 
-#: mail/em-format-html.c:1444 mail/em-format-quote.c:192 mail/em-format.c:830
+#: mail/em-format-html.c:1443 mail/em-format-quote.c:192 mail/em-format.c:830
 #: mail/em-mailer-prefs.c:84 mail/message-list.etspec.h:14
 msgid "To"
 msgstr "Aan"
 
-#: mail/em-format-html.c:1444 mail/em-format-quote.c:192 mail/em-format.c:831
+#: mail/em-format-html.c:1443 mail/em-format-quote.c:192 mail/em-format.c:831
 #: mail/em-mailer-prefs.c:85
 msgid "Cc"
 msgstr "Cc"
 
-#: mail/em-format-html.c:1444 mail/em-format-quote.c:192 mail/em-format.c:832
+#: mail/em-format-html.c:1443 mail/em-format-quote.c:192 mail/em-format.c:832
 #: mail/em-mailer-prefs.c:86
 msgid "Bcc"
 msgstr "Bcc"
 
 #. pseudo-header
-#: mail/em-format-html.c:1557 mail/em-format-quote.c:314
+#: mail/em-format-html.c:1556 mail/em-format-quote.c:314
 #: mail/em-mailer-prefs.c:939
 msgid "Mailer"
 msgstr "E-mailprogramma"
 
 # a = afgekorte weeknaam, R = 24h tijd, Z is tijdzone
 #. translators: strftime format for local time equivalent in Date header display, with day
-#: mail/em-format-html.c:1584
+#: mail/em-format-html.c:1583
 msgid "<I> (%a, %R %Z)</I>"
 msgstr "<I> (%a, %R %Z)</I>"
 
 #. translators: strftime format for local time equivalent in Date header display, without day
-#: mail/em-format-html.c:1587
+#: mail/em-format-html.c:1586
 msgid "<I> (%R %Z)</I>"
 msgstr "<I> (%R %Z)</I>"
 
-#: mail/em-format-html.c:1597 mail/em-format-quote.c:321 mail/em-format.c:834
+#: mail/em-format-html.c:1596 mail/em-format-quote.c:321 mail/em-format.c:834
 #: mail/em-mailer-prefs.c:88 mail/message-list.etspec.h:2
 msgid "Date"
 msgstr "Datum"
 
-#: mail/em-format-html.c:1620 mail/em-format.c:835 mail/em-mailer-prefs.c:89
+#: mail/em-format-html.c:1619 mail/em-format.c:835 mail/em-mailer-prefs.c:89
 msgid "Newsgroups"
 msgstr "Nieuwsgroepen"
 
@@ -16642,7 +16642,7 @@ msgstr "%b %d %l:%M %p"
 msgid "%b %d %Y"
 msgstr "%b %d %Y"
 
-#: mail/message-list.c:3384
+#: mail/message-list.c:3356
 msgid "Generating message list"
 msgstr "Bezig met genereren van berichtenlijst"
 
