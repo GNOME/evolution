@@ -1,5 +1,9 @@
 2001-12-18  Ettore Perazzoli  <ettore@ximian.com>
 
+	* configure.in: Set VERSION_COMMENT say "Preview Release".
+
+2001-12-18  Ettore Perazzoli  <ettore@ximian.com>
+
 	* configure.in: Set VERSION to 1.0.1.99.
 
 2001-12-18  Ettore Perazzoli  <ettore@ximian.com>
