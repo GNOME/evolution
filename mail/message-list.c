@@ -416,7 +416,7 @@ get_normalised_string (MessageList *message_list, CamelMessageInfo *info, int co
 	
 	normalised = g_utf8_collate_key (string, -1);
 	e_poolv_set (poolv, index, normalised, TRUE);
-
+	
 	return e_poolv_get (poolv, index);
 }
 
@@ -885,11 +885,11 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
 {
 	MessageList *message_list = model_data;
 	CamelMessageInfo *msg_info;
+	const char *str;
 	
 	/* retrieve the message information array */
 	msg_info = e_tree_memory_node_get_data (E_TREE_MEMORY(etm), path);
-	if (!msg_info)
-		return NULL;
+	g_assert (msg_info != NULL);
 	
 	switch (col){
 	case COL_MESSAGE_STATUS: {
@@ -946,25 +946,29 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
 		}
 	}
 	case COL_FOLLOWUP_FLAG:
-		return (void *) camel_tag_get ((CamelTag **) &msg_info->user_tags, "follow-up");
+		str = camel_tag_get ((CamelTag **) &msg_info->user_tags, "follow-up");
+		return (void *) str ? str : "";
 	case COL_ATTACHMENT:
 		return GINT_TO_POINTER ((msg_info->flags & CAMEL_MESSAGE_ATTACHMENTS) != 0);
 	case COL_FROM:
-		return (void *)camel_message_info_from(msg_info);
+		str = camel_message_info_from (msg_info);
+		return (void *) str ? str : "";
 	case COL_FROM_NORM:
-		return (void *)get_normalised_string (message_list, msg_info, col);
+		return (void *) get_normalised_string (message_list, msg_info, col);
 	case COL_SUBJECT:
-		return (void *)camel_message_info_subject(msg_info);
+		str = camel_message_info_subject (msg_info);
+		return (void *) str ? str : "";
 	case COL_SUBJECT_NORM:
-		return (void *)get_normalised_string (message_list, msg_info, col);
+		return (void *) get_normalised_string (message_list, msg_info, col);
 	case COL_SENT:
 		return GINT_TO_POINTER (msg_info->date_sent);
 	case COL_RECEIVED:
 		return GINT_TO_POINTER (msg_info->date_received);
 	case COL_TO:
-		return (void *)camel_message_info_to(msg_info);
+		str = camel_message_info_to (msg_info);
+		return (void *) str ? str : "";
 	case COL_TO_NORM:
-		return (void *)get_normalised_string (message_list, msg_info, col);
+		return (void *) get_normalised_string (message_list, msg_info, col);
 	case COL_SIZE:
 		return GINT_TO_POINTER (msg_info->size);
 	case COL_DELETED:
@@ -1017,13 +1021,13 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
 	case COL_LOCATION: {
 		CamelFolder *folder;
 		char *name;
-
+		
 		if (CAMEL_IS_VEE_FOLDER(message_list->folder)) {
 			folder = camel_vee_folder_get_location((CamelVeeFolder *)message_list->folder, (CamelVeeMessageInfo *)msg_info, NULL);
 		} else {
 			folder = message_list->folder;
 		}
-
+		
 		camel_object_get(folder, NULL, CAMEL_OBJECT_DESCRIPTION, &name, 0);
 		return name;
 	}

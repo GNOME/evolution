@@ -1,5 +1,9 @@
 2003-04-07  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* message-list.c (ml_tree_value_at): For string columns, never
+	return NULL - always return "" if the value is empty. Fixes bug
+	#40728.
+
 	* mail-composer-prefs.c (sig_add_script_cb): Set the "script" data
 	on the GtkEntry to NULL.
 	(sig_add_script_response): If the "script" data on the GtkEntry
