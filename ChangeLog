@@ -1,3 +1,10 @@
+2000-04-13  Chris Toshok  <toshok@helixcode.com>
+
+	* addressbook/backend/pas/pas-backend-ldap.c (poll_ldap): new
+	function that polls ldap for more search responses.
+	(pas_backend_ldap_search): use the async search interface and
+	register an idle call to poll for the responses.
+
 2000-04-12  Chris Toshok  <toshok@helixcode.com>
 
 	* addressbook/backend/pas/pas-backend-file.c (entry_compare):

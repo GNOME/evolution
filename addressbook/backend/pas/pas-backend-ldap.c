@@ -46,8 +46,11 @@ struct _PASBackendLDAPCursorPrivate {
 };
 
 struct _PASBackendLDAPBookView {
-	PASBookView                 *book_view;
-	gchar                       *search;
+	PASBookView           *book_view;
+	PASBackendLDAPPrivate *blpriv;
+	gchar                 *search;
+	int                   search_idle;
+	int                   search_msgid;
 };
 
 static long
@@ -609,18 +612,101 @@ map_e_card_prop_to_ldap(gchar *e_card_prop)
 	return NULL;
 }
 
+static gboolean
+poll_ldap (PASBackendLDAPBookView *view)
+{
+	LDAP           *ldap;
+	int            ldap_error, rc;
+	LDAPMessage    *res, *e;
+	GList   *cards = NULL;
+
+	printf ("polling ldap server\n");
+
+	ldap = view->blpriv->ldap;
+		
+	if ((rc = ldap_result (ldap, view->search_msgid, 0, NULL, &res))
+	    != LDAP_RES_SEARCH_ENTRY) {
+		view->search_idle = 0;
+		return FALSE;
+	}
+		
+	e = ldap_first_entry(ldap, res);
+
+	while (NULL != e) {
+		ECard *card = E_CARD(gtk_type_new(e_card_get_type()));
+		char *dn = ldap_get_dn(ldap, e);
+		char *attr;
+		BerElement *ber = NULL;
+
+		e_card_set_id (card, dn);
+
+		for (attr = ldap_first_attribute (ldap, e, &ber); attr;
+		     attr = ldap_next_attribute (ldap, e, ber)) {
+			int i;
+			struct prop_info *info = NULL;
+
+			for (i = 0; i < num_prop_infos; i ++)
+				if (!strcmp (attr, prop_info_table[i].ldap_attr))
+					info = &prop_info_table[i];
+
+			if (info) {
+				char **values;
+				values = ldap_get_values (ldap, e, attr);
+
+				if (info->prop_type == PROP_TYPE_NORMAL) {
+					/* if it's a normal property just set the string */
+					gtk_object_set(GTK_OBJECT(card),
+						       info->query_prop, values[0], NULL);
+
+				}
+				else if (info->prop_type == PROP_TYPE_LIST) {
+					/* if it's a list call the construction function,
+					   which calls gtk_object_set to set the property */
+					info->construct_list_func(card,
+								  info->query_prop,
+								  values);
+				}
+
+				ldap_value_free (values);
+			}
+		}
+
+		/* if ldap->ld_errno == LDAP_DECODING_ERROR there was an
+		   error decoding an attribute, and we shouldn't free ber,
+		   since the ldap library already did it. */
+		if (ldap->ld_errno != LDAP_DECODING_ERROR && ber)
+			ber_free (ber, 0);
+
+		cards = g_list_append(cards, e_card_get_vcard(card));
+
+		gtk_object_unref (GTK_OBJECT(card));
+
+		e = ldap_next_entry(ldap, e);
+	}
+
+	if (cards) {
+		pas_book_view_notify_add (view->book_view, cards);
+			
+		g_list_foreach (cards, (GFunc)g_free, NULL);
+		g_list_free (cards);
+		cards = NULL;
+	}
+
+	ldap_msgfree(res);
+
+	return TRUE;
+}
+
 static void
 pas_backend_ldap_search (PASBackendLDAP  	*bl,
 			 PASBook         	*book,
 			 PASBackendLDAPBookView *view)
 {
 	char *ldap_query = pas_backend_ldap_build_query(view->search);
-	GList   *cards = NULL;
 
 	if (ldap_query != NULL) {
 		LDAP           *ldap;
 		int            ldap_error;
-		LDAPMessage    *res, *e;
 
 		pas_backend_ldap_ensure_connected(bl);
 
@@ -628,77 +714,16 @@ pas_backend_ldap_search (PASBackendLDAP  	*bl,
 		
 		ldap->ld_sizelimit = LDAP_MAX_SEARCH_RESPONSES;
 
-		if ((ldap_error = ldap_search_s (ldap,
-						 NULL,
-						 LDAP_SCOPE_ONELEVEL,
-						 ldap_query,
-						 NULL, 0, &res)) != LDAP_SUCCESS) {
-			g_warning ("ldap error '%s' in pas_backend_ldap_search\n", ldap_err2string(ldap_error));
+		if ((view->search_msgid = ldap_search (ldap,
+						       NULL,
+						       LDAP_SCOPE_ONELEVEL,
+						       ldap_query,
+						       NULL, 0)) == -1) {
+			g_warning ("ldap error '%s' in pas_backend_ldap_search\n", ldap_err2string(ldap->ld_errno));
 		}
-
-		e = ldap_first_entry(ldap, res);
-
-		while (NULL != e) {
-			ECard *card = E_CARD(gtk_type_new(e_card_get_type()));
-			char *dn = ldap_get_dn(ldap, e);
-			char *attr;
-			BerElement *ber = NULL;
-
-			e_card_set_id (card, dn);
-			
-			for (attr = ldap_first_attribute (ldap, e, &ber); attr;
-			     attr = ldap_next_attribute (ldap, e, ber)) {
-				int i;
-				struct prop_info *info = NULL;
-
-				for (i = 0; i < num_prop_infos; i ++)
-					if (!strcmp (attr, prop_info_table[i].ldap_attr))
-						info = &prop_info_table[i];
-
-				if (info) {
-					char **values;
-					values = ldap_get_values (ldap, e, attr);
-
-					if (info->prop_type == PROP_TYPE_NORMAL) {
-						/* if it's a normal property just set the string */
-						gtk_object_set(GTK_OBJECT(card),
-							       info->query_prop, values[0], NULL);
-
-					}
-					else if (info->prop_type == PROP_TYPE_LIST) {
-						/* if it's a list call the construction function,
-						   which calls gtk_object_set to set the property */
-						info->construct_list_func(card,
-									  info->query_prop,
-									  values);
-					}
-
-					ldap_value_free (values);
-				}
-			}
-
-			/* if ldap->ld_errno == LDAP_DECODING_ERROR there was an
-			   error decoding an attribute, and we shouldn't free ber,
-			   since the ldap library already did it. */
-			if (ldap->ld_errno != LDAP_DECODING_ERROR && ber)
-				ber_free (ber, 0);
-
-			cards = g_list_append(cards, e_card_get_vcard(card));
-
-			gtk_object_unref (GTK_OBJECT(card));
-
-			e = ldap_next_entry(ldap, e);
+		else {
+			view->search_idle = g_idle_add((GSourceFunc)poll_ldap, view);
 		}
-
-		if (cards) {
-			pas_book_view_notify_add (view->book_view, cards);
-			
-			g_list_foreach (cards, (GFunc)g_free, NULL);
-			g_list_free (cards);
-			cards = NULL;
-		}
-
-		ldap_msgfree(res);
 	}
 }
 
@@ -743,6 +768,7 @@ pas_backend_ldap_process_get_book_view (PASBackend *backend,
 	view = g_new(PASBackendLDAPBookView, 1);
 	view->book_view = book_view;
 	view->search = g_strdup(req->search);
+	view->blpriv = bl->priv;
 
 	bl->priv->book_views = g_list_prepend(bl->priv->book_views, view);
 
