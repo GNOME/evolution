@@ -300,6 +300,8 @@ book_view_loaded (EBook *book, EBookStatus status, EBookView *book_view, gpointe
 	for ( i = 0; i < model->data_count; i++ ) {
 		gtk_object_unref(GTK_OBJECT(model->data[i]));
 	}
+
+	e_table_model_pre_change(E_TABLE_MODEL(model));
 	g_free(model->data);
 	model->data = NULL;
 	model->data_count = 0;

@@ -157,6 +157,8 @@ do_parse_categories(EContactEditorCategories *categories)
 	char **list;
 	int count = 1;
 
+	e_table_model_pre_change(categories->model);
+
 	for (i = 0; i < categories->list_length; i++)
 		g_free(categories->category_list[i]);
 	g_free(categories->category_list);
