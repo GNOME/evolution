@@ -1757,10 +1757,11 @@ unsubscribe_folder (CamelStore *store, const char *folder_name,
 		return;
 	camel_imap_response_free (imap_store, response);
 	
-	g_hash_table_lookup_extended (imap_store->subscribed_folders,
-				      folder_name, &key, &value);
-	g_hash_table_remove (imap_store->subscribed_folders, folder_name);
-	g_free (key);
+	if (g_hash_table_lookup_extended (imap_store->subscribed_folders,
+					  folder_name, &key, &value)) {
+		g_hash_table_remove (imap_store->subscribed_folders, key);
+		g_free (key);
+	}
 
 	name = strrchr (folder_name, imap_store->dir_sep);
 	if (name)

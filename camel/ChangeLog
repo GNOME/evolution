@@ -1,5 +1,11 @@
 2001-10-29  Dan Winship  <danw@ximian.com>
 
+	* providers/imap/camel-imap-store.c (unsubscribe_folder): Don't
+	free the hash table key if the folder wasn't found in the hash
+	table. I'm not sure where the bug is/was that made it possible to
+	add a folder to the tree after creating it failed, but now if that
+	happens, it won't crash if you try to delete it again. (#11492)
+
 	* camel-disco-store.c (camel_disco_store_status): if the service
 	is being connected and thinks it's online, but the session is
 	offline, then mark the service offline as well. Fixes 13683.
