@@ -284,7 +284,8 @@ set_entry (GladeXML *xml,
 	entry = GTK_ENTRY (glade_xml_get_widget (xml, widget_name));
 	if (entry == NULL)
 		g_warning ("Entry for `%s' not found.", widget_name);
-	e_utf8_gtk_entry_set_text (entry, value ? value : "");
+	else
+		e_utf8_gtk_entry_set_text (entry, value ? value : "");
 }
 
 static void
@@ -426,14 +427,3 @@ e_msg_composer_attachment_edit (EMsgComposerAttachment *attachment,
 	connect_widget (editor_gui, "file_name_entry", "focus_out_event",
 			file_name_focus_out_cb, dialog_data);
 }
-
-
-
-
-
-
-
-
-
-
-

@@ -1,3 +1,8 @@
+2000-10-14  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* e-msg-composer-attachment.c (set_entry): If the entry widget is
+	NULL, obviously we can't set any text on it.
+
 2000-10-14  Iain Holmes  <iain@helixcode.com>
 
 	* e-msg-composer-hdrs.c (init): Create a unique-ish id for this set
