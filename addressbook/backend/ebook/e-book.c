@@ -1086,10 +1086,7 @@ e_book_add_card (EBook           *book,
 
 	g_free (vcard);
 
-	if (card->book && card->book != book)
-		g_object_unref (card->book);
-	card->book = book;
-	g_object_ref (card->book);
+	e_card_set_book (card, book);
 
 	return retval;
 }
@@ -1169,10 +1166,7 @@ e_book_commit_card (EBook         *book,
 
 	g_free (vcard);
 
-	if (card->book && card->book != book)
-		g_object_unref (card->book);
-	card->book = book;
-	g_object_ref (card->book);
+	e_card_set_book (card, book);
 
 	return retval;
 }

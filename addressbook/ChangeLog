@@ -1,3 +1,9 @@
+2002-12-06  Chris Toshok  <toshok@ximian.com>
+
+	* backend/ebook/e-book.c (e_book_commit_card): use e_card_set_book
+	instead of basically duplicating its code here.
+	(e_book_add_card): same.
+
 2002-12-06  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/component/e-cardlist-model.c: #include <string.h>.
