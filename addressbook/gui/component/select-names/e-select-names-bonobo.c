@@ -356,8 +356,14 @@ impl_destroy (GtkObject *object)
 
 	select_names = E_SELECT_NAMES_BONOBO (object);
 	priv = select_names->priv;
+
+	if (priv->manager->names) {
+		gtk_widget_destroy (GTK_WIDGET (priv->manager->names));
+		priv->manager->names = NULL;
+	}
 	
-	gtk_object_unref (GTK_OBJECT (priv->manager));
+	/* FIXME: We leak on purpose.  This sucks. */
+	/* gtk_object_unref (GTK_OBJECT (priv->manager)); */
 
 	g_free (priv);
 }
