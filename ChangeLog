@@ -1,3 +1,8 @@
+2003-10-23  Rodney Dawes  <dobey@ximian.com>
+
+	* confiugre.in: Remove mail/importers/Makefile from AC_OUTPUT
+	yet again
+
 2003-10-23  Chris Toshok  <toshok@ximian.com>
 
 	* configure.in: add smime/* dirs. to AC_OUTPUT.

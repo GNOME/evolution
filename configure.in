@@ -1410,7 +1410,6 @@ calendar/gui/alarm-notify/Makefile
 calendar/gui/dialogs/Makefile
 composer/Makefile
 mail/Makefile
-mail/importers/Makefile
 smime/Makefile
 smime/lib/Makefile
 smime/gui/Makefile
