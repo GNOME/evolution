@@ -805,8 +805,9 @@ async_xfer_folder_callback (EvolutionShellComponentClient *shell_component_clien
 	XferItem *item;
 	EFolder *source_folder;
 	EFolder *destination_folder;
+	char *dest_physical_path;
 	char *new_physical_uri;
-
+	
 	/* FIXME handle errors.  */
 
 	xfer_data = (XferData *) callback_data;
@@ -818,7 +819,9 @@ async_xfer_folder_callback (EvolutionShellComponentClient *shell_component_clien
 						 e_folder_get_type_string (source_folder),
 						 e_folder_get_description (source_folder));
 
-	new_physical_uri = g_strconcat ("file:///", item->destination_path, NULL);
+	dest_physical_path = e_path_to_physical (xfer_data->local_storage->priv->base_path, item->destination_path);
+	new_physical_uri = g_strconcat ("file://", dest_physical_path, NULL);
+	g_free (dest_physical_path);
 	e_folder_set_physical_uri (destination_folder, new_physical_uri);
 	g_free (new_physical_uri);
 

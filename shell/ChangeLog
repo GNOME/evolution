@@ -1,3 +1,8 @@
+2001-08-22  Peter Williams  <peterw@ximian.com>
+
+	* e-local-storage.c (async_xfer_folder_callback): Fix the improper
+	construction of the new folder's physical URI.
+
 2001-08-22  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-local-storage.c (remove_folder): Don't remove the folder
