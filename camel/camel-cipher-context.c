@@ -2,7 +2,7 @@
 /*
  *  Authors: Jeffrey Stedfast <fejj@ximian.com>
  *
- *  Copyright 2001 Ximian, Inc. (www.ximian.com)
+ *  Copyright 2001-2003 Ximian, Inc. (www.ximian.com)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -24,27 +24,20 @@
 #include <config.h>
 #endif
 
+#include <glib.h>
+#include <pthread.h>
+
 #include "camel-cipher-context.h"
 
-#include <glib.h>
-
-#ifdef ENABLE_THREADS
-#include <pthread.h>
 #define CIPHER_LOCK(ctx)   g_mutex_lock (((CamelCipherContext *) ctx)->priv->lock)
 #define CIPHER_UNLOCK(ctx) g_mutex_unlock (((CamelCipherContext *) ctx)->priv->lock);
-#else
-#define CIPHER_LOCK(ctx)
-#define CIPHER_UNLOCK(ctx)
-#endif
 
 #define d(x)
 
 #define CCC_CLASS(o) CAMEL_CIPHER_CONTEXT_CLASS(CAMEL_OBJECT_GET_CLASS(o))
 
 struct _CamelCipherContextPrivate {
-#ifdef ENABLE_THREADS
 	GMutex *lock;
-#endif
 };
 
 static const char *cipher_hash_to_id (CamelCipherContext *context, CamelCipherHash hash);
@@ -66,16 +59,14 @@ static int              cipher_export_keys (CamelCipherContext *context, GPtrArr
 					    CamelStream *ostream, CamelException *ex);
 
 
-static CamelObjectClass *parent_class;
+static CamelObjectClass *parent_class = NULL;
 
 
 static void
 camel_cipher_context_init (CamelCipherContext *context)
 {
 	context->priv = g_new0 (struct _CamelCipherContextPrivate, 1);
-#ifdef ENABLE_THREADS
 	context->priv->lock = g_mutex_new ();
-#endif
 }
 
 static void
@@ -85,9 +76,7 @@ camel_cipher_context_finalise (CamelObject *o)
 	
 	camel_object_unref (CAMEL_OBJECT (context->session));
 	
-#ifdef ENABLE_THREADS
 	g_mutex_free (context->priv->lock);
-#endif
 	
 	g_free (context->priv);
 }

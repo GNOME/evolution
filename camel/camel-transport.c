@@ -59,9 +59,7 @@ camel_transport_init (gpointer object, gpointer klass)
 	CamelTransport *xport = object;
 	
 	xport->priv = g_malloc0 (sizeof (struct _CamelTransportPrivate));
-#ifdef ENABLE_THREADS
 	xport->priv->send_lock = g_mutex_new ();
-#endif
 }
 
 static void
@@ -69,9 +67,7 @@ camel_transport_finalize (CamelObject *object)
 {
 	CamelTransport *xport = CAMEL_TRANSPORT (object);
 	
-#ifdef ENABLE_THREADS
 	g_mutex_free (xport->priv->send_lock);
-#endif
 	g_free (xport->priv);
 }
 

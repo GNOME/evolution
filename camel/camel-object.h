@@ -32,18 +32,16 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus */
 
-#include <stdlib.h>		/* size_t */
 #include <glib.h>
+#include <stdlib.h>		/* size_t */
 #include <stdarg.h>
+#include <pthread.h>
+
 #include <camel/camel-arg.h>
 #include <camel/camel-types.h>	/* this is a @##$@#SF stupid header */
 
 /* this crap shouldn't be here */
 #include <camel/camel-i18n.h>
-
-#ifdef ENABLE_THREADS
-#include <pthread.h>
-#endif
 
 /* turn on so that camel_object_class_dump_tree() dumps object instances as well */
 #define CAMEL_OBJECT_TRACK_INSTANCES

@@ -3,7 +3,7 @@
  * Author:
  *  Michael Zucchi <notzed@ximian.com>
  *
- * Copyright 2000-2002 Ximian, Inc. (www.ximian.com)
+ * Copyright 2000-2003 Ximian, Inc. (www.ximian.com)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -26,15 +26,13 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <pthread.h>
+#include <semaphore.h>
+
 #include "camel-object.h"
 
 #include <e-util/e-memory.h>
-
-#ifdef ENABLE_THREADS
-#include <pthread.h>
-#include <semaphore.h>
 #include <e-util/e-msgport.h>
-#endif
 
 #define d(x)
 
@@ -85,10 +83,8 @@ struct _CamelObjectBag {
 	GHashTable *key_table;	/* key by object */
 	CamelCopyFunc copy_key;
 	GFreeFunc free_key;
-#ifdef ENABLE_THREADS
 	pthread_t owner;	/* the thread that has reserved the bag for a new entry */
 	sem_t reserve_sem;	/* used to track ownership */
-#endif
 };
 
 /* used to tag a bag hookpair */
@@ -100,11 +96,8 @@ static CamelHookList *camel_object_get_hooks(CamelObject *o);
 static void camel_object_free_hooks(CamelObject *o);
 static void camel_object_bag_remove_unlocked(CamelObjectBag *inbag, CamelObject *o, CamelHookList *hooks);
 
-#ifdef ENABLE_THREADS
 #define camel_object_unget_hooks(o) (e_mutex_unlock((CAMEL_OBJECT(o)->hooks->lock)))
-#else
-#define camel_object_unget_hooks(o)
-#endif
+
 
 /* ********************************************************************** */
 
@@ -121,21 +114,13 @@ static EMemChunk *type_chunks;
 
 CamelType camel_object_type;
 
-#ifdef ENABLE_THREADS
 #define P_LOCK(l) (pthread_mutex_lock(&l))
 #define P_UNLOCK(l) (pthread_mutex_unlock(&l))
 #define E_LOCK(l) (e_mutex_lock(l))
 #define E_UNLOCK(l) (e_mutex_unlock(l))
 #define CLASS_LOCK(k) (g_mutex_lock((((CamelObjectClass *)k)->lock)))
 #define CLASS_UNLOCK(k) (g_mutex_unlock((((CamelObjectClass *)k)->lock)))
-#else
-#define P_LOCK(l)
-#define P_UNLOCK(l)
-#define E_LOCK(l)
-#define E_UNLOCK(l)
-#define CLASS_LOCK(k)
-#define CLASS_UNLOCK(k)
-#endif
+
 
 static struct _CamelHookPair *
 pair_alloc(void)
@@ -365,12 +350,10 @@ camel_type_register (CamelType parent, const char * name,
 
 	klass = g_malloc0(klass_size);
 	klass->klass_size = klass_size;
-	klass->object_size = object_size;	
-#ifdef ENABLE_THREADS
+	klass->object_size = object_size;
 	klass->lock = g_mutex_new();
-#endif
 	klass->instance_chunks = e_memchunk_new(8, object_size);
-
+	
 	klass->parent = parent;
 	if (parent) {
 		klass->next = parent->child;
@@ -680,7 +663,8 @@ camel_object_class_add_event(CamelObjectClass *klass, const char *name, CamelObj
 }
 
 /* free hook data */
-static void camel_object_free_hooks(CamelObject *o)
+static void
+camel_object_free_hooks (CamelObject *o)
 {
 	CamelHookPair *pair, *next;
 
@@ -701,38 +685,30 @@ static void camel_object_free_hooks(CamelObject *o)
 }
 
 /* return (allocate if required) the object's hook list, locking at the same time */
-static CamelHookList *camel_object_get_hooks(CamelObject *o)
+static CamelHookList *
+camel_object_get_hooks (CamelObject *o)
 {
-#ifdef ENABLE_THREADS
 	static pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
-#endif
 	CamelHookList *hooks;
 
 	/* if we have it, we dont have to do any other locking,
 	   otherwise use a global lock to setup the object's hook data */
-#ifdef ENABLE_THREADS
 	if (o->hooks == NULL) {
 		pthread_mutex_lock(&lock);
-#endif
 		if (o->hooks == NULL) {
 			hooks = hooks_alloc();
-#ifdef ENABLE_THREADS
 			hooks->lock = e_mutex_new(E_MUTEX_REC);
-#endif
 			hooks->flags = 0;
 			hooks->depth = 0;
 			hooks->list_length = 0;
 			hooks->list = NULL;
 			o->hooks = hooks;
 		}
-#ifdef ENABLE_THREADS
 		pthread_mutex_unlock(&lock);
 	}
-#endif
-
-#ifdef ENABLE_THREADS
+	
 	e_mutex_lock(o->hooks->lock);
-#endif
+	
 	return o->hooks;	
 }
 
@@ -1084,7 +1060,8 @@ camel_object_class_dump_tree(CamelType root)
 	object_class_dump_tree_rec(root, 0);
 }
 
-CamelObjectBag *camel_object_bag_new(GHashFunc hash, GEqualFunc equal, CamelCopyFunc keycopy, GFreeFunc keyfree)
+CamelObjectBag *
+camel_object_bag_new (GHashFunc hash, GEqualFunc equal, CamelCopyFunc keycopy, GFreeFunc keyfree)
 {
 	CamelObjectBag *bag;
 
@@ -1094,10 +1071,10 @@ CamelObjectBag *camel_object_bag_new(GHashFunc hash, GEqualFunc equal, CamelCopy
 	bag->free_key = keyfree;
 	bag->key_table = g_hash_table_new(NULL, NULL);
 	bag->owner = 0;
-#ifdef ENABLE_THREADS
+	
 	/* init the semaphore to 1 owner, this is who has reserved the bag for adding */
 	sem_init(&bag->reserve_sem, 0, 1);
-#endif
+	
 	return bag;
 }
 
@@ -1107,7 +1084,8 @@ save_object(void *key, CamelObject *o, GPtrArray *objects)
 	g_ptr_array_add(objects, o);
 }
 
-void camel_object_bag_destroy(CamelObjectBag *bag)
+void
+camel_object_bag_destroy (CamelObjectBag *bag)
 {
 	GPtrArray *objects = g_ptr_array_new();
 	int i;
@@ -1122,13 +1100,12 @@ void camel_object_bag_destroy(CamelObjectBag *bag)
 	g_ptr_array_free(objects, TRUE);
 	g_hash_table_destroy(bag->object_table);
 	g_hash_table_destroy(bag->key_table);
-#ifdef ENABLE_THREADS
 	sem_destroy(&bag->reserve_sem);
-#endif
 	g_free(bag);
 }
 
-void camel_object_bag_add(CamelObjectBag *bag, const void *key, void *vo)
+void
+camel_object_bag_add (CamelObjectBag *bag, const void *key, void *vo)
 {
 	CamelObject *o = vo;
 	CamelHookList *hooks;
@@ -1160,19 +1137,18 @@ void camel_object_bag_add(CamelObjectBag *bag, const void *key, void *vo)
 	k = bag->copy_key(key);
 	g_hash_table_insert(bag->object_table, k, vo);
 	g_hash_table_insert(bag->key_table, vo, k);
-
-#ifdef ENABLE_THREADS
+	
 	if (bag->owner == pthread_self()) {
 		bag->owner = 0;
 		sem_post(&bag->reserve_sem);
 	}
-#endif
-
+	
 	E_UNLOCK(type_lock);
 	camel_object_unget_hooks(o);
 }
 
-void *camel_object_bag_get(CamelObjectBag *bag, const void *key)
+void *
+camel_object_bag_get (CamelObjectBag *bag, const void *key)
 {
 	CamelObject *o;
 
@@ -1182,9 +1158,7 @@ void *camel_object_bag_get(CamelObjectBag *bag, const void *key)
 	if (o) {
 		/* we use the same lock as the refcount */
 		o->ref_count++;
-	}
-#ifdef ENABLE_THREADS
-	else if (bag->owner != pthread_self()) {
+	} else if (bag->owner != pthread_self()) {
 		E_UNLOCK(type_lock);
 		sem_wait(&bag->reserve_sem);
 		E_LOCK(type_lock);
@@ -1195,10 +1169,9 @@ void *camel_object_bag_get(CamelObjectBag *bag, const void *key)
 		/* we dont want to reserve the bag */
 		sem_post(&bag->reserve_sem);
 	}
-#endif
 	
 	E_UNLOCK(type_lock);
-
+	
 	return o;
 }
 
@@ -1206,7 +1179,8 @@ void *camel_object_bag_get(CamelObjectBag *bag, const void *key)
 /* After calling reserve, you MUST call bag_abort or bag_add */
 /* Also note that currently you can only reserve a single key
    at any one time in a given thread */
-void *camel_object_bag_reserve(CamelObjectBag *bag, const void *key)
+void *
+camel_object_bag_reserve (CamelObjectBag *bag, const void *key)
 {
 	CamelObject *o;
 
@@ -1215,9 +1189,7 @@ void *camel_object_bag_reserve(CamelObjectBag *bag, const void *key)
 	o = g_hash_table_lookup(bag->object_table, key);
 	if (o) {
 		o->ref_count++;
-	}
-#ifdef ENABLE_THREADS
-	else {
+	} else {
 		g_assert(bag->owner != pthread_self());
 		E_UNLOCK(type_lock);
 		sem_wait(&bag->reserve_sem);
@@ -1232,7 +1204,6 @@ void *camel_object_bag_reserve(CamelObjectBag *bag, const void *key)
 			bag->owner = pthread_self();
 		}
 	}
-#endif
 	
 	E_UNLOCK(type_lock);
 
@@ -1240,14 +1211,13 @@ void *camel_object_bag_reserve(CamelObjectBag *bag, const void *key)
 }
 
 /* abort a reserved key */
-void camel_object_bag_abort(CamelObjectBag *bag, const void *key)
+void
+camel_object_bag_abort (CamelObjectBag *bag, const void *key)
 {
-#ifdef ENABLE_THREADS
 	g_assert(bag->owner == pthread_self());
 
 	bag->owner = 0;
 	sem_post(&bag->reserve_sem);
-#endif
 }
 
 static void
@@ -1260,7 +1230,8 @@ save_bag(void *key, CamelObject *o, GPtrArray *list)
 
 /* get a list of all objects in the bag, ref'd
    ignores any reserved keys */
-GPtrArray *camel_object_bag_list(CamelObjectBag *bag)
+GPtrArray *
+camel_object_bag_list (CamelObjectBag *bag)
 {
 	GPtrArray *list;
 
@@ -1274,7 +1245,8 @@ GPtrArray *camel_object_bag_list(CamelObjectBag *bag)
 }
 
 /* if bag is NULL, remove all bags from object */
-static void camel_object_bag_remove_unlocked(CamelObjectBag *inbag, CamelObject *o, CamelHookList *hooks)
+static void
+camel_object_bag_remove_unlocked (CamelObjectBag *inbag, CamelObject *o, CamelHookList *hooks)
 {
 	CamelHookPair *pair, *parent;
 	void *oldkey;
@@ -1303,7 +1275,8 @@ static void camel_object_bag_remove_unlocked(CamelObjectBag *inbag, CamelObject 
 	}
 }
 
-void camel_object_bag_remove(CamelObjectBag *inbag, void *vo)
+void
+camel_object_bag_remove (CamelObjectBag *inbag, void *vo)
 {
 	CamelObject *o = vo;
 	CamelHookList *hooks;

@@ -2,7 +2,7 @@
 /*
  *  Authors: Jeffrey Stedfast <fejj@ximian.com>
  *
- *  Copyright 2001 Ximian, Inc. (www.ximian.com)
+ *  Copyright 2001-2003 Ximian, Inc. (www.ximian.com)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -39,18 +39,11 @@
 struct _CamelDigestFolderPrivate {
 	CamelMimeMessage *message;
 	CamelFolderSearch *search;
-#ifdef ENABLE_THREADS
 	GMutex *search_lock;
-#endif
 };
 
-#ifdef ENABLE_THREADS
 #define CAMEL_DIGEST_FOLDER_LOCK(f, l) (g_mutex_lock(((CamelDigestFolder *)f)->priv->l))
 #define CAMEL_DIGEST_FOLDER_UNLOCK(f, l) (g_mutex_unlock(((CamelDigestFolder *)f)->priv->l))
-#else
-#define CAMEL_DIGEST_FOLDER_LOCK(f, l)
-#define CAMEL_DIGEST_FOLDER_UNLOCK(f, l)
-#endif
 
 static CamelFolderClass *parent_class = NULL;
 
@@ -113,12 +106,10 @@ camel_digest_folder_init (gpointer object, gpointer klass)
 	digest_folder->priv = g_new (struct _CamelDigestFolderPrivate, 1);
 	digest_folder->priv->message = NULL;
 	digest_folder->priv->search = NULL;
-#ifdef ENABLE_THREADS
 	digest_folder->priv->search_lock = g_mutex_new ();
-#endif
 }
 
-static void           
+static void
 digest_finalize (CamelObject *object)
 {
 	CamelDigestFolder *digest_folder = CAMEL_DIGEST_FOLDER (object);
@@ -134,9 +125,7 @@ digest_finalize (CamelObject *object)
 	if (digest_folder->priv->search)
 		camel_object_unref (CAMEL_OBJECT (digest_folder->priv->search));
 	
-#ifdef ENABLE_THREADS
 	g_mutex_free (digest_folder->priv->search_lock);
-#endif
 	
 	g_free (digest_folder->priv);
 }

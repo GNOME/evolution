@@ -1,12 +1,10 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* camel-execpetion.c : exception utils */
-
 /* 
  *
  * Author : 
  *  Bertrand Guiheneuf <bertrand@helixcode.com>
  *
- * Copyright 1999, 2000 Ximian, Inc. (www.ximian.com)
+ * Copyright 1999-2003 Ximian, Inc. (www.ximian.com)
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of version 2 of the GNU General Public 
@@ -28,6 +26,8 @@
 #endif
 
 #include <glib.h>
+#include <pthread.h>
+
 #include "camel-exception.h"
 #include "e-util/e-memory.h"
 
@@ -35,17 +35,10 @@
 
 /* also, i'm not convinced mutexes are needed here.  But it
    doesn't really hurt either */
-#ifdef ENABLE_THREADS
-#include <pthread.h>
-
 static pthread_mutex_t exception_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 #define CAMEL_EXCEPTION_LOCK(e) (pthread_mutex_lock(&exception_mutex))
 #define CAMEL_EXCEPTION_UNLOCK(e) (pthread_mutex_unlock(&exception_mutex))
-#else
-#define CAMEL_EXCEPTION_LOCK(e) 
-#define CAMEL_EXCEPTION_UNLOCK(e) 
-#endif
 
 static EMemChunk *exception_chunks = NULL;
 

@@ -1,5 +1,6 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * Copyright (C) 2001 Ximian Inc.
+ * Copyright (C) 2001-2003 Ximian Inc.
  *
  * Authors: Michael Zucchi <notzed@ximian.com>
  *
@@ -18,20 +19,19 @@
  * Boston, MA 02111-1307, USA.
  */
 
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
 
+#include <stdlib.h>
+#include <string.h>
+#include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/uio.h>
 #include <unistd.h>
-#include <errno.h>
-#include <string.h>
-#include <stdlib.h>
-
-#include <sys/types.h>
-#include <sys/stat.h>
 #include <fcntl.h>
+#include <errno.h>
 
 #include "e-util/e-msgport.h"
 
@@ -42,15 +42,10 @@
    tables consistent after program crash without sync */
 /*#define SYNC_UPDATES*/
 
-#ifdef ENABLE_THREADS
-#include <pthread.h>
-#endif
-
 #define d(x) /*(printf("%s(%d):%s: ",  __FILE__, __LINE__, __PRETTY_FUNCTION__),(x))*/
 /* key index debug */
 #define k(x) /*(printf("%s(%d):%s: ",  __FILE__, __LINE__, __PRETTY_FUNCTION__),(x))*/
 
-#ifdef ENABLE_THREADS
 
 struct _CamelPartitionTablePrivate {
 	pthread_mutex_t lock;	/* for locking partition */
@@ -58,10 +53,7 @@ struct _CamelPartitionTablePrivate {
 
 #define CAMEL_PARTITION_TABLE_LOCK(kf, lock) (pthread_mutex_lock(&(kf)->priv->lock))
 #define CAMEL_PARTITION_TABLE_UNLOCK(kf, lock) (pthread_mutex_unlock(&(kf)->priv->lock))
-#else
-#define CAMEL_PARTITION_TABLE_LOCK(kf, lock)
-#define CAMEL_PARTITION_TABLE_UNLOCK(kf, lock)
-#endif
+
 
 static void
 camel_partition_table_class_init(CamelPartitionTableClass *klass)
@@ -76,9 +68,7 @@ camel_partition_table_init(CamelPartitionTable *cpi)
 	e_dlist_init(&cpi->partition);
 
 	p = cpi->priv = g_malloc0(sizeof(*cpi->priv));
-#ifdef ENABLE_THREADS
 	pthread_mutex_init(&p->lock, NULL);
-#endif
 }
 
 static void
@@ -98,10 +88,9 @@ camel_partition_table_finalise(CamelPartitionTable *cpi)
 
 		camel_object_unref((CamelObject *)cpi->blocks);
 	}
-
-#ifdef ENABLE_THREADS
+	
 	pthread_mutex_destroy(&p->lock);
-#endif
+	
 	g_free(p);
 
 }
@@ -606,18 +595,13 @@ fail:
 /* ********************************************************************** */
 
 
-#ifdef ENABLE_THREADS
-
 struct _CamelKeyTablePrivate {
 	pthread_mutex_t lock;	/* for locking key */
 };
 
 #define CAMEL_KEY_TABLE_LOCK(kf, lock) (pthread_mutex_lock(&(kf)->priv->lock))
 #define CAMEL_KEY_TABLE_UNLOCK(kf, lock) (pthread_mutex_unlock(&(kf)->priv->lock))
-#else
-#define CAMEL_KEY_TABLE_LOCK(kf, lock)
-#define CAMEL_KEY_TABLE_UNLOCK(kf, lock)
-#endif
+
 
 static void
 camel_key_table_class_init(CamelKeyTableClass *klass)
@@ -630,9 +614,7 @@ camel_key_table_init(CamelKeyTable *ki)
 	struct _CamelKeyTablePrivate *p;
 
 	p = ki->priv = g_malloc0(sizeof(*ki->priv));
-#ifdef ENABLE_THREADS
 	pthread_mutex_init(&p->lock, NULL);
-#endif
 }
 
 static void
@@ -650,10 +632,9 @@ camel_key_table_finalise(CamelKeyTable *ki)
 		camel_block_file_sync(ki->blocks);
 		camel_object_unref((CamelObject *)ki->blocks);
 	}
-
-#ifdef ENABLE_THREADS
+	
 	pthread_mutex_destroy(&p->lock);
-#endif
+	
 	g_free(p);
 
 }

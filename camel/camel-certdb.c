@@ -2,7 +2,7 @@
 /*
  *  Authors: Jeffrey Stedfast <fejj@ximian.com>
  *
- *  Copyright 2002 Ximian, Inc. (www.ximian.com)
+ *  Copyright 2002-2003 Ximian, Inc. (www.ximian.com)
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -117,12 +117,10 @@ camel_certdb_init (CamelCertDB *certdb)
 	certdb->certs = g_ptr_array_new ();
 	certdb->cert_hash = g_hash_table_new (g_str_hash, g_str_equal);
 	
-#ifdef ENABLE_THREADS
 	certdb->priv->db_lock = g_mutex_new ();
 	certdb->priv->io_lock = g_mutex_new ();
 	certdb->priv->alloc_lock = g_mutex_new ();
 	certdb->priv->ref_lock = g_mutex_new ();
-#endif
 }
 
 static void
@@ -145,12 +143,10 @@ camel_certdb_finalize (CamelObject *obj)
 	if (certdb->cert_chunks)
 		e_memchunk_destroy (certdb->cert_chunks);
 	
-#ifdef ENABLE_THREADS
 	g_mutex_free (p->db_lock);
 	g_mutex_free (p->io_lock);
 	g_mutex_free (p->alloc_lock);
 	g_mutex_free (p->ref_lock);
-#endif
 	
 	g_free (p);
 }

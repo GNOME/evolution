@@ -2,7 +2,7 @@
 /*
  *  Authors: Michael Zucchi <notzed@ximian.com>
  *
- *  Copyright 2001 Ximian, Inc. (www.ximian.com)
+ *  Copyright 2001-2003 Ximian, Inc. (www.ximian.com)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -24,8 +24,10 @@
 #include <config.h>
 #endif
 
+#include <pthread.h>
 #include <string.h>
 #include <time.h>
+
 #include "camel-sasl-popb4smtp.h"
 #include "camel-service.h"
 #include "camel-session.h"
@@ -45,15 +47,9 @@ static GHashTable *poplast;
 /* use 1 hour as our pop timeout */
 #define POPB4SMTP_TIMEOUT (60*60)
 
-#ifdef ENABLE_THREADS
-#include <pthread.h>
 static pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
 #define POPB4SMTP_LOCK(l) pthread_mutex_lock(&l)
 #define POPB4SMTP_UNLOCK(l) pthread_mutex_unlock(&l)
-#else
-#define POPB4SMTP_LOCK(l)
-#define POPB4SMTP_UNLOCK(l)
-#endif
 
 static CamelSaslClass *parent_class = NULL;
 

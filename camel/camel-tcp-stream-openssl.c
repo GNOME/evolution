@@ -32,20 +32,17 @@
 #include <openssl/ssl.h>
 #include <openssl/x509.h>
 #include <openssl/err.h>
+#include <string.h>
 #include <sys/time.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include <errno.h>
-#include <string.h>
 #include "camel-session.h"
 #include "camel-service.h"
 #include "camel-operation.h"
 #include "camel-certdb.h"
-#ifdef ENABLE_THREADS
-#include <pthread.h>
-#endif
 
 #define d(x)
 

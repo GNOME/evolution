@@ -28,11 +28,11 @@
 #include <config.h>
 #endif
 
-#include <errno.h>
 #include <stdio.h>
 #include <string.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <errno.h>
 
 #include "camel-session.h"
 #include "camel-store.h"
@@ -63,12 +63,10 @@ static char *get_storage_path (CamelSession *session,
 			       CamelService *service,
 			       CamelException *ex);
 
-#ifdef ENABLE_THREADS
 static void *session_thread_msg_new(CamelSession *session, CamelSessionThreadOps *ops, unsigned int size);
 static void session_thread_msg_free(CamelSession *session, CamelSessionThreadMsg *msg);
 static int session_thread_queue(CamelSession *session, CamelSessionThreadMsg *msg, int flags);
 static void session_thread_wait(CamelSession *session, int id);
-#endif
 
 /* The vfolder provider is always available */
 static CamelProvider vee_provider = {
@@ -93,13 +91,12 @@ camel_session_init (CamelSession *session)
 	session->modules = camel_provider_init ();
 	session->providers = g_hash_table_new (camel_strcase_hash, camel_strcase_equal);
 	session->priv = g_malloc0(sizeof(*session->priv));
-#ifdef ENABLE_THREADS
+	
 	session->priv->lock = g_mutex_new();
 	session->priv->thread_lock = g_mutex_new();
 	session->priv->thread_id = 1;
 	session->priv->thread_active = g_hash_table_new(NULL, NULL);
 	session->priv->thread_queue = NULL;
-#endif
 }
 
 static gboolean
@@ -119,22 +116,19 @@ static void
 camel_session_finalise (CamelObject *o)
 {
 	CamelSession *session = (CamelSession *)o;
-
-#ifdef ENABLE_THREADS
+	
 	g_hash_table_destroy(session->priv->thread_active);
 	if (session->priv->thread_queue)
 		e_thread_destroy(session->priv->thread_queue);
-#endif
-
+	
 	g_free(session->storage_path);
 	g_hash_table_foreach_remove (session->providers,
 				     camel_session_destroy_provider, NULL);
 	g_hash_table_destroy (session->providers);
-
-#ifdef ENABLE_THREADS
+	
 	g_mutex_free(session->priv->lock);
 	g_mutex_free(session->priv->thread_lock);
-#endif
+	
 	g_free(session->priv);
 }
 
@@ -147,13 +141,11 @@ camel_session_class_init (CamelSessionClass *camel_session_class)
 	camel_session_class->get_provider = get_provider;
 	camel_session_class->get_service = get_service;
 	camel_session_class->get_storage_path = get_storage_path;
-
-#ifdef ENABLE_THREADS
+	
 	camel_session_class->thread_msg_new = session_thread_msg_new;
 	camel_session_class->thread_msg_free = session_thread_msg_free;
 	camel_session_class->thread_queue = session_thread_queue;
 	camel_session_class->thread_wait = session_thread_wait;
-#endif
 	
 	vee_provider.object_types[CAMEL_PROVIDER_STORE] = camel_vee_store_get_type ();
 	vee_provider.url_hash = camel_url_hash;
@@ -696,8 +688,6 @@ camel_session_get_filter_driver (CamelSession *session,
 	return CS_CLASS (session)->get_filter_driver (session, type, ex);
 }
 
-#ifdef ENABLE_THREADS
-
 static void *session_thread_msg_new(CamelSession *session, CamelSessionThreadOps *ops, unsigned int size)
 {
 	CamelSessionThreadMsg *m;
@@ -852,5 +842,3 @@ void camel_session_thread_wait(CamelSession *session, int id)
 
 	CS_CLASS (session)->thread_wait(session, id);
 }
-
-#endif

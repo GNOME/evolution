@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * Copyright (C) 2001-2003 Ximian Inc.
  *
@@ -22,24 +23,19 @@
 #include <config.h>
 #endif
 
-#include <sys/stat.h>
-#include <sys/uio.h>
-#include <unistd.h>
-#include <errno.h>
-#include <string.h>
 #include <stdlib.h>
-
+#include <string.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/uio.h>
+#include <pthread.h>
+#include <unistd.h>
 #include <fcntl.h>
+#include <errno.h>
 
 #include "e-util/e-msgport.h"
 
 #include "camel-block-file.h"
-
-#ifdef ENABLE_THREADS
-#include <pthread.h>
-#endif
 
 #define d(x) /*(printf("%s(%d):%s: ",  __FILE__, __LINE__, __PRETTY_FUNCTION__),(x))*/
 
@@ -51,16 +47,15 @@ struct _CamelBlockFilePrivate {
 	struct _CamelBlockFilePrivate *prev;
 
 	struct _CamelBlockFile *base;
-
-#ifdef ENABLE_THREADS
+	
 	pthread_mutex_t root_lock; /* for modifying the root block */
 	pthread_mutex_t cache_lock; /* for refcounting, flag manip, cache manip */
 	pthread_mutex_t io_lock; /* for all io ops */
-#endif
+	
 	unsigned int deleted:1;
 };
 
-#ifdef ENABLE_THREADS
+
 #define CAMEL_BLOCK_FILE_LOCK(kf, lock) (pthread_mutex_lock(&(kf)->priv->lock))
 #define CAMEL_BLOCK_FILE_TRYLOCK(kf, lock) (pthread_mutex_trylock(&(kf)->priv->lock))
 #define CAMEL_BLOCK_FILE_UNLOCK(kf, lock) (pthread_mutex_unlock(&(kf)->priv->lock))
@@ -69,14 +64,6 @@ struct _CamelBlockFilePrivate {
 #define UNLOCK(x) pthread_mutex_unlock(&x)
 
 static pthread_mutex_t block_file_lock = PTHREAD_MUTEX_INITIALIZER;
-
-#else
-#define CAMEL_BLOCK_FILE_LOCK(kf, lock)
-#define CAMEL_BLOCK_FILE_TRYLOCK(kf, lock)
-#define CAMEL_BLOCK_FILE_UNLOCK(kf, lock)
-#define LOCK(x)
-#define UNLOCK(x)
-#endif
 
 /* lru cache of block files */
 static EDList block_file_list = E_DLIST_INITIALISER(block_file_list);
@@ -180,13 +167,11 @@ camel_block_file_init(CamelBlockFile *bs)
 
 	p = bs->priv = g_malloc0(sizeof(*bs->priv));
 	p->base = bs;
-
-#ifdef ENABLE_THREADS
+	
 	pthread_mutex_init(&p->root_lock, NULL);
 	pthread_mutex_init(&p->cache_lock, NULL);
 	pthread_mutex_init(&p->io_lock, NULL);
-#endif
-
+	
 	/* link into lru list */
 	LOCK(block_file_lock);
 	e_dlist_addhead(&block_file_list, (EDListNode *)p);
@@ -241,12 +226,11 @@ camel_block_file_finalise(CamelBlockFile *bs)
 	g_free(bs->path);
 	if (bs->fd != -1)
 		close(bs->fd);
-
-#ifdef ENABLE_THREADS
+	
 	pthread_mutex_destroy(&p->io_lock);
 	pthread_mutex_destroy(&p->cache_lock);
 	pthread_mutex_destroy(&p->root_lock);
-#endif
+	
 	g_free(p);
 }
 
@@ -811,24 +795,15 @@ struct _CamelKeyFilePrivate {
 	struct _CamelKeyFilePrivate *prev;
 
 	struct _CamelKeyFile *base;
-#ifdef ENABLE_THREADS
 	pthread_mutex_t lock;
-#endif
 	unsigned int deleted:1;
 };
 
-#ifdef ENABLE_THREADS
 #define CAMEL_KEY_FILE_LOCK(kf, lock) (pthread_mutex_lock(&(kf)->priv->lock))
 #define CAMEL_KEY_FILE_TRYLOCK(kf, lock) (pthread_mutex_trylock(&(kf)->priv->lock))
 #define CAMEL_KEY_FILE_UNLOCK(kf, lock) (pthread_mutex_unlock(&(kf)->priv->lock))
 
 static pthread_mutex_t key_file_lock = PTHREAD_MUTEX_INITIALIZER;
-
-#else
-#define CAMEL_KEY_FILE_LOCK(kf, lock)
-#define CAMEL_KEY_FILE_TRYLOCK(kf, lock)
-#define CAMEL_KEY_FILE_UNLOCK(kf, lock)
-#endif
 
 /* lru cache of block files */
 static EDList key_file_list = E_DLIST_INITIALISER(key_file_list);
@@ -848,11 +823,9 @@ camel_key_file_init(CamelKeyFile *bs)
 
 	p = bs->priv = g_malloc0(sizeof(*bs->priv));
 	p->base = bs;
-
-#ifdef ENABLE_THREADS
+	
 	pthread_mutex_init(&p->lock, NULL);
-#endif
-
+	
 	LOCK(key_file_lock);
 	e_dlist_addhead(&key_file_list, (EDListNode *)p);
 	UNLOCK(key_file_lock);
@@ -874,11 +847,9 @@ camel_key_file_finalise(CamelKeyFile *bs)
 	UNLOCK(key_file_lock);
 
 	g_free(bs->path);
-
-#ifdef ENABLE_THREADS
+	
 	pthread_mutex_destroy(&p->lock);
-#endif
-
+	
 	g_free(p);
 }
 

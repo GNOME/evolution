@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2001 Ximian Inc.
+ * Copyright (C) 2001-2003 Ximian Inc.
  *
  * Authors: Michael Zucchi <notzed@ximian.com>
  *
@@ -25,20 +25,14 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-
-#include <errno.h>
 #include <string.h>
-
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/wait.h>
-
+#include <pthread.h>
 #include <unistd.h>
 #include <fcntl.h>
-
-#ifdef ENABLE_THREADS
-#include <pthread.h>
-#endif
+#include <errno.h>
 
 #include "camel-exception.h"
 #include "camel-lock-helper.h"
@@ -50,14 +44,9 @@
 /* see also camel-lock.c */
 #define _(x) (x)
 
-#ifdef ENABLE_THREADS
 static pthread_mutex_t lock_lock = PTHREAD_MUTEX_INITIALIZER;
 #define LOCK() pthread_mutex_lock(&lock_lock)
 #define UNLOCK() pthread_mutex_unlock(&lock_lock)
-#else
-#define LOCK()
-#define UNLOCK()
-#endif
 
 static int lock_sequence;
 static int lock_helper_pid = -1;

@@ -23,14 +23,14 @@
 #include <config.h>
 #endif
 
+#include <stdlib.h>
+#include <string.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <fcntl.h>
 #include <unistd.h>
 #include <ctype.h>
-#include <string.h>
+#include <fcntl.h>
 #include <errno.h>
-#include <stdlib.h>
 
 #include "camel-store-summary.h"
 
@@ -105,13 +105,11 @@ camel_store_summary_init (CamelStoreSummary *s)
 
 	s->folders = g_ptr_array_new();
 	s->folders_path = g_hash_table_new(g_str_hash, g_str_equal);
-
-#ifdef ENABLE_THREADS
+	
 	p->summary_lock = g_mutex_new();
 	p->io_lock = g_mutex_new();
 	p->alloc_lock = g_mutex_new();
 	p->ref_lock = g_mutex_new();
-#endif
 }
 
 static void
@@ -130,14 +128,12 @@ camel_store_summary_finalise (CamelObject *obj)
 
 	if (s->store_info_chunks)
 		e_memchunk_destroy(s->store_info_chunks);
-
-#ifdef ENABLE_THREADS
+	
 	g_mutex_free(p->summary_lock);
 	g_mutex_free(p->io_lock);
 	g_mutex_free(p->alloc_lock);
 	g_mutex_free(p->ref_lock);
-#endif
-
+	
 	g_free(p);
 }
 

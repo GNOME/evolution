@@ -5,7 +5,7 @@
  *   Jeffrey Stedfast <fejj@ximian.com>
  *   Dan Winship <danw@ximian.com>
  *
- * Copyright 2000, 2003 Ximian, Inc. (www.ximian.com)
+ * Copyright 2000-2003 Ximian, Inc. (www.ximian.com)
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of version 2 of the GNU General Public 
@@ -204,12 +204,9 @@ int main (void)
 #include "camel-charset-map-private.h"
 
 #include <glib.h>
-#include <glib/gunicode.h>
 #include <locale.h>
 #include <ctype.h>
-#ifdef ENABLE_THREADS
 #include <pthread.h>
-#endif
 #ifdef HAVE_CODESET
 #include <langinfo.h>
 #endif
@@ -217,7 +214,7 @@ int main (void)
 void
 camel_charset_init (CamelCharset *c)
 {
-	c->mask = ~0;
+	c->mask = (unsigned int) ~0;
 	c->level = 0;
 }
 

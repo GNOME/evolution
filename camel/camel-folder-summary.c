@@ -23,15 +23,15 @@
 #include <config.h>
 #endif
 
+#include <stdlib.h>
+#include <string.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <fcntl.h>
-
+#include <pthread.h>
 #include <unistd.h>
-#include <ctype.h>
-#include <string.h>
+#include <fcntl.h>
 #include <errno.h>
-#include <stdlib.h>
+#include <ctype.h>
 
 #include <gal/util/e-iconv.h>
 
@@ -57,18 +57,13 @@
 
 #include "camel-private.h"
 
-#ifdef ENABLE_THREADS
-#include <pthread.h>
 
 static pthread_mutex_t info_lock = PTHREAD_MUTEX_INITIALIZER;
 
 /* this lock is ONLY for the standalone messageinfo stuff */
 #define GLOBAL_INFO_LOCK(i) pthread_mutex_lock(&info_lock)
 #define GLOBAL_INFO_UNLOCK(i) pthread_mutex_unlock(&info_lock)
-#else
-#define GLOBAL_INFO_LOCK(i) 
-#define GLOBAL_INFO_UNLOCK(i) 
-#endif
+
 
 /* this should probably be conditional on it existing */
 #define USE_BSEARCH
@@ -171,14 +166,12 @@ camel_folder_summary_init (CamelFolderSummary *s)
 
 	s->messages = g_ptr_array_new();
 	s->messages_uid = g_hash_table_new(g_str_hash, g_str_equal);
-
-#ifdef ENABLE_THREADS
+	
 	p->summary_lock = g_mutex_new();
 	p->io_lock = g_mutex_new();
 	p->filter_lock = g_mutex_new();
 	p->alloc_lock = g_mutex_new();
 	p->ref_lock = g_mutex_new();
-#endif
 }
 
 static void free_o_name(void *key, void *value, void *data)
@@ -226,15 +219,13 @@ camel_folder_summary_finalize (CamelObject *obj)
 		camel_object_unref((CamelObject *)p->filter_stream);
 	if (p->index)
 		camel_object_unref((CamelObject *)p->index);
-
-#ifdef ENABLE_THREADS
+	
 	g_mutex_free(p->summary_lock);
 	g_mutex_free(p->io_lock);
 	g_mutex_free(p->filter_lock);
 	g_mutex_free(p->alloc_lock);
 	g_mutex_free(p->ref_lock);
-#endif
-
+	
 	g_free(p);
 }
 

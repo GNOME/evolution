@@ -6,7 +6,7 @@
  *  Bertrand Guiheneuf <bertrand@helixcode.com>
  *  Dan Winship <danw@ximian.com>
  *
- * Copyright 1999, 2000 Ximian, Inc. (www.ximian.com)
+ * Copyright 1999-2003 Ximian, Inc. (www.ximian.com)
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of version 2 of the GNU General Public 
@@ -27,9 +27,9 @@
 #include <config.h>
 #endif
 
+#include <string.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <string.h>
 
 #include "camel-session.h"
 #include "camel-store.h"
@@ -138,9 +138,7 @@ camel_store_init (void *o)
 	store->dir_sep = '/';
 	
 	store->priv = g_malloc0 (sizeof (*store->priv));
-#ifdef ENABLE_THREADS
 	store->priv->folder_lock = e_mutex_new (E_MUTEX_REC);
-#endif
 }
 
 static void
@@ -151,9 +149,8 @@ camel_store_finalize (CamelObject *object)
 	if (store->folders)
 		camel_object_bag_destroy(store->folders);
 	
-#ifdef ENABLE_THREADS
 	e_mutex_destroy (store->priv->folder_lock);
-#endif
+	
 	g_free (store->priv);
 }
 

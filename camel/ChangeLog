@@ -1,3 +1,54 @@
+2003-07-09  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-block-file.c: Get rid of the #ifdef ENABLE_THREADS since
+	we no longer plan to support/maintain this.
+
+	* camel.c: Same.
+
+	* camel-certdb.c: Here too.
+
+	* camel-charset-map.c: And here.
+
+	* camel-cipher-context.c: "
+
+	* camel-data-wrapper.c: "
+
+	* camel-digest-folder.c: "
+
+	* camel-exception.c: "
+
+	* camel-folder.c: "
+
+	* camel-folder-summary.c: "
+
+	* camel-lock-client.c: "
+
+	* camel-mime-utils.c: "
+
+	* camel-object.c: "
+
+	* camel-operation.c: "
+
+	* camel-partition-table.c: "
+
+	* camel-sasl-popb4smtp.c: "
+
+	* camel-service.c: "
+
+	* camel-session.c: "
+
+	* camel-store.c: "
+
+	* camel-store-summary.c: "
+
+	* camel-text-index.c: "
+
+	* camel-transport.c: "
+
+	* camel-vee-folder.c: "
+
+	* camel-tcp-stream-openssl.c: Removed pthread.h, it isn't needed.
+
 2003-07-09  Larry Ewing  <lewing@ximian.com>
 
 	* camel.h: remove reference to camel-pgp-mime.h

@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- *  Copyright (C) 2000 Ximian Inc.
+ *  Copyright (C) 2000-2003 Ximian Inc.
  *
  *  Authors: Michael Zucchi <notzed@ximian.com>
  *           Jeffrey Stedfast <fejj@ximian.com>
@@ -27,23 +27,22 @@
 #endif
 
 #include <stdio.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <sys/param.h>  /* for MAXHOSTNAMELEN */
-#include <fcntl.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/types.h>
+#include <sys/param.h>  /* for MAXHOSTNAMELEN */
+#include <sys/stat.h>
+#include <pthread.h>
 #include <unistd.h>
+#include <regex.h>
+#include <fcntl.h>
+#include <errno.h>
+#include <ctype.h>
+#include <time.h>
 
 #ifndef MAXHOSTNAMELEN
 #define MAXHOSTNAMELEN 1024
 #endif
-
-#include <time.h>
-
-#include <ctype.h>
-#include <errno.h>
-#include <regex.h>
 
 #include <glib.h>
 #include <gal/util/e-iconv.h>
@@ -52,10 +51,6 @@
 #include "camel-mime-utils.h"
 #include "camel-charset-map.h"
 #include "camel-service.h"  /* for camel_gethostbyname() */
-
-#ifdef ENABLE_THREADS
-#include <pthread.h>
-#endif
 
 #ifndef CLEAN_DATE
 #include "broken-date-parser.h"
@@ -3780,14 +3775,9 @@ header_raw_clear(struct _header_raw **list)
 char *
 header_msgid_generate (void)
 {
-#ifdef ENABLE_THREADS
 	static pthread_mutex_t count_lock = PTHREAD_MUTEX_INITIALIZER;
 #define COUNT_LOCK() pthread_mutex_lock (&count_lock)
 #define COUNT_UNLOCK() pthread_mutex_unlock (&count_lock)
-#else
-#define COUNT_LOCK()
-#define COUNT_UNLOCK()
-#endif /* ENABLE_THREADS */
 	char host[MAXHOSTNAMELEN];
 	struct hostent *h = NULL;
 	static int count = 0;

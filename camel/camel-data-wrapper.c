@@ -1,11 +1,9 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8; -*- */
-/* camel-data-wrapper.c : Abstract class for a data_wrapper */
-
 /*
  *
  * Authors: Bertrand Guiheneuf <bertrand@helixcode.com>
  *
- * Copyright 1999, 2000 Ximian, Inc. (www.ximian.com)
+ * Copyright 1999-2003 Ximian, Inc. (www.ximian.com)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -21,6 +19,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
  * USA
  */
+
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -70,9 +69,7 @@ camel_data_wrapper_init (gpointer object, gpointer klass)
 	CamelDataWrapper *camel_data_wrapper = CAMEL_DATA_WRAPPER (object);
 	
 	camel_data_wrapper->priv = g_malloc (sizeof (struct _CamelDataWrapperPrivate));
-#ifdef ENABLE_THREADS
 	pthread_mutex_init (&camel_data_wrapper->priv->stream_lock, NULL);
-#endif
 	
 	camel_data_wrapper->mime_type = header_content_type_new ("application", "octet-stream");
 	camel_data_wrapper->offline = FALSE;
@@ -84,9 +81,8 @@ camel_data_wrapper_finalize (CamelObject *object)
 {
 	CamelDataWrapper *camel_data_wrapper = CAMEL_DATA_WRAPPER (object);
 	
-#ifdef ENABLE_THREADS
 	pthread_mutex_destroy (&camel_data_wrapper->priv->stream_lock);
-#endif
+	
 	g_free (camel_data_wrapper->priv);
 	
 	if (camel_data_wrapper->mime_type)

@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8; fill-column: 160 -*- */
 /*
- *  Copyright (C) 2001 Ximian Inc.
+ *  Copyright (C) 2001-2003 Ximian Inc.
  *
  *  Authors: Michael Zucchi <notzed@ximian.com>
  *
@@ -23,17 +23,16 @@
 #include <config.h>
 #endif
 
-#include <ctype.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/uio.h>
 #include <unistd.h>
 #include <errno.h>
-#include <string.h>
-#include <stdlib.h>
-
-#include <sys/types.h>
-#include <sys/stat.h>
 #include <fcntl.h>
+#include <ctype.h>
 
 #include "e-util/e-msgport.h"
 #include "e-util/e-memory.h"
@@ -46,7 +45,6 @@
 
 #include <glib/gunicode.h>
 
-#include <stdio.h>
 
 #define w(x)
 #define io(x) 
@@ -55,13 +53,8 @@
 /* cursor debug */
 #define c(x)
 
-#ifdef ENABLE_THREADS
 #define CAMEL_TEXT_INDEX_LOCK(kf, lock) (e_mutex_lock(((CamelTextIndex *)kf)->priv->lock))
 #define CAMEL_TEXT_INDEX_UNLOCK(kf, lock) (e_mutex_unlock(((CamelTextIndex *)kf)->priv->lock))
-#else
-#define CAMEL_TEXT_INDEX_LOCK(kf, lock)
-#define CAMEL_TEXT_INDEX_UNLOCK(kf, lock)
-#endif
 
 static int text_index_compress_nosync(CamelIndex *idx);
 
@@ -130,9 +123,7 @@ struct _CamelTextIndexPrivate {
 	int word_cache_count;
 	EDList word_cache;
 	GHashTable *words;
-#ifdef ENABLE_THREADS
 	EMutex *lock;
-#endif
 };
 
 /* Root block of text index */
@@ -766,10 +757,8 @@ camel_text_index_init(CamelTextIndex *idx)
 	/* this cache size and the block cache size have been tuned for about the best
 	   with moderate memory usage.  Doubling the memory usage barely affects performance. */
 	p->word_cache_limit = 4096; /* 1024 = 128K */
-
-#ifdef ENABLE_THREADS
+	
 	p->lock = e_mutex_new(E_MUTEX_REC);
-#endif
 }
 
 static void
@@ -797,11 +786,9 @@ camel_text_index_finalise(CamelTextIndex *idx)
 		camel_object_unref((CamelObject *)p->blocks);
 	if (p->links)
 		camel_object_unref((CamelObject *)p->links);
-
-#ifdef ENABLE_THREADS
+	
 	e_mutex_destroy(p->lock);
-#endif
-
+	
 	g_free(p);
 }
 

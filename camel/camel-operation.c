@@ -1,19 +1,40 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/*
+ *  Authors: Michael Zucchi <NotZed@ximian.com>
+ *
+ *  Copyright 2003 Ximian, Inc. (www.ximian.com)
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
+ *
+ */
+
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
 
+#include <glib.h>
+
 #include <stdio.h>
-#ifdef ENABLE_THREADS
+#include <sys/time.h>
+#include <unistd.h>
 #include <pthread.h>
 #ifdef HAVE_NSS
 #include <nspr.h>
 #endif
-#endif
 
-#include <sys/time.h>
-#include <unistd.h>
-
-#include <glib.h>
 #include "camel-operation.h"
 #include "e-util/e-msgport.h"
 
@@ -42,12 +63,10 @@ struct _CamelOperation {
 	GSList *status_stack;
 	struct _status_stack *lastreport;
 
-#ifdef ENABLE_THREADS
 	EMsgPort *cancel_port;
 	int cancel_fd;
 #ifdef HAVE_NSS
 	PRFileDesc *cancel_prfd;
-#endif
 #endif
 };
 
@@ -57,14 +76,10 @@ struct _CamelOperation {
 /* Delay before a transient operation has any effect on the status */
 #define CAMEL_OPERATION_TRANSIENT_DELAY (5)
 
-#ifdef ENABLE_THREADS
+static pthread_mutex_t operation_active_lock = PTHREAD_MUTEX_INITIALIZER;
 #define CAMEL_ACTIVE_LOCK() pthread_mutex_lock(&operation_active_lock)
 #define CAMEL_ACTIVE_UNLOCK() pthread_mutex_unlock(&operation_active_lock)
-static pthread_mutex_t operation_active_lock = PTHREAD_MUTEX_INITIALIZER;
-#else
-#define CAMEL_ACTIVE_LOCK()
-#define CAMEL_ACTIVE_UNLOCK()
-#endif
+
 
 static unsigned int stamp (void);
 
@@ -87,7 +102,8 @@ typedef struct _CamelOperationMsg {
  * 
  * Return value: A new operation handle.
  **/
-CamelOperation *camel_operation_new(CamelOperationStatusFunc status, void *status_data)
+CamelOperation *
+camel_operation_new (CamelOperationStatusFunc status, void *status_data)
 {
 	CamelOperation *cc;
 
@@ -98,18 +114,20 @@ CamelOperation *camel_operation_new(CamelOperationStatusFunc status, void *statu
 	cc->refcount = 1;
 	cc->status = status;
 	cc->status_data = status_data;
-#ifdef ENABLE_THREADS
-	cc->id = ~0;
+	cc->id = (pthread_t) ~0;
 	cc->cancel_port = e_msgport_new();
 	cc->cancel_fd = -1;
-#endif
-
+	
 	return cc;
 }
 
-/* return the registered operation, or NULL if none registered */
-/* need to unref when done with it */
-CamelOperation *camel_operation_registered(void)
+/**
+ * camel_operation_registered:
+ *
+ * Returns the registered operation, or %NULL if none registered.
+ **/
+CamelOperation *
+camel_operation_registered (void)
 {
 	CamelOperation *cc = NULL;
 
@@ -126,21 +144,19 @@ CamelOperation *camel_operation_registered(void)
 
 /**
  * camel_operation_reset:
- * @cc: 
+ * @cc: operation context
  * 
  * Resets an operation cancel state and message.
  **/
-void camel_operation_reset(CamelOperation *cc)
+void
+camel_operation_reset (CamelOperation *cc)
 {
-	GSList *n;
-
-#ifdef ENABLE_THREADS
 	CamelOperationMsg *msg;
-
+	GSList *n;
+	
 	while ((msg = (CamelOperationMsg *)e_msgport_get(cc->cancel_port)))
 		g_free(msg);
-#endif
-
+	
 	n = cc->status_stack;
 	while (n) {
 		g_free(n->data);
@@ -155,11 +171,12 @@ void camel_operation_reset(CamelOperation *cc)
 
 /**
  * camel_operation_ref:
- * @cc: 
+ * @cc: operation context
  * 
  * Add a reference to the CamelOperation @cc.
  **/
-void camel_operation_ref(CamelOperation *cc)
+void
+camel_operation_ref (CamelOperation *cc)
 {
 	g_assert(cc->refcount > 0);
 
@@ -170,11 +187,12 @@ void camel_operation_ref(CamelOperation *cc)
 
 /**
  * camel_operation_unref:
- * @cc: 
+ * @cc: operation context
  * 
  * Unref and potentially free @cc.
  **/
-void camel_operation_unref(CamelOperation *cc)
+void
+camel_operation_unref (CamelOperation *cc)
 {
 	GSList *n;
 
@@ -182,15 +200,13 @@ void camel_operation_unref(CamelOperation *cc)
 
 	CAMEL_ACTIVE_LOCK();
 	if (cc->refcount == 1) {
-#ifdef ENABLE_THREADS
 		CamelOperationMsg *msg;
-
+		
 		while ((msg = (CamelOperationMsg *)e_msgport_get(cc->cancel_port)))
 			g_free(msg);
 
 		e_msgport_destroy(cc->cancel_port);
-#endif
-
+		
 		if (cc->id != (~0)) {
 			g_warning("Unreffing operation status which was still registered: %p\n", cc);
 			g_hash_table_remove(operation_active, (void *)cc->id);
@@ -213,12 +229,13 @@ void camel_operation_unref(CamelOperation *cc)
 
 /**
  * camel_operation_cancel_block:
- * @cc: 
+ * @cc: operation context
  * 
  * Block cancellation for this operation.  If @cc is NULL, then the
  * current thread is blocked.
  **/
-void camel_operation_cancel_block(CamelOperation *cc)
+void
+camel_operation_cancel_block (CamelOperation *cc)
 {
 	CAMEL_ACTIVE_LOCK();
 	if (operation_active == NULL)
@@ -234,13 +251,14 @@ void camel_operation_cancel_block(CamelOperation *cc)
 
 /**
  * camel_operation_cancel_unblock:
- * @cc: 
+ * @cc: operation context
  * 
  * Unblock cancellation, when the unblock count reaches the block
  * count, then this operation can be cancelled.  If @cc is NULL, then
  * the current thread is unblocked.
  **/
-void camel_operation_cancel_unblock(CamelOperation *cc)
+void
+camel_operation_cancel_unblock (CamelOperation *cc)
 {
 	CAMEL_ACTIVE_LOCK();
 	if (operation_active == NULL)
@@ -270,12 +288,13 @@ cancel_thread(void *key, CamelOperation *cc, void *data)
 
 /**
  * camel_operation_cancel:
- * @cc: 
+ * @cc: operation context
  * 
  * Cancel a given operation.  If @cc is NULL then all outstanding
  * operations are cancelled.
  **/
-void camel_operation_cancel(CamelOperation *cc)
+void
+camel_operation_cancel (CamelOperation *cc)
 {
 	CamelOperationMsg *msg;
 	
@@ -298,7 +317,7 @@ void camel_operation_cancel(CamelOperation *cc)
 
 /**
  * camel_operation_register:
- * @cc: 
+ * @cc: operation context
  * 
  * Register a thread or the main thread for cancellation through @cc.
  * If @cc is NULL, then a new cancellation is created for this thread,
@@ -307,7 +326,8 @@ void camel_operation_cancel(CamelOperation *cc)
  * All calls to operation_register() should be matched with calls to
  * operation_unregister(), or resources will be lost.
  **/
-void camel_operation_register(CamelOperation *cc)
+void
+camel_operation_register (CamelOperation *cc)
 {
 	pthread_t id = pthread_self();
 
@@ -337,12 +357,13 @@ void camel_operation_register(CamelOperation *cc)
 
 /**
  * camel_operation_unregister:
- * @cc: 
+ * @cc: operation context
  * 
  * Unregister a given operation from being cancelled.  If @cc is NULL,
  * then the current thread is used.
  **/
-void camel_operation_unregister(CamelOperation *cc)
+void
+camel_operation_unregister (CamelOperation *cc)
 {
 	CAMEL_ACTIVE_LOCK();
 
@@ -372,14 +393,15 @@ void camel_operation_unregister(CamelOperation *cc)
 
 /**
  * camel_operation_cancel_check:
- * @cc: 
+ * @cc: operation context
  * 
  * Check if cancellation has been applied to @cc.  If @cc is NULL,
  * then the CamelOperation registered for the current thread is used.
  * 
  * Return value: TRUE if the operation has been cancelled.
  **/
-gboolean camel_operation_cancel_check(CamelOperation *cc)
+gboolean
+camel_operation_cancel_check (CamelOperation *cc)
 {
 	CamelOperationMsg *msg;
 	int cancelled;
@@ -412,7 +434,7 @@ gboolean camel_operation_cancel_check(CamelOperation *cc)
 
 /**
  * camel_operation_cancel_fd:
- * @cc: 
+ * @cc: operation context
  * 
  * Retrieve a file descriptor that can be waited on (select, or poll)
  * for read, to asynchronously detect cancellation.
@@ -420,7 +442,8 @@ gboolean camel_operation_cancel_check(CamelOperation *cc)
  * Return value: The fd, or -1 if cancellation is not available
  * (blocked, or has not been registered for this thread).
  **/
-int camel_operation_cancel_fd(CamelOperation *cc)
+int
+camel_operation_cancel_fd (CamelOperation *cc)
 {
 	CAMEL_ACTIVE_LOCK();
 
@@ -445,7 +468,7 @@ int camel_operation_cancel_fd(CamelOperation *cc)
 #ifdef HAVE_NSS
 /**
  * camel_operation_cancel_prfd:
- * @cc: 
+ * @cc: operation context
  * 
  * Retrieve a file descriptor that can be waited on (select, or poll)
  * for read, to asynchronously detect cancellation.
@@ -453,7 +476,8 @@ int camel_operation_cancel_fd(CamelOperation *cc)
  * Return value: The fd, or NULL if cancellation is not available
  * (blocked, or has not been registered for this thread).
  **/
-PRFileDesc *camel_operation_cancel_prfd(CamelOperation *cc)
+PRFileDesc *
+camel_operation_cancel_prfd (CamelOperation *cc)
 {
 	CAMEL_ACTIVE_LOCK();
 
@@ -478,14 +502,15 @@ PRFileDesc *camel_operation_cancel_prfd(CamelOperation *cc)
 
 /**
  * camel_operation_start:
- * @cc: 
- * @what: 
- * @: 
+ * @cc: operation context
+ * @what: action being performed (printf-style format string)
+ * @Varargs: varargs
  * 
  * Report the start of an operation.  All start operations should have
  * similar end operations.
  **/
-void camel_operation_start(CamelOperation *cc, char *what, ...)
+void
+camel_operation_start (CamelOperation *cc, char *what, ...)
 {
 	va_list ap;
 	char *msg;
@@ -523,15 +548,16 @@ void camel_operation_start(CamelOperation *cc, char *what, ...)
 
 /**
  * camel_operation_start_transient:
- * @cc: 
- * @what: 
- * @: 
+ * @cc: operation context
+ * @what: printf-style format string describing the action being performed
+ * @Varargs: varargs
  * 
  * Start a transient event.  We only update this to the display if it
  * takes very long to process, and if we do, we then go back to the
  * previous state when finished.
  **/
-void camel_operation_start_transient(CamelOperation *cc, char *what, ...)
+void
+camel_operation_start_transient (CamelOperation *cc, char *what, ...)
 {
 	va_list ap;
 	char *msg;
@@ -588,7 +614,8 @@ static unsigned int stamp(void)
  * If the total percentage is not know, then use
  * camel_operation_progress_count().
  **/
-void camel_operation_progress(CamelOperation *cc, int pc)
+void
+camel_operation_progress (CamelOperation *cc, int pc)
 {
 	unsigned int now;
 	struct _status_stack *s;
@@ -637,21 +664,30 @@ void camel_operation_progress(CamelOperation *cc, int pc)
 	}
 }
 
-void camel_operation_progress_count(CamelOperation *cc, int sofar)
+
+/**
+ * camel_operation_progress_count:
+ * @cc: operation context
+ * @sofar:
+ *
+ **/
+void
+camel_operation_progress_count (CamelOperation *cc, int sofar)
 {
 	camel_operation_progress(cc, sofar);
 }
 
 /**
  * camel_operation_end:
- * @cc: 
+ * @cc: operation context
  * @what: Format string.
- * @: 
+ * @Varargs: varargs 
  * 
  * Report the end of an operation.  If @cc is NULL, then the currently
  * registered operation is notified.
  **/
-void camel_operation_end(CamelOperation *cc)
+void
+camel_operation_end (CamelOperation *cc)
 {
 	struct _status_stack *s, *p;
 	unsigned int now;

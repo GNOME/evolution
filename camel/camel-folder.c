@@ -5,7 +5,7 @@
  * Author:
  *  Bertrand Guiheneuf <bertrand@helixcode.com>
  *
- * Copyright 1999, 2000 Ximian, Inc. (www.ximian.com)
+ * Copyright 1999-2003 Ximian, Inc. (www.ximian.com)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -21,6 +21,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
  * USA
  */
+
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -177,10 +178,8 @@ camel_folder_init (gpointer object, gpointer klass)
 	folder->priv = g_malloc0(sizeof(*folder->priv));
 	folder->priv->frozen = 0;
 	folder->priv->changed_frozen = camel_folder_change_info_new();
-#ifdef ENABLE_THREADS
 	folder->priv->lock = e_mutex_new(E_MUTEX_REC);
 	folder->priv->change_lock = e_mutex_new(E_MUTEX_SIMPLE);
-#endif
 }
 
 static void
@@ -200,10 +199,10 @@ camel_folder_finalize (CamelObject *object)
 		camel_object_unref((CamelObject *)camel_folder->summary);
 
 	camel_folder_change_info_free(p->changed_frozen);
-#ifdef ENABLE_THREADS
+	
 	e_mutex_destroy(p->lock);
 	e_mutex_destroy(p->change_lock);
-#endif
+	
 	g_free(p);
 }
 
@@ -1547,7 +1546,7 @@ camel_folder_is_frozen (CamelFolder *folder)
 	return CF_CLASS (folder)->is_frozen (folder);
 }
 
-#ifdef ENABLE_THREADS
+
 struct _folder_filter_msg {
 	CamelSessionThreadMsg msg;
 
@@ -1622,7 +1621,7 @@ static CamelSessionThreadOps filter_ops = {
 	filter_filter,
 	filter_free,
 };
-#endif
+
 
 /* Event hooks that block emission when frozen */
 static gboolean
@@ -1648,7 +1647,6 @@ folder_changed (CamelObject *obj, gpointer event_data)
 		CAMEL_FOLDER_LOCK(folder, change_lock);
 
 		if (driver) {
-#ifdef ENABLE_THREADS
 			GPtrArray *recents = g_ptr_array_new();
 			int i;
 			struct _folder_filter_msg *msg;
@@ -1665,13 +1663,7 @@ folder_changed (CamelObject *obj, gpointer event_data)
 			msg->driver = driver;
 			camel_exception_init(&msg->ex);
 			camel_session_thread_queue(session, &msg->msg, 0);
-#else
-			d(printf("Have '%d' recent messages, filtering\n", changed->recent->len));
-			folder->priv->frozen++;
-			camel_filter_driver_filter_folder(driver, folder, NULL, changed->recent, FALSE, NULL);
-			camel_object_unref((CamelObject *)driver);
-			folder->priv->frozen--;
-#endif
+			
 			/* zero out the recent list so we dont reprocess */
 			/* this pokes past abstraction, but changeinfo is our structure anyway */
 			/* the only other alternative is to recognise when trigger is called from	
