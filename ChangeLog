@@ -1,82 +1,16 @@
-2002-11-07  Rodrigo Moya <rodrigo@ximian.com>
+2002-11-07  Ettore Perazzoli  <ettore@ximian.com>
 
-	* configure.in: added libgnome-2.0 to camel requirements.
+	* configure.in (VERSION_COMMENT): 1.2.0.99.
 
-2002-11-06  Chris Toshok  <toshok@ximian.com>
+== Version 1.2 ==
 
-	* configure.in: add some more addressbook dirs to AC_OUTPUT.
+2002-11-06  Ettore Perazzoli  <ettore@ximian.com>
 
-2002-11-05  Jeffrey Stedfast  <fejj@ximian.com>
+	* configure.in: Version 1.2.0.
 
-	* configure.in: Re-enable the filter cflags/libs stuff.
+2002-11-05  Ettore Perazzoli  <ettore@ximian.com>
 
-2002-11-05  Chris Toshok  <toshok@ximian.com>
-
-	* Makefile.am (SUBDIRS): add wombat.
-
-2002-11-05  Chris Toshok  <toshok@ximian.com>
-
-	* configure.in: add wombat and addressbook compile flags, and add
-	wombat and some addressbook dirs to AC_OUTPUT.
-
-2002-11-05  Dan Winship  <danw@ximian.com>
-
-	* configure.in: change the commented-out soup check to refer to
-	the new soup 2.0 in the libsoup module
-
-2002-11-05  Rodrigo Moya <rodrigo@ximian.com>
-
-	* configure.in: use correct libgtkhtml-3.0 for calendar and added
-	generation of calendar GUI's directories.
-
-2002-11-05  Rodrigo Moya <rodrigo@ximian.com>
-
-	* configure.in: enabled libwombat.
-
-2002-11-04  Rodrigo Moya <rodrigo@ximian.com>
-
-	* configure.in:
-	* Makefile.am: added libversit directory to build.
-
-2002-11-04  Ettore Perazzoli  <ettore@ximian.com>
-
-	* Makefile.am (SUBDIRS): Add shell.
-
-2002-11-04  Rodrigo Moya <rodrigo@ximian.com>
-
-	* configure.in: added calendar/idl/Makefile to AC_OUTPUT
-
-2002-11-04  Ettore Perazzoli  <ettore@ximian.com>
-
-	* configure.in: Add an AM_GLIB_GNU_GETTEXT.
-
-2002-11-03  Rodrigo Moya <rodrigo@ximian.com>
-
-	* configure.in:
-	* Makefile.am: re-added calendar component (only non-UI stuff).
-
-	* data/Makefile.am: use intltools instead of xml-i18n-tools.
-
-2002-11-03  Ettore Perazzoli  <ettore@ximian.com>
-
-	* configure.in: AC_PROG_INTLTOOL instead of
-	AM_PROG_XML_I18N_TOOLS.
-
-2002-11-01  Ettore Perazzoli  <ettore@ximian.com>
-
-	* configure.in: Update to use Autoconf 2.53.  Remove checks for
-	scrollkeeper.  Remove intl/Makefile and macros/Makefile from
-	AC_OUTPUT list.  Set up GETTEXT_PACKAGE.  Removed
-	AM_ACLOCAL_INCLUDE(macros).  Added AM_PATH_ORBIT2.
-	(EVO_SET_COMPILE_FLAGS): Use PKG_CHECK_MODULES.
-	(IDL_INCLUDES): New, -I params to pass to $(ORBIT_IDL) when
-	compiling IDL files into stubs.
-
-	* autogen.sh: Changed to use gnome-autogen.sh.
-
-2002-10-30  Ettore Perazzoli  <ettore@ximian.com>
-
-	* configure.in: 1.1.90.99.
+	* configure.in: Version 1.1.90.99.
 
 == Version 1.1.90 (Release Candidate 1) ==
 

@@ -1,6 +1,6 @@
-2002-11-04  Ettore Perazzoli  <ettore@ximian.com>
+2002-11-03  Jeffrey Stedfast  <fejj@ximian.com>
 
-	* Makefile.am (uidir): Install in $(datadir)/gnome-2.0/ui.
+	* evolution-mail-message.xml: Fix for bug #33173
 
 2002-10-28  Ettore Perazzoli  <ettore@ximian.com>
 

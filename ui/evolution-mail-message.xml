@@ -91,7 +91,7 @@
      accel="*Control*o"/>
 
     <cmd name="MessagePostReply"
-     _tip="Post a reply to a message message in a Public folder"
+     _tip="Post a reply to a message in a Public folder"
      accel=""
      pixtype="pixbuf"/>
 
