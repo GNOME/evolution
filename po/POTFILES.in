@@ -266,6 +266,7 @@ mail/em-account-prefs.c
 mail/em-composer-prefs.c
 mail/em-composer-utils.c
 mail/em-folder-browser.c
+mail/em-folder-properties.c
 mail/em-folder-selection-button.c
 mail/em-folder-selector.c
 mail/em-folder-tree-model.c
@@ -340,7 +341,6 @@ shell/e-shell.c
 shell/e-shortcuts-view.c
 shell/e-shortcuts.c
 shell/e-storage-set-view.etspec
-shell/e-task-widget.c
 shell/e-user-creatable-items-handler.c
 shell/evolution-folder-selector-button.c
 shell/evolution-shell-component-utils.c
@@ -400,4 +400,6 @@ widgets/misc/e-dateedit.c
 widgets/misc/e-expander.c
 widgets/misc/e-filter-bar.c
 widgets/misc/e-filter-bar.h
+widgets/misc/e-image-chooser.c
 widgets/misc/e-search-bar.c
+widgets/misc/e-task-widget.c
