@@ -23,7 +23,6 @@
 
 #include <math.h>
 #include <ctype.h>
-#include <unicode.h>
 #include <string.h>
 #include <gdk/gdkx.h> /* for BlackPixel */
 #include <gtk/gtkinvisible.h>
@@ -820,7 +819,7 @@ calc_line_widths (EText *text)
 			    clip_width >= 0) {
 				if (text->font) {
 					lines->ellipsis_length = 0;
-					for (p = lines->text; p && *p && (p - lines->text) < lines->length; p = unicode_next_utf8 (p)) {
+					for (p = lines->text; p && *p && (p - lines->text) < lines->length; p = g_utf8_next_char (p)) {
 						gint text_width = text_width_with_objects (text->model,
 											   text->font, text->style,
 											   lines->text, p - lines->text);
@@ -912,7 +911,7 @@ text_draw_with_objects (ETextModel *model,
 	}
 }
 
-#define IS_BREAKCHAR(text,c) ((text)->break_characters && unicode_strchr ((text)->break_characters, (c)))
+#define IS_BREAKCHAR(text,c) ((text)->break_characters && g_utf8_strchr ((text)->break_characters, (c)))
 /* Splits the text of the text item into lines */
 static void
 split_into_lines (EText *text)
@@ -925,7 +924,7 @@ split_into_lines (EText *text)
 	const char *lastend;
 	const char *linestart;
 	double clip_width;
-	unicode_char_t unival;
+	gunichar unival;
 
 	/* Free old array of lines */
 	e_text_free_lines(text);
@@ -948,9 +947,9 @@ split_into_lines (EText *text)
 
 	cp = text->text;
 
-	for (p = unicode_get_utf8 (cp, &unival); (unival && p); cp = p, p = unicode_get_utf8 (p, &unival)) {
+	for (p = e_unicode_get_utf8 (cp, &unival); (unival && p); cp = p, p = e_unicode_get_utf8 (p, &unival)) {
 		if (text->line_wrap
-		    && (unicode_isspace (unival) || unival == '\n')
+		    && (g_unichar_isspace (unival) || unival == '\n')
 		    && e_text_model_get_object_at_pointer (text->model, cp) == -1) { /* don't break mid-object */
 			if (laststart != lastend
 			    && clip_width < text_width_with_objects (text->model,
@@ -961,7 +960,7 @@ split_into_lines (EText *text)
 				linestart = laststart;
 				laststart = p;
 				lastend = cp;
-			} else if (unicode_isspace (unival)) {
+			} else if (g_unichar_isspace (unival)) {
 				laststart = p;
 				lastend = cp;
 			}
@@ -969,7 +968,7 @@ split_into_lines (EText *text)
 			   && IS_BREAKCHAR (text, unival)) {
 			
 			if (laststart != lastend
-			    && unicode_index_to_offset (linestart, cp - linestart) != 1
+			    && g_utf8_pointer_to_offset (linestart, cp) != 1
 			    && clip_width < text_width_with_objects (text->model,
 								     text->font, text->style,
 								     linestart, p - linestart)) {
@@ -1018,13 +1017,13 @@ split_into_lines (EText *text)
 
 	cp = text->text;
 
-	for (p = unicode_get_utf8 (cp, &unival); p && unival && line_num < text->num_lines; cp = p, p = unicode_get_utf8 (p, &unival)) {
+	for (p = e_unicode_get_utf8 (cp, &unival); p && unival && line_num < text->num_lines; cp = p, p = e_unicode_get_utf8 (p, &unival)) {
 		gboolean handled = FALSE;
 
 		if (len == 0)
 			lines->text = cp;
 		if (text->line_wrap
-		    && (unicode_isspace (unival) || unival == '\n')
+		    && (g_unichar_isspace (unival) || unival == '\n')
 		    && e_text_model_get_object_at_pointer (text->model, cp) == -1) { /* don't break mid-object */
 			if (clip_width < text_width_with_objects (text->model,
 								  text->font, text->style,
@@ -1039,7 +1038,7 @@ split_into_lines (EText *text)
 				lines->text = laststart;
 				laststart = p;
 				lastend = cp;
-			} else if (unicode_isspace (unival)) {
+			} else if (g_unichar_isspace (unival)) {
 				laststart = p;
 				lastend = cp;
 				len ++;
@@ -1049,7 +1048,7 @@ split_into_lines (EText *text)
 			   && IS_BREAKCHAR(text, unival) 
 			   && e_text_model_get_object_at_pointer (text->model, cp) == -1) {
 			if (laststart != lastend
-			    && unicode_index_to_offset (lines->text, cp - lines->text) != 1
+			    && g_utf8_pointer_to_offset (lines->text, cp) != 1
 			    && clip_width < text_width_with_objects (text->model,
 								     text->font, text->style,
 								     lines->text, p - lines->text)) {
@@ -2519,7 +2518,7 @@ _get_position_from_xy (EText *text, gint x, gint y)
 	int xpos;
 	double xd, yd;
 	const char *p;
-	unicode_char_t unival;
+	gunichar unival;
 	gint font_ht, adjust=0;
 	struct line *lines;
 
@@ -2570,7 +2569,7 @@ _get_position_from_xy (EText *text, gint x, gint y)
 	x += text->xofs_edit;
 	xpos = get_line_xpos_item_relative (text, lines);
 
-	for (i = 0, p = lines->text; p && i < lines->length; i++, p = unicode_get_utf8 (p, &unival)) {
+	for (i = 0, p = lines->text; p && i < lines->length; i++, p = e_unicode_get_utf8 (p, &unival)) {
 		int charwidth;
 		int step1, step2;
 
@@ -3179,7 +3178,7 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 {
 	int length, obj_num;
 	int x, y;
-	unicode_char_t unival;
+	gunichar unival;
 	char *p = NULL;
 	gint new_pos = 0;
 	
@@ -3198,7 +3197,7 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 		break;
 
 	case E_TEP_END_OF_BUFFER:
-		new_pos = unicode_strlen (text->text, -1);
+		new_pos = g_utf8_strlen (text->text, -1);
 		break;
 
 	case E_TEP_START_OF_LINE:
@@ -3207,14 +3206,14 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 		
 		if (text->selection_end >= 1) {
 			
-			p = unicode_previous_utf8 (text->text, text->text + text->selection_end);
+			p = g_utf8_find_prev_char (text->text, text->text + text->selection_end);
 			if (p != text->text) {
-				p = unicode_previous_utf8 (text->text, p);
+				p = g_utf8_find_prev_char (text->text, p);
 
 				while (p && p > text->text && !new_pos) {
 					if (*p == '\n')
 						new_pos = p - text->text + 1;
-					p = unicode_previous_utf8 (text->text, p);
+					p = g_utf8_find_prev_char (text->text, p);
 				}
 			}
 		}
@@ -3229,14 +3228,14 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 			new_pos = length;
 		} else {
 
-			p = unicode_next_utf8 (text->text + text->selection_end);
+			p = g_utf8_next_char (text->text + text->selection_end);
 
 			while (p && *p) {
 				if (*p == '\n') {
 					new_pos = p - text->text;
 					p = NULL;
 				} else 
-					p = unicode_next_utf8 (p);
+					p = g_utf8_next_char (p);
 			}
 		}
 
@@ -3251,7 +3250,7 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 		if (text->selection_end >= length) {
 			new_pos = length;
 		} else {
-			p = unicode_next_utf8 (text->text + text->selection_end);
+			p = g_utf8_next_char (text->text + text->selection_end);
 			new_pos = p - text->text;
 		}
 
@@ -3260,7 +3259,7 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 	case E_TEP_BACKWARD_CHARACTER:
 		new_pos = 0;
 		if (text->selection_end >= 1) {
-			p = unicode_previous_utf8 (text->text, text->text + text->selection_end);
+			p = g_utf8_find_prev_char (text->text, text->text + text->selection_end);
 
 			if (p != NULL)
 				new_pos = p - text->text;
@@ -3276,15 +3275,15 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 			new_pos = length;
 		} else {
 
-			p = unicode_next_utf8 (text->text + text->selection_end);
+			p = g_utf8_next_char (text->text + text->selection_end);
 
 			while (p && *p) {
-				unicode_get_utf8 (p, &unival);
-				if (unicode_isspace (unival)) {
+				unival = g_utf8_get_char (p);
+				if (g_unichar_isspace (unival)) {
 					new_pos = p - text->text;
 					p = NULL;
 				} else 
-					p = unicode_next_utf8 (p);
+					p = g_utf8_next_char (p);
 			}
 		}
 			
@@ -3296,17 +3295,17 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 	case E_TEP_BACKWARD_WORD:
 		new_pos = 0;
 		if (text->selection_end >= 1) {
-			p = unicode_previous_utf8 (text->text, text->text + text->selection_end);
+			p = g_utf8_find_prev_char (text->text, text->text + text->selection_end);
 			if (p != text->text) {
-				p = unicode_previous_utf8 (text->text, p);
+				p = g_utf8_find_prev_char (text->text, p);
 
 				while (p && p > text->text) {
-					unicode_get_utf8 (p, &unival);
-					if (unicode_isspace (unival)) {
-						new_pos = unicode_next_utf8 (p) - text->text; 
+					unival = g_utf8_get_char (p);
+					if (g_unichar_isspace (unival)) {
+						new_pos = g_utf8_next_char (p) - text->text; 
 						p = NULL;
 					} else
-						p = unicode_previous_utf8 (text->text, p);
+						p = g_utf8_find_prev_char (text->text, p);
 				}
 			}
 		}
@@ -3346,20 +3345,20 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 			break;
 		}
 
-		p = unicode_previous_utf8 (text->text, text->text + text->selection_end);
+		p = g_utf8_find_prev_char (text->text, text->text + text->selection_end);
 		if (p == text->text) {
 			new_pos = 0;
 			break;
 		}
-		p = unicode_previous_utf8 (text->text, p);
+		p = g_utf8_find_prev_char (text->text, p);
 
 		while (p && p > text->text) {
-			unicode_get_utf8 (p, &unival);
-			if (unicode_isspace (unival)) {
-				p = unicode_next_utf8 (p);
+			unival = g_utf8_get_char (p);
+			if (g_unichar_isspace (unival)) {
+				p = g_utf8_next_char (p);
 				break;
 			}
-			p = unicode_previous_utf8 (text->text, p);
+			p = g_utf8_find_prev_char (text->text, p);
 		}
 
 		if (!p)
@@ -3376,15 +3375,15 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 			break;
 		}
 
-		p = unicode_next_utf8 (text->text + text->selection_end);
+		p = g_utf8_next_char (text->text + text->selection_end);
 
 		while (p && *p) {
-			unicode_get_utf8 (p, &unival);
-			if (unicode_isspace (unival)) {
+			unival = g_utf8_get_char (p);
+			if (g_unichar_isspace (unival)) {
 				new_pos =  p - text->text;
 				p = NULL;
 			} else
-				p = unicode_next_utf8 (p);
+				p = g_utf8_next_char (p);
 		}
 
 		if (p)
