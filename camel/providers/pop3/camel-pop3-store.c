@@ -185,7 +185,8 @@ connect_to_server (CamelService *service, /*gboolean real, */CamelException *ex)
 	char *buf, *apoptime, *apopend;
 	gint status;
 #ifdef HAVE_KRB4
-	gboolean kpop = (service->url->port == KPOP_PORT);
+	gboolean kpop = service->url->authmech &&
+		!strcmp (service->url->authmech, "+KPOP");
 #endif
 
 #ifdef HAVE_KRB4
