@@ -125,6 +125,8 @@ static void data_cache_finalise(CamelDataCache *cdc)
 	g_mutex_free(p->lock);
 #endif
 	g_free(p);
+	
+	g_free (cdc->path);
 }
 
 CamelType

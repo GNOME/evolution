@@ -288,8 +288,10 @@ pop3_refresh_info (CamelFolder *folder, CamelException *ex)
 	}
 
 	/* TODO: check every id has a uid & commands returned OK too? */
-
+	
 	/* Free any commands we created along the way */
+	camel_pop3_engine_command_free (pop3_store->engine, pcl);
+	
 	if (pop3_store->engine->capa & CAMEL_POP3_CAP_UIDL) {
 		camel_pop3_engine_command_free(pop3_store->engine, pcu);
 	} else {
@@ -301,7 +303,7 @@ pop3_refresh_info (CamelFolder *folder, CamelException *ex)
 			}
 		}
 	}
-
+	
 	camel_operation_end (NULL);
 	return;
 }

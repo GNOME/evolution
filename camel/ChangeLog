@@ -1,5 +1,10 @@
 2002-04-19  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/pop3/camel-pop3-folder.c (pop3_refresh_info): Free the
+	LIST pop3 command.
+
+	* camel-data-cache.c (data_cache_finalise): Free the cdc->path.
+
 	* camel-multipart.c (write_to_stream): Don't g_return_val_if_fail
 	here if the boundary is an empty string. See bug #23676 for
 	details. The way I see it, we have 2 options: 1) leave this fix
