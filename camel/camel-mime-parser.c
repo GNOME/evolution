@@ -1466,10 +1466,16 @@ folder_scan_step(struct _header_scan_state *s, char **databuffer, int *datalengt
 tail_recurse:
 	d({
 		printf("\nSCAN STACK:\n");
-		printf("  '%s' :\n", states[s->state]);
+		printf(" '%s' :\n", states[s->state]);
 		hb = s->parts;
 		while (hb) {
-			printf("  '%s' : %s\n", states[hb->savestate], hb->boundary);
+			printf("  '%s' : %s ", states[hb->savestate], hb->boundary);
+			if (hb->content_type) {
+				printf("(%s/%s)", hb->content_type->type, hb->content_type->subtype);
+			} else {
+				printf("(default)");
+			}
+			printf("\n");
 			hb = hb->parent;
 		}
 		printf("\n");
@@ -1542,6 +1548,16 @@ tail_recurse:
 				    /*|| !strcasecmp(ct->subtype, "partial")*/) {
 					type = HSCAN_MESSAGE;
 				}
+			}
+		} else {
+			/* make the default type for multipart/digest be message/rfc822 */
+			if ((s->parts
+			     && header_content_type_is(s->parts->content_type, "multipart", "digest"))) {
+				ct = header_content_type_decode("message/rfc822");
+				type = HSCAN_MESSAGE;
+				d(printf("parent was multipart/digest, autoupgrading to message/rfc822?\n"));
+				/* maybe we should do this too?
+				   header_raw_append_parse(&h->headers, "Content-Type: message/rfc822", -1);*/
 			}
 		}
 		h->content_type = ct;
@@ -1667,6 +1683,8 @@ folder_scan_drop_step(struct _header_scan_state *s)
 			s->state &= ~HSCAN_END;
 		}
 		return;
+	default:
+		/* FIXME: not sure if this is entirely right */
 	}
 }
 

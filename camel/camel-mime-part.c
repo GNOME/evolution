@@ -557,8 +557,10 @@ construct_from_parser(CamelMimePart *dw, CamelMimeParser *mp)
 	d(printf("mime_part::construct_from_parser()\n"));
 
 	switch (camel_mime_parser_step(mp, &buf, &len)) {
-	case HSCAN_HEADER:
 	case HSCAN_MESSAGE:
+		/* set the default type of a message always */
+		gmime_content_field_construct_from_string (dw->content_type, "message/rfc822");
+	case HSCAN_HEADER:
 	case HSCAN_MULTIPART:
 		/* we have the headers, build them into 'us' */
 		headers = camel_mime_parser_headers_raw(mp);

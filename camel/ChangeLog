@@ -1,3 +1,17 @@
+2000-06-01  Not Zed  <NotZed@HelixCode.com>
+
+	* camel-mime-part.c (construct_from_parser): For a message part,
+	set the default content-type to message/rfc822.  Maybe needs to be
+	done for multiparts too?
+
+2000-05-31  Not Zed  <NotZed@HelixCode.com>
+
+	* camel-mime-message.c (construct_from_parser): Typo in assersion.
+
+	* camel-mime-parser.c (folder_scan_step): Use a default type of
+	message/rfc822 for multipart/digest.  Bug Z192.
+	(folder_scan_drop_step): Remove warning.
+
 2000-05-30  Not Zed  <NotZed@HelixCode.com>
 
 	* providers/mbox/camel-mbox-folder.c (mbox_append_message): Init

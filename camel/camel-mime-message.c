@@ -575,12 +575,12 @@ construct_from_parser(CamelMimePart *dw, CamelMimeParser *mp)
 	/* ... then clean up the follow-on state */
 	state = camel_mime_parser_step(mp, &buf, &len);
 	switch (state) {
-	case HSCAN_EOF: case HSCAN_FROM_END: /* this doesn't belong to us */
+	case HSCAN_EOF: case HSCAN_FROM_END: /* these doesn't belong to us */
 		camel_mime_parser_unstep(mp);
 	case HSCAN_MESSAGE_END:
 		break;
 	default:
-		g_error("Bad parser state: Expecing MESSAGE_END or EOF or ROM, got: %d", camel_mime_parser_state(mp));
+		g_error("Bad parser state: Expecing MESSAGE_END or EOF or EOM, got: %d", camel_mime_parser_state(mp));
 		camel_mime_parser_unstep(mp);
 		return -1;
 	}
