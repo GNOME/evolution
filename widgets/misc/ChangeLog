@@ -1,7 +1,12 @@
+2004-03-13  Trent Lloyd  <lathiat@sixlabs.org>
+
+	* e-search-bar.c (remove_bonobo_menus): move function about
+	setup_bonobo_menus which requires it so its not implicitly defined
+
 2004-03-12  Kidd Wang  <kidd.wang@sun.com>
 
-	* e-dateedit.c: (create_children): enlarge the text box to accomodate
-	the time info in different locales.
+	* e-dateedit.c (create_children): enlarge the text box to
+	accomodate the time info in different locales.
 
 2004-03-11  Jeffrey Stedfast  <fejj@ximian.com>
 

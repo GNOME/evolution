@@ -519,6 +519,15 @@ append_xml_menu_item (GString *xml,
 }
 
 static void
+remove_bonobo_menus (ESearchBar *esb)
+{
+	if (bonobo_ui_component_get_container (esb->ui_component) == CORBA_OBJECT_NIL)
+		return;
+	
+	bonobo_ui_component_rm (esb->ui_component, "/menu/SearchPlaceholder", NULL);
+}
+
+static void
 setup_bonobo_menus (ESearchBar *esb)
 {
 	GString *xml;
@@ -560,15 +569,6 @@ setup_bonobo_menus (ESearchBar *esb)
 	bonobo_ui_component_set (esb->ui_component, "/menu/SearchPlaceholder", xml->str, NULL);
 
 	g_string_free (xml, TRUE);
-}
-
-static void
-remove_bonobo_menus (ESearchBar *esb)
-{
-	if (bonobo_ui_component_get_container (esb->ui_component) == CORBA_OBJECT_NIL)
-		return;
-
-	bonobo_ui_component_rm (esb->ui_component, "/menu/SearchPlaceholder", NULL);
 }
 
 static void
