@@ -111,7 +111,7 @@ camel_imap_store_get_type (void)
 {
 	static GtkType camel_imap_store_type = 0;
 	
-	if (!camel_imap_store_type)	{
+	if (!camel_imap_store_type) {
 		GtkTypeInfo camel_imap_store_info =	
 		{
 			"CamelImapStore",
@@ -123,7 +123,7 @@ camel_imap_store_get_type (void)
 				/* reserved_2 */ NULL,
 			(GtkClassInitFunc) NULL,
 		};
-		
+
 		camel_imap_store_type = gtk_type_unique (CAMEL_STORE_TYPE, &camel_imap_store_info);
 	}
 	
@@ -332,7 +332,7 @@ imap_connect (CamelService *service, CamelException *ex)
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
 				      "Could not get capabilities on IMAP server %s: %s.",
 				      service->url->host, 
-				      status == CAMEL_IMAP_ERR ? result :
+				      status != CAMEL_IMAP_FAIL && result ? result :
 				      "Unknown error");
 	}
 	
@@ -442,7 +442,7 @@ imap_create (CamelFolder *folder, CamelException *ex)
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
 				      "Could not CREATE %s on IMAP server %s: %s.",
 				      folder_path, service->url->host,
-				      status == CAMEL_IMAP_ERR ? result :
+				      status != CAMEL_IMAP_FAIL && result ? result :
 				      "Unknown error");
 		g_free (result);
 		g_free (folder_path);
@@ -496,7 +496,9 @@ camel_imap_status (char *cmdid, char *respbuf)
 			if (!strncmp (retcode, "OK", 2))
 				return CAMEL_IMAP_OK;
 			else if (!strncmp (retcode, "NO", 2))
-				return CAMEL_IMAP_ERR;
+				return CAMEL_IMAP_NO;
+			else if (!strncmp (retcode, "BAD", 3))
+				return CAMEL_IMAP_BAD;
 		}
 	}
 	
@@ -531,9 +533,6 @@ camel_imap_command (CamelImapStore *store, CamelFolder *folder, char **ret, char
 	gchar *cmdid;
 	va_list ap;
 	gint status = CAMEL_IMAP_OK;
-
-	if (folder)
-		printf ("*** Current folder = %s\n", store->current_folder->full_name);
 
 	if (folder && store->current_folder != folder && strncmp (fmt, "STATUS", 6) &&
 	    strncmp (fmt, "CREATE", 5) && strcmp (fmt, "CAPABILITY")) {

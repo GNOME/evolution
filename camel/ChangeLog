@@ -1,5 +1,12 @@
 2000-07-13  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* providers/imap/camel-imap-folder.c: 
+	* providers/imap/camel-imap-store.c: Updated to use CAMEL_IMAP_OK, 
+	CAMEL_IMAP_NO, CAMEL_IMAP_BAD, and CAMEL_IMAP_FAIL rather than the 
+	ones copied from the POP3 provider.
+
+2000-07-13  Jeffrey Stedfast  <fejj@helixcode.com>
+
 	* providers/imap/camel-imap-folder.c (imap_get_summary): Oops.
 	If the number of messages in the folder is 0, don't fetch
 	summaries 1 thru 0, just return an empty summary.

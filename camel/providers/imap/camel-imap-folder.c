@@ -313,7 +313,7 @@ imap_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 								      "Could not set flags on message %s on IMAP "
 								      "server %s: %s.", info->uid,
 								      service->url->host,
-								      status == CAMEL_IMAP_ERR ? result :
+								      status != CAMEL_IMAP_FAIL && result ? result :
 								      "Unknown error");
 						g_free (result);
 						return;
@@ -347,7 +347,7 @@ imap_expunge (CamelFolder *folder, CamelException *ex)
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
 				      "Could not EXPUNGE from IMAP server %s: %s.",
 				      service->url->host,
-				      status == CAMEL_IMAP_ERR && result ? result :
+				      status != CAMEL_IMAP_FAIL && result ? result :
 				      "Unknown error");
 		g_free (result);
 		return;
@@ -429,7 +429,7 @@ imap_get_message_count (CamelFolder *folder, CamelException *ex)
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
 				      "Could not get message count for %s from IMAP "
 				      "server %s: %s.", folder_path, service->url->host,
-				      status == CAMEL_IMAP_ERR ? result :
+				      status != CAMEL_IMAP_FAIL && result ? result :
 				      "Unknown error");
 		g_free (result);
 		g_free (folder_path);
@@ -530,7 +530,7 @@ imap_append_message (CamelFolder *folder, CamelMimeMessage *message, guint32 fla
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
 				      "Could not APPEND message to IMAP server %s: %s.",
 				      service->url->host,
-				      status == CAMEL_IMAP_ERR ? result :
+				      status != CAMEL_IMAP_FAIL && result ? result :
 				      "Unknown error");
 		g_free (result);
 		g_free (folder_path);
@@ -566,7 +566,7 @@ imap_copy_message_to (CamelFolder *source, const char *uid, CamelFolder *destina
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
 				      "Could not COPY message %s to %s on IMAP server %s: %s.",
 				      uid, folder_path, service->url->host,
-				      status == CAMEL_IMAP_ERR ? result :
+				      status != CAMEL_IMAP_FAIL && result ? result :
 				      "Unknown error");
 		g_free (result);
 		g_free (folder_path);
@@ -602,7 +602,7 @@ imap_move_message_to (CamelFolder *source, const char *uid, CamelFolder *destina
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
 				      "Could not COPY message %s to %s on IMAP server %s: %s.",
 				      uid, folder_path, service->url->host,
-				      status == CAMEL_IMAP_ERR ? result :
+				      status != CAMEL_IMAP_FAIL && result ? result :
 				      "Unknown error");
 		g_free (result);
 		g_free (folder_path);
@@ -720,7 +720,7 @@ imap_get_subfolder_names (CamelFolder *folder, CamelException *ex)
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
 				      "Could not get subfolder listing from IMAP "
 				      "server %s: %s.", service->url->host,
-				      status == CAMEL_IMAP_ERR ? result :
+				      status != CAMEL_IMAP_FAIL && result ? result :
 				      "Unknown error");
 		g_free (result);
 		g_free (folder_path);
@@ -813,7 +813,7 @@ imap_get_message (CamelFolder *folder, const gchar *uid, CamelException *ex)
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
 				      "Could not fetch message %s on IMAP server %s: %s",
 				      uid, service->url->host,
-				      status == CAMEL_IMAP_ERR ? result :
+				      status != CAMEL_IMAP_FAIL && result ? result :
 				      "Unknown error");
 		g_free (result);
 		return camel_mime_message_new ();
@@ -854,7 +854,7 @@ imap_get_message (CamelFolder *folder, const gchar *uid, CamelException *ex)
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
 				      "Could not fetch message %s on IMAP server %s: %s",
 				      uid, service->url->host,
-				      status == CAMEL_IMAP_ERR ? result :
+				      status != CAMEL_IMAP_FAIL && result ? result :
 				      "Unknown error");
 		g_free (result);
 		g_free (header);
@@ -1055,7 +1055,7 @@ imap_get_summary (CamelFolder *folder, CamelException *ex)
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
 				      "Could not get summary for %s on IMAP server %s: %s",
 				      folder->full_name, service->url->host,
-				      status == CAMEL_IMAP_ERR ? result :
+				      status != CAMEL_IMAP_FAIL && result ? result :
 				      "Unknown error");
 		g_free (result);
 
@@ -1368,7 +1368,7 @@ imap_search_by_expression (CamelFolder *folder, const char *expression, CamelExc
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
 				      "Could not get summary for %s on IMAP server %s: %s",
 				      folder->full_name, service->url->host,
-				      status == CAMEL_IMAP_ERR ? result :
+				      status != CAMEL_IMAP_FAIL && result ? result :
 				      "Unknown error");
 		g_free (result);
 		return NULL;
