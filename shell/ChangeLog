@@ -1,3 +1,24 @@
+2001-06-24  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution-test-component.c: Remove the `activity_interface'
+	global.
+	(timeout_callback_3): Get the ::Activity interface using
+	`evolution_shell_client_get_activity_interface()' on
+	`parent_shell' instead.
+	(timeout_callback_2): Likewise.
+	(timeout_callback_2): Likewise.
+	(timeout_callback_1): Likewise.
+	(owner_set_callback): Don't query interface here.  Check if the
+	shell has an ::Activity interface by using
+	`evolution_shell_client_get_activity_interface()' here as well.
+
+	* evolution-shell-client.c: New member `activity_interface' in
+	`EvolutionShellClientPrivate'.
+	(destroy): unref/release it.
+	(evolution_shell_client_construct): Initialize it by querying the
+	shell CORBA Object for the ::Activity interface.
+	(evolution_shell_client_get_activity_interface): New.
+
 2001-06-23  Jason Leach  <jleach@ximian.com>
 
 	* e-shell-folder-selection-dialog.c

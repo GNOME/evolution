@@ -35,7 +35,7 @@
 
 
 struct _EvolutionShellClientPrivate {
-	int dummy;
+	GNOME_Evolution_Activity activity_interface;
 };
 
 #define PARENT_TYPE bonobo_object_client_get_type ()
@@ -222,9 +222,23 @@ destroy (GtkObject *object)
 {
 	EvolutionShellClient *shell_client;
 	EvolutionShellClientPrivate *priv;
+	CORBA_Environment ev;
 
 	shell_client = EVOLUTION_SHELL_CLIENT (object);
 	priv = shell_client->priv;
+
+	CORBA_exception_init (&ev);
+
+	if (priv->activity_interface != CORBA_OBJECT_NIL) {
+		Bonobo_Unknown_unref (priv->activity_interface, &ev);
+		if (ev._major != CORBA_NO_EXCEPTION)
+			g_warning ("EvolutionShellClient::destroy: "
+				   "Error unreffing the ::Activity interface -- %s\n",
+				   ev._repo_id);
+		CORBA_Object_release (priv->activity_interface, &ev);
+	}
+
+	CORBA_exception_free (&ev);
 
 	g_free (priv);
 
@@ -250,7 +264,7 @@ init (EvolutionShellClient *shell_client)
 	EvolutionShellClientPrivate *priv;
 
 	priv = g_new (EvolutionShellClientPrivate, 1);
-	priv->dummy = 0;
+	priv->activity_interface = CORBA_OBJECT_NIL;
 
 	shell_client->priv = priv;
 }
@@ -267,11 +281,31 @@ void
 evolution_shell_client_construct (EvolutionShellClient *shell_client,
 				  GNOME_Evolution_Shell corba_shell)
 {
+	CORBA_Environment ev;
+	EvolutionShellClientPrivate *priv;
+
 	g_return_if_fail (shell_client != NULL);
 	g_return_if_fail (EVOLUTION_IS_SHELL_CLIENT (shell_client));
 	g_return_if_fail (corba_shell != CORBA_OBJECT_NIL);
 
 	bonobo_object_construct (BONOBO_OBJECT (shell_client), (CORBA_Object) corba_shell);
+
+	CORBA_exception_init (&ev);
+
+	priv = shell_client->priv;
+	g_return_if_fail (priv->activity_interface == CORBA_OBJECT_NIL);
+
+	priv->activity_interface = Bonobo_Unknown_queryInterface (bonobo_object_corba_objref (BONOBO_OBJECT (shell_client)),
+								  "IDL:GNOME/Evolution/Activity:1.0",
+								  &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_warning ("EvolutionShellClient: Error querying interface ::Activity -- %s", ev._repo_id);
+		priv->activity_interface = CORBA_OBJECT_NIL;
+	} else if (CORBA_Object_is_nil (priv->activity_interface, &ev)) {
+		g_warning ("No ::Activity interface for ShellClient %p", shell_client);
+	}
+
+	CORBA_exception_free (&ev);
 }
 
 /**
@@ -328,6 +362,26 @@ evolution_shell_client_user_select_folder (EvolutionShellClient *shell_client,
 
 	user_select_folder (shell_client, title, default_folder, possible_types,
 			    uri_return, physical_uri_return);
+}
+
+
+/**
+ * evolution_shell_client_get_activity_interface:
+ * @shell_client: An EvolutionShellClient object
+ * 
+ * Get the GNOME::Evolution::Activity for the shell associated to
+ * @shell_client.
+ * 
+ * Return value: A CORBA Object represeting the GNOME::Evolution::Activity
+ * interface.
+ **/
+GNOME_Evolution_Activity
+evolution_shell_client_get_activity_interface (EvolutionShellClient *shell_client)
+{
+	g_return_val_if_fail (shell_client != NULL, CORBA_OBJECT_NIL);
+	g_return_val_if_fail (EVOLUTION_IS_SHELL_CLIENT (shell_client), CORBA_OBJECT_NIL);
+
+	return shell_client->priv->activity_interface;
 }
 
 

@@ -45,7 +45,6 @@ static const EvolutionShellComponentFolderType folder_types[] = {
 
 
 static EvolutionShellClient *parent_shell = NULL;
-static GNOME_Evolution_Activity activity_interface = CORBA_OBJECT_NIL;
 
 static CORBA_long activity_id = 0;
 
@@ -133,9 +132,8 @@ timeout_callback_3 (void *data)
 
 	CORBA_exception_init (&ev);
 
-	GNOME_Evolution_Activity_operationFinished (activity_interface,
-						    activity_id,
-						    &ev);
+	GNOME_Evolution_Activity_operationFinished (evolution_shell_client_get_activity_interface (parent_shell),
+						    activity_id, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("Cannot report operation as finished; exception returned -- %s\n",
@@ -160,7 +158,7 @@ timeout_callback_2 (void *data)
 
 	CORBA_exception_init (&ev);
 
-	GNOME_Evolution_Activity_operationProgressing (activity_interface,
+	GNOME_Evolution_Activity_operationProgressing (evolution_shell_client_get_activity_interface (parent_shell),
 						       activity_id,
 						       "Operation Foo in progress",
 						       (CORBA_float) progress / 100.0,
@@ -191,13 +189,13 @@ timeout_callback_1 (void *data)
 	CORBA_boolean suggest_display;
 	CORBA_Environment ev;
 	GNOME_Evolution_AnimatedIcon *animated_icon;
+	GNOME_Evolution_Activity activity_interface;
+
+	activity_interface = evolution_shell_client_get_activity_interface (parent_shell);
+	if (activity_interface== CORBA_OBJECT_NIL)
+		return FALSE;
 
 	CORBA_exception_init (&ev);
-
-	if (CORBA_Object_is_nil (activity_interface, &ev)) {
-		CORBA_exception_free (&ev);
-		return FALSE;
-	}
 
 	g_print ("Component becoming busy -- %s\n", COMPONENT_ID);
 
@@ -284,26 +282,14 @@ owner_set_callback (EvolutionShellComponent *shell_component,
 		    EvolutionShellClient *shell_client,
 		    const char *evolution_homedir)
 {
-	CORBA_Environment ev;
-
 	g_assert (parent_shell == NULL);
 
 	g_print ("We have an owner -- home directory is `%s'\n", evolution_homedir);
 
 	parent_shell = shell_client;
 
-	CORBA_exception_init (&ev);
-
-	activity_interface = Bonobo_Unknown_queryInterface (bonobo_object_corba_objref (BONOBO_OBJECT (shell_client)),
-							    "IDL:GNOME/Evolution/Activity:1.0",
-							    &ev);
-	if (ev._major != CORBA_NO_EXCEPTION)
-		activity_interface = CORBA_OBJECT_NIL;
-
-	if (CORBA_Object_is_nil (activity_interface, &ev))
+	if (evolution_shell_client_get_activity_interface (parent_shell) == CORBA_OBJECT_NIL)
 		g_warning ("Shell doesn't have a ::Activity interface -- weird!");
-
-	CORBA_exception_free (&ev);
 }
 
 static int
