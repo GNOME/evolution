@@ -1,3 +1,16 @@
+2003-01-31  JP Rosevear  <jpr@ximian.com>
+
+	Fixes #35598
+	
+	* gui/dialogs/task-details-page.c
+	(task_details_page_fill_widgets): count a status of needs action
+	as a status of none (not started)
+	(date_changed_cb): set the option menu to a status of none
+	(status_changed): no need to handle needs action status now
+
+	* gui/dialogs/task-details-page.glade: remove needs-action menu
+	item
+
 2003-01-30  JP Rosevear  <jpr@ximian.com>
 
 	Fixes #36763	
