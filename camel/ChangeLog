@@ -1,5 +1,11 @@
 2003-07-01  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-sasl-digest-md5.c (digest_response): Don't quote the
+	charset value, the qop value, nor the response value. Fixes bug
+	#45712.
+
+2003-07-01  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* camel-mime-utils.c (header_format_date): Use gmtime_r() instead
 	of using gmtime() and memcpy() to try and be "atomic".
 
