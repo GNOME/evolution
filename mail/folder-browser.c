@@ -723,7 +723,7 @@ update_status_bar(FolderBrowser *fb)
 	CORBA_Environment ev;
 	int tmp;
 	GString *work;
-	extern CamelFolder *outbox_folder;
+	extern CamelFolder *outbox_folder, *sent_folder;
 
 	if (fb->folder == NULL
 	    || fb->message_list == NULL
@@ -764,6 +764,8 @@ update_status_bar(FolderBrowser *fb)
 	g_string_append(work, _(", "));
 	if (fb->folder == outbox_folder)
 		g_string_sprintfa(work, _("%d unsent"), tmp);
+	else if (fb->folder == sent_folder)
+		g_string_sprintfa(work, _("%d sent"), tmp);
 	else
 		g_string_sprintfa(work, _("%d total"), tmp);
 

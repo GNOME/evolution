@@ -105,14 +105,14 @@ update_1folder(struct _folder_info *mfi, CamelFolderInfo *info)
 	CamelFolder *folder;
 	int unread = -1;
 	CORBA_Environment ev;
-	extern CamelFolder *outbox_folder;
+	extern CamelFolder *outbox_folder, *sent_folder;
 
 	si  = mfi->store_info;
 
 	LOCK(info_lock);
 	folder = mfi->folder;
 	if (folder) {
-		if (CAMEL_IS_VTRASH_FOLDER (folder) || folder == outbox_folder) {
+		if (CAMEL_IS_VTRASH_FOLDER (folder) || folder == outbox_folder || folder == sent_folder) {
 			unread = camel_folder_get_message_count(folder);
 		} else {
 			if (info)

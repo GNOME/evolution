@@ -1,5 +1,11 @@
 2001-10-04    <NotZed@Ximian.com>
 
+	* folder-browser.c (update_status_bar): Show "nn sent" as total in
+	sent folder, rather than just 'total'.
+
+	* mail-folder-cache.c (update_1folder): Also show total message
+	count for sent_folder.
+
 	* folder-browser-ui.c (folder_browser_setup_property_menu): Do a
 	better job of setting up the name.  Also de-sensitise when we
 	can't configure the folder.
