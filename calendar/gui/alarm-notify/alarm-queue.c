@@ -1036,6 +1036,7 @@ display_notification (time_t trigger, CompQueuedAlarms *cqa,
 	if (!config_data_get_notify_with_tray ()) {
 		tray_data->blink_id = -1;
 		open_alarm_dialog (tray_data);
+		gtk_window_stick (GTK_WINDOW (tray_data->alarm_dialog));
 	} else {
 		tray_data->blink_id = g_timeout_add (500, tray_icon_blink_cb, tray_data);
 		gtk_widget_show (tray_icon);

@@ -1,3 +1,10 @@
+2005-03-28  Rodrigo Moya <rodrigo@novell.com>
+
+	Fixes #44719
+
+	* gui/alarm-queue.c (display_notification): make the alarm dialog sticky
+	when not using the system tray.
+
 2005-03-24  JP Rosevear  <jpr@novell.com>
  
  	Fixes #69272
