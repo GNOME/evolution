@@ -5,19 +5,19 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2000-11-02 11:28+0200\n"
-"PO-Revision-Date: 2000-09-13 15:00+0300\n"
+"POT-Creation-Date: 2000-11-14 14:38+0300\n"
+"PO-Revision-Date: 2000-11-14 15:00+0300\n"
 "Last-Translator: Jarkko Ranta <jjranta@cc.joensuu.fi>\n"
 "Language-Team: Finnish <fi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-15\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: addressbook/backend/ebook/e-card.c:3044
+#: addressbook/backend/ebook/e-card.c:3046
 msgid "Card: "
 msgstr ""
 
-#: addressbook/backend/ebook/e-card.c:3046
+#: addressbook/backend/ebook/e-card.c:3048
 msgid ""
 "\n"
 "Name: "
@@ -25,37 +25,37 @@ msgstr ""
 "\n"
 "Nimi: "
 
-#: addressbook/backend/ebook/e-card.c:3047
+#: addressbook/backend/ebook/e-card.c:3049
 msgid ""
 "\n"
 "  Prefix:     "
 msgstr ""
 
-#: addressbook/backend/ebook/e-card.c:3048
+#: addressbook/backend/ebook/e-card.c:3050
 msgid ""
 "\n"
 "  Given:      "
 msgstr ""
 
-#: addressbook/backend/ebook/e-card.c:3049
+#: addressbook/backend/ebook/e-card.c:3051
 msgid ""
 "\n"
 "  Additional: "
 msgstr ""
 
-#: addressbook/backend/ebook/e-card.c:3050
+#: addressbook/backend/ebook/e-card.c:3052
 msgid ""
 "\n"
 "  Family:     "
 msgstr ""
 
-#: addressbook/backend/ebook/e-card.c:3051
+#: addressbook/backend/ebook/e-card.c:3053
 msgid ""
 "\n"
 "  Suffix:     "
 msgstr ""
 
-#: addressbook/backend/ebook/e-card.c:3065
+#: addressbook/backend/ebook/e-card.c:3067
 msgid ""
 "\n"
 "Birth Date: "
@@ -63,7 +63,7 @@ msgstr ""
 "\n"
 "Syntymäpäivä: "
 
-#: addressbook/backend/ebook/e-card.c:3076
+#: addressbook/backend/ebook/e-card.c:3078
 msgid ""
 "\n"
 "Address:"
@@ -71,69 +71,75 @@ msgstr ""
 "\n"
 "Osoite:"
 
-#: addressbook/backend/ebook/e-card.c:3078
+#: addressbook/backend/ebook/e-card.c:3080
 msgid ""
 "\n"
 "  Postal Box:  "
 msgstr ""
 
-#: addressbook/backend/ebook/e-card.c:3079
+#: addressbook/backend/ebook/e-card.c:3081
 msgid ""
 "\n"
 "  Ext:         "
 msgstr ""
 
-#: addressbook/backend/ebook/e-card.c:3080
+#: addressbook/backend/ebook/e-card.c:3082
 msgid ""
 "\n"
 "  Street:      "
 msgstr ""
+"\n"
+"  Katu:        "
 
-#: addressbook/backend/ebook/e-card.c:3081
+#: addressbook/backend/ebook/e-card.c:3083
 msgid ""
 "\n"
 "  City:        "
 msgstr ""
+"\n"
+"  Kaupunki:    "
 
-#: addressbook/backend/ebook/e-card.c:3082
+#: addressbook/backend/ebook/e-card.c:3084
 msgid ""
 "\n"
 "  Region:      "
 msgstr ""
 
-#: addressbook/backend/ebook/e-card.c:3083
+#: addressbook/backend/ebook/e-card.c:3085
 msgid ""
 "\n"
 "  Postal Code: "
 msgstr ""
+"\n"
+"  Postinumero: "
 
-#: addressbook/backend/ebook/e-card.c:3084
+#: addressbook/backend/ebook/e-card.c:3086
 msgid ""
 "\n"
 "  Country:     "
 msgstr ""
 "\n"
-"  Maa:     "
+"  Maa:         "
 
-#: addressbook/backend/ebook/e-card.c:3097
+#: addressbook/backend/ebook/e-card.c:3099
 msgid ""
 "\n"
 "Delivery Label: "
 msgstr ""
 
-#: addressbook/backend/ebook/e-card.c:3109
+#: addressbook/backend/ebook/e-card.c:3111
 msgid ""
 "\n"
 "Telephones:\n"
 msgstr ""
 
-#: addressbook/backend/ebook/e-card.c:3112
+#: addressbook/backend/ebook/e-card.c:3114
 msgid ""
 "\n"
 "Telephone:"
 msgstr ""
 
-#: addressbook/backend/ebook/e-card.c:3136
+#: addressbook/backend/ebook/e-card.c:3138
 msgid ""
 "\n"
 "E-mail:\n"
@@ -141,7 +147,7 @@ msgstr ""
 "\n"
 "Sähköposti:\n"
 
-#: addressbook/backend/ebook/e-card.c:3139
+#: addressbook/backend/ebook/e-card.c:3141
 msgid ""
 "\n"
 "E-mail:"
@@ -149,39 +155,41 @@ msgstr ""
 "\n"
 "Sähköposti:"
 
-#: addressbook/backend/ebook/e-card.c:3158
+#: addressbook/backend/ebook/e-card.c:3160
 msgid ""
 "\n"
 "Mailer: "
 msgstr ""
 
-#: addressbook/backend/ebook/e-card.c:3164
+#: addressbook/backend/ebook/e-card.c:3166
 msgid ""
 "\n"
 "Time Zone: "
 msgstr ""
+"\n"
+"Aikavyöhyke: "
 
-#: addressbook/backend/ebook/e-card.c:3172
+#: addressbook/backend/ebook/e-card.c:3174
 msgid ""
 "\n"
 "Geo Location: "
 msgstr ""
 
-#: addressbook/backend/ebook/e-card.c:3176
+#: addressbook/backend/ebook/e-card.c:3178
 msgid ""
 "\n"
 "Business Role: "
 msgstr ""
 "\n"
-"Työn kuvaus: "
+"Työn kuvaus:   "
 
-#: addressbook/backend/ebook/e-card.c:3188
+#: addressbook/backend/ebook/e-card.c:3190
 msgid ""
 "\n"
 "Org: "
 msgstr ""
 
-#: addressbook/backend/ebook/e-card.c:3189
+#: addressbook/backend/ebook/e-card.c:3191
 msgid ""
 "\n"
 "  Name:  "
@@ -189,31 +197,31 @@ msgstr ""
 "\n"
 "  Nimi:  "
 
-#: addressbook/backend/ebook/e-card.c:3190
+#: addressbook/backend/ebook/e-card.c:3192
 msgid ""
 "\n"
 "  Unit:  "
 msgstr ""
 
-#: addressbook/backend/ebook/e-card.c:3191
+#: addressbook/backend/ebook/e-card.c:3193
 msgid ""
 "\n"
 "  Unit2: "
 msgstr ""
 
-#: addressbook/backend/ebook/e-card.c:3192
+#: addressbook/backend/ebook/e-card.c:3194
 msgid ""
 "\n"
 "  Unit3: "
 msgstr ""
 
-#: addressbook/backend/ebook/e-card.c:3193
+#: addressbook/backend/ebook/e-card.c:3195
 msgid ""
 "\n"
 "  Unit4: "
 msgstr ""
 
-#: addressbook/backend/ebook/e-card.c:3197
+#: addressbook/backend/ebook/e-card.c:3199
 msgid ""
 "\n"
 "Categories: "
@@ -221,7 +229,7 @@ msgstr ""
 "\n"
 "Kategoriat: "
 
-#: addressbook/backend/ebook/e-card.c:3198
+#: addressbook/backend/ebook/e-card.c:3200
 msgid ""
 "\n"
 "Comment: "
@@ -237,26 +245,28 @@ msgstr ""
 #.
 #. add_SoundType (string, crd->sound.type);
 #. }
-#: addressbook/backend/ebook/e-card.c:3211
+#: addressbook/backend/ebook/e-card.c:3213
 msgid ""
 "\n"
 "Unique String: "
 msgstr ""
 
-#: addressbook/backend/ebook/e-card.c:3214
+#: addressbook/backend/ebook/e-card.c:3216
 msgid ""
 "\n"
 "Public Key: "
 msgstr ""
+"\n"
+"Julkinen avain: "
 
 #: addressbook/backend/ebook/load-gnomecard-addressbook.c:16
 #: addressbook/backend/ebook/load-pine-addressbook.c:17
 #: addressbook/backend/ebook/test-client-list.c:18
 #: addressbook/backend/ebook/test-client.c:29
-#: addressbook/conduit/address-conduit.c:910
+#: addressbook/conduit/address-conduit.c:1012
 #: addressbook/gui/component/addressbook-factory.c:38
-#: calendar/conduits/calendar/calendar-conduit.c:1091
-#: calendar/conduits/todo/todo-conduit.c:965 calendar/gui/main.c:55
+#: calendar/conduits/calendar/calendar-conduit.c:1092
+#: calendar/conduits/todo/todo-conduit.c:966 calendar/gui/main.c:54
 msgid "Could not initialize Bonobo"
 msgstr "Bonobon alustus ei onnistunut"
 
@@ -304,7 +314,7 @@ msgstr ""
 #: calendar/conduits/calendar/calendar-conduit-control-applet.c:121
 #: calendar/conduits/todo/todo-conduit-control-applet.c:121
 msgid "JP Rosevear <jpr@helixcode.com>"
-msgstr ""
+msgstr "JP Rosevear <jpr@helixcode.com>"
 
 #: addressbook/conduit/address-conduit-control-applet.c:122
 #: calendar/conduits/calendar/calendar-conduit-control-applet.c:122
@@ -375,28 +385,28 @@ msgid ""
 "pilot list from the gnome-pilot daemon"
 msgstr ""
 
-#: addressbook/conduit/address-conduit.c:193
+#: addressbook/conduit/address-conduit.c:207
 msgid "Cursor could not be loaded\n"
 msgstr ""
 
-#: addressbook/conduit/address-conduit.c:206
+#: addressbook/conduit/address-conduit.c:220
 msgid "EBook not loaded\n"
 msgstr ""
 
-#: addressbook/conduit/address-conduit.c:490
+#: addressbook/conduit/address-conduit.c:579
 #: calendar/conduits/calendar/calendar-conduit.c:651
 #: calendar/conduits/todo/todo-conduit.c:524
 msgid "Could not start wombat server"
 msgstr ""
 
-#: addressbook/conduit/address-conduit.c:491
+#: addressbook/conduit/address-conduit.c:580
 #: calendar/conduits/calendar/calendar-conduit.c:652
 #: calendar/conduits/todo/todo-conduit.c:525
 msgid "Could not start wombat"
 msgstr ""
 
-#: addressbook/conduit/address-conduit.c:517
-#: addressbook/conduit/address-conduit.c:520
+#: addressbook/conduit/address-conduit.c:613
+#: addressbook/conduit/address-conduit.c:616
 msgid "Could not read pilot's Address application block"
 msgstr ""
 
@@ -417,113 +427,105 @@ msgstr ""
 msgid "Available Categories:"
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:1218
+#: addressbook/contact-editor/e-contact-editor.c:1266
 msgid "Assistant"
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:1219
-#: addressbook/contact-editor/e-contact-editor.c:1323
+#: addressbook/contact-editor/e-contact-editor.c:1267
+#: addressbook/contact-editor/e-contact-editor.c:1371
 msgid "Business"
 msgstr "Työ"
 
-#: addressbook/contact-editor/e-contact-editor.c:1220
+#: addressbook/contact-editor/e-contact-editor.c:1268
 msgid "Business 2"
 msgstr "Työ 2"
 
-#: addressbook/contact-editor/e-contact-editor.c:1221
+#: addressbook/contact-editor/e-contact-editor.c:1269
 msgid "Business Fax"
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:1222
+#: addressbook/contact-editor/e-contact-editor.c:1270
 msgid "Callback"
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:1223
+#: addressbook/contact-editor/e-contact-editor.c:1271
 msgid "Car"
 msgstr "Auto"
 
-#: addressbook/contact-editor/e-contact-editor.c:1224
+#: addressbook/contact-editor/e-contact-editor.c:1272
 msgid "Company"
 msgstr "Yritys"
 
-#: addressbook/contact-editor/e-contact-editor.c:1225
-#: addressbook/contact-editor/e-contact-editor.c:1324
+#: addressbook/contact-editor/e-contact-editor.c:1273
+#: addressbook/contact-editor/e-contact-editor.c:1372
 msgid "Home"
 msgstr "Koti"
 
-#: addressbook/contact-editor/e-contact-editor.c:1226
+#: addressbook/contact-editor/e-contact-editor.c:1274
 msgid "Home 2"
 msgstr "Koti 2"
 
-#: addressbook/contact-editor/e-contact-editor.c:1227
+#: addressbook/contact-editor/e-contact-editor.c:1275
 msgid "Home Fax"
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:1228
+#: addressbook/contact-editor/e-contact-editor.c:1276
 msgid "ISDN"
 msgstr "ISDN"
 
-#: addressbook/contact-editor/e-contact-editor.c:1229
+#: addressbook/contact-editor/e-contact-editor.c:1277
 msgid "Mobile"
 msgstr "Matkapuhelin"
 
-#: addressbook/contact-editor/e-contact-editor.c:1230
-#: addressbook/contact-editor/e-contact-editor.c:1325
-#: mail/mail-config.glade.h:28
+#: addressbook/contact-editor/e-contact-editor.c:1278
+#: addressbook/contact-editor/e-contact-editor.c:1373
+#: mail/mail-config.glade.h:18
 msgid "Other"
 msgstr "Muu"
 
-#: addressbook/contact-editor/e-contact-editor.c:1231
+#: addressbook/contact-editor/e-contact-editor.c:1279
 msgid "Other Fax"
 msgstr "Muu faksi"
 
-#: addressbook/contact-editor/e-contact-editor.c:1232
+#: addressbook/contact-editor/e-contact-editor.c:1280
 msgid "Pager"
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:1233
+#: addressbook/contact-editor/e-contact-editor.c:1281
 msgid "Primary"
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:1234
+#: addressbook/contact-editor/e-contact-editor.c:1282
 msgid "Radio"
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:1235
+#: addressbook/contact-editor/e-contact-editor.c:1283
 msgid "Telex"
 msgstr ""
 
-#: addressbook/contact-editor/e-contact-editor.c:1236
+#: addressbook/contact-editor/e-contact-editor.c:1284
 msgid "TTY/TDD"
 msgstr ""
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:22
-#: addressbook/contact-editor/e-contact-editor.c:1280
+#: addressbook/contact-editor/e-contact-editor.c:1328
 msgid "Primary Email"
 msgstr "Ensisijainen sähköposti"
 
-#: addressbook/contact-editor/e-contact-editor.c:1281
+#: addressbook/contact-editor/e-contact-editor.c:1329
 msgid "Email 2"
 msgstr "Sähköposti 2"
 
-#: addressbook/contact-editor/e-contact-editor.c:1282
+#: addressbook/contact-editor/e-contact-editor.c:1330
 msgid "Email 3"
 msgstr "Sähköposti 3"
 
 #.
-#. * Translatable strings file generated by Glade.
-#. * Add this file to your project's POTFILES.in.
+#. * Translatable strings file generated by extract-ui.
+#. * Add this file to your project's POTFILES.in
 #. * DO NOT compile it as part of your application.
 #.
 #: addressbook/contact-editor/e-contact-editor-confirm-delete.glade.h:7
-msgid ""
-"Are you sure you want\n"
-"to delete this contact?"
-msgstr ""
-"Haluatko varmasti\n"
-"poistaa tämän kontaktin?"
-
-#: addressbook/contact-editor/e-contact-editor-confirm-delete.glade.h:9
 msgid "Delete Contact?"
 msgstr "Poista kontakti?"
 
@@ -537,7 +539,7 @@ msgid "_Add"
 msgstr "_Lisää"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:8
-#: ui/evolution-event-editor.h:72 ui/evolution-mail.h:48
+#: ui/evolution-event-editor.xml.h:109 ui/evolution-mail.xml.h:47
 msgid "_Delete"
 msgstr "_Poista"
 
@@ -550,11 +552,14 @@ msgstr "Puhelintyypit"
 msgid "New phone type"
 msgstr "Uusi puhelintyyppi"
 
+#.
+#. * Translatable strings file generated by extract-ui.
+#. * Add this file to your project's POTFILES.in
+#. * DO NOT compile it as part of your application.
+#.
 #: addressbook/contact-editor/e-contact-editor-strings.h:11
-#: calendar/gui/event-editor-dialog.glade.h:71 filter/filter.glade.h:12
-#: filter/filter.glade.h:17 filter/filter.glade.h:21 filter/filter.glade.h:24
-#: mail/mail-config.glade.h:11 mail/mail-config.glade.h:16
-#: mail/mail-config.glade.h:22
+#: calendar/gui/event-editor-dialog.glade.h:53 filter/filter.glade.h:7
+#: mail/mail-config-druid.glade.h:10 mail/mail-config.glade.h:7
 msgid "Add"
 msgstr "Lisää"
 
@@ -607,7 +612,7 @@ msgid "C_ontacts..."
 msgstr ""
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:26
-#: calendar/gui/dialogs/task-editor-dialog.glade.h:27
+#: calendar/gui/dialogs/task-editor-dialog.glade.h:9
 msgid "Ca_tegories..."
 msgstr "Ka_tegoriat"
 
@@ -669,58 +674,46 @@ msgid "No_tes:"
 msgstr ""
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:41
-#: calendar/gui/dialogs/task-editor-dialog.glade.h:31
+#: calendar/gui/dialogs/task-editor-dialog.glade.h:11
 msgid "Details"
 msgstr "Yksityiskohdat"
 
 #.
-#. * Translatable strings file generated by Glade.
-#. * Add this file to your project's POTFILES.in.
+#. * Translatable strings file generated by extract-ui.
+#. * Add this file to your project's POTFILES.in
 #. * DO NOT compile it as part of your application.
 #.
 #: addressbook/contact-editor/fulladdr.glade.h:7
-msgid "Check Address"
-msgstr "Tarkista osoite"
-
-#: addressbook/contact-editor/fulladdr.glade.h:8
-msgid "_Address:"
-msgstr "_Osoite:"
-
-#: addressbook/contact-editor/fulladdr.glade.h:9
-msgid "_City:"
-msgstr "_Kaupunki:"
-
-#: addressbook/contact-editor/fulladdr.glade.h:10
-msgid "_PO Box:"
-msgstr ""
-
-#: addressbook/contact-editor/fulladdr.glade.h:11
 msgid "Address _2:"
 msgstr "Osoite _2:"
 
+#: addressbook/contact-editor/fulladdr.glade.h:8
+msgid "Check Address"
+msgstr "Tarkista osoite"
+
+#: addressbook/contact-editor/fulladdr.glade.h:9
+msgid "Countr_y:"
+msgstr "M_aa:"
+
+#: addressbook/contact-editor/fulladdr.glade.h:10
+msgid "_Address:"
+msgstr "_Osoite:"
+
+#: addressbook/contact-editor/fulladdr.glade.h:11
+msgid "_City:"
+msgstr "_Kaupunki:"
+
 #: addressbook/contact-editor/fulladdr.glade.h:12
+msgid "_PO Box:"
+msgstr ""
+
+#: addressbook/contact-editor/fulladdr.glade.h:13
 msgid "_State/Province:"
 msgstr "_Osavaltio/Provinssi:"
 
-#: addressbook/contact-editor/fulladdr.glade.h:13
-msgid "USA"
-msgstr "USA"
-
 #: addressbook/contact-editor/fulladdr.glade.h:14
-msgid "Canada"
-msgstr "Kanada"
-
-#: addressbook/contact-editor/fulladdr.glade.h:15
-msgid "Finland"
-msgstr "Suomi"
-
-#: addressbook/contact-editor/fulladdr.glade.h:16
 msgid "_ZIP Code:"
 msgstr ""
-
-#: addressbook/contact-editor/fulladdr.glade.h:17
-msgid "Countr_y:"
-msgstr "M_aa"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -770,30 +763,25 @@ msgstr "_Sukunimi:"
 msgid "_Suffix:"
 msgstr ""
 
-#: addressbook/gui/component/addressbook.c:275
-msgid "Quick Search"
-msgstr "Pikaetsintä"
-
-#: addressbook/gui/component/addressbook.c:310
+#: addressbook/gui/component/addressbook.c:266
 msgid "As _Minicards"
 msgstr ""
 
 #.
-#. *  This file is autogenerated from evolution-addressbook.xml, do not edit
-#. *
-#. *  This file contains translatable strings generated by
-#. * bonobo-ui-extract. Add this file to your project's
-#. * POTFILES.in. DO NOT compile it as part of your application.
+#. * Translatable strings file generated by extract-ui.
+#. * Add this file to your project's POTFILES.in
+#. * DO NOT compile it as part of your application.
 #.
-#: addressbook/gui/component/addressbook.c:316 ui/evolution-addressbook.h:9
+#: addressbook/gui/component/addressbook.c:272
+#: ui/evolution-addressbook.xml.h:7
 msgid "As _Table"
 msgstr ""
 
-#: addressbook/gui/component/addressbook.c:444
+#: addressbook/gui/component/addressbook.c:392
 msgid "Unable to open addressbook"
 msgstr "Osoitekirjaa ei voitu avata"
 
-#: addressbook/gui/component/addressbook.c:449
+#: addressbook/gui/component/addressbook.c:397
 msgid ""
 "We were unable to open this addressbook.  This either\n"
 "means you have entered an incorrect URI, or have tried\n"
@@ -805,7 +793,27 @@ msgid ""
 "OpenLDAP and recompile and install evolution.\n"
 msgstr ""
 
-#: addressbook/gui/component/addressbook.c:584
+#: addressbook/gui/component/addressbook.c:507 mail/folder-browser.c:152
+msgid "Show All"
+msgstr "Näytä kaikki"
+
+#: addressbook/gui/component/addressbook.c:509 mail/folder-browser.c:154
+msgid "Advanced..."
+msgstr ""
+
+#: addressbook/gui/component/addressbook.c:539
+msgid "Any field contains"
+msgstr ""
+
+#: addressbook/gui/component/addressbook.c:540
+msgid "Name contains"
+msgstr ""
+
+#: addressbook/gui/component/addressbook.c:541
+msgid "Email contains"
+msgstr ""
+
+#: addressbook/gui/component/addressbook.c:627
 msgid "The URI that the Folder Browser will display"
 msgstr ""
 
@@ -814,12 +822,12 @@ msgid "External Directories"
 msgstr "Ulkoiset hakemistot"
 
 #.
-#. * Translatable strings file generated by Glade.
-#. * Add this file to your project's POTFILES.in.
+#. * Translatable strings file generated by extract-ui.
+#. * Add this file to your project's POTFILES.in
 #. * DO NOT compile it as part of your application.
 #.
 #: addressbook/gui/component/ldap-server-dialog.glade.h:7
-#: composer/e-msg-composer-attachment.glade.h:9
+#: composer/e-msg-composer-attachment.glade.h:8
 msgid "Description:"
 msgstr "Kuvaus:"
 
@@ -828,158 +836,54 @@ msgid "LDAP Server:"
 msgstr "LDAP-palvelin:"
 
 #: addressbook/gui/component/ldap-server-dialog.glade.h:9
-msgid "Port Number:"
-msgstr "Portin numero:"
-
-#: addressbook/gui/component/ldap-server-dialog.glade.h:10
-msgid "Root DN:"
-msgstr ""
-
-#: addressbook/gui/component/ldap-server-dialog.glade.h:11
+#: mail/mail-config-druid.glade.h:37
 msgid "Name:"
 msgstr "Nimi:"
 
+#: addressbook/gui/component/ldap-server-dialog.glade.h:10
+msgid "Port Number:"
+msgstr "Portin numero:"
+
+#: addressbook/gui/component/ldap-server-dialog.glade.h:11
+msgid "Root DN:"
+msgstr ""
+
 #.
-#. * Translatable strings file generated by Glade.
-#. * Add this file to your project's POTFILES.in.
+#. * Translatable strings file generated by extract-ui.
+#. * Add this file to your project's POTFILES.in
 #. * DO NOT compile it as part of your application.
 #.
 #: addressbook/gui/component/select-names/select-names.glade.h:7
-msgid "Select Names"
-msgstr "Valitse nimet"
-
-#: addressbook/gui/component/select-names/select-names.glade.h:8
 msgid "Find..."
 msgstr "Etsi..."
 
-#: addressbook/gui/component/select-names/select-names.glade.h:9
-msgid "Select name from List:"
-msgstr "Valitse nimi luettelosta"
-
-#: addressbook/gui/component/select-names/select-names.glade.h:10
+#: addressbook/gui/component/select-names/select-names.glade.h:8
 msgid "Message Recipients"
 msgstr "Vastaanottajat"
 
+#: addressbook/gui/component/select-names/select-names.glade.h:9
+msgid "Select Names"
+msgstr "Valitse nimet"
+
+#: addressbook/gui/component/select-names/select-names.glade.h:10
+msgid "Select name from List:"
+msgstr "Valitse nimi luettelosta"
+
 #.
-#. * Translatable strings file generated by Glade.
-#. * Add this file to your project's POTFILES.in.
+#. * Translatable strings file generated by extract-ui.
+#. * Add this file to your project's POTFILES.in
 #. * DO NOT compile it as part of your application.
 #.
 #: addressbook/gui/widgets/alphabet.glade.h:7
-msgid "window2"
-msgstr ""
-
-#: addressbook/gui/widgets/alphabet.glade.h:8
 msgid "123"
 msgstr "123"
 
-#: addressbook/gui/widgets/alphabet.glade.h:9
-msgid "a"
-msgstr "a"
+#: addressbook/gui/widgets/alphabet.glade.h:8
+msgid "window2"
+msgstr ""
 
-#: addressbook/gui/widgets/alphabet.glade.h:10
-msgid "b"
-msgstr "b"
-
-#: addressbook/gui/widgets/alphabet.glade.h:11
-msgid "c"
-msgstr "c"
-
-#: addressbook/gui/widgets/alphabet.glade.h:12
-msgid "d"
-msgstr "d"
-
-#: addressbook/gui/widgets/alphabet.glade.h:13
-msgid "e"
-msgstr "e"
-
-#: addressbook/gui/widgets/alphabet.glade.h:14
-msgid "f"
-msgstr "f"
-
-#: addressbook/gui/widgets/alphabet.glade.h:15
-msgid "g"
-msgstr "g"
-
-#: addressbook/gui/widgets/alphabet.glade.h:16
-#: calendar/cal-util/timeutil.c:100
-msgid "h"
-msgstr "h"
-
-#: addressbook/gui/widgets/alphabet.glade.h:17
-msgid "i"
-msgstr "i"
-
-#: addressbook/gui/widgets/alphabet.glade.h:18
-msgid "j"
-msgstr "j"
-
-#: addressbook/gui/widgets/alphabet.glade.h:19
-msgid "k"
-msgstr "k"
-
-#: addressbook/gui/widgets/alphabet.glade.h:20
-msgid "l"
-msgstr "l"
-
-#: addressbook/gui/widgets/alphabet.glade.h:21
-msgid "m"
-msgstr "m"
-
-#: addressbook/gui/widgets/alphabet.glade.h:22
-msgid "n"
-msgstr "n"
-
-#: addressbook/gui/widgets/alphabet.glade.h:23
-msgid "o"
-msgstr "o"
-
-#: addressbook/gui/widgets/alphabet.glade.h:24
-msgid "p"
-msgstr "p"
-
-#: addressbook/gui/widgets/alphabet.glade.h:25
-msgid "q"
-msgstr "q"
-
-#: addressbook/gui/widgets/alphabet.glade.h:26
-msgid "r"
-msgstr "r"
-
-#: addressbook/gui/widgets/alphabet.glade.h:27
-msgid "s"
-msgstr "s"
-
-#: addressbook/gui/widgets/alphabet.glade.h:28
-msgid "t"
-msgstr "t"
-
-#: addressbook/gui/widgets/alphabet.glade.h:29
-msgid "u"
-msgstr "u"
-
-#: addressbook/gui/widgets/alphabet.glade.h:30
-msgid "v"
-msgstr "v"
-
-#: addressbook/gui/widgets/alphabet.glade.h:31
-msgid "w"
-msgstr "w"
-
-#: addressbook/gui/widgets/alphabet.glade.h:32
-msgid "x"
-msgstr "x"
-
-#: addressbook/gui/widgets/alphabet.glade.h:33
-msgid "y"
-msgstr "y"
-
-#: addressbook/gui/widgets/alphabet.glade.h:34
-msgid "z"
-msgstr "z"
-
-#: addressbook/gui/widgets/e-addressbook-view.c:414
-#: addressbook/gui/widgets/e-minicard.c:337
+#: addressbook/gui/widgets/e-addressbook-view.c:415
+#: addressbook/gui/widgets/e-minicard.c:338
 msgid "Save as VCard"
 msgstr ""
 
@@ -996,191 +900,184 @@ msgid ""
 "Double-click here to create a new Contact."
 msgstr ""
 
-#: addressbook/gui/search/e-addressbook-search-dialog.c:151
-#: mail/folder-browser.c:494 mail/mail-search-dialogue.c:101
+#: addressbook/gui/search/e-addressbook-search-dialog.c:147
+#: mail/mail-search-dialogue.c:104
 msgid "Search"
 msgstr "Etsi"
 
 #.
-#. * Translatable strings file generated by Glade.
-#. * Add this file to your project's POTFILES.in.
+#. * Translatable strings file generated by extract-ui.
+#. * Add this file to your project's POTFILES.in
 #. * DO NOT compile it as part of your application.
 #.
 #: addressbook/printing/e-contact-print.glade.h:7
-msgid "Page Setup:"
-msgstr "Sivun asetukset:"
-
-#: addressbook/printing/e-contact-print.glade.h:8
-msgid "Style name:"
-msgstr "Tyylin nimi:"
-
-#: addressbook/printing/e-contact-print.glade.h:9
-msgid "Preview:"
-msgstr "Esikatselu:"
-
-#: addressbook/printing/e-contact-print.glade.h:10
-msgid "Options"
-msgstr "Asetukset"
-
-#: addressbook/printing/e-contact-print.glade.h:11
-msgid "Include:"
-msgstr ""
-
-#: addressbook/printing/e-contact-print.glade.h:12
-msgid "Sections:"
-msgstr ""
-
-#: addressbook/printing/e-contact-print.glade.h:13
-msgid "Immediately follow each other"
-msgstr ""
-
-#: addressbook/printing/e-contact-print.glade.h:14
-msgid "Letter tabs on side"
-msgstr ""
-
-#: addressbook/printing/e-contact-print.glade.h:15
-msgid "Headings for each letter"
-msgstr ""
-
-#: addressbook/printing/e-contact-print.glade.h:16
-msgid "Start on a new page"
-msgstr ""
-
-#: addressbook/printing/e-contact-print.glade.h:17
-msgid "Number of columns:"
-msgstr "Sarakkeiden määrä:"
-
-#: addressbook/printing/e-contact-print.glade.h:18
-msgid "Blank forms at end:"
-msgstr ""
-
-#: addressbook/printing/e-contact-print.glade.h:19
-msgid "Fonts"
-msgstr "Kirjasinlajit"
-
-#: addressbook/printing/e-contact-print.glade.h:20
-#: addressbook/printing/e-contact-print.glade.h:21
-#: addressbook/printing/e-contact-print.glade.h:51
-#: addressbook/printing/e-contact-print.glade.h:54
-msgid "Font..."
-msgstr "Kirjasin..."
-
-#: addressbook/printing/e-contact-print.glade.h:22
-msgid "Headings"
-msgstr ""
-
-#: addressbook/printing/e-contact-print.glade.h:23
 msgid "10 pt. Tahoma"
 msgstr "10 pt. Tahoma"
 
-#: addressbook/printing/e-contact-print.glade.h:24
-msgid "Body"
-msgstr ""
-
-#: addressbook/printing/e-contact-print.glade.h:25
+#: addressbook/printing/e-contact-print.glade.h:8
 msgid "8 pt. Tahoma"
 msgstr "8 pt. Tahoma"
 
-#: addressbook/printing/e-contact-print.glade.h:26
-msgid "Shading"
-msgstr "Varjostus"
-
-#: addressbook/printing/e-contact-print.glade.h:27
-msgid "Print using gray shading"
+#: addressbook/printing/e-contact-print.glade.h:9
+msgid "Blank forms at end:"
 msgstr ""
 
-#: addressbook/printing/e-contact-print.glade.h:28
-msgid "Format"
+#: addressbook/printing/e-contact-print.glade.h:10
+msgid "Body"
 msgstr ""
 
-#: addressbook/printing/e-contact-print.glade.h:29
-#: addressbook/printing/e-contact-print.glade.h:50
-msgid "Paper"
-msgstr "Paperi"
-
-#: addressbook/printing/e-contact-print.glade.h:30
-msgid "Type:"
-msgstr "Tyyppi:"
-
-#: addressbook/printing/e-contact-print.glade.h:31
-#: addressbook/printing/e-contact-print.glade.h:43
-msgid "label26"
-msgstr ""
-
-#: addressbook/printing/e-contact-print.glade.h:32
-#: addressbook/printing/e-contact-print.glade.h:44
-msgid "Dimensions:"
-msgstr "Mitat:"
-
-#: addressbook/printing/e-contact-print.glade.h:33
-#: addressbook/printing/e-contact-print.glade.h:45
-msgid "Width:"
-msgstr "Leveys:"
-
-#: addressbook/printing/e-contact-print.glade.h:34
-#: addressbook/printing/e-contact-print.glade.h:46
-msgid "Height:"
-msgstr "Korkeus:"
-
-#: addressbook/printing/e-contact-print.glade.h:35
-msgid "Paper source:"
-msgstr "Paperilähde:"
-
-#: addressbook/printing/e-contact-print.glade.h:36
-msgid "Margins"
-msgstr "Reunukset"
-
-#: addressbook/printing/e-contact-print.glade.h:37
-msgid "Top:"
-msgstr "Ylä:"
-
-#: addressbook/printing/e-contact-print.glade.h:38
+#: addressbook/printing/e-contact-print.glade.h:11
 msgid "Bottom:"
 msgstr "Ala:"
 
-#: addressbook/printing/e-contact-print.glade.h:39
+#: addressbook/printing/e-contact-print.glade.h:12
+msgid "Dimensions:"
+msgstr "Mitat:"
+
+#: addressbook/printing/e-contact-print.glade.h:13
+msgid "Font..."
+msgstr "Kirjasin..."
+
+#: addressbook/printing/e-contact-print.glade.h:14
+msgid "Fonts"
+msgstr "Kirjasinlajit"
+
+#: addressbook/printing/e-contact-print.glade.h:15
+msgid "Footer:"
+msgstr "Alatunniste:"
+
+#: addressbook/printing/e-contact-print.glade.h:16
+msgid "Format"
+msgstr ""
+
+#: addressbook/printing/e-contact-print.glade.h:17
+msgid "Header"
+msgstr "Ylätunniste:"
+
+#: addressbook/printing/e-contact-print.glade.h:18
+msgid "Header/Footer"
+msgstr "Ylä-/Alatunniste"
+
+#: addressbook/printing/e-contact-print.glade.h:19
+msgid "Headings"
+msgstr ""
+
+#: addressbook/printing/e-contact-print.glade.h:20
+msgid "Headings for each letter"
+msgstr ""
+
+#: addressbook/printing/e-contact-print.glade.h:21
+msgid "Height:"
+msgstr "Korkeus:"
+
+#: addressbook/printing/e-contact-print.glade.h:22
+msgid "Immediately follow each other"
+msgstr ""
+
+#: addressbook/printing/e-contact-print.glade.h:23
+msgid "Include:"
+msgstr ""
+
+#: addressbook/printing/e-contact-print.glade.h:24
+msgid "Landscape"
+msgstr "Vaaka"
+
+#: addressbook/printing/e-contact-print.glade.h:25
 msgid "Left:"
 msgstr "Vasen:"
 
-#: addressbook/printing/e-contact-print.glade.h:40
+#: addressbook/printing/e-contact-print.glade.h:26
+msgid "Letter tabs on side"
+msgstr ""
+
+#: addressbook/printing/e-contact-print.glade.h:27
+msgid "Margins"
+msgstr "Reunukset"
+
+#: addressbook/printing/e-contact-print.glade.h:28
+msgid "Number of columns:"
+msgstr "Sarakkeiden määrä:"
+
+#: addressbook/printing/e-contact-print.glade.h:29
+msgid "Options"
+msgstr "Asetukset"
+
+#: addressbook/printing/e-contact-print.glade.h:30
+msgid "Orientation"
+msgstr "Suunta"
+
+#: addressbook/printing/e-contact-print.glade.h:31
+msgid "Page"
+msgstr "Sivu"
+
+#: addressbook/printing/e-contact-print.glade.h:32
+msgid "Page Setup:"
+msgstr "Sivun asetukset:"
+
+#: addressbook/printing/e-contact-print.glade.h:33
+msgid "Paper"
+msgstr "Paperi"
+
+#: addressbook/printing/e-contact-print.glade.h:34
+msgid "Paper source:"
+msgstr "Paperilähde:"
+
+#: addressbook/printing/e-contact-print.glade.h:35
+msgid "Portrait"
+msgstr "Pysty"
+
+#: addressbook/printing/e-contact-print.glade.h:36
+msgid "Preview:"
+msgstr "Esikatselu:"
+
+#: addressbook/printing/e-contact-print.glade.h:37
+msgid "Print using gray shading"
+msgstr ""
+
+#: addressbook/printing/e-contact-print.glade.h:38
+msgid "Reverse on even pages"
+msgstr "Peilikuvareunukset"
+
+#: addressbook/printing/e-contact-print.glade.h:39
 msgid "Right:"
 msgstr "Oikea:"
 
+#: addressbook/printing/e-contact-print.glade.h:40
+msgid "Sections:"
+msgstr ""
+
 #: addressbook/printing/e-contact-print.glade.h:41
-msgid "Page"
-msgstr "Sivu"
+msgid "Shading"
+msgstr "Varjostus"
 
 #: addressbook/printing/e-contact-print.glade.h:42
 msgid "Size:"
 msgstr "Koko:"
 
+#: addressbook/printing/e-contact-print.glade.h:43
+msgid "Start on a new page"
+msgstr ""
+
+#: addressbook/printing/e-contact-print.glade.h:44
+msgid "Style name:"
+msgstr "Tyylin nimi:"
+
+#: addressbook/printing/e-contact-print.glade.h:45
+msgid "Top:"
+msgstr "Ylä:"
+
+#: addressbook/printing/e-contact-print.glade.h:46
+#: mail/mail-config-druid.glade.h:66
+msgid "Type:"
+msgstr "Tyyppi:"
+
 #: addressbook/printing/e-contact-print.glade.h:47
-msgid "Orientation"
-msgstr "Suunta"
+msgid "Width:"
+msgstr "Leveys:"
 
 #: addressbook/printing/e-contact-print.glade.h:48
-msgid "Portrait"
-msgstr "Pysty"
-
-#: addressbook/printing/e-contact-print.glade.h:49
-msgid "Landscape"
-msgstr "Vaaka"
-
-#: addressbook/printing/e-contact-print.glade.h:52
-msgid "Header"
-msgstr "Ylätunniste:"
-
-#: addressbook/printing/e-contact-print.glade.h:53
-msgid "Footer:"
-msgstr "Alatunniste:"
-
-#: addressbook/printing/e-contact-print.glade.h:55
-msgid "Reverse on even pages"
-msgstr "Peilikuvareunukset"
-
-#: addressbook/printing/e-contact-print.glade.h:56
-msgid "Header/Footer"
-msgstr "Ylä-/Alatunniste"
+msgid "label26"
+msgstr ""
 
 #: calendar/cal-util/timeutil.c:98 calendar/gui/print.c:605
 msgid "am"
@@ -1189,6 +1086,10 @@ msgstr "am"
 #: calendar/cal-util/timeutil.c:98 calendar/gui/print.c:604
 msgid "pm"
 msgstr "pm"
+
+#: calendar/cal-util/timeutil.c:100
+msgid "h"
+msgstr "h"
 
 #: calendar/conduits/calendar/calendar-conduit-control-applet.c:127
 msgid "Evolution Calendar Conduit"
@@ -1293,17 +1194,14 @@ msgid "%a %m/%d/%Y %I:%M:%S %p"
 msgstr ""
 
 #: calendar/gui/calendar-model.c:344
-#: calendar/gui/dialogs/task-editor-dialog.glade.h:23
 msgid "Public"
 msgstr ""
 
 #: calendar/gui/calendar-model.c:347
-#: calendar/gui/dialogs/task-editor-dialog.glade.h:24
 msgid "Private"
 msgstr ""
 
 #: calendar/gui/calendar-model.c:350
-#: calendar/gui/dialogs/task-editor-dialog.glade.h:25
 msgid "Confidential"
 msgstr ""
 
@@ -1346,8 +1244,8 @@ msgstr ""
 #. strptime format for a date.
 #: calendar/gui/calendar-model.c:835 calendar/gui/calendar-model.c:883
 #: widgets/meeting-time-sel/e-meeting-time-sel-item.c:471
-#: widgets/misc/e-dateedit.c:480 widgets/misc/e-dateedit.c:512
-#: widgets/misc/e-dateedit.c:669 widgets/misc/e-dateedit.c:725
+#: widgets/misc/e-dateedit.c:228 widgets/misc/e-dateedit.c:514
+#: widgets/misc/e-dateedit.c:545 widgets/misc/e-dateedit.c:701
 msgid "%m/%d/%Y"
 msgstr ""
 
@@ -1405,393 +1303,301 @@ msgid "No summary available."
 msgstr ""
 
 #.
-#. * Translatable strings file generated by Glade.
-#. * Add this file to your project's POTFILES.in.
+#. * Translatable strings file generated by extract-ui.
+#. * Add this file to your project's POTFILES.in
 #. * DO NOT compile it as part of your application.
 #.
 #: calendar/gui/dialogs/alarm-notify.glade.h:7
-#: ui/evolution-contact-editor.h:14 ui/evolution-event-editor.h:19
-#: ui/evolution-subscribe.h:10
+#: ui/evolution-contact-editor.xml.h:7 ui/evolution-event-editor.xml.h:14
+#: ui/evolution-message-composer.xml.h:10 ui/evolution-subscribe.xml.h:8
 msgid "Close"
 msgstr ""
 
-#: calendar/gui/dialogs/alarm-notify.glade.h:8 calendar/gui/gnome-cal.c:1458
-msgid "Snooze"
-msgstr ""
-
-#: calendar/gui/dialogs/alarm-notify.glade.h:9
+#: calendar/gui/dialogs/alarm-notify.glade.h:8
 msgid "Edit appointment"
 msgstr "Muokkaa tapaamista"
+
+#: calendar/gui/dialogs/alarm-notify.glade.h:9 calendar/gui/gnome-cal.c:1466
+msgid "Snooze"
+msgstr ""
 
 #: calendar/gui/dialogs/alarm-notify.glade.h:10
 msgid "Snooze time (minutes)"
 msgstr ""
 
 #.
-#. * Translatable strings file generated by Glade.
-#. * Add this file to your project's POTFILES.in.
+#. * Translatable strings file generated by extract-ui.
+#. * Add this file to your project's POTFILES.in
 #. * DO NOT compile it as part of your application.
 #.
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:7
+msgid "12 hour (am/pm)"
+msgstr ""
+
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:8
+msgid "24 hour"
+msgstr ""
+
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:9
+msgid "Alarms timeout after"
+msgstr ""
+
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:10
+msgid "Audio Alarms"
+msgstr ""
+
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:11
+msgid "Beep when alarm windows appear."
+msgstr ""
+
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:12
+msgid "Calendar"
+msgstr "Kalenteri"
+
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:13
 msgid "Calendar Preferences"
 msgstr "Kalenterin asetukset"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:8
-msgid "Work week"
-msgstr "työviikko"
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:14 calendar/gui/prop.c:528
+msgid "Colors"
+msgstr ""
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:9
-#: calendar/gui/gnome-month-item.c:737
-msgid "Mon"
-msgstr "Ma"
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:15
+msgid "Compress weekends"
+msgstr ""
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:10
-#: calendar/gui/gnome-month-item.c:738
-msgid "Tue"
-msgstr "Ti"
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
+msgid "Date navigator options"
+msgstr ""
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:11
-#: calendar/gui/gnome-month-item.c:739
-msgid "Wed"
-msgstr "Ke"
+#. populate default frame/box
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:17 calendar/gui/prop.c:842
+msgid "Defaults"
+msgstr ""
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:12
-#: calendar/gui/gnome-month-item.c:740
-msgid "Thu"
-msgstr "To"
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:18
+msgid "Display options"
+msgstr ""
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:13
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:19 calendar/gui/prop.c:610
+msgid "Due Date"
+msgstr ""
+
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
+msgid "Enable snoozing for"
+msgstr ""
+
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:21
+msgid "End of day:"
+msgstr "Päivän loppu:"
+
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:22
+msgid "First day of week:"
+msgstr ""
+
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:23
 #: calendar/gui/gnome-month-item.c:741
 msgid "Fri"
 msgstr "Pe"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:14
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:24
+msgid "Highlight"
+msgstr ""
+
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:25
+msgid "Items Due Today"
+msgstr ""
+
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:26
+msgid "Items Due Today:"
+msgstr ""
+
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:27
+msgid "Items Not Yet Due"
+msgstr ""
+
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:28
+msgid "Items Not Yet Due:"
+msgstr ""
+
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:29
+#: calendar/gui/gnome-month-item.c:737
+msgid "Mon"
+msgstr "Ma"
+
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:30
+msgid "Overdue Items"
+msgstr ""
+
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:31
+msgid "Overdue Items:"
+msgstr ""
+
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:32
+msgid "Pick a color"
+msgstr ""
+
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:33 calendar/gui/prop.c:611
+#: filter/libfilter-i18n.h:18
+msgid "Priority"
+msgstr ""
+
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:34
+msgid "Remind me of all appointments"
+msgstr "Muistuta kaikista tapaamisista"
+
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:35
+msgid "Reminders"
+msgstr ""
+
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:36
 #: calendar/gui/gnome-month-item.c:742
 msgid "Sat"
 msgstr "La"
 
-#. Initialize by default to three-letter day names
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:15
-#: calendar/gui/gnome-month-item.c:736
-msgid "Sun"
-msgstr "Su"
-
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
-msgid "First day of week:"
-msgstr ""
-
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
-#: calendar/gui/event-editor-dialog.glade.h:45 calendar/gui/prop.c:354
-msgid "Monday"
-msgstr "Maanantai"
-
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:18
-#: calendar/gui/event-editor-dialog.glade.h:46
-msgid "Tuesday"
-msgstr "Tiistai"
-
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:19
-#: calendar/gui/event-editor-dialog.glade.h:47
-msgid "Wednesday"
-msgstr "Keskiviikko"
-
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
-#: calendar/gui/event-editor-dialog.glade.h:48
-msgid "Thursday"
-msgstr "Torstai"
-
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:21
-#: calendar/gui/event-editor-dialog.glade.h:49
-msgid "Friday"
-msgstr "Perjantai"
-
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:22
-#: calendar/gui/event-editor-dialog.glade.h:50
-msgid "Saturday"
-msgstr "Lauantai"
-
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:23
-#: calendar/gui/event-editor-dialog.glade.h:51 calendar/gui/prop.c:353
-msgid "Sunday"
-msgstr "Sunnuntai"
-
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:24
-msgid "Start of day:"
-msgstr "Päivän alku:"
-
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:25
-msgid "End of day:"
-msgstr "Päivän loppu:"
-
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:26
-msgid "Display options"
-msgstr ""
-
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:27
-msgid "Time divisions:"
-msgstr ""
-
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:28
-msgid "Time format:"
-msgstr ""
-
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:29
-msgid "Show appointment end times"
-msgstr "Näytä tapaamisten lopetusajat"
-
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:30
-msgid "Compress weekends"
-msgstr ""
-
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:31
-msgid "12 hour (am/pm)"
-msgstr ""
-
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:32
-msgid "24 hour"
-msgstr ""
-
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:33
-msgid "60 minutes"
-msgstr "60 minuuttia"
-
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:34
-msgid "30 minutes"
-msgstr "30 minuuttia"
-
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:35
-msgid "15 minutes"
-msgstr "15 minuuttia"
-
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:36
-msgid "10 minutes"
-msgstr "10 minuuttia"
-
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:37
-msgid "05 minutes"
-msgstr "05 minuuttia"
+msgid "Show"
+msgstr ""
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:38
-msgid "Date navigator options"
-msgstr ""
+msgid "Show appointment end times"
+msgstr "Näytä tapaamisten lopetusajat"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:39
 msgid "Show week numbers"
 msgstr "Näytä viikkonumerot"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:40
-msgid "Calendar"
-msgstr "Kalenteri"
+msgid "Start of day:"
+msgstr "Päivän alku:"
 
+#. Initialize by default to three-letter day names
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:41
-msgid "Show"
-msgstr ""
+#: calendar/gui/gnome-month-item.c:736
+msgid "Sun"
+msgstr "Su"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:42 calendar/gui/prop.c:610
-msgid "Due Date"
-msgstr ""
-
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:43 calendar/gui/prop.c:612
-msgid "Time Until Due"
-msgstr ""
-
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:44 calendar/gui/prop.c:611
-#: filter/libfilter-i18n.h:18
-msgid "Priority"
-msgstr ""
-
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:45
-msgid "Highlight"
-msgstr ""
-
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:46
-msgid "Overdue Items"
-msgstr ""
-
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:47
-msgid "Items Due Today"
-msgstr ""
-
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:48
-msgid "Items Not Yet Due"
-msgstr ""
-
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:49 calendar/gui/prop.c:528
-msgid "Colors"
-msgstr ""
-
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:50
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:51
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:52
-msgid "Pick a color"
-msgstr ""
-
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:53
-msgid "Items Not Yet Due:"
-msgstr ""
-
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:54
-msgid "Items Due Today:"
-msgstr ""
-
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:55
-msgid "Overdue Items:"
-msgstr ""
-
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:56
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:42
 msgid "TaskPad"
 msgstr ""
 
-#. populate default frame/box
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:57 calendar/gui/prop.c:842
-msgid "Defaults"
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:43
+#: calendar/gui/gnome-month-item.c:740
+msgid "Thu"
+msgstr "To"
+
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:44 calendar/gui/prop.c:612
+msgid "Time Until Due"
 msgstr ""
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:58
-msgid "Remind me of all appointments"
-msgstr "Muistuta kaikista tapaamisista"
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:45
+msgid "Time divisions:"
+msgstr ""
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:59
-msgid "minutes before they occur."
-msgstr "minuuttia niitä ennen."
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:46
+msgid "Time format:"
+msgstr ""
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:60
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:47
+#: calendar/gui/gnome-month-item.c:738
+msgid "Tue"
+msgstr "Ti"
+
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:48
 msgid "Visual Alarms"
 msgstr ""
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:61
-msgid "Beep when alarm windows appear."
-msgstr ""
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:49
+#: calendar/gui/gnome-month-item.c:739
+msgid "Wed"
+msgstr "Ke"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:62
-msgid "Audio Alarms"
-msgstr ""
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:50
+msgid "Work week"
+msgstr "työviikko"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:63
-msgid "Alarms timeout after"
-msgstr ""
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:51
+msgid "minutes before they occur."
+msgstr "minuuttia niitä ennen."
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:64
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:66
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:52
 msgid "seconds."
 msgstr "sekuntia."
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:65
-msgid "Enable snoozing for"
-msgstr ""
-
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:67
-msgid "Reminders"
-msgstr ""
-
-#: calendar/gui/dialogs/task-editor.c:657
+#: calendar/gui/dialogs/task-editor.c:655
 msgid "Edit Task"
 msgstr ""
 
-#: calendar/gui/dialogs/task-editor.c:663 calendar/gui/event-editor.c:303
+#: calendar/gui/dialogs/task-editor.c:661 calendar/gui/event-editor.c:316
 msgid "No summary"
 msgstr ""
 
-#: calendar/gui/dialogs/task-editor.c:669 calendar/gui/event-editor.c:309
+#: calendar/gui/dialogs/task-editor.c:667 calendar/gui/event-editor.c:322
 #, c-format
 msgid "Appointment - %s"
 msgstr "Tapaaminen - %s"
 
-#: calendar/gui/dialogs/task-editor.c:672 calendar/gui/event-editor.c:312
+#: calendar/gui/dialogs/task-editor.c:670 calendar/gui/event-editor.c:325
 #, c-format
 msgid "Task - %s"
 msgstr ""
 
-#: calendar/gui/dialogs/task-editor.c:675 calendar/gui/event-editor.c:315
+#: calendar/gui/dialogs/task-editor.c:673 calendar/gui/event-editor.c:328
 #, c-format
 msgid "Journal entry - %s"
 msgstr ""
 
 #.
-#. * Translatable strings file generated by Glade.
-#. * Add this file to your project's POTFILES.in.
+#. * Translatable strings file generated by extract-ui.
+#. * Add this file to your project's POTFILES.in
 #. * DO NOT compile it as part of your application.
 #.
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:7
-msgid "task-editor-dialog"
-msgstr ""
-
-#: calendar/gui/dialogs/task-editor-dialog.glade.h:8
-msgid "S_ummary"
-msgstr ""
-
-#: calendar/gui/dialogs/task-editor-dialog.glade.h:9
-msgid "Sta_rt Date:"
-msgstr ""
-
-#: calendar/gui/dialogs/task-editor-dialog.glade.h:10
-msgid "_Due Date:"
-msgstr ""
-
-#: calendar/gui/dialogs/task-editor-dialog.glade.h:11
 msgid "% Comp_lete:"
 msgstr ""
 
-#: calendar/gui/dialogs/task-editor-dialog.glade.h:12
-msgid "_Status:"
-msgstr ""
-
-#: calendar/gui/dialogs/task-editor-dialog.glade.h:13
-msgid "Not Started"
-msgstr ""
-
-#: calendar/gui/dialogs/task-editor-dialog.glade.h:14
-msgid "In Progress"
-msgstr ""
-
-#: calendar/gui/dialogs/task-editor-dialog.glade.h:15
-msgid "Completed"
-msgstr ""
-
-#: calendar/gui/dialogs/task-editor-dialog.glade.h:16
-msgid "Cancelled"
-msgstr ""
-
-#: calendar/gui/dialogs/task-editor-dialog.glade.h:17
-msgid "_Priority:"
-msgstr "_Prioriteetti:"
-
-#: calendar/gui/dialogs/task-editor-dialog.glade.h:18
-msgid "High"
-msgstr "Korkea"
-
-#: calendar/gui/dialogs/task-editor-dialog.glade.h:19
-msgid "Normal"
-msgstr "Tavallinen"
-
-#: calendar/gui/dialogs/task-editor-dialog.glade.h:20
-msgid "Low"
-msgstr "Matala"
-
-#: calendar/gui/dialogs/task-editor-dialog.glade.h:21
+#: calendar/gui/dialogs/task-editor-dialog.glade.h:8
 msgid "C_lassification:"
 msgstr "_Luokitus"
 
-#: calendar/gui/dialogs/task-editor-dialog.glade.h:22
-#: shell/e-shell-view.c:1017 widgets/misc/e-dateedit.c:337
-#: widgets/misc/e-dateedit.c:709 widgets/misc/e-dateedit.c:1171
-msgid "None"
-msgstr ""
-
-#: calendar/gui/dialogs/task-editor-dialog.glade.h:26
-msgid "_Contacts..."
-msgstr "_Kontaktit..."
-
-#: calendar/gui/dialogs/task-editor-dialog.glade.h:28
-msgid "Task"
-msgstr "Tehtävä"
-
-#: calendar/gui/dialogs/task-editor-dialog.glade.h:29
+#: calendar/gui/dialogs/task-editor-dialog.glade.h:10
 msgid "Date Completed:"
 msgstr ""
 
-#: calendar/gui/dialogs/task-editor-dialog.glade.h:30
+#: calendar/gui/dialogs/task-editor-dialog.glade.h:12
+msgid "S_ummary"
+msgstr ""
+
+#: calendar/gui/dialogs/task-editor-dialog.glade.h:13
+msgid "Sta_rt Date:"
+msgstr ""
+
+#: calendar/gui/dialogs/task-editor-dialog.glade.h:14
+msgid "Task"
+msgstr "Tehtävä"
+
+#: calendar/gui/dialogs/task-editor-dialog.glade.h:15
 msgid "URL:"
+msgstr ""
+
+#: calendar/gui/dialogs/task-editor-dialog.glade.h:16
+msgid "_Contacts..."
+msgstr "_Kontaktit..."
+
+#: calendar/gui/dialogs/task-editor-dialog.glade.h:17
+msgid "_Due Date:"
+msgstr ""
+
+#: calendar/gui/dialogs/task-editor-dialog.glade.h:18
+msgid "_Priority:"
+msgstr "_Prioriteetti:"
+
+#: calendar/gui/dialogs/task-editor-dialog.glade.h:19
+msgid "_Status:"
+msgstr ""
+
+#: calendar/gui/dialogs/task-editor-dialog.glade.h:20
+msgid "task-editor-dialog"
 msgstr ""
 
 #: calendar/gui/e-calendar-table.c:294
@@ -1811,13 +1617,11 @@ msgid "Mark the task complete"
 msgstr ""
 
 #: calendar/gui/e-calendar-table.c:300
-#: calendar/gui/event-editor-dialog.glade.h:73 filter/filter.glade.h:14
-#: filter/filter.glade.h:19 filter/libfilter-i18n.h:8
-#: mail/mail-config.glade.h:13 mail/mail-config.glade.h:18
-#: mail/mail-config.glade.h:24 mail/mail-view.c:163
-#: ui/evolution-addressbook.h:11 ui/evolution-contact-editor.h:12
-#: ui/evolution-contact-editor.h:19 ui/evolution-event-editor.h:13
-#: ui/evolution-mail.h:13
+#: calendar/gui/event-editor-dialog.glade.h:55 filter/filter.glade.h:8
+#: filter/libfilter-i18n.h:8 mail/folder-browser.c:476
+#: mail/mail-config-druid.glade.h:23 mail/mail-config.glade.h:9
+#: mail/mail-view.c:165 ui/evolution-addressbook.xml.h:9
+#: ui/evolution-event-editor.xml.h:20 ui/evolution-mail.xml.h:12
 msgid "Delete"
 msgstr "Poista"
 
@@ -1832,50 +1636,50 @@ msgstr ""
 
 #. strftime format %A = full weekday name, %d = day of month,
 #. %B = full month name. Don't use any other specifiers.
-#: calendar/gui/e-day-view-top-item.c:261 calendar/gui/e-day-view.c:1172
+#: calendar/gui/e-day-view-top-item.c:261 calendar/gui/e-day-view.c:1173
 #: calendar/gui/e-week-view-main-item.c:325
 msgid "%A %d %B"
 msgstr ""
 
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
-#: calendar/gui/e-day-view-top-item.c:265 calendar/gui/e-day-view.c:1186
+#: calendar/gui/e-day-view-top-item.c:265 calendar/gui/e-day-view.c:1187
 #: calendar/gui/e-week-view-main-item.c:334
 msgid "%a %d %b"
 msgstr ""
 
 #. strftime format %d = day of month, %b = abbreviated month name.
 #. Don't use any other specifiers.
-#: calendar/gui/e-day-view-top-item.c:269 calendar/gui/e-day-view.c:1199
+#: calendar/gui/e-day-view-top-item.c:269 calendar/gui/e-day-view.c:1200
 #: calendar/gui/e-week-view-main-item.c:348
 msgid "%d %b"
 msgstr ""
 
-#: calendar/gui/e-day-view.c:2634 calendar/gui/e-day-view.c:2641
-#: calendar/gui/e-day-view.c:2650 calendar/gui/e-week-view.c:2932
-#: calendar/gui/e-week-view.c:2939 calendar/gui/e-week-view.c:2948
+#: calendar/gui/e-day-view.c:2631 calendar/gui/e-day-view.c:2638
+#: calendar/gui/e-day-view.c:2647 calendar/gui/e-week-view.c:2930
+#: calendar/gui/e-week-view.c:2937 calendar/gui/e-week-view.c:2946
 msgid "New appointment..."
 msgstr "Uusi tapaaminen..."
 
-#: calendar/gui/e-day-view.c:2638 calendar/gui/e-day-view.c:2645
-#: calendar/gui/e-week-view.c:2936 calendar/gui/e-week-view.c:2943
+#: calendar/gui/e-day-view.c:2635 calendar/gui/e-day-view.c:2642
+#: calendar/gui/e-week-view.c:2934 calendar/gui/e-week-view.c:2941
 msgid "Edit this appointment..."
 msgstr "Muokkaa tätä tapaamista..."
 
-#: calendar/gui/e-day-view.c:2639 calendar/gui/e-week-view.c:2937
-#: ui/evolution-event-editor.h:14
+#: calendar/gui/e-day-view.c:2636 calendar/gui/e-week-view.c:2935
+#: ui/evolution-event-editor.xml.h:21
 msgid "Delete this appointment"
 msgstr "Poista tämä tapaaminen"
 
-#: calendar/gui/e-day-view.c:2646 calendar/gui/e-week-view.c:2944
+#: calendar/gui/e-day-view.c:2643 calendar/gui/e-week-view.c:2942
 msgid "Make this appointment movable"
 msgstr "Tee tästä tapaamisesta siirrettävä"
 
-#: calendar/gui/e-day-view.c:2647 calendar/gui/e-week-view.c:2945
+#: calendar/gui/e-day-view.c:2644 calendar/gui/e-week-view.c:2943
 msgid "Delete this occurrence"
 msgstr ""
 
-#: calendar/gui/e-day-view.c:2648 calendar/gui/e-week-view.c:2946
+#: calendar/gui/e-day-view.c:2645 calendar/gui/e-week-view.c:2944
 msgid "Delete all occurrences"
 msgstr ""
 
@@ -1886,19 +1690,64 @@ msgstr ""
 msgid "%d %B"
 msgstr ""
 
-#: calendar/gui/event-editor.c:297
+#: calendar/gui/event-editor.c:310
 msgid "Edit Appointment"
 msgstr "Muokkaa tapaamista"
 
-#: calendar/gui/event-editor.c:342
+#: calendar/gui/event-editor.c:365
 msgid "on"
 msgstr ""
 
-#: calendar/gui/event-editor.c:470
-msgid "ocurrences"
+#: calendar/gui/event-editor.c:389 calendar/gui/getdate.y:424
+#: filter/filter-datespec.c:65
+msgid "day"
+msgstr "päivä"
+
+#: calendar/gui/event-editor.c:390 calendar/gui/prop.c:354
+msgid "Monday"
+msgstr "Maanantai"
+
+#: calendar/gui/event-editor.c:391
+msgid "Tuesday"
+msgstr "Tiistai"
+
+#: calendar/gui/event-editor.c:392
+msgid "Wednesday"
+msgstr "Keskiviikko"
+
+#: calendar/gui/event-editor.c:393
+msgid "Thursday"
+msgstr "Torstai"
+
+#: calendar/gui/event-editor.c:394
+msgid "Friday"
+msgstr "Perjantai"
+
+#: calendar/gui/event-editor.c:395
+msgid "Saturday"
+msgstr "Lauantai"
+
+#: calendar/gui/event-editor.c:396 calendar/gui/prop.c:353
+msgid "Sunday"
+msgstr "Sunnuntai"
+
+#: calendar/gui/event-editor.c:514
+msgid "on the"
 msgstr ""
 
-#: calendar/gui/event-editor.c:2397 calendar/gui/print.c:1085
+#: calendar/gui/event-editor.c:521
+msgid "th"
+msgstr ""
+
+#: calendar/gui/event-editor.c:675
+msgid "occurrences"
+msgstr ""
+
+#: calendar/gui/event-editor.c:792
+msgid "This appointment contains recurrences that Evolution cannot edit."
+msgstr ""
+
+#: calendar/gui/event-editor.c:2820 calendar/gui/print.c:1085
 #: calendar/gui/print.c:1087 calendar/gui/print.c:1088
 msgid "%a %b %d %Y"
 msgstr ""
@@ -1925,7 +1774,7 @@ msgid "event-editor-dialog"
 msgstr ""
 
 #: calendar/gui/event-editor-dialog.glade.h:8
-#: calendar/gui/event-editor-dialog.glade.h:56
+#: calendar/gui/event-editor-dialog.glade.h:38
 msgid "Su_mmary:"
 msgstr "_Yhteenveto:"
 
@@ -2011,116 +1860,79 @@ msgid "Reminder"
 msgstr ""
 
 #: calendar/gui/event-editor-dialog.glade.h:37
-#: calendar/gui/event-editor-dialog.glade.h:38
-msgid "Recur on the"
-msgstr ""
-
-#: calendar/gui/event-editor-dialog.glade.h:39
-msgid "th day of the month"
-msgstr ""
-
-#: calendar/gui/event-editor-dialog.glade.h:40 calendar/gui/print.c:288
-msgid "1st"
-msgstr ""
-
-#: calendar/gui/event-editor-dialog.glade.h:41 calendar/gui/print.c:288
-msgid "2nd"
-msgstr ""
-
-#: calendar/gui/event-editor-dialog.glade.h:42 calendar/gui/print.c:288
-msgid "3rd"
-msgstr ""
-
-#: calendar/gui/event-editor-dialog.glade.h:43 calendar/gui/print.c:288
-msgid "4th"
-msgstr ""
-
-#: calendar/gui/event-editor-dialog.glade.h:44 calendar/gui/print.c:288
-msgid "5th"
-msgstr ""
-
-#: calendar/gui/event-editor-dialog.glade.h:52
-#: calendar/gui/event-editor-dialog.glade.h:62
-msgid "Every"
-msgstr "Joka"
-
-#: calendar/gui/event-editor-dialog.glade.h:53
-#: calendar/gui/event-editor-dialog.glade.h:65
-msgid "month(s)"
-msgstr ""
-
-#: calendar/gui/event-editor-dialog.glade.h:54
-#: calendar/gui/event-editor-dialog.glade.h:78
-msgid "Recurrence"
-msgstr ""
-
-#: calendar/gui/event-editor-dialog.glade.h:55
 msgid "Appointment Basics"
 msgstr ""
 
-#: calendar/gui/event-editor-dialog.glade.h:57
+#: calendar/gui/event-editor-dialog.glade.h:39
 msgid "_Starting date:"
 msgstr "_Alkamispäivä:"
 
-#: calendar/gui/event-editor-dialog.glade.h:58
+#: calendar/gui/event-editor-dialog.glade.h:40
 msgid "Recurrence Rule"
 msgstr ""
 
-#: calendar/gui/event-editor-dialog.glade.h:59
+#: calendar/gui/event-editor-dialog.glade.h:41
 msgid "No recurrence"
 msgstr ""
 
-#: calendar/gui/event-editor-dialog.glade.h:60
+#: calendar/gui/event-editor-dialog.glade.h:42
 msgid "Simple recurrence"
 msgstr ""
 
-#: calendar/gui/event-editor-dialog.glade.h:61
+#: calendar/gui/event-editor-dialog.glade.h:43
 msgid "Custom recurrence"
 msgstr ""
 
-#: calendar/gui/event-editor-dialog.glade.h:63
+#: calendar/gui/event-editor-dialog.glade.h:44
+msgid "Every"
+msgstr "Joka"
+
+#: calendar/gui/event-editor-dialog.glade.h:45
 msgid "day(s)"
 msgstr ""
 
-#: calendar/gui/event-editor-dialog.glade.h:64
+#: calendar/gui/event-editor-dialog.glade.h:46
 msgid "week(s)"
 msgstr ""
 
-#: calendar/gui/event-editor-dialog.glade.h:66
+#: calendar/gui/event-editor-dialog.glade.h:47
+msgid "month(s)"
+msgstr ""
+
+#: calendar/gui/event-editor-dialog.glade.h:48
 msgid "year(s)"
 msgstr ""
 
-#: calendar/gui/event-editor-dialog.glade.h:67
+#: calendar/gui/event-editor-dialog.glade.h:49
 msgid "for"
 msgstr ""
 
-#: calendar/gui/event-editor-dialog.glade.h:68
+#: calendar/gui/event-editor-dialog.glade.h:50
 msgid "until"
 msgstr ""
 
-#: calendar/gui/event-editor-dialog.glade.h:69
+#: calendar/gui/event-editor-dialog.glade.h:51
 msgid "forever"
 msgstr ""
 
-#: calendar/gui/event-editor-dialog.glade.h:70
+#: calendar/gui/event-editor-dialog.glade.h:52
 msgid "Exceptions"
 msgstr "Poikkeukset"
 
-#: calendar/gui/event-editor-dialog.glade.h:72
+#: calendar/gui/event-editor-dialog.glade.h:54
 msgid "Modify"
 msgstr "Muuta"
 
-#: calendar/gui/event-editor-dialog.glade.h:74
+#: calendar/gui/event-editor-dialog.glade.h:56
 msgid "label21"
 msgstr ""
 
-#: calendar/gui/event-editor-dialog.glade.h:75
-msgid ""
-"This appointment has custom recurrence rules that cannot be edited by "
-"Evolution.\n"
-"\n"
-"However, the appointment will recur at the appropriate time and will be "
-"displayed properly in the calendar views."
+#: calendar/gui/event-editor-dialog.glade.h:57
+msgid "Preview"
+msgstr ""
+
+#: calendar/gui/event-editor-dialog.glade.h:58
+msgid "Recurrence"
 msgstr ""
 
 #: calendar/gui/getdate.y:391
@@ -2234,10 +2046,6 @@ msgstr ""
 #: calendar/gui/getdate.y:423 filter/filter-datespec.c:64
 msgid "week"
 msgstr "viikko"
-
-#: calendar/gui/getdate.y:424 filter/filter-datespec.c:65
-msgid "day"
-msgstr "päivä"
 
 #: calendar/gui/getdate.y:425 filter/filter-datespec.c:66
 msgid "hour"
@@ -2361,29 +2169,29 @@ msgstr ""
 msgid "Item Comments:"
 msgstr ""
 
-#: calendar/gui/gnome-cal.c:710 calendar/gui/gnome-cal.c:1466
-#: calendar/gui/gnome-cal.c:1522
+#: calendar/gui/gnome-cal.c:718 calendar/gui/gnome-cal.c:1474
+#: calendar/gui/gnome-cal.c:1530
 msgid "Reminder of your appointment at "
 msgstr ""
 
-#: calendar/gui/gnome-cal.c:1144
+#: calendar/gui/gnome-cal.c:1152
 #, c-format
 msgid "Could not load the calendar in `%s'"
 msgstr ""
 
-#: calendar/gui/gnome-cal.c:1155
+#: calendar/gui/gnome-cal.c:1163
 #, c-format
 msgid "Could not create a calendar in `%s'"
 msgstr ""
 
-#: calendar/gui/gnome-cal.c:1166
+#: calendar/gui/gnome-cal.c:1174
 #, c-format
 msgid "The method required to load `%s' is not supported"
 msgstr ""
 
 #. Idea: we need Snooze option :-)
-#: calendar/gui/gnome-cal.c:1471 calendar/gui/gnome-cal.c:1526
-#: mail/mail-search-dialogue.c:101
+#: calendar/gui/gnome-cal.c:1479 calendar/gui/gnome-cal.c:1534
+#: mail/mail-search-dialogue.c:104
 msgid "Ok"
 msgstr "Ok"
 
@@ -2405,6 +2213,26 @@ msgstr ""
 
 #: calendar/gui/goto.c:318
 msgid "Go to today"
+msgstr ""
+
+#: calendar/gui/print.c:288
+msgid "1st"
+msgstr ""
+
+#: calendar/gui/print.c:288
+msgid "2nd"
+msgstr ""
+
+#: calendar/gui/print.c:288
+msgid "3rd"
+msgstr ""
+
+#: calendar/gui/print.c:288
+msgid "4th"
+msgstr ""
+
+#: calendar/gui/print.c:288
+msgid "5th"
 msgstr ""
 
 #: calendar/gui/print.c:289
@@ -2575,7 +2403,7 @@ msgstr ""
 msgid "Print Calendar"
 msgstr ""
 
-#: calendar/gui/print.c:1309 mail/mail-callbacks.c:833
+#: calendar/gui/print.c:1309 mail/mail-callbacks.c:864
 msgid "Print Preview"
 msgstr ""
 
@@ -2685,11 +2513,11 @@ msgstr ""
 
 #. Translators: These are the first characters of each day of the
 #. week, 'M' for 'Monday', 'T' for Tuesday etc.
-#: calendar/gui/weekday-picker.c:326 widgets/misc/e-calendar-item.c:416
+#: calendar/gui/weekday-picker.c:345 widgets/misc/e-calendar-item.c:416
 msgid "MTWTFSS"
 msgstr ""
 
-#: calendar/gui/weekday-picker.c:328 calendar/gui/weekday-picker.c:418
+#: calendar/gui/weekday-picker.c:347 calendar/gui/weekday-picker.c:437
 msgid "SMTWTFS"
 msgstr ""
 
@@ -2736,8 +2564,7 @@ msgstr "Virhe kirjoitettaessa väliaikaista viestitiedostoa: %s"
 #: camel/camel-movemail.c:269
 #, c-format
 msgid "Failed to store mail in temp file %s: %s"
-msgstr "Viestin tallentaminen väliaikaistiedostoon %s epäonnistui: "
-"%s"
+msgstr "Viestin tallentaminen väliaikaistiedostoon %s epäonnistui: %s"
 
 #: camel/camel-movemail.c:301
 #, c-format
@@ -2768,22 +2595,22 @@ msgstr ""
 msgid "Could not load %s: No initialization code in module."
 msgstr ""
 
-#: camel/camel-remote-store.c:185
+#: camel/camel-remote-store.c:182
 #, c-format
 msgid "%s server %s"
 msgstr ""
 
-#: camel/camel-remote-store.c:189
+#: camel/camel-remote-store.c:186
 #, c-format
 msgid "%s service for %s on %s"
 msgstr ""
 
-#: camel/camel-remote-store.c:230
+#: camel/camel-remote-store.c:227
 #, c-format
 msgid "Could not connect to %s (port %d): %s"
 msgstr ""
 
-#: camel/camel-remote-store.c:231
+#: camel/camel-remote-store.c:228
 msgid "(unknown host)"
 msgstr ""
 
@@ -2802,12 +2629,12 @@ msgstr ""
 msgid "URL '%s' needs a path component"
 msgstr ""
 
-#: camel/camel-service.c:497
+#: camel/camel-service.c:486
 #, c-format
 msgid "No such host %s."
 msgstr ""
 
-#: camel/camel-service.c:500
+#: camel/camel-service.c:489
 #, c-format
 msgid "Temporarily unable to look up hostname %s."
 msgstr ""
@@ -2826,17 +2653,17 @@ msgstr ""
 "Hakemistoa %s ei voitu luoda:\n"
 "%s"
 
-#: camel/camel-url.c:77
+#: camel/camel-url.c:78
 #, c-format
 msgid "URL string `%s' contains no protocol"
 msgstr ""
 
-#: camel/camel-url.c:92
+#: camel/camel-url.c:93
 #, c-format
 msgid "URL string `%s' contains an invalid protocol"
 msgstr ""
 
-#: camel/camel-url.c:153
+#: camel/camel-url.c:154
 #, c-format
 msgid "Port number in URL `%s' is non-numeric"
 msgstr ""
@@ -2882,31 +2709,31 @@ msgstr "IMAPv4"
 msgid "For reading and storing mail on IMAP servers."
 msgstr ""
 
-#: camel/providers/imap/camel-imap-store.c:240
+#: camel/providers/imap/camel-imap-store.c:234
 #: camel/providers/nntp/camel-nntp-store.c:293
-#: camel/providers/pop3/camel-pop3-store.c:152
+#: camel/providers/pop3/camel-pop3-store.c:148
 msgid "Password"
 msgstr "Salasana"
 
-#: camel/providers/imap/camel-imap-store.c:242
+#: camel/providers/imap/camel-imap-store.c:236
 msgid "This option will connect to the IMAP server using a plaintext password."
 msgstr "Ota yhteys IMAP-palvelimeen tekstimuotoista salasanaa käyttäen."
 
-#: camel/providers/imap/camel-imap-store.c:251
+#: camel/providers/imap/camel-imap-store.c:245
 msgid "Kerberos 4"
 msgstr "Kerberos 4"
 
-#: camel/providers/imap/camel-imap-store.c:253
+#: camel/providers/imap/camel-imap-store.c:247
 msgid ""
 "This option will connect to the IMAP server using Kerberos 4 authentication."
 msgstr "Ota yhteys IMAP-palvelimeen Kerberos 4 -todentamista käyttäen."
 
-#: camel/providers/imap/camel-imap-store.c:339
+#: camel/providers/imap/camel-imap-store.c:333
 #, c-format
 msgid "%sPlease enter the IMAP password for %s@%s"
 msgstr ""
 
-#: camel/providers/imap/camel-imap-store.c:365
+#: camel/providers/imap/camel-imap-store.c:359
 #, c-format
 msgid ""
 "Unable to authenticate to IMAP server.\n"
@@ -2914,7 +2741,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: camel/providers/imap/camel-imap-store.c:545
+#: camel/providers/imap/camel-imap-store.c:539
 #, c-format
 msgid "Could not create directory %s: %s"
 msgstr "Hakemistoa %s ei voitu luoda: %s"
@@ -2924,13 +2751,13 @@ msgstr "Hakemistoa %s ei voitu luoda: %s"
 msgid "Could not create summary"
 msgstr ""
 
-#: camel/providers/mbox/camel-mbox-folder.c:389
-#: camel/providers/mbox/camel-mbox-folder.c:392
+#: camel/providers/mbox/camel-mbox-folder.c:378
+#: camel/providers/mbox/camel-mbox-folder.c:381
 #, c-format
 msgid "Cannot append message to mbox file: %s"
 msgstr ""
 
-#: camel/providers/mbox/camel-mbox-folder.c:496
+#: camel/providers/mbox/camel-mbox-folder.c:485
 #, c-format
 msgid "Cannot get message: %s"
 msgstr ""
@@ -2945,55 +2772,55 @@ msgid ""
 "local disk."
 msgstr ""
 
-#: camel/providers/mbox/camel-mbox-store.c:121
+#: camel/providers/mbox/camel-mbox-store.c:118
 #, c-format
 msgid ""
 "Could not open file `%s':\n"
 "%s"
 msgstr ""
 
-#: camel/providers/mbox/camel-mbox-store.c:128
-#: camel/providers/mh/camel-mh-store.c:122
+#: camel/providers/mbox/camel-mbox-store.c:125
+#: camel/providers/mh/camel-mh-store.c:119
 #, c-format
 msgid "Folder `%s' does not exist."
 msgstr "Kansiota `%s' ei ole olemassa."
 
-#: camel/providers/mbox/camel-mbox-store.c:137
+#: camel/providers/mbox/camel-mbox-store.c:134
 #, c-format
 msgid ""
 "Could not create file `%s':\n"
 "%s"
 msgstr ""
 
-#: camel/providers/mbox/camel-mbox-store.c:146
-#: camel/providers/mbox/camel-mbox-store.c:180
+#: camel/providers/mbox/camel-mbox-store.c:143
+#: camel/providers/mbox/camel-mbox-store.c:177
 #, c-format
 msgid "`%s' is not a regular file."
 msgstr "`%s' ei ole tavallinen tiedosto."
 
-#: camel/providers/mbox/camel-mbox-store.c:172
-#: camel/providers/mbox/camel-mbox-store.c:208
+#: camel/providers/mbox/camel-mbox-store.c:169
+#: camel/providers/mbox/camel-mbox-store.c:205
 #, c-format
 msgid ""
 "Could not delete folder `%s':\n"
 "%s"
 msgstr ""
 
-#: camel/providers/mbox/camel-mbox-store.c:187
+#: camel/providers/mbox/camel-mbox-store.c:184
 #, c-format
 msgid "Folder `%s' is not empty. Not deleted."
 msgstr ""
 
-#: camel/providers/mbox/camel-mbox-store.c:225
+#: camel/providers/mbox/camel-mbox-store.c:222
 #, c-format
 msgid "Could not rename folder %s to %s: destination exists"
 msgstr ""
 
-#: camel/providers/mbox/camel-mbox-store.c:263
+#: camel/providers/mbox/camel-mbox-store.c:260
 msgid "Mbox folders may not be nested."
 msgstr ""
 
-#: camel/providers/mbox/camel-mbox-store.c:277
+#: camel/providers/mbox/camel-mbox-store.c:274
 #, c-format
 msgid "Local mail file %s"
 msgstr "Paikallinen viestitiedosto %s"
@@ -3073,47 +2900,47 @@ msgstr ""
 msgid "For storing local mail in MH-like mail directories"
 msgstr ""
 
-#: camel/providers/mh/camel-mh-store.c:115
+#: camel/providers/mh/camel-mh-store.c:112
 #, c-format
 msgid ""
 "Could not open folder `%s':\n"
 "%s"
 msgstr ""
 
-#: camel/providers/mh/camel-mh-store.c:130
+#: camel/providers/mh/camel-mh-store.c:127
 #, c-format
 msgid ""
 "Could not create folder `%s':\n"
 "%s"
 msgstr ""
 
-#: camel/providers/mh/camel-mh-store.c:139
+#: camel/providers/mh/camel-mh-store.c:136
 #, c-format
 msgid "`%s' is not a directory."
 msgstr ""
 
-#: camel/providers/mh/camel-mh-store.c:158
-#: camel/providers/mh/camel-mh-store.c:171
+#: camel/providers/mh/camel-mh-store.c:155
+#: camel/providers/mh/camel-mh-store.c:168
 #, c-format
 msgid "Could not delete folder `%s': %s"
 msgstr ""
 
-#: camel/providers/mh/camel-mh-store.c:189
-#: camel/providers/mh/camel-mh-store.c:193
+#: camel/providers/mh/camel-mh-store.c:186
+#: camel/providers/mh/camel-mh-store.c:190
 #, c-format
 msgid "Could not rename folder `%s': %s"
 msgstr ""
 
-#: camel/providers/mh/camel-mh-store.c:197
+#: camel/providers/mh/camel-mh-store.c:194
 #, c-format
 msgid "Could not rename folder `%s': %s exists"
 msgstr ""
 
-#: camel/providers/mh/camel-mh-store.c:205
+#: camel/providers/mh/camel-mh-store.c:202
 msgid "MH folders may not be nested."
 msgstr ""
 
-#: camel/providers/mh/camel-mh-store.c:217
+#: camel/providers/mh/camel-mh-store.c:214
 #, c-format
 msgid "Local mail directory %s"
 msgstr ""
@@ -3209,65 +3036,65 @@ msgid ""
 "mail from certain web mail providers and proprietary email systems."
 msgstr ""
 
-#: camel/providers/pop3/camel-pop3-store.c:154
+#: camel/providers/pop3/camel-pop3-store.c:150
 msgid ""
 "This option will connect to the POP server using a plaintext password. This "
 "is the only option supported by many POP servers."
 msgstr ""
 
-#: camel/providers/pop3/camel-pop3-store.c:164
+#: camel/providers/pop3/camel-pop3-store.c:160
 msgid ""
 "This option will connect to the POP server using an encrypted password via "
 "the APOP protocol. This may not work for all users even on servers that "
 "claim to support it."
 msgstr ""
 
-#: camel/providers/pop3/camel-pop3-store.c:176
+#: camel/providers/pop3/camel-pop3-store.c:172
 msgid ""
 "This will connect to the POP server and use Kerberos 4 to authenticate to it."
 msgstr ""
 
-#: camel/providers/pop3/camel-pop3-store.c:221
+#: camel/providers/pop3/camel-pop3-store.c:217
 #, c-format
 msgid "Could not authenticate to KPOP server: %s"
 msgstr ""
 
-#: camel/providers/pop3/camel-pop3-store.c:339
+#: camel/providers/pop3/camel-pop3-store.c:335
 #, c-format
 msgid "Could not connect to POP server on %s."
 msgstr ""
 
-#: camel/providers/pop3/camel-pop3-store.c:393
+#: camel/providers/pop3/camel-pop3-store.c:389
 #, c-format
 msgid "%sPlease enter the POP3 password for %s@%s"
 msgstr ""
 
-#: camel/providers/pop3/camel-pop3-store.c:412
+#: camel/providers/pop3/camel-pop3-store.c:408
 #, c-format
 msgid ""
 "Unable to connect to POP server.\n"
 "Error sending username: %s"
 msgstr ""
 
-#: camel/providers/pop3/camel-pop3-store.c:415
-#: camel/providers/pop3/camel-pop3-store.c:452
+#: camel/providers/pop3/camel-pop3-store.c:411
+#: camel/providers/pop3/camel-pop3-store.c:448
 msgid "(Unknown)"
 msgstr "(tuntematon)"
 
-#: camel/providers/pop3/camel-pop3-store.c:442
+#: camel/providers/pop3/camel-pop3-store.c:438
 msgid ""
 "Unable to connect to POP server.\n"
 "No support for requested authentication mechanism."
 msgstr ""
 
-#: camel/providers/pop3/camel-pop3-store.c:450
+#: camel/providers/pop3/camel-pop3-store.c:446
 #, c-format
 msgid ""
 "Unable to connect to POP server.\n"
 "Error sending password: %s"
 msgstr ""
 
-#: camel/providers/pop3/camel-pop3-store.c:557
+#: camel/providers/pop3/camel-pop3-store.c:553
 #, c-format
 msgid "No such folder `%s'."
 msgstr ""
@@ -3332,160 +3159,160 @@ msgstr ""
 msgid "For reading mail as a query of another set of folders"
 msgstr ""
 
-#: composer/e-msg-composer-attachment-bar.c:86
+#: composer/e-msg-composer-attachment-bar.c:87
 msgid "1 byte"
 msgstr ""
 
-#: composer/e-msg-composer-attachment-bar.c:88
+#: composer/e-msg-composer-attachment-bar.c:89
 #, c-format
 msgid "%u bytes"
 msgstr ""
 
-#: composer/e-msg-composer-attachment-bar.c:95
+#: composer/e-msg-composer-attachment-bar.c:96
 #, c-format
 msgid "%.1fK"
 msgstr ""
 
-#: composer/e-msg-composer-attachment-bar.c:99
+#: composer/e-msg-composer-attachment-bar.c:100
 #, c-format
 msgid "%.1fM"
 msgstr ""
 
-#: composer/e-msg-composer-attachment-bar.c:103
+#: composer/e-msg-composer-attachment-bar.c:104
 #, c-format
 msgid "%.1fG"
 msgstr ""
 
 #. This is a filename. Translators take note.
-#: composer/e-msg-composer-attachment-bar.c:300 mail/mail-display.c:116
+#: composer/e-msg-composer-attachment-bar.c:301 mail/mail-display.c:117
 msgid "attachment"
 msgstr "liite"
 
-#: composer/e-msg-composer-attachment-bar.c:396
+#: composer/e-msg-composer-attachment-bar.c:397
+#: ui/evolution-message-composer.xml.h:8
 msgid "Attach a file"
 msgstr "Liitä tiedosto"
 
-#: composer/e-msg-composer-attachment-bar.c:443 filter/filter.glade.h:22
-#: filter/filter.glade.h:25 shell/e-shortcuts-view.c:239
-#: shell/e-shortcuts-view.c:356
+#: composer/e-msg-composer-attachment-bar.c:444 filter/filter.glade.h:13
+#: shell/e-shortcuts-view.c:239 shell/e-shortcuts-view.c:356
 msgid "Remove"
 msgstr "Poista"
 
-#: composer/e-msg-composer-attachment-bar.c:444
+#: composer/e-msg-composer-attachment-bar.c:445
 msgid "Remove selected items from the attachment list"
 msgstr ""
 
-#: composer/e-msg-composer-attachment-bar.c:475
+#: composer/e-msg-composer-attachment-bar.c:476
 msgid "Add attachment..."
 msgstr "Lisää liite..."
 
-#: composer/e-msg-composer-attachment-bar.c:476
+#: composer/e-msg-composer-attachment-bar.c:477
 msgid "Attach a file to the message"
 msgstr "Lisää viestiin liitetiedoston"
 
 #.
-#. * Translatable strings file generated by Glade.
-#. * Add this file to your project's POTFILES.in.
+#. * Translatable strings file generated by extract-ui.
+#. * Add this file to your project's POTFILES.in
 #. * DO NOT compile it as part of your application.
 #.
 #: composer/e-msg-composer-attachment.glade.h:7
 msgid "Attachment properties"
 msgstr ""
 
-#: composer/e-msg-composer-attachment.glade.h:8
-msgid "MIME type:"
-msgstr ""
-
-#: composer/e-msg-composer-attachment.glade.h:10
+#: composer/e-msg-composer-attachment.glade.h:9
 msgid "File name:"
 msgstr "Tiedostonimi:"
 
-#: composer/e-msg-composer-hdrs.c:137 composer/e-msg-composer-hdrs.c:295
-#: mail/mail-format.c:588
+#: composer/e-msg-composer-attachment.glade.h:10
+msgid "MIME type:"
+msgstr ""
+
+#: composer/e-msg-composer-hdrs.c:137 composer/e-msg-composer-hdrs.c:290
+#: mail/mail-format.c:599
 msgid "From:"
 msgstr "Lähettäjä:"
 
-#: composer/e-msg-composer-hdrs.c:243
+#: composer/e-msg-composer-hdrs.c:238
 msgid "Click here for the address book"
 msgstr ""
 
-#: composer/e-msg-composer-hdrs.c:296
+#: composer/e-msg-composer-hdrs.c:291
 msgid "Enter the identity you wish to send this message from"
 msgstr ""
 
-#: composer/e-msg-composer-hdrs.c:300 mail/mail-format.c:601
+#: composer/e-msg-composer-hdrs.c:295 mail/mail-format.c:603
 msgid "To:"
 msgstr "Vastaanottaja:"
 
-#: composer/e-msg-composer-hdrs.c:301
+#: composer/e-msg-composer-hdrs.c:296
 msgid "Enter the recipients of the message"
 msgstr ""
 
-#: composer/e-msg-composer-hdrs.c:305 mail/mail-format.c:608
+#: composer/e-msg-composer-hdrs.c:300 mail/mail-format.c:605
 msgid "Cc:"
 msgstr ""
 
-#: composer/e-msg-composer-hdrs.c:306
+#: composer/e-msg-composer-hdrs.c:301
 msgid "Enter the addresses that will receive a carbon copy of the message"
 msgstr ""
 
-#: composer/e-msg-composer-hdrs.c:311
+#: composer/e-msg-composer-hdrs.c:306
 msgid "Bcc:"
 msgstr ""
 
-#: composer/e-msg-composer-hdrs.c:312
+#: composer/e-msg-composer-hdrs.c:307
 msgid ""
 "Enter the addresses that will receive a carbon copy of the message without "
 "appearing in the recipient list of the message."
 msgstr ""
 
-#: composer/e-msg-composer-hdrs.c:318 mail/mail-format.c:613
+#: composer/e-msg-composer-hdrs.c:313 mail/mail-format.c:607
 msgid "Subject:"
 msgstr "Aihe:"
 
-#: composer/e-msg-composer-hdrs.c:319
+#: composer/e-msg-composer-hdrs.c:314
 msgid "Enter the subject of the mail"
 msgstr "Anna sähköpostin aihe"
 
-#: composer/e-msg-composer.c:302
+#: composer/e-msg-composer.c:426
 #, c-format
 msgid ""
 "Could not open signature file %s:\n"
 "%s"
 msgstr ""
 
-#: composer/e-msg-composer.c:458
+#: composer/e-msg-composer.c:593
 msgid "Save as..."
 msgstr "Tallenna nimellä..."
 
-#: composer/e-msg-composer.c:469
+#: composer/e-msg-composer.c:604
 #, c-format
 msgid "Error saving file: %s"
 msgstr "Virhe tallennettaessa tiedostoa: %s"
 
-#: composer/e-msg-composer.c:489
+#: composer/e-msg-composer.c:624
 #, c-format
 msgid "Error loading file: %s"
 msgstr "VIrhe avattaessa tiedostoa: %s"
 
-#: composer/e-msg-composer.c:511
+#: composer/e-msg-composer.c:646
 msgid "Saving changes to message..."
 msgstr "Tallennetaan muutokset..."
 
-#: composer/e-msg-composer.c:513
+#: composer/e-msg-composer.c:648
 msgid "Save changes to message..."
 msgstr ""
 
-#: composer/e-msg-composer.c:554
+#: composer/e-msg-composer.c:689
 #, c-format
 msgid "Error saving composition to 'Drafts': %s"
 msgstr ""
 
-#: composer/e-msg-composer.c:598 shell/e-shell-view-menu.c:167
+#: composer/e-msg-composer.c:733 shell/e-shell-view-menu.c:167
 msgid "Evolution"
 msgstr "Evolution"
 
-#: composer/e-msg-composer.c:604
+#: composer/e-msg-composer.c:739
 msgid ""
 "This message has not been sent.\n"
 "\n"
@@ -3495,27 +3322,27 @@ msgstr ""
 "\n"
 "Haluatko tallentaa muutokset?"
 
-#: composer/e-msg-composer.c:626
+#: composer/e-msg-composer.c:761
 msgid "Open file"
 msgstr "Avaa tiedosto"
 
-#: composer/e-msg-composer.c:752
+#: composer/e-msg-composer.c:887
 msgid "That file does not exist."
 msgstr "Tiedostoa ei ole olemassa."
 
-#: composer/e-msg-composer.c:762
+#: composer/e-msg-composer.c:897
 msgid "That is not a regular file."
 msgstr "Se ei ole tavallinen tiedosto."
 
-#: composer/e-msg-composer.c:772
+#: composer/e-msg-composer.c:907
 msgid "That file exists but is not readable."
 msgstr "Tiedosto on olemassa, muttei lukukelpoinen."
 
-#: composer/e-msg-composer.c:782
+#: composer/e-msg-composer.c:917
 msgid "That file appeared accesible but open(2) failed."
 msgstr "Tiedosto vaikutti avattavalta, mutta avaaminen epäonnistui."
 
-#: composer/e-msg-composer.c:804
+#: composer/e-msg-composer.c:939
 msgid ""
 "The file is very large (more than 100K).\n"
 "Are you sure you wish to insert it?"
@@ -3523,15 +3350,15 @@ msgstr ""
 "Tiedosto on hyvin suuri (yli 100K).\n"
 "Haluatko varmasti liittää sen?"
 
-#: composer/e-msg-composer.c:825
+#: composer/e-msg-composer.c:960
 msgid "An error occurred while reading the file."
 msgstr "Virhe luettaessa tiedostoa."
 
-#: composer/e-msg-composer.c:1197
+#: composer/e-msg-composer.c:1337
 msgid "Compose a message"
 msgstr "Kirjoita viesti"
 
-#: composer/e-msg-composer.c:1271
+#: composer/e-msg-composer.c:1411
 msgid "Could not create composer window."
 msgstr ""
 
@@ -3617,8 +3444,8 @@ msgstr ""
 msgid "<click here to select a date>"
 msgstr ""
 
-#: filter/filter-editor.c:160 mail/mail-autofilter.c:294
-#: mail/mail-autofilter.c:343
+#: filter/filter-editor.c:160 mail/mail-autofilter.c:284
+#: mail/mail-autofilter.c:333
 msgid "Add Filter Rule"
 msgstr ""
 
@@ -3626,12 +3453,7 @@ msgstr ""
 msgid "Edit Filter Rule"
 msgstr ""
 
-#.
-#. * Translatable strings file generated by Glade.
-#. * Add this file to your project's POTFILES.in.
-#. * DO NOT compile it as part of your application.
-#.
-#: filter/filter-editor.c:456 filter/filter.glade.h:7
+#: filter/filter-editor.c:456 filter/filter.glade.h:10
 msgid "Edit Filters"
 msgstr ""
 
@@ -3709,36 +3531,29 @@ msgstr "Lisää ehto"
 msgid "Remove criterion"
 msgstr "Poista ehto"
 
-#: filter/filter.glade.h:8
-msgid ""
-"Incoming\n"
-"Outgoing\n"
-msgstr ""
-
-#: filter/filter.glade.h:11
-msgid "Filter Rules"
-msgstr ""
-
-#: filter/filter.glade.h:13 filter/filter.glade.h:18
-#: mail/mail-config.glade.h:12 mail/mail-config.glade.h:17
-#: mail/mail-config.glade.h:23
+#: filter/filter.glade.h:9 mail/folder-browser.c:463
+#: mail/mail-config-druid.glade.h:26 mail/mail-config.glade.h:10
 msgid "Edit"
 msgstr "Muokkaa"
 
-#: filter/filter.glade.h:15
+#: filter/filter.glade.h:11
 msgid "Edit VFolders"
 msgstr ""
 
-#: filter/filter.glade.h:16
+#: filter/filter.glade.h:12
+msgid "Filter Rules"
+msgstr ""
+
+#: filter/filter.glade.h:14
 msgid "Virtual Folders"
 msgstr ""
 
-#: filter/filter.glade.h:20 filter/filter.glade.h:23
+#: filter/filter.glade.h:15
 msgid "vFolder Sources"
 msgstr ""
 
 #. Automatically generated. Do not edit.
-#: filter/libfilter-i18n.h:2 mail/message-list.c:543
+#: filter/libfilter-i18n.h:2 mail/message-list.c:511
 msgid "Answered"
 msgstr ""
 
@@ -3802,7 +3617,7 @@ msgstr "Siirrä kansioon"
 msgid "Recipients"
 msgstr "Vastaanottajat"
 
-#: filter/libfilter-i18n.h:20 mail/message-list.c:540
+#: filter/libfilter-i18n.h:20 mail/message-list.c:508
 msgid "Seen"
 msgstr ""
 
@@ -3938,86 +3753,153 @@ msgstr ""
 msgid "Edit VFolder Rule"
 msgstr ""
 
-#: mail/component-factory.c:229
+#: mail/component-factory.c:230
 msgid "Cannot initialize Evolution's mail component."
 msgstr ""
 
-#: mail/component-factory.c:235
+#: mail/component-factory.c:236
 msgid "Cannot initialize Evolution's mail summary component."
 msgstr "Evolutionin sähköpostin yhteenvetokomponentin alustus epäonnistui."
 
-#: mail/component-factory.c:240
+#: mail/component-factory.c:241
 msgid "Cannot initialize Evolution's mail storage hash."
 msgstr ""
 
-#: mail/component-factory.c:278
+#: mail/component-factory.c:279
 msgid "Cannot register storage with shell"
 msgstr ""
 
-#: mail/folder-browser.c:137
-msgid "Body or subject contains"
-msgstr ""
-
-#: mail/folder-browser.c:138
-msgid "Body contains"
-msgstr ""
-
-#: mail/folder-browser.c:139
-msgid "Subject contains"
-msgstr "Aihe sisältää"
-
-#: mail/folder-browser.c:140
-msgid "Body does not contain"
-msgstr ""
-
-#: mail/folder-browser.c:141
-msgid "Subject does not contain"
-msgstr "Aihe ei sisällä"
-
-#: mail/folder-browser.c:142
-msgid "Custom search"
-msgstr ""
-
-#: mail/folder-browser.c:314
-msgid "Custom"
-msgstr ""
-
-#: mail/folder-browser.c:492
-msgid "Full Search"
-msgstr ""
-
-#.
-#. *  This file is autogenerated from evolution-event-editor.xml, do not edit
-#. *
-#. *  This file contains translatable strings generated by
-#. * bonobo-ui-extract. Add this file to your project's
-#. * POTFILES.in. DO NOT compile it as part of your application.
-#.
-#: mail/folder-browser.c:497 ui/evolution-event-editor.h:9
+#: mail/folder-browser.c:156 ui/evolution-event-editor.xml.h:89
+#: ui/evolution-message-composer.xml.h:18
 msgid "Save"
 msgstr "Tallenna"
 
-#: mail/mail-autofilter.c:76
+#: mail/folder-browser.c:169
+msgid "Body or subject contains"
+msgstr ""
+
+#: mail/folder-browser.c:170
+msgid "Body contains"
+msgstr ""
+
+#: mail/folder-browser.c:171
+msgid "Subject contains"
+msgstr "Aihe sisältää"
+
+#: mail/folder-browser.c:172
+msgid "Body does not contain"
+msgstr ""
+
+#: mail/folder-browser.c:173
+msgid "Subject does not contain"
+msgstr "Aihe ei sisällä"
+
+#: mail/folder-browser.c:451
+msgid "VFolder on Subject"
+msgstr ""
+
+#: mail/folder-browser.c:452
+msgid "VFolder on Sender"
+msgstr ""
+
+#: mail/folder-browser.c:453
+msgid "VFolder on Recipients"
+msgstr ""
+
+#: mail/folder-browser.c:455
+msgid "Filter on Subject"
+msgstr ""
+
+#: mail/folder-browser.c:456
+msgid "Filter on Sender"
+msgstr ""
+
+#: mail/folder-browser.c:457
+msgid "Filter on Recipients"
+msgstr ""
+
+#: mail/folder-browser.c:458 mail/folder-browser.c:541
+msgid "Filter on Mailing List"
+msgstr ""
+
+#: mail/folder-browser.c:462 ui/evolution-message-composer.xml.h:16
+msgid "Open"
+msgstr "Avaa"
+
+#: mail/folder-browser.c:464 mail/mail-view.c:163
+#: ui/evolution-addressbook.xml.h:14 ui/evolution-calendar.xml.h:24
+#: ui/evolution-mail.xml.h:28
+msgid "Print"
+msgstr "Tulosta"
+
+#: mail/folder-browser.c:466
+msgid "Reply to Sender"
+msgstr "Vastaa lähettäjälle"
+
+#: mail/folder-browser.c:467 mail/mail-view.c:156 ui/evolution-mail.xml.h:34
+msgid "Reply to All"
+msgstr "Vastaa kaikille"
+
+#: mail/folder-browser.c:468 mail/mail-view.c:159 ui/evolution-mail.xml.h:18
+msgid "Forward"
+msgstr ""
+
+#: mail/folder-browser.c:471
+msgid "Mark as Read"
+msgstr "Merkitse luetuksi"
+
+#: mail/folder-browser.c:472
+msgid "Mark as Unread"
+msgstr "Merkitse lukemattomaksi"
+
+#: mail/folder-browser.c:474
+msgid "Move to Folder..."
+msgstr "Siirrä kansioon..."
+
+#: mail/folder-browser.c:475
+msgid "Copy to Folder..."
+msgstr "Kopioi kansioon..."
+
+#: mail/folder-browser.c:477
+msgid "Undelete"
+msgstr "Palauta"
+
+#. { _("Add Sender to Address Book"), NULL, GTK_SIGNAL_FUNC (addrbook_sender),   NULL,  0 },
+#. { "",                              NULL, GTK_SIGNAL_FUNC (NULL),              NULL,  0 },
+#: mail/folder-browser.c:481
+msgid "Apply Filters"
+msgstr ""
+
+#: mail/folder-browser.c:483 ui/evolution-mail.xml.h:11
+msgid "Create Rule From Message"
+msgstr ""
+
+#: mail/folder-browser.c:543
+#, c-format
+msgid "Filter on Mailing List (%s)"
+msgstr ""
+
+#: mail/mail-autofilter.c:71
 #, c-format
 msgid "Mail to %s"
 msgstr ""
 
-#: mail/mail-autofilter.c:219
+#: mail/mail-autofilter.c:214
 #, c-format
 msgid "Subject is %s"
 msgstr "Aihe on %s"
 
-#: mail/mail-autofilter.c:237
+#: mail/mail-autofilter.c:230
 #, c-format
 msgid "Mail from %s"
 msgstr ""
 
-#: mail/mail-autofilter.c:339
+#: mail/mail-autofilter.c:329
 #, c-format
 msgid "%s mailing list"
 msgstr ""
 
-#: mail/mail-callbacks.c:73
+#: mail/mail-callbacks.c:74
 msgid ""
 "You have not configured the mail client.\n"
 "You need to do this before you can send,\n"
@@ -4025,49 +3907,49 @@ msgid ""
 "Would you like to configure it now?"
 msgstr ""
 
-#: mail/mail-callbacks.c:113
+#: mail/mail-callbacks.c:114
 msgid ""
 "You need to configure an identity\n"
 "before you can compose mail."
 msgstr ""
 
-#: mail/mail-callbacks.c:127
+#: mail/mail-callbacks.c:128
 msgid ""
 "You need to configure a mail transport\n"
 "before you can compose mail."
 msgstr ""
 
-#: mail/mail-callbacks.c:163 mail/mail-callbacks.c:175
+#: mail/mail-callbacks.c:164 mail/mail-callbacks.c:176
 msgid "You have no mail sources configured"
 msgstr ""
 
-#: mail/mail-callbacks.c:212
+#: mail/mail-callbacks.c:213
 msgid "You have not set a mail transport method"
 msgstr ""
 
-#: mail/mail-callbacks.c:221
+#: mail/mail-callbacks.c:222
 msgid "You have no Outbox configured"
 msgstr ""
 
-#: mail/mail-callbacks.c:245
+#: mail/mail-callbacks.c:246
 msgid ""
 "This message has no subject.\n"
 "Really send?"
 msgstr ""
 
-#: mail/mail-callbacks.c:290
+#: mail/mail-callbacks.c:291
 msgid "You must specify recipients in order to send this message."
 msgstr ""
 
-#: mail/mail-callbacks.c:532
+#: mail/mail-callbacks.c:533
 msgid "Move message(s) to"
 msgstr "Siirrä viesti(t) kansioon"
 
-#: mail/mail-callbacks.c:534
+#: mail/mail-callbacks.c:535
 msgid "Copy message(s) to"
 msgstr "Kopioi viesti(t) kansioon"
 
-#: mail/mail-callbacks.c:649
+#: mail/mail-callbacks.c:650
 msgid ""
 "You may only edit messages saved\n"
 "in the Drafts folder."
@@ -4075,18 +3957,18 @@ msgstr ""
 "Voit muokata vain Luonnokset\n"
 "-kansiossa olevia viestejä."
 
-#: mail/mail-callbacks.c:748
+#: mail/mail-callbacks.c:779
 #, c-format
 msgid ""
 "Error loading filter information:\n"
 "%s"
 msgstr ""
 
-#: mail/mail-callbacks.c:793 mail/message-list.c:2033
+#: mail/mail-callbacks.c:824
 msgid "Print Message"
 msgstr "Tulosta viesti"
 
-#: mail/mail-callbacks.c:840
+#: mail/mail-callbacks.c:871
 msgid "Printing of message failed"
 msgstr "Viestin tulostus epäonnistui"
 
@@ -4108,31 +3990,31 @@ msgstr "Koko nimi:"
 msgid "Email address:"
 msgstr "Sähköpostiosoite:"
 
-#: mail/mail-config-gui.c:484
+#: mail/mail-config-druid.glade.h:41 mail/mail-config-gui.c:484
 msgid "Organization:"
 msgstr "Organisaatio:"
 
-#: mail/mail-config-gui.c:495
+#: mail/mail-config-druid.glade.h:63 mail/mail-config-gui.c:495
 msgid "Signature file:"
 msgstr "Allekirjoitustiedosto:"
 
-#: mail/mail-config-gui.c:500 mail/mail-config.glade.h:10
+#: mail/mail-config-gui.c:500 mail/mail-config.glade.h:20
 msgid "Signature File"
 msgstr "Allekirjoitustiedosto"
 
-#: mail/mail-config-gui.c:906
+#: mail/mail-config-druid.glade.h:62 mail/mail-config-gui.c:906
 msgid "Server:"
 msgstr "Palvelin:"
 
-#: mail/mail-config-gui.c:912
+#: mail/mail-config-druid.glade.h:67 mail/mail-config-gui.c:912
 msgid "Username:"
 msgstr "Käyttäjänimi:"
 
-#: mail/mail-config-gui.c:918
+#: mail/mail-config-druid.glade.h:43 mail/mail-config-gui.c:918
 msgid "Path:"
 msgstr "Polku:"
 
-#: mail/mail-config-gui.c:927
+#: mail/mail-config-druid.glade.h:14 mail/mail-config-gui.c:927
 msgid "Authentication:"
 msgstr "Todentaminen:"
 
@@ -4140,11 +4022,11 @@ msgstr "Todentaminen:"
 msgid "Detect supported types..."
 msgstr "Etsi tuettuja tyyppejä..."
 
-#: mail/mail-config-gui.c:967
+#: mail/mail-config-druid.glade.h:24 mail/mail-config-gui.c:967
 msgid "Don't delete messages from server"
 msgstr "Älä poista viestejä palvelimelta"
 
-#: mail/mail-config-gui.c:979
+#: mail/mail-config-druid.glade.h:65 mail/mail-config-gui.c:979
 msgid "Test Settings"
 msgstr "Kokeile asetuksia"
 
@@ -4227,620 +4109,761 @@ msgid "Query authorization at \"%s\""
 msgstr ""
 
 #.
-#. * Translatable strings file generated by Glade.
-#. * Add this file to your project's POTFILES.in.
+#. * Translatable strings file generated by extract-ui.
+#. * Add this file to your project's POTFILES.in
 #. * DO NOT compile it as part of your application.
 #.
-#: mail/mail-config-druid.glade.h:7 mail/mail-config-druid.glade.h:8
-#: mail/mail-config-druid.glade.h:16
-msgid "Mail Configuration"
+#: mail/mail-config-druid.glade.h:7
+msgid "Account Information"
+msgstr ""
+
+#: mail/mail-config-druid.glade.h:8
+msgid "Account Management"
 msgstr ""
 
 #: mail/mail-config-druid.glade.h:9
-msgid ""
-"Welcome to the Evolution Mail configuration wizard!\n"
-"By filling in some information about your email\n"
-"settings, you can start sending and receiving email\n"
-"right away. Click Next to continue."
+msgid "Accounts"
+msgstr ""
+
+#: mail/mail-config-druid.glade.h:11
+msgid "Add Optional Fields..."
+msgstr ""
+
+#: mail/mail-config-druid.glade.h:12
+msgid "Additional Identity Fields"
 msgstr ""
 
 #: mail/mail-config-druid.glade.h:13
+msgid "Authentication"
+msgstr "Todentaminen"
+
+#: mail/mail-config-druid.glade.h:15
+msgid "Browse..."
+msgstr ""
+
+#: mail/mail-config-druid.glade.h:16
+msgid "Congratulations, your mail configuration is complete."
+msgstr ""
+
+#: mail/mail-config-druid.glade.h:22
+msgid "Default"
+msgstr "Oletus"
+
+#: mail/mail-config-druid.glade.h:25
+msgid "Done"
+msgstr ""
+
+#: mail/mail-config-druid.glade.h:27
+msgid "Edit Mail Configuration Settings"
+msgstr ""
+
+#: mail/mail-config-druid.glade.h:28
+msgid "Email Address:"
+msgstr "Sähköpostiosoite:"
+
+#: mail/mail-config-druid.glade.h:29
+msgid "Evolution Mail Configuration"
+msgstr ""
+
+#: mail/mail-config-druid.glade.h:30
+msgid "Full Name:"
+msgstr "Koko nimi:"
+
+#: mail/mail-config-druid.glade.h:31
+msgid "IMAP"
+msgstr "IMAP"
+
+#: mail/mail-config-druid.glade.h:32
 msgid "Identity"
 msgstr ""
 
-#: mail/mail-config-druid.glade.h:14
-msgid "Mail Source"
+#: mail/mail-config-druid.glade.h:33
+msgid "Mail"
 msgstr ""
 
-#: mail/mail-config-druid.glade.h:15 mail/mail-config.glade.h:20
-msgid "Mail Transport"
+#: mail/mail-config-druid.glade.h:34
+msgid "Mail Configuration"
 msgstr ""
 
-#: mail/mail-config-druid.glade.h:17
+#: mail/mail-config-druid.glade.h:35
+msgid "Mail Configuration Druid"
+msgstr ""
+
+#: mail/mail-config-druid.glade.h:36
+msgid "Make this my default account"
+msgstr ""
+
+#: mail/mail-config-druid.glade.h:38
+msgid "News"
+msgstr ""
+
+#: mail/mail-config-druid.glade.h:39
+msgid "Optional"
+msgstr ""
+
+#: mail/mail-config-druid.glade.h:40
+msgid "Optional Information"
+msgstr ""
+
+#: mail/mail-config-druid.glade.h:42
+msgid "Password:"
+msgstr "Salasana:"
+
+#: mail/mail-config-druid.glade.h:44
 msgid ""
-"Your email configuration is now complete.\n"
-"Click \"Finish\" to save your new settings"
+"Please enter information about your incoming mail server below. If you don't "
+"know what"
 msgstr ""
 
-#.
-#. * Translatable strings file generated by Glade.
-#. * Add this file to your project's POTFILES.in.
-#. * DO NOT compile it as part of your application.
-#.
-#: mail/mail-config.glade.h:7 mail/mail-config.glade.h:14
-msgid "Identities"
+#: mail/mail-config-druid.glade.h:46
+msgid ""
+"Please enter information about your outgoing mail protocol below. If you "
+"don't know "
+msgstr ""
+
+#: mail/mail-config-druid.glade.h:48
+msgid ""
+"Please enter your name and email address below. The &quot;optional&quot; "
+"fields below do not "
+msgstr ""
+
+#: mail/mail-config-druid.glade.h:50
+msgid "Preferred type: "
+msgstr ""
+
+#: mail/mail-config-druid.glade.h:51
+msgid "Receiving Email"
+msgstr ""
+
+#: mail/mail-config-druid.glade.h:52
+msgid "Receiving Mail"
+msgstr ""
+
+#: mail/mail-config-druid.glade.h:53
+msgid "Remember my password"
+msgstr ""
+
+#: mail/mail-config-druid.glade.h:54
+msgid "Reply-to:"
+msgstr ""
+
+#: mail/mail-config-druid.glade.h:55
+msgid "Required"
+msgstr ""
+
+#: mail/mail-config-druid.glade.h:56
+msgid "SMTP"
+msgstr "SMTP"
+
+#: mail/mail-config-druid.glade.h:57
+msgid "SMTP server requires authentication"
+msgstr "SMTP-palvelin vaati todennuksen"
+
+#: mail/mail-config-druid.glade.h:58
+msgid "Sending Email"
+msgstr ""
+
+#: mail/mail-config-druid.glade.h:59
+msgid "Sending Mail"
+msgstr ""
+
+#: mail/mail-config-druid.glade.h:60
+msgid "Server Configuration"
+msgstr ""
+
+#: mail/mail-config-druid.glade.h:61
+msgid "Server Type: "
+msgstr "Palvelintyyppi: "
+
+#: mail/mail-config-druid.glade.h:64 mail/mail-config.glade.h:21
+msgid "Sources"
+msgstr "Lähteet"
+
+#: mail/mail-config-druid.glade.h:68
+msgid "Welcome to the Evolution Mail Configuration Druid! "
+msgstr ""
+
+#: mail/mail-config-druid.glade.h:74
+msgid ""
+"You are almost done with the mail configuration process. The identity, "
+"incoming"
+msgstr ""
+
+#: mail/mail-config-druid.glade.h:78
+msgid "Your mail server supports the following types of authentication. Please"
 msgstr ""
 
 #: mail/mail-config.glade.h:8
 msgid "Address"
 msgstr "Osoite"
 
-#: mail/mail-config.glade.h:9
-msgid "Organization"
-msgstr "Organisaatio"
+#: mail/mail-config.glade.h:11
+msgid "Identities"
+msgstr ""
 
-#: mail/mail-config.glade.h:15
-msgid "Sources"
-msgstr "Lähteet"
-
-#: mail/mail-config.glade.h:19
+#: mail/mail-config.glade.h:12
 msgid "Mail Sources"
 msgstr ""
 
-#: mail/mail-config.glade.h:21
-msgid "News Servers"
-msgstr "Uutispalvelimet"
-
-#: mail/mail-config.glade.h:25
-msgid "News Sources"
+#: mail/mail-config.glade.h:13
+msgid "Mail Transport"
 msgstr ""
 
-#: mail/mail-config.glade.h:26
-msgid "Send messages in HTML format"
-msgstr "Lähetä viestit HTML-muodossa"
-
-#: mail/mail-config.glade.h:27
+#: mail/mail-config.glade.h:14
 msgid "Mark message as seen [ms]: "
 msgstr "Merkitse viesti nähdyksi [ms]: "
 
-#: mail/mail-crypto.c:137
+#: mail/mail-config.glade.h:15
+msgid "News Servers"
+msgstr "Uutispalvelimet"
+
+#: mail/mail-config.glade.h:16
+msgid "News Sources"
+msgstr ""
+
+#: mail/mail-config.glade.h:17
+msgid "Organization"
+msgstr "Organisaatio"
+
+#: mail/mail-config.glade.h:19
+msgid "Send messages in HTML format"
+msgstr "Lähetä viestit HTML-muodossa"
+
+#: mail/mail-crypto.c:136
 #, c-format
 msgid "Couldn't create pipe to %s: %s"
 msgstr ""
 
-#: mail/mail-crypto.c:164
+#: mail/mail-crypto.c:163
 #, c-format
 msgid "Could not execute %s: %s\n"
 msgstr ""
 
-#: mail/mail-crypto.c:168
+#: mail/mail-crypto.c:167
 #, c-format
 msgid "Cannot fork %s: %s"
 msgstr ""
 
-#: mail/mail-crypto.c:345 mail/mail-crypto.c:441 mail/mail-crypto.c:604
+#: mail/mail-crypto.c:344 mail/mail-crypto.c:440 mail/mail-crypto.c:603
 msgid "Please enter your PGP/GPG passphrase."
 msgstr "Anna PGP/GPG-salasanasi"
 
-#: mail/mail-crypto.c:349 mail/mail-crypto.c:445 mail/mail-crypto.c:609
+#: mail/mail-crypto.c:348 mail/mail-crypto.c:444 mail/mail-crypto.c:608
 msgid "No password provided."
 msgstr "Ei salasanaa."
 
-#: mail/mail-crypto.c:355 mail/mail-crypto.c:451 mail/mail-crypto.c:615
+#: mail/mail-crypto.c:354 mail/mail-crypto.c:450 mail/mail-crypto.c:614
 #, c-format
 msgid "Couldn't create pipe to GPG/PGP: %s"
 msgstr ""
 
-#: mail/mail-crypto.c:600
+#: mail/mail-crypto.c:599
 msgid "No GPG/PGP program available."
 msgstr "GPG/PGP-ohjelmaa ei ole."
 
-#: mail/mail-display.c:66
+#: mail/mail-display.c:67
 msgid "Overwrite file?"
 msgstr ""
 
-#: mail/mail-display.c:70
+#: mail/mail-display.c:71
 msgid ""
 "A file by that name already exists.\n"
 "Overwrite it?"
 msgstr ""
 
-#: mail/mail-display.c:84
+#: mail/mail-display.c:85
 #, c-format
 msgid ""
 "Could not open file %s:\n"
 "%s"
 msgstr ""
 
-#: mail/mail-display.c:96
+#: mail/mail-display.c:97
 #, c-format
 msgid "Could not write data: %s"
 msgstr ""
 
-#: mail/mail-display.c:192
+#: mail/mail-display.c:193
 msgid "Save Attachment"
 msgstr "Tallenna liite"
 
-#: mail/mail-display.c:232
+#: mail/mail-display.c:233
 #, c-format
 msgid "Could not create temporary directory: %s"
 msgstr "Väliaikaishakemistoa ei voitu luoda: %s"
 
-#: mail/mail-display.c:274
+#: mail/mail-display.c:275
 msgid "Save to Disk..."
 msgstr ""
 
-#: mail/mail-display.c:276
+#: mail/mail-display.c:277
 #, c-format
 msgid "Open in %s..."
 msgstr ""
 
-#: mail/mail-display.c:278
+#: mail/mail-display.c:279
 msgid "View Inline"
 msgstr ""
 
-#: mail/mail-display.c:302
+#: mail/mail-display.c:303
 msgid "External Viewer"
 msgstr "Ulkoinen katselin"
 
-#: mail/mail-display.c:325
+#: mail/mail-display.c:326
 #, c-format
 msgid "View Inline (via %s)"
 msgstr ""
 
-#: mail/mail-display.c:329
+#: mail/mail-display.c:330
 msgid "Hide"
 msgstr ""
 
-#: mail/mail-format.c:477
+#: mail/mail-format.c:478
 #, c-format
 msgid "%s attachment"
 msgstr ""
 
-#: mail/mail-format.c:594
+#: mail/mail-format.c:601
 msgid "Reply-To:"
 msgstr ""
 
-#: mail/mail-format.c:834
+#: mail/mail-format.c:823
 msgid "No GPG/PGP support available in this copy of Evolution."
 msgstr ""
 
-#: mail/mail-format.c:846
+#: mail/mail-format.c:835
 msgid "Encrypted message not displayed"
 msgstr ""
 
-#: mail/mail-format.c:852
+#: mail/mail-format.c:841
 msgid "Encrypted message"
 msgstr "Salattu viesti"
 
-#: mail/mail-format.c:853
+#: mail/mail-format.c:842
 msgid "Click icon to decrypt."
 msgstr ""
 
-#: mail/mail-format.c:1455
+#: mail/mail-format.c:1444
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr ""
 
-#: mail/mail-format.c:1467
+#: mail/mail-format.c:1456
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr ""
 
-#: mail/mail-format.c:1471
+#: mail/mail-format.c:1460
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr ""
 
-#: mail/mail-format.c:1505
+#: mail/mail-format.c:1494
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr ""
 
-#: mail/mail-format.c:1510
+#: mail/mail-format.c:1499
 msgid "Malformed external-body part."
 msgstr ""
 
-#: mail/mail-local.c:279
+#: mail/mail-local.c:194
 #, c-format
 msgid "Changing folder \"%s\" to \"%s\" format"
 msgstr ""
 
-#: mail/mail-local.c:283
+#: mail/mail-local.c:198
 #, c-format
 msgid "Change folder \"%s\" to \"%s\" format"
 msgstr ""
 
-#: mail/mail-local.c:327
+#: mail/mail-local.c:254
 msgid "Closing current folder"
 msgstr ""
 
-#: mail/mail-local.c:359
+#: mail/mail-local.c:286
 msgid "Renaming old folder and opening"
 msgstr ""
 
-#: mail/mail-local.c:380
+#: mail/mail-local.c:307
 msgid "Creating new folder"
 msgstr "Luodaan uutta kansiota"
 
-#: mail/mail-local.c:395
+#: mail/mail-local.c:322
 msgid "Copying messages"
 msgstr "Kopioidaan viestejä"
 
-#: mail/mail-local.c:407
+#: mail/mail-local.c:334
 #, c-format
 msgid ""
 "Cannot save folder metainfo; you'll probably find you can't\n"
 "open this folder anymore: %s"
 msgstr ""
 
-#: mail/mail-local.c:443
+#: mail/mail-local.c:370
 msgid ""
 "If you can no longer open this mailbox, then\n"
 "you may need to repair it manually."
 msgstr ""
 
-#. This is how we could do to display extra information about the
-#. folder.
-#: mail/mail-local-storage.c:97
-msgid " (XXX unread)"
+#: mail/mail-local.c:659
+msgid "Registering local folder"
 msgstr ""
 
-#: mail/mail-ops.c:68
+#: mail/mail-local.c:661
+msgid "Register local folder"
+msgstr ""
+
+#: mail/mail-ops.c:69
 #, c-format
 msgid "Fetching email from %s"
 msgstr ""
 
-#: mail/mail-ops.c:70
+#: mail/mail-ops.c:71
 #, c-format
 msgid "Fetch email from %s"
 msgstr ""
 
-#: mail/mail-ops.c:310
+#: mail/mail-ops.c:311
 #, c-format
 msgid "There is no new mail at %s."
 msgstr ""
 
-#: mail/mail-ops.c:365
+#: mail/mail-ops.c:366
 msgid "Filtering email on demand"
 msgstr ""
 
-#: mail/mail-ops.c:367
+#: mail/mail-ops.c:368
 msgid "Filter email on demand"
 msgstr ""
 
-#: mail/mail-ops.c:499
+#: mail/mail-ops.c:503
 #, c-format
 msgid "Sending \"%s\""
 msgstr "Lähetetään \"%s\""
 
-#: mail/mail-ops.c:504
+#: mail/mail-ops.c:508
 msgid "Sending a message without a subject"
 msgstr "Lähetetään viesti ilman aihetta"
 
-#: mail/mail-ops.c:507
+#: mail/mail-ops.c:511
 #, c-format
 msgid "Send \"%s\""
 msgstr "Lähetä \"%s\""
 
-#: mail/mail-ops.c:510
+#: mail/mail-ops.c:514
 msgid "Send a message without a subject"
 msgstr "Lähetä viesti ilman aihetta"
 
-#: mail/mail-ops.c:681
+#: mail/mail-ops.c:685
 msgid "Sending queue"
 msgstr ""
 
-#: mail/mail-ops.c:683
+#: mail/mail-ops.c:687
 msgid "Send queue"
 msgstr ""
 
-#: mail/mail-ops.c:819 mail/mail-ops.c:826
+#: mail/mail-ops.c:823 mail/mail-ops.c:830
 #, c-format
 msgid "Appending \"%s\""
 msgstr ""
 
-#: mail/mail-ops.c:823 mail/mail-ops.c:829
+#: mail/mail-ops.c:827 mail/mail-ops.c:833
 msgid "Appending a message without a subject"
 msgstr ""
 
-#: mail/mail-ops.c:901
+#: mail/mail-ops.c:905
 #, c-format
 msgid "Expunging \"%s\""
 msgstr ""
 
-#: mail/mail-ops.c:903
+#: mail/mail-ops.c:907
 #, c-format
 msgid "Expunge \"%s\""
 msgstr ""
 
-#: mail/mail-ops.c:962
+#: mail/mail-ops.c:966
 #, c-format
 msgid "Moving messages from \"%s\" into \"%s\""
 msgstr "Siirretään viestejä \"%s\" -> \"%s\""
 
-#: mail/mail-ops.c:964
+#: mail/mail-ops.c:968
 #, c-format
 msgid "Copying messages from \"%s\" into \"%s\""
 msgstr "Kopioidaan viestejä \"%s\" -> \"%s\""
 
-#: mail/mail-ops.c:967
+#: mail/mail-ops.c:971
 #, c-format
 msgid "Move messages from \"%s\" into \"%s\""
 msgstr "Siirrä viestejä kansiosta \"%s\" kansioon \"%s\""
 
-#: mail/mail-ops.c:969
+#: mail/mail-ops.c:973
 #, c-format
 msgid "Copy messages from \"%s\" into \"%s\""
 msgstr "Kopioi viestejä kansiosta \"%s\" kansioon \"%s\""
 
-#: mail/mail-ops.c:1000
+#: mail/mail-ops.c:1004
 msgid "Moving"
 msgstr "Siirretään"
 
-#: mail/mail-ops.c:1003
+#: mail/mail-ops.c:1007
 msgid "Copying"
 msgstr "Kopioidaan"
 
-#: mail/mail-ops.c:1023
+#: mail/mail-ops.c:1027
 #, c-format
 msgid "%s message %d of %d (uid \"%s\")"
 msgstr ""
 
-#: mail/mail-ops.c:1102
+#: mail/mail-ops.c:1106
 #, c-format
 msgid "Marking messages in folder \"%s\""
 msgstr ""
 
-#: mail/mail-ops.c:1105
+#: mail/mail-ops.c:1109
 #, c-format
 msgid "Mark messages in folder \"%s\""
 msgstr ""
 
-#: mail/mail-ops.c:1136
+#: mail/mail-ops.c:1140
 #, c-format
 msgid "Marking message %d of %d"
 msgstr "Siirretään viestejä \"%s\" -> \"%s\""
 
-#: mail/mail-ops.c:1259
+#: mail/mail-ops.c:1263
 #, c-format
 msgid "Scanning folders in \"%s\""
 msgstr ""
 
-#: mail/mail-ops.c:1261
+#: mail/mail-ops.c:1265
 #, c-format
 msgid "Scan folders in \"%s\""
 msgstr ""
 
-#: mail/mail-ops.c:1330 mail/subscribe-dialog.c:322
+#: mail/mail-ops.c:1334 mail/subscribe-dialog.c:339
 msgid "(No description)"
 msgstr "(ei kuvausta)"
 
-#: mail/mail-ops.c:1391
+#: mail/mail-ops.c:1395
 #, c-format
 msgid "Attaching messages from folder \"%s\""
 msgstr ""
 
-#: mail/mail-ops.c:1394
+#: mail/mail-ops.c:1398
 #, c-format
 msgid "Attach messages from \"%s\""
 msgstr ""
 
-#: mail/mail-ops.c:1497
+#: mail/mail-ops.c:1501
 #, c-format
 msgid "Forwarding messages \"%s\""
 msgstr ""
 
-#: mail/mail-ops.c:1502
+#: mail/mail-ops.c:1506
 msgid "Forwarding a message without a subject"
 msgstr ""
 
-#: mail/mail-ops.c:1505
+#: mail/mail-ops.c:1509
 #, c-format
 msgid "Forward message \"%s\""
 msgstr ""
 
-#: mail/mail-ops.c:1510
+#: mail/mail-ops.c:1514
 msgid "Forward a message without a subject"
 msgstr ""
 
-#: mail/mail-ops.c:1547
+#: mail/mail-ops.c:1551
 #, c-format
 msgid "Retrieving message number %d of %d (uid \"%s\")"
 msgstr ""
 
-#: mail/mail-ops.c:1564
+#: mail/mail-ops.c:1568
 msgid ""
 "Failed to generate mime part from message while generating forwarded message."
 msgstr ""
 
-#: mail/mail-ops.c:1650
+#: mail/mail-ops.c:1654
 #, c-format
 msgid "Loading \"%s\""
 msgstr ""
 
-#: mail/mail-ops.c:1652
+#: mail/mail-ops.c:1656
 #, c-format
 msgid "Load \"%s\""
 msgstr ""
 
-#: mail/mail-ops.c:1754
+#: mail/mail-ops.c:1758
 #, c-format
 msgid "Creating \"%s\""
 msgstr ""
 
-#: mail/mail-ops.c:1756
+#: mail/mail-ops.c:1760
 #, c-format
 msgid "Create \"%s\""
 msgstr ""
 
-#: mail/mail-ops.c:1804
+#: mail/mail-ops.c:1808
 msgid "Exception while reporting result to shell component listener."
 msgstr ""
 
-#: mail/mail-ops.c:1850
+#: mail/mail-ops.c:1854
 #, c-format
 msgid "Synchronizing \"%s\""
 msgstr "Synkronoidaan \"%s\""
 
-#: mail/mail-ops.c:1852
+#: mail/mail-ops.c:1856
 #, c-format
 msgid "Synchronize \"%s\""
 msgstr "Synkronoi \"%s\""
 
-#: mail/mail-ops.c:1915
+#: mail/mail-ops.c:1920
 #, c-format
 msgid "Displaying message UID \"%s\""
 msgstr ""
 
-#: mail/mail-ops.c:1918
+#: mail/mail-ops.c:1923
 msgid "Clearing message display"
 msgstr ""
 
-#: mail/mail-ops.c:1921
+#: mail/mail-ops.c:1926
 #, c-format
 msgid "Display message UID \"%s\""
 msgstr ""
 
-#: mail/mail-ops.c:1924
+#: mail/mail-ops.c:1929
 msgid "Clear message display"
 msgstr ""
 
-#: mail/mail-ops.c:2033
+#: mail/mail-ops.c:2042
 #, c-format
 msgid "Opening messages from folder \"%s\""
 msgstr ""
 
-#: mail/mail-ops.c:2036
+#: mail/mail-ops.c:2045
 #, c-format
 msgid "Open messages from \"%s\""
 msgstr ""
 
-#: mail/mail-ops.c:2140
+#: mail/mail-ops.c:2149
 #, c-format
 msgid "Loading %s Folder"
 msgstr ""
 
-#: mail/mail-ops.c:2142
+#: mail/mail-ops.c:2151
 #, c-format
 msgid "Load %s Folder"
 msgstr ""
 
-#: mail/mail-ops.c:2209
+#: mail/mail-ops.c:2218
 #, c-format
 msgid "Viewing messages from folder \"%s\""
 msgstr ""
 
-#: mail/mail-ops.c:2212
+#: mail/mail-ops.c:2221
 #, c-format
 msgid "View messages from \"%s\""
 msgstr ""
 
-#: mail/mail-ops.c:2238
+#: mail/mail-ops.c:2247
 #, c-format
 msgid "Retrieving message %d of %d (uid \"%s\")"
 msgstr ""
 
-#: mail/mail-search-dialogue.c:101
+#: mail/mail-search-dialogue.c:104
 msgid "Cancel"
 msgstr "Peruuta"
 
-#: mail/mail-summary.c:97 mail/mail-threads.c:701
+#: mail/mail-summary.c:95 mail/mail-threads.c:703
 msgid "Incomplete message written on pipe!"
 msgstr ""
 
-#: mail/mail-summary.c:370
+#: mail/mail-summary.c:368
 msgid "Mailbox summary"
 msgstr ""
 
-#: mail/mail-threads.c:299
+#: mail/mail-threads.c:301
 #, c-format
 msgid ""
 "Error while preparing to %s:\n"
 "%s"
 msgstr ""
 
-#: mail/mail-threads.c:648
+#: mail/mail-threads.c:650
 #, c-format
 msgid ""
 "Error while `%s':\n"
 "%s"
 msgstr ""
 
-#: mail/mail-threads.c:705
+#: mail/mail-threads.c:707
 msgid "Error reading commands from dispatching thread."
 msgstr ""
 
-#: mail/mail-threads.c:770
+#: mail/mail-threads.c:772
 msgid "Corrupted message from dispatching thread?"
 msgstr ""
 
-#: mail/mail-threads.c:889
+#: mail/mail-threads.c:891
 msgid "Could not create dialog box."
 msgstr ""
 
-#: mail/mail-threads.c:899
+#: mail/mail-threads.c:902
 msgid "User cancelled query."
 msgstr ""
 
-#: mail/mail-tools.c:210
+#: mail/mail-tools.c:187
 #, c-format
 msgid "Couldn't create temporary mbox `%s': %s"
 msgstr ""
 
 #. Get all uids of source
-#: mail/mail-tools.c:264
+#: mail/mail-tools.c:237
 #, c-format
 msgid "Examining %s"
 msgstr ""
 
-#: mail/mail-tools.c:294
+#: mail/mail-tools.c:267
 #, c-format
 msgid ""
 "Could not read UID cache file \"%s\". You may receive duplicate messages."
 msgstr ""
 
 #. Info
-#: mail/mail-tools.c:315
+#: mail/mail-tools.c:288
 #, c-format
 msgid "Retrieving message %d of %d"
 msgstr ""
 
 #. Append it to dest
-#: mail/mail-tools.c:328
+#: mail/mail-tools.c:301
 #, c-format
 msgid "Writing message %d of %d"
 msgstr ""
 
-#: mail/mail-tools.c:357
+#: mail/mail-tools.c:330
 #, c-format
 msgid "Saving changes to %s"
 msgstr ""
 
-#: mail/mail-tools.c:391
+#: mail/mail-tools.c:367
 #, c-format
 msgid "[%s] (forwarded message)"
 msgstr ""
 
-#: mail/mail-tools.c:400
+#: mail/mail-tools.c:377
 msgid "Fwd: (no subject)"
 msgstr ""
 
-#: mail/mail-tools.c:437
+#: mail/mail-tools.c:416
 #, c-format
 msgid "Forwarded message - %s"
 msgstr ""
 
-#: mail/mail-tools.c:439
+#: mail/mail-tools.c:418
 msgid "Forwarded message (no subject)"
 msgstr ""
 
-#: mail/mail-tools.c:510
-#, c-format
-msgid "Don't know protocol to open URI `%s'"
-msgstr ""
-
-#: mail/mail-tools.c:539
+#: mail/mail-tools.c:521
 #, c-format
 msgid ""
 "Cannot open location `%s':\n"
@@ -4857,190 +4880,116 @@ msgstr ""
 
 #. GNOMEUIINFO_ITEM_STOCK (N_("Save"), N_("Save this message"),
 #. save_msg, GNOME_STOCK_PIXMAP_SAVE),
-#: mail/mail-view.c:151 ui/evolution-mail.h:34
+#: mail/mail-view.c:153 ui/evolution-mail.xml.h:33
 msgid "Reply"
 msgstr "Vastaa"
 
-#: mail/mail-view.c:151 ui/evolution-mail.h:39
+#: mail/mail-view.c:153 ui/evolution-mail.xml.h:38
 msgid "Reply to the sender of this message"
 msgstr ""
 
-#: mail/mail-view.c:154 mail/message-list.c:2036 ui/evolution-mail.h:35
-msgid "Reply to All"
-msgstr "Vastaa kaikille"
-
-#: mail/mail-view.c:154 ui/evolution-mail.h:38
+#: mail/mail-view.c:156 ui/evolution-mail.xml.h:37
 msgid "Reply to all recipients of this message"
 msgstr ""
 
-#: mail/mail-view.c:157 ui/evolution-mail.h:19
-msgid "Forward"
-msgstr ""
-
-#: mail/mail-view.c:157 ui/evolution-mail.h:20
+#: mail/mail-view.c:159 ui/evolution-mail.xml.h:19
 msgid "Forward this message"
 msgstr ""
 
-#: mail/mail-view.c:161 ui/evolution-addressbook.h:16
-#: ui/evolution-calendar.h:26 ui/evolution-mail.h:29
-msgid "Print"
-msgstr "Tulosta"
-
-#: mail/mail-view.c:161 ui/evolution-mail.h:33
+#: mail/mail-view.c:163 ui/evolution-mail.xml.h:32
 msgid "Print the selected message"
 msgstr "Tulosta valittu viesti"
 
-#: mail/mail-view.c:163 ui/evolution-mail.h:14
+#: mail/mail-view.c:165 ui/evolution-mail.xml.h:13
 msgid "Delete this message"
 msgstr "Poista tämä viesti"
 
-#: mail/message-list.c:537
+#: mail/message-list.c:505
 msgid "Unseen"
 msgstr ""
 
-#: mail/message-list.c:2031
-msgid "Open in New Window"
-msgstr "Avaa uudessa ikkunassa"
-
-#: mail/message-list.c:2032
-msgid "Edit Message"
-msgstr "Muokkaa viestiä"
-
-#: mail/message-list.c:2035
-msgid "Reply to Sender"
-msgstr "Vastaa lähettäjälle"
-
-#: mail/message-list.c:2037
-msgid "Forward Message"
-msgstr ""
-
-#: mail/message-list.c:2039
-msgid "Delete Message"
-msgstr "Poista viesti"
-
-#: mail/message-list.c:2040
-msgid "Move Message"
-msgstr "Siirrä viesti"
-
-#: mail/message-list.c:2041
-msgid "Copy Message"
-msgstr "Kopioi viesti"
-
-#: mail/message-list.c:2043
-msgid "VFolder on Subject"
-msgstr ""
-
-#: mail/message-list.c:2044
-msgid "VFolder on Sender"
-msgstr ""
-
 #: mail/message-list.c:2045
-msgid "VFolder on Recipients"
-msgstr ""
-
-#: mail/message-list.c:2047
-msgid "Filter on Subject"
-msgstr ""
-
-#: mail/message-list.c:2048
-msgid "Filter on Sender"
-msgstr ""
-
-#: mail/message-list.c:2049
-msgid "Filter on Recipients"
-msgstr ""
-
-#: mail/message-list.c:2050 mail/message-list.c:2073
-msgid "Filter on Mailing List"
-msgstr ""
-
-#: mail/message-list.c:2075
-#, c-format
-msgid "Filter on Mailing List (%s)"
-msgstr ""
-
-#: mail/message-list.c:2225
 msgid "Rebuilding message view"
 msgstr ""
 
-#: mail/message-list.c:2227
+#: mail/message-list.c:2047
 msgid "Rebuild message view"
 msgstr ""
 
-#: mail/message-thread.c:582
+#: mail/message-thread.c:583
 msgid "Threading message list"
 msgstr ""
 
-#: mail/message-thread.c:584
+#: mail/message-thread.c:585
 msgid "Thread message list"
 msgstr ""
 
-#: mail/subscribe-dialog.c:137
+#: mail/subscribe-dialog.c:139
 msgid "Display folders starting with:"
 msgstr ""
 
-#: mail/subscribe-dialog.c:170
+#: mail/subscribe-dialog.c:172
 #, c-format
 msgid "Getting store for \"%s\""
 msgstr ""
 
-#: mail/subscribe-dialog.c:173
+#: mail/subscribe-dialog.c:175
 #, c-format
 msgid "Get store for \"%s\""
 msgstr ""
 
-#: mail/subscribe-dialog.c:278
+#: mail/subscribe-dialog.c:282
 #, c-format
 msgid "Subscribing to folder \"%s\""
 msgstr ""
 
-#: mail/subscribe-dialog.c:281
+#: mail/subscribe-dialog.c:286
+#, c-format
+msgid "Unsubscribing from folder \"%s\""
+msgstr ""
+
+#: mail/subscribe-dialog.c:290
 #, c-format
 msgid "Subscribe to folder \"%s\""
 msgstr ""
 
-#: mail/subscribe-dialog.c:385
+#: mail/subscribe-dialog.c:293
 #, c-format
-msgid "Unsubscribing to folder \"%s\""
+msgid "Unsubscribe from folder \"%s\""
 msgstr ""
 
-#: mail/subscribe-dialog.c:388
-#, c-format
-msgid "Unsubscribe to folder \"%s\""
-msgstr ""
-
-#: shell/e-setup.c:106 shell/e-setup.c:175
+#: shell/e-setup.c:110 shell/e-setup.c:179
 msgid "Evolution installation"
 msgstr ""
 
-#: shell/e-setup.c:110
+#: shell/e-setup.c:114
 msgid ""
 "This new version of Evolution needs to install additional files\n"
 "into your personal Evolution directory"
 msgstr ""
 
-#: shell/e-setup.c:111
+#: shell/e-setup.c:115
 msgid "Please click \"OK\" to install the files, or \"Cancel\" to exit."
 msgstr ""
 
-#: shell/e-setup.c:152
+#: shell/e-setup.c:156
 msgid "Could not update files correctly"
 msgstr ""
 
-#: shell/e-setup.c:156 shell/e-setup.c:216
+#: shell/e-setup.c:160 shell/e-setup.c:220
 msgid "Evolution files successfully installed."
 msgstr ""
 
-#: shell/e-setup.c:179
+#: shell/e-setup.c:183
 msgid "This seems to be the first time you run Evolution."
 msgstr "Tämä näyttäisi olevan ensimmäinen kerta kun käytät Evolutionia."
 
-#: shell/e-setup.c:180
+#: shell/e-setup.c:184
 msgid "Please click \"OK\" to install the Evolution user files under"
 msgstr ""
 "Paina \"OK\" asentaaksesi Evolutionin käyttäjäkohtaiset tiedostot kohteeseen"
 
-#: shell/e-setup.c:197
+#: shell/e-setup.c:201
 #, c-format
 msgid ""
 "Cannot create the directory\n"
@@ -5051,14 +5000,14 @@ msgstr ""
 "%s\n"
 "Virhe: %s"
 
-#: shell/e-setup.c:212
+#: shell/e-setup.c:216
 #, c-format
 msgid ""
 "Cannot copy files into\n"
 "`%s'."
 msgstr ""
 
-#: shell/e-setup.c:237
+#: shell/e-setup.c:241
 #, c-format
 msgid ""
 "The file `%s' is not a directory.\n"
@@ -5066,7 +5015,7 @@ msgid ""
 "of the Evolution user files."
 msgstr ""
 
-#: shell/e-setup.c:249
+#: shell/e-setup.c:253
 #, c-format
 msgid ""
 "The directory `%s' exists but is not the\n"
@@ -5138,21 +5087,26 @@ msgstr ""
 msgid "Folders"
 msgstr ""
 
-#: shell/e-shell-view.c:1021
+#: shell/e-shell-view.c:1002 widgets/misc/e-dateedit.c:212
+#: widgets/misc/e-dateedit.c:371 widgets/misc/e-dateedit.c:1171
+msgid "None"
+msgstr ""
+
+#: shell/e-shell-view.c:1006
 #, c-format
 msgid "Evolution - %s"
 msgstr ""
 
-#: shell/e-shell-view.c:1167
-#, c-format
-msgid ""
-"Ooops!  The view for `%s' has died unexpectedly.  :-(\n"
-"This probably means that the %s component has crashed."
-msgstr ""
-
-#: shell/e-shell.c:336
+#: shell/e-shell.c:339
 #, c-format
 msgid "Cannot set up local storage -- %s"
+msgstr ""
+
+#: shell/e-shell.c:1157
+#, c-format
+msgid ""
+"Ooops!  The view for `%s' have died unexpectedly.  :-(\n"
+"This probably means that the %s component has crashed."
 msgstr ""
 
 #: shell/e-shortcuts-view.c:122
@@ -5270,8 +5224,8 @@ msgstr ""
 msgid "The specified type is not supported in this storage"
 msgstr ""
 
-#: shell/e-storage-set-view.c:235 ui/evolution-event-editor.h:91
-#: ui/evolution.h:39
+#: shell/e-storage-set-view.c:235 ui/evolution-event-editor.xml.h:126
+#: ui/evolution-message-composer.xml.h:46 ui/evolution.xml.h:37
 msgid "_View"
 msgstr "_Näytä"
 
@@ -5279,7 +5233,7 @@ msgstr "_Näytä"
 msgid "View the selected folder"
 msgstr ""
 
-#: shell/main.c:68
+#: shell/main.c:70
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
 "of the Evolution groupware suite.\n"
@@ -5301,7 +5255,7 @@ msgid ""
 "await your contributions!\n"
 msgstr ""
 
-#: shell/main.c:95
+#: shell/main.c:97
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
@@ -5309,987 +5263,1112 @@ msgstr ""
 "Kiitos\n"
 "The Evolution Team\n"
 
-#: shell/main.c:123
+#: shell/main.c:122
 msgid "Cannot initialize the Evolution shell."
 msgstr ""
 
-#: shell/main.c:162
+#: shell/main.c:144
+msgid "Disable."
+msgstr ""
+
+#: shell/main.c:166
 msgid "Cannot initialize the Bonobo component system."
 msgstr "Bonobon komponenttijärjestelmän alustus epäonnistui"
 
 #.
-#. *  This file is autogenerated from evolution-addressbook-ldap.xml, do not edit
-#. *
-#. *  This file contains translatable strings generated by
-#. * bonobo-ui-extract. Add this file to your project's
-#. * POTFILES.in. DO NOT compile it as part of your application.
+#. * Translatable strings file generated by extract-ui.
+#. * Add this file to your project's POTFILES.in
+#. * DO NOT compile it as part of your application.
 #.
-#: ui/evolution-addressbook-ldap.h:9
+#: ui/evolution-addressbook-ldap.xml.h:7
 msgid "N_ew Directory Server"
 msgstr ""
 
-#: ui/evolution-addressbook-ldap.h:10
+#: ui/evolution-addressbook-ldap.xml.h:8
 msgid "_Actions"
 msgstr "T_oiminnot"
 
-#: ui/evolution-addressbook.h:10
+#: ui/evolution-addressbook.xml.h:8
 msgid "Create a new contact"
 msgstr "Luo uusi kontakti"
 
-#: ui/evolution-addressbook.h:12
+#: ui/evolution-addressbook.xml.h:10
 msgid "Delete a contact"
 msgstr "Poista kontakti"
 
-#: ui/evolution-addressbook.h:13 ui/evolution-event-editor.h:33
+#: ui/evolution-addressbook.xml.h:11 ui/evolution-event-editor.xml.h:68
 msgid "Find"
 msgstr "Etsi"
 
-#: ui/evolution-addressbook.h:14
+#: ui/evolution-addressbook.xml.h:12
 msgid "Find a contact"
 msgstr "Etsi kontakti"
 
-#: ui/evolution-addressbook.h:15 ui/evolution-calendar.h:21
+#: ui/evolution-addressbook.xml.h:13 ui/evolution-calendar.xml.h:19
 msgid "New"
 msgstr "Uusi"
 
-#: ui/evolution-addressbook.h:17
+#: ui/evolution-addressbook.xml.h:15
 msgid "Print contacts"
 msgstr "Tulosta kontaktit"
 
-#: ui/evolution-addressbook.h:18
+#: ui/evolution-addressbook.xml.h:16
 msgid "Stop"
 msgstr "Pysäytä"
 
-#: ui/evolution-addressbook.h:19
+#: ui/evolution-addressbook.xml.h:17
 msgid "Stop Loading"
 msgstr "Pysäytä lataaminen"
 
-#: ui/evolution-addressbook.h:20
+#: ui/evolution-addressbook.xml.h:18
 msgid "View All"
 msgstr "Näytä kaikki"
 
-#: ui/evolution-addressbook.h:21
+#: ui/evolution-addressbook.xml.h:19
 msgid "View all contacts"
 msgstr "Näytä kaikki kontaktit"
 
-#: ui/evolution-addressbook.h:22
+#: ui/evolution-addressbook.xml.h:20
 msgid "_New Contact"
 msgstr "_Uusi kontakti"
 
-#: ui/evolution-addressbook.h:23
+#: ui/evolution-addressbook.xml.h:21
 msgid "_Print Contacts..."
 msgstr "_Tulosta kontaktit..."
 
-#: ui/evolution-addressbook.h:24
+#: ui/evolution-addressbook.xml.h:22
 msgid "_Search for contacts"
 msgstr "_Etsi kontakteja"
 
-#: ui/evolution-addressbook.h:25 ui/evolution-event-editor.h:113
+#: ui/evolution-addressbook.xml.h:23 ui/evolution-event-editor.xml.h:124
 msgid "_Tools"
 msgstr "_Työkalut"
 
 #.
-#. *  This file is autogenerated from evolution-calendar.xml, do not edit
-#. *
-#. *  This file contains translatable strings generated by
-#. * bonobo-ui-extract. Add this file to your project's
-#. * POTFILES.in. DO NOT compile it as part of your application.
+#. * Translatable strings file generated by extract-ui.
+#. * Add this file to your project's POTFILES.in
+#. * DO NOT compile it as part of your application.
 #.
-#: ui/evolution-calendar.h:9
+#: ui/evolution-calendar.xml.h:7
 msgid "5 Days"
 msgstr "5 päivää"
 
-#: ui/evolution-calendar.h:10
+#: ui/evolution-calendar.xml.h:8
 msgid "Alter preferences"
 msgstr "Muuta asetuksia"
 
-#: ui/evolution-calendar.h:11
+#: ui/evolution-calendar.xml.h:9
 msgid "Calendar Preferences..."
 msgstr "Kalenterin asetukset..."
 
-#: ui/evolution-calendar.h:12
+#: ui/evolution-calendar.xml.h:10
 msgid "Create a new appointment"
 msgstr "Luo uusi tapaaminen"
 
-#: ui/evolution-calendar.h:13
+#: ui/evolution-calendar.xml.h:11
 msgid "Create a new calendar"
 msgstr "Luo uusi kalenteri"
 
-#: ui/evolution-calendar.h:14
+#: ui/evolution-calendar.xml.h:12
 msgid "Day"
 msgstr "Päivä"
 
-#: ui/evolution-calendar.h:15
+#: ui/evolution-calendar.xml.h:13
 msgid "Go back in time"
 msgstr ""
 
-#: ui/evolution-calendar.h:16
+#: ui/evolution-calendar.xml.h:14
 msgid "Go forward in time"
 msgstr ""
 
-#: ui/evolution-calendar.h:17
+#: ui/evolution-calendar.xml.h:15
 msgid "Go to"
 msgstr ""
 
-#: ui/evolution-calendar.h:18
+#: ui/evolution-calendar.xml.h:16
 msgid "Go to a specific date"
 msgstr ""
 
-#: ui/evolution-calendar.h:19
+#: ui/evolution-calendar.xml.h:17
 msgid "Go to present time"
 msgstr ""
 
-#: ui/evolution-calendar.h:20
+#: ui/evolution-calendar.xml.h:18
 msgid "Month"
 msgstr "Kuukausi"
 
-#: ui/evolution-calendar.h:22
+#: ui/evolution-calendar.xml.h:20
 msgid "New Ca_lendar"
 msgstr ""
 
-#: ui/evolution-calendar.h:23 ui/evolution-event-editor.h:45
+#: ui/evolution-calendar.xml.h:21 ui/evolution-event-editor.xml.h:75
 msgid "Next"
 msgstr ""
 
-#: ui/evolution-calendar.h:24
+#: ui/evolution-calendar.xml.h:22
 msgid "Open a calendar"
 msgstr "Avaa kalenteri"
 
-#: ui/evolution-calendar.h:25
+#: ui/evolution-calendar.xml.h:23
 msgid "Prev"
 msgstr ""
 
-#: ui/evolution-calendar.h:27
+#: ui/evolution-calendar.xml.h:25
 msgid "Print this calendar"
 msgstr "Tulosta tämä kalenteri"
 
-#: ui/evolution-calendar.h:28
-msgid "Save calendar As something else"
+#: ui/evolution-calendar.xml.h:26
+msgid "Save calendar as something else"
 msgstr ""
 
-#: ui/evolution-calendar.h:29
+#: ui/evolution-calendar.xml.h:27
 msgid "Show 1 day"
 msgstr "Näytä 1 päivä"
 
-#: ui/evolution-calendar.h:30
+#: ui/evolution-calendar.xml.h:28
 msgid "Show 1 month"
 msgstr "Näytä 1 kuukausi"
 
-#: ui/evolution-calendar.h:31
+#: ui/evolution-calendar.xml.h:29
 msgid "Show 1 week"
 msgstr "Näytä 1 viikko"
 
-#: ui/evolution-calendar.h:32
+#: ui/evolution-calendar.xml.h:30
 msgid "Show the working week"
 msgstr "Näytä työviikko"
 
-#: ui/evolution-calendar.h:33 widgets/misc/e-dateedit.c:331
+#: ui/evolution-calendar.xml.h:31 widgets/misc/e-dateedit.c:365
 msgid "Today"
 msgstr ""
 
-#: ui/evolution-calendar.h:34
+#: ui/evolution-calendar.xml.h:32
 msgid "Week"
 msgstr "Viikko"
 
-#: ui/evolution-calendar.h:35 ui/evolution.h:35
+#: ui/evolution-calendar.xml.h:33 ui/evolution.xml.h:34
 msgid "_New"
 msgstr "_Uusi"
 
-#: ui/evolution-calendar.h:36
+#: ui/evolution-calendar.xml.h:34
 msgid "_New appointment..."
 msgstr "_Uusi tapaaminen..."
 
-#: ui/evolution-calendar.h:37
+#: ui/evolution-calendar.xml.h:35
 msgid "_Open"
 msgstr "_Avaa"
 
-#: ui/evolution-calendar.h:38
+#: ui/evolution-calendar.xml.h:36
 msgid "_Open Calendar"
 msgstr "_Avaa kalenteri"
 
-#: ui/evolution-calendar.h:39
+#: ui/evolution-calendar.xml.h:37
 msgid "_Print this calendar"
 msgstr "_Tulosta tämä kalenteri"
 
-#: ui/evolution-calendar.h:40
+#: ui/evolution-calendar.xml.h:38
 msgid "_Save Calendar As"
 msgstr "Tallenna kalenteri _nimellä"
 
-#.
-#. *  This file is autogenerated from evolution-contact-editor.xml, do not edit
-#. *
-#. *  This file contains translatable strings generated by
-#. * bonobo-ui-extract. Add this file to your project's
-#. * POTFILES.in. DO NOT compile it as part of your application.
-#.
-#: ui/evolution-contact-editor.h:9 ui/evolution-event-editor.h:55
-#: ui/evolution-subscribe.h:19 ui/evolution.h:29
-msgid "_File"
-msgstr "_Tiedosto"
-
-#: ui/evolution-contact-editor.h:10 ui/evolution-event-editor.h:69
-msgid "_Save"
-msgstr "_Tallenna"
-
-#: ui/evolution-contact-editor.h:11
-msgid "Save _As"
-msgstr "Tallenna _nimellä..."
-
-#: ui/evolution-contact-editor.h:13 ui/evolution-event-editor.h:66
-msgid "_Print"
-msgstr "_Tulosta"
-
-#: ui/evolution-contact-editor.h:15 ui/evolution-event-editor.h:11
-msgid "Save and Close"
-msgstr "Tallenna ja sulje"
-
-#: ui/evolution-contact-editor.h:16
-msgid "Save the contact and close the dialog box"
-msgstr "Tallenna kontakti ja sulje ikkuna"
-
-#: ui/evolution-contact-editor.h:17 ui/evolution-event-editor.h:15
-msgid "Print..."
-msgstr "Tulosta..."
-
-#: ui/evolution-contact-editor.h:18 ui/evolution-event-editor.h:16
-msgid "Print this item"
-msgstr ""
-
-#: ui/evolution-contact-editor.h:20
+#: ui/evolution-contact-editor.xml.h:8
 msgid "Delete this item"
 msgstr ""
 
-#: ui/evolution-event-editor.h:10
-msgid "Save the current file"
-msgstr "Tallenna nykyinen tiedosto"
+#: ui/evolution-contact-editor.xml.h:9
+msgid "Delete..."
+msgstr "Poista..."
 
-#: ui/evolution-event-editor.h:12
-msgid "Save the appointment and close the dialog box"
-msgstr "Tallenna tapaaminen ja sulje tapaamisikkuna"
-
-#: ui/evolution-event-editor.h:17
-msgid "Print Setup"
-msgstr "Tulostusasetukset"
-
-#: ui/evolution-event-editor.h:18
-msgid "Setup the page settings for your current printer"
-msgstr "Muuta nykyisen tulostimesi sivuasetuksia"
-
-#: ui/evolution-event-editor.h:20
-msgid "Close this appointment"
-msgstr "Sulje tämä tapaaminen"
-
-#: ui/evolution-event-editor.h:21
-msgid "Cut"
-msgstr "Leikkaa"
-
-#: ui/evolution-event-editor.h:22
-msgid "Cut the selection"
-msgstr "Leikkaa valinta"
-
-#: ui/evolution-event-editor.h:23 ui/evolution-mail.h:11
-msgid "Copy"
-msgstr "Kopioi"
-
-#: ui/evolution-event-editor.h:24
-msgid "Copy the selection"
-msgstr "Kopioi valinta"
-
-#: ui/evolution-event-editor.h:25
-msgid "Paste"
-msgstr "Liitä"
-
-#: ui/evolution-event-editor.h:26
-msgid "Paste the clipboard"
-msgstr "Liitä leikepöytä"
-
-#: ui/evolution-event-editor.h:27
-msgid "Clear"
-msgstr ""
-
-#: ui/evolution-event-editor.h:28
-msgid "Clear the selection"
-msgstr ""
-
-#: ui/evolution-event-editor.h:29
-msgid "Undo"
-msgstr "Kumoa"
-
-#: ui/evolution-event-editor.h:30
-msgid "Undo the last action"
-msgstr "Kumoa edellinen toiminto"
-
-#: ui/evolution-event-editor.h:31
-msgid "Redo"
-msgstr "Tee uudelleen"
-
-#: ui/evolution-event-editor.h:32
-msgid "Redo the undone action"
-msgstr "Tee kumottu toiminto uudelleen"
-
-#: ui/evolution-event-editor.h:34
-msgid "Search for a string"
-msgstr "Etsi merkkijonoa"
-
-#: ui/evolution-event-editor.h:35
-msgid "Find Again"
-msgstr "Etsi uudelleen"
-
-#: ui/evolution-event-editor.h:36
-msgid "Search again for the same string"
-msgstr "Etsi uudelleen samaa merkkijonoa"
-
-#: ui/evolution-event-editor.h:37
-msgid "Replace"
-msgstr "Korvaa"
-
-#: ui/evolution-event-editor.h:38
-msgid "Replace a string"
-msgstr "Korvaa merkkijono"
-
-#: ui/evolution-event-editor.h:39
-msgid "Select All"
-msgstr "Valitse kaikki"
-
-#: ui/evolution-event-editor.h:40
-msgid "Select everything"
-msgstr "Merkitsee kaikki valituksi"
-
-#: ui/evolution-event-editor.h:41
-msgid "Properties"
-msgstr ""
-
-#: ui/evolution-event-editor.h:42
-msgid "Modify the file's properties"
-msgstr ""
-
-#: ui/evolution-event-editor.h:43
-msgid "Previous"
-msgstr "Edellinen"
-
-#: ui/evolution-event-editor.h:44
-msgid "Go to the previous item"
-msgstr "Siirry edelliseen kohtaan"
-
-#: ui/evolution-event-editor.h:46
-msgid "Go to the next item"
-msgstr "Siirry seuraavaan kohtaan"
-
-#: ui/evolution-event-editor.h:47
-msgid "FIXME: Schedule Meeting"
-msgstr ""
-
-#: ui/evolution-event-editor.h:48
-msgid "Schedule some sort of a meeting"
-msgstr ""
-
-#: ui/evolution-event-editor.h:49
-msgid "About..."
-msgstr "Tietoja..."
-
-#: ui/evolution-event-editor.h:50
-msgid "About this application"
-msgstr ""
-
-#: ui/evolution-event-editor.h:51
-msgid "FIXME: Help"
+#: ui/evolution-contact-editor.xml.h:10
+msgid "Help"
 msgstr "Apua"
 
-#: ui/evolution-event-editor.h:52
-msgid "See online help"
+#: ui/evolution-contact-editor.xml.h:11
+msgid "Print En_velope..."
 msgstr ""
 
-#: ui/evolution-event-editor.h:53
-msgid "Dump XML"
+#: ui/evolution-contact-editor.xml.h:12 ui/evolution-event-editor.xml.h:82
+msgid "Print this item"
 msgstr ""
 
-#: ui/evolution-event-editor.h:54
-msgid "Dump the UI Xml description"
-msgstr ""
+#: ui/evolution-contact-editor.xml.h:13 ui/evolution-event-editor.xml.h:83
+msgid "Print..."
+msgstr "Tulosta..."
 
-#: ui/evolution-event-editor.h:56
-msgid "FIXME: _Mail Message"
-msgstr ""
-
-#: ui/evolution-event-editor.h:57
-msgid "FIXME: _Contact"
-msgstr "_Kontakti"
-
-#: ui/evolution-event-editor.h:58
-msgid "FIXME: _Task"
-msgstr ""
-
-#: ui/evolution-event-editor.h:59
-msgid "FIXME: Task _Request"
-msgstr ""
-
-#: ui/evolution-event-editor.h:60
-msgid "FIXME: _Journal Entry"
-msgstr ""
-
-#: ui/evolution-event-editor.h:61
-msgid "FIXME: _Note"
-msgstr ""
-
-#: ui/evolution-event-editor.h:62 ui/evolution-event-editor.h:118
-msgid "FIXME: Ch_oose Form..."
-msgstr ""
-
-#: ui/evolution-event-editor.h:63
-msgid "FIXME: _Memo Style"
-msgstr ""
-
-#: ui/evolution-event-editor.h:64
-msgid "FIXME: Define Print _Styles"
-msgstr ""
-
-#: ui/evolution-event-editor.h:65
-msgid "FIXME: Print Pre_view"
-msgstr "Tulostuksen _esikatselu"
-
-#: ui/evolution-event-editor.h:67
-msgid "Print S_etup..."
-msgstr "Tulost_usasetukset"
-
-#: ui/evolution-event-editor.h:68
-msgid "FIXME: S_end"
-msgstr "_Lähetä"
-
-#: ui/evolution-event-editor.h:70
+#: ui/evolution-contact-editor.xml.h:14 ui/evolution-event-editor.xml.h:90
+#: ui/evolution-message-composer.xml.h:20
 msgid "Save _As..."
 msgstr "Tallenna _nimellä..."
 
-#: ui/evolution-event-editor.h:71
-msgid "FIXME: Save Attac_hments..."
-msgstr "Tallenna L_iitteet..."
+#: ui/evolution-contact-editor.xml.h:15 ui/evolution-event-editor.xml.h:91
+msgid "Save and Close"
+msgstr "Tallenna ja sulje"
 
-#: ui/evolution-event-editor.h:73
-msgid "FIXME: _Move to Folder..."
-msgstr "_Siirrä kansioon..."
+#: ui/evolution-contact-editor.xml.h:16
+msgid "Save the contact and close the dialog box"
+msgstr "Tallenna kontakti ja sulje ikkuna"
 
-#: ui/evolution-event-editor.h:74
-msgid "FIXME: Cop_y to Folder..."
-msgstr "_Kopioi kansioon..."
-
-#: ui/evolution-event-editor.h:75
-msgid "_Properties..."
+#: ui/evolution-contact-editor.xml.h:17
+msgid "Se_nd contact to other..."
 msgstr ""
 
-#: ui/evolution-event-editor.h:76
-msgid "_Close"
-msgstr "_Sulje"
-
-#: ui/evolution-event-editor.h:77 ui/evolution-subscribe.h:18
-#: ui/evolution.h:28
-msgid "_Edit"
-msgstr "_Muokkaa"
-
-#: ui/evolution-event-editor.h:78
-msgid "_Undo"
+#: ui/evolution-contact-editor.xml.h:18 ui/evolution-event-editor.xml.h:99
+msgid "See online help"
 msgstr ""
 
-#: ui/evolution-event-editor.h:79
-msgid "_Redo"
+#: ui/evolution-contact-editor.xml.h:19
+msgid "Send _message to contact..."
+msgstr "Lähetä _viesti kontaktille..."
+
+#: ui/evolution-contact-editor.xml.h:20 ui/evolution-event-editor.xml.h:111
+#: ui/evolution-message-composer.xml.h:41 ui/evolution-subscribe.xml.h:17
+#: ui/evolution.xml.h:28
+msgid "_File"
+msgstr "_Tiedosto"
+
+#: ui/evolution-contact-editor.xml.h:21
+msgid "_Print..."
+msgstr "T_ulosta..."
+
+#: ui/evolution-contact-editor.xml.h:22 ui/evolution-event-editor.xml.h:122
+#: ui/evolution-message-composer.xml.h:45
+msgid "_Save"
+msgstr "_Tallenna"
+
+#.
+#. * Translatable strings file generated by extract-ui.
+#. * Add this file to your project's POTFILES.in
+#. * DO NOT compile it as part of your application.
+#.
+#: ui/evolution-event-editor.xml.h:7
+msgid "About this application"
 msgstr ""
 
-#: ui/evolution-event-editor.h:80
-msgid "C_ut"
-msgstr "L_eikkaa"
+#: ui/evolution-event-editor.xml.h:8
+msgid "About..."
+msgstr "Tietoja..."
 
-#: ui/evolution-event-editor.h:81
-msgid "_Copy"
-msgstr "_Kopioi"
-
-#: ui/evolution-event-editor.h:82
-msgid "_Paste"
-msgstr "L_iitä"
-
-#: ui/evolution-event-editor.h:83
-msgid "FIXME: Paste _Special... "
-msgstr ""
-
-#: ui/evolution-event-editor.h:84 ui/evolution-event-editor.h:85
-msgid "C_lear"
-msgstr ""
-
-#: ui/evolution-event-editor.h:86
-msgid "_Find..."
-msgstr "_Etsi..."
-
-#: ui/evolution-event-editor.h:87
-msgid "Find _Again"
-msgstr "Etsi uude_lleen"
-
-#: ui/evolution-event-editor.h:88
-msgid "_Replace..."
-msgstr "_Korvaa..."
-
-#: ui/evolution-event-editor.h:89
-msgid "_Object"
-msgstr ""
-
-#: ui/evolution-event-editor.h:90
-msgid "FIXME: what goes here?"
-msgstr ""
-
-#: ui/evolution-event-editor.h:92
-msgid "Pre_vious"
-msgstr "_Edellinen"
-
-#: ui/evolution-event-editor.h:93 ui/evolution-event-editor.h:98
-msgid "FIXME: _Item"
-msgstr ""
-
-#: ui/evolution-event-editor.h:94 ui/evolution-event-editor.h:99
-msgid "FIXME: _Unread Item"
-msgstr ""
-
-#: ui/evolution-event-editor.h:95 ui/evolution-event-editor.h:100
-msgid "FIXME: In_complete Task"
-msgstr ""
-
-#: ui/evolution-event-editor.h:96
-msgid "FIXME: Fi_rst Item in Folder"
-msgstr ""
-
-#: ui/evolution-event-editor.h:97
-msgid "N_ext"
-msgstr "_Seuraava"
-
-#: ui/evolution-event-editor.h:101
-msgid "FIXME: _Last Item in Folder"
-msgstr ""
-
-#: ui/evolution-event-editor.h:102
-msgid "_Toolbars"
-msgstr "_Työkalupalkit"
-
-#: ui/evolution-event-editor.h:103
-msgid "FIXME: _Standard"
-msgstr ""
-
-#: ui/evolution-event-editor.h:104
-msgid "FIXME: _Formatting"
-msgstr ""
-
-#: ui/evolution-event-editor.h:105
-msgid "FIXME: _Customize..."
-msgstr ""
-
-#: ui/evolution-event-editor.h:106
-msgid "_Insert"
-msgstr "Li_sää"
-
-#: ui/evolution-event-editor.h:107
-msgid "FIXME: _File..."
-msgstr "_Tiedosto..."
-
-#: ui/evolution-event-editor.h:108
-msgid "FIXME: It_em..."
-msgstr ""
-
-#: ui/evolution-event-editor.h:109
-msgid "FIXME: _Object..."
-msgstr ""
-
-#: ui/evolution-event-editor.h:110
-msgid "F_ormat"
-msgstr ""
-
-#: ui/evolution-event-editor.h:111
-msgid "FIXME: _Font..."
-msgstr "_Kirjasin..."
-
-#: ui/evolution-event-editor.h:112
-msgid "FIXME: _Paragraph..."
-msgstr ""
-
-#: ui/evolution-event-editor.h:114
-msgid "FIXME: _Spelling..."
-msgstr ""
-
-#: ui/evolution-event-editor.h:115
-msgid "FIXME: Chec_k Names"
-msgstr ""
-
-#: ui/evolution-event-editor.h:116
-msgid "FIXME: Address _Book..."
-msgstr ""
-
-#: ui/evolution-event-editor.h:117
-msgid "_Forms"
-msgstr ""
-
-#: ui/evolution-event-editor.h:119
-msgid "FIXME: Desi_gn This Form"
-msgstr ""
-
-#: ui/evolution-event-editor.h:120
-msgid "FIXME: D_esign a Form..."
-msgstr ""
-
-#: ui/evolution-event-editor.h:121
-msgid "FIXME: Publish _Form..."
-msgstr ""
-
-#: ui/evolution-event-editor.h:122
-msgid "FIXME: Pu_blish Form As..."
-msgstr ""
-
-#: ui/evolution-event-editor.h:123
-msgid "FIXME: Script _Debugger"
-msgstr ""
-
-#: ui/evolution-event-editor.h:124
+#: ui/evolution-event-editor.xml.h:9
 msgid "Actio_ns"
 msgstr "T_oiminnot"
 
-#: ui/evolution-event-editor.h:125
-msgid "FIXME: _New Appointment"
-msgstr "_Uusi tapaaminen"
-
-#: ui/evolution-event-editor.h:126
-msgid "FIXME: Rec_urrence..."
+#: ui/evolution-event-editor.xml.h:10
+msgid "C_lear"
 msgstr ""
 
-#: ui/evolution-event-editor.h:127
-msgid "FIXME: Schedule _Meeting"
+#: ui/evolution-event-editor.xml.h:11
+msgid "C_ut"
+msgstr "L_eikkaa"
+
+#: ui/evolution-event-editor.xml.h:12
+msgid "Clear"
 msgstr ""
 
-#: ui/evolution-event-editor.h:128
-msgid "FIXME: Forward as v_Calendar"
+#: ui/evolution-event-editor.xml.h:13
+msgid "Clear the selection"
 msgstr ""
 
-#: ui/evolution-event-editor.h:129
+#: ui/evolution-event-editor.xml.h:15
+msgid "Close this appointment"
+msgstr "Sulje tämä tapaaminen"
+
+#: ui/evolution-event-editor.xml.h:16 ui/evolution-mail.xml.h:9
+msgid "Copy"
+msgstr "Kopioi"
+
+#: ui/evolution-event-editor.xml.h:17
+msgid "Copy the selection"
+msgstr "Kopioi valinta"
+
+#: ui/evolution-event-editor.xml.h:18
+msgid "Cut"
+msgstr "Leikkaa"
+
+#: ui/evolution-event-editor.xml.h:19
+msgid "Cut the selection"
+msgstr "Leikkaa valinta"
+
+#: ui/evolution-event-editor.xml.h:22
+msgid "Dump XML"
+msgstr ""
+
+#: ui/evolution-event-editor.xml.h:23
+msgid "Dump the UI Xml description"
+msgstr ""
+
+#: ui/evolution-event-editor.xml.h:24
+msgid "FIXME: Address _Book..."
+msgstr ""
+
+#: ui/evolution-event-editor.xml.h:25
+msgid "FIXME: Ch_oose Form..."
+msgstr ""
+
+#: ui/evolution-event-editor.xml.h:26
+msgid "FIXME: Chec_k Names"
+msgstr ""
+
+#: ui/evolution-event-editor.xml.h:27
+msgid "FIXME: Cop_y to Folder..."
+msgstr "_Kopioi kansioon..."
+
+#: ui/evolution-event-editor.xml.h:28
+msgid "FIXME: D_esign a Form..."
+msgstr ""
+
+#: ui/evolution-event-editor.xml.h:29
+msgid "FIXME: Define Print _Styles"
+msgstr ""
+
+#: ui/evolution-event-editor.xml.h:30
+msgid "FIXME: Desi_gn This Form"
+msgstr ""
+
+#: ui/evolution-event-editor.xml.h:31
+msgid "FIXME: Fi_rst Item in Folder"
+msgstr ""
+
+#: ui/evolution-event-editor.xml.h:32
 msgid "FIXME: For_ward"
 msgstr ""
 
-#: ui/evolution-event-editor.h:130 ui/evolution.h:32
-msgid "_Help"
-msgstr "_Apua"
-
-#: ui/evolution-event-editor.h:131
-msgid "_About..."
-msgstr "_Tietoja..."
-
-#: ui/evolution-event-editor.h:132
-msgid "_Debug"
+#: ui/evolution-event-editor.xml.h:33
+msgid "FIXME: Forward as v_Calendar"
 msgstr ""
 
-#: ui/evolution-event-editor.h:133
+#: ui/evolution-event-editor.xml.h:34
+msgid "FIXME: Help"
+msgstr "Apua"
+
+#: ui/evolution-event-editor.xml.h:35
+msgid "FIXME: In_complete Task"
+msgstr ""
+
+#: ui/evolution-event-editor.xml.h:36
 msgid "FIXME: Insert File"
 msgstr ""
 
+#: ui/evolution-event-editor.xml.h:37
+msgid "FIXME: It_em..."
+msgstr ""
+
+#: ui/evolution-event-editor.xml.h:38
+msgid "FIXME: Paste _Special... "
+msgstr ""
+
+#: ui/evolution-event-editor.xml.h:39
+msgid "FIXME: Print Pre_view"
+msgstr "Tulostuksen _esikatselu"
+
+#: ui/evolution-event-editor.xml.h:40
+msgid "FIXME: Pu_blish Form As..."
+msgstr ""
+
+#: ui/evolution-event-editor.xml.h:41
+msgid "FIXME: Publish _Form..."
+msgstr ""
+
+#: ui/evolution-event-editor.xml.h:42
+msgid "FIXME: Rec_urrence..."
+msgstr ""
+
+#: ui/evolution-event-editor.xml.h:43
+msgid "FIXME: S_end"
+msgstr "_Lähetä"
+
+#: ui/evolution-event-editor.xml.h:44
+msgid "FIXME: Save Attac_hments..."
+msgstr "Tallenna L_iitteet..."
+
+#: ui/evolution-event-editor.xml.h:45
+msgid "FIXME: Script _Debugger"
+msgstr ""
+
+#: ui/evolution-event-editor.xml.h:46
+msgid "FIXME: Task _Request"
+msgstr ""
+
+#: ui/evolution-event-editor.xml.h:47
+msgid "FIXME: _Contact"
+msgstr "_Kontakti"
+
+#: ui/evolution-event-editor.xml.h:48
+msgid "FIXME: _Customize..."
+msgstr ""
+
+#: ui/evolution-event-editor.xml.h:49
+msgid "FIXME: _File..."
+msgstr "_Tiedosto..."
+
+#: ui/evolution-event-editor.xml.h:50
+msgid "FIXME: _Font..."
+msgstr "_Kirjasin..."
+
+#: ui/evolution-event-editor.xml.h:51
+msgid "FIXME: _Formatting"
+msgstr ""
+
+#: ui/evolution-event-editor.xml.h:52
+msgid "FIXME: _Item"
+msgstr ""
+
+#: ui/evolution-event-editor.xml.h:53
+msgid "FIXME: _Journal Entry"
+msgstr ""
+
+#: ui/evolution-event-editor.xml.h:54
+msgid "FIXME: _Last Item in Folder"
+msgstr ""
+
+#: ui/evolution-event-editor.xml.h:55
+msgid "FIXME: _Mail Message"
+msgstr ""
+
+#: ui/evolution-event-editor.xml.h:56
+msgid "FIXME: _Memo Style"
+msgstr ""
+
+#: ui/evolution-event-editor.xml.h:57
+msgid "FIXME: _Move to Folder..."
+msgstr "_Siirrä kansioon..."
+
+#: ui/evolution-event-editor.xml.h:58
+msgid "FIXME: _New Appointment"
+msgstr "_Uusi tapaaminen"
+
+#: ui/evolution-event-editor.xml.h:59
+msgid "FIXME: _Note"
+msgstr ""
+
+#: ui/evolution-event-editor.xml.h:60
+msgid "FIXME: _Object..."
+msgstr ""
+
+#: ui/evolution-event-editor.xml.h:61
+msgid "FIXME: _Paragraph..."
+msgstr ""
+
+#: ui/evolution-event-editor.xml.h:62
+msgid "FIXME: _Spelling..."
+msgstr ""
+
+#: ui/evolution-event-editor.xml.h:63
+msgid "FIXME: _Standard"
+msgstr ""
+
+#: ui/evolution-event-editor.xml.h:64
+msgid "FIXME: _Task"
+msgstr ""
+
+#: ui/evolution-event-editor.xml.h:65
+msgid "FIXME: _Unread Item"
+msgstr ""
+
+#: ui/evolution-event-editor.xml.h:66
+msgid "FIXME: what goes here?"
+msgstr ""
+
+#: ui/evolution-event-editor.xml.h:67 ui/evolution-message-composer.xml.h:12
+msgid "F_ormat"
+msgstr ""
+
+#: ui/evolution-event-editor.xml.h:69
+msgid "Find Again"
+msgstr "Etsi uudelleen"
+
+#: ui/evolution-event-editor.xml.h:70
+msgid "Find _Again"
+msgstr "Etsi uude_lleen"
+
+#: ui/evolution-event-editor.xml.h:71
+msgid "Go to the next item"
+msgstr "Siirry seuraavaan kohtaan"
+
+#: ui/evolution-event-editor.xml.h:72
+msgid "Go to the previous item"
+msgstr "Siirry edelliseen kohtaan"
+
+#: ui/evolution-event-editor.xml.h:73
+msgid "Modify the file's properties"
+msgstr ""
+
+#: ui/evolution-event-editor.xml.h:74
+msgid "N_ext"
+msgstr "_Seuraava"
+
+#: ui/evolution-event-editor.xml.h:76
+msgid "Paste"
+msgstr "Liitä"
+
+#: ui/evolution-event-editor.xml.h:77
+msgid "Paste the clipboard"
+msgstr "Liitä leikepöytä"
+
+#: ui/evolution-event-editor.xml.h:78
+msgid "Pre_vious"
+msgstr "_Edellinen"
+
+#: ui/evolution-event-editor.xml.h:79
+msgid "Previous"
+msgstr "Edellinen"
+
+#: ui/evolution-event-editor.xml.h:80
+msgid "Print S_etup..."
+msgstr "Tulost_usasetukset"
+
+#: ui/evolution-event-editor.xml.h:81
+msgid "Print Setup"
+msgstr "Tulostusasetukset"
+
+#: ui/evolution-event-editor.xml.h:84
+msgid "Properties"
+msgstr ""
+
+#: ui/evolution-event-editor.xml.h:85
+msgid "Redo"
+msgstr "Tee uudelleen"
+
+#: ui/evolution-event-editor.xml.h:86
+msgid "Redo the undone action"
+msgstr "Tee kumottu toiminto uudelleen"
+
+#: ui/evolution-event-editor.xml.h:87
+msgid "Replace"
+msgstr "Korvaa"
+
+#: ui/evolution-event-editor.xml.h:88
+msgid "Replace a string"
+msgstr "Korvaa merkkijono"
+
+#: ui/evolution-event-editor.xml.h:92
+msgid "Save the appointment and close the dialog box"
+msgstr "Tallenna tapaaminen ja sulje tapaamisikkuna"
+
+#: ui/evolution-event-editor.xml.h:93 ui/evolution-message-composer.xml.h:23
+msgid "Save the current file"
+msgstr "Tallenna nykyinen tiedosto"
+
+#: ui/evolution-event-editor.xml.h:94
+msgid "Schedule Meeting"
+msgstr ""
+
+#: ui/evolution-event-editor.xml.h:95
+msgid "Schedule _Meeting"
+msgstr ""
+
+#: ui/evolution-event-editor.xml.h:96
+msgid "Schedule some sort of a meeting"
+msgstr ""
+
+#: ui/evolution-event-editor.xml.h:97
+msgid "Search again for the same string"
+msgstr "Etsi uudelleen samaa merkkijonoa"
+
+#: ui/evolution-event-editor.xml.h:98
+msgid "Search for a string"
+msgstr "Etsi merkkijonoa"
+
+#: ui/evolution-event-editor.xml.h:100
+msgid "Select All"
+msgstr "Valitse kaikki"
+
+#: ui/evolution-event-editor.xml.h:101
+msgid "Select everything"
+msgstr "Merkitsee kaikki valituksi"
+
+#: ui/evolution-event-editor.xml.h:102
+msgid "Setup the page settings for your current printer"
+msgstr "Muuta nykyisen tulostimesi sivuasetuksia"
+
+#: ui/evolution-event-editor.xml.h:103
+msgid "Undo"
+msgstr "Kumoa"
+
+#: ui/evolution-event-editor.xml.h:104
+msgid "Undo the last action"
+msgstr "Kumoa edellinen toiminto"
+
+#: ui/evolution-event-editor.xml.h:105 ui/evolution-message-composer.xml.h:37
+msgid "_About..."
+msgstr "_Tietoja..."
+
+#: ui/evolution-event-editor.xml.h:106 ui/evolution-message-composer.xml.h:38
+msgid "_Close"
+msgstr "_Sulje"
+
+#: ui/evolution-event-editor.xml.h:107
+msgid "_Copy"
+msgstr "_Kopioi"
+
+#: ui/evolution-event-editor.xml.h:108 ui/evolution-message-composer.xml.h:39
+msgid "_Debug"
+msgstr ""
+
+#: ui/evolution-event-editor.xml.h:110 ui/evolution-message-composer.xml.h:40
+#: ui/evolution-subscribe.xml.h:16 ui/evolution.xml.h:27
+msgid "_Edit"
+msgstr "_Muokkaa"
+
+#: ui/evolution-event-editor.xml.h:112
+msgid "_Find..."
+msgstr "_Etsi..."
+
+#: ui/evolution-event-editor.xml.h:113
+msgid "_Forms"
+msgstr ""
+
+#: ui/evolution-event-editor.xml.h:114 ui/evolution-message-composer.xml.h:42
+#: ui/evolution.xml.h:31
+msgid "_Help"
+msgstr "_Apua"
+
+#: ui/evolution-event-editor.xml.h:115
+msgid "_Insert"
+msgstr "Li_sää"
+
+#: ui/evolution-event-editor.xml.h:116
+msgid "_Object"
+msgstr ""
+
+#: ui/evolution-event-editor.xml.h:117
+msgid "_Paste"
+msgstr "L_iitä"
+
+#: ui/evolution-event-editor.xml.h:118
+msgid "_Print"
+msgstr "_Tulosta"
+
+#: ui/evolution-event-editor.xml.h:119
+msgid "_Properties..."
+msgstr ""
+
+#: ui/evolution-event-editor.xml.h:120
+msgid "_Redo"
+msgstr ""
+
+#: ui/evolution-event-editor.xml.h:121
+msgid "_Replace..."
+msgstr "_Korvaa..."
+
+#: ui/evolution-event-editor.xml.h:123
+msgid "_Toolbars"
+msgstr "_Työkalupalkit"
+
+#: ui/evolution-event-editor.xml.h:125
+msgid "_Undo"
+msgstr ""
+
 #.
-#. *  This file is autogenerated from evolution-mail.xml, do not edit
-#. *
-#. *  This file contains translatable strings generated by
-#. * bonobo-ui-extract. Add this file to your project's
-#. * POTFILES.in. DO NOT compile it as part of your application.
+#. * Translatable strings file generated by extract-ui.
+#. * Add this file to your project's POTFILES.in
+#. * DO NOT compile it as part of your application.
 #.
-#: ui/evolution-mail.h:9
+#: ui/evolution-mail.xml.h:7
 msgid "Compose"
 msgstr ""
 
-#: ui/evolution-mail.h:10
+#: ui/evolution-mail.xml.h:8
 msgid "Compose a new message"
 msgstr ""
 
-#: ui/evolution-mail.h:12
+#: ui/evolution-mail.xml.h:10
 msgid "Copy message to a new folder"
 msgstr ""
 
-#: ui/evolution-mail.h:15 ui/evolution-subscribe.h:11
+#: ui/evolution-mail.xml.h:14 ui/evolution-subscribe.xml.h:9
 msgid "F_older"
 msgstr ""
 
-#: ui/evolution-mail.h:16
+#: ui/evolution-mail.xml.h:15
 msgid "Fi_lter on Sender"
 msgstr ""
 
-#: ui/evolution-mail.h:17
+#: ui/evolution-mail.xml.h:16
 msgid "Filter on Rec_ipients"
 msgstr ""
 
-#: ui/evolution-mail.h:18
+#: ui/evolution-mail.xml.h:17
 msgid "Forget _Passwords"
 msgstr ""
 
-#: ui/evolution-mail.h:21
+#: ui/evolution-mail.xml.h:20
 msgid "Get Mail"
 msgstr ""
 
-#: ui/evolution-mail.h:22
+#: ui/evolution-mail.xml.h:21
 msgid "Mail _Filters..."
 msgstr ""
 
-#: ui/evolution-mail.h:23
+#: ui/evolution-mail.xml.h:22
 msgid "Manage Subscriptions..."
 msgstr ""
 
-#: ui/evolution-mail.h:24
+#: ui/evolution-mail.xml.h:23
 msgid "Mar_k As Read"
 msgstr ""
 
-#: ui/evolution-mail.h:25
+#: ui/evolution-mail.xml.h:24
 msgid "Mark As U_nread"
 msgstr "Merkitse _lukemattomaksi"
 
-#: ui/evolution-mail.h:26
+#: ui/evolution-mail.xml.h:25
 msgid "Move"
 msgstr "Siirrä"
 
-#: ui/evolution-mail.h:27
+#: ui/evolution-mail.xml.h:26
 msgid "Move message to a new folder"
 msgstr ""
 
-#: ui/evolution-mail.h:28
+#: ui/evolution-mail.xml.h:27
 msgid "Previews the message to be printed"
 msgstr "Esikatsele tulostettavaa viestiä"
 
-#: ui/evolution-mail.h:30
+#: ui/evolution-mail.xml.h:29
 msgid "Print Preview of message..."
 msgstr "Viestin tulostuksen esikatselu..."
 
-#: ui/evolution-mail.h:31
+#: ui/evolution-mail.xml.h:30
 msgid "Print message to the printer"
 msgstr ""
 
-#: ui/evolution-mail.h:32
+#: ui/evolution-mail.xml.h:31
 msgid "Print message..."
 msgstr "Tulosta viesti..."
 
-#: ui/evolution-mail.h:36
+#: ui/evolution-mail.xml.h:35
 msgid "Reply to _All"
 msgstr "Vastaa _Kaikille"
 
-#: ui/evolution-mail.h:37
+#: ui/evolution-mail.xml.h:36
 msgid "Reply to _Sender"
 msgstr "Vastaa _Lähettäjälle"
 
-#: ui/evolution-mail.h:40 ui/evolution-subscribe.h:15
+#: ui/evolution-mail.xml.h:39 ui/evolution-subscribe.xml.h:13
 msgid "Select _All"
 msgstr "Valitse _kaikki"
 
-#: ui/evolution-mail.h:41
+#: ui/evolution-mail.xml.h:40
 msgid "Send queued mail and retrieve new mail"
 msgstr ""
 
-#: ui/evolution-mail.h:42
+#: ui/evolution-mail.xml.h:41
 msgid "Threaded Message list"
 msgstr ""
 
-#: ui/evolution-mail.h:43
+#: ui/evolution-mail.xml.h:42
 msgid "VFolder on Se_nder"
 msgstr ""
 
-#: ui/evolution-mail.h:44
+#: ui/evolution-mail.xml.h:43
 msgid "VFolder on _Recipients"
 msgstr ""
 
-#: ui/evolution-mail.h:45
+#: ui/evolution-mail.xml.h:44
 msgid "_Apply Filters"
 msgstr ""
 
-#: ui/evolution-mail.h:46
+#: ui/evolution-mail.xml.h:45
 msgid "_Configure Folder"
 msgstr ""
 
-#: ui/evolution-mail.h:47
-msgid "_Copy to Folder"
-msgstr "_Kopioi kansioon"
+#: ui/evolution-mail.xml.h:46
+msgid "_Copy to Folder..."
+msgstr "_Kopioi kansioon..."
 
-#: ui/evolution-mail.h:49
+#: ui/evolution-mail.xml.h:48
 msgid "_Edit Message"
 msgstr "_Muokkaa viestiä"
 
-#: ui/evolution-mail.h:50
+#: ui/evolution-mail.xml.h:49
 msgid "_Expunge"
 msgstr ""
 
-#: ui/evolution-mail.h:51
+#: ui/evolution-mail.xml.h:50
 msgid "_Filter on Subject"
 msgstr ""
 
-#: ui/evolution-mail.h:52
+#: ui/evolution-mail.xml.h:51
 msgid "_Forward"
 msgstr ""
 
-#: ui/evolution-mail.h:53 ui/evolution-subscribe.h:20
+#: ui/evolution-mail.xml.h:52 ui/evolution-subscribe.xml.h:18
 msgid "_Invert Selection"
 msgstr ""
 
-#: ui/evolution-mail.h:54
+#: ui/evolution-mail.xml.h:53
 msgid "_Mail Configuration..."
 msgstr ""
 
-#: ui/evolution-mail.h:55
+#: ui/evolution-mail.xml.h:54
 msgid "_Message"
 msgstr "_Viesti"
 
-#: ui/evolution-mail.h:56
-msgid "_Move to Folder"
-msgstr "_Siirrä kansioon"
+#: ui/evolution-mail.xml.h:55
+msgid "_Move to Folder..."
+msgstr "_Siirrä kansioon..."
 
-#: ui/evolution-mail.h:57
+#: ui/evolution-mail.xml.h:56
 msgid "_Open in New Window"
 msgstr ""
 
-#: ui/evolution-mail.h:58
+#: ui/evolution-mail.xml.h:57
 msgid "_Print Message"
 msgstr "_Tulosta viesti"
 
-#: ui/evolution-mail.h:59
+#: ui/evolution-mail.xml.h:58
 msgid "_Threaded"
 msgstr ""
 
-#: ui/evolution-mail.h:60
+#: ui/evolution-mail.xml.h:59
+msgid "_Undelete"
+msgstr "_Palauta"
+
+#: ui/evolution-mail.xml.h:60
 msgid "_VFolder on Subject"
 msgstr ""
 
-#: ui/evolution-mail.h:61
+#: ui/evolution-mail.xml.h:61
 msgid "_Virtual Folder Editor..."
 msgstr ""
 
 #.
-#. *  This file is autogenerated from evolution-subscribe.xml, do not edit
-#. *
-#. *  This file contains translatable strings generated by
-#. * bonobo-ui-extract. Add this file to your project's
-#. * POTFILES.in. DO NOT compile it as part of your application.
+#. * Translatable strings file generated by extract-ui.
+#. * Add this file to your project's POTFILES.in
+#. * DO NOT compile it as part of your application.
 #.
-#: ui/evolution-subscribe.h:9
+#: ui/evolution-message-composer.xml.h:7
+msgid "Attach"
+msgstr "Liitä"
+
+#: ui/evolution-message-composer.xml.h:9
+msgid "Bold"
+msgstr ""
+
+#: ui/evolution-message-composer.xml.h:11
+msgid "Close the current file"
+msgstr "Sulje nykyinen tiedosto"
+
+#: ui/evolution-message-composer.xml.h:13
+msgid "HTML"
+msgstr "HTML"
+
+#: ui/evolution-message-composer.xml.h:14
+msgid "Insert a file as text into the message"
+msgstr "Liitä tiedosto viestiin tekstinä"
+
+#: ui/evolution-message-composer.xml.h:15
+msgid "Insert text file..."
+msgstr "Liitä tekstitiedosto..."
+
+#: ui/evolution-message-composer.xml.h:17
+msgid "Open a file"
+msgstr "Avaa tiedosto"
+
+#: ui/evolution-message-composer.xml.h:19
+msgid "Save As"
+msgstr "Tallenna nimellä..."
+
+#: ui/evolution-message-composer.xml.h:21
+msgid "Save in _folder... (FIXME)"
+msgstr "Tallenna _kansioon..."
+
+#: ui/evolution-message-composer.xml.h:22
+msgid "Save in folder..."
+msgstr "Tallenna kansioon..."
+
+#: ui/evolution-message-composer.xml.h:24
+msgid "Save the current file with a different name"
+msgstr "Tallenna tiedosto uudella nimellä"
+
+#: ui/evolution-message-composer.xml.h:25
+msgid "Save the message in a specified folder"
+msgstr "Tallenna viesti johonkin tiettyyn kansioon"
+
+#: ui/evolution-message-composer.xml.h:26
+msgid "Send"
+msgstr "Lähetä"
+
+#: ui/evolution-message-composer.xml.h:27
+msgid "Send _Later"
+msgstr "Lähetä _myöhemmin"
+
+#: ui/evolution-message-composer.xml.h:28
+msgid "Send _later"
+msgstr "Lähetä _myöhemmin"
+
+#: ui/evolution-message-composer.xml.h:29
+msgid "Send the mail in HTML format"
+msgstr "Lähetä viesti HTML-muodossa"
+
+#: ui/evolution-message-composer.xml.h:30
+msgid "Send the message later"
+msgstr "Lähetä viesti myöhemmin"
+
+#: ui/evolution-message-composer.xml.h:31
+msgid "Send the message now"
+msgstr "Lähetä viesti heti"
+
+#: ui/evolution-message-composer.xml.h:32
+msgid "Send this message now"
+msgstr "Lähetä viesti heti"
+
+#: ui/evolution-message-composer.xml.h:33
+msgid "Sets something as bold"
+msgstr ""
+
+#: ui/evolution-message-composer.xml.h:34
+msgid "Show / hide attachments"
+msgstr "Näytä / piilota liitetiedostot"
+
+#: ui/evolution-message-composer.xml.h:35
+msgid "Show _attachments"
+msgstr "Näytä _liitteet"
+
+#: ui/evolution-message-composer.xml.h:36
+msgid "Show attachments"
+msgstr "Näytä liitteet"
+
+#: ui/evolution-message-composer.xml.h:43
+msgid "_Insert text file... (FIXME)"
+msgstr "_Liitä tekstitiedosto..."
+
+#: ui/evolution-message-composer.xml.h:44
+msgid "_Open..."
+msgstr "_Avaa..."
+
+#.
+#. * Translatable strings file generated by extract-ui.
+#. * Add this file to your project's POTFILES.in
+#. * DO NOT compile it as part of your application.
+#.
+#: ui/evolution-subscribe.xml.h:7
 msgid "Add folder to your list of subscribed folders"
 msgstr ""
 
-#: ui/evolution-subscribe.h:12
+#: ui/evolution-subscribe.xml.h:10
 msgid "Refresh List"
 msgstr ""
 
-#: ui/evolution-subscribe.h:13
+#: ui/evolution-subscribe.xml.h:11
 msgid "Refresh List of Folders"
 msgstr ""
 
-#: ui/evolution-subscribe.h:14
+#: ui/evolution-subscribe.xml.h:12
 msgid "Remove folder from your list of subscribed folders"
 msgstr ""
 
-#: ui/evolution-subscribe.h:16
+#: ui/evolution-subscribe.xml.h:14
 msgid "Subscribe"
-msgstr ""
+msgstr "Tilaa"
 
-#: ui/evolution-subscribe.h:17
+#: ui/evolution-subscribe.xml.h:15
 msgid "Unsubscribe"
-msgstr ""
+msgstr "Poista tilaus"
 
 #.
-#. *  This file is autogenerated from evolution.xml, do not edit
-#. *
-#. *  This file contains translatable strings generated by
-#. * bonobo-ui-extract. Add this file to your project's
-#. * POTFILES.in. DO NOT compile it as part of your application.
+#. * Translatable strings file generated by extract-ui.
+#. * Add this file to your project's POTFILES.in
+#. * DO NOT compile it as part of your application.
 #.
-#: ui/evolution.h:9
+#: ui/evolution.xml.h:7
 msgid "Create a new folder"
 msgstr ""
 
-#: ui/evolution.h:10
+#: ui/evolution.xml.h:8
 msgid "Display a different folder"
 msgstr ""
 
-#: ui/evolution.h:11
+#: ui/evolution.xml.h:9
 msgid "E_xit"
 msgstr "_Poistu"
 
-#: ui/evolution.h:12
+#: ui/evolution.xml.h:10
 msgid "Evolution bar _shortcut"
 msgstr ""
 
-#: ui/evolution.h:13
+#: ui/evolution.xml.h:11
 msgid "Exit the program"
 msgstr ""
 
-#: ui/evolution.h:14
+#: ui/evolution.xml.h:12
 msgid "Getting _Started"
 msgstr ""
 
-#: ui/evolution.h:15
+#: ui/evolution.xml.h:13
 msgid "Show information about Evolution"
 msgstr ""
 
-#: ui/evolution.h:16
+#: ui/evolution.xml.h:14
 msgid "Show the _Folder Bar"
 msgstr ""
 
-#: ui/evolution.h:17
+#: ui/evolution.xml.h:15
 msgid "Show the _Shortcut Bar"
 msgstr ""
 
-#: ui/evolution.h:18
+#: ui/evolution.xml.h:16
+msgid "Submit _Bug Report"
+msgstr ""
+
+#: ui/evolution.xml.h:17
 msgid "Submit bug report using Bug Buddy"
 msgstr ""
 
-#: ui/evolution.h:19
+#: ui/evolution.xml.h:18
 msgid "Toggle whether to show the folder bar"
 msgstr ""
 
-#: ui/evolution.h:20
+#: ui/evolution.xml.h:19
 msgid "Toggle whether to show the shortcut bar"
 msgstr ""
 
-#: ui/evolution.h:21
+#: ui/evolution.xml.h:20
 msgid "Using the C_ontact Manager"
 msgstr ""
 
-#: ui/evolution.h:22
+#: ui/evolution.xml.h:21
 msgid "Using the _Calendar"
 msgstr ""
 
-#: ui/evolution.h:23
+#: ui/evolution.xml.h:22
 msgid "Using the _Mailer"
 msgstr ""
 
-#: ui/evolution.h:24
+#: ui/evolution.xml.h:23
 msgid "_About Evolution..."
 msgstr ""
 
-#: ui/evolution.h:25
+#: ui/evolution.xml.h:24
 msgid "_Appointment (FIXME)"
 msgstr "_Tapaaminen"
 
-#: ui/evolution.h:26
+#: ui/evolution.xml.h:25
 msgid "_Contact (FIXME)"
 msgstr "_Kontakti"
 
-#: ui/evolution.h:27
+#: ui/evolution.xml.h:26
 msgid "_Create New Folder..."
-msgstr ""
+msgstr "_Luo uusi kansio..."
 
-#: ui/evolution.h:30
+#: ui/evolution.xml.h:29
 msgid "_Folder"
-msgstr ""
+msgstr "_Kansio"
 
-#: ui/evolution.h:31
+#: ui/evolution.xml.h:30
 msgid "_Go to Folder..."
-msgstr ""
+msgstr "_Siirry kansioon..."
 
-#: ui/evolution.h:33
+#: ui/evolution.xml.h:32
 msgid "_Index"
 msgstr ""
 
-#: ui/evolution.h:34
+#: ui/evolution.xml.h:33
 msgid "_Mail message (FIXME)"
 msgstr ""
 
-#: ui/evolution.h:36
+#: ui/evolution.xml.h:35
 msgid "_Settings"
 msgstr "_Asetukset"
 
-#: ui/evolution.h:37
-msgid "_Submit Bug Report"
-msgstr ""
-
-#: ui/evolution.h:38
+#: ui/evolution.xml.h:36
 msgid "_Task (FIXME)"
 msgstr ""
 
@@ -6331,7 +6410,7 @@ msgstr ""
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:491
 msgid "_<<"
-msgstr ""
+msgstr "_<<"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:508
 msgid "_Autopick"
@@ -6339,7 +6418,7 @@ msgstr ""
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:522
 msgid ">_>"
-msgstr ""
+msgstr ">_>"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:539
 msgid "_All People and Resources"
@@ -6385,192 +6464,25 @@ msgstr ""
 msgid "..."
 msgstr "..."
 
-#: widgets/misc/e-dateedit.c:325
-msgid "Now"
-msgstr "Nyt"
-
-#. This is a strptime() format. %H = hour (0-23), %M = minute.
-#: widgets/misc/e-dateedit.c:641 widgets/misc/e-dateedit.c:731
-#: widgets/misc/e-dateedit.c:768 widgets/misc/e-dateedit.c:813
+#. This is a strftime() format. %H = hour (0-23), %M = minute.
+#: widgets/misc/e-dateedit.c:234 widgets/misc/e-dateedit.c:673
+#: widgets/misc/e-dateedit.c:766 widgets/misc/e-dateedit.c:811
 #: widgets/misc/e-dateedit.c:1127
 msgid "%H:%M"
 msgstr ""
 
-#. This is a strptime() format. %I = hour (1-12), %M = minute, %p = am/pm string.
-#: widgets/misc/e-dateedit.c:644 widgets/misc/e-dateedit.c:734
-#: widgets/misc/e-dateedit.c:771 widgets/misc/e-dateedit.c:816
+#. This is a strftime() format. %I = hour (1-12), %M = minute, %p = am/pm string.
+#: widgets/misc/e-dateedit.c:237 widgets/misc/e-dateedit.c:676
+#: widgets/misc/e-dateedit.c:769 widgets/misc/e-dateedit.c:814
 #: widgets/misc/e-dateedit.c:1130
 msgid "%I:%M %p"
 msgstr ""
+
+#: widgets/misc/e-dateedit.c:359
+msgid "Now"
+msgstr "Nyt"
 
 #: widgets/shortcut-bar/e-group-bar.c:632
 #, c-format
 msgid "Group %i"
 msgstr "Ryhmä %i"
-
-#~ msgid "(C) 1998 the Free Software Foundation"
-#~ msgstr "(C) 1998 the Free Software Foundation"
-
-#~ msgid "Error while communicating with address server"
-#~ msgstr "Virhe kommunikoitaessa osoitepalvelimen kanssa"
-
-#~ msgid "_Summary:"
-#~ msgstr "_Yhteenveto:"
-
-#~ msgid ""
-#~ "Monday\n"
-#~ "Tuesday\n"
-#~ "Wednesday\n"
-#~ "Thursday\n"
-#~ "Friday\n"
-#~ "Saturday\n"
-#~ "Sunday\n"
-#~ msgstr ""
-#~ "Maanantai\n"
-#~ "Tiistai\n"
-#~ "Keskiviikko\n"
-#~ "Torstai\n"
-#~ "Perjantai\n"
-#~ "Lauantai\n"
-#~ "Sunnuntai\n"
-
-#~ msgid "Search..."
-#~ msgstr "Etsi..."
-
-#~ msgid "Name"
-#~ msgstr "Nimi"
-
-#~ msgid "Add..."
-#~ msgstr "Lisää..."
-
-#~ msgid "To: >>"
-#~ msgstr "Vastaanottaja: >>"
-
-#~ msgid "About to save changes to message..."
-#~ msgstr "Tallentamaisillaan muutokset..."
-
-#~ msgid "More criterion"
-#~ msgstr "Lisää ehtoja"
-
-#~ msgid "Fewer criterion"
-#~ msgstr "Vähemmän ehtoja"
-
-#~ msgid "_Unselect All"
-#~ msgstr "_Poista kaikki valinnat"
-
-#~ msgid "FIXME: _Appointment"
-#~ msgstr "_Tapaaminen"
-
-#~ msgid "FIXME: _New Contact"
-#~ msgstr "Uusi _kontakti"
-
-#~ msgid "FIXME: New _Contact from Same Company"
-#~ msgstr "Uusi kontakti samasta _yhtiöstä"
-
-#~ msgid "FIXME: New Meetin_g with Contact"
-#~ msgstr "_Tapaaminen kontaktin kanssa"
-
-#~ msgid "Insert a file as an attachment"
-#~ msgstr "Lisää liitetiedosto"
-
-#~ msgid "FIXME: Previous"
-#~ msgstr "Edellinen"
-
-#~ msgid "Copyright (C) 2000, Helix Code, Inc."
-#~ msgstr "Copyright (C) 2000, Helix Code, Inc."
-
-#~ msgid "Year"
-#~ msgstr "Vuosi"
-
-#~ msgid "Show 1 year"
-#~ msgstr "Näytä 1 vuosi"
-
-#~ msgid "Save and close this appointment"
-#~ msgstr "Tallenna ja sulje tämä tapaaminen"
-
-#~ msgid "Load a previously saved message"
-#~ msgstr "Lataa aiemmin tallennettu viesti"
-
-#~ msgid "Save message"
-#~ msgstr "Tallenna viesti"
-
-#~ msgid "_Save as..."
-#~ msgstr "_Tallenna nimellä..."
-
-#~ msgid "Save message with a different name"
-#~ msgstr "Tallenna viesti uudella nimellä"
-
-#~ msgid "Save in _folder..."
-#~ msgstr "Tallenna _kansioon..."
-
-#~ msgid "Save the message in a specified folder"
-#~ msgstr "Tallenna viesti johonkin tiettyyn kansioon"
-
-#~ msgid "_Insert text file... (FIXME)"
-#~ msgstr "_Liitä tekstitiedosto..."
-
-#~ msgid "Insert a file as text into the message"
-#~ msgstr "Liitä tiedosto viestiin tekstinä"
-
-#~ msgid "Send _Now"
-#~ msgstr "Lähetä _heti"
-
-#~ msgid "Send the message now"
-#~ msgstr "Lähetä viesti heti"
-
-#~ msgid "Send _Later"
-#~ msgstr "Lähetä _myöhemmin"
-
-#~ msgid "Quit the message composer"
-#~ msgstr "Sulje viestiohjelma"
-
-#~ msgid "HTML"
-#~ msgstr "HTML"
-
-#~ msgid "Send the mail in HTML format"
-#~ msgstr "Lähetä viesti HTML-muodossa"
-
-#~ msgid "Show _attachments"
-#~ msgstr "Näytä _liitteet"
-
-#~ msgid "Show/hide attachments"
-#~ msgstr "Näytä/piilota liitetiedostot"
-
-#~ msgid "Send this message"
-#~ msgstr "Lähetä viesti"
-
-#~ msgid "Attach"
-#~ msgstr "Liitä"
-
-#~ msgid "Port:"
-#~ msgstr "Portti:"
-
-#~ msgid "Use default port"
-#~ msgstr "Käytä oletusporttia"
-
-#~ msgid "From"
-#~ msgstr "Lähettäjä"
-
-#~ msgid "To"
-#~ msgstr "Vastaanottaja"
-
-#~ msgid "Size"
-#~ msgstr "Koko"
-
-#~ msgid "The component now claims that it doesn't support PersistStream!"
-#~ msgstr "Komponenttiä väittää ettei tue PersistStreamia!"
-
-#~ msgid "The %s component doesn't support PersistStream!\n"
-#~ msgstr "Komponentti %s ei tue PersistStreamia!\n"
-
-#~ msgid "Add >>"
-#~ msgstr "Lisää >>"
-
-#~ msgid "<< Remove"
-#~ msgstr "<< Poista"
-
-#~ msgid "Sort Ascending"
-#~ msgstr "Järjestä nousevassa järjestyksessä"
-
-#~ msgid "Sort Descending"
-#~ msgstr "Järjestä laskevassa järjestyksessä"
