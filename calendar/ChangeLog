@@ -1,5 +1,10 @@
 2001-02-08  JP Rosevear  <jpr@ximian.com>
 
+	* cal-util/cal-component.c (cal_component_set_url): Don't try and
+	write an empty string as a property
+
+2001-02-08  JP Rosevear  <jpr@ximian.com>
+
 	* gui/e-week-view.c (e_week_view_on_schedule_meet): new routine to
 	throw up the meeting schedule dialog
 	(e_week_view_show_popup_menu): add schedule meeting to the
