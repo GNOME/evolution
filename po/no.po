@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.0\n"
-"POT-Creation-Date: 2001-12-13 22:37+0100\n"
-"PO-Revision-Date: 2001-12-13 22:39+0100\n"
+"POT-Creation-Date: 2001-12-16 16:42+0100\n"
+"PO-Revision-Date: 2001-12-16 17:23+0100\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian <no@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -617,7 +617,7 @@ msgstr "VCard for %s"
 #: addressbook/backend/ebook/load-pine-addressbook.c:22
 #: addressbook/backend/ebook/test-client-list.c:23
 #: addressbook/backend/ebook/test-client.c:33
-#: addressbook/conduit/address-conduit.c:1533
+#: addressbook/conduit/address-conduit.c:1539
 #: addressbook/gui/component/addressbook-factory.c:50
 #: calendar/conduits/calendar/calendar-conduit.c:1546
 #: calendar/conduits/todo/todo-conduit.c:1130
@@ -673,28 +673,28 @@ msgstr "Mottar søkeresultater fra LDAP-tjener..."
 msgid "Restarting search."
 msgstr "Starter søk på nytt."
 
-#: addressbook/conduit/address-conduit.c:294
+#: addressbook/conduit/address-conduit.c:293
 msgid "Cursor could not be loaded\n"
 msgstr "Markøren kunne ikke lokaliseres\n"
 
-#: addressbook/conduit/address-conduit.c:307
+#: addressbook/conduit/address-conduit.c:306
 msgid "EBook not loaded\n"
 msgstr "EBook ikke lastet\n"
 
-#: addressbook/conduit/address-conduit.c:1089
+#: addressbook/conduit/address-conduit.c:1094
 #: calendar/conduits/calendar/calendar-conduit.c:1078
 #: calendar/conduits/todo/todo-conduit.c:694
 msgid "Could not start wombat server"
 msgstr "Kunne ikke starte wombat tjener"
 
-#: addressbook/conduit/address-conduit.c:1090
+#: addressbook/conduit/address-conduit.c:1095
 #: calendar/conduits/calendar/calendar-conduit.c:1079
 #: calendar/conduits/todo/todo-conduit.c:695
 msgid "Could not start wombat"
 msgstr "Kunne ikke starte wombat"
 
-#: addressbook/conduit/address-conduit.c:1120
-#: addressbook/conduit/address-conduit.c:1123
+#: addressbook/conduit/address-conduit.c:1125
+#: addressbook/conduit/address-conduit.c:1128
 msgid "Could not read pilot's Address application block"
 msgstr "Kunne ikke lese pilotens adresseapplikasjonsblokk"
 
@@ -1064,7 +1064,7 @@ msgstr "Factory for adressebokens grensesnitt for navnevalg"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:163
 #: addressbook/gui/component/select-names/e-select-names.c:777
-#: composer/e-msg-composer-attachment-bar.c:499 filter/filter-filter.c:436
+#: composer/e-msg-composer-attachment-bar.c:501 filter/filter-filter.c:436
 #: filter/filter-rule.c:637 shell/e-shortcuts-view.c:180
 msgid "Remove"
 msgstr "Fjern"
@@ -2474,7 +2474,7 @@ msgstr ""
 "eksisterer allerede i denne mappen. Vil du legge til likevel?"
 
 #: addressbook/gui/search/e-addressbook-search-dialog.c:145
-#: widgets/misc/e-filter-bar.c:237
+#: widgets/misc/e-filter-bar.c:238
 msgid "Advanced Search"
 msgstr "Avansert søk"
 
@@ -2585,7 +2585,7 @@ msgstr "Protokollen er ikke støttet"
 #: calendar/gui/calendar-model.c:763 calendar/gui/calendar-model.c:1197
 #: calendar/gui/dialogs/task-details-page.glade.h:3
 #: calendar/gui/e-calendar-table.c:481 calendar/gui/print.c:2255
-#: camel/camel-service.c:607 camel/camel-service.c:643
+#: camel/camel-service.c:610 camel/camel-service.c:646
 msgid "Cancelled"
 msgstr "Avbrutt"
 
@@ -2907,6 +2907,1519 @@ msgstr "Skriv ut kort"
 msgid "Print envelope"
 msgstr "Skriv ut konvolutt"
 
+#.
+#. * These are the timezone names from the Olson timezone data.
+#. * We only place them here so gettext picks them up for translation.
+#. * Don't include in any C files.
+#.
+#: calendar/zones.h:7
+msgid "Africa/Abidjan"
+msgstr "Afrika/Abidjan"
+
+#: calendar/zones.h:8
+msgid "Africa/Accra"
+msgstr "Afrika/Akkra"
+
+#: calendar/zones.h:9
+msgid "Africa/Addis_Ababa"
+msgstr "Afrika/Addis_Abeba"
+
+#: calendar/zones.h:10
+msgid "Africa/Algiers"
+msgstr "Afrika/Algier"
+
+#: calendar/zones.h:11
+msgid "Africa/Asmera"
+msgstr "Afrika/Asmera"
+
+#: calendar/zones.h:12
+msgid "Africa/Bamako"
+msgstr "Afrika/Bamako"
+
+#: calendar/zones.h:13
+msgid "Africa/Bangui"
+msgstr "Afrika/Bangui"
+
+#: calendar/zones.h:14
+msgid "Africa/Banjul"
+msgstr "Afrika/Banjul"
+
+#: calendar/zones.h:15
+msgid "Africa/Bissau"
+msgstr "Afrika/Bissau"
+
+#: calendar/zones.h:16
+msgid "Africa/Blantyre"
+msgstr "Afrika/Blantyre"
+
+#: calendar/zones.h:17
+msgid "Africa/Brazzaville"
+msgstr "Afrika/Brazzaville"
+
+#: calendar/zones.h:18
+msgid "Africa/Bujumbura"
+msgstr "Afrika/Bujumbura"
+
+#: calendar/zones.h:19
+msgid "Africa/Cairo"
+msgstr "Afrika/Kairo"
+
+#: calendar/zones.h:20
+msgid "Africa/Casablanca"
+msgstr "Afrika/Casablanca"
+
+#: calendar/zones.h:21
+msgid "Africa/Ceuta"
+msgstr "Afrika/Ceuta"
+
+#: calendar/zones.h:22
+msgid "Africa/Conakry"
+msgstr "Afrika/Conakry"
+
+#: calendar/zones.h:23
+msgid "Africa/Dakar"
+msgstr "Afrika/Dakar"
+
+#: calendar/zones.h:24
+msgid "Africa/Dar_es_Salaam"
+msgstr "Afrika/Dar_es_salaam"
+
+#: calendar/zones.h:25
+msgid "Africa/Djibouti"
+msgstr "Afrika/Djibouti"
+
+#: calendar/zones.h:26
+msgid "Africa/Douala"
+msgstr "Afrika/Douala"
+
+#: calendar/zones.h:27
+msgid "Africa/El_Aaiun"
+msgstr "Afrika/El_Aaiun"
+
+#: calendar/zones.h:28
+msgid "Africa/Freetown"
+msgstr "Afrika/Freetown"
+
+#: calendar/zones.h:29
+msgid "Africa/Gaborone"
+msgstr "Afrika/Gaborone"
+
+#: calendar/zones.h:30
+msgid "Africa/Harare"
+msgstr "Afrika/Harare"
+
+#: calendar/zones.h:31
+msgid "Africa/Johannesburg"
+msgstr "Afrika/Johannesburg"
+
+#: calendar/zones.h:32
+msgid "Africa/Kampala"
+msgstr "Afrika/Kampala"
+
+#: calendar/zones.h:33
+msgid "Africa/Khartoum"
+msgstr "Afrika/Khartoum"
+
+#: calendar/zones.h:34
+msgid "Africa/Kigali"
+msgstr "Afrika/Kigali"
+
+#: calendar/zones.h:35
+msgid "Africa/Kinshasa"
+msgstr "Afrika/Kinshasa"
+
+#: calendar/zones.h:36
+msgid "Africa/Lagos"
+msgstr "Afrika/Lagos"
+
+#: calendar/zones.h:37
+msgid "Africa/Libreville"
+msgstr "Afrika/Libreville"
+
+#: calendar/zones.h:38
+msgid "Africa/Lome"
+msgstr "Afrika/Lome"
+
+#: calendar/zones.h:39
+msgid "Africa/Luanda"
+msgstr "Afrika/Luanda"
+
+#: calendar/zones.h:40
+msgid "Africa/Lubumbashi"
+msgstr "Afrika/Lubumbashi"
+
+#: calendar/zones.h:41
+msgid "Africa/Lusaka"
+msgstr "Afrika/Lusaka"
+
+#: calendar/zones.h:42
+msgid "Africa/Malabo"
+msgstr "Afrika/Malabo"
+
+#: calendar/zones.h:43
+msgid "Africa/Maputo"
+msgstr "Afrika/Maputo"
+
+#: calendar/zones.h:44
+msgid "Africa/Maseru"
+msgstr "Afrika/Maseru"
+
+#: calendar/zones.h:45
+msgid "Africa/Mbabane"
+msgstr "Afrika/Mbabane"
+
+#: calendar/zones.h:46
+msgid "Africa/Mogadishu"
+msgstr "Afrika/Mogadishu"
+
+#: calendar/zones.h:47
+msgid "Africa/Monrovia"
+msgstr "Afrika/Monrovia"
+
+#: calendar/zones.h:48
+msgid "Africa/Nairobi"
+msgstr "Afrika/Nairobi"
+
+#: calendar/zones.h:49
+msgid "Africa/Ndjamena"
+msgstr "Afrika/Ndjamena"
+
+#: calendar/zones.h:50
+msgid "Africa/Niamey"
+msgstr "Afrika/Niamey"
+
+#: calendar/zones.h:51
+msgid "Africa/Nouakchott"
+msgstr "Afrika/Nouakchott"
+
+#: calendar/zones.h:52
+msgid "Africa/Ouagadougou"
+msgstr "Afrika/Ouagadougou"
+
+#: calendar/zones.h:53
+msgid "Africa/Porto-Novo"
+msgstr "Afrika/Porto-Novo"
+
+#: calendar/zones.h:54
+msgid "Africa/Sao_Tome"
+msgstr "Afrika/Sao_Tome"
+
+#: calendar/zones.h:55
+msgid "Africa/Timbuktu"
+msgstr "Afrika/Timbuktu"
+
+#: calendar/zones.h:56
+msgid "Africa/Tripoli"
+msgstr "Afrika/Tripoli"
+
+#: calendar/zones.h:57
+msgid "Africa/Tunis"
+msgstr "Afrika/Tunis"
+
+#: calendar/zones.h:58
+msgid "Africa/Windhoek"
+msgstr "Afrika/Windhoek"
+
+#: calendar/zones.h:59
+msgid "America/Adak"
+msgstr "Amerika/Adak"
+
+#: calendar/zones.h:60
+msgid "America/Anchorage"
+msgstr "Amerika/Anchorage"
+
+#: calendar/zones.h:61
+msgid "America/Anguilla"
+msgstr "Amerika/Anguilla"
+
+#: calendar/zones.h:62
+msgid "America/Antigua"
+msgstr "Amerika/Antigua"
+
+#: calendar/zones.h:63
+msgid "America/Araguaina"
+msgstr "Amerika/Araguaina"
+
+#: calendar/zones.h:64
+msgid "America/Aruba"
+msgstr "Amerika/Aruba"
+
+#: calendar/zones.h:65
+msgid "America/Asuncion"
+msgstr "Amerika/Asuncion"
+
+#: calendar/zones.h:66
+msgid "America/Barbados"
+msgstr "Amerika/Barbados"
+
+#: calendar/zones.h:67
+msgid "America/Belem"
+msgstr "Amerika/Belem"
+
+#: calendar/zones.h:68
+msgid "America/Belize"
+msgstr "Amerika/Belize"
+
+#: calendar/zones.h:69
+msgid "America/Boa_Vista"
+msgstr "Amerika/Boa_Vista"
+
+#: calendar/zones.h:70
+msgid "America/Bogota"
+msgstr "Amerika/Bogota"
+
+#: calendar/zones.h:71
+msgid "America/Boise"
+msgstr "Amerika/Boise"
+
+#: calendar/zones.h:72
+msgid "America/Buenos_Aires"
+msgstr "Amerika/Buenos_Aires"
+
+#: calendar/zones.h:73
+msgid "America/Cambridge_Bay"
+msgstr "Amerika/Cambridge_Bay"
+
+#: calendar/zones.h:74
+msgid "America/Cancun"
+msgstr "Amerika/Cancun"
+
+#: calendar/zones.h:75
+msgid "America/Caracas"
+msgstr "Amerika/Caracas"
+
+#: calendar/zones.h:76
+msgid "America/Catamarca"
+msgstr "Amerika/Catamarca"
+
+#: calendar/zones.h:77
+msgid "America/Cayenne"
+msgstr "Amerika/Cayenne"
+
+#: calendar/zones.h:78
+msgid "America/Cayman"
+msgstr "Amerika/Cayman"
+
+#: calendar/zones.h:79
+msgid "America/Chicago"
+msgstr "Amerika/Chicago"
+
+#: calendar/zones.h:80
+msgid "America/Chihuahua"
+msgstr "Amerika/Chihuahua"
+
+#: calendar/zones.h:81
+msgid "America/Cordoba"
+msgstr "Amerika/Cordoba"
+
+#: calendar/zones.h:82
+msgid "America/Costa_Rica"
+msgstr "Amerika/Costa_Rica"
+
+#: calendar/zones.h:83
+msgid "America/Cuiaba"
+msgstr "Amerika/Cuiaba"
+
+#: calendar/zones.h:84
+msgid "America/Curacao"
+msgstr "Amerika/Curacao"
+
+#: calendar/zones.h:85
+msgid "America/Danmarkshavn"
+msgstr "Amerika/Danmarkshavn"
+
+#: calendar/zones.h:86
+msgid "America/Dawson"
+msgstr "Amerika/Dawson"
+
+#: calendar/zones.h:87
+msgid "America/Dawson_Creek"
+msgstr "Amerika/Dawson_Creek"
+
+#: calendar/zones.h:88
+msgid "America/Denver"
+msgstr "Amerika/Denver"
+
+#: calendar/zones.h:89
+msgid "America/Detroit"
+msgstr "Amerika/Detroit"
+
+#: calendar/zones.h:90
+msgid "America/Dominica"
+msgstr "Amerika/Dominika"
+
+#: calendar/zones.h:91
+msgid "America/Edmonton"
+msgstr "Amerika/Edmonton"
+
+#: calendar/zones.h:92
+msgid "America/Eirunepe"
+msgstr "Amerika/Eirunepe"
+
+#: calendar/zones.h:93
+msgid "America/El_Salvador"
+msgstr "Amerika/El_Salvador"
+
+#: calendar/zones.h:94
+msgid "America/Fortaleza"
+msgstr "Amerika/Fortaleza"
+
+#: calendar/zones.h:95
+msgid "America/Glace_Bay"
+msgstr "Amerika/Glace_Bay"
+
+#: calendar/zones.h:96
+msgid "America/Godthab"
+msgstr "Amerika/Kapp_det_gode_håp"
+
+#: calendar/zones.h:97
+msgid "America/Goose_Bay"
+msgstr "Amerika/Goose_Bay"
+
+#: calendar/zones.h:98
+msgid "America/Grand_Turk"
+msgstr "Amerika/Grand_Turk"
+
+#: calendar/zones.h:99
+msgid "America/Grenada"
+msgstr "Amerika/Grenada"
+
+#: calendar/zones.h:100
+msgid "America/Guadeloupe"
+msgstr "Amerika/Guadeloupe"
+
+#: calendar/zones.h:101
+msgid "America/Guatemala"
+msgstr "Amerika/Guatemala"
+
+#: calendar/zones.h:102
+msgid "America/Guayaquil"
+msgstr "Amerika/Guayaquil"
+
+#: calendar/zones.h:103
+msgid "America/Guyana"
+msgstr "Amerika/Guyana"
+
+#: calendar/zones.h:104
+msgid "America/Halifax"
+msgstr "Amerika/Halifax"
+
+#: calendar/zones.h:105
+msgid "America/Havana"
+msgstr "Amerika/Havana"
+
+#: calendar/zones.h:106
+msgid "America/Hermosillo"
+msgstr "Amerika/Hermosillo"
+
+#: calendar/zones.h:107
+msgid "America/Indiana/Indianapolis"
+msgstr "Amerika/Indiana/Indianapolis"
+
+#: calendar/zones.h:108
+msgid "America/Indiana/Knox"
+msgstr "Amerika/Indiana/Knox"
+
+#: calendar/zones.h:109
+msgid "America/Indiana/Marengo"
+msgstr "Amerika/Indiana/Marengo"
+
+#: calendar/zones.h:110
+msgid "America/Indiana/Vevay"
+msgstr "Amerika/Indiana/Vevay"
+
+#: calendar/zones.h:111
+msgid "America/Indianapolis"
+msgstr "Amerika/Indianapolis"
+
+#: calendar/zones.h:112
+msgid "America/Inuvik"
+msgstr "Amerika/Inuvik"
+
+#: calendar/zones.h:113
+msgid "America/Iqaluit"
+msgstr "Amerika/Iqaluit"
+
+#: calendar/zones.h:114
+msgid "America/Jamaica"
+msgstr "Amerika/Jamaica"
+
+#: calendar/zones.h:115
+msgid "America/Jujuy"
+msgstr "Amerika/Jujuy"
+
+#: calendar/zones.h:116
+msgid "America/Juneau"
+msgstr "Amerika/Juneau"
+
+#: calendar/zones.h:117
+msgid "America/Kentucky/Louisville"
+msgstr ""
+
+#: calendar/zones.h:118
+msgid "America/Kentucky/Monticello"
+msgstr ""
+
+#: calendar/zones.h:119
+msgid "America/La_Paz"
+msgstr "Amerika/La_Paz"
+
+#: calendar/zones.h:120
+msgid "America/Lima"
+msgstr "Amerika/Lima"
+
+#: calendar/zones.h:121
+msgid "America/Los_Angeles"
+msgstr ""
+
+#: calendar/zones.h:122
+msgid "America/Louisville"
+msgstr ""
+
+#: calendar/zones.h:123
+msgid "America/Maceio"
+msgstr "Amerika/Maceio"
+
+#: calendar/zones.h:124
+msgid "America/Managua"
+msgstr "Amerika/Managua"
+
+#: calendar/zones.h:125
+msgid "America/Manaus"
+msgstr "Amerika/Manaus"
+
+#: calendar/zones.h:126
+msgid "America/Martinique"
+msgstr "Amerika/Martinique"
+
+#: calendar/zones.h:127
+msgid "America/Mazatlan"
+msgstr "Amerika/Mazatlan"
+
+#: calendar/zones.h:128
+msgid "America/Mendoza"
+msgstr "Amerika/Mendoza"
+
+#: calendar/zones.h:129
+msgid "America/Menominee"
+msgstr ""
+
+#: calendar/zones.h:130
+msgid "America/Merida"
+msgstr ""
+
+#: calendar/zones.h:131
+msgid "America/Mexico_City"
+msgstr ""
+
+#: calendar/zones.h:132
+msgid "America/Miquelon"
+msgstr ""
+
+#: calendar/zones.h:133
+msgid "America/Monterrey"
+msgstr ""
+
+#: calendar/zones.h:134
+msgid "America/Montevideo"
+msgstr ""
+
+#: calendar/zones.h:135
+msgid "America/Montreal"
+msgstr "Amerika/Montreal"
+
+#: calendar/zones.h:136
+msgid "America/Montserrat"
+msgstr "Amerika/Montserrat"
+
+#: calendar/zones.h:137
+msgid "America/Nassau"
+msgstr "Amerika/Nassau"
+
+#: calendar/zones.h:138
+msgid "America/New_York"
+msgstr ""
+
+#: calendar/zones.h:139
+msgid "America/Nipigon"
+msgstr ""
+
+#: calendar/zones.h:140
+msgid "America/Nome"
+msgstr "Amerika/Nome"
+
+#: calendar/zones.h:141
+msgid "America/Noronha"
+msgstr "Amerika/Noronha"
+
+#: calendar/zones.h:142
+msgid "America/North_Dakota/Center"
+msgstr ""
+
+#: calendar/zones.h:143
+msgid "America/Panama"
+msgstr "Amerika/Panama"
+
+#: calendar/zones.h:144
+msgid "America/Pangnirtung"
+msgstr ""
+
+#: calendar/zones.h:145
+msgid "America/Paramaribo"
+msgstr "Amerika/Paramaribo"
+
+#: calendar/zones.h:146
+msgid "America/Phoenix"
+msgstr ""
+
+#: calendar/zones.h:147
+msgid "America/Port-au-Prince"
+msgstr ""
+
+#: calendar/zones.h:148
+msgid "America/Port_of_Spain"
+msgstr ""
+
+#: calendar/zones.h:149
+msgid "America/Porto_Velho"
+msgstr ""
+
+#: calendar/zones.h:150
+msgid "America/Puerto_Rico"
+msgstr "Amerika/Puerto_Rico"
+
+#: calendar/zones.h:151
+msgid "America/Rainy_River"
+msgstr ""
+
+#: calendar/zones.h:152
+msgid "America/Rankin_Inlet"
+msgstr ""
+
+#: calendar/zones.h:153
+msgid "America/Recife"
+msgstr ""
+
+#: calendar/zones.h:154
+msgid "America/Regina"
+msgstr "Amerika/Regina"
+
+#: calendar/zones.h:155
+msgid "America/Rio_Branco"
+msgstr ""
+
+#: calendar/zones.h:156
+msgid "America/Rosario"
+msgstr "Amerika/Rosario"
+
+#: calendar/zones.h:157
+msgid "America/Santiago"
+msgstr "Amerika/Santiago"
+
+#: calendar/zones.h:158
+msgid "America/Santo_Domingo"
+msgstr "Amerika/Santo_Domingo"
+
+#: calendar/zones.h:159
+msgid "America/Sao_Paulo"
+msgstr "Amerika/Sao_Paulo"
+
+#: calendar/zones.h:160
+msgid "America/Scoresbysund"
+msgstr ""
+
+#: calendar/zones.h:161
+msgid "America/Shiprock"
+msgstr "Amerika/Shiprock"
+
+#: calendar/zones.h:162
+msgid "America/St_Johns"
+msgstr "Amerika/St_Johns"
+
+#: calendar/zones.h:163
+msgid "America/St_Kitts"
+msgstr ""
+
+#: calendar/zones.h:164
+msgid "America/St_Lucia"
+msgstr "Amerika/St_Lucia"
+
+#: calendar/zones.h:165
+msgid "America/St_Thomas"
+msgstr "Amerika/St_Thomas"
+
+#: calendar/zones.h:166
+msgid "America/St_Vincent"
+msgstr ""
+
+#: calendar/zones.h:167
+msgid "America/Swift_Current"
+msgstr ""
+
+#: calendar/zones.h:168
+msgid "America/Tegucigalpa"
+msgstr ""
+
+#: calendar/zones.h:169
+msgid "America/Thule"
+msgstr ""
+
+#: calendar/zones.h:170
+msgid "America/Thunder_Bay"
+msgstr ""
+
+#: calendar/zones.h:171
+msgid "America/Tijuana"
+msgstr "Amerika/Tijuana"
+
+#: calendar/zones.h:172
+msgid "America/Tortola"
+msgstr "Amerika/Tortola"
+
+#: calendar/zones.h:173
+msgid "America/Vancouver"
+msgstr ""
+
+#: calendar/zones.h:174
+msgid "America/Whitehorse"
+msgstr ""
+
+#: calendar/zones.h:175
+msgid "America/Winnipeg"
+msgstr ""
+
+#: calendar/zones.h:176
+msgid "America/Yakutat"
+msgstr "Amerika/Yakutat"
+
+#: calendar/zones.h:177
+msgid "America/Yellowknife"
+msgstr ""
+
+#: calendar/zones.h:178
+msgid "Antarctica/Casey"
+msgstr "Antarktis/Casey"
+
+#: calendar/zones.h:179
+msgid "Antarctica/Davis"
+msgstr "Antarktis/Davis"
+
+#: calendar/zones.h:180
+msgid "Antarctica/DumontDUrville"
+msgstr ""
+
+#: calendar/zones.h:181
+msgid "Antarctica/Mawson"
+msgstr "Antarktis/Mawson"
+
+#: calendar/zones.h:182
+msgid "Antarctica/McMurdo"
+msgstr "Antarktis/McMurdo"
+
+#: calendar/zones.h:183
+msgid "Antarctica/Palmer"
+msgstr "Antarktis/Palmer"
+
+#: calendar/zones.h:184
+msgid "Antarctica/South_Pole"
+msgstr "Antarktis/Sydpolen"
+
+#: calendar/zones.h:185
+msgid "Antarctica/Syowa"
+msgstr "Antarktis/Syowa"
+
+#: calendar/zones.h:186
+msgid "Antarctica/Vostok"
+msgstr "Antarktis/Vostok"
+
+#: calendar/zones.h:187
+msgid "Arctic/Longyearbyen"
+msgstr ""
+
+#: calendar/zones.h:188
+msgid "Asia/Aden"
+msgstr ""
+
+#: calendar/zones.h:189
+msgid "Asia/Almaty"
+msgstr ""
+
+#: calendar/zones.h:190
+msgid "Asia/Amman"
+msgstr ""
+
+#: calendar/zones.h:191
+msgid "Asia/Anadyr"
+msgstr ""
+
+#: calendar/zones.h:192
+msgid "Asia/Aqtau"
+msgstr ""
+
+#: calendar/zones.h:193
+msgid "Asia/Aqtobe"
+msgstr ""
+
+#: calendar/zones.h:194
+msgid "Asia/Ashgabat"
+msgstr ""
+
+#: calendar/zones.h:195
+msgid "Asia/Baghdad"
+msgstr ""
+
+#: calendar/zones.h:196
+msgid "Asia/Bahrain"
+msgstr "Asia/Bahrain"
+
+#: calendar/zones.h:197
+msgid "Asia/Baku"
+msgstr ""
+
+#: calendar/zones.h:198
+msgid "Asia/Bangkok"
+msgstr ""
+
+#: calendar/zones.h:199
+msgid "Asia/Beirut"
+msgstr ""
+
+#: calendar/zones.h:200
+msgid "Asia/Bishkek"
+msgstr ""
+
+#: calendar/zones.h:201
+msgid "Asia/Brunei"
+msgstr ""
+
+#: calendar/zones.h:202
+msgid "Asia/Calcutta"
+msgstr ""
+
+#: calendar/zones.h:203
+msgid "Asia/Choibalsan"
+msgstr ""
+
+#: calendar/zones.h:204
+msgid "Asia/Chongqing"
+msgstr ""
+
+#: calendar/zones.h:205
+msgid "Asia/Colombo"
+msgstr "Asia/Colombo"
+
+#: calendar/zones.h:206
+msgid "Asia/Damascus"
+msgstr ""
+
+#: calendar/zones.h:207
+msgid "Asia/Dhaka"
+msgstr ""
+
+#: calendar/zones.h:208
+msgid "Asia/Dili"
+msgstr ""
+
+#: calendar/zones.h:209
+msgid "Asia/Dubai"
+msgstr ""
+
+#: calendar/zones.h:210
+msgid "Asia/Dushanbe"
+msgstr ""
+
+#: calendar/zones.h:211
+msgid "Asia/Gaza"
+msgstr ""
+
+#: calendar/zones.h:212
+msgid "Asia/Harbin"
+msgstr ""
+
+#: calendar/zones.h:213
+msgid "Asia/Hong_Kong"
+msgstr "Asia/Hong_Kong"
+
+#: calendar/zones.h:214
+msgid "Asia/Hovd"
+msgstr ""
+
+#: calendar/zones.h:215
+msgid "Asia/Irkutsk"
+msgstr ""
+
+#: calendar/zones.h:216
+msgid "Asia/Istanbul"
+msgstr "Asia/Istanbul"
+
+#: calendar/zones.h:217
+msgid "Asia/Jakarta"
+msgstr ""
+
+#: calendar/zones.h:218
+msgid "Asia/Jayapura"
+msgstr ""
+
+#: calendar/zones.h:219
+msgid "Asia/Jerusalem"
+msgstr ""
+
+#: calendar/zones.h:220
+msgid "Asia/Kabul"
+msgstr ""
+
+#: calendar/zones.h:221
+msgid "Asia/Kamchatka"
+msgstr ""
+
+#: calendar/zones.h:222
+msgid "Asia/Karachi"
+msgstr ""
+
+#: calendar/zones.h:223
+msgid "Asia/Kashgar"
+msgstr ""
+
+#: calendar/zones.h:224
+msgid "Asia/Katmandu"
+msgstr ""
+
+#: calendar/zones.h:225
+msgid "Asia/Krasnoyarsk"
+msgstr ""
+
+#: calendar/zones.h:226
+msgid "Asia/Kuala_Lumpur"
+msgstr ""
+
+#: calendar/zones.h:227
+msgid "Asia/Kuching"
+msgstr ""
+
+#: calendar/zones.h:228
+msgid "Asia/Kuwait"
+msgstr "Asia/Kuwait"
+
+#: calendar/zones.h:229
+msgid "Asia/Macao"
+msgstr ""
+
+#: calendar/zones.h:230
+msgid "Asia/Magadan"
+msgstr ""
+
+#: calendar/zones.h:231
+msgid "Asia/Manila"
+msgstr ""
+
+#: calendar/zones.h:232
+msgid "Asia/Muscat"
+msgstr "Asia/Muscat"
+
+#: calendar/zones.h:233
+msgid "Asia/Nicosia"
+msgstr ""
+
+#: calendar/zones.h:234
+msgid "Asia/Novosibirsk"
+msgstr ""
+
+#: calendar/zones.h:235
+msgid "Asia/Omsk"
+msgstr "Asia/Omsk"
+
+#: calendar/zones.h:236
+msgid "Asia/Phnom_Penh"
+msgstr ""
+
+#: calendar/zones.h:237
+msgid "Asia/Pontianak"
+msgstr ""
+
+#: calendar/zones.h:238
+msgid "Asia/Pyongyang"
+msgstr ""
+
+#: calendar/zones.h:239
+msgid "Asia/Qatar"
+msgstr "Asia/Qatar"
+
+#: calendar/zones.h:240
+msgid "Asia/Rangoon"
+msgstr ""
+
+#: calendar/zones.h:241
+msgid "Asia/Riyadh"
+msgstr ""
+
+#: calendar/zones.h:242
+msgid "Asia/Saigon"
+msgstr ""
+
+#: calendar/zones.h:243
+msgid "Asia/Sakhalin"
+msgstr ""
+
+#: calendar/zones.h:244
+msgid "Asia/Samarkand"
+msgstr ""
+
+#: calendar/zones.h:245
+msgid "Asia/Seoul"
+msgstr ""
+
+#: calendar/zones.h:246
+msgid "Asia/Shanghai"
+msgstr ""
+
+#: calendar/zones.h:247
+msgid "Asia/Singapore"
+msgstr "Asia/Singapore"
+
+#: calendar/zones.h:248
+msgid "Asia/Taipei"
+msgstr ""
+
+#: calendar/zones.h:249
+msgid "Asia/Tashkent"
+msgstr ""
+
+#: calendar/zones.h:250
+msgid "Asia/Tbilisi"
+msgstr ""
+
+#: calendar/zones.h:251
+msgid "Asia/Tehran"
+msgstr ""
+
+#: calendar/zones.h:252
+msgid "Asia/Thimphu"
+msgstr ""
+
+#: calendar/zones.h:253
+msgid "Asia/Tokyo"
+msgstr ""
+
+#: calendar/zones.h:254
+msgid "Asia/Ujung_Pandang"
+msgstr ""
+
+#: calendar/zones.h:255
+msgid "Asia/Ulaanbaatar"
+msgstr ""
+
+#: calendar/zones.h:256
+msgid "Asia/Urumqi"
+msgstr ""
+
+#: calendar/zones.h:257
+msgid "Asia/Vientiane"
+msgstr ""
+
+#: calendar/zones.h:258
+msgid "Asia/Vladivostok"
+msgstr ""
+
+#: calendar/zones.h:259
+msgid "Asia/Yakutsk"
+msgstr ""
+
+#: calendar/zones.h:260
+msgid "Asia/Yekaterinburg"
+msgstr ""
+
+#: calendar/zones.h:261
+msgid "Asia/Yerevan"
+msgstr ""
+
+#: calendar/zones.h:262
+msgid "Atlantic/Azores"
+msgstr ""
+
+#: calendar/zones.h:263
+msgid "Atlantic/Bermuda"
+msgstr "Atlantisk/Bermuda"
+
+#: calendar/zones.h:264
+msgid "Atlantic/Canary"
+msgstr ""
+
+#: calendar/zones.h:265
+msgid "Atlantic/Cape_Verde"
+msgstr "Atlantisk/Kapp_Verde"
+
+#: calendar/zones.h:266
+msgid "Atlantic/Faeroe"
+msgstr ""
+
+#: calendar/zones.h:267
+msgid "Atlantic/Jan_Mayen"
+msgstr ""
+
+#: calendar/zones.h:268
+msgid "Atlantic/Madeira"
+msgstr ""
+
+#: calendar/zones.h:269
+msgid "Atlantic/Reykjavik"
+msgstr ""
+
+#: calendar/zones.h:270
+msgid "Atlantic/South_Georgia"
+msgstr ""
+
+#: calendar/zones.h:271
+msgid "Atlantic/St_Helena"
+msgstr ""
+
+#: calendar/zones.h:272
+msgid "Atlantic/Stanley"
+msgstr ""
+
+#: calendar/zones.h:273
+msgid "Australia/Adelaide"
+msgstr "Australia/Adelaide"
+
+#: calendar/zones.h:274
+msgid "Australia/Brisbane"
+msgstr "Australia/Brisbane"
+
+#: calendar/zones.h:275
+msgid "Australia/Broken_Hill"
+msgstr "Australia/Broken_Hill"
+
+#: calendar/zones.h:276
+msgid "Australia/Darwin"
+msgstr "Australia/Darwin"
+
+#: calendar/zones.h:277
+msgid "Australia/Hobart"
+msgstr "Australia/Hobart"
+
+#: calendar/zones.h:278
+msgid "Australia/Lindeman"
+msgstr "Australia/Lindeman"
+
+#: calendar/zones.h:279
+msgid "Australia/Lord_Howe"
+msgstr "Australia/Lord_Howe"
+
+#: calendar/zones.h:280
+msgid "Australia/Melbourne"
+msgstr "Australia/Melbourne"
+
+#: calendar/zones.h:281
+msgid "Australia/Perth"
+msgstr "Australia/Perth"
+
+#: calendar/zones.h:282
+msgid "Australia/Sydney"
+msgstr "Australia/Sydney"
+
+#: calendar/zones.h:283
+msgid "Europe/Amsterdam"
+msgstr "Europa/Amsterdam"
+
+#: calendar/zones.h:284
+msgid "Europe/Andorra"
+msgstr "Europa/Andorra"
+
+#: calendar/zones.h:285
+msgid "Europe/Athens"
+msgstr "Europa/Aten"
+
+#: calendar/zones.h:286
+msgid "Europe/Belfast"
+msgstr ""
+
+#: calendar/zones.h:287
+msgid "Europe/Belgrade"
+msgstr ""
+
+#: calendar/zones.h:288
+msgid "Europe/Berlin"
+msgstr ""
+
+#: calendar/zones.h:289
+msgid "Europe/Bratislava"
+msgstr ""
+
+#: calendar/zones.h:290
+msgid "Europe/Brussels"
+msgstr ""
+
+#: calendar/zones.h:291
+msgid "Europe/Bucharest"
+msgstr ""
+
+#: calendar/zones.h:292
+msgid "Europe/Budapest"
+msgstr ""
+
+#: calendar/zones.h:293
+msgid "Europe/Chisinau"
+msgstr ""
+
+#: calendar/zones.h:294
+msgid "Europe/Copenhagen"
+msgstr ""
+
+#: calendar/zones.h:295
+msgid "Europe/Dublin"
+msgstr ""
+
+#: calendar/zones.h:296
+msgid "Europe/Gibraltar"
+msgstr "Europa/Gibraltar"
+
+#: calendar/zones.h:297
+msgid "Europe/Helsinki"
+msgstr ""
+
+#: calendar/zones.h:298
+msgid "Europe/Istanbul"
+msgstr ""
+
+#: calendar/zones.h:299
+msgid "Europe/Kaliningrad"
+msgstr ""
+
+#: calendar/zones.h:300
+msgid "Europe/Kiev"
+msgstr ""
+
+#: calendar/zones.h:301
+msgid "Europe/Lisbon"
+msgstr ""
+
+#: calendar/zones.h:302
+msgid "Europe/Ljubljana"
+msgstr ""
+
+#: calendar/zones.h:303
+msgid "Europe/London"
+msgstr ""
+
+#: calendar/zones.h:304
+msgid "Europe/Luxembourg"
+msgstr "Europa/Luxembourg"
+
+#: calendar/zones.h:305
+msgid "Europe/Madrid"
+msgstr ""
+
+#: calendar/zones.h:306
+msgid "Europe/Malta"
+msgstr ""
+
+#: calendar/zones.h:307
+msgid "Europe/Minsk"
+msgstr ""
+
+#: calendar/zones.h:308
+msgid "Europe/Monaco"
+msgstr "Europa/Monaco"
+
+#: calendar/zones.h:309
+msgid "Europe/Moscow"
+msgstr ""
+
+#: calendar/zones.h:310
+msgid "Europe/Nicosia"
+msgstr ""
+
+#: calendar/zones.h:311
+msgid "Europe/Oslo"
+msgstr ""
+
+#: calendar/zones.h:312
+msgid "Europe/Paris"
+msgstr "Europa/Paris"
+
+#: calendar/zones.h:313
+msgid "Europe/Prague"
+msgstr ""
+
+#: calendar/zones.h:314
+msgid "Europe/Riga"
+msgstr ""
+
+#: calendar/zones.h:315
+msgid "Europe/Rome"
+msgstr ""
+
+#: calendar/zones.h:316
+msgid "Europe/Samara"
+msgstr ""
+
+#: calendar/zones.h:317
+msgid "Europe/San_Marino"
+msgstr "Europa/San_Marino"
+
+#: calendar/zones.h:318
+msgid "Europe/Sarajevo"
+msgstr ""
+
+#: calendar/zones.h:319
+msgid "Europe/Simferopol"
+msgstr ""
+
+#: calendar/zones.h:320
+msgid "Europe/Skopje"
+msgstr ""
+
+#: calendar/zones.h:321
+msgid "Europe/Sofia"
+msgstr ""
+
+#: calendar/zones.h:322
+msgid "Europe/Stockholm"
+msgstr ""
+
+#: calendar/zones.h:323
+msgid "Europe/Tallinn"
+msgstr ""
+
+#: calendar/zones.h:324
+msgid "Europe/Tirane"
+msgstr ""
+
+#: calendar/zones.h:325
+msgid "Europe/Uzhgorod"
+msgstr ""
+
+#: calendar/zones.h:326
+msgid "Europe/Vaduz"
+msgstr ""
+
+#: calendar/zones.h:327
+msgid "Europe/Vatican"
+msgstr ""
+
+#: calendar/zones.h:328
+msgid "Europe/Vienna"
+msgstr ""
+
+#: calendar/zones.h:329
+msgid "Europe/Vilnius"
+msgstr ""
+
+#: calendar/zones.h:330
+msgid "Europe/Warsaw"
+msgstr ""
+
+#: calendar/zones.h:331
+msgid "Europe/Zagreb"
+msgstr ""
+
+#: calendar/zones.h:332
+msgid "Europe/Zaporozhye"
+msgstr ""
+
+#: calendar/zones.h:333
+msgid "Europe/Zurich"
+msgstr ""
+
+#: calendar/zones.h:334
+msgid "Indian/Antananarivo"
+msgstr ""
+
+#: calendar/zones.h:335
+msgid "Indian/Chagos"
+msgstr ""
+
+#: calendar/zones.h:336
+msgid "Indian/Christmas"
+msgstr ""
+
+#: calendar/zones.h:337
+msgid "Indian/Cocos"
+msgstr ""
+
+#: calendar/zones.h:338
+msgid "Indian/Comoro"
+msgstr "Indisk/Komorene"
+
+#: calendar/zones.h:339
+msgid "Indian/Kerguelen"
+msgstr ""
+
+#: calendar/zones.h:340
+msgid "Indian/Mahe"
+msgstr "Indisk/Mahe"
+
+#: calendar/zones.h:341
+msgid "Indian/Maldives"
+msgstr "Indisk/Maldivene"
+
+#: calendar/zones.h:342
+msgid "Indian/Mauritius"
+msgstr "Indisk/Mauritius"
+
+#: calendar/zones.h:343
+msgid "Indian/Mayotte"
+msgstr "Indisk/Mayotte"
+
+#: calendar/zones.h:344
+msgid "Indian/Reunion"
+msgstr "Indisk/Reunion"
+
+#: calendar/zones.h:345
+msgid "Pacific/Apia"
+msgstr ""
+
+#: calendar/zones.h:346
+msgid "Pacific/Auckland"
+msgstr ""
+
+#: calendar/zones.h:347
+msgid "Pacific/Chatham"
+msgstr ""
+
+#: calendar/zones.h:348
+msgid "Pacific/Easter"
+msgstr ""
+
+#: calendar/zones.h:349
+msgid "Pacific/Efate"
+msgstr ""
+
+#: calendar/zones.h:350
+msgid "Pacific/Enderbury"
+msgstr ""
+
+#: calendar/zones.h:351
+msgid "Pacific/Fakaofo"
+msgstr ""
+
+#: calendar/zones.h:352
+msgid "Pacific/Fiji"
+msgstr ""
+
+#: calendar/zones.h:353
+msgid "Pacific/Funafuti"
+msgstr ""
+
+#: calendar/zones.h:354
+msgid "Pacific/Galapagos"
+msgstr ""
+
+#: calendar/zones.h:355
+msgid "Pacific/Gambier"
+msgstr ""
+
+#: calendar/zones.h:356
+msgid "Pacific/Guadalcanal"
+msgstr ""
+
+#: calendar/zones.h:357
+msgid "Pacific/Guam"
+msgstr ""
+
+#: calendar/zones.h:358
+msgid "Pacific/Honolulu"
+msgstr ""
+
+#: calendar/zones.h:359
+msgid "Pacific/Johnston"
+msgstr ""
+
+#: calendar/zones.h:360
+msgid "Pacific/Kiritimati"
+msgstr ""
+
+#: calendar/zones.h:361
+msgid "Pacific/Kosrae"
+msgstr ""
+
+#: calendar/zones.h:362
+msgid "Pacific/Kwajalein"
+msgstr ""
+
+#: calendar/zones.h:363
+msgid "Pacific/Majuro"
+msgstr ""
+
+#: calendar/zones.h:364
+msgid "Pacific/Marquesas"
+msgstr ""
+
+#: calendar/zones.h:365
+msgid "Pacific/Midway"
+msgstr ""
+
+#: calendar/zones.h:366
+msgid "Pacific/Nauru"
+msgstr ""
+
+#: calendar/zones.h:367
+msgid "Pacific/Niue"
+msgstr ""
+
+#: calendar/zones.h:368
+msgid "Pacific/Norfolk"
+msgstr ""
+
+#: calendar/zones.h:369
+msgid "Pacific/Noumea"
+msgstr ""
+
+#: calendar/zones.h:370
+msgid "Pacific/Pago_Pago"
+msgstr ""
+
+#: calendar/zones.h:371
+msgid "Pacific/Palau"
+msgstr ""
+
+#: calendar/zones.h:372
+msgid "Pacific/Pitcairn"
+msgstr "Stillehavet/Pitcairn"
+
+#: calendar/zones.h:373
+msgid "Pacific/Ponape"
+msgstr ""
+
+#: calendar/zones.h:374
+msgid "Pacific/Port_Moresby"
+msgstr ""
+
+#: calendar/zones.h:375
+msgid "Pacific/Rarotonga"
+msgstr ""
+
+#: calendar/zones.h:376
+msgid "Pacific/Saipan"
+msgstr ""
+
+#: calendar/zones.h:377
+msgid "Pacific/Tahiti"
+msgstr ""
+
+#: calendar/zones.h:378
+msgid "Pacific/Tarawa"
+msgstr ""
+
+#: calendar/zones.h:379
+msgid "Pacific/Tongatapu"
+msgstr ""
+
+#: calendar/zones.h:380
+msgid "Pacific/Truk"
+msgstr ""
+
+#: calendar/zones.h:381
+msgid "Pacific/Wake"
+msgstr ""
+
+#: calendar/zones.h:382
+msgid "Pacific/Wallis"
+msgstr ""
+
+#: calendar/zones.h:383
+msgid "Pacific/Yap"
+msgstr ""
+
 #: calendar/cal-util/cal-component.c:1202
 msgid "Untitled appointment"
 msgstr "Avtale uten navn"
@@ -3093,7 +4606,7 @@ msgstr "%A %d %B %Y"
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
 #: calendar/gui/calendar-commands.c:449 calendar/gui/e-day-view-top-item.c:288
-#: calendar/gui/e-day-view.c:1401 calendar/gui/e-week-view-main-item.c:333
+#: calendar/gui/e-day-view.c:1403 calendar/gui/e-week-view-main-item.c:333
 msgid "%a %d %b"
 msgstr "%a %d %b"
 
@@ -3223,8 +4736,8 @@ msgid "No"
 msgstr "Nei"
 
 #. No time range is set, so don't start a query
-#: calendar/gui/calendar-model.c:1984 calendar/gui/e-day-view.c:1675
-#: calendar/gui/e-week-view.c:1182
+#: calendar/gui/calendar-model.c:1984 calendar/gui/e-day-view.c:1677
+#: calendar/gui/e-week-view.c:1184
 msgid "Searching"
 msgstr "Søker"
 
@@ -3284,7 +4797,7 @@ msgstr "Mappe som inneholder oppgaver"
 msgid "Create a new appointment"
 msgstr "Opprett en ny avtale"
 
-#: calendar/gui/component-factory.c:643 calendar/gui/e-day-view.c:3523
+#: calendar/gui/component-factory.c:643 calendar/gui/e-day-view.c:3525
 msgid "New _Appointment"
 msgstr "Ny _avtale"
 
@@ -4298,33 +5811,33 @@ msgstr "90%"
 msgid "100%"
 msgstr "100%"
 
-#: calendar/gui/e-calendar-table.c:722 calendar/gui/e-day-view.c:2724
-#: calendar/gui/e-week-view.c:1822
+#: calendar/gui/e-calendar-table.c:722 calendar/gui/e-day-view.c:2726
+#: calendar/gui/e-week-view.c:1824
 msgid "Deleting selected objects"
 msgstr "Sletter valgte objekter"
 
-#: calendar/gui/e-calendar-table.c:941 calendar/gui/e-day-view.c:3544
-#: calendar/gui/e-week-view.c:3422 mail/folder-browser.c:1447
+#: calendar/gui/e-calendar-table.c:941 calendar/gui/e-day-view.c:3546
+#: calendar/gui/e-week-view.c:3428 mail/folder-browser.c:1447
 #: shell/e-shortcuts-view.c:384
 msgid "_Open"
 msgstr "_Åpne"
 
-#: calendar/gui/e-calendar-table.c:945 calendar/gui/e-day-view.c:3553
-#: calendar/gui/e-week-view.c:3431 ui/evolution-addressbook.xml.h:1
+#: calendar/gui/e-calendar-table.c:945 calendar/gui/e-day-view.c:3555
+#: calendar/gui/e-week-view.c:3437 ui/evolution-addressbook.xml.h:1
 #: ui/evolution-calendar.xml.h:1 ui/evolution-tasks.xml.h:1
 msgid "C_ut"
 msgstr "Klipp _ut"
 
-#: calendar/gui/e-calendar-table.c:947 calendar/gui/e-day-view.c:3555
-#: calendar/gui/e-week-view.c:3433 ui/evolution-addressbook.xml.h:33
+#: calendar/gui/e-calendar-table.c:947 calendar/gui/e-day-view.c:3557
+#: calendar/gui/e-week-view.c:3439 ui/evolution-addressbook.xml.h:33
 #: ui/evolution-calendar.xml.h:37 ui/evolution-mail-list.xml.h:24
 #: ui/evolution-tasks.xml.h:14
 msgid "_Copy"
 msgstr "_Kopier"
 
-#: calendar/gui/e-calendar-table.c:949 calendar/gui/e-day-view.c:3530
-#: calendar/gui/e-day-view.c:3557 calendar/gui/e-week-view.c:3409
-#: calendar/gui/e-week-view.c:3435 ui/evolution-addressbook.xml.h:36
+#: calendar/gui/e-calendar-table.c:949 calendar/gui/e-day-view.c:3532
+#: calendar/gui/e-day-view.c:3559 calendar/gui/e-week-view.c:3415
+#: calendar/gui/e-week-view.c:3441 ui/evolution-addressbook.xml.h:36
 #: ui/evolution-calendar.xml.h:40 ui/evolution-mail-list.xml.h:29
 #: ui/evolution-tasks.xml.h:17
 msgid "_Paste"
@@ -4346,8 +5859,8 @@ msgstr "_Merk oppgaver som fullført"
 msgid "_Delete Selected Tasks"
 msgstr "Sle_tt valgte oppgaver"
 
-#: calendar/gui/e-calendar-table.c:1145 calendar/gui/e-day-view.c:7115
-#: calendar/gui/e-week-view.c:3918
+#: calendar/gui/e-calendar-table.c:1145 calendar/gui/e-day-view.c:7137
+#: calendar/gui/e-week-view.c:3924
 msgid "Updating objects"
 msgstr "Oppdaterer objekter"
 
@@ -4435,56 +5948,56 @@ msgstr "%02i minutters oppdeling"
 
 #. strftime format %A = full weekday name, %d = day of month,
 #. %B = full month name. Don't use any other specifiers.
-#: calendar/gui/e-day-view-top-item.c:284 calendar/gui/e-day-view.c:1387
+#: calendar/gui/e-day-view-top-item.c:284 calendar/gui/e-day-view.c:1389
 #: calendar/gui/e-week-view-main-item.c:324 calendar/gui/print.c:1461
 msgid "%A %d %B"
 msgstr "%A %d %B"
 
 #. strftime format %d = day of month, %b = abbreviated month name.
 #. Don't use any other specifiers.
-#: calendar/gui/e-day-view-top-item.c:292 calendar/gui/e-day-view.c:1414
+#: calendar/gui/e-day-view-top-item.c:292 calendar/gui/e-day-view.c:1416
 #: calendar/gui/e-week-view-main-item.c:347
 msgid "%d %b"
 msgstr "%d %b"
 
 #. String to use in 12-hour time format for times in the morning.
-#: calendar/gui/e-day-view.c:612 calendar/gui/e-week-view.c:348
+#: calendar/gui/e-day-view.c:614 calendar/gui/e-week-view.c:350
 #: calendar/gui/print.c:768
 msgid "am"
 msgstr "am"
 
 #. String to use in 12-hour time format for times in the afternoon.
-#: calendar/gui/e-day-view.c:615 calendar/gui/e-week-view.c:351
+#: calendar/gui/e-day-view.c:617 calendar/gui/e-week-view.c:353
 #: calendar/gui/print.c:770
 msgid "pm"
 msgstr "pm"
 
-#: calendar/gui/e-day-view.c:3525 calendar/gui/e-week-view.c:3404
+#: calendar/gui/e-day-view.c:3527 calendar/gui/e-week-view.c:3410
 msgid "New All Day _Event"
 msgstr "Ny avtale som varer h_ele dagen"
 
-#: calendar/gui/e-day-view.c:3535 calendar/gui/e-week-view.c:3414
+#: calendar/gui/e-day-view.c:3537 calendar/gui/e-week-view.c:3420
 #: ui/evolution-calendar.xml.h:17
 msgid "Go to _Today"
 msgstr "Gå _til i dag"
 
-#: calendar/gui/e-day-view.c:3537 calendar/gui/e-week-view.c:3416
+#: calendar/gui/e-day-view.c:3539 calendar/gui/e-week-view.c:3422
 msgid "_Go to Date..."
 msgstr "_Gå til dato..."
 
-#: calendar/gui/e-day-view.c:3546 calendar/gui/e-week-view.c:3424
+#: calendar/gui/e-day-view.c:3548 calendar/gui/e-week-view.c:3430
 msgid "_Delete this Appointment"
 msgstr "Sle_tt denne avtalen"
 
-#: calendar/gui/e-day-view.c:3565 calendar/gui/e-week-view.c:3449
+#: calendar/gui/e-day-view.c:3567 calendar/gui/e-week-view.c:3455
 msgid "Make this Occurrence _Movable"
 msgstr "Gjør denne hendelsen _flyttbar"
 
-#: calendar/gui/e-day-view.c:3567 calendar/gui/e-week-view.c:3451
+#: calendar/gui/e-day-view.c:3569 calendar/gui/e-week-view.c:3457
 msgid "Delete this _Occurrence"
 msgstr "Slett denne _hendelsen"
 
-#: calendar/gui/e-day-view.c:3569 calendar/gui/e-week-view.c:3453
+#: calendar/gui/e-day-view.c:3571 calendar/gui/e-week-view.c:3459
 msgid "Delete _All Occurrences"
 msgstr "Slett _alle hendelser"
 
@@ -5033,7 +6546,7 @@ msgstr "Kunne ikke laste oppgavene i «%s»"
 msgid "The method required to load `%s' is not supported"
 msgstr "Metoden som er nødvendig for å laste «%s» er ikke støttet"
 
-#: calendar/gui/e-week-view.c:3402 calendar/gui/e-week-view.c:3440
+#: calendar/gui/e-week-view.c:3408 calendar/gui/e-week-view.c:3446
 msgid "New _Appointment..."
 msgstr "Ny _avtale..."
 
@@ -6107,22 +7620,22 @@ msgstr "URL «%s» må inneholde et vertsnavn"
 msgid "URL '%s' needs a path component"
 msgstr "URL «%s» må inneholde en sti"
 
-#: camel/camel-service.c:611
+#: camel/camel-service.c:614
 #, c-format
 msgid "Resolving: %s"
 msgstr "Finner: «%s»"
 
-#: camel/camel-service.c:638
+#: camel/camel-service.c:641
 #, c-format
 msgid "Failure in name lookup: %s"
 msgstr "Feil i navneoppslag: %s"
 
-#: camel/camel-service.c:663
+#: camel/camel-service.c:666
 #, c-format
 msgid "Host lookup failed: %s: host not found"
 msgstr "Vertsoppslag feilet: %s: vert ikke funnet"
 
-#: camel/camel-service.c:665
+#: camel/camel-service.c:668
 #, c-format
 msgid "Host lookup failed: %s: unknown reason"
 msgstr "Vertsoppslag feilet: %s: ukjent årsak"
@@ -7407,19 +8920,19 @@ msgid "%.1fG"
 msgstr "%.1fG"
 
 #. This is a filename. Translators take note.
-#: composer/e-msg-composer-attachment-bar.c:359 mail/mail-display.c:136
+#: composer/e-msg-composer-attachment-bar.c:361 mail/mail-display.c:136
 msgid "attachment"
 msgstr "vedlegg"
 
-#: composer/e-msg-composer-attachment-bar.c:500
+#: composer/e-msg-composer-attachment-bar.c:502
 msgid "Remove selected items from the attachment list"
 msgstr "Fjern valgte oppføringer fra vedleggslisten"
 
-#: composer/e-msg-composer-attachment-bar.c:531
+#: composer/e-msg-composer-attachment-bar.c:533
 msgid "Add attachment..."
 msgstr "Legg til vedlegg..."
 
-#: composer/e-msg-composer-attachment-bar.c:532
+#: composer/e-msg-composer-attachment-bar.c:534
 msgid "Attach a file to the message"
 msgstr "Legg en fil ved meldingen"
 
@@ -7614,11 +9127,11 @@ msgstr "Åpne fil"
 msgid "Insert File"
 msgstr "Sett inn fil"
 
-#: composer/e-msg-composer.c:1923 composer/e-msg-composer.c:2364
+#: composer/e-msg-composer.c:1923 composer/e-msg-composer.c:2366
 msgid "Compose a message"
 msgstr "Skriv en melding"
 
-#: composer/e-msg-composer.c:2381
+#: composer/e-msg-composer.c:2383
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate address selector control."
@@ -7626,7 +9139,7 @@ msgstr ""
 "Kunne ikke opprette vindu for ny melding:\n"
 "Klarte ikke å aktivere kontroll for adressevelger."
 
-#: composer/e-msg-composer.c:2404 composer/e-msg-composer.c:2459
+#: composer/e-msg-composer.c:2406 composer/e-msg-composer.c:2461
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component."
@@ -9051,7 +10564,7 @@ msgstr "%s: Innboks"
 msgid "Checking Service"
 msgstr "Sjekker tjeneste"
 
-#: mail/mail-config.c:2183 mail/mail-config.c:2187
+#: mail/mail-config.c:2190 mail/mail-config.c:2194
 msgid "Connecting to server..."
 msgstr "Kobler til tjener..."
 
@@ -9610,50 +11123,50 @@ msgstr "Cc"
 msgid "Bcc"
 msgstr "Bcc"
 
-#: mail/mail-format.c:1813
+#: mail/mail-format.c:1814
 msgid ""
 "This message is digitally signed. Click the lock icon for more information."
 msgstr ""
 "Denne meldingen er digitalt signert. Klikk låsikonet for mer informasjon."
 
-#: mail/mail-format.c:1836
+#: mail/mail-format.c:1837
 msgid "Evolution does not recognize this type of signed message."
 msgstr "Kan ikke kjenne igjen denne typen signert melding."
 
-#: mail/mail-format.c:1844
+#: mail/mail-format.c:1845
 msgid "This message is digitally signed and has been found to be authentic."
 msgstr "Denne meldingen er digitalt signert og er funnet autentisk."
 
-#: mail/mail-format.c:1852
+#: mail/mail-format.c:1853
 msgid "This message is digitally signed but can not be proven to be authentic."
 msgstr "Denne meldingen er digitalt signert, men kan ikke finnes autentisk."
 
-#: mail/mail-format.c:2068
+#: mail/mail-format.c:2069
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "Peker til FTP-tjener (%s)"
 
-#: mail/mail-format.c:2082
+#: mail/mail-format.c:2083
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "Peker til lokal fil (%s) gyldig på nettsted «%s»"
 
-#: mail/mail-format.c:2087
+#: mail/mail-format.c:2088
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "Peker til lokal fil (%s)"
 
-#: mail/mail-format.c:2116
+#: mail/mail-format.c:2117
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "Peker til eksterne data (%s)"
 
-#: mail/mail-format.c:2124
+#: mail/mail-format.c:2125
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Peker til ukjente eksterne data («%s»-type)"
 
-#: mail/mail-format.c:2129
+#: mail/mail-format.c:2130
 msgid "Malformed external-body part."
 msgstr "Feilutformet del for ekstern kropp."
 
@@ -10204,6 +11717,10 @@ msgstr "%k:%M %d %B"
 #: my-evolution/e-summary-calendar.c:377
 msgid "%l:%M %d %B"
 msgstr "%l: %M %d %B"
+
+#: my-evolution/e-summary-calendar.c:395
+msgid "No description"
+msgstr "Ingen beskrivelse"
 
 #: my-evolution/e-summary-mail.c:129
 msgid "Mail summary"
@@ -12875,7 +14392,7 @@ msgid "Print..."
 msgstr "Skriv ut..."
 
 #: ui/evolution-comp-editor.xml.h:12 ui/evolution-message-composer.xml.h:19
-#: ui/evolution-signature-editor.xml.h:3 widgets/misc/e-filter-bar.c:239
+#: ui/evolution-signature-editor.xml.h:3 widgets/misc/e-filter-bar.c:240
 msgid "Save"
 msgstr "Lagre"
 
@@ -14170,11 +15687,11 @@ msgstr "Tegnkoding"
 msgid "..."
 msgstr "..."
 
-#: widgets/misc/e-filter-bar.c:152
+#: widgets/misc/e-filter-bar.c:153
 msgid "Search Editor"
 msgstr "Redigering av søk"
 
-#: widgets/misc/e-filter-bar.c:168
+#: widgets/misc/e-filter-bar.c:169
 msgid "Save Search"
 msgstr "Lagre søk"
 
@@ -16103,9 +17620,6 @@ msgstr "init_bonobo(): kunne ikke initiere Bonobo"
 
 #~ msgid "Slashdot"
 #~ msgstr "Slashdot"
-
-#~ msgid "Articles"
-#~ msgstr "Artikler"
 
 #~ msgid "Delay between articles (10 = 1 sec):"
 #~ msgstr "Pause mellom artikler (10 = 1 sek):"
