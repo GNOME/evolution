@@ -51,8 +51,16 @@ struct _EClippedLabel
 
 	gchar *label;
 
+	/* Our PangoLayout */
+	PangoLayout *layout;
+
 	/* This is the width of the entire label string, in pixels. */
 	gint label_width;
+
+	/* This is the label's y coord.  we store it here so it won't
+	   change as the label's baseline changes (for example if we
+	   ellide the 'y' from 'Summary' the baseline drops) */
+	gint label_y;
 
 	/* This is the number of characters we can fit in, or
 	   E_CLIPPED_LABEL_NEED_RECALC if it needs to be recalculated, or
@@ -62,6 +70,9 @@ struct _EClippedLabel
 	/* This is the x position to display the ellipsis string, e.g. '...',
 	   relative to the start of the label. */
 	gint ellipsis_x;
+
+	/* This is the width of the ellipsis, in pixels */
+	gint ellipsis_width;
 };
 
 struct _EClippedLabelClass
