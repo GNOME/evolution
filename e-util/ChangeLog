@@ -1,3 +1,8 @@
+2000-10-11  Iain Holmes  <iain@helixcode.com>
+
+	* ename/e-address-western.c (e_address_western_parse): g_strconcat needs
+	to be NULL terminated or it goes funny.
+
 Tue Sep 26 16:48:49 2000  Christopher James Lahey  <clahey@helixcode.com>
 
 	* Makefile.am: Added $(EXTRA_GNOME_CFLAGS).

@@ -412,7 +412,7 @@ e_address_western_parse (const gchar *in_address)
 					eaw->country = g_strdup (lines[cntr]);
 				else {
 					gchar *temp;
-					temp = g_strconcat (eaw->country, "\n", lines[cntr]);
+					temp = g_strconcat (eaw->country, "\n", lines[cntr], NULL);
 					g_free (eaw->country);
 					eaw->country = temp;
 				}
@@ -428,7 +428,7 @@ e_address_western_parse (const gchar *in_address)
 					}
 					else {
 						gchar *temp;
-						temp = g_strconcat (eaw->extended, "\n", lines[cntr]);
+						temp = g_strconcat (eaw->extended, "\n", lines[cntr], NULL);
 						g_free (eaw->extended);
 						eaw->extended = temp;
 					}
