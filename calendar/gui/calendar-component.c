@@ -559,7 +559,7 @@ popup_event_cb(ESourceSelector *selector, ESource *insource, GdkEventButton *eve
 
 		group = e_source_selector_get_primary_source_group (selector);
 		g_object_ref (group);
-		((EPopupItem) ecc_source_popups [0]).user_data = group;
+		ecc_source_popups [0].user_data = group;
 		menus = g_slist_prepend (menus, &ecc_source_popups [0]);
 	}
 	else {

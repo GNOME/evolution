@@ -6,37 +6,9 @@
 	the snooze case the tray (and via callbacks then) the dialog is
 	destroyed
 
-2005-03-14  Chenthill Palanisamy  <pchenthill@novell.com>
+2005-03-07  JP Rosevear  <jpr@novell.com>
 
-	Fixes #72979
-	* gui/e-cal-list-view.c (find_meeting),
-	(e_cal_list_view_on_table_double_click): Check whether its a
-	meeting and send appropriate boolean variable.
-
-2005-03-11  Sushma Rai  <rsushma@novell.com>
-
-	* gui/dialogs/event-page.c (event_page_show_options): Removed the check
-	for general options page static capability. Send options dialog will
-	not be created at this point.
-	(e_sendoptions_clicked_cb): Checking for the general options page
-	static capability, when used clicks send options button.
-
-	* gui/dialogs/task-page.c (task_page_show_options)
-	(e_sendoptions_clicked_cb): Similar.
-	Fixes #73501
-
-2005-03-09  Not Zed  <NotZed@Ximian.com>
-
-	* gui/e-week-view-event-item.c (e_week_view_event_item_draw_icons):
-	* gui/e-day-view.c (e_day_view_reshape_day_event): free the ecalcomponent
-	after using it.
-
-2005-03-08  Chenthill Palanisamy  <pchenthill@novell.com>
-
-	Fixes #73141
-	* gui/dialogs/comp-editor.c: 
-	(comp_editor_notify_client_changed):Assign the updated client
-	to priv->client and unref the old one.	
+	* gui/alarm-notify/alarm-queue.c: add remove_client_alarms prototype
 
 2005-03-06  Rodrigo Moya <rodrigo@novell.com>
 

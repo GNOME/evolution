@@ -131,6 +131,8 @@ static void procedure_notification (time_t trigger, CompQueuedAlarms *cqa, gpoin
 static void query_objects_changed_cb (ECal *client, GList *objects, gpointer data);
 static void query_objects_removed_cb (ECal *client, GList *objects, gpointer data);
 
+static void remove_client_alarms (ClientAlarms *ca);
+
 
 
 /* Alarm queue engine */
