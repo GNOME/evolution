@@ -4066,6 +4066,41 @@ cal_component_remove_alarm (CalComponent *comp, const char *auid)
 	icalcomponent_free (alarm);
 }
 
+static gboolean
+for_each_remove_all_alarms (gpointer key, gpointer value, gpointer data)
+{
+	CalComponent *comp = CAL_COMPONENT (data);
+	CalComponentPrivate *priv;
+	icalcomponent *alarm = value;
+	
+	priv = comp->priv;
+	
+	icalcomponent_remove_component (priv->icalcomp, alarm);
+	icalcomponent_free (alarm);
+
+	return TRUE;	
+}
+
+/**
+ * cal_component_remove_all_alarms:
+ * @comp: A calendar component
+ * 
+ * Remove all alarms from the calendar component
+ **/
+void
+cal_component_remove_all_alarms (CalComponent *comp)
+{
+	CalComponentPrivate *priv;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+
+	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
+
+	g_hash_table_foreach_remove (priv->alarm_uid_hash, for_each_remove_all_alarms, comp);
+}
+
 
 /* Scans an icalproperty from a calendar component and adds its mapping to our
  * own alarm structure.

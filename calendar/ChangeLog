@@ -1,3 +1,18 @@
+2001-09-17  JP Rosevear  <jpr@ximian.com>
+
+	* cal-util/cal-component.c (for_each_remove_all_alarms): for each
+	call back, removes the alarms
+	(cal_component_remove_all_alarms): remove all alarms from the
+	component
+
+	* cal-util/cal-component.h: new proto
+
+	* gui/e-itip-control.c (write_error_html): writes error messages
+	rather than normal html
+
+	* gui/itip-utils.c (itip_send_comp): remove all alarms if the
+	method warrants it
+
 2001-09-16  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/dialogs/meeting-page.c (build_etable): Updated this to match

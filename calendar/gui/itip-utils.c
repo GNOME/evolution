@@ -389,7 +389,8 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *comp)
 
 	/* Create a top level component, and add our component */
 	{
-		icalcomponent *icomp, *clone;
+		CalComponent *clone;		
+		icalcomponent *icomp, *iclone;
 		icalproperty *prop;
 		icalvalue *value;
 		gchar *ical_string;
@@ -401,10 +402,18 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *comp)
 		icalproperty_set_value (prop, value);
 		icalcomponent_add_property (icomp, prop);
 
-		clone = icalcomponent_new_clone (cal_component_get_icalcomponent (comp));
-		icalcomponent_add_component (icomp, clone);
+		/* Strip alarms if necessary */
+		clone = cal_component_clone (comp);
+		if (method == CAL_COMPONENT_METHOD_REPLY
+		    || method == CAL_COMPONENT_METHOD_CANCEL
+		    || method == CAL_COMPONENT_METHOD_REFRESH
+		    || method == CAL_COMPONENT_METHOD_DECLINECOUNTER)
+			cal_component_remove_all_alarms (clone);
+		
+		iclone = cal_component_get_icalcomponent (clone);
+		icalcomponent_add_component (icomp, iclone);
 
-		icalcomponent_foreach_tzid (clone, foreach_tzid_callback, icomp);
+		icalcomponent_foreach_tzid (iclone, foreach_tzid_callback, icomp);
 
 		ical_string = icalcomponent_as_ical_string (icomp);
 		attach_data = GNOME_Evolution_Composer_AttachmentData__alloc ();

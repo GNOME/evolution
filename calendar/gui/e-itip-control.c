@@ -217,8 +217,6 @@ init (EItipControl *itip)
 	priv->addresses = itip_addresses_get ();
 
 	/* Header */
-	priv->count = gtk_label_new ("0 of 0");
-	gtk_widget_show (priv->count);
 	priv->prev = gnome_stock_button (GNOME_STOCK_BUTTON_PREV);
 	gtk_widget_show (priv->prev);
 	priv->next = gnome_stock_button (GNOME_STOCK_BUTTON_NEXT);
@@ -229,8 +227,6 @@ init (EItipControl *itip)
 	gtk_box_pack_start (GTK_BOX (hbox), priv->count, TRUE, TRUE, 4);
 	gtk_box_pack_start (GTK_BOX (hbox), priv->next, FALSE, FALSE, 4);
 	gtk_widget_show (hbox);
-
-//	gtk_box_pack_start (GTK_BOX (itip), hbox, FALSE, FALSE, 4);
 
 	gtk_signal_connect (GTK_OBJECT (priv->prev), "clicked",
 			    GTK_SIGNAL_FUNC (prev_clicked_cb), itip);
@@ -520,6 +516,64 @@ set_message (GtkHTML *html, GtkHTMLStream *html_stream, gchar *message, gboolean
 	}
 	gtk_html_write (GTK_HTML (html), html_stream, buffer, strlen (buffer));
 	g_free (buffer);		
+}
+
+static void
+write_error_html (EItipControl *itip, gchar *itip_err)
+{
+	EItipControlPrivate *priv;
+	GtkHTMLStream *html_stream;
+	CalComponentText text;
+	CalComponentOrganizer organizer;
+	CalComponentAttendee *attendee;
+	GSList *attendees, *l = NULL;
+	gchar *html;
+	
+	priv = itip->priv;
+
+	/* Html widget */
+	html_stream = gtk_html_begin (GTK_HTML (priv->html));
+	gtk_html_write (GTK_HTML (priv->html), html_stream, 
+			HTML_HEADER, strlen(HTML_HEADER));
+	gtk_html_write (GTK_HTML (priv->html), html_stream,
+			HTML_BODY_START, strlen(HTML_BODY_START));
+
+	/* The table */
+	html = g_strdup ("<table width=450 cellspacing=\"0\" cellpadding=\"4\" border=\"0\">");
+	gtk_html_write (GTK_HTML (priv->html), html_stream, html, strlen(html));
+	g_free (html);
+
+	/* The column for the image */
+	html = g_strdup ("<tr><td width=48 align=\"center\" valign=\"top\" rowspan=\"8\">");
+	gtk_html_write (GTK_HTML (priv->html), html_stream, html, strlen(html));
+	g_free (html);
+
+	/* The image */
+	html = g_strdup ("<img src=\"/meeting-request.png\"></td>");
+	gtk_html_write (GTK_HTML (priv->html), html_stream, html, strlen(html));
+	g_free (html);
+
+	html = g_strdup ("<td align=\"left\" valign=\"top\">");
+	gtk_html_write (GTK_HTML (priv->html), html_stream, html, strlen(html));
+	g_free (html);
+
+	/* Title */
+	set_message (GTK_HTML (priv->html), html_stream, "iCalendar Error", TRUE);
+
+	/* Error */
+	gtk_html_write (GTK_HTML (priv->html), html_stream, itip_err, strlen(itip_err));
+
+	/* Clean up */
+	html = g_strdup ("</td></tr></table>");
+	gtk_html_write (GTK_HTML (priv->html), html_stream, html, strlen(html));
+	g_free (html);
+
+	gtk_html_write (GTK_HTML (priv->html), html_stream,
+			HTML_BODY_END, strlen(HTML_BODY_END));
+	gtk_html_write (GTK_HTML (priv->html), html_stream,
+			HTML_FOOTER, strlen(HTML_FOOTER));
+
+	gtk_html_end (GTK_HTML (priv->html), html_stream, GTK_HTML_STREAM_OK);
 }
 
 static void
@@ -813,7 +867,9 @@ show_current (EItipControl *itip)
 {
 	EItipControlPrivate *priv;
 	CalComponentVType type;
-
+	icalcomponent *alarm_comp;
+	icalcompiter alarm_iter;
+	
 	priv = itip->priv;
 
 	set_label (itip);
@@ -822,9 +878,17 @@ show_current (EItipControl *itip)
 	if (priv->comp)
 		gtk_object_unref (GTK_OBJECT (priv->comp));
 	
+	/* Strip out alarms for security purposes */
+	alarm_iter = icalcomponent_begin_component (priv->ical_comp, ICAL_VALARM_COMPONENT);
+	while ((alarm_comp = icalcompiter_deref (&alarm_iter)) != NULL) {
+		icalcomponent_remove_component (priv->ical_comp, alarm_comp);
+
+		icalcompiter_next (&alarm_iter);
+	}
+
 	priv->comp = cal_component_new ();
 	if (!cal_component_set_icalcomponent (priv->comp, priv->ical_comp)) {
-//		set_message (itip, _("The message does not appear to be properly formed"), TRUE);
+		write_error_html (itip, _("The message does not appear to be properly formed"));
 		gtk_object_unref (GTK_OBJECT (priv->comp));
 		priv->comp = NULL;
 		return;
@@ -843,7 +907,7 @@ show_current (EItipControl *itip)
 		show_current_freebusy (itip);
 		break;
 	default:
-//		set_message (itip, _("The message contains only unsupported requests."), TRUE);
+		write_error_html (itip, _("The message contains only unsupported requests."));
 	}
 
 	find_my_address (itip, priv->ical_comp);
@@ -861,23 +925,26 @@ e_itip_control_set_data (EItipControl *itip, const gchar *text)
 	priv = itip->priv;
 
 	clean_up (itip);
+
+	priv->comp = NULL;
+	priv->total = 0;
+	priv->current = 0;
 	
 	priv->vcalendar = g_strdup (text);
 	priv->top_level = cal_util_new_top_level ();
 
 	priv->main_comp = icalparser_parse_string (priv->vcalendar);
 	if (priv->main_comp == NULL) {
-//		set_message (itip, _("The information contained in this attachment was not valid"), TRUE);
-		priv->comp = NULL;
-		priv->total = 0;
-		priv->current = 0;
-		goto show;
-		
+		write_error_html (itip, _("The attachment does not contain a valid calendar message"));
+		return;
 	}
 
 	prop = icalcomponent_get_first_property (priv->main_comp, ICAL_METHOD_PROPERTY);
-	if (prop == NULL)
-		goto show;
+	if (prop == NULL) {		
+		write_error_html (itip, _("The attachment does not contain a valid calendar message"));
+		return;
+	}
+	
 	priv->method = icalproperty_get_method (prop);
 
 	tz_iter = icalcomponent_begin_component (priv->main_comp, ICAL_VTIMEZONE_COMPONENT);
@@ -907,7 +974,6 @@ e_itip_control_set_data (EItipControl *itip, const gchar *text)
 	else
 		priv->current = 0;
 
- show:	
 	show_current (itip);
 }
 

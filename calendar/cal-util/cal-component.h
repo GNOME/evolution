@@ -394,6 +394,7 @@ typedef struct {
 gboolean cal_component_has_alarms (CalComponent *comp);
 void cal_component_add_alarm (CalComponent *comp, CalComponentAlarm *alarm);
 void cal_component_remove_alarm (CalComponent *comp, const char *auid);
+void cal_component_remove_all_alarms (CalComponent *comp);
 
 GList *cal_component_get_alarm_uids (CalComponent *comp);
 CalComponentAlarm *cal_component_get_alarm (CalComponent *comp, const char *auid);
