@@ -119,7 +119,17 @@ struct {
 	   e_iconv_charset_name() so I'm not going to bother
 	   putting them all in here either... */
 #endif
+	/* charset name (lowercase!), iconv-friendly name (sometimes case sensitive) */
 	{ "utf-8",          "UTF-8"      },
+
+	/* 10646 is a special case, its usually UCS-2 big endian */
+	/* This might need some checking but should be ok for solaris/linux */
+	{ "iso-10646-1",    "UCS-2BE"    },
+	{ "iso_10646-1",    "UCS-2BE"    },
+	{ "iso10646-1",     "UCS-2BE"    },
+	{ "iso-10646",      "UCS-2BE"    },
+	{ "iso_10646",      "UCS-2BE"    },
+	{ "iso10646",       "UCS-2BE"    },
 
 	{ "ks_c_5601-1987", "EUC-KR"     },
 
