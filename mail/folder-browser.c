@@ -17,6 +17,12 @@
 #include "message-list.h"
 #include <widgets/e-paned/e-vpaned.h>
 
+#include "mail-vfolder.h"
+#include "filter/vfolder-rule.h"
+#include "filter/vfolder-context.h"
+#include "filter/filter-option.h"
+#include "filter/filter-input.h"
+
 #define PARENT_TYPE (gtk_table_get_type ())
 
 static GtkObjectClass *folder_browser_parent_class;
@@ -68,37 +74,7 @@ mail_uri_to_folder (const char *name)
 	ex = camel_exception_new ();
 
 	if (!strncmp (name, "vfolder:", 8)) {
-		char *query, *newquery;
-		store_name = g_strdup (name);
-		query = strchr (store_name, '?');
-		if (query) {
-			*query++ = 0;
-		} else {
-			query = "";
-		}
-		newquery = g_strdup_printf("mbox?%s", query);
-		store = camel_session_get_store (session, store_name, ex);
-
-		if (store) {
-			folder = camel_store_get_folder (store, newquery, TRUE, ex);
-			/* FIXME: do this properly rather than hardcoding */
-#warning "Find a way not to hardcode vfolder source"
-			{
-				char *source_name;
-				CamelFolder *source_folder;
-				extern char *evolution_dir;
-				
-				source_name = g_strdup_printf ("file://%s/local/Inbox", evolution_dir);
-				source_folder = mail_uri_to_folder (source_name);
-				g_free (source_name);
-#warning "Not Good (tm). It might be better to have some sort of high level Camel interface for this"
-				if (source_folder)
-					camel_vee_folder_add_folder (folder, source_folder);
-			}
-		}
-		g_free (newquery);
-		g_free (store_name);
-
+		folder = vfolder_uri_to_folder(name);
 	} else if (!strncmp (name, "imap:", 5)) {
 		char *service, *ptr;
 		
@@ -227,6 +203,7 @@ static char * search_options[] = {
 	NULL
 };
 
+/* NOTE: If this is changed, then change the search_save() function to match! */
 /* %s is replaced by the whole search string in quotes ...
    possibly could split the search string into words as well ? */
 static char * search_string[] = {
@@ -315,6 +292,70 @@ search_activate(GtkEntry *entry, FolderBrowser *fb)
 	search_set(fb);
 }
 
+static void
+search_save(GtkWidget *w, FolderBrowser *fb)
+{
+	GtkWidget *widget;
+	int index;
+	char *text;
+	FilterElement *element;
+	VfolderRule *rule;
+	FilterPart *part;
+
+	text = gtk_entry_get_text((GtkEntry *)fb->search_entry);
+
+	if (text == NULL || text[0] == 0) {
+		return;
+	}
+
+	widget = gtk_menu_get_active (GTK_MENU(GTK_OPTION_MENU(fb->search_menu)->menu));
+	index = (int)gtk_object_get_data((GtkObject *)widget, "search_option");
+	rule = vfolder_rule_new();
+	((FilterRule *)rule)->grouping = FILTER_GROUP_ANY;
+	vfolder_rule_add_source(rule, fb->uri);
+	filter_rule_set_name((FilterRule *)rule, text);
+	switch(index) {
+	default:		/* header or body contains */
+		index = 0;
+	case 1: case 2:
+		if (index == 0 || index == 1) {	/* body-contains */
+			part = vfolder_create_part("body");
+			filter_rule_add_part((FilterRule *)rule, part);
+			element = filter_part_find_element(part, "body-type");
+			filter_option_set_current((FilterOption *)element, "contains");
+			element = filter_part_find_element(part, "word");
+			filter_input_set_value((FilterInput *)element, text);
+		}
+		if (index == 0 || index == 2) {	/* subject contains */
+			part = vfolder_create_part("subject");
+			filter_rule_add_part((FilterRule *)rule, part);
+			element = filter_part_find_element(part, "subject-type");
+			filter_option_set_current((FilterOption *)element, "contains");
+			element = filter_part_find_element(part, "subject");
+			filter_input_set_value((FilterInput *)element, text);
+		}
+		break;
+	case 3:			/* not body contains */
+		part = vfolder_create_part("body");
+		filter_rule_add_part((FilterRule *)rule, part);
+		element = filter_part_find_element(part, "body-type");
+		filter_option_set_current((FilterOption *)element, "not contains");
+		element = filter_part_find_element(part, "word");
+		filter_input_set_value((FilterInput *)element, text);
+		break;
+	case 4:			/* not header contains */
+		part = vfolder_create_part("subject");
+		filter_rule_add_part((FilterRule *)rule, part);
+		element = filter_part_find_element(part, "subject-type");
+		filter_option_set_current((FilterOption *)element, "not contains");
+		element = filter_part_find_element(part, "subject");
+		filter_input_set_value((FilterInput *)element, text);
+		break;
+	}
+
+	vfolder_gui_add_rule(rule);
+}
+
 void
 folder_browser_clear_search (FolderBrowser *fb)
 {
@@ -373,6 +414,7 @@ static void
 folder_browser_gui_init (FolderBrowser *fb)
 {
 	GtkWidget *hbox, *label;
+	GtkButton *button;
 
 	/*
 	 * The panned container
@@ -397,6 +439,10 @@ folder_browser_gui_init (FolderBrowser *fb)
 	label = gtk_label_new("Search");
 	gtk_widget_show(label);
 	fb->search_menu = create_option_menu(search_options, 0, fb);
+	button = (GtkButton *)gtk_button_new_with_label("Save");
+	gtk_widget_show((GtkWidget *)button);
+	gtk_signal_connect((GtkObject *)button, "clicked", search_save, fb);
+	gtk_box_pack_end((GtkBox *)hbox, (GtkWidget *)button, FALSE, FALSE, 3);
 	gtk_box_pack_end((GtkBox *)hbox, fb->search_entry, FALSE, FALSE, 3);
 	gtk_box_pack_end((GtkBox *)hbox, fb->search_menu, FALSE, FALSE, 3);
 	gtk_box_pack_end((GtkBox *)hbox, label, FALSE, FALSE, 3);

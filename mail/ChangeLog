@@ -1,3 +1,23 @@
+2000-07-31  Not Zed  <NotZed@HelixCode.com>
+
+	* mail-vfolder.h: Header for vfolder functions.
+
+	* folder-browser.c (mail_uri_to_folder): Use new scheme to open
+	vfolders.
+	(search_save): New button/function to save a search as a vfolder.
+
+	* mail-vfolder.c (vfolder_edit): Made asynchronous.
+	(vfolder_uri_to_folder): New function for loading vfolders and
+	setting up their source folders.
+	(vfolder_refresh): Change shell vfolder uri's to indirect
+	references rather than the real vfolder uri.
+	(vfolder_gui_add_rule): Add a rule with user confirmation.
+	(vfolder_create_part): Get a new part by name, for creating rules
+	in code.
+
+	* message-thread.c (thread_messages): Check for uid lookup
+	failure, which indicates an error in the folder or calling code.
+
 2000-07-29  Not Zed  <NotZed@HelixCode.com>
 
 	* component-factory.c (create_view): Remove hack to pass the
