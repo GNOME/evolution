@@ -1,5 +1,13 @@
 2001-02-15  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* main.c (main): Have the mail-config and openpgp initialize here
+	instead.
+
+	* component-factory.c (owner_set_cb): No need to have mail-config
+	and openpgp init here.
+
+2001-02-15  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* mail-ops.c (do_scan_subfolders): Use mail_storage_create_folder
 
 	* mail-callbacks.c (mail_storage_create_folder): Convenience

@@ -108,7 +108,11 @@ main (int argc, char *argv [])
 	e_cursors_init ();
 
 	mail_msg_init();
-
+	
+	mail_config_init ();
+	
+	openpgp_init (mail_config_get_pgp_path (), mail_config_get_pgp_type ());
+	
 	component_factory_init ();
 	evolution_composer_factory_init (composer_send_cb,
 					 composer_postpone_cb);
