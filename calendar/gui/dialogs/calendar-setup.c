@@ -202,31 +202,33 @@ validate_remote_uri (const gchar *source_location, gboolean interactive, GtkWidg
 }
 
 static gboolean
-source_group_can_add (ESourceGroup *source_group)
+source_group_is_mutable (ESourceGroup *source_group)
 {
-	gboolean can_add;
+	gboolean mutable;
 	
 	if (!source_group)
 		return FALSE;
 	
-	can_add = !e_source_group_get_readonly (source_group);
+	mutable = !e_source_group_get_readonly (source_group);
 	
-	if (can_add) {
-		char *uri = e_source_group_peek_base_uri (source_group);
+	if (mutable) {
+		const char *uri = e_source_group_peek_base_uri (source_group);
 		
 		if (g_str_has_prefix (uri, "groupwise://") || g_str_has_prefix (uri, "exchange://"))
-			can_add = FALSE;
+			mutable = FALSE;
 		
 	}
 	
-	return can_add;	
+	return mutable;	
 }
 
 static int
-source_group_menu_add_groups (GtkMenuShell *menu_shell, ESourceList *source_list)
+source_group_menu_add_groups (GtkMenuShell *menu_shell, SourceDialog *source_dialog)
 {
+	ESourceList *source_list = source_dialog->source_list;
 	GSList *groups, *sl;
 	int index=-1, i=0;
+	
 
 	if (source_list == NULL)
 		return index;
@@ -238,12 +240,21 @@ source_group_menu_add_groups (GtkMenuShell *menu_shell, ESourceList *source_list
 
 		menu_item = gtk_menu_item_new_with_label (e_source_group_peek_name (group));
 		gtk_widget_show (menu_item);
-		if (!source_group_can_add (group))
+
+		if (!source_group_is_mutable (group))
 			gtk_widget_set_sensitive(menu_item, FALSE);
-		else if (i == -1)
+		
+		if (source_dialog->source_group 
+		    && !strcmp (e_source_group_peek_uid (source_dialog->source_group), e_source_group_peek_uid (group)))
 			index = i;
 
 		gtk_menu_shell_append (menu_shell, menu_item);
+		i++;
+	}
+
+	if (!source_dialog->source_group && groups) {
+		source_dialog->source_group = groups->data;
+		return -1;
 	}
 
 	return index;
@@ -345,10 +356,10 @@ general_entry_modified (SourceDialog *source_dialog)
 	const char *text = gtk_entry_get_text (GTK_ENTRY (source_dialog->name_entry));
 	gboolean sensitive = text && *text != '\0';
 
-	sensitive &= (source_dialog->source_group != NULL);
-	
-	if (source_group_is_remote (source_dialog->source_group)) {
-		sensitive &= remote_page_verify (source_dialog);
+	sensitive = sensitive && (source_dialog->source_group != NULL);
+
+	if (source_group_is_remote (source_dialog->source_group) && source_group_is_mutable (source_dialog->source_group)) {
+		sensitive = sensitive && remote_page_verify (source_dialog);
 	}
 
 	gtk_widget_set_sensitive (source_dialog->add_button, sensitive);
@@ -358,6 +369,10 @@ static void
 general_update_dialog (SourceDialog *source_dialog)
 {
 	gboolean remote = FALSE;
+	gboolean mutable = source_group_is_mutable (source_dialog->source_group);
+
+	if (e_source_get_readonly (source_dialog->source))
+		gtk_widget_set_sensitive (glade_xml_get_widget (source_dialog->gui_xml, "settings-table"), FALSE);
 
 	/* These are calendar specific so make sure we have them */
 	if (source_dialog->uri_entry)
@@ -365,7 +380,8 @@ general_update_dialog (SourceDialog *source_dialog)
 						 0, 0, NULL, NULL, source_dialog);
 
 	remote = (source_dialog->source && source_is_remote (source_dialog->source)) 
-		|| source_group_is_remote (source_dialog->source_group);
+		  || source_group_is_remote (source_dialog->source_group);
+
 
 	if (!remote) {
 		if (source_dialog->uri_entry)
@@ -377,13 +393,13 @@ general_update_dialog (SourceDialog *source_dialog)
 	general_entry_modified (source_dialog);
 
 	if (source_dialog->uri_hbox)
-		gtk_widget_set_sensitive (source_dialog->uri_hbox, remote);
+		gtk_widget_set_sensitive (source_dialog->uri_hbox, remote && mutable);
 	if (source_dialog->uri_label)
-		gtk_widget_set_sensitive (source_dialog->uri_label, remote);
+		gtk_widget_set_sensitive (source_dialog->uri_label, remote && mutable);
 	if (source_dialog->refresh_label)
-		gtk_widget_set_sensitive (source_dialog->refresh_label, remote);
+		gtk_widget_set_sensitive (source_dialog->refresh_label, remote && mutable);
 	if (source_dialog->refresh_hbox)
-		gtk_widget_set_sensitive (source_dialog->refresh_hbox, remote);
+		gtk_widget_set_sensitive (source_dialog->refresh_hbox, remote && mutable);
 
 	if (source_dialog->uri_entry)
 		g_signal_handlers_unblock_matched (source_dialog->uri_entry, G_SIGNAL_MATCH_DATA,
@@ -642,6 +658,7 @@ calendar_setup_edit_calendar (GtkWindow *parent, ESource *source)
 	source_dialog->window = glade_xml_get_widget (source_dialog->gui_xml, "add-calendar-window");
 	if (source) {
 		source_dialog->source = source;
+		source_dialog->source_group = e_source_peek_group (source);
 		g_object_ref (source);
 	}
 
@@ -659,15 +676,13 @@ calendar_setup_edit_calendar (GtkWindow *parent, ESource *source)
 		gtk_option_menu_set_menu (GTK_OPTION_MENU (source_dialog->group_optionmenu), menu);
 		gtk_widget_show (menu);
 	}
-	gtk_widget_set_sensitive (source_dialog->group_optionmenu, source == NULL);
 
 	/* NOTE: This assumes that we have sources. If they don't exist, they're set up
 	 * on startup of the calendar component. */
 	index = source_group_menu_add_groups (GTK_MENU_SHELL (gtk_option_menu_get_menu (
-		GTK_OPTION_MENU (source_dialog->group_optionmenu))), source_dialog->source_list);
+		GTK_OPTION_MENU (source_dialog->group_optionmenu))), source_dialog);
 	gtk_option_menu_set_history (GTK_OPTION_MENU (source_dialog->group_optionmenu), index);
-	if (e_source_list_peek_groups (source_dialog->source_list))
-		source_dialog->source_group = e_source_list_peek_groups (source_dialog->source_list)->data;
+
 	g_signal_connect_swapped (source_dialog->group_optionmenu, "changed",
 				  G_CALLBACK (source_group_changed_sensitive), source_dialog);
 	source_dialog->uri_entry = glade_xml_get_widget (source_dialog->gui_xml, "uri-entry");
@@ -769,6 +784,7 @@ calendar_setup_edit_task_list (GtkWindow *parent, ESource *source)
 	source_dialog->window = glade_xml_get_widget (source_dialog->gui_xml, "add-task-list-window");
 	if (source) {
 		source_dialog->source = source;
+		source_dialog->source_group = e_source_peek_group (source);
 		g_object_ref (source);
 	}
 
@@ -791,10 +807,9 @@ calendar_setup_edit_task_list (GtkWindow *parent, ESource *source)
 	/* NOTE: This assumes that we have sources. If they don't exist, they're set up
 	 * on startup of the calendar component. */
 	index = source_group_menu_add_groups (GTK_MENU_SHELL (gtk_option_menu_get_menu (
-		GTK_OPTION_MENU (source_dialog->group_optionmenu))), source_dialog->source_list);
+		GTK_OPTION_MENU (source_dialog->group_optionmenu))), source_dialog);
 	gtk_option_menu_set_history (GTK_OPTION_MENU (source_dialog->group_optionmenu), index);
-	if (e_source_list_peek_groups (source_dialog->source_list))
-		source_dialog->source_group = e_source_list_peek_groups (source_dialog->source_list)->data;
+
 	g_signal_connect_swapped (source_dialog->group_optionmenu, "changed",
 				  G_CALLBACK (source_group_changed_sensitive), source_dialog);
 

@@ -1,3 +1,12 @@
+2004-06-01  Larry Ewing  <lewing@ximian.com>
+
+	* gui/dialogs/calendar-setup.c: rename can_add to is_mutable, add
+	sensitivity logic for both readonly and mutable cases.  The
+	esource attributes are a complete mess and need discussion.
+
+	* gui/dialogs/calendar-setup.glade: remove edit dialogs and name
+	the tables.
+
 2004-06-01  Rodrigo Moya <rodrigo@novell.com>
 
 	Fixes #59369
