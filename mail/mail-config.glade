@@ -1230,7 +1230,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 				  <property name="browse_dialog_title" translatable="yes">Mailbox location</property>
 				  <property name="directory_entry">False</property>
 				  <property name="modal">False</property>
-				  <property name="use_filechooser">False</property>
+				  <property name="use_filechooser">True</property>
 
 				  <child internal-child="entry">
 				    <widget class="GtkEntry" id="source_path">
@@ -5229,7 +5229,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 				  <property name="browse_dialog_title" translatable="yes">Execute Command...</property>
 				  <property name="directory_entry">False</property>
 				  <property name="modal">False</property>
-				  <property name="use_filechooser">False</property>
+				  <property name="use_filechooser">True</property>
 
 				  <child internal-child="entry">
 				    <widget class="GtkEntry" id="txtNotifyPlaySound">
@@ -8325,7 +8325,7 @@ for display purposes only. </property>
 		      <property name="max_saved">10</property>
 		      <property name="directory_entry">False</property>
 		      <property name="modal">False</property>
-		      <property name="use_filechooser">False</property>
+		      <property name="use_filechooser">True</property>
 
 		      <child internal-child="entry">
 			<widget class="GtkEntry" id="combo-entry2">

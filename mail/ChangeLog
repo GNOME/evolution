@@ -1,3 +1,11 @@
+2004-08-12  Carlos Garnacho Parro  <carlosg@gnome.org>
+
+	* em-utils.c: Optionally use GtkFileChooser if compiled against
+	Gtk+ >= 2.4.0
+
+	* mail-config.glade: added the "use_filechooser" property to the
+	various GnomeFileEntries
+
 2004-08-10  Jeffrey Stedfast  <fejj@novell.com>
 
 	Partial fix for bug #62771

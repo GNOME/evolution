@@ -299,35 +299,55 @@ em_utils_edit_filters (GtkWidget *parent)
 
 /* Saving messages... */
 
-static GtkFileSelection *
+static GtkWidget *
 emu_get_save_filesel (GtkWidget *parent, const char *title, const char *name)
 {
-	GtkFileSelection *filesel;
-	char *gdir, *mname = NULL, *filename;
-	const char *realname, *dir;
+	GtkWidget *filesel;
+	const char *dir;
+	char *realname, *filename, *gdir;
 	GConfClient *gconf;
 
-	filesel = (GtkFileSelection *)gtk_file_selection_new(title);
+#ifdef USE_GTKFILECHOOSER
+	filesel = gtk_file_chooser_dialog_new (title,
+					       NULL,
+					       GTK_FILE_CHOOSER_ACTION_SAVE,
+					       GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					       GTK_STOCK_SAVE, GTK_RESPONSE_OK,
+					       NULL);
+	gtk_dialog_set_default_response (GTK_DIALOG (filesel), GTK_RESPONSE_OK);
+#else
+	filesel = gtk_file_selection_new (title);
+#endif
+	
 	if (parent)
 		e_dialog_set_transient_for((GtkWindow *)filesel, parent);
 
 	gconf = gconf_client_get_default();
 	dir = gdir = gconf_client_get_string(gconf, "/apps/evolution/mail/save_dir", NULL);
 	g_object_unref(gconf);
+
 	if (dir == NULL)
 		dir = g_get_home_dir();
 
 	if (name && name[0]) {
-		realname = mname = g_strdup(name);
-		e_filename_make_safe(mname);
+		realname = g_strdup (name);
+		e_filename_make_safe (realname);
 	} else {
-		realname = "/";
+		realname = NULL;
 	}
 
-	filename = g_build_filename(dir, realname, NULL);
-	gtk_file_selection_set_filename(filesel, filename);
-	g_free(filename);
-	g_free(mname);
+#ifdef USE_GTKFILECHOOSER
+	gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (filesel), dir);
+	
+	if (realname)
+		gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (filesel), realname);
+#else
+	filename = g_build_filename (dir, G_DIR_SEPARATOR_S, realname, NULL);
+	gtk_file_selection_set_filename (GTK_FILE_SELECTION (filesel), filename);
+	g_free (filename);
+#endif
+	
+	g_free (realname);
 	g_free (gdir);
 
 	return filesel;
@@ -369,11 +389,17 @@ emu_can_save(GtkWindow *parent, const char *path)
 }
 
 static void
-emu_save_part_response(GtkFileSelection *filesel, int response, CamelMimePart *part)
+emu_save_part_response(GtkWidget *filesel, int response, CamelMimePart *part)
 {
+	const char *path;
+	
 	if (response == GTK_RESPONSE_OK) {
-		const char *path = gtk_file_selection_get_filename(filesel);
-
+#ifdef USE_GTKFILECHOOSER
+		path = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (filesel));
+#else
+		path = gtk_file_selection_get_filename (GTK_FILE_SELECTION (filesel));
+#endif
+		
 		if (!emu_can_save((GtkWindow *)filesel, path))
 			return;
 
@@ -398,7 +424,7 @@ void
 em_utils_save_part(GtkWidget *parent, const char *prompt, CamelMimePart *part)
 {
 	const char *name;
-	GtkFileSelection *filesel;
+	GtkWidget *filesel;
 
 	name = camel_mime_part_get_filename(part);
 	if (name == NULL) {
@@ -413,8 +439,8 @@ em_utils_save_part(GtkWidget *parent, const char *prompt, CamelMimePart *part)
 
 	filesel = emu_get_save_filesel(parent, prompt, name);
 	camel_object_ref(part);
-	g_signal_connect(filesel, "response", G_CALLBACK(emu_save_part_response), part);
-	gtk_widget_show((GtkWidget *)filesel);
+	g_signal_connect (filesel, "response", G_CALLBACK (emu_save_part_response), part);
+	gtk_widget_show (filesel);
 }
 
 /**
@@ -470,10 +496,16 @@ struct _save_messages_data {
 };
 
 static void
-emu_save_messages_response(GtkFileSelection *filesel, int response, struct _save_messages_data *data)
+emu_save_messages_response(GtkWidget *filesel, int response, struct _save_messages_data *data)
 {
+	const char *path;
+	
 	if (response == GTK_RESPONSE_OK) {
-		const char *path = gtk_file_selection_get_filename(filesel);
+#ifdef USE_GTKFILECHOOSER
+		path = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (filesel));
+#else
+		path = gtk_file_selection_get_filename (GTK_FILE_SELECTION (filesel));
+#endif
 
 		if (!emu_can_save((GtkWindow *)filesel, path))
 			return;
@@ -503,7 +535,7 @@ void
 em_utils_save_messages (GtkWidget *parent, CamelFolder *folder, GPtrArray *uids)
 {
 	struct _save_messages_data *data;
-	GtkFileSelection *filesel;
+	GtkWidget *filesel;
 
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 	g_return_if_fail (uids != NULL);
