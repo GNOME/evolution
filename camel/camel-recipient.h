@@ -32,6 +32,8 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus }*/
 
+#include <glib.h>
+
 
 
 typedef struct {
@@ -43,7 +45,26 @@ typedef struct {
 
 
 
+CamelRecipientTable *camel_recipient_table_new ();
 
+void camel_recipient_table_ref (CamelRecipientTable *recipient_table);
+
+void camel_recipient_table_unref (CamelRecipientTable *recipient_table);
+
+void camel_recipient_table_add (CamelRecipientTable *recipient_table, 
+				const gchar *recipient_type, 
+				const gchar *recipient);
+
+void camel_recipient_table_add_list (CamelRecipientTable *recipient_table, 
+				     const gchar *recipient_type, 
+				     GList *recipient_list);
+
+void camel_recipient_table_remove (CamelRecipientTable *recipient_table,
+				   const gchar *recipient_type,
+				   const gchar *recipient);
+
+const GList *camel_recipient_table_get (CamelRecipientTable *recipient_table,
+					const gchar *recipient_type);
 
 
 

@@ -1,8 +1,16 @@
 1999-09-01  bertrand  <Bertrand.Guiheneuf@aful.org>
 
+	* camel/camel-mime-message.c (_finalize): 
+	(_add_recipient): 
+	(_remove_recipient): 
+	(_get_recipients): now use CamelRecipientTable
+	
+	* camel/gmime-content-field.c: 
+	(gmime_content_field_unref): test if object 
+	to free is non void.
+
 	* camel/camel-folder.c (_finalize): 
 	(_set_name): 
-	* camel/camel-mime-message.c (_finalize): 
 	* camel/camel-mime-part.c (_finalize): 
 	(_set_description): 
 	(_set_disposition): 
@@ -10,6 +18,7 @@
 	* camel/camel-stream-fs.c (_finalize): 
 	* camel/gmime-content-field.c: 
 	(gmime_content_field_construct_from_string): 
+
 	* camel/url-util.c (g_url_free): 
 
 	When using g_free (obj) don't test if obj != NULL

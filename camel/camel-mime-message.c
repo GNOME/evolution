@@ -61,7 +61,7 @@ static void _set_subject (CamelMimeMessage *mime_message, gchar *subject);
 static const gchar *_get_subject (CamelMimeMessage *mime_message);
 static void _set_from (CamelMimeMessage *mime_message, gchar *from);
 static const gchar *_get_from (CamelMimeMessage *mime_message);
-static void _add_recipient (CamelMimeMessage *mime_message, gchar *recipient_type, gchar *recipient); 
+static void _add_recipient (CamelMimeMessage *mime_message, const gchar *recipient_type, const gchar *recipient); 
 static void _remove_recipient (CamelMimeMessage *mime_message, const gchar *recipient_type, const gchar *recipient);
 static const GList *_get_recipients (CamelMimeMessage *mime_message, const gchar *recipient_type);
 static void _set_flag (CamelMimeMessage *mime_message, const gchar *flag, gboolean value);
@@ -141,7 +141,7 @@ camel_mime_message_init (gpointer object, gpointer klass)
 {
 	CamelMimeMessage *camel_mime_message = CAMEL_MIME_MESSAGE (object);
 	
-	camel_mime_message->recipients =  g_hash_table_new (g_strcase_hash, g_strcase_equal);
+	camel_mime_message->recipients =  camel_recipient_table_new ();
 	camel_mime_message->flags = g_hash_table_new (g_strcase_hash, g_strcase_equal);
 	
 	camel_mime_message->received_date = NULL;
@@ -190,7 +190,7 @@ _finalize (GtkObject *object)
 	g_free (message->reply_to);
 	g_free (message->from);
 	
-#warning free recipients.
+	if (message->recipients) camel_recipient_table_unref (message->recipients);
 	if (message->folder) gtk_object_unref (GTK_OBJECT (message->folder));
 	if (message->session) gtk_object_unref (GTK_OBJECT (message->session));
 	
@@ -389,45 +389,27 @@ camel_mime_message_get_from (CamelMimeMessage *mime_message)
 
 
 
+
+/*  ****  */
+
+
+
+
+
 static void
-_add_recipient (CamelMimeMessage *mime_message, gchar *recipient_type, gchar *recipient) 
+_add_recipient (CamelMimeMessage *mime_message, 
+		const gchar *recipient_type, 
+		const gchar *recipient) 
 {
-	/* be careful, recipient_type and recipient may be freed within this func */
-	GList *recipients_list;
-	GList *existent_list;
-	
-	/* see if there is already a list for this recipient type */
-	existent_list = (GList *)g_hash_table_lookup (mime_message->recipients, recipient_type);
-	
-	/* if the recipient is already in this list, do nothing */
-	if ( existent_list && g_list_find_custom (existent_list, (gpointer)recipient, string_equal_for_glist) ) {
-		g_free (recipient_type);
-		g_free (recipient);
-		return;
-	}
-	/* append the new recipient to the recipient list
-	   if the existent_list is NULL, then a new GList is
-	   automagically created */	
-	recipients_list = g_list_append (existent_list, (gpointer)recipient);
-	
-	if (!existent_list) /* if there was no recipient of this type create the section */
-		g_hash_table_insert (mime_message->recipients, recipient_type, recipients_list);
-	else 
-		g_free (recipient_type);
+	camel_recipient_table_add (mime_message->recipients, recipient_type, recipient); 
 }
 
 
-/**
- * add_recipient:
- * @mime_message: 
- * @recipient_type: 
- * @recipient: 
- * 
- * Have to write the doc. IMPORTANT : @recipient_type and 
- * @recipient may be freed within this func
- **/
+
 void
-camel_mime_message_add_recipient (CamelMimeMessage *mime_message, gchar *recipient_type, gchar *recipient) 
+camel_mime_message_add_recipient (CamelMimeMessage *mime_message, 
+				  const gchar *recipient_type, 
+				  const gchar *recipient) 
 {
 	g_assert (mime_message);
 	g_return_if_fail (_check_not_expunged (mime_message));
@@ -435,50 +417,19 @@ camel_mime_message_add_recipient (CamelMimeMessage *mime_message, gchar *recipie
 }
 
 
-/**
- * _remove_recipient: remove a recipient from the list of recipients
- * @mime_message: the message
- * @recipient_type: recipient type from which the recipient should be removed
- * @recipient: recipient to remove
- * 
- * Be careful, recipient and recipient_type are not freed. 
- * calling programns must free them themselves. They can free
- * them just after remove_recipient returns.
- **/
 static void
-_remove_recipient (CamelMimeMessage *mime_message, const gchar *recipient_type, const gchar *recipient) 
+_remove_recipient (CamelMimeMessage *mime_message, 
+		   const gchar *recipient_type, 
+		   const gchar *recipient) 
 {
-	GList *recipients_list;
-	GList *new_recipients_list;
-	GList *old_element;
-	gchar *old_recipient_type;
-	
-	/* if the recipient type section does not exist, do nothing */
-	if (! g_hash_table_lookup_extended (mime_message->recipients, 
-					    recipient_type, 
-					    (gpointer)&(old_recipient_type),
-					    (gpointer)&(recipients_list)) 
-	    ) return;
-	
-	/* look for the recipient to remove */
-	/* g_list_find_custom does use "const" for recipient, is it a mistake ? */
-	old_element = g_list_find_custom (recipients_list, recipient, g_str_equal);
-	if (old_element) {
-		/* if recipient exists, remove it */
-		new_recipients_list =  g_list_remove_link (recipients_list, old_element);
-		
-		/* if glist head has changed, fix up hash table */
-		if (new_recipients_list != recipients_list)
-			g_hash_table_insert (mime_message->recipients, old_recipient_type, new_recipients_list);
-		
-		g_free( (gchar *)(old_element->data));
-		g_list_free_1 (old_element);
-	}
+	camel_recipient_table_remove (mime_message->recipients, recipient_type, recipient); 
 }
 
 
 void
-camel_mime_message_remove_recipient (CamelMimeMessage *mime_message, const gchar *recipient_type, const gchar *recipient) 
+camel_mime_message_remove_recipient (CamelMimeMessage *mime_message, 
+				     const gchar *recipient_type, 
+				     const gchar *recipient) 
 {
 	g_assert (mime_message);
 	g_return_if_fail (_check_not_expunged (mime_message));
@@ -487,18 +438,26 @@ camel_mime_message_remove_recipient (CamelMimeMessage *mime_message, const gchar
 
 
 static const GList *
-_get_recipients (CamelMimeMessage *mime_message, const gchar *recipient_type)
+_get_recipients (CamelMimeMessage *mime_message, 
+		 const gchar *recipient_type)
 {
-	return (GList *)g_hash_table_lookup (mime_message->recipients, recipient_type);
+	return camel_recipient_table_get (mime_message->recipients, recipient_type);
 }
 
+
 const GList *
-camel_mime_message_get_recipients (CamelMimeMessage *mime_message, const gchar *recipient_type)
+camel_mime_message_get_recipients (CamelMimeMessage *mime_message, 
+				   const gchar *recipient_type)
 {
 	g_assert (mime_message);
 	g_return_val_if_fail (_check_not_expunged (mime_message), NULL);
 	return CMM_CLASS (mime_message)->get_recipients (mime_message, recipient_type);
 }
+
+
+
+/*  ****  */
+
 
 
 static void
@@ -617,7 +576,7 @@ _write_one_recipient_to_stream (gpointer key, gpointer value, gpointer user_data
 static void
 _write_recipients_to_stream (CamelMimeMessage *mime_message, CamelStream *stream)
 {
-	g_hash_table_foreach (mime_message->recipients, _write_one_recipient_to_stream, (gpointer)stream);
+	//g_hash_table_foreach (mime_message->recipients, _write_one_recipient_to_stream, (gpointer)stream);
 }
 
 static void
@@ -650,7 +609,7 @@ _set_recipient_list_from_string (CamelMimeMessage *message, gchar *recipient_typ
 	recipients_list = string_split (
 					recipients_string, ',', "\t ",
 					STRING_TRIM_STRIP_TRAILING | STRING_TRIM_STRIP_LEADING);
-	g_hash_table_insert (message->recipients, recipient_type, recipients_list);
+	camel_recipient_table_add_list (message->recipients, recipient_type, recipients_list);
 	
 }
 

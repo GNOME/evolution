@@ -287,7 +287,7 @@ _set_disposition (CamelMimePart *mime_part, const gchar *disposition)
 #warning Do not use MimeContentfield here !!!
 	
 	if (mime_part->disposition) g_free ((mime_part->disposition)->type);
-	g_free(mime_part->disposition);
+	g_free (mime_part->disposition);
 	
 	mime_part->disposition = g_new0 (GMimeContentField,1);
 	(mime_part->disposition)->type = g_strdup (disposition);

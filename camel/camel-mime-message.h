@@ -37,6 +37,7 @@ typedef struct _CamelMimeMessage CamelMimeMessage;
 #include "camel-mime-part.h"
 #include "camel-folder.h"
 #include "camel-session.h"
+#include "camel-recipient.h"
 
 
 #define RECIPIENT_TYPE_TO "To"
@@ -63,11 +64,8 @@ struct _CamelMimeMessage
 	gchar *reply_to;
 
 	gchar *from;
-	GHashTable *recipients;
-	/*   -> each value is a GList of address strings */
-	/*      each key is a recipient type string in lower-case */
-	/* FIXME: these should be relaced by dedicated structure */
-	
+	CamelRecipientTable *recipients;
+
 	/* other fields */
 	GHashTable *flags; /* boolean values */
 	gboolean expunged;
@@ -93,7 +91,7 @@ typedef struct {
 	const gchar *  (*get_subject) (CamelMimeMessage *mime_message);
 	void     (*set_from) (CamelMimeMessage *mime_message, gchar *from);
 	const gchar *  (*get_from) (CamelMimeMessage *mime_message);
-	void     (*add_recipient) (CamelMimeMessage *mime_message, gchar *recipient_type, gchar *recipient); 
+	void     (*add_recipient) (CamelMimeMessage *mime_message, const gchar *recipient_type, const gchar *recipient); 
 	void     (*remove_recipient) (CamelMimeMessage *mime_message, const gchar *recipient_type, const gchar *recipient);
 	const GList *  (*get_recipients) (CamelMimeMessage *mime_message, const gchar *recipient_type);
 	void     (*set_flag) (CamelMimeMessage *mime_message, const gchar *flag, gboolean value);
@@ -123,7 +121,7 @@ const gchar *camel_mime_message_get_subject (CamelMimeMessage *mime_message);
 void camel_mime_message_set_from (CamelMimeMessage *mime_message, gchar *from);
 const gchar *camel_mime_message_get_from (CamelMimeMessage *mime_message);
 
-void camel_mime_message_add_recipient (CamelMimeMessage *mime_message, gchar *recipient_type, gchar *recipient);
+void camel_mime_message_add_recipient (CamelMimeMessage *mime_message, const gchar *recipient_type, const gchar *recipient);
 void camel_mime_message_remove_recipient (CamelMimeMessage *mime_message, const gchar *recipient_type, const gchar *recipient);
 const GList *camel_mime_message_get_recipients (CamelMimeMessage *mime_message, const gchar *recipient_type);
 
