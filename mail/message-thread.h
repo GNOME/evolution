@@ -8,6 +8,7 @@ struct _container {
 	const CamelMessageInfo *message;
 	char *root_subject;	/* cached root equivalent subject */
 	int re;			/* re version of subject? */
+	int order;		/* the order of this message in the folder */
 };
 
 struct _container *thread_messages(CamelFolder *folder, GPtrArray *uids);

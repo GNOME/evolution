@@ -361,9 +361,9 @@ sort_node(const void *a, const void *b)
 		a1 = a1->child;
 	if (b1->message == NULL)
 		b1 = b1->child;
-	if (a1->message->date_sent == b1->message->date_sent)
+	if (a1->order == b1->order)
 		return 0;
-	if (a1->message->date_sent < b1->message->date_sent)
+	if (a1->order < b1->order)
 		return 1;
 	else
 		return -1;
@@ -429,6 +429,7 @@ thread_messages(CamelFolder *folder, GPtrArray *uids)
 				c->message = mi;
 				g_hash_table_insert(id_table, mi->message_id, c);
 			}
+			c->order = i;
 			container = c;
 			ref = mi->references;
 			p = NULL;

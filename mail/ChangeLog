@@ -8,6 +8,9 @@
 	nodes in the "subjects are common" case. Fixes a bug that would
 	cause the message list to be truncated if this rule was invoked.
 
+	(sort_node): sort the tree by the original order of the messages
+	in the folder rather than by date.
+
 2000-07-07  Dan Winship  <danw@helixcode.com>
 
 	* message-list.c: Lots of changes. Store uids as node data on the
