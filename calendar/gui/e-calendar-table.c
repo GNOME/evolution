@@ -958,29 +958,29 @@ enum {
 
 static EPopupMenu tasks_popup_menu [] = {
 	{ N_("_Open"), NULL,
-	  e_calendar_table_on_open_task, NULL, MASK_SINGLE },
-	{ "", NULL, NULL, NULL, MASK_SINGLE },
-
+	  e_calendar_table_on_open_task, NULL, NULL, MASK_SINGLE },
+	E_POPUP_SEPARATOR,
+	
 	{ N_("C_ut"), NULL,
-	  e_calendar_table_on_cut, NULL, 0 },
+	  e_calendar_table_on_cut, NULL, NULL, 0 },
 	{ N_("_Copy"), NULL,
-	  e_calendar_table_on_copy, NULL, 0 },
+	  e_calendar_table_on_copy, NULL, NULL, 0 },
 	{ N_("_Paste"), NULL,
-	  e_calendar_table_on_paste, NULL, 0 },
+	  e_calendar_table_on_paste, NULL, NULL, 0 },
 
-	{ "", NULL, NULL, NULL, 0 },
-
+	E_POPUP_SEPARATOR,
+	
 	{ N_("_Mark as Complete"), NULL,
-	  mark_as_complete_cb, NULL, MASK_SINGLE },
+	  mark_as_complete_cb, NULL, NULL, MASK_SINGLE },
 	{ N_("_Delete this Task"), NULL,
-	  delete_cb, NULL, MASK_SINGLE },
+	  delete_cb, NULL, NULL, MASK_SINGLE },
 
 	{ N_("_Mark Tasks as Complete"), NULL,
-	  mark_as_complete_cb, NULL, MASK_MULTIPLE },
+	  mark_as_complete_cb, NULL, NULL, MASK_MULTIPLE },
 	{ N_("_Delete Selected Tasks"), NULL,
-	  delete_cb, NULL, MASK_MULTIPLE },
+	  delete_cb, NULL, NULL, MASK_MULTIPLE },
 
-	{ NULL, NULL, NULL, NULL, 0 }
+	E_POPUP_TERMINATOR
 };
 
 static gint

@@ -3523,55 +3523,55 @@ enum {
 
 static EPopupMenu main_items [] = {
 	{ N_("New _Appointment"), NULL,
-	  e_day_view_on_new_appointment, NULL, 0 },
+	  e_day_view_on_new_appointment, NULL, NULL, 0 },
 	{ N_("New All Day _Event"), NULL,
-	  e_day_view_on_new_event, NULL, 0 },
+	  e_day_view_on_new_event, NULL, NULL, 0 },
 
-	{ "", NULL, NULL, NULL, 0 },
+	E_POPUP_SEPARATOR,
 
 	{ N_("_Paste"), NULL,
-	  e_day_view_on_paste, NULL, 0 },
+	  e_day_view_on_paste, NULL, NULL, 0 },
 
-	{ "", NULL, NULL, NULL, 0 },
+	E_POPUP_SEPARATOR,
 
 	{ N_("Go to _Today"), NULL,
-	  e_day_view_on_goto_today, NULL, 0 },
+	  e_day_view_on_goto_today, NULL, NULL, 0 },
 	{ N_("_Go to Date..."), NULL,
-	  e_day_view_on_goto_date, NULL, 0 },
+	  e_day_view_on_goto_date, NULL, NULL, 0 },
 
-	{ NULL, NULL, NULL, NULL, 0 }
+	E_POPUP_TERMINATOR
 };
 
 static EPopupMenu child_items [] = {
 	{ N_("_Open"), NULL,
-	  e_day_view_on_edit_appointment, NULL, MASK_EDITABLE | MASK_EDITING },
+	  e_day_view_on_edit_appointment, NULL, NULL, MASK_EDITABLE | MASK_EDITING },
 	{ N_("_Delete this Appointment"), NULL,
-	  e_day_view_on_delete_appointment, NULL, MASK_EDITABLE | MASK_SINGLE | MASK_EDITING },
+	  e_day_view_on_delete_appointment, NULL, NULL, MASK_EDITABLE | MASK_SINGLE | MASK_EDITING },
 
 	/* Only show this separator if one of the above is shown. */
-	{ "", NULL, NULL, NULL, MASK_EDITABLE | MASK_EDITING },
+	{ "", NULL, NULL, NULL, NULL, MASK_EDITABLE | MASK_EDITING },
 
 
 	{ N_("C_ut"), NULL,
-	  e_day_view_on_cut, NULL, MASK_EDITABLE | MASK_EDITING },
+	  e_day_view_on_cut, NULL, NULL, MASK_EDITABLE | MASK_EDITING },
 	{ N_("_Copy"), NULL,
-	  e_day_view_on_copy, NULL, 0 },
+	  e_day_view_on_copy, NULL, NULL, 0 },
 	{ N_("_Paste"), NULL,
-	  e_day_view_on_paste, NULL, 0 },
+	  e_day_view_on_paste, NULL, NULL, 0 },
 
 
 	/*
 	 * The following are only shown if this is a recurring event
 	 */
-	{ "", NULL, NULL, NULL, MASK_RECURRING | MASK_EDITING },
+	{ "", NULL, NULL, NULL, NULL, MASK_RECURRING | MASK_EDITING },
 	{ N_("Make this Occurrence _Movable"), NULL,
-	  e_day_view_on_unrecur_appointment, NULL, MASK_RECURRING | MASK_EDITING },
+	  e_day_view_on_unrecur_appointment, NULL, NULL, MASK_RECURRING | MASK_EDITING },
 	{ N_("Delete this _Occurrence"), NULL,
-	  e_day_view_on_delete_occurrence, NULL, MASK_RECURRING | MASK_EDITING },
+	  e_day_view_on_delete_occurrence, NULL, NULL, MASK_RECURRING | MASK_EDITING },
 	{ N_("Delete _All Occurrences"), NULL,
-	  e_day_view_on_delete_appointment, NULL, MASK_RECURRING | MASK_EDITING },
+	  e_day_view_on_delete_appointment, NULL, NULL, MASK_RECURRING | MASK_EDITING },
 	
-	{ NULL, NULL, NULL, NULL, 0 }
+	E_POPUP_TERMINATOR
 };
 
 static void
