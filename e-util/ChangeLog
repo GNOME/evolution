@@ -1,3 +1,12 @@
+2001-08-09  Federico Mena Quintero  <federico@ximian.com>
+
+	* e-categories-master-list-wombat.c (ecmlw_destroy): Chain to the
+	destroy handler in the parent class!
+
+	* e-list-iterator.c (e_list_iterator_destroy): Likewise.  Sigh.
+
+	* e-list.c (e_list_destroy): Likewise.  Double sigh.
+
 2001-08-08  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-dialog-utils.h: New.

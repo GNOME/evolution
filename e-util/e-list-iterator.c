@@ -33,7 +33,7 @@ static void        e_list_iterator_destroy    (GtkObject *object);
 
 #define PARENT_TYPE (e_iterator_get_type ())
 
-static GtkObjectClass *parent_class;
+static EIteratorClass *parent_class;
 #define PARENT_CLASS (E_ITERATOR_CLASS(parent_class))
 
 /**
@@ -124,6 +124,9 @@ e_list_iterator_destroy (GtkObject *object)
 	EListIterator *iterator = E_LIST_ITERATOR(object);
 	e_list_remove_iterator(iterator->list, E_ITERATOR(iterator));
 	gtk_object_unref(GTK_OBJECT(iterator->list));
+
+	if (GTK_OBJECT_CLASS (parent_class)->destroy)
+		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
 static const void *

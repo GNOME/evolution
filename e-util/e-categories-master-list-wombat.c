@@ -123,6 +123,9 @@ ecmlw_destroy (GtkObject *object)
 	bonobo_object_release_unref (ecmlw->priv->db, &ev);
 
 	CORBA_exception_free (&ev);
+
+	if (GTK_OBJECT_CLASS (parent_class)->destroy)
+		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
 
