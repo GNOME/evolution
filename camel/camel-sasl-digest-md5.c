@@ -31,6 +31,7 @@
 #include <iconv.h>
 #include "camel-sasl-digest-md5.h"
 #include "camel-mime-utils.h"
+#include "camel-charset-map.h"
 #include <e-util/md5-utils.h>
 
 
