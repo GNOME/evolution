@@ -2,6 +2,7 @@
 
 	* calendar/cal-client/Makefile.am: Use EVOLUTION_CALENDAR_CFLAGS
 	and EVOLUTION_CALENDAR_LIBS.
+	* calendar/cal-util/Makefile.am: Likewise.
 
 2001-12-18  JP Rosevear  <jpr@ximian.com>
 
