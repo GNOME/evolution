@@ -940,6 +940,15 @@ destroy_editor (ESignatureEditor *editor)
 }
 
 static void
+menu_file_save_error (BonoboUIComponent *uic, CORBA_Environment *ev) {
+	e_notice (GTK_WINDOW (uic), GNOME_MESSAGE_BOX_ERROR,
+		  _("Could not save signature file."));
+	
+	g_warning ("Exception while saving signature (%s)",
+		   bonobo_exception_get_text (ev));
+}
+
+static void
 menu_file_save_cb (BonoboUIComponent *uic,
 		   void *data,
 		   const char *path)
@@ -955,8 +964,10 @@ menu_file_save_cb (BonoboUIComponent *uic,
 		pfile_iface = bonobo_object_client_query_interface (bonobo_widget_get_server (BONOBO_WIDGET (editor->control)),
 								    "IDL:Bonobo/PersistFile:1.0", NULL);
 		Bonobo_PersistFile_save (pfile_iface, editor->filename, &ev);
+
 		if (ev._major != CORBA_NO_EXCEPTION)
-			g_warning ("Cannot save.");
+			menu_file_save_error (uic, &ev);
+
 		CORBA_exception_free (&ev);
 	} else {
 		BonoboStream *stream;
@@ -967,16 +978,17 @@ menu_file_save_cb (BonoboUIComponent *uic,
 	
 		stream = bonobo_stream_open (BONOBO_IO_DRIVER_FS, editor->filename,
 					     Bonobo_Storage_WRITE | Bonobo_Storage_CREATE, 0);
+
 		pstream_iface = bonobo_object_client_query_interface
 			(bonobo_widget_get_server (BONOBO_WIDGET (editor->control)),
 			 "IDL:Bonobo/PersistStream:1.0", NULL);
-		Bonobo_PersistStream_save (pstream_iface, (Bonobo_Stream) bonobo_object_corba_objref (BONOBO_OBJECT (stream)),
+
+		Bonobo_PersistStream_save (pstream_iface, 
+					   (Bonobo_Stream) bonobo_object_corba_objref (BONOBO_OBJECT (stream)),
 					   "text/plain", &ev);
-		if (ev._major != CORBA_NO_EXCEPTION) {
-			g_warning ("Exception while saving signature (%s)",
-				   bonobo_exception_get_text (&ev));
-			return;
-		}
+
+		if (ev._major != CORBA_NO_EXCEPTION)
+			menu_file_save_error (uic, &ev);
 	
 		CORBA_exception_free (&ev);
 		bonobo_object_unref (BONOBO_OBJECT (stream));

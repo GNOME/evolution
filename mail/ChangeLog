@@ -1,3 +1,10 @@
+2001-09-11  Larry Ewing  <lewing@ximian.com>
+
+	* mail-account-gui.c (menu_file_save_cb): call menu_file_save_error
+	when there is an exception while saving.
+	(menu_file_save_error): pop up a dialog telling the user the file
+	has not been saved. 
+
 2001-09-10    <NotZed@Ximian.com>
 
 	* mail-local.c (mail_local_reconfigure_folder): Dynamically create
@@ -31,6 +38,7 @@
 
 2001-09-10  Jeffrey Stedfast  <fejj@ximian.com>
 
+>>>>>>> 1.1671
 	* mail-account-gui.c (mail_account_gui_new): Hide the S/MIME frame
 	if we don't support S/MIME.
 
