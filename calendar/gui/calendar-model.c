@@ -663,9 +663,19 @@ calendar_model_value_at (ETableModel *etm, int col, int row)
 		   else'. */
 		if (cal_component_has_recurrences (comp))
 			return GINT_TO_POINTER (1);
-		else
-			return GINT_TO_POINTER (0);
+		else {
+			icalcomponent *ical_comp;
 
+			ical_comp = cal_component_get_icalcomponent (comp);
+			if (icalcomponent_get_first_property (ical_comp,
+							      ICAL_ATTENDEE_PROPERTY) != NULL)
+			{
+				return GINT_TO_POINTER (2); /* Task-assigned */
+			}
+			else {
+				return GINT_TO_POINTER (0);
+			}
+		}
 	case CAL_COMPONENT_FIELD_COMPLETE:
 		return GINT_TO_POINTER (get_is_complete (comp));
 
