@@ -1,3 +1,11 @@
+2001-05-25  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* evolution-mail.xml: Added MailNextUnread, MailNextFlagged,
+	MailPreviousUnread, and MailPreviousFlagged commands. Also
+	rearranged the View menu to be a bit more user-friendly.
+
+	Now where should we put the next/previous menu items?
+
 2001-05-25  Christopher James Lahey  <clahey@ximian.com>
 
 	* evolution-addressbook.xml: Changed the tooltips here based on
