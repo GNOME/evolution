@@ -1659,9 +1659,9 @@ mail_config_druid (void)
 			    GTK_SIGNAL_FUNC (mail_druid_finish),
 			    dialog);
 	
-	GDK_THREADS_ENTER ();
+	/* GDK_THREADS_ENTER (); */
 	gtk_main ();
-	GDK_THREADS_LEAVE ();
+	/* GDK_THREADS_LEAVE (); */
 }
 
 /* Main configuration dialog */
