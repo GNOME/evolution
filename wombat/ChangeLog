@@ -1,3 +1,15 @@
+2002-11-26  Ettore Perazzoli  <ettore@ximian.com>
+
+	* wombat-moniker.c (wombat_lookup_interface_check): New function
+	to return a WombatInterfaceCheck object.
+	(wombat_moniker_resolve): Use it to return the interface check
+	object when requested to.
+
+	* wombat-interface-check.c: New.
+	* wombat-interface-check.h: New.
+
+	* Evolution-Wombat.idl: New interface WombatInterfaceCheck.
+
 2002-08-01  Chris Toshok  <toshok@ximian.com>
 
 	* wombat.c (last_calendar_gone_cb): remove the annoying fprintf

@@ -4,7 +4,10 @@
 #include <bonobo/bonobo-moniker-util.h>
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-storage.h>
+
 #include "wombat-moniker.h"
+
+#include "wombat-interface-check.h"
 
 #define DEFAULT_DB_URL "xmldb:" EVOLUTION_DATADIR "/evolution/config.xmldb"
 #define USER_DB_URL "xmldb:~/evolution/config.xmldb"
@@ -83,6 +86,25 @@ wombat_lookup_db (CORBA_Environment *ev)
 	return db;
 }
 
+static CORBA_Object
+wombat_lookup_interface_check (void)
+{
+	static WombatInterfaceCheck *object = NULL;
+	CORBA_Environment ev;
+	CORBA_Object corba_objref;
+
+	if (object == NULL)
+		object = wombat_interface_check_new ();
+
+	bonobo_object_ref (BONOBO_OBJECT (object));
+
+	CORBA_exception_init (&ev);
+	corba_objref = CORBA_Object_duplicate (BONOBO_OBJREF (object), &ev);
+	CORBA_exception_free (&ev);
+
+	return corba_objref;
+}
+
 static Bonobo_Unknown 
 wombat_moniker_resolve (BonoboMoniker               *moniker,
 			const Bonobo_ResolveOptions *options,
@@ -134,6 +156,9 @@ wombat_moniker_resolve (BonoboMoniker               *moniker,
 		if ((db = wombat_lookup_db (ev)) != CORBA_OBJECT_NIL)
 			return db;
 	}
+
+	if (!strcmp (interface, "IDL:GNOME/Evolution/WombatInterfaceCheck:1.0"))
+		return wombat_lookup_interface_check ();
 
 	bonobo_exception_set (ev, ex_Bonobo_Moniker_InterfaceNotFound);
 	return CORBA_OBJECT_NIL;

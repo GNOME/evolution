@@ -16,7 +16,25 @@ INCLUDES =						\
 bin_PROGRAMS =	\
 	wombat
 
+WOMBAT_IDL = Evolution-Wombat.idl
+
+WOMBAT_IDL_GENERATED =				\
+	Evolution-Wombat.h			\
+	Evolution-Wombat-common.c		\
+	Evolution-Wombat-skels.c		\
+	Evolution-Wombat-stubs.c
+
+$(WOMBAT_IDL_GENERATED): $(WOMBAT_IDL)
+	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl `$(GNOME_CONFIG) --cflags idl` $(WOMBAT_IDL)
+
+idldir = $(datadir)/idl
+
+idl_DATA = $(WOMBAT_IDL)
+
 wombat_SOURCES = 			\
+	$(WOMBAT_IDL_GENERATED)		\
+	wombat-interface-check.c	\
+	wombat-interface-check.h	\
 	wombat-moniker.c		\
 	wombat-moniker.h		\
 	wombat-private-moniker.c	\
@@ -62,10 +80,6 @@ oaf_in_files = GNOME_Evolution_Wombat.oaf.in
 oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
 
 @XML_I18N_MERGE_OAF_RULE@
-
-idldir = $(datadir)/idl
-
-idl_DATA = Evolution-Wombat.idl
 
 EXTRA_DIST = $(oaf_DATA) $(oaf_in_files) $(idl_DATA) \
 	     GNOME_Evolution_WombatLDAP.oaf.in GNOME_Evolution_WombatNOLDAP.oaf.in
