@@ -1,125 +1,165 @@
-Evolution ?.?.?, ????-??-??
----------------------------
+Evolution 1.3.91, 2003-05-20
+----------------------------
 
 Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
 
   * Addressbook
 
-    #38084 - Rename local folder issue in contacts. (sean.gao@sun.com)
-    #41130 - HIG compliance. (Anna)
-    #41137 - HIG compliance. (Anna)
-    #41140 - HIG compliance. (Anna)
-    #41144 - Use stock buttons in the ldap config page. (Toshok)
-    #41211 - Add icon to "Add" button in "Add to Contacts" dialog. (Toshok)
-    #41229 - HIG compliance. (Anna)
-    #41231 - HIG compliance. (Anna)
-    #41232 - HIG compliance. (Anna)
-    #41245 - HIG compliance. (Toshok)
-    #41248 - HIG compliance. (Anna)
-    #41249 - HIG compliance. (Anna)
-    #41250 - HIG compliance. (Anna)
-    #41251 - HIG compliance. (Anna)
-    #41254 - HIG compliance. (Anna)
-    #41255 - Use stock Add/Remove icons in the contact list editor. (Toshok)
-    #41910 - Crash when deleting addresses from long contact lists. (Toshok)
-    #42048 - "Print" not hooked up in etable view. (Toshok)
-    #42177 - Cannot tab out of date edit widgets in contact editor. (Toshok)
-    #42472 - Selecting a field in a contact highlights entire row. (Toshok)
+    #38084 - Rename local folder issue in contacts  (sean.gao@sun.com)
+    #41130 - HIG compliance  (Anna)
+    #41137 - HIG compliance  (Anna)
+    #41140 - HIG compliance  (Anna)
+    #41144 - Use stock buttons in the ldap config page  (Toshok)
+    #41211 - Add icon to "Add" button in "Add to Contacts" dialog  (Toshok)
+    #41229 - HIG compliance  (Anna)
+    #41231 - HIG compliance  (Anna)
+    #41232 - HIG compliance  (Anna)
+    #41245 - HIG compliance  (Toshok)
+    #41248 - HIG compliance  (Anna)
+    #41249 - HIG compliance  (Anna)
+    #41250 - HIG compliance  (Anna)
+    #41251 - HIG compliance  (Anna)
+    #41254 - HIG compliance  (Anna)
+    #41255 - Use stock Add/Remove icons in the contact list editor  (Toshok)
+    #41910 - Crash when deleting addresses from long contact lists  (Toshok)
+    #42048 - "Print" not hooked up in etable view  (Toshok)
+    #42177 - Cannot tab out of date edit widgets in contact editor  (Toshok)
+    #42472 - Selecting a field in a contact highlights entire row  (Toshok)
     #42596 - Selecting text in a contact address field selects all
              rows of text (Toshok)
     #42604 - Display not shifted when cursor moved to next address
              line (Toshok)
     #42606 - Not saving information entered in Notes field of Contact
              editor (Toshok)
-    #42620 - Crash related to mailing address checkbox. (Toshok)
+    #42620 - Crash related to mailing address checkbox  (Toshok)
     #42625 - Clicking in white space of contact brings up empty
-             contact editor. (Toshok)
+             contact editor  (Toshok)
     #42780 - Crash on solaris due to missing NULL in g_guild_filename.
              (sean.gao@sun.com)
     #42825 - clicking on letters in LDAP address card view does not
              load selected letter (Dan, Toshok)
-    #43005 - Crash on reply. (Toshok)
-    #43016 - Crash when adding duplicate contact. (Toshok)
-    #43023 - All contacts have disappeared. (Toshok)
-    #43090 - GalView menu missing from the addressbook. (Toshok)
+    #43005 - Crash on reply  (Toshok)
+    #43016 - Crash when adding duplicate contact  (Toshok)
+    #43023 - All contacts have disappeared  (Toshok)
+    #43090 - GalView menu missing from the addressbook  (Toshok)
     #43175 - Evolution crashed pasting large amount of text into
-             address field. (Toshok)
+             address field  (Toshok)
     #43213 - auto-completion folder list wasn't populated correctly on
-             fresh install. (Toshok)
+             fresh install  (Toshok)
 
   * Calendar
 
-    #41811 - Calendar update failing and crashing (JP)
-    #41760 - Alarm dialog does not reappear after snoozing Exchange alarm (Rodrigo)
-    #41579 - Double clicked on meeting in Exchange calendar, Evo crashed (Rodrigo)
-    #40972 - connector crashed while evolution was idle (Rodrigo)
-    #42220 - calendar not refreshing correctly after changing meeting times (Rodrigo)
-    #41935 - day view ignores scroll wheel (JP)
-    #43029 - When running under valgrind Evolution crashed while exiting (JP)
-    #41930 - Warning while running gdb includes: "Some clown returned undeclared exception" (JP)
-    #42056 - Accelerators in meeting selector not working/looks bad (Hans Petter)
+    #40972 - connector crashed while evolution was idle  (Rodrigo)
+    #41579 - Double clicked on meeting in Exchange calendar, Evo
+             crashed  (Rodrigo)
+    #41760 - Alarm dialog does not reappear after snoozing Exchange
+             alarm  (Rodrigo)
+    #41811 - Calendar update failing and crashing  (JP)
+    #41930 - Warning while running gdb includes: "Some clown returned
+             undeclared exception"  (JP)
+    #41935 - day view ignores scroll wheel  (JP)
+    #42056 - Accelerators in meeting selector not working/looks bad
+             (Hans Petter)
+    #42220 - calendar not refreshing correctly after changing meeting
+             times  (Rodrigo)
+    #43029 - When running under valgrind Evolution crashed while
+             exiting  (JP)
 
   * Mail
 
-    #42838 - Crash setting up local mail account (Michael)
-    #42333 - Crash opening a mail again that was still being opened
-             (Jeff)
-    #42456 - Spelling preferences Enable/Disable button inconsisency
-             (Michael)
-    #42000 - Crash selecting a non-selectable folder (Michael)
-    #42294 - Custom fixed font setting not applying to composer
-             (Michael)
-    #42118 - Edit->Mark as unread doesn't behave the same as right
-	     click->mark as unread (Jeff)
-    #42170 - Thread expansion state lost on deleting messages (Jeff)
-    #40074 - Thread expansion state not remembered (Jeff)
-    #41748 - Send/Recv not sending mail in connector Outbox (Michael)
-    #42710 - Invalid 8 bit header data getting to the UI layer
-             generating warnings (Michael)
-    #42540 - Crash when pressing send/recv too quickly (Michael)
-    #42763 - Crash deleting local folder with indexing turned off
-             (Jeff)
-    #42854 - Copying many messages between IMAP folders results in
-             several duplicates (Jeff)
+    #40074 - Thread expansion state not remembered  (Jeff)
+    #41748 - Send/Recv not sending mail in connector Outbox  (Michael)
+    #42000 - Crash selecting a non-selectable folder  (Michael)
     #42045 - Another workaround for mailers sending out invalid date
-	     formats (Jeff)
-    #42356 - Adding colour from not working properly (Jeff)
-    #43214 - changing server settings enables the account (Jeff)
-    #43234 - crash reading mail (Michael)
+	     formats  (Jeff)
+    #42118 - Edit->Mark as unread doesn't behave the same as right
+	     click->mark as unread  (Jeff)
+    #42170 - Thread expansion state lost on deleting messages  (Jeff)
+    #42212 - Crash entering address in composer  (Rodrigo)
+    #42294 - Custom fixed font setting not applying to composer
+              (Michael)
+    #42333 - Crash opening a mail again that was still being opened
+              (Jeff)
+    #42356 - Adding colour from not working properly  (Jeff)
+    #42456 - Spelling preferences Enable/Disable button inconsisency
+              (Michael)
+    #42540 - Crash when pressing send/recv too quickly  (Michael)
+    #42710 - Invalid 8 bit header data getting to the UI layer
+             generating warnings  (Michael)
+    #42763 - Crash deleting local folder with indexing turned off
+              (Jeff)
+    #42838 - Crash setting up local mail account  (Michael)
+    #42854 - Copying many messages between IMAP folders results in
+             several duplicates  (Jeff)
+    #43214 - changing server settings enables the account  (Jeff)
+    #43234 - crash reading mail  (Michael)
 
+  * Shell
 
-  * Libraries
-
-    #42212 - Crash entering address in composer (Rodrigo)
+    #36956 - Window title too long  (Ettore)
+    #40391 - Updated contributor list in the about box  (Michael)
     #42038 - Crash hitting escape or closing window on rename box
-             (Michael, Ettore)
+              (Michael, Ettore)
+    #42342 - Send/receive sensitive when startedi in offline mode
+              (Ettore)
+    #42465 - Unread count problem in the shortcut bar  (Ettore)
+    #42491 - Compilation problems on Forte  (Antonio Xu)
+    #42518 - Folder bar selection lost on folder delete  (Ettore)
+    #43079 - Don't crash when an invalid "default:" URI is given on
+    	     the command-line  (Ettore)
+    #43119 - Memory corruption problem in settings dialog  (Ettore)
+    #43216 - Crash on exit  (Ettore)
+    #43322 - Crash on exit  (Ettore)
+
+  * Summary
+
+    #41131 - HIG compliance  (Anna)
+    #41133 - HIG compliance  (Anna)
+    #41849 - Charsets not respected in news feed display  (Michael)
+    #43101 - Crash on exit  (JP)
+    #43117 - Crash on exit  (Ettore)
 
 Other bugs:
 
   * Addressbook
 
-    - 64bit cleanup and warning fixes. (katzj@redhat.com)
-    - Fixed some probable memory corruption (Toshok, sean.gao@sun.com)
+    - 64bit cleanup and warning fixes  (Jeremy Katz)
+    - Fixed some probable memory corruption (Toshok, Sean Gao)
 
   * Calendar
 
-    - Fixed crash in cal_client_discard_alarm (Rodrigo)
-    - Fixed Bonobo unrefing problems on components (JP)
-    - Fixed multiple initialization in calendar factory (Rodrigo)
+    - Fixed crash in cal_client_discard_alarm  (Rodrigo)
+    - Fixed Bonobo unrefing problems on components  (JP)
+    - Fixed multiple initialization in calendar factory  (Rodrigo)
 
   * Mail
 
-    - Crash on exit if password dialog was open (Ettore)
-    - Make Ok the default response on the password dialog (Ettore)
-    - Crash in SMTP if unable to resolve the remote host name (Jeff)
-    - Fix an automake 1.6 issues with camel-lock-helper (Dan)
+    - Crash on exit if password dialog was open  (Ettore)
+    - Make Ok the default response on the password dialog  (Ettore)
+    - Crash in SMTP if unable to resolve the remote host name  (Jeff)
+    - Fix an automake 1.6 issues with camel-lock-helper  (Dan)
+
+  * Shell
+
+    - HIGified config settings dialog a bit more  (Anna)
+    - Fixed a bunch of reference count problems  (JP)
+    - Improved the look of the "open other user's folder" dialog
+      (Dan)
+
+  * Summary
+
+    - Fixed a typo that caused the summary to not see the default
+      calendar folder  (Ettore)
+    - Made the print dialog close properly  (Ettore)
+    - Reference count fixes  (JP)
 
   * All
 
-    - Various container referencing issues (JPR)
-    - 64 bit and portability fixups (Jeremy Katz)
+    - Various container referencing issues  (JPR)
+    - 64 bit and portability fixups  (Jeremy Katz)
     - Cleaned up lots of compile time warnings and run-time debugging
-      output (Everyone)
+      output  (everyone)
+
 
 Evolution 1.3.3, 2003-04-29
 ---------------------------
