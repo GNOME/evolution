@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.1\n"
 "POT-Creation-Date: 2002-10-28 16:49-0500\n"
-"PO-Revision-Date: 2002-11-14 17:34GMT\n"
+"PO-Revision-Date: 2002-11-14 17:39GMT\n"
 "Last-Translator: Germán Poo Caamaño <gpoo@ubibio.cl>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -12290,7 +12290,7 @@ msgstr "Componiendo mensajes"
 
 #: mail/mail-config.glade.h:30
 msgid "Configuration"
-msgstr "Configuracion"
+msgstr "Configuración"
 
 #: mail/mail-config.glade.h:31
 msgid ""

@@ -2,6 +2,10 @@
 
 	* es.po: Updated spanish translation.
 
+2002-11-14  German Poo Caaman~o <gpoo@ubiobio.cl>
+
+	* es.po: Updated spanish translation.
+
 2002-10-28  gettextize  <bug-gnu-utils@gnu.org>
 
 	* Makefile.in.in: Upgrade to gettext-0.10.40.
