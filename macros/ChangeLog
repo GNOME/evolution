@@ -1,3 +1,9 @@
+1998-07-29  Martin Baulig  <martin@home-of-linux.org>
+
+	* gnome-fileutils.m4 (AM_FUNC_ERROR_AT_LINE): Removed.
+
+	* gnome-support.m4 (AM_FUNC_ERROR_AT_LINE): New check.
+
 1998-07-27  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
 	* gnome-x-checks.m4: Changed Gtk version test to use

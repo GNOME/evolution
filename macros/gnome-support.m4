@@ -81,6 +81,8 @@ AC_DEFUN([GNOME_SUPPORT_CHECKS],[
   AC_REPLACE_FUNCS(memmove mkstemp scandir strcasecmp strerror strndup strnlen)
   AC_REPLACE_FUNCS(strtok_r strtod strtol strtoul vasprintf)
 
+  AM_FUNC_ERROR_AT_LINE
+
   # see if we need to declare some functions.  Solaris is notorious for
   # putting functions into the `libc' but not listing them in the headers
   AC_CHECK_HEADERS(string.h strings.h stdlib.h unistd.h)

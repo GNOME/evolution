@@ -10,7 +10,6 @@ AC_CHECK_HEADERS(fcntl.h sys/param.h sys/statfs.h sys/fstyp.h \
 mnttab.h mntent.h sys/statvfs.h sys/vfs.h sys/mount.h \
 sys/filsys.h sys/fs_types.h sys/fs/s5param.h)
 
-AM_FUNC_ERROR_AT_LINE
 AC_CHECK_FUNCS(bcopy endgrent endpwent fchdir ftime ftruncate \
 getcwd getmntinfo gettimeofday isascii lchown \
 listmntent memcpy mkfifo strchr strerror strrchr vprintf)
