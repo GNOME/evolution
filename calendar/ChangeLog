@@ -4,6 +4,8 @@
 	the percent is between 0 and 100
 	(set_status): if the value is set to in process, change the
 	percent to 50
+
+	Fixes #1590
 	
 2002-07-24  JP Rosevear  <jpr@ximian.com>
 	
