@@ -1,0 +1,367 @@
+Version 0.4, "Alewife", 2000-08-14
+----------------------------------
+
+Shell:
+
+  - Added interfaces to display messages and a progress bar when the
+    component is busy.  (Ettore)
+
+  - Changed the shell BonoboUIHandler code to allow placing menu items
+    such as "Print" in the right places.  (Ettore)
+
+  - Added code to check if an existing `~/evolution' directory
+    actually has the content we expect and, if not, complain to the
+    user.  (Dan)
+
+  - Fixed some Bonobo-related refcounting problems.  (Michael Meeks)
+
+  - Removed the GConf dependency.  (JP)
+
+  - Improved the API for the folder selection dialog.  (Ettore)
+
+  - Memory leak fixes.  (Peter)
+
+Calendar:
+
+  The calendar is in the middle of major rewrite. Evolution 0.4
+  ships with essentially the same calendar component as 0.3 did.
+
+Addressbook:
+
+  - More work on the Palm Pilot conduits.  (Chris Toshok)
+
+  - Fixed some LDAP-related crashes.  (Chris Toshok)
+
+  - Added support for displaying embedded vCards through a Bonobo
+    component.  (Chris Lahey)
+
+  - Added support for generic fields.  (Chris Lahey)
+
+  - Fixed the navigation order for the Tab key in the contact editor
+    window.  (Chris Lahey)
+
+  - Fixed some Bonobo-related bugs and crashes.  (Chris Lahey, Michael
+    Meeks)
+
+  - Only display entries that have an email address in the address
+    selector dialog.  (Chris Lahey)
+
+  - Added an utility program to import vCards from Gnomecard.  (Chris
+    Lahey)
+
+Mailer:
+
+ Generic
+
+  - Long mailer operations (such as fetching new mail) now run
+    asynchronously rather than blocking the UI. This involved
+    a major rewrite of much of the Camel and mailer code.  (Peter)
+
+  - GPG/PGP message decryption support (Nathan Thompson-Amato, Dan)
+
+  - Unfinished messages in the composer can be saved to the "Drafts"
+    folder and finished later.  (Jeff)
+
+  - Double-clicking on a message in the message view now opens it in a
+    separate window.  (Jeff)
+
+  - vCards attached to messages now bring up a minicard view with a
+    button to add the vCard to the addressbook (Chris Lahey, Dan)
+
+  - Inline uuencoded/binhexed "attachment" support (Dan)
+
+  - "Mark All Messages Seen" command.  (Cody Russell)
+
+ Filters / VFolders
+
+  - Major filter/vfolder dialog rewrite (Michael Zucchi) VFolders can
+    now search any (searchable) folder, not just Inbox.
+
+  - Auto-filter/auto-vfolder code (right click on a message in the
+    list and pick one of the options at the bottom of the menu to
+    create a filter/vfolder rule for similar messages).  (Michael)
+
+  - You can now set the color of messages in the message list, based
+    on filter rules.  (Local stores can also now store arbitrary user
+    flags, although there is not yet UI code to set/view them.)
+    (Michael)
+
+  - Added "Save" button to the quicksearch bar to save a search as a
+    vfolder.  (Michael)
+
+ Configuration
+
+  - Major mail config dialog rewrite (JP).
+
+  - The mailer now remembers your threaded/unthreaded message view
+    setting between sessions.  (Jeremy Wise).
+
+  - Support for multiple identities (JP, Jeff), sources (JP, Peter), and
+    IMAP servers (JP, Dan)
+
+ Providers
+
+  - You can now leave POP mail on the server. (This will [currently]
+    only work right with POP servers that support the UIDL command.
+    On other servers, it will never download some messages unless you
+    never delete mail.)
+
+  - There is now an MH-like local store available, and code to convert
+    a folder from one type to the other.  (Michael)
+
+  - The mbox provider now writes out "From " lines that are more
+    compatible with other mailers (like Mutt) that are picky about
+    their exact format.  (Michael)
+
+  - The IMAP provider now supports searching (Jeff). Also various
+    other speed/efficiency/robustness improvements (Jeff), and support
+    for old IMAP4 servers as well as IMAP4rev1 (Jon K Hellan).
+
+
+Version 0.3, "Jellyfish", 2000-07-21
+------------------------------------
+
+Shell:
+
+  - Pop-up folder selection.  (Ettore)
+
+  - Added support for multiple views.  (Ettore)
+
+  - Added support for saving component-specific settings, and
+    some initial code to save the view's configuration.
+    (Ettore)
+
+  - Fixed the Bonobo menu code so that it works with all the
+    locales.  (Ettore)
+
+Mailer:
+
+   - Lots of IMAP fixes.  (Jeff) 
+
+   - You can use an external setuid/setgid movemail program
+    (although we don't ship our own yet). If you have one
+    installed with emacs, the configure script will find
+    that. Otherwise, you can specify --with-movemail=/path.
+    (Dan)
+
+  - You can toggle HTML/plain text for an individual message
+    in the composer now.  (Ettore)
+
+  - Bonobo embedding sort of works again, but there are
+    problems with size allocation somewhere. Attachments can now
+    also be handled by external applications.  (Dan)
+
+  - text/plain mail is now line-wrapped in the mail display,
+    to deal with people who don't put newlines in their mail.
+    (Dan)
+
+  - Allow user to specify IMAP namespace in the mail config
+    dialog.  (Dan, Jeff)
+
+  - Quoted-printable encoder fixes.  (Michael Zucchi)
+
+  - Various NNTP fixes, include a news pane in the config
+    dialog.  (Chris Toshok)
+
+  - Some memory corruption fixes.  (Peter Williams)
+
+  - Fix for message not being re-drawn as deleted.  (Peter
+    Williams, Jeff)
+
+  - Moving a message to another folder copies the flags now
+    (Jeff)
+
+  - Close signature in HTML mail with </PRE>, not <PRE>, and
+    default to ~/.signature.  (Michael Meeks)
+
+  - Fixed some confusing behavior in the message threading
+    algorithm.  (Dan)
+
+  - Improvements to the item selection code.  (Chris Lahey)
+
+Calendar:
+
+  - Added support for a bunch of previously unsupported iCalendar
+    properties.  (Federico)
+
+  - Conduit for synchronizing the calendar with gnome-pilot
+    (requires gnome-pilot from CVS).  (Seth)
+
+  - ETable-based to-do list view ("taskpad"), for your viewing
+    pleasure.
+
+Addressbook:
+
+  - Conduit for synchronizing the addressbook with gnome-pilot
+    (requires gnome-pilot from CVS).  (Chris Toshok)
+
+  - Conduit for synchronizing the addressbook with gnome-pilot
+    (requires gnome-pilot from CVS).  (Chris Toshok)
+
+  - Fixed some random crashes.  (Chris Lahey)
+
+  - Implemented a vCard Bonobo control so that we can support
+    inline vCard viewing in the mailer.  (Chris Lahey)
+
+  - Quick search looks at both the name and the company name now.
+    (Chris Lahey)
+
+  - Added more functionality to the contact editor's toolbar.  (Chris
+    Lahey)
+
+  - Support for printing single cards.  (Chris Lahey)
+
+Version 0.2, "Saccharomyces", 2000-07-11
+----------------------------------------
+
+Shell:
+
+  * Folder selection dialog (Ettore).
+
+  * Folder creation dialog (Ettore).
+
+Addressbook:
+
+  * LDAP server configuration dialog (Chris Toshok).
+  
+  * Integration of LDAP servers in the shell's tree view (Chris Toshok).
+  
+  * ETable-based view (Chris Lahey).
+  
+  * Printing support for the ETable-based view (Chris Lahey).
+  
+  * Address selection dialog integrated with the message composer (Chris
+    Lahey).
+  
+  * Many miscellaneous bugs fixed (everyone).
+
+Calendar:
+
+  * Printing support (Michael, Federico).
+  
+  * Many, many behavior fixes and polishing to the day/week/month view
+    widgets (Damon).
+  
+  * New glade-based event editor.  This is unfinished but usable (Seth,
+    Federico).
+  
+  * Mouse wheel scrolling support (Anders).
+  
+  * We have an awesome new engine for computing recurring events
+    (Damon).  This will be plugged in to the new iCalendar code.
+  
+  * Internal and public API fixes (Federico, Seth).
+  
+  * Shell-related changes (Ettore).
+  
+  * Data model for ETable; this is not used yet (Federico).
+  
+  * New iCalendar support; this is not used yet (Federico).
+  
+  * Pilot syncing updates; this is not used yet (Seth).
+  
+  * Many miscellaneous bugs fixed (everyone).
+
+
+Mailer:
+
+  Major features:
+
+  * Basic IMAP support (Jeff)
+
+  * Threaded message view (Michael, Chris Toshok)
+
+  * Filters now work (original work by Michael, bugfixes by Dan)
+
+
+  Smaller features:
+
+  * Implemented moving messages between folders (Dan)
+
+  * Very basic printing support (Dan, but it was only like 5 lines
+    of code, because gnome-print kicks ass)
+
+  * "Delete", "Forward", and "Refile" operations now work on
+    multiple messages. (Chris Lahey, Peter Williams, Dan)
+
+  * Toggle read/unread flag when the user clicks on the envelope
+    icon (Chris Lahey, Dan).
+
+  * The "New folder" menu item now works (Ettore, Dan).
+
+  * The filter/vfolder druid now uses the new shell folder selection
+    UI (Michael)
+
+  * Added "Cc" to the set of filter/vfolderable headers and make the
+    filter/vfolder "messages to address" rule work with to or cc.
+    (Dan)
+
+  * New key bindings: "Delete" deletes the current message and jumps
+    to the next undeleted message. "N" and "P" go to next/previous
+    unread message. (Dan)
+
+  * Keep asking for POP/IMAP password until the user gets it correct
+    or hits Cancel, and remember the result until the user exits (or
+    chooses "Forget Passwords"). (Dan, Jeff)
+
+  * Kludge Camel to output ISO-8859-1 instead of UTF-8, since
+    neither GtkHTML nor ETable supports UTF-8 still. (Dan)
+
+  * Use the gnome-vfs "sniff buffer" interface to try to identify
+    the MIME type of attachments without useful type information
+    (Dan)
+
+  * Allow saving drafts in the composer (Ettore)
+
+  * Added "Received date" header to the set of possible message list
+    headers. (Dan)
+
+  * Partial gladification of the config dialog (JP Rosevear)
+
+
+  Bug fixes:
+
+  * Message read/unread/deleted flags should now be saved reliably
+    when you exit, and summary should not be rebuilt when a rebuild
+    isn't needed. Expunging should work reliably (Dan, Ettore,
+    Jeff).
+
+  * Fix disappearing toolbar bug (Dan).
+
+  * Fixed a bug that made downloading of very large messages over
+    POP incredibly slow, and various other smaller POP bugs. (Dan)
+
+  * Fixed bugs that made large attachments sometimes get dropped and
+    small ones sometimes get truncated. (Dan)
+
+  * Fixed filter/vfolder "messages to address" rule to correctly
+    match "to" rather than "from". (Michael)
+
+  * Fix some text/plain formatting bugs in the composer. (Dan,
+    Ettore)
+
+  * Turn off search mode when getting new mail (to avoid corrupting
+    the display). Make "get mail" always put unfiltered mail into
+    Inbox rather than the current folder. (Dan)
+
+  * Fixed a bug that caused "Re:" to be prepended even to subjects
+    that started with "Re:" when replying. Added a default subject
+    to forwarded messages. (Dan)
+
+  * Make the "Attach" dialog in the composer remember the last
+    directory it was in. (Dan)
+
+  * Code to parse invalid date formats since some mailers generate
+    them... (Jeff)
+
+  * Fixed various small SMTP bugs (Jeff, Chris Lahey)
+
+  * Fixed some memory leaks (Peter, Jeff)
+
+  * Make replies use the text/plain part of a multipart/alternative
+    if the user configured plain text rather than HTML mail sending.
+    (Dan)
+
+  * Various config dialog fixes (Jeff)
+
+  * Partial filter/vfolder GUI facelift (Jacob)
