@@ -77,6 +77,8 @@ e_selection_model_simple_set_row_count (ESelectionModelSimple *esms,
 		if (esma->eba)
 			gtk_object_unref(GTK_OBJECT(esma->eba));
 		esma->eba = NULL;
+		esma->selected_row = -1;
+		esma->selected_range_end = -1;
 	}
 	esms->row_count = row_count;
 }

@@ -44,6 +44,8 @@ e_selection_model_array_confirm_row_count(ESelectionModelArray *esma)
 	if (esma->eba == NULL) {
 		int row_count = e_selection_model_array_get_row_count(esma);
 		esma->eba = e_bit_array_new(row_count);
+		esma->selected_row = -1;
+		esma->selected_range_end = -1;
 	}
 }
 
@@ -384,10 +386,11 @@ esma_real_select_single_row (ESelectionModel *selection, int row)
 static void
 esma_select_single_row (ESelectionModel *selection, int row)
 {
-	int selected_row = E_SELECTION_MODEL_ARRAY(selection)->selected_row;
+	ESelectionModelArray *esma = E_SELECTION_MODEL_ARRAY(selection);
+	int selected_row = esma->selected_row;
 	esma_real_select_single_row (selection, row);
 
-	if (selected_row != -1) {
+	if (selected_row != -1 && esma->eba && selected_row < e_bit_array_bit_count (esma->eba)) {
 		if (selected_row != row) {
 			e_selection_model_selection_row_changed(selection, selected_row);
 			e_selection_model_selection_row_changed(selection, row);
