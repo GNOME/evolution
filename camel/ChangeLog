@@ -1,5 +1,14 @@
 2000-07-13  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* providers/imap/camel-imap-folder.c (imap_get_summary): New
+	and improved approach to fetching an entire folder summary
+	that should be much much faster than the old way as it gets
+	the entire folder summary in 1 shot rather than requesting
+	message by message. As with the last update, this version
+	also only fetches the minimum number of header fields.
+
+2000-07-13  Jeffrey Stedfast  <fejj@helixcode.com>
+
 	* providers/imap/camel-imap-folder.c (imap_get_summary): Don't
 	fetch the entire RFC822 header, just fetch the fields we want.
 	(imap_get_message_info): Same.
