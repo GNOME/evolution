@@ -1,5 +1,10 @@
 2001-10-18  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-pgp-context.c (crypto_exec_with_passwd): Make sure the
+	cancel_fd isn't -1.
+
+2001-10-18  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* providers/imap/camel-imap-message-cache.c (insert_finish): Flush
 	the stream here, not sure it really matters but it might
 	(hopefully) fix bug #12943.
