@@ -2290,6 +2290,7 @@ emft_popup_new_folder_response (EMFolderSelector *emfs, int response, EMFolderTr
 		rule = vfolder_rule_new();
 		filter_rule_set_name((FilterRule *)rule, path);
 		vfolder_gui_add_rule(rule);
+		gtk_widget_destroy((GtkWidget *)emfs);
 	} else {
 		g_object_ref (emfs);
 		emft_create_folder (si->store, path, new_folder_created_cb, emfs);

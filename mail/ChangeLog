@@ -1,5 +1,12 @@
 2004-06-14  Not Zed  <NotZed@Ximian.com>
 
+	* mail-vfolder.c (rule_changed): don't check rule->source, its
+	irrelevent to vfolder sources, and clean up the logic a bit.
+	#59158.
+
+	* em-folder-tree.c (emft_popup_new_folder_response): destroy the
+	create dialogue if we're firing up the vfolder creation window.
+
 	* em-composer-utils.c (get_reply_all): if we removed all of the
 	addresses because they were 'us', add the first to
 	address back.  otherwise reply-to-all behaves strange.

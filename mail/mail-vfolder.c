@@ -638,14 +638,34 @@ mail_vfolder_rename_uri(CamelStore *store, const char *cfrom, const char *cto)
 static void context_rule_added(RuleContext *ctx, FilterRule *rule);
 
 static void
+rule_add_sources(GList *l, GList **sources_folderp, GList **sources_urip)
+{
+	GList *sources_folder = *sources_folderp;
+	GList *sources_uri = *sources_urip;
+	CamelFolder *newfolder;
+
+	while (l) {
+		char *curi = em_uri_to_camel(l->data);
+
+		if (mail_note_get_folder_from_uri(curi, &newfolder)) {
+			if (newfolder)
+				sources_folder = g_list_append(sources_folder, newfolder);
+			else
+				sources_uri = g_list_append(sources_uri, g_strdup(curi));
+		}
+		g_free(curi);
+		l = l->next;
+	}
+
+	*sources_folderp = sources_folder;
+	*sources_urip = sources_uri;
+}
+
+static void
 rule_changed(FilterRule *rule, CamelFolder *folder)
 {
-	const char *sourceuri;
-	GList *l;
 	GList *sources_uri = NULL, *sources_folder = NULL;
 	GString *query;
-	int i;
-	CamelFolder *newfolder;
 
 	/* if the folder has changed name, then add it, then remove the old manually */
 	if (strcmp(folder->full_name, rule->name) != 0) {
@@ -673,53 +693,14 @@ rule_changed(FilterRule *rule, CamelFolder *folder)
 	d(printf("Filter rule changed? for folder '%s'!!\n", folder->name));
 
 	/* find any (currently available) folders, and add them to the ones to open */
-	sourceuri = NULL;
-	while ( (sourceuri = vfolder_rule_next_source((VfolderRule *)rule, sourceuri)) ) {
-		char *curi = em_uri_to_camel(sourceuri);
+	rule_add_sources(((VfolderRule *)rule)->sources, &sources_folder, &sources_uri);
 
-		d(printf(" adding source '%s' '%s'\n", sourceuri, curi));
-		if (mail_note_get_folder_from_uri(curi, &newfolder)) {
-			if (newfolder)
-				sources_folder = g_list_append(sources_folder, newfolder);
-			else
-				sources_uri = g_list_append(sources_uri, g_strdup(sourceuri));
-		} else {
-			d(printf("  no i'm not - this folder doesn't exist anywhere\n"));
-		}
-
-		g_free(curi);
-	}
-
-	/* check the remote/local uri lists for any other uri's that should be looked at */
-	if (rule->source) {
-		LOCK();
-		for (i=0;i<2;i++) {
-			if (i==0 && (((VfolderRule *)rule)->with == VFOLDER_RULE_WITH_LOCAL
-				     || ((VfolderRule *)rule)->with == VFOLDER_RULE_WITH_LOCAL_REMOTE_ACTIVE))
-				l = source_folders_local;
-			else if (i==1 && (((VfolderRule *)rule)->with == VFOLDER_RULE_WITH_REMOTE_ACTIVE
-				     || ((VfolderRule *)rule)->with == VFOLDER_RULE_WITH_LOCAL_REMOTE_ACTIVE))
-				l = source_folders_remote;
-			else
-				l = NULL;
-
-			while (l) {
-				char *curi = em_uri_to_camel(l->data);
-
-				if (mail_note_get_folder_from_uri(curi, &newfolder)) {
-					if (newfolder)
-						sources_folder = g_list_append(sources_folder, newfolder);
-					else
-						sources_uri = g_list_append(sources_uri, g_strdup(curi));
-				} else {
-					d(printf("  -> No such folder?\n"));
-				}
-				g_free(curi);
-				l = l->next;
-			}
-		}
-		UNLOCK();
-	}
+	LOCK();
+	if (((VfolderRule *)rule)->with == VFOLDER_RULE_WITH_LOCAL || ((VfolderRule *)rule)->with == VFOLDER_RULE_WITH_LOCAL_REMOTE_ACTIVE)
+		rule_add_sources(source_folders_local, &sources_folder, &sources_uri);
+	if (((VfolderRule *)rule)->with == VFOLDER_RULE_WITH_REMOTE_ACTIVE || ((VfolderRule *)rule)->with == VFOLDER_RULE_WITH_LOCAL_REMOTE_ACTIVE)
+		rule_add_sources(source_folders_remote, &sources_folder, &sources_uri);
+	UNLOCK();
 
 	query = g_string_new("");
 	filter_rule_build_code(rule, query);
