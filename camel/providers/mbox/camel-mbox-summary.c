@@ -3,7 +3,7 @@
 /* 
  * Author : Bertrand Guiheneuf <bertrand@helixcode.com> 
  *
- * Copyright (C) 1999 Helix Code .
+ * Copyright (C) 1999 - 2000 Helix Code .
 
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -42,6 +42,34 @@
 #include <errno.h>
 
 
+
+
+/* 
+ * The mbox provider uses a summary files, 
+ * so that it has an internal and an external
+ * summary. The internal summary is a summary
+ * containing a lot of information, including
+ * infos on how to access mails in the mbox file
+ * 
+ * On the other hand, the external summary is 
+ * an implementation of the structure defined in 
+ * the camel-folder-summary file (toplevel camel
+ * directory)
+ *
+ * To sum up, the internal summary is only a
+ * subset of the internal summary. 
+ */
+
+
+
+/**
+ * camel_mbox_save_summary:
+ * @summary: 
+ * @filename: 
+ * @ex: 
+ * 
+ * save the internal summary into a file 
+ **/
 void 
 camel_mbox_save_summary (CamelMboxSummary *summary, const gchar *filename, CamelException *ex)
 {
@@ -120,6 +148,15 @@ camel_mbox_save_summary (CamelMboxSummary *summary, const gchar *filename, Camel
 
 
 
+/**
+ * camel_mbox_load_summary:
+ * @filename: 
+ * @ex: 
+ * 
+ * load the internal summary from a file 
+ * 
+ * Return value: 
+ **/
 CamelMboxSummary *
 camel_mbox_load_summary (const gchar *filename, CamelException *ex)
 {
@@ -214,6 +251,16 @@ camel_mbox_load_summary (const gchar *filename, CamelException *ex)
 
 
 
+/**
+ * camel_mbox_check_summary_sync:
+ * @summary_filename: 
+ * @mbox_filename: 
+ * @ex: 
+ * 
+ * check if the summary file is in sync with the mbox file
+ * 
+ * Return value: 
+ **/
 gboolean
 camel_mbox_check_summary_sync (gchar *summary_filename,
 			       gchar *mbox_filename,
@@ -258,6 +305,13 @@ camel_mbox_check_summary_sync (gchar *summary_filename,
 
 
 
+/**
+ * camel_mbox_summary_append_entries:
+ * @summary: 
+ * @entries: 
+ * 
+ * append an entry to an internal summary
+ **/
 void
 camel_mbox_summary_append_entries (CamelMboxSummary *summary, GArray *entries)
 {
@@ -270,6 +324,15 @@ camel_mbox_summary_append_entries (CamelMboxSummary *summary, GArray *entries)
 
 
 
+/**
+ * camel_mbox_summary_append_internal_to_external:
+ * @internal: 
+ * @external: 
+ * @first_entry: first entry to append.
+ * 
+ * append some entries from the internal summary to 
+ * the external one.
+ **/
 void 
 camel_mbox_summary_append_internal_to_external (CamelMboxSummary *internal, 
 						CamelFolderSummary *external, 
@@ -305,3 +368,4 @@ camel_mbox_summary_append_internal_to_external (CamelMboxSummary *internal,
 	
 	
 }
+
