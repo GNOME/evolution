@@ -23,6 +23,7 @@
 
 #include <camel/camel-store.h>
 #include <camel/camel-folder.h>
+#include <camel/camel-data-cache.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -43,6 +44,7 @@ struct _CamelIMAP4Folder {
 	CamelFolder parent_object;
 	
 	CamelFolderSearch *search;
+	CamelDataCache *cache;
 	
 	char *cachedir;
 	char *utf7_name;

@@ -1,5 +1,18 @@
 2004-11-01  Jeffrey Stedfast  <fejj@novell.com>
 
+	* providers/imap4/camel-imap4-summary.c
+	(camel_imap4_summary_expunge): Remove expunged messages from the
+	cache.
+	(camel_imap4_summary_set_uidvalidity): Clear the cache if the
+	UIDVALIDITY has changed.
+
+	* providers/imap4/camel-imap4-folder.c (imap4_get_message): If the
+	message exists in the cache, use that rather than fetching it from
+	the server and cache messages fetched from the server for later
+	use.
+	(camel_imap4_folder_finalize): Unref the cache if non-NULL.
+	(camel_imap4_folder_new): Create the CamelDataCache.
+
 	* providers/imap4/camel-imap4-store.c (imap4_create_folder): Cache
 	the folder-info on the summary if successful.
 	(imap4_delete_folder): Un-cache the folder-info from the summary.

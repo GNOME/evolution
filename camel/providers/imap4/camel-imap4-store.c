@@ -1165,10 +1165,7 @@ imap4_get_folder_info (CamelStore *store, const char *top, guint32 flags, CamelE
 	CAMEL_SERVICE_LOCK (store, connect_lock);
 	
 	if (!camel_session_is_online (session) || engine->state == CAMEL_IMAP4_ENGINE_DISCONNECTED) {
-		fprintf (stderr, "****************************************************\n");
-		fprintf (stderr, "*** Getting folder info in disconnected state... ***\n");
 		fi = camel_imap4_store_summary_get_folder_info (((CamelIMAP4Store *) store)->summary, top, flags);
-		fprintf (stderr, "****************************************************\n");
 		if (fi == NULL && camel_session_is_online (session)) {
 			/* folder info hasn't yet been cached and the store hasn't been
 			 * connected yet, but the network is available so we can connect

@@ -1161,6 +1161,7 @@ camel_imap4_summary_set_uidvalidity (CamelFolderSummary *summary, guint32 uidval
 	}
 	
 	camel_folder_summary_clear (summary);
+	camel_data_cache_clear (((CamelIMAP4Folder *) imap4_summary->folder)->cache, "cache", NULL);
 	
 	if (camel_folder_change_info_changed (changes))
 		camel_object_trigger_event (imap4_summary->folder, "folder_changed", changes);
@@ -1177,6 +1178,7 @@ camel_imap4_summary_expunge (CamelFolderSummary *summary, int seqid)
 	CamelIMAP4Summary *imap4_summary = (CamelIMAP4Summary *) summary;
 	CamelFolderChangeInfo *changes;
 	CamelMessageInfo *info;
+	const char *uid;
 	
 	g_return_if_fail (CAMEL_IS_IMAP4_SUMMARY (summary));
 	
@@ -1186,8 +1188,11 @@ camel_imap4_summary_expunge (CamelFolderSummary *summary, int seqid)
 	
 	imap4_summary->exists--;
 	
+	uid = camel_message_info_uid (info);
+	camel_data_cache_remove (((CamelIMAP4Folder *) imap4_summary->folder)->cache, "cache", uid, NULL);
+	
 	changes = camel_folder_change_info_new ();
-	camel_folder_change_info_remove_uid (changes, camel_message_info_uid (info));
+	camel_folder_change_info_remove_uid (changes, uid);
 	
 	camel_folder_summary_info_free (summary, info);
 	camel_folder_summary_remove_index (summary, seqid);

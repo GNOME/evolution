@@ -129,6 +129,9 @@ camel_imap4_folder_finalize (CamelObject *object)
 	
 	camel_object_unref (folder->search);
 	
+	if (folder->cache)
+		camel_object_unref (folder->cache);
+	
 	g_free (folder->utf7_name);
 	g_free (folder->cachedir);
 }
@@ -236,6 +239,8 @@ camel_imap4_folder_new (CamelStore *store, const char *full_name, CamelException
 	folder->summary = camel_imap4_summary_new (folder);
 	imap_folder->cachedir = imap_store_build_filename (store, folder->full_name);
 	camel_mkdir (imap_folder->cachedir, 0777);
+	
+	imap_folder->cache = camel_data_cache_new (imap_folder->cachedir, 0, NULL);
 	
 	path = imap_get_summary_filename (imap_folder->cachedir);
 	camel_folder_summary_set_filename (folder->summary, path);
@@ -635,16 +640,47 @@ static CamelMimeMessage *
 imap4_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 {
 	CamelIMAP4Engine *engine = ((CamelIMAP4Store *) folder->parent_store)->engine;
+	CamelSession *session = ((CamelService *) folder->parent_store)->session;
+	CamelIMAP4Folder *imap_folder = (CamelIMAP4Folder *) folder;
 	CamelMimeMessage *message = NULL;
+	CamelStream *stream, *cache;
 	CamelIMAP4Command *ic;
-	CamelStream *stream;
 	int id;
 	
 	CAMEL_SERVICE_LOCK (folder->parent_store, connect_lock);
 	
-	/* FIXME: try to pull the message from the cache first. if
-	 * that fails and we are offline, we're done. else do the
-	 * following code */
+	if (imap_folder->cache && (stream = camel_data_cache_get (imap_folder->cache, "cache", uid, ex))) {
+		message = camel_mime_message_new ();
+		
+		if (camel_data_wrapper_construct_from_stream ((CamelDataWrapper *) message, stream) == -1) {
+			if (errno == EINTR) {
+				CAMEL_SERVICE_UNLOCK (folder->parent_store, connect_lock);
+				camel_exception_setv (ex, CAMEL_EXCEPTION_USER_CANCEL, _("User cancelled"));
+				camel_object_unref (message);
+				camel_object_unref (stream);
+				return NULL;
+			} else {
+				camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM, _("Cannot get message %s: %s"),
+						      uid, g_strerror (errno));
+				camel_object_unref (message);
+				message = NULL;
+			}
+		}
+		
+		camel_object_unref (stream);
+	}
+	
+	if (message != NULL) {
+		CAMEL_SERVICE_UNLOCK (folder->parent_store, connect_lock);
+		return message;
+	}
+	
+	if (!camel_session_is_online (session)) {
+		CAMEL_SERVICE_UNLOCK (folder->parent_store, connect_lock);
+		camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+				     _("This message is not available in offline mode."));
+		return NULL;
+	}
 	
 	/* Note: While some hard-core IMAP extremists are probably
 	 * going to flame me for fetching entire messages here, it's
@@ -682,6 +718,16 @@ imap4_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 		camel_stream_reset (stream);
 		message = camel_mime_message_new ();
 		camel_data_wrapper_construct_from_stream ((CamelDataWrapper *) message, stream);
+		camel_stream_reset (stream);
+		
+		/* cache the message locally */
+		if (imap_folder->cache && (cache = camel_data_cache_add (imap_folder->cache, "cache", uid, NULL))) {
+			if (camel_stream_write_to_stream (stream, cache) == -1
+			    || camel_stream_flush (cache) == -1)
+				camel_data_cache_remove (imap_folder->cache, "cache", uid, NULL);
+			camel_object_unref (cache);
+		}
+		
 		break;
 	case CAMEL_IMAP4_RESULT_NO:
 		/* FIXME: would be good to save the NO reason into the err message */
