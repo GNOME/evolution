@@ -25,7 +25,7 @@
 		<placeholder name="ComponentPlaceholder">
 			<menuitem name="ToolsSettings" verb=""
 			 _label="_Summary Settings..."/>
-			<separator/>
+			 <separator f="" name="myevo"/>
 		</placeholder>
 	</submenu>
   </menu>

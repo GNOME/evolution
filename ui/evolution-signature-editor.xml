@@ -31,7 +31,7 @@
 
 			<placeholder name="Print" delimit="top"/>
 
-			<separator/>
+			<separator f=""/>
 
 			<menuitem name="FileClose" verb="" _label="_Close"/>
 		</submenu>
@@ -39,11 +39,11 @@
 
 		<submenu name="Edit" _label="_Edit">
 			 <placeholder name="EditUndoRedo"/>
-			 <separator/>
+			 <separator f=""/>
 			 <placeholder name="EditCutCopyPaste"/>
-			 <separator/>
+			 <separator f=""/>
 			 <placeholder name="EditFindReplace"/>
-			 <separator/>
+			 <separator f=""/>
 			 <placeholder name="EditMisc"/>
 		</submenu>
 

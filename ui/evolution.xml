@@ -27,6 +27,7 @@
   </commands>
 
   <menu>
+    <menuitem name="Dump" _label="_Dump" verb="BonoboUIDump"/>
     <submenu name="File" _label="_File">
       <submenu name="New" _label="_New">
 	<placeholder name="NewFirstItem">
@@ -49,7 +50,7 @@
 
       <placeholder name="FileOps"/>
 
-      <separator/>
+      <separator f="" name="eshell1"/>
 
       <submenu name="Folder" _label="_Folder">
 	<menuitem name="Folder"
@@ -58,14 +59,14 @@
 		  accel="*Control**Shift*e"
 		  pixtype="pixbuf"/>
 
-        <separator/>
+        <separator f="" name="eshell1"/>
 
         <menuitem name="OpenFolderInNewWindow"
                   verb="OpenFolderInNewWindow"
                   _label="Open in New _Window"
                   _tip="Open this folder in an other window"/>
         
-        <separator/>
+        <separator f="" name="eshell2"/>
 
         <menuitem name="MoveFolder"
                   verb="MoveFolder"
@@ -77,7 +78,7 @@
                   _label="_Copy..."
                   _tip="Copy this folder"/>
 
-        <separator/>
+        <separator f="" name="eshell3"/>
 
         <menuitem name="DeleteFolder"
                   verb="DeleteFolder"
@@ -89,7 +90,7 @@
                   _label="_Rename..."
                   _tip="Change the name of this folder"/>
 
-        <separator/>
+        <separator f="" name="eshell4"/>
 
         <menuitem name="AddFolderToShortcutBar"
                   verb="AddFolderToShortcutBar"
@@ -105,7 +106,7 @@
 		_label="_Go to Folder..."
 		_tip="Display a different folder" accel="*Control*g"/>
 
-      <separator/>
+      <separator f="" name="eshell4"/>
       
       <menuitem name="FileImporter" verb=""
 		_label="_Import..."
@@ -114,7 +115,7 @@
 
       <placeholder name="Print" delimit="top"/>
 
-      <separator/>
+      <separator f="" name="eshell5"/>
 
       <menuitem name="ToggleOffline" verb=""
 		_label="Work Offline"
@@ -147,17 +148,17 @@
 
       <placeholder name="BuiltMenuItems"/>
 
-      <separator/>
+      <separator f="" name="eshell1"/>
 
       <menuitem name="HelpFAQ" verb=""
 		_label="Ximian Evolution _FAQ"/>
 
-      <separator/>
+      <separator f="" name="eshell2"/>
 
       <menuitem name="HelpSubmitBug" verb=""
 		_label="Submit _Bug Report"/>
 
-      <separator/>
+      <separator f="" name="eshell3"/>
 
       <menuitem name="HelpAbout" verb=""
 		_label="_About Ximian Evolution..."/>
@@ -165,10 +166,21 @@
     </submenu>
   </menu>
 
-  <dockitem name="Toolbar" relief="none" behavior="exclusive" config="0"
-	    _tip="Main toolbar" hlook="text" vlook="icon"/>
+  <dockitem name="Toolbar"
+	    relief="none"
+	    behavior="exclusive"
+	    config="0"
+	    _tip="Main toolbar"
+	    hlook="text"
+	    vlook="icon">
+
+    <control name="NewComboButton"/>
+  </dockitem>
 
   <popups>
+    <popup name="NewPopup">
+    </popup>
+
     <popup name="FolderPopup">
       <menuitem name="ActivateView"
 		verb="ActivateView"
@@ -180,7 +192,7 @@
 		_label="Open in New Window"
 		_tip="Open this folder in an other window"/>
       
-      <separator/>
+      <separator f="" name="eshell1"/>
 
       <menuitem name="MoveFolder"
 		verb="MoveFolder"
@@ -192,7 +204,7 @@
 		_label="_Copy..."
 		_tip="Copy this folder"/>
 
-      <separator/>
+      <separator f="" name="eshell2"/>
 
       <menuitem name="DeleteFolder"
                 verb="DeleteFolder"
@@ -209,7 +221,7 @@
                 _label="Create _New Folder..."
                 _tip="Create a new folder"/>
 
-      <separator/>
+      <separator f="" name="eshell3"/>
 
       <menuitem name="AddFolderToShortcutBar"
                 verb="AddFolderToShortcutBar"

@@ -68,7 +68,7 @@
 	                        	<menuitem name="ContactNewList" verb=""
 	                        	 _label="_Contact List"
 					 pixtype="pixbuf"/>
-	                                <separator/>
+	                                <separator f="" name="eadbk1"/>
 	                        </placeholder>
 		                </submenu>
       
@@ -98,7 +98,7 @@
 
 			        <menuitem name="ContactDelete" verb=""
 			        _label="Delete" pixtype="pixbuf"/>
-				<separator/>
+				<separator f="" name="eadbk2"/>
 
 				<menuitem name="ContactsSelectAll" verb="" _label="_Select All"/>
 			</submenu>
@@ -129,7 +129,7 @@
 	        		<menuitem name="AddressbookConfig" verb=""
 					  _label="_Addressbook Sources..."
 					  pixtype ="pixbuf"/>
-				<separator/>
+				<separator f="" name="eadbk3"/>
 			</placeholder>
 		</submenu>
 
@@ -144,7 +144,7 @@
 		_label="New List"
 		pixtype="pixbuf" priority="1"/>
 
-		<separator/>
+		<separator f="" name="eadbk4"/>
 
 		<toolitem name="ContactsPrint" verb=""
 		_label="Print" pixtype="pixbuf"/>

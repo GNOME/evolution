@@ -39,17 +39,17 @@
 
         <menuitem name="FileSaveAs" verb="" pixtype="pixbuf"/>
 
-	<separator/>
+	<separator f="" name="ecompedit1"/>
 
         <menuitem name="FileDelete" verb="" pixtype="pixbuf"/>
 
-	<separator/>
+	<separator f="" name="ecompedit2"/>
 
 	<menuitem name="FilePrint" verb="" pixtype="pixbuf"/>
 
 	<menuitem name="FilePrintPreview" verb="" pixtype="pixbuf"/>
 
-	<separator/>
+	<separator f="" name="ecompedit3"/>
 
         <menuitem name="FileClose" verb=""/>
 
@@ -68,11 +68,11 @@
 
         <toolitem name="FileSaveAndClose" verb="" _label="Save and Close" priority="1" pixtype="pixbuf"/>
 
-	<separator/>
+	<separator f="" name="ecompedit1"/>
         
 	<toolitem name="FilePrint" verb="" _label="Print" priority="1" pixtype="pixbuf"/>
 
-	<separator/>
+	<separator f="" name="ecompedit2"/>
 
         <toolitem name="FileDelete" verb="" _label="Delete" priority="1" pixtype="pixbuf"/>
 

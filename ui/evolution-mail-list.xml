@@ -81,13 +81,13 @@
           <menuitem name="EditSelectThread" verb="" _label="Select _Thread"/>
           <menuitem name="EditInvertSelection" verb="" _label="_Invert Selection"/>
 
-          <separator/>
+	  <separator f="" name="emaillist1"/>
 
           <menuitem name="EditCut" verb="" _label="Cu_t"/>
           <menuitem name="EditCopy" verb="" _label="_Copy"/>
           <menuitem name="EditPaste" verb="" _label="_Paste"/>
 
-          <separator/>
+	  <separator f="" name="emaillist2"/>
         </placeholder>
 
         <placeholder name="MailListEditFlags">
@@ -103,7 +103,7 @@
       </placeholder>
 
       <placeholder name="MailListView">
-        <separator/>
+	<separator f="" name="emaillist"/>
         <menuitem name="ViewHideSelected" verb="" _label="Hide S_elected Messages"/>
         <menuitem name="ViewHideRead" verb="" _label="Hide _Read Messages"/>
         <menuitem name="ViewShowAll" verb="" _label="Sh_ow Hidden Messages"/>

@@ -35,12 +35,12 @@
 
 		        <menuitem name="ContactEditorSaveAs" verb="" _label="Save _As..."/>
 
-			<separator/>
+			<separator f="" name="econtactedit1"/>
 
 		        <menuitem name="ContactEditorDelete" verb=""
 			_label="Delete"/>
 
-			<separator/>
+			<separator f="" name="econtactedit2"/>
 
 			<placeholder name="Print">
 
@@ -55,7 +55,7 @@
 
 			</placeholder>
 
-			<separator/>
+			<separator f="" name="econtactedit3"/>
 
 		        <menuitem name="ContactEditorClose" verb=""
 			_label="Close"/>
@@ -76,11 +76,12 @@
 	        <toolitem name="ContactEditorSaveClose" verb=""
 		_label="Save and Close" priority="1"  pixtype="pixbuf"/>
 
-		<separator/>
+		<separator f="" name="econtactedit1"/>
+
 		<toolitem name="ContactEditorPrint" verb=""
 		_label="Print" priority="1" pixtype="pixbuf"/>
 
-		<separator/>
+		<separator f="" name="econtactedit2"/>
 
 		<toolitem name="ContactEditorDelete" verb=""
 		_label="Delete" pixtype="pixbuf" priority="1"/>

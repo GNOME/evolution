@@ -1,3 +1,10 @@
+2002-01-15  Michael Meeks  <michael@ximian.com>
+ 
+	* *.xml: for all separators, add a unique (per xml file) name
+	to each separator, so we don't get them conflicting across
+	merges and messing with the order; then give them a dummy attr
+	f="" to stop them being transparent, hmm.
+ 
 2002-01-03  JP Rosevear  <jpr@ximian.com>
 
 	* evolution-tasks.xml: add a mark as complete item
@@ -169,7 +176,6 @@
 
 	* evolution-comp-editor.xml: remove print preview from toolbar
 
->>>>>>> 1.239
 2001-08-20  JP Rosevear  <jpr@ximian.com>
 
 	* evolution-comp-editor.xml: remove print setup option for

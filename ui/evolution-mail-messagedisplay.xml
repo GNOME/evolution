@@ -8,11 +8,11 @@
     <submenu name="File" _label="_File">
       <placeholder name="FileOps"/>
 
-      <separator/>
+      <separator f="" name="emailmessage1"/>
 
       <placeholder name="Print"/>
 
-      <separator/>
+      <separator f="" name="emailmessage2"/>
 
       <menuitem name="MessageBrowserClose" verb=""
 		_label="_Close"/>
@@ -46,7 +46,7 @@
   <dockitem name="Toolbar" relief="none" behavior="exclusive"
 	    _tip="Main toolbar" hlook="text" vlook="icon">
     <placeholder name="MailMessageToolbar"/>
-    <separator/>
+    <separator f="" name="emailmessage"/>
     <placeholder name="MailNextButtons"/>
   </dockitem>
 </Root>
