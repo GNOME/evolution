@@ -1345,7 +1345,7 @@ storage_connect (EvolutionStorage *storage,
 		 const char *path,
 		 CamelStore *store)
 {
-	mail_note_store (CAMEL_STORE (store), storage, CORBA_OBJECT_NIL,
+	mail_note_store (CAMEL_STORE (store), NULL, storage, CORBA_OBJECT_NIL,
 			 storage_connected, listener);
 }
 
@@ -1369,7 +1369,7 @@ add_storage (const char *name, const char *uri, CamelService *store,
 		evolution_storage_has_subfolders (storage, "/", _("Connecting..."));
 		mail_hash_storage (store, storage);
 		/*if (auto_connect)*/
-		mail_note_store ((CamelStore *) store, storage, CORBA_OBJECT_NIL, NULL, NULL);
+		mail_note_store ((CamelStore *) store, NULL, storage, CORBA_OBJECT_NIL, NULL, NULL);
 		/* falllll */
 	case EVOLUTION_STORAGE_ERROR_ALREADYREGISTERED:
 	case EVOLUTION_STORAGE_ERROR_EXISTS:

@@ -1167,12 +1167,17 @@ static struct _mail_msg_op get_folderinfo_op = {
 };
 
 int
-mail_get_folderinfo (CamelStore *store, void (*done)(CamelStore *store, CamelFolderInfo *info, void *data), void *data)
+mail_get_folderinfo (CamelStore *store, CamelOperation *op, void (*done)(CamelStore *store, CamelFolderInfo *info, void *data), void *data)
 {
 	struct _get_folderinfo_msg *m;
 	int id;
 
 	m = mail_msg_new(&get_folderinfo_op, NULL, sizeof(*m));
+	if (op) {
+		camel_operation_unref(m->msg.cancel);
+		m->msg.cancel = op;
+		camel_operation_ref(op);
+	}
 	m->store = store;
 	camel_object_ref(store);
 	m->done = done;
@@ -1379,12 +1384,17 @@ static struct _mail_msg_op get_store_op = {
 };
 
 int
-mail_get_store (const char *uri, void (*done) (char *uri, CamelStore *store, void *data), void *data)
+mail_get_store (const char *uri, CamelOperation *op, void (*done) (char *uri, CamelStore *store, void *data), void *data)
 {
 	struct _get_store_msg *m;
 	int id;
 	
 	m = mail_msg_new (&get_store_op, NULL, sizeof (*m));
+	if (op) {
+		camel_operation_unref(m->msg.cancel);
+		m->msg.cancel = op;
+		camel_operation_ref(op);
+	}
 	m->uri = g_strdup (uri);
 	m->data = data;
 	m->done = done;

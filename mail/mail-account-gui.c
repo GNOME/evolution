@@ -2001,7 +2001,7 @@ mail_account_gui_save (MailAccountGui *gui)
 	   component, then get the CamelStore and add it to
 	   the shell storages */
 	if (is_storage && account->enabled)
-		mail_get_store (account->source->url, add_new_store, account);
+		mail_get_store (account->source->url, NULL, add_new_store, account);
 	
 	if (gtk_toggle_button_get_active (gui->default_account))
 		mail_config_set_default_account (account);

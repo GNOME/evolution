@@ -1139,7 +1139,7 @@ store_data_async_get_store (StoreData *sd, StoreDataStoreFunc func, gpointer use
 	sd->store_func = func;
 	sd->store_data = user_data;
 	store_data_ref (sd);
-	sd->request_id = mail_get_store (sd->uri, sd_got_store, sd);
+	sd->request_id = mail_get_store (sd->uri, NULL, sd_got_store, sd);
 }
 
 static void
