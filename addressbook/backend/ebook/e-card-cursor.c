@@ -46,8 +46,12 @@ e_card_cursor_destroy (GtkObject *object)
 	GTK_OBJECT_CLASS (parent_class)->destroy (object);
 }
 
-/*
- * CORBA Demo::Echo::echo method implementation
+/**
+ * e_card_cursor_get_length:
+ * @cursor: the #ECardCursor whose length is being queried
+ *
+ * Returns: the number of items the cursor references, or -1 there's
+ * an error.
  */
 long
 e_card_cursor_get_length (ECardCursor *cursor)
@@ -63,6 +67,7 @@ e_card_cursor_get_length (ECardCursor *cursor)
 		if (ev._major != CORBA_NO_EXCEPTION) {
 			g_warning("e_card_cursor_get_length: Exception during "
 				  "get_length corba call.\n");
+			ret_val = -1;
 		}
 
 		CORBA_exception_free (&ev);
@@ -70,11 +75,17 @@ e_card_cursor_get_length (ECardCursor *cursor)
 		return ret_val;
 	}
 	else
-		return 0;
+		return -1;
 }
 
-/*
- * CORBA Demo::Echo::echo method implementation
+/**
+ * e_card_cursor_get_nth:
+ * @cursor: an #ECardCursor object
+ * @n: the index of the item requested
+ *
+ * Gets an #ECard based on an index.
+ *
+ * Returns: a new #ECard on success, or %NULL on failure.
  */
 ECard *
 e_card_cursor_get_nth (ECardCursor *cursor,
@@ -96,7 +107,7 @@ e_card_cursor_get_nth (ECardCursor *cursor,
 			CORBA_exception_init (&ev);
 		}
 
-		card = e_card_new(ret_val);
+		card = e_card_new (ret_val);
 #if 0		
 		CORBA_string__free(ret_val, &ev);
 		
@@ -153,6 +164,16 @@ e_card_cursor_get_type (void)
 	return type;
 }
 
+/**
+ * e_card_cursor_construct:
+ * @cursor: an #ECardCursor object
+ * @corba_cursor: an #Evolution_CardCursor
+ *
+ * Wraps an #Evolution_CardCursor object inside the #ECardCursor
+ * @cursor object.
+ *
+ * Returns: a new #ECardCursor on success, or %NULL on failure.
+ */
 ECardCursor *
 e_card_cursor_construct (ECardCursor          *cursor,
 			 Evolution_CardCursor  corba_cursor)
@@ -184,6 +205,15 @@ e_card_cursor_construct (ECardCursor          *cursor,
 	return cursor;
 }
 
+/**
+ * e_card_cursor_new:
+ * @cursor: the #Evolution_CardCursor to be wrapped
+ *
+ * Creates a new #ECardCursor, which wraps an #Evolution_CardCursor
+ * object.
+ *
+ * Returns: a new #ECardCursor on success, or %NULL on failure.
+ */
 ECardCursor *
 e_card_cursor_new (Evolution_CardCursor corba_cursor)
 {

@@ -109,7 +109,14 @@ e_card_get_type (void)
 	return card_type;
 }
 
-ECard         *e_card_new (char *vcard)
+/**
+ * e_card_new:
+ * @vcard: a string in vCard format
+ *
+ * Returns: a new #ECard that wraps the @vcard.
+ */
+ECard
+*e_card_new (char *vcard)
 {
 	ECard *card = E_CARD(gtk_type_new(e_card_get_type()));
 	VObject *vobj = Parse_MIME(vcard, strlen(vcard));
@@ -123,12 +130,27 @@ ECard         *e_card_new (char *vcard)
 	return card;
 }
 
+/**
+ * e_card_get_id:
+ * @card: an #ECard
+ *
+ * Returns: a string representing the id of the card, which is unique
+ * within its book.
+ */
 char *
 e_card_get_id (ECard *card)
 {
 	return card->id;
 }
 
+/**
+ * e_card_get_id:
+ * @card: an #ECard
+ * @id: a id in string format
+ *
+ * Sets the identifier of a card, which should be unique within its
+ * book.
+ */
 void
 e_card_set_id (ECard *card, const char *id)
 {
@@ -137,7 +159,14 @@ e_card_set_id (ECard *card, const char *id)
 	card->id = g_strdup(id);
 }
 
-char          *e_card_get_vcard (ECard *card)
+/**
+ * e_card_get_vcard:
+ * @card: an #ECard
+ *
+ * Returns: a string in vCard format, which is wrapped by the @card.
+ */
+char
+*e_card_get_vcard (ECard *card)
 {
 	VObject *vobj; /*, *vprop; */
 	char *temp, *ret_val;

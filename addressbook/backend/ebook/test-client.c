@@ -53,11 +53,17 @@ get_cursor_cb (EBook *book, EBookStatus status, ECardCursor *cursor, gpointer cl
 {
 	long length = e_card_cursor_get_length(cursor);
 	long i;
+
+	/* we just added a card, so the length should be >1 */
+	printf ("\n%s: %s(): Number of cards is %ld\n",
+		__FILE__, __FUNCTION__, length);
+	if (length < 1)
+		printf ("*** Why isn't this above zero?? ***\n\n");
 	
 	for ( i = 0; i < length; i++ ) {
 		ECard *card = e_card_cursor_get_nth(cursor, i);
 		char *vcard = e_card_get_vcard(card);
-		printf("[%s]\n", vcard);
+		printf("Get all cards callback: [%s]\n", vcard);
 		g_free(vcard);
 		gtk_object_unref(GTK_OBJECT(card));
 	}
@@ -82,11 +88,13 @@ add_card_cb (EBook *book, EBookStatus status, const gchar *id, gpointer closure)
 
 	vcard = e_card_get_vcard(card);
 	printf ("%g\n", g_timer_elapsed (timer, NULL));
-	printf ("[%s]\n", vcard);
+	printf ("Card added: [%s]\n", vcard);
 	g_free(vcard);
 	gtk_object_unref(GTK_OBJECT(card));
 
+	printf ("Getting cards..\n");
 	e_book_get_all_cards(book, get_cursor_cb, NULL);
+	printf ("Done getting all cards.\n");	
 }
 
 static void
@@ -103,7 +111,7 @@ ebook_create (void)
 	book = e_book_new ();
 
 	if (!book) {
-		printf ("%s: %s: Couldn't create EBook, bailing.\n",
+		printf ("%s: %s(): Couldn't create EBook, bailing.\n",
 			__FILE__,
 			__FUNCTION__);
 		return FALSE;
@@ -126,7 +134,7 @@ main (int argc, char **argv)
 	init_bonobo (argc, argv);
 
 	gtk_idle_add ((GtkFunction) ebook_create, NULL);
-
+	
 	bonobo_main ();
 
 	return 0;

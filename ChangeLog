@@ -1,5 +1,13 @@
 2000-03-29  Matt Loper  <matt@helixcode.com>
 
+	* addressbook/backend/ebook/test-client.c (get_cursor_cb): Added
+	some debugging.
+
+	* addressbook/backend/ebook/e-book-listener.c: Added inline
+	documentation for exposed functions.
+	* addressbook/backend/ebook/e-card-cursor.c: same.
+	* addressbook/backend/ebook/e-card.c: same.
+
 	* Makefile.am: add calendar compilation back in.
 
 	* addressbook/backend/pas/pas-book-factory.c

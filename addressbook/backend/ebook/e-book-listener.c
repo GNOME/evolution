@@ -131,13 +131,13 @@ e_book_listener_queue_get_cursor_response (EBookListener        *listener,
 					   Evolution_CardCursor  cursor)
 {
 	EBookListenerResponse *resp;
-
+	
 	resp = g_new0 (EBookListenerResponse, 1);
 
 	resp->op     = GetCursorResponse;
 	resp->status = status;
 	resp->cursor = cursor;
-
+	
 	e_book_listener_queue_response (listener, resp);
 }
 
@@ -215,7 +215,7 @@ impl_BookListener_respond_get_cursor (PortableServer_Servant servant,
 				      const Evolution_CardCursor cursor,
 				      CORBA_Environment *ev)
 {
-	EBookListener *listener = E_BOOK_LISTENER (bonobo_object_from_servant (servant));
+	EBookListener        *listener = E_BOOK_LISTENER (bonobo_object_from_servant (servant));
 	Evolution_CardCursor  cursor_copy;
 
 	cursor_copy = CORBA_Object_duplicate (cursor, ev);
@@ -311,6 +311,9 @@ impl_BookListener_signal_card_changed (PortableServer_Servant servant,
 
 /**
  * e_book_listener_get_book:
+ * @listener: the #EBookListener 
+ *
+ * Returns: the #EBook associated with the @listener.
  */
 EBook *
 e_book_listener_get_book (EBookListener *listener)
@@ -323,6 +326,10 @@ e_book_listener_get_book (EBookListener *listener)
 
 /**
  * e_book_listener_check_pending:
+ * @listener: the #EBookListener 
+ *
+ * Returns: the number of items on the response queue,
+ * or -1 if the @listener is isn't an #EBookListener.
  */
 int
 e_book_listener_check_pending (EBookListener *listener)
@@ -335,6 +342,11 @@ e_book_listener_check_pending (EBookListener *listener)
 
 /**
  * e_book_listener_pop_response:
+ * @listener: the #EBookListener for which a request is to be popped
+ *
+ * Returns: an #EBookListenerResponse if there are responses on the
+ * queue to be returned; %NULL if there aren't, or if the @listener
+ * isn't an EBookListener.
  */
 EBookListenerResponse *
 e_book_listener_pop_response (EBookListener *listener)
@@ -422,6 +434,11 @@ e_book_listener_construct (EBookListener *listener, EBook *book)
 
 /**
  * e_book_listener_new:
+ * @book: the #EBook for which the listener is to be bound
+ *
+ * Creates and returns a new #EBookListener for the book.
+ *
+ * Returns: a new #EBookListener
  */
 EBookListener *
 e_book_listener_new (EBook *book)
