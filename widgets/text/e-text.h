@@ -212,7 +212,6 @@ struct _EText {
 
 	GtkIMContext *im_context;
 	gboolean      need_im_reset;
-	gboolean      im_context_signals_registered;
 
 	gboolean      handle_popup;
 };
