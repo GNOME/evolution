@@ -1,8 +1,5 @@
 SUBDIRS = default # importers FIXME
 
-libexec_PROGRAMS =				\
-	evolution-mbox-upgrade
-
 importerdir = $(privlibdir)/evolution-mail-importers
 
 INCLUDES =						\
@@ -186,12 +183,6 @@ libevolution_mail_la_LDFLAGS =				\
 
 
 # .server files
-
-evolution_mbox_upgrade_SOURCES = evolution-mbox-upgrade.c
-evolution_mbox_upgrade_LDADD = 				\
-	$(top_builddir)/camel/libcamel.la 		\
-	$(top_builddir)/e-util/libeutil.la 		\
-	$(EVOLUTION_MAIL_LIBS)
 
 server_in_files = GNOME_Evolution_Mail.server.in.in
 server_DATA = $(server_in_files:.server.in.in=_$(BASE_VERSION).server)
