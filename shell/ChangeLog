@@ -1,3 +1,13 @@
+2000-09-08  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* evolution-storage-listener.c (create_servant): Return an
+	`EvolutionStorageListenerServant' instead of a
+	`POA_Evolution_StorageListener'.
+	(evolution_storage_listener_new): Add a cast accordingly.
+
+	* evolution-storage.c (corba_class_init): Remove `NO_WARNINGS'
+	madness.
+
 2000-09-08  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-storage-set-view.c: Added base ETableModel functions.

@@ -106,7 +106,7 @@ impl_Evolution_StorageListener_removed_folder (PortableServer_Servant servant,
 	gtk_signal_emit (GTK_OBJECT (listener), signals[REMOVED_FOLDER], path);
 }
 
-static POA_Evolution_StorageListener *
+static EvolutionStorageListenerServant *
 create_servant (EvolutionStorageListener *listener)
 {
 	EvolutionStorageListenerServant *servant;
@@ -130,7 +130,7 @@ create_servant (EvolutionStorageListener *listener)
 
 	CORBA_exception_free (&ev);
 
-	return (POA_Evolution_StorageListener *) servant;
+	return servant;
 }
 
 static Evolution_StorageListener
@@ -292,7 +292,7 @@ evolution_storage_listener_new (void)
 	priv = new->priv;
 
 	priv->servant = create_servant (new);
-	corba_objref = activate_servant (new, priv->servant);
+	corba_objref = activate_servant (new, (POA_Evolution_StorageListener *) priv->servant);
 
 	evolution_storage_listener_construct (new, corba_objref);
 
