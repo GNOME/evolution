@@ -1,6 +1,7 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
 #include <config.h>
+#include <string.h>
 #include "e-contact-list-model.h"
 
 #define PARENT_TYPE e_table_model_get_type()

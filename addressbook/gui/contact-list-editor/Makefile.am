@@ -8,11 +8,9 @@ INCLUDES =						\
 	-I$(top_builddir)/shell				\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"	\
-	-DDATADIR=\""$(datadir)"\"			\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
-	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"		\
-	-DEVOLUTION_UIDIR=\""$(evolutionuidir)"\"	\
-	-DEVOLUTIONDIR=\""$(evolutiondir)"\"		\
+	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"	\
+	-DEVOLUTION_UIDIR=\""$(evolution_uidir)\""	\
 	-DG_LOG_DOMAIN=\"contact-list-editor\"		\
 	-DG_DISABLE_DEPRECATED				\
 	-DGTK_DISABLE_DEPRECATED			\
@@ -45,12 +43,7 @@ e-contact-list-editor-marshal.c: e-contact-list-editor-marshal.h
 MARSHAL_GENERATED = e-contact-list-editor-marshal.c e-contact-list-editor-marshal.h
 
 
-gladedir = $(datadir)/evolution-$(BASE_VERSION)/glade
-
-glade_DATA = 					\
-	contact-list-editor.glade
-
-etspecdir   = $(datadir)/evolution-$(BASE_VERSION)/etspec
+glade_DATA  = contact-list-editor.glade
 etspec_DATA = e-contact-list-editor.etspec
 
 BUILT_SOURCES = $(MARSHAL_GENERATED)

@@ -22,6 +22,7 @@
 
 #include "e-contact-list-editor.h"
 
+#include <string.h>
 #include <glib.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-window-icon.h>
@@ -302,7 +303,7 @@ e_contact_list_editor_init (EContactListEditor *editor)
 			  G_CALLBACK (app_delete_event_cb), editor);
 
 	/* set the icon */
-	icon_path = g_build_filename (EVOLUTION_ICONSDIR, "contact-list-16.png");
+	icon_path = g_build_filename (EVOLUTION_IMAGESDIR, "contact-list-16.png");
 	gnome_window_icon_set_from_file (GTK_WINDOW (editor->app), icon_path);
 	g_free (icon_path);
 }
@@ -585,7 +586,7 @@ e_contact_list_editor_new (EBook *book,
 	all_contact_list_editors = g_slist_prepend (all_contact_list_editors, ce);
 	g_object_weak_ref (G_OBJECT (ce), contact_list_editor_destroy_notify, ce);
 
-	gtk_object_ref (GTK_OBJECT (ce));
+	g_object_ref (ce);
 	gtk_object_sink (GTK_OBJECT (ce));
 
 	g_object_set (ce,
