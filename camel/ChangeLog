@@ -1,3 +1,9 @@
+2001-03-13  Dan Winship  <danw@ximian.com>
+
+	* providers/sendmail/camel-sendmail-transport.c (sendmail_send_to,
+	sendmail_send): More fixing for exim: It can't deal with "-tif",
+	you need to say "-t -i -f".
+
 2001-03-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-store.c (init_trash): Rename the folder to "Trash" and

@@ -209,15 +209,16 @@ sendmail_send_to (CamelTransport *transport, CamelMedium *message,
 		return FALSE;
 
 	len = g_list_length (recipients);
-	argv = g_malloc ((len + 5) * sizeof (char *));
+	argv = g_malloc ((len + 6) * sizeof (char *));
 	argv[0] = "sendmail";
-	argv[1] = "-if";
-	argv[2] = from;
-	argv[3] = "--";
+	argv[1] = "-i";
+	argv[2] = "-f";
+	argv[3] = from;
+	argv[4] = "--";
 
 	for (i = 1, r = recipients; i <= len; i++, r = r->next)
-		argv[i + 3] = r->data;
-	argv[i + 3] = NULL;
+		argv[i + 4] = r->data;
+	argv[i + 4] = NULL;
 
 	status = sendmail_send_internal (message, argv, ex);
 	g_free (argv);
@@ -228,10 +229,10 @@ static gboolean
 sendmail_send (CamelTransport *transport, CamelMedium *message,
        CamelException *ex)
 {
-	const char *argv[4] = { "sendmail", "-tif", NULL, NULL };
-	
-	argv[2] = get_from (message, ex);
-	if (!argv[2])
+	const char *argv[6] = { "sendmail", "-t", "-i", "-f", NULL, NULL };
+
+	argv[4] = get_from (message, ex);
+	if (!argv[4])
 		return FALSE;
 
 	return sendmail_send_internal (message, argv, ex);
