@@ -35,6 +35,7 @@
 
 #include <evolution-services/executive-summary-component.h>
 #include <evolution-services/executive-summary-html-view.h>
+#include <gal/widgets/e-unicode.h>
 
 #include <gnome-xml/parser.h>
 #include <gnome-xml/xmlmemory.h>
@@ -183,7 +184,8 @@ generate_html_summary (gpointer data)
 	time_t t, day_begin, day_end;
 	struct tm *timeptr;
 	GList *uids, *l;
-	char *ret_html, *tmp, *datestr;
+	char *ret_html, *datestr;
+	char *tmp, *tmp2;
 
 	summary = data;
 	
@@ -193,15 +195,20 @@ generate_html_summary (gpointer data)
 
 	datestr = g_new (char, 256);
 	timeptr = localtime (&t);
-	strftime (datestr, 255, _("%A, %e %B %Y"), timeptr);
-	ret_html = g_strdup_printf ("<b>%s</b>", datestr);
+	strftime (datestr, 255, _("%A, %e %B %Y"),
+		  timeptr);
+	tmp = g_strdup_printf ("<b>%s</b>", datestr);
+	ret_html = e_utf8_from_locale_string (tmp);
+	g_free (tmp);
 	g_free (datestr);
 
 	if (summary->appointments) {
 		tmp = ret_html;
-		ret_html = g_strdup_printf ("%s<p align=\"center\">Appointments</p><hr><ul>",
-					    tmp);
+		tmp2 = e_utf8_from_locale_string (_("Appointments"));
+		ret_html = g_strconcat (tmp, "<p align=\"center\">",
+					tmp2, "</p><hr><ul>", NULL);
 		g_free (tmp);
+		g_free (tmp2);
 		
 		uids = cal_client_get_objects_in_range (summary->client, 
 							CALOBJ_TYPE_EVENT, day_begin,
@@ -218,7 +225,6 @@ generate_html_summary (gpointer data)
 			struct tm *start_tm, *end_tm;
 			char *start_str, *end_str;
 			char *uid;
-			char *tmp2;
 			
 			uid = l->data;
 			status = cal_client_get_object (summary->client, uid, &comp);
@@ -266,10 +272,11 @@ generate_html_summary (gpointer data)
 
 	if (summary->tasks) {
 		tmp = ret_html;
-		ret_html = g_strconcat (ret_html, 
-					"<p align=\"center\">Tasks</p><hr><ul>",
-					NULL);
+		tmp2 = e_utf8_from_locale_string (_("Tasks"));
+		ret_html = g_strconcat (tmp, "<p align=\"center\">",
+					tmp2, "</p><hr><ul>", NULL);
 		g_free (tmp);
+		g_free (tmp2);
 		
 		/* Generate a list of tasks */
 		uids = cal_client_get_uids (summary->client, CALOBJ_TYPE_TODO);
@@ -279,7 +286,6 @@ generate_html_summary (gpointer data)
 			CalClientGetStatus status;
 			struct icaltimetype *completed;
 			char *uid;
-			char *tmp2;
 			
 			uid = l->data;
 			status = cal_client_get_object (summary->client, uid, &comp);
@@ -554,7 +560,7 @@ summary_to_string (CalSummary *summary)
 	xmlNsPtr ns;
 
 	doc = xmlNewDoc ("1.0");
-	ns = xmlNewGlobalNs (doc, "http://www.helixcode.com", "calendar-summary");
+	ns = xmlNewGlobalNs (doc, "http://www.ximian.com", "calendar-summary");
 	doc->root = xmlNewDocNode (doc, ns, "calendar-summary", NULL);
 
 	xmlNewChild (doc->root, ns, "showappointments", 
@@ -681,7 +687,7 @@ create_summary_view (ExecutiveSummaryComponentFactory *_factory,
 	summary = g_new (CalSummary, 1);
 	summary->component = EXECUTIVE_SUMMARY_COMPONENT (component);
 	summary->icon = g_strdup ("evolution-calendar.png");
-	summary->title = g_strdup ("Things to do");
+	summary->title = e_utf8_from_locale_string (_("Things to do"));
 	summary->client = cal_client_new ();
 	summary->idle = 0;
 	summary->appointments = TRUE;
@@ -764,7 +770,7 @@ calendar_summary_factory_init (void)
 					      NULL);
 
 	if (factory == NULL) {
-		g_warning ("Cannot initialise calendar summary factory");
+		g_warning ("Cannot initialize calendar summary factory");
 		return NULL;
 	}
 
