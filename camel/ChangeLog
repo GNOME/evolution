@@ -1,3 +1,16 @@
+2003-11-13  Not Zed  <NotZed@Ximian.com>
+
+	* camel-smime-context.c (sm_verify): look at the content object's
+	mime type, not the container's type.
+
+2003-11-11  Not Zed  <NotZed@Ximian.com>
+
+	* camel-cipher-context.c (camel_cipher_validity_set_valid): take
+	into account the @valid argument and set validity properly.
+	(camel_cipher_validity_clone): new method to copy validities.
+
+	* camel-smime-context.c (sm_signing_cmsmessage): removed a todo.
+
 2003-11-10  Not Zed  <NotZed@Ximian.com>
 
 	* camel-smime-context.c (sm_verify_cmsg): split out the CMSMessage

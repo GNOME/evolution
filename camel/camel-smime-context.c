@@ -90,6 +90,8 @@ sm_get_passwd(PK11SlotInfo *info, PRBool retry, void *arg)
 	char *prompt;
 	CamelException *ex;
 
+	printf("get passwd called '%s'\n", PK11_GetTokenName(info));
+
 	ex = camel_exception_new();
 	prompt = g_strdup_printf(_("Enter security pass-phrase for `%s'"), PK11_GetTokenName(info));
 	pass = camel_session_get_password(((CamelCipherContext *)context)->session, prompt, FALSE, TRUE, NULL, PK11_GetTokenName(info), ex);
@@ -238,14 +240,12 @@ sm_signing_cmsmessage(CamelSMIMEContext *context, const char *nick, SECOidTag ha
 	NSSCMSSignerInfo *signerinfo;
 	CERTCertificate *cert= NULL, *ekpcert = NULL;
 
-	/* TODO: usage should be hardcoded to usageSigner? */
-
 	if ((cert = CERT_FindUserCertByUsage(p->certdb,
 					     (char *)nick,
 					     certUsageEmailSigner,
 					     PR_FALSE,
 					     NULL)) == NULL) {
-		camel_exception_setv(ex, 1, "Cann't find certificate for '%s'", nick);
+		camel_exception_setv(ex, 1, "Can't find certificate for '%s'", nick);
 		return NULL;
 	}
 
@@ -681,10 +681,13 @@ sm_verify(CamelCipherContext *context, CamelMimePart *ipart, CamelException *ex)
 	CamelContentType *ct;
 	const char *tmp;
 	CamelMimePart *extpart, *sigpart;
+	CamelDataWrapper *dw;
 
-	ct = camel_mime_part_get_content_type(ipart);
+	dw = camel_medium_get_content_object((CamelMedium *)ipart);
+	ct = dw->mime_type;
+
 	if (camel_content_type_is(ct, "multipart", "signed")) {
-		CamelMultipart *mps = (CamelMultipart *)camel_medium_get_content_object((CamelMedium *)ipart);
+		CamelMultipart *mps = (CamelMultipart *)dw;
 
 		tmp = camel_content_type_param(ct, "protocol");
 		extpart = camel_multipart_get_part(mps, CAMEL_MULTIPART_SIGNED_CONTENT);

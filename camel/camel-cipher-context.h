@@ -153,6 +153,7 @@ void                 camel_cipher_validity_set_valid (CamelCipherValidity *valid
 char                *camel_cipher_validity_get_description (CamelCipherValidity *validity);
 void                 camel_cipher_validity_set_description (CamelCipherValidity *validity, const char *description);
 void                 camel_cipher_validity_clear (CamelCipherValidity *validity);
+CamelCipherValidity *camel_cipher_validity_clone(CamelCipherValidity *vin);
 void		     camel_cipher_validity_envelope(CamelCipherValidity *valid, CamelCipherValidity *outer);
 void                 camel_cipher_validity_free (CamelCipherValidity *validity);
 

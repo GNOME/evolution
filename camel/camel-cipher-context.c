@@ -371,7 +371,7 @@ camel_cipher_validity_set_valid (CamelCipherValidity *validity, gboolean valid)
 {
 	g_assert (validity != NULL);
 	
-	validity->sign.status = CAMEL_CIPHER_VALIDITY_SIGN_GOOD;
+	validity->sign.status = valid?CAMEL_CIPHER_VALIDITY_SIGN_GOOD:CAMEL_CIPHER_VALIDITY_SIGN_BAD;
 }
 
 gchar *
@@ -400,6 +400,20 @@ camel_cipher_validity_clear (CamelCipherValidity *validity)
 	g_free(validity->sign.description);
 	g_free(validity->encrypt.description);
 	camel_cipher_validity_init(validity);
+}
+
+CamelCipherValidity *
+camel_cipher_validity_clone(CamelCipherValidity *vin)
+{
+	CamelCipherValidity *vo;
+
+	vo = g_malloc0(sizeof(*vo));
+	vo->sign.status = vin->sign.status;
+	vo->sign.description = g_strdup(vin->sign.description);
+	vo->encrypt.status = vin->encrypt.status;
+	vo->encrypt.description = g_strdup(vin->encrypt.description);
+
+	return vo;
 }
 
 /**
