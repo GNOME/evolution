@@ -1024,13 +1024,19 @@ ets_proxy_node_changed (ETreeModel *etm, ETreePath node, ETreeSorted *ets)
 		}
 		ets->priv->root = new_path(NULL, node);
 		e_tree_model_node_changed(E_TREE_MODEL(ets), ets->priv->root);
+		return;
 	} else {
 		ETreeSortedPath *path = find_path(ets, node);
 
 		if (path) {
 			free_children(path);
-			if (!reposition_path(ets, path))
+			if (!reposition_path(ets, path)) {
 				e_tree_model_node_changed(E_TREE_MODEL(ets), path);
+			} else {
+				e_tree_model_no_change(E_TREE_MODEL(ets));
+			}
+		} else {
+			e_tree_model_no_change(E_TREE_MODEL(ets));
 		}
 	}
 }
@@ -1043,6 +1049,8 @@ ets_proxy_node_data_changed (ETreeModel *etm, ETreePath node, ETreeSorted *ets)
 	if (path) {
 		if (!reposition_path(ets, path))
 			e_tree_model_node_data_changed(E_TREE_MODEL(ets), path);
+		else
+			e_tree_model_no_change(E_TREE_MODEL(ets));
 	} else
 		e_tree_model_no_change(E_TREE_MODEL(ets));
 }
@@ -1058,6 +1066,8 @@ ets_proxy_node_col_changed (ETreeModel *etm, ETreePath node, int col, ETreeSorte
 			changed = reposition_path(ets, path);
 		if (!changed)
 			e_tree_model_node_col_changed(E_TREE_MODEL(ets), path, col);
+		else
+			e_tree_model_no_change(E_TREE_MODEL(ets));
 	} else
 		e_tree_model_no_change(E_TREE_MODEL(ets));
 }
@@ -1122,7 +1132,11 @@ ets_proxy_node_inserted (ETreeModel *etm, ETreePath parent, ETreePath child, ETr
 		if (child) {
 			ets->priv->root = new_path(NULL, child);
 			e_tree_model_node_inserted(E_TREE_MODEL(ets), NULL, ets->priv->root);
+		} else {
+			e_tree_model_no_change(E_TREE_MODEL(ets));
 		}
+	} else {
+		e_tree_model_no_change(E_TREE_MODEL(ets));
 	}
 }
 

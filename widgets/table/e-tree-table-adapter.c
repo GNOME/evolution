@@ -675,8 +675,10 @@ etta_proxy_node_changed (ETreeModel *etm, ETreePath path, ETreeTableAdapter *ett
 		int old_size;
 		ETreeTableAdapterNode *node;
 
-		if (row == -1)
+		if (row == -1) {
+			e_table_model_no_change(E_TABLE_MODEL(etta));
 			return;
+		}
 
 		size = array_size_from_path(etta, path);
 
