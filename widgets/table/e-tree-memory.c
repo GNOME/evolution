@@ -52,6 +52,8 @@ struct ETreeMemoryPriv {
 	ETreeMemoryPath *root;
 	gboolean         expanded_default; /* whether nodes are created expanded or collapsed by default */
 	gint             frozen;
+	GFunc            destroy_func;
+	gpointer         destroy_user_data;
 };
 
 
@@ -325,6 +327,8 @@ e_tree_memory_init (GtkObject *object)
 	priv->root = NULL;
 	priv->frozen = 0;
 	priv->expanded_default = 0;
+	priv->destroy_func = NULL;
+	priv->destroy_user_data = NULL;
 }
 
 E_MAKE_TYPE(e_tree_memory, "ETreeMemory", ETreeMemory, e_tree_memory_class_init, e_tree_memory_init, PARENT_TYPE)
@@ -507,6 +511,10 @@ child_free(ETreeMemory *etree, ETreeMemoryPath *node)
 		child = next;
 	}
 
+	if (etree->priv->destroy_func) {
+		etree->priv->destroy_func (node->node_data, etree->priv->destroy_user_data);
+	}
+
 	g_chunk_free(node, node_chunk);
 }
 
@@ -624,4 +632,13 @@ e_tree_memory_sort_node             (ETreeMemory             *etmm,
 	g_free(children);
 
 	e_tree_model_node_changed(E_TREE_MODEL(etmm), node);
+}
+
+void
+e_tree_memory_set_node_destroy_func  (ETreeMemory             *etmm,
+				      GFunc                    destroy_func,
+				      gpointer                 user_data)
+{
+	etmm->priv->destroy_func = destroy_func;
+	etmm->priv->destroy_user_data = user_data;
 }

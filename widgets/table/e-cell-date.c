@@ -34,7 +34,7 @@ ecd_get_text(ECellText *cell, ETableModel *model, int col, int row)
 	localtime_r (&date, &then);
 	localtime_r (&nowdate, &now);
 
-	if (nowdate - date < 60 * 60 * 8) {
+	if (nowdate - date < 60 * 60 * 8 && nowdate > date) {
 		strftime (buf, 26, _("%l:%M %p"), &then);
 		done = TRUE;
 	}
