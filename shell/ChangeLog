@@ -1,5 +1,12 @@
 2004-04-30  Dan Winship  <danw@ximian.com>
 
+	* apps_evolution_shell.schemas.in.in: Remove default folders,
+	shortcut stuff, and "show folder bar".
+
+	* e-config-upgrade.c: Don't migrate those options either
+
+2004-04-30  Dan Winship  <danw@ximian.com>
+
 	* e-shell-window-commands.c (command_quit): Don't save window
 	state here.
 

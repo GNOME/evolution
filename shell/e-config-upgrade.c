@@ -70,31 +70,13 @@ static e_gconf_map_t shell_views_map[] = {
 	/* /Shell/Views/0 */
 	{ "Width", "shell/view_defaults/width", E_GCONF_MAP_INT },
 	{ "Height", "shell/view_defaults/height", E_GCONF_MAP_INT },
-	{ "CurrentShortcutsGroupNum", "shell/view_defaults/selected_shortcut_group", E_GCONF_MAP_INT },
-	{ "FolderBarShown", "shell/view_defaults/show_folder_bar", E_GCONF_MAP_BOOL },
-	{ "ShortcutBarShown", "shell/view_defaults/show_shortcut_bar", E_GCONF_MAP_BOOL },
-	{ "HPanedPosition", "shell/view_defaults/shortcut_bar/width", E_GCONF_MAP_INT },
 	{ "ViewPanedPosition", "shell/view_defaults/folder_bar/width", E_GCONF_MAP_INT },
-	{ "DisplayedURI", "shell/view_defaults/folder_path", E_GCONF_MAP_STRING },
 	{ 0 },
 };
 
 static e_gconf_map_t offlinefolders_map[] = {
 	/* /OfflineFolders */
 	{ "paths", "shell/offline/folder_paths", E_GCONF_MAP_ANYLIST },
-	{ 0 },
-};
-
-static e_gconf_map_t defaultfolders_map[] = {
-	/* /DefaultFolders */
-	{ "mail_path", "shell/default_folders/mail_path", E_GCONF_MAP_STRING },
-	{ "mail_uri", "shell/default_folders/mail_uri", E_GCONF_MAP_STRING },
-	{ "contacts_path", "shell/default_folders/contacts_path", E_GCONF_MAP_STRING },
-	{ "contacts_uri", "shell/default_folders/contacts_uri", E_GCONF_MAP_STRING },
-	{ "calendar_path", "shell/default_folders/calendar_path", E_GCONF_MAP_STRING },
-	{ "calendar_uri", "shell/default_folders/calendar_uri", E_GCONF_MAP_STRING },
-	{ "tasks_path", "shell/default_folders/tasks_path", E_GCONF_MAP_STRING },
-	{ "tasks_uri", "shell/default_folders/tasks_uri", E_GCONF_MAP_STRING },
 	{ 0 },
 };
 
@@ -135,7 +117,6 @@ e_gconf_map_list_t remap_list[] = {
 	{ "/Shell", shell_map },
 	{ "/Shell/Views/0", shell_views_map },
 	{ "/OfflineFolders", offlinefolders_map },
-	{ "/DefaultFolders", defaultfolders_map },
 
 	{ "/Addressbook", addressbook_map },
 	{ "/Addressbook/Completion", addressbook_completion_map },

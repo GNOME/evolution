@@ -13,102 +13,6 @@
       </locale>
     </schema>
 
-    <!-- Default mail folder -->
-
-    <schema>
-      <key>/schemas/apps/evolution/shell/default_folders/mail_path</key>
-      <applyto>/apps/evolution/shell/default_folders/mail_path</applyto>
-      <owner>evolution</owner>
-      <type>string</type>
-      <default>evolution:/local/Inbox</default>
-      <locale name="C">
-        <short>Path to the default mail folder</short>
-      </locale>
-    </schema>
-
-    <schema>
-      <key>/schemas/apps/evolution/shell/default_folders/mail_uri</key>
-      <applyto>/apps/evolution/shell/default_folders/mail_uri</applyto>
-      <owner>evolution</owner>
-      <type>string</type>
-      <default></default>
-      <locale name="C">
-        <short>Physical URI to the default mail folder</short>
-      </locale>
-    </schema>
-
-    <!-- Default contacts folder -->
-
-    <schema>
-      <key>/schemas/apps/evolution/shell/default_folders/contacts_path</key>
-      <applyto>/apps/evolution/shell/default_folders/contacts_path</applyto>
-      <owner>evolution</owner>
-      <type>string</type>
-      <default>evolution:/local/Contacts</default>
-      <locale name="C">
-        <short>Path to the default contacts folder</short>
-      </locale>
-    </schema>
-
-    <schema>
-      <key>/schemas/apps/evolution/shell/default_folders/contacts_uri</key>
-      <applyto>/apps/evolution/shell/default_folders/contacts_uri</applyto>
-      <owner>evolution</owner>
-      <type>string</type>
-      <default></default>
-      <locale name="C">
-        <short>Physical URI to the default contacts folder</short>
-      </locale>
-    </schema>
-
-    <!-- Default calendar folder -->
-
-    <schema>
-      <key>/schemas/apps/evolution/shell/default_folders/calendar_path</key>
-      <applyto>/apps/evolution/shell/default_folders/calendar_path</applyto>
-      <owner>evolution</owner>
-      <type>string</type>
-      <default>evolution:/local/Calendar</default>
-      <locale name="C">
-        <short>Path to the default calendar folder</short>
-      </locale>
-    </schema>
-
-    <schema>
-      <key>/schemas/apps/evolution/shell/default_folders/calendar_uri</key>
-      <applyto>/apps/evolution/shell/default_folders/calendar_uri</applyto>
-      <owner>evolution</owner>
-      <type>string</type>
-      <default></default>
-      <locale name="C">
-        <short>Physical URI to the default calendar folder</short>
-      </locale>
-    </schema>
-
-    <!-- Default tasks folder -->
-
-    <schema>
-      <key>/schemas/apps/evolution/shell/default_folders/tasks_path</key>
-      <applyto>/apps/evolution/shell/default_folders/tasks_path</applyto>
-      <owner>evolution</owner>
-      <type>string</type>
-      <default>evolution:/local/Tasks</default>
-      <locale name="C">
-        <short>Path to the default tasks folder</short>
-      </locale>
-    </schema>
-
-    <schema>
-      <key>/schemas/apps/evolution/shell/default_folders/tasks_uri</key>
-      <applyto>/apps/evolution/shell/default_folders/tasks_uri</applyto>
-      <owner>evolution</owner>
-      <type>string</type>
-      <default></default>
-      <locale name="C">
-        <short>Physical URI to the default tasks folder</short>
-      </locale>
-    </schema>
-
     <!-- Development warning dialog -->
 
     <schema>
@@ -180,39 +84,6 @@
     </schema>
 
     <schema>
-      <key>/schemas/apps/evolution/shell/view_defaults/selected_shortcut_group</key>
-      <applyto>/apps/evolution/shell/view_defaults/selected_shortcut_group</applyto>
-      <owner>evolution</owner>
-      <type>int</type>
-      <default>0</default>
-      <locale name="C">
-        <short>Default shortcut group</short>
-      </locale>
-    </schema>
-
-    <schema>
-      <key>/schemas/apps/evolution/shell/view_defaults/show_folder_bar</key>
-      <applyto>/apps/evolution/shell/view_defaults/show_folder_bar</applyto>
-      <owner>evolution</owner>
-      <type>bool</type>
-      <default>false</default>
-      <locale name="C">
-        <short>Whether to show the folder bar</short>
-      </locale>
-    </schema>
-
-    <schema>
-      <key>/schemas/apps/evolution/shell/view_defaults/show_shortcut_bar</key>
-      <applyto>/apps/evolution/shell/view_defaults/show_shortcut_bar</applyto>
-      <owner>evolution</owner>
-      <type>bool</type>
-      <default>true</default>
-      <locale name="C">
-        <short>Whether to show the shortcut bar</short>
-      </locale>
-    </schema>
-
-    <schema>
       <key>/schemas/apps/evolution/shell/view_defaults/component_id</key>
       <applyto>/apps/evolution/shell/view_defaults/component_id</applyto>
       <owner>evolution</owner>
@@ -233,19 +104,6 @@
       <default>200</default>
       <locale name="C">
         <short>Default width of the folder bar pane</short>
-      </locale>
-    </schema>
-
-    <!-- Shortcut bar -->
-
-    <schema>
-      <key>/schemas/apps/evolution/shell/view_defaults/shortcut_bar/width</key>
-      <applyto>/apps/evolution/shell/view_defaults/shortcut_bar/width</applyto>
-      <owner>evolution</owner>
-      <type>int</type>
-      <default>100</default>
-      <locale name="C">
-        <short>Default width of the shortcut bar pane</short>
       </locale>
     </schema>
 
