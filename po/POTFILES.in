@@ -9,7 +9,6 @@ addressbook/conduit/address-conduit.c
 addressbook/conduit/e-address-conduit-control-applet.desktop.in
 addressbook/contact-editor/contact-editor.glade
 addressbook/contact-editor/e-contact-editor-confirm-delete.glade
-addressbook/contact-editor/e-contact-editor-strings.h
 addressbook/contact-editor/e-contact-editor.c
 addressbook/contact-editor/fulladdr.glade
 addressbook/contact-editor/fullname.glade

@@ -1,3 +1,7 @@
+2001-02-11  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* POTFILES.in: removed e-contact-editor-strings.h
+
 2001-02-11  Gediminas Paulauskas <menesis@delfi.lt>
 
 	* *.po: added strings from .desktop files, they are translated here
