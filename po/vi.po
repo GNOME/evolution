@@ -1,13 +1,13 @@
 # Copyright (C) 2002 Free Software Foundattion, Inc.
 # This file is distributed under the same license as the evolution package.
-# pclouds <pclouds@gmx.net>, 2002.
+# pclouds <pclouds@gmx.net>, 2002-2004.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution VERSION\n"
 "POT-Creation-Date: 2004-06-03 11:14-0400\n"
-"PO-Revision-Date: 2003-02-23 08:29+0700\n"
-"Last-Translator: pclouds <pclouds@gmx.net>\n"
+"PO-Revision-Date: 2004-06-26 01:06+0700\n"
+"Last-Translator: pclouds <pclouds@vnlinux.org>\n"
 "Language-Team: GnomeVI <gnomevi-list@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -16,44 +16,36 @@ msgstr ""
 #: a11y/addressbook/ea-addressbook-view.c:94
 #: a11y/addressbook/ea-addressbook-view.c:103
 #: a11y/addressbook/ea-minicard-view.c:119
-#, fuzzy
 msgid "evolution addressbook"
-msgstr "Sửa Sổ địa chỉ"
+msgstr "Sổ địa chỉ Evolution"
 
 #: a11y/addressbook/ea-minicard.c:105
-#, fuzzy
 msgid "contact's header: "
-msgstr "Liên lạc: "
+msgstr "tiêu đề liên lạc: "
 
 #: a11y/addressbook/ea-minicard.c:166
-#, fuzzy
 msgid "evolution minicard"
-msgstr "_Cửa sổ Evolution"
+msgstr ""
 
 #: a11y/addressbook/ea-minicard-view.c:101
-#, fuzzy
 msgid "current addressbook folder "
-msgstr "với mọi thư mục hoạt động từ xa và thư mục cục bộ"
+msgstr "thư mục sổ địa chỉ hiện thời "
 
 #: a11y/addressbook/ea-minicard-view.c:102
-#, fuzzy
 msgid "have "
-msgstr "Lưu là"
+msgstr "có "
 
 #: a11y/addressbook/ea-minicard-view.c:102
-#, fuzzy
 msgid "has "
-msgstr "Công việc"
+msgstr "có "
 
 #: a11y/addressbook/ea-minicard-view.c:104
-#, fuzzy
 msgid " cards"
-msgstr "card"
+msgstr " card"
 
 #: a11y/addressbook/ea-minicard-view.c:104
-#, fuzzy
 msgid " card"
-msgstr "1 card"
+msgstr " card"
 
 #: addressbook/conduit/address-conduit.c:272
 msgid "Default Sync Address:"
@@ -61,9 +53,8 @@ msgstr "Địa chỉ đồng bộ mặc định:"
 
 #: addressbook/conduit/address-conduit.c:1151
 #: addressbook/conduit/address-conduit.c:1152
-#, fuzzy
 msgid "Could not load addressbook"
-msgstr "Không thể nạp %s: %s"
+msgstr "Không thể nạp sổ địa chỉ"
 
 #: addressbook/conduit/address-conduit.c:1220
 #: addressbook/conduit/address-conduit.c:1223
@@ -86,9 +77,8 @@ msgid "%sEnter password for %s (user %s)"
 msgstr "%sNhập mật khẩu cho %s (người dùng %s)"
 
 #: addressbook/gui/component/addressbook-component.c:93
-#, fuzzy
 msgid "New Contact"
-msgstr "Liên lạc mới:"
+msgstr "Liên lạc mới"
 
 #: addressbook/gui/component/addressbook-component.c:94
 msgid "_Contact"
@@ -103,28 +93,24 @@ msgid "New Contact List"
 msgstr "Danh sách liên lạc mới"
 
 #: addressbook/gui/component/addressbook-component.c:102
-#, fuzzy
 msgid "Contact _List"
-msgstr "_Danh sách liên lạc mới"
+msgstr "_Danh sách liên lạc"
 
 #: addressbook/gui/component/addressbook-component.c:103
 msgid "Create a new contact list"
 msgstr "Tạo danh sách liên lạc mới"
 
 #: addressbook/gui/component/addressbook-component.c:109
-#, fuzzy
 msgid "New Contacts Group"
-msgstr "Liên lạc mới:"
+msgstr "Nhóm Liên lạc mới"
 
 #: addressbook/gui/component/addressbook-component.c:110
-#, fuzzy
 msgid "_Contacts Group"
-msgstr "_Liên lạc:"
+msgstr "Nhóm _Liên lạc"
 
 #: addressbook/gui/component/addressbook-component.c:111
-#, fuzzy
 msgid "Create a new contacts group"
-msgstr "Tạo nhóm lối tắt mới"
+msgstr "Tạo nhóm liên lạc mới"
 
 #: addressbook/gui/component/addressbook-component.c:184
 msgid "Failed upgrading Addressbook settings or folders."
@@ -132,15 +118,14 @@ msgstr ""
 
 #: addressbook/gui/component/addressbook-migrate.c:68
 #: calendar/gui/migration.c:137 mail/em-migrate.c:1160
-#, fuzzy
 msgid "Migrating..."
-msgstr "Đang chờ..."
+msgstr "Đang chuyển đổi..."
 
 #: addressbook/gui/component/addressbook-migrate.c:120
 #: calendar/gui/migration.c:184 mail/em-migrate.c:1201
-#, fuzzy, c-format
+#, c-format
 msgid "Migrating `%s':"
-msgstr "Đang \"ping\" %s"
+msgstr "Đang chuyển đổi `%s`:"
 
 #. create the local source group
 #: addressbook/gui/component/addressbook-migrate.c:464
@@ -148,7 +133,7 @@ msgstr "Đang \"ping\" %s"
 #: mail/em-folder-tree-model.c:195 mail/em-folder-tree-model.c:197
 #: mail/mail-component.c:245 mail/mail-vfolder.c:218
 msgid "On This Computer"
-msgstr ""
+msgstr "Trên máy này"
 
 #. Create the default Person addressbook
 #: addressbook/gui/component/addressbook-migrate.c:472
@@ -161,19 +146,16 @@ msgstr "Cá nhân"
 
 #. Create the LDAP source group
 #: addressbook/gui/component/addressbook-migrate.c:480
-#, fuzzy
 msgid "On LDAP Servers"
-msgstr "LDAP Server"
+msgstr "Trên máy chủ LDAP"
 
 #: addressbook/gui/component/addressbook-migrate.c:608
-#, fuzzy
 msgid "LDAP Servers"
-msgstr "LDAP Server"
+msgstr "Máy chủ LDAP"
 
 #: addressbook/gui/component/addressbook-migrate.c:728
-#, fuzzy
 msgid "Autocompletion Settings"
-msgstr "Thư mục tự động hoàn chỉnh"
+msgstr "Thiết lập Tự động hoàn thành"
 
 #: addressbook/gui/component/addressbook-migrate.c:1104
 msgid ""
@@ -210,9 +192,8 @@ msgid "Address book '%s' will be removed. Are you sure you want to continue?"
 msgstr ""
 
 #: addressbook/gui/component/addressbook-view.c:754
-#, fuzzy
 msgid "New Address Book"
-msgstr "Sổ địa chỉ"
+msgstr "Sổ địa chỉ mới"
 
 #: addressbook/gui/component/addressbook-view.c:755
 #: addressbook/gui/widgets/e-addressbook-view.c:1088
@@ -259,29 +240,24 @@ msgid "*Control*F2"
 msgstr ""
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:2
-#, fuzzy
 msgid "Autocompletion"
-msgstr "Thư mục tự động hoàn chỉnh"
+msgstr "Tự động hoàn thành"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:3
-#, fuzzy
 msgid "C_ontacts"
-msgstr "Liên lạc"
+msgstr "_Liên lạc"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:4
-#, fuzzy
 msgid "Certificates"
-msgstr "_ID Chứng nhận:"
+msgstr "Chứng nhận"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:5
-#, fuzzy
 msgid "Configure autocomplete here"
-msgstr "Cấu hình tài khoản thư ở đây"
+msgstr "Cấu hình tự động hoàn thành ở đây"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:7
-#, fuzzy
 msgid "Evolution Addressbook"
-msgstr "Sửa Sổ địa chỉ"
+msgstr "Sổ địa chỉ Evolution"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:8
 #, fuzzy
@@ -360,44 +336,36 @@ msgid "636"
 msgstr "636"
 
 #: addressbook/gui/component/ldap-config.glade.h:7
-#, fuzzy
 msgid "<b>Authentication</b>"
-msgstr "xác thực"
+msgstr "<b>Xác thực</b>"
 
 #: addressbook/gui/component/ldap-config.glade.h:8
-#, fuzzy
 msgid "<b>Display</b>"
-msgstr "<b>Trạng thái:</b> "
+msgstr "<b>Hiển thị</b>"
 
 #: addressbook/gui/component/ldap-config.glade.h:9
-#, fuzzy
 msgid "<b>Downloading</b>"
-msgstr "Đị_a điểm"
+msgstr "<b>Tải về</b>"
 
 #: addressbook/gui/component/ldap-config.glade.h:10
-#, fuzzy
 msgid "<b>Searching</b>"
-msgstr "Đang tìm"
+msgstr "<b>Tìm kiếm</b>"
 
 #: addressbook/gui/component/ldap-config.glade.h:11
-#, fuzzy
 msgid "<b>Server Information</b>"
-msgstr "Bước 1: Thông tin server"
+msgstr "<b>Thông tin máy chủ</b>"
 
 #: addressbook/gui/component/ldap-config.glade.h:12
-#, fuzzy
 msgid "<b>Type:</b>"
-msgstr "<b>Tới hạn:</b>"
+msgstr "<b>Loại:</b>"
 
 #: addressbook/gui/component/ldap-config.glade.h:13
-#, fuzzy
 msgid "Add Contacts Group"
-msgstr "_Liên lạc:"
+msgstr "Thêm Nhóm liên lạc"
 
 #: addressbook/gui/component/ldap-config.glade.h:14
-#, fuzzy
 msgid "Address Book Properties"
-msgstr "Nguồn sổ địa chỉ"
+msgstr "Thuộc tính Sổ địa chỉ"
 
 #: addressbook/gui/component/ldap-config.glade.h:15 mail/mail-account-gui.c:79
 #: mail/mail-config.glade.h:42
@@ -420,30 +388,25 @@ msgid "Details"
 msgstr "Chi tiết"
 
 #: addressbook/gui/component/ldap-config.glade.h:19
-#, fuzzy
 msgid "Distinguished name"
-msgstr "Tên _phân biệt:"
+msgstr "Tên phân biệt"
 
 #: addressbook/gui/component/ldap-config.glade.h:20
-#, fuzzy
 msgid "Download limit:"
-msgstr "_Ngưỡng tải về:"
+msgstr "Giới hạn tải về:"
 
 #: addressbook/gui/component/ldap-config.glade.h:21
-#, fuzzy
 msgid "Email address"
-msgstr "Địa chỉ _email:"
+msgstr "Địa chỉ email:"
 
 #: addressbook/gui/component/ldap-config.glade.h:22
-#, fuzzy
 msgid ""
 "Evolution will use this email address to authenticate you with the server."
-msgstr "Evolution dùng địa chỉ email này để xác thực bạn với server"
+msgstr "Evolution dùng địa chỉ email này để xác thực bạn với máy chủ."
 
 #: addressbook/gui/component/ldap-config.glade.h:23
-#, fuzzy
 msgid "Find Possible Search Bases"
-msgstr "Cơ sở tìm được hỗ trợ"
+msgstr "Tìm mọi cơ sở tìm có thể"
 
 #: addressbook/gui/component/ldap-config.glade.h:24
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
@@ -461,56 +424,41 @@ msgid "Only locations within starting point"
 msgstr ""
 
 #: addressbook/gui/component/ldap-config.glade.h:27
-#, fuzzy
 msgid "Search _base:"
 msgstr "_Cơ sở tìm:"
 
 #: addressbook/gui/component/ldap-config.glade.h:28
-#, fuzzy
 msgid "Search base only"
-msgstr "_Cơ sở tìm:"
+msgstr "Tìm chỉ cơ sở"
 
 #: addressbook/gui/component/ldap-config.glade.h:29
-#, fuzzy
 msgid "Search base:"
-msgstr "_Cơ sở tìm:"
+msgstr "Cơ sở tìm:"
 
 #: addressbook/gui/component/ldap-config.glade.h:30
-#, fuzzy
 msgid "Search scope:"
-msgstr "_Phạm vị tìm: "
+msgstr "Phạm vị tìm:"
 
 #: addressbook/gui/component/ldap-config.glade.h:31
-#, fuzzy
 msgid ""
 "Selecting this option means that Evolution will only connect to your LDAP "
 "server if your LDAP server supports SSL or TLS."
-msgstr ""
-"Chọn tùy chọn này nghĩa là Evolution sẽ chỉ kết nối tới LDAP server của\n"
-"bạn nếu LDAP server của bạn hỗ trợ SSL hoặc TLS."
+msgstr "Chọn tùy chọn này nghĩa là Evolution sẽ chỉ kết nối tới máy chủ LDAP của bạn nếu máy chủ LDAP của bạn hỗ trợ SSL hoặc TLS."
 
 #: addressbook/gui/component/ldap-config.glade.h:32
-#, fuzzy
 msgid ""
 "Selecting this option means that Evolution will only try to use SSL/TLS if "
 "you are in a insecure environment. For example, if you and your LDAP server "
 "are behind a firewall at work, then Evolution doesn't need to use SSL/TLS "
 "because your connection is already secure."
-msgstr ""
-"Chọn tùy chọn này có nghĩa là Evolution sẽ chỉ thử dùng SSL/TLS nếu bạn\n"
-"trong môi trường không an toàn. Ví dụ, nếu bạn và LDAP server của bạn nằm\n"
-"sau tường lửa đang hoạt động, thì Evolution sẽ không cần dùng SSL/TLS vì\n"
-"kết nối đã đủ an toàn rồi."
+msgstr "Chọn tùy chọn này có nghĩa là Evolution sẽ chỉ thử dùng SSL/TLS nếu bạn trong môi trường không an toàn. Ví dụ, nếu bạn và máy chủ LDAP của bạn nằm sau tường lửa đang hoạt động, thì Evolution sẽ không cần dùng SSL/TLS vì kết nối đã đủ an toàn rồi."
 
 #: addressbook/gui/component/ldap-config.glade.h:33
-#, fuzzy
 msgid ""
 "Selecting this option means that your server does not support either SSL or "
 "TLS.  This means that your connection will be insecure, and that you will be "
 "vulnerable to security exploits. "
-msgstr ""
-"Chọn tùy chọn này nghĩa là server của bạn không hỗ trợ cả SSL lẫn TLS. Điều\n"
-"này nghĩa là kết nối của bạn không an toàn, không bảo mật."
+msgstr "Chọn tùy chọn này nghĩa là máy chủ của bạn không hỗ trợ cả SSL lẫn TLS. Điều này nghĩa là kết nối của bạn không an toàn, có thể bị lỗ hổng bảo mật."
 
 #: addressbook/gui/component/ldap-config.glade.h:34
 msgid "Starting point and locations within it"
@@ -521,28 +469,19 @@ msgid "Supported Search Bases"
 msgstr "Cơ sở tìm được hỗ trợ"
 
 #: addressbook/gui/component/ldap-config.glade.h:36
-#, fuzzy
 msgid ""
 "The search base is the distinguished name (DN)  of the entry where your "
 "searches will begin. If you leave this blank, the search will begin at the "
 "root of the directory tree."
-msgstr ""
-"Cơ sở tìm là tên phân biệt (DN) của mục, chỗ bắt đầu tìm kiếm. Nếu bạn bỏ\n"
-"trống chỗ này, tìm kiếm sẽ được bắt đầu từ gốc cây thư mục."
+msgstr "Cơ sở tìm là tên phân biệt (DN) của mục, chỗ bắt đầu tìm kiếm. Nếu bạn bỏ trống chỗ này, tìm kiếm sẽ được bắt đầu từ gốc cây thư mục."
 
 #: addressbook/gui/component/ldap-config.glade.h:37
-#, fuzzy
 msgid ""
 "The search scope defines how deep you would like the search to extend down "
 "the directory tree. A search scope of \"sub\" will include all entries below "
 "your search base. A search scope of \"one\" will only include the entries "
 "one level beneath your base."
-msgstr ""
-"Phạm vi tìm cho biết mức tìm kiếm trong cây thư mục. Phạm vi tìm kiếm \"con"
-"\" sẽ\n"
-"bao gồm mọi mục dưới cơ sở tìm. Phạm vi tìm kiếm \"một\" sẽ chỉ tìm những "
-"mục\n"
-"nằm trong cơ sở tìm.\n"
+msgstr "Phạm vi tìm cho biết độ sâu tìm kiếm đi xuống trong cây thư mục. Phạm vi tìm kiếm \"sub\" sẽ bao gồm mọi mục dưới cơ sở tìm. Phạm vi tìm kiếm \"one\" sẽ chỉ tìm những mục nằm trong cơ sở tìm."
 
 #: addressbook/gui/component/ldap-config.glade.h:38
 msgid ""
@@ -551,7 +490,6 @@ msgid ""
 msgstr "Đây là tên đầy đủ của LDAP server. Ví dụ, \"ldap.mycompany.com\"."
 
 #: addressbook/gui/component/ldap-config.glade.h:39
-#, fuzzy
 msgid ""
 "This is the maximum number of entries to download. Setting this number to be "
 "too large will slow down your address book."
@@ -567,30 +505,21 @@ msgstr ""
 "\"Địa chỉ thư\" yêu cầu truy cập vô danh tới LDAP server. "
 
 #: addressbook/gui/component/ldap-config.glade.h:41
-#, fuzzy
 msgid ""
 "This is the name for this server that will appear in your Evolution folder "
 "list. It is for display purposes only. "
-msgstr ""
-"Đây là tên, cho server này, sẽ được hiển thị trong danh sách thư mục "
-"Evolution.\n"
-"Chỉ được dùng với mục đích hiển thị thôi."
+msgstr "Đây là tên máy chủ xuất hiện trong danh sách thư mục Evolution. Chỉ được dùng với mục đích hiển thị thôi."
 
 #: addressbook/gui/component/ldap-config.glade.h:42
-#, fuzzy
 msgid ""
 "This is the port on the LDAP server that Evolution will try to connect to. A "
 "list of standard ports has been provided. Ask your system administrator what "
 "port you should specify."
-msgstr ""
-"Đây là số hiệu cổng của LDAP server mà Evolution sẽ kết nối. Một danh sách\n"
-"các cổng chuẩn sẽ được cung cấp. Hãy hỏi quản trị hệ thống của bạn để biết\n"
-"dùng cổng nào."
+msgstr "Đây là số hiệu cổng của máy chủ LDAP mà Evolution sẽ kết nối. Một danh sách các cổng chuẩn sẽ được cung cấp. Hãy hỏi quản trị hệ thống của bạn để biết dùng cổng nào."
 
 #: addressbook/gui/component/ldap-config.glade.h:43
-#, fuzzy
 msgid "Timeout:"
-msgstr "Dạng thức thời gian:"
+msgstr "Thời hạn:"
 
 #: addressbook/gui/component/ldap-config.glade.h:44
 msgid "Using distinguished name (DN)"
@@ -606,32 +535,28 @@ msgid "Whenever Possible"
 msgstr "Bất cứ khi nào có thể"
 
 #: addressbook/gui/component/ldap-config.glade.h:47
-#, fuzzy
 msgid "_Add Contacts Group"
-msgstr "_Liên lạc:"
+msgstr "Thêm Nhóm liên lạc"
 
 #: addressbook/gui/component/ldap-config.glade.h:48
 msgid "_Download limit:"
 msgstr "_Ngưỡng tải về:"
 
 #: addressbook/gui/component/ldap-config.glade.h:49
-#, fuzzy
 msgid "_Email address:"
 msgstr "Địa chỉ _email:"
 
 #: addressbook/gui/component/ldap-config.glade.h:50
-#, fuzzy
 msgid "_Find Possible Search Bases"
-msgstr "Cơ sở tìm được hỗ trợ"
+msgstr "_Tìm mọi cơ sở tìm có thể"
 
 #: addressbook/gui/component/ldap-config.glade.h:51
 msgid "_Log in method:"
 msgstr "Cách đăng _nhập:"
 
 #: addressbook/gui/component/ldap-config.glade.h:52
-#, fuzzy
 msgid "_Log in:"
-msgstr "Đăng nhập"
+msgstr "Đăng _nhập:"
 
 #: addressbook/gui/component/ldap-config.glade.h:53
 #: calendar/gui/dialogs/calendar-setup.glade.h:8 mail/mail-config.glade.h:171
@@ -639,29 +564,24 @@ msgid "_Name:"
 msgstr "_Tên:"
 
 #: addressbook/gui/component/ldap-config.glade.h:54
-#, fuzzy
 msgid "_Port:"
-msgstr "Độ ư_u tiên:"
+msgstr "_Cổng:"
 
 #: addressbook/gui/component/ldap-config.glade.h:55
-#, fuzzy
 msgid "_Search scope:"
-msgstr "_Phạm vị tìm: "
+msgstr "_Phạm vi tìm:"
 
 #: addressbook/gui/component/ldap-config.glade.h:56
-#, fuzzy
 msgid "_Server:"
-msgstr "_mỗi"
+msgstr "_Máy chủ:"
 
 #: addressbook/gui/component/ldap-config.glade.h:57
-#, fuzzy
 msgid "_Timeout:"
-msgstr "Dạng thức thời gian:"
+msgstr "_Thời hạn:"
 
 #: addressbook/gui/component/ldap-config.glade.h:58
-#, fuzzy
 msgid "_Use secure connection:"
-msgstr "Dùng kết nối _an toàn (SSL):"
+msgstr "Dùng kết nối _an toàn:"
 
 #: addressbook/gui/component/ldap-config.glade.h:59
 msgid "cards"
@@ -676,7 +596,6 @@ msgstr "phút"
 
 #: addressbook/gui/component/select-names/e-select-names.c:503
 #: addressbook/gui/component/select-names/select-names.glade.h:6
-#, fuzzy
 msgid "Select Contacts from Address Book"
 msgstr "Chọn liên lạc từ sổ địa chỉ"
 
@@ -697,14 +616,12 @@ msgid "Remove All"
 msgstr "Loại bỏ tất cả"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:222
-#, fuzzy
 msgid "View Contact List"
-msgstr "Danh sách liên lạc mới"
+msgstr "Xem danh sách liên lạc"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:222
-#, fuzzy
 msgid "View Contact Info"
-msgstr "Sửa thông tin liên lạc"
+msgstr "Xem thông tin liên lạc"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:229
 #: addressbook/gui/component/select-names/e-select-names-popup.c:330
@@ -732,117 +649,96 @@ msgid "Evolution Addressbook name selection interface"
 msgstr "Giao diên chọn tên sổ địa chỉ của Evolution."
 
 #: addressbook/gui/component/select-names/select-names.glade.h:2
-#, fuzzy
 msgid "<b>Contacts</b>"
-msgstr "<b>Trạng thái:</b> "
+msgstr "<b>Liên lạc</b> "
 
 #: addressbook/gui/component/select-names/select-names.glade.h:3
-#, fuzzy
 msgid "<b>Show Contacts</b>"
-msgstr "Hiện liên lạc"
+msgstr "<b>Hiện liên lạc</b>"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:4
-#, fuzzy
 msgid "Address _Book:"
-msgstr "Sổ địa chỉ"
+msgstr "_Sổ địa chỉ:"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:5
-#, fuzzy
 msgid "C_ategory:"
 msgstr "_Phân loại:"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:7
-#, fuzzy
 msgid "_Find"
-msgstr "Tìm"
+msgstr "_Tìm"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:2
-#, fuzzy
 msgid "<b>Email</b>"
-msgstr "<b>Đang gửi email</b>"
+msgstr "<b>Email</b>"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:3
-#, fuzzy
 msgid "<b>Home</b>"
-msgstr "<b>Tới hạn:</b>"
+msgstr "<b>Home</b>"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:4
-#, fuzzy
 msgid "<b>Instant Messaging</b>"
-msgstr "_Gửi thông điệp"
+msgstr "<b>Tin nhắn</b>"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:5
-#, fuzzy
 msgid "<b>Job</b>"
-msgstr "<b>Tới hạn:</b>"
+msgstr "<b>Công việc</b>"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:6
-#, fuzzy
 msgid "<b>Miscellaneous</b>"
-msgstr "<b>Đang gửi email</b>"
+msgstr "<b>Linh tinh</b>"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:7
-#, fuzzy
 msgid "<b>Other</b>"
-msgstr "<b>Tới hạn:</b>"
+msgstr "<b>Khác</b>"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:8
-#, fuzzy
 msgid "<b>Telephone</b>"
-msgstr "<b>Tới hạn:</b>"
+msgstr "<b>Điện thoại</b>"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:9
-#, fuzzy
 msgid "<b>Web Addresses</b>"
-msgstr "<b>Đang gửi email</b>"
+msgstr "<b>Địa chỉ Web</b>"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:10
-#, fuzzy
 msgid "<b>Work</b>"
-msgstr "Tuần làm việc"
+msgstr "<b>Công việc</b>"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:11
 #: addressbook/gui/contact-editor/e-contact-editor.c:178
 #: addressbook/gui/widgets/eab-contact-display.c:334
 #: addressbook/gui/widgets/eab-contact-display.c:353
 msgid "AIM"
-msgstr ""
+msgstr "AIM"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:12
-#, fuzzy
 msgid "Address:"
-msgstr "Đị_a chỉ:"
+msgstr "Địa chỉ:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:13
-#, fuzzy
 msgid "Anniversary:"
-msgstr "_Kỷ niệm"
+msgstr "Kỷ niệm:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:14
-#, fuzzy
 msgid "Assistant:"
-msgstr "Phụ tá"
+msgstr "Phụ tá:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:15
-#, fuzzy
 msgid "Birthday:"
-msgstr "Ngày _sinh:"
+msgstr "Ngày sinh:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:16
 #: calendar/gui/dialogs/event-page.glade.h:5
-#, fuzzy
 msgid "Calendar:"
-msgstr "_Lịch:"
+msgstr "Lịch:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:17
-#, fuzzy
 msgid "City:"
-msgstr "Thành p_hố:"
+msgstr "Thành phố:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:18
-#, fuzzy
 msgid "Company:"
-msgstr "Công ty"
+msgstr "Công ty:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:19
 #: addressbook/gui/contact-editor/e-contact-editor.c:266
@@ -858,54 +754,45 @@ msgid "Contact Editor"
 msgstr "Bộ hiệu chỉnh liên lạc"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:21
-#, fuzzy
 msgid "Country:"
-msgstr "_Quốc gia:"
+msgstr "Quốc gia:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:22
-#, fuzzy
 msgid "Department:"
-msgstr "Cơ _quan:"
+msgstr "Cơ quan:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:23
-#, fuzzy
 msgid "Free/Busy:"
-msgstr "URL rảnh/bận:"
+msgstr "Rảnh/Bận:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:24
 msgid "Full _Name..."
-msgstr "Tên đầ_y đủ..."
+msgstr "_Họ và tên..."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:25
-#, fuzzy
 msgid "Home Page:"
-msgstr "Fax ở Nhà"
+msgstr ""
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:26
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:66
-#, fuzzy
 msgid "MSN Messenger"
-msgstr "Thông điệp thư"
+msgstr ""
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:27
-#, fuzzy
 msgid "Mailing Address"
-msgstr "Địa chỉ _email:"
+msgstr "Địa chỉ thư tín"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:28
-#, fuzzy
 msgid "Manager:"
-msgstr "Quản lý"
+msgstr ""
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:29
-#, fuzzy
 msgid "Ni_ckname:"
 msgstr "Tên _hiệu:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:30
-#, fuzzy
 msgid "Notes:"
-msgstr "_Ghi chú:"
+msgstr "Ghi chú:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:31
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:63
@@ -913,53 +800,44 @@ msgid "Novell Groupwise"
 msgstr ""
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:32
-#, fuzzy
 msgid "Office:"
-msgstr "_Văn phòng:"
+msgstr "Văn phòng:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:33
-#, fuzzy
 msgid "PO Box:"
-msgstr "Hộp thư _bưu điện:"
+msgstr "Hộp thư bưu điện:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:35
-#, fuzzy
 msgid "Personal Information"
-msgstr "Thông tin tùy chọn"
+msgstr "Thông tin cá nhân"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:36
-#, fuzzy
 msgid "Profession:"
-msgstr "_Nghề nghiệp:"
+msgstr "Nghề nghiệp:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:37
-#, fuzzy
 msgid "Spouse:"
-msgstr "_Vợ/Chồng:"
+msgstr ""
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:38
-#, fuzzy
 msgid "State/Province:"
-msgstr "_Tỉnh/Bang:"
+msgstr "Tỉnh/Bang:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:39
-#, fuzzy
 msgid "Title:"
-msgstr "_Tựa đề"
+msgstr "Tựa đề"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:40
 msgid "Video Chat:"
 msgstr ""
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:41
-#, fuzzy
 msgid "Wants to receive HTML mail"
-msgstr "Muốn nhậm _HTML mail"
+msgstr "Muốn nhận thư HTML"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:42
-#, fuzzy
 msgid "Web Log:"
-msgstr "Địa chỉ _Web:"
+msgstr ""
 
 #. red
 #: addressbook/gui/contact-editor/contact-editor.glade.h:43
@@ -971,27 +849,21 @@ msgid "Work"
 msgstr "Công việc"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:44
-#, fuzzy
 msgid "Zip/Postal Code:"
-msgstr ""
-"\n"
-"  Mã bưu điện: "
+msgstr "Mã Zip/bưu điện:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:45
-#, fuzzy
 msgid "_Categories"
-msgstr "Phân loại"
+msgstr "_Phân loại"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:46
-#, fuzzy
 msgid "_File under:"
-msgstr "Tên tập tin:"
+msgstr "_Tập tin trong:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:47
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:8
-#, fuzzy
 msgid "_Where:"
-msgstr "_mỗi"
+msgstr "_Nơi:"
 
 #: addressbook/gui/contact-editor/eab-editor.c:315
 msgid ""
@@ -1226,9 +1098,8 @@ msgid "Congo"
 msgstr "Côngô"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:186
-#, fuzzy
 msgid "Congo, The Democratic Republic Of The"
-msgstr "Korea, Democratic People's Republic of"
+msgstr ""
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:187
 msgid "Cook Islands"
@@ -1435,14 +1306,12 @@ msgid "Indonesia"
 msgstr "Indonesia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:238
-#, fuzzy
 msgid "Iran"
-msgstr "Ilan"
+msgstr "Iran"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:239
-#, fuzzy
 msgid "Iraq"
-msgstr "Israel"
+msgstr "Iraq"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:240
 msgid "Ireland"
@@ -1489,9 +1358,8 @@ msgid "Kiribati"
 msgstr "Kiribati"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:251
-#, fuzzy
 msgid "Korea, Democratic People's Republic Of"
-msgstr "Korea, Democratic People's Republic of"
+msgstr ""
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:252
 msgid "Korea, Republic Of"
@@ -1542,7 +1410,6 @@ msgid "Luxembourg"
 msgstr "Luxembourg"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:264
-#, fuzzy
 msgid "Macao"
 msgstr "Ma Cao"
 
@@ -1871,9 +1738,8 @@ msgid "Switzerland"
 msgstr "Switzerland"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:346
-#, fuzzy
 msgid "Syria"
-msgstr "Smyrna"
+msgstr "Syria"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:347
 msgid "Taiwan"
@@ -1892,9 +1758,8 @@ msgid "Thailand"
 msgstr "Thái Lan"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:351
-#, fuzzy
 msgid "Timor-Leste"
-msgstr "Trieste"
+msgstr ""
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:352
 msgid "Togo"
@@ -2004,34 +1869,31 @@ msgstr "Zimbabwe"
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:64
 #: addressbook/gui/widgets/eab-contact-display.c:337
 #: addressbook/gui/widgets/eab-contact-display.c:356
-#, fuzzy
 msgid "Jabber"
-msgstr "Danh sách vô danh"
+msgstr "Jabber"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:180
 #: addressbook/gui/widgets/eab-contact-display.c:339
 #: addressbook/gui/widgets/eab-contact-display.c:358
-#, fuzzy
 msgid "Yahoo"
-msgstr "Yoro"
+msgstr "Yahoo"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:181
 #: addressbook/gui/widgets/eab-contact-display.c:338
 #: addressbook/gui/widgets/eab-contact-display.c:357
 msgid "MSN"
-msgstr ""
+msgstr "MSN"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:182
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:67
 #: addressbook/gui/widgets/eab-contact-display.c:336
 #: addressbook/gui/widgets/eab-contact-display.c:355
 msgid "ICQ"
-msgstr ""
+msgstr "ICQ"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:183
-#, fuzzy
 msgid "GroupWise"
-msgstr "Nhóm"
+msgstr "GroupWise"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:196
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:240
@@ -2044,18 +1906,16 @@ msgid "Other"
 msgstr "Khác"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:252
-#, fuzzy
 msgid "Source Book"
-msgstr "Nguồn"
+msgstr "Sổ nguồn"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:259
 msgid "Target Book"
-msgstr ""
+msgstr "Sổ đích"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:273
-#, fuzzy
 msgid "Is New Contact"
-msgstr "Liên lạc mới"
+msgstr "Là Liên lạc mới"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:280
 msgid "Writable Fields"
@@ -2071,26 +1931,22 @@ msgstr "Liên lạc này thuộc các phân loại này:"
 
 #. Create the selector
 #: addressbook/gui/contact-editor/e-contact-editor.c:2429
-#, fuzzy
 msgid "Please select an image for this contact"
-msgstr "Vui lòng chọn từ các tuỳ chọn sau"
+msgstr "Vui lòng chọn ảnh cho liên lạc này"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:2433
-#, fuzzy
 msgid "No image"
-msgstr "Nome"
+msgstr "Không ảnh"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:2636
-#, fuzzy
 msgid ""
 "The contact data is invalid:\n"
 "\n"
-msgstr "Những kết nối sau đang hoạt động:"
+msgstr "Dữ liệu liên lạc không hợp lệ:\n\n"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:2664
-#, fuzzy
 msgid "Invalid contact."
-msgstr "Mục đích không hợp lệ"
+msgstr "Liên lạc không hợp lệ."
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:2723
 msgid ""
@@ -2101,7 +1957,7 @@ msgstr ""
 #: addressbook/gui/contact-editor/e-contact-editor.c:2727
 #: addressbook/gui/contact-editor/e-contact-editor.c:2751
 msgid "_Discard"
-msgstr "_Hủy"
+msgstr "_Hủy bỏ"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:2746
 msgid ""
@@ -2110,59 +1966,49 @@ msgid ""
 msgstr ""
 
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:62
-#, fuzzy
 msgid "AOL Instant Messenger"
-msgstr "_Gửi thông điệp"
+msgstr "Tin nhắn AOL"
 
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:65
 msgid "Yahoo Messenger"
-msgstr ""
+msgstr "Tin nhắn Yahoo"
 
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:118
-#, fuzzy
 msgid "Service"
-msgstr "Dịch vụ sẵn sàng"
+msgstr "Dịch vụ"
 
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:127
 #: calendar/gui/dialogs/cal-prefs-dialog.c:578
 #: calendar/gui/e-cal-list-view.etspec.h:2
-#, fuzzy
 msgid "Location"
-msgstr "Địa điểm:"
+msgstr "Địa chỉ"
 
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:134
-#, fuzzy
 msgid "Username"
-msgstr "_Tên người dùng:"
+msgstr "Tên người dùng"
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:280
 msgid "Contact Quick-Add"
 msgstr "Thêm nhanh liên lạc"
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:283
-#, fuzzy
 msgid "_Edit Full"
-msgstr "Sửa toàn bộ"
+msgstr "_Sửa toàn bộ"
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:301
 #: mail/mail-config.glade.h:166
-#, fuzzy
 msgid "_Full Name:"
 msgstr "_Họ và tên:"
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:307
-#, fuzzy
 msgid "E-_mail:"
-msgstr ""
-"\n"
-"E-mail:"
+msgstr "E-_mail:"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:2
 msgid "Address _2:"
 msgstr "Địa chỉ _2:"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:3
-#, fuzzy
 msgid "Ci_ty:"
 msgstr "Thành p_hố:"
 
@@ -2171,9 +2017,8 @@ msgid "Countr_y:"
 msgstr "_Quốc gia:"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:5
-#, fuzzy
 msgid "Full Address"
-msgstr "Địa chỉ"
+msgstr "Địa chỉ đầy đủ"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:6
 msgid "_Address:"
@@ -2261,24 +2106,20 @@ msgid "_Title:"
 msgstr "_Tựa đề"
 
 #: addressbook/gui/contact-editor/im.glade.h:2
-#, fuzzy
 msgid "Add IM Account"
-msgstr "Tài khoản thư"
+msgstr "Thêm tài khoản IM"
 
 #: addressbook/gui/contact-editor/im.glade.h:3
-#, fuzzy
 msgid "_Account name:"
 msgstr "Tên tài _khoản:"
 
 #: addressbook/gui/contact-editor/im.glade.h:4
-#, fuzzy
 msgid "_IM Service:"
-msgstr "Dịch vụ sẵn sàng"
+msgstr "Dịch vụ _IM:"
 
 #: addressbook/gui/contact-editor/im.glade.h:5
-#, fuzzy
 msgid "_Location:"
-msgstr "Địa điểm:"
+msgstr "Đị_a chỉ:"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:1
 msgid "\n"
@@ -2293,14 +2134,12 @@ msgid "_Hide addresses when sending mail to this list"
 msgstr "Ẩ_n địa chỉ này khi gửi mail tới danh sách"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:6
-#, fuzzy
 msgid "_List name:"
 msgstr "Tên _danh sách:"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:7
-#, fuzzy
 msgid "_Type an email address or drag a contact into the list below:"
-msgstr "Nhập địa chỉ thư hoặc kéo liên lạc vào danh sách dưới đây:"
+msgstr "_Nhập địa chỉ thư hoặc kéo liên lạc vào danh sách dưới đây:"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:9
 msgid "contact-list-editor"
@@ -2384,9 +2223,8 @@ msgstr ""
 
 #: addressbook/gui/widgets/eab-contact-display.c:259
 #: addressbook/gui/widgets/eab-contact-display.c:525
-#, fuzzy
 msgid "List Members"
-msgstr "Thành viên"
+msgstr "Danh sách Thành viên"
 
 #: addressbook/gui/widgets/eab-contact-display.c:321
 #: addressbook/gui/widgets/eab-contact-display.c:323
@@ -2399,44 +2237,39 @@ msgid "Organization"
 msgstr "Tổ chức"
 
 #: addressbook/gui/widgets/eab-contact-display.c:333
-#, fuzzy
 msgid "Position"
-msgstr "Boston"
+msgstr "Vị trí"
 
 #: addressbook/gui/widgets/eab-contact-display.c:335
 #: addressbook/gui/widgets/eab-contact-display.c:354
-#, fuzzy
 msgid "Groupwise"
-msgstr "Nhóm"
+msgstr ""
 
 #: addressbook/gui/widgets/eab-contact-display.c:340
 msgid "Video Conferencing"
-msgstr ""
+msgstr "Hội thoại video"
 
 #: addressbook/gui/widgets/eab-contact-display.c:341
 #: addressbook/gui/widgets/eab-contact-display.c:362
-#, fuzzy
 msgid "Phone"
-msgstr "Ponce"
+msgstr "Điện thoại"
 
 #: addressbook/gui/widgets/eab-contact-display.c:342
 msgid "Fax"
-msgstr ""
+msgstr "Fax"
 
 #: addressbook/gui/widgets/eab-contact-display.c:346
-#, fuzzy
 msgid "work"
-msgstr "Công việc"
+msgstr "công việc"
 
 #: addressbook/gui/widgets/eab-contact-display.c:359
 msgid "WWW"
-msgstr ""
+msgstr "WWW"
 
 #: addressbook/gui/widgets/eab-contact-display.c:360
 #: addressbook/gui/widgets/eab-contact-display.c:579
-#, fuzzy
 msgid "Blog"
-msgstr "Bologna"
+msgstr ""
 
 #: addressbook/gui/widgets/eab-contact-display.c:363
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:23
@@ -2444,9 +2277,8 @@ msgid "Mobile Phone"
 msgstr "Điện thoại di động"
 
 #: addressbook/gui/widgets/eab-contact-display.c:367
-#, fuzzy
 msgid "personal"
-msgstr "Cá nhân"
+msgstr "cá nhân"
 
 #: addressbook/gui/widgets/eab-contact-display.c:374
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:25
@@ -2454,9 +2286,8 @@ msgid "Note"
 msgstr "Ghi chú"
 
 #: addressbook/gui/widgets/eab-contact-display.c:540
-#, fuzzy
 msgid "Job Title"
-msgstr "Tên n_ghề:"
+msgstr "Tên nghề"
 
 #: addressbook/gui/widgets/eab-contact-display.c:544
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:10
@@ -2465,9 +2296,8 @@ msgid "Email"
 msgstr "Email"
 
 #: addressbook/gui/widgets/eab-contact-display.c:571
-#, fuzzy
 msgid "Home page"
-msgstr "Fax ở Nhà"
+msgstr ""
 
 #. E_BOOK_ERROR_OK
 #: addressbook/gui/widgets/eab-gui-util.c:48
@@ -2487,7 +2317,6 @@ msgstr "Kho ngoại tuyến"
 
 #. E_BOOK_ERROR_NO_SUCH_BOOK
 #: addressbook/gui/widgets/eab-gui-util.c:52
-#, fuzzy
 msgid "Address Book does not exist"
 msgstr "Sổ địa chỉ không tồn tại"
 
@@ -2506,15 +2335,13 @@ msgstr "Không đủ quyền truy cập"
 
 #. E_BOOK_ERROR_CONTACT_NOT_FOUND
 #: addressbook/gui/widgets/eab-gui-util.c:57
-#, fuzzy
 msgid "Contact not found"
-msgstr "Không có card"
+msgstr "Không tìm thấy liên lạc"
 
 #. E_BOOK_ERROR_CONTACT_ID_ALREADY_EXISTS
 #: addressbook/gui/widgets/eab-gui-util.c:58
-#, fuzzy
 msgid "Contact ID already exists"
-msgstr "Card ID đã tồn tại"
+msgstr "ID Liên lạc đã tồn tại"
 
 #. E_BOOK_ERROR_PROTOCOL_NOT_SUPPORTED
 #: addressbook/gui/widgets/eab-gui-util.c:59
@@ -2536,9 +2363,8 @@ msgstr "Bị hủy bỏ"
 
 #. E_BOOK_ERROR_COULD_NOT_CANCEL
 #: addressbook/gui/widgets/eab-gui-util.c:61
-#, fuzzy
 msgid "Could not cancel"
-msgstr "Không thể mở thư mục chia sẽ: %s."
+msgstr "Không thể hủy bỏ"
 
 #. E_BOOK_ERROR_AUTHENTICATION_FAILED
 #: addressbook/gui/widgets/eab-gui-util.c:62
@@ -2558,9 +2384,8 @@ msgstr "Không có TLS"
 #. E_BOOK_ERROR_CORBA_EXCEPTION
 #. E_BOOK_ERROR_NO_SUCH_SOURCE
 #: addressbook/gui/widgets/eab-gui-util.c:66
-#, fuzzy
 msgid "No such source"
-msgstr "Không có thông điệp như vậy"
+msgstr "Không có nguồn này"
 
 #. E_BOOK_ERROR_OTHER_ERROR
 #: addressbook/gui/widgets/eab-gui-util.c:67
@@ -2649,9 +2474,8 @@ msgstr "Lỗi khi thêm danh sách"
 
 #: addressbook/gui/widgets/eab-gui-util.c:169
 #: addressbook/gui/widgets/eab-gui-util.c:580
-#, fuzzy
 msgid "Error adding contact"
-msgstr "Lỗi khi thêm card"
+msgstr "Lỗi thêm liên lạc"
 
 #: addressbook/gui/widgets/eab-gui-util.c:180
 msgid "Error modifying list"
@@ -2704,29 +2528,24 @@ msgid "list"
 msgstr "danh sách"
 
 #: addressbook/gui/widgets/eab-gui-util.c:634
-#, fuzzy
 msgid "Move contact to"
-msgstr "Chuyển Card tới"
+msgstr "Chuyển liên lạc tới"
 
 #: addressbook/gui/widgets/eab-gui-util.c:636
-#, fuzzy
 msgid "Copy contact to"
-msgstr "Chép Card tới"
+msgstr "Chép liên lạc tới"
 
 #: addressbook/gui/widgets/eab-gui-util.c:639
-#, fuzzy
 msgid "Move contacts to"
-msgstr "Chuyển các Card tới"
+msgstr "Chuyển các liên lạc tới"
 
 #: addressbook/gui/widgets/eab-gui-util.c:641
-#, fuzzy
 msgid "Copy contacts to"
-msgstr "Chép các Card tới"
+msgstr "Chép các liên lạc tới"
 
 #: addressbook/gui/widgets/eab-gui-util.c:644
-#, fuzzy
 msgid "Select target addressbook."
-msgstr "Chọn liên lạc từ sổ địa chỉ"
+msgstr "Chọn sổ địa chỉ đích."
 
 #: addressbook/gui/widgets/eab-gui-util.c:867
 msgid "Multiple VCards"
@@ -2775,7 +2594,6 @@ msgid "Add address to existing contact \"%s\""
 msgstr "Thêm địa chỉ vào liên lạc đã có \"%s\""
 
 #: addressbook/gui/widgets/eab-popup-control.c:870
-#, fuzzy
 msgid "Querying Address Book..."
 msgstr "Đang truy vấn sổ địa chỉ..."
 
@@ -2810,9 +2628,8 @@ msgid "Save in addressbook"
 msgstr "Lưu vào sổ địa chỉ"
 
 #: addressbook/gui/widgets/e-addressbook-model.c:148
-#, fuzzy
 msgid "No contacts"
-msgstr "Hiện liên lạc"
+msgstr "Không có liên lạc"
 
 #: addressbook/gui/widgets/e-addressbook-model.c:151
 #, fuzzy, c-format
@@ -2874,7 +2691,6 @@ msgid "Type"
 msgstr "Kiểu"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:508
-#, fuzzy
 msgid "Address Book"
 msgstr "Sổ địa chỉ"
 
@@ -3035,14 +2851,12 @@ msgid "Home Phone 2"
 msgstr "Điện thoại nhà 2"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:20
-#, fuzzy
 msgid "ISDN Phone"
-msgstr "Điện thoại"
+msgstr "Điện thoại ISDN"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:21
-#, fuzzy
 msgid "Journal"
-msgstr "Jordan"
+msgstr ""
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:22
 msgid "Manager"
@@ -3088,9 +2902,8 @@ msgid "Spouse"
 msgstr "Vợ/Chồng"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:35
-#, fuzzy
 msgid "TTYTDD"
-msgstr "TTY/TDD"
+msgstr "TTYTDD"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:36
 msgid "Telex"
@@ -3101,9 +2914,8 @@ msgid "Title"
 msgstr "Tựa đề"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:38
-#, fuzzy
 msgid "Unit"
-msgstr "Unst"
+msgstr ""
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:39
 msgid "Web Site"
@@ -3195,9 +3007,8 @@ msgstr ""
 #: addressbook/gui/widgets/test-reflow.c:107
 #: addressbook/printing/test-contact-print-style-editor.c:54
 #: addressbook/printing/test-print.c:53
-#, fuzzy
 msgid "Copyright (C) 2000, Ximian, Inc."
-msgstr "Copyright 1999, 2000, 2001 Ximian, Inc."
+msgstr "Copyright (C) 2000, Ximian, Inc."
 
 #: addressbook/gui/widgets/test-reflow.c:109
 msgid "This should test the reflow canvas item"
@@ -3227,15 +3038,13 @@ msgid "VCard (.vcf, .gcrd)"
 msgstr ""
 
 #: addressbook/printing/e-contact-print.c:1000
-#, fuzzy
 msgid "Print contacts"
-msgstr "In liên lạc được chọn"
+msgstr "In liên lạc"
 
 #: addressbook/printing/e-contact-print.c:1066
 #: addressbook/printing/e-contact-print.c:1093
-#, fuzzy
 msgid "Print contact"
-msgstr "In liên lạc được chọn"
+msgstr "In liên lạc"
 
 #: addressbook/printing/e-contact-print-envelope.c:212
 #: addressbook/printing/e-contact-print-envelope.c:233
@@ -3268,11 +3077,11 @@ msgstr "Kích thước:"
 
 #: addressbook/printing/e-contact-print.glade.h:7
 msgid "F_ont..."
-msgstr "F_ont..."
+msgstr "_Phông..."
 
 #: addressbook/printing/e-contact-print.glade.h:8
 msgid "Fonts"
-msgstr "Font"
+msgstr "Phông"
 
 #: addressbook/printing/e-contact-print.glade.h:9
 msgid "Footer:"
@@ -3408,7 +3217,7 @@ msgstr "Rộng:"
 
 #: addressbook/printing/e-contact-print.glade.h:42
 msgid "_Font..."
-msgstr "_Font..."
+msgstr "_Phông..."
 
 #: addressbook/printing/test-contact-print-style-editor.c:53
 #, fuzzy
@@ -3446,9 +3255,8 @@ msgid "Show cards as vcard or csv file"
 msgstr ""
 
 #: addressbook/tools/evolution-addressbook-export.c:60
-#, fuzzy
 msgid "[vcard|csv]"
-msgstr "card"
+msgstr ""
 
 #: addressbook/tools/evolution-addressbook-export.c:61
 msgid "Export in asynchronous mode "
@@ -3488,9 +3296,8 @@ msgstr "Lỗi nội tại"
 #: addressbook/tools/evolution-addressbook-export-list-cards.c:657
 #: addressbook/tools/evolution-addressbook-export-list-cards.c:693
 #: addressbook/tools/evolution-addressbook-export-list-folders.c:49
-#, fuzzy
 msgid "Can not open file"
-msgstr "Không thể mở thông điệp"
+msgstr "Không thể mở tập tin"
 
 #: addressbook/tools/evolution-addressbook-export-list-folders.c:43
 #, fuzzy
@@ -3498,9 +3305,8 @@ msgid "Couldn't get list of addressbooks"
 msgstr "Không thể nạp %s: %s"
 
 #: addressbook/tools/evolution-addressbook-export-list-folders.c:71
-#, fuzzy
 msgid "failed to open book"
-msgstr "Không thể mở sổ địa chỉ"
+msgstr "lỗi mở sổ"
 
 #: addressbook/tools/evolution-addressbook-import.c:46
 msgid "Error loading default addressbook."
@@ -3520,7 +3326,6 @@ msgstr "Danh sách vô danh"
 
 #: calendar/common/authentication.c:44 calendar/gui/e-pub-utils.c:301
 #: smime/gui/component.c:48
-#, fuzzy
 msgid "Enter password"
 msgstr "Nhập mật khẩu"
 
@@ -3871,9 +3676,8 @@ msgid "Calendar '%s' will be removed. Are you sure you want to continue?"
 msgstr ""
 
 #: calendar/gui/calendar-component.c:426
-#, fuzzy
 msgid "New Calendar"
-msgstr "New Caledonia"
+msgstr "Lịch mới"
 
 #: calendar/gui/calendar-component.c:623
 #, fuzzy
@@ -3897,7 +3701,6 @@ msgstr ""
 
 #: calendar/gui/calendar-component.c:1071
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:4
-#, fuzzy
 msgid "Calendars"
 msgstr "Lịch"
 
@@ -3918,9 +3721,8 @@ msgid "New meeting"
 msgstr "Cuộc họp mới"
 
 #: calendar/gui/calendar-component.c:1243
-#, fuzzy
 msgid "M_eeting"
-msgstr "Cuộc họp"
+msgstr "_Cuộc họp"
 
 #: calendar/gui/calendar-component.c:1244
 #, fuzzy
@@ -11329,7 +11131,7 @@ msgstr "Thao tác thất bại: %s"
 
 #: camel/providers/pop3/camel-pop3-folder.c:246
 msgid "Retrieving POP summary"
-msgstr "Đang nhậm tóm tắt POP"
+msgstr "Đang nhận tóm tắt POP"
 
 #: camel/providers/pop3/camel-pop3-folder.c:265
 #, c-format
@@ -11359,7 +11161,7 @@ msgstr "Nguyên nhân lạ"
 
 #: camel/providers/pop3/camel-pop3-provider.c:40
 msgid "Leave messages on server"
-msgstr "Xóa thông điệp khỏi server"
+msgstr "Để lại thông điệp trên máy chủ"
 
 #: camel/providers/pop3/camel-pop3-provider.c:43
 #, c-format
@@ -11635,14 +11437,13 @@ msgid "server does not appear to support SSL"
 msgstr "server có lẽ không hỗ trợ SSL"
 
 #: camel/providers/smtp/camel-smtp-transport.c:358
-#, fuzzy, c-format
+#, c-format
 msgid "STARTTLS command failed: %s"
-msgstr "Lỗi lệnh IMAP: %s"
+msgstr "Lỗi lệnh STARTTLS: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:373
-#, fuzzy
 msgid "STARTTLS command failed"
-msgstr "Lỗi lệnh IMAP: %s"
+msgstr "Lỗi lệnh STARTTLS"
 
 #: camel/providers/smtp/camel-smtp-transport.c:476
 #, c-format
@@ -11701,14 +11502,13 @@ msgid "SMTP Greeting"
 msgstr "Chào hỏi của SMTP"
 
 #: camel/providers/smtp/camel-smtp-transport.c:943
-#, fuzzy, c-format
+#, c-format
 msgid "HELO command failed: %s"
-msgstr "Lỗi lệnh IMAP: %s"
+msgstr "Lỗi lệnh HELO: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:960
-#, fuzzy
 msgid "HELO command failed"
-msgstr "Lỗi lệnh IMAP: %s"
+msgstr "Lỗi lệnh HELO"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1026
 msgid "SMTP Authentication"
@@ -11720,33 +11520,31 @@ msgstr "Lỗi tạo đối tượng xác thực SASL."
 
 #: camel/providers/smtp/camel-smtp-transport.c:1049
 #: camel/providers/smtp/camel-smtp-transport.c:1060
-#, fuzzy, c-format
+#, c-format
 msgid "AUTH command failed: %s"
-msgstr "Lỗi lệnh IMAP: %s"
+msgstr "Lỗi lệnh AUTH: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1066
-#, fuzzy
 msgid "AUTH command failed"
-msgstr "Lỗi lệnh IMAP: %s"
+msgstr "Lỗi lệnh AUTH"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1128
 msgid "Bad authentication response from server.\n"
 msgstr "Trả lời xác thực từ server sai.\n"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1153
-#, fuzzy, c-format
+#, c-format
 msgid "MAIL FROM command failed: %s: mail not sent"
-msgstr "Quá hạn yêu cầu MAIL FROM: %s: chưa gửi mail"
+msgstr "Lỗi lệnh MAIL FROM: %s: thư chưa được gửi"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1170
-#, fuzzy
 msgid "MAIL FROM command failed"
-msgstr "Lỗi lệnh IMAP: %s"
+msgstr "Lỗi lệnh MAIL FROM"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1194
-#, fuzzy, c-format
+#, c-format
 msgid "RCPT TO command failed: %s: mail not sent"
-msgstr "Lỗi yêu cầu RCPT TO: %s: chưa gửi mail"
+msgstr "Lỗi lệnh RCPT TO: %s: thư chưa được gửi"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1213
 #, c-format
@@ -11756,38 +11554,35 @@ msgstr "RCPT TO <%s> thất bại"
 #: camel/providers/smtp/camel-smtp-transport.c:1252
 #: camel/providers/smtp/camel-smtp-transport.c:1310
 #: camel/providers/smtp/camel-smtp-transport.c:1329
-#, fuzzy, c-format
+#, c-format
 msgid "DATA command failed: %s: mail not sent"
-msgstr "Lỗi yêu cầu DATA: %s: chưa gửi mail"
+msgstr "Lỗi lệnh DATA: %s: thư chưa được gửi"
 
 #. we should have gotten instructions on how to use the DATA command:
 #. * 354 Enter mail, end with "." on a line by itself
 #.
 #: camel/providers/smtp/camel-smtp-transport.c:1269
 #: camel/providers/smtp/camel-smtp-transport.c:1345
-#, fuzzy
 msgid "DATA command failed"
-msgstr "Lỗi lệnh IMAP: %s"
+msgstr "Lỗi lệnh DATA"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1368
-#, fuzzy, c-format
+#, c-format
 msgid "RSET command failed: %s"
-msgstr "Lỗi lệnh IMAP: %s"
+msgstr "Lỗi lệnh RSET: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1384
-#, fuzzy
 msgid "RSET command failed"
-msgstr "Lỗi lệnh IMAP: %s"
+msgstr "Lỗi lệnh RSET"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1407
-#, fuzzy, c-format
+#, c-format
 msgid "QUIT command failed: %s"
-msgstr "Lỗi lệnh IMAP: %s"
+msgstr "Lỗi lệnh QUIT: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1421
-#, fuzzy
 msgid "QUIT command failed"
-msgstr "Lỗi lệnh IMAP: %s"
+msgstr "Lỗi lệnh QUIT"
 
 #: composer/e-msg-composer-attachment-bar.c:106
 #, c-format
@@ -11832,7 +11627,6 @@ msgid "Cannot attach file %s: not a regular file"
 msgstr "Không thể đính kèm tập tin %s: không phải tập tin bình thường"
 
 #: composer/e-msg-composer-attachment.glade.h:2
-#, fuzzy
 msgid "Attachment Properties"
 msgstr "Thuộc tính đồ đính kèm"
 
@@ -11872,9 +11666,8 @@ msgid "Unable to retrieve message from editor"
 msgstr "Không thể nhận thông điệp từ trình biên soạn"
 
 #: composer/e-msg-composer.c:1561
-#, fuzzy
 msgid "Untitled Message"
-msgstr "(Thông điệp không tựa)"
+msgstr "Thông điệp không tên"
 
 #: composer/e-msg-composer.c:1591
 msgid "Open file"
@@ -12035,7 +11828,7 @@ msgstr "Đính kèm tập tin vào thông điệp"
 #. mail-composer:no-attach secondary
 #: composer/mail-composer-errors.xml.h:4 mail/mail-errors.xml.h:92
 msgid "{1}"
-msgstr ""
+msgstr "{1}"
 
 #. mail-composer:attach-notfile primary
 #: composer/mail-composer-errors.xml.h:6
@@ -12148,7 +11941,7 @@ msgstr "Không thể lưu tập tin chữ ký: %s"
 #: mail/mail-errors.xml.h:112 widgets/misc/e-system-errors.xml.h:11
 #: widgets/misc/e-system-errors.xml.h:15
 msgid "Because \"{1}\"."
-msgstr ""
+msgstr "Vì \"{1}\"."
 
 #. mail-composer:all-accounts-deleted primary
 #: composer/mail-composer-errors.xml.h:40
@@ -12855,7 +12648,7 @@ msgstr "Tạo thư mục ả_o từ kết quả tìm kiếm..."
 #: mail/em-folder-properties.c:120
 #, fuzzy
 msgid "Folder properties"
-msgstr "Thuộc tính font"
+msgstr "Thuộc tính phông"
 
 #. TODO: maybe we want some basic properties here, like message counts/approximate size/etc
 #: mail/em-folder-properties.c:126
@@ -13994,7 +13787,7 @@ msgstr ""
 #: mail/evolution-mail.schemas.in.in.h:81
 #, fuzzy
 msgid "The variable width font for mail display"
-msgstr "Chọn font HTML độ rộng thay đổi để in"
+msgstr "Chọn phông HTML độ rộng thay đổi để in"
 
 #: mail/evolution-mail.schemas.in.in.h:82
 msgid ""
@@ -14881,7 +14674,7 @@ msgstr "Độ rộng _cứng:"
 
 #: mail/mail-config.glade.h:84
 msgid "Font Properties"
-msgstr "Thuộc tính font"
+msgstr "Thuộc tính phông"
 
 #: mail/mail-config.glade.h:85
 msgid "Format messages in _HTML"
@@ -15000,19 +14793,19 @@ msgstr "_Bảo mật"
 
 #: mail/mail-config.glade.h:125
 msgid "Select HTML fixed width font"
-msgstr "Chọn font HTML độ rộng cứng"
+msgstr "Chọn phông HTML độ rộng cứng"
 
 #: mail/mail-config.glade.h:126
 msgid "Select HTML fixed width font for printing"
-msgstr "Chọn font html độ rộng cứng để in"
+msgstr "Chọn phông html độ rộng cứng để in"
 
 #: mail/mail-config.glade.h:127
 msgid "Select HTML variable width font"
-msgstr "Chọn font HTML độ rộng thay đổi"
+msgstr "Chọn phông HTML độ rộng thay đổi"
 
 #: mail/mail-config.glade.h:128
 msgid "Select HTML variable width font for printing"
-msgstr "Chọn font HTML độ rộng thay đổi để in"
+msgstr "Chọn phông HTML độ rộng thay đổi để in"
 
 #: mail/mail-config.glade.h:129
 #, fuzzy
@@ -16705,27 +16498,22 @@ msgid "Evolution Import Assistant"
 msgstr "Trợ tá nhập Evolution"
 
 #: shell/importer/import.glade.h:3
-#, fuzzy
 msgid "Import File"
-msgstr "Đang nhập tập tin"
+msgstr "Nhập tập tin"
 
 #: shell/importer/import.glade.h:4
-#, fuzzy
 msgid "Import Location"
-msgstr "Địa điểm:"
+msgstr "Địa chỉ nhập"
 
 #: shell/importer/import.glade.h:5
-#, fuzzy
 msgid "Importer Type"
-msgstr "Bộ nhập"
+msgstr "Loại Bộ nhập"
 
 #: shell/importer/import.glade.h:6
-#, fuzzy
 msgid "Select Importers"
 msgstr "Chọn bộ nhập"
 
 #: shell/importer/import.glade.h:7
-#, fuzzy
 msgid "Select a File"
 msgstr "Chọn tập tin"
 
@@ -18819,9 +18607,8 @@ msgid "Import data from other programs"
 msgstr "Nhập dữ liệu từ chương trình khác"
 
 #: ui/evolution.xml.h:14
-#, fuzzy
 msgid "New _Window"
-msgstr "Tìm n_gay"
+msgstr "Cửa sổ mớ_i"
 
 #: ui/evolution.xml.h:15
 msgid "Pi_lot Settings..."
@@ -18857,9 +18644,8 @@ msgid "Submit a bug report using Bug Buddy"
 msgstr "Báo cáo lỗi, dùng Bug Buddy"
 
 #: ui/evolution.xml.h:23
-#, fuzzy
 msgid "T_oolbar"
-msgstr "Thanh công cụ chính"
+msgstr "_Thanh công cụ"
 
 #: ui/evolution.xml.h:24
 msgid "Toggle whether we are working offline."
@@ -18883,18 +18669,16 @@ msgid "_New"
 msgstr "Mớ_i"
 
 #: ui/evolution.xml.h:33
-#, fuzzy
 msgid "_Quick Reference"
-msgstr "Thông số thư"
+msgstr "_Tham khảo nhanh"
 
 #: ui/evolution.xml.h:34
 msgid "_Send / Receive"
 msgstr "_Gửi / Nhận"
 
 #: ui/evolution.xml.h:38
-#, fuzzy
 msgid "_Window"
-msgstr "Tìm n_gay"
+msgstr "_Cửa sổ"
 
 #: views/addressbook/galview.xml.h:1
 msgid "By _Company"
@@ -18935,9 +18719,8 @@ msgid "As _Sent Folder"
 msgstr "Chọn thư mục"
 
 #: views/mail/galview.xml.h:2
-#, fuzzy
 msgid "By S_tatus"
-msgstr "Theo trạng thái"
+msgstr "Theo t_rạng thái"
 
 #: views/mail/galview.xml.h:3
 #, fuzzy
@@ -18954,19 +18737,16 @@ msgid "By _Follow Up Flag"
 msgstr ""
 
 #: views/mail/galview.xml.h:6
-#, fuzzy
 msgid "_Messages"
-msgstr "Thông điệp"
+msgstr "_Thông điệp"
 
 #: views/tasks/galview.xml.h:1
-#, fuzzy
 msgid "With _Due Date"
-msgstr "N_gày đến hạn:"
+msgstr ""
 
 #: views/tasks/galview.xml.h:2
-#, fuzzy
 msgid "With _Status"
-msgstr "Đặt trạng thái"
+msgstr "Với _trạng thái"
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:197
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:635
@@ -18974,14 +18754,12 @@ msgid "UTC"
 msgstr "UTC"
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:2
-#, fuzzy
 msgid "<b>Time Zones</b>"
-msgstr "Múi giờ"
+msgstr "<b>Múi giờ</b>"
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:3
-#, fuzzy
 msgid "<b>_Selection</b>"
-msgstr "Đị_a điểm"
+msgstr "<b>_Lựa chọn</b>"
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:4
 msgid "Select a Time Zone"
@@ -19007,14 +18785,12 @@ msgid "Custom View"
 msgstr "Khung xem tự chọn"
 
 #: widgets/menus/gal-view-menus.c:360
-#, fuzzy
 msgid "Save Custom View..."
-msgstr "Lưu khung xem tự chọn"
+msgstr "Lưu khung xem tự chọn..."
 
 #: widgets/menus/gal-view-menus.c:373
-#, fuzzy
 msgid "Define Views..."
-msgstr "Định nghĩa khung xem"
+msgstr "Định nghĩa khung xem..."
 
 #. Translators: These are the first characters of each day of the
 #. week, 'M' for 'Monday', 'T' for Tuesday etc.
@@ -19110,11 +18886,11 @@ msgstr ""
 #: widgets/misc/e-charset-picker.c:171
 #, c-format
 msgid "Unknown character set: %s"
-msgstr "Bộ mã lạ: %s"
+msgstr "Bảng mã lạ: %s"
 
 #: widgets/misc/e-charset-picker.c:216 widgets/misc/e-charset-picker.c:479
 msgid "Character Encoding"
-msgstr "Bộ mã"
+msgstr "Bảng mã"
 
 #: widgets/misc/e-charset-picker.c:231
 msgid "Enter the character set to use"
@@ -19135,31 +18911,27 @@ msgstr "Lỗi Evolution"
 
 #: widgets/misc/e-error.c:81 widgets/misc/e-error.c:82
 #: widgets/misc/e-error.c:120
-#, fuzzy
 msgid "Evolution Warning"
-msgstr "Evolution"
+msgstr "Cảnh báo Evolution"
 
 #: widgets/misc/e-error.c:119
-#, fuzzy
 msgid "Evolution Information"
-msgstr "Thông tin cuộc họp"
+msgstr "Thông tin Evolution"
 
 #: widgets/misc/e-error.c:121
-#, fuzzy
 msgid "Evolution Query"
-msgstr "Thành phần tóm tắt Evolution."
+msgstr "Truy vấn Evolution"
 
 #. setup a dummy error
 #: widgets/misc/e-error.c:415
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "<span weight=\"bold\">Internal error, unknown error '%s' requested</span>"
-msgstr "Thông điệp đã gửi và thông điệp nháp"
+msgstr "<span weight=\"bold\">Lỗi nội tại, lỗi lạ '%s' được yêu cầu</span>"
 
 #: widgets/misc/e-expander.c:181
-#, fuzzy
 msgid "Expanded"
-msgstr "_Bỏ"
+msgstr ""
 
 #: widgets/misc/e-expander.c:182
 #, fuzzy
@@ -19171,9 +18943,8 @@ msgid "Text of the expander's label"
 msgstr ""
 
 #: widgets/misc/e-expander.c:197
-#, fuzzy
 msgid "Use underline"
-msgstr "Chưa biết"
+msgstr "Dùng gạch chân"
 
 #: widgets/misc/e-expander.c:198
 msgid ""
@@ -19182,9 +18953,8 @@ msgid ""
 msgstr ""
 
 #: widgets/misc/e-expander.c:205
-#, fuzzy
 msgid "Spacing"
-msgstr "Tây Ban Nha"
+msgstr ""
 
 #: widgets/misc/e-expander.c:206
 msgid "Space to put between the label and the child"
@@ -19207,16 +18977,14 @@ msgid "Size of the expander arrow"
 msgstr ""
 
 #: widgets/misc/e-expander.c:231
-#, fuzzy
 msgid "Indicator Spacing"
-msgstr "Indian Springs"
+msgstr ""
 
 #: widgets/misc/e-expander.c:232
 msgid "Spacing around expander arrow"
 msgstr ""
 
 #: widgets/misc/e-filter-bar.c:195
-#, fuzzy
 msgid "_Searches"
 msgstr "_Tìm"
 
@@ -19268,41 +19036,31 @@ msgstr "ID mục con"
 
 #: widgets/misc/e-search-bar.c:851
 msgid "Text"
-msgstr "Văn bản"
+msgstr "Chữ"
 
 #: widgets/misc/e-search-bar.c:931
-#, fuzzy
 msgid "Find _Now"
-msgstr "Tìm ngay"
+msgstr "Tìm _ngay"
 
 #. system:ask-save-file-exists-overwrite primary
 #: widgets/misc/e-system-errors.xml.h:4
 msgid "File exists \"{0}\"."
-msgstr ""
+msgstr "Tập tin đã tồn tại \"{0}\"."
 
 #. system:ask-save-file-exists-overwrite secondary
 #: widgets/misc/e-system-errors.xml.h:6
-#, fuzzy
 msgid "Do you wish to overwrite it?"
-msgstr ""
-"%s đã tồn tại.\n"
-"Bạn có muốn ghi đè lên nó?"
+msgstr "Bạn có muốn ghi đè lên nó không?"
 
 #. system:no-save-file primary
 #: widgets/misc/e-system-errors.xml.h:9
-#, fuzzy
 msgid "Cannot save file \"{0}\"."
-msgstr ""
-"Không thể lưu vào `%s'\n"
-"  %s"
+msgstr "Không thể lưu tập tin \"{0}\"."
 
 #. system:no-load-file primary
 #: widgets/misc/e-system-errors.xml.h:13
-#, fuzzy
 msgid "Cannot open file \"{0}\"."
-msgstr ""
-"Không thể lưu vào `%s'\n"
-"  %s"
+msgstr "Không thể mở tập tin \"{0}\"."
 
 #: widgets/misc/e-task-widget.c:212
 #, c-format
