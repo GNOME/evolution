@@ -756,6 +756,9 @@ icalparameter_as_ical_string (icalparameter* parameter)
 		case ICAL_VALUE_TIME:  {
 		    strcpy(tend,"TIME");break;
 		}
+		case ICAL_VALUE_URI:  {
+		    strcpy(tend,"URI");break;
+		}
 		case ICAL_VALUE_UTCOFFSET: {
 		    strcpy(tend,"UTC-OFFSET");break;
 		}
@@ -764,6 +767,7 @@ icalparameter_as_ical_string (icalparameter* parameter)
 		    strcpy(tend,impl->string);break;
 		}
 		default:{
+		    strcpy(tend,"ERROR");break;
 		    icalerror_set_errno(ICAL_BADARG_ERROR);break;
 		}
 	    }

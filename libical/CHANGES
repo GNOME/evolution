@@ -1,6 +1,14 @@
+Version 0.15a 17 Feb 00
+---------------------
 
-Version 0.15
-------------
+Fixed icalvalue_set_text to convert escaped characters into the proper
+values.
+
+Other minor code tweaks. 
+
+
+Version 0.15 7 Feb 00
+---------------------
 
 Split the storage classess ( icalstore, icalcluster, icalcalendar )
 into a seperate library, libicalss
