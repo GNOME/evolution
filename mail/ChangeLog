@@ -1,3 +1,19 @@
+2003-11-10  Not Zed  <NotZed@Ximian.com>
+
+	* em-format-html.c (em_format_html_multipart_signed_sign): changed
+	for cipher context api changes.
+	* em-format.c (emf_multipart_signed): ditto.
+
+2003-11-07  Not Zed  <NotZed@Ximian.com>
+
+	* mail-config.glade: added security_information_dialog (probably
+	temporarily in this file).
+
+	* em-format.c (em_format_is_attachment): also treat pkcs7-mime as
+	non-attachment.
+	(emf_application_xpkcs7mime): no longer need to worry about
+	scanning the part.
+
 2003-11-07  Dan Winship  <danw@ximian.com>
 
 	* message-list.c: Don't #include e-name-western.h, since the code

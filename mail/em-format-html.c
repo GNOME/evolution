@@ -909,7 +909,6 @@ static const struct {
 void
 em_format_html_multipart_signed_sign(EMFormat *emf, CamelStream *stream, CamelMimePart *part)
 {
-	CamelMimePart *spart;
 	CamelMultipartSigned *mps;
 	CamelCipherValidity *valid = NULL;
 	CamelException ex;
@@ -924,11 +923,8 @@ em_format_html_multipart_signed_sign(EMFormat *emf, CamelStream *stream, CamelMi
 
 	/* FIXME: This sequence is also copied in em-format-html.c */
 
-	spart = camel_multipart_get_part((CamelMultipart *)mps, CAMEL_MULTIPART_SIGNED_SIGNATURE);
 	camel_exception_init(&ex);
-	if (spart == NULL) {
-		message = _("No signature present");
-	} else if (emf->session == NULL) {
+	if (emf->session == NULL) {
 		message = _("Session not initialised");
 	} else {
 		CamelCipherContext *cipher = NULL;
@@ -942,7 +938,7 @@ em_format_html_multipart_signed_sign(EMFormat *emf, CamelStream *stream, CamelMi
 		if (cipher == NULL) {
 			message = _("Unsupported signature format");
 		} else {
-			valid = camel_multipart_signed_verify(mps, cipher, &ex);
+			valid = camel_cipher_verify(cipher, part, &ex);
 			camel_object_unref(cipher);
 			if (valid) {
 				good = camel_cipher_validity_get_valid(valid)?1:0;

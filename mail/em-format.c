@@ -741,11 +741,10 @@ int em_format_is_attachment(EMFormat *emf, CamelMimePart *part)
 	CamelDataWrapper *dw = camel_medium_get_content_object((CamelMedium *)part);
 
 	/*printf("checking is attachment %s/%s\n", ct->type, ct->subtype);*/
-	return !(/*camel_content_type_is (ct, "message", "*")
-		   ||*/ camel_content_type_is (dw->mime_type, "multipart", "*")
+	return !(camel_content_type_is (dw->mime_type, "multipart", "*")
+		 || camel_content_type_is(dw->mime_type, "application", "x-pkcs7-mime")
 		 || (camel_content_type_is (dw->mime_type, "text", "*")
 		     && camel_mime_part_get_filename(part) == NULL));
-
 }
 
 /**
@@ -1166,7 +1165,7 @@ emf_multipart_related(EMFormat *emf, CamelStream *stream, CamelMimePart *part, c
 static void
 emf_multipart_signed(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info)
 {
-	CamelMimePart *cpart, *spart;
+	CamelMimePart *cpart;
 	CamelMultipartSigned *mps;
 	CamelCipherValidity *valid = NULL;
 	CamelException ex;
@@ -1184,11 +1183,8 @@ emf_multipart_signed(EMFormat *emf, CamelStream *stream, CamelMimePart *part, co
 
 	/* FIXME: This sequence is also copied in em-format-html.c */
 
-	spart = camel_multipart_get_part((CamelMultipart *)mps, CAMEL_MULTIPART_SIGNED_SIGNATURE);
 	camel_exception_init(&ex);
-	if (spart == NULL) {
-		message = _("No signature present");
-	} else if (emf->session == NULL) {
+	if (emf->session == NULL) {
 		message = _("Session not initialised");
 	} else {
 		CamelCipherContext *cipher = NULL;
@@ -1202,7 +1198,7 @@ emf_multipart_signed(EMFormat *emf, CamelStream *stream, CamelMimePart *part, co
 		if (cipher == NULL) {
 			message = _("Unsupported signature format");
 		} else {
-			valid = camel_multipart_signed_verify(mps, cipher, &ex);
+			valid = camel_cipher_verify(cipher, part, &ex);
 			camel_object_unref(cipher);
 			if (valid) {
 				good = camel_cipher_validity_get_valid(valid);
@@ -1243,24 +1239,58 @@ static void
 emf_application_xpkcs7mime(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info)
 {
 	CamelCipherContext *context;
-	CamelMimePart *opart;
 	CamelException *ex;
 	extern CamelSession *session;
+	CamelMimePart *opart;
+	CamelCipherValidity *valid;
 
-	/* ... this could be anything; signed, enveloped, certs, crls, etc.
-	   ... assume encrypted content at this point */
 	ex = camel_exception_new();
 
 	context = camel_smime_context_new(session);
-	opart = camel_cipher_decrypt(context, part, ex);
-	camel_object_unref(context);
 
-	if (opart == NULL) {
+	opart = camel_mime_part_new();
+	valid = camel_cipher_decrypt(context, part, opart, ex);
+	if (valid == NULL) {
 		em_format_format_error(emf, stream, ex->desc?ex->desc:_("Could not parse S/MIME message: Unknown error"));
+		em_format_part_as(emf, stream, part, NULL);
 	} else {
+		switch (valid->encrypt.status) {
+		case CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE:
+			em_format_format_error(emf, stream, "No encryption?");
+			break;
+		case CAMEL_CIPHER_VALIDITY_ENCRYPT_WEAK:
+		case CAMEL_CIPHER_VALIDITY_ENCRYPT_ENCRYPTED:
+		case CAMEL_CIPHER_VALIDITY_ENCRYPT_STRONG:
+			em_format_format_error(emf, stream, valid->encrypt.description);
+			break;
+		}
+
 		em_format_part(emf, stream, opart);
-		camel_object_unref(opart);
+
+		/* TODO: this is temporary */
+		switch (valid->sign.status) {
+		case CAMEL_CIPHER_VALIDITY_SIGN_NONE:
+			em_format_format_error(emf, stream, "No signature?");
+			break;
+		case CAMEL_CIPHER_VALIDITY_SIGN_GOOD:
+			em_format_format_error(emf, stream, "Good signature");
+			em_format_format_error(emf, stream, valid->sign.description);
+			break;
+		case CAMEL_CIPHER_VALIDITY_SIGN_BAD:
+			em_format_format_error(emf, stream, "Bad signature");
+			em_format_format_error(emf, stream, valid->sign.description);
+			break;
+		case CAMEL_CIPHER_VALIDITY_SIGN_UNKNOWN:
+			em_format_format_error(emf, stream, "Unknown signature");
+			em_format_format_error(emf, stream, valid->sign.description);
+			break;
+		}
+
+		camel_cipher_validity_free(valid);
 	}
+
+	camel_object_unref(opart);
+	camel_object_unref(context);
 	camel_exception_free(ex);
 }
 
