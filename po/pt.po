@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 2.2\n"
-"POT-Creation-Date: 2003-04-17 19:17+0100\n"
-"PO-Revision-Date: 2003-04-17 19:30+0000\n"
+"POT-Creation-Date: 2003-04-22 21:25+0100\n"
+"PO-Revision-Date: 2003-04-22 21:30+0000\n"
 "Last-Translator: Duarte Loreto <happyguy_pt@hotmail.com>\n"
 "Language-Team: Portuguese <gnome_pt@yahoogroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -454,12 +454,12 @@ msgstr "Utilizar Pontuação"
 msgid "Could not initialize Bonobo"
 msgstr "Incapaz de inicializar Bonobo"
 
-#: addressbook/backend/pas/pas-backend-file.c:465
+#: addressbook/backend/pas/pas-backend-file.c:464
 #: addressbook/backend/pas/pas-backend-ldap.c:3046
 msgid "Searching..."
 msgstr "A Procurar..."
 
-#: addressbook/backend/pas/pas-backend-file.c:467
+#: addressbook/backend/pas/pas-backend-file.c:466
 msgid "Loading..."
 msgstr "A Ler..."
 
@@ -1246,7 +1246,7 @@ msgstr "Limite _descarregar:"
 
 #: addressbook/gui/component/ldap-config.glade.h:89 filter/filter.glade.h:14
 #: mail/mail-config.glade.h:150 ui/evolution-addressbook.xml.h:33
-#: ui/evolution-calendar.xml.h:28 ui/evolution-composer-entries.xml.h:8
+#: ui/evolution-calendar.xml.h:31 ui/evolution-composer-entries.xml.h:8
 #: ui/evolution-mail-list.xml.h:25 ui/evolution-mail-messagedisplay.xml.h:6
 #: ui/evolution-message-composer.xml.h:41
 #: ui/evolution-signature-editor.xml.h:11 ui/evolution-subscribe.xml.h:10
@@ -1463,7 +1463,7 @@ msgstr "Deseja receber email em _HTML"
 #: calendar/gui/e-day-view.c:3721 calendar/gui/e-week-view.c:3583
 #: mail/folder-browser.c:1783 mail/mail-config.glade.h:148
 #: shell/glade/e-folder-list.glade.h:2 ui/evolution-addressbook.xml.h:32
-#: ui/evolution-calendar.xml.h:27 ui/evolution-mail-message.xml.h:97
+#: ui/evolution-calendar.xml.h:30 ui/evolution-mail-message.xml.h:97
 #: ui/evolution-tasks.xml.h:16 ui/evolution.xml.h:46
 msgid "_Delete"
 msgstr "Apa_gar"
@@ -3674,23 +3674,23 @@ msgstr "Visualizador Tarefas Evolution"
 msgid "Evolution Calendar alarm notification service"
 msgstr "Serviço de alarme de notificação de Calendário Evolution"
 
-#: calendar/gui/alarm-notify/alarm-notify-dialog.c:214
+#: calendar/gui/alarm-notify/alarm-notify-dialog.c:212
 msgid "Starting:"
 msgstr "A Iniciar:"
 
-#: calendar/gui/alarm-notify/alarm-notify-dialog.c:216
+#: calendar/gui/alarm-notify/alarm-notify-dialog.c:214
 msgid "Ending:"
 msgstr "A Acabar:"
 
-#: calendar/gui/alarm-notify/alarm-notify-dialog.c:229
+#: calendar/gui/alarm-notify/alarm-notify-dialog.c:227
 msgid "invalid time"
 msgstr "hora inválida"
 
-#: calendar/gui/alarm-notify/alarm-notify-dialog.c:274
+#: calendar/gui/alarm-notify/alarm-notify-dialog.c:272
 msgid "Evolution Alarm"
 msgstr "Alarme Evolution"
 
-#: calendar/gui/alarm-notify/alarm-notify-dialog.c:369
+#: calendar/gui/alarm-notify/alarm-notify-dialog.c:365
 #, c-format
 msgid "Alarm on %s"
 msgstr "Alarme a %s"
@@ -3779,36 +3779,36 @@ msgstr "Comentário contém"
 msgid "Unmatched"
 msgstr "Sem equivalência"
 
-#: calendar/gui/calendar-commands.c:404
+#: calendar/gui/calendar-commands.c:418
 msgid "%A %d %B %Y"
 msgstr "%A %d %B %Y"
 
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
-#: calendar/gui/calendar-commands.c:407 calendar/gui/e-day-view-top-item.c:264
+#: calendar/gui/calendar-commands.c:421 calendar/gui/e-day-view-top-item.c:264
 #: calendar/gui/e-day-view.c:1391 calendar/gui/e-week-view-main-item.c:325
 msgid "%a %d %b"
 msgstr "%a %d %b"
 
-#: calendar/gui/calendar-commands.c:409 calendar/gui/calendar-commands.c:414
-#: calendar/gui/calendar-commands.c:416
+#: calendar/gui/calendar-commands.c:423 calendar/gui/calendar-commands.c:428
+#: calendar/gui/calendar-commands.c:430
 msgid "%a %d %b %Y"
 msgstr "%a %d %b %Y"
 
-#: calendar/gui/calendar-commands.c:427 calendar/gui/calendar-commands.c:434
-#: calendar/gui/calendar-commands.c:440 calendar/gui/calendar-commands.c:442
+#: calendar/gui/calendar-commands.c:441 calendar/gui/calendar-commands.c:448
+#: calendar/gui/calendar-commands.c:454 calendar/gui/calendar-commands.c:456
 msgid "%d %B %Y"
 msgstr "%d %B %Y"
 
 #. strftime format %d = day of month, %B = full
 #. month name. You can change the order but don't
 #. change the specifiers or add anything.
-#: calendar/gui/calendar-commands.c:432
+#: calendar/gui/calendar-commands.c:446
 #: calendar/gui/e-week-view-main-item.c:333 calendar/gui/print.c:1513
 msgid "%d %B"
 msgstr "%d %B"
 
-#: calendar/gui/calendar-commands.c:799
+#: calendar/gui/calendar-commands.c:844
 msgid ""
 "Could not create the calendar view.  Please check your ORBit and OAF setup."
 msgstr ""
@@ -4321,7 +4321,7 @@ msgid "Wednesday"
 msgstr "Quarta feira"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:31
-#: ui/evolution-calendar.xml.h:24
+#: ui/evolution-calendar.xml.h:27
 msgid "Work Week"
 msgstr "Semana Trabalho"
 
@@ -5148,7 +5148,7 @@ msgstr "A apagar objectos seleccionados"
 
 #: calendar/gui/e-calendar-table.c:950 calendar/gui/e-day-view.c:3703
 #: calendar/gui/e-week-view.c:3565 mail/folder-browser.c:1756
-#: shell/e-shortcuts-view.c:415 ui/evolution-addressbook.xml.h:36
+#: shell/e-shortcuts-view.c:422 ui/evolution-addressbook.xml.h:36
 msgid "_Open"
 msgstr "_Abrir"
 
@@ -5158,7 +5158,7 @@ msgstr "_Gravar como..."
 
 #: calendar/gui/e-calendar-table.c:952 calendar/gui/e-day-view.c:3705
 #: calendar/gui/e-week-view.c:3540 calendar/gui/e-week-view.c:3567
-#: ui/evolution-addressbook.xml.h:38 ui/evolution-calendar.xml.h:30
+#: ui/evolution-addressbook.xml.h:38 ui/evolution-calendar.xml.h:33
 #: ui/evolution-contact-editor.xml.h:14 ui/evolution-mail-message.xml.h:108
 #: ui/evolution-tasks.xml.h:20 ui/my-evolution.xml.h:6
 msgid "_Print..."
@@ -5172,7 +5172,7 @@ msgstr "C_ortar"
 
 #: calendar/gui/e-calendar-table.c:957 calendar/gui/e-day-view.c:3711
 #: calendar/gui/e-week-view.c:3573 ui/evolution-addressbook.xml.h:30
-#: ui/evolution-calendar.xml.h:26 ui/evolution-composer-entries.xml.h:7
+#: ui/evolution-calendar.xml.h:29 ui/evolution-composer-entries.xml.h:7
 #: ui/evolution-mail-list.xml.h:24 ui/evolution-tasks.xml.h:15
 msgid "_Copy"
 msgstr "_Copiar"
@@ -5180,7 +5180,7 @@ msgstr "_Copiar"
 #: calendar/gui/e-calendar-table.c:958 calendar/gui/e-day-view.c:3676
 #: calendar/gui/e-day-view.c:3712 calendar/gui/e-week-view.c:3544
 #: calendar/gui/e-week-view.c:3574 ui/evolution-addressbook.xml.h:37
-#: ui/evolution-calendar.xml.h:29 ui/evolution-composer-entries.xml.h:9
+#: ui/evolution-calendar.xml.h:32 ui/evolution-composer-entries.xml.h:9
 #: ui/evolution-mail-list.xml.h:29 ui/evolution-tasks.xml.h:19
 msgid "_Paste"
 msgstr "Co_lar"
@@ -5205,8 +5205,8 @@ msgstr "_Marcar Tarefas Seleccionadas como Terminadas"
 msgid "_Delete Selected Tasks"
 msgstr "_Apagar Tarefas Seleccionadas"
 
-#: calendar/gui/e-calendar-table.c:1245 calendar/gui/e-day-view.c:7630
-#: calendar/gui/e-week-view.c:4273
+#: calendar/gui/e-calendar-table.c:1245 calendar/gui/e-day-view.c:7659
+#: calendar/gui/e-week-view.c:4290
 msgid "Updating objects"
 msgstr "A actualizar objectos"
 
@@ -5333,7 +5333,7 @@ msgid "Print..."
 msgstr "Imprimir..."
 
 #: calendar/gui/e-day-view.c:3683 calendar/gui/e-week-view.c:3550
-#: ui/evolution-calendar.xml.h:10
+#: ui/evolution-calendar.xml.h:13
 msgid "Go to _Today"
 msgstr "Ir para _Hoje"
 
@@ -5342,7 +5342,7 @@ msgid "_Go to Date..."
 msgstr "_Ir para Data..."
 
 #: calendar/gui/e-day-view.c:3690 calendar/gui/e-week-view.c:3555
-#: ui/evolution-calendar.xml.h:31
+#: ui/evolution-calendar.xml.h:34
 msgid "_Publish Free/Busy Information"
 msgstr "_Publicar Informação Livre/Ocupado"
 
@@ -5518,8 +5518,8 @@ msgstr "Recusada"
 #: calendar/gui/e-itip-control.c:1094 calendar/gui/e-itip-control.c:1302
 #: calendar/gui/e-meeting-model.c:224 calendar/gui/e-meeting-model.c:259
 #: calendar/gui/e-meeting-model.c:324 calendar/gui/e-meeting-model.c:807
-#: calendar/gui/e-meeting-model.c:823 camel/camel-gpg-context.c:1569
-#: camel/camel-gpg-context.c:1620 camel/camel-tcp-stream-openssl.c:634
+#: calendar/gui/e-meeting-model.c:823 camel/camel-gpg-context.c:1574
+#: camel/camel-gpg-context.c:1625 camel/camel-tcp-stream-openssl.c:634
 #: camel/providers/smtp/camel-smtp-transport.c:173
 #: camel/providers/smtp/camel-smtp-transport.c:228 mail/folder-browser.c:345
 #: mail/mail-display.c:950 widgets/misc/e-charset-picker.c:60
@@ -8244,7 +8244,7 @@ msgstr "A mover mensagens"
 msgid "Copying messages"
 msgstr "A copiar mensagens"
 
-#: camel/camel-gpg-context.c:761
+#: camel/camel-gpg-context.c:762
 #, c-format
 msgid ""
 "Unexpected GnuPG status message encountered:\n"
@@ -8255,15 +8255,15 @@ msgstr ""
 "\n"
 "%s"
 
-#: camel/camel-gpg-context.c:776
+#: camel/camel-gpg-context.c:777
 msgid "Failed to parse gpg userid hint."
 msgstr "Falha ao parsear dica id utilizador gpg."
 
-#: camel/camel-gpg-context.c:801
+#: camel/camel-gpg-context.c:802
 msgid "Failed to parse gpg passphrase request."
 msgstr "Falha ao parsear pedido frase-senha gpg."
 
-#: camel/camel-gpg-context.c:809
+#: camel/camel-gpg-context.c:810
 #, c-format
 msgid ""
 "You need a passphrase to unlock the key for\n"
@@ -8272,31 +8272,31 @@ msgstr ""
 "Necessita de uma frase-senha para destrancar a chave\n"
 "para o utilizador: \"%s\""
 
-#: camel/camel-gpg-context.c:820 camel/camel-gpg-context.c:1292
-#: camel/camel-gpg-context.c:1398 camel/camel-gpg-context.c:1468
-#: camel/camel-gpg-context.c:1524 mail/mail-send-recv.c:570
+#: camel/camel-gpg-context.c:821 camel/camel-gpg-context.c:1297
+#: camel/camel-gpg-context.c:1403 camel/camel-gpg-context.c:1473
+#: camel/camel-gpg-context.c:1529 mail/mail-send-recv.c:570
 msgid "Cancelled."
 msgstr "Cancelado."
 
-#: camel/camel-gpg-context.c:838
+#: camel/camel-gpg-context.c:839
 msgid "Failed to unlock secret key: 3 bad passphrases given."
 msgstr ""
 "Falha ao destrancar chave secreta: indicadas 3 frases-senha incorrectas."
 
-#: camel/camel-gpg-context.c:844
+#: camel/camel-gpg-context.c:845
 #, c-format
 msgid "Unexpected response from GnuPG: %s"
 msgstr "Resposta de GnuPG inesperada: %s"
 
-#: camel/camel-gpg-context.c:856
+#: camel/camel-gpg-context.c:857
 msgid "No data provided"
 msgstr "Nenhuns dados indicados"
 
-#: camel/camel-gpg-context.c:899
+#: camel/camel-gpg-context.c:895
 msgid "Failed to encrypt: No valid recipients specified."
 msgstr "Falha ao encriptar: Nenhum recipiente válido especificado."
 
-#: camel/camel-gpg-context.c:1169
+#: camel/camel-gpg-context.c:1172
 #, c-format
 msgid ""
 "Failed to GPG %s: %s\n"
@@ -8307,25 +8307,25 @@ msgstr ""
 "\n"
 "%s"
 
-#: camel/camel-gpg-context.c:1174
+#: camel/camel-gpg-context.c:1177
 #, c-format
 msgid "Failed to GPG %s: %s\n"
 msgstr "Failed to GPG %s: %s\n"
 
-#: camel/camel-gpg-context.c:1283 camel/camel-gpg-context.c:1568
-#: camel/camel-gpg-context.c:1619
+#: camel/camel-gpg-context.c:1288 camel/camel-gpg-context.c:1573
+#: camel/camel-gpg-context.c:1624
 #, c-format
 msgid "Failed to execute gpg: %s"
 msgstr "Falha ao executar gpg: %s"
 
-#: camel/camel-gpg-context.c:1313 camel/camel-gpg-context.c:1390
-#: camel/camel-gpg-context.c:1459 camel/camel-gpg-context.c:1489
-#: camel/camel-gpg-context.c:1515 camel/camel-gpg-context.c:1545
-#: camel/camel-gpg-context.c:1590 camel/camel-gpg-context.c:1641
+#: camel/camel-gpg-context.c:1318 camel/camel-gpg-context.c:1395
+#: camel/camel-gpg-context.c:1464 camel/camel-gpg-context.c:1494
+#: camel/camel-gpg-context.c:1520 camel/camel-gpg-context.c:1550
+#: camel/camel-gpg-context.c:1595 camel/camel-gpg-context.c:1646
 msgid "Failed to execute gpg."
 msgstr "Falha ao executar gpg."
 
-#: camel/camel-gpg-context.c:1375
+#: camel/camel-gpg-context.c:1380
 #, c-format
 msgid "Cannot verify message signature: could not create temp file: %s"
 msgstr ""
@@ -9332,20 +9332,20 @@ msgid "The parent folder is not allowed to contain subfolders"
 msgstr "A pasta pai não tem permissões para conter subpastas"
 
 #. $HOME relative path + protocol string
-#: camel/providers/local/camel-local-folder.c:352
+#: camel/providers/local/camel-local-folder.c:354
 #, c-format
 msgid "~%s (%s)"
 msgstr "~%s (%s)"
 
 #. /var/spool/mail relative path + protocol
-#: camel/providers/local/camel-local-folder.c:356
-#: camel/providers/local/camel-local-folder.c:359
+#: camel/providers/local/camel-local-folder.c:358
+#: camel/providers/local/camel-local-folder.c:361
 #, c-format
 msgid "mailbox:%s (%s)"
 msgstr "caixa-correio: %s (%s)"
 
 #. a full path + protocol
-#: camel/providers/local/camel-local-folder.c:363
+#: camel/providers/local/camel-local-folder.c:365
 #, c-format
 msgid "%s (%s)"
 msgstr "%s (%s)"
@@ -10389,7 +10389,7 @@ msgstr "Sugerir apresentação automática do anexo"
 msgid "Hey you, dunce. You need an account to send mail doncha know."
 msgstr "Necessita de uma conta para poder enviar mensagens."
 
-#: composer/e-msg-composer-hdrs.c:479
+#: composer/e-msg-composer-hdrs.c:481
 msgid "Click here for the address book"
 msgstr "Clique aqui para o livro de endereços"
 
@@ -10400,45 +10400,45 @@ msgstr "Clique aqui para o livro de endereços"
 #. * because that causes from_changed to be called, which
 #. * expects the reply_to fields to be initialized.
 #.
-#: composer/e-msg-composer-hdrs.c:510
+#: composer/e-msg-composer-hdrs.c:512
 msgid "Reply-To:"
 msgstr "Responder-A:"
 
 #.
 #. * From
 #.
-#: composer/e-msg-composer-hdrs.c:516
+#: composer/e-msg-composer-hdrs.c:518
 msgid "From:"
 msgstr "De:"
 
 #.
 #. * Subject
 #.
-#: composer/e-msg-composer-hdrs.c:522
+#: composer/e-msg-composer-hdrs.c:524
 msgid "Subject:"
 msgstr "Assunto:"
 
-#: composer/e-msg-composer-hdrs.c:531
+#: composer/e-msg-composer-hdrs.c:533
 msgid "To:"
 msgstr "Para:"
 
-#: composer/e-msg-composer-hdrs.c:532
+#: composer/e-msg-composer-hdrs.c:534
 msgid "Enter the recipients of the message"
 msgstr "Introduza os destinatários da mensagem"
 
-#: composer/e-msg-composer-hdrs.c:535
+#: composer/e-msg-composer-hdrs.c:537
 msgid "Cc:"
 msgstr "Cc:"
 
-#: composer/e-msg-composer-hdrs.c:536
+#: composer/e-msg-composer-hdrs.c:538
 msgid "Enter the addresses that will receive a carbon copy of the message"
 msgstr "Introduza os endereços que irão receber uma cópia da mensagem"
 
-#: composer/e-msg-composer-hdrs.c:539
+#: composer/e-msg-composer-hdrs.c:541
 msgid "Bcc:"
 msgstr "Bcc:"
 
-#: composer/e-msg-composer-hdrs.c:540
+#: composer/e-msg-composer-hdrs.c:542
 msgid ""
 "Enter the addresses that will receive a carbon copy of the message without "
 "appearing in the recipient list of the message."
@@ -10449,11 +10449,11 @@ msgstr ""
 #.
 #. * Post-To
 #.
-#: composer/e-msg-composer-hdrs.c:547
+#: composer/e-msg-composer-hdrs.c:549
 msgid "Post To:"
 msgstr "Afixar Em:"
 
-#: composer/e-msg-composer-hdrs.c:549
+#: composer/e-msg-composer-hdrs.c:551
 msgid "Posting destination"
 msgstr "Destino afixagem"
 
@@ -10573,12 +10573,12 @@ msgstr "Assinatura:"
 msgid "Autogenerated"
 msgstr "Auto-gerada"
 
-#: composer/e-msg-composer.c:2233 composer/e-msg-composer.c:2872
-#: composer/e-msg-composer.c:2873
+#: composer/e-msg-composer.c:2233 composer/e-msg-composer.c:2874
+#: composer/e-msg-composer.c:2875
 msgid "Compose a message"
 msgstr "Escrever uma mensagem"
 
-#: composer/e-msg-composer.c:2904
+#: composer/e-msg-composer.c:2906
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate address selector control."
@@ -10586,7 +10586,7 @@ msgstr ""
 "Incapaz de criar janela de composição:\n"
 "Incapaz de activar controlo de selecção de endereços."
 
-#: composer/e-msg-composer.c:2930
+#: composer/e-msg-composer.c:2932
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component.\n"
@@ -10598,7 +10598,7 @@ msgstr ""
 "Certifique-se de que possui instaladas as versões\n"
 "correctas do gtkhtml e libgtkhtml.\n"
 
-#: composer/e-msg-composer.c:2990
+#: composer/e-msg-composer.c:2992
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component."
@@ -10606,7 +10606,7 @@ msgstr ""
 "Incapaz de criar janela de composição:\n"
 "Incapaz de activar componente de editor HTML."
 
-#: composer/e-msg-composer.c:4004
+#: composer/e-msg-composer.c:4006
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
@@ -12065,12 +12065,12 @@ msgid "Don't delete"
 msgstr "Não apagar"
 
 #: mail/mail-accounts.c:312 mail/mail-accounts.c:351 mail/mail-accounts.c:391
-#: mail/mail-composer-prefs.c:674 mail/mail-composer-prefs.c:692
+#: mail/mail-composer-prefs.c:676 mail/mail-composer-prefs.c:694
 msgid "Disable"
 msgstr "Desactivar"
 
 #: mail/mail-accounts.c:312 mail/mail-accounts.c:351 mail/mail-accounts.c:393
-#: mail/mail-composer-prefs.c:674 mail/mail-composer-prefs.c:692
+#: mail/mail-composer-prefs.c:676 mail/mail-composer-prefs.c:694
 msgid "Enable"
 msgstr "Activar"
 
@@ -12080,7 +12080,7 @@ msgid "[Default]"
 msgstr "[Por Omissão]"
 
 #: mail/mail-accounts.c:481 mail/mail-accounts.etspec.h:2
-#: mail/mail-composer-prefs.c:704 mail/mail-composer-prefs.c:860
+#: mail/mail-composer-prefs.c:706 mail/mail-composer-prefs.c:862
 msgid "Enabled"
 msgstr "Activo"
 
@@ -12358,15 +12358,15 @@ msgstr "Tem de especificar um nome de script válido."
 msgid "[script]"
 msgstr "[script]"
 
-#: mail/mail-composer-prefs.c:864
+#: mail/mail-composer-prefs.c:866
 msgid "Language(s)"
 msgstr "Idioma(s)"
 
-#: mail/mail-composer-prefs.c:906
+#: mail/mail-composer-prefs.c:908
 msgid "Add script signature"
 msgstr "Adicionar assinatura script"
 
-#: mail/mail-composer-prefs.c:926
+#: mail/mail-composer-prefs.c:928
 msgid "Signature(s)"
 msgstr "Assinatura(s)"
 
@@ -13456,23 +13456,23 @@ msgstr "Mensagem Vazia"
 msgid "Find in Message"
 msgstr "Procurar na Mensagem"
 
-#: mail/mail-search.c:287
+#: mail/mail-search.c:285
 msgid "Search"
 msgstr "Procurar"
 
-#: mail/mail-search.c:314
+#: mail/mail-search.c:313
 msgid "Case Sensitive"
 msgstr "Sensível Capitalização"
 
-#: mail/mail-search.c:316
+#: mail/mail-search.c:315
 msgid "Search Forward"
 msgstr "Procurar em Frente"
 
-#: mail/mail-search.c:336
+#: mail/mail-search.c:335
 msgid "Find:"
 msgstr "Procurar:"
 
-#: mail/mail-search.c:340
+#: mail/mail-search.c:339
 msgid "Matches:"
 msgstr "Equivalências:"
 
@@ -23675,7 +23675,7 @@ msgstr "Nenhuma descrição"
 msgid "Mail summary"
 msgstr "Resumo correio"
 
-#: my-evolution/e-summary-mail.c:443 shell/e-local-storage.c:1151
+#: my-evolution/e-summary-mail.c:443 shell/e-local-storage.c:1150
 msgid "Local Folders"
 msgstr "Pastas Locais"
 
@@ -25179,8 +25179,8 @@ msgid "Specify a folder to copy folder \"%s\" into:"
 msgstr "Especifique uma pasta para onde copiar a pasta \"%s\":"
 
 #: shell/e-shell-folder-commands.c:323
-msgid "Copy folder"
-msgstr "Copiar pasta"
+msgid "Copy Folder"
+msgstr "Copiar Pasta"
 
 #: shell/e-shell-folder-commands.c:363
 #, c-format
@@ -25188,8 +25188,8 @@ msgid "Specify a folder to move folder \"%s\" into:"
 msgstr "Especifique uma pasta para onde mover a pasta \"%s\":"
 
 #: shell/e-shell-folder-commands.c:367
-msgid "Move folder"
-msgstr "Mover pasta"
+msgid "Move Folder"
+msgstr "Mover Pasta"
 
 #: shell/e-shell-folder-commands.c:391
 #, c-format
@@ -25205,12 +25205,12 @@ msgstr ""
 msgid "Really delete folder \"%s\"?"
 msgstr "Apagar mesmo a pasta \"%s\"?"
 
-#: shell/e-shell-folder-commands.c:412
+#: shell/e-shell-folder-commands.c:416
 #, c-format
 msgid "Delete \"%s\""
 msgstr "Apagar \"%s\""
 
-#: shell/e-shell-folder-commands.c:485
+#: shell/e-shell-folder-commands.c:489
 #, c-format
 msgid ""
 "Cannot rename folder:\n"
@@ -25219,26 +25219,26 @@ msgstr ""
 "Incapaz de renomear pasta:\n"
 "%s"
 
-#: shell/e-shell-folder-commands.c:534
+#: shell/e-shell-folder-commands.c:538
 #, c-format
 msgid "Rename the \"%s\" folder to:"
 msgstr "Renomear a pasta \"%s\" para:"
 
-#: shell/e-shell-folder-commands.c:540
-msgid "Rename folder"
-msgstr "Renomear pasta"
+#: shell/e-shell-folder-commands.c:544
+msgid "Rename Folder"
+msgstr "Renomear Pasta"
 
-#: shell/e-shell-folder-commands.c:549
+#: shell/e-shell-folder-commands.c:553
 #: shell/e-shell-folder-creation-dialog.c:170
 #, c-format
 msgid "The specified folder name is not valid: %s"
 msgstr "O nome de pasta especificado é inválido: %s"
 
-#: shell/e-shell-folder-commands.c:583
+#: shell/e-shell-folder-commands.c:587
 msgid "Selected folder does not belong to another user"
 msgstr "Pasta seleccionada não pertence a outro utilizador"
 
-#: shell/e-shell-folder-commands.c:586
+#: shell/e-shell-folder-commands.c:590
 #, c-format
 msgid ""
 "Cannot remove folder:\n"
@@ -25611,8 +25611,8 @@ msgid "Generic error"
 msgstr "Erro genérico"
 
 #: shell/e-shortcuts-view.c:80
-msgid "Create new shortcut group"
-msgstr "Criar novo grupo de atalhos"
+msgid "Create New Shortcut Group"
+msgstr "Criar Novo Grupo de Atalhos"
 
 #: shell/e-shortcuts-view.c:81
 msgid "Group name:"
@@ -25623,103 +25623,103 @@ msgstr "Nome grupo:"
 msgid "Do you really want to remove group \"%s\" from the shortcut bar?"
 msgstr "Deseja mesmo remover o grupo \"%s\" da barra de atalhos?"
 
-#: shell/e-shortcuts-view.c:215
+#: shell/e-shortcuts-view.c:222
 msgid "Rename Shortcut Group"
 msgstr "Renomear Grupo Atalhos"
 
-#: shell/e-shortcuts-view.c:216
+#: shell/e-shortcuts-view.c:223
 msgid "Rename selected shortcut group to:"
 msgstr "Renomear grupo de atalhos seleccionado para:"
 
-#: shell/e-shortcuts-view.c:248
+#: shell/e-shortcuts-view.c:255
 msgid "_Small Icons"
 msgstr "Ícone_s Pequenos"
 
-#: shell/e-shortcuts-view.c:249
+#: shell/e-shortcuts-view.c:256
 msgid "Show the shortcuts as small icons"
 msgstr "Mostrar os atalhos como ícones pequenos"
 
-#: shell/e-shortcuts-view.c:251
+#: shell/e-shortcuts-view.c:258
 msgid "_Large Icons"
 msgstr "Ícones _Grandes"
 
-#: shell/e-shortcuts-view.c:252
+#: shell/e-shortcuts-view.c:259
 msgid "Show the shortcuts as large icons"
 msgstr "Mostrar os atalhos como ícones grandes"
 
-#: shell/e-shortcuts-view.c:263
-msgid "_New Group..."
-msgstr "_Novo Grupo..."
+#: shell/e-shortcuts-view.c:270
+msgid "_Add Group..."
+msgstr "_Adicionar Grupo..."
 
-#: shell/e-shortcuts-view.c:264
+#: shell/e-shortcuts-view.c:271
 msgid "Create a new shortcut group"
 msgstr "Criar um grupo de atalhos"
 
-#: shell/e-shortcuts-view.c:266
+#: shell/e-shortcuts-view.c:273
 msgid "_Remove this Group..."
 msgstr "_Remover este Grupo..."
 
-#: shell/e-shortcuts-view.c:267
+#: shell/e-shortcuts-view.c:274
 msgid "Remove this shortcut group"
 msgstr "Remover este grupo de atalhos"
 
-#: shell/e-shortcuts-view.c:269
+#: shell/e-shortcuts-view.c:276
 msgid "Re_name this Group..."
 msgstr "Re_nomear este Grupo..."
 
-#: shell/e-shortcuts-view.c:270
+#: shell/e-shortcuts-view.c:277
 msgid "Rename this shortcut group"
 msgstr "Renomear este grupo de atalhos"
 
-#: shell/e-shortcuts-view.c:275
+#: shell/e-shortcuts-view.c:282
 msgid "_Hide the Shortcut Bar"
 msgstr "_Esconder a Barra de Atalhos"
 
-#: shell/e-shortcuts-view.c:276
+#: shell/e-shortcuts-view.c:283
 msgid "Hide the shortcut bar"
 msgstr "Esconder a barra de atalhos"
 
-#: shell/e-shortcuts-view.c:281
+#: shell/e-shortcuts-view.c:288
 msgid "Create _Default Shortcuts"
 msgstr "Criar Atalhos por _Omissão"
 
-#: shell/e-shortcuts-view.c:282
+#: shell/e-shortcuts-view.c:289
 msgid "Create Default Shortcuts"
 msgstr "Criar Atalhos por Omissão"
 
-#: shell/e-shortcuts-view.c:401
-msgid "Rename shortcut"
-msgstr "Renomear atalho"
+#: shell/e-shortcuts-view.c:408
+msgid "Rename Shortcut"
+msgstr "Renomear Atalho"
 
-#: shell/e-shortcuts-view.c:402
+#: shell/e-shortcuts-view.c:409
 msgid "Rename selected shortcut to:"
 msgstr "Renomear atalho seleccionado para:"
 
-#: shell/e-shortcuts-view.c:415
+#: shell/e-shortcuts-view.c:422
 msgid "Open the folder linked to this shortcut"
 msgstr "Abrir a pasta ligada a este atalho"
 
-#: shell/e-shortcuts-view.c:417 ui/evolution.xml.h:24
+#: shell/e-shortcuts-view.c:424 ui/evolution.xml.h:24
 msgid "Open in New _Window"
 msgstr "Abrir numa Nova _Janela"
 
-#: shell/e-shortcuts-view.c:417
+#: shell/e-shortcuts-view.c:424
 msgid "Open the folder linked to this shortcut in a new window"
 msgstr "Abrir a pasta ligada a este atalho numa nova janela"
 
-#: shell/e-shortcuts-view.c:420
+#: shell/e-shortcuts-view.c:427
 msgid "_Rename"
 msgstr "_Renomear"
 
-#: shell/e-shortcuts-view.c:420
+#: shell/e-shortcuts-view.c:427
 msgid "Rename this shortcut"
 msgstr "Renomear este atalho"
 
-#: shell/e-shortcuts-view.c:422
+#: shell/e-shortcuts-view.c:429
 msgid "Re_move"
 msgstr "Re_mover"
 
-#: shell/e-shortcuts-view.c:422
+#: shell/e-shortcuts-view.c:429
 msgid "Remove this shortcut from the shortcut bar"
 msgstr "Remover este atalho da barra de atalhos"
 
@@ -25911,8 +25911,8 @@ msgid "Evolution Test Component"
 msgstr "Componente Teste Evolution"
 
 #: shell/glade/e-active-connection-dialog.glade.h:1
-msgid "Active connections"
-msgstr "Ligações activas"
+msgid "Active Connections"
+msgstr "Ligações Activas"
 
 #: shell/glade/e-active-connection-dialog.glade.h:2
 msgid "Click OK to close these connections and go offline"
@@ -25939,12 +25939,12 @@ msgid "_Tasks:"
 msgstr "_Tarefas:"
 
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:2
-msgid "Folder name:"
-msgstr "Nome pasta:"
+msgid "Folder _name:"
+msgstr "_Nome pasta:"
 
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:3
-msgid "Folder type:"
-msgstr "Tipo pasta:"
+msgid "Folder _type:"
+msgstr "_Tipo pasta:"
 
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:4
 msgid "Specify where to create the folder:"
@@ -26239,7 +26239,7 @@ msgstr "Mover Contacto(s) para Outra Pasta..."
 msgid "Move to Folder..."
 msgstr "Mover para Pasta..."
 
-#: ui/evolution-addressbook.xml.h:14 ui/evolution-calendar.xml.h:14
+#: ui/evolution-addressbook.xml.h:14 ui/evolution-calendar.xml.h:17
 msgid "Paste the clipboard"
 msgstr "Colar da área de transferência"
 
@@ -26247,7 +26247,7 @@ msgstr "Colar da área de transferência"
 msgid "Previews the contacts to be printed"
 msgstr "Antevê os contactos a serem impressos"
 
-#: ui/evolution-addressbook.xml.h:17 ui/evolution-calendar.xml.h:16
+#: ui/evolution-addressbook.xml.h:17 ui/evolution-calendar.xml.h:19
 #: ui/evolution-comp-editor.xml.h:9 ui/evolution-mail-message.xml.h:68
 #: ui/evolution-tasks.xml.h:12
 msgid "Print Pre_view"
@@ -26293,7 +26293,7 @@ msgstr "Parar Leitura"
 msgid "View the current contact"
 msgstr "Ver o contacto actual"
 
-#: ui/evolution-addressbook.xml.h:29 ui/evolution-calendar.xml.h:25
+#: ui/evolution-addressbook.xml.h:29 ui/evolution-calendar.xml.h:28
 #: ui/evolution-comp-editor.xml.h:17 ui/evolution-contact-editor.xml.h:11
 #: ui/evolution-contact-list-editor.xml.h:10
 #: ui/evolution-event-editor.xml.h:11 ui/evolution-mail-global.xml.h:17
@@ -26332,66 +26332,78 @@ msgid "Day"
 msgstr "Dia"
 
 #: ui/evolution-calendar.xml.h:5
+msgid "Delete All Occurrences"
+msgstr "Apagar Todas Ocorrências"
+
+#: ui/evolution-calendar.xml.h:6
 msgid "Delete the appointment"
 msgstr "Apagar o compromisso"
 
-#: ui/evolution-calendar.xml.h:6
+#: ui/evolution-calendar.xml.h:7
+msgid "Delete this Occurrence"
+msgstr "Apagar esta Ocorrência"
+
+#: ui/evolution-calendar.xml.h:8
+msgid "Delete this occurrence"
+msgstr "Apagar esta ocorrência"
+
+#: ui/evolution-calendar.xml.h:9
 msgid "Go To"
 msgstr "Ir Para"
 
-#: ui/evolution-calendar.xml.h:7
+#: ui/evolution-calendar.xml.h:10
 msgid "Go back"
 msgstr "Ir atrás"
 
-#: ui/evolution-calendar.xml.h:8
+#: ui/evolution-calendar.xml.h:11
 msgid "Go forward"
 msgstr "Ir em frente"
 
-#: ui/evolution-calendar.xml.h:9
+#: ui/evolution-calendar.xml.h:12
 msgid "Go to _Date"
 msgstr "Ir para _Data"
 
-#: ui/evolution-calendar.xml.h:11
+#: ui/evolution-calendar.xml.h:14
 msgid "Go to a specific date"
 msgstr "Ir para uma data específica"
 
-#: ui/evolution-calendar.xml.h:12
+#: ui/evolution-calendar.xml.h:15
 msgid "Go to today"
 msgstr "Ir para hoje"
 
-#: ui/evolution-calendar.xml.h:13
+#: ui/evolution-calendar.xml.h:16
 msgid "Month"
 msgstr "Mês"
 
-#: ui/evolution-calendar.xml.h:15
+#: ui/evolution-calendar.xml.h:18
 msgid "Previews the calendar to be printed"
 msgstr "Antevê o calendário a ser impresso"
 
-#: ui/evolution-calendar.xml.h:17
+#: ui/evolution-calendar.xml.h:20
 msgid "Print this calendar"
 msgstr "Imprimir este calendário"
 
-#: ui/evolution-calendar.xml.h:18
+#: ui/evolution-calendar.xml.h:21
 msgid "Publish Free/Busy information for this calendar"
 msgstr "Publicar informação Livre/Ocupado para este calendário"
 
-#: ui/evolution-calendar.xml.h:19
+#: ui/evolution-calendar.xml.h:22
 msgid "Show one day"
 msgstr "Mostrar um dia"
 
-#: ui/evolution-calendar.xml.h:20
+#: ui/evolution-calendar.xml.h:23
 msgid "Show one month"
 msgstr "Mostrar um mês"
 
-#: ui/evolution-calendar.xml.h:21
+#: ui/evolution-calendar.xml.h:24
 msgid "Show one week"
 msgstr "Mostrar uma semana"
 
-#: ui/evolution-calendar.xml.h:22
+#: ui/evolution-calendar.xml.h:25
 msgid "Show the working week"
 msgstr "Mostrar a semana de trabalho"
 
-#: ui/evolution-calendar.xml.h:23
+#: ui/evolution-calendar.xml.h:26
 msgid "Week"
 msgstr "Semana"
 
