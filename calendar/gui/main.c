@@ -81,7 +81,7 @@ init_username (void)
 	passwd = getpwuid (getuid ());
 	if ((p = passwd->pw_name)) {
 		char *comma;
-		
+
 		user_name = g_strdup (p);
 		full_name = g_strdup (passwd->pw_gecos);
 
@@ -185,13 +185,13 @@ display_objedit (GtkWidget *widget, GnomeCalendar *gcal)
 {
 	GtkWidget *ee;
 	iCalObject *ico;
-	
+
 	/* Default to the day the user is looking at */
 	ico = ical_new ("", user_name, "");
 	ico->new = 1;
 	ico->dtstart = time_add_minutes (gcal->current_display, day_begin * 60);
 	ico->dtend   = time_add_minutes (ico->dtstart, day_begin * 60 + 30 );
-	
+
 	ee = event_editor_new (gcal, ico);
 	gtk_widget_show (ee);
 }
@@ -200,7 +200,7 @@ static void
 display_objedit_today (GtkWidget *widget, GnomeCalendar *gcal)
 {
 	GtkWidget *ee;
-	
+
 	ee = event_editor_new (gcal, NULL);
 	gtk_widget_show (ee);
 }
@@ -218,7 +218,7 @@ close_cmd (GtkWidget *widget, GnomeCalendar *gcal)
 
 	gtk_widget_destroy (GTK_WIDGET (gcal));
 	active_calendars--;
-	
+
 	if (active_calendars == 0)
 		gtk_main_quit ();
 }
@@ -341,7 +341,7 @@ save_ok (GtkWidget *widget, GtkFileSelection *fs)
 
 	gcal = GNOME_CALENDAR (gtk_object_get_user_data (GTK_OBJECT (fs)));
 	gtk_window_set_wmclass (GTK_WINDOW (gcal), "gnomecal", "gnomecal");
-	
+
 	if (gcal->cal->filename)
 		g_free (gcal->cal->filename);
 
@@ -493,15 +493,15 @@ new_calendar (char *full_name, char *calendar_file, char *geometry, char *page)
 
 	if (page)
 		gnome_calendar_set_view (GNOME_CALENDAR (toplevel), page);
-	
-	if (calendar_file && g_file_exists (calendar_file)) 
+
+	if (calendar_file && g_file_exists (calendar_file))
 		gnome_calendar_load (GNOME_CALENDAR (toplevel), calendar_file);
 	else
 		GNOME_CALENDAR (toplevel)->cal->filename = g_strdup (calendar_file);
 
 	gtk_signal_connect (GTK_OBJECT (toplevel), "delete_event",
 			    GTK_SIGNAL_FUNC(calendar_close_event), toplevel);
-	
+
 	active_calendars++;
 	all_calendars = g_list_prepend (all_calendars, toplevel);
 	gtk_widget_show (toplevel);
@@ -512,7 +512,7 @@ process_dates (void)
 {
 	if (!from_t)
 		from_t = time_day_begin (time (NULL));
-	
+
 	if (!to_t || to_t < from_t)
 		to_t = time_add_day (from_t, 1);
 }
@@ -544,10 +544,10 @@ dump_events (void)
 	char *s;
 	time_t now = time (NULL);
 	struct tm today = *localtime (&now);
-	
+
 	process_dates ();
 	init_calendar ();
-	
+
 	cal = calendar_new (full_name);
 	s = calendar_load (cal, load_file ? load_file : user_calendar_file);
 	if (s){
@@ -560,7 +560,7 @@ dump_events (void)
 		CalendarObject *co = l->data;
 		struct tm ts, te;
 		char *format;
-		
+
 		ts = *localtime (&co->ev_start);
 		te = *localtime (&co->ev_end);
 
@@ -573,7 +573,7 @@ dump_events (void)
 		if (!same_day (&ts, &te))
 			format = "%A %d, %H:%M";
 		strftime (end,   sizeof (start), format, &te);
-		
+
 		printf ("%s -- %s\n", start, end);
 		printf ("  %s\n", co->ico->summary);
 	}
@@ -586,6 +586,7 @@ extern time_t get_date ();
 
 static void
 parse_an_arg (poptContext ctx,
+	      enum poptCallbackReason reason,
 	      const struct poptOption *opt,
 	      char *arg, void *data)
 {
@@ -614,7 +615,7 @@ parse_an_arg (poptContext ctx,
 	case VIEW_KEY:
 		start_views = g_list_append (start_views, arg);
 		break;
-		
+
 	case 'F':
 		start_calendars = g_list_append (start_calendars, arg);
 		break;
@@ -659,7 +660,7 @@ session_save_state (GnomeClient *client, gint phase, GnomeRestartStyle save_styl
 	int   i;
 
 	sess_id = gnome_client_get_id (client);
-	
+
 	argv [0] = client_data;
 	for (i = 1, l = all_calendars; l; l = l->next){
 		GnomeCalendar *gcal = GNOME_CALENDAR (l->data);
@@ -687,15 +688,15 @@ session_save_state (GnomeClient *client, gint phase, GnomeRestartStyle save_styl
 	for (l = free_list; l; l = l->next)
 		g_free (l->data);
 	g_list_free (free_list);
-	
+
 	return 1;
 }
 
-int 
+int
 main(int argc, char *argv[])
 {
 	GnomeClient *client;
-	
+
 	bindtextdomain(PACKAGE, GNOMELOCALEDIR);
 	textdomain(PACKAGE);
 
@@ -732,16 +733,16 @@ main(int argc, char *argv[])
 			char *file = p->data;
 			char *geometry = g ? g->data : NULL;
 			char *page_name = v ? v->data : NULL;
-			
+
 			if (file == COOKIE_USER_HOME_DIR)
 				file = user_calendar_file;
-			
+
 			if (strcmp (file, user_calendar_file) == 0)
 				title = full_name;
 			else
 				title = file;
 			new_calendar (title, file, geometry, page_name);
-			
+
 			p = p->next;
 			if (g)
 				g = g->next;
@@ -752,10 +753,9 @@ main(int argc, char *argv[])
 	} else {
 		char *geometry = start_geometries ? start_geometries->data : NULL;
 		char *page_name = start_views ? start_views->data : NULL;
-		
+
 		new_calendar (full_name, user_calendar_file, geometry, page_name);
 	}
 	gtk_main ();
 	return 0;
 }
-

@@ -1,3 +1,8 @@
+1998-11-22  Matthew Wilson  <msw@redhat.com>
+
+	* main.c: Fixed the popt event parsing callback to have the
+	correct number of arguments.  This stops it from segfaulting.
+
 1998-11-16  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
 	* eventedit.c (ee_classification_widgets): Doh.  Fixed stupid bug
@@ -483,7 +488,7 @@
 	(properties): Added a check button for weeks starting on Monday.
 	(properties): Beautified the Preferences dialog.
 
-	* month-view.c (month_view_init): 
+	* month-view.c (month_view_init):
 	* goto.c (create_days): Set the month item to start weeks on
 	Monday if appropriate.
 
@@ -496,7 +501,7 @@
 1998-08-21  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* calobj.c (ical_object_create_from_vobject): If mail alarm or
-	program alarm are missing the action, then set an empty default. 
+	program alarm are missing the action, then set an empty default.
 
 1998-08-18  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
@@ -512,7 +517,7 @@
 	* timeutil.c (time_from_day): New public function to build a
 	time_t from a year/month/day triplet.
 
-	* gnome-month-item.c (gnome_month_item_num2child): 
+	* gnome-month-item.c (gnome_month_item_num2child):
 	(gnome_month_item_child2num): New public functions to convert an
 	index into a child and vice-versa, respectively.
 	(gnome_month_item_num2day): New public function to convert a child
@@ -585,9 +590,9 @@
 
 	* gnome-cal.c (gnome_calendar_get_current_view_name): New
 	function for enhancing the session management support for
-	gnomecal. 
+	gnomecal.
 	(gnome_calendar_set_view): New function that makes a given page
-	active. 
+	active.
 
 1998-07-01  Nuno Ferreira  <nmrf@rnl.ist.utl.pt>
 
@@ -595,7 +600,7 @@
 
 Mon Jun 22 13:01:16 1998  Havoc Pennington  <hp@pobox.com>
 
-	* main.c (session_save_state): Use gnome_geometry_string to get 
+	* main.c (session_save_state): Use gnome_geometry_string to get
 	the geometry string.
 
 1998-06-04  Federico Mena Quintero  <federico@nuclecu.unam.mx>
@@ -603,7 +608,7 @@ Mon Jun 22 13:01:16 1998  Havoc Pennington  <hp@pobox.com>
 	* eventedit.c (ee_rp_init_rule): Do not subtract 1 from
 	tm->tm_mday for the default_day.
 
-	* gnome-cal.c (gnome_calendar_new): 
+	* gnome-cal.c (gnome_calendar_new):
 	(gnome_calendar_goto): Use the start of the day -- things expect
 	it to be that way.
 
@@ -630,17 +635,17 @@ Mon Jun 22 13:01:16 1998  Havoc Pennington  <hp@pobox.com>
 	widget destruction.
 
 	* calobj.c (ical_object_generate_events): Fix for the weekly event
-	generation.  Was reported on the bug tracking system. 
+	generation.  Was reported on the bug tracking system.
 
 1998-05-18  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* gncal-full-day.c (layout_children): Implemented ultra-cool
 	layout for the events that share the same time range.  Gals and
-	guys you can now drop Outlook on the recycle bin.  
+	guys you can now drop Outlook on the recycle bin.
 
 	Which reminds me.  We do not have a recycle bin.  How could that
 	happen in a project as cool as this one?  Someone explain this to
-	me. 
+	me.
 
 1998-05-18  Federico Mena  <federico@nuclecu.unam.mx>
 
@@ -653,31 +658,31 @@ Sun May 17 17:55:03 1998  Havoc Pennington  <hp@pobox.com>
 1998-05-15  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* gnome-cal.c (mark_gtk_calendar_day): Bug free version of the
-	range computation in place. 
+	range computation in place.
 
 	* gncal-year-view.c (year_view_mark_day): Use the same new version
-	of the range computation here. 
+	of the range computation here.
 
 	* calobj.c (ical_object_generate_events): Fix the begin/end
-	condition.  
+	condition.
 
 1998-05-14  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* timeutil.c (isodate_from_time_t): Do not add the spurious
-	padding. 
+	padding.
 
 	* calobj.c (store_date_list): Bug fix:  I was using the wrong
-	pointer when saving the exception date list. 
+	pointer when saving the exception date list.
 	(set_date_list): Bug fix:  load correctly the complete exception
-	date list. 
+	date list.
 	(set_date_list): Use ',' for the exception date separator as the
-	versit people can not get their standard right. 
+	versit people can not get their standard right.
 
 	* gncal-full-day.c (unrecur_appointment): Support for making an
 	existing recurrent event `movable' for a day.
 
 	* calobj.c (ical_object_add_exdate): New routine, used to add
-	exception dates. 
+	exception dates.
 	(ical_object_duplicate): New routine:  used to do the magic
 	recur->no-recur event.
 
@@ -685,18 +690,18 @@ Sun May 17 17:55:03 1998  Havoc Pennington  <hp@pobox.com>
 
 	* gncal-full-day.c (new_appointment): Use gtk_calendar freeze/thaw
 
-	* gncal-year-view.c (gncal_year_view_set_year): Use gtkcalendar freeze/thaw. 
+	* gncal-year-view.c (gncal_year_view_set_year): Use gtkcalendar freeze/thaw.
 
 	* eventedit.c (event_editor_init): Use gnome_dialog_set_close to
-	avoid the ugly warning. 
+	avoid the ugly warning.
 
 	* main.c (display_objedit): Default to the day the user is looking
-	at. 
+	at.
 
 1998-05-05  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* gncal-day-panel.c (full_day_size_allocated): Do not emit a value
-	changed signal if the value is the same. 
+	changed signal if the value is the same.
 
 1998-05-04  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
@@ -704,17 +709,17 @@ Sun May 17 17:55:03 1998  Havoc Pennington  <hp@pobox.com>
 
 1998-05-03  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
-	* gncal-day-panel.c (update): Draw the day at startup. 
-	(gncal_day_panel_set): Fix selected-day display. 
+	* gncal-day-panel.c (update): Draw the day at startup.
+	(gncal_day_panel_set): Fix selected-day display.
 	(gncal_day_panel_new): Switch day on double clicks, not on single
-	clicks. 
+	clicks.
 
-	* calobj.c (ical_object_compute_end): Removed debug messages. 
+	* calobj.c (ical_object_compute_end): Removed debug messages.
 
 1998-04-30  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* prop.c (prop_apply): Do not call prop_cancel, ths is now using
-	GnomePropertyDialog. 
+	GnomePropertyDialog.
 
 1998-04-29  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
@@ -724,12 +729,12 @@ Sun May 17 17:55:03 1998  Havoc Pennington  <hp@pobox.com>
 	fill a gtk_calendar with the events on a GnomeCalendar object.
 
 	* gncal-week-view.c (gncal_week_view_new): Set the week to the day
-	we double clicked. 
+	we double clicked.
 
 1998-04-28  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* gnome-cal.c (calendar_notify): Apply black magic to get mail
-	notifications to work. 
+	notifications to work.
 
 	* gncal-full-day.c (child_focus_out): Temporary optimization, the
 	child_focus_out is constantly calling the
@@ -745,7 +750,7 @@ Sat Apr 25 22:20:45 1998  Havoc Pennington  <hp@pobox.com>
 	* eventedit.c, eventedit.h: Descend from GnomeDialog. Took vbox
 	out of class structure; use GnomeDialog vbox
 	instead. gnome_dialog_set_destroy instead of destroying in button
-	callbacks. Don't create buttons, separator, or vbox manually. 
+	callbacks. Don't create buttons, separator, or vbox manually.
 	#include <libgnomeui/gnome-dialog.h>.
 
 1998-04-24  Miguel de Icaza  <miguel@nuclecu.unam.mx>
@@ -790,29 +795,29 @@ Sat Apr 25 22:20:45 1998  Havoc Pennington  <hp@pobox.com>
 
 	* timeutil.c (isodate_from_time_t): Do not save with the global
 	time flag (Z at the end of the isodate).  When we figure out a way
-	to load times in GMT time, we will add this back 
+	to load times in GMT time, we will add this back
 
 	* view-utils.c (popup_menu): Moved this routine here as there are
-	more users of this code. 
+	more users of this code.
 
 	* gncal-day-view.c (gncal_day_view_class_init): Add button press
-	handler. 
+	handler.
 	(new_appointment): New routine for creating appointments on a day.
 
-	
+
 
 	* main.c (save_ok): Added call to gtk_window_set_wmclass.
 
 	* gncal-day-panel.c (calendar_day_selected): Fix, years for mktime
 	should substract 1900 and gtk_calendar stores years relative to
-	year 0. 
+	year 0.
 
 	* gncal-week-view.c (gncal_week_view_new): Make the week view
 	descend from VBox so that we can add a label to it.
 	(gncal_week_view_set): Display the ending day of the week
 	correctly.
 
-	Added a label that displays the week range. 
+	Added a label that displays the week range.
 
 1998-04-21  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
@@ -831,7 +836,7 @@ Sat Apr 25 22:20:45 1998  Havoc Pennington  <hp@pobox.com>
 1998-04-20  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* eventedit.c (ee_ok): Mark the event as non-new after accepting changes.
-	
+
 1998-04-20  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
 	* gncal-full-day.c (gncal_full_day_get_day_start_yoffset): New
@@ -854,10 +859,10 @@ Sat Apr 25 22:20:45 1998  Havoc Pennington  <hp@pobox.com>
 1998-04-20  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* calobj.c (duration_callback): Take exception dates into
-	account. 
+	account.
 
 	* gncal-full-day.c (new_appointment): Setup the event editor dates
-	to those of the currently displayed day. 
+	to those of the currently displayed day.
 	(gncal_full_day_selection_range): Use sensible values in the case
 	no range is selected.
 	(new_appointment): Events now use the current day for event creation.
@@ -868,20 +873,20 @@ Sat Apr 25 22:20:45 1998  Havoc Pennington  <hp@pobox.com>
 	ico->recur->enddate, otherwise we loop forever during final date computation.
 
 	* eventedit.c: Now recurrence is toggled by a radio button in the
-	recurrence page, as the checkbox is confusing. 
+	recurrence page, as the checkbox is confusing.
 
 	* calobj.c (is_date_in_list): Add support for the exclussion
-	dates. 
+	dates.
 
 1998-04-18  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* gncal-year-view.c (double_click): Fix this routine as well.
 
 	* gncal-week-view.c (jump_to_day): Bind the gtkcalendar signals to
-	the week. 
+	the week.
 
 	* gncal-year-view.c (gncal_year_view_set_year): Put things in the
-	proper range.  Now the year view actually matches this year. 
+	proper range.  Now the year view actually matches this year.
 
 	* gnome-cal.html: Added small documentation.
 
@@ -893,17 +898,17 @@ Sat Apr 25 22:20:45 1998  Havoc Pennington  <hp@pobox.com>
 	* getdate.y: Taken from the CVS source code.  Used for date
 	parsing in the command line.
 
-	Internationalized getdate.y.  Wee!  It even works with spanish. 
-	
+	Internationalized getdate.y.  Wee!  It even works with spanish.
+
 	* calobj.c (ical_object_to_vobject): Add Quoted printable property
-	to items containing new lines. 
+	to items containing new lines.
 	(duration): Use unsigned integers, to work around buggy calendar
 	files generated by korganizer.
 
 	* main.c (save_calendar_cmd): Do not ask for file name if we are
 	saving.
 	(save_as_calendar_cmd): New command.
-	
+
 
 1998-04-17  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
@@ -1077,7 +1082,7 @@ Sat Apr 25 22:20:45 1998  Havoc Pennington  <hp@pobox.com>
 	fatter and nicer drag handles.
 
 	* gnome-cal.c (gnome_calendar_object_changed): Now takes an
-	additional flags parameter 
+	additional flags parameter
 	(gnome_calendar_update_all): Made function static.  Now takes
 	changed object and flags parameters as well.
 	(gnome_calendar_object_changed): Now takes additional flags
@@ -1086,7 +1091,7 @@ Sat Apr 25 22:20:45 1998  Havoc Pennington  <hp@pobox.com>
 	* calobj.h (CalObjectChange): New enum with flags to describe what
 	has been changed in an object.
 
-	* gncal-full-day.h: 
+	* gncal-full-day.h:
 	* gncal-full-day.c (gncal_full_day_focus_child): New function to
 	let the outside world decide which child to focus.
 	(gncal_full_day_focus_child): Bleah.  We have to synthesize a
@@ -1111,8 +1116,8 @@ Sat Apr 25 22:20:45 1998  Havoc Pennington  <hp@pobox.com>
 	painting an area more than once -- eliminate flicker.
 	(paint_back_rows): New function that calls paint_back() only for
 	the area of the specified rows.
-	(gncal_full_day_button_press): 
-	(gncal_full_day_button_release): 
+	(gncal_full_day_button_press):
+	(gncal_full_day_button_release):
 	(gncal_full_day_motion): Made these functions use
 	paint_back_rows() instead of paint_back(), to eliminate flicker.  Wheee!
 
@@ -1147,7 +1152,7 @@ Sat Apr 25 22:20:45 1998  Havoc Pennington  <hp@pobox.com>
 	on the day view.
 
 	* timeutil.c (time_start_of_day, time_end_of_day, time_day_hour):
-	New time manipulation functions. 
+	New time manipulation functions.
 
 	* eventedit.c (ee_rp_init_frequency): Add the different frequency
 	editors to a notebook.  Make the notebook startup on the entry
@@ -1254,7 +1259,7 @@ Fri Apr  3 22:31:54 1998  Tom Tromey  <tromey@cygnus.com>
 
 	* eventedit.c: Finished the main event editor form;  It still
 	lacks the details and the recurrence bits.  It now adds events
-	and cancels. 
+	and cancels.
 
 1998-04-03  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
@@ -1276,7 +1281,7 @@ Fri Apr  3 22:31:54 1998  Tom Tromey  <tromey@cygnus.com>
 	* timeutil.c (time_from_isodate): Fix.
 
 	* view-utils.c (view_utils_draw_events): Changed the display
-	formats. 
+	formats.
 
 1998-04-02  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
@@ -1290,7 +1295,7 @@ Fri Apr  3 22:31:54 1998  Tom Tromey  <tromey@cygnus.com>
 	* gncal-day-view.c (gncal_day_view_update): Day events are now
 	cached inside the widget.  They get initialized at this time.
 
-	* view-utils.c (view_utils_draw_events): Use the list of events. 
+	* view-utils.c (view_utils_draw_events): Use the list of events.
 
 1998-04-02  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
@@ -1302,15 +1307,15 @@ Fri Apr  3 22:31:54 1998  Tom Tromey  <tromey@cygnus.com>
 1998-04-02  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* main.c: New main program that uses our new datatypes and
-	objects. 
+	objects.
 
 	* calendar.c (calendar_load_from_vobject, calendar_load):
-	Implement loading of vCalendar objects and vCalendar files. 
+	Implement loading of vCalendar objects and vCalendar files.
 
 	* calobj.c (ical_object_create_from_vobject): Implement loading of
-	vCalendar event and todo objects. 
+	vCalendar event and todo objects.
 
-	* timeutil.c (isodate_from_time_t): New function. 
+	* timeutil.c (isodate_from_time_t): New function.
 
 	* gnome-cal.c, gnome-cal.h: Implement a toplevel widget, derived
 	from GnomeApp.  It holds all of the day views and arbitrates the
@@ -1328,8 +1333,8 @@ Fri Apr  3 22:31:54 1998  Tom Tromey  <tromey@cygnus.com>
 	child widget of the week view composite widget.
 
 	* calendar.c (calendar_get_objects_in_range):
-	(calendar_get_events_in_range): 
-	(calendar_get_journal_in_range): 
+	(calendar_get_events_in_range):
+	(calendar_get_journal_in_range):
 	(calendar_get_journal_in_range): These functions now take a
 	sort_func parameter, which is of type GCompareFunc.  If the
 	specified value is non-NULL, it will return a sorted list.
@@ -1340,7 +1345,7 @@ Fri Apr  3 22:31:54 1998  Tom Tromey  <tromey@cygnus.com>
 1998-04-01 Miguel de Icaza <miguel@kernel.org>
 
 	* Start from scratch
-	
+
 Tue Mar 31 23:46:50 1998  Tom Tromey  <tromey@cygnus.com>
 
 	* timeutil.c (format_simple_hour): `buf' now static.
