@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-08-07 19:06+0200\n"
-"PO-Revision-Date: 2004-08-08 02:41+0800\n"
+"PO-Revision-Date: 2004-08-08 14:41+0800\n"
 "Last-Translator: Funda Wang <fundawang@linux.net.cn>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
 "MIME-Version: 1.0\n"
@@ -10576,7 +10576,7 @@ msgstr "无法将文件夹“%s”重命名为“%s”：无效的命令"
 #: camel/providers/imap4/camel-imap4-store.c:1221
 #, c-format
 msgid "Cannot get %s information for pattern `%s' on IMAP server %s: %s"
-msgstr "无法在 IMAP 服务器 %3$s 上为模式“%2$s”获取 %1$s 信息：%s"
+msgstr "无法在 IMAP 服务器 %3$s 上为模式“%2$s”获取 %1$s 信息：%4$s"
 
 #: camel/providers/imap4/camel-imap4-store.c:1223
 msgid "Bad command"
@@ -16888,7 +16888,7 @@ msgid ""
 msgstr ""
 "先前版本的 Evolution 将其数据存储在不同的位置。\n\n"
 "如果您选择删除此数据，“evolution”目录中的全部内容都将被永久删除。"
-"如果您选择保留此数据，那么您可以在您方便的时候手动删除“evolution”目录。"
+"如果您选择保留此数据，那么您可以在您方便的时候手动删除“evolution”目录。\n"
 
 #: shell/shell-errors.xml.h:25
 msgid "Keep"
@@ -16916,7 +16916,7 @@ msgstr ""
 "即将永久删除“evolution”目录的全部内容。\n\n"
 "我们建议您在删除旧数据之前，手动检查您全部的邮件、联系人和日历"
 "信息都存在，并且确认此版本的 Evolution 工作正常。\n\n"
-"删除之后，您将无法降级至先前版本的 Evolution，除非您手动从头来过。"
+"删除之后，您将无法降级至先前版本的 Evolution，除非您手动从头来过。\n"
 
 #. shell:noshell title
 #. shell:noshell-reason title
