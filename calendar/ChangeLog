@@ -1,3 +1,27 @@
+2002-08-26  Rodrigo Moya <rodrigo@ximian.com>
+
+	Fixes #12326
+
+	* gui/alarm-notify/config-data.c (ensure_inited): create a
+	EConfigListener for configuration access.
+	(do_cleanup): g_atexit installed function, to clean up configuration
+	database resources.
+	(config_data_get_timezone): retrieve the configuration for the
+	EConfigListener object.
+	(config_data_get_listener): new function.
+
+	* gui/alarm-notify/save.c (get_config_db, discard_config_db): removed.
+	Use EConfigListener instead.
+	(save_notification_time, get_saved_notification_time,
+	 save_calendars_to_load, get_calendars_to_load, save_blessed_program,
+	 is_blessed_program): use EConfigListener.
+
+	* gui/alarm-notify/notify-main.c (init_alarm_notify_service): removed.
+	(alarm_notify_factory_fn): create here the alarm_notify_service if it
+	hasn't been created yet.
+	(load_calendars): likewise.
+	(main): don't call init_alarm_notify_service.
+
 2002-08-22  JP Rosevear  <jpr@ximian.com>
 
 	* gui/e-meeting-model.c (process_section): if its a

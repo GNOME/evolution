@@ -43,7 +43,7 @@ static GnomeClient *master_client = NULL;
 
 static BonoboGenericFactory *factory;
 
-static AlarmNotify *alarm_notify_service;
+static AlarmNotify *alarm_notify_service = NULL;
 
 
 /* Callback for the master client's "die" signal.  We must terminate the daemon
@@ -86,16 +86,6 @@ set_session_parameters (char **argv)
 			    GTK_SIGNAL_FUNC (client_die_cb), NULL);
 }
 
-/* Creates the singleton alarm notify service object */
-static gboolean
-init_alarm_notify_service (void)
-{
-	g_assert (alarm_notify_service == NULL);
-
-	alarm_notify_service = alarm_notify_new ();
-	return (alarm_notify_service != NULL);
-}
-
 /* Factory function for the alarm notify service; just creates and references a
  * singleton service object.
  */
@@ -103,6 +93,11 @@ static BonoboObject *
 alarm_notify_factory_fn (BonoboGenericFactory *factory, void *data)
 {
 	g_assert (alarm_notify_service != NULL);
+
+	if (!alarm_notify_service) {
+		alarm_notify_service = alarm_notify_new ();
+		g_assert (alarm_notify_service != NULL);
+	}
 
 	bonobo_object_ref (BONOBO_OBJECT (alarm_notify_service));
 	return BONOBO_OBJECT (alarm_notify_service);
@@ -114,6 +109,14 @@ load_calendars (gpointer user_data)
 {
 	GPtrArray *uris;
 	int i;
+
+	alarm_queue_init ();
+
+	/* create the alarm notification service */
+	if (!alarm_notify_service) {
+		alarm_notify_service = alarm_notify_new ();
+		g_assert (alarm_notify_service != NULL);
+	}
 
 	uris = get_calendars_to_load ();
 	if (!uris) {
@@ -176,11 +179,6 @@ main (int argc, char **argv)
 		g_error (_("Could not initialize gnome-vfs"));
 
 	glade_gnome_init ();
-
-	alarm_queue_init ();
-
-	if (!init_alarm_notify_service ())
-		g_error (_("Could not create the alarm notify service"));
 
 	factory = bonobo_generic_factory_new ("OAFIID:GNOME_Evolution_Calendar_AlarmNotify_Factory",
 					      alarm_notify_factory_fn, NULL);

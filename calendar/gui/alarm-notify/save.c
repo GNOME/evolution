@@ -26,6 +26,7 @@
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-moniker-util.h>
 #include "evolution-calendar.h"
+#include "config-data.h"
 #include "save.h"
 
 
@@ -40,48 +41,6 @@
 
 
 
-/* Tries to get the config database object; returns CORBA_OBJECT_NIL on failure. */
-Bonobo_ConfigDatabase
-get_config_db (void)
-{
-	CORBA_Environment ev;
-	Bonobo_ConfigDatabase db;
-
-	CORBA_exception_init (&ev);
-
-	db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", &ev);
-	if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
-		g_message ("get_config_db(): Could not get the config database object");
-		db = CORBA_OBJECT_NIL;
-	}
-
-	CORBA_exception_free (&ev);
-	return db;
-}
-
-/* Syncs a database and unrefs it */
-void
-discard_config_db (Bonobo_ConfigDatabase db)
-{
-	CORBA_Environment ev;
-
-	CORBA_exception_init (&ev);
-
-	Bonobo_ConfigDatabase_sync (db, &ev);
-	if (BONOBO_EX (&ev))
-		g_message ("discard_config_db(): Got an exception during the sync command");
-
-	CORBA_exception_free (&ev);
-
-	CORBA_exception_init (&ev);
-
-	bonobo_object_release_unref (db, &ev);
-	if (BONOBO_EX (&ev))
-		g_message ("discard_config_db(): Could not release/unref the database");
-
-	CORBA_exception_free (&ev);
-}
-
 /**
  * save_notification_time:
  * @t: A time value.
@@ -93,24 +52,14 @@ discard_config_db (Bonobo_ConfigDatabase db)
 void
 save_notification_time (time_t t)
 {
-	Bonobo_ConfigDatabase db;
-	CORBA_Environment ev;
+	EConfigListener *cl;
 
 	g_return_if_fail (t != -1);
 
-	db = get_config_db ();
-	if (db == CORBA_OBJECT_NIL)
+	if (!(cl = config_data_get_listener ()))
 		return;
 
-	CORBA_exception_init (&ev);
-
-	bonobo_config_set_long (db, KEY_LAST_NOTIFICATION_TIME, (long) t, &ev);
-	if (BONOBO_EX (&ev))
-		g_message ("save_notification_time(): Could not save the value");
-
-	CORBA_exception_free (&ev);
-
-	discard_config_db (db);
+	e_config_listener_set_long (cl, KEY_LAST_NOTIFICATION_TIME, (long) t);
 }
 
 /**
@@ -123,16 +72,13 @@ save_notification_time (time_t t)
 time_t
 get_saved_notification_time (void)
 {
-	Bonobo_ConfigDatabase db;
+	EConfigListener *cl;
 	long t;
 
-	db = get_config_db ();
-	if (db == CORBA_OBJECT_NIL)
+	if (!(cl = config_data_get_listener ()))
 		return -1;
 
-	t = bonobo_config_get_long_with_default (db, KEY_LAST_NOTIFICATION_TIME, -1, NULL);
-
-	discard_config_db (db);
+	t = e_config_listener_get_long_with_default (cl, KEY_LAST_NOTIFICATION_TIME, -1, NULL);
 
 	return (time_t) t;
 }
@@ -147,23 +93,17 @@ get_saved_notification_time (void)
 void
 save_calendars_to_load (GPtrArray *uris)
 {
-	Bonobo_ConfigDatabase db;
-	CORBA_Environment ev;
+	EConfigListener *cl;
 	int len, i;
 
 	g_return_if_fail (uris != NULL);
 
-	db = get_config_db ();
-	if (db == CORBA_OBJECT_NIL)
+	if (!(cl = config_data_get_listener ()))
 		return;
 
 	len = uris->len;
 
-	CORBA_exception_init (&ev);
-
-	bonobo_config_set_long (db, KEY_NUM_CALENDARS_TO_LOAD, len, &ev);
-	if (BONOBO_EX (&ev))
-		g_warning ("Cannot save config key %s -- %s", KEY_NUM_CALENDARS_TO_LOAD, BONOBO_EX_ID (&ev));
+	e_config_listener_set_long (cl, KEY_NUM_CALENDARS_TO_LOAD, len);
 
 	for (i = 0; i < len; i++) {
 		const char *uri;
@@ -172,15 +112,9 @@ save_calendars_to_load (GPtrArray *uris)
 		uri = uris->pdata[i];
 
 		key = g_strdup_printf ("%s%d", BASE_KEY_CALENDAR_TO_LOAD, i);
-		bonobo_config_set_string (db, key, uri, &ev);
-		if (BONOBO_EX (&ev))
-			g_warning ("Cannot save config key %s -- %s", key, BONOBO_EX_ID (&ev));
+		e_config_listener_set_string (cl, key, uri);
 		g_free (key);
 	}
-
-	CORBA_exception_free (&ev);
-
-	discard_config_db (db);
 }
 
 /**
@@ -194,19 +128,18 @@ save_calendars_to_load (GPtrArray *uris)
 GPtrArray *
 get_calendars_to_load (void)
 {
-	Bonobo_ConfigDatabase db;
+	EConfigListener *cl;
 	GPtrArray *uris;
 	int len, i;
 
-	db = get_config_db ();
-	if (db == CORBA_OBJECT_NIL)
+	if (!(cl = config_data_get_listener ()))
 		return NULL;
 
 	/* Getting the default value below is not necessarily an error, as we
 	 * may not have saved the list of calendar yet.
 	 */
 
-	len = bonobo_config_get_long_with_default (db, KEY_NUM_CALENDARS_TO_LOAD, 0, NULL);
+	len = e_config_listener_get_long_with_default (cl, KEY_NUM_CALENDARS_TO_LOAD, 0, NULL);
 
 	uris = g_ptr_array_new ();
 	g_ptr_array_set_size (uris, len);
@@ -216,7 +149,7 @@ get_calendars_to_load (void)
 		gboolean used_default;
 
 		key = g_strdup_printf ("%s%d", BASE_KEY_CALENDAR_TO_LOAD, i);
-		uris->pdata[i] = bonobo_config_get_string_with_default (db, key, "", &used_default);
+		uris->pdata[i] = e_config_listener_get_string_with_default (cl, key, "", &used_default);
 		if (used_default)
 			g_message ("get_calendars_to_load(): Could not read calendar name %d", i);
 
@@ -235,35 +168,25 @@ get_calendars_to_load (void)
 void
 save_blessed_program (const char *program)
 {
-	Bonobo_ConfigDatabase db;
-	CORBA_Environment ev;
+	EConfigListener *cl;
 	char *key;
 	int len;
 
 	g_return_if_fail (program != NULL);
 
-	db = get_config_db ();
-	if (db == CORBA_OBJECT_NIL)
+	if (!(cl = config_data_get_listener ()))
 		return;
 
 	/* Up the number saved */
-	len = bonobo_config_get_long_with_default (db, KEY_NUM_BLESSED_PROGRAMS, 0, NULL);
+	len = e_config_listener_get_long_with_default (cl, KEY_NUM_BLESSED_PROGRAMS, 0, NULL);
 	len++;
 	
-	bonobo_config_set_long (db, KEY_NUM_BLESSED_PROGRAMS, len, &ev);
-	if (BONOBO_EX (&ev))
-		g_warning ("Cannot save config key %s -- %s", KEY_NUM_BLESSED_PROGRAMS, BONOBO_EX_ID (&ev));
+	e_config_listener_set_long (cl, KEY_NUM_BLESSED_PROGRAMS, len);
 
 	/* Save the program name */
 	key = g_strdup_printf ("%s%d", BASE_KEY_BLESSED_PROGRAM, len - 1);
-	bonobo_config_set_string (db, key, program, &ev);
-	if (BONOBO_EX (&ev))
-		g_warning ("Cannot save config key %s -- %s", key, BONOBO_EX_ID (&ev));
+	e_config_listener_set_string (cl, key, program);
 	g_free (key);
-
-	CORBA_exception_free (&ev);
-
-	discard_config_db (db);
 }
 
 /**
@@ -277,27 +200,26 @@ save_blessed_program (const char *program)
 gboolean
 is_blessed_program (const char *program)
 {
-	Bonobo_ConfigDatabase db;
+	EConfigListener *cl;
 	int len, i;
 
 	g_return_val_if_fail (program != NULL, FALSE);
 
-	db = get_config_db ();
-	if (db == CORBA_OBJECT_NIL)
+	if (!(cl = config_data_get_listener ()))
 		return FALSE;
 
 	/* Getting the default value below is not necessarily an error, as we
 	 * may not have saved the list of calendar yet.
 	 */
 
-	len = bonobo_config_get_long_with_default (db, KEY_NUM_BLESSED_PROGRAMS, 0, NULL);
+	len = e_config_listener_get_long_with_default (cl, KEY_NUM_BLESSED_PROGRAMS, 0, NULL);
 
 	for (i = 0; i < len; i++) {
 		char *key, *value;
 		gboolean used_default;
 
 		key = g_strdup_printf ("%s%d", BASE_KEY_BLESSED_PROGRAM, i);
-		value = bonobo_config_get_string_with_default (db, key, "", &used_default);
+		value = e_config_listener_get_string_with_default (cl, key, "", &used_default);
 		if (used_default)
 			g_message ("get_calendars_to_load(): Could not read calendar name %d", i);
 

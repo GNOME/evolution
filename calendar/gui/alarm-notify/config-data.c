@@ -28,11 +28,8 @@
 
 
 /* Whether we have initied ourselves by reading the data from the configuration engine */
-static gboolean inited;
-
-/* Configuration values */
-static icaltimezone *local_timezone;
-static gboolean use_24_hour_format;
+static gboolean inited = FALSE;
+static EConfigListener *config;
 
 
 
@@ -41,7 +38,7 @@ static gboolean use_24_hour_format;
  */
 static gboolean
 locale_supports_12_hour_format (void)
-{  
+{
 	char s[16];
 	time_t t = 0;
 
@@ -49,56 +46,57 @@ locale_supports_12_hour_format (void)
 	return s[0] != '\0';
 }
 
+static void
+do_cleanup (void)
+{
+	gtk_object_unref (GTK_OBJECT (config));
+	config = NULL;
+	inited = FALSE;
+}
+
 /* Ensures that the configuration values have been read */
 static void
 ensure_inited (void)
 {
-	Bonobo_ConfigDatabase db;
-	char *location;
-
 	if (inited)
 		return;
 
 	inited = TRUE;
 
-	db = get_config_db ();
-	if (db == CORBA_OBJECT_NIL) {
-		/* This sucks */
-		local_timezone = icaltimezone_get_utc_timezone ();
-
-		/* This sucks as well */
-		use_24_hour_format = TRUE;
-
+	config = e_config_listener_new ();
+	if (!E_IS_CONFIG_LISTENER (config)) {
+		inited = FALSE;
 		return;
 	}
 
-	location = bonobo_config_get_string_with_default (db,
-		"/Calendar/Display/Timezone", "UTC", NULL);
-	if (location && location[0]) {
-		local_timezone = icaltimezone_get_builtin_timezone (location);
-	} else {
-		local_timezone = icaltimezone_get_utc_timezone ();
-	}
-	g_free (location);
+	g_atexit ((GVoidFunc) do_cleanup);
+}
 
-	if (locale_supports_12_hour_format ()) {
-		/* Wasn't the whole point of a configuration engine *NOT* to
-		 * have apps specify their own stupid defaults everywhere, but
-		 * just in a schema file?
-		 */
-		use_24_hour_format = bonobo_config_get_boolean_with_default (
-			db,
-			"/Calendar/Display/Use24HourFormat", FALSE, NULL);
-	} else
-		use_24_hour_format = TRUE;
-
-	discard_config_db (db);
+EConfigListener *
+config_data_get_listener (void)
+{
+	ensure_inited ();
+	return config;
 }
 
 icaltimezone *
 config_data_get_timezone (void)
 {
+	char *location;
+	icaltimezone *local_timezone;
+
 	ensure_inited ();
+
+	location = e_config_listener_get_string_with_default (config, 
+							      "/Calendar/Display/Timezone",
+							      "UTC", NULL);
+	if (location && location[0]) {
+		local_timezone = icaltimezone_get_builtin_timezone (location);
+	} else {
+		local_timezone = icaltimezone_get_utc_timezone ();
+	}
+
+	g_free (location);
 
 	return local_timezone;
 }
@@ -108,5 +106,11 @@ config_data_get_24_hour_format (void)
 {
 	ensure_inited ();
 
-	return use_24_hour_format;
+	if (locale_supports_12_hour_format ()) {
+		return e_config_listener_get_boolean_with_default (
+			config,
+			"/Calendar/Display/Use24HourFormat", FALSE, NULL);
+	}
+
+	return TRUE;
 }

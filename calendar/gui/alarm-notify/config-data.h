@@ -23,9 +23,11 @@
 
 #include <glib.h>
 #include <ical.h>
+#include <e-util/e-config-listener.h>
+
+EConfigListener *config_data_get_listener (void);
 
 icaltimezone *config_data_get_timezone (void);
-
 gboolean config_data_get_24_hour_format (void);
 
 #endif
