@@ -118,41 +118,29 @@ email_address_extract (const unsigned char **cur, char **out, const unsigned cha
 static gboolean
 is_citation (const unsigned char *c, gboolean saw_citation)
 {
-	gunichar u;
-	gint i;
+	const unsigned char *p;
+
+	if (*c != '>')
+		return FALSE;
 
 	/* A line that starts with a ">" is a citation, unless it's
 	 * just mbox From-mangling...
 	 */
-	if (*c == '>') {
-		const unsigned char *p;
+	if (strncmp (c, ">From ", 6) != 0)
+		return TRUE;
 
-		if (strncmp (c, ">From ", 6) != 0)
-			return TRUE;
+	/* If the previous line was a citation, then say this
+	 * one is too.
+	 */
+	if (saw_citation)
+		return TRUE;
 
-		/* If the previous line was a citation, then say this
-		 * one is too.
-		 */
-		if (saw_citation)
-			return TRUE;
+	/* Same if the next line is */
+	p = (const unsigned char *)strchr ((const char *)c, '\n');
+	if (p && *++p == '>')
+		return TRUE;
 
-		/* Same if the next line is */
-		p = (const unsigned char *)strchr ((const char *)c, '\n');
-		if (p && *++p == '>')
-			return TRUE;
-
-		/* Otherwise, it was just an isolated ">From" line. */
-		return FALSE;
-	}
-
-	/* Check for "Rupert> " and the like... */
-	for (i = 0; c && *c && g_unichar_validate (g_utf8_get_char (c)) && *c != '\n' && i < 10; i ++, c = g_utf8_next_char (c)) {
-		u = g_utf8_get_char (c);
-		if (u == '>')
-			return TRUE;
-		if (!g_unichar_isalnum (u))
-			return FALSE;
-	}
+	/* Otherwise, it was just an isolated ">From" line. */
 	return FALSE;
 }
 

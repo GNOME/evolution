@@ -1,3 +1,9 @@
+2002-08-01  Dan Winship  <danw@ximian.com>
+
+	* e-html-utils.c (is_citation): Remove the logic that assumes
+	"Rupert> " is a citation, since it misfires more often than it
+	hits.
+
 2002-07-31  Dan Winship  <danw@ximian.com>
 
 	* e-html-utils.c (is_addr_char, is_trailing_garbage): Don't use
