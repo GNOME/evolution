@@ -499,18 +499,27 @@ stream_connect (CamelTcpStream *stream, struct hostent *host, int port)
 	memset ((void *) &netaddr, 0, sizeof (PRNetAddr));
 	memcpy (&netaddr.inet.ip, host->h_addr, sizeof (netaddr.inet.ip));
 	
-	if (PR_InitializeNetAddr (PR_IpAddrNull, port, &netaddr) == PR_FAILURE)
+	if (PR_InitializeNetAddr (PR_IpAddrNull, port, &netaddr) == PR_FAILURE) {
+		set_errno (PR_GetError ());
 		return -1;
+	}
 	
 	fd = PR_OpenTCPSocket (host->h_addrtype);
 	ssl_fd = SSL_ImportFD (NULL, fd);
-
+	
 	SSL_OptionSet (ssl_fd, SSL_SECURITY, PR_TRUE);
 	SSL_SetURL (ssl_fd, ssl->priv->expected_host);
 	
 	if (ssl_fd == NULL || PR_Connect (ssl_fd, &netaddr, timeout) == PR_FAILURE) {
-		if (ssl_fd != NULL)
+		if (ssl_fd != NULL) {
+			int errnosave;
+			
+			set_errno (PR_GetError ());
+			errnosave = errno;
 			PR_Close (ssl_fd);
+			errno = errnosave;
+		} else
+			errno = EINVAL;
 		
 		return -1;
 	}
