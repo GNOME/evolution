@@ -1,3 +1,15 @@
+2005-01-29  Sivaiah Nallagatla <snallagatla@novell.com>
+
+	* gui/contact-editor/e-contact-editor.c 
+	(sensitize_im_types) : new function to sensitize
+	im types based on supported fields
+	
+	(sensitize_im_record) : call sensitize_im_types
+	for each record 
+	(sensitize_im) : if none of the im types 
+	are supported disable the im entries 
+	Fixes #68799
+
 2005-01-28  Sivaiah Nallagatla <snallagatla@novell.com>
 
 	* gui/widgets/eab-vcard-control.c (pstream_load) :

@@ -1538,6 +1538,30 @@ extract_im (EContactEditor *editor)
 
 	g_free (service_attr_list);
 }
+static void
+sensitize_im_types (EContactEditor *editor, GtkWidget *option_menu)
+{
+	GtkWidget *menu;
+	GList     *item_list, *l;
+	gint       i;
+
+	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (option_menu));
+	l = item_list = gtk_container_get_children (GTK_CONTAINER (menu));
+
+	for (i = 0; i < G_N_ELEMENTS (im_service); i++) {
+		GtkWidget *widget;
+
+		if (!l) {
+			g_warning (G_STRLOC ": Unexpected end of im items in option menu");
+			return;
+		}
+
+		widget = l->data;
+		gtk_widget_set_sensitive (widget, is_field_supported (editor, im_service [i].field));
+
+		l = g_list_next (l);
+	}
+}
 
 static void
 sensitize_im_record (EContactEditor *editor, gint record, gboolean enabled)
@@ -1568,19 +1592,29 @@ sensitize_im_record (EContactEditor *editor, gint record, gboolean enabled)
 	gtk_widget_set_sensitive (location_option_menu, enabled);
 #endif
 	gtk_editable_set_editable (GTK_EDITABLE (name_entry), enabled);
+	sensitize_im_types (editor, service_option_menu);
 }
 
 static void
 sensitize_im (EContactEditor *editor)
 {
 	gint i;
+	gboolean enabled; 
+	gboolean no_ims_supported;
+	
+	enabled = editor->target_editable;
+	no_ims_supported = TRUE;
 
+	for (i = 0; i < G_N_ELEMENTS (im_service); i++) 
+		if (is_field_supported (editor, im_service[i].field)) {
+			no_ims_supported = FALSE;
+			break;
+		}
+
+	if (no_ims_supported)
+		enabled = FALSE;
+	
 	for (i = 1; i <= IM_SLOTS; i++) {
-		gboolean enabled = TRUE;
-
-		if (!editor->target_editable)
-			enabled = FALSE;
-
 		sensitize_im_record (editor, i, enabled);
 	}
 }
