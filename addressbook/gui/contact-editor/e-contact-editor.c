@@ -33,6 +33,7 @@
 #include <gal/widgets/e-unicode.h>
 #include <e-contact-save-as.h>
 #include "addressbook/printing/e-contact-print.h"
+#include "addressbook/printing/e-contact-print-envelope.h"
 
 /* Signal IDs */
 enum {
@@ -713,6 +714,20 @@ print_cb (BonoboUIComponent *uih, void *data, const char *path)
 	gtk_widget_show(e_contact_print_card_dialog_new(ce->card));
 }
 
+/* Emits the signal to request printing a card */
+static void
+print_envelope_cb (BonoboUIComponent *uih, void *data, const char *path)
+{
+	EContactEditor *ce;
+
+	ce = E_CONTACT_EDITOR (data);
+
+	extract_info (ce);
+	e_card_simple_sync_card (ce->simple);
+
+	gtk_widget_show(e_contact_print_envelope_dialog_new(ce->card));
+}
+
 /* Toolbar/Save and Close callback */
 static void
 tb_save_and_close_cb (BonoboUIComponent *uih, void *data, const char *path)
@@ -731,6 +746,7 @@ BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("ContactEditorSaveClose", tb_save_and_close_cb),
 	BONOBO_UI_UNSAFE_VERB ("ContactEditorDelete", delete_cb),
 	BONOBO_UI_UNSAFE_VERB ("ContactEditorPrint", print_cb),
+	BONOBO_UI_UNSAFE_VERB ("ContactEditorPrintEnvelope", print_envelope_cb),
 	/*	BONOBO_UI_UNSAFE_VERB ("ContactEditorPageSetup", file_page_setup_menu), */
 	BONOBO_UI_UNSAFE_VERB ("ContactEditorClose", file_close_cb),
 	

@@ -34,6 +34,7 @@ static void e_addressbook_search_destroy (GtkObject *object);
 
 enum {
 	QUERY_CHANGED,
+	MENU_ACTIVATED,
 
 	LAST_SIGNAL
 };
@@ -99,6 +100,14 @@ e_addressbook_search_class_init (EAddressbookSearchClass *klass)
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
 
+	eas_signals [MENU_ACTIVATED] =
+		gtk_signal_new ("menu_activated",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (EAddressbookSearchClass, menu_activated),
+				gtk_marshal_NONE__INT,
+				GTK_TYPE_NONE, 1, GTK_TYPE_INT);
+
 	gtk_object_class_add_signals (object_class, eas_signals, LAST_SIGNAL);
 }
 
@@ -109,6 +118,70 @@ eas_query_changed(EAddressbookSearch *eas)
 			eas_signals [QUERY_CHANGED]);
 }
 
+static void
+eas_menu_activated(EAddressbookSearch *eas, int item)
+{
+	gtk_signal_emit(GTK_OBJECT (eas),
+			eas_signals [MENU_ACTIVATED],
+			item);
+}
+
+static void
+eas_menubar_activated(GtkWidget *widget, EAddressbookSearch *eas)
+{
+	int id = GPOINTER_TO_INT(gtk_object_get_data (GTK_OBJECT (widget), "EasMenuId"));
+
+	eas_menu_activated(eas, id);
+}
+
+typedef enum {
+	EAS_CLEAR = 0,
+} EasMenuId;
+
+
+typedef struct {
+	char *text;
+	char *name;
+	int id;
+} EasMenuItem;
+
+static EasMenuItem eas_menu_items[] = {
+	{ N_("Show All"), "all", 0 },
+	{ NULL, "sep", -1 },
+	{ N_("Advanced"), "advanced", 1},
+	{ NULL, NULL, 0 }
+};
+
+static void
+eas_pack_menubar(EAddressbookSearch *eas)
+{
+	GtkWidget *menu, *menuitem;
+	int i;
+
+	menu = gtk_menu_new ();
+	for (i = 0; eas_menu_items[i].name; i++) {
+		GtkWidget *item;
+
+		item = gtk_menu_item_new_with_label (_(eas_menu_items[i].text));
+
+		gtk_menu_append (GTK_MENU (menu), item);
+
+		gtk_object_set_data (GTK_OBJECT (item), "EasMenuId", GINT_TO_POINTER(eas_menu_items[i].id));
+
+		gtk_signal_connect (GTK_OBJECT (item), "activate",
+				    GTK_SIGNAL_FUNC (eas_menubar_activated),
+				    eas);
+	}
+	gtk_widget_show_all (menu);
+
+	menuitem = gtk_menu_item_new_with_label(_("Search"));
+	gtk_menu_item_set_submenu(GTK_MENU_ITEM(menuitem), menu);
+
+	gtk_widget_show (menuitem);
+
+	gtk_menu_bar_append (GTK_MENU_BAR(eas->menubar), menuitem);
+	gtk_widget_set_sensitive (eas->menubar, TRUE);
+}
 
 typedef enum {
 	EAS_ANY = 0,
@@ -148,19 +221,18 @@ eas_entry_activated(GtkWidget *widget, EAddressbookSearch *eas)
 static void
 eas_pack_option_menu(EAddressbookSearch *eas)
 {
-	GtkWidget *menu, *item, *firstitem = NULL;
+	GtkWidget *menu;
 	int i;
 
 	menu = gtk_menu_new ();
 	for (i = 0; eas_choices[i].name; i++) {
+		GtkWidget *item;
 
 		item = gtk_menu_item_new_with_label (_(eas_choices[i].text));
-		if (!firstitem)
-			firstitem = item;
 
 		gtk_menu_append (GTK_MENU (menu), item);
 
-		gtk_object_set_data (GTK_OBJECT (item), "EasChoiceId", GINT_TO_POINTER(i));
+		gtk_object_set_data (GTK_OBJECT (item), "EasChoiceId", GINT_TO_POINTER(eas_choices[i].id));
 
 		gtk_signal_connect (GTK_OBJECT (item), "activate",
 				    GTK_SIGNAL_FUNC (eas_option_activated),
@@ -177,7 +249,14 @@ eas_pack_option_menu(EAddressbookSearch *eas)
 static void
 e_addressbook_search_init (EAddressbookSearch *eas)
 {
+	GtkWidget *spacer;
+
 	gtk_box_set_spacing(GTK_BOX(eas), GNOME_PAD);
+
+	eas->menubar = gtk_menu_bar_new();
+	eas_pack_menubar(eas);
+	gtk_widget_show(eas->menubar);
+	gtk_box_pack_start(GTK_BOX(eas), eas->menubar, FALSE, FALSE, 0);
 
 	eas->option = gtk_option_menu_new();
 	eas_pack_option_menu(eas);
@@ -190,6 +269,11 @@ e_addressbook_search_init (EAddressbookSearch *eas)
 	gtk_widget_show(eas->entry);
 	gtk_box_pack_start(GTK_BOX(eas), eas->entry, TRUE, TRUE, 0);
 	eas->option_choice = 0;
+
+	spacer = gtk_drawing_area_new();
+	gtk_widget_show(spacer);
+	gtk_box_pack_start(GTK_BOX(eas), spacer, FALSE, FALSE, 0);
+	gtk_widget_set_usize(spacer, 100, 1);
 }
 
 static void

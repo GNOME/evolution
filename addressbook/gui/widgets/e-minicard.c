@@ -31,6 +31,7 @@
 #include <gal/widgets/e-canvas.h>
 #include <gal/widgets/e-popup-menu.h>
 #include "addressbook/printing/e-contact-print.h"
+#include "addressbook/printing/e-contact-print-envelope.h"
 #include "e-contact-editor.h"
 #include "e-contact-save-as.h"
 #include "e-minicard-view.h"
@@ -361,8 +362,16 @@ static void
 print (GtkWidget *widget, EMinicard *minicard)
 {
 	e_card_simple_sync_card(minicard->simple);
-				
+
 	gtk_widget_show(e_contact_print_card_dialog_new(minicard->card));
+}
+
+static void
+print_envelope (GtkWidget *widget, EMinicard *minicard)
+{
+	e_card_simple_sync_card(minicard->simple);
+
+	gtk_widget_show(e_contact_print_envelope_dialog_new(minicard->card));
 }
 
 /* Callback for the add_card signal from the contact editor */
@@ -477,11 +486,13 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 			if (E_IS_MINICARD_VIEW(item->parent)) {
 				EPopupMenu menu[] = { {"Save as VCard", NULL, GTK_SIGNAL_FUNC(save_as), 0}, 
 						      {"Print", NULL, GTK_SIGNAL_FUNC(print), 0},
+						      {"Print Envelope", NULL, GTK_SIGNAL_FUNC(print_envelope), 0},
 						      {"Delete", NULL, GTK_SIGNAL_FUNC(delete), 0},
 						      {NULL, NULL, NULL, 0}};
 				e_popup_menu_run (menu, (GdkEventButton *)event, 0, 0, e_minicard);
 			} else {
 				EPopupMenu menu[] = { {"Save as VCard", NULL, GTK_SIGNAL_FUNC(save_as), 0}, 
+						      {"Print Envelope", NULL, GTK_SIGNAL_FUNC(print_envelope), 0},
 						      {"Print", NULL, GTK_SIGNAL_FUNC(print), 0},
 						      {NULL, NULL, NULL, 0}};
 				e_popup_menu_run (menu, (GdkEventButton *)event, 0, 0, e_minicard);

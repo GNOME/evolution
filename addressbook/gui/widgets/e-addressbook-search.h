@@ -58,8 +58,9 @@ struct _EAddressbookSearch
 	GtkHBox parent;
 	
 	/* item specific fields */
-	GtkWidget *entry;
+	GtkWidget *menubar;
 	GtkWidget *option;
+	GtkWidget *entry;
 	int        option_choice;
 };
 
@@ -67,7 +68,8 @@ struct _EAddressbookSearchClass
 {
 	GtkHBoxClass parent_class;
 
-	void (*query_changed) (EAddressbookSearch *search);
+	void (*query_changed)  (EAddressbookSearch *search);
+	void (*menu_activated) (EAddressbookSearch *search, int item);
 };
 
 GtkWidget *e_addressbook_search_new        (void);

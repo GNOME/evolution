@@ -26,11 +26,13 @@ noinst_LIBRARIES =				\
 	libecontactprint.a
 
 libecontactprint_a_SOURCES = 			\
-	e-contact-print.c			\
-	e-contact-print.h			\
+	e-contact-print-envelope.c		\
+	e-contact-print-envelope.h		\
 	e-contact-print-style-editor.c		\
 	e-contact-print-style-editor.h		\
-	e-contact-print-types.h
+	e-contact-print-types.h			\
+	e-contact-print.c			\
+	e-contact-print.h
 
 noinst_PROGRAMS =	\
 	contact-print-test	\

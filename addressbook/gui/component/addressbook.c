@@ -532,6 +532,25 @@ addressbook_query_changed (EAddressbookSearch *eas, AddressbookView *view)
 	g_free (search_word);
 }
 
+static void
+addressbook_menu_activated (EAddressbookSearch *eas, int id, AddressbookView *view)
+{
+	EBook *book;
+	switch (id) {
+	case 0:
+		e_addressbook_view_show_all(view->view);
+		break;
+	case 1:
+		gtk_object_get(GTK_OBJECT(view->view),
+			       "book", &book,
+			       NULL);
+		g_assert (E_IS_BOOK (book));
+
+		gtk_widget_show(e_addressbook_search_dialog_new(book));
+		break;
+	}
+}
+
 BonoboControl *
 addressbook_factory_new_control (void)
 {
@@ -555,6 +574,8 @@ addressbook_factory_new_control (void)
 			    FALSE, FALSE, 0);
 	gtk_signal_connect (GTK_OBJECT (view->search), "query_changed",
 			    GTK_SIGNAL_FUNC (addressbook_query_changed), view);
+	gtk_signal_connect (GTK_OBJECT (view->search), "menu_activated",
+			    GTK_SIGNAL_FUNC (addressbook_menu_activated), view);
 
 	view->view = E_ADDRESSBOOK_VIEW(e_addressbook_view_new());
 	gtk_box_pack_start(GTK_BOX(view->vbox), GTK_WIDGET(view->view),

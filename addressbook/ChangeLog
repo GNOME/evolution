@@ -1,3 +1,20 @@
+2000-11-05  Christopher James Lahey  <clahey@helixcode.com>
+
+	* contact-editor/e-contact-editor.c,
+	gui/widgets/e-addressbook-view.c, gui/widgets/e-minicard.c: Add
+	menus items to the envelope printing stuff.
+
+	* gui/component/addressbook.c: Hook up the search menu.
+
+	* gui/widgets/e-addressbook-search.c,
+	gui/widgets/e-addressbook-search.h: Add the search menu.
+
+	* printing/Makefile.am: Add e-contact-print-envelope.c and
+	e-contact-print-envelope.h.
+
+	* printing/e-contact-print-envelope.c,
+	printing/e-contact-print-envelope.h: Added envelope printing.
+
 2000-11-03  Federico Mena Quintero  <federico@helixcode.com>
 
 	* gui/component/select-names/Makefile.am: Clean the idl-generated

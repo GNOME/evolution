@@ -37,6 +37,7 @@
 #include "e-contact-editor.h"
 #include "e-contact-save-as.h"
 #include "addressbook/printing/e-contact-print.h"
+#include "addressbook/printing/e-contact-print-envelope.h"
 #include "e-card-simple.h"
 #include "e-card.h"
 #include "e-book.h"
@@ -423,6 +424,13 @@ print (GtkWidget *widget, CardAndBook *card_and_book)
 }
 
 static void
+print_envelope (GtkWidget *widget, CardAndBook *card_and_book)
+{
+	gtk_widget_show(e_contact_print_envelope_dialog_new(card_and_book->card));
+	card_and_book_free(card_and_book);
+}
+
+static void
 delete (GtkWidget *widget, CardAndBook *card_and_book)
 {
 	if (e_contact_editor_confirm_delete(GTK_WINDOW(gtk_widget_get_toplevel(card_and_book->widget)))) {
@@ -445,6 +453,7 @@ table_right_click(ETableScrolled *table, gint row, gint col, GdkEvent *event, EA
 		EPopupMenu menu[] = {
 			{"Save as VCard", NULL, GTK_SIGNAL_FUNC(save_as), 0}, 
 			{"Print", NULL, GTK_SIGNAL_FUNC(print), 0},
+			{"Print Envelope", NULL, GTK_SIGNAL_FUNC(print_envelope), 0},
 			{"Delete", NULL, GTK_SIGNAL_FUNC(delete), 0}, 
 			{NULL, NULL, NULL, 0}
 		};
