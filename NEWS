@@ -24,12 +24,25 @@ Mailer:
   - Major oops in mbox code that caused significant performance
     problems getting/filtering mail fixed. (Michael)
 
+  - Message charsets can now be overridden by a user-chosen charset
+    encoding in the mail display.  (Jeff)
+
+  - Report errors when file cannot be attached in the composer.  (Jeff)
+
   - File->Folder->Properties and Delete Folder now work for VFolders.
 
   - VFolders, Filters and Searches are saved in a safe manner so that
     they should not be lost with quota/filled disk problems. (Michael)
  
   - VFolders now update with new mail on their sources. (Michael)
+
+  - Fixed the "Load HTML Images" radio button options in the mail
+    config dialog to work properly.  (Jeff)
+
+  - When an IMAP folder is deleted, removed any cached messages that
+    had been in that folder when it was "alive".  (Jeff)
+
+  - New icons for PGP signature authenticity.  (Jeff, Jimmac)
 
 Addressbook:
 
