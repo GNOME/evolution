@@ -54,7 +54,7 @@ void mail_do_flag_messages (CamelFolder *source, GPtrArray *uids,
 			    guint32 mask, guint32 set);
 void mail_do_flag_all_messages (CamelFolder *source, gboolean invert,
 				guint32 mask, guint32 set);
-void mail_do_scan_subfolders (const gchar *source_uri, EvolutionStorage *storage);
+void mail_do_scan_subfolders (CamelStore *store, EvolutionStorage *storage);
 void mail_do_attach_message (CamelFolder *folder, const char *uid,
 			     EMsgComposer *composer);
 void mail_do_forward_message (CamelMimeMessage *basis, CamelFolder *source,

@@ -116,6 +116,51 @@ mail_op_report_status (FilterDriver *driver, enum filter_status_t status, const 
 }
 
 static void
+update_changed_folders (CamelStore *store, CamelFolderInfo *info,
+			EvolutionStorage *storage, const char *path,
+			CamelException *ex)
+{
+	CamelFolder *folder;
+	char *name, *display;
+
+	name = g_strdup_printf ("%s/%s", path, info->name);
+	if (info->url) {
+		if (info->unread_message_count > 0) {
+			display = g_strdup_printf ("%s (%d)", info->name,
+						   info->unread_message_count);
+			evolution_storage_update_folder (storage, name,
+							 display, TRUE);
+			g_free (display);
+		} else {
+			evolution_storage_update_folder (storage, name,
+							 info->name, FALSE);
+		}
+
+		/* This is a bit of a hack... if the store is already
+		 * caching the folder, then we update it. Otherwise
+		 * we don't.
+		 */
+		folder = CAMEL_STORE_CLASS (CAMEL_OBJECT_GET_CLASS (store))->
+			lookup_folder (store, info->full_name);		
+		if (folder) {
+			camel_folder_sync (folder, FALSE, ex);
+			if (!camel_exception_is_set (ex))
+				camel_folder_refresh_info (folder, ex);
+			camel_object_unref (CAMEL_OBJECT (folder));
+		}
+	}
+	if (!camel_exception_is_set (ex) && info->sibling) {
+		update_changed_folders (store, info->sibling, storage,
+					path, ex);
+	}
+	if (!camel_exception_is_set (ex) && info->child) {
+		update_changed_folders (store, info->child, storage,
+					name, ex);
+	}
+	g_free (name);
+}
+
+static void
 do_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 {
 	fetch_mail_input_t *input = (fetch_mail_input_t *) in_data;
@@ -127,14 +172,29 @@ do_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 	
 	/* FIXME: This shouldn't be checking for "imap" specifically. */
 	if (!strncmp (input->source_url, "imap:", 5)) {
-		folder = mail_tool_get_inbox (input->source_url, ex);
-		if (folder) {
-			camel_folder_sync (folder, FALSE, ex);
-			if (!camel_exception_is_set (ex))
-				camel_folder_refresh_info (folder, ex);
-			camel_object_unref (CAMEL_OBJECT (folder));
+		CamelStore *store;
+		CamelFolderInfo *info;
+		EvolutionStorage *storage;
+
+		store = camel_session_get_store (session, input->source_url, ex);
+		if (!store)
+			return;
+		storage = mail_lookup_storage (store);
+		g_return_if_fail (storage != NULL);
+
+		info = camel_store_get_folder_info (store, NULL, FALSE,
+						    TRUE, TRUE, ex);
+		if (!info) {
+			camel_object_unref (CAMEL_OBJECT (store));
+			gtk_object_unref (GTK_OBJECT (storage));
+			return;
 		}
-		
+
+		update_changed_folders (store, info, storage, "", ex);
+		camel_store_free_folder_info (store, info);
+		camel_object_unref (CAMEL_OBJECT (store));
+		gtk_object_unref (GTK_OBJECT (storage));
+
 		data->empty = FALSE;
 		return;
 	}
@@ -1168,7 +1228,7 @@ mail_do_flag_all_messages (CamelFolder *source, gboolean invert,
 
 typedef struct scan_subfolders_input_s
 {
-	gchar *source_uri;
+	CamelStore *store;
 	EvolutionStorage *storage;
 }
 scan_subfolders_input_t;
@@ -1178,6 +1238,7 @@ typedef struct scan_subfolders_folderinfo_s
 	char *path;
 	char *name;
 	char *uri;
+	gboolean highlighted;
 }
 scan_subfolders_folderinfo_t;
 
@@ -1191,13 +1252,14 @@ static gchar *
 describe_scan_subfolders (gpointer in_data, gboolean gerund)
 {
 	scan_subfolders_input_t *input = (scan_subfolders_input_t *) in_data;
+	char *name;
 
+	name = camel_service_get_name (CAMEL_SERVICE (input->store), TRUE);
 	if (gerund)
-		return g_strdup_printf (_("Scanning folders in \"%s\""),
-					input->source_uri);
+		return g_strdup_printf (_("Scanning folders in \"%s\""), name);
 	else
-		return g_strdup_printf (_("Scan folders in \"%s\""),
-					input->source_uri);
+		return g_strdup_printf (_("Scan folders in \"%s\""), name);
+	g_free (name);
 }
 
 static void
@@ -1207,10 +1269,10 @@ setup_scan_subfolders (gpointer in_data, gpointer op_data,
 	scan_subfolders_input_t *input = (scan_subfolders_input_t *) in_data;
 	scan_subfolders_op_t *data = (scan_subfolders_op_t *) op_data;
 	
+	camel_object_ref (CAMEL_OBJECT (input->store));
 	gtk_object_ref (GTK_OBJECT (input->storage));
-	data->new_folders = g_ptr_array_new ();
 
-	gtk_object_ref (GTK_OBJECT(input->storage));
+	data->new_folders = g_ptr_array_new ();
 }
 
 static void
@@ -1220,7 +1282,14 @@ add_folders (GPtrArray *folders, const char *prefix, CamelFolderInfo *fi)
 
 	info = g_new (scan_subfolders_folderinfo_t, 1);
 	info->path = g_strdup_printf ("%s/%s", prefix, fi->name);
-	info->name = g_strdup (fi->name);
+	if (fi->unread_message_count > 0) {
+		info->name = g_strdup_printf ("%s (%d)", fi->name,
+					      fi->unread_message_count);
+		info->highlighted = TRUE;
+	} else {
+		info->name = g_strdup (fi->name);
+		info->highlighted = FALSE;
+	}
 	info->uri = g_strdup (fi->url);
 	g_ptr_array_add (folders, info);
 	if (fi->child)
@@ -1234,23 +1303,14 @@ do_scan_subfolders (gpointer in_data, gpointer op_data, CamelException *ex)
 {
 	scan_subfolders_input_t *input = (scan_subfolders_input_t *) in_data;
 	scan_subfolders_op_t *data = (scan_subfolders_op_t *) op_data;
-	CamelStore *store;
 	CamelFolderInfo *tree;
 
-	store = camel_session_get_store (session, input->source_uri, ex);
-	if (!store)
-		return;
-
-	tree = camel_store_get_folder_info (store, NULL, TRUE, TRUE, TRUE, ex);
+	tree = camel_store_get_folder_info (input->store, NULL, FALSE,
+					    TRUE, TRUE, ex);
 	if (tree) {
 		add_folders (data->new_folders, "", tree);
-		camel_store_free_folder_info (store, tree);
+		camel_store_free_folder_info (input->store, tree);
 	}
-
-	/* FIXME: We intentionally lose a reference to the store here
-	 * for the benefit of the IMAP provider. Undo this when the
-	 * namespace situation is fixed.
-	 */
 }
 
 static void
@@ -1267,7 +1327,8 @@ cleanup_scan_subfolders (gpointer in_data, gpointer op_data,
 		evolution_storage_new_folder (input->storage, info->path,
 					      info->name, "mail",
 					      info->uri ? info->uri : "",
-					      _("(No description)"));
+					      _("(No description)"),
+					      info->highlighted);
 
 		g_free (info->uri);
 		g_free (info->name);
@@ -1277,7 +1338,7 @@ cleanup_scan_subfolders (gpointer in_data, gpointer op_data,
 	g_ptr_array_free (data->new_folders, TRUE);
 
 	gtk_object_unref (GTK_OBJECT (input->storage));
-	g_free (input->source_uri);
+	camel_object_unref (CAMEL_OBJECT (input->store));
 }
 
 static const mail_operation_spec op_scan_subfolders = {
@@ -1289,15 +1350,15 @@ static const mail_operation_spec op_scan_subfolders = {
 };
 
 void
-mail_do_scan_subfolders (const gchar *source_uri, EvolutionStorage *storage)
+mail_do_scan_subfolders (CamelStore *store, EvolutionStorage *storage)
 {
 	scan_subfolders_input_t *input;
 	
-	g_return_if_fail (source_uri != NULL);
+	g_return_if_fail (CAMEL_IS_STORE (store));
 	g_return_if_fail (EVOLUTION_IS_STORAGE (storage));
 	
 	input = g_new (scan_subfolders_input_t, 1);
-	input->source_uri = g_strdup (source_uri);
+	input->store = store;
 	input->storage = storage;
 	
 	mail_operation_queue (&op_scan_subfolders, input, TRUE);

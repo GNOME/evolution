@@ -151,12 +151,11 @@ owner_unset_cb (EvolutionShellComponent *shell_component, gpointer user_data)
 }
 
 static void
-hash_foreach (gpointer key,
-	      gpointer value,
-	      gpointer data)
+free_storage (gpointer service, gpointer storage, gpointer data)
 {
-	g_free (key);
-	gtk_object_unref (GTK_OBJECT (value));
+	camel_service_disconnect (service, TRUE, NULL);
+	camel_object_unref (service);
+	gtk_object_unref (storage);
 }
 
 static void
@@ -173,7 +172,7 @@ factory_destroy (BonoboEmbeddable *embeddable,
 		g_warning ("Serious ref counting error");
 	factory = NULL;
 
-	g_hash_table_foreach (storages_hash, hash_foreach, NULL);
+	g_hash_table_foreach (storages_hash, free_storage, NULL);
 	g_hash_table_destroy (storages_hash);
 	storages_hash = NULL;
 
@@ -223,7 +222,7 @@ component_factory_init (void)
 	factory = bonobo_generic_factory_new (COMPONENT_FACTORY_ID, factory_fn, NULL);
 	summary_factory = bonobo_generic_factory_new (SUMMARY_FACTORY_ID, summary_fn, NULL);
 
-	storages_hash = g_hash_table_new (g_str_hash, g_str_equal);
+	storages_hash = g_hash_table_new (NULL, NULL);
 
 	if (factory == NULL) {
 		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
@@ -251,7 +250,37 @@ create_vfolder_storage (EvolutionShellComponent *shell_component)
 	vfolder_create_storage(shell_component);
 }
 
-void 
+static void
+add_storage (const char *uri, CamelService *store,
+	     Evolution_Shell corba_shell, CamelException *ex)
+{
+	EvolutionStorage *storage;
+	EvolutionStorageResult res;
+	char *name;
+
+	name = camel_service_get_name (store, TRUE);
+	storage = evolution_storage_new (name);
+	g_free (name);
+
+	res = evolution_storage_register_on_shell (storage, corba_shell);
+
+	switch (res) {
+	case EVOLUTION_STORAGE_OK:
+		g_hash_table_insert (storages_hash, store, storage);
+		camel_object_ref (CAMEL_OBJECT (store));
+		mail_do_scan_subfolders (CAMEL_STORE (store), storage);
+		/* falllll */
+	case EVOLUTION_STORAGE_ERROR_ALREADYREGISTERED:
+	case EVOLUTION_STORAGE_ERROR_EXISTS:
+		return;
+	default:
+		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
+				     _("Cannot register storage with shell"));
+		break;
+	}
+}
+
+void
 mail_load_storages (Evolution_Shell corba_shell, GSList *sources)
 {
 	CamelException ex;
@@ -266,91 +295,57 @@ mail_load_storages (Evolution_Shell corba_shell, GSList *sources)
 	 */
 
 	for (iter = sources; iter; iter = iter->next) {
-		CamelService *temp;
-		CamelProvider *prov = NULL;
+		CamelService *store;
+		CamelProvider *prov;
 
 		svc = (MailConfigService *) iter->data;
 		if (svc->url == NULL || svc->url[0] == '\0')
 			continue;
 
-		temp = camel_session_get_service (session, svc->url, 
-						  CAMEL_PROVIDER_STORE, &ex);
-		if (temp == NULL) {
+		store = camel_session_get_service (session, svc->url, 
+						   CAMEL_PROVIDER_STORE, &ex);
+		if (store == NULL) {
 			/* FIXME: real error dialog */
-
-			g_warning ("couldn't get service %s: %s\n",
-				   svc->url, camel_exception_get_description (&ex));
+			g_warning ("couldn't get service %s: %s\n", svc->url,
+				   camel_exception_get_description (&ex));
+			camel_exception_clear (&ex);
 			continue;
 		}
 
-		prov = camel_service_get_provider (temp);
+		prov = camel_service_get_provider (store);
 
-		/* FIXME: this case is ambiguous for things like the mbox provider,
-		 * which can really be a spool (/var/spool/mail/user) or a storage
-		 * (~/mail/, eg). That issue can't be resolved on the provider
-		 * level -- it's a per-URL problem.
+		/* FIXME: this case is ambiguous for things like the
+		 * mbox provider, which can really be a spool
+		 * (/var/spool/mail/user) or a storage (~/mail/, eg).
+		 * That issue can't be resolved on the provider level
+		 * -- it's a per-URL problem.
 		 */
-
-		if (prov->flags & CAMEL_PROVIDER_IS_STORAGE && prov->flags & CAMEL_PROVIDER_IS_REMOTE) {
-			mail_add_new_storage (svc->url, corba_shell, &ex);
-
+		if (prov->flags & CAMEL_PROVIDER_IS_STORAGE &&
+		    prov->flags & CAMEL_PROVIDER_IS_REMOTE) {
+			add_storage (svc->url, store, corba_shell, &ex);
 			if (camel_exception_is_set (&ex)) {
 				/* FIXME: real error dialog */
 				g_warning ("Cannot load storage: %s",
 					   camel_exception_get_description (&ex));
+				camel_exception_clear (&ex);
 			}
+			camel_object_unref (CAMEL_OBJECT (store));
 		}
-
-		camel_object_unref (CAMEL_OBJECT (temp));
 	}
-}
-
-void
-mail_add_new_storage (const char *uri, Evolution_Shell corba_shell, CamelException *ex)
-{
-	EvolutionStorage *storage;
-	EvolutionStorageResult res;
-	CamelURL *url;
-
-	g_return_if_fail (uri && uri[0] != '\0');
-	
-	url = camel_url_new (uri, ex);
-	if (url == NULL)
-		return;
-
-	if (url->host == NULL) {
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("Bad storage URL (no server): %s"),
-				      uri);
-		return;
-	}
-
-	storage = evolution_storage_new (url->host);
-
-	res = evolution_storage_register_on_shell (storage, corba_shell);
-
-	switch (res) {
-	case EVOLUTION_STORAGE_OK:
-		g_hash_table_insert (storages_hash, g_strdup(url->host), storage);
-		mail_do_scan_subfolders (uri, storage);
-		/* falllll */
-	case EVOLUTION_STORAGE_ERROR_ALREADYREGISTERED:
-	case EVOLUTION_STORAGE_ERROR_EXISTS:
-		return;
-	default:
-		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
-				     _("Cannot register storage with shell"));
-		break;
-	}
-
-	camel_url_free (url);
 }
 
 EvolutionStorage*
-mail_lookup_storage (CamelService *service)
+mail_lookup_storage (CamelStore *store)
 {
-	EvolutionStorage *storage = g_hash_table_lookup (storages_hash, service->url->host);
+	EvolutionStorage *storage;
 
+	/* Because the storages_hash holds a reference to each store
+	 * used as a key in it, none of them will ever be gc'ed, meaning
+	 * any call to camel_session_get_{service,store} with the same
+	 * URL will always return the same object. So this works.
+	 */
+
+	storage = g_hash_table_lookup (storages_hash, store);
 	if (storage)
 		gtk_object_ref (GTK_OBJECT (storage));
 

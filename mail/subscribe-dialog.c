@@ -319,7 +319,8 @@ cleanup_subscribe_folder (gpointer in_data, gpointer op_data,
 					      data->path,
 					      data->name, "mail",
 					      data->url,
-					      _("(No description)") /* XXX */);
+					      _("(No description)") /* XXX */,
+					      FALSE);
 
 	if (input->cb)
 		input->cb (input->sc, !camel_exception_is_set(ex), input->cb_data);
@@ -838,7 +839,7 @@ build_tree (SubscribeDialog *sc, CamelStore *store)
 		gtk_object_unref (GTK_OBJECT (sc->storage));
 
 	sc->store = store;
-	sc->storage = mail_lookup_storage (CAMEL_SERVICE (sc->store));
+	sc->storage = mail_lookup_storage (sc->store);
 	sc->folder_info = camel_store_get_folder_info (sc->store, sc->search_top, TRUE, TRUE, FALSE, ex);
 
 	if (camel_exception_is_set (ex)) {
