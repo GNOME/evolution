@@ -1,6 +1,10 @@
+2004-04-19  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (create_composer): Use the E_ICON_SIZE enums
+	rather than specifying an absolute pixel size.
+
 2004-04-19  Michael Terry  <mike@mterry.name>
 
-	* e-msg-composer-select-file.c:
 	* e-msg-composer.c: Update the composer to use the icon theme via
 	the EIconFactory object in e-util
 

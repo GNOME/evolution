@@ -3296,8 +3296,8 @@ create_composer (int visible_mask)
 	gtk_misc_set_alignment (GTK_MISC (composer->attachment_expander_label), 0.0, 0.5);
 	gtk_misc_set_alignment (GTK_MISC (composer->attachment_expander_num), 1.0, 0.5);
 	expander_hbox = gtk_hbox_new (FALSE, 0);
-
-	attachment_pixbuf = e_icon_factory_get_icon ("stock_attach", 16);
+	
+	attachment_pixbuf = e_icon_factory_get_icon ("stock_attach", E_ICON_SIZE_MENU);
 	composer->attachment_expander_icon = gtk_image_new_from_pixbuf (attachment_pixbuf);
 	gtk_misc_set_alignment (GTK_MISC (composer->attachment_expander_icon), 1, 0.5);
 	gtk_widget_set_size_request (composer->attachment_expander_icon, 100, -1);
