@@ -69,6 +69,9 @@ typedef struct {
 
 	int                 (*construct_from_stream)  (CamelDataWrapper *data_wrapper,
 						       CamelStream *);
+
+	gboolean            (*is_offline)             (CamelDataWrapper *data_wrapper);
+
 } CamelDataWrapperClass;
 
 /* Standard Camel function */

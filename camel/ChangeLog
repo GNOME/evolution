@@ -1,3 +1,14 @@
+2001-09-18  Dan Winship  <danw@ximian.com>
+
+	* camel-data-wrapper.c (camel_data_wrapper_is_offline): Virtualize
+	this.
+
+	* camel-medium.c (is_offline): A medium is offline if its content
+	object is offline.
+
+	* camel-multipart.c (is_offline): A multipart is offline if any of
+	its subparts are offline.
+
 2001-09-18  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-charset-map.c: Added korean charset conversion.

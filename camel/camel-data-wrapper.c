@@ -48,6 +48,7 @@ static void set_mime_type (CamelDataWrapper *data_wrapper, const gchar *mime_typ
 static gchar *get_mime_type (CamelDataWrapper *data_wrapper);
 static CamelContentType *get_mime_type_field (CamelDataWrapper *data_wrapper);
 static void set_mime_type_field (CamelDataWrapper *data_wrapper, CamelContentType *mime_type);
+static gboolean is_offline (CamelDataWrapper *data_wrapper);
 
 static void
 camel_data_wrapper_class_init (CamelDataWrapperClass *camel_data_wrapper_class)
@@ -60,8 +61,8 @@ camel_data_wrapper_class_init (CamelDataWrapperClass *camel_data_wrapper_class)
 	camel_data_wrapper_class->get_mime_type = get_mime_type;
 	camel_data_wrapper_class->get_mime_type_field = get_mime_type_field;
 	camel_data_wrapper_class->set_mime_type_field = set_mime_type_field;
-
 	camel_data_wrapper_class->construct_from_stream = construct_from_stream;
+	camel_data_wrapper_class->is_offline = is_offline;
 }
 
 static void
@@ -280,6 +281,12 @@ camel_data_wrapper_set_mime_type_field (CamelDataWrapper *data_wrapper,
 }
 
 
+static gboolean
+is_offline (CamelDataWrapper *data_wrapper)
+{
+	return data_wrapper->offline;
+}
+
 /**
  * camel_data_wrapper_is_offline:
  * @data_wrapper: a data wrapper
@@ -291,5 +298,5 @@ camel_data_wrapper_set_mime_type_field (CamelDataWrapper *data_wrapper,
 gboolean
 camel_data_wrapper_is_offline (CamelDataWrapper *data_wrapper)
 {
-	return data_wrapper->offline;
+	return CDW_CLASS (data_wrapper)->is_offline (data_wrapper);
 }

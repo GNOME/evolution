@@ -44,6 +44,7 @@
 
 #define d(x)
 
+static gboolean              is_offline        (CamelDataWrapper *data_wrapper);
 static void                  add_part          (CamelMultipart *multipart,
 						CamelMimePart *part);
 static void                  add_part_at       (CamelMultipart *multipart,
@@ -94,6 +95,7 @@ camel_multipart_class_init (CamelMultipartClass *camel_multipart_class)
 
 	/* virtual method overload */
 	camel_data_wrapper_class->write_to_stream = write_to_stream;
+	camel_data_wrapper_class->is_offline = is_offline;
 }
 
 static void
@@ -412,6 +414,24 @@ const gchar *
 camel_multipart_get_boundary (CamelMultipart *multipart)
 {
 	return CMP_CLASS (multipart)->get_boundary (multipart);
+}
+
+static gboolean
+is_offline (CamelDataWrapper *data_wrapper)
+{
+	CamelMultipart *multipart = CAMEL_MULTIPART (data_wrapper);
+	GList *node;
+	CamelDataWrapper *part;
+
+	if (parent_class->is_offline (data_wrapper))
+		return TRUE;
+	for (node = multipart->parts; node; node = node->next) {
+		part = node->data;
+		if (camel_data_wrapper_is_offline (part))
+			return TRUE;
+	}
+
+	return FALSE;
 }
 
 /* this is MIME specific, doesn't belong here really */

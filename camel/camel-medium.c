@@ -40,6 +40,7 @@ static CamelDataWrapperClass *parent_class = NULL;
 /* Returns the class for a CamelMedium */
 #define CM_CLASS(so) CAMEL_MEDIUM_CLASS (CAMEL_OBJECT_GET_CLASS(so))
 
+static gboolean is_offline (CamelDataWrapper *data_wrapper);
 static void add_header (CamelMedium *medium, const gchar *header_name,
 			const void *header_value);
 static void set_header (CamelMedium *medium, const gchar *header_name, const void *header_value);
@@ -56,12 +57,13 @@ static void set_content_object (CamelMedium *medium,
 static void
 camel_medium_class_init (CamelMediumClass *camel_medium_class)
 {
-	/*
-	 * CamelDataWrapperClass *camel_data_wrapper_class =
-	 *	CAMEL_DATA_WRAPPER_CLASS (camel_medium_class);
-	 */
+	CamelDataWrapperClass *camel_data_wrapper_class =
+		CAMEL_DATA_WRAPPER_CLASS (camel_medium_class);
 
 	parent_class = CAMEL_DATA_WRAPPER_CLASS (camel_type_get_global_classfuncs (camel_data_wrapper_get_type ()));
+
+	/* virtual method overload */
+	camel_data_wrapper_class->is_offline = is_offline;
 
 	/* virtual method definition */
 	camel_medium_class->add_header = add_header;
@@ -110,6 +112,13 @@ camel_medium_get_type (void)
 	}
 
 	return camel_medium_type;
+}
+
+static gboolean
+is_offline (CamelDataWrapper *data_wrapper)
+{
+	return parent_class->is_offline (data_wrapper) ||
+		camel_data_wrapper_is_offline (CAMEL_MEDIUM (data_wrapper)->content);
 }
 
 static void
