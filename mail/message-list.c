@@ -320,6 +320,8 @@ message_list_init_header (MessageList *message_list)
 	 */
 	
 	message_list->header_model = e_table_header_new ();
+	gtk_object_ref(GTK_OBJECT(message_list->header_model));
+	gtk_object_sink(GTK_OBJECT(message_list->header_model));
 
 	message_list->table_cols [COL_ONLINE_STATUS] =
 		e_table_col_new (COL_ONLINE_STATUS, _("Online status"),
@@ -423,6 +425,9 @@ message_list_init (GtkObject *object)
 			   GTK_SIGNAL_FUNC(on_row_selection_cmd), message_list);
 
 	gtk_widget_show(message_list->etable);
+	
+	gtk_object_ref(message_list->table_model);
+	gtk_object_sink(message_list->table_model);
 	
 	/*
 	 * We do own the Etable, not some widget container
