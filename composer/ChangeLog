@@ -1,5 +1,11 @@
 2001-09-10  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* e-msg-composer.c (setup_ui): Make sure that the session is
+	non-NULL.
+	(menu_file_send_cb): And here too.
+
+2001-09-10  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* e-msg-composer.c (build_message): Wrap the S/MIME code in ifdef
 	SMIME_SUPPORTED which isn't defined but by some later version will
 	be.

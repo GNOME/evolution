@@ -1396,7 +1396,7 @@ menu_file_send_cb (BonoboUIComponent *uic,
 		   void *data,
 		   const char *path)
 {
-	if (camel_session_is_online (session))
+	if (session && camel_session_is_online (session))
 		gtk_signal_emit (GTK_OBJECT (data), signals[SEND]);
 	else
 		gtk_signal_emit (GTK_OBJECT (data), signals[POSTPONE]);
@@ -1730,7 +1730,7 @@ setup_ui (EMsgComposer *composer)
 					     composer);
 	g_free (default_charset);
 	
-	if (!camel_session_is_online (session)) {
+	if (!session || !camel_session_is_online (session)) {
 		/* Move the accelerator from Send to Send Later */
 		bonobo_ui_component_set_prop (
 			composer->uic, "/commands/FileSend",
