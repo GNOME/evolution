@@ -50,7 +50,6 @@ eutilinclude_HEADERS = 				\
 	e-signature-list.h			\
 	e-time-utils.h				\
 	e-uid.h					\
-	e-url.h					\
 	md5-utils.h				\
 	$(MONOHEADERS)
 
@@ -88,7 +87,6 @@ libeutil_la_SOURCES =				\
 	e-signature-list.c			\
 	e-time-utils.c				\
 	e-uid.c					\
-	e-url.c					\
 	eggtrayicon.c				\
 	eggtrayicon.h				\
 	md5-utils.c				\
