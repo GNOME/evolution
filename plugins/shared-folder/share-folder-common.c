@@ -22,8 +22,6 @@
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
-#include <camel/camel-store.h>
-#include <camel/camel-vee-store.h>
 #include <string.h>
 #include <glib.h>
 #include <gtk/gtk.h>
@@ -35,9 +33,14 @@
 #include <mail/em-folder-tree.h>
 #include <mail/em-folder-selector.h>
 #include <mail/mail-mt.h>
+#include <mail/mail-component.h>
+#include <mail/mail-config.h>
 #include <mail/em-vfolder-rule.h>
 #include <filter/filter-rule.h>
 #include <camel/camel-store.h>
+#include <camel/camel-session.h>
+#include <camel/camel-store.h>
+#include <camel/camel-vee-store.h>
 #include <camel/camel-folder.h>
 #include <e-gw-container.h>
 #include <e-gw-connection.h>
@@ -55,6 +58,13 @@ struct ShareInfo {
 	EMFolderSelector *emfs;
 };
 	
+GtkWidget * org_gnome_shared_folder_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data);
+void org_gnome_create_option(EPlugin *ep, EMPopupTargetFolder *target);
+void shared_folder_commit (EPlugin *ep, EConfigTarget *tget);
+void shared_folder_abort (EPlugin *ep, EConfigTarget *target);
+
+static void refresh_folder_tree (EMFolderTreeModel *model, CamelStore *store);
+
 static void 
 refresh_folder_tree (EMFolderTreeModel *model, CamelStore *store)
 {
@@ -89,7 +99,7 @@ shared_folder_commit (EPlugin *ep, EConfigTarget *tget)
 	if (common) {
 		share_folder (common);
 		refresh_folder_tree (model, store);
-		g_object_run_dispose (common);
+		g_object_run_dispose ((GObject *)common);
 		common = NULL;
 	}
 }
@@ -155,7 +165,6 @@ create_folder__created (struct _mail_msg *mm)
 			(ssi->sf)->cnc = ccnc;
 
 			(ssi->sf)->container_id = g_strdup (get_container_id ((ssi->sf)->cnc, m->name));
-			g_print("\n\n\name :%s\n\nid: %s", m->name, (ssi->sf)->container_id);
 			share_folder(ssi->sf);
 		}
 
@@ -349,7 +358,6 @@ org_gnome_shared_folder_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_d
 		if(sub == NULL)
 			sub = g_strrstr(folderuri, "/");
 		sub++;
-		g_print ("\n\n%s\n\n", sub);
 
 	if ( !( strcmp (sub, "Mailbox") && strcmp (sub, "Calendar") && strcmp (sub, "Contacts") && strcmp (sub, "Documents") && strcmp (sub, "Authored") && strcmp (sub, "Default Library") && strcmp (sub, "Work In Progress") && strcmp (sub, "Cabinet") && strcmp (sub, "Sent Items") && strcmp (sub, "Trash") && strcmp (sub, "Checklist"))) {
 		g_free (folderuri);
@@ -371,10 +379,10 @@ org_gnome_shared_folder_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_d
 			return NULL;
 
 		g_free (folderuri);
-		gtk_notebook_append_page((GtkNotebook *) hook_data->parent, sharing_tab->vbox, gtk_label_new_with_mnemonic N_("Sharing"));
+		gtk_notebook_append_page((GtkNotebook *) hook_data->parent, (GtkWidget *) sharing_tab->vbox, gtk_label_new_with_mnemonic N_("Sharing"));
 		common = sharing_tab;
 
-		return sharing_tab;
+		return GTK_WIDGET (sharing_tab);
 	} else
 		return NULL;
 }
@@ -383,7 +391,7 @@ EGwConnection *
 get_cnc (CamelStore *store)
 {
 		EGwConnection *cnc;
-		char *uri, *property_value, *use_ssl, *server_name, *user, *port;
+		const char *uri, *property_value, *use_ssl, *server_name, *user, *port;
 		CamelService *service;
 		CamelURL *url;
 
@@ -391,8 +399,6 @@ get_cnc (CamelStore *store)
 		url = service->url;
 		server_name = g_strdup (url->host);
 		user = g_strdup (url->user);
-
-		g_print("\n\nserver : %s, user : %s\n\n", server_name, user);
 		property_value =  camel_url_get_param (url, "soap_port");
 		use_ssl = g_strdup (camel_url_get_param (url, "soap_ssl"));
 		if(property_value == NULL)
@@ -406,7 +412,6 @@ get_cnc (CamelStore *store)
 			uri = g_strconcat ("https://", server_name, ":", port, "/soap", NULL);	
 		else
 			uri = g_strconcat ("http://", server_name, ":", port, "/soap", NULL);
-	g_print("\n\nurl : %s, user : %s\n\n", uri, user);
 
 		cnc = e_gw_connection_new (uri, user, service->url->passwd);
 		return cnc;
@@ -418,7 +423,7 @@ get_container_id(EGwConnection *cnc, gchar *fname)
 {
 	GList *container_list = NULL;	
 	gchar *id = NULL;
-	gchar *name;
+	const char *name;
 	/* get list of containers */
 	if (e_gw_connection_get_container_list (cnc, "folders", &(container_list)) == E_GW_CONNECTION_STATUS_OK) {
 		GList *container = NULL;

@@ -33,25 +33,27 @@
 #include <e-util/e-config.h>
 #include <mail/em-config.h>
 #include <mail/em-event.h>
+#include <mail/mail-component.h>
 #include <camel/camel-mime-message.h>
 #include <camel/camel-stream.h>
+#include <camel/camel-session.h>
 #include <camel/camel-stream-mem.h>
 #include <camel/camel-data-wrapper.h>
 #include <mail/em-folder-tree.h>
+#include <mail/mail-config.h>
 #include <mail/em-folder-selector.h>
 #include <camel/camel-medium.h>
 #include <e-gw-connection.h>
 #include <share-folder.h>
-#include <glade/glade.h>
-
-static GladeXML *xml;
 
 extern CamelSession *session;
 struct AcceptData {
-	gchar *item_id;
+	const char *item_id;
 	EMFolderTreeModel *model;
 };
 
+
+void org_gnome_popup_wizard (EPlugin *ep, EMEventTargetMessage *target);
 
 static void
 install_folder_response (EMFolderSelector *emfs, int response, gpointer *data)
@@ -71,7 +73,7 @@ install_folder_response (EMFolderSelector *emfs, int response, gpointer *data)
 	EGwConnection *cnc;
 
 	if (response == GTK_RESPONSE_CANCEL){
-		gtk_widget_destroy (emfs);
+		gtk_widget_destroy (GTK_WIDGET (emfs));
 	} else {
 		model = accept_data->model;
 		item_id = accept_data->item_id;
@@ -82,7 +84,7 @@ install_folder_response (EMFolderSelector *emfs, int response, gpointer *data)
 		printf ("Creating new folder: %s (%s)\n", path, uri);
 		names = g_strsplit (path, "/", -1);
 		if(names == NULL){
-			folder_name = path;
+			folder_name = (gchar *)path;
 			parent_name = NULL;
 		} else {
 			while (names [parts])
@@ -128,7 +130,7 @@ install_folder_response (EMFolderSelector *emfs, int response, gpointer *data)
 }
 
 static void 
-accept_clicked(GnomeDruidPage *page, GtkWidget *druid, gchar *id)
+accept_clicked(GnomeDruidPage *page, GtkWidget *druid, const char *id)
 {
 	g_print("\n\naccepting\n\n");
 	EMFolderTreeModel *model;
@@ -149,14 +151,13 @@ accept_clicked(GnomeDruidPage *page, GtkWidget *druid, gchar *id)
 	gtk_window_set_title (GTK_WINDOW (dialog), "Install Shared Folder");
 	gtk_widget_destroy (druid);
 	gtk_widget_show (dialog);
-	//gnome_druid_page_next (page);
 
 }
 
 void
 org_gnome_popup_wizard (EPlugin *ep, EMEventTargetMessage *target)
 {
-	CamelInternetAddress *from_addr = NULL;
+	const CamelInternetAddress *from_addr = NULL;
 	const char *name, *item_id;
 	const char *email;
 	const char *subject;
@@ -171,10 +172,10 @@ org_gnome_popup_wizard (EPlugin *ep, EMEventTargetMessage *target)
 	char *notification;
 	char *start_message;
 	char *buffer = NULL;
+	char *uri;
 	EMFolderTreeModel *model;
 	EMFolderTree *folder_tree;
 	GtkWidget *selector_dialog ;
-	char *uri;
 	struct AcceptData *accept_data; 
 
 	notification = (char *)camel_medium_get_header (CAMEL_MEDIUM(msg),"X-notification") ;
@@ -183,16 +184,16 @@ org_gnome_popup_wizard (EPlugin *ep, EMEventTargetMessage *target)
 	}
 
 	else {
-		g_print ("shared folder notification\n") ;
+		dw = camel_data_wrapper_new () ;
+		camel_medium_remove_header (CAMEL_MEDIUM (mime_part), "Content-Transfer-Encoding") ;
+		camel_medium_remove_header (CAMEL_MEDIUM (mime_part), "Content-Type") ;
 		dw = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
 		content = (CamelStreamMem *)camel_stream_mem_new();
-		camel_data_wrapper_decode_to_stream(dw, (CamelStream *)content);
+		camel_data_wrapper_write_to_stream(dw, (CamelStream *)content);
 		buffer = g_malloc0 (content->buffer->len+1) ;
 		buffer = memcpy (buffer, content->buffer->data, content->buffer->len) ;
-		g_print ("\nThe mesg is :%s", buffer);	
 		from_addr = camel_mime_message_get_from ((CamelMimeMessage *)target->message);
 		if (camel_internet_address_get (from_addr,0, &name, &email))
-			g_print ("\ncomes :%s", name);
 		subject = camel_mime_message_get_subject (target->message) ;
 
 		start_message = g_strconcat (" The User ", "'", name, "'" ," has shared a folder with you\n\n", " Message from ", "'" , name, "'\n", buffer, "Click 'Forward' to install the shared folder\n\n",NULL);
@@ -200,10 +201,10 @@ org_gnome_popup_wizard (EPlugin *ep, EMEventTargetMessage *target)
 		title_page = GNOME_DRUID_PAGE_EDGE (gnome_druid_page_edge_new_with_vals(GNOME_EDGE_START, TRUE, "Install the shared folder", start_message, NULL, NULL, NULL));
 		middle_page = g_object_new (GNOME_TYPE_DRUID_PAGE_STANDARD, "title", "vivek", NULL);
 		finish_page = GNOME_DRUID_PAGE_EDGE (gnome_druid_page_edge_new_with_vals(GNOME_EDGE_FINISH, TRUE, "finished Install the shared folder", "said", NULL,NULL, NULL));
-		wizard = GNOME_DRUID (gnome_druid_new_with_window ("Wizard check", NULL, TRUE, (GtkWidget**)(&window)));
+		wizard = GNOME_DRUID (gnome_druid_new_with_window ("Shared Folder Installation", NULL, TRUE, (GtkWidget**)(&window)));
 		gnome_druid_append_page(wizard, GNOME_DRUID_PAGE(title_page));
 		gtk_widget_show_all (GTK_WIDGET (title_page));
-		gnome_druid_append_page(wizard, GNOME_DRUID_PAGE(middle_page));
+		gnome_druid_append_page(wizard, GNOME_DRUID_PAGE(middle_page));	
 		gtk_widget_show_all (GTK_WIDGET (middle_page));
 		gnome_druid_append_page(wizard, GNOME_DRUID_PAGE(finish_page));
 		gtk_widget_show_all (GTK_WIDGET (finish_page));
@@ -215,10 +216,6 @@ org_gnome_popup_wizard (EPlugin *ep, EMEventTargetMessage *target)
 		gtk_widget_destroy (GTK_DIALOG (selector_dialog)->action_area);	
 		gtk_widget_show_all (GTK_WIDGET (middle_page));
 		item_id = camel_mime_message_get_message_id (msg);
-		accept_data = g_new0(struct AcceptData, 1);
-		accept_data->item_id = item_id;
-		accept_data->model = model;
-		g_print ("\n\nitem_id :%s\n\n",item_id);	
 		g_signal_connect (title_page, "next", G_CALLBACK(accept_clicked), item_id);
 
 	}
