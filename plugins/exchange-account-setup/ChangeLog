@@ -1,3 +1,8 @@
+2005-01-17  Sushma Rai  <rsushma@novell.com>
+
+	* Makefile.am: Linking to camel libs. Fixes plugin loading problem 
+	due to undefined camel symbol, during evolution startup. 
+
 2005-01-13  Sushma Rai  <rsushma@novell.com>
 
 	* org-gnome-exchange-account-setup.eplug.in: Combined
