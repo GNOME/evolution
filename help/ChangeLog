@@ -1,3 +1,7 @@
+2004-01-26  David Trowbridge <trowbrds@cs.colorado.edu>
+ 
+ 	* quick ref docs
+	
 2004-01-09  Rodney Dawes  <dobey@ximian.com>
 
 	* C/Makefile.am (entities): Remove usage-exec-summary.xml

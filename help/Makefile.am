@@ -1,4 +1,6 @@
-SUBDIRS = C
+SUBDIRS =			\
+	C			\
+	quickref
 
 EXTRA_DIST =			\
 	ChangeLog.pre-1-4	\
