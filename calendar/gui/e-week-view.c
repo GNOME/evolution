@@ -3228,6 +3228,12 @@ e_week_view_change_event_time (EWeekView *week_view, time_t start_dt, time_t end
 	e_cal_component_set_dtend (comp, &date);
 
 	e_cal_component_commit_sequence (comp);
+	
+	if (week_view->last_edited_comp_string != NULL) {
+		g_free (week_view->last_edited_comp_string);
+		week_view->last_edited_comp_string = NULL;
+	}
+	
 	week_view->last_edited_comp_string = e_cal_component_get_as_string (comp);
 
 

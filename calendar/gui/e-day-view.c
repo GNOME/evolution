@@ -3965,6 +3965,12 @@ e_day_view_finish_resize (EDayView *day_view)
 	}
 
 	e_cal_component_commit_sequence (comp);
+
+	if (day_view->last_edited_comp_string != NULL) {
+		g_free (day_view->last_edited_comp_string);
+		day_view->last_edited_comp_string == NULL;
+	}
+
 	day_view->last_edited_comp_string = e_cal_component_get_as_string (comp);
 
 	gnome_canvas_item_hide (day_view->resize_rect_item);
@@ -4441,6 +4447,7 @@ e_day_view_reshape_day_events (EDayView *day_view,
 			continue;
 		if (strncmp (current_comp_string, day_view->last_edited_comp_string,50) == 0) {
 			e_canvas_item_grab_focus (event->canvas_item, TRUE);
+			g_free (day_view->last_edited_comp_string);
 			day_view-> last_edited_comp_string = NULL;
 		}
 	}
@@ -5831,6 +5838,12 @@ e_day_view_change_event_time (EDayView *day_view, time_t start_dt, time_t end_dt
 	e_cal_component_set_dtend (comp, &date);
 
 	e_cal_component_commit_sequence (comp);
+	
+	if (day_view->last_edited_comp_string != NULL) {
+		g_free (day_view->last_edited_comp_string);
+		day_view->last_edited_comp_string = NULL;
+	}
+		
 	day_view->last_edited_comp_string = e_cal_component_get_as_string (comp);
 
 	gnome_canvas_item_hide (day_view->resize_rect_item);
