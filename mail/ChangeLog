@@ -455,7 +455,7 @@
 
 	* mail-ops.c (mail_send_message): Changed the product string -
 	will change it to use User-Agent once I get the RFC/DRUMS draft or
-	whatever. Until then I'll stick with User-Agent.
+	whatever. Until then I'll stick with X-Mailer.
 
 2001-02-26  Dan Winship  <danw@ximian.com>
 

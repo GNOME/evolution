@@ -1,3 +1,7 @@
+2001-03-19  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* NEWS: pulled from the 0.9 release.
+
 2001-03-18  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* configure.in: Updated the checks for NSS and NSPR
