@@ -54,6 +54,8 @@
 #include "gal/util/e-text-event-processor-emacs-like.h"
 #include "gal/util/e-i18n.h"
 #include "e-table-tooltip.h"
+#include "gal/a11y/e-table/gal-a11y-e-cell-registry.h"
+#include "gal/a11y/e-table/gal-a11y-e-cell-text.h"
 
 #define d(x)
 #define DO_SELECTION 1
@@ -1724,6 +1726,8 @@ e_cell_text_class_init (GObjectClass *object_class)
 			use_ellipsis_default = FALSE;
 		}
 	}
+	
+	gal_a11y_e_cell_registry_add_cell_type (NULL, E_CELL_TEXT_TYPE, gal_a11y_e_cell_text_new);
 }
 
 

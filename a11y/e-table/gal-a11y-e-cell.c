@@ -7,6 +7,7 @@
  */
 
 #include <config.h>
+#include "gal/e-table/e-table.h"
 #include "gal-a11y-e-cell.h"
 #include "gal-a11y-util.h"
 #include <atk/atkobject.h>
@@ -112,12 +113,33 @@ eti_get_extents (AtkComponent *component,
 		*y += yval;
 }
 
+static gboolean
+eti_grab_focus (AtkComponent *component)
+{
+	GalA11yECell *a11y;
+	gint view_row;
+	GtkWidget *e_table, *toplevel;
+
+	a11y = GAL_A11Y_E_CELL (component);
+	e_table = gtk_widget_get_parent (GNOME_CANVAS_ITEM (a11y->item)->canvas);
+	view_row = e_table_view_to_model_row (E_TABLE (e_table), a11y->row);
+
+	e_selection_model_clear (a11y->item->selection);
+	e_selection_model_select_single_row (a11y->item->selection, view_row);
+
+	gtk_widget_grab_focus (e_table);
+	toplevel = gtk_widget_get_toplevel (e_table);
+	if (GTK_WIDGET_TOPLEVEL (toplevel))
+		gtk_window_present (toplevel);
+}
+
 /* Table IFace */
 
 static void
 eti_atk_component_iface_init (AtkComponentIface *iface)
 {
 	iface->get_extents = eti_get_extents;
+	iface->grab_focus  = eti_grab_focus;
 }
 
 static void
