@@ -473,10 +473,32 @@ e_select_names_init (ESelectNames *e_select_names)
 	ESource *source = NULL;
 	char *uid;
 	
+	gui = glade_xml_new (EVOLUTION_GLADEDIR "/select-names.glade", NULL, NULL);
+	widget = glade_xml_get_widget (gui, "select-names-box");
+	if (!widget) {
+		g_object_unref (gui);
+		return;
+	}
+	gtk_widget_ref (widget);
+	gtk_container_remove (GTK_CONTAINER (widget->parent), widget);
+	gtk_box_pack_start (GTK_DIALOG (e_select_names)->vbox, widget, TRUE, TRUE, 0);
+	gtk_widget_unref (widget);
+
+	gtk_dialog_add_buttons (GTK_DIALOG (e_select_names),
+				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+				GTK_STOCK_OK, GTK_RESPONSE_OK,
+				NULL);
+
+	gtk_window_set_modal (GTK_WINDOW (e_select_names), TRUE);
+	gtk_window_set_default_size (GTK_WINDOW (e_select_names), 472, 512);
+	gtk_window_set_title (GTK_WINDOW (e_select_names), _("Select Contents from Address Book"));
+	gtk_window_set_resizable (GTK_WINDOW (e_select_names), TRUE);
+	gtk_dialog_set_has_separator (GTK_DIALOG (e_select_names), FALSE);
+	gtk_container_set_border_width (GTK_CONTAINER (e_select_names), 4);
+
 	/* FIXME What to do on error/NULL ? */
 	e_select_names->source_list = e_source_list_new_for_gconf_default ("/apps/evolution/addressbook/sources");
 	
-	gui = glade_xml_new (EVOLUTION_GLADEDIR "/select-names.glade", NULL, NULL);
 	e_select_names->gui = gui;
 
 	/* Add the source menu */
@@ -492,31 +514,8 @@ e_select_names_init (ESelectNames *e_select_names)
 	e_select_names->child_count = 0;
 	e_select_names->def = NULL;
 
-	widget = glade_xml_get_widget(gui, "table-top");
-	if (!widget) {
-		return;
-	}
-	gtk_widget_ref(widget);
-	gtk_container_remove(GTK_CONTAINER(widget->parent), widget);
-	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(e_select_names)->vbox), widget, TRUE, TRUE, 0);
-	gtk_widget_unref(widget);
-
-	gtk_dialog_add_buttons (GTK_DIALOG (e_select_names),
-				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-				GTK_STOCK_OK, GTK_RESPONSE_OK,
-				NULL);
-
 	gtk_dialog_set_default_response (GTK_DIALOG (e_select_names),
 					 GTK_RESPONSE_OK);
-
-	gtk_container_set_border_width (GTK_CONTAINER (e_select_names), 12);
-	gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (e_select_names)->vbox), 6);
-	gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (e_select_names)->action_area), 12);
-
-	gtk_window_set_modal (GTK_WINDOW (e_select_names), TRUE);
-
-	gtk_window_set_title(GTK_WINDOW(e_select_names), _("Select Contacts from Addressbook")); 
-	gtk_window_set_resizable(GTK_WINDOW(e_select_names), TRUE);
 
 	e_select_names->table = E_TABLE_SCROLLED(glade_xml_get_widget(gui, "table-source"));
 	e_select_names->model = g_object_get_data(G_OBJECT(e_select_names->table), "model");
@@ -735,8 +734,6 @@ e_select_names_add_section (ESelectNames *e_select_names,
 	child->source = source;
 	g_object_ref(child->source);
 
-	e_select_names->child_count++;
-
 	alignment = gtk_alignment_new(0, 0, 1, 0);
 
 	label_text = g_strconcat (child->title, " ->", NULL);
@@ -810,6 +807,8 @@ e_select_names_add_section (ESelectNames *e_select_names,
 	g_hash_table_insert(e_select_names->children, g_strdup(id), child);
 
 	sync_table_and_models (child->source, e_select_names);
+
+	e_select_names->child_count++;
 }
 
 void
