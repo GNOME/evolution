@@ -449,7 +449,7 @@ setup_alarm_at (iCalObject *ico, CalendarAlarm *alarm, char *iso_time, VObject *
 			alarm->count = d / HOURS (24);
 			alarm->units = ALARM_DAYS;
 		} else {
-			alarm->count = d / 60*60;
+			alarm->count = d / (60*60);
 			alarm->units = ALARM_HOURS;
 		}
 	} else {
