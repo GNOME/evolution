@@ -732,8 +732,8 @@ imap_sync_online (CamelFolder *folder, CamelException *ex)
 		   want to unset the previously set flags.*/
 		unset = !(info->flags & CAMEL_IMAP_SERVER_FLAGS);
 		
-		/* FIXME: since we don't know the previously set
-		   flags, if unset is TRUE then just unset all the flags? */
+		/* FIXME: since we don't know the previously set flags,
+		   if unset is TRUE then just unset all the flags? */
 		flaglist = imap_create_flag_list (unset ? CAMEL_IMAP_SERVER_FLAGS : info->flags);
 		
 		/* Note: get_matching() uses UID_SET_LIMIT to limit
@@ -771,10 +771,15 @@ imap_sync_online (CamelFolder *folder, CamelException *ex)
 		}
 		g_ptr_array_free (matches, TRUE);
 		
-		if (camel_exception_is_set (ex)) {
-			CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
+		/* We unlock here so that other threads can have a chance to grab the command_lock */
+		CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
+		
+		/* check for an exception */
+		if (camel_exception_is_set (ex))
 			return;
-		}
+		
+		/* Re-lock the command_lock */
+		CAMEL_IMAP_STORE_LOCK (store, command_lock);
 	}
 	
 	/* Save the summary */

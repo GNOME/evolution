@@ -1,5 +1,9 @@
 2002-06-14  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/imap/camel-imap-folder.c (imap_sync_online): Unlock
+	the command_lock after each UID STORE command so that other
+	(probably more important) threads can send their requests.
+
 	* camel-arg.c:
 	* camel-disco-diary.c:
 	* camel-index-control.c:
