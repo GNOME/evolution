@@ -753,8 +753,8 @@ text_index_normalise(CamelIndex *idx, const char *in, void *data)
 {
 	char *word;
 
-	/* Sigh, this is really epensive */
-	word = g_utf8_normalize(in, strlen(in), G_NORMALIZE_ALL);
+	/* Sigh, this is really expensive */
+	word = g_strdup(in); /*g_utf8_normalize(in, strlen(in), G_NORMALIZE_ALL);*/
 	g_utf8_strdown(word);
 
 	return word;

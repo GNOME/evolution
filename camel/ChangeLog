@@ -1,3 +1,10 @@
+2002-03-26  Not Zed  <NotZed@Ximian.com>
+
+	* camel-text-index.c (text_index_normalise): Changed to use just
+	g_utf8_strdown instead of utf8_normalise, to match the indexing
+	code.  utf8_normalise is just far too expensive (saves approx 25%
+	total processing).
+
 2002-03-25  Not Zed  <NotZed@Ximian.com>
 
 	* camel-text-index.c (text_index_add_name): When we add a new
