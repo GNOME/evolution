@@ -1,3 +1,14 @@
+2000-08-31  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/imap/camel-imap-store.c (camel_imap_command_extended):
+	Don't save any exceptions caused by camel_imap_folder_changed
+	(camel_imap_fetch_command): Same.
+	
+	* providers/imap/camel-imap-folder.c (camel_imap_folder_changed):
+	Using a new way of calculating the first recent message that seems
+	more accurate. Also added code to make sure we don't accidently
+	add a duplicate summary.
+
 2000-08-31  Not Zed  <NotZed@HelixCode.com>
 
 	* camel-mime-part.c (write_to_stream): Use the proper type

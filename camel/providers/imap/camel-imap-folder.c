@@ -1482,7 +1482,7 @@ camel_imap_folder_changed (CamelFolder *folder, gint recent, GPtrArray *expunged
 	if (recent > 0) {
 		CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
 		CamelMessageInfo *info;
-		gint i, j, last;
+		gint i, j, last, slast;
 		
 		if (!imap_folder->summary) {
 			imap_folder->summary = g_ptr_array_new ();
@@ -1490,12 +1490,32 @@ camel_imap_folder_changed (CamelFolder *folder, gint recent, GPtrArray *expunged
 		}
 		
 		last = imap_folder->summary->len + 1;
+		slast = imap_get_message_count_internal (folder, ex);
+		fprintf (stderr, "calculated next message is: %d\n", last);
+		fprintf (stderr, "server says %d mesgs total\n", slast);
+		slast -= (recent - 1);
+		fprintf (stderr, "based on total, new guess is: %d\n", slast);
 		
-		for (i = last, j = 0; j < recent; i++, j++) {
+		for (i = slast, j = 0; j < recent; i++, j++) {
 			info = imap_get_message_info_internal (folder, i, ex);
 			if (info) {
-				g_ptr_array_add (imap_folder->summary, info);
-				g_hash_table_insert (imap_folder->summary_hash, info->uid, info);
+				if (!imap_get_message_info (folder, info->uid)) {
+					/* add to our summary */
+					g_ptr_array_add (imap_folder->summary, info);
+					g_hash_table_insert (imap_folder->summary_hash, info->uid, info);
+				} else {
+					/* we already have a record of it */
+					g_free (info->subject);
+					g_free (info->from);
+					g_free (info->to);
+					g_free (info->cc);
+					g_free (info->uid);
+					g_free (info->message_id);
+					header_references_list_clear (&info->references);
+					g_free (info);
+					info = NULL;
+					d(fprintf (stderr, "we already had message %d!!\n", i));
+				}
 			} else {
 				/* our hack failed so now we need to do it the old fashioned way */
 				/*imap_get_summary_internal (folder, ex);*/

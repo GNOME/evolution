@@ -785,8 +785,13 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 	}
 	
 	/* Update the summary */
-	if (folder && (recent > 0 || expunged->len > 0))
-		camel_imap_folder_changed (folder, recent, expunged, ex);
+	if (folder && (recent > 0 || expunged->len > 0)) {
+		CamelException dex;
+		
+		camel_exception_init (&dex);
+		camel_imap_folder_changed (folder, recent, expunged, &dex);
+		camel_exception_clear (&dex);
+	}
 	
 	for (i = 0; i < data->len; i++)
 		g_free (data->pdata[i]);
@@ -826,7 +831,7 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 gint
 camel_imap_fetch_command (CamelImapStore *store, CamelFolder *folder, char **ret, CamelException *ex, char *fmt, ...)
 {
-	/* Security Note/FIXME: We have to be careful about assuming
+	/* Security Note: We have to be careful about assuming
 	 * that a server response is valid as the command we are
 	 * calling may require a literal string response which could
 	 * possibly contain strings that appear to be valid server
@@ -1008,8 +1013,13 @@ camel_imap_fetch_command (CamelImapStore *store, CamelFolder *folder, char **ret
 	}
 	
 	/* Update the summary */
-	if (folder && (recent > 0 || expunged->len > 0))
-		camel_imap_folder_changed (folder, recent, expunged, ex);
+	if (folder && (recent > 0 || expunged->len > 0)) {
+		CamelException dex;
+		
+		camel_exception_init (&dex);
+		camel_imap_folder_changed (folder, recent, expunged, &dex);
+		camel_exception_clear (&dex);
+	}
 	
 	for (i = 0; i < data->len; i++)
 		g_free (data->pdata[i]);
@@ -1289,7 +1299,7 @@ camel_imap_command_continuation_with_stream (CamelImapStore *store, char **ret, 
 					      "IMAP command failed: %s", word);
 		} else {
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-					      "IMAP command failed: Unknown");
+					      "IMAP command failed: Unknown error");
 		}
 		
 		*ret = NULL;
