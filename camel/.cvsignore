@@ -10,3 +10,4 @@ Makefile.in
 *.da
 *.gcov
 camel-lock-helper
+camel-index-control
