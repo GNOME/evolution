@@ -34,8 +34,8 @@
 #include <cal-client/cal-client.h>
 #include "calendar-offline-handler.h"
 
-#define PARENT_TYPE bonobo_x_object_get_type ()
-static BonoboXObjectClass *parent_class = NULL;
+#define PARENT_TYPE bonobo_object_get_type ()
+static BonoboObjectClass *parent_class = NULL;
 
 struct _CalendarOfflineHandlerPrivate {
 	CalClient *client;
@@ -288,4 +288,4 @@ calendar_offline_handler_new (void)
 	return new;
 }
 
-BONOBO_X_TYPE_FUNC_FULL (CalendarOfflineHandler, GNOME_Evolution_Offline, PARENT_TYPE, calendar_offline_handler);
+BONOBO_TYPE_FUNC_FULL (CalendarOfflineHandler, GNOME_Evolution_Offline, PARENT_TYPE, calendar_offline_handler);

@@ -27,7 +27,7 @@
 #include <config.h>
 #endif
 
-#include <bonobo/bonobo-xobject.h>
+#include <bonobo/bonobo-object.h>
 #include "Evolution.h"
 
 #ifdef __cplusplus
@@ -47,13 +47,13 @@ typedef struct _CalendarOfflineHandlerPrivate CalendarOfflineHandlerPrivate;
 typedef struct _CalendarOfflineHandlerClass   CalendarOfflineHandlerClass;
 
 struct _CalendarOfflineHandler {
-	BonoboXObject parent;
+	BonoboObject parent;
 
 	CalendarOfflineHandlerPrivate *priv;
 };
 
 struct _CalendarOfflineHandlerClass {
-	BonoboXObjectClass parent_class;
+	BonoboObjectClass parent_class;
 
 	POA_GNOME_Evolution_Offline__epv epv;
 };

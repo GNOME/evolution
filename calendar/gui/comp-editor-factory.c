@@ -100,14 +100,14 @@ static void impl_editNew (PortableServer_Servant servant,
 			  const GNOME_Evolution_Calendar_CalObjType type,
 			  CORBA_Environment *ev);
 
-static BonoboXObjectClass *parent_class = NULL;
+static BonoboObjectClass *parent_class = NULL;
 
 
 
-BONOBO_X_TYPE_FUNC_FULL (CompEditorFactory,
-			 GNOME_Evolution_Calendar_CompEditorFactory,
-			 BONOBO_X_OBJECT_TYPE,
-			 comp_editor_factory);
+BONOBO_TYPE_FUNC_FULL (CompEditorFactory,
+		       GNOME_Evolution_Calendar_CompEditorFactory,
+		       BONOBO_OBJECT_TYPE,
+		       comp_editor_factory);
 
 /* Class initialization function for the component editor factory */
 static void
@@ -117,7 +117,7 @@ comp_editor_factory_class_init (CompEditorFactoryClass *class)
 
 	object_class = (GtkObjectClass *) class;
 
-	parent_class = gtk_type_class (BONOBO_X_OBJECT_TYPE);
+	parent_class = gtk_type_class (BONOBO_OBJECT_TYPE);
 
 	class->epv.editExisting = impl_editExisting;
 	class->epv.editNew = impl_editNew;

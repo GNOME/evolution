@@ -21,7 +21,7 @@
 #ifndef COMP_EDITOR_FACTORY_H
 #define COMP_EDITOR_FACTORY_H
 
-#include <bonobo/bonobo-xobject.h>
+#include <bonobo/bonobo-object.h>
 #include "evolution-calendar.h"
 
 
@@ -37,14 +37,14 @@
 typedef struct CompEditorFactoryPrivate CompEditorFactoryPrivate;
 
 typedef struct {
-	BonoboXObject xobject;
+	BonoboObject object;
 
 	/* Private data */
 	CompEditorFactoryPrivate *priv;
 } CompEditorFactory;
 
 typedef struct {
-	BonoboXObjectClass parent_class;
+	BonoboObjectClass parent_class;
 
 	POA_GNOME_Evolution_Calendar_CompEditorFactory__epv epv;
 } CompEditorFactoryClass;

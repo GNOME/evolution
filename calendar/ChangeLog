@@ -1,5 +1,14 @@
 2003-02-05  Dan Winship  <danw@ximian.com>
 
+	* gui/alarm-notify/notify-main.c (main):
+	s/glade_gnome_init/glade_init/
+
+	* gui/calendar-offline-handler.c: s/BonoboXObject/BonoboObject/
+
+	* gui/comp-editor-factory.c: Likewise
+
+2003-02-05  Dan Winship  <danw@ximian.com>
+
 	* cal-util/cal-recur.c (cal_recur_nth): array of localized month
 	day names ("1st" - "31st")
 
@@ -7,9 +16,6 @@
 	make_recur_month_num_menu, month_num_menu_selection_done_cb): Use
 	the new cal_recur_nth[] array. The way this was done before didn't
 	localize properly.
-
-	* gui/alarm-notify/notify-main.c (main):
-	s/glade_gnome_init/glade_init/
 
 	From evolution-1-2-branch:
 
