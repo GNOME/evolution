@@ -22,6 +22,17 @@
 #define str_val(obj) (the_str = (vObjectValueType (obj))? fakeCString (vObjectUStringZValue (obj)) : calloc (1, 1))
 #define has(obj,prop) (vo = isAPropertyOf ((obj), (prop)))
 
+/* Object argument IDs */
+enum {
+	ARG_0,
+	ARG_FULL_NAME,
+	ARG_NAME,
+	ARG_ADDRESS,
+	ARG_PHONE,
+	ARG_EMAIL,
+	ARG_BIRTH_DATE
+};
+
 #if 0
 static VObject *card_convert_to_vobject (ECard *crd);
 #endif
@@ -30,6 +41,8 @@ static void e_card_init (ECard *card);
 static void e_card_class_init (ECardClass *klass);
 
 static void e_card_destroy (GtkObject *object);
+static void e_card_set_arg (GtkObject *object, GtkArg *arg, guint arg_id);
+static void e_card_get_arg (GtkObject *object, GtkArg *arg, guint arg_id);
 
 static void assign_string(VObject *vobj, char **string);
 
@@ -45,7 +58,9 @@ static void parse_phone(ECard *card, VObject *object);
 static void parse_address(ECard *card, VObject *object);
 
 static ECardPhoneFlags get_phone_flags (VObject *vobj);
+static void set_phone_flags (VObject *vobj, ECardPhoneFlags flags);
 static ECardAddressFlags get_address_flags (VObject *vobj);
+static void set_address_flags (VObject *vobj, ECardAddressFlags flags);
 
 typedef void (* ParsePropertyFunc) (ECard *card, VObject *object);
 
@@ -54,12 +69,12 @@ struct {
 	ParsePropertyFunc function;
 } attribute_jump_array[] = 
 {
-	{ VCFullNameProp, parse_full_name },
-	{ VCNameProp, parse_name },
-	{ VCBirthDateProp, parse_bday },
+	{ VCFullNameProp,     parse_full_name },
+	{ VCNameProp,         parse_name },
+	{ VCBirthDateProp,    parse_bday },
 	{ VCEmailAddressProp, parse_email },
-	{ VCTelephoneProp, parse_phone },
-	{ VCAdrProp, parse_address }
+	{ VCTelephoneProp,    parse_phone },
+	{ VCAdrProp,          parse_address }
 };
 
 /**
@@ -115,7 +130,191 @@ char          *e_card_get_id (ECard *card)
 
 char          *e_card_get_vcard (ECard *card)
 {
-	return NULL;
+	VObject *vobj; /*, *vprop; */
+	char *temp, *ret_val;
+	
+	vobj = newVObject (VCCardProp);
+
+	if ( card->fname )
+		addPropValue(vobj, VCFullNameProp, card->fname);
+
+	if ( card->name ) {
+		VObject *nameprop;
+		nameprop = addProp(vobj, VCNameProp);
+		if ( card->name->prefix )
+			addPropValue(nameprop, VCNamePrefixesProp, card->name->prefix);
+		if ( card->name->given )
+			addPropValue(nameprop, VCGivenNameProp, card->name->given);
+		if ( card->name->additional )
+			addPropValue(nameprop, VCAdditionalNamesProp, card->name->additional);
+		if ( card->name->family )
+			addPropValue(nameprop, VCFamilyNameProp, card->name->family);
+		if ( card->name->suffix )
+			addPropValue(nameprop, VCNameSuffixesProp, card->name->suffix);
+	}
+
+
+	if ( card->address ) {
+		GList *list = card->address;
+		for ( ; list; list = list->next ) {
+			VObject *addressprop;
+			ECardDeliveryAddress *address = (ECardDeliveryAddress *) list->data;
+			addressprop = addProp(vobj, VCAdrProp);
+			
+			set_address_flags (addressprop, address->flags);
+			if ( address->po )
+				addPropValue(addressprop, VCPostalBoxProp, address->po);
+			if ( address->ext )
+				addPropValue(addressprop, VCExtAddressProp, address->ext);
+			if ( address->street )
+				addPropValue(addressprop, VCStreetAddressProp, address->street);
+			if ( address->city )
+				addPropValue(addressprop, VCCityProp, address->city);
+			if ( address->region )
+				addPropValue(addressprop, VCRegionProp, address->region);
+			if ( address->code )
+				addPropValue(addressprop, VCPostalCodeProp, address->code);
+			if ( address->country )
+				addPropValue(addressprop, VCCountryNameProp, address->country);
+		}
+	}
+
+	if ( card->phone ) { 
+		GList *list = card->phone;
+		for ( ; list; list = list->next ) {
+			VObject *phoneprop;
+			ECardPhone *phone = (ECardPhone *) list->data;
+			phoneprop = addPropValue(vobj, VCTelephoneProp, phone->number);
+			
+			set_phone_flags (phoneprop, phone->flags);
+		}
+	}
+
+	if ( card->email ) { 
+		GList *list = card->email;
+		for ( ; list; list = list->next ) {
+			VObject *emailprop;
+			emailprop = addPropValue(vobj, VCEmailAddressProp, (char *) list->data);
+			addProp (emailprop, VCInternetProp);
+		}
+	}
+
+	if ( card->bday ) {
+		ECardDate date;
+		char *value;
+		date = *card->bday;
+		date.year = MIN(date.year, 9999);
+		date.month = MIN(date.month, 12);
+		date.day = MIN(date.day, 31);
+		value = g_strdup_printf("%04d-%02d-%02d", date.year, date.month, date.day);
+		addPropValue(vobj, VCBirthDateProp, value);
+		g_free(value);
+	}
+	
+#if 0
+	
+	
+	if (crd->photo.prop.used) {
+		vprop = addPropSizedValue (vobj, VCPhotoProp, 
+					  crd->photo.data, crd->photo.size);
+		add_PhotoType (vprop, crd->photo.type);
+		add_CardProperty (vprop, &crd->photo.prop);
+	}
+
+	if (crd->xtension.l) {
+		GList *node;
+		
+		for (node = crd->xtension.l; node; node = node->next) {
+			CardXProperty *xp = (CardXProperty *) node->data;
+			addPropValue (vobj, xp->name, xp->data);
+			add_CardProperty (vobj, &xp->prop);
+		}
+	}
+	
+	if (crd->dellabel.l) {
+		GList *node;
+		
+		for (node = crd->dellabel.l; node; node = node->next) {
+			CardDelLabel *dellabel = (CardDelLabel *) node->data;
+			
+			vprop = add_strProp (vobj, VCDeliveryLabelProp, 
+					    dellabel->data);
+			add_AddrType (vprop, dellabel->type);
+			add_CardProperty (vprop, &dellabel->prop);
+		}
+	}
+	
+	add_CardStrProperty (vobj, VCMailerProp, &crd->mailer);
+	
+	if (crd->timezn.prop.used) {
+		char *str;
+		
+		str = card_timezn_str (crd->timezn);
+		vprop = addPropValue (vobj, VCTimeZoneProp, str);
+		free (str);
+		add_CardProperty (vprop, &crd->timezn.prop);
+	}
+	
+	if (crd->geopos.prop.used) {
+		char *str;
+		
+		str = card_geopos_str (crd->geopos);
+		vprop = addPropValue (vobj, VCGeoLocationProp, str);
+		free (str);
+		add_CardProperty (vprop, &crd->geopos.prop);
+	}
+	
+        add_CardStrProperty (vobj, VCTitleProp, &crd->title);
+        add_CardStrProperty (vobj, VCBusinessRoleProp, &crd->role);
+	
+	if (crd->logo.prop.used) {
+		vprop = addPropSizedValue (vobj, VCLogoProp, 
+					  crd->logo.data, crd->logo.size);
+		add_PhotoType (vprop, crd->logo.type);
+		add_CardProperty (vprop, &crd->logo.prop);
+	}
+	
+	if (crd->agent)
+	  addVObjectProp (vobj, card_convert_to_vobject (crd->agent));
+	
+	if (crd->org.prop.used) {
+		vprop = addProp (vobj, VCOrgProp);
+		add_strProp (vprop, VCOrgNameProp, crd->org.name);
+		add_strProp (vprop, VCOrgUnitProp, crd->org.unit1);
+		add_strProp (vprop, VCOrgUnit2Prop, crd->org.unit2);
+		add_strProp (vprop, VCOrgUnit3Prop, crd->org.unit3);
+		add_strProp (vprop, VCOrgUnit4Prop, crd->org.unit4);
+		add_CardProperty (vprop, &crd->org.prop);
+	}
+	
+        add_CardStrProperty (vobj, VCCategoriesProp, &crd->categories);
+        add_CardStrProperty (vobj, VCCommentProp, &crd->comment);
+	
+	if (crd->sound.prop.used) {
+		if (crd->sound.type != SOUND_PHONETIC)
+		  vprop = addPropSizedValue (vobj, VCPronunciationProp,
+					    crd->sound.data, crd->sound.size);
+		else
+		  vprop = addPropValue (vobj, VCPronunciationProp, 
+				       crd->sound.data);
+		
+		add_SoundType (vprop, crd->sound.type);
+		add_CardProperty (vprop, &crd->sound.prop);
+	}
+	
+        add_CardStrProperty (vobj, VCURLProp, &crd->url);
+        add_CardStrProperty (vobj, VCUniqueStringProp, &crd->uid);
+	
+	if (crd->key.prop.used) {
+		vprop = addPropValue (vobj, VCPublicKeyProp, crd->key.data);
+		add_KeyType (vprop, crd->key.type);
+		add_CardProperty (vprop, &crd->key.prop);
+	}
+#endif
+	temp = writeMemVObject(NULL, NULL, vobj);
+	ret_val = g_strdup(temp);
+	free(temp);
+	return ret_val;
 }
 
 static void
@@ -184,7 +383,6 @@ parse_address(ECard *card, VObject *vobj)
 	next_addr->region  = e_v_object_get_child_value (vobj, VCRegionProp);
 	next_addr->code    = e_v_object_get_child_value (vobj, VCPostalCodeProp);
 	next_addr->country = e_v_object_get_child_value (vobj, VCCountryNameProp);
-	next_addr->description = e_v_object_get_child_value (vobj, VCDescriptionProp);
 
 	card->address = g_list_append(card->address, next_addr);
 }
@@ -221,7 +419,23 @@ e_card_class_init (ECardClass *klass)
 		g_hash_table_insert(klass->attribute_jump_table, attribute_jump_array[i].key, attribute_jump_array[i].function);
 	}
 
+	gtk_object_add_arg_type ("ECard::full_name",
+				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_FULL_NAME);  
+	gtk_object_add_arg_type ("ECard::name",
+				 GTK_TYPE_POINTER, GTK_ARG_READWRITE, ARG_NAME);
+	gtk_object_add_arg_type ("ECard::address",
+				 GTK_TYPE_POINTER, GTK_ARG_READWRITE, ARG_ADDRESS);
+	gtk_object_add_arg_type ("ECard::phone",
+				 GTK_TYPE_POINTER, GTK_ARG_READWRITE, ARG_PHONE);
+	gtk_object_add_arg_type ("ECard::email",
+				 GTK_TYPE_POINTER, GTK_ARG_READWRITE, ARG_EMAIL);
+	gtk_object_add_arg_type ("ECard::birth_date",
+				 GTK_TYPE_POINTER, GTK_ARG_READWRITE, ARG_BIRTH_DATE);
+
+
 	object_class->destroy = e_card_destroy;
+	object_class->get_arg = e_card_get_arg;
+	object_class->set_arg = e_card_set_arg;
 }
 
 static void
@@ -252,8 +466,6 @@ e_card_delivery_address_free (ECardDeliveryAddress *addr)
 			g_free(addr->code);
 		if ( addr->country )
 			g_free(addr->country);
-		if ( addr->description )
-			g_free(addr->description);
 		g_free(addr);
 	}
 }
@@ -279,6 +491,88 @@ e_card_destroy (GtkObject *object)
 	g_list_foreach(card->address, (GFunc)e_card_delivery_address_free, NULL);
 	g_list_free(card->address);
 }
+
+
+/* Set_arg handler for the card */
+static void
+e_card_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
+{
+	ECard *card;
+	
+	card = E_CARD (object);
+
+	switch (arg_id) {
+	case ARG_FULL_NAME:
+		if ( card->fname )
+			g_free(card->fname);
+		card->fname = g_strdup(GTK_VALUE_STRING(*arg));
+		break;
+	case ARG_NAME:
+		if ( card->name )
+			e_card_name_free(card->name);
+		card->name = GTK_VALUE_POINTER(*arg);
+		break;
+	case ARG_ADDRESS:
+		g_list_foreach(card->address, (GFunc)e_card_delivery_address_free, NULL);
+		g_list_free(card->address);
+		card->address = GTK_VALUE_POINTER(*arg);
+		break;
+	case ARG_PHONE:
+		g_list_foreach(card->phone, (GFunc)e_card_phone_free, NULL);
+		g_list_free(card->phone);
+		card->phone = GTK_VALUE_POINTER(*arg);
+		break;
+	case ARG_EMAIL:
+		g_list_foreach(card->email, (GFunc)g_free, NULL);
+		g_list_free(card->email);
+		card->email = GTK_VALUE_POINTER(*arg);
+		break;
+	case ARG_BIRTH_DATE:
+		if ( card->bday )
+			g_free(card->bday);
+		card->bday = GTK_VALUE_POINTER(*arg);
+		break;
+	default:
+		return;
+	}
+}
+
+/* Get_arg handler for the card */
+static void
+e_card_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
+{
+	ECard *card;
+
+	card = E_CARD (object);
+
+	switch (arg_id) {
+	case ARG_FULL_NAME:
+		if ( card->fname )
+			GTK_VALUE_STRING (*arg) = g_strdup (card->fname);
+		else
+			GTK_VALUE_STRING (*arg) = NULL;
+		break;
+	case ARG_NAME:
+		GTK_VALUE_POINTER(*arg) = card->name;
+		break;
+	case ARG_ADDRESS:
+		GTK_VALUE_POINTER(*arg) = card->address;
+		break;
+	case ARG_PHONE:
+		GTK_VALUE_POINTER(*arg) = card->phone;
+		break;
+	case ARG_EMAIL:
+		GTK_VALUE_POINTER(*arg) = card->email;
+		break;
+	case ARG_BIRTH_DATE:
+		GTK_VALUE_POINTER(*arg) = card->bday;
+		break;
+	default:
+		arg->type = GTK_TYPE_INVALID;
+		break;
+	}
+}
+
 
 /**
  * e_card_init:
@@ -633,34 +927,6 @@ get_photo_type (VObject *o)
 
 	g_warning ("? < No PhotoType for Photo property. Falling back to JPEG.");
 	return PHOTO_JPEG;
-}
-
-static int 
-get_addr_type (VObject *o)
-{
-	VObject *vo;
-	int ret = 0;
-	int i;
-	
-	for (i = 0; addr_pairs[i].str; i++)
-	  if (has (o, addr_pairs[i].str))
-	    ret |= addr_pairs[i].id;
-	
-	return ret;
-}
-
-static enum EMailType 
-get_email_type (VObject *o)
-{
-	VObject *vo;
-	int i;
-
-	for (i = 0; email_pairs[i].str; i++)
-	  if (has (o, email_pairs[i].str))
-	    return email_pairs[i].id;
-
-	g_warning ("? < No EMailType for EMail property. Falling back to INET.");
-	return EMAIL_INET;
 }
 
 static CardProperty 
@@ -1620,187 +1886,6 @@ char *card_geopos_str (CardGeoPos geopos)
 	return str;
 }
 
-
-static VObject *
-card_convert_to_vobject (Card *crd)
-{
-	VObject *vobj, *vprop;
-	
-	vobj = newVObject (VCCardProp);
-
-	add_CardStrProperty (vobj, VCFullNameProp, &crd->fname);
-	if (crd->name.prop.used) {
-		vprop = addProp (vobj, VCNameProp);
-		add_strProp (vprop, VCFamilyNameProp, crd->name.family);
-		add_strProp (vprop, VCGivenNameProp, crd->name.given);
-		add_strProp (vprop, VCAdditionalNamesProp, crd->name.additional);
-		add_strProp (vprop, VCNamePrefixesProp, crd->name.prefix);
-		add_strProp (vprop, VCNameSuffixesProp, crd->name.suffix);
-		add_CardProperty (vprop, &crd->name.prop);
-	}
-	
-	if (crd->photo.prop.used) {
-		vprop = addPropSizedValue (vobj, VCPhotoProp, 
-					  crd->photo.data, crd->photo.size);
-		add_PhotoType (vprop, crd->photo.type);
-		add_CardProperty (vprop, &crd->photo.prop);
-	}
-	
-	if (crd->bday.prop.used) {
-		char *date_str;
-		
-		date_str = card_bday_str (crd->bday);
-		vprop = addPropValue (vobj, VCBirthDateProp, date_str);
-		free (date_str);
-		add_CardProperty (vprop, &crd->bday.prop);
-	}
-
-	if (crd->xtension.l) {
-		GList *node;
-		
-		for (node = crd->xtension.l; node; node = node->next) {
-			CardXProperty *xp = (CardXProperty *) node->data;
-			addPropValue (vobj, xp->name, xp->data);
-			add_CardProperty (vobj, &xp->prop);
-		}
-	}
-			
-	
-	if (crd->deladdr.l) {
-		GList *node;
-		
-		for (node = crd->deladdr.l; node; node = node->next) {
-			CardDelAddr *deladdr = (CardDelAddr *) node->data;
-			
-			if (deladdr->prop.used) {
-				vprop = addProp (vobj, VCAdrProp);
-				add_AddrType (vprop, deladdr->type);
-			        add_strProp (vprop, VCPostalBoxProp, deladdr->po);
-				add_strProp (vprop, VCExtAddressProp,deladdr->ext);
-				add_strProp (vprop, VCStreetAddressProp,deladdr->street);
-				add_strProp (vprop, VCCityProp, deladdr->city);
-				add_strProp (vprop, VCRegionProp, deladdr->region);
-				add_strProp (vprop, VCPostalCodeProp, deladdr->code);
-				add_strProp (vprop, VCCountryNameProp, deladdr->country);
-				add_CardProperty (vprop, &deladdr->prop);
-			}
-		}
-	}
-	
-	if (crd->dellabel.l) {
-		GList *node;
-		
-		for (node = crd->dellabel.l; node; node = node->next) {
-			CardDelLabel *dellabel = (CardDelLabel *) node->data;
-			
-			vprop = add_strProp (vobj, VCDeliveryLabelProp, 
-					    dellabel->data);
-			add_AddrType (vprop, dellabel->type);
-			add_CardProperty (vprop, &dellabel->prop);
-		}
-	}
-	
-	if (crd->phone.l) {
-		GList *node;
-		
-		for (node = crd->phone.l; node; node = node->next) {
-			CardPhone *phone = (CardPhone *) node->data;
-
-			if (phone->prop.used) {
-				vprop = add_strProp (vobj, VCTelephoneProp,
-						    (phone->data)? 
-						     phone->data: "");
-				add_PhoneType (vprop, phone->type);
-				add_CardProperty (vprop, &phone->prop);
-			}
-		}
-	}
-
-	if (crd->email.l) {
-		GList *node;
-		
-		for (node = crd->email.l; node; node = node->next) {
-			CardEMail *email = (CardEMail *) node->data;
-			
-			if (email->prop.used) {
-				vprop = add_strProp (vobj, VCEmailAddressProp, 
-						    email->data);
-				add_EMailType (vprop, email->type);
-				add_CardProperty (vprop, &email->prop);
-			}
-		}
-	}
-
-	add_CardStrProperty (vobj, VCMailerProp, &crd->mailer);
-	
-	if (crd->timezn.prop.used) {
-		char *str;
-		
-		str = card_timezn_str (crd->timezn);
-		vprop = addPropValue (vobj, VCTimeZoneProp, str);
-		free (str);
-		add_CardProperty (vprop, &crd->timezn.prop);
-	}
-	
-	if (crd->geopos.prop.used) {
-		char *str;
-		
-		str = card_geopos_str (crd->geopos);
-		vprop = addPropValue (vobj, VCGeoLocationProp, str);
-		free (str);
-		add_CardProperty (vprop, &crd->geopos.prop);
-	}
-	
-        add_CardStrProperty (vobj, VCTitleProp, &crd->title);
-        add_CardStrProperty (vobj, VCBusinessRoleProp, &crd->role);
-	
-	if (crd->logo.prop.used) {
-		vprop = addPropSizedValue (vobj, VCLogoProp, 
-					  crd->logo.data, crd->logo.size);
-		add_PhotoType (vprop, crd->logo.type);
-		add_CardProperty (vprop, &crd->logo.prop);
-	}
-	
-	if (crd->agent)
-	  addVObjectProp (vobj, card_convert_to_vobject (crd->agent));
-	
-	if (crd->org.prop.used) {
-		vprop = addProp (vobj, VCOrgProp);
-		add_strProp (vprop, VCOrgNameProp, crd->org.name);
-		add_strProp (vprop, VCOrgUnitProp, crd->org.unit1);
-		add_strProp (vprop, VCOrgUnit2Prop, crd->org.unit2);
-		add_strProp (vprop, VCOrgUnit3Prop, crd->org.unit3);
-		add_strProp (vprop, VCOrgUnit4Prop, crd->org.unit4);
-		add_CardProperty (vprop, &crd->org.prop);
-	}
-	
-        add_CardStrProperty (vobj, VCCategoriesProp, &crd->categories);
-        add_CardStrProperty (vobj, VCCommentProp, &crd->comment);
-	
-	if (crd->sound.prop.used) {
-		if (crd->sound.type != SOUND_PHONETIC)
-		  vprop = addPropSizedValue (vobj, VCPronunciationProp,
-					    crd->sound.data, crd->sound.size);
-		else
-		  vprop = addPropValue (vobj, VCPronunciationProp, 
-				       crd->sound.data);
-		
-		add_SoundType (vprop, crd->sound.type);
-		add_CardProperty (vprop, &crd->sound.prop);
-	}
-	
-        add_CardStrProperty (vobj, VCURLProp, &crd->url);
-        add_CardStrProperty (vobj, VCUniqueStringProp, &crd->uid);
-	
-	if (crd->key.prop.used) {
-		vprop = addPropValue (vobj, VCPublicKeyProp, crd->key.data);
-		add_KeyType (vprop, crd->key.type);
-		add_CardProperty (vprop, &crd->key.prop);
-	}
-	
-	return vobj;
-}
-
 static void add_CardStrProperty_to_string (GString *string, char *prop_name,
 					   CardStrProperty *strprop)
 {
@@ -2145,6 +2230,37 @@ get_phone_flags (VObject *vobj)
 	return ret;
 }
 
+static void
+set_phone_flags (VObject *vobj, ECardPhoneFlags flags)
+{
+	int i;
+
+	struct { 
+		char *id;
+		ECardPhoneFlags flag;
+	} phone_pairs[] = {
+		{ VCPreferredProp, E_CARD_PHONE_PREF },
+		{ VCWorkProp,      E_CARD_PHONE_WORK },
+		{ VCHomeProp,      E_CARD_PHONE_HOME },
+		{ VCVoiceProp,     E_CARD_PHONE_VOICE },
+		{ VCFaxProp,       E_CARD_PHONE_FAX },
+		{ VCMessageProp,   E_CARD_PHONE_MSG },
+		{ VCCellularProp,  E_CARD_PHONE_CELL },
+		{ VCPagerProp,     E_CARD_PHONE_PAGER },
+		{ VCBBSProp,       E_CARD_PHONE_BBS },
+		{ VCModemProp,     E_CARD_PHONE_MODEM },
+		{ VCCarProp,       E_CARD_PHONE_CAR },
+		{ VCISDNProp,      E_CARD_PHONE_ISDN },
+		{ VCVideoProp,     E_CARD_PHONE_VIDEO },
+	};
+	
+	for (i = 0; i < sizeof(phone_pairs) / sizeof(phone_pairs[0]); i++) {
+		if (flags & phone_pairs[i].flag) {
+				addProp (vobj, phone_pairs[i].id);
+		}
+	}
+}
+
 static ECardAddressFlags
 get_address_flags (VObject *vobj)
 {
@@ -2170,4 +2286,28 @@ get_address_flags (VObject *vobj)
 	}
 	
 	return ret;
+}
+
+static void
+set_address_flags (VObject *vobj, ECardAddressFlags flags)
+{
+	int i;
+
+	struct { 
+		char *id;
+		ECardAddressFlags flag;
+	} addr_pairs[] = {
+		{ VCDomesticProp, ADDR_DOM },
+		{ VCInternationalProp, ADDR_INTL },
+		{ VCPostalProp, ADDR_POSTAL },
+		{ VCParcelProp, ADDR_PARCEL },
+		{ VCHomeProp, ADDR_HOME },
+		{ VCWorkProp, ADDR_WORK },
+	};
+	
+	for (i = 0; i < sizeof(addr_pairs) / sizeof(addr_pairs[0]); i++) {
+		if (flags & addr_pairs[i].flag) {
+				addProp (vobj, addr_pairs[i].id);
+		}
+	}
 }

@@ -198,8 +198,6 @@ typedef struct {
 	char           *region;
 	char           *code;
 	char           *country;
-
-	char           *description;
 } ECardDeliveryAddress;
 
 #if 0

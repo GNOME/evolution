@@ -20,6 +20,8 @@
 " \
 "ADR;WORK;POSTAL:P.O. Box 101;;;Any Town;CA;91921-1234;
 " \
+"ADR;HOME;POSTAL;INTL:P.O. Box 202;;;Any Town 2;MI;12344-4321;USA
+" \
 "END:VCARD
 "                        \
 "
@@ -56,6 +58,14 @@ main (int argc, char **argv)
 	char  *cardstr;
 	ECard *card;
 
+	/* Fields */
+	char *fname;
+	ECardName *name;
+	GList *address;
+	GList *phone;
+	GList *email;
+	ECardDate *bday;
+
 	gnome_init ("TestCard", "0.0", argc, argv);
 
 	cardstr = NULL;
@@ -75,39 +85,46 @@ main (int argc, char **argv)
 	}
 #endif
 	card = e_card_new (cardstr);
-	if ( card->fname )
-	  printf("Name : %s\n", card->fname);
-	if ( card->name ) {
+	gtk_object_get(card,
+		       "full_name",  &fname,
+		       "name",       &name,
+		       "address",    &address,
+		       "phone",      &phone,
+		       "email",      &email,
+		       "birth_date", &bday,
+		       NULL);
+	if ( fname ) {
+	  printf("Name : %s\n", fname);
+	  g_free(fname);
+	}
+	if ( name ) {
 	  printf("Full Name:\n");
-	  if ( card->name->prefix )
-	    printf("  prefix     : %s\n", card->name->prefix);
-	  if ( card->name->given )
-	    printf("  given      : %s\n", card->name->given);
-	  if ( card->name->additional )
-	    printf("  additional : %s\n", card->name->additional);
-	  if ( card->name->family )
-	    printf("  family     : %s\n", card->name->family);
-	  if ( card->name->suffix )
-	    printf("  suffix     : %s\n", card->name->suffix);
+	  if ( name->prefix )
+	    printf("  prefix     : %s\n", name->prefix);
+	  if ( name->given )
+	    printf("  given      : %s\n", name->given);
+	  if ( name->additional )
+	    printf("  additional : %s\n", name->additional);
+	  if ( name->family )
+	    printf("  family     : %s\n", name->family);
+	  if ( name->suffix )
+	    printf("  suffix     : %s\n", name->suffix);
 	}
-	if ( card->bday ) {
-	  printf("BDay : %4d-%02d-%02d\n", card->bday->year, card->bday->month, card->bday->day);
+	if ( bday ) {
+	  printf("BDay : %4d-%02d-%02d\n", bday->year, bday->month, bday->day);
 	}
-	if ( card->email ) {
-	  GList *email = card->email;
+	if ( email ) {
 	  for ( ; email; email = email->next ) {
 	    printf("Email : %s\n", (char *) email->data);
 	  }
 	}
-	if ( card->phone ) {
-	  GList *phone = card->phone;
+	if ( phone ) {
 	  for ( ; phone; phone = phone->next ) {
 	    ECardPhone *e_card_phone = (ECardPhone *) phone->data;
 	    printf("Phone ; %d : %s\n", e_card_phone->flags, e_card_phone->number);
 	  }
 	}
-	if ( card->address ) {
-	  GList *address = card->address;
+	if ( address ) {
 	  for ( ; address; address = address->next ) { 
 	    ECardDeliveryAddress *del_address = (ECardDeliveryAddress *) address->data;
 	    printf("Address ; %d:\n", del_address->flags);
@@ -125,10 +142,9 @@ main (int argc, char **argv)
 	      printf("  Code    : %s\n", del_address->code);
 	    if ( del_address->country )
 	      printf("  Country : %s\n", del_address->country);
-	    if ( del_address->description )
-	      printf("  Description : %s\n", del_address->description);
 	  }
 	}
+	printf("%s", e_card_get_vcard(card));
 	gtk_object_unref (GTK_OBJECT (card));
 
 	return 0;

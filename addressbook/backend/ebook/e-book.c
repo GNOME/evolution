@@ -412,7 +412,7 @@ e_book_get_card (EBook       *book,
 	}
 
 	card = e_card_new (vcard);
-	g_strdup (vcard);
+	g_free(vcard);
 
 	return card;
 }
