@@ -544,6 +544,8 @@ get_path_for_physical_uri_foreach (EFolderTree *folder_tree,
 		return;
 
 	physical_uri = e_folder_get_physical_uri (e_folder);
+	if (physical_uri == NULL)
+		return;
 
 	if (strcmp (foreach_data->physical_uri, physical_uri) == 0)
 		foreach_data->retval = g_strdup (path);
