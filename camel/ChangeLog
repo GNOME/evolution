@@ -1,3 +1,8 @@
+2004-05-25 Sivaiah Nallagatla <snallagatla@novell.com>
+
+	* providers/groupwise/camel-gw-listener.c (lookup_account_info):
+	return NULL when there is no existing gw account with same uid
+	
 2004-05-25  Not Zed  <NotZed@Ximian.com>
 
 	* camel-store.c (camel_folder_info_build_path): removed.

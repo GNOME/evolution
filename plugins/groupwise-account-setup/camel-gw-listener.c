@@ -146,12 +146,13 @@ lookup_account_info (const char *key)
 
         for (list = g_list_first (groupwise_accounts);  list;  list = g_list_next (list)) {
                 info = (GwAccountInfo *) (list->data);
-                found = strcmp (info->uid, key) == 0;
+                found = (strcmp (info->uid, key) == 0);
 		if (found)
 			break;
 	}
-
-	return info;
+	if (found)
+		return info;
+	return NULL;
 }
 
 
@@ -608,8 +609,9 @@ account_changed (EAccountList *account_listener, EAccount *account)
 	GwAccountInfo *existing_account_info;
 
 	is_gw_account = is_groupwise_account (account);
+	
 	existing_account_info = lookup_account_info (account->uid);
-		
+       
 	if (existing_account_info == NULL && is_gw_account) {
 		/* some account of other type is changed to Groupwise */
 		account_added (account_listener, account);
@@ -628,16 +630,16 @@ account_changed (EAccountList *account_listener, EAccount *account)
 	} else if ( existing_account_info != NULL && is_gw_account ) {
 		
 		/* some info of groupwise account is changed . update the sources with new info if required */
+		url = camel_url_new (existing_account_info->source_url, NULL);
+		old_relative_uri = g_strdup_printf ("%s@%s/", url->user, url->host);
+		camel_url_free (url);
+
 		url = camel_url_new (account->source->url, NULL);
 		soap_port = camel_url_get_param (url, "soap_port");
 		if (!soap_port || strlen (soap_port) == 0)
 			soap_port = "7181";
 		relative_uri =  g_strdup_printf ("%s@%s/", url->user, url->host);
-		camel_url_free (url);
-		url = camel_url_new (existing_account_info->source_url, NULL);
-		old_relative_uri = g_strdup_printf ("%s@%s/", url->user, url->host);
-		camel_url_free (url);
-
+	       
 		if (strcmp (existing_account_info->name, account->name) != 0 || strcmp (relative_uri, old_relative_uri) != 0) {
 			
 		
@@ -652,6 +654,7 @@ account_changed (EAccountList *account_listener, EAccount *account)
 			g_free (old_relative_uri);
 			
 		}
+		camel_url_free (url);
 		
 	}
 		
