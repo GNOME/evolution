@@ -340,10 +340,22 @@ new_calendar_cmd (GtkWidget *widget, void *data)
 static void
 open_ok (GtkWidget *widget, GtkFileSelection *fs)
 {
-	/* FIXME: find out who owns this calendar and use that name */
-	new_calendar ("Somebody", gtk_file_selection_get_filename (fs), NULL, NULL, FALSE);
+	GtkWidget *error_dialog;
+	int ret;
+	if(!g_file_exists (gtk_file_selection_get_filename (fs))) {
+		error_dialog = gnome_message_box_new (
+			_("File not found"),
+			GNOME_MESSAGE_BOX_ERROR,
+			GNOME_STOCK_BUTTON_OK,
+			NULL);
 
-	gtk_widget_destroy (GTK_WIDGET (fs));
+		gnome_dialog_set_parent (GNOME_DIALOG (error_dialog), GTK_WINDOW (fs));
+		ret = gnome_dialog_run (GNOME_DIALOG (error_dialog));
+	} else {
+		/* FIXME: find out who owns this calendar and use that name */
+		new_calendar ("Somebody", gtk_file_selection_get_filename (fs), NULL, NULL, FALSE);
+		gtk_widget_destroy (GTK_WIDGET (fs));
+	}
 }
 
 static void
