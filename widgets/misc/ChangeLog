@@ -1,3 +1,8 @@
+2001-09-18  Damon Chaplin  <damon@ximian.com>
+
+	* e-dateedit.c (e_date_edit_grab_focus): grab focus to the date entry
+	or the time entry, depending on which is visible. Fixes bug #7237.
+
 2001-09-16  Chris Toshok  <toshok@ximian.com>
 
 	* e-dateedit.h: add prototype for e_date_edit_set_editable.

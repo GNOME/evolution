@@ -138,6 +138,7 @@ static void e_date_edit_class_init		(EDateEditClass	*class);
 static void e_date_edit_init			(EDateEdit	*dedit);
 static void create_children			(EDateEdit	*dedit);
 static void e_date_edit_destroy			(GtkObject	*object);
+static void e_date_edit_grab_focus		(GtkWidget	*widget);
 static void e_date_edit_forall			(GtkContainer   *container,
 						 gboolean	 include_internals,
 						 GtkCallback     callback,
@@ -238,6 +239,7 @@ static void
 e_date_edit_class_init		(EDateEditClass	*class)
 {
 	GtkObjectClass *object_class = (GtkObjectClass *) class;
+	GtkWidgetClass *widget_class = (GtkWidgetClass *) class;
 	GtkContainerClass *container_class = (GtkContainerClass *) class;
 
 	object_class = (GtkObjectClass*) class;
@@ -257,6 +259,8 @@ e_date_edit_class_init		(EDateEditClass	*class)
 
 	object_class->destroy		= e_date_edit_destroy;
 
+	widget_class->grab_focus	= e_date_edit_grab_focus;
+
 	container_class->forall		= e_date_edit_forall;
 
 	class->changed = NULL;
@@ -267,6 +271,8 @@ static void
 e_date_edit_init		(EDateEdit	*dedit)
 {
 	EDateEditPrivate *priv;
+
+	GTK_WIDGET_SET_FLAGS (dedit, GTK_CAN_FOCUS);
 
 	dedit->priv = priv = g_new0 (EDateEditPrivate, 1);
 
@@ -471,6 +477,25 @@ e_date_edit_destroy		(GtkObject	*object)
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
+
+
+/* Grab_focus handler for the EDateEdit. If the date field is being shown, we
+   grab the focus to that, otherwise we grab it to the time field. */
+static void
+e_date_edit_grab_focus		(GtkWidget	*widget)
+{
+	EDateEdit *dedit;
+
+	g_return_if_fail (E_IS_DATE_EDIT (widget));
+
+	dedit = E_DATE_EDIT (widget);
+
+	if (dedit->priv->show_date)
+		gtk_widget_grab_focus (dedit->priv->date_entry);
+	else
+		gtk_widget_grab_focus (GTK_COMBO (dedit->priv->time_combo)->entry);
+}
+
 
 /**
  * e_date_edit_set_editable:
