@@ -1,3 +1,7 @@
+2000-09-12  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* Makefile.am: Remove `ui.xml' stuff.
+
 2000-09-12  Dan Winship  <danw@helixcode.com>
 
 	* mail-local-storage.c (mail_local_storage_startup): set

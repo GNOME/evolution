@@ -72,7 +72,7 @@ glade_DATA = ldap-server-dialog.glade ldap-server-dialog.glade.h alphabet.glade
 EXTRA_DIST = 			\
 	$(glade_DATA)		\
 	$(oaf_DATA)		\
-	alphabet.glade.h ui.xml
+	alphabet.glade.h 
 
 if ENABLE_PURIFY
 PLINK = $(LIBTOOL) --mode=link $(PURIFY) $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
@@ -84,6 +84,3 @@ evolution-addressbook.pure: evolution-addressbook
 	$(PLINK) $(evolution_addressbook_LDFLAGS) $(evolution_addressbook_OBJECTS) $(evolution_addressbook_LDADD) $(LIBS)
 
 endif
-
-uidir = $(datadir)/evolution/addressbook
-ui_DATA = ui.xml

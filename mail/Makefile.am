@@ -127,7 +127,7 @@ iconsdir = $(datadir)/images/evolution
 $(EVOLUTION_MAIL_CORBA_GENERATED): Mail.idl 
 	$(ORBIT_IDL) -I$(datadir)/idl -I`$(GNOME_CONFIG) --cflags idl` -I`$(GNOME_CONFIG) --datadir`/idl -I$(srcdir) $(srcdir)/Mail.idl
 
-EXTRA_DIST = Mail.idl $(glade_DATA) $(oaf_DATA) ui.xml
+EXTRA_DIST = Mail.idl $(glade_DATA) $(oaf_DATA)
 
 if ENABLE_PURIFY
 PLINK = $(LIBTOOL) --mode=link $(PURIFY) $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
@@ -139,6 +139,3 @@ evolution-mail.pure: evolution-mail
 	$(PLINK) $(evolution_mail_LDFLAGS) $(evolution_mail_OBJECTS) $(evolution_mail_LDADD) $(LIBS)
 
 endif
-
-uidir = $(datadir)/evolution/mail
-ui_DATA = ui.xml

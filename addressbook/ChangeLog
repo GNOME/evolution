@@ -1,3 +1,7 @@
+2000-09-12  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* gui/component/Makefile.am (EXTRA_DIST): Remove `ui.xml'.
+
 2000-09-11  Christopher James Lahey  <clahey@helixcode.com>
 
 	* contact-editor/e-contact-editor.c: Fixed a crash error.

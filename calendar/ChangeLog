@@ -1,5 +1,7 @@
 2000-09-12  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* gui/Makefile.am: Remove `ui.xml' stuff.
+
 	* pcs/cal-backend.c: Dont' #include calobj.h anymore as it's gone.
 
 2000-09-12  Federico Mena Quintero  <federico@helixcode.com>
