@@ -1,3 +1,9 @@
+2001-08-02  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell.c (e_shell_construct): Spit out a warning if we cannot
+	resolve "Bonobo/ConfigDatabase" on "wombat:".  Also, register on
+	OAF only after we are sure we are not going to return FALSE.
+
 2001-08-01  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-view.c (switch_on_folder_tree_click): Set the

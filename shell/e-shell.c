@@ -793,12 +793,6 @@ e_shell_construct (EShell *shell,
 	g_return_val_if_fail (local_directory != NULL, FALSE);
 	g_return_val_if_fail (g_path_is_absolute (local_directory), FALSE);
 
-	/* FIXME: Multi-display stuff.  */
-
-	corba_object = bonobo_object_corba_objref (BONOBO_OBJECT (shell));
-	if (oaf_active_server_register (iid, corba_object) != OAF_REG_SUCCESS)
-		return FALSE;
-
 	if (! show_splash) {
 		splash = NULL;
 	} else {
@@ -827,12 +821,24 @@ e_shell_construct (EShell *shell,
 	priv->db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", &ev);
 
 	if (BONOBO_EX (&ev) || priv->db == CORBA_OBJECT_NIL) {
+		g_warning ("Cannot access Bonobo/ConfigDatabase on wombat:");
 		CORBA_exception_free (&ev);
 		return FALSE;
  	}
 	
 	CORBA_exception_free (&ev);
+
+	/* Now we can register into OAF.  Notice that we shouldn't be
+	   registering into OAF until we are sure we can complete the
+	   process.  */
 	
+	/* FIXME: Multi-display stuff.  */
+	corba_object = bonobo_object_corba_objref (BONOBO_OBJECT (shell));
+	if (oaf_active_server_register (iid, corba_object) != OAF_REG_SUCCESS) {
+		CORBA_exception_free (&ev);
+		return FALSE;
+	}
+
 	if (show_splash)
 		setup_components (shell, E_SPLASH (splash));
 	else
