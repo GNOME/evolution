@@ -1,3 +1,8 @@
+2003-01-10  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* component-factory.c (storage_remove_folder): Fixed a situation
+	in which we could notify the shell listener twice.
+
 2003-01-10  Not Zed  <NotZed@Ximian.com>
 
 	* folder-browser.c (folder_browser_gui_init): Save the paned_size

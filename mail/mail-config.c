@@ -532,13 +532,13 @@ account_to_xml (MailConfigAccount *account)
 	
 	xmlDocDumpMemory (doc, &xmlbuf, &n);
 	xmlFreeDoc (doc);
-
+	
 	/* remap to glib memory */
-	tmp = g_malloc(n+1);
-	memcpy(tmp, xmlbuf, n);
-	tmp[n] = 0;
-	xmlFree(xmlbuf);
-
+	tmp = g_malloc (n + 1);
+	memcpy (tmp, xmlbuf, n);
+	tmp[n] = '\0';
+	xmlFree (xmlbuf);
+	
 	return tmp;
 }
 
