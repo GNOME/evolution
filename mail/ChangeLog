@@ -1,3 +1,7 @@
+2001-03-30  Radek Doulik  <rodo@ximian.com>
+
+	* mail-display.c (mail_display_redisplay): reset last_active
+
 2001-03-29  Dan Winship  <danw@ximian.com>
 
 	* mail-format.c (call_handler_function): if called with a

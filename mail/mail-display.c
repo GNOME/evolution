@@ -966,6 +966,7 @@ mail_display_redisplay (MailDisplay *md, gboolean unscroll)
 {
 	printf("redisplaying\n");
 
+	md->last_active = NULL;
 	md->stream = gtk_html_begin (GTK_HTML (md->html));
 	if (!unscroll) {
 		/* This is a hack until there's a clean way to do this. */
