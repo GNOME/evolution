@@ -9,10 +9,10 @@
 void camel_test_failv(const char *why, va_list ap);
 
 /* perform a check assertion */
-#define check(x) do {if (!(x)) { camel_test_fail("%s (%d): %s", __FILE__, __LINE__, #x); } } while (0)
+#define check(x) do {if (!(x)) { camel_test_fail("%s:%d: %s", __FILE__, __LINE__, #x); } } while (0)
 /* check with message */
 #ifdef  __GNUC__
-#define check_msg(x, y, z...) do {if (!(x)) { camel_test_fail("%s (%d): %s\n\t" #y, __FILE__, __LINE__, #x, ##z); } } while (0)
+#define check_msg(x, y, z...) do {if (!(x)) { camel_test_fail("%s:%d: %s\n\t" #y, __FILE__, __LINE__, #x, ##z); } } while (0)
 #else
 static void check_msg(int truth, char *fmt, ...)
 {

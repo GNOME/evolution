@@ -1,3 +1,8 @@
+2000-12-06  Not Zed  <NotZed@HelixCode.com>
+
+	* tests/lib/camel-test.h (check): Change line no format so that
+	emacs can detect it.
+
 2000-12-06  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/imap/camel-imap-folder.c (imap_refresh_info): We want
