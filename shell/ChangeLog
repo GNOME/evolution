@@ -1,3 +1,8 @@
+2002-05-14  Christopher James Lahey  <clahey@ximian.com>
+
+	* evolution-storage.c (evolution_storage_new_folder): Compute the
+	evolutionUri here and pass it in.
+
 2002-05-14  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-config-offline.c

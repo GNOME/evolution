@@ -37,6 +37,8 @@
 
 #include "evolution-storage.h"
 
+#include "e-shell-constants.h"
+
 
 #define PARENT_TYPE BONOBO_OBJECT_TYPE
 static BonoboObjectClass *parent_class = NULL;
@@ -909,6 +911,31 @@ evolution_storage_deregister_on_shell (EvolutionStorage *evolution_storage,
 	return result;
 }
 
+static char *
+make_full_uri (EvolutionStorage *storage,
+	       const char *path)
+{
+	const char *storage_name;
+	char *full_path;
+
+	storage_name = storage->priv->name;
+
+	if (strcmp (path, G_DIR_SEPARATOR_S) == 0)
+		full_path = g_strconcat (E_SHELL_URI_PREFIX,
+					 G_DIR_SEPARATOR_S, storage_name,
+					 NULL);
+	else if (! g_path_is_absolute (path))
+		full_path = g_strconcat (E_SHELL_URI_PREFIX,
+					 G_DIR_SEPARATOR_S, storage_name,
+					 G_DIR_SEPARATOR_S, path, NULL);
+	else
+		full_path = g_strconcat (E_SHELL_URI_PREFIX,
+					 G_DIR_SEPARATOR_S, storage_name,
+					 path, NULL);
+
+	return full_path;
+}
+
 EvolutionStorageResult
 evolution_storage_new_folder (EvolutionStorage *evolution_storage,
 			      const char *path,
@@ -923,6 +950,7 @@ evolution_storage_new_folder (EvolutionStorage *evolution_storage,
 	GNOME_Evolution_Folder  *corba_folder;
 	CORBA_Environment ev;
 	GList *p;
+	char *evolutionUri;
 
 	g_return_val_if_fail (evolution_storage != NULL,
 			      EVOLUTION_STORAGE_ERROR_INVALIDPARAMETER);
@@ -946,7 +974,11 @@ evolution_storage_new_folder (EvolutionStorage *evolution_storage,
 	corba_folder->description  = CORBA_string_dup (description);
 	corba_folder->type         = CORBA_string_dup (type);
 	corba_folder->physicalUri  = CORBA_string_dup (physical_uri);
-	corba_folder->evolutionUri = CORBA_string_dup (""); /* FIXME? */
+
+	evolutionUri = make_full_uri (evolution_storage, path);
+	corba_folder->evolutionUri = CORBA_string_dup (evolutionUri);
+	g_free (evolutionUri);
+
 	corba_folder->unreadCount  = unread_count;
 
 	if (! e_folder_tree_add (priv->folder_tree, path, corba_folder)) {
