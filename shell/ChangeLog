@@ -1,3 +1,8 @@
+2000-05-18  Dan Winship  <danw@helixcode.com>
+
+	* main.c (new_view_idle_cb): add development_warning (moved from
+	mail component)
+
 2000-05-16  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-storage-set-view.c: Get rid of the `ICON_WIDTH' and

@@ -69,65 +69,6 @@ folder_browser_control_add_service_repository_interface (BonoboControl *control,
 }
 
 
-static int
-development_warning ()
-{
-	gint result;
-	GtkWidget *label, *warning_dialog;
-
-	warning_dialog = gnome_dialog_new (
-		"Evolution 0.0",
-		GNOME_STOCK_BUTTON_OK,
-		NULL);
-
-	label = gtk_label_new (
-		_(
-		  "Hi.  Thanks for taking the time to download this preview release of\n"
-		  "the Evolution groupware suite.\n"
-		  "\n"
-		  "The Evolution team has worked hard to make Evolution as robust,\n"
-		  "extensible, pretty, fast and well-suited to heavy internet users as\n"
-		  "possible.  And we're very tired.  But we're not done -- not yet.\n"
-		  "\n"
-		  "As you explore Evolution, please understand that most of our work has\n"
-		  "been focused on the backend engine which drives the entire system and\n"
-		  "not on the user interface.  We are just cresting the hill now, though,\n"
-		  "and will be pouring most of our love and attention into the UI from\n"
-		  "here out.  But at least you know that you're not using demoware.\n"
-		  "\n"
-		  "So, time for the nerdy disclaimer.  Evolution will: crash, lose your\n"
-		  "mail, leave stray processes running, consume 100% CPU, race, lock,\n"
-		  "send HTML mail to random mailing lists, and embarass you in front of\n"
-		  "your friends and co-workers.  Use at your own risk.\n"
-		  "\n"
-		  "We hope that you enjoy the results of our hard work, and we eagerly\n"
-		  "await your contributions!\n"
-		  ));
-	gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
-	gtk_widget_show (label);
-
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (warning_dialog)->vbox), 
-			    label, TRUE, TRUE, 0);
-
-	label = gtk_label_new (
-		_(
-		  "Thanks\n"
-		  "The Evolution Team\n"
-		  ));
-	gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_RIGHT);
-	gtk_misc_set_alignment(GTK_MISC(label), 1, .5);
-	gtk_widget_show (label);
-
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (warning_dialog)->vbox), 
-			    label, TRUE, TRUE, 0);
-
-	result = gnome_dialog_run (GNOME_DIALOG (warning_dialog));
-	
-	gtk_object_destroy (GTK_OBJECT (warning_dialog));
-
-	return result;
-} 
-
 static void
 random_cb (GtkWidget *button, gpointer user_data)
 {
@@ -240,17 +181,8 @@ folder_browser_factory (BonoboGenericFactory *factory, void *closure)
 {
 	BonoboControl *control;
 	GtkWidget *folder_browser;
-	gint warning_result = 0;
 
-
-	if (!getenv ("EVOLVE_ME_HARDER"))
-		warning_result = development_warning ();
-	
-	if (warning_result) 
-		folder_browser = gtk_label_new ("This should be the mail component");
-	else
-		folder_browser = folder_browser_new ();
-
+	folder_browser = folder_browser_new ();
 	if (folder_browser == NULL)
 		return NULL;
 

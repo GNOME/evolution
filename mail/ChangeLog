@@ -1,5 +1,8 @@
 2000-05-18  Dan Winship  <danw@helixcode.com>
 
+	* folder-browser-factory.c (folder_browser_factory): Remove
+	development_warning (moved to shell)
+
 	* message-list.c (select_msg): Update for camel_folder_get_uids
 	(folder_changed, message_list_set_folder): Update for
 	camel_folder_get_summary
