@@ -426,6 +426,9 @@ pop_up_folder_bar (EShellView *shell_view)
 
 	g_assert (! priv->folder_bar_shown);
 
+	e_title_bar_set_button_mode (E_TITLE_BAR (priv->storage_set_title_bar),
+				     E_TITLE_BAR_BUTTON_MODE_PIN);
+
 	priv->folder_bar_popup = gtk_window_new (GTK_WINDOW_POPUP);
 
 	/* We need to show the storage set view box and do a pointer grab to catch the
