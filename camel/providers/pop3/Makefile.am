@@ -15,6 +15,7 @@ INCLUDES =					\
 	-I$(top_srcdir)/intl			\
 	-I$(top_srcdir)/camel			\
 	-I$(top_srcdir)/e-util			\
+	$(EXTRA_GNOME_CFLAGS)			\
 	$(KRB4_CFLAGS)				\
 	$(GTK_INCLUDEDIR)			\
 	-DG_LOG_DOMAIN=\"camel-pop3-provider\"

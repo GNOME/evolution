@@ -15,6 +15,7 @@ INCLUDES = -I.. \
 	-I$(top_srcdir)/e-util			\
 	-I$(top_srcdir)				\
 	-I$(includedir)				\
+	$(EXTRA_GNOME_CFLAGS)			\
 	$(GTK_INCLUDEDIR)			\
 	-DG_LOG_DOMAIN=\"camel-local-provider\"	
 

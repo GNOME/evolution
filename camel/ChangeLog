@@ -1,5 +1,19 @@
 2001-04-16  Ettore Perazzoli  <ettore@ximian.com>
 
+	* providers/pop3/Makefile.am (INCLUDES): Add
+	`$(EXTRA_GNOME_CFLAGS)'.
+
+	* providers/nntp/Makefile.am (INCLUDES): Add
+	`$(EXTRA_GNOME_CFLAGS)'.
+
+	* providers/cache/Makefile.am (INCLUDES): Add
+	`$(EXTRA_GNOME_CFLAGS)'.
+
+	* providers/local/Makefile.am (INCLUDES): Add
+	`$(EXTRA_GNOME_CFLAGS)'.
+
+2001-04-16  Ettore Perazzoli  <ettore@ximian.com>
+
 	* providers/imap/Makefile.am (INCLUDES): Add
 	$(EXTRA_GNOME_CFLAGS)'.
 
