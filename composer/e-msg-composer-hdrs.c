@@ -143,7 +143,7 @@ create_dropdown_entry (EMsgComposerHdrs *hdrs,
 		ids = mail_config_get_identities ();
 		stmp = ids;
 		while (stmp) {
-			char *address;
+			char *address, *addr_local;
 			
 			id = stmp->data;
 			g_assert (id);			
@@ -151,7 +151,9 @@ create_dropdown_entry (EMsgComposerHdrs *hdrs,
 			g_assert (id->address);
 			
 			address = camel_internet_address_format_address(id->name, id->address);
-			values = g_list_append (values, address);
+			addr_local = e_utf8_to_gtk_string (combo, address);
+			g_free (address);
+			values = g_list_append (values, addr_local);
 			stmp = stmp->next;
 		}
 		
