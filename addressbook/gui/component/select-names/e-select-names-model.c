@@ -341,7 +341,7 @@ e_select_names_model_delete            (ESelectNamesModel *model,
 			gchar *temp = g_strdup_printf("%.*s%s", index, node->string, node->string + index + length);
 			g_free(node->string);
 			node->string = temp;
-			length = 0;
+			break;
 		}
 		
 		if (length > 0) {
@@ -353,6 +353,7 @@ e_select_names_model_delete            (ESelectNamesModel *model,
 				node2->string = temp;
 				e_iterator_prev(iterator);
 				e_iterator_delete(iterator);
+				length --;
 			}
 		}
 	}
