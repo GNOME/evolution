@@ -1014,17 +1014,28 @@ handle_evolution_path_drag_motion (EStorageSetView *storage_set_view,
 		if (source_widget != NULL
 		    && E_IS_STORAGE_SET_VIEW (storage_set_view)) {
 			const char *source_path;
-			source_path = e_storage_set_view_get_current_folder (storage_set_view);
 
+			source_path = e_storage_set_view_get_current_folder (storage_set_view);
 			if (source_path != NULL) {
 				int source_path_len;
-				const char *destination_path;
+				const char *destination_path_base;
+				char *destination_path;
 
 				source_path_len = strlen (path);
-				destination_path = e_tree_memory_node_get_data (E_TREE_MEMORY (priv->etree_model), path);
-
-				if (strncmp (destination_path, source_path, source_path_len) == 0)
+				destination_path_base = e_tree_memory_node_get_data (E_TREE_MEMORY (priv->etree_model), path);
+				if (strcmp (destination_path_base, source_path) == 0)
 					return FALSE;
+
+				destination_path = g_strconcat (destination_path_base, "/", g_basename (source_path), NULL);
+
+				g_print ("source %s destination %s\n", source_path, destination_path);
+
+				if (strncmp (destination_path, source_path, source_path_len) == 0) {
+					g_free (destination_path);
+					return FALSE;
+				}
+
+				g_free (destination_path);
 			}
 		}
 	}

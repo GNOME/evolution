@@ -839,8 +839,6 @@ async_xfer_folder_callback (EvolutionShellComponentClient *shell_component_clien
 	char *dest_physical_path;
 	char *new_physical_uri;
 	
-	/* FIXME handle errors.  */
-
 	xfer_data = (XferData *) callback_data;
 
 	item = (XferItem *) xfer_data->current_folder_item->data;
@@ -892,8 +890,10 @@ impl_async_xfer_folder (EStorage *storage,
 	local_storage = E_LOCAL_STORAGE (storage);
 	priv = local_storage->priv;
 
-	if (remove_source && e_folder_get_is_stock (e_storage_get_folder (storage, source_path)))
+	if (remove_source && e_folder_get_is_stock (e_storage_get_folder (storage, source_path))) {
 		(* callback) (storage, E_STORAGE_CANTCHANGESTOCKFOLDER, callback_data);
+		return;
+	}
 
 	folder_items = NULL;
 	append_xfer_item_list (storage, g_strdup (source_path), g_strdup (destination_path), &folder_items);

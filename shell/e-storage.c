@@ -467,6 +467,11 @@ e_storage_async_xfer_folder (EStorage *storage,
 	g_return_if_fail (destination_path != NULL);
 	g_return_if_fail (g_path_is_absolute (destination_path));
 
+	if (strcmp (source_path, destination_path) == 0) {
+		(* callback) (storage, E_STORAGE_OK, data);
+		return;
+	}
+
 	if (remove_source) {
 		int destination_len;
 		int source_len;

@@ -1,3 +1,15 @@
+2001-10-10  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-storage.c (e_storage_async_xfer_folder): Make this a no-op if
+	the source and the destination path are the same.
+
+	* e-local-storage.c (impl_async_xfer_folder): return after
+	returning `E_STORAGE_CANTCHANGESTOCKFOLDER' to the callback.
+
+	* e-storage-set-view.c (handle_evolution_path_drag_motion): Make
+	the check for dragging a folder over itself a little bit more
+	accurate.
+
 2001-10-05  Jon Trowbridge  <trow@ximian.com>
 
 	* e-shell-view-menu.c (command_work_offline): This is a message,
