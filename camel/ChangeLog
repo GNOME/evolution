@@ -1,3 +1,8 @@
+2004-01-09  Rodney Dawes  <dobey@ximian.com>
+
+	* providers/groupwise/Makefile.am (EXTRA_DIST): libcamelgroupwise.urls
+	instead of libcamelimap.urls
+
 2004-01-09  Sivaiah Nallagatla <snallagatla@novell.com>
 
 	* providers/groupwise/groupwise-config-listener.c (is_groupwise_account): added null check 

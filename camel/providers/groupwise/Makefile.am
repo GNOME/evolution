@@ -28,4 +28,5 @@ libcamelgroupwise_la_SOURCES = 			\
 
 libcamelgroupwise_la_LDFLAGS = -avoid-version -module
 
-EXTRA_DIST = libcamelimap.urls
+EXTRA_DIST = libcamelgroupwise.urls
+
