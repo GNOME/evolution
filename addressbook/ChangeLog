@@ -1,3 +1,7 @@
+2004-06-07  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/Makefile.am (SUBDIRS): Fix order of dependencies.
+
 2004-06-07  H P Nadig  <hpnadig@pacific.net.in>
 
 	* gui/contact-list-editor/e-contact-list-editor.h: Added few
