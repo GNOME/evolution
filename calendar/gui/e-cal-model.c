@@ -1295,42 +1295,21 @@ add_instance_cb (ECalComponent *comp, time_t instance_start, time_t instance_end
 static void
 set_instance_times (ECalModelComponent *comp_data, icaltimezone *zone)
 {
-	struct icaltimetype recur_time, start_time, end_time;
+	struct icaltimetype recur_time, start_time, end_time, itt;
 
 	recur_time = icalcomponent_get_recurrenceid (comp_data->icalcomp);
 	start_time = icalcomponent_get_dtstart (comp_data->icalcomp);
 	end_time = icalcomponent_get_dtend (comp_data->icalcomp);
 
-	if (zone) {
-		if (e_cal_util_component_is_instance (comp_data->icalcomp)) {
-			comp_data->instance_start = icaltime_as_timet_with_zone (recur_time,
-										 start_time.zone ? start_time.zone : zone);
-
-			comp_data->instance_end = comp_data->instance_start +
-				(icaltime_as_timet_with_zone (end_time, end_time.zone ? end_time.zone : zone) -
-				 icaltime_as_timet_with_zone (start_time, start_time.zone ? start_time.zone : zone));
-		} else {
-			if (start_time.zone) {
-				comp_data->instance_start = icaltime_as_timet_with_zone (start_time, start_time.zone);
-			} else
-				comp_data->instance_start = icaltime_as_timet_with_zone (start_time, zone);
-
-			if (end_time.zone) {
-				comp_data->instance_end = icaltime_as_timet_with_zone (end_time, end_time.zone);
-			} else
-				comp_data->instance_end = icaltime_as_timet_with_zone (end_time, zone);
-		}
+	if (e_cal_util_component_is_instance (comp_data->icalcomp)) {
+		itt = icaltime_convert_to_zone (recur_time, icaltimezone_get_utc_timezone ());
+		comp_data->instance_start = icaltime_as_timet (itt);
 	} else {
-		if (e_cal_util_component_is_instance (comp_data->icalcomp)) {
-			comp_data->instance_start = icaltime_as_timet (recur_time);
-			comp_data->instance_end = comp_data->instance_start +
-				(icaltime_as_timet (end_time) -
-				 icaltime_as_timet (start_time));
-		} else {
-			comp_data->instance_start = icaltime_as_timet (icalcomponent_get_dtstart (comp_data->icalcomp));
-			comp_data->instance_end = icaltime_as_timet (icalcomponent_get_dtend (comp_data->icalcomp));
-		}
+		comp_data->instance_start = icaltime_as_timet (start_time);
 	}
+
+	comp_data->instance_end = comp_data->instance_start +
+		(icaltime_as_timet (end_time) - icaltime_as_timet (start_time));
 }
 
 static void
