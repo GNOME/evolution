@@ -50,13 +50,6 @@
 #include "art/attachment.xpm"
 #include "art/priority-high.xpm"
 #include "art/empty.xpm"
-#include "art/score-lowest.xpm"
-#include "art/score-lower.xpm"
-#include "art/score-low.xpm"
-#include "art/score-normal.xpm"
-#include "art/score-high.xpm"
-#include "art/score-higher.xpm"
-#include "art/score-highest.xpm"
 
 /*#define TIMEIT */
 
@@ -143,13 +136,6 @@ static struct {
 	{ empty_xpm,		NULL },
 	{ attachment_xpm,	NULL },
 	{ priority_high_xpm,	NULL },
-	{ score_lowest_xpm,     NULL },
-	{ score_lower_xpm,      NULL },
-	{ score_low_xpm,        NULL },
-	{ score_normal_xpm,     NULL },
-	{ score_high_xpm,       NULL },
-	{ score_higher_xpm,     NULL },
-	{ score_highest_xpm,    NULL },
 	{ NULL,			NULL }
 };
 
@@ -539,7 +525,6 @@ ml_duplicate_value (ETreeModel *etm, int col, const void *value, void *data)
 	switch (col){
 	case COL_MESSAGE_STATUS:
 	case COL_FLAGGED:
-	case COL_SCORE:
 	case COL_ATTACHMENT:
 	case COL_DELETED:
 	case COL_UNREAD:
@@ -565,7 +550,6 @@ ml_free_value (ETreeModel *etm, int col, void *value, void *data)
 	switch (col){
 	case COL_MESSAGE_STATUS:
 	case COL_FLAGGED:
-	case COL_SCORE:
 	case COL_ATTACHMENT:
 	case COL_DELETED:
 	case COL_UNREAD:
@@ -590,7 +574,6 @@ ml_initialize_value (ETreeModel *etm, int col, void *data)
 	switch (col){
 	case COL_MESSAGE_STATUS:
 	case COL_FLAGGED:
-	case COL_SCORE:
 	case COL_ATTACHMENT:
 	case COL_DELETED:
 	case COL_UNREAD:
@@ -616,7 +599,6 @@ ml_value_is_empty (ETreeModel *etm, int col, const void *value, void *data)
 	switch (col){
 	case COL_MESSAGE_STATUS:
 	case COL_FLAGGED:
-	case COL_SCORE:
 	case COL_ATTACHMENT:
 	case COL_DELETED:
 	case COL_UNREAD:
@@ -643,16 +625,6 @@ static const char *status_map[] = {
 	N_("Multiple Messages"),
 };
 
-static const char *score_map[] = {
-	N_("Lowest"),
-	N_("Lower"),
-	N_("Low"),
-	N_("Normal"),
-	N_("High"),
-	N_("Higher"),
-	N_("Highest"),
-};
-
 static char *
 ml_value_to_string (ETreeModel *etm, int col, const void *value, void *data)
 {
@@ -665,12 +637,6 @@ ml_value_to_string (ETreeModel *etm, int col, const void *value, void *data)
 			return g_strdup("");
 		return g_strdup(_(status_map[i]));
 
-	case COL_SCORE:
-		i = (unsigned int)value + 3;
-		if (i > 6)
-			i = 3;
-		return g_strdup(_(score_map[i]));
-		
 	case COL_ATTACHMENT:
 	case COL_FLAGGED:
 	case COL_DELETED:
@@ -807,16 +773,6 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
 	}
 	case COL_FLAGGED:
 		return GINT_TO_POINTER ((msg_info->flags & CAMEL_MESSAGE_FLAGGED) != 0);
-	case COL_SCORE: {
-		const char *tag;
-		int score = 0;
-		
-		tag = camel_tag_get ((CamelTag **) &msg_info->user_tags, "score");
-		if (tag)
-			score = atoi (tag);
-		
-		return GINT_TO_POINTER (score);
-	}
 	case COL_ATTACHMENT:
 		return GINT_TO_POINTER ((msg_info->flags & CAMEL_MESSAGE_ATTACHMENTS) != 0);
 	case COL_FROM:
@@ -962,7 +918,6 @@ message_list_create_extras (void)
 
 	extras = e_table_extras_new();
 	e_table_extras_add_pixbuf(extras, "status", states_pixmaps [0].pixbuf);
-	e_table_extras_add_pixbuf(extras, "score", states_pixmaps [13].pixbuf);
 	e_table_extras_add_pixbuf(extras, "attachment", states_pixmaps [6].pixbuf);
 	e_table_extras_add_pixbuf(extras, "flagged", states_pixmaps [7].pixbuf);
 	
@@ -982,11 +937,6 @@ message_list_create_extras (void)
 	images [1] = states_pixmaps [7].pixbuf;
 	e_table_extras_add_cell(extras, "render_flagged", e_cell_toggle_new (0, 2, images));
 
-	for (i = 0; i < 7; i++)
-		images[i] = states_pixmaps [i + 7].pixbuf;
-	
-	e_table_extras_add_cell(extras, "render_score", e_cell_toggle_new (0, 7, images));
-	
 	/* date cell */
 	cell = e_cell_date_new (NULL, GTK_JUSTIFY_LEFT);
 	gtk_object_set (GTK_OBJECT (cell),
@@ -1068,8 +1018,8 @@ message_list_setup_etree (MessageList *message_list, gboolean outgoing)
 			/* Swap From/To for Drafts, Sent, Outbox */
 			char *state = "<ETableState>"
 				"<column source=\"0\"/> <column source=\"1\"/> "
-				"<column source=\"8\"/> <column source=\"5\"/> "
-				"<column source=\"6\"/> <grouping> </grouping> </ETableState>";
+				"<column source=\"7\"/> <column source=\"4\"/> "
+				"<column source=\"5\"/> <grouping> </grouping> </ETableState>";
 			
 			e_tree_set_state (message_list->tree, state);
 		}
