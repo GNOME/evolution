@@ -1,3 +1,10 @@
+2000-10-15  Peter Williams  <peterw@helixcode.com>
+
+	* tools/verify-evolution-install.sh (libcamelvee): Check
+	for linkage against version 0.5 libcamelvee, not version 0.3.
+	This should track with the version of Evolution itself.
+	(rm -f $ldddfile): Remove a temporary file.
+
 2000-10-15  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* configure.in: Added "nn" to ALL_LINGUAS.

@@ -253,7 +253,7 @@ You should check to see that the install succeeded."
 	fi
     done
 
-    #rm -f $lddfile
+    rm -f $lddfile
     IFS="$IFSback"
 
     if test x"$need_bonobox" = xyes -a x"$use_bonobo" = xyes -a x"$use_bonobox" != xyes ; then
@@ -621,7 +621,7 @@ fi
 
 add_lib_to_check libcal-client "$e_prefix/lib"
 add_lib_to_check libcamel "$e_prefix/lib"
-add_lib_to_check libcamelvee "$e_prefix/lib/evolution/camel-providers/0.3"
+add_lib_to_check libcamelvee "$e_prefix/lib/evolution/camel-providers/0.5"
 check_oafinfo addressbook evolution
 check_oafinfo calendar-control evolution
 check_oafinfo evolution-mail evolution
