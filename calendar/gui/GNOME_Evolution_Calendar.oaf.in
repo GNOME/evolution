@@ -177,14 +177,16 @@
 	</oaf_attribute>
 
 	<oaf_attribute name="evolution:config_item:title" type="string"
-		       _value="Calendar Settings"/>
+		       _value="Calendar and Tasks"/>
 
 	<oaf_attribute name="evolution:config_item:description" type="string"
-		       _value="This page can be used to configure your calendar settings"/>
+		       _value="This page can be used to configure Calendar and Task preferences"/>
 
 	<oaf_attribute name="evolution:config_item:icon_name" type="string"
 		       value="evolution-calendar.png"/>
 
+	<oaf_attribute name="evolution:config_item:priority" type="string" value="-7"/>
+    
 	<oaf_attribute name="description" type="string"
 		       _value="Configuration control for the Evolution Calendar."/>
 

@@ -1,3 +1,8 @@
+2002-03-29  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/GNOME_Evolution_Calendar.oaf.in: Set a priority for the
+	config item.  Rename to "Calendar and Tasks".
+
 2002-03-29  JP Rosevear  <jpr@ximian.com>
 
 	* conduits/calendar/Makefile.am: s/libversit.la/libversit.a/
