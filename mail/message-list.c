@@ -2139,7 +2139,8 @@ message_list_set_search(MessageList *ml, const char *search)
 }
 
 /* returns the number of messages displayable *after* expression hiding has taken place */
-unsigned int   message_list_length(MessageList *ml)
+unsigned int
+message_list_length(MessageList *ml)
 {
 	return ml->hide_unhidden;
 }
@@ -2157,7 +2158,8 @@ unsigned int   message_list_length(MessageList *ml)
    Example: hide_add(ml, NULL, -100, ML_HIDE_NONE_END) -> hide all but the last (most recent)
    100 messages.
 */
-void	       message_list_hide_add(MessageList *ml, const char *expr, unsigned int lower, unsigned int upper)
+void
+message_list_hide_add(MessageList *ml, const char *expr, unsigned int lower, unsigned int upper)
 {
 	MESSAGE_LIST_LOCK(ml, hide_lock);
 
@@ -2172,7 +2174,8 @@ void	       message_list_hide_add(MessageList *ml, const char *expr, unsigned in
 }
 
 /* hide specific uid's */
-void	       message_list_hide_uids(MessageList *ml, GPtrArray *uids)
+void
+message_list_hide_uids(MessageList *ml, GPtrArray *uids)
 {
 	int i;
 	char *uid;
@@ -2202,7 +2205,8 @@ void	       message_list_hide_uids(MessageList *ml, GPtrArray *uids)
 }
 
 /* no longer hide any messages */
-void	       message_list_hide_clear(MessageList *ml)
+void
+message_list_hide_clear (MessageList *ml)
 {
 	MESSAGE_LIST_LOCK(ml, hide_lock);
 	if (ml->hidden) {
@@ -2227,7 +2231,8 @@ void	       message_list_hide_clear(MessageList *ml)
    string*	uids
 */
 
-static void hide_load_state(MessageList *ml)
+static void
+hide_load_state (MessageList *ml)
 {
 	char *filename;
 	FILE *in;
@@ -2236,21 +2241,21 @@ static void hide_load_state(MessageList *ml)
 	filename = mail_config_folder_to_cachename(ml->folder, "hidestate-");
 	in = fopen(filename, "r");
 	if (in) {
-		camel_folder_summary_decode_fixed_int32(in, &version);
+		camel_file_util_decode_fixed_int32 (in, &version);
 		if (version == HIDE_STATE_VERSION) {
 			MESSAGE_LIST_LOCK(ml, hide_lock);
 			if (ml->hidden == NULL) {
 				ml->hidden = g_hash_table_new(g_str_hash, g_str_equal);
 				ml->hidden_pool = e_mempool_new(512, 256, E_MEMPOOL_ALIGN_BYTE);
 			}
-			camel_folder_summary_decode_fixed_int32(in, &lower);
+			camel_file_util_decode_fixed_int32 (in, &lower);
 			ml->hide_before = lower;
-			camel_folder_summary_decode_fixed_int32(in, &upper);
+			camel_file_util_decode_fixed_int32 (in, &upper);
 			ml->hide_after = upper;
 			while (!feof(in)) {
 				char *olduid, *uid;
-
-				if (camel_folder_summary_decode_string(in, &olduid) != -1) {
+				
+				if (camel_file_util_decode_string (in, &olduid) != -1) {
 					uid =  e_mempool_strdup(ml->hidden_pool, olduid);
 					g_free (olduid);
 					g_hash_table_insert(ml->hidden, uid, uid);
@@ -2263,14 +2268,16 @@ static void hide_load_state(MessageList *ml)
 	g_free(filename);
 }
 
-static void hide_save_1(char *uid, char *keydata, FILE *out)
+static void
+hide_save_1 (char *uid, char *keydata, FILE *out)
 {
-	camel_folder_summary_encode_string(out, uid);
+	camel_file_util_encode_string (out, uid);
 }
 
 /* save the hide state.  Note that messages are hidden by uid, if the uid's change, then
    this will become invalid, but is easy to reset in the ui */
-static void hide_save_state(MessageList *ml)
+static void
+hide_save_state (MessageList *ml)
 {
 	char *filename;
 	FILE *out;
@@ -2280,10 +2287,10 @@ static void hide_save_state(MessageList *ml)
 	filename = mail_config_folder_to_cachename(ml->folder, "hidestate-");
 	if (ml->hidden == NULL && ml->hide_before == ML_HIDE_NONE_START && ml->hide_after == ML_HIDE_NONE_END) {
 		unlink(filename);
-	} else if ( (out = fopen(filename, "w")) ) {
-		camel_folder_summary_encode_fixed_int32(out, HIDE_STATE_VERSION);
-		camel_folder_summary_encode_fixed_int32(out, ml->hide_before);
-		camel_folder_summary_encode_fixed_int32(out, ml->hide_after);
+	} else if ((out = fopen (filename, "w"))) {
+		camel_file_util_encode_fixed_int32 (out, HIDE_STATE_VERSION);
+		camel_file_util_encode_fixed_int32 (out, ml->hide_before);
+		camel_file_util_encode_fixed_int32 (out, ml->hide_after);
 		if (ml->hidden)
 			g_hash_table_foreach(ml->hidden, (GHFunc)hide_save_1, out);
 		fclose(out);
