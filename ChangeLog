@@ -1,5 +1,12 @@
 2003-04-07  Chris Toshok  <toshok@ximian.com>
 
+	* tools/Makefile.am (privlibexec_PROGRAMS): remove
+	evolution-addressbook-export.
+
+	* tools/evolution-addressbook-export.c: nuke.
+	
+2003-04-07  Chris Toshok  <toshok@ximian.com>
+
 	* configure.in: add addressbook/tools/Makefile to AC_OUTPUT.
 
 2003-04-07  Dan Winship  <danw@ximian.com>

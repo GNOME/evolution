@@ -4,7 +4,6 @@ privlibexec_SCRIPTS =			\
 
 privlibexec_PROGRAMS =			\
 	evolution-addressbook-import	\
-	evolution-addressbook-export	\
 	evolution-launch-composer	\
 	killev
 
@@ -47,9 +46,6 @@ evolution_addressbook_import_LDADD =				\
 	$(GNOME_FULL_LIBS)					\
 	$(top_builddir)/addressbook/backend/ebook/libebook.la	\
 	$(top_builddir)/widgets/menus/libmenus.la
-
-evolution_addressbook_export_LDADD =				\
-	$(evolution_addressbook_import_LDADD)
 
 evolution_addressbook_abuse_LDADD =				\
 	$(evolution_addressbook_import_LDADD)
