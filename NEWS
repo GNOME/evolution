@@ -86,6 +86,25 @@ Calendar & Tasks:
 
   - Free/Busy changes.  (JP, Rodrigo)
 
+  - iTIP fixes (JP)
+
+  - i18n fixes, particularly for printing (Zbigniew Chyla)
+
+  - Added option to confirm deletions (Federico)
+
+  - Improved alarm system (Federico)
+
+  - Fixed crashing bug when deleting a folder (Federico)
+
+  - Added option to hide completed tasks (Damon)
+
+  - Timezone changes for interoperability with Outlook (Damon)
+
+  - Fixed problems displaying/parsing times in locales which don't specify
+    'am' and 'pm' strings (Damon)
+
+  - Added toolbar button to delete the selected calendar event (Damon)
+
 Summary:
 
   - Fixed bugs and leaks.  (Iain)
