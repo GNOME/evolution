@@ -316,7 +316,6 @@ mail/mail-config.c
 mail/mail-config.glade
 mail/mail-crypto.c
 mail/mail-dialogs.glade
-mail/mail-errors.xml
 mail/mail-errors.xml.h
 mail/mail-folder-cache.c
 mail/mail-mt.c
