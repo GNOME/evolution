@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=Evolution
+Comment=Mail, Contacts and Task.
+Exec=evolution
+Terminal=0
+Type=Application

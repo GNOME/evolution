@@ -12,35 +12,35 @@
 #include <gnome.h>
 #include "shortcut-bar/e-shortcut-bar.h"
 #include "e-shell-shortcut.h"
+#include "e-shell-view.h"
 
 #define SMALL_ICONS 1
 #define LARGE_ICONS 2
 
-static void
-set_large_icons (GtkMenuItem *menu_item, EShellView *eshell_view)
-{
-	EShortcutGroup *sg = gtk_object_get_data (GTK_OBJECT (menu_item), "shortcut_group");
+typedef struct {
+	EShellView *eshell_view;
+	EShortcutGroup *sg;
+} closure_group_t;
 
-	g_assert (sg != NULL);
-	e_shortcut_group_set_view_type (sg, E_ICON_BAR_LARGE_ICONS);
+static void
+set_large_icons (GtkMenuItem *menu_item, closure_group_t *closure)
+{
+	e_shortcut_group_set_view_type (closure->sg, E_ICON_BAR_LARGE_ICONS);
 }
 
 static void
-set_small_icons (GtkMenu *menu_item, EShellView *eshell_view)
+set_small_icons (GtkMenu *menu_item, closure_group_t *closure)
 {
-	EShortcutGroup *sg = gtk_object_get_data (GTK_OBJECT (menu_item), "shortcut_group");
-
-	g_assert (sg != NULL);
-	e_shortcut_group_set_view_type (sg, E_ICON_BAR_SMALL_ICONS);
+	e_shortcut_group_set_view_type (closure->sg, E_ICON_BAR_SMALL_ICONS);
 }
 
 static void
-add_group (GtkMenu *menu, EShellView *eshell_view)
+add_group (GtkMenu *menu, closure_group_t *closure)
 {
 	int group_num;
 	GtkWidget *entry;
 	
-	group_num = e_shortcut_bar_model_add_group (eshell_view->eshell->shortcut_bar);
+	group_num = e_shortcut_bar_model_add_group (closure->eshell_view->eshell->shortcut_bar);
 
 	/*
 	 * FIXME: Figure out why this does not quite work
@@ -49,19 +49,15 @@ add_group (GtkMenu *menu, EShellView *eshell_view)
 	gtk_widget_show (entry);
 
 	e_group_bar_set_group_button_label (
-		E_GROUP_BAR (eshell_view->shortcut_bar),
+		E_GROUP_BAR (closure->eshell_view->shortcut_bar),
 		group_num,
 		entry);
 }
 
 static void
-remove_group (GtkMenuItem *menu_item, EShellView *eshell_view)
+remove_group (GtkMenuItem *menu_item, closure_group_t *closure)
 {
-	EShortcutGroup *sg = gtk_object_get_data (GTK_OBJECT (menu_item), "shortcut_group");
-
-	g_assert (sg != NULL);
-	
-	e_shortcut_bar_model_remove_group (eshell_view->eshell->shortcut_bar, sg);
+	e_shortcut_bar_model_remove_group (closure->eshell_view->eshell->shortcut_bar, closure->sg);
 }
 
 static void
@@ -71,16 +67,13 @@ do_rename (GtkEntry *entry, EShortcutGroup *sg)
 }
 
 static void
-rename_group (GtkMenuItem *menu_item, EShellView *eshell_view)
+rename_group (GtkMenuItem *menu_item, closure_group_t *closure)
 {
-	EShortcutGroup *sg = gtk_object_get_data (GTK_OBJECT (menu_item), "shortcut_group");
 	GtkWidget *entry;
 	int item;
 	
-	g_assert (sg != NULL);
-
-	item = e_group_num_from_group_ptr (eshell_view->eshell->shortcut_bar, sg);
-	e_shortcut_group_rename (sg, "Dum de da");
+	item = e_group_num_from_group_ptr (closure->eshell_view->eshell->shortcut_bar, closure->sg);
+	e_shortcut_group_rename (closure->sg, "Ren Test");
 
 	return;
 	
@@ -88,13 +81,13 @@ rename_group (GtkMenuItem *menu_item, EShellView *eshell_view)
 	gtk_widget_show (entry);
 	gtk_widget_grab_focus (entry);
 
-	gtk_signal_connect (GTK_OBJECT (entry), "activate", GTK_SIGNAL_FUNC (do_rename), sg);
+	gtk_signal_connect (GTK_OBJECT (entry), "activate", GTK_SIGNAL_FUNC (do_rename), closure->sg);
 		
-	e_group_bar_set_group_button_label (E_GROUP_BAR (eshell_view->shortcut_bar), item, entry);
+	e_group_bar_set_group_button_label (E_GROUP_BAR (closure->eshell_view->shortcut_bar), item, entry);
 }
 
 static void
-add_shortcut (GtkMenu *menu, EShellView *eshell_view)
+add_shortcut (GtkMenu *menu, closure_group_t *closure)
 {
 }
 
@@ -120,9 +113,13 @@ shortcut_bar_show_standard_popup (EShellView *eshell_view, GdkEvent *event, ESho
 {
 	GtkWidget *menu, *menuitem;
 	int i;
+	closure_group_t closure;
 	
 	menu = gtk_menu_new ();
 
+	closure.sg = shortcut_group;
+	closure.eshell_view = eshell_view;
+	
 	for (i = 0; i < ELEMENTS (shortcut_menu); i++){
 		gboolean disable = FALSE;
 		
@@ -148,10 +145,7 @@ shortcut_bar_show_standard_popup (EShellView *eshell_view, GdkEvent *event, ESho
 
 		gtk_signal_connect (
 			GTK_OBJECT (menuitem), "activate",
-			shortcut_menu [i].callback, eshell_view);
-		gtk_object_set_data (
-			GTK_OBJECT (menuitem), "shortcut_group",
-			shortcut_group);
+			shortcut_menu [i].callback, &closure);
 	}
 
 	gtk_signal_connect (GTK_OBJECT (menu), "deactivate",
@@ -165,29 +159,41 @@ shortcut_bar_show_standard_popup (EShellView *eshell_view, GdkEvent *event, ESho
 	gtk_object_destroy (GTK_OBJECT (menu));
 }
 
+typedef struct {
+	EShellView     *eshell_view;
+	EShortcutGroup *sg;
+	EShortcut      *shortcut;
+} closure_context_t;
+
 static void
-shortcut_open (GtkMenuItem *menuitem, EShellView *eshell_view)
+shortcut_open (GtkMenuItem *menuitem, closure_context_t *closure)
 {
+	e_shell_view_set_view (closure->eshell_view, closure->shortcut->efolder);
 }
 
 static void
-shortcut_open_new_window (GtkMenuItem *menuitem, EShellView *eshell_view)
+shortcut_open_new_window (GtkMenuItem *menuitem, closure_context_t *closure)
 {
+	GtkWidget *toplevel;
+
+	toplevel = e_shell_view_new (closure->eshell_view->eshell, closure->shortcut->efolder, FALSE);
+	gtk_widget_show (toplevel);
 }
 
 static void
-shortcut_remove (GtkMenuItem *menuitem, EShellView *eshell_view)
+shortcut_remove (GtkMenuItem *menuitem, closure_context_t *closure)
 {
+	e_shortcut_group_remove (closure->sg, closure->shortcut);
 }
 
 static void
-shortcut_rename (GtkMenuItem *menuitem, EShellView *eshell_view)
+shortcut_rename (GtkMenuItem *menuitem, closure_context_t *closure)
 {
 	printf ("Implement: %s %s\n", __FILE__, __FUNCTION__);
 }
 
 static void
-shortcut_properties (GtkMenuItem *menuitem, EShellView *eshell_view)
+shortcut_properties (GtkMenuItem *menuitem, closure_context_t *closure)
 {
 	printf ("Implement: %s %s\n", __FILE__, __FUNCTION__);
 }
@@ -210,14 +216,20 @@ static struct {
 };
 
 static void
-shortcut_bar_show_context_popup (EShellView *eshell_view, GdkEvent *event, EShortcutGroup *shortcut_group)
+shortcut_bar_show_context_popup (EShellView *eshell_view, GdkEvent *event,
+				 EShortcutGroup *shortcut_group, EShortcut *shortcut)
 {
+	closure_context_t closure;
 	GtkWidget *menu, *menuitem;
 	int i;
 	gboolean disable;
 	
 	menu = gtk_menu_new ();
 
+	closure.eshell_view = eshell_view;
+	closure.sg = shortcut_group;
+	closure.shortcut = shortcut;
+	
 	for (i = 0; i < ELEMENTS (context_shortcut_menu); i++){
 		disable = FALSE;
 		
@@ -259,10 +271,7 @@ shortcut_bar_show_context_popup (EShellView *eshell_view, GdkEvent *event, EShor
 
 		gtk_signal_connect (
 			GTK_OBJECT (menuitem), "activate",
-			context_shortcut_menu [i].callback, eshell_view);
-		gtk_object_set_data (
-			GTK_OBJECT (menuitem), "shortcut_group",
-			shortcut_group);
+			context_shortcut_menu [i].callback, &closure);
 	}
 
 	gtk_signal_connect (GTK_OBJECT (menu), "deactivate",
@@ -291,11 +300,11 @@ shortcut_bar_item_selected (EShortcutBar *e_shortcut_bar,
 			
 	shortcut = e_shortcut_from_pos (shortcut_group, item_num);
 
-	if (group_num == -1)
+	if (shortcut == NULL)
 		return;
 	
 	if (event->button.button == 1) {
-		printf ("Item Selected - %i:%i", group_num + 1, item_num + 1);
+		e_shell_view_set_view (eshell_view, shortcut->efolder);
 	} else if (event->button.button == 3) {
 		
 		if (shortcut == NULL)
@@ -303,7 +312,7 @@ shortcut_bar_item_selected (EShortcutBar *e_shortcut_bar,
 				eshell_view, event, shortcut_group);
 		else
 			shortcut_bar_show_context_popup (
-				eshell_view, event, shortcut_group);
+				eshell_view, event, shortcut_group, shortcut);
 	}
 }
 

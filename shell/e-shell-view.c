@@ -65,8 +65,43 @@ e_shell_view_setup_shortcut_display (EShellView *eshell_view)
 		GTK_SIGNAL_FUNC (shortcut_bar_item_selected), eshell_view);
 }
 
+static GtkWidget *
+get_view (EFolder *efolder)
+{
+	GtkWidget *w;
+	char buffer [80];
+
+	sprintf (buffer, "I am the view for %s\n",
+		 e_folder_get_description (efolder));
+	
+	w = gtk_label_new (buffer);
+
+	gtk_widget_show (w);
+	
+	return w;
+}
+
+void
+e_shell_view_set_view (EShellView *eshell_view, EFolder *efolder)
+{
+	GtkWidget *w = get_view (efolder);
+
+	if (eshell_view->contents){
+		gtk_widget_destroy (eshell_view->contents);
+	}
+	
+	eshell_view->contents = w;
+
+	if (eshell_view->shortcut_displayed){
+		gtk_paned_pack2 (GTK_PANED (eshell_view->shortcut_hpaned),
+				 eshell_view->contents, FALSE, TRUE);
+	} else {
+		gnome_app_set_contents (GNOME_APP (eshell_view), eshell_view->contents);
+	}
+}
+
 GtkWidget *
-e_shell_view_new (EShell *eshell, gboolean show_shortcut_bar)
+e_shell_view_new (EShell *eshell, EFolder *efolder, gboolean show_shortcut_bar)
 {
 	EShellView *eshell_view;
 
@@ -79,27 +114,12 @@ e_shell_view_new (EShell *eshell, gboolean show_shortcut_bar)
 	e_shell_view_setup_menus (eshell_view);
 
 	e_shell_register_view (eshell, eshell_view);
-
-	if (show_shortcut_bar){
-		e_shell_view_setup_shortcut_display (eshell_view);
-	} else {
-		g_error ("Non-shortcut bar code not written yet");
-	}
-
-
 	eshell_view->shortcut_displayed = show_shortcut_bar;
+	e_shell_view_setup_shortcut_display (eshell_view);
+
+	e_shell_view_set_view (eshell_view, efolder);
 	
 	return (GtkWidget *) eshell_view;
-}
-
-void
-e_shell_view_set_view (EShellView *eshell_view, EFolder *efolder)
-{
-	if (efolder == NULL){
-		printf ("Display executive summary");
-	}  else {
-		
-	}
 }
 
 void

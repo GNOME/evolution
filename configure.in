@@ -125,6 +125,7 @@ AC_DEFINE_UNQUOTED(CAMEL_HARD_LOG_LEVEL, $camel_hard_log_level)
 AC_OUTPUT([
 Makefile
 macros/Makefile
+intl/Makefile
 po/Makefile.in
 e-util/Makefile
 camel/Makefile
@@ -144,4 +145,6 @@ widgets/e-table/Makefile
 addressbook/Makefile
 addressbook/contact-editor/Makefile
 shell/Makefile
+mail/Makefile
+data/Makefile
 ])
