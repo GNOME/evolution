@@ -1,5 +1,10 @@
 2002-04-24  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* folder-browser.c (label_menu): Update to use
+	E_POPUP_MENU_PIXMAP_WIDGET_ITEM_CC so that our callback gets
+	called without per-item closure rather than being called with NULL
+	and causing a segfault.
+
 	* mail-account-gui.c (mail_account_gui_build_extra_conf): Set the
 	default Username label and handle the new
 	CAMEL_PROVIDER_CONF_LABEL enum allowing the provider to setup a

@@ -1593,13 +1593,13 @@ static EPopupMenu filter_menu[] = {
 };
 
 static EPopupMenu label_menu[] = {
-	E_POPUP_ITEM (N_("None"), GTK_SIGNAL_FUNC (colourise_msg), 0),
+	E_POPUP_PIXMAP_WIDGET_ITEM_CC (N_("None"), NULL, GTK_SIGNAL_FUNC (colourise_msg), NULL, 0),
 	E_POPUP_SEPARATOR,
-	E_POPUP_ITEM (NULL, GTK_SIGNAL_FUNC (colourise_msg), 0),
-	E_POPUP_ITEM (NULL, GTK_SIGNAL_FUNC (colourise_msg), 0),
-	E_POPUP_ITEM (NULL, GTK_SIGNAL_FUNC (colourise_msg), 0),
-	E_POPUP_ITEM (NULL, GTK_SIGNAL_FUNC (colourise_msg), 0),
-	E_POPUP_ITEM (NULL, GTK_SIGNAL_FUNC (colourise_msg), 0),
+	E_POPUP_PIXMAP_WIDGET_ITEM_CC (NULL, NULL, GTK_SIGNAL_FUNC (colourise_msg), NULL, 0),
+	E_POPUP_PIXMAP_WIDGET_ITEM_CC (NULL, NULL, GTK_SIGNAL_FUNC (colourise_msg), NULL, 0),
+	E_POPUP_PIXMAP_WIDGET_ITEM_CC (NULL, NULL, GTK_SIGNAL_FUNC (colourise_msg), NULL, 0),
+	E_POPUP_PIXMAP_WIDGET_ITEM_CC (NULL, NULL, GTK_SIGNAL_FUNC (colourise_msg), NULL, 0),
+	E_POPUP_PIXMAP_WIDGET_ITEM_CC (NULL, NULL, GTK_SIGNAL_FUNC (colourise_msg), NULL, 0),
 	E_POPUP_TERMINATOR
 };
 
