@@ -54,6 +54,7 @@ images_DATA = \
 	folder-move-16.png		\
 	folder-settings.png		\
 	folder.xpm			\
+	font.png			\
 	forward.xpm			\
 	globe.png           		\
 	goto-16.png			\
