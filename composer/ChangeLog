@@ -1,3 +1,9 @@
+2001-01-10  Miguel de Icaza  <miguel@helixcode.com>
+
+	* e-msg-composer.c: Removed more UNSAFE stuff.  Maybe we should
+	kill this macro, and have people that want these broken things
+	define their own macros.
+
 2001-01-08  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* e-msg-composer-hdrs.c (create_dropdown_entry): Updated for new

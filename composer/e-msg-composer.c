@@ -1068,16 +1068,16 @@ menu_format_html_cb (BonoboUIComponent           *component,
 
 static BonoboUIVerb verbs [] = {
 
-	BONOBO_UI_UNSAFE_VERB ("FileOpen",   menu_file_open_cb),
-	BONOBO_UI_UNSAFE_VERB ("FileSave",   menu_file_save_cb),
-	BONOBO_UI_UNSAFE_VERB ("FileSaveAs", menu_file_save_as_cb),
-	BONOBO_UI_UNSAFE_VERB ("FileClose",  menu_file_close_cb),
-	
-	BONOBO_UI_UNSAFE_VERB ("FileInsertFile", menu_file_insert_file_cb),
-	BONOBO_UI_UNSAFE_VERB ("FileAttach",     menu_file_add_attachment_cb),
-	
-	BONOBO_UI_UNSAFE_VERB ("FileSend",       menu_file_send_cb),
-	BONOBO_UI_UNSAFE_VERB ("FileSendLater",  menu_file_send_later_cb),
+	BONOBO_UI_VERB ("FileOpen",   menu_file_open_cb),
+	BONOBO_UI_VERB ("FileSave",   menu_file_save_cb),
+	BONOBO_UI_VERB ("FileSaveAs", menu_file_save_as_cb),
+	BONOBO_UI_VERB ("FileClose",  menu_file_close_cb),
+		  
+	BONOBO_UI_VERB ("FileInsertFile", menu_file_insert_file_cb),
+	BONOBO_UI_VERB ("FileAttach",     menu_file_add_attachment_cb),
+		  
+	BONOBO_UI_VERB ("FileSend",       menu_file_send_cb),
+	BONOBO_UI_VERB ("FileSendLater",  menu_file_send_later_cb),
 	
 	BONOBO_UI_VERB_END
 };	
