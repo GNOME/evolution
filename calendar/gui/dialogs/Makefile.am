@@ -20,6 +20,8 @@ INCLUDES = 						\
 noinst_LIBRARIES = libcal-dialogs.a
 
 libcal_dialogs_a_SOURCES =	\
+	alarm-options.c		\
+	alarm-options.h		\
 	alarm-page.c		\
 	alarm-page.h		\
 	cal-prefs-dialog.c	\
@@ -58,6 +60,7 @@ libcal_dialogs_a_SOURCES =	\
 	task-page.h
 
 glade_DATA =				\
+	alarm-options.glade		\
 	alarm-page.glade		\
 	cal-prefs-dialog.glade		\
 	e-timezone-dialog.glade		\

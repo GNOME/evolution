@@ -434,7 +434,7 @@ void cal_component_alarm_get_action (CalComponentAlarm *alarm, CalAlarmAction *a
 void cal_component_alarm_set_action (CalComponentAlarm *alarm, CalAlarmAction action);
 
 void cal_component_alarm_get_attach (CalComponentAlarm *alarm, struct icalattachtype **attach);
-void cal_copmonent_alarm_set_attach (CalComponentAlarm *alarm, struct icalattachtype *attach);
+void cal_component_alarm_set_attach (CalComponentAlarm *alarm, struct icalattachtype *attach);
 
 void cal_component_alarm_get_description (CalComponentAlarm *alarm, CalComponentText *description);
 void cal_component_alarm_set_description (CalComponentAlarm *alarm, CalComponentText *description);

@@ -280,9 +280,10 @@ end of appointment
 
 	  <widget>
 	    <class>GtkButton</class>
-	    <name>button9</name>
+	    <name>button-options</name>
 	    <can_focus>True</can_focus>
-	    <label>Settings...</label>
+	    <label>Options...</label>
+	    <relief>GTK_RELIEF_NORMAL</relief>
 	    <child>
 	      <padding>0</padding>
 	      <expand>False</expand>
@@ -361,6 +362,7 @@ end of appointment
 	      <can_default>True</can_default>
 	      <can_focus>True</can_focus>
 	      <label>Add</label>
+	      <relief>GTK_RELIEF_NORMAL</relief>
 	    </widget>
 
 	    <widget>
@@ -369,6 +371,7 @@ end of appointment
 	      <can_default>True</can_default>
 	      <can_focus>True</can_focus>
 	      <label>Delete</label>
+	      <relief>GTK_RELIEF_NORMAL</relief>
 	    </widget>
 	  </widget>
 	</widget>

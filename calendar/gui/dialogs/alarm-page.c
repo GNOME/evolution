@@ -35,6 +35,7 @@
 #include "e-util/e-dialog-widgets.h"
 #include "cal-util/cal-util.h"
 #include "comp-editor-util.h"
+#include "alarm-options.h"
 #include "alarm-page.h"
 
 
@@ -60,6 +61,11 @@ struct _AlarmPagePrivate {
 	GtkWidget *value_units;
 	GtkWidget *relative;
 	GtkWidget *time;
+
+	GtkWidget *button_options;
+
+	/* Alarm options dialog and the alarm we maintain */
+	CalComponentAlarm *alarm;
 
 	gboolean updating;
 };
@@ -155,6 +161,9 @@ alarm_page_init (AlarmPage *apage)
 	priv->value_units = NULL;
 	priv->relative = NULL;
 	priv->time = NULL;
+	priv->button_options = NULL;
+
+	priv->alarm = cal_component_alarm_new ();
 
 	priv->updating = FALSE;
 }
@@ -204,6 +213,11 @@ alarm_page_destroy (GtkObject *object)
 	}
 
 	free_alarms (apage);
+
+	if (priv->alarm) {
+		cal_component_alarm_free (priv->alarm);
+		priv->alarm = NULL;
+	}
 
 	g_free (priv);
 	apage->priv = NULL;
@@ -581,6 +595,8 @@ get_widgets (AlarmPage *apage)
 	priv->relative = GW ("relative");
 	priv->time = GW ("time");
 
+	priv->button_options = GW ("button-options");
+
 #undef GW
 
 	return (priv->summary
@@ -592,7 +608,8 @@ get_widgets (AlarmPage *apage)
 		&& priv->interval_value
 		&& priv->value_units
 		&& priv->relative
-		&& priv->time);
+		&& priv->time
+		&& priv->button_options);
 }
 
 /* This is called when any field is changed; it notifies upstream. */
@@ -621,7 +638,7 @@ add_clicked_cb (GtkButton *button, gpointer data)
 	apage = ALARM_PAGE (data);
 	priv = apage->priv;
 
-	alarm = cal_component_alarm_new ();
+	alarm = cal_component_alarm_clone (priv->alarm);
 
 	memset (&trigger, 0, sizeof (CalAlarmTrigger));
 	trigger.type = e_dialog_option_menu_get (priv->time, time_map);
@@ -690,6 +707,23 @@ delete_clicked_cb (GtkButton *button, gpointer data)
 		gtk_widget_set_sensitive (priv->delete, FALSE);
 }
 
+/* Callback used when the alarm options button is clicked */
+static void
+button_options_clicked_cb (GtkWidget *widget, gpointer data)
+{
+	AlarmPage *apage;
+	AlarmPagePrivate *priv;
+
+	apage = ALARM_PAGE (data);
+	priv = apage->priv;
+
+	cal_component_alarm_set_action (priv->alarm,
+					e_dialog_option_menu_get (priv->action, action_map));
+
+	if (!alarm_options_dialog_run (priv->alarm))
+		g_message ("button_options_clicked_cb(): Could not create the alarm options dialog");
+}
+
 /* Hooks the widget signals */
 static void
 init_widgets (AlarmPage *apage)
@@ -711,6 +745,10 @@ init_widgets (AlarmPage *apage)
 			    GTK_SIGNAL_FUNC (field_changed_cb), apage);
 	gtk_signal_connect (GTK_OBJECT (priv->delete), "clicked",
 			    GTK_SIGNAL_FUNC (field_changed_cb), apage);
+
+	/* Options button */
+	gtk_signal_connect (GTK_OBJECT (priv->button_options), "clicked",
+			    GTK_SIGNAL_FUNC (button_options_clicked_cb), apage);
 }
 
 

@@ -1,3 +1,21 @@
+2001-07-02  Federico Mena Quintero  <federico@ximian.com>
+
+	* gui/dialogs/alarm-options.[ch]: New files with the alarm options
+	dialog; this configures the repeat/duration properties and the
+	options specific to each alarm action type.
+
+	* gui/dialogs/alarm-page.c (AlarmPagePrivate): Added the alarm
+	options button.  Also, keep an alarm structure which we are
+	editing and an alarm options dialog.
+	(init_widgets): Connect to the options button.
+	(add_clicked_cb): Clone the component we are editing instead of
+	creating a new one so that we preserve the data from the alarm
+	options dialog.
+	(button_options_clicked_cb): Pop up the alarm options dialog.
+
+	* cal-util/cal-component.c (cal_component_alarm_new): Doh,
+	initialize the other fields in the new alarm.
+
 2001-07-03  Damon Chaplin  <damon@ximian.com>
 
 	* cal-client/cal-client.[hc]

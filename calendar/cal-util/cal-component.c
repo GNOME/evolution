@@ -4337,6 +4337,11 @@ cal_component_alarm_new (void)
 	g_free (new_auid);
 
 	alarm->action = NULL;
+	alarm->attach = NULL;
+	alarm->description.prop = NULL;
+	alarm->description.altrep_param = NULL;
+	alarm->duration = NULL;
+	alarm->repeat = NULL;
 	alarm->trigger = NULL;
 
 	return alarm;
@@ -4532,14 +4537,14 @@ cal_component_alarm_get_attach (CalComponentAlarm *alarm, struct icalattachtype 
 }
 
 /**
- * cal_copmonent_alarm_set_attach:
+ * cal_component_alarm_set_attach:
  * @alarm: An alarm.
  * @attach: Attachment property or NULL to remove an existing property.
  * 
  * Sets the attachment property of an alarm.
  **/
 void
-cal_copmonent_alarm_set_attach (CalComponentAlarm *alarm, struct icalattachtype *attach)
+cal_component_alarm_set_attach (CalComponentAlarm *alarm, struct icalattachtype *attach)
 {
 	g_return_if_fail (alarm != NULL);
 
