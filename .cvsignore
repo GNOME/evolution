@@ -23,5 +23,5 @@ stamp.h
 xlibtool
 xltmain.sh
 evolution.spec
-xml-i18n-*
+intltool-*
 *Conf.sh
