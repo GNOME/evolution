@@ -32,6 +32,7 @@ AC_DEFUN([GNOME_X_CHECKS],
 	case "$x_libs" in
 	 *-lSM*)
 	    # Already found it.
+	    AC_DEFINE(HAVE_LIBSM)
 	    ;;
 	 *)
 	    AC_CHECK_LIB(SM, SmcSaveYourselfDone,
@@ -55,10 +56,7 @@ AC_DEFUN([GNOME_X_CHECKS],
 	AC_CHECK_LIB(Xpm, XpmFreeXpmImage, [XPM_LIBS="-lXpm"], , $x_libs)
 	AC_SUBST(XPM_LIBS)
 
-	PTHREAD_LIB=""
-	AC_CHECK_LIB(pthread, pthread_create, PTHREAD_LIB="-lpthread",
-		[AC_CHECK_LIB(c_r, pthread_create, PTHREAD_LIB="-lc_r")])
-	AC_SUBST(PTHREAD_LIB)
+	AC_REQUIRE([GNOME_PTHREAD_CHECK])
 
         CFLAGS="$saved_cflags $X_CFLAGS"
         LDFLAGS="$saved_ldflags"

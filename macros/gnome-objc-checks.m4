@@ -4,12 +4,13 @@ dnl Look for an ObjC compiler.
 dnl FIXME: extend list of possible names of ObjC compilers.
   AC_CHECK_PROGS(OBJC, $OBJC gcc, "")
 
-  oLIBS=$LIBS
-  LIBS="$LIBS $PTHREAD_LIB"
-  AC_SUBST(PTHREAD_LIB)
+  AC_REQUIRE([GNOME_PTHREAD_CHECK])
+
+  OBJC_LIBS="-lobjc $PTHREAD_LIB"
   AC_CHECK_FUNC(sched_yield,,[
-    AC_CHECK_LIB(posix4,sched_yield,PTHREAD_LIB="$PTHREAD_LIB -lposix4")])
-  LIBS=$oLIBS
+    AC_CHECK_LIB(posix4,sched_yield,
+		OBJC_LIBS="$OBJC_LIBS -lposix4",, $OBJC_LIBS)])
+  AC_SUBST(OBJC_LIBS)
 
   AC_CACHE_CHECK([if Objective C compiler ($OBJC) works],
 		 ac_cv_prog_objc_works, [
@@ -31,7 +32,7 @@ int main () {
 }
 EOF
 
-      $OBJC -o conftest $LDFLAGS conftest.m -lobjc $PTHREAD_LIB 1>&AC_FD_CC 2>&1
+      $OBJC -o conftest $LDFLAGS conftest.m $OBJC_LIBS 1>&AC_FD_CC 2>&1
       result=$?
       rm -f conftest*
 

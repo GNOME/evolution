@@ -1,3 +1,14 @@
+1998-02-15  Raja R Harinath  <harinath@cs.umn.edu>
+
+	* Makefile.am (MACROS): Add `gnome-pthread-check.m4'.
+	* gnome-pthread-check.m4: New file.  Moved pthread check from
+	gnome-x-checks.m4 to here.
+	* gnome-objc-checks.m4: Use `gnome-pthread-check'.
+	(OBJC_LIBS): New config var.
+	* gnome-x-checks.m4: Add `AC_DEFINE(HAVE_LIBSM)' if `-lSM' is
+	already part of `$x_libs'.
+	Move pthread check to new file.
+	
 Sat Feb 14 12:45:35 1998  Tom Tromey  <tromey@cygnus.com>
 
 	* Makefile.am (macros.dep): Use single quotes, not double quotes.
