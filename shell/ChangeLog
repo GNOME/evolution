@@ -1,5 +1,10 @@
 2002-05-15  Iain <iain@ximian.com>
 
+	* e-corba-storage-registry.c (impl_StorageRegistry_addStorage): Remove
+	debuggin spew
+
+2002-05-15  Iain <iain@ximian.com>
+
 	* e-corba-storage-registry.c (impl_StorageRegistry_addStorage): Apply
 	patch from Peter Williams to notify listeners when a new storage is
 	created.

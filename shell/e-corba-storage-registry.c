@@ -129,7 +129,6 @@ impl_StorageRegistry_addStorage (PortableServer_Servant servant,
 
        /* FIXME: if we remove a listener while looping through the list we can
         * crash. Yay CORBA reentrancy. */
-	g_print ("Added name: %s\n", name);
 	for (iter = priv->listeners; iter; iter = iter->next) {
 		listener_notify (iter->data,
 				 GNOME_Evolution_StorageRegistry_STORAGE_CREATED,
