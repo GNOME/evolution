@@ -85,7 +85,7 @@ complete(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out,
 {
 	CamelMimeFilterCharset *f = (CamelMimeFilterCharset *)mf;
 	int converted;
-	char *inbuf;
+	const char *inbuf;
 	char *outbuf;
 	int inlen, outlen;
 
@@ -151,7 +151,7 @@ filter(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out, s
 {
 	CamelMimeFilterCharset *f = (CamelMimeFilterCharset *)mf;
 	int converted;
-	char *inbuf;
+	const char *inbuf;
 	char *outbuf;
 	int inlen, outlen;
 

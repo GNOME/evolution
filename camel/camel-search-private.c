@@ -50,7 +50,8 @@
 
    A small issue is that case-insenstivity wont work entirely correct for utf8 strings. */
 int
-camel_search_build_match_regex(regex_t *pattern, camel_search_flags_t type, int argc, struct _ESExpResult **argv, CamelException *ex)
+camel_search_build_match_regex (regex_t *pattern, camel_search_flags_t type, int argc,
+				struct _ESExpResult **argv, CamelException *ex)
 {
 	GString *match = g_string_new("");
 	int c, i, count=0, err;
@@ -64,11 +65,13 @@ camel_search_build_match_regex(regex_t *pattern, camel_search_flags_t type, int 
 		if (argv[i]->type == ESEXP_RES_STRING) {
 			if (count > 0)
 				g_string_append_c(match, '|');
-			/* escape any special chars (not sure if this list is complete) */
+
 			word = argv[i]->value.string;
 			if (type & CAMEL_SEARCH_MATCH_REGEX) {
+				/* no need to escape because this should already be a valid regex */
 				g_string_append(match, word);
 			} else {
+				/* escape any special chars (not sure if this list is complete) */
 				if (type & CAMEL_SEARCH_MATCH_START)
 					g_string_append_c(match, '^');
 				while ((c = *word++)) {
@@ -182,7 +185,10 @@ header_soundex(const char *header, const char *match)
 	return truth;
 }
 
-static guint16 utf8_get(const char **inp)
+#if 0
+/* Why do it this way when the unicode lib already has a function to do this? */
+static unicode_char_t
+utf8_get (const char **inp)
 {
 	guint32 c, v = 0, s, shift;
 	const unsigned char *p = *inp;
@@ -216,56 +222,78 @@ static guint16 utf8_get(const char **inp)
 	*inp = p;
 	return v;
 }
+#endif
+
+static unicode_char_t
+utf8_get (const char **inp)
+{
+	const unsigned char *p = *inp;
+	unicode_char_t c;
+	
+	g_return_val_if_fail (p != NULL, 0);
+	
+	p = unicode_get_utf8 (p, &c);
+	*inp = p;
+	
+	return c;
+}
 
 static const char *
-camel_ustrstrcase(const char *haystack, const char *needle)
+camel_ustrstrcase (const char *haystack, const char *needle)
 {
-	unicode_char_t *uni, *puni, *suni, u, v;
-	const char *p, *s, *l;
-
-	if (haystack == NULL || needle == NULL)
-		return NULL;
-
-	if (needle[0] == 0)
-		return haystack;
-
-	if (haystack[0] == 0)
-		return NULL;
-
-	puni = uni = alloca(sizeof(*uni)*(strlen(needle)+1));
+	unicode_char_t *nuni, *puni;
+	unicode_char_t u;
+	const char *p;
+	
+	g_return_val_if_fail (haystack != NULL, NULL);
+	g_return_val_if_fail (needle != NULL, NULL);
+	g_return_val_if_fail (strlen (needle) != 0, haystack);
+	g_return_val_if_fail (strlen (haystack) != 0, NULL);
+	
+	puni = nuni = alloca (sizeof (unicode_char_t) * strlen (needle));
+	
 	p = needle;
-	while ((u = utf8_get(&p)))
-		*puni++ = unicode_tolower(u);
-
-	if (p == NULL)
+	while ((u = utf8_get (&p)))
+		*puni++ = unicode_tolower (u);
+	
+	/* NULL means there was illegal utf-8 sequence */
+	if (!p)
 		return NULL;
-
-	l = p = haystack;
-	while ( (u = utf8_get(&p)) ) {
-		v = unicode_tolower(u);
-		if (uni[0] == v) {
-			s = p;
-			suni = uni+1;
-			while (suni < puni) {
-				u = utf8_get(&s);
-				v = unicode_tolower(u);
-				if (v != *suni)
-					goto next;
-				suni++;
+	
+	p = haystack;
+	while ((u = utf8_get (&p))) {
+		unicode_char_t c;
+		
+		c = unicode_tolower (u);
+		/* We have valid stripped char */
+		if (c == nuni[0]) {
+			const gchar *q = p;
+			gint npos = 1;
+			
+			while (nuni + npos < puni) {
+				u = utf8_get (&q);
+				if (!q || !u)
+					return NULL;
+				
+				c = unicode_tolower (u);				
+				if (c != nuni[npos])
+					break;
+				
+				npos++;
 			}
-			return l;
+			
+			if (nuni + npos == puni)
+				return p;
 		}
-	next:
-		l = p;
 	}
-
+	
 	return NULL;
 }
 
 static int
-camel_ustrcasecmp(const char *s1, const char *s2)
+camel_ustrcasecmp (const char *s1, const char *s2)
 {
-	guint16 u1, u2=0;
+	unicode_char_t u1, u2 = 0;
 
 	if (s1 == NULL) {
 		if (s2 == NULL)
@@ -275,7 +303,7 @@ camel_ustrcasecmp(const char *s1, const char *s2)
 	}
 	if (s2 == NULL)
 		return 1;
-  
+
 	while ((u1 = utf8_get(&s1)) && (u2 = utf8_get(&s2))) {
 		u1 = unicode_tolower(u1);
 		u2 = unicode_tolower(u2);
@@ -302,9 +330,9 @@ camel_ustrcasecmp(const char *s1, const char *s2)
 }
 
 static int
-camel_ustrncasecmp(const char *s1, const char *s2, size_t len)
+camel_ustrncasecmp (const char *s1, const char *s2, size_t len)
 {
-	guint16 u1, u2=0;
+	unicode_char_t u1, u2 = 0;
 
 	if (s1 == NULL) {
 		if (s2 == NULL)
@@ -314,7 +342,7 @@ camel_ustrncasecmp(const char *s1, const char *s2, size_t len)
 	}
 	if (s2 == NULL)
 		return 1;
-  
+
 	while (len > 0 && (u1 = utf8_get(&s1)) && (u2 = utf8_get(&s2))) {
 		u1 = unicode_tolower(u1);
 		u2 = unicode_tolower(u2);
@@ -347,19 +375,20 @@ camel_ustrncasecmp(const char *s1, const char *s2, size_t len)
 
 /* searhces for match inside value, if match is mixed case, hten use case-sensitive,
    else insensitive */
-gboolean camel_search_header_match(const char *value, const char *match, camel_search_match_t how)
+gboolean
+camel_search_header_match (const char *value, const char *match, camel_search_match_t how)
 {
 	const char *p;
-
-	if (how == CAMEL_SEARCH_MATCH_SOUNDEX)
-		return header_soundex(value, match);
-
-	while (*value && isspace(*value))
+	
+	while (*value && isspace (*value))
 		value++;
-
-	if (strlen(value) < strlen(match))
+	
+	if (how == CAMEL_SEARCH_MATCH_SOUNDEX)
+		return header_soundex (value, match);
+	
+	if (strlen (value) < strlen (match))
 		return FALSE;
-
+	
 	/* from dan the man, if we have mixed case, perform a case-sensitive match,
 	   otherwise not */
 	p = match;

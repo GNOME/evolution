@@ -869,13 +869,14 @@ rfc2047_decode_word(const char *in, int len)
 {
 	const char *inptr = in+2;
 	const char *inend = in+len-2;
+	const char *inbuf;
 	char *encname;
 	int tmplen;
 	int ret;
 	char *decword = NULL;
 	char *decoded = NULL;
 	char *outbase = NULL;
-	char *inbuf, *outbuf;
+	char *outbuf;
 	int inlen, outlen;
 	iconv_t ic;
 
@@ -1109,7 +1110,7 @@ rfc2047_encode_word(GString *outstring, const char *in, int len, const char *typ
 	iconv_t ic = (iconv_t *)-1;
 	char *buffer, *out, *ascii;
 	size_t inlen, outlen, enclen, bufflen;
-	char *inptr, *p;
+	const char *inptr, *p;
 	int first = 1;
 
 	d(printf("Converting [%d] '%.*s' to %s\n", len, len, in, type));
@@ -1118,7 +1119,7 @@ rfc2047_encode_word(GString *outstring, const char *in, int len, const char *typ
 	bufflen = len*6+16;
 	buffer = alloca(bufflen);
 	inlen = len;
-	inptr = (char *) in;
+	inptr = in;
 
 	ascii = alloca(bufflen);
 

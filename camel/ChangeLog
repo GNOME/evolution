@@ -1,3 +1,9 @@
+2001-02-06  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-search-private.c (utf8_get): Rewrote using unicode_get_utf8().
+	(camel_ustrcasecmp): Use unicode_char_t
+	(camel_ustrncasecmp): Same.
+
 2001-02-06  Christopher James Lahey  <clahey@ximian.com>
 
 	* camel-mime-filter-charset.c (complete, filter),
