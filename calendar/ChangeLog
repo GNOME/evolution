@@ -1,4 +1,4 @@
-2004-03-22  Hari Prasad Nadig  <hp@ndeepak.info>
+2004-03-29  Hari Prasad Nadig  <hp@ndeepak.info>
 
 	* gui/goto-dialog.glade: Naming issue, Go to Date -> Select Date,
 	Go to Today -> Select today. Solves 48293
