@@ -1,3 +1,12 @@
+1998-12-14  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* year-view.c (idle_handler): Use the allocation size instead of
+	the old fields in the canvas structure.
+
+	* goto.c (create_days): Use gtk_widget_set_usize() instead of
+	gnome_canvas_set_size().
+	* quick-view.c (setup_event_list): Likewise.
+
 1998-12-09  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* gncal-todo.c (simple_todo_editor): Use gnome_dialog_set_parent. 

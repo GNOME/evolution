@@ -175,7 +175,7 @@ setup_event_list (QuickView *qv, GList *event_list)
 					0.0, 0.0,
 					max_width, y);
 
-	gnome_canvas_set_size (GNOME_CANVAS (qv->canvas), max_width, y);
+	gtk_widget_set_usize (qv->canvas, max_width, y);
 }
 
 GtkWidget *

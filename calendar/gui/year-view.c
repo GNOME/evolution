@@ -106,8 +106,8 @@ idle_handler (gpointer data)
 
 	/* Space for the titles and months */
 
-	width = yv->canvas.width;
-	height = yv->canvas.height - head_height;
+	width = GTK_WIDGET (yv)->allocation.width;
+	height = GTK_WIDGET (yv)->allocation.height - head_height;
 
 	/* Offsets */
 

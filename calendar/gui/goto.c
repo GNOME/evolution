@@ -207,7 +207,7 @@ create_days (int day, int month, int year)
 	GnomeCanvasItem *day_group;
 
 	canvas = gnome_canvas_new ();
-	gnome_canvas_set_size (GNOME_CANVAS (canvas), 150, 120);
+	gtk_widget_set_usize (canvas, 150, 120);
 
 	month_item = GNOME_MONTH_ITEM (gnome_month_item_new (gnome_canvas_root (GNOME_CANVAS (canvas))));
 	gnome_canvas_item_set (GNOME_CANVAS_ITEM (month_item),
