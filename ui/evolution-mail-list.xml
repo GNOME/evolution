@@ -32,7 +32,7 @@
 
     <cmd name="FolderExpunge"
      _tip="Permanently remove all deleted messages from this folder"
-     accel="*Control*x"/>
+     accel="*Control*e"/>
 
     <cmd name="HideDeleted"
      _tip="Hide deleted messages rather than displaying them with a line through them"
@@ -79,15 +79,15 @@ the verb.
 
     <submenu name="Edit">
       <placeholder name="MailListEdit">
-        <menuitem name="EditCut" verb="" _label="Cut"/>
-        <menuitem name="EditCopy" verb="" _label="Copy"/>
-        <menuitem name="EditPaste" verb="" _label="Paste"/>
-
-        <separator/>
-
         <menuitem name="EditSelectAll" verb="" _label="Select _All"/>
         <menuitem name="EditSelectThread" verb="" _label="Select _Thread"/>
         <menuitem name="EditInvertSelection" verb="" _label="_Invert Selection"/>
+
+        <separator/>
+
+        <menuitem name="EditCut" verb="" _label="Cut"/>
+        <menuitem name="EditCopy" verb="" _label="Copy"/>
+        <menuitem name="EditPaste" verb="" _label="Paste"/>
 
         <separator/>
       </placeholder>

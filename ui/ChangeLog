@@ -1,3 +1,9 @@
+2001-06-27  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* evolution-mail-list.xml: Changed the Expunge accel to ^E instead
+	of ^X since ^X is Cut and reveresed the order of the
+	Cut/Copy/Paste and Select* menu item groups.
+
 2001-06-26  Peter Williams  <peterw@ximian.com>
 
 	* evolution-mail-global.xml:
