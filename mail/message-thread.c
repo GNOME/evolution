@@ -35,218 +35,12 @@
 #include "mail-threads.h"
 
 #define d(x)
-/*#define LEAKDEBUG*/
-
-/* **************************************** */
-/* mem leak debug stuff */
-
-#ifdef LEAKDEBUG
-
-static GHashTable *allocedht = NULL;
-
-#define EXISTS (1 << 0)
-#define WALKED (1 << 1)
-#define FREED  (1 << 2)
-#define AL_401 (1 << 3)
-#define AL_541 (1 << 4)
-#define AL_546 (1 << 5)
-#define AL_569 (1 << 6)
-#define LINKED (1 << 7)
-#define EXCUSED (1 << 8)
-
-#define GITP(x) GINT_TO_POINTER(x)
-#define GPTI(x) GPOINTER_TO_INT(x)
-
-static struct _container *
-alloc_container (int where)
-{
-	struct _container *c;
-
-	c = g_new0 (struct _container, 1);
-
-	if (!allocedht)
-		allocedht = g_hash_table_new (g_direct_hash, g_direct_equal);
-
-	g_hash_table_insert (allocedht, c, GITP(EXISTS|where));
-	return c;
-}
-
-static void
-free_container (struct _container **c)
-{
-	gpointer flags;
-
-	memset ((*c), 0, sizeof (struct _container));
-	if ((flags = g_hash_table_lookup (allocedht, (*c))) == NULL)
-		printf ("** threading mem debug: freeing unalloced entry %p?\n", (*c));
-	d(printf("** Freeing container %p\n", (*c)));
-	g_hash_table_insert (allocedht, (*c), GITP(GPTI(flags)|FREED));
-	g_free ((*c));
-	(*c) = NULL;
-}
-
-static void 
-cont_print (gpointer key, gpointer value, gpointer user)
-{
-	struct _container *c = (struct _container *) key;
-	char *line;
-
-	if (GPTI(value) & FREED)
-		return;
-
-	if (GPTI(value) & AL_401)
-		line = "401";
-	else if (GPTI(value) & AL_541)
-		line = "541";
-	else if (GPTI(value) & AL_546)
-		line = "546";
-	else if (GPTI(value) & AL_569)
-		line = "569";
-	else
-		line = "???";
-
-	printf ("   %p : %s %s %s %s %s",
-		c,
-		GPTI(value) & FREED ? "freed" : "unfrd",
-		GPTI(value) & WALKED ? "walked" : "unwlkd",
-		line,
-		GPTI(value) & LINKED ? "linked" : "unlnkd",
-		GPTI(value) & EXCUSED ? "excused" : "unexcsd");
-
-	if ((GPTI(value) & FREED) == 0) {
-		gpointer oth_flags;
-
-		printf (" : %p %p %p : \"%s\" \"%s\" %d %d", 
-			c->next, c->parent, c->child,
-			c->message ? c->message->subject : "(null message)",
-			c->root_subject ? c->root_subject : "(null root-subject)",
-			c->re, c->order);
-
-		if (c->next) {
-			oth_flags = g_hash_table_lookup (allocedht, c->next);
-
-			printf ("\n     next : %p : %s %s %s",
-				c->next,
-				GPTI(oth_flags) & WALKED ? "walked" : "unwlkd",
-				GPTI(oth_flags) & LINKED ? "linked" : "unlnkd",
-				GPTI(oth_flags) & EXCUSED ? "excused" : "unexcsd");
-		}
-
-		if (c->parent) {
-			oth_flags = g_hash_table_lookup (allocedht, c->parent);
-
-			printf ("\n     prnt : %p : %s %s %s",
-				c->parent,
-				GPTI(oth_flags) & WALKED ? "walked" : "unwlkd",
-				GPTI(oth_flags) & LINKED ? "linked" : "unlnkd",
-				GPTI(oth_flags) & EXCUSED ? "excused" : "unexcsd");
-		}
-
-		if (c->child) {
-			oth_flags = g_hash_table_lookup (allocedht, c->child);
-
-			printf ("\n     chld : %p : %s %s %s",
-				c->child,
-				GPTI(oth_flags) & WALKED ? "walked" : "unwlkd",
-				GPTI(oth_flags) & LINKED ? "linked" : "unlnkd",
-				GPTI(oth_flags) & EXCUSED ? "excused" : "unexcsd");
-		}
-		
-	}
-
-	printf ("\n");
-		      
-}
-
-static void 
-make_excuses (gpointer key, gpointer value, gpointer user)
-{
-	struct _container *c;
-	gpointer chldflags;
-	gpointer nextflags;
-
-	if (GPTI(value) & FREED)
-		return;
-
-	c = (struct _container *) key;
-
-	if (c->next) {
-		nextflags = g_hash_table_lookup (allocedht, c->next);
-
-		if ((GPTI(nextflags) & EXCUSED) == 0) {
-			g_hash_table_insert (allocedht, c->next, GITP(GPTI(nextflags)|EXCUSED));
-			((gint *)user) = 1;
-		}
-	}
-
-	if (c->child) {
-		chldflags = g_hash_table_lookup (allocedht, c->child);
-
-		if ((GPTI(chldflags) & EXCUSED) == 0) {
-			g_hash_table_insert (allocedht, c->child, GITP(GPTI(chldflags)|EXCUSED));
-			((gint *)user) = 1;
-		}
-	}
-}
-
-static void 
-print_containers (void)
-{
-	gint hit;
-
-	do {
-		hit = 0;
-		g_hash_table_foreach (allocedht, make_excuses, &hit);
-	} while (hit);
-
-	printf ("List of container stats:\n");
-	g_hash_table_foreach (allocedht, cont_print, NULL);
-	printf ("End of list.\n");
-}
-
-static void
-walk_containers (struct _container *head)
-{
-	gpointer flags;
-
-	while (head) {
-		if (head->child)
-			walk_containers (head->child);
-		if ((flags = g_hash_table_lookup (allocedht, head)) == NULL) {
-			printf ("*** walk_containers : bad pointer %p\n", head);
-		} else {
-			g_hash_table_insert (allocedht, head, GITP(GPTI(flags)|WALKED));
-		}
-		
-		head = head->next;
-	}
-}
-
-static void
-link_container (struct _container *c)
-{
-	gpointer flags;
-
-	if ((flags = g_hash_table_lookup (allocedht, c)) == NULL)
-		printf ("** threading mem debug: linking unalloced entry %p?\n", c);
-	g_hash_table_insert (allocedht, c, GITP(GPTI(flags)|LINKED));
-}
-
-#else
-#define alloc_container(w) (g_new0 (struct _container, 1))
-#define free_container(c) g_free (*(c))
-#define print_containers()
-#define walk_containers(c)
-#define link_container(c)
-#endif
-
-/* **************************************** */
 
 static struct _container *thread_messages(CamelFolder *folder, GPtrArray *uids);
 static void thread_messages_free(struct _container *);
 
 /* for debug only */
-int dump_tree(struct _container *c, int depth);
+int dump_tree(struct _container *c);
 
 static void
 container_add_child(struct _container *node, struct _container *child)
@@ -257,14 +51,18 @@ container_add_child(struct _container *node, struct _container *child)
 	child->parent = node;
 }
 
-#if 0
 static void
-container_unparent_child(struct _container *child)
+container_parent_child(struct _container *parent, struct _container *child)
 {
 	struct _container *c, *node;
 
+	/* are we already the right parent? */
+	if (child->parent == parent)
+		return;
+
 	/* are we unparented? */
 	if (child->parent == NULL) {
+		container_add_child(parent, child);
 		return;
 	}
 
@@ -278,72 +76,9 @@ container_unparent_child(struct _container *child)
 			d(printf("found node %p\n", child));
 			c->next = c->next->next;
 			child->parent = NULL;
+			container_add_child(parent, child);
 			return;
 		}
-		c = c->next;
-	}
-
-	printf("DAMN, we shouldn't  be here!\n");
-}
-#endif
-
-static void
-container_parent_child(struct _container *parent, struct _container *child)
-{
-	struct _container *c, *node, **prev;
-
-	/* are we already the right parent? */
-	if (child->parent == parent)
-		return;
-
-	/* are we unparented? */
-	if (child->parent == NULL) {
-		container_add_child(parent, child);
-		return;
-	}
-
-	/* check for trying to make my child my parent */
-	for (c = parent; c; c = c->parent) {
-		if (c == child) {
-			d(printf("AIIE: trying to lop off hunk of nodes!\n"));
-			return;
-		}
-	}
-
-	/* else remove child from its existing parent, and reparent */
-	node = child->parent;
-
-	/*	c = (struct _container *)&node->child;
-	 *d(printf("scanning children:\n"));
-	 *while (c->next) {
-	 *	d(printf(" %p\n", c));
-	 *       if (c->next==child) {
-	 *		d(printf("found node %p\n", child));
-	 *		c->next = c->next->next;
-	 *		child->parent = NULL;
-	 *		container_add_child(parent, child);
-	 *		return;
-	 *	}
-	 *	c = c->next;
-	 *}
-	 */
-
-	d(printf("PKGW deparent child"));
-	c = node->child;
-	prev = &(node->child);
-	while (c) {
-		d(printf ("   %p\n", c));
-
-		if (c == child) {
-			d(printf ("    hit child %p\n", child));
-			(*prev) = c->next;
-			c->next = NULL;
-			c->parent = NULL;
-			container_add_child (parent, child);
-			return;
-		}
-
-		prev = &(c->next);
 		c = c->next;
 	}
 
@@ -366,7 +101,6 @@ prune_empty(struct _container **cp)
 			if (c->child == NULL) {
 				d(printf("removing empty node\n"));
 				lastc->next = c->next;
-				free_container (&c);
 				continue;
 			}
 			if (c->parent || c->child->next==0) {
@@ -382,7 +116,6 @@ prune_empty(struct _container **cp)
 
 					child = next;
 				}
-				free_container (&c);
 				continue;
 			}
 		}
@@ -400,7 +133,6 @@ hashloop(void *key, void *value, void *data)
 	if (c->parent == NULL) {
 		c->next = tail->next;
 		tail->next = c;
-		link_container(c);
 	}
 }
 
@@ -450,39 +182,32 @@ get_root_subject(struct _container *c, int *re)
 	return NULL;
 }
 
-/* this is pretty slow, but not used often */
+/* this can be pretty slow, but not used often */
+/* clast cannot be null */
 static void
 remove_node(struct _container **list, struct _container *node, struct _container **clast)
 {
 	struct _container *c;
 
 	/* this is intentional, even if it looks funny */
-	c = (struct _container *)list;
+	/* if we have a parent, then we should remove it from the parent list,
+	   otherwise we remove it from the root list */
+	if (node->parent) {
+		c = (struct _container *)&node->parent->child;
+	} else {
+		c = (struct _container *)list;
+	}
 	while (c->next) {
-		/* we do this to catch cases where the container in the
-		 * subject table is not toplevel. */
-		if (c->next->message == NULL) {
-			/* yeah, this pointer casting trick is evil */
-			c = (struct _container *) &(c->next->child);
-		}
-
 		if (c->next == node) {
-			if (clast && *clast == c->next)
+			if (*clast == c->next)
 				*clast = c;
 			c->next = c->next->next;
-			break;
+			return;
 		}
-
-		/* this could theoretically cause a problem when c = &(head)
-		 * and c->next->next == NULL, because then c->parent wouldn't be 
-		 * valid. But that would only happen in a one-message mailbox,
-		 * in which case remove_node() wouldn't be called anyway.
-		 */
-		if (c->next->next == NULL && c->parent)
-			c = c->parent->next;
-		else
-			c = c->next;
+		c = c->next;
 	}
+
+	printf("ERROR: removing node %p failed\n", node);
 }
 
 static void
@@ -525,6 +250,7 @@ group_root_set(struct _container **cp)
 					scan = scan->next;
 				scan->next = c->child;
 				clast->next = c->next;
+				g_free(c);
 				continue;
 			} if (c->message == NULL && container->message != NULL) {
 				d(printf("container is non-empty parent\n"));
@@ -550,7 +276,7 @@ group_root_set(struct _container **cp)
 				remove_node(cp, container, &clast);
 				remove_node(cp, c, &clast);
 
-				scan = alloc_container(AL_401);
+				scan = g_malloc0(sizeof(*scan));
 				scan->root_subject = c->root_subject;
 				scan->re = c->re && container->re;
 				scan->next = c->next;
@@ -567,8 +293,12 @@ group_root_set(struct _container **cp)
 	g_hash_table_destroy(subject_table);
 }
 
-int
-dump_tree(struct _container *c, int depth)
+struct _tree_info {
+	GHashTable *visited;
+};
+
+static int
+dump_tree_rec(struct _tree_info *info, struct _container *c, int depth)
 {
 	char *p;
 	int count=0;
@@ -578,6 +308,11 @@ dump_tree(struct _container *c, int depth)
 	p[depth*2] = 0;
 
 	while (c) {
+		if (g_hash_table_lookup(info->visited, c)) {
+			printf("WARNING: NODE REVISITED: %p\n", c);
+		} else {
+			g_hash_table_insert(info->visited, c, c);
+		}
 		if (c->message) {
 			printf("%s %p Subject: %s <%s>\n", p, c, c->message->subject, c->message->message_id);
 			count += 1;
@@ -585,9 +320,22 @@ dump_tree(struct _container *c, int depth)
 			printf("%s %p <empty>\n", p, c);
 		}
 		if (c->child)
-			count += dump_tree(c->child, depth+1);
+			count += dump_tree_rec(info, c->child, depth+1);
 		c = c->next;
 	}
+	return count;
+}
+
+int
+dump_tree(struct _container *c)
+{
+	char *p;
+	int count;
+	struct _tree_info info;
+
+	info.visited = g_hash_table_new(g_direct_hash, g_direct_equal);
+	count = dump_tree_rec(&info, c, 0);
+	g_hash_table_destroy(info.visited);
 	return count;
 }
 
@@ -595,14 +343,11 @@ static void thread_messages_free(struct _container *c)
 {
 	struct _container *n;
 
-	d(printf("** thread_messages_free: %p\n", c));
-	/* FIXME: ok, for some reason this doesn't work .. investigate later ... */
-
 	while (c) {
 		n = c->next;
 		if (c->child)
 			thread_messages_free(c->child); /* free's children first */
-		free_container (&c);
+		g_free(c);
 		c = n;
 	}
 }
@@ -691,12 +436,12 @@ thread_messages(CamelFolder *folder, GPtrArray *uids)
 			d(printf("doing : %s\n", mi->message_id));
 			c = g_hash_table_lookup(id_table, mi->message_id);
 			if (!c) {
-				c = alloc_container(AL_541);
+				c = g_malloc0(sizeof(*c));
 				g_hash_table_insert(id_table, mi->message_id, c);
 			}
 		} else {
 			d(printf("doing : (no message id)\n"));
-			c = alloc_container(AL_546);
+			c = g_malloc0(sizeof(*c));
 			g_hash_table_insert(no_id_table, (void *)mi, c);
 		}
 
@@ -719,7 +464,7 @@ thread_messages(CamelFolder *folder, GPtrArray *uids)
 			c = g_hash_table_lookup(id_table, ref->id);
 			if (c == NULL) {
 				d(printf("not found\n"));
-				c = alloc_container(AL_569);
+				c = g_malloc0(sizeof(*c));
 				g_hash_table_insert(id_table, ref->id, c);
 			}
 			if (c!=child)
@@ -748,7 +493,7 @@ thread_messages(CamelFolder *folder, GPtrArray *uids)
 
 #if 0
 	printf("finished\n");
-	i = dump_tree(head, 0);
+	i = dump_tree(head);
 	printf("%d count, %d items in tree\n", uids->len, i);
 #endif
 
@@ -821,17 +566,14 @@ static void cleanup_thread_messages (gpointer in_data, gpointer op_data, CamelEx
 	thread_messages_data_t *data = (thread_messages_data_t *) op_data;
 
 	(input->build) (input->ml, data->container);
-	walk_containers (data->container);
 	thread_messages_free (data->container);
-
-	print_containers();
 
 	if (input->use_camel_uidfree) {
 		mail_tool_camel_lock_up ();
 		camel_folder_free_uids (input->ml->folder, input->uids);
 		mail_tool_camel_lock_down ();
 	} else {
-		g_ptr_array_add (input->uids, NULL);
+		g_ptr_array_add(input->uids, 0);
 		g_strfreev ((char **)input->uids->pdata);
 		g_ptr_array_free (input->uids, FALSE);
 	}

@@ -1,3 +1,11 @@
+2000-09-12  Not Zed  <NotZed@HelixCode.com>
+
+	* message-thread.c: Reverted to version 1.15.
+	(remove_node): Ok, if a node has a parent, remove it from the
+	parent list, otherwise remove it from the (supplied) root list.
+	(group_root_set): When we merge children, free the lost node.
+	(thread_messages_free): Remove the return, run as is.
+
 2000-09-11  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-callbacks.c (run_filter_ondemand): Updated to use the new
