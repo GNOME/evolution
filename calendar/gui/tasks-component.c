@@ -46,7 +46,8 @@
 #include "widgets/misc/e-source-selector.h"
 
 
-#define CREATE_TASK_ID "task"
+#define CREATE_TASK_ID      "task"
+#define CREATE_TASK_LIST_ID "task-list"
 
 
 #define PARENT_TYPE bonobo_object_get_type ()
@@ -568,7 +569,7 @@ impl__get_userCreatableItems (PortableServer_Servant servant,
 {
 	GNOME_Evolution_CreatableItemTypeList *list = GNOME_Evolution_CreatableItemTypeList__alloc ();
 
-	list->_length  = 1;
+	list->_length  = 2;
 	list->_maximum = list->_length;
 	list->_buffer  = GNOME_Evolution_CreatableItemTypeList_allocbuf (list->_length);
 
@@ -580,6 +581,13 @@ impl__get_userCreatableItems (PortableServer_Servant servant,
 	list->_buffer[0].tooltip = _("Create a new task");
 	list->_buffer[0].menuShortcut = 't';
 	list->_buffer[0].iconName = "new_task-16.png";
+
+	list->_buffer[1].id = CREATE_TASK_LIST_ID;
+	list->_buffer[1].description = _("New task list");
+	list->_buffer[1].menuDescription = _("_Task List");
+	list->_buffer[1].tooltip = _("Create a new task list");
+	list->_buffer[1].menuShortcut = 'n';
+	list->_buffer[1].iconName = "evolution-tasks-mini.png";
 
 	return list;
 }
@@ -693,15 +701,17 @@ impl_requestCreateItem (PortableServer_Servant servant,
 	
 	if (strcmp (item_type_name, CREATE_TASK_ID) == 0) {
 		comp = get_default_task (priv->create_ecal);
+
+		comp_editor_edit_comp (COMP_EDITOR (editor), comp);
+		comp_editor_focus (COMP_EDITOR (editor));
+
+		e_comp_editor_registry_add (comp_editor_registry, COMP_EDITOR (editor), TRUE);
+	} else if (strcmp (item_type_name, CREATE_TASK_LIST_ID) == 0) {
+		new_task_list_dialog (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (priv->tasks))));
 	} else {
 		bonobo_exception_set (ev, ex_GNOME_Evolution_Component_UnknownType);
 		return;
-	}	
-
-	comp_editor_edit_comp (COMP_EDITOR (editor), comp);
-	comp_editor_focus (COMP_EDITOR (editor));
-
-	e_comp_editor_registry_add (comp_editor_registry, COMP_EDITOR (editor), TRUE);
+	}
 }
 
 /* Initialization */

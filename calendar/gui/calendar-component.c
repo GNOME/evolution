@@ -46,9 +46,10 @@
 
 
 /* IDs for user creatable items */
-#define CREATE_EVENT_ID "event"
-#define CREATE_MEETING_ID "meeting"
+#define CREATE_EVENT_ID        "event"
+#define CREATE_MEETING_ID      "meeting"
 #define CREATE_ALLDAY_EVENT_ID "allday-event"
+#define CREATE_CALENDAR_ID      "calendar"
 
 #define PARENT_TYPE bonobo_object_get_type ()
 static BonoboObjectClass *parent_class = NULL;
@@ -603,7 +604,7 @@ impl__get_userCreatableItems (PortableServer_Servant servant,
 {
 	GNOME_Evolution_CreatableItemTypeList *list = GNOME_Evolution_CreatableItemTypeList__alloc ();
 
-	list->_length  = 3;
+	list->_length  = 4;
 	list->_maximum = list->_length;
 	list->_buffer  = GNOME_Evolution_CreatableItemTypeList_allocbuf (list->_length);
 
@@ -629,6 +630,13 @@ impl__get_userCreatableItems (PortableServer_Servant servant,
 	list->_buffer[2].tooltip = _("Create a new all-day appointment");
 	list->_buffer[2].menuShortcut = 'd';
 	list->_buffer[2].iconName = "new_all_day_event.png";
+
+	list->_buffer[3].id = CREATE_CALENDAR_ID;
+	list->_buffer[3].description = _("New calendar");
+	list->_buffer[3].menuDescription = _("C_alendar");
+	list->_buffer[3].tooltip = _("Create a new calendar");
+	list->_buffer[3].menuShortcut = 'a';
+	list->_buffer[3].iconName = "evolution-calendar-mini.png";
 
 	return list;
 }
@@ -750,6 +758,9 @@ impl_requestCreateItem (PortableServer_Servant servant,
 	} else if (strcmp (item_type_name, CREATE_MEETING_ID) == 0) {
 		comp = get_default_event (priv->create_ecal, FALSE);
 		is_meeting = TRUE;
+	} else if (strcmp (item_type_name, CREATE_CALENDAR_ID) == 0) {
+		new_calendar_dialog (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (priv->calendar))));
+		return;
 	} else {
 		bonobo_exception_set (ev, ex_GNOME_Evolution_Component_UnknownType);
 		return;

@@ -71,16 +71,6 @@ typedef struct {
 	guint taskpad_focused : 1;
 } FocusData;
 
-static void
-file_new_calendar_cb (BonoboUIComponent *uic, gpointer data, const char *path)
-{
-	GnomeCalendar *gcal;
-
-	gcal = GNOME_CALENDAR (data);
-
-	new_calendar_dialog (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (gcal))));
-}
-
 /* Prints the calendar at its current view and time range */
 static void
 print (GnomeCalendar *gcal, gboolean preview)
@@ -691,7 +681,6 @@ gcal_taskpad_focus_change_cb (GnomeCalendar *gcal, gboolean in, gpointer data)
 
 
 static BonoboUIVerb verbs [] = {
-	BONOBO_UI_VERB ("NewCalendar", file_new_calendar_cb),
 	BONOBO_UI_VERB ("CalendarPrint", file_print_cb),
 	BONOBO_UI_VERB ("CalendarPrintPreview", file_print_preview_cb),
 

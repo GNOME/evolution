@@ -1,5 +1,17 @@
 2003-12-17  Rodrigo Moya <rodrigo@ximian.com>
 
+	* gui/calendar-commands.c: removed the 'NewCalendar' verb.
+	(file_new_calendar_cb): removed callback for 'NewCalendar' verb.
+	(impl__get_userCreatableItems): added 'New Calendar' to the list
+	of user creatable items.
+	(impl_requestCreateItem): implemented 'New Calendar'.
+
+	* gui/tasks-component.c (impl__get_userCreatableItems): added
+	'New Task List' to the list of user creatable items.
+	(impl_requestCreateItem): implemented 'New Task List'.
+
+2003-12-17  Rodrigo Moya <rodrigo@ximian.com>
+
 	* gui/tasks-control.[ch] (tasks_control_sensitize_commands): made
 	it public.
 
