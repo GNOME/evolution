@@ -1,3 +1,8 @@
+2001-10-29  Damon Chaplin  <damon@ximian.com>
+
+	* Makefile.am (evolution_executive_summary_LDADD): use
+	libical-evolution.la
+
 2001-10-29  Iain Holmes  <iain@ximian.com>
 
 	* e-summary-preferences.c (make_initial_rdf_list): Set list to NULL.
