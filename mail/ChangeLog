@@ -1,3 +1,16 @@
+2004-05-04  Sarfraaz Ahmed <asarfraaz@novell.com>
+
+	* mail-account-gui.c (display_license): This now takes CamelProvider
+	as argument. Made the display message more generic. Removed the signal
+	connects for buttons and replaced those with proper gtk_reponses.
+	(mail_account_gui_check_for_license): Modified the gconf key for
+	licenses to be a string list.
+	* evolution-mail.schemas.in.in: Added the gconf schema entry for a 
+	string list to handle the component names whose licenses are accepted.
+	* mail-license.glade: Modified the display string and added the
+	appropriate gtk_response types for the buttons.
+	
+
 2004-05-03  Jeffrey Stedfast  <fejj@ximian.com>
 
 	Fix for bug #57968

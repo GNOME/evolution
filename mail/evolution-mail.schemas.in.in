@@ -814,5 +814,21 @@
       </locale>
     </schema>
 
+    <schema>
+      <key>/schemas/apps/evolution/mail/licenses</key>
+      <applyto>/apps/evolution/mail/licenses</applyto>
+      <owner>evolution-mail</owner>
+      <type>list</type>
+      <list_type>string</list_type>
+      <default></default>
+      <locale name="C">
+         <short>List of accepted licenses</short>
+         <long>
+                List of protocol names whose license
+                has been accepted
+         </long>
+      </locale>
+    </schema>
+
   </schemalist>
 </gconfschemafile>

@@ -168,21 +168,6 @@ auto_detected_foreach (gpointer key, gpointer value, gpointer user_data)
 	g_free (value);
 }
 
-static void 
-set_license_rejected (GtkWidget *widget, gpointer data)
-{
-	gtk_dialog_response (GTK_DIALOG (data), GTK_RESPONSE_DELETE_EVENT);
-	return;
-}
-
-static void
-set_license_accepted (GtkWidget *widget, gpointer data)
-{
-	gtk_dialog_response (GTK_DIALOG (data), GTK_RESPONSE_ACCEPT);
-	return;
-
-}
-
 static void
 check_button_state (GtkToggleButton *button, gpointer data)
 {
@@ -228,14 +213,16 @@ populate_text_entry (GtkTextView *view, const char *filename)
 }
 
 static gboolean
-display_license(const char *filename)
+display_license (CamelProvider *prov)
 {
 	GladeXML *xml;
 	GtkWidget *top_widget;
 	GtkTextView *text_entry;
 	GtkButton *button_yes, *button_no;
 	GtkCheckButton *check_button;
-	GtkResponseType response;
+	GtkResponseType response = GTK_RESPONSE_NONE;
+	GtkLabel *top_label;
+	char *label_text, *dialog_title;
 	gboolean status;
 	
 	xml = glade_xml_new (EVOLUTION_GLADEDIR "/mail-license.glade", 
@@ -243,7 +230,7 @@ display_license(const char *filename)
 	
 	top_widget = glade_xml_get_widget (xml, "lic_dialog");
 	text_entry = GTK_TEXT_VIEW (glade_xml_get_widget (xml, "textview1"));
-	status = populate_text_entry (GTK_TEXT_VIEW (text_entry), filename);
+	status = populate_text_entry (GTK_TEXT_VIEW (text_entry), prov->license_file);
 	if (!status)
 		goto failed;
 
@@ -257,25 +244,31 @@ display_license(const char *filename)
 	check_button = GTK_CHECK_BUTTON (glade_xml_get_widget (xml, 
 							"lic_checkbutton"));
 
+	top_label = GTK_LABEL (glade_xml_get_widget (xml, "lic_top_label"));
+
+	label_text = g_strdup_printf (_("\n Please read carefully the license agreement\n" 
+					" for %s displayed below\n" 
+					" and tick the check box for accepting it\n"), prov->license_name);
+
+	gtk_label_set_label (top_label, label_text);
+
+	dialog_title = g_strdup_printf (_("%s License Agreement"), prov->license_name);
+	
+	gtk_window_set_title (GTK_WINDOW (top_widget), dialog_title);
+
 	g_signal_connect (check_button, "toggled", 
 				G_CALLBACK (check_button_state), button_yes);
-	g_signal_connect (button_yes, "clicked", 
-				G_CALLBACK (set_license_accepted), 
-				GTK_WIDGET (top_widget));
-	g_signal_connect (button_no, "clicked", 
-				G_CALLBACK (set_license_rejected), 
-				GTK_WIDGET (top_widget));
-
+	
 	response = gtk_dialog_run (GTK_DIALOG (top_widget));
-	if (response == GTK_RESPONSE_ACCEPT) {
-		gtk_widget_destroy (top_widget);
-		g_object_unref (xml);
-		return TRUE;
-	}
+	
+	g_free (label_text);
+	g_free (dialog_title);
+
 failed:
 	gtk_widget_destroy (top_widget);
 	g_object_unref (xml);
-	return FALSE;
+	
+	return (response == GTK_RESPONSE_ACCEPT);
 }
 
 static gboolean
@@ -342,34 +335,42 @@ static gboolean
 mail_account_gui_check_for_license (CamelProvider *prov)
 {
 	GConfClient *gconf;
-	gboolean accepted, status;
-	char *gconf_license_key;
+	gboolean accepted = TRUE, status;
+	GSList * providers_list, *l, *n;
+	char *provider;
 
 	if (prov->flags & CAMEL_PROVIDER_HAS_LICENSE) {
 		gconf = mail_config_get_gconf_client ();
-		gconf_license_key = g_strdup_printf (
-			"/apps/evolution/mail/licenses/%s_accepted",
-			prov->license);
 		
-		accepted = gconf_client_get_bool (gconf, gconf_license_key,
-						  NULL);
+		providers_list = gconf_client_get_list (gconf, "/apps/evolution/mail/licenses", GCONF_VALUE_STRING, NULL);
+		
+		for (l = providers_list, accepted = FALSE; l && !accepted; l = g_slist_next (l))
+			accepted = (strcmp ((char *)l->data, prov->protocol) == 0);
 		if (!accepted) {
 			/* Since the license is not yet accepted, pop-up a 
 			 * dialog to display the license agreement and check 
 			 * if the user accepts it
 			 */
 
-			if (display_license (prov->license_file)) {
-				status = gconf_client_set_bool (gconf, 
-						gconf_license_key, TRUE, NULL);
-			} else {
-				g_free (gconf_license_key);
-				return FALSE;
+			if ((accepted = display_license (prov)) == TRUE) {
+				provider = g_strdup (prov->protocol);
+				providers_list = g_slist_append (providers_list,
+						 provider);
+				status = gconf_client_set_list (gconf, 
+						"/apps/evolution/mail/licenses",
+						GCONF_VALUE_STRING,
+						 providers_list, NULL);
 			}
 		}
-		g_free (gconf_license_key);
+		l = providers_list;
+		while (l) {
+			n = g_slist_next (l);
+			g_free (l->data);
+			g_slist_free_1 (l);
+			l = n;
+		}
 	}
-	return TRUE;
+	return accepted;
 }
 
 gboolean
