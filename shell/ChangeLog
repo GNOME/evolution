@@ -1,4 +1,13 @@
+2001-08-13  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Fix #7109, Evolution crashes when the splash screen dialog is
+	killed by clicking the "X" button.]
+
+	* e-shell.c (e_shell_construct): Connect
+	`gtk_widget_hide_on_delete()' correctly.
+
 2001-08-13  Anna Marie Dirks  <anna@ximian.com>
+
 	* importer/import.glade : Changed all instances of "druid"
 	and "wizard" to "assistant". 
 
