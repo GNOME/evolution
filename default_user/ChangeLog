@@ -1,3 +1,7 @@
+2001-11-02  JP Rosevear  <jpr@ximian.com>
+
+	* local/Inbox/mbox: Fix email link to be valid
+
 2001-10-11  Chris Toshok  <toshok@ximian.com>
 
 	* Makefile.am (install-data-hook): make the private dir so it gets
