@@ -104,9 +104,14 @@ static gint delete_event_cb (GtkWidget *widget, GdkEvent *event, gpointer data);
 
 static EPixmap pixmaps [] =
 {
+	E_PIXMAP ("/menu/File/FileSave",			"save-16.png"),
+	E_PIXMAP ("/menu/File/FileSaveAndClose",		"save-16.png"),
+	E_PIXMAP ("/menu/File/FileSaveAs",			"save-as-16.png"),
+
 	E_PIXMAP ("/menu/File/FilePrint",			"print.xpm"),
 	E_PIXMAP ("/menu/File/FilePrintPreview",		"print-preview.xpm"),
 
+	E_PIXMAP ("/Toolbar/FileSaveAndClose",		        "save-16.png"),
 	E_PIXMAP ("/Toolbar/FilePrint",			        "buttons/print.png"),
 	E_PIXMAP ("/Toolbar/FilePrintPreview",		        "buttons/print-preview-24.png"),
 

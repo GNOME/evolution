@@ -1,3 +1,11 @@
+2001-08-18  Damon Chaplin  <damon@ximian.com>
+
+	* gui/dialogs/comp-editor.c (pixmaps): used new Save/Save As icons.
+
+	* gui/tasks-control.c:
+	* gui/calendar-commands.c (pixmaps): added new Cut/Copy/Paste icons,
+	and changed the 'New Task' icon to use the bigger one I made.
+
 2001-08-05  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* gui/dialogs/task-page.c (summary_changed_cb):
