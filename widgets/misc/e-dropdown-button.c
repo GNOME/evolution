@@ -39,8 +39,8 @@ struct _EDropdownButtonPrivate {
 	GtkWidget *menu;
 };
 
-#define PARENT_TYPE gtk_button_get_type ()
-static GtkButtonClass *parent_class = NULL;
+#define PARENT_TYPE gtk_toggle_button_get_type ()
+static GtkToggleButtonClass *parent_class = NULL;
 
 
 /* Callback to position the pop-up menu.  */
@@ -72,6 +72,24 @@ menu_position_cb (GtkMenu *menu,
 	*y = CLAMP (*y, 0, max_y);
 }
 
+/* Callback for the "deactivate" signal on the pop-up menu.  This is used so
+   that we unset the state of the toggle button when the pop-up menu
+   disappears.  */
+
+static int
+menu_deactivate_cb (GtkMenuShell *menu_shell,
+		    void *data)
+{
+	EDropdownButton *dropdown_button;
+
+	puts (__FUNCTION__);
+
+	dropdown_button = E_DROPDOWN_BUTTON (data);
+
+	gtk_button_clicked (GTK_BUTTON (dropdown_button));
+	return TRUE;
+}
+
 
 /* GtkObject methods.  */
 
@@ -91,23 +109,32 @@ impl_destroy (GtkObject *object)
 }
 
 
-/* GtkButton methods.  */
+/* GtkWidget methods.  */
 
-static void
-impl_clicked (GtkButton *button)
+static int
+impl_button_press_event (GtkWidget *widget,
+			 GdkEventButton *event)
 {
 	EDropdownButton *dropdown_button;
 	EDropdownButtonPrivate *priv;
+	GtkStateType new_state;
 
-	dropdown_button = E_DROPDOWN_BUTTON (button);
+	dropdown_button = E_DROPDOWN_BUTTON (widget);
 	priv = dropdown_button->priv;
-
-	if (GTK_BUTTON_CLASS (parent_class)->clicked != NULL)
-		(* GTK_BUTTON_CLASS (parent_class)->clicked) (button);
 
 	gtk_menu_popup (GTK_MENU (priv->menu), NULL, NULL,
 			menu_position_cb, dropdown_button,
 			1, GDK_CURRENT_TIME);
+
+	gnome_popup_menu_do_popup (GTK_WIDGET (priv->menu), menu_position_cb, dropdown_button,
+				   event, NULL);
+
+	if (! GTK_WIDGET_HAS_FOCUS (widget))
+ 		gtk_widget_grab_focus (widget);
+
+	gtk_button_clicked (GTK_BUTTON (widget));
+
+	return TRUE;
 }
 
 
@@ -115,16 +142,16 @@ static void
 class_init (EDropdownButtonClass *klass)
 {
 	GtkObjectClass *object_class;
-	GtkButtonClass *button_class;
+	GtkWidgetClass *widget_class;
 
 	object_class = GTK_OBJECT_CLASS (klass);
-	button_class = GTK_BUTTON_CLASS (klass);
+	widget_class = GTK_WIDGET_CLASS (klass);
 
 	object_class->destroy = impl_destroy;
 
-	button_class->clicked = impl_clicked;
+	widget_class->button_press_event = impl_button_press_event;
 
-	parent_class = gtk_type_class (gtk_button_get_type ());
+	parent_class = gtk_type_class (PARENT_TYPE);
 }
 
 
@@ -176,6 +203,10 @@ e_dropdown_button_construct (EDropdownButton *dropdown_button,
 	gtk_widget_show (arrow);
 
 	priv->menu = GTK_WIDGET (menu);
+
+	gtk_signal_connect_while_alive (GTK_OBJECT (priv->menu), "deactivate",
+					GTK_SIGNAL_FUNC (menu_deactivate_cb),
+					dropdown_button, GTK_OBJECT (dropdown_button));
 }
 
 /**

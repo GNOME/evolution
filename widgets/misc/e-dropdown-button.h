@@ -28,7 +28,7 @@
 #include <config.h>
 #endif
 
-#include <gtk/gtkbutton.h>
+#include <gtk/gtktogglebutton.h>
 #include <gtk/gtkmenu.h>
 
 #include <gnome.h>
@@ -50,13 +50,13 @@ typedef struct _EDropdownButtonPrivate EDropdownButtonPrivate;
 typedef struct _EDropdownButtonClass   EDropdownButtonClass;
 
 struct _EDropdownButton {
-	GtkButton parent;
+	GtkToggleButton parent;
 
 	EDropdownButtonPrivate *priv;
 };
 
 struct _EDropdownButtonClass {
-	GtkButtonClass parent_class;
+	GtkToggleButtonClass parent_class;
 };
 
 

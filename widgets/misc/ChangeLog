@@ -1,3 +1,16 @@
+2001-01-28  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-dropdown-button.c (menu_deactivate_cb): New function to change
+	the state of the toggle button when the pop-up menu disappears.
+	(impl_clicked): Removed.
+	(impl_button_press_event): New, implementation for
+	`::button_press_event'.  Pop-up the menu, and toggle the button.
+	(class_init): Override `::button_press_event' with
+	`impl_button_press_event'; don't override `::clicked' anymore.
+
+	* e-dropdown-button.h, e-dropdown-button.c: Derive from
+	`GtkToggleButton', instead of plain `GtkButton'.
+
 2001-01-27  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-search-bar.c (add_dropdown): Make the dropdown button
