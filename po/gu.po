@@ -9,15 +9,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.gu\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-08-13 14:55-0400\n"
-"PO-Revision-Date: 2004-08-09 17:02+0530\n"
+"POT-Creation-Date: 2004-08-16 03:06+0200\n"
+"PO-Revision-Date: 2004-08-16 14:28+0530\n"
 "Last-Translator: Ankit Patel <ankit@redhat.com>\n"
 "Language-Team: Gujarati\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.3.1\n"
-"Plural-Forms: Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"Plural-Forms: Plural-Forms: nplurals=2; plural=(n!=1);\n\n"
 "\n"
 "\n"
 
@@ -220,10 +220,8 @@ msgstr "ઈવોલ્યુશન સરનામાપોથી અનિચ�
 
 #. addressbook:backend-died secondary
 #: addressbook/addressbook-errors.xml.h:55
-msgid ""
-"Your contacts for {0} will not be available until Evolution is restarted."
-msgstr ""
-"તમારા {0} માટેના સંપર્કો જ્યાં સુધી ઈવોલ્યુશન ફરીથી ચાલુ ન થાય ત્યાં સુધી ઉપ્લબ્ધ થશે નહિ."
+msgid "Your contacts for {0} will not be available until Evolution is restarted."
+msgstr "તમારા {0} માટેના સંપર્કો જ્યાં સુધી ઈવોલ્યુશન ફરીથી ચાલુ ન થાય ત્યાં સુધી ઉપ્લબ્ધ થશે નહિ."
 
 #: addressbook/conduit/address-conduit.c:298
 msgid "Default Sync Address:"
@@ -581,8 +579,7 @@ msgid "Email address"
 msgstr "ઈ-મેઈલ સરનામુ"
 
 #: addressbook/gui/component/ldap-config.glade.h:21
-msgid ""
-"Evolution will use this email address to authenticate you with the server."
+msgid "Evolution will use this email address to authenticate you with the server."
 msgstr "ઈવોલ્યુશન આ ઈ-મેઈલ સરનામુ તમને સર્વર સાથે સત્તાધિકરણ કરવામાં વાપરશે."
 
 #: addressbook/gui/component/ldap-config.glade.h:22
@@ -3449,8 +3446,7 @@ msgid "Export in asynchronous mode "
 msgstr "સુમેળ નહિં હોય તેવી સ્થિતિમાં નિકાસ કરો"
 
 #: addressbook/tools/evolution-addressbook-export.c:63
-msgid ""
-"The number of cards in one output file in asychronous mode,default size 100."
+msgid "The number of cards in one output file in asychronous mode,default size 100."
 msgstr "એક આઉટપુટ ફાઈલમાં સુમેળ નહિં હોય તેવી સ્થિતિમાં કાર્ડોની સંખ્યા, મૂળભુત માપ ૧૦૦."
 
 #: addressbook/tools/evolution-addressbook-export.c:63
@@ -3458,8 +3454,7 @@ msgid "NUMBER"
 msgstr "NUMBER"
 
 #: addressbook/tools/evolution-addressbook-export.c:91
-msgid ""
-"Command line arguments error, please use --help option to see the usage."
+msgid "Command line arguments error, please use --help option to see the usage."
 msgstr "આદેશ વાક્ય દલીલ ભૂલ, મહેરબાની કરીને વપરાશ જોવા માટે --help વિકલ્પ વાપરો."
 
 #: addressbook/tools/evolution-addressbook-export.c:105
@@ -3505,8 +3500,7 @@ msgstr "શું તમે બધા સ્પર્ધકોને નકા�
 msgid ""
 "If you don't send a cancellation notice, the other participants may not know "
 "the meeting is canceled."
-msgstr ""
-"જો તમે નકારાત્મક સૂચન મોકલો નહિં, તો બીજા સ્પર્ધકોને ખબર નહિં પડે કે મંત્રણા રદ થઈ ગઈ છે."
+msgstr "જો તમે નકારાત્મક સૂચન મોકલો નહિં, તો બીજા સ્પર્ધકોને ખબર નહિં પડે કે મંત્રણા રદ થઈ ગઈ છે."
 
 #: calendar/calendar-errors.xml.h:5 calendar/calendar-errors.xml.h:15
 #: calendar/calendar-errors.xml.h:25 calendar/calendar-errors.xml.h:87
@@ -3527,8 +3521,7 @@ msgstr "શું તમે ખરેખર આ મંત્રણા કાઢ�
 
 #. calendar:prompt-delete-meeting secondary
 #: calendar/calendar-errors.xml.h:10
-msgid ""
-"All information on this meeting will be deleted and can not be restored."
+msgid "All information on this meeting will be deleted and can not be restored."
 msgstr "આ મંત્રણાની બધી જાણકારી કાઢી નાંખવામાં આવેલ છે અને ફરીથી સંગ્રહી શકાતી નથી."
 
 #. calendar:prompt-cancel-task secondary
@@ -3536,8 +3529,7 @@ msgstr "આ મંત્રણાની બધી જાણકારી કા�
 msgid ""
 "If you don't send a cancellation notice, the other participants may not know "
 "the task has been deleted."
-msgstr ""
-"જો તમે નકારાત્મક સૂચન મોકલો નહિં, તો બીજા સ્પર્ધકોને ખબર નહિં પડે કે બાબત કાઢી નંખાયેલ છે."
+msgstr "જો તમે નકારાત્મક સૂચન મોકલો નહિં, તો બીજા સ્પર્ધકોને ખબર નહિં પડે કે બાબત કાઢી નંખાયેલ છે."
 
 #. calendar:prompt-delete-task primary
 #: calendar/calendar-errors.xml.h:18 calendar/calendar-errors.xml.h:44
@@ -3586,8 +3578,7 @@ msgstr "શું તમે ખરેખર '{0}' શીર્ષકવાળી
 #. calendar:prompt-delete-titled-appointment secondary
 #. calendar:prompt-delete-appointment secondary
 #: calendar/calendar-errors.xml.h:34 calendar/calendar-errors.xml.h:38
-msgid ""
-"All information on this appointment will be deleted and can not be restored."
+msgid "All information on this appointment will be deleted and can not be restored."
 msgstr "આ મુલાકાતની બધી જાણકારી કાઢી નાંખવામાં આવે છે અને ફરીથી સંગ્રહી શકાશે નહિં."
 
 #. calendar:prompt-delete-appointment primary
@@ -3608,8 +3599,7 @@ msgstr "શું તમે ખરેખર જર્નલ પ્રવેશ '
 #. calendar:prompt-delete-named-journal secondary
 #. calendar:prompt-delete-journal secondary
 #: calendar/calendar-errors.xml.h:50 calendar/calendar-errors.xml.h:54
-msgid ""
-"All information in this journal will be deleted and can not be restored."
+msgid "All information in this journal will be deleted and can not be restored."
 msgstr "આ જર્નલની બધી જાણકારી કાઢી નાંખવામાં આવશે અને ફરીથી સંગ્રહી શકાશે નહિં."
 
 #. calendar:prompt-delete-appointments primary
@@ -3692,8 +3682,7 @@ msgstr "શું તમે મંત્રણાનું આમંત્રણ
 
 #. calendar:prompt-meeting-invite secondary
 #: calendar/calendar-errors.xml.h:86
-msgid ""
-"Email invitations will be sent to all participants and allow them to RSVP."
+msgid "Email invitations will be sent to all participants and allow them to RSVP."
 msgstr "ઈ-મેઈલ આમંત્રણ બધા સ્પર્ધકોને મોકલવામાં આવશે અને તેમને RSVP વાપરવાની પરવાનગી આપશે."
 
 #: calendar/calendar-errors.xml.h:88 calendar/calendar-errors.xml.h:94
@@ -3724,8 +3713,7 @@ msgstr "શું તમે આ બાબત સ્પર્ધકોને મ�
 msgid ""
 "Email invitations will be sent to all participants and allow them to accept "
 "this task."
-msgstr ""
-"ઈ-મેઈલનું આમંત્રણ બધા સ્પર્ધકોને મોકલવામાં આવે છે અને તેમને આ બાબત સ્વીકારવાની પરવાનગી આપે છે."
+msgstr "ઈ-મેઈલનું આમંત્રણ બધા સ્પર્ધકોને મોકલવામાં આવે છે અને તેમને આ બાબત સ્વીકારવાની પરવાનગી આપે છે."
 
 #. calendar:prompt-send-updated-task-info primary
 #: calendar/calendar-errors.xml.h:102
@@ -4738,9 +4726,8 @@ msgid "_Add Calendar"
 msgstr "કેલેન્ડર ઉમેરો (_A)"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:7
-#, fuzzy
 msgid "_Add Task List"
-msgstr "બાબત યાદી ઉમેરો"
+msgstr "બાબત યાદી ઉમેરો (_A)"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:9
 msgid "_Refresh:"
@@ -5265,8 +5252,7 @@ msgid "You are modifying a recurring task, what would you like to modify?"
 msgstr "તમે વળતરની બાબત સુધારી રહ્યા છો, તમારે શેમાં સુધારો કરવો છે?"
 
 #: calendar/gui/dialogs/recur-comp.c:59
-msgid ""
-"You are modifying a recurring journal entry, what would you like to modify?"
+msgid "You are modifying a recurring journal entry, what would you like to modify?"
 msgstr "તમે વળતરની જર્નલ પ્રવેશા સુધારી રહ્યા છો, તમારે શેમાં સુધારો કરવો છે?"
 
 #: calendar/gui/dialogs/recur-comp.c:85
@@ -5992,9 +5978,8 @@ msgid "_Forward as iCalendar..."
 msgstr "iCalendar તરીકે આગળ ધપાવો (_F)..."
 
 #: calendar/gui/e-calendar-view.c:1452
-#, fuzzy
 msgid "Make this Occurrence _Movable"
-msgstr "આ વારાને કાઢી નાંખો"
+msgstr "આ વારાને ખસેડાય તેવો બનાવો (_M)"
 
 #: calendar/gui/e-calendar-view.c:1453 calendar/gui/e-calendar-view.c:1485
 msgid "Delete this _Occurrence"
@@ -6240,8 +6225,7 @@ msgid ""
 msgstr "મંત્રણા રદ થઈ ગયેલ છે, તેમછતાં પણ તે તમારા કેલેન્ડરોમાં મળી આવી નથી"
 
 #: calendar/gui/e-itip-control.c:1146
-msgid ""
-"The task has been cancelled, however it could not be found in your task lists"
+msgid "The task has been cancelled, however it could not be found in your task lists"
 msgstr "બાબત રદ થઈ ગયેલ છે, તેમછતાં પણ તે તમારી બાબત યાદીમાં મેળવી શકાઈ નથી"
 
 #: calendar/gui/e-itip-control.c:1159 calendar/gui/itip-utils.c:442
@@ -6451,8 +6435,7 @@ msgstr "સભાસદની સ્થિતિ સુધારાઈ ગઈ\n"
 
 #: calendar/gui/e-itip-control.c:1899
 msgid "Attendee status can not be updated because the item no longer exists"
-msgstr ""
-"સભાસદની સ્થિતિ સુધારી શકાશે નહિં કારણકે વસ્તુ લાંબો સમય સુધી અસ્તિત્વમાં રહેવાની નથી"
+msgstr "સભાસદની સ્થિતિ સુધારી શકાશે નહિં કારણકે વસ્તુ લાંબો સમય સુધી અસ્તિત્વમાં રહેવાની નથી"
 
 #: calendar/gui/e-itip-control.c:1926
 msgid "Removal Complete"
@@ -9170,8 +9153,7 @@ msgstr "%s માટે તાળા ફાઈલ બનાવી શક્ય�
 #: camel/camel-lock.c:154
 #, c-format
 msgid "Timed out trying to get lock file on %s. Try again later."
-msgstr ""
-"%s પર તાળા ફાઈલ મેળવવાનો પ્રયત્ન કરતાં સમય સમાપ્ત થઈ ગયો. પછી ફરીથી પ્રયત્ન કરો."
+msgstr "%s પર તાળા ફાઈલ મેળવવાનો પ્રયત્ન કરતાં સમય સમાપ્ત થઈ ગયો. પછી ફરીથી પ્રયત્ન કરો."
 
 #: camel/camel-lock.c:209
 #, c-format
@@ -9324,8 +9306,7 @@ msgstr "CRAM-MD5"
 msgid ""
 "This option will connect to the server using a secure CRAM-MD5 password, if "
 "the server supports it."
-msgstr ""
-"આ વિકલ્પ સર્વર સાથે સુરક્ષિત CRAM-MD5 પાસવર્ડથી જોડાશે, જો સર્વરતેને આધાર આપતુ હોય તો."
+msgstr "આ વિકલ્પ સર્વર સાથે સુરક્ષિત CRAM-MD5 પાસવર્ડથી જોડાશે, જો સર્વરતેને આધાર આપતુ હોય તો."
 
 #: camel/camel-sasl-digest-md5.c:48
 msgid "DIGEST-MD5"
@@ -9335,8 +9316,7 @@ msgstr "DIGEST-MD5"
 msgid ""
 "This option will connect to the server using a secure DIGEST-MD5 password, "
 "if the server supports it."
-msgstr ""
-"આ વિકલ્પ સર્વર સાથે સુરક્ષિત DIGEST-MD5 પાસવર્ડથી જોડાશે, જો સર્વરતેને આધાર આપતુ હોય તો."
+msgstr "આ વિકલ્પ સર્વર સાથે સુરક્ષિત DIGEST-MD5 પાસવર્ડથી જોડાશે, જો સર્વરતેને આધાર આપતુ હોય તો."
 
 #: camel/camel-sasl-digest-md5.c:813
 msgid "Server challenge too long (>2048 octets)\n"
@@ -9479,8 +9459,7 @@ msgstr "NTLM / SPA"
 msgid ""
 "This option will connect to a Windows-based server using NTLM / Secure "
 "Password Authentication."
-msgstr ""
-"આ વિકલ્પ વિન્ડોઝ આધારિત સર્વરો સાથે NTLM / સુરક્ષિત પાસવર્ડ સત્તાધિકરણ સાથે જોડાશે."
+msgstr "આ વિકલ્પ વિન્ડોઝ આધારિત સર્વરો સાથે NTLM / સુરક્ષિત પાસવર્ડ સત્તાધિકરણ સાથે જોડાશે."
 
 #: camel/camel-sasl-plain.c:32
 msgid "PLAIN"
@@ -10097,9 +10076,8 @@ msgid "Automatically synchronize remote mail locally"
 msgstr "દૂરસ્થ મેઈલને સ્થાનિક રીતે આપોઆપ સુમેળ કરી દે"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:69
-#, fuzzy
 msgid "Address Book and Calendar"
-msgstr "સરનામાપોથી અને કેલેન્ડર"
+msgstr "સરનામા પોથી અને કેલેન્ડર"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:72
 msgid "Post Office Agent:"
@@ -10110,9 +10088,8 @@ msgid "Post Office Agent SOAP Port:"
 msgstr "પોસ્ટ ઓફિસ એજન્ટ SOAP પોર્ટ:"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:78
-#, fuzzy
 msgid "Use Secure Connection (SSL)"
-msgstr "સુરક્ષિત જોડાણ વાપરો (_U) (SSL):"
+msgstr "સુરક્ષિત જોડાણ વાપરો (SSL)"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:92
 msgid "Novell GroupWise"
@@ -10261,8 +10238,7 @@ msgstr "સર્વરનો અપૂર્ણ જવાબ: કોઈ UID સ
 
 #: camel/providers/imap/camel-imap-folder.c:2482
 #, c-format
-msgid ""
-"Unexpected server response: Identical UIDs provided for messages %d and %d"
+msgid "Unexpected server response: Identical UIDs provided for messages %d and %d"
 msgstr "સર્વરનો અપૂર્ણ જવાબ: સંદેશાઓ %d અને %d માટે ચોક્કસ UID પૂરા પાડેલ છે"
 
 #: camel/providers/imap/camel-imap-folder.c:2658
@@ -10442,8 +10418,7 @@ msgstr "આવું કોઈ ફોલ્ડર %s નથી"
 #: camel/providers/imap/camel-imap-store.c:2259
 #: camel/providers/imap4/camel-imap4-store.c:764
 #, c-format
-msgid ""
-"The folder name \"%s\" is invalid because it contains the character \"%c\""
+msgid "The folder name \"%s\" is invalid because it contains the character \"%c\""
 msgstr "ફોલ્ડર નામ \"%s\" એ અમાન્ય છે કારણ કે તે \"%c\" અક્ષર ધરાવે છે"
 
 #: camel/providers/imap/camel-imap-store.c:1939
@@ -10567,8 +10542,7 @@ msgid "For reading and storing mail on IMAPv4rev1 servers. EXPERIMENTAL !!"
 msgstr "મેઈલને IMAPv4rev1 સર્વરમાંથી વાંચવા અને સંગ્રહવા માટે. EXPERIMENTAL !!"
 
 #: camel/providers/imap4/camel-imap4-provider.c:72
-msgid ""
-"This option will connect to the IMAPv4rev1 server using a plaintext password."
+msgid "This option will connect to the IMAPv4rev1 server using a plaintext password."
 msgstr "આ વિકલ્પ IMAPv4rev1 સર્વર સાથે સરળ લખાણવાળા પાસવર્ડ વાપરીને જોડાશે."
 
 #: camel/providers/imap4/camel-imap4-store.c:257
@@ -10576,13 +10550,11 @@ msgstr "આ વિકલ્પ IMAPv4rev1 સર્વર સાથે સરળ
 msgid ""
 "Failed to connect to IMAP server %s in secure mode: Server does not support "
 "STARTTLS"
-msgstr ""
-"IMAP સર્વર %s ને સુરક્ષિત સ્થિતિમાં જોડાવામાં નિષ્ફળ: સર્વર STARTTLS ને આધાર આપતું નથી"
+msgstr "IMAP સર્વર %s ને સુરક્ષિત સ્થિતિમાં જોડાવામાં નિષ્ફળ: સર્વર STARTTLS ને આધાર આપતું નથી"
 
 #: camel/providers/imap4/camel-imap4-store.c:363
 #, c-format
-msgid ""
-"Cannot authenticate to IMAP server %s using the %s authentication mechanism"
+msgid "Cannot authenticate to IMAP server %s using the %s authentication mechanism"
 msgstr "IMAP સર્વર %s ને %s સત્તાધિકરણની મદદથી સત્તાધિકરમ કરી શકતા નથી"
 
 #: camel/providers/imap4/camel-imap4-store.c:408
@@ -11307,8 +11279,7 @@ msgid "Unable to save grouplist file for %s: %s"
 msgstr "%s માટે જૂથ યાદી ફાઈલ સંગ્રહવામાં અસમર્થ: %s"
 
 #: camel/providers/nntp/camel-nntp-provider.c:43
-msgid ""
-"Show folders in short notation (e.g. c.o.linux rather than comp.os.linux)"
+msgid "Show folders in short notation (e.g. c.o.linux rather than comp.os.linux)"
 msgstr "ફોલ્ડરોને ટુંકી નોંધમાં બતાવો (દા.ત. comp.os.linux ની જગ્યાએ c.o.linux)"
 
 #: camel/providers/nntp/camel-nntp-provider.c:45
@@ -11533,8 +11504,7 @@ msgstr "POP સર્વર %s સાથે જોડાણ કરી શક્�
 msgid ""
 "Unable to connect to POP server %s: No support for requested authentication "
 "mechanism."
-msgstr ""
-"POP સર્વર %s સાથે સંપર્ક કરવા સમર્થ નથી: મંજૂરી કરાયેલ સત્તાધિકરણ માટે કોઈ આધાર નથી."
+msgstr "POP સર્વર %s સાથે સંપર્ક કરવા સમર્થ નથી: મંજૂરી કરાયેલ સત્તાધિકરણ માટે કોઈ આધાર નથી."
 
 #: camel/providers/pop3/camel-pop3-store.c:428
 #, c-format
@@ -11589,8 +11559,7 @@ msgstr "મેઈલમોકલો"
 msgid ""
 "For delivering mail by passing it to the \"sendmail\" program on the local "
 "system."
-msgstr ""
-"મેઈલ મોકલવા માટે તેને સ્થાનિક સિસ્ટમ પર \"મેઈલમોકલો\" કાર્યક્રમ દ્વારા પસાર કરીને."
+msgstr "મેઈલ મોકલવા માટે તેને સ્થાનિક સિસ્ટમ પર \"મેઈલમોકલો\" કાર્યક્રમ દ્વારા પસાર કરીને."
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:113
 msgid "Could not parse recipient list"
@@ -12024,8 +11993,7 @@ msgstr "આને પણ ખબર વિના:"
 msgid ""
 "Enter the addresses that will receive a carbon copy of the message without "
 "appearing in the recipient list of the message."
-msgstr ""
-"સરનામાઓ દાખલ કરો કે જેઓ પણ સંદેશાની કાર્બન નકલ મેળવે કે જેની ખબર મેળવનારને નહિં પડે."
+msgstr "સરનામાઓ દાખલ કરો કે જેઓ પણ સંદેશાની કાર્બન નકલ મેળવે કે જેની ખબર મેળવનારને નહિં પડે."
 
 #.
 #. * Post-To
@@ -12043,8 +12011,7 @@ msgid "Attach file(s)"
 msgstr "ફાઈલો જોડો"
 
 #: composer/e-msg-composer.c:704
-msgid ""
-"Cannot sign outgoing message: No signing certificate set for this account"
+msgid "Cannot sign outgoing message: No signing certificate set for this account"
 msgstr "જતા સંદેશાઓની સહી કરી શકતા નથી: આ ખાતા માટે સહી કરવાનું કોઈ પ્રમાણપત્ર નથી"
 
 #: composer/e-msg-composer.c:711
@@ -12114,8 +12081,7 @@ msgstr[1] "%d જોડાયેલ સંદેશાઓ"
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
-msgstr ""
-"<b>(કમ્પોઝર લખાણ-વિહીન સંદેશાનો ભાગ જ સમાવે છે, કે જેમાં ફેરફાર કરી શકાતો નથી.)<b>"
+msgstr "<b>(કમ્પોઝર લખાણ-વિહીન સંદેશાનો ભાગ જ સમાવે છે, કે જેમાં ફેરફાર કરી શકાતો નથી.)<b>"
 
 #. mail-composer:no-attach primary
 #: composer/mail-composer-errors.xml.h:2
@@ -12277,9 +12243,8 @@ msgid "Evolution"
 msgstr "ઈવોલ્યુશન"
 
 #: data/evolution.desktop.in.in.h:2
-#, fuzzy
 msgid "The Evolution Groupware Suite"
-msgstr "Ximian ઈવોલ્યુશન ગ્રુપવેર સેવા"
+msgstr "ઈવોલ્યુશન ગ્રુપવેર સેવા"
 
 #: data/evolution.keys.in.in.h:1
 msgid "address card"
@@ -12785,8 +12750,7 @@ msgid "Composer Preferences"
 msgstr "કમ્પોઝર પસંદગીઓ"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:3
-msgid ""
-"Configure mail preferences, including security and message display, here"
+msgid "Configure mail preferences, including security and message display, here"
 msgstr "મેઈલની પસંદગીઓ રુપરેખાંકિત કરો, સુરક્ષા અને સંદેશા પ્રદર્શનને સમાવીને, અંહિ"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:4
@@ -13526,8 +13490,7 @@ msgstr "એનક્રિપ્ટ થયેલ છે"
 msgid ""
 "This message is encrypted.  It would be difficult for an outsider to view "
 "the content of this message."
-msgstr ""
-"સંદેશો એનક્રિપ્ટ થયેલ છે. બહારની વ્યક્તિ માટે આ સંદેશાના સમાવિષ્ટોને જોવાનું મુશ્કેલ થઈ જશે."
+msgstr "સંદેશો એનક્રિપ્ટ થયેલ છે. બહારની વ્યક્તિ માટે આ સંદેશાના સમાવિષ્ટોને જોવાનું મુશ્કેલ થઈ જશે."
 
 #: mail/em-format-html-display.c:653 mail/em-format-html.c:594
 msgid "Encrypted, strong"
@@ -14109,10 +14072,8 @@ msgid "Prompt the user when he or she tries to expunge a folder."
 msgstr "જ્યારે તે અથવા તેણી ફોલ્ડરને સંપૂર્ણ રીતે દૂર કરવા માંગો ત્યારે વપરાશકર્તાને પૂછે છે."
 
 #: mail/evolution-mail.schemas.in.in.h:56
-msgid ""
-"Prompt the user when he or she tries to send a message without a Subject."
-msgstr ""
-"જ્યારે તે અથવા તેણી વિષય વગર સંદેશો મોકલવાનો પ્રયત્ન કરે છે ત્યારે વપરાશકર્તાને પૂછે છે."
+msgid "Prompt the user when he or she tries to send a message without a Subject."
+msgstr "જ્યારે તે અથવા તેણી વિષય વગર સંદેશો મોકલવાનો પ્રયત્ન કરે છે ત્યારે વપરાશકર્તાને પૂછે છે."
 
 #: mail/evolution-mail.schemas.in.in.h:57
 msgid "Prompt when user expunges"
@@ -15297,8 +15258,7 @@ msgstr "ઈન્ટરનેટમાંથી ક્યારેય ચિત�
 
 #: mail/mail-config.glade.h:174
 msgid "_Prompt when sending HTML messages to contacts that don't want them"
-msgstr ""
-"સંપર્કો કે જેઓને જરુર ના હોય તોપણ HTML સંદેશાઓ મોકલી રહ્યા હોય ત્યારે તેમને પૂછો (_P)"
+msgstr "સંપર્કો કે જેઓને જરુર ના હોય તોપણ HTML સંદેશાઓ મોકલી રહ્યા હોય ત્યારે તેમને પૂછો (_P)"
 
 #: mail/mail-config.glade.h:175
 msgid "_Prompt when sending messages with an empty subject line"
@@ -15511,8 +15471,7 @@ msgstr ""
 #. mail:ask-send-only-bcc primary
 #: mail/mail-errors.xml.h:22 mail/mail-errors.xml.h:29
 msgid "Are you sure you want to send a message with only BCC recipients?"
-msgstr ""
-"શું તમે ચોક્કસ છો કે તમે માત્ર ખબર વિના આને પણ મેળવનારા સાથે જ સંદેશો મોકલવા માંગો છો?"
+msgstr "શું તમે ચોક્કસ છો કે તમે માત્ર ખબર વિના આને પણ મેળવનારા સાથે જ સંદેશો મોકલવા માંગો છો?"
 
 #. mail:ask-send-only-bcc-contact secondary
 #: mail/mail-errors.xml.h:24
@@ -15544,8 +15503,7 @@ msgstr ""
 
 #. mail:send-no-recipients primary
 #: mail/mail-errors.xml.h:34
-msgid ""
-"This message cannot be sent because you have not specified any Recipients"
+msgid "This message cannot be sent because you have not specified any Recipients"
 msgstr "આ સંદેશો મોકલી શકાયો નથી કારણકે તમે કોઈ મેળવનારો સ્પષ્ટ કર્યો નથી"
 
 #. mail:send-no-recipients secondary
@@ -15580,8 +15538,7 @@ msgstr "મૂળભુત વાપરો (_D)"
 msgid ""
 "Are you sure you want to permanently remove all the deleted message in "
 "folder \"{0}\"?"
-msgstr ""
-"શું તમે ચોક્કસ છો તમે કાયમી રીતે તમારા \"{0}\" ફોલ્ડરમાંના સંદેશાને દૂર કરવા માંગો છો?"
+msgstr "શું તમે ચોક્કસ છો તમે કાયમી રીતે તમારા \"{0}\" ફોલ્ડરમાંના સંદેશાને દૂર કરવા માંગો છો?"
 
 #. mail:ask-expunge secondary
 #. mail:ask-empty-trash secondary
@@ -15614,8 +15571,7 @@ msgstr "તમે સંદેશાઓ સુયોજિત કર્યા �
 msgid ""
 "If you quit, these messages will not be sent until Evolution is started "
 "again."
-msgstr ""
-"જો તમે બહાર નીકળો, આ સંદેશાઓ જ્યાં સુધી ઈવોલ્યુશન શરુ થાય નહિં ત્યાં સુધી મોકલાશે નહિં."
+msgstr "જો તમે બહાર નીકળો, આ સંદેશાઓ જ્યાં સુધી ઈવોલ્યુશન શરુ થાય નહિં ત્યાં સુધી મોકલાશે નહિં."
 
 #. mail:camel-exception primary
 #: mail/mail-errors.xml.h:57
@@ -16487,8 +16443,7 @@ msgstr "શરુઆતમાં ભાગનું ID અથવા ઉપના
 msgid ""
 "If set to true, Evolution will start up in offline mode instead of online "
 "mode."
-msgstr ""
-"જો સાચું સુયોજિત હોય, તો ઈવોલ્યુશન ઓનલાઈન સ્થિતિની જગ્યાએ ઓફલાઈન સ્થિતિમાં ચાલુ થશે."
+msgstr "જો સાચું સુયોજિત હોય, તો ઈવોલ્યુશન ઓનલાઈન સ્થિતિની જગ્યાએ ઓફલાઈન સ્થિતિમાં ચાલુ થશે."
 
 #: shell/apps_evolution_shell.schemas.in.in.h:8
 msgid ""
@@ -16503,8 +16458,7 @@ msgid "Last upgraded Evolution configuration version"
 msgstr "છેલ્લી સુધારાયેલ ઈવોલ્યુશન રુપરેખાંકન આવૃત્તિ"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:10
-msgid ""
-"List of paths for the folders to be synchronized to disk for offline usage"
+msgid "List of paths for the folders to be synchronized to disk for offline usage"
 msgstr "ફોલ્ડરો માટે યાદીના પથો કે જે ઓફલાઈન વપરાશ માટે ડિસ્ક સાથે સુમેળ કરવાના છે"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:11
@@ -17057,13 +17011,12 @@ msgstr ""
 "ખાતરી માટે \"ઈવોલ્યુશન\" ના સમાવિષ્ટો દૂર કરી શકો છો.\n"
 
 #: shell/shell-errors.xml.h:25
-#, fuzzy
 msgid "_Remind Me Later"
-msgstr "યાદ અપાવનાર!!"
+msgstr "મને પછી યાદ કરાવો (_R)"
 
 #: shell/shell-errors.xml.h:26
 msgid "_Keep Data"
-msgstr ""
+msgstr "માહિતી સાચવી રાખો (_K)"
 
 #. shell:upgrade-remove-1-4-confirm title
 #. shell:upgrade-remove-1-4-confirm primary
@@ -17386,8 +17339,7 @@ msgid "You have certificates from these organizations that identify you:"
 msgstr "તમારી પાસે આ સંસ્થાના પ્રમાણપત્રો છે જે તમારી ઓળખ આપે:"
 
 #: smime/gui/smime-ui.glade.h:43
-msgid ""
-"You have certificates on file that identify these certificate authorities:"
+msgid "You have certificates on file that identify these certificate authorities:"
 msgstr "તમારી પાસે પ્રમાણપત્રોની ફાઈલ છે જે આ પ્રમાણપત્રોના સત્તાધિકારની ઓળખ આપે:"
 
 #: smime/gui/smime-ui.glade.h:44
@@ -18155,8 +18107,7 @@ msgid "Hide _Read Messages"
 msgstr "વંચાયેલા સંદેશાઓને છુપાવો (_R)"
 
 #: ui/evolution-mail-list.xml.h:8
-msgid ""
-"Hide deleted messages rather than displaying them with a line through them"
+msgid "Hide deleted messages rather than displaying them with a line through them"
 msgstr "કાઢી નંખાયેલ સંદેશાઓને પ્રદર્શિત કરવાને બદલે છુપાવો"
 
 #: ui/evolution-mail-list.xml.h:9
@@ -19269,8 +19220,7 @@ msgstr "ઈવોલ્યુશન પ્રશ્ન"
 #. setup a dummy error
 #: widgets/misc/e-error.c:421
 #, c-format
-msgid ""
-"<span weight=\"bold\">Internal error, unknown error '%s' requested</span>"
+msgid "<span weight=\"bold\">Internal error, unknown error '%s' requested</span>"
 msgstr "<span weight=\"bold\">આંતરિક ભૂલ, અજ્ઞાત ભૂલ '%s' માંગ થયેલ છે</span>"
 
 #: widgets/misc/e-expander.c:181
@@ -19428,20 +19378,3 @@ msgstr "%s (...)"
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% પૂર્ણ થયું)"
 
-#~ msgid "_Add Group"
-#~ msgstr "જૂથ ઉમેરો (_A)"
-
-#~ msgid "Use ssl"
-#~ msgstr "ssl વાપરો"
-
-#~ msgid "Ximian Evolution (Unstable)"
-#~ msgstr "Ximian ઈવોલ્યુશન (અસ્થાઈ)"
-
-#~ msgid "Remember this password"
-#~ msgstr "આ પાસવર્ડ યાદ રાખો"
-
-#~ msgid "Remember this password for the remainder of this session"
-#~ msgstr "આ સત્રના બાકીના ભાગ માટે પાસવર્ડ યાદ રાખો"
-
-#~ msgid "Keep"
-#~ msgstr "સાચવો"
