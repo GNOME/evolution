@@ -3498,8 +3498,12 @@ static void
 free_view_popup (GtkWidget *widget, gpointer data)
 {
 	EWeekView *week_view = E_WEEK_VIEW (data);
+
+	if (week_view->view_menu == NULL)
+		return;
 	
 	gnome_calendar_discard_view_popup (week_view->calendar, week_view->view_menu);
+	week_view->view_menu = NULL;
 }
 
 void
