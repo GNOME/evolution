@@ -150,6 +150,7 @@ popup_cb (EEntry *eentry, GdkEventButton *ev, gint pos, gpointer user_data)
 	e_select_names_popup (text_model, ev, pos);
 }
 
+#if 0
 static gboolean
 clean_cb (gpointer ptr)
 {
@@ -159,6 +160,7 @@ clean_cb (gpointer ptr)
 	entry->cleaning_tag = 0;
 	return FALSE;
 }
+#endif
 
 static gint
 focus_in_cb (GtkWidget *w, GdkEventFocus *ev, gpointer user_data)
@@ -377,9 +379,7 @@ open_book_cb (EBook *book, EBookStatus status, ESelectNamesManager *manager)
 		}
 
 		manager->completion_books = g_list_append (manager->completion_books, book);
-	}
-	else {
-		gtk_object_unref (GTK_OBJECT (book));
+		gtk_object_ref (GTK_OBJECT (book));
 	}
 
 	gtk_object_unref (GTK_OBJECT (manager)); /* unref ourself (matches ref before the load_uri call below) */

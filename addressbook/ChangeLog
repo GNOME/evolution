@@ -1,5 +1,16 @@
 2002-06-04  Christopher James Lahey  <clahey@ximian.com>
 
+	* gui/component/select-names/e-select-names-completion.c
+	(e_select_names_completion_book_ready): Commented out this unused
+	function.
+
+	* gui/component/select-names/e-select-names-manager.c
+	(open_book_cb): Ref if we're keeping the book.  Don't unref if
+	we're not keeping the book.
+	(clean_cb): Commented out this unused function.
+
+2002-06-04  Christopher James Lahey  <clahey@ximian.com>
+
 	* gui/widgets/e-addressbook-view.c (init_collection): Set the
 	title of our GalVIewCollection.
 

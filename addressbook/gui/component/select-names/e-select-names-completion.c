@@ -1205,6 +1205,7 @@ check_capabilities (ESelectNamesCompletion *comp, EBook *book)
 	g_free (cap);
 }
 
+#if 0
 static void
 e_select_names_completion_book_ready (EBook *book, EBookStatus status, ESelectNamesCompletion *comp)
 {
@@ -1225,6 +1226,7 @@ e_select_names_completion_book_ready (EBook *book, EBookStatus status, ESelectNa
 
 	gtk_object_unref (GTK_OBJECT (comp)); /* post-async unref */
 }
+#endif
 
 
 /*
