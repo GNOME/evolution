@@ -186,7 +186,6 @@ etspec_DATA = mail-accounts.etspec message-list.etspec subscribe-dialog.etspec
 schemadir   = $(GCONF_SCHEMA_FILE_DIR)
 schema_DATA = evolution-mail.schemas
 
-iconsdir = $(datadir)/evolution-$(BASE_VERSION)/images
 buttonsdir = $(datadir)/evolution-$(BASE_VERSION)/images/buttons
 
 idl_DATA = Mailer.idl

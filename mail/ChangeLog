@@ -1,3 +1,8 @@
+2003-01-24  Ettore Perazzoli  <ettore@ximian.com>
+
+	* Makefile.am (iconsdir): Remove, this is now defined in
+	configure.in.
+
 2002-12-07 leon.zhang  <leon.zhang@sun.com>
 
 	* component-factory.c (user_create_new_item_cb):  transfer the 

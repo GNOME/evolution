@@ -1,3 +1,8 @@
+2003-01-24  Ettore Perazzoli  <ettore@ximian.com>
+
+	* Makefile.am (iconsdir): Remove, this is now defined in
+	configure.in.
+x
 2003-01-23  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (e_msg_composer_load_config): Load the view

@@ -48,8 +48,6 @@ gladedir = $(datadir)/evolution-$(BASE_VERSION)/glade
 glade_DATA =					\
 	e-msg-composer-attachment.glade
 
-iconsdir = $(datadir)/evolution-$(BASE_VERSION)/images
-
 noinst_LIBRARIES = libcomposer.a
 
 INCLUDES =								\
