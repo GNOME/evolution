@@ -1,5 +1,10 @@
 2000-05-08  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* main.c (destroy_cb): New function.
+	(main): Connect it to the `destroy' signal on the shell.
+
+2000-05-08  Ettore Perazzoli  <ettore@helixcode.com>
+
 	* e-shortcuts.c (load_shortcuts): Const fix.
 
 2000-05-08  Larry Ewing  <lewing@helixcode.com>

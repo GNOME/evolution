@@ -36,6 +36,12 @@ no_views_left_cb (EShell *shell, gpointer data)
 	gtk_main_quit ();
 }
 
+static void
+destroy_cb (GtkObject *object, gpointer data)
+{
+	gtk_main_quit ();
+}
+
 
 #ifdef USING_OAF
 
@@ -104,6 +110,8 @@ main (int argc, char **argv)
 
 	gtk_signal_connect (GTK_OBJECT (shell), "no_views_left",
 			    GTK_SIGNAL_FUNC (no_views_left_cb), NULL);
+	gtk_signal_connect (GTK_OBJECT (shell), "destroy",
+			    GTK_SIGNAL_FUNC (destroy_cb), NULL);
 
 	e_shell_new_view (shell, NULL);
 
