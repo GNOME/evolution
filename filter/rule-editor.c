@@ -237,6 +237,7 @@ add_editor_clicked (GtkWidget *dialog, int button, RuleEditor *re)
 		
 		re->dialog = NULL;
 		
+		gtk_widget_set_sensitive (GTK_WIDGET (re), TRUE);
 		rule_editor_set_sensitive (re);
 	}
 }
@@ -263,6 +264,8 @@ rule_add (GtkWidget *widget, RuleEditor *re)
 	gtk_widget_set_parent_window (GTK_WIDGET (re->dialog), GTK_WIDGET (re)->window);
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (re->dialog)->vbox), rules, TRUE, TRUE, 0);
 	gtk_signal_connect (GTK_OBJECT (re->dialog), "clicked", add_editor_clicked, re);
+	
+	gtk_widget_set_sensitive (GTK_WIDGET (re), FALSE);
 	
 	gtk_widget_show (re->dialog);
 }
@@ -300,6 +303,7 @@ edit_editor_clicked (GtkWidget *dialog, int button, RuleEditor *re)
 		
 		re->dialog = NULL;
 		
+		gtk_widget_set_sensitive (GTK_WIDGET (re), TRUE);
 		rule_editor_set_sensitive (re);
 	}
 }
@@ -325,6 +329,8 @@ rule_edit (GtkWidget *widget, RuleEditor *re)
 	gtk_widget_set_parent (re->dialog, GTK_WIDGET (re));
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (re->dialog)->vbox), rules, TRUE, TRUE, 0);
 	gtk_signal_connect (GTK_OBJECT (re->dialog), "clicked", edit_editor_clicked, re);
+	
+	gtk_widget_set_sensitive (GTK_WIDGET (re), FALSE);
 	
 	gtk_widget_show (re->dialog);
 }
