@@ -1,3 +1,14 @@
+2001-06-25  jacob berkman  <jacob@ximian.com>
+
+	* e-shell-view.c: (set_folder_timeout): display a selected uri in
+	a timeout rather than right away, so the UI feels a bit more
+	responsive, and the tree is more navigable via keyboard
+	(switch_on_folder_tree_click): use the timeout rather than setting
+	the URI right away
+	(destroy): remove the timeout if it still exists
+	(update_for_current_uri): if there is a timeout set, don't update
+	(e_shell_view_display_uri): remove the timeout if it exists
+
 2001-06-25  Ettore Perazzoli  <ettore@ximian.com>
 
 	* main.c (no_views_left_cb): Call `e_shell_unregister_all()'.

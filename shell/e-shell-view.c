@@ -83,6 +83,10 @@ struct _EShellViewPrivate {
            "folder_selected" */
 	char *delayed_selection;
 
+	/* uri to go to at timeout */
+	unsigned int set_folder_timeout;
+	char        *set_folder_uri;
+
 	/* Tooltips.  */
 	GtkTooltips *tooltips;
 
@@ -138,6 +142,8 @@ static guint signals[LAST_SIGNAL] = { 0 };
 #define DEFAULT_HEIGHT 550
 
 #define DEFAULT_URI "evolution:/local/Inbox"
+
+#define SET_FOLDER_DELAY 250
 
 
 /* The icons for the offline/online status.  */
@@ -396,6 +402,22 @@ pop_up_folder_bar (EShellView *shell_view)
 
 static void new_folder_cb (EStorageSet *storage_set, const char *path, void *data);
 
+static int
+set_folder_timeout (gpointer data)
+{
+	EShellView *shell_view;
+	EShellViewPrivate *priv;
+
+	shell_view = E_SHELL_VIEW (data);
+	priv = shell_view->priv;
+
+	/* set to 0 so we don't remove it in _display_uri() */
+	priv->set_folder_timeout = 0;
+	e_shell_view_display_uri (shell_view, priv->set_folder_uri);
+
+	return FALSE;
+}
+
 static void
 switch_on_folder_tree_click (EShellView *shell_view,
 			     const char *path)
@@ -411,8 +433,9 @@ switch_on_folder_tree_click (EShellView *shell_view,
 		return;
 	}
 
-	e_shell_view_display_uri (shell_view, uri);
-	g_free (uri);
+	if (priv->set_folder_timeout != 0)
+		gtk_timeout_remove (priv->set_folder_timeout);
+	g_free (priv->set_folder_uri);
 
 	if (priv->delayed_selection) {
 		g_free (priv->delayed_selection);
@@ -422,8 +445,16 @@ switch_on_folder_tree_click (EShellView *shell_view,
 					       shell_view);
 	}
 
-	if (priv->folder_bar_mode == E_SHELL_VIEW_SUBWINDOW_TRANSIENT)
+	if (priv->folder_bar_mode == E_SHELL_VIEW_SUBWINDOW_TRANSIENT) {
+		e_shell_view_display_uri (shell_view, uri);
 		popdown_transient_folder_bar (shell_view);
+		g_free (uri);
+		return;
+	}
+
+	priv->set_folder_uri = uri;
+
+	priv->set_folder_timeout = gtk_timeout_add (SET_FOLDER_DELAY, set_folder_timeout, shell_view);
 }
 
 
@@ -880,6 +911,11 @@ destroy (GtkObject *object)
 
 	g_free (priv->uri);
 
+	if (priv->set_folder_timeout != 0)
+		gtk_timeout_remove (priv->set_folder_timeout);
+
+	g_free (priv->set_folder_uri);
+
 	g_free (priv);
 
 	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
@@ -975,6 +1011,9 @@ init (EShellView *shell_view)
 	priv->uri_to_control          = g_hash_table_new (g_str_hash, g_str_equal);
 
 	priv->sockets		      = NULL;
+
+	priv->set_folder_timeout      = 0;
+	priv->set_folder_uri          = NULL;
 
 	shell_view->priv = priv;
 }
@@ -1314,6 +1353,13 @@ update_for_current_uri (EShellView *shell_view)
 	gboolean is_my_evolution = FALSE;
 
 	priv = shell_view->priv;
+
+	/* if we update when there is a timeout set, the selection
+	 * will jump around against the user's wishes.  so we just
+	 * return.
+	 */     
+	if (priv->set_folder_timeout != 0)
+		return;
 
 	path = get_storage_set_path_from_uri (priv->uri);
 
@@ -1806,6 +1852,14 @@ e_shell_view_display_uri (EShellView *shell_view,
 	retval = TRUE;
 
  end:
+	g_free (priv->set_folder_uri);
+	priv->set_folder_uri = NULL;
+
+	if (priv->set_folder_timeout != 0) {
+		gtk_timeout_remove (priv->set_folder_timeout);
+		priv->set_folder_timeout = 0;
+	}
+
 	update_for_current_uri (shell_view);
 
 	bonobo_window_thaw (BONOBO_WINDOW (shell_view));
