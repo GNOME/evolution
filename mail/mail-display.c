@@ -212,7 +212,7 @@ save_part (CamelMimePart *part)
 	char *filename;
 
 	if(save_pathname == NULL)
-		save_pathname = g_get_home_dir();
+		save_pathname = g_strdup (g_get_home_dir ());
 
 	filename = make_safe_filename (save_pathname, part);
 

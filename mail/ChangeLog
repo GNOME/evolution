@@ -1,5 +1,8 @@
 2001-07-09  Dan Winship  <danw@ximian.com>
 
+	* mail-display.c (save_part): g_strdup the result of
+	g_get_home_dir since this variable will get free'd later.
+
 	* mail-format.c (mail_lookup_handler): Use
 	gnome_vfs_mime_get_short_list_applications rather than
 	gnome_vfs_mime_get_default_application.
