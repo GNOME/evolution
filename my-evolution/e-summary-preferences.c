@@ -58,13 +58,21 @@ make_initial_rdf_list (ESummaryPrefs *prefs)
 static void
 make_initial_weather_list (ESummaryPrefs *prefs)
 {
-	GList *stations;
+	/* translators: Put here a list of codes for locations you want to
+	   see in My Evolution by default. You can find the list of all
+	   stations and their codes in Evolution sources
+	   (evolution/my-evolution/Locations) */
+	char *default_stations = _("KBOS:ZSAM:EGAA"), **stations_v, **p;
+	GList *stations = NULL;
 
-	stations = g_list_prepend (NULL, g_strdup ("EGAA"));
-	stations = g_list_prepend (stations, g_strdup ("EGAC"));
-	stations = g_list_prepend (stations, g_strdup ("ENBR"));
+	stations_v = g_strsplit (default_stations, ":", 0);
+	g_assert (stations_v != NULL);
+	for (p = stations_v; *p != NULL; p++) {
+		stations = g_list_prepend (stations, *p);
+	}
+	g_free (stations_v);
 
-	prefs->stations = stations;
+	prefs->stations = g_list_reverse (stations);
 }
 
 /* Load the prefs off disk */

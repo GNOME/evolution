@@ -1,3 +1,10 @@
+2001-08-12  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* e-summary-preferences.c (make_initial_weather_list),
+	e-summary-weather.c (e_summary_weather_init):
+	Don't hardcode the default list of stations, let translators define it
+	per locale/country.
+
 2001-08-17  Iain Holmes  <iain@ximian.com>
 
 	* e-summary-preferences.c (weather_all_select_row_cb): Unselect the 

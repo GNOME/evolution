@@ -584,9 +584,18 @@ e_summary_weather_init (ESummary *summary)
 	e_summary_add_protocol_listener (summary, "weather", e_summary_weather_protocol, weather);
 
 	if (prefs == NULL) {
-		e_summary_weather_add_location (summary, "KBOS");
-		e_summary_weather_add_location (summary, "ZSAM");
-		e_summary_weather_add_location (summary, "EGAA");
+		/* translators: Put here a list of codes for locations you want to
+		   see in My Evolution by default. You can find the list of all
+		   stations and their codes in Evolution sources
+		   (evolution/my-evolution/Locations) */
+		char *default_stations = _("KBOS:ZSAM:EGAA"), **stations_v, **p;
+
+		stations_v = g_strsplit (default_stations, ":", 0);
+		g_assert (stations_v != NULL);
+		for (p = stations_v; *p != NULL; p++) {
+			e_summary_weather_add_location (summary, *p);
+		}
+		g_strfreev (stations_v);
 		timeout = 600;
 	} else {
 		GList *p;
