@@ -66,6 +66,10 @@ typedef struct {
 GtkType camel_simple_data_wrapper_get_type (void);
 
 
+/* setup method. */
+void camel_simple_data_wrapper_stream_construct (CamelSimpleDataWrapperStream *stream,
+						 CamelSimpleDataWrapper *wrapper);
+
 /* public methods */
 
 CamelSimpleDataWrapper *camel_simple_data_wrapper_new (void);

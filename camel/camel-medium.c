@@ -1,7 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* camelMedium.c : Abstract class for a medium */
 
-/*
+/* camelMedium.c : Abstract class for a medium
  *
  * Authors: Bertrand Guiheneuf <bertrand@helixcode.com>
  * 	    Michael Zucchi <notzed@helixcode.com>
@@ -24,14 +23,16 @@
  * USA
  */
 #include <config.h>
-#include "camel-medium.h"
 #include <stdio.h>
+#include <ctype.h>
+#include "camel-medium.h"
 #include "gmime-content-field.h"
 #include "string-utils.h"
 #include "gmime-utils.h"
 #include "hash-table-utils.h"
 #include "camel-simple-data-wrapper.h"
 
+#define d(x)
 
 static CamelDataWrapperClass *parent_class = NULL;
 
@@ -39,15 +40,14 @@ static CamelDataWrapperClass *parent_class = NULL;
 #define CM_CLASS(so) CAMEL_MEDIUM_CLASS (GTK_OBJECT (so)->klass)
 
 static void add_header (CamelMedium *medium, const gchar *header_name,
-			const gchar *header_value);
-static void set_header (CamelMedium *medium, const gchar *header_name, const gchar *header_value);
+			const void *header_value);
+static void set_header (CamelMedium *medium, const gchar *header_name, const void *header_value);
 static void remove_header (CamelMedium *medium, const gchar *header_name);
-static const gchar *get_header (CamelMedium *medium, const gchar *header_name);
+static const void *get_header (CamelMedium *medium, const gchar *header_name);
 
 static CamelDataWrapper *get_content_object (CamelMedium *medium);
 static void set_content_object (CamelMedium *medium,
 				CamelDataWrapper *content);
-
 static void finalize (GtkObject *object);
 
 static void
@@ -77,7 +77,6 @@ camel_medium_init (gpointer object, gpointer klass)
 {
 	CamelMedium *camel_medium = CAMEL_MEDIUM (object);
 
-	camel_medium->headers = NULL;
 	camel_medium->content = NULL;
 }
 
@@ -111,8 +110,6 @@ finalize (GtkObject *object)
 {
 	CamelMedium *medium = CAMEL_MEDIUM (object);
 
-	header_raw_clear(&medium->headers);
-
 	if (medium->content)
 		gtk_object_unref (GTK_OBJECT (medium->content));
 
@@ -121,9 +118,9 @@ finalize (GtkObject *object)
 
 static void
 add_header (CamelMedium *medium, const gchar *header_name,
-	    const gchar *header_value)
+	    const void *header_value)
 {
-	header_raw_append(&medium->headers, header_name, header_value, -1);
+	g_warning("No %s::add_header implemented, adding %s", gtk_type_name(((GtkObject *)medium)->klass->type), header_name);
 }
 
 /**
@@ -140,7 +137,7 @@ add_header (CamelMedium *medium, const gchar *header_name,
  **/
 void
 camel_medium_add_header (CamelMedium *medium, const gchar *header_name,
-			 const gchar *header_value)
+			 const void *header_value)
 {
 	g_return_if_fail (CAMEL_IS_MEDIUM (medium));
 	g_return_if_fail (header_name != NULL);
@@ -150,9 +147,9 @@ camel_medium_add_header (CamelMedium *medium, const gchar *header_name,
 }
 
 static void
-set_header (CamelMedium *medium, const gchar *header_name, const gchar *header_value)
+set_header (CamelMedium *medium, const gchar *header_name, const void *header_value)
 {
-	header_raw_replace(&medium->headers, header_name, header_value, -1);
+	g_warning("No %s::set_header implemented, setting %s", gtk_type_name(((GtkObject *)medium)->klass->type), header_name);
 }
 
 /**
@@ -165,7 +162,7 @@ set_header (CamelMedium *medium, const gchar *header_name, const gchar *header_v
  * will be removed.
  **/
 void
-camel_medium_set_header (CamelMedium *medium, const gchar *header_name, const gchar *header_value)
+camel_medium_set_header (CamelMedium *medium, const gchar *header_name, const void *header_value)
 {
 	g_return_if_fail (CAMEL_IS_MEDIUM (medium));
 	g_return_if_fail (header_name != NULL);
@@ -177,7 +174,7 @@ camel_medium_set_header (CamelMedium *medium, const gchar *header_name, const gc
 static void
 remove_header (CamelMedium *medium, const gchar *header_name)
 {
-	header_raw_remove(&medium->headers, header_name);
+	g_warning("No %s::remove_header implemented, removing %s", gtk_type_name(((GtkObject *)medium)->klass->type), header_name);
 }
 
 /**
@@ -198,10 +195,11 @@ camel_medium_remove_header (CamelMedium *medium, const gchar *header_name)
 }
 
 
-static const gchar *
+static const void *
 get_header (CamelMedium *medium, const gchar *header_name)
 {
-	return header_raw_find(&medium->headers, header_name, NULL);
+	g_warning("No %s::get_header implemented, getting %s", gtk_type_name(((GtkObject *)medium)->klass->type), header_name);
+	return NULL;
 }
 
 /**
@@ -216,11 +214,13 @@ get_header (CamelMedium *medium, const gchar *header_name)
  *
  * Return value: the value of the named header, or %NULL
  **/
-const gchar *
+const void *
 camel_medium_get_header (CamelMedium *medium, const gchar *header_name)
 {
 	g_return_val_if_fail (CAMEL_IS_MEDIUM (medium), NULL);
 	g_return_val_if_fail (header_name != NULL, NULL);
+
+#warning No way to get multi-valued headers?
 
 	return CM_CLASS (medium)->get_header (medium, header_name);
 }

@@ -856,19 +856,9 @@ _get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *ex)
 								   ((CamelMboxMessageContentInfo *)info->info.content)->pos,
 								   ((CamelMboxMessageContentInfo *)info->info.content)->endpos);
 	message = camel_mime_message_new();
-#if 1
-	{
-		CamelMimeParser *parser;
+	camel_data_wrapper_construct_from_stream((CamelDataWrapper *)message, message_stream);
+	gtk_object_unref((GtkObject *)message_stream);
 
-		parser = camel_mime_parser_new();
-		camel_mime_parser_init_with_stream(parser, message_stream);
-		camel_data_wrapper_construct_from_parser(message, parser);
-		gtk_object_unref((GtkObject *)parser);
-		gtk_object_unref((GtkObject *)message_stream);
-	}
-#else
-	camel_data_wrapper_set_input_stream (CAMEL_DATA_WRAPPER (message), message_stream);
-#endif
 	/* init other fields? */
 	message->folder = folder;
 	gtk_object_ref((GtkObject *)folder);

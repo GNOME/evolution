@@ -25,6 +25,7 @@
 
 #include <config.h>
 #include "camel.h"
+#include <unicode.h>
 
 gint
 camel_init(void)
@@ -41,5 +42,5 @@ camel_init(void)
 
 	unicode_init ();
 
-	return data_wrapper_repository_init (); 
+	return 0;
 }

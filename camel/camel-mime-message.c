@@ -31,6 +31,8 @@
 #include "gmime-utils.h"
 #include "hash-table-utils.h"
 
+#define d(x)
+
 typedef enum {
 	HEADER_UNKNOWN,
 	HEADER_FROM,
@@ -63,9 +65,10 @@ static void _set_message_number (CamelMimeMessage *mime_message, guint number);
 static guint _get_message_number (CamelMimeMessage *mime_message);
 static void _write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
 static void _finalize (GtkObject *object);
-static void add_header (CamelMedium *medium, const char *header_name, const char *header_value);
-static void set_header (CamelMedium *medium, const char *header_name, const char *header_value);
+static void add_header (CamelMedium *medium, const char *header_name, const void *header_value);
+static void set_header (CamelMedium *medium, const char *header_name, const void *header_value);
 static void remove_header (CamelMedium *medium, const char *header_name);
+static void construct_from_parser (CamelMimePart *, CamelMimeParser *);
 
 /* Returns the class for a CamelMimeMessage */
 #define CMM_CLASS(so) CAMEL_MIME_MESSAGE_CLASS (GTK_OBJECT(so)->klass)
@@ -90,7 +93,7 @@ static void
 camel_mime_message_class_init (CamelMimeMessageClass *camel_mime_message_class)
 {
 	CamelDataWrapperClass *camel_data_wrapper_class = CAMEL_DATA_WRAPPER_CLASS (camel_mime_message_class);
-	/*CamelMimePartClass *camel_mime_part_class = CAMEL_MIME_PART_CLASS (camel_mime_message_class);*/
+	CamelMimePartClass *camel_mime_part_class = CAMEL_MIME_PART_CLASS (camel_mime_message_class);
 	GtkObjectClass *gtk_object_class = GTK_OBJECT_CLASS (camel_mime_message_class);
 	CamelMediumClass *camel_medium_class = CAMEL_MEDIUM_CLASS (camel_mime_message_class);
 	
@@ -120,6 +123,8 @@ camel_mime_message_class_init (CamelMimeMessageClass *camel_mime_message_class)
 	camel_medium_class->set_header = set_header;
 	camel_medium_class->remove_header = remove_header;
 	
+	camel_mime_part_class->construct_from_parser = construct_from_parser;
+
 	gtk_object_class->finalize = _finalize;
 }
 
@@ -474,8 +479,24 @@ camel_mime_message_get_message_number (CamelMimeMessage *mime_message)
 	return CMM_CLASS (mime_message)->get_message_number (mime_message);
 }
 
+/* mime_message */
+static void
+construct_from_parser(CamelMimePart *dw, CamelMimeParser *mp)
+{
+	char *buf;
+	int len;
 
+	d(printf("constructing mime-message\n"));
 
+	/* let the mime-part construct the guts ... */
+	((CamelMimePartClass *)parent_class)->construct_from_parser(dw, mp);
+
+	/* ... then clean up the follow-on state */
+	if (camel_mime_parser_step(mp, &buf, &len) != HSCAN_MESSAGE_END) {
+		g_warning("Bad parser state: Expecing MESSAGE_END, got: %d", camel_mime_parser_state(mp));
+		camel_mime_parser_unstep(mp);
+	}
+}
 
 #ifdef WHPT
 #warning : WHPT is already defined !!!!!!
@@ -506,14 +527,6 @@ _write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 {
 	CamelMimeMessage *mm = CAMEL_MIME_MESSAGE (data_wrapper);
 
-#if 0
-#warning each header should be stored in the raw headers
-	WHPT (stream, "From", mm->from);
-	WHPT (stream, "Reply-To", mm->reply_to);
-	WHPT (stream, "Date", mm->received_date);
-	WHPT (stream, "Subject", mm->subject);
-#endif
-
 	/* force mandatory headers ... */
 	if (mm->from == NULL) {
 		g_warning("No from set for message");
@@ -528,16 +541,15 @@ _write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 		camel_mime_message_set_subject(mm, "No Subject");
 	}
 
+	camel_medium_set_header((CamelMedium *)mm, "Mime-Version", "1.0");
+
+#if 1
 #warning need to store receipients lists to headers
-#if 0
 	/* FIXME: remove this snot ... */
 	_write_recipients_to_stream (mm, stream);
 #endif
-	/* FIXME correct to do it here?  */
-	WHPT (stream, "Mime-Version", "1.0");
 
 	CAMEL_DATA_WRAPPER_CLASS (parent_class)->write_to_stream (data_wrapper, stream);
-	
 }
 
 /*******************************/
@@ -613,14 +625,14 @@ process_header(CamelMedium *medium, const char *header_name, const char *header_
 }
 
 static void
-set_header(CamelMedium *medium, const char *header_name, const char *header_value)
+set_header(CamelMedium *medium, const char *header_name, const void *header_value)
 {
 	process_header(medium, header_name, header_value);
 	parent_class->parent_class.set_header (medium, header_name, header_value);
 }
 
 static void
-add_header(CamelMedium *medium, const char *header_name, const char *header_value)
+add_header(CamelMedium *medium, const char *header_name, const void *header_value)
 {
 	/* if we process it, then it must be forced unique as well ... */
 	if (process_header(medium, header_name, header_value))

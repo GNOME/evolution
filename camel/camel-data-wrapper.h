@@ -37,7 +37,6 @@ extern "C" {
 #include <gtk/gtk.h>
 #include "camel-types.h"
 #include "gmime-content-field.h"
-#include <camel/camel-mime-parser.h>
 
 #define CAMEL_DATA_WRAPPER_TYPE     (camel_data_wrapper_get_type ())
 #define CAMEL_DATA_WRAPPER(obj)     (GTK_CHECK_CAST((obj), CAMEL_DATA_WRAPPER_TYPE, CamelDataWrapper))
@@ -62,9 +61,6 @@ typedef struct {
 	GtkObjectClass parent_class;
 
 	/* Virtual methods */
-	void                (*set_input_stream)       (CamelDataWrapper *data_wrapper,
-						       CamelStream *stream);
-	CamelStream *       (*get_input_stream)       (CamelDataWrapper *data_wrapper);
 	void                (*set_output_stream)      (CamelDataWrapper *data_wrapper,
 						       CamelStream *stream);
 	CamelStream *       (*get_output_stream)      (CamelDataWrapper *data_wrapper);
@@ -76,15 +72,11 @@ typedef struct {
 	void                (*set_mime_type_field)    (CamelDataWrapper *data_wrapper,
 						       GMimeContentField *mime_type_field);
 
-
-	/* deprecated method */
 	void                (*write_to_stream)        (CamelDataWrapper *data_wrapper,
 						       CamelStream *stream);
-	void                (*construct_from_stream)  (CamelDataWrapper *data_wrapper,
-						       CamelStream *stream);
 
-	void                (*construct_from_parser)  (CamelDataWrapper *data_wrapper,
-						       CamelMimeParser *);
+	void                (*construct_from_stream)  (CamelDataWrapper *data_wrapper,
+						       CamelStream *);
 
 } CamelDataWrapperClass;
 
@@ -105,19 +97,10 @@ GMimeContentField * camel_data_wrapper_get_mime_type_field      (CamelDataWrappe
 void                camel_data_wrapper_set_mime_type_field      (CamelDataWrapper *data_wrapper,
 								 GMimeContentField *mime_type);
 
-void                camel_data_wrapper_set_input_stream         (CamelDataWrapper *data_wrapper,
-								 CamelStream *stream);
-CamelStream *       camel_data_wrapper_get_input_stream         (CamelDataWrapper *data_wrapper);
 void                camel_data_wrapper_set_output_stream        (CamelDataWrapper *data_wrapper,
 								 CamelStream *stream);
 CamelStream *       camel_data_wrapper_get_output_stream        (CamelDataWrapper *data_wrapper);
 
-
-void                camel_data_wrapper_construct_from_parser    (CamelDataWrapper *data_wrapper,
-								 CamelMimeParser *);
-
-
-/* deprecated methods. Left until the new parser scheme is ok */
 void                camel_data_wrapper_construct_from_stream    (CamelDataWrapper *data_wrapper,
 								 CamelStream *stream);
 

@@ -3,8 +3,8 @@
 
 /* 
  *
- * Author : 
- *  Bertrand Guiheneuf <bertrand@helixcode.com>
+ * Authors: Bertrand Guiheneuf <bertrand@helixcode.com>
+ *	    Michael Zucchi <notzed@helixcode.com>
  *
  * Copyright 1999, 2000 Helix Code, Inc. (http://www.helixcode.com)
  *
@@ -38,6 +38,7 @@ extern "C" {
 #include "camel-types.h"
 #include "camel-medium.h"
 #include <camel/camel-mime-utils.h>
+#include <camel/camel-mime-parser.h>
 
 #define CAMEL_MIME_PART_TYPE     (camel_mime_part_get_type ())
 #define CAMEL_MIME_PART(obj)     (GTK_CHECK_CAST((obj), CAMEL_MIME_PART_TYPE, CamelMimePart))
@@ -73,7 +74,8 @@ struct _CamelMimePart
 	GByteArray *temp_message_buffer;
 	GMimeContentField *content_type;
 	CamelStream *content_input_stream;
-	
+
+	struct _header_raw *headers; /* mime headers */
 };
 
 
@@ -82,6 +84,7 @@ typedef struct {
 	CamelMediumClass parent_class;
 	
 	/* Virtual methods */	
+	void (*construct_from_parser) (CamelMimePart *, CamelMimeParser *);
 } CamelMimePartClass;
 
 
@@ -118,6 +121,9 @@ GMimeContentField *camel_mime_part_get_content_type	(CamelMimePart *mime_part);
 
 const     gchar *         camel_mime_part_encoding_to_string   (CamelMimePartEncodingType encoding);
 CamelMimePartEncodingType camel_mime_part_encoding_from_string (const gchar *string);
+
+/* construction */
+void		camel_mime_part_construct_from_parser  (CamelMimePart *, CamelMimeParser *);
 
 /* utility functions */
 void      camel_mime_part_set_text			(CamelMimePart *camel_mime_part, 

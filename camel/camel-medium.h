@@ -37,7 +37,6 @@ extern "C" {
 #include <gtk/gtk.h>
 #include <camel/camel-types.h>
 #include <camel/camel-data-wrapper.h>
-#include <camel/camel-mime-utils.h>
 
 #define CAMEL_MEDIUM_TYPE     (camel_medium_get_type ())
 #define CAMEL_MEDIUM(obj)     (GTK_CHECK_CAST((obj), CAMEL_MEDIUM_TYPE, CamelMedium))
@@ -48,8 +47,6 @@ extern "C" {
 struct _CamelMedium
 {
 	CamelDataWrapper parent_object;
-
-	struct _header_raw *headers;
 
 	/* The content of the medium, as opposed to our parent
 	 * CamelDataWrapper, which wraps both the headers and the
@@ -65,33 +62,29 @@ typedef struct {
 	CamelDataWrapperClass parent_class;
 
 	/* Virtual methods */
-	void  (*add_header) (CamelMedium *medium, const gchar *header_name, const gchar *header_value);
-	void  (*set_header) (CamelMedium *medium, const gchar *header_name, const gchar *header_value);
+	void  (*add_header) (CamelMedium *medium, const gchar *header_name, const void *header_value);
+	void  (*set_header) (CamelMedium *medium, const gchar *header_name, const void *header_value);
 	void  (*remove_header) (CamelMedium *medium, const gchar *header_name);
-	const gchar * (*get_header) (CamelMedium *medium,  const gchar *header_name);
+	const void * (*get_header) (CamelMedium *medium,  const gchar *header_name);
 
 	CamelDataWrapper * (*get_content_object) (CamelMedium *medium);
 	void (*set_content_object) (CamelMedium *medium, CamelDataWrapper *content);
 
 } CamelMediumClass;
 
-
-
 /* Standard Gtk function */
 GtkType camel_medium_get_type (void);
 
-
-/* public methods */
-void camel_medium_add_header (CamelMedium *medium, const gchar *header_name, const gchar *header_value);
-void camel_medium_set_header (CamelMedium *medium, const gchar *header_name, const gchar *header_value);
+/* Header get/set interface */
+void camel_medium_add_header (CamelMedium *medium, const gchar *header_name, const void *header_value);
+void camel_medium_set_header (CamelMedium *medium, const gchar *header_name, const void *header_value);
 void camel_medium_remove_header (CamelMedium *medium, const gchar *header_name);
-const gchar *camel_medium_get_header (CamelMedium *medium, const gchar *header_name);
+const void *camel_medium_get_header (CamelMedium *medium, const gchar *header_name);
 
-
+/* accessor methods */
 CamelDataWrapper *camel_medium_get_content_object (CamelMedium *medium);
 void camel_medium_set_content_object (CamelMedium *medium,
 				      CamelDataWrapper *content);
-
 
 #ifdef __cplusplus
 }

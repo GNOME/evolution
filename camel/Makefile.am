@@ -62,7 +62,6 @@ libcamel_la_SOURCES = 				\
 	camel-stream-mem.c			\
 	camel-transport.c			\
 	camel-url.c				\
-	data-wrapper-repository.c		\
 	gmime-content-field.c			\
 	gmime-utils.c				\
 	gstring-util.c				\
@@ -110,7 +109,6 @@ libcamelinclude_HEADERS =			\
 	camel-stream-mem.h			\
 	camel-transport.h			\
 	camel-url.h				\
-	data-wrapper-repository.h		\
 	gmime-content-field.h			\
 	gmime-utils.h				\
 	gstring-util.h				\

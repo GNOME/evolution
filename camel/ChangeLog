@@ -1,3 +1,51 @@
+2000-04-24  NotZed  <NotZed@HelixCode.com>
+
+	* camel.c (camel_init): No longer call
+	data_wrapper_repository_init.
+
+	* camel-medium.c (write_to_stream): Moved (back) to
+	camel-mime-part.
+	(add_header):
+	(set_header):
+	(remove_header): 
+	(get_header): Make all these abstract, and spit warnings if
+	called.  I guess it could manage the list, but well, it doesn't.
+
+	* camel-medium.h (struct _CamelMedium): Dont store headers here,
+	the implementor is the only one who knows their format.
+	(CamelMediumClass): Changed header values to be void *'s.  They
+	need not be strings?
+
+	* camel-simple-data-wrapper.c (construct_from_stream): And we're
+	back.  Set the output stream.
+	(construct_from_parser): Moved to camel-mime-part-utils.
+
+	* camel-mime-part-utils.c
+	(camel_mime_part_construct_content_from_parser): Create the
+	contents of multipart and simple messages.
+
+	* camel-multipart.c (construct_from_parser): Moved to
+	camel-mime-part-utils.
+	(separate_part): Removed.
+
+	* camel-mime-part.c (construct_from_stream): Back again!  This now
+	switches over to using a mime parser for any mime parts, only.
+	(my_write_to_stream): Write our headers and so forth here.
+	(add_header): Add header directly, parent class is abstract.
+	(remove_header): Ditto.
+	(set_header): Ditto.
+
+	* camel-data-wrapper.c (camel_data_wrapper_construct_from_stream):
+	Remade abstract.
+	(camel_data_wrapper_construct_from_parser): Moved to
+	camel_mime_part.
+
+	* camel-data-wrapper.h: Put back construct_from_stream.
+
+	* camel-mime-part.h: Put construct_from_parser in here, the
+	data-wrapper shouldn't know about mime.  Ok, so now to undo half
+	of the last hours changes ... duh.
+	
 2000-04-23  Dan Winship  <danw@helixcode.com>
 
 	* camel-mime-utils.c (header_to_decode, header_mime_decode): fix
@@ -5,8 +53,58 @@
 
 2000-04-23  NotZed  <NotZed@HelixCode.com>
 
+	* providers/pop3/camel-pop3-folder.c (get_message_by_number): Use
+	construct_from_stream instead of set_input_stream().
+
+	* camel-simple-data-wrapper-stream.c
+	(camel_simple_data_wrapper_stream_construct): REmoved the destroy
+	callback code.
+	(wrapper_destroy_cb): Removed.
+
+	* camel-simple-data-wrapper.h: Add prototype for _construct()
+	method.
+
+	* camel.c: Include unicode.h to kill a warning.
+
+	* camel-data-wrapper.h (CameldataWrapperClass): Removed
+	construct_from_stream virtual method.
+	Removed get/set input stream.
+
+	* data-wrapper-repository.[ch]: Removed&from build.  Obsoleted?
+	The justification as is follows: It is mixing storage
+	protocol/format with message architecture.  It really just doesn't
+	serve any purpose, as each medium implementor will have to have its
+	own type->handler mapping, and the only current implementor,
+	mimepart has a very simple structure and no need for this.
+
+	* camel-medium.c (write_to_stream): Moved here from most of the
+	stuff in camel-mime-part.  Well, the MEDIUM is the one that knows
+	what the headers are, and the content is, let it write it out.
+
+	* camel-mime-part-utils.c (camel_mime_part_construct_content):
+	Copied from camel-mime-part.c, removed handling of message
+	followon state (moved to camel-mime-message).
+	(camel_mime_part_construct_content_from_parser): Renamed from
+	construct_content.
+	(camel_mime_part_construct_headers_from_stream):
+	(camel_mime_part_construct_content_from_stream):
+	(camel_mime_part_store_stream_in_buffer): Removed.  Replaced by
+	the new construct from parser stuff.
+
+	* camel-mime-message.c (construct_from_parser): Do
+	construct_from_parser for mime-message.
+	(_write_to_stream): Set the mime-version header for medium to
+	write out, rather than writing it out ourselves.
+
 	* camel-data-wrapper.c (set_mime_type_field): Ref the
 	content_field when we get it?
+	(construct_from_stream): Removed.
+	(camel_data_wrapper_construct_from_stream): Changed to a helper
+	function, creates a mime_parser, and constructs from that.
+	(set_input_stream): Removed.
+	(camel_data_wrapper_set_input_stream): Removed.
+	(get_input_stream): Removed.
+	(camel_data_wrapper_get_input_stream): Removed.
 
 	* camel-mime-parser.c (camel_mime_parser_unstep): New function.
 	Cause a subsequent call to mime_parser_step() to return the same
@@ -14,19 +112,39 @@
 
 	* providers/mbox/camel-mbox-folder.c (_get_message_by_uid):
 	Initial test code using the mime parser to construct the message.
+	(_get_message_by_uid): Use construct_from_stream() instead of
+	creating our own parser.
 
 	* camel-mime-part.c (construct_from_parser): part constructor.
 	(camel_mime_part_construct_content): Basically a simpler
 	replacement for the datawrapper repository.
 	(camel_mime_part_init): Set the default type to text/plain.
+	(camel_mime_part_construct_content): Removed to
+	camel-mime-part-utils.c
+	(my_get_output_stream): Removed.  The streeam is in the
+	data-wrapper.
+	(my_get_content_object): Removed.  The content object is stored in
+	the medium.  If none is there, the object wasn't created properly.
+	(my_write_content_to_stream): Removed.  The content object is the
+	one that knows how to write itself out!!!!!!!!
+	(my_write_to_stream): Remove the base header writing stuff - has
+	been moved to camel-medium, where it belongs.  This can just be
+	used to check for mandatory headers.
+	(my_construct_from_stream): Removed.
+	(my_set_input_stream): What the hell, i'll remove this too.
+	Nobody seems to understand how it differs from create from stream,
+	and they both seem to serve the same purpose ...
 
 	* camel-simple-data-wrapper.c (construct_from_parser): Initial
 	implementation of a content constructor.
+	(construct_from_stream): Removed!  Job taken over by
+	construct_from_parser.
 
 	* camel-multipart.c (construct_from_parser): Multipart
 	construction routine.
 	(camel_multipart_init): Set the default multipart type to
 	multipart/mixed.  Duh, no subtype is not allowed anyway.
+	(set_input_stream): REmoved.  Replaced by construct_from_parser.
 
 2000-04-22  Dan Winship  <danw@helixcode.com>
 

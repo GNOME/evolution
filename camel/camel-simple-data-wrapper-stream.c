@@ -179,21 +179,6 @@ seek (CamelSeekableStream *stream,
 }
 
 
-/* This handles destruction of the associated CamelDataWrapper.  */
-/* Hm, this should never happen though, because we gtk_object_ref() the
-   wrapper.  */
-static void
-wrapper_destroy_cb (GtkObject *object,
-		    gpointer data)
-{
-	CamelSimpleDataWrapperStream *stream;
-
-	g_warning ("CamelSimpleDataWrapperStream: associated CamelSimpleDataWrapper was destroyed.");
-	stream = CAMEL_SIMPLE_DATA_WRAPPER_STREAM (object);
-	stream->wrapper = NULL;
-}
-
-
 /* GtkObject methods.  */
 
 static void
@@ -276,10 +261,6 @@ camel_simple_data_wrapper_stream_construct (CamelSimpleDataWrapperStream *stream
 
 	gtk_object_ref (GTK_OBJECT (wrapper));
 	stream->wrapper = wrapper;
-#if 0
-	gtk_signal_connect (GTK_OBJECT (wrapper), "destroy",
-			    wrapper_destroy_cb, stream);
-#endif
 }
 
 CamelStream *

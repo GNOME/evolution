@@ -1,11 +1,8 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* camel-mime-part-utils : Utility for mime parsing and so on */
-
-
-/* 
+/* camel-mime-part-utils : Utility for mime parsing and so on
  *
- * Author : 
- *  Bertrand Guiheneuf <bertrand@helixcode.com>
+ * Authors: Bertrand Guiheneuf <bertrand@helixcode.com>
+ * 	    Michael Zucchi <notzed@helixcode.com>
  *
  * Copyright 1999, 2000 Helix Code, Inc. (http://www.helixcode.com)
  *
@@ -25,141 +22,189 @@
  * USA
  */
 #include <config.h>
+#include <string.h>
 #include "gmime-content-field.h"
 #include "string-utils.h"
 #include "gmime-utils.h"
 #include "camel-simple-data-wrapper.h"
-#include "data-wrapper-repository.h" 
  
 #include "camel-mime-part-utils.h"
 
+#include "camel-mime-message.h"
+#include "camel-multipart.h"
+#include "camel-mime-body-part.h"
 
+#include "camel-seekable-substream.h"
+#include "camel-stream-filter.h"
+#include "camel-stream-mem.h"
+#include "camel-mime-filter-basic.h"
+#include "camel-mime-filter-charset.h"
 
-/* declare this function because it is public
-   but it must not be called except here */
-void        camel_mime_part_set_content_type              (CamelMimePart *mime_part, 
-							   gchar *content_type);
+#define d(x)
 
-
-void
-camel_mime_part_construct_headers_from_stream (CamelMimePart *mime_part, 
-					       CamelStream *stream)
+/* simple data wrapper */
+static void
+simple_data_wrapper_construct_from_parser(CamelDataWrapper *dw, CamelMimeParser *mp)
 {
-	GArray *header_array;
-	Rfc822Header *cur_header;
-	int i;
-
-	g_assert (stream);
-	/* 
-	 * parse all header lines 
-	 */
-	header_array = get_header_array_from_stream (stream);
-	if (header_array) {
-		for (i=0; i<header_array->len; i++) {
-			cur_header = (Rfc822Header *)header_array->data + i;
-			camel_medium_add_header ( CAMEL_MEDIUM (mime_part), 
-						  cur_header->name, 
-						  cur_header->value);
-			g_free (cur_header->name);
-			g_free (cur_header->value);
-		}
-
-		g_array_free (header_array, TRUE);
-
-	}
-}
-
-
-
-
-
-void
-camel_mime_part_construct_content_from_stream (CamelMimePart *mime_part, 
-					       CamelStream *stream)
-{
-	GMimeContentField *content_type = NULL;
-	gchar *mime_type = NULL;
-	GtkType content_object_type;
-	CamelDataWrapper *content_object = NULL;
-	
-	
-	/* 
-	 * find content mime type 
-	 */
-	content_type = camel_mime_part_get_content_type (mime_part);
-	/* here we should have a mime type */
-	if (content_type)
-		mime_type = gmime_content_field_get_mime_type (content_type);
-
-	/* 
-	 * no mime type found for the content, 
-	 * using text/plain is the default 
-	 */
-	if (!mime_type) {
-		mime_type = g_strdup ("text/plain");
-		camel_mime_part_set_content_type (mime_part, mime_type);
-	}
-	
-	/* 
-	 * find in the repository what particular data wrapper is 
-	 * associated to this mime type 
-	 */
-	content_object_type = 
-		data_wrapper_repository_get_data_wrapper_type (mime_type);
-
-	g_free (mime_type);
-
-	/* 
-	 * create the content object data wrapper with the type 
-	 * returned by the data wrapper repository 
-	 */
-	content_object = CAMEL_DATA_WRAPPER (gtk_type_new (content_object_type));
-	camel_data_wrapper_set_mime_type_field (content_object, 
-						camel_mime_part_get_content_type (mime_part));
-	camel_medium_set_content_object ( CAMEL_MEDIUM (mime_part), content_object);
-
-	/* set the input stream for the content object */
-	camel_data_wrapper_set_input_stream (content_object, stream);
-
-	/* 
-	 * the object is referenced in the set_content_object method, 
-	 * so unref it here 
-	 */
-	gtk_object_unref (GTK_OBJECT (content_object));
-}
-
-
-
-void
-camel_mime_part_store_stream_in_buffer (CamelMimePart *mime_part, 
-					CamelStream *stream)
-{
-	gint nb_bytes_read_total = 0;
-	gint nb_bytes_read_chunk;
 	GByteArray *buffer;
-#define STREAM_READ_CHUNK_SZ  100
+	char *buf;
+	int len;
+	off_t start, end;
+	CamelMimeFilter *fdec = NULL, *fch = NULL;
+	struct _header_content_type *ct;
+	int decid=-1, chrid=-1, cache=FALSE;
+	CamelStream *source;
+	char *encoding;
 
-	if (mime_part->temp_message_buffer == NULL)
-		mime_part->temp_message_buffer = g_byte_array_new ();
-	
-	buffer = mime_part->temp_message_buffer;
+	d(printf("constructing simple-data-wrapper\n"));
 
-	g_byte_array_set_size (buffer, nb_bytes_read_total + STREAM_READ_CHUNK_SZ);
-	nb_bytes_read_chunk = camel_stream_read (stream,
-						 buffer->data + nb_bytes_read_total, 
-						 STREAM_READ_CHUNK_SZ);
+		/* Ok, try and be smart.  If we're storing a small message (typical) convert it,
+		   and store it in memory as we parse it ... if not, throw away the conversion
+		   and scan till the end ... */
 
-	if (nb_bytes_read_chunk>0) {
-		nb_bytes_read_total += nb_bytes_read_chunk;
-		
-		while (nb_bytes_read_chunk >0) {
-			g_byte_array_set_size (buffer, nb_bytes_read_total + STREAM_READ_CHUNK_SZ);
-			nb_bytes_read_chunk = camel_stream_read (stream,
-								 buffer->data + nb_bytes_read_total, 
-								 STREAM_READ_CHUNK_SZ);
-			nb_bytes_read_total += nb_bytes_read_chunk;
+		/* if we can't seek, dont have a stream/etc, then we must cache it */
+	source = camel_mime_parser_stream(mp);
+	gtk_object_ref((GtkObject *)source);
+	if (source == NULL
+	    || !CAMEL_IS_SEEKABLE_STREAM(source))
+		cache = TRUE;
+
+	/* first, work out conversion, if any, required, we dont care about what we dont know about */
+	encoding = header_content_encoding_decode(camel_mime_parser_header(mp, "content-transfer-encoding", NULL));
+	if (encoding) {
+		if (!strcasecmp(encoding, "base64")) {
+			d(printf("Adding base64 decoder ...\n"));
+			fdec = (CamelMimeFilter *)camel_mime_filter_basic_new_type(CAMEL_MIME_FILTER_BASIC_BASE64_DEC);
+			decid = camel_mime_parser_filter_add(mp, fdec);
+		} else if (!strcasecmp(encoding, "quoted-printable")) {
+			d(printf("Adding quoted-printable decoder ...\n"));
+			fdec = (CamelMimeFilter *)camel_mime_filter_basic_new_type(CAMEL_MIME_FILTER_BASIC_QP_DEC);
+			decid = camel_mime_parser_filter_add(mp, fdec);
+		}
+		g_free(encoding);
+	}
+
+	/* if we're doing text, then see if we have to convert it to UTF8 as well */
+	ct = camel_mime_parser_content_type(mp);
+	if (header_content_type_is(ct, "text", "*")) {
+		const char *charset = header_content_type_param(ct, "charset");
+		if (charset!=NULL
+		    && !(strcasecmp(charset, "us-ascii")==0
+			 || strcasecmp(charset, "utf-8")==0)) {
+			d(printf("Adding conversion filter from %s to utf-8\n", charset));
+			fch = (CamelMimeFilter *)camel_mime_filter_charset_new_convert(charset, "utf-8");
+			if (fch) {
+				chrid = camel_mime_parser_filter_add(mp, (CamelMimeFilter *)fch);
+			} else {
+				g_warning("Cannot convert '%s' to 'utf-8', message display may be corrupt", charset);
+			}
+		}
+
+	}
+
+	buffer = g_byte_array_new();
+
+		/* write to a memory buffer or something??? */
+	start = camel_mime_parser_tell(mp);
+	while ( camel_mime_parser_step(mp, &buf, &len) != HSCAN_BODY_END ) {
+		if (buffer) {
+			if (buffer->len > 20480 && !cache) {
+				/* is this a 'big' message?  Yes?  We dont want to convert it all then.*/
+				camel_mime_parser_filter_remove(mp, decid);
+				camel_mime_parser_filter_remove(mp, chrid);
+				decid = -1;
+				chrid = -1;
+				g_byte_array_free(buffer, TRUE);
+				buffer = NULL;
+			} else {
+				g_byte_array_append(buffer, buf, len);
+			}
 		}
 	}
 
-	g_byte_array_set_size (buffer, nb_bytes_read_total);
+	if (buffer) {
+		CamelStream *mem;
+		d(printf("Small message part, kept in memory!\n"));
+		mem = camel_stream_mem_new_with_byte_array(buffer, CAMEL_STREAM_MEM_READ);
+		camel_data_wrapper_set_output_stream (dw, mem);
+	} else {
+		CamelSeekableSubstream *sub;
+		CamelStreamFilter *filter;
+
+		d(printf("Big message part, left on disk ...\n"));
+
+		end = camel_mime_parser_tell(mp);
+		sub = (CamelSeekableSubstream *)camel_seekable_substream_new_with_seekable_stream_and_bounds ((CamelSeekableStream *)source, start, end);
+		if (fdec || fch) {
+			filter = camel_stream_filter_new_with_stream((CamelStream *)sub);
+			if (fdec) {
+				camel_mime_filter_reset(fdec);
+				camel_stream_filter_add(filter, fdec);
+			}
+			if (fch) {
+				camel_mime_filter_reset(fdec);
+				camel_stream_filter_add(filter, fch);
+			}
+			camel_data_wrapper_set_output_stream (dw, (CamelStream *)filter);
+		} else {
+			camel_data_wrapper_set_output_stream (dw, (CamelStream *)sub);
+		}
+	}
+
+	camel_mime_parser_filter_remove(mp, decid);
+	camel_mime_parser_filter_remove(mp, chrid);
+
+	if (fdec)
+		gtk_object_unref((GtkObject *)fdec);
+	if (fch)
+		gtk_object_unref((GtkObject *)fch);
+	gtk_object_unref((GtkObject *)source);
+
 }
+
+/* This replaces the data wrapper repository ... and/or could be replaced by it? */
+void
+camel_mime_part_construct_content_from_parser(CamelMimePart *dw, CamelMimeParser *mp)
+{
+	CamelDataWrapper *content = NULL;
+	char *buf;
+	int len;
+
+	switch (camel_mime_parser_state(mp)) {
+	case HSCAN_HEADER:
+		d(printf("Creating body part\n"));
+		content = (CamelDataWrapper *)camel_simple_data_wrapper_new();
+		break;
+	case HSCAN_MESSAGE:
+		d(printf("Creating message part\n"));
+		content = (CamelDataWrapper *)camel_mime_message_new();
+		simple_data_wrapper_construct_from_parser(content, mp);
+		break;
+	case HSCAN_MULTIPART: {
+		CamelDataWrapper *bodypart;
+
+#warning This should use a camel-mime-multipart
+		d(printf("Creating multi-part\n"));
+		content = (CamelDataWrapper *)camel_multipart_new();
+
+		/* get/set boundary? */
+
+		while (camel_mime_parser_step(mp, &buf, &len) != HSCAN_MULTIPART_END) {
+			camel_mime_parser_unstep(mp);
+			bodypart = (CamelDataWrapper *)camel_mime_body_part_new();
+			camel_mime_part_construct_from_parser((CamelMimePart *)bodypart, mp);
+			camel_multipart_add_part((CamelMultipart *)dw, (CamelMimeBodyPart *)bodypart);
+		}
+		break; }
+	default:
+		g_warning("Invalid state encountered???: %d", camel_mime_parser_state(mp));
+	}
+	if (content) {
+#warning there just has got to be a better way ... to transfer the mime-type to the datawrapper
+		/* would you believe you have to set this BEFORE you set the content object???  oh my god !!!! */
+		camel_data_wrapper_set_mime_type_field (content, 
+							camel_mime_part_get_content_type ((CamelMimePart *)dw));
+		camel_medium_set_content_object((CamelMedium *)dw, content);
+	}
+}
+
