@@ -1,3 +1,8 @@
+2002-07-12  Peter Williams  <peterw@ximian.com>
+
+	* Makefile.am (eshellinclude_HEADERS): Install some headers
+	that weren't getting installed.
+
 2002-07-11  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-folder-title-bar.c (e_shell_folder_title_bar_set_icon):

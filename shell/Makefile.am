@@ -76,7 +76,9 @@ eshellinclude_HEADERS = 			\
 	e-folder.h				\
 	e-folder-list.h				\
 	e-folder-tree.h				\
+	e-shell-corba-icon-utils.h		\
 	evolution-activity-client.h		\
+	evolution-config-control.h		\
 	evolution-folder-selector-button.h	\
 	evolution-session.h			\
 	evolution-shell-client.h		\
@@ -96,10 +98,8 @@ libeshell_la_SOURCES = 				\
 	e-folder-list.c				\
 	e-folder-tree.c				\
 	e-shell-corba-icon-utils.c		\
-	e-shell-corba-icon-utils.h		\
 	evolution-activity-client.c		\
 	evolution-config-control.c		\
-	evolution-config-control.h		\
 	evolution-folder-selector-button.c	\
 	evolution-session.c			\
 	evolution-shell-client.c		\
