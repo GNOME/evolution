@@ -9,6 +9,8 @@
 	* providers/smtp/camel-smtp-transport.c: Fixes for stream changes,
 	updated to use camel smtp mime filter.
 
+	* Makefile.am: Added camel-mime-filter-smtp.c
+	
 2000-05-22  Jeff Stedfast  <fejj@helixcode.com>
 
 	* camel-mime-filter-from.c: formatting changes and changed
