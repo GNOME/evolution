@@ -287,7 +287,7 @@ stream_write (CamelStream *stream, const char *buffer, size_t n)
 		FD_ZERO(&wrset);
 		FD_SET(stream_fs->fd, &wrset);
 		FD_SET(cancel_fd, &rdset);
-		fdmax = MAX(stream_fs->fd, cancel_fd)+1;
+		fdmax = MAX(stream_fs->fd, cancel_fd)+1;		
 		select(fdmax, &rdset, &wrset, 0, NULL);
 		if (FD_ISSET(cancel_fd, &rdset)) {
 			fcntl(stream_fs->fd, F_SETFL, flags);
@@ -320,7 +320,7 @@ stream_close (CamelStream *stream)
 	if (close (((CamelStreamFs *)stream)->fd) == -1)
 		return -1;
 	
-	((CamelStreamFs *)stream)->fd= -1;
+	((CamelStreamFs *)stream)->fd = -1;
 	return 0;
 }
 
