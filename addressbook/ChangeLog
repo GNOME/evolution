@@ -1,3 +1,7 @@
+2000-07-31  Christopher James Lahey  <clahey@helixcode.com>
+
+	* gui/component/addressbook.c: Changed the default set of columns.
+
 2000-07-29  Christopher James Lahey  <clahey@helixcode.com>
 
 	* backend/ebook/Makefile.am: Added load-gnomecard-addressbook

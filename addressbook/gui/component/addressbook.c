@@ -735,14 +735,9 @@ set_prop (BonoboPropertyBag *bag,
   <columns-shown>                        \
     <column>0</column>                   \
     <column>1</column>                   \
-    <column>2</column>                   \
+    <column>5</column>                   \
     <column>3</column>                   \
     <column>4</column>                   \
-    <column>5</column>                   \
-    <column>6</column>                   \
-    <column>7</column>                   \
-    <column>8</column>                   \
-    <column>10</column>                  \
   </columns-shown>                       \
   <grouping>                             \
     <leaf column=\"0\" ascending=\"1\"/> \
