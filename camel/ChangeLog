@@ -1,5 +1,8 @@
 2000-04-27  Dan Winship  <danw@helixcode.com>
 
+	* camel-mime-part.c (write_to_stream): Revert previous change. I
+	was confused.
+
 	* camel-url.[ch] (camel_url_encode, camel_url_decode): expose
 	these routines.
 
