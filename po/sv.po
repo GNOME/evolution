@@ -10,14 +10,14 @@
 # appointment = möte
 # meeting = sammanträde
 #
-# $Id: sv.po,v 1.198 2004/07/01 21:41:11 menthos Exp $
+# $Id: sv.po,v 1.199 2004/07/02 15:47:06 menthos Exp $
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-07-01 23:40+0200\n"
-"PO-Revision-Date: 2004-07-01 23:40+0200\n"
+"POT-Creation-Date: 2004-07-02 17:45+0200\n"
+"PO-Revision-Date: 2004-07-02 17:45+0200\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -31,34 +31,36 @@ msgstr ""
 msgid "evolution addressbook"
 msgstr "evolution-adressbok"
 
-# FIXME
-# Detta måste buggrapporteras!
+# Buggigt!
+# http://bugzilla.ximian.com/show_bug.cgi?id=61060
 #: a11y/addressbook/ea-minicard-view.c:101
 msgid "current addressbook folder "
 msgstr "aktuella adressboksmappen "
 
-# FIXME
-# Detta måste buggrapporteras!
+# Buggigt!
+# http://bugzilla.ximian.com/show_bug.cgi?id=61060
 #: a11y/addressbook/ea-minicard-view.c:102
 msgid "have "
 msgstr "har "
 
-# FIXME
-# Detta måste buggrapporteras!
+# Buggigt!
+# http://bugzilla.ximian.com/show_bug.cgi?id=61060
 #: a11y/addressbook/ea-minicard-view.c:102
 msgid "has "
 msgstr "har "
 
+# Buggigt!
+# http://bugzilla.ximian.com/show_bug.cgi?id=61060
 #: a11y/addressbook/ea-minicard-view.c:104
 msgid " cards"
 msgstr " kort"
 
+# Buggigt!
+# http://bugzilla.ximian.com/show_bug.cgi?id=61060
 #: a11y/addressbook/ea-minicard-view.c:104
 msgid " card"
 msgstr " kort"
 
-# FIXME
-# Konstigt
 #: a11y/addressbook/ea-minicard.c:105
 msgid "contact's header: "
 msgstr "kontaktens huvud: "
@@ -133,8 +135,8 @@ msgstr "LDAP-servern svarade inte med giltig schemainformation."
 msgid "Could not remove addressbook."
 msgstr "Kunde inte ta bort adressboken."
 
-# FIXME
-# Vad är detta? Borde buggrapporteras.
+# Vad är detta?
+# http://bugzilla.ximian.com/show_bug.cgi?id=61062
 #. addressbook:remove-addressbook secondary
 #. addressbook:generic-error primary
 #. addressbook:load-error secondary
@@ -151,6 +153,8 @@ msgstr "{0}"
 msgid "Category editor not available."
 msgstr "Kategoriredigeraren är inte tillgänglig."
 
+# Vad är detta?
+# http://bugzilla.ximian.com/show_bug.cgi?id=61062
 #. addressbook:generic-error secondary
 #. mail-composer:no-attach secondary
 #: addressbook/addressbook-errors.xml.h:28
@@ -242,8 +246,8 @@ msgstr "Kunde inte läsa in adressboken"
 msgid "Could not read pilot's Address application block"
 msgstr "Kunde inte läsa pilotens adressprogramblock"
 
-# FIXME
 # Varför är detta markerat för översättning?
+# http://bugzilla.ximian.com/show_bug.cgi?id=61062
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:1
 msgid "*Control*F2"
 msgstr "*Control*F2"
@@ -327,8 +331,8 @@ msgstr "Kontakt_lista"
 msgid "Create a new contact list"
 msgstr "Skapa en ny kontaktlista"
 
-# FIXME
 # Ny kontaktgrupp eller grupp för nya kontakter?
+# http://bugzilla.ximian.com/show_bug.cgi?id=61064
 #: addressbook/gui/component/addressbook-component.c:109
 msgid "New Contacts Group"
 msgstr "Ny kontaktgrupp"
@@ -422,8 +426,6 @@ msgstr ""
 "\n"
 "Ha tålamod medan Evolution migrerar dina mappar..."
 
-# FIXME
-# Vad är detta?
 #: addressbook/gui/component/addressbook-migrate.c:1162
 msgid ""
 "Evolution's Palm Sync changelog and map files have changed.\n"
@@ -432,7 +434,7 @@ msgid ""
 msgstr ""
 "Evolutions changelogfiler och mappningsfiler för Palm Sync har ändrats.\n"
 "\n"
-"Ha tålamod medan Evolution migrerar din Palm Sync-data..."
+"Ha tålamod medan Evolution migrerar dina Pilot Sync-data..."
 
 #: addressbook/gui/component/addressbook-view.c:633
 #, c-format
@@ -483,7 +485,8 @@ msgstr "EFolderList xml för listan över ifyllnings-URI:er"
 msgid "Position of the vertical pane in main view"
 msgstr "Position för den vertikala panelen i huvudvyn"
 
-# FIXME: Evolution bör skrivas med stort E
+# Evolution bör skrivas med stort E
+# http://bugzilla.ximian.com/show_bug.cgi?id=61065
 #: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:3
 msgid ""
 "The number of characters that must be typed before evolution will attempt to "
@@ -717,6 +720,8 @@ msgstr ""
 "Detta är det största antalet poster att hämta. Att ställa in detta tal för "
 "högt kommer att slöa ned adressboken."
 
+# Evolution bör skrivas med stort E
+# http://bugzilla.ximian.com/show_bug.cgi?id=61065
 #: addressbook/gui/component/ldap-config.glade.h:40
 msgid ""
 "This is the method evolution will use to authenticate you.  Note that "
@@ -3107,7 +3112,8 @@ msgstr "Fel vid borttagning av lista"
 msgid "Error removing contact"
 msgstr "Fel vid borttagning av kontakt"
 
-# FIXME: This needs ngettext!
+# This needs ngettext!
+# http://bugzilla.ximian.com/show_bug.cgi?id=61066
 #: addressbook/gui/widgets/eab-gui-util.c:275
 #, c-format
 msgid ""
@@ -3207,7 +3213,8 @@ msgstr "Redigera kontaktinformation"
 msgid "Merge E-Mail Address"
 msgstr "Slå samman e-postadress"
 
-# FIXME: Detta borde ha en kommentar som förklarar meningsbyggnaden
+# Detta borde ha en kommentar som förklarar meningsbyggnaden
+# http://bugzilla.ximian.com/show_bug.cgi?id=61067
 #: addressbook/gui/widgets/eab-vcard-control.c:139
 #, c-format
 msgid "and one other contact."
@@ -3502,12 +3509,14 @@ msgstr "Visa kort som vcard- eller csv-fil"
 msgid "[vcard|csv]"
 msgstr "[vcard|csv]"
 
-# FIXME: Extranous space
+# Extranous space
+# http://bugzilla.ximian.com/show_bug.cgi?id=61068
 #: addressbook/tools/evolution-addressbook-export.c:61
 msgid "Export in asynchronous mode "
 msgstr "Exportera i asynkront läge "
 
-# FIXME: Lack of space after the comma
+# Lack of space after the comma
+# http://bugzilla.ximian.com/show_bug.cgi?id=61069
 #: addressbook/tools/evolution-addressbook-export.c:63
 msgid ""
 "The number of cards in one output file in asychronous mode,default size 100."
@@ -3531,7 +3540,8 @@ msgstr "Stöd endast csv- eller vcard-format."
 msgid "In async mode, output must be file."
 msgstr "Utdatan måste vara en fil i asynkront läge."
 
-# FIXME: Strange use of English
+# Strange use of English
+# http://bugzilla.ximian.com/show_bug.cgi?id=61070
 #: addressbook/tools/evolution-addressbook-export.c:122
 msgid "In normal mode, there should not need size option."
 msgstr "Storleksflaggan borde inte behövas i normalt läge."
@@ -3751,7 +3761,8 @@ msgstr "Spara ändringar"
 msgid "Would you like to send meeting invitations to participants?"
 msgstr "Vill du skicka ut sammanträdesinbjudningar till deltagarna?"
 
-# FIXME: Vad är RSVP?
+# Vad är RSVP?
+# http://bugzilla.ximian.com/show_bug.cgi?id=61071
 #. calendar:prompt-meeting-invite secondary
 #: calendar/calendar-errors.xml.h:78
 msgid ""
@@ -3861,12 +3872,14 @@ msgstr "Standardprioritet:"
 msgid "Could not read pilot's ToDo application block"
 msgstr "Kunde inte läsa pilotens att-göra-programblock"
 
-# FIXME: Varför är detta markerat för översättning?
+# Varför är detta markerat för översättning?
+# http://bugzilla.ximian.com/show_bug.cgi?id=61062
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:1
 msgid "*Control*F3"
 msgstr "*Control*F3"
 
-# FIXME: Varför är detta markerat för översättning?
+# Varför är detta markerat för översättning?
+# http://bugzilla.ximian.com/show_bug.cgi?id=61062
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:2
 msgid "*Control*F4"
 msgstr "*Control*F4"
@@ -4057,22 +4070,26 @@ msgstr "Färg på uppgifter som ska utföras idag"
 msgid "Color of tasks that are overdue"
 msgstr "Färg på uppgifter som skulle ha utförts"
 
-# FIXME: Detta borde bero på lokalen?!
+# Detta borde bero på lokalen?!
+# http://bugzilla.ximian.com/show_bug.cgi?id=61073
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:5
 msgid "Days that are work days"
 msgstr "Dagar som är arbetsdagar"
 
-# FIXME: Detta borde bero på lokalen?!
+# Detta borde bero på lokalen?!
+# http://bugzilla.ximian.com/show_bug.cgi?id=61073
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:6
 msgid "Default timezone for meetings"
 msgstr "Standardtidszon för sammanträden"
 
-# FIXME: Detta borde bero på lokalen?!
+# Detta borde bero på lokalen?!
+# http://bugzilla.ximian.com/show_bug.cgi?id=61073
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:7
 msgid "Hour the workday ends on"
 msgstr "Timme som arbetsdagen slutar"
 
-# FIXME: Detta borde bero på lokalen?!
+# Detta borde bero på lokalen?!
+# http://bugzilla.ximian.com/show_bug.cgi?id=61073
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:8
 msgid "Hour the workday starts on"
 msgstr "Timme som arbetsdagen börjar"
@@ -4085,12 +4102,14 @@ msgstr ""
 msgid "List of urls for free/busy publishing"
 msgstr "Lista med url:er för ledig-/upptagenpublicering"
 
-# FIXME: Detta borde bero på lokalen?!
+# Detta borde bero på lokalen?!
+# http://bugzilla.ximian.com/show_bug.cgi?id=61073
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:11
 msgid "Minute the workday ends on"
 msgstr "Minut som arbetsdagen slutar"
 
-# FIXME: Detta borde bero på lokalen?!
+# Detta borde bero på lokalen?!
+# http://bugzilla.ximian.com/show_bug.cgi?id=61073
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:12
 msgid "Minute the workday starts on"
 msgstr "Minut som arbetsdagen börjar"
@@ -4127,7 +4146,8 @@ msgstr "Position på den vertikala panelen i uppgiftsvyn"
 msgid "Programs that can run as part of alarms"
 msgstr "Program som kan köra som en del av alarm"
 
-# FIXME: Dessa meddelanden är bara <short>, <long> behövs nog också
+# Dessa meddelanden är bara <short>, <long> behövs nog också
+# http://bugzilla.ximian.com/show_bug.cgi?id=61075
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:21
 msgid "Show where events end in week and month views"
 msgstr "Visa var evenemang slutar i vecko- och månadsvyerna"
@@ -4144,7 +4164,8 @@ msgstr "Enheter för avgörande av när uppgifter ska döljas"
 msgid "Units of default reminder"
 msgstr "Enheter för standardpåminnelse"
 
-# FIXME: Detta borde bero på lokalen?!
+# Detta borde bero på lokalen?!
+# http://bugzilla.ximian.com/show_bug.cgi?id=61073
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:25
 msgid "Weekday the week starts on"
 msgstr "Veckodag som veckan börjar"
@@ -4171,12 +4192,14 @@ msgstr "Huruvida färdigställda uppgifter ska döljas"
 msgid "Whether to set a default reminder for events"
 msgstr "Huruvida en standardpåminnare för evenemang ska ställas in"
 
-# FIXME: Detta borde bero på lokalen?!
+# Detta borde bero på lokalen?!
+# http://bugzilla.ximian.com/show_bug.cgi?id=61073
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:31
 msgid "Whether to show times in 24h format instead of using am/pm"
 msgstr "Huruvida tider ska visas i 24-timmarsformat istället för fm/em"
 
-# FIXME: Detta borde bero på lokalen?!
+# Detta borde bero på lokalen?!
+# http://bugzilla.ximian.com/show_bug.cgi?id=61073
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:32
 msgid "Whether to show week numbers in date navigator"
 msgstr "Huruvida veckonummer ska visas i datumbläddraren"
@@ -4340,13 +4363,15 @@ msgstr "Kale_nder"
 msgid "Create a new calendar"
 msgstr "Skapa en ny kalender"
 
-# FIXME: Detta borde nog inte vara markerat för översättning
+# Detta borde nog inte vara markerat för översättning
+# http://bugzilla.ximian.com/show_bug.cgi?id=61076
 #: calendar/gui/calendar-offline-handler.c:192
 #, c-format
 msgid "backend_go_offline(): %s"
 msgstr "backend_go_offline(): %s"
 
-# FIXME: Detta borde nog inte vara markerat för översättning
+# Detta borde nog inte vara markerat för översättning
+# http://bugzilla.ximian.com/show_bug.cgi?id=61076
 #: calendar/gui/calendar-offline-handler.c:215
 #, c-format
 msgid "backend_go_online(): %s"
@@ -4380,13 +4405,15 @@ msgstr "Metoden stöds inte vid öppnande av kalendern"
 msgid "Permission denied to open the calendar"
 msgstr "Åtkomst nekas för öppnande av kalendern"
 
-# FIXME: Detta borde nog inte vara markerat för översättning
+# Detta borde nog inte vara markerat för översättning
+# http://bugzilla.ximian.com/show_bug.cgi?id=61076
 #: calendar/gui/comp-editor-factory.c:474
 #, c-format
 msgid "open_client(): %s"
 msgstr "open_client(): %s"
 
-# FIXME: Varför tabben?
+# Varför tabben?
+# http://bugzilla.ximian.com/show_bug.cgi?id=61077
 #: calendar/gui/dialogs/alarm-dialog.glade.h:2
 msgid "<b>Alarm</b>\t"
 msgstr "<b>Alarm</b>\t"
@@ -5271,7 +5298,8 @@ msgstr "Språk"
 msgid "Member"
 msgstr "Medlem"
 
-# FIXME: RSVP borde kanske förklaras med en kommentar?
+# RSVP borde kanske förklaras med en kommentar?
+# http://bugzilla.ximian.com/show_bug.cgi?id=61071
 #: calendar/gui/dialogs/meeting-page.etspec.h:8
 #: calendar/gui/e-itip-control.c:1060 calendar/gui/e-meeting-list-view.c:241
 #: calendar/gui/e-meeting-time-sel.etspec.h:8
@@ -5488,7 +5516,8 @@ msgstr "Uppgiftslista"
 msgid "Completed date is wrong"
 msgstr "Utförtdatumet är fel"
 
-# FIXME: Varför tabben?
+# Varför tabben?
+# http://bugzilla.ximian.com/show_bug.cgi?id=61077
 #: calendar/gui/dialogs/task-details-page.glade.h:1
 msgid "<span weight=\"bold\">Miscellaneous\t</span>"
 msgstr "<span weight=\"bold\">Diverse\t</span>"
@@ -5585,12 +5614,14 @@ msgstr "Förfallodatumet är fel"
 msgid "Unable to open tasks in '%s'."
 msgstr "Kan inte öppna uppgifter i \"%s\"."
 
-# FIXME: Finns både med <b> och <span blah blah. Varför?
+# Finns både med <b> och <span blah blah. Varför?
+# http://bugzilla.ximian.com/show_bug.cgi?id=61078
 #: calendar/gui/dialogs/task-page.glade.h:2
 msgid "<span weight=\"bold\">Basics</span>"
 msgstr "<span weight=\"bold\">Grundläggande</span>"
 
-# FIXME: Finns både med <b> och <span blah blah. Varför?
+# Finns både med <b> och <span blah blah. Varför?
+# http://bugzilla.ximian.com/show_bug.cgi?id=61078
 #: calendar/gui/dialogs/task-page.glade.h:3
 msgid "<span weight=\"bold\">Date and Time</span>"
 msgstr "<span weight=\"bold\">Datum och tid</span>"
@@ -5703,37 +5734,43 @@ msgstr[1] "%d sekunder"
 msgid "Unknown action to be performed"
 msgstr "Okänd åtgärd att utföra"
 
-# FIXME: Detta borde ha en kommentar som talar om hur meningen konstrueras.
+# Detta borde ha en kommentar som talar om hur meningen konstrueras.
+# http://bugzilla.ximian.com/show_bug.cgi?id=61079
 #: calendar/gui/e-alarm-list.c:474
 #, c-format
 msgid "%s %s before the start of the appointment"
 msgstr "%s %s innan starten på mötet"
 
-# FIXME: Detta borde ha en kommentar som talar om hur meningen konstrueras.
+# Detta borde ha en kommentar som talar om hur meningen konstrueras.
+# http://bugzilla.ximian.com/show_bug.cgi?id=61079
 #: calendar/gui/e-alarm-list.c:477
 #, c-format
 msgid "%s %s after the start of the appointment"
 msgstr "%s %s innan starten på mötet"
 
-# FIXME: Detta borde ha en kommentar som talar om hur meningen konstrueras.
+# Detta borde ha en kommentar som talar om hur meningen konstrueras.
+# http://bugzilla.ximian.com/show_bug.cgi?id=61079
 #: calendar/gui/e-alarm-list.c:482
 #, c-format
 msgid "%s at the start of the appointment"
 msgstr "%s innan starten på mötet"
 
-# FIXME: Detta borde ha en kommentar som talar om hur meningen konstrueras.
+# Detta borde ha en kommentar som talar om hur meningen konstrueras.
+# http://bugzilla.ximian.com/show_bug.cgi?id=61079
 #: calendar/gui/e-alarm-list.c:491
 #, c-format
 msgid "%s %s before the end of the appointment"
 msgstr "%s %s innan starten på mötet"
 
-# FIXME: Detta borde ha en kommentar som talar om hur meningen konstrueras.
+# Detta borde ha en kommentar som talar om hur meningen konstrueras.
+# http://bugzilla.ximian.com/show_bug.cgi?id=61079
 #: calendar/gui/e-alarm-list.c:494
 #, c-format
 msgid "%s %s after the end of the appointment"
 msgstr "%s %s efter slut på mötet"
 
-# FIXME: Detta borde ha en kommentar som talar om hur meningen konstrueras.
+# Detta borde ha en kommentar som talar om hur meningen konstrueras.
+# http://bugzilla.ximian.com/show_bug.cgi?id=61079
 #: calendar/gui/e-alarm-list.c:499
 #, c-format
 msgid "%s at the end of the appointment"
@@ -5808,25 +5845,29 @@ msgstr "Ledig"
 msgid "Busy"
 msgstr "Upptagen"
 
-# FIXME: Detta borde ha en förklarande kommentar.
+# Detta borde ha en förklarande kommentar.
+# http://bugzilla.ximian.com/show_bug.cgi?id=61080
 # Tror detta är "Norr"
 #: calendar/gui/e-cal-model-tasks.c:302
 msgid "N"
 msgstr "N"
 
-# FIXME: Detta borde ha en förklarande kommentar.
+# Detta borde ha en förklarande kommentar.
+# http://bugzilla.ximian.com/show_bug.cgi?id=61080
 # Tror detta är "Söder"
 #: calendar/gui/e-cal-model-tasks.c:302
 msgid "S"
 msgstr "S"
 
-# FIXME: Detta borde ha en förklarande kommentar.
+# Detta borde ha en förklarande kommentar.
+# http://bugzilla.ximian.com/show_bug.cgi?id=61080
 # Tror detta är "Öster"
 #: calendar/gui/e-cal-model-tasks.c:304 smime/lib/e-cert.c:681
 msgid "E"
 msgstr "Ö"
 
-# FIXME: Detta borde ha en förklarande kommentar.
+# Detta borde ha en förklarande kommentar.
+# http://bugzilla.ximian.com/show_bug.cgi?id=61080
 # Tror detta är "Väster"
 #: calendar/gui/e-cal-model-tasks.c:304
 msgid "W"
@@ -6199,8 +6240,9 @@ msgstr "em"
 msgid "Yes. (Complex Recurrence)"
 msgstr "Ja, (Komplex upprepning)"
 
-# FIXME: Detta %d blir inte så lyckat med vissa språk, eftersom en
+# Detta %d blir inte så lyckat med vissa språk, eftersom en
 # ordningsangivelse och inte bara en siffra krävs.
+# http://bugzilla.ximian.com/show_bug.cgi?id=61082
 #: calendar/gui/e-itip-control.c:596
 #, c-format
 msgid "Every day"
@@ -6208,8 +6250,9 @@ msgid_plural "Every %d days"
 msgstr[0] "Varje dag"
 msgstr[1] "Var %d dag"
 
-# FIXME: Detta %d blir inte så lyckat med vissa språk, eftersom en
+# Detta %d blir inte så lyckat med vissa språk, eftersom en
 # ordningsangivelse och inte bara en siffra krävs.
+# http://bugzilla.ximian.com/show_bug.cgi?id=61082
 #: calendar/gui/e-itip-control.c:601
 #, c-format
 msgid "Every week"
@@ -6217,8 +6260,9 @@ msgid_plural "Every %d weeks"
 msgstr[0] "Varje vecka"
 msgstr[1] "Var %d vecka"
 
-# FIXME: Detta %d blir inte så lyckat med vissa språk, eftersom en
+# Detta %d blir inte så lyckat med vissa språk, eftersom en
 # ordningsangivelse och inte bara en siffra krävs.
+# http://bugzilla.ximian.com/show_bug.cgi?id=61082
 #: calendar/gui/e-itip-control.c:603
 #, c-format
 msgid "Every week on "
@@ -6240,8 +6284,9 @@ msgstr "Den %s dagen i "
 msgid "The %s %s of "
 msgstr "Den %s %s i "
 
-# FIXME: Detta %d blir inte så lyckat med vissa språk, eftersom en
+# Detta %d blir inte så lyckat med vissa språk, eftersom en
 # ordningsangivelse och inte bara en siffra krävs.
+# http://bugzilla.ximian.com/show_bug.cgi?id=61082
 #: calendar/gui/e-itip-control.c:638
 #, c-format
 msgid "every month"
@@ -6249,8 +6294,9 @@ msgid_plural "every %d months"
 msgstr[0] "varje månad"
 msgstr[1] "var %d månad"
 
-# FIXME: Detta %d blir inte så lyckat med vissa språk, eftersom en
+# Detta %d blir inte så lyckat med vissa språk, eftersom en
 # ordningsangivelse och inte bara en siffra krävs.
+# http://bugzilla.ximian.com/show_bug.cgi?id=61082
 #: calendar/gui/e-itip-control.c:642
 #, c-format
 msgid "Every year"
@@ -9067,30 +9113,35 @@ msgstr ""
 "Fel vid körning av sökuttrycket: %s:\n"
 "%s"
 
-# FIXME: Detta kräver nog en förklaring.
+# Detta kräver nog en förklaring.
+# http://bugzilla.ximian.com/show_bug.cgi?id=61084
 #: camel/camel-folder-search.c:672 camel/camel-folder-search.c:705
 msgid "(match-all) requires a single bool result"
 msgstr "(match-all) kräver ett ensamt booleskt resultat"
 
-# FIXME: Detta kräver nog en förklaring.
+# Detta kräver nog en förklaring.
+# http://bugzilla.ximian.com/show_bug.cgi?id=61084
 #: camel/camel-folder-search.c:755
 msgid "(match-threads) not allowed inside match-all"
 msgstr "(match-threads) är inte tillåtet inuti match-all"
 
-# FIXME: Detta kräver nog en förklaring.
+# Detta kräver nog en förklaring.
+# http://bugzilla.ximian.com/show_bug.cgi?id=61084
 #: camel/camel-folder-search.c:758 camel/camel-folder-search.c:762
 msgid "(match-threads) requires a match type string"
 msgstr "(match-threads) kräver en matchtypssträng"
 
-# FIXME: Detta kräver nog en förklaring.
+# Detta kräver nog en förklaring.
+# http://bugzilla.ximian.com/show_bug.cgi?id=61084
 #: camel/camel-folder-search.c:784
 msgid "(match-threads) expects an array result"
 msgstr "(match-threads) kräver ett vektorresultat"
 
-# FIXME: Detta kräver nog en förklaring.
+# Detta kräver nog en förklaring.
+# http://bugzilla.ximian.com/show_bug.cgi?id=61084
 #: camel/camel-folder-search.c:790
 msgid "(match-threads) requires the folder set"
-msgstr "(matcha-threads) kräver att mappen är inställd"
+msgstr "(match-threads) kräver att mappen är inställd"
 
 #: camel/camel-folder-search.c:879
 #, c-format
@@ -9120,12 +9171,14 @@ msgstr "Flyttar meddelanden"
 msgid "Copying messages"
 msgstr "Kopierar meddelanden"
 
-# FIXME: Detta kräver nog en förklaring.
+# Detta kräver nog en förklaring.
+# http://bugzilla.ximian.com/show_bug.cgi?id=61087
 #: camel/camel-folder.c:1665
 msgid "Learning junk"
 msgstr "Lär skräp"
 
-# FIXME: Detta kräver nog en förklaring.
+# Detta kräver nog en förklaring.
+# http://bugzilla.ximian.com/show_bug.cgi?id=61087
 #: camel/camel-folder.c:1682
 msgid "Learning non-junk"
 msgstr "Lär ickeskräp"
@@ -9710,12 +9763,14 @@ msgstr "Kan inte hitta certifikat för \"%s\""
 msgid "Cannot create CMS message"
 msgstr "Kan inte skapa CMS-meddelande"
 
-# FIXME: Detta kräver nog en förklaring.
+# Detta kräver nog en förklaring.
+# http://bugzilla.ximian.com/show_bug.cgi?id=61088
 #: camel/camel-smime-context.c:272
 msgid "Cannot create CMS signedData"
 msgstr "Kan inte skapa CMS-signeringsdata"
 
-# FIXME: Detta kräver nog en förklaring.
+# Detta kräver nog en förklaring.
+# http://bugzilla.ximian.com/show_bug.cgi?id=61088
 #: camel/camel-smime-context.c:278
 msgid "Cannot attach CMS signedData"
 msgstr "Kan inte bifoga CMS-signeringsdata"
@@ -9724,22 +9779,26 @@ msgstr "Kan inte bifoga CMS-signeringsdata"
 msgid "Cannot attach CMS data"
 msgstr "Kan inte bifoga CMS-data"
 
-# FIXME: Detta kräver nog en förklaring.
+# Detta kräver nog en förklaring.
+# http://bugzilla.ximian.com/show_bug.cgi?id=61088
 #: camel/camel-smime-context.c:291
 msgid "Cannot create CMS SignerInfo"
 msgstr "Kan inte skapa CMS-signeringsinformation"
 
-# FIXME: Detta kräver nog bättre formulering.
+# Detta kräver nog bättre formulering.
+# http://bugzilla.ximian.com/show_bug.cgi?id=61088
 #: camel/camel-smime-context.c:297
 msgid "Cannot find cert chain"
 msgstr "Kan inte hitta certifikatkedja"
 
-# FIXME: Detta kräver nog en förklaring.
+# Detta kräver nog en förklaring.
+# http://bugzilla.ximian.com/show_bug.cgi?id=61088
 #: camel/camel-smime-context.c:303
 msgid "Cannot add CMS SigningTime"
 msgstr "Kan inte lägga till CMS-signeringstid"
 
-# FIXME: Detta kräver nog en bättre formulering.
+# Detta kräver nog en bättre formulering.
+# http://bugzilla.ximian.com/show_bug.cgi?id=61088
 #: camel/camel-smime-context.c:325 camel/camel-smime-context.c:337
 #, c-format
 msgid "Encryption cert for '%s' does not exist"
@@ -9757,12 +9816,13 @@ msgstr "Kan inte lägga till MS SMIMEEncKeyPrefs-attribut"
 msgid "Cannot add encryption certificate"
 msgstr "Kan inte lägga till krypteringscertifikat"
 
-# FIXME: Detta kräver en förklaring.
+# Detta kräver en förklaring.
+# http://bugzilla.ximian.com/show_bug.cgi?id=61088
 #: camel/camel-smime-context.c:360
 msgid "Cannot add CMS SignerInfo"
 msgstr "Kan inte lägga till CMS-signeringsinformation"
 
-#: camel/camel-smime-context.c:430
+#: camel/camel-smime-context.c:430 camel/camel-smime-context.c:877
 msgid "Cannot create encoder context"
 msgstr "Kan inte skapa kodarsammanhang"
 
@@ -9815,7 +9875,8 @@ msgstr "Felaktig signatur"
 msgid "Processing error"
 msgstr "Tolkningsfel"
 
-# FIXME: Detta behöver bättre formulering.
+# Detta behöver bättre formulering.
+# http://bugzilla.ximian.com/show_bug.cgi?id=61088
 #: camel/camel-smime-context.c:569
 msgid "No signedData in signature"
 msgstr "Ingen signeringsdata i signatur"
@@ -9838,20 +9899,22 @@ msgstr "Kan inte hämta meddelande %s: %s"
 msgid "Certificate import failed"
 msgstr "Certifikatimport misslyckades"
 
-# FIXME: Detta kräver en förklaring.
+# Detta kräver en förklaring.
+# http://bugzilla.ximian.com/show_bug.cgi?id=61088
 #: camel/camel-smime-context.c:628
 msgid "Certificate only message, cannot verify certificates"
 msgstr ""
 
-# FIXME: Detta kräver en förklaring.
+# Detta kräver en förklaring.
+# http://bugzilla.ximian.com/show_bug.cgi?id=61088
 #: camel/camel-smime-context.c:631
 msgid "Certificate only message, certificates imported and verified"
 msgstr ""
 
-# FIXME: Detta borde nog vara "cannot".
 #: camel/camel-smime-context.c:635
-msgid "Can't find signature digests"
-msgstr ""
+#, fuzzy
+msgid "Cannot find signature digests"
+msgstr "Kan inte hämta meddelande %s: %s"
 
 #: camel/camel-smime-context.c:651
 #, c-format
@@ -9862,61 +9925,73 @@ msgstr "Signerare: %s <%s>: %s\n"
 msgid "Decoder failed"
 msgstr "Avkodaren misslyckades"
 
-# FIXME: Borde nog vara cannot.
 #: camel/camel-smime-context.c:804
-#, c-format
-msgid "Can't find certificate for `%s'"
+#, fuzzy, c-format
+msgid "Cannot find certificate for `%s'"
 msgstr "Kan inte hitta certifikat för \"%s\""
 
-# FIXME: Detta borde nog vara "cannot".
+# Detta borde nog vara "cannot".
+# http://bugzilla.ximian.com/show_bug.cgi?id=61090
 #: camel/camel-smime-context.c:811
-msgid "Can't find common bulk encryption algorithm"
+#, fuzzy
+msgid "Cannot find common bulk encryption algorithm"
 msgstr "Kan inte hitta gemensam algoritm för bulkkryptering"
 
-# FIXME: Detta borde nog vara "cannot".
+# Detta borde nog vara "cannot".
+# http://bugzilla.ximian.com/show_bug.cgi?id=61090
 #. PORT_GetError(); ??
 #: camel/camel-smime-context.c:820
-msgid "Can't allocate slot for encryption bulk key"
+#, fuzzy
+msgid "Cannot allocate slot for encryption bulk key"
 msgstr "Kan inte allokera plats för bulknyckel för kryptering"
 
-# FIXME: Detta borde nog vara "cannot".
 #: camel/camel-smime-context.c:831
-msgid "Can't create CMS Message"
+#, fuzzy
+msgid "Cannot create CMS Message"
 msgstr "Kan inte skapa CMS-meddelande"
 
-# FIXME: Detta borde nog vara "cannot".
-# FIXME: Detta borde nog omformuleras.
+# Detta borde nog omformuleras.
+# http://bugzilla.ximian.com/show_bug.cgi?id=61088
+# Detta borde nog vara "cannot".
+# http://bugzilla.ximian.com/show_bug.cgi?id=61090
 #: camel/camel-smime-context.c:837
-msgid "Can't create CMS EnvelopedData"
+#, fuzzy
+msgid "Cannot create CMS EnvelopedData"
 msgstr "Kan inte skapa CMS-kuvertdata"
 
-# FIXME: Detta borde nog omformuleras.
-# FIXME: Detta borde nog vara "cannot".
+# Detta borde nog omformuleras.
+# http://bugzilla.ximian.com/show_bug.cgi?id=61088
+# Detta borde nog vara "cannot".
+# http://bugzilla.ximian.com/show_bug.cgi?id=61090
 #: camel/camel-smime-context.c:843
-msgid "Can't attach CMS EnvelopedData"
+#, fuzzy
+msgid "Cannot attach CMS EnvelopedData"
 msgstr "Kan inte bifoga CMS-kuvertdata"
 
-# FIXME: Detta borde nog vara "cannot".
+# Detta borde nog vara "cannot".
+# http://bugzilla.ximian.com/show_bug.cgi?id=61090
 #: camel/camel-smime-context.c:849
-msgid "Can't attach CMS data object"
+#, fuzzy
+msgid "Cannot attach CMS data object"
 msgstr "Kan inte bifoga CMS-dataobjekt"
 
-# FIXME: Detta borde nog vara "cannot".
-# FIXME: Detta borde nog omformuleras.
+# Detta borde nog vara "cannot".
+# http://bugzilla.ximian.com/show_bug.cgi?id=61090
+# Detta borde nog omformuleras.
+# http://bugzilla.ximian.com/show_bug.cgi?id=61088
 #: camel/camel-smime-context.c:858
-msgid "Can't create CMS RecipientInfo"
+#, fuzzy
+msgid "Cannot create CMS RecipientInfo"
 msgstr "Kan inte skapa CMS-mottagarinformation"
 
-# FIXME: Detta borde nog vara "cannot".
-# FIXME: Detta borde nog omformuleras.
+# Detta borde nog vara "cannot".
+# http://bugzilla.ximian.com/show_bug.cgi?id=61090
+# Detta borde nog omformuleras.
+# http://bugzilla.ximian.com/show_bug.cgi?id=61088
 #: camel/camel-smime-context.c:863
-msgid "Can't add CMS RecipientInfo"
+#, fuzzy
+msgid "Cannot add CMS RecipientInfo"
 msgstr "Kan inte lägga till CMS-mottagarinformation"
-
-# FIXME: Detta borde nog vara "cannot".
-#: camel/camel-smime-context.c:877
-msgid "Can't create encoder context"
-msgstr "Kan inte skapa kodarsammanhang"
 
 #: camel/camel-smime-context.c:888
 msgid "Failed to add data to encoder"
@@ -10245,12 +10320,12 @@ msgstr "Tillämpa filtren på nya meddelanden i inkorgen på denna server"
 msgid "Automatically synchronize remote mail locally"
 msgstr "Synkronisera automatiskt fjärrpost lokalt"
 
-# FIXME: Ska "and" verkligen vara stort?
+# Ska "and" verkligen vara stort?
+# http://bugzilla.ximian.com/show_bug.cgi?id=61091
 #: camel/providers/groupwise/camel-groupwise-provider.c:66
 msgid "Address Book And Calendar"
 msgstr "Adressbok och kalender"
 
-# FIXME: Klurig!
 #: camel/providers/groupwise/camel-groupwise-provider.c:69
 msgid "Post Office Agent SOAP Port:"
 msgstr ""
@@ -10470,7 +10545,6 @@ msgstr "Namnrymd"
 msgid "Apply filters to new messages in INBOX on this server"
 msgstr "Tillämpa filtren på nya meddelanden i INBOX på denna server"
 
-# FIXME: Ska content verkligen vara i plural?
 #: camel/providers/imap/camel-imap-provider.c:66
 msgid "Check new messages for Junk contents"
 msgstr "Kontrollera om nya meddelanden innehåller skräp"
@@ -10562,7 +10636,8 @@ msgstr "IMAP-servern %s stöder inte den begärda autentiseringstypen %s"
 msgid "No support for authentication type %s"
 msgstr "Inget stöd för autentiseringstypen %s"
 
-# FIXME: Borde finnas en kommentar som talar om vad det första %s blir.
+# Borde finnas en kommentar som talar om vad det första %s blir.
+# http://bugzilla.ximian.com/show_bug.cgi?id=61093
 #: camel/providers/imap/camel-imap-store.c:1301
 #: camel/providers/imapp/camel-imapp-store.c:344
 #, c-format
@@ -15088,6 +15163,8 @@ msgstr "      "
 msgid " Ch_eck for Supported Types "
 msgstr " _Kontrollera vilka typer som stöds "
 
+# Evolution bör skrivas med stort E
+# http://bugzilla.ximian.com/show_bug.cgi?id=61065
 #: mail/mail-config.glade.h:5
 #, fuzzy
 msgid "<b>SSL is not supported in this build of evolution</b>"
@@ -16852,6 +16929,8 @@ msgstr "Starta i frånkopplat läge"
 msgid "Start in online mode"
 msgstr "Starta i anslutet läge"
 
+# Evolution bör skrivas med stort E
+# http://bugzilla.ximian.com/show_bug.cgi?id=61065
 #: shell/main.c:468
 msgid "Forcibly shut down all evolution components"
 msgstr "Tvinga fram nedstängning av alla evolution-komponenter"
@@ -19291,6 +19370,21 @@ msgstr "%s (...)"
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% färdigt)"
 
+# Borde nog vara cannot.
+# http://bugzilla.ximian.com/show_bug.cgi?id=61090
+#~ msgid "Can't find certificate for `%s'"
+#~ msgstr "Kan inte hitta certifikat för \"%s\""
+
+# Detta borde nog vara "cannot".
+# http://bugzilla.ximian.com/show_bug.cgi?id=61090
+#~ msgid "Can't create CMS Message"
+#~ msgstr "Kan inte skapa CMS-meddelande"
+
+# Detta borde nog vara "cannot".
+# http://bugzilla.ximian.com/show_bug.cgi?id=61090
+#~ msgid "Can't create encoder context"
+#~ msgstr "Kan inte skapa kodarsammanhang"
+
 #~ msgid "Contacts Group"
 #~ msgstr "Kontaktgrupp"
 
@@ -21443,10 +21537,6 @@ msgstr "%s (%d%% färdigt)"
 
 #~ msgid "Opening calendar at %s"
 #~ msgstr "Öppnar kalender i %s"
-
-# FIXME: Detta borde nog vara "cannot".
-#~ msgid "Can't save calendar data: Malformed URI."
-#~ msgstr "Kan inte spara kalenderdata: Felaktigt utformad URI."
 
 #~ msgid "time-now expects 0 arguments"
 #~ msgstr "time-now förväntar sig 0 argument"
@@ -31295,14 +31385,6 @@ msgstr "%s (%d%% färdigt)"
 #~ msgstr ""
 #~ "Metoden som krävs för att läsa in \"%s\" stöds inte; inga objekt från "
 #~ "kalendermappen kommer att flyttas till uppgiftsmappen."
-
-# FIXME: Detta borde nog vara "cannot".
-#~ msgid "Can't get storage list from registry: %s"
-#~ msgstr "Kan inte hämta lagerlista från register: %s"
-
-# FIXME: Detta borde nog vara "cannot".
-#~ msgid "Can't call getFolderAtPath on storage: %s"
-#~ msgstr "Kan inte anropa getFolderAtPath på lager: %s"
 
 #~ msgid ""
 #~ "Could not create composer window, because you have not yet\n"
