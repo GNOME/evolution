@@ -1,3 +1,11 @@
+2001-04-21  Duncan Mak  <duncan@ximian.com>
+
+	* e-msg-composer.c (e_msg_composer_construct): Set window_icon to
+	"compose-message.png" for the composer window.
+
+	Did #include <libgnomeui/gnome-window-icon.h> so we could use
+	gnome_window_icon_set_from_file() here.
+
 2001-04-17  Radek Doulik  <rodo@ximian.com>
 
 	* listener.c (reply_indent): more auto-indentation magic

@@ -48,6 +48,7 @@
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-dialog-util.h>
 #include <libgnomeui/gnome-stock.h>
+#include <libgnomeui/gnome-window-icon.h>
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-moniker-util.h>
 #include <bonobo/bonobo-object-client.h>
@@ -1735,7 +1736,7 @@ e_msg_composer_construct (EMsgComposer *composer)
 	
 	gtk_window_set_default_size (GTK_WINDOW (composer),
 				     DEFAULT_WIDTH, DEFAULT_HEIGHT);
-	
+	gnome_window_icon_set_from_file (GTK_WINDOW (composer), EVOLUTION_DATADIR "/images/evolution/compose-message.png");
 	bonobo_window_construct (BONOBO_WINDOW (composer), "e-msg-composer",
 				 _("Compose a message"));
 	
