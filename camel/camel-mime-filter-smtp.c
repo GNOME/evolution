@@ -2,7 +2,7 @@
 /*
  *  Copyright (C) 2000 Helix Code Inc.
  *
- *  Authors: Michael Zucchi <notzed@helixcode.com>
+ *  Authors: Jeffrey Stedfast <fejj@helixcode.com>
  *
  *  This program is free software; you can redistribute it and/or 
  *  modify it under the terms of the GNU General Public License as 
@@ -20,21 +20,21 @@
  *  USA
  */
 
-#include "camel-mime-filter-from.h"
+#include "camel-mime-filter-smtp.h"
 #include <string.h>
 
 #define d(x)
 
-struct _CamelMimeFilterFromPrivate {
+struct _CamelMimeFilterSmtpPrivate {
 };
 
-#define _PRIVATE(o) (((CamelMimeFilterFrom *)(o))->priv)
+#define _PRIVATE(o) (((CamelMimeFilterSmtp *)(o))->priv)
 
-static void camel_mime_filter_from_class_init (CamelMimeFilterFromClass *klass);
-static void camel_mime_filter_from_init       (CamelMimeFilterFrom *obj);
-static void camel_mime_filter_from_finalise   (GtkObject *obj);
+static void camel_mime_filter_smtp_class_init (CamelMimeFilterSmtpClass *klass);
+static void camel_mime_filter_smtp_init       (CamelMimeFilterSmtp *obj);
+static void camel_mime_filter_smtp_finalise   (GtkObject *obj);
 
-static CamelMimeFilterClass *camel_mime_filter_from_parent;
+static CamelMimeFilterClass *camel_mime_filter_smtp_parent;
 
 enum SIGNALS {
 	LAST_SIGNAL
@@ -43,17 +43,17 @@ enum SIGNALS {
 static guint signals[LAST_SIGNAL] = { 0 };
 
 guint
-camel_mime_filter_from_get_type (void)
+camel_mime_filter_smtp_get_type (void)
 {
 	static guint type = 0;
 	
 	if (!type) {
 		GtkTypeInfo type_info = {
-			"CamelMimeFilterFrom",
-			sizeof (CamelMimeFilterFrom),
-			sizeof (CamelMimeFilterFromClass),
-			(GtkClassInitFunc) camel_mime_filter_from_class_init,
-			(GtkObjectInitFunc) camel_mime_filter_from_init,
+			"CamelMimeFilterSmtp",
+			sizeof (CamelMimeFilterSmtp),
+			sizeof (CamelMimeFilterSmtpClass),
+			(GtkClassInitFunc) camel_mime_filter_smtp_class_init,
+			(GtkObjectInitFunc) camel_mime_filter_smtp_init,
 			(GtkArgSetFunc) NULL,
 			(GtkArgGetFunc) NULL
 		};
@@ -64,8 +64,11 @@ camel_mime_filter_from_get_type (void)
 	return type;
 }
 
-struct fromnode {
-	struct fromnode *next;
+typedef enum { FROM_NODE, DOT_NODE } node_t;
+
+struct smtpnode {
+	struct smtpnode *next;
+	node_t type;
 	char *pointer;
 };
 
@@ -81,21 +84,21 @@ complete(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out,
 static void
 filter(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out, size_t *outlen, size_t *outprespace)
 {
-	CamelMimeFilterFrom *f = (CamelMimeFilterFrom *)mf;
+	CamelMimeFilterSmtp *f = (CamelMimeFilterSmtp *)mf;
 	register char *inptr, *inend;
 	int left;
 	int midline = f->midline;
 	int fromcount = 0;
-	struct fromnode *head = NULL, *tail = (struct fromnode *)&head, *node;
+	struct smtpnode *head = NULL, *tail = (struct smtpnode *)&head, *node;
 	char *outptr;
 
 	inptr = in;
-	inend = inptr+len;
+	inend = inptr + len;
 
 	d(printf("Filtering '%.*s'\n", len, in));
 
 	/* first, see if we need to escape any from's */
-	while (inptr<inend) {
+	while (inptr < inend) {
 		register int c = -1;
 
 		if (midline)
@@ -103,11 +106,12 @@ filter(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out, s
 				;
 
 		if (c == '\n' || !midline) {
-			left = inend-inptr;
+			left = inend - inptr;
 			if (left > 0) {
 				midline = TRUE;
 				if (left < 5) {
-					if (inptr[0] == 'F' || inptr[0] == 'f') {
+					/* MUST check for upper and lower case F, since our "From " has no case guarentee */
+					if (inptr[0] == 'F' || inptr == 'f' || inptr == '.') {
 						camel_mime_filter_backup(mf, inptr, left);
 						midline = FALSE;
 						inend = inptr;
@@ -119,11 +123,26 @@ filter(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out, s
 						/* yes, we do alloc them on the stack ... at most we're going to get
 						   len / 7 of them anyway */
 						node = alloca(sizeof(*node));
+						node->type = FROM_NODE;
 						node->pointer = inptr;
 						node->next = NULL;
 						tail->next = node;
 						tail = node;
 						inptr += 5;
+					} else {
+						if (!strncmp(inptr, ".\n", 2) || !strncmp(inptr, ".\r\n", 3)) {
+							fromcount++;
+							node = alloca(sizeof(*node));
+							node->type = DOT_NODE;
+							node->pointer = inptr;
+							node->next = NULL;
+							tail->next = node;
+							tail = node;
+							if (inptr[1] == '\n')
+								inptr += 2;
+							else
+								inptr += 3;
+						}
 					}
 				}
 			} else {
@@ -143,7 +162,10 @@ filter(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out, s
 		while (node) {
 			memcpy(outptr, inptr, node->pointer - inptr);
 			outptr += node->pointer - inptr;
-			*outptr++ = '>';
+			if (node->type == FROM_NODE)
+				*outptr++ = '>';
+			else
+				*outptr++ = '.';
 			inptr = node->pointer;
 			node = node->next;
 		}
@@ -164,14 +186,14 @@ filter(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out, s
 }
 
 static void
-camel_mime_filter_from_class_init (CamelMimeFilterFromClass *klass)
+camel_mime_filter_smtp_class_init (CamelMimeFilterSmtpClass *klass)
 {
 	GtkObjectClass *object_class = (GtkObjectClass *) klass;
 	CamelMimeFilterClass *filter_class = (CamelMimeFilterClass *) klass;
 	
-	camel_mime_filter_from_parent = gtk_type_class (camel_mime_filter_get_type ());
+	camel_mime_filter_smtp_parent = gtk_type_class (camel_mime_filter_get_type ());
 
-	object_class->finalize = camel_mime_filter_from_finalise;
+	object_class->finalize = camel_mime_filter_smtp_finalise;
 
 	filter_class->filter = filter;
 	filter_class->complete = complete;
@@ -180,31 +202,31 @@ camel_mime_filter_from_class_init (CamelMimeFilterFromClass *klass)
 }
 
 static void
-camel_mime_filter_from_init (CamelMimeFilterFrom *obj)
+camel_mime_filter_smtp_init (CamelMimeFilterSmtp *obj)
 {
-	struct _CamelMimeFilterFromPrivate *p;
+	struct _CamelMimeFilterSmtpPrivate *p;
 
 	p = _PRIVATE(obj) = g_malloc0(sizeof(*p));
 	obj->midline = FALSE;
 }
 
 static void
-camel_mime_filter_from_finalise (GtkObject *obj)
+camel_mime_filter_smtp_finalise (GtkObject *obj)
 {
-	((GtkObjectClass *)(camel_mime_filter_from_parent))->finalize((GtkObject *)obj);
+	((GtkObjectClass *)(camel_mime_filter_smtp_parent))->finalize((GtkObject *)obj);
 }
 
 /**
- * camel_mime_filter_from_new:
+ * camel_mime_filter_smtp_new:
  *
- * Create a new CamelMimeFilterFrom object.
+ * Create a new CamelMimeFilterSmtp object.
  * 
- * Return value: A new CamelMimeFilterFrom widget.
+ * Return value: A new CamelMimeFilterSmtp widget.
  **/
-CamelMimeFilterFrom *
-camel_mime_filter_from_new (void)
+CamelMimeFilterSmtp *
+camel_mime_filter_smtp_new (void)
 {
-	CamelMimeFilterFrom *new = CAMEL_MIME_FILTER_FROM ( gtk_type_new (camel_mime_filter_from_get_type ()));
+	CamelMimeFilterSmtp *new = CAMEL_MIME_FILTER_SMTP (gtk_type_new (camel_mime_filter_smtp_get_type ()));
 	return new;
 }
 
@@ -214,16 +236,16 @@ camel_mime_filter_from_new (void)
 
 int main(int argc, char **argv)
 {
-	CamelMimeFilterFrom *f;
+	CamelMimeFilterSmtp *f;
 	char *buffer;
 	int len, prespace;
 
 	gtk_init(&argc, &argv);
 
 
-	f = camel_mime_filter_from_new();
+	f = camel_mime_filter_smtp_new();
 
-	buffer = "This is a test\nFrom Someone\nTo someone. From Someone else, From\n From blah\nFromblah\nBye! \nFrom ";
+	buffer = "This is a test\nFrom Someone\nTo someone. From Someone else, From\n From blah\nFromblah\nBye! \nFrom \n.\n.\r\nprevious 2 lines had .'s\nfrom should also be escaped\n";
 	len = strlen(buffer);
 	prespace = 0;
 
@@ -241,3 +263,24 @@ int main(int argc, char **argv)
 }
 
 #endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,3 +1,14 @@
+2000-05-22  Jeff Stedfast  <fejj@helixcode.com>
+
+	* camel-mime-filter-from.c: formatting changes and changed
+	comparisons to be case-insensitive - no guarentee that "From "
+	tag will be in that case, it could be "fRoM " for all we know
+	since the RFC doesn't specify that it MUST be in that particular
+	case format.
+
+	* camel-mime-filter-smtp.[c,h]: added to tree but not makefiles.
+	Code needs to be tested.
+
 2000-05-19  NotZed  <NotZed@HelixCode.com>
 
 	* camel-simple-data-wrapper.c (construct_from_stream): If we
