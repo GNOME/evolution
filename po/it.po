@@ -1,19 +1,21 @@
+# translation of it.po to 
 # translation of it.po to
 # Traduzione Italiana del po di Evolution.
 # Clara Tattoni <clara.tattoni@libero.it>, 2000-2002
 # Ettore Perazzoli <ettore@ximian.com>, 2001
 # Marco Ciampa <ciampix@libero.it>, 2003
+# Alessio Dessi <alessio.dessi@libero.it>, 2003
 msgid ""
 msgstr ""
 "Project-Id-Version: it\n"
 "POT-Creation-Date: 2003-06-02 15:28-0400\n"
-"PO-Revision-Date: 2003-06-09 00:16GMT\n"
-"Last-Translator: Marco Ciampa <ciampix@libero.it>\n"
-"Language-Team: italiano <tp@lists.linux.it>\n"
+"PO-Revision-Date: 2003-06-19 08:27GMT\n"
+"Last-Translator: \n"
+"Language-Team:  <it@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 0.9.6\n"
+"X-Generator: KBabel 1.0.1\n"
 
 #: addressbook/backend/ebook/GNOME_Evolution_Addressbook_LDIF_Importer.server.in.in.h:1
 msgid "Evolution LDIF importer"
@@ -4993,7 +4995,7 @@ msgstr ""
 
 #: calendar/gui/dialogs/save-comp.c:58 composer/e-msg-composer.c:1555
 msgid "_Discard Changes"
-msgstr "Annulla i cambiamenti"
+msgstr "Non salvare"
 
 #: calendar/gui/dialogs/save-comp.c:63
 msgid "Save Event"
@@ -11152,7 +11154,7 @@ msgstr "Esegui le azioni"
 
 #: filter/filter-rule.c:795
 msgid "if all criteria are met"
-msgstr "se tutti i criteri sonon soddisfatti"
+msgstr "se tutti i criteri sono soddisfatti"
 
 #: filter/filter-rule.c:800
 msgid "if any criteria are met"
@@ -11176,7 +11178,7 @@ msgstr "Modifica Filtri"
 
 #: filter/filter.glade.h:3
 msgid "Edit VFolders"
-msgstr "Modifica VFolder"
+msgstr "Modifica vfolder"
 
 #: filter/filter.glade.h:5
 msgid "Incoming"
@@ -11779,11 +11781,11 @@ msgstr "Cartella pubblica contente la posta"
 
 #: mail/component-factory.c:118
 msgid "Virtual Trash"
-msgstr "Cestino Virtuale"
+msgstr "Cestino virtuale"
 
 #: mail/component-factory.c:118
 msgid "Virtual Trash folder"
-msgstr "Cartella Cestino Virtuale"
+msgstr "Cartella cestino virtuale"
 
 #: mail/component-factory.c:146
 msgid "This folder cannot contain messages."
@@ -11901,23 +11903,23 @@ msgstr "%d totali"
 
 #: mail/folder-browser.c:1185
 msgid "Create _Virtual Folder From Search..."
-msgstr "Crea una cartella _Virtuale dalla ricerca..."
+msgstr "Crea una cartella _virtuale dalla ricerca..."
 
 #: mail/folder-browser.c:1732
 msgid "VFolder on _Subject"
-msgstr "Cartella Virtuale sull'_Oggetto"
+msgstr "Cartella virtuale sull'_oggetto"
 
 #: mail/folder-browser.c:1733
 msgid "VFolder on Se_nder"
-msgstr "Cartella Virtuale sul _Mittente"
+msgstr "Cartella virtuale sul _mittente"
 
 #: mail/folder-browser.c:1734
 msgid "VFolder on _Recipients"
-msgstr "Cartella Virtuale sui _Destinatari"
+msgstr "Cartella virtuale sui _destinatari"
 
 #: mail/folder-browser.c:1735
 msgid "VFolder on Mailing _List"
-msgstr "Cartella Virtuale sulla Mailing _List"
+msgstr "Cartella virtuale sulla mailing _list"
 
 #: mail/folder-browser.c:1739
 msgid "Filter on Sub_ject"
@@ -11933,7 +11935,7 @@ msgstr "Filtro sui _Destinatari"
 
 #: mail/folder-browser.c:1742 mail/folder-browser.c:2066
 msgid "Filter on _Mailing List"
-msgstr "Filtro sulla _Mailng List"
+msgstr "Filtro sulla _mailing list"
 
 #: mail/folder-browser.c:1760
 msgid "_Edit as New Message..."
@@ -12006,25 +12008,25 @@ msgstr "Aggiungi mittente alla rubrica"
 
 #: mail/folder-browser.c:1804
 msgid "Appl_y Filters"
-msgstr "Applica filtri"
+msgstr "Applica filtr_i"
 
 #: mail/folder-browser.c:1808
 msgid "Crea_te Rule From Message"
-msgstr "Crea regola dal messaggio"
+msgstr "Crea re_gola dal messaggio"
 
 #: mail/folder-browser.c:2067
 msgid "VFolder on M_ailing List"
-msgstr "Cartella virtuale sulla mailing list"
+msgstr "Cartella virtuale sulla m_ailing list"
 
 #: mail/folder-browser.c:2069
 #, c-format
 msgid "Filter on _Mailing List (%s)"
-msgstr "Filtro sulla mailng list (%s)"
+msgstr "Filtro sulla _mailing list (%s)"
 
 #: mail/folder-browser.c:2070
 #, c-format
 msgid "VFolder on M_ailing List (%s)"
-msgstr "Cartella virtuale sulla mailng list (%s)"
+msgstr "Cartella virtuale sulla m_ailing list (%s)"
 
 #: mail/folder-browser.h:26 mail/mail-config.glade.h:39
 msgid "Default"
@@ -13678,7 +13680,7 @@ msgstr "Si è cercato di editare una vfolder (%s) che non esiste."
 
 #: mail/mail-vfolder.c:966
 msgid "New VFolder"
-msgstr "Nuova Cartella Virtuale"
+msgstr "Nuova cartella virtuale"
 
 #: mail/message-browser.c:224
 msgid "(No subject)"
@@ -26783,7 +26785,7 @@ msgstr "Raggruppa per _discussioni"
 
 #: ui/evolution-mail-message.xml.h:1
 msgid "A_dd Sender to Addressbook"
-msgstr "Aggiungi mittente alla rubrica"
+msgstr "Aggiungi mittente alla _rubrica"
 
 #: ui/evolution-mail-message.xml.h:2
 msgid "A_pply Filters"
@@ -26887,7 +26889,7 @@ msgstr "In_oltra"
 
 #: ui/evolution-mail-message.xml.h:29
 msgid "Filter on Mailing _List..."
-msgstr "Filtra sulla Mailng _List..."
+msgstr "Filtro sulla mailing _list..."
 
 #: ui/evolution-mail-message.xml.h:30
 msgid "Filter on Se_nder..."
@@ -27107,7 +27109,7 @@ msgstr "Cartella Virtuale sui _Destinatari..."
 
 #: ui/evolution-mail-message.xml.h:92
 msgid "VFolder on _Subject..."
-msgstr "Cartella Virtuale per _Oggetto..."
+msgstr "Cartella virtuale sull'_oggetto..."
 
 #: ui/evolution-mail-message.xml.h:94
 msgid "_Attached"
