@@ -225,17 +225,19 @@ e_iconv_init(int keep)
 		 * codeset  is  a  character  set or encoding identifier like
 		 * ISO-8859-1 or UTF-8.
 		 */
-		char *p;
-		int len;
+		char *codeset, *p;
 		
-		p = strchr (locale, '@');
-		if (p == NULL)
-			p = strchr (locale, '/');  /* This is a hack for Solaris systems */
-		
-		len = p ? (p - locale) : strlen (locale);
-		if ((p = strchr (locale, '.'))) {
-			locale_charset = g_strndup (p + 1, len - (p - locale) + 1);
+		codeset = strchr (locale, '.');
+		if (codeset) {
+			codeset++;
+			
+			/* ; is a hack for debian systems and / is a hack for Solaris systems */
+			for (p = codeset; *p && !strchr ("@;/", *p); p++);
+			locale_charset = g_strndup (codeset, p - codeset);
 			g_strdown (locale_charset);
+		} else {
+			/* charset unknown */
+			locale_charset = NULL;
 		}
 #endif
 	}
@@ -327,8 +329,8 @@ iconv_t e_iconv_open(const char *oto, const char *ofrom)
 	if (oto == NULL || ofrom == NULL)
 		return (iconv_t)-1;
 
-	to = e_iconv_charset_name(oto);
-	from = e_iconv_charset_name(ofrom);
+	to = e_iconv_charset_name (oto);
+	from = e_iconv_charset_name (ofrom);
 	tofrom = alloca(strlen(to) +strlen(from) + 2);
 	sprintf(tofrom, "%s%%%s", to, from);
 
