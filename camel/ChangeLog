@@ -1,3 +1,8 @@
+2001-10-21    <NotZed@Ximian.com>
+
+	* camel-vee-folder.c (vee_folder_add_info): oops, dont free the
+	vuid, since its alloca'd now.
+
 2001-10-20    <NotZed@Ximian.com>
 
 	* camel-folder.c (move_messages_to): If no exception supplied, use

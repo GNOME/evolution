@@ -769,7 +769,6 @@ vee_folder_add_info(CamelVeeFolder *vf, CamelFolder *f, CamelMessageInfo *info, 
 	dinfo = camel_folder_summary_uid(folder->summary, vuid);
 	if (dinfo) {
 		d(printf("w:clash, we already have '%s' in summary\n", vuid));
-		g_free(vuid);
 		camel_folder_summary_info_free(folder->summary, dinfo);
 		return NULL;
 	}
