@@ -482,6 +482,7 @@ build_mods_from_ecards (ECardSimple *current, ECardSimple *new, gboolean *new_dn
 				mod->mod_values[1] = NULL;
 			}
 			else {
+				mod->mod_op |= LDAP_MOD_BVALUES;
 				mod->mod_bvalues = prop_info[i].ber_func (new);
 			}
 
@@ -1005,8 +1006,10 @@ email_ber_func(ECardSimple *card)
 
 	j = 0;
 	for (i = 0; i < 3; i ++) {
-		if (emails[i])
-			result[j++]->bv_val = g_strdup (emails[i]);
+		if (emails[i]) {
+			result[j]->bv_val = g_strdup (emails[i]);
+			result[j++]->bv_len = strlen (emails[i]) + 1;
+		}
 	}
 
 	result[num] = NULL;

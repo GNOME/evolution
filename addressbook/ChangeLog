@@ -1,3 +1,10 @@
+2001-01-24  Chris Toshok  <toshok@ximian.com>
+
+	* backend/pas/pas-backend-ldap.c (email_ber_func): make sure to
+	add the lengths here (include the \0?  anyone?).
+	(build_mods_from_ecards): if we're filling in mod->mod_bvalues,
+	set mod_op |= LDAP_MOD_BVALUES.
+
 2001-01-23  Jason Leach  <jasonleach@usa.net>
 	
 	(Fix #1225: advanced search cancel/close)
