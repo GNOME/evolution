@@ -1,5 +1,8 @@
 2001-06-27  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* evolution-mail-message.xml: Copy and Move to Folder now require
+	the Shift key.
+
 	* evolution-mail-list.xml: Changed the Expunge accel to ^E instead
 	of ^X since ^X is Cut and reveresed the order of the
 	Cut/Copy/Paste and Select* menu item groups.
