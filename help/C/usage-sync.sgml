@@ -14,7 +14,8 @@
           HotSync button.
         </para>
         <para>
-         No, really.  That's all there is to it.
+	 If your environment is correctly configured to sync with your
+	 PDA, then it should sync with <application>Evolution</application>.
         </para>
        </sect1>
     </chapter>
