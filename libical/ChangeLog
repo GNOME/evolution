@@ -1,3 +1,10 @@
+2000-08-26  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* examples/Makefile.am (INCLUDES): More `$(srcdir)' loving.
+
+	* src/libicalvcal/Makefile.am (INCLUDES): Add `-I
+	$(srcdir)/../libical' for builddir != srcdir loving.
+
 2000-08-25  Christopher James Lahey  <clahey@helixcode.com>
 
 	* examples/access_properties_and_parameters.c,

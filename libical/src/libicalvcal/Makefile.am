@@ -14,4 +14,4 @@ libicalvcal_a_SOURCES =	\
 
 EXTRA_DIST = README.TXT vcaltest.c vctest.c
 
-INCLUDES = -I../libical/
+INCLUDES = -I ../libical -I $(srcdir)/../libical
