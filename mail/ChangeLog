@@ -1,3 +1,9 @@
+2001-01-17  Ettore Perazzoli  <ettore@ximian.com>
+
+	* mail-ops.c (set_x_mailer): New function.
+	(send_mail_send): Use it.
+	(do_send_queue): Use it.
+
 2001-01-17  Martin Norbäck  <d95mback@dtek.chalmers.se>
 
 	* openpgp-utils.c (pgp_get_passphrase): Changed the word entry

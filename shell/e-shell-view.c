@@ -1094,7 +1094,11 @@ update_for_current_uri (EShellView *shell_view)
 	else
 		folder_name = e_utf8_to_gtk_string ((GtkWidget *) shell_view, e_folder_get_name (folder));
 
-	window_title = g_strdup_printf (_("Evolution - %s"), folder_name);
+	if (SUB_VERSION[0] == '\0')
+		window_title = g_strdup_printf (_("%s - Evolution %s"), folder_name, VERSION);
+	else
+		window_title = g_strdup_printf (_("%s - Evolution %s [%s]"), folder_name, VERSION, SUB_VERSION);
+
 	gtk_window_set_title (GTK_WINDOW (shell_view), window_title);
 	g_free (window_title);
 	g_free (folder_name);

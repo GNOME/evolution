@@ -1,3 +1,11 @@
+2001-01-17  Ettore Perazzoli  <ettore@ximian.com>
+
+	* acconfig.h: Add `SUB_VERSION', remove `XMAILER_VERSION'.
+
+	* configure.in: Removed `--with-x-mailer' option; replaced with a
+	more generic `--with-sub-version' option.  So, don't define
+	`X_MAILER'; instead, define `SUB_VERSION'.
+
 2001-01-16  Chris Toshok  <toshok@helixcode.com>
 
 	* configure.in: add --enable-nntp switch.  default is no.

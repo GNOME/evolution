@@ -613,14 +613,11 @@ else
     esac
 fi
 
-
-AC_ARG_WITH(x-mailer, [  --with-x-mailer=VERSION    Sub-version string for X-Mailer header])
-if test "${with_x_mailer:-no}" = "no"; then
-	with_x_mailer="$VERSION"
-else
-	with_x_mailer="$VERSION/$with_x_mailer"
-fi
-AC_DEFINE_UNQUOTED(XMAILER_VERSION, "$with_x_mailer")
+dnl ******************
+dnl Sub-version number
+dnl ******************
+AC_ARG_WITH(sub-version, [  --with-sub-version=VERSION Specify a sub-version string])
+AC_DEFINE_UNQUOTED(SUB_VERSION, "$sub_version")
 
 dnl ******************************
 dnl Makefiles

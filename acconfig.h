@@ -6,7 +6,6 @@
 #undef HAVE_LIBSM
 #undef PACKAGE
 #undef VERSION
-#undef XMAILER_VERSION
 #undef ENABLE_THREADS
 #undef SENDMAIL_PATH
 #undef SYSTEM_MAIL_DIR
@@ -23,6 +22,9 @@
 #undef USE_FLOCK
 #undef NEED_KRB_SENDAUTH_PROTO
 #undef HAVE_ISBLANK
+
+/* Sub-version identification string.  */
+#undef SUB_VERSION
 
 /* Define this if you want to build against the development gtk */
 #undef HAVE_DEVGTK

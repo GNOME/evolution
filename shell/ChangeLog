@@ -1,5 +1,11 @@
 2001-01-17  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-view.c (update_for_current_uri): Display the folder name
+	before "Evolution" instead of after it.  Also, display the
+	sub-version string if it was defined when configuring.
+
+2001-01-17  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-storage-set-view.c (table_drag_drop): Don't emit the
 	"dnd_action" signal here.  Instead, do a `gtk_drag_get_data()' to
 	retrieve information about the drop.

@@ -47,6 +47,23 @@ int mail_operation_run(const mail_operation_spec *op, void *in, int free);
 #define mail_tool_camel_lock_down()
 #define mail_tool_camel_lock_up()
 
+
+/* Utility functions.  */
+
+static void
+set_x_mailer (CamelMimeMessage *message)
+{
+	const char *xmailer_version;
+
+	if (SUB_VERSION[0] == '\0')
+		xmailer_version = "Evolution (" VERSION " - Preview Release)";
+	else
+		xmailer_version = "Evolution (" VERSION "/" SUB_VERSION " - Preview Release)";
+
+	camel_medium_add_header(CAMEL_MEDIUM (message), "X-Mailer", xmailer_version);
+}
+
+
 /* ** FETCH MAIL ********************************************************** */
 
 typedef struct fetch_mail_input_s
@@ -551,14 +568,15 @@ static char *send_mail_desc(struct _mail_msg *mm, int done)
 static void send_mail_send(struct _mail_msg *mm)
 {
 	struct _send_mail_msg *m = (struct _send_mail_msg *)mm;
-	extern CamelFolder *sent_folder;
+	extern CamelFolder *sent_folder; /* FIXME */
 	CamelMessageInfo *info;
 	CamelTransport *xport;
 	FilterContext *context;
 
-	camel_medium_add_header(CAMEL_MEDIUM (m->message), "X-Mailer", "Evolution (" XMAILER_VERSION " - Preview Release)");
+	set_x_mailer (m->message);
+
 	camel_mime_message_set_date(m->message, CAMEL_MESSAGE_DATE_CURRENT, 0);
-	
+
 	xport = camel_session_get_transport(session, m->uri, &mm->ex);
 	if (camel_exception_is_set(&mm->ex))
 		return;
@@ -696,9 +714,9 @@ do_send_queue (gpointer in_data, gpointer op_data, CamelException *ex)
 		message = camel_folder_get_message (input->folder_queue, uids->pdata[i], ex);
 		if (camel_exception_is_set (ex))
 			break;
-		
-		camel_medium_add_header (CAMEL_MEDIUM (message), "X-Mailer", "Evolution (" XMAILER_VERSION " - Preview Release)");
-		
+
+		set_x_mailer (message);
+
 		camel_mime_message_set_date (message, CAMEL_MESSAGE_DATE_CURRENT, 0);
 		
 		/* Get the preferred transport URI */
