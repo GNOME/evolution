@@ -32,7 +32,7 @@
 #include <gtkhtml/gtkhtml.h>
 
 /* corba/bonobo stuff */
-#include <bonobo/bonobo.h>
+#include <bonobo.h>
 #include <libgnorba/gnorba.h>
 
 static void
@@ -346,6 +346,17 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, void *data)
 	gchar *uid;
 	GtkWidget *bonobo_embedable;
 
+	CamelStream *stream;
+	gchar tmp_buffer[4097];
+	gint nb_bytes_read;
+
+	GString *tmp_gstring = NULL;
+	BonoboStream *mem_stream;
+
+	CORBA_Environment ev;
+	BonoboObjectClient *server;
+	Bonobo_PersistStream persist;
+
 
 
 	uid = gtk_html_embedded_get_parameter (eb, "uid");
@@ -359,7 +370,87 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, void *data)
 	gtk_widget_show (bonobo_embedable);
 
 	gtk_container_add (GTK_CONTAINER(eb), bonobo_embedable);
+
+	
+	if (sscanf (uid, "camel://%p", &stream) == 1) {
+
+		server = bonobo_widget_get_server (BONOBO_WIDGET (bonobo_embedable));
+		
+		/* if the component supports persistant streams, 
+		 * then we are going to create a mem stream */
+		if (bonobo_object_client_has_interface (server,
+							"IDL:Bonobo/PersistStream:1.0", 
+							NULL)) {
+			
+			tmp_gstring = g_string_new ("");
+
+			do {
+				
+			/* read next chunk of text */
+				nb_bytes_read = camel_stream_read (stream,
+								   tmp_buffer,
+								   4096);
+				tmp_buffer [nb_bytes_read] = '\0';
+				
+				/* If there's any text, append it to the gstring */
+				if (nb_bytes_read > 0) {
+					tmp_gstring = g_string_append (tmp_gstring, tmp_buffer);
+				}
+				
+				
+			} while (!camel_stream_eos (stream));
+		
+			if (tmp_gstring->len) {
+				mem_stream = bonobo_stream_mem_create (tmp_gstring->str,tmp_gstring->len , TRUE);
+				
+				persist = bonobo_object_client_query_interface (server,
+										"IDL:Bonobo/PersistStream:1.0",
+										NULL);
+				
+				/*
+				 * If the component doesn't support PersistStream (and it
+				 * really ought to -- we query it to see if it supports
+				 * PersistStream before we even give the user the option of
+				 * loading data into it with PersistStream), then we destroy
+				 * the stream we created and bail.
+				 */
+				if (persist == CORBA_OBJECT_NIL) {
+					gnome_warning_dialog (_("The component now claims that it "
+								"doesn't support PersistStream!"));
+					bonobo_object_unref (BONOBO_OBJECT (mem_stream));
+					return;
+				}
+				
+				CORBA_exception_init (&ev);
+				
+				/*
+				 * Load the file into the component using PersistStream.
+				 */
+				Bonobo_PersistStream_load (persist,
+							   (Bonobo_Stream) bonobo_object_corba_objref (BONOBO_OBJECT (mem_stream)),
+							   &ev);
+				
+				if (ev._major != CORBA_NO_EXCEPTION) {
+					gnome_warning_dialog (_("An exception occured while trying "
+								"to load data into the component with "
+								"PersistStream"));
+				}
+				
+				/*
+				 * Now we destroy the PersistStream object.
+				 */
+				Bonobo_Unknown_unref (persist, &ev);
+				CORBA_Object_release (persist, &ev);
+				
+				CORBA_exception_free (&ev);
+				
+			}
+		}
+	}
+	
 }
+
+
 
 
 static GtkWidget*
