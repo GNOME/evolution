@@ -1,3 +1,9 @@
+2000-10-19  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-format.c (mail_generate_reply): Get the MailConfigIdentity
+	*before* we create a new composer object so that we can set the
+	signature file.
+
 2000-10-18  Christopher James Lahey  <clahey@helixcode.com>
 
 	* message-list.c: Fixed some column widths.
