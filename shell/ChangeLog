@@ -1,3 +1,9 @@
+2002-03-21  Dan Winship  <danw@ximian.com>
+
+	* e-splash.c (e_splash_construct): Set the wmclass to
+	"evolution-splash" so sawfish knows it's not the same kind of
+	window as the main window.
+
 2002-03-20  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-view-menu.c: Make all the verb/menu arrays appropriately
