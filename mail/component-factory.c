@@ -123,13 +123,7 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	
 	evolution_dir = g_strdup (evolution_homedir);
 	mail_session_init ();
-
 	mail_config_init ();
-	mail_do_setup_folder ("Drafts", &drafts_folder);
-	mail_do_setup_folder ("Outbox", &outbox_folder);
-	mail_do_setup_folder ("Sent", &sent_folder);
-	/* Don't proceed until those _folder variables are valid. */
-	mail_operation_wait_for_finish ();
 
 	create_vfolder_storage (shell_component);
 
@@ -141,6 +135,12 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	mail_load_storages (corba_shell, sources);
 
 	mail_local_storage_startup (shell_client, evolution_dir);
+
+	mail_do_setup_folder ("Drafts", &drafts_folder);
+	mail_do_setup_folder ("Outbox", &outbox_folder);
+	mail_do_setup_folder ("Sent", &sent_folder);
+	/* Don't proceed until those _folder variables are valid. */
+	mail_operation_wait_for_finish ();
 }
 
 static void

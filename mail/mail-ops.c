@@ -2229,12 +2229,9 @@ do_setup_folder (gpointer in_data, gpointer op_data, CamelException *ex)
 	setup_folder_input_t *input = (setup_folder_input_t *) in_data;
 	gchar *url;
 
-	url = g_strdup_printf ("mbox://%s/local/%s", evolution_dir,
+	url = g_strdup_printf ("file://%s/local/%s", evolution_dir,
 			       input->name);
-	*(input->folder) = mail_tool_get_folder_from_urlname (url, "mbox",
-							      CAMEL_STORE_FOLDER_CREATE
-							      |CAMEL_STORE_FOLDER_BODY_INDEX,
-							      ex);
+	*(input->folder) = mail_tool_uri_to_folder (url, ex);
 	g_free (url);
 }
 
