@@ -23,6 +23,8 @@ Calendar:
 
   - Session management for the alarm daemon.  (Federico)
 
+  - Added activity bars for long calendar operations (Rodrigo)
+
 Version 0.16 (Beta 6), 2001-10-10
 ---------------------------------
 
