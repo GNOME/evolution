@@ -43,8 +43,9 @@ evolution_executive_summary_SOURCES =		\
 	e-summary-offline-handler.c	\
 	e-summary-offline-handler.h	\
 	e-summary-preferences.c		\
-	e-summary-rdf.h			\
+	e-summary-preferences.h		\
 	e-summary-rdf.c			\
+	e-summary-rdf.h			\
 	e-summary-type.h		\
 	e-summary-weather.c		\
 	e-summary-weather.h		\

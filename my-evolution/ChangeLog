@@ -1,3 +1,8 @@
+2001-07-02  Ettore Perazzoli  <ettore@ximian.com>
+
+	* Makefile.am (evolution_executive_summary_SOURCES): Add
+	`e-summary-preferences.h'.
+
 2001-06-30  Iain Holmes  <iain@ximian.com>
 
 	* e-summary-preferences.c (fill_rdf_all_clist): Load the URLs from a
