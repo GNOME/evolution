@@ -103,7 +103,7 @@ create_display_string (EFolderList *efl, char *folder_uri, char *folder_name)
 			storage_uri = g_strndup (folder_uri,
 						 p - folder_uri);
 			storage_folder = get_folder_for_uri (efl, storage_uri);
-			storage_lname = e_utf8_to_gtk_string (GTK_WIDGET(efl), storage_folder->displayName);
+			storage_lname = g_strdup (storage_folder->displayName);
 			CORBA_free (storage_folder);
 			g_free (storage_uri);
 		}

@@ -1,3 +1,17 @@
+2002-10-25  Ettore Perazzoli  <ettore@ximian.com>
+
+	[#31303]
+
+	* e-shell-view (storage_set_view_box_button_release_event_cb): Pop
+	down the popup folder bar if it's a toplevel node.
+	(folder_bar_popup_map_callback): Connect to the "folder_opened"
+	signal on the storage_set_view.
+
+2002-10-25  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-folder-list.c (create_display_string): Don't turn the string
+	from UTF-8 to GTK.  [#32032]
+
 2002-10-23  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell.c (setup_local_storage): Set the is_stock flag to TRUE

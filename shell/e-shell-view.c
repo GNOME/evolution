@@ -627,6 +627,16 @@ storage_set_view_box_button_release_event_cb (GtkWidget *widget,
 }
 
 static void
+storage_set_view_folder_opened_cb (EStorageSetView *storage_set_view,
+				   const char *path,
+				   void *data)
+{
+	/* Pop down for top level nodes, see #31303.  */
+	if (strchr (path + 1, E_PATH_SEPARATOR) == NULL)
+		popdown_transient_folder_bar (E_SHELL_VIEW (data));
+}
+
+static void
 popup_storage_set_view_button_clicked (ETitleBar *title_bar,
 				       void *data)
 {
@@ -678,6 +688,9 @@ folder_bar_popup_map_callback (GtkWidget *widget,
 
 	gtk_signal_connect_while_alive (GTK_OBJECT (widget), "button_release_event",
 					GTK_SIGNAL_FUNC (storage_set_view_box_button_release_event_cb), shell_view,
+					GTK_OBJECT (priv->folder_bar_popup));
+	gtk_signal_connect_while_alive (GTK_OBJECT (priv->storage_set_view), "folder_opened",
+					GTK_SIGNAL_FUNC (storage_set_view_folder_opened_cb), shell_view,
 					GTK_OBJECT (priv->folder_bar_popup));
 	gtk_signal_connect_while_alive (GTK_OBJECT (priv->storage_set_view), "button_release_event",
 					GTK_SIGNAL_FUNC (storage_set_view_box_button_release_event_cb), shell_view,
