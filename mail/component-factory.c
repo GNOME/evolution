@@ -369,7 +369,7 @@ real_create_imap_storage (gpointer user_data)
 	}
 
 	/* we need a way to set the namespace */
-	lsub = camel_folder_get_subfolder_names (folder, ex);
+	lsub = camel_folder_get_subfolder_names (folder);
 
 	p = g_strdup_printf ("%s/INBOX", source);
 	evolution_storage_new_folder (storage, "/INBOX", "mail", p, "description");
@@ -504,7 +504,7 @@ real_create_news_storage( gpointer user_data )
 	}
 
 	/* we need a way to set the namespace */
-	lsub = camel_folder_get_subfolder_names (folder, ex);
+	lsub = camel_folder_get_subfolder_names (folder);
 
 	max = lsub->len;
 	for (i = 0; i < max; i++) {

@@ -240,7 +240,7 @@ real_fetch_mail (gpointer user_data)
 				goto cleanup;
 			}
 			
-			uids = camel_folder_get_uids (sourcefolder, ex);
+			uids = camel_folder_get_uids (sourcefolder);
 			printf("got %d messages in source\n", uids->len);
 			for (i = 0; i < uids->len; i++) {
 				CamelMimeMessage *msg;
@@ -265,7 +265,7 @@ real_fetch_mail (gpointer user_data)
 					goto cleanup;
  				}
 
-				camel_folder_delete_message (sourcefolder, uids->pdata[i], ex);
+				camel_folder_delete_message (sourcefolder, uids->pdata[i]);
  				gtk_object_unref (GTK_OBJECT (msg));
 			}
 			camel_folder_free_uids (sourcefolder, uids);
@@ -278,7 +278,7 @@ real_fetch_mail (gpointer user_data)
 		}
 	}
 
-	if (camel_folder_get_message_count (folder, ex) == 0) {
+	if (camel_folder_get_message_count (folder) == 0) {
 		gnome_ok_dialog ("No new messages.");
 		goto cleanup;
 	} else if (camel_exception_is_set (ex)) {
@@ -460,8 +460,7 @@ real_send_mail (gpointer user_data)
 	} else {
 		if (psd) {
 			camel_folder_set_message_flags (psd->folder, psd->uid,
-							psd->flags, psd->flags,
-							ex);
+							psd->flags, psd->flags);
 		}
 		info->ok = TRUE;
 
@@ -808,10 +807,9 @@ real_delete_msg (MessageList *ml, const char *uid, gpointer user_data)
 		return;
 
 	/* Toggle the deleted flag without touching other flags. */
-	flags = camel_folder_get_message_flags (ml->folder, uid, ex);
+	flags = camel_folder_get_message_flags (ml->folder, uid);
 	camel_folder_set_message_flags (ml->folder, uid,
-					CAMEL_MESSAGE_DELETED,
-					~flags, ex);
+					CAMEL_MESSAGE_DELETED, ~flags);
 }
 
 void

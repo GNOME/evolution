@@ -152,11 +152,10 @@ mark_msg_seen (gpointer data)
 	if (!ml->cursor_uid)
 		return FALSE;
 
-	flags = camel_folder_get_message_flags (ml->folder, ml->cursor_uid,
-						NULL);
+	flags = camel_folder_get_message_flags (ml->folder, ml->cursor_uid);
 	camel_folder_set_message_flags (ml->folder, ml->cursor_uid,
-					CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN,
-					NULL);
+					CAMEL_MESSAGE_SEEN,
+					CAMEL_MESSAGE_SEEN);
 	return FALSE;
 }
 
@@ -320,8 +319,7 @@ ml_tree_set_value_at (ETreeModel *etm, ETreePath *path, int col,
 		return;
 
 	camel_folder_set_message_flags (message_list->folder, msg_info->uid,
-					CAMEL_MESSAGE_SEEN,
-					~(msg_info->flags), NULL);
+					CAMEL_MESSAGE_SEEN, ~msg_info->flags);
 	if (message_list->seen_id) {
 		gtk_timeout_remove (message_list->seen_id);
 		message_list->seen_id = 0;
@@ -826,7 +824,7 @@ message_list_regenerate (MessageList *message_list, const char *search)
 		} else
 			message_list->search = g_strdup (search);
 	} else
-		uids = camel_folder_get_uids (message_list->folder, NULL);
+		uids = camel_folder_get_uids (message_list->folder);
 	
 	/* FIXME: free the old tree data */
 	

@@ -1,5 +1,17 @@
 2000-07-24  Dan Winship  <danw@helixcode.com>
 
+	* message-list.c (mark_msg_seen, ml_tree_set_value_at,
+	message_list_regenerate): Update for CamelFolder API changes.
+	(Certain functions no longer take a CamelException.)
+
+	* mail-ops.c (real_fetch_mail, real_send_mail, real_delete_msg):
+	ditto
+
+	* component-factory.c (real_create_imap_storage,
+	real_create_news_storage): ditto
+
+2000-07-24  Dan Winship  <danw@helixcode.com>
+
 	* component-factory.c, folder-browser-factory.c, test-mail.c:
 	Remove GOAD support.
 
