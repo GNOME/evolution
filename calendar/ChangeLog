@@ -1,3 +1,7 @@
+1999-02-06  Lauris Kaplinski <lauris@ariman.ee>
+
+	* gncal.desktop: Added Estonian translations.
+
 1999-09-14  Federico Mena Quintero  <federico@redhat.com>
 
 	* gncal-full-day.c (child_popup_menu): Set the data pointers for
