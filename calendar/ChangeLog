@@ -81,7 +81,6 @@
 	* gui/e-day-view.c (e_day_view_finish_resize): hide canvas items and
 	update internal fields before updating the object.
 
->>>>>>> 1.1774
 2003-05-15  JP Rosevear  <jpr@ximian.com>
  
 	* gui/dialogs/comp-editor.c (comp_editor_finalize): unref the
