@@ -1,3 +1,8 @@
+2001-10-05  Christopher James Lahey  <clahey@ximian.com>
+
+	* message-list.c (message_list_setup_etree): Turn on
+	"uniform_row_height" argument.
+
 2001-10-04    <NotZed@Ximian.com>
 
 	* folder-browser.c (update_status_bar): Show "nn sent" as total in

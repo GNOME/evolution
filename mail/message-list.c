@@ -1053,6 +1053,10 @@ message_list_setup_etree (MessageList *message_list, gboolean outgoing)
 		char *path;
 		char *name;
 		struct stat st;
+
+		gtk_object_set (GTK_OBJECT (message_list->tree),
+				"uniform_row_height", TRUE,
+				NULL);
 		
 		name = camel_service_get_name (CAMEL_SERVICE (message_list->folder->parent_store), TRUE);
 		d(printf ("folder name is '%s'\n", name));
