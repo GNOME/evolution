@@ -1,3 +1,10 @@
+2002-05-01  Not Zed  <NotZed@Ximian.com>
+
+	* folder-browser.h (FOLDER_BROWSER_IS_DESTROYED): Also check
+	folder!=NULL.  Fixes race where folder isn't setup yet, and
+	neither is bonobo menu status (because its delayed), and we get a
+	menu event before we're setup yet.  For bug #21939.
+
 2002-04-30  Dan Winship  <danw@ximian.com>
 
 	* mail-callbacks.c (delete_msg): If the folder's permanent_flags

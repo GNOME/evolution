@@ -644,7 +644,6 @@ folder_browser_ui_set_selection_state (FolderBrowser *fb, FolderBrowserSelection
 		NULL
 	};
 
-
 	fbui_sensitize_items (fb, message_pane_enables, state != FB_SELSTATE_NONE && fb->loaded_uid && fb->preview_shown);
 
 	/* assumes that all the appropriate XML's have been loaded */
