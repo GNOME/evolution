@@ -36,6 +36,9 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
              contact editor. (Toshok)
     #42780 - Crash on solaris due to missing NULL in g_guild_filename.
              (sean.gao@sun.com)
+    #42825 - clicking on letters in LDAP address card view does not
+             load selected letter (Dan, Toshok)
+    #43005 - Crash on reply. (Toshok)
     #43016 - Crash when adding duplicate contact. (Toshok)
     #43023 - All contacts have disappeared. (Toshok)
     #43090 - GalView menu missing from the addressbook. (Toshok)
