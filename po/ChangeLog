@@ -1,3 +1,7 @@
+2001-12-19  Christian Rose  <menthos@menthos.com>
+
+	* sv.po: Updated Swedish translation.
+
 2001-12-18  Wang Jian  <lark@linux.net.cn>
 
 	* zh_CN.po: Updated Simplified Chinese translation by
@@ -6,18 +10,6 @@
 2001-12-17  Iain Holmes  <iain@ximian.com>
 
 	* POFILES.in: Added my-evolution/Locations.h
-
-2001-12-06  gettextize  <bug-gnu-utils@gnu.org>
-
-	* Makefile.in.in: Upgrade to gettext-0.10.39.
-
-2001-12-06  gettextize  <bug-gnu-utils@gnu.org>
-
-	* Makefile.in.in: Upgrade to gettext-0.10.39.
-
-2001-12-04  gettextize  <bug-gnu-utils@gnu.org>
-
-	* Makefile.in.in: Upgrade to gettext-0.10.39.
 
 2001-12-17  Roy-Magne Mo  <rmo@sunnmore.net>
 
