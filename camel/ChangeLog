@@ -2,6 +2,11 @@
 
 	* providers/vee/camel-vee-folder.c (vee_folder_build): Check the
 	searched folder is open before trying to search it.
+	(message_changed): Track changes to the source message in the
+	summary.
+	(folder_changed): Track folder changes, re-query the folder that
+	changed, and cascade the changed event as well.
+	(camel_vee_folder_finalise): Free subfolder and subfolder summary.
 
 2000-05-29  Dan Winship  <danw@helixcode.com>
 

@@ -64,6 +64,7 @@ static void camel_vee_folder_init       (CamelVeeFolder *obj);
 static void camel_vee_folder_finalise   (GtkObject *obj);
 
 static void vee_folder_build(CamelVeeFolder *vf, CamelException *ex);
+static void vee_folder_build_folder(CamelVeeFolder *vf, CamelFolder *source, CamelException *ex);
 
 static CamelFolderClass *camel_vee_folder_parent;
 
@@ -167,6 +168,17 @@ camel_vee_folder_new (void)
 	return new;
 }
 
+static void
+folder_changed(CamelFolder *sub, int type, CamelVeeFolder *vf)
+{
+	CamelException *ex;
+
+	ex = camel_exception_new();
+	vee_folder_build_folder(vf, sub, ex);
+	camel_exception_free(ex);
+	/* FIXME: should only raise follow-on event if the result changed */
+	gtk_signal_emit_by_name((GtkObject *)vf, "folder_changed", 0);
+}
 
 void
 camel_vee_folder_add_folder(CamelVeeFolder *vf, CamelFolder *sub)
@@ -175,6 +187,18 @@ camel_vee_folder_add_folder(CamelVeeFolder *vf, CamelFolder *sub)
 
 	gtk_object_ref((GtkObject *)sub);
 	p->folders = g_list_append(p->folders, sub);
+
+	gtk_signal_connect((GtkObject *)sub, "folder_changed", folder_changed, vf);
+
+	/* if we're open, do the search and update too */
+	if (camel_folder_is_open((CamelFolder *)vf)) {
+		CamelException *ex;
+		ex = camel_exception_new();
+		vee_folder_build_folder(vf, sub, ex);
+		camel_exception_free(ex);
+		/* FIXME: should only raise follow-on event if the result changed */
+		gtk_signal_emit_by_name((GtkObject *)vf, "folder_changed", 0);
+	}
 }
 
 
@@ -267,16 +291,54 @@ static gint vee_get_message_count (CamelFolder *folder, CamelException *ex)
 	return vf->messages->len;
 }
 
+/* track flag changes in the summary */
+static void
+message_changed(CamelMimeMessage *m, int type, CamelVeeFolder *mf)
+{
+	CamelMessageInfo *info;
+	CamelFlag *flag;
+	char *uid;
+
+	printf("VMessage changed: %s: %d\n", m->message_uid, type);
+	switch (type) {
+	case MESSAGE_FLAGS_CHANGED:
+		uid = g_strdup_printf("%p:%s", m->folder, m->message_uid);
+		info = (CamelMessageInfo *)vee_summary_get_by_uid((CamelFolder *)mf, uid);
+		if (info) {
+			info->flags = m->flags;
+			camel_flag_list_free(&info->user_flags);
+			flag = m->user_flags;
+			while (flag) {
+				camel_flag_set(&info->user_flags, flag->name, TRUE);
+				flag = flag->next;
+			}
+		} else {
+			g_warning("Message changed event on message not in summary: %s", uid);
+		}
+		g_free(uid);
+		break;
+	default:
+		printf("Unhandled message change event: %d\n", type);
+		break;
+	}
+}
+
 static CamelMimeMessage *vee_get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *ex)
 {
 	CamelVeeMessageInfo *mi;
+	CamelMimeMessage *mm;
 
 	mi = (CamelVeeMessageInfo *)vee_summary_get_by_uid(folder, uid);
 	if (mi == NULL) {
 		camel_exception_setv(ex, 1, "Failed");
 		return NULL;
 	}
-	return camel_folder_get_message_by_uid(mi->folder, strchr(mi->info.uid, ':')+1, ex);
+
+	mm = camel_folder_get_message_by_uid(mi->folder, strchr(mi->info.uid, ':')+1, ex);
+	if (mm) {
+		gtk_signal_connect((GtkObject *)mm, "message_changed", message_changed, folder);
+	}
+	return mm;
 }
 
 GPtrArray *vee_get_summary (CamelFolder *folder, CamelException *ex)
@@ -433,9 +495,6 @@ vee_folder_build(CamelVeeFolder *vf, CamelException *ex)
 static void
 vee_folder_build_folder(CamelVeeFolder *vf, CamelFolder *source, CamelException *ex)
 {
-	struct _CamelVeeFolderPrivate *p = _PRIVATE(vf);
-	GList *node;
-
 	GList *matches, *match;
 	CamelFolder *f = source;
 	CamelVeeMessageInfo *mi;
