@@ -913,8 +913,9 @@ rfc2047_decode_word(const char *in, int len)
 	char *outbase = NULL;
 	char *outbuf;
 	int inlen, outlen;
+	gboolean retried = FALSE;
 	iconv_t ic;
-
+	
 	d(printf("rfc2047: decoding '%.*s'\n", len, in));
 
 	/* quick check to see if this could possibly be a real encoded word */
@@ -963,6 +964,7 @@ rfc2047_decode_word(const char *in, int len)
 			outbuf = outbase;
 			
 			/* TODO: Should this cache iconv converters? */
+		retry:
 			ic = iconv_open ("UTF-8", charset);
 			if (ic != (iconv_t)-1) {
 				ret = iconv (ic, &inbuf, &inlen, &outbuf, &outlen);
@@ -975,9 +977,18 @@ rfc2047_decode_word(const char *in, int len)
 			} else {
 				w(g_warning ("Cannot decode charset, header display may be corrupt: %s: %s",
 					     charset, g_strerror (errno)));
-				/* TODO: Should this do this, or just leave the encoded strings? */
-				decword[inlen] = 0;
-				decoded = g_strdup (decword);
+				
+				if (!retried) {
+					charset = camel_charset_locale_name ();
+					if (!charset)
+						charset = "iso-8859-1";
+					
+					retried = TRUE;
+					goto retry;
+				}
+				
+				/* we return the encoded word here because we've got to return valid utf8 */
+				decoded = g_strndup (in, inlen);
 			}
 		}
 	}

@@ -400,10 +400,6 @@ camel_charset_to_iconv (const char *name)
 	if (name == NULL)
 		return NULL;
 	
-	/* special-case hack... */
-	if (!g_strcasecmp (name, "x-unknown"))
-		return locale_charset ? locale_charset : "iso-8859-1";
-	
 	ICONV_CHARSETS_LOCK ();
 	charset = g_hash_table_lookup (iconv_charsets, name);
 	if (!charset) {
