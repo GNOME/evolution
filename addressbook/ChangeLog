@@ -1,3 +1,16 @@
+2001-07-17  Chris Toshok  <toshok@ximian.com>
+
+	[ Fixes bugs #4611 - crash searching in the name field at Bigfoot for "\"
+	        and  #4554 - general ldap search crash ]
+	
+	* backend/pas/pas-backend-ldap.c (func_contains): the length of
+	the big query string needs to take into account the length of the
+	footer as well as the header - fix random memory corruption here.
+
+	* backend/pas/pas-backend-ldap.c (pas_backend_ldap_build_query):
+	list can be NULL, specifically if there's a parsing error in the
+	sexp, so deal with it.
+
 2001-07-16  Chris Toshok  <toshok@ximian.com>
 
 	[ Fix bug #4705 - LDAP storage gets saved with corrupted binddn]
