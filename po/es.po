@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.0.2\n"
-"POT-Creation-Date: 2002-02-23 13:42+0100\n"
+"POT-Creation-Date: 2002-02-23 22:05+0100\n"
 "PO-Revision-Date: 2002-02-23 12:00+0100\n"
 "Last-Translator: Héctor García Álvarez <hector@scouts-es.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
@@ -11406,7 +11406,7 @@ msgstr "Trabajando"
 
 #: mail/mail-ops.c:86
 msgid "Filtering Folder"
-msgstr "Carpeta de filtrado"
+msgstr "Filtrando carpeta"
 
 #: mail/mail-ops.c:249
 msgid "Fetching Mail"
