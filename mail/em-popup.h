@@ -108,9 +108,11 @@ enum {
 
 /* Flags that describe TARGET_FOLDER */
 enum {
-	EM_POPUP_FOLDER_LOCAL = 1<<0,
-	EM_POPUP_FOLDER_REMOTE = 1<<1,
-	EM_POPUP_FOLDER_VFOLDER = 1<<2,
+	EM_POPUP_FOLDER_FOLDER = 1<<0, /* normal folder */
+	EM_POPUP_FOLDER_STORE = 1<<1, /* root/nonselectable folder, i.e. store */
+	EM_POPUP_FOLDER_INFERIORS = 1<<2, /* folder can have children */
+	EM_POPUP_FOLDER_DELETE = 1<<3, /* folder can be deleted/renamed */
+	EM_POPUP_FOLDER_SELECT = 1<<4, /* folder can be selected/opened */
 };
 
 struct _EMPopupTarget {
@@ -162,6 +164,7 @@ struct _GtkMenu *em_popup_create_menu_once(EMPopup *emp, EMPopupTarget *, guint3
 EMPopupTarget *em_popup_target_new_uri(const char *uri);
 EMPopupTarget *em_popup_target_new_select(struct _CamelFolder *folder, const char *folder_uri, GPtrArray *uids);
 EMPopupTarget *em_popup_target_new_part(struct _CamelMimePart *part, const char *mime_type);
+EMPopupTarget *em_popup_target_new_folder(const char *uri, int isstore);
 void em_popup_target_free(EMPopupTarget *target);
 
 #ifdef __cplusplus

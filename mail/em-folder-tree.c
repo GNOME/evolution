@@ -1641,29 +1641,38 @@ emft_popup_properties (GtkWidget *item, EMFolderTree *emft)
 
 static EMPopupItem emft_popup_menu[] = {
 #if 0
-	{ EM_POPUP_ITEM, "00.emc.00", N_("_View"), G_CALLBACK (emft_popup_view), NULL, NULL, 0 },
-	{ EM_POPUP_ITEM, "00.emc.01", N_("Open in _New Window"), G_CALLBACK (emft_popup_open_new), NULL, NULL, 0 },
+	{ EM_POPUP_ITEM, "00.emc.00", N_("_View"), G_CALLBACK (emft_popup_view), NULL, NULL, EM_POPUP_FOLDER_SELECT },
+	{ EM_POPUP_ITEM, "00.emc.01", N_("Open in _New Window"), G_CALLBACK (emft_popup_open_new), NULL, NULL, EM_POPUP_FOLDER_SELECT },
 
 	{ EM_POPUP_BAR, "10.emc" },
 #endif
-	{ EM_POPUP_ITEM, "10.emc.00", N_("_Copy"), G_CALLBACK (emft_popup_copy), NULL, "folder-copy-16.png", 0 },
-	{ EM_POPUP_ITEM, "10.emc.01", N_("_Move"), G_CALLBACK (emft_popup_move), NULL, "folder-move-16.png", 0 },
+	{ EM_POPUP_ITEM, "10.emc.00", N_("_Copy"), G_CALLBACK (emft_popup_copy), NULL, "folder-copy-16.png", EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_SELECT },
+	{ EM_POPUP_ITEM, "10.emc.01", N_("_Move"), G_CALLBACK (emft_popup_move), NULL, "folder-move-16.png", EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_DELETE },
 	
 	{ EM_POPUP_BAR, "20.emc" },
-	{ EM_POPUP_ITEM, "20.emc.00", N_("_New Folder..."), G_CALLBACK (emft_popup_new_folder), NULL, "folder-mini.png", 0 },
-	{ EM_POPUP_ITEM, "20.emc.01", N_("_Delete"), G_CALLBACK (emft_popup_delete_folder), NULL, "evolution-trash-mini.png", 0 },
-	{ EM_POPUP_ITEM, "20.emc.01", N_("_Rename"), G_CALLBACK (emft_popup_rename_folder), NULL, NULL, 0 },
+	/* FIXME: need to disable for nochildren folders */
+	{ EM_POPUP_ITEM, "20.emc.00", N_("_New Folder..."), G_CALLBACK (emft_popup_new_folder), NULL, "folder-mini.png", EM_POPUP_FOLDER_INFERIORS },
+	/* FIXME: need to disable for undeletable folders */
+	{ EM_POPUP_ITEM, "20.emc.01", N_("_Delete"), G_CALLBACK (emft_popup_delete_folder), NULL, "evolution-trash-mini.png", EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_DELETE },
+	{ EM_POPUP_ITEM, "20.emc.01", N_("_Rename"), G_CALLBACK (emft_popup_rename_folder), NULL, NULL, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_DELETE },
 	
 	{ EM_POPUP_BAR, "80.emc" },
-	{ EM_POPUP_ITEM, "80.emc.00", N_("_Properties..."), G_CALLBACK (emft_popup_properties), NULL, "configure_16_folder.xpm", 0 },
+	{ EM_POPUP_ITEM, "80.emc.00", N_("_Properties..."), G_CALLBACK (emft_popup_properties), NULL, "configure_16_folder.xpm", EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_SELECT },
 };
 
 static gboolean
 emft_tree_button_press (GtkWidget *treeview, GdkEventButton *event, EMFolderTree *emft)
 {
+	struct _EMFolderTreePrivate *priv = emft->priv;
+	GtkTreeSelection *selection;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
 	GSList *menus = NULL;
 	GtkMenu *menu;
 	EMPopup *emp;
+	EMPopupTarget *target;
+	char *uri;
+	gboolean isstore;
 	int i;
 	
 	if (event->button != 3)
@@ -1671,6 +1680,12 @@ emft_tree_button_press (GtkWidget *treeview, GdkEventButton *event, EMFolderTree
 	
 	/* handle right-click by opening a context menu */
 	emp = em_popup_new ("com.ximian.mail.storageset.popup.select");
+
+	/* FIXME: we really need the folderinfo to build a proper menu */
+	selection = gtk_tree_view_get_selection (priv->treeview);
+	emft_selection_get_selected (selection, &model, &iter);
+	gtk_tree_model_get (model, &iter, COL_STRING_URI, &uri, COL_BOOL_IS_STORE, &isstore, -1);
+	target = em_popup_target_new_folder(uri, isstore);
 	
 	for (i = 0; i < sizeof (emft_popup_menu) / sizeof (emft_popup_menu[0]); i++) {
 		EMPopupItem *item = &emft_popup_menu[i];
@@ -1680,8 +1695,8 @@ emft_tree_button_press (GtkWidget *treeview, GdkEventButton *event, EMFolderTree
 	}
 	
 	em_popup_add_items (emp, menus, (GDestroyNotify) g_slist_free);
-	
-	menu = em_popup_create_menu_once (emp, NULL, 0, 0);
+
+	menu = em_popup_create_menu_once (emp, target, 0, target->mask);
 	
 	if (event == NULL || event->type == GDK_KEY_PRESS) {
 		/* FIXME: menu pos function */

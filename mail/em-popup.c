@@ -26,6 +26,9 @@
 #include <camel/camel-mime-part.h>
 #include <camel/camel-url.h>
 
+#include <camel/camel-vee-folder.h>
+#include <camel/camel-vtrash-folder.h>
+
 #include <gconf/gconf.h>
 #include <gconf/gconf-client.h>
 
@@ -544,6 +547,62 @@ em_popup_target_new_part(struct _CamelMimePart *part, const char *mime_type)
 	return t;
 }
 
+/* TODO: This should be based on the CamelFolderInfo, but ... em-folder-tree doesn't keep it? */
+EMPopupTarget *
+em_popup_target_new_folder(const char *uri, int isstore)
+{
+	EMPopupTarget *t = g_malloc0(sizeof(*t));
+	guint32 mask = ~0;
+	CamelURL *url;
+
+	t->type = EM_POPUP_TARGET_FOLDER;
+	t->data.folder.folder_uri = g_strdup(uri);
+
+	if (isstore)
+		mask &= ~(EM_POPUP_FOLDER_STORE|EM_POPUP_FOLDER_INFERIORS);
+	else
+		mask &= ~EM_POPUP_FOLDER_FOLDER;
+
+	url = camel_url_new(uri, NULL);
+	if (url == NULL)
+		goto done;
+	
+	if (!isstore) {
+		const char *path;
+
+		/* We have no way to find out FOLDER_INFERIORS without
+		 * the FolderInfo, so turn it on always (except vtrash/junk below) */
+		mask &= ~EM_POPUP_FOLDER_INFERIORS;
+
+		/* FIXME: this is a total hack, but i think all we can do at present */
+		path = url->fragment?url->fragment:url->path;
+		mask &= ~EM_POPUP_FOLDER_DELETE;
+		if (path && path[0]
+		    && (strcmp(path, CAMEL_VTRASH_NAME) == 0
+			|| strcmp(path, CAMEL_VJUNK_NAME) == 0
+			|| strcmp(path, CAMEL_UNMATCHED_NAME) == 0
+			/* more hack, for maildir root */
+			|| strcmp(path, ".") == 0))
+			mask |= EM_POPUP_FOLDER_DELETE|EM_POPUP_FOLDER_INFERIORS;
+
+		/* since vtrash/vjunk currently make scarily bogus
+		 * url's, we have to check this too */
+		if (strcmp(url->protocol, "vtrash") == 0
+		    || strcmp(url->protocol, "vjunk") == 0)
+			mask |= EM_POPUP_FOLDER_DELETE|EM_POPUP_FOLDER_INFERIORS;
+		/* end hack bit */
+
+		if (camel_url_get_param(url, "noselect") == NULL)
+			mask &= ~EM_POPUP_FOLDER_SELECT;
+	}
+
+	camel_url_free(url);
+done:
+	t->mask = mask;
+
+	return t;
+}
+
 void
 em_popup_target_free(EMPopupTarget *t)
 {
@@ -560,6 +619,9 @@ em_popup_target_free(EMPopupTarget *t)
 	case EM_POPUP_TARGET_PART:
 		camel_object_unref(t->data.part.part);
 		g_free(t->data.part.mime_type);
+		break;
+	case EM_POPUP_TARGET_FOLDER:
+		g_free(t->data.folder.folder_uri);
 		break;
 	}
 
@@ -820,9 +882,9 @@ emp_standard_menu_factory(EMPopup *emp, EMPopupTarget *target, void *data)
 	GSList *menus = NULL;
 
 	switch (target->type) {
+#if 0
 	case EM_POPUP_TARGET_SELECT:
 		return;
-#if 0
 		items = emp_standard_select_popups;
 		len = LEN(emp_standard_select_popups);
 		break;
@@ -890,7 +952,6 @@ emp_standard_menu_factory(EMPopup *emp, EMPopupTarget *target, void *data)
 	default:
 		items = NULL;
 		len = 0;
-		g_assert_not_reached ();
 	}
 
 	for (i=0;i<len;i++) {

@@ -1623,6 +1623,7 @@ message_list_destroy(GtkObject *object)
 		if (message_list->uid_nodemap) {
 			g_hash_table_foreach(message_list->uid_nodemap, (GHFunc)clear_info, message_list);
 			g_hash_table_destroy (message_list->uid_nodemap);
+			message_list->uid_nodemap = NULL;
 		}
 		
 		save_tree_state(message_list);

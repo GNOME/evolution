@@ -1,5 +1,29 @@
 2004-01-19  Not Zed  <NotZed@Ximian.com>
 
+	* mail-ops.c (add_vjunk_info, add_vtrash_info): removed this like
+	i asked radek to ages ago, just call the parent directly.
+	(add_vtrash_or_vjunk_info): renamed to something saner.
+	add_special_info.
+	(add_special_info): removed the 'unread count' parameter & return
+	the added info.
+
+	** See bug #52854.
+
+	* em-folder-tree.c (emft_tree_button_press): setup a FOLDER target
+	for the popup menu.
+
+	* em-popup.c (em_popup_target_free): implement free for
+	TARGET_FOLDER, changed the target options somewhat.
+	(em_popup_target_new_folder): implement folder selection target.
+	Total Hack(tm) alert.
+	(emp_standard_menu_factory): removed the stupid
+	g_assert_if_not_reached() call.
+
+	* message-list.c (message_list_destroy): NULL out the uid_nodemap
+	when we destroy it.
+
+2004-01-19  Not Zed  <NotZed@Ximian.com>
+
 	* em-folder-browser.c (emfb_folder_expunge): get the toplevel
 	widget here too, similar to bug 52161.
 

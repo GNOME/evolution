@@ -1042,14 +1042,14 @@ get_folderinfo_desc (struct _mail_msg *mm, int done)
 	return ret;
 }
 
-static void
-add_vtrash_or_vjunk_info (CamelStore *store, CamelFolderInfo *info, gchar *name, gchar *full_name, gchar *url_base, gboolean unread_count)
+static CamelFolderInfo *
+add_special_info(CamelStore *store, CamelFolderInfo *info, char *name, char *full_name, char *url_base)
 {
 	CamelFolderInfo *fi, *vinfo, *parent;
 	char *uri, *path;
 	CamelURL *url;
 	
-	g_return_if_fail (info != NULL);
+	g_return_val_if_fail (info != NULL, NULL);
 
 	parent = NULL;
 	for (fi = info; fi; fi = fi->sibling) {
@@ -1090,22 +1090,10 @@ add_vtrash_or_vjunk_info (CamelStore *store, CamelFolderInfo *info, gchar *name,
 	vinfo->full_name = g_strdup (full_name);
 	vinfo->name = g_strdup(vinfo->full_name);
 	vinfo->url = g_strdup_printf ("%s:%s", url_base, uri);
-	if (!unread_count)
-		vinfo->unread_message_count = -1;
 	vinfo->path = g_strdup_printf("/%s", vinfo->name);
 	g_free (uri);
-}
 
-static void
-add_vtrash_info (CamelStore *store, CamelFolderInfo *info)
-{
-	add_vtrash_or_vjunk_info (store, info, CAMEL_VTRASH_NAME, _("Trash"), "vtrash", FALSE);
-}
-
-static void
-add_vjunk_info (CamelStore *store, CamelFolderInfo *info)
-{
-	add_vtrash_or_vjunk_info (store, info, CAMEL_VJUNK_NAME, _("Junk"), "vjunk", TRUE);
+	return vinfo;
 }
 
 static void
@@ -1134,9 +1122,14 @@ get_folderinfo_get (struct _mail_msg *mm)
 	m->info = camel_store_get_folder_info (m->store, NULL, flags, &mm->ex);
 	if (m->info) {
 		if (m->info->url && (m->store->flags & CAMEL_STORE_VTRASH))
-			add_vtrash_info(m->store, m->info);
-		if (m->info->url && (m->store->flags & CAMEL_STORE_VJUNK))
-			add_vjunk_info(m->store, m->info);
+			add_special_info(m->store, m->info, CAMEL_VTRASH_NAME, _("Trash"), "vtrash");
+		if (m->info->url && (m->store->flags & CAMEL_STORE_VJUNK)) {
+			CamelFolderInfo *info;
+
+			info = add_special_info(m->store, m->info, CAMEL_VJUNK_NAME, _("Junk"), "vjunk");
+			info->unread_message_count = -1;
+		}
+
 		if (CAMEL_IS_VEE_STORE(m->store))
 			add_unmatched_info(m->info);
 	}
