@@ -440,7 +440,7 @@ button_press (GtkWidget *widget, CamelMimePart *part)
 }
 
 static gboolean
-pixmap_press (GtkWidget *widget, GdkEventButton *event, EScrollFrame *user_data)
+pixmap_press (GtkWidget *widget, GdkEventButton *event, gpointer user_data)
 {
 	EPopupMenu *menu;
 	EPopupMenu save_item = E_POPUP_ITEM (N_("Save Attachment..."), G_CALLBACK (save_cb), 0);
@@ -469,7 +469,7 @@ pixmap_press (GtkWidget *widget, GdkEventButton *event, EScrollFrame *user_data)
 	   mess up our popup. */
 	g_signal_stop_emission_by_name (widget, "button_press_event");
 	
-	part = g_object_get_data((GObject *) widget, "CamelMimePart");
+	part = g_object_get_data ((GObject *) widget, "CamelMimePart");
 	handler = mail_lookup_handler (g_object_get_data ((GObject *) widget, "mime_type"));
 	
 	if (handler && handler->applications)
