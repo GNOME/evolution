@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.gnome-2-8.gu\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-09-24 03:08+0200\n"
-"PO-Revision-Date: 2004-09-24 09:44+0530\n"
+"POT-Creation-Date: 2004-09-29 03:16+0200\n"
+"PO-Revision-Date: 2004-09-29 10:13+0530\n"
 "Last-Translator: Ankit Patel <ankit@redhat.com>\n"
 "Language-Team: Gujarati\n"
 "MIME-Version: 1.0\n"
@@ -19,6 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.3.1\n"
 "Plural-Forms: Plural-Forms: nplurals=2; plural=(n!=1);\n\n"
+"\n"
 "\n"
 "\n"
 "\n"
@@ -259,7 +260,7 @@ msgstr "આપોઆપ સંપૂર્ણ અંહિ રુપરેખા
 #. Create the contacts group
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:5
 #: addressbook/gui/component/addressbook-view.c:1144
-#: calendar/gui/migration.c:377
+#: calendar/gui/migration.c:378
 msgid "Contacts"
 msgstr "સંપર્કો"
 
@@ -337,12 +338,12 @@ msgid "Failed upgrading Addressbook settings or folders."
 msgstr "સરનામાપોથી સુયોજનો અથો ફોલ્ડરો સુધારવામાં નિષ્ફળ."
 
 #: addressbook/gui/component/addressbook-migrate.c:72
-#: calendar/gui/migration.c:141 mail/em-migrate.c:1160
+#: calendar/gui/migration.c:142 mail/em-migrate.c:1160
 msgid "Migrating..."
 msgstr "રુપાંતરિત કરી રહ્યા છીએ..."
 
 #: addressbook/gui/component/addressbook-migrate.c:124
-#: calendar/gui/migration.c:188 mail/em-migrate.c:1201
+#: calendar/gui/migration.c:189 mail/em-migrate.c:1201
 #, c-format
 msgid "Migrating `%s':"
 msgstr "`%s' ને રુપાંતરિત કરી રહ્યા છીએ:"
@@ -350,9 +351,9 @@ msgstr "`%s' ને રુપાંતરિત કરી રહ્યા છી
 #. create the local source group
 #. On This Computer is always first and VFolders is always last
 #: addressbook/gui/component/addressbook-migrate.c:493
-#: calendar/gui/migration.c:450 calendar/gui/migration.c:532
+#: calendar/gui/migration.c:452 calendar/gui/migration.c:545
 #: mail/em-folder-tree-model.c:196 mail/em-folder-tree-model.c:198
-#: mail/mail-component.c:249 mail/mail-vfolder.c:218
+#: mail/mail-component.c:250 mail/mail-vfolder.c:218
 msgid "On This Computer"
 msgstr "આ કમ્પ્યુટરમાં"
 
@@ -362,7 +363,7 @@ msgstr "આ કમ્પ્યુટરમાં"
 #. orange
 #: addressbook/gui/component/addressbook-migrate.c:501
 #: addressbook/gui/contact-editor/contact-editor.glade.h:34
-#: calendar/gui/migration.c:458 calendar/gui/migration.c:540
+#: calendar/gui/migration.c:460 calendar/gui/migration.c:553
 #: filter/filter-label.c:123 mail/em-migrate.c:1013 mail/mail-config.c:78
 #: mail/mail-config.glade.h:109
 msgid "Personal"
@@ -4073,7 +4074,7 @@ msgstr "ટિપ્પળી સમાવે છે"
 msgid "Location contains"
 msgstr "સ્થાન સમાવે છે"
 
-#: calendar/gui/cal-search-bar.c:362 camel/camel-vee-store.c:327
+#: calendar/gui/cal-search-bar.c:362 camel/camel-vee-store.c:342
 msgid "Unmatched"
 msgstr "બંધબેસતા નથી"
 
@@ -5400,7 +5401,7 @@ msgid "Low"
 msgstr "નીચું"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:8
-#: calendar/gui/e-cal-component-preview.c:251 calendar/gui/e-cal-model.c:943
+#: calendar/gui/e-cal-component-preview.c:251 calendar/gui/e-cal-model.c:949
 #: calendar/gui/e-calendar-table.c:398 mail/message-list.c:1011
 msgid "Normal"
 msgstr "સામાન્ય"
@@ -5655,11 +5656,11 @@ msgstr "શરુઆતની તારીખ"
 msgid "Summary"
 msgstr "સાર"
 
-#: calendar/gui/e-cal-model-calendar.c:175 calendar/gui/e-calendar-table.c:449
+#: calendar/gui/e-cal-model-calendar.c:181 calendar/gui/e-calendar-table.c:449
 msgid "Free"
 msgstr "મુક્ત"
 
-#: calendar/gui/e-cal-model-calendar.c:178 calendar/gui/e-calendar-table.c:450
+#: calendar/gui/e-cal-model-calendar.c:184 calendar/gui/e-calendar-table.c:450
 #: calendar/gui/e-meeting-time-sel.c:399
 msgid "Busy"
 msgstr "વ્યસ્ત"
@@ -5690,13 +5691,13 @@ msgstr ""
 "\n"
 "45.436845,125.862501"
 
-#: calendar/gui/e-cal-model-tasks.c:1013 calendar/gui/e-cal-model.c:949
+#: calendar/gui/e-cal-model-tasks.c:1013 calendar/gui/e-cal-model.c:955
 #: calendar/gui/e-meeting-list-view.c:146 calendar/gui/e-meeting-store.c:159
 #: calendar/gui/e-meeting-store.c:169 calendar/gui/e-meeting-store.c:765
 msgid "Yes"
 msgstr "હા"
 
-#: calendar/gui/e-cal-model-tasks.c:1013 calendar/gui/e-cal-model.c:949
+#: calendar/gui/e-cal-model-tasks.c:1013 calendar/gui/e-cal-model.c:955
 #: calendar/gui/e-meeting-list-view.c:147 calendar/gui/e-meeting-store.c:171
 msgid "No"
 msgstr "ના"
@@ -5713,7 +5714,7 @@ msgstr "ના"
 #: camel/providers/imap4/camel-imap4-engine.c:1432
 #: camel/providers/imap4/camel-imap4-engine.c:1464
 #: camel/providers/imap4/camel-imap4-engine.c:1506
-#: camel/providers/imap4/camel-imap4-store.c:1223
+#: camel/providers/imap4/camel-imap4-store.c:1194
 #: camel/providers/imap4/camel-imap4-utils.c:457
 #: camel/providers/smtp/camel-smtp-transport.c:172
 #: camel/providers/smtp/camel-smtp-transport.c:227 mail/em-utils.c:1155
@@ -5722,11 +5723,11 @@ msgstr "ના"
 msgid "Unknown"
 msgstr "અજ્ઞાત"
 
-#: calendar/gui/e-cal-model.c:945
+#: calendar/gui/e-cal-model.c:951
 msgid "Recurring"
 msgstr "વળતર"
 
-#: calendar/gui/e-cal-model.c:947
+#: calendar/gui/e-cal-model.c:953
 msgid "Assigned"
 msgstr "સોંપેલ"
 
@@ -5851,7 +5852,7 @@ msgstr "પસંદ કરેલ બાબતોને પૂર્ણ થય�
 #. FIXME: need to disable for undeletable folders
 #: calendar/gui/e-calendar-table.c:1063 calendar/gui/e-calendar-table.c:1081
 #: calendar/gui/e-calendar-view.c:1451 calendar/gui/e-calendar-view.c:1484
-#: mail/em-folder-tree.c:2710 mail/em-folder-view.c:924
+#: mail/em-folder-tree.c:2722 mail/em-folder-view.c:924
 #: ui/evolution-addressbook.xml.h:33 ui/evolution-calendar.xml.h:40
 #: ui/evolution-comp-editor.xml.h:17 ui/evolution-contact-editor.xml.h:14
 #: ui/evolution-mail-message.xml.h:112 ui/evolution-tasks.xml.h:21
@@ -6777,7 +6778,7 @@ msgstr "iCalendar જાણકારી"
 msgid "You must be an attendee of the event."
 msgstr "તમે ઘટનાના સભાસદ હોવા જ જોઈએ."
 
-#: calendar/gui/migration.c:150
+#: calendar/gui/migration.c:151
 msgid ""
 "The location and hierarchy of the Evolution task folders has changed since "
 "Evolution 1.x.\n"
@@ -6788,7 +6789,7 @@ msgstr ""
 "\n"
 "મહેરબાની કરીને ઈવોલ્યુશન તમારા ફોલ્ડરોને ખસેડે ત્યાં સુધી શાંતિ દાખવો..."
 
-#: calendar/gui/migration.c:154
+#: calendar/gui/migration.c:155
 msgid ""
 "The location and hierarchy of the Evolution calendar folders has changed "
 "since Evolution 1.x.\n"
@@ -6799,28 +6800,28 @@ msgstr ""
 "\n"
 "મહેરબાની કરીને ઈવોલ્યુશન તમારા ફોલ્ડરોને ખસેડે ત્યાં સુધી શાંતિ દાખવો..."
 
-#: calendar/gui/migration.c:380
+#: calendar/gui/migration.c:381
 msgid "Birthdays & Anniversaries"
 msgstr "જન્મદિવસો અને સાલગીરીઓ"
 
 #. Create the Webcal source group
-#: calendar/gui/migration.c:466 calendar/gui/migration.c:548
+#: calendar/gui/migration.c:479 calendar/gui/migration.c:572
 msgid "On The Web"
 msgstr "વેબ પર"
 
 #. FIXME: set proper domain/code
-#: calendar/gui/migration.c:712 calendar/gui/migration.c:864
+#: calendar/gui/migration.c:736 calendar/gui/migration.c:888
 msgid "Unable to migrate old settings from evolution/config.xmldb"
 msgstr "evolution/config.xmldb માંથી જૂના સુયોજનો ફેરવવામાં અસમર્થ"
 
 #. FIXME: domain/code
-#: calendar/gui/migration.c:741
+#: calendar/gui/migration.c:765
 #, c-format
 msgid "Unable to migrate calendar `%s'"
 msgstr "કેલેન્ડર `%s' ને ફેરવવામાં અસમર્થ"
 
 #. FIXME: domain/code
-#: calendar/gui/migration.c:893
+#: calendar/gui/migration.c:917
 #, c-format
 msgid "Unable to migrate tasks `%s'"
 msgstr "બાબતો `%s' ફેરવવામાં અસમર્થ"
@@ -7068,7 +7069,7 @@ msgid_plural "%d tasks"
 msgstr[0] "%d બાબત"
 msgstr[1] "%d બાબતો"
 
-#: calendar/gui/tasks-component.c:423 mail/mail-component.c:502
+#: calendar/gui/tasks-component.c:423 mail/mail-component.c:503
 #, c-format
 msgid ", %d selected"
 msgid_plural ", %d selected"
@@ -8838,7 +8839,7 @@ msgstr "ફોલ્ડરો સુમેળ કરી રહ્યા છી�
 msgid "Error parsing filter: %s: %s"
 msgstr "ગાળકનું પદચ્છેદ કરતાં ભૂલ: %s: %s"
 
-#: camel/camel-filter-driver.c:1052 camel/camel-filter-driver.c:1426
+#: camel/camel-filter-driver.c:1052 camel/camel-filter-driver.c:1429
 #, c-format
 msgid "Error executing filter: %s: %s"
 msgstr "ગાળકને ચલાવતાં ભૂલ: %s: %s"
@@ -9011,7 +9012,7 @@ msgstr ""
 #: camel/camel-gpg-context.c:804 camel/camel-gpg-context.c:1314
 #: camel/camel-gpg-context.c:1498 camel/camel-gpg-context.c:1589
 #: camel/camel-gpg-context.c:1697 camel/providers/nntp/camel-nntp-store.c:1244
-#: camel/providers/nntp/camel-nntp-store.c:1342 mail/mail-ops.c:705
+#: camel/providers/nntp/camel-nntp-store.c:1342 mail/mail-ops.c:716
 #: mail/mail-send-recv.c:611
 msgid "Cancelled."
 msgstr "રદ થઈ ગયેલ."
@@ -9135,56 +9136,56 @@ msgstr "fcntl(2) ની મદદથી તાળુ મેળવવામાં
 msgid "Failed to get lock using flock(2): %s"
 msgstr "flock(2) ની મદદથી તાળુ મેળવવામાં નિષ્ફળ: %s"
 
-#: camel/camel-movemail.c:107
+#: camel/camel-movemail.c:105
 #, c-format
 msgid "Could not check mail file %s: %s"
 msgstr "મેઈલ ફાઈલ %s ચકાસી શકાઈ નહિં: %s"
 
-#: camel/camel-movemail.c:120
+#: camel/camel-movemail.c:118
 #, c-format
 msgid "Could not open mail file %s: %s"
 msgstr "મેઈલ ફાઈલ %s ખોલી શકાઈ નહિં: %s"
 
-#: camel/camel-movemail.c:128
+#: camel/camel-movemail.c:126
 #, c-format
 msgid "Could not open temporary mail file %s: %s"
 msgstr "કામચલાઉ મેઈલ ફાઈલ %s ખોલી શકાઈ નહિં: %s"
 
-#: camel/camel-movemail.c:157
+#: camel/camel-movemail.c:155
 #, c-format
 msgid "Failed to store mail in temp file %s: %s"
 msgstr "કામચલાઉ ફાઈલ %s માં મેઈલ સંગ્રહવામાં નિષ્ફળ: %s"
 
-#: camel/camel-movemail.c:187
+#: camel/camel-movemail.c:185
 #, c-format
 msgid "Could not create pipe: %s"
 msgstr "પાઈપ બનાવી શક્યા નથી: %s"
 
-#: camel/camel-movemail.c:199
+#: camel/camel-movemail.c:197
 #, c-format
 msgid "Could not fork: %s"
 msgstr "ફોર્ક કરી શક્યા નહિં: %s"
 
-#: camel/camel-movemail.c:237
+#: camel/camel-movemail.c:235
 #, c-format
 msgid "Movemail program failed: %s"
 msgstr "Movemail કાર્યક્રમ નિષ્ફળ ગયો: %s"
 
-#: camel/camel-movemail.c:238
+#: camel/camel-movemail.c:236
 msgid "(Unknown error)"
 msgstr "(અજ્ઞાત ભૂલ)"
 
-#: camel/camel-movemail.c:261
+#: camel/camel-movemail.c:259
 #, c-format
 msgid "Error reading mail file: %s"
 msgstr "મેઈલ ફાઈલ વાંચવામાં ભૂલ: %s"
 
-#: camel/camel-movemail.c:272
+#: camel/camel-movemail.c:270
 #, c-format
 msgid "Error writing mail temp file: %s"
 msgstr "મેઈલ કામચલાઉ ફાઈલ લખવામાં ભૂલ: %s"
 
-#: camel/camel-movemail.c:465 camel/camel-movemail.c:532
+#: camel/camel-movemail.c:463 camel/camel-movemail.c:530
 #, c-format
 msgid "Error copying mail temp file: %s"
 msgstr "મેઈલ કામચલાઉ ફાઈલ નકલ કરવામાં ભૂલ: %s"
@@ -9729,12 +9730,12 @@ msgstr "ફોલ્ડર બનાવી શકતા નથી: આ સંગ
 msgid "Cannot create folder: %s: folder exists"
 msgstr "ફોલ્ડર બનાવી શકતા નથી: %s: ફોલ્ડર પહેલાથી જ હાજર છે"
 
-#: camel/camel-store.c:389 camel/camel-vee-store.c:351
+#: camel/camel-store.c:389 camel/camel-vee-store.c:366
 #, c-format
 msgid "Cannot delete folder: %s: Invalid operation"
 msgstr "ફોલ્ડર કાઢી શકતા નથી: %s: અમાન્ય પ્રક્રિયા"
 
-#: camel/camel-store.c:439 camel/camel-vee-store.c:388
+#: camel/camel-store.c:439 camel/camel-vee-store.c:403
 #: camel/providers/local/camel-maildir-store.c:232
 #, c-format
 msgid "Cannot rename folder: %s: Invalid operation"
@@ -9962,26 +9963,26 @@ msgstr ""
 msgid "Could not parse URL `%s'"
 msgstr "URL નું પદચ્છેદ કરી શક્યા નહિં `%s'"
 
-#: camel/camel-vee-folder.c:633
+#: camel/camel-vee-folder.c:603
 #, c-format
 msgid "Error storing `%s': %s"
 msgstr "`%s' ને સંગ્રહવામાં ભૂલ: %s"
 
-#: camel/camel-vee-folder.c:675
+#: camel/camel-vee-folder.c:645
 #, c-format
 msgid "No such message %s in %s"
 msgstr "%s માં %s જેવો કોઈ સંદેશો નથી"
 
-#: camel/camel-vee-folder.c:841 camel/camel-vee-folder.c:847
+#: camel/camel-vee-folder.c:812 camel/camel-vee-folder.c:818
 msgid "Cannot copy or move messages into a Virtual Folder"
 msgstr "વર્ચ્યુઅલ ફોલ્ડરમાં સંદેશાઓની નકલ કરી શકાતી નથી અથવા ખસેડી શકાતા નથી"
 
-#: camel/camel-vee-store.c:374
+#: camel/camel-vee-store.c:389
 #, c-format
 msgid "Cannot delete folder: %s: No such folder"
 msgstr "ફોલ્ડર કાઢી શકતા નથી: %s: આવું કોઈ ફોલ્ડર નથી"
 
-#: camel/camel-vee-store.c:396
+#: camel/camel-vee-store.c:411
 #, c-format
 msgid "Cannot rename folder: %s: No such folder"
 msgstr "ફોલ્ડરનું નામ બદલી શકતા નથી: %s: આવું કોઈ ફોલ્ડર નથી"
@@ -10082,7 +10083,7 @@ msgstr "સર્વરનું અનિચ્છનિય રીતે જો
 
 #: camel/providers/imap/camel-imap-command.c:303
 #: camel/providers/imap/camel-imap-command.c:400
-#: camel/providers/imap4/camel-imap4-store.c:283
+#: camel/providers/imap4/camel-imap4-store.c:260
 #: camel/providers/pop3/camel-pop3-store.c:550
 #: camel/providers/pop3/camel-pop3-store.c:557
 #: camel/providers/pop3/camel-pop3-store.c:563 shell/e-shell.c:1228
@@ -10158,7 +10159,7 @@ msgstr ""
 
 #: camel/providers/imap/camel-imap-folder.c:1975
 #: camel/providers/local/camel-maildir-folder.c:244
-#: camel/providers/local/camel-mbox-folder.c:418
+#: camel/providers/local/camel-mbox-folder.c:415
 #: camel/providers/local/camel-mh-folder.c:202
 msgid "No such message"
 msgstr "આવો કોઈ સંદેશો નથી"
@@ -10284,7 +10285,7 @@ msgid "Could not connect to %s (port %s): %s"
 msgstr "%s (પોર્ટ %s) સાથે જોડાઈ શક્યા નહિં: %s"
 
 #: camel/providers/imap/camel-imap-store.c:554
-#: camel/providers/imap4/camel-imap4-store.c:216
+#: camel/providers/imap4/camel-imap4-store.c:210
 #: camel/providers/pop3/camel-pop3-store.c:179
 #: camel/providers/smtp/camel-smtp-transport.c:273
 msgid "SSL unavailable"
@@ -10292,7 +10293,7 @@ msgstr "SSL બિન-ઉપ્લબ્ધ"
 
 #: camel/providers/imap/camel-imap-store.c:573
 #: camel/providers/imap/camel-imap-store.c:850
-#: camel/providers/imap4/camel-imap4-store.c:227
+#: camel/providers/imap4/camel-imap4-store.c:221
 #: camel/providers/imapp/camel-imapp-store.c:236
 #: camel/providers/nntp/camel-nntp-store.c:216
 #: camel/providers/nntp/camel-nntp-store.c:234
@@ -10302,7 +10303,8 @@ msgstr "જોડાણ નકારાઈ ગયું"
 
 #: camel/providers/imap/camel-imap-store.c:684
 #: camel/providers/imap/camel-imap-store.c:715
-#: camel/providers/imap4/camel-imap4-store.c:282
+#: camel/providers/imap4/camel-imap4-store.c:246
+#: camel/providers/imap4/camel-imap4-store.c:259
 #, c-format
 msgid "Failed to connect to IMAP server %s in secure mode: %s"
 msgstr "IMAP સર્વર %s ને સુરક્ષિત સ્થિતિમાં જોડવામાં નિષ્ફળ: %s"
@@ -10313,6 +10315,7 @@ msgid "SSL/TLS extension not supported."
 msgstr "SSL/TLS વિસ્તૃતિકરણ આધારભૂત નથી."
 
 #: camel/providers/imap/camel-imap-store.c:716
+#: camel/providers/imap4/camel-imap4-store.c:247
 #: camel/providers/pop3/camel-pop3-store.c:281
 msgid "SSL negotiations failed"
 msgstr "SSL નું ભાવતાલ નિષ્ફળ"
@@ -10362,7 +10365,7 @@ msgstr "આવું કોઈ ફોલ્ડર %s નથી"
 
 #: camel/providers/imap/camel-imap-store.c:1890
 #: camel/providers/imap/camel-imap-store.c:2268
-#: camel/providers/imap4/camel-imap4-store.c:764
+#: camel/providers/imap4/camel-imap4-store.c:735
 #, c-format
 msgid "The folder name \"%s\" is invalid because it contains the character \"%c\""
 msgstr "ફોલ્ડર નામ \"%s\" એ અમાન્ય છે કારણ કે તે \"%c\" અક્ષર ધરાવે છે"
@@ -10374,7 +10377,7 @@ msgstr "પિતૃ ફોલ્ડરને ઉપફોલ્ડરો સમ
 
 #: camel/providers/imap/camel-imap-store.c:2003
 #: camel/providers/local/camel-maildir-store.c:139
-#: camel/providers/local/camel-mbox-store.c:212
+#: camel/providers/local/camel-mbox-store.c:209
 #: camel/providers/local/camel-mh-store.c:236
 #, c-format
 msgid "Cannot create folder `%s': folder exists."
@@ -10491,104 +10494,97 @@ msgstr "મેઈલને IMAPv4rev1 સર્વરમાંથી વાં�
 msgid "This option will connect to the IMAPv4rev1 server using a plaintext password."
 msgstr "આ વિકલ્પ IMAPv4rev1 સર્વર સાથે સરળ લખાણવાળા પાસવર્ડ વાપરીને જોડાશે."
 
-#: camel/providers/imap4/camel-imap4-store.c:214
-#: camel/providers/imap4/camel-imap4-store.c:230
+#: camel/providers/imap4/camel-imap4-store.c:209
+#: camel/providers/imap4/camel-imap4-store.c:224
 #, c-format
-msgid "Could not connect to %s (port %d): %s"
-msgstr "%s (પોર્ટ %d) સાથે જોડાઈ શક્યા નહિં: %s"
+msgid "Could not connect to %s: %s"
+msgstr "%s સાથે જોડાઈ શક્યા નહિં: %s"
 
-#: camel/providers/imap4/camel-imap4-store.c:257
-#, c-format
-msgid ""
-"Failed to connect to IMAP server %s in secure mode: Server does not support "
-"STARTTLS"
-msgstr "IMAP સર્વર %s ને સુરક્ષિત સ્થિતિમાં જોડાવામાં નિષ્ફળ: સર્વર STARTTLS ને આધાર આપતું નથી"
-
-#: camel/providers/imap4/camel-imap4-store.c:363
+#: camel/providers/imap4/camel-imap4-store.c:334
 #, c-format
 msgid "Cannot authenticate to IMAP server %s using the %s authentication mechanism"
 msgstr "IMAP સર્વર %s ને %s સત્તાધિકરણની મદદથી સત્તાધિકરમ કરી શકતા નથી"
 
-#: camel/providers/imap4/camel-imap4-store.c:408
+#: camel/providers/imap4/camel-imap4-store.c:379
 #, c-format
 msgid "%sPlease enter the IMAP password for %s on host %s"
 msgstr "%s મહેરબાની કરીને %s માટે %s યજમાન પર IMAP પાસવર્ડ દાખલ કરો"
 
-#: camel/providers/imap4/camel-imap4-store.c:478
+#: camel/providers/imap4/camel-imap4-store.c:449
 #, c-format
 msgid "Cannot authenticate to IMAP server %s using %s"
 msgstr "IMAP સર્વર %s ને %s મદદથી સત્તાધિકરણ કરી શકતા નથી"
 
-#: camel/providers/imap4/camel-imap4-store.c:701
+#: camel/providers/imap4/camel-imap4-store.c:672
 #, c-format
 msgid "Cannot get folder `%s' on IMAP server %s: Unknown"
 msgstr "ફોલ્ડર `%s' ને IMAP સર્વર %s પર મેળવી શકતા નથી: અજ્ઞાત"
 
-#: camel/providers/imap4/camel-imap4-store.c:815
+#: camel/providers/imap4/camel-imap4-store.c:786
 #, c-format
 msgid "Cannot create folder `%s': Invalid mailbox name"
 msgstr "ફોલ્ડર `%s' બનાવી શકતા નથી: અમાન્ય મેઈલબોક્સ નામ"
 
-#: camel/providers/imap4/camel-imap4-store.c:821
+#: camel/providers/imap4/camel-imap4-store.c:792
 #, c-format
 msgid "Cannot create folder `%s': Bad command"
 msgstr "ફોલ્ડર `%s' બનાવી શકતા નથી: ખરાબ આદેશ"
 
-#: camel/providers/imap4/camel-imap4-store.c:852
+#: camel/providers/imap4/camel-imap4-store.c:823
 #, c-format
 msgid "Cannot delete folder `%s': Special folder"
 msgstr "ફોલ્ડર `%s' કાઢી શકતા નથી: વિશિષ્ટ ફોલ્ડર"
 
-#: camel/providers/imap4/camel-imap4-store.c:911
+#: camel/providers/imap4/camel-imap4-store.c:882
 #, c-format
 msgid "Cannot delete folder `%s': Invalid mailbox name"
 msgstr "ફોલ્ડર `%s' કાઢી શકતા નથી: મેઈલબોક્સનું નામ અમાન્ય છે"
 
-#: camel/providers/imap4/camel-imap4-store.c:916
+#: camel/providers/imap4/camel-imap4-store.c:887
 #, c-format
 msgid "Cannot delete folder `%s': Bad command"
 msgstr "ફોલ્ડર `%s' કાઢી શકતા નથી: ખરાબ આદેશ"
 
-#: camel/providers/imap4/camel-imap4-store.c:936
+#: camel/providers/imap4/camel-imap4-store.c:907
 #, c-format
 msgid "Cannot rename folder `%s' to `%s': Special folder"
 msgstr "ફોલ્ડર `%s' ને `%s' નામમાં ફેરવી શકતા નથી: વિશિષ્ટ ફોલ્ડર"
 
-#: camel/providers/imap4/camel-imap4-store.c:968
+#: camel/providers/imap4/camel-imap4-store.c:939
 #, c-format
 msgid "Cannot rename folder `%s' to `%s': Invalid mailbox name"
 msgstr "ફોલ્ડર `%s' ને `%s' નામમાં ફેરવી શકતા નથી: મેઈલબોક્સનું નામ અમાન્ય છે"
 
-#: camel/providers/imap4/camel-imap4-store.c:973
+#: camel/providers/imap4/camel-imap4-store.c:944
 #, c-format
 msgid "Cannot rename folder `%s' to `%s': Bad command"
 msgstr "ફોલ્ડર `%s' ને `%s' નામમાં ફેરવી શકતા નથી: ખરાબ આદેશ"
 
-#: camel/providers/imap4/camel-imap4-store.c:1221
+#: camel/providers/imap4/camel-imap4-store.c:1192
 #, c-format
 msgid "Cannot get %s information for pattern `%s' on IMAP server %s: %s"
 msgstr "ભાત %s માટે જાણકારી `%s' ને IMAP સર્વર %s પર મેળવી શકતા નથી: %s"
 
-#: camel/providers/imap4/camel-imap4-store.c:1223
+#: camel/providers/imap4/camel-imap4-store.c:1194
 msgid "Bad command"
 msgstr "ખરાબ આદેશ"
 
-#: camel/providers/imap4/camel-imap4-store.c:1299
+#: camel/providers/imap4/camel-imap4-store.c:1270
 #, c-format
 msgid "Cannot subscribe to folder `%s': Invalid mailbox name"
 msgstr "ફોલ્ડર `%s' ને ઉમેદવારી કરી શકતા નથી: મેઈલબોક્સનુ નામ અમાન્ય છે"
 
-#: camel/providers/imap4/camel-imap4-store.c:1304
+#: camel/providers/imap4/camel-imap4-store.c:1275
 #, c-format
 msgid "Cannot subscribe to folder `%s': Bad command"
 msgstr "ફોલ્ડર `%s' ને ઉમેદવારી કરી શકતા નથી: ખરાબ આદેશ"
 
-#: camel/providers/imap4/camel-imap4-store.c:1364
+#: camel/providers/imap4/camel-imap4-store.c:1335
 #, c-format
 msgid "Cannot unsubscribe from folder `%s': Invalid mailbox name"
 msgstr "ફોલ્ડર `%s' ની ઉમેદવારી દૂર કરી શકતા નથી: મેઈલબોક્સનું નામ અમાન્ય છે"
 
-#: camel/providers/imap4/camel-imap4-store.c:1369
+#: camel/providers/imap4/camel-imap4-store.c:1340
 #, c-format
 msgid "Cannot unsubscribe from folder `%s': Bad command"
 msgstr "ફોલ્ડર `%s' ની ઉમેદવારી દૂર કરી શકતા નથી: ખરાબ આદેશ"
@@ -10711,7 +10707,7 @@ msgstr ""
 
 #: camel/providers/local/camel-local-store.c:142
 #: camel/providers/local/camel-local-store.c:253
-#: camel/providers/local/camel-mbox-store.c:355
+#: camel/providers/local/camel-mbox-store.c:352
 #: camel/providers/local/camel-spool-store.c:116
 #, c-format
 msgid "Store root %s is not an absolute path"
@@ -10749,19 +10745,19 @@ msgid "Could not rename '%s': %s"
 msgstr "'%s' નું નામ બદલી શક્યા નહિં: %s"
 
 #: camel/providers/local/camel-local-store.c:423
-#: camel/providers/local/camel-mbox-store.c:284
+#: camel/providers/local/camel-mbox-store.c:281
 #, c-format
 msgid "Could not delete folder summary file `%s': %s"
 msgstr "ફોલ્ડર સાર ફાઈલ `%s' કાઢી શક્યા નહિં: %s"
 
 #: camel/providers/local/camel-local-store.c:433
-#: camel/providers/local/camel-mbox-store.c:296
+#: camel/providers/local/camel-mbox-store.c:293
 #, c-format
 msgid "Could not delete folder index file `%s': %s"
 msgstr "ફોલ્ડર અનુક્રમ ફાઈલ `%s' કાઢી શક્યા નહિં: %s"
 
 #: camel/providers/local/camel-local-store.c:456
-#: camel/providers/local/camel-mbox-store.c:320
+#: camel/providers/local/camel-mbox-store.c:317
 #, c-format
 msgid "Could not delete folder meta file `%s': %s"
 msgstr "ફોલ્ડર મેટા ફાઈલ `%s' કાઢી શક્યા નહિં: %s"
@@ -10776,10 +10772,13 @@ msgid "Unable to add message to summary: unknown reason"
 msgstr "સારમાં સંદેશો ઉમેરવા માટે અસમર્થ: અજ્ઞાત કારણ"
 
 #. Inbox is always first
+#. translators: standard local mailbox names
 #: camel/providers/local/camel-maildir-folder.c:74
 #: camel/providers/local/camel-maildir-store.c:232
 #: camel/providers/local/camel-maildir-store.c:248
+#: camel/providers/local/camel-spool-store.c:451
 #: mail/em-folder-tree-model.c:212 mail/em-folder-tree-model.c:214
+#: mail/mail-component.c:134
 msgid "Inbox"
 msgstr "ઈનબોક્સ"
 
@@ -10795,10 +10794,10 @@ msgstr "Maildir ફોલ્ડરમાં સંદેશો ઉમેરી �
 #: camel/providers/local/camel-maildir-folder.c:243
 #: camel/providers/local/camel-maildir-folder.c:257
 #: camel/providers/local/camel-maildir-folder.c:266
-#: camel/providers/local/camel-mbox-folder.c:417
-#: camel/providers/local/camel-mbox-folder.c:436
-#: camel/providers/local/camel-mbox-folder.c:467
-#: camel/providers/local/camel-mbox-folder.c:475
+#: camel/providers/local/camel-mbox-folder.c:414
+#: camel/providers/local/camel-mbox-folder.c:433
+#: camel/providers/local/camel-mbox-folder.c:464
+#: camel/providers/local/camel-mbox-folder.c:472
 #: camel/providers/local/camel-mh-folder.c:201
 #: camel/providers/local/camel-mh-folder.c:212
 #: camel/providers/local/camel-mh-folder.c:221
@@ -10815,22 +10814,22 @@ msgid "Invalid message contents"
 msgstr "સંદેશાના સમાવિષ્ટો અયોગ્ય છે"
 
 #: camel/providers/local/camel-maildir-store.c:109
-#: camel/providers/local/camel-mbox-store.c:154
+#: camel/providers/local/camel-mbox-store.c:151
 #: camel/providers/local/camel-mh-store.c:204
 #, c-format
 msgid "Cannot get folder `%s': %s"
 msgstr "ફોલ્ડર `%s' મેળવી શકતા નથી: %s"
 
 #: camel/providers/local/camel-maildir-store.c:113
-#: camel/providers/local/camel-mbox-store.c:162
+#: camel/providers/local/camel-mbox-store.c:159
 #: camel/providers/local/camel-mh-store.c:211
 #, c-format
 msgid "Cannot get folder `%s': folder does not exist."
 msgstr "ફોલ્ડર `%s' મેળવી શકતા નથી: ફોલ્ડર અસ્તિત્વમાં નથી."
 
 #: camel/providers/local/camel-maildir-store.c:121
-#: camel/providers/local/camel-mbox-store.c:184
-#: camel/providers/local/camel-mbox-store.c:196
+#: camel/providers/local/camel-mbox-store.c:181
+#: camel/providers/local/camel-mbox-store.c:193
 #, c-format
 msgid "Cannot create folder `%s': %s"
 msgstr "ફોલ્ડર `%s' બનાવી શકતા નથી: %s"
@@ -10852,8 +10851,8 @@ msgid "not a maildir directory"
 msgstr "maildir ડિરેક્ટરી નથી"
 
 #: camel/providers/local/camel-maildir-store.c:355
-#: camel/providers/local/camel-spool-store.c:284
-#: camel/providers/local/camel-spool-store.c:314
+#: camel/providers/local/camel-spool-store.c:318
+#: camel/providers/local/camel-spool-store.c:332
 #, c-format
 msgid "Could not scan folder `%s': %s"
 msgstr "ફોલ્ડર `%s' ચકાસી શક્યા નહિં: %s"
@@ -10880,48 +10879,48 @@ msgstr "નવા સંદેશાઓ માટે ચકાસી રહ્�
 msgid "Storing folder"
 msgstr "ફોલ્ડરો સંગ્રહી રહ્યા છીએ"
 
-#: camel/providers/local/camel-mbox-folder.c:225
-#: camel/providers/local/camel-spool-folder.c:148
+#: camel/providers/local/camel-mbox-folder.c:222
+#: camel/providers/local/camel-spool-folder.c:176
 #, c-format
 msgid "Cannot create folder lock on %s: %s"
 msgstr "%s પર ફોલ્ડર તાળું બનાવી શકતા નથી: %s"
 
-#: camel/providers/local/camel-mbox-folder.c:284
+#: camel/providers/local/camel-mbox-folder.c:281
 #, c-format
 msgid "Cannot open mailbox: %s: %s\n"
 msgstr "મેઈલબોક્સ ખોલી શકતા નથી: %s: %s\n"
 
-#: camel/providers/local/camel-mbox-folder.c:344
+#: camel/providers/local/camel-mbox-folder.c:341
 msgid "Mail append cancelled"
 msgstr "મેઈલ ઉમેરવાનું રદ થઈ ગયું"
 
-#: camel/providers/local/camel-mbox-folder.c:347
+#: camel/providers/local/camel-mbox-folder.c:344
 #, c-format
 msgid "Cannot append message to mbox file: %s: %s"
 msgstr "mbox ફાઈલમાં સંદેશો ઉમેરી શકાતો નથી: %s: %s"
 
-#: camel/providers/local/camel-mbox-folder.c:468
+#: camel/providers/local/camel-mbox-folder.c:465
 msgid "The folder appears to be irrecoverably corrupted."
 msgstr "ફોલ્ડર પાછું મેળવી શકાય નહિં એમ બગડી ગયું લાગે છે."
 
-#: camel/providers/local/camel-mbox-folder.c:476
+#: camel/providers/local/camel-mbox-folder.c:473
 #: camel/providers/local/camel-mh-folder.c:222
 msgid "Message construction failed."
 msgstr "સંદેશો બનાવવાનું નિષ્ફળ."
 
-#: camel/providers/local/camel-mbox-store.c:176
-#: camel/providers/local/camel-mbox-store.c:361
+#: camel/providers/local/camel-mbox-store.c:173
+#: camel/providers/local/camel-mbox-store.c:358
 msgid "Cannot create a folder by this name."
 msgstr "આ નામ દ્વારા ફોલ્ડર બનાવી શકતા નથી."
 
-#: camel/providers/local/camel-mbox-store.c:206
+#: camel/providers/local/camel-mbox-store.c:203
 #, c-format
 msgid "Cannot get folder `%s': not a regular file."
 msgstr "ફોલ્ડર `%s' મેળવી શકતા નથી: કોઈ નિયમિત ફાઈલ નથી."
 
-#: camel/providers/local/camel-mbox-store.c:236
-#: camel/providers/local/camel-mbox-store.c:247
-#: camel/providers/local/camel-mbox-store.c:270
+#: camel/providers/local/camel-mbox-store.c:233
+#: camel/providers/local/camel-mbox-store.c:244
+#: camel/providers/local/camel-mbox-store.c:267
 #, c-format
 msgid ""
 "Could not delete folder `%s':\n"
@@ -10930,40 +10929,40 @@ msgstr ""
 "ફોલ્ડર `%s' કાઢી શક્યા નહિં:\n"
 "%s"
 
-#: camel/providers/local/camel-mbox-store.c:255
+#: camel/providers/local/camel-mbox-store.c:252
 #, c-format
 msgid "`%s' is not a regular file."
 msgstr "`%s' એ કોઈ નિયમિત ફાઈલ નથી."
 
-#: camel/providers/local/camel-mbox-store.c:262
+#: camel/providers/local/camel-mbox-store.c:259
 #, c-format
 msgid "Folder `%s' is not empty. Not deleted."
 msgstr "ફોલ્ડર `%s' એ ખાલી નથી. કાઢી નંખાયેલ નથી."
 
-#: camel/providers/local/camel-mbox-store.c:374
+#: camel/providers/local/camel-mbox-store.c:371
 #, c-format
 msgid "Cannot create directory `%s': %s."
 msgstr "ડિરેક્ટરી `%s' બનાવી શકતા નથી: %s."
 
-#: camel/providers/local/camel-mbox-store.c:388
+#: camel/providers/local/camel-mbox-store.c:385
 #, c-format
 msgid "Cannot create folder: %s: %s"
 msgstr "ફોલ્ડર બનાવી શકતા નથી: %s: %s"
 
-#: camel/providers/local/camel-mbox-store.c:390
+#: camel/providers/local/camel-mbox-store.c:387
 msgid "Folder already exists"
 msgstr "ફોલ્ડર પહેલાથી જ હાજર છે"
 
-#: camel/providers/local/camel-mbox-store.c:472
+#: camel/providers/local/camel-mbox-store.c:469
 msgid "The new folder name is illegal."
 msgstr "નવા ફોલ્ડરનું નામ અયોગ્ય છે."
 
-#: camel/providers/local/camel-mbox-store.c:485
+#: camel/providers/local/camel-mbox-store.c:482
 #, c-format
 msgid "Could not rename `%s': `%s': %s"
 msgstr "`%s' નું નામ બદલી શકાયું નથી: `%s': %s"
 
-#: camel/providers/local/camel-mbox-store.c:560
+#: camel/providers/local/camel-mbox-store.c:557
 #, c-format
 msgid "Could not rename '%s' to %s: %s"
 msgstr "'%s' નું નામ %s માં ફેરવી શકાયું નથી: %s"
@@ -11318,8 +11317,8 @@ msgid "You cannot remove a folder in a News store: unsubscribe instead."
 msgstr "તમે સમાચાર સ્ટોરમાંથી ફોલ્ડર દૂર કરી શકતા નથી: એની જગ્યાએ ઉમેદવારી દૂર કરો."
 
 #: camel/providers/nntp/camel-nntp-store.c:1128
-msgid "Authentication requested but not username provided"
-msgstr "સત્તાધિકરણની માંગણી છે પરંતુ વપરાશકર્તા નામ પૂરું પાડેલ નથી"
+msgid "Authentication requested but no username provided"
+msgstr "સત્તાધિકરણની માંગણી છે પરંતુ કોઈ વપરાશકર્તા નામ પૂરું પાડેલ નથી"
 
 #: camel/providers/nntp/camel-nntp-store.c:1158
 #, c-format
@@ -12739,8 +12738,8 @@ msgstr "ઈવોલ્યુશન મેઈલ પસંદગીઓ નિય
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:11 mail/em-folder-view.c:419
 #: mail/importers/elm-importer.c:418 mail/importers/netscape-importer.c:1902
-#: mail/importers/pine-importer.c:474 mail/mail-component.c:510
-#: mail/mail-component.c:561
+#: mail/importers/pine-importer.c:474 mail/mail-component.c:511
+#: mail/mail-component.c:562
 msgid "Mail"
 msgstr "મેઈલ"
 
@@ -13048,8 +13047,8 @@ msgstr "ની સાથે શરુ થાય છે"
 msgid "Stop Processing"
 msgstr "પ્રક્રિયા કરવાનું બંધ કરો"
 
-#: mail/em-filter-i18n.h:64 mail/em-format-html.c:1548
-#: mail/em-format-quote.c:305 mail/em-format.c:808 mail/em-mailer-prefs.c:87
+#: mail/em-filter-i18n.h:64 mail/em-format-html.c:1571
+#: mail/em-format-quote.c:305 mail/em-format.c:807 mail/em-mailer-prefs.c:87
 #: mail/message-list.etspec.h:13 mail/message-tag-followup.c:329
 #: smime/lib/e-cert.c:1131
 msgid "Subject"
@@ -13093,8 +13092,8 @@ msgstr "&lt;ફોલ્ડર પસંદ કરવા માટે અંહ�
 msgid "Create New Folder"
 msgstr "નવું ફોલ્ડર બનાવો"
 
-#: mail/em-folder-selector.c:166 mail/em-folder-tree.c:2430
-#: mail/mail-component.c:711
+#: mail/em-folder-selector.c:166 mail/em-folder-tree.c:2442
+#: mail/mail-component.c:712
 msgid "Specify where to create the folder:"
 msgstr "સ્પષ્ટ કરો કે ક્યાં ફોલ્ડર બનાવવું છે:"
 
@@ -13116,7 +13115,7 @@ msgstr "Vફોલ્ડરો"
 msgid "UNMATCHED"
 msgstr "નહિં બંધબેસેલા"
 
-#: mail/em-folder-tree-model.c:476 mail/em-folder-tree-model.c:780
+#: mail/em-folder-tree-model.c:491 mail/em-folder-tree-model.c:795
 msgid "Loading..."
 msgstr "લાવી રહ્યા છીએ..."
 
@@ -13152,7 +13151,7 @@ msgstr "આ ફોલ્ડરમાં નકલ કરો (_C)"
 msgid "_Move to Folder"
 msgstr "આ ફોલ્ડરમાં ખસેડો (_M)"
 
-#: mail/em-folder-tree.c:1014 mail/em-folder-tree.c:2216
+#: mail/em-folder-tree.c:1014 mail/em-folder-tree.c:2228
 #: mail/em-folder-view.c:803 mail/message-list.c:1703
 msgid "_Move"
 msgstr "ખસેડો (_M)"
@@ -13161,63 +13160,68 @@ msgstr "ખસેડો (_M)"
 msgid "Cancel _Drag"
 msgstr "ખેંચવાનું રદ કરો (_D)"
 
-#: mail/em-folder-tree.c:2203 mail/em-folder-tree.c:2216
+#: mail/em-folder-tree.c:1707 mail/mail-ops.c:1013
+#, c-format
+msgid "Scanning folders in \"%s\""
+msgstr "\"%s\" માં ફોલ્ડરો ચકાસી રહ્યા છીએ"
+
+#: mail/em-folder-tree.c:2215 mail/em-folder-tree.c:2228
 #: mail/em-folder-view.c:803 mail/em-folder-view.c:817
 #: mail/importers/evolution-mbox-importer.c:119
 #: mail/importers/evolution-outlook-importer.c:133
 msgid "Select folder"
 msgstr "ફોલ્ડર પસંદ કરો"
 
-#: mail/em-folder-tree.c:2203 mail/em-folder-view.c:817
+#: mail/em-folder-tree.c:2215 mail/em-folder-view.c:817
 msgid "C_opy"
 msgstr "નકલ કરો (_o)"
 
-#: mail/em-folder-tree.c:2243
+#: mail/em-folder-tree.c:2255
 #, c-format
 msgid "Creating folder `%s'"
 msgstr "ફોલ્ડર `%s' બનાવી રહ્યા છીએ"
 
-#: mail/em-folder-tree.c:2430 mail/mail-component.c:711
+#: mail/em-folder-tree.c:2442 mail/mail-component.c:712
 msgid "Create folder"
 msgstr "ફોલ્ડર બનાવો"
 
-#: mail/em-folder-tree.c:2621
+#: mail/em-folder-tree.c:2633
 #, c-format
 msgid "Rename the \"%s\" folder to:"
 msgstr "\"%s\" ફોલ્ડરને આમાં નામ બદલો:"
 
-#: mail/em-folder-tree.c:2623
+#: mail/em-folder-tree.c:2635
 msgid "Rename Folder"
 msgstr "ફોલ્ડરનું નામ બદલો"
 
-#: mail/em-folder-tree.c:2698 ui/evolution-addressbook.xml.h:44
+#: mail/em-folder-tree.c:2710 ui/evolution-addressbook.xml.h:44
 #: ui/evolution-mail-global.xml.h:18 ui/evolution-mail-messagedisplay.xml.h:8
 #: ui/evolution-message-composer.xml.h:53 ui/evolution.xml.h:37
 msgid "_View"
 msgstr "દેખાવ (_V)"
 
-#: mail/em-folder-tree.c:2699
+#: mail/em-folder-tree.c:2711
 msgid "Open in _New Window"
 msgstr "નવી વિન્ડોમાં ખોલો (_N)"
 
-#: mail/em-folder-tree.c:2703
+#: mail/em-folder-tree.c:2715
 msgid "_Copy..."
 msgstr "નકલ કરો (_C)..."
 
-#: mail/em-folder-tree.c:2704
+#: mail/em-folder-tree.c:2716
 msgid "_Move..."
 msgstr "ખસેડો (_M)..."
 
 #. FIXME: need to disable for nochildren folders
-#: mail/em-folder-tree.c:2708
+#: mail/em-folder-tree.c:2720
 msgid "_New Folder..."
 msgstr "નવું ફોલ્ડર (_N)..."
 
-#: mail/em-folder-tree.c:2711
+#: mail/em-folder-tree.c:2723
 msgid "_Rename..."
 msgstr "નામ બદલો (_R)..."
 
-#: mail/em-folder-tree.c:2714 ui/evolution-mail-list.xml.h:27
+#: mail/em-folder-tree.c:2726 ui/evolution-mail-list.xml.h:27
 msgid "_Properties"
 msgstr "ગુણધર્મો (_P)"
 
@@ -13499,116 +13503,116 @@ msgstr "`%s' મેળવી રહ્યા છીએ"
 msgid "Valid signature but cannot verify sender"
 msgstr "માન્ય સહી પરંતુ મોકલનારને ચકાસી શકતા નથી"
 
-#: mail/em-format-html.c:848
+#: mail/em-format-html.c:871
 msgid "Malformed external-body part."
 msgstr "બાહ્ય ભાગનો કદરુપો ભાગ."
 
-#: mail/em-format-html.c:878
+#: mail/em-format-html.c:901
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "FTP સાઈટ (%s) નો નિર્દેશક"
 
-#: mail/em-format-html.c:889
+#: mail/em-format-html.c:912
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "સ્થાનિક ફાઈલ (%s) નો નિર્દેશક સાઈટ \"%s\" માન્ય છે"
 
-#: mail/em-format-html.c:891
+#: mail/em-format-html.c:914
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "સ્થાનિક ફાઈલ (%s) નો નિર્દેશક"
 
-#: mail/em-format-html.c:912
+#: mail/em-format-html.c:935
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "દૂરસ્થા માહિતી (%s) નો નિર્દેશક"
 
-#: mail/em-format-html.c:923
+#: mail/em-format-html.c:946
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "અજ્ઞાત બાહ્ય માહિતી (\"%s\" પ્રકારની) નો નિર્દેશક"
 
-#: mail/em-format-html.c:1163
+#: mail/em-format-html.c:1186
 msgid "Formatting message"
 msgstr "સંદેસાનું બંધારણ ઘડી રહ્યા છીએ"
 
-#: mail/em-format-html.c:1439 mail/em-format-quote.c:192 mail/em-format.c:803
+#: mail/em-format-html.c:1462 mail/em-format-quote.c:192 mail/em-format.c:802
 #: mail/em-mailer-prefs.c:82 mail/message-list.etspec.h:7
 #: mail/message-tag-followup.c:325
 msgid "From"
 msgstr "તરફથી"
 
-#: mail/em-format-html.c:1439 mail/em-format-quote.c:192 mail/em-format.c:804
+#: mail/em-format-html.c:1462 mail/em-format-quote.c:192 mail/em-format.c:803
 #: mail/em-mailer-prefs.c:83
 msgid "Reply-To"
 msgstr "ને જવાબ આપો"
 
-#: mail/em-format-html.c:1439 mail/em-format-quote.c:192 mail/em-format.c:805
+#: mail/em-format-html.c:1462 mail/em-format-quote.c:192 mail/em-format.c:804
 #: mail/em-mailer-prefs.c:84 mail/message-list.etspec.h:14
 msgid "To"
 msgstr "પ્રતિ"
 
-#: mail/em-format-html.c:1439 mail/em-format-quote.c:192 mail/em-format.c:806
+#: mail/em-format-html.c:1462 mail/em-format-quote.c:192 mail/em-format.c:805
 #: mail/em-mailer-prefs.c:85
 msgid "Cc"
 msgstr "ને પણ"
 
-#: mail/em-format-html.c:1439 mail/em-format-quote.c:192 mail/em-format.c:807
+#: mail/em-format-html.c:1462 mail/em-format-quote.c:192 mail/em-format.c:806
 #: mail/em-mailer-prefs.c:86
 msgid "Bcc"
 msgstr "આને પણ ખબર વિના"
 
 #. pseudo-header
-#: mail/em-format-html.c:1552 mail/em-format-quote.c:314
+#: mail/em-format-html.c:1575 mail/em-format-quote.c:314
 #: mail/em-mailer-prefs.c:939
 msgid "Mailer"
 msgstr "મેઈલ મોકલનાર"
 
 #. translators: strftime format for local time equivalent in Date header display, with day
-#: mail/em-format-html.c:1579
+#: mail/em-format-html.c:1602
 msgid "<I> (%a, %R %Z)</I>"
 msgstr "<I> (%a, %R %Z)</I>"
 
 #. translators: strftime format for local time equivalent in Date header display, without day
-#: mail/em-format-html.c:1582
+#: mail/em-format-html.c:1605
 msgid "<I> (%R %Z)</I>"
 msgstr "<I> (%R %Z)</I>"
 
-#: mail/em-format-html.c:1592 mail/em-format-quote.c:321 mail/em-format.c:809
+#: mail/em-format-html.c:1615 mail/em-format-quote.c:321 mail/em-format.c:808
 #: mail/em-mailer-prefs.c:88 mail/message-list.etspec.h:2
 msgid "Date"
 msgstr "તારીખ"
 
-#: mail/em-format-html.c:1615 mail/em-format.c:810 mail/em-mailer-prefs.c:89
+#: mail/em-format-html.c:1638 mail/em-format.c:809 mail/em-mailer-prefs.c:89
 msgid "Newsgroups"
 msgstr "સમાચાર જૂથો"
 
-#: mail/em-format.c:1059
+#: mail/em-format.c:1058
 #, c-format
 msgid "%s attachment"
 msgstr "%s જોડાણ"
 
-#: mail/em-format.c:1098 mail/em-format.c:1231
+#: mail/em-format.c:1097 mail/em-format.c:1230
 msgid "Could not parse S/MIME message: Unknown error"
 msgstr "S/MIME સંદેશાનું પદચ્છેદ કરી શક્યા નહિં: અજ્ઞાત ભૂલ"
 
-#: mail/em-format.c:1221
+#: mail/em-format.c:1220
 msgid "Unsupported encryption type for multipart/encrypted"
 msgstr "multipart/encrypted માટે આધારભૂત નહિં એવો એનક્રિપ્શન પ્રકાર"
 
-#: mail/em-format.c:1382
+#: mail/em-format.c:1381
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "MIME સંદેસાનું પદચ્છેદ કરી શક્યા નહિં. સ્રોત તરીકે બતાવી રહ્યા છીએ."
 
-#: mail/em-format.c:1401
+#: mail/em-format.c:1400
 msgid "Unsupported signature format"
 msgstr "સહીનું બંધારણ આધારભૂત નથી"
 
-#: mail/em-format.c:1409
+#: mail/em-format.c:1408
 msgid "Error verifying signature"
 msgstr "સહી ચકાસણીમાં ભૂલ"
 
-#: mail/em-format.c:1409
+#: mail/em-format.c:1408
 msgid "Unknown error verifying signature"
 msgstr "સહી ચકાસણી કરતી વખતે અજ્ઞાત ભૂલ"
 
@@ -13725,24 +13729,24 @@ msgstr "સરનામાપોથીમાં ઉમેરો (_A)"
 msgid "Open in %s..."
 msgstr "%s માં ખોલો..."
 
-#: mail/em-subscribe-editor.c:606
+#: mail/em-subscribe-editor.c:612
 msgid "This store does not support subscriptions, or they are not enabled."
 msgstr "આ સ્ટોર ઉમેદવારીને આધાર આપતી નથી, અથવા તેઓ સક્રિય નથી."
 
-#: mail/em-subscribe-editor.c:635
+#: mail/em-subscribe-editor.c:641
 msgid "Subscribed"
 msgstr "ઉમેદવારી"
 
-#: mail/em-subscribe-editor.c:639
+#: mail/em-subscribe-editor.c:645
 msgid "Folder"
 msgstr "ફોલ્ડર"
 
 #. FIXME: This is just to get the shadow, is there a better way?
-#: mail/em-subscribe-editor.c:852
+#: mail/em-subscribe-editor.c:860
 msgid "Please select a server."
 msgstr "મહેરબાની કરીને સર્વર પસંદ કરો."
 
-#: mail/em-subscribe-editor.c:873
+#: mail/em-subscribe-editor.c:881
 msgid "No server has been selected"
 msgstr "કોઈ સર્વર પસંદ થયેલ નથી"
 
@@ -14509,80 +14513,92 @@ msgstr "%s મેઈલીંગ યાદી"
 msgid "Add Filter Rule"
 msgstr "ગાળક નિયમ ઉમેરો"
 
-#: mail/mail-component.c:463
+#: mail/mail-component.c:135
+msgid "Drafts"
+msgstr "ડ્રાફ્ટો"
+
+#: mail/mail-component.c:136
+msgid "Outbox"
+msgstr "આઉટબોક્સ"
+
+#: mail/mail-component.c:137
+msgid "Sent"
+msgstr "મોકલાઈ ગયું"
+
+#: mail/mail-component.c:464
 #, c-format
 msgid "%d deleted"
 msgid_plural "%d deleted"
 msgstr[0] "%d કાઢી નંખાયેલ છે"
 msgstr[1] "%d કાઢી નંખાયેલ છે"
 
-#: mail/mail-component.c:465
+#: mail/mail-component.c:466
 #, c-format
 msgid "%d junk"
 msgid_plural "%d junk"
 msgstr[0] "%d બગડેલ છે"
 msgstr[1] "%d બગડેલા છે"
 
-#: mail/mail-component.c:488
+#: mail/mail-component.c:489
 #, c-format
 msgid "%d draft"
 msgid_plural "%d drafts"
 msgstr[0] "%d ડ્રાફ્ટ"
 msgstr[1] "%d ડ્રાફ્ટો"
 
-#: mail/mail-component.c:490
+#: mail/mail-component.c:491
 #, c-format
 msgid "%d sent"
 msgid_plural "%d sent"
 msgstr[0] "%d મોકલાયેલ છે"
 msgstr[1] "%d મોકલાયેલા છે"
 
-#: mail/mail-component.c:492
+#: mail/mail-component.c:493
 #, c-format
 msgid "%d unsent"
 msgid_plural "%d unsent"
 msgstr[0] "%d અસુયોજિત છે"
 msgstr[1] "%d અસુયોજિત છે"
 
-#: mail/mail-component.c:496
+#: mail/mail-component.c:497
 #, c-format
 msgid "%d total"
 msgid_plural "%d total"
 msgstr[0] "%d કુલ"
 msgstr[1] "%d કુલ"
 
-#: mail/mail-component.c:498
+#: mail/mail-component.c:499
 #, c-format
 msgid ", %d unread"
 msgid_plural ", %d unread"
 msgstr[0] ", %d વાંચેલ નથી"
 msgstr[1] ", %d વાંચેલ નથી"
 
-#: mail/mail-component.c:663
+#: mail/mail-component.c:664
 msgid "New Mail Message"
 msgstr "નવો મેઈલ સંદેશો"
 
-#: mail/mail-component.c:664
+#: mail/mail-component.c:665
 msgid "_Mail Message"
 msgstr "મેઈલ સંદેશો (_M)"
 
-#: mail/mail-component.c:665
+#: mail/mail-component.c:666
 msgid "Compose a new mail message"
 msgstr "નવો મેઈલ સંદેશો કમ્પોઝ કરો"
 
-#: mail/mail-component.c:671
+#: mail/mail-component.c:672
 msgid "New Mail Folder"
 msgstr "નવું મેઈલ ફોલ્ડર"
 
-#: mail/mail-component.c:672
+#: mail/mail-component.c:673
 msgid "Mail _Folder"
 msgstr "મેઈલ ફોલ્ડર (_F)"
 
-#: mail/mail-component.c:673
+#: mail/mail-component.c:674
 msgid "Create a new mail folder"
 msgstr "નવું મેઈલ ફોલ્ડર બનાવો"
 
-#: mail/mail-component.c:805
+#: mail/mail-component.c:806
 msgid "Failed upgrading Mail settings or folders."
 msgstr "મેઈલ સુયોજનો અથવા ફોલ્ડરો સુધારવામાં નિષ્ફળ."
 
@@ -15933,12 +15949,12 @@ msgstr "ફોલ્ડરો ગાળી રહ્યા છીએ"
 msgid "Fetching Mail"
 msgstr "મેઈલ મેળવી રહ્યા છીએ"
 
-#: mail/mail-ops.c:542
+#: mail/mail-ops.c:553
 #, c-format
 msgid "Failed to apply outgoing filters: %s"
 msgstr "જતા ગાળકો અમલમાં મૂકવામાં નિષ્ફળ: %s"
 
-#: mail/mail-ops.c:567
+#: mail/mail-ops.c:578
 #, c-format
 msgid ""
 "Failed to append to %s: %s\n"
@@ -15947,115 +15963,110 @@ msgstr ""
 "%s માં ઉમેરવામાં નિષ્ફળ: %s\n"
 "એની જગ્યાએ `મોકલો' ફોલ્ડરમાં ઉમેરી રહ્યા છીએ."
 
-#: mail/mail-ops.c:576
+#: mail/mail-ops.c:587
 #, c-format
 msgid "Failed to append to local `Sent' folder: %s"
 msgstr "સ્થાનિક `મોકલો' ફોલ્ડરમાં ઉમેરવામાં નિષ્ફળ: %s"
 
-#: mail/mail-ops.c:672
+#: mail/mail-ops.c:683
 #, c-format
 msgid "Sending message %d of %d"
 msgstr "%d માંના %d સંદેશાને મોકલી રહ્યા છીએ"
 
-#: mail/mail-ops.c:703
+#: mail/mail-ops.c:714
 #, c-format
 msgid "Failed to send %d of %d messages"
 msgstr "%d માંના %d સંદેશાઓને મોકલવામાં નિષ્ફળ"
 
-#: mail/mail-ops.c:707
+#: mail/mail-ops.c:718
 msgid "Complete."
 msgstr "પૂર્ણ."
 
-#: mail/mail-ops.c:804
+#: mail/mail-ops.c:815
 msgid "Saving message to folder"
 msgstr "સંદેશાને ફોલ્ડરમાં સંગ્રહી રહ્યા છીએ"
 
-#: mail/mail-ops.c:889
+#: mail/mail-ops.c:900
 #, c-format
 msgid "Moving messages to %s"
 msgstr "સંદેશાઓને %s માં ખસેડી રહ્યા છીએ"
 
-#: mail/mail-ops.c:889
+#: mail/mail-ops.c:900
 #, c-format
 msgid "Copying messages to %s"
 msgstr "સંદેશાઓને %s માં નકલ કરી રહ્યા છીએ"
 
-#: mail/mail-ops.c:1002
-#, c-format
-msgid "Scanning folders in \"%s\""
-msgstr "\"%s\" માં ફોલ્ડરો ચકાસી રહ્યા છીએ"
-
-#: mail/mail-ops.c:1115
+#: mail/mail-ops.c:1126
 msgid "Forwarded messages"
 msgstr "આગળ ધપાવાયેલ સંદેશાઓ"
 
-#: mail/mail-ops.c:1158
+#: mail/mail-ops.c:1169
 #, c-format
 msgid "Opening folder %s"
 msgstr "ફોલ્ડર %s ખોલી રહ્યા છીએ"
 
-#: mail/mail-ops.c:1230
+#: mail/mail-ops.c:1241
 #, c-format
 msgid "Opening store %s"
 msgstr "સ્ટોર %s ખોલી રહ્યા છીએ"
 
-#: mail/mail-ops.c:1308
+#: mail/mail-ops.c:1319
 #, c-format
 msgid "Removing folder %s"
 msgstr "ફોલ્ડર %s દૂર કરી રહ્યા છીએ"
 
-#: mail/mail-ops.c:1402
+#: mail/mail-ops.c:1413
 #, c-format
 msgid "Storing folder '%s'"
 msgstr "ફોલ્ડર '%s' સંગ્રહી રહ્યા છીએ"
 
-#: mail/mail-ops.c:1467
+#: mail/mail-ops.c:1478
 #, c-format
 msgid "Expunging and storing account '%s'"
 msgstr "ખાતું '%s' સંપૂર્ણપણે દૂર કરી રહ્યા છીએ અને સંગ્રહી રહ્યા છીએ"
 
-#: mail/mail-ops.c:1468
+#: mail/mail-ops.c:1479
 #, c-format
 msgid "Storing account '%s'"
 msgstr "ખાતુ '%s' સંગ્રહી રહ્યા છીએ"
 
-#: mail/mail-ops.c:1523
+#: mail/mail-ops.c:1534
 msgid "Refreshing folder"
 msgstr "ફોલ્ડર ફરીથી તાજું કરી રહ્યા છીએ"
 
-#: mail/mail-ops.c:1559 mail/mail-ops.c:1610
+#: mail/mail-ops.c:1570 mail/mail-ops.c:1621
 msgid "Expunging folder"
 msgstr "ફોલ્ડર સંપૂર્ણપણે દૂર કરી રહ્યા છીએ"
 
-#: mail/mail-ops.c:1607
+#: mail/mail-ops.c:1618
 #, c-format
 msgid "Emptying trash in '%s'"
 msgstr "કચરાપેટીને '%s' માં ખાલી કરી રહ્યા છીએ"
 
-#: mail/mail-ops.c:1608
+#: mail/mail-ops.c:1619
 msgid "Local Folders"
 msgstr "સ્થાનિક ફોલ્ડરો"
 
-#: mail/mail-ops.c:1691
+#: mail/mail-ops.c:1702
 #, c-format
 msgid "Retrieving message %s"
 msgstr "સંદેશો %s મેળવી રહ્યા છીએ"
 
-#: mail/mail-ops.c:1763
+#: mail/mail-ops.c:1774
 #, c-format
 msgid "Retrieving %d message"
 msgid_plural "Retrieving %d messages"
 msgstr[0] "%d સંદેશો મેળવી રહ્યા છીએ"
 msgstr[1] "%d સંદેશાઓ મેળવી રહ્યા છીએ"
 
-#: mail/mail-ops.c:1849
+#: mail/mail-ops.c:1860
 #, c-format
 msgid "Saving %d message"
 msgid_plural "Saving %d messsages"
 msgstr[0] "%d સંદેશાનો સંગ્રહ કરી રહ્યા છીએ"
 msgstr[1] "%d સંદેશાઓ સંગ્રહી રહ્યા છીએ"
 
-#: mail/mail-ops.c:1899
+#: mail/mail-ops.c:1910
 #, c-format
 msgid ""
 "Unable to create output file: %s\n"
@@ -16064,7 +16075,7 @@ msgstr ""
 "આઉટપુટ ફાઈલ બનાવવા સમર્થ નથી: %s\n"
 " %s"
 
-#: mail/mail-ops.c:1927
+#: mail/mail-ops.c:1938
 #, c-format
 msgid ""
 "Error saving messages to: %s:\n"
@@ -16073,11 +16084,11 @@ msgstr ""
 "માં સંદેશાઓ સંગ્રહતી વખતે ભૂલ: %s:\n"
 " %s"
 
-#: mail/mail-ops.c:1998
+#: mail/mail-ops.c:2009
 msgid "Saving attachment"
 msgstr "જોડાણ સંગ્રહી રહ્યા છીએ"
 
-#: mail/mail-ops.c:2010
+#: mail/mail-ops.c:2021
 #, c-format
 msgid ""
 "Cannot create output file: %s:\n"
@@ -16086,17 +16097,17 @@ msgstr ""
 "આઉટપુટ ફાઈલ બનાવી શકતા નથી: %s:\n"
 " %s"
 
-#: mail/mail-ops.c:2020
+#: mail/mail-ops.c:2031
 #, c-format
 msgid "Could not write data: %s"
 msgstr "માહિતી લખી શક્યા નહિં: %s"
 
-#: mail/mail-ops.c:2168
+#: mail/mail-ops.c:2179
 #, c-format
 msgid "Disconnecting from %s"
 msgstr "%sમાંથી સંપર્ક તોડી રહ્યા છીએ"
 
-#: mail/mail-ops.c:2168
+#: mail/mail-ops.c:2179
 #, c-format
 msgid "Reconnecting to %s"
 msgstr "%s સાથે ફરીથી જોડાઈ રહ્યા છીએ"
@@ -16656,23 +16667,23 @@ msgstr "બગ બડ્ડી ચલાવી શકાયું નહિં."
 #. The translator-credits string is for translators to list
 #. * per language credits for translation, displayed in the
 #. * about box
-#: shell/e-shell-window-commands.c:424
+#: shell/e-shell-window-commands.c:425
 msgid "translator-credits"
 msgstr "અંકિત પટેલ <ankit@redhat.com>"
 
-#: shell/e-shell-window-commands.c:438
+#: shell/e-shell-window-commands.c:439
 msgid "Groupware Suite"
 msgstr "ગ્રુપવેર સ્યુટ"
 
-#: shell/e-shell-window-commands.c:678
+#: shell/e-shell-window-commands.c:679
 msgid "_Work Online"
 msgstr "ઓનલાઈન કામ કરો (_W)"
 
-#: shell/e-shell-window-commands.c:691 ui/evolution.xml.h:39
+#: shell/e-shell-window-commands.c:692 ui/evolution.xml.h:39
 msgid "_Work Offline"
 msgstr "ઓફલાઈન કામ કરો (_W)"
 
-#: shell/e-shell-window-commands.c:704 ui/evolution.xml.h:25
+#: shell/e-shell-window-commands.c:705 ui/evolution.xml.h:25
 msgid "Work Offline"
 msgstr "ઓફલાઈન કામ કરો"
 
