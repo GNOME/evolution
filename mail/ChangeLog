@@ -1,3 +1,32 @@
+2004-01-29  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #53320 and probably others
+
+	* message-list.c (message_list_set_folder): NULL out
+	message_list->folder when we clear it so it isn't left for another
+	free when we switch again.
+
+2004-01-29  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #52190.
+
+	* message-list.c: Added folder/folder uri to the data stored for
+	primary/secondary selection, uses a struct to store the data now.
+	This is needed so when you cut/copy messages, and paste them, it
+	doesn't end up 'pasting' the messages from the current folder, but
+	from the one where the copy/cut took place.
+	(clear_selection): helper to free data inside selection struct.
+
+2004-01-29  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #53506.
+
+	* mail-tools.c (mail_tools_folder_to_url): use a camelurl to do
+	this properly, and handle fragment folder-paths.
+
+	* em-composer-utils.c (em_utils_composer_send_cb): removed
+	outbox_folder local, not necessary.
+
 2004-01-28  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-folder-tree-model.c (em_folder_tree_model_add_store): If the

@@ -88,11 +88,17 @@
 #define d(x)
 #define t(x)
 
+struct _MLSelection {
+	GPtrArray *uids;
+	CamelFolder *folder;
+	char *folder_uri;
+};
+
 struct _MessageListPrivate {
 	GtkWidget *invisible;	/* 4 selection */
 
-	GPtrArray *primary_uids; /* uids in primary selection */
-	GPtrArray *clipboard_uids; /* uids in clipboard selection */
+	struct _MLSelection primary;
+	struct _MLSelection clipboard;
 };
 
 /*
@@ -462,6 +468,20 @@ search_func (ETreeModel *model, ETreePath path, struct search_func_data *data)
 	return FALSE;
 }
 
+static void
+clear_selection(MessageList *ml, struct _MLSelection *selection)
+{
+	if (selection->uids) {
+		message_list_free_uids(ml, selection->uids);
+		selection->uids = NULL;
+	}
+	if (selection->folder) {
+		camel_object_unref(selection->folder);
+		selection->folder = NULL;
+	}
+	g_free(selection->folder_uri);
+	selection->folder_uri = NULL;
+}
 
 /**
  * message_list_select:
@@ -686,10 +706,7 @@ message_list_copy(MessageList *ml, gboolean cut)
 	struct _MessageListPrivate *p = ml->priv;
 	GPtrArray *uids;
 
-	if (p->clipboard_uids) {
-		message_list_free_uids(ml, p->clipboard_uids);
-		p->clipboard_uids = NULL;
-	}
+	clear_selection(ml, &p->clipboard);
 		
 	uids = message_list_get_selected(ml);
 
@@ -706,7 +723,10 @@ message_list_copy(MessageList *ml, gboolean cut)
 			camel_folder_thaw(ml->folder);
 		}
 
-		p->clipboard_uids = uids;
+		p->clipboard.uids = uids;
+		p->clipboard.folder = ml->folder;
+		camel_object_ref(p->clipboard.folder);
+		p->clipboard.folder_uri = g_strdup(ml->folder_uri);
 		gtk_selection_owner_set(p->invisible, GDK_SELECTION_CLIPBOARD, gtk_get_current_event_time());
 	} else {
 		message_list_free_uids(ml, uids);
@@ -717,7 +737,7 @@ message_list_copy(MessageList *ml, gboolean cut)
 gboolean
 message_list_has_primary_selection(MessageList *ml)
 {
-	return ml->priv->primary_uids != NULL;
+	return ml->priv->primary.uids != NULL;
 }
 
 void
@@ -1426,24 +1446,24 @@ message_list_setup_etree (MessageList *message_list, gboolean outgoing)
 static void
 ml_selection_get(GtkWidget *widget, GtkSelectionData *data, guint info, guint time_stamp, MessageList *ml)
 {
-	GPtrArray *uids;
+	struct _MLSelection *selection;
 
 	if (info & 1)
-		uids = ml->priv->primary_uids;
+		selection = &ml->priv->primary;
 	else
-		uids = ml->priv->clipboard_uids;
+		selection = &ml->priv->clipboard;
 
-	if (uids == NULL)
+	if (selection->uids == NULL)
 		return;
 
 	if (info & 2) {
 		/* text/plain */
 		printf("setting text/plain selection for uids\n");
-		em_utils_selection_set_mailbox(data, ml->folder, uids);
+		em_utils_selection_set_mailbox(data, selection->folder, selection->uids);
 	} else {
 		/* x-uid-list */
 		printf("setting x-uid-list selection for uids\n");
-		em_utils_selection_set_uidlist(data, ml->folder_uri, uids);
+		em_utils_selection_set_uidlist(data, selection->folder_uri, selection->uids);
 	}
 }
 
@@ -1452,17 +1472,10 @@ ml_selection_clear_event(GtkWidget *widget, GdkEventSelection *event, MessageLis
 {
 	struct _MessageListPrivate *p = ml->priv;
 
-	if (event->selection == GDK_SELECTION_PRIMARY) {
-		if (p->primary_uids) {
-			message_list_free_uids(ml, p->primary_uids);
-			p->primary_uids = NULL;
-		}
-	} else if (event->selection == GDK_SELECTION_CLIPBOARD) {
-		if (p->clipboard_uids) {
-			message_list_free_uids(ml, p->clipboard_uids);
-			p->clipboard_uids = NULL;
-		}
-	}
+	if (event->selection == GDK_SELECTION_PRIMARY)
+		clear_selection(ml, &p->primary);
+	else if (event->selection == GDK_SELECTION_CLIPBOARD)
+		clear_selection(ml, &p->clipboard);
 }
 
 static void
@@ -1690,10 +1703,8 @@ message_list_finalise (GObject *object)
 	g_free(message_list->folder_uri);
 	message_list->folder_uri = NULL;
 
-	if (p->primary_uids)
-		message_list_free_uids(message_list, p->primary_uids);
-	if (p->clipboard_uids)
-		message_list_free_uids(message_list, p->clipboard_uids);
+	clear_selection(message_list, &p->primary);
+	clear_selection(message_list, &p->clipboard);
 
 	g_free(p);
 
@@ -2553,6 +2564,7 @@ message_list_set_folder (MessageList *message_list, CamelFolder *folder, const c
 		camel_object_unhook_event((CamelObject *)message_list->folder, "message_changed",
 					  message_changed, message_list);
 		camel_object_unref (message_list->folder);
+		message_list->folder = NULL;
 	}
 	
 	if (message_list->thread_tree) {
@@ -2675,13 +2687,13 @@ on_selection_changed_cmd(ETree *tree, MessageList *ml)
 	if (!ml->idle_id)
 		ml->idle_id = g_idle_add_full (G_PRIORITY_LOW, on_cursor_activated_idle, ml, NULL);
 
-	if (ml->priv->primary_uids) {
-		message_list_free_uids(ml, ml->priv->primary_uids);
-		ml->priv->primary_uids = NULL;
-	}
+	clear_selection(ml, &ml->priv->primary);
 
 	if (uids->len > 0) {
-		ml->priv->primary_uids = uids;
+		ml->priv->primary.uids = uids;
+		ml->priv->primary.folder = ml->folder;
+		camel_object_ref(ml->priv->primary.folder);
+		ml->priv->primary.folder_uri = g_strdup(ml->folder_uri);
 		gtk_selection_owner_set(ml->priv->invisible, GDK_SELECTION_PRIMARY, gtk_get_current_event_time());
 	} else {
 		message_list_free_uids(ml, uids);

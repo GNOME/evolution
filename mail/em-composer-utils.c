@@ -390,7 +390,6 @@ got_post_folder (char *uri, CamelFolder *folder, void *data)
 void
 em_utils_composer_send_cb (EMsgComposer *composer, gpointer user_data)
 {
-	CamelFolder *outbox_folder = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_OUTBOX);
 	CamelMimeMessage *message;
 	CamelMessageInfo *info;
 	struct _send_data *send;
@@ -408,7 +407,7 @@ em_utils_composer_send_cb (EMsgComposer *composer, gpointer user_data)
 		postlist = g_list_next (postlist);
 	}
 	
-	mail_folder = outbox_folder;
+	mail_folder = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_OUTBOX);
 	camel_object_ref (mail_folder);
 	
 	if (!post_folders && !mail_folder)

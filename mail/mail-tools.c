@@ -363,7 +363,6 @@ mail_tool_uri_to_folder (const char *uri, guint32 flags, CamelException *ex)
 	return folder;
 }
 
-
 /**
  * mail_tools_x_evolution_message_parse:
  * @in: GtkSelectionData->data
@@ -405,25 +404,26 @@ mail_tools_x_evolution_message_parse (char *in, unsigned int inlen, GPtrArray **
 	return folder;
 }
 
-
 char *
 mail_tools_folder_to_url (CamelFolder *folder)
 {
-	char *service_url, *url;
-	const char *full_name;
-	CamelService *service;
-	
+	CamelURL *url;
+	char *out;
+
 	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), NULL);
-	
-	full_name = folder->full_name;
-	while (*full_name == '/')
-		full_name++;
-	
-	service = (CamelService *) folder->parent_store;
-	service_url = camel_url_to_string (service->url, CAMEL_URL_HIDE_ALL);
-	url = g_strdup_printf ("%s%s%s", service_url, service_url[strlen (service_url)-1] != '/' ? "/" : "",
-			       full_name);
-	g_free (service_url);
-	
-	return url;
+
+	url = camel_url_copy(((CamelService *)folder->parent_store)->url);
+	if (((CamelService *)folder->parent_store)->provider->url_flags  & CAMEL_URL_FRAGMENT_IS_PATH) {
+		camel_url_set_fragment(url, folder->full_name);
+	} else {
+		char *name = g_alloca(strlen(folder->full_name)+2);
+
+		sprintf(name, "/%s", folder->full_name);
+		camel_url_set_path(url, name);
+	}
+
+	out = camel_url_to_string(url, CAMEL_URL_HIDE_ALL);
+	camel_url_free(url);
+
+	return out;
 }
