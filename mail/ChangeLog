@@ -1,3 +1,9 @@
+2003-04-08  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (do_view_message): Add a check for a NULL uid
+	here. Don't see how it can happen, but it seems to have for
+	Aaron. Anyways, this should fix bug #40904.
+
 2003-04-08  Dan Winship  <danw@ximian.com>
 
 	* mail-config.glade: Remove color specs from the druid so it will

@@ -3121,7 +3121,7 @@ do_view_message (CamelFolder *folder, const char *uid, CamelMimeMessage *message
 	if (FOLDER_BROWSER_IS_DESTROYED (fb))
 		return;
 	
-	if (message) {
+	if (message && uid) {
 		GtkWidget *mb;
 		
 		camel_folder_set_message_flags (folder, uid, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
