@@ -103,6 +103,10 @@ etcta_drop_one (ETableClickToAdd *etcta)
 	gtk_object_set(GTK_OBJECT(etcta->selection),
 		       "model", NULL,
 		       NULL);
+	if (etcta->row)
+		gnome_canvas_item_set(GNOME_CANVAS_ITEM(etcta->row),
+				      "ETableModel", NULL,
+				      NULL);
 }
 
 static void
@@ -310,7 +314,31 @@ etcta_event (GnomeCanvasItem *item, GdkEvent *e)
 			gnome_canvas_item_w2i (item, &e->button.x, &e->button.y);
 		}
 		break;
-		
+
+	case GDK_KEY_PRESS:
+		switch (e->key.keyval) {
+		case GDK_Return:
+		case GDK_KP_Enter:
+		case GDK_ISO_Enter:
+		case GDK_3270_Enter:
+			if (etcta->row) {
+				ETableModel *one;
+				e_table_selection_model_clear(etcta->selection);
+
+				e_table_one_commit(E_TABLE_ONE(etcta->one));
+				etcta_drop_one (etcta);
+
+				one = e_table_one_new(etcta->model);
+				etcta_add_one (etcta, one);
+				gtk_object_unref(GTK_OBJECT(one));
+
+				e_table_item_set_cursor(E_TABLE_ITEM(etcta->row), 0, 0);
+			}
+			break;
+		default:
+			break;
+		}
+			
 	default:
 		return FALSE;
 	}
@@ -434,30 +462,30 @@ e_table_click_to_add_get_type (void)
 void
 e_table_click_to_add_commit (ETableClickToAdd *etcta)
 {
-		if (etcta->row) {
-			e_table_one_commit(E_TABLE_ONE(etcta->one));
-			gtk_object_destroy(GTK_OBJECT(etcta->row));
-			etcta_drop_one (etcta);
-			etcta->row = NULL;
-		}
-		if (!etcta->text) {
-			etcta->text = gnome_canvas_item_new(GNOME_CANVAS_GROUP(etcta),
-							    e_text_get_type(),
-							    "text", etcta->message ? etcta->message : "",
-							    "anchor", GTK_ANCHOR_NW,
-							    "width", etcta->width - 4,
-							    NULL);
-			e_canvas_item_move_absolute (etcta->text, 2, 2);
-		}
-		if (!etcta->rect) {
-			etcta->rect = gnome_canvas_item_new(GNOME_CANVAS_GROUP(etcta),
-							    gnome_canvas_rect_get_type(),
-							    "x1", (double) 0,
-							    "y1", (double) 0,
-							    "x2", (double) etcta->width - 1,
-							    "y2", (double) etcta->height - 1,
-							    "outline_color", "black", 
-							    "fill_color", NULL,
-							    NULL);
-		}
+	if (etcta->row) {
+		e_table_one_commit(E_TABLE_ONE(etcta->one));
+		etcta_drop_one (etcta);
+		gtk_object_destroy(GTK_OBJECT(etcta->row));
+		etcta->row = NULL;
+	}
+	if (!etcta->text) {
+		etcta->text = gnome_canvas_item_new(GNOME_CANVAS_GROUP(etcta),
+						    e_text_get_type(),
+						    "text", etcta->message ? etcta->message : "",
+						    "anchor", GTK_ANCHOR_NW,
+						    "width", etcta->width - 4,
+						    NULL);
+		e_canvas_item_move_absolute (etcta->text, 2, 2);
+	}
+	if (!etcta->rect) {
+		etcta->rect = gnome_canvas_item_new(GNOME_CANVAS_GROUP(etcta),
+						    gnome_canvas_rect_get_type(),
+						    "x1", (double) 0,
+						    "y1", (double) 0,
+						    "x2", (double) etcta->width - 1,
+						    "y2", (double) etcta->height - 1,
+						    "outline_color", "black", 
+						    "fill_color", NULL,
+						    NULL);
+	}
 }

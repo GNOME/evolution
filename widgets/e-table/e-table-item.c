@@ -1554,6 +1554,19 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 					return_val = FALSE;
 			}
 			break;
+
+		case GDK_Return:
+		case GDK_KP_Enter:
+		case GDK_ISO_Enter:
+		case GDK_3270_Enter:
+			if (eti_editing (eti)){
+				ecell_view = eti->cell_views [eti->editing_col];
+				e_cell_event (ecell_view, e, view_to_model_col(eti, eti->editing_col), eti->editing_col, eti->editing_row);
+			}
+			return_val = FALSE;
+			gtk_signal_emit (GTK_OBJECT (eti), eti_signals [KEY_PRESS],
+					 model_to_view_row(eti, cursor_row), cursor_col, e, &return_val);
+			break;
 			
 		default:
 			if (!eti_editing (eti)){
@@ -1762,8 +1775,8 @@ eti_cursor_change (ETableSelectionModel *selection, int row, int col, ETableItem
 	}
 
 	eti_request_region_show (eti, view_col, view_row, view_col, view_row);
+	e_canvas_item_grab_focus(GNOME_CANVAS_ITEM(eti));
 	if (e_table_model_is_cell_editable(selection->model, col, view_row)) {
-		e_canvas_item_grab_focus(GNOME_CANVAS_ITEM(eti));
 		e_table_item_enter_edit (eti, view_col, view_row);
 	}
 	gtk_signal_emit (GTK_OBJECT (eti), eti_signals [CURSOR_CHANGE],
