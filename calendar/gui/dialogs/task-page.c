@@ -464,7 +464,7 @@ task_page_fill_component (CompEditorPage *page, CalComponent *comp)
 		cal_component_set_description_list (comp, &l);
 	}
 
-	if (!str)
+	if (str)
 		g_free (str);
 
 	/* Dates */

@@ -839,10 +839,15 @@ real_open_calendar (CalClient *client, const char *str_uri, gboolean only_if_exi
 		GNOME_Evolution_Calendar_CalFactory_open (f->data, str_uri,
 							  only_if_exists,
 							  corba_listener, &ev);
-		if (!BONOBO_EX (&ev))
-			break;
-		else if (BONOBO_USER_EX (&ev, ex_GNOME_Evolution_Calendar_CalFactory_UnsupportedMethod))
+		if (!BONOBO_EX (&ev)) {
+			if (supported != NULL)
+				*supported = TRUE;
+			return TRUE;
+		}
+
+		if (BONOBO_USER_EX (&ev, ex_GNOME_Evolution_Calendar_CalFactory_UnsupportedMethod))
 			unsupported++;
+		CORBA_exception_free (&ev);
 	}
 
 	if (supported != NULL) {
@@ -852,17 +857,13 @@ real_open_calendar (CalClient *client, const char *str_uri, gboolean only_if_exi
 			*supported = TRUE;
 	}
 	
-	if (BONOBO_EX (&ev)) {
-		bonobo_object_unref (BONOBO_OBJECT (priv->listener));
-		priv->listener = NULL;
-		priv->load_state = CAL_CLIENT_LOAD_NOT_LOADED;
-		g_free (priv->uri);
-		priv->uri = NULL;
+	bonobo_object_unref (BONOBO_OBJECT (priv->listener));
+	priv->listener = NULL;
+	priv->load_state = CAL_CLIENT_LOAD_NOT_LOADED;
+	g_free (priv->uri);
+	priv->uri = NULL;
 
-		return FALSE;
-	}
-
-	return TRUE;
+	return FALSE;
 }
 
 /**
@@ -1213,6 +1214,8 @@ load_static_capabilities (CalClient *client)
 		priv->capabilities = g_strdup (cap);
 	else
 		priv->capabilities = g_strdup ("");	
+
+	CORBA_free (cap);
 	CORBA_exception_free (&ev);
 }
 

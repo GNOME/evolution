@@ -346,12 +346,14 @@ task_editor_finalize (GObject *object)
 	te = TASK_EDITOR (object);
 	priv = te->priv;
 
-	g_object_unref((priv->task_page));
-	g_object_unref((priv->task_details_page));
-	g_object_unref((priv->meet_page));
+	g_object_unref (priv->task_page);
+	g_object_unref (priv->task_details_page);
+	g_object_unref (priv->meet_page);
 	
 	g_object_unref (priv->model);
 	
+	g_free (priv);
+
 	if (G_OBJECT_CLASS (parent_class)->finalize)
 		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
