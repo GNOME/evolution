@@ -1,3 +1,10 @@
+2001-09-07  Ettore Perazzoli  <ettore@ximian.com>
+
+	* providers/local/camel-mbox-summary.c (mbox_summary_sync_full):
+	s/Synchronising/Synchronizing/.
+	(mbox_summary_sync_quick): Likewise.
+	(summary_rebuild): s/Summarising/Summarizing/.
+
 2001-09-07  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-multipart.c (camel_multipart_set_boundary): Take a const
