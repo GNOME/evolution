@@ -1,3 +1,8 @@
+2003-01-08  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* backend/pas/pas-backend-ldap.c
+	(pas_backend_ldap_process_authenticate_user): Fix to build.
+
 2003-01-08  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/apps_evolution_addressbook.schemas: add in the

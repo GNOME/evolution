@@ -3183,7 +3183,7 @@ pas_backend_ldap_process_authenticate_user (PASBackend *backend,
 					    ldap_error_to_response (ldap_error));
 
 	if (ldap_error == LDAP_SUCCESS) {
-		pas_backend_set_writable (backend, TRUE);
+		pas_backend_set_is_writable (backend, TRUE);
 
 		/* force a requery on the root dse since some ldap
 		   servers are set up such that they don't report
