@@ -1,5 +1,19 @@
 1999-07-28  Miguel de Icaza  <miguel@gnu.org>
 
+	* calendar-pilot-sync.c: Make the code not take arguments
+	(sync_cal_to_pilot): Nice event update information
+
+	* calendar.c (calendar_new): Add Event UID hash table.
+	(calendar_add_object): Add events to the hash table here.
+	(calendar_remove_object): Remove events here.
+	(calendar_object_find_event): Use the hash table here.
+
+	* main.c (save_calendar_cmd): The object is already destroyed by
+	gnome_dialog_run. 
+
+	* calendar-pilot-sync.c (sync_object_to_pilot): Do not turn
+	archived bit on. 
+
 	* calobj.c (ical_gen_uid): Use the hostname, not the domain name.
 	(ical_gen_uid): Add a serial number.  Isodates can be small.
 

@@ -81,7 +81,6 @@ cal_repo_get_object_by_pilot_id (PortableServer_Servant servant,
 	CORBA_char *ret;
 	
 	obj = calendar_object_find_by_pilot (gcal->cal, pilot_id);
-	printf ("Looking for [%d]\n", pilot_id);
 	if (obj == NULL){
 		CORBA_exception_set (ev,
 				     CORBA_USER_EXCEPTION,
@@ -149,7 +148,6 @@ cal_repo_update_object (PortableServer_Servant servant,
 	
 	obj = calendar_object_find_event (gcal->cal, uid);
 	if (obj != NULL){
-		printf ("ELIMINATING: %s -> %s\n", obj->uid, new_object->uid);
 		calendar_remove_object (gcal->cal, obj);
 	} 
 

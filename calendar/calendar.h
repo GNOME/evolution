@@ -17,6 +17,8 @@ typedef struct {
 	GList  	*todo;
 	GList  	*journal;
 
+	GHashTable *event_hash;
+	
 	/* Time at which the calendar was created */
 	time_t  created;
 

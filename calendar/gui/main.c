@@ -440,7 +440,6 @@ save_calendar_cmd (GtkWidget *widget, void *data)
 			g_free (str);
 			gnome_dialog_set_default (GNOME_DIALOG (box), 1);
 			b = gnome_dialog_run (GNOME_DIALOG (box));
-			gtk_object_destroy (GTK_OBJECT (box));
 
 			if (b != 0)
 				return;

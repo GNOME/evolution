@@ -60,15 +60,6 @@ event_editor_class_init (EventEditorClass *class)
 }
 
 static GtkWidget *
-adjust (GtkWidget *w, gfloat x, gfloat y, gfloat xs, gfloat ys)
-{
-	GtkWidget *a = gtk_alignment_new (x, y, xs, ys);
-	
-	gtk_container_add (GTK_CONTAINER (a), w);
-	return a;
-}
-
-static GtkWidget *
 make_spin_button (int val, int low, int high)
 {
 	GtkAdjustment *adj;

@@ -38,6 +38,8 @@ calendar_new (char *title)
 
 	cal->title = g_strdup (title);
 
+	cal->event_hash = g_hash_table_new (g_str_hash, g_str_equal);
+	
 	calendar_init_alarms (cal);
 	
 	return cal;
@@ -93,9 +95,14 @@ ical_object_try_alarms (iCalObject *obj)
 void
 calendar_add_object (Calendar *cal, iCalObject *obj)
 {
+	g_return_if_fail (cal != NULL);
+	g_return_if_fail (obj != NULL);
+	g_return_if_fail (obj->uid != NULL);
+	
 	obj->new = 0;
 	switch (obj->type){
 	case ICAL_EVENT:
+		g_hash_table_insert (cal->event_hash, obj->uid, obj);
 		cal->events = g_list_prepend (cal->events, obj);
 		ical_object_try_alarms (obj);
 #ifdef DEBUGGING_MAIL_ALARM
@@ -133,6 +140,7 @@ calendar_remove_object (Calendar *cal, iCalObject *obj)
 	switch (obj->type){
 	case ICAL_EVENT:
 		cal->events = g_list_remove (cal->events, obj);
+		g_hash_table_remove (cal->event_hash, obj->uid);
 		break;
 
 	case ICAL_TODO:
@@ -161,23 +169,14 @@ calendar_destroy (Calendar *cal)
 	g_list_foreach (cal->journal, (GFunc) ical_object_destroy, NULL);
 	g_list_free (cal->journal);
 
+	g_hash_table_destroy (cal->event_hash);
+	
 	if (cal->title)
 		g_free (cal->title);
 	if (cal->filename)
 		g_free (cal->filename);
 	
 	g_free (cal);
-}
-
-static char *
-ice (time_t t)
-{
-	static char buffer [100];
-	struct tm *tm;
-
-	tm = localtime (&t);
-	sprintf (buffer, "%d/%d/%d", tm->tm_mday, tm->tm_mon, tm->tm_year);
-	return buffer;
 }
 
 void
@@ -544,7 +543,7 @@ calendar_object_find_event (Calendar *cal, const char *uid)
 	g_return_val_if_fail (cal != NULL, NULL);
 	g_return_val_if_fail (uid != NULL, NULL);
 
-	return calendar_object_find_in_list (cal, cal->events, uid);
+	return g_hash_table_lookup (cal->event_hash, uid);
 }
 
 iCalObject *

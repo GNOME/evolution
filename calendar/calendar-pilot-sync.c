@@ -47,9 +47,9 @@ int only_pilot_to_desktop = 0;
 const struct poptOption calendar_sync_options [] = {
 	{ "pilot", 0, POPT_ARG_STRING, &pilot_port, 0,
 	  N_("Specifies the port on which the Pilot is"), N_("PORT") },
-	{ "debug-attrs", 0, POPT_ARG_INT, &debug_attrs, 0,
+	{ "debug-attrs", 0, POPT_ARG_NONE, &debug_attrs, 0,
 	  N_("If you want to debug the attributes on records"), NULL },
-	{ "only-desktop", 0, POPT_ARG_INT, &only_desktop_to_pilot, 0,
+	{ "only-desktop", 0, POPT_ARG_NONE, &only_desktop_to_pilot, 0,
 	  N_("Only syncs from desktop to pilot"), NULL },
 	{ "only-pilot", 0, POPT_ARG_INT, &only_pilot_to_desktop, 0,
 	  N_("Only syncs from pilot to desktop"), NULL },
@@ -331,7 +331,11 @@ sync_object_to_pilot (GNOME_Calendar_Repository repo, iCalObject *obj, int pilot
 
 		if (rec_len > 0)
 			unpack_Appointment (a, buffer, rec_len);
-	} 
+	} else {
+		attr = 0;
+		cat = 0;
+	}
+	
 	/* a contains the appointment either cleared or with the data from the Pilot */
 	a->begin = *localtime (&obj->dtstart);
 	a->end   = *localtime (&obj->dtend);
@@ -432,20 +436,14 @@ sync_object_to_pilot (GNOME_Calendar_Repository repo, iCalObject *obj, int pilot
 		attr &= ~dlpRecAttrSecret;
 
 	/*
-	 * Mark as archived.  FIXME: is this the case?
-	 */
-	attr |= dlpRecAttrArchived;
-	
-	/*
 	 * Send the appointment to the pilot
 	 */
 	rec_len = pack_Appointment (a, buffer, sizeof (buffer));
 	attr &= ~dlpRecAttrDirty;
 	
-	printf ("Status=%d\n",
-		dlp_WriteRecord (
+	dlp_WriteRecord (
 		pilot_fd, db, attr,
-		obj->pilot_id, cat, buffer, rec_len, &new_id));
+		obj->pilot_id, cat, buffer, rec_len, &new_id);
 	GNOME_Calendar_Repository_update_pilot_id (repo, obj->uid, new_id, ICAL_PILOT_SYNC_NONE, &ev);
 	
 	free_Appointment (a);
@@ -456,10 +454,15 @@ static void
 sync_cal_to_pilot (GNOME_Calendar_Repository repo, Calendar *cal, int pilot_fd)
 {
 	GList *l;
-	
-	for (l = cal->events; l; l = l->next){
+	int c = g_list_length (cal->events);
+	int i;
+
+	printf ("\n");
+	for (i = 0, l = cal->events; l; l = l->next, i++){
 		iCalObject *obj = l->data;
 
+		printf ("Syncing desktop to pilot: %d/%d\r", i + 1, c);
+		fflush (stdout);
 		if (obj->pilot_status != ICAL_PILOT_SYNC_MOD){
 			g_warning ("Strange, we were supposed to get only a dirty object");
 			continue;
@@ -467,6 +470,7 @@ sync_cal_to_pilot (GNOME_Calendar_Repository repo, Calendar *cal, int pilot_fd)
 		
 		sync_object_to_pilot (repo, obj, pilot_fd);
 	}
+	printf ("\n");
 }
 
 static void
@@ -533,7 +537,7 @@ sync_pilot (GNOME_Calendar_Repository repo, int pilot_fd)
 			
 			/* If the object was deleted, remove it from the database */
 			if (attr & dlpRecAttrDeleted){
-				printf ("Deleteing\n");
+				printf ("Deleting\n");
 				delete_record (repo, id);
 				free_Appointment (&a);
 				continue;
@@ -591,9 +595,9 @@ main (int argc, char *argv [])
 	repository = locate_calendar_server ();
 	printf ("Done\n");
 
-	printf ("Syncing...\n");
+	printf ("<Syncing>\n");
 	sync_pilot (repository, link);
-	printf ("Done Syncing\n");
+	printf ("</Syncing>\n");
 	
 	GNOME_Calendar_Repository_done (repository, &ev);
 	
