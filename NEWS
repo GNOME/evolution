@@ -71,6 +71,24 @@ Mail:
   - Importers for Outlook Express 4 and mbox (used by most mailers like
     Netscape, Pine, Elm, Eudora) (Iain & Jeff)
 
+Addressbook:
+
+  - Updated to work with both OpenLDAP 1 and OpenLDAP 2.  (Toshok)
+
+  - Added configuration dialog for LDAP.  (Toshok)
+
+  - Plenty of bug fixes.  (Clahey, Toshok, Meeks, JP, Larry, Jason, Federico, Dan, Zucchi, Gediminas Paulauskas, Ettore)
+
+  - Moved category dialog to gal.  (JP)
+
+  - Worked on LDAP authentication.  (Toshok)
+
+  - Worked on status messages.  (Toshok)
+
+  - Worked on GalView stuff.  (Clahey)
+
+  - Improved the select names dialog GUI.  (Clahey)
+
 Calendar:
 
   - New "go to date" dialog (JP).

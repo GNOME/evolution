@@ -1,3 +1,7 @@
+2001-02-27  Christopher James Lahey  <clahey@ximian.com>
+
+	* NEWS (Addressbook): Updated NEWS.
+
 2001-02-27  Ettore Perazzoli  <ettore@ximian.com>
 
 	* configure.in: `executive-summary/widgets' doesn't need to be
