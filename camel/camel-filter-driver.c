@@ -644,7 +644,7 @@ pipe_to_system (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFil
 {
 	struct _CamelFilterDriverPrivate *p = _PRIVATE (driver);
 	int result, status, fds[4], i;
-	CamelMimeMessage *message;
+	CamelMimeMessage *message = NULL;
 	CamelMimeParser *parser;
 	CamelStream *stream, *mem;
 	pid_t pid;
@@ -723,13 +723,28 @@ pipe_to_system (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFil
 	close (fds[3]);
 	
 	stream = camel_stream_fs_new_with_fd (fds[1]);
-	camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (p->message), stream);
-	camel_stream_flush (stream);
+	if (camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (p->message), stream) == -1) {
+		camel_object_unref (stream);
+		close (fds[2]);
+		goto wait;
+	}
+	
+	if (camel_stream_flush (stream) == -1) {
+		camel_object_unref (stream);
+		close (fds[2]);
+		goto wait;
+	}
+	
 	camel_object_unref (stream);
 	
 	stream = camel_stream_fs_new_with_fd (fds[2]);
 	mem = camel_stream_mem_new ();
-	camel_stream_write_to_stream (stream, mem);
+	if (camel_stream_write_to_stream (stream, mem) == -1) {
+		camel_object_unref (stream);
+		camel_object_unref (mem);
+		goto wait;
+	}
+	
 	camel_object_unref (stream);
 	camel_stream_reset (mem);
 	
@@ -753,6 +768,8 @@ pipe_to_system (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFil
 	}
 	
 	camel_object_unref (parser);
+	
+ wait:
 	
 	result = waitpid (pid, &status, 0);
 	
