@@ -4,8 +4,8 @@
 DIE=0
 
 if [ -n "$GNOME2_PATH" ]; then
-	ACLOCAL_FLAGS="-I $GNOME2_DIR/share/aclocal $ACLOCAL_FLAGS"
-	PATH="$GNOME2_DIR/bin:$PATH"
+	ACLOCAL_FLAGS="-I $GNOME2_PATH/share/aclocal $ACLOCAL_FLAGS"
+	PATH="$GNOME2_PATH/bin:$PATH"
 	export PATH
 fi
 
