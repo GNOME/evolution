@@ -1,3 +1,9 @@
+2004-04-05  Not Zed  <NotZed@Ximian.com>
+
+	* mail-ops.c (add_special_info): removed, this is done in camel
+	now.
+	(fix_unmatched_info): renamed from add_unmatched_info.
+
 2004-04-02  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-migrate.c (cp_r): Revert my "fix" from yesterday. We can't
