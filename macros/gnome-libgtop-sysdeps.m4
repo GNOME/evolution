@@ -92,6 +92,8 @@ main (void)
 
 	AC_MSG_RESULT($libgtop_sysdeps_dir)
 
+	AC_SUBST(libgtop_sysdeps_dir)
+
 	AC_MSG_CHECKING(for machine.h in libgtop sysdeps dir)
 	AC_MSG_RESULT($libgtop_use_machine_h)
 
