@@ -6,6 +6,8 @@ glade_DATA =					\
 	e-msg-composer.glade
 
 INCLUDES =					\
+	-I$(top_srcdir)				\
+	-I$(top_builddir)			\
 	-I$(top_srcdir)/camel			\
 	-I$(top_builddir)/camel			\
 	$(GNOME_INCLUDEDIR)

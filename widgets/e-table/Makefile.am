@@ -1,6 +1,7 @@
 INCLUDES =					\
 	$(GNOME_INCLUDEDIR)			\
-	-I$(top_srcdir)/e-util
+	-I$(top_srcdir)/e-util			\
+	-I$(top_srcdir)
 
 noinst_LIBRARIES =				\
 	libetable.a
