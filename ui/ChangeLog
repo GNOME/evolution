@@ -1,3 +1,7 @@
+2002-03-07  Anna Marie Dirks  <anna@ximian.com>
+
+	* evolution-mail-message.xml: Fixed tiny typo ("Addressbook", not "Address book"), and cleaned up accelerators more, so that all of them actually work. Also added accelerators to items in the Go To menu and the Forward menu as part of fixing bug #10666.
+
 2002-03-07  Radek Doulik  <rodo@ximian.com>
 
 	* evolution-signature-editor.xml: added save & close on toolbar,

@@ -3,7 +3,7 @@
   <commands>   <!-- Alphabetical by name, yo -->
 
     <cmd name="AddSenderToAddressbook"
-     _tip="Add Sender to Address Book"/>
+     _tip="Add Sender to Addressbook"/>
 
     <cmd name="MailNext"
      _tip="Display the next message"
@@ -167,6 +167,31 @@
     <cmd name="ToolsVFolderSubject"
      _tip="Create a virtual folder for this subject"/>
 
+    <cmd name="SearchVFolderSearch"
+     _tip="Create a virtual folder based on this search"/>
+
+    <cmd name="SearchSaveSearch"
+     _tip="Save this search"/>
+
+    <cmd name="SearchClearSearch"
+     _tip="Erase the current search"
+      accel="*Control**Shift*B"/>
+
+    <cmd name="SearchSearch"
+     _tip="Search through the messages in this folder"
+      accel="*Control*B"/>
+
+    <cmd name="SearchAdvancedSearch"
+     _tip="Design an advanced search to run on the messages in this folder"/>
+
+    <cmd name="SearchSavedSearches"
+     _tip="Saved Searches"/>
+
+     <cmd name="SearchEditSavedSearches"
+     _tip="Edit Saved Searches"/> 
+    
+
+
     <cmd name="ViewFullHeaders"
      _tip="Show message with all email headers"
      type="radio" group="message_display"/>
@@ -261,15 +286,15 @@
     <placeholder name="ComponentActionsPlaceholder">
       <submenu name="Actions" _label="_Actions">
         <placeholder name="MailMessageActions">
-          <submenu name="GoTo" _label="Go To">
-            <menuitem name="MailNext" verb="" _label="Next Message"/>
-            <menuitem name="MailNextUnread" verb="" _label="Next Unread Message"/>
-            <menuitem name="MailNextFlagged" verb="" _label="Next Important Message"/>
-            <menuitem name="MailNextThread" verb="" _label="Next Thread"/>
+          <submenu name="GoTo" _label="_Go To">
+            <menuitem name="MailNext" verb="" _label="_Next Message"/>
+            <menuitem name="MailNextUnread" verb="" _label="Next _Unread Message"/>
+            <menuitem name="MailNextFlagged" verb="" _label="Next _Important Message"/>
+            <menuitem name="MailNextThread" verb="" _label="Next _Thread"/>
 	    <separator f="" name="emaillist"/>
-            <menuitem name="MailPrevious" verb="" _label="Previous Message"/>
-            <menuitem name="MailPreviousUnread" verb="" _label="Previous Unread Message"/>
-            <menuitem name="MailPreviousFlagged" verb="" _label="Previous Important Message"/>
+            <menuitem name="MailPrevious" verb="" _label="_Previous Message"/>
+            <menuitem name="MailPreviousUnread" verb="" _label="P_revious Unread Message"/>
+            <menuitem name="MailPreviousFlagged" verb="" _label="Pr_evious Important Message"/>
           </submenu>
 
 	  <separator f="" name="emaillist1"/>
@@ -282,7 +307,7 @@
           <menuitem name="MessageReplyList" verb="" _label="Reply to _List"/>
           <menuitem name="MessageReplyAll" verb="" _label="Reply to _All"/>
           <menuitem name="MessageForward" verb="" _label="_Forward Message"/>
-          <submenu name="ForwardAs" _label="Forward">
+          <submenu name="ForwardAs" _label="F_orward">
             <menuitem verb="MessageForwardAttached" _label="_Attached"/>
             <menuitem verb="MessageForwardInline" _label="_Inline"/>
             <menuitem verb="MessageForwardQuoted" _label="_Quoted"/>
@@ -297,11 +322,11 @@
 
 	  <separator f="" name="emaillist4"/>
 
-          <menuitem name="AddSenderToAddressbook" verb="" _label="Add Sender to Address _Book"/>
+          <menuitem name="AddSenderToAddressbook" verb="" _label="A_dd Sender to Addressbook"/>
 
 	  <separator f="" name="emaillist5"/>
 
-          <menuitem name="MessageApplyFilters" verb="" _label="_Apply Filters"/>
+          <menuitem name="MessageApplyFilters" verb="" _label="A_pply Filters"/>
         </placeholder>
       </submenu>
     </placeholder>
@@ -326,6 +351,35 @@
         </placeholder>
       </placeholder>
     </submenu>
+
+   <placeholder name="ComponentSearchPlaceholder"> 
+    <submenu name="Search" _label="_Search">
+      <placeholder name="ComponentPlaceholder">
+       
+            <menuitem name="SearchSearch" verb="" _label="_Find Now"/>
+            <menuitem name="SearchClearSearch" verb="" _label="_Clear Search"/>
+            <menuitem name="SearchAdvancedSearch" verb="" _label="_Advanced Search..."/>
+           
+
+             <separator f="" name="storesearch"/> 
+            
+            <menuitem name="SeachSaveSearch" verb="" _label="_Save Search..."/> 
+            <menuitem name="SeachEditSavedSearches" verb="" _label="_Edit Saved Searches..."/> 
+
+            <separator f="" name="vfoldersearch"/> 
+               
+            <menuitem name="SearchVFolderSearch" _label="Create _Virtual Folder From Search..."/>
+            
+            <separator f="" name="savedsearches"/>
+
+            <menuitem name="SeachEditSavedSearches" verb="" _label="Family Mail"/>
+            <menuitem name="SeachEditSavedSearches" verb="" _label="Sue's Phone"/>
+       
+
+      </placeholder>
+    </submenu>
+   </placeholder>
+
   </menu>
 
   <dockitem name="Toolbar">
@@ -376,3 +430,9 @@
   </dockitem>
 
 </Root>
+
+
+
+
+
+
