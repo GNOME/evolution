@@ -1,5 +1,12 @@
 2001-07-10  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-config.c (mail_config_write_on_exit): Use
+	bonobo_config_set_string_wrapper.
+	(mail_config_write): Same.
+	(bonobo_config_set_string_wrapper): Macro wrapping
+	bonobo_config_set_string that passes "" as the val if the val is
+	NULL.
+
 	* mail-callbacks.c (mail_generate_reply): Make sure that the
 	reply-to addr i non-NULL before trying to add it to the hash
 	table.

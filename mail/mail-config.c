@@ -293,7 +293,7 @@ config_read (void)
 		path = g_strdup_printf ("/Mail/Accounts/account_name_%d", i);
 		account->name = bonobo_config_get_string (config->db, path, NULL);
 		g_free (path);
-
+		
 		if (default_num == i)
 			account->default_account = TRUE;
 		else
@@ -550,6 +550,8 @@ config_read (void)
 		config->db, "/Mail/Trash/empty_on_exit", FALSE, NULL);
 }
 
+#define bonobo_config_set_string_wrapper(db, path, val, ev) bonobo_config_set_string (db, path, val ? val : "", ev)
+
 void
 mail_config_write (void)
 {
@@ -584,35 +586,32 @@ mail_config_write (void)
 		
 		/* account info */
 		path = g_strdup_printf ("/Mail/Accounts/account_name_%d", i);
-		bonobo_config_set_string (config->db, path, account->name, NULL);
+		bonobo_config_set_string_wrapper (config->db, path, account->name, NULL);
 		g_free (path);
 		
 		path = g_strdup_printf ("/Mail/Accounts/account_drafts_folder_name_%d", i);
-		bonobo_config_set_string (config->db, path, 
-					  account->drafts_folder_name, NULL);
+		bonobo_config_set_string_wrapper (config->db, path, 
+						  account->drafts_folder_name, NULL);
 		g_free (path);
 		
 		path = g_strdup_printf ("/Mail/Accounts/account_drafts_folder_uri_%d", i);
-		bonobo_config_set_string (config->db, path, 
-					  account->drafts_folder_uri, NULL);
+		bonobo_config_set_string_wrapper (config->db, path, 
+						  account->drafts_folder_uri, NULL);
 		g_free (path);
 		
 		path = g_strdup_printf ("/Mail/Accounts/account_sent_folder_name_%d", i);
-		bonobo_config_set_string (config->db, path, 
-					  account->sent_folder_name, NULL);
+		bonobo_config_set_string_wrapper (config->db, path, 
+						  account->sent_folder_name, NULL);
 		g_free (path);
 		
 		path = g_strdup_printf ("/Mail/Accounts/account_sent_folder_uri_%d", i);
-		bonobo_config_set_string (config->db, path, 
-					  account->sent_folder_uri, NULL);
+		bonobo_config_set_string_wrapper (config->db, path, 
+						  account->sent_folder_uri, NULL);
 		g_free (path);
 		
 		/* account pgp options */
 		path = g_strdup_printf ("/Mail/Accounts/account_pgp_key_%d", i);
-		if (account->pgp_key)
-			bonobo_config_set_string (config->db, path, account->pgp_key, NULL);
-		else
-			bonobo_config_set_string (config->db, path, "", NULL);
+		bonobo_config_set_string_wrapper (config->db, path, account->pgp_key, NULL);
 		g_free (path);
 		
 		path = g_strdup_printf ("/Mail/Accounts/account_pgp_encrypt_to_self_%d", i);
@@ -622,95 +621,70 @@ mail_config_write (void)
 		
 		/* account s/mime options */
 		path = g_strdup_printf ("/Mail/Accounts/account_smime_key_%d", i);
-		if (account->smime_key)
-			bonobo_config_set_string (config->db, path, 
-						  account->smime_key, NULL);
-		else
-			bonobo_config_set_string (config->db, path, 
-						  "", NULL);
+		bonobo_config_set_string_wrapper (config->db, path, account->smime_key, NULL);
 		g_free (path);
 		
 		path = g_strdup_printf ("/Mail/Accounts/account_smime_encrypt_to_self_%d", i);
-		bonobo_config_set_boolean (config->db, path, 
-					   account->smime_encrypt_to_self, 
-					   NULL);
+		bonobo_config_set_boolean (config->db, path, account->smime_encrypt_to_self, NULL);
 		g_free (path);
 		
 		/* identity info */
 		path = g_strdup_printf ("/Mail/Accounts/identity_name_%d", i);
-		bonobo_config_set_string (config->db, path, account->id->name,
-					  NULL);
+		bonobo_config_set_string_wrapper (config->db, path, account->id->name, NULL);
 		g_free (path);
 		
 		path = g_strdup_printf ("/Mail/Accounts/identity_address_%d", i);
-		bonobo_config_set_string (config->db, path, 
-					  account->id->address, NULL);
+		bonobo_config_set_string_wrapper (config->db, path, account->id->address, NULL);
 		g_free (path);
 		
 		path = g_strdup_printf ("/Mail/Accounts/identity_organization_%d", i);
-		bonobo_config_set_string (config->db, path, 
-					  account->id->organization, NULL);
+		bonobo_config_set_string_wrapper (config->db, path, account->id->organization, NULL);
 		g_free (path);
 		
 		path = g_strdup_printf ("/Mail/Accounts/identity_signature_%d", i);
-		bonobo_config_set_string (config->db, path, 
-					  account->id->signature, NULL);
+		bonobo_config_set_string_wrapper (config->db, path, account->id->signature, NULL);
 		g_free (path);
+		
 		path = g_strdup_printf ("identity_html_signature_%d", i);
-		if (account->id->html_signature)
-			bonobo_config_set_string (config->db, path, account->id->html_signature, NULL);
-		else
-			bonobo_config_set_string (config->db, path, "", NULL);
+		bonobo_config_set_string_wrapper (config->db, path, account->id->html_signature, NULL);
 		g_free (path);
+		
 		path = g_strdup_printf ("identity_has_html_signature_%d", i);
 		bonobo_config_set_boolean (config->db, path, account->id->has_html_signature, NULL);
 		g_free (path);
 		
 		/* source info */
 		path = g_strdup_printf ("/Mail/Accounts/source_url_%d", i);
-		bonobo_config_set_string (config->db, path, 
-		        account->source->url ? account->source->url : "", 
-			NULL);
+		bonobo_config_set_string_wrapper (config->db, path, account->source->url, NULL);
 		g_free (path);
 		
 		path = g_strdup_printf ("/Mail/Accounts/source_keep_on_server_%d", i);
-		bonobo_config_set_boolean (config->db, path, 
-					   account->source->keep_on_server, 
-					   NULL);
+		bonobo_config_set_boolean (config->db, path, account->source->keep_on_server, NULL);
 		g_free (path);
 		
 		path = g_strdup_printf ("/Mail/Accounts/source_auto_check_%d", i);
-		bonobo_config_set_boolean (config->db, path, 
-					   account->source->auto_check, NULL);
+		bonobo_config_set_boolean (config->db, path, account->source->auto_check, NULL);
 		g_free (path);
 		
 		path = g_strdup_printf ("/Mail/Accounts/source_auto_check_time_%d", i);
-		bonobo_config_set_long (config->db, path, 
-					account->source->auto_check_time, 
-					NULL);
+		bonobo_config_set_long (config->db, path, account->source->auto_check_time, NULL);
 		g_free (path);
 		
 		path = g_strdup_printf ("/Mail/Accounts/source_enabled_%d", i);
-		bonobo_config_set_boolean (config->db, path, 
-					   account->source->enabled, NULL);
+		bonobo_config_set_boolean (config->db, path, account->source->enabled, NULL);
 		g_free (path);
 		
 		path = g_strdup_printf ("/Mail/Accounts/source_save_passwd_%d", i);
-		bonobo_config_set_boolean (config->db, path, 
-					   account->source->save_passwd, NULL);
+		bonobo_config_set_boolean (config->db, path, account->source->save_passwd, NULL);
 		g_free (path);
 		
 		/* transport info */
 		path = g_strdup_printf ("/Mail/Accounts/transport_url_%d", i);
-		bonobo_config_set_string (config->db, path, 
-		        account->transport->url ? account->transport->url : "",
-			NULL);
+		bonobo_config_set_string_wrapper (config->db, path, account->transport->url, NULL);
 		g_free (path);
 		
 		path = g_strdup_printf ("/Mail/Accounts/transport_save_passwd_%d", i);
-		bonobo_config_set_boolean (config->db, path, 
-					   account->transport->save_passwd, 
-					   NULL);
+		bonobo_config_set_boolean (config->db, path, account->transport->save_passwd, NULL);
 		g_free (path);
 	}
 	
@@ -726,7 +700,7 @@ mail_config_write (void)
 		n = g_slist_nth_data (config->news, i);
 		
 		path = g_strdup_printf ("/News/Sources/url_%d", i);
-		bonobo_config_set_string (config->db, path, n->url, NULL);
+		bonobo_config_set_string_wrapper (config->db, path, n->url, NULL);
 		g_free (path);
 	}
 	
@@ -800,8 +774,8 @@ mail_config_write_on_exit (void)
 				   config->prompt_only_bcc, NULL);	
 	
 	/* PGP/GPG */
-	bonobo_config_set_string (config->db, "/Mail/PGP/path", 
-				  config->pgp_path, NULL);
+	bonobo_config_set_string_wrapper (config->db, "/Mail/PGP/path", 
+					  config->pgp_path, NULL);
 	
 	bonobo_config_set_long (config->db, "/Mail/PGP/type", 
 				config->pgp_type, NULL);
@@ -824,8 +798,8 @@ mail_config_write_on_exit (void)
 				config->message_display_style, NULL);
 	
 	/* Default charset */
-	bonobo_config_set_string (config->db, "/Mail/Format/default_charset", 
-				  config->default_charset, NULL);
+	bonobo_config_set_string_wrapper (config->db, "/Mail/Format/default_charset", 
+					  config->default_charset, NULL);
 	
 	/* Trash folders */
 	bonobo_config_set_boolean (config->db, "/Mail/Trash/empty_on_exit", 
