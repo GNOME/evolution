@@ -300,7 +300,7 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 		for (col = first_col; col < last_col; col++){
 			ETableCol *ecol = e_table_header_get_column (eti->header, col);
 
-			draw_cell (eti, drawable, col, row, xd, y1 - y, xd + ecol->width, y2);
+			draw_cell (eti, drawable, col, row, xd, y1 - y, xd + ecol->width, y2 - y);
 			xd += ecol->width;
 		}
 	}

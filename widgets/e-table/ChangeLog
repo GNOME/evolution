@@ -1,5 +1,8 @@
 1999-11-20  Miguel de Icaza  <miguel@gnu.org>
 
+	* e-table-item.c (eti_draw): WOOOOHOOOOOoO!  It took me quite a
+	while to figure this one out.  Fixed.
+
 	* e-table-header-item.c (ethi_set_arg): Compute width, keep track
 	of it. 
 	(ethi_add_table_header): Monitor changes to the Header model;
