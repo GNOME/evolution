@@ -1632,7 +1632,7 @@ e_msg_composer_new_with_message (CamelMimeMessage *msg)
 	for (i = 0; i < len; i++) {
 		const char *name, *addr;
 		
-		if (camel_internet_address_get (to, i, &name, &addr)) {
+		if (camel_internet_address_get (cc, i, &name, &addr)) {
 			CamelInternetAddress *cia;
 			
 			cia = camel_internet_address_new ();
@@ -1646,7 +1646,7 @@ e_msg_composer_new_with_message (CamelMimeMessage *msg)
 	for (i = 0; i < len; i++) {
 		const char *name, *addr;
 		
-		if (camel_internet_address_get (to, i, &name, &addr)) {
+		if (camel_internet_address_get (bcc, i, &name, &addr)) {
 			CamelInternetAddress *cia;
 			
 			cia = camel_internet_address_new ();
