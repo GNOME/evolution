@@ -164,8 +164,8 @@ storage_sort_callback (ETreeMemory *etmm,
 static int
 folder_sort_callback (ETreeMemory *etmm, ETreePath path1, ETreePath path2, gpointer closure)
 {
-	return strcasecmp (e_tree_model_value_at (E_TREE_MODEL (etmm), path1, 0),
-			   e_tree_model_value_at (E_TREE_MODEL (etmm), path2, 0));
+	return g_strcasecmp (e_tree_model_value_at (E_TREE_MODEL (etmm), path1, 0),
+			     e_tree_model_value_at (E_TREE_MODEL (etmm), path2, 0));
 }
 
 
