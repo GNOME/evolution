@@ -7,7 +7,6 @@
 #include "camel-mbox-summary.h"
 #include "camel-log.h"
 #include "camel-exception.h"
-#include "md5-utils.h"
 #include <sys/types.h>
 #include <unistd.h>
 #include <errno.h>
@@ -56,26 +55,22 @@ main (int argc, char**argv)
 	
 	mbox_summary_info =
 		parsed_information_to_mbox_summary (message_info_array);
-	sum1 = g_new (CamelMboxSummary, 1);
+	sum1 = CAMEL_MBOX_SUMMARY (gtk_object_new (camel_mbox_summary_get_type (), NULL));
 
-	md5_get_digest_from_file (argv[1], sum1->md5_digest);
 	sum1->nb_message = mbox_summary_info->len;
 
 	sum1->message_info = mbox_summary_info;
 
-	camel_mbox_save_summary (sum1, "ev-summary.mbox", ex);
+	camel_mbox_summary_save (sum1, "ev-summary.mbox", ex);
 
-	sum2 = camel_mbox_load_summary ("ev-summary.mbox", ex);
+	sum2 = camel_mbox_summary_load ("ev-summary.mbox", ex);
 
 	for (i=0; i<sum1->nb_message; i++) {
 		
 		msg_info = (CamelMboxSummaryInformation *)(sum1->message_info->data) + i;
 		printf ("Message %d :\n"
-			"  From : %s\n", i, msg_info->sender);
+			"  From : %s\n", i, msg_info->headers.sender);
 	}
-
-	printf ("Taille du fichier mbox : %ld\n", mbox_file_size);
-	printf ("\t in the summary : %ld\n", sum1->mbox_file_size  );
 
 	return 1;
 	
