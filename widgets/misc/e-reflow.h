@@ -66,6 +66,7 @@ struct _EReflow
 
 	ESelectionModel *selection;
 	guint selection_changed_id;
+	guint cursor_changed_id;
 	ESorterArray *sorter;
 
 	GtkAdjustment *adjustment;
@@ -97,6 +98,8 @@ struct _EReflow
 	gint which_column_dragged;
 	double temp_column_width;
 	double previous_temp_column_width;
+
+	int cursor_row;
 
 	guint column_drag : 1;
 

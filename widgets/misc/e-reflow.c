@@ -144,6 +144,37 @@ selection_changed (ESelectionModel *selection, EReflow *reflow)
 }
 
 static void
+cursor_changed (ESelectionModel *selection, int row, int col, EReflow *reflow)
+{
+	int count = reflow->count;
+	int old_cursor = reflow->cursor_row;
+
+	if (old_cursor < count && old_cursor >= 0) {
+		if (reflow->items[old_cursor]) {
+			gtk_object_set (GTK_OBJECT (reflow->items[old_cursor]),
+					"has_cursor", FALSE,
+					NULL);
+		}
+	}
+
+	reflow->cursor_row = row;
+
+	if (row < count && row >= 0) {
+		if (reflow->items[row]) {
+			gtk_object_set (GTK_OBJECT (reflow->items[row]),
+					"has_cursor", TRUE,
+					NULL);
+		} else {
+			reflow->items[row] = e_reflow_model_incarnate (reflow->model, row, GNOME_CANVAS_GROUP (reflow));
+			gtk_object_set (GTK_OBJECT (reflow->items[row]),
+					"has_cursor", TRUE,
+					"width", (double) reflow->column_width,
+					NULL);
+		}
+	}
+}
+
+static void
 incarnate (EReflow *reflow)
 {
 	int column_width;
@@ -419,9 +450,12 @@ disconnect_selection (EReflow *reflow)
 
 	gtk_signal_disconnect (GTK_OBJECT (reflow->selection),
 			       reflow->selection_changed_id);
+	gtk_signal_disconnect (GTK_OBJECT (reflow->selection),
+			       reflow->cursor_changed_id);
 	gtk_object_unref (GTK_OBJECT (reflow->selection));
 
 	reflow->selection_changed_id = 0;
+	reflow->cursor_changed_id = 0;
 	reflow->selection            = NULL;
 }
 
@@ -1231,6 +1265,8 @@ e_reflow_init (EReflow *reflow)
 	reflow->arrow_cursor         = NULL;
 	reflow->default_cursor       = NULL;
 
+	reflow->cursor_row           = -1;
+
 	reflow->incarnate_idle_id    = 0;
 
 	reflow->selection            = E_SELECTION_MODEL (e_selection_model_simple_new());
@@ -1243,6 +1279,9 @@ e_reflow_init (EReflow *reflow)
 	reflow->selection_changed_id = 
 		gtk_signal_connect(GTK_OBJECT(reflow->selection), "selection_changed",
 				   GTK_SIGNAL_FUNC(selection_changed), reflow);
+	reflow->cursor_changed_id = 
+		gtk_signal_connect(GTK_OBJECT(reflow->selection), "cursor_changed",
+				   GTK_SIGNAL_FUNC(cursor_changed), reflow);
 
 	e_canvas_item_set_reflow_callback(GNOME_CANVAS_ITEM(reflow), e_reflow_reflow);
 }
