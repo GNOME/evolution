@@ -1,3 +1,10 @@
+2005-01-11  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #70919.
+
+	* camel-multipart-signed.c (parse_content): treat the post pointer
+	as binary, not 0 terminated.
+
 2004-12-23  Not Zed  <NotZed@Ximian.com>
   
 	** See bug #70556.

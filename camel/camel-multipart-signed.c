@@ -248,6 +248,7 @@ parse_content(CamelMultipartSigned *mps)
 
 	if (end > (char *)mem->buffer->data) {
 		char *tmp = g_strndup(mem->buffer->data, start-(char *)mem->buffer->data-1);
+
 		camel_multipart_set_preface(mp, tmp);
 		g_free(tmp);
 	}
@@ -261,8 +262,12 @@ parse_content(CamelMultipartSigned *mps)
 	if (post == NULL)
 		return -1;
 
-	if (post[0])
-		camel_multipart_set_postface(mp, post);
+	if (post < last) {
+		char *tmp = g_strndup(post, last-post);
+		
+		camel_multipart_set_postface(mp, tmp);
+		g_free(tmp);
+	}
 
 	mps->start1 = start-(char *)mem->buffer->data;
 	mps->end1 = end-(char *)mem->buffer->data;
