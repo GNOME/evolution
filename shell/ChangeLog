@@ -1,5 +1,7 @@
 2001-08-17  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* e-shell.c (e_shell_construct): Don't destroy the splash twice.
+
 	* e-local-storage.c (setup_folder_as_stock): utf_name should not
 	be const as e_utf8_from_locale_string() returns an allocated
 	buffer.
