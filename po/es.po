@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: evolution.evolution-1-4-branch\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2003-08-27 03:29+0200\n"
-"PO-Revision-Date: 2003-08-28 19:03+0200\n"
+"PO-Revision-Date: 2003-08-29 16:44+0200\n"
 "Last-Translator: Francisco Javier F. Serrador <serrador@arrakis.es>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -667,7 +667,7 @@ msgid ""
 "path exists and that you have permission to access it."
 msgstr ""
 "No se pudo abrir esta libreta de direcciones. Compruebe\n"
-"que existe la ruta y que tiene permisos para acceder a ella."
+"que la ruta exista y que tenga permisos para acceder a ella."
 
 #: addressbook/gui/component/addressbook.c:512
 msgid ""
@@ -686,7 +686,7 @@ msgid ""
 "you must compile the program from the CVS sources after\n"
 "retrieving OpenLDAP from the link below.\n"
 msgstr ""
-"Esta versión de Evolution no implementa LDAP compilado.\n"
+"Esta versión de Evolution no se le ha compilado el soporte LDAP.\n"
 "Si quiere usar LDAP en Evolution debe compilar el programa\n"
 "de las fuentes del CVS una vez que haya obtenido LDAP del\n"
 "siguiente enlace.\n"
@@ -835,7 +835,7 @@ msgstr "Añadir a contactos"
 
 #: addressbook/gui/component/e-address-popup.c:1056
 msgid "Merge E-Mail Address"
-msgstr "Combinar direcciones de correo"
+msgstr "Combinar direcciones de correo-e"
 
 #: addressbook/gui/component/e-address-widget.c:378
 msgid "Disable Queries"
@@ -941,7 +941,7 @@ msgstr "Editar servidor LDAP"
 
 #: addressbook/gui/component/ldap-config.glade.h:22
 msgid "Email address:"
-msgstr "Dirección de correo:"
+msgstr "Dirección de correo-e:"
 
 #: addressbook/gui/component/ldap-config.glade.h:23
 msgid "Evolution will use this DN to authenticate you with the server"
@@ -949,7 +949,7 @@ msgstr "Evolution usará este Nombre Distintivo para autenticarle con el servido
 
 #: addressbook/gui/component/ldap-config.glade.h:24
 msgid "Evolution will use this email address to authenticate you with the server"
-msgstr "Evolution usará esta dirección de correo para autenticarle con el servidor"
+msgstr "Evolution usará esta dirección de correo-e para autenticarle con el servidor"
 
 #: addressbook/gui/component/ldap-config.glade.h:25
 msgid "Finished"
@@ -1062,19 +1062,19 @@ msgstr ""
 
 #: addressbook/gui/component/ldap-config.glade.h:48
 msgid "Step 1: Server Information"
-msgstr "Paso 1: Información del servidor"
+msgstr "Paso 1: Información del Servidor"
 
 #: addressbook/gui/component/ldap-config.glade.h:49
 msgid "Step 2: Connecting to Server"
-msgstr "Paso 2: Conexión al servidor"
+msgstr "Paso 2: Conexión con el Servidor"
 
 #: addressbook/gui/component/ldap-config.glade.h:50
 msgid "Step 3: Searching the Directory"
-msgstr "Paso 3: Búsqueda en el directorio"
+msgstr "Paso 3: Búsqueda en el Directorio"
 
 #: addressbook/gui/component/ldap-config.glade.h:51
 msgid "Step 4: Display Name"
-msgstr "Paso 4: Mostrar el nombre"
+msgstr "Paso 4: Mostrar el Nombre"
 
 #: addressbook/gui/component/ldap-config.glade.h:52
 msgid "Sub"
@@ -1178,8 +1178,8 @@ msgid ""
 "setting this to \"Email Address\" requires anonymous access to your ldap "
 "server."
 msgstr ""
-"Este es el método que usará Evolution para autenticarse.  Note que "
-"configurarlo como «Dirección de Correo» requiere acceso anónimo a su "
+"Este es el método que usará Evolution para autenticarle a usted.  Note que "
+"establecer esto a «Dirección de Correo-e» requiere acceso anónimo a su "
 "servidor ldap."
 
 #: addressbook/gui/component/ldap-config.glade.h:73
@@ -1217,7 +1217,7 @@ msgstr "Usando Nombre Distintivo (ND)"
 
 #: addressbook/gui/component/ldap-config.glade.h:81
 msgid "Using email address"
-msgstr "Usando dirección de correo"
+msgstr "Usando dirección de correo-e"
 
 #: addressbook/gui/component/ldap-config.glade.h:82 mail/mail-account-gui.c:63
 #: mail/mail-config.glade.h:128
@@ -1376,7 +1376,7 @@ msgstr "C_umpleaños:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:7
 msgid "Business fa_x:"
-msgstr "Fa_x del trabajo"
+msgstr "Fa_x del trabajo:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:8
 msgid "Collaboration"
@@ -1471,7 +1471,7 @@ msgstr "_Borrar"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:29
 msgid "_Home:"
-msgstr "_Domicilio"
+msgstr "_Domicilio:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:30
 msgid "_Job title:"
@@ -1499,7 +1499,7 @@ msgstr "URL de agenda _pública:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:36
 msgid "_This is the mailing address"
-msgstr "Ésta es la dirección de _correo"
+msgstr "Ésta es la dirección de _correo usual"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:37
 msgid "_Web page address:"
@@ -2678,7 +2678,7 @@ msgstr "E_stado/Provincia:"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:9
 msgid "_ZIP Code:"
-msgstr "Código _postal"
+msgstr "Código _postal:"
 
 #: addressbook/gui/contact-editor/fullname.glade.h:2
 msgid "Dr."
@@ -4051,7 +4051,7 @@ msgstr "Opciones de los avisos de mensajes"
 
 #: calendar/gui/dialogs/alarm-options.c:484
 msgid "Email Alarm Options"
-msgstr "Opciones de los avisos por correo"
+msgstr "Opciones de los avisos por correo-e"
 
 #: calendar/gui/dialogs/alarm-options.c:493
 msgid "Program Alarm Options"
@@ -4141,7 +4141,7 @@ msgstr "Ejecutar un programa"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:7
 msgid "Send an Email"
-msgstr "Envía un correo"
+msgstr "Envía un correo-e"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:8
 #: calendar/gui/dialogs/recurrence-page.glade.h:8
@@ -5134,7 +5134,7 @@ msgstr "1 segundo"
 
 #: calendar/gui/e-alarm-list.c:469
 msgid "Send an email"
-msgstr "Enviar un correo"
+msgstr "Enviar un correo-e"
 
 #: calendar/gui/e-alarm-list.c:479
 msgid "Unknown action to be performed"
@@ -10812,7 +10812,7 @@ msgstr "<b>Recibiendo mensajes</b>"
 
 #: designs/read_receipts/read.glade.h:3
 msgid "<b>Sending Email:</b>"
-msgstr "<b>Enviando correo:</b>"
+msgstr "<b>Envío de correo:</b>"
 
 #: designs/read_receipts/read.glade.h:4
 msgid ""
@@ -11394,7 +11394,7 @@ msgstr "no está marcado"
 
 #: filter/libfilter-i18n.h:35 mail/folder-browser.c:1822
 msgid "Label"
-msgstr "Etiqueta"
+msgstr "Etiquetar"
 
 #: filter/libfilter-i18n.h:36
 msgid "Mailing list"
@@ -27088,7 +27088,7 @@ msgstr "Establecer la configuración de la página para la impresora actual"
 
 #: ui/evolution-mail-message.xml.h:82
 msgid "Show Email _Source"
-msgstr "Mostrar el _fuente del correo-e"
+msgstr "Mostrar el _fuente"
 
 #: ui/evolution-mail-message.xml.h:83
 msgid "Show Full _Headers"
@@ -27600,7 +27600,7 @@ msgstr "Enviar un informe de fallos usando Bug Buddy"
 
 #: ui/evolution.xml.h:34
 msgid "Toggle"
-msgstr "Conmutador"
+msgstr "Cambiar"
 
 #: ui/evolution.xml.h:35
 msgid "Toggle whether to show the folder bar"
