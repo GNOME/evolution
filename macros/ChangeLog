@@ -1,3 +1,7 @@
+1998-09-27  Martin Baulig  <martin@home-of-linux.org>
+
+	* gnome-libgtop-check.m4: Make it require libgtop >= 0.26.2.
+
 1998-09-24  Raja R Harinath  <harinath@cs.umn.edu>
 
 	* gnome-ghttp-check.m4: Add checks for -lsocket -lnsl.
