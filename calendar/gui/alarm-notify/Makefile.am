@@ -47,10 +47,16 @@ evolution_alarm_notify_LDADD =								\
 	$(INTLLIBS)
 
 oafdir = $(datadir)/oaf
-oaf_DATA = GNOME_Evolution_Calendar_AlarmNotify.oafinfo
+oaf_in_files = \
+	GNOME_Evolution_Calendar_AlarmNotify.oaf.in
+
+oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
+
+@XML_I18N_MERGE_OAF_RULE@
 
 EXTRA_DIST =		\
-	$(oaf_DATA)
+	$(oaf_DATA)	\
+	$(oaf_in_files)
 
 BUILT_SOURCES = $(CORBA_GENERATED)
 CLEANFILES += $(BUILT_SOURCES)

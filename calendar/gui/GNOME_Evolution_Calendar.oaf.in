@@ -86,4 +86,29 @@
 		       _value="Evolution calendar executive summary component."/>
 </oaf_server>
 
+<oaf_server iid="OAFIID:GNOME_Evolution_Calendar_ControlFactory"
+            type="exe"
+            location="evolution-calendar">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/ObjectFactory:1.0"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="description" type="string"
+                       _value="Factory for the sample Calendar control"/>
+</oaf_server>
+
+<oaf_server iid="OAFIID:GNOME_Evolution_Calendar_Control"
+            type="factory"
+            location="OAFIID:GNOME_Evolution_Calendar_ControlFactory">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:BonoboControl/calendar-control:1.0"/>
+		<item value="IDL:Bonobo/Control:1.0"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="description" type="string"
+	               _value="A sample Bonobo control which displays an calendar."/>
+</oaf_server>
+
 </oaf_info>

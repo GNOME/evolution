@@ -407,7 +407,6 @@ cal_client_construct (CalClient *client)
 	CalClientPrivate *priv;
 	GNOME_Evolution_Calendar_CalFactory factory, factory_copy;
 	CORBA_Environment ev;
-	int result;
 
 	CORBA_exception_init (&ev);
 	g_return_val_if_fail (client != NULL, NULL);
@@ -415,21 +414,14 @@ cal_client_construct (CalClient *client)
 
 	priv = client->priv;
 
+	CORBA_exception_init (&ev);
 	factory = (GNOME_Evolution_Calendar_CalFactory) oaf_activate_from_id (
 		"OAFIID:GNOME_Evolution_Wombat_CalendarFactory",
-		OAF_FLAG_NO_LOCAL, NULL, &ev);
+		0, NULL, &ev);
 
-	result = CORBA_Object_is_nil (factory, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_message ("cal_client_construct(): could not see if the factory is NIL");
+		g_message ("cal_client_construct(): Could not activate the calendar factory");
 		CORBA_exception_free (&ev);
-		return NULL;
-	}
-	CORBA_exception_free (&ev);
-
-	if (result) {
-		g_message ("cal_client_construct(): could not contact Wombat, "
-			   "the personal calendar server");
 		return NULL;
 	}
 

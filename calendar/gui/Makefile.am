@@ -13,8 +13,8 @@ $(IDL_GENERATED): $(IDLS)
 	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl `$(GNOME_CONFIG) --cflags idl`   \
                 $(srcdir)/../../composer/Evolution-Composer.idl
 
-#SUBDIRS = alarm-notify dialogs
-SUBDIRS = dialogs
+SUBDIRS = alarm-notify dialogs
+#SUBDIRS = dialogs
 
 help_base = $(datadir)/gnome/help/cal
 
@@ -134,9 +134,7 @@ evolution_calendar_LDADD =								\
 
 oafdir = $(datadir)/oaf
 oaf_in_files = \
-	GNOME_Evolution_Calendar_Control.oaf.in \
-	GNOME_Evolution_Calendar.oaf.in \
-	GNOME_Evolution_Calendar_gnomecal.oaf.in
+	GNOME_Evolution_Calendar.oaf.in
 
 oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
 

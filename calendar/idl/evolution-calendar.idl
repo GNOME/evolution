@@ -198,7 +198,7 @@ module Calendar {
 
 		/* Removes a calendar from the alarm notification system */
 		void removeCalendar (in string uri)
-			raises (NotFound);
+			raises (InvalidURI, NotFound);
 
 		/* Makes the alarm notification daemon unconditionally exit */
 		void die ();

@@ -1,3 +1,29 @@
+2001-02-23  Federico Mena Quintero  <federico@ximian.com>
+
+	* gui/alarm-notify/alarm-notify.c (AlarmNotify_addCalendar):
+	Switched to using our own refcounted structure for loaded clients.
+	(AlarmNotify_removeCalendar): Ditto.  Also, do the full
+	destruction of the client.
+	(alarm_notify_destroy): Destroy each element in the hash table.
+
+	* cal-client/cal-client.c (cal_client_construct): Test for
+	exceptions from OAF when activating the Wombat calendar factory.
+
+	* gui/alarm-notify/GNOME_Evolution_Calendar_AlarmNotify.oaf.in:
+	New .oaf.in file.
+
+	* gui/alarm-notify/Makefile.am (oaf_in_files): Updated.
+
+	* gui/GNOME_Evolution_Calendar.oaf.in: Put all the servers here
+	instead of in a million files.
+
+	* gui/GNOME_Evolution_Calendar_Control.oaf.in: Removed file.
+
+	* gui/GNOME_Evolution_Calendar_gnomecal.oaf.in: Removed *REALLY*
+	obsolete file.
+
+	* gui/Makefile.am (oaf_in_files): Updated.
+
 2001-02-23  Rodrigo Moya <rodrigo@ximian.com>
 
 	* pcs/cal-backend-db.c (add_history): fixed generation of history records

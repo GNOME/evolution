@@ -286,13 +286,13 @@ load_alarms (ClientAlarms *ca)
 
 /* Called when a calendar client finished loading; we load its alarms */
 static void
-cal_loaded_cb (CalClient *client, CalClientLoadStatus status, gpointer data)
+cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer data)
 {
 	ClientAlarms *ca;
 
 	ca = data;
 
-	if (status != CAL_CLIENT_LOAD_SUCCESS)
+	if (status != CAL_CLIENT_OPEN_SUCCESS)
 		return;
 
 	load_alarms (ca);
@@ -463,16 +463,16 @@ alarm_queue_add_client (CalClient *client)
 
 	ca->uid_alarms_hash = g_hash_table_new (g_str_hash, g_str_equal);
 
-	if (!cal_client_is_loaded (client))
-		gtk_signal_connect (GTK_OBJECT (client), "cal_loaded",
-				    GTK_SIGNAL_FUNC (cal_loaded_cb), ca);
+	if (cal_client_get_load_state (client) != CAL_CLIENT_LOAD_LOADED)
+		gtk_signal_connect (GTK_OBJECT (client), "cal_opened",
+				    GTK_SIGNAL_FUNC (cal_opened_cb), ca);
 
 	gtk_signal_connect (GTK_OBJECT (client), "obj_updated",
 			    GTK_SIGNAL_FUNC (obj_updated_cb), ca);
 	gtk_signal_connect (GTK_OBJECT (client), "obj_removed",
 			    GTK_SIGNAL_FUNC (obj_removed_cb), ca);
 
-	if (cal_client_is_loaded (client))
+	if (cal_client_get_load_state (client) == CAL_CLIENT_LOAD_LOADED)
 		load_alarms (ca);
 }
 

@@ -27,12 +27,29 @@
 #include <libgnomevfs/gnome-vfs.h>
 #include <cal-client/cal-client.h>
 #include "alarm-notify.h"
+#include "alarm-queue.h"
 
 
 
+/* A loaded client */
+typedef struct {
+	/* The actual client */
+	CalClient *client;
+
+	/* The URI of the client in gnome-vfs's format.  This *is* the key that
+	 * is stored in the uri_client_hash hash table below.
+	 */
+	GnomeVFSURI *uri;
+
+	/* Number of times clients have requested this URI to be added to the
+	 * alarm notification system.
+	 */
+	int refcount;
+} LoadedClient;
+
 /* Private part of the AlarmNotify structure */
 struct _AlarmNotifyPrivate {
-	/* Mapping from GnomeVFSURIs to loaded clients */
+	/* Mapping from GnomeVFSURIs to LoadedClient structures */
 	GHashTable *uri_client_hash;
 };
 
@@ -114,6 +131,19 @@ alarm_notify_init (AlarmNotify *an)
 	priv->uri_client_hash = g_hash_table_new (gnome_vfs_uri_hash, gnome_vfs_uri_hequal);
 }
 
+/* Callback used from g_hash-table_forach(), used to destroy a loade client */
+static void
+destroy_loaded_client_cb (gpointer key, gpointer value, gpointer data)
+{
+	LoadedClient *lc;
+
+	lc = value;
+
+	gtk_object_unref (GTK_OBJECT (lc->client));
+	gnome_vfs_uri_unref (lc->uri);
+	g_free (lc);
+}
+
 /* Destroy handler for the alarm notify system */
 static void
 alarm_notify_destroy (GtkObject *object)
@@ -127,7 +157,7 @@ alarm_notify_destroy (GtkObject *object)
 	an = ALARM_NOTIFY (object);
 	priv = an->priv;
 
-	/* FIXME */
+	g_hash_table_foreach (priv->uri_client_hash, destroy_loaded_client_cb, NULL);
 
 	g_hash_table_destroy (priv->uri_client_hash);
 	priv->uri_client_hash = NULL;
@@ -153,6 +183,7 @@ AlarmNotify_addCalendar (PortableServer_Servant servant,
 	AlarmNotifyPrivate *priv;
 	GnomeVFSURI *uri;
 	CalClient *client;
+	LoadedClient *lc;
 
 	an = ALARM_NOTIFY (bonobo_object_from_servant (servant));
 	priv = an->priv;
@@ -165,26 +196,33 @@ AlarmNotify_addCalendar (PortableServer_Servant servant,
 		return;
 	}
 
-	client = g_hash_table_lookup (priv->uri_client_hash, uri);
+	lc = g_hash_table_lookup (priv->uri_client_hash, uri);
 
-	if (client) {
+	if (lc) {
 		gnome_vfs_uri_unref (uri);
-
-		gtk_object_ref (GTK_OBJECT (client));
+		g_assert (lc->refcount > 0);
+		lc->refcount++;
 		return;
 	}
 
 	client = cal_client_new ();
 
 	if (client) {
-		g_hash_table_insert (priv->uri_client_hash, uri);
-		alarm_queue_add_client (client);
+		if (cal_client_open_calendar (client, str_uri, FALSE)) {
+			lc = g_new (LoadedClient, 1);
+			lc->client = client;
+			lc->uri = uri;
+			lc->refcount = 1;
+			g_hash_table_insert (priv->uri_client_hash, uri, lc);
 
-		if (!cal_client_open_calendar (client, str_uri, FALSE)) {
+			alarm_queue_add_client (client);
+		} else {
 			gtk_object_unref (GTK_OBJECT (client));
 			client = NULL;
 		}
-	} else {
+	}
+
+	if (!client) {
 		gnome_vfs_uri_unref (uri);
 
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
@@ -197,26 +235,59 @@ AlarmNotify_addCalendar (PortableServer_Servant servant,
 /* AlarmNotify::removeCalendar method */
 static void
 AlarmNotify_removeCalendar (PortableServer_Servant servant,
-			    const CORBA_char *uri,
+			    const CORBA_char *str_uri,
 			    CORBA_Environment *ev)
 {
 	AlarmNotify *an;
 	AlarmNotifyPrivate *priv;
-	CalClient *client;
-	char *orig_uri;
+	LoadedClient *lc;
+	GnomeVFSURI *uri;
 
 	an = ALARM_NOTIFY (bonobo_object_from_servant (servant));
 	priv = an->priv;
 
-	if (!g_hash_table_lookup_extended (priv->uri_client_hash, uri, &orig_uri, &client)) {
+	uri = gnome_vfs_uri_new (str_uri);
+	if (!uri) {
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-				     ex_GNOME_Evolution_Calendar_AlarmNotify_NotFound);
+				     ex_GNOME_Evolution_Calendar_AlarmNotify_InvalidURI,
+				     NULL);
 		return;
 	}
 
-	gtk_object_unref (client);
+	lc = g_hash_table_lookup (priv->uri_client_hash, uri);
+	gnome_vfs_uri_unref (uri);
 
-	/* FIXME: do we need to do anything else? */
+	if (!lc) {
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+				     ex_GNOME_Evolution_Calendar_AlarmNotify_NotFound,
+				     NULL);
+		return;
+	}
+
+	g_assert (lc->refcount > 0);
+
+	lc->refcount--;
+	if (lc->refcount > 0)
+		return;
+
+	g_hash_table_remove (priv->uri_client_hash, lc->uri);
+
+	gtk_object_unref (GTK_OBJECT (lc->client));
+	gnome_vfs_uri_unref (lc->uri);
+	g_free (lc);
+}
+
+static void
+AlarmNotify_die (PortableServer_Servant servant,
+		 CORBA_Environment *ev)
+{
+	AlarmNotify *an;
+	AlarmNotifyPrivate *priv;
+
+	an = ALARM_NOTIFY (bonobo_object_from_servant (servant));
+	priv = an->priv;
+
+	/* FIXME */
 }
 
 /**
