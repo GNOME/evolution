@@ -224,6 +224,36 @@ view_destroy (View *view)
 
 /* Utility functions.  */
 
+static void
+update_other_users_folder_items_sensitivity (EShellView *shell_view)
+{
+	EShellViewPrivate *priv = shell_view->priv;
+	gboolean a_storage_supports_shared_folders;
+	GList *storage_list, *p;
+
+	storage_list = e_storage_set_get_storage_list (e_shell_get_storage_set (priv->shell));
+	a_storage_supports_shared_folders = FALSE;
+	for (p = storage_list; p != NULL; p = p->next) {
+		if (e_storage_supports_shared_folders (E_STORAGE (p->data)))
+			a_storage_supports_shared_folders = TRUE;
+	}
+
+	if (a_storage_supports_shared_folders) {
+		bonobo_ui_component_set_prop (priv->ui_component, "/commands/FileOpenOtherUsersFolder",
+					      "sensitive", "1", NULL);
+		bonobo_ui_component_set_prop (priv->ui_component, "/commands/FileRemoveOtherUsersFolder",
+					      "sensitive", "1", NULL);
+	} else {
+		bonobo_ui_component_set_prop (priv->ui_component, "/commands/FileOpenOtherUsersFolder",
+					      "sensitive", "0", NULL);
+		bonobo_ui_component_set_prop (priv->ui_component, "/commands/FileRemoveOtherUsersFolder",
+					      "sensitive", "0", NULL);
+	}
+
+	g_list_foreach (storage_list, (GFunc) g_object_unref, NULL);
+	g_list_free (storage_list);
+}
+
 static GtkWidget *
 create_label_for_empty_page (void)
 {
@@ -568,6 +598,28 @@ handle_current_folder_removed (EShellView *shell_view)
 
 
 /* Callbacks for the EStorageSet.  */
+
+static void
+storage_set_new_storage_callback (EStorageSet *storage_set,
+				  EStorage *storage,
+				  void *data)
+{
+	if (e_storage_supports_shared_folders (storage))
+		update_other_users_folder_items_sensitivity (E_SHELL_VIEW (data));
+}
+
+static void
+storage_set_removed_storage_callback (EStorageSet *storage_set,
+				      EStorage *storage,
+				      void *data)
+{
+	EShellView *shell_view = E_SHELL_VIEW (data);
+
+	if (! e_storage_supports_shared_folders (storage))
+		return;
+
+	update_other_users_folder_items_sensitivity (shell_view);
+}
 
 static void
 storage_set_removed_folder_callback (EStorageSet *storage_set,
@@ -1743,6 +1795,7 @@ e_shell_view_construct (EShellView *shell_view,
 			const char *uri)
 {
 	EShellViewPrivate *priv;
+	EStorageSet *storage_set;
 	EShellView *view;
 	char *uri_to_load;
 
@@ -1760,17 +1813,13 @@ e_shell_view_construct (EShellView *shell_view,
 	if (!view) {
 		g_object_unref (shell_view);
 		return NULL;
-	}		
+	}
 
 	priv->shell = shell;
 	bonobo_object_ref (BONOBO_OBJECT (priv->shell));
 
 	g_signal_connect (view, "delete_event",
 			  G_CALLBACK (delete_event_cb), NULL);
-
-	e_signal_connect_while_alive (e_shell_get_storage_set (priv->shell),
-				      "updated_folder", G_CALLBACK (updated_folder_cb),
-				      shell_view, shell_view);
 
 	priv->ui_container = bonobo_window_get_ui_container (BONOBO_WINDOW (view));
 	g_signal_connect (priv->ui_container, "system_exception",
@@ -1800,13 +1849,21 @@ e_shell_view_construct (EShellView *shell_view,
 	g_signal_connect_object (shell, "line_status_changed",
 				 G_CALLBACK (shell_line_status_changed_cb), shell_view, 0);
 
-	g_signal_connect_object (GTK_OBJECT (e_shell_get_storage_set (shell)), "removed_folder",
+	storage_set = e_shell_get_storage_set (shell);
+	e_signal_connect_while_alive (storage_set, "updated_folder",
+				      G_CALLBACK (updated_folder_cb), shell_view, shell_view);
+	g_signal_connect_object (storage_set, "new_storage",
+				 G_CALLBACK (storage_set_new_storage_callback), shell_view, 0);
+	g_signal_connect_object (storage_set, "removed_storage",
+				 G_CALLBACK (storage_set_removed_storage_callback), shell_view, 0);
+	g_signal_connect_object (storage_set, "removed_folder",
 				 G_CALLBACK (storage_set_removed_folder_callback), shell_view, 0);
 
 	e_shell_user_creatable_items_handler_attach_menus (e_shell_get_user_creatable_items_handler (priv->shell),
 							   shell_view);
 
 	setup_defaults (view);
+	update_other_users_folder_items_sensitivity (view);
 
 	if (uri != NULL) {
 		uri_to_load = g_strdup (uri);
@@ -2016,7 +2073,7 @@ update_for_current_uri (EShellView *shell_view)
 	g_signal_handlers_block_by_func (priv->storage_set_view,
 					 G_CALLBACK (folder_selected_cb), shell_view);
 
-	curr_path = e_storage_set_view_get_current_folder (priv->storage_set_view);
+	curr_path = e_storage_set_view_get_current_folder (E_STORAGE_SET_VIEW (priv->storage_set_view));
 	if (path != NULL && (curr_path == NULL || strcmp(path, curr_path)))
 		e_storage_set_view_set_current_folder (E_STORAGE_SET_VIEW (priv->storage_set_view), path);
 

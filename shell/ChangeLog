@@ -1,5 +1,21 @@
 2003-03-06  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-view.c (update_other_users_folder_items_sensitivity):
+	New function to toggle the "open other user's folder" menu item
+	sensitivity on or off depending on whether there are any storages
+	that actually support that.
+	(storage_set_removed_storage_callback): New callback for the
+	EStorageSet's "removed_storage" signal; it updates the sensitivity
+	if necessary.
+	(storage_set_new_storage_callback): Likewise, new callback for the
+	EStorageSet's "new_storage" signal.
+	(e_shell_view_construct): Connect these two signal callbacks here.
+	Also, call update_other_users_folder_items_sensitivity() to set up
+	the initial sensitivity of the menu item.
+	(update_for_current_uri): Add a missing EStorageSetView cast here.
+
+2003-03-06  Ettore Perazzoli  <ettore@ximian.com>
+
 	[#34371]
 
 	* e-shell-shared-folder-picker-dialog.c
