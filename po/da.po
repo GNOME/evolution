@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution beta\n"
-"POT-Creation-Date: 2000-08-02 16:39+0200\n"
+"POT-Creation-Date: 2000-10-24 15:28+0200\n"
 "PO-Revision-Date: 2000-10-20 00:38+0200\n"
 "Last-Translator: Keld Simonsen <keld@dkuug.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
@@ -18,91 +18,105 @@ msgstr ""
 #: addressbook/backend/ebook/load-pine-addressbook.c:17
 #: addressbook/backend/ebook/test-client-list.c:18
 #: addressbook/backend/ebook/test-client.c:29
-#: addressbook/conduit/address-conduit.c:1215
+#: addressbook/conduit/address-conduit.c:1190
 #: addressbook/gui/component/addressbook-factory.c:38
-#: calendar/conduits/calendar/calendar-conduit.c:1188
+#: calendar/conduits/calendar/calendar-conduit.c:1190
 #: calendar/conduits/todo/todo-conduit.c:1069 calendar/gui/main.c:55
 msgid "Could not initialize Bonobo"
-msgstr "Kunne ikke initialisere Bonobo"
+msgstr "Kunne ikke initiere Bonobo"
 
 #. This array must be in the same order as enumerations
 #. in GnomePilotConduitSyncType as they are used as index.
 #. Custom type implies Disabled state.
 #.
-#: addressbook/conduit/address-conduit-control-applet.c:54
+#: addressbook/conduit/address-conduit-control-applet.c:77
 #: calendar/conduits/calendar/calendar-conduit-control-applet.c:77
 #: calendar/conduits/todo/todo-conduit-control-applet.c:77
 msgid "Disabled"
 msgstr "Deaktiveret"
 
-#: addressbook/conduit/address-conduit-control-applet.c:55
+#: addressbook/conduit/address-conduit-control-applet.c:78
 #: calendar/conduits/calendar/calendar-conduit-control-applet.c:78
 #: calendar/conduits/todo/todo-conduit-control-applet.c:78
 msgid "Synchronize"
 msgstr "Synkronisér"
 
-#: addressbook/conduit/address-conduit-control-applet.c:56
+#: addressbook/conduit/address-conduit-control-applet.c:79
 #: calendar/conduits/calendar/calendar-conduit-control-applet.c:79
 #: calendar/conduits/todo/todo-conduit-control-applet.c:79
 msgid "Copy From Pilot"
 msgstr "Kopiér fra Pilot"
 
-#: addressbook/conduit/address-conduit-control-applet.c:57
+#: addressbook/conduit/address-conduit-control-applet.c:80
 #: calendar/conduits/calendar/calendar-conduit-control-applet.c:80
 #: calendar/conduits/todo/todo-conduit-control-applet.c:80
 msgid "Copy To Pilot"
 msgstr "Kopiér til Pilot"
 
-#: addressbook/conduit/address-conduit-control-applet.c:58
+#: addressbook/conduit/address-conduit-control-applet.c:81
 #: calendar/conduits/calendar/calendar-conduit-control-applet.c:81
 #: calendar/conduits/todo/todo-conduit-control-applet.c:81
 msgid "Merge From Pilot"
 msgstr "Flet fra Pilot"
 
-#: addressbook/conduit/address-conduit-control-applet.c:59
+#: addressbook/conduit/address-conduit-control-applet.c:82
 #: calendar/conduits/calendar/calendar-conduit-control-applet.c:82
 #: calendar/conduits/todo/todo-conduit-control-applet.c:82
 msgid "Merge To Pilot"
 msgstr "Flet til Pilot"
 
-#: addressbook/conduit/address-conduit-control-applet.c:143
+#: addressbook/conduit/address-conduit-control-applet.c:121
+#: calendar/conduits/calendar/calendar-conduit-control-applet.c:121
+#: calendar/conduits/todo/todo-conduit-control-applet.c:121
+msgid "JP Rosevear <jpr@helixcode.com>"
+msgstr "JP Rosevar <jpr@helixcode.com>"
+
+#: addressbook/conduit/address-conduit-control-applet.c:122
+#: calendar/conduits/calendar/calendar-conduit-control-applet.c:122
+#: calendar/conduits/todo/todo-conduit-control-applet.c:122
+msgid "Original Author:"
+msgstr "Oprindelig forfatter:"
+
+#: addressbook/conduit/address-conduit-control-applet.c:123
 #: calendar/conduits/calendar/calendar-conduit-control-applet.c:123
 #: calendar/conduits/todo/todo-conduit-control-applet.c:123
 msgid "Eskil Heyn Olsen <deity@eskil.dk>"
-msgstr "Eskil Heyn Olsen <deity@eskil.dk>"
+msgstr "Eskil Heyn Olsen <eskil@eazel.com>"
 
-#: addressbook/conduit/address-conduit-control-applet.c:145
-msgid "Gpilotd address conduit"
-msgstr "Gpilotd adressekomponent"
+#: addressbook/conduit/address-conduit-control-applet.c:127
+msgid "Evolution Addressbook Conduit"
+msgstr "Evolution adressebogs-komponent"
 
-#: addressbook/conduit/address-conduit-control-applet.c:146
-msgid "(C) 1998 the Free Software Foundation"
-msgstr "(C) 1998 the Free Software Foundation"
+#: addressbook/conduit/address-conduit-control-applet.c:128
+#: calendar/conduits/calendar/calendar-conduit-control-applet.c:128
+#: calendar/conduits/todo/todo-conduit-control-applet.c:128
+msgid "(C) 1998-2000 the Free Software Foundation and Helix Code"
+msgstr "© 1998-2000 the Free Software Foundation og Helix Code"
 
-#: addressbook/conduit/address-conduit-control-applet.c:148
-msgid "Configuration utility for the address conduit.\n"
-msgstr "Konfigurationsværktøj for adressekomponenten.\n"
+#: addressbook/conduit/address-conduit-control-applet.c:130
+msgid "Configuration utility for the evolution addressbook conduit.\n"
+msgstr "Konfigurationsværktøj for evolutions adressebogskomponent.\n"
 
-#: addressbook/conduit/address-conduit-control-applet.c:149
+#: addressbook/conduit/address-conduit-control-applet.c:131
 #: calendar/conduits/calendar/calendar-conduit-control-applet.c:131
 #: calendar/conduits/todo/todo-conduit-control-applet.c:131
 msgid "gnome-unknown.xpm"
 msgstr "gnome-unknown.xpm"
 
-#: addressbook/conduit/address-conduit-control-applet.c:190
+#: addressbook/conduit/address-conduit-control-applet.c:162
 #: calendar/conduits/calendar/calendar-conduit-control-applet.c:162
 #: calendar/conduits/todo/todo-conduit-control-applet.c:162
 msgid "Synchronize Action"
 msgstr "Synkroniseringshandling"
 
-#: addressbook/conduit/address-conduit-control-applet.c:261
+#: addressbook/conduit/address-conduit-control-applet.c:214
 #: calendar/conduits/calendar/calendar-conduit-control-applet.c:215
 #: calendar/conduits/todo/todo-conduit-control-applet.c:214
 msgid "Conduit state"
 msgstr "Komponent-tilstand"
 
-#: addressbook/conduit/address-conduit-control-applet.c:315
-#: addressbook/conduit/address-conduit-control-applet.c:328
+#: addressbook/conduit/address-conduit-control-applet.c:266
+#: addressbook/conduit/address-conduit-control-applet.c:279
 #: calendar/conduits/calendar/calendar-conduit-control-applet.c:267
 #: calendar/conduits/calendar/calendar-conduit-control-applet.c:280
 #: calendar/conduits/todo/todo-conduit-control-applet.c:266
@@ -111,16 +125,16 @@ msgid ""
 "No pilot configured, please choose the\n"
 "'Pilot Link Properties' capplet first."
 msgstr ""
-"Ingen pilot er konfigureret, venligst\n"
-"vælg cappleten 'Egenskaber for pilot link' først."
+"Ingen pilot er konfigureret, vælg venligst\n"
+"kappleten 'Egenskaber for pilot link' først."
 
-#: addressbook/conduit/address-conduit-control-applet.c:334
+#: addressbook/conduit/address-conduit-control-applet.c:285
 #: calendar/conduits/calendar/calendar-conduit-control-applet.c:286
 #: calendar/conduits/todo/todo-conduit-control-applet.c:285
 msgid "Not connected to the gnome-pilot daemon"
 msgstr "Ikke tilkoblet gnome-pilot dæmon"
 
-#: addressbook/conduit/address-conduit-control-applet.c:339
+#: addressbook/conduit/address-conduit-control-applet.c:290
 #: calendar/conduits/calendar/calendar-conduit-control-applet.c:291
 #: calendar/conduits/todo/todo-conduit-control-applet.c:290
 msgid ""
@@ -130,29 +144,27 @@ msgstr ""
 "En fejl opstod under forsøg på at hente\n"
 "pilot-listen fra gnome-pilot dæmonen"
 
-#: addressbook/conduit/address-conduit.c:127
-#: addressbook/conduit/address-conduit.c:141
+#: addressbook/conduit/address-conduit.c:308
+#: addressbook/conduit/address-conduit.c:322
 msgid "BLARG\n"
 msgstr "BLARG\n"
 
-#: addressbook/conduit/address-conduit.c:471
-#, c-format
-msgid "Address holds %ld address entries"
-msgstr "Adressen har %ld adresseopføringer"
+#: addressbook/conduit/address-conduit.c:743
+#: calendar/conduits/calendar/calendar-conduit.c:733
+#: calendar/conduits/todo/todo-conduit.c:612
+msgid "Could not start wombat server"
+msgstr "Kunne ikke starte wombat-tjener"
 
-#: addressbook/conduit/address-conduit.c:497
-#: addressbook/conduit/address-conduit.c:499
-msgid "Could not start addressbook server"
-msgstr "Kunne ikke starte adressebogs-tjeneren"
+#: addressbook/conduit/address-conduit.c:744
+#: calendar/conduits/calendar/calendar-conduit.c:734
+#: calendar/conduits/todo/todo-conduit.c:613
+msgid "Could not start wombat"
+msgstr "Kunne ikke starte wombat"
 
-#: addressbook/conduit/address-conduit.c:512
-#: addressbook/conduit/address-conduit.c:515
+#: addressbook/conduit/address-conduit.c:780
+#: addressbook/conduit/address-conduit.c:783
 msgid "Could not read pilot's Address application block"
 msgstr "Kunne ikke læse pilotens adresseapplikationsblok"
-
-#: addressbook/conduit/address-conduit.c:853
-msgid "Error while communicating with address server"
-msgstr "Fejl under kommunikation med adresse-tjeneren"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -328,7 +340,7 @@ msgstr "Hjemmeside-adresse:"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:17
 msgid "Wants to receive _HTML mail"
-msgstr "Vil modtage _HTML e-post"
+msgstr "Vil modtage epost af formatet _HTML"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:18
 msgid "_Business"
@@ -406,7 +418,7 @@ msgstr "_Fødselsdag:"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:37
 msgid "_Assistant's name:"
-msgstr "Sekretær"
+msgstr "Sekretærs navn:"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:38
 msgid "_Manager's Name:"
@@ -558,7 +570,7 @@ msgid ""
 msgstr ""
 "Vi kunne ikke åbne denne adressebog. Dette betyder enten\n"
 "at du har angivet en forkert URI, eller ar du har forsøgt\n"
-"at bruge en LDAP tjeneste men ikke har LDAP understøttelse\n"
+"at bruge en LDAP-tjeneste men ikke har LDAP-understøttelse\n"
 "kompileret ind. Hvis du har angivet en URI, tjek om URI-en \n"
 "er korrekt og genindtast. Hvis ikke, så har du nok prøvet\n"
 "at nå en LDAP tjeneste. Hvis du ønsker at kunne bruge LDAP,\n"
@@ -833,7 +845,7 @@ msgstr "Skrifttype..."
 
 #: addressbook/printing/e-contact-print.glade.h:22
 msgid "Headings"
-msgstr "Toptekster"
+msgstr "Overskrifter"
 
 #: addressbook/printing/e-contact-print.glade.h:23
 msgid "10 pt. Tahoma"
@@ -957,43 +969,18 @@ msgstr " "
 msgid "pm"
 msgstr " "
 
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:121
-#: calendar/conduits/todo/todo-conduit-control-applet.c:121
-msgid "JP Rosevear <jpr@helixcode.com>"
-msgstr "JP Rosevar <jpr@helixcode.com>"
-
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:122
-#: calendar/conduits/todo/todo-conduit-control-applet.c:122
-msgid "Original Author:"
-msgstr "Oprindelig forfatter:"
-
 #: calendar/conduits/calendar/calendar-conduit-control-applet.c:127
 msgid "Evolution Calendar Conduit"
 msgstr "Evolution kalender-komponent"
-
-#: calendar/conduits/calendar/calendar-conduit-control-applet.c:128
-#: calendar/conduits/todo/todo-conduit-control-applet.c:128
-msgid "(C) 1998-2000 the Free Software Foundation and Helix Code"
-msgstr "© 1998-2000 the Free Software Foundation og Helix Code"
 
 #: calendar/conduits/calendar/calendar-conduit-control-applet.c:130
 msgid "Configuration utility for the evolution calendar conduit.\n"
 msgstr "Konfigurationsværktøj for evolutions kalenderkomponent.\n"
 
 #: calendar/conduits/calendar/calendar-conduit.c:688
-#: calendar/conduits/todo/todo-conduit.c:569
+#: calendar/conduits/todo/todo-conduit.c:567
 msgid "Error while communicating with calendar server"
 msgstr "Fejl under kommunikation med kalendertjeneren"
-
-#: calendar/conduits/calendar/calendar-conduit.c:733
-#: calendar/conduits/todo/todo-conduit.c:614
-msgid "Could not start wombat server"
-msgstr "Kunne ikke starte wombat tjener"
-
-#: calendar/conduits/calendar/calendar-conduit.c:734
-#: calendar/conduits/todo/todo-conduit.c:615
-msgid "Could not start wombat"
-msgstr "Kunne ikke starte wombat"
 
 #: calendar/conduits/calendar/calendar-conduit.c:797
 #: calendar/conduits/calendar/calendar-conduit.c:800
@@ -1008,8 +995,8 @@ msgstr "Evolution opgaveliste-komponent"
 msgid "Configuration utility for the evolution todo conduit.\n"
 msgstr "Konfigurationsværktøj for evolutions opgavelistekomponent.\n"
 
-#: calendar/conduits/todo/todo-conduit.c:678
-#: calendar/conduits/todo/todo-conduit.c:681
+#: calendar/conduits/todo/todo-conduit.c:676
+#: calendar/conduits/todo/todo-conduit.c:679
 msgid "Could not read pilot's ToDo application block"
 msgstr "Kunne ikke læse pilotens applikationsblok for opgaveliste"
 
@@ -1212,13 +1199,13 @@ msgstr "Intet sammendrag"
 msgid "Close"
 msgstr "Luk"
 
-#: calendar/gui/dialogs/alarm-notify.glade.h:8 calendar/gui/gnome-cal.c:1426
+#: calendar/gui/dialogs/alarm-notify.glade.h:8 calendar/gui/gnome-cal.c:1458
 msgid "Snooze"
 msgstr "Udsæt"
 
 #: calendar/gui/dialogs/alarm-notify.glade.h:9
 msgid "Edit appointment"
-msgstr "Redigér aftale:"
+msgstr "Redigér aftale"
 
 #: calendar/gui/dialogs/alarm-notify.glade.h:10
 msgid "Snooze time (minutes)"
@@ -1282,7 +1269,7 @@ msgstr "søn"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
 msgid "First day of week:"
-msgstr ""
+msgstr "Ugens første dag:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:17 calendar/gui/prop.c:354
 msgid "Monday"
@@ -2164,28 +2151,28 @@ msgstr "Prioritet:"
 msgid "Item Comments:"
 msgstr "Kommentarer for punkt:"
 
-#: calendar/gui/gnome-cal.c:696 calendar/gui/gnome-cal.c:1434
-#: calendar/gui/gnome-cal.c:1490
+#: calendar/gui/gnome-cal.c:710 calendar/gui/gnome-cal.c:1466
+#: calendar/gui/gnome-cal.c:1522
 msgid "Reminder of your appointment at "
 msgstr "Påmindelse om din aftale "
 
-#: calendar/gui/gnome-cal.c:1130
+#: calendar/gui/gnome-cal.c:1144
 #, c-format
 msgid "Could not load the calendar in `%s'"
 msgstr "Kunne ikke indlæse kalenderen i '%s'"
 
-#: calendar/gui/gnome-cal.c:1141
+#: calendar/gui/gnome-cal.c:1155
 #, c-format
 msgid "Could not create a calendar in `%s'"
 msgstr "Kunne ikke oprette en kalender i '%s'"
 
-#: calendar/gui/gnome-cal.c:1152
+#: calendar/gui/gnome-cal.c:1166
 #, c-format
 msgid "The method required to load `%s' is not supported"
 msgstr "Metoden der kræves for at indlæse '%s' er ikke understøttet"
 
 #. Idea: we need Snooze option :-)
-#: calendar/gui/gnome-cal.c:1439 calendar/gui/gnome-cal.c:1494
+#: calendar/gui/gnome-cal.c:1471 calendar/gui/gnome-cal.c:1526
 msgid "Ok"
 msgstr "Ok"
 
@@ -2438,7 +2425,7 @@ msgid ""
 "Times outside this range will not be displayed\n"
 "by default."
 msgstr ""
-"Venligst vælg start og slut-tidene du ønsker\n"
+"Vælg venligst start og slut-tidene du ønsker\n"
 "der skal vises i dagvisningen og ugevisningen.\n"
 "Tider udenfor dette område vil ikke vises\n"
 "som standard."
@@ -2596,48 +2583,48 @@ msgstr "etiket7"
 msgid "label8"
 msgstr "etiket8"
 
-#: composer/e-msg-composer-attachment-bar.c:82
+#: composer/e-msg-composer-attachment-bar.c:85
 msgid "1 byte"
 msgstr "1 byte"
 
-#: composer/e-msg-composer-attachment-bar.c:84
+#: composer/e-msg-composer-attachment-bar.c:87
 #, c-format
 msgid "%u bytes"
 msgstr "%u byte"
 
-#: composer/e-msg-composer-attachment-bar.c:91
+#: composer/e-msg-composer-attachment-bar.c:94
 #, c-format
 msgid "%.1fK"
 msgstr "%.1fk"
 
-#: composer/e-msg-composer-attachment-bar.c:95
+#: composer/e-msg-composer-attachment-bar.c:98
 #, c-format
 msgid "%.1fM"
 msgstr "%.1fM"
 
-#: composer/e-msg-composer-attachment-bar.c:99
+#: composer/e-msg-composer-attachment-bar.c:102
 #, c-format
 msgid "%.1fG"
 msgstr "%.1fG"
 
-#: composer/e-msg-composer-attachment-bar.c:411
-msgid "Add attachment"
-msgstr "Vedhæft bilag"
+#: composer/e-msg-composer-attachment-bar.c:395
+msgid "Attach a file"
+msgstr "Vedhæft en fil"
 
-#: composer/e-msg-composer-attachment-bar.c:474 shell/e-shortcuts-view.c:239
+#: composer/e-msg-composer-attachment-bar.c:442 shell/e-shortcuts-view.c:239
 #: shell/e-shortcuts-view.c:356
 msgid "Remove"
 msgstr "Fjern"
 
-#: composer/e-msg-composer-attachment-bar.c:475
+#: composer/e-msg-composer-attachment-bar.c:443
 msgid "Remove selected items from the attachment list"
 msgstr "Fjern valgte punkter fra bilagslisten"
 
-#: composer/e-msg-composer-attachment-bar.c:506
+#: composer/e-msg-composer-attachment-bar.c:474
 msgid "Add attachment..."
 msgstr "Vedhæft bilag..."
 
-#: composer/e-msg-composer-attachment-bar.c:507
+#: composer/e-msg-composer-attachment-bar.c:475
 msgid "Attach a file to the message"
 msgstr "Vedhæft bilag til meddelelsen"
 
@@ -2963,21 +2950,21 @@ msgstr "Fuld søgning"
 msgid "Save"
 msgstr "Gem"
 
-#: mail/mail-autofilter.c:75
+#: mail/mail-autofilter.c:76
 #, c-format
 msgid "Mail to %s"
 msgstr "Send til %s"
 
-#: mail/mail-autofilter.c:229
+#: mail/mail-autofilter.c:230
 #, c-format
 msgid "Mail from %s"
 msgstr "E-post fra %s"
 
-#: mail/mail-autofilter.c:283 mail/mail-autofilter.c:332
+#: mail/mail-autofilter.c:288 mail/mail-autofilter.c:337
 msgid "Add Filter Rule"
 msgstr "Tilføj filterregel"
 
-#: mail/mail-autofilter.c:328
+#: mail/mail-autofilter.c:333
 #, c-format
 msgid "%s mailing list"
 msgstr "%s e-postliste"
@@ -3043,7 +3030,7 @@ msgstr ""
 "Fejl ved indlæsning af filter information:\n"
 "%s"
 
-#: mail/mail-callbacks.c:761 mail/message-list.c:1562
+#: mail/mail-callbacks.c:761 mail/message-list.c:1563
 msgid "Print Message"
 msgstr "Udskriv besked"
 
@@ -3139,7 +3126,7 @@ msgstr ""
 
 #: mail/mail-config-gui.c:1155
 msgid "Mail transport type:"
-msgstr "E-post-transport type:"
+msgstr "Epost-transport type:"
 
 #: mail/mail-config-gui.c:1210
 msgid "Add Identity"
@@ -3187,7 +3174,7 @@ msgstr "Forespørg autorisation for '%s'"
 #: mail/mail-config-druid.glade.h:7 mail/mail-config-druid.glade.h:8
 #: mail/mail-config-druid.glade.h:16
 msgid "Mail Configuration"
-msgstr "E-post-konfiguration"
+msgstr "Epost-konfiguration"
 
 #: mail/mail-config-druid.glade.h:9
 msgid ""
@@ -3207,18 +3194,18 @@ msgstr "Identitet"
 
 #: mail/mail-config-druid.glade.h:14
 msgid "Mail Source"
-msgstr "E-post-kilde"
+msgstr "Epost-kilde"
 
 #: mail/mail-config-druid.glade.h:15 mail/mail-config.glade.h:20
 msgid "Mail Transport"
-msgstr "E-post-transport"
+msgstr "Epost-transport"
 
 #: mail/mail-config-druid.glade.h:17
 msgid ""
 "Your email configuration is now complete.\n"
 "Click \"Finish\" to save your new settings"
 msgstr ""
-"Din e-post-konfiguration er nu komplet.\n"
+"Din epost-konfiguration er nu komplet.\n"
 "Klik \"Fuldfør\" for at gemme dine nye indstillinger"
 
 #.
@@ -3245,15 +3232,15 @@ msgstr "Kilder"
 
 #: mail/mail-config.glade.h:19
 msgid "Mail Sources"
-msgstr "E-post-kilder"
+msgstr "Epost-kilder"
 
 #: mail/mail-config.glade.h:21
 msgid "News Servers"
-msgstr "News-tjenere"
+msgstr "Nyhedstjenere"
 
 #: mail/mail-config.glade.h:25
 msgid "News Sources"
-msgstr "News-kilder"
+msgstr "Nyhedskilder"
 
 #: mail/mail-config.glade.h:26
 msgid "Send messages in HTML format"
@@ -3265,7 +3252,7 @@ msgstr "_Markér alle meddelser som læst"
 
 #: mail/mail-crypto.c:345 mail/mail-crypto.c:441 mail/mail-crypto.c:604
 msgid "Please enter your PGP/GPG passphrase."
-msgstr "Venligst indtast din PGP/GPG adgangsfrase"
+msgstr "Indtast venligst din PGP/GPG adgangsfrase"
 
 #: mail/mail-crypto.c:349 mail/mail-crypto.c:445 mail/mail-crypto.c:609
 msgid "No password provided."
@@ -3337,12 +3324,12 @@ msgstr " (XXX ulæst)"
 #: mail/mail-ops.c:68
 #, c-format
 msgid "Fetching email from %s"
-msgstr "Henter e-post fra %s"
+msgstr "Henter epost fra %s"
 
 #: mail/mail-ops.c:70
 #, c-format
 msgid "Fetch email from %s"
-msgstr "Hent e-post fra %s"
+msgstr "Hent epost fra %s"
 
 #: mail/mail-ops.c:109
 #, c-format
@@ -3352,7 +3339,7 @@ msgstr "Henter beskeder : %s"
 #: mail/mail-ops.c:252
 #, c-format
 msgid "There is no new mail at %s."
-msgstr "Ingen ny e-post på %s."
+msgstr "Ingen ny epost på %s."
 
 #: mail/mail-ops.c:309
 msgid "Filtering email on demand"
@@ -3686,7 +3673,7 @@ msgstr ""
 
 #: mail/mail-vfolder.c:292
 msgid "New VFolder"
-msgstr "By VFolder"
+msgstr "Ny VFolder"
 
 #. GNOMEUIINFO_ITEM_STOCK (N_("Save"), N_("Save this message"),
 #. save_msg, GNOME_STOCK_PIXMAP_SAVE),
@@ -3698,7 +3685,7 @@ msgstr "Svar"
 msgid "Reply to the sender of this message"
 msgstr "Svar til afsenderen af denne meddelelse"
 
-#: mail/mail-view.c:154 mail/message-list.c:1565 ui/evolution-mail.h:49
+#: mail/mail-view.c:154 mail/message-list.c:1566 ui/evolution-mail.h:49
 msgid "Reply to All"
 msgstr "Svar til alle"
 
@@ -3727,66 +3714,66 @@ msgstr "Udskriv den valgte meddelelse"
 msgid "Delete this message"
 msgstr "Slet denne meddelelse"
 
-#: mail/message-list.c:1560
+#: mail/message-list.c:1561
 msgid "Open in New Window"
 msgstr "Åbn i nyt vindue"
 
-#: mail/message-list.c:1561
+#: mail/message-list.c:1562
 msgid "Edit Message"
 msgstr "Redigér besked"
 
-#: mail/message-list.c:1564
+#: mail/message-list.c:1565
 msgid "Reply to Sender"
 msgstr "Svar til afsender"
 
-#: mail/message-list.c:1566
+#: mail/message-list.c:1567
 msgid "Forward Message"
 msgstr "Videresend besked"
 
-#: mail/message-list.c:1568
+#: mail/message-list.c:1569
 msgid "Delete Message"
 msgstr "Slet besked"
 
-#: mail/message-list.c:1569
+#: mail/message-list.c:1570
 msgid "Move Message"
 msgstr "Flyt besked"
 
-#: mail/message-list.c:1570
+#: mail/message-list.c:1571
 msgid "Copy Message"
 msgstr "Kopiér besked"
 
-#: mail/message-list.c:1572
+#: mail/message-list.c:1573
 msgid "VFolder on Subject"
 msgstr "VFolder for emne"
 
-#: mail/message-list.c:1573
+#: mail/message-list.c:1574
 msgid "VFolder on Sender"
 msgstr "VFolder for afsender"
 
-#: mail/message-list.c:1574
+#: mail/message-list.c:1575
 msgid "VFolder on Recipients"
 msgstr "VFolder for modtagere"
 
-#: mail/message-list.c:1576
+#: mail/message-list.c:1577
 msgid "Filter on Subject"
 msgstr "Filtrér efter emne"
 
-#: mail/message-list.c:1577
+#: mail/message-list.c:1578
 msgid "Filter on Sender"
 msgstr "Filtrér efter afsender"
 
-#: mail/message-list.c:1578
+#: mail/message-list.c:1579
 msgid "Filter on Recipients"
 msgstr "Filtrér efter modtager"
 
-#: mail/message-list.c:1579 mail/message-list.c:1602
+#: mail/message-list.c:1580 mail/message-list.c:1603
 msgid "Filter on Mailing List"
-msgstr "Filtrér efter e-postliste"
+msgstr "Filtrér efter epostliste"
 
-#: mail/message-list.c:1604
+#: mail/message-list.c:1605
 #, c-format
 msgid "Filter on Mailing List (%s)"
-msgstr "Filtrér efter e-postliste (%s)"
+msgstr "Filtrér efter epostliste (%s)"
 
 #: mail/subscribe-dialog.c:118
 msgid "Display folders containing:"
@@ -3804,8 +3791,9 @@ msgstr ""
 
 #: shell/e-setup.c:111
 msgid "Please click \"OK\" to install the files, or \"Cancel\" to exit."
-msgstr "Venligst klik \"OK\" for at installere filerne, eller 'annullér' for "
-"at afslutte."
+msgstr ""
+"Klik venligst \"Ok\" for at installere filerne, eller 'annullér' for at "
+"afslutte."
 
 #: shell/e-setup.c:152
 msgid "Could not update files correctly"
@@ -3903,12 +3891,12 @@ msgstr "(Uden navn)"
 #.
 #: shell/e-shell-view-menu.c:114
 msgid "Bug buddy was not found in your $PATH."
-msgstr "Bug buddy fandtes ikke i din $PATH"
+msgstr "Fejl-Frede fandtes ikke i din $PATH"
 
 #. same as above
 #: shell/e-shell-view-menu.c:120
 msgid "Bug buddy could not be run."
-msgstr "Bug buddy kunne ikke køres"
+msgstr "Fejl-Frede kunne ikke køres"
 
 #: shell/e-shell-view-menu.c:169
 msgid "Copyright 1999, 2000 Helix Code, Inc."
@@ -4150,7 +4138,7 @@ msgstr "_Handlinger"
 
 #: ui/evolution-addressbook-ldap.h:10
 msgid "N_ew Directory Server"
-msgstr "Ny katalog-server"
+msgstr "Ny katalog-tjener"
 
 #.
 #. *  This file is autogenerated from evolution-addressbook.xml, do not edit
@@ -4189,11 +4177,11 @@ msgstr "Find"
 
 #: ui/evolution-addressbook.h:17
 msgid "Find a contact"
-msgstr ""
+msgstr "Find kontakt"
 
 #: ui/evolution-addressbook.h:19
 msgid "Print contacts"
-msgstr ""
+msgstr "Udskriv kontakt"
 
 #: ui/evolution-addressbook.h:21
 msgid "Delete a contact"
@@ -4395,7 +4383,7 @@ msgstr "Slet dette punkt"
 #.
 #: ui/evolution-mail.h:9
 msgid "_Threaded"
-msgstr ""
+msgstr "_Trådet"
 
 #: ui/evolution-mail.h:10
 msgid "Threaded Message list"
@@ -4437,7 +4425,7 @@ msgstr ""
 
 #: ui/evolution-mail.h:19
 msgid "_Mail Configuration..."
-msgstr "E-post-konfiguration..."
+msgstr "Epost-konfiguration..."
 
 #: ui/evolution-mail.h:20
 msgid "Manage Subscriptions..."
@@ -4598,7 +4586,7 @@ msgstr ""
 msgid "Show the _Shortcut Bar"
 msgstr "Vis genvejsbjælken"
 
-#: ui/evolution.h:1
+#: ui/evolution.h:10
 #, fuzzy
 msgid "Toggle whether to show the shortcut bar"
 msgstr "Fjern denne genvej fra genvejsbjælken"
@@ -4694,7 +4682,7 @@ msgstr "_Indsend fejlrapport"
 
 #: ui/evolution.h:38
 msgid "Submit bug report using Bug Buddy"
-msgstr "Indsend fejlrapport med Bug Buddy"
+msgstr "Indsend fejlrapport med Fejl-Frede"
 
 #: ui/evolution.h:39
 msgid "_About Evolution..."
@@ -4825,377 +4813,3 @@ msgstr " "
 msgid "Group %i"
 msgstr "Gruppe %i"
 
-#~ msgid "_Street Address:"
-#~ msgstr "_Gadeadresse:"
-
-#~ msgid ""
-#~ "USA\n"
-#~ "Canada\n"
-#~ "Finland\n"
-#~ msgstr ""
-#~ "USA\n"
-#~ "Canada\n"
-#~ "Finland\n"
-
-#~ msgid "* Click here to add a contact *"
-#~ msgstr "* Klik her for at tilføje en kontakt *"
-
-#~ msgid "Gpilotd calendar conduit"
-#~ msgstr "Gpilotd kalenderkomponent"
-
-#~ msgid "Configuration utility for the calendar conduit.\n"
-#~ msgstr "Konfigurationsværktøj for kalenderkomponenten.\n"
-
-#~ msgid "Could not start gnomecal server"
-#~ msgstr "Kunne ikke starte gnomecal-tjeneren"
-
-#~ msgid "Could not read pilot's DateBook application block"
-#~ msgstr "Kunne ikke læse pilotens DateBook applikationsblok"
-
-#~ msgid "Year"
-#~ msgstr "År"
-
-#~ msgid "Show 1 year"
-#~ msgstr "Vis ét år"
-
-#~ msgid "FIXME: _Task"
-#~ msgstr "_Opgave"
-
-#~ msgid "FIXME: Task _Request"
-#~ msgstr "Opgavefo_respørgsel"
-
-#~ msgid "FIXME: _Mail Message"
-#~ msgstr "E-post _meddelse"
-
-#~ msgid "FIXME: _Appointment"
-#~ msgstr "_Aftale"
-
-#~ msgid "FIXME: Meeting Re_quest"
-#~ msgstr "Mødeforesp_ørgsel"
-
-#~ msgid "FIXME: _Contact"
-#~ msgstr "_Kontakt"
-
-#~ msgid "FIXME: _Journal Entry"
-#~ msgstr "_Journalopføring"
-
-#~ msgid "FIXME: _Note"
-#~ msgstr "_Notat"
-
-#~ msgid "FIXME: Ch_oose Form..."
-#~ msgstr "Vælg _formular..."
-
-#~ msgid "FIXME: _Memo Style"
-#~ msgstr "_Memo stil"
-
-#~ msgid "FIXME: Define Print _Styles..."
-#~ msgstr "Definér udskrift _stil..."
-
-#~ msgid "FIXME: S_end"
-#~ msgstr "_Send"
-
-#~ msgid "FIXME: Save Attac_hments..."
-#~ msgstr "Gem _bilag..."
-
-#~ msgid "Page Set_up"
-#~ msgstr "Sideopsætning"
-
-#~ msgid "FIXME: Print Pre_view"
-#~ msgstr "Udskriv for_kig"
-
-#~ msgid "FIXME: Paste _Special..."
-#~ msgstr "Indsæt _special..."
-
-#~ msgid "_Object"
-#~ msgstr "Emne"
-
-#~ msgid "FIXME: _Item"
-#~ msgstr "_ting"
-
-#~ msgid "FIXME: _Unread Item"
-#~ msgstr "_Ulæst ting"
-
-#~ msgid "FIXME: In_complete Task"
-#~ msgstr "U_komplet opgave"
-
-#~ msgid "FIXME: Fi_rst Item in Folder"
-#~ msgstr "_Første ting i folder"
-
-#~ msgid "FIXME: _Last Item in Folder"
-#~ msgstr "_Sidste ting i folder"
-
-#~ msgid "FIXME: _Standard"
-#~ msgstr "_Standard"
-
-#~ msgid "FIXME: __Formatting"
-#~ msgstr "__Formatering"
-
-#~ msgid "FIXME: _Customize..."
-#~ msgstr "_Tilpas..."
-
-#~ msgid "Pre_vious"
-#~ msgstr "Fore_gående"
-
-#~ msgid "_Toolbars"
-#~ msgstr "Værk_tøjsbjælker"
-
-#~ msgid "FIXME: It_em..."
-#~ msgstr "Tin_g..."
-
-#~ msgid "FIXME: _Object..."
-#~ msgstr "_Objekt..."
-
-#~ msgid "FIXME: _Font..."
-#~ msgstr "FIXME: Skri_fttype..."
-
-#~ msgid "FIXME: _Paragraph..."
-#~ msgstr "_Afsnit..."
-
-#~ msgid "FIXME: Desi_gn This Form"
-#~ msgstr "_Design dette skema"
-
-#~ msgid "FIXME: D_esign a Form..."
-#~ msgstr "_Design et skema"
-
-#~ msgid "FIXME: Publish _Form..."
-#~ msgstr "Publicér _skema..."
-
-#~ msgid "FIXME: Pu_blish Form As..."
-#~ msgstr "Publicér skema som..."
-
-#~ msgid "FIXME: Script _Debugger"
-#~ msgstr "Skript_afluser"
-
-#~ msgid "FIXME: _Spelling..."
-#~ msgstr "_Stavning..."
-
-#~ msgid "FIXME: Chec_k Names"
-#~ msgstr "_Tjek navne"
-
-#~ msgid "FIXME: Address _Book..."
-#~ msgstr "Adresse_bog..."
-
-#~ msgid "_Forms"
-#~ msgstr "Sk_emaer"
-
-#~ msgid "FIXME: _New Task"
-#~ msgstr "_Ny opgave"
-
-#~ msgid "FIXME: S_end Status Report"
-#~ msgstr "S_end statusrapport"
-
-#~ msgid "FIXME: _Mark Complete"
-#~ msgstr "_Markér som fuldført"
-
-#~ msgid "FIXME: Rec_urrence..."
-#~ msgstr "Gen_tagelse"
-
-#~ msgid "FIXME: S_kip Occurrence"
-#~ msgstr "Overspring genta_gelse"
-
-#~ msgid "FIXME: Assig_n Task"
-#~ msgstr "Tildel o_pgave"
-
-#~ msgid "FIXME: _Reply"
-#~ msgstr "Sva_r"
-
-#~ msgid "FIXME: Reply to A_ll"
-#~ msgstr "Svar til a_lle"
-
-#~ msgid "FIXME: For_ward"
-#~ msgstr "_Videresend"
-
-#~ msgid "F_ormat"
-#~ msgstr "F_ormat"
-
-#~ msgid "FIXME: Print..."
-#~ msgstr "Udskriv"
-
-#~ msgid "FIXME: Insert File..."
-#~ msgstr "Indsæt fil..."
-
-#~ msgid "Insert a file as an attachment"
-#~ msgstr "Indsæt en fil som bilag"
-
-#~ msgid "FIXME: Assign Task..."
-#~ msgstr "Tildel opgave..."
-
-#~ msgid "Assign the task to someone"
-#~ msgstr "Tildel opgaven til nogen"
-
-#~ msgid "FIXME: Previous"
-#~ msgstr "Forrige"
-
-#~ msgid "Go to the previous item"
-#~ msgstr "Gå til forrige punkt"
-
-#~ msgid "FIXME: Next"
-#~ msgstr "Næste"
-
-#~ msgid "FIXME: Help"
-#~ msgstr "Hjælp"
-
-#~ msgid "See online help"
-#~ msgstr "Se hjælp"
-
-#~ msgid "Categories"
-#~ msgstr "Kategorier"
-
-#~ msgid "Completion date"
-#~ msgstr "Fuldført dato"
-
-#~ msgid "End date"
-#~ msgstr "Slut-dato"
-
-#~ msgid "Due date"
-#~ msgstr "Færdig-dato"
-
-#~ msgid "Geographical position"
-#~ msgstr "Geografisk placering"
-
-#~ msgid "Percent complete"
-#~ msgstr "Procent fuldført"
-
-#~ msgid "Summary"
-#~ msgstr "Sammendrag"
-
-#~ msgid "Transparency"
-#~ msgstr "gennemsigtighed"
-
-#~ msgid "URL"
-#~ msgstr "URL"
-
-#~ msgid "FIXME: _Formatting"
-#~ msgstr "_Formatering"
-
-#~ msgid "FIXME: Ca_lendar..."
-#~ msgstr "_Kalender..."
-
-#~ msgid "FIXME: _New Appointment"
-#~ msgstr "_Ny aftale"
-
-#~ msgid "Schedule _Meeting..."
-#~ msgstr "Planlæg _møde..."
-
-#~ msgid "FIXME: Forward as v_Calendar"
-#~ msgstr "Videresend som v_Calendar"
-
-#~ msgid "Save and close this appointment"
-#~ msgstr "Gem og luk denne aftale"
-
-#~ msgid "Close this appointment"
-#~ msgstr "Luk denne aftale"
-
-#~ msgid "FIXME: Invite Attendees..."
-#~ msgstr "Invitér deltagere..."
-
-#~ msgid "Invite attendees to a meeting"
-#~ msgstr "Invitér deltagere til et møde"
-
-#~ msgid "TODO Items"
-#~ msgstr "Opgavepunkter"
-
-#~ msgid "%a"
-#~ msgstr "%a"
-
-#~ msgid "%b"
-#~ msgstr "%b"
-
-#~ msgid "Current week (%s %s %d - %s %s %d %d)"
-#~ msgstr "Denne uge (%s %s %d - %s %s %d %d)"
-
-#~ msgid "Current week (%s %s %d %d - %s %s %d %d)"
-#~ msgstr "Denne uge (%s %s %d %d - %s %s %d %d)"
-
-#~ msgid "Load a previously saved message"
-#~ msgstr "Indlæs en tidligere gemt meddelse"
-
-#~ msgid "_Save..."
-#~ msgstr "Gem..."
-
-#~ msgid "Save message"
-#~ msgstr "Gem meddelelsen"
-
-#~ msgid "Save message with a different name"
-#~ msgstr "Gem meddelelse med et andet navn"
-
-#~ msgid "Save in _folder..."
-#~ msgstr "Gem i _mappe..."
-
-#~ msgid "_Insert text file... (FIXME)"
-#~ msgstr "_Indsæt tekstfil..."
-
-#~ msgid "Insert a file as text into the message"
-#~ msgstr "Indsæt en fil som tekst i meddelelsen"
-
-#~ msgid "Send _Now"
-#~ msgstr "Send _nu"
-
-#~ msgid "Send the message now"
-#~ msgstr "Send beskeden nu"
-
-#~ msgid "Send _Later"
-#~ msgstr "Send se_nere"
-
-#~ msgid "_Close..."
-#~ msgstr "_Luk..."
-
-#~ msgid "Quit the message composer"
-#~ msgstr "Afslut meddelsesskriver"
-
-#~ msgid "HTML"
-#~ msgstr "HTML"
-
-#~ msgid "Send the mail in HTML format"
-#~ msgstr "Send brevet i HTML format"
-
-#~ msgid "Show _attachments"
-#~ msgstr "Vis _bilag"
-
-#~ msgid "Show/hide attachments"
-#~ msgstr "Vis/skjul bilag"
-
-#~ msgid "Send"
-#~ msgstr "Send"
-
-#~ msgid "Send this message"
-#~ msgstr "Send denne meddelelse"
-
-#~ msgid "Attach"
-#~ msgstr "Vedhæft"
-
-#~ msgid "Attach a file"
-#~ msgstr "Vedhæft en fil"
-
-#~ msgid "Add criterion"
-#~ msgstr "Tilføj kriterie"
-
-#~ msgid "Run filter \"%s\""
-#~ msgstr "Kør filter '%s'"
-
-#~ msgid "Port:"
-#~ msgstr "Port:"
-
-#~ msgid "Use default port"
-#~ msgstr "Brug standard port"
-
-#~ msgid "Found subfolder \"%s\""
-#~ msgstr "Fandt underfolder i \"%s\""
-
-#~ msgid "From"
-#~ msgstr "Fra"
-
-#~ msgid "Subject"
-#~ msgstr "Emne"
-
-#~ msgid "Date"
-#~ msgstr "Dato"
-
-#~ msgid "Received"
-#~ msgstr "Modtaget"
-
-#~ msgid "To"
-#~ msgstr "Til"
-
-#~ msgid "Size"
-#~ msgstr "Størrelse"
