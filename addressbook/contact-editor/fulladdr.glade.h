@@ -5,14 +5,13 @@
  */
 
 gchar *s = N_("Check Address");
-gchar *s = N_("_Street Address:");
-gchar *s = N_("City:");
-gchar *s = N_("ZIP/Postal Code:");
-gchar *s = N_("PO Box:");
+gchar *s = N_("_Address:");
+gchar *s = N_("_City:");
+gchar *s = N_("_PO Box:");
 gchar *s = N_("Address _2:");
-gchar *s = N_("State/Province:");
+gchar *s = N_("_State/Province:");
 gchar *s = N_("USA");
 gchar *s = N_("Canada");
 gchar *s = N_("Finland");
-gchar *s = N_("USA");
-gchar *s = N_("Country:");
+gchar *s = N_("_ZIP Code:");
+gchar *s = N_("Countr_y:");

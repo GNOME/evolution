@@ -1,5 +1,10 @@
 2000-10-13  Christopher James Lahey  <clahey@helixcode.com>
 
+	* contact-editor/fulladdr.glade, contact-editor/fulladdr.glade.h:
+	Rearranged these fields a bit more.
+
+2000-10-13  Christopher James Lahey  <clahey@helixcode.com>
+
 	* contact-editor/e-contact-editor-categories.c,
 	gui/component/select-names/e-select-names.c,
 	gui/widgets/e-addressbook-view.c: Changed these for boolean
