@@ -1,5 +1,9 @@
 2001-08-16  Kjartan Maraas  <kmaraas@gnome.org>
 
+	* C/evolution-C.omf: Place it under <category="GNOME|Applications"/>
+
+2001-08-16  Kjartan Maraas  <kmaraas@gnome.org>
+
 	* C/Makefile.am: Small fix to build.
 	* C/evolution-C.omf: Small fix. Remove an extra space.
 	* no/Makefile.am: Same here.

@@ -290,6 +290,7 @@
       <screenshot>
 	<screeninfo>Inbox</screeninfo>
 	<graphic srccredit="Kevin Breit" fileref="figures/mainwindow-pic"/>
+	</graphic>
       </screenshot>
     </figure>
     
