@@ -1,3 +1,9 @@
+2004-02-19  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/local/camel-mbox-store.c (get_folder): Add sanity
+	checking to the folder name if we are going to create it, just
+	like we do in create_folder().
+
 2004-02-19  Not Zed  <NotZed@Ximian.com>
 
 	* providers/*/camel-*-provider.c

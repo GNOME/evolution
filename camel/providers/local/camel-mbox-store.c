@@ -145,6 +145,7 @@ get_folder(CamelStore *store, const char *folder_name, guint32 flags, CamelExcep
 	name = mbox_folder_name_to_path(store, folder_name);
 	
 	if (stat(name, &st) == -1) {
+		const char *basename;
 		char *dirname;
 		int fd;
 		
@@ -161,6 +162,19 @@ get_folder(CamelStore *store, const char *folder_name, guint32 flags, CamelExcep
 					     _("Cannot get folder `%s': folder does not exist."),
 					     folder_name);
 			g_free(name);
+			return NULL;
+		}
+		
+		/* sanity check the folder name */
+		if (!(basename = strrchr (folder_name, '/')))
+			basename = folder_name;
+		else
+			basename++;
+		
+		if (basename[0] == '.' || ignore_file (basename, TRUE)) {
+			camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
+					     _("Cannot create a folder by this name."));
+			g_free (name);
 			return NULL;
 		}
 		
