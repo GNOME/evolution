@@ -340,7 +340,6 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingModel *em
 								     EVOLUTION_ETSPECDIR "/e-meeting-time-sel.etspec",
 								     filename));
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (mts->etable), GTK_POLICY_NEVER, GTK_POLICY_NEVER);
-	gtk_scrolled_window_set_scrollbar_spacing (GTK_SCROLLED_WINDOW (mts->etable), 0);
 
 	real_table = e_table_scrolled_get_table (E_TABLE_SCROLLED (mts->etable));
 	g_signal_connect (real_table->sort_info, "sort_info_changed", G_CALLBACK (sort_info_changed_cb), mts);

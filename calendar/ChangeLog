@@ -1,3 +1,8 @@
+2003-02-11  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/e-meeting-time-sel.c (e_meeting_time_selector_construct):
+	Don't use gtk_scrolled_window_set_scrollbar_spacing() anymore.
+
 2003-02-10  Hans Petter Jansson  <hpj@ximian.com>
 
 	* pcs/cal-backend-file.c (save): Don't try to make an error string
