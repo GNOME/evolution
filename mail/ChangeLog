@@ -1,3 +1,23 @@
+2000-08-06  JP Rosevear  <jpr@helixcode.com>
+
+	* mail-config.c (ndialog_page_undone): Desensitize ok button
+	(sdialog_page_undone): ditto
+	(iddialog_page_undone): ditto
+	(news_page_new): Typo - news, not mail
+	(transport_page_new): Typo - transport, not source
+	(identity_dialog): Set undone callback
+	(source_dialog): ditto
+	(news_dialog): ditto
+	(mail_druid_identity_undone): Desensitize next button and
+	mark done flag as false
+	(mail_druid_source_undone): ditto
+	(mail_druid_transport_undone): ditto
+	(mail_druid_identity_done): Mark done flag as true
+	(mail_druid_source_done): ditto
+	(mail_druid_transport_done): ditto
+	(mail_druid_prepare): Use done flag to set next button 
+	sensitivity, fixes #467
+
 2000-08-06  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-crypto.c (mail_crypto_openpgp_encrypt): Added support for

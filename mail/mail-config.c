@@ -58,8 +58,10 @@ struct _MailDialogIdentityPage
 	GtkWidget *address;
 	GtkWidget *org;
 	GtkWidget *sig;
-	IdentityPageCallback cb;
-	gpointer data;
+	IdentityPageCallback undonecb;
+	gpointer undonedata;
+	IdentityPageCallback donecb;
+	gpointer donedata;
 };
 
 typedef struct
@@ -90,6 +92,8 @@ struct _MailDialogServicePage
 	MailDialogServicePageItem *spitem;
 	ServicePageCallback changedcb;
 	gpointer changeddata;
+	ServicePageCallback undonecb;
+	gpointer undonedata;
 	ServicePageCallback donecb;
 	gpointer donedata;
 };
@@ -139,8 +143,11 @@ typedef struct
 	GtkWidget *dialog;
 	GtkWidget *druid;
 	MailDialogIdentityPage *idpage;
+	gboolean iddone;
 	MailDialogSourcePage *spage;
+	gboolean sdone;
 	MailDialogTransportPage *tpage;
+	gboolean tdone;
 } MailDruidDialog;
 
 typedef struct
@@ -662,9 +669,11 @@ identity_page_changed (GtkWidget *widget, MailDialogIdentityPage *page)
 	name = gtk_editable_get_chars (GTK_EDITABLE (page->name), 0, -1);
 	addr = gtk_editable_get_chars (GTK_EDITABLE (page->address), 0, -1);
 	
-	if (addr && name && page->cb)
-		page->cb (page, page->data);
-	
+	if (addr && *addr && name && *name && page->donecb)
+		page->donecb (page, page->donedata);
+	else if (page->undonecb)
+		page->undonecb (page, page->undonedata);
+
 	g_free (name);
 	g_free (addr);
 }
@@ -684,11 +693,19 @@ identity_page_extract (MailDialogIdentityPage *page)
 }
 
 static void
+identity_page_set_undone_cb (MailDialogIdentityPage *page, 
+			     IdentityPageCallback cb, gpointer data)
+{
+	page->undonecb = cb;
+	page->undonedata = data;
+}
+
+static void
 identity_page_set_done_cb (MailDialogIdentityPage *page, 
 			   IdentityPageCallback cb, gpointer data)
 {
-	page->cb = cb;
-	page->data = data;
+	page->donecb = cb;
+	page->donedata = data;
 }
 
 static MailDialogIdentityPage *
@@ -1090,6 +1107,8 @@ service_page_item_changed (GtkWidget *item, MailDialogServicePage *page)
 
 	if (complete && page->donecb) {
 		page->donecb (page, page->donedata);
+	} else if (!complete && page->undonecb) {
+		page->undonecb (page, page->undonedata);
 	}
 }
 
@@ -1281,11 +1300,22 @@ service_page_set_changed_cb (MailDialogServicePage *page,
 }
 
 static void
+service_page_set_undone_cb (MailDialogServicePage *page, 
+			    ServicePageCallback cb, gpointer data)
+{
+	page->undonecb = cb;
+	page->undonedata = data;
+}
+
+static void
 service_page_set_done_cb (MailDialogServicePage *page, 
 			  ServicePageCallback cb, gpointer data)
 {
 	page->donecb = cb;
 	page->donedata = data;
+
+	/* In case its already done */
+	service_page_item_changed (page->spitem->item, page);
 }
 
 static MailDialogServicePage *
@@ -1381,7 +1411,7 @@ news_page_new (GSList *sources)
 	MailDialogNewsPage *page = g_new0 (MailDialogNewsPage, 1);
 	GtkWidget *html;
 
-	page->page = service_page_new ("Mail source type:", sources);
+	page->page = service_page_new ("News source type:", sources);
 	page->vbox = page->page->vbox;
 	
 	html = html_new (FALSE);
@@ -1405,7 +1435,7 @@ transport_page_new (GSList *transports)
 	MailDialogTransportPage *page = g_new0 (MailDialogTransportPage, 1);
 	GtkWidget *html;
 
-	page->page = service_page_new ("Mail source type:", transports);
+	page->page = service_page_new ("Mail transport type:", transports);
 	page->vbox = page->page->vbox;
 	
 	html = html_new (FALSE);
@@ -1423,6 +1453,14 @@ transport_page_new (GSList *transports)
 }
 
 /* Identity dialog */
+static void
+iddialog_page_undone (MailDialogIdentityPage *page, gpointer data)
+{
+	MailDialogIdentity *iddialog = (MailDialogIdentity *)data;
+
+	gnome_dialog_set_sensitive (GNOME_DIALOG (iddialog->dialog), 0, FALSE);
+}
+
 static void
 iddialog_page_done (MailDialogIdentityPage *page, gpointer data)
 {
@@ -1468,10 +1506,15 @@ identity_dialog (const MailConfigIdentity *id, GtkWidget *parent)
 
         /* Get the identity widget */
 	iddialog->page = identity_page_new (id);
-	identity_page_set_done_cb (iddialog->page, iddialog_page_done, 
-				   iddialog);
 	gtk_box_pack_start (GTK_BOX (dialog_vbox), 
 			    iddialog->page->vbox, TRUE, TRUE, 0);
+
+	identity_page_set_undone_cb (iddialog->page, 
+				     iddialog_page_undone, 
+				     iddialog);
+	identity_page_set_done_cb (iddialog->page, 
+				   iddialog_page_done, 
+				   iddialog);
 	gtk_widget_show (iddialog->page->vbox);
 
 	/* Buttons */
@@ -1503,6 +1546,14 @@ identity_dialog (const MailConfigIdentity *id, GtkWidget *parent)
 }
 
 /* Source Dialog */
+static void
+sdialog_page_undone (MailDialogServicePage *page, gpointer data)
+{
+	MailDialogSource *sdialog = (MailDialogSource *)data;
+
+	gnome_dialog_set_sensitive (GNOME_DIALOG (sdialog->dialog), 0, FALSE);
+}
+
 static void
 sdialog_page_done (MailDialogServicePage *page, gpointer data)
 {
@@ -1553,10 +1604,15 @@ source_dialog (MailConfigService *source, GtkWidget *parent)
 	sdialog->page = source_page_new (sources);
 	if (!new)
 		service_page_set_url (sdialog->page->page, source);
-	service_page_set_done_cb (sdialog->page->page, 
-				  sdialog_page_done, sdialog);
 	gtk_box_pack_start (GTK_BOX (dialog_vbox), sdialog->page->vbox, 
 			    TRUE, TRUE, 0);
+
+	service_page_set_undone_cb (sdialog->page->page, 
+				    sdialog_page_undone, 
+				    sdialog);
+	service_page_set_done_cb (sdialog->page->page, 
+				  sdialog_page_done, 
+				  sdialog);
 	gtk_widget_show (sdialog->page->vbox);
 	
 	/* Buttons */
@@ -1589,6 +1645,14 @@ source_dialog (MailConfigService *source, GtkWidget *parent)
 }
 
 /* News Dialog */
+static void
+ndialog_page_undone (MailDialogServicePage *page, gpointer data)
+{
+	MailDialogNews *ndialog = (MailDialogNews *)data;
+
+	gnome_dialog_set_sensitive (GNOME_DIALOG (ndialog->dialog), 0, FALSE);
+}
+
 static void
 ndialog_page_done (MailDialogServicePage *page, gpointer data)
 {
@@ -1637,10 +1701,15 @@ news_dialog (MailConfigService *source, GtkWidget *parent)
         /* Get the identity widget */
 	ndialog->page = news_page_new (news);
 	service_page_set_url (ndialog->page->page, source);
-	service_page_set_done_cb (ndialog->page->page, 
-				  ndialog_page_done, ndialog);
 	gtk_box_pack_start (GTK_BOX (dialog_vbox), ndialog->page->vbox, 
 			    TRUE, TRUE, 0);
+
+	service_page_set_undone_cb (ndialog->page->page, 
+				    ndialog_page_undone, 
+				    ndialog);
+	service_page_set_done_cb (ndialog->page->page, 
+				  ndialog_page_done, 
+				  ndialog);
 	gtk_widget_show (ndialog->page->vbox);
 	
 	/* Buttons */
@@ -1672,36 +1741,22 @@ news_dialog (MailConfigService *source, GtkWidget *parent)
 }
 
 /* Mail configuration druid */
-
-/*  static gboolean */
-/*  mail_druid_identity_next (GnomeDruidPage *page, gpointer arg1,  */
-/*  			  MailDruidDialog *dialog) */
-/*  { */
-/*  	char *addr, *at; */
-	
-/*  	FIXME: we need more sanity checking than this.  */
-	
-/*  	addr = gtk_editable_get_chars (GTK_EDITABLE (dialog->idpage->address), */
-/*  				       0, -1); */
-/*  	at = strchr (addr, '@'); */
-/*  	if (!at || !strchr (at + 1, '.')) { */
-/*  		error_dialog (GTK_WIDGET (page), "Email address must be " */
-/*  			      "of the form \"user@domain\"."); */
-/*  		return TRUE; */
-/*  	} */
-/*  	g_free (addr); */
-	
-/*  	dialog->id = identity_page_extract (dialog->idpage); */
-
-/*  	return FALSE; */
-/*  } */
-
 static gboolean
-mail_druid_prepare (GnomeDruidPage *page, GnomeDruid *druid, gpointer data)
+mail_druid_prepare (GnomeDruidPage *page, GnomeDruid *druid, gboolean *active)
 {
-	gnome_druid_set_buttons_sensitive (druid, TRUE, FALSE, TRUE);
+	gnome_druid_set_buttons_sensitive (druid, TRUE, *active, TRUE);
 
 	return FALSE;
+}
+
+static void
+mail_druid_identity_undone (MailDialogIdentityPage *page, gpointer data)
+{
+	MailDruidDialog *dialog = (MailDruidDialog *) data;
+	
+	dialog->iddone = FALSE;
+	gnome_druid_set_buttons_sensitive (GNOME_DRUID (dialog->druid), 
+					   TRUE, FALSE, TRUE);
 }
 
 static void
@@ -1709,15 +1764,47 @@ mail_druid_identity_done (MailDialogIdentityPage *page, gpointer data)
 {
 	MailDruidDialog *dialog = (MailDruidDialog *) data;
 	
+	dialog->iddone = TRUE;
 	gnome_druid_set_buttons_sensitive (GNOME_DRUID (dialog->druid), 
 					   TRUE, TRUE, TRUE);
 }
 
 static void
-mail_druid_service_done (MailDialogServicePage *page, gpointer data)
+mail_druid_source_undone (MailDialogServicePage *page, gpointer data)
 {
 	MailDruidDialog *dialog = (MailDruidDialog *) data;
 
+	dialog->sdone = FALSE;
+	gnome_druid_set_buttons_sensitive (GNOME_DRUID (dialog->druid), 
+					   TRUE, FALSE, TRUE);
+}
+
+static void
+mail_druid_source_done (MailDialogServicePage *page, gpointer data)
+{
+	MailDruidDialog *dialog = (MailDruidDialog *) data;
+
+	dialog->sdone = TRUE;
+	gnome_druid_set_buttons_sensitive (GNOME_DRUID (dialog->druid), 
+					   TRUE, TRUE, TRUE);
+}
+
+static void
+mail_druid_transport_undone (MailDialogServicePage *page, gpointer data)
+{
+	MailDruidDialog *dialog = (MailDruidDialog *) data;
+
+	dialog->tdone = FALSE;
+	gnome_druid_set_buttons_sensitive (GNOME_DRUID (dialog->druid), 
+					   TRUE, FALSE, TRUE);
+}
+
+static void
+mail_druid_transport_done (MailDialogServicePage *page, gpointer data)
+{
+	MailDruidDialog *dialog = (MailDruidDialog *) data;
+
+	dialog->tdone = TRUE;
 	gnome_druid_set_buttons_sensitive (GNOME_DRUID (dialog->druid), 
 					   TRUE, TRUE, TRUE);
 }
@@ -1794,15 +1881,19 @@ mail_config_druid (void)
 	gnome_druid_page_standard_set_logo (dpage, identity_logo);
 
 	dialog->idpage = identity_page_new (NULL);
-	identity_page_set_done_cb (dialog->idpage, 
-				   mail_druid_identity_done, 
-				   dialog);
 	gtk_box_pack_start (GTK_BOX (dpage->vbox), 
 			    dialog->idpage->vbox, 
 			    TRUE, TRUE, 0);
 
+	identity_page_set_undone_cb (dialog->idpage, 
+				     mail_druid_identity_undone, 
+				     dialog);
+	identity_page_set_done_cb (dialog->idpage, 
+				   mail_druid_identity_done, 
+				   dialog);
 	gtk_signal_connect (GTK_OBJECT (dpage), "prepare", 
-			    GTK_SIGNAL_FUNC (mail_druid_prepare), dialog);
+			    GTK_SIGNAL_FUNC (mail_druid_prepare), 
+			    &dialog->iddone);
 	gtk_widget_show (dialog->idpage->vbox);
 
 	/* Source page */
@@ -1810,14 +1901,19 @@ mail_config_druid (void)
 	gnome_druid_page_standard_set_logo (dpage, source_logo);
 
 	dialog->spage = source_page_new (sources);
-	service_page_set_done_cb (dialog->spage->page, 
-				  mail_druid_service_done, dialog);
 	gtk_box_pack_start (GTK_BOX (dpage->vbox), 
 			    dialog->spage->vbox, 
 			    TRUE, TRUE, 0);
 
+	service_page_set_done_cb (dialog->spage->page, 
+				  mail_druid_source_done, 
+				  dialog);
+	service_page_set_undone_cb (dialog->spage->page, 
+				    mail_druid_source_undone, 
+				    dialog);
 	gtk_signal_connect (GTK_OBJECT (dpage), "prepare", 
-			    GTK_SIGNAL_FUNC (mail_druid_prepare), dialog);
+			    GTK_SIGNAL_FUNC (mail_druid_prepare), 
+			    &dialog->sdone);
 	gtk_widget_show (dialog->spage->vbox);
 
 	/* Transport page */
@@ -1825,15 +1921,19 @@ mail_config_druid (void)
 	gnome_druid_page_standard_set_logo (dpage, transport_logo);
 
 	dialog->tpage = transport_page_new (transports);
-	service_page_set_done_cb (dialog->tpage->page, 
-				  mail_druid_service_done, dialog);
 	gtk_box_pack_start (GTK_BOX (dpage->vbox), 
 			    dialog->tpage->vbox, 
 			    TRUE, TRUE, 0);
 
+	service_page_set_undone_cb (dialog->tpage->page, 
+				    mail_druid_transport_undone, 
+				    dialog);
+	service_page_set_done_cb (dialog->tpage->page, 
+				  mail_druid_transport_done, 
+				  dialog);
 	gtk_signal_connect (GTK_OBJECT (dpage), "prepare", 
 			    GTK_SIGNAL_FUNC (mail_druid_prepare), 
-			    dialog);
+			    &dialog->tdone);
 	gtk_widget_show (dialog->tpage->vbox);
 
 
