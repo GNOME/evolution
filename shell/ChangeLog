@@ -1,3 +1,8 @@
+2005-02-22  Marco Pesenti Gritti  <marco@gnome.org>
+
+	* shell/e-shell-window-commands.c: (command_quick_reference):
+	Use gnome-vfs API to open quick reference in the pdf viewer
+
 2005-02-22  William Jon McCann  <mccann@jhu.edu>
 
 	* e-shell-window.c (setup_offline_toggle): Make offline button scale
