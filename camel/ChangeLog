@@ -1,5 +1,11 @@
 2002-11-11  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-mime-filter-tohtml.c (html_convert): Rewritten. Much much
+	much cleaner implementation now, though uses malloc/free more
+	often than I'd like.
+
+2002-11-11  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* providers/imap/camel-imap-folder.c (get_message_simple): Use
 	g_strerror when setting an exception string (we need it to be in
 	UTF-8).

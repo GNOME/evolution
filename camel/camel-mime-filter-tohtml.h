@@ -50,13 +50,13 @@ typedef struct _CamelMimeFilterToHTML CamelMimeFilterToHTML;
 struct _CamelMimeFilterToHTML {
 	CamelMimeFilter parent;
 	
+	struct _UrlRegexPattern *patterns;
+	
 	guint32 flags;
 	guint32 colour;
 	
-	guint32 column       : 29;
-	guint32 pre_open     : 1;
-	guint32 saw_citation : 1;
-	guint32 coloured     : 1;
+	guint32 column   : 31;
+	guint32 pre_open : 1;
 };
 
 struct _CamelMimeFilterToHTMLClass {
