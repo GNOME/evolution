@@ -1,5 +1,10 @@
 2000-12-22  JP Rosevear  <jpr@helixcode.com>
 
+	* pcs/cal-backend-file.c (cal_backend_file_get_alarms_for_object): 
+	account for the case where there are no alarms, fixes crash
+	
+2000-12-22  JP Rosevear  <jpr@helixcode.com>
+
 	* gui/goto.c (ecal_date_range_changed): New function to keep the
 	ecal marked properly
 	(create_ecal): move more creation code here, update marks
