@@ -233,17 +233,19 @@ et_destroy (GtkObject *object)
 
 	if (et->header_canvas != NULL)
 		gtk_widget_destroy (GTK_WIDGET (et->header_canvas));
+	et->header_canvas = NULL;
 
 	if (et->site != NULL)
 		e_table_drag_source_unset (et);
 	et->site = NULL;
 
-	gtk_widget_destroy (GTK_WIDGET (et->table_canvas));
+	if (et->table_canvas != NULL)
+		gtk_widget_destroy (GTK_WIDGET (et->table_canvas));
+	et->table_canvas = NULL;
 
-	if (et->rebuild_idle_id) {
+	if (et->rebuild_idle_id != 0)
 		g_source_remove (et->rebuild_idle_id);
-		et->rebuild_idle_id = 0;
-	}
+	et->rebuild_idle_id = 0;
 
 	(*e_table_parent_class->destroy)(object);
 }
@@ -298,6 +300,8 @@ e_table_init (GtkObject *object)
 
 	e_table->sorter                             = NULL;
 	e_table->selection                          = e_table_selection_model_new();
+	gtk_object_ref (GTK_OBJECT (e_table->selection));
+	gtk_object_sink (GTK_OBJECT (e_table->selection));
 	e_table->cursor_loc                         = E_TABLE_CURSOR_LOC_NONE;
 	e_table->spec                               = NULL;
 }
@@ -1160,8 +1164,11 @@ et_real_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 
 	if (ete)
 		gtk_object_ref(GTK_OBJECT(ete));
-	else
+	else {
 		ete = e_table_extras_new();
+		gtk_object_ref(GTK_OBJECT(ete));
+		gtk_object_sink(GTK_OBJECT(ete));
+	}
 
 	e_table->use_click_to_add = specification->click_to_add;
 	e_table->use_click_to_add_end = specification->click_to_add_end;
@@ -1172,6 +1179,8 @@ et_real_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 	e_table->draw_focus = specification->draw_focus;
 	e_table->cursor_mode = specification->cursor_mode;
 	e_table->full_header = e_table_spec_to_full_header(specification, ete);
+	gtk_object_ref (GTK_OBJECT (e_table->full_header));
+	gtk_object_sink (GTK_OBJECT (e_table->full_header));
 
 	gtk_object_set(GTK_OBJECT(e_table->selection),
 		       "selection_mode", specification->selection_mode,
@@ -1184,6 +1193,8 @@ et_real_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
 
 	e_table->header = e_table_state_to_header (GTK_WIDGET(e_table), e_table->full_header, state);
+	gtk_object_ref (GTK_OBJECT (e_table->header));
+	gtk_object_sink (GTK_OBJECT (e_table->header));
 	e_table->horizontal_scrolling = specification->horizontal_scrolling;
 	e_table->allow_grouping = specification->allow_grouping;
 
@@ -1201,6 +1212,8 @@ et_real_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 		       NULL);
 
 	e_table->sorter = e_table_sorter_new(etm, e_table->full_header, e_table->sort_info);
+	gtk_object_ref (GTK_OBJECT (e_table->sorter));
+	gtk_object_sink (GTK_OBJECT (e_table->sorter));
 
 	gtk_object_set (GTK_OBJECT (e_table->selection),
 			"model", etm,
@@ -1275,10 +1288,17 @@ e_table_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 	g_return_val_if_fail(ete == NULL || E_IS_TABLE_EXTRAS(ete), NULL);
 	g_return_val_if_fail(spec_str != NULL, NULL);
 
+	gtk_object_ref (GTK_OBJECT (etm));
+	gtk_object_sink (GTK_OBJECT (etm));
+
 	specification = e_table_specification_new();
+	gtk_object_ref (GTK_OBJECT (specification));
+	gtk_object_sink (GTK_OBJECT (specification));
 	e_table_specification_load_from_string(specification, spec_str);
 	if (state_str) {
 		state = e_table_state_new();
+		gtk_object_ref (GTK_OBJECT (state));
+		gtk_object_sink (GTK_OBJECT (state));
 		e_table_state_load_from_string(state, state_str);
 		if (state->col_count <= 0) {
 			gtk_object_unref(GTK_OBJECT(state));

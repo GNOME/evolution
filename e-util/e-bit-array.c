@@ -426,5 +426,7 @@ e_bit_array_new (int count)
 	EBitArray *eba = gtk_type_new (e_bit_array_get_type ());
 	eba->bit_count = count;
 	eba->data = g_new0(gint, (eba->bit_count + 31) / 32);
+	gtk_object_ref (GTK_OBJECT (eba));
+	gtk_object_sink (GTK_OBJECT (eba));
 	return eba;
 }
