@@ -430,10 +430,10 @@
 		  <keycap>Ctrl</keycap>
 		  <keycap>O</keycap>
                 </keycombo>
-                </para>
+	      </para>
 	    </listitem>
 	  </varlistentry>
-
+	  
           <varlistentry>
 	    <term>Create Filters and Virtual Folders</term>
 	    <listitem>
@@ -442,29 +442,30 @@
                 specific message attributes from the message's
                 right-click menu.  Alternately, select a message, and
                 then choose <menuchoice> <guimenu>Settings</guimenu>
-                <guimenuitem>Mail Filters</guimenuitem> </menuchoice>
+		  <guimenuitem>Mail Filters</guimenuitem> </menuchoice>
                 or <menuchoice> <guimenu>Settings</guimenu>
-                <guimenuitem>Virtual Folder Editor</guimenuitem>
+		  <guimenuitem>Virtual Folder Editor</guimenuitem>
                 </menuchoice>.  Filters are discussed in <xref
                 linkend="usage-mail-organize-filters">, and Virtual
-                Folders in <xref
-                linkend="usage-mail-organize-vfolders">.
-            </para>
+		  Folders in <xref
+				 linkend="usage-mail-organize-vfolders">.
+	      </para>
 	    </listitem>
-	</varlistentry>
+	  </varlistentry>
 	</variablelist>
-
-        </para>
-      </sect2>
-      <sect2 id="quickref-cal">
-        <title>Calendar</title>
-        <para>
+	
+      </para>
+    </sect2>
+    <sect2 id="quickref-cal">
+      <title>Calendar</title>
+      <para>
         <variablelist>
 	  <varlistentry>
 	    <term></term>
 	    <listitem>
 	      <para>
-               </para>
+		
+	      </para>
 	    </listitem>
 	    </varlistentry>
 	  </variablelist>
@@ -474,18 +475,69 @@
       <sect2 id="quickref-contact">
         <title>Contact Manager</title>
         <para>
+	Here are the most frequent tasks that are done in the Contact Manager,
+	with the shortcuts so that you can use these tasks without having to use
+	your mouse:
 
-
+        <variablelist>
+	  <varlistentry>
+	    <term>Edit a User</term>
+	    <listitem>
+	      <para>
+		You can edit a user two ways:
+		<itemizedlist>
+		  <listitem>
+		    <para>
+		      Single click on the person's "rolodex card" and you can
+		      edit the person's properties all in the same window.
+		    </para>
+		  </listitem>
+		  <listitem>
+		    <para>
+		      Double-click on the contact's card.
+		    </para>
+		  </listitem>
+		</itemizedlist>
+               </para>
+	    </listitem>
+	    </varlistentry>
+	  </variablelist>
+	
+	<variablelist>
+	  <varlistentry>
+	    <term>Deleting a Contact</term>
+	    <listitem>
+	      <para>
+		Right click on a contact and click <guilabel>Delete</guilabel>
+		or select a contact and press the <guibutton>Delete</guibutton>
+		on the <guilabel>toolbar</guilabel>.
+	      </para>
+	    </listitem>
+	  </varlistentry>
+	</variablelist>
+	
+	
+        <variablelist>
+	  <varlistentry>
+	    <term>Email a Contact</term>
+	    <listitem>
+	      <para>
+		Right click on a contact and click on 
+		<guilabel>Send message to contact</guilabel>.
+               </para>
+	    </listitem>
+	  </varlistentry>
+	</variablelist>
+	
         <variablelist>
 	  <varlistentry>
 	    <term></term>
 	    <listitem>
 	      <para>
-               </para>
+	      </para>
 	    </listitem>
-	    </varlistentry>
-	  </variablelist>
-	  
+	  </varlistentry>
+	</variablelist>
 
         </para>
       </sect2>
