@@ -11336,7 +11336,6 @@ msgid "Drifting dust whirls"
 msgstr ""
 
 #: my-evolution/my-evolution.glade.h:1
-#, fuzzy
 msgid " _Remove"
 msgstr "Видалити"
 
@@ -11375,9 +11374,8 @@ msgid "News Feed Settings"
 msgstr ""
 
 #: my-evolution/my-evolution.glade.h:11
-#, fuzzy
 msgid "One mont_h"
-msgstr "м╕сяць"
+msgstr "Один м╕сяць"
 
 #: my-evolution/my-evolution.glade.h:12
 #, fuzzy
@@ -11398,23 +11396,20 @@ msgid "S_how full path for folders"
 msgstr "Повн╕ заголовки"
 
 #: my-evolution/my-evolution.glade.h:16
-#, fuzzy
 msgid "Show _all tasks"
-msgstr "Показати завдання"
+msgstr "Показати вс╕ завдання"
 
 #: my-evolution/my-evolution.glade.h:17
-#, fuzzy
 msgid "Show _today's tasks"
-msgstr "Показати завдання"
+msgstr "Показати сьогодн╕шн╕ завдання"
 
 #: my-evolution/my-evolution.glade.h:18
 msgid "Show temperatures in:"
 msgstr ""
 
 #: my-evolution/my-evolution.glade.h:19
-#, fuzzy
 msgid "Tasks "
-msgstr "Завдання"
+msgstr "Завдання "
 
 #: my-evolution/my-evolution.glade.h:20
 #, fuzzy
@@ -11441,49 +11436,40 @@ msgid "_Fahrenheit"
 msgstr ""
 
 #: my-evolution/my-evolution.glade.h:26
-#, fuzzy
 msgid "_Five days"
-msgstr "П'ятниця"
+msgstr "П'ять дн╕в"
 
 #: my-evolution/my-evolution.glade.h:27
-#, fuzzy
 msgid "_Mail"
-msgstr "Е-пошта"
+msgstr "Пошта"
 
 #: my-evolution/my-evolution.glade.h:28
-#, fuzzy
 msgid "_News Feeds"
-msgstr "Нова тека"
+msgstr "Новини"
 
 #: my-evolution/my-evolution.glade.h:29
-#, fuzzy
 msgid "_One day"
-msgstr "Середа"
+msgstr "Один день"
 
 #: my-evolution/my-evolution.glade.h:30
-#, fuzzy
 msgid "_Schedule"
-msgstr "Планування зустр╕ч╕"
+msgstr "Планування"
 
 #: my-evolution/my-evolution.glade.h:31
-#, fuzzy
 msgid "_Weather"
-msgstr "╤нша"
+msgstr "Погода"
 
 #: shell/GNOME_Evolution_Shell.oaf.in.h:1
-#, fuzzy
 msgid "The Evolution shell."
-msgstr "Не вдалося ╕н╕ц╕ал╕зувати оболонку Evolutuion."
+msgstr "Оболонка Evolutuion."
 
 #: shell/e-activity-handler.c:200
-#, fuzzy
 msgid "Show Details"
-msgstr "Подробиц╕"
+msgstr "Показати подробиц╕"
 
 #: shell/e-activity-handler.c:202
-#, fuzzy
 msgid "Cancel Operation"
-msgstr "Скасувати зустр╕ч"
+msgstr "Скасувати операц╕ю"
 
 #: shell/e-setup.c:125
 msgid "Evolution installation"
@@ -11568,9 +11554,8 @@ msgid "Specify a folder to copy folder \"%s\" into:"
 msgstr ""
 
 #: shell/e-shell-folder-commands.c:313
-#, fuzzy
 msgid "Copy folder"
-msgstr "Скоп╕ювати у теку"
+msgstr "Скоп╕ювати теку"
 
 #: shell/e-shell-folder-commands.c:355
 #, c-format
@@ -11578,9 +11563,8 @@ msgid "Specify a folder to move folder \"%s\" into:"
 msgstr ""
 
 #: shell/e-shell-folder-commands.c:360
-#, fuzzy
 msgid "Move folder"
-msgstr "Перенести в теку"
+msgstr "Перенести теку"
 
 #: shell/e-shell-folder-commands.c:386
 #, fuzzy, c-format
@@ -11775,7 +11759,7 @@ msgstr ""
 #: shell/e-shell-importer.c:655
 #, fuzzy
 msgid "Import a single file"
-msgstr "╤мпортування"
+msgstr "╤мпорт одного файла"
 
 #: shell/e-shell-importer.c:720 shell/e-shell-startup-wizard.c:582
 msgid ""
@@ -11807,7 +11791,7 @@ msgstr "╤мпорт"
 
 #: shell/e-shell-offline-handler.c:562
 msgid "Closing connections..."
-msgstr ""
+msgstr "Закриття з'╓днань..."
 
 #: shell/e-shell-startup-wizard.c:159
 #, c-format
