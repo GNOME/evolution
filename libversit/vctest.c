@@ -49,7 +49,7 @@ argv = foo;
 	    if (p) *p = 0;
 	    strcat(buf,".out");
 	    fprintf(cfp,"reading text input from '%s'...\n", *argv);
-	    //v = Parse_MIME_FromFile(fp);
+	    /*v = Parse_MIME_FromFile(fp); */
 	    v = Parse_MIME_FromFileName(*argv);
 		writeVObjectToFile(buf,v);
 		cleanVObject(v);

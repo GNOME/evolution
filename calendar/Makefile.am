@@ -8,8 +8,6 @@ gnorba_DATA = gnomecal.gnorba
 
 help_base = $(datadir)/gnome/help/cal
 
-CFLAGS += -Wall -Wunused -Wpointer-arith -Wmissing-declarations
-
 INCLUDES = 			\
 	-I$(includedir)					\
 	$(GNOME_INCLUDEDIR)				\

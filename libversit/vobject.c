@@ -590,7 +590,7 @@ DLLEXPORT(void) cleanVObject(VObject *o)
 	case VCVT_USTRINGZ:
 	case VCVT_STRINGZ:
 	case VCVT_RAW:
-	    // assume they are all allocated by malloc.
+		/* assume they are all allocated by malloc. */
 	    free((char*)STRINGZ_VALUE_OF(o));
 	    break;
 	case VCVT_VOBJECT:
@@ -1119,26 +1119,26 @@ static int writeBase64(OFile *fp, unsigned char *s, long len)
     quad[4] = 0;
 
     while (cur < len) {
-	// collect the triplet of bytes into 'trip'
+	    /* collect the triplet of bytes into 'trip' */
 	trip = 0;
 	for (i = 0; i < 3; i++) {
 	    b = (cur < len) ? *(s + cur) : 0;
 	    cur++;
 	    trip = trip << 8 | b;
 	    }
-	// fill in 'quad' with the appropriate four characters
+	/* fill in 'quad' with the appropriate four characters */
 	for (i = 3; i >= 0; i--) {
 	    b = (unsigned char)(trip & 0x3F);
 	    trip = trip >> 6;
 	    if ((3 - i) < (cur - len))
-		quad[i] = '='; // pad char
+		    quad[i] = '='; /* pad char */
 	    else if (b < 26) quad[i] = (char)b + 'A';
 	    else if (b < 52) quad[i] = (char)(b - 26) + 'a';
 	    else if (b < 62) quad[i] = (char)(b - 52) + '0';
 	    else if (b == 62) quad[i] = '+';
 	    else quad[i] = '/';
 	    }
-	// now output 'quad' with appropriate whitespace and line ending
+	/* now output 'quad' with appropriate whitespace and line ending */
 	appendsOFile(fp, (numQuads == 0 ? "    " : ""));
 	appendsOFile(fp, quad);
 	appendsOFile(fp, ((cur >= len)?"\n" :(numQuads==MAXQUADS-1?"\n" : "")));
@@ -1425,4 +1425,4 @@ DLLEXPORT(char*) fakeCString(const wchar_t *u)
     return s;
 }
 
-// end of source file vobject.c
+/* end of source file vobject.c */

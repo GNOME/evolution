@@ -1,5 +1,5 @@
 
-lib_LIBRARIES = libversit.a
+noinst_LIBRARIES = libversit.a
 
 libversit_a_SOURCES =	\
 	vcc.y		\

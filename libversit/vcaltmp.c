@@ -334,4 +334,4 @@ void main() {
 #endif
 
 
-// end of source file vcaltmp.c
+/* end of source file vcaltmp.c */
