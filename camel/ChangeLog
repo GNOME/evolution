@@ -1,3 +1,14 @@
+2003-05-19  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-folder-summary.c (camel_folder_summary_load): Only display
+	a warning if errno != EINVAL (EINVAL means there was a version
+	mismatch, so we don't really need to warn here since we are
+	supposed to be able to handle this situation).
+	(perform_content_info_load): Turn off debugging message.
+	(summary_assign_uid): Turn off uid-clash warning.
+	(camel_folder_summary_decode_token): Turn off debug messages.
+	(summary_header_load): Turn off version-mismatch warning.
+
 2003-05-16  Jeremy Katz  <katzj@redhat.com>
 
 	* providers/smtp/camel-smtp-transport.c (smtp_helo): Ensure cmdbuf

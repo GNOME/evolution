@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- *  Copyright (C) 2000 Ximian Inc.
+ *  Copyright (C) 2000-2003 Ximian Inc.
  *
  *  Authors: Michael Zucchi <notzed@ximian.com>
  *
@@ -535,7 +535,7 @@ perform_content_info_load(CamelFolderSummary *s, FILE *in)
 			my_list_append((struct _node **)&ci->childs, (struct _node *)part);
 			part->parent = ci;
 		} else {
-			g_warning("Summary file format messed up?");
+			d(fprintf (stderr, "Summary file format messed up?"));
 			camel_folder_summary_content_info_free(s, ci);
 			return NULL;
 		}
@@ -589,7 +589,9 @@ camel_folder_summary_load(CamelFolderSummary *s)
 	return 0;
 
 error:
-	g_warning ("Cannot load summary file: `%s': %s", s->summary_path, g_strerror (errno));
+	if (errno != EINVAL)
+		g_warning ("Cannot load summary file: `%s': %s", s->summary_path, g_strerror (errno));
+	
 	CAMEL_SUMMARY_UNLOCK(s, io_lock);
 	fclose (in);
 	s->flags |= ~CAMEL_SUMMARY_DIRTY;
@@ -756,7 +758,7 @@ summary_assign_uid(CamelFolderSummary *s, CamelMessageInfo *info)
 		CAMEL_SUMMARY_UNLOCK(s, summary_lock);
 		if (mi == info)
 			return 0;
-		g_warning("Trying to insert message with clashing uid (%s).  new uid re-assigned", camel_message_info_uid(info));
+		d(printf ("Trying to insert message with clashing uid (%s).  new uid re-assigned", camel_message_info_uid(info)));
 		camel_message_info_set_uid(info, camel_folder_summary_next_uid_string(s));
 		uid = camel_message_info_uid(info);
 		info->flags |= CAMEL_MESSAGE_FOLDER_FLAGGED;
@@ -1305,7 +1307,7 @@ camel_folder_summary_decode_token(FILE *in, char **str)
 	io(printf("Decode token ...\n"));
 	
 	if (camel_file_util_decode_uint32(in, &len) == -1) {
-		g_warning("Could not decode token from file");
+		io(printf ("Could not decode token from file"));
 		*str = NULL;
 		return -1;
 	}
@@ -1316,12 +1318,12 @@ camel_folder_summary_decode_token(FILE *in, char **str)
 		} else if (len<= tokens_len) {
 			ret = g_strdup(tokens[len-1]);
 		} else {
-			g_warning("Invalid token encountered: %d", len);
+			io(printf ("Invalid token encountered: %d", len));
 			*str = NULL;
 			return -1;
 		}
 	} else if (len > 10240) {
-		g_warning("Got broken string header length: %d bytes", len);
+		io(printf ("Got broken string header length: %d bytes", len));
 		*str = NULL;
 		return -1;
 	} else {
@@ -1387,7 +1389,7 @@ summary_header_load(CamelFolderSummary *s, FILE *in)
 	s->time = time;
 	s->saved_count = count;
 	if (s->version != version) {
-		g_warning("Summary header version mismatch");
+		d(printf ("Summary header version mismatch"));
 		errno = EINVAL;
 		return -1;
 	}
