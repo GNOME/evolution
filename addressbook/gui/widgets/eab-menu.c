@@ -60,7 +60,8 @@ eabm_target_free(EMenu *ep, EMenuTarget *t)
 		for (i=0;i<s->cards->len;i++)
 			g_object_unref(s->cards->pdata[i]);
 		g_ptr_array_free(s->cards, TRUE);
-		g_object_unref(s->book);
+		if (s->book)
+			g_object_unref(s->book);
 		break; }
 	}
 

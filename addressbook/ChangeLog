@@ -1,3 +1,20 @@
+2004-10-20  Not Zed  <NotZed@Ximian.com>
+
+	* gui/component/addressbook-component.c
+	(addressbook_component_init): register config hook.
+
+	* gui/component/addressbook-config.c: mostly re-written to use econfig.
+	(query_for_supported_bases): convert to gtktreeview.
+
+	* gui/widgets/eab-config.c (ecp_set_target): hook onto source changed.
+	(ecp_source_changed): propagate changed state info.
+	(ecp_class_init): setup private data.
+
+2004-10-19  Not Zed  <NotZed@Ximian.com>
+
+	* gui/widgets/eab-menu.c (eabm_target_free): don't unref null
+	book.
+
 2004-10-19  JP Rosevear  <jpr@novell.com>
 
 	* gui/component/addressbook-view.c,

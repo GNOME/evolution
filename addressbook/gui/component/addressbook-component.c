@@ -34,6 +34,7 @@
 #include "e-util/e-plugin.h"
 #include "addressbook/gui/widgets/eab-popup.h"
 #include "addressbook/gui/widgets/eab-menu.h"
+#include "addressbook/gui/widgets/eab-config.h"
 
 #include "widgets/misc/e-task-bar.h"
 #include "widgets/misc/e-info-label.h"
@@ -268,6 +269,7 @@ addressbook_component_init (AddressbookComponent *component)
 		first = FALSE;
 		e_plugin_hook_register_type(eab_popup_hook_get_type());
 		e_plugin_hook_register_type(eab_menu_hook_get_type());
+		e_plugin_hook_register_type(eab_config_hook_get_type());
 	}
 }
 
