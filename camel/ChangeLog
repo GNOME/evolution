@@ -1,3 +1,9 @@
+2000-03-04  NotZed  <NotZed@HelixCode.com>
+
+	* providers/mbox/camel-mbox-search.c
+	(camel_mbox_folder_search_by_expression): Ref the summary
+	after we have got it.
+
 2000-03-04  bertrand  <bertrand@helixcode.com>
 
 	* camel-mime-part.c (my_write_content_to_stream): 

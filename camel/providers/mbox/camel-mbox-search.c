@@ -283,6 +283,16 @@ camel_mbox_folder_search_by_expression(CamelFolder *folder, const char *expressi
 	/* setup out context */
 	ctx.folder = folder;
 	ctx.summary = camel_folder_get_summary(folder, ex);
+	gtk_object_ref((GtkObject *)ctx.summary);
+	
+	if (camel_exception_get_id (ex)) {
+		printf ("Cannot get summary\n"
+			"Full description : %s\n", camel_exception_get_description (ex));
+		/* FIXME: free shit */
+		return NULL;
+	}
+
+
 	ctx.message_info = camel_folder_summary_get_message_info_list(ctx.summary);
 	ctx.message_current = NULL;
 	ctx.index = ibex_open(CAMEL_MBOX_FOLDER(folder)->index_file_path, FALSE);
