@@ -803,7 +803,7 @@ addressbook_search_activated (ESearchBar *esb, AddressbookView *view)
 				} else {
 					master_list = get_master_list ();
 					category_name = e_categories_master_list_nth (master_list, subid);
-					search_query = g_strdup_printf ("(contains \"category\" \"%s\")", category_name);
+					search_query = g_strdup_printf ("(is \"category\" \"%s\")", category_name);
 				}
 				break;
 			default:

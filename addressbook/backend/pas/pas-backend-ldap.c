@@ -187,6 +187,10 @@ static void birthday_populate (ECardSimple *card, char **values);
 struct berval** birthday_ber (ECardSimple *card);
 static gboolean birthday_compare (ECardSimple *ecard1, ECardSimple *ecard2);
 
+static void category_populate (ECardSimple *card, char **values);
+struct berval** category_ber (ECardSimple *card);
+static gboolean category_compare (ECardSimple *ecard1, ECardSimple *ecard2);
+
 struct prop_info {
 	ECardSimpleField field_id;
 	char *query_prop;
@@ -265,7 +269,7 @@ struct prop_info {
 	E_STRING_PROP (E_CARD_SIMPLE_FIELD_MAILER,      "mailer", "mailer"), 
 
 	E_STRING_PROP (E_CARD_SIMPLE_FIELD_FILE_AS,     "file_as", "fileAs"),
-	E_STRING_PROP (E_CARD_SIMPLE_FIELD_CATEGORIES,  "categories", "categories"),
+	E_COMPLEX_PROP (E_CARD_SIMPLE_FIELD_CATEGORIES,  "category", "category", category_populate, category_ber, category_compare),
 
 	STRING_PROP (E_CARD_SIMPLE_FIELD_CALURI,      "caluri", "calCalURI"),
 	STRING_PROP (E_CARD_SIMPLE_FIELD_FBURL,       "fburl", "calFBURL"),
@@ -2202,6 +2206,82 @@ birthday_compare (ECardSimple *ecard1, ECardSimple *ecard2)
 
 	g_free (date1);
 	g_free (date2);
+
+	return equal;
+}
+
+static void
+category_populate (ECardSimple *card, char **values)
+{
+	int i;
+	ECard *ecard;
+	EList *categories;
+
+	gtk_object_get (GTK_OBJECT (card),
+			"card", &ecard,
+			NULL);
+
+	categories = e_list_new((EListCopyFunc) g_strdup, 
+				(EListFreeFunc) g_free,
+				NULL);
+
+	for (i = 0; values[i]; i++)
+		e_list_append (categories, values[i]);
+
+	gtk_object_set (GTK_OBJECT (ecard),
+			"category_list", categories,
+			NULL);
+
+	gtk_object_unref (GTK_OBJECT (categories));
+
+	e_card_simple_sync_card (card);
+}
+
+struct berval**
+category_ber (ECardSimple *card)
+{
+	struct berval** result = NULL;
+	EList *categories;
+	EIterator *iterator;
+	ECard *ecard;
+	int i;
+
+	gtk_object_get (GTK_OBJECT (card),
+			"card", &ecard,
+			NULL);
+
+	gtk_object_get (GTK_OBJECT (ecard),
+			"category_list", &categories,
+			NULL);
+
+	result = g_new0 (struct berval*, e_list_length (categories) + 1);
+
+	for (iterator = e_list_get_iterator(categories), i = 0; e_iterator_is_valid (iterator); e_iterator_next (iterator), i++) {
+		const char *category = e_iterator_get (iterator);
+
+		result[i] = g_new (struct berval, 1);
+		result[i]->bv_val = g_strdup (category);
+		result[i]->bv_len = strlen (category);
+	}
+
+	gtk_object_unref (GTK_OBJECT (iterator));
+
+	return result;
+}
+
+static gboolean
+category_compare (ECardSimple *ecard1, ECardSimple *ecard2)
+{
+	char *categories1, *categories2;
+	gboolean equal;
+
+	categories1 = e_card_simple_get (ecard1, E_CARD_SIMPLE_FIELD_CATEGORIES);
+	categories2 = e_card_simple_get (ecard2, E_CARD_SIMPLE_FIELD_CATEGORIES);
+
+	equal = !strcmp (categories1, categories2);
+
+	g_free (categories1);
+	g_free (categories2);
 
 	return equal;
 }
