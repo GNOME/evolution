@@ -55,7 +55,7 @@ camel_init (const char *certdb_dir, gboolean nss_init)
 	if (nss_init) {
 		PR_Init (PR_SYSTEM_THREAD, PR_PRIORITY_NORMAL, 10);
 		
-		if (NSS_Init ("/home/fejj/.mozilla/default") == SECFailure) {
+		if (NSS_Init (certdb_dir) == SECFailure) {
 			g_warning ("Failed to initialize NSS");
 			return -1;
 		}

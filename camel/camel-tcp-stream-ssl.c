@@ -53,10 +53,6 @@ static int stream_connect    (CamelTcpStream *stream, struct hostent *host, int 
 static int stream_getsockopt (CamelTcpStream *stream, CamelSockOptData *data);
 static int stream_setsockopt (CamelTcpStream *stream, const CamelSockOptData *data);
 
-/* callbacks */
-static SECStatus ssl_bad_cert  (void *data, PRFileDesc *fd);
-static SECStatus ssl_auth_cert (void *data, PRFileDesc *fd, PRBool checksig, PRBool is_server);
-
 
 static void
 camel_tcp_stream_ssl_class_init (CamelTcpStreamSSLClass *camel_tcp_stream_ssl_class)
@@ -210,36 +206,146 @@ stream_close (CamelStream *stream)
 	return 0;
 }
 
-
+#if 0
+/* Since this is default implementation, let NSS handle it. */
 static SECStatus
-ssl_auth_cert (void *data, PRFileDesc *fd, PRBool checksig, PRBool is_server)
+ssl_get_client_auth (void *data, PRFileDesc *sockfd,
+		     struct CERTDistNamesStr *caNames,
+		     struct CERTCertificateStr **pRetCert,
+		     struct SECKEYPrivateKeyStr **pRetKey) 
 {
-	return SSL_AuthCertificate (NULL, fd, TRUE, FALSE);
+	SECStatus status = SECFailure;
+	SECKEYPrivateKey *privkey;
+	CERTCertificate *cert;
+	void *proto_win;
+	
+	proto_win = SSL_RevealPinArg (sockfd);
+	
+	if ((char *)data) {
+		cert = PK11_FindCertFromNickname ((char *)data, proto_win);
+		if (cert) {
+			privKey = PK11_FindKeyByAnyCert (cert, proto_win);
+			if (privkey) {
+				status = SECSuccess;
+			} else {
+				CERT_DestroyCertificate (cert);
+			}
+		}
+	} else {
+		/* no nickname given, automatically find the right cert */
+		CERTCertNicknames *names;
+		int i;
+		
+		names = CERT_GetCertNicknames (CERT_GetDefaultCertDB (), 
+					       SEC_CERT_NICKNAMES_USER,
+					       proto_win);
+		
+		if (names != NULL) {
+			for (i = 0; i < names->numnicknames; i++) {
+				
+				cert = PK11_FindCertFromNickname (names->nicknames[i], 
+								  proto_win);
+				if (!cert)
+					continue;
+				
+				/* Only check unexpired certs */
+				if (CERT_CheckCertValidTimes (cert, PR_Now (), PR_FALSE) != secCertTimeValid) {
+					CERT_DestroyCertificate (cert);
+					continue;
+				}
+				
+				status = NSS_CmpCertChainWCANames (cert, caNames);
+				if (status == SECSuccess) {
+					privkey = PK11_FindKeyByAnyCert (cert, proto_win);
+					if (privkey)
+						break;
+					
+					status = SECFailure;
+					break;
+				}
+				
+				CERT_FreeNicknames (names);
+			}
+		}
+	}
+	
+	if (status == SECSuccess) {
+		*pRetCert = cert;
+		*pRetKey  = privkey;
+	}
+	
+	return status;
 }
+#endif
+
+#if 0
+/* Since this is the default NSS implementation, no need for us to use this. */
+static SECStatus
+ssl_auth_cert (void *data, PRFileDesc *sockfd, PRBool checksig, PRBool is_server)
+{
+	CERTCertificate *cert;
+	SECStatus status;
+	void *pinarg;
+	char *host;
+	
+	cert = SSL_PeerCertificate (sockfd);
+	pinarg = SSL_RevealPinArg (sockfd);
+	status = CERT_VerifyCertNow ((CERTCertDBHandle *)data, cert,
+				     checksig, certUsageSSLClient, pinarg);
+	
+	if (status != SECSuccess)
+		return SECFailure;
+	
+	/* Certificate is OK.  Since this is the client side of an SSL
+	 * connection, we need to verify that the name field in the cert
+	 * matches the desired hostname.  This is our defense against
+	 * man-in-the-middle attacks.
+	 */
+	
+	/* SSL_RevealURL returns a hostname, not a URL. */
+	host = SSL_RevealURL (sockfd);
+	
+	if (host && *host) {
+		status = CERT_VerifyCertName (cert, host);
+	} else {
+		PR_SetError (SSL_ERROR_BAD_CERT_DOMAIN, 0);
+		status = SECFailure;
+	}
+	
+	if (host)
+		PR_Free (hostName);
+	
+	return secStatus;
+}
+#endif
 
 static SECStatus
-ssl_bad_cert (void *data, PRFileDesc *fd)
+ssl_bad_cert (void *data, PRFileDesc *sockfd)
 {
 	CamelService *service;
-	char *string, *err;
+	char *prompt, *err;
 	gpointer accept;
-	PRInt32 len;
+	PRUint32 len;
 	
 	g_return_val_if_fail (data != NULL, SECFailure);
 	g_return_val_if_fail (CAMEL_IS_SERVICE (data), SECFailure);
 	
 	service = CAMEL_SERVICE (data);
 	
-	/* FIXME: International issues here?? */
 	len = PR_GetErrorTextLength ();
 	err = g_malloc0 (len + 1);
 	PR_GetErrorText (err);
 	
-	string = g_strdup_printf (_("Do you wish to accept this certificate from %s?\n\n%s"),
+	/* construct our user prompt */
+	prompt = g_strdup_printf (_("Bad certificate from %s:%s\n\nDo you wish to accept anyway?"),
 				  service->url->host, err);
+	g_free (err);
 	
+	/* query the user to find out if we want to accept this certificate */
 	accept = camel_session_query_authenticator (service->session, CAMEL_AUTHENTICATOR_ACCEPT,
-						    string, FALSE, service, NULL, NULL);
+						    prompt, FALSE, service, NULL, NULL);
+	
+	g_free (prompt);
 	
 	if (GPOINTER_TO_INT (accept))
 		return SECSuccess;
@@ -275,7 +381,8 @@ stream_connect (CamelTcpStream *stream, struct hostent *host, int port)
 		return -1;
 	}
 	
-	/*SSL_AuthCertificateHook (ssl_fd, ssl_auth_cert, NULL);*/
+	/*SSL_GetClientAuthDataHook (sslSocket, ssl_get_client_auth, (void *)certNickname);*/
+	/*SSL_AuthCertificateHook (ssl_fd, ssl_auth_cert, (void *) CERT_GetDefaultCertDB ());*/
 	SSL_BadCertHook (ssl_fd, ssl_bad_cert, ssl->service);
 	
 	ssl->sockfd = ssl_fd;

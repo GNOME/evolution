@@ -1,3 +1,16 @@
+2001-03-15  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel.c (camel_init): Don't use the hardcoded cert db directory,
+	use the one passed in.
+
+	* camel-tcp-stream-ssl.c (ssl_get_client_auth): Wrote the default
+	implementation. Not that we'll use this though, since this is the
+	default implementation provided by NSS anyway. This more or less
+	serves as a reference in case we want to change anything.
+	(ssl_auth_cert): Same.
+	(ssl_bad_cert): Changed the prompt string and free it when we're
+	done.
+
 2001-03-15  Dan Winship  <danw@ximian.com>
 
 	First batch of disconnected IMAP-related stuff. This adds local
