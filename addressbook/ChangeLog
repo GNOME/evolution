@@ -1,3 +1,8 @@
+2002-11-28  Chris Toshok  <toshok@ximian.com>
+	[ partial fix for #31763 ]
+	* gui/component/select-names/select-names.glade: add the Find
+	button back in.
+	
 2002-11-26  Chris Toshok  <toshok@ximian.com>
 
 	* backend/pas/pas-backend-file.c
