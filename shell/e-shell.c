@@ -112,26 +112,27 @@ folder_selection_dialog_clicked_cb (GnomeDialog *dialog,
 	shell = E_SHELL (data);
 	listener = gtk_object_get_data (GTK_OBJECT (dialog), "corba_listener");
 
-	storage_set = e_shell_get_storage_set (shell);
-	path = e_shell_folder_selection_dialog_get_selected_path (folder_selection_dialog),
-	folder = e_storage_set_get_folder (storage_set, path);
-
-	uri = g_strconcat (E_SHELL_URI_PREFIX, path, NULL);
-
-	if (folder == NULL || button_number == 1)	/* Uh? */
-		physical_uri = "";
-	else
-		physical_uri = e_folder_get_physical_uri (folder);
-
 	CORBA_exception_init (&ev);
 
-	Evolution_FolderSelectionListener_selected (listener, uri, physical_uri, &ev);
+	if (button_number == 0) {
+		storage_set = e_shell_get_storage_set (shell);
+		path = e_shell_folder_selection_dialog_get_selected_path (folder_selection_dialog),
+			folder = e_storage_set_get_folder (storage_set, path);
+
+		uri = g_strconcat (E_SHELL_URI_PREFIX, path, NULL);
+
+		if (folder == NULL || button_number == 1)	/* Uh? */
+			physical_uri = "";
+		else
+			physical_uri = e_folder_get_physical_uri (folder);
+
+		Evolution_FolderSelectionListener_selected (listener, uri, physical_uri, &ev);
+		g_free (uri);
+	} else
+		Evolution_FolderSelectionListener_cancel (listener, &ev);
 
 	CORBA_Object_release (listener, &ev);
-
 	CORBA_exception_free (&ev);
-
-	g_free (uri);
 
 	if (button_number != -1)
 		gnome_dialog_close(dialog);

@@ -1,3 +1,16 @@
+2000-06-30  Dan Winship  <danw@helixcode.com>
+
+	* Evolution-Shell.idl: add "cancel" to FolderSelectionListener.
+
+	* evolution-shell-client.c (impl_FolderSelectionListener_cancel):
+	Implement cancel (set *uri and *physical_uri to NULL).
+	(evolution_shell_client_user_select_folder): document %NULL uri
+	and physical_uri return values.
+	
+	* e-shell.c (folder_selection_dialog_clicked_cb): If the user
+	clicked "Cancel" or used the wm to close the dialog, call _cancel
+	instead of _selected.
+
 2000-06-30  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* evolution-shell-component.c (impl_ShellComponent_set_owner):

@@ -75,6 +75,23 @@ impl_FolderSelectionListener_selected (PortableServer_Servant servant,
 }
 
 static void
+impl_FolderSelectionListener_cancel (PortableServer_Servant servant,
+				     CORBA_Environment *ev)
+{
+	FolderSelectionListenerServant *listener_servant;
+
+	listener_servant = (FolderSelectionListenerServant *) servant;
+
+	if (listener_servant->uri_return != NULL)
+		* (listener_servant->uri_return) = NULL;
+
+	if (listener_servant->physical_uri_return != NULL)
+		* (listener_servant->physical_uri_return) = NULL;
+
+	g_main_quit (listener_servant->main_loop);
+}	
+
+static void
 init_FolderSelectionListener_vtables (void)
 {
 	FolderSelectionListener_base_epv._private    = NULL;
@@ -82,6 +99,7 @@ init_FolderSelectionListener_vtables (void)
 	FolderSelectionListener_base_epv.default_POA = NULL;
 
 	FolderSelectionListener_epv.selected = impl_FolderSelectionListener_selected;
+	FolderSelectionListener_epv.cancel = impl_FolderSelectionListener_cancel;
 
 	FolderSelectionListener_vepv._base_epv                             = &FolderSelectionListener_base_epv;
 	FolderSelectionListener_vepv.Evolution_FolderSelectionListener_epv = &FolderSelectionListener_epv;
@@ -274,10 +292,10 @@ evolution_shell_client_new (Evolution_Shell corba_shell)
  * @uri_return: 
  * @physical_uri_return: 
  * 
- * Pop up the shell's folder selection dialog with the specified @title and *
- * *@default_folder as the initially selected folder.  On return, set *@uri and
+ * Pop up the shell's folder selection dialog with the specified @title and
+ * @default_folder as the initially selected folder.  On return, set *@uri and
  * *@physical_uri to the evolution: URI and the physical URI of the selected
- * *folder.  (The dialog is modal.)
+ * folder (or %NULL if the user cancelled the dialog).  (The dialog is modal.)
  **/
 void
 evolution_shell_client_user_select_folder (EvolutionShellClient *shell_client,

@@ -31,5 +31,6 @@ module Evolution {
 
 	interface FolderSelectionListener {
 		void selected (in string uri, in string physical_uri);
+		void cancel ();
 	};
 };
