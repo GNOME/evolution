@@ -67,9 +67,6 @@
 #include <libart_lgpl/art_rgb.h>
 #include <libart_lgpl/art_rgb_bitmap_affine.h>
 
-#include <atk/atk.h>
-#include "gal/a11y/e-text/gal-a11y-e-text-factory.h"
-
 #define PARENT_TYPE (gnome_canvas_item_get_type())
 
 #define BORDER_INDENT 3
@@ -122,7 +119,8 @@ enum {
 	PROP_DRAW_BUTTON,
 	PROP_CURSOR_POS,
 	PROP_IM_CONTEXT,
-	PROP_HANDLE_POPUP
+	PROP_HANDLE_POPUP,
+	PROP_HAS_POPUP
 };
 
 static void e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gpointer data);
@@ -141,8 +139,6 @@ static void e_text_do_popup (EText *text, GdkEventButton *button, int position);
 static void e_text_update_primary_selection (EText *text);
 static void e_text_paste (EText *text, GdkAtom selection);
 static void e_text_insert(EText *text, const char *string);
-
-static void reset_layout_attrs (EText *text);
 
 /* GtkEditable Methods */
 static void e_text_editable_do_insert_text (GtkEditable    *editable,
@@ -168,8 +164,6 @@ static gint e_text_editable_get_position (GtkEditable    *editable);
 /* IM Context Callbacks */
 static void     e_text_commit_cb               (GtkIMContext *context,
 						const gchar  *str,
-						EText        *text);
-static void     e_text_preedit_changed_cb      (GtkIMContext *context,
 						EText        *text);
 static gboolean e_text_retrieve_surrounding_cb (GtkIMContext *context,
 						EText        *text);
@@ -283,56 +277,6 @@ e_text_dispose (GObject *object)
 
 	if (G_OBJECT_CLASS (parent_class)->dispose)
 		(* G_OBJECT_CLASS (parent_class)->dispose) (object);
-}
-
-static void
-insert_preedit_text (EText *text)
-{
-	PangoAttrList *attrs = NULL;
-	PangoAttrList *preedit_attrs = NULL;
-	gchar *preedit_string = NULL;
-	GString *tmp_string = g_string_new (NULL);
-	gint length = 0, cpos = 0, preedit_length = 0;
-
-	if (text->layout == NULL || !GTK_IS_IM_CONTEXT (text->im_context))
-		return;
-
-	text->text = e_text_model_get_text(text->model);
-	length = strlen (text->text);
-
-	g_string_prepend_len (tmp_string, text->text,length); 
-
-	attrs = pango_attr_list_new ();
-
-	gtk_im_context_get_preedit_string (text->im_context,
-					&preedit_string, &preedit_attrs,
-					NULL);
-
-	if (preedit_string && g_utf8_validate (preedit_string, -1, NULL))
-		text->preedit_len = preedit_length = strlen (preedit_string);
-	else
-		text->preedit_len  = preedit_length = 0;
-
-	cpos = g_utf8_offset_to_pointer (text->text, text->selection_start) - text->text;	
-
-	if (preedit_length)
-		g_string_insert (tmp_string, cpos, preedit_string);
-
-	reset_layout_attrs (text);
-
-	pango_layout_set_text (text->layout, tmp_string->str, tmp_string->len);
-	if (preedit_length)
-		pango_attr_list_splice (attrs, preedit_attrs, cpos, preedit_length);
-	pango_layout_set_attributes (text->layout, attrs);
-
-	if (preedit_string)
-		g_free (preedit_string);
-	if (preedit_attrs)
-		pango_attr_list_unref (preedit_attrs);
-	if (tmp_string)
-		g_string_free (tmp_string, TRUE);
-	if (attrs)
-		pango_attr_list_unref (attrs);
 }
 
 static void
@@ -1132,6 +1076,10 @@ e_text_get_property (GObject *object,
 		g_value_set_boolean (value, text->handle_popup);
 		break;
 
+	case PROP_HAS_POPUP:
+		g_value_set_boolean (value, text->has_popup);
+		break;
+
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
 		break;
@@ -1490,10 +1438,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		}
 	}
 
-
-	insert_preedit_text (text);	
-
-	if (!pango_layout_get_text (text->layout))
+	if (!text->text)
 		return;
 
 	if (text->stipple)
@@ -1615,7 +1560,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 				PangoRectangle strong_pos, weak_pos;
 				char *offs = g_utf8_offset_to_pointer (text->text, text->selection_start);
 
-				pango_layout_get_cursor_pos (text->layout, offs - text->text + text->preedit_len, &strong_pos, &weak_pos);
+				pango_layout_get_cursor_pos (text->layout, offs - text->text, &strong_pos, &weak_pos);
 				draw_pango_rectangle (drawable, main_gc, xpos, ypos, strong_pos);
 				if (strong_pos.x != weak_pos.x ||
 				    strong_pos.y != weak_pos.y ||
@@ -2173,8 +2118,6 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 					if (!text->im_context_signals_registered) {
 						g_signal_connect (text->im_context, "commit",
 								  G_CALLBACK (e_text_commit_cb), text);
-						g_signal_connect (text->im_context, "preedit_changed",
-								  G_CALLBACK (e_text_preedit_changed_cb), text);
 						g_signal_connect (text->im_context, "retrieve_surrounding",
 								  G_CALLBACK (e_text_retrieve_surrounding_cb), text);
 						g_signal_connect (text->im_context, "delete_surrounding",
@@ -2219,7 +2162,8 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 
 			/* Simulate a GdkEventButton here, so that we can call e_text_do_popup directly */
 
-			GdkEventButton *button = gdk_event_new (GDK_BUTTON_PRESS);
+			GdkEventButton *button = g_new0 (GdkEventButton, 1);
+			button->type = GDK_BUTTON_PRESS;
 			button->time = event->key.time;
 			button->button = 0;
 			e_text_do_popup (text, button, 0);
@@ -2615,6 +2559,12 @@ popup_menu_placement_cb (GtkMenu *menu, gint *x, gint *y, gboolean *push_in, gpo
 }
 
 static void
+e_text_popup_deactivated (EText *text)
+{
+	text->has_popup = FALSE;
+}
+
+static void
 popup_targets_received (GtkClipboard     *clipboard,
 			GtkSelectionData *data,
 			gpointer          user_data)
@@ -2631,6 +2581,11 @@ popup_targets_received (GtkClipboard     *clipboard,
 	gtk_menu_attach_to_widget (GTK_MENU (popup_menu),
 				   GTK_WIDGET(GNOME_CANVAS_ITEM (text)->canvas),
 				   popup_menu_detach);
+
+	text->has_popup = TRUE;
+
+	g_signal_connect_swapped(GTK_MENU_SHELL (popup_menu), "deactivate", 
+				G_CALLBACK (e_text_popup_deactivated), text);
 
 	/* cut menu item */
 	menuitem = gtk_image_menu_item_new_from_stock (GTK_STOCK_CUT, NULL);
@@ -2690,14 +2645,14 @@ popup_targets_received (GtkClipboard     *clipboard,
       	      gtk_menu_popup (GTK_MENU (popup_menu), NULL, NULL,
 			      popup_menu_placement_cb, (gpointer)text,
 			      button->button, GDK_CURRENT_TIME);
+	      g_free (button);
       } else {
 	      gtk_menu_popup (GTK_MENU (popup_menu), NULL, NULL,
 			      NULL, NULL,
-			      button->button, button->time);
+			      button->button, GDK_CURRENT_TIME);
       }
 
       g_object_unref (text);
-      gdk_event_free ((GdkEvent *)button);
 }
 
 static void
@@ -2707,7 +2662,7 @@ e_text_do_popup (EText *text, GdkEventButton *button, int position)
 
 	closure->text = text;
 	g_object_ref (closure->text);
-	closure->button = (GdkEventButton *) gdk_event_copy ((GdkEvent *)button);
+	closure->button = button;
 	closure->position = position;
 
 	gtk_clipboard_request_contents (
@@ -3661,13 +3616,15 @@ e_text_class_init (ETextClass *klass)
 							       FALSE,
 							       G_PARAM_READWRITE));
 
+	g_object_class_install_property (gobject_class, PROP_HAS_POPUP,
+					 g_param_spec_boolean ("has_popup",
+							       _( "Has Popup" ),
+							       _( "Has Popup" ),
+							       FALSE,
+							       G_PARAM_READABLE));
+
 	if (!clipboard_atom)
 		clipboard_atom = gdk_atom_intern ("CLIPBOARD", FALSE);
-
-	atk_registry_set_factory_type (atk_get_default_registry (),
-                                       E_TYPE_TEXT,
-                                       gal_a11y_e_text_factory_get_type ());
-
 }
 
 /* Object initialization function for the text item */
@@ -3676,7 +3633,6 @@ e_text_init (EText *text)
 {
 	text->model                   = e_text_model_new ();
 	text->text                    = e_text_model_get_text (text->model);
-	text->preedit_len	      = 0;
 	text->layout                  = NULL;
 
 	text->revert                  = NULL;
@@ -3757,6 +3713,7 @@ e_text_init (EText *text)
 	text->im_context_signals_registered = FALSE;
 
 	text->handle_popup            = FALSE;
+	text->has_popup     	      = FALSE;
 
 
 	e_canvas_item_set_reflow_callback(GNOME_CANVAS_ITEM(text), e_text_reflow);
@@ -3779,7 +3736,6 @@ E_MAKE_TYPE (e_text,
 	     PARENT_TYPE)
 
 
-
 /* IM Context Callbacks */
 static void
 e_text_commit_cb (GtkIMContext *context,
@@ -3790,28 +3746,16 @@ e_text_commit_cb (GtkIMContext *context,
 		if (text->selection_end != text->selection_start)
 			e_text_delete_selection (text);
 		e_text_insert (text, str);
-		g_signal_emit (text, e_text_signals[E_TEXT_KEYPRESS], 0, 0, 0);
+		g_signal_emit (text, e_text_signals[E_TEXT_KEYPRESS], 0,
+			       0 /* XXX ugh */, 0 /* XXX ugh */);
 	}
-}
-
-static void
-e_text_preedit_changed_cb (GtkIMContext *context,
-				EText        *etext)
-{
-	gchar *preedit_string = NULL;
-
-	gtk_im_context_get_preedit_string (context, &preedit_string, 
-					NULL, NULL);
-
-	etext->preedit_len = strlen (preedit_string);
-
-	g_signal_emit (etext, e_text_signals[E_TEXT_KEYPRESS], 0, 0, 0);
 }
 
 static gboolean
 e_text_retrieve_surrounding_cb (GtkIMContext *context,
 				EText        *text)
 {
+	printf ("e_text_retrieve_surrounding_cb\n");
 	gtk_im_context_set_surrounding (context,
 					text->text,
 					strlen (text->text),
@@ -3826,9 +3770,12 @@ e_text_delete_surrounding_cb   (GtkIMContext *context,
 				gint          n_chars,
 				EText        *text)
 {
-	gtk_editable_delete_text (GTK_EDITABLE (text),
-				  text->selection_end + offset,
-				  text->selection_end + offset + n_chars);
+	printf ("e_text_delete_surrounding_cb\n");
+#if 0
+	gtk_editable_delete_text (GTK_EDITABLE (entry),
+				  entry->current_pos + offset,
+				  entry->current_pos + offset + n_chars);
+#endif
 
 	return TRUE;
 }

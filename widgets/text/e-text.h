@@ -108,7 +108,6 @@ struct _EText {
 	gint model_repos_signal_id;
 
 	const gchar *text;              /* Text to display --- from the ETextModel */
-	gint preedit_len;      		/* preedit length to display */
 	PangoLayout *layout;
 	int num_lines;			/* Number of lines of text */
 
@@ -215,6 +214,7 @@ struct _EText {
 	gboolean      im_context_signals_registered;
 
 	gboolean      handle_popup;
+	gboolean      has_popup;
 };
 
 struct _ETextClass {

@@ -54,8 +54,6 @@
 #include "gal/util/e-text-event-processor-emacs-like.h"
 #include "gal/util/e-i18n.h"
 #include "e-table-tooltip.h"
-#include "gal/a11y/e-table/gal-a11y-e-cell-registry.h"
-#include "gal/a11y/e-table/gal-a11y-e-cell-text.h"
 
 #define d(x)
 #define DO_SELECTION 1
@@ -1304,9 +1302,6 @@ ect_print (ECellView *ecell_view, GnomePrintContext *context,
 	GnomeFont *font = get_font_for_size (16);
 	char *string;
 	ECellText *ect = E_CELL_TEXT(ecell_view->ecell);
-	double ty, ly, text_width;
-	gboolean strikeout, underline;
-
 	string = e_cell_text_get_text(ect, ecell_view->e_table_model, model_col, row);
 	gnome_print_gsave(context);
 	if (gnome_print_moveto(context, 2, 2) == -1)
@@ -1321,34 +1316,8 @@ ect_print (ECellView *ecell_view, GnomePrintContext *context,
 				/* FIXME */;
 	if (gnome_print_clip(context) == -1)
 				/* FIXME */;
+	gnome_print_moveto(context, 2, (height - gnome_font_get_ascender(font) - gnome_font_get_descender(font)) / 2);
 
-	ty = (height - gnome_font_get_ascender(font) - gnome_font_get_descender(font)) / 2;
-	text_width = gnome_font_get_width_utf8 (font, string);
-
-	strikeout = ect->strikeout_column >= 0 && row >= 0 &&
-		e_table_model_value_at (ecell_view->e_table_model, ect->strikeout_column, row);
-	underline = ect->underline_column >= 0 && row >= 0 &&
-		e_table_model_value_at(ecell_view->e_table_model, ect->underline_column, row);
-
-	if (underline) {
-		ly = ty + gnome_font_get_underline_position (font);
-		gnome_print_newpath (context);
-		gnome_print_moveto (context, 2, ly);
-		gnome_print_lineto (context, MIN (2 + text_width, width - 2), ly);
-		gnome_print_setlinewidth (context, gnome_font_get_underline_thickness (font));
-		gnome_print_stroke (context);
-	}
-
-	if (strikeout) {
-		ly = ty + (gnome_font_get_ascender (font)  - gnome_font_get_underline_thickness (font))/ 2.0;
-		gnome_print_newpath (context);
-		gnome_print_moveto (context, 2, ly);
-		gnome_print_lineto (context, MIN (2 + text_width, width - 2), ly);
-		gnome_print_setlinewidth (context, gnome_font_get_underline_thickness (font));
-		gnome_print_stroke (context);
-	}
-
-	gnome_print_moveto(context, 2, ty);
 	gnome_print_setfont(context, font);
 	gnome_print_show(context, string);
 	gnome_print_grestore(context);
@@ -1755,8 +1724,6 @@ e_cell_text_class_init (GObjectClass *object_class)
 			use_ellipsis_default = FALSE;
 		}
 	}
-	
-	gal_a11y_e_cell_registry_add_cell_type (NULL, E_CELL_TEXT_TYPE, gal_a11y_e_cell_text_new);
 }
 
 
@@ -2603,183 +2570,3 @@ e_cell_text_get_color (ECellTextView *cell_view, gchar *color_spec)
 	return color;
 }
 
-/**
- * e_cell_text_set_selection:
- * @cell_view: the given cell view
- * @col: column of the given cell in the view
- * @row: row of the given cell in the view
- * @start: start offset of the selection
- * @end: end offset of the selection
- *
- * Sets the selection of given text cell.
- * If the current editing cell is not the given cell, this function
- * will return FALSE;
- *
- * If success, the [start, end) part of the text will be selected.
- *
- * This API is most likely to be used by a11y implementations.
- * 
- * Returns: whether the action is successful.
- */
-gboolean
-e_cell_text_set_selection (ECellView *cell_view,
-			   gint col,
-			   gint row,
-			   gint start,
-			   gint end)
-{
-	ECellTextView *ectv;
-	CellEdit *edit;
-	ETextEventProcessorCommand command1, command2;
-
-	ectv = (ECellTextView *)cell_view;
-	edit = ectv->edit;
-	if (!edit)
-		return FALSE;
-
-	if (edit->view_col != col || edit->row != row)
-		return FALSE;
-
-	command1.action = E_TEP_MOVE;
-	command1.position = E_TEP_VALUE;
-	command1.value = start;
-	e_cell_text_view_command (edit->tep, &command1, edit);
-
-	command2.action = E_TEP_SELECT;
-	command2.position = E_TEP_VALUE;
-	command2.value = end;
-	e_cell_text_view_command (edit->tep, &command2, edit);
-
-	return TRUE;
-}
-
-/**
- * e_cell_text_get_selection:
- * @cell_view: the given cell view
- * @col: column of the given cell in the view
- * @row: row of the given cell in the view
- * @start: a pointer to an int value indicates the start offset of the selection
- * @end: a pointer to an int value indicates the end offset of the selection
- *
- * Gets the selection of given text cell.
- * If the current editing cell is not the given cell, this function
- * will return FALSE;
- *
- * This API is most likely to be used by a11y implementations.
- * 
- * Returns: whether the action is successful.
- */
-gboolean
-e_cell_text_get_selection (ECellView *cell_view,
-			   gint col,
-			   gint row,
-			   gint *start,
-			   gint *end)
-{
-	ECellTextView *ectv;
-	CellEdit *edit;
-
-	ectv = (ECellTextView *)cell_view;
-	edit = ectv->edit;
-	if (!edit)
-		return FALSE;
-
-	if (edit->view_col != col || edit->row != row)
-		return FALSE;
-
-	if (start)
-		*start = edit->selection_start;
-	if (end)
-		*end = edit->selection_end;
-	return TRUE;
-}
-
-/**
- * e_cell_text_copy_clipboard:
- * @cell_view: the given cell view
- * @col: column of the given cell in the view
- * @row: row of the given cell in the view
- *
- * Copys the selected text to clipboard.
- *
- * This API is most likely to be used by a11y implementations.
- */
-void
-e_cell_text_copy_clipboard (ECellView *cell_view, gint col, gint row)
-{
-	ECellTextView *ectv;
-	CellEdit *edit;
-	ETextEventProcessorCommand command;
-
-	ectv = (ECellTextView *)cell_view;
-	edit = ectv->edit;
-	if (!edit)
-		return;
-
-	if (edit->view_col != col || edit->row != row)
-		return;
-
-	command.action = E_TEP_COPY;
-	command.time = GDK_CURRENT_TIME;
-	e_cell_text_view_command (edit->tep, &command, edit);
-}
-
-/**
- * e_cell_text_paste_clipboard:
- * @cell_view: the given cell view
- * @col: column of the given cell in the view
- * @row: row of the given cell in the view
- *
- * Pastes the text from the clipboardt.
- *
- * This API is most likely to be used by a11y implementations.
- */
-void
-e_cell_text_paste_clipboard (ECellView *cell_view, gint col, gint row)
-{
-	ECellTextView *ectv;
-	CellEdit *edit;
-	ETextEventProcessorCommand command;
-
-	ectv = (ECellTextView *)cell_view;
-	edit = ectv->edit;
-	if (!edit)
-		return;
-
-	if (edit->view_col != col || edit->row != row)
-		return;
-
-	command.action = E_TEP_PASTE;
-	command.time = GDK_CURRENT_TIME;
-	e_cell_text_view_command (edit->tep, &command, edit);
-}
-
-/**
- * e_cell_text_delete_selection:
- * @cell_view: the given cell view
- * @col: column of the given cell in the view
- * @row: row of the given cell in the view
- *
- * Deletes the selected text of the cell.
- *
- * This API is most likely to be used by a11y implementations.
- */
-void
-e_cell_text_delete_selection (ECellView *cell_view, gint col, gint row)
-{
-	ECellTextView *ectv;
-	CellEdit *edit;
-	ETextEventProcessorCommand command;
-
-	ectv = (ECellTextView *)cell_view;
-	edit = ectv->edit;
-	if (!edit)
-		return;
-
-	if (edit->view_col != col || edit->row != row)
-		return;
-
-	command.action = E_TEP_DELETE;
-	command.position = E_TEP_SELECTION;
-	e_cell_text_view_command (edit->tep, &command, edit);
-}

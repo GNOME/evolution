@@ -101,21 +101,6 @@ void	   e_cell_text_free_text (ECellText *cell, char *text);
 /* Sets the ETableModel value, based on the given string. */
 void	   e_cell_text_set_value (ECellText *cell, ETableModel *model, int col, int row, const char *text);
 
-/* Sets the selection of given text cell */
-gboolean e_cell_text_set_selection (ECellView *cell_view, gint col, gint row, gint start, gint end);
-
-/* Gets the selection of given text cell */
-gboolean e_cell_text_get_selection (ECellView *cell_view, gint col, gint row, gint *start, gint *end);
-
-/* Copys the selected text to the clipboard */
-void e_cell_text_copy_clipboard (ECellView *cell_view, gint col, gint row);
-
-/* Pastes the text from the clipboard */
-void e_cell_text_paste_clipboard (ECellView *cell_view, gint col, gint row);
-
-/* Deletes selected text */
-void e_cell_text_delete_selection (ECellView *cell_view, gint col, gint row);
-
 G_END_DECLS
 
 #endif /* _E_CELL_TEXT_H_ */

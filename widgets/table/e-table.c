@@ -55,9 +55,6 @@
 
 #include "e-table-utils.h"
 
-#include <atk/atk.h>
-#include "gal/a11y/e-table/gal-a11y-e-table-factory.h"
-
 #define COLUMN_HEADER_HEIGHT 16
 
 #define PARENT_TYPE gtk_table_get_type ()
@@ -658,6 +655,7 @@ e_table_setup_header (ETable *e_table)
 {
 	char *pointer;
 	e_table->header_canvas = GNOME_CANVAS (e_canvas_new ());
+	GTK_WIDGET_UNSET_FLAGS (e_table->header_canvas, GTK_CAN_FOCUS);
 
 	gtk_widget_show (GTK_WIDGET (e_table->header_canvas));
 
@@ -3267,11 +3265,6 @@ e_table_class_init (ETableClass *class)
 							      /*_( */"XXX blurb" /*)*/,
 							      E_TABLE_MODEL_TYPE,
 							      G_PARAM_READABLE));
-
-	atk_registry_set_factory_type (atk_get_default_registry (),
-				       E_TABLE_TYPE,
-				       gal_a11y_e_table_factory_get_type ());
-
 }
 
 E_MAKE_TYPE(e_table, "ETable", ETable, e_table_class_init, e_table_init, PARENT_TYPE)

@@ -191,8 +191,6 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep, ETextEventPro
 			command.time = event->key.time;
 			if (key.state & GDK_SHIFT_MASK)
 				command.action = E_TEP_SELECT;
-			else if (key.state & GDK_MOD1_MASK)
-				command.action = E_TEP_NOP;
 			else
 				command.action = E_TEP_MOVE;
 			switch(key.keyval) {
