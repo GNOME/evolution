@@ -1,7 +1,6 @@
 INCLUDES =						\
 	-DG_LOG_DOMAIN=\"e-card-gui\"			\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
-	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/addressbook/backend		\
 	-I$(top_builddir)/addressbook/backend		\
@@ -19,7 +18,6 @@ libecardmerging_a_SOURCES =			\
 	e-card-merging.h
 
 
-gladedir   = $(datadir)/evolution-$(BASE_VERSION)/glade
 glade_DATA = e-card-duplicate-detected.glade				\
 	     e-card-merging-book-commit-duplicate-detected.glade
 

@@ -1,4 +1,4 @@
-ruledir = $(datadir)/evolution-$(BASE_VERSION)
+ruledir = $(privdatadir)
 rule_DATA = addresstypes.xml
 
 EXTRA_DIST = addresstypes.xml
