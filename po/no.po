@@ -13696,7 +13696,7 @@ msgstr "%a %H.%M"
 
 #: mail/message-list.c:1112
 msgid "%b %d %l:%M %p"
-msgstr "%b %d %H.%M"
+msgstr "%d %b %H.%M"
 
 #: mail/message-list.c:1114
 msgid "%b %d %Y"
@@ -29704,9 +29704,6 @@ msgstr "Personlig adressebok-tjener; factory"
 
 #~ msgid "F_ormat"
 #~ msgstr "F_ormat"
-
-#~ msgid "Alarm on %A %b %d %Y %H:%M"
-#~ msgstr "Alarm på %A %b %d %Y %H:%M"
 
 #~ msgid "%s at an unknown time"
 #~ msgstr "%s ved en ukjent tid"
