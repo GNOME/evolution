@@ -27,6 +27,7 @@
 #include <libgnomeui/gnome-window-icon.h>
 #include <glade/glade.h>
 #include <liboaf/liboaf.h>
+#include <unicode.h>
 
 #include "e-util/e-gui-utils.h"
 #include "e-util/e-cursors.h"
@@ -149,7 +150,7 @@ main (int argc, char **argv)
 	oaf_init (argc, argv);
 
 	glade_gnome_init ();
-
+	unicode_init ();
 	e_cursors_init ();
 
 	gnome_window_icon_set_default_from_file (EVOLUTION_IMAGES "/evolution-inbox.png");

@@ -1,3 +1,7 @@
+2000-09-11  Dan Winship  <danw@helixcode.com>
+
+	* main.c (main): Initialize libunicode
+
 2000-09-11  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-local-storage.c: Fixed some warnings.
