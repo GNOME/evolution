@@ -229,7 +229,7 @@ folder_selected (EvolutionFolderSelectorButton *button,
 static GtkWidget *
 get_widget (FilterElement *fe)
 {
-	static const char *allowed_types[] = { "mail", NULL };
+	static const char *allowed_types[] = { "mail/*", NULL };
 	FilterFolder *ff = (FilterFolder *)fe;
 	GtkWidget *button;
 	

@@ -377,7 +377,7 @@ select_source_with(GtkWidget *w, struct _source_data *data)
 static void
 source_add(GtkWidget *widget, struct _source_data *data)
 {
-	static const char *allowed_types[] = { "mail", NULL };
+	static const char *allowed_types[] = { "mail/*", NULL };
 	GNOME_Evolution_Folder *folder;
 	char *def, *uri;
 	GtkListItem *item;
