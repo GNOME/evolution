@@ -42,8 +42,7 @@ extern "C" {
 
 #define CAMEL_RECIPIENT_TYPE_RESENT_TO "Resent-To"
 #define CAMEL_RECIPIENT_TYPE_RESENT_CC "Resent-Cc"
-/* This one is "Bcc" as a kludge so that the SMTP provider removes it */
-#define CAMEL_RECIPIENT_TYPE_RESENT_BCC "Bcc"
+#define CAMEL_RECIPIENT_TYPE_RESENT_BCC "Resent-Bcc"
 
 #define CAMEL_MIME_MESSAGE_TYPE     (camel_mime_message_get_type ())
 #define CAMEL_MIME_MESSAGE(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_MIME_MESSAGE_TYPE, CamelMimeMessage))
