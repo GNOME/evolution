@@ -853,12 +853,14 @@ static GnomeUIInfo toolbar[] = {
 				N_("Delete this item"), delete_cb,
 				GNOME_STOCK_PIXMAP_TRASH),
 	GNOMEUIINFO_SEPARATOR,
+#if 0
 	GNOMEUIINFO_ITEM_STOCK (N_("FIXME: Previous"),
 				N_("Go to the previous item"), NULL,
 				GNOME_STOCK_PIXMAP_BACK),
 	GNOMEUIINFO_ITEM_STOCK (N_("FIXME: Next"),
 				N_("Go to the next item"), NULL,
 				GNOME_STOCK_PIXMAP_FORWARD),
+#endif
 	GNOMEUIINFO_ITEM_STOCK (N_("FIXME: Help"),
 				N_("See online help"), NULL, GNOME_STOCK_PIXMAP_HELP),
 	GNOMEUIINFO_END
