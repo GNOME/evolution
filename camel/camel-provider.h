@@ -50,9 +50,20 @@ typedef struct {
 	GtkType object_type;        /* used to create instance of the provider */
 	ProviderType provider_type; /* is a store or a transport */ 
 	int flags;                  /* information about the provider */
-	gchar *protocol;            /* name of the protocol ("IMAP"/"SMTP"/"MH" ...) */
-	gchar *name;                /* name of the provider ("Raymond the IMAP provider") */
-	gchar *description;         /* Useful when multiple providers are available for a same protocol */
+
+	/* Provider name used in CamelURLs. */
+	gchar *protocol;
+
+	/* Provider name as used by people. (May be the same as protocol) */
+	gchar *name;
+
+	/* Description of the provider. A novice user should be able
+	 * to read this description, and the information provided by
+	 * an ISP, IS department, etc, and determine whether or not
+	 * this provider is relevant to him, and if so, which
+	 * information goes with it.
+	 */
+	gchar *description;
 
 	GModule *gmodule;
 } CamelProvider;
