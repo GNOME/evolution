@@ -1,5 +1,15 @@
 2002-12-09  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-url-scanner.c (camel_url_addrspec_end): Fixed to not be
+	fooled in the case where the address is followed immediately by a
+	period.
+	(camel_url_web_end): Made more robust.
+	(camel_url_scanner_scan): Oops. We need to set the match->pattern
+	string pointer to the correct pattern before executing the
+	start/end methods (as some of them rely on this info).
+
+2002-12-09  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* camel-url-scanner.c: New code to scan for patterns (used only
 	for url pattern matching atm, but we may find other uses for this
 	and thus rename it? I dunno). Uses ETrie.

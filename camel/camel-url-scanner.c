@@ -86,15 +86,15 @@ camel_url_scanner_scan (CamelUrlScanner *scanner, const char *in, size_t inlen, 
 	
 	pat = g_ptr_array_index (scanner->patterns, pattern);
 	
+	match->pattern = pat->pattern;
+	match->prefix = pat->prefix;
+	
 	inend = in + inlen;
 	if (!pat->start (in, pos, inend, match))
 		return FALSE;
 	
 	if (!pat->end (in, pos, inend, match))
 		return FALSE;
-	
-	match->pattern = pat->pattern;
-	match->prefix = pat->prefix;
 	
 	return TRUE;
 }
@@ -103,12 +103,12 @@ camel_url_scanner_scan (CamelUrlScanner *scanner, const char *in, size_t inlen, 
 static unsigned char url_scanner_table[256] = {
 	  1,  1,  1,  1,  1,  1,  1,  1,  1,  9,  9,  1,  1,  9,  1,  1,
 	  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,
-	 24, 64, 96, 64, 64, 64, 64, 64, 96, 96, 64, 64, 96, 64, 96, 96,
-	  4,  4,  4,  4,  4,  4,  4,  4,  4,  4, 96, 96, 32, 64, 32, 64,
-	 96,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,
-	  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2, 96, 96, 96, 64, 64,
-	 64,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,
-	  2,  2,  2,  2,  2,  2,  2,  2,  2,  2,  2, 64, 64, 64, 64,  1,
+	 24,128,160,128,128,128,128,128,160,160,128,128,160,192,160,160,
+	 68, 68, 68, 68, 68, 68, 68, 68, 68, 68,160,160, 32,128, 32,128,
+	160, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66,
+	 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66,160,160,160,128,128,
+	128, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66,
+	 66, 66, 66, 66, 66, 66, 66, 66, 66, 66, 66,128,128,128,128,  1,
 	  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
 	  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
 	  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
@@ -126,7 +126,8 @@ enum {
 	IS_LWSP		= (1 << 3),
 	IS_SPACE	= (1 << 4),
 	IS_SPECIAL	= (1 << 5),
-	IS_URLSAFE      = (1 << 6),
+	IS_DOMAIN       = (1 << 6),
+	IS_URLSAFE      = (1 << 7),
 };
 
 #define is_ctrl(x) ((url_scanner_table[(unsigned char)(x)] & IS_CTRL) != 0)
@@ -134,7 +135,7 @@ enum {
 #define is_atom(x) ((url_scanner_table[(unsigned char)(x)] & (IS_SPECIAL|IS_SPACE|IS_CTRL)) == 0)
 #define is_alpha(x) ((url_scanner_table[(unsigned char)(x)] & IS_ALPHA) != 0)
 #define is_digit(x) ((url_scanner_table[(unsigned char)(x)] & IS_DIGIT) != 0)
-#define is_domain(x) ((url_scanner_table[(unsigned char)(x)] & (IS_ALPHA|IS_DIGIT)) != 0 || (x) == '-')
+#define is_domain(x) ((url_scanner_table[(unsigned char)(x)] & IS_DOMAIN) != 0)
 #define is_urlsafe(x) ((url_scanner_table[(unsigned char)(x)] & (IS_ALPHA|IS_DIGIT|IS_URLSAFE)) != 0)
 
 
@@ -212,7 +213,7 @@ camel_url_addrspec_end (const char *in, const char *pos, const char *inend, urlm
 			while (inptr < inend && is_domain (*inptr))
 				inptr++;
 			
-			if (inptr < inend && *inptr == '.')
+			if (inptr < inend && *inptr == '.' && is_domain (inptr[1]))
 				inptr++;
 		}
 	}
@@ -289,35 +290,48 @@ camel_url_web_end (const char *in, const char *pos, const char *inend, urlmatch_
 			
 		} while (parts < 4);
 	} else if (is_domain (*inptr)) {
-		do {
-			while (inptr < inend && is_domain (*inptr))
-				inptr++;
-			
-			if (inptr < inend && *inptr == '.')
+				while (inptr < inend) {
+			if (is_domain (*inptr))
 				inptr++;
 			else
 				break;
 			
-		} while (inptr < inend);
+			while (inptr < inend && is_domain (*inptr))
+				inptr++;
+			
+			if (inptr < inend && *inptr == '.' && is_domain (inptr[1]))
+				inptr++;
+		}
 	} else {
 		return FALSE;
 	}
 	
-	if (inptr < inend && *inptr == ':') {
-		/* skip past the port */
-		inptr++;
-		port = 0;
-		
-		while (inptr < inend && is_digit (*inptr) && port < 65536)
-			port = (port * 10) + (*inptr++ - '0');
-	}
-	
-	if (inptr < inend && *inptr == '/') {
-		/* skip past our url path */
-		inptr++;
-		
-		while (inptr < inend && is_urlsafe (*inptr))
+	if (inptr < inend) {
+		switch (*inptr) {
+		case ':': /* port notation */
 			inptr++;
+			port = 0;
+			
+			while (inptr < inend && is_digit (*inptr) && port < 65536)
+				port = (port * 10) + (*inptr++ - '0');
+			
+			if (port >= 65536)
+				inptr--;
+			
+			if (inptr >= inend || *inptr != '/')
+				break;
+			
+			/* we have a '/' so there could be a path - fall through */
+		case '/': /* we've detected a path component to our url */
+			inptr++;
+			
+			while (inptr < inend && is_urlsafe (*inptr))
+				inptr++;
+			
+			break;
+		default:
+			break;
+		}
 	}
 	
 	match->um_eo = (inptr - in);
@@ -358,17 +372,18 @@ url_scanner_table_init (void)
 		if (i < 32)
 			url_scanner_table[i] |= IS_CTRL;
 		if ((i >= '0' && i <= '9'))
-			url_scanner_table[i] |= IS_DIGIT;
+			url_scanner_table[i] |= IS_DIGIT | IS_DOMAIN;
 		if ((i >= 'a' && i <= 'z') || (i >= 'A' && i <= 'Z'))
-			url_scanner_table[i] |= IS_ALPHA;
+			url_scanner_table[i] |= IS_ALPHA | IS_DOMAIN;
 	}
 	
 	url_scanner_table[127] |= IS_CTRL;
 	url_scanner_table[' '] |= IS_SPACE;
+	url_scanner_table['-'] |= IS_DOMAIN;
 	
 	/* not defined to be special in rfc0822, but when scanning
            backwards to find the beginning of the email address we do
-           not want to incldue this char if we come accross it - so
+           not want to include this char if we come accross it - so
            this is kind of a hack */
 	url_scanner_table['/'] |= IS_SPECIAL;
 	
