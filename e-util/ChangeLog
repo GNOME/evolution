@@ -1,3 +1,9 @@
+2001-10-04  Dan Winship  <danw@ximian.com>
+
+	* e-passwords.c (e_passwords_add_password): Make this dup the
+	strings it's passed.
+	(*) Add lots of docs.
+
 2001-10-03  Rodrigo Moya <rodrigo@ximian.com>
 
 	* e-url.c (e_uri_new): default protocol to file: if not specified

@@ -44,6 +44,12 @@ static GHashTable *passwords = NULL;
 static int base64_encode_close(unsigned char *in, int inlen, gboolean break_lines, unsigned char *out, int *state, int *save);
 static int base64_encode_step(unsigned char *in, int len, gboolean break_lines, unsigned char *out, int *state, int *save);
 
+/**
+ * e_passwords_init:
+ *
+ * Initializes the e_passwords routines. Must be called before any other
+ * e_passwords_* function.
+ **/
 void
 e_passwords_init ()
 {
@@ -73,6 +79,11 @@ free_entry (gpointer key, gpointer value, gpointer user_data)
 	return TRUE;
 }
 
+/**
+ * e_passwords_shutdown:
+ *
+ * Cleanup routine to call before exiting.
+ **/
 void
 e_passwords_shutdown ()
 {
@@ -83,6 +94,11 @@ e_passwords_shutdown ()
 }
 
 
+/**
+ * e_passwords_forget_passwords:
+ *
+ * Forgets all cached passwords, in memory and on disk.
+ **/
 void
 e_passwords_forget_passwords ()
 {
@@ -118,12 +134,25 @@ maybe_remember_password (gpointer key, gpointer password, gpointer url)
 	g_free (pass64);
 }
 
+/**
+ * e_passwords_remember_password:
+ * @key: the key
+ *
+ * Saves the password associated with @key to disk.
+ **/
 void
-e_passwords_remember_password (const char *url)
+e_passwords_remember_password (const char *key)
 {
-	g_hash_table_foreach (passwords, maybe_remember_password, (gpointer)url);
+	g_hash_table_foreach (passwords, maybe_remember_password, (gpointer)key);
 }
 
+/**
+ * e_passwords_forget_password:
+ * @key: the key
+ *
+ * Forgets the password associated with @key for the rest of the session,
+ * but does not affect the on-disk cache.
+ **/
 void
 e_passwords_forget_password (const char *key)
 {
@@ -137,16 +166,30 @@ e_passwords_forget_password (const char *key)
 	}
 }
 
+/**
+ * e_passwords_get_password:
+ * @key: the key
+ *
+ * Return value: the password associated with @key, or %NULL.
+ **/
 const char *
 e_passwords_get_password (const char *key)
 {
 	return g_hash_table_lookup (passwords, key);
 }
 
+/**
+ * e_passwords_add_password:
+ * @key: a key
+ * @passwd: the password for @key
+ *
+ * This stores the @key/@passwd pair in the current session's password
+ * hash.
+ **/
 void
 e_passwords_add_password (const char *key, const char *passwd)
 {
-	g_hash_table_insert (passwords, (gpointer)key, (gpointer)passwd);
+	g_hash_table_insert (passwords, g_strdup (key), g_strdup (passwd));
 }
 
 
@@ -164,9 +207,10 @@ e_passwords_add_password (const char *key, const char *passwd)
  *
  * Asks the user for a password.
  *
- * Return value: the password, or %NULL if the user cancelled the
- * operation. *@remember will be set if the return value is non-%NULL
- * and @remember_type is not E_PASSWORDS_DO_NOT_REMEMBER.
+ * Return value: the password, which the caller must free, or %NULL if
+ * the user cancelled the operation. *@remember will be set if the
+ * return value is non-%NULL and @remember_type is not
+ * E_PASSWORDS_DO_NOT_REMEMBER.
  **/
 char *
 e_passwords_ask_password (const char *title, const char *key,
