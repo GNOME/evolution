@@ -22,6 +22,7 @@ addressbook/gui/component/e-address-widget.c
 addressbook/gui/component/ldap-config.glade
 addressbook/gui/component/select-names/GNOME_Evolution_Addressbook_SelectNames.server.in.in
 addressbook/gui/component/select-names/e-select-names-popup.c
+addressbook/gui/component/select-names/e-select-names-section.etspec
 addressbook/gui/component/select-names/e-select-names-table-model.c
 addressbook/gui/component/select-names/e-select-names-text-model.c
 addressbook/gui/component/select-names/e-select-names.c
@@ -95,6 +96,7 @@ calendar/gui/dialogs/event-page.glade
 calendar/gui/dialogs/meeting-page.c
 calendar/gui/dialogs/meeting-page.etspec
 calendar/gui/dialogs/meeting-page.glade
+calendar/gui/dialogs/recur-comp.c
 calendar/gui/dialogs/recurrence-page.c
 calendar/gui/dialogs/recurrence-page.glade
 calendar/gui/dialogs/save-comp.c
@@ -152,6 +154,7 @@ camel/camel-movemail.c
 camel/camel-multipart-encrypted.c
 camel/camel-multipart-signed.c
 camel/camel-pgp-mime.c
+camel/camel-process.c
 camel/camel-provider.c
 camel/camel-sasl-anonymous.c
 camel/camel-sasl-cram-md5.c
@@ -234,6 +237,7 @@ filter/filter-part.c
 filter/filter-rule.c
 filter/filter.glade
 filter/libfilter-i18n.h
+filter/rule-context.c
 filter/rule-editor.c
 filter/score-editor.c
 filter/score-rule.c
@@ -308,6 +312,7 @@ my-evolution/metar.c
 my-evolution/my-evolution.glade
 shell/GNOME_Evolution_Shell.server.in.in
 shell/e-activity-handler.c
+shell/e-config-upgrade.c
 shell/e-folder-dnd-bridge.c
 shell/e-folder-list.c
 shell/e-local-storage.c
@@ -353,6 +358,7 @@ shell/main.c
 tools/evolution-addressbook-abuse.c
 tools/evolution-addressbook-export.c
 tools/evolution-addressbook-import.c
+tools/evolution-launch-composer.c
 ui/evolution-addressbook.xml
 ui/evolution-calendar.xml
 ui/evolution-comp-editor.xml
@@ -389,6 +395,7 @@ widgets/misc/e-filter-bar.c
 widgets/misc/e-filter-bar.h
 widgets/misc/e-messagebox.c
 widgets/misc/e-search-bar.c
+wombat/GNOME_Evolution_Wombat.server.in.in
 wombat/GNOME_Evolution_WombatLDAP.server.in.in
 wombat/GNOME_Evolution_WombatNOLDAP.server.in.in
 wombat/wombat.c
