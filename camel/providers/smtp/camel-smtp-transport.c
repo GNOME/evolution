@@ -178,6 +178,9 @@ smtp_connect (CamelService *service, CamelException *ex)
 	} while ( *(respbuf+3) == '-' ); /* if we got "220-" then loop again */
    g_free(respbuf);
 
+   /* send HELO */
+   smtp_helo(service, ex);
+
 	return TRUE;
 }
 
@@ -420,7 +423,10 @@ smtp_helo (CamelSmtpTransport *transport, CamelException *ex)
    }
 
    /* hiya server! how are you today? */
-   cmdbuf = g_strdup_printf ("HELO %s\r\n", localhost);
+   if (smtp_is_esmtp)
+      cmdbuf = g_strdup_printf ("EHLO %s\r\n", localhost);
+   else
+      cmdbuf = g_strdup_printf ("HELO %s\r\n", localhost);
    if ( camel_stream_write (transport->ostream, cmdbuf, strlen(cmdbuf)) == -1)
    {
       g_free(cmdbuf);
