@@ -1,3 +1,8 @@
+2001-12-12  Jeffrey Stedfast  <fejJ@ximian.com>
+
+	* mail-config.c (mail_config_check_service): Connect to the
+	destroy signal on the popup dialog.
+
 2001-12-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-format.c (handle_text_plain): Make sure i != num_specials
