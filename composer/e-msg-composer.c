@@ -37,6 +37,7 @@
 #include <gnome.h>
 #include <libgnorba/gnorba.h>
 #include <bonobo.h>
+#include <bonobo/bonobo-stream-memory.h>
 
 #include <glade/glade.h>
 
@@ -96,6 +97,40 @@ free_string_list (GList *list)
 	g_list_free (list);
 }
 
+static char *
+get_editor_text (BonoboWidget *editor)
+{
+	Bonobo_PersistStream persist;
+	BonoboStream *stream;
+	CORBA_Environment ev;
+	char *text;
+
+	CORBA_exception_init (&ev);
+	persist = (Bonobo_PersistStream)
+		bonobo_object_client_query_interface (
+			bonobo_widget_get_server (editor),
+			"IDL:Bonobo/PersistStream:1.0",
+			&ev);
+	g_assert (persist != CORBA_OBJECT_NIL);
+
+	stream = bonobo_stream_mem_create (NULL, 0, FALSE, TRUE);
+	Bonobo_PersistStream_save (persist, (Bonobo_Stream)bonobo_object_corba_objref (BONOBO_OBJECT (stream)), &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		/* FIXME. Some error message. */
+		return NULL;
+	}
+	if (ev._major != CORBA_SYSTEM_EXCEPTION)
+		CORBA_Object_release (persist, &ev);
+
+	Bonobo_Unknown_unref (persist, &ev);
+	CORBA_exception_free (&ev);
+
+	text = g_strdup (bonobo_stream_mem_get_buffer (BONOBO_STREAM_MEM (stream)));
+	bonobo_object_unref (BONOBO_OBJECT(stream));
+	return text;
+}
+
+
 /* This functions builds a CamelMimeMessage for the message that the user has
    composed in `composer'.  */
 static CamelMimeMessage *
@@ -103,7 +138,9 @@ build_message (EMsgComposer *composer)
 {
 	CamelMimeMessage *new;
 	CamelMimeBodyPart *body_part;
+	CamelSimpleDataWrapper *sdr;
 	CamelMultipart *multipart;
+	char *text;
 
 	new = camel_mime_message_new ();
 
@@ -113,11 +150,17 @@ build_message (EMsgComposer *composer)
 	multipart = camel_multipart_new ();
 	body_part = camel_mime_body_part_new ();
 
-#if 0
-	text = gtk_editable_get_chars (GTK_EDITABLE (composer->text), 0, -1);
-	camel_mime_part_set_text (CAMEL_MIME_PART (body_part), text);
+	text = get_editor_text (BONOBO_WIDGET (composer->editor));
+	sdr = camel_simple_data_wrapper_new ();
+	camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (sdr),
+					  "text/html");
+	camel_simple_data_wrapper_set_text (sdr, text);
+	camel_medium_set_content_object (CAMEL_MEDIUM (body_part),
+					 CAMEL_DATA_WRAPPER (sdr));
+	gtk_object_unref (GTK_OBJECT (sdr));
+	g_free (text);
+
 	camel_multipart_add_part (multipart, body_part);
-#endif
 
 	e_msg_composer_attachment_bar_to_multipart
 		(E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar),
@@ -130,6 +173,36 @@ build_message (EMsgComposer *composer)
            be destroyed when we unref() the message.  */
 
 	return new;
+}
+
+static void
+set_editor_text (BonoboWidget *editor, const char *text)
+{
+	Bonobo_PersistStream persist;
+	BonoboStream *stream;
+	CORBA_Environment ev;
+
+	CORBA_exception_init (&ev);
+	persist = (Bonobo_PersistStream)
+		bonobo_object_client_query_interface (
+			bonobo_widget_get_server (editor),
+			"IDL:Bonobo/PersistStream:1.0",
+			&ev);
+	g_assert (persist != CORBA_OBJECT_NIL);
+
+	stream = bonobo_stream_mem_create ((char *)text, strlen (text),
+					   TRUE, FALSE);
+	Bonobo_PersistStream_load (persist, (Bonobo_Stream)bonobo_object_corba_objref (BONOBO_OBJECT (stream)), &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		/* FIXME. Some error message. */
+		return;
+	}
+	if (ev._major != CORBA_SYSTEM_EXCEPTION)
+		CORBA_Object_release (persist, &ev);
+
+	Bonobo_Unknown_unref (persist, &ev);
+	CORBA_exception_free (&ev);
+	bonobo_object_unref (BONOBO_OBJECT(stream));
 }
 
 

@@ -1,3 +1,10 @@
+2000-04-20  Dan Winship  <danw@helixcode.com>
+
+	* e-msg-composer.c (get_editor_text, set_editor_text): new
+	functions to get and set the contents of the HTML editor via
+	Bonobo::PersistStream.
+	(build_message): use get_editor_text. This works again.
+
 2000-04-17  Dan Winship  <danw@helixcode.com>
 
 	* e-msg-composer.c (build_message): Change
