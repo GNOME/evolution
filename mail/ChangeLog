@@ -1,3 +1,7 @@
+2003-03-25  Dan Winship  <danw@ximian.com>
+
+	* component-factory.c (interactive_cb): Update prototype
+
 2003-03-25  Not Zed  <NotZed@Ximian.com>
 
 	* mail-tools.c (meta_data_key): strdup the key before freeing the

@@ -845,7 +845,8 @@ debug_cb (EvolutionShellComponent *shell_component, gpointer user_data)
 }
 
 static void
-interactive_cb (EvolutionShellComponent *shell_component, gboolean on, gpointer user_data)
+interactive_cb (EvolutionShellComponent *shell_component, gboolean on,
+		gulong new_view_xid, gpointer user_data)
 {
 	mail_session_set_interactive (on);
 }
