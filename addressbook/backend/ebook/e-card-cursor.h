@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  *
  * Author:
@@ -6,36 +7,42 @@
  * Copyright 2000, Helix Code, Inc.
  */
 
-#include <gtk/gtkobject.h>
-#include <libgnome/gnome-defs.h>
-
-#include <e-book.h>
-
 #ifndef __E_CARD_CURSOR_H__
 #define __E_CARD_CURSOR_H__
+
+#include <libgnome/gnome-defs.h>
+#include <gtk/gtk.h>
+#include "addressbook.h"
+
+typedef struct _ECardCursor        ECardCursor;
+
+#include <e-book.h>
 
 BEGIN_GNOME_DECLS
 
 typedef struct _ECardCursorPrivate ECardCursorPrivate;
+typedef struct _ECardCursorClass   ECardCursorClass;
 
-typedef struct {
-	GtkObject     parent;
+struct _ECardCursor {
+	GtkObject           parent;
 	ECardCursorPrivate *priv;
-} ECardCursor;
+};
 
-typedef struct {
+struct _ECardCursorClass {
 	GtkObjectClass parent;
-} ECardCursorClass;
+};
 
 /* Creating a new addressbook. */
-ECardCursor *e_card_cursor_new         (EBook                *book,
-					Evolution_CardCursor  corba_cursor);
+ECardCursor *e_card_cursor_new       (Evolution_CardCursor  corba_cursor);
+ECardCursor *e_card_cursor_construct (ECardCursor          *cursor,
+				      Evolution_CardCursor  corba_cursor);
+
 GtkType      e_card_cursor_get_type    (void);
 
 /* Fetching cards. */
-int          e_card_cursor_get_length  (ECardCursor          *cursor);
+long         e_card_cursor_get_length  (ECardCursor          *cursor);
 ECard       *e_card_cursor_get_nth     (ECardCursor          *cursor,
-					int                   nth);
+					const long            nth);
 #define E_CARD_CURSOR_TYPE        (e_card_cursor_get_type ())
 #define E_CARD_CURSOR(o)          (GTK_CHECK_CAST ((o), E_CARD_CURSOR_TYPE, ECardCursor))
 #define E_CARD_CURSOR_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_CARD_CURSOR_TYPE, ECardCursorClass))

@@ -130,7 +130,7 @@ e_card_get_id (ECard *card)
 }
 
 void
-e_card_set_id (ECard *card, char *id)
+e_card_set_id (ECard *card, const char *id)
 {
 	if ( card->id )
 		g_free(card->id);

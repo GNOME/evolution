@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * A wrapper object which exports the Evolution_Book CORBA interface
  * and which maintains a request queue.
@@ -19,11 +20,13 @@ typedef struct _PASBook        PASBook;
 typedef struct _PASBookPrivate PASBookPrivate;
 
 #include <pas-backend.h>
+#include <pas-card-cursor.h>
 
 typedef enum {
 	CreateCard,
 	RemoveCard,
 	ModifyCard,
+	GetAllCards,
 	CheckConnection
 } PASOperation;
 
@@ -58,11 +61,15 @@ PASRequest             *pas_book_pop_request        (PASBook                    
 void                    pas_book_respond_open       (PASBook                           *book,
 						     Evolution_BookListener_CallStatus  status);
 void                    pas_book_respond_create     (PASBook                           *book,
-						     Evolution_BookListener_CallStatus  status);
+						     Evolution_BookListener_CallStatus  status,
+						     const char                        *id);
 void                    pas_book_respond_remove     (PASBook                           *book,
 						     Evolution_BookListener_CallStatus  status);
 void                    pas_book_respond_modify     (PASBook                           *book,
 						     Evolution_BookListener_CallStatus  status);
+void                    pas_book_respond_get_cursor (PASBook                           *book,
+						     Evolution_BookListener_CallStatus  status,
+						     PASCardCursor                     *cursor);
 void                    pas_book_report_connection  (PASBook                           *book,
 						     gboolean                           connected);
 

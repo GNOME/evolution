@@ -43,7 +43,8 @@ libpas_la_SOURCES =					\
 	pas-book.c					\
 	pas-book-factory.c				\
 	pas-backend.c					\
-	pas-backend-file.c
+	pas-backend-file.c				\
+	pas-card-cursor.c
 
 libpasincludedir = $(includedir)/backend
 
@@ -51,7 +52,8 @@ libpasinclude_HEADERS =					\
 	pas-book.h					\
 	pas-book-factory.h				\
 	pas-backend.h					\
-	pas-backend-file.h
+	pas-backend-file.h				\
+	pas-card-cursor.h
 
 wombat_SOURCES =					\
 	pas.c

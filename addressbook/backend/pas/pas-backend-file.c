@@ -17,17 +17,65 @@
 
 #include <pas-backend-file.h>
 #include <pas-book.h>
+#include <pas-card-cursor.h>
 
 #define PAS_BACKEND_FILE_VERSION_NAME "PAS-DB-VERSION"
 #define PAS_BACKEND_FILE_VERSION "0.1"
 
 static PASBackendClass *pas_backend_file_parent_class;
+typedef struct _PASBackendFileCursorPrivate PASBackendFileCursorPrivate;
 
 struct _PASBackendFilePrivate {
 	GList    *clients;
 	gboolean  loaded;
 	DB       *file_db;
 };
+
+struct _PASBackendFileCursorPrivate {
+	PASBackend *backend;
+	PASBook    *book;
+};
+
+static long
+get_length(PASCardCursor *cursor, gpointer data)
+{
+#if 0
+	PASBackendFileCursorPrivate *cursor_data = (PASBackendFileCursorPrivate *) data;
+#endif
+	return 0;
+}
+
+static char *
+get_nth(PASCardCursor *cursor, long n, gpointer data)
+{
+#if 0
+	PASBackendFileCursorPrivate *cursor_data = (PASBackendFileCursorPrivate *) data;
+#endif
+	return "";
+}
+
+static void
+cursor_destroy(GtkObject *object, gpointer data)
+{
+	CORBA_Environment ev;
+	Evolution_Book corba_book;
+	PASBackendFileCursorPrivate *cursor_data = (PASBackendFileCursorPrivate *) data;
+
+	corba_book = bonobo_object_corba_objref(cursor_data->book);
+
+	CORBA_exception_init(&ev);
+
+	Evolution_Book_unref(corba_book, &ev);
+	
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_warning("cursor_destroy: Exception unreffing "
+			  "corba book.\n");
+	}
+
+	CORBA_exception_free(&ev);
+
+	g_free(cursor_data);
+}
 
 static void
 string_to_dbt(const char *str, DBT *dbt)
@@ -65,7 +113,8 @@ pas_backend_file_process_create_card (PASBackend *backend,
 
 		pas_book_respond_create (
 				 book,
-				 Evolution_BookListener_Success);
+				 Evolution_BookListener_Success,
+				 id);
 
 		db_error = db->sync (db, 0);
 		if (db_error != 0)
@@ -76,7 +125,8 @@ pas_backend_file_process_create_card (PASBackend *backend,
                    think */
 		pas_book_respond_create (
 				 book,
-				 Evolution_BookListener_CardNotFound);
+				 Evolution_BookListener_CardNotFound,
+				 "");
 	}
 
 	g_free (id);
@@ -154,6 +204,54 @@ pas_backend_file_process_modify_card (PASBackend *backend,
 }
 
 static void
+pas_backend_file_process_get_all_cards (PASBackend *backend,
+					PASBook    *book,
+					PASRequest *req)
+{
+	/*
+	  PASBackendFile *bf = PAS_BACKEND_FILE (backend);
+	  DB             *db = bf->priv->file_db;
+	  DBT            id_dbt, vcard_dbt;
+	*/
+	CORBA_Environment ev;
+	int            db_error = 0;
+	PASBackendFileCursorPrivate *cursor_data;
+	PASCardCursor *cursor;
+	Evolution_Book corba_book;
+
+	cursor_data = g_new(PASBackendFileCursorPrivate, 1);
+	cursor_data->backend = backend;
+	cursor_data->book = book;
+	
+	corba_book = bonobo_object_corba_objref(book);
+
+	CORBA_exception_init(&ev);
+
+	Evolution_Book_ref(corba_book, &ev);
+	
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_warning("pas_backend_file_process_get_all_cards: Exception reffing "
+			  "corba book.\n");
+	}
+
+	CORBA_exception_free(&ev);
+	
+	cursor = pas_card_cursor_new(get_length,
+				     get_nth,
+				     cursor_data);
+
+	gtk_signal_connect(GTK_OBJECT(cursor), "destroy",
+			   GTK_SIGNAL_FUNC(cursor_destroy), cursor_data);
+
+	pas_book_respond_get_cursor (
+		book,
+		(db_error == 0 
+		 ? Evolution_BookListener_Success 
+		 : Evolution_BookListener_CardNotFound),
+		cursor);
+}
+
+static void
 pas_backend_file_process_check_connection (PASBackend *backend,
 					   PASBook    *book,
 					   PASRequest *req)
@@ -190,6 +288,10 @@ pas_backend_file_process_client_requests (PASBook *book)
 
 	case CheckConnection:
 		pas_backend_file_process_check_connection (backend, book, req);
+		break;
+		
+	case GetAllCards:
+		pas_backend_file_process_get_all_cards (backend, book, req);
 		break;
 	}
 

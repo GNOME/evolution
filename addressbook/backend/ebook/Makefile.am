@@ -42,6 +42,7 @@ libebook_la_SOURCES =					\
 	$(CORBA_SOURCE)					\
 	e-book-listener.c				\
 	e-book.c					\
+	e-card-cursor.c					\
 	e-card.c
 
 libebookincludedir = $(includedir)/backend
@@ -49,6 +50,7 @@ libebookincludedir = $(includedir)/backend
 libebookinclude_HEADERS =				\
 	e-book.h					\
 	e-book-listener.h				\
+	e-card-cursor.h					\
 	e-card.h
 
 test_client_SOURCES =					\

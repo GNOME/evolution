@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * A client-side GtkObject which exposes the
  * Evolution:BookListener interface.
@@ -40,6 +41,7 @@ typedef enum {
 	CreateCardResponse,
 	RemoveCardResponse,
 	ModifyCardResponse,
+	GetCursorResponse,
 
 	/* Async events */
 	CardAddedEvent,
@@ -57,6 +59,9 @@ typedef struct {
 
 	/* For OpenBookResponse */
 	Evolution_Book          book;
+
+	/* For GetCursorResponse */
+	Evolution_CardCursor    cursor;
 
 	/* For OpenProgressEvent */
 	char                   *msg;

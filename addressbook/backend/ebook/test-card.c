@@ -85,7 +85,7 @@ main (int argc, char **argv)
 	}
 #endif
 	card = e_card_new (cardstr);
-	gtk_object_get(card,
+	gtk_object_get(GTK_OBJECT(card),
 		       "full_name",  &fname,
 		       "name",       &name,
 		       "address",    &address,

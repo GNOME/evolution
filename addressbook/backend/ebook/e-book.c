@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * The Evolution addressbook client object.
  *
@@ -97,6 +98,25 @@ e_book_pop_op (EBook *book)
 }
 
 static void
+e_book_do_response_create_card (EBook                 *book,
+				EBookListenerResponse *resp)
+{
+	EBookOp *op;
+
+	op = e_book_pop_op (book);
+
+	if (op == NULL) {
+		g_warning ("e_book_do_response_create_card: Cannot find operation "
+			   "in local op queue!\n");
+		return;
+	}
+
+	((EBookIdCallback) op->cb) (book, resp->status, resp->id, op->closure);
+	g_free (resp->id);
+	g_free (op);
+}
+
+static void
 e_book_do_response_generic (EBook                 *book,
 			    EBookListenerResponse *resp)
 {
@@ -111,6 +131,52 @@ e_book_do_response_generic (EBook                 *book,
 
 	((EBookCallback) op->cb) (book, resp->status, op->closure);
 
+	g_free (op);
+}
+
+static void
+e_book_do_response_get_cursor (EBook                 *book,
+			       EBookListenerResponse *resp)
+{
+	CORBA_Environment ev;
+	EBookOp *op;
+	ECardCursor *cursor;
+
+	op = e_book_pop_op (book);
+
+	if (op == NULL) {
+		g_warning ("e_book_do_response_create_card: Cannot find operation "
+			   "in local op queue!\n");
+		return;
+	}
+
+	cursor = e_card_cursor_new(resp->cursor);
+
+	((EBookCursorCallback) op->cb) (book, resp->status, cursor, op->closure);
+
+	/*
+	 * Release the remote Evolution_Book in the PAS.
+	 */
+	CORBA_exception_init (&ev);
+
+	Bonobo_Unknown_unref  (resp->cursor, &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_warning ("e_book_do_response_get_curosr: Exception unref'ing "
+			   "remote Evolution_CardCursor interface!\n");
+		CORBA_exception_free (&ev);
+		CORBA_exception_init (&ev);
+	}
+	
+	CORBA_Object_release (resp->cursor, &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_warning ("e_book_do_response_get_cursor: Exception releasing "
+			   "remote Evolution_CardCursor interface!\n");
+	}
+
+	CORBA_exception_free (&ev);
+	
 	g_free (op);
 }
 
@@ -205,9 +271,14 @@ e_book_check_listener_queue (EBookListener *listener)
 
 	switch (resp->op) {
 	case CreateCardResponse:
+		e_book_do_response_create_card (book, resp);
+		break;
 	case RemoveCardResponse:
 	case ModifyCardResponse:
 		e_book_do_response_generic (book, resp);
+		break;
+	case GetCursorResponse:
+		e_book_do_response_get_cursor (book, resp);
 		break;
 	case OpenBookResponse:
 		e_book_do_response_open (book, resp);
@@ -541,10 +612,10 @@ e_book_remove_card_by_id (EBook         *book,
  * e_book_add_card:
  */
 gboolean
-e_book_add_card (EBook         *book,
-		 ECard         *card,
-		 EBookCallback  cb,
-		 gpointer       closure)
+e_book_add_card (EBook           *book,
+		 ECard           *card,
+		 EBookIdCallback  cb,
+		 gpointer         closure)
 
 {
 	char     *vcard;
@@ -579,10 +650,10 @@ e_book_add_card (EBook         *book,
  * e_book_add_vcard:
  */
 gboolean
-e_book_add_vcard (EBook         *book,
-		  const char    *vcard,
-		  EBookCallback  cb,
-		  gpointer       closure)
+e_book_add_vcard (EBook           *book,
+		  const char      *vcard,
+		  EBookIdCallback  cb,
+		  gpointer         closure)
 {
 	CORBA_Environment ev;
 
@@ -609,7 +680,7 @@ e_book_add_vcard (EBook         *book,
 
 	CORBA_exception_free (&ev);
 
-	e_book_queue_op (book, cb, closure);
+	e_book_queue_op (book, (EBookCallback) cb, closure);
 
 	return TRUE;
 }
@@ -722,6 +793,38 @@ e_book_check_connection (EBook *book)
 	}
 	
 	CORBA_exception_free (&ev);
+
+	return TRUE;
+}
+
+gboolean e_book_get_all_cards       (EBook         *book,
+				     EBookCursorCallback  cb,
+				     gpointer       closure)
+{
+	CORBA_Environment ev;
+  
+	g_return_val_if_fail (book != NULL,     FALSE);
+	g_return_val_if_fail (E_IS_BOOK (book), FALSE);
+
+	if (book->priv->load_state != URILoaded) {
+		g_warning ("e_book_check_connection: No URI loaded!\n");
+		return FALSE;
+	}
+	
+	CORBA_exception_init (&ev);
+	
+	Evolution_Book_get_all_cards (book->priv->corba_book, &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_warning ("e_book_get_all_cards: Exception "
+			   "querying list of cards!\n");
+		CORBA_exception_free (&ev);
+		return FALSE;
+	}
+	
+	CORBA_exception_free (&ev);
+
+	e_book_queue_op (book, cb, closure);
 
 	return TRUE;
 }

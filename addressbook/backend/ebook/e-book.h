@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * The Evolution addressbook client object.
  *
@@ -14,6 +15,10 @@
 
 #include <e-card.h>
 
+typedef struct _EBook        EBook;
+
+#include <e-card-cursor.h>
+
 BEGIN_GNOME_DECLS
 
 typedef enum {
@@ -24,14 +29,15 @@ typedef enum {
 	E_BOOK_STATUS_CARD_NOT_FOUND
 } EBookStatus;
 
+typedef struct _EBookClass   EBookClass;
 typedef struct _EBookPrivate EBookPrivate;
 
-typedef struct {
+struct _EBook {
 	GtkObject     parent;
 	EBookPrivate *priv;
-} EBook;
+};
 
-typedef struct {
+struct _EBookClass {
 	GtkObjectClass parent;
 
 	/*
@@ -42,7 +48,7 @@ typedef struct {
 	void (* card_changed)  (const char *id);
 	void (* card_removed)  (const char *id);
 	void (* card_added)    (const char *id);
-} EBookClass;
+};
 
 /* Callbacks for asynchronous functions. */
 typedef void (*EBookCallback) (EBook *book, EBookStatus status, gpointer closure);
@@ -50,6 +56,8 @@ typedef void (*EBookOpenProgressCallback)     (EBook          *book,
 					       const char     *status_message,
 					       short           percent,
 					       gpointer        closure);
+typedef void (*EBookIdCallback) (EBook *book, EBookStatus status, const char *id, gpointer closure);
+typedef void (*EBookCursorCallback) (EBook *book, EBookStatus status, ECardCursor *cursor, gpointer closure);
 
 
 /* Creating a new addressbook. */
@@ -77,14 +85,14 @@ gboolean  e_book_remove_card_by_id  (EBook         *book,
 				     gpointer       closure);
 
 /* Adding cards. */
-gboolean  e_book_add_card           (EBook         *book,
-				     ECard         *card,
-				     EBookCallback  cb,
-				     gpointer       closure);
-gboolean  e_book_add_vcard          (EBook         *book,
-				     const char    *vcard,
-				     EBookCallback  cb,
-				     gpointer       closure);
+gboolean  e_book_add_card           (EBook           *book,
+				     ECard           *card,
+				     EBookIdCallback  cb,
+				     gpointer         closure);
+gboolean  e_book_add_vcard          (EBook           *book,
+				     const char      *vcard,
+				     EBookIdCallback  cb,
+				     gpointer         closure);
 
 /* Modifying cards. */
 gboolean  e_book_commit_card        (EBook         *book,
@@ -98,6 +106,10 @@ gboolean  e_book_commit_vcard       (EBook         *book,
 
 /* Checking to see if we're connected to the card repository. */
 gboolean  e_book_check_connection   (EBook         *book);
+
+gboolean e_book_get_all_cards       (EBook         *book,
+				     EBookCursorCallback  cb,
+				     gpointer       closure);
 
 /* Getting the name of the repository. */
 char     *e_book_get_name           (EBook         *book);

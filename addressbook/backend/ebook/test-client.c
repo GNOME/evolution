@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 #include <config.h>
 #include <bonobo.h>
 #include <gnome.h>
@@ -47,8 +48,26 @@ init_bonobo (int argc, char **argv)
 
 }
 
+#if 0
 static void
-add_card_cb (EBook *book, EBookStatus status, gpointer closure)
+get_cursor_cb (EBook *book, EBookStatus status, ECardCursor *cursor, gpointer closure)
+{
+	long length = e_card_cursor_get_length(cursor);
+	long i;
+	
+	for ( i = 0; i < length; i++ ) {
+		ECard *card = e_card_cursor_get_nth(cursor, i);
+		char *vcard = e_card_get_vcard(card);
+		printf("[%s]\n", vcard);
+		g_free(vcard);
+		gtk_object_unref(GTK_OBJECT(card));
+	}
+	gtk_object_unref(GTK_OBJECT(cursor));
+}
+#endif
+
+static void
+add_card_cb (EBook *book, EBookStatus status, const gchar *id, gpointer closure)
 {
 	char *vcard;
 	ECard *card;
@@ -56,9 +75,11 @@ add_card_cb (EBook *book, EBookStatus status, gpointer closure)
 
 	printf ("Status: %d\n", status);
 
+	printf ("Id: %s\n", id);
+
 	timer = g_timer_new ();
 	g_timer_start (timer);
-	card = e_book_get_card (book, "foo");
+	card = e_book_get_card (book, id);
 	g_timer_stop (timer);
 
 	vcard = e_card_get_vcard(card);
@@ -66,12 +87,16 @@ add_card_cb (EBook *book, EBookStatus status, gpointer closure)
 	printf ("[%s]\n", vcard);
 	g_free(vcard);
 	gtk_object_unref(GTK_OBJECT(card));
+
+#if 0
+	e_book_get_all_cards(book, get_cursor_cb, NULL);
+#endif
 }
 
 static void
 book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 {
-  e_book_add_vcard(book, TEST_VCARD, add_card_cb, NULL);
+	e_book_add_vcard(book, TEST_VCARD, add_card_cb, NULL);
 }
 
 static guint

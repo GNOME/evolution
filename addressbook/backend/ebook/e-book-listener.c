@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * Exports the BookListener interface.  Maintains a queue of messages
  * which come in on the interface.
@@ -109,6 +110,38 @@ e_book_listener_queue_open_progress (EBookListener *listener,
 
 
 static void
+e_book_listener_queue_create_card_response (EBookListener *listener,
+					    EBookStatus    status,
+					    const char    *id)
+{
+	EBookListenerResponse *resp;
+
+	resp = g_new0 (EBookListenerResponse, 1);
+
+	resp->op     = CreateCardResponse;
+	resp->status = status;
+	resp->id     = g_strdup (id);
+
+	e_book_listener_queue_response (listener, resp);
+}
+
+static void
+e_book_listener_queue_get_cursor_response (EBookListener        *listener,
+					   EBookStatus           status,
+					   Evolution_CardCursor  cursor)
+{
+	EBookListenerResponse *resp;
+
+	resp = g_new0 (EBookListenerResponse, 1);
+
+	resp->op     = GetCursorResponse;
+	resp->status = status;
+	resp->cursor = cursor;
+
+	e_book_listener_queue_response (listener, resp);
+}
+
+static void
 e_book_listener_queue_link_status (EBookListener *listener,
 				   gboolean       connected)
 {
@@ -139,15 +172,17 @@ e_book_listener_queue_generic_event (EBookListener          *listener,
 }
 
 static void
-impl_BookListener_respond_create_card (PortableServer_Servant servant,
-				       const Evolution_BookListener_CallStatus status,
-				       CORBA_Environment *ev)
+impl_BookListener_respond_create_card (PortableServer_Servant                   servant,
+				       const Evolution_BookListener_CallStatus  status,
+				       const Evolution_CardId                   id,
+				       CORBA_Environment                       *ev)
 {
 	EBookListener *listener = E_BOOK_LISTENER (bonobo_object_from_servant (servant));
 
-	e_book_listener_queue_generic_response (
-		listener, CreateCardResponse,
-		e_book_listener_convert_status (status));
+	e_book_listener_queue_create_card_response (
+		listener,
+		e_book_listener_convert_status (status),
+		id);
 }
 
 static void
@@ -172,6 +207,28 @@ impl_BookListener_respond_modify_card (PortableServer_Servant servant,
 	e_book_listener_queue_generic_response (
 		listener, ModifyCardResponse,
 		e_book_listener_convert_status (status));
+}
+
+static void
+impl_BookListener_respond_get_cursor (PortableServer_Servant servant,
+				      const Evolution_BookListener_CallStatus status,
+				      const Evolution_CardCursor cursor,
+				      CORBA_Environment *ev)
+{
+	EBookListener *listener = E_BOOK_LISTENER (bonobo_object_from_servant (servant));
+	Evolution_CardCursor  cursor_copy;
+
+	cursor_copy = CORBA_Object_duplicate (cursor, ev);
+
+	if (ev->_major != CORBA_NO_EXCEPTION) {
+		g_warning ("EBookListener: Exception while duplicating CardCursor!\n");
+		return;
+	}
+
+	e_book_listener_queue_get_cursor_response (
+		listener,
+		e_book_listener_convert_status (status),
+		cursor_copy);
 }
 
 static void
@@ -445,6 +502,8 @@ e_book_listener_get_epv (void)
 	epv->respond_create_card       = impl_BookListener_respond_create_card;
 	epv->respond_remove_card       = impl_BookListener_respond_remove_card;
 	epv->respond_modify_card       = impl_BookListener_respond_modify_card;
+
+	epv->respond_get_cursor        = impl_BookListener_respond_get_cursor;
 
 	epv->report_connection_status  = impl_BookListener_report_connection_status;
 

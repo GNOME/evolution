@@ -68,15 +68,6 @@ struct pair prop_lookup[] = {
 		{         VCCharSetProp, PROP_CHARSET },
 		{ NULL, PROP_NONE} };
 
-struct pair addr_pairs[] = {
-		{ VCDomesticProp, ADDR_DOM },
-		{ VCInternationalProp, ADDR_INTL },
-		{ VCPostalProp, ADDR_POSTAL },
-		{ VCParcelProp, ADDR_PARCEL },
-		{ VCHomeProp, ADDR_HOME },
-		{ VCWorkProp, ADDR_WORK },
-		{ NULL, 0} };
-	  
 struct pair photo_pairs[] = {
 		{ VCGIFProp, PHOTO_GIF },
 		{ VCCGMProp, PHOTO_CGM },
