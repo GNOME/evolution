@@ -301,6 +301,61 @@ etog_height (ECellView *ecell_view, int model_col, int view_col, int row)
 }
 
 /*
+ * ECell::print method
+ */
+static void
+etog_print (ECellView *ecell_view, GnomePrintContext *context, 
+	    int model_col, int view_col, int row,
+	    double width, double height)
+{
+	ECellToggle *toggle = E_CELL_TOGGLE(ecell_view->ecell);
+	GdkPixbuf *image;
+	int scale;
+	const int value = GPOINTER_TO_INT (
+		e_table_model_value_at (ecell_view->e_table_model, model_col, row));
+
+	if (value >= toggle->n_states){
+		g_warning ("Value from the table model is %d, the states we support are [0..%d)\n",
+			   value, toggle->n_states);
+		return;
+	}
+
+	gnome_print_gsave(context);
+
+	if (gnome_print_moveto(context, 2, 2) == -1)
+				/* FIXME */;
+	if (gnome_print_lineto(context, width - 2, 2) == -1)
+				/* FIXME */;
+	if (gnome_print_lineto(context, width - 2, height - 2) == -1)
+				/* FIXME */;
+	if (gnome_print_lineto(context, 2, height - 2) == -1)
+				/* FIXME */;
+	if (gnome_print_lineto(context, 2, 2) == -1)
+				/* FIXME */;
+	if (gnome_print_clip(context) == -1)
+				/* FIXME */;
+
+	image = toggle->images[value];
+	scale = MIN (width - 4, height - 4);
+
+	gnome_print_translate (context, 2, (height - scale) / 2);
+	gnome_print_scale (context, scale, scale);
+	gnome_print_pixbuf (context, image);
+	
+	gnome_print_grestore(context);
+}
+
+static gdouble
+etog_print_height (ECellView *ecell_view, GnomePrintContext *context, 
+		   int model_col, int view_col, int row,
+		   double width)
+{
+	ECellToggle *toggle = E_CELL_TOGGLE (ecell_view->ecell);
+
+	return toggle->height;
+}
+
+/*
  * ECell::max_width method
  */
 static int
@@ -367,6 +422,8 @@ e_cell_toggle_class_init (GtkObjectClass *object_class)
 	ecc->draw       = etog_draw;
 	ecc->event      = etog_event;
 	ecc->height     = etog_height;
+	ecc->print      = etog_print;
+	ecc->print_height = etog_print_height;
 	ecc->max_width  = etog_max_width;
 	ecc->style_set  = etog_style_set;
 
