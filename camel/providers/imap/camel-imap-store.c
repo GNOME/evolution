@@ -248,9 +248,9 @@ imap_connect (CamelService *service, CamelException *ex)
 	fd = socket (h->h_addrtype, SOCK_STREAM, 0);
 	if (fd == -1 || connect (fd, (struct sockaddr *)&sin, sizeof(sin)) == -1) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-				      "Could not connect to %s (port %s): %s",
+				      "Could not connect to %s (port %d): %s",
 				      service->url->host ? service->url->host : "(unknown host)", 
-				      service->url->port ? service->url->port : "(unknown port)",
+				      service->url->port ? service->url->port : IMAP_PORT,
 				      strerror(errno));
 		if (fd > -1)
 			close (fd);
@@ -333,7 +333,7 @@ imap_connect (CamelService *service, CamelException *ex)
 				      "Unknown error");
 	}
 	
-	if (e_strstrcase (result, "SEARCH"))
+	if (strstrcase (result, "SEARCH"))
 		store->has_search_capability = TRUE;
 	else
 		store->has_search_capability = FALSE;
@@ -559,13 +559,13 @@ camel_imap_command (CamelImapStore *store, CamelFolder *folder, char **ret, char
 			}
 
 			if (p) {
-				if (e_strstrcase (p, "READ-WRITE"))
+				if (strstrcase (p, "READ-WRITE"))
 					mode = 
 			}
 #endif
 		}
 #if 0
-		if ((recent = e_strstrcase (r, "RECENT"))) {
+		if ((recent = strstrcase (r, "RECENT"))) {
 			char *p;
 			
 			for (p = recent; p > r && *p != '*'; p--);
@@ -678,7 +678,7 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 			return s;
 		}
 #if 0
-		if ((recent = e_strstrcase (r, "RECENT"))) {
+		if ((recent = strstrcase (r, "RECENT"))) {
 			char *p;
 			
 			for (p = recent; p > r && *p != '*'; p--);

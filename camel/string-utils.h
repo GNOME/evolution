@@ -3,8 +3,8 @@
 
 /* 
  *
- * Author : 
- *  Bertrand Guiheneuf <bertrand@helixcode.com>
+ * Authors: Bertrand Guiheneuf <bertrand@helixcode.com>
+ *          Jeffrey Stedfast <fejj@helixcode.com>
  *
  * Copyright 1999, 2000 Helix Code, Inc. (http://www.helixcode.com)
  *
@@ -55,6 +55,8 @@ void     string_trim            (gchar *string, const gchar *chars,
 				 StringTrimOption options);
 
 gchar   *string_prefix (const gchar *s, const gchar *suffix, gboolean *suffix_found);
+
+gchar   *strstrcase (const gchar *haystack, const gchar *needle);
 
 #ifdef __cplusplus
 }

@@ -3,8 +3,8 @@
 
 /* 
  *
- * Author : 
- *  Bertrand Guiheneuf <bertrand@helixcode.com>
+ * Authors: Bertrand Guiheneuf <bertrand@helixcode.com>
+ *          Jeffrey Stedfast <fejj@helixcode.com>
  *
  * Copyright 1999, 2000 Helix Code, Inc. (http://www.helixcode.com)
  *
@@ -174,3 +174,25 @@ string_prefix (const gchar *s, const gchar *suffix, gboolean *suffix_found)
 
 	return result_string;
 }
+
+gchar *
+strstrcase (const gchar *haystack, const gchar *needle)
+{
+	/* find the needle in the haystack neglecting case */
+	gchar *ptr;
+	guint len;
+
+	g_return_val_if_fail (haystack != NULL, NULL);
+	g_return_val_if_fail (needle != NULL, NULL);
+
+	len = strlen (needle);
+	if (len > strlen (haystack))
+		return NULL;
+
+	for (ptr = (gchar *) haystack; *(ptr + len - 1) != '\0'; ptr++)
+		if (!g_strncasecmp (ptr, needle, len))
+			return ptr;
+
+	return NULL;
+}
+
