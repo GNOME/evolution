@@ -1,5 +1,8 @@
 2001-07-26  Peter Williams  <peterw@ximian.com>
 
+	* folder-browser.c (on_key_press): Make 'q' a toggle, not
+	one-way.
+
 	* message-list.etspec: Rename "Date" column to "Sent".
 
 2001-07-25  Anna Marie Dirks <anna@ximian.com> 

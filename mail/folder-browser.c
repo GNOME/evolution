@@ -1544,10 +1544,10 @@ on_key_press (GtkWidget *widget, GdkEventKey *key, gpointer data)
 		return TRUE;
 	case 'q':
 	case 'Q':
-		if (fb->preview_shown && fb->uicomp)
+		if (fb->uicomp)
 			bonobo_ui_component_set_prop (fb->uicomp, 
 						      "/commands/ViewPreview",
-						      "state", "0", NULL);
+						      "state", fb->preview_shown ? "0" : "1", NULL);
 		return TRUE;
 	}
 
