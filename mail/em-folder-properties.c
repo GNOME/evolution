@@ -30,11 +30,13 @@
 #include <gtk/gtkdialog.h>
 #include <gtk/gtkentry.h>
 #include <gtk/gtkframe.h>
+#include <gtk/gtkhbox.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkmisc.h>
 #include <gtk/gtkstock.h>
 #include <gtk/gtktable.h>
 #include <gtk/gtktogglebutton.h>
+#include <gtk/gtkvbox.h>
 
 #include <camel/camel-folder.h>
 
@@ -101,13 +103,13 @@ emfp_dialog_free (void *data)
 static void
 emfp_dialog_got_folder (char *uri, CamelFolder *folder, void *data)
 {
-	GtkWidget *dialog, *w, *table, *label;
+	GtkWidget *dialog, *w, *table, *label, *vbox, *hbox;
 	struct _prop_data *prop_data;
 	CamelArgGetV *arggetv;
 	CamelArgV *argv;
 	GSList *list, *l;
 	gint32 count, i;
-	char *name;
+	char *name, *title;
 	char countstr[16];
 	int row = 0, total=0, unread=0;
 	
@@ -117,54 +119,67 @@ emfp_dialog_got_folder (char *uri, CamelFolder *folder, void *data)
 	camel_object_get (folder, NULL, CAMEL_FOLDER_PROPERTIES, &list, CAMEL_FOLDER_NAME, &name,
 			  CAMEL_FOLDER_TOTAL, &total, CAMEL_FOLDER_UNREAD, &unread, NULL);
 	
-	dialog = gtk_dialog_new_with_buttons (_("Folder properties"), NULL,
-					      GTK_DIALOG_DESTROY_WITH_PARENT,
+	dialog = gtk_dialog_new_with_buttons (_("Folder Properties"), NULL,
+					      GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_NO_SEPARATOR,
+					      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 					      GTK_STOCK_OK, GTK_RESPONSE_OK,
 					      NULL);
-	
+	gtk_window_set_default_size ((GtkWindow *) dialog, 192, 160);
+	gtk_widget_ensure_style (dialog);
+	gtk_container_set_border_width ((GtkContainer *) ((GtkDialog *) dialog)->vbox, 0);
+	gtk_container_set_border_width ((GtkContainer *) ((GtkDialog *) dialog)->vbox, 12);
+
+	vbox = gtk_vbox_new (FALSE, 12);
+	gtk_container_set_border_width ((GtkContainer *) vbox, 12);
+	gtk_box_pack_start ((GtkBox *) ((GtkDialog *) dialog)->vbox, vbox, TRUE, TRUE, 0);
+	gtk_widget_show (vbox);
+
+	title = g_strdup_printf ("<b>%s</b>", name);
+	label = gtk_label_new (title);
+	gtk_label_set_use_markup ((GtkLabel *) label, TRUE);
+	gtk_misc_set_alignment ((GtkMisc *) label, 0.0, 0.5);
+	gtk_box_pack_start ((GtkBox *) vbox, label, FALSE, FALSE, 0);
+	gtk_widget_show (label);
+	g_free (title);
+
+	hbox = gtk_hbox_new (FALSE, 12);
+	gtk_box_pack_start ((GtkBox *) vbox, hbox, FALSE, FALSE, 0);
+	gtk_widget_show (hbox);
+
+	label = gtk_label_new ("");
+	gtk_box_pack_start ((GtkBox *) hbox, label, FALSE, FALSE, 0);
+	gtk_widget_show (label);
+
 	/* TODO: maybe we want some basic properties here, like message counts/approximate size/etc */
-	w = gtk_frame_new (_("Properties"));
-	gtk_widget_show (w);
-	gtk_box_pack_start ((GtkBox *) ((GtkDialog *) dialog)->vbox, w, TRUE, TRUE, 6);
-	
-	table = gtk_table_new (g_slist_length (list) + 3, 2, FALSE);
+	table = gtk_table_new (g_slist_length (list) + 2, 2, FALSE);
+	gtk_table_set_row_spacings ((GtkTable *) table, 6);
+	gtk_table_set_col_spacings ((GtkTable *) table, 12);
 	gtk_widget_show (table);
-	gtk_container_add ((GtkContainer *) w, table);
+	gtk_box_pack_start ((GtkBox *) hbox, table, TRUE, TRUE, 0);
 
 	/* TODO: can this be done in a loop? */
-	label = gtk_label_new (_("Folder Name"));
-	gtk_widget_show (label);
-	gtk_misc_set_alignment ((GtkMisc *) label, 1.0, 0.5);
-	gtk_table_attach ((GtkTable *) table, label, 0, 1, row, row+1, GTK_FILL | GTK_EXPAND, 0, 3, 0);
-	
-	label = gtk_label_new (name);
+	label = gtk_label_new (ngettext ("Total message:", "Total messages:", total));
 	gtk_widget_show (label);
 	gtk_misc_set_alignment ((GtkMisc *) label, 0.0, 0.5);
-	gtk_table_attach ((GtkTable *) table, label, 1, 2, row, row+1, GTK_FILL | GTK_EXPAND, 0, 3, 0);
-	row++;
-
-	label = gtk_label_new (_("Total messages"));
-	gtk_widget_show (label);
-	gtk_misc_set_alignment ((GtkMisc *) label, 1.0, 0.5);
-	gtk_table_attach ((GtkTable *) table, label, 0, 1, row, row+1, GTK_FILL | GTK_EXPAND, 0, 3, 0);
+	gtk_table_attach ((GtkTable *) table, label, 0, 1, row, row+1, GTK_FILL, 0, 0, 0);
 	
 	sprintf(countstr, "%d", total);
 	label = gtk_label_new (countstr);
 	gtk_widget_show (label);
-	gtk_misc_set_alignment ((GtkMisc *) label, 0.0, 0.5);
-	gtk_table_attach ((GtkTable *) table, label, 1, 2, row, row+1, GTK_FILL | GTK_EXPAND, 0, 3, 0);
+	gtk_misc_set_alignment ((GtkMisc *) label, 1.0, 0.5);
+	gtk_table_attach ((GtkTable *) table, label, 1, 2, row, row+1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
 	row++;
 
-	label = gtk_label_new (_("Unread messages"));
+	label = gtk_label_new (ngettext ("Unread message:", "Unread messages:", unread));
 	gtk_widget_show (label);
-	gtk_misc_set_alignment ((GtkMisc *) label, 1.0, 0.5);
-	gtk_table_attach ((GtkTable *) table, label, 0, 1, row, row+1, GTK_FILL | GTK_EXPAND, 0, 3, 0);
+	gtk_misc_set_alignment ((GtkMisc *) label, 0.0, 0.5);
+	gtk_table_attach ((GtkTable *) table, label, 0, 1, row, row+1, GTK_FILL, 0, 0, 0);
 	
 	sprintf(countstr, "%d", unread);
 	label = gtk_label_new (countstr);
 	gtk_widget_show (label);
-	gtk_misc_set_alignment ((GtkMisc *) label, 0.0, 0.5);
-	gtk_table_attach ((GtkTable *) table, label, 1, 2, row, row+1, GTK_FILL | GTK_EXPAND, 0, 3, 0);
+	gtk_misc_set_alignment ((GtkMisc *) label, 1.0, 0.5);
+	gtk_table_attach ((GtkTable *) table, label, 1, 2, row, row+1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
 	row++;
 
 	/* build an arggetv/argv to retrieve/store the results */
@@ -205,14 +220,14 @@ emfp_dialog_got_folder (char *uri, CamelFolder *folder, void *data)
 			w = gtk_check_button_new_with_label (prop->description);
 			gtk_toggle_button_set_active ((GtkToggleButton *) w, argv->argv[i].ca_int != 0);
 			gtk_widget_show (w);
-			gtk_table_attach ((GtkTable *) table, w, 0, 2, row, row + 1, 0, 0, 3, 3);
+			gtk_table_attach ((GtkTable *) table, w, 0, 2, row, row + 1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
 			prop_data->widgets[i] = w;
 			break;
 		case CAMEL_ARG_STR:
 			label = gtk_label_new (prop->description);
-			gtk_misc_set_alignment ((GtkMisc *) label, 1.0, 0.5);
+			gtk_misc_set_alignment ((GtkMisc *) label, 0.0, 0.5);
 			gtk_widget_show (label);
-			gtk_table_attach ((GtkTable *) table, label, 0, 1, row, row + 1, GTK_FILL | GTK_EXPAND, 0, 3, 3);
+			gtk_table_attach ((GtkTable *) table, label, 0, 1, row, row + 1, GTK_FILL, 0, 0, 0);
 			
 			w = gtk_entry_new ();
 			gtk_widget_show (w);
@@ -221,7 +236,7 @@ emfp_dialog_got_folder (char *uri, CamelFolder *folder, void *data)
 				camel_object_free (folder, argv->argv[i].tag, argv->argv[i].ca_str);
 				argv->argv[i].ca_str = NULL;
 			}
-			gtk_table_attach ((GtkTable *) table, w, 1, 2, row, row + 1, GTK_FILL, 0, 3, 3);
+			gtk_table_attach ((GtkTable *) table, w, 1, 2, row, row + 1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
 			prop_data->widgets[i] = w;
 			break;
 		default:

@@ -1,3 +1,18 @@
+2004-06-16  Rodney Dawes  <dobey@novell.com>
+
+	* em-folder-properties.c: Include gtk[hv]box.h so we can use them
+	(emfp_dialog_got_folder): Fix the border widths and spacings for
+	the internal widgets and the dialog's vbox and action area to be
+	compliant with the HIG
+	Fix the general layout of the dialog to be HIG-compliant as well
+	Use ngettext for the row labels for number of messages
+	Add a cancel button, since we are not instant-apply
+	Align the message counts to the right
+	Part of this patch is from Christian Neumair <chris@gnome-de.org>
+
+	* mail-component.c (view_changed_cb): Fix a typo for the sent folder
+	send is not a pluralization of sent
+
 2004-06-16  JP Rosevear  <jpr@novell.com>
 
 	* em-composer-prefs.c (spell_set_ui): clear the error, don't free

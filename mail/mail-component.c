@@ -493,7 +493,7 @@ view_changed_cb(EMFolderView *emfv, EInfoLabel *el)
 			if (bits == 1)
 				g_string_append_printf(tmp, ngettext ("%d draft", "%d drafts", visible), visible);
 			else if (bits == 2)
-				g_string_append_printf(tmp, ngettext ("%d sent", "%d send", visible), visible);
+				g_string_append_printf(tmp, ngettext ("%d sent", "%d sent", visible), visible);
 			else if (bits == 4)
 				g_string_append_printf(tmp, ngettext ("%d unsent", "%d unsent", visible), visible);
 			else {
