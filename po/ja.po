@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution CVS-20000514\n"
-"POT-Creation-Date: 2000-05-15 15:57+0900\n"
-"PO-Revision-Date: 2000-05-15 16:08+0900\n"
+"Project-Id-Version: evolution CVS-20000518\n"
+"POT-Creation-Date: 2000-05-18 01:48+0900\n"
+"PO-Revision-Date: 2000-05-18 02:09+0900\n"
 "Last-Translator: Akira TAGOH <tagoh@gnome.gr.jp>\n"
 "Language-Team: Japanese <translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
@@ -388,15 +388,15 @@ msgstr "サイズ:"
 
 #: addressbook/printing/e-contact-print.glade.h:47
 msgid "Orientation"
-msgstr "指向"
+msgstr "向き"
 
 #: addressbook/printing/e-contact-print.glade.h:48
 msgid "Portrait"
-msgstr "ポートレート"
+msgstr "縦長"
 
 #: addressbook/printing/e-contact-print.glade.h:49
 msgid "Landscape"
-msgstr "風景"
+msgstr "横長"
 
 #: addressbook/printing/e-contact-print.glade.h:52
 msgid "Header"
@@ -782,7 +782,11 @@ msgstr "このメッセージを削除する"
 msgid "_Expunge"
 msgstr "抹消(_E)"
 
-#: mail/folder-browser-factory.c:292
+#: mail/folder-browser-factory.c:176
+msgid "_Filter Druid"
+msgstr "フィルタドルイド(_F)"
+
+#: mail/folder-browser-factory.c:299
 msgid "We are sorry, Evolution's Folder Browser can not be initialized."
 msgstr "すいませんが，Evolution のフォルダブラウザは初期化することが出来ません"
 
