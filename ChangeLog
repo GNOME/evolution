@@ -1,3 +1,7 @@
+2004-01-24  Sanlig Badral  <badral@openmn.org>
+
+	* configure.in: added "mn" to ALL_LINGUAS.
+
 2004-01-22  Rodney Dawes  <dobey@ximian.com>
 
 	* data/Makefile.am: Add rule to substitute BASE_VERSION in keys
