@@ -34,8 +34,14 @@ extern "C" {
 #include <camel/camel-mime-message.h>
 #include <camel/camel-folder-summary.h>
 
-gboolean camel_filter_search_match(CamelMimeMessage *message, CamelMessageInfo *info,
-				   const char *source, const char *expression, CamelException *ex); 
+enum {
+	CAMEL_SEARCH_ERROR    = -1,
+	CAMEL_SEARCH_NOMATCH  =  0,
+	CAMEL_SEARCH_MATCHED  =  1,
+};
+
+int camel_filter_search_match (CamelMimeMessage *message, CamelMessageInfo *info,
+			       const char *source, const char *expression, CamelException *ex); 
 
 #ifdef __cplusplus
 }

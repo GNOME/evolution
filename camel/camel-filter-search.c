@@ -438,7 +438,18 @@ get_size (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageS
 	return r;
 }
 
-gboolean
+
+/**
+ * camel_filter_search_match:
+ * @message:
+ * @info:
+ * @source:
+ * @expression:
+ * @ex:
+ *
+ * Returns one of CAMEL_SEARCH_MATCHED, CAMEL_SEARCH_NOMATCH, or CAMEL_SEARCH_ERROR.
+ **/
+int
 camel_filter_search_match (CamelMimeMessage *message, CamelMessageInfo *info,
 			   const char *source, const char *expression, CamelException *ex)
 {
@@ -478,9 +489,9 @@ camel_filter_search_match (CamelMimeMessage *message, CamelMessageInfo *info,
 	}
 	
 	if (result->type == ESEXP_RES_BOOL)
-		retval = result->value.bool;
+		retval = result->value.bool ? CAMEL_SEARCH_MATCHED : CAMEL_SEARCH_NOMATCH;
 	else
-		retval = FALSE;
+		retval = CAMEL_SEARCH_NOMATCH;
 	
 	e_sexp_result_free (sexp, result);
 	e_sexp_unref (sexp);
@@ -489,5 +500,5 @@ camel_filter_search_match (CamelMimeMessage *message, CamelMessageInfo *info,
 	
 error:
 	e_sexp_unref (sexp);
-	return FALSE;
+	return CAMEL_SEARCH_ERROR;
 }

@@ -812,7 +812,7 @@ camel_filter_driver_filter_folder (CamelFilterDriver *driver, CamelFolder *folde
 	
 	if (p->defaultfolder) {
 		report_status (driver, CAMEL_FILTER_STATUS_PROGRESS, 100, _("Syncing folder"));
-		camel_folder_sync (p->defaultfolder, FALSE, ex);
+		camel_folder_sync (p->defaultfolder, FALSE, camel_exception_is_set (ex) ? NULL : ex);
 	}
 	
 	if (i == uids->len)
@@ -853,10 +853,11 @@ camel_filter_driver_filter_message (CamelFilterDriver *driver, CamelMimeMessage 
 				    CamelException *ex)
 {
 	struct _CamelFilterDriverPrivate *p = _PRIVATE (driver);
-	ESExpResult *r;
 	struct _filter_rule *node;
 	gboolean freeinfo = FALSE;
 	gboolean filtered = FALSE;
+	ESExpResult *r;
+	int result;
 	
 	if (info == NULL) {
 		struct _header_raw *h = CAMEL_MIME_PART (message)->headers;
@@ -881,12 +882,15 @@ camel_filter_driver_filter_message (CamelFilterDriver *driver, CamelMimeMessage 
 		camel_mime_message_set_source (message, original_source_url);
 	
 	node = (struct _filter_rule *)p->rules.head;
-	while (node->next) {
+	result = CAMEL_SEARCH_NOMATCH;
+	while (node->next && result != CAMEL_SEARCH_ERROR) {
 		d(fprintf (stderr, "applying rule %s\naction %s\n", node->match, node->action));
 		
-		if (camel_filter_search_match (p->message, p->info, 
-					       original_source_url ? original_source_url : source_url,
-					       node->match, p->ex)) {
+		result = camel_filter_search_match (p->message, p->info, 
+						    original_source_url ? original_source_url : source_url,
+						    node->match, p->ex);
+		
+		if (result == CAMEL_SEARCH_MATCHED) {
 			filtered = TRUE;
 			camel_filter_driver_log (driver, FILTER_LOG_START, node->name);
 			
@@ -925,10 +929,13 @@ camel_filter_driver_filter_message (CamelFilterDriver *driver, CamelMimeMessage 
 			
 			uids = g_ptr_array_new ();
 			g_ptr_array_add (uids, (char *) p->uid);
-			camel_folder_copy_messages_to (p->source, uids, p->defaultfolder, p->ex);
+			camel_folder_copy_messages_to (p->source, uids, p->defaultfolder,
+						       result == CAMEL_SEARCH_ERROR ? NULL : p->ex);
 			g_ptr_array_free (uids, TRUE);
-		} else
-			camel_folder_append_message (p->defaultfolder, p->message, p->info, p->ex);
+		} else {
+			camel_folder_append_message (p->defaultfolder, p->message, p->info,
+						     result == CAMEL_SEARCH_ERROR ? NULL : p->ex);
+		}
 	}
 	
 	if (freeinfo)

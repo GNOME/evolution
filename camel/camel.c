@@ -27,6 +27,8 @@
 #include <config.h>
 #endif
 
+#include <signal.h>
+
 #ifdef HAVE_NSS
 #include <nspr.h>
 #include <prthread.h>

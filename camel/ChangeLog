@@ -1,5 +1,13 @@
 2001-09-13  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-filter-driver.c (camel_filter_driver_filter_folder): Don't
+	reuse the exception if it has already been set.
+	(camel_filter_driver_filter_message): Same here. Also use the new
+	return value from camel_filter_search_match().
+
+	* camel-filter-search.c (camel_filter_search_match): Return an
+	integer (matched, no-match, or error).
+
 	* providers/local/camel-mbox-folder.c (mbox_append_message): Do
 	error-checking based on function return values rather than
 	exceptions as it's possible for them to be NULL.
