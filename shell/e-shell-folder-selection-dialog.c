@@ -378,7 +378,6 @@ e_shell_folder_selection_dialog_construct (EShellFolderSelectionDialog *folder_s
 
 	g_free (filename);
 
-	GTK_WIDGET_SET_FLAGS (priv->storage_set_view, GTK_CAN_FOCUS);
 	gtk_signal_connect (GTK_OBJECT (priv->storage_set_view), "double_click",
 			    GTK_SIGNAL_FUNC (dbl_click_cb),
 			    folder_selection_dialog);
@@ -408,6 +407,9 @@ e_shell_folder_selection_dialog_construct (EShellFolderSelectionDialog *folder_s
 
 	gtk_widget_show (priv->storage_set_view);
 	gtk_widget_show (scroll_frame);
+
+	GTK_WIDGET_SET_FLAGS (priv->storage_set_view, GTK_CAN_FOCUS);
+	gtk_widget_grab_focus (priv->storage_set_view);
 }
 
 /**

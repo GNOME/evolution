@@ -1,5 +1,11 @@
 2001-08-12  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-folder-selection-dialog.c
+	(e_shell_folder_selection_dialog_construct): Grab focus on the
+	storage set view.
+
+2001-08-12  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-local-storage.c (setup_folder_as_stock): Use utf 8 to set the
 	name.
 
