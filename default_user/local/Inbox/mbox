@@ -54,15 +54,14 @@ Content-Transfer-Encoding: quoted-printable
 		<blockquote>
 
    <p>On the left of the Evolution window is the Shortcut Bar, with
-	 icons labelled Today, Inbox Calendar, Mail, Contacts, Tasks and
-	 Notes.  You can click on those icons to jump from one tool to
+	 icons labelled Inbox, Calendar, and Contacts.  You can click on those icons to jump from one tool to
 	 another.</p>
 		  =
 
-		  <dl> <dt><b><font color=3D"#993366">Today</font></b></dt> =
+		  <dl> <!-- <dt><b><font color=3D"#993366">Today</font></b></dt> =
 
 		  <dd>This tool offers a summary of new messages and the tasks
-			 and appointments you have lined up for today.</dd>
+			 and appointments you have lined up for today.</dd>-->
 			 =
 
 		  <img src=3D"cid:26389.957885364.4@twelve-monkeys.helixcode.com" align=3Dright>
@@ -89,18 +88,18 @@ Content-Transfer-Encoding: quoted-printable
         network.</dd>
 		  =
 
-		  <dt><b><font color=3D"#993366">Tasks</font></b></dt>
+		  <!-- <dt><b><font color=3D"#993366">Tasks</font></b></dt>
 		  <dd>The Tasks tool combines a "to do" list with
 		  alarms and reminders to help you keep track of
 		  daily events.
-		  </dd>
+		  </dd> -->
 		  =
 
-        <dt><b><font color=3D"#993366">Notes</font></b></dt> =
+        <!--<dt><b><font color=3D"#993366">Notes</font></b></dt> =
 
 		  <dd> Write poems, take down messages from phone conversations,
 		  or keep small things organized: Notes is your catch-all
-		  notepad.</dd>
+		  notepad.</dd> -->
 
 		</dl>
 		  =

@@ -1,3 +1,8 @@
+2000-05-10  Matt Loper  <matt@helixcode.com>
+
+	* local/Inbox/mbox (Content-Transfer-Encoding): Commented out
+	currently unimplemented shortcut items.
+
 2000-05-10  Christopher James Lahey  <clahey@helixcode.com>
 
 	* Makefile.am, local/Calendar/Makefile.am,
