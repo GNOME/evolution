@@ -4,6 +4,11 @@
 	function
 	(destroy): use e_msg_composer_clear_inlined_table, destroy
 	inlined_images hash table
+	(get_signature): added in_html arg, it tells if we should use HTML
+	signature
+	(set_editor_text): try to use HTML signature
+	(e_msg_composer_new_with_sig_file): added send_html arg to be able
+	to use HTML signature
 
 	* listener.c (resolve_image_url): don't add inlined images to
 	attachement bar

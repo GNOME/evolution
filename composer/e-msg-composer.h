@@ -86,7 +86,8 @@ struct _EMsgComposerClass {
 GtkType           e_msg_composer_get_type             (void);
 void              e_msg_composer_construct            (EMsgComposer     *composer);
 EMsgComposer     *e_msg_composer_new                  (void);
-EMsgComposer     *e_msg_composer_new_with_sig_file    (const char       *sig_file);
+EMsgComposer     *e_msg_composer_new_with_sig_file    (const char       *sig_file,
+						       gboolean          send_html);
 EMsgComposer     *e_msg_composer_new_with_message     (CamelMimeMessage *msg);
 EMsgComposer     *e_msg_composer_new_from_url         (const char       *url);
 void              e_msg_composer_show_attachments     (EMsgComposer     *composer,

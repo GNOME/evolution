@@ -396,39 +396,43 @@ build_message (EMsgComposer *composer)
 }
 
 static char *
-get_signature (const char *sigfile)
+get_signature (const char *sigfile, gboolean in_html)
 {
 	GString *rawsig;
-	char buf[1024];
-	char *htmlsig = NULL;
+	gchar  buf[1024];
+	gchar *file_name;
+	gchar *htmlsig = NULL;
 	int fd, n;
-	
+
 	if (!sigfile || !*sigfile) {
 		return NULL;
 	}
+
+	file_name = in_html ? g_strconcat (sigfile, ".html", NULL) : (gchar *) sigfile;
 	
-	fd = open (sigfile, O_RDONLY);
+	fd = open (file_name, O_RDONLY);
 	if (fd == -1) {
 		char *msg;
 		
 		msg = g_strdup_printf (_("Could not open signature file %s:\n"
-					 "%s"), sigfile, g_strerror (errno));
+					 "%s"), file_name, g_strerror (errno));
 		gnome_error_dialog (msg);
 		g_free (msg);
 		
-		return NULL;
+		htmlsig = NULL;
+	} else {
+		rawsig = g_string_new ("");
+		while ((n = read (fd, buf, 1023)) > 0) {
+			buf[n] = '\0';
+			g_string_append (rawsig, buf);
+		}
+		close (fd);
+
+		htmlsig = in_html ? rawsig->str : e_text_to_html (rawsig->str, 0);
+		g_string_free (rawsig, !in_html);
 	}
-	
-	rawsig = g_string_new ("");
-	while ((n = read (fd, buf, 1023)) > 0) {
-		buf[n] = '\0';
-		g_string_append (rawsig, buf);
-	}
-	close (fd);
-	
-	htmlsig = e_text_to_html (rawsig->str, 0);
-	g_string_free (rawsig, TRUE);
-	
+	if (in_html) g_free (file_name);
+
 	return htmlsig;
 }
 
@@ -485,11 +489,21 @@ set_editor_text (EMsgComposer *composer, const char *sig_file, const char *text)
 	BonoboWidget *editor;
 	CORBA_Environment ev;
 	char *sig, *fulltext;
-	
+	gboolean html_sig = composer->send_html;
+
 	editor = BONOBO_WIDGET (composer->editor);
-	sig    = get_signature (sig_file);
+	sig    = get_signature (sig_file, html_sig);
+	/* if we tried HTML sig and it's not available, try also non HTML signature */
+	if (html_sig && !sig) {
+		html_sig = FALSE;
+		sig      = get_signature (sig_file, html_sig);
+	}
+		
 	if (sig) {
-		if (!strncmp ("-- \n", sig, 3))
+		if (html_sig)
+			fulltext = g_strdup_printf ("%s<br>%s",
+						    text, sig);
+		else if (!strncmp ("-- \n", sig, 3))
 			fulltext = g_strdup_printf ("%s<br>\n<pre>\n%s</pre>",
 						    text, sig);
 		else
@@ -1423,12 +1437,13 @@ e_msg_composer_new (void)
  * Return value: A pointer to the newly created widget
  **/
 EMsgComposer *
-e_msg_composer_new_with_sig_file (const char *sig_file)
+e_msg_composer_new_with_sig_file (const char *sig_file, gboolean send_html)
 {
 	EMsgComposer *new;
 	
 	new = create_composer ();
 	if (new) {
+		e_msg_composer_set_send_html (new, send_html);
 		/* Load the signature, if any. */
 		set_editor_text (new, sig_file, "");
 		
