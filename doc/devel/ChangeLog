@@ -1,3 +1,10 @@
+2001-06-25  Peter Williams  <peterw@ximian.com>
+
+	* calendar/cal-util/Makefile.am,
+	calendar/cal-client/Makefile.am: Fix make dist.
+
+	* Makefile.am: clean up a bit.
+
 2001-06-21  JP Rosevear  <jpr@ximian.com>
 
 	* Makefile.am: disable executive summary build because it is no

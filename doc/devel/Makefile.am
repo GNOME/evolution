@@ -59,7 +59,6 @@ local_entities =					\
 
 # Extra SGML files that are included by $(DOC_MAIN_SGML_FILE).
 content_files =				\
-	evolution-devel-guide.sgml	\
 	fdl.sgml			\
 	preface.sgml			\
 	reference.sgml			\
@@ -159,7 +158,6 @@ dist-hook: dist-check-gtkdoc dist-hook-local
 	mkdir $(distdir)/html
 	-cp $(srcdir)/html/index.sgml $(distdir)/html
 	-cp $(srcdir)/html/*.html $(srcdir)/html/*.css $(distdir)/html
-
 	images=$(HTML_IMAGES) ;	       \
 	for i in $$images ; do		\
 	  cp $(srcdir)/$$i $(distdir)/html ;  \

@@ -183,16 +183,17 @@ endif
 
 dist-hook: dist-check-gtkdoc dist-hook-local
 	mkdir $(distdir)/tmpl
-	mkdir $(distdir)/sgml
 	mkdir $(distdir)/html
 	-cp $(srcdir)/tmpl/*.sgml $(distdir)/tmpl
 	-cp $(srcdir)/sgml/*.sgml $(distdir)/sgml
 	-cp $(srcdir)/html/index.sgml $(distdir)/html
 	-cp $(srcdir)/html/*.html $(srcdir)/html/*.css $(distdir)/html
-
 	images=$(HTML_IMAGES) ;	       \
 	for i in $$images ; do		\
 	  cp $(srcdir)/$$i $(distdir)/html ;  \
 	done
+
+# Done automatically by automake in doc/devel
+#	mkdir $(distdir)/sgml
 
 .PHONY : dist-hook-local
