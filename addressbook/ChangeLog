@@ -1,5 +1,13 @@
 2001-08-03  Christopher James Lahey  <clahey@ximian.com>
 
+	* gui/component/select-names/e-select-names.c
+	(e_select_names_hookup_shell_listener): Check for storage != NULL
+	here.  This shouldn't come up unless addressbook has crashed
+	previously within this session of evolution, but this is just a
+	bit of insurance.
+
+2001-08-03  Christopher James Lahey  <clahey@ximian.com>
+
 	* backend/ebook/e-card.c (e_card_name_match_string): Changed the
 	criteria of whether the first part of each iteration matched or
 	the second one did.  Before it got it wrong sometimes and caused

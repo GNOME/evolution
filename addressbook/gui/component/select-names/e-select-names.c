@@ -412,20 +412,23 @@ e_select_names_hookup_shell_listener (ESelectNames *e_select_names)
 	gtk_signal_connect(GTK_OBJECT(e_select_names->listener), "removed_folder",
 			   GTK_SIGNAL_FUNC(removed_folder), e_select_names);
 
-	GNOME_Evolution_Storage_addListener(storage, listener, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning ("e_select_names_init: Exception adding listener to "
-			   "remote GNOME_Evolution_Storage interface.\n");
-		CORBA_exception_free (&ev);
-		return;
-	}
+	if (storage != NULL) {
+		GNOME_Evolution_Storage_addListener(storage, listener, &ev);
 
-	bonobo_object_release_unref(storage, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning ("e_select_names_init: Exception unref'ing "
-			   "remote GNOME_Evolution_Storage interface.\n");
-		CORBA_exception_free (&ev);
-		return;
+		if (ev._major != CORBA_NO_EXCEPTION) {
+			g_warning ("e_select_names_init: Exception adding listener to "
+				   "remote GNOME_Evolution_Storage interface.\n");
+			CORBA_exception_free (&ev);
+			return;
+		}
+
+		bonobo_object_release_unref(storage, &ev);
+		if (ev._major != CORBA_NO_EXCEPTION) {
+			g_warning ("e_select_names_init: Exception unref'ing "
+				   "remote GNOME_Evolution_Storage interface.\n");
+			CORBA_exception_free (&ev);
+			return;
+		}
 	}
 
 	CORBA_exception_free(&ev);
