@@ -31,8 +31,9 @@ void           e_summary_preferences_save     (ESummaryPrefs *prefs);
 void           e_summary_preferences_free     (ESummaryPrefs *prefs);
 ESummaryPrefs *e_summary_preferences_copy     (ESummaryPrefs *prefs);
 ESummaryPrefs *e_summary_preferences_init     (void);
+ESummaryPrefs *e_summary_preferences_get_global (void);
 
-gboolean  e_summary_preferences_register_config_control_factory  (ESummary *summary);
+gboolean  e_summary_preferences_register_config_control_factory  (void);
 
 
 #endif

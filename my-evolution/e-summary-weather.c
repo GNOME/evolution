@@ -663,20 +663,14 @@ is_weather_shown (ESummaryWeather *weather,
 }
 
 void
-e_summary_weather_fill_etable (ESummaryShown *ess,
-			       ESummary *summary)
+e_summary_weather_fill_etable (ESummaryShown *ess)
 {
-	ESummaryWeather *weather;
 	ETreePath region, state, location;
 	ESummaryShownModelEntry *entry;
 	char *key, *path;
 	int nregions, iregions;
 	char **regions;
 
-	g_return_if_fail (IS_E_SUMMARY (summary));
-	
-	weather = summary->weather;
-	
 	path = g_strdup (EVOLUTION_DATADIR "/evolution/Locations");
 
 	key = g_strdup_printf ("=%s=/", path);

@@ -371,7 +371,7 @@ generate_html (gpointer data)
 		g_free (s1);
 		g_free (s2);
 
-		e_summary_draw (summary);
+/*  		e_summary_draw (summary); */
 		return FALSE;
 	} else {
 		GPtrArray *uidarray;
@@ -434,7 +434,7 @@ generate_html (gpointer data)
 	calendar->html = string->str;
 	g_string_free (string, FALSE);
 
-	e_summary_draw (summary);
+/*  	e_summary_draw (summary); */
 	return FALSE;
 }
 

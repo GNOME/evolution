@@ -256,7 +256,7 @@ generate_html (gpointer data)
 		g_free (s1);
 		g_free (s2);
 
-		e_summary_draw (summary);
+/*  		e_summary_draw (summary); */
 		return FALSE;
 	} else {
 		char *s;
@@ -316,7 +316,7 @@ generate_html (gpointer data)
 	tasks->html = string->str;
 	g_string_free (string, FALSE);
 
-	e_summary_draw (summary);
+/*  	e_summary_draw (summary); */
 	return FALSE;
 }
 

@@ -155,7 +155,5 @@ e_summary_factory_new_control (const char *uri,
 	/* FIXME: We register the factory here as it needs the summary object.
 	   Sigh, this is really wrong.  */
 
-	e_summary_preferences_register_config_control_factory (summary);
-
 	return control;
 }

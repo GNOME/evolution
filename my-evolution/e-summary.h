@@ -137,6 +137,8 @@ void e_summary_reload (BonoboUIComponent *component,
 		       gpointer user_data,
 		       const char *cname);
 void e_summary_draw (ESummary *summary);
+void e_summary_redraw_all (void);
+
 void e_summary_change_current_view (ESummary *summary,
 				    const char *uri);
 

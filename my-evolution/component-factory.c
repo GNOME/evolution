@@ -32,11 +32,14 @@
 #include <shell/evolution-shell-component.h>
 #include <shell/Evolution.h>
 
+#include <gal/widgets/e-gui-utils.h>
+
 #include "e-summary-factory.h"
 #include "e-summary-offline-handler.h"
 #include "e-summary.h"
+#include "e-summary-preferences.h"
+
 #include "component-factory.h"
-#include <gal/widgets/e-gui-utils.h>
 
 #define COMPONENT_ID         "OAFIID:GNOME_Evolution_Summary_ShellComponent"
 #define COMPONENT_FACTORY_ID "OAFIID:GNOME_Evolution_Summary_ShellComponentFactory"
@@ -89,9 +92,16 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	      const char *evolution_homedir,
 	      gpointer user_data)
 {
+	GNOME_Evolution_Shell corba_shell;
+	
 	if (evolution_dir != NULL) {
 		evolution_dir = g_strdup (evolution_homedir);
 	}
+
+	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));
+	
+	e_summary_folder_init_folder_store (corba_shell);
+	e_summary_preferences_register_config_control_factory ();
 }
 
 static void

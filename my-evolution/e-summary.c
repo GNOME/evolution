@@ -72,6 +72,8 @@
 
 extern char *evolution_dir;
 
+static GList *all_summaries = NULL;
+
 static GtkObjectClass *e_summary_parent_class;
 
 struct _ESummaryMailFolderInfo {
@@ -126,6 +128,8 @@ destroy (GtkObject *object)
 		return;
 	}
 
+	all_summaries = g_list_remove (all_summaries, summary);
+	
 	if (priv->pending_reload_tag) {
 		gtk_timeout_remove (priv->pending_reload_tag);
 		priv->pending_reload_tag = 0;
@@ -233,6 +237,16 @@ e_summary_draw (ESummary *summary)
 	gtk_html_end (GTK_HTML (summary->priv->html), stream, GTK_HTML_STREAM_OK);
 
 	g_string_free (string, TRUE);
+}
+
+void
+e_summary_redraw_all (void)
+{
+	GList *p;
+
+	for (p = all_summaries; p; p = p->next) {
+		e_summary_draw (E_SUMMARY (p->data));
+	}
 }
 
 static char *
@@ -539,7 +553,7 @@ e_summary_new (const GNOME_Evolution_Shell shell,
 	
 	e_summary_add_protocol_listener (summary, "evolution", e_summary_evolution_protocol_listener, summary);
 
-	e_summary_mail_init (summary, shell);
+	e_summary_mail_init (summary);
 	e_summary_calendar_init (summary);
 	e_summary_tasks_init (summary);
 	e_summary_rdf_init (summary);
@@ -547,6 +561,7 @@ e_summary_new (const GNOME_Evolution_Shell shell,
 
 /*  	e_summary_draw (summary); */
 
+	all_summaries = g_list_prepend (all_summaries, summary);
 	return GTK_WIDGET (summary);
 }
 
@@ -720,10 +735,6 @@ e_summary_unset_message (ESummary *summary)
 void
 e_summary_reconfigure (ESummary *summary)
 {
-	if (summary->mail != NULL) {
-		e_summary_mail_reconfigure (summary);
-	}
-
 	if (summary->rdf != NULL) {
 		e_summary_rdf_reconfigure (summary);
 	}
@@ -738,6 +749,21 @@ e_summary_reconfigure (ESummary *summary)
 
 	if (summary->tasks != NULL) {
 		e_summary_tasks_reconfigure (summary);
+	}
+
+	e_summary_draw (summary);
+}
+
+void
+e_summary_reconfigure_all (void)
+{
+	GList *p;
+
+	/* This is here, because it only needs to be done once for all summaries */
+	e_summary_mail_reconfigure ();
+
+	for (p = all_summaries; p; p = p->next) {
+		e_summary_reconfigure (E_SUMMARY (p->data));
 	}
 }
 

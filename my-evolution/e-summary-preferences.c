@@ -402,6 +402,12 @@ e_summary_preferences_init (void)
 	return prefs;
 }
 
+ESummaryPrefs *
+e_summary_preferences_get_global (void)
+{
+	return global_preferences;
+}
+
 struct _MailPage {
 	GtkWidget *etable;
 	GtkWidget *all, *shown;
@@ -438,7 +444,6 @@ struct _CalendarPage {
 typedef struct _PropertyData {
 	EvolutionConfigControl *config_control;
 
-	ESummary *summary;
 	GtkWidget *new_url_entry, *new_name_entry;
 	GladeXML *xml;
 
@@ -562,7 +567,7 @@ rdf_is_shown (PropertyData *pd,
 {
 	GList *p;
 
-	for (p = pd->summary->preferences->rdf_urls; p; p = p->next) {
+	for (p = global_preferences->rdf_urls; p; p = p->next) {
 		if (strcmp (p->data, url) == 0) {
 			return TRUE;
 		}
@@ -669,67 +674,26 @@ static void
 fill_weather_etable (ESummaryShown *ess,
 		     PropertyData *pd)
 {
-	e_summary_weather_fill_etable (ess, pd->summary);
+	e_summary_weather_fill_etable (ess);
 }
 
 static void
 fill_mail_etable (ESummaryTable *est,
 		  PropertyData *pd)
 {
-	e_summary_mail_fill_list (est, pd->summary);
+	e_summary_mail_fill_list (est);
 }
 
 static void
 mail_show_full_path_toggled_cb (GtkToggleButton *tb,
 				PropertyData *pd)
 {
-	pd->summary->preferences->show_full_path = gtk_toggle_button_get_active (tb);
+	global_preferences->show_full_path = gtk_toggle_button_get_active (tb);
 
 	evolution_config_control_changed (pd->config_control);
 }
 
 #if 0
-static void
-add_dialog_clicked_cb (GnomeDialog *dialog,
-		       int button,
-		       PropertyData *pd)
-{
-	struct _RDFInfo *info;
-	char *url, *name;
-	char *text[1];
-	int row;
-
-	if (button == 1) {
-		gnome_dialog_close (dialog);
-		return;
-	}
-
-	url = gtk_entry_get_text (GTK_ENTRY (pd->new_url_entry));
-	if (url == NULL || *text == 0) {
-		gnome_dialog_close (dialog);
-		return;
-	}
-	name = gtk_entry_get_text (GTK_ENTRY (pd->new_name_entry));
-	info = g_new (struct _RDFInfo, 1);
-	info->url = g_strdup (url);
-	info->name = name ? g_strdup (name) : g_strdup (url);
-
-	text[0] = info->name;
-	row = gtk_clist_append (GTK_CLIST (pd->rdf->all), text);
-	gtk_clist_set_row_data_full (GTK_CLIST (pd->rdf->all), row, info,
-				     (GdkDestroyNotify) free_rdf_info);
-	pd->rdf->known = g_list_append (pd->rdf->known, info);
-
-	save_known_rdfs (pd->rdf->known);
-	pd->summary->preferences->rdf_urls = g_list_prepend (pd->summary->preferences->rdf_urls, g_strdup (info->url));
-	row = gtk_clist_prepend (GTK_CLIST (pd->rdf->shown), text);
-	gtk_clist_set_row_data (GTK_CLIST (pd->rdf->shown), row,
-				pd->summary->preferences->rdf_urls);
-
-	evolution_config_control_changed (pd->config_control);
-	gnome_dialog_close (dialog);
-}
-
 static void
 rdf_new_url_clicked_cb (GtkButton *button,
 			PropertyData *pd)
@@ -777,7 +741,7 @@ static void
 rdf_refresh_value_changed_cb (GtkAdjustment *adj,
 			      PropertyData *pd)
 {
-	pd->summary->preferences->rdf_refresh_time = (int) adj->value;
+	global_preferences->rdf_refresh_time = (int) adj->value;
 	evolution_config_control_changed (pd->config_control);
 }
 
@@ -785,7 +749,7 @@ static void
 rdf_limit_value_changed_cb (GtkAdjustment *adj,
 			    PropertyData *pd)
 {
-	pd->summary->preferences->limit = (int) adj->value;
+	global_preferences->limit = (int) adj->value;
 	evolution_config_control_changed (pd->config_control);
 }
 
@@ -794,28 +758,34 @@ mail_etable_item_changed_cb (ESummaryTable *est,
 			     ETreePath path,
 			     PropertyData *pd)
 {
-	evolution_config_control_changed (pd->config_control);
+	if (pd->config_control != NULL) {
+		evolution_config_control_changed (pd->config_control);
+	}
 }
 
 static void
-rdf_etable_item_changed_cb (ESummaryTable *est,
+rdf_etable_item_changed_cb (ESummaryShown *ess,
 			    PropertyData *pd)
 {
-	evolution_config_control_changed (pd->config_control);
+	if (pd->config_control != NULL) {
+		evolution_config_control_changed (pd->config_control);
+	}
 }
 
 static void
-weather_etable_item_changed_cb (ESummaryTable *est,
+weather_etable_item_changed_cb (ESummaryShown *ess,
 				PropertyData *pd)
 {
-	evolution_config_control_changed (pd->config_control);
+	if (pd->config_control != NULL) {
+		evolution_config_control_changed (pd->config_control);
+	}
 }
 
 static void
 weather_refresh_value_changed_cb (GtkAdjustment *adj,
 				  PropertyData *pd)
 {
-	pd->summary->preferences->weather_refresh_time = (int) adj->value;
+	global_preferences->weather_refresh_time = (int) adj->value;
 	evolution_config_control_changed (pd->config_control);
 }
 
@@ -827,7 +797,7 @@ weather_metric_toggled_cb (GtkToggleButton *tb,
 		return;
 	}
 
-	pd->summary->preferences->units = UNITS_METRIC;
+	global_preferences->units = UNITS_METRIC;
 	evolution_config_control_changed (pd->config_control);
 }
 
@@ -839,7 +809,7 @@ weather_imperial_toggled_cb (GtkToggleButton *tb,
 		return;
 	}
 
-	pd->summary->preferences->units = UNITS_IMPERIAL;
+	global_preferences->units = UNITS_IMPERIAL;
 	evolution_config_control_changed (pd->config_control);
 }
 
@@ -852,7 +822,7 @@ calendar_one_toggled_cb (GtkToggleButton *tb,
 		return;
 	}
 
-	pd->summary->preferences->days = E_SUMMARY_CALENDAR_ONE_DAY;
+	global_preferences->days = E_SUMMARY_CALENDAR_ONE_DAY;
 	evolution_config_control_changed (pd->config_control);
 }
 
@@ -864,7 +834,7 @@ calendar_five_toggled_cb (GtkToggleButton *tb,
 		return;
 	}
 
-	pd->summary->preferences->days = E_SUMMARY_CALENDAR_FIVE_DAYS;
+	global_preferences->days = E_SUMMARY_CALENDAR_FIVE_DAYS;
 	evolution_config_control_changed (pd->config_control);
 }
 
@@ -876,7 +846,7 @@ calendar_week_toggled_cb (GtkToggleButton *tb,
 		return;
 	}
 
-	pd->summary->preferences->days = E_SUMMARY_CALENDAR_ONE_WEEK;
+	global_preferences->days = E_SUMMARY_CALENDAR_ONE_WEEK;
 	evolution_config_control_changed (pd->config_control);
 }
 
@@ -888,7 +858,7 @@ calendar_month_toggled_cb (GtkToggleButton *tb,
 		return;
 	}
 
-	pd->summary->preferences->days = E_SUMMARY_CALENDAR_ONE_MONTH;
+	global_preferences->days = E_SUMMARY_CALENDAR_ONE_MONTH;
 	evolution_config_control_changed (pd->config_control);
 }
 
@@ -900,7 +870,7 @@ calendar_all_toggled_cb (GtkToggleButton *tb,
 		return;
 	}
 
-	pd->summary->preferences->show_tasks = E_SUMMARY_CALENDAR_ALL_TASKS;
+	global_preferences->show_tasks = E_SUMMARY_CALENDAR_ALL_TASKS;
 	evolution_config_control_changed (pd->config_control);
 }
 
@@ -912,7 +882,7 @@ calendar_today_toggled_cb (GtkToggleButton *tb,
 		return;
 	}
 
-	pd->summary->preferences->show_tasks = E_SUMMARY_CALENDAR_TODAYS_TASKS;
+	global_preferences->show_tasks = E_SUMMARY_CALENDAR_TODAYS_TASKS;
 	evolution_config_control_changed (pd->config_control);
 }
 
@@ -931,16 +901,15 @@ make_property_dialog (PropertyData *pd)
 	mail->etable = glade_xml_get_widget (pd->xml, "mail-custom");
 	g_return_val_if_fail (mail->etable != NULL, FALSE);
 
-	gtk_signal_connect (GTK_OBJECT (mail->etable), "item-changed",
-			    GTK_SIGNAL_FUNC (mail_etable_item_changed_cb), pd);
-	
-	mail->model = E_SUMMARY_TABLE (mail->etable)->model;
 	fill_mail_etable (E_SUMMARY_TABLE (mail->etable), pd);
 	
+	gtk_signal_connect (GTK_OBJECT (mail->etable), "item-changed",
+			    GTK_SIGNAL_FUNC (mail_etable_item_changed_cb), pd);
+	mail->model = E_SUMMARY_TABLE (mail->etable)->model;
 	mail->fullpath = glade_xml_get_widget (pd->xml, "checkbutton1");
 	g_return_val_if_fail (mail->fullpath != NULL, FALSE);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (mail->fullpath),
-				      pd->summary->preferences->show_full_path);
+				      global_preferences->show_full_path);
 	gtk_signal_connect (GTK_OBJECT (mail->fullpath), "toggled",
 			    GTK_SIGNAL_FUNC (mail_show_full_path_toggled_cb), pd);
 
@@ -960,14 +929,14 @@ make_property_dialog (PropertyData *pd)
 	rdf->refresh = glade_xml_get_widget (pd->xml, "spinbutton1");
 	g_return_val_if_fail (rdf->refresh != NULL, FALSE);
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (rdf->refresh),
-				   (float) pd->summary->preferences->rdf_refresh_time);
+				   (float) global_preferences->rdf_refresh_time);
 	gtk_signal_connect (GTK_OBJECT (GTK_SPIN_BUTTON (rdf->refresh)->adjustment), "value_changed",
 			    GTK_SIGNAL_FUNC (rdf_refresh_value_changed_cb), pd);
 
 	rdf->limit = glade_xml_get_widget (pd->xml, "spinbutton4");
 	g_return_val_if_fail (rdf->limit != NULL, FALSE);
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (rdf->limit), 
-				   (float) pd->summary->preferences->limit);
+				   (float) global_preferences->limit);
 	gtk_signal_connect (GTK_OBJECT (GTK_SPIN_BUTTON (rdf->limit)->adjustment), "value_changed",
 			    GTK_SIGNAL_FUNC (rdf_limit_value_changed_cb), pd);
 
@@ -987,7 +956,7 @@ make_property_dialog (PropertyData *pd)
 	weather->refresh = glade_xml_get_widget (pd->xml, "spinbutton5");
 	g_return_val_if_fail (weather->refresh != NULL, FALSE);
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (weather->refresh),
-				   (float) pd->summary->preferences->weather_refresh_time);
+				   (float) global_preferences->weather_refresh_time);
 	gtk_signal_connect (GTK_OBJECT (GTK_SPIN_BUTTON (weather->refresh)->adjustment),
 					"value-changed",
 					GTK_SIGNAL_FUNC (weather_refresh_value_changed_cb),
@@ -995,13 +964,15 @@ make_property_dialog (PropertyData *pd)
 
 	weather->metric = glade_xml_get_widget (pd->xml, "radiobutton7");
 	g_return_val_if_fail (weather->metric != NULL, FALSE);
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (weather->metric), (pd->summary->preferences->units == UNITS_METRIC));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (weather->metric),
+				      (global_preferences->units == UNITS_METRIC));
 	gtk_signal_connect (GTK_OBJECT (weather->metric), "toggled",
 			    GTK_SIGNAL_FUNC (weather_metric_toggled_cb), pd);
 
 	weather->imperial = glade_xml_get_widget (pd->xml, "radiobutton8");
 	g_return_val_if_fail (weather->imperial != NULL, FALSE);
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (weather->imperial), (pd->summary->preferences->units == UNITS_IMPERIAL));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (weather->imperial),
+				      (global_preferences->units == UNITS_IMPERIAL));
 	gtk_signal_connect (GTK_OBJECT (weather->imperial), "toggled",
 			    GTK_SIGNAL_FUNC (weather_imperial_toggled_cb), pd);
 
@@ -1010,42 +981,42 @@ make_property_dialog (PropertyData *pd)
 	calendar->one = glade_xml_get_widget (pd->xml, "radiobutton3");
 	g_return_val_if_fail (calendar->one != NULL, FALSE);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (calendar->one),
-				      (pd->summary->preferences->days == E_SUMMARY_CALENDAR_ONE_DAY));
+				      (global_preferences->days == E_SUMMARY_CALENDAR_ONE_DAY));
 	gtk_signal_connect (GTK_OBJECT (calendar->one), "toggled",
 			    GTK_SIGNAL_FUNC (calendar_one_toggled_cb), pd);
 
 	calendar->five = glade_xml_get_widget (pd->xml, "radiobutton4");
 	g_return_val_if_fail (calendar->five != NULL, FALSE);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (calendar->five),
-				      (pd->summary->preferences->days == E_SUMMARY_CALENDAR_FIVE_DAYS));
+				      (global_preferences->days == E_SUMMARY_CALENDAR_FIVE_DAYS));
 	gtk_signal_connect (GTK_OBJECT (calendar->five), "toggled",
 			    GTK_SIGNAL_FUNC (calendar_five_toggled_cb), pd);
 
 	calendar->week = glade_xml_get_widget (pd->xml, "radiobutton5");
 	g_return_val_if_fail (calendar->week != NULL, FALSE);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (calendar->week),
-				      (pd->summary->preferences->days == E_SUMMARY_CALENDAR_ONE_WEEK));
+				      (global_preferences->days == E_SUMMARY_CALENDAR_ONE_WEEK));
 	gtk_signal_connect (GTK_OBJECT (calendar->week), "toggled",
 			    GTK_SIGNAL_FUNC (calendar_week_toggled_cb), pd);
 
 	calendar->month = glade_xml_get_widget (pd->xml, "radiobutton6");
 	g_return_val_if_fail (calendar->month != NULL, FALSE);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (calendar->month),
-				      (pd->summary->preferences->days == E_SUMMARY_CALENDAR_ONE_MONTH));
+				      (global_preferences->days == E_SUMMARY_CALENDAR_ONE_MONTH));
 	gtk_signal_connect (GTK_OBJECT (calendar->month), "toggled",
 			    GTK_SIGNAL_FUNC (calendar_month_toggled_cb), pd);
 
 	calendar->all = glade_xml_get_widget (pd->xml, "radiobutton1");
 	g_return_val_if_fail (calendar->all != NULL, FALSE);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (calendar->all),
-				      (pd->summary->preferences->show_tasks == E_SUMMARY_CALENDAR_ALL_TASKS));
+				      (global_preferences->show_tasks == E_SUMMARY_CALENDAR_ALL_TASKS));
 	gtk_signal_connect (GTK_OBJECT (calendar->all), "toggled",
 			    GTK_SIGNAL_FUNC (calendar_all_toggled_cb), pd);
 
 	calendar->today = glade_xml_get_widget (pd->xml, "radiobutton2");
 	g_return_val_if_fail (calendar->today != NULL, FALSE);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (calendar->today),
-				      (pd->summary->preferences->show_tasks == E_SUMMARY_CALENDAR_TODAYS_TASKS));
+				      (global_preferences->show_tasks == E_SUMMARY_CALENDAR_TODAYS_TASKS));
 	gtk_signal_connect (GTK_OBJECT(calendar->today), "toggled",
 			    GTK_SIGNAL_FUNC (calendar_today_toggled_cb), pd);
 
@@ -1078,9 +1049,6 @@ free_property_dialog (PropertyData *pd)
 
 	if (pd->xml) {
 		gtk_object_unref (GTK_OBJECT (pd->xml));
-	}
-	if (pd->summary) {
-		gtk_object_unref (GTK_OBJECT (pd->summary));
 	}
 
 	g_free (pd);
@@ -1161,12 +1129,12 @@ config_control_apply_cb (EvolutionConfigControl *control,
 	g_hash_table_foreach (E_SUMMARY_SHOWN (pd->rdf->etable)->shown_model,
 			      add_shown_to_list, &pd->rdf->tmp_list);
 	
-	if (pd->summary->preferences->rdf_urls) {
-		free_str_list (pd->summary->preferences->rdf_urls);
-		g_list_free (pd->summary->preferences->rdf_urls);
+	if (global_preferences->rdf_urls) {
+		free_str_list (global_preferences->rdf_urls);
+		g_list_free (global_preferences->rdf_urls);
 	}
 	
-	pd->summary->preferences->rdf_urls = copy_str_list (pd->rdf->tmp_list);
+	global_preferences->rdf_urls = copy_str_list (pd->rdf->tmp_list);
 	
 	/* Weather */
 	if (pd->weather->tmp_list) {
@@ -1177,11 +1145,11 @@ config_control_apply_cb (EvolutionConfigControl *control,
 	
 	g_hash_table_foreach (E_SUMMARY_SHOWN (pd->weather->etable)->shown_model,
 			      add_shown_to_list, &pd->weather->tmp_list);
-	if (pd->summary->preferences->stations) {
-		free_str_list (pd->summary->preferences->stations);
-		g_list_free (pd->summary->preferences->stations);
+	if (global_preferences->stations) {
+		free_str_list (global_preferences->stations);
+		g_list_free (global_preferences->stations);
 	}
-	pd->summary->preferences->stations = copy_str_list (pd->weather->tmp_list);
+	global_preferences->stations = copy_str_list (pd->weather->tmp_list);
 	
 	/* Folders */
 	if (pd->mail->tmp_list) {
@@ -1191,13 +1159,13 @@ config_control_apply_cb (EvolutionConfigControl *control,
 	}
 	g_hash_table_foreach (pd->mail->model, maybe_add_to_shown, &pd->mail->tmp_list);
 	
-	if (pd->summary->preferences->display_folders) {
-		free_str_list (pd->summary->preferences->display_folders);
-		g_list_free (pd->summary->preferences->display_folders);
+	if (global_preferences->display_folders) {
+		free_str_list (global_preferences->display_folders);
+		g_list_free (global_preferences->display_folders);
 	}
-	pd->summary->preferences->display_folders = copy_str_list (pd->mail->tmp_list);
-	
-	e_summary_reconfigure (pd->summary);
+	global_preferences->display_folders = copy_str_list (pd->mail->tmp_list);
+
+  	e_summary_reconfigure_all ();
 }
 
 static void
@@ -1208,7 +1176,7 @@ config_control_destroy_cb (EvolutionConfigControl *config_control,
 
 	pd = (PropertyData *) data;
 
-	e_summary_preferences_save (pd->summary->preferences);
+	e_summary_preferences_save (global_preferences);
 	free_property_dialog (pd);
 }
 
@@ -1216,16 +1184,10 @@ static BonoboObject *
 factory_fn (BonoboGenericFactory *generic_factory,
 	    void *data)
 {
-	ESummary *summary;
 	PropertyData *pd;
 	GtkWidget *widget;
 
-	summary = E_SUMMARY (data);
-
 	pd = g_new0 (PropertyData, 1);
-
-	gtk_object_ref (GTK_OBJECT (summary));
-	pd->summary = summary;
 
 	pd->xml = glade_xml_new (EVOLUTION_GLADEDIR "/my-evolution.glade", NULL);
 	g_return_val_if_fail (pd->xml != NULL, NULL);
@@ -1254,9 +1216,9 @@ factory_fn (BonoboGenericFactory *generic_factory,
 }
 
 gboolean
-e_summary_preferences_register_config_control_factory (ESummary *summary)
+e_summary_preferences_register_config_control_factory (void)
 {
-	if (bonobo_generic_factory_new (FACTORY_ID, factory_fn, summary) == NULL)
+	if (bonobo_generic_factory_new (FACTORY_ID, factory_fn, NULL) == NULL)
 		return FALSE;
 
 	return TRUE;
