@@ -42,6 +42,7 @@
 
     <submenu name="Actions" _label="_Actions">
       <placeholder name="ComponentActionsPlaceholder">
+        <separator/>
 	<menuitem name="TasksExpunge" verb=""/>
       </placeholder>
     </submenu>
