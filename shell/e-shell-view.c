@@ -1781,6 +1781,7 @@ update_folder_title_bar (EShellView *shell_view,
 			folder_icon = e_folder_type_registry_get_icon_for_type (folder_type_registry,
 										e_folder_get_type_string (folder),
 										TRUE);
+			gdk_pixbuf_ref (folder_icon);
 		}
 	}
 

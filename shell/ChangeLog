@@ -1,5 +1,10 @@
 2002-07-11  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-view.c (update_folder_title_bar): Ref the folder_icon
+	that we get from e_folder_type_registry_get_icon_for_type().
+
+2002-07-11  Ettore Perazzoli  <ettore@ximian.com>
+
 	* evolution-storage.c (get_folder_list_foreach): Copy
 	customIconName and sortingPriority in the new_corba_folder.
 	[#27670]
