@@ -10,9 +10,10 @@ AC_CHECK_HEADERS(fcntl.h sys/param.h sys/statfs.h sys/fstyp.h \
 mnttab.h mntent.h sys/statvfs.h sys/vfs.h sys/mount.h \
 sys/filsys.h sys/fs_types.h sys/fs/s5param.h)
 
+AM_FUNC_ERROR_AT_LINE
 AC_CHECK_FUNCS(bcopy endgrent endpwent fchdir ftime ftruncate \
 getcwd getmntinfo gettimeofday isascii lchown \
-listmntent memcpy mkfifo strchr strerror strrchr)
+listmntent memcpy mkfifo strchr strerror strrchr vprintf)
 
 # Determine how to get the list of mounted filesystems.
 list_mounted_fs=
@@ -368,32 +369,6 @@ DF_PROG="df"
 LIBOBJS="$LIBOBJS fsusage.o"
 LIBOBJS="$LIBOBJS mountlist.o"
 fi
-
-AC_CHECK_FUNCS(ftruncate, , [ftruncate_missing=yes])
-
-if test "$ftruncate_missing" = yes; then
-AC_MSG_CHECKING([fcntl emulation of ftruncate])
-AC_CACHE_VAL(fu_cv_sys_ftruncate_emulation,
-[AC_TRY_LINK([
-#include <sys/types.h>
-#include <fcntl.h>], [
-#if !defined(F_CHSIZE) && !defined(F_FREESP)
-chsize();
-#endif
-],
-fu_cv_sys_ftruncate_emulation=yes,
-fu_cv_sys_ftruncate_emulation=no)])
-AC_MSG_RESULT($fu_cv_sys_ftruncate_emulation)
-if test $fu_cv_sys_ftruncate_emulation = yes; then
-LIBOBJS="$LIBOBJS ftruncate.o"
-fi
-fi
-
-case "$LIBOBJS" in
-*rename.o*)
-MVDIR_PROG="mvdir"
-;;
-esac
 
 # Check for SunOS statfs brokenness wrt partitions 2GB and larger.
 # If <sys/vfs.h> exists and struct statfs has a member named f_spare,

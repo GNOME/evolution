@@ -1,3 +1,12 @@
+1998-06-24  Raja R Harinath  <harinath@cs.umn.edu>
+
+	* gnome-fileutils.m4 (AM_FUNC_ERROR_AT_LINE): New check.
+	(vprintf): New check.
+	(ftruncate.c): Remove check.  
+	This needs to be further cleaned up to only list what is
+	needed for gdiskfree.
+	* Makefile.am (MACROS): Add gnome-fileutils.m4.
+	
 1998-06-14  Martin Baulig  <martin@home-of-linux.org>
 
 	* gnome-libgtop-sysdeps.m4 (LINUX_TABLE): New automake conditional;
