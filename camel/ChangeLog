@@ -1,3 +1,8 @@
+2001-10-01  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-charset-map.c (camel_charset_to_iconv): If the charset is
+	x-unknown, return the locale_charset.
+
 2001-10-01  Dan Winship  <danw@ximian.com>
 
 	* camel-provider.h: Fix up the provider flags to specify things
