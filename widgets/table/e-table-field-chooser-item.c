@@ -85,6 +85,8 @@ etfci_find_button (ETableFieldChooserItem *etfci, double loc)
 		ETableCol *ecol;
 
 		ecol = e_table_header_get_column (etfci->combined_header, i);
+		if (ecol->disabled)
+			continue;
 		height += e_table_header_compute_height (ecol, style, etfci->font);
 		if (height > loc)
 			return i;
@@ -109,12 +111,16 @@ etfci_rebuild_combined (ETableFieldChooserItem *etfci)
 	count = e_table_header_count (etfci->header);
 	for (i = 0; i < count; i++) {
 		ETableCol *ecol = e_table_header_get_column (etfci->header, i);
+		if (ecol->disabled)
+			continue;
 		g_hash_table_insert (hash, GINT_TO_POINTER (ecol->col_idx), GINT_TO_POINTER (1));
 	}
 
 	count = e_table_header_count (etfci->full_header);
 	for (i = 0; i < count; i++) {
 		ETableCol *ecol = e_table_header_get_column (etfci->full_header, i);
+		if (ecol->disabled)
+			continue;
 		if (! (GPOINTER_TO_INT (g_hash_table_lookup (hash, GINT_TO_POINTER (ecol->col_idx)))))
 			e_table_header_add_column (etfci->combined_header, ecol, -1);
 	}
@@ -143,6 +149,8 @@ etfci_reflow (GnomeCanvasItem *item, gint flags)
 		ETableCol *ecol;
 
 		ecol = e_table_header_get_column (etfci->combined_header, i);
+		if (ecol->disabled)
+			continue;
 		height += e_table_header_compute_height (ecol, style, etfci->font);
 	}
 
@@ -457,6 +465,9 @@ etfci_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int widt
 
 		ecol = e_table_header_get_column (etfci->combined_header, row);
 
+		if (ecol->disabled)
+			continue;
+
 		y2 += e_table_header_compute_height (ecol, style, etfci->font);
 		
 		if (y1 > (y + height))
@@ -521,6 +532,9 @@ etfci_start_drag (ETableFieldChooserItem *etfci, GdkEvent *event, double x, doub
 
 	ecol = e_table_header_get_column (etfci->combined_header, drag_col);
 
+	if (ecol->disabled)
+		return;
+
 	etfci->drag_col = ecol->col_idx;
 
 	etfci_drag_types[0].target = g_strdup_printf("%s-%s", etfci_drag_types[0].target, etfci->dnd_code);
@@ -531,7 +545,7 @@ etfci_start_drag (ETableFieldChooserItem *etfci, GdkEvent *event, double x, doub
 	button_height = e_table_header_compute_height (ecol, widget->style, etfci->font);
 	pixmap = gdk_pixmap_new (widget->window, etfci->width, button_height, -1);
 
-	e_table_header_draw_button (pixmap, e_table_header_get_column (etfci->combined_header, drag_col),
+	e_table_header_draw_button (pixmap, ecol,
 				    widget->style, etfci->font, GTK_WIDGET_STATE (widget),
 				    widget, widget->style->fg_gc[GTK_STATE_NORMAL],
 				    0, 0,

@@ -36,6 +36,7 @@ typedef struct {
 	unsigned int is_pixbuf:1;
 	unsigned int selected:1;
 	unsigned int resizable:1;
+	unsigned int disabled:1;
 	unsigned int sortable:1;
 	unsigned int groupable:1;
 	int          col_idx;
@@ -50,17 +51,27 @@ typedef struct {
 	GtkObjectClass parent_class;
 } ETableColClass;
 
-GtkType        e_table_col_get_type        (void);
-ETableCol     *e_table_col_new             (int col_idx, const char *text,
-					    double expansion, int min_width,
-					    ECell *ecell, GCompareFunc compare,
-					    gboolean resizable, int priority);
-ETableCol     *e_table_col_new_with_pixbuf (int col_idx, const char *text, 
-					    GdkPixbuf *pixbuf,
-					    double expansion, int min_width,
-					    ECell *ecell, GCompareFunc compare,
-					    gboolean resizable, int priority);
-void           e_table_col_destroy         (ETableCol *etc);
+GtkType    e_table_col_get_type         (void);
+ETableCol *e_table_col_new              (int           col_idx,
+					 const char   *text,
+					 double        expansion,
+					 int           min_width,
+					 ECell        *ecell,
+					 GCompareFunc  compare,
+					 gboolean      resizable,
+					 gboolean      disabled,
+					 int           priority);
+ETableCol *e_table_col_new_with_pixbuf  (int           col_idx,
+					 const char   *text,
+					 GdkPixbuf    *pixbuf,
+					 double        expansion,
+					 int           min_width,
+					 ECell        *ecell,
+					 GCompareFunc  compare,
+					 gboolean      resizable,
+					 gboolean      disabled,
+					 int           priority);
+void       e_table_col_destroy          (ETableCol    *etc);
 
 
 #ifdef __cplusplus

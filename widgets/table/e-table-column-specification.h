@@ -26,6 +26,7 @@ typedef struct {
 	double expansion;
 	int minimum_width;
 	guint resizable : 1;
+	guint disabled : 1;
 
 	char *cell;
 	char *compare;

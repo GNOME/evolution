@@ -121,6 +121,8 @@ find_column_in_spec (ETableSpecification *spec, int model_col)
 	ETableColumnSpecification **column;
 
 	for (column = spec->columns; *column; column++){
+		if ((*column)->disabled)
+			continue;
 		if ((*column)->model_col != model_col)
 			continue;
 
@@ -137,6 +139,8 @@ find_model_column_by_name (ETableSpecification *spec, const char *s)
 
 	for (column = spec->columns; *column; column++){
 
+		if ((*column)->disabled)
+			continue;
 		if (g_strcasecmp ((*column)->title, s) == 0)
 			return (*column)->model_col;
 	}
@@ -320,6 +324,9 @@ config_fields_info_update (ETableConfig *config)
 
 	for (i = 0; i < config->state->col_count; i++){
 		for (column = config->source_spec->columns; *column; column++){
+
+			if ((*column)->disabled)
+				continue;
 
 			if (config->state->columns [i] != (*column)->model_col)
 				continue;
@@ -765,6 +772,9 @@ e_table_config_construct (ETableConfig        *config,
 
 	for (column = config->source_spec->columns; *column; column++){
 		char *label = (*column)->title;
+
+		if ((*column)->disabled)
+			continue;
 
 		config->column_names = g_slist_append (
 			config->column_names, label);

@@ -75,14 +75,14 @@ et_col_spec_to_col (ETableColumnSpecification *col_spec,
 					col_spec->model_col, gettext (col_spec->title),
 					pixbuf, col_spec->expansion,
 					col_spec->minimum_width,
-					cell, compare, col_spec->resizable, col_spec->priority);
+					cell, compare, col_spec->resizable, col_spec->disabled, col_spec->priority);
 			}
 		}
 		if (col == NULL && col_spec->title && *col_spec->title) {
 			col = e_table_col_new (
 				col_spec->model_col, gettext (col_spec->title),
 				col_spec->expansion, col_spec->minimum_width,
-				cell, compare, col_spec->resizable, col_spec->priority);
+				cell, compare, col_spec->resizable, col_spec->disabled, col_spec->priority);
 		}
 	}
 	return col;

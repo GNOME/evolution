@@ -119,7 +119,7 @@ E_MAKE_TYPE(e_table_col, "ETableCol", ETableCol, e_table_col_class_init, e_table
  */
 ETableCol *
 e_table_col_new (int col_idx, const char *text, double expansion, int min_width,
-		 ECell *ecell, GCompareFunc compare, gboolean resizable, int priority)
+		 ECell *ecell, GCompareFunc compare, gboolean resizable, gboolean disabled, int priority)
 {
 	ETableCol *etc;
 	
@@ -140,6 +140,7 @@ e_table_col_new (int col_idx, const char *text, double expansion, int min_width,
 	etc->min_width = min_width;
 	etc->ecell = ecell;
 	etc->compare = compare;
+	etc->disabled = disabled;
 	etc->priority = priority;
 
 	etc->selected = 0;
@@ -178,7 +179,7 @@ e_table_col_new (int col_idx, const char *text, double expansion, int min_width,
  */
 ETableCol *
 e_table_col_new_with_pixbuf (int col_idx, const char *text, GdkPixbuf *pixbuf, double expansion, int min_width,
-			     ECell *ecell, GCompareFunc compare, gboolean resizable, int priority)
+			     ECell *ecell, GCompareFunc compare, gboolean resizable, gboolean disabled, int priority)
 {
 	ETableCol *etc;
 	
@@ -199,6 +200,7 @@ e_table_col_new_with_pixbuf (int col_idx, const char *text, GdkPixbuf *pixbuf, d
 	etc->min_width = min_width;
 	etc->ecell = ecell;
 	etc->compare = compare;
+	etc->disabled = disabled;
 	etc->priority = priority;
 
 	etc->selected = 0;

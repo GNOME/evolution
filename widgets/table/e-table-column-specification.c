@@ -51,12 +51,13 @@ static void
 etcs_init (ETableColumnSpecification *specification)
 {
 	specification->model_col     = 0;
-	specification->title        = g_strdup("");
+	specification->title         = g_strdup("");
 	specification->pixbuf        = NULL;
 	
 	specification->expansion     = 0;
 	specification->minimum_width = 0;
 	specification->resizable     = FALSE;
+	specification->disabled      = FALSE;
 	
 	specification->cell          = NULL;
 	specification->compare       = NULL;
@@ -79,16 +80,17 @@ e_table_column_specification_load_from_node (ETableColumnSpecification *etcs,
 {
 	free_strings(etcs);
 
-	etcs->model_col     = e_xml_get_integer_prop_by_name(node, "model_col");
-	etcs->title         = e_xml_get_string_prop_by_name(node, "_title");
-	etcs->pixbuf        = e_xml_get_string_prop_by_name(node, "pixbuf");
+	etcs->model_col     = e_xml_get_integer_prop_by_name (node, "model_col");
+	etcs->title         = e_xml_get_string_prop_by_name (node, "_title");
+	etcs->pixbuf        = e_xml_get_string_prop_by_name (node, "pixbuf");
 
-	etcs->expansion     = e_xml_get_double_prop_by_name(node, "expansion");
-	etcs->minimum_width = e_xml_get_integer_prop_by_name(node, "minimum_width");
-	etcs->resizable     = e_xml_get_bool_prop_by_name(node, "resizable");
+	etcs->expansion     = e_xml_get_double_prop_by_name (node, "expansion");
+	etcs->minimum_width = e_xml_get_integer_prop_by_name (node, "minimum_width");
+	etcs->resizable     = e_xml_get_bool_prop_by_name (node, "resizable");
+	etcs->disabled      = e_xml_get_bool_prop_by_name (node, "disabled");
 
-	etcs->cell          = e_xml_get_string_prop_by_name(node, "cell");
-	etcs->compare       = e_xml_get_string_prop_by_name(node, "compare");
+	etcs->cell          = e_xml_get_string_prop_by_name (node, "cell");
+	etcs->compare       = e_xml_get_string_prop_by_name (node, "compare");
 	etcs->priority      = e_xml_get_integer_prop_by_name_with_default (node, "priority", 0);
 
 	if (etcs->title == NULL)
@@ -112,6 +114,7 @@ e_table_column_specification_save_to_node (ETableColumnSpecification *specificat
 	e_xml_set_double_prop_by_name(node, "expansion", specification->expansion);
 	e_xml_set_integer_prop_by_name(node, "minimum_width", specification->minimum_width);
 	e_xml_set_bool_prop_by_name(node, "resizable", specification->resizable);
+	e_xml_set_bool_prop_by_name(node, "disabled", specification->disabled);
 
 	e_xml_set_string_prop_by_name(node, "cell", specification->cell);
 	e_xml_set_string_prop_by_name(node, "compare", specification->compare);
