@@ -59,6 +59,28 @@ struct _EComponentRegistryPrivate {
 };
 
 
+/* Utility functions.  */
+
+static void
+wait_for_corba_object_to_die (Bonobo_Unknown corba_objref,
+			      const char *id)
+{
+	gboolean alive;
+	int count;
+
+	count = 1;
+	while (1) {
+		alive = bonobo_unknown_ping (corba_objref);
+		if (! alive)
+			break;
+
+		g_print ("Waiting for component to die -- %s (%d)\n", id, count);
+		sleep (1);
+		count ++;
+	}
+}
+
+
 /* Component information handling.  */
 
 static Component *
@@ -84,9 +106,11 @@ component_free (Component *component)
 	CORBA_Environment ev;
 	gboolean retval;
 
-	corba_shell_component = bonobo_object_corba_objref (BONOBO_OBJECT (component->client));
-
 	CORBA_exception_init (&ev);
+
+	corba_shell_component = bonobo_object_corba_objref (BONOBO_OBJECT (component->client));
+	corba_shell_component = CORBA_Object_duplicate (corba_shell_component, &ev);
+
 	GNOME_Evolution_ShellComponent_unsetOwner (corba_shell_component, &ev);
 	if (ev._major == CORBA_NO_EXCEPTION)
 		retval = TRUE;
@@ -94,11 +118,13 @@ component_free (Component *component)
 		retval = FALSE;
 	CORBA_exception_free (&ev);
 
-	g_free (component->id);
-
 	bonobo_object_unref (BONOBO_OBJECT (component->client));
 
+	wait_for_corba_object_to_die (corba_shell_component, component->id);
+	CORBA_Object_release (corba_shell_component, &ev);
+
 	e_free_string_list (component->folder_type_names);
+	g_free (component->id);
 
 	g_free (component);
 
@@ -419,8 +445,6 @@ e_component_registry_restart_component  (EComponentRegistry *component_registry,
 	Component *component;
 	CORBA_Environment ev;
 	CORBA_Object corba_objref;
-	gboolean alive;
-	int count;
 
 	g_return_val_if_fail (component_registry != NULL, NULL);
 	g_return_val_if_fail (E_IS_COMPONENT_REGISTRY (component_registry), NULL);
@@ -440,16 +464,7 @@ e_component_registry_restart_component  (EComponentRegistry *component_registry,
 
 	component_free (component);
 
-	count = 1;
-	while (1) {
-		alive = bonobo_unknown_ping (corba_objref);
-		if (! alive)
-			break;
-
-		g_print ("Waiting for component to die -- %s (%d)\n", id, count);
-		sleep (1);
-		count ++;
-	}
+	wait_for_corba_object_to_die (component, id);
 
 	CORBA_exception_free (&ev);
 

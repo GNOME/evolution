@@ -1,5 +1,12 @@
 2001-10-25  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-component-registry.c (wait_for_corba_object_to_die): New
+	helper function.
+	(e_component_registry_restart_component): Use it.
+	(component_free): Call it to wait for the unowned object to die.
+
+2001-10-25  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell.c (impl_Shell_selectUserFolder): Handle failure from
 	XGetClassHint properly.  Also, free res_name and res_class in case
 	of success.  Fixes #13554.
