@@ -1,3 +1,8 @@
+2004-03-03  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-cal-model.c (e_cal_model_add_client): prevent from adding
+	the same client more than once.
+
 2004-03-02  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/cal-search-bar.c: added support for searching the location

@@ -1335,6 +1335,9 @@ e_cal_model_add_client (ECalModel *model, ECal *client)
 
 	priv = model->priv;
 
+	if (e_cal_model_get_client_for_uri (model, e_cal_get_uri (client)))
+		return;
+
 	if (e_cal_get_load_state (client) == E_CAL_LOAD_LOADED)
 		add_new_client (model, client);
 	else
