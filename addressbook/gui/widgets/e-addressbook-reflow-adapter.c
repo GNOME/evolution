@@ -11,8 +11,6 @@
 #include "e-addressbook-util.h"
 
 #include "e-minicard.h"
-#include <gal/widgets/e-unicode.h>
-#include <gal/widgets/e-font.h>
 #include <gal/widgets/e-popup-menu.h>
 #include <gal/widgets/e-gui-utils.h>
 #include "e-contact-save-as.h"
@@ -78,27 +76,14 @@ unlink_model(EAddressbookReflowAdapter *adapter)
 
 
 static int
-count_lines (const gchar *text)
+text_height (PangoLayout *layout, const gchar *text)
 {
-	int num_lines = 1;
-	gunichar unival;
+	int height;
 
-	for (text = e_unicode_get_utf8 (text, &unival); (unival && text); text = e_unicode_get_utf8 (text, &unival)) {
-		if (unival == '\n') {
-			num_lines ++;
-		}
-	}
+	pango_layout_set_text (layout, text, -1);
 
-	return num_lines;
-}
+	pango_layout_get_pixel_size (layout, NULL, &height);
 
-static int
-text_height (GnomeCanvas *canvas, const gchar *text)
-{
-	EFont *font = e_font_from_gdk_font (gtk_style_get_font (gtk_widget_get_style (GTK_WIDGET (canvas))));
-	gint height = e_font_height (font) * count_lines (text) / canvas->pixels_per_unit;
-
-	e_font_unref (font);
 	return height;
 }
 
@@ -125,10 +110,12 @@ addressbook_count (EReflowModel *erm)
 	return e_addressbook_model_card_count (priv->model);
 }
 
-/* This function returns the number of items in our EReflowModel. */
+/* This function returns the height of the minicard in question */
 static int
 addressbook_height (EReflowModel *erm, int i, GnomeCanvasGroup *parent)
 {
+	/* XXX ugh, an extra pango layout step for every minicard
+	   whether it's displayed or not? */
 	EAddressbookReflowAdapter *adapter = E_ADDRESSBOOK_REFLOW_ADAPTER(erm);
 	EAddressbookReflowAdapterPrivate *priv = adapter->priv;
 	/* FIXME */
@@ -137,9 +124,10 @@ addressbook_height (EReflowModel *erm, int i, GnomeCanvasGroup *parent)
 	int height;
 	char *string;
 	ECardSimple *simple = e_card_simple_new (e_addressbook_model_card_at (priv->model, i));
+	PangoLayout *layout = gtk_widget_create_pango_layout (GTK_WIDGET (GNOME_CANVAS_ITEM (parent)->canvas), "");
 
 	string = e_card_simple_get(simple, E_CARD_SIMPLE_FIELD_FILE_AS);
-	height = text_height (GNOME_CANVAS_ITEM (parent)->canvas, string ? string : "") + 10.0;
+	height = text_height (layout, string ? string : "") + 10.0;
 	g_free(string);
 
 	for(field = E_CARD_SIMPLE_FIELD_FULL_NAME; field != E_CARD_SIMPLE_FIELD_LAST_SIMPLE_STRING && count < 5; field++) {
@@ -152,9 +140,9 @@ addressbook_height (EReflowModel *erm, int i, GnomeCanvasGroup *parent)
 			int this_height;
 			int field_text_height;
 
-			this_height = text_height (GNOME_CANVAS_ITEM (parent)->canvas, e_card_simple_get_name(simple, field));
+			this_height = text_height (layout, e_card_simple_get_name(simple, field));
 
-			field_text_height = text_height (GNOME_CANVAS_ITEM (parent)->canvas, string);
+			field_text_height = text_height (layout, string);
 			if (this_height < field_text_height)
 				this_height = field_text_height;
 
@@ -168,6 +156,7 @@ addressbook_height (EReflowModel *erm, int i, GnomeCanvasGroup *parent)
 	height += 2;
 
 	g_object_unref (simple);
+	g_object_unref (layout);
 
 	return height;
 }
