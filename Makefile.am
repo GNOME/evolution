@@ -35,7 +35,9 @@ SUBDIRS =			\
 	ui			\
         default_user            \
 	views			\
-        tools
+        tools			\
+	wombat
+
 
 #	omf-install
 
