@@ -1,3 +1,13 @@
+2001-07-30  Jakub Steiner <jimmac@ximian.com>
+
+	* search-16.png, search-and-replace-16.png: menu versions for
+	  shell and editor.
+	* properties-16.png: properties for shel (maybe other places too)
+	* send-16.png, send-later-16.png: editor, shell menu.
+	* work_online-16.png: to accompany work online menu toggle.
+	* save-16.png, save-as-16.png: everywhere. (based on Tuomas new
+	  gnome stock panel icon)
+	
 2001-07-27    <tigert@ximian.com>
 
 	* new_appointment.[xpm,png]: New version, fixes bug #4704 hopefully.
