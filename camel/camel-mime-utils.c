@@ -2093,7 +2093,10 @@ struct _header_param *
 header_set_param (struct _header_param **l, const char *name, const char *value)
 {
 	struct _header_param *p = (struct _header_param *)l, *pn;
-
+	
+	if (name == NULL)
+		return NULL;
+	
 	while (p->next) {
 		pn = p->next;
 		if (!strcasecmp (pn->name, name)) {

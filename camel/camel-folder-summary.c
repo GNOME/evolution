@@ -1768,11 +1768,14 @@ content_info_load(CamelFolderSummary *s, FILE *in)
 	g_free(subtype);
 	if (camel_file_util_decode_uint32(in, &count) == -1 || count > 500)
 		goto error;
-	    
+	
 	for (i=0;i<count;i++) {
 		char *name, *value;
 		camel_folder_summary_decode_token(in, &name);
 		camel_folder_summary_decode_token(in, &value);
+		if (!(name && value))
+			goto error;
+		
 		header_content_type_set_param(ct, name, value);
 		/* TODO: do this so we dont have to double alloc/free */
 		g_free(name);
@@ -1791,7 +1794,7 @@ content_info_load(CamelFolderSummary *s, FILE *in)
 	if (!ferror(in))
 		return ci;
 
-error:
+ error:
 	camel_folder_summary_content_info_free(s, ci);
 	return NULL;
 }

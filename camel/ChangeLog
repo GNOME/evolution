@@ -1,3 +1,10 @@
+2001-12-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-folder-summary.c (content_info_load): Don't try setting a
+	content-type parameter if either the name or value is NULL.
+
+	* camel-mime-utils.c (header_set_param): NULL-protection.
+
 2002-01-02  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-tcp-stream-ssl.c (ssl_bad_cert): Do more like what mutt
