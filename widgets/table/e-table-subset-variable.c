@@ -162,7 +162,7 @@ e_table_subset_variable_increment (ETableSubsetVariable *etssv,
 	int i;
 	ETableSubset *etss = E_TABLE_SUBSET(etssv);
 	for (i = 0; i < etss->n_map; i++) {
-		if (etss->map_table[i] > position)
+		if (etss->map_table[i] >= position)
 			etss->map_table[i] += amount;
 	}
 }
@@ -175,7 +175,7 @@ e_table_subset_variable_decrement (ETableSubsetVariable *etssv,
 	int i;
 	ETableSubset *etss = E_TABLE_SUBSET(etssv);
 	for (i = 0; i < etss->n_map; i++) {
-		if (etss->map_table[i] > position)
+		if (etss->map_table[i] >= position)
 			etss->map_table[i] -= amount;
 	}
 }
