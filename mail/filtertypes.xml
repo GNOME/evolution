@@ -634,6 +634,13 @@
   </input>
  </part>
 
+    <part name="all">
+      <title>Match All</title>
+      <code>
+	(#t)
+      </code>
+    </part>
+
 </partset>
 
 

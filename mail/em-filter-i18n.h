@@ -1,5 +1,6 @@
 /* Automatically generated. Do not edit. */
 char *s = N_("Adjust Score");
+char *s = N_("Always Match");
 char *s = N_("Assign Color");
 char *s = N_("Assign Score");
 char *s = N_("Attachments");

@@ -1,5 +1,9 @@
 2004-11-12  Not Zed  <NotZed@Ximian.com>
 
+	* filtertypes.xml:
+	* vfoldertypes.xml: 
+	* searchtypes.xml: Added 'match all' rules.
+
 	** Merge in notzed-messageinfo-branch.
 
 2004-11-11  Radek Doulik  <rodo@ximian.com>
