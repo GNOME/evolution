@@ -60,6 +60,7 @@ const char *authors[] = {
 	"Ettore Perazzoli",
 	"JP Rosevear",
 	"Jeffrey Stedfast",
+        "Jakub Steiner",
 	"Russell Steinthal",
 	"Peter Teichman",
 	"Chris Toshok",

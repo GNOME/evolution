@@ -1,21 +1,21 @@
 imagesdir = $(datadir)/images/evolution
 images_DATA = \
-	16_configure_addressbook.xpm	\
-	16_configure_addressbook.xpm	\
-	16_configure_folder.xpm		\
-	16_configure_mail.xpm		\
-	16_copy_message.xpm		\
-	16_edit.xpm			\
-	16_encrypt.xpm			\
-	16_forward.xpm			\
-	16_move_message.xpm		\
-	16_print.xpm			\
-	16_print.xpm			\
-	16_reply.xpm			\
-	16_reply_to_all.xpm		\
-	16_save.xpm			\
-	24_all_contacts.xpm		\
-	24_find_contact.xpm		\
+	configure_16_addressbook.xpm	\
+	configure_16_addressbook.xpm	\
+	configure_16_folder.xpm		\
+	configure_16_mail.xpm		\
+	copy_16_message.xpm		\
+	edit.xpm			\
+	encrypt.xpm			\
+	forward.xpm			\
+	move_message.xpm		\
+	print.xpm			\
+	print.xpm			\
+	reply.xpm			\
+	reply_to_all.xpm		\
+	save.xpm			\
+	all_contacts.xpm		\
+	find_contact.xpm		\
 	briefcase.png       		\
 	butterfly.png			\
 	cellphone.png       		\
@@ -74,12 +74,12 @@ buttons_DATA = 				\
 
 conduitsdir = $(datadir)/images/evolution/conduits
 conduits_DATA =				\
-	16_evo-address-conduit.png   	\
-	16_evo-todo-conduit.png     	\
-	16_evo-calendar-conduit.png  	\
-	48_evo-calendar-conduit.png	\
-	48_evo-address-conduit.png  	\
-	48_evo-todo-conduit.png
+	evo-16-address-conduit.png   	\
+	evo-16-todo-conduit.png     	\
+	evo-16-calendar-conduit.png  	\
+	evo-48-calendar-conduit.png	\
+	evo-48-address-conduit.png  	\
+	evo-48-todo-conduit.png
 
 appicondir = $(datadir)/pixmaps
 appicon_DATA = evolution.png

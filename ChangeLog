@@ -1,3 +1,22 @@
+2001-03-22  Jakub Steiner <jimmac@ximian.com>
+
+	* art/configure_16_folder.xpm, configure_16_mail.xpm,
+	copy_16_message.xpm, edit.xpm, encrypt.xpm,
+	evo-16-address-conduit.png, evo-16-calendar-conduit.png,
+	evo-16-todo-conduit.png, exec-16-summary.xpm, import.xpm,
+	print.xpm, reply_to_all.xpm, reply.xpm, save.xpm,
+	send-receive.xpm, work_offline.xpm, find_contact.xpm,
+	send-24-receive.png, evo-48-calendar-conduit.png,
+	evo-48-todo-conduit.png, import.png, send-48-receive.png,
+	move_message.xpm, all_contacts.xpm, forward.xpm,
+	configure_16_addressbook.xpm, Makefile.am,
+	evo-48-address-conduit.png: renamed icons to make Miguel's
+	speedups possible
+	* art/evolution-inbox.png: color coded one
+	* art/envelope.png: reverted back to the non-color coded one
+	* art/evolution-contacts-plain.png: non-color coded one for
+	the "new contact" dialogue
+	
 2001-03-21  Dan Winship  <danw@ximian.com>
 
 	* configure.in: Require bison, not yacc (for vcc.y)
