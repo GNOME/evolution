@@ -97,7 +97,7 @@ Content-Type: text/html; charset=utf-8
 <BODY BGCOLOR="#f8fcf8"><TABLE BACKGROUND="cid:1001417869.27019.4.camel@spectrolite" CELLSPACING="0" CELLPADDING="0" WIDTH="100%">
 <TR>
 <TD ALIGN="left" VALIGN="top">
-<IMG SRC="cid:1001417869.27019.5.camel@spectrolite" ALIGN="top" BORDER="0"></TD>
+<IMG SRC="cid:1001417869.27019.5.camel@spectrolite" ALIGN="top" BORDER="0" WIDTH="8" HEIGHT="8"></TD>
 <TD>
 </TD>
 <TD>
@@ -109,13 +109,13 @@ Content-Type: text/html; charset=utf-8
 <TD>
 </TD>
 <TD ALIGN="right" VALIGN="top">
-<IMG SRC="cid:1001417929.27019.7.camel@spectrolite" ALIGN="top" BORDER="0"></TD>
+<IMG SRC="cid:1001417929.27019.7.camel@spectrolite" ALIGN="top" BORDER="0" WIDTH="8" HEIGHT="8"></TD>
 </TR>
 <TR>
 <TD>
 </TD>
 <TD>
-<IMG SRC="cid:1001417989.27019.11.camel@spectrolite" ALIGN="top" BORDER="0"></TD>
+<IMG SRC="cid:1001417989.27019.11.camel@spectrolite" ALIGN="top" BORDER="0" WIDTH="48" HEIGHT="48"></TD>
 <TD>
 </TD>
 <TD>
@@ -123,13 +123,13 @@ Content-Type: text/html; charset=utf-8
 <TD>
 </TD>
 <TD>
-<IMG SRC="cid:1001418096.27019.14.camel@spectrolite" ALIGN="top" BORDER="0"></TD>
+<IMG SRC="cid:1001418096.27019.14.camel@spectrolite" ALIGN="top" BORDER="0" WIDTH="48" HEIGHT="48"></TD>
 <TD>
 </TD>
 </TR>
 <TR>
 <TD ALIGN="left" VALIGN="bottom">
-<IMG SRC="cid:1001417929.27019.8.camel@spectrolite" ALIGN="top" BORDER="0"></TD>
+<IMG SRC="cid:1001417929.27019.8.camel@spectrolite" ALIGN="top" BORDER="0" WIDTH="8" HEIGHT="8"></TD>
 <TD>
 </TD>
 <TD>
@@ -142,7 +142,7 @@ Content-Type: text/html; charset=utf-8
 </TD>
 <TD ALIGN="right" VALIGN="bottom">
 <div align=right>
-<IMG SRC="cid:1001417929.27019.9.camel@spectrolite" ALIGN="top" BORDER="0"></div>
+<IMG SRC="cid:1001417929.27019.9.camel@spectrolite" ALIGN="top" BORDER="0" WIDTH="8" HEIGHT="8"></div>
 </TD>
 </TR>
 </TABLE>

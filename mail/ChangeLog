@@ -1,3 +1,8 @@
+2004-06-04  Radek Doulik  <rodo@ximian.com>
+
+	* default/C/Inbox (Content-Type): added size info to IMG tags so
+	that it loads the message smoother
+
 2004-06-03  William Jon McCann  <mccann@jhu.edu>
 
 	* mail-session.c (request_password): Don't pack entry and checkbox
