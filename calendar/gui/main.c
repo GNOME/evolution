@@ -739,7 +739,8 @@ parse_an_arg (poptContext ctx,
 		 */
 		arg = COOKIE_USER_HOME_DIR;
 		/* fall through */
-
+		break;
+		
 	case VIEW_KEY:
 		start_views = g_list_append (start_views, arg);
 		break;
