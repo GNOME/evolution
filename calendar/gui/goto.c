@@ -264,7 +264,9 @@ goto_dialog (GnomeCalendar *gcal)
 	goto_win = gnome_dialog_new (_("Go to date"),
 				     GNOME_STOCK_BUTTON_CANCEL,
 				     NULL);
-	gnome_dialog_set_parent (GNOME_DIALOG (goto_win), GTK_WINDOW (gcal));
+	gnome_dialog_set_parent (GNOME_DIALOG (goto_win),
+		 GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (gcal))));
+
 	
 	vbox = GNOME_DIALOG (goto_win)->vbox;
 
@@ -278,8 +280,8 @@ goto_dialog (GnomeCalendar *gcal)
 	gtk_box_pack_start (GTK_BOX (vbox), w, FALSE, FALSE, 0);
 	gtk_widget_show (w);
 
-	/* Create month item before creating the year controls, since the latter ones need the
-	 * month_item to be created.
+	/* Create month item before creating the year controls, since the
+	 * latter ones need the month_item to be created.
 	 */
 
 	days = create_days (tm.tm_mday, tm.tm_mon, tm.tm_year + 1900);
@@ -318,6 +320,7 @@ goto_dialog (GnomeCalendar *gcal)
 
 	gtk_window_set_modal (GTK_WINDOW (goto_win), TRUE);
 	gnome_dialog_set_close (GNOME_DIALOG (goto_win), TRUE);
-	gnome_dialog_set_parent (GNOME_DIALOG (goto_win), GTK_WINDOW (gnome_calendar));
+	gnome_dialog_set_parent (GNOME_DIALOG (goto_win),
+	  GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (gnome_calendar))));
 	gtk_widget_show (goto_win);
 }

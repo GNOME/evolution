@@ -139,10 +139,12 @@ simple_todo_editor (GncalTodo *todo, iCalObject *ico)
 				   GNOME_STOCK_BUTTON_OK,
 				   GNOME_STOCK_BUTTON_CANCEL,
 				   NULL);
-	gnome_dialog_set_parent (GNOME_DIALOG (dialog), GTK_WINDOW (todo->calendar));
+	gnome_dialog_set_parent (GNOME_DIALOG (dialog),
+	  GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (todo->calendar))));
 	hbox = gtk_hbox_new (FALSE, 4);
 	gtk_container_border_width (GTK_CONTAINER (hbox), 4);
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), hbox, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox),
+			    hbox, FALSE, FALSE, 0);
 	gtk_widget_show (hbox);
 
 

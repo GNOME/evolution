@@ -1,3 +1,12 @@
+2000-04-08  Seth Alves  <alves@hungry.com>
+
+	* gui/gncal-todo.c (simple_todo_editor): calendar is a frame instead
+	of a window, now.
+	
+	* gui/gnome-cal.c (gnome_calendar_new): same
+	
+	* gui/goto.c (goto_dialog): same
+	
 2000-04-06  Seth Alves  <alves@hungry.com>
 
 	* gui/calendar-commands.c (calendar_control_activate): removed

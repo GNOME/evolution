@@ -241,7 +241,10 @@ gnome_calendar_new (char *title)
 	app->prefix = g_strconcat ("/", app->name, "/", NULL);
 	*/
 
-	/* gtk_window_set_title(GTK_WINDOW(retval), title); */
+	/*
+	gtk_window_set_title (GTK_WINDOW (gtk_widget_get_toplevel (retval)),
+			      title);
+	*/
 
 	gcal->current_display = time_day_begin (time (NULL));
 	gcal->client = cal_client_new ();
