@@ -1,5 +1,9 @@
 2004-04-27  Not Zed  <NotZed@Ximian.com>
 
+	** See bug #57659.
+
+	* mail-ops.c (fix_unmatched_info): removed, done in camel now.
+
 	** See bug #57511.
 
 	* mail-config.glade: gave the whole smime frame (vbox) a name so

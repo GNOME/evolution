@@ -1052,7 +1052,7 @@ tree_drag_data_received(GtkWidget *widget, GdkDragContext *context, int x, int y
 		gtk_drag_finish (context, FALSE, FALSE, GDK_CURRENT_TIME);
 		return;
 	}
-	
+
 	full_name = path[0] == '/' ? path + 1 : path;
 	
 	m = mail_msg_new (&emft_drop_async_op, NULL, sizeof (struct _DragDataReceivedAsync));

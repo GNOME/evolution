@@ -997,20 +997,6 @@ get_folderinfo_desc (struct _mail_msg *mm, int done)
 }
 
 static void
-fix_unmatched_info(CamelFolderInfo *fi)
-{
-	for (; fi; fi = fi->next) {
-		if (!strcmp(fi->full_name, CAMEL_UNMATCHED_NAME)) {
-			g_free(fi->name);
-			fi->name = g_strdup(_("Unmatched"));
-			g_free(fi->path);
-			fi->path = g_strdup_printf("/%s", fi->name);
-			break;
-		}
-	}
-}
-
-static void
 get_folderinfo_get (struct _mail_msg *mm)
 {
 	struct _get_folderinfo_msg *m = (struct _get_folderinfo_msg *)mm;
@@ -1020,8 +1006,6 @@ get_folderinfo_get (struct _mail_msg *mm)
 		flags |= CAMEL_STORE_FOLDER_INFO_SUBSCRIBED;
 	
 	m->info = camel_store_get_folder_info (m->store, NULL, flags, &mm->ex);
-	if (m->info && CAMEL_IS_VEE_STORE(m->store))
-		fix_unmatched_info(m->info);
 }
 
 static void
