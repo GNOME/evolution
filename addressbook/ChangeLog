@@ -1,3 +1,28 @@
+2004-01-16  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/component/addressbook.c (load_source_auth_cb): Don't run
+	callback if the action was cancelled.
+	(load_source_cb): Ditto.
+	(addressbook_load_source): Return an ID for the load attempt.
+	(addressbook_load_source_cancel): Implement, allows cancelling a
+	load attempt.
+
+	* gui/contact-editor/e-contact-editor.c (new_target_cb): Clear the
+	values for in-progress load operation. Only unref new_book if it's
+	non-NULL.
+	(cancel_load): Implement. Cancels the load operation if one is in
+	progress.
+	(source_selected): Cancel any running load operation before starting
+	a new one. Set up in-progress values.
+	(e_contact_editor_init): Clear the in-progress values.
+	(e_contact_editor_dispose): Cancel load operation.
+	(e_contact_editor_set_property): If a new target book is set, cancel
+	any conflicting load operation in progress.
+
+	* gui/widgets/e-addressbook-view.c (set_paned_position): Remove
+	debug output.
+	(get_paned_position): Ditto.
+
 2004-01-16  JP Rosevear <jpr@ximian.com>
 
 	* gui/component/addressbook.c (set_prop): only set the menus and

@@ -108,6 +108,10 @@ struct _EContactEditor
 	guint in_async_call : 1;
 
 	EList *writable_fields;
+
+	/* ID for async load_source call */
+	guint  load_source_id;
+	EBook *load_book;
 };
 
 struct _EContactEditorClass

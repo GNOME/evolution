@@ -964,6 +964,9 @@ address_mailing_changed (GtkWidget *widget, EContactEditor *editor)
 static void
 new_target_cb (EBook *new_book, EBookStatus status, EContactEditor *editor)
 {
+	editor->load_source_id = 0;
+	editor->load_book      = NULL;
+
 	if (status != E_BOOK_ERROR_OK || new_book == NULL) {
 		GtkWidget *source_option_menu;
 
@@ -972,7 +975,9 @@ new_target_cb (EBook *new_book, EBookStatus status, EContactEditor *editor)
 		source_option_menu = glade_xml_get_widget (editor->gui, "source-option-menu-source");
 		e_source_option_menu_select (E_SOURCE_OPTION_MENU (source_option_menu),
 					     e_book_get_source (editor->target_book));
-		g_object_unref (new_book);
+
+		if (new_book)
+			g_object_unref (new_book);
 		return;
 	}
 
@@ -981,9 +986,21 @@ new_target_cb (EBook *new_book, EBookStatus status, EContactEditor *editor)
 }
 
 static void
+cancel_load (EContactEditor *editor)
+{
+	if (editor->load_source_id) {
+		addressbook_load_source_cancel (editor->load_source_id);
+		editor->load_source_id = 0;
+
+		g_object_unref (editor->load_book);
+		editor->load_book = NULL;
+	}
+}
+
+static void
 source_selected (GtkWidget *source_option_menu, ESource *source, EContactEditor *editor)
 {
-	EBook *new_book;
+	cancel_load (editor);
 
 	if (e_source_equal (e_book_get_source (editor->target_book), source))
 		return;
@@ -993,8 +1010,9 @@ source_selected (GtkWidget *source_option_menu, ESource *source, EContactEditor 
 		return;
 	}
 
-	new_book = e_book_new ();
-	addressbook_load_source (new_book, source, (EBookCallback) new_target_cb, editor);
+	editor->load_book = e_book_new ();
+	editor->load_source_id = addressbook_load_source (editor->load_book, source,
+							  (EBookCallback) new_target_cb, editor);
 }
 
 /* This function tells you whether name_to_style will make sense.  */
@@ -1928,6 +1946,9 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 	e_contact_editor->source_editable = TRUE;
 	e_contact_editor->target_editable = TRUE;
 
+	e_contact_editor->load_source_id = 0;
+	e_contact_editor->load_book = NULL;
+
 	gui = glade_xml_new (EVOLUTION_GLADEDIR "/contact-editor.glade", NULL, NULL);
 	e_contact_editor->gui = gui;
 
@@ -2113,6 +2134,8 @@ e_contact_editor_dispose (GObject *object) {
 		g_object_unref(e_contact_editor->gui);
 		e_contact_editor->gui = NULL;
 	}
+
+	cancel_load (e_contact_editor);
 }
 
 static void
@@ -2263,6 +2286,9 @@ e_contact_editor_set_property (GObject *object, guint prop_id, const GValue *val
 
 		if (changed)
 			command_state_changed (editor);
+
+		/* If we're trying to load a new target book, cancel that here. */
+		cancel_load (editor);
 
 		/* XXX more here about editable/etc. */
 		break;

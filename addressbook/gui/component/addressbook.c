@@ -682,12 +682,18 @@ typedef struct {
 	EBookCallback cb;
 	ESource *source;
 	gpointer closure;
+	guint cancelled : 1;
 } LoadSourceData;
 
 static void
 load_source_auth_cb (EBook *book, EBookStatus status, gpointer closure)
 {
 	LoadSourceData *data = closure;
+
+	if (data->cancelled) {
+		g_free (data);
+		return;
+	}
 
 	if (status != E_BOOK_ERROR_OK) {
 		if (status == E_BOOK_ERROR_CANCELLED) {
@@ -805,6 +811,11 @@ load_source_cb (EBook *book, EBookStatus status, gpointer closure)
 {
 	LoadSourceData *load_source_data = closure;
 
+	if (load_source_data->cancelled) {
+		g_free (load_source_data);
+		return;
+	}
+
 	if (status == E_BOOK_ERROR_OK && book != NULL) {
 		const gchar *auth;
 
@@ -825,7 +836,7 @@ load_source_cb (EBook *book, EBookStatus status, gpointer closure)
 	g_free (load_source_data);
 }
 
-void
+guint
 addressbook_load_source (EBook *book, ESource *source,
 			 EBookCallback cb, gpointer closure)
 {
@@ -834,8 +845,19 @@ addressbook_load_source (EBook *book, ESource *source,
 	load_source_data->cb = cb;
 	load_source_data->closure = closure;
 	load_source_data->source = g_object_ref (source);
+	load_source_data->cancelled = FALSE;
 
 	e_book_async_load_source (book, source, load_source_cb, load_source_data);
+
+	return GPOINTER_TO_UINT (load_source_data);
+}
+
+void
+addressbook_load_source_cancel (guint id)
+{
+	LoadSourceData *load_source_data = GUINT_TO_POINTER (id);
+
+	load_source_data->cancelled = TRUE;
 }
 
 void

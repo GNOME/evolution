@@ -363,8 +363,6 @@ set_paned_position (EABView *eav)
 	GConfClient *gconf_client;
 	gint         pos;
 
-	g_print (G_STRLOC "\n");
-
 	gconf_client = gconf_client_get_default ();
 	pos = gconf_client_get_int (gconf_client, "/apps/evolution/addressbook/display/vpane_position", NULL);
 	if (pos < 1)
@@ -378,8 +376,6 @@ get_paned_position (EABView *eav)
 {
 	GConfClient *gconf_client;
 	gint pos;
-
-	g_print (G_STRLOC "\n");
 
 	gconf_client = gconf_client_get_default ();
 
