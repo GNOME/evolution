@@ -1,3 +1,8 @@
+2001-01-03  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-config-druid.c: New source file that implements
+	mail-config-druid. Note: this is not yet complete.
+
 2001-01-03  Not Zed  <NotZed@HelixCode.com>
 
 	* mail-view.c (view_forward_msg): Call
