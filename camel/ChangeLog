@@ -1,3 +1,7 @@
+2000-12-12  Dan Winship  <danw@helixcode.com>
+
+	* tests/lib/Makefile.am: Add missing .h file. (From campd.)
+
 2000-12-11  Not Zed  <NotZed@HelixCode.com>
 
 	* providers/smtp/camel-smtp-transport.c (smtp_data): Remove use of
