@@ -240,7 +240,7 @@ comp_to_list (CalComponentItipMethod method, CalComponent *comp)
 		len = g_slist_length (attendees);
 		if (len <= 0) {
 			e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
-				  _("Atleast one attendee is necessary"));
+				  _("At least one attendee is necessary"));
 			cal_component_free_attendee_list (attendees);
 			return NULL;
 		}
