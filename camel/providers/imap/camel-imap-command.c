@@ -134,7 +134,7 @@ imap_read_response (CamelImapStore *store, CamelException *ex)
 	CamelImapResponse *response;
 	int number, exists = 0;
 	GArray *expunged = NULL;
-	char *respbuf, *retcode, *p;
+	char *respbuf, *retcode, *word, *p;
 
 	/* Read first line */
 	if (camel_remote_store_recv_line (CAMEL_REMOTE_STORE (store),
@@ -154,14 +154,15 @@ imap_read_response (CamelImapStore *store, CamelException *ex)
 		/* If it starts with a number, we might deal with
 		 * it ourselves.
 		 */
-		number = strtoul (respbuf + 2, &p, 10);
-		if (p != respbuf + 2 && store->current_folder) {
-			p = imap_next_word (p);
-			if (!g_strcasecmp (p, "EXISTS")) {
+		word = imap_next_word (respbuf + 2);
+		number = strtoul (word, &p, 10);
+		if (p != word && store->current_folder) {
+			word = imap_next_word (p);
+			if (!g_strcasecmp (word, "EXISTS")) {
 				exists = number;
 				g_free (respbuf);
 				goto next;
-			} else if (!g_strcasecmp (p, "EXPUNGE")) {
+			} else if (!g_strcasecmp (word, "EXPUNGE")) {
 				if (!expunged) {
 					expunged = g_array_new (FALSE, FALSE,
 								sizeof (int));
@@ -171,8 +172,7 @@ imap_read_response (CamelImapStore *store, CamelException *ex)
 				goto next;
 			}
 		} else {
-			p = imap_next_word (respbuf);
-			if (!g_strncasecmp (p, "BYE", 3)) {
+			if (!g_strncasecmp (word, "BYE", 3)) {
 				/* connection was lost, no more data to fetch */
 				store->connected = FALSE;
 				g_free (respbuf);
@@ -349,11 +349,12 @@ camel_imap_response_extract (CamelImapResponse *response, const char *type,
 		/* Skip "* ", and initial sequence number, if present */
 		strtoul (resp + 2, &resp, 10);
 		if (*resp == ' ')
-			resp++;
+			resp = imap_next_word (resp);
 
 		if (!g_strncasecmp (resp, type, len))
 			break;
-		g_free (resp);
+		
+		g_free (response->untagged->pdata[i]);
 	}
 
 	if (i < response->untagged->len) {
