@@ -40,6 +40,10 @@ Other bugs
     - Fix copy/move problems when pilot syncing (JP)
     - Don't mark menu accels for translation (Christian)
 
+  * Mail
+
+    - Crash in em-utils on GtkFileChooser with no name selected (Hans Petter)
+
 
 Evolution 1.4.1, 2003-06-25
 ---------------------------
