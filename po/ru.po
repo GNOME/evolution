@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: E-volution\n"
-"POT-Creation-Date: 2000-11-28 18:21+0300\n"
-"PO-Revision-Date: 2000-11-28 18:24+03:00\n"
+"POT-Creation-Date: 2000-11-30 13:42+0300\n"
+"PO-Revision-Date: 2000-11-30 13:47+03:00\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -284,10 +284,10 @@ msgstr ""
 #: addressbook/backend/ebook/load-pine-addressbook.c:17
 #: addressbook/backend/ebook/test-client-list.c:18
 #: addressbook/backend/ebook/test-client.c:29
-#: addressbook/conduit/address-conduit.c:1026
+#: addressbook/conduit/address-conduit.c:1006
 #: addressbook/gui/component/addressbook-factory.c:38
-#: calendar/conduits/calendar/calendar-conduit.c:1087
-#: calendar/conduits/todo/todo-conduit.c:961 calendar/gui/main.c:54
+#: calendar/conduits/calendar/calendar-conduit.c:1065
+#: calendar/conduits/todo/todo-conduit.c:939 calendar/gui/main.c:54
 msgid "Could not initialize Bonobo"
 msgstr "Не удалось инициализировать Bonobo"
 
@@ -418,20 +418,20 @@ msgstr "Курсор не может быть загружен\n"
 msgid "EBook not loaded\n"
 msgstr "EBook не загружена\n"
 
-#: addressbook/conduit/address-conduit.c:599
-#: calendar/conduits/calendar/calendar-conduit.c:651
-#: calendar/conduits/todo/todo-conduit.c:524
+#: addressbook/conduit/address-conduit.c:598
+#: calendar/conduits/calendar/calendar-conduit.c:648
+#: calendar/conduits/todo/todo-conduit.c:521
 msgid "Could not start wombat server"
 msgstr "Не удалось запустить сервер wombat"
 
-#: addressbook/conduit/address-conduit.c:600
-#: calendar/conduits/calendar/calendar-conduit.c:652
-#: calendar/conduits/todo/todo-conduit.c:525
+#: addressbook/conduit/address-conduit.c:599
+#: calendar/conduits/calendar/calendar-conduit.c:649
+#: calendar/conduits/todo/todo-conduit.c:522
 msgid "Could not start wombat"
 msgstr "Не удалось запустить wombat"
 
-#: addressbook/conduit/address-conduit.c:632
-#: addressbook/conduit/address-conduit.c:635
+#: addressbook/conduit/address-conduit.c:631
+#: addressbook/conduit/address-conduit.c:634
 msgid "Could not read pilot's Address application block"
 msgstr "Невозможно прочесть блок приложения адресов Пилота"
 
@@ -1128,13 +1128,13 @@ msgstr "метка26"
 
 #. String to use in 12-hour time format for times in the morning.
 #: calendar/cal-util/timeutil.c:98 calendar/gui/e-day-view.c:538
-#: calendar/gui/print.c:605
+#: calendar/gui/e-week-view.c:287 calendar/gui/print.c:605
 msgid "am"
 msgstr "д.п."
 
 #. String to use in 12-hour time format for times in the afternoon.
 #: calendar/cal-util/timeutil.c:98 calendar/gui/e-day-view.c:541
-#: calendar/gui/print.c:604
+#: calendar/gui/e-week-view.c:290 calendar/gui/print.c:604
 msgid "pm"
 msgstr "п.п."
 
@@ -1150,13 +1150,13 @@ msgstr "Кондуит календаря Evolution"
 msgid "Configuration utility for the evolution calendar conduit.\n"
 msgstr "Средство настройки для кондуита календаря Evolution.\n"
 
-#: calendar/conduits/calendar/calendar-conduit.c:607
-#: calendar/conduits/todo/todo-conduit.c:480
+#: calendar/conduits/calendar/calendar-conduit.c:604
+#: calendar/conduits/todo/todo-conduit.c:477
 msgid "Error while communicating with calendar server"
 msgstr "Ошибка при подключении к серверу календаря"
 
+#: calendar/conduits/calendar/calendar-conduit.c:703
 #: calendar/conduits/calendar/calendar-conduit.c:706
-#: calendar/conduits/calendar/calendar-conduit.c:709
 msgid "Could not read pilot's Calendar application block"
 msgstr "Невозможно прочесть блок приложения календарь Пилота"
 
@@ -1168,8 +1168,8 @@ msgstr "Кондуит заданий Evolution"
 msgid "Configuration utility for the evolution todo conduit.\n"
 msgstr "Средство настройки для кондуита заданий Evolution.\n"
 
+#: calendar/conduits/todo/todo-conduit.c:576
 #: calendar/conduits/todo/todo-conduit.c:579
-#: calendar/conduits/todo/todo-conduit.c:582
 msgid "Could not read pilot's ToDo application block"
 msgstr "Невозможно прочесть блок приложения заданий Пилота"
 
@@ -1654,36 +1654,36 @@ msgstr "Состояние:"
 msgid "task-editor-dialog"
 msgstr "диалог редактора заданий"
 
-#: calendar/gui/e-calendar-table.c:296
+#: calendar/gui/e-calendar-table.c:328
 msgid "Open..."
 msgstr "Открыть..."
 
-#: calendar/gui/e-calendar-table.c:297
+#: calendar/gui/e-calendar-table.c:329
 msgid "Open the task"
 msgstr "Открыть задание"
 
-#: calendar/gui/e-calendar-table.c:299
+#: calendar/gui/e-calendar-table.c:331
 msgid "Mark Complete"
 msgstr "Пометить как выполненное"
 
-#: calendar/gui/e-calendar-table.c:300
+#: calendar/gui/e-calendar-table.c:332
 msgid "Mark the task complete"
 msgstr "Пометить задание как выполненное"
 
-#: calendar/gui/e-calendar-table.c:302
+#: calendar/gui/e-calendar-table.c:334
 #: calendar/gui/event-editor-dialog.glade.h:55 filter/filter.glade.h:8
-#: filter/libfilter-i18n.h:8 mail/folder-browser.c:492
+#: filter/libfilter-i18n.h:8 mail/folder-browser.c:493
 #: mail/mail-config.glade.h:9 mail/mail-view.c:165
 #: ui/evolution-addressbook.xml.h:9 ui/evolution-event-editor.xml.h:20
 #: ui/evolution-mail.xml.h:12
 msgid "Delete"
 msgstr "Удалить"
 
-#: calendar/gui/e-calendar-table.c:303
+#: calendar/gui/e-calendar-table.c:335
 msgid "Delete the task"
 msgstr "Удалить задание"
 
-#: calendar/gui/e-day-view-time-item.c:437
+#: calendar/gui/e-day-view-time-item.c:516
 #, c-format
 msgid "%02i minute divisions"
 msgstr ""
@@ -1709,31 +1709,31 @@ msgstr "%a %d %b"
 msgid "%d %b"
 msgstr "%d %b"
 
-#: calendar/gui/e-day-view.c:2946 calendar/gui/e-day-view.c:2953
-#: calendar/gui/e-day-view.c:2962 calendar/gui/e-week-view.c:3095
-#: calendar/gui/e-week-view.c:3102 calendar/gui/e-week-view.c:3111
+#: calendar/gui/e-day-view.c:2931 calendar/gui/e-day-view.c:2938
+#: calendar/gui/e-day-view.c:2947 calendar/gui/e-week-view.c:3164
+#: calendar/gui/e-week-view.c:3171 calendar/gui/e-week-view.c:3180
 msgid "New appointment..."
 msgstr "Новая встреча..."
 
-#: calendar/gui/e-day-view.c:2950 calendar/gui/e-day-view.c:2957
-#: calendar/gui/e-week-view.c:3099 calendar/gui/e-week-view.c:3106
+#: calendar/gui/e-day-view.c:2935 calendar/gui/e-day-view.c:2942
+#: calendar/gui/e-week-view.c:3168 calendar/gui/e-week-view.c:3175
 msgid "Edit this appointment..."
 msgstr "Правка этой встречи..."
 
-#: calendar/gui/e-day-view.c:2951 calendar/gui/e-week-view.c:3100
+#: calendar/gui/e-day-view.c:2936 calendar/gui/e-week-view.c:3169
 #: ui/evolution-event-editor.xml.h:21
 msgid "Delete this appointment"
 msgstr "Удалить эту встречу"
 
-#: calendar/gui/e-day-view.c:2958 calendar/gui/e-week-view.c:3107
+#: calendar/gui/e-day-view.c:2943 calendar/gui/e-week-view.c:3176
 msgid "Make this appointment movable"
 msgstr "Сделать эту встречу перемещаемой"
 
-#: calendar/gui/e-day-view.c:2959 calendar/gui/e-week-view.c:3108
+#: calendar/gui/e-day-view.c:2944 calendar/gui/e-week-view.c:3177
 msgid "Delete this occurrence"
 msgstr "Удалить этот случай"
 
-#: calendar/gui/e-day-view.c:2960 calendar/gui/e-week-view.c:3109
+#: calendar/gui/e-day-view.c:2945 calendar/gui/e-week-view.c:3178
 msgid "Delete all occurrences"
 msgstr "Удалить все случаи"
 
@@ -2438,7 +2438,7 @@ msgstr "Текущий год (%Y)"
 msgid "Print Calendar"
 msgstr "Напечатать календарь"
 
-#: calendar/gui/print.c:1309 mail/mail-callbacks.c:873
+#: calendar/gui/print.c:1309 mail/mail-callbacks.c:934
 msgid "Print Preview"
 msgstr "Просмотр печати"
 
@@ -2547,6 +2547,10 @@ msgstr "Не удалось подключиться к %s (порт %d): %s"
 msgid "(unknown host)"
 msgstr "(неизвестный хост)"
 
+#: camel/camel-remote-store.c:452
+msgid "Server disconnected."
+msgstr "Сервер отключен."
+
 #: camel/camel-service.c:120
 #, c-format
 msgid "URL '%s' needs a username component"
@@ -2572,12 +2576,12 @@ msgstr "Нет такого хоста %s."
 msgid "Temporarily unable to look up hostname %s."
 msgstr "Временно невозможно найти имя хоста %s."
 
-#: camel/camel-session.c:271
+#: camel/camel-session.c:272
 #, c-format
 msgid "No provider available for protocol `%s'"
 msgstr "Провайдер для протокола \"%s\" не доступен"
 
-#: camel/camel-session.c:359
+#: camel/camel-session.c:360
 #, c-format
 msgid ""
 "Could not create directory %s:\n"
@@ -2904,16 +2908,16 @@ msgstr ""
 msgid "Local mail directory %s"
 msgstr "Локальный почтовый каталог %s"
 
-#: camel/providers/pop3/camel-pop3-folder.c:177
+#: camel/providers/pop3/camel-pop3-folder.c:179
 msgid "Could not open folder: message listing was incomplete."
 msgstr "Не удалось открыть папку: список сообщений был неполон."
 
-#: camel/providers/pop3/camel-pop3-folder.c:271
+#: camel/providers/pop3/camel-pop3-folder.c:273
 #, c-format
 msgid "No message with uid %s"
 msgstr "Нет сообщения с uid %s"
 
-#: camel/providers/pop3/camel-pop3-folder.c:285
+#: camel/providers/pop3/camel-pop3-folder.c:287
 #, c-format
 msgid "Could not retrieve message from POP server %s: %s"
 msgstr "Не удалось получить сообщение с POP сервера %s: %s"
@@ -3481,7 +3485,7 @@ msgid "vFolder Sources"
 msgstr "Источники вирт.папки"
 
 #. Automatically generated. Do not edit.
-#: filter/libfilter-i18n.h:2 mail/message-list.c:549
+#: filter/libfilter-i18n.h:2 mail/message-list.c:540
 msgid "Answered"
 msgstr "Отвечено"
 
@@ -3553,7 +3557,7 @@ msgstr "Получатели"
 msgid "Regex Match"
 msgstr ""
 
-#: filter/libfilter-i18n.h:22 mail/message-list.c:546
+#: filter/libfilter-i18n.h:22 mail/message-list.c:537
 msgid "Seen"
 msgstr "Прочитанное"
 
@@ -3746,7 +3750,7 @@ msgstr "Фильтр по отправителю"
 msgid "Filter on Recipients"
 msgstr "Фильтр по получателю"
 
-#: mail/folder-browser.c:474 mail/folder-browser.c:557
+#: mail/folder-browser.c:474 mail/folder-browser.c:558
 msgid "Filter on Mailing List"
 msgstr "Фильтр по списку рассылки"
 
@@ -3754,59 +3758,63 @@ msgstr "Фильтр по списку рассылки"
 msgid "Open"
 msgstr "Открыть"
 
-#: mail/folder-browser.c:480 mail/mail-view.c:163
+#: mail/folder-browser.c:480
+msgid "Save As..."
+msgstr "Сохранить как..."
+
+#: mail/folder-browser.c:481 mail/mail-view.c:163
 #: ui/evolution-addressbook.xml.h:14 ui/evolution-calendar.xml.h:24
 #: ui/evolution-mail.xml.h:29
 msgid "Print"
 msgstr "Печать"
 
-#: mail/folder-browser.c:482
+#: mail/folder-browser.c:483
 msgid "Reply to Sender"
 msgstr "Ответить отправителю"
 
-#: mail/folder-browser.c:483 mail/mail-view.c:156 ui/evolution-mail.xml.h:35
+#: mail/folder-browser.c:484 mail/mail-view.c:156 ui/evolution-mail.xml.h:35
 msgid "Reply to All"
 msgstr "Ответить всем"
 
-#: mail/folder-browser.c:484 mail/mail-view.c:159 ui/evolution-mail.xml.h:18
+#: mail/folder-browser.c:485 mail/mail-view.c:159 ui/evolution-mail.xml.h:18
 msgid "Forward"
 msgstr "Переслать"
 
-#: mail/folder-browser.c:485 ui/evolution-mail.xml.h:19
+#: mail/folder-browser.c:486 ui/evolution-mail.xml.h:19
 msgid "Forward as Attachment"
 msgstr "Переслать как вложение"
 
-#: mail/folder-browser.c:487
+#: mail/folder-browser.c:488
 msgid "Mark as Read"
 msgstr "Пометить как прочитанное"
 
-#: mail/folder-browser.c:488
+#: mail/folder-browser.c:489
 msgid "Mark as Unread"
 msgstr "Пометить как непрочтенное"
 
-#: mail/folder-browser.c:490
+#: mail/folder-browser.c:491
 msgid "Move to Folder..."
 msgstr "Переместить в папку..."
 
-#: mail/folder-browser.c:491
+#: mail/folder-browser.c:492
 msgid "Copy to Folder..."
 msgstr "Скопировать в папку..."
 
-#: mail/folder-browser.c:493
+#: mail/folder-browser.c:494
 msgid "Undelete"
 msgstr "Восстановить"
 
 #. { _("Add Sender to Address Book"), NULL, GTK_SIGNAL_FUNC (addrbook_sender),   NULL,  0 },
 #. { "",                              NULL, GTK_SIGNAL_FUNC (NULL),              NULL,  0 },
-#: mail/folder-browser.c:497
+#: mail/folder-browser.c:498
 msgid "Apply Filters"
 msgstr "Применить фильтры"
 
-#: mail/folder-browser.c:499 ui/evolution-mail.xml.h:11
+#: mail/folder-browser.c:500 ui/evolution-mail.xml.h:11
 msgid "Create Rule From Message"
 msgstr "Создать правило из сообщения"
 
-#: mail/folder-browser.c:559
+#: mail/folder-browser.c:560
 #, c-format
 msgid "Filter on Mailing List (%s)"
 msgstr "Фильтр по списку рассылки (%s)"
@@ -3899,7 +3907,15 @@ msgstr ""
 "Вы можете править только сообщения\n"
 "сохраненные в папке \"Черновики\"."
 
-#: mail/mail-callbacks.c:788
+#: mail/mail-callbacks.c:720
+msgid "Save Message As..."
+msgstr "Сохранить сообщение как..."
+
+#: mail/mail-callbacks.c:722
+msgid "Save Messages As..."
+msgstr "Сохранить сообщения как..."
+
+#: mail/mail-callbacks.c:849
 #, c-format
 msgid ""
 "Error loading filter information:\n"
@@ -3908,11 +3924,11 @@ msgstr ""
 "Ошибка при загрузке информации фильтра:\n"
 "%s"
 
-#: mail/mail-callbacks.c:833
+#: mail/mail-callbacks.c:894
 msgid "Print Message"
 msgstr "Печать сообщения"
 
-#: mail/mail-callbacks.c:880
+#: mail/mail-callbacks.c:941
 msgid "Printing of message failed"
 msgstr "Сбой печати сообщения"
 
@@ -4576,30 +4592,35 @@ msgstr "Загрузка папки %s"
 msgid "Load %s Folder"
 msgstr "Загрузить папку %s"
 
-#: mail/mail-ops.c:2290
+#: mail/mail-ops.c:2287
 #, c-format
 msgid "Viewing messages from folder \"%s\""
 msgstr "Просмотр сообщений из папки \"%s\""
 
-#: mail/mail-ops.c:2293
+#: mail/mail-ops.c:2290
 #, c-format
 msgid "View messages from \"%s\""
 msgstr "Просмотреть сообщения из  \"%s\""
 
-#: mail/mail-ops.c:2319 mail/mail-ops.c:2436
+#: mail/mail-ops.c:2316
 #, c-format
 msgid "Retrieving message %d of %d (uid \"%s\")"
 msgstr "Перемещение сообщения %d из %d (uid  \"%s\")"
 
-#: mail/mail-ops.c:2409
+#: mail/mail-ops.c:2405
 #, c-format
 msgid "Saving messages from folder \"%s\""
 msgstr "Сохранение сообщений из папки \"%s\""
 
-#: mail/mail-ops.c:2412
+#: mail/mail-ops.c:2408
 #, c-format
-msgid "Saving messages from \"%s\""
-msgstr "Сохранение сообщений из \"%s\""
+msgid "Save messages from folder \"%s\""
+msgstr "Сохранить сообщения из папки \"%s\""
+
+#: mail/mail-ops.c:2450
+#, c-format
+msgid "Saving message %d of %d (uid \"%s\")"
+msgstr "Сохранение сообщения %d из %d (uid  \"%s\")"
 
 #: mail/mail-search-dialogue.c:104
 msgid "Cancel"
@@ -4740,15 +4761,15 @@ msgstr "Распечатать выделенное сообщение"
 msgid "Delete this message"
 msgstr "Удалить это сообщение"
 
-#: mail/message-list.c:543
+#: mail/message-list.c:534
 msgid "Unseen"
 msgstr "Непрочитанное"
 
-#: mail/message-list.c:2100
+#: mail/message-list.c:2089
 msgid "Rebuilding message view"
 msgstr "Перестроение окна сообщения"
 
-#: mail/message-list.c:2102
+#: mail/message-list.c:2091
 msgid "Rebuild message view"
 msgstr "Перестроить окно сообщения"
 
@@ -5144,7 +5165,7 @@ msgstr "Невозможно инициализировать оболочку \"Эволюции\"."
 msgid "Disable."
 msgstr "Отключено."
 
-#: shell/main.c:166
+#: shell/main.c:164
 msgid "Cannot initialize the Bonobo component system."
 msgstr "Не удалось инициализировать компонентную систему Bonobo."
 
@@ -5991,22 +6012,26 @@ msgid "_Print Message"
 msgstr "Печать сообщения"
 
 #: ui/evolution-mail.xml.h:60
+msgid "_Save Message As..."
+msgstr "Сохранить сообщение как..."
+
+#: ui/evolution-mail.xml.h:61
 msgid "_Source"
 msgstr "Источник"
 
-#: ui/evolution-mail.xml.h:61
+#: ui/evolution-mail.xml.h:62
 msgid "_Threaded"
 msgstr "Подшитые"
 
-#: ui/evolution-mail.xml.h:62
+#: ui/evolution-mail.xml.h:63
 msgid "_Undelete"
 msgstr "Восстановить"
 
-#: ui/evolution-mail.xml.h:63
+#: ui/evolution-mail.xml.h:64
 msgid "_VFolder on Subject"
 msgstr "Вирт.папка по теме"
 
-#: ui/evolution-mail.xml.h:64
+#: ui/evolution-mail.xml.h:65
 msgid "_Virtual Folder Editor..."
 msgstr "Редактор виртуальных папок..."
 
