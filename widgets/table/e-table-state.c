@@ -120,6 +120,10 @@ e_table_state_load_from_file    (ETableState *state,
 				 const char          *filename)
 {
 	xmlDoc *doc;
+
+	if (!g_file_test (filename, G_FILE_TEST_EXISTS))
+		return FALSE;
+
 	doc = xmlParseFile (filename);
 	if (doc) {
 		xmlNode *node = xmlDocGetRootElement(doc);
