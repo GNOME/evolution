@@ -1,3 +1,11 @@
+2002-04-01  Dan Winship  <danw@ximian.com>
+
+	Darwin/OS X portability from Max Horn <max@quendi.de>
+
+	* libversit/vcc.y: Remove #include <malloc.h>.
+
+	* libversit/vobject.c: Likewise, and #include <stdlib.h>
+
 2002-03-30  Ettore Perazzoli  <ettore@ximian.com>
 
 	* configure.in: Add argument `--enable-shlib-components'.  New
