@@ -213,6 +213,16 @@ mail_display_jump_to_anchor (MailDisplay *md, const char *url)
 static void
 on_link_clicked (GtkHTML *html, const char *url, MailDisplay *md)
 {
+	char *full_url;
+	
+	if (md->base_url) {
+		full_url = alloca (strlen (md->base_url) + strlen (url) + 2);
+		sprintf (full_url, "%s%s%s", md->base_url,
+			 *url == '/' ? "" : "/", url);
+		
+		url = full_url;
+	}
+	
 	if (!g_strncasecmp (url, "news:", 5) ||
 	    !g_strncasecmp (url, "nntp:", 5))
 		g_warning ("Can't handle news URLs yet.");
@@ -1031,6 +1041,22 @@ ebook_callback (EBook *book, const gchar *addr, ECard *card, gpointer data)
 }
 
 static void
+on_set_base (GtkHTML *html, const char *base_url, gpointer user_data)
+{
+	MailDisplay *md = user_data;
+	size_t len;
+	
+	g_free (md->base_url);
+	
+	/* strip the trailing '/' if there is one */
+	len = strlen (base_url);
+	if (base_url[len - 1] == '/')
+		md->base_url = g_strndup (base_url, len - 1);
+	else
+		md->base_url = g_strdup (base_url);
+}
+
+static void
 on_url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle,
 		  gpointer user_data)
 {
@@ -1038,6 +1064,7 @@ on_url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle,
 	GHashTable *urls;
 	CamelMedium *medium;
 	GByteArray *ba;
+	char *full_url;
 	
 	urls = g_datalist_get_data (md->data, "part_urls");
 	g_return_if_fail (urls != NULL);
@@ -1074,9 +1101,17 @@ on_url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle,
 		gtk_html_end (html, handle, GTK_HTML_STREAM_OK);
 		return;
 	}
-
+	
 	urls = g_datalist_get_data (md->data, "data_urls");
 	g_return_if_fail (urls != NULL);
+	
+	if (md->base_url) {
+		full_url = alloca (strlen (md->base_url) + strlen (url) + 2);
+		sprintf (full_url, "%s%s%s", md->base_url,
+			 *url == '/' ? "" : "/", url);
+		
+		url = full_url;
+	}
 	
 	/* See if it's some piece of cached data */
 	ba = g_hash_table_lookup (urls, url);
@@ -1090,7 +1125,7 @@ on_url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle,
 		gtk_html_end (html, handle, GTK_HTML_STREAM_OK);
 		return;
 	}
-
+	
 	/* See if it's something we can load. */
 	if (strncmp (url, "http:", 5) == 0) {
 		if (mail_config_get_http_mode () == MAIL_CONFIG_HTTP_ALWAYS ||
@@ -1103,10 +1138,10 @@ on_url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle,
 			   !g_datalist_get_data (md->data, "checking_from")) {
 			const CamelInternetAddress *from = camel_mime_message_get_from (md->current_message);
 			const char *name, *addr;
-
+			
 			g_datalist_set_data (md->data, "checking_from",
 					     GINT_TO_POINTER (1));
-
+			
 			/* Make sure we aren't deal w/ some sort of a pathological message w/o a From: header */
 			if (from != NULL && camel_internet_address_get (from, 0, &name, &addr))
 				e_book_query_address_locally (addr, ebook_callback, md);
@@ -1484,9 +1519,11 @@ mail_display_init (GtkObject *object)
 	mail_display->last_active       = NULL;
 	mail_display->idle_id           = 0;
 	mail_display->selection         = NULL;
+	mail_display->charset           = NULL;
+	mail_display->base_url          = NULL;
 	mail_display->current_message   = NULL;
 	mail_display->data              = NULL;
-
+	
 	mail_display->invisible         = gtk_invisible_new ();
 
 	mail_display->display_style     = mail_config_get_message_display_style ();
@@ -1501,6 +1538,7 @@ mail_display_destroy (GtkObject *object)
 
 	g_free (mail_display->charset);
 	g_free (mail_display->selection);
+	g_free (mail_display->base_url);
 	
 	g_datalist_clear (mail_display->data);
 	g_free (mail_display->data);
@@ -2116,6 +2154,9 @@ mail_display_initialize_gtkhtml (MailDisplay *mail_display, GtkHTML *html)
 	
 	gtk_html_set_editable (GTK_HTML (html), FALSE);
 	
+	gtk_signal_connect (GTK_OBJECT (html), "set_base",
+			    GTK_SIGNAL_FUNC (on_set_base),
+			    mail_display);
 	gtk_signal_connect (GTK_OBJECT (html), "url_requested",
 			    GTK_SIGNAL_FUNC (on_url_requested),
 			    mail_display);

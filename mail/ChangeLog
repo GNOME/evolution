@@ -1,3 +1,15 @@
+2002-01-15  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-display.c (on_set_base): New callback to handle the
+	set_base signal.
+	(on_url_requested): If the base_url is set, prepend it to the data
+	url (we don't want to do this for cid urls or part urls tho).
+	(mail_display_init): Initialize md->base_url to NULL.
+	(mail_display_destroy): Free the base_url.
+	(mail_display_initialize_gtkhtml): Connect to the set_base signal.
+	(on_link_clicked): If the base_url is set, prepend it to the url
+	string passed to us from gtkhtml.
+
 2002-01-10  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c (do_edit_messages): Don't remove any
