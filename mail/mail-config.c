@@ -54,7 +54,6 @@
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-gui-utils.h>
 
-#include <e-util/e-url.h>
 #include <e-util/e-passwords.h>
 #include <e-util/e-account-list.h>
 #include <e-util/e-signature-list.h>
