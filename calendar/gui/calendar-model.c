@@ -635,21 +635,27 @@ is_complete (CalComponent *comp)
 	return retval;
 }
 
-/* Returns whether a component is overdue.  Sigh, this is very similar to
- * get_color() below.
- */
-static gboolean
-is_overdue (CalendarModel *model, CalComponent *comp)
+typedef enum {
+	CALENDAR_MODEL_DUE_NEVER,
+	CALENDAR_MODEL_DUE_FUTURE,
+	CALENDAR_MODEL_DUE_TODAY,
+	CALENDAR_MODEL_DUE_OVERDUE,
+	CALENDAR_MODEL_DUE_COMPLETE
+} CalendarModelDueStatus;
+
+
+static CalendarModelDueStatus
+get_due_status (CalendarModel *model, CalComponent *comp)
 {
 	CalComponentDateTime dt;
-	gboolean retval;
+	CalendarModelDueStatus retval;
 
 	cal_component_get_due (comp, &dt);
 
 	/* First, do we have a due date? */
 
 	if (!dt.value)
-		retval = FALSE;
+		retval = CALENDAR_MODEL_DUE_NEVER;
 	else {
 		struct icaltimetype now_tt;
 		CalClientGetStatus status;
@@ -658,22 +664,39 @@ is_overdue (CalendarModel *model, CalComponent *comp)
 		/* Second, is it already completed? */
 
 		if (is_complete (comp)) {
-			retval = FALSE;
+			retval = CALENDAR_MODEL_DUE_COMPLETE;
 			goto out;
 		}
 
 		/* Third, are we overdue as of right now? */
 
-		/* Get the current time in the same timezone as the DUE date.*/
-		/* FIXME: TIMEZONES: Handle error. */
-		status = cal_client_get_timezone (model->priv->client, dt.tzid,
-						  &zone);
-		now_tt = icaltime_current_time_with_zone (zone);
+		if (dt.value->is_date) {
+			int cmp;
+			
+			now_tt = icaltime_today ();
+			cmp = icaltime_compare_date_only (*dt.value, now_tt);
+			
+			if (cmp < 0)
+				retval = CALENDAR_MODEL_DUE_OVERDUE;
+			else if (cmp == 0)
+				retval = CALENDAR_MODEL_DUE_TODAY;
+			else
+				retval = CALENDAR_MODEL_DUE_FUTURE;
+		} else {
+			/* Get the current time in the same timezone as the DUE date.*/
+			/* FIXME: TIMEZONES: Handle error. */
+			status = cal_client_get_timezone (model->priv->client, dt.tzid,
+							  &zone);
+			now_tt = icaltime_current_time_with_zone (zone);
 
-		if (icaltime_compare (*dt.value, now_tt) <= 0)
-			retval = TRUE;
-		else
-			retval = FALSE;
+			if (icaltime_compare (*dt.value, now_tt) <= 0) 
+				retval = CALENDAR_MODEL_DUE_OVERDUE;
+			else
+				if (icaltime_compare_date_only (*dt.value, now_tt) == 0)
+					retval = CALENDAR_MODEL_DUE_TODAY;
+				else
+					retval = CALENDAR_MODEL_DUE_FUTURE;
+		}
 	}
 
  out:
@@ -683,60 +706,39 @@ is_overdue (CalendarModel *model, CalComponent *comp)
 	return retval;
 }
 
+/* Returns whether a component is overdue. */
+static gboolean
+is_overdue (CalendarModel *model, CalComponent *comp)
+{
+	switch (get_due_status (model, comp)) {
+	case CALENDAR_MODEL_DUE_NEVER:
+	case CALENDAR_MODEL_DUE_FUTURE:
+	case CALENDAR_MODEL_DUE_COMPLETE:
+		return FALSE;
+	case CALENDAR_MODEL_DUE_TODAY:
+	case CALENDAR_MODEL_DUE_OVERDUE:
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
 /* Computes the color to be used to display a component */
 static const char *
 get_color (CalendarModel *model, CalComponent *comp)
 {
-	CalComponentDateTime dt;
-	const char *retval;
-
-	cal_component_get_due (comp, &dt);
-
-	/* First, do we have a due date? */
-
-	if (!dt.value)
-		retval = NULL;
-	else {
-		struct icaltimetype now_tt;
-		CalClientGetStatus status;
-		icaltimezone *zone;
-
-		/* Second, is it already completed? */
-
-		if (is_complete (comp)) {
-			retval = NULL;
-			goto out;
-		}
-
-		/* Third, is it due today? */
-
-		/* Get the current time in the same timezone as the DUE date.*/
-		/* FIXME: TIMEZONES: Handle error. */
-		status = cal_client_get_timezone (model->priv->client, dt.tzid,
-						  &zone);
-		now_tt = icaltime_current_time_with_zone (zone);
-
-		if (icaltime_compare_date_only (*dt.value, now_tt) == 0) {
-			retval = calendar_config_get_tasks_due_today_color ();
-			goto out;
-		}
-
-		/* Fourth, are we overdue as of right now?  We use <= in the
-		 * comparison below so that the table entries change color
-		 * immediately.
-		 */
-
-		if (icaltime_compare (*dt.value, now_tt) <= 0)
-			retval = calendar_config_get_tasks_overdue_color ();
-		else
-			retval = NULL;
+	switch (get_due_status (model, comp)) {
+	case CALENDAR_MODEL_DUE_NEVER:
+	case CALENDAR_MODEL_DUE_FUTURE:
+	case CALENDAR_MODEL_DUE_COMPLETE:
+		return NULL;
+	case CALENDAR_MODEL_DUE_TODAY:
+		return calendar_config_get_tasks_due_today_color ();
+	case CALENDAR_MODEL_DUE_OVERDUE:
+		return calendar_config_get_tasks_overdue_color ();
 	}
 
- out:
-
-	cal_component_free_datetime (&dt);
-
-	return retval;
+	return NULL;
 }
 
 static void *
