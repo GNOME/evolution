@@ -1889,7 +1889,7 @@ print_preview_msg (GtkWidget *button, gpointer user_data)
 
 /******************** Begin Subscription Dialog ***************************/
 
-static GtkWidget *subscribe_dialog = NULL;
+static GtkObject *subscribe_dialog = NULL;
 
 static void
 subscribe_dialog_destroy (GtkWidget *widget, gpointer user_data)
@@ -2086,7 +2086,7 @@ folder_created (CamelStore *store, const char *prefix, CamelFolderInfo *fi)
 	
 	if ((storage = mail_lookup_storage (store))) {
 		create_folders (storage, prefix, fi);
-		gtk_object_unref (GTK_OBJECT (storage));
+		bonobo_object_unref (BONOBO_OBJECT (storage));
 	}
 }
 
@@ -2105,7 +2105,7 @@ mail_storage_create_folder (EvolutionStorage *storage, CamelStore *store, CamelF
 			create_folders (storage, "", fi);
 		
 		if (unref)
-			gtk_object_unref (GTK_OBJECT (storage));
+			bonobo_object_unref (BONOBO_OBJECT (storage));
 	}
 }
 
@@ -2134,6 +2134,6 @@ folder_deleted (CamelStore *store, CamelFolderInfo *fi)
 		if (fi)
 			delete_folders (storage, fi);
 		
-		gtk_object_unref (GTK_OBJECT (storage));
+		bonobo_object_unref (BONOBO_OBJECT (storage));
 	}
 }

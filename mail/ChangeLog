@@ -1,5 +1,10 @@
 2001-08-07  Peter Williams  <peterw@ximian.com>
 
+	* mail-callbacks.c (folder_created): Use bonobo_object_unref on the storage
+	since it's a bonobo object.
+	(mail_storage_create_folder): Same.
+	(folder_deleted): Same.
+
 	* subscribe-dialog.c (fe_destroy): Unref the e_storage since lookup_store
 	gives us a ref.
 
