@@ -269,7 +269,6 @@ filter/filter-label.c
 filter/filter-option.c
 filter/filter-part.c
 filter/filter-rule.c
-filter/libfilter-i18n.h
 filter/rule-context.c
 filter/rule-editor.c
 filter/score-editor.c
