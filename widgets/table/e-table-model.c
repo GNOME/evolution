@@ -2,10 +2,11 @@
 /*
  * e-table-model.c: a Table Model
  *
- * Author:
+ * Authors:
  *   Miguel de Icaza (miguel@gnu.org)
+ *   Chris Lahey (clahey@helixcode.com)
  *
- * (C) 1999 Helix Code, Inc.
+ * (C) 1999, 2000 Helix Code, Inc.
  */
 #include <config.h>
 #include <gtk/gtksignal.h>
@@ -35,6 +36,12 @@ enum {
 
 static guint e_table_model_signals [LAST_SIGNAL] = { 0, };
 
+/**
+ * e_table_model_column_count:
+ * @e_table_model: The e-table-model to operate on
+ *
+ * Returns: the number of columns in the table model.
+ */
 int
 e_table_model_column_count (ETableModel *e_table_model)
 {
@@ -45,6 +52,12 @@ e_table_model_column_count (ETableModel *e_table_model)
 }
 
 
+/**
+ * e_table_model_row_count:
+ * @e_table_model: the e-table-model to operate on
+ *
+ * Returns: the number of rows in the Table model.
+ */
 int
 e_table_model_row_count (ETableModel *e_table_model)
 {
@@ -54,6 +67,19 @@ e_table_model_row_count (ETableModel *e_table_model)
 	return ETM_CLASS (e_table_model)->row_count (e_table_model);
 }
 
+/**
+ * e_table_value_at:
+ * @e_table_model: the e-table-model to operate on
+ * @col: column in the model to pull data from.
+ * @row: row in the model to pull data from.
+ *
+ * Return value: This function returns the value that is stored
+ * by the @e_table_model in column @col and row @row.  The data
+ * returned can be a pointer or any data value that can be stored
+ * inside a pointer.
+ *
+ * The data returned is typically used by an ECell renderer
+ */
 void *
 e_table_model_value_at (ETableModel *e_table_model, int col, int row)
 {
@@ -63,6 +89,21 @@ e_table_model_value_at (ETableModel *e_table_model, int col, int row)
 	return ETM_CLASS (e_table_model)->value_at (e_table_model, col, row);
 }
 
+/**
+ * e_table_model_set_value_at:
+ * @e_table_model: the table model to operate on.
+ * @col: the column where the data will be stored in the model.
+ * @row: the row where the data will be stored in the model. 
+ * @data: the data to be stored.
+ *
+ * This function instructs the model to store the value in @data in the
+ * the @e_table_model at column @col and row @row.  The @data typically
+ * comes from one of the ECell rendering objects.
+ *
+ * There should be an agreement between the Table Model and the user
+ * of this function about the data being stored.  Typically it will
+ * be a pointer to a set of data, or a datum that fits inside a void *.
+ */
 void
 e_table_model_set_value_at (ETableModel *e_table_model, int col, int row, const void *data)
 {
@@ -72,6 +113,15 @@ e_table_model_set_value_at (ETableModel *e_table_model, int col, int row, const 
 	ETM_CLASS (e_table_model)->set_value_at (e_table_model, col, row, data);
 }
 
+/**
+ * e_table_model_is_cell_editable:
+ * @e_table_model: the table model to query.
+ * @col: column to query.
+ * @row: row to query.
+ *
+ * Returns: %TRUE if the cell in @e_table_model at @col,@row can be
+ * edited, %FALSE otherwise
+ */
 gboolean
 e_table_model_is_cell_editable (ETableModel *e_table_model, int col, int row)
 {
@@ -81,6 +131,13 @@ e_table_model_is_cell_editable (ETableModel *e_table_model, int col, int row)
 	return ETM_CLASS (e_table_model)->is_cell_editable (e_table_model, col, row);
 }
 
+/**
+ * e_table_model_append_row:
+ * @e_table_model: the table model to append the a row to.
+ * @source:
+ * @row:
+ *
+ */
 void
 e_table_model_append_row (ETableModel *e_table_model, ETableModel *source, int row)
 {
@@ -264,24 +321,24 @@ e_table_model_class_init (GtkObjectClass *object_class)
 guint
 e_table_model_get_type (void)
 {
-  static guint type = 0;
-
-  if (!type)
-    {
-      GtkTypeInfo info =
-      {
-	"ETableModel",
-	sizeof (ETableModel),
-	sizeof (ETableModelClass),
-	(GtkClassInitFunc) e_table_model_class_init,
-	NULL,
-	/* reserved_1 */ NULL,
-        /* reserved_2 */ NULL,
-        (GtkClassInitFunc) NULL,
-      };
-
-      type = gtk_type_unique (PARENT_TYPE, &info);
-    }
+	static guint type = 0;
+	
+	if (!type)
+	{
+		GtkTypeInfo info =
+		{
+			"ETableModel",
+			sizeof (ETableModel),
+			sizeof (ETableModelClass),
+			(GtkClassInitFunc) e_table_model_class_init,
+			NULL,
+			/* reserved_1 */ NULL,
+			/* reserved_2 */ NULL,
+			(GtkClassInitFunc) NULL,
+		};
+		
+		type = gtk_type_unique (PARENT_TYPE, &info);
+	}
 
   return type;
 }
@@ -310,6 +367,19 @@ e_table_model_pre_change (ETableModel *e_table_model)
 	d(depth--);
 }
 
+/**
+ * e_table_model_changed:
+ * @e_table_model: the table model to notify of the change
+ *
+ * Use this function to notify any views of this table model that
+ * the contents of the table model have changed.  This will emit
+ * the signal "model_changed" on the @e_table_model object.
+ *
+ * It is preferable to use the e_table_model_row_changed() and
+ * the e_table_model_cell_changed() to notify of smaller changes
+ * than to invalidate the entire model, as the views might have
+ * ways of caching the information they render from the model.
+ */
 void
 e_table_model_changed (ETableModel *e_table_model)
 {
@@ -324,6 +394,16 @@ e_table_model_changed (ETableModel *e_table_model)
 	d(depth--);
 }
 
+/**
+ * e_table_model_row_changed:
+ * @e_table_model: the table model to notify of the change
+ * @row: the row that was changed in the model.
+ *
+ * Use this function to notify any views of the table model that
+ * the contents of row @row have changed in model.  This function
+ * will emit the "model_row_changed" signal on the @e_table_model
+ * object
+ */
 void
 e_table_model_row_changed (ETableModel *e_table_model, int row)
 {
@@ -338,6 +418,17 @@ e_table_model_row_changed (ETableModel *e_table_model, int row)
 	d(depth--);
 }
 
+/**
+ * e_table_model_cell_changed:
+ * @e_table_model: the table model to notify of the change
+ * @col: the column.
+ * @row: the row
+ *
+ * Use this function to notify any views of the table model that
+ * contents of the cell at @col,@row has changed. This will emit
+ * the "model_cell_changed" signal on the @e_table_model
+ * object
+ */
 void
 e_table_model_cell_changed (ETableModel *e_table_model, int col, int row)
 {
@@ -352,6 +443,16 @@ e_table_model_cell_changed (ETableModel *e_table_model, int col, int row)
 	d(depth--);
 }
 
+/**
+ * e_table_model_row_inserted:
+ * @e_table_model: the table model to notify of the change
+ * @row: the row that was inserted into the model.
+ *
+ * Use this function to notify any views of the table model that
+ * the row @row has been inserted into the model.  This function
+ * will emit the "model_row_inserted" signal on the @e_table_model
+ * object
+ */
 void
 e_table_model_row_inserted (ETableModel *e_table_model, int row)
 {
@@ -366,6 +467,16 @@ e_table_model_row_inserted (ETableModel *e_table_model, int row)
 	d(depth--);
 }
 
+/**
+ * e_table_model_row_deleted:
+ * @e_table_model: the table model to notify of the change
+ * @row: the row that was deleted
+ *
+ * Use this function to notify any views of the table model that
+ * the row @row has been deleted from the model.  This function
+ * will emit the "model_row_deleted" signal on the @e_table_model
+ * object
+ */
 void
 e_table_model_row_deleted (ETableModel *e_table_model, int row)
 {

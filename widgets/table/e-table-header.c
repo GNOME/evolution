@@ -28,13 +28,8 @@ enum {
 	LAST_SIGNAL
 };
 
-static void eth_set_arg (GtkObject *object, GtkArg *arg, guint arg_id);
-static void eth_get_arg (GtkObject *object, GtkArg *arg, guint arg_id);
-static void eth_do_remove (ETableHeader *eth, int idx, gboolean do_unref);
-static void eth_set_width(ETableHeader *eth, int width);
 static void eth_set_size (ETableHeader *eth, int idx, int size);
 static void eth_calc_widths (ETableHeader *eth);
-static void dequeue(ETableHeader *eth, int *column, int *width);
 
 static guint eth_signals [LAST_SIGNAL] = { 0, };
 
@@ -45,28 +40,54 @@ struct two_ints {
 	int width;
 };
 
+static void
+eth_set_width (ETableHeader *eth, int width)
+{
+	eth->width = width;
+}
+
+static void
+dequeue (ETableHeader *eth, int *column, int *width)
+{
+	GSList *head;
+	struct two_ints *store;
+	head = eth->change_queue;
+	eth->change_queue = eth->change_queue->next;
+	if (!eth->change_queue)
+		eth->change_tail = NULL;
+	store = head->data;
+	g_slist_free_1(head);
+	if (column)
+		*column = store->column;
+	if (width)
+		*width = store->width;
+	g_free(store);
+}
+
 static gboolean
-dequeue_idle(ETableHeader *eth)
+dequeue_idle (ETableHeader *eth)
 {
 	int column, width;
-	dequeue(eth, &column, &width);
-	while(eth->change_queue && ((struct two_ints *)eth->change_queue->data)->column == column)
-		dequeue(eth, &column, &width);
+
+	dequeue (eth, &column, &width);
+	while (eth->change_queue && ((struct two_ints *) eth->change_queue->data)->column == column)
+		dequeue (eth, &column, &width);
+
 	if (column == -1)
-		eth_set_width(eth, width);
+		eth_set_width (eth, width);
 	else if (column < eth->col_count)
-		eth_set_size(eth, column, width);
+		eth_set_size (eth, column, width);
 	if (eth->change_queue)
 		return TRUE;
 	else {
-		eth_calc_widths(eth);
+		eth_calc_widths (eth);
 		eth->idle = 0;
 		return FALSE;
 	}
 }
 
 static void
-enqueue(ETableHeader *eth, int column, int width)
+enqueue (ETableHeader *eth, int column, int width)
 {
 	struct two_ints *store;
 	store = g_new(struct two_ints, 1);
@@ -82,22 +103,24 @@ enqueue(ETableHeader *eth, int column, int width)
 	}
 }
 
-static void
-dequeue(ETableHeader *eth, int *column, int *width)
+void
+e_table_header_set_size (ETableHeader *eth, int idx, int size)
 {
-	GSList *head;
-	struct two_ints *store;
-	head = eth->change_queue;
-	eth->change_queue = eth->change_queue->next;
-	if (!eth->change_queue)
-		eth->change_tail = NULL;
-	store = head->data;
-	g_slist_free_1(head);
-	if (column)
-		*column = store->column;
-	if (width)
-		*width = store->width;
-	g_free(store);
+	g_return_if_fail (eth != NULL);
+	g_return_if_fail (E_IS_TABLE_HEADER (eth));
+
+	enqueue (eth, idx, size);
+}
+
+static void
+eth_do_remove (ETableHeader *eth, int idx, gboolean do_unref)
+{
+	if (do_unref)
+		gtk_object_unref (GTK_OBJECT (eth->columns [idx]));
+	
+	memmove (&eth->columns [idx], &eth->columns [idx+1],
+		 sizeof (ETableCol *) * (eth->col_count - idx - 1));
+	eth->col_count--;
 }
 
 static void
@@ -128,6 +151,60 @@ eth_destroy (GtkObject *object)
 	
 	if (e_table_header_parent_class->destroy)
 		e_table_header_parent_class->destroy (object);
+}
+
+static void
+eth_group_info_changed(ETableSortInfo *info, ETableHeader *eth)
+{
+	enqueue(eth, -1, eth->nominal_width);
+}
+
+static void
+eth_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
+{
+	ETableHeader *eth = E_TABLE_HEADER (object);
+
+	switch (arg_id) {
+	case ARG_WIDTH:
+		eth->nominal_width = GTK_VALUE_DOUBLE (*arg);
+		enqueue(eth, -1, GTK_VALUE_DOUBLE (*arg));
+		break;
+	case ARG_SORT_INFO:
+		if (eth->sort_info) {
+			if (eth->sort_info_group_change_id)
+				gtk_signal_disconnect(GTK_OBJECT(eth->sort_info), eth->sort_info_group_change_id);
+			gtk_object_unref(GTK_OBJECT(eth->sort_info));
+		}
+		eth->sort_info = E_TABLE_SORT_INFO(GTK_VALUE_OBJECT (*arg));
+		if (eth->sort_info) {
+			gtk_object_ref(GTK_OBJECT(eth->sort_info));
+			eth->sort_info_group_change_id 
+				= gtk_signal_connect(GTK_OBJECT(eth->sort_info), "group_info_changed",
+						     GTK_SIGNAL_FUNC(eth_group_info_changed), eth);
+		}
+		enqueue(eth, -1, eth->nominal_width);
+		break;
+	default:
+		break;
+	}
+}
+
+static void
+eth_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
+{
+	ETableHeader *eth = E_TABLE_HEADER (object);
+
+	switch (arg_id) {
+	case ARG_SORT_INFO:
+		GTK_VALUE_OBJECT (*arg) = GTK_OBJECT(eth->sort_info);
+		break;
+	case ARG_WIDTH:
+		GTK_VALUE_DOUBLE (*arg) = eth->nominal_width;
+		break;
+	default:
+		arg->type = GTK_TYPE_INVALID;
+		break;
+	}
 }
 
 static void
@@ -186,29 +263,11 @@ e_table_header_init (ETableHeader *eth)
 	eth->change_tail = NULL;
 }
 
-GtkType
-e_table_header_get_type (void)
-{
-	static GtkType type = 0;
-
-	if (!type){
-		GtkTypeInfo info = {
-			"ETableHeader",
-			sizeof (ETableHeader),
-			sizeof (ETableHeaderClass),
-			(GtkClassInitFunc) e_table_header_class_init,
-			(GtkObjectInitFunc) e_table_header_init,
-			NULL, /* reserved 1 */
-			NULL, /* reserved 2 */
-			(GtkClassInitFunc) NULL
-		};
-
-		type = gtk_type_unique (gtk_object_get_type (), &info);
-	}
-
-	return type;
-}
-
+/**
+ * e_table_header_new:
+ *
+ * Returns: A new @ETableHeader object.
+ */
 ETableHeader *
 e_table_header_new (void)
 {
@@ -217,66 +276,6 @@ e_table_header_new (void)
 	eth = gtk_type_new (e_table_header_get_type ());
 
 	return eth;
-}
-
-static void
-eth_group_info_changed(ETableSortInfo *info, ETableHeader *eth)
-{
-	enqueue(eth, -1, eth->nominal_width);
-}
-
-static void
-eth_set_width(ETableHeader *eth, int width)
-{
-	eth->width = width;
-}
-
-static void
-eth_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
-{
-	ETableHeader *eth = E_TABLE_HEADER (object);
-
-	switch (arg_id) {
-	case ARG_WIDTH:
-		eth->nominal_width = GTK_VALUE_DOUBLE (*arg);
-		enqueue(eth, -1, GTK_VALUE_DOUBLE (*arg));
-		break;
-	case ARG_SORT_INFO:
-		if (eth->sort_info) {
-			if (eth->sort_info_group_change_id)
-				gtk_signal_disconnect(GTK_OBJECT(eth->sort_info), eth->sort_info_group_change_id);
-			gtk_object_unref(GTK_OBJECT(eth->sort_info));
-		}
-		eth->sort_info = E_TABLE_SORT_INFO(GTK_VALUE_OBJECT (*arg));
-		if (eth->sort_info) {
-			gtk_object_ref(GTK_OBJECT(eth->sort_info));
-			eth->sort_info_group_change_id 
-				= gtk_signal_connect(GTK_OBJECT(eth->sort_info), "group_info_changed",
-						     GTK_SIGNAL_FUNC(eth_group_info_changed), eth);
-		}
-		enqueue(eth, -1, eth->nominal_width);
-		break;
-	default:
-		break;
-	}
-}
-
-static void
-eth_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
-{
-	ETableHeader *eth = E_TABLE_HEADER (object);
-
-	switch (arg_id) {
-	case ARG_SORT_INFO:
-		GTK_VALUE_OBJECT (*arg) = GTK_OBJECT(eth->sort_info);
-		break;
-	case ARG_WIDTH:
-		GTK_VALUE_DOUBLE (*arg) = eth->nominal_width;
-		break;
-	default:
-		arg->type = GTK_TYPE_INVALID;
-		break;
-	}
 }
 
 static void
@@ -302,6 +301,19 @@ eth_do_insert (ETableHeader *eth, int pos, ETableCol *val)
 	eth->col_count ++;
 }
 
+/**
+ * e_table_header_add_column:
+ * eth: the table header to add the column to.
+ * @tc: the ETableCol definition
+ * @pos: position where the ETableCol will go.
+ *
+ * This function adds the @tc ETableCol definition into the @eth ETableHeader
+ * at position @pos.  This is the way you add new ETableCols to the
+ * ETableHeader.
+ *
+ * This function will emit the "structure_change" signal on the @eth object.
+ * The ETableCol is assumed 
+ */
 void
 e_table_header_add_column (ETableHeader *eth, ETableCol *tc, int pos)
 {
@@ -327,6 +339,13 @@ e_table_header_add_column (ETableHeader *eth, ETableCol *tc, int pos)
 	gtk_signal_emit (GTK_OBJECT (eth), eth_signals [STRUCTURE_CHANGE]);
 }
 
+/**
+ * e_table_header_get_column:
+ * @eth: the ETableHeader to query
+ * @column: the column inside the @eth.
+ *
+ * Returns: The ETableCol at @column in the @eth object
+ */
 ETableCol *
 e_table_header_get_column (ETableHeader *eth, int column)
 {
@@ -342,6 +361,12 @@ e_table_header_get_column (ETableHeader *eth, int column)
 	return eth->columns [column];
 }
 
+/**
+ * e_table_header_count:
+ * @eth: the ETableHeader to query
+ *
+ * Returns: the number of columns in this ETableHeader.
+ */
 int
 e_table_header_count (ETableHeader *eth)
 {
@@ -351,6 +376,18 @@ e_table_header_count (ETableHeader *eth)
 	return eth->col_count;
 }
 
+/** 
+ * e_table_header_index:
+ * @eth: the ETableHeader to query
+ * @col: the column to fetch.
+ *
+ * ETableHeaders contain the visual list of columns that the user will
+ * view.  The visible columns will typically map to different columns
+ * in the ETableModel (because the user reordered the data for
+ * example).
+ *
+ * Returns: the column in the model that the @col column
+ * in the ETableHeader points to.  */
 int
 e_table_header_index (ETableHeader *eth, int col)
 {
@@ -361,6 +398,17 @@ e_table_header_index (ETableHeader *eth, int col)
 	return eth->columns [col]->col_idx;
 }
 
+/**
+ * e_table_header_get_index_at:
+ * @eth: the ETableHeader to query
+ * @x_offset: a pixel count from the beginning of the ETableHeader
+ *
+ * This will return the ETableHeader column that would contain
+ * the @x_offset pixel.
+ *
+ * Returns: the column that contains pixel @x_offset, or -1
+ * if no column inside this ETableHeader contains that pixel.
+ */
 int
 e_table_header_get_index_at (ETableHeader *eth, int x_offset)
 {
@@ -380,6 +428,16 @@ e_table_header_get_index_at (ETableHeader *eth, int x_offset)
 	return -1;
 }
 
+/**
+ * e_table_header_get_columns:
+ * @eth: The ETableHeader to query
+ *
+ * Returns: A NULL terminated array of the ETableCols
+ * contained in the ETableHeader @eth.  Note that every
+ * returned ETableCol in the array has been referenced, to release
+ * this information you need to g_free the buffer returned
+ * and you need to gtk_object_unref every element returned
+ */
 ETableCol **
 e_table_header_get_columns (ETableHeader *eth)
 {
@@ -400,6 +458,12 @@ e_table_header_get_columns (ETableHeader *eth)
 	return ret;
 }
 
+/**
+ * e_table_header_selection_ok:
+ * eth: the ETableHeader to query.
+ *
+ * Seems deprecated.
+ */
 gboolean
 e_table_header_selection_ok (ETableHeader *eth)
 {
@@ -409,6 +473,12 @@ e_table_header_selection_ok (ETableHeader *eth)
 	return eth->selectable;
 }
 
+/**
+ * e_table_header_get_selected:
+ * @eth: The ETableHeader to query
+ *
+ * Returns: The number of selected columns in the @eth object.
+ */
 int
 e_table_header_get_selected (ETableHeader *eth)
 {
@@ -426,6 +496,13 @@ e_table_header_get_selected (ETableHeader *eth)
 	return selected;
 }
 
+/**
+ * e_table_header_total_width:
+ * @eth: The ETableHeader to query
+ *
+ * Returns: the number of pixels used by the @eth object
+ * when rendered on screen
+ */
 int
 e_table_header_total_width (ETableHeader *eth)
 {
@@ -441,17 +518,16 @@ e_table_header_total_width (ETableHeader *eth)
 	return total;
 }
 
-static void
-eth_do_remove (ETableHeader *eth, int idx, gboolean do_unref)
-{
-	if (do_unref)
-		gtk_object_unref (GTK_OBJECT (eth->columns [idx]));
-	
-	memmove (&eth->columns [idx], &eth->columns [idx+1],
-		 sizeof (ETableCol *) * (eth->col_count - idx - 1));
-	eth->col_count--;
-}
-
+/**
+ * e_table_header_move:
+ * @eth: The ETableHeader to operate on.
+ * @source_index: the source column to move.
+ * @target_index: the target location for the column
+ *
+ * This function moves the column @source_index to @target_index
+ * inside the @eth ETableHeader.  The signals "dimension_change"
+ * and "structure_change" will be emmited
+ */
 void
 e_table_header_move (ETableHeader *eth, int source_index, int target_index)
 {
@@ -476,6 +552,14 @@ e_table_header_move (ETableHeader *eth, int source_index, int target_index)
 	gtk_signal_emit (GTK_OBJECT (eth), eth_signals [STRUCTURE_CHANGE]);
 }
 
+/**
+ * e_table_header_remove:
+ * @eth: The ETableHeader to operate on.
+ * @idx: the index to the column to be removed.
+ *
+ * Removes the column at @idx position in the ETableHeader @eth.
+ * This emmits the "structure_change" signal on the @eth object.
+ */
 void
 e_table_header_remove (ETableHeader *eth, int idx)
 {
@@ -489,20 +573,14 @@ e_table_header_remove (ETableHeader *eth, int idx)
 	gtk_signal_emit (GTK_OBJECT (eth), eth_signals [STRUCTURE_CHANGE]);
 }
 
+/*
+ * FIXME: deprecated?
+ */
 void
 e_table_header_set_selection (ETableHeader *eth, gboolean allow_selection)
 {
 	g_return_if_fail (eth != NULL);
 	g_return_if_fail (E_IS_TABLE_HEADER (eth));
-}
-
-void
-e_table_header_set_size(ETableHeader *eth, int idx, int size)
-{
-	g_return_if_fail (eth != NULL);
-	g_return_if_fail (E_IS_TABLE_HEADER (eth));
-
-	enqueue(eth, idx, size);
 }
 
 static void
@@ -624,6 +702,18 @@ eth_set_size (ETableHeader *eth, int idx, int size)
 	}
 }
 
+/**
+ * e_table_header_col_diff:
+ * @eth: the ETableHeader to query.
+ * @start_col: the starting column
+ * @end_col: the ending column.
+ *
+ * Computes the number of pixels between the columns @start_col and
+ * @end_col.
+ *
+ * Returns: the number of pixels between @start_col and @end_col on the
+ * @eth ETableHeader object
+ */
 int
 e_table_header_col_diff (ETableHeader *eth, int start_col, int end_col)
 {
@@ -679,3 +769,27 @@ eth_calc_widths (ETableHeader *eth)
 	eth_update_offsets (eth);
 	gtk_signal_emit (GTK_OBJECT (eth), eth_signals [DIMENSION_CHANGE]);
 }
+
+GtkType
+e_table_header_get_type (void)
+{
+	static GtkType type = 0;
+
+	if (!type){
+		GtkTypeInfo info = {
+			"ETableHeader",
+			sizeof (ETableHeader),
+			sizeof (ETableHeaderClass),
+			(GtkClassInitFunc) e_table_header_class_init,
+			(GtkObjectInitFunc) e_table_header_init,
+			NULL, /* reserved 1 */
+			NULL, /* reserved 2 */
+			(GtkClassInitFunc) NULL
+		};
+
+		type = gtk_type_unique (gtk_object_get_type (), &info);
+	}
+
+	return type;
+}
+

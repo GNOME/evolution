@@ -31,9 +31,9 @@ etc_destroy (GtkObject *object)
 	gtk_object_unref (GTK_OBJECT(etc->ecell));
 
 	if (etc->is_pixbuf)
-	  gdk_pixbuf_unref (etc->pixbuf);
+		gdk_pixbuf_unref (etc->pixbuf);
 	else
-	  g_free (etc->text);
+		g_free (etc->text);
 	
 	(*parent_class->destroy)(object);
 }
@@ -89,6 +89,32 @@ e_table_col_init (ETableCol *etc)
 
 E_MAKE_TYPE(e_table_col, "ETableCol", ETableCol, e_table_col_class_init, e_table_col_init, PARENT_TYPE);
 
+/** 
+ * e_table_col_new:
+ * @col_idx: the column we represent in the model
+ * @text: a title for this column
+ * @expansion: FIXME
+ * @min_width: minimum width in pixels for this column
+ * @ecell: the renderer to be used for this column
+ * @compare: comparision function for the elements stored in this column
+ * @resizable: whether the column can be resized interactively by the user
+ *
+ * The ETableCol represents a column to be used inside an ETable.  The
+ * ETableCol objects are inserted inside an ETableHeader (which is just a collection
+ * of ETableCols).  The ETableHeader is the definition of the order in which
+ * columns are shown to the user. 
+ *
+ * The @text argument is the the text that will be shown as a header to the
+ * user. @col_idx reflects where the data for this ETableCol object will
+ * be fetch from an ETableModel.  So even if the user changes the order
+ * of the columns being viewed (the ETableCols in the ETableHeader), the
+ * column will always point to the same column inside the ETableModel.
+ *
+ * The @ecell argument is an ECell object that needs to know how to render the
+ * data in the ETableModel for this specific row. 
+ *
+ * Returns: the newly created ETableCol object.
+ */
 ETableCol *
 e_table_col_new (int col_idx, const char *text, double expansion, int min_width,
 		 ECell *ecell, GCompareFunc compare, gboolean resizable)
@@ -123,6 +149,33 @@ e_table_col_new (int col_idx, const char *text, double expansion, int min_width,
 	return etc;
 }
 
+/** 
+ * e_table_col_new_with_pixbuf:
+ * @col_idx: the column we represent in the model
+ * @pixbuf: the image to be used for the header
+ * @text: a title for this column
+ * @expansion: FIXME
+ * @min_width: minimum width in pixels for this column
+ * @ecell: the renderer to be used for this column
+ * @compare: comparision function for the elements stored in this column
+ * @resizable: whether the column can be resized interactively by the user
+ *
+ * The ETableCol represents a column to be used inside an ETable.  The
+ * ETableCol objects are inserted inside an ETableHeader (which is just a collection
+ * of ETableCols).  The ETableHeader is the definition of the order in which
+ * columns are shown to the user. 
+ *
+ * The @text argument is the the text that will be shown as a header to the
+ * user. @col_idx reflects where the data for this ETableCol object will
+ * be fetch from an ETableModel.  So even if the user changes the order
+ * of the columns being viewed (the ETableCols in the ETableHeader), the
+ * column will always point to the same column inside the ETableModel.
+ *
+ * The @ecell argument is an ECell object that needs to know how to render the
+ * data in the ETableModel for this specific row. 
+ *
+ * Returns: the newly created ETableCol object.
+ */
 ETableCol *
 e_table_col_new_with_pixbuf (int col_idx, GdkPixbuf *pixbuf, double expansion, int min_width,
 			     ECell *ecell, GCompareFunc compare, gboolean resizable)
