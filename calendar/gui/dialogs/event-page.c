@@ -303,7 +303,7 @@ static void
 update_time (EventPage *epage, CalComponentDateTime *start_date, CalComponentDateTime *end_date)
 {
 	EventPagePrivate *priv;
-	struct icaltimetype *start_tt, *end_tt;
+	struct icaltimetype *start_tt, *end_tt, implied_tt;
 	icaltimezone *start_zone = NULL, *end_zone = NULL;
 	CalClientGetStatus status;
 	gboolean all_day_event;
@@ -340,6 +340,12 @@ update_time (EventPage *epage, CalComponentDateTime *start_date, CalComponentDat
 	all_day_event = FALSE;
 	start_tt = start_date->value;
 	end_tt = end_date->value;
+	if (!end_tt && start_tt->is_date) {
+		end_tt = &implied_tt;
+		*end_tt = *start_tt;
+		icaltime_adjust (end_tt, 1, 0, 0, 0);
+	}
+	
 	if (start_tt->is_date && end_tt->is_date) {
 		all_day_event = TRUE;
 		if (icaltime_compare_date_only (*end_tt, *start_tt) > 0) {

@@ -1,3 +1,12 @@
+2003-02-04  JP Rosevear  <jpr@ximian.com>
+
+       Partially  Fixes #23606 (from Jack Jia <jack.jia@sun.com>)
+	
+	* gui/dialogs/schedule-page.c (update_time): handle no end date if
+	the start is date only
+
+	* gui/dialogs/event-page.c (update_time): ditto
+
 2003-30-01 Ronald Kuetemeier <ronald@kuetemeier.com>
 
 	Fixes #35572
