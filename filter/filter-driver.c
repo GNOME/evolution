@@ -723,7 +723,8 @@ filter_driver_filter_message (FilterDriver *driver, CamelMimeMessage *message, C
 	ESExpResult *r;
 	GString *fsearch, *faction;
 	FilterFilter *rule;
-	int freeinfo = FALSE;
+	gboolean freeinfo = FALSE;
+	gboolean filtered = FALSE;
 	
 	if (info == NULL) {
 		struct _header_raw *h = CAMEL_MIME_PART (message)->headers;
@@ -766,6 +767,7 @@ filter_driver_filter_message (FilterDriver *driver, CamelMimeMessage *message, C
 		mail_tool_camel_lock_down ();
 		
 		if (matched) {
+			filtered = TRUE;
 			filter_driver_log (driver, FILTER_LOG_START, FILTER_RULE (rule)->name);
 #ifndef NO_WARNINGS
 #warning "Must check expression parsed and executed properly?"
@@ -785,6 +787,7 @@ filter_driver_filter_message (FilterDriver *driver, CamelMimeMessage *message, C
 	
 	if (p->defaultfolder && !p->copied) {
 		/* copy it to the default inbox */
+		filtered = TRUE;
 		filter_driver_log (driver, FILTER_LOG_ACTION, "Copy to default folder");
 		mail_tool_camel_lock_up ();
 		camel_folder_append_message (p->defaultfolder, p->message, p->info, p->ex);
@@ -793,7 +796,7 @@ filter_driver_filter_message (FilterDriver *driver, CamelMimeMessage *message, C
 	
 	/* *Now* we can set the DELETED flag... */
 	if (p->deleted)
-		info->flags = info->flags | CAMEL_MESSAGE_DELETED;	
+		info->flags = info->flags | CAMEL_MESSAGE_DELETED;
 	
 	if (freeinfo) {
 		camel_flag_list_free (&info->user_flags);
@@ -805,5 +808,6 @@ filter_driver_filter_message (FilterDriver *driver, CamelMimeMessage *message, C
 		g_free (info);
 	}
 	
-	filter_driver_log (driver, FILTER_LOG_END, NULL);
+	if (filtered)
+		filter_driver_log (driver, FILTER_LOG_END, NULL);
 }

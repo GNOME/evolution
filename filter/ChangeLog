@@ -4,6 +4,9 @@
 	default folder and the message hasn't been deleted then... should
 	be: If there is a default folder and the message hasn't been
 	copied to another folder...
+	(filter_driver_filter_message): Make it so that the FILTER_LOG_END
+	is only called if filtered were applied to the message so we don't
+	get huge gaps of whitespace in the log file.
 
 2000-11-10  Christopher James Lahey  <clahey@helixcode.com>
 
