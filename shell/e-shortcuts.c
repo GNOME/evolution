@@ -501,7 +501,7 @@ update_shortcuts_by_path (EShortcuts *shortcuts,
 									   group_num,
 									   num,
 									   evolution_uri,
-									   NULL,
+									   shortcut_item->name,
 									   e_folder_get_type_string (folder));
 		}
 	}
