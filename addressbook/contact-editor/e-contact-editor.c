@@ -153,7 +153,7 @@ _replace_button(EContactEditor *editor, gchar *button_xml, gchar *image, GtkSign
 	GtkWidget *pixmap;
 	gchar *image_temp;
 	if (button && GTK_IS_BUTTON(button)) {
-		image_temp = g_strdup_printf("%s%s", DATADIR "/evolution/", image);
+		image_temp = g_strdup_printf("%s/%s", EVOLUTIONDIR, image);
 		pixmap = e_create_image_widget(NULL, image_temp, NULL, 0, 0);
 		gtk_container_add(GTK_CONTAINER(button),
 				  pixmap);

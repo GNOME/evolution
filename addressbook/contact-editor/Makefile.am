@@ -1,6 +1,7 @@
 CPPFLAGS =					\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"	\
-	-DDATADIR=\""$(datadir)"\"
+	-DDATADIR=\""$(datadir)"\"		\
+	-DEVOLUTIONDIR=\""$(evolutiondir)"\"
 
 INCLUDES =					\
 	$(BONOBO_GNOME_CFLAGS)			\
@@ -43,6 +44,10 @@ contact_editor_test_LDADD =					\
 	$(top_builddir)/widgets/e-text/libetext.a		\
 	$(EXTRA_GNOME_LIBS)
 
+evolutiondir = $(datadir)/evolution
+
+evolution_DATA = arrow.png
+
 gladedir   = $(datadir)/evolution/glade
 
 glade_DATA = 				\
@@ -50,7 +55,8 @@ glade_DATA = 				\
 	fullname.glade			\
 	categories.glade
 
-EXTRA_DIST = $(glade_DATA)		\
+EXTRA_DIST = $(evolution_DATA)		\
+	$(glade_DATA)			\
 	e-contact-editor-strings.h	\
 	fullname-strings.h		\
 	categories-strings.h
