@@ -61,6 +61,8 @@ struct _IBEXWord {
 	struct _list wordnodes;	/* LRU list of wordcache structures */
 	int wordcount;		/* how much space used in cache */
 	int precount;
+	GHashTable *namecache;	/* a list of names (only), cached for quick reference */
+	int nameinit;
 };
 
 

@@ -1,3 +1,17 @@
+2000-11-16  Not Zed  <NotZed@HelixCode.com>
+
+	* wordindexmem.c (ibex_create_word_index_mem): Initialise nameinit
+	& namecache.
+	(contains_name): On first call, load all names into memory.  We
+	usually do a whole lot of lookups in a row, and this saves a lot
+	of penalties on a big list, for not too much a memory hit.
+	(find_name): If we have the namelist in memory do a quick
+	short-circuit check to see if we have to do further processing.
+	(unindex_name): Cross check the namecache, if it is active.
+	Remove it there too/or exit (no work to do).
+	(word_flush): If we have the namecache active, destroy it now, as
+	it is not needed anymore (for now).
+
 2000-10-30  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* hash.c: #include <stdlib.h> to remove warning.

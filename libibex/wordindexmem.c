@@ -136,6 +136,8 @@ ibex_create_word_index_mem(struct _memcache *bc, blockid_t *wordroot, blockid_t 
 	ibex_list_new(&idx->wordnodes);
 	idx->wordcount = 0;
 	idx->precount = 0;
+	idx->namecache = g_hash_table_new(g_str_hash, g_str_equal);
+	idx->nameinit = 0;
 	idx->klass = &ibex_word_index_mem_class;
 
 	/* we use the same block array storage for both indexes at the moment */
@@ -271,6 +273,19 @@ static void unindex_name(struct _IBEXWord *idx, const char *name)
 
 	d(printf("unindexing %s\n", name));
 
+	/* if we have a namecache, check that to see if we need to remove that item, or there is no work here */
+	if (idx->nameinit) {
+		char *oldkey;
+		gboolean oldval;
+
+		if (g_hash_table_lookup_extended(idx->namecache, name, (void *)&oldkey, (void *)&oldval)) {
+			g_hash_table_remove(idx->namecache, oldkey);
+			g_free(oldkey);
+		} else {
+			return;
+		}
+	}
+
 	/* lookup the hash key */
 	nameid = idx->nameindex->klass->find(idx->nameindex, name, strlen(name));
 	/* get the block for this key */
@@ -330,7 +345,30 @@ static void unindex_name(struct _IBEXWord *idx, const char *name)
 /* index contains (any) data for name */
 static gboolean contains_name(struct _IBEXWord *idx, const char *name)
 {
-	return idx->nameindex->klass->find(idx->nameindex, name, strlen(name)) != 0;
+	struct _IBEXCursor *idc;
+	nameid_t wordid;
+	char *key;
+	int len;
+
+	/* load all the names into memory, since we're *usually* about to do a lot of these */
+
+	/* Note that because of the (poor) hash algorithm, this is >> faster than
+	   looking up every key in turn.  Basically because all keys are stored packed
+	   in the same list, not in buckets of keys for the same hash (among other reasons) */
+
+	if (!idx->nameinit) {
+		printf("pre-loading all name info into memory\n");
+		idc = idx->nameindex->klass->get_cursor(idx->nameindex);
+		while ( (wordid = idc->klass->next(idc)) ) {
+			key = idc->index->klass->get_key(idc->index, wordid, &len);
+			g_hash_table_insert(idx->namecache, key, (void *)TRUE);
+		}
+		idc->klass->close(idc);
+		idx->nameinit = TRUE;
+	}
+
+	return (gboolean)g_hash_table_lookup(idx->namecache, name);
+	/*return idx->nameindex->klass->find(idx->nameindex, name, strlen(name)) != 0;*/
 }
 
 /* returns all matches for word */
@@ -390,6 +428,10 @@ static gboolean find_name(struct _IBEXWord *idx, const char *name, const char *w
 	blockid_t nameblock, nametail;
 	struct _wordcache *cache;
 	int i;
+
+	/* if we have the namelist in memory, quick-check that */
+	if (idx->nameinit && g_hash_table_lookup(idx->namecache, name) == NULL)
+		return FALSE;
 
 	/* lookup the hash key for the name */
 	nameid = idx->nameindex->klass->find(idx->nameindex, name, strlen(name));
@@ -607,6 +649,10 @@ static void add_list(struct _IBEXWord *idx, const char *name, GPtrArray *words)
 
 	d(cache_sanity(idx));
 
+	/* make sure we keep the namecache in sync, if it is active */
+	if (idx->nameinit && g_hash_table_lookup(idx->namecache, name) == NULL)
+		g_hash_table_insert(idx->namecache, g_strdup(name), (void *)TRUE);
+
 	/* get the nameid and block start for this name */
 	add_index_key(idx->nameindex, name, &nameid, &nameblock, &nametail);
 
@@ -694,6 +740,14 @@ word_sync(struct _IBEXWord *idx)
 	return 0;
 }
 
+static gboolean
+free_key(void *key, void *value, void *data)
+{
+	g_free(key);
+
+	return TRUE;
+}
+
 /* sync and flush any in-memory data to disk and free it */
 static int
 word_flush(struct _IBEXWord *idx)
@@ -702,6 +756,10 @@ word_flush(struct _IBEXWord *idx)
 
 	g_hash_table_foreach_remove(idx->wordcache, sync_free_value, idx);
 	idx->wordcount = 0;
+	if (idx->nameinit) {
+		g_hash_table_foreach_remove(idx->namecache, free_key, NULL);
+		idx->nameinit = FALSE;
+	}
 	return 0;
 }
 
@@ -715,6 +773,7 @@ static int word_close(struct _IBEXWord *idx)
 	  idx->wordstore->klass->close(idx->wordstore);*/
 	idx->wordindex->klass->close(idx->wordindex);
 	g_hash_table_destroy(idx->wordcache);
+	g_hash_table_destroy(idx->namecache);
 	g_free(idx);
 
 	return 0;
