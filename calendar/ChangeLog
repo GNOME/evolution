@@ -1,3 +1,8 @@
+2000-12-15  Dan Winship  <danw@helixcode.com>
+
+	* cal-util/timeutil.c (time_from_isodate): Fix the sign in the
+	HAVE_TM_GMTOFF case
+
 2000-12-15  Federico Mena Quintero  <federico@helixcode.com>
 
 	* gui/Makefile.am (evolution_calendar_SOURCES): Removed getdate.y.
