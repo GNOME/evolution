@@ -287,7 +287,7 @@ account_removed_cb (EAccountList *accounts, EAccount *account, EMsgComposerHdrs 
 			dialog = gtk_message_dialog_new ((GtkWindow *) toplevel, GTK_DIALOG_MODAL |
 							 GTK_DIALOG_DESTROY_WITH_PARENT,
 							 GTK_MESSAGE_WARNING, GTK_BUTTONS_OK, "%s",
-							 _("Hey you, dunce. You need an account to send mail doncha know."));
+							 _("You need to configure an account before you can compose mail."));
 		}
 	}
 }
