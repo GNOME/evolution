@@ -93,6 +93,8 @@ inline static gint
 model_to_view_row(ETableItem *eti, int row)
 {
 	int i;
+	if (row == -1)
+		return -1;
 	if (eti->uses_source_model) {
 		ETableSubset *etss = E_TABLE_SUBSET(eti->table_model);
 		if (eti->row_guess >= 0 && eti->row_guess < etss->n_map) {
@@ -126,6 +128,8 @@ inline static gint
 model_to_view_col(ETableItem *eti, int col)
 {
 	int i;
+	if (col == -1)
+		return -1;
 	for (i = 0; i < eti->cols; i++) {
 		ETableCol *ecol = e_table_header_get_column (eti->header, i);
 		if (ecol->col_idx == col)
@@ -689,6 +693,10 @@ e_table_item_row_diff (ETableItem *eti, int start_row, int end_row)
 	int height_extra = eti->horizontal_draw_grid ? 1 : 0;
 
 	total = 0;
+	if (start_row < 0)
+		start_row = 0;
+	if (end_row > eti->rows)
+		end_row = eti->rows;
 
 	for (row = start_row; row < end_row; row++)
 		total += eti_row_height (eti, row) + height_extra;
