@@ -13,7 +13,10 @@
 
 	* providers/imap/camel-imap-folder.c: All SELECT calls now pass
 	a NULL folder argument to camel_imap_command_extended() since it's
-	not needed.
+	not needed. Also s/camel_imap_command/camel_imap_command_extended as
+	I will probably be doing away with camel_imap_command() or at least
+	only using it for LOGIN and similar commands where the server won't
+	notify us of any recent messages.
 
 2000-07-15  Jeffrey Stedfast  <fejj@helixcode.com>
 

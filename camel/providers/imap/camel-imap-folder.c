@@ -571,8 +571,8 @@ imap_copy_message_to (CamelFolder *source, const char *uid, CamelFolder *destina
 	else
 		folder_path = g_strdup (destination->full_name);
 	
-	status = camel_imap_command (CAMEL_IMAP_STORE (store), source, &result,
-				     "UID COPY %s %s", uid, folder_path);
+	status = camel_imap_command_extended (CAMEL_IMAP_STORE (store), source, &result,
+					      "UID COPY %s %s", uid, folder_path);
 	
 	if (status != CAMEL_IMAP_OK) {
 		CamelService *service = CAMEL_SERVICE (store);
@@ -609,8 +609,8 @@ imap_move_message_to (CamelFolder *source, const char *uid, CamelFolder *destina
 	else
 		folder_path = g_strdup (destination->full_name);
 	
-	status = camel_imap_command (CAMEL_IMAP_STORE (store), source, &result,
-				     "UID COPY %s %s", uid, folder_path);
+	status = camel_imap_command_extended (CAMEL_IMAP_STORE (store), source, &result,
+					      "UID COPY %s %s", uid, folder_path);
 
 	if (status != CAMEL_IMAP_OK) {
 		CamelService *service = CAMEL_SERVICE (store);
