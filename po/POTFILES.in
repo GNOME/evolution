@@ -259,6 +259,7 @@ widgets/menus/gal-view-menus.c
 widgets/misc/e-calendar.c
 widgets/misc/e-calendar-item.c
 widgets/misc/e-cell-date-edit.c
+widgets/misc/e-charset-picker.c
 widgets/misc/e-clipped-label.c
 widgets/misc/e-dateedit.c
 widgets/misc/e-filter-bar.c
