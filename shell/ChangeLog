@@ -1,3 +1,9 @@
+2004-04-23  JP Rosevear <jpr@ximian.com>
+
+	* e-shell-window.c (e_shell_window_show_settings): if there is a
+	current view, use the component alias to select a sensible default
+	config control
+
 2004-04-22  Trent Lloyd  <lathiat@bur.st>
 
 	* e-sidebar.c (do_layout_text_buttons): take into account the position

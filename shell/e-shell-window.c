@@ -824,7 +824,7 @@ e_shell_window_show_settings (EShellWindow *window)
 {
 	g_return_if_fail (E_IS_SHELL_WINDOW (window));
 
-	e_shell_show_settings (window->priv->shell, NULL, window);
+	e_shell_show_settings (window->priv->shell, window->priv->current_view ? window->priv->current_view->component_alias : NULL, window);
 }
 
 
