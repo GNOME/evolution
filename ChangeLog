@@ -1,3 +1,10 @@
+1999-05-07  root  <guiheneu@jean.joudboeuf.fr>
+
+	* camel/camel-data-wrapper.[ch]:new class.
+	This should not be a class but rather an 
+	interface. The day Gtk support interfaces, 
+	it dataWrapper should become an interface.
+
 1999-05-04  bertrand <Bertrand.Guiheneuf@inria.fr>
 
 	* camel/camel-service.c (camel_service_get_url): 
