@@ -1,3 +1,10 @@
+2001-10-12  Iain Holmes  <iain@ximian.com>
+
+	* component-factory.c (component_factory_init): Fix message.
+
+	* metar.c: Fix some names.
+	Made the weather descriptions easier on the eyes.
+
 2001-10-11  Dan Winship  <danw@ximian.com>
 
 	* e-summary-mail.c (update_folder_cb): Update the signature to

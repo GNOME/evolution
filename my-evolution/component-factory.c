@@ -151,7 +151,7 @@ component_factory_init (void)
 	result = oaf_active_server_register (COMPONENT_ID, bonobo_object_corba_objref (object));
 	if (result == OAF_REG_ERROR) {
 		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
-			  _("Cannot initialize Evolution's Executive Summary component."));
+			  _("Cannot initialize Evolution's Summary component."));
 		exit (1);
 	}
 }
