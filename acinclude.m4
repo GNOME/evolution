@@ -76,36 +76,6 @@ AC_DEFUN(EVO_PURIFY_SUPPORT, [
 ])
 
 
-# EVO_TIMEZONE_CHECK
-# define HAVE_TIMEZONE if there is an external "timezone" variable, or
-# HAVE_TM_GMTOFF if struct tm has a tm_gmtoff member. (Note that
-# timezone and tm_gmtoff have opposite signs.)
-AC_DEFUN(EVO_TIMEZONE_CHECK, [
-	AC_CACHE_CHECK(for timezone variable, ac_cv_var_timezone,
-		AC_TRY_COMPILE([
-			#include <time.h>
-		], [
-			timezone = 1;
-		], ac_cv_var_timezone=yes, ac_cv_var_timezone=no))
-	if test $ac_cv_var_timezone = yes; then
-		AC_DEFINE(HAVE_TIMEZONE)
-	else
-		AC_CACHE_CHECK(for tm_gmtoff in struct tm, ac_cv_struct_tm_gmtoff,
-			AC_TRY_COMPILE([
-				#include <time.h>
-				], [
-				struct tm tm;
-				tm.tm_gmtoff = 1;
-				], ac_cv_struct_tm_gmtoff=yes, ac_cv_struct_tm_gmtoff=no))
-		if test $ac_cv_struct_tm_gmtoff = yes; then
-			AC_DEFINE(HAVE_TM_GMTOFF)
-		else
-			AC_ERROR(unable to find a way to determine timezone)
-		fi
-	fi
-])
-
-
 # EVO_LDAP_CHECK(default)
 # Add --with-openldap and --with-static-ldap options. --with-openldap
 # defaults to the given value if not specified. If LDAP support is
