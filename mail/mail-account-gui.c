@@ -253,7 +253,7 @@ build_auth_menu (MailAccountGuiService *service, GList *all_authtypes,
 	for (l = all_authtypes, i = 0; l; l = l->next, i++) {
 		authtype = l->data;
 		
-		item = gtk_menu_item_new_with_label (_(authtype->name));
+		item = gtk_menu_item_new_with_label (authtype->name);
 		for (s = supported_authtypes; s; s = s->next) {
 			sauthtype = s->data;
 			if (!strcmp (authtype->name, sauthtype->name))
@@ -615,7 +615,7 @@ mail_account_gui_build_extra_conf (MailAccountGui *gui, const char *url_string)
 			if (entries[i].name && !strcmp (entries[i].name, "mailcheck"))
 				cur_vbox = glade_xml_get_widget (gui->xml, "extra_mailcheck_vbox");
 			else {
-				frame = gtk_frame_new (_(entries[i].text));
+				frame = gtk_frame_new (entries[i].text);
 				gtk_box_pack_start (GTK_BOX (main_vbox), frame, FALSE, FALSE, 0);
 				cur_vbox = gtk_vbox_new (FALSE, 4);
 				gtk_container_set_border_width (GTK_CONTAINER (cur_vbox), 4);
@@ -632,7 +632,7 @@ mail_account_gui_build_extra_conf (MailAccountGui *gui, const char *url_string)
 			GtkWidget *checkbox;
 			gboolean active;
 			
-			checkbox = gtk_check_button_new_with_label (_(entries[i].text));
+			checkbox = gtk_check_button_new_with_label (entries[i].text);
 			if (url)
 				active = camel_url_get_param (url, entries[i].name) != NULL;
 			else
@@ -651,7 +651,7 @@ mail_account_gui_build_extra_conf (MailAccountGui *gui, const char *url_string)
 			const char *text;
 			
 			hbox = gtk_hbox_new (FALSE, 8);
-			label = gtk_label_new (_(entries[i].text));
+			label = gtk_label_new (entries[i].text);
 			entry = gtk_entry_new ();
 			if (url)
 				text = camel_url_get_param (url, entries[i].name);
@@ -680,7 +680,7 @@ mail_account_gui_build_extra_conf (MailAccountGui *gui, const char *url_string)
 			double min, def, max;
 			gboolean enable;
 			
-			data = _(entries[i].text);
+			data = entries[i].text;
 			p = strstr (data, "%s");
 			g_return_if_fail (p != NULL);
 			
@@ -1378,7 +1378,7 @@ mail_account_gui_setup (MailAccountGui *gui, GtkWidget *top)
 		
 		item = NULL;
 		if (provider->object_types[CAMEL_PROVIDER_STORE] && provider->flags & CAMEL_PROVIDER_IS_SOURCE) {
-			item = gtk_menu_item_new_with_label (_(provider->name));
+			item = gtk_menu_item_new_with_label (provider->name);
 			gtk_object_set_data (GTK_OBJECT (item), "provider", provider);
 			gtk_signal_connect (GTK_OBJECT (item), "activate",
 					    GTK_SIGNAL_FUNC (source_type_changed),
@@ -1402,7 +1402,7 @@ mail_account_gui_setup (MailAccountGui *gui, GtkWidget *top)
 		}
 		
 		if (provider->object_types[CAMEL_PROVIDER_TRANSPORT]) {
-			item = gtk_menu_item_new_with_label (_(provider->name));
+			item = gtk_menu_item_new_with_label (provider->name);
 			gtk_object_set_data (GTK_OBJECT (item), "provider", provider);
 			gtk_signal_connect (GTK_OBJECT (item), "activate",
 					    GTK_SIGNAL_FUNC (transport_type_changed),
@@ -1434,9 +1434,9 @@ mail_account_gui_setup (MailAccountGui *gui, GtkWidget *top)
 			for (a = provider->authtypes; a; a = a->next) {
 				at = a->data;
 				
-				width = gdk_string_width (font, _(at->name));
+				width = gdk_string_width (font, at->name);
 				if (width > max_width) {
-					max_authname = _(at->name);
+					max_authname = at->name;
 					max_width = width;
 				}
 			}

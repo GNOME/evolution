@@ -1,3 +1,8 @@
+2001-10-19    <NotZed@Ximian.com>
+
+	* mail-account-gui.c (build_auth_menu): Dont translate camel strings.
+	(mail_account_gui_setup): "
+
 2001-10-19  Ettore Perazzoli  <ettore@ximian.com>
 
 	* component-factory.c (destination_folder_handle_motion): Get
