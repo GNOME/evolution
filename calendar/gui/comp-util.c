@@ -256,13 +256,13 @@ cal_comp_event_new_with_defaults (ECal *client)
 	ECalComponentAlarmTrigger trigger;
 
 	if (!e_cal_get_default_object (client, &icalcomp, NULL))
-		return NULL;
+		icalcomp = icalcomponent_new (ICAL_VEVENT_COMPONENT);
 
 	comp = e_cal_component_new ();
 	if (!e_cal_component_set_icalcomponent (comp, icalcomp)) {
-		g_object_unref (comp);
 		icalcomponent_free (icalcomp);
-		return NULL;
+
+		e_cal_component_set_new_vtype (comp, E_CAL_COMPONENT_EVENT);
 	}
 	
 	if (!calendar_config_get_use_default_reminder ())
@@ -358,21 +358,13 @@ cal_comp_task_new_with_defaults (ECal *client)
 	icalcomponent *icalcomp;
 
 	if (!e_cal_get_default_object (client, &icalcomp, NULL))
-		return NULL;
-
+		icalcomp = icalcomponent_new (ICAL_VTODO_COMPONENT);
+	
 	comp = e_cal_component_new ();
 	if (!e_cal_component_set_icalcomponent (comp, icalcomp)) {
-		g_object_unref (comp);
 		icalcomponent_free (icalcomp);
 
-		return NULL;
-	}
-
-	comp = e_cal_component_new ();
-	if (!e_cal_component_set_icalcomponent (comp, icalcomp)) {
-		g_object_unref (comp);
-		icalcomponent_free (icalcomp);
-		return NULL;
+		e_cal_component_set_new_vtype (comp, E_CAL_COMPONENT_TODO);
 	}
 
 	return comp;
