@@ -746,8 +746,13 @@ spell_setup_check_options (MailComposerPrefs *prefs)
 	
 	CORBA_exception_init (&ev);
 	prefs->language_seq = GNOME_Spell_Dictionary_getLanguages (dict, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION)
+		prefs->language_seq = NULL;
 	CORBA_exception_free (&ev);
 	
+	if (prefs->language_seq == NULL)
+		return FALSE;
+
 	gconf_client_add_dir (prefs->gconf, GNOME_SPELL_GCONF_DIR, GCONF_CLIENT_PRELOAD_NONE, NULL);
 	
         spell_setup (prefs);
