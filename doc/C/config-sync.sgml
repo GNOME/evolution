@@ -17,6 +17,7 @@
         </simplelist>
 
     </para>
+
     <para>
        If you haven't used a handheld device with your computer
        before, you'll need to run the GNOME <application>Control
@@ -26,11 +27,14 @@
        linkend="conduit">conduits</glossterm> under the
        <guilabel>Pilot Conduits</guilabel> section of the Control
        Center.
-      </para>
-     <para>
+  </para>
+  
+  <para>
         Once your computer and your Palm-OS device are talking happily
         to each other, you'll have to decide what exactly you want
-        them to do with the data they exchange.  Your options may vary
+        them to do with the data they exchange.  To enable a conduit, click the
+        <guibutton>Enable</guibutton> to enable it and click
+        <guibutton>Settings</guibutton>.  Your options may vary
         depending on the conduit, but typically they will be:
 
         <variablelist>

@@ -1,3 +1,11 @@
+2001-07-15  Kevin Breit  <battery841@mediaone.net>
+
+	* C/config-sync.sgml: Updated slightly for new design.
+
+2001-07-13  Kevin Breit  <battery841@mediaone.net>
+
+	* C/usage-mainwindow.sgml: Added lots of good stuff with the first time druid.
+
 2001-07-12  Aaron Weber  <aaron@ximian.com>
 
 	* C/evolution-faq.sgml: 
