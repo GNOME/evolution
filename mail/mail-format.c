@@ -606,20 +606,28 @@ format_mime_part (CamelMimePart *part, MailDisplay *md)
 /* flags for write_field_to_stream */
 enum {
 	WRITE_BOLD=1,
+	WRITE_NOCOLUMNS=2,
 };
 
 static void
-write_field_row_begin (const char *description, gint flags, GtkHTML *html, GtkHTMLStream *stream)
+write_field_row_begin (const char *name, gint flags, GtkHTML *html, GtkHTMLStream *stream)
 {
-	char *encoded_desc;
-	int bold = (flags & WRITE_BOLD) == WRITE_BOLD;
+	char *encoded_name;
+	gboolean bold = (flags & WRITE_BOLD);
+	gboolean nocolumns = (flags & WRITE_NOCOLUMNS);
 
-	encoded_desc = e_utf8_from_gtk_string (GTK_WIDGET (html), description);
+	encoded_name = e_utf8_from_gtk_string (GTK_WIDGET (html), name);
 
-	mail_html_write (html, stream, "<tr><%s align=\"right\" valign=\"top\">%s</%s>",
-			 bold ? "th" : "td", encoded_desc, bold ? "th" : "td");
+	if (nocolumns) {
+		mail_html_write (html, stream, "<tr><td>%s%s:%s ",
+				 bold ? "<b>" : "", encoded_name,
+				 bold ? "</b>" : "");
+	} else {
+		mail_html_write (html, stream, "<tr><%s align=\"right\" valign=\"top\">%s:</%s><td>",
+				 bold ? "th" : "td", encoded_name, bold ? "th" : "td");
+	}
 
-	g_free (encoded_desc);
+	g_free (encoded_name);
 }
 
 static void
@@ -629,32 +637,32 @@ write_date (CamelMimeMessage *message, int flags, GtkHTML *html, GtkHTMLStream *
 	time_t date;
 	int offset;
 	
-	write_field_row_begin (_("Date:"), flags, html, stream);
+	write_field_row_begin (_("Date"), flags, html, stream);
 	
 	date = camel_mime_message_get_date (message, &offset);
 	datestr = header_format_date (date, offset);
 	
-	mail_html_write (html, stream, "<td>%s</td> </tr>", datestr);
+	mail_html_write (html, stream, "%s</td> </tr>", datestr);
 	
 	g_free (datestr);
 }
 
 static void
-write_subject (const char *subject, int flags, GtkHTML *html, GtkHTMLStream *stream)
+write_text_header (const char *name, const char *value, int flags, GtkHTML *html, GtkHTMLStream *stream)
 {
-	char *encoded_subj;
+	char *encoded;
 
-	if (subject)
-		encoded_subj = e_text_to_html (subject, E_TEXT_TO_HTML_CONVERT_NL | E_TEXT_TO_HTML_CONVERT_URLS);
+	if (value && *value)
+		encoded = e_text_to_html (value, E_TEXT_TO_HTML_CONVERT_NL | E_TEXT_TO_HTML_CONVERT_URLS);
 	else
-		encoded_subj = "";
+		encoded = "";
 
-	write_field_row_begin (_("Subject:"), flags, html, stream);
+	write_field_row_begin (name, flags, html, stream);
 
-	mail_html_write (html, stream, "<td>%s</td> </tr>", encoded_subj);
+	mail_html_write (html, stream, "%s</td> </tr>", encoded);
 
-	if (subject)
-		g_free (encoded_subj);
+	if (value)
+		g_free (encoded);
 }
 
 static gchar *
@@ -703,7 +711,8 @@ write_address(MailDisplay *md, const CamelInternetAddress *addr, const char *fie
 			email_disp = e_text_to_html (email, 0);
 		}
 
-		mail_html_write (md->html, md->stream, i ? ", " : "<td>");
+		if (i)
+			mail_html_write (md->html, md->stream, ", ");
 		
 		if (have_email || have_name) {
 
@@ -735,33 +744,71 @@ write_address(MailDisplay *md, const CamelInternetAddress *addr, const char *fie
 
 		++i;
 	}
-	mail_html_write (md->html, md->stream, "</td></tr>"); /* Finish up the table row */
+	mail_html_write (md->html, md->stream, "</td></tr>");
 }
 
 
 static void
+write_header (CamelMimeMessage *message, MailDisplay *md,
+	      const char *name, const char *value, int flags)
+{
+	if (!g_strcasecmp (name, "From")) {
+		write_address (md, camel_mime_message_get_from (message),
+			       _("From"), flags | WRITE_BOLD);
+	} else if (!g_strcasecmp (name, "Reply-To")) {
+		write_address (md, camel_mime_message_get_reply_to (message),
+			       _("Reply-To"), flags);
+	} else if (!g_strcasecmp (name, "To")) {
+		write_address (md, camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO),
+			       _("To"), flags | WRITE_BOLD);
+	} else if (!g_strcasecmp (name, "Cc")) {
+		write_address (md, camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_CC),
+			       _("Cc"), flags | WRITE_BOLD);
+	} else if (!g_strcasecmp (name, "Subject")) {	
+		write_text_header (_("Subject"), camel_mime_message_get_subject (message), flags | WRITE_BOLD, md->html, md->stream);
+	} else if (!g_strcasecmp (name, "Date")) {	
+		write_date (message, flags | WRITE_BOLD, md->html, md->stream);
+	} else
+		write_text_header (name, value, flags, md->html, md->stream);
+}
+
+static void
 write_headers (CamelMimeMessage *message, MailDisplay *md)
 {
+	GArray *gheaders;
+	CamelMediumHeader *headers, default_headers[] = {
+		{ "From", NULL }, { "Reply-To", NULL },
+		{ "To", NULL }, { "Cc" , NULL }, { "Subject", NULL },
+		{ "Date", NULL }
+	};
+	int i, len, flags;
+	gboolean full = GPOINTER_TO_INT (g_datalist_get_data (md->data, "full_headers"));
+
 	mail_html_write (md->html, md->stream,
 			 "<font color=\"#000000\">"
 			 "<table bgcolor=\"#000000\" width=\"100%%\" "
 			 "cellspacing=0 cellpadding=1><tr><td>"
 			 "<table bgcolor=\"#EEEEEE\" width=\"100%%\" cellpadding=0 cellspacing=0>"
 			 "<tr><td><table>\n");
-	
-	write_address(md, camel_mime_message_get_from(message),
-		      _("From:"), WRITE_BOLD);
-	write_address(md, camel_mime_message_get_reply_to(message),
-		      _("Reply-To:"), 0);
-	write_address(md, camel_mime_message_get_recipients(message, CAMEL_RECIPIENT_TYPE_TO),
-		      _("To:"), WRITE_BOLD);
-	write_address(md, camel_mime_message_get_recipients(message, CAMEL_RECIPIENT_TYPE_CC),
-		      _("Cc:"), WRITE_BOLD);
-	
-	write_subject (camel_mime_message_get_subject (message), WRITE_BOLD, md->html, md->stream);
-	
-	write_date (message,WRITE_BOLD, md->html, md->stream);
-	
+
+	if (full) {
+		gheaders = camel_medium_get_headers (CAMEL_MEDIUM (message));
+		headers = (CamelMediumHeader *)gheaders->data;
+		len = gheaders->len;
+		flags = WRITE_NOCOLUMNS;
+	} else {
+		gheaders = NULL;
+		headers = default_headers;
+		len = sizeof (default_headers) / sizeof (default_headers[0]);
+		flags = 0;
+	}
+
+	for (i = 0; i < len; i++)
+		write_header (message, md, headers[i].name, headers[i].value, flags);
+
+	if (gheaders)
+		camel_medium_free_headers (CAMEL_MEDIUM (message), gheaders);
+
 	mail_html_write (md->html, md->stream,
 			 "</table></td></tr></table></td></tr></table></font>");
 }

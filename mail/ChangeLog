@@ -1,3 +1,17 @@
+2001-05-16  Dan Winship  <danw@ximian.com>
+
+	* mail-display.c (mail_display_redisplay): Deal with full-header
+	mode in addition to source mode
+
+	* mail-format.c (write_field_row_begin): Add WRITE_NOCOLUMNS flag
+	to write the header in a single table cell rather than two. Output
+	the second columns's "<td>" when not in NOCOLUMNS mode. Don't
+	include the ":" in the passed-in header name.
+	(write_date, write_address): Update for write_field_row_begin
+	changes.
+	(write_text_field): Genericified and updated from write_subject.
+	(write_headers): Deal with both normal and full-header mode.
+
 2001-05-15  Dan Winship  <danw@ximian.com>
 
 	* mail-display.c (on_url_requested): Load http images if the user

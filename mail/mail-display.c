@@ -1115,10 +1115,13 @@ mail_display_redisplay (MailDisplay *md, gboolean unscroll)
 	mail_html_write (md->html, md->stream, "%s%s", HTML_HEADER, "<BODY>\n");
 
 	if (md->current_message) {
-		if (mail_config_get_message_display_style () == MAIL_CONFIG_DISPLAY_SOURCE)
+		MailConfigDisplayStyle style = mail_config_get_message_display_style ();
+		if (style == MAIL_CONFIG_DISPLAY_SOURCE)
 			mail_format_raw_message (md->current_message, md);
-		else
+		else {
+			g_datalist_set_data (md->data, "full_headers", GINT_TO_POINTER (style == MAIL_CONFIG_DISPLAY_FULL_HEADERS));
 			mail_format_mime_message (md->current_message, md);
+		}
 	}
 
 	mail_html_write (md->html, md->stream, "</BODY></HTML>\n");
