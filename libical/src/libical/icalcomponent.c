@@ -58,7 +58,13 @@ struct icalcomponent_impl
 	pvl_list components;
 	pvl_elem component_iterator;
 	icalcomponent* parent;
+
+	/* An array of icaltimezone structs. We use this so we can do fast
+	   lookup of timezones using binary searches. timezones_sorted is
+	   set to 0 whenever we add a timezone, so we remember to sort the
+	   array before doing a binary search. */
 	icalarray* timezones;
+	int timezones_sorted;
 };
 
 /* icalproperty functions that only components get to use */
@@ -84,6 +90,8 @@ static void icalcomponent_rename_tzids_callback(icalparameter *param,
 						void *data);
 static int icalcomponent_compare_vtimezones (icalcomponent	*vtimezone1,
 					     icalcomponent	*vtimezone2);
+static int icalcomponent_compare_timezone_fn	(const void	*elem1,
+						 const void	*elem2);
 
 
 void icalcomponent_add_children(struct icalcomponent_impl *impl,va_list args)
@@ -128,8 +136,8 @@ icalcomponent_new_impl (icalcomponent_kind kind)
     comp->component_iterator = 0;
     comp->x_name = 0;
     comp->parent = 0;
-    /* FIXME: Probably only want to create this for VCALENDAR components. */
-    comp->timezones = icaltimezone_array_new ();
+    comp->timezones = NULL;
+    comp->timezones_sorted = 1;
 
     return comp;
 }
@@ -241,7 +249,8 @@ icalcomponent_free (icalcomponent* component)
 	    free(c->x_name);
 	}
 
-	icalarray_free (c->timezones);
+	if (c->timezones)
+	    icaltimezone_array_free (c->timezones);
 
 	c->kind = ICAL_NO_COMPONENT;
 	c->properties = 0;
@@ -562,11 +571,18 @@ icalcomponent_add_component (icalcomponent* parent, icalcomponent* child)
 
     /* If the new component is a VTIMEZONE, add it to our array. */
     if (cimpl->kind == ICAL_VTIMEZONE_COMPONENT) {
-      fprintf (stderr, "  it is a VTIMEZONE component.\n");
-      icaltimezone_array_append_from_vtimezone (impl->timezones, child);
+	fprintf (stderr, "  it is a VTIMEZONE component.\n");
 
-      fprintf (stderr, "  num timezones in array: %i\n",
-	       impl->timezones->num_elements);
+	if (!impl->timezones)
+	    impl->timezones = icaltimezone_array_new ();
+
+	icaltimezone_array_append_from_vtimezone (impl->timezones, child);
+
+	/* Flag that we need to sort it before doing any binary searches. */
+	impl->timezones_sorted = 0;
+
+	fprintf (stderr, "  num timezones in array: %i\n",
+		 impl->timezones->num_elements);
     }
 }
 
@@ -586,11 +602,13 @@ icalcomponent_remove_component (icalcomponent* parent, icalcomponent* child)
     /* If the component is a VTIMEZONE, remove it from our array as well. */
     if (cimpl->kind == ICAL_VTIMEZONE_COMPONENT) {
 	icaltimezone *zone;
-	int i;
+	int i, num_elements;
 
-        for (i = 0; i < impl->timezones->num_elements; i++) {
+	num_elements = impl->timezones ? impl->timezones->num_elements : 0;
+        for (i = 0; i < num_elements; i++) {
 	    zone = icalarray_element_at (impl->timezones, i);
 	    if (icaltimezone_get_component (zone) == child) {
+		icaltimezone_free (zone, 0);
 	        icalarray_remove_element_at (impl->timezones, i);
 		break;
 	    }
@@ -1613,7 +1631,7 @@ icalcomponent_handle_conflicting_vtimezones (icalcomponent *comp,
 					     icalarray *tzids_to_rename)
 {
   struct icalcomponent_impl *impl = (struct icalcomponent_impl*)comp;
-  int tzid_len, i, suffix, max_suffix = 0;
+  int tzid_len, i, suffix, max_suffix = 0, num_elements;
   char *tzid_copy, *new_tzid, suffix_buf[32];
 
   /* Find the length of the TZID without any trailing digits. */
@@ -1626,7 +1644,8 @@ icalcomponent_handle_conflicting_vtimezones (icalcomponent *comp,
      same prefix (e.g. 'London'). If it matches any of those, we have to
      rename the TZIDs to that TZID, else we rename to a new TZID, using
      the biggest numeric suffix found + 1. */
-  for (i = 0; i < impl->timezones->num_elements; i++) {
+  num_elements = impl->timezones ? impl->timezones->num_elements : 0;
+  for (i = 0; i < num_elements; i++) {
     icaltimezone *zone;
     char *existing_tzid, *existing_tzid_copy;
     int existing_tzid_len;
@@ -1779,6 +1798,15 @@ icaltimezone* icalcomponent_get_timezone(icalcomponent* comp, const char *tzid)
 
     impl = (struct icalcomponent_impl*)comp;
 
+    if (!impl->timezones)
+	return NULL;
+
+    /* Sort the array if necessary (by the TZID string). */
+    if (!impl->timezones_sorted) {
+	icalarray_sort (impl->timezones, icalcomponent_compare_timezone_fn);
+	impl->timezones_sorted = 1;
+    }
+
     /* Do a simple binary search. */
     lower = middle = 0;
     upper = impl->timezones->num_elements;
@@ -1800,6 +1828,24 @@ icaltimezone* icalcomponent_get_timezone(icalcomponent* comp, const char *tzid)
     }
 
     return NULL;
+}
+
+
+/* A function to compare 2 icaltimezone elements, used for qsort(). */
+static int icalcomponent_compare_timezone_fn	(const void	*elem1,
+						 const void	*elem2)
+{
+    icaltimezone *zone1, *zone2;
+    const char *zone1_tzid, *zone2_tzid;
+    int retval;
+
+    zone1 = (icaltimezone*) elem1;
+    zone2 = (icaltimezone*) elem2;
+
+    zone1_tzid = icaltimezone_get_tzid (zone1);
+    zone2_tzid = icaltimezone_get_tzid (zone2);
+
+    return strcmp (zone1_tzid, zone2_tzid);
 }
 
 

@@ -40,8 +40,10 @@
 /* Creates a new icaltimezone. */
 icaltimezone *icaltimezone_new			(void);
 
-/* Frees all memory used for the icaltimezone. */
-void icaltimezone_free				(icaltimezone *zone);
+/* Frees all memory used for the icaltimezone. Set free_struct to free the
+   icaltimezone struct as well. */
+void icaltimezone_free				(icaltimezone *zone,
+						 int free_struct);
 
 
 /*
@@ -123,6 +125,7 @@ icalarray*  icaltimezone_array_new		(void);
 
 void	    icaltimezone_array_append_from_vtimezone (icalarray	    *timezones,
 						      icalcomponent *child);
+void	    icaltimezone_array_free		(icalarray	*timezones);
 
 
 

@@ -201,10 +201,12 @@ icaltimezone_new			(void)
 
 /* Frees all memory used for the icaltimezone. */
 void
-icaltimezone_free			(icaltimezone *zone)
+icaltimezone_free			(icaltimezone *zone,
+					 int	       free_struct)
 {
     icaltimezone_reset (zone);
-    free (zone);
+    if (free_struct)
+	free (zone);
 }
 
 
@@ -1221,6 +1223,20 @@ icaltimezone_array_append_from_vtimezone (icalarray	*timezones,
 	icalarray_append (timezones, &zone);
 }
 
+
+void
+icaltimezone_array_free			(icalarray	*timezones)
+{
+    icaltimezone *zone;
+    int i;
+
+    for (i = 0; i < timezones->num_elements; i++) {
+	zone = icalarray_element_at (timezones, i);
+	icaltimezone_free (zone, 0);
+    }
+
+    icalarray_free (timezones);
+}
 
 
 /*
