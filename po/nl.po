@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution CVS\n"
 "POT-Creation-Date: 2001-08-22 18:50-0400\n"
-"PO-Revision-Date: 2001-08-26 11:24+02:00\n"
+"PO-Revision-Date: 2001-09-04 00:57+02:00\n"
 "Last-Translator: Mendel Mobach <mendel@mobach.nl>\n"
 "Language-Team: Nederlands <nl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -406,37 +406,29 @@ msgstr "Fabriek voor het voorbeeld Adresboekcontrol"
 #: calendar/gui/dialogs/comp-editor-util.c:281
 #: calendar/gui/dialogs/comp-editor-util.c:337 shell/e-local-storage.c:175
 #: shell/e-shortcuts.c:1048
-#, fuzzy
 msgid "Contacts"
-msgstr "C_ontacten...."
+msgstr "Contacten"
 
 #: addressbook/gui/component/addressbook-component.c:68
-#, fuzzy
 msgid "Folder containing contact information"
-msgstr ""
-"Fout bij het laden van filterinformatie:\n"
-"%s"
+msgstr "Map met contactinformatie"
 
 #: addressbook/gui/component/addressbook-component.c:386
 #: ui/evolution-addressbook.xml.h:11
-#, fuzzy
 msgid "New Contact"
-msgstr "Nieuw contact"
+msgstr "Nieuw Contact"
 
 #: addressbook/gui/component/addressbook-component.c:386
-#, fuzzy
 msgid "New _Contact"
-msgstr "Nieuw contact"
+msgstr "Nieuw _Contact"
 
 #: addressbook/gui/component/addressbook-component.c:387
-#, fuzzy
 msgid "New Contact List"
-msgstr "Nieuw contact"
+msgstr "Nieuwe Contactenlijst"
 
 #: addressbook/gui/component/addressbook-component.c:387
-#, fuzzy
 msgid "New Contact _List"
-msgstr "Nieuw contact"
+msgstr "Nieuwe _Contactenlijst"
 
 #: addressbook/gui/component/addressbook-config.c:144
 msgid "Edit Addressbook"
@@ -447,9 +439,8 @@ msgid "389"
 msgstr "389"
 
 #: addressbook/gui/component/addressbook-config.glade.h:2
-#, fuzzy
 msgid "Account Name"
-msgstr "Account"
+msgstr "Accountnaam"
 
 #: addressbook/gui/component/addressbook-config.glade.h:3
 msgid "Add Addressbook"
@@ -460,9 +451,8 @@ msgid "Addressbook Sources"
 msgstr "Adresboekbronnen"
 
 #: addressbook/gui/component/addressbook-config.glade.h:5
-#, fuzzy
 msgid "Advanced"
-msgstr "Uitgebreid..."
+msgstr "Uitgebreid"
 
 #: addressbook/gui/component/addressbook-config.glade.h:6
 msgid "Base"
@@ -470,14 +460,12 @@ msgstr "Basis"
 
 #: addressbook/gui/component/addressbook-config.glade.h:7
 #: calendar/gui/dialogs/task-editor.c:151
-#, fuzzy
 msgid "Basic"
 msgstr "Basis"
 
 #: addressbook/gui/component/addressbook-config.glade.h:8
-#, fuzzy
 msgid "De_lete"
-msgstr "Verwijderen"
+msgstr "_Verwijderen"
 
 #: addressbook/gui/component/addressbook-config.glade.h:9
 msgid "One"
@@ -486,17 +474,15 @@ msgstr "Een"
 #: addressbook/gui/component/addressbook-config.glade.h:10
 #, fuzzy
 msgid "Search _base:"
-msgstr "Zoekbereik:"
+msgstr "Zoek_basis:"
 
 #: addressbook/gui/component/addressbook-config.glade.h:11
-#, fuzzy
 msgid "Search s_cope: "
-msgstr "Zoekbereik:"
+msgstr "Zoek_gebied: "
 
 #: addressbook/gui/component/addressbook-config.glade.h:12
-#, fuzzy
 msgid "Server Name"
-msgstr "Selecteer namen"
+msgstr "Servernaam"
 
 #: addressbook/gui/component/addressbook-config.glade.h:13
 #, fuzzy
@@ -3239,9 +3225,8 @@ msgid "Create a new appointment"
 msgstr "Maak een nieuwe afspraak"
 
 #: calendar/gui/component-factory.c:403 calendar/gui/e-day-view.c:3400
-#, fuzzy
 msgid "New _Appointment"
-msgstr "Nieuwe afspraak"
+msgstr "Nieuwe _Afspraak"
 
 #: calendar/gui/component-factory.c:408 ui/evolution-calendar.xml.h:8
 #: ui/evolution-tasks.xml.h:5
@@ -3249,9 +3234,8 @@ msgid "Create a new task"
 msgstr "Nieuwe taak aanmaken"
 
 #: calendar/gui/component-factory.c:409
-#, fuzzy
 msgid "New _Task"
-msgstr "Nieuwe Taak"
+msgstr "Nieuwe _Taak"
 
 #: calendar/gui/control-factory.c:128
 msgid "The URI that the calendar will display"
@@ -3480,7 +3464,7 @@ msgstr "u(u)r(en)"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:17 mail/mail-config.glade.h:115
 msgid "minute(s)"
-msgstr "minu(u)t(en)"
+msgstr "minuten"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:18
 msgid "start of appointment"
@@ -4817,9 +4801,8 @@ msgid "The method required to load `%s' is not supported"
 msgstr "De methode die nodig is om `%s' te laden wordt niet ondersteund"
 
 #: calendar/gui/e-week-view.c:3244 calendar/gui/e-week-view.c:3282
-#, fuzzy
 msgid "New _Appointment..."
-msgstr "Nieuwe Afspraak..."
+msgstr "Nieuwe _Afspraak..."
 
 #: calendar/gui/gnome-cal.c:1260
 #, c-format
@@ -5963,7 +5946,7 @@ msgstr "Controleren voor nieuwe email"
 
 #: camel/providers/imap/camel-imap-provider.c:45
 msgid "Check for new messages in all folders"
-msgstr "Controleer op nieuwe mail in alle mappen"
+msgstr "Controleer op nieuwe berichten in alle mappen"
 
 #: camel/providers/imap/camel-imap-provider.c:48 shell/e-shell-view.c:720
 msgid "Folders"
@@ -7272,9 +7255,8 @@ msgid "Body does not contain"
 msgstr "bevat niet"
 
 #: default_user/searches.xml.h:3
-#, fuzzy
 msgid "Body or subject contains"
-msgstr "Commentaar bevat"
+msgstr "Inhoud of onderwerp bevat"
 
 #: default_user/searches.xml.h:4
 #, fuzzy
@@ -7949,9 +7931,8 @@ msgid "New Mail Message"
 msgstr "_Bericht versturen"
 
 #: mail/component-factory.c:757
-#, fuzzy
 msgid "New _Mail Message"
-msgstr "_Bericht versturen"
+msgstr "Nieuw _Bericht"
 
 #: mail/component-factory.c:789
 msgid "Cannot initialize Evolution's mail component."
@@ -8010,12 +7991,11 @@ msgstr "Filter op Geadresseerden"
 
 #: mail/folder-browser.c:1278
 msgid "Filter on _Mailing List"
-msgstr " Filter op Mailinglijst"
+msgstr "Filter op _Mailinglijst"
 
 #: mail/folder-browser.c:1289 ui/evolution-mail-message.xml.h:89
-#, fuzzy
 msgid "_Edit as New Message..."
-msgstr "Bericht afdrukken..."
+msgstr "B_ewerk als Nieuw Bericht..."
 
 #: mail/folder-browser.c:1291 ui/evolution-mail-message.xml.h:97
 msgid "_Save As..."
@@ -8030,9 +8010,8 @@ msgid "_Reply to Sender"
 msgstr "Afzender beantwoorden"
 
 #: mail/folder-browser.c:1300 ui/evolution-mail-message.xml.h:69
-#, fuzzy
 msgid "Reply to _List"
-msgstr "Iedereen Be_antwoorden"
+msgstr "Lijst Be_antwoorden"
 
 #: mail/folder-browser.c:1302 ui/evolution-mail-message.xml.h:68
 msgid "Reply to _All"
@@ -8044,21 +8023,19 @@ msgstr "_Doorsturen"
 
 #: mail/folder-browser.c:1307 ui/evolution-mail-message.xml.h:40
 msgid "Mar_k as Read"
-msgstr "Markeer Als Gelezen"
+msgstr "Mar_keer als Gelezen"
 
 #: mail/folder-browser.c:1309 ui/evolution-mail-message.xml.h:42
 msgid "Mark as U_nread"
-msgstr "Markeer Als Ongelezen"
+msgstr "Markeer als O_ngelezen"
 
 #: mail/folder-browser.c:1311
-#, fuzzy
 msgid "Mark as _Important"
-msgstr "Belangrijk"
+msgstr "Markeer als _Belangrijk"
 
 #: mail/folder-browser.c:1313
-#, fuzzy
 msgid "Mark as Unim_portant"
-msgstr "Markeer Als Ongelezen"
+msgstr "Markeer als Onbe_langrijk"
 
 #: mail/folder-browser.c:1318
 msgid "_Move to Folder..."
@@ -8172,7 +8149,7 @@ msgstr "Evolution Accountbewerker"
 #. give our dialog an OK button and title
 #: mail/mail-account-editor.c:163
 msgid "Evolution Account Editor"
-msgstr "Evolution Accountbewerker"
+msgstr "Evolution Accountbeheer"
 
 #: mail/mail-account-gui.c:999
 #, fuzzy
@@ -8481,9 +8458,9 @@ msgstr "Evolution Accountwizard"
 #. * what shortcut to insert?
 #.
 #: mail/mail-config.c:1579
-#, fuzzy, c-format
+#, c-format
 msgid "%s: Inbox"
-msgstr "mbox"
+msgstr "%s: Inkomende post"
 
 #: mail/mail-config.c:1809
 msgid "Checking Service"
@@ -8495,12 +8472,12 @@ msgstr "Verbinden met server....."
 
 #: mail/mail-config.glade.h:1
 msgid " color"
-msgstr "Kleuren"
+msgstr " kleur"
 
 #: mail/mail-config.glade.h:2
 #, fuzzy
 msgid "(SSL is not supported in this build of evolution)"
-msgstr "Ondertekening wordt niet ondersteund door deze sleutel"
+msgstr "(SSL wordt niet ondersteund in deze versie van Evolution)"
 
 #: mail/mail-config.glade.h:3
 msgid "Account"
@@ -8544,11 +8521,11 @@ msgstr "Aanmeldingstype:"
 
 #: mail/mail-config.glade.h:13
 msgid "Certificate ID:"
-msgstr "Certificaat ID:"
+msgstr "Certificaat-ID:"
 
 #: mail/mail-config.glade.h:15
 msgid "Composer"
-msgstr "Opstellen"
+msgstr "Editor"
 
 #: mail/mail-config.glade.h:16
 msgid ""
@@ -8571,14 +8548,12 @@ msgid "De_fault"
 msgstr "Standaard"
 
 #: mail/mail-config.glade.h:23
-#, fuzzy
 msgid "Default Forward style is: "
-msgstr "Standaard doorsturen stijl is:"
+msgstr "Standaardwijze van doorsturen: "
 
 #: mail/mail-config.glade.h:24
-#, fuzzy
 msgid "Default character encoding: "
-msgstr "Standaard doorsturen stijl is:"
+msgstr "Standaard karaktercode:"
 
 #: mail/mail-config.glade.h:25
 msgid "Digital IDs..."
@@ -8598,7 +8573,7 @@ msgstr "Klad"
 
 #: mail/mail-config.glade.h:29
 msgid "Drafts folder:"
-msgstr "Klad map"
+msgstr "Kladmap: "
 
 #: mail/mail-config.glade.h:30
 #, fuzzy
@@ -8659,7 +8634,6 @@ msgid "Mailbox location"
 msgstr "Mailbox Formaat"
 
 #: mail/mail-config.glade.h:44
-#, fuzzy
 msgid "Make this my _default account"
 msgstr "Stel dit in als standaardaccount"
 
@@ -8724,20 +8698,19 @@ msgstr "Berichten aan het ontvangen"
 
 #: mail/mail-config.glade.h:63
 msgid "Receiving Options"
-msgstr "Ontvang opties"
+msgstr "Berichten ontvangen"
 
 #: mail/mail-config.glade.h:64
 msgid "Required Information"
-msgstr "Vereisde informatie"
+msgstr "Vereiste informatie"
 
 #: mail/mail-config.glade.h:66
 msgid "Secure MIME"
 msgstr "Beveiligde MIME"
 
 #: mail/mail-config.glade.h:67
-#, fuzzy
 msgid "Security"
-msgstr "_Beveiliging"
+msgstr "Beveiliging"
 
 #: mail/mail-config.glade.h:68
 #, fuzzy
@@ -8750,11 +8723,11 @@ msgstr "Selecteer lokatie PGP"
 
 #: mail/mail-config.glade.h:70
 msgid "Sending Email"
-msgstr "Berichten aan het versturen"
+msgstr "Berichten versturen"
 
 #: mail/mail-config.glade.h:71
 msgid "Sending Mail"
-msgstr "Bezig met versturen Post"
+msgstr "Berichten versturen"
 
 #: mail/mail-config.glade.h:73 mail/message-list.etspec.h:6
 #: shell/e-local-storage.c:179
@@ -8835,12 +8808,10 @@ msgid "_Automatically check for new mail every"
 msgstr "Automatisch controleren op nieuwe post elke"
 
 #: mail/mail-config.glade.h:93
-#, fuzzy
 msgid "_Check for supported types"
-msgstr "Detecteer ondersteunde types..."
+msgstr "_Controleer op  ondersteunde types"
 
 #: mail/mail-config.glade.h:96
-#, fuzzy
 msgid "_Email Address:"
 msgstr "E-mailadres:"
 
@@ -8849,14 +8820,12 @@ msgid "_Empty trash folders on exit"
 msgstr "Leeg prullenbakken bij het afsluiten"
 
 #: mail/mail-config.glade.h:98
-#, fuzzy
 msgid "_Full Name:"
 msgstr "Volledige Naam:"
 
 #: mail/mail-config.glade.h:99
-#, fuzzy
 msgid "_HTML Signature:"
-msgstr "Handtekeningbestand:"
+msgstr "Bestand met HTML-ondertekening:"
 
 #: mail/mail-config.glade.h:100
 #, fuzzy
@@ -8869,13 +8838,12 @@ msgid "_Host:"
 msgstr "Computernaam:"
 
 #: mail/mail-config.glade.h:102
-#, fuzzy
 msgid "_Load images if sender is in addressbook"
-msgstr "Plaatjes laden als de afzender in het adresboek voorkomt"
+msgstr "Toon afbeeldingen als de afzender in het adresboek voorkomt"
 
 #: mail/mail-config.glade.h:103
 msgid "_Log filter actions to:"
-msgstr "Log filteracties in:"
+msgstr "_Log filteracties in:"
 
 #: mail/mail-config.glade.h:104
 #, fuzzy
@@ -8893,7 +8861,6 @@ msgid "_Never load images off the net"
 msgstr "Nooi plaatjes van het net afhalen"
 
 #: mail/mail-config.glade.h:107
-#, fuzzy
 msgid "_Organization:"
 msgstr "Organisatie:"
 
@@ -8912,9 +8879,8 @@ msgid "_Remember PGP Passphrase until exit"
 msgstr "_Onthoud PGP-wachtwoord tot het afsluiten van Evolution"
 
 #: mail/mail-config.glade.h:111
-#, fuzzy
 msgid "_Remember this password"
-msgstr "Onthoud dit wachtwoord"
+msgstr "_Onthoud dit wachtwoord"
 
 #: mail/mail-config.glade.h:112
 #, fuzzy
@@ -8922,12 +8888,10 @@ msgid "_Send mail in HTML format by default."
 msgstr "Stuur post standaard in HTML-formaat."
 
 #: mail/mail-config.glade.h:113
-#, fuzzy
 msgid "_Signature file:"
-msgstr "Handtekeningbestand:"
+msgstr "Bestand met ondertekening:"
 
 #: mail/mail-config.glade.h:114
-#, fuzzy
 msgid "_Username:"
 msgstr "Gebruikersnaam:"
 
@@ -8945,7 +8909,7 @@ msgstr "seconden."
 
 #: mail/mail-crypto.c:60
 msgid "Could not create a PGP signature context."
-msgstr "Kon geen PHP signature context maken"
+msgstr "Kon geen PGP handtekening-context maken"
 
 #: mail/mail-crypto.c:86
 msgid "Could not create a PGP verification context."
@@ -9052,14 +9016,14 @@ msgid "%d hidden"
 msgstr "%d verborgen"
 
 #: mail/mail-folder-cache.c:161
-#, fuzzy, c-format
+#, c-format
 msgid "%d selected"
-msgstr "Verwijderd"
+msgstr "%d geselecteerd"
 
 #: mail/mail-folder-cache.c:170
-#, fuzzy, c-format
+#, c-format
 msgid "%d unsent"
-msgstr " %d seconden"
+msgstr "%d niet verzonden"
 
 #: mail/mail-folder-cache.c:172
 #, c-format
@@ -9098,7 +9062,7 @@ msgstr "Aan"
 
 #: mail/mail-format.c:887
 msgid "Cc"
-msgstr "Cc:"
+msgstr "Cc"
 
 #: mail/mail-format.c:1306
 msgid "No GPG/PGP program configured."
@@ -9188,14 +9152,13 @@ msgstr ""
 "het wellicht noodzakelijk om deze handmatig te repareren."
 
 #: mail/mail-local.c:1002
-#, fuzzy
 msgid "You cannot change the format of a non-local folder."
-msgstr "U kunt geen berichten kopieeren vanuit deze vuilnisbak"
+msgstr "U kunt het formaat van een niet-lokale map niet veranderen."
 
 #: mail/mail-local.c:1013
 #, c-format
 msgid "Reconfigure %s"
-msgstr "Configureer %s"
+msgstr "Herconfigureer %s"
 
 #: mail/mail-mt.c:187
 #, c-format
@@ -11528,7 +11491,7 @@ msgstr "%s - Evolution %s [%s]"
 
 #: shell/e-shell-view.c:1499
 msgid "Evolution is currently online.  Click on this button to work offline."
-msgstr "Evolution is nu online.  Klik op dit button om ofline te werken"
+msgstr "Evolution is nu verbonden met het netwerk.  Klik op deze knop om zonder netwerkverbinding te werken"
 
 #: shell/e-shell-view.c:1506
 msgid "Evolution is in the process of going offline."
@@ -12345,9 +12308,8 @@ msgid "Cancel the current mail operation"
 msgstr "Stop de huidige email operatie"
 
 #: ui/evolution-mail-global.xml.h:3
-#, fuzzy
 msgid "Compose _New Message"
-msgstr "Stel een nieuw bericht op"
+msgstr "Stel een _Nieuw Bericht op"
 
 #: ui/evolution-mail-global.xml.h:4
 msgid "Create or edit mail accounts and other preferences"
@@ -12388,7 +12350,7 @@ msgstr "Verwijder alle verwijderde berichten permanent uit alle mappen"
 
 #: ui/evolution-mail-global.xml.h:13
 msgid "Send / Receive"
-msgstr "Verstuur en Ontvang"
+msgstr "Versturen en Ontvangen"
 
 #: ui/evolution-mail-global.xml.h:14
 msgid "Send queued mail and retrieve new mail"
@@ -12429,21 +12391,18 @@ msgid "_Send / Receive"
 msgstr "Verstuur en Ontvang"
 
 #: ui/evolution-mail-global.xml.h:24
-#, fuzzy
 msgid "_Subscribe to Folders..."
-msgstr "Bezig met aanmelden bij map \"%s\""
+msgstr "_Abonneren op Mappen..."
 
 #: ui/evolution-mail-list.xml.h:1
 msgid "Change the properties of this folder"
 msgstr "Verander de eigenschappen van deze map"
 
 #: ui/evolution-mail-list.xml.h:2
-#, fuzzy
 msgid "Copy selected messages"
-msgstr "Verberg geselecteerde"
+msgstr "Kopieer geselecteerde berichten"
 
 #: ui/evolution-mail-list.xml.h:3
-#, fuzzy
 msgid "Cu_t"
 msgstr "Knippen"
 
@@ -12453,19 +12412,16 @@ msgid "Cut selected messages"
 msgstr "Druk dit bericht af"
 
 #: ui/evolution-mail-list.xml.h:5
-#, fuzzy
 msgid "Hide S_elected Messages"
-msgstr "Verberg geselecteerde"
+msgstr "Verberg Ge_selecteerde Berichten"
 
 #: ui/evolution-mail-list.xml.h:6
-#, fuzzy
 msgid "Hide _Deleted Messages"
-msgstr "Verberg verwijderde"
+msgstr "Verberg _Verwijderde Berichten"
 
 #: ui/evolution-mail-list.xml.h:7
-#, fuzzy
 msgid "Hide _Read Messages"
-msgstr "Doorgestuurde berichten"
+msgstr "Verberg Ge_lezen Berichten"
 
 #: ui/evolution-mail-list.xml.h:8
 msgid ""
@@ -12531,7 +12487,7 @@ msgstr "Verberg tijdelijk de geselecteerde berichten"
 
 #: ui/evolution-mail-list.xml.h:22
 msgid "Threaded Message list"
-msgstr "Berichtenlijst met Weergave van Relateerde Berichten"
+msgstr "Toon Discussiebomen"
 
 #: ui/evolution-mail-list.xml.h:25
 msgid "_Expunge"
@@ -12581,87 +12537,83 @@ msgstr "Maak VMap Van Bericht"
 
 #: ui/evolution-mail-message.xml.h:8
 msgid "Create a rule to filter messages from this sender"
-msgstr "Creeer een regel om de berichten van deze afzender te filteren"
+msgstr "Maak een regel om de berichten van deze afzender te filteren"
 
 #: ui/evolution-mail-message.xml.h:9
 msgid "Create a rule to filter messages to these recipients"
-msgstr "Creeer een regel om de berichten van deze afzenders te filteren"
+msgstr "Maak een regel om de berichten van deze afzenders te filteren"
 
 #: ui/evolution-mail-message.xml.h:10
 msgid "Create a rule to filter messages to this mailing list"
-msgstr "Creeer een regel om de berichten naar deze emaillijst te filteren"
+msgstr "Maak een regel om de berichten naar deze emaillijst te filteren"
 
 #: ui/evolution-mail-message.xml.h:11
 msgid "Create a rule to filter messages with this subject"
-msgstr "Creeer een regel om de berichten met dit onderwerp te filteren"
+msgstr "Maak een regel om de berichten met dit onderwerp te filteren"
 
 #: ui/evolution-mail-message.xml.h:12
 msgid "Create a virtual folder for these recipients"
-msgstr "Creeer een Virtueele map voor deze ontvangers"
+msgstr "Maak een Virtueele map voor deze ontvangers"
 
 #: ui/evolution-mail-message.xml.h:13
 msgid "Create a virtual folder for this mailing list"
-msgstr "Creer een virtueele map voor deze emaillijst"
+msgstr "Maak een virtueele map voor deze emaillijst"
 
 #: ui/evolution-mail-message.xml.h:14
 msgid "Create a virtual folder for this sender"
-msgstr "Creeer een virtuele map voor deze afzender"
+msgstr "Maak een virtuele map voor deze afzender"
 
 #: ui/evolution-mail-message.xml.h:15
 msgid "Create a virtual folder for this subject"
-msgstr "Creeer een virtuele map voor dit onderwerp"
+msgstr "Maak een virtuele map voor dit onderwerp"
 
 #: ui/evolution-mail-message.xml.h:17
 msgid "Display the next important message"
-msgstr "Laat het volgende belangrijke bericht zien"
+msgstr "Toon het volgende belangrijke bericht"
 
 #: ui/evolution-mail-message.xml.h:18
 msgid "Display the next message"
-msgstr "Laat volgende bericht zien"
+msgstr "Toon het volgende bericht zien"
 
 #: ui/evolution-mail-message.xml.h:19
 msgid "Display the next unread message"
-msgstr "Laat het volgende ongelezen bericht zien"
+msgstr "Toon het volgende ongelezen bericht"
 
 #: ui/evolution-mail-message.xml.h:20
 msgid "Display the next unread thread"
-msgstr "Laat de volgende ongelezen draad zien"
+msgstr "Toon de volgende ongelezen discussieboom zien"
 
 #: ui/evolution-mail-message.xml.h:21
 msgid "Display the previous important message"
-msgstr "Laat het vorige belangrijke bericht zien"
+msgstr "Toon het vorige belangrijke bericht"
 
 #: ui/evolution-mail-message.xml.h:22
 msgid "Display the previous message"
-msgstr "Laat het vorige bericht zien"
+msgstr "Toon het vorige bericht"
 
 #: ui/evolution-mail-message.xml.h:23
 msgid "Display the previous unread message"
-msgstr "Laat het vorige ongelezen bericht zien"
+msgstr "Toon het vorige ongelezen bericht"
 
 #: ui/evolution-mail-message.xml.h:24
-#, fuzzy
 msgid "Filter on Mailing _List..."
-msgstr "Filter op Mailinglijst"
+msgstr "Filter op Mailing_lijst..."
 
 #: ui/evolution-mail-message.xml.h:25
-#, fuzzy
 msgid "Filter on Se_nder..."
-msgstr "Filter op _Afzender"
+msgstr "Filter op _Afzender..."
 
 #: ui/evolution-mail-message.xml.h:26
-#, fuzzy
 msgid "Filter on _Recipients..."
-msgstr "Filter op _Geadresseerden"
+msgstr "Filter op _Geadresseerden..."
 
 #: ui/evolution-mail-message.xml.h:27
-#, fuzzy
 msgid "Filter on _Subject..."
-msgstr "Filter op _Onderwerp"
+msgstr "Filter op _Onderwerp..."
 
 #: ui/evolution-mail-message.xml.h:28
 msgid "Force images in HTML mail to be loaded"
-msgstr "Forceer het laden van plaatjes in HTML email"
+msgstr "Forceer het laden van plaatjes in HTML-berichten"
 
 #: ui/evolution-mail-message.xml.h:29
 msgid "Forward"
@@ -12685,7 +12637,7 @@ msgstr "Geciteerd doorsturen"
 
 #: ui/evolution-mail-message.xml.h:34
 msgid "Forward the selected message in the body of a new message"
-msgstr "Stuur het geselecteerde bericht door in de body van een nieuw bericht"
+msgstr "Stuur het geselecteerde bericht door in de inhoud van een nieuw bericht"
 
 #: ui/evolution-mail-message.xml.h:35
 msgid "Forward the selected message quoted like a reply"
@@ -12701,7 +12653,7 @@ msgstr "Stuur het bericht door naar iemand als bijlage"
 
 #: ui/evolution-mail-message.xml.h:39
 msgid "Load _Images"
-msgstr "Laad Plaatjes"
+msgstr "Toon _Afbeeldingen"
 
 #: ui/evolution-mail-message.xml.h:41
 #, fuzzy
@@ -12753,9 +12705,8 @@ msgid "Next Important Message"
 msgstr "Volgende bericht"
 
 #: ui/evolution-mail-message.xml.h:53
-#, fuzzy
 msgid "Next Message"
-msgstr "Volgende bericht"
+msgstr "Volgend Bericht"
 
 #: ui/evolution-mail-message.xml.h:54
 #, fuzzy
@@ -12801,9 +12752,8 @@ msgid "Previous Unread Message"
 msgstr "Vorige bericht"
 
 #: ui/evolution-mail-message.xml.h:65
-#, fuzzy
 msgid "Print this message"
-msgstr "Bericht Afdrukken"
+msgstr "Druk dit bericht af"
 
 #: ui/evolution-mail-message.xml.h:66
 msgid "Reply"
@@ -12831,12 +12781,11 @@ msgstr "Stel de pagina instellingen in voor de huidige printer"
 
 #: ui/evolution-mail-message.xml.h:74
 msgid "Show Email _Source"
-msgstr ""
+msgstr "Toon broncode van _Bericht"
 
 #: ui/evolution-mail-message.xml.h:75
-#, fuzzy
 msgid "Show Full _Headers"
-msgstr "Koppen"
+msgstr "Toon alle _Koppen"
 
 #: ui/evolution-mail-message.xml.h:76
 msgid "Show message in the normal style"
@@ -12887,18 +12836,16 @@ msgid "_Forward Message"
 msgstr "Bericht Doorsturen"
 
 #: ui/evolution-mail-message.xml.h:91
-#, fuzzy
 msgid "_Message Display"
-msgstr "Berichten"
+msgstr "_Berichtweergave"
 
 #: ui/evolution-mail-message.xml.h:92
 msgid "_Move to Folder"
 msgstr "Verplaats naar Map"
 
 #: ui/evolution-mail-message.xml.h:93
-#, fuzzy
 msgid "_Normal Display"
-msgstr "Weergave"
+msgstr "_Normale Weergave"
 
 #: ui/evolution-mail-message.xml.h:94
 msgid "_Open Message"
@@ -13324,7 +13271,6 @@ msgid "_Go to Folder..."
 msgstr "_Ga naar Map..."
 
 #: ui/evolution.xml.h:42
-#, fuzzy
 msgid "_Import File..."
 msgstr "_Importeer bestand..."
 
@@ -13677,9 +13623,8 @@ msgid "Sear_ch"
 msgstr "_Zoeken"
 
 #: widgets/misc/e-search-bar.c:460
-#, fuzzy
 msgid "Find Now"
-msgstr "Zoek"
+msgstr "Zoek Nu"
 
 #: wombat/GNOME_Evolution_Wombat.oaf.in.h:1
 msgid "The Personal Addressbook Server"
