@@ -100,7 +100,7 @@ impl_ShellView_unset_message (PortableServer_Servant servant,
 
 static void
 impl_ShellView_change_current_view (PortableServer_Servant servant,
-				    CORBA_char *uri,
+				    const CORBA_char *uri,
 				    CORBA_Environment *ev)
 {
 	BonoboObject *bonobo_object;
@@ -112,7 +112,7 @@ impl_ShellView_change_current_view (PortableServer_Servant servant,
 
 static void
 impl_ShellView_set_title (PortableServer_Servant servant,
-			  CORBA_char *title,
+			  const CORBA_char *title,
 			  CORBA_Environment *ev)
 {
 	BonoboObject *bonobo_object;
@@ -152,10 +152,10 @@ corba_class_init (void)
 	base_epv->default_POA = NULL;
 
 	epv = g_new0 (POA_Evolution_ShellView__epv, 1);
-	epv->set_message   = impl_ShellView_set_message;
-	epv->unset_message = impl_ShellView_unset_message;
+	epv->set_message         = impl_ShellView_set_message;
+	epv->unset_message       = impl_ShellView_unset_message;
 	epv->change_current_view = impl_ShellView_change_current_view;
-	epv->set_title     = impl_ShellView_set_title;
+	epv->set_title           = impl_ShellView_set_title;
 
 	vepv = &ShellView_vepv;
 	vepv->_base_epv               = base_epv;

@@ -1,5 +1,11 @@
 2000-11-06  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* evolution-shell-view.c (impl_ShellView_change_current_view):
+	Constified @uri.
+	(impl_ShellView_set_title): Constified @title.
+
+2000-11-06  Ettore Perazzoli  <ettore@helixcode.com>
+
 	* e-shell.c: New member `crash_type_names' in `EShellPrivate'.
 	(init): Init to NULL.
 	(destroy): Free.
