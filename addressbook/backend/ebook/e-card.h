@@ -70,6 +70,8 @@ struct _ECard {
 	ECardDate       *last_use;
 	float            raw_use_score;
 
+	char            *related_contacts;  /* EDestinationV (serialized) of related contacts. */
+
 	EList           *categories;    /* Categories.                      */
 
 	EList           *arbitrary;     /* Arbitrary fields.                */
@@ -89,13 +91,9 @@ struct _ECard {
 	
 	ECard           *agent;         /* A person who sereves as this
 					   guy's agent/secretary/etc.       */
-	
 
-	char            *categories;    /* A list of the categories to which
-					   this card belongs.               */
-	
 	ECardSound      *sound;
-	
+
 	ECardKey        *key;	        /* The person's public key.         */
 	ECardTimeZone   *timezn;        /* The person's time zone.          */
 	ECardGeoPos     *geopos;        /* The person's long/lat.           */

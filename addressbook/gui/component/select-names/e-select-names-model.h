@@ -52,6 +52,8 @@ const gchar  *e_select_names_model_get_address_text  (ESelectNamesModel *model);
 gint                e_select_names_model_count               (ESelectNamesModel *model);
 const EDestination *e_select_names_model_get_destination     (ESelectNamesModel *model, gint index);
 gchar              *e_select_names_model_export_destinationv (ESelectNamesModel *model);
+void                e_select_names_model_import_destinationv (ESelectNamesModel *model,
+							      gchar *destinationv);
 ECard              *e_select_names_model_get_card            (ESelectNamesModel *model, gint index);
 const gchar        *e_select_names_model_get_string          (ESelectNamesModel *model, gint index);
 

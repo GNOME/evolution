@@ -1334,39 +1334,6 @@
 
 	<widget>
 	  <class>GtkAlignment</class>
-	  <name>alignment14</name>
-	  <xalign>0.5</xalign>
-	  <yalign>0.5</yalign>
-	  <xscale>1</xscale>
-	  <yscale>0</yscale>
-	  <child>
-	    <left_attach>3</left_attach>
-	    <right_attach>4</right_attach>
-	    <top_attach>12</top_attach>
-	    <bottom_attach>13</bottom_attach>
-	    <xpad>0</xpad>
-	    <ypad>0</ypad>
-	    <xexpand>True</xexpand>
-	    <yexpand>False</yexpand>
-	    <xshrink>False</xshrink>
-	    <yshrink>False</yshrink>
-	    <xfill>True</xfill>
-	    <yfill>True</yfill>
-	  </child>
-
-	  <widget>
-	    <class>GtkEntry</class>
-	    <name>entry-contacts</name>
-	    <can_focus>True</can_focus>
-	    <editable>True</editable>
-	    <text_visible>True</text_visible>
-	    <text_max_length>0</text_max_length>
-	    <text></text>
-	  </widget>
-	</widget>
-
-	<widget>
-	  <class>GtkAlignment</class>
 	  <name>alignment16</name>
 	  <xalign>0.5</xalign>
 	  <yalign>0.5</yalign>
@@ -1650,6 +1617,39 @@
 	    <xfill>True</xfill>
 	    <yfill>True</yfill>
 	  </child>
+	</widget>
+
+	<widget>
+	  <class>GtkAlignment</class>
+	  <name>alignment17</name>
+	  <xalign>0.5</xalign>
+	  <yalign>0.5</yalign>
+	  <xscale>1</xscale>
+	  <yscale>0</yscale>
+	  <child>
+	    <left_attach>3</left_attach>
+	    <right_attach>4</right_attach>
+	    <top_attach>12</top_attach>
+	    <bottom_attach>13</bottom_attach>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	    <xexpand>True</xexpand>
+	    <yexpand>False</yexpand>
+	    <xshrink>False</xshrink>
+	    <yshrink>False</yshrink>
+	    <xfill>True</xfill>
+	    <yfill>True</yfill>
+	  </child>
+
+	  <widget>
+	    <class>GtkTable</class>
+	    <name>table-contacts</name>
+	    <rows>1</rows>
+	    <columns>1</columns>
+	    <homogeneous>False</homogeneous>
+	    <row_spacing>0</row_spacing>
+	    <column_spacing>0</column_spacing>
+	  </widget>
 	</widget>
       </widget>
 
@@ -2257,16 +2257,16 @@
 
 	<widget>
 	  <class>Custom</class>
-	  <name>dateedit-anniversary</name>
+	  <name>dateedit-birthday</name>
 	  <creation_function>e_contact_editor_create_date</creation_function>
 	  <int1>0</int1>
 	  <int2>0</int2>
-	  <last_modification_time>Tue, 05 Jun 2001 02:36:32 GMT</last_modification_time>
+	  <last_modification_time>Tue, 05 Jun 2001 02:36:27 GMT</last_modification_time>
 	  <child>
 	    <left_attach>4</left_attach>
 	    <right_attach>6</right_attach>
-	    <top_attach>5</top_attach>
-	    <bottom_attach>6</bottom_attach>
+	    <top_attach>4</top_attach>
+	    <bottom_attach>5</bottom_attach>
 	    <xpad>0</xpad>
 	    <ypad>0</ypad>
 	    <xexpand>True</xexpand>
@@ -2280,16 +2280,16 @@
 
 	<widget>
 	  <class>Custom</class>
-	  <name>dateedit-birthday</name>
+	  <name>dateedit-anniversary</name>
 	  <creation_function>e_contact_editor_create_date</creation_function>
 	  <int1>0</int1>
 	  <int2>0</int2>
-	  <last_modification_time>Tue, 05 Jun 2001 02:36:27 GMT</last_modification_time>
+	  <last_modification_time>Tue, 05 Jun 2001 02:36:32 GMT</last_modification_time>
 	  <child>
 	    <left_attach>4</left_attach>
 	    <right_attach>6</right_attach>
-	    <top_attach>4</top_attach>
-	    <bottom_attach>5</bottom_attach>
+	    <top_attach>5</top_attach>
+	    <bottom_attach>6</bottom_attach>
 	    <xpad>0</xpad>
 	    <ypad>0</ypad>
 	    <xexpand>True</xexpand>

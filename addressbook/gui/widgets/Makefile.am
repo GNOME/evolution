@@ -42,42 +42,43 @@ libeminicard_a_SOURCES =			\
 	gal-view-minicard.c			\
 	gal-view-minicard.h
 
-noinst_PROGRAMS =				\
-	minicard-widget-test			\
-	minicard-label-test			\
-	minicard-test
-#	reflow-test
-#	minicard-view-test
-
-minicard_label_test_SOURCES = 	\
-	test-minicard-label.c
-
-minicard_label_test_LDADD =				\
-	libeminicard.a					\
-	$(EXTRA_GNOME_LIBS)				\
-	$(BONOBO_GNOME_LIBS)				\
-	$(top_builddir)/e-util/libeutil.la
-
-minicard_test_SOURCES = 	\
-	test-minicard.c
-
-minicard_test_LDADD =							\
-	libeminicard.a							\
-	$(top_builddir)/addressbook/backend/ebook/libebook.la		\
-	$(top_builddir)/e-util/libeutil.la				\
-	$(top_builddir)/libversit/libversit.la				\
-	$(top_builddir)/e-util/ename/libename.la			\
-	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.a \
-	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.a \
-	$(top_builddir)/addressbook/printing/libecontactprint.a		\
-	$(top_builddir)/addressbook/gui/merging/libecardmerging.a	\
-	$(top_builddir)/widgets/misc/libemiscwidgets.a 			\
-	$(top_builddir)/e-util/libeutil.la				\
-	$(EXTRA_GNOME_LIBS)						\
-	$(BONOBO_GNOME_LIBS)						\
-	$(GNOME_PRINT_LIBS)						\
-	libeminicard.a
-
+#noinst_PROGRAMS =				\
+#	 minicard-widget-test			\
+#	 minicard-label-test			\
+#	 minicard-test
+##	reflow-test
+##	minicard-view-test
+#
+#minicard_label_test_SOURCES = 	\
+#	 test-minicard-label.c
+#
+#minicard_label_test_LDADD =				\
+#	 libeminicard.a					\
+#	 $(EXTRA_GNOME_LIBS)				\
+#	 $(BONOBO_GNOME_LIBS)				\
+#	 $(top_builddir)/e-util/libeutil.la
+#
+#minicard_test_SOURCES = 	\
+#	 test-minicard.c
+#
+#minicard_test_LDADD =							\
+#	 libeminicard.a							\
+#	 $(top_builddir)/addressbook/backend/ebook/libebook.la		\
+#	 $(top_builddir)/e-util/libeutil.la				\
+#	 $(top_builddir)/libversit/libversit.la				\
+#	 $(top_builddir)/e-util/ename/libename.la			\
+#	 $(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.a \
+#	 $(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.a \
+#	 $(top_builddir)/addressbook/printing/libecontactprint.a		\
+#	 $(top_builddir)/addressbook/gui/merging/libecardmerging.a	\
+#	 $(top_builddir)/widgets/misc/libemiscwidgets.a 			\
+#	 $(top_builddir)/addressbook/gui/component/select-names/libeselectnames.la	\
+#	 $(top_builddir)/e-util/libeutil.la				\
+#	 $(EXTRA_GNOME_LIBS)						\
+#	 $(BONOBO_GNOME_LIBS)						\
+#	 $(GNOME_PRINT_LIBS)						\
+#	 libeminicard.a
+#
 #reflow_test_SOURCES = 	\
 #	 test-reflow.c
 #
@@ -110,25 +111,26 @@ minicard_test_LDADD =							\
 #	$(top_builddir)/addressbook/printing/libecontactprint.a		\
 #	$(top_builddir)/widgets/misc/libemiscwidgets.a 			\
 #	$(top_builddir)/e-util/libeutil.la
-
-minicard_widget_test_SOURCES = 	\
-	e-minicard-widget-test.c
-
-minicard_widget_test_LDADD =						\
-	libeminicard.a							\
-	$(top_builddir)/addressbook/backend/ebook/libebook.la		\
-	$(top_builddir)/e-util/libeutil.la				\
-	$(top_builddir)/libversit/libversit.la				\
-	$(top_builddir)/e-util/ename/libename.la			\
-	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.a \
-	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.a \
-	$(top_builddir)/addressbook/printing/libecontactprint.a		\
-	$(top_builddir)/widgets/misc/libemiscwidgets.a 			\
-	$(top_builddir)/e-util/libeutil.la				\
-	$(top_builddir)/addressbook/gui/merging/libecardmerging.a	\
-	$(EXTRA_GNOME_LIBS)						\
-	$(BONOBO_GNOME_LIBS)						\
-	$(GNOME_PRINT_LIBS)
+#
+#minicard_widget_test_SOURCES = 	\
+#	 e-minicard-widget-test.c
+#
+#minicard_widget_test_LDADD =						\
+#	 libeminicard.a							\
+#	 $(top_builddir)/addressbook/backend/ebook/libebook.la		\
+#	 $(top_builddir)/e-util/libeutil.la				\
+#	 $(top_builddir)/libversit/libversit.la				\
+#	 $(top_builddir)/e-util/ename/libename.la			\
+#	 $(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.a \
+#	 $(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.a \
+#	 $(top_builddir)/addressbook/gui/component/select-names/libeselectnames.la	\
+#	 $(top_builddir)/addressbook/printing/libecontactprint.a		\
+#	 $(top_builddir)/widgets/misc/libemiscwidgets.a 			\
+#	 $(top_builddir)/e-util/libeutil.la				\
+#	 $(top_builddir)/addressbook/gui/merging/libecardmerging.a	\
+#	 $(EXTRA_GNOME_LIBS)						\
+#	 $(BONOBO_GNOME_LIBS)						\
+#	 $(GNOME_PRINT_LIBS)
 
 gladedir   = $(datadir)/evolution/glade
 glade_DATA = alphabet.glade 

@@ -1,3 +1,22 @@
+2001-07-02  Christopher James Lahey  <clahey@ximian.com>
+
+	* backend/ebook/e-card.c, backend/ebook/e-card.h: Added
+	related_contacts field.
+
+	* gui/component/select-names/e-select-names-model.c,
+	gui/component/select-names/e-select-names-model.h
+	(e_select_names_model_import_destinationv): Added this function.
+
+	* gui/contact-editor/contact-editor.glade: Replaced the entry here
+	for related contacts with a table which is filled in in the C code.
+
+	* gui/contact-editor/e-contact-editor.c,
+	gui/contact-editor/e-contact-editor.h (add_lists): Added a select
+	names entry here for the related contacts field.
+
+	* gui/widgets/Makefile.am: Removed all the test programs here
+	since there are circular dependencies now.
+
 2001-07-01  Jon Trowbridge  <trow@ximian.com>
 
 	* backend/ebook/e-destination.c (e_destination_get_string): Fall

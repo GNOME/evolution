@@ -37,6 +37,9 @@
 #include <gal/widgets/e-categories.h>
 #include <gal/widgets/e-gui-utils.h>
 #include <gal/widgets/e-unicode.h>
+#include <gal/e-text/e-entry.h>
+
+#include <e-util/e-categories-master-list-wombat.h>
 
 #include "addressbook/printing/e-contact-print.h"
 #include "addressbook/printing/e-contact-print-envelope.h"
@@ -643,10 +646,11 @@ full_addr_clicked(GtkWidget *button, EContactEditor *editor)
 static void
 categories_clicked(GtkWidget *button, EContactEditor *editor)
 {
-	char *categories;
+	char *categories = NULL;
 	GnomeDialog *dialog;
 	int result;
 	GtkWidget *entry = glade_xml_get_widget(editor->gui, "entry-categories");
+	ECategoriesMasterList *ecml;
 	if (entry && GTK_IS_ENTRY(entry))
 		categories = e_utf8_gtk_entry_get_text(GTK_ENTRY(entry));
 	else if (editor->card)
@@ -654,9 +658,12 @@ categories_clicked(GtkWidget *button, EContactEditor *editor)
 			       "categories", &categories,
 			       NULL);
 	dialog = GNOME_DIALOG(e_categories_new(categories));
+	ecml = e_categories_master_list_wombat_new ();
 	gtk_object_set(GTK_OBJECT(dialog),
 		       "header", _("This contact belongs to these categories:"),
+		       "ecml", ecml,
 		       NULL);
+	gtk_object_unref (GTK_OBJECT (ecml));
 	gtk_widget_show(GTK_WIDGET(dialog));
 	result = gnome_dialog_run (dialog);
 	g_free (categories);
@@ -673,11 +680,42 @@ categories_clicked(GtkWidget *button, EContactEditor *editor)
 		g_free(categories);
 	}
 	gtk_object_destroy(GTK_OBJECT(dialog));
-#if 0
-	if (!entry)
-		g_free(categories);
-#endif
 }
+
+static void
+ensure_select_names_contact (EContactEditor *editor)
+{
+	if (editor->select_names_contacts == NULL) {
+		editor->select_names_contacts = e_select_names_manager_new ();
+		e_select_names_manager_add_section (editor->select_names_contacts,
+						    "contacts",
+						    "Related Contacts");
+	}
+}
+
+static void
+contacts_clicked (GtkWidget *button, EContactEditor *editor)
+{
+	ensure_select_names_contact (editor);
+	e_select_names_manager_activate_dialog (editor->select_names_contacts,
+						"contacts");
+}
+
+static void
+add_lists (EContactEditor *editor)
+{
+	GtkWidget *table = glade_xml_get_widget (editor->gui, "table-contacts");
+	if (table && GTK_IS_TABLE (table)) {
+		GtkWidget *entry;
+
+		ensure_select_names_contact (editor);
+		entry = e_select_names_manager_create_entry (editor->select_names_contacts,
+							     "contacts");
+		gtk_table_attach_defaults (GTK_TABLE (table), entry, 0, 1, 0, 1);
+		gtk_widget_show (entry);
+	}
+}
+
 
 typedef struct {
 	EContactEditor *ce;
@@ -1032,6 +1070,7 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 				  e_contact_editor);
 
 	_replace_buttons(e_contact_editor);
+	add_lists (e_contact_editor);
 	set_entry_changed_signals(e_contact_editor);
 
 	wants_html = glade_xml_get_widget(e_contact_editor->gui, "checkbutton-htmlmail");
@@ -1053,6 +1092,11 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 	if (widget && GTK_IS_BUTTON(widget))
 		gtk_signal_connect(GTK_OBJECT(widget), "clicked",
 				   categories_clicked, e_contact_editor);
+
+	widget = glade_xml_get_widget(e_contact_editor->gui, "button-contacts");
+	if (widget && GTK_IS_BUTTON(widget))
+		gtk_signal_connect(GTK_OBJECT(widget), "clicked",
+				   contacts_clicked, e_contact_editor);
 
 
 	/* Construct the app */
@@ -2080,6 +2124,7 @@ fill_in_info(EContactEditor *editor)
 	ECard *card = editor->card;
 	if (card) {
 		char *file_as;
+		char *related_contacts;
 		ECardName *name;
 		const ECardDate *anniversary;
 		const ECardDate *bday;
@@ -2089,12 +2134,13 @@ fill_in_info(EContactEditor *editor)
 		gboolean wants_html, wants_html_set;
 
 		gtk_object_get(GTK_OBJECT(card),
-			       "file_as",       &file_as,
-			       "name",          &name,
-			       "anniversary",   &anniversary,
-			       "birth_date",    &bday,
-			       "wants_html_set",&wants_html_set,
-			       "wants_html",    &wants_html,
+			       "file_as",          &file_as,
+			       "related_contacts", &related_contacts,
+			       "name",             &name,
+			       "anniversary",      &anniversary,
+			       "birth_date",       &bday,
+			       "wants_html_set",   &wants_html_set,
+			       "wants_html",       &wants_html,
 			       NULL);
 	
 		for (i = 0; i < sizeof(field_mapping) / sizeof(field_mapping[0]); i++) {
@@ -2144,6 +2190,12 @@ fill_in_info(EContactEditor *editor)
 						      bday->day);
 			else
 				e_date_edit_set_time (dateedit, -1);
+		}
+
+		if (editor->select_names_contacts && related_contacts && *related_contacts) {
+			ESelectNamesModel *model = e_select_names_manager_get_source (editor->select_names_contacts,
+										      "contacts");
+			e_select_names_model_import_destinationv (model, related_contacts);
 		}
 
 		set_fields(editor);
@@ -2224,6 +2276,21 @@ extract_info(EContactEditor *editor)
 
 		for (list = editor->arbitrary_fields; list; list = list->next) {
 			extract_single_field(editor, list->data);
+		}
+
+		if (editor->select_names_contacts) {
+			ESelectNamesModel *model = e_select_names_manager_get_source (editor->select_names_contacts,
+										      "contacts");
+			char *string = e_select_names_model_export_destinationv (model);
+			if (string && *string)
+				gtk_object_set (GTK_OBJECT (card),
+						"related_contacts", string,
+						NULL);
+			else
+				gtk_object_set (GTK_OBJECT (card),
+						"related_contacts", NULL,
+						NULL);
+			g_free (string);
 		}
 
 		if (editor->name)

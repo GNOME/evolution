@@ -37,6 +37,7 @@
 #define XEV_ARBITRARY "X-EVOLUTION-ARBITRARY"
 #define XEV_LIST "X-EVOLUTION-LIST"
 #define XEV_LIST_SHOW_ADDRESSES "X-EVOLUTION-LIST-SHOW_ADDRESSES"
+#define XEV_RELATED_CONTACTS "X-EVOLUTION-RELATED_CONTACTS"
 
 /* Object argument IDs */
 enum {
@@ -63,6 +64,7 @@ enum {
 	ARG_MAILER,
 	ARG_FBURL,
 	ARG_NOTE,
+	ARG_RELATED_CONTACTS,
 	ARG_CATEGORIES,
 	ARG_CATEGORY_LIST,
 	ARG_WANTS_HTML,
@@ -112,6 +114,7 @@ static void parse_anniversary(ECard *card, VObject *object);
 static void parse_mailer(ECard *card, VObject *object);
 static void parse_fburl(ECard *card, VObject *object);
 static void parse_note(ECard *card, VObject *object);
+static void parse_related_contacts(ECard *card, VObject *object);
 static void parse_categories(ECard *card, VObject *object);
 static void parse_wants_html(ECard *card, VObject *object);
 static void parse_list(ECard *card, VObject *object);
@@ -154,6 +157,7 @@ struct {
 	{ VCMailerProp,              parse_mailer },
 	{ "FBURL",                   parse_fburl },
 	{ VCNoteProp,                parse_note },
+	{ XEV_RELATED_CONTACTS,      parse_related_contacts },
 	{ "CATEGORIES",              parse_categories },
 	{ XEV_WANTS_HTML,            parse_wants_html },
 	{ XEV_ARBITRARY,             parse_arbitrary },
@@ -507,6 +511,10 @@ e_card_get_vobject (ECard *card)
 		value = g_strdup_printf ("%f", card->raw_use_score);
 		addPropValue (vobj, "X-EVOLUTION-USE-SCORE", value);
 		g_free (value);
+	}
+
+	if (card->related_contacts && *card->related_contacts) {
+		addPropValue(vobj, XEV_RELATED_CONTACTS, card->related_contacts);
 	}
 
 	if (card->categories) {
@@ -909,6 +917,13 @@ parse_note(ECard *card, VObject *vobj)
 }
 
 static void
+parse_related_contacts(ECard *card, VObject *vobj)
+{
+	g_free(card->related_contacts);
+	assign_string(vobj, &(card->related_contacts));
+}
+
+static void
 add_list_unique(ECard *card, EList *list, char *string)
 {
 	char *temp = e_strdup_strip(string);
@@ -1193,6 +1208,8 @@ e_card_class_init (ECardClass *klass)
 				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_FBURL);
 	gtk_object_add_arg_type ("ECard::note",
 				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_NOTE);
+	gtk_object_add_arg_type ("ECard::related_contacts",
+				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_RELATED_CONTACTS);
 	gtk_object_add_arg_type ("ECard::categories",
 				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_CATEGORIES);
 	gtk_object_add_arg_type ("ECard::category_list",
@@ -1772,7 +1789,8 @@ e_card_destroy (GtkObject *object)
 	g_free(card->anniversary);
 	g_free(card->fburl);
 	g_free(card->note);
-		
+	g_free(card->related_contacts);
+
 	if (card->categories)
 		gtk_object_unref(GTK_OBJECT(card->categories));
 	if (card->email)
@@ -1916,6 +1934,10 @@ e_card_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	case ARG_NOTE:
 		g_free (card->note);
 		card->note = g_strdup(GTK_VALUE_STRING(*arg));
+		break;
+	case ARG_RELATED_CONTACTS:
+		g_free (card->related_contacts);
+		card->related_contacts = g_strdup(GTK_VALUE_STRING(*arg));
 		break;
 	case ARG_WANTS_HTML:
 		card->wants_html = GTK_VALUE_BOOL(*arg);
@@ -2073,6 +2095,9 @@ e_card_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	case ARG_NOTE:
 		GTK_VALUE_STRING(*arg) = card->note;
 		break;
+	case ARG_RELATED_CONTACTS:
+		GTK_VALUE_STRING(*arg) = card->related_contacts;
+		break;
 	case ARG_WANTS_HTML:
 		GTK_VALUE_BOOL(*arg) = card->wants_html;
 		break;
@@ -2140,6 +2165,7 @@ e_card_init (ECard *card)
 	card->mailer = NULL;
 	card->fburl = NULL;
 	card->note = NULL;
+	card->related_contacts = NULL;
 	card->categories = NULL;
 	card->wants_html = FALSE;
 	card->wants_html_set = FALSE;

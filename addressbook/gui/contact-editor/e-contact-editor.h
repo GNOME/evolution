@@ -26,6 +26,7 @@
 #include <bonobo/bonobo-ui-component.h>
 #include <glade/glade.h>
 
+#include "addressbook/gui/component/select-names/e-select-names-manager.h"
 #include "addressbook/backend/ebook/e-book.h"
 #include "addressbook/backend/ebook/e-card.h"
 #include "addressbook/backend/ebook/e-card-simple.h"
@@ -77,6 +78,8 @@ struct _EContactEditor
 	GList *email_list;
 	GList *phone_list;
 	GList *address_list;
+
+	ESelectNamesManager *select_names_contacts;
 
 	ECardName *name;
 	char *company;

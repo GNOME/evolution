@@ -202,6 +202,34 @@ e_select_names_model_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	}
 }
 
+
+static void
+e_select_names_model_changed (ESelectNamesModel *model)
+{
+	g_free (model->priv->text);
+	model->priv->text = NULL;
+	
+	g_free (model->priv->addr_text);
+	model->priv->addr_text = NULL;
+
+#if 0
+	{
+		GList *i = model->priv->data;
+		gint j = 0;
+		g_print ("ESelectNamesModel state:\n");
+		while (i) {
+			EDestination *dest = (EDestination *) i->data;
+			g_print ("%d: %s <%s>\n", j, e_destination_get_string (dest), e_destination_get_email (dest));
+			i = g_list_next (i);
+			++j;
+		}
+		g_print ("\n");
+	}
+#endif
+
+	gtk_signal_emit (GTK_OBJECT(model), e_select_names_model_signals[E_SELECT_NAMES_MODEL_CHANGED]);
+}
+
 /** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** **/
 
 ESelectNamesModel *
@@ -342,6 +370,32 @@ e_select_names_model_export_destinationv (ESelectNamesModel *model)
 	return str;
 }
 
+static
+void send_changed (EDestination *dest, ECard *card, gpointer closure)
+{
+	ESelectNamesModel *model = closure;
+	e_select_names_model_changed (model);
+}
+
+void
+e_select_names_model_import_destinationv (ESelectNamesModel *model,
+					  gchar *destinationv)
+{
+	EDestination **destv;
+	gint i;
+
+	g_return_if_fail (model && E_IS_SELECT_NAMES_MODEL (model));
+
+	destv = e_destination_importv (destinationv);
+
+	e_select_names_model_delete_all (model);
+	for (i = 0; destv[i]; i++) {
+		e_destination_use_card (destv[i], send_changed, model);
+		e_select_names_model_append (model, destv[i]);
+	}
+	g_free (destv);
+}
+
 ECard *
 e_select_names_model_get_card (ESelectNamesModel *model, gint index)
 {
@@ -368,33 +422,6 @@ e_select_names_model_get_string (ESelectNamesModel *model, gint index)
 	dest = e_select_names_model_get_destination (model, index);
 	
 	return dest ? e_destination_get_string (dest) : "";
-}
-
-static void
-e_select_names_model_changed (ESelectNamesModel *model)
-{
-	g_free (model->priv->text);
-	model->priv->text = NULL;
-	
-	g_free (model->priv->addr_text);
-	model->priv->addr_text = NULL;
-
-#if 0
-	{
-		GList *i = model->priv->data;
-		gint j = 0;
-		g_print ("ESelectNamesModel state:\n");
-		while (i) {
-			EDestination *dest = (EDestination *) i->data;
-			g_print ("%d: %s <%s>\n", j, e_destination_get_string (dest), e_destination_get_email (dest));
-			i = g_list_next (i);
-			++j;
-		}
-		g_print ("\n");
-	}
-#endif
-
-	gtk_signal_emit (GTK_OBJECT(model), e_select_names_model_signals[E_SELECT_NAMES_MODEL_CHANGED]);
 }
 
 void
