@@ -52,7 +52,8 @@
 static void mail_accounts_dialog_class_init (MailAccountsDialogClass *class);
 static void mail_accounts_dialog_init       (MailAccountsDialog *dialog);
 static void mail_accounts_dialog_finalise   (GtkObject *obj);
-static void mail_unselect                   (GtkCList *clist, gint row, gint column, GdkEventButton *event, gpointer data);
+static void mail_unselect                   (GtkCList *clist, int row, int column, GdkEventButton *event, gpointer data);
+static void mail_able                       (GtkButton *button, gpointer data);
 
 static MailConfigDruid *druid = NULL;
 static MailAccountEditor *editor = NULL;
@@ -180,7 +181,7 @@ load_accounts (MailAccountsDialog *dialog)
 
 /* mail callbacks */
 static void
-mail_select (GtkCList *clist, gint row, gint column, GdkEventButton *event, gpointer data)
+mail_select (GtkCList *clist, int row, int column, GdkEventButton *event, gpointer data)
 {
 	MailAccountsDialog *dialog = data;
 	MailConfigAccount *account = gtk_clist_get_row_data (clist, row);
@@ -194,10 +195,14 @@ mail_select (GtkCList *clist, gint row, gint column, GdkEventButton *event, gpoi
 		gtk_label_set_text (GTK_LABEL (GTK_BIN (dialog->mail_able)->child), _("Disable"));
 	else
 		gtk_label_set_text (GTK_LABEL (GTK_BIN (dialog->mail_able)->child), _("Enable"));
+	
+	/* column 0 is the pixmap column */
+	if (column == 0)
+		mail_able (dialog->mail_able, data);
 }
 
 static void
-mail_unselect (GtkCList *clist, gint row, gint column, GdkEventButton *event, gpointer data)
+mail_unselect (GtkCList *clist, int row, int column, GdkEventButton *event, gpointer data)
 {
 	MailAccountsDialog *dialog = data;
 	
@@ -206,6 +211,10 @@ mail_unselect (GtkCList *clist, gint row, gint column, GdkEventButton *event, gp
 	gtk_widget_set_sensitive (GTK_WIDGET (dialog->mail_delete), FALSE);
 	gtk_widget_set_sensitive (GTK_WIDGET (dialog->mail_default), FALSE);
 	gtk_widget_set_sensitive (GTK_WIDGET (dialog->mail_able), FALSE);
+	
+	/* column 0 is the pixmap column */
+	if (column == 0)
+		mail_able (dialog->mail_able, data);
 	
 	/*
 	 * If an insensitive button in a button box has the focus, and if you hit tab,
@@ -322,7 +331,7 @@ mail_delete (GtkButton *button, gpointer data)
 		if (len > 0) {
 			row = sel >= len ? len - 1 : sel;
 			load_accounts (dialog);
-			gtk_clist_select_row (dialog->mail_accounts, row, 0);
+			gtk_clist_select_row (dialog->mail_accounts, row, 1);
 		} else {
 			dialog->accounts_row = -1;
 			gtk_widget_set_sensitive (GTK_WIDGET (dialog->mail_edit), FALSE);
@@ -347,7 +356,7 @@ mail_default (GtkButton *button, gpointer data)
 		mail_config_set_default_account (account);
 		mail_config_write ();
 		load_accounts (dialog);
-		gtk_clist_select_row (dialog->mail_accounts, row, 0);
+		gtk_clist_select_row (dialog->mail_accounts, row, 1);
 	}
 }
 
@@ -374,9 +383,10 @@ mail_able (GtkButton *button, gpointer data)
 		mail_autoreceive_setup ();
 		mail_config_write ();
 		load_accounts (dialog);
-		gtk_clist_select_row (dialog->mail_accounts, row, 0);
+		gtk_clist_select_row (dialog->mail_accounts, row, 1);
 	}
 }
+
 
 #ifdef ENABLE_NNTP
 static void
@@ -1011,7 +1021,7 @@ construct (MailAccountsDialog *dialog)
 	dialog->accounts = mail_config_get_accounts ();
 	if (dialog->accounts) {
 		load_accounts (dialog);
-		gtk_clist_select_row (dialog->mail_accounts, 0, 0);
+		gtk_clist_select_row (dialog->mail_accounts, 0, 1);
 	} else {
 		gtk_widget_set_sensitive (GTK_WIDGET (dialog->mail_edit), FALSE);
 		gtk_widget_set_sensitive (GTK_WIDGET (dialog->mail_delete), FALSE);

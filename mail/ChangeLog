@@ -1,5 +1,9 @@
 2002-03-04  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-accounts.c (mail_unselect): If the clicked column was
+	column 0, enable/disable it.
+	(mail_select): Same.
+
 	* mail-display.c (load_http): Added more debugging code to help
 	figure out why a certain image isn't loading - looks like
 	gnome-vfs is getting a premature EOF?
