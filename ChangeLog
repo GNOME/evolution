@@ -1,3 +1,10 @@
+2001-11-09  Abel Cheung  <maddog@linux.org.hk>
+
+	* configure.in: Re-added zh_TW to ALL_LINGUAS. Translator keep
+	  complaining to me, and waste a month before discovering it was
+	  disabled while I know nothing about it. Please at least complain
+	  to me if it's gettext problem.
+
 2001-11-06  Ettore Perazzoli  <ettore@ximian.com>
 
 	* configure.in: Up to 0.99.1 for snapshot purposes.

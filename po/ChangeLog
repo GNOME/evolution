@@ -1,3 +1,7 @@
+2001-11-09  Abel Cheung  <maddog@linux.org.hk>
+
+	* zh_TW.po: Convert to UTF8.
+
 2001-11-09  Carlos Perelló Marín <carlos@gnome-db.org>
 
 	* es.po: Some QA changes.
