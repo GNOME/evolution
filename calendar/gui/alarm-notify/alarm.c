@@ -97,7 +97,7 @@ pop_alarm (void)
 		now = time (NULL);
 		new_ar = alarms->data;
 
-		if (!setup_itimer (new_ar->trigger)) {
+		if (!setup_itimer (new_ar->trigger - now)) {
 			g_message ("pop_alarm(): Could not reset the timer!  "
 				   "Weird things will happen.");
 

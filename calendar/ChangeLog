@@ -1,3 +1,8 @@
+2000-08-09  Federico Mena Quintero  <federico@helixcode.com>
+
+	* gui/alarm.c (pop_alarm): Oops, subtract the new alarm's trigger
+	time from the current time.
+
 2000-08-09  Christopher James Lahey  <clahey@helixcode.com>
 
 	* cal-client/cal-client.c: Fixed a warning.
