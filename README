@@ -181,6 +181,9 @@ in your evolution source dir do:
 --with-nspr-libs=<nspr-libs-prefix> --with-nss-includes=<nss-includes-prefix>
 --with-nss-libs=<nss-libs-prefix>
 
+You'll need to `cp ~/.mozilla/default/*.db ~/evolution` on you've
+installed Evolution in order to get a functional SSL-enabled
+Evolution.
 
 The layout of the source tree is:
 
