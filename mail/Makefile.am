@@ -1,6 +1,6 @@
 #SUBDIRS = importers
 
-bin_PROGRAMS = 				\
+libexec_PROGRAMS =				\
 	evolution-mail
 #	evolution-mail-upgrade
 
@@ -163,10 +163,12 @@ evolution_mail_LDFLAGS =				\
 #	$(top_builddir)/e-util/libeutil.la 		\
 #	$(EVOLUTION_MAIL_LIBS)
 
-serverdir = $(libdir)/bonobo/servers
-server_in_files = GNOME_Evolution_Mail.server.in
-server_DATA = $(server_in_files:.server.in=.server)
+server_in_files = GNOME_Evolution_Mail.server.in.in
 
+serverdir = $(libdir)/bonobo/servers
+server_DATA = $(server_in_files:.server.in.in=.server)
+$(server_in_files:.server.in.in=.server.in): $(server_in_files)
+	sed -e "s|\@LIBEXECDIR\@|$(libexecdir)|" $< > $@
 @INTLTOOL_SERVER_RULE@
 
 gladedir   = $(datadir)/evolution/glade
@@ -188,7 +190,7 @@ EXTRA_DIST = 				\
 	Mailer.idl 			\
 	$(SPELL_IDL)			\
 	$(glade_DATA)			\
-	$(server_in_files)			\
+	$(server_in_files)		\
 	$(server_DATA)			\
 	$(etspec_DATA)
 

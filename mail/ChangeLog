@@ -1,3 +1,12 @@
+2002-11-15  Ettore Perazzoli  <ettore@ximian.com>
+
+	* Makefile.am: Add rules to substitute @LIBEXEC@ in
+	GNOME_Evolution_Mail.server.in.in and install evolution-mail in
+	$(libexecdir) instead of $(bindir).
+
+	* GNOME_Evolution_Mail.server.in.in: Replaced evolution-mail with
+	@LIBEXECDIR@/evolution-mail.
+
 2002-11-15  Rodney Dawes  <dobey@ximian.com>
 
 	* component-factory.c: Use bonobo_main_quit instead of gtk
