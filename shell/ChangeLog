@@ -1,3 +1,41 @@
+2001-01-19  Iain Holmes  <iain@ximian.com>
+
+	* importer/GNOME_Evolution_Importer.idl: Make the processItem oneway.
+	Make the Listener interface inherit from Bonobo::Unknown.
+
+	* importer/evolution-importer-client.[ch]: Remove all the crap to deal
+	with creating the Listener object.
+
+	* importer/evolution-importer-listener.[ch]: A new bonobo object to 
+	implement the ImporterListener interface.
+
+	* importer/importer.c: Fix it up to use the new Listener object.
+
+2001-01-18  Iain Holmes  <iain@ximian.com>
+
+	* e-shortcuts-view.c (show_new_group_dialog): Don't make the dialog
+	modal. 
+
+2001-01-16  Iain Holmes  <iain@ximian.com>
+
+	* importer/GNOME_Evolution_Importer.idl: Removed the ImporterFactory
+	interface and put the methods from it into the Importer interface.
+
+	* importer/evolution-importer-factory.[ch]: Removed.
+
+	* importer/evolution-importer.[ch]: Added the new methods.
+	Added inline documentation for all public functions.
+
+	* importer/evolution-importer-client.[ch]: Added new client support for
+	the new methods.
+	Added inline documentation for all public functions.
+
+	* importer/importer.c (create_plugin_menu): Changed the query to look for
+	IDL:GNOME/Evolution/Importer:1.0.
+	(start_import): Do all CORBA methods through the EvolutionImporterClient.
+	(get_iid_for_filetype): Change query to search for 
+	IDL:GNOME/Evolution/Importer:1.0.
+
 2001-01-19  Dan Winship  <danw@ximian.com>
 
 	* evolution-storage.c (evolution_storage_folder_exists): New
