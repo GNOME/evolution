@@ -49,6 +49,7 @@ typedef struct {
 	guint use_ellipsis : 1;         /* Whether to use the ellipsis. */
 	
 	int strikeout_column;
+	int bold_column;
 } ECellText;
 
 typedef struct {

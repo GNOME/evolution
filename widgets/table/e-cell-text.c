@@ -72,6 +72,7 @@ enum {
 	ARG_USE_ELLIPSIS,
 	ARG_ELLIPSIS,
 	ARG_STRIKEOUT_COLUMN,
+	ARG_BOLD_COLUMN,
 };
 
 
@@ -393,12 +394,15 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	GdkRectangle sel_rect;
 	GdkGC *fg_gc;
 	GdkFont *font = text_view->font;
-	const int height = font->ascent + font->descent;
+	const int height = text_view->font->ascent + text_view->font->descent;
 	CellEdit *edit = text_view->edit;
 	gboolean edit_display = FALSE;
 	ECellTextLineBreaks *linebreaks;
 	GdkColor *background, *foreground;
+	gboolean bold = FALSE;
 
+	if (ect->bold_column >= 0 && e_table_model_value_at(ecell_view->e_table_model, ect->bold_column, row))
+		bold = TRUE;
 
 	if (edit){
 		
@@ -462,7 +466,7 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 		
 		lines = linebreaks->lines;
 		ypos = get_line_ypos (cell, lines);
-		ypos += font->ascent;
+		ypos += text_view->font->ascent;
 		ypos -= edit->yofs_edit;
 
 		for (i = 0; i < linebreaks->num_lines; i++) {
@@ -483,26 +487,26 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 				sel_end = end_char;
 			if (sel_start < sel_end){
 				sel_rect.x = xpos + x1 + gdk_text_width (font,
-									lines->text,
-									sel_start - start_char);
+									 lines->text,
+									 sel_start - start_char);
 				sel_rect.y = ypos + y1 - font->ascent;
 				sel_rect.width = gdk_text_width (font,
 								 lines->text + sel_start - start_char,
 								 sel_end - sel_start);
 				sel_rect.height = height;
 				gtk_paint_flat_box (canvas->style,
-						   drawable,
-						   edit->has_selection ?
-						   GTK_STATE_SELECTED :
-						   GTK_STATE_ACTIVE,
-						   GTK_SHADOW_NONE,
-						   clip_rect,
-						   canvas,
-						   "text",
-						   sel_rect.x,
-						   sel_rect.y,
-						   sel_rect.width,
-						   sel_rect.height);
+						    drawable,
+						    edit->has_selection ?
+						    GTK_STATE_SELECTED :
+						    GTK_STATE_ACTIVE,
+						    GTK_SHADOW_NONE,
+						    clip_rect,
+						    canvas,
+						    "text",
+						    sel_rect.x,
+						    sel_rect.y,
+						    sel_rect.width,
+						    sel_rect.height);
 				gdk_draw_text (drawable,
 					       font,
 					       text_view->gc,
@@ -514,8 +518,8 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 					       font,
 					       fg_gc,
 					       xpos + x1 + gdk_text_width (font,
-									  lines->text,
-									  sel_start - start_char),
+									   lines->text,
+									   sel_start - start_char),
 					       ypos + y1,
 					       lines->text + sel_start - start_char,
 					       sel_end - sel_start);
@@ -523,11 +527,38 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 					       font,
 					       text_view->gc,
 					       xpos + x1 + gdk_text_width (font,
-									  lines->text,
-									  sel_end - start_char),
+									   lines->text,
+									   sel_end - start_char),
 					       ypos + y1,
 					       lines->text + sel_end - start_char,
 					       end_char - sel_end);
+				if (bold) {
+					gdk_draw_text (drawable,
+						       font,
+						       text_view->gc,
+						       xpos + x1 + 1,
+						       ypos + y1,
+						       lines->text,
+						       sel_start - start_char);
+					gdk_draw_text (drawable,
+						       font,
+						       fg_gc,
+						       xpos + x1 + 1 + gdk_text_width (font,
+										       lines->text,
+										       sel_start - start_char),
+						       ypos + y1,
+						       lines->text + sel_start - start_char,
+						       sel_end - sel_start);
+					gdk_draw_text (drawable,
+						       font,
+						       text_view->gc,
+						       xpos + x1 + 1 + gdk_text_width (font,
+										       lines->text,
+										       sel_end - start_char),
+						       ypos + y1,
+						       lines->text + sel_end - start_char,
+						       end_char - sel_end);
+				}
 			} else {
 				gdk_draw_text (drawable,
 					       font,
@@ -536,6 +567,15 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 					       ypos + y1,
 					       lines->text,
 					       lines->length);
+				if (bold) {
+					gdk_draw_text (drawable,
+						       font,
+						       text_view->gc,
+						       xpos + x1 + 1,
+						       ypos + y1,
+						       lines->text,
+						       lines->length);
+				}
 			}
 			if (edit->selection_start == edit->selection_end &&
 			    edit->selection_start >= start_char &&
@@ -545,8 +585,8 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 						    text_view->gc,
 						    TRUE,
 						    xpos + x1 + gdk_text_width (font, 
-									       lines->text,
-									       sel_start - start_char),
+										lines->text,
+										sel_start - start_char),
 						    ypos + y1 - font->ascent,
 						    1,
 						    height);
@@ -578,7 +618,7 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 		linebreaks = cell.breaks;
 		lines = linebreaks->lines;
 		ypos = get_line_ypos (&cell, lines);
-		ypos += font->ascent;
+		ypos += text_view->font->ascent;
 		
 		
 		for (i = 0; i < linebreaks->num_lines; i++) {
@@ -599,6 +639,23 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 					       ypos + y1,
 					       ect->ellipsis ? ect->ellipsis : "...",
 					       ect->ellipsis ? strlen (ect->ellipsis) : 3);
+				if (bold) {
+					gdk_draw_text (drawable,
+						       font,
+						       text_view->gc,
+						       xpos + x1 + 1,
+						       ypos + y1,
+						       lines->text,
+						       lines->ellipsis_length);
+					gdk_draw_text (drawable,
+						       font,
+						       text_view->gc,
+						       xpos + x1 + 1 +
+						       lines->width - text_view->ellipsis_width,
+						       ypos + y1,
+						       ect->ellipsis ? ect->ellipsis : "...",
+						       ect->ellipsis ? strlen (ect->ellipsis) : 3);
+				}
 			} else {
 				gdk_draw_text (drawable,
 					       font,
@@ -607,6 +664,15 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 					       ypos + y1,
 					       lines->text,
 					       lines->length);
+				if (bold) {
+					gdk_draw_text (drawable,
+						       font,
+						       text_view->gc,
+						       xpos + x1 + 1,
+						       ypos + y1,
+						       lines->text,
+						       lines->length);
+				}
 			}
 			if (ect->strikeout_column >= 0 && e_table_model_value_at(ecell_view->e_table_model, ect->strikeout_column, row)) {
 				gdk_draw_rectangle (drawable,
@@ -678,13 +744,13 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 			 */
 			for (i = 0, p = text_wc; *p; p++, i++){
 				gdk_draw_text_wc (
-					drawable, font, gc, px, y, p, 1);
+						  drawable, font, gc, px, y, p, 1);
 
 				if (i == cursor_pos){
 					gdk_draw_line (
-						drawable, gc,
-						px, y - font->ascent,
-						px, y + font->descent - 1);
+						       drawable, gc,
+						       px, y - font->ascent,
+						       px, y + font->descent - 1);
 				}
 
 				px += gdk_text_width_wc (font, p, 1);
@@ -692,9 +758,9 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 
 			if (i == cursor_pos){
 				gdk_draw_line (
-					drawable, gc,
-					px, y - font->ascent,
-					px, y + font->descent - 1);
+					       drawable, gc,
+					       px, y - font->ascent,
+					       px, y + font->descent - 1);
 			}
 		}
 		g_free (text_wc);
@@ -748,9 +814,9 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 		gdk_gc_set_foreground (text_view->gc, foreground);
 
 		gdk_draw_string (
-			drawable, font, text_view->gc,
-			x1 + xoff,
-			y2 - font->descent - ((y2-y1-height)/2), str);
+				 drawable, font, text_view->gc,
+				 x1 + xoff,
+				 y2 - font->descent - ((y2-y1-height)/2), str);
 	}
 #endif
 }
@@ -976,8 +1042,10 @@ static int
 ect_height (ECellView *ecell_view, int model_col, int view_col, int row) 
 {
 	ECellTextView *text_view = (ECellTextView *) ecell_view;
-
-	return (text_view->font->ascent + text_view->font->descent) * number_of_lines(e_table_model_value_at (ecell_view->e_table_model, model_col, row)) + TEXT_PAD;
+	GdkFont *font;
+	
+	font = text_view->font;
+	return (font->ascent + font->descent) * number_of_lines(e_table_model_value_at (ecell_view->e_table_model, model_col, row)) + TEXT_PAD;
 }
 
 /*
@@ -1091,6 +1159,12 @@ ect_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		}
 		break;
 
+	case ARG_BOLD_COLUMN:
+		if (text->bold_column != GTK_VALUE_INT (*arg)) {
+			text->bold_column = GTK_VALUE_INT (*arg);
+		}
+		break;
+
 	default:
 		return;
 	}
@@ -1107,6 +1181,10 @@ ect_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	switch (arg_id) {
 	case ARG_STRIKEOUT_COLUMN:
 		GTK_VALUE_INT (*arg) = text->strikeout_column;
+		break;
+
+	case ARG_BOLD_COLUMN:
+		GTK_VALUE_INT (*arg) = text->bold_column;
 		break;
 
 	default:
@@ -1139,6 +1217,8 @@ e_cell_text_class_init (GtkObjectClass *object_class)
 
 	gtk_object_add_arg_type ("ECellText::strikeout_column",
 				 GTK_TYPE_INT, GTK_ARG_READWRITE, ARG_STRIKEOUT_COLUMN);
+	gtk_object_add_arg_type ("ECellText::bold_column",
+				 GTK_TYPE_INT, GTK_ARG_READWRITE, ARG_BOLD_COLUMN);
 
 	if (!clipboard_atom)
 		clipboard_atom = gdk_atom_intern ("CLIPBOARD", FALSE);
@@ -1148,6 +1228,7 @@ static void
 e_cell_text_init (ECellText *ect)
 {
 	ect->strikeout_column = -1;
+	ect->bold_column = -1;
 }
 
 E_MAKE_TYPE(e_cell_text, "ECellText", ECellText, e_cell_text_class_init, e_cell_text_init, PARENT_TYPE);
@@ -1208,8 +1289,12 @@ get_line_ypos (CurrentCell *cell, struct line *line)
 
 	struct line *lines = linebreaks->lines;
 
+	GdkFont *font;
+	
+	font = text_view->font;
+
 	y = text_view->yofs + ect->y;
-	y += (line - lines) * (text_view->font->ascent + text_view->font->descent);
+	y += (line - lines) * (font->ascent + font->descent);
 
 	return y;
 }
@@ -1222,8 +1307,10 @@ _get_xy_from_position (CurrentCell *cell, gint position, gint *xp, gint *yp)
 		int x, y;
 		int j;
 		ECellTextView *text_view = cell->text_view;
-		GdkFont *font = text_view->font;
 		ECellTextLineBreaks *linebreaks;
+		GdkFont *font;
+		
+		font = text_view->font;
 		
 		split_into_lines (cell);
 		
@@ -1264,8 +1351,10 @@ _get_position_from_xy (CurrentCell *cell, gint x, gint y)
 	int return_val;
 
 	ECellTextView *text_view = cell->text_view;
-	GdkFont *font = text_view->font;
 	ECellTextLineBreaks *linebreaks;
+	GdkFont *font;
+	
+	font = text_view->font;
 
 	split_into_lines (cell);
 	
@@ -1389,6 +1478,9 @@ _get_position (ECellTextView *text_view, ETextEventProcessorCommand *command)
 	int x, y;
 	CellEdit *edit = text_view->edit;
 	CurrentCell *cell = CURRENT_CELL(edit);
+	GdkFont *font;
+	
+	font = text_view->font;
 	
 	switch (command->position) {
 		
@@ -1453,11 +1545,11 @@ _get_position (ECellTextView *text_view, ETextEventProcessorCommand *command)
 
 	case E_TEP_FORWARD_LINE:
 		_get_xy_from_position (cell, edit->selection_end, &x, &y);
-		y += text_view->font->ascent + text_view->font->descent;
+		y += font->ascent + font->descent;
 		return _get_position_from_xy (cell, x, y);
 	case E_TEP_BACKWARD_LINE:
 		_get_xy_from_position (cell, edit->selection_end, &x, &y);
-		y -= text_view->font->ascent + text_view->font->descent;
+		y -= font->ascent + font->descent;
 		return _get_position_from_xy (cell, x, y);
 
 	case E_TEP_FORWARD_PARAGRAPH:
@@ -1521,6 +1613,10 @@ e_cell_text_view_command (ETextEventProcessor *tep, ETextEventProcessorCommand *
 	gboolean redraw = FALSE;
 
 	int sel_start, sel_end;
+	GdkFont *font;
+	
+	font = text_view->font;
+
 	switch (command->action) {
 	case E_TEP_MOVE:
 		edit->selection_start = _get_position (text_view, command);
@@ -1623,7 +1719,7 @@ e_cell_text_view_command (ETextEventProcessor *tep, ETextEventProcessorCommand *
 			}
 		}
 		lines --;
-		x = gdk_text_width (text_view->font,
+		x = gdk_text_width (font,
 				   lines->text,
 				   edit->selection_end - (lines->text - cell->text));
 		
@@ -1891,9 +1987,12 @@ static void
 calc_ellipsis (ECellTextView *text_view)
 {
 	ECellText *ect = E_CELL_TEXT (((ECellView *)text_view)->ecell);
-	if (text_view->font)
+	GdkFont *font;
+	
+	font = text_view->font;
+	if (font)
 		text_view->ellipsis_width = 
-			gdk_text_width (text_view->font,
+			gdk_text_width (font,
 					ect->ellipsis ? ect->ellipsis : "...",
 					ect->ellipsis ? strlen (ect->ellipsis) : 3);
 }
@@ -1904,11 +2003,13 @@ calc_line_widths (CurrentCell *cell)
 {
 	ECellTextView *text_view = cell->text_view;
 	ECellText *ect = E_CELL_TEXT (((ECellView *)text_view)->ecell);
-	GdkFont *font = text_view->font;
 	ECellTextLineBreaks *linebreaks = cell->breaks;
 	struct line *lines;
 	int i;
 	int j;
+	GdkFont *font;
+	
+	font = text_view->font;
 	
 	lines = linebreaks->lines;
 	linebreaks->max_width = 0;
