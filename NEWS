@@ -5,12 +5,13 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
 
   * Addressbook
 
+    #38084 - Rename local folder issue in contacts. (sean.gao@sun.com)
     #41144 - Use stock buttons in the ldap config page. (Toshok)
     #41211 - Add icon to "Add" button in "Add to Contacts" dialog. (Toshok)
     #41245 - HIG compliance. (Toshok)
     #41255 - Use stock Add/Remove icons in the contact list editor. (Toshok)
     #41910 - Crash when deleting addresses from long contact lists. (Toshok)
-    #42048 - "Print" not hooked up in etable view.
+    #42048 - "Print" not hooked up in etable view. (Toshok)
     #42177 - Cannot tab out of date edit widgets in contact editor. (Toshok)
     #42596 - Selecting text in a contact address field selects all
              rows of text (Toshok)
