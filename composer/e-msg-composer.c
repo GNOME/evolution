@@ -402,6 +402,8 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 	}
 	
 	plain = camel_data_wrapper_new ();
+	plain->rawtext = FALSE;
+	
 	stream = camel_stream_mem_new_with_byte_array (data);
 	camel_data_wrapper_construct_from_stream (plain, stream);
 	camel_object_unref (stream);
@@ -428,7 +430,10 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 			camel_object_unref (plain);
 			return NULL;
 		}
+		
 		html = camel_data_wrapper_new ();
+		html->rawtext = FALSE;
+		
 		stream = camel_stream_mem_new_with_byte_array (data);
 		camel_data_wrapper_construct_from_stream (html, stream);
 		camel_object_unref (stream);

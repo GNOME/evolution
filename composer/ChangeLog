@@ -1,3 +1,8 @@
+2003-06-27  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (build_message): Set the rawtext bits for the
+	'plain' and 'html' data wrappers to FALSE.
+
 2003-06-19  Larry Ewing  <lewing@ximian.com>
 
 	* listener.c (insert_paragraph_after): free the return value.
