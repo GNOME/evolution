@@ -1,5 +1,9 @@
 2000-05-16  Christopher James Lahey  <clahey@helixcode.com>
 
+	* backend/ebook/e-card.c (add_list_unique): Fixed another memory leak.
+
+2000-05-16  Christopher James Lahey  <clahey@helixcode.com>
+
 	* backend/ebook/e-card-simple.c, backend/pas/pas-backend-file.c,
 	contact-editor/e-contact-editor.c, ename/e-name-western.c,
 	gui/component/addressbook.c, gui/minicard/e-minicard-view.c: Fixed

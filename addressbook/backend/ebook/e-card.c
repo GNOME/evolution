@@ -727,9 +727,8 @@ add_list_unique(ECard *card, ECardList *list, char *string)
 	}
 	if (!e_card_iterator_is_valid(iterator)) {
 		e_card_list_append(list, temp);
-	} else {
-		g_free(temp);
 	}
+	g_free(temp);
 	gtk_object_unref(GTK_OBJECT(iterator));
 }
 
