@@ -781,15 +781,14 @@ generate_instances_for_year (CalComponent	*comp,
 
 	/* Add on specific occurrence dates. */
 	for (elem = rdates; elem; elem = elem->next) {
-		CalComponentPeriod *period;
+		struct icaltimetype *it;
 		time_t t;
 
-		/* FIXME: this only deals with the start time */
-
-		period = elem->data;
-		t = icaltime_as_timet (period->start);
-
+		/* FIXME we should only be dealing with dates, not times too */
+		it = elem->data;
+		t = icaltime_as_timet (*it);
 		cal_object_time_from_time (&cotime, t);
+
 		g_array_append_val (occs, cotime);
 	}
 
@@ -812,15 +811,14 @@ generate_instances_for_year (CalComponent	*comp,
 
 	/* Add on specific exception dates. */
 	for (elem = exdates; elem; elem = elem->next) {
-		CalComponentPeriod *period;
+		struct icaltimetype *it;
 		time_t t;
 
-		/* FIXME: this only deals with the start time */
-
-		period = elem->data;
-		t = icaltime_as_timet (period->start);
-
+		/* FIXME we should only be dealing with dates, not times too */
+		it = elem->data;
+		t = icaltime_as_timet (*it);
 		cal_object_time_from_time (&cotime, t);
+
 		g_array_append_val (ex_occs, cotime);
 	}
 

@@ -2626,7 +2626,7 @@ e_day_view_on_delete_occurrence (GtkWidget *widget, gpointer data)
 	EDayView *day_view;
 	EDayViewEvent *event;
 	CalComponent *comp;
-	CalComponentDateTime *date;
+	struct icaltimetype *time;
 	GSList *list;
 
 	day_view = E_DAY_VIEW (data);
@@ -2639,10 +2639,9 @@ e_day_view_on_delete_occurrence (GtkWidget *widget, gpointer data)
 	   when we get the "update_event" callback. */
 	comp = cal_component_clone (event->comp);
 	cal_component_get_exdate_list (comp, &list);
-	date = g_new0 (CalComponentDateTime, 1);
-	date->value = g_new (struct icaltimetype, 1);
-	*date->value = icaltime_from_timet (event->start, TRUE, FALSE);
-	list = g_slist_append (list, date);
+	time = g_new0 (struct icaltimetype, 1);
+	*time = icaltime_from_timet (event->start, FALSE, FALSE);
+	list = g_slist_append (list, time);
 	cal_component_set_exdate_list (comp, list);
 	cal_component_free_exdate_list (list);
 
