@@ -125,7 +125,7 @@ e_popup_menu_create (EPopupMenu *menu_list, guint32 disable_mask, guint32 hide_m
 			GtkWidget *item;
 			
 			if (!separator)
-				item = make_item (menu, L_(menu_list[i].name), menu_list[i].pixmap);
+				item = make_item (menu, L_(menu_list[i].name), menu_list[i].pixmap_widget);
 			else
 				item = make_item (menu, "", NULL);
 			
@@ -135,7 +135,7 @@ e_popup_menu_create (EPopupMenu *menu_list, guint32 disable_mask, guint32 hide_m
 				if (menu_list[i].fn)
 					gtk_signal_connect (GTK_OBJECT (item), "activate",
 							    GTK_SIGNAL_FUNC (menu_list[i].fn),
-							    menu_list[i].closure ? menu_list[i].closure : default_closure);
+							    menu_list[i].use_custom_closure ? menu_list[i].closure : default_closure);
 			} else {
 				/* submenu */
 				GtkMenu *submenu;

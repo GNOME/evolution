@@ -1450,22 +1450,22 @@ free_popup_info (GtkWidget *w, EthiHeaderInfo *info)
 /* Bit 2 is disabled if not "sortable". */
 /* Bit 4 is disabled if we don't have a pointer to our table object. */
 static EPopupMenu ethi_context_menu [] = {
-	{ N_("Sort Ascending"),            NULL, GTK_SIGNAL_FUNC(ethi_popup_sort_ascending),  NULL, NULL, 2},
-	{ N_("Sort Descending"),           NULL, GTK_SIGNAL_FUNC(ethi_popup_sort_descending), NULL, NULL, 2},
-	{ N_("Unsort"),                    NULL, GTK_SIGNAL_FUNC(ethi_popup_unsort),          NULL, NULL, 0},
-	{ "",                              NULL, GTK_SIGNAL_FUNC(NULL),                       NULL, NULL, 0},
-	{ N_("Group By This Field"),       NULL, GTK_SIGNAL_FUNC(ethi_popup_group_field),     NULL, NULL, 16},
-	{ N_("Group By Box"),              NULL, GTK_SIGNAL_FUNC(ethi_popup_group_box),       NULL, NULL, 128},
-	{ "",                              NULL, GTK_SIGNAL_FUNC(NULL),                       NULL, NULL, 1},
-	{ N_("Remove This Column"),        NULL, GTK_SIGNAL_FUNC(ethi_popup_remove_column),   NULL, NULL, 8},
-	{ N_("Add a Column..."),           NULL, GTK_SIGNAL_FUNC(ethi_popup_field_chooser),   NULL, NULL, 0},
-	{ "",                              NULL, GTK_SIGNAL_FUNC(NULL),                       NULL, NULL, 1},
-	{ N_("Alignment"),                 NULL, GTK_SIGNAL_FUNC(ethi_popup_alignment),       NULL, NULL, 128},
-	{ N_("Best Fit"),                  NULL, GTK_SIGNAL_FUNC(ethi_popup_best_fit),        NULL, NULL, 2},
-	{ N_("Format Columns..."),         NULL, GTK_SIGNAL_FUNC(ethi_popup_format_columns),  NULL, NULL, 128},
-	{ "",                              NULL, GTK_SIGNAL_FUNC(NULL),                       NULL, NULL, 1},
-	{ N_("Customize Current View..."), NULL, GTK_SIGNAL_FUNC(ethi_popup_customize_view),  NULL, NULL, 4},
-	{ NULL, NULL, NULL, NULL, 0 }
+	E_POPUP_ITEM (N_("Sort Ascending"),            GTK_SIGNAL_FUNC(ethi_popup_sort_ascending),  2),
+	E_POPUP_ITEM (N_("Sort Descending"),           GTK_SIGNAL_FUNC(ethi_popup_sort_descending), 2),
+	E_POPUP_ITEM (N_("Unsort"),                    GTK_SIGNAL_FUNC(ethi_popup_unsort),          0),
+	E_POPUP_SEPARATOR,
+	E_POPUP_ITEM (N_("Group By This Field"),       GTK_SIGNAL_FUNC(ethi_popup_group_field),     16),
+	E_POPUP_ITEM (N_("Group By Box"),              GTK_SIGNAL_FUNC(ethi_popup_group_box),       128),
+	E_POPUP_SEPARATOR,
+	E_POPUP_ITEM (N_("Remove This Column"),        GTK_SIGNAL_FUNC(ethi_popup_remove_column),   8),
+	E_POPUP_ITEM (N_("Add a Column..."),           GTK_SIGNAL_FUNC(ethi_popup_field_chooser),   0),
+	E_POPUP_SEPARATOR,
+	E_POPUP_ITEM (N_("Alignment"),                 GTK_SIGNAL_FUNC(ethi_popup_alignment),       128),
+	E_POPUP_ITEM (N_("Best Fit"),                  GTK_SIGNAL_FUNC(ethi_popup_best_fit),        2),
+	E_POPUP_ITEM (N_("Format Columns..."),         GTK_SIGNAL_FUNC(ethi_popup_format_columns),  128),
+	E_POPUP_SEPARATOR,
+	E_POPUP_ITEM (N_("Customize Current View..."), GTK_SIGNAL_FUNC(ethi_popup_customize_view),  4),
+	E_POPUP_TERMINATOR
 };
 
 static void
