@@ -1,3 +1,8 @@
+2001-04-08  Chris Toshok  <toshok@ximian.com>
+
+	* tools/killev (sysname): add some more 16 character versions for
+	freebsd.
+
 2001-04-04  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* AUTHORS: Brag.
