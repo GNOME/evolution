@@ -855,6 +855,7 @@ handle_text_plain (CamelMimePart *part, const char *mime_type,
 		camel_medium_get_content_object (CAMEL_MEDIUM (part));
 	char *text, *p, *start;
 	CamelContentType *type;
+	gboolean check_specials;
 	const char *format;
 	int i;
 
@@ -870,8 +871,15 @@ handle_text_plain (CamelMimePart *part, const char *mime_type,
 
 	mail_html_write (md->html, md->stream, "\n<!-- text/plain -->\n<font size=\"-3\">&nbsp</font><br>\n");
 
+	/* Only look for binhex and stuff if this is real text/plain.
+	 * (and not, say, application/mac-binhex40 that mail-identify
+	 * has decided to call text/plain because it starts with English
+	 * text...)
+	 */
+	check_specials = g_strcasecmp (mime_type, "text/plain") != 0;
+
 	p = text;
-	while (p) {
+	while (p && check_specials) {
 		/* Look for special cases. */
 		for (i = 0; i < NSPECIALS; i++) {
 			start = strstr (p, text_specials[i].start);
