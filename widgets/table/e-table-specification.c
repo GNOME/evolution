@@ -63,6 +63,8 @@ etsp_init (ETableSpecification *etsp)
 	etsp->click_to_add          = FALSE;
 	etsp->draw_grid             = FALSE;
 	etsp->draw_focus            = TRUE;
+	etsp->horizontal_scrolling  = FALSE;
+
 	etsp->cursor_mode           = E_TABLE_CURSOR_SIMPLE;
 	etsp->selection_mode        = GTK_SELECTION_MULTIPLE;
 
@@ -160,6 +162,7 @@ e_table_specification_load_from_node (ETableSpecification *specification,
 	specification->click_to_add = e_xml_get_bool_prop_by_name (node, "click-to-add");
 	specification->draw_grid = e_xml_get_bool_prop_by_name (node, "draw-grid");
 	specification->draw_focus = e_xml_get_bool_prop_by_name_with_default (node, "draw-focus", TRUE);
+	specification->horizontal_scrolling = e_xml_get_bool_prop_by_name_with_default (node, "horizontal-scrolling", FALSE);
 
 	specification->selection_mode = GTK_SELECTION_MULTIPLE;
 	temp = e_xml_get_string_prop_by_name (node, "selection-mode");
@@ -298,6 +301,7 @@ e_table_specification_save_to_node (ETableSpecification *specification,
 	e_xml_set_bool_prop_by_name (node, "click-to-add", specification->click_to_add);
 	e_xml_set_bool_prop_by_name (node, "draw-grid", specification->draw_grid);
 	e_xml_set_bool_prop_by_name (node, "draw-focus", specification->draw_focus);
+	e_xml_set_bool_prop_by_name (node, "horizontal-scrolling", specification->horizontal_scrolling);
 
 	switch (specification->selection_mode){
 	case GTK_SELECTION_SINGLE:

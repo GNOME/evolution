@@ -52,12 +52,6 @@ e_table_scrolled_init (GtkObject *object)
 static void
 e_table_scrolled_real_construct (ETableScrolled *ets)
 {
-	gtk_object_set(GTK_OBJECT(ets),
-		       "shadow_type", GTK_SHADOW_IN,
-		       "hscrollbar_policy", GTK_POLICY_NEVER,
-		       "vscrollbar_policy", GTK_POLICY_AUTOMATIC,
-		       NULL);
-
 	gtk_container_add(GTK_CONTAINER(ets), GTK_WIDGET(ets->table));
 
 	gtk_widget_show(GTK_WIDGET(ets->table));
