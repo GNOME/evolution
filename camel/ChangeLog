@@ -1,3 +1,8 @@
+2004-06-09  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-gpg-context.c (gpg_verify): Don't assign trust to be
+	UNKNOWN if gpg sent us a NODATA status.
+
 2004-06-07  Jeffrey Stedfast  <fejj@novell.com>
 
 	* providers/imap4/camel-imap4-folder.c (camel_imap4_folder_new):
@@ -218,12 +223,15 @@
 
 2004-05-24  Sivaiah Nallagatla <snallagatla@novell.com>
 
-        * camel-provider.h : added CAMEL_PROVIDER_CONF_HIDDEN to
+	* camel-provider.h: Added CAMEL_PROVIDER_CONF_HIDDEN to
          conf item type enum. This is used by groupwise provider
-        * providers/groupwise/camel-groupwise-provider.c : Added CAMEL_PROVIDER_CONF_HIDDEN
-        to groupwise_conf_entries to pass the auth-domain value
-        * providers/imap/camel-imap-store.c (imap_auth_loop) : read the auth-domain
-        property from imap url and pass it camel sesstion apis
+
+	* providers/groupwise/camel-groupwise-provider.c: Added
+	CAMEL_PROVIDER_CONF_HIDDEN to groupwise_conf_entries to pass the
+	auth-domain value
+
+	* providers/imap/camel-imap-store.c (imap_auth_loop): Read the
+	auth-domain property from imap url and pass it camel sesstion apis
 
 2004-05-22  Not Zed  <NotZed@Ximian.com>
 
@@ -242,7 +250,7 @@
 
 	* providers/imap/camel-imap-store.c (connect_to_server): Added a
 	workaround for broken IMAP. Hopefully by forcing only the IMAP4
-	command subst, we can work around their suckage.
+	command subset, we can work around their suckage.
 
 2004-05-21  Not Zed  <NotZed@Ximian.com>
 

@@ -208,6 +208,7 @@ struct _GpgCtx {
 	
 	unsigned int bad_passwds:2;
 	
+	unsigned int nodata:1;
 	unsigned int hadsig:1;
 	unsigned int badsig:1;
 	unsigned int errsig:1;
@@ -265,6 +266,7 @@ gpg_ctx_new (CamelSession *session)
 	gpg->need_id = NULL;
 	gpg->passwd = NULL;
 	
+	gpg->nodata = FALSE;
 	gpg->hadsig = FALSE;
 	gpg->badsig = FALSE;
 	gpg->errsig = FALSE;
@@ -852,6 +854,8 @@ gpg_ctx_parse_status (struct _GpgCtx *gpg, CamelException *ex)
 				gpg->hadsig = TRUE;
 			} else if (!strncmp (status, "NO_PUBKEY ", 10)) {
 				gpg->nopubkey = TRUE;
+			} else if (!strncmp (status, "NODATA", 6)) {
+				gpg->nodata = TRUE;
 			}
 			break;
 		case GPG_CTX_MODE_ENCRYPT:
@@ -1457,7 +1461,7 @@ gpg_verify (CamelCipherContext *context, CamelMimePart *ipart, CamelException *e
 			validity->sign.status = CAMEL_CIPHER_VALIDITY_SIGN_GOOD;
 		else
 			validity->sign.status = CAMEL_CIPHER_VALIDITY_SIGN_BAD;
-	} else if (gpg->nopubkey) {
+	} else if (!gpg->nodata && gpg->nopubkey) {
 		validity->sign.status = CAMEL_CIPHER_VALIDITY_SIGN_UNKNOWN;
 	} else {
 		validity->sign.status = CAMEL_CIPHER_VALIDITY_SIGN_BAD;
