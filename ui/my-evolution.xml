@@ -18,12 +18,12 @@
 		</placeholder>
 	</submenu>
 	
-	<submenu name="Tools">
-		<placeholder name="Component">
-			<menuitem name="ToolsSettings" verb="" 
+	<placeholder name="ComponentToolsPlaceholder">
+		<submenu name="Tools" _label="_Tools">
+			<menuitem name="ToolsSettings" verb=""
 			 _label="_My Evolution Settings..."/>
-		</placeholder>
-	</submenu>
+		</submenu>
+	</placeholder>
   </menu>
 
   <dockitem name="Toolbar">

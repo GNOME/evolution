@@ -1,3 +1,10 @@
+2001-08-12  Kjartan Maraas  <kmaraas@gnome.org>
+
+	[Fix #7069, New - Missing name for "Tools" menu.]
+	
+	* my-evolution.xml: Put the Tools menu in the
+	ComponentToolsPlaceholder.
+	
 2001-08-11  Jason Leach  <jleach@ximian.com>
 
 	* evolution-mail-message.xml: Make the label for the resending
