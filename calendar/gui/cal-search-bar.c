@@ -41,6 +41,7 @@ enum {
 	SEARCH_SUMMARY_CONTAINS,
 	SEARCH_DESCRIPTION_CONTAINS,
 	SEARCH_COMMENT_CONTAINS,
+	SEARCH_LOCATION_CONTAINS,
 	SEARCH_CATEGORY_IS,
 };
 
@@ -49,6 +50,7 @@ static ESearchBarItem search_option_items[] = {
 	{ N_("Summary contains"), SEARCH_SUMMARY_CONTAINS, NULL },
 	{ N_("Description contains"), SEARCH_DESCRIPTION_CONTAINS, NULL },
 	{ N_("Comment contains"), SEARCH_COMMENT_CONTAINS, NULL },
+	{ N_("Location contains"), SEARCH_LOCATION_CONTAINS, NULL },
 	{ N_("Category is"), SEARCH_CATEGORY_IS, NULL },
 	{ NULL, -1, NULL }
 };
@@ -306,6 +308,10 @@ regen_query (CalSearchBar *cal_search)
 
 	case SEARCH_COMMENT_CONTAINS:
 		notify_e_cal_view_contains (cal_search, "comment");
+		break;
+
+	case SEARCH_LOCATION_CONTAINS:
+		notify_e_cal_view_contains (cal_search, "location");
 		break;
 
 	case SEARCH_CATEGORY_IS:
