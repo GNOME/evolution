@@ -469,6 +469,9 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 	GByteArray *ba;
 	CamelStream *cstream;
 	BonoboStream *bstream;
+	BonoboControlFrame *control_frame;
+	Bonobo_PropertyBag prop_bag;
+	const char *from_address;
 	char *cid;
 
 	cid = eb->classid;
@@ -534,8 +537,33 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 		 */
 		bonobo_object_ref (BONOBO_OBJECT(bonobo_widget_get_client_site (
 			BONOBO_WIDGET (embedded))));
-	} else
+	} else {
 		embedded = bonobo_widget_new_control (component->iid, NULL);
+		if (!embedded) {
+			CORBA_free (component);
+			return FALSE;
+		}
+
+		control_frame = bonobo_widget_get_control_frame (BONOBO_WIDGET (embedded));
+		if (control_frame) {
+			prop_bag = bonobo_control_frame_get_control_property_bag ( control_frame, NULL );
+			
+			if (prop_bag != CORBA_OBJECT_NIL) {
+				/* Now we can take care of business. Currently, the only control
+				   that needs something passed to it through a property bag is
+				   the iTip control, and it needs only the From email address,
+				   but perhaps in the future we can generalize this section of code
+				   to pass a bunch of useful things to all embedded controls. */
+
+				CORBA_exception_init (&ev);
+
+				from_address = camel_mime_message_get_from (md->current_message);
+				bonobo_property_bag_client_set_value_string (prop_bag, "from_address", 
+									     from_address, &ev);
+				CORBA_exception_free (&ev);
+			}
+		}
+	}  /* end else (we're going to use a control) */
 	CORBA_free (component);
 	if (!embedded)
 		return FALSE;
