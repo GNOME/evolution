@@ -547,19 +547,9 @@ addressbook_add_server_dialog_finish (GtkWidget *widget, AddressbookSourceDialog
 }
 
 static void
-addressbook_add_server_druid_cancel (GtkWidget *widget, AddressbookSourceDialog *dialog)
+addressbook_add_server_dialog_cancel (GtkWidget *widget, AddressbookSourceDialog *dialog)
 {
 	gtk_widget_destroy (dialog->window);
-}
-
-static void
-addressbook_add_server_druid_finish (GnomeDruidPage *druid_page, GtkWidget *gnome_druid, AddressbookSourceDialog *sdialog)
-{
-	sdialog->source = e_source_new ("", "");
-	dialog_to_source (sdialog, sdialog->source, FALSE);
-
-	/* tear down the widgets */
-	gtk_widget_destroy (sdialog->window);
 }
 
 static void
@@ -673,24 +663,6 @@ general_tab_check (AddressbookSourceDialog *dialog)
 	return valid;
 }
 
-static void
-druid_info_page_modify_cb (GtkWidget *item, AddressbookSourceDialog *dialog)
-{
-	gnome_druid_set_buttons_sensitive (GNOME_DRUID(dialog->druid),
-					   TRUE, /* back */
-					   general_tab_check (dialog), /* next */
-					   TRUE, /* cancel */
-					   FALSE /* help */);
-}
-
-static void
-druid_info_page_prepare (GnomeDruidPage *dpage, GtkWidget *gdruid, AddressbookSourceDialog *dialog)
-{
-	druid_info_page_modify_cb (NULL, dialog);
-	/* stick the focus in the hostname field */
-	gtk_widget_grab_focus (dialog->host);
-}
-
 
 /* connecting page */
 static void
@@ -782,24 +754,6 @@ connecting_tab_check (AddressbookSourceDialog *dialog)
 		valid = FALSE;
 
 	return valid;
-}
-
-static void
-druid_connecting_page_modify_cb (GtkWidget *item, AddressbookSourceDialog *dialog)
-{
-	gnome_druid_set_buttons_sensitive (GNOME_DRUID(dialog->druid),
-					   TRUE, /* back */
-					   connecting_tab_check (dialog), /* next */
-					   TRUE, /* cancel */
-					   FALSE /* help */);
-}
-
-static void
-druid_connecting_page_prepare (GnomeDruidPage *dpage, GtkWidget *gdruid, AddressbookSourceDialog *dialog)
-{
-	druid_connecting_page_modify_cb (NULL, dialog);
-	/* stick the focus in the port combo */
-	gtk_widget_grab_focus (GTK_COMBO(dialog->port_combo)->entry);
 }
 
 
@@ -1025,16 +979,6 @@ searching_tab_check (AddressbookSourceDialog *dialog)
 	return valid;
 }
 
-static void
-druid_searching_page_prepare (GnomeDruidPage *dpage, GtkWidget *gdruid, AddressbookSourceDialog *dialog)
-{
-	gnome_druid_set_buttons_sensitive (GNOME_DRUID(dialog->druid),
-					   TRUE, /* back */
-					   TRUE, /* next */
-					   TRUE, /* cancel */
-					   FALSE /* help */);
-}
-
 #endif
 
 
@@ -1052,28 +996,6 @@ display_name_check (AddressbookSourceDialog *dialog)
 	return valid;
 }
 
-static void
-folder_page_prepare (GtkWidget *page, GtkWidget *gnome_druid, AddressbookSourceDialog *dialog)
-{
-	if (!dialog->display_name_changed) {
-		const char *server_name = gtk_entry_get_text (GTK_ENTRY (dialog->host));
-		gtk_entry_set_text (GTK_ENTRY (dialog->display_name), server_name);
-	}
-
-	gnome_druid_set_buttons_sensitive (GNOME_DRUID(dialog->druid),
-					   TRUE, /* back */
-					   display_name_check (dialog), /* next */
-					   TRUE, /* cancel */
-					   FALSE /* help */);
-}
-
-static void
-druid_folder_page_modify_cb (GtkWidget *item, AddressbookSourceDialog *dialog)
-{
-	dialog->display_name_changed = TRUE;
-	folder_page_prepare (NULL, NULL, dialog);
-}
-
 
 static gboolean
 source_group_is_remote (ESourceGroup *group)
@@ -1082,10 +1004,39 @@ source_group_is_remote (ESourceGroup *group)
 }
 
 static void
+add_folder_modify (GtkWidget *widget, AddressbookSourceDialog *sdialog)
+{
+	gboolean valid = TRUE;
+	gboolean remote = FALSE;
+
+	g_warning ("Modify callback");
+
+	valid = display_name_check (sdialog);
+	remote = source_group_is_remote (sdialog->source_group);
+
+
+	remote = source_group_is_remote (sdialog->source_group);	
+	if (sdialog->server_frame)
+		gtk_widget_set_sensitive (sdialog->server_frame, remote);
+	
+	if (sdialog->auth_frame)
+		gtk_widget_set_sensitive (sdialog->auth_frame, remote);
+
+#ifdef HAVE_LDAP
+	if (valid)
+		valid = general_tab_check (sdialog);
+	if (valid)
+		valid = connecting_tab_check (sdialog);
+	if (valid)
+		valid = searching_tab_check (sdialog);
+#endif
+
+	gtk_widget_set_sensitive (sdialog->ok_button, valid);
+}
+
+static void
 source_group_changed_cb (GtkWidget *widget, AddressbookSourceDialog *sdialog)
 {
-	gboolean remote;
-
 	sdialog->source_group = g_slist_nth (sdialog->menu_source_groups,
 					     gtk_option_menu_get_history (GTK_OPTION_MENU (sdialog->group_optionmenu)))->data;
 	if (sdialog->auth_frame)
@@ -1112,71 +1063,6 @@ source_group_menu_add_groups (GtkMenuShell *menu_shell, ESourceList *source_list
 		gtk_widget_show (menu_item);
 		gtk_menu_shell_append (menu_shell, menu_item);
 	}
-}
-
-static gboolean
-folder_page_forward (GtkWidget *page, GtkWidget *widget, AddressbookSourceDialog *sdialog)
-{
-	GtkWidget *finish_page = glade_xml_get_widget (sdialog->gui, "add-server-druid-finish-page");
-	
-	if (strcmp ("ldap://", e_source_group_peek_base_uri (sdialog->source_group))) {
-		gnome_druid_set_page (GNOME_DRUID (sdialog->druid), GNOME_DRUID_PAGE (finish_page));
-		return TRUE;
-	}
-
-	return FALSE;
-}
-
-static gboolean
-finish_page_back (GtkWidget *page, GtkWidget *widget, AddressbookSourceDialog *sdialog)
-{
-	GtkWidget *folder_page = glade_xml_get_widget (sdialog->gui, "add-server-druid-folder-page");
-	
-	if (strcmp ("ldap://", e_source_group_peek_base_uri (sdialog->source_group))) {
-		gnome_druid_set_page (GNOME_DRUID (sdialog->druid), GNOME_DRUID_PAGE (folder_page));
-		return TRUE;
-	}
-
-	return FALSE;
-}
-
-static void
-add_folder_modify (GtkWidget *widget, AddressbookSourceDialog *sdialog)
-{
-	gboolean valid = TRUE;
-	gboolean remote = FALSE;
-
-	g_warning ("Modify callback");
-
-	valid = display_name_check (sdialog);
-	remote = source_group_is_remote (sdialog->source_group);
-
-
-	remote = source_group_is_remote (sdialog->source_group);	
-	if (sdialog->server_frame)
-		gtk_widget_set_sensitive (sdialog->server_frame, remote);
-	
-	if (sdialog->auth_frame)
-		gtk_widget_set_sensitive (sdialog->auth_frame, remote);
-
-#ifdef HAVE_LDAP
-	if (valid) {
-		g_warning ("passed display name");
-		valid = general_tab_check (sdialog);
-	} 
-	if (valid) {
-		g_warning ("passed general");
-		valid = connecting_tab_check (sdialog);
-	} 
-	if (valid) {
-		g_warning ("passed connecting");
-		valid = searching_tab_check (sdialog);
-	}
-	if (valid)
-		g_warning ("passed searching");
-#endif
-
-	gtk_widget_set_sensitive (sdialog->ok_button, valid);
 }
 
 static AddressbookSourceDialog *
@@ -1234,7 +1120,7 @@ addressbook_add_server_dialog (void)
 
 	sdialog->cancel_button = glade_xml_get_widget (sdialog->gui, "cancel-button");
 	g_signal_connect (sdialog->cancel_button, "clicked",
-			  G_CALLBACK(addressbook_add_server_druid_cancel), sdialog);
+			  G_CALLBACK(addressbook_add_server_dialog_cancel), sdialog);
 
 	g_object_weak_ref (G_OBJECT (sdialog->window),
 			   addressbook_source_dialog_destroy, sdialog);
@@ -1246,103 +1132,6 @@ addressbook_add_server_dialog (void)
 	gtk_window_set_modal (GTK_WINDOW (sdialog->window), TRUE);
 	
 	add_folder_modify (sdialog->window, sdialog);
-
-	gtk_widget_show_all (sdialog->window);
-
-	return sdialog;
-}
-
-static AddressbookSourceDialog *
-addressbook_add_server_druid (void)
-{
-	AddressbookSourceDialog *sdialog = g_new0 (AddressbookSourceDialog, 1);
-	GtkWidget *page;
-	GConfClient *gconf_client;
-	GSList *source_groups;
-
-	sdialog->gui = glade_xml_new (EVOLUTION_GLADEDIR "/" GLADE_FILE_NAME, NULL, NULL);
-
-	sdialog->window = glade_xml_get_widget (sdialog->gui, "account-druid-window");
-	sdialog->druid = glade_xml_get_widget (sdialog->gui, "account-druid");
-
-	/* general page */
-	page = glade_xml_get_widget (sdialog->gui, "add-server-druid-folder-page");
-	sdialog->display_name = glade_xml_get_widget (sdialog->gui, "druid-display-name-entry");
-	g_signal_connect (sdialog->display_name, "changed",
-			  G_CALLBACK (druid_folder_page_modify_cb), sdialog);
-	g_signal_connect_after (page, "prepare",
-				G_CALLBACK (folder_page_prepare), sdialog);
-	g_signal_connect_after (page, "next",
-				G_CALLBACK (folder_page_forward), sdialog);
-
-	gconf_client = gconf_client_get_default ();
-	sdialog->source_list = e_source_list_new_for_gconf (gconf_client, "/apps/evolution/addressbook/sources");
-	source_groups = e_source_list_peek_groups (sdialog->source_list);
-	sdialog->menu_source_groups = g_slist_copy (source_groups);
-#ifndef HAVE_LDAP
-	for ( ; source_groups != NULL; source_groups = g_slist_next (source_groups))
-
-		if (!strcmp ("ldap://", e_source_group_peek_base_uri (source_groups->data)))	
-			sdialog->menu_source_groups = g_slist_remove (sdialog->menu_source_groups, source_groups->data);
-#endif 
-
-	sdialog->group_optionmenu = glade_xml_get_widget (sdialog->gui, "druid-group-option-menu");
-	if (!GTK_IS_MENU (gtk_option_menu_get_menu (GTK_OPTION_MENU (sdialog->group_optionmenu)))) {
-		GtkWidget *menu = gtk_menu_new ();
-		gtk_option_menu_set_menu (GTK_OPTION_MENU (sdialog->group_optionmenu), menu);
-		gtk_widget_show (menu);
-	}
-
-	/* NOTE: This assumes that we have sources. If they don't exist, they're set up
-	 * on startup of the Addressbook component. */
-	source_group_menu_add_groups (GTK_MENU_SHELL (gtk_option_menu_get_menu (
-		GTK_OPTION_MENU (sdialog->group_optionmenu))), sdialog->source_list);
-	gtk_option_menu_set_history (GTK_OPTION_MENU (sdialog->group_optionmenu), 0);
-	sdialog->source_group = e_source_list_peek_groups (sdialog->source_list)->data;
-	g_signal_connect (sdialog->group_optionmenu, "changed",
-			  G_CALLBACK (source_group_changed_cb), sdialog);
-
-#ifdef HAVE_LDAP
-
-	/* info page */
-	page = glade_xml_get_widget (sdialog->gui, "add-server-druid-info-page");
-	reparent_to_vbox (sdialog, "account-druid-general-vbox", "general-tab");
-	setup_general_tab (sdialog, druid_info_page_modify_cb);
-	g_signal_connect_after (page, "prepare",
-				G_CALLBACK(druid_info_page_prepare), sdialog);
-
-	/* connecting page */
-	page = glade_xml_get_widget (sdialog->gui, "add-server-druid-connecting-page");
-	reparent_to_vbox (sdialog, "account-druid-connecting-vbox", "connecting-tab");
-	setup_connecting_tab (sdialog, druid_connecting_page_modify_cb);
-	g_signal_connect_after (page, "prepare",
-				G_CALLBACK(druid_connecting_page_prepare), sdialog);
-
-	/* searching page */
-	page = glade_xml_get_widget (sdialog->gui, "add-server-druid-searching-page");
-	reparent_to_vbox (sdialog, "account-druid-searching-vbox", "searching-tab");
-	setup_searching_tab (sdialog, NULL);
-	g_signal_connect_after (page, "prepare",
-				G_CALLBACK(druid_searching_page_prepare), sdialog);
-
-#endif
-
-	/* finish page */
-	page = glade_xml_get_widget (sdialog->gui, "add-server-druid-finish-page");
-	g_signal_connect (page, "finish",
-			  G_CALLBACK(addressbook_add_server_druid_finish), sdialog);
-	g_signal_connect_after (page, "back",
-				G_CALLBACK (finish_page_back), sdialog);
-	g_signal_connect (sdialog->druid, "cancel",
-			  G_CALLBACK(addressbook_add_server_druid_cancel), sdialog);
-	g_object_weak_ref (G_OBJECT (sdialog->window),
-			   addressbook_source_dialog_destroy, sdialog);
-
-	/* make sure we fill in the default values */
-	source_to_dialog (sdialog);
-
-	gtk_window_set_type_hint (GTK_WINDOW (sdialog->window), GDK_WINDOW_TYPE_HINT_DIALOG);
-	gtk_window_set_modal (GTK_WINDOW (sdialog->window), TRUE);
 
 	gtk_widget_show_all (sdialog->window);
 

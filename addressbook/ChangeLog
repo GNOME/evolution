@@ -1,6 +1,9 @@
 2004-04-27  Larry Ewing  <lewing@ximian.com>
 
-	* gui/component/addressbook-component.c: start integrate the new
+	* gui/component/addressbook-config.c (source_to_dialog_new): fix
+	warnings, remove unused code.
+
+	* gui/component/addressbook-config.c: start integrate the new
 	dialog.
 
 	* gui/component/ldap-config.glade: add the new dialog.
