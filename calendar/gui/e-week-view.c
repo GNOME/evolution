@@ -1819,9 +1819,13 @@ e_week_view_cut_clipboard (EWeekView *week_view)
 	if (event == NULL)
 		return;
 
+	e_week_view_set_status_message (week_view, _("Deleting selected objects"));
+
 	e_week_view_copy_clipboard (week_view);
 	cal_component_get_uid (event->comp, &uid);
 	cal_client_remove_object (week_view->client, uid);
+
+	e_week_view_set_status_message (week_view, NULL);
 }
 
 void
@@ -3811,6 +3815,7 @@ selection_received (GtkWidget *invisible,
 		return;
 	}
 
+	e_week_view_set_status_message (week_view, _("Updating objects"));
 	dtstart = week_view->day_starts[week_view->selection_start_day];
 
 	if (kind == ICAL_VCALENDAR_COMPONENT) {
@@ -3880,6 +3885,8 @@ selection_received (GtkWidget *invisible,
 
 		gtk_object_unref (GTK_OBJECT (comp));
 	}
+
+	e_week_view_set_status_message (week_view, NULL);
 }
 
 

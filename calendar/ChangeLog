@@ -1,3 +1,14 @@
+2001-10-26  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-calendar_table.c (delete_selected_components):
+	(selection_received): added status bar messages
+
+	* gui/e-day-view.c (e_day_view_cut_clipboard):
+	(selection_received): likewise
+
+	* gui/e-week-view.c (e_week_view_cut_clipboard):
+	(selection_received): likewise
+
 2001-10-26  JP Rosevear  <jpr@ximian.com>
 
 	* conduits/calendar/calendar-conduit.h: modify fields

@@ -720,6 +720,9 @@ delete_selected_components (ECalendarTable *cal_table)
 
 	client = calendar_model_get_cal_client (cal_table->model);
 
+	calendar_model_set_status_message (e_calendar_table_get_model (cal_table),
+					   _("Deleting selected objects"));
+
 	for (l = uids; l; l = l->next) {
 		const char *uid;
 
@@ -730,6 +733,8 @@ delete_selected_components (ECalendarTable *cal_table)
 		 */
 		cal_client_remove_object (client, uid);
 	}
+
+	calendar_model_set_status_message (e_calendar_table_get_model (cal_table), NULL);
 
 	g_slist_free (uids);
 }
@@ -1135,6 +1140,9 @@ selection_received (GtkWidget *invisible,
 		return;
 	}
 
+	calendar_model_set_status_message (e_calendar_table_get_model (cal_table),
+					   _("Updating objects"));
+
 	if (kind == ICAL_VCALENDAR_COMPONENT) {
 		icalcomponent_kind child_kind;
 		icalcomponent *subcomp;
@@ -1178,6 +1186,8 @@ selection_received (GtkWidget *invisible,
 			comp);
 		gtk_object_unref (GTK_OBJECT (comp));
 	}
+
+	calendar_model_set_status_message (e_calendar_table_get_model (cal_table), NULL);
 }
 
 

@@ -2721,9 +2721,13 @@ e_day_view_cut_clipboard (EDayView *day_view)
 	if (event == NULL)
 		return;
 
+	e_day_view_set_status_message (day_view, _("Deleting selected objects"));
+
 	e_day_view_copy_clipboard (day_view);
 	cal_component_get_uid (event->comp, &uid);
 	cal_client_remove_object (day_view->client, uid);
+
+	e_day_view_set_status_message (day_view, NULL);
 }
 
 void
@@ -6942,6 +6946,7 @@ selection_received (GtkWidget *invisible,
 		return;
 	}
 
+	e_day_view_set_status_message (day_view, _("Updating objects"));
 	e_day_view_get_selected_time_range (day_view, &dtstart, &dtend);
 
 	if (kind == ICAL_VCALENDAR_COMPONENT) {
@@ -7012,6 +7017,8 @@ selection_received (GtkWidget *invisible,
 
 		gtk_object_unref (GTK_OBJECT (comp));
 	}
+
+	e_day_view_set_status_message (day_view, NULL);
 }
 
 
