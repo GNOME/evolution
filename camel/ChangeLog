@@ -6,6 +6,10 @@
 	(gpg_ctx_parse_status): In the case of a NODATA response from gpg,
 	try to use the diagnostics that gpg may have written to its
 	stderr.
+	(gpg_verify): Check that the gpg process has not exited.
+	(gpg_ctx_op_wait): Make sure we haven't already exited (as by
+	gpg_ctx_op_is_exited()) and if we have, retrieve the exit status
+	from the gpg context.
 
 2002-06-26  Jeffrey Stedfast  <fejj@ximian.com>
 

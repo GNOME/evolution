@@ -249,6 +249,9 @@ struct _GpgCtx {
 	
 	GByteArray *diagnostics;
 	
+	int exit_status;
+	
+	unsigned int exited:1;
 	unsigned int complete:1;
 	unsigned int seen_eof1:1;
 	unsigned int seen_eof2:1;
@@ -262,7 +265,7 @@ struct _GpgCtx {
 	unsigned int validsig:1;
 	unsigned int trust:3;
 	
-	unsigned int padding:19;
+	unsigned int padding:18;
 };
 
 static struct _GpgCtx *
@@ -279,6 +282,8 @@ gpg_ctx_new (CamelSession *session, const char *path)
 	gpg->seen_eof1 = FALSE;
 	gpg->seen_eof2 = FALSE;
 	gpg->pid = (pid_t) -1;
+	gpg->exit_status = 0;
+	gpg->exited = FALSE;
 	
 	gpg->path = g_strdup (path);
 	gpg->userid = NULL;
@@ -1100,16 +1105,38 @@ gpg_ctx_op_complete (struct _GpgCtx *gpg)
 	return gpg->complete && gpg->seen_eof1 && gpg->seen_eof2;
 }
 
+static gboolean
+gpg_ctx_op_is_exited (struct _GpgCtx *gpg)
+{
+	pid_t retval;
+	int status;
+	
+	if (gpg->exited)
+		return TRUE;
+	
+	retval = waitpid (gpg->pid, &status, WNOHANG);
+	if (retval == gpg->pid) {
+		gpg->exit_status = status;
+		gpg->exited = TRUE;
+		return TRUE;
+	}
+	
+	return FALSE;
+}
+
 static void
 gpg_ctx_op_cancel (struct _GpgCtx *gpg)
 {
 	pid_t retval;
 	int status;
 	
+	if (gpg->exited)
+		return;
+	
 	kill (gpg->pid, SIGTERM);
 	sleep (1);
 	retval = waitpid (gpg->pid, &status, WNOHANG);
-	if (retval == 0) {
+	if (retval == (pid_t) 0) {
 		/* no more mr nice guy... */
 		kill (gpg->pid, SIGKILL);
 		sleep (1);
@@ -1124,25 +1151,30 @@ gpg_ctx_op_wait (struct _GpgCtx *gpg)
 	pid_t retval;
 	int status;
 	
-	sigemptyset (&mask);
-	sigaddset (&mask, SIGALRM);
-	sigprocmask (SIG_BLOCK, &mask, &omask);
-	alarm (1);
-	retval = waitpid (gpg->pid, &status, 0);
-	alarm (0);
-	sigprocmask (SIG_SETMASK, &omask, NULL);
-	
-	if (retval == (pid_t) -1 && errno == EINTR) {
-		/* The child is hanging: send a friendly reminder. */
-		kill (gpg->pid, SIGTERM);
-		sleep (1);
-		retval = waitpid (gpg->pid, &status, WNOHANG);
-		if (retval == (pid_t) 0) {
-			/* Still hanging; use brute force. */
-			kill (gpg->pid, SIGKILL);
+	if (!gpg->exited) {
+		sigemptyset (&mask);
+		sigaddset (&mask, SIGALRM);
+		sigprocmask (SIG_BLOCK, &mask, &omask);
+		alarm (1);
+		retval = waitpid (gpg->pid, &status, 0);
+		alarm (0);
+		sigprocmask (SIG_SETMASK, &omask, NULL);
+		
+		if (retval == (pid_t) -1 && errno == EINTR) {
+			/* The child is hanging: send a friendly reminder. */
+			kill (gpg->pid, SIGTERM);
 			sleep (1);
 			retval = waitpid (gpg->pid, &status, WNOHANG);
+			if (retval == (pid_t) 0) {
+				/* Still hanging; use brute force. */
+				kill (gpg->pid, SIGKILL);
+				sleep (1);
+				retval = waitpid (gpg->pid, &status, WNOHANG);
+			}
 		}
+	} else {
+		status = gpg->exit_status;
+		retval = gpg->pid;
 	}
 	
 	if (retval != (pid_t) -1 && WIFEXITED (status))
@@ -1282,7 +1314,7 @@ gpg_verify (CamelCipherContext *context, CamelCipherHash hash,
 		goto exception;
 	}
 	
-	while (!gpg_ctx_op_complete (gpg)) {
+	while (!gpg_ctx_op_complete (gpg) && !gpg_ctx_op_is_exited (gpg)) {
 		if (camel_operation_cancel_check (NULL)) {
 			camel_exception_set (ex, CAMEL_EXCEPTION_USER_CANCEL,
 					     _("Cancelled."));
