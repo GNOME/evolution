@@ -102,6 +102,33 @@ cal_util_new_top_level (void)
 	return icalcomp;
 }
 
+static char *
+get_line_fn (char *buf, size_t size, void *file)
+{
+	return fgets (buf, size, file);
+}
+
+icalcomponent *
+cal_util_parse_ics_file (const char *filename)
+{
+	icalparser *parser;
+	icalcomponent *icalcomp;
+	FILE *file;
+
+	file = fopen (filename, "r");
+	if (!file)
+		return NULL;
+
+	parser = icalparser_new ();
+	icalparser_set_gen_data (parser, file);
+
+	icalcomp = icalparser_parse (parser, get_line_fn);
+	icalparser_free (parser);
+	fclose (file);
+
+	return icalcomp;
+}
+
 /* Computes the range of time in which recurrences should be generated for a
  * component in order to compute alarm trigger times.
  */

@@ -22,6 +22,7 @@
 
 #include <config.h>
 #include <string.h>
+#include <unistd.h>
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-moniker-util.h>
 #include <libgnome/gnome-i18n.h>
@@ -679,53 +680,19 @@ scan_vcalendar (CalBackendFile *cbfile)
 	}
 }
 
-/* Callback used from icalparser_parse() */
-static char *
-get_line_fn (char *s, size_t size, void *data)
-{
-	FILE *file;
-
-	file = data;
-	return fgets (s, size, file);
-}
-
-/* Parses an open iCalendar file and returns a toplevel component with the contents */
-static icalcomponent *
-parse_file (FILE *file)
-{
-	icalparser *parser;
-	icalcomponent *icalcomp;
-
-	parser = icalparser_new ();
-	icalparser_set_gen_data (parser, file);
-
-	icalcomp = icalparser_parse (parser, get_line_fn);
-	icalparser_free (parser);
-
-	return icalcomp;
-}
-
 /* Parses an open iCalendar file and loads it into the backend */
 static CalBackendOpenStatus
-open_cal (CalBackendFile *cbfile, const char *uristr, FILE *file)
+open_cal (CalBackendFile *cbfile, const char *uristr)
 {
 	CalBackendFilePrivate *priv;
 	icalcomponent *icalcomp;
 
 	priv = cbfile->priv;
 
-	icalcomp = parse_file (file);
-
-	if (fclose (file) != 0) {
-		if (icalcomp)
-			icalcomponent_free (icalcomp);
-
-		return CAL_BACKEND_OPEN_ERROR;
-	}
-
+	icalcomp = cal_util_parse_ics_file (uristr);
 	if (!icalcomp)
 		return CAL_BACKEND_OPEN_ERROR;
-		
+
 	/* FIXME: should we try to demangle XROOT components and
 	 * individual components as well?
 	 */
@@ -771,7 +738,6 @@ cal_backend_file_open (CalBackend *backend, const char *uristr, gboolean only_if
 {
 	CalBackendFile *cbfile;
 	CalBackendFilePrivate *priv;
-	FILE *file;
 	char *str_uri;
 	GnomeVFSURI *uri;
 	CalBackendOpenStatus status;
@@ -806,11 +772,8 @@ cal_backend_file_open (CalBackend *backend, const char *uristr, gboolean only_if
 		return CAL_BACKEND_OPEN_ERROR;
 	}
 
-	/* Load! */
-	file = fopen (str_uri, "r");
-
-	if (file)
-		status = open_cal (cbfile, str_uri, file);
+	if (access (str_uri, R_OK) == 0)
+		status = open_cal (cbfile, str_uri);
 	else {
 		if (only_if_exists)
 			status = CAL_BACKEND_OPEN_NOT_FOUND;

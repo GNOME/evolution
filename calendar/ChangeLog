@@ -1,3 +1,18 @@
+2003-03-25  Dan Winship  <danw@ximian.com>
+
+	* cal-util/cal-util.c (cal_util_parse_ics_file): Utility wrapper
+	around icalparser.
+
+	* cal-util/test-recur.c (main): Use it
+
+	* pcs/cal-backend-file.c (open_cal): Likewise
+
+	* gui/comp-editor-factory.c (open_client): Add the OpenClient to
+	the hash before calling cal_client_open_calendar, since in some
+	failure cases, that will call cal_opened_cb (which will free the
+	oc) with a failure immediately, causing a crash if we then try to
+	deref it.
+
 2003-03-21  JP Rosevear  <jpr@ximian.com>
 
 	Fixes #32248

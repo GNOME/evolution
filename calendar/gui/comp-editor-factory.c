@@ -514,6 +514,8 @@ open_client (CompEditorFactory *factory, const char *uristr)
 
 	g_signal_connect (oc->client, "cal_opened", G_CALLBACK (cal_opened_cb), oc);
 
+	g_hash_table_insert (priv->uri_client_hash, oc->uri, oc);
+
 	if (!cal_client_open_calendar (oc->client, uristr, FALSE)) {
 		g_free (oc->uri);
 		g_object_unref (oc->client);
@@ -521,8 +523,6 @@ open_client (CompEditorFactory *factory, const char *uristr)
 
 		return NULL;
 	}
-
-	g_hash_table_insert (priv->uri_client_hash, oc->uri, oc);
 
 	return oc;
 }

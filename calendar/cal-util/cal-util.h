@@ -71,6 +71,8 @@ void cal_obj_uid_list_free (GList *list);
 
 icalcomponent *cal_util_new_top_level (void);
 
+icalcomponent *cal_util_parse_ics_file (const char *filename);
+
 CalComponentAlarms *cal_util_generate_alarms_for_comp (CalComponent *comp,
 						       time_t start,
 						       time_t end,

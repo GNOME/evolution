@@ -37,6 +37,7 @@
 #include <string.h>
 #include <gtk/gtkmain.h>
 #include <cal-util/cal-recur.h>
+#include <cal-util/cal-util.h>
 
 
 /* Since events can recur infinitely, we set a limit to the number of
@@ -44,10 +45,6 @@
 #define MAX_OCCURRENCES	1000
 
 static void usage			(void);
-static icalcomponent* scan_ics_file	(char		*filename);
-static char* get_line			(char		*s,
-					 size_t		 size,
-					 void		*data);
 static void generate_occurrences	(icalcomponent	*comp);
 static gboolean occurrence_cb		(CalComponent	*comp,
 					 time_t		 instance_start,
@@ -69,7 +66,7 @@ main			(int		 argc,
 
 	filename = argv[1];
 
-	icalcomp = scan_ics_file (filename);
+	icalcomp = cal_util_parse_ics_file (filename);
 	if (icalcomp)
 		generate_occurrences	(icalcomp);
 
@@ -82,41 +79,6 @@ usage			(void)
 {
 	g_print ("Usage: test-recur <filename>\n");
 	exit (1);
-}
-
-
-static icalcomponent*
-scan_ics_file		(char		*filename)
-{
-	FILE *fp;
-	icalcomponent *icalcomp;
-	icalparser *parser;
-
-	g_print ("Opening file: %s\n", filename);
-	fp = fopen (filename, "r");
-
-	if (!fp) {
-		g_print ("Can't open file: %s\n", filename);
-		return NULL;
-	}
-
-	parser = icalparser_new ();
-	icalparser_set_gen_data (parser, fp);
-
-	icalcomp = icalparser_parse (parser, get_line);
-	icalparser_free (parser);
-
-	return icalcomp;
-}
-
-
-/* Callback used from icalparser_parse() */
-static char *
-get_line		(char		*s,
-			 size_t		 size,
-			 void		*data)
-{
-	return fgets (s, size, (FILE*) data);
 }
 
 
