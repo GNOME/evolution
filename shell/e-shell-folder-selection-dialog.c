@@ -26,6 +26,7 @@
 #endif
 
 #include <libgnomeui/gnome-stock.h>
+#include <libgnomeui/gnome-dialog.h>
 #include <libgnome/gnome-i18n.h>
 
 #include "e-util/e-util.h"
@@ -39,7 +40,7 @@
 #include "e-shell-folder-selection-dialog.h"
 
 
-#define PARENT_TYPE GNOME_TYPE_DIALOG
+#define PARENT_TYPE (gnome_dialog_get_type ())
 static GnomeDialogClass *parent_class = NULL;
 
 struct _EShellFolderSelectionDialogPrivate {

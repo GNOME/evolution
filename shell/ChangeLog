@@ -1,3 +1,8 @@
+2000-06-12  Michael Meeks  <michael@helixcode.com>
+
+	* e-shell-folder-selection-dialog.c: include gnome-dialog.h
+	(PARENT_TYPE): GNOME_TYPE_DIALOG replaced with gnome_dialog_get_type.
+
 2000-06-10  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-shell.c (impl_Shell_user_select_folder): New, implementation
