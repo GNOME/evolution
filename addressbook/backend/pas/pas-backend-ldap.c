@@ -33,6 +33,7 @@ struct _PASBackendLDAPPrivate {
 	GList    *clients;
 	LDAP     *ldap;
 	gchar    *ldap_host;
+	gchar    *ldap_rootdn;
 	int      ldap_port;
 	GList    *book_views;
 };
@@ -151,9 +152,11 @@ pas_backend_ldap_ensure_connected (PASBackendLDAP *bl)
 		}
 		else
 			g_warning ("pas_backend_ldap_ensure_connected failed for "
-				   "'ldap://%s:%d/' (error %s)\n",
+				   "'ldap://%s:%d/%s' (error %s)\n",
 				   bl->priv->ldap_host,
 				   bl->priv->ldap_port,
+				   bl->priv->ldap_rootdn ? bl->priv->ldap_rootdn : "",
+				   
 				   ldap_err2string(ldap->ld_errno));
 
 	}
@@ -205,7 +208,7 @@ pas_backend_ldap_build_all_cards_list(PASBackend *backend,
 		ldap->ld_sizelimit = LDAP_MAX_SEARCH_RESPONSES;
 
 		if ((ldap_error = ldap_search_s (ldap,
-						 NULL,
+						 bl->priv->ldap_rootdn,
 						 LDAP_SCOPE_ONELEVEL,
 						 "(objectclass=*)",
 						 NULL, 0, &res)) == -1) {
@@ -726,7 +729,7 @@ pas_backend_ldap_search (PASBackendLDAP  	*bl,
 			ldap->ld_sizelimit = LDAP_MAX_SEARCH_RESPONSES;
 
 			if ((view->search_msgid = ldap_search (ldap,
-							       NULL,
+							       bl->priv->ldap_rootdn,
 							       LDAP_SCOPE_ONELEVEL,
 							       ldap_query,
 							       NULL, 0)) == -1) {
@@ -883,6 +886,7 @@ pas_backend_ldap_load_uri (PASBackend             *backend,
 	if (LDAP_SUCCESS == ldap_error) {
 		bl->priv->ldap_host = g_strdup(lud->lud_host);
 		bl->priv->ldap_port = lud->lud_port;
+		bl->priv->ldap_rootdn = g_strdup(lud->lud_dn);
 
 		ldap_free_urldesc(lud);
 
