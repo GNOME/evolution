@@ -1057,10 +1057,10 @@ camel_folder_get_message (CamelFolder *folder, const gchar *uid, CamelException 
 
 	CAMEL_FOLDER_UNLOCK(folder, lock);
 
-	/* FIXME: need a better verbose debug framework */
-	if (ret && (camel_verbose_debug & 2)) {
+	if (ret && camel_debug_start(":folder")) {
 		printf("CamelFolder:get_message('%s', '%s') =\n", folder->full_name, uid);
 		camel_mime_message_dump(ret, FALSE);
+		camel_debug_end();
 	}
 
 	return ret;

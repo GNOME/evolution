@@ -69,7 +69,7 @@
 #include "camel-private.h"
 #include "camel-string-utils.h"
 #include "camel-file-utils.h"
-
+#include "camel-debug.h"
 
 #define d(x) x
 
@@ -1762,12 +1762,12 @@ get_content (CamelImapFolder *imap_folder, const char *uid,
 		/* we assume that part->content_type is more accurate/full than ci->type */
 		camel_data_wrapper_set_mime_type_field (CAMEL_DATA_WRAPPER (body_mp), CAMEL_DATA_WRAPPER (part)->mime_type);
 		
-		spec = g_alloca (strlen (part_spec) + 6);
+		spec = g_alloca(strlen(part_spec) + 6);
 		if (frommsg)
-			sprintf (spec, part_spec[0] ? "%s.TEXT" : "TEXT", part_spec);
+			sprintf(spec, part_spec[0] ? "%s.TEXT" : "TEXT", part_spec);
 		else
 			strcpy(spec, part_spec);
-		g_free (part_spec);
+		g_free(part_spec);
 		
 		stream = camel_imap_folder_fetch_data (imap_folder, uid, spec, FALSE, ex);
 		if (stream) {
@@ -1783,7 +1783,7 @@ get_content (CamelImapFolder *imap_folder, const char *uid,
 	} else if (camel_content_type_is (ci->type, "multipart", "*")) {
 		CamelMultipart *body_mp;
 		char *child_spec;
-		int speclen, num;
+		int speclen, num, isdigest;
 		
 		if (camel_content_type_is (ci->type, "multipart", "encrypted"))
 			body_mp = (CamelMultipart *) camel_multipart_encrypted_new ();
@@ -1793,6 +1793,7 @@ get_content (CamelImapFolder *imap_folder, const char *uid,
 		/* need to set this so it grabs the boundary and other info about the multipart */
 		/* we assume that part->content_type is more accurate/full than ci->type */
 		camel_data_wrapper_set_mime_type_field (CAMEL_DATA_WRAPPER (body_mp), CAMEL_DATA_WRAPPER (part)->mime_type);
+		isdigest = camel_content_type_is(((CamelDataWrapper *)part)->mime_type, "multipart", "digest");
 		
 		speclen = strlen (part_spec);
 		child_spec = g_malloc (speclen + 17); /* dot + 10 + dot + MIME + nul */
@@ -1827,13 +1828,32 @@ get_content (CamelImapFolder *imap_folder, const char *uid,
 				g_free (child_spec);
 				return NULL;
 			}
-			
-			camel_data_wrapper_set_mime_type_field(content, camel_mime_part_get_content_type(part));
+
+			if (camel_debug("imap:folder")) {
+				char *ct = camel_content_type_format(camel_mime_part_get_content_type((CamelMimePart *)part));
+				char *ct2 = camel_content_type_format(ci->type);
+
+				printf("Setting part content type to '%s' contentinfo type is '%s'\n", ct, ct2);
+				g_free(ct);
+				g_free(ct2);
+			}
+
+			/* if we had no content-type header on a multipart/digest sub-part, then we need to
+			   treat it as message/rfc822 instead */
+			if (isdigest && camel_medium_get_header((CamelMedium *)part, "content-type") == NULL) {
+				CamelContentType *ct = camel_content_type_new("message", "rfc822");
+
+				camel_data_wrapper_set_mime_type_field(content, ct);
+				camel_content_type_unref(ct);
+			} else {
+				camel_data_wrapper_set_mime_type_field(content, camel_mime_part_get_content_type(part));
+			}
+
 			camel_medium_set_content_object (CAMEL_MEDIUM (part), content);
-			camel_object_unref (CAMEL_OBJECT (content));
+			camel_object_unref(content);
 
 			camel_multipart_add_part (body_mp, part);
-			camel_object_unref (CAMEL_OBJECT (part));
+			camel_object_unref(part);
 			
 			ci = ci->next;
 		}
@@ -1847,9 +1867,16 @@ get_content (CamelImapFolder *imap_folder, const char *uid,
 		return content;
 	} else {
 		CamelTransferEncoding enc;
+		char *spec;
+
+		spec = g_alloca(strlen(part_spec) + 6);
+		if (frommsg)
+			sprintf(spec, part_spec[0] ? "%s.TEXT" : "1.TEXT", part_spec);
+		else
+			strcpy(spec, part_spec[0]?part_spec:"1");
 
 		enc = ci->encoding?camel_transfer_encoding_from_string(ci->encoding):CAMEL_TRANSFER_ENCODING_DEFAULT;
-		content = camel_imap_wrapper_new (imap_folder, ci->type, enc, uid, *part_spec ? part_spec : "1", part);
+		content = camel_imap_wrapper_new (imap_folder, ci->type, enc, uid, spec, part);
 		g_free (part_spec);
 		return content;
 	}
@@ -1888,6 +1915,15 @@ get_message (CamelImapFolder *imap_folder, const char *uid,
 	if (!content) {
 		camel_object_unref (CAMEL_OBJECT (msg));
 		return NULL;
+	}
+
+	if (camel_debug("imap:folder")) {
+		char *ct = camel_content_type_format(camel_mime_part_get_content_type((CamelMimePart *)msg));
+		char *ct2 = camel_content_type_format(ci->type);
+
+		printf("Setting message content type to '%s' contentinfo type is '%s'\n", ct, ct2);
+		g_free(ct);
+		g_free(ct2);
 	}
 
 	camel_data_wrapper_set_mime_type_field(content, camel_mime_part_get_content_type((CamelMimePart *)msg));
@@ -2029,6 +2065,12 @@ imap_get_message (CamelFolder *folder, const char *uid, CamelException *ex)
 					
 					camel_imap_response_free (store, response);
 				}
+			}
+
+			if (camel_debug_start("imap:folder")) {
+				printf("Folder get message '%s' folder info ->\n", uid);
+				camel_message_info_dump(mi);
+				camel_debug_end();
 			}
 			
 			/* FETCH returned OK, but we didn't parse a BODY

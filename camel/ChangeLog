@@ -1,5 +1,20 @@
 2004-04-06  Not Zed  <NotZed@Ximian.com>
 
+	** See bug #56110.
+
+	* providers/imap/camel-imap-folder.c (get_content): more debug!
+	(get_content): if we have no content-type header set on a sub-part
+	of a multipart/digest, then we need to set it to message/rfc822 as
+	in the multipart/digest rfc (2046 or so?).
+
+	* camel-folder.c (camel_folder_get_message): output this stuff as
+	folder debug.
+
+	* providers/imap/camel-imap-folder.c (imap_get_message): add some
+	imap:folder debug.
+	(get_content): get xx.TEXT rather than xx if we're from a message
+	parent part.
+
 	** See bug #56464.
 
 	* camel-folder.c (camel_folder_transfer_messages_to): do not lock
