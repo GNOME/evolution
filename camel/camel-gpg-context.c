@@ -1385,7 +1385,7 @@ gpg_verify (CamelCipherContext *context, CamelMimePart *ipart, CamelException *e
 	struct _GpgCtx *gpg = NULL;
 	char *sigfile = NULL;
 	CamelContentType *ct;
-	CamelMimePart *sigpart, *datapart;
+	CamelMimePart *sigpart;
 	CamelStream *istream = NULL;
 	CamelMultipart *mps;
 
@@ -1401,15 +1401,19 @@ gpg_verify (CamelCipherContext *context, CamelMimePart *ipart, CamelException *e
 		return NULL;
 	}
 
-	datapart = camel_multipart_get_part(mps, CAMEL_MULTIPART_SIGNED_CONTENT);
-	sigpart = camel_multipart_get_part(mps, CAMEL_MULTIPART_SIGNED_SIGNATURE);
-
-	if (sigpart == NULL || datapart == NULL) {
+	if (!(istream = camel_multipart_signed_get_content_stream ((CamelMultipartSigned *) mps, NULL))) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Cannot verify message signature: Incorrect message format"));
-		goto exception;
+		return NULL;
 	}
-
+	
+	if (!(sigpart = camel_multipart_get_part (mps, CAMEL_MULTIPART_SIGNED_SIGNATURE))) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Cannot verify message signature: Incorrect message format"));
+		camel_object_unref (istream);
+		return NULL;
+	}
+	
 	sigfile = swrite (sigpart);
 	if (sigfile == NULL) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
@@ -1417,11 +1421,8 @@ gpg_verify (CamelCipherContext *context, CamelMimePart *ipart, CamelException *e
 				      g_strerror (errno));
 		goto exception;
 	}
-
-	istream = camel_stream_mem_new();
-	camel_cipher_canonical_to_stream(datapart, CAMEL_MIME_FILTER_CANON_CRLF, istream);
-	camel_stream_reset(istream);
 	
+	camel_stream_reset(istream);
 	gpg = gpg_ctx_new (context->session);
 	gpg_ctx_set_mode (gpg, GPG_CTX_MODE_VERIFY);
 	gpg_ctx_set_hash (gpg, camel_cipher_id_to_hash(context, camel_content_type_param(ct, "micalg")));

@@ -1,5 +1,9 @@
 2004-06-15  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-gpg-context.c (gpg_verify): Use
+	camel_multipart_signed_get_content_stream() rather than getting
+	the first part and canonicalising it ourselves. Fixes bug #60159.
+
 	* providers/imap4/camel-imap4-stream.c (camel_imap4_stream_init):
 	Init have_unget to FALSE. Don't set unget to NULL, it's no longer
 	a pointer.
