@@ -385,10 +385,15 @@ xfer_folder (EvolutionShellComponent *shell_component,
 	camel_url_free(dst);
 }
 
+static char *configure_folder_uri;
+static FolderBrowser *configure_folder_browser;
+
 static void
 configure_folder_popup(BonoboUIComponent *component, void *user_data, const char *cname)
 {
 	char *uri = user_data;
+
+	return;
 
 	vfolder_edit_rule(uri);
 }
@@ -406,20 +411,55 @@ populate_folder_context_menu (EvolutionShellComponent *shell_component,
 	static char popup_xml[] =
 		"<menuitem name=\"ChangeFolderPropertiesPopUp\" verb=\"ChangeFolderPropertiesPopUp\""
 		"          _label=\"Properties...\" _tip=\"Change this folder's properties\"/>";
+	static int setup = FALSE;
+	int add;
 
-	if (strcmp (type, "mail") != 0)
-		return;
+	if (!setup) {
+		setup = TRUE;
+		bonobo_ui_component_set_translate (uic, EVOLUTION_SHELL_COMPONENT_POPUP_PLACEHOLDER,  popup_xml, NULL);
+		bonobo_ui_component_add_verb_full(uic, "ChangeFolderPropertiesPopUp", configure_folder_popup, NULL, NULL);
+	}
+
+	if (strncmp(physical_uri, "file:", 5) == 0) {
+		add = folder_browser_factory_get_browser(physical_uri) != NULL;
+	} else if ((strncmp(physical_uri, "vfolder:", 8) == 0
+		    && strstr(physical_uri, "#" CAMEL_UNMATCHED_NAME) == NULL)) {
+		add = TRUE;
+	} else {
+		add = FALSE;
+	}
+
+	printf("popup!!! url = '%s' add = %s\n", physical_uri, add?"TRUE":"FALSE");
+
+	bonobo_ui_component_set_prop(uic, EVOLUTION_SHELL_COMPONENT_POPUP_PLACEHOLDER "/ChangeFolderPropertiesPopUp", "sensitive", add?"1":"0", NULL);
+
+#if 0
+
+	{ static int shit = 0;
+	shit++;
+	}
 
 	/* FIXME: handle other types */
 
 	/* the unmatched test is a bit of a hack but it works */
-	if (strncmp(physical_uri, "vfolder:", 8) != 0
-	    || strstr(physical_uri, "#" CAMEL_UNMATCHED_NAME) != NULL)
+	if (strncmp(physical_uri, "file:", 5) == 0) {
+		FolderBrowser *fb = folder_browser_factory_get_browser(physical_uri);
+		if (fb) {
+			printf("folderbrowser = %s\n", fb->uri);
+			gtk_object_ref((GtkObject *)fb);
+			bonobo_ui_component_add_verb_full(uic, "ChangeFolderPropertiesPopUp", configure_folder, fb, gtk_object_unref);
+		} else
+			return;
+	} else if ((strncmp(physical_uri, "vfolder:", 8) == 0
+		    && strstr(physical_uri, "#" CAMEL_UNMATCHED_NAME) == NULL)) {
+		bonobo_ui_component_add_verb_full(uic, "ChangeFolderPropertiesPopUp", configure_folder_popup, g_strdup(physical_uri), g_free);
+	} else {
+		printf("doing nothing\n");
 		return;
-
-	bonobo_ui_component_add_verb_full(uic, "ChangeFolderPropertiesPopUp", configure_folder_popup, g_strdup(physical_uri), g_free);
+	}
 
 	bonobo_ui_component_set_translate (uic, EVOLUTION_SHELL_COMPONENT_POPUP_PLACEHOLDER,  popup_xml, NULL);
+#endif
 }
 
 static char *

@@ -47,7 +47,7 @@
 #include "mail-autofilter.h"
 
 #define w(x) 
-#define d(x) 
+#define d(x) /*(printf("%s(%d):%s: ",  __FILE__, __LINE__, __PRETTY_FUNCTION__), (x))*/
 
 /* note that many things are effectively serialised by having them run in
    the main loop thread which they need to do because of corba/gtk calls */
@@ -222,6 +222,8 @@ static void
 unset_folder_info(struct _folder_info *mfi, int delete)
 {
 	struct _folder_update *up;
+
+	d(printf("unset folderinfo '%s'\n", mfi->uri));
 
 	if (mfi->folder) {
 		CamelFolder *folder = mfi->folder;

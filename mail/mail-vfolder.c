@@ -42,7 +42,7 @@
 #include "filter/vfolder-context.h"
 #include "filter/vfolder-editor.h"
 
-#define d(x) 
+#define d(x) /*(printf("%s(%d):%s: ",  __FILE__, __LINE__, __PRETTY_FUNCTION__), (x))*/
 
 static VfolderContext *context;	/* context remains open all time */
 static CamelStore *vfolder_store; /* the 1 static vfolder store */
@@ -340,7 +340,7 @@ mail_vfolder_add_uri(CamelStore *store, const char *uri, int remove)
 		int found = FALSE;
 		
 		if (!rule->name) {
-			d(printf ("invalid rule (%p): rule->name is set to NULL\n"));
+			d(printf("invalid rule (%p): rule->name is set to NULL\n", rule));
 			continue;
 		}
 		
@@ -592,7 +592,7 @@ static void context_rule_added(RuleContext *ctx, FilterRule *rule)
 static void context_rule_removed(RuleContext *ctx, FilterRule *rule)
 {
 	char *key, *path;
-	CamelFolder *folder;
+	CamelFolder *folder = NULL;
 
 	d(printf("rule removed; %s\n", rule->name));
 
@@ -606,12 +606,13 @@ static void context_rule_removed(RuleContext *ctx, FilterRule *rule)
 	if (g_hash_table_lookup_extended(vfolder_hash, rule->name, (void **)&key, (void **)&folder)) {
 		g_hash_table_remove(vfolder_hash, key);
 		g_free(key);
-		UNLOCK();
-		camel_object_unref((CamelObject *)folder);
-	} else
-		UNLOCK();
+	}
+	UNLOCK();
 
 	camel_store_delete_folder(vfolder_store, rule->name, NULL);
+	/* this must be unref'd after its deleted */
+	if (folder)
+		camel_object_unref(folder);
 }
 
 static void
@@ -743,7 +744,7 @@ vfolder_load_storage(GNOME_Evolution_Shell shell)
 		if (rule->name)
 			context_rule_added((RuleContext *)context, rule);
 		else
-			d(printf ("invalid rule (%p) encountered: rule->name is NULL\n"));
+			d(printf("invalid rule (%p) encountered: rule->name is NULL\n", rule));
 	}
 
 	g_free(storeuri);
@@ -752,24 +753,29 @@ vfolder_load_storage(GNOME_Evolution_Shell shell)
 static GtkWidget *vfolder_editor = NULL;
 
 static void
-vfolder_editor_destroy (GtkWidget *widget, gpointer user_data)
+vfolder_editor_clicked (GtkWidget *dialog, int button, void *data)
 {
+	char *user;
+
+	user = alloca(strlen(evolution_dir)+16);
+	sprintf(user, "%s/vfolders.xml", evolution_dir);
+
+	if (button == 0)
+		rule_context_save ((RuleContext *)context, user);
+	else
+		rule_context_revert ((RuleContext *)context, user);
+
+	if (button != -1)
+		gnome_dialog_close (GNOME_DIALOG (dialog));
+
 	vfolder_editor = NULL;
 }
 
 static void
-vfolder_editor_clicked (GtkWidget *dialog, int button, void *data)
+vfolder_editor_destroy (GtkWidget *widget, gpointer user_data)
 {
-	if (button == 0) {
-		char *user;
-
-		user = g_strdup_printf ("%s/vfolders.xml", evolution_dir);
-		rule_context_save ((RuleContext *)context, user);
-		g_free (user);
-	}
-	if (button != -1) {
-		gnome_dialog_close (GNOME_DIALOG (dialog));
-	}
+	if (vfolder_editor)
+		vfolder_editor_clicked(vfolder_editor, -1, user_data);
 }
 
 void
@@ -784,6 +790,8 @@ vfolder_edit (void)
 	gtk_window_set_title (GTK_WINDOW (vfolder_editor), _("vFolders"));
 	gtk_signal_connect (GTK_OBJECT (vfolder_editor), "clicked", vfolder_editor_clicked, NULL);
 	gtk_signal_connect (GTK_OBJECT (vfolder_editor), "destroy", vfolder_editor_destroy, NULL);
+	gnome_dialog_append_buttons (GNOME_DIALOG (vfolder_editor), GNOME_STOCK_BUTTON_CANCEL, NULL);
+
 	gtk_widget_show (vfolder_editor);
 }
 

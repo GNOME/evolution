@@ -2739,6 +2739,7 @@ filter_edit (BonoboUIComponent *uih, void *user_data, const char *path)
 	gtk_object_set_data_full (GTK_OBJECT (filter_editor), "context", fc, (GtkDestroyNotify)gtk_object_unref);
 	gtk_signal_connect (GTK_OBJECT (filter_editor), "clicked", filter_editor_clicked, fb);
 	gtk_signal_connect (GTK_OBJECT (filter_editor), "destroy", filter_editor_destroy, NULL);
+	gnome_dialog_append_buttons(GNOME_DIALOG(filter_editor), GNOME_STOCK_BUTTON_CANCEL, NULL);
 	gtk_widget_show (GTK_WIDGET (filter_editor));
 }
 

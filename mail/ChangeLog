@@ -1,3 +1,33 @@
+2002-07-10  Not Zed  <NotZed@Ximian.com>
+
+	** fixes for #10781
+
+	* mail-callbacks.c (filter_edit): Add back a cancel button.  We
+	dont need to do anything special to 'undo' here, as the rules are
+	loaded every time they're used.
+
+	* mail-vfolder.c (vfolder_editor_clicked): If ok wans't clicked,
+	revert the ruleset.
+	(vfolder_editor_destroy): Fake a button of -1 if we get destroyed
+	with no click.
+	(context_rule_removed): Unref the folder after we delete it.  If
+	we're the last ref to the folder, unrefing it means it no longer
+	exist,s which means no delte processing occurs ...
+
+2002-07-04  Not Zed  <NotZed@Ximian.com>
+
+	* mail-accounts.c (news_add_destroyed): Pass teh autoconnect flag,
+	whcih shoudlnt' exist anyeway.
+
+2002-07-03  Not Zed  <NotZed@Ximian.com>
+
+	* component-factory.c (populate_folder_context_menu): If this is a
+	file url, look up its component, if we have it, then use the
+	mail-callback reconfigure call.
+
+	* folder-browser-factory.c (folder_browser_factory_get_browser):
+	Util to get the folder browser from a uri.
+
 2002-07-11  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-display.c (pixmap_press): Rename "Save to disk..." to "Save
@@ -128,6 +158,7 @@
 	(add_storage): Only call mail_note_store() if we plan on
 	auto-connecting.
 
+>>>>>>> 1.2246
 2002-07-02  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* folder-browser.c (on_right_click): Increase the size of the
@@ -177,6 +208,7 @@
 	* mail-format.c (handle_multipart_related): Make sure that cid is
 	non-NULL.
 
+>>>>>>> 1.2245
 2002-07-01  Not Zed  <NotZed@Ximian.com>
 
 	* mail-folder-cache.c (folder_deleted): Removed.  The

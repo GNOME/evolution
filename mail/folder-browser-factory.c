@@ -213,3 +213,29 @@ folder_browser_factory_get_control_list (void)
 		control_list = e_list_new (NULL, NULL, NULL);
 	return control_list;
 }
+
+FolderBrowser *
+folder_browser_factory_get_browser(const char *uri)
+{
+	EList *controls;
+	EIterator *it;
+	BonoboControl *control;
+	FolderBrowser *fb = NULL;
+
+	if (control_list == NULL)
+		return NULL;
+	
+	controls = folder_browser_factory_get_control_list ();
+	for (it = e_list_get_iterator (controls); e_iterator_is_valid (it); e_iterator_next (it)) {		
+		control = BONOBO_CONTROL (e_iterator_get (it));
+		fb = FOLDER_BROWSER(bonobo_control_get_widget(control));
+		if (fb->uri && strcmp(fb->uri, uri) == 0)
+			break;
+		fb = NULL;
+	}
+	gtk_object_unref (GTK_OBJECT(it));
+
+	return fb;
+}
+
+
