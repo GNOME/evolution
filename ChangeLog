@@ -1,3 +1,7 @@
+2001-04-17  Ettore Perazzoli  <ettore@ximian.com>
+
+	* configure.in: Bump required GAL version to 0.7.
+
 2001-04-16  Ettore Perazzoli  <ettore@ximian.com>
 
 	* configure.in: `mail/importers/Makefile' must come after
