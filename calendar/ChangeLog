@@ -1,10 +1,23 @@
+2001-10-18  JP Rosevear  <jpr@ximian.com>
+
+	* gui/e-meeting-time-sel.c
+
+	* gui/e-meeting-time-sel-item.c
+	(e_meeting_time_selector_item_paint_day_top): use 12 or 24 hour
+	settings
+
+	* gui/e-meeting-time-sel.c: strings for 12 hour setting
+	(e_meeting_time_selector_construct): increase width slightly
+	
+	* gui/e-meeting-time-sel.h: extern the new char array
+
 2001-10-18  Rodrigo Moya <rodrigo@ximian.com>
 
 	* cal-util/cal-component.[ch] (cal_component_get_location):
 	(cal_component_set_location): new functions
 
 2001-10-18  JP Rosevear  <jpr@ximian.com>
-
+	
 	* gui/e-meeting-model.c (process_callbacks): util routine to
 	handle calling back
 	(async_close): use above
