@@ -1,3 +1,9 @@
+2000-11-21  Federico Mena Quintero  <federico@helixcode.com>
+
+	* src/libical/icalyacc.y: Patch from Eric Busboom
+	<eric@softwarestudio.org> to fix BYDAY elements in monthly
+	recurrence rule values.
+
 2000-11-06  Federico Mena Quintero  <federico@helixcode.com>
 
 	* src/libical/icalvalue.c (icalvalue_recur_as_ical_string): Handle

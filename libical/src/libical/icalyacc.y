@@ -6,7 +6,7 @@
   
   DESCRIPTION:
   
-  $Id: icalyacc.y,v 1.7 2000/10/07 21:57:08 danw Exp $
+  $Id: icalyacc.y,v 1.8 2000/11/22 05:11:26 federico Exp $
   $Locker:  $
 
   (C) COPYRIGHT 1999 Eric Busboom 
@@ -130,7 +130,7 @@ void ical_yy_error(char *s); /* Don't know why I need this.... */
 %token <v_int> INTNUMBER
 %token <v_float> FLOATNUMBER
 %token <v_string> STRING   
-%token EOL EQUALS CHARACTER COLON COMMA SEMICOLON TIMESEPERATOR 
+%token EOL EQUALS CHARACTER COLON COMMA SEMICOLON MINUS TIMESEPERATOR 
 
 %token TRUE FALSE
 
@@ -359,28 +359,28 @@ recur_start:
 
 
 weekday:
-	SU { skiplist[skippos]=ICAL_SUNDAY_WEEKDAY+8*dow_pos; 
-	     if( skippos<8) skippos++;}
-	| MO { skiplist[skippos]=ICAL_MONDAY_WEEKDAY+8*dow_pos;
-               if( skippos<8) skippos++;}
-	| TU { skiplist[skippos]=ICAL_TUESDAY_WEEKDAY+8*dow_pos;
-	       if( skippos<8) skippos++;}
-	| WE { skiplist[skippos]=ICAL_WEDNESDAY_WEEKDAY+8*dow_pos;
-	       if( skippos<8) skippos++;}
-	| TH { skiplist[skippos]=ICAL_THURSDAY_WEEKDAY+8*dow_pos;
-	       if( skippos<8) skippos++;}
-	| FR { skiplist[skippos]=ICAL_FRIDAY_WEEKDAY+8*dow_pos;
-	       if( skippos<8) skippos++;}
-	| SA { skiplist[skippos]=ICAL_SATURDAY_WEEKDAY+8*dow_pos;
-	       if( skippos<8) skippos++;}
-	;
+	SU { skiplist[skippos]=ICAL_SUNDAY_WEEKDAY; }
+        | MO { skiplist[skippos]=ICAL_MONDAY_WEEKDAY; }
+	| TU { skiplist[skippos]=ICAL_TUESDAY_WEEKDAY; }
+	| WE { skiplist[skippos]=ICAL_WEDNESDAY_WEEKDAY; }
+	| TH { skiplist[skippos]=ICAL_THURSDAY_WEEKDAY; }
+	| FR { skiplist[skippos]=ICAL_FRIDAY_WEEKDAY; } 
+	| SA { skiplist[skippos]=ICAL_SATURDAY_WEEKDAY; }
+ 	;
 
+/* HACK. The skippos has only 8 positions, but the spec permits any number */
 
 weekday_list:
-	weekday {dow_pos = 0}
-	| DIGITS weekday { dow_pos = atoi($1)} 
-	| weekday_list COMMA weekday {dow_pos = 0}
-	| weekday_list COMMA DIGITS weekday { dow_pos = atoi($3)}
+	weekday {if( skippos<8) skippos++;}
+	| DIGITS weekday { dow_pos = atoi($1);  
+	           skiplist[skippos] += 8*dow_pos; if( skippos<8) skippos++; } 
+	| MINUS DIGITS weekday { dow_pos = atoi($2);  
+	           skiplist[skippos] -= 8*dow_pos; if( skippos<8) skippos++; } 
+	| weekday_list COMMA weekday {if( skippos<8) skippos++;};
+	| weekday_list COMMA DIGITS weekday { dow_pos = atoi($3); 
+	           skiplist[skippos] += 8*dow_pos;if( skippos<8) skippos++;} 
+	| weekday_list COMMA MINUS DIGITS weekday { dow_pos = atoi($4); 
+	           skiplist[skippos] -= 8*dow_pos;if( skippos<8) skippos++;} 
 	;
 	
 
