@@ -1702,18 +1702,26 @@ print_month_summary (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 			    left, right, top, bottom);
 }
 
+
 static void
 print_todo_details (GnomePrintContext *pc, GnomeCalendar *gcal,
 		    time_t start, time_t end,
 		    double left, double right, double top, double bottom)
 {
 	CalClient *client;
-	GList *uids;
-	GList *l;
 	GnomeFont *font_summary;
 	double y, yend, x, xend;
 	struct icaltimetype *tt;
+	ECalendarTable *task_pad;
+	ETable *table;
+	CalendarModel *model;
+	gint rows, row;
 
+	/* We get the tasks directly from the TaskPad ETable. This means we
+	   get them filtered & sorted for free. */
+	task_pad = gnome_calendar_get_task_pad (gcal);
+	table = e_calendar_table_get_table (task_pad);
+	model = e_calendar_table_get_model (task_pad);
 	client = gnome_calendar_get_task_pad_cal_client (gcal);
 
 	font_summary = gnome_font_new_closest ("Times", GNOME_FONT_BOOK,
@@ -1728,34 +1736,14 @@ print_todo_details (GnomePrintContext *pc, GnomeCalendar *gcal,
 	y = top - 3;
 	yend = bottom - 2;
 
-	uids = cal_client_get_uids (client, CALOBJ_TYPE_TODO);
-
-	for (l = uids; l; l = l->next) {
-		char *uid;
+	rows = e_table_model_row_count (E_TABLE_MODEL (model));
+	for (row = 0; row < rows; row++) {
 		CalComponent *comp;
-		CalClientGetStatus status;
 		CalComponentText summary;
+		int model_row;
 
-		uid = l->data;
-
-		status = cal_client_get_object (client, uid, &comp);
-
-		switch (status) {
-		case CAL_CLIENT_GET_SUCCESS:
-			break;
-
-		case CAL_CLIENT_GET_NOT_FOUND:
-			/* Nothing: the object may have been removed from the server */
-			continue;
-
-		case CAL_CLIENT_GET_SYNTAX_ERROR:
-			g_message ("print_todo_details(): Syntax error while getting object `%s'",
-				   uid);
-			continue;
-
-		default:
-			g_assert_not_reached ();
-		}
+		model_row = e_table_view_to_model_row (table, row);
+		comp = calendar_model_get_component (model, model_row);
 
 		cal_component_get_summary (comp, &summary);
 
@@ -1792,8 +1780,6 @@ print_todo_details (GnomePrintContext *pc, GnomeCalendar *gcal,
 		gnome_print_stroke (pc);
 		y -= 3;
 	}
-
-	cal_obj_uid_list_free (uids);
 
 	gtk_object_unref (GTK_OBJECT (font_summary));
 }

@@ -1,3 +1,20 @@
+2001-10-28  Damon Chaplin  <damon@ximian.com>
+
+	* gui/print.c (print_todo_details): get the tasks directly from the
+	CalendarModel, so we get the filtering & sorting for free. Fixes
+	bug #10280. Hmm. This seems too easy. It isn't going to work is it...
+
+	* gui/gnome-cal.c (gnome_calendar_get_task_pad): new function to get
+	the TaskPad ECalendarTable, for printing.
+
+	* gui/calendar-model.c: 
+	* gui/calendar-config.c (calendar_config_get_hide_completed_tasks_sexp): 
+	split this out from calendar-model.c so we could use it for printing,
+	but ended up doing that a different way.
+
+	* gui/dialogs/task-page.c (init_widgets): removed a duplicated signal
+	connected to field_changed_cb().
+
 2001-10-27  Damon Chaplin  <damon@ximian.com>
 
 	* gui/print.c (print_week_view): 

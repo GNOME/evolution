@@ -831,8 +831,6 @@ init_widgets (TaskPage *tpage)
 			    GTK_SIGNAL_FUNC (field_changed_cb), tpage);
 
 	/* Classification */
-	gtk_signal_connect (GTK_OBJECT (priv->description), "changed",
-			    GTK_SIGNAL_FUNC (field_changed_cb), tpage);
 	gtk_signal_connect (GTK_OBJECT (priv->classification_public),
 			    "toggled",
 			    GTK_SIGNAL_FUNC (field_changed_cb), tpage);

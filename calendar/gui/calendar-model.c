@@ -1897,8 +1897,7 @@ adjust_query_sexp (CalendarModel *model, const char *sexp)
 	CalendarModelPrivate *priv;
 	CalObjType type;
 	char *type_sexp;
-	char *completed_sexp = "";
-	gboolean free_completed_sexp = FALSE;
+	char *completed_sexp;
 	char *new_sexp;
 
 	priv = model->priv;
@@ -1916,58 +1915,13 @@ adjust_query_sexp (CalendarModel *model, const char *sexp)
 
 	/* Create a sub-expression for filtering out completed tasks, based on
 	   the config settings. */
-	if (calendar_config_get_hide_completed_tasks ()) {
-		CalUnits units;
-		gint value;
-
-		units = calendar_config_get_hide_completed_tasks_units ();
-		value = calendar_config_get_hide_completed_tasks_value ();
-
-		if (value == 0) {
-			/* If the value is 0, we want to hide completed tasks
-			   immediately, so we filter out all completed tasks.*/
-			completed_sexp = "(not is-completed?)";
-		} else {
-			char *location, *isodate;
-			icaltimezone *zone;
-			struct icaltimetype tt;
-			time_t t;
-
-			/* Get the current time, and subtract the appropriate
-			   number of days/hours/minutes. */
-			location = calendar_config_get_timezone ();
-			zone = icaltimezone_get_builtin_timezone (location);
-			tt = icaltime_current_time_with_zone (zone);
-
-			switch (units) {
-			case CAL_DAYS:
-				icaltime_adjust (&tt, -value, 0, 0, 0);
-				break;
-			case CAL_HOURS:
-				icaltime_adjust (&tt, 0, -value, 0, 0);
-				break;
-			case CAL_MINUTES:
-				icaltime_adjust (&tt, 0, 0, -value, 0);
-				break;
-			default:
-				g_assert_not_reached ();
-			}
-
-			t = icaltime_as_timet_with_zone (tt, zone);
-
-			/* Convert the time to an ISO date string, and build
-			   the query sub-expression. */
-			isodate = isodate_from_time_t (t);
-			completed_sexp = g_strdup_printf ("(not (completed-before? (make-time \"%s\")))", isodate);
-			free_completed_sexp = TRUE;
-		}
-	}
+	completed_sexp = calendar_config_get_hide_completed_tasks_sexp ();
 
 	new_sexp = g_strdup_printf ("(and %s %s %s)", type_sexp,
-				    completed_sexp, sexp);
+				    completed_sexp ? completed_sexp : "",
+				    sexp);
 	g_free (type_sexp);
-	if (free_completed_sexp)
-		g_free (completed_sexp);
+	g_free (completed_sexp);
 
 #if 0
 	g_print ("Calendar model sexp:\n%s\n", new_sexp);

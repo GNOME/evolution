@@ -42,7 +42,6 @@
 #include "widgets/menus/gal-view-menus.h"
 #include "dialogs/event-editor.h"
 #include "dialogs/task-editor.h"
-#include "e-calendar-table.h"
 #include "e-day-view.h"
 #include "e-week-view.h"
 #include "evolution-calendar.h"
@@ -2599,4 +2598,12 @@ gnome_calendar_delete_event		(GnomeCalendar  *gcal)
 		e_week_view_delete_event (E_WEEK_VIEW (view));
 }
 
+
+ECalendarTable*
+gnome_calendar_get_task_pad	(GnomeCalendar *gcal)
+{
+	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), NULL);
+
+	return E_CALENDAR_TABLE (gcal->priv->todo);
+}
 

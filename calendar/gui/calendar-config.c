@@ -32,6 +32,7 @@
 #include <libgnome/gnome-config.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <widgets/e-timezone-dialog/e-timezone-dialog.h>
+#include <cal-util/timeutil.h>
 #include "component-factory.h"
 #include "calendar-commands.h"
 #include "e-tasks.h"
@@ -917,4 +918,65 @@ calendar_config_set_tasks_overdue_color (const char *color)
 
 	g_free (config->tasks_overdue_color);
 	config->tasks_overdue_color = g_strdup (color);
+}
+
+
+/**
+ * calendar_config_get_hide_completed_tasks_sexp:
+ * 
+ * Returns the subexpression to use to filter out completed tasks according
+ * to the config settings. The returned sexp should be freed.
+ **/
+char*
+calendar_config_get_hide_completed_tasks_sexp (void)
+{
+	char *sexp = NULL;
+
+	if (calendar_config_get_hide_completed_tasks ()) {
+		CalUnits units;
+		gint value;
+
+		units = calendar_config_get_hide_completed_tasks_units ();
+		value = calendar_config_get_hide_completed_tasks_value ();
+
+		if (value == 0) {
+			/* If the value is 0, we want to hide completed tasks
+			   immediately, so we filter out all completed tasks.*/
+			sexp = g_strdup ("(not is-completed?)");
+		} else {
+			char *location, *isodate;
+			icaltimezone *zone;
+			struct icaltimetype tt;
+			time_t t;
+
+			/* Get the current time, and subtract the appropriate
+			   number of days/hours/minutes. */
+			location = calendar_config_get_timezone ();
+			zone = icaltimezone_get_builtin_timezone (location);
+			tt = icaltime_current_time_with_zone (zone);
+
+			switch (units) {
+			case CAL_DAYS:
+				icaltime_adjust (&tt, -value, 0, 0, 0);
+				break;
+			case CAL_HOURS:
+				icaltime_adjust (&tt, 0, -value, 0, 0);
+				break;
+			case CAL_MINUTES:
+				icaltime_adjust (&tt, 0, 0, -value, 0);
+				break;
+			default:
+				g_assert_not_reached ();
+			}
+
+			t = icaltime_as_timet_with_zone (tt, zone);
+
+			/* Convert the time to an ISO date string, and build
+			   the query sub-expression. */
+			isodate = isodate_from_time_t (t);
+			sexp = g_strdup_printf ("(not (completed-before? (make-time \"%s\")))", isodate);
+		}
+	}
+
+	return sexp;
 }

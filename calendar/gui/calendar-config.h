@@ -147,6 +147,8 @@ void	  calendar_config_set_hide_completed_tasks_units(CalUnits	units);
 gint	  calendar_config_get_hide_completed_tasks_value(void);
 void	  calendar_config_set_hide_completed_tasks_value(gint		value);
 
+char*	  calendar_config_get_hide_completed_tasks_sexp (void);
+
 /* Confirmation options */
 gboolean  calendar_config_get_confirm_delete (void);
 void      calendar_config_set_confirm_delete (gboolean confirm);
