@@ -1,3 +1,10 @@
+2002-11-16  Chris Toshok  <toshok@ximian.com>
+
+	* GNOME_Evolution_WombatLDAP.server.in.in: remove the moniker
+	cruft.
+
+	* GNOME_Evolution_WombatNOLDAP.server.in.in: same.
+	
 2002-11-15  Ettore Perazzoli  <ettore@ximian.com>
 
 	* Makefile.am: Added rule to create
