@@ -1,3 +1,25 @@
+2004-01-29  Chris Toshok  <toshok@m198-139.dsl.rawbw.com>
+
+	* gui/component/addressbook-migrate.c (setup_progress_dialog): use
+	the MigrationContext struct.
+	(dialog_close): same.
+	(dialog_set_folder_name): same.
+	(dialog_set_progress): same.
+	(migrate_contacts): same, and pass it along to other functions.
+	(migrate_contact_folder_to_source): same.
+	(migrate_contact_folder): same.  also, add the old path/uid to the
+	folder_uid_map.
+	(migrate_local_folders): same.
+	(create_groups): use the MigrationContext struct.
+	(migrate_completion_folders): if it's a file uri, look up the old
+	path in our hash table for a uid to use.  otherwise use the old
+	behavior.
+	(migration_context_new): new function, initialize the
+	MigrationContext.
+	(migration_context_free): free up everything.
+	(addressbook_migrate): create the context, pass it to everything,
+	destroy the context, shine toshok's shoes, etc.
+
 2004-01-29  Radek Doulik  <rodo@ximian.com>
 
 	* gui/component/addressbook-config.c (dialog_to_temp_source): set
