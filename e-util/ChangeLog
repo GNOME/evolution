@@ -1,3 +1,7 @@
+2003-12-06  JP Rosevear <jpr@ximian.com>
+
+	* Makefile.am: Remove hard coded disable deprecated flags
+
 2003-11-23  JP Rosevear  <jpr@ximian.com>
 
 	* Makefile.am (INCLUDES): remove gtk deprecated flag

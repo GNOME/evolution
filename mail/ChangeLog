@@ -1,3 +1,7 @@
+2003-12-06  JP Rosevear <jpr@ximian.com>
+
+	* Makefile.am: Remove hard coded disable deprecated flags
+	
 2003-12-05  Rodney Dawes  <dobey@ximian.com>
 
 	* em-folder-tree.c (render_display_name): Remove the extra || unread
