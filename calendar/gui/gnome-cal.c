@@ -10,6 +10,7 @@
 #include "gnome-cal.h"
 #include "gncal-full-day.h"
 #include "gncal-week-view.h"
+#include "timeutil.h"
 #include "views.h"
 
 static void gnome_calendar_init                    (GnomeCalendar *gcal);
@@ -40,21 +41,23 @@ static void
 setup_widgets (GnomeCalendar *gcal)
 {
 	time_t now;
+	GtkWidget *sw;
 
 	now = time (NULL);
 	
 	gcal->notebook  = gtk_notebook_new ();
-	gcal->day_view  = day_view_create  (gcal);
+	gcal->day_view  = day_view_create (gcal);
 	gcal->week_view = gncal_week_view_new (gcal, now);
 	gcal->year_view = year_view_create (gcal);
 	gcal->task_view = tasks_create (gcal);
 
-	if (0)
+	if (1)
 	{
 		struct tm tm;
 		time_t a, b;
 
 		tm = *localtime (&now);
+/* 		tm.tm_mday = 2; */
 		tm.tm_hour = 0;
 		tm.tm_min  = 0;
 		tm.tm_sec  = 0;
@@ -66,9 +69,16 @@ setup_widgets (GnomeCalendar *gcal)
 		b = mktime (&tm);
 
 		gcal->day_view = gncal_full_day_new (gcal, a, b);
+
+		sw = gtk_scrolled_window_new (NULL, NULL);
+		gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
+						GTK_POLICY_AUTOMATIC,
+						GTK_POLICY_AUTOMATIC);
+		gtk_container_add (GTK_CONTAINER (sw), gcal->day_view);
+		gtk_widget_show (gcal->day_view);
 	}
 
-	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->notebook), gcal->day_view,  gtk_label_new (_("Day View")));
+	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->notebook), sw,  gtk_label_new (_("Day View")));
 	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->notebook), gcal->week_view, gtk_label_new (_("Week View")));
 	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->notebook), gcal->year_view, gtk_label_new (_("Year View")));
 	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->notebook), gcal->task_view, gtk_label_new (_("Todo")));
@@ -83,6 +93,9 @@ static void
 gnome_calendar_init(GnomeCalendar *gcal)
 {
 	gcal->cal = 0;
+	gcal->day_view = 0;
+	gcal->week_view = 0;
+	gcal->event_editor = 0;
 
 	setup_widgets (gcal);
 }
@@ -164,6 +177,7 @@ gnome_calendar_new (char *title)
 void
 gnome_calendar_update_all (GnomeCalendar *cal)
 {
+	gncal_full_day_update (GNCAL_FULL_DAY (cal->day_view));
 	gncal_week_view_update (GNCAL_WEEK_VIEW (cal->week_view));
 }
 

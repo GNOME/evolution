@@ -10,6 +10,7 @@
 #include <pwd.h>
 #include <sys/types.h>
 #include "calendar.h"
+#include "eventedit.h"
 #include "gnome-cal.h"
 #include "main.h"
 
@@ -238,7 +239,6 @@ new_calendar (char *full_name, char *calendar_file)
 	
 	toplevel = gnome_calendar_new (title);
 	setup_menu (toplevel);
-	gtk_widget_show (toplevel);
 
 	if (g_file_exists (calendar_file)){
 		printf ("Trying to load %s\n", calendar_file);
@@ -248,6 +248,8 @@ new_calendar (char *full_name, char *calendar_file)
 		gnome_calendar_load (GNOME_CALENDAR (toplevel), "./test.vcf");
 	}
 	active_calendars++;
+
+	gtk_widget_show (toplevel);
 }
 	
 int 
@@ -267,6 +269,7 @@ main(int argc, char *argv[])
 
 	new_calendar (full_name, user_calendar_file);
 	gtk_main ();
+	return 0;
 }
 
 

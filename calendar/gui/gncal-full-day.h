@@ -34,6 +34,12 @@ struct _GncalFullDay {
 	time_t lower;			/* lower time to display */
 	time_t upper;			/* upper time to display */
 	int interval;			/* interval between rows in minutes */
+
+	GList *children;		/* container children */
+	gpointer drag_info;		/* internal drag information */
+
+	GdkCursor *up_down_cursor;	/* for dragging children */
+	GdkCursor *beam_cursor;		/* for the text widgets */
 };
 
 struct _GncalFullDayClass {

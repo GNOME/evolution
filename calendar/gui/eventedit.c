@@ -6,10 +6,11 @@
  */
 
 #include <gnome.h>
+#include <string.h>
 #include "calendar.h"
-#include "gnome-cal.h"
 #include "eventedit.h"
 #include "main.h"
+#include "timeutil.h"
 
 static void event_editor_init          (EventEditor *ee);
 GtkWindow *parent_class;
@@ -202,10 +203,9 @@ alarm_toggle (GtkToggleButton *toggle, CalendarAlarm *alarm)
 
 #define FX GTK_FILL | GTK_EXPAND
 #define XCOL 6
-static GtkWidget *
+static void
 ee_create_ae (GtkTable *table, char *str, CalendarAlarm *alarm, enum AlarmType type, int y)
 {
-	GtkWidget *timesel;
 	char buffer [40];
 
 	alarm->w_enabled = gtk_check_button_new_with_label (str);
@@ -253,7 +253,7 @@ ee_create_ae (GtkTable *table, char *str, CalendarAlarm *alarm, enum AlarmType t
 static GtkWidget *
 ee_alarm_widgets (EventEditor *ee)
 {
-	GtkWidget *table, *aalarm, *dalarm, *palarm, *malarm, *mailto, *mailte, *l;
+	GtkWidget *table, *mailto, *mailte, *l;
 	
 	l = gtk_frame_new (_("Alarms"));
 	
@@ -304,6 +304,7 @@ ee_classification_widgets (EventEditor *ee)
  * Retrieves the information from the CalendarAlarm widgets and stores them
  * on the CalendarAlarm generic values
  */
+void
 ee_store_alarm (CalendarAlarm *alarm, enum AlarmType type)
 {
 	GtkWidget *item;

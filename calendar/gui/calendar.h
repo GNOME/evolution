@@ -18,6 +18,7 @@ typedef struct {
 } Calendar;
 
 Calendar *calendar_new      (char *title);
+void calendar_load (Calendar *cal, char *fname);
 void calendar_add_object    (Calendar *cal, iCalObject *obj);
 void calendar_remove_object (Calendar *cal, iCalObject *obj);
 void calendar_destroy       (Calendar *cal);

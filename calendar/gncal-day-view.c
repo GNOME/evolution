@@ -156,6 +156,7 @@ static void
 gncal_day_view_size_request (GtkWidget *widget, GtkRequisition *requisition)
 {
 	GncalDayView *dview;
+	int str_width, width;
 
 	g_return_if_fail (widget != NULL);
 	g_return_if_fail (GNCAL_IS_DAY_VIEW (widget));
@@ -165,7 +166,11 @@ gncal_day_view_size_request (GtkWidget *widget, GtkRequisition *requisition)
 
 	/* border and min width */
 
-	requisition->width = 2 * (widget->style->klass->xthickness + TEXT_BORDER) + MIN_INFO_WIDTH;
+	str_width = gdk_string_width (widget->style->font, dview->day_str);
+
+	width = MAX (MIN_INFO_WIDTH, str_width);
+
+	requisition->width = 2 * (widget->style->klass->xthickness + TEXT_BORDER) + width;
 	requisition->height = 2 * (widget->style->klass->ythickness + TEXT_BORDER);
 
 	/* division line */
@@ -297,8 +302,6 @@ gncal_day_view_update (GncalDayView *dview)
 	strftime (buf, sizeof (buf)-1, "%A %d", &tm);
 	dview->day_str = g_strdup (buf);
 
-	gtk_widget_draw (GTK_WIDGET (dview), NULL);
-
 	if (dview->events)
 		g_list_free (dview->events);
 
@@ -306,6 +309,8 @@ gncal_day_view_update (GncalDayView *dview)
 						      dview->lower,
 						      dview->upper,
 						      calendar_compare_by_dtstart);
+
+	gtk_widget_draw (GTK_WIDGET (dview), NULL);
 }
 
 void

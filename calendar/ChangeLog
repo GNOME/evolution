@@ -1,3 +1,45 @@
+1998-04-06  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* gncal-week-view.c (gncal_week_view_new): Use the new
+	gtk_table_set_homogeneous() instead of setting the variable directly.
+
+1998-04-03  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* eventedit.c (ee_create_ae): Make it return void.
+	(ee_alarm_widgets): Remove some unused variables.
+	(ee_store_alarm): Make it return void.
+	#include <string.h>
+
+	* eventedit.h: #include "gnome-cal.h"
+
+	* calobj.c (list_free): Don't use g_free in the g_list_foreach.
+
+	* calendar.h: Add prototype for calendar_load().
+
+	* timeutil.h: Add prototypes for time_add_*().
+
+	* calendar.c:
+	* calobj.c:
+	* eventedit.c:
+	* gnome-cal.c: #include "timeutil.h"
+
+	* gncal-day-view.c (gncal_day_view_size_request): Make the minimum
+	width equal or larger to the title width.
+
+	* main.c: #include "eventedit.h"
+	(main): Add a return statement.
+	(new_calendar): Show stuff *after* the calendar has been loaded.
+
+	* gnome-cal.c (gnome_calendar_load): Update the day view.
+	(setup_widgets): Hackish setup of a day view widget - will fix later.
+	(gnome_calendar_init): Initialize all fields.
+
+	* gnome-cal.h: Added day_view field.  Maybe this should be changed
+	when the a complete day view panel is complete.
+
+	* gncal-day-view.c (gncal_day_view_update): Draw after update, not
+	before.
+
 1998-04-06  Carsten Schaar  <nhadcasc@fs-maphy.uni-hannover.de>
 
 	* versit/.cvsignore: New file.

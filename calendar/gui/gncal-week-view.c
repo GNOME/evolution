@@ -58,7 +58,7 @@ gncal_week_view_new (GnomeCalendar *calendar, time_t start_of_week)
 
 	wview = gtk_type_new (gncal_week_view_get_type ());
 
-	wview->table.homogeneous = TRUE; /* FIXME: eeeeeeeeeek, GtkTable does not have a function to set this */
+	gtk_table_set_homogeneous (GTK_TABLE (wview), TRUE);
 
 	wview->calendar = calendar;
 

@@ -20,7 +20,6 @@ BEGIN_GNOME_DECLS
 typedef struct {
 	GnomeApp    gnome_app;
 	Calendar    *cal;
-
 	time_t      current_display;
 	
 	GtkWidget   *notebook;

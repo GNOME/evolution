@@ -15,6 +15,7 @@
 #include <config.h>
 
 #include "calendar.h"
+#include "timeutil.h"
 #include "versit/vcc.h"
 
 Calendar *

@@ -8,6 +8,8 @@
 #ifndef EVENT_EDITOR_H
 #define EVENT_EDITOR_H
 
+#include "gnome-cal.h"
+
 BEGIN_GNOME_DECLS
 
 #define EVENT_EDITOR(obj)         GTK_CHECK_CAST(obj, event_editor_get_type(), EventEditor)
