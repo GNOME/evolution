@@ -71,10 +71,6 @@ mail_tool_set_uid_flags (CamelFolder *folder, const char *uid, guint32 mask, gui
 gchar *
 mail_tool_generate_forward_subject (CamelMimeMessage *msg);
 
-/* Sends the medium over transport */
-void
-mail_tool_send_via_transport (CamelTransport *transport, CamelMedium *medium, CamelException *ex);
-
 /* Make a message into an attachment */
 CamelMimePart *
 mail_tool_make_message_attachment (CamelMimeMessage *message);

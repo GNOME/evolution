@@ -35,7 +35,7 @@
 #include "mail-config.h"
 #include "mail-accounts.h"
 #include "mail-config-druid.h"
-#include "mail-threads.h"
+#include "mail-mt.h"
 #include "mail-tools.h"
 #include "mail-ops.h"
 #include "mail-local.h"
@@ -156,6 +156,8 @@ check_send_configuration (FolderBrowser *fb)
 	return TRUE;
 }
 
+#if 0
+/* FIXME: is this still required when we send & receive email ?  I am not so sure ... */
 static void
 main_select_first_unread (CamelObject *object, gpointer event_data, gpointer data)
 {
@@ -171,45 +173,14 @@ select_first_unread (CamelObject *object, gpointer event_data, gpointer data)
 {
 	mail_op_forward_event (main_select_first_unread, object, event_data, data);
 }
+#endif
 
 void
-fetch_mail (GtkWidget *widget, gpointer user_data)
+send_receieve_mail (GtkWidget *widget, gpointer user_data)
 {
-	GSList *sources;
-	
-	if (!mail_config_is_configured ()) {
-		configure_mail (FOLDER_BROWSER (user_data));
-		return;
-	}
-	
-	sources = mail_config_get_sources ();
-	
-	if (!sources || !sources->data) {
-		return;
-	}
-	
-	while (sources) {
-		MailConfigService *source;
-		
-		source = (MailConfigService *) sources->data;
-		sources = sources->next;
-		
-		if (!source || !source->url) {
-			g_warning ("Bad source in fetch_mail??");
-			continue;
-		}
-		
-		mail_do_fetch_mail (source->url, source->keep_on_server, 
-				    NULL, select_first_unread, user_data);
-	}
-}
-
-void
-send_queued_mail (GtkWidget *widget, gpointer user_data)
-{
-	extern CamelFolder *outbox_folder;
 	const MailConfigAccount *account;
-	
+
+	/* receive first then send, this is a temp fix for POP-before-SMTP */
 	if (!mail_config_is_configured ()) {
 		configure_mail (FOLDER_BROWSER (user_data));
 		return;
@@ -217,37 +188,12 @@ send_queued_mail (GtkWidget *widget, gpointer user_data)
 	
 	account = mail_config_get_default_account ();
 	if (!account || !account->transport) {
-		GtkWidget *win = gtk_widget_get_ancestor (GTK_WIDGET (user_data),
-							  GTK_TYPE_WINDOW);
-		
-		gnome_error_dialog_parented (_("You have not set a mail transport method"),
-					     GTK_WINDOW (win));
+		GtkWidget *win = gtk_widget_get_ancestor(GTK_WIDGET (user_data), GTK_TYPE_WINDOW);
+		gnome_error_dialog_parented (_("You have not set a mail transport method"), GTK_WINDOW(win));
 		return;
 	}
-	
-	if (!outbox_folder) {
-		GtkWidget *win = gtk_widget_get_ancestor (GTK_WIDGET (user_data),
-							  GTK_TYPE_WINDOW);
-		
-		gnome_error_dialog_parented (_("You have no Outbox configured"),
-					     GTK_WINDOW (win));
-		return;
-	}
-	
-	mail_do_send_queue (outbox_folder, account->transport->url);
-}
 
-void
-send_receieve_mail (GtkWidget *widget, gpointer user_data)
-{
-	/* receive first then send, this is a temp fix for POP-before-SMTP */
-	if (!mail_config_is_configured ()) {
-		configure_mail (FOLDER_BROWSER (user_data));
-		return;
-	}
-	
-	fetch_mail (widget, user_data);
-	send_queued_mail (widget, user_data);
+	mail_send_receive();
 }
 
 static void
@@ -422,13 +368,8 @@ composer_postpone_cb (EMsgComposer *composer, gpointer data)
 	/* Save the message in Outbox */
 	mail_do_append_mail (outbox_folder, message, NULL);
 	
-	if (psd) {
-		guint32 set;
-		
-		set = camel_folder_get_message_flags (psd->folder, psd->uid);
-		camel_folder_set_message_flags (psd->folder, psd->uid,
-						psd->flags, psd->flags);
-	}
+	if (psd)
+		camel_folder_set_message_flags(psd->folder, psd->uid, psd->flags, psd->flags);
 	
 	gtk_widget_destroy (GTK_WIDGET (composer));
 }
@@ -715,8 +656,8 @@ apply_filters (GtkWidget *widget, gpointer user_data)
 	
 	uids = g_ptr_array_new ();
 	message_list_foreach (ml, enumerate_msg, uids);
-	
-	mail_do_filter_ondemand (fb->folder, uids);
+
+	mail_filter_on_demand(fb->folder, uids);
 }
 
 void

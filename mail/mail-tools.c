@@ -52,6 +52,8 @@ static GPrivate *camel_locklevel = NULL;
 
 void mail_tool_camel_lock_up (void)
 {
+	return;
+
 	G_LOCK (camel_locklevel);
 
 	if (camel_locklevel == NULL)
@@ -70,6 +72,8 @@ void mail_tool_camel_lock_up (void)
 
 void mail_tool_camel_lock_down (void)
 {
+	return;
+
         G_LOCK (camel_locklevel);
 
         if (camel_locklevel == NULL) {
@@ -221,140 +225,6 @@ mail_tool_do_movemail (const gchar *source_url, CamelException *ex)
 	return dest_path;
 }
 
-#if 0
-void
-mail_tool_move_folder_contents (CamelFolder *source, CamelFolder *dest, gboolean use_cache, CamelException *ex)
-{
-	CamelUIDCache *cache;
-	GPtrArray *uids;
-	int i;
-	gboolean summary_capability;
-	time_t last_update = 0;
-
-	mail_tool_camel_lock_up();
-
-	camel_object_ref (CAMEL_OBJECT (source));
-	camel_object_ref (CAMEL_OBJECT (dest));
-
-	/* Get all uids of source */
-
-	mail_op_set_message (_("Examining %s"), source->full_name);
-
-	uids = camel_folder_get_uids (source);
-	printf ("mail_tool_move_folder: got %d messages in source\n", uids->len);
-
-	/* If we're using the cache, ... use it */
-
-	if (use_cache) {
-		GPtrArray *new_uids;
-		char *url, *p, *filename;
-
-		url = camel_url_to_string (
-			CAMEL_SERVICE (source->parent_store)->url, FALSE);
-		for (p = url; *p; p++) {
-			if (!isascii ((unsigned char)*p) ||
-			    strchr (" /'\"`&();|<>${}!", *p))
-				*p = '_';
-		}
-		filename = g_strdup_printf ("%s/config/cache-%s",
-					    evolution_dir, url);
-		g_free (url);
-
-		cache = camel_uid_cache_new (filename);
-
-		if (cache) {
-			new_uids = camel_uid_cache_get_new_uids (cache, uids);
-			camel_folder_free_uids (source, uids);
-			uids = new_uids;
-		} else {
-			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-					      _("Could not read UID "
-					      "cache file \"%s\". You may "
-					      "receive duplicate "
-					      "messages."), filename);
-		}
-
-		g_free (filename);
-	} else
-		cache = NULL;
-
-	printf ("mail_tool_move_folder: %d of those messages are new\n", uids->len);
-
-	summary_capability = camel_folder_has_summary_capability (source);
-
-	/* Copy the messages */
-	for (i = 0; i < uids->len; i++) {
-		CamelMimeMessage *msg;
-		CamelMessageInfo *info = NULL;
-		const gboolean last_message = (i+1 == uids->len);
-		time_t now;
-
-		/* Info */
-
-		/*
-		 * Only update display every 2 seconds, as mail_op_set_message
-		 * is an expensive operation
-		 */
-		time (&now);
-		if (last_message || ((now - last_update) > 2)) {
-			mail_op_set_message (_("Retrieving message %d of %d"),
-					     i + 1, uids->len);
-			last_update = now;
-		}
-
-		/* Get the message */
-
-		msg = camel_folder_get_message (source, uids->pdata[i], ex);
-		if (camel_exception_is_set (ex)) {
-			camel_object_unref (CAMEL_OBJECT (msg));
-			goto cleanup;
-		}
-		
-		/* Append it to dest */
-
-		mail_op_set_message (_("Writing message %d of %d"),
-				     i + 1, uids->len);
-
-		if (summary_capability)
-			info = camel_folder_get_message_info (source, uids->pdata[i]);
-		camel_folder_append_message (dest, msg, info, ex);
-		if (summary_capability)
-			camel_folder_free_message_info(source, info);
-
-		if (camel_exception_is_set (ex)) {
-			camel_object_unref (CAMEL_OBJECT (msg));
-			goto cleanup;
-		}
-
-		/* (Maybe) get rid of the message */
-
-		camel_object_unref (CAMEL_OBJECT (msg));
-		if (!use_cache)
-			camel_folder_delete_message (source, uids->pdata[i]);
-	}
-
-	/* All done. Sync n' free. */
-
-	if (cache) {
-		camel_uid_cache_free_uids (uids);
-		
-		if (!camel_exception_is_set (ex))
-			camel_uid_cache_save (cache);
-		camel_uid_cache_destroy (cache);
-	} else
-		camel_folder_free_uids (source, uids);
-
-	mail_op_set_message (_("Saving changes to %s"), source->full_name);
-
-	camel_folder_sync (source, TRUE, ex);
-
- cleanup:
-	camel_object_unref (CAMEL_OBJECT (source));
-	camel_object_unref (CAMEL_OBJECT (dest));
-	mail_tool_camel_lock_down();
-}
-#endif
-
 void
 mail_tool_set_uid_flags (CamelFolder *folder, const char *uid, guint32 mask, guint32 set)
 {
@@ -392,25 +262,6 @@ mail_tool_generate_forward_subject (CamelMimeMessage *msg)
 	}
 
 	return fwd_subj;
-}
-
-void
-mail_tool_send_via_transport (CamelTransport *transport, CamelMedium *medium, CamelException *ex)
-{
-	mail_tool_camel_lock_up();
-
-	/*camel_service_connect (CAMEL_SERVICE (transport), ex);*/
-
-	if (camel_exception_is_set (ex))
-		goto cleanup;
-
-	camel_transport_send (transport, medium, ex);
-
-	/*camel_service_disconnect (CAMEL_SERVICE (transport),
-	 *camel_exception_is_set (ex) ? NULL : ex);*/
-
- cleanup:
-	mail_tool_camel_lock_down();
 }
 
 CamelMimePart *

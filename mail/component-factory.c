@@ -40,6 +40,7 @@
 #include "mail-ops.h"
 #include "mail-local.h"
 #include "mail-session.h"
+#include "mail-mt.h"
 #include "openpgp-utils.h"
 #include <gal/widgets/e-gui-utils.h>
 
@@ -173,7 +174,10 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	      gpointer user_data)
 {
 	GNOME_Evolution_Shell corba_shell;
-	const GSList *accounts, *news;
+	const GSList *accounts;
+#ifdef ENABLE_NNTP
+	const GSList *news;
+#endif
 	int i;
 
 	g_print ("evolution-mail: Yeeeh! We have an owner!\n");	/* FIXME */

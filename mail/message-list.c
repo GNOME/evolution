@@ -23,7 +23,7 @@
 
 #include "mail-config.h"
 #include "message-list.h"
-#include "mail-threads.h"
+#include "mail-mt.h"
 #include "mail-tools.h"
 #include "mail-ops.h"
 #include "Mail.h"

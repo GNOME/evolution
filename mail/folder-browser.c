@@ -16,11 +16,11 @@
 #include "mail-callbacks.h"
 #include "mail-tools.h"
 #include "message-list.h"
-#include "mail-threads.h"
 #include "mail-ops.h"
 #include "mail-vfolder.h"
 #include "mail-autofilter.h"
 #include "mail-mlist-magic.h"
+#include "mail-mt.h"
 
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-unicode.h>

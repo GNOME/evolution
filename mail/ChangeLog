@@ -1,7 +1,57 @@
+2001-01-22  Not Zed  <NotZed@Ximian.com>
+
+	* component-factory.c (owner_set_cb): remove a warning with
+	conditional news compilation.
+
+	* mail-ops.h: Cleaned up the header list.
+	
 2001-01-22  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-crypto.c (mail_crypto_is_rfc2015_signed): Helps if I spell
 	stuff correctly so it can pass the tests ;-)
+
+2001-01-22  Not Zed  <NotZed@Ximian.com>
+
+	* folder-browser-factory.c: Replace the old get_send mail with the
+	new one (button).
+
+	* mail-ops.c (set_x_mailer): 
+	(mail_load_evolution_rule_context): 
+	(mail_do_fetch_mail): 
+	(mail_do_filter_ondemand): 
+	(mail_send_mail_old): 
+	(mail_do_send_queue): All removed, (for) now lives in mail-send-recv.c.
+	(load_context): 
+	(setup_filter_driver): 
+	(filter_get_folder): 
+	(mail_filter_folder): 
+	(mail_fetch_mail): 
+	(mail_update_subfolders): 
+	(mail_send_mail): 
+	(mail_send_queue): New equivalents of all these fundtions, moved
+	from mail-send-recv.c ...
+	(mail_filter_on_demand): Moved here too.
+	(mail_load_filter_context): Export this.
+
+	* mail-callbacks.c (apply_filters): Use the new
+	mail_filter_on_demand() call.
+	(send_receieve_mail): Use mail_send_receive to do the work.  Add a
+	little error handling here that used to be elsewhere.
+	(send_queued_mail): Removed.
+	(fetch_mail): Removed.
+	(select_first_unread): #ifdef'd this out.  Not sure if this still
+	makes sense, but it doesn't get run right now anyway.
+	(composer_postpone_cb): Fix the setting of message flags.  You
+	dont need to get them first, ever.
+
+	* mail-send-recv.c (mail_send_message): Dont use
+	mail_tool_send_via_transport anymore (it does nothing useful).
+
+	* mail-tools.c (mail_tool_camel_lock_up): Turned into a noop.
+	(mail_tool_camel_lock_down): And here too.
+	(mail_tool_move_folder_contents): Removed from the code (hasn't
+	bene used for ages).
+	(mail_tool_send_via_transport): Removed, it doesn't save anything.
 
 2001-01-21  Jeffrey Stedfast  <fejj@ximian.com>
 

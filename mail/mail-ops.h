@@ -1,10 +1,11 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
 /* 
- * Author : 
+ * Authors: 
  *  Peter Williams <peterw@helixcode.com>
+ *  Michael Zucchi <notzed@ximian.com>
  *
- * Copyright 2000 Helix Code, Inc. (http://www.helixcode.com)
+ * Copyright 2000, 2001 Ximian, Inc. (http://www.ximian.com)
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -22,41 +23,26 @@
  * USA
  */
 
-#include <camel/camel.h>
-#include <filter/filter-driver.h>
+#include "camel/camel-folder.h"
+#include "camel/camel-filter-driver.h"
+#include "camel/camel-mime-message.h"
+#include "camel/camel-session.h"
+
+#include "filter/filter-context.h"
+
 #include "mail-threads.h"
 #include "evolution-storage.h"	/*EvolutionStorage */
-#include "composer/e-msg-composer.h"	/*EMsgComposer */
-#include "message-list.h"	/*MessageList */
-#include "mail-mt.h"
+#include "e-util/e-msgport.h"
 
-void mail_do_fetch_mail (const gchar *source_url, gboolean keep_on_server,
-			 CamelFolder *destination,
-			 gpointer hook_func, gpointer hook_data);
+/* utility functions */
+FilterContext *mail_load_filter_context(void);
 
-void mail_do_filter_ondemand (CamelFolder *source, GPtrArray *uids);
-
-void mail_do_send_mail (const char *xport_uri,
-			CamelMimeMessage *message,
-			CamelFolder *done_folder,
-			const char *done_uid,
-			guint32 done_flags, GtkWidget *composer);
-void mail_do_send_queue (CamelFolder *folder_queue,
-			 const char *xport_uri);
 void mail_do_append_mail (CamelFolder *folder,
 			  CamelMimeMessage *message,
 			  CamelMessageInfo *info);
 void mail_do_transfer_messages (CamelFolder *source, GPtrArray *uids,
 				gboolean delete_from_source,
 				gchar *dest_uri);
-void mail_do_flag_messages (CamelFolder *source, GPtrArray *uids,
-			    gboolean invert,
-			    guint32 mask, guint32 set);
-void mail_do_flag_all_messages (CamelFolder *source, gboolean invert,
-				guint32 mask, guint32 set);
-void mail_do_scan_subfolders (CamelStore *store, EvolutionStorage *storage);
-void mail_do_create_folder (const GNOME_Evolution_ShellComponentListener listener,
-			    const char *uri, const char *type);
 void mail_do_setup_trash (const char *name, const char *store_uri, CamelFolder **folder);
 
 /* get a single message, asynchronously */
@@ -99,4 +85,32 @@ int mail_send_mail(const char *uri, CamelMimeMessage *message,
 /* scan subfolders and add them to the storage, synchronous */
 /* FIXME: Move this to component-factory.c */
 void mail_scan_subfolders(CamelStore *store, EvolutionStorage *storage);
+/* not sure about this one though */
+int mail_update_subfolders(CamelStore *store, EvolutionStorage *storage,
+			   void (*done)(CamelStore *, void *data), void *data);
+
+/* yeah so this is messy, but it does a lot, maybe i can consolidate all user_data's to be the one */
+void mail_send_queue(CamelFolder *queue, const char *destination,
+		     FilterContext *fc, const char *type,
+		     CamelCancel *cancel,
+		     CamelFilterGetFolderFunc get_folder, void *get_data,
+		     CamelFilterStatusFunc *status, void *status_data,
+		     void (*done)(char *destination, void *data), void *data);
+
+void mail_fetch_mail(const char *source, int keep,
+		     FilterContext *fc, const char *type,
+		     CamelCancel *cancel,
+		     CamelFilterGetFolderFunc get_folder, void *get_data,
+		     CamelFilterStatusFunc *status, void *status_data,
+		     void (*done)(char *source, void *data), void *data);
+
+void mail_filter_folder(CamelFolder *source_folder, GPtrArray *uids,
+			FilterContext *fc, const char *type,
+			CamelCancel *cancel);
+
+/* convenience function for above */
+void mail_filter_on_demand(CamelFolder *folder, GPtrArray *uids);
+
+
+
 
