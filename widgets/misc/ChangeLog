@@ -1,3 +1,13 @@
+2000-07-08  Dan Winship  <danw@helixcode.com>
+
+	* e-scroll-frame.c (e_scroll_frame_add): comment out true but
+	confused warning about non-scrollable widgets until Chris and/or
+	Federico fix this correctly.
+	(e_scroll_frame_size_allocate): If the available space for the
+	child is less than the width/height of the frame, give the child
+	an allocation of 0 rather than some small negative number cast to
+	unsigned.
+
 2000-07-05  Dan Winship  <danw@helixcode.com>
 
 	* Makefile.am (INCLUDES): Set G_LOG_DOMAIN=__FILE__ rather than

@@ -697,8 +697,8 @@ e_scroll_frame_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 
 			child_allocation.x = priv->frame_x + xthickness;
 			child_allocation.y = priv->frame_y + ythickness;
-			child_allocation.width = priv->frame_w - 2 * xthickness;
-			child_allocation.height = priv->frame_h - 2 * ythickness;
+			child_allocation.width = MAX ((gint)priv->frame_w - 2 * xthickness, 0);
+			child_allocation.height = MAX ((gint)priv->frame_h - 2 * ythickness, 0);
 
 			previous_hvis = priv->hsb_visible;
 			previous_vvis = priv->vsb_visible;
@@ -850,8 +850,12 @@ e_scroll_frame_add (GtkContainer *container, GtkWidget *child)
 	if (!gtk_widget_set_scroll_adjustments (child,
 						gtk_range_get_adjustment (GTK_RANGE (priv->hsb)),
 						gtk_range_get_adjustment (GTK_RANGE (priv->vsb))))
+#if 0
 		g_warning ("e_scroll_frame_add(): cannot add non scrollable widget "
 			   "use e_scroll_frame_add_with_viewport() instead");
+#else
+		;
+#endif
 
 	if (GTK_WIDGET_REALIZED (child->parent))
 		gtk_widget_realize (child);
