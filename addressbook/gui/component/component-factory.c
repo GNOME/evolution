@@ -29,8 +29,9 @@
 #include "eab-popup-control.h"
 #include "eab-vcard-control.h"
 #include "select-names/e-select-names-bonobo.h"
+#if HAVE_NSS
 #include "smime/gui/certificate-manager.h"
-
+#endif
 #include <bonobo/bonobo-shlib-factory.h>
 
 
@@ -67,8 +68,10 @@ factory (BonoboGenericFactory *factory,
 		return BONOBO_OBJECT (addressbook_config_control_new ());
 	if (strcmp (component_id, SELECT_NAMES_ID) == 0)
 		return BONOBO_OBJECT (e_select_names_bonobo_new ());
+#if HAVE_NSS
         if (strcmp (component_id, CERTIFICATE_MANAGER_CONFIG_CONTROL_ID) == 0)
                 return BONOBO_OBJECT (certificate_manager_config_control_new ());
+#endif
 
 	g_warning (FACTORY_ID ": Don't know what to do with %s", component_id);
 	return NULL;

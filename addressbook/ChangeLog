@@ -1,3 +1,11 @@
+2003-10-29  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/component-factory.c (factory): ifdef the smime
+	code with HAVE_NSS.
+
+	* gui/component/Makefile.am (libevolution_addressbook_la_LIBADD):
+	conditionally include libevolution-smime.la.
+
 2003-10-24  Dan Winship  <danw@ximian.com>
 
 	* backend/pas/Makefile.am (libpas_la_LIBADD): libpas should depend

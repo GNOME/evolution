@@ -41,8 +41,12 @@ libevolution_addressbook_la_SOURCES = 	\
 
 #	$(top_builddir)/addressbook/printing/libecontactprint.la
 
+if ENABLE_SMIME
+SMIME_LIB=$(top_builddir)/smime/gui/libevolution-smime.la
+endif
+
 libevolution_addressbook_la_LIBADD =							\
-        $(top_builddir)/smime/gui/libevolution-smime.la                                 \
+	$(SMIME_LIB)									\
 	$(top_builddir)/addressbook/gui/component/select-names/libeselectnames.la	\
 	$(top_builddir)/shell/libeshell.la						\
 	$(top_builddir)/addressbook/gui/merging/libeabbookmerging.la			\
