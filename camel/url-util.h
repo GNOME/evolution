@@ -37,6 +37,7 @@ extern "C" {
 typedef struct {
 	gchar *protocol;
 	gchar *user;
+	gchar *authmech;
 	gchar *passwd;
 	gchar *host;
 	gchar *port;

@@ -3,10 +3,11 @@
 
 
 /* 
- * Author : 
+ * Authors : 
  *  Bertrand Guiheneuf <bertrand@helixcode.com>
+ *  Dan Winship <danw@helixcode.com>
  *
- * Copyright 1999, 2000 HelixCode (http://www.helixcode.com)
+ * Copyright 1999, 2000 Helix Code, Inc. (http://www.helixcode.com)
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -27,54 +28,33 @@
 
 
 /* 
-   Here we deal with URL following the general scheme:
-   protocol://user:password@host:port/name
-   where name is a path-like string (ie dir1/dir2/....)
-   See rfc1738 for the complete description of 
-   Uniform Ressource Locators 
-   
-     Bertrand. */
-/*
-  XXX TODO: recover the words between #'s or ?'s after the path */
+ * Here we deal with URLs following the general scheme:
+ *   protocol://user;AUTH=mech:password@host:port/name
+ * where name is a path-like string (ie dir1/dir2/....) See RFC 1738
+ * for the complete description of Uniform Resource Locators. The
+ * ";AUTH=mech" addition comes from RFC 2384, "POP URL Scheme".
+ */
 
+/* XXX TODO: recover the words between #'s or ?'s after the path */
+
+#include <string.h>
 #include <config.h>
 #include "url-util.h"
 
-/* general item finder */
-/* it begins the search at position @position in @url,
-   returns true when the item is found, amd set position after the item */
-typedef gboolean find_item_func(const gchar *url, gchar **item, guint *position, gboolean *error);
-
-/* used to find one item (protocol, then user .... */
-typedef struct {
-	char *item_name;           /* item name : for debug only */
-	gchar **item_value;      /* where the item value will go */
-	find_item_func *find_func; /* item finder */
-} FindStepStruct;
-
-static gboolean _find_protocol (const gchar *url, gchar **item, guint *position, gboolean *error);
-static gboolean _find_user (const gchar *url, gchar **item, guint *position, gboolean *error);
-static gboolean _find_passwd (const gchar *url, gchar **item, guint *position, gboolean *error);
-static gboolean _find_host (const gchar *url, gchar **item, guint *position, gboolean *error);
-static gboolean _find_port (const gchar *url, gchar **item, guint *position, gboolean *error);
-static gboolean _find_path (const gchar *url, gchar **item, guint *position, gboolean *error);
-
-
-
 /**
- * g_url_new: create an Gurl object from a string
+ * g_url_new: create a Gurl object from a string
  *
  * @url_string: The string containing the URL to scan
  * 
- * This routine takes a gchar and parses it as an
+ * This routine takes a gchar and parses it as a
  * URL of the form:
- * protocol://user:password@host:port/path
- * there is no test on the values. For example,
- * "port" can be a string, not only a number !
- * The Gurl structure fields ar filled with
+ *   protocol://user;AUTH=mech:password@host:port/path
+ * There is no test on the values. For example,
+ * "port" can be a string, not only a number!
+ * The Gurl structure fields are filled with
  * the scan results. When a member of the 
  * general URL can not be found, the corresponding
- * Gurl member is NULL  
+ * Gurl member is NULL.
  * Fields filled in the Gurl structure are allocated
  * and url_string is not modified. 
  * 
@@ -83,44 +63,71 @@ static gboolean _find_path (const gchar *url, gchar **item, guint *position, gbo
 Gurl *g_url_new (const gchar* url_string)
 {
 	Gurl *g_url;
-	
-	gchar *protocol;
-	gchar *user;
-	gchar *passwd;
-	gchar *host;
-	gchar *port;
-	gchar *path;
-	
-	guint position = 0;
-	gboolean error;
-	gboolean found;
-	guint i;
-	
+	char *semi, *colon, *at, *slash;
+
 	g_url = g_new (Gurl,1);
-	
-#define NB_STEP_URL  6
-	{
-		FindStepStruct step[NB_STEP_URL] = {
-			{ "protocol", &(g_url->protocol), _find_protocol},
-			{ "user", &(g_url->user), _find_user},
-			{ "password", &(g_url->passwd), _find_passwd},
-			{ "host", &(g_url->host), _find_host},
-			{ "port", &(g_url->port), _find_port},
-			{ "path", &(g_url->path), _find_path}
-		};
-		
-		for (i = 0; i < NB_STEP_URL; i++) {
-			found = step[i].find_func (url_string, 
-						   step[i].item_value, 
-						   &position, 
-						   &error);
+
+	/* Find protocol: initial substring until "://" */
+	colon = strchr (url_string, ':');
+	if (colon && !strncmp (colon, "://", 3)) {
+		g_url->protocol = g_strndup (url_string, colon - url_string);
+		url_string = colon + 3;
+	} else
+		g_url->protocol = NULL;
+
+	/* If there is an @ sign, look for user, authmech, and
+	 * password before it.
+	 */
+	at = strchr (url_string, '@');
+	if (at) {
+		colon = strchr (url_string, ':');
+		if (colon && colon < at)
+			g_url->passwd = g_strndup (colon + 1, at - colon - 1);
+		else {
+			g_url->passwd = NULL;
+			colon = at;
 		}
+
+		semi = strchr(url_string, ';');
+		if (semi && semi < colon && !strncasecmp (semi, ";auth=", 6))
+			g_url->authmech = g_strndup (semi + 6, colon - semi - 6);
+		else {
+			g_url->authmech = NULL;
+			semi = colon;
+		}
+
+		g_url->user = g_strndup (url_string, semi - url_string);
+		url_string = at + 1;
+	} else
+		g_url->user = g_url->passwd = g_url->authmech = NULL;
+
+	/* Find host (required) and port. */
+	slash = strchr (url_string, '/');
+	colon = strchr (url_string, ':');
+	if (slash && colon > slash)
+		colon == 0;
+
+	if (colon) {
+		g_url->host = g_strndup (url_string, colon - url_string);
+		if (slash)
+			g_url->port = g_strndup (colon + 1, slash - colon - 1);
+		else
+			g_url->port = g_strdup (colon + 1);
+	} else if (slash) {
+		g_url->host = g_strndup (url_string, slash - url_string);
+		g_url->port = NULL;
+	} else {
+		g_url->host = g_strdup (url_string);
+		g_url->port = NULL;
 	}
-	
+
+	if (slash && *(slash + 1))
+		g_url->path = g_strdup (slash + 1);
+	else
+		g_url->path = NULL;
+
 	return g_url;
 }
-
-
 
 void
 g_url_free (Gurl *url)
@@ -129,290 +136,11 @@ g_url_free (Gurl *url)
 
 	g_free (url->protocol);
 	g_free (url->user);
+	g_free (url->authmech);
 	g_free (url->passwd);
 	g_free (url->host);
 	g_free (url->port);
 	g_free (url->path);
 
 	g_free (url);
-	
 }
-
-/**** PARSING FUNCTIONS ****/
-
-/* So, yes, I must admit there would have been more elegant
-    ways to do this, but it works, and quite well :)  */
-
-
-static gboolean 
-_find_protocol (const gchar *url, gchar **item, guint *position, gboolean *error)
-{
-
-	guint i;
-	gint len_url;
-
-	g_assert (url);
-	g_assert (item);
-	g_assert (position);
-
-	len_url = strlen (url);
-	
-	*item = NULL;
-	*error = FALSE;
-	i = *position;
-	
-	/* find a ':' */
-	while ((i < len_url) && (url[i] != ':')) i++;
-	
-	if (i == len_url) return FALSE;
-	i++;
-
-	/* check if it is followed by a "//" */
-	if  ((i < len_url) && (url[i++] == '/'))
-		if ((i < len_url) && (url[i++] == '/'))
-		{
-			*item = g_strndup (url, i-3);
-			*position = i;
-			return TRUE;
-		}
-	
-	return FALSE;
-}
-
-
-
-
-static gboolean
-_find_user (const gchar *url, gchar **item, guint *position, gboolean *error)
-{
-	guint i;
-	guint at_pos;
-	gint len_url;
-
-	g_assert (url);
-	g_assert (item);
-	g_assert (position);
-
-	len_url = strlen (url);	
-	*item = NULL;
-	i = *position;
-	
-	/* find a '@' */
-	while ((i < len_url) && (url[i] != '@')) i++;
-	
-	if (i == len_url) return FALSE;
-	at_pos = i;
-	i = *position;
-
-	/* find a ':' */
-	while ((i < at_pos) && (url[i] != ':')) i++;
-
-	/* now if i has not been incremented at all, there is no user */
-	if (i == *position) {
-		(*position)++;
-		return FALSE;
-	}
-	
-	*item = g_strndup (url+ *position, i - *position);
-	if (i < at_pos) *position = i + 1; /* there was a ':', skip it */
-	else *position = i;
-	
-	return TRUE;	
-}
-
-static gboolean
-_find_passwd (const gchar *url, gchar **item, guint *position, gboolean *error)
-{
-	guint i;	
-	gint len_url;
-	gchar *str_passwd;
-
-	g_assert (url);
-	g_assert (item);
-	g_assert (position);
-
-	len_url = strlen (url);
-	*item = NULL;
-	i = *position;
-	
-	/* find a '@' */
-	while ((i < len_url) && (url[i] != '@')) i++;
-	
-	if (i == len_url) return FALSE;
-	/*i has not been incremented at all, there is no passwd */
-	if (i == *position) {
-		*position = i + 1;
-		return FALSE;
-	}
-	
-	*item = g_strndup (url + *position, i - *position);
-	*position = i + 1; /* skip it the '@' */
-	
-	return TRUE;
-}
-
-
-
-static gboolean
-_find_host (const gchar *url, gchar **item, guint *position, gboolean *error)
-{
-	guint i;
-	guint slash_pos;
-	gint len_url;
-	
-	g_assert (url);
-	g_assert (item);
-	g_assert (position);
-
-	len_url = strlen (url);	
-	*item = NULL;
-	i = *position;
-	
-	/* find a '/' */
-	while ((i < len_url) && (url[i] != '/')) i++;
-	
-	slash_pos = i;
-	i = *position;
-
-	/* find a ':' */
-	while ( (i < slash_pos) && (url[i] != ':') ) i++;
-
-	/* at this point if i has not been incremented at all, 
-	   there is no host */
-	if (i == *position) {
-		/* if we have not met / or \0, we have : and must skip it */
-		if (i < slash_pos) (*position)++;
-		return FALSE;
-	}
-	
-	*item = g_strndup (url + *position, i - *position);
-	if (i < slash_pos) *position = i + 1; /* there was a ':', skip it */
-	else *position=i;
-	
-	return TRUE;
-}
-
-
-static gboolean
-_find_port (const gchar *url, gchar **item, guint *position, gboolean *error)
-{
-	guint i;
-	guint slash_pos;
-	gint len_url;
-	
-	g_assert (url);
-	g_assert (item);
-	g_assert (position);
-
-	len_url = strlen (url);	
-	*item = NULL;
-	i=*position;
-	
-	/* find a '/' */
-	while ((i < len_url) && (url[i] != '/')) i++;
-	
-	slash_pos = i;
-	i = *position;
-
-	/* find a ':' */
-	while ((i < slash_pos) && (url[i] != ':')) i++;
-
-	/* at this point if i has not been incremented at all, */
-	/*   there is no port */
-	if (i == *position) return FALSE;
-
-	*item = g_strndup (url+ *position, i - *position);
-	*position = i;
-	return TRUE;
-}
-
-
-static gboolean
-_find_path (const gchar *url, gchar **item, guint *position, gboolean *error)
-{
-	guint i;
-	gint len_url;
-	
-	g_assert (url);
-	g_assert (item);
-	g_assert (position);
-
-	len_url = strlen (url);
-	*item = NULL;
-	i = *position;
-	
-
-	/* find a '#' */
-	while ((i < len_url) && (url[i] != '#') && (url[i] != '?')) i++;
-	
-	/*i has not been incremented at all, there is no path */
-	if (i == *position) return FALSE;
-	
-	*item = g_strndup (url + *position, i - *position);
-	*position=i;
-	
-	return TRUE;
-}
-
-
-
-
-
-/**** TEST ROUTINE - NOT COMPILED BY DEFAULT ****/
-
-/* to tests this file :
-   gcc -o test_url_util `glib-config --cflags`  -I.. -DTEST_URL_UTIL url-util.c `glib-config --libs`
-   ./test_url_util URL
-*/
-#ifdef TEST_URL_UTIL
-
-
-
-int 
-main (int argc, char **argv)
-{
-
-	gchar *url;
-	gchar *protocol;
-	gchar *user;
-	gchar *passwd;
-	gchar *host;
-	gchar *port;
-	gchar *path;
-	guint position=0;
-	gboolean error;
-	gboolean found;
-	guint i;
-	guint i_pos;
-
-#define NB_STEP_TEST  6
-	FindStepStruct test_step[NB_STEP_TEST] = {
-		{ "protocol", &protocol, _find_protocol},
-		{ "user", &user, _find_user},
-		{ "password", &passwd, _find_passwd},
-		{ "host", &host, _find_host},
-		{ "port", &port, _find_port},
-		{ "path", &path, _find_path}
-	};
-	url = argv[1];
-	printf("URL to test : %s\n\n", url);
-	for (i=0; i<NB_STEP_TEST; i++) {
-		found = test_step[i].find_func (url, 
-						test_step[i].item_value, 
-						&position, 
-						&error);
-		if (found) {
-			printf ("\t\t\t\t** %s found : %s\n",
-				test_step[i].item_name,
-				*(test_step[i].item_value));
-		} else printf ("** %s not found in URL\n", test_step[i].item_name);
-		printf ("next item position:\n");
-		printf ("%s\n", url);
-		for (i_pos = 0; i_pos < position; i_pos++) printf (" ");
-		printf ("^\n");
-		
-	}
-	 
-}
-
-#endif /* TEST_URL_UTIL */
