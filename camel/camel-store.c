@@ -236,7 +236,7 @@ camel_store_get_folder (CamelStore *store, const gchar *folder_name, CamelExcept
  * hierarchy. This folder is generally different from
  * the default folder. 
  * 
- * @Return value: the tolevel folder.
+ * @Return value: the toplevel folder.
  **/
 static CamelFolder *
 _get_root_folder (CamelStore *store, CamelException *ex)

@@ -64,7 +64,7 @@ gmime_encode_base64 (CamelStream *input, CamelStream *output)
 
 	switch (state % 3){
 	case 0:
-		/* full ouput, nothing left to do */
+		/* full output, nothing left to do */
 		break;
 
 	case 1:

@@ -419,7 +419,7 @@ new_message_detected (CamelMboxPreParser *parser)
  * 
  * This routine must be called when the parser has detected a header 
  * and it wants the header content to be stored. The parser current position 
- * must EXACTELY be located at the begining of the header content line. 
+ * must EXACTLY be located at the begining of the header content line. 
  * For example, if the file contains the line : 
  *     from:Bertrand Guiheneuf <bertrand@helixcode.com>
  *
