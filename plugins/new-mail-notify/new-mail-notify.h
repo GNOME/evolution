@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- *  Author: Miguel Angel Lopez Hernandex <miguel@gulev.org.mx>
+ *  Author: Miguel Angel Lopez Hernandez <miguel@gulev.org.mx>
  *
  *  Copyright 2004 Novell, Inc.
  *
@@ -32,5 +32,10 @@ org_gnome_new_mail_config (EPlugin *ep, EConfigHookItemFactoryData *hook_data);
 void
 org_gnome_new_mail_notify (EPlugin *ep, EMEventTargetFolder *t);
 
+void
+org_gnome_message_reading_notify (EPlugin *ep, EMEventTargetMessage *t);
+
+void
+send_dbus_message (const char *message_name, const char *data);
 
 #endif /* __NMN_H__ */

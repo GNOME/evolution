@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- *  Author: Miguel Angel Lopez Hernandex <miguel@gulev.org.mx>
+ *  Author: Miguel Angel Lopez Hernandez <miguel@gulev.org.mx>
  *
  *  Copyright 2004 Novell, Inc.
  *
@@ -33,7 +33,15 @@
 #include <mail/em-event.h>
 #include <dbus/dbus-glib.h>
 #include <dbus/dbus-glib-lowlevel.h>
-#include "new-mail-notify.h"
+#include <camel/camel-folder.h>
+
+#define GCONF_KEY "/apps/evolution/mail/notify/gen_dbus_msg"
+#define DBUS_PATH "/org/gnome/evolution/mail/newmail"
+#define DBUS_INTERFACE "org.gnome.evolution.mail.dbus.Signal"
+
+GtkWidget *org_gnome_new_mail_config (EPlugin *ep, EConfigHookItemFactoryData *hook_data);
+void org_gnome_new_mail_notify (EPlugin *ep, EMEventTargetFolder *t);
+void org_gnome_message_reading_notify (EPlugin *ep, EMEventTargetMessage *t);
 
 static void
 toggled_cb (GtkWidget *widget, EConfig *config)
@@ -41,7 +49,10 @@ toggled_cb (GtkWidget *widget, EConfig *config)
 	EMConfigTargetPrefs *target = (EMConfigTargetPrefs *) config->target;
 	
 	/* Save the new setting to gconf */
-	gconf_client_set_bool (target->gconf, GCONF_KEY, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget)), NULL);
+	gconf_client_set_bool (target->gconf,
+			       GCONF_KEY,
+			       gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget)),
+			       NULL);
 }
 
 GtkWidget *
@@ -52,13 +63,18 @@ org_gnome_new_mail_config (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
 	EMConfigTargetPrefs *target = (EMConfigTargetPrefs *) hook_data->config->target;
 	
 	/* Create the checkbox we will display, complete with mnemonic that is unique in the dialog */
-	notify = gtk_check_button_new_with_mnemonic (_("_Generate a D-BUS message when new mail arrives"));
+	notify = gtk_check_button_new_with_mnemonic (_("_Generates a D-BUS message when new mail arrives"));
 
 	/* Set the toggle button to the current gconf setting */
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (notify), gconf_client_get_bool (target->gconf, GCONF_KEY, NULL));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (notify),
+				      gconf_client_get_bool (target->gconf,
+							     GCONF_KEY, NULL));
 
 	/* Listen for the item being toggled on and off */
-	g_signal_connect (GTK_TOGGLE_BUTTON (notify), "toggled", G_CALLBACK (toggled_cb), hook_data->config);
+	g_signal_connect (GTK_TOGGLE_BUTTON (notify),
+			  "toggled",
+			  G_CALLBACK (toggled_cb),
+			  hook_data->config);
 	
 	/* Pack the checkbox in the parent widget and show it */
 	gtk_box_pack_start (GTK_BOX (hook_data->parent), notify, FALSE, FALSE, 0);
@@ -67,10 +83,12 @@ org_gnome_new_mail_config (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
 	return notify;
 }
 
-void
-org_gnome_new_mail_notify (EPlugin *ep, EMEventTargetFolder *t)
+static void
+send_dbus_message (const char *message_name, const char *data)
 {
-	if (gconf_client_get_bool(gconf_client_get_default(), GCONF_KEY, NULL)) {
+	GConfClient *client = gconf_client_get_default ();
+
+	if (gconf_client_get_bool(client, GCONF_KEY, NULL)) {
 		DBusConnection *bus;
 		DBusError error;
 		DBusMessage *message;
@@ -88,24 +106,38 @@ org_gnome_new_mail_notify (EPlugin *ep, EMEventTargetFolder *t)
 		/* Set up this connection to work in a GLib event loop  */
 		dbus_connection_setup_with_g_main (bus, NULL);
 
-		/* Create a new signal "Newmail" on the DBUS_INTERFACE */
+		/* Create a new message on the DBUS_INTERFACE */
 		message = dbus_message_new_signal (DBUS_PATH,
 						   DBUS_INTERFACE,
-						   "Newmail");
+						   message_name);
 
-		/* Append the folder uri as an argument */
+		/* Appends the data as an argument to the message */
 		dbus_message_append_args (message,
-					  DBUS_TYPE_STRING, t->uri,
+					  DBUS_TYPE_STRING, data,
 					  DBUS_TYPE_INVALID);
 
-		/* Send the signal */
+		/* Sends the message */
 		dbus_connection_send (bus,
 				      message,
 				      NULL);
 
-		/* Free the signal */
+		/* Frees the message */
 		dbus_message_unref (message);
 
-		/* printf("Got new mail in folder '%s'!\n", t->uri); */
+		/* printf("New message [%s] with arg [%s]!\n", message_name, data); */
 	}
+
+	g_object_unref (client);
+}
+
+void
+org_gnome_message_reading_notify (EPlugin *ep, EMEventTargetMessage *t)
+{
+	send_dbus_message ("MessageReading", t->folder->name);
+}
+
+void
+org_gnome_new_mail_notify (EPlugin *ep, EMEventTargetFolder *t)
+{
+	send_dbus_message ("Newmail", t->uri);
 }

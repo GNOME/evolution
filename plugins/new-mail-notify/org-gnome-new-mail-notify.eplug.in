@@ -15,6 +15,12 @@
 			target="folder"/>
 		</hook>
 
+		<hook class="org.gnome.evolution.mail.events:1.0">
+			<event id="message.reading"
+			handle="org_gnome_message_reading_notify"
+			target="message"/>
+		</hook>
+
 		<hook class="org.gnome.evolution.mail.config:1.0">
 			<group target="prefs">
 				<item type="item" 
