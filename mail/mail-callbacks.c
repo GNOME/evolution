@@ -1024,6 +1024,42 @@ flag_messages(FolderBrowser *fb, guint32 mask, guint32 set)
 	return i;
 }
 
+static int
+toggle_flags (FolderBrowser *fb, guint32 mask)
+{
+        MessageList *ml = fb->message_list;
+	GPtrArray *uids;
+	int i;
+	
+	if (ml->folder == NULL)
+		return 0;
+	
+	/* could just use specific callback but i'm lazy */
+	uids = g_ptr_array_new ();
+	message_list_foreach (ml, enumerate_msg, uids);
+	camel_folder_freeze (ml->folder);
+	for (i = 0; i < uids->len; i++) {
+		gint flags;
+
+		flags = camel_folder_get_message_flags (ml->folder, uids->pdata[i]);
+
+		if (flags & mask)
+			camel_folder_set_message_flags (ml->folder, uids->pdata[i], mask, 0);
+		else {
+			if ((mask & CAMEL_MESSAGE_FLAGGED) && (flags & CAMEL_MESSAGE_DELETED))
+				camel_folder_set_message_flags (ml->folder, uids->pdata[i], CAMEL_MESSAGE_DELETED, 0);
+			camel_folder_set_message_flags (ml->folder, uids->pdata[i], mask, mask);
+		}
+		
+		g_free (uids->pdata[i]);
+	}
+	camel_folder_thaw (ml->folder);
+	
+	g_ptr_array_free (uids, TRUE);
+
+	return i;
+}
+
 void
 mark_as_seen (BonoboUIComponent *uih, void *user_data, const char *path)
 {
@@ -1041,6 +1077,19 @@ mark_all_as_seen (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	select_all (uih, user_data, path);
 	flag_messages (FOLDER_BROWSER (user_data), CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
+}
+
+void
+mark_as_important (BonoboUIComponent *uih, void *user_data, const char *path)
+{
+	flag_messages (FOLDER_BROWSER (user_data), CAMEL_MESSAGE_DELETED, 0);
+	flag_messages (FOLDER_BROWSER (user_data), CAMEL_MESSAGE_FLAGGED, CAMEL_MESSAGE_FLAGGED);
+}
+
+void
+toggle_as_important (BonoboUIComponent *uih, void *user_data, const char *path)
+{
+	toggle_flags (FOLDER_BROWSER (user_data), CAMEL_MESSAGE_FLAGGED);
 }
 
 static void

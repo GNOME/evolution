@@ -77,7 +77,6 @@ static GdkAtom clipboard_atom = GDK_NONE;
 static GByteArray *clipboard_selection = NULL;
 static GtkWidget *invisible = NULL;
 
-static void fb_resize_cb (GtkWidget *w, GtkAllocation *a);
 static void update_unread_count (CamelObject *, gpointer, gpointer);
 
 static GtkObjectClass *folder_browser_parent_class;
@@ -112,6 +111,9 @@ folder_browser_destroy (GtkObject *object)
 	
 	if (folder_browser->shell != CORBA_OBJECT_NIL)
 		CORBA_Object_release (folder_browser->shell, &ev);
+
+	if (folder_browser->uicomp)
+		bonobo_object_unref (BONOBO_OBJECT (folder_browser->uicomp));
 	
 	g_free (folder_browser->uri);
 	
@@ -579,6 +581,19 @@ folder_browser_set_uri (FolderBrowser *folder_browser, const char *uri)
 	return TRUE;
 }
 
+void
+folder_browser_set_ui_component (FolderBrowser *fb, BonoboUIComponent *uicomp)
+{
+	g_return_if_fail (IS_FOLDER_BROWSER (fb));
+	
+	if (fb->uicomp)
+		bonobo_object_unref (BONOBO_OBJECT (fb->uicomp));
+
+	if (uicomp)
+		bonobo_object_ref (BONOBO_OBJECT (uicomp));
+
+	fb->uicomp = uicomp;
+}
 
 extern CamelFolder *drafts_folder, *sent_folder, *outbox_folder;
 
@@ -656,13 +671,64 @@ folder_browser_is_outbox (FolderBrowser *fb)
 	return fb->folder == outbox_folder;
 }
 
+static int
+save_cursor_pos (FolderBrowser *fb)
+{
+	ETreePath node;
+	GtkAdjustment *adj;
+	int row, y, height;
+
+	node = e_tree_get_cursor (fb->message_list->tree);
+	if (!node)
+		return -1;
+
+	row = e_tree_row_of_node (fb->message_list->tree, node);
+
+	e_tree_get_cell_geometry (fb->message_list->tree, row, 0,
+				  NULL, &y, NULL, &height);
+
+	adj = e_scroll_frame_get_vadjustment (E_SCROLL_FRAME (fb->message_list));
+	y += adj->value - ((mail_config_get_paned_size () - height) / 2);
+	
+	return y;
+}
+
+static void
+set_cursor_pos (FolderBrowser *fb, int y)
+{
+	GtkAdjustment *adj;
+
+	if (y == -1)
+		return;
+
+	adj = e_scroll_frame_get_vadjustment (E_SCROLL_FRAME (fb->message_list));
+	gtk_adjustment_set_value (adj, (gfloat)y);
+}
+
+static gboolean do_message_selected(FolderBrowser *fb);
+
 void
 folder_browser_set_message_preview (FolderBrowser *folder_browser, gboolean show_message_preview)
 {
 	if (folder_browser->preview_shown == show_message_preview)
 		return;
-	
-	g_warning ("FIXME: implement me");
+
+	folder_browser->preview_shown = show_message_preview;
+
+	if (show_message_preview) {
+		int y;
+		y = save_cursor_pos (folder_browser);
+		e_paned_set_position (E_PANED (folder_browser->vpaned),
+				      mail_config_get_paned_size ());
+		gtk_widget_show (GTK_WIDGET (folder_browser->mail_display));
+		do_message_selected (folder_browser);
+		set_cursor_pos (folder_browser, y);
+	} else {
+		e_paned_set_position (E_PANED (folder_browser->vpaned),
+				      10000);
+		gtk_widget_hide (GTK_WIDGET (folder_browser->mail_display));
+		mail_display_set_message(folder_browser->mail_display, NULL);
+	}
 }
 
 enum {
@@ -753,6 +819,22 @@ folder_browser_search_query_changed (ESearchBar *esb, FolderBrowser *fb)
 	d(printf("query is %s\n", search_word));
 	g_free(search_word);
 	return;
+}
+
+void
+folder_browser_toggle_preview (BonoboUIComponent           *component,
+			       const char                  *path,
+			       Bonobo_UIComponent_EventType type,
+			       const char                  *state,
+			       gpointer                     user_data)
+{
+	FolderBrowser *fb = user_data;
+	
+	if (type != Bonobo_UIComponent_STATE_CHANGED)
+		return;
+	
+	mail_config_set_show_preview (fb->uri, atoi (state));
+	folder_browser_set_message_preview (fb, atoi (state));
 }
 
 void
@@ -1284,6 +1366,16 @@ on_key_press (GtkWidget *widget, GdkEventKey *key, gpointer data)
 		on_right_click (fb->message_list->tree, row, path, 2,
 				(GdkEvent *)key, fb);
 		return TRUE;
+	case '!':
+		toggle_as_important (NULL, fb, NULL);
+		return TRUE;
+	case 'q':
+	case 'Q':
+		if (fb->preview_shown && fb->uicomp)
+			bonobo_ui_component_set_prop (fb->uicomp, 
+						      "/commands/ViewPreview",
+						      "state", "0", NULL);
+		return TRUE;
 	}
 
 	return FALSE;
@@ -1297,25 +1389,39 @@ etree_key (ETree *tree, int row, ETreePath path, int col, GdkEvent *ev, FolderBr
 
 	if ((ev->key.state & GDK_CONTROL_MASK) != 0)
 		return FALSE;
-	if (ev->key.keyval != GDK_space && ev->key.keyval != GDK_BackSpace)
-		return on_key_press ((GtkWidget *)tree, (GdkEventKey *)ev, fb);
 
 	vadj = e_scroll_frame_get_vadjustment (fb->mail_display->scroll);
 	page_size = vadj->page_size - vadj->step_increment;
 
-	if (ev->key.keyval == GDK_BackSpace) {
-		if (vadj->value > vadj->lower + page_size)
-			vadj->value -= page_size;
-		else
-			vadj->value = vadj->lower;
-	} else {
+	switch (ev->key.keyval) {
+	case GDK_space:
 		if (vadj->value < vadj->upper - vadj->page_size - page_size)
 			vadj->value += page_size;
 		else
 			vadj->value = vadj->upper - vadj->page_size;
+		gtk_adjustment_value_changed (vadj);
+		break;
+	case GDK_BackSpace:
+		if (vadj->value > vadj->lower + page_size)
+			vadj->value -= page_size;
+		else
+			vadj->value = vadj->lower;
+		gtk_adjustment_value_changed (vadj);
+		break;
+	case GDK_Return:
+	case GDK_KP_Enter:
+	case GDK_ISO_Enter:
+		if (fb->preview_shown)
+			open_msg (NULL, fb);
+		else if (fb->uicmp)
+			bonobo_ui_component_set_prop (fb->uicomp, 
+						      "/commands/ViewPreview",
+						      "state", "1", NULL);
+		break;
+	default:
+		return on_key_press ((GtkWidget *)tree, (GdkEventKey *)ev, fb);
 	}
 
-	gtk_adjustment_value_changed (vadj);
 	return TRUE;
 }
 
@@ -1329,6 +1435,13 @@ on_double_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *even
 		return;
 	
 	open_msg (NULL, fb);
+}
+
+static void
+fb_resize_cb (GtkWidget *w, GtkAllocation *a, FolderBrowser *fb)
+{	
+	if (fb->preview_shown)
+		mail_config_set_paned_size (a->height);
 }
 
 static void
@@ -1381,7 +1494,7 @@ folder_browser_gui_init (FolderBrowser *fb)
 	gtk_widget_show (GTK_WIDGET (fb->message_list));
 	
 	gtk_signal_connect (GTK_OBJECT (fb->message_list), "size_allocate",
-	                    GTK_SIGNAL_FUNC (fb_resize_cb), NULL);
+	                    GTK_SIGNAL_FUNC (fb_resize_cb), fb);
 	
 	e_paned_add2 (E_PANED (fb->vpaned), GTK_WIDGET (fb->mail_display));
 	e_paned_set_position (E_PANED (fb->vpaned), mail_config_get_paned_size ());
@@ -1488,7 +1601,9 @@ on_message_selected (MessageList *ml, const char *uid, FolderBrowser *fb)
 
 	g_free(fb->new_uid);
 	fb->new_uid = g_strdup(uid);
-	fb->loading_id = gtk_timeout_add(100, (GtkFunction)do_message_selected, fb);
+
+	if (fb->preview_shown)
+		fb->loading_id = gtk_timeout_add(100, (GtkFunction)do_message_selected, fb);
 }
 
 static void
@@ -1515,7 +1630,9 @@ my_folder_browser_init (GtkObject *object)
 	 */
 	fb->message_list = (MessageList *)message_list_new ();
 	fb->mail_display = (MailDisplay *)mail_display_new ();
-	
+
+	fb->preview_shown = TRUE;
+
 	e_scroll_frame_set_policy(E_SCROLL_FRAME(fb->message_list),
 				  GTK_POLICY_NEVER,
 				  GTK_POLICY_ALWAYS);
@@ -1601,8 +1718,3 @@ folder_browser_new (const GNOME_Evolution_Shell shell)
 
 
 E_MAKE_TYPE (folder_browser, "FolderBrowser", FolderBrowser, folder_browser_class_init, folder_browser_init, PARENT_TYPE);
-
-static void fb_resize_cb (GtkWidget *w, GtkAllocation *a)
-{
-	mail_config_set_paned_size (a->height);
-}

@@ -30,6 +30,7 @@ struct  _FolderBrowser {
 	BonoboPropertyBag *properties;
 	
 	GNOME_Evolution_Shell shell;
+	BonoboUIComponent *uicomp;
 	
 	/*
 	 * The current URI being displayed by the FolderBrowser
@@ -84,6 +85,9 @@ struct fb_ondemand_closure {
 GtkType    folder_browser_get_type             (void);
 GtkWidget *folder_browser_new                  (const GNOME_Evolution_Shell  shell);
 
+void       folder_browser_set_ui_component     (FolderBrowser *fb, 
+						BonoboUIComponent *uicomp);
+
 gboolean   folder_browser_set_uri              (FolderBrowser         *folder_browser,
 						const char            *uri);
 
@@ -112,6 +116,12 @@ void hide_selected(GtkWidget *w, FolderBrowser *fb);
 void hide_none(GtkWidget *w, FolderBrowser *fb);
 void hide_subject(GtkWidget *w, FolderBrowser *fb);
 void hide_sender(GtkWidget *w, FolderBrowser *fb);
+
+void folder_browser_toggle_preview (BonoboUIComponent           *component,
+				    const char                  *path,
+				    Bonobo_UIComponent_EventType type,
+				    const char                  *state,
+				    gpointer                     user_data);
 
 void folder_browser_toggle_threads (BonoboUIComponent           *component,
 				    const char                  *path,

@@ -1,3 +1,42 @@
+2001-06-25  jacob berkman  <jacob@ximian.com>
+
+	* mail-send-recv.c (free_send_data): sync folders after we've
+	gotten mail
+
+	* folder-browser-factory.c (control_activate): set the ui
+	component on the folder browser
+	(control_activate): update the view preview item
+	(control_deactivate): don't sync the folder here
+	(control_deactivate): unset the ui component of the folder browser
+
+	* mail-callbacks.c (toggle_flags): stuff from jleach to add an
+	importance keybinding
+	(mark_as_important): ditto
+	(toggle_as_important): again
+
+	* mail-config.c (mail_config_get_show_preview):
+	(mail_config_set_show_preview): basically a copy of
+	get_thread_list() but for the preview pane
+
+	* folder-browser.c (folder_browser_destroy): unref the our ui
+	component
+	(folder_browser_set_ui_component): new function for setting the ui
+	component
+	(save_cursor_pos):
+	(set_cursor_pos): try to show the selected row when the preview
+	pane is shown
+	(folder_browser_set_message_preview): implement
+	(folder_browser_toggle_preview): toggle the preview (duh)
+	(on_key_press): add keybindings for marking as important (!), and
+	hiding the preview pane (q)
+	(etree_key): clean up a little bit, and make enter either show the
+	preview pane or open the message
+	(fb_resize_cb): only save the paned size if the preview is alread
+	shown
+	(folder_browser_gui_init): pass ourselves to fb_resize_cb
+	(on_message_selected): only add the timeout if the preview is
+	shown
+
 2001-06-25  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* folder-browser.c (folder_browser_destroy): Unref the invisible

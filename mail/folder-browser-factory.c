@@ -76,6 +76,7 @@ BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("MessageMarkAllAsRead", mark_all_as_seen),
 	BONOBO_UI_UNSAFE_VERB ("MessageMarkAsRead", mark_as_seen),
 	BONOBO_UI_UNSAFE_VERB ("MessageMarkAsUnRead", mark_as_unseen),
+	BONOBO_UI_UNSAFE_VERB ("MessageMarkAsImportant", mark_as_important),
 	BONOBO_UI_UNSAFE_VERB ("MessageMove", move_msg),
 	BONOBO_UI_UNSAFE_VERB ("MessageOpen", open_message),
 	BONOBO_UI_UNSAFE_VERB ("MessageReplyAll", reply_to_all),
@@ -245,6 +246,7 @@ control_activate (BonoboControl     *control,
 	g_return_if_fail (container != CORBA_OBJECT_NIL);
 		
 	folder_browser = bonobo_control_get_widget (control);
+	folder_browser_set_ui_component (FOLDER_BROWSER (folder_browser), uic);
 
 	bonobo_ui_component_add_verb_list_with_data (
 		uic, verbs, folder_browser);
@@ -254,6 +256,12 @@ control_activate (BonoboControl     *control,
 	bonobo_ui_util_set_ui (
 		uic, EVOLUTION_DATADIR,
 		"evolution-mail.xml", "evolution-mail");
+
+	state = mail_config_get_show_preview (FOLDER_BROWSER (folder_browser)->uri);
+	bonobo_ui_component_set_prop (uic, "/commands/ViewPreview", "state", state ? "1" : "0", NULL);
+	bonobo_ui_component_add_listener (uic, "ViewPreview", folder_browser_toggle_preview, folder_browser);
+	/* FIXME: this kind of bypasses bonobo but seems the only way when we change components */
+	folder_browser_toggle_preview (uic, "", Bonobo_UIComponent_STATE_CHANGED, state ? "1" : "0", folder_browser);
 	
 	state = mail_config_get_thread_list (FOLDER_BROWSER (folder_browser)->uri);
 	bonobo_ui_component_set_prop (uic, "/commands/ViewThreaded", "state", state ? "1" : "0", NULL);
@@ -307,9 +315,15 @@ control_deactivate (BonoboControl     *control,
 	bonobo_ui_component_rm (uic, "/", NULL);
  	bonobo_ui_component_unset_container (uic);
 
+	/* turn this back on to get the old (broken) behaviour of
+	 * synching when leaving a folder
+	 */
+#if 0
 	if (fb->folder)
 		mail_sync_folder (fb->folder, NULL, NULL);
+#endif
 
+	folder_browser_set_ui_component (fb, NULL);
 	folder_browser_discard_view_menus (fb);
 }
 

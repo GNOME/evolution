@@ -51,6 +51,7 @@
 #include "Mail.h"
 
 typedef struct {
+	gboolean show_preview;
 	gboolean thread_list;
 	gboolean hide_deleted;
 	gint paned_size;
@@ -72,6 +73,7 @@ typedef struct {
 	char *default_charset;
 	
 	GHashTable *threaded_hash;
+	GHashTable *preview_hash;
 } MailConfig;
 
 static const char GCONFPATH[] = "/apps/Evolution/Mail";
@@ -790,6 +792,52 @@ gboolean
 mail_config_is_configured (void)
 {
 	return config->accounts != NULL;
+}
+
+gboolean
+mail_config_get_show_preview (const char *uri)
+{
+	if (uri) {
+		gboolean value = FALSE;
+		
+		if (!config->preview_hash)
+			config->preview_hash = g_hash_table_new (g_str_hash, g_str_equal);
+		else
+			value = GPOINTER_TO_INT (g_hash_table_lookup (config->preview_hash, uri));
+		
+		if (!value) {
+			/* just in case we got a NULL because it just wasn't in the hash table yet */
+			gboolean def;
+			char *str;
+			
+			str = g_strdup_printf ("=%s/config/Mail=/Preview/%s", evolution_dir, uri);
+			value = gnome_config_get_bool_with_default (str, &def);
+			g_free (str);
+			
+			if (!def) {
+				g_hash_table_insert (config->preview_hash, g_strdup (uri),
+						     GINT_TO_POINTER (value));
+				return value;
+			}
+		} else
+			return value;
+	}
+	
+	/* return the default value */
+	
+	return config->show_preview;
+}
+
+void
+mail_config_set_show_preview (const char *uri, gboolean value)
+{
+	if (uri) {
+		if (!config->preview_hash)
+			config->preview_hash = g_hash_table_new (g_str_hash, g_str_equal);
+		
+		g_hash_table_insert (config->preview_hash, g_strdup (uri), GINT_TO_POINTER (value));
+	} else
+		config->show_preview = value;
 }
 
 gboolean

@@ -50,6 +50,10 @@
 #include "mail-ops.h"
 #include "mail-send-recv.h"
 
+#include "folder-browser-factory.h"
+#include "folder-browser.h"
+#include "e-util/e-list.h"
+
 #define d(x)
 
 /* ms between status updates to the gui */
@@ -164,6 +168,8 @@ static void
 free_send_data(void)
 {
 	struct _send_data *data = send_data;
+	EList *list;
+	EIterator *it;
 
 	g_assert(g_hash_table_size(data->active) == 0);
 
@@ -179,6 +185,16 @@ free_send_data(void)
 	}
 	g_free(data);
 	send_data = NULL;
+
+	list = folder_browser_factory_get_control_list ();
+	for (it = e_list_get_iterator (list); e_iterator_is_valid (it); e_iterator_next (it)) {
+		BonoboControl *control = e_iterator_get (it);
+		if (control) {			
+			FolderBrowser *fb = bonobo_control_get_widget (control);
+			if (fb && fb->folder)
+				mail_sync_folder (fb->folder, NULL, NULL);
+		}
+	}
 }
 
 
