@@ -251,7 +251,6 @@ popup_menu_nocard (EAddressWidget *addr)
 		uiinfo[i].label = addr->email;
 		++i;
 	}
-	dead = i;
 
 	uiinfo[i].type = GNOME_APP_UI_SEPARATOR;
 	++i;
