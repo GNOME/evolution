@@ -1013,23 +1013,23 @@ table_right_click(ETableScrolled *table, gint row, gint col, GdkEvent *event, EA
 		CardAndBook *card_and_book;
 
 		EPopupMenu menu[] = {
-			{N_("Save as VCard"), NULL, GTK_SIGNAL_FUNC(save_as), NULL, 0}, 
-			{N_("Forward Contact"), NULL, GTK_SIGNAL_FUNC(send_as), NULL, 0},
-			{N_("Send Message to Contact"), NULL, GTK_SIGNAL_FUNC(send_to), NULL, 0},
-			{N_("Print"), NULL, GTK_SIGNAL_FUNC(print), NULL, 0},
+			{ N_("Save as VCard"), NULL, GTK_SIGNAL_FUNC(save_as), NULL, NULL, 0 }, 
+			{ N_("Forward Contact"), NULL, GTK_SIGNAL_FUNC(send_as), NULL, NULL, 0 },
+			{ N_("Send Message to Contact"), NULL, GTK_SIGNAL_FUNC(send_to), NULL, NULL, 0 },
+			{ N_("Print"), NULL, GTK_SIGNAL_FUNC(print), NULL, NULL, 0 },
 #if 0 /* Envelope printing is disabled for Evolution 1.0. */
-			{N_("Print Envelope"), NULL, GTK_SIGNAL_FUNC(print_envelope), NULL, 0},
+			{ N_("Print Envelope"), NULL, GTK_SIGNAL_FUNC(print_envelope), NULL, NULL, 0 },
 #endif
 			E_POPUP_SEPARATOR,
 
-			{N_("Copy to folder..."), NULL, GTK_SIGNAL_FUNC(copy_to_folder), NULL, 0}, 
-			{N_("Move to folder..."), NULL, GTK_SIGNAL_FUNC(move_to_folder), NULL, POPUP_READONLY_MASK},
+			{ N_("Copy to folder..."), NULL, GTK_SIGNAL_FUNC(copy_to_folder), NULL, NULL, 0 }, 
+			{ N_("Move to folder..."), NULL, GTK_SIGNAL_FUNC(move_to_folder), NULL, NULL, POPUP_READONLY_MASK },
 			E_POPUP_SEPARATOR,
 
-			{N_("Cut"), NULL, GTK_SIGNAL_FUNC (cut), NULL, POPUP_READONLY_MASK},
-			{N_("Copy"), NULL, GTK_SIGNAL_FUNC (copy), NULL, 0},
-			{N_("Paste"), NULL, GTK_SIGNAL_FUNC (paste), NULL, POPUP_READONLY_MASK},
-			{N_("Delete"), NULL, GTK_SIGNAL_FUNC(delete), NULL, POPUP_READONLY_MASK},
+			{ N_("Cut"), NULL, GTK_SIGNAL_FUNC (cut), NULL, NULL, POPUP_READONLY_MASK },
+			{ N_("Copy"), NULL, GTK_SIGNAL_FUNC (copy), NULL, NULL, 0 },
+			{ N_("Paste"), NULL, GTK_SIGNAL_FUNC (paste), NULL, NULL, POPUP_READONLY_MASK },
+			{ N_("Delete"), NULL, GTK_SIGNAL_FUNC(delete), NULL, NULL, POPUP_READONLY_MASK },
 			E_POPUP_TERMINATOR
 		};
 

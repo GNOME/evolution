@@ -309,25 +309,27 @@ e_addressbook_reflow_adapter_right_click (EAddressbookReflowAdapter *adapter, Gd
 {
 	EAddressbookReflowAdapterPrivate *priv = adapter->priv;
 	ModelAndSelection *mns = g_new(ModelAndSelection, 1);
-	EPopupMenu menu[] = { {N_("Open"), NULL, GTK_SIGNAL_FUNC(open_card), NULL, 0},
-			      {N_("Save as VCard"), NULL, GTK_SIGNAL_FUNC(save_as), NULL, 0},
-			      {N_("Forward Contact"), NULL, GTK_SIGNAL_FUNC(send_as), NULL, 0},
-			      {N_("Send Message to Contact"), NULL, GTK_SIGNAL_FUNC(send_to), NULL, 0},
-			      {N_("Print"), NULL, GTK_SIGNAL_FUNC(print), NULL, 0},
+	EPopupMenu menu[] = {
+		{ N_("Open"), NULL, GTK_SIGNAL_FUNC(open_card), NULL, NULL, 0 },
+		{ N_("Save as VCard"), NULL, GTK_SIGNAL_FUNC(save_as), NULL, NULL, 0 },
+		{ N_("Forward Contact"), NULL, GTK_SIGNAL_FUNC(send_as), NULL, NULL, 0 },
+		{ N_("Send Message to Contact"), NULL, GTK_SIGNAL_FUNC(send_to), NULL, NULL, 0 },
+		{ N_("Print"), NULL, GTK_SIGNAL_FUNC(print), NULL, NULL, 0 },
 #if 0 /* Envelope printing is disabled for Evolution 1.0. */
-			      {N_("Print Envelope"), NULL, GTK_SIGNAL_FUNC(print_envelope), NULL, 0},
+		{ N_("Print Envelope"), NULL, GTK_SIGNAL_FUNC(print_envelope), NULL, NULL, 0 },
 #endif
-			      E_POPUP_SEPARATOR,
-
-			      {N_("Copy to folder..."), NULL, GTK_SIGNAL_FUNC(copy_to_folder), NULL, 0}, 
-			      {N_("Move to folder..."), NULL, GTK_SIGNAL_FUNC(move_to_folder), NULL, POPUP_READONLY_MASK},
-			      E_POPUP_SEPARATOR,
-
-			      {N_("Cut"), NULL, GTK_SIGNAL_FUNC (cut), NULL, POPUP_READONLY_MASK},
-			      {N_("Copy"), NULL, GTK_SIGNAL_FUNC (copy), NULL, 0},
-			      {N_("Paste"), NULL, GTK_SIGNAL_FUNC (paste), NULL, POPUP_READONLY_MASK},
-			      {N_("Delete"), NULL, GTK_SIGNAL_FUNC(delete), NULL, POPUP_READONLY_MASK},
-			      E_POPUP_TERMINATOR};
+		E_POPUP_SEPARATOR,
+		
+		{ N_("Copy to folder..."), NULL, GTK_SIGNAL_FUNC(copy_to_folder), NULL, NULL, 0 }, 
+		{ N_("Move to folder..."), NULL, GTK_SIGNAL_FUNC(move_to_folder), NULL, NULL, POPUP_READONLY_MASK },
+		E_POPUP_SEPARATOR,
+		
+		{ N_("Cut"), NULL, GTK_SIGNAL_FUNC (cut), NULL, NULL, POPUP_READONLY_MASK },
+		{ N_("Copy"), NULL, GTK_SIGNAL_FUNC (copy), NULL, NULL, 0 },
+		{ N_("Paste"), NULL, GTK_SIGNAL_FUNC (paste), NULL, NULL, POPUP_READONLY_MASK },
+		{ N_("Delete"), NULL, GTK_SIGNAL_FUNC(delete), NULL, NULL, POPUP_READONLY_MASK},
+		E_POPUP_TERMINATOR
+	};
 
 	mns->adapter = adapter;
 	mns->selection = selection;

@@ -1,3 +1,15 @@
+2002-03-15  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* gui/widgets/e-addressbook-view.c (table_right_click): Update to
+	use new EPopupMenu API.
+
+	* gui/widgets/e-addressbook-reflow-adapter.c
+	(e_addressbook_reflow_adapter_right_click): Update to use new
+	EPopupMenu API.
+
+	* gui/component/select-names/e-select-names.c
+	(section_right_click_cb): Update to match new EPopupMenu api.
+
 2002-03-15  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/component/addressbook.c (control_activate): Call

@@ -849,9 +849,8 @@ static void
 section_right_click_cb (EText *text, GdkEventButton *ev, gint pos, ESelectNamesChild *child)
 {
 	EPopupMenu right_click_menu[] = {
-		{ N_("Remove"), NULL,
-		  GTK_SIGNAL_FUNC (remove_cb), NULL, 0 },
-		{ NULL, NULL, NULL, 0 }
+		{ N_("Remove"), NULL, GTK_SIGNAL_FUNC (remove_cb), NULL, NULL, 0 },
+		E_POPUP_TERMINATOR
 	};
 	gint index;
 
