@@ -1,5 +1,30 @@
 2002-08-16  Chris Toshok  <toshok@ximian.com>
 
+	* backend/pas/pas-backend-ldap.c (book_view_notify_status): new
+	function to save a little typing.
+	(find_book_view): same.
+	(pas_backend_ldap_connect): reorder things a bit - set the version
+	to VERSION3 *before* doing TLS, as tls requires v3, and if we're
+	doing ldaps://, do tls a little differently (not sure if this is
+	strictly necessary, but the openldap source did it..  *shrug*).
+	also, guard the schema check as this function can be called
+	multiple times for the same server (if the server goes down or
+	times us out.)
+	(pas_backend_ldap_reconnect): new function, reconnect and if
+	necessary reauth the user.
+	(pas_backend_ldap_process_create_card): use
+	find_book_view/book_view_notify_status/pas_backend_ldap_reconnect.
+	(pas_backend_ldap_process_remove_card): same.
+	(pas_backend_ldap_process_modify_card): same.
+	(pas_backend_ldap_process_get_vcard): same.
+	(pas_backend_ldap_process_get_cursor): same.
+	(pas_backend_ldap_search): same.
+	(poll_ldap): reconnect if ldap_result returns -1.
+	(pas_backend_ldap_process_authenticate_user): ick ick ick save off
+	the dn/passwd we auth with so we can use them to reauthenticate.
+
+2002-08-16  Chris Toshok  <toshok@ximian.com>
+
 	[ fix 27333 ]
 	* gui/widgets/e-addressbook-model.c (get_view): "local" ->
 	"do-initial-query".
