@@ -701,7 +701,7 @@ delete_cb (GtkWidget *widget, gpointer data)
 
 /* Emits the signal to request printing a card */
 static void
-print_cb (BonoboUIHandler *uih, void *data, const char *path)
+print_cb (BonoboUIComponent *uih, void *data, const char *path)
 {
 	EContactEditor *ce;
 
@@ -715,7 +715,7 @@ print_cb (BonoboUIHandler *uih, void *data, const char *path)
 
 /* Toolbar/Save and Close callback */
 static void
-tb_save_and_close_cb (BonoboUIHandler *uih, void *data, const char *path)
+tb_save_and_close_cb (BonoboUIComponent *uih, void *data, const char *path)
 {
 	EContactEditor *ce;
 

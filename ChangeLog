@@ -1,3 +1,7 @@
+2000-10-20  Michael Meeks  <michael@helixcode.com>
+
+	* notes/component-factory.c (control_activate_cb): 
+
 2000-10-19  Christopher James Lahey  <clahey@helixcode.com>
 
 	* NEWS (General, Addressbook): Updated NEWS for addressbook and

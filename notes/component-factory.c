@@ -18,7 +18,7 @@ static const EvolutionShellComponentFolderType folder_types[] = {
 };
 
 static void
-new_note_cb (BonoboUIHandler *uih, void *user_data, const char *path)
+new_note_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	g_print ("new note!\n");
 }
@@ -31,13 +31,13 @@ static GnomeUIInfo gnome_toolbar [] = {
 #ifdef THIS_NEEDS_UPDATING_FOR_NEW_BONOBOS
 
 static void
-control_deactivate (BonoboControl *control, BonoboUIHandler *uih)
+control_deactivate (BonoboControl *control, BonoboUIComponent *uih)
 {
 	bonobo_ui_handler_dock_remove (uih, "/Toolbar");
 }
 
 static void
-control_activate (BonoboControl *control, BonoboUIHandler *uih)
+control_activate (BonoboControl *control, BonoboUIComponent *uih)
 {
 	Bonobo_UIContainer remote_uih;
 	GtkWidget *toolbar, *toolbar_frame;
@@ -75,7 +75,7 @@ static void
 control_activate_cb (BonoboControl *control,
 		     gboolean activate)
 {
-	BonoboUIHandler *uih;
+	BonoboUIComponent *uih;
 
 	uih = bonobo_control_get_ui_handler (control);
 	g_assert (uih);

@@ -1,3 +1,9 @@
+2000-10-20  Michael Meeks  <michael@helixcode.com>
+
+	* contact-editor/e-contact-editor.c (tb_save_and_close_cb): 
+
+	* gui/component/addressbook.c (toggle_view_as_cb): 
+
 2000-10-20  JP Rosevear  <jpr@helixcode.com>
 
 	* conduit/address-conduit.h: New structure of file - similar
