@@ -99,7 +99,8 @@ mail_load_evolution_rule_context ()
 }
 
 static void
-mail_op_report_status(FilterDriver *driver, enum filter_status_t status, const char *desc, CamelMimeMessage *msg, void *data)
+mail_op_report_status (FilterDriver *driver, enum filter_status_t status, const char *desc,
+		       CamelMimeMessage *msg, void *data)
 {
 	printf("reporting status: %s\n", desc);
 
@@ -351,24 +352,24 @@ do_filter_ondemand (gpointer in_data, gpointer op_data, CamelException *ex)
 	filter_driver_set_status_func(driver, mail_op_report_status, logfile);
 	/* build the uid list - all uid's not deleted already */
 	uids = camel_folder_get_uids (input->source);
-	new_uids = g_ptr_array_new();
-	for (i=0;i<uids->len;i++) {
+	new_uids = g_ptr_array_new ();
+	for (i = 0; i < uids->len; i++) {
 		const CamelMessageInfo *info = camel_folder_get_message_info(input->source, uids->pdata[i]);
 		if (info && (info->flags & CAMEL_MESSAGE_DELETED) == 0) {
 			g_ptr_array_add(new_uids, uids->pdata[i]);
 		}
 	}
-
+	
 	/* run the filter */
-	filter_driver_filter_folder(driver, input->source, FILTER_SOURCE_DEMAND, new_uids, TRUE, ex);
-
+	filter_driver_filter_folder (driver, input->source, FILTER_SOURCE_DEMAND, new_uids, TRUE, ex);
+	
 	camel_folder_free_uids (input->source, uids);
 	g_ptr_array_free(new_uids, TRUE);
-
+	
 	if (logfile)
-		fclose(logfile);
-
-	gtk_object_unref((GtkObject *)driver);
+		fclose (logfile);
+	
+	gtk_object_unref (GTK_OBJECT (driver));
 	mail_tool_camel_lock_down ();
 }
 
@@ -471,12 +472,13 @@ do_send_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 {
 	send_mail_input_t *input = (send_mail_input_t *) in_data;
 	extern CamelFolder *sent_folder;
+	CamelMessageInfo *info;
 	CamelTransport *xport;
-	char *x_mailer;
+	FilterContext *context;
+	char *x_mailer, *user, *system;
 	
 	mail_tool_camel_lock_up ();
-	x_mailer = g_strdup_printf ("Evolution %s (Developer Preview)",
-				    VERSION);
+	x_mailer = g_strdup_printf ("Evolution %s (Developer Preview)", VERSION);
 	camel_medium_add_header (CAMEL_MEDIUM (input->message), "X-Mailer",
 				 x_mailer);
 	g_free (x_mailer);
@@ -508,14 +510,43 @@ do_send_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 		mail_tool_camel_lock_down ();
 	}
 	
+	/* now lets run it through the outgoing filters */
+	
+	info = g_new0 (CamelMessageInfo, 1);
+	info->flags = CAMEL_MESSAGE_SEEN;
+	
+	/* setup filter driver */
+	context = filter_context_new ();
+	user = g_strdup_printf ("%s/filters.xml", evolution_dir);
+	system = g_strdup_printf ("%s/evolution/filtertypes.xml", EVOLUTION_DATADIR);
+	rule_context_load ((RuleContext *)context, system, user);
+	g_free (user);
+	g_free (system);
+	
+	if (!((RuleContext *)context)->error) {
+		FilterDriver *driver;
+		FILE *logfile;
+		
+		driver = filter_driver_new (context, mail_tool_filter_get_folder_func, NULL);
+		
+		if (TRUE /* perform_logging */) {
+			char *filename;
+			
+			filename = g_strdup_printf ("%s/evolution-filter-log", evolution_dir);
+			logfile = fopen (filename, "a+");
+			g_free (filename);
+		}
+		
+		filter_driver_filter_message (driver, input->message, info, "", FILTER_SOURCE_OUTGOING, ex);
+		
+		if (logfile)
+			fclose (logfile);
+	}
+	
 	/* now to save the message in Sent */
 	if (sent_folder) {
-		CamelMessageInfo *info;
-		
 		mail_tool_camel_lock_up ();
 		
-		info = g_new0 (CamelMessageInfo, 1);
-		info->flags = CAMEL_MESSAGE_SEEN;
 		camel_folder_append_message (sent_folder, input->message, info, ex);
 		g_free (info);
 		

@@ -269,26 +269,25 @@ filter_rule_from_message(FilterContext *context, CamelMimeMessage *msg, int flag
 }
 
 void
-filter_gui_add_from_message(CamelMimeMessage *msg, int flags)
+filter_gui_add_from_message (CamelMimeMessage *msg, int flags)
 {
 	FilterContext *fc;
 	char *userrules, *systemrules;
 	FilterRule *rule;
 	extern char *evolution_dir;
-
-	fc = filter_context_new();
-	userrules = g_strdup_printf("%s/filters.xml", evolution_dir);
-	systemrules = g_strdup_printf("%s/evolution/filtertypes.xml", EVOLUTION_DATADIR);
-	rule_context_load((RuleContext *)fc, systemrules, userrules);
-	rule = filter_rule_from_message(fc, msg, flags);
 	
-	/* FIXME: with demand filters being abandoned, do we still care about source? */
+	fc = filter_context_new ();
+	userrules = g_strdup_printf ("%s/filters.xml", evolution_dir);
+	systemrules = g_strdup_printf ("%s/evolution/filtertypes.xml", EVOLUTION_DATADIR);
+	rule_context_load ((RuleContext *)fc, systemrules, userrules);
+	rule = filter_rule_from_message (fc, msg, flags);
+	
 	filter_rule_set_source (rule, FILTER_SOURCE_INCOMING);
 	
-	rule_context_add_rule_gui((RuleContext *)fc, rule, _("Add Filter Rule"), userrules);
+	rule_context_add_rule_gui ((RuleContext *)fc, rule, _("Add Filter Rule"), userrules);
 	g_free (userrules);
 	g_free (systemrules);
-	gtk_object_unref((GtkObject *)fc);
+	gtk_object_unref (GTK_OBJECT (fc));
 }
 
 void

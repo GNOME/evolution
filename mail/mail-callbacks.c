@@ -702,7 +702,7 @@ filter_edit (BonoboUIComponent *uih, void *user_data, const char *path)
 	char *user, *system;
 	GtkWidget *w;
 	
-	fc = filter_context_new();
+	fc = filter_context_new ();
 	user = g_strdup_printf ("%s/filters.xml", evolution_dir);
 	system = g_strdup_printf ("%s/evolution/filtertypes.xml", EVOLUTION_DATADIR);
 	rule_context_load ((RuleContext *)fc, system, user);
@@ -731,7 +731,7 @@ filter_edit (BonoboUIComponent *uih, void *user_data, const char *path)
 void
 vfolder_edit_vfolders (BonoboUIComponent *uih, void *user_data, const char *path)
 {
-	vfolder_edit();
+	vfolder_edit ();
 }
 
 void
