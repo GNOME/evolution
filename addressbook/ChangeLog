@@ -1,3 +1,8 @@
+2001-04-11  Christopher James Lahey  <clahey@ximian.com>
+
+	* backend/pas/pas-backend-file.c (INITIAL_VCARD): Update the built
+	in VCard.
+
 2001-04-12  JP Rosevear  <jpr@ximian.com>
 
 	* conduit/address-conduit.c (local_record_from_ecard): put the
