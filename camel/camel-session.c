@@ -85,9 +85,12 @@ camel_session_get_type (void)
 
 
 CamelSession *
-camel_session_new (void)
+camel_session_new (CamelAuthCallback authenticator)
 {
-	return gtk_type_new (CAMEL_SESSION_TYPE);
+	CamelSession *session = gtk_type_new (CAMEL_SESSION_TYPE);
+
+	session->authenticator = authenticator;
+	return session;
 }
 
 /**
@@ -239,4 +242,38 @@ camel_session_get_store (CamelSession *session, const char *url_string,
 	if (store == NULL)
 		g_url_free (url);
 	return store;
+}
+
+
+
+/**
+ * camel_session_query_authenticator: query the session authenticator
+ * @session: session object
+ * @prompt: prompt to use if authenticator can query the user
+ * @secret: whether or not the data is secret (eg, a password)
+ * @service: the service this query is being made by
+ * @item: an identifier, unique within this service, for the information
+ * @ex: a CamelException
+ *
+ * This function is used by a CamelService to request authentication
+ * information it needs to complete a connection. If the authenticator
+ * stores any authentication information in configuration files, it
+ * should use @service and @item as keys to find the right piece of
+ * information. If it doesn't store authentication information in config
+ * files, it should use the given @prompt to ask the user for the
+ * information. If @secret is set, the user's input should not be
+ * echoed back. The authenticator should set @ex to
+ * CAMEL_EXCEPTION_USER_CANCEL if the user did not provide the
+ * information. The caller must g_free() the information when it is
+ * done with it.
+ *
+ * Return value: the authentication information or NULL.
+ **/
+char *
+camel_session_query_authenticator (CamelSession *session, char *prompt,
+				   gboolean secret,
+				   CamelService *service, char *item,
+				   CamelException *ex)
+{
+	return session->authenticator (prompt, secret, service, item, ex);
 }

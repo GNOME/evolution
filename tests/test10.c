@@ -60,6 +60,15 @@ create_sample_mime_message ()
 	return message;
 }
 
+static char *
+auth_callback(char *prompt, gboolean secret,
+	      CamelService *service, char *item,
+	      CamelException *ex)
+{
+	printf ("auth_callback called: %s\n", prompt);
+	return NULL;
+}
+
 
 
 
@@ -80,7 +89,7 @@ main (int argc, char**argv)
 	ex = camel_exception_new ();
 	camel_provider_register_as_module ("../camel/providers/mbox/.libs/libcamelmbox.so");
 	
-	session = camel_session_new ();
+	session = camel_session_new (auth_callback);
 	store = camel_session_get_store (session, store_url, ex);
 	if (camel_exception_get_id (ex)) {
 		printf ("Exception caught in camel_session_get_store\n"

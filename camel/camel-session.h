@@ -44,15 +44,19 @@ extern "C" {
 #define CAMEL_IS_SESSION(o)    (GTK_CHECK_TYPE((o), CAMEL_SESSION_TYPE))
 
 
+typedef char *(*CamelAuthCallback) (char *prompt, gboolean secret,
+				    CamelService *service, char *item,
+				    CamelException *ex);
 
 
 struct _CamelSession
 {
 	GtkObject parent_object;
+
+	CamelAuthCallback authenticator;
 	GHashTable *store_provider_list; /* providers are identified by their protocol */
 	GHashTable *transport_provider_list; 
-	
-	
+
 };
 
 
@@ -71,7 +75,7 @@ typedef struct {
 GtkType camel_session_get_type (void);
 
 
-CamelSession *camel_session_new (void);
+CamelSession *camel_session_new (CamelAuthCallback authenticator);
 void camel_session_set_provider (CamelSession *session, CamelProvider *provider);
 CamelStore *camel_session_get_store_for_protocol (CamelSession *session,
 						  const gchar *protocol,
@@ -79,7 +83,10 @@ CamelStore *camel_session_get_store_for_protocol (CamelSession *session,
 CamelStore *camel_session_get_store (CamelSession *session,
 				     const char *url_string,
 				     CamelException *ex);
-
+char *camel_session_query_authenticator (CamelSession *session, char *prompt,
+					 gboolean secret,
+					 CamelService *service, char *item,
+					 CamelException *ex);
 
 #ifdef __cplusplus
 }
