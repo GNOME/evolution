@@ -38,7 +38,6 @@
 #include "../calendar-config.h"
 #include "../tag-calendar.h"
 #include "../weekday-picker.h"
-#include "../widget-util.h"
 #include "comp-editor-util.h"
 #include "recurrence-page.h"
 
@@ -1163,7 +1162,7 @@ make_ending_until_special (RecurrencePage *rpage)
 
 	/* Create the widget */
 
-	priv->ending_date_edit = date_edit_new (TRUE, FALSE);
+	priv->ending_date_edit = comp_editor_new_date_edit (TRUE, FALSE);
 	de = E_DATE_EDIT (priv->ending_date_edit);
 
 	gtk_container_add (GTK_CONTAINER (priv->ending_special),

@@ -36,7 +36,6 @@
 #include <gal/widgets/e-categories.h>
 #include <widgets/misc/e-dateedit.h>
 #include "e-util/e-dialog-widgets.h"
-#include "../widget-util.h"
 #include "task-page.h"
 
 
@@ -558,9 +557,7 @@ task_page_set_summary (CompEditorPage *page, const char *summary)
 	tpage = TASK_PAGE (page);
 	priv = tpage->priv;
 
-	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->summary), tpage);
 	e_utf8_gtk_entry_set_text (GTK_ENTRY (priv->summary), summary);
-	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->summary), tpage);
 }
 
 static void
@@ -959,7 +956,7 @@ task_page_create_date_edit (void)
 {
 	GtkWidget *dedit;
 
-	dedit = date_edit_new (TRUE, TRUE);
+	dedit = comp_editor_new_date_edit (TRUE, TRUE);
 	e_date_edit_set_allow_no_date_set (E_DATE_EDIT (dedit), TRUE);
 
 	return dedit;

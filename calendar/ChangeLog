@@ -1,5 +1,22 @@
 2001-06-01  JP Rosevear  <jpr@ximian.com>
 
+	* gui/dialogs/event-page.c (make_date_edit): use new func
+
+	* gui/dialogs/task-details-page.c (task_details_page_create_date_edit): ditto
+
+	* gui/dialogs/recurrence-page.c (make_ending_until_special): ditto
+
+	* gui/dialogs/comp-editor-util.c (comp_editor_new_date_edit):
+	rename date_edit_new function
+
+	* gui/dialogs/comp-editor-util.h: new proto
+
+	* gui/dialogs/task-page.c (task_page_set_summary): no longer any
+	need to block/unblock the handler
+	(task_page_create_date_edit): use new func
+	
+2001-06-01  JP Rosevear  <jpr@ximian.com>
+
 	* gui/.cvsignore: Update
 
 	* gui/evolution-calendar-control.c: Remove dead file

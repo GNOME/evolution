@@ -34,8 +34,8 @@
 #include "e-util/e-dialog-widgets.h"
 #include "widgets/misc/e-dateedit.h"
 #include "cal-util/timeutil.h"
-#include "../widget-util.h"
 #include "../calendar-config.h"
+#include "comp-editor-util.h"
 #include "event-page.h"
 
 
@@ -81,8 +81,6 @@ static void event_page_fill_widgets (CompEditorPage *page, CalComponent *comp);
 static void event_page_fill_component (CompEditorPage *page, CalComponent *comp);
 static void event_page_set_summary (CompEditorPage *page, const char *summary);
 static void event_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates);
-
-GtkWidget *make_date_edit (void);
 
 static CompEditorPageClass *parent_class = NULL;
 
@@ -933,8 +931,10 @@ event_page_new (void)
 	return epage;
 }
 
+GtkWidget *make_date_edit (void);
+
 GtkWidget *
 make_date_edit (void)
 {
-	return date_edit_new (TRUE, TRUE);
+	return comp_editor_new_date_edit (TRUE, TRUE);
 }

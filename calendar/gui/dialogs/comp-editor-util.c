@@ -127,3 +127,27 @@ comp_editor_date_label (CompEditorPageDates *dates, GtkWidget *label)
 
 	gtk_label_set_text (GTK_LABEL (label), buffer);
 }
+
+/**
+ * comp_editor_new_date_edit:
+ * @show_date: Whether to show a date picker in the widget.
+ * @show_time: Whether to show a time picker in the widget.
+ * 
+ * Creates a new #EDateEdit widget, configured using the calendar's preferences.
+ * 
+ * Return value: A newly-created #EDateEdit widget.
+ **/
+GtkWidget *
+comp_editor_new_date_edit (gboolean show_date, gboolean show_time)
+{
+	EDateEdit *dedit;
+
+	dedit = E_DATE_EDIT (e_date_edit_new ());
+
+	e_date_edit_set_show_date (dedit, show_date);
+	e_date_edit_set_show_time (dedit, show_time);
+
+	calendar_config_configure_e_date_edit (dedit);
+
+	return GTK_WIDGET (dedit);
+}

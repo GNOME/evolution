@@ -32,7 +32,6 @@
 #include <gal/widgets/e-unicode.h>
 #include <widgets/misc/e-dateedit.h>
 #include "e-util/e-dialog-widgets.h"
-#include "../widget-util.h"
 #include "comp-editor-util.h"
 #include "task-details-page.h"
 
@@ -454,7 +453,7 @@ task_details_page_create_date_edit (void)
 {
 	GtkWidget *dedit;
 
-	dedit = date_edit_new (TRUE, TRUE);
+	dedit = comp_editor_new_date_edit (TRUE, TRUE);
 	e_date_edit_set_allow_no_date_set (E_DATE_EDIT (dedit), TRUE);
 
 	return dedit;
