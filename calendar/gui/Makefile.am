@@ -5,7 +5,7 @@ IDLS =                          \
 	$(top_srcdir)/addressbook/gui/component/select-names/Evolution-Addressbook-SelectNames.idl
 
 IDL_GENERATED =                 			\
-e        Evolution-Composer.h              		\
+        Evolution-Composer.h              		\
         Evolution-Composer-common.c       		\
         Evolution-Composer-skels.c        		\
         Evolution-Composer-stubs.c			\

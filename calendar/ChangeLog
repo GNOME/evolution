@@ -1,5 +1,9 @@
 2001-06-19  JP Rosevear  <jpr@ximian.com>
 
+	* gui/Makefile.am: remove typo
+	
+2001-06-19  JP Rosevear  <jpr@ximian.com>
+
 	* gui/dialogs/send-comp.c: itip/imip send dialog
 
 	* gui/dialogs/send-comp.h: new proto
