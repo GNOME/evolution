@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-02-20 03:16+0100\n"
-"PO-Revision-Date: 2004-02-20 14:38+0100\n"
+"POT-Creation-Date: 2004-02-21 03:15+0100\n"
+"PO-Revision-Date: 2004-02-21 09:51+0100\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -224,7 +224,7 @@ msgstr "Servery LDAP"
 msgid "Autocompletion Settings"
 msgstr "Nastavení automatického dokončování"
 
-#: addressbook/gui/component/addressbook.c:273
+#: addressbook/gui/component/addressbook.c:275
 msgid ""
 "More cards matched this query than either the server is \n"
 "configured to return or Evolution is configured to display.\n"
@@ -237,7 +237,7 @@ msgstr ""
 "zvyšte omezení maximálního počtu vrácených karet v nastavení\n"
 "adresářového serveru pro tento adresář."
 
-#: addressbook/gui/component/addressbook.c:279
+#: addressbook/gui/component/addressbook.c:281
 msgid ""
 "The time to execute this query exceeded the server limit or the limit\n"
 "you have configured for this addressbook.  Please make your search\n"
@@ -249,19 +249,19 @@ msgstr ""
 "nebo zvyšte časový limit v nastavení adresářového serveru pro tento\n"
 "adresář."
 
-#: addressbook/gui/component/addressbook.c:285
+#: addressbook/gui/component/addressbook.c:287
 msgid "The backend for this addressbook was unable to parse this query."
 msgstr "Obsluha tohoto adresáře nebyla schopna zpracovat tento dotaz."
 
-#: addressbook/gui/component/addressbook.c:288
+#: addressbook/gui/component/addressbook.c:290
 msgid "The backend for this addressbook refused to perform this query."
 msgstr "Obsluha tohoto adresáře odmítla provést tento dotaz."
 
-#: addressbook/gui/component/addressbook.c:291
+#: addressbook/gui/component/addressbook.c:293
 msgid "This query did not complete successfully."
 msgstr "Tento dotaz nebyl úspěšně dokončen."
 
-#: addressbook/gui/component/addressbook.c:592
+#: addressbook/gui/component/addressbook.c:594
 msgid ""
 "We were unable to open this addressbook.  Please check that the path exists "
 "and that you have permission to access it."
@@ -269,7 +269,7 @@ msgstr ""
 "Nemohu otevřít tento adresář. Ověřte prosím, že cesta existuje a že máte "
 "oprávnění k němu přistupovat."
 
-#: addressbook/gui/component/addressbook.c:599
+#: addressbook/gui/component/addressbook.c:601
 msgid ""
 "We were unable to open this addressbook.  This either means you have entered "
 "an incorrect URI, or the LDAP server is unreachable."
@@ -277,7 +277,7 @@ msgstr ""
 "Nemohu otevřít tento adresář. To znamená, že jste buď zadali nesprávné URI "
 "nebo že server LDAP není dostupný."
 
-#: addressbook/gui/component/addressbook.c:604
+#: addressbook/gui/component/addressbook.c:606
 msgid ""
 "This version of Evolution does not have LDAP support compiled in to it.  If "
 "you want to use LDAP in Evolution you must compile the program from the CVS "
@@ -287,7 +287,7 @@ msgstr ""
 "LDAP v Evolution používat, musíte program překompilovat z CVS po získání "
 "OpenLDAP z níže uvedeného odkazu."
 
-#: addressbook/gui/component/addressbook.c:613
+#: addressbook/gui/component/addressbook.c:615
 msgid ""
 "We were unable to open this addressbook.  This either means you have entered "
 "an incorrect URI, or the server is unreachable."
@@ -295,26 +295,30 @@ msgstr ""
 "Nemohu otevřít tento adresář. To znamená, že jste buď zadali nesprávné URI "
 "nebo že server LDAP není dostupný."
 
-#: addressbook/gui/component/addressbook.c:630
+#: addressbook/gui/component/addressbook.c:632
 msgid "Unable to open addressbook"
 msgstr "Nemohu otevřít adresář"
 
-#: addressbook/gui/component/addressbook.c:714
+#: addressbook/gui/component/addressbook.c:716
 msgid "Accessing LDAP Server anonymously"
 msgstr "K serveru LDAP se přistupuje anonymně"
 
-#: addressbook/gui/component/addressbook.c:783
+#: addressbook/gui/component/addressbook.c:785
 msgid "Failed to authenticate.\n"
 msgstr "Nemohu se autentizovat.\n"
 
-#: addressbook/gui/component/addressbook.c:789
+#: addressbook/gui/component/addressbook.c:791
 #, c-format
 msgid "%sEnter password for %s (user %s)"
 msgstr "%sZadejte heslo pro %s (uživatel %s)"
 
-#: addressbook/gui/component/addressbook.c:1071
+#: addressbook/gui/component/addressbook.c:1116
 msgid "UID of the contacts source that the view will display"
 msgstr "UID zdroje kontaktů, které bude pohled zobrazovat"
+
+#: addressbook/gui/component/addressbook.c:1121
+msgid "The URI that the address book will display"
+msgstr "URI, které bude zobrazovat adresář"
 
 #: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:1
 msgid "EFolderList xml for the list of completion uris"
@@ -6480,7 +6484,7 @@ msgstr "Naléhavost:"
 msgid "Web Page:"
 msgstr "WWW stránka:"
 
-#: calendar/gui/e-tasks.c:310 mail/em-folder-view.c:2177
+#: calendar/gui/e-tasks.c:310 mail/em-folder-view.c:2180
 #, c-format
 msgid "Click to open %s"
 msgstr "Kliknutím sem otevřete %s"
@@ -11905,7 +11909,7 @@ msgstr "Potom"
 msgid "You must specify a folder."
 msgstr "Musíte uvést složku."
 
-#: filter/filter-folder.c:242 filter/vfolder-rule.c:466
+#: filter/filter-folder.c:242 filter/vfolder-rule.c:505
 #: mail/mail-account-gui.c:1098
 msgid "Select Folder"
 msgstr "Vybrat složku"
@@ -12020,7 +12024,7 @@ msgstr ""
 "Datum zprávy bude porovnáváno s časem \n"
 "v okamžiku, kdy bude prováděno filtrování."
 
-#: filter/filter.glade.h:13 filter/vfolder-editor.c:114
+#: filter/filter.glade.h:13 filter/vfolder-editor.c:112
 msgid "Virtual Folders"
 msgstr "Virtuální složky"
 
@@ -12321,25 +12325,25 @@ msgstr "Předmět"
 msgid "Unset Status"
 msgstr "Odnastavit stav"
 
-#: filter/rule-context.c:682 filter/rule-editor.c:241 filter/rule-editor.c:326
-#: mail/mail-vfolder.c:1005
+#: filter/rule-context.c:682 filter/rule-editor.c:243 filter/rule-editor.c:328
+#: mail/mail-vfolder.c:1007
 #, c-format
 msgid "Rule name '%s' is not unique, choose another."
 msgstr "Název pravidla '%s' není unikátní, vyberte jiný."
 
-#: filter/rule-editor.c:170
+#: filter/rule-editor.c:172
 msgid "Rules"
 msgstr "Pravidla"
 
-#: filter/rule-editor.c:291
+#: filter/rule-editor.c:293
 msgid "Add Rule"
 msgstr "Přidat pravidlo"
 
-#: filter/rule-editor.c:373
+#: filter/rule-editor.c:375
 msgid "Edit Rule"
 msgstr "Upravit pravidlo"
 
-#: filter/rule-editor.c:692
+#: filter/rule-editor.c:699
 msgid "Rule name"
 msgstr "Název pravidla"
 
@@ -12379,15 +12383,15 @@ msgstr "Předmět obsahuje"
 msgid "Subject does not contain"
 msgstr "Předmět neobsahuje"
 
-#: filter/vfolder-rule.c:209
+#: filter/vfolder-rule.c:215
 msgid "You must name this vfolder."
 msgstr "Musíte pojmenovat tuto v-složku."
 
-#: filter/vfolder-rule.c:223
+#: filter/vfolder-rule.c:229
 msgid "You need to to specify at least one folder as a source."
 msgstr "Musíte zadat alespoň jednu složku jako zdrojovou."
 
-#: filter/vfolder-rule.c:546
+#: filter/vfolder-rule.c:585
 msgid "VFolder source"
 msgstr "Zdroj v-složky"
 
@@ -12594,7 +12598,7 @@ msgid "Folder _name:"
 msgstr "_Název složky:"
 
 #: mail/em-folder-tree-model.c:163 mail/em-folder-tree-model.c:165
-#: mail/mail-vfolder.c:853
+#: mail/mail-vfolder.c:855
 msgid "VFolders"
 msgstr "V-složky"
 
@@ -12627,6 +12631,7 @@ msgstr "%s"
 
 #: mail/em-folder-tree.c:1799 mail/em-folder-tree.c:1812
 #: mail/em-folder-view.c:658 mail/em-folder-view.c:672
+#: mail/importers/evolution-mbox-importer.c:118
 msgid "Select folder"
 msgstr "Vyberte složku"
 
@@ -12832,11 +12837,11 @@ msgstr "Filtr podle vlákna"
 msgid "Print Message"
 msgstr "Tisknout zprávu"
 
-#: mail/em-folder-view.c:1910
+#: mail/em-folder-view.c:1913
 msgid "_Copy Link Location"
 msgstr "_Kopírovat umístění odkazu"
 
-#: mail/em-folder-view.c:2172
+#: mail/em-folder-view.c:2175
 #, c-format
 msgid "Click to mail %s"
 msgstr "Kliknutím sem pošlete e-mail %s"
@@ -13749,13 +13754,17 @@ msgstr "Outlook Express 4 (.mbx)"
 msgid "Evolution is importing your old Elm mail"
 msgstr "Evolution importuje vaši starou poštu Elm"
 
-#: mail/importers/elm-importer.c:89 mail/importers/netscape-importer.c:1220
-#: mail/importers/pine-importer.c:117
+#: mail/importers/elm-importer.c:89
+#: mail/importers/evolution-mbox-importer.c:219
+#: mail/importers/evolution-outlook-importer.c:215
+#: mail/importers/netscape-importer.c:1220 mail/importers/pine-importer.c:117
 msgid "Importing..."
 msgstr "Importuji..."
 
-#: mail/importers/elm-importer.c:91 mail/importers/netscape-importer.c:1222
-#: mail/importers/pine-importer.c:119
+#: mail/importers/elm-importer.c:91
+#: mail/importers/evolution-mbox-importer.c:221
+#: mail/importers/evolution-outlook-importer.c:217
+#: mail/importers/netscape-importer.c:1222 mail/importers/pine-importer.c:119
 msgid "Please wait"
 msgstr "Čekejte, prosím"
 
@@ -13775,14 +13784,25 @@ msgstr ""
 msgid "Elm"
 msgstr "Elm"
 
-#: mail/importers/mail-importer.c:134
-msgid "Importing mailbox"
-msgstr "Importuji mailbox"
+#: mail/importers/evolution-mbox-importer.c:115
+msgid "Destination folder:"
+msgstr "Cílová složka:"
 
+#: mail/importers/evolution-mbox-importer.c:118
+msgid "Select folder to import into"
+msgstr "Vyberte složku, kam importovat"
+
+#: mail/importers/evolution-mbox-importer.c:218
+#: mail/importers/evolution-outlook-importer.c:214
 #: mail/importers/mail-importer.c:220
 #, c-format
 msgid "Importing `%s'"
 msgstr "Importuji `%s'"
+
+#: mail/importers/evolution-outlook-importer.c:261
+#: mail/importers/mail-importer.c:134
+msgid "Importing mailbox"
+msgstr "Importuji mailbox"
 
 #: mail/importers/mail-importer.c:354
 #, c-format
@@ -13996,23 +14016,23 @@ msgstr ""
 "    '%s'\n"
 "a byla aktualizována."
 
-#: mail/mail-component.c:466
+#: mail/mail-component.c:461
 msgid "You have unsent messages, do you wish to quit anyway?"
 msgstr "Máte neodeslané zprávy, chcete přesto skončit?"
 
-#: mail/mail-component.c:525
+#: mail/mail-component.c:520
 msgid "New Mail Message"
 msgstr "Nová zpráva"
 
-#: mail/mail-component.c:526
+#: mail/mail-component.c:521
 msgid "_Mail Message"
 msgstr "_Zpráva"
 
-#: mail/mail-component.c:527
+#: mail/mail-component.c:522
 msgid "Compose a new mail message"
 msgstr "Napsat novou zprávu"
 
-#: mail/mail-component.c:661
+#: mail/mail-component.c:656
 msgid "URI of the mail source that the view will display"
 msgstr "URI zdroje pošty, který bude pohled zobrazovat"
 
@@ -15070,20 +15090,20 @@ msgstr ""
 "    '%s'\n"
 "A byly aktualizovány."
 
-#: mail/mail-vfolder.c:923
+#: mail/mail-vfolder.c:925
 msgid "vFolders"
 msgstr "v-složky"
 
-#: mail/mail-vfolder.c:962
+#: mail/mail-vfolder.c:964
 msgid "Edit VFolder"
 msgstr "Upravit V-složku"
 
-#: mail/mail-vfolder.c:982
+#: mail/mail-vfolder.c:984
 #, c-format
 msgid "Trying to edit a vfolder '%s' which doesn't exist."
 msgstr "Pokus o úpravu v-složky '%s', která neexistuje."
 
-#: mail/mail-vfolder.c:1054
+#: mail/mail-vfolder.c:1056
 msgid "New VFolder"
 msgstr "Nová V-složka"
 
