@@ -1,5 +1,12 @@
 2001-06-18  Dan Winship  <danw@ximian.com>
 
+	* configure.in: Add "--with-db3" to fill in both
+	--with-db3-includes and --with-db3-libs. Make them get cached
+	properly so you don't need to specify it every time. Simplify some
+	code.
+
+2001-06-18  Dan Winship  <danw@ximian.com>
+
 	* configure.in: Check the modes on $system_mail_dir and set up
 	variables for camel/Makefile to make camel-lock-helper
 	setuid/setgid.
