@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-03-09 03:19+0100\n"
-"PO-Revision-Date: 2004-03-09 20:48+0100\n"
+"POT-Creation-Date: 2004-03-10 03:19+0100\n"
+"PO-Revision-Date: 2004-03-10 14:14+0100\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2303,21 +2303,20 @@ msgid "_Title:"
 msgstr "_Titul"
 
 #: addressbook/gui/contact-editor/im.glade.h:2
-msgid "Account name:"
-msgstr "Název účtu:"
-
-#: addressbook/gui/contact-editor/im.glade.h:3
 msgid "Add IM Account"
 msgstr "Přidat účet IM"
 
+#: addressbook/gui/contact-editor/im.glade.h:3
+msgid "_Account name:"
+msgstr "_Název účtu:"
+
 #: addressbook/gui/contact-editor/im.glade.h:4
-msgid "IM Service:"
-msgstr "Služba IM:"
+msgid "_IM Service:"
+msgstr "Služba _IM:"
 
 #: addressbook/gui/contact-editor/im.glade.h:5
-#: calendar/gui/e-itip-control.c:947
-msgid "Location:"
-msgstr "Místo:"
+msgid "_Location:"
+msgstr "_Místo:"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:4
 msgid "Members"
@@ -5983,6 +5982,10 @@ msgstr ""
 #: calendar/gui/e-itip-control.c:936
 msgid "<i>None</i>"
 msgstr "<i>Žádná</i>"
+
+#: calendar/gui/e-itip-control.c:947
+msgid "Location:"
+msgstr "Místo:"
 
 #. write status
 #: calendar/gui/e-itip-control.c:961 calendar/gui/e-tasks.c:199
@@ -11712,7 +11715,7 @@ msgid ""
 msgstr ""
 "Pokud je obdržena pošta s vyžádanou doručenkou, co má Evolution udělat?"
 
-#: e-util/e-dialog-utils.c:247
+#: e-util/e-dialog-utils.c:249
 msgid ""
 "A file by that name already exists.\n"
 "Overwrite it?"
@@ -11720,15 +11723,15 @@ msgstr ""
 "Soubor s tímto názvem již existuje.\n"
 "Přejete si jej přepsat?"
 
-#: e-util/e-dialog-utils.c:249
+#: e-util/e-dialog-utils.c:251
 msgid "Overwrite file?"
 msgstr "Přepsat soubor?"
 
-#: e-util/e-passwords.c:357
+#: e-util/e-passwords.c:358
 msgid "Remember this password"
 msgstr "Zapamatovat si toto heslo"
 
-#: e-util/e-passwords.c:359
+#: e-util/e-passwords.c:360
 msgid "Remember this password for the remainder of this session"
 msgstr "Zapamatovat si heslo pro zbytek tohoto sezení"
 
