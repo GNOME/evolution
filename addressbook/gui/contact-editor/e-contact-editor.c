@@ -159,6 +159,9 @@ phones [] = {
 	{ E_CONTACT_PHONE_TTYTDD,       EVC_X_TTYTDD,          NULL    }
 };
 
+/* Defaults from the table above */
+gint phones_default [] = { 1, 6, 2, 9 };
+
 static EContactField addresses[] = {
 	E_CONTACT_ADDRESS_WORK,
 	E_CONTACT_ADDRESS_HOME,
@@ -681,7 +684,8 @@ fill_in_phone_record (EContactEditor *editor, gint record, const gchar *phone, g
 	g_free (widget_name);
 
 	gtk_option_menu_set_history (GTK_OPTION_MENU (phone_type_option_menu),
-				     phone_type >= 0 ? phone_type : 0);
+				     phone_type >= 0 ? phone_type :
+				     phones_default [record - 1]);
 	set_entry_text (editor, GTK_ENTRY (phone_entry), phone ? phone : "");
 }
 

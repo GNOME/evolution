@@ -1,5 +1,11 @@
 2004-05-03  Hans Petter Jansson  <hpj@ximian.com>
 
+	* gui/contact-editor/e-contact-editor.c (phones_default): Establish
+	defaults for the phone number option menus.
+	(fill_in_phone_record): Fall back to defaults.
+
+2004-05-03  Hans Petter Jansson  <hpj@ximian.com>
+
 	* gui/contact-editor/e-contact-editor.c (show_help_cb): Implement.
 	(e_contact_editor_init): Hook up the help button.
 
