@@ -1299,16 +1299,6 @@ data/cde_app_root/dt/appconfig/icons/C/Makefile
 data/cde_app_root/dt/appconfig/types/Makefile
 data/cde_app_root/dt/appconfig/types/C/Makefile
 data/cde_app_root/dt/appconfig/types/C/Ximian.dt
-default_user/Makefile
-default_user/local/Makefile
-default_user/local/Calendar/Makefile
-default_user/local/Contacts/Makefile
-default_user/local/Drafts/Makefile
-default_user/local/Inbox/Makefile
-default_user/local/Outbox/Makefile
-default_user/local/Sent/Makefile
-default_user/local/Tasks/Makefile
-default_user/local/Trash/Makefile
 e-util/Makefile
 filter/Makefile
 help/Makefile
