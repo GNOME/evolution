@@ -23,6 +23,7 @@ AC_DEFUN([GNOME_LIBGTOP_HOOK],
 
 	AC_SUBST(LIBGTOP_LIBDIR)
 	AC_SUBST(LIBGTOP_INCLUDEDIR)
+	AC_SUBST(LIBGTOP_EXTRA_LIBS)
 	AC_SUBST(LIBGTOP_LIBS)
 	AC_SUBST(LIBGTOP_INCS)
 	AC_SUBST(LIBGTOP_NAMES_LIBS)
@@ -60,7 +61,7 @@ AC_DEFUN([GNOME_LIBGTOP_HOOK],
 	fi
 
 	AC_PATH_PROG(LIBGTOP_CONFIG, libgtop-config, no)
-	min_libgtop_version=ifelse([$1], ,0.25,$1)
+	min_libgtop_version=ifelse([$1], ,0.25.0,$1)
 	AC_MSG_CHECKING(for libgtop - version >= $min_libgtop_version)
 	no_libgtop=""
 	if test "$LIBGTOP_CONFIG" = "no" ; then

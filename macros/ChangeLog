@@ -1,3 +1,8 @@
+1998-08-18  Martin Baulig  <martin@home-of-linux.org>
+
+	* gnome-libgtop-check.m4: make it require libgtop >= 0.25.0.
+	Added (AC_SUBST): `LIBGTOP_MICRO_VERSION' and `LIBGTOP_EXTRA_LIBS'.
+	
 1998-08-17  Martin Baulig  <martin@home-of-linux.org>
 
 	* gnome-libgtop-check.m4: Completely rewrote this file. It
