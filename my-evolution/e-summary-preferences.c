@@ -695,6 +695,8 @@ mail_add_clicked_cb (GtkButton *button,
 	pd->summary->preferences->display_folders = g_list_prepend (pd->summary->preferences->display_folders,
 								    g_strdup (rd->uri + 7));
 	gtk_clist_set_row_data (GTK_CLIST (pd->mail->shown), row, pd->summary->preferences->display_folders);
+
+	gnome_property_box_changed (pd->box);
 }
 
 static void

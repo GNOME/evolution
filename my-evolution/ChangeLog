@@ -1,3 +1,8 @@
+2001-07-13  Iain Holmes  <iain@ximian.com>
+
+	* e-summary-preferences.c (mail_add_clicked_cb): Set the property box
+	to changed.
+
 2001-07-13  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* e-summary.c (e_summary_draw): Convert the date string to utf8 before
