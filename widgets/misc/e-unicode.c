@@ -11,6 +11,7 @@
 #include <config.h>
 #include <string.h>
 #include <unicode.h>
+#include <iconv.h>
 #include <gdk/gdk.h>
 #include "e-unicode.h"
 #include "e-font.h"
@@ -20,23 +21,6 @@
 
 static gint e_canonical_decomposition (unicode_char_t ch, unicode_char_t * buf);
 static unicode_char_t e_stripped_char (unicode_char_t ch);
-
-void
-e_unicode_init (void)
-{
-	static gboolean initialized = FALSE;
-
-	if (!initialized) {
-		unicode_iconv_t hackhack;
-
-		if ((hackhack = unicode_iconv_open("ASCII", "ASCII")) == (unicode_iconv_t) -1)
-			unicode_init ();
-		else
-			unicode_iconv_close(hackhack);
-
-		initialized = TRUE;
-	}
-}
 
 /*
  * This my favourite
@@ -215,7 +199,7 @@ e_utf8_from_gtk_event_key (GtkWidget *widget, guint keyval, const gchar *string)
 gchar *
 e_utf8_from_gtk_string_sized (GtkWidget *widget, const gchar *string, gint bytes)
 {
-	unicode_iconv_t uiconv;
+	iconv_t ic;
 	char *new, *ob;
 	const gchar * ib;
 	size_t ibl, obl;
@@ -227,8 +211,8 @@ e_utf8_from_gtk_string_sized (GtkWidget *widget, const gchar *string, gint bytes
 
 	g_return_val_if_fail (widget, NULL);
 
-	uiconv = e_uiconv_from_gdk_font (widget->style->font);
-	if (uiconv == (unicode_iconv_t) -1) return NULL;
+	ic = e_iconv_from_gdk_font (widget->style->font);
+	if (ic == (iconv_t) -1) return NULL;
 
 	ib = string;
 	ibl = bytes;
@@ -236,7 +220,7 @@ e_utf8_from_gtk_string_sized (GtkWidget *widget, const gchar *string, gint bytes
 	obl = ibl * 6 + 1;
 
 	while (ibl > 0) {
-		unicode_iconv (uiconv, &ib, &ibl, &ob, &obl);
+		iconv (ic, &ib, &ibl, &ob, &obl);
 		if (ibl > 0) {
 			gint len;
 			if ((*ib & 0x80) == 0x00) len = 1;
@@ -269,7 +253,7 @@ e_utf8_from_gtk_string (GtkWidget *widget, const gchar *string)
 gchar *
 e_utf8_to_gtk_string_sized (GtkWidget *widget, const gchar *string, gint bytes)
 {
-	unicode_iconv_t uiconv;
+	iconv_t ic;
 	char *new, *ob;
 	const gchar * ib;
 	size_t ibl, obl;
@@ -278,8 +262,8 @@ e_utf8_to_gtk_string_sized (GtkWidget *widget, const gchar *string, gint bytes)
 
 	g_return_val_if_fail (widget, NULL);
 
-	uiconv = e_uiconv_to_gdk_font (widget->style->font);
-	if (uiconv == (unicode_iconv_t) -1) return NULL;
+	ic = e_iconv_to_gdk_font (widget->style->font);
+	if (ic == (iconv_t) -1) return NULL;
 
 	ib = string;
 	ibl = bytes;
@@ -287,7 +271,7 @@ e_utf8_to_gtk_string_sized (GtkWidget *widget, const gchar *string, gint bytes)
 	obl = ibl * 4 + 1;
 
 	while (ibl > 0) {
-		unicode_iconv (uiconv, &ib, &ibl, &ob, &obl);
+		iconv (ic, &ib, &ibl, &ob, &obl);
 		if (ibl > 0) {
 			gint len;
 			if ((*ib & 0x80) == 0x00) len = 1;
