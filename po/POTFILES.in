@@ -31,6 +31,7 @@ addressbook/gui/contact-editor/e-contact-editor-confirm-delete.glade
 addressbook/gui/contact-editor/e-contact-editor.c
 addressbook/gui/contact-editor/e-contact-quick-add.c
 addressbook/gui/contact-editor/e-contact-save-as.c
+addressbook/gui/contact-editor/file-exists.glade
 addressbook/gui/contact-editor/fulladdr.glade
 addressbook/gui/contact-editor/fullname.glade
 addressbook/gui/contact-list-editor/contact-list-editor.glade
@@ -268,6 +269,7 @@ mail/message-list.c
 mail/message-list.etspec
 mail/message-tag-editor.c
 mail/message-tag-followup.c
+mail/message-tags.glade
 mail/subscribe-dialog.c
 mail/subscribe-dialog.etspec
 mail/subscribe-dialog.glade
