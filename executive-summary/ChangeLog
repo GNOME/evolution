@@ -1,0 +1,8 @@
+2000-10-04  Iain Holmes  <iain@helixcode.com>
+
+	* idl/SummaryComponent.idl: Added a title argument to the 
+	create_view methods.
+
+2000-09-13  Iain Holmes  <iain@helixcode.com>
+
+	* Started the Executive Summary
