@@ -1,17 +1,25 @@
+2001-04-14  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* evolution-mail.xml: Added Filter/VFolder on mailing list. Yay. I
+	also figured I'd expand this like MessageFilterSubj to
+	MessageFilterSubject, what's with the abreviation? It makes no
+	sense when the verb is that long anyway...
+
 2001-03-13  Michael Meeks  <michael@ximian.com>
 
-	* evolution-mail.xml: Add a load of commands, sigh, people
-	do this so brokenly.
+	* evolution-mail.xml: Add a load of commands, sigh, people do this
+	so brokenly.
 
 2001-04-02  Anders Carlsson  <andersca@codefactory.se>
 
-	* evolution-mail.xml: Added a space after an attribute to make libxml happy.
+	* evolution-mail.xml: Added a space after an attribute to make
+	libxml happy.
 
 2001-04-01  Gediminas Paulauskas <menesis@delfi.lt>
 
-	* evolution-addressbook.xml, evolution-calendar.xml, evolution-mail.xml,
-	evolution-tasks.xml, evolution.xml: as Jacub suggested, added some icons,
-	replaced stock Print with ours, etc.
+	* evolution-addressbook.xml, evolution-calendar.xml,
+	evolution-mail.xml, evolution-tasks.xml, evolution.xml: as Jacub
+	suggested, added some icons, replaced stock Print with ours, etc.
 
 2001-03-29  Not Zed  <NotZed@Ximian.com>
 
@@ -20,8 +28,8 @@
 
 2001-03-28  Ettore Perazzoli  <ettore@ximian.com>
 
-	* evolution-mail.xml: Bind "MessageMarkAsRead" to `Control-k' instead of
-	`Control-q'.
+	* evolution-mail.xml: Bind "MessageMarkAsRead" to `Control-k'
+	instead of `Control-q'.
 
 2001-03-20  Ettore Perazzoli  <ettore@ximian.com>
 
