@@ -976,7 +976,7 @@ e_select_names_completion_do_query (ESelectNamesCompletion *comp, const gchar *q
 
 /*
  *
- *  Completion Search Override - a Framework for Christian-Resurrection-Holiday Edible-Chicken-Embryos
+ *  Completion Search Override - a Framework for Christian-Resurrection-Holiday Edible-Chicken-Ova
  *
  */
 
@@ -994,7 +994,11 @@ static SearchOverride override[] = {
 static gboolean
 search_override_check (SearchOverride *over, const gchar *text)
 {
-	if (over == NULL || text == NULL)
+	/* The g_utf8_validate is needed because as of 2001-06-11,
+	 * EText doesn't translate from locale->UTF8 when you paste
+	 * into it.
+	 */
+	if (over == NULL || text == NULL || !g_utf8_validate (text, -1, NULL))
 		return FALSE;
 
 	return !g_utf8_strcasecmp (over->trigger, text);
@@ -1044,7 +1048,7 @@ e_select_names_completion_begin (ECompletion *comp, const gchar *text, gint pos,
 				ECompletionMatch *match = g_new (ECompletionMatch, 1);
 				e_completion_match_construct (match);
 				e_completion_match_set_text (match, text, override[j].text[k]);
-				match->score = 1;
+				match->score = 1 / (k + 1);
 				e_completion_found_match (comp, match);
 			}
 

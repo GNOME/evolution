@@ -1,3 +1,11 @@
+2001-06-11  Dan Winship  <danw@ximian.com>
+
+	* gui/component/select-names/e-select-names-completion.c
+	(search_override_check): Add a workaround for an EText bug.
+	(e_select_names_completion_begin): Fix up the match scoring in the
+	search_override case so the lines are offered in the correct
+	order.
+
 2001-06-11  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/merging/Makefile.am (glade_DATA): Added
