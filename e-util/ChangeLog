@@ -1,3 +1,11 @@
+2001-04-22  Chris Toshok  <toshok@ximian.com>
+
+	* Makefile.am (libeutil_la_SOURCES): add e-host-utils.[ch]
+
+	* e-host-utils.c: new file, with e_gethostbyname_r.
+
+	* e-host-utils.h: new file.
+
 2001-04-19  Dan Winship  <danw@ximian.com>
 
 	* e-html-utils.c (is_citation): ">From" is not a citation unless

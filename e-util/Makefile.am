@@ -23,6 +23,8 @@ libeutil_la_SOURCES =			\
 	e-gtk-utils.h			\
 	e-gui-utils.c			\
 	e-gui-utils.h			\
+	e-host-utils.c			\
+	e-host-utils.h			\
 	e-html-utils.c			\
 	e-html-utils.h			\
 	e-iterator.c			\
