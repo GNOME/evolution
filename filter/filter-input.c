@@ -27,7 +27,6 @@
 #include <gtk/gtkobject.h>
 #include <gtk/gtkwidget.h>
 
-#include <gnome-xml/xmlmemory.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-dialog.h>
@@ -255,14 +254,15 @@ xml_decode (FilterElement *fe, xmlNodePtr node)
 	char *name, *str, *type;
 	xmlNodePtr n;
 	
-	type = fi->type ? fi->type : "string";
+	name = xmlGetProp (node, "name");
+	type = xmlGetProp (node, "type");
 	
 	d(printf("Decoding %s from xml %p\n", type, fe));
-	
-	name = xmlGetProp (node, "name");
 	d(printf ("Name = %s\n", name));
+	xmlFree (fe->name);
 	fe->name = name;
-	fi->type = xmlGetProp (node, "type");
+	xmlFree (fi->type);
+	fi->type = type;
 	n = node->childs;
 	while (n) {
 		if (!strcmp (n->name, type)) {

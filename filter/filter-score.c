@@ -27,7 +27,6 @@
 #include <stdlib.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtkspinbutton.h>
-#include <gnome-xml/xmlmemory.h>
 
 #include "e-util/e-sexp.h"
 #include "filter-score.h"
@@ -174,11 +173,13 @@ xml_decode (FilterElement *fe, xmlNodePtr node)
 	
 	name = xmlGetProp (node, "name");
 	d(printf ("Name = %s\n", name));
+	xmlFree (fe->name);
 	fe->name = name;
 	score = xmlGetProp (node, name);
-	if (score)
+	if (score) {
 		fs->score = atoi (score);
-	else
+		xmlFree (score);
+	} else
 		fs->score = 0;
 	
 	if (fs->score > 3)

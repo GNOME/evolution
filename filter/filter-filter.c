@@ -29,7 +29,6 @@
 #include <gtk/gtkoptionmenu.h>
 #include <gtk/gtkscrolledwindow.h>
 #include <gtk/gtktable.h>
-#include <gnome-xml/xmlmemory.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-stock.h>

@@ -154,8 +154,6 @@ filter_source_new (void)
 static void
 xml_create (FilterElement *fe, xmlNodePtr node)
 {
-	FilterSource *fs = (FilterSource *) fe;
-
 	/* Call parent implementation */
 
 	((FilterElementClass *)parent_class)->xml_create (fe, node);
@@ -192,8 +190,10 @@ xml_decode (FilterElement *fe, xmlNodePtr node)
 	FilterSource *fs = (FilterSource *) fe;
 	gchar *value;
 	
+	xmlFree (fe->name);
 	fe->name = xmlGetProp (node, "name");
 	value = xmlGetProp (node, "uri");
+	xmlFree (fs->priv->current_url);
 	fs->priv->current_url = value;
 	
 	return 0;
@@ -284,8 +284,6 @@ get_widget (FilterElement *fe)
 static void
 build_code (FilterElement *fe, GString *out, struct _FilterPart *ff)
 {
-	FilterSource *fs = (FilterSource *) fe;
-
 	g_message ("build_code: [%s]", out->str);
 }
 

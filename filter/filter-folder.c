@@ -187,11 +187,14 @@ xml_decode (FilterElement *fe, xmlNodePtr node)
 	
 	d(printf ("Decoding folder from xml %p\n", fe));
 	
+	xmlFree (fe->name);
 	fe->name = xmlGetProp (node, "name");
 	
 	n = node->childs;
 	while (n) {
 		if (!strcmp (n->name, "folder")) {
+			xmlFree (ff->name);
+			xmlFree (ff->uri);
 			ff->name = xmlGetProp (n, "name");
 			ff->uri = xmlGetProp (n, "uri");
 			break;

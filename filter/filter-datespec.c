@@ -244,6 +244,7 @@ xml_decode (FilterElement *fe, xmlNodePtr node)
 	
 	d(printf ("Decoding datespec from xml %p\n", fe));
 	
+	xmlFree (fe->name);
 	fe->name = xmlGetProp (node, "name");
 	
 	n = node->childs;
@@ -251,10 +252,10 @@ xml_decode (FilterElement *fe, xmlNodePtr node)
 		if (!strcmp (n->name, "datespec")) {
 			val = xmlGetProp (n, "type");
 			fds->type = atoi (val);
-			g_free (val);
+			xmlFree (val);
 			val = xmlGetProp (n, "value");
 			fds->value = atoi (val);
-			g_free (val);
+			xmlFree (val);
 			break;
 		}
 		n = n->next;

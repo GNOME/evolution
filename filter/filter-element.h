@@ -24,6 +24,7 @@
 #include <gtk/gtkobject.h>
 #include <gtk/gtkwidget.h>
 #include <gnome-xml/parser.h>
+#include <gnome-xml/xmlmemory.h>
 
 #define FILTER_ELEMENT(obj)	GTK_CHECK_CAST (obj, filter_element_get_type (), FilterElement)
 #define FILTER_ELEMENT_CLASS(klass)	GTK_CHECK_CLASS_CAST (klass, filter_element_get_type (), FilterElementClass)

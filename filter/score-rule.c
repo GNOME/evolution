@@ -164,6 +164,7 @@ xml_decode (FilterRule *fr, xmlNodePtr node, struct _RuleContext *f)
 		if (!strcmp (value->name, "score")) {
 			str = xmlGetProp (value, "value");
 			sscanf (str, "%d", &sr->score);
+			xmlFree (str);
 			
 			/* score range is -3 to +3 */
 			if (sr->score > 3)

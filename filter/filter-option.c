@@ -24,7 +24,6 @@
 #include <glib.h>
 #include <gtk/gtkmenuitem.h>
 #include <gtk/gtkoptionmenu.h>
-#include <gnome-xml/xmlmemory.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <gal/widgets/e-unicode.h>
@@ -234,6 +233,7 @@ xml_decode (FilterElement *fe, xmlNodePtr node)
 	char *value;
 	
 	d(printf ("Decoding option from xml\n"));
+	xmlFree (fe->name);
 	fe->name = xmlGetProp (node, "name");
 	value = xmlGetProp (node, "value");
 	if (value) {
