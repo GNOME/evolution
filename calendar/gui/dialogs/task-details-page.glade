@@ -249,7 +249,7 @@
       <widget>
 	<class>GtkLabel</class>
 	<name>delegated-from-label</name>
-	<label>Delegated By:</label>
+	<label>Delegated From:</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
 	<xalign>0</xalign>

@@ -260,8 +260,11 @@ task_details_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 		attendee = list->data;
 		if (attendee->delto)
 			e_dialog_editable_set (priv->delegated_to, attendee->delto);
-		if (attendee->delfrom)
-			e_dialog_editable_set (priv->delegated_from, attendee->delfrom);
+		if (attendee->delfrom) {
+			gchar *s = e_utf8_to_gtk_string (priv->delegated_from, attendee->delfrom);
+			gtk_label_set_text (GTK_LABEL (priv->delegated_from), s);
+			g_free (s);
+		}
 	}
 	cal_component_free_attendee_list (list);
 	
@@ -559,8 +562,6 @@ task_details_page_show_delegation (TaskDetailsPage *tdpage, gboolean show)
 		gtk_widget_hide (priv->delegated_from);
 		gtk_widget_hide (priv->delegated_from_lbl);
 	}
-
-//	gtk_widget_queue_draw (priv->main);
 }
 
 GtkWidget *task_details_page_create_date_edit (void);
