@@ -30,6 +30,7 @@
 #include <string.h>
 
 #include <glib.h>
+#include <libgnomevfs/gnome-vfs-mime.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include <libgnomevfs/gnome-vfs-mime-utils.h>
 #include "mail.h"
@@ -50,9 +51,8 @@ static const char *identify_by_magic (CamelDataWrapper *data, MailDisplay *md);
 char *
 mail_identify_mime_part (CamelMimePart *part, MailDisplay *md)
 {
-	const char *filename, *magic_type = NULL;
+	const char *filename, *name_type = NULL, *magic_type = NULL;
 	CamelDataWrapper *data;
-	char *name_type = NULL;
 	
 	filename = camel_mime_part_get_filename (part);
 	if (filename) {
@@ -60,7 +60,7 @@ mail_identify_mime_part (CamelMimePart *part, MailDisplay *md)
 		if (!strcmp (filename, "winmail.dat"))
 			return g_strdup ("application/vnd.ms-tnef");
 		
-		name_type = gnome_vfs_get_mime_type_from_name (filename);
+		name_type = gnome_vfs_mime_type_from_name (filename);
 	}
 	
 	data = camel_medium_get_content_object (CAMEL_MEDIUM (part));
@@ -74,26 +74,24 @@ mail_identify_mime_part (CamelMimePart *part, MailDisplay *md)
 		 * that instead.
 		 */
 		if (!strcmp (magic_type, "text/plain"))
-			return name_type;
+			return g_strdup (name_type);
 		
 		/* If if returns "application/octet-stream" try to
 		 * do better with the filename check.
 		 */
 		if (!strcmp (magic_type, "application/octet-stream"))
-			return name_type;
+			return g_strdup (name_type);
 	}
 	
 	/* If the MIME part data was online, and the magic check
 	 * returned something, use that, since it's more reliable.
 	 */
-	if (magic_type) {
-		g_free (name_type);
+	if (magic_type)
 		return g_strdup (magic_type);
-	}
 	
 	/* Otherwise try guessing based on the filename */
 	if (name_type)
-		return name_type;
+		return g_strdup (name_type);
 	
 	/* Another possibility to try is the x-mac-type / x-mac-creator
 	 * parameter to Content-Type used by some Mac email clients. That
