@@ -368,6 +368,26 @@ e_table_subset_new (ETableModel *source, const int nvals)
 	return (ETableModel *) etss;
 }
 
+int          e_table_subset_model_to_view_row  (ETableSubset *ets,
+						int           model_row)
+{
+	int i;
+	for (i = 0; i < ets->n_map; i++) {
+		if (ets->map_table[i] == model_row)
+			return i;
+	}
+	return -1;
+}
+
+int          e_table_subset_view_to_model_row  (ETableSubset *ets,
+						int           view_row)
+{
+	if (view_row >= 0 && view_row < ets->n_map)
+		return ets->map_table[view_row];
+	else
+		return -1;
+}
+
 ETableModel *
 e_table_subset_get_toplevel (ETableSubset *table)
 {

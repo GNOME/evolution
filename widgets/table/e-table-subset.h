@@ -43,16 +43,21 @@ typedef struct {
 	void (*proxy_model_rows_deleted)  (ETableSubset *etss, ETableModel *etm, int row, int count);
 } ETableSubsetClass;
 
-GtkType      e_table_subset_get_type         (void);
-ETableModel *e_table_subset_new              (ETableModel  *etm,
-					      int           n_vals);
-ETableModel *e_table_subset_construct        (ETableSubset *ets,
-					      ETableModel  *source,
-					      int           nvals);
+GtkType      e_table_subset_get_type           (void);
+ETableModel *e_table_subset_new                (ETableModel  *etm,
+						int           n_vals);
+ETableModel *e_table_subset_construct          (ETableSubset *ets,
+						ETableModel  *source,
+						int           nvals);
 
-ETableModel *e_table_subset_get_toplevel     (ETableSubset *table_model);
+int          e_table_subset_model_to_view_row  (ETableSubset *ets,
+						int           model_row);
+int          e_table_subset_view_to_model_row  (ETableSubset *ets,
+						int           view_row);
 
-void         e_table_subset_print_debugging  (ETableSubset *table_model);
+ETableModel *e_table_subset_get_toplevel       (ETableSubset *table_model);
+
+void         e_table_subset_print_debugging    (ETableSubset *table_model);
 
 #ifdef __cplusplus
 }
