@@ -1,3 +1,7 @@
+2001-06-04  Radek Doulik  <rodo@ximian.com>
+
+	* Makefile.am: move DB3_LDADD down to fix linkage
+
 2001-06-03  Ettore Perazzoli  <ettore@ximian.com>
 
 	* Makefile.am (evolution_netscape_importer_LDADD): Move
