@@ -1,3 +1,9 @@
+2001-10-22    <NotZed@Ximian.com>
+
+	* providers/local/camel-spool-summary.c (summary_rebuild): No, use
+	Storing, as the other code does :p
+	(spool_summary_check): Check for consistency.
+
 2001-10-22  Jon Trowbridge  <trow@ximian.com>
 
 	* providers/local/camel-spool-summary.c (summary_rebuild):
