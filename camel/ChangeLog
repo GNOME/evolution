@@ -1,3 +1,11 @@
+2000-04-20  Dan Winship  <danw@helixcode.com>
+
+	* camel-mime-utils.c (rfc2047_decode_word): use libunicode iconv
+	functions rather than libc ones (since libc might not have them).
+	(header_decode_date): add autoconfiscation on timezone code
+
+	* camel.c (camel_init): call unicode_init ()
+
 2000-04-20  NotZed  <NotZed@HelixCode.com>
 
 	* providers/mbox/camel-mbox-summary.c (message_struct_new): Trim

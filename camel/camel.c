@@ -39,5 +39,7 @@ camel_init(void)
 #endif /* G_THREADS_ENABLED */
 #endif /* ENABLE_THREADS */
 
+	unicode_init ();
+
 	return data_wrapper_repository_init (); 
 }

@@ -18,6 +18,8 @@
  *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
+#include <config.h>
+
 #include <stdio.h>
 
 #include <sys/types.h>
@@ -26,7 +28,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <iconv.h>
+#include <unicode.h>
 
 #include <glib.h>
 #include <time.h>
@@ -641,7 +643,7 @@ rfc2047_decode_word(char *in, int len)
 	char *outbase = NULL;
 	char *inbuf, *outbuf;
 	int inlen, outlen;
-	iconv_t ic;
+	unicode_iconv_t ic;
 
 	d(printf("decoding '%.*s'\n", len, in));
 
@@ -684,9 +686,9 @@ rfc2047_decode_word(char *in, int len)
 			outbase = g_malloc(outlen);
 			outbuf = outbase;
 
-			ic = iconv_open("utf-8", encname);
-			ret = iconv(ic, (const char **)&inbuf, &inlen, &outbuf, &outlen);
-			iconv_close(ic);
+			ic = unicode_iconv_open("utf-8", encname);
+			ret = unicode_iconv(ic, (const char **)&inbuf, &inlen, &outbuf, &outlen);
+			unicode_iconv_close(ic);
 			if (ret>=0) {
 				*outbuf = 0;
 				decoded = outbase;
@@ -1650,9 +1652,14 @@ header_decode_date(const char *in, int *saveoffset)
 		d(printf("named offset = %d\n", offset));
 	}
 
-	/*	t -= ( (offset/100) * 60*60) + (offset % 100)*60 + timezone;*/
-
-	t = mktime(&tm) - timezone;
+	t = mktime(&tm);
+#if defined(HAVE_TIMEZONE)
+	t -= timezone;
+#elif defined(HAVE_TM_GMTOFF)
+	t += tm.tm_gmtoff;
+#else
+#error Neither HAVE_TIMEZONE nor HAVE_TM_GMTOFF defined. Rerun autoheader, autoconf, etc.
+#endif
 
 	/* t is now GMT of the time we want, but not offset by the timezone ... */
 
