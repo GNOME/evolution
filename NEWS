@@ -58,6 +58,8 @@ Bugs fixed:
     #17344 -- iCalendar should not be translated   
     #17526 -- Refreshing request does not show relevant information
     #17527 -- Refresh requests have wrong menu
+    #17531 -- libical does not build with bison 1.30
+    #17606 -- libical does not build with autoconf 2.52
     (none) -- Scheduling page did not accurately display no information range
 
   * Importers
