@@ -26,7 +26,6 @@
 
 #include "e-combo-button.h"
 
-#include <gtk/gtkvseparator.h>
 #include <gtk/gtkhbox.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkmain.h>
@@ -36,17 +35,13 @@
 #include <gal/util/e-util.h>
 
 
-enum {
-	ACTIVATE_DEFAULT,
-	LAST_SIGNAL
-};
-
-
 struct _EComboButtonPrivate {
+	GdkPixbuf *icon;
+
+	GtkWidget *icon_pixmap;
+	GtkWidget *label;
 	GtkWidget *arrow_pixmap;
 	GtkWidget *hbox;
-	GtkWidget *separator;
-	GtkWidget *label_hbox;
 
 	GtkMenu *menu;
 
@@ -56,7 +51,7 @@ struct _EComboButtonPrivate {
 
 #define SPACING 2
 
-static char *arrow_xpm[] = {
+static const char *arrow_xpm[] = {
 	"11 5  2 1",
 	" 	c none",
 	".	c #000000000000",
@@ -70,7 +65,82 @@ static char *arrow_xpm[] = {
 
 #define PARENT_TYPE gtk_button_get_type ()
 static GtkButtonClass *parent_class = NULL;
-static guint combo_button_signals[LAST_SIGNAL] = { 0 };
+
+enum {
+	ACTIVATE_DEFAULT,
+	LAST_SIGNAL
+};
+
+static guint signals[LAST_SIGNAL] = { 0 };
+
+
+/* Utility functions.  */
+
+static GtkWidget *
+create_pixmap_widget_from_pixbuf (GdkPixbuf *pixbuf)
+{
+	GtkWidget *pixmap_widget;
+	GdkPixmap *pixmap;
+	GdkBitmap *mask;
+
+	gdk_pixbuf_render_pixmap_and_mask (pixbuf, &pixmap, &mask, 128);
+
+	pixmap_widget = gtk_pixmap_new (pixmap, mask);
+
+	gdk_pixmap_unref (pixmap);
+	gdk_bitmap_unref (mask);
+
+	return pixmap_widget;
+}
+
+static GtkWidget *
+create_empty_pixmap_widget (void)
+{
+	GtkWidget *pixmap_widget;
+	GdkPixbuf *pixbuf;
+
+	pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, 1, 1);
+
+	pixmap_widget = create_pixmap_widget_from_pixbuf (pixbuf);
+
+	gdk_pixbuf_unref (pixbuf);
+
+	return pixmap_widget;
+}
+
+static GtkWidget *
+create_arrow_pixmap_widget (void)
+{
+	GtkWidget *pixmap_widget;
+	GdkPixbuf *pixbuf;
+
+	pixbuf = gdk_pixbuf_new_from_xpm_data (arrow_xpm);
+
+	pixmap_widget = create_pixmap_widget_from_pixbuf (pixbuf);
+
+	gdk_pixbuf_unref (pixbuf);
+
+	return pixmap_widget;
+}
+
+static void
+set_icon (EComboButton *combo_button,
+	  GdkPixbuf *pixbuf)
+{
+	EComboButtonPrivate *priv;
+	GdkPixmap *pixmap;
+	GdkBitmap *mask;
+
+	priv = combo_button->priv;
+
+	priv->icon = gdk_pixbuf_ref (pixbuf);
+
+	gdk_pixbuf_render_pixmap_and_mask (pixbuf, &pixmap, &mask, 128);
+	gtk_pixmap_set (GTK_PIXMAP (priv->icon_pixmap), pixmap, mask);
+
+	gdk_pixmap_unref (pixmap);
+	gdk_pixmap_unref (mask);
+}
 
 
 /* Callbacks for the associated menu.  */
@@ -140,6 +210,11 @@ impl_destroy (GtkObject *object)
 		priv->arrow_pixmap = NULL;
 	}
 
+	if (priv->icon != NULL) {
+		gdk_pixbuf_unref (priv->icon);
+		priv->icon = NULL;
+	}
+
 	g_free (priv);
 
 	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
@@ -147,48 +222,6 @@ impl_destroy (GtkObject *object)
 
 
 /* GtkWidget methods.  */
-
-static void
-impl_realize (GtkWidget *widget)
-{
-	EComboButton *combo_button;
-	EComboButtonPrivate *priv;
-	GdkPixmap *arrow_gdk_pixmap;
-	GdkBitmap *arrow_gdk_mask;
-
-	combo_button = E_COMBO_BUTTON (widget);
-	priv = combo_button->priv;
-
-	(* GTK_WIDGET_CLASS (parent_class)->realize) (widget);
-
-	g_assert (priv->arrow_pixmap == NULL);
-
-	arrow_gdk_pixmap = gdk_pixmap_create_from_xpm_d (widget->window, &arrow_gdk_mask, NULL, arrow_xpm);
-	priv->arrow_pixmap = gtk_pixmap_new (arrow_gdk_pixmap, arrow_gdk_mask);
-	gtk_widget_show (priv->arrow_pixmap);
-
-	gtk_box_pack_start (GTK_BOX (priv->hbox), priv->arrow_pixmap, FALSE, TRUE, SPACING);
-
-	gdk_pixmap_unref (arrow_gdk_pixmap);
-	gdk_bitmap_unref (arrow_gdk_mask);
-}
-
-static void
-impl_unrealize (GtkWidget *widget)
-{
-	EComboButton *combo_button;
-	EComboButtonPrivate *priv;
-
-	combo_button = E_COMBO_BUTTON (widget);
-	priv = combo_button->priv;
-
-	(* GTK_WIDGET_CLASS (parent_class)->unrealize) (widget);
-
-	if (priv->arrow_pixmap != NULL) {
-		gtk_widget_destroy (priv->arrow_pixmap);
-		priv->arrow_pixmap = NULL;
-	}
-}
 
 static int
 impl_button_press_event (GtkWidget *widget,
@@ -203,7 +236,7 @@ impl_button_press_event (GtkWidget *widget,
 	if (event->type == GDK_BUTTON_PRESS && event->button == 1) {
 		GTK_BUTTON (widget)->button_down = TRUE;
 
-		if (event->x >= priv->separator->allocation.x) {
+		if (event->x >= priv->arrow_pixmap->allocation.x) {
 			/* User clicked on the right side: pop up the menu.  */
 			gtk_button_pressed (GTK_BUTTON (widget));
 
@@ -217,18 +250,6 @@ impl_button_press_event (GtkWidget *widget,
 			gtk_grab_add (widget);
 			gtk_button_pressed (GTK_BUTTON (widget));
 		}
-	}
-
-	return TRUE;
-}
-
-static int
-impl_button_release_event (GtkWidget *widget,
-			   GdkEventButton *event)
-{
-	if (event->button == 1) {
-		gtk_grab_remove (widget);
-		gtk_button_released (GTK_BUTTON (widget));
 	}
 
 	return TRUE;
@@ -255,38 +276,77 @@ impl_leave_notify_event (GtkWidget *widget,
 }
 
 
+/* GtkButton methods.  */
+
+static void
+impl_released (GtkButton *button)
+{
+	EComboButton *combo_button;
+	EComboButtonPrivate *priv;
+
+	combo_button = E_COMBO_BUTTON (button);
+	priv = combo_button->priv;
+
+	/* Massive cut & paste from GtkButton here...  The only change in
+	   behavior here is that we want to emit ::activate_default when not
+	   the menu hasn't been popped up.  */
+
+	if (button->button_down) {
+		int new_state;
+
+		button->button_down = FALSE;
+
+		if (button->in_button) {
+			gtk_button_clicked (button);
+
+			if (! priv->menu_popped_up)
+				gtk_signal_emit (GTK_OBJECT (button), signals[ACTIVATE_DEFAULT]);
+		}
+
+		new_state = (button->in_button ? GTK_STATE_PRELIGHT : GTK_STATE_NORMAL);
+
+		if (GTK_WIDGET_STATE (button) != new_state) {
+			gtk_widget_set_state (GTK_WIDGET (button), new_state);
+
+			/* We _draw () instead of queue_draw so that if the
+			   operation blocks, the label doesn't vanish.  */
+			gtk_widget_draw (GTK_WIDGET (button), NULL);
+		}
+	}
+}
+
+
 static void
 class_init (GtkObjectClass *object_class)
 {
 	GtkWidgetClass *widget_class;
+	GtkButtonClass *button_class;
 
 	parent_class = gtk_type_class (PARENT_TYPE);
 
 	object_class->destroy = impl_destroy;
 
 	widget_class = GTK_WIDGET_CLASS (object_class);
-	widget_class->realize              = impl_realize;
-	widget_class->unrealize            = impl_unrealize;
-	widget_class->button_press_event   = impl_button_press_event;
-	widget_class->button_release_event = impl_button_release_event;
-	widget_class->leave_notify_event   = impl_leave_notify_event;
+	widget_class->button_press_event = impl_button_press_event;
+	widget_class->leave_notify_event = impl_leave_notify_event;
 
-	combo_button_signals[ACTIVATE_DEFAULT] = 
-		gtk_signal_new ("activate_default",
-				GTK_RUN_FIRST,
-				object_class->type,
-				GTK_SIGNAL_OFFSET (EComboButtonClass, activate_default),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
+	button_class = GTK_BUTTON_CLASS (object_class);
+	button_class->released = impl_released;
 
-	gtk_object_class_add_signals (object_class, combo_button_signals, LAST_SIGNAL);
+	signals[ACTIVATE_DEFAULT] = gtk_signal_new ("activate_default",
+						    GTK_RUN_FIRST,
+						    object_class->type,
+						    GTK_SIGNAL_OFFSET (EComboButtonClass, activate_default),
+						    gtk_marshal_NONE__NONE,
+						    GTK_TYPE_NONE, 0);
+
+	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 }
 
 static void
 init (EComboButton *combo_button)
 {
 	EComboButtonPrivate *priv;
-	GtkWidget *label;
 
 	priv = g_new (EComboButtonPrivate, 1);
 	combo_button->priv = priv;
@@ -295,27 +355,84 @@ init (EComboButton *combo_button)
 	gtk_container_add (GTK_CONTAINER (combo_button), priv->hbox);
 	gtk_widget_show (priv->hbox);
 
-	priv->label_hbox = gtk_hbox_new (FALSE, SPACING);
-	gtk_box_pack_start (GTK_BOX (priv->hbox), priv->label_hbox, TRUE, TRUE, 0);
-	gtk_widget_show (priv->label_hbox);
+	priv->icon_pixmap = create_empty_pixmap_widget ();
+	gtk_box_pack_start (GTK_BOX (priv->hbox), priv->icon_pixmap, TRUE, TRUE, 0);
+	gtk_widget_show (priv->icon_pixmap);
 
-	priv->separator = gtk_vseparator_new ();
-	gtk_box_pack_start (GTK_BOX (priv->hbox), priv->separator, FALSE, TRUE, SPACING);
-	gtk_widget_show (priv->separator);
+	priv->label = gtk_label_new ("");
+	gtk_box_pack_start (GTK_BOX (priv->hbox), priv->label, TRUE, TRUE, 0);
+	gtk_widget_show (priv->label);
 
-	label = gtk_label_new ("TEST!!!");
-	gtk_container_add (GTK_CONTAINER (priv->label_hbox), label);
-	gtk_widget_show (label);
+	priv->arrow_pixmap = create_arrow_pixmap_widget ();
+	gtk_box_pack_start (GTK_BOX (priv->hbox), priv->arrow_pixmap, TRUE, TRUE, 0);
+	gtk_widget_show (priv->arrow_pixmap);
 
-	priv->arrow_pixmap   = NULL;
+	priv->icon           = NULL;
 	priv->menu           = NULL;
 	priv->menu_popped_up = FALSE;
 }
 
 
 void
-e_combo_button_construct (EComboButton *combo_button,
-			  GtkMenu *menu)
+e_combo_button_construct (EComboButton *combo_button)
+{
+	EComboButtonPrivate *priv;
+
+	g_return_if_fail (combo_button != NULL);
+	g_return_if_fail (E_IS_COMBO_BUTTON (combo_button));
+
+	priv = combo_button->priv;
+	g_return_if_fail (priv->menu == NULL);
+
+	GTK_WIDGET_UNSET_FLAGS (combo_button, GTK_CAN_FOCUS);
+
+	gtk_button_set_relief (GTK_BUTTON (combo_button), GTK_RELIEF_NONE);
+}
+
+GtkWidget *
+e_combo_button_new (void)
+{
+	EComboButton *new;
+
+	new = gtk_type_new (e_combo_button_get_type ());
+	e_combo_button_construct (new);
+
+	return GTK_WIDGET (new);
+}
+
+
+void
+e_combo_button_set_icon (EComboButton *combo_button,
+			 GdkPixbuf *pixbuf)
+{
+	g_return_if_fail (combo_button != NULL);
+	g_return_if_fail (E_IS_COMBO_BUTTON (combo_button));
+	g_return_if_fail (pixbuf != NULL);
+
+	set_icon (combo_button, pixbuf);
+}
+
+void
+e_combo_button_set_label (EComboButton *combo_button,
+			  const char *label)
+{
+	EComboButtonPrivate *priv;
+
+	g_return_if_fail (combo_button != NULL);
+	g_return_if_fail (E_IS_COMBO_BUTTON (combo_button));
+	g_return_if_fail (label != NULL);
+
+	priv = combo_button->priv;
+
+	if (label == NULL)
+		label = "";
+
+	gtk_label_parse_uline (GTK_LABEL (priv->label), label);
+}
+
+void
+e_combo_button_set_menu (EComboButton *combo_button,
+			 GtkMenu *menu)
 {
 	EComboButtonPrivate *priv;
 
@@ -325,28 +442,19 @@ e_combo_button_construct (EComboButton *combo_button,
 	g_return_if_fail (GTK_IS_MENU (menu));
 
 	priv = combo_button->priv;
-	g_return_if_fail (priv->menu == NULL);
+
+	if (priv->menu != NULL)
+		gtk_menu_detach (priv->menu);
 
 	priv->menu = menu;
+	if (menu == NULL)
+		return;
+
 	gtk_menu_attach_to_widget (menu, GTK_WIDGET (combo_button), menu_detacher);
 
 	gtk_signal_connect (GTK_OBJECT (menu), "deactivate",
 			    GTK_SIGNAL_FUNC (menu_deactivate_callback),
 			    combo_button);
-
-	GTK_WIDGET_UNSET_FLAGS (combo_button, GTK_CAN_FOCUS);
-}
-
-GtkWidget *
-e_combo_button_new (GtkMenu *menu)
-{
-	GtkWidget *new;
-
-	new = gtk_type_new (e_combo_button_get_type ());
-
-	e_combo_button_construct (E_COMBO_BUTTON (new), menu);
-
-	return new;
 }
 
 

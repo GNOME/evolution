@@ -44,6 +44,8 @@ char *evolution_debug_log;
 static BonoboObjectClass *parent_class = NULL;
 
 struct _EvolutionShellComponentClientPrivate {
+	char *id;
+
 	EvolutionShellComponentClientCallback callback;
 	void *callback_data;
 
@@ -298,6 +300,8 @@ impl_destroy (GtkObject *object)
 	shell_component_client = EVOLUTION_SHELL_COMPONENT_CLIENT (object);
 	priv = shell_component_client->priv;
 
+	g_free (priv->id);
+
 	if (priv->callback != NULL)
 		dispatch_callback (shell_component_client, EVOLUTION_SHELL_COMPONENT_INTERRUPTED);
 
@@ -347,6 +351,8 @@ init (EvolutionShellComponentClient *shell_component_client)
 
 	priv = g_new (EvolutionShellComponentClientPrivate, 1);
 
+	priv->id                               = NULL;
+
 	priv->listener_interface               = CORBA_OBJECT_NIL;
 	priv->listener_servant                 = NULL;
 
@@ -365,11 +371,17 @@ init (EvolutionShellComponentClient *shell_component_client)
 
 void
 evolution_shell_component_client_construct (EvolutionShellComponentClient *shell_component_client,
+					    const char *id,
 					    CORBA_Object corba_object)
 {
+	EvolutionShellComponentClientPrivate *priv;
+
 	g_return_if_fail (shell_component_client != NULL);
 	g_return_if_fail (EVOLUTION_IS_SHELL_COMPONENT_CLIENT (shell_component_client));
 	g_return_if_fail (corba_object != CORBA_OBJECT_NIL);
+
+	priv = shell_component_client->priv;
+	priv->id = g_strdup (id);
 
 	bonobo_object_client_construct (BONOBO_OBJECT_CLIENT (shell_component_client),
 					corba_object);
@@ -378,6 +390,7 @@ evolution_shell_component_client_construct (EvolutionShellComponentClient *shell
 EvolutionShellComponentClient *
 evolution_shell_component_client_new (const char *id)
 {
+	EvolutionShellComponentClient *new;
 	CORBA_Environment ev;
 	CORBA_Object corba_object;
 
@@ -392,12 +405,6 @@ evolution_shell_component_client_new (const char *id)
 		return NULL;
 	}
 
-#if 0
-	ior = CORBA_ORB_object_to_string (bonobo_orb (), corba_object, &ev);
-	g_print ("--- %s %s\n", id, ior);
-	CORBA_free (ior);
-#endif
-
 	CORBA_exception_free (&ev);
 
 	if (corba_object == CORBA_OBJECT_NIL) {
@@ -406,20 +413,26 @@ evolution_shell_component_client_new (const char *id)
 		return NULL;
 	}
 
-	return evolution_shell_component_client_new_for_objref (corba_object);
-}
-
-EvolutionShellComponentClient *
-evolution_shell_component_client_new_for_objref (const GNOME_Evolution_ShellComponent objref)
-{
-	EvolutionShellComponentClient *new;
-
-	g_return_val_if_fail (objref != CORBA_OBJECT_NIL, NULL);
-
 	new = gtk_type_new (evolution_shell_component_client_get_type ());
-	evolution_shell_component_client_construct (new, objref);
+	evolution_shell_component_client_construct (new, id, corba_object);
 
 	return new;
+}
+
+
+/* Properties.  */
+
+const char *
+evolution_shell_component_client_get_id (EvolutionShellComponentClient *shell_component_client)
+{
+	EvolutionShellComponentClientPrivate *priv;
+
+	g_return_val_if_fail (shell_component_client != NULL, NULL);
+	g_return_val_if_fail (EVOLUTION_IS_SHELL_COMPONENT_CLIENT (shell_component_client), NULL);
+
+	priv = shell_component_client->priv;
+
+	return priv->id;
 }
 
 

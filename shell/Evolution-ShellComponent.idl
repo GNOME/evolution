@@ -36,6 +36,7 @@ module Evolution {
 		string description;
 		string menuDescription;
 		char menuShortcut;
+		Icon icon;
 	};
 	typedef sequence<UserCreatableItemType> UserCreatableItemTypeList;
 

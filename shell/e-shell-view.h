@@ -57,8 +57,17 @@ struct _EShellViewClass {
 	BonoboWindowClass parent_class;
 
 	/* Signals.  */
-	void (* shortcut_bar_visibility_changed) (EShellView *shell_view, gboolean visible);
-	void (* folder_bar_visibility_changed)   (EShellView *shell_view, gboolean visible);
+
+	void (* shortcut_bar_visibility_changed) (EShellView *shell_view,
+						  gboolean visible);
+	void (* folder_bar_visibility_changed)   (EShellView *shell_view,
+						  gboolean visible);
+
+	void (* view_changed) (EShellView *shell_view,
+			       const char *evolution_path,
+			       const char *physical_uri,
+			       const char *folder_type,
+			       const char *component_id);
 };
 
 
@@ -93,6 +102,7 @@ GtkWidget         *e_shell_view_get_appbar                 (EShellView *shell_vi
 const char        *e_shell_view_get_current_uri            (EShellView *shell_view);
 const char        *e_shell_view_get_current_physical_uri   (EShellView *shell_view);
 const char        *e_shell_view_get_current_folder_type    (EShellView *shell_view);
+const char        *e_shell_view_get_current_component_id   (EShellView *shell_view);
 const char        *e_shell_view_get_current_path           (EShellView *shell_view);
 
 gboolean  e_shell_view_save_settings  (EShellView *shell_view,

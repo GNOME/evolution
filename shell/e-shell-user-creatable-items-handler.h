@@ -61,10 +61,11 @@ GtkType                          e_shell_user_creatable_items_handler_get_type  
 EShellUserCreatableItemsHandler *e_shell_user_creatable_items_handler_new       (void);
 
 void  e_shell_user_creatable_items_handler_add_component  (EShellUserCreatableItemsHandler *handler,
+							   const char                      *id,
 							   EvolutionShellComponentClient   *shell_component_client);
 
-void  e_shell_user_creatable_items_handler_setup_menus  (EShellUserCreatableItemsHandler *handler,
-							 EShellView                      *shell_view);
+void  e_shell_user_creatable_items_handler_attach_menus   (EShellUserCreatableItemsHandler *handler,
+							   EShellView                      *shell_view);
 
 #ifdef __cplusplus
 }

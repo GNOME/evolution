@@ -1,5 +1,76 @@
 2002-01-23  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-user-creatable-items-handler.c: New member `id' in
+	struct `Component'.  New member `icon' in struct `MenuItem'.
+	(component_free): Free ->id.
+	(component_new): Renamed from `component_new_from_client'.  Get an
+	@id arg and set ->id accordingly.
+	(e_shell_user_creatable_items_handler_add_component): New arg @id.
+	Pass it to `component_new'.
+	(e_shell_user_creatable_items_handler_setup_menus): New arg
+	@current_component_id.
+	(e_shell_user_creatable_items_handler_update_menus): New.
+	(set_current_component): New helper function.
+	(get_component_by_id): New helper function.
+	(add_verbs): Renamed from `add_verbs_to_ui_component()'.  Get a
+	@shell_view instead of a @ui_component.  Set the SHELL_VIEW_KEY on
+	the ui_component of the shell_view to point to the shell_view
+	itself.
+	(ensure_menu_items): Set item->icon to NULL.
+	(free_menu_items): Unref item->icon.
+	(ensure_menu_xml): Set the icon as well.
+	(get_default_action_for_view): New helper function.
+	(find_menu_item_for_verb): New helper function.
+	(shell_view_view_changed_callback): New callback, set up the label
+	on the "New" button depending on the current component.
+	(e_shell_user_creatable_items_handler_attach_menus): New.  For
+	now, do not display the toolbar button yet.
+	(execute_verb): New helper function, splitting out code from
+	`verb_fn'.
+	(verb_fn): Use `execute_verb'.
+	(combo_button_activate_default_callback): Callback for the
+	"activate_default" signal on the EComboButton.
+	(setup_toolbar_button): Connect.
+
+	* evolution-shell-component.c: New member `icon' in
+	`UserCreatableItemType'.
+	(impl__get_userCreatableItemTypes): Put the ->icon in the
+	corba_type as well.
+	(user_creatable_item_type_new): Get a new @icon argument.
+	(evolution_shell_component_add_user_creatable_item): New arg
+	@icon.
+
+	* Evolution-ShellComponent.idl: New member `icon' in struct
+	`UserCreatableItemType'.
+
+	* evolution-test-component.c (register_component): Pass a NULL
+	@icon to `evolution_shell_component_add_user_creatable_item()'.
+
+	* e-shell-view.c (class_init): Add the signal to the class.
+	(e_shell_view_display_uri): Emit "view_changed".
+	(e_shell_view_get_current_component_id): New.
+
+	* evolution-shell-component-client.c: New member `id' in
+	EvolutionShellComponentClientPrivate.
+	(init): Init to NULL.
+	(impl_destroy): Free.
+	(evolution_shell_component_client_new_for_objref): Removed.
+	(evolution_shell_component_client_construct): New arg @id.
+	Initialize ->id from it.
+	(evolution_shell_component_client_get_id): New.
+
+	* e-shell-view.h: New signal "view_changed".
+
+	* evolution-activity-client.c (create_icon_from_pixbuf): Removed.
+	(create_corba_animated_icon_from_pixbuf_array): Removed.
+	(evolution_activity_client_construct): Use
+	`e_new_corba_animated_icon_from_pixbuf_array()' instead.
+
+	* e-shell-icon-utils.h: New.
+	* e-shell-icon-utils.c: New.
+
+2002-01-23  Ettore Perazzoli  <ettore@ximian.com>
+
 	[Patch by Michael Meeks <michael@ximian.com>.]
 
 	* e-splash.c (e_splash_set_icon_highlight): g_return if there is

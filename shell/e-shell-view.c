@@ -147,6 +147,7 @@ struct _EShellViewPrivate {
 enum {
 	SHORTCUT_BAR_VISIBILITY_CHANGED,
 	FOLDER_BAR_VISIBILITY_CHANGED,
+	VIEW_CHANGED,
 	LAST_SIGNAL
 };
 
@@ -1167,6 +1168,18 @@ class_init (EShellViewClass *klass)
 				  GTK_TYPE_NONE, 1,
 				  GTK_TYPE_INT);
 
+	signals[VIEW_CHANGED]
+		= gtk_signal_new ("view_changed",
+				  GTK_RUN_FIRST,
+				  object_class->type,
+				  GTK_SIGNAL_OFFSET (EShellViewClass, view_changed),
+				  e_marshal_NONE__POINTER_POINTER_POINTER_POINTER,
+				  GTK_TYPE_NONE, 4,
+				  GTK_TYPE_STRING,
+				  GTK_TYPE_STRING,
+				  GTK_TYPE_STRING,
+				  GTK_TYPE_STRING);
+
 	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 
 	load_images ();
@@ -1407,8 +1420,8 @@ e_shell_view_construct (EShellView *shell_view,
 					GTK_SIGNAL_FUNC (storage_set_removed_folder_callback), shell_view,
 					GTK_OBJECT (shell_view));
 
-	e_shell_user_creatable_items_handler_setup_menus (e_shell_get_user_creatable_items_handler (priv->shell),
-							  shell_view);
+	e_shell_user_creatable_items_handler_attach_menus (e_shell_get_user_creatable_items_handler (priv->shell),
+							   shell_view);
 
 	return view;
 }
@@ -2044,6 +2057,12 @@ e_shell_view_display_uri (EShellView *shell_view,
 
 	bonobo_window_thaw (BONOBO_WINDOW (shell_view));
 
+	gtk_signal_emit (GTK_OBJECT (shell_view), signals[VIEW_CHANGED],
+			 e_shell_view_get_current_path (shell_view),
+			 e_shell_view_get_current_uri (shell_view),
+			 e_shell_view_get_current_folder_type (shell_view),
+			 e_shell_view_get_current_component_id (shell_view));
+
 	return retval;
 }
 
@@ -2267,6 +2286,23 @@ e_shell_view_get_current_folder_type (EShellView *shell_view)
 		return NULL;
 
 	return get_type_for_folder (shell_view, current_path, NULL);
+}
+
+const char *
+e_shell_view_get_current_component_id (EShellView *shell_view)
+{
+	EShellViewPrivate *priv;
+	EFolderTypeRegistry *type_registry;
+	EvolutionShellComponentClient *component_client;
+	const char *current_folder_type;
+
+	priv = shell_view->priv;
+
+	type_registry = e_shell_get_folder_type_registry (priv->shell);
+	current_folder_type = e_shell_view_get_current_folder_type (shell_view);
+	component_client = e_folder_type_registry_get_handler_for_type (type_registry, current_folder_type);
+
+	return evolution_shell_component_client_get_id (component_client);
 }
 
 

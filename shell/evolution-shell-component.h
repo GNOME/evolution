@@ -23,12 +23,14 @@
 #ifndef EVOLUTION_SHELL_COMPONENT_H
 #define EVOLUTION_SHELL_COMPONENT_H
 
-#include <bonobo/bonobo-xobject.h>
-#include <bonobo/bonobo-control.h>
-
 #include "Evolution.h"
 
 #include "evolution-shell-client.h"
+
+#include <gdk-pixbuf/gdk-pixbuf.h>
+
+#include <bonobo/bonobo-xobject.h>
+#include <bonobo/bonobo-control.h>
 
 #ifdef cplusplus
 extern "C" {
@@ -181,7 +183,8 @@ void  evolution_shell_component_add_user_creatable_item  (EvolutionShellComponen
 							  const char              *id,
 							  const char              *description,
 							  const char              *menu_description,
-							  char                     menu_shortcut);
+							  char                     menu_shortcut,
+							  GdkPixbuf               *icon);
 
 const char *evolution_shell_component_result_to_string (EvolutionShellComponentResult result);
 

@@ -61,11 +61,15 @@ typedef void (* EvolutionShellComponentClientCallback) (EvolutionShellComponentC
 
 
 /* Construction.  */
-GtkType                        evolution_shell_component_client_get_type        (void);
-void                           evolution_shell_component_client_construct       (EvolutionShellComponentClient        *shell_component_client,
-										 CORBA_Object                          corba_object);
-EvolutionShellComponentClient *evolution_shell_component_client_new             (const char                           *id);
-EvolutionShellComponentClient *evolution_shell_component_client_new_for_objref  (const GNOME_Evolution_ShellComponent  objref);
+GtkType                        evolution_shell_component_client_get_type   (void);
+void                           evolution_shell_component_client_construct  (EvolutionShellComponentClient *shell_component_client,
+									    const char                    *id,
+									    CORBA_Object                   corba_object);
+EvolutionShellComponentClient *evolution_shell_component_client_new        (const char                    *id);
+
+/* Properties.  */
+
+const char *evolution_shell_component_client_get_id  (EvolutionShellComponentClient *shell_component_client);
 
 /* Querying DnD interfaces.  */
 

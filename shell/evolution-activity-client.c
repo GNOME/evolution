@@ -31,6 +31,8 @@
 
 #include "evolution-activity-client.h"
 
+#include "e-shell-corba-icon-utils.h"
+
 #include <gtk/gtksignal.h>
 #include <gtk/gtkmain.h>
 
@@ -77,76 +79,6 @@ struct _EvolutionActivityClientPrivate {
 
 
 /* Utility functions.  */
-
-/* Create an icon from @pixbuf in @icon_return.  */
-static void
-create_icon_from_pixbuf (GdkPixbuf *pixbuf,
-			 GNOME_Evolution_Icon *icon_return)
-{
-	const char *sp;
-	CORBA_octet *dp;
-	int width, height, total_width, rowstride;
-	int i, j;
-	gboolean has_alpha;
-
-	width     = gdk_pixbuf_get_width (pixbuf);
-	height    = gdk_pixbuf_get_height (pixbuf);
-	rowstride = gdk_pixbuf_get_rowstride (pixbuf);
-	has_alpha = gdk_pixbuf_get_has_alpha (pixbuf);
-
-	if (has_alpha)
-		total_width = 4 * width;
-	else
-		total_width = 3 * width;
-
-	icon_return->width = width;
-	icon_return->height = height;
-	icon_return->hasAlpha = has_alpha;
-
-	icon_return->rgbaData._length = icon_return->height * total_width;
-	icon_return->rgbaData._maximum = icon_return->rgbaData._length;
-	icon_return->rgbaData._buffer = CORBA_sequence_CORBA_octet_allocbuf (icon_return->rgbaData._maximum);
-
-	sp = gdk_pixbuf_get_pixels (pixbuf);
-	dp = icon_return->rgbaData._buffer;
-	for (i = 0; i < height; i ++) {
-		for (j = 0; j < total_width; j++)
-			*(dp ++) = sp[j];
-		sp += rowstride;
-	}
-
-	CORBA_sequence_set_release (& icon_return->rgbaData, TRUE);
-}
-
-/* Generate an AnimatedIcon from a NULL-terminated @pixbuf_array.  */
-static GNOME_Evolution_AnimatedIcon *
-create_corba_animated_icon_from_pixbuf_array (GdkPixbuf **pixbuf_array)
-{
-	GNOME_Evolution_AnimatedIcon *animated_icon;
-	GdkPixbuf **p;
-	int num_frames;
-	int i;
-
-	num_frames = 0;
-	for (p = pixbuf_array; *p != NULL; p++)
-		num_frames++; 
-
-	if (num_frames == 0)
-		return NULL;
-
-	animated_icon = GNOME_Evolution_AnimatedIcon__alloc ();
-
-	animated_icon->_length = num_frames;
-	animated_icon->_maximum = num_frames;
-	animated_icon->_buffer = CORBA_sequence_GNOME_Evolution_Icon_allocbuf (animated_icon->_maximum);
-
-	for (i = 0; i < num_frames; i++)
-		create_icon_from_pixbuf (pixbuf_array[i], & animated_icon->_buffer[i]);
-
-	CORBA_sequence_set_release (animated_icon, TRUE);
-
-	return animated_icon;
-}
 
 static gboolean
 corba_update_progress (EvolutionActivityClient *activity_client,
@@ -350,7 +282,7 @@ evolution_activity_client_construct (EvolutionActivityClient *activity_client,
 		return FALSE;
 	}
 
-	corba_animated_icon = create_corba_animated_icon_from_pixbuf_array (animated_icon);
+	corba_animated_icon = e_new_corba_animated_icon_from_pixbuf_array (animated_icon);
 
 	GNOME_Evolution_Activity_operationStarted (activity_interface,
 						   component_id,

@@ -742,6 +742,7 @@ setup_components (EShell *shell,
 		} else {
 			e_shell_user_creatable_items_handler_add_component
 				(priv->user_creatable_items_handler,
+				 info->iid,
 				 e_component_registry_get_component_by_id (priv->component_registry, info->iid));
 		}
 

@@ -312,8 +312,10 @@ register_component (void)
 	gtk_signal_connect (GTK_OBJECT (shell_component), "owner_unset",
 			    GTK_SIGNAL_FUNC (owner_unset_callback), NULL);
 
-	evolution_shell_component_add_user_creatable_item (shell_component, "Stuff", "New Stuff", "New _Stuff", '\0');
-	evolution_shell_component_add_user_creatable_item (shell_component, "MoreStuff", "New More Stuff", "New _More Stuff", 'n');
+	evolution_shell_component_add_user_creatable_item (shell_component, "Stuff",
+							   "New Stuff", "New _Stuff", '\0', NULL);
+	evolution_shell_component_add_user_creatable_item (shell_component, "MoreStuff",
+							   "New More Stuff", "New _More Stuff", 'n', NULL);
 
 	gtk_signal_connect (GTK_OBJECT (shell_component), "user_create_new_item",
 			    GTK_SIGNAL_FUNC (user_create_new_item_callback), NULL);

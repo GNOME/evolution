@@ -26,6 +26,8 @@
 
 #include "evolution-shell-component.h"
 
+#include "e-shell-corba-icon-utils.h"
+
 #include <fcntl.h>
 
 #include <glib.h>
@@ -34,8 +36,6 @@
 #include <libgnome/gnome-i18n.h>
 
 #include <gal/util/e-util.h>
-
-#include "Evolution.h"
 
 
 #define PING_DELAY 10000
@@ -50,6 +50,7 @@ struct _UserCreatableItemType {
 	char *description;
 	char *menu_description;
 	char menu_shortcut;
+	GdkPixbuf *icon;
 };
 typedef struct _UserCreatableItemType UserCreatableItemType;
 
@@ -93,7 +94,8 @@ static UserCreatableItemType *
 user_creatable_item_type_new (const char *id,
 			      const char *description,
 			      const char *menu_description,
-			      char menu_shortcut)
+			      char menu_shortcut,
+			      GdkPixbuf *icon)
 {
 	UserCreatableItemType *type;
 
@@ -102,6 +104,11 @@ user_creatable_item_type_new (const char *id,
 	type->description      = g_strdup (description);
 	type->menu_description = g_strdup (menu_description);
 	type->menu_shortcut    = menu_shortcut;
+
+	if (icon == NULL)
+		type->icon = NULL;
+	else
+		type->icon = gdk_pixbuf_ref (icon);
 
 	return type;
 }
@@ -112,6 +119,9 @@ user_creatable_item_type_free (UserCreatableItemType *type)
 	g_free (type->id);
 	g_free (type->description);
 	g_free (type->menu_description);
+
+	if (type->icon != NULL)
+		gdk_pixbuf_unref (type->icon);
 
 	g_free (type);
 }
@@ -350,6 +360,8 @@ impl__get_userCreatableItemTypes (PortableServer_Servant servant,
 		corba_type->description     = CORBA_string_dup (type->description);
 		corba_type->menuDescription = CORBA_string_dup (type->menu_description);
 		corba_type->menuShortcut    = type->menu_shortcut;
+
+		e_store_corba_icon_from_pixbuf (type->icon, & corba_type->icon);
 	}
 
 	CORBA_sequence_set_release (list, TRUE);
@@ -978,7 +990,8 @@ evolution_shell_component_add_user_creatable_item  (EvolutionShellComponent *she
 						    const char *id,
 						    const char *description,
 						    const char *menu_description,
-						    char menu_shortcut)
+						    char menu_shortcut,
+						    GdkPixbuf *icon)
 {
 	EvolutionShellComponentPrivate *priv;
 	UserCreatableItemType *type;
@@ -991,7 +1004,7 @@ evolution_shell_component_add_user_creatable_item  (EvolutionShellComponent *she
 
 	priv = shell_component->priv;
 
-	type = user_creatable_item_type_new (id, description, menu_description, menu_shortcut);
+	type = user_creatable_item_type_new (id, description, menu_description, menu_shortcut, icon);
 
 	priv->user_creatable_item_types = g_slist_prepend (priv->user_creatable_item_types, type);
 }

@@ -30,6 +30,8 @@
 #include <gtk/gtkbutton.h>
 #include <gtk/gtkmenu.h>
 
+#include <gdk-pixbuf/gdk-pixbuf.h>
+
 #ifdef __cplusplus
 extern "C" {
 #pragma }
@@ -60,10 +62,16 @@ struct _EComboButtonClass {
 };
 
 
-GtkType    e_combo_button_get_type (void);
-void       e_combo_button_construct  (EComboButton *combo_button,
+GtkType    e_combo_button_get_type   (void);
+void       e_combo_button_construct  (EComboButton *combo_button);
+GtkWidget *e_combo_button_new        (void);
+
+void       e_combo_button_set_icon   (EComboButton *combo_button,
+				      GdkPixbuf    *pixbuf);
+void       e_combo_button_set_label  (EComboButton *combo_button,
+				      const char   *label);
+void       e_combo_button_set_menu   (EComboButton *combo_button,
 				      GtkMenu      *menu);
-GtkWidget *e_combo_button_new        (GtkMenu      *menu);
 
 #ifdef __cplusplus
 }
