@@ -1,4 +1,4 @@
-<!-- <!DOCTYPE Chapter PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN"> -->
+<!DOCTYPE Chapter PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN">
 <chapter id="config-prefs">
 
       <title>Advanced Configuration</title>
@@ -224,6 +224,12 @@
             they are.  You can disable checking mail on accounts in their
             properties.
           </para>
+          <tip>
+            <title>Sharing Mailboxes with Other Mail Programs</title>
+            <para>
+              You may want to use <application>Evolution</application> and another email client, such as <application>Mutt</application>.  You should download your mail as you would normally with <application>Mutt</application>.  Set your identity in <application>Evolution</application> to be a Standard Unix mailbox file, UNIX mbox spool-format mail files, or the QMail maildir-format mail file.  Then specify the file that you read your email from.  You can now use both mail programs seamlessly together, using the same files.
+            </para>
+         </tip>
       </sect3>
 
       <sect3 id="config-prefs-mail-network-transports">
