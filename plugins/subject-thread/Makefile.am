@@ -1,5 +1,4 @@
 INCLUDES =						\
-	-I$(top_srcdir)/camel				\
 	-I$(top_srcdir)					\
 	$(EVOLUTION_MAIL_CFLAGS)
 
