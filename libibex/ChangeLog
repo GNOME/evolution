@@ -1,3 +1,11 @@
+2000-11-17  Not Zed  <NotZed@HelixCode.com>
+
+	* wordindexmem.c (add_list): If we have the namecache active, and
+	there is no name there, we add it directly and dont look it up
+	first.
+
+	* testindex.c: Some performance testing & stat gathering stuff.
+
 2000-11-16  Not Zed  <NotZed@HelixCode.com>
 
 	* wordindexmem.c (ibex_create_word_index_mem): Initialise nameinit

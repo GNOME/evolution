@@ -21,10 +21,13 @@ INCLUDES = -I$(srcdir) $(GLIB_CFLAGS) $(UNICODE_CFLAGS) \
 		-DG_LOG_DOMAIN=\"libibex\"
 
 
-noinst_PROGRAMS = dumpindex
+noinst_PROGRAMS = dumpindex testindex
 
 dumpindex_SOURCES = dumpindex.c
 dumpindex_LDADD = libibex.la $(GLIB_LIBS) $(UNICODE_LIBS)
+
+testindex_SOURCES = testindex.c
+testindex_LDADD = libibex.la $(GLIB_LIBS) $(UNICODE_LIBS) -lm
 
 #noinst_PROGRAMS = mkindex lookup
 #

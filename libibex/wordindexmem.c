@@ -650,11 +650,16 @@ static void add_list(struct _IBEXWord *idx, const char *name, GPtrArray *words)
 	d(cache_sanity(idx));
 
 	/* make sure we keep the namecache in sync, if it is active */
-	if (idx->nameinit && g_hash_table_lookup(idx->namecache, name) == NULL)
+	if (idx->nameinit && g_hash_table_lookup(idx->namecache, name) == NULL) {
 		g_hash_table_insert(idx->namecache, g_strdup(name), (void *)TRUE);
-
-	/* get the nameid and block start for this name */
-	add_index_key(idx->nameindex, name, &nameid, &nameblock, &nametail);
+		/* we know we dont have it in the disk hash either, so we insert anew (saves a lookup) */
+		nameid = idx->nameindex->klass->insert(idx->nameindex, name, strlen(name));
+		nameblock = 0;
+		nametail = 0;
+	} else {
+		/* get the nameid and block start for this name */
+		add_index_key(idx->nameindex, name, &nameid, &nameblock, &nametail);
+	}
 
 	d(cache_sanity(idx));
 
@@ -778,3 +783,102 @@ static int word_close(struct _IBEXWord *idx)
 
 	return 0;
 }
+
+/* debugging/tuning function */
+
+struct _stats {
+	int memcache;		/* total memory used by cache entries */
+	int memfile;		/* total mem ysed by file data */
+	int memfileused;	/* actual memory used by file data */
+	int memword;		/* total mem used by words */
+	int file1;		/* total file entries with only 1 entry */
+	int total;
+};
+
+static void
+get_info(void *key, void *value, void *data)
+{
+	struct _wordcache *cache = (struct _wordcache *)value;
+	struct _stats *stats = (struct _stats *)data;
+
+	/* round up to probable alignment, + malloc overheads */
+	stats->memcache += ((sizeof(struct _wordcache) + strlen(cache->word) + 4 + 3) & ~3);
+	if (cache->filealloc > 0) {
+		/* size of file array data */
+		stats->memcache += sizeof(nameid_t) * cache->filealloc + 4;
+		/* actual used memory */
+		stats->memfile += sizeof(nameid_t) * cache->filealloc;
+		stats->memfileused += sizeof(nameid_t) * cache->filecount;
+	}
+	if (cache->filecount == 1 && cache->filealloc == 0)
+		stats->file1++;
+
+	stats->memword += strlen(cache->word);
+	stats->total++;
+}
+
+static char *
+num(int num)
+{
+	int n;
+	char buf[256], *p = buf;
+	char type = 0;
+
+	n = num;
+	if (n>1000000) {
+		p+= sprintf(p, "%d ", n/1000000);
+		n -= (n/1000000)*1000000;
+		type = 'M';
+	}
+	if (n>1000) {
+		if (num>1000000)
+			p+= sprintf(p, "%03d ", n/1000);
+		else
+			p+= sprintf(p, "%d ", n/1000);
+		n -= (n/1000)*1000;
+		if (type == 0)
+			type = 'K';
+	}
+	if (num > 1000)
+		p += sprintf(p, "%03d", n);
+	else
+		p += sprintf(p, "%d", n);
+
+	n = num;
+	switch (type) {
+	case 'M':
+		p += sprintf(p, ", %d.%02dM", n/1024/1024, n*100/1024/1024);
+		break;
+	case 'K':
+		p += sprintf(p, ", %d.%02dK", n/1024, n*100/1024);
+		break;
+	case 0:
+		break;
+	}
+
+	return buf;
+}
+
+void word_index_mem_dump_info(struct _IBEXWord *idx);
+
+void word_index_mem_dump_info(struct _IBEXWord *idx)
+{
+	struct _stats stats = { 0 };
+	int useful;
+
+	g_hash_table_foreach(idx->wordcache, get_info, &stats);
+
+	useful = stats.total * sizeof(struct _wordcache) + stats.memword + stats.memfile;
+
+	printf("Word Index Stats:\n");
+	printf("Total word count: %d\n", stats.total);
+	printf("Total memory used: %s\n", num(stats.memcache));
+	printf("Total useful memory: %s\n", num(useful));
+	printf("Total malloc/alignment overhead: %s\n", num(stats.memcache - useful));
+	printf("Total buffer overhead: %s\n", num(stats.memfile - stats.memfileused));
+	printf("Space taken by words: %s\n", num(stats.memword + stats.total));
+	printf("Number of 1-word entries: %s\n", num(stats.file1));
+	if (stats.memcache > 0)
+		printf("%% unused space: %d %%\n", (stats.memfile - stats.memfileused) * 100 / stats.memcache);
+}
+
