@@ -108,8 +108,8 @@
       <separator/>
       
       <menuitem name="FileImporter" verb=""
-		_label="_Import File..."
-		_tip="Import an external file format" accel="*Control*i"
+		_label="_Import..."
+		_tip="Import data from other programs" accel="*Control*i"
 		pixtype="pixbuf"/>
 
       <placeholder name="Print" delimit="top"/>

@@ -1,3 +1,7 @@
+2001-09-28  Iain Holmes  <iain@ximian.com>
+
+	* evolution.xml: Change the name of the Import label.
+
 2001-09-27  Ettore Perazzoli  <ettore@ximian.com>
 
 	* evolution.xml: Move the Tools menu outside the
