@@ -182,7 +182,7 @@ set_bonobo_ui (GtkWidget *widget, FolderBrowser *fb)
 
 	/* Load our UI */
 
-	bonobo_ui_component_freeze (uic, NULL);
+	/*bonobo_ui_component_freeze (uic, NULL);*/
 	bonobo_ui_util_set_ui (uic, EVOLUTION_DATADIR, "evolution-mail-messagedisplay.xml", "evolution-mail");
 
 	/* Load the appropriate UI stuff from the folder browser */
@@ -204,7 +204,7 @@ set_bonobo_ui (GtkWidget *widget, FolderBrowser *fb)
 
 	/* Done */
 
-	bonobo_ui_component_thaw (uic, NULL);
+	/*bonobo_ui_component_thaw (uic, NULL);*/
 
 }
 

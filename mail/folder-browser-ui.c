@@ -178,7 +178,7 @@ static void ui_add (FolderBrowser *fb,
 	
 	bonobo_ui_component_add_verb_list_with_data (uic, verb, fb);
 	
-	bonobo_ui_component_freeze (uic, NULL);
+	/*bonobo_ui_component_freeze (uic, NULL);*/
 	
 	file = g_strconcat ("evolution-mail-", name, ".xml", NULL);
 	bonobo_ui_util_set_ui (uic, EVOLUTION_DATADIR, file, "evolution-mail");
@@ -186,7 +186,7 @@ static void ui_add (FolderBrowser *fb,
 	
 	e_pixmaps_update (uic, pixcache);
 	
-	bonobo_ui_component_thaw (uic, NULL);
+	/*bonobo_ui_component_thaw (uic, NULL);*/
 }
 
 /* more complex stuff */
@@ -458,7 +458,7 @@ fbui_sensitize_timeout (gpointer data)
 	int i;
 
 	if (uic) {
-		bonobo_ui_component_freeze (uic, NULL);
+		/*bonobo_ui_component_freeze (uic, NULL);*/
 
 		for (iter = fb->sensitize_changes; iter; iter = iter->next) {
 			sd = (struct sensitize_data *) iter->data;
@@ -467,7 +467,7 @@ fbui_sensitize_timeout (gpointer data)
 			g_free(sd);
 		}
 
-		bonobo_ui_component_thaw (uic, NULL);
+		/*bonobo_ui_component_thaw (uic, NULL);*/
 	} else {
 		g_slist_foreach(fb->sensitize_changes, (GFunc)g_free, NULL);
 	}

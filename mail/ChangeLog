@@ -1,3 +1,11 @@
+2001-10-24    <NotZed@Ximian.com>
+
+	* folder-browser-ui.c (ui_add): 
+	(fbui_sensitize_timeout): Same.
+
+	* folder-browser-factory.c (control_activate): Comment out freeze/thaw.
+	(control_deactivate): 
+
 2001-10-24  Jon Trowbridge  <trow@ximian.com>
 
 	* mail-search.c (mail_search_construct): Fixed some weird casting
