@@ -1,5 +1,22 @@
 2001-01-22  Dan Winship  <danw@ximian.com>
 
+	* component-factory.c (mail_hash_storage): Function to add a
+	store/storage mapping.
+	(add_storage): Use it.
+
+	* mail-vfolder.c (vfolder_uri_to_folder): Use the vfolder name
+	rather than the string "mbox" (which wasn't ever used for
+	anything) in the vfolder URL. (Combined with the CamelVeeFolder
+	change, this makes camel_folder_get_name() return a pretty name
+	for vfolders now.) Call mail_hash_storage() to record the
+	CamelVeeStore/vfolder_storage mapping. (Ideally, there'd only be a
+	single CamelVeeStore... this is just a quick hack.)
+
+	vfolders now display their unread count once you've looked at them
+	once.
+
+2001-01-22  Dan Winship  <danw@ximian.com>
+
 	* mail-tools.h: s/filter-driver.h/camel-filter-driver.h/ and
 	update first arg of mail_too_filter_get_folder_func
 

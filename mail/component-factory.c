@@ -315,8 +315,7 @@ add_storage (const char *name, const char *uri, CamelService *store,
 	
 	switch (res) {
 	case EVOLUTION_STORAGE_OK:
-		g_hash_table_insert (storages_hash, store, storage);
-		camel_object_ref (CAMEL_OBJECT (store));
+		mail_hash_storage (store, storage);
 		mail_scan_subfolders (CAMEL_STORE (store), storage);
 		/* falllll */
 	case EVOLUTION_STORAGE_ERROR_ALREADYREGISTERED:
@@ -399,6 +398,13 @@ mail_load_storages (GNOME_Evolution_Shell shell, const GSList *sources, gboolean
 		
 		camel_object_unref (CAMEL_OBJECT (store));
 	}
+}
+
+void
+mail_hash_storage (CamelService *store, EvolutionStorage *storage)
+{
+	camel_object_ref (CAMEL_OBJECT (store));
+	g_hash_table_insert (storages_hash, store, storage);
 }
 
 EvolutionStorage*

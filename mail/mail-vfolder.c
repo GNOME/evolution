@@ -21,6 +21,7 @@
 #include "mail-vfolder.h"
 #include "mail-tools.h"
 #include "mail-autofilter.h"
+#include "mail.h"
 
 #include "camel/camel.h"
 
@@ -194,10 +195,13 @@ vfolder_uri_to_folder(const char *uri, CamelException *ex)
 	rule = (VfolderRule *)rule_context_find_rule((RuleContext *)context, info->name, NULL);
 
 	storeuri = g_strdup_printf("vfolder:%s/vfolder/%s", evolution_dir, info->name);
-	foldername = g_strdup_printf("mbox?%s", info->query);
+	foldername = g_strdup_printf("%s?%s", info->name, info->query);
 
 	/* we dont have indexing on vfolders */
 	folder = mail_tool_get_folder_from_urlname (storeuri, foldername, CAMEL_STORE_FOLDER_CREATE, ex);
+
+	bonobo_object_ref (BONOBO_OBJECT (vfolder_storage));
+	mail_hash_storage ((CamelService *)folder->parent_store, vfolder_storage);
 
 	sourceuri = NULL;
 	sources = 0;
