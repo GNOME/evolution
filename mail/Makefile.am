@@ -121,8 +121,6 @@ libevolution_mail_la_SOURCES =		\
 	mail-ops.h			\
 	mail-search.c			\
 	mail-search.h			\
-	mail-search-dialogue.c		\
-	mail-search-dialogue.h		\
 	mail-send-recv.c		\
 	mail-send-recv.h		\
 	mail-session.c			\

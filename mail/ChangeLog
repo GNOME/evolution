@@ -3,8 +3,7 @@
 	* mail-config-druid.c (mail_config_druid_new): Revert ettore's
 	broken patch.
 
-	* mail-search-dialogue.c (mail_search_dialogue_construct): Make
-	the default size a little smaller.
+	* mail-search-dialogue.c: Removed - nothing uses this.
 
 2003-03-19  Ettore Perazzoli  <ettore@ximian.com>
 
