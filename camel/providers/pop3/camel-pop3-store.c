@@ -571,9 +571,9 @@ static CamelFolder *
 get_folder (CamelStore *store, const char *folder_name,
 	    gboolean create, CamelException *ex)
 {
-	CamelService *service = CAMEL_SERVICE (store);
-
-	/*	if (!camel_service_is_connected (service)) {
+	/* CamelService *service = CAMEL_SERVICE (store);
+	 *
+	 *	if (!camel_service_is_connected (service)) {
 	 *	if (!camel_service_connect (service, ex))
 	 *		return NULL;
 	 *}
