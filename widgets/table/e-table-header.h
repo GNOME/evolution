@@ -84,6 +84,7 @@ void          e_table_header_calc_widths            (ETableHeader *eth);
 GList        *e_table_header_get_selected_indexes   (ETableHeader *eth);
 
 void          e_table_header_update_horizontal      (ETableHeader *eth);
+int           e_table_header_prioritized_column     (ETableHeader *eth);
 
 
 #ifdef __cplusplus

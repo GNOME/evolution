@@ -15,6 +15,7 @@
 #include <gal/e-table/e-table-specification.h>
 #include <gal/widgets/e-printable.h>
 #include <gal/e-table/e-table-state.h>
+#include <gal/e-table/e-table-sorter.h>
 
 BEGIN_GNOME_DECLS
 

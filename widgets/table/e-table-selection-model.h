@@ -5,8 +5,7 @@
 #include <gtk/gtkobject.h>
 #include <gal/widgets/e-selection-model-array.h>
 #include <gal/e-table/e-table-model.h>
-#include <gal/e-table/e-table-defines.h>
-#include <gal/e-table/e-table-sorter.h>
+#include <gal/e-table/e-table-header.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -22,6 +21,7 @@ typedef struct {
 	ESelectionModelArray base;
 
 	ETableModel  *model;
+	ETableHeader *eth;
 
 	guint model_pre_change_id;
 	guint model_changed_id;

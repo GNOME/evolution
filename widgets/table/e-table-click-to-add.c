@@ -284,25 +284,9 @@ item_key_press (ETableItem *item, int row, int col, GdkEvent *event, ETableClick
 static void
 set_initial_selection (ETableClickToAdd *etcta)
 {
-	int best_model_col = 0;
-	int best_priority;
-	int i;
-	int count;
-
-	count = e_table_header_count (etcta->eth);
-	if (count == 0)
-		return;
-	best_priority = e_table_header_get_column (etcta->eth, 0)->priority;
-	best_model_col = e_table_header_get_column (etcta->eth, 0)->col_idx;
-	for (i = 1; i < count; i++) {
-		int priority = e_table_header_get_column (etcta->eth, i)->priority;
-		if (priority > best_priority) {
-			best_priority = priority;
-			best_model_col = e_table_header_get_column (etcta->eth, i)->col_idx;
-		}
-				
-	}
-	e_selection_model_do_something (E_SELECTION_MODEL(etcta->selection), 0, best_model_col, 0);
+	e_selection_model_do_something (E_SELECTION_MODEL(etcta->selection), 
+					0, e_table_header_prioritized_column (etcta->eth), 
+					0);
 }
 
 static void

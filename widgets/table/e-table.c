@@ -1042,6 +1042,7 @@ et_real_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 	gtk_object_set (GTK_OBJECT (e_table->selection),
 			"model", etm,
 			"sorter", e_table->sorter,
+			"header", e_table->header,
 			NULL);
 
 	gtk_signal_connect(GTK_OBJECT(e_table->selection), "selection_changed",

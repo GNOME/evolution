@@ -834,3 +834,26 @@ e_table_header_get_type (void)
 
 	return type;
 }
+
+int
+e_table_header_prioritized_column (ETableHeader *eth)
+{
+	int best_model_col = 0;
+	int best_priority;
+	int i;
+	int count;
+
+	count = e_table_header_count (eth);
+	if (count == 0)
+		return -1;
+	best_priority = e_table_header_get_column (eth, 0)->priority;
+	best_model_col = e_table_header_get_column (eth, 0)->col_idx;
+	for (i = 1; i < count; i++) {
+		int priority = e_table_header_get_column (eth, i)->priority;
+		if (priority > best_priority) {
+			best_priority = priority;
+			best_model_col = e_table_header_get_column (eth, i)->col_idx;
+		}
+	}
+	return best_model_col;
+}
