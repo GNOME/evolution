@@ -1,5 +1,12 @@
 2001-10-26  JP Rosevear  <jpr@ximian.com>
 
+	* e-pilot-map.c (map_sax_start_element): add archived records
+	with pilot id of 0
+	(map_write_foreach): use the uid map for writing
+	(e_pilot_map_write): write using the uid map
+
+2001-10-26  JP Rosevear  <jpr@ximian.com>
+
 	* e-pilot-map.c (e_pilot_map_insert): free up old memory first
 	(e_pilot_map_destroy): free allocated memory when destroying
 

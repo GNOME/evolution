@@ -90,9 +90,11 @@ map_sax_start_element (void *data, const xmlChar *name,
 				
 			attrs = ++val;
 		}
-			
-		if (uid && pid != 0)
-			e_pilot_map_insert (map, pid, uid, archived);
+
+		g_assert (uid != NULL);
+		g_assert (pid != 0 || archived);
+
+		e_pilot_map_insert (map, pid, uid, archived);
 	}
 }
 
@@ -101,28 +103,30 @@ map_write_foreach (gpointer key, gpointer value, gpointer data)
 {
 	xmlNodePtr root = data;
 	xmlNodePtr mnode;
-	unsigned long *pid = key;
-	EPilotMapPidNode *pnode = value;
+	char *uid = key;
+	EPilotMapUidNode *unode = value;
 	char *pidstr;
 
 	mnode = xmlNewChild (root, NULL, "map", NULL);
-	
-	pidstr = g_strdup_printf ("%lu", *pid);
-	xmlSetProp (mnode, "pilot_id", pidstr);
-	g_free (pidstr);
 
-	xmlSetProp (mnode, "uid", pnode->uid);
+	xmlSetProp (mnode, "uid", uid);
 
-	if (pnode->archived)
+	if (unode->archived) {
 		xmlSetProp (mnode, "archived", "1");
-	else
+	} else {
+		pidstr = g_strdup_printf ("%d", unode->pid);
+		xmlSetProp (mnode, "pilot_id", pidstr);
+		g_free (pidstr);
 		xmlSetProp (mnode, "archived", "0");
+	}
 }
 
 gboolean 
 e_pilot_map_pid_is_archived (EPilotMap *map, guint32 pid)
 {
 	EPilotMapPidNode *pnode;
+
+	g_return_val_if_fail (map != NULL, FALSE);
 	
 	pnode = g_hash_table_lookup (map->pid_map, &pid);
 
@@ -136,6 +140,9 @@ gboolean
 e_pilot_map_uid_is_archived (EPilotMap *map, const char *uid)
 {
 	EPilotMapUidNode *unode;
+
+	g_return_val_if_fail (map != NULL, FALSE);
+	g_return_val_if_fail (uid != NULL, FALSE);
 	
 	unode = g_hash_table_lookup (map->uid_map, uid);
 
@@ -149,17 +156,24 @@ void
 e_pilot_map_insert (EPilotMap *map, guint32 pid, const char *uid, gboolean archived)
 {
 	char *new_uid;
-	guint32 *new_pid = g_new (guint32, 1);
-	EPilotMapPidNode *pnode = g_new0 (EPilotMapPidNode, 1);
-	EPilotMapUidNode *unode = g_new0 (EPilotMapUidNode, 1);
+	guint32 *new_pid;
+	EPilotMapPidNode *pnode;
+	EPilotMapUidNode *unode;
 	gpointer key, value;
-	
+
+	g_return_if_fail (map != NULL);
+	g_return_if_fail (uid != NULL);
+
+	new_pid = g_new (guint32, 1);
 	*new_pid = pid;
+
 	new_uid = g_strdup (uid);
 
+	pnode = g_new0 (EPilotMapPidNode, 1);
 	pnode->uid = new_uid;
 	pnode->archived = archived;
 	
+	unode = g_new0 (EPilotMapUidNode, 1);
 	unode->pid = pid;
 	unode->archived = archived;
 
@@ -180,9 +194,11 @@ e_pilot_map_insert (EPilotMap *map, guint32 pid, const char *uid, gboolean archi
 
 void 
 e_pilot_map_remove_by_pid (EPilotMap *map, guint32 pid)
-{	
+{
 	EPilotMapPidNode *pnode;
 	EPilotMapUidNode *unode;
+
+	g_return_if_fail (map != NULL);
 
 	pnode = g_hash_table_lookup (map->pid_map, &pid);
 	if (!pnode)
@@ -203,6 +219,9 @@ e_pilot_map_remove_by_uid (EPilotMap *map, const char *uid)
 	EPilotMapPidNode *pnode;
 	EPilotMapUidNode *unode;
 
+	g_return_if_fail (map != NULL);
+	g_return_if_fail (uid != NULL);
+
 	unode = g_hash_table_lookup (map->uid_map, uid);
 	if (!unode)
 		return;
@@ -221,6 +240,9 @@ guint32
 e_pilot_map_lookup_pid (EPilotMap *map, const char *uid) 
 {
 	EPilotMapUidNode *unode = NULL;
+
+	g_return_val_if_fail (map != NULL, 0);
+	g_return_val_if_fail (uid != NULL, 0);
 	
 	unode = g_hash_table_lookup (map->uid_map, uid);
 
@@ -234,6 +256,8 @@ const char *
 e_pilot_map_lookup_uid (EPilotMap *map, guint32 pid)
 {
 	EPilotMapPidNode *pnode = NULL;
+
+	g_return_val_if_fail (map != NULL, NULL);
 	
 	pnode = g_hash_table_lookup (map->pid_map, &pid);
 
@@ -247,10 +271,14 @@ int
 e_pilot_map_read (const char *filename, EPilotMap **map)
 {
 	xmlSAXHandler handler;
-	EPilotMap *new_map = g_new0 (EPilotMap, 1);
+	EPilotMap *new_map;
+
+	g_return_val_if_fail (filename != NULL, -1);
+	g_return_val_if_fail (map != NULL, -1);
 
 	*map = NULL;
-	
+	new_map = g_new0 (EPilotMap, 1);
+
 	memset (&handler, 0, sizeof (xmlSAXHandler));
 	handler.startElement = map_sax_start_element;
 
@@ -274,7 +302,8 @@ e_pilot_map_write (const char *filename, EPilotMap *map)
 {
 	xmlDocPtr doc;
 	int ret;
-	
+
+	g_return_val_if_fail (filename != NULL, -1);
 	g_return_val_if_fail (map != NULL, -1);
 	
 	doc = xmlNewDoc ("1.0");
@@ -286,7 +315,7 @@ e_pilot_map_write (const char *filename, EPilotMap *map)
 	map->since = time (NULL);
 	map_set_node_timet (doc->root, "timestamp", map->since);
 
-	g_hash_table_foreach (map->pid_map, map_write_foreach, doc->root);
+	g_hash_table_foreach (map->uid_map, map_write_foreach, doc->root);
 	
 	/* Write the file */
 	xmlSetDocCompressMode (doc, 0);
@@ -313,6 +342,8 @@ foreach_remove (gpointer key, gpointer value, gpointer data)
 void 
 e_pilot_map_destroy (EPilotMap *map)
 {
+	g_return_if_fail (map != NULL);
+
 	g_hash_table_foreach_remove (map->pid_map, foreach_remove, NULL);
 	g_hash_table_foreach_remove (map->uid_map, foreach_remove, NULL);
 	
