@@ -1,5 +1,11 @@
 2001-10-17  Ettore Perazzoli  <ettore@ximian.com>
 
+	* main.c (idle_cb): Urgh.  Remove stale line that caused
+	`display_default' to be set to TRUE for all the non-NULL shell
+	cases.
+
+2001-10-17  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell.c (set_owner_on_components): Re-set the owner on the
 	component that raised OldOwnerHasDied.
 

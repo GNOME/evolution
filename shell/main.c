@@ -302,8 +302,6 @@ idle_cb (void *data)
 		} else {
 			display_default = FALSE;
 		}
-
-		display_default = FALSE;
 	}
 
 	if (display_default) {
