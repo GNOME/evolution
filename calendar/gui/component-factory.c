@@ -310,6 +310,7 @@ factory_fn (BonoboGenericFactory *factory,
 	EvolutionShellComponent *shell_component;
 	
 	shell_component = evolution_shell_component_new (folder_types,
+							 NULL,
 							 create_view,
 							 create_folder,
 							 remove_folder,
