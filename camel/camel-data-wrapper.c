@@ -236,6 +236,7 @@ my_write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 {
 	gchar tmp_buf[4096];
 	gint nb_read;
+	gint nb_written;
 	CamelStream *output_stream;
 
 	/* 
@@ -249,8 +250,9 @@ my_write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 
 	while (!camel_stream_eos (output_stream)) {
 		nb_read = camel_stream_read (output_stream, tmp_buf, 4096);
-		if (nb_read) 
-			camel_stream_write (stream, tmp_buf, nb_read);
+		nb_written = 0;
+		while (nb_written < nb_read) 
+			nb_written += camel_stream_write (stream, tmp_buf, nb_read);
 	}
 
 }

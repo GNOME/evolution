@@ -557,18 +557,25 @@ camel_stream_b64_write_to_stream (CamelStream *stream,
 {
 	gchar tmp_buf[4096];
 	gint nb_read;
+	gint nb_written;
 
 	/* 
 	 * default implementation that uses the input 
-	 * stream and stream it in a blocking way.
+	 * stream and stream it in a blocking way
+	 * to an output stream.
 	 */
 	g_assert (output_stream);
 	g_assert (stream);
 	
-	while (!camel_stream_eos (output_stream)) {
+	while (!camel_stream_eos (stream)) {
 		nb_read = camel_stream_read (stream, tmp_buf, 4096);
-		if (nb_read) 
-			camel_stream_write (output_stream, tmp_buf, nb_read);
+		nb_written = 0;
+		while (nb_written < nb_read) 
+			nb_written += camel_stream_write (output_stream, tmp_buf, nb_read);
 	}
 	
 }
+
+
+
+
