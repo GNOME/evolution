@@ -167,6 +167,32 @@ itip_strip_mailto (const gchar *address)
 	return address;
 }
 
+static void
+foreach_tzid_callback (icalparameter *param, gpointer data)
+{
+	icalcomponent *icomp = data;
+	const char *tzid;
+	icaltimezone *zone;
+	icalcomponent *vtimezone_comp;
+
+	/* Get the TZID string from the parameter. */
+	tzid = icalparameter_get_tzid (param);
+	if (!tzid)
+		return;
+
+	/* Check if it is a builtin timezone. If it isn't, return. */
+	zone = icaltimezone_get_builtin_timezone_from_tzid (tzid);
+	if (!zone)
+		return;
+
+	/* Convert it to a string and add it to the hash. */
+	vtimezone_comp = icaltimezone_get_component (zone);
+	if (!vtimezone_comp)
+		return;
+
+	icalcomponent_add_component (icomp, icalcomponent_new_clone (vtimezone_comp));
+}
+
 void
 itip_send_comp (CalComponentItipMethod method, CalComponent *comp)
 {
@@ -207,7 +233,6 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *comp)
 		
 		for (cntr = 0, l = attendees; cntr < len; cntr++, l = l->next) {
 			CalComponentAttendee *att = l->data;
-			gchar *real;
 			
 			recipient = &(to_list->_buffer[cntr]);
 			if (att->cn)
@@ -292,6 +317,8 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *comp)
 
 		clone = icalcomponent_new_clone (cal_component_get_icalcomponent (comp));
 		icalcomponent_add_component (icomp, clone);
+
+		icalcomponent_foreach_tzid (clone, foreach_tzid_callback, icomp);
 
 		ical_string = icalcomponent_as_ical_string (icomp);
 		attach_data = GNOME_Evolution_Composer_AttachmentData__alloc ();

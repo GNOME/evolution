@@ -1,3 +1,9 @@
+2001-08-22  JP Rosevear  <jpr@ximian.com>
+
+	* gui/itip-utils.c (foreach_tzid_callback): call back to add
+	timezones to the top level
+	(itip_send_comp): call icalcomponent_foreach_tzid
+
 2001-08-22  Dan Winship  <danw@ximian.com>
 
 	* gui/gnome-cal.c: #include <libgnomevfs/gnome-vfs-types.h> so
