@@ -5,6 +5,8 @@
 #include <gtk/gtkobject.h>
 #include "e-table-model.h"
 #include "e-table-subset-variable.h"
+#include "e-table-sort-info.h"
+#include "e-table-header.h"
 
 #define E_TABLE_SORTED_VARIABLE_TYPE        (e_table_sorted_variable_get_type ())
 #define E_TABLE_SORTED_VARIABLE(o)          (GTK_CHECK_CAST ((o), E_TABLE_SORTED_VARIABLE_TYPE, ETableSortedVariable))
@@ -15,9 +17,9 @@
 typedef struct {
 	ETableSubsetVariable base;
 
-	short         sort_col;
-	int           ascending;
-	GCompareFunc  compare;
+	ETableSortInfo *sort_info;
+	
+	ETableHeader *full_header;
 
 	int              table_model_changed_id;
 	int              table_model_row_changed_id;
@@ -29,6 +31,6 @@ typedef struct {
 } ETableSortedVariableClass;
 
 GtkType      e_table_sorted_variable_get_type (void);
-ETableModel *e_table_sorted_variable_new      (ETableModel *etm, int col, int ascending, GCompareFunc compare);
+ETableModel *e_table_sorted_variable_new      (ETableModel *etm, ETableHeader *header, ETableSortInfo *sort_info);
 
 #endif /* _E_TABLE_SORTED_VARIABLE_H_ */

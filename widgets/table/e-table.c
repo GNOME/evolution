@@ -60,6 +60,9 @@ et_destroy (GtkObject *object)
 	if (et->sort_info_change_id)
 		gtk_signal_disconnect (GTK_OBJECT (et->sort_info),
 				       et->sort_info_change_id);
+	if (et->group_info_change_id)
+		gtk_signal_disconnect (GTK_OBJECT (et->sort_info),
+				       et->group_info_change_id);
 
 	gtk_object_unref (GTK_OBJECT (et->model));
 	gtk_object_unref (GTK_OBJECT (et->full_header));
@@ -85,6 +88,7 @@ e_table_init (GtkObject *object)
 	
 	e_table->sort_info = NULL;
 	e_table->sort_info_change_id = 0;
+	e_table->group_info_change_id = 0;
 
 	e_table->draw_grid = 1;
 	e_table->draw_focus = 1;
@@ -140,6 +144,7 @@ e_table_setup_header (ETable *e_table)
 {
 	xmlNode *root;
 	xmlNode *grouping;
+	int i;
 	e_table->header_canvas = GNOME_CANVAS (e_canvas_new ());
 	
 	gtk_widget_show (GTK_WIDGET (e_table->header_canvas));
@@ -152,12 +157,26 @@ e_table_setup_header (ETable *e_table)
 	gtk_object_ref (GTK_OBJECT (e_table->sort_info));
 	gtk_object_sink (GTK_OBJECT (e_table->sort_info));
 
-	gtk_object_set (GTK_OBJECT (e_table->sort_info),
-			"grouping", grouping,
-			NULL);
+	i = 0;
+	for (grouping = grouping->childs; grouping && strcmp (grouping->name, "leaf"); grouping = grouping->childs) {
+		ETableSortColumn column;
+		column.column = e_xml_get_integer_prop_by_name (grouping, "column");
+		column.ascending = e_xml_get_integer_prop_by_name (grouping, "ascending");
+		e_table_sort_info_grouping_set_nth(e_table->sort_info, i++, column);
+	}
+	i = 0;
+	for (; grouping; grouping = grouping->childs) {
+		ETableSortColumn column;
+		column.column = e_xml_get_integer_prop_by_name (grouping, "column");
+		column.ascending = e_xml_get_integer_prop_by_name (grouping, "ascending");
+		e_table_sort_info_sorting_set_nth(e_table->sort_info, i++, column);
+	}
 
 	e_table->sort_info_change_id = 
 		gtk_signal_connect (GTK_OBJECT (e_table->sort_info), "sort_info_changed", 
+				    GTK_SIGNAL_FUNC (sort_info_changed), e_table);
+	e_table->group_info_change_id = 
+		gtk_signal_connect (GTK_OBJECT (e_table->sort_info), "group_info_changed", 
 				    GTK_SIGNAL_FUNC (sort_info_changed), e_table);
 
 	e_table->header_item = gnome_canvas_item_new (
@@ -631,8 +650,8 @@ changed_idle (gpointer data)
 					       et->full_header,
 					       et->header,
 					       et->model,
-					       e_xml_get_child_by_name (xmlDocGetRootElement (et->specification),
-									"grouping")->childs);
+					       et->sort_info,
+					       0);
 		gtk_signal_connect (GTK_OBJECT (et->group), "row_selection",
 				    GTK_SIGNAL_FUNC (group_row_selection), et);
 		e_table_fill_table (et, et->model);
@@ -687,7 +706,7 @@ et_table_cell_changed (ETableModel *table_model, int view_col, int row, ETable *
 
 static void
 e_table_setup_table (ETable *e_table, ETableHeader *full_header, ETableHeader *header,
-		     ETableModel *model, xmlNode *xml_grouping)
+		     ETableModel *model)
 {
 	e_table->table_canvas = GNOME_CANVAS (e_canvas_new ());
 	gtk_signal_connect (
@@ -703,7 +722,8 @@ e_table_setup_table (ETable *e_table, ETableHeader *full_header, ETableHeader *h
 					    full_header,
 					    header,
 					    model,
-					    xml_grouping->childs);
+					    e_table->sort_info,
+					    0);
 	gtk_signal_connect (GTK_OBJECT(e_table->group), "row_selection",
 			   GTK_SIGNAL_FUNC(group_row_selection), e_table);
 	
@@ -763,7 +783,7 @@ et_real_construct (ETable *e_table, ETableHeader *full_header, ETableModel *etm,
 	e_table->header = e_table_make_header (e_table, full_header, xmlColumns);
 
 	e_table_setup_header (e_table);
-	e_table_setup_table (e_table, full_header, e_table->header, etm, xmlGrouping);
+	e_table_setup_table (e_table, full_header, e_table->header, etm);
 	e_table_fill_table (e_table, etm);
 	
 	vbox = gtk_vbox_new (FALSE, 0);
@@ -853,11 +873,32 @@ et_build_column_spec (ETable *e_table)
 static xmlNode *
 et_build_grouping_spec (ETable *e_table)
 {
+	xmlNode *node;
 	xmlNode *grouping;
 	xmlNode *root;
+	int i;
+	int length;
 
 	root = xmlDocGetRootElement (e_table->specification);
-	grouping = xmlCopyNode (e_xml_get_child_by_name(root, "grouping"), TRUE);
+	xmlCopyNode (e_xml_get_child_by_name(root, "grouping"), TRUE);
+	grouping = xmlNewNode (NULL, "grouping");
+	node = grouping;
+	length = e_table_sort_info_grouping_get_count(e_table->sort_info);
+	for (i = 0; i < length; i++) {
+		ETableSortColumn column = e_table_sort_info_grouping_get_nth(e_table->sort_info, i);
+		xmlNode *new_node = xmlNewChild(node, NULL, "group", NULL);
+		e_xml_set_integer_prop_by_name (new_node, "column", column.column);
+		e_xml_set_integer_prop_by_name (new_node, "ascending", column.ascending);
+		node = new_node;
+	}
+	length = e_table_sort_info_sorting_get_count(e_table->sort_info);
+	for (i = 0; i < length; i++) {
+		ETableSortColumn column = e_table_sort_info_sorting_get_nth(e_table->sort_info, i);
+		xmlNode *new_node = xmlNewChild(node, NULL, "leaf", NULL);
+		e_xml_set_integer_prop_by_name (new_node, "column", column.column);
+		e_xml_set_integer_prop_by_name (new_node, "ascending", column.ascending);
+		node = new_node;
+	}
 	return grouping;
 }
 

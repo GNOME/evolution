@@ -3,7 +3,7 @@
  * E-Table-Group.c: Implements the grouping objects for elements on a table
  *
  * Author:
- *   Chris Lahey (clahey@helixcode.com)
+ *   Chris Lahey <clahey@helixcode.com>
  *   Miguel de Icaza (miguel@gnu.org)
  *
  * Copyright 1999, 2000 Helix Code, Inc.
@@ -87,6 +87,9 @@ etgc_destroy (GtkObject *object)
 	}
 	if (etgc->ecol){
 		gtk_object_unref (GTK_OBJECT(etgc->ecol));
+	}
+	if (etgc->sort_info){
+		gtk_object_unref (GTK_OBJECT(etgc->sort_info));
 	}
 	if (etgc->rect){
 		gtk_object_destroy (GTK_OBJECT(etgc->rect));
@@ -196,13 +199,24 @@ void
 e_table_group_container_construct (GnomeCanvasGroup *parent, ETableGroupContainer *etgc,
 				   ETableHeader *full_header,
 				   ETableHeader     *header,
-				   ETableModel *model, ETableCol *ecol, int ascending, xmlNode *child_rules)
+				   ETableModel *model, ETableSortInfo *sort_info, int n)
 {
+	ETableCol *col;
+	ETableSortColumn column = e_table_sort_info_grouping_get_nth(sort_info, n);
+
+	if (column.column > e_table_header_count (full_header))
+		col = e_table_header_get_columns (full_header)[e_table_header_count (full_header) - 1];
+	else
+		col = e_table_header_get_columns (full_header)[column.column];
+
 	e_table_group_construct (parent, E_TABLE_GROUP (etgc), full_header, header, model);
-	etgc->ecol = ecol;
+	etgc->ecol = col;
 	gtk_object_ref (GTK_OBJECT(etgc->ecol));
-	etgc->child_rules = child_rules;
-	etgc->ascending = ascending;
+	etgc->sort_info = sort_info;
+	gtk_object_ref (GTK_OBJECT(etgc->sort_info));
+	etgc->n = n;
+	etgc->ascending = column.ascending;
+
 	
 	etgc->font = gdk_font_load ("lucidasans-10");
 	if (!etgc->font){
@@ -252,18 +266,16 @@ e_table_group_container_construct (GnomeCanvasGroup *parent, ETableGroupContaine
 ETableGroup *
 e_table_group_container_new (GnomeCanvasGroup *parent, ETableHeader *full_header,
 			     ETableHeader     *header,
-			     ETableModel *model, ETableCol *ecol,
-			     int ascending, xmlNode *child_rules)
+			     ETableModel *model, ETableSortInfo *sort_info, int n)
 {
 	ETableGroupContainer *etgc;
 
 	g_return_val_if_fail (parent != NULL, NULL);
-	g_return_val_if_fail (ecol != NULL, NULL);
 	
 	etgc = gtk_type_new (e_table_group_container_get_type ());
 
 	e_table_group_container_construct (parent, etgc, full_header, header,
-					   model, ecol, ascending, child_rules);
+					   model, sort_info, n);
 	return E_TABLE_GROUP (etgc);
 }
 
@@ -581,7 +593,7 @@ etgc_add (ETableGroup *etg, gint row)
 						  "fill_color", "black",
 						  NULL);
 	child = e_table_group_new (GNOME_CANVAS_GROUP (etgc), etg->full_header,
-				   etg->header, etg->model, etgc->child_rules);
+				   etg->header, etg->model, etgc->sort_info, etgc->n + 1);
 	gtk_signal_connect (GTK_OBJECT (child), "row_selection",
 			    GTK_SIGNAL_FUNC (child_row_selection), etgc);
 	child_node->child = child;
@@ -795,8 +807,10 @@ etgc_reflow (GnomeCanvasItem *item, gint flags)
 	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER(item);
 	gboolean frozen;
 
-	gtk_object_get (GTK_OBJECT(etgc), "frozen", &frozen, NULL);
-	
+        gtk_object_get (GTK_OBJECT(etgc), 
+			"frozen", &frozen,
+			NULL);
+
 	if (frozen){
 		etgc->idle = 0;
 		return;

@@ -34,6 +34,7 @@ typedef struct {
 	int table_cell_change_id;
 
 	int sort_info_change_id;
+	int group_info_change_id;
 
 	GnomeCanvas *header_canvas, *table_canvas;
 

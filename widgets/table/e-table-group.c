@@ -15,9 +15,7 @@
 #include "e-table-group-leaf.h"
 #include "e-table-item.h"
 #include <libgnomeui/gnome-canvas-rect-ellipse.h>
-#include <gnome-xml/parser.h>
 #include "e-util/e-util.h"
-#include "e-util/e-xml-utils.h"
 
 #define TITLE_HEIGHT         16
 #define GROUP_INDENT         10
@@ -84,24 +82,15 @@ e_table_group_new (GnomeCanvasGroup *parent,
 		   ETableHeader     *full_header,
 		   ETableHeader     *header,
 		   ETableModel      *model,
-		   xmlNode          *rules)
+		   ETableSortInfo   *sort_info,
+		   int               n)
 {
-	int column;
-	int ascending;
-
 	g_return_val_if_fail (model != NULL, NULL);
-
-	column = e_xml_get_integer_prop_by_name (rules, "column");
-	ascending = e_xml_get_integer_prop_by_name (rules, "ascending");
-
-	if (rules && !xmlStrcmp(rules->name, "group")) {
-		ETableCol *col;
-		if (column > e_table_header_count (full_header))
-			return e_table_group_leaf_new (parent, full_header, header, model, column, ascending);
-		col = e_table_header_get_columns (full_header)[column];
-		return e_table_group_container_new (parent, full_header, header, model, col, ascending, rules->childs);
+	
+	if (n < e_table_sort_info_grouping_get_count(sort_info)) {
+		return e_table_group_container_new (parent, full_header, header, model, sort_info, n);
 	} else {
-		return e_table_group_leaf_new (parent, full_header, header, model, column, ascending);
+		return e_table_group_leaf_new (parent, full_header, header, model, sort_info);
 	}
 	return NULL;
 }

@@ -36,7 +36,8 @@ typedef struct {
 
 	gdouble width, height;
 
-	void *child_rules;
+	ETableSortInfo *sort_info;
+	int n;
 
 	gint idle;
 
@@ -51,11 +52,11 @@ typedef struct {
 } ETableGroupContainerClass;
 
 ETableGroup *e_table_group_container_new       (GnomeCanvasGroup *parent, ETableHeader *full_header, ETableHeader     *header,
-						ETableModel *model, ETableCol *ecol, int ascending, xmlNode *child_rules);
+						ETableModel *model, ETableSortInfo *sort_info, int n);
 void         e_table_group_container_construct (GnomeCanvasGroup *parent, ETableGroupContainer *etgc,
 						ETableHeader *full_header,
 						ETableHeader     *header,
-						ETableModel *model, ETableCol *ecol, int ascending, xmlNode *child_rules);
+						ETableModel *model, ETableSortInfo *sort_info, int n);
 
 GtkType      e_table_group_container_get_type  (void);
 

@@ -3,9 +3,9 @@
 #define _E_TABLE_GROUP_H_
 
 #include <libgnomeui/gnome-canvas.h>
-#include <gnome-xml/tree.h>
 #include "e-table-model.h"
 #include "e-table-header.h"
+#include "e-table-sort-info.h"
 #include "e-util/e-util.h"
 
 #define E_TABLE_GROUP_TYPE        (e_table_group_get_type ())
@@ -78,7 +78,8 @@ ETableGroup     *e_table_group_new       (GnomeCanvasGroup *parent,
 					  ETableHeader     *full_header,
 					  ETableHeader     *header,
 					  ETableModel      *model,
-					  xmlNode             *rules);
+					  ETableSortInfo   *sort_info,
+					  int               n);
 void             e_table_group_construct (GnomeCanvasGroup *parent,
 					  ETableGroup      *etg,
 					  ETableHeader     *full_header,

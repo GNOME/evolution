@@ -79,6 +79,8 @@ ethi_destroy (GtkObject *object){
 	if (ethi->sort_info){
 		if (ethi->sort_info_changed_id)
 			gtk_signal_disconnect (GTK_OBJECT(ethi->sort_info), ethi->sort_info_changed_id);
+		if (ethi->group_info_changed_id)
+			gtk_signal_disconnect (GTK_OBJECT(ethi->sort_info), ethi->group_info_changed_id);
 		gtk_object_unref (GTK_OBJECT(ethi->sort_info));
 	}
 	
@@ -210,12 +212,16 @@ ethi_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		if (ethi->sort_info){
 			if (ethi->sort_info_changed_id)
 				gtk_signal_disconnect (GTK_OBJECT(ethi->sort_info), ethi->sort_info_changed_id);
+			if (ethi->group_info_changed_id)
+				gtk_signal_disconnect (GTK_OBJECT(ethi->sort_info), ethi->group_info_changed_id);
 			gtk_object_unref (GTK_OBJECT(ethi->sort_info));
 		}
 		ethi->sort_info = GTK_VALUE_POINTER (*arg);
 		gtk_object_ref (GTK_OBJECT(ethi->sort_info));
 		ethi->sort_info_changed_id = gtk_signal_connect (GTK_OBJECT(ethi->sort_info), "sort_info_changed",
-								GTK_SIGNAL_FUNC(ethi_sort_info_changed), ethi);
+								 GTK_SIGNAL_FUNC(ethi_sort_info_changed), ethi);
+		ethi->group_info_changed_id = gtk_signal_connect (GTK_OBJECT(ethi->sort_info), "group_info_changed",
+								  GTK_SIGNAL_FUNC(ethi_sort_info_changed), ethi);
 		break;
 		
 	}
@@ -603,7 +609,6 @@ ethi_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width
 	int x1, x2;
 	int col;
 	GHashTable *arrows = g_hash_table_new (NULL, NULL);
-	xmlNode *node;
 	gint group_indent = 0;
 
 #if 0
@@ -612,24 +617,26 @@ ethi_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width
 #endif
 
 	if (ethi->sort_info) {
-		xmlNode *grouping;
-		gtk_object_get (GTK_OBJECT(ethi->sort_info),
-			       "grouping", &grouping,
-			       NULL);
-		for (node = grouping->childs; node && strcmp (node->name, "leaf"); node = node->childs) {
+		int length = e_table_sort_info_grouping_get_count(ethi->sort_info);
+		int i;
+		for (i = 0; i < length; i++) {
+			ETableSortColumn column = e_table_sort_info_grouping_get_nth(ethi->sort_info, i);
 			group_indent ++;
 			g_hash_table_insert (arrows, 
-					    (gpointer) e_xml_get_integer_prop_by_name (node, "column"), 
-					    (gpointer) (e_xml_get_integer_prop_by_name (node, "ascending") ?
-							E_TABLE_COL_ARROW_DOWN : 
-							E_TABLE_COL_ARROW_UP));
+					     (gpointer) column.column,
+					     (gpointer) (column.ascending ?
+							 E_TABLE_COL_ARROW_DOWN : 
+							 E_TABLE_COL_ARROW_UP));
 		}
-		if (node)
+		length = e_table_sort_info_sorting_get_count(ethi->sort_info);
+		for (i = 0; i < length; i++) {
+			ETableSortColumn column = e_table_sort_info_sorting_get_nth(ethi->sort_info, i);
 			g_hash_table_insert (arrows, 
-					    (gpointer) e_xml_get_integer_prop_by_name (node, "column"), 
-					    (gpointer) (e_xml_get_integer_prop_by_name (node, "ascending") ?
-							E_TABLE_COL_ARROW_DOWN : 
-							E_TABLE_COL_ARROW_UP));
+					     (gpointer) column.column,
+					     (gpointer) (column.ascending ?
+							 E_TABLE_COL_ARROW_DOWN : 
+							 E_TABLE_COL_ARROW_UP));
+		}
 	}
 
 	ethi->group_indent_width = group_indent * GROUP_INDENT;
@@ -767,8 +774,8 @@ ethi_start_drag (ETableHeaderItem *ethi, GdkEvent *event)
 	int col_width;
 	GdkPixmap *pixmap;
 	GdkGC *gc;
+	int group_indent = 0;
 	GHashTable *arrows = g_hash_table_new (NULL, NULL);
-	xmlNode *node;
 
 	ethi->drag_col = ethi_find_col_by_x (ethi, event->motion.x);
 	if (ethi->drag_col < ethi->eth->frozen_count && ethi->drag_col >= 0){
@@ -780,23 +787,26 @@ ethi_start_drag (ETableHeaderItem *ethi, GdkEvent *event)
 
 
 	if (ethi->sort_info) {
-		xmlNode *grouping;
-		gtk_object_get (GTK_OBJECT(ethi->sort_info),
-			       "grouping", &grouping,
-			       NULL);
-		for (node = grouping->childs; node && strcmp (node->name, "leaf"); node = node->childs) {
+		int length = e_table_sort_info_grouping_get_count(ethi->sort_info);
+		int i;
+		for (i = 0; i < length; i++) {
+			ETableSortColumn column = e_table_sort_info_grouping_get_nth(ethi->sort_info, i);
+			group_indent ++;
 			g_hash_table_insert (arrows, 
-					    (gpointer) e_xml_get_integer_prop_by_name (node, "column"), 
-					    (gpointer) (e_xml_get_integer_prop_by_name (node, "ascending") ?
-							E_TABLE_COL_ARROW_DOWN : 
-							E_TABLE_COL_ARROW_UP));
+					     (gpointer) column.column,
+					     (gpointer) (column.ascending ?
+							 E_TABLE_COL_ARROW_DOWN : 
+							 E_TABLE_COL_ARROW_UP));
 		}
-		if (node)
+		length = e_table_sort_info_sorting_get_count(ethi->sort_info);
+		for (i = 0; i < length; i++) {
+			ETableSortColumn column = e_table_sort_info_sorting_get_nth(ethi->sort_info, i);
 			g_hash_table_insert (arrows, 
-					    (gpointer) e_xml_get_integer_prop_by_name (node, "column"), 
-					    (gpointer) (e_xml_get_integer_prop_by_name (node, "ascending") ?
-							E_TABLE_COL_ARROW_DOWN : 
-							E_TABLE_COL_ARROW_UP));
+					     (gpointer) column.column,
+					     (gpointer) (column.ascending ?
+					     E_TABLE_COL_ARROW_DOWN : 
+							 E_TABLE_COL_ARROW_UP));
+		}
 	}
 
 	list = gtk_target_list_new (ethi_drag_types, ELEMENTS (ethi_drag_types));
@@ -927,36 +937,46 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 		} else if (ethi->maybe_drag && ethi->sort_info) {
 			ETableCol *col;
 			int model_col;
-			xmlNode *node;
-			xmlNode *grouping;
-
-			gtk_object_get (GTK_OBJECT(ethi->sort_info),
-				       "grouping", &grouping,
-				       NULL);
+			int length;
+			int i;
+			int found = FALSE;
 
 			col = e_table_header_get_column (ethi->eth, ethi_find_col_by_x (ethi, e->button.x));
 			model_col = col->col_idx;
-			for (node = grouping->childs; node->childs && strcmp (node->name, "leaf"); node = node->childs) {
-				if (model_col == e_xml_get_integer_prop_by_name (node, "column")){
-					int ascending = e_xml_get_integer_prop_by_name (node, "ascending");
+
+			length = e_table_sort_info_grouping_get_count(ethi->sort_info);
+			for (i = 0; i < length; i++) {
+				ETableSortColumn column = e_table_sort_info_grouping_get_nth(ethi->sort_info, i);
+				if (model_col == column.column){
+					int ascending = column.ascending;
 					ascending = ! ascending;
-					e_xml_set_integer_prop_by_name (node, "ascending", ascending);
+					column.ascending = ascending;
+					e_table_sort_info_grouping_set_nth(ethi->sort_info, i, column);
+					found = 1;
 					break;
 				}
 			}
-			if (!node){
-			}
-			if (node && !strcmp (node->name, "leaf")){
-				if (model_col == e_xml_get_integer_prop_by_name (node, "column")){
-					int ascending = e_xml_get_integer_prop_by_name (node, "ascending");
-					ascending = ! ascending;
-					e_xml_set_integer_prop_by_name (node, "ascending", ascending);
-				} else {
-					e_xml_set_integer_prop_by_name (node, "ascending", 1);
-					e_xml_set_integer_prop_by_name (node, "column", model_col);
+			if (!found) {
+				length = e_table_sort_info_sorting_get_count(ethi->sort_info);
+				for (i = 0; i < length; i++) {
+					ETableSortColumn column = e_table_sort_info_sorting_get_nth(ethi->sort_info, i);
+					if (model_col == column.column){
+						int ascending = column.ascending;
+						ascending = ! ascending;
+						column.ascending = ascending;
+						e_table_sort_info_sorting_set_nth(ethi->sort_info, i, column);
+						found = 1;
+						break;
+					}
 				}
 			}
-			e_table_sort_info_changed (ethi->sort_info);
+			if (!found) {
+				ETableSortColumn column = { model_col, 1 };
+				length = e_table_sort_info_sorting_get_count(ethi->sort_info);
+				if (length == 0)
+					length++;
+				e_table_sort_info_sorting_set_nth(ethi->sort_info, length - 1, column);
+			}
 		}
 		if (needs_ungrab)
 			gnome_canvas_item_ungrab (item, e->button.time);
@@ -996,7 +1016,7 @@ ethi_class_init (GtkObjectClass *object_class)
 				 GTK_ARG_WRITABLE, ARG_TABLE_Y);
 	gtk_object_add_arg_type ("ETableHeaderItem::fontset", GTK_TYPE_STRING,
 				 GTK_ARG_WRITABLE, ARG_TABLE_FONTSET);
-	gtk_object_add_arg_type ("ETableHeaderItem::sort_info", GTK_TYPE_POINTER,
+	gtk_object_add_arg_type ("ETableHeaderItem::sort_info", GTK_TYPE_OBJECT,
 				 GTK_ARG_WRITABLE, ARG_SORT_INFO);
 
 	/*
@@ -1030,6 +1050,7 @@ ethi_init (GnomeCanvasItem *item)
 	ethi->sort_info = NULL;
 
 	ethi->sort_info_changed_id = 0;
+	ethi->group_info_changed_id = 0;
 
 	ethi->group_indent_width = 0;
 }

@@ -17,6 +17,7 @@
 #include "e-table-item.h"
 #include "e-cell-text.h"
 #include "e-table.h"
+#include "e-table-config.h"
 
 #include "table-test.h"
 
@@ -346,7 +347,7 @@ do_e_table_demo (const char *spec)
 	gtk_widget_show (window);
 
 	if (getenv ("TEST")){
-		e_table_do_gui_config (NULL, e_table);
+		e_table_do_gui_config (NULL, E_TABLE(e_table));
 	}
 }
 

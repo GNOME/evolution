@@ -51,10 +51,9 @@ e_table_group_leaf_construct (GnomeCanvasGroup *parent, ETableGroupLeaf *etgl,
 			      ETableHeader *full_header,
 			      ETableHeader     *header,
 			      ETableModel *model,
-			      int          col,
-			      int          ascending)
+			      ETableSortInfo *sort_info)
 {
-	etgl->subset = E_TABLE_SUBSET_VARIABLE(e_table_sorted_variable_new (model, col, ascending, e_table_header_get_column(full_header, col)->compare));
+	etgl->subset = E_TABLE_SUBSET_VARIABLE(e_table_sorted_variable_new (model, full_header, sort_info));
 	e_table_group_construct (parent, E_TABLE_GROUP (etgl), full_header, header, model);
 }
 
@@ -62,8 +61,7 @@ ETableGroup *
 e_table_group_leaf_new       (GnomeCanvasGroup *parent, ETableHeader *full_header,
 			      ETableHeader     *header,
 			      ETableModel *model,
-			      int          col,
-			      int          ascending)
+			      ETableSortInfo *sort_info)
 {
 	ETableGroupLeaf *etgl;
 
@@ -72,7 +70,7 @@ e_table_group_leaf_new       (GnomeCanvasGroup *parent, ETableHeader *full_heade
 	etgl = gtk_type_new (e_table_group_leaf_get_type ());
 
 	e_table_group_leaf_construct (parent, etgl, full_header,
-				      header, model, col, ascending);
+				      header, model, sort_info);
 	return E_TABLE_GROUP (etgl);
 }
 
