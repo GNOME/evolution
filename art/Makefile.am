@@ -118,6 +118,7 @@ images_DATA = \
 	talking-heads.png		\
 	task.xpm			\
 	thankyou.png			\
+   timezone-48.png \
 	undelete_message-16.png		\
 	wax-seal.png			\
 	wax-seal-broken.png		\
