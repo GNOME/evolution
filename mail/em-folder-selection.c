@@ -64,6 +64,7 @@ em_select_folder (GtkWindow *parent_window, const char *title, const char *defau
 	
 	model = mail_component_peek_tree_model (mail_component_peek ());
 	emft = (EMFolderTree *) em_folder_tree_new_with_model (model);
+	em_folder_tree_set_excluded (emft, EMFT_EXCLUDE_NOSELECT|EMFT_EXCLUDE_VIRTUAL|EMFT_EXCLUDE_VTRASH);
 	
 	dialog = em_folder_selector_new(emft, EM_FOLDER_SELECTOR_CAN_CREATE, title, NULL);
 	

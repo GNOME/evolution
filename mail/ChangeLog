@@ -1,3 +1,10 @@
+2004-04-09  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-folder-selection.c (em_select_folder): Set the excluded bits
+	on the folder-tree. Don't allow the user to xfer messages into
+	folders which are: NoSelect, Virtual, nor vTrash. Fixes bug
+	#56229.
+
 2004-04-09  Dan Winship  <danw@ximian.com>
 
 	* em-folder-view.c (emfv_init): Create an
