@@ -105,8 +105,6 @@ void		rule_context_remove_rule(RuleContext *f, FilterRule *rule);
 void		rule_context_rank_rule(RuleContext *f, FilterRule *rule, int rank);
 int		rule_context_get_rank_rule(RuleContext *f, FilterRule *rule, const char *source);
 
-void		rule_context_delete_rule(RuleContext *f, FilterRule *rule);
-
 /* setup type for set parts */
 void		rule_context_add_part_set(RuleContext *f, const char *setname, int part_type, RCPartFunc append, RCNextPartFunc next);
 void		rule_context_add_rule_set(RuleContext *f, const char *setname, int rule_type, RCRuleFunc append, RCNextRuleFunc next);

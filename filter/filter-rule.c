@@ -153,24 +153,24 @@ filter_rule_clone(FilterRule *base, RuleContext *f)
 {
 	xmlNodePtr xml;
 	FilterRule *rule;
-
-	g_assert(IS_FILTER_RULE(base));
-	g_assert(IS_RULE_CONTEXT(f));
-
+	
+	g_assert (IS_FILTER_RULE (base));
+	g_assert (IS_RULE_CONTEXT (f));
+	
 	/* TODO: do this more directly/efficiently */
-	xml = filter_rule_xml_encode(base);
-	rule = gtk_type_new(((GtkObject *)base)->klass->type);
-	filter_rule_xml_decode(rule, xml, f);
-	xmlFreeNodeList(xml);
-
+	xml = filter_rule_xml_encode (base);
+	rule = gtk_type_new (GTK_OBJECT (base)->klass->type);
+	filter_rule_xml_decode (rule, xml, f);
+	xmlFreeNodeList (xml);
+	
 	return rule;
 }
 
 void
 filter_rule_set_name (FilterRule *fr, const char *name)
 {
-	g_assert(IS_FILTER_RULE(fr));
-
+	g_assert (IS_FILTER_RULE (fr));
+	
 	g_free (fr->name);
 	fr->name = g_strdup (name);
 }
@@ -178,8 +178,8 @@ filter_rule_set_name (FilterRule *fr, const char *name)
 void
 filter_rule_set_source (FilterRule *fr, const char *source)
 {
-	g_assert(IS_FILTER_RULE(fr));
-
+	g_assert (IS_FILTER_RULE (fr));
+	
 	g_free (fr->source);
 	fr->source = g_strdup (source);
 }
@@ -187,9 +187,9 @@ filter_rule_set_source (FilterRule *fr, const char *source)
 int
 filter_rule_validate (FilterRule *fr)
 {
-	g_assert(IS_FILTER_RULE(fr));
-
-	return ((FilterRuleClass *) ((GtkObject *) fr)->klass)->validate(fr);
+	g_assert (IS_FILTER_RULE (fr));
+	
+	return ((FilterRuleClass *) ((GtkObject *) fr)->klass)->validate (fr);
 }
 
 static int
@@ -197,23 +197,23 @@ validate (FilterRule *fr)
 {
 	int valid = TRUE;
 	GList *parts;
-
+	
 	/* validate rule parts */
 	parts = fr->parts;
 	while (parts && valid) {
-		valid = filter_part_validate((FilterPart *)parts->data);
+		valid = filter_part_validate ((FilterPart *)parts->data);
 		parts = parts->next;
 	}
-
+	
 	return valid;
 }
 
 xmlNodePtr
 filter_rule_xml_encode (FilterRule *fr)
 {
-	g_assert(IS_FILTER_RULE(fr));
-
-	return ((FilterRuleClass *) ((GtkObject *) fr)->klass)->xml_encode(fr);
+	g_assert (IS_FILTER_RULE (fr));
+	
+	return ((FilterRuleClass *) ((GtkObject *) fr)->klass)->xml_encode (fr);
 }
 
 static xmlNodePtr
@@ -231,7 +231,7 @@ xml_encode (FilterRule *fr)
 		xmlSetProp (node, "grouping", "any");
 		break;
 	}
-
+	
 	if (fr->source) {
 		xmlSetProp (node, "source", fr->source);
 	} else {
@@ -241,12 +241,12 @@ xml_encode (FilterRule *fr)
 	
 	if (fr->name) {
 		char *encstr;
-
+		
 		work = xmlNewNode (NULL, "title");
-		encstr = e_utf8_xml1_encode(fr->name);
-		xmlNodeSetContent(work, encstr);
-		g_free(encstr);
-		xmlAddChild(node, work);
+		encstr = e_utf8_xml1_encode (fr->name);
+		xmlNodeSetContent (work, encstr);
+		g_free (encstr);
+		xmlAddChild (node, work);
 	}
 	
 	set = xmlNewNode (NULL, "partset");
@@ -291,11 +291,11 @@ load_set (xmlNodePtr node, FilterRule *fr, RuleContext *f)
 int
 filter_rule_xml_decode (FilterRule *fr, xmlNodePtr node, RuleContext *f)
 {
-	g_assert(IS_FILTER_RULE(fr));
-	g_assert(IS_RULE_CONTEXT(f));
-	g_assert(node != NULL);
-
-	return ((FilterRuleClass *) ((GtkObject *) fr)->klass)->xml_decode(fr, node, f);
+	g_assert (IS_FILTER_RULE (fr));
+	g_assert (IS_RULE_CONTEXT (f));
+	g_assert (node != NULL);
+	
+	return ((FilterRuleClass *) ((GtkObject *) fr)->klass)->xml_decode (fr, node, f);
 }
 
 static int
@@ -336,7 +336,8 @@ xml_decode (FilterRule *fr, xmlNodePtr node, RuleContext *f)
 				gchar *str, *decstr;
 				str = xmlNodeGetContent (work);
 				decstr = e_utf8_xml1_decode (str);
-				if (str) xmlFree (str);
+				if (str)
+					xmlFree (str);
 				fr->name = decstr;
 			}
 		}
@@ -349,18 +350,18 @@ xml_decode (FilterRule *fr, xmlNodePtr node, RuleContext *f)
 void
 filter_rule_add_part (FilterRule *fr, FilterPart *fp)
 {
-	g_assert(IS_FILTER_RULE(fr));
-	g_assert(IS_FILTER_PART(fp));
-
+	g_assert (IS_FILTER_RULE (fr));
+	g_assert (IS_FILTER_PART (fp));
+	
 	fr->parts = g_list_append (fr->parts, fp);
 }
 
 void
 filter_rule_remove_part (FilterRule *fr, FilterPart *fp)
 {
-	g_assert(IS_FILTER_RULE(fr));
-	g_assert(IS_FILTER_PART(fp));
-
+	g_assert (IS_FILTER_RULE (fr));
+	g_assert (IS_FILTER_PART (fp));
+	
 	fr->parts = g_list_remove (fr->parts, fp);
 }
 
@@ -368,10 +369,10 @@ void
 filter_rule_replace_part (FilterRule *fr, FilterPart *fp, FilterPart *new)
 {
 	GList *l;
-
-	g_assert(IS_FILTER_RULE(fr));
-	g_assert(IS_FILTER_PART(fp));
-	g_assert(IS_FILTER_PART(new));
+	
+	g_assert (IS_FILTER_RULE (fr));
+	g_assert (IS_FILTER_PART (fp));
+	g_assert (IS_FILTER_PART (new));
 	
 	l = g_list_find (fr->parts, fp);
 	if (l) {
@@ -384,12 +385,12 @@ filter_rule_replace_part (FilterRule *fr, FilterPart *fp, FilterPart *new)
 void
 filter_rule_build_code (FilterRule *fr, GString *out)
 {
-	g_assert(IS_FILTER_RULE(fr));
-	g_assert(out != NULL);
-
-	((FilterRuleClass *) ((GtkObject *) fr)->klass)->build_code(fr, out);
-
-	g_message ("build_code: [%s](%d)", out->str, out->len);
+	g_assert (IS_FILTER_RULE (fr));
+	g_assert (out != NULL);
+	
+	((FilterRuleClass *) ((GtkObject *) fr)->klass)->build_code (fr, out);
+	
+	d(printf ("build_code: [%s](%d)", out->str, out->len));
 }
 
 static void

@@ -82,14 +82,14 @@ filter_editor_class_init (FilterEditorClass *class)
 {
 	GtkObjectClass *object_class = (GtkObjectClass *)class;
 	RuleEditorClass *re_class = (RuleEditorClass *)class;
-
-	parent_class = gtk_type_class(gnome_dialog_get_type ());
+	
+	parent_class = gtk_type_class (gnome_dialog_get_type ());
 	
 	object_class->finalize = filter_editor_finalise;
-
+	
 	/* override methods */
 	re_class->create_rule = create_rule;
-
+	
 	/* signals */
 	
 	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
@@ -105,10 +105,10 @@ static void
 filter_editor_finalise (GtkObject *obj)
 {
 	FilterEditor *o = (FilterEditor *)obj;
-
+	
 	g_free(o->priv);
-
-        ((GtkObjectClass *)(parent_class))->finalize(obj);
+	
+        ((GtkObjectClass *)(parent_class))->finalize (obj);
 }
 
 /**
@@ -124,15 +124,15 @@ filter_editor_new(FilterContext *f, const char **source_names)
 	FilterEditor *o = (FilterEditor *)gtk_type_new (filter_editor_get_type ());
 	GladeXML *gui;
 	GtkWidget *w;
-
-	gui = glade_xml_new(FILTER_GLADEDIR "/filter.glade", "rule_editor");
-	filter_editor_construct(o, f, gui, source_names);
-
-        w = glade_xml_get_widget(gui, "rule_frame");
-	gtk_frame_set_label((GtkFrame *)w, _("Filter Rules"));
-
-	gtk_object_unref((GtkObject *)gui);
-
+	
+	gui = glade_xml_new (FILTER_GLADEDIR "/filter.glade", "rule_editor");
+	filter_editor_construct (o, f, gui, source_names);
+	
+        w = glade_xml_get_widget (gui, "rule_frame");
+	gtk_frame_set_label (GTK_FRAME (w), _("Filter Rules"));
+	
+	gtk_object_unref (GTK_OBJECT (gui));
+	
 	return o;
 }
 
@@ -141,48 +141,47 @@ select_source (GtkMenuItem *mi, FilterEditor *fe)
 {
 	char *source;
 	
-	source = gtk_object_get_data(GTK_OBJECT(mi), "source");
-	g_assert(source);
-
-	rule_editor_set_source((RuleEditor *)fe, source);
+	source = gtk_object_get_data (GTK_OBJECT (mi), "source");
+	g_assert (source);
+	
+	rule_editor_set_source ((RuleEditor *)fe, source);
 }
 
 void
-filter_editor_construct(FilterEditor *fe, FilterContext *fc, GladeXML *gui, const char **source_names)
+filter_editor_construct (FilterEditor *fe, FilterContext *fc, GladeXML *gui, const char **source_names)
 {
 	GtkWidget *menu, *item, *omenu;
 	int i;
-
+	
         omenu = glade_xml_get_widget (gui, "filter_source");
 	gtk_option_menu_remove_menu (GTK_OPTION_MENU (omenu));
 	menu = gtk_menu_new ();
 	
-	for (i=0;source_names[i];i++) {
-		item = gtk_menu_item_new_with_label(_(source_names[i]));
-		gtk_object_set_data_full(GTK_OBJECT(item), "source", g_strdup(source_names[i]), g_free);
-		gtk_menu_append(GTK_MENU(menu), item);
-		gtk_widget_show((GtkWidget *)item);
-		gtk_signal_connect(GTK_OBJECT(item), "activate", select_source, fe);
-
+	for (i = 0; source_names[i]; i++) {
+		item = gtk_menu_item_new_with_label (_(source_names[i]));
+		gtk_object_set_data_full (GTK_OBJECT (item), "source", g_strdup (source_names[i]), g_free);
+		gtk_menu_append (GTK_MENU (menu), item);
+		gtk_widget_show (item);
+		gtk_signal_connect (GTK_OBJECT (item), "activate", select_source, fe);
 	}
-	gtk_option_menu_set_menu(GTK_OPTION_MENU(omenu), menu);
-	gtk_widget_show((GtkWidget *)omenu);
-
-	rule_editor_construct((RuleEditor *)fe, (RuleContext *)fc, gui, source_names[0]);
+	gtk_option_menu_set_menu (GTK_OPTION_MENU (omenu), menu);
+	gtk_widget_show (omenu);
+	
+	rule_editor_construct ((RuleEditor *)fe, (RuleContext *)fc, gui, source_names[0]);
 }
 
 static FilterRule *
-create_rule(RuleEditor *re)
+create_rule (RuleEditor *re)
 {
-	FilterRule *rule = filter_rule_new();
+	FilterRule *rule = filter_rule_new ();
 	FilterPart *part;
-
+	
 	/* create a rule with 1 part & 1 action in it */
-	rule = (FilterRule *)filter_filter_new();
-	part = rule_context_next_part(re->context, NULL);
-	filter_rule_add_part(rule, filter_part_clone(part));
+	rule = (FilterRule *)filter_filter_new ();
+	part = rule_context_next_part (re->context, NULL);
+	filter_rule_add_part (rule, filter_part_clone (part));
 	part = filter_context_next_action ((FilterContext *)re->context, NULL);
-	filter_filter_add_action((FilterFilter *)rule, filter_part_clone (part));
-
+	filter_filter_add_action ((FilterFilter *)rule, filter_part_clone (part));
+	
 	return rule;
 }

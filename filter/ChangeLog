@@ -1,3 +1,10 @@
+2001-08-02  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* filter-rule.c: Wrap some debug printf's with d().
+
+	* rule-context.h: Removed prototype for rule_context_delete_rule()
+	since the function doesn't exist.
+
 2001-07-23  Jon Trowbridge  <trow@ximian.com>
 
 	* vfolder-rule.c (validate): Added a validate function
