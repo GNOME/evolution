@@ -82,6 +82,7 @@
 #include <gtkhtml/htmlobject.h>
 #include <gtkhtml/htmlengine.h>
 #include <gtkhtml/htmlengine-save.h>
+#include <gtkhtml/htmlengine-edit-cut-and-paste.h>
 
 #include "mail-mt.h"
 #include "mail-ops.h"
@@ -1230,25 +1231,22 @@ emfv_message_post_reply (BonoboUIComponent *uic, void *data, const char *path)
 static void
 emfv_message_reply(EMFolderView *emfv, int mode)
 {
-	/* GtkClipboard *clip; */
-
+	HTMLObject *selection;
+	guint len;
+	
 	if (emfv->list->cursor_uid == NULL)
 		return;
 	
 	if (!em_utils_check_user_can_send_mail ((GtkWidget *) emfv))
 		return;
-
-	/*  Look away!  Look away! */
-
-	/* HACK: Nasty internal gtkhtml poking going on here */
-
-	if (((EMFormatHTML *)emfv->preview)->html->engine->selection
-	    && ((EMFormatHTML *)emfv->preview)->html->engine->primary) {
-		/* && GTK_WIDGET_HAS_FOCUS(emfv->preview->formathtml.html)*/
+	
+	html_engine_copy_object (((EMFormatHTML *)emfv->preview)->html->engine, &selection, &len);
+	if (selection != NULL) {
 		HTMLEngineSaveState *state;
-
+		
 		state = html_engine_save_buffer_new(((EMFormatHTML *)emfv->preview)->html->engine, TRUE);
-		html_object_save(((EMFormatHTML *)emfv->preview)->html->engine->primary, state);
+		html_object_save (selection, state);
+		html_object_destroy (selection);
 		if (state->user_data && ((GString *)state->user_data)->len) {
 			CamelMimeMessage *msg, *src;
 			struct _camel_header_raw *header;

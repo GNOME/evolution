@@ -1,3 +1,8 @@
+2004-07-13  Jeffrey Stedfast  <fejj@novell.com>
+
+	* em-folder-view.c (emfv_message_reply): Chck that the selection
+	is active. Hopefully this will fix bug #61427.
+
 2004-07-13  Dan Winship  <danw@novell.com>
 
 	* em-utils.c (em_utils_selection_set_urilist,
