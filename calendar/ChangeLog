@@ -1,5 +1,17 @@
 2004-05-26  Jeffrey Stedfast  <fejj@novell.com>
 
+	Fix for bug #57818.
+
+	* gui/e-tasks.c (setup_widgets): Same.
+
+	* gui/gnome-cal.c (setup_widgets): Updated to pass a set of
+	bitflags to cal_search_bar_new().
+
+	* gui/cal-search-bar.c (cal_search_bar_new): Now takes a bit flag
+	argument specifying which search options to present.
+	(cal_search_bar_construct): Same as above. Construct the search
+	menu to use based on the bit flags.
+
 	* gui/apps_evolution_calendar.schemas.in.in: Changed the default
 	"Tasks due today" colour to be a light-blue (one of the default
 	colour values in the colour picker dialog). Fixes bug #53412.

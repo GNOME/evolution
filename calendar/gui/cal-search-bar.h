@@ -37,6 +37,19 @@ G_BEGIN_DECLS
 
 typedef struct CalSearchBarPrivate CalSearchBarPrivate;
 
+enum {
+	CAL_SEARCH_ANY_FIELD_CONTAINS    = (1 << 0),
+	CAL_SEARCH_SUMMARY_CONTAINS      = (1 << 1),
+	CAL_SEARCH_DESCRIPTION_CONTAINS  = (1 << 2),
+	CAL_SEARCH_COMMENT_CONTAINS      = (1 << 3),
+	CAL_SEARCH_LOCATION_CONTAINS     = (1 << 4),
+	CAL_SEARCH_CATEGORY_IS           = (1 << 5)
+};
+
+#define CAL_SEARCH_ALL (0xff)
+#define CAL_SEARCH_CALENDAR_DEFAULT (0x37)
+#define CAL_SEARCH_TASKS_DEFAULT    (0x27)
+
 typedef struct {
 	ESearchBar search_bar;
 
@@ -55,9 +68,9 @@ typedef struct {
 
 GtkType cal_search_bar_get_type (void);
 
-CalSearchBar *cal_search_bar_construct (CalSearchBar *cal_search);
+CalSearchBar *cal_search_bar_construct (CalSearchBar *cal_search, guint32 flags);
 
-GtkWidget *cal_search_bar_new (void);
+GtkWidget *cal_search_bar_new (guint32 flags);
 
 void cal_search_bar_set_categories (CalSearchBar *cal_search, GPtrArray *categories);
 

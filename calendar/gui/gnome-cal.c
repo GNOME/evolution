@@ -1015,7 +1015,7 @@ setup_widgets (GnomeCalendar *gcal)
 
 	priv = gcal->priv;
 
-	priv->search_bar = cal_search_bar_new ();
+	priv->search_bar = cal_search_bar_new (CAL_SEARCH_CALENDAR_DEFAULT);
 	g_signal_connect (priv->search_bar, "sexp_changed",
 			  G_CALLBACK (search_bar_sexp_changed_cb), gcal);
 	g_signal_connect (priv->search_bar, "category_changed",
