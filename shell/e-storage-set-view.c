@@ -77,6 +77,7 @@ struct _EStorageSetViewPrivate {
 enum {
 	FOLDER_SELECTED,
 	STORAGE_SELECTED,
+	DND_ACTION,
 	LAST_SIGNAL
 };
 
@@ -94,11 +95,17 @@ typedef enum _DndTargetType DndTargetType;
 #define URI_LIST_TYPE   "text/uri-list"
 #define E_SHORTCUT_TYPE "E-SHORTCUT"
 
-static GtkTargetEntry drag_types [] = {
+static GtkTargetEntry source_drag_types [] = {
 	{ URI_LIST_TYPE, 0, DND_TARGET_TYPE_URI_LIST },
 	{ E_SHORTCUT_TYPE, 0, DND_TARGET_TYPE_E_SHORTCUT }
 };
-static const int num_drag_types = sizeof (drag_types) / sizeof (drag_types[0]);
+static const int num_source_drag_types = sizeof (source_drag_types) / sizeof (source_drag_types[0]);
+
+static GtkTargetEntry destination_drag_types [] = {
+	{ URI_LIST_TYPE, 0, DND_TARGET_TYPE_URI_LIST },
+	{ E_SHORTCUT_TYPE, 0, DND_TARGET_TYPE_E_SHORTCUT }
+};
+static const int num_destination_drag_types = sizeof (destination_drag_types) / sizeof (destination_drag_types[0]);
 
 static GtkTargetList *target_list;
 
@@ -213,8 +220,95 @@ get_pixbuf_for_folder (EStorageSetView *storage_set_view,
 }
 
 
+/* Custom marshalling function.  */
+
+typedef void (* GtkSignal_NONE__ENUM_STRING_STRING_STRING) (GtkObject *object,
+							    int, const char *, const char *, const char *);
+
+static void
+marshal_NONE__ENUM_STRING_STRING_STRING (GtkObject *object,
+					 GtkSignalFunc func,
+					 void *func_data,
+					 GtkArg *args)
+{
+	GtkSignal_NONE__ENUM_STRING_STRING_STRING rfunc;
+
+	rfunc = (GtkSignal_NONE__ENUM_STRING_STRING_STRING) func;
+	(* rfunc) (object,
+		   GTK_VALUE_ENUM (args[0]),
+		   GTK_VALUE_STRING (args[1]),
+		   GTK_VALUE_STRING (args[2]),
+		   GTK_VALUE_STRING (args[3]));
+}
+
+
+/* DnD selection setup stuff.  */
+
+static void
+set_uri_list_selection (EStorageSetView *storage_set_view,
+			GtkSelectionData *selection_data)
+{
+	EStorageSetViewPrivate *priv;
+	char *uri_list;
+
+	priv = storage_set_view->priv;
+
+	/* FIXME: Get `evolution:' from somewhere instead of hardcoding it here.  */
+	uri_list = g_strconcat ("evolution:", priv->selected_row_path, "\n", NULL);
+	gtk_selection_data_set (selection_data, selection_data->target,
+				8, (guchar *) uri_list, strlen (uri_list));
+	g_free (uri_list);
+}
+
+static void
+set_e_shortcut_selection (EStorageSetView *storage_set_view,
+			  GtkSelectionData *selection_data)
+{
+	EStorageSetViewPrivate *priv;
+	int shortcut_len;
+	char *shortcut;
+	const char *trailing_slash;
+	const char *name;
+
+	g_return_if_fail(storage_set_view != NULL);
+
+	priv = storage_set_view->priv;
+
+	trailing_slash = strrchr (priv->selected_row_path, '/');
+	if (trailing_slash == NULL)
+		name = NULL;
+	else
+		name = trailing_slash + 1;
+
+	/* FIXME: Get `evolution:' from somewhere instead of hardcoding it here.  */
+
+	if (name != NULL)
+		shortcut_len = strlen (name);
+	else
+		shortcut_len = 0;
+	
+	shortcut_len ++;	/* Separating zero.  */
+
+	shortcut_len += strlen ("evolution:");
+	shortcut_len += strlen (priv->selected_row_path);
+	shortcut_len ++;	/* Trailing zero.  */
+
+	shortcut = g_malloc (shortcut_len);
+
+	if (name == NULL)
+		sprintf (shortcut, "%cevolution:%s", '\0', priv->selected_row_path);
+	else
+		sprintf (shortcut, "%s%cevolution:%s", name, '\0', priv->selected_row_path);
+
+	gtk_selection_data_set (selection_data, selection_data->target,
+				8, (guchar *) shortcut, shortcut_len);
+
+	g_free (shortcut);
+}
+
+
 /* Folder context menu.  */
-/* FIXME: This should be moved somewhere else, so that also the sortcut code
+/* FIXME: This should be moved somewhere else, so that also the shortcut code
    can share it.  */
 
 #if 0
@@ -338,13 +432,15 @@ destroy (GtkObject *object)
 /* ETable methods */
 
 static void
-etable_drag_begin (EStorageSetView *storage_set_view,
-		   int row, int col,
-		   GdkDragContext *context)
+table_drag_begin (ETable *etable,
+		  int row, int col,
+		  GdkDragContext *context)
 {
+	EStorageSetView *storage_set_view;
 	EStorageSetViewPrivate *priv;
 	ETreePath *node;
 
+	storage_set_view = E_STORAGE_SET_VIEW (etable);
 	priv = storage_set_view->priv;
 
 	node = e_tree_model_node_at_row (priv->etree_model, row);
@@ -353,76 +449,18 @@ etable_drag_begin (EStorageSetView *storage_set_view,
 }
 
 static void
-set_uri_list_selection (EStorageSetView *storage_set_view,
-			GtkSelectionData *selection_data)
+table_drag_data_get (ETable *etable,
+		     int drag_row,
+		     int drag_col,
+		     GdkDragContext *context,
+		     GtkSelectionData *selection_data,
+		     guint info,
+		     guint32 time)
 {
-	EStorageSetViewPrivate *priv;
-	char *uri_list;
+	EStorageSetView *storage_set_view;
 
-	priv = storage_set_view->priv;
+	storage_set_view = E_STORAGE_SET_VIEW (etable);
 
-	/* FIXME: Get `evolution:' from somewhere instead of hardcoding it here.  */
-	uri_list = g_strconcat ("evolution:", priv->selected_row_path, "\n", NULL);
-	gtk_selection_data_set (selection_data, selection_data->target,
-				8, (guchar *) uri_list, strlen (uri_list));
-	g_free (uri_list);
-}
-
-static void
-set_e_shortcut_selection (EStorageSetView *storage_set_view,
-			  GtkSelectionData *selection_data)
-{
-	EStorageSetViewPrivate *priv;
-	int shortcut_len;
-	char *shortcut;
-	const char *trailing_slash;
-	const char *name;
-
-	g_return_if_fail(storage_set_view != NULL);
-
-	priv = storage_set_view->priv;
-
-	trailing_slash = strrchr (priv->selected_row_path, '/');
-	if (trailing_slash == NULL)
-		name = NULL;
-	else
-		name = trailing_slash + 1;
-
-	/* FIXME: Get `evolution:' from somewhere instead of hardcoding it here.  */
-
-	if (name != NULL)
-		shortcut_len = strlen (name);
-	else
-		shortcut_len = 0;
-	
-	shortcut_len ++;	/* Separating zero.  */
-
-	shortcut_len += strlen ("evolution:");
-	shortcut_len += strlen (priv->selected_row_path);
-	shortcut_len ++;	/* Trailing zero.  */
-
-	shortcut = g_malloc (shortcut_len);
-
-	if (name == NULL)
-		sprintf (shortcut, "%cevolution:%s", '\0', priv->selected_row_path);
-	else
-		sprintf (shortcut, "%s%cevolution:%s", name, '\0', priv->selected_row_path);
-
-	gtk_selection_data_set (selection_data, selection_data->target,
-				8, (guchar *) shortcut, shortcut_len);
-
-	g_free (shortcut);
-}
-
-static void
-etable_drag_data_get (EStorageSetView *storage_set_view,
-		      int drag_row,
-		      int drag_col,
-		      GdkDragContext *context,
-		      GtkSelectionData *selection_data,
-		      guint info,
-		      guint32 time)
-{
 	switch (info) {
 	case DND_TARGET_TYPE_URI_LIST:
 		set_uri_list_selection (storage_set_view, selection_data);
@@ -432,6 +470,90 @@ etable_drag_data_get (EStorageSetView *storage_set_view,
 		break;
 	default:
 		g_assert_not_reached ();
+	}
+}
+
+static gboolean
+table_drag_motion (ETable *table,
+		   int row,
+		   int col,
+		   GdkDragContext *context,
+		   gint x,
+		   gint y,
+		   guint time)
+{
+	gdk_drag_status (context, GDK_ACTION_MOVE, time);
+
+	return TRUE;
+}
+
+static gboolean
+table_drag_drop (ETable *etable,
+		 int row,
+		 int col,
+		 GdkDragContext *context,
+		 gint x,
+		 gint y,
+		 guint time)
+{
+	EStorageSetView *storage_set_view;
+	EStorageSetViewPrivate *priv;
+	ETreePath *target_tree_path;
+	const char *target_path;
+
+	storage_set_view = E_STORAGE_SET_VIEW (etable);
+	priv = storage_set_view->priv;
+
+	target_tree_path = e_tree_model_node_at_row (priv->etree_model, row);
+	target_path = e_tree_model_node_get_data (priv->etree_model, target_tree_path);
+
+	gtk_signal_emit (GTK_OBJECT (etable), signals[DND_ACTION],
+			 context->action, NULL, NULL, NULL);
+
+	return TRUE;
+}
+
+static gboolean
+right_click (ETable *etable,
+	     int row,
+	     int col,
+	     GdkEvent *event)
+{
+	EStorageSetView *storage_set_view;
+	EStorageSetViewPrivate *priv;
+
+	storage_set_view = E_STORAGE_SET_VIEW (etable);
+	priv = storage_set_view->priv;
+
+	popup_folder_menu (storage_set_view, (GdkEventButton *) event);
+
+	return TRUE;
+}
+
+static void
+cursor_change (ETable *table,
+	       int row)
+{
+	EStorageSetView *storage_set_view;
+	ETreePath *node;
+	EStorageSetViewPrivate *priv;
+
+	storage_set_view = E_STORAGE_SET_VIEW (table);
+
+	priv = storage_set_view->priv;
+
+	node = e_tree_model_node_at_row (priv->etree_model, row);
+
+	priv->selected_row_path = e_tree_model_node_get_data (priv->etree_model, node);
+
+	if (e_tree_model_node_depth (priv->etree_model, node) >= 2) {
+		/* it was a folder */
+		gtk_signal_emit (GTK_OBJECT (storage_set_view), signals[FOLDER_SELECTED],
+				 priv->selected_row_path);
+	} else {
+		/* it was a storage */
+		gtk_signal_emit (GTK_OBJECT (storage_set_view), signals[STORAGE_SELECTED],
+				 priv->selected_row_path + 1);
 	}
 }
 
@@ -496,7 +618,9 @@ etree_value_to_string (ETableModel *etc, int col, const void *value, void *data)
 /* ETreeModel Methods */
 
 static GdkPixbuf*
-etree_icon_at (ETreeModel *etree, ETreePath *tree_path, void *model_data)
+etree_icon_at (ETreeModel *etree,
+	       ETreePath *tree_path,
+	       void *model_data)
 {
 	EStorageSetView *storage_set_view;
 	EStorageSet *storage_set;
@@ -720,11 +844,20 @@ static void
 class_init (EStorageSetViewClass *klass)
 {
 	GtkObjectClass *object_class;
+	ETableClass *etable_class;
 
 	parent_class = gtk_type_class (e_table_get_type ());
 
 	object_class = GTK_OBJECT_CLASS (klass);
 	object_class->destroy = destroy;
+
+	etable_class = E_TABLE_CLASS (klass);
+	etable_class->right_click         = right_click;
+	etable_class->cursor_change       = cursor_change;
+	etable_class->table_drag_begin    = table_drag_begin;
+	etable_class->table_drag_data_get = table_drag_data_get;
+	etable_class->table_drag_motion   = table_drag_motion;
+	etable_class->table_drag_drop     = table_drag_drop;
 
 	signals[FOLDER_SELECTED]
 		= gtk_signal_new ("folder_selected",
@@ -744,11 +877,23 @@ class_init (EStorageSetViewClass *klass)
 				  GTK_TYPE_NONE, 1,
 				  GTK_TYPE_STRING);
 
+	signals[DND_ACTION]
+		= gtk_signal_new ("dnd_action",
+				  GTK_RUN_FIRST,
+				  object_class->type,
+				  GTK_SIGNAL_OFFSET (EStorageSetViewClass, dnd_action),
+				  marshal_NONE__ENUM_STRING_STRING_STRING,
+				  GTK_TYPE_NONE, 4,
+				  GTK_TYPE_ENUM,
+				  GTK_TYPE_STRING,
+				  GTK_TYPE_STRING,
+				  GTK_TYPE_STRING);
+
 	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 
 	/* Set up DND.  */
 
-	target_list = gtk_target_list_new (drag_types, num_drag_types);
+	target_list = gtk_target_list_new (source_drag_types, num_source_drag_types);
 	g_assert (target_list != NULL);
 }
 
@@ -905,40 +1050,6 @@ insert_storages (EStorageSetView *storage_set_view)
 	e_free_object_list (storage_list);
 }
 
-static void
-right_click (EStorageSetView *storage_set_view, int row, int col,
-	     GdkEventButton *event, gboolean *ret)
-{
-	EStorageSetViewPrivate *priv;
-
-	priv = storage_set_view->priv;
-
-	popup_folder_menu (storage_set_view, event);
-}
-
-static void
-on_cursor_change (EStorageSetView *storage_set_view, int row, gpointer user_data)
-{
-	ETreePath *node;
-	EStorageSetViewPrivate *priv;
-
-	priv = storage_set_view->priv;
-
-	node = e_tree_model_node_at_row (priv->etree_model, row);
-
-	priv->selected_row_path = e_tree_model_node_get_data (priv->etree_model, node);
-
-	if (e_tree_model_node_depth (priv->etree_model, node) >= 2) {
-		/* it was a folder */
-		gtk_signal_emit (GTK_OBJECT (storage_set_view), signals[FOLDER_SELECTED],
-				 priv->selected_row_path);
-	} else {
-		/* it was a storage */
-		gtk_signal_emit (GTK_OBJECT (storage_set_view), signals[STORAGE_SELECTED],
-				 priv->selected_row_path + 1);
-	}
-}
-
 void
 e_storage_set_view_construct (EStorageSetView *storage_set_view,
 			      EStorageSet *storage_set)
@@ -980,7 +1091,12 @@ e_storage_set_view_construct (EStorageSetView *storage_set_view,
 	gtk_object_unref (GTK_OBJECT (extras));
 
 	e_table_drag_source_set (E_TABLE (storage_set_view), GDK_BUTTON1_MASK,
-				 drag_types, num_drag_types, GDK_ACTION_MOVE);
+				 source_drag_types, num_source_drag_types,
+				 GDK_ACTION_MOVE | GDK_ACTION_COPY);
+
+	e_table_drag_dest_set (E_TABLE (storage_set_view), GTK_DEST_DEFAULT_ALL,
+			       source_drag_types, num_source_drag_types,
+			       GDK_ACTION_MOVE | GDK_ACTION_COPY);
 
 	gtk_object_ref (GTK_OBJECT (storage_set));
 	priv->storage_set = storage_set;
@@ -1000,15 +1116,6 @@ e_storage_set_view_construct (EStorageSetView *storage_set_view,
 	gtk_signal_connect_while_alive (GTK_OBJECT (storage_set), "removed_folder",
 					GTK_SIGNAL_FUNC (removed_folder_cb), storage_set_view,
 					GTK_OBJECT (storage_set_view));
-
-	gtk_signal_connect (GTK_OBJECT (storage_set_view), "right_click",
-			    GTK_SIGNAL_FUNC (right_click), GTK_OBJECT(storage_set_view));
-	gtk_signal_connect (GTK_OBJECT (storage_set_view), "cursor_change",
-			    GTK_SIGNAL_FUNC (on_cursor_change), GTK_OBJECT(storage_set_view));
-	gtk_signal_connect (GTK_OBJECT (storage_set_view), "table_drag_begin",
-			    GTK_SIGNAL_FUNC (etable_drag_begin), GTK_OBJECT(storage_set_view));
-	gtk_signal_connect (GTK_OBJECT (storage_set_view), "table_drag_data_get",
-			    GTK_SIGNAL_FUNC (etable_drag_data_get), GTK_OBJECT(storage_set_view));
 
 	insert_storages (storage_set_view);
 }

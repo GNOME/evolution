@@ -60,8 +60,14 @@ struct _EStorageSetViewClass {
 
 	void (* folder_selected)  (EStorageSetView *storage_set_view,
 				   const char *path);
-	void (* storage_selected)  (EStorageSetView *storage_set_view,
-				    const char *name);
+	void (* storage_selected) (EStorageSetView *storage_set_view,
+				   const char *name);
+
+	void (* dnd_action) (EStorageSetView *storage_set_view,
+			     GdkDragAction action,
+			     const char *source_data,
+			     const char *source_data_type,
+			     const char *target_path);
 };
 
 

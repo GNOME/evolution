@@ -1,3 +1,30 @@
+2001-01-13  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-storage-set-view.h: New signal `dnd_action'.
+
+	* e-storage-set-view.c: Renamed `drag_types' to
+	`source_drag_types' and `num_drag_types' to
+	`num_source_drag_types'.  New variables `destination_drag_types'
+	and `num_destination_drag_types'.
+	(e_storage_set_view_construct): Set the ETree as a drag
+	destination.  Allow both GDK_ACTION_MOVE and GDK_ACTION_COPY.
+
+	* e-storage-set-view.c (table_drag_begin): Renamed from
+	`etable_drag_begin'.
+	(table_drag_data_get): Renamed from `etable_drag_data_get'.
+	Changed to be a method override instead of a signal handler.
+	(table_drag_motion): New; implementation for the
+	`ETable::table_drag_motion' method. Changed to be a method
+	override instead of a signal handler.
+	(table_drag_drop): New, implementation for `::table_drag_drop'.
+	(cursor_change): Renamed from `on_cursor_change'.
+	(e_storage_set_view_construct): Don't connect the signals here.
+	(class_init): Instead, override the methods here.  Also, install
+	our override for `::table_drag_motion' and for
+	`::table_drag_drop'.
+	(right_click): Changed to be a method instead of a signal handler.
+	(cursor_change): Likewise.
+
 2001-01-13  Miguel de Icaza  <miguel@gnu.org>
 
 	* e-shell.c (e_shell_construct): Unref our copy, and then destroy.
