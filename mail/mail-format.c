@@ -41,6 +41,7 @@
 #include <camel/camel-mime-utils.h>
 #include <camel/camel-pgp-mime.h>
 #include <camel/camel-stream-null.h>
+#include <camel/camel-multipart-signed.h>
 #include <shell/e-setup.h>
 #include <e-util/e-html-utils.h>
 #include <gal/util/e-unicode-i18n.h>
@@ -1755,43 +1756,34 @@ handle_multipart_signed (CamelMimePart *part, const char *mime_type,
 {
 	CamelMimePart *subpart;
 	CamelDataWrapper *wrapper;
-	CamelMultipart *mp;
+	/*CamelMultipart *mp;*/
+	CamelMultipartSigned *mps;
 	gboolean output = FALSE;
 	int nparts, i;
 	
 	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));
 	
-	g_return_val_if_fail (CAMEL_IS_MULTIPART (wrapper), FALSE);
+	g_return_val_if_fail (CAMEL_IS_MULTIPART_SIGNED (wrapper), FALSE);
 	
-	/* Display all the subparts (there should be only 1) up to, but not including,
-	 * the signature. (this should be the last part but we all know that most
-	 * mailers are broken, so attempt to handle broken multipart/signed messages).
-	 * See bug #23583 for details.
-	 */
-	mp = CAMEL_MULTIPART (wrapper);
-	
-	nparts = camel_multipart_get_number (mp);
-	for (i = 0; i < nparts; i++) {
-		CamelContentType *content_type;
-		
-		subpart = camel_multipart_get_part (mp, i);
-		content_type = camel_mime_part_get_content_type (subpart);
-		
-		if (header_content_type_is (content_type, "application", "pgp-signature"))
-			break;
-		
-		if (i != 0 && output)
-			write_hr (html, stream);
-		
-		output = format_mime_part (subpart, md, html, stream);
-	}
-	
-	if (i >= nparts) {
-		/* no signature part? wtf? */
-		return TRUE;
-	}
-	
-	mail_part_set_default_displayed_inline (subpart, md, FALSE);
+	mps = CAMEL_MULTIPART_SIGNED(wrapper);
+
+	/* if subpart & signature is null, what do we do?  just write it out raw?
+	   multipart_signed will, if it cannot parse properly, put everything in the first part
+	   this includes: more or less than 2 parts */
+
+	/* output the content */
+	subpart = camel_multipart_get_part((CamelMultipart *)mps, CAMEL_MULTIPART_SIGNED_CONTENT);
+	if (subpart == NULL)
+		return FALSE;
+
+	output = format_mime_part (subpart, md, html, stream);
+
+	/* now handle the signature */
+	subpart = camel_multipart_get_part((CamelMultipart *)mps, CAMEL_MULTIPART_SIGNED_SIGNATURE);
+	if (subpart == NULL)
+		return FALSE;
+
+	mail_part_set_default_displayed_inline(subpart, md, FALSE);
 	
 	if (!mail_part_is_displayed_inline (subpart, md) && !md->printing) {
 		char *url;
@@ -1821,19 +1813,23 @@ handle_multipart_signed (CamelMimePart *part, const char *mime_type,
 		CamelException ex;
 		const char *message = NULL;
 		gboolean good = FALSE;
+		CamelPgpContext *context;
 		
 		/* Write out the verification results */
+		/* TODO: use the right context for the right message ... */
 		camel_exception_init (&ex);
-		if (camel_pgp_mime_is_rfc2015_signed (part)) {
-			valid = mail_crypto_pgp_mime_part_verify (part, &ex);
-			if (!valid) {
-				message = camel_exception_get_description (&ex);
+		context = camel_pgp_context_new(session, mail_config_get_pgp_type(), mail_config_get_pgp_path());
+		if (context) {
+			valid = camel_multipart_signed_verify(mps, (CamelCipherContext *)context, &ex);
+			if (valid) {
+				good = camel_cipher_validity_get_valid(valid);
+				message = camel_cipher_validity_get_description(valid);
 			} else {
-				good = camel_cipher_validity_get_valid (valid);
-				message = camel_cipher_validity_get_description (valid);
+				message = camel_exception_get_description(&ex);
 			}
-		} else
-			message = U_("Evolution does not recognize this type of signed message.");
+		} else {
+			message = U_("Could not create a PGP verfication context");
+		}
 		
 		if (good) {
 			gtk_html_stream_printf (stream,
@@ -1863,18 +1859,7 @@ handle_multipart_signed (CamelMimePart *part, const char *mime_type,
 		camel_exception_clear (&ex);
 		camel_cipher_validity_free (valid);
 	}
-	
-	/* continuation of handling broken multipart/signed
-	 * parts... write out any extra parts that were added after
-	 * the signature part. */
-	for (i++; i < nparts; i++) {
-		subpart = camel_multipart_get_part (mp, i);
-		
-		write_hr (html, stream);
-		
-		output = format_mime_part (subpart, md, html, stream);
-	}
-	
+
 	return TRUE;
 }
 
