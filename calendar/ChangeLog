@@ -1,3 +1,8 @@
+2002-07-18  Rodrigo Moya <rodrigo@ximian.com>
+
+	* importers/icalendar-importer.c (get_uri_from_folder_path): if
+	there's an exception, continue with the next item.
+
 2002-07-08  Peter Williams  <peterw@ximian.com>
 
 	* cal-util/Makefile.am: Install libcal-util-static.la

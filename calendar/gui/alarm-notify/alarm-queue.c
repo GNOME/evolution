@@ -35,7 +35,6 @@
 #include <libgnome/gnome-sound.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-dialog-util.h>
-#include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-stock.h>
 #include <libgnomeui/gnome-uidefs.h>
 #include <cal-util/timeutil.h>

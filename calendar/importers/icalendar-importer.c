@@ -176,8 +176,12 @@ get_uri_from_folder_path (ICalImporter *ici, const char *folderpath)
 		CORBA_exception_init (&ev);
 		corba_folder = GNOME_Evolution_Storage_getFolderAtPath (storage_list->_buffer[i],
 									folderpath, &ev);
-		if (BONOBO_EX (&ev))
+		if (BONOBO_EX (&ev)) {
 			g_warning (_("Can't call getFolderAtPath on storage: %s"), CORBA_exception_id (&ev));
+			CORBA_exception_free (&ev);
+			continue;
+		}
+	
 		CORBA_exception_free (&ev);
 
 		if (corba_folder) {
