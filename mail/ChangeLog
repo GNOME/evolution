@@ -1,3 +1,7 @@
+2001-08-06  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-config.glade: s/character set/character encoding
+
 2001-08-05  Ettore Perazzoli  <ettore@ximian.com>
 
 	* message-browser.c (message_browser_message_loaded): Make the

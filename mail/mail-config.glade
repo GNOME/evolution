@@ -2823,7 +2823,7 @@ Quoted
 	<widget>
 	  <class>GtkLabel</class>
 	  <name>lblCharset</name>
-	  <label>Default character set: </label>
+	  <label>Default character encoding: </label>
 	  <justify>GTK_JUSTIFY_CENTER</justify>
 	  <wrap>False</wrap>
 	  <xalign>0.5</xalign>
