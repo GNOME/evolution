@@ -1,5 +1,11 @@
 2000-06-16  Damon Chaplin  <damon@helixcode.com>
 
+	* gui/jump.xpm: new icon for the EWeekView to jump to the day.
+
+	* gui/Makefile.am (EXTRA_DIST): added jump.xpm
+
+2000-06-16  Damon Chaplin  <damon@helixcode.com>
+
 	* gui/calendar-model.c (calendar_model_class_init): #ifdef'ed out
 	references to functions which don't exist yet, so evolution still
 	compiles.

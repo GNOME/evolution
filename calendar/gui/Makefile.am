@@ -113,6 +113,7 @@ EXTRA_DIST =	 			\
 	$(glade_DATA)			\
 	bell.xpm			\
 	recur.xpm			\
+	jump.xpm			\
 	dayview.xpm			\
 	workweekview.xpm		\
 	weekview.xpm			\
