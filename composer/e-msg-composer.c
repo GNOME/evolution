@@ -1557,7 +1557,7 @@ do_exit (EMsgComposer *composer)
 					 GTK_MESSAGE_ERROR, GTK_BUTTONS_NONE,
 					 _("The message \"%s\" has not been sent.\n\n"
 					   "Do you wish to save your changes?"),
-					 subject);
+					 subject && *subject ? subject : _("Untitled Message"));
 	
 	gtk_dialog_add_buttons (GTK_DIALOG (dialog),
 				_("_Discard Changes"), GTK_RESPONSE_NO,
