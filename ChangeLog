@@ -1,3 +1,7 @@
+2004-12-01  Dafydd Harries  <daf@muse.19inch.net>
+
+	* configure.in: Add "cy" (Welsh) to ALL_LINGUAS.
+
 2004-11-29  JP Rosevear  <jpr@novell.com>
 
 	* configure.in: bump version, requires

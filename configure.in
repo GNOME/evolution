@@ -78,7 +78,7 @@ AC_SUBST(HAVE_JW)
 dnl I18N stuff
 AC_PROG_INTLTOOL([0.30])
 
-ALL_LINGUAS="am ar az be bg bs ca cs da de el en_AU en_CA en_GB es et eu fa fi fr ga gl gu he hr hu is it ja ko lt lv mn ms nb nl nn no pa pl pt pt_BR ro ru sk sl sq sr sr@Latn sv tr uk vi wa zh_CN zh_TW"
+ALL_LINGUAS="am ar az be bg bs ca cs cy da de el en_AU en_CA en_GB es et eu fa fi fr ga gl gu he hr hu is it ja ko lt lv mn ms nb nl nn no pa pl pt pt_BR ro ru sk sl sq sr sr@Latn sv tr uk vi wa zh_CN zh_TW"
 AM_GLIB_GNU_GETTEXT
 
 GETTEXT_PACKAGE=evolution-2.2
