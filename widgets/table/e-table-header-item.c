@@ -1270,7 +1270,7 @@ static EPopupMenu ethi_context_menu [] = {
 	{ N_("Group By Box"),              NULL, GTK_SIGNAL_FUNC(ethi_popup_group_box),       NULL, 1},
 	{ "",                              NULL, GTK_SIGNAL_FUNC(NULL),                       NULL, 1},
 	{ N_("Remove This Column"),        NULL, GTK_SIGNAL_FUNC(ethi_popup_remove_column),   NULL, 0},
-	{ N_("Field Chooser"),             NULL, GTK_SIGNAL_FUNC(ethi_popup_field_chooser),   NULL, 0},
+	{ N_("Add a Column..."),           NULL, GTK_SIGNAL_FUNC(ethi_popup_field_chooser),   NULL, 0},
 	{ "",                              NULL, GTK_SIGNAL_FUNC(NULL),                       NULL, 1},
 	{ N_("Alignment"),                 NULL, GTK_SIGNAL_FUNC(ethi_popup_alignment),       NULL, 1},
 	{ N_("Best Fit"),                  NULL, GTK_SIGNAL_FUNC(ethi_popup_best_fit),        NULL, 2},
