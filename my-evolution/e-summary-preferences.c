@@ -811,7 +811,7 @@ rdf_new_url_clicked_cb (GtkButton *button,
 		return;
 	} 
 
-	add_dialog = gnome_dialog_new (_("Add a new RDF"),
+	add_dialog = gnome_dialog_new (_("Add a news feed"),
 				       GNOME_STOCK_BUTTON_OK,
 				       GNOME_STOCK_BUTTON_CANCEL, NULL);
 	gtk_signal_connect (GTK_OBJECT (add_dialog), "clicked",
@@ -819,7 +819,7 @@ rdf_new_url_clicked_cb (GtkButton *button,
 	gtk_signal_connect (GTK_OBJECT (add_dialog), "destroy",
 			    GTK_SIGNAL_FUNC (gtk_widget_destroyed), &add_dialog);
 
-	label = gtk_label_new (_("Enter the URL of the RDF file you wish to add"));
+	label = gtk_label_new (_("Enter the URL of the news feed you wish to add"));
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (add_dialog)->vbox), label,
 			    TRUE, TRUE, 0);
 	hbox = gtk_hbox_new (FALSE, 2);

@@ -1,5 +1,10 @@
 2001-07-05  Iain Holmes  <iain@ximian.com>
 
+	* e-summary-preferences.c (rdf_new_url_clicked_cb): Change RDF to
+	news feed.
+
+2001-07-05  Iain Holmes  <iain@ximian.com>
+
 	* my-evolution.glade: Replace a table with a vbox so that the text
 	of the radio buttons can be clicked. Change RDF to News Feed
 
