@@ -302,11 +302,10 @@ process_item_fn (EvolutionImporter *importer,
 	    || tasks_state == CAL_CLIENT_LOAD_LOADING) {
 		GNOME_Evolution_ImporterListener_notifyResult (
 			listener,
-			GNOME_Evolution_ImporterListener_NOT_READY,
+			GNOME_Evolution_ImporterListener_BUSY,
 			TRUE, ev);
 		return;
-	}
-	else if (state != CAL_CLIENT_LOAD_LOADED
+	} else if (state != CAL_CLIENT_LOAD_LOADED
 		 || tasks_state != CAL_CLIENT_LOAD_LOADED) {
 		GNOME_Evolution_ImporterListener_notifyResult (
 			listener,

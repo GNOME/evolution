@@ -1,3 +1,10 @@
+2002-10-01  Rodrigo Moya <rodrigo@ximian.com>
+
+	Fixes #30290
+
+	* importers/icalendar-importer.c (process_item_fn): return a status of
+	BUSY rather than NOT_READY, to avoid the display of the error message.
+	
 2002-09-30  JP Rosevear  <jpr@ximian.com>
 
 	* conduits/calendar/calendar-conduit.c
