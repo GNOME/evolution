@@ -754,7 +754,7 @@ edit_addressbook_cb (GtkWidget *widget, AddressbookView *view)
 {
 	AddressbookViewPrivate *priv = view->priv;
 	ESource *selected_source;
-	const char *uid;;
+	const char *uid;
 	EditorUidClosure *closure;
 
 	selected_source =

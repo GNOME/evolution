@@ -23,6 +23,61 @@
 	* gui/e-cal-model-tasks.c: include missing string.h, to avoid
 	problems in 64 bit builds.
 
+2004-09-09  JP Rosevear  <jpr@novell.com>
+ 
+ 	Fixes #65454
+ 	
+ 	* gui/e-itip-control.c (class_init): only use a destroy function,
+ 	no finalize
+ 	(cleanup_ecal): util function
+ 	(init): use above for hash table and killed destroyed flag
+ 	(weren't using it anywhere)
+ 	(destroy): collapse finalize work into here and guard against
+ 	multiple destroy calls
+	
+2004-09-08  JP Rosevear  <jpr@novell.com>
+
+	Fixes #62728
+	
+	* gui/e-week-view.c (e_week_view_set_week_start_day): trigger a
+	redraw when changing the start day
+
+2004-09-05  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* gui/e-calendar-table.c
+	(e_calendar_table_show_popup_menu): Check the
+	static capability to enable or disable the assign
+	tasks in the popup menu.
+
+	* gui/dialogs/recurrence-page.c
+	(sensitize_buttons): Check for the static capability
+	to convert a existing appointment to recurrence appointment
+	for enabling or diabling the recurrence widgets.
+
+2004-08-31  Rodrigo Moya <rodrigo@novell.com>
+
+	Fixes #62392
+
+	* gui/alarm-notify/alarm-queue.c (display_notification): ref the
+	client's query object so that it doesn't disappear on us.
+	(tray_icon_destroyed_cb): unref the query previously ref'ed.
+
+2004-08-31  Rodrigo Moya <rodrigo@novell.com>
+
+	* gui/e-cal-model-tasks.c: include missing string.h, to avoid
+	problems in 64 bit builds.
+	
+2004-08-27  Not Zed  <NotZed@Ximian.com>
+
+	* common/authentication.c (auth_func_cb): constify the strings to
+	remove a warning.
+
+	** See bug #64856 (workaround).
+
+	* common/authentication.c (auth_func_cb): 
+	* gui/e-pub-utils.c(e_pub_publish): add ONLINE flag to password
+	request.
+
 2004-08-28  JP Rosevear  <jpr@novell.com>
 
 	* gui/e-itip-control.c (rsvp_clicked_cb): get the active state

@@ -297,7 +297,7 @@ eab_view_init (EABView *eav)
 	eav->model = NULL;
 	eav->object = NULL;
 	eav->widget = NULL;
-	eav->scrolled = NULL;
+	eav->contact_display_window = NULL;
 	eav->contact_display = NULL;
 	eav->displayed_contact = -1;
 
@@ -360,6 +360,11 @@ eab_view_dispose (GObject *object)
 		g_list_free (eav->clipboard_contacts);
 		eav->clipboard_contacts = NULL;
 	}
+
+	if (eav->contact_display_window) {
+		g_object_unref (eav->contact_display_window);
+		eav->contact_display_window = NULL;
+	}
 		
 	if (eav->invisible) {
 		gtk_widget_destroy (eav->invisible);
@@ -414,7 +419,6 @@ GtkWidget*
 eab_view_new (void)
 {
 	GtkWidget *widget = GTK_WIDGET (g_object_new (E_TYPE_AB_VIEW, NULL));
-	GtkWidget *scrolled_window;
 	EABView *eav = EAB_VIEW (widget);
 	FilterPart *part;
 
@@ -481,13 +485,13 @@ eab_view_new (void)
 	gtk_widget_show (eav->widget);
 
 	eav->contact_display = eab_contact_display_new ();
-	scrolled_window = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window), GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
-	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled_window), GTK_SHADOW_IN);
-	gtk_container_add (GTK_CONTAINER (scrolled_window), eav->contact_display);
-	gtk_container_add (GTK_CONTAINER (eav->paned), scrolled_window);
+	eav->contact_display_window = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (eav->contact_display_window), GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
+	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (eav->contact_display_window), GTK_SHADOW_IN);
+	gtk_container_add (GTK_CONTAINER (eav->contact_display_window), eav->contact_display);
+	gtk_container_add (GTK_CONTAINER (eav->paned), eav->contact_display_window);
 	gtk_widget_show (eav->contact_display);
-	gtk_widget_show (scrolled_window);
+	gtk_widget_show (eav->contact_display_window);
 	gtk_widget_show (eav->paned);
 
 	/* gtk selection crap */
@@ -1815,9 +1819,9 @@ eab_view_show_contact_preview (EABView *view, gboolean show)
 	g_return_if_fail (view && E_IS_ADDRESSBOOK_VIEW (view));
 
 	if (show)
-		gtk_widget_show (view->contact_display);
+		gtk_widget_show (view->contact_display_window);
 	else
-		gtk_widget_hide (view->contact_display);
+		gtk_widget_hide (view->contact_display_window);
 }
 
 void

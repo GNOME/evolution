@@ -57,6 +57,87 @@
 	* message-list.c (main_folder_changed): noop if the async_event
 	pointer is NULL which can happen during destroy.
 
+2004-09-09  Jeffrey Stedfast  <fejj@novell.com>
+
+	* mail-account-gui.c (mail_account_gui_new): If built with
+	gtkfilechooser support, we need to add a checkbox in the chooser
+	so that the user can select files or folders (allowing him to
+	choose - otherwise they won't be able to setup certain types of
+	accounts). Fixes bug #64974.
+
+2004-09-12  JP Rosevear  <jpr@novell.com>
+
+	Fixes #65703
+	
+	* em-popup.c: use proper stock icon name
+
+2004-09-08  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #60515.
+
+	* mail-account-gui.c (sig_fill_menu): connect to the activate
+	signal for the none item.
+
+2004-09-03  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #59717.
+
+	* mail-config.c (mail_config_check_service): Make the dialog
+	modal.  Not ideal but a problem with the way the function works,
+	it should be fully async instead.
+
+2004-09-01  Jeffrey Stedfast  <fejj@novell.com>
+
+	Fix for bug #63377 and prevention of similar cases.
+
+	* em-format.c (emf_finalise): Free the default_charset.
+	(emf_format_clone): Clone the default_charset - this prevents the
+	particular crash described in bug #63377.
+
+	* em-utils.c (em_utils_message_to_html): If source is NULL, set
+	our own default charset (from the user's gconf key) on the
+	formatter to make sure there's always a source charset for
+	conversion to UTF-8.
+
+2004-08-30  Jeffrey Stedfast  <fejj@novell.com>
+
+	* em-folder-tree.c (emft_popup_delete_folder): Set the store and
+	full_name info on the dialog.
+	(emft_popup_delete_response): Use the requisite data stored on the
+	dialog object rather than examining the selection again. Fixes bug
+	#62665.
+
+2004-08-30  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #64377.
+
+	* em-folder-selector.c (emfs_response): only set the uri if we
+	have one to set.
+
+	* em-folder-tree.c (em_folder_tree_finalize): Removed
+	cose using selected_path and selected_uri strings.
+	(emft_popup_new_folder): "
+	(emft_popup_copy_folder_selected): "
+	(emft_tree_selection_changed): 
+	(emft_tree_row_activated): ", free paths after use.
+
+	* em-folder-selector.c (emfs_create_name_changed): free
+	get_selected_uri return.
+	(emfs_create_name_activate): "
+	(em_folder_selector_get_selected_path): handle api change, store
+	the selected_path too.
+
+	* em-folder-tree.c (em_folder_tree_get_selected_uri):
+	de-constify,and get the selection directly from the tree.
+	(em_folder_tree_get_selected_path): same.
+
+2004-08-27  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #63456.
+
+	* message-list.c (main_folder_changed): noop if the async_event
+	pointer is NULL which can happen during destroy.
+
 2004-08-27  JP Rosevear  <jpr@novell.com>
 
 	* importers/mail-importer.c (import_folders_rec): utf8_filename
@@ -92,10 +173,12 @@
 
 2004-08-25  Frederic Crozat  <fcrozat@mandrakesoft.com>
 
-	* importers/evolution-mbox-importer.c: (load_file_fn):
-	* importers/evolution-outlook-importer.c: (load_file_fn):
-	* importers/mail-importer.c: (import_folders_rec):
-	Convert filename to UTF-8 from local encoding before displaying it.
+	* importers/evolution-mbox-importer.c (load_file_fn):
+
+	* importers/evolution-outlook-importer.c (load_file_fn):
+
+	* importers/mail-importer.c (import_folders_rec): Convert filename
+	to UTF-8 from local encoding before displaying it.
 
 2004-08-23  Not Zed  <NotZed@Ximian.com>
 
@@ -135,7 +218,7 @@
 
 2004-08-21 Sivaiah Nallagatla <snallagatla@novell.com>
 
-	* mail-erros.xml : changed the groupwise account setup error
+	* mail-erros.xml: changed the groupwise account setup error
 	message
 
 2004-08-16  Not Zed  <NotZed@Ximian.com>

@@ -531,6 +531,8 @@ sensitize_buttons (RecurrencePage *rpage)
 	gboolean read_only;
 	gint selected_rows;
 	RecurrencePagePrivate *priv;
+	icalcomponent *icalcomp;
+	char *uid;
 
 	priv = rpage->priv;
 
@@ -539,6 +541,15 @@ sensitize_buttons (RecurrencePage *rpage)
 
 	if (!e_cal_is_read_only (COMP_EDITOR_PAGE (rpage)->client, &read_only, NULL))
 		read_only = TRUE;
+	
+	if (!read_only) {
+		e_cal_component_get_uid (priv->comp, &uid);
+
+		if (e_cal_get_static_capability (COMP_EDITOR_PAGE (rpage)->client, CAL_STATIC_CAPABILITY_NO_CONV_TO_RECUR) && e_cal_get_object(COMP_EDITOR_PAGE (rpage)->client, uid, NULL, &icalcomp, NULL)) {
+			read_only = TRUE;
+			icalcomponent_free (icalcomp);
+		}
+	}
 
 	if (!read_only)
 		sensitize_recur_widgets (rpage);

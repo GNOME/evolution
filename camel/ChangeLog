@@ -1,15 +1,26 @@
+2004-09-03  Not Zed  <NotZed@Ximian.com>
+
+	* camel-tcp-stream-ssl.c (stream_connect): make ssl connection
+	async and cancellable, and minor api update to async connection.
+
+2004-08-27  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #64023.
+
+	* providers/nntp/camel-nntp-store.c (camel_nntp_try_authenticate):
+	forget the password if it was wrong.
+
 2004-08-26  Sivaiah Nallagatla <snallagatla@novell.com>
 	
-	* provoders/groupwise/camel-gw-listner.c 
+	* providers/groupwise/camel-gw-listner.c
 	(add_calendar_tasks_sources) : change the "CheckList" to "Tasks"
-	as there is another foder called chekclist in groupwise
-	not related to tasks
-	Fixes #64092 
+	as there is another foder called chekclist in groupwise not
+	related to tasks Fixes #64092
 
 2004-08-25  Frederic Crozat  <fcrozat@mandrakesoft.com>
 
-	* camel-folder.c: (folder_getv):
-	Init one variable (remove warning) and don't redefine it.
+	* camel-folder.c (folder_getv): Init one variable (remove warning)
+	and don't redefine it.
 
 2004-08-23  Not Zed  <NotZed@Ximian.com>
 

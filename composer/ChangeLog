@@ -1,3 +1,10 @@
+2004-09-08  Not Zed  <NotZed@Ximian.com>
+
+        ** See bug #64454.
+
+	* mail-composer-errors.xml: add accelerators to modified message
+	dialogue.
+
 2004-08-13  Radek Doulik  <rodo@ximian.com>
 
 	* e-msg-composer.c (e_msg_composer_show_sig_file): set paragraph

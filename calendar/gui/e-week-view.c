@@ -1863,6 +1863,9 @@ e_week_view_set_week_start_day	(EWeekView	*week_view,
 	if (g_date_valid (&week_view->first_day_shown))
 		e_week_view_set_first_day_shown (week_view,
 						 &week_view->first_day_shown);
+
+	gtk_widget_queue_draw (week_view->titles_canvas);
+	gtk_widget_queue_draw (week_view->main_canvas);
 }
 
 static gboolean
