@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
 "POT-Creation-Date: 2003-03-17 12:10-0500\n"
-"PO-Revision-Date: 2003-03-20 00:43GMT\n"
+"PO-Revision-Date: 2003-04-01 22:40GMT\n"
 "Last-Translator: Marco Ciampa <ciampix@libero.it>\n"
 "Language-Team: italiano <tp@lists.linux.it>\n"
 "MIME-Version: 1.0\n"
@@ -9406,7 +9406,7 @@ msgstr "Applicare i filtri ai nuovi messaggi in INBOX"
 
 #: camel/providers/local/camel-local-provider.c:83
 msgid "Maildir-format mail directories"
-msgstr "Directory in formato Maildir"
+msgstr "Directory in formato maildir"
 
 #: camel/providers/local/camel-local-provider.c:84
 msgid "For storing local mail in maildir directories."
@@ -11806,11 +11806,11 @@ msgstr "Segna come _non letto"
 
 #: mail/folder-browser.c:1751
 msgid "Mark as _Important"
-msgstr "Segna come _Importante"
+msgstr "Segna come _importante"
 
 #: mail/folder-browser.c:1752
 msgid "_Mark as Unimportant"
-msgstr "Segna come _nonimportante"
+msgstr "Segna come _non importante"
 
 #: mail/folder-browser.c:1757
 msgid "U_ndelete"
@@ -11822,7 +11822,7 @@ msgstr "_Sposta nella cartella..."
 
 #: mail/folder-browser.c:1762 ui/evolution-addressbook.xml.h:31
 msgid "_Copy to Folder..."
-msgstr "_Copia nella Cartella..."
+msgstr "_Copia nella cartella..."
 
 #: mail/folder-browser.c:1770
 msgid "Add Sender to Address_book"
@@ -11856,7 +11856,7 @@ msgstr "Predefinito"
 
 #: mail/folder-info.c:71
 msgid "Getting Folder Information"
-msgstr "Ricerca Informazioni Cartella"
+msgstr "Ricerca informazioni cartella"
 
 #: mail/importers/GNOME_Evolution_Mail_Mbox_Importer.oaf.in.h:1
 msgid "Factory to import mbox into Evolution"
@@ -11876,7 +11876,7 @@ msgstr "Importa i file Outlook Express 4 in Evolution"
 
 #: mail/local-config.glade.h:1
 msgid "Current store format:"
-msgstr "Formato corrente:"
+msgstr "Formato corrente di memorizzazione:"
 
 #: mail/local-config.glade.h:2
 msgid "Index body contents"
@@ -11884,7 +11884,7 @@ msgstr "Indice del contenuto del corpo messaggi"
 
 #: mail/local-config.glade.h:3
 msgid "New store format:"
-msgstr "Nuovo formato:"
+msgstr "Nuovo formato di memorizzazione:"
 
 #: mail/local-config.glade.h:4
 msgid ""
@@ -11915,7 +11915,7 @@ msgstr "Non sono state fornite tutte le informazioni richieste."
 #. give our dialog an OK button and title
 #: mail/mail-account-editor.c:159
 msgid "Evolution Account Editor"
-msgstr "Editor degli Account di Evolution"
+msgstr "Editor degli account di Evolution"
 
 #: mail/mail-account-gui.c:743 mail/mail-config.glade.h:159
 msgid "_Host:"
@@ -11931,7 +11931,7 @@ msgstr "_Percorso:"
 
 #: mail/mail-account-gui.c:1847
 msgid "You may not create two accounts with the same name."
-msgstr "È possibile creare due account con lo stesso nome."
+msgstr "Non è possibile creare due account con lo stesso nome."
 
 #: mail/mail-accounts.c:224
 msgid "Are you sure you want to delete this account?"
@@ -11996,7 +11996,7 @@ msgstr "%s mailing list"
 
 #: mail/mail-autofilter.c:327
 msgid "Add Filter Rule"
-msgstr "Aggiungi una regola di Filtro"
+msgstr "Aggiungi una regola di filtro"
 
 #: mail/mail-autofilter.c:376
 msgid "The following filter rule(s):\n"
@@ -12009,7 +12009,7 @@ msgid ""
 "    '%s'\n"
 "And have been updated."
 msgstr ""
-"Usava(no) la cartella rimossa:\n"
+"Usavano la cartella rimossa:\n"
 "    '%s'\n"
 "e quindi sono state aggiornate."
 
@@ -12081,8 +12081,8 @@ msgid ""
 "Apparently-To header.\n"
 "Send anyway?"
 msgstr ""
-"È possibile che il server di posta riveli i destinatari aggiungento un "
-"header simile ad A.\n"
+"È possibile che il server di posta riveli i destinatari aggiungendo un "
+"header Apparently-To.\n"
 "Inviare lo stesso?"
 
 #: mail/mail-callbacks.c:527
@@ -12094,7 +12094,7 @@ msgid ""
 "Unable to open the drafts folder for this account.\n"
 "Would you like to use the default drafts folder?"
 msgstr ""
-"Impossibile apreire la cartella delle bozze per questo account.\n"
+"Impossibile aprire la cartella delle bozze per questo account.\n"
 "Usare la cartella delle bozze predefinita?"
 
 #: mail/mail-callbacks.c:1251
@@ -12107,11 +12107,11 @@ msgstr "Il %a, %Y-%m-%d alle %H:%M, %%s ha scritto:"
 
 #: mail/mail-callbacks.c:1765 mail/message-browser.c:132
 msgid "Move message(s) to"
-msgstr "Sposta messaggio(i) in"
+msgstr "Sposta messaggi in"
 
 #: mail/mail-callbacks.c:1767 mail/message-browser.c:134
 msgid "Copy message(s) to"
-msgstr "Copia messaggio(i) in"
+msgstr "Copia messaggi in"
 
 #: mail/mail-callbacks.c:2434
 #, c-format
@@ -12131,8 +12131,8 @@ msgid ""
 "You may only resend messages\n"
 "in the Sent folder."
 msgstr ""
-"È possibile reinviare solo i messaggi\n"
-"salvati nella cartella Posta Inviata."
+"È possibile rispedire solo i messaggi\n"
+"salvati nella cartella Posta inviata."
 
 #: mail/mail-callbacks.c:2512
 #, c-format
@@ -12141,7 +12141,7 @@ msgstr "Sei sicuro di voler rispedire tutti i %d messaggi?"
 
 #: mail/mail-callbacks.c:2538
 msgid "No Message Selected"
-msgstr "Nessun Messaggio Selezionato"
+msgstr "Nessun messaggio selezionato"
 
 #: mail/mail-callbacks.c:2583 mail/mail-display.c:189
 msgid "Overwrite file?"
@@ -12149,15 +12149,15 @@ msgstr "Sovrascrivere il file?"
 
 #: mail/mail-callbacks.c:2637
 msgid "Save Message As..."
-msgstr "Salva Messaggio con nome..."
+msgstr "Salva messaggio come..."
 
 #: mail/mail-callbacks.c:2639
 msgid "Save Messages As..."
-msgstr "Salva messaggi con nome..."
+msgstr "Salva messaggi come..."
 
 #: mail/mail-callbacks.c:2708
 msgid "Go to next folder with unread messages?"
-msgstr "Andare alla prossima cartella con messaggi non letti?"
+msgstr "Andare alla prossima cartella contenente messaggi non letti?"
 
 #: mail/mail-callbacks.c:2715
 msgid ""
@@ -12165,7 +12165,7 @@ msgid ""
 "Would you like to go to the next folder?"
 msgstr ""
 "Non ci sono più nuovi messaggi in questa cartella.\n"
-"Vuoi andare alla prossima cartella?"
+"Andare alla prossima cartella?"
 
 #: mail/mail-callbacks.c:2958
 msgid ""
@@ -12200,7 +12200,7 @@ msgstr "Pagina %d di %d"
 
 #: mail/mail-callbacks.c:3182
 msgid "Print Message"
-msgstr "Stampa Messaggio"
+msgstr "Stampa messaggio"
 
 #: mail/mail-callbacks.c:3209
 msgid "US-Letter"
@@ -12208,7 +12208,7 @@ msgstr "Lettera-USA"
 
 #: mail/mail-callbacks.c:3250
 msgid "Printing of message failed"
-msgstr "Stampa Messaggio non riuscita"
+msgstr "Stampa messaggio non riuscita"
 
 #: mail/mail-callbacks.c:3440
 #, c-format
@@ -12230,7 +12230,7 @@ msgstr " [script]"
 
 #: mail/mail-composer-prefs.c:309
 msgid "Please specify a valid script name"
-msgstr "Prego specificare un nome script valido"
+msgstr "Specificare un nome script valido"
 
 #: mail/mail-composer-prefs.c:325 mail/mail-config.c:2629
 msgid "Unnamed"
@@ -12250,7 +12250,7 @@ msgid ""
 "below do not need to be filled in, unless you wish to include this "
 "information in email you send."
 msgstr ""
-"Prego inserire nome e indirizzo email qui sotto. Non è necessario riempire i "
+"Inserire nome e indirizzo email qui sotto. Non è necessario riempire i "
 "campi \"opzionali\",\n"
 "a meno che non si desideri includere queste informazioni alle email spedite."
 
@@ -12259,7 +12259,7 @@ msgid ""
 "Please enter information about your incoming mail server below. If you are "
 "not sure, ask your system administrator or Internet Service Provider."
 msgstr ""
-"Prego inserire qui sotto le informazioni riguardanti il server di posta in "
+"Inserire qui sotto le informazioni riguardanti il server di posta in "
 "entrata. Se non si è sicuri, chiedere\n"
 "all'amministratore di sistema o al Vostro Provider Internet."
 
@@ -12272,7 +12272,7 @@ msgid ""
 "Please enter information about the way you will send mail. If you are not "
 "sure, ask your system administrator or Internet Service Provider."
 msgstr ""
-"Prego inserire le informazioni riguardanti le modalità di invio della posta. "
+"Inserire le informazioni riguardanti le modalità di invio della posta. "
 "Se non si è sicuri, chiedere all'amministratore di sistema o al Vostro "
 "ProviderInternet."
 
@@ -12286,14 +12286,14 @@ msgid ""
 msgstr ""
 "La configurazione della posta è quasi terminata. L'identità, il server di "
 "posta in entrata e il metodo di trasporto della posta in uscita forniti "
-"verranno raggruppati per creare un account di posta in Evolution. Prego "
-"inserire un nome per questo account nello spazio sottostante. Questo nome è "
-"usato solo a scopo identificativo."
+"verranno raggruppati per creare un account di posta in Evolution. "
+"Inserire un nome per questo account nello spazio sottostante. Questo "
+"nome è usato solo a scopo identificativo."
 
 #. set window title
 #: mail/mail-config-druid.c:638
 msgid "Evolution Account Assistant"
-msgstr "Guida agli Account di Evolution"
+msgstr "Guida agli account di Evolution"
 
 #: mail/mail-config.c:622
 #, c-format
@@ -12302,7 +12302,7 @@ msgstr "Account %d"
 
 #: mail/mail-config.c:2316
 msgid "Checking Service"
-msgstr "Verifica Servizi"
+msgstr "Verifica servizi"
 
 #: mail/mail-config.c:2394 mail/mail-config.c:2398
 msgid "Connecting to server..."
@@ -12334,11 +12334,11 @@ msgstr "Editor account"
 
 #: mail/mail-config.glade.h:9
 msgid "Account Information"
-msgstr "Informazioni sull'Account"
+msgstr "Informazioni sull'account"
 
 #: mail/mail-config.glade.h:10 shell/glade/evolution-startup-wizard.glade.h:1
 msgid "Account Management"
-msgstr "Gestione degli Account"
+msgstr "Gestione degli account"
 
 #: mail/mail-config.glade.h:11
 msgid "Add Sc_ript"
@@ -12429,7 +12429,7 @@ msgid ""
 "\n"
 "Click \"Finish\" to save your settings."
 msgstr ""
-"Complimenti, la configurazione della posta é completa.\n"
+"Complimenti, la configurazione della posta è completa.\n"
 "\n"
 "Siete pronti a mandare e ricevere email\n"
 "usando Evolution.\n"
