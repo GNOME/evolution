@@ -110,6 +110,9 @@ impl_destroy (GtkObject *object)
 	gtk_widget_destroy (priv->menu);
 
 	g_free (priv);
+
+	if (GTK_OBJECT_CLASS (parent_class)->destroy)
+		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
 

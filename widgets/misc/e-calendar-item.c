@@ -452,6 +452,9 @@ e_calendar_item_destroy		(GtkObject *o)
 		gdk_font_unref (calitem->old_font);
 	if (calitem->old_week_number_font)
 		gdk_font_unref (calitem->old_week_number_font);
+
+	if (GTK_OBJECT_CLASS (parent_class)->destroy)
+		(* GTK_OBJECT_CLASS (parent_class)->destroy) (o);
 }
 
 

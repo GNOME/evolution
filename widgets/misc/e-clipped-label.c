@@ -268,6 +268,9 @@ e_clipped_label_destroy (GtkObject *object)
 
 	g_free (label->label);
 	g_free (label->label_wc);
+
+	if (GTK_OBJECT_CLASS (parent_class)->destroy)
+		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
 
