@@ -1,3 +1,7 @@
+2003-03-06  Not Zed  <NotZed@Ximian.com>
+
+	* component-factory.c (owner_unset_cb): remove debug printf.
+
 2003-03-05  Not Zed  <NotZed@Ximian.com>
 
 	* component-factory.c (idle_quit): Removed old quit code.

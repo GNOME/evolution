@@ -915,8 +915,6 @@ owner_unset_cb (EvolutionShellComponent *shell_component, gpointer user_data)
 	int i;
 	EIterator *it;
 
-	printf("mailer shutdown\n");
-
 	gconf = gconf_client_get_default ();
 	for (i=0;i<sizeof(shell_component_handlers)/sizeof(shell_component_handlers[0]);i++)
 		g_signal_handler_disconnect((GtkObject *)shell_component, shell_component_handlers[i].hand);
