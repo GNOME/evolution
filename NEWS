@@ -5,29 +5,39 @@ Shell:
 
 Mail: 
 
-  - vTrash folder per store / Empty Trash menu item to expunge all
-    vTrash folders.  (Jeff)
+  - SSL (S/IMAP, S/POP, and S/SMTP).  (Jeff)
 
-  - Hide deleted messages.  (Michael)
+  - Virtual Trash folders in each mail storage and "Empty Trash" menu
+    item to expunge all folders in a store.  (Jeff)
 
-  - UNMATCHED vFolder.  (Michael)
+  - Email addresses in mail headers are now right-clickable to add
+    them to the Addressbook (Jon, Radek)
+
+  - Hide deleted messages is now a mode rather than a one-time
+    operation. (Michael)
+
+  - When sending plain text mail, use the new plain text mode of the
+    GtkHTML editor (Larry)
 
   - Cancellable operations, cancellable/async dns lookup, slightly
     improved progress reporting.  (Michael)
 
-  - Filter/vFolder on Mailing List.  (Michael)
+  - Allow per-identity Draft and Sent folders.  (Dan)
 
-  - Partial cleanup/optimisation of vfolder code, moved vfolder
-    into main camel library. (Michael)
+  - Replies quoted with "> " in messages are now displayed dimmed to
+    make it easier to find the new bits of text. (Radek)
 
   - Saved searches.  Searches now configurable via XML with supporting
     C code.  (Michael)
 
-  - SSL (S/IMAP, S/POP, and S/SMTP).  (Jeff)
+  - UNMATCHED vFolder (shows all messages that are in no other
+    vFolder). (Michael)
 
   - SASL Authentication (Kerberos4, DIGEST-MD5, CRAM-MD5, PLAIN,
     LOGIN, ANONYMOUS) for IMAP and SMTP (haven't done POP yet)
-    (Jeff)
+    (Jeff, Dan)
+
+  - Filter/vFolder on Mailing List.  (Michael)
 
   - Resend sent items.  (Jeff)
 
@@ -39,12 +49,22 @@ Mail:
   - Replying to a message chooses account based on message
     addressee's.  (Jeff)
 
-  - Allow configuration of Draft and Sent folders.  (Dan)
-
-  - Continuation of where the user left-off after configuring account
-    info.  (Jeff)
-
   - Redid Forward Inline and Forward Quoted.  (Jeff)
+
+  - IMAP fixes: greater configurability for faster startup/mail check
+    (Dan), folders should now notice new messages when you switch to
+    them (Dan), copying/moving many messages at once should be much
+    faster (Jeff), better support for old IMAP servers (Dan)
+
+  - IMAP message bodies are now cached to local disk to speed up
+    re-access (Dan)
+
+  - New config dialogs (last time!) (Anna, Dan)
+
+  - Sorting by a text field in the message list no longer generates a
+    random order. (Michael)
+
+  - Fixed "crash when getting new mail from 2 POP servers" bug. (Dan)
 
   - Numerous bugfixes, cleanups and optimisations. (Everyone)
 
@@ -69,6 +89,9 @@ General:
     API.  (Clahey)
 
   - Lots of Etable/ETree bug fixes.  (Clahey)
+
+  - Lots of i18n/l10n fixes.  (Kjartan Maraas, Gedeminas Paulauskas,
+    and the Evolution gang)
 
 
 Version 0.9 "Platypus", 2001-03-12
