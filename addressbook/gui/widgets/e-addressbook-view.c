@@ -1881,6 +1881,8 @@ eab_view_print(EABView *view)
 
 		g_object_get(view->widget, "table", &etable, NULL);
 		printable = e_table_get_printable(etable);
+		g_object_ref (printable);
+		gtk_object_sink (GTK_OBJECT (printable));
 		g_object_unref(etable);
 		g_object_ref (view->widget);
 
@@ -1919,8 +1921,7 @@ eab_view_print_preview(EABView *view)
 			      NULL);
 		e_contact_print_preview(book, query);
 		g_free(query);
-	}
-	else if (view->view_type == EAB_VIEW_TABLE) {
+	} else if (view->view_type == EAB_VIEW_TABLE) {
 		EPrintable *printable;
 		ETable *etable;
 		GnomePrintJob *master;
@@ -1931,6 +1932,8 @@ eab_view_print_preview(EABView *view)
 		g_object_get(view->widget, "table", &etable, NULL);
 		printable = e_table_get_printable(etable);
 		g_object_unref(etable);
+		g_object_ref (printable);
+		gtk_object_sink (GTK_OBJECT (printable));
 
 		master = gnome_print_job_new(NULL);
 		config = gnome_print_job_get_config (master);
@@ -1938,6 +1941,7 @@ eab_view_print_preview(EABView *view)
 		pc = gnome_print_job_get_context( master );
 		e_printable_reset(printable);
 		while (e_printable_data_left(printable)) {
+			gnome_print_beginpage (pc, "Contacts");
 			if (gnome_print_gsave(pc) == -1)
 				/* FIXME */;
 			if (gnome_print_translate(pc, 72, 72) == -1)

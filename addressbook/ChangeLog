@@ -1,3 +1,13 @@
+2004-05-20  Radek Doulik  <rodo@ximian.com>
+
+	* gui/widgets/e-addressbook-view.c (eab_view_print_preview): added
+	call to begin page, ref printable and sink it to avoid finalizing of
+	floating object
+	(eab_view_print): ref and sink printable to avoid finalizing of
+	floating object
+
+	Fixes #46658
+
 2004-05-19  Chris Toshok  <toshok@ximian.com>
 
 	* importers/evolution-vcard-importer.c (load_file_fn): use the new
