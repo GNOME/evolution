@@ -222,7 +222,8 @@ static void delete_folder(CamelStore * store, const char *folder_name, CamelExce
 	g_free(new);
 }
 
-static CamelFolderInfo *camel_folder_info_new(const char *url, const char *full, const char *name)
+static CamelFolderInfo *
+camel_folder_info_new (const char *url, const char *full, const char *name, guint32 flags)
 {
 	CamelFolderInfo *fi;
 
@@ -232,12 +233,13 @@ static CamelFolderInfo *camel_folder_info_new(const char *url, const char *full,
 	fi->name = g_strdup(name);
 	fi->unread = -1;
 	fi->total = -1;
+	fi->flags = flags;
 	camel_folder_info_build_path(fi, '/');
-
+	
 	if (!strcmp(full, "."))
 		fi->flags |= CAMEL_FOLDER_SYSTEM;
 
-	d(printf("Adding maildir info: '%s' '%s' '%s' '%s'\n", fi->path, fi->name, fi->full_name, fi->url));
+	d(printf("Adding maildir info: '%s' '%s' '%s' '%s'\n", fi->path, fi->name, fi->full_name, fi->uri));
 
 	return fi;
 }
@@ -281,13 +283,16 @@ struct _inode {
 };
 
 /* returns number of records found at or below this level */
-static int scan_dir(CamelStore *store, GHashTable *visited, char *root, const char *path, guint32 flags, CamelFolderInfo *parent, CamelFolderInfo **fip, CamelException *ex)
+static int
+scan_dir (CamelStore *store, CamelURL *url, GHashTable *visited, char *root, const char *path, guint32 flags,
+	  CamelFolderInfo *parent, CamelFolderInfo **fip, CamelException *ex)
 {
 	DIR *dir;
 	struct dirent *d;
 	char *name, *uri, *tmp, *cur, *new;
 	const char *base;
 	CamelFolderInfo *fi = NULL;
+	guint32 fi_flags = 0;
 	struct stat st;
 
 	/* look for folders matching the right structure, recursively */
@@ -299,13 +304,11 @@ static int scan_dir(CamelStore *store, GHashTable *visited, char *root, const ch
 	cur = g_strdup_printf("%s/cur", name);
 	new = g_strdup_printf("%s/new", name);
 
-	if (stat(tmp, &st) == 0 && S_ISDIR(st.st_mode)
-	    && stat(cur, &st) == 0 && S_ISDIR(st.st_mode)
-	    && stat(new, &st) == 0 && S_ISDIR(st.st_mode)) {
-		uri = g_strdup_printf("maildir:%s#%s", root, path);
-	} else
-		uri = g_strdup_printf("maildir:%s;noselect=yes#%s", root, path);
-
+	if (!(stat (tmp, &st) == 0 && S_ISDIR (st.st_mode)
+	      && stat (cur, &st) == 0 && S_ISDIR (st.st_mode)
+	      && stat (new, &st) == 0 && S_ISDIR (st.st_mode)))
+		fi_flags = CAMEL_FOLDER_NOSELECT;
+	
 	base = strrchr(path, '/');
 	if (base)
 		base++;
@@ -351,22 +354,25 @@ static int scan_dir(CamelStore *store, GHashTable *visited, char *root, const ch
 			closedir(dir);
 		}
 	}
-#endif	
-	fi = camel_folder_info_new(uri, path, base);
-	fill_fi(store, fi, flags);
-
-	d(printf("found! uri = %s\n", fi->url));
+#endif
+	
+	g_free (tmp);
+	g_free (new);
+	g_free (cur);
+	
+	uri = camel_url_to_string (url, 0);
+	fi = camel_folder_info_new (uri, path, base, fi_flags);
+	g_free (uri);
+	
+	fill_fi (store, fi, flags);
+	
+	d(printf("found! uri = %s\n", fi->uri));
 	d(printf("  full_name = %s\n  name = '%s'\n", fi->full_name, fi->name));
 	
 	fi->parent = parent;
 	fi->next = *fip;
 	*fip = fi;
-	g_free(uri);
-
-	g_free(tmp);
-	g_free(cur);
-	g_free(new);
-
+	
 	/* always look further if asked */
 	if (((flags & CAMEL_STORE_FOLDER_INFO_RECURSIVE) || parent == NULL)) {
 		int children = 0;
@@ -401,7 +407,7 @@ static int scan_dir(CamelStore *store, GHashTable *visited, char *root, const ch
 					*inew = in;
 					g_hash_table_insert(visited, inew, inew);
 					new = g_strdup_printf("%s/%s", path, d->d_name);
-					if (scan_dir(store, visited, root, new, flags, fi, &fi->child, ex) == -1) {
+					if (scan_dir(store, url, visited, root, new, flags, fi, &fi->child, ex) == -1) {
 						g_free(tmp);
 						g_free(new);
 						closedir(dir);
@@ -450,16 +456,20 @@ get_folder_info (CamelStore *store, const char *top, guint32 flags, CamelExcepti
 	CamelFolderInfo *fi = NULL;
 	CamelLocalStore *local_store = (CamelLocalStore *)store;
 	GHashTable *visited;
-
+	CamelURL *url;
+	
+	url = camel_url_copy (((CamelService *) store)->url);
+	
 	visited = g_hash_table_new(inode_hash, inode_equal);
-
-	if (scan_dir(store, visited, ((CamelService *)local_store)->url->path, top?top:".", flags, NULL, &fi, ex) == -1 && fi != NULL) {
+	
+	if (scan_dir(store, url, visited, ((CamelService *)local_store)->url->path, top?top:".", flags, NULL, &fi, ex) == -1 && fi != NULL) {
 		camel_store_free_folder_info_full(store, fi);
 		fi = NULL;
 	}
 
 	g_hash_table_foreach(visited, inode_free, NULL);
 	g_hash_table_destroy(visited);
-
+	camel_url_free (url);
+	
 	return fi;
 }

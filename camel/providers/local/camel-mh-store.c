@@ -329,22 +329,26 @@ fill_fi(CamelStore *store, CamelFolderInfo *fi, guint32 flags)
 	}
 }
 
-static CamelFolderInfo *folder_info_new(CamelStore *store, const char *root, const char *path, guint32 flags)
+static CamelFolderInfo *
+folder_info_new (CamelStore *store, CamelURL *url, const char *root, const char *path, guint32 flags)
 {
+	/* FIXME: need to set fi->flags = CAMEL_FOLDER_NOSELECT (and possibly others) when appropriate */
 	CamelFolderInfo *fi;
 	char *base;
 
 	base = strrchr(path, '/');
-
+	
+	camel_url_set_fragment (url, path);
+	
 	/* Build the folder info structure. */
 	fi = g_malloc0(sizeof(*fi));
-	fi->uri = g_strdup_printf("mh:%s#%s", root, path);
+	fi->uri = camel_url_to_string (url, 0);
 	fi->full_name = g_strdup(path);
 	fi->name = g_strdup(base?base+1:path);
 	camel_folder_info_build_path(fi, '/');
 	fill_fi(store, fi, flags);
 
-	d(printf("New folderinfo:\n '%s'\n '%s'\n '%s'\n", fi->full_name, fi->url, fi->path));
+	d(printf("New folderinfo:\n '%s'\n '%s'\n '%s'\n", fi->full_name, fi->uri, fi->path));
 
 	return fi;
 }
@@ -357,7 +361,9 @@ struct _inode {
 
 /* Scan path, under root, for directories to add folders for.  Both
  * root and path should have a trailing "/" if they aren't empty. */
-static void recursive_scan(CamelStore *store, CamelFolderInfo **fip, CamelFolderInfo *parent, GHashTable *visited, const char *root, const char *path, guint32 flags)
+static void
+recursive_scan (CamelStore *store, CamelURL *url, CamelFolderInfo **fip, CamelFolderInfo *parent,
+		GHashTable *visited, const char *root, const char *path, guint32 flags)
 {
 	char *fullpath, *tmp;
 	DIR *dp;
@@ -388,7 +394,7 @@ static void recursive_scan(CamelStore *store, CamelFolderInfo **fip, CamelFolder
 	g_hash_table_insert(visited, inew, inew);
 
 	/* link in ... */
-	fi = folder_info_new(store, root, path, flags);
+	fi = folder_info_new(store, url, root, path, flags);
 	fi->parent = parent;
 	fi->next = *fip;
 	*fip = fi;
@@ -414,10 +420,10 @@ static void recursive_scan(CamelStore *store, CamelFolderInfo **fip, CamelFolder
 			/* otherwise, treat at potential node, and recurse, a bit more expensive than needed, but tough! */
 			if (path[0]) {
 				tmp = g_strdup_printf("%s/%s", path, d->d_name);
-				recursive_scan(store, &fi->child, fi, visited, root, tmp, flags);
+				recursive_scan(store, url, &fi->child, fi, visited, root, tmp, flags);
 				g_free(tmp);
 			} else {
-				recursive_scan(store, &fi->child, fi, visited, root, d->d_name, flags);
+				recursive_scan(store, url, &fi->child, fi, visited, root, d->d_name, flags);
 			}
 		}
 
@@ -427,7 +433,7 @@ static void recursive_scan(CamelStore *store, CamelFolderInfo **fip, CamelFolder
 
 /* scan a .folders file */
 static void
-folders_scan(CamelStore *store, const char *root, const char *top, CamelFolderInfo **fip, guint32 flags)
+folders_scan(CamelStore *store, CamelURL *url, const char *root, const char *top, CamelFolderInfo **fip, guint32 flags)
 {
 	CamelFolderInfo *fi;
 	char  line[512], *path, *tmp;
@@ -490,7 +496,7 @@ folders_scan(CamelStore *store, const char *root, const char *top, CamelFolderIn
 
 		path = g_strdup_printf("%s/%s", root, line);
 		if (stat(path, &st) == 0 && S_ISDIR(st.st_mode)) {
-			fi = folder_info_new(store, root, line, flags);
+			fi = folder_info_new(store, url, root, line, flags);
 			g_ptr_array_add(folders, fi);
 		}
 		g_free(path);
@@ -530,20 +536,23 @@ static CamelFolderInfo *
 get_folder_info (CamelStore *store, const char *top, guint32 flags, CamelException *ex)
 {
 	CamelFolderInfo *fi = NULL;
+	CamelURL *url;
 	char *root;
-
+	
 	root = ((CamelService *)store)->url->path;
+	
+	url = camel_url_copy (((CamelService *) store)->url);
 	
 	/* use .folders if we are supposed to */
 	if (((CamelMhStore *)store)->flags & CAMEL_MH_DOTFOLDERS) {
-		folders_scan(store, root, top, &fi, flags);
+		folders_scan(store, url, root, top, &fi, flags);
 	} else {
 		GHashTable *visited = g_hash_table_new(inode_hash, inode_equal);
 
 		if (top == NULL)
 			top = "";
 
-		recursive_scan(store, &fi, NULL, visited, root, top, flags);
+		recursive_scan(store, url, &fi, NULL, visited, root, top, flags);
 
 		/* if we actually scanned from root, we have a "" root node we dont want */
 		if (fi != NULL && top[0] == 0) {
@@ -558,6 +567,8 @@ get_folder_info (CamelStore *store, const char *top, guint32 flags, CamelExcepti
 		g_hash_table_foreach(visited, inode_free, NULL);
 		g_hash_table_destroy(visited);
 	}
-
+	
+	camel_url_free (url);
+	
 	return fi;
 }

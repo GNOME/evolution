@@ -633,7 +633,7 @@ fill_fi(CamelStore *store, CamelFolderInfo *fi, guint32 flags)
 }
 
 static CamelFolderInfo *
-scan_dir(CamelStore *store, GHashTable *visited, CamelFolderInfo *parent, const char *root,
+scan_dir(CamelStore *store, CamelURL *url, GHashTable *visited, CamelFolderInfo *parent, const char *root,
 	 const char *name, guint32 flags, CamelException *ex)
 {
 	CamelFolderInfo *folders, *tail, *fi;
@@ -694,16 +694,14 @@ scan_dir(CamelStore *store, GHashTable *visited, CamelFolderInfo *parent, const 
 				fi->flags =(fi->flags & ~CAMEL_FOLDER_NOCHILDREN) | CAMEL_FOLDER_CHILDREN;
 			} else {
 				fi->flags &= ~CAMEL_FOLDER_NOSELECT;
-				if ((ext = strchr(fi->uri, ';')) && !strncmp(ext, ";noselect=yes", 13))
-					memmove(ext, ext + 13, strlen(ext + 13) + 1);
 			}
 		} else {
 			fi = g_new0(CamelFolderInfo, 1);
 			fi->parent = parent;
 			
-			/* add ";noselect=yes" if we haven't found the mbox file yet. when we find it, remove the noselect */
-			fi->uri = g_strdup_printf("mbox:%s%s#%s",((CamelService *) store)->url->path,
-						  S_ISDIR(st.st_mode) ? ";noselect=yes" : "", full_name);
+			camel_url_set_fragment (url, full_name);
+			
+			fi->uri = camel_url_to_string (url, 0);
 			fi->name = short_name;
 			fi->full_name = full_name;
 			fi->path = g_strdup_printf("/%s", full_name);
@@ -725,9 +723,9 @@ scan_dir(CamelStore *store, GHashTable *visited, CamelFolderInfo *parent, const 
 			g_hash_table_insert(folder_hash, fi->name, fi);
 		}
 		
-		if (!S_ISDIR(st.st_mode))
+		if (!S_ISDIR(st.st_mode)) {
 			fill_fi(store, fi, flags);
-		else if ((flags & CAMEL_STORE_FOLDER_INFO_RECURSIVE)) {
+		} else if ((flags & CAMEL_STORE_FOLDER_INFO_RECURSIVE)) {
 			struct _inode in = { st.st_dev, st.st_ino };
 			
 			if (g_hash_table_lookup(visited, &in) == NULL) {
@@ -737,7 +735,7 @@ scan_dir(CamelStore *store, GHashTable *visited, CamelFolderInfo *parent, const 
 				
 				g_hash_table_insert(visited, inew, inew);
 				
-				if ((fi->child = scan_dir(store, visited, fi, path, fi->full_name, flags, ex)))
+				if ((fi->child = scan_dir (store, url, visited, fi, path, fi->full_name, flags, ex)))
 					fi->flags |= CAMEL_FOLDER_CHILDREN;
 				else
 					fi->flags =(fi->flags & ~CAMEL_FOLDER_CHILDREN) | CAMEL_FOLDER_NOCHILDREN;
@@ -763,9 +761,12 @@ get_folder_info(CamelStore *store, const char *top, guint32 flags, CamelExceptio
 	CamelFolderInfo *fi;
 	const char *base;
 	struct stat st;
+	CamelURL *url;
 	
 	top = top ? top : "";
 	path = mbox_folder_name_to_path(store, top);
+	
+	printf ("mbox_get_folder_info for '%s'; path = %s\n", top, path);
 	
 	if (*top == '\0') {
 		/* requesting root dir scan */
@@ -782,10 +783,12 @@ get_folder_info(CamelStore *store, const char *top, guint32 flags, CamelExceptio
 		
 		g_hash_table_insert(visited, inode, inode);
 		
-		fi = scan_dir(store, visited, NULL, path, NULL, flags, ex);
+		url = camel_url_copy (((CamelService *) store)->url);
+		fi = scan_dir (store, url, visited, NULL, path, NULL, flags, ex);
 		g_hash_table_foreach(visited, inode_free, NULL);
 		g_hash_table_destroy(visited);
-		g_free(path);
+		camel_url_free (url);
+		g_free (path);
 		
 		return fi;
 	}
@@ -802,23 +805,30 @@ get_folder_info(CamelStore *store, const char *top, guint32 flags, CamelExceptio
 		base = top;
 	else
 		base++;
-
+	
+	url = camel_url_copy (((CamelService *) store)->url);
+	camel_url_set_fragment (url, top);
+	
 	fi = g_new0(CamelFolderInfo, 1);
 	fi->parent = NULL;
-	fi->uri = g_strdup_printf("mbox:%s#%s",((CamelService *) store)->url->path, top);
+	fi->uri = camel_url_to_string (url, 0);
 	fi->name = g_strdup(base);
 	fi->full_name = g_strdup(top);
 	fi->unread = -1;
 	fi->total = -1;
 	fi->path = g_strdup_printf("/%s", top);
 	
+	printf ("fi->uri = %s\n\n", fi->uri);
+	
 	subdir = g_strdup_printf("%s.sbd", path);
 	if (stat(subdir, &st) == 0) {
 		if  (S_ISDIR(st.st_mode))
-			fi->child = scan_dir(store, visited, fi, subdir, top, flags, ex);
+			fi->child = scan_dir (store, url, visited, fi, subdir, top, flags, ex);
 		else
 			fill_fi(store, fi, flags);
 	}
+	
+	camel_url_free (url);
 	
 	if (fi->child)
 		fi->flags |= CAMEL_FOLDER_CHILDREN;

@@ -1,3 +1,29 @@
+2004-03-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	Fixes for bug #55018.
+
+	* providers/local/camel-local-folder.c
+	(camel_local_folder_construct): Use camel_url_to_string() here
+	too, so we properly encode the fragment.
+
+	* providers/local/camel-mbox-store.c (get_folder_info): Use
+	CamelURL to properly encode the fi->uri. Pass the CamelURL into
+	scan_dir() so that scan_dir() can re-use it (rather than having to
+	malloc/parse/free for each file/dir)
+	(scan_dir): Use camel_url_to_string().
+
+	* providers/local/camel-maildir-store.c (get_folder_info): Same as
+	mbox.
+	(scan_dir): Same as mbox. We also need to set the
+	CAMEL_FOLDER_NOSELECT flag if appropriate.
+
+	* providers/local/camel-mh-store.c (get_folder_info): Same as mbox
+	and maildir.
+	(folders_scan): Now takes a url argument which we pass off to
+	folder_info_new().
+	(recursive_scan): Same.
+	(folder_info_new): Use camel_url_to_string().
+
 2004-03-11  Radek Doulik  <rodo@ximian.com>
 
 	* camel-folder.c (camel_folder_set_message_flags): watch for

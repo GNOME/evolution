@@ -215,7 +215,8 @@ camel_local_folder_construct(CamelLocalFolder *lf, CamelStore *parent_store, con
 	char folder_path[PATH_MAX];
 	struct stat st;
 	int forceindex, len;
-
+	CamelURL *url;
+	
 	folder = (CamelFolder *)lf;
 
 	name = strrchr(full_name, '/');
@@ -309,14 +310,19 @@ camel_local_folder_construct(CamelLocalFolder *lf, CamelStore *parent_store, con
 		camel_object_unref (CAMEL_OBJECT (folder));
 		return NULL;
 	}
-
+	
+	url = camel_url_copy (((CamelService *) parent_store)->url);
+	camel_url_set_fragment (url, full_name);
+	
 	fi = g_new0 (CamelFolderInfo, 1);
 	fi->full_name = g_strdup (full_name);
 	fi->name = g_strdup (name);
-	fi->uri = g_strdup_printf("%s:%s#%s", ((CamelService *)parent_store)->url->protocol, ((CamelService *)parent_store)->url->path, full_name);
+	fi->uri = camel_url_to_string (url, 0);
 	fi->unread = camel_folder_get_unread_message_count(folder);
 	camel_folder_info_build_path(fi, '/');
-
+	
+	camel_url_free (url);
+	
 	camel_object_trigger_event(CAMEL_OBJECT (parent_store), "folder_created", fi);
 	camel_folder_info_free(fi);
 	
