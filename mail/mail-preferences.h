@@ -93,9 +93,6 @@ struct _MailPreferences {
 	/* GtkHTML Properties */
 	GtkHTMLPropmanager *pman;
 	
-	/* Security tab */
-	GnomeFileEntry *pgp_path;
-	
 	/* Labels and Colours tab */
 	struct {
 		GtkEntry *name;

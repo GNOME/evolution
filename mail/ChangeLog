@@ -1,5 +1,35 @@
 2002-10-16  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-format.c (handle_multipart_signed): Don't need to pass a
+	path to camel_gpg_context_new () anymore.
+	(mail_get_message_body): Same here.
+	(handle_multipart_encrypted): Use camel_gpg_context_new () instead
+	of mail_crypto_get_pgp_cipher_context ().
+
+	* mail-preferences.c (mail_preferences_construct): There's no
+	security tab anymore.
+	(mail_preferences_apply): No need to save any pgp config data,
+	there's nothing to configure!
+
+	* mail-crypto.c (mail_crypto_get_pgp_cipher_context): Updated to
+	not pass a pgp path into camel_gpg_context_new ().
+
+	* mail-config.c (mail_config_clear): No need to free a pgp_path
+	variable anymore, we don't need one.
+	(config_read): Don't read in a pgp-path or pgp-type anymore.
+	(mail_config_write_on_exit): Don't save a pgp-path or pgp-type
+	anymore, we don't use them.
+	(pgpopen): Removed.
+	(pgpclose): Removed.
+	(mail_config_pgp_type_detect_from_path): Removed.
+	(auto_detect_pgp_variables): Removed.
+	(mail_config_get_pgp_type): Removed.
+	(mail_config_set_pgp_type): Removed.
+	(mail_config_get_pgp_path): Removed.
+	(mail_config_set_pgp_path): Removed.
+
+2002-10-16  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* mail-callbacks.c (mail_generate_reply): If mode == REPLY_LIST
 	and the mlist is "" (we only checked NULL before), change the mode
 	to REPLY_ALL so that we don't accidently reply to the user's

@@ -26,19 +26,11 @@
 #include <config.h>
 #endif
 
-/* this group of headers is for pgp detection */
-#include <stdlib.h>
-#include <signal.h>
-#include <sys/ioctl.h>
-#include <sys/time.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <termios.h>
-#include <unistd.h>
-#include <errno.h>
-
 #include <pwd.h>
 #include <ctype.h>
+#include <sys/wait.h>
+#include <signal.h>
+#include <errno.h>
 
 #include <glib.h>
 #include <libgnome/gnome-defs.h>
@@ -106,9 +98,6 @@ typedef struct {
 	
 	GSList *accounts;
 	int default_account;
-	
-	char *pgp_path;
-	int pgp_type;
 	
 	MailConfigHTTPMode http_mode;
 	MailConfigForwardStyle default_forward_style;
@@ -357,9 +346,6 @@ mail_config_clear (void)
 		g_slist_free (config->accounts);
 		config->accounts = NULL;
 	}
-	
-	g_free (config->pgp_path);
-	config->pgp_path = NULL;
 	
 	g_free (config->default_charset);
 	config->default_charset = NULL;
@@ -884,19 +870,6 @@ config_read (void)
 	config->confirm_goto_next_folder = bonobo_config_get_boolean_with_default (
 		config->db, "/Mail/Prompts/confirm_goto_next_folder", TRUE, NULL);
 	
-	/* PGP/GPG */
-	config->pgp_path = bonobo_config_get_string (config->db, "/Mail/PGP/path", NULL);
-	
-	config->pgp_type = bonobo_config_get_long_with_default (config->db, 
-	        "/Mail/PGP/type", MAIL_CONFIG_PGP_TYPE_NONE, NULL);
-	
-	/* we only support GnuPG now */
-	if (config->pgp_type != MAIL_CONFIG_PGP_TYPE_GPG) {
-		config->pgp_type = MAIL_CONFIG_PGP_TYPE_NONE;
-		g_free (config->pgp_path);
-		config->pgp_path = NULL;
-	}
-	
 	/* HTTP images */
 	config->http_mode = bonobo_config_get_long_with_default (config->db, 
 		"/Mail/Display/http_images", MAIL_CONFIG_HTTP_NEVER, NULL);
@@ -1275,13 +1248,6 @@ mail_config_write_on_exit (void)
 	/* Goto next folder */
 	bonobo_config_set_boolean (config->db, "/Mail/Prompts/confirm_goto_next_folder",
 				   config->confirm_goto_next_folder, NULL);
-	
-	/* PGP/GPG */
-	bonobo_config_set_string_wrapper (config->db, "/Mail/PGP/path", 
-					  config->pgp_path, NULL);
-	
-	bonobo_config_set_long (config->db, "/Mail/PGP/type", 
-				config->pgp_type, NULL);
 	
 	/* HTTP images */
 	bonobo_config_set_long (config->db, "/Mail/Display/http_images", 
@@ -1766,315 +1732,6 @@ void
 mail_config_set_goto_next_folder (gboolean value)
 {
 	config->goto_next_folder = value;
-}
-
-struct {
-	char *bin;
-	char *version;
-	int type;
-} binaries[] = {
-	{ "gpg", NULL, MAIL_CONFIG_PGP_TYPE_GPG },
-	{ "pgp", "6.5.8", MAIL_CONFIG_PGP_TYPE_PGP6 },
-	{ "pgp", "5.0", MAIL_CONFIG_PGP_TYPE_PGP5 },
-	{ "pgp", "2.6", MAIL_CONFIG_PGP_TYPE_PGP2 },
-	{ NULL, NULL, MAIL_CONFIG_PGP_TYPE_NONE }
-};
-
-
-typedef struct _PGPFILE {
-	FILE *fp;
-	pid_t pid;
-} PGPFILE;
-
-static PGPFILE *
-pgpopen (const char *command, const char *mode)
-{
-	int in_fds[2], out_fds[2];
-	PGPFILE *pgp = NULL;
-	char **argv = NULL;
-	pid_t child;
-	int fd;
-	
-	g_return_val_if_fail (command != NULL, NULL);
-	
-	if (*mode != 'r' && *mode != 'w')
-		return NULL;
-	
-	argv = g_strsplit (command, " ", 0);
-	if (!argv)
-		return NULL;
-	
-	if (pipe (in_fds) == -1)
-		goto error;
-	
-	if (pipe (out_fds) == -1) {
-		close (in_fds[0]);
-		close (in_fds[1]);
-		goto error;
-	}
-	
-	if ((child = fork ()) == 0) {
-		/* In child */
-		int maxfd;
-		
-		if ((dup2 (in_fds[0], STDIN_FILENO) < 0 ) ||
-		    (dup2 (out_fds[1], STDOUT_FILENO) < 0 ) ||
-		    (dup2 (out_fds[1], STDERR_FILENO) < 0 )) {
-			_exit (255);
-		}
-		
-		/* Dissociate from evolution-mail's controlling
-		 * terminal so that pgp/gpg won't be able to read from
-		 * it: PGP 2 will fall back to asking for the password
-		 * on /dev/tty if the passed-in password is incorrect.
-		 * This will make that fail rather than hanging.
-		 */
-		setsid ();
-		
-		/* close all open fds that we aren't using */
-		maxfd = sysconf (_SC_OPEN_MAX);
-		for (fd = 0; fd < maxfd; fd++) {
-			if (fd != STDIN_FILENO && fd != STDOUT_FILENO && fd != STDERR_FILENO)
-				close (fd);
-		}
-		
-		execvp (argv[0], argv);
-		fprintf (stderr, "Could not execute %s: %s\n", argv[0],
-			 g_strerror (errno));
-		_exit (255);
-	} else if (child < 0) {
-		close (in_fds[0]);
-		close (in_fds[1]);
-		close (out_fds[0]);
-		close (out_fds[1]);
-		goto error;
-	}
-	
-	/* Parent */
-	g_strfreev (argv);
-	
-	close (in_fds[0]);   /* pgp's stdin */
-	close (out_fds[1]);  /* pgp's stdout */
-	
-	if (mode[0] == 'r') {
-		/* opening in read-mode */
-		fd = out_fds[0];
-		close (in_fds[1]);
-	} else {
-		/* opening in write-mode */
-		fd = in_fds[1];
-		close (out_fds[0]);
-	}
-	
-	pgp = g_new (PGPFILE, 1);
-	pgp->fp = fdopen (fd, mode);
-	pgp->pid = child;
-	
-	return pgp;
- error:
-	g_strfreev (argv);
-	
-	return NULL;
-}
-
-static int
-pgpclose (PGPFILE *pgp)
-{
-	sigset_t mask, omask;
-	pid_t wait_result;
-	int status;
-	
-	if (pgp->fp) {
-		fclose (pgp->fp);
-		pgp->fp = NULL;
-	}
-	
-	/* PGP5 closes fds before exiting, meaning this might be called
-	 * too early. So wait a bit for the result.
-	 */
-	sigemptyset (&mask);
-	sigaddset (&mask, SIGALRM);
-	sigprocmask (SIG_BLOCK, &mask, &omask);
-	alarm (1);
-	wait_result = waitpid (pgp->pid, &status, 0);
-	alarm (0);
-	sigprocmask (SIG_SETMASK, &omask, NULL);
-	
-	if (wait_result == -1 && errno == EINTR) {
-		/* PGP is hanging: send a friendly reminder. */
-		kill (pgp->pid, SIGTERM);
-		sleep (1);
-		wait_result = waitpid (pgp->pid, &status, WNOHANG);
-		if (wait_result == 0) {
-			/* Still hanging; use brute force. */
-			kill (pgp->pid, SIGKILL);
-			sleep (1);
-			wait_result = waitpid (pgp->pid, &status, WNOHANG);
-		}
-	}
-	
-	if (wait_result != -1 && WIFEXITED (status)) {
-		g_free (pgp);
-		return 0;
-	} else
-		return -1;
-}
-
-int
-mail_config_pgp_type_detect_from_path (const char *pgp)
-{
-	const char *bin = g_basename (pgp);
-	struct stat st;
-	int i;
-	
-	/* make sure the file exists *and* is executable? */
-	if (stat (pgp, &st) == -1 || !(st.st_mode & (S_IXOTH | S_IXGRP | S_IXUSR)))
-		return MAIL_CONFIG_PGP_TYPE_NONE;
-	
-	for (i = 0; binaries[i].bin; i++) {
-		if (binaries[i].version) {
-			/* compare version strings */
-			char buffer[256], *command;
-			gboolean found = FALSE;
-			PGPFILE *fp;
-			
-			command = g_strdup_printf ("%s --version", pgp);
-			fp = pgpopen (command, "r");
-			g_free (command);
-			if (fp) {
-				while (!feof (fp->fp) && !found) {
-					memset (buffer, 0, sizeof (buffer));
-					fgets (buffer, sizeof (buffer), fp->fp);
-					found = strstr (buffer, binaries[i].version) != NULL;
-				}
-				
-				pgpclose (fp);
-				
-				if (found)
-					return binaries[i].type;
-			}
-		} else if (!strcmp (binaries[i].bin, bin)) {
-			/* no version string to compare against... */
-			return binaries[i].type;
-		}
-	}
-	
-	return MAIL_CONFIG_PGP_TYPE_NONE;
-}
-
-static void
-auto_detect_pgp_variables (void)
-{
-	int type = MAIL_CONFIG_PGP_TYPE_NONE;
-	const char *PATH, *path;
-	char *pgp = NULL;
-	
-	PATH = getenv ("PATH");
-	
-	path = PATH;
-	while (path && *path && !type) {
-		const char *pend = strchr (path, ':');
-		gboolean found = FALSE;
-		char *dirname;
-		int i;
-		
-		if (pend) {
-			/* don't even think of using "." */
-			if (!strncmp (path, ".", pend - path)) {
-				path = pend + 1;
-				continue;
-			}
-			
-			dirname = g_strndup (path, pend - path);
-			path = pend + 1;
-		} else {
-			/* don't even think of using "." */
-			if (!strcmp (path, "."))
-				break;
-			
-			dirname = g_strdup (path);
-			path = NULL;
-		}
-		
-		for (i = 0; binaries[i].bin; i++) {
-			struct stat st;
-			
-			pgp = g_strdup_printf ("%s/%s", dirname, binaries[i].bin);
-			/* make sure the file exists *and* is executable? */
-			if (stat (pgp, &st) != -1 && st.st_mode & (S_IXOTH | S_IXGRP | S_IXUSR)) {
-				if (binaries[i].version) {
-					/* compare version strings */
-					char buffer[256], *command;
-					PGPFILE *fp;
-					
-					command = g_strdup_printf ("%s --version", pgp);
-					fp = pgpopen (command, "r");
-					g_free (command);
-					if (fp) {
-						while (!feof (fp->fp) && !found) {
-							memset (buffer, 0, sizeof (buffer));
-							fgets (buffer, sizeof (buffer), fp->fp);
-							found = strstr (buffer, binaries[i].version) != NULL;
-						}
-						
-						pgpclose (fp);
-					}
-				} else {
-					/* no version string to compare against... */
-					found = TRUE;
-				}
-				
-				if (found) {
-					type = binaries[i].type;
-					break;
-				}
-			}
-			
-			g_free (pgp);
-			pgp = NULL;
-		}
-		
-		g_free (dirname);
-	}
-	
-	if (pgp && type) {
-		mail_config_set_pgp_path (pgp);
-		mail_config_set_pgp_type (type);
-	}
-	
-	g_free (pgp);
-}
-
-int
-mail_config_get_pgp_type (void)
-{
-	if (!config->pgp_path || !config->pgp_type)
-		auto_detect_pgp_variables ();
-	
-	return config->pgp_type;
-}
-
-void
-mail_config_set_pgp_type (int pgp_type)
-{
-	config->pgp_type = pgp_type;
-}
-
-const char *
-mail_config_get_pgp_path (void)
-{
-	if (!config->pgp_path || !config->pgp_type)
-		auto_detect_pgp_variables ();
-	
-	return config->pgp_path;
-}
-
-void
-mail_config_set_pgp_path (const char *pgp_path)
-{
-	g_free (config->pgp_path);
-	
-	config->pgp_path = g_strdup (pgp_path);
 }
 
 MailConfigHTTPMode

@@ -309,16 +309,6 @@ mail_preferences_construct (MailPreferences *prefs)
 	gtk_signal_connect (GTK_OBJECT (prefs->prompt_unwanted_html), "toggled",
 			    toggle_button_toggled, prefs);
 	
-	/* Security tab */
-	
-	/* Pretty Good Privacy */
-	prefs->pgp_path = GNOME_FILE_ENTRY (glade_xml_get_widget (gui, "filePgpPath"));
-	text = mail_config_get_pgp_path ();
-	gtk_entry_set_text (GTK_ENTRY (gnome_file_entry_gtk_entry (prefs->pgp_path)), text ? text : "");
-	gnome_file_entry_set_default_path (prefs->pgp_path, mail_config_get_pgp_path ());
-	gtk_signal_connect (GTK_OBJECT (gnome_file_entry_gtk_entry (prefs->pgp_path)), "changed",
-			    entry_changed, prefs);
-	
 	/* Labels and Colours tab */
 	for (i = 0; i < 5; i++) {
 		char *widget_name;
@@ -360,7 +350,6 @@ void
 mail_preferences_apply (MailPreferences *prefs)
 {
 	GtkWidget *entry, *menu;
-	int pgp_type;
 	char *string;
 	guint32 rgb;
 	int i, val;
@@ -413,16 +402,6 @@ mail_preferences_apply (MailPreferences *prefs)
 	gtk_html_propmanager_apply (prefs->pman);
 	
 	mail_config_set_confirm_unwanted_html (gtk_toggle_button_get_active (prefs->prompt_unwanted_html));
-	
-	/* Security */
-	entry = gnome_file_entry_gtk_entry (GNOME_FILE_ENTRY (prefs->pgp_path));
-	string = gtk_entry_get_text (GTK_ENTRY (entry));
-	
-	pgp_type = string && *string ? mail_config_pgp_type_detect_from_path (string) : MAIL_CONFIG_PGP_TYPE_NONE;
-	if (pgp_type == MAIL_CONFIG_PGP_TYPE_GPG) {
-		mail_config_set_pgp_path (string && *string ? string : NULL);
-		mail_config_set_pgp_type (pgp_type);
-	}
 	
 	/* Labels and Colours */
 	for (i = 0; i < 5; i++) {

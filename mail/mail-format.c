@@ -1759,7 +1759,7 @@ handle_multipart_encrypted (CamelMimePart *part, const char *mime_type,
 	mpe = CAMEL_MULTIPART_ENCRYPTED (wrapper);
 	
 	camel_exception_init (&ex);
-	cipher = mail_crypto_get_pgp_cipher_context (NULL);
+	cipher = camel_gpg_context_new (session);
 	mime_part = camel_multipart_encrypted_decrypt (mpe, cipher, &ex);
 	camel_object_unref (cipher);
 	
@@ -1847,7 +1847,7 @@ handle_multipart_signed (CamelMimePart *part, const char *mime_type,
 		/* Write out the verification results */
 		/* TODO: use the right context for the right message ... */
 		camel_exception_init (&ex);
-		cipher = camel_gpg_context_new (session, mail_config_get_pgp_path ());
+		cipher = camel_gpg_context_new (session);
 		if (cipher) {
 			valid = camel_multipart_signed_verify (mps, cipher, &ex);
 			camel_object_unref (CAMEL_OBJECT (cipher));
@@ -2375,7 +2375,7 @@ mail_get_message_body (CamelDataWrapper *data, gboolean want_plain, gboolean cit
 	mp = CAMEL_MULTIPART (data);
 	
 	if (CAMEL_IS_MULTIPART_ENCRYPTED (mp)) {
-		cipher = camel_gpg_context_new (session, mail_config_get_pgp_path ());
+		cipher = camel_gpg_context_new (session);
 		subpart = camel_multipart_encrypted_decrypt (CAMEL_MULTIPART_ENCRYPTED (mp),
 							     cipher, NULL);
 		if (!subpart)
