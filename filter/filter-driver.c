@@ -229,6 +229,7 @@ filter_driver_new (FilterContext *context, FilterGetFolderFunc get_folder, void 
 }
 
 
+#if 0
 void filter_driver_set_global(FilterDriver *d, const char *name, const char *value)
 {
 	struct _FilterDriverPrivate *p = _PRIVATE (d);
@@ -241,6 +242,7 @@ void filter_driver_set_global(FilterDriver *d, const char *name, const char *val
 		g_hash_table_insert (p->globals, g_strdup (name), g_strdup (value));
 	}
 }
+#endif
 
 static ESExpResult *
 do_delete (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver *driver)
@@ -398,11 +400,13 @@ close_folders (FilterDriver *driver)
 	return 0;
 }
 
+#if 0
 static void
 free_key (gpointer key, gpointer value, gpointer user_data)
 {
 	g_free (key);
 }
+#endif
 
 static const mail_operation_spec op_filter_mail =
 {
@@ -531,7 +535,9 @@ do_filter_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 			}
 		}
 
+#ifndef NO_WARNINGS
 #warning "Must check expression parsed and executed properly?"
+#endif
 		e_sexp_input_text(p->eval, a->str, strlen(a->str));
 		e_sexp_parse(p->eval);
 		r = e_sexp_eval(p->eval);

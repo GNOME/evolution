@@ -1,3 +1,8 @@
+2000-08-10  Christopher James Lahey  <clahey@helixcode.com>
+
+	* filter-driver.c, filter-driver.h, filter-folder.c,
+	rule-context.c, vfolder-editor.c: Fixed some warnings.
+
 2000-08-10  Peter Williams  <peterw@helixcode.com>
 
 	* filter-driver.c (do_filter_mail): Fix the infinite fetchmail.

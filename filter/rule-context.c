@@ -346,7 +346,9 @@ void		rule_context_add_rule(RuleContext *f, FilterRule *new)
 static void
 new_rule_clicked(GtkWidget *w, int button, RuleContext *context)
 {
+#ifndef NO_WARNINGS
 #warning "Need a changed signal for this to work best"
+#endif
 	if (button == 0) {
 		FilterRule *rule = gtk_object_get_data((GtkObject *)w, "rule");
 		char *user = gtk_object_get_data((GtkObject *)w, "path");

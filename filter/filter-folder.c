@@ -175,7 +175,7 @@ static void button_clicked(GtkButton *button, FilterFolder *ff)
 {
 #ifdef SHELL
 	const char *allowed_types[] = { "mail", NULL };
-	char *def, *physical_uri, *evolution_uri, *str;
+	char *def, *physical_uri, *evolution_uri;
 
 	def = ff->uri ? ff->uri : "";
 
@@ -238,7 +238,6 @@ static GtkWidget *get_widget(FilterElement *fe)
 	FilterFolder *ff = (FilterFolder *)fe;
 	GtkButton *button;
 	GtkLabel *label;
-	char *name;
 
 	if (ff->name && ff->name[0])
 		label = (GtkLabel *)gtk_label_new(g_basename (ff->name));
