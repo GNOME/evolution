@@ -1,3 +1,36 @@
+2001-03-01  Miguel de Icaza  <miguel@ximian.com>
+
+	* folder-browser.c (on_right_click):  Move the context menus to
+	the toplevel code;  Use enumerations for the various bitfield
+	constants. 
+
+	Add support for hiding items that are not required (read/unread
+	and delete/undelete). 
+
+	This requires my previous patch, as it assumes "Open" does the
+	right thing instead of having two operations: Open and Edit. 
+	
+2001-02-28  Miguel de Icaza  <miguel@ximian.com>
+
+	* folder-browser.c (on_right_click): Removed draft folders op
+	here, since open_msg now does the right thing (edit or view).
+
+	* folder-browser-factory.c (update_pixmaps): Removed MessageEdit
+	from here.
+
+	* mail-callbacks.c (open_msg): New function, does the "right
+	thing" to a message (either, edit or open).
+
+	* folder-browser-factory.c: Register new command here.
+	(update_pixmaps): Rename keys that have been shuffled around.
+	(update_pixmaps): Rename to match new updates on xml file.
+
+	Rename MessageOpenNewWindow to MessageOpen.  Change action from
+	"view_message" to "open_message".
+
+	* mail-callbacks.c (mark_all_as_seen): New command.  Marks all
+	messages as seen.
+
 2001-03-06  Dan Winship  <danw@ximian.com>
 
 	* mail-ops.c (get_folderinfo_got): If the folderinfo has no URL

@@ -2973,7 +2973,7 @@ SMTP
 	    <name>cmdMailAdd</name>
 	    <can_default>True</can_default>
 	    <can_focus>True</can_focus>
-	    <label>Add</label>
+	    <label>_Add</label>
 	    <relief>GTK_RELIEF_NORMAL</relief>
 	  </widget>
 
@@ -2982,7 +2982,7 @@ SMTP
 	    <name>cmdMailEdit</name>
 	    <can_default>True</can_default>
 	    <can_focus>True</can_focus>
-	    <label>Edit</label>
+	    <label>_Edit</label>
 	    <relief>GTK_RELIEF_NORMAL</relief>
 	  </widget>
 
@@ -2991,7 +2991,7 @@ SMTP
 	    <name>cmdMailDelete</name>
 	    <can_default>True</can_default>
 	    <can_focus>True</can_focus>
-	    <label>Delete</label>
+	    <label>_Delete</label>
 	    <relief>GTK_RELIEF_NORMAL</relief>
 	  </widget>
 
@@ -3000,7 +3000,7 @@ SMTP
 	    <name>cmdMailDefault</name>
 	    <can_default>True</can_default>
 	    <can_focus>True</can_focus>
-	    <label>Default</label>
+	    <label>De_fault</label>
 	    <relief>GTK_RELIEF_NORMAL</relief>
 	  </widget>
 	</widget>

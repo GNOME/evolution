@@ -223,20 +223,21 @@ static GnomeUIInfo main_menu[] = {
 		</submenu>
 	</menu>
 
-	<dockitem name="Toolbar" relief="none" behavior="exclusive">
+	<dockitem name="Toolbar" relief="none" behavior="exclusive"
+			hlook="text" vlook="icon">
 	        <toolitem name="Save and Close" _label="Save and Close"
 		_tip="Save the contact and close the dialog box" verb="ContactEditorSaveClose"
-		pixtype="stock" pixname="Save"/>
+		pixtype="stock" pixname="Save" priority="1"/>
 
 		<separator/>
 
 		<toolitem name="Print" _label="Print..."
 		_tip="Print this item" verb="ContactEditorPrint"
-		pixtype="stock" pixname="Print"/>
+		pixtype="stock" pixname="Print" priority="1"/>
 
 		<toolitem name="Delete" _label="Delete..."
 		_tip="Delete this item" verb="ContactEditorDelete"
-		pixtype="stock" pixname="Trash"/>
+		pixtype="stock" pixname="Trash" priority="1"/>
 
 <!--
 		<toolitem name="Help" _label="Help"

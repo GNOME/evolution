@@ -1,3 +1,8 @@
+2001-02-28  Miguel de Icaza  <miguel@ximian.com>
+
+	* menus/gal-view-menus.c (build_menus): Add translation string
+	here. 
+
 2001-03-05  Christopher James Lahey  <clahey@ximian.com>
 
 	* menus/gal-view-menus.c (collection_changed): Rebuild when the

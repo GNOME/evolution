@@ -59,6 +59,8 @@
 #include <sys/stat.h>
 #endif
 
+extern CamelFolder *drafts_folder;
+
 struct post_send_data {
 	CamelFolder *folder;
 	gchar *uid;
@@ -915,13 +917,20 @@ flag_messages(FolderBrowser *fb, guint32 mask, guint32 set)
 void
 mark_as_seen (BonoboUIComponent *uih, void *user_data, const char *path)
 {
-	flag_messages(FOLDER_BROWSER(user_data), CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
+	flag_messages (FOLDER_BROWSER(user_data), CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
 }
 
 void
 mark_as_unseen (BonoboUIComponent *uih, void *user_data, const char *path)
 {
-	flag_messages(FOLDER_BROWSER(user_data), CAMEL_MESSAGE_SEEN, 0);
+	flag_messages (FOLDER_BROWSER(user_data), CAMEL_MESSAGE_SEEN, 0);
+}
+
+void
+mark_all_as_seen (BonoboUIComponent *uih, void *user_data, const char *path)
+{
+	select_all (uih, user_data, path);
+	flag_messages (FOLDER_BROWSER (user_data), CAMEL_MESSAGE_SEEN, 0);
 }
 
 static void
@@ -949,7 +958,6 @@ edit_msg (GtkWidget *widget, gpointer user_data)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 	GPtrArray *uids;
-	extern CamelFolder *drafts_folder;
 	
 	if (fb->folder != drafts_folder) {
 		GtkWidget *message;
@@ -1316,17 +1324,28 @@ view_msg (GtkWidget *widget, gpointer user_data)
 	
 	uids = g_ptr_array_new ();
 	message_list_foreach (fb->message_list, enumerate_msg, uids);
-	for (i=0;i<uids->len;i++) {
-		mail_get_message(fb->folder, uids->pdata[i], do_view_message, fb, mail_thread_queued);
-		g_free(uids->pdata[i]);
+	for (i = 0; i < uids->len; i++) {
+		mail_get_message (fb->folder, uids->pdata [i], do_view_message, fb, mail_thread_queued);
+		g_free (uids->pdata [i]);
 	}
-	g_ptr_array_free(uids, TRUE);
+	g_ptr_array_free (uids, TRUE);
 }
 
 void
-view_message (BonoboUIComponent *uih, void *user_data, const char *path)
+open_msg (GtkWidget *widget, gpointer user_data)
 {
-        view_msg (NULL, user_data);
+	FolderBrowser *fb = FOLDER_BROWSER (user_data);
+	
+	if (fb->folder == drafts_folder)
+		edit_msg (NULL, user_data);
+	else
+		view_msg (NULL, user_data);
+}
+
+void
+open_message (BonoboUIComponent *uih, void *user_data, const char *path)
+{
+	open_msg (NULL, user_data);
 }
 
 void
@@ -1334,7 +1353,6 @@ edit_message (BonoboUIComponent *uih, void *user_data, const char *path)
 {
         edit_msg (NULL, user_data);
 }
-
 
 void
 stop_threads(BonoboUIComponent *uih, void *user_data, const char *path)

@@ -3,15 +3,15 @@
 		<cmd name="FileClose" _label="Close" _tip="Close this window"
 			pixtype="stock" pixname="Close" accel="*Control*w"/>
 
-	        <cmd name="FileExit" _label="Exit" _tip="Exit the program"
-			pixtype="stock" pixname="Exit" accel="*Control*q"/>
+	        <cmd name="FileExit" _label="E_xit" _tip="Exit the program"
+			pixtype="stock" pixname="Quit" accel="*Control*q"/>
 
 		<cmd name="ViewShortcutBar" type="toggle"
-			_label="Show the _Shortcut Bar"
+			_label="_Shortcut Bar"
 			_tip="Toggle whether to show the shortcut bar"/>
 
 		<cmd name="ViewFolderBar" type="toggle"
-			_label="Show the _Folder Bar"
+			_label="_Folder Bar"
 			_tip="Toggle whether to show the folder bar"/>
 
 		<cmd name="HelpSubmitBug" _label="Submit Bug Report"
@@ -30,13 +30,16 @@
 	<menu>
 		<submenu name="File" _label="_File">
 			<submenu name="New" _label="_New">
+	                        <placeholder name="NewFirstItem">
+	                        </placeholder>
+	
 				<menuitem name="View" verb="NewView" _label="_View"
 				accel="*Control**Shift*v"
 				pixtype="stock" pixname="New"/>
 
 				<menuitem name="Folder" verb="NewFolder"
 				_label="_Folder"
-				accel="*Control**Shift*f"/>
+				accel="*Control**Shift*e"/>
 
 				<menuitem name="Shortcut" verb="NewBarShortcut"
 				_label="Evolution bar _shortcut"
@@ -67,45 +70,52 @@
 
 			<separator/>
 
-			<menuitem name="FileImporter" verb=""
-			_label="_Import file..."
-			_tip="Import an external file format" accel="*Control*i"/>
-
+	                <submenu name="Folder" _label="_Folder">
+				<menuitem name="Folder" verb="NewFolder"
+				_label="_New Folder"
+				accel="*Control**Shift*e"/>
+	                </submenu>
+	  
 			<menuitem name="FileGoToFolder" verb=""
 			_label="_Go to Folder..."
 			_tip="Display a different folder" accel="*Control*g"/>
+
+                        <separator/>
+	
+			<menuitem name="FileImporter" verb=""
+			_label="_Import file..."
+			_tip="Import an external file format" accel="*Control*i"/>
 
 			<placeholder name="Print" delimit="top"/>
 
 			<separator/>
 
+	                <menuitem name="WorkOffLine" verb=""
+	                _label="Work Offline"/>
+	      
 			<menuitem name="FileClose" verb=""
 			_label="_Close"/>
 
-			<menuitem name="FileExit" verb="" _label="E_xit"/>
-
+			<menuitem name="FileExit" verb="FileExit"/>
 		</submenu>
 
 		<submenu name="Edit" _label="_Edit">
-
-			<placeholder/>
-
-			<menuitem name="BonoboCustomize" verb=""
-			 _label="Customi_ze..." pos="bottom"/>
-
 		</submenu>
 
 		<submenu name="View" _label="_View">
-
-			<menuitem name="ShortcutBar" id="ViewShortcutBar" 
-				  accel="*Control*s"/>
-			<menuitem name="FolderBar" id="ViewFolderBar" accel="*Control*f"/>
-
+			<menuitem name="ShortcutBar" id="ViewShortcutBar"/>
+			<menuitem name="FolderBar" id="ViewFolderBar"/>
 		</submenu>
 
-		<submenu name="Settings" _label="_Settings"/>
-
 		<placeholder name="Component"/>
+	        <placeholder name="Actions"/>
+
+	        <submenu name="Tools" _label="_Tools">
+		        <placeholder name="Component"/>
+
+			<menuitem name="BonoboCustomize" verb=""
+			 _label="Customi_ze Toolbars..." pos="bottom"/>
+		</submenu>
 
 		<submenu name="Help" _label="_Help">
 

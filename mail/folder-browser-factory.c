@@ -44,6 +44,8 @@ static EList *control_list = NULL;
 BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("PrintMessage", print_msg),
 	BONOBO_UI_UNSAFE_VERB ("PrintPreviewMessage", print_preview_msg),
+	BONOBO_UI_UNSAFE_VERB ("MailGetSend", send_receive_mail),
+	BONOBO_UI_UNSAFE_VERB ("MailCompose", compose_msg),
 	
 	/* Edit Menu */
 	BONOBO_UI_UNSAFE_VERB ("EditSelectAll", select_all),
@@ -57,8 +59,7 @@ BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("SetForgetPwd", mail_session_forget_passwords),
 	
 	/* Message Menu */
-	BONOBO_UI_UNSAFE_VERB ("MessageOpenNewWnd", view_message),
-	BONOBO_UI_UNSAFE_VERB ("MessageEdit", edit_message),
+	BONOBO_UI_UNSAFE_VERB ("MessageOpen", open_message),
 	BONOBO_UI_UNSAFE_VERB ("MessageSaveAs", save_msg),
 	BONOBO_UI_UNSAFE_VERB ("MessagePrint", print_msg),
 	BONOBO_UI_UNSAFE_VERB ("MessageReplySndr", reply_to_sender),
@@ -68,6 +69,7 @@ BonoboUIVerb verbs [] = {
 	
 	BONOBO_UI_UNSAFE_VERB ("MessageMarkAsRead", mark_as_seen),
 	BONOBO_UI_UNSAFE_VERB ("MessageMarkAsUnRead", mark_as_unseen),
+	BONOBO_UI_UNSAFE_VERB ("MessageMarkAllAsRead", mark_all_as_seen),
 	
 	BONOBO_UI_UNSAFE_VERB ("MessageMove", move_msg),
 	BONOBO_UI_UNSAFE_VERB ("MessageCopy", copy_msg),
@@ -96,8 +98,6 @@ BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("FolderConfig", configure_folder),
 	
 	/* Toolbar specific */
-	BONOBO_UI_UNSAFE_VERB ("MailGet", send_receive_mail),
-	BONOBO_UI_UNSAFE_VERB ("MailCompose", compose_msg),
 	BONOBO_UI_UNSAFE_VERB ("MailStop", stop_threads),
 	BONOBO_UI_UNSAFE_VERB ("MailPrevious", previous_msg),
 	BONOBO_UI_UNSAFE_VERB ("MailNext", next_msg),
@@ -132,19 +132,15 @@ set_pixmap (BonoboUIComponent *uic,
 static void
 update_pixmaps (BonoboUIComponent *uic)
 {
-	set_pixmap (uic, "/menu/File/Print/Print", "16_print.xpm");
 	set_pixmap (uic, "/menu/File/Print/Print Preview", "16_print.xpm");
 
-	set_pixmap (uic, "/menu/Component/Message/MessageEdit", "16_edit.xpm");
-	set_pixmap (uic, "/menu/Component/Message/MessageSaveAs", "16_save.xpm");
-	set_pixmap (uic, "/menu/Component/Message/MessagePrint", "16_print.xpm");
-	set_pixmap (uic, "/menu/Component/Message/MessageMove", "16_move_message.xpm");
-	set_pixmap (uic, "/menu/Component/Message/MessageReplyAll", "16_reply_to_all.xpm");
-	set_pixmap (uic, "/menu/Component/Message/MessageReplySndr", "16_reply.xpm");
+	set_pixmap (uic, "/menu/Component/Actions/MessageMove", "16_move_message.xpm");
+	set_pixmap (uic, "/menu/Component/Actions/MessageReplyAll", "16_reply_to_all.xpm");
+	set_pixmap (uic, "/menu/Component/Actions/MessageReplySndr", "16_reply.xpm");
 
-	set_pixmap (uic, "/menu/Component/Folder/FolderConfig", "16_configure_folder.xpm");
+	set_pixmap (uic, "/menu/File/Folder/FolderConfig", "16_configure_folder.xpm");
 
-	set_pixmap (uic, "/menu/Settings/SetMailConfig", "16_configure_mail.xpm");
+	set_pixmap (uic, "/menu/Tools/Component/SetMailConfig", "16_configure_mail.xpm");
 
 	set_pixmap (uic, "/Toolbar/MailGet", "buttons/fetch-mail.png");
 	set_pixmap (uic, "/Toolbar/MailCompose", "buttons/compose-message.png");
@@ -167,8 +163,8 @@ display_view(GalViewCollection *collection,
 }
 
 static void
-folder_browser_setup_menus (FolderBrowser *fb,
-			    BonoboUIComponent *uic)
+folder_browser_setup_view_menus (FolderBrowser *fb,
+				 BonoboUIComponent *uic)
 {
 	GalViewCollection *collection;
 	GalViewMenus *views;
@@ -200,6 +196,26 @@ folder_browser_setup_menus (FolderBrowser *fb,
 	/*	gtk_object_sink(GTK_OBJECT(views)); */
 
 	gtk_object_sink(GTK_OBJECT(collection));
+}
+
+static void
+folder_browser_setup_property_menu (FolderBrowser *fb,
+				    BonoboUIComponent *uic)
+{
+	char *name, *base = NULL;
+
+	if (fb->uri)
+		base = g_basename (fb->uri);
+
+	if (base && base [0] != 0)
+		name = g_strdup_printf (_("Properties for \"%s\""), base);
+	else
+		name = g_strdup (_("Properties"));
+
+	bonobo_ui_component_set_prop (
+		uic, "/menu/File/Folder/FolderConfig",
+		"label", name, NULL);
+	g_free (name);
 }
 
 static void
@@ -250,7 +266,8 @@ control_activate (BonoboControl     *control,
 					  folder_browser_toggle_view_source,
 					  folder_browser);
 
-	folder_browser_setup_menus (fb, uic);
+	folder_browser_setup_view_menus (fb, uic);
+	folder_browser_setup_property_menu (fb, uic);
 	
 	update_pixmaps (uic);
 

@@ -198,7 +198,7 @@
 
 </menu>
 
-<dockitem name="Toolbar">
+<dockitem name="Toolbar" hlook="text" vlook="icon">
 
 	<toolitem name="FileSaveAndClose" verb=""/>
 

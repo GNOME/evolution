@@ -1,3 +1,78 @@
+2001-03-06  Miguel de Icaza  <miguel@ximian.com>
+
+	* evolution-tasks.xml: Added "File/New/Task" as well.
+
+	* evolution-mail.xml: Added "File/New/Mail Message" at the top
+	with binding C-n.  
+
+	* evolution-calendar.xml: Set the binding for New Appointment to C-n
+
+	* evolution-contact-editor.xml: Set the toolbar to hlook=text
+	vlook=icon;  Set all icons priority-text to 1. 
+
+	* evolution-addressbook.xml: Added "Contact" to the New menu.
+
+	* evolution.xml: Provide an entry point to put "New" items on the
+	first level. 
+
+	We are going to need some Bonobo support to "hide" objects when
+	other objects appear (like, having Mail Message bound to C-S-X in
+	the global space, and when we switch to Mail, we only show the
+	entry that has C-n as the binding).
+
+2001-02-28  Miguel de Icaza  <miguel@ximian.com>
+
+	* evolution.xml: Moved Importer after the Folder operations per
+	Dan's proposal.
+
+	* evolution-addressbook.xml: Renamed Settings/AddressBook
+	Configuration to Tools/Settings.
+
+	Make all the items have "Print" items that use the same icon
+	instead of a collection of icons.
+
+	* evolution-calendar.xml: Moved "Calendar Preferences" from
+	"Settings" to "Tools/Settings".
+
+	* evolution-mail.xml: Settings menu is fully gone.  All things
+	that run a dialog now end up in "Tools" while actions end up in
+	"Actions".  Hence I am right.
+
+	Renamed "Mail Configuration..." to "Identieies and Servers"
+
+	Move MessageMarkAsRead, MessageMarkAsUnRead
+	to Edit menu.  Add MessageMarkAllAsRead.
+
+	Remove "Print Message" from Message menu.  Remove "Print Preview
+	Message" from Message menu.  Leave them on the "File" menu.
+
+	Renamed "Reply to Sender" to "Reply" (awaiting Ettore's
+	permission). 
+
+	Renamed "Messages" to "Actions".
+
+	Open Message renamed to "Open Selected Items" (as this is what it
+	actually does). 
+
+	Moved "Save Message As" to "File" menu.
+
+	Added "Properties" to the File/Folder submenu.
+
+	Edit menu now looks like this: Message Move, Message Copy, Select
+	All, Invert Selection, Delete, Undelete, Mark as Read, Mark as
+	Unread.  Some of them were moved from the "Messages" menu.
+
+	"Forward message" shortcut changed to C-f
+
+	Tools menu created.
+	
+	Create Rule From message moved to "Tools".
+
+	* evolution.xml: Added Tools menu.  Moved Edit/Customize to
+	Tools/Customize Toolbar.
+
+	Added File/Folder submenu.  Duplicate "New Folder" in here. 
+
 2001-03-04  Damon Chaplin  <damon@ximian.com>
 
 	* evolution-tasks.xml: "New" -> "New Task".

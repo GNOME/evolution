@@ -489,6 +489,107 @@ hide_sender(GtkWidget *w, FolderBrowser *fb)
 	}
 }
 
+enum {
+	SELECTION_SET   = 2,
+	CAN_MARK_READ   = 4,
+	CAN_MARK_UNREAD = 8,
+	CAN_DELETE      = 16,
+	CAN_UNDELETE    = 32,
+	IS_MAILING_LIST = 64,
+};
+
+#define SEPARATOR  { "", NULL, (NULL), NULL,  0 }
+#define TERMINATOR { NULL, NULL, (NULL), NULL,  0 }
+
+#define MLIST_VFOLDER (3)
+#define MLIST_FILTER (8)
+
+static EPopupMenu filter_menu[] = {
+	{ N_("VFolder on Subject"),            NULL,
+	  GTK_SIGNAL_FUNC (vfolder_subject),   NULL,
+	  SELECTION_SET },
+	{ N_("VFolder on Sender"),             NULL,
+	  GTK_SIGNAL_FUNC (vfolder_sender),    NULL,
+	  SELECTION_SET },
+	{ N_("VFolder on Recipients"),         NULL,
+	  GTK_SIGNAL_FUNC (vfolder_recipient), NULL,
+	  SELECTION_SET },
+	{ N_("VFolder on Mailing List"),       NULL,
+	  GTK_SIGNAL_FUNC (vfolder_mlist),     NULL,
+	  SELECTION_SET | IS_MAILING_LIST },
+	
+	SEPARATOR,
+	
+	{ N_("Filter on Subject"),             NULL,
+	  GTK_SIGNAL_FUNC (filter_subject),    NULL,
+	  SELECTION_SET },
+	{ N_("Filter on Sender"),              NULL,
+	  GTK_SIGNAL_FUNC (filter_sender),     NULL,
+	  SELECTION_SET },
+	{ N_("Filter on Recipients"),          NULL,
+	  GTK_SIGNAL_FUNC (filter_recipient),  NULL,
+	  SELECTION_SET },
+	{ N_("Filter on Mailing List"),        NULL,
+	  GTK_SIGNAL_FUNC (filter_mlist),      NULL,
+	  SELECTION_SET | IS_MAILING_LIST },
+	
+	TERMINATOR
+};
+
+
+static EPopupMenu menu[] = {
+	{ N_("Open"),                         NULL,
+	  GTK_SIGNAL_FUNC (open_msg),         NULL,  0 },
+	{ N_("Save As..."),                   NULL,
+	  GTK_SIGNAL_FUNC (save_msg),         NULL,  0 },
+	{ N_("Print"),                        NULL,
+	  GTK_SIGNAL_FUNC (print_msg),        NULL,  0 },
+	
+	SEPARATOR,
+	
+	{ N_("Reply to Sender"),              NULL,
+	  GTK_SIGNAL_FUNC (reply_to_sender),  NULL,  0 },
+	{ N_("Reply to All"),                 NULL,
+	  GTK_SIGNAL_FUNC (reply_to_all),     NULL,  0 },
+	{ N_("Forward"),                      NULL,
+	  GTK_SIGNAL_FUNC (forward_attached), NULL,  0 },
+	{ N_("Forward inline"),               NULL,
+	  GTK_SIGNAL_FUNC (forward_inlined),  NULL,  0 },
+	{ "", NULL, (NULL), NULL,  0 },
+	{ N_("Mark as Read"),                 NULL,
+	  GTK_SIGNAL_FUNC (mark_as_seen),     NULL,  CAN_MARK_READ },
+	{ N_("Mark as Unread"),               NULL,
+	  GTK_SIGNAL_FUNC (mark_as_unseen),   NULL,  CAN_MARK_UNREAD },
+	
+	SEPARATOR,
+	
+	{ N_("Move to Folder..."),            NULL,
+	  GTK_SIGNAL_FUNC (move_msg),         NULL,  0 },
+	{ N_("Copy to Folder..."),            NULL,
+	  GTK_SIGNAL_FUNC (copy_msg),         NULL,  0 },
+	{ N_("Delete"),                       NULL,
+	  GTK_SIGNAL_FUNC (delete_msg),       NULL, CAN_DELETE },
+	{ N_("Undelete"),                     NULL,
+	  GTK_SIGNAL_FUNC (undelete_msg),     NULL, CAN_UNDELETE },
+	
+	SEPARATOR,
+	
+	/*{ _("Add Sender to Address Book"),  NULL,
+	  GTK_SIGNAL_FUNC (addrbook_sender),  NULL,  0 },
+	  { "",                               NULL,
+	  GTK_SIGNAL_FUNC (NULL),             NULL,  0 },*/
+	
+	{ N_("Apply Filters"),                 NULL,
+	  GTK_SIGNAL_FUNC (apply_filters),    NULL,  0 },
+	{ "",                                 NULL,
+	  GTK_SIGNAL_FUNC (NULL),             NULL,  0 },
+	{ N_("Create Rule From Message"),      NULL,
+	  GTK_SIGNAL_FUNC (NULL), filter_menu,  SELECTION_SET },
+	
+	TERMINATOR
+};
+
+
 /* handle context menu over message-list */
 static gint
 on_right_click (ETable *table, gint row, gint col, GdkEvent *event, FolderBrowser *fb)
@@ -497,69 +598,25 @@ on_right_click (ETable *table, gint row, gint col, GdkEvent *event, FolderBrowse
 	CamelMessageInfo *info;
 	GPtrArray *uids;
 	int enable_mask = 0;
+	int hide_mask = 0;
 	int i;
 	char *mailing_list_name = NULL;
 	char *subject_match = NULL, *from_match = NULL;
 
-#define MLIST_VFOLDER (3)
-#define MLIST_FILTER (8)
-	EPopupMenu filter_menu[] = {
-		{ _("VFolder on Subject"),         NULL, GTK_SIGNAL_FUNC (vfolder_subject),   NULL,  2 },
-		{ _("VFolder on Sender"),          NULL, GTK_SIGNAL_FUNC (vfolder_sender),    NULL,  2 },
-		{ _("VFolder on Recipients"),      NULL, GTK_SIGNAL_FUNC (vfolder_recipient), NULL,  2 },
-		{ _("VFolder on Mailing List"),    NULL, GTK_SIGNAL_FUNC (vfolder_mlist),     NULL,  66 },
-		{ "",                              NULL, GTK_SIGNAL_FUNC (NULL),              NULL,  0 },
-		{ _("Filter on Subject"),          NULL, GTK_SIGNAL_FUNC (filter_subject),    NULL,  2 },
-		{ _("Filter on Sender"),           NULL, GTK_SIGNAL_FUNC (filter_sender),     NULL,  2 },
-		{ _("Filter on Recipients"),       NULL, GTK_SIGNAL_FUNC (filter_recipient),  NULL,  2 },
-		{ _("Filter on Mailing List"),     NULL, GTK_SIGNAL_FUNC (filter_mlist),      NULL, 66 },
-		{ NULL,                            NULL, NULL,                                NULL,  0 }
-	};
-
-
-	EPopupMenu menu[] = {
-		{ _("Open"),                       NULL, GTK_SIGNAL_FUNC (view_msg),          NULL,  0 },
-		{ _("Edit"),                       NULL, GTK_SIGNAL_FUNC (edit_msg),          NULL,  1 },
-		{ _("Save As..."),                 NULL, GTK_SIGNAL_FUNC (save_msg),          NULL,  0 },
-		{ _("Print"),                      NULL, GTK_SIGNAL_FUNC (print_msg),         NULL,  0 },
-		{ "",                              NULL, GTK_SIGNAL_FUNC (NULL),              NULL,  0 },
-		{ _("Reply to Sender"),            NULL, GTK_SIGNAL_FUNC (reply_to_sender),   NULL,  0 },
-		{ _("Reply to All"),               NULL, GTK_SIGNAL_FUNC (reply_to_all),      NULL,  0 },
-		{ _("Forward"),                    NULL, GTK_SIGNAL_FUNC (forward_attached),  NULL,  0 },
-		{ _("Forward inline"),             NULL, GTK_SIGNAL_FUNC (forward_inlined),   NULL,  0 },
-		{ "",                              NULL, GTK_SIGNAL_FUNC (NULL),              NULL,  0 },
-		{ _("Mark as Read"),               NULL, GTK_SIGNAL_FUNC (mark_as_seen),      NULL,  4 },
-		{ _("Mark as Unread"),             NULL, GTK_SIGNAL_FUNC (mark_as_unseen),    NULL,  8 },
-		{ "",                              NULL, GTK_SIGNAL_FUNC (NULL),              NULL,  0 },
-		{ _("Move to Folder..."),          NULL, GTK_SIGNAL_FUNC (move_msg),          NULL,  0 },
-		{ _("Copy to Folder..."),          NULL, GTK_SIGNAL_FUNC (copy_msg),          NULL,  0 },
-		{ _("Delete"),                     NULL, GTK_SIGNAL_FUNC (delete_msg),        NULL, 16 },
-		{ _("Undelete"),                   NULL, GTK_SIGNAL_FUNC (undelete_msg),      NULL, 32 },
-		{ "",                              NULL, GTK_SIGNAL_FUNC (NULL),              NULL,  0 },
-		/*{ _("Add Sender to Address Book"), NULL, GTK_SIGNAL_FUNC (addrbook_sender),   NULL,  0 },
-		  { "",                              NULL, GTK_SIGNAL_FUNC (NULL),              NULL,  0 },*/
-		{ _("Apply Filters"),              NULL, GTK_SIGNAL_FUNC (apply_filters),     NULL,  0 },
-		{ "",                              NULL, GTK_SIGNAL_FUNC (NULL),              NULL,  0 },
-		{ _("Create Rule From Message"),   NULL, GTK_SIGNAL_FUNC (NULL),       filter_menu,  2 },
-		{ NULL,                            NULL, NULL,                                NULL,  0 }
-	};
-	
 	if (fb->reconfigure) {
 		enable_mask = 0;
 		goto display_menu;
 	}
 	
-	if (fb->folder != drafts_folder)
-		enable_mask |= 1;
-	
 	if (fb->mail_display->current_message == NULL) {
-		enable_mask |= 2;
+		enable_mask |= SELECTION_SET;
 		mailing_list_name = NULL;
 	} else {
 		const char *subject, *real, *addr;
 		const CamelInternetAddress *from;
 
-		mailing_list_name = header_raw_check_mailing_list(&((CamelMimePart *)fb->mail_display->current_message)->headers);
+		mailing_list_name = header_raw_check_mailing_list(
+			&((CamelMimePart *)fb->mail_display->current_message)->headers);
 
 		if ((subject = camel_mime_message_get_subject(fb->mail_display->current_message))
 		    && (subject = strip_re(subject))
@@ -604,14 +661,30 @@ on_right_click (ETable *table, gint row, gint col, GdkEvent *event, FolderBrowse
 		}
 
 		if (!have_unseen)
-			enable_mask |= 4;
+			enable_mask |= CAN_MARK_READ;
 		if (!have_seen)
-			enable_mask |= 8;
+			enable_mask |= CAN_MARK_UNREAD;
 		
 		if (!have_undeleted)
-			enable_mask |= 16;
+			enable_mask |= CAN_DELETE;
 		if (!have_deleted)
-			enable_mask |= 32;
+			enable_mask |= CAN_UNDELETE;
+
+		/*
+		 * Hide items that wont get used.
+		 */
+		if (!(have_unseen && have_seen)){
+			if (have_seen)
+				hide_mask |= CAN_MARK_READ;
+			else
+				hide_mask |= CAN_MARK_UNREAD;
+		}
+		if (!(have_undeleted && have_deleted)){
+			if (have_deleted)
+				hide_mask |= CAN_DELETE;
+			else
+				hide_mask |= CAN_UNDELETE;
+		}
 	}
 
 	/* free uids */
@@ -623,7 +696,7 @@ display_menu:
 	
 	/* generate the "Filter on Mailing List menu item name */
 	if (mailing_list_name == NULL) {
-		enable_mask |= 64;
+		enable_mask |= IS_MAILING_LIST;
 		filter_menu[MLIST_FILTER].name = g_strdup (_("Filter on Mailing List"));
 		filter_menu[MLIST_VFOLDER].name = g_strdup (_("VFolder on Mailing List"));
 	} else {
@@ -632,7 +705,7 @@ display_menu:
 		g_free(mailing_list_name);
 	}
 
-	e_popup_menu_run (menu, event, enable_mask, 0, fb);
+	e_popup_menu_run (menu, event, enable_mask, hide_mask, fb);
 	
 	g_free(filter_menu[MLIST_FILTER].name);
 	g_free(filter_menu[MLIST_VFOLDER].name);
@@ -724,7 +797,8 @@ folder_browser_gui_init (FolderBrowser *fb)
 	fb->vpaned = e_vpaned_new ();
 	gtk_widget_show (fb->vpaned);
 	
-	gtk_table_attach (GTK_TABLE (fb), fb->vpaned,
+	gtk_table_attach (
+		GTK_TABLE (fb), fb->vpaned,
 			  0, 1, 1, 3,
 			  GTK_FILL | GTK_EXPAND,
 			  GTK_FILL | GTK_EXPAND,
