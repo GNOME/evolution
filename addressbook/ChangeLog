@@ -1,3 +1,9 @@
+2004-05-02  Sivaiah Nallagatla  <snallagatla@novell.com>
+                                                                                                                             
+        * gui/component/addressbook-config.c (dialog_to_source) : see if the selected
+         group is groupwise one and setup the relative uri and other properties into
+         e-source
+
 2004-05-01  Larry Ewing  <lewing@ximian.com>
 
 	* gui/component/addressbook-config.c: sensitize the details dialog

@@ -470,7 +470,8 @@ eab_select_source (const gchar *title, const gchar *message, const gchar *select
 	GtkWidget *scrolled_window;
 	gint response;
 
-	source_list = addressbook_component_peek_source_list (addressbook_component_peek ());
+	if (!e_book_get_addressbooks (&source_list, NULL))
+		return NULL;
 
 	dialog = gtk_dialog_new_with_buttons (title, parent,
 					      GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
