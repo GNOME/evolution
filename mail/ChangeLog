@@ -1,3 +1,12 @@
+2000-06-26  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* main.c (main): Call `GDK_THREADS_ENTER()' and
+	`GDK_THREADS_LEAVE()' around the main loop as in the examples from
+	the GTK+ FAQ.
+
+	* mail-threads.c (DEBUG): New macro for debugging.
+	(read_msg): Use it.
+
 2000-06-25  Peter Williams  <peterw@helixcode.com>
 
 	* Makefile.am: Clean up the various _LIBS and _CFLAGS

@@ -29,6 +29,8 @@
 #include "mail.h"
 #include "mail-threads.h"
 
+#define DEBUG(p) g_print p
+
 /* FIXME TODO: Do we need operations that don't get a progress window because
  * they're quick, but we still want camel to be locked? We need some kind
  * of flag to mail_operation_try, but then we also need some kind of monitor
@@ -574,7 +576,9 @@ static void *dispatch_func( void *data )
 	msg.message = clur->prettyname;
 	write( WRITER, &msg, sizeof( msg ) );
 
+	GDK_THREADS_ENTER ();
 	(clur->callback)( clur->data );
+	GDK_THREADS_LEAVE ();
 
 	msg.type = FINISHED;
 	msg.func = clur->cleanup; /* NULL is ok */
@@ -625,39 +629,46 @@ static gboolean read_msg( GIOChannel *source, GIOCondition condition, gpointer u
 
 	switch( msg->type ) {
 	case STARTING:
+		DEBUG (("*** Message -- STARTING\n"));
 		gtk_label_set_text( GTK_LABEL( queue_window_message ), msg->message );
 		gtk_progress_bar_update( GTK_PROGRESS_BAR( queue_window_progress ), 0.0 );
 		g_free( msg );
 		break;
 	case PERCENTAGE:
+		DEBUG (("*** Message -- PERCENTAGE\n"));
 		gtk_progress_bar_update( GTK_PROGRESS_BAR( queue_window_progress ), msg->percentage );
 		g_free( msg );
 		break;
 	case HIDE_PBAR:
+		DEBUG (("*** Message -- HIDE_PBAR\n"));
 		gtk_progress_set_activity_mode( GTK_PROGRESS( queue_window_progress ), TRUE );
 		timeout_toggle( TRUE );
 
 		g_free( msg );
 		break;
 	case SHOW_PBAR:
+		DEBUG (("*** Message -- SHOW_PBAR\n"));
 		timeout_toggle( FALSE );
 		gtk_progress_set_activity_mode( GTK_PROGRESS( queue_window_progress ), FALSE );
 
 		g_free( msg );
 		break;
 	case MESSAGE:
+		DEBUG (("*** Message -- MESSAGE\n"));
 		gtk_label_set_text( GTK_LABEL( queue_window_message ),
 				    msg->message );
 		g_free( msg->message );
 		g_free( msg );
 		break;
 	case PASSWORD:
+		DEBUG (("*** Message -- PASSWORD\n"));
 		g_assert( msg->reply );
 		g_assert( msg->success );
 		get_password( msg );
 		/* don't free msg! done later */
 		break;
 	case ERROR:
+		DEBUG (("*** Message -- ERROR\n"));
 		show_error( msg );
 		g_free( msg );
 		break;
@@ -667,14 +678,18 @@ static gboolean read_msg( GIOChannel *source, GIOCondition condition, gpointer u
 		 */
 
 	case FINISHED:
+		DEBUG (("*** Message -- FINISH\n"));
 		if( msg->func )
 			(msg->func)( msg->userdata );
 
 		if( op_queue == NULL ) {
+			g_print("\tNo more ops -- hide %p.\n", queue_window);
 			/* All done! */
 			gtk_widget_hide( queue_window );
 			mail_operation_in_progress = FALSE;
 		} else {
+			g_print("\tOperation left.\n");
+
 			/* There's another operation left */
 			
 			/* Pop it off the front */
