@@ -27,7 +27,6 @@ libcamel_la_SOURCES = 				\
 	camel-certdb.c				\
 	camel-charset-map.c			\
 	camel-cipher-context.c			\
-	camel-cms-context.c			\
 	camel-data-cache.c			\
 	camel-data-wrapper.c			\
 	camel-digest-folder.c			\
@@ -77,8 +76,6 @@ libcamel_la_SOURCES = 				\
 	camel-object.c				\
 	camel-operation.c			\
 	camel-partition-table.c			\
-	camel-smime-context.c			\
-	camel-smime-utils.c			\
 	camel-provider.c			\
 	camel-sasl.c				\
 	camel-sasl-anonymous.c			\
@@ -127,7 +124,6 @@ libcamelinclude_HEADERS =			\
 	camel-certdb.h				\
 	camel-charset-map.h			\
 	camel-cipher-context.h			\
-	camel-cms-context.h			\
 	camel-data-cache.h			\
 	camel-data-wrapper.h			\
 	camel-digest-folder.h			\
@@ -178,8 +174,6 @@ libcamelinclude_HEADERS =			\
 	camel-object.h				\
 	camel-operation.h			\
 	camel-partition-table.h			\
-	camel-smime-context.h			\
-	camel-smime-utils.h			\
 	camel-provider.h			\
 	camel-sasl.h				\
 	camel-sasl-anonymous.h			\

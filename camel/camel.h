@@ -33,7 +33,6 @@ extern "C" {
 #endif /* __cplusplus */
 
 #include <camel/camel-cipher-context.h>
-#include <camel/camel-cms-context.h>
 #include <camel/camel-data-wrapper.h>
 #include <camel/camel-exception.h>
 #include <camel/camel-folder.h>
@@ -69,8 +68,6 @@ extern "C" {
 #include <camel/camel-seekable-substream.h>
 #include <camel/camel-service.h>
 #include <camel/camel-session.h>
-#include <camel/camel-smime-context.h>
-#include <camel/camel-smime-utils.h>
 #include <camel/camel-store.h>
 #include <camel/camel-stream-buffer.h>
 #include <camel/camel-stream-filter.h>
