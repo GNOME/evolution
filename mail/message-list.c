@@ -52,13 +52,9 @@
 static BonoboObjectClass *message_list_parent_class;
 static POA_Evolution_MessageList__vepv evolution_message_list_vepv;
 
-static void
-on_cursor_change_cmd (ETable *table, 
-		      int row,
-		      gpointer user_data);
-static void
-select_row (ETable *table,
-	    gpointer user_data);
+static void on_cursor_change_cmd (ETable *table,  int row, gpointer user_data);
+static void select_row (ETable *table, gpointer user_data);
+static char *filter_date (const void *data);
 
 
 static CamelMessageInfo *

@@ -92,3 +92,4 @@ void           message_list_set_search (MessageList *message_list, const char *s
 GtkWidget     *message_list_get_widget (MessageList *message_list);
 
 #endif /* _MESSAGE_LIST_H_ */
+
