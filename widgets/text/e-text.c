@@ -2260,7 +2260,7 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 		    && event->button.button == 1) {
 			GdkEventButton button = event->button;
 
-			gnome_canvas_item_grab_focus (item);
+			e_canvas_item_grab_focus (item);
 
 			e_tep_event.type = GDK_BUTTON_PRESS;
 			e_tep_event.button.time = button.time;
@@ -2276,7 +2276,7 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 		if ((!text->editing) 
 		    && text->editable 
 		    && event->button.button == 1) {
-			gnome_canvas_item_grab_focus (item);
+			e_canvas_item_grab_focus (item);
 		}		
 #endif
 		if (text->editing) {
