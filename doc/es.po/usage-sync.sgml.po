@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution-docs\n"
-"POT-Creation-Date: 2001-03-13 16:30+0100\n"
+"POT-Creation-Date: 2001-04-20 13:43+0200\n"
 "PO-Revision-Date: 2000-12-28 15:38+0100\n"
 "Last-Translator: Héctor García Álvarez <hector@scouts-es.org>\n"
 "Language-Team: Spanish <es@li.org>\n"
