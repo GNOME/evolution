@@ -1,3 +1,11 @@
+2000-04-10  Dan Winship  <danw@helixcode.com>
+
+	* mail-ops.c (fetch_mail): use camel_movemail when fetching mail
+	from an mbox store. This leaves behind temp files for now,
+	because CamelMboxFolder::delete is too confused to use, and NotZed
+	is rewriting CamelMboxFolder, so I'm not going to bother to try to
+	fix it.
+
 2000-04-09  Matt Loper  <matt@helixcode.com>
 
 	* folder-browser.c (folder_browser_new): set folder_browser->uri

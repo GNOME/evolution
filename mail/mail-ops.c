@@ -24,6 +24,7 @@
  */
 
 #include <config.h>
+#include <errno.h>
 #include <gnome.h>
 #include "camel/camel.h"
 #include "mail-ops.h"
@@ -86,22 +87,83 @@ fetch_mail (GtkWidget *button, gpointer user_data)
 	}
 
 	ex = camel_exception_new ();
-	store = camel_session_get_store (default_session->session, url, ex);
-	if (!store) {
-		mail_exception_dialog ("Unable to get new mail", ex, window);
-		goto cleanup;
-	}
-	camel_service_connect_with_url (CAMEL_SERVICE (store), url, ex);
-	if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
-		mail_exception_dialog ("Unable to get new mail", ex, window);
-		goto cleanup;
+
+	/* If fetching mail from an mbox store, safely copy it to a
+	 * temporary store first.
+	 */
+	if (!strncmp (url, "mbox:", 5)) {
+		char *tmp_mbox, *source;
+		int tmpfd;
+
+		tmp_mbox = g_strdup_printf ("%s/movemail.XXXX",
+					    evolution_folders_dir);
+#ifdef HAVE_MKSTEMP
+		tmpfd = mkstemp (tmp_mbox);
+#else
+		if (mktemp (tmp_mbox)) {
+			tmpfd = open (tmp_mbox, O_RDWR | O_CREAT | O_EXCL,
+				      S_IRUSR | S_IWUSR);
+		} else
+			tmpfd = -1;
+#endif
+		if (tmpfd == -1) {
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+					      "Couldn't create temporary "
+					      "mbox: %s", g_strerror (errno));
+			mail_exception_dialog ("Unable to move mail", ex,
+					       window);
+			goto cleanup;
+		}
+		close (tmpfd);
+
+		/* Skip over "mbox://" plus host part (if any) or url. */
+		source = strchr (url + 7, '/');
+
+		switch (camel_movemail (source, tmp_mbox, ex)) {
+		case -1:
+			mail_exception_dialog ("Unable to move mail", ex,
+					       window);
+			/* FALL THROUGH */
+
+		case 0:
+			unlink (tmp_mbox);
+			g_free (tmp_mbox);
+			goto cleanup;
+		}
+
+		folder = camel_store_get_folder (default_session->store,
+						 strrchr (tmp_mbox, '/') + 1,
+						 ex);
+		if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
+			mail_exception_dialog ("Unable to move mail", ex,
+					       window);
+			g_free (tmp_mbox);
+			goto cleanup;
+		}
+	} else {
+		store = camel_session_get_store (default_session->session,
+						 url, ex);
+		if (!store) {
+			mail_exception_dialog ("Unable to get new mail",
+					       ex, window);
+			goto cleanup;
+		}
+		camel_service_connect_with_url (CAMEL_SERVICE (store),
+						url, ex);
+		if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
+			mail_exception_dialog ("Unable to get new mail",
+					       ex, window);
+			goto cleanup;
+		}
+
+		folder = camel_store_get_folder (store, "inbox", ex);
+		if (!folder) {
+			mail_exception_dialog ("Unable to get new mail",
+					       ex, window);
+			goto cleanup;
+		}
 	}
 
-	folder = camel_store_get_folder (store, "inbox", ex);
-	if (!folder) {
-		mail_exception_dialog ("Unable to get new mail", ex, window);
-		goto cleanup;
-	}
 	camel_folder_open (folder, FOLDER_OPEN_READ, ex);
 	if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
 		mail_exception_dialog ("Unable to get new mail", ex, window);
