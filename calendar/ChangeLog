@@ -1,5 +1,10 @@
 2002-08-02  JP Rosevear  <jpr@ximian.com>
 
+	* gui/e-week-view.c (e_week_view_init): don't warn if we can't use
+	the small font, just set use_small_font to FALSE
+
+2002-08-02  JP Rosevear  <jpr@ximian.com>
+	
 	* gui/e-itip-control.c (adjust_item): new util function to add
 	information to an itip message that might not already be there for
 	display purposes (summary, location, etc)

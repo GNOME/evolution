@@ -370,7 +370,7 @@ e_week_view_init (EWeekView *week_view)
 	if (!week_view->small_font)
 		week_view->small_font = gdk_font_load (E_WEEK_VIEW_SMALL_FONT_FALLBACK);
 	if (!week_view->small_font)
-		g_warning ("Couldn't load font");
+		week_view->use_small_font = FALSE;
 
 	/* String to use in 12-hour time format for times in the morning. */
 	week_view->am_string = _("am");
