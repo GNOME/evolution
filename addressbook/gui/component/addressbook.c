@@ -325,7 +325,7 @@ static void
 control_activate (BonoboControl *control, BonoboUIHandler *uih,
 		  AddressbookView *view)
 {
-	Bonobo_UIHandler  remote_uih;
+	Bonobo_UIContainer remote_uih;
 	char *fname;
 	xmlNode *ui;
 	Bonobo_UIContainer container;

@@ -359,6 +359,20 @@ command_create_folder (BonoboUIHandler *uih,
 	e_shell_show_folder_creation_dialog (shell, GTK_WINDOW (shell_view), default_folder);
 }
 
+static void
+command_xml_dump (gpointer         dummy,
+		  EShellView      *view)
+{
+	BonoboUIHandler *uih;
+	BonoboWin *win;
+
+	uih = e_shell_view_get_bonobo_ui_handler (view);
+	
+	win = bonobo_ui_handler_get_app (uih);
+       
+	bonobo_win_dump (win, "On demand");
+}
+
 
 /* Unimplemented commands.  */
 
@@ -401,6 +415,7 @@ BonoboUIVerb help_verbs [] = {
 	BONOBO_UI_VERB_DATA ("HelpUsingMail", command_help, "usage-mail.html"),
 	BONOBO_UI_VERB_DATA ("HelpUsingCalender", command_help, "usage-calender.html"),
 	BONOBO_UI_VERB_DATA ("HelpUsingContact", command_help, "usage-contact.html"),
+	BONOBO_UI_VERB ("DumpXML", command_xml_dump),
 
 	BONOBO_UI_VERB_END
 };

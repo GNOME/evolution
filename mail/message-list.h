@@ -6,7 +6,7 @@
 #include "mail-types.h"
 #include <bonobo/bonobo-main.h>
 #include <bonobo/bonobo-object.h>
-#include <bonobo/bonobo-ui-handler.h>
+#include <bonobo/bonobo-ui-compat.h>
 #include <gal/e-table/e-table-scrolled.h>
 #include <gal/e-table/e-table-simple.h>
 #include <gal/e-table/e-tree-simple.h>

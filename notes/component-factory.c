@@ -37,7 +37,7 @@ control_deactivate (BonoboControl *control, BonoboUIHandler *uih)
 static void
 control_activate (BonoboControl *control, BonoboUIHandler *uih)
 {
-	Bonobo_UIHandler remote_uih;
+	Bonobo_UIContainer remote_uih;
 	GtkWidget *toolbar, *toolbar_frame;
 	BonoboControl *toolbar_control ;
 

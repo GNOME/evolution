@@ -1145,7 +1145,7 @@ show_existing_view (EShellView *shell_view,
 	   control is dead; if it's zombie, we have to recreate it.  */
 	if (bonobo_widget_is_dead (BONOBO_WIDGET (control))) {
 		GtkWidget *parent;
-		Bonobo_UIHandler uih;
+		Bonobo_UIContainer uih;
 
 		parent = control->parent;
 		uih = bonobo_object_corba_objref (BONOBO_OBJECT (priv->uih));			

@@ -164,15 +164,14 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 		  FolderBrowser *fb)
 {
 	GtkWidget         *folder_browser;
-	Bonobo_UIHandler   remote_uih;
 	BonoboUIComponent *component;
 	Bonobo_UIContainer container;
 
-	remote_uih = bonobo_control_get_remote_ui_handler (control);
-	bonobo_ui_handler_set_container (uih, remote_uih);
-	bonobo_object_release_unref (remote_uih, NULL);
+	container = bonobo_control_get_remote_ui_handler (control);
+	bonobo_ui_handler_set_container (uih, container);
+	bonobo_object_release_unref (container, NULL);
 
-	container = bonobo_ui_compat_get_container (uih);
+	g_assert (container == bonobo_ui_compat_get_container (uih));
 	g_return_if_fail (container != CORBA_OBJECT_NIL);
 		
 	folder_browser = bonobo_control_get_widget (control);

@@ -1,3 +1,16 @@
+2000-09-21  Michael Meeks  <michael@helixcode.com>
+
+	* e-shell-view.c (show_existing_view): upd.
+
+	* Evolution-ShellComponent.idl: upd.
+
+	* evolution-shell-component.c (impl_ShellComponent_populate_folder_context_menu):
+	upd.
+
+2000-09-18  Michael Meeks  <michael@helixcode.com>
+
+	* e-shell-view-menu.c (command_xml_dump): add xml dump option.
+
 2000-09-18  Christopher James Lahey  <clahey@helixcode.com>
 
 	* Makefile.am: Added $(EXTRA_GNOME_CFLAGS) and

@@ -267,7 +267,7 @@ impl_ShellComponent_async_remove_folder (PortableServer_Servant servant,
 
 static void
 impl_ShellComponent_populate_folder_context_menu (PortableServer_Servant servant,
-						  const Bonobo_UIHandler corba_uih,
+						  const Bonobo_UIContainer corba_uih,
 						  const CORBA_char *physical_uri,
 						  const CORBA_char *type,
 						  CORBA_Environment *ev)

@@ -525,7 +525,7 @@ void
 calendar_control_activate (BonoboControl *control,
 			   GnomeCalendar *cal)
 {
-	Bonobo_UIHandler remote_uih;
+	Bonobo_UIContainer remote_uih;
 	BonoboUIHandler *uih;
 
 	uih = bonobo_control_get_ui_handler (control);

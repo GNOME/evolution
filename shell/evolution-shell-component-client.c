@@ -426,7 +426,7 @@ evolution_shell_component_client_create_view (EvolutionShellComponentClient *she
 	if (result != EVOLUTION_SHELL_COMPONENT_OK) {
 		*control_return = NULL;
 	} else {
-		Bonobo_UIHandler corba_uih;
+		Bonobo_UIContainer corba_uih;
 
 		corba_uih = bonobo_object_corba_objref (BONOBO_OBJECT (uih));
 		*control_return = BONOBO_CONTROL (bonobo_widget_new_control_from_objref (corba_control,
@@ -497,7 +497,7 @@ evolution_shell_component_client_populate_folder_context_menu (EvolutionShellCom
 							       const char *physical_uri,
 							       const char *type)
 {
-	Bonobo_UIHandler corba_uih;
+	Bonobo_UIContainer corba_uih;
 	EvolutionShellComponentClientPrivate *priv;
 	Evolution_ShellComponent corba_shell_component;
 	CORBA_Environment ev;

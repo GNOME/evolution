@@ -1,3 +1,8 @@
+2000-09-21  Michael Meeks  <michael@helixcode.com>
+
+	* gui/calendar-commands.c (calendar_control_activate): _UIHandler
+	update.
+
 2000-09-20  JP Rosevear  <jpr@helixcode.com>
 
 	* conduits/todo/todo-conduit.c (pre_sync): Don't fail if there

@@ -55,7 +55,7 @@ module Evolution {
 					  in string physical_uri)
 			raises (Busy);
 
-		void populate_folder_context_menu (in Bonobo::UIHandler uih,
+		void populate_folder_context_menu (in Bonobo::UIContainer uih,
 						   in string physical_uri,
 						   in string type);
 	};
