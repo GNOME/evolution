@@ -1,5 +1,10 @@
 2005-01-31  Hans Petter Jansson  <hpj@novell.com>
 
+	* common/Makefile.am (libevolution_calendarprivate_la_LDFLAGS):
+	Remove the -module flag, this isn't supposed to be a module.
+
+2005-01-31  Hans Petter Jansson  <hpj@novell.com>
+
 	* idl/evolution-calendar.idl: Remove definition of CalObjUID and
 	include that from Evolution-DataServer-Calendar.idl instead. This
 	prevents the typecode from being defined twice.
