@@ -1,5 +1,15 @@
 2002-02-24  Chris Toshok  <toshok@ximian.com>
 
+	* gui/component/addressbook.c (addressbook_query_changed): only
+	handle the ESB_ADVANCED case here now.  the actual query work is
+	done in addressbook_search_activated.
+	(addressbook_search_activated): split out all the searching
+	functionality here.
+	(addressbook_factory_new_control): hook up "search_activated" to
+	addressbook_search_activated.
+
+2002-02-24  Chris Toshok  <toshok@ximian.com>
+
 	* gui/component/addressbook-config.c
 	(addressbook_source_dialog_set_source): make the right auth page
 	start up open.
