@@ -1,3 +1,15 @@
+2004-10-08  Rodrigo Moya <rodrigo@novell.com>
+
+	Fixes #45951
+
+	* gui/dialogs/event-page.glade:
+	* gui/dialogs/task-page.glade: attach the description field correctly
+	to the table so that it scrolls correctly instead of making the dialog
+	bigger as you write.
+
+	* gui/dialogs/comp-editor.c (setup_widgets): no need to create an extra
+	GtkVBox, just use the GtkDialog's one.
+
 2004-10-07  JP Rosevear  <jpr@novell.com>
 
 	* gui/dialogs/cal-prefs-dialog.c: remove useless include

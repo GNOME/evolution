@@ -384,21 +384,13 @@ static void
 setup_widgets (CompEditor *editor)
 {
 	CompEditorPrivate *priv;
-	GtkWidget *vbox;
 
 	priv = editor->priv;
-
-	/* Basic vbox */
-	vbox = gtk_vbox_new (FALSE, GNOME_PAD_SMALL);
-	gtk_widget_show (vbox);
-	gtk_container_set_border_width (GTK_CONTAINER (vbox), GNOME_PAD_SMALL);
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (editor)->vbox), vbox,
-			    TRUE, TRUE, 6);
 
 	/* Notebook */
 	priv->notebook = GTK_NOTEBOOK (gtk_notebook_new ());
 	gtk_widget_show (GTK_WIDGET (priv->notebook));
-	gtk_box_pack_start (GTK_BOX (vbox), GTK_WIDGET (priv->notebook),
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (editor)->vbox), GTK_WIDGET (priv->notebook),
 			    TRUE, TRUE, 6);
 
 	/* Buttons */
