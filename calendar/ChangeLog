@@ -1,3 +1,16 @@
+2001-08-17  Damon Chaplin  <damon@ximian.com>
+
+	* gui/gnome-cal.c (gnome_calendar_new_task): new function to open the
+	task editor to add a new task.
+
+	* gui/calendar-commands.c: added new_task_cb() to create a new task
+	in the calendar folder, and added menu commands for it, and a toolbar
+	button (I think that is what Ettore wanted. Maybe he just meant menu
+	commands. Anyway, it is easy to take out.) Note that we don't have a
+	decent icon for 'New Task' for the toolbar.
+	Also added the new Goto button (but we don't have a similar one for
+	the menu command).
+
 2001-08-16  Iain Holmes  <iain@ximian.com>
 
 	* gui/Makefile.am: Add the libetimezonedialog.a lib link

@@ -84,6 +84,15 @@ new_event_cb (BonoboUIComponent *uic, gpointer data, const char *path)
 	gnome_calendar_new_appointment_for (gcal, dtstart, dtend, TRUE);
 }
 
+static void
+new_task_cb (BonoboUIComponent *uic, gpointer data, const char *path)
+{
+	GnomeCalendar *gcal;
+
+	gcal = GNOME_CALENDAR (data);
+	gnome_calendar_new_task (gcal);
+}
+
 /* Prints the calendar at its current view and time range */
 static void
 print (GnomeCalendar *gcal, gboolean preview)
@@ -474,8 +483,11 @@ control_util_set_folder_bar_label (BonoboControl *control, char *label)
 static BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("CalendarPrint", file_print_cb),
 	BONOBO_UI_VERB ("CalendarPrintPreview", file_print_preview_cb),
+
 	BONOBO_UI_VERB ("CalendarNewAppointment", new_appointment_cb),
 	BONOBO_UI_VERB ("CalendarNewEvent", new_event_cb),
+	BONOBO_UI_VERB ("CalendarNewTask", new_task_cb),
+
 	BONOBO_UI_VERB ("CalendarSettings", settings_cmd),
 
 	BONOBO_UI_VERB ("CutEvent", cut_event_cmd),
@@ -500,15 +512,20 @@ static BonoboUIVerb verbs [] = {
 static EPixmap pixmaps [] =
 {
 	E_PIXMAP ("/menu/File/New/NewFirstItem/NewAppointment",	              "new_appointment.xpm"),
+	E_PIXMAP ("/menu/File/New/NewFirstItem/NewTask",	              "task.xpm"),
 	E_PIXMAP ("/menu/File/Print/Print",				      "print.xpm"),
 	E_PIXMAP ("/menu/File/Print/PrintPreview",			      "print-preview.xpm"),
 	E_PIXMAP ("/menu/ComponentActionsPlaceholder/Actions/NewAppointment", "new_appointment.xpm"),
+	E_PIXMAP ("/menu/ComponentActionsPlaceholder/Actions/NewEvent", "new_appointment.xpm"),
+	E_PIXMAP ("/menu/ComponentActionsPlaceholder/Actions/NewTask", "task.xpm"),
 	E_PIXMAP ("/menu/ComponentToolsPlaceholder/Tools/CalendarSettings",   "configure_16_calendar.xpm"),
 
 	E_PIXMAP ("/Toolbar/New",					      "buttons/new_appointment.png"),
+	E_PIXMAP ("/Toolbar/NewTask",					      "task.xpm"),
 	E_PIXMAP ("/Toolbar/Print",					      "buttons/print.png"),
 	E_PIXMAP ("/Toolbar/Prev",					      "buttons/arrow-left-24.png"),
 	E_PIXMAP ("/Toolbar/Next",					      "buttons/arrow-right-24.png"),
+	E_PIXMAP ("/Toolbar/Goto",					      "buttons/goto-24.png"),
 	E_PIXMAP ("/Toolbar/DayView",					      "buttons/dayview.xpm"),
 	E_PIXMAP ("/Toolbar/WorkWeekView",				      "buttons/workweekview.xpm"),
 	E_PIXMAP ("/Toolbar/WeekView",					      "buttons/weekview.xpm"),

@@ -41,6 +41,7 @@
 #include <cal-util/timeutil.h>
 #include "widgets/menus/gal-view-menus.h"
 #include "dialogs/event-editor.h"
+#include "dialogs/task-editor.h"
 #include "e-calendar-table.h"
 #include "e-day-view.h"
 #include "e-week-view.h"
@@ -1957,6 +1958,39 @@ gnome_calendar_new_appointment (GnomeCalendar *gcal)
 	gnome_calendar_get_current_time_range (gcal, &dtstart, &dtend);
 	gnome_calendar_new_appointment_for (gcal, dtstart, dtend, FALSE);
 }
+
+/**
+ * gnome_calendar_new_task:
+ * @gcal: An Evolution calendar.
+ *
+ * Opens a task editor dialog for a new task.
+ **/
+void
+gnome_calendar_new_task		(GnomeCalendar *gcal)
+{
+	GnomeCalendarPrivate *priv;
+	TaskEditor *tedit;
+	CalComponent *comp;
+
+	g_print ("In gnome_calendar_new_task\n");
+
+	g_return_if_fail (gcal != NULL);
+	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
+
+	priv = gcal->priv;
+
+	tedit = task_editor_new ();
+	comp_editor_set_cal_client (COMP_EDITOR (tedit), priv->task_pad_client);
+
+	comp = cal_component_new ();
+	cal_component_set_new_vtype (comp, CAL_COMPONENT_TODO);
+
+	comp_editor_edit_comp (COMP_EDITOR (tedit), comp);
+	gtk_object_unref (GTK_OBJECT (comp));
+
+	comp_editor_focus (COMP_EDITOR (tedit));
+}
+
 
 /* Returns the selected time range for the current view. Note that this may be
    different from the fields in the GnomeCalendar, since the view may clip

@@ -114,6 +114,8 @@ void       gnome_calendar_new_appointment_for   (GnomeCalendar *cal,
 						 time_t dtstart, time_t dtend,
 						 gboolean all_day);
 
+void       gnome_calendar_new_task		(GnomeCalendar *gcal);
+
 /* Returns the selected time range for the current view. Note that this may be
    different from the fields in the GnomeCalendar, since the view may clip
    this or choose a more appropriate time. */
