@@ -47,21 +47,27 @@ struct _CamelCipherContextPrivate {
 #endif
 };
 
-static int                  cipher_sign (CamelCipherContext *ctx, const char *userid, CamelCipherHash hash,
-					 CamelStream *istream, CamelStream *ostream, CamelException *ex);
-static CamelCipherValidity *cipher_verify (CamelCipherContext *context, CamelCipherHash hash,
-					   CamelStream *istream, CamelStream *sigstream,
-					   CamelException *ex);
+static const char *cipher_hash_to_id (CamelCipherContext *context, CamelCipherHash hash);
+static CamelCipherHash cipher_id_to_hash (CamelCipherContext *context, const char *id);
+
+static int                  cipher_sign    (CamelCipherContext *context, const char *userid, CamelCipherHash hash,
+					    CamelStream *istream, CamelStream *ostream, CamelException *ex);
+static CamelCipherValidity *cipher_verify  (CamelCipherContext *context, CamelCipherHash hash,
+					    CamelStream *istream, CamelStream *sigstream,
+					    CamelException *ex);
 static int                  cipher_encrypt (CamelCipherContext *context, gboolean sign, const char *userid,
 					    GPtrArray *recipients, CamelStream *istream,
 					    CamelStream *ostream, CamelException *ex);
 static int                  cipher_decrypt (CamelCipherContext *context, CamelStream *istream,
 					    CamelStream *ostream, CamelException *ex);
+static int              cipher_import_keys (CamelCipherContext *context, CamelStream *istream,
+					    CamelException *ex);
+static int              cipher_export_keys (CamelCipherContext *context, GPtrArray *keys,
+					    CamelStream *ostream, CamelException *ex);
 
-static const char *cipher_hash_to_id(CamelCipherContext *context, CamelCipherHash hash);
-static CamelCipherHash cipher_id_to_hash(CamelCipherContext *context, const char *id);
 
 static CamelObjectClass *parent_class;
+
 
 static void
 camel_cipher_context_init (CamelCipherContext *context)
@@ -91,12 +97,14 @@ camel_cipher_context_class_init (CamelCipherContextClass *camel_cipher_context_c
 {
 	parent_class = camel_type_get_global_classfuncs (camel_object_get_type ());
 	
+	camel_cipher_context_class->hash_to_id = cipher_hash_to_id;
+	camel_cipher_context_class->id_to_hash = cipher_id_to_hash;
 	camel_cipher_context_class->sign = cipher_sign;
 	camel_cipher_context_class->verify = cipher_verify;
 	camel_cipher_context_class->encrypt = cipher_encrypt;
 	camel_cipher_context_class->decrypt = cipher_decrypt;
-	camel_cipher_context_class->hash_to_id = cipher_hash_to_id;
-	camel_cipher_context_class->id_to_hash = cipher_id_to_hash;
+	camel_cipher_context_class->import_keys = cipher_import_keys;
+	camel_cipher_context_class->export_keys = cipher_export_keys;
 }
 
 CamelType
@@ -326,6 +334,73 @@ camel_cipher_decrypt (CamelCipherContext *context, CamelStream *istream,
 	return retval;
 }
 
+
+static int
+cipher_import_keys (CamelCipherContext *context, CamelStream *istream, CamelException *ex)
+{
+	camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
+			     _("You may not import keys with this cipher"));
+	
+	return -1;
+}
+
+
+/**
+ * camel_cipher_import_keys:
+ * @ctx: Cipher Context
+ * @istream: input stream (containing keys)
+ * @ex: exception
+ *
+ * Imports a stream of keys/certificates contained within @istream
+ * into the key/certificate database controlled by @ctx.
+ *
+ * Returns 0 on success or -1 on fail.
+ **/
+int
+camel_cipher_import_keys (CamelCipherContext *context, CamelStream *istream, CamelException *ex)
+{
+	g_return_val_if_fail (CAMEL_IS_CIPHER_CONTEXT (context), -1);
+	g_return_val_if_fail (CAMEL_IS_STREAM (istream), -1);
+	
+	return CCC_CLASS (context)->import_keys (context, istream, ex);
+}
+
+
+static int
+cipher_export_keys (CamelCipherContext *context, GPtrArray *keys,
+		    CamelStream *ostream, CamelException *ex)
+{
+	camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
+			     _("You may not export keys with this cipher"));
+	
+	return -1;
+}
+
+
+/**
+ * camel_cipher_export_keys:
+ * @ctx: Cipher Context
+ * @keys: an array of key ids
+ * @ostream: output stream
+ * @ex: exception
+ *
+ * Exports the keys/certificates in @keys to the stream @ostream from
+ * the key/certificate database controlled by @ctx.
+ *
+ * Returns 0 on success or -1 on fail.
+ **/
+int
+camel_cipher_export_keys (CamelCipherContext *context, GPtrArray *keys,
+			  CamelStream *ostream, CamelException *ex)
+{
+	g_return_val_if_fail (CAMEL_IS_CIPHER_CONTEXT (context), -1);
+	g_return_val_if_fail (CAMEL_IS_STREAM (ostream), -1);
+	g_return_val_if_fail (keys != NULL, -1);
+	
+	return CCC_CLASS (context)->export_keys (context, keys, ostream, ex);
+}
+
+
 static CamelCipherHash
 cipher_id_to_hash(CamelCipherContext *context, const char *id)
 {
@@ -337,8 +412,8 @@ CamelCipherHash
 camel_cipher_id_to_hash(CamelCipherContext *context, const char *id)
 {
 	g_return_val_if_fail (CAMEL_IS_CIPHER_CONTEXT (context), CAMEL_CIPHER_HASH_DEFAULT);
-
-	return ((CamelCipherContextClass *)((CamelObject *)context)->klass)->id_to_hash(context, id);
+	
+	return CCC_CLASS (context)->id_to_hash (context, id);
 }
 
 static const char *
@@ -351,8 +426,8 @@ const char *
 camel_cipher_hash_to_id(CamelCipherContext *context, CamelCipherHash hash)
 {
 	g_return_val_if_fail (CAMEL_IS_CIPHER_CONTEXT (context), NULL);
-
-	return ((CamelCipherContextClass *)((CamelObject *)context)->klass)->hash_to_id(context, hash);
+	
+	return CCC_CLASS (context)->hash_to_id (context, hash);
 }
 
 /* Cipher Validity stuff */

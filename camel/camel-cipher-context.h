@@ -44,7 +44,9 @@ typedef enum {
 	CAMEL_CIPHER_HASH_MD2,
 	CAMEL_CIPHER_HASH_MD5,
 	CAMEL_CIPHER_HASH_SHA1,
-	CAMEL_CIPHER_HASH_RIPEMD160
+	CAMEL_CIPHER_HASH_RIPEMD160,
+	CAMEL_CIPHER_HASH_TIGER192,
+	CAMEL_CIPHER_HASH_HAVAL5160
 } CamelCipherHash;
 
 typedef struct _CamelCipherContext {
@@ -57,12 +59,16 @@ typedef struct _CamelCipherContext {
 	/* these MUST be set by implementors */
 	const char *sign_protocol;
 	const char *encrypt_protocol;
+	const char *key_protocol;
 } CamelCipherContext;
 
 typedef struct _CamelCipherContextClass {
 	CamelObjectClass parent_class;
 	
-	int                   (*sign)      (CamelCipherContext *ctx, const char *userid, CamelCipherHash hash,
+	CamelCipherHash	      (*id_to_hash)(CamelCipherContext *context, const char *id);
+	const char *	      (*hash_to_id)(CamelCipherContext *context, CamelCipherHash hash);
+	
+	int                   (*sign)      (CamelCipherContext *context, const char *userid, CamelCipherHash hash,
 					    CamelStream *istream, CamelStream *ostream, CamelException *ex);
 	
 	CamelCipherValidity * (*verify)    (CamelCipherContext *context, CamelCipherHash hash,
@@ -76,9 +82,11 @@ typedef struct _CamelCipherContextClass {
 	int                   (*decrypt)   (CamelCipherContext *context, CamelStream *istream, CamelStream *ostream,
 					    CamelException *ex);
 	
-	CamelCipherHash	      (*id_to_hash)(CamelCipherContext *context, const char *id);
-	const char *	      (*hash_to_id)(CamelCipherContext *context, CamelCipherHash hash);
+	int                   (*import_keys) (CamelCipherContext *context, CamelStream *istream,
+					      CamelException *ex);
 	
+	int                   (*export_keys) (CamelCipherContext *context, GPtrArray *keys,
+					      CamelStream *ostream, CamelException *ex);
 } CamelCipherContextClass;
 
 CamelType            camel_cipher_context_get_type (void);
@@ -86,6 +94,10 @@ CamelType            camel_cipher_context_get_type (void);
 CamelCipherContext  *camel_cipher_context_new (CamelSession *session);
 
 void                 camel_cipher_context_construct (CamelCipherContext *context, CamelSession *session);
+
+/* cipher context util routines */
+CamelCipherHash	     camel_cipher_id_to_hash (CamelCipherContext *context, const char *id);
+const char *	     camel_cipher_hash_to_id (CamelCipherContext *context, CamelCipherHash hash);
 
 /* cipher routines */
 int                  camel_cipher_sign (CamelCipherContext *context, const char *userid, CamelCipherHash hash,
@@ -102,9 +114,12 @@ int                  camel_cipher_encrypt (CamelCipherContext *context, gboolean
 int                  camel_cipher_decrypt (CamelCipherContext *context, CamelStream *istream, CamelStream *ostream,
 					   CamelException *ex);
 
-/* cipher context util routines */
-CamelCipherHash	     camel_cipher_id_to_hash (CamelCipherContext *context, const char *id);
-const char *	     camel_cipher_hash_to_id (CamelCipherContext *context, CamelCipherHash hash);
+/* key/certificate routines */
+int                  camel_cipher_import_keys (CamelCipherContext *context, CamelStream *istream,
+					       CamelException *ex);
+
+int                  camel_cipher_export_keys (CamelCipherContext *context, GPtrArray *keys,
+					       CamelStream *ostream, CamelException *ex);
 
 /* CamelCipherValidity utility functions */
 CamelCipherValidity *camel_cipher_validity_new (void);

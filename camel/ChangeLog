@@ -1,5 +1,23 @@
 2002-10-31  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-gpg-context.c (camel_gpg_context_class_init): Set the
+	virtual method pointers to the import/export methods.
+	(camel_gpg_context_init): Set the key_protocol string.
+	(gpg_hash_to_id): Handle 2 more hash types.
+	(gpg_id_to_hash): Same.
+	(gpg_ctx_op_step): Slight fixes to support import/export.
+	(gpg_ctx_parse_status): Fix to hack around the fact that importing
+	keys doesn't write to stdout.
+	(gpg_import_keys): Implemented.
+	(gpg_export_keys): Implemented.
+
+	* camel-cipher-context.c (camel_cipher_context_class_init): Hook
+	up default virtual methods for import/export.
+	(camel_cipher_import_keys): Implemented.
+	(camel_cipher_export_keys): Implemented.
+
+2002-10-31  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* Makefile.am: Removed hash-table-utils.[c,h] from the build.
 
 	* hash-table-utils.[c,h]: Removed.

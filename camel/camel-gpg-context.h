@@ -62,4 +62,3 @@ void camel_gpg_context_set_always_trust (CamelGpgContext *ctx, gboolean trust);
 #endif /* __cplusplus */
 
 #endif /* __CAMEL_GPG_CONTEXT_H__ */
-
