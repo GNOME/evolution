@@ -1,3 +1,7 @@
+2003-03-05  Rodney Dawes  <dobey@ximian.com>
+
+	* e-proxy.c: Don't append trailing slash to paths for dir_exists calls
+	
 2003-02-14  Rodney Dawes  <dobey@ximian.com>
 
 	* e-proxy.c: Fixed a typo dir_exits should be dir_exists
