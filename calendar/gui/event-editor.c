@@ -336,7 +336,7 @@ make_recur_weekly_special (EventEditor *ee)
 
 	/* Create the widgets */
 
-	hbox = gtk_hbox_new (FALSE, 4);
+	hbox = gtk_hbox_new (FALSE, 2);
 	gtk_container_add (GTK_CONTAINER (priv->recurrence_special), hbox);
 
 	label = gtk_label_new (_("on"));
@@ -460,7 +460,7 @@ make_recur_ending_count_special (EventEditor *ee)
 
 	/* Create the widgets */
 
-	hbox = gtk_hbox_new (FALSE, 4);
+	hbox = gtk_hbox_new (FALSE, 2);
 	gtk_container_add (GTK_CONTAINER (priv->recurrence_ending_special), hbox);
 
 	adj = GTK_ADJUSTMENT (gtk_adjustment_new (1, 1, 10000, 1, 10, 10));
@@ -726,6 +726,53 @@ get_widgets (EventEditor *ee)
 		&& priv->recurrence_exception_delete);
 }
 
+/* Syncs the contents of two entry widgets, while blocking signals on the
+ * specified data.
+ */
+static void
+sync_entries (GtkWidget *source, GtkWidget *dest, gpointer data)
+{
+	char *str;
+
+	gtk_signal_handler_block_by_data (GTK_OBJECT (dest), data);
+
+	str = gtk_editable_get_chars (GTK_EDITABLE (source), 0, -1);
+	gtk_entry_set_text (GTK_ENTRY (dest), str);
+	g_free (str);
+
+	gtk_signal_handler_unblock_by_data (GTK_OBJECT (dest), data);
+}
+
+/* Callback used when the general summary changes; we sync the recurrence
+ * summary to it.
+ */
+static void
+general_summary_changed_cb (GtkEditable *editable, gpointer data)
+{
+	EventEditor *ee;
+	EventEditorPrivate *priv;
+
+	ee = EVENT_EDITOR (data);
+	priv = ee->priv;
+
+	sync_entries (priv->general_summary, priv->recurrence_summary, ee);
+}
+
+/* Callback used when the recurrence summary changes; we sync the general
+ * summary to it.
+ */
+static void
+recurrence_summary_changed_cb (GtkEditable *editable, gpointer data)
+{
+	EventEditor *ee;
+	EventEditorPrivate *priv;
+
+	ee = EVENT_EDITOR (data);
+	priv = ee->priv;
+
+	sync_entries (priv->recurrence_summary, priv->general_summary, ee);
+}
+
 /* Hooks the widget signals */
 static void
 init_widgets (EventEditor *ee)
@@ -734,6 +781,13 @@ init_widgets (EventEditor *ee)
 	GtkWidget *menu;
 
 	priv = ee->priv;
+
+	/* Summary in the main and recurrence pages */
+
+	gtk_signal_connect (GTK_OBJECT (priv->general_summary), "changed",
+			    GTK_SIGNAL_FUNC (general_summary_changed_cb), ee);
+	gtk_signal_connect (GTK_OBJECT (priv->recurrence_summary), "changed",
+			    GTK_SIGNAL_FUNC (recurrence_summary_changed_cb), ee);
 
 	/* Start and end times */
 
@@ -840,7 +894,7 @@ clear_widgets (EventEditor *ee)
 
 	/* Summary, description */
 
-	e_dialog_editable_set (priv->general_summary, NULL);
+	e_dialog_editable_set (priv->general_summary, NULL); /* will also change recur summary */
 	e_dialog_editable_set (priv->description, NULL);
 
 	/* Start and end times */
@@ -1161,7 +1215,7 @@ fill_widgets (EventEditor *ee)
 	/* Summary, description(s) */
 
 	cal_component_get_summary (priv->comp, &text);
-	e_dialog_editable_set (priv->general_summary, text.value);
+	e_dialog_editable_set (priv->general_summary, text.value); /* will also set recur summary */
 
 	cal_component_get_description_list (priv->comp, &l);
 	if (l) {

@@ -1,5 +1,22 @@
 2000-10-27  Federico Mena Quintero  <federico@helixcode.com>
 
+	* gui/event-editor.c (sync_entries): New function.
+	(general_summary_changed_cb): Sync the general summary to the
+	recurrence summary widget.
+	(recurrence_summary_changed_cb): Vice-versa.
+	(init_widgets): Hook to the summaries.
+
+	* event-editor-dialog.glade: Do not expand/fill the start and end
+	date so that the "all day event" button is not pushed all the way
+	to the right.
+	Decrease the spacing between the recurrence sentence widgets.
+	Remove a spurious empty label that was lurking around the
+	recurrence widgets.
+	Make the alarm widgets expand the right way.
+	Delete old recurrence widgets.
+
+2000-10-27  Federico Mena Quintero  <federico@helixcode.com>
+
 	* gui/event-editor.c (init_widgets): Connect to the recurrence
 	ending menu.
 	(recur_ending_selection_done_cb): Implemented.
