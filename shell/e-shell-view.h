@@ -70,30 +70,33 @@ struct _EShellViewClass {
 };
 
 
-GtkType                  e_shell_view_get_type               (void);
-EShellView              *e_shell_view_construct              (EShellView              *shell_view,
-							      EShell                  *shell);
-EShellView              *e_shell_view_new                    (EShell                  *shell);
+GtkType     e_shell_view_get_type   (void);
+EShellView *e_shell_view_construct  (EShellView *shell_view,
+				     EShell     *shell);
+EShellView *e_shell_view_new        (EShell     *shell);
 
-gboolean                 e_shell_view_display_uri            (EShellView              *shell_view,
-							      const char              *uri);
+const GNOME_Evolution_ShellView  e_shell_view_get_corba_interface  (EShellView *view);
+
+gboolean  e_shell_view_display_uri  (EShellView *shell_view,
+				     const char *uri);
 
 void                     e_shell_view_set_shortcut_bar_mode  (EShellView              *shell_view,
 							      EShellViewSubwindowMode  mode);
-void                     e_shell_view_set_folder_bar_mode    (EShellView              *shell_view,
-							      EShellViewSubwindowMode  mode);
 EShellViewSubwindowMode  e_shell_view_get_shortcut_bar_mode  (EShellView              *shell_view);
-EShellViewSubwindowMode  e_shell_view_get_folder_bar_mode    (EShellView              *shell_view);
 
-EShell                  *e_shell_view_get_shell              (EShellView              *shell_view);
-BonoboUIComponent       *e_shell_view_get_bonobo_ui_component(EShellView              *shell_view);
-GtkWidget               *e_shell_view_get_appbar             (EShellView              *shell_view);
-const char              *e_shell_view_get_current_uri        (EShellView              *shell_view);
+void                     e_shell_view_set_folder_bar_mode  (EShellView              *shell_view,
+							    EShellViewSubwindowMode  mode);
+EShellViewSubwindowMode  e_shell_view_get_folder_bar_mode  (EShellView              *shell_view);
 
-gboolean                 e_shell_view_save_settings	     (EShellView              *shell_view,
-							      const char              *prefix);
-gboolean                 e_shell_view_load_settings	     (EShellView              *shell_view,
-							      const char              *prefix);
+EShell            *e_shell_view_get_shell                (EShellView *shell_view);
+BonoboUIComponent *e_shell_view_get_bonobo_ui_component  (EShellView *shell_view);
+GtkWidget         *e_shell_view_get_appbar               (EShellView *shell_view);
+const char        *e_shell_view_get_current_uri          (EShellView *shell_view);
+
+gboolean  e_shell_view_save_settings  (EShellView *shell_view,
+				       const char *prefix);
+gboolean  e_shell_view_load_settings  (EShellView *shell_view,
+				       const char *prefix);
 
 #ifdef __cplusplus
 }

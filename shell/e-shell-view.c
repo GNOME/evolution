@@ -62,6 +62,10 @@ struct _EShellViewPrivate {
 	/* The shell.  */
 	EShell *shell;
 
+	/* EvolutionShellView Bonobo object for implementing the
+           Evolution::ShellView interface.  */
+	EvolutionShellView *corba_interface;
+
 	/* The UI handler.  */
 	BonoboUIComponent *ui_component;
 
@@ -555,6 +559,9 @@ destroy (GtkObject *object)
 	shell_view = E_SHELL_VIEW (object);
 	priv = shell_view->priv;
 
+	if (priv->corba_interface != NULL)
+		bonobo_object_unref (BONOBO_OBJECT (priv->corba_interface));
+
 	for (p = priv->sockets; p != NULL; p = p->next) {
 		GtkWidget *socket_widget;
 		int destroy_connection_id;
@@ -636,6 +643,7 @@ init (EShellView *shell_view)
 	priv = g_new (EShellViewPrivate, 1);
 
 	priv->shell                   = NULL;
+	priv->corba_interface         = NULL;
 	priv->ui_component            = NULL;
 	priv->uri                     = NULL;
 	priv->delayed_selection       = NULL;
@@ -735,7 +743,7 @@ stop_progress_bar (EShellView *shell_view)
 /* EvolutionShellView interface callbacks.  */
 
 static void
-shell_view_interface_set_message_cb (EvolutionShellView *shell_view,
+corba_interface_set_message_cb (EvolutionShellView *shell_view,
 				     const char *message,
 				     gboolean busy,
 				     void *data)
@@ -770,7 +778,7 @@ shell_view_interface_set_message_cb (EvolutionShellView *shell_view,
 }
 
 static void
-shell_view_interface_unset_message_cb (EvolutionShellView *shell_view,
+corba_interface_unset_message_cb (EvolutionShellView *shell_view,
 				       void *data)
 {
 	EShellView *view;
@@ -785,7 +793,7 @@ shell_view_interface_unset_message_cb (EvolutionShellView *shell_view,
 }
 
 static void
-shell_view_interface_change_current_view_cb (EvolutionShellView *shell_view,
+corba_interface_change_current_view_cb (EvolutionShellView *shell_view,
 					     const char *uri,
 					     void *data)
 {
@@ -799,7 +807,7 @@ shell_view_interface_change_current_view_cb (EvolutionShellView *shell_view,
 }
 
 static void
-shell_view_interface_set_title (EvolutionShellView *shell_view,
+corba_interface_set_title (EvolutionShellView *shell_view,
 				const char *title,
 				void *data)
 {
@@ -893,6 +901,19 @@ e_shell_view_new (EShell *shell)
 	new = gtk_type_new (e_shell_view_get_type ());
 
 	return e_shell_view_construct (E_SHELL_VIEW (new), shell);
+}
+
+const GNOME_Evolution_ShellView
+e_shell_view_get_corba_interface (EShellView *shell_view)
+{
+	EShellViewPrivate *priv;
+
+	g_return_val_if_fail (shell_view != NULL, CORBA_OBJECT_NIL);
+	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), CORBA_OBJECT_NIL);
+
+	priv = shell_view->priv;
+
+	return bonobo_object_corba_objref (BONOBO_OBJECT (priv->corba_interface));
 }
 
 
@@ -1080,30 +1101,36 @@ set_current_notebook_page (EShellView *shell_view,
 }
 
 static void
-setup_evolution_shell_view_interface (EShellView *shell_view,
-				      GtkWidget *control)
+setup_corba_interface (EShellView *shell_view,
+		       GtkWidget *control)
 {
+	EShellViewPrivate *priv;
 	BonoboControlFrame *control_frame;
-	EvolutionShellView *shell_view_interface;
+	EvolutionShellView *corba_interface;
+
+	priv = shell_view->priv;
 
 	control_frame = bonobo_widget_get_control_frame (BONOBO_WIDGET (control));
-	shell_view_interface = evolution_shell_view_new ();
+	corba_interface = evolution_shell_view_new ();
 
-	gtk_signal_connect_while_alive (GTK_OBJECT (shell_view_interface), "set_message",
-					GTK_SIGNAL_FUNC (shell_view_interface_set_message_cb),
+	gtk_signal_connect_while_alive (GTK_OBJECT (corba_interface), "set_message",
+					GTK_SIGNAL_FUNC (corba_interface_set_message_cb),
 					shell_view, GTK_OBJECT (shell_view));
-	gtk_signal_connect_while_alive (GTK_OBJECT (shell_view_interface), "unset_message",
-					GTK_SIGNAL_FUNC (shell_view_interface_unset_message_cb),
+	gtk_signal_connect_while_alive (GTK_OBJECT (corba_interface), "unset_message",
+					GTK_SIGNAL_FUNC (corba_interface_unset_message_cb),
 					shell_view, GTK_OBJECT (shell_view));
-	gtk_signal_connect_while_alive (GTK_OBJECT (shell_view_interface), "change_current_view",
-					GTK_SIGNAL_FUNC (shell_view_interface_change_current_view_cb),
+	gtk_signal_connect_while_alive (GTK_OBJECT (corba_interface), "change_current_view",
+					GTK_SIGNAL_FUNC (corba_interface_change_current_view_cb),
 					shell_view, GTK_OBJECT (shell_view));
-	gtk_signal_connect_while_alive (GTK_OBJECT (shell_view_interface), "set_title",
-					GTK_SIGNAL_FUNC (shell_view_interface_set_title),
+	gtk_signal_connect_while_alive (GTK_OBJECT (corba_interface), "set_title",
+					GTK_SIGNAL_FUNC (corba_interface_set_title),
 					shell_view, GTK_OBJECT (shell_view));
 
 	bonobo_object_add_interface (BONOBO_OBJECT (control_frame),
-				     BONOBO_OBJECT (shell_view_interface));
+				     BONOBO_OBJECT (corba_interface));
+
+	bonobo_object_ref (BONOBO_OBJECT (corba_interface));
+	priv->corba_interface = corba_interface;
 }
 
 
@@ -1250,7 +1277,7 @@ get_control_for_uri (EShellView *shell_view,
 
 	priv->sockets = g_list_prepend (priv->sockets, socket);
 
-	setup_evolution_shell_view_interface (shell_view, control);
+	setup_corba_interface (shell_view, control);
 
 	return control;
 }

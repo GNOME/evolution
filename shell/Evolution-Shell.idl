@@ -35,6 +35,14 @@ module Evolution {
 		typedef sequence<string> FolderTypeList;
 
 		/**
+		 * createNewView:
+		 * @uri: URI for the view to open
+		 *
+		 * Return value: the new view.
+		 */
+		ShellView createNewView (in string uri);
+
+		/**
 		 * selectUserFolder:
 		 * @listener: a listener interface to report the answer of the user.
 		 * @title: title for the folder selector dialog

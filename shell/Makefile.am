@@ -13,8 +13,6 @@ INCLUDES = 								\
 	-DEVOLUTION_GLADEDIR=\"$(datadir)/evolution/glade\"		\
 	-DG_LOG_DOMAIN=\"evolution-shell\"
 
-EXTRA_DIST = $(IDLS)
-
 CLEANFILES = $(IDL_GENERATED)
 
 # CORBA stuff
@@ -140,6 +138,11 @@ evolution_LDADD =						\
 	$(UNICODE_LIBS)						\
 	$(GNOME_PRINT_LIBS)					\
 	$(BONOBO_GNOME_LIBS)
+
+oafdir = $(datadir)/oaf
+oaf_DATA = evolution.oafinfo
+
+EXTRA_DIST = $(IDLS) $(oaf_DATA)
 
 # Purify support
 

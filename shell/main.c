@@ -35,12 +35,15 @@
 
 #include "e-shell.h"
 
+
 #define STARTUP_URI "evolution:/local/Inbox"
 
+
 static EShell *shell = NULL;
 static char *evolution_directory = NULL;
 static gboolean no_splash = FALSE;
 
+
 static void
 no_views_left_cb (EShell *shell, gpointer data)
 {
@@ -54,8 +57,9 @@ destroy_cb (GtkObject *object, gpointer data)
 	gtk_main_quit ();
 }
 
+
 static void
-development_warning ()
+development_warning (void)
 {
 	GtkWidget *label, *warning_dialog;
 	int ret;
@@ -109,6 +113,33 @@ development_warning ()
 		gtk_object_destroy (GTK_OBJECT (warning_dialog));
 }
 
+
+/* This is for doing stuff that requires the GTK+ loop to be running already.  */
+
+static void
+new_view_on_running_shell (void)
+{
+	CORBA_Object corba_object;
+	GNOME_Evolution_ShellView shell_view;
+	CORBA_Environment ev;
+
+	CORBA_exception_init (&ev);
+
+	corba_object = oaf_activate_from_id (E_SHELL_OAFIID, 0, NULL, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+			  _("Cannot initialize the Evolution shell."));
+		return;
+	}
+
+	shell_view = GNOME_Evolution_Shell_createNewView ((GNOME_Evolution_Shell) corba_object, STARTUP_URI, &ev);
+
+	Bonobo_Unknown_unref ((Bonobo_Unknown) shell_view, &ev);
+	CORBA_Object_release ((CORBA_Object) shell_view, &ev);
+
+	CORBA_exception_free (&ev);
+}
+
 static gint
 idle_cb (gpointer data)
 {
@@ -118,8 +149,9 @@ idle_cb (gpointer data)
 	g_free (evolution_directory);
 
 	if (shell == NULL) {
-		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
-			  _("Cannot initialize the Evolution shell."));
+		/* A new shell cannot be created, so try to get a new view from
+                   an already running one.  */
+		new_view_on_running_shell ();
 		exit (1);
 	}
 
@@ -179,4 +211,3 @@ main (int argc, char **argv)
 
 	return 0;
 }
-

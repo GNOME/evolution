@@ -1,3 +1,44 @@
+2000-12-04  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-shortcuts-view.c (e_shortcuts_view_construct): Ref the
+	shortcuts.
+
+	* main.c (new_view_on_running_shell): New.
+	(idle_cb): If the shell cannot be created, then call
+	`new_view_on_running_shell'.
+
+	* e-shell-view.c: New member `shell_view_interface' in
+	`EShellViewPrivate'.
+	(init): Init to NULL.
+	(setup_evolution_shell_view_interface): Set up.
+	(destroy): Unref.
+
+	* e-shell.c (impl_Shell_getComponentByType): Renamed from
+	`impl_Shell_get_component_for_type'.
+	(impl_Shell_selectUserFolder): Renamed from
+	`impl_Shell_user_select_folder'.
+	(impl_Shell_getLocalStorage): Renamed from
+	`impl_Shell_get_local_storage'.
+	(impl_Shell_createStorageSetView): Renamed from
+	`impl_Shell_create_storage_set_view'.
+	(corba_class_init): Updated accordingly.
+	(impl_Shell_createNewView): New, implementation for the
+	`createNewView' CORBA method.
+	(corba_class_init): Install it.
+
+	* Evolution-Shell.idl: New method `::createNewView'.
+
+	* e-shell.c (register_shell): New.
+	(e_shell_construct): Return value changed to `gboolean'.  New arg
+	@iid.  Construct the Bonobo object before displaying the splash,
+	then try to register it with the specified @iid.  If registration
+	fails, return %FALSE.  Otherwise, just do everything normally and
+	return %TRUE.
+	(e_shell_new): Pass the OAFIID to `e_shell_construct()'.  If it
+	fails, unref the object and return NULL.
+
+	* evolution.oafinfo: New.
+
 2000-11-27  JP Rosevear  <jpr@helixcode.com>
 
 	* e-shell-view-menu.c (command_about_box): Add myself, anna, jesse

@@ -30,6 +30,8 @@
 
 #include <bonobo/bonobo-object.h>
 
+#include <liboaf/liboaf.h>	/* For the registration stuff.  */
+
 #ifdef __cplusplus
 extern "C" {
 #pragma }
@@ -43,6 +45,7 @@ typedef struct _EShellClass   EShellClass;
 #include "e-shortcuts.h"
 #include "e-shell-view.h"
 
+
 #define E_TYPE_SHELL			(e_shell_get_type ())
 #define E_SHELL(obj)			(GTK_CHECK_CAST ((obj), E_TYPE_SHELL, EShell))
 #define E_SHELL_CLASS(klass)		(GTK_CHECK_CLASS_CAST ((klass), E_TYPE_SHELL, EShellClass))
@@ -50,7 +53,6 @@ typedef struct _EShellClass   EShellClass;
 #define E_IS_SHELL_CLASS(klass)		(GTK_CHECK_CLASS_TYPE ((obj), E_TYPE_SHELL))
 
 
-
 struct _EShell {
 	BonoboObject parent;
 
@@ -64,16 +66,21 @@ struct _EShellClass {
 };
 
 
-GtkType              e_shell_get_type                  (void);
-void                 e_shell_construct                 (EShell          *shell,
-							GNOME_Evolution_Shell  corba_object,
-							const char      *local_directory,
-							gboolean         show_splash);
+/* ID for registering the shell in the OAF name service.  */
+#define E_SHELL_OAFIID  "OAFIID:evolution:584cc84c-27d4-42c8-ae4d-39a64bdefbd2"
 
-EShell              *e_shell_new                       (const char      *local_directory,
-							gboolean         show_splash);
-EShellView          *e_shell_new_view                  (EShell          *shell,
-							const char      *uri);
+
+GtkType  e_shell_get_type   (void);
+gboolean e_shell_construct  (EShell                *shell,
+			     GNOME_Evolution_Shell  corba_object,
+			     const char            *iid,
+			     const char            *local_directory,
+			     gboolean               show_splash);
+EShell  *e_shell_new        (const char            *local_directory,
+			     gboolean               show_splash);
+
+EShellView *e_shell_new_view  (EShell     *shell,
+			       const char *uri);
 
 const char          *e_shell_get_local_directory       (EShell          *shell);
 EShortcuts          *e_shell_get_shortcuts             (EShell          *shell);
