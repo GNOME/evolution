@@ -1,3 +1,10 @@
+2001-04-30  Dan Winship  <danw@ximian.com>
+
+	* folder-browser.c (folder_browser_destroy): Unhook event handlers
+	before syncing the folder, since the folder browser will have been
+	destroyed by the time the sync thread completes and calls the
+	signal handlers.
+
 2001-04-29  Dan Winship  <danw@ximian.com>
 
 	* mail-format.c (handle_text_plain_flowed): Mojo this a bit so

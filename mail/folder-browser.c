@@ -49,6 +49,7 @@
 #define PARENT_TYPE (gtk_table_get_type ())
 
 static void fb_resize_cb (GtkWidget *w, GtkAllocation *a);
+static void update_unread_count (CamelObject *, gpointer, gpointer);
 
 static GtkObjectClass *folder_browser_parent_class;
 
@@ -79,8 +80,14 @@ folder_browser_destroy (GtkObject *object)
 	g_free (folder_browser->uri);
 	
 	if (folder_browser->folder) {
+		CamelObject *folder = CAMEL_OBJECT (folder_browser->folder);
+
+		camel_object_unhook_event (folder, "message_changed",
+					   update_unread_count, folder_browser);
+		camel_object_unhook_event (folder, "folder_changed",
+					   update_unread_count, folder_browser);
 		mail_sync_folder (folder_browser->folder, NULL, NULL);
-		camel_object_unref (CAMEL_OBJECT (folder_browser->folder));
+		camel_object_unref (folder);
 	}
 	
 	if (folder_browser->message_list)
