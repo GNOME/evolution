@@ -1,3 +1,11 @@
+2003-01-14  Ettore Perazzoli  <ettore@ximian.com>
+
+	* cal-client/Makefile.am (CORBA_SOURCES_GENERATED): Renamed from
+	CORBA_GENERATED.
+	(CORBA_GENERATED): New, put both $(CORBA_SOURCES_GENERATED) and
+	$(CORBA_HEADERS_GENERATED) in it.
+	(BUILT_SOURCES): Put $(CORBA_GENERATED) in here.
+
 2003-01-14  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/e-calendar-table.c (tasks_popup_menu): Cast signal handlers

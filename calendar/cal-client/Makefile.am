@@ -2,13 +2,15 @@
 # libcal-client
 #
 
-CORBA_GENERATED =				\
+CORBA_SOURCES_GENERATED =			\
 	evolution-calendar-common.c		\
 	evolution-calendar-skels.c		\
 	evolution-calendar-stubs.c
 
 CORBA_HEADERS_GENERATED =			\
 	evolution-calendar.h
+
+CORBA_GENERATED = $(CORBA_SOURCES_GENERATED) $(CORBA_HEADERS_GENERATED)
 
 idls =						\
 	$(srcdir)/../idl/evolution-calendar.idl
@@ -37,7 +39,7 @@ lib_LTLIBRARIES = libcal-client.la
 libcal_clientincludedir = $(includedir)/evolution/cal-client
 
 libcal_client_la_SOURCES =	\
-	$(CORBA_GENERATED)	\
+	$(CORBA_SOURCES_GENERATED)	\
 	cal-client-multi.c	\
 	cal-client-types.c	\
 	cal-client.c		\
