@@ -24,6 +24,7 @@
 #endif
 
 #include <stdlib.h>
+#include <limits.h>
 #include <sys/types.h>
 #include <dirent.h>
 #include <sys/stat.h>
@@ -172,6 +173,7 @@ camel_local_folder_construct(CamelLocalFolder *lf, CamelStore *parent_store, con
 	CamelFolderInfo *fi;
 	CamelFolder *folder;
 	const char *root_dir_path, *name;
+	char folder_path[PATH_MAX];
 	struct stat st;
 	int forceindex;
 
@@ -191,13 +193,19 @@ camel_local_folder_construct(CamelLocalFolder *lf, CamelStore *parent_store, con
 	lf->folder_path = g_strdup_printf("%s/%s", root_dir_path, full_name);
 	lf->summary_path = g_strdup_printf("%s/%s.ev-summary", root_dir_path, full_name);
 	lf->index_path = g_strdup_printf("%s/%s.ibex", root_dir_path, full_name);
-
+	
+	/* follow any symlinks to the mailbox */
+	if (lstat (lf->folder_path, &st) != -1 && S_ISLNK (st.st_mode) &&
+	    realpath (lf->folder_path, folder_path) != NULL) {
+		g_free (lf->folder_path);
+		lf->folder_path = g_strdup (folder_path);
+	}
+	
 	lf->changes = camel_folder_change_info_new();
 
 	/* if we have no index file, force it */
 	forceindex = stat(lf->index_path, &st) == -1;
 	if (flags & CAMEL_STORE_FOLDER_BODY_INDEX) {
-
 		lf->index = ibex_open(lf->index_path, O_CREAT | O_RDWR, 0600);
 		if (lf->index == NULL) {
 			/* yes, this isn't fatal at all */

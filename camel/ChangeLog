@@ -1,3 +1,44 @@
+2002-01-09  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/local/camel-mbox-folder.c (camel_mbox_folder_new): If
+	the mbox file is a symlink, follow the symlink and get the One
+	True Path so that we can rewrite the mbox later without worrying
+	about clobbering the symlink.
+
+2002-01-08  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-filter-search.c (TODO): There are a few sexp callbacks
+	that could be modified to use fms->info rather than using a
+	message object (like date and possibly mlist stuff) but *only* if
+	the date exists on the CamelMessageInfo object (since it may be
+	blank except for message flags).
+	(camel_filter_search_get_message): New internal convenience
+	function to make sure that the FilterMessageSearch has loaded the
+	message (and to load the message if this isn't the case).
+	(check_header): Call camel_filter_search_get_message().
+	(header_exists): Same.
+	(header_regex): Here too.
+	(header_full_regex): And here.
+	(body_contains): Again here.
+	(body_regex): Here too.
+	(get_sent_date): Here also.
+	(get_received_date): Same.
+	(get_source): Here if we need to.
+	(camel_filter_search_match): Now takes a callback function/data
+	pair for on-demand message loading so that we don't necessarily
+	have to load the message if the defined filter rules don't require
+	it.
+
+	* camel-filter-driver.c (camel_filter_driver_filter_folder): Don't
+	bother fetching the message here, let
+	camel_filter_driver_filter_message() worry about this.
+	(get_message_cb): New utility callback to fetch a message.
+	(camel_filter_driver_filter_message): Only fetch the message if we
+	absolutely need it to get a CamelMessageInfo. Instead of passing a
+	message object to camel_filter_search_match(), pass get_message_cb
+	and some user_data so that the matching code can fetch the message
+	on demand.
+
 2002-01-07  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-folder.c (filter_filter): Flush the only-once actions.

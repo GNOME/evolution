@@ -40,8 +40,11 @@ enum {
 	CAMEL_SEARCH_MATCHED  =  1,
 };
 
-int camel_filter_search_match (CamelMimeMessage *message, CamelMessageInfo *info,
-			       const char *source, const char *expression, CamelException *ex); 
+typedef CamelMimeMessage * (*CamelFilterSearchGetMessageFunc) (void *data, CamelException *ex);
+
+int camel_filter_search_match (CamelFilterSearchGetMessageFunc get_message, void *data,
+			       CamelMessageInfo *info, const char *source,
+			       const char *expression, CamelException *ex);
 
 #ifdef __cplusplus
 }
