@@ -886,8 +886,6 @@ imap_concat (CamelImapStore *imap_store, const char *prefix, const char *suffix)
 {
 	int len;
 	
-	g_warning ("in imap_concat(): prefix=%s; suffix=%s.", prefix, suffix);
-	
 	len = strlen (prefix);
 	if (len == 0 || prefix[len - 1] == imap_store->dir_sep)
 		return g_strdup_printf ("%s%s", prefix, suffix);
