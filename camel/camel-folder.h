@@ -150,7 +150,9 @@ typedef struct {
 				  GPtrArray *uids,
 				  CamelFolder *destination,
 				  CamelException *ex);
-
+	
+	char    *(*get_uri)   (CamelFolder *folder);
+	
 	void     (*freeze)    (CamelFolder *folder);
 	void     (*thaw)      (CamelFolder *folder);
 	gboolean (*is_frozen) (CamelFolder *folder);
@@ -266,6 +268,8 @@ void               camel_folder_move_messages_to       (CamelFolder *source,
 							GPtrArray *uids,
 							CamelFolder *dest,
 							CamelException *ex);
+
+char              *camel_folder_get_uri               (CamelFolder *folder);
 
 /* stop/restart getting events */
 void               camel_folder_freeze                (CamelFolder *folder);

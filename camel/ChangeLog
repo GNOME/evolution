@@ -1,3 +1,9 @@
+2001-09-16  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-folder.c (camel_folder_get_uri): New function to get the
+	URI of a folder.
+	(get_uri): Default implementation.
+
 2001-09-14    <NotZed@Ximian.com>
 
 	* camel-vee-folder.c (camel_vee_folder_set_folders): New function,
