@@ -117,8 +117,8 @@ maintainer-clean-local: clean
 
 install-data-local:
 	$(mkinstalldirs) $(DOC_DIR)
-	for i in $(DOC_DIR_INSTALL_FILES); do		\
-		$(INSTALL_DATA) $$i $(DOC_DIR);		\
+	for i in $(DOC_DIR_INSTALL_FILES); do		  \
+		$(INSTALL_DATA) $(srcdir)/$$i $(DOC_DIR); \
 	done
 
 dist-hook:

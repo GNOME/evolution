@@ -1,3 +1,11 @@
+2001-04-17  Ettore Perazzoli  <ettore@ximian.com>
+
+	* calendar/cal-client/Makefile.am (install-data-local): Install
+	the $(DOC_DIR_INSTALL_FILES) from the srcdir.
+	* calendar/cal-util/Makefile.am (install-data-local): Likewise.
+	* importer/Makefile.am (install-data-local): Likewise.
+	* executive-summary/Makefile.am (install-data-local): Likewise.
+
 2001-01-26  John R. Sheets  <dusk@ravendusk.org>
 
 	* importer/Makefile.am: Change (nonexistant) importer.sgml
