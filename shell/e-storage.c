@@ -418,10 +418,10 @@ e_storage_async_create_folder (EStorage *storage,
 }
 
 void
-e_storage_async_remove_folder (EStorage *storage,
-			       const char *path,
+e_storage_async_remove_folder (EStorage              *storage,
+			       const char            *path,
 			       EStorageResultCallback callback,
-			       void *data)
+			       void                  *data)
 {
 	g_return_if_fail (storage != NULL);
 	g_return_if_fail (E_IS_STORAGE (storage));

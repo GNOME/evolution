@@ -307,6 +307,7 @@ e_shell_folder_selection_dialog_construct (EShellFolderSelectionDialog *folder_s
 	GtkWidget *scroll_frame;
 	GtkWidget *caption_label;
 	int i;
+	char *filename;
 
 	g_return_if_fail (folder_selection_dialog != NULL);
 	g_return_if_fail (E_IS_SHELL_FOLDER_SELECTION_DIALOG (folder_selection_dialog));
@@ -352,6 +353,16 @@ e_shell_folder_selection_dialog_construct (EShellFolderSelectionDialog *folder_s
 	gtk_object_ref (GTK_OBJECT (priv->storage_set));
 
 	priv->storage_set_view = e_storage_set_new_view (priv->storage_set, NULL /* No BonoboUIContainer */);
+
+	/* Load the expanded state for this StorageSetView */
+	filename = g_strdup_printf ("%s/config/storage-set-view-expanded:view_0",
+				    e_shell_get_local_directory (priv->shell));
+
+	e_tree_load_expanded_state (E_TREE (priv->storage_set_view),
+				    filename);
+
+	g_free (filename);
+
 	GTK_WIDGET_SET_FLAGS (priv->storage_set_view, GTK_CAN_FOCUS);
 	gtk_signal_connect (GTK_OBJECT (priv->storage_set_view),
 			    "double_click", GTK_SIGNAL_FUNC (dbl_click_cb),

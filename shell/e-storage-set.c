@@ -590,7 +590,7 @@ e_storage_set_async_remove_folder  (EStorageSet *storage_set,
 
 	converter_data = storage_callback_converter_data_new (storage_set, callback, data);
 
-	e_storage_async_remove_folder (storage, path,
+	e_storage_async_remove_folder (storage, subpath,
 				       storage_callback_converter, converter_data);
 }
 

@@ -655,7 +655,45 @@ evolution_shell_component_client_async_remove_folder (EvolutionShellComponentCli
 						      EvolutionShellComponentClientCallback callback,
 						      void *data)
 {
-	/* FIXME to do. */
+	EvolutionShellComponentClientPrivate *priv;
+	GNOME_Evolution_ShellComponent corba_shell_component;
+	CORBA_Environment ev;
+
+	g_return_if_fail (shell_component_client != NULL);
+	g_return_if_fail (EVOLUTION_IS_SHELL_COMPONENT_CLIENT (shell_component_client));
+	g_return_if_fail (physical_uri != NULL);
+	g_return_if_fail (callback != NULL);
+
+	priv = shell_component_client->priv;
+
+	if (priv->callback != NULL) {
+		(* callback) (shell_component_client, EVOLUTION_SHELL_COMPONENT_BUSY, data);
+		return;
+	}
+
+	create_listener_interface (shell_component_client);
+
+	CORBA_exception_init (&ev);
+
+	corba_shell_component = bonobo_object_corba_objref (BONOBO_OBJECT (shell_component_client));
+
+	priv->callback = callback;
+	priv->callback_data = data;
+
+	GNOME_Evolution_ShellComponent_removeFolderAsync (corba_shell_component,
+							  priv->listener_interface,
+							  physical_uri,
+							  &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION && priv->callback != NULL) {
+		(* callback) (shell_component_client,
+			      shell_component_result_from_corba_exception (&ev),
+			      data);
+		priv->callback = NULL;
+		priv->callback_data = NULL;
+	}
+
+	CORBA_exception_free (&ev);
 }
 
 void

@@ -1,3 +1,25 @@
+2001-06-23  Jason Leach  <jleach@ximian.com>
+
+	* e-shell-folder-selection-dialog.c
+	(e_shell_folder_selection_dialog_construct): Make the folder tree
+	have a similar expanded state as the shell's folder tree.
+
+	* e-local-storage.c (remove_folder): New function that does the
+	meat of actual deletion stuff.
+	(remove_folder_directory): A helper function that remove_folder()
+	uses.
+	(component_async_remove_folder_callback): A new callback to do the
+	removing stuff from shell (if there weren't errors from the
+	component).
+	(impl_async_remove_folder): Implemented this.
+
+	* evolution-shell-component-client.c
+	(evolution_shell_component_client_async_remove_folder):
+	Implemented this.
+
+	* e-shell-view.c (e_shell_view_remove_control_for_uri): New
+	function.
+
 2001-06-23  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-view.c (e_shell_view_set_current_shortcuts_group_num):

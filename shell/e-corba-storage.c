@@ -393,7 +393,8 @@ async_remove_folder (EStorage *storage, const char *path,
 
 	CORBA_exception_init (&ev);
 	GNOME_Evolution_Storage_asyncRemoveFolder (priv->storage_interface,
-						   path, e_folder_get_physical_uri (folder),
+						   path,
+						   e_folder_get_physical_uri (folder),
 						   corba_listener, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {

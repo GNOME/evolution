@@ -45,6 +45,7 @@ struct _EvolutionLocalStoragePrivate {
 
 enum {
 	UPDATE_FOLDER,
+
 	LAST_SIGNAL
 };
 
@@ -57,10 +58,10 @@ static POA_GNOME_Evolution_LocalStorage__vepv LocalStorage_vepv;
 
 static void
 impl_GNOME_Evolution_LocalStorage_updateFolder (PortableServer_Servant servant,
-					   const CORBA_char *path,
-					   const CORBA_char *display_name,
-					   CORBA_boolean highlighted,
-					   CORBA_Environment *ev)
+						const CORBA_char *path,
+						const CORBA_char *display_name,
+						CORBA_boolean highlighted,
+						CORBA_Environment *ev)
 {
 	BonoboObject *bonobo_object;
 	EvolutionLocalStorage *local_storage;

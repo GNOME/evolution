@@ -70,8 +70,8 @@ impl_destroy (GtkObject *object)
 
 static void
 impl_GNOME_Evolution_Session_saveConfiguration (PortableServer_Servant servant,
-					   const CORBA_char *prefix,
-					   CORBA_Environment *ev)
+						const CORBA_char *prefix,
+						CORBA_Environment *ev)
 {
 	BonoboObject *self;
 
@@ -81,8 +81,8 @@ impl_GNOME_Evolution_Session_saveConfiguration (PortableServer_Servant servant,
 
 static void
 impl_GNOME_Evolution_Session_loadConfiguration (PortableServer_Servant servant,
-					   const CORBA_char *prefix,
-					   CORBA_Environment *ev)
+						const CORBA_char *prefix,
+						CORBA_Environment *ev)
 {
 	BonoboObject *self;
 
@@ -172,7 +172,7 @@ create_corba_session (BonoboObject *object)
 	CORBA_exception_init (&ev);
 
 	POA_GNOME_Evolution_Session__init ((PortableServer_Servant) servant, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION){
+	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_free (servant);
 		CORBA_exception_free (&ev);
 		return CORBA_OBJECT_NIL;

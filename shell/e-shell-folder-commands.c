@@ -29,6 +29,8 @@
 
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
+#include <libgnomeui/gnome-dialog.h>
+#include <libgnomeui/gnome-stock.h>
 
 #include <gtk/gtksignal.h>
 
@@ -83,7 +85,7 @@ folder_command_data_new (EShell *shell,
 	new = g_new (FolderCommandData, 1);
 	new->shell            = shell;
 	new->shell_view       = shell_view;
-	new->command     = command;
+	new->command          = command;
 	new->source_path      = g_strdup (source_path);
 	new->destination_path = g_strdup (destination_path);
 
@@ -111,7 +113,7 @@ xfer_result_callback (EStorageSet *storage_set,
 
 	folder_command_data = (FolderCommandData *) data;
 
-	/* FIXME do something.  */
+	/* FIXME: do something.  */
 
 	folder_command_data_free (folder_command_data);
 }
@@ -270,7 +272,8 @@ e_shell_command_move_folder (EShell *shell,
 
 	g_return_if_fail (shell != NULL);
 	g_return_if_fail (E_IS_SHELL (shell));
-	g_return_if_fail (shell_view != NULL && E_IS_SHELL_VIEW (shell_view));
+	g_return_if_fail (shell_view != NULL);
+	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
 
 	current_path = e_shell_view_get_current_path (shell_view);
 	if (current_path == NULL) {
@@ -297,16 +300,102 @@ e_shell_command_move_folder (EShell *shell,
 	gtk_widget_show (folder_selection_dialog);
 }
 
+static void
+delete_cb (EStorage *storage,
+	   EStorageResult result,
+	   void *data)
+{
+	/* FIXME: Do something? */
+}
+
+static int
+delete_dialog (char *folder_name)
+{
+	GnomeDialog *dialog;
+	char *title;
+	GtkWidget *question_label;
+	char *question;
+
+
+	/* Popup a dialog asking if they are sure they want to delete
+           the folder */
+
+	title = g_strdup_printf (_("Delete folder '%s'"),
+				 folder_name);
+
+	dialog = GNOME_DIALOG (gnome_dialog_new (title,
+						 GNOME_STOCK_BUTTON_YES,
+						 GNOME_STOCK_BUTTON_NO,
+						 NULL));
+	g_free (title);
+
+	question = g_strdup_printf (_("Are you sure you want to remove the '%s' folder?"),
+				    folder_name);
+	question_label = gtk_label_new (question);	
+	gtk_widget_show (question_label);
+
+	gtk_box_pack_start (GTK_BOX (dialog->vbox), question_label, FALSE, TRUE, 2);
+	g_free (question);
+
+	gnome_dialog_set_default (dialog, 1);
+
+	return gnome_dialog_run_and_close (dialog);
+}
+
 void
 e_shell_command_delete_folder (EShell *shell,
 			       EShellView *shell_view)
 {
+	EStorageSet *storage_set;
+	char *path;
+
 	g_return_if_fail (shell != NULL);
 	g_return_if_fail (E_IS_SHELL (shell));
 	g_return_if_fail (shell_view != NULL);
 	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
 
-	g_warning ("To be implemented");
+	storage_set = e_shell_get_storage_set (shell);
+	path = g_strdup (e_shell_view_get_current_path (shell_view));
+	
+	if (delete_dialog (get_folder_name (shell, path)) == 0) {
+		/* Remove and destroy the control */
+		e_shell_view_remove_control_for_uri (shell_view,
+						     e_shell_view_get_current_uri (shell_view));
+
+		/* Remove the folder */
+		e_storage_set_async_remove_folder (storage_set,
+						   path,
+						   delete_cb,
+						   NULL);
+
+		/* Select another folder to prevent bad things from happening */
+		e_shell_view_display_uri (shell_view, "evolution:/local/Inbox");
+	}
+
+	g_free (path);
+}
+
+static char *
+rename_dialog (char *folder_name)
+{
+	GnomeDialog *dialog;
+	int result;
+	char *title;
+	GtkWidget *question_label;
+	GtkWidget *entry;
+	char *question;
+
+
+	title = g_strdup_printf (_("Rename folder '%s'"),
+				 folder_name);
+
+	dialog = GNOME_DIALOG (gnome_dialog_new (title,
+						 GNOME_STOCK_BUTTON_OK,
+						 GNOME_STOCK_BUTTON_CANCEL,
+						 NULL));
+	g_free (title);
+
+	/* FIXME: Finish then make command_rename_folder use it */
 }
 
 
@@ -333,7 +422,8 @@ e_shell_command_add_to_shortcut_bar (EShell *shell,
 
 	g_return_if_fail (shell != NULL);
 	g_return_if_fail (E_IS_SHELL (shell));
-	g_return_if_fail (shell_view != NULL && ! E_IS_SHELL_VIEW (shell_view));
+	g_return_if_fail (shell_view != NULL);
+	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
 
 	shortcuts = e_shell_get_shortcuts (shell);
 	group_num = e_shell_view_get_current_shortcuts_group_num (shell_view);
@@ -349,7 +439,8 @@ e_shell_command_folder_properties (EShell *shell,
 {
 	g_return_if_fail (shell != NULL);
 	g_return_if_fail (E_IS_SHELL (shell));
-	g_return_if_fail (shell_view != NULL && E_IS_SHELL_VIEW (shell_view));
+	g_return_if_fail (shell_view != NULL);
+	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
 
 	g_warning ("To be implemented");
 }

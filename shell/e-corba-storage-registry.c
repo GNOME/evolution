@@ -123,6 +123,8 @@ impl_StorageRegistry_removeStorageByName (PortableServer_Servant servant,
 	ECorbaStorageRegistryPrivate *priv;
 	EStorage *storage;
 
+	g_print ("Shell: Removing storage -- %s\n", name);
+
 	bonobo_object = bonobo_object_from_servant (servant);
 	storage_registry = E_CORBA_STORAGE_REGISTRY (bonobo_object);
 	priv = storage_registry->priv;

@@ -417,7 +417,7 @@ switch_on_folder_tree_click (EShellView *shell_view,
 	if (priv->delayed_selection) {
 		g_free (priv->delayed_selection);
 		priv->delayed_selection = NULL;
-		gtk_signal_disconnect_by_func (GTK_OBJECT (e_shell_get_storage_set(priv->shell)),
+		gtk_signal_disconnect_by_func (GTK_OBJECT (e_shell_get_storage_set (priv->shell)),
 					       GTK_SIGNAL_FUNC (new_folder_cb),
 					       shell_view);
 	}
@@ -1779,13 +1779,10 @@ e_shell_view_display_uri (EShellView *shell_view,
 
 		set_current_notebook_page (shell_view, 0);
 
-		if (priv->uri != NULL) {
-			g_free (priv->uri);
-			priv->uri = NULL;
-		}
+		g_free (priv->uri);
+		priv->uri = NULL;
 
 		retval = TRUE;
-
 		goto end;
 	}
 
@@ -1798,7 +1795,7 @@ e_shell_view_display_uri (EShellView *shell_view,
 	if (control != NULL) {
 		g_assert (GTK_IS_WIDGET (control));
 		show_existing_view (shell_view, uri, control);
-	} else if (! create_new_view_for_uri (shell_view, uri)) {
+	} else if (create_new_view_for_uri (shell_view, uri)) {
 		priv->delayed_selection = g_strdup (uri);
 		gtk_signal_connect_after (GTK_OBJECT (e_shell_get_storage_set (priv->shell)), "new_folder",
 					  GTK_SIGNAL_FUNC (new_folder_cb), shell_view);
@@ -1814,6 +1811,45 @@ e_shell_view_display_uri (EShellView *shell_view,
 	bonobo_window_thaw (BONOBO_WINDOW (shell_view));
 
 	return retval;
+}
+
+gboolean
+e_shell_view_remove_control_for_uri (EShellView *shell_view,
+				     const char *uri)
+{
+	EShellViewPrivate *priv;
+	GtkWidget *control;
+	GtkWidget *socket;
+	int page_num;
+
+	g_return_val_if_fail (shell_view != NULL, FALSE);
+	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), FALSE);
+
+	priv = shell_view->priv;
+
+	/* Get the control, remove it from our hash of controls */
+	control = g_hash_table_lookup (priv->uri_to_control, uri);
+	if (control != NULL)
+		g_hash_table_remove (priv->uri_to_control, uri);
+	else
+		return FALSE;
+
+	/* Get the socket, remove it from our list of sockets */
+	socket = find_socket (GTK_CONTAINER (control));
+	priv->sockets = g_list_remove (priv->sockets, socket);
+
+	/* Remove the notebook page */
+	page_num = gtk_notebook_page_num (GTK_NOTEBOOK (priv->notebook),
+					  control);
+	gtk_notebook_remove_page (GTK_NOTEBOOK (priv->notebook),
+				  page_num);
+
+	/* Destroy things, socket first because otherwise shell will
+           think the control crashed */
+	gtk_widget_destroy (socket);
+	gtk_widget_destroy (control);
+
+	return TRUE;
 }
 
 

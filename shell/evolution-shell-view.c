@@ -124,8 +124,8 @@ impl_ShellView_set_title (PortableServer_Servant servant,
 
 static void
 impl_ShellView_set_folder_bar_label (PortableServer_Servant servant,
-				const CORBA_char  *text,
-				CORBA_Environment *ev)
+				     const CORBA_char  *text,
+				     CORBA_Environment *ev)
 {
 	BonoboObject *bonobo_object;
 
