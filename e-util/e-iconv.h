@@ -5,6 +5,7 @@
  *
  * Authors:
  *   Michael Zucchi <notzed@ximian.com>
+ *   Jeffrey Stedfast <fejj@ximian.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -36,6 +37,10 @@ iconv_t e_iconv_open(const char *oto, const char *ofrom);
 size_t e_iconv(iconv_t cd, const char **inbuf, size_t *inbytesleft, char ** outbuf, size_t *outbytesleft);
 void e_iconv_close(iconv_t ip);
 const char *e_iconv_locale_charset(void);
+
+/* languages */
+const char *e_iconv_locale_language (void);
+const char *e_iconv_charset_language (const char *charset);
 
 #ifdef __cplusplus
 }
