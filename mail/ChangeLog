@@ -1,5 +1,7 @@
 2003-03-06  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* folder-browser-factory.c: #include <string.h>
+
 	* e-searching-tokenizer.c (camel_utf8_getc): Don't use __inline__
 	as not all platforms/compilers support this keyword.
 	(g): Same.
