@@ -1,3 +1,8 @@
+2001-05-15  Chris Toshok  <toshok@ximian.com>
+
+	* POTFILES.in: e-minicard-view-model.c ->
+	e-addressbook-reflow-adapter.c
+
 2001-05-15  Szabolcs Ban  <shooby@gnome.hu>
 
         * hu.po: Updated Hungarian translation by 

@@ -29,7 +29,7 @@ addressbook/gui/widgets/e-addressbook-view.c
 addressbook/gui/widgets/e-minicard.c
 addressbook/gui/widgets/e-minicard-control.c
 addressbook/gui/widgets/e-minicard-view.c
-addressbook/gui/widgets/e-minicard-view-model.c
+addressbook/gui/widgets/e-addressbook-reflow-adapter.c
 addressbook/gui/widgets/gal-view-factory-minicard.c
 addressbook/printing/e-contact-print.glade
 calendar/cal-util/timeutil.c
