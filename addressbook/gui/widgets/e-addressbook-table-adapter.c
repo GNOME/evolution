@@ -150,6 +150,8 @@ addressbook_set_value_at (ETableModel *etc, int col, int row, const void *val)
 		if ( col >= COLS|| row >= e_addressbook_model_card_count (priv->model) )
 			return;
 
+		e_table_model_pre_change(etc);
+
 		e_card_simple_set(priv->simples[row],
 				  col,
 				  val);
@@ -334,6 +336,7 @@ static void
 model_changed (EAddressbookModel *model,
 	       EAddressbookTableAdapter *adapter)
 {
+	e_table_model_pre_change (E_TABLE_MODEL (adapter));
 	build_simple_mapping (adapter);
 	e_table_model_changed (E_TABLE_MODEL (adapter));
 }

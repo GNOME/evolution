@@ -1,3 +1,10 @@
+2001-10-31  Christopher James Lahey  <clahey@ximian.com>
+
+	* gui/component/e-cardlist-model.c,
+	gui/component/select-names/e-select-names-table-model.c,
+	gui/widgets/e-addressbook-table-adapter.c: Make the pre_changes
+	and changes match here.
+
 2001-10-31  Jon Trowbridge  <trow@ximian.com>
 
 	* gui/component/select-names/e-select-names.c

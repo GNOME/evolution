@@ -63,6 +63,7 @@ e_cardlist_model_set_value_at (ETableModel *etc, int col, int row, const void *v
 	ECard *card;
 	if ( col >= E_CARD_SIMPLE_FIELD_LAST - 1|| row >= e_cardlist_model->data_count )
 		return;
+	e_table_model_pre_change(etc);
 	e_card_simple_set(e_cardlist_model->data[row],
 			  col + 1,
 			  val);
@@ -129,6 +130,7 @@ e_cardlist_model_add(ECardlistModel *model,
 			}
 		}
 		if (!found) {
+			e_table_model_pre_change(E_TABLE_MODEL(model));
 			gtk_object_ref(GTK_OBJECT(cards[i]));
 			model->data[model->data_count++] = e_card_simple_new (cards[i]);
 			e_table_model_row_inserted(E_TABLE_MODEL(model), model->data_count - 1);
@@ -143,6 +145,7 @@ e_cardlist_model_remove(ECardlistModel *model,
 	int i;
 	for ( i = 0; i < model->data_count; i++) {
 		if ( !strcmp(e_card_simple_get_id(model->data[i]), id) ) {
+			e_table_model_pre_change(E_TABLE_MODEL(model));
 			gtk_object_unref(GTK_OBJECT(model->data[i]));
 			memmove(model->data + i, model->data + i + 1, (model->data_count - i - 1) * sizeof (ECard *));
 			e_table_model_row_deleted(E_TABLE_MODEL(model), i);
