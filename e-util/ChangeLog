@@ -1,3 +1,23 @@
+2001-04-03  Federico Mena Quintero  <federico@ximian.com>
+
+	* e-sexp.h (ESExpResultType): Added ESEXP_RES_TIME for time
+	values.
+	(ESExpResult): Added a "time_t value.time" field.
+	(ESExpTermType): Added ESEXP_TERM_TIME.
+	(ESExpTerm): Added a "time_t value.time" field.
+
+	* e-sexp.c (e_sexp_result_free): Deal with time values.  Also, be
+	more paranoid; added a default clause with g_assert_not_reached().
+	(term_eval_lt): Deal with time values.
+	(term_eval_gt): Likewise.
+	(term_eval_eq): Likewise.
+	(term_eval_plus): Likewise.
+	(term_eval_sub): Likewise.
+	(e_sexp_term_eval): Likewise.
+	(eval_dump_result): Likewise.
+	(parse_dump_term): Likewise.
+	(parse_term_free): Likewise.
+
 2001-04-01  Gediminas Paulauskas <menesis@delfi.lt>
 
 	* e-gui-utils.h: new type EPixmap, which is used to cache pixmaps for

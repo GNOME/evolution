@@ -5,6 +5,7 @@
 #define _E_SEXP_H
 
 #include <setjmp.h>
+#include <time.h>
 #include <glib.h>
 
 #ifdef E_SEXP_IS_GTK_OBJECT
@@ -42,6 +43,7 @@ enum _ESExpResultType {
 	ESEXP_RES_INT,		/* type is a number */
 	ESEXP_RES_STRING,	/* type is a pointer to a single string */
 	ESEXP_RES_BOOL,		/* boolean type */
+	ESEXP_RES_TIME,		/* time_t type */
 	ESEXP_RES_UNDEFINED	/* unknown type */
 };
 
@@ -52,6 +54,7 @@ struct _ESExpResult {
 		int number;
 		char *string;
 		int bool;
+		time_t time;
 	} value;
 };
 
@@ -59,6 +62,7 @@ enum _ESExpTermType {
 	ESEXP_TERM_INT	= 0,	/* integer literal */
 	ESEXP_TERM_BOOL,	/* boolean literal */
 	ESEXP_TERM_STRING,	/* string literal */
+	ESEXP_TERM_TIME,	/* time_t literal (number of seconds past the epoch) */
 	ESEXP_TERM_FUNC,	/* normal function, arguments are evaluated before calling */
 	ESEXP_TERM_IFUNC,	/* immediate function, raw terms are arguments */
 	ESEXP_TERM_VAR,		/* variable reference */
@@ -80,6 +84,7 @@ struct _ESExpTerm {
 		char *string;
 		int number;
 		int bool;
+		time_t time;
 		struct {
 			struct _ESExpSymbol *sym;
 			struct _ESExpTerm **terms;

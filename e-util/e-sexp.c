@@ -43,8 +43,14 @@
   string = (+ string*)
 	Concat strings.
 
+  time_t = (+ time_t*)
+	Add time_t values.
+
   int = (- int int*)
 	Subtract integers from the first.
+
+  time_t = (- time_t*)
+	Subtract time_t values from the first.
 
   Comparison operators:
 
@@ -55,7 +61,11 @@
   bool = (< string string)
   bool = (> string string)
   bool = (= string string)
-	Perform a comparision of 2 integers, or 2 string values.
+
+  bool = (< time_t time_t)
+  bool = (> time_t time_t)
+  bool = (= time_t time_t)
+	Perform a comparision of 2 integers, 2 string values, or 2 time values.
 
   Function flow:
 
@@ -168,12 +178,15 @@ e_sexp_result_free(struct _ESExp *f, struct _ESExpResult *t)
 		break;
 	case ESEXP_RES_BOOL:
 	case ESEXP_RES_INT:
+	case ESEXP_RES_TIME:
 		break;
 	case ESEXP_RES_STRING:
 		g_free(t->value.string);
 		break;
 	case ESEXP_RES_UNDEFINED:
 		break;
+	default:
+		g_assert_not_reached();
 	}
 	e_memchunk_free(f->result_chunks, t);
 }
@@ -358,6 +371,9 @@ term_eval_lt(struct _ESExp *f, int argc, struct _ESExpTerm **argv, void *data)
 		} else if (r1->type == ESEXP_RES_INT) {
 			r->type = ESEXP_RES_BOOL;
 			r->value.bool = r1->value.number < r2->value.number;
+		} else if (r1->type == ESEXP_RES_TIME) {
+			r->type = ESEXP_RES_BOOL;
+			r->value.bool = r1->value.time < r2->value.time;
 		} else if (r1->type == ESEXP_RES_STRING) {
 			r->type = ESEXP_RES_BOOL;
 			r->value.bool = strcmp(r1->value.string, r2->value.string) < 0;
@@ -387,6 +403,9 @@ term_eval_gt(struct _ESExp *f, int argc, struct _ESExpTerm **argv, void *data)
 		} else if (r1->type == ESEXP_RES_INT) {
 			r->type = ESEXP_RES_BOOL;
 			r->value.bool = r1->value.number > r2->value.number;
+		} else if (r1->type == ESEXP_RES_TIME) {
+			r->type = ESEXP_RES_BOOL;
+			r->value.bool = r1->value.time > r2->value.time;
 		} else if (r1->type == ESEXP_RES_STRING) {
 			r->type = ESEXP_RES_BOOL;
 			r->value.bool = strcmp(r1->value.string, r2->value.string) > 0;
@@ -414,6 +433,8 @@ term_eval_eq(struct _ESExp *f, int argc, struct _ESExpTerm **argv, void *data)
 			r->value.bool = r1->value.number == r2->value.number;
 		} else if (r1->type == ESEXP_RES_BOOL) {
 			r->value.bool = r1->value.bool == r2->value.bool;
+		} else if (r1->type == ESEXP_RES_TIME) {
+			r->value.bool = r1->value.time == r2->value.time;
 		} else if (r1->type == ESEXP_RES_STRING) {
 			r->value.bool = strcmp(r1->value.string, r2->value.string) == 0;
 		}
@@ -458,7 +479,22 @@ term_eval_plus(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *dat
 			r->value.string = s->str;
 			g_string_free(s, FALSE);
 			break; }
-			
+		case ESEXP_RES_TIME: {
+			time_t total;
+
+			total = argv[0]->value.time;
+
+			for (i = 1; i < argc && argv[i]->type == ESEXP_RES_TIME; i++)
+				total += argv[i]->value.time;
+
+			if (i < argc) {
+				e_sexp_resultv_free (f, argc, argv);
+				e_sexp_fatal_error (f, "Invalid types in (+ time_t)");
+			}
+
+			r = e_sexp_result_new (f, ESEXP_RES_TIME);
+			r->value.time = total;
+			break; }
 		}
 	}
 
@@ -490,6 +526,22 @@ term_eval_sub(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data
 			}
 			r = e_sexp_result_new(f, ESEXP_RES_INT);
 			r->value.number = total;
+			break; }
+		case ESEXP_RES_TIME: {
+			time_t total;
+
+			total = argv[0]->value.time;
+
+			for (i = 1; i < argc && argv[i]->type == ESEXP_RES_TIME; i++)
+				total -= argv[i]->value.time;
+
+			if (i < argc) {
+				e_sexp_resultv_free (f, argc, argv);
+				e_sexp_fatal_error (f, "Invalid types in (- time_t)");
+			}
+
+			r = e_sexp_result_new (f, ESEXP_RES_TIME);
+			r->value.time = total;
 			break; }
 		}
 	}
@@ -570,6 +622,11 @@ e_sexp_term_eval(struct _ESExp *f, struct _ESExpTerm *t)
 		r = e_sexp_result_new(f, ESEXP_RES_BOOL);
 		r->value.bool = t->value.bool;
 		break;
+	case ESEXP_TERM_TIME:
+		r(printf(" (time_t %d)\n", t->value.time));
+		r = e_sexp_result_new (f, ESEXP_RES_TIME);
+		r->value.time = t->value.time;
+		break;
 	case ESEXP_TERM_IFUNC:
 		if (t->value.func.sym->f.ifunc)
 			r = t->value.func.sym->f.ifunc(f, t->value.func.termcount, t->value.func.terms, t->value.func.sym->data);
@@ -623,6 +680,9 @@ eval_dump_result(ESExpResult *r, int depth)
 	case ESEXP_RES_BOOL:
 		printf("bool: %c\n", r->value.bool?'t':'f');
 		break;
+	case ESEXP_RES_TIME:
+		printf("time_t: %ld\n", (long) r->value.time);
+		break;
 	case ESEXP_RES_UNDEFINED:
 		printf(" <undefined>\n");
 		break;
@@ -653,6 +713,9 @@ parse_dump_term(struct _ESExpTerm *t, int depth)
 		break;
 	case ESEXP_TERM_BOOL:
 		printf(" #%c", t->value.bool?'t':'f');
+		break;
+	case ESEXP_TERM_TIME:
+		printf(" %ld", (long) t->value.time);
 		break;
 	case ESEXP_TERM_IFUNC:
 	case ESEXP_TERM_FUNC:
@@ -710,6 +773,8 @@ parse_term_free(struct _ESExp *f, struct _ESExpTerm *t)
 		g_free(t->value.string);
 		break;
 	case ESEXP_TERM_INT:
+		break;
+	case ESEXP_TERM_TIME:
 		break;
 	default:
 		printf("parse_term_free: unknown type: %d\n", t->type);
