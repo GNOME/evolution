@@ -1,3 +1,8 @@
+1999-12-19  bertrand  <Bertrand.Guiheneuf@aful.org>
+
+	* camel/camel-folder-utils.c: include camel-log.h
+	to avoid unresolved symbols.
+
 1999-12-18  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* camel/camel-folder.c (camel_folder_get_summary): 

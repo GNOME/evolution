@@ -25,8 +25,9 @@
  * USA
  */
 
-
+#include <config.h>
 #include "camel-folder-utils.h"
+#include "camel-log.h"
 #include "camel-mime-message.h"
 
 
