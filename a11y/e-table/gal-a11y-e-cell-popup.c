@@ -91,11 +91,14 @@ gal_a11y_e_cell_popup_new (ETableItem *item,
 	AtkObject *a11y;
 	GalA11yECell *cell;
  	ECellPopup *popupcell;
+	ECellView* child_view = NULL;
 
-	g_return_val_if_fail (a11y != NULL, NULL);
 	popupcell=  E_CELL_POPUP(cell_view->ecell);
-	ECellView* child_view =popupcell->popup_cell_view->child_view;
- 	if (child_view->ecell) {
+
+	if (popupcell && popupcell->popup_cell_view)
+	        child_view = popupcell->popup_cell_view->child_view;
+	
+ 	if (child_view && child_view->ecell) {
 		a11y = gal_a11y_e_cell_registry_get_object (NULL,
 							    item,
 							    child_view,
