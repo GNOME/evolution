@@ -1,3 +1,7 @@
+2004-02-17  Radek Doulik  <rodo@ximian.com>
+
+	* e-msg-composer.c (e_msg_composer_unrealize): renamed from unmap
+
 2004-02-13  Radek Doulik  <rodo@ximian.com>
 
 	* e-msg-composer.c (create_composer): get default composer size

@@ -3022,7 +3022,7 @@ composer_settings_update (GConfClient *gconf, guint cnxn_id, GConfEntry *entry, 
 }
 
 static void
-e_msg_composer_unmap (GtkWidget *widget, gpointer data)
+e_msg_composer_unrealize (GtkWidget *widget, gpointer data)
 {
 	EMsgComposer *composer = E_MSG_COMPOSER (widget);
 	GConfClient *gconf;
@@ -3133,7 +3133,7 @@ create_composer (int visible_mask)
 	gtk_window_set_default_size (GTK_WINDOW (composer),
 				     gconf_client_get_int (gconf, "/apps/evolution/mail/composer/width", NULL),
 				     gconf_client_get_int (gconf, "/apps/evolution/mail/composer/height", NULL));
-	g_signal_connect (composer, "unrealize", G_CALLBACK (e_msg_composer_unmap), NULL);
+	g_signal_connect (composer, "unrealize", G_CALLBACK (e_msg_composer_unrealize), NULL);
 	g_object_unref (gconf);
 	
 	editor_server = bonobo_widget_get_objref (BONOBO_WIDGET (composer->editor));
