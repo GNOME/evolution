@@ -26,9 +26,15 @@
  * USA.
  */
 
+
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
+
+#include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+
 #include <gal/unicode/gunicode.h>
 #include "e-searching-tokenizer.h"
 
@@ -257,7 +263,7 @@ build_trie(int nocase, int len, char **words)
 {
 	struct _state *q, *qt, *r;
 	char *word;
-	struct _match *m, *n;
+	struct _match *m, *n = NULL;
 	int i, depth;
 	guint32 c;
 	struct _trie *trie;
@@ -265,10 +271,10 @@ build_trie(int nocase, int len, char **words)
 	struct _state **state_depth;
 
 	trie = g_malloc(sizeof(*trie));
-	trie->root.matches = 0;
+	trie->root.matches = NULL;
 	trie->root.final = 0;
-	trie->root.fail = 0;
-	trie->root.next = 0;
+	trie->root.fail = NULL;
+	trie->root.next = NULL;
 
 	trie->state_chunks = e_memchunk_new(8, sizeof(struct _state));
 	trie->match_chunks = e_memchunk_new(8, sizeof(struct _match));
@@ -291,13 +297,13 @@ build_trie(int nocase, int len, char **words)
 			if (nocase)
 				c = g_unichar_tolower(c);
 			m = g(q, c);
-			if (m == 0) {
+			if (m == NULL) {
 				m = e_memchunk_alloc(trie->match_chunks);
 				m->ch = c;
 				m->next = q->matches;
 				q->matches = m;
 				q = m->match = e_memchunk_alloc(trie->state_chunks);
-				q->matches = 0;
+				q->matches = NULL;
 				q->fail = &trie->root;
 				q->final = 0;
 				if (state_depth_max < depth) {
@@ -335,9 +341,9 @@ build_trie(int nocase, int len, char **words)
 				c = m->ch;
 				qt = m->match;
 				r = q->fail;
-				while (r != 0 && (n = g(r, c)) == NULL)
+				while (r && (n = g(r, c)) == NULL)
 					r = r->fail;
-				if (r != 0) {
+				if (r != NULL) {
 					qt->fail = n->match;
 					if (qt->fail->final > qt->final)
 						qt->final = qt->fail->final;
@@ -713,7 +719,7 @@ searcher_next_token(struct _searcher *s)
 	char *tok, *stok;
 	struct _trie *t = s->t;
 	struct _state *q = s->state;
-	struct _match *m;
+	struct _match *m = NULL;
 	int offstart, offend;
 	guint32 c;
 
@@ -752,11 +758,11 @@ searcher_next_token(struct _searcher *s)
 				c = g_unichar_tolower(c);
 			while (q && (m = g(q, c)) == NULL)
 				q = q->fail;
-			if (q == 0) {
+			if (q == NULL) {
 				/* mismatch ... reset state */
 				output_subpending(s);
 				q = &t->root;
-			} else {
+			} else if (m != NULL) {
 				/* keep track of previous offsets of utf8 chars, rotating buffer */
 				s->last[s->lastp] = s->offset + (tok-stok)-1;
 				s->lastp = (s->lastp+1)&s->last_mask;
