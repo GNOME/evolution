@@ -31,7 +31,7 @@
 /**
  * cal_obj_instance_list_free:
  * @list: List of #CalObjInstance structures.
- * 
+ *
  * Frees a list of #CalObjInstance structures.
  **/
 void
@@ -81,13 +81,13 @@ cal_util_new_top_level (void)
 {
 	icalcomponent *icalcomp;
 	icalproperty *prop;
-	
+
 	icalcomp = icalcomponent_new (ICAL_VCALENDAR_COMPONENT);
 
 	/* RFC 2445, section 4.7.1 */
 	prop = icalproperty_new_calscale ("GREGORIAN");
 	icalcomponent_add_property (icalcomp, prop);
-	
+
        /* RFC 2445, section 4.7.3 */
 	prop = icalproperty_new_prodid ("-//Ximian//NONSGML Evolution Calendar//EN");
 	icalcomponent_add_property (icalcomp, prop);
@@ -109,9 +109,12 @@ compute_alarm_range (CalComponent *comp, GList *alarm_uids, time_t start, time_t
 		     time_t *alarm_start, time_t *alarm_end)
 {
 	GList *l;
+	time_t repeat_time;
 
 	*alarm_start = start;
 	*alarm_end = end;
+
+	repeat_time = 0;
 
 	for (l = alarm_uids; l; l = l->next) {
 		const char *auid;
@@ -119,23 +122,29 @@ compute_alarm_range (CalComponent *comp, GList *alarm_uids, time_t start, time_t
 		CalAlarmTrigger trigger;
 		struct icaldurationtype *dur;
 		time_t dur_time;
+		CalAlarmRepeat repeat;
 
 		auid = l->data;
 		alarm = cal_component_get_alarm (comp, auid);
 		g_assert (alarm != NULL);
 
 		cal_component_alarm_get_trigger (alarm, &trigger);
+		cal_component_alarm_get_repeat (alarm, &repeat);
 		cal_component_alarm_free (alarm);
 
 		switch (trigger.type) {
 		case CAL_ALARM_TRIGGER_NONE:
 		case CAL_ALARM_TRIGGER_ABSOLUTE:
-			continue;
+			break;
 
 		case CAL_ALARM_TRIGGER_RELATIVE_START:
 		case CAL_ALARM_TRIGGER_RELATIVE_END:
 			dur = &trigger.u.rel_duration;
   			dur_time = icaldurationtype_as_int (*dur);
+
+			repeat_time = MAX (repeat_time,
+					   (repeat.repetitions
+					    * icaldurationtype_as_int (repeat.duration)));
 
 			if (dur->is_neg)
 				/* If the duration is negative then dur_time
@@ -153,6 +162,8 @@ compute_alarm_range (CalComponent *comp, GList *alarm_uids, time_t start, time_t
 		}
 	}
 
+	alarm_start -= repeat_time;
+
 	g_assert (*alarm_start <= *alarm_end);
 }
 
@@ -167,6 +178,22 @@ struct alarm_occurrence_data {
 	GSList *triggers;
 	int n_triggers;
 };
+
+static void
+add_trigger (struct alarm_occurrence_data *aod, const char *auid, time_t trigger,
+	     time_t occur_start, time_t occur_end)
+{
+	CalAlarmInstance *instance;
+
+	instance = g_new (CalAlarmInstance, 1);
+	instance->auid = auid;
+	instance->trigger = trigger;
+	instance->occur_start = occur_start;
+	instance->occur_end = occur_end;
+
+	aod->triggers = g_slist_prepend (aod->triggers, instance);
+	aod->n_triggers++;
+}
 
 /* Callback used from cal_recur_generate_instances(); generates triggers for all
  * of a component's RELATIVE alarms.
@@ -183,16 +210,17 @@ add_alarm_occurrences_cb (CalComponent *comp, time_t start, time_t end, gpointer
 		const char *auid;
 		CalComponentAlarm *alarm;
 		CalAlarmTrigger trigger;
+		CalAlarmRepeat repeat;
 		struct icaldurationtype *dur;
 		time_t dur_time;
 		time_t occur_time, trigger_time;
-		CalAlarmInstance *instance;
 
 		auid = l->data;
 		alarm = cal_component_get_alarm (comp, auid);
 		g_assert (alarm != NULL);
 
 		cal_component_alarm_get_trigger (alarm, &trigger);
+		cal_component_alarm_get_repeat (alarm, &repeat);
 		cal_component_alarm_free (alarm);
 
 		if (trigger.type != CAL_ALARM_TRIGGER_RELATIVE_START
@@ -215,17 +243,28 @@ add_alarm_occurrences_cb (CalComponent *comp, time_t start, time_t end, gpointer
 
 		trigger_time = occur_time + dur_time;
 
-		if (trigger_time < aod->start || trigger_time >= aod->end)
-			continue;
+		/* Add repeating alarms */
 
-		instance = g_new (CalAlarmInstance, 1);
-		instance->auid = auid;
-		instance->trigger = trigger_time;
-		instance->occur_start = start;
-		instance->occur_end = end;
+		if (repeat.repetitions != 0) {
+			int i;
+			time_t repeat_time;
 
-		aod->triggers = g_slist_prepend (aod->triggers, instance);
-		aod->n_triggers++;
+			repeat_time = icaldurationtype_as_int (repeat.duration);
+
+			for (i = 0; i < repeat.repetitions; i++) {
+				time_t t;
+
+				t = trigger_time + (i + 1) * repeat_time;
+
+				if (t >= aod->start && t < aod->end)
+					add_trigger (aod, auid, t, start, end);
+			}
+		}
+
+		/* Add the trigger itself */
+
+		if (trigger_time >= aod->start && trigger_time < aod->end)
+			add_trigger (aod, auid, trigger_time, start, end);
 	}
 
 	return TRUE;
@@ -233,7 +272,10 @@ add_alarm_occurrences_cb (CalComponent *comp, time_t start, time_t end, gpointer
 
 /* Generates the absolute triggers for a component */
 static void
-generate_absolute_triggers (CalComponent *comp, struct alarm_occurrence_data *aod)
+generate_absolute_triggers (CalComponent *comp, struct alarm_occurrence_data *aod,
+			    CalRecurResolveTimezoneFn resolve_tzid,
+			    gpointer user_data,
+			    icaltimezone *default_timezone)
 {
 	GList *l;
 	CalComponentDateTime dt_start, dt_end;
@@ -244,43 +286,72 @@ generate_absolute_triggers (CalComponent *comp, struct alarm_occurrence_data *ao
 	for (l = aod->alarm_uids; l; l = l->next) {
 		const char *auid;
 		CalComponentAlarm *alarm;
+		CalAlarmRepeat repeat;
 		CalAlarmTrigger trigger;
 		time_t abs_time;
-		CalAlarmInstance *instance;
+		time_t occur_start, occur_end;
+		icaltimezone *zone;
 
 		auid = l->data;
 		alarm = cal_component_get_alarm (comp, auid);
 		g_assert (alarm != NULL);
 
 		cal_component_alarm_get_trigger (alarm, &trigger);
+		cal_component_alarm_get_repeat (alarm, &repeat);
 		cal_component_alarm_free (alarm);
 
 		if (trigger.type != CAL_ALARM_TRIGGER_ABSOLUTE)
 			continue;
 
-		abs_time = icaltime_as_timet (trigger.u.abs_time);
+		/* Absolute triggers are always in UTC; see RFC 2445 section 4.8.6.3 */
+		zone = icaltimezone_get_utc_timezone ();
 
-		if (abs_time < aod->start || abs_time >= aod->end)
-			continue;
-
-		instance = g_new (CalAlarmInstance, 1);
-		instance->auid = auid;
-		instance->trigger = abs_time;
+		abs_time = icaltime_as_timet_with_zone (trigger.u.abs_time, zone);
 
 		/* No particular occurrence, so just use the times from the component */
 
-		if (dt_start.value)
-			instance->occur_start = icaltime_as_timet (*dt_start.value);
-		else
-			instance->occur_start = -1;
+		if (dt_start.value) {
+			if (dt_start.tzid && !dt_start.value->is_date)
+				zone = (* resolve_tzid) (dt_start.tzid, user_data);
+			else
+				zone = default_timezone;
 
-		if (dt_end.value)
-			instance->occur_end = icaltime_as_timet (*dt_end.value);
-		else
-			instance->occur_end = -1;
+			occur_start = icaltime_as_timet_with_zone (*dt_start.value, zone);
+		} else
+			occur_start = -1;
 
-		aod->triggers = g_slist_prepend (aod->triggers, instance);
-		aod->n_triggers++;
+		if (dt_end.value) {
+			if (dt_end.tzid && !dt_end.value->is_date)
+				zone = (* resolve_tzid) (dt_end.tzid, user_data);
+			else
+				zone = default_timezone;
+
+			occur_end = icaltime_as_timet_with_zone (*dt_end.value, zone);
+		} else
+			occur_end = -1;
+
+		/* Add repeating alarms */
+
+		if (repeat.repetitions != 0) {
+			int i;
+			time_t repeat_time;
+
+			repeat_time = icaldurationtype_as_int (repeat.duration);
+
+			for (i = 0; i < repeat.repetitions; i++) {
+				time_t t;
+
+				t = abs_time + (i + 1) * repeat_time;
+
+				if (t >= aod->start && t < aod->end)
+					add_trigger (aod, auid, t, occur_start, occur_end);
+			}
+		}
+
+		/* Add the trigger itself */
+
+		if (abs_time >= aod->start && abs_time < aod->end)
+			add_trigger (aod, auid, abs_time, occur_start, occur_end);
 	}
 
 	cal_component_free_datetime (&dt_start);
@@ -349,7 +420,7 @@ cal_util_generate_alarms_for_comp (CalComponent *comp,
 				      default_timezone);
 
 	/* We add the ABSOLUTE triggers separately */
-	generate_absolute_triggers (comp, &aod);
+	generate_absolute_triggers (comp, &aod, resolve_tzid, user_data, default_timezone);
 
 	if (aod.n_triggers == 0)
 		return NULL;

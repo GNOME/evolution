@@ -1,3 +1,15 @@
+2001-10-29  Federico Mena Quintero  <federico@ximian.com>
+
+	Fix bug #12163.
+
+	* cal-util/cal-util.c (compute_alarm_range): Take alarm
+	repetitions into account.
+	(add_alarm_occurrences_cb): Add alarm repetitions.
+	(generate_absolute_triggers): Likewise.
+	(generate_absolute_triggers): Oops, absolute triggers are in UTC,
+	so convert them as such.  Also, pay attention to the timezones of
+	the dtstart and dtend properties.
+
 2001-10-29  JP Rosevear  <jpr@ximian.com>
 
 	* importers/Makefile.am: include the header as a source so it gets

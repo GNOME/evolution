@@ -23,6 +23,7 @@
 #endif
 
 #include <stdlib.h>
+#include <string.h>
 #include <glib.h>
 #include <gtk/gtkmenu.h>
 #include <gtk/gtkmenuitem.h>

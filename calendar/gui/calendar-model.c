@@ -40,6 +40,7 @@
 #include "calendar-model.h"
 #include "evolution-activity-client.h"
 #include "e-cell-date-edit-text.h"
+#include "misc.h"
 
 /* This specifies how often we refresh the list, so that completed tasks are
    hidden according to the config setting, and overdue tasks change color etc.
@@ -902,27 +903,6 @@ calendar_model_value_at (ETableModel *etm, int col, int row)
 		return NULL;
 	}
 }
-
-/* Returns whether a string is NULL, empty, or full of whitespace */
-static gboolean
-string_is_empty (const char *value)
-{
-	const char *p;
-	gboolean empty = TRUE;
-
-	if (value) {
-		p = value;
-		while (*p) {
-			if (!isspace ((unsigned char) *p)) {
-				empty = FALSE;
-				break;
-			}
-			p++;
-		}
-	}
-	return empty;
-}
-
 
 /* Builds a list of categories from a comma-delimited string */
 static GSList *
