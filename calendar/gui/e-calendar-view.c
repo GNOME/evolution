@@ -900,17 +900,19 @@ e_calendar_view_delete_selected_occurrence (ECalendarView *cal_view)
 		}
 	}
 
-	if (delete_component_dialog (comp, FALSE, 1, e_cal_component_get_vtype (comp), GTK_WIDGET (cal_view))) {
+	if (rid) {
+		if (delete_component_dialog (comp, FALSE, 1, e_cal_component_get_vtype (comp), GTK_WIDGET (cal_view))) {
 
-		if (itip_organizer_is_user (comp, event->comp_data->client)
-		    && cancel_component_dialog ((GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (cal_view)),
-						event->comp_data->client,
-						comp, TRUE))
-			itip_send_comp (E_CAL_COMPONENT_METHOD_CANCEL, comp, event->comp_data->client, NULL);
+			if (itip_organizer_is_user (comp, event->comp_data->client)
+			    && cancel_component_dialog ((GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (cal_view)),
+							event->comp_data->client,
+							comp, TRUE))
+				itip_send_comp (E_CAL_COMPONENT_METHOD_CANCEL, comp, event->comp_data->client, NULL);
 
-		e_cal_remove_object_with_mod (event->comp_data->client, uid, rid, CALOBJ_MOD_THIS, &error);
-		delete_error_dialog (error, E_CAL_COMPONENT_EVENT);
-		g_clear_error (&error);
+			e_cal_remove_object_with_mod (event->comp_data->client, uid, rid, CALOBJ_MOD_THIS, &error);
+			delete_error_dialog (error, E_CAL_COMPONENT_EVENT);
+			g_clear_error (&error);
+		}
 	}
 
 	/* free memory */
