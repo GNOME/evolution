@@ -1,3 +1,17 @@
+2003-02-20  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-format.c (write_headers): Use
+	camel_charset_canonical_name() here instead of
+	e_iconv_charset_name().
+
+	* mail-preferences.c (mail_preferences_construct): Same as below.
+	(mail_preferences_apply): Again here.
+
+	* mail-composer-prefs.c (mail_composer_prefs_construct): Use
+	camel_charset_locale_name() here instead of
+	e_iconv_locale_charset().
+	(mail_composer_prefs_apply): Same.
+
 2003-02-20  Dan Winship  <danw@ximian.com>
 
 	* Makefile.am (libevolution_mail_la_LIBADD):
