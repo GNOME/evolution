@@ -1,3 +1,13 @@
+2000-03-03  Seth Alves  <alves@hungry.com>
+
+	* cal-util/Makefile.am: new file -- things shared between
+	the client and server go in this directory
+
+	*  calobj.c calobj.h icalendar.c icalendar.h
+	timeutil.c timeutil.h cal-util.c cal-util.h where moved
+	backend stuff went into pcs.  shared stuff went into
+	cal-util.
+
 2000-03-02  Federico Mena Quintero  <federico@helixcode.com>
 
 	At this point the calendar client and personal calendar server

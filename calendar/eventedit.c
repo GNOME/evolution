@@ -11,7 +11,7 @@
 #include "calendar.h"
 #include "eventedit.h"
 #include "main.h"
-#include "timeutil.h"
+#include "cal-util/timeutil.h"
 
 
 static void event_editor_class_init (EventEditorClass *class);

@@ -144,7 +144,7 @@ ical_object_create_from_icalcomponent (icalcomponent* comp)
 			copy_str (&ical->class, icalproperty_get_class (prop));
 			break;
 		case ICAL_COMMENT_PROPERTY:
-			tmpStr = icalproperty_get_comment (prop);
+			/*tmpStr = icalproperty_get_comment (prop);*/
 			tmpStr = g_strconcat (icalproperty_get_comment (prop),
 					      ical->comment,
 					      NULL);

@@ -14,7 +14,7 @@
 #include "main.h"
 #include "mark.h"
 #include "quick-view.h"
-#include "timeutil.h"
+#include "cal-util/timeutil.h"
 
 
 /* Spacing between title and calendar */

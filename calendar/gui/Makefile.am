@@ -1,4 +1,4 @@
-SUBDIRS = doc idl pcs cal-client
+SUBDIRS = doc idl cal-util pcs cal-client
 
 idldir = $(datadir)/idl
 idl_DATA = 			\
@@ -27,7 +27,8 @@ INCLUDES = 						\
 	$(BONOBO_VFS_GNOME_CFLAGS)			\
 	$(GNOME_CONDUIT_INCLUDEDIR)			\
 	$(PISOCK_INCLUDEDIR)                  		\
-	-I../libical/src/libical			\
+	-I$(top_srcdir)					\
+	-I$(top_srcdir)/libical/src/libical		\
         -DGNOMELOCALEDIR=\""$(datadir)/locale"\"
 
 GNOMECAL_CORBA_GENERATED =	\
@@ -51,11 +52,7 @@ gnomecal_SOURCES =				\
 	GnomeCal.h				\
 	alarm.c					\
 	alarm.h					\
-	calendar.c				\
-	calendar.h				\
 	calendar-conduit.h			\
-	calobj.c				\
-	calobj.h				\
 	eventedit.c				\
 	eventedit.h				\
 	corba-cal.c				\
@@ -78,8 +75,6 @@ gnomecal_SOURCES =				\
 	gnome-cal.c				\
 	gnome-cal.h				\
 	goto.c					\
-	icalendar.c				\
-	icalendar.h				\
 	layout.c				\
 	layout.h				\
 	main.c					\
@@ -93,13 +88,20 @@ gnomecal_SOURCES =				\
 	prop.c					\
 	quick-view.c				\
 	quick-view.h				\
-	timeutil.c				\
-	timeutil.h				\
 	todo-conduit.h				\
 	view-utils.h				\
 	view-utils.c				\
 	year-view.c				\
 	year-view.h
+
+#	calendar.c				\
+#	calendar.h				\
+#	calobj.c				\
+#	calobj.h				\
+#	icalendar.c				\
+#	icalendar.h				\
+#	timeutil.c				\
+#	timeutil.h				\
 
 calendar_pilot_sync_SOURCES =	\
 	GnomeCal-common.c	\
@@ -116,6 +118,7 @@ calendar_pilot_sync_SOURCES =	\
 LINK_FLAGS = \
 	$(BONOBO_VFS_GNOME_LIBS) \
 	$(INTLLIBS) \
+	cal-util/libcalutil.la \
 	../libversit/libversit.la \
 	$(ICAL_LINK_FLAGS)
 

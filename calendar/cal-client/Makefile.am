@@ -19,6 +19,7 @@ $(CORBA_GENERATED): $(idls)
 INCLUDES =						\
         -DGNOMELOCALEDIR=\""$(datadir)/locale"\"        \
 	-DG_LOG_DOMAIN=\"cal-client\"			\
+	-I$(top_srcdir)/calendar/cal-util		\
 	-I$(srcdir) -I$(top_srcdir) 			\
 	-I. 						\
 	-I.. 						\
@@ -34,12 +35,11 @@ libcal_client_la_SOURCES =	\
 	$(CORBA_GENERATED)	\
 	cal-client.c		\
 	cal-listener.c		\
-	cal-listener.h		\
-	cal-util.c
+	cal-listener.h
 
 libcal_clientinclude_HEADERS =	\
-	cal-client.h		\
-	cal-util.h
+	cal-client.h
+
 
 #
 # client-test program
@@ -54,7 +54,8 @@ client_test_INCLUDES =			\
 	$(INCLUDES)			\
 	-DG_LOG_DOMAIN=\"client-test\"
 
-client_test_LDADD =				\
-	$(BONOBO_VFS_GNOME_LIBS)		\
-	$(top_builddir)/libversit/libversit.la	\
+client_test_LDADD =					\
+	$(BONOBO_VFS_GNOME_LIBS)			\
+	$(top_builddir)/libversit/libversit.la		\
+	$(top_srcdir)/calendar/cal-util/libcalutil.la	\
 	libcal-client.la

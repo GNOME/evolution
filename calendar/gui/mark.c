@@ -9,7 +9,7 @@
 #include "gnome-cal.h"
 #include "main.h"
 #include "mark.h"
-#include "timeutil.h"
+#include "cal-util/timeutil.h"
 
 
 /* Frees the specified data when an object is destroyed */

@@ -12,7 +12,7 @@
 #include <gtk/gtk.h>
 #include "gncal-week-view.h"
 #include "main.h"
-#include "timeutil.h"
+#include "cal-util/timeutil.h"
 
 static void gncal_week_view_init (GncalWeekView *wview);
 

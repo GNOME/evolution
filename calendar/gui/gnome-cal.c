@@ -17,7 +17,7 @@
 #include "gncal-week-view.h"
 #include "month-view.h"
 #include "year-view.h"
-#include "timeutil.h"
+#include "cal-util/timeutil.h"
 #include "main.h"
 #include "corba-cal.h"
 

@@ -12,8 +12,8 @@
 #include "gnome-cal.h"
 #include "main.h"
 #include "alarm.h"
-#include "timeutil.h"
-#include "../libversit/vcc.h"
+#include "cal-util/timeutil.h"
+#include "libversit/vcc.h"
 #include <libgnorba/gnorba.h>
 #include <bonobo.h>
 #include "GnomeCal.h"

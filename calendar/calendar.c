@@ -20,7 +20,7 @@
 #include "calendar.h"
 #include "alarm.h"
 #include "timeutil.h"
-#include "../libversit/vcc.h"
+#include "libversit/vcc.h"
 #include "icalendar.h"
 
 #ifdef HAVE_TZNAME

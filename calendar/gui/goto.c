@@ -11,7 +11,7 @@
 #include "gnome-month-item.h"
 #include "main.h"
 #include "mark.h"
-#include "timeutil.h"
+#include "cal-util/timeutil.h"
 
 
 static GtkWidget *goto_win;		/* The goto dialog window */

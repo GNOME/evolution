@@ -21,7 +21,7 @@
 #include "eventedit.h"
 #include "gnome-cal.h"
 #include "main.h"
-#include "timeutil.h"
+#include "cal-util/timeutil.h"
 #include "corba-cal-factory.h"
 
 #define COOKIE_USER_HOME_DIR ((char *) -1)

@@ -10,7 +10,7 @@
 #include <gtk/gtkhseparator.h>
 #include "gncal-day-panel.h"
 #include "main.h"
-#include "timeutil.h"
+#include "cal-util/timeutil.h"
 
 
 guint
