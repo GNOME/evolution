@@ -1,3 +1,8 @@
+2004-10-14  Sivaiah Nallagatla <snallagatla@novell.com>
+
+	* mail-errors.xml : Remove Pango markup from groupwise 
+	account setup error message 
+
 2004-10-12  Not Zed  <NotZed@Ximian.com>
 
 	* em-format-html-display.c (efhd_find_handler): use builtin

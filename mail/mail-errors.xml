@@ -319,8 +319,8 @@ You can choose to ignore this folder, overwrite or append its contents, or quit.
  </error>
 
  <error id="gw-accountsetup-error" type="error">
- <primary><span weight="bold" size="larger">Unable to connect to the GroupWise
-server.</span></primary>
+ <primary>Unable to connect to the GroupWise
+server.</primary>
 <secondary>
 Please check your account settings and try again.
 </secondary>
