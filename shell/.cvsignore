@@ -3,6 +3,7 @@
 .pure
 evolution
 evolution.pure
+evolution-test-component
 Makefile.in
 Makefile
 Evolution-stubs.c
