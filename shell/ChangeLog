@@ -1,3 +1,10 @@
+2002-01-11  Damon Chaplin  <damon@ximian.com>
+
+	* e-shell-startup-wizard.c (finish_func): handle translated timezone
+	names.
+
+	* Makefile.am (INCLUDES): added -I$(top_srcdir)/libical/src/libical.
+
 2001-12-17  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shell-about-box.c: Add Michael MacDonald.
