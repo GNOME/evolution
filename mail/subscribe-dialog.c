@@ -1,12 +1,26 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/* subscribe-dialog.c: Subscribe dialog */
 /*
- * subscribe-dialog.c: Subscribe dialog
+ *  Authors: Chris Toshok <toshok@helixcode.com>
  *
- * Author:
- *   Chris Toshok (toshok@helixcode.com)
+ *  Copyright 2000 Helix Code, Inc. (www.helixcode.com)
  *
- * (C) 2000 Helix Code, Inc.
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
+ *
  */
+
 #include <config.h>
 #include <gnome.h>
 #include "subscribe-dialog.h"
@@ -217,12 +231,20 @@ static void
 subscribe_select_all (BonoboUIComponent *uic,
 		      void *user_data, const char *path)
 {
+	SubscribeDialog *sc = (SubscribeDialog*)user_data;
+	ETableScrolled *scrolled = E_TABLE_SCROLLED (sc->folder_etable);
+	
+	e_table_select_all (scrolled->table);
 }
 
 static void
-subscribe_unselect_all (BonoboUIComponent *uic,
-			void *user_data, const char *path)
+subscribe_invert_selection (BonoboUIComponent *uic,
+			    void *user_data, const char *path)
 {
+	SubscribeDialog *sc = (SubscribeDialog*)user_data;
+	ETableScrolled *scrolled = E_TABLE_SCROLLED (sc->folder_etable);
+	
+	e_table_invert_selection (scrolled->table);
 }
 
 static void
@@ -582,7 +604,7 @@ static BonoboUIVerb verbs [] = {
 
 	/* Edit Menu */
 	BONOBO_UI_UNSAFE_VERB ("EditSelectAll", subscribe_select_all),
-	BONOBO_UI_UNSAFE_VERB ("EditUnSelectAll", subscribe_unselect_all),
+	BONOBO_UI_UNSAFE_VERB ("EditInvertSelection", subscribe_invert_selection),
 	
 	/* Folder Menu / Toolbar */
 	BONOBO_UI_UNSAFE_VERB ("SubscribeFolder", subscribe_folders),
