@@ -1,3 +1,10 @@
+2000-10-16  Chris Toshok  <toshok@helixcode.com>
+
+	* camel-service.c (get_path): when using the construct (flags &
+	CAMEL_SERVICE_URL_NEED_*) make sure to do ((flags &
+	CAMEL_SERVICE_URL_NEED_*) == CAMEL_SERVICE_URL_NEED_*)
+	(check_url): same.
+
 2000-10-16  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/imap/camel-imap-store.c (imap_disconnect): Only send
