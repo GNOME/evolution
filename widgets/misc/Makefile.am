@@ -1,9 +1,5 @@
-# FIXME we use the EClippedLabel widget from EShortcutBar.  Probably
-# it should be moved somewhere else.
-
 INCLUDES =								\
 	-I$(top_srcdir)							\
-	-I$(top_srcdir)/widgets/shortcut-bar				\
 	-I$(top_srcdir)/a11y/widgets/					\
 	-DMAP_DIR=\""$(imagesdir)"\"					\
 	-DG_LOG_DOMAIN=__FILE__						\
@@ -15,6 +11,7 @@ privlib_LTLIBRARIES =	\
 widgetsincludedir = $(privincludedir)/widgets
 
 widgetsinclude_HEADERS =			\
+	e-activity-handler.h			\
 	e-calendar.h				\
 	e-calendar-item.h			\
 	e-cell-date-edit.h			\
@@ -34,12 +31,15 @@ widgetsinclude_HEADERS =			\
 	e-search-bar.h				\
 	e-source-option-menu.h			\
 	e-source-selector.h			\
+	e-task-bar.h				\
+	e-task-widget.h				\
 	e-title-bar.h				\
 	e-url-entry.h
 
 libemiscwidgets_la_SOURCES =			\
 	$(MARSHAL_GENERATED)			\
 	$(widgetsinclude_HEADERS)		\
+	e-activity-handler.c			\
 	e-calendar.c				\
 	e-calendar-item.c			\
 	e-cell-date-edit.c			\
@@ -59,6 +59,8 @@ libemiscwidgets_la_SOURCES =			\
 	e-search-bar.c				\
 	e-source-option-menu.c			\
 	e-source-selector.c			\
+	e-task-bar.c				\
+	e-task-widget.c				\
 	e-title-bar.c				\
 	e-url-entry.c
 

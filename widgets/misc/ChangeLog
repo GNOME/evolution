@@ -1,3 +1,16 @@
+2004-02-03  Dan Winship  <danw@ximian.com>
+
+	* e-activity-handler.c: 
+	* e-activity-handler.h: 
+	* e-task-bar.c: 
+	* e-task-bar.h: 
+	* e-task-widget.c: 
+	* e-task-widget.h: Moved here from shell/, since they are now used
+	only by the components, not the shell itself.
+
+	* Makefile.am (widgetsinclude_HEADERS,
+	libemiscwidgets_la_SOURCES): add new files
+
 2004-02-02  Chris Toshok  <toshok@ximian.com>
 
 	* e-image-chooser.c (set_image_from_data): set
