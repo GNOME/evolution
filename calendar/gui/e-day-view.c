@@ -4667,6 +4667,8 @@ e_day_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 {
 	EDayView *day_view;
 	icalcomponent *icalcomp;
+	ECal *ecal;
+	ECalModel *model;
 	ECalComponent *comp;
 	gint day, event_num;
 	gchar *initial_text;
@@ -4677,7 +4679,8 @@ e_day_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 	struct icaltimetype start_tt, end_tt;
         const char *uid;
 	AddEventData add_event_data;
-
+	gboolean read_only = TRUE;
+	
 	g_return_val_if_fail (widget != NULL, FALSE);
 	g_return_val_if_fail (E_IS_DAY_VIEW (widget), FALSE);
 	g_return_val_if_fail (event != NULL, FALSE);
@@ -4800,6 +4803,12 @@ e_day_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 		return FALSE;
 	}
 
+	/* Check if the client is read only */
+	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
+	ecal = e_cal_model_get_default_client (model);
+	if (!e_cal_is_read_only (ecal, &read_only, NULL) || read_only)
+		return FALSE;
+
 	/* We only want to start an edit with a return key or a simple
 	   character. */
 	if (keyval == GDK_Return) {
@@ -4812,9 +4821,8 @@ e_day_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 	} else
 		initial_text = e_utf8_from_gtk_event_key (widget, event->keyval, event->string);
 
-	/* Add a new event covering the selected range */
-
-	icalcomp = e_cal_model_create_component_with_defaults (e_calendar_view_get_model (E_CALENDAR_VIEW (day_view)));
+	/* Add a new event covering the selected range */	
+	icalcomp = e_cal_model_create_component_with_defaults (model);
 	if (!icalcomp)
 		return FALSE;
 	uid = icalcomponent_get_uid (icalcomp);

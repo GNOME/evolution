@@ -1,5 +1,14 @@
 2004-05-03  JP Rosevear  <jpr@ximian.com>
 
+	Fixes #57899
+	
+	* gui/e-day-view.c (e_day_view_do_key_press): bail if the client
+	is read only (or we get an error trying to find out)
+
+	* gui/e-week-view.c (e_week_view_do_key_press): ditto
+	
+2004-05-03  JP Rosevear  <jpr@ximian.com>
+
 	Fixes #57894
 	
 	* gui/gnome-cal.c (gnome_calendar_new_task): make sure we use the

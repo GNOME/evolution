@@ -3500,6 +3500,8 @@ static gboolean
 e_week_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 {
 	EWeekView *week_view;
+	ECal *ecal;
+	ECalModel *model;
 	ECalComponent *comp;
 	icalcomponent *icalcomp;
 	gint event_num;
@@ -3510,7 +3512,8 @@ e_week_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 	const char *uid;
 	AddEventData add_event_data;
 	guint keyval;
-
+	gboolean read_only = TRUE;
+	
 	g_return_val_if_fail (widget != NULL, FALSE);
 	g_return_val_if_fail (E_IS_WEEK_VIEW (widget), FALSE);
 	g_return_val_if_fail (event != NULL, FALSE);
@@ -3543,6 +3546,12 @@ e_week_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 	}
 	
 	if (week_view->selection_start_day == -1)
+		return FALSE;
+
+	/* Check if the client is read only */
+	model = e_calendar_view_get_model (E_CALENDAR_VIEW (week_view));
+	ecal = e_cal_model_get_default_client (model);
+	if (!e_cal_is_read_only (ecal, &read_only, NULL) || read_only)
 		return FALSE;
 
 	/* We only want to start an edit with a return key or a simple
