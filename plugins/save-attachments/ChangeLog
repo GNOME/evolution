@@ -1,3 +1,7 @@
+2005-01-04  Philip Van Hoof  <pvanhoof@gnome.org>
+
+	* save-attachments.c: Use standard error messages
+
 2004-12-27  Philip Van Hoof  <pvanhoof@gnome.org>
 
 	* save-attachments.c: Warning when overwriting file

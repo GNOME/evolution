@@ -53,6 +53,8 @@
 #include <camel/camel-multipart.h>
 #include <camel/camel-utf8.h>
 
+#include "widgets/misc/e-error.h"
+
 #include "mail/em-menu.h"
 #include "mail/em-utils.h"
 
@@ -218,23 +220,8 @@ save_part(GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, void *d)
 	 * the POSIX access-call should suffice for checking the file existence.
 	 */
 
-	if (access (save, F_OK)) {
-		GtkWidget *warning = 
-			gtk_message_dialog_new_with_markup (NULL,
-				GTK_DIALOG_DESTROY_WITH_PARENT,
-				GTK_MESSAGE_WARNING,
-				GTK_BUTTONS_NONE,
-				_("File exists \"%s\".\n"
-				  "Do you wish to overwrite it?"), save);
-
-			gtk_dialog_add_button (GTK_DIALOG (warning), GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
-			gtk_dialog_add_button (GTK_DIALOG (warning), _("_Overwrite"), GTK_RESPONSE_YES);
-
-			doit = FALSE;
-			if (gtk_dialog_run (GTK_DIALOG (warning)) == GTK_RESPONSE_YES)
-				doit = TRUE;
-			gtk_widget_destroy (warning);
-	}
+	if (access (save, F_OK))
+		doit = e_error_run(NULL, E_ERROR_ASK_FILE_EXISTS_OVERWRITE, save, NULL) == GTK_RESPONSE_OK;
 
 	if (doit)
 		em_utils_save_part_to_file(NULL, save, part);
