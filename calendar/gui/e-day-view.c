@@ -646,39 +646,25 @@ e_day_view_init (EDayView *day_view)
 	gtk_table_attach (GTK_TABLE (day_view), day_view->top_canvas,
 			  1, 2, 0, 1, GTK_EXPAND | GTK_FILL, GTK_FILL, 0, 0);
 	gtk_widget_show (day_view->top_canvas);
-	gtk_signal_connect_after (GTK_OBJECT (day_view->top_canvas), "button_press_event",
-				  GTK_SIGNAL_FUNC (e_day_view_on_top_canvas_button_press),
-				  day_view);
-	gtk_signal_connect_after (GTK_OBJECT (day_view->top_canvas), "button_release_event",
-				  GTK_SIGNAL_FUNC (e_day_view_on_top_canvas_button_release),
-				  day_view);
-	gtk_signal_connect_after (GTK_OBJECT (day_view->top_canvas), "motion_notify_event",
-				  GTK_SIGNAL_FUNC (e_day_view_on_top_canvas_motion),
-				  day_view);
-	gtk_signal_connect_after (GTK_OBJECT (day_view->top_canvas),
-				  "drag_motion",
-				  GTK_SIGNAL_FUNC (e_day_view_on_top_canvas_drag_motion),
-				  day_view);
-	gtk_signal_connect_after (GTK_OBJECT (day_view->top_canvas),
-				  "drag_leave",
-				  GTK_SIGNAL_FUNC (e_day_view_on_top_canvas_drag_leave),
-				  day_view);
-	gtk_signal_connect (GTK_OBJECT (day_view->top_canvas),
-			    "drag_begin",
-			    GTK_SIGNAL_FUNC (e_day_view_on_drag_begin),
-			    day_view);
-	gtk_signal_connect (GTK_OBJECT (day_view->top_canvas),
-			    "drag_end",
-			    GTK_SIGNAL_FUNC (e_day_view_on_drag_end),
-			    day_view);
-	gtk_signal_connect (GTK_OBJECT (day_view->top_canvas),
-			    "drag_data_get",
-			    GTK_SIGNAL_FUNC (e_day_view_on_drag_data_get),
-			    day_view);
-	gtk_signal_connect (GTK_OBJECT (day_view->top_canvas),
-			    "drag_data_received",
-			    GTK_SIGNAL_FUNC (e_day_view_on_top_canvas_drag_data_received),
-			    day_view);
+	g_signal_connect_after (day_view->top_canvas, "button_press_event",
+				G_CALLBACK (e_day_view_on_top_canvas_button_press), day_view);
+	g_signal_connect_after (day_view->top_canvas, "button_release_event",
+				G_CALLBACK (e_day_view_on_top_canvas_button_release), day_view);
+	g_signal_connect_after (day_view->top_canvas, "motion_notify_event",
+				G_CALLBACK (e_day_view_on_top_canvas_motion), day_view);
+	g_signal_connect_after (day_view->top_canvas, "drag_motion",
+				G_CALLBACK (e_day_view_on_top_canvas_drag_motion), day_view);
+	g_signal_connect_after (day_view->top_canvas, "drag_leave",
+				G_CALLBACK (e_day_view_on_top_canvas_drag_leave), day_view);
+
+	g_signal_connect (day_view->top_canvas, "drag_begin",
+			  G_CALLBACK (e_day_view_on_drag_begin), day_view);
+	g_signal_connect (day_view->top_canvas, "drag_end",
+			  G_CALLBACK (e_day_view_on_drag_end), day_view);
+	g_signal_connect (day_view->top_canvas, "drag_data_get",
+			  G_CALLBACK (e_day_view_on_drag_data_get), day_view);
+	g_signal_connect (day_view->top_canvas, "drag_data_received",
+			  G_CALLBACK (e_day_view_on_top_canvas_drag_data_received), day_view);
 
 	canvas_group = GNOME_CANVAS_GROUP (GNOME_CANVAS (day_view->top_canvas)->root);
 
@@ -722,45 +708,38 @@ e_day_view_init (EDayView *day_view)
 			  1, 2, 1, 2,
 			  GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
 	gtk_widget_show (day_view->main_canvas);
-	gtk_signal_connect (GTK_OBJECT (day_view->main_canvas), "realize",
-			    GTK_SIGNAL_FUNC (e_day_view_on_canvas_realized),
-			    day_view);
-	gtk_signal_connect_after (GTK_OBJECT (day_view->main_canvas),
+	g_signal_connect (day_view->main_canvas, "realize",
+			  G_CALLBACK (e_day_view_on_canvas_realized), day_view);
+
+	g_signal_connect_after (day_view->main_canvas,
 				  "button_press_event",
-				  GTK_SIGNAL_FUNC (e_day_view_on_main_canvas_button_press),
+				  G_CALLBACK (e_day_view_on_main_canvas_button_press),
 				  day_view);
-	gtk_signal_connect_after (GTK_OBJECT (day_view->main_canvas),
+	g_signal_connect_after (day_view->main_canvas,
 				  "button_release_event",
-				  GTK_SIGNAL_FUNC (e_day_view_on_main_canvas_button_release),
+				  G_CALLBACK (e_day_view_on_main_canvas_button_release),
 				  day_view);
-	gtk_signal_connect_after (GTK_OBJECT (day_view->main_canvas),
+	g_signal_connect_after (day_view->main_canvas,
 				  "motion_notify_event",
-				  GTK_SIGNAL_FUNC (e_day_view_on_main_canvas_motion),
+				  G_CALLBACK (e_day_view_on_main_canvas_motion),
 				  day_view);
-	gtk_signal_connect_after (GTK_OBJECT (day_view->main_canvas),
+	g_signal_connect_after (day_view->main_canvas,
 				  "drag_motion",
-				  GTK_SIGNAL_FUNC (e_day_view_on_main_canvas_drag_motion),
+				  G_CALLBACK (e_day_view_on_main_canvas_drag_motion),
 				  day_view);
-	gtk_signal_connect_after (GTK_OBJECT (day_view->main_canvas),
+	g_signal_connect_after (day_view->main_canvas,
 				  "drag_leave",
-				  GTK_SIGNAL_FUNC (e_day_view_on_main_canvas_drag_leave),
+				  G_CALLBACK (e_day_view_on_main_canvas_drag_leave),
 				  day_view);
-	gtk_signal_connect (GTK_OBJECT (day_view->main_canvas),
-			    "drag_begin",
-			    GTK_SIGNAL_FUNC (e_day_view_on_drag_begin),
-			    day_view);
-	gtk_signal_connect (GTK_OBJECT (day_view->main_canvas),
-			    "drag_end",
-			    GTK_SIGNAL_FUNC (e_day_view_on_drag_end),
-			    day_view);
-	gtk_signal_connect (GTK_OBJECT (day_view->main_canvas),
-			    "drag_data_get",
-			    GTK_SIGNAL_FUNC (e_day_view_on_drag_data_get),
-			    day_view);
-	gtk_signal_connect (GTK_OBJECT (day_view->main_canvas),
-			    "drag_data_received",
-			    GTK_SIGNAL_FUNC (e_day_view_on_main_canvas_drag_data_received),
-			    day_view);
+
+	g_signal_connect (day_view->main_canvas, "drag_begin",
+			  G_CALLBACK (e_day_view_on_drag_begin), day_view);
+	g_signal_connect (day_view->main_canvas, "drag_end",
+			  G_CALLBACK (e_day_view_on_drag_end), day_view);
+	g_signal_connect (day_view->main_canvas, "drag_data_get",
+			  G_CALLBACK (e_day_view_on_drag_data_get), day_view);
+	g_signal_connect (day_view->main_canvas, "drag_data_received",
+			  G_CALLBACK (e_day_view_on_main_canvas_drag_data_received), day_view);
 
 	canvas_group = GNOME_CANVAS_GROUP (GNOME_CANVAS (day_view->main_canvas)->root);
 
@@ -834,10 +813,8 @@ e_day_view_init (EDayView *day_view)
 			  0, 1, 1, 2,
 			  GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
 	gtk_widget_show (day_view->time_canvas);
-	gtk_signal_connect_after (GTK_OBJECT (day_view->time_canvas),
-				  "button_press_event",
-				  GTK_SIGNAL_FUNC (e_day_view_on_time_canvas_button_press),
-				  day_view);
+	g_signal_connect_after (day_view->time_canvas, "button_press_event",
+				G_CALLBACK (e_day_view_on_time_canvas_button_press), day_view);
 
 	canvas_group = GNOME_CANVAS_GROUP (GNOME_CANVAS (day_view->time_canvas)->root);
 
@@ -881,22 +858,15 @@ e_day_view_init (EDayView *day_view)
 				  clipboard_atom,
 				  GDK_SELECTION_TYPE_STRING,
 				  0);
-	gtk_signal_connect (GTK_OBJECT (day_view->invisible),
-			    "selection_get",
-			    GTK_SIGNAL_FUNC (selection_get),
-			    (gpointer) day_view);
-	gtk_signal_connect (GTK_OBJECT (day_view->invisible),
-			    "selection_clear_event",
-			    GTK_SIGNAL_FUNC (selection_clear_event),
-			    (gpointer) day_view);
-	gtk_signal_connect (GTK_OBJECT (day_view->invisible),
-			    "selection_received",
-			    GTK_SIGNAL_FUNC (selection_received),
-			    (gpointer) day_view);
-	gtk_signal_connect (GTK_OBJECT (day_view->invisible),
-			    "destroy",
-			    GTK_SIGNAL_FUNC (invisible_destroyed),
-			    (gpointer) day_view);
+	g_signal_connect (day_view->invisible, "selection_get",
+			  G_CALLBACK (selection_get), (gpointer) day_view);
+	g_signal_connect (day_view->invisible, "selection_clear_event",
+			  G_CALLBACK (selection_clear_event), (gpointer) day_view);
+	g_signal_connect (day_view->invisible, "selection_received",
+			  G_CALLBACK (selection_received), (gpointer) day_view);
+	g_signal_connect (day_view->invisible, "destroy",
+			  G_CALLBACK (invisible_destroyed), (gpointer) day_view);
+
 	day_view->clipboard_selection = NULL;
 
 	day_view->activity = NULL;
@@ -1720,14 +1690,14 @@ update_query (EDayView *day_view)
 		return;
 	}
 
-	gtk_signal_connect (GTK_OBJECT (day_view->query), "obj_updated",
-			    GTK_SIGNAL_FUNC (query_obj_updated_cb), day_view);
-	gtk_signal_connect (GTK_OBJECT (day_view->query), "obj_removed",
-			    GTK_SIGNAL_FUNC (query_obj_removed_cb), day_view);
-	gtk_signal_connect (GTK_OBJECT (day_view->query), "query_done",
-			    GTK_SIGNAL_FUNC (query_query_done_cb), day_view);
-	gtk_signal_connect (GTK_OBJECT (day_view->query), "eval_error",
-			    GTK_SIGNAL_FUNC (query_eval_error_cb), day_view);
+	g_signal_connect (day_view->query, "obj_updated",
+			  G_CALLBACK (query_obj_updated_cb), day_view);
+	g_signal_connect (day_view->query, "obj_removed",
+			  G_CALLBACK (query_obj_removed_cb), day_view);
+	g_signal_connect (day_view->query, "query_done",
+			  G_CALLBACK (query_query_done_cb), day_view);
+	g_signal_connect (day_view->query, "eval_error",
+			  G_CALLBACK (query_eval_error_cb), day_view);
 }
 
 /* Callback used when the calendar client finishes opening */
@@ -1778,8 +1748,8 @@ e_day_view_set_cal_client	(EDayView	*day_view,
 		if (cal_client_get_load_state (day_view->client) == CAL_CLIENT_LOAD_LOADED)
 			update_query (day_view);
 		else
-			gtk_signal_connect (GTK_OBJECT (day_view->client), "cal_opened",
-					    GTK_SIGNAL_FUNC (cal_opened_cb), day_view);
+			g_signal_connect (day_view->client, "cal_opened",
+					  G_CALLBACK (cal_opened_cb), day_view);
 	}
 }
 
@@ -3311,8 +3281,8 @@ e_day_view_on_long_event_button_press (EDayView		*day_view,
 
 		e = &g_array_index (day_view->long_events, EDayViewEvent, event_num);
 		destroyed = FALSE;
-		id = gtk_signal_connect (GTK_OBJECT (e->comp), "destroy",
-					 GTK_SIGNAL_FUNC (comp_destroy_cb), &destroyed);
+		id = g_signal_connect (e->comp, "destroy",
+				       G_CALLBACK (comp_destroy_cb), &destroyed);
 
 		if (!GTK_WIDGET_HAS_FOCUS (day_view))
 			gtk_widget_grab_focus (GTK_WIDGET (day_view));
@@ -3363,8 +3333,8 @@ e_day_view_on_event_button_press (EDayView	  *day_view,
 		e = &g_array_index (day_view->events[day], EDayViewEvent, event_num);
 
 		destroyed = FALSE;
-		id = gtk_signal_connect (GTK_OBJECT (e->comp), "destroy",
-					 GTK_SIGNAL_FUNC (comp_destroy_cb), &destroyed);
+		id = g_signal_connect (e->comp, "destroy",
+				       G_CALLBACK (comp_destroy_cb), &destroyed);
 
 		if (!GTK_WIDGET_HAS_FOCUS (day_view))
 			gtk_widget_grab_focus (GTK_WIDGET (day_view));
@@ -3417,8 +3387,8 @@ e_day_view_on_long_event_click (EDayView *day_view,
 			return;
 
 		destroyed = FALSE;
-		id = gtk_signal_connect (GTK_OBJECT (event->comp), "destroy",
-					 GTK_SIGNAL_FUNC (comp_destroy_cb), &destroyed);
+		id = g_signal_connect (event->comp, "destroy",
+				       G_CALLBACK (comp_destroy_cb), &destroyed);
 
 		/* Grab the keyboard focus, so the event being edited is saved
 		   and we can use the Escape key to abort the resize. */
@@ -3497,8 +3467,8 @@ e_day_view_on_event_click (EDayView *day_view,
 		guint id;
 
 		destroyed = FALSE;
-		id = gtk_signal_connect (GTK_OBJECT (event->comp), "destroy",
-					 GTK_SIGNAL_FUNC (comp_destroy_cb), &destroyed);
+		id = g_signal_connect (event->comp, "destroy",
+				       G_CALLBACK (comp_destroy_cb), &destroyed);
 
 		/* Grab the keyboard focus, so the event being edited is saved
 		   and we can use the Escape key to abort the resize. */
@@ -3654,8 +3624,8 @@ e_day_view_on_event_double_click (EDayView *day_view,
 					event_num);
 
 	destroyed = FALSE;
-	id = gtk_signal_connect (GTK_OBJECT (event->comp), "destroy",
-				 GTK_SIGNAL_FUNC (comp_destroy_cb), &destroyed);
+	id = g_signal_connect (event->comp, "destroy",
+			       G_CALLBACK (comp_destroy_cb), &destroyed);
 
 	e_day_view_stop_editing_event (day_view);
 
@@ -3850,8 +3820,7 @@ e_day_view_on_event_right_click (EDayView *day_view,
 	day_view->popup_event_num = event_num;
 	
 	popup = e_popup_menu_create (context_menu, disable_mask, hide_mask, day_view);
-	gtk_signal_connect (GTK_OBJECT (popup), "selection-done",
-			    GTK_SIGNAL_FUNC (free_view_popup), day_view);
+	g_signal_connect (popup, "selection-done", G_CALLBACK (free_view_popup), day_view);
 	e_popup_menu (popup, (GdkEvent *) bevent);
 }
 
@@ -4186,8 +4155,7 @@ e_day_view_on_delete_appointment (GtkWidget *widget, gpointer data)
 		return;
 
 	destroyed = FALSE;
-	id = gtk_signal_connect (GTK_OBJECT (event->comp), "destroy",
-				 GTK_SIGNAL_FUNC (comp_destroy_cb), &destroyed);
+	id = g_signal_connect (event->comp, "destroy", G_CALLBACK (comp_destroy_cb), &destroyed);
 
 	if (day_view->editing_event_day >= 0)
 		e_day_view_stop_editing_event (day_view);
@@ -5283,9 +5251,8 @@ e_day_view_reshape_long_event (EDayView *day_view,
 					       "draw_background", FALSE,
 					       "fill_color_rgba", GNOME_CANVAS_COLOR(0, 0, 0),
 					       NULL);
-		gtk_signal_connect (GTK_OBJECT (event->canvas_item), "event",
-				    GTK_SIGNAL_FUNC (e_day_view_on_text_item_event),
-				    day_view);
+		g_signal_connect (event->canvas_item, "event",
+				  G_CALLBACK (e_day_view_on_text_item_event), day_view);
 		e_day_view_update_long_event_label (day_view, event_num);
 	}
 
@@ -5444,12 +5411,9 @@ e_day_view_reshape_day_event (EDayView *day_view,
 						       "draw_background", FALSE,
 						       "fill_color_rgba", GNOME_CANVAS_COLOR(0, 0, 0),
 						       NULL);
-			gtk_signal_connect (GTK_OBJECT (event->canvas_item),
-					    "event",
-					    GTK_SIGNAL_FUNC (e_day_view_on_text_item_event),
-					    day_view);
-			e_day_view_update_event_label (day_view, day,
-						       event_num);
+			g_signal_connect (event->canvas_item, "event",
+					  G_CALLBACK (e_day_view_on_text_item_event), day_view);
+			e_day_view_update_event_label (day_view, day, event_num);
 		}
 
 		item_w = MAX (item_w, 0);

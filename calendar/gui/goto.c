@@ -183,21 +183,13 @@ goto_dialog_init_widgets (GoToDialog *dlg)
 	
 	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (dlg->month));
 	for (l = GTK_MENU_SHELL (menu)->children; l != NULL; l = l->next)
-		gtk_signal_connect (GTK_OBJECT (menu), "selection_done",
-				    GTK_SIGNAL_FUNC (month_changed), dlg);
+		g_signal_connect (menu, "selection_done", G_CALLBACK (month_changed), dlg);
 
 	adj = gtk_spin_button_get_adjustment (GTK_SPIN_BUTTON (dlg->year));
-	gtk_signal_connect (GTK_OBJECT (adj), "value_changed",
-			    (GtkSignalFunc) year_changed, dlg);
+	g_signal_connect (adj, "value_changed", G_CALLBACK (year_changed), dlg);
 
-	gtk_signal_connect (GTK_OBJECT (dlg->ecal->calitem),
-			    "date_range_changed",
-			    GTK_SIGNAL_FUNC (ecal_date_range_changed),
-			    dlg);
-	gtk_signal_connect (GTK_OBJECT (dlg->ecal->calitem),
-			    "selection_changed",
-			    (GtkSignalFunc) ecal_event,
-			    dlg);
+	g_signal_connect (dlg->ecal->calitem, "date_range_changed", G_CALLBACK (ecal_date_range_changed), dlg);
+	g_signal_connect (dlg->ecal->calitem, "selection_changed", G_CALLBACK (ecal_event), dlg);
 }
 
 /* Creates a "goto date" dialog and runs it */

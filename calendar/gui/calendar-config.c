@@ -660,12 +660,10 @@ calendar_config_check_timezone_set ()
 	elem = g_list_nth (GNOME_DIALOG (dialog)->buttons, 1);
 	gtk_widget_hide (elem->data);
 
-	gtk_signal_connect (GTK_OBJECT (dialog), "clicked",
-			    GTK_SIGNAL_FUNC (on_timezone_set),
-			    timezone_dialog);
-	gtk_signal_connect (GTK_OBJECT (dialog), "delete-event",
-			    GTK_SIGNAL_FUNC (on_timezone_dialog_delete_event),
-			    timezone_dialog);
+	g_signal_connect (dialog, "clicked",
+			  G_CALLBACK (on_timezone_set), timezone_dialog);
+	g_signal_connect (dialog, "delete-event",
+			  G_CALLBACK (on_timezone_dialog_delete_event), timezone_dialog);
 
 	gtk_widget_show (dialog);
 }

@@ -168,8 +168,7 @@ start_calendar_server (char *uri)
 
 	client = cal_client_new ();
 
-	gtk_signal_connect (GTK_OBJECT (client), "cal_opened",
-			    start_calendar_server_cb, &success);
+	g_signal_connect (client, "cal_opened", G_CALLBACK (start_calendar_server_cb), &success);
 
 	cal_client_open_calendar (client, uri, TRUE);
 	
@@ -193,8 +192,7 @@ start_default_server (gboolean tasks)
 
 	client = cal_client_new ();
 
-	gtk_signal_connect (GTK_OBJECT (client), "cal_opened",
-			    start_calendar_server_cb, &success);
+	g_signal_connect (client, "cal_opened", start_calendar_server_cb, &success);
 
 	if (tasks) {
 		if (!cal_client_open_default_tasks (client, FALSE))
@@ -341,14 +339,9 @@ init (EItipControl *itip)
 	gtk_widget_set_usize (scrolled_window, 600, 400);
 	gtk_box_pack_start (GTK_BOX (itip), scrolled_window, FALSE, FALSE, 4);
 
-	gtk_signal_connect (GTK_OBJECT (priv->html), "url_requested",
-			    url_requested_cb, itip);
-	gtk_signal_connect (GTK_OBJECT (priv->html), "object_requested",
-			    GTK_SIGNAL_FUNC (object_requested_cb),
-			    itip);
-	gtk_signal_connect (GTK_OBJECT (priv->html), "submit",
-			    ok_clicked_cb, itip);
-
+	g_signal_connect (priv->html, "url_requested", G_CALLBACK (url_requested_cb), itip);
+	g_signal_connect (priv->html, "object_requested", G_CALLBACK (object_requested_cb), itip);
+	g_signal_connect (priv->html, "submit", G_CALLBACK (ok_clicked_cb), itip);
 }
 
 static void
@@ -1973,8 +1966,7 @@ object_requested_cb (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 		button = NULL;
 	}
 
-	gtk_signal_connect (GTK_OBJECT (button), "selected", 
-			    button_selected_cb, itip);
+	g_signal_connect (button, "selected", G_CALLBACK (button_selected_cb), itip);
 	
 	gtk_container_add (GTK_CONTAINER (eb), button);
 	gtk_widget_show (button);

@@ -191,9 +191,7 @@ load_tasks_client (void)
 	if (!tasks_client)
 		goto error;
 
-	gtk_signal_connect (GTK_OBJECT (tasks_client), "cal_opened",
-			    GTK_SIGNAL_FUNC (tasks_opened_cb),
-			    NULL);
+	g_signal_connect (tasks_client, "cal_opened", G_CALLBACK (tasks_opened_cb), NULL);
 
 	uri = g_strdup_printf ("%s/local/Tasks/tasks.ics", evolution_dir);
 	success = cal_client_open_calendar (tasks_client, uri, FALSE);
@@ -265,9 +263,7 @@ load_calendar_client (void)
 	if (!calendar_client)
 		goto error;
 
-	gtk_signal_connect (GTK_OBJECT (calendar_client), "cal_opened",
-			    GTK_SIGNAL_FUNC (calendar_opened_cb),
-			    NULL);
+	g_signal_connect (calendar_client, "cal_opened", G_CALLBACK (calendar_opened_cb), NULL);
 
 	uri = g_strdup_printf ("%s/local/Calendar/calendar.ics", evolution_dir);
 	success = cal_client_open_calendar (calendar_client, uri, TRUE);

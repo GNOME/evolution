@@ -528,7 +528,7 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 
 static void
 owner_unset_cb (EvolutionShellComponent *shell_component,
-	      gpointer user_data)
+		gpointer user_data)
 {
 	shells = g_list_remove (shells, shell_component);
 	
@@ -740,10 +740,8 @@ create_object (void)
 	bonobo_object_add_interface (BONOBO_OBJECT (shell_component), 
 				     BONOBO_OBJECT (offline_handler));
 	
-	gtk_signal_connect (GTK_OBJECT (shell_component), "owner_set",
-			    GTK_SIGNAL_FUNC (owner_set_cb), NULL);
-	gtk_signal_connect (GTK_OBJECT (shell_component), "owner_unset",
-			    GTK_SIGNAL_FUNC (owner_unset_cb), NULL);
+	g_signal_connect (shell_component, "owner_set", G_CALLBACK (owner_set_cb), NULL);
+	g_signal_connect (shell_component, "owner_unset", G_CALLBACK (owner_unset_cb), NULL);
 
 	/* User creatable items */
 
@@ -767,8 +765,8 @@ create_object (void)
 			    _("Create a new all-day appointment"),
 			    FOLDER_CALENDAR, 'd', "new_all_day_event.png");
 
-	gtk_signal_connect (GTK_OBJECT (shell_component), "user_create_new_item",
-			    GTK_SIGNAL_FUNC (sc_user_create_new_item_cb), NULL);
+	g_signal_connect (shell_component, "user_create_new_item",
+			  G_CALLBACK (sc_user_create_new_item_cb), NULL);
 
 	return BONOBO_OBJECT (shell_component);
 }

@@ -529,9 +529,8 @@ e_day_view_time_item_show_popup_menu (EDayViewTimeItem *dvtmitem,
 		gtk_object_set_data (GTK_OBJECT (item), "divisions",
 				     GINT_TO_POINTER (divisions[i]));
 
-		gtk_signal_connect (GTK_OBJECT (item), "toggled",
-				    e_day_view_time_item_on_set_divisions,
-				    dvtmitem);
+		g_signal_connect (item, "toggled",
+				  G_CALLBACK (e_day_view_time_item_on_set_divisions), dvtmitem);
 	}
 
 	gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL,

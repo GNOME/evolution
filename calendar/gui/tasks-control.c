@@ -123,9 +123,7 @@ tasks_control_new (void)
 
 	tasks_control_properties_init (control, E_TASKS (tasks));
 
-	gtk_signal_connect (GTK_OBJECT (control), "activate",
-			    GTK_SIGNAL_FUNC (tasks_control_activate_cb),
-			    tasks);
+	g_signal_connect (control, "activate", G_CALLBACK (tasks_control_activate_cb), tasks);
 
 	return control;
 }
@@ -333,8 +331,7 @@ tasks_control_activate (BonoboControl *control, ETasks *tasks)
 
 	/* Signals from the tasks widget; also sensitize the menu items as appropriate */
 
-	gtk_signal_connect (GTK_OBJECT (tasks), "selection_changed",
-			    GTK_SIGNAL_FUNC (selection_changed_cb), control);
+	g_signal_connect (tasks, "selection_changed", G_CALLBACK (selection_changed_cb), control);
 
 	cal_table = e_tasks_get_calendar_table (tasks);
 	etable = e_calendar_table_get_table (cal_table);

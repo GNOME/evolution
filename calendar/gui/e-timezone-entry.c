@@ -161,12 +161,10 @@ e_timezone_entry_init		(ETimezoneEntry	*tentry)
 	/*gtk_widget_set_usize (priv->date_entry, 90, 0);*/
 	gtk_box_pack_start (GTK_BOX (tentry), priv->entry, TRUE, TRUE, 0);
 	gtk_widget_show (priv->entry);
-	gtk_signal_connect (GTK_OBJECT (priv->entry), "changed",
-			    GTK_SIGNAL_FUNC (on_entry_changed), tentry);
+	g_signal_connect (priv->entry, "changed", G_CALLBACK (on_entry_changed), tentry);
 	
 	priv->button = gtk_button_new ();
-	gtk_signal_connect (GTK_OBJECT (priv->button), "clicked",
-			    GTK_SIGNAL_FUNC (on_button_clicked), tentry);
+	g_signal_connect (priv->button, "clicked", G_CALLBACK (on_button_clicked), tentry);
 	gtk_box_pack_start (GTK_BOX (tentry), priv->button, FALSE, FALSE, 0);
 	gtk_widget_show (priv->button);
 

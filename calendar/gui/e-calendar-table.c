@@ -540,15 +540,9 @@ e_calendar_table_init (ECalendarTable *cal_table)
 
 
 	e_table = e_table_scrolled_get_table (E_TABLE_SCROLLED (table));
-	gtk_signal_connect (GTK_OBJECT (e_table), "double_click",
-			    GTK_SIGNAL_FUNC (e_calendar_table_on_double_click),
-			    cal_table);
-	gtk_signal_connect (GTK_OBJECT (e_table), "right_click",
-			    GTK_SIGNAL_FUNC (e_calendar_table_on_right_click),
-			    cal_table);
-	gtk_signal_connect (GTK_OBJECT (e_table), "key_press",
-			    GTK_SIGNAL_FUNC (e_calendar_table_on_key_press),
-			    cal_table);
+	g_signal_connect (e_table, "double_click", G_CALLBACK (e_calendar_table_on_double_click), cal_table);
+	g_signal_connect (e_table, "right_click", G_CALLBACK (e_calendar_table_on_right_click), cal_table);
+	g_signal_connect (e_table, "key_press", G_CALLBACK (e_calendar_table_on_key_press), cal_table);
 
 	/* Set up the invisible widget for the clipboard selections */
 	cal_table->invisible = gtk_invisible_new ();
@@ -556,22 +550,15 @@ e_calendar_table_init (ECalendarTable *cal_table)
 				  clipboard_atom,
 				  GDK_SELECTION_TYPE_STRING,
 				  0);
-	gtk_signal_connect (GTK_OBJECT (cal_table->invisible),
-			    "selection_get",
-			    GTK_SIGNAL_FUNC (selection_get),
-			    (gpointer) cal_table);
-	gtk_signal_connect (GTK_OBJECT (cal_table->invisible),
-			    "selection_clear_event",
-			    GTK_SIGNAL_FUNC (selection_clear_event),
-			    (gpointer) cal_table);
-	gtk_signal_connect (GTK_OBJECT (cal_table->invisible),
-			    "selection_received",
-			    GTK_SIGNAL_FUNC (selection_received),
-			    (gpointer) cal_table);
-	gtk_signal_connect (GTK_OBJECT (cal_table->invisible),
-			    "destroy",
-			    GTK_SIGNAL_FUNC (invisible_destroyed),
-			    (gpointer) cal_table);
+	g_signal_connect (cal_table->invisible, "selection_get",
+			  G_CALLBACK (selection_get), cal_table);
+	g_signal_connect (cal_table->invisible, "selection_clear_event",
+			  G_CALLBACK (selection_clear_event), cal_table);
+	g_signal_connect (cal_table->invisible, "selection_received",
+			  G_CALLBACK (selection_received), cal_table);
+	g_signal_connect (cal_table->invisible, "destroy",
+			  G_CALLBACK (invisible_destroyed), cal_table);
+
 	cal_table->clipboard_selection = NULL;
 }
 

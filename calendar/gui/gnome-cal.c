@@ -550,14 +550,14 @@ update_query (GnomeCalendar *gcal)
 		return;
 	}
 
-	gtk_signal_connect (GTK_OBJECT (priv->dn_query), "obj_updated",
-			    GTK_SIGNAL_FUNC (dn_query_obj_updated_cb), gcal);
-	gtk_signal_connect (GTK_OBJECT (priv->dn_query), "obj_removed",
-			    GTK_SIGNAL_FUNC (dn_query_obj_removed_cb), gcal);
-	gtk_signal_connect (GTK_OBJECT (priv->dn_query), "query_done",
-			    GTK_SIGNAL_FUNC (dn_query_query_done_cb), gcal);
-	gtk_signal_connect (GTK_OBJECT (priv->dn_query), "eval_error",
-			    GTK_SIGNAL_FUNC (dn_query_eval_error_cb), gcal);
+	g_signal_connect (priv->dn_query, "obj_updated",
+			  G_CALLBACK (dn_query_obj_updated_cb), gcal);
+	g_signal_connect (priv->dn_query, "obj_removed",
+			  G_CALLBACK (dn_query_obj_removed_cb), gcal);
+	g_signal_connect (priv->dn_query, "query_done",
+			  G_CALLBACK (dn_query_query_done_cb), gcal);
+	g_signal_connect (priv->dn_query, "eval_error",
+			  G_CALLBACK (dn_query_eval_error_cb), gcal);
 }
 
 /**
@@ -709,25 +709,25 @@ calendar_focus_change_cb (GtkWidget *widget, GdkEventFocus *event, gpointer data
 static void
 connect_day_view_focus (GnomeCalendar *gcal, EDayView *dv)
 {
-	gtk_signal_connect (GTK_OBJECT (dv->top_canvas), "focus_in_event",
-			    GTK_SIGNAL_FUNC (calendar_focus_change_cb), gcal);
-	gtk_signal_connect (GTK_OBJECT (dv->top_canvas), "focus_out_event",
-			    GTK_SIGNAL_FUNC (calendar_focus_change_cb), gcal);
+	g_signal_connect (dv->top_canvas, "focus_in_event",
+			  G_CALLBACK (calendar_focus_change_cb), gcal);
+	g_signal_connect (dv->top_canvas, "focus_out_event",
+			  G_CALLBACK (calendar_focus_change_cb), gcal);
 
-	gtk_signal_connect (GTK_OBJECT (dv->main_canvas), "focus_in_event",
-			    GTK_SIGNAL_FUNC (calendar_focus_change_cb), gcal);
-	gtk_signal_connect (GTK_OBJECT (dv->main_canvas), "focus_out_event",
-			    GTK_SIGNAL_FUNC (calendar_focus_change_cb), gcal);
+	g_signal_connect (dv->main_canvas, "focus_in_event",
+			  G_CALLBACK (calendar_focus_change_cb), gcal);
+	g_signal_connect (dv->main_canvas, "focus_out_event",
+			  G_CALLBACK (calendar_focus_change_cb), gcal);
 }
 
 /* Connects to the focus change signals of a week view widget */
 static void
 connect_week_view_focus (GnomeCalendar *gcal, EWeekView *wv)
 {
-	gtk_signal_connect (GTK_OBJECT (wv->main_canvas), "focus_in_event",
-			    GTK_SIGNAL_FUNC (calendar_focus_change_cb), gcal);
-	gtk_signal_connect (GTK_OBJECT (wv->main_canvas), "focus_out_event",
-			    GTK_SIGNAL_FUNC (calendar_focus_change_cb), gcal);
+	g_signal_connect (wv->main_canvas, "focus_in_event",
+			  G_CALLBACK (calendar_focus_change_cb), gcal);
+	g_signal_connect (wv->main_canvas, "focus_out_event",
+			  G_CALLBACK (calendar_focus_change_cb), gcal);
 }
 
 /* Callback used when the selection in the taskpad table changes.  We just proxy
@@ -757,10 +757,10 @@ setup_widgets (GnomeCalendar *gcal)
 	priv = gcal->priv;
 
 	priv->search_bar = cal_search_bar_new ();
-	gtk_signal_connect (GTK_OBJECT (priv->search_bar), "sexp_changed",
-			    GTK_SIGNAL_FUNC (search_bar_sexp_changed_cb), gcal);
-	gtk_signal_connect (GTK_OBJECT (priv->search_bar), "category_changed",
-			    GTK_SIGNAL_FUNC (search_bar_category_changed_cb), gcal);
+	g_signal_connect (priv->search_bar, "sexp_changed",
+			  G_CALLBACK (search_bar_sexp_changed_cb), gcal);
+	g_signal_connect (priv->search_bar, "category_changed",
+			  G_CALLBACK (search_bar_category_changed_cb), gcal);
 
 	gtk_widget_show (priv->search_bar);
 	gtk_box_pack_start (GTK_BOX (gcal), priv->search_bar, FALSE, FALSE, 0);
@@ -794,22 +794,14 @@ setup_widgets (GnomeCalendar *gcal)
 					       gcal, NULL);
 
 	e_paned_pack1 (E_PANED (priv->vpane), w, FALSE, TRUE);
-	gtk_signal_connect (GTK_OBJECT (priv->date_navigator),
-			    "style_set",
-			    GTK_SIGNAL_FUNC (gnome_calendar_on_date_navigator_style_set),
-			    gcal);
-	gtk_signal_connect_after (GTK_OBJECT (priv->date_navigator),
-				  "size_allocate",
-				  (GtkSignalFunc) gnome_calendar_on_date_navigator_size_allocate,
-				  gcal);
-	gtk_signal_connect (GTK_OBJECT (priv->date_navigator->calitem),
-			    "selection_changed",
-			    (GtkSignalFunc) gnome_calendar_on_date_navigator_selection_changed,
-			    gcal);
-	gtk_signal_connect (GTK_OBJECT (priv->date_navigator->calitem),
-			    "date_range_changed",
-			    GTK_SIGNAL_FUNC (gnome_calendar_on_date_navigator_date_range_changed),
-			    gcal);
+	g_signal_connect (priv->date_navigator, "style_set",
+			  G_CALLBACK (gnome_calendar_on_date_navigator_style_set), gcal);
+	g_signal_connect_after (priv->date_navigator, "size_allocate",
+				G_CALLBACK (gnome_calendar_on_date_navigator_size_allocate), gcal);
+	g_signal_connect (priv->date_navigator->calitem, "selection_changed",
+			  G_CALLBACK (gnome_calendar_on_date_navigator_selection_changed), gcal);
+	g_signal_connect (priv->date_navigator->calitem, "date_range_changed",
+			  G_CALLBACK (gnome_calendar_on_date_navigator_date_range_changed), gcal);
 
 	/* The ToDo list. */
 	priv->todo = e_calendar_table_new ();
@@ -824,13 +816,13 @@ setup_widgets (GnomeCalendar *gcal)
 	g_free (filename);
 
 	etable = e_calendar_table_get_table (E_CALENDAR_TABLE (priv->todo));
-	gtk_signal_connect (GTK_OBJECT (etable->table_canvas), "focus_in_event",
-			    GTK_SIGNAL_FUNC (table_canvas_focus_change_cb), gcal);
-	gtk_signal_connect (GTK_OBJECT (etable->table_canvas), "focus_out_event",
-			    GTK_SIGNAL_FUNC (table_canvas_focus_change_cb), gcal);
+	g_signal_connect (etable->table_canvas, "focus_in_event",
+			  G_CALLBACK (table_canvas_focus_change_cb), gcal);
+	g_signal_connect (etable->table_canvas, "focus_out_event",
+			  G_CALLBACK (table_canvas_focus_change_cb), gcal);
 
-	gtk_signal_connect (GTK_OBJECT (etable), "selection_change",
-			    GTK_SIGNAL_FUNC (table_selection_change_cb), gcal);
+	g_signal_connect (etable, "selection_change",
+			  G_CALLBACK (table_selection_change_cb), gcal);
 
 	/* The Day View. */
 	priv->day_view = e_day_view_new ();
@@ -838,8 +830,8 @@ setup_widgets (GnomeCalendar *gcal)
 	gtk_widget_show (priv->day_view);
 	gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook),
 				  priv->day_view, gtk_label_new (""));
-	gtk_signal_connect (GTK_OBJECT (priv->day_view), "selection_changed",
-			    GTK_SIGNAL_FUNC (view_selection_changed_cb), gcal);
+	g_signal_connect (priv->day_view, "selection_changed",
+			  G_CALLBACK (view_selection_changed_cb), gcal);
 
 	connect_day_view_focus (gcal, E_DAY_VIEW (priv->day_view));
 
@@ -852,8 +844,8 @@ setup_widgets (GnomeCalendar *gcal)
 	gtk_widget_show (priv->work_week_view);
 	gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook),
 				  priv->work_week_view, gtk_label_new (""));
-	gtk_signal_connect (GTK_OBJECT (priv->work_week_view), "selection_changed",
-			    GTK_SIGNAL_FUNC (view_selection_changed_cb), gcal);
+	g_signal_connect (priv->work_week_view, "selection_changed",
+			  G_CALLBACK (view_selection_changed_cb), gcal);
 
 	connect_day_view_focus (gcal, E_DAY_VIEW (priv->work_week_view));
 
@@ -863,8 +855,8 @@ setup_widgets (GnomeCalendar *gcal)
 	gtk_widget_show (priv->week_view);
 	gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook),
 				  priv->week_view, gtk_label_new (""));
-	gtk_signal_connect (GTK_OBJECT (priv->week_view), "selection_changed",
-			    GTK_SIGNAL_FUNC (view_selection_changed_cb), gcal);
+	g_signal_connect (priv->week_view, "selection_changed",
+			  G_CALLBACK (view_selection_changed_cb), gcal);
 
 	connect_week_view_focus (gcal, E_WEEK_VIEW (priv->week_view));
 
@@ -875,8 +867,8 @@ setup_widgets (GnomeCalendar *gcal)
 	gtk_widget_show (priv->month_view);
 	gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook),
 				  priv->month_view, gtk_label_new (""));
-	gtk_signal_connect (GTK_OBJECT (priv->month_view), "selection_changed",
-			    GTK_SIGNAL_FUNC (view_selection_changed_cb), gcal);
+	g_signal_connect (priv->month_view, "selection_changed",
+			  G_CALLBACK (view_selection_changed_cb), gcal);
 
 	connect_week_view_focus (gcal, E_WEEK_VIEW (priv->month_view));
 
@@ -1400,8 +1392,8 @@ gnome_calendar_setup_view_menus (GnomeCalendar *gcal, BonoboUIComponent *uic)
 	gal_view_menus_apply (priv->view_menus, uic, NULL);
 	gnome_calendar_set_view (gcal, priv->current_view_type, TRUE, FALSE);
 
-	gtk_signal_connect (GTK_OBJECT (priv->view_instance), "display_view",
-			    GTK_SIGNAL_FUNC (display_view_cb), gcal);
+	g_signal_connect (priv->view_instance, "display_view",
+			  G_CALLBACK (display_view_cb), gcal);
 	display_view_cb (priv->view_instance, gal_view_instance_get_current_view (priv->view_instance), gcal);
 }
 
@@ -1799,14 +1791,14 @@ gnome_calendar_construct (GnomeCalendar *gcal)
 	if (!priv->client)
 		return NULL;
 
-	gtk_signal_connect (GTK_OBJECT (priv->client), "cal_opened",
-			    GTK_SIGNAL_FUNC (client_cal_opened_cb), gcal);
-	gtk_signal_connect (GTK_OBJECT (priv->client), "backend_error",
-			    GTK_SIGNAL_FUNC (backend_error_cb), gcal);
-	gtk_signal_connect (GTK_OBJECT (priv->client), "categories_changed",
-			    GTK_SIGNAL_FUNC (client_categories_changed_cb), gcal);
-	gtk_signal_connect (GTK_OBJECT (priv->client), "backend_died",
-			    GTK_SIGNAL_FUNC (backend_died_cb), gcal);
+	g_signal_connect (priv->client, "cal_opened",
+			  G_CALLBACK (client_cal_opened_cb), gcal);
+	g_signal_connect (priv->client, "backend_error",
+			  G_CALLBACK (backend_error_cb), gcal);
+	g_signal_connect (priv->client, "categories_changed",
+			  G_CALLBACK (client_categories_changed_cb), gcal);
+	g_signal_connect (priv->client, "backend_died",
+			  G_CALLBACK (backend_died_cb), gcal);
 
 	e_day_view_set_cal_client (E_DAY_VIEW (priv->day_view),
 				   priv->client);
@@ -1824,14 +1816,14 @@ gnome_calendar_construct (GnomeCalendar *gcal)
 	if (!priv->task_pad_client)
 		return NULL;
 
-	gtk_signal_connect (GTK_OBJECT (priv->task_pad_client), "cal_opened",
-			    GTK_SIGNAL_FUNC (client_cal_opened_cb), gcal);	
-	gtk_signal_connect (GTK_OBJECT (priv->task_pad_client), "backend_error",
-			    GTK_SIGNAL_FUNC (backend_error_cb), gcal);
-	gtk_signal_connect (GTK_OBJECT (priv->task_pad_client), "categories_changed",
-			    GTK_SIGNAL_FUNC (client_categories_changed_cb), gcal);
-	gtk_signal_connect (GTK_OBJECT (priv->task_pad_client), "backend_died",
-			    GTK_SIGNAL_FUNC (backend_died_cb), gcal);
+	g_signal_connect (priv->task_pad_client, "cal_opened",
+			  G_CALLBACK (client_cal_opened_cb), gcal);	
+	g_signal_connect (priv->task_pad_client, "backend_error",
+			  G_CALLBACK (backend_error_cb), gcal);
+	g_signal_connect (priv->task_pad_client, "categories_changed",
+			  G_CALLBACK (client_categories_changed_cb), gcal);
+	g_signal_connect (priv->task_pad_client, "backend_died",
+			  G_CALLBACK (backend_died_cb), gcal);
 
 	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo));
 	g_assert (model != NULL);
@@ -2084,9 +2076,9 @@ gnome_calendar_update_config_settings (GnomeCalendar *gcal,
 	week_start_day = (week_start_day + 6) % 7;
 
 	e_day_view_set_week_start_day (E_DAY_VIEW (priv->day_view),
-					week_start_day);
+				       week_start_day);
 	e_day_view_set_week_start_day (E_DAY_VIEW (priv->work_week_view),
-					week_start_day);
+				       week_start_day);
 	e_week_view_set_week_start_day (E_WEEK_VIEW (priv->week_view),
 					week_start_day);
 	e_week_view_set_week_start_day (E_WEEK_VIEW (priv->month_view),

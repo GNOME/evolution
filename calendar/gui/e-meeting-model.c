@@ -884,12 +884,10 @@ build_etable (ETableModel *model, const gchar *spec_file, const gchar *state_fil
 	e_table_load_state (real_table, state_file);
 
 #if 0
-	gtk_signal_connect (GTK_OBJECT (real_table),
-			    "right_click", GTK_SIGNAL_FUNC (right_click_cb), mpage);
+	g_signal_connect (real_table, "right_click", G_CALLBACK (right_click_cb), mpage);
 #endif
 
-	gtk_signal_connect (GTK_OBJECT (etable), "destroy", 
-			    GTK_SIGNAL_FUNC (table_destroy_state_cb), g_strdup (state_file));
+	g_signal_connect (etable, "destroy", G_CALLBACK (table_destroy_state_cb), g_strdup (state_file));
 
 	gtk_object_unref (GTK_OBJECT (extras));
 	
@@ -908,8 +906,7 @@ e_meeting_model_add_attendee (EMeetingModel *im, EMeetingAttendee *ia)
 	gtk_object_ref (GTK_OBJECT (ia));
 	g_ptr_array_add (priv->attendees, ia);
 	
-	gtk_signal_connect (GTK_OBJECT (ia), "changed",
-			    GTK_SIGNAL_FUNC (attendee_changed_cb), im);
+	g_signal_connect (ia, "changed", G_CALLBACK (attendee_changed_cb), im);
 
 	e_table_model_row_inserted (E_TABLE_MODEL (im), row_count (E_TABLE_MODEL (im)) - 1);
 }
@@ -1610,8 +1607,7 @@ e_meeting_model_etable_from_model (EMeetingModel *im, const gchar *spec_file, co
 
 	priv->tables = g_list_prepend (priv->tables, ets);
 
-	gtk_signal_connect (GTK_OBJECT (ets), "destroy", 
-			    GTK_SIGNAL_FUNC (table_destroy_list_cb), im);
+	g_signal_connect (ets, "destroy", G_CALLBACK (table_destroy_list_cb), im);
 	
 	return ets;
 }

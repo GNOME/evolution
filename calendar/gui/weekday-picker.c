@@ -198,16 +198,12 @@ create_items (WeekdayPicker *wp)
 		priv->boxes[i] = gnome_canvas_item_new (parent,
 							GNOME_TYPE_CANVAS_RECT,
 							NULL);
-		gtk_signal_connect (GTK_OBJECT (priv->boxes[i]), "event",
-				    GTK_SIGNAL_FUNC (day_event_cb),
-				    wp);
+		g_signal_connect (priv->boxes[i], "event", G_CALLBACK (day_event_cb), wp);
 
 		priv->labels[i] = gnome_canvas_item_new (parent,
 							 GNOME_TYPE_CANVAS_TEXT,
 							 NULL);
-		gtk_signal_connect (GTK_OBJECT (priv->labels[i]), "event",
-				    GTK_SIGNAL_FUNC (day_event_cb),
-				    wp);
+		g_signal_connect (priv->labels[i], "event", G_CALLBACK (day_event_cb), wp);
 	}
 }
 

@@ -605,13 +605,13 @@ gcal_calendar_focus_change_cb (GnomeCalendar *gcal, gboolean in, gpointer data)
 	g_assert (focus != NULL);
 
 	if (in) {
-		gtk_signal_connect (GTK_OBJECT (gcal), "calendar_selection_changed",
-				    GTK_SIGNAL_FUNC (gcal_calendar_selection_changed_cb), control);
+		g_signal_connect (gcal, "calendar_selection_changed",
+				  G_CALLBACK (gcal_calendar_selection_changed_cb), control);
 		sensitize_calendar_commands (gcal, control, TRUE);
 		focus->calendar_focused = TRUE;
 	} else if (focus->calendar_focused) {
 		gtk_signal_disconnect_by_func (GTK_OBJECT (gcal),
-					       GTK_SIGNAL_FUNC (gcal_calendar_selection_changed_cb),
+					       G_CALLBACK (gcal_calendar_selection_changed_cb),
 					       control);
 		sensitize_calendar_commands (gcal, control, FALSE);
 		focus->calendar_focused = FALSE;
@@ -631,8 +631,8 @@ gcal_taskpad_focus_change_cb (GnomeCalendar *gcal, gboolean in, gpointer data)
 	g_assert (focus != NULL);
 
 	if (in) {
-		gtk_signal_connect (GTK_OBJECT (gcal), "taskpad_selection_changed",
-				    GTK_SIGNAL_FUNC (gcal_taskpad_selection_changed_cb), control);
+		g_signal_connect (gcal, "taskpad_selection_changed",
+				  G_CALLBACK (gcal_taskpad_selection_changed_cb), control);
 		sensitize_taskpad_commands (gcal, control, TRUE);
 		focus->taskpad_focused = TRUE;
 	} else if (focus->taskpad_focused) {
@@ -642,7 +642,7 @@ gcal_taskpad_focus_change_cb (GnomeCalendar *gcal, gboolean in, gpointer data)
 		 * the taskpad was in fact focused.
 		 */
 		gtk_signal_disconnect_by_func (GTK_OBJECT (gcal),
-					       GTK_SIGNAL_FUNC (gcal_taskpad_selection_changed_cb),
+					       G_CALLBACK (gcal_taskpad_selection_changed_cb),
 					       control);
 		sensitize_taskpad_commands (gcal, control, FALSE);
 		focus->taskpad_focused = FALSE;
@@ -728,13 +728,13 @@ calendar_control_activate (BonoboControl *control,
 
 	gnome_calendar_setup_view_menus (gcal, uic);
 
-	gtk_signal_connect (GTK_OBJECT (gcal), "dates_shown_changed",
-			    GTK_SIGNAL_FUNC (gcal_calendar_dates_change_cb),
-			    control);
-	gtk_signal_connect (GTK_OBJECT (gcal), "calendar_focus_change",
-			    GTK_SIGNAL_FUNC (gcal_calendar_focus_change_cb), control);
-	gtk_signal_connect (GTK_OBJECT (gcal), "taskpad_focus_change",
-			    GTK_SIGNAL_FUNC (gcal_taskpad_focus_change_cb), control);
+	g_signal_connect (gcal, "dates_shown_changed",
+			  G_CALLBACK (gcal_calendar_dates_change_cb),
+			  control);
+	g_signal_connect (gcal, "calendar_focus_change",
+			  G_CALLBACK (gcal_calendar_focus_change_cb), control);
+	g_signal_connect (gcal, "taskpad_focus_change",
+			  G_CALLBACK (gcal_taskpad_focus_change_cb), control);
 
 	sensitize_calendar_commands (gcal, control, FALSE);
 	sensitize_taskpad_commands (gcal, control, FALSE);
@@ -801,8 +801,8 @@ new_calendar (void)
 		return NULL;
 	}
 
-	gtk_signal_connect (GTK_OBJECT (gcal), "destroy",
-			    GTK_SIGNAL_FUNC (on_calendar_destroyed), NULL);
+	g_signal_connect (gcal, "destroy",
+			  G_CALLBACK (on_calendar_destroyed), NULL);
 
 	all_calendars = g_list_prepend (all_calendars, gcal);
 

@@ -406,18 +406,12 @@ e_week_view_init (EWeekView *week_view)
 				       "EWeekViewMainItem::week_view", week_view,
 				       NULL);
 
-	gtk_signal_connect_after (GTK_OBJECT (week_view->main_canvas),
-				  "button_press_event",
-				  GTK_SIGNAL_FUNC (e_week_view_on_button_press),
-				  week_view);
-	gtk_signal_connect_after (GTK_OBJECT (week_view->main_canvas),
-				  "button_release_event",
-				  GTK_SIGNAL_FUNC (e_week_view_on_button_release),
-				  week_view);
-	gtk_signal_connect_after (GTK_OBJECT (week_view->main_canvas),
-				  "motion_notify_event",
-				  GTK_SIGNAL_FUNC (e_week_view_on_motion),
-				  week_view);
+	g_signal_connect_after (week_view->main_canvas, "button_press_event",
+				G_CALLBACK (e_week_view_on_button_press), week_view);
+	g_signal_connect_after (week_view->main_canvas, "button_release_event",
+				G_CALLBACK (e_week_view_on_button_release), week_view);
+	g_signal_connect_after (week_view->main_canvas, "motion_notify_event",
+				G_CALLBACK (e_week_view_on_motion), week_view);
 
 	/* Create the buttons to jump to each days. */
 	pixbuf = gdk_pixbuf_new_from_xpm_data ((const char**) jump_xpm);
@@ -429,10 +423,8 @@ e_week_view_init (EWeekView *week_view)
 			 "GnomeCanvasPixbuf::pixbuf", pixbuf,
 			 NULL);
 
-		gtk_signal_connect (GTK_OBJECT (week_view->jump_buttons[i]),
-				    "event",
-				    GTK_SIGNAL_FUNC (e_week_view_on_jump_button_event),
-				    week_view);
+		g_signal_connect (week_view->jump_buttons[i], "event",
+				  G_CALLBACK (e_week_view_on_jump_button_event), week_view);
 	}
 	gdk_pixbuf_unref (pixbuf);
 
@@ -441,7 +433,7 @@ e_week_view_init (EWeekView *week_view)
 	 */
 	adjustment = gtk_adjustment_new (0, -52, 52, 1, 1, 1);
 	gtk_signal_connect (adjustment, "value_changed",
-			    GTK_SIGNAL_FUNC (e_week_view_on_adjustment_changed),
+			    G_CALLBACK (e_week_view_on_adjustment_changed),
 			    week_view);
 
 	week_view->vscrollbar = gtk_vscrollbar_new (GTK_ADJUSTMENT (adjustment));
@@ -461,22 +453,16 @@ e_week_view_init (EWeekView *week_view)
 				  clipboard_atom,
 				  GDK_SELECTION_TYPE_STRING,
 				  0);
-	gtk_signal_connect (GTK_OBJECT (week_view->invisible),
-			    "selection_get",
-			    GTK_SIGNAL_FUNC (selection_get),
-			    (gpointer) week_view);
-	gtk_signal_connect (GTK_OBJECT (week_view->invisible),
-			    "selection_clear_event",
-			    GTK_SIGNAL_FUNC (selection_clear_event),
-			    (gpointer) week_view);
-	gtk_signal_connect (GTK_OBJECT (week_view->invisible),
-			    "selection_received",
-			    GTK_SIGNAL_FUNC (selection_received),
-			    (gpointer) week_view);
-	gtk_signal_connect (GTK_OBJECT (week_view->invisible),
-			    "destroy",
-			    GTK_SIGNAL_FUNC (invisible_destroyed),
-			    (gpointer) week_view);
+
+	g_signal_connect (week_view->invisible, "selection_get",
+			  G_CALLBACK (selection_get), (gpointer) week_view);
+	g_signal_connect (week_view->invisible, "selection_clear_event",
+			  G_CALLBACK (selection_clear_event), (gpointer) week_view);
+	g_signal_connect (week_view->invisible, "selection_received",
+			  G_CALLBACK (selection_received), (gpointer) week_view);
+	g_signal_connect (week_view->invisible, "destroy",
+			  G_CALLBACK (invisible_destroyed), (gpointer) week_view);
+
 	week_view->clipboard_selection = NULL;
 
 	week_view->activity = NULL;
@@ -1227,14 +1213,14 @@ update_query (EWeekView *week_view)
 		return;
 	}
 
-	gtk_signal_connect (GTK_OBJECT (week_view->query), "obj_updated",
-			    GTK_SIGNAL_FUNC (query_obj_updated_cb), week_view);
-	gtk_signal_connect (GTK_OBJECT (week_view->query), "obj_removed",
-			    GTK_SIGNAL_FUNC (query_obj_removed_cb), week_view);
-	gtk_signal_connect (GTK_OBJECT (week_view->query), "query_done",
-			    GTK_SIGNAL_FUNC (query_query_done_cb), week_view);
-	gtk_signal_connect (GTK_OBJECT (week_view->query), "eval_error",
-			    GTK_SIGNAL_FUNC (query_eval_error_cb), week_view);
+	g_signal_connect (week_view->query, "obj_updated",
+			  G_CALLBACK (query_obj_updated_cb), week_view);
+	g_signal_connect (week_view->query, "obj_removed",
+			  G_CALLBACK (query_obj_removed_cb), week_view);
+	g_signal_connect (week_view->query, "query_done",
+			  G_CALLBACK (query_query_done_cb), week_view);
+	g_signal_connect (week_view->query, "eval_error",
+			  G_CALLBACK (query_eval_error_cb), week_view);
 }
 
 /* Callback used when the calendar client finishes opening */
@@ -1285,8 +1271,8 @@ e_week_view_set_cal_client	(EWeekView	*week_view,
 		if (cal_client_get_load_state (week_view->client) == CAL_CLIENT_LOAD_LOADED)
 			update_query (week_view);
 		else
-			gtk_signal_connect (GTK_OBJECT (week_view->client), "cal_opened",
-					    GTK_SIGNAL_FUNC (cal_opened_cb), week_view);
+			g_signal_connect (week_view->client, "cal_opened",
+					  G_CALLBACK (cal_opened_cb), week_view);
 	}
 }
 
@@ -2730,9 +2716,9 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 					       "use_ellipsis", TRUE,
 					       "fill_color_rgba", GNOME_CANVAS_COLOR(0, 0, 0),
 					       NULL);
-		gtk_signal_connect (GTK_OBJECT (span->text_item), "event",
-				    GTK_SIGNAL_FUNC (e_week_view_on_text_item_event),
-				    week_view);
+		g_signal_connect (span->text_item, "event",
+				  G_CALLBACK (e_week_view_on_text_item_event),
+				  week_view);
 	}
 
 	/* Calculate the position of the text item.
@@ -3086,8 +3072,8 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 			e = &g_array_index (week_view->events, EWeekViewEvent, event_num);
 
 			destroyed = FALSE;
-			id = gtk_signal_connect (GTK_OBJECT (e->comp), "destroy",
-						 GTK_SIGNAL_FUNC (comp_destroy_cb), &destroyed);
+			id = g_signal_connect (e->comp, "destroy",
+					       G_CALLBACK (comp_destroy_cb), &destroyed);
 
 			if (!GTK_WIDGET_HAS_FOCUS (week_view))
 				gtk_widget_grab_focus (GTK_WIDGET (week_view));
@@ -3613,8 +3599,7 @@ e_week_view_show_popup_menu (EWeekView	     *week_view,
 	week_view->popup_event_num = event_num;
 
 	popup = e_popup_menu_create (context_menu, disable_mask, hide_mask, week_view);
-	gtk_signal_connect (GTK_OBJECT (popup), "selection-done",
-			    GTK_SIGNAL_FUNC (free_view_popup), week_view);
+	g_signal_connect (popup, "selection-done", G_CALLBACK (free_view_popup), week_view);
 	e_popup_menu (popup, (GdkEvent *) bevent);
 }
 

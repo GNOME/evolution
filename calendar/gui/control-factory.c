@@ -264,8 +264,7 @@ control_factory_new_control (void)
 	calendar_persist_init (gcal, control);
 #endif
 					      
-	gtk_signal_connect (GTK_OBJECT (control), "activate",
-			    GTK_SIGNAL_FUNC (control_activate_cb), gcal);
+	g_signal_connect (control, "activate", G_CALLBACK (control_activate_cb), gcal);
 
 	return control;
 }

@@ -137,7 +137,7 @@ e_comp_editor_registry_add (ECompEditorRegistry *reg, CompEditor *editor, gboole
 	rdata->uid = g_strdup (uid);
 	g_hash_table_insert (priv->editors, rdata->uid, rdata);
 
-	gtk_signal_connect (GTK_OBJECT (editor), "destroy", editor_destroy_cb, reg);
+	g_signal_connect (editor, "destroy", G_CALLBACK (editor_destroy_cb), reg);
 
 }
 

@@ -290,8 +290,7 @@ edit_existing (OpenClient *oc, const char *uid)
 	comp_editor_focus (editor);
 
 	oc->editor_count++;
-	gtk_signal_connect (GTK_OBJECT (editor), "destroy",
-			    GTK_SIGNAL_FUNC (editor_destroy_cb), oc);
+	g_signal_connect (editor, "destroy", G_CALLBACK (editor_destroy_cb), oc);
 
 	e_comp_editor_registry_add (comp_editor_registry, editor, TRUE);
 }
@@ -381,8 +380,7 @@ edit_new (OpenClient *oc, const GNOME_Evolution_Calendar_CompEditorFactory_CompE
 	comp_editor_focus (editor);
 
 	oc->editor_count++;
-	gtk_signal_connect (GTK_OBJECT (editor), "destroy",
-			    GTK_SIGNAL_FUNC (editor_destroy_cb), oc);
+	g_signal_connect (editor, "destroy", G_CALLBACK (editor_destroy_cb), oc);
 
 	e_comp_editor_registry_add (comp_editor_registry, editor, TRUE);
 }
@@ -499,8 +497,7 @@ open_client (CompEditorFactory *factory, const char *uristr)
 	oc->pending = NULL;
 	oc->open = FALSE;
 
-	gtk_signal_connect (GTK_OBJECT (oc->client), "cal_opened",
-			    GTK_SIGNAL_FUNC (cal_opened_cb), oc);
+	g_signal_connect (oc->client, "cal_opened", G_CALLBACK (cal_opened_cb), oc);
 
 	if (!cal_client_open_calendar (oc->client, uristr, FALSE)) {
 		g_free (oc->uri);

@@ -876,7 +876,7 @@ calendar_model_value_at (ETableModel *etm, int col, int row)
 			}
 		}
 
-		cleanup:
+	cleanup:
 		cal_component_free_attendee_list (attendees);
 		return GINT_TO_POINTER (retval);		
 		break;
@@ -2001,14 +2001,14 @@ update_query (CalendarModel *model)
 		return;
 	}
 
-	gtk_signal_connect (GTK_OBJECT (priv->query), "obj_updated",
-			    GTK_SIGNAL_FUNC (query_obj_updated_cb), model);
-	gtk_signal_connect (GTK_OBJECT (priv->query), "obj_removed",
-			    GTK_SIGNAL_FUNC (query_obj_removed_cb), model);
-	gtk_signal_connect (GTK_OBJECT (priv->query), "query_done",
-			    GTK_SIGNAL_FUNC (query_query_done_cb), model);
-	gtk_signal_connect (GTK_OBJECT (priv->query), "eval_error",
-			    GTK_SIGNAL_FUNC (query_eval_error_cb), model);
+	g_signal_connect (priv->query, "obj_updated",
+			  G_CALLBACK (query_obj_updated_cb), model);
+	g_signal_connect (priv->query, "obj_removed",
+			  G_CALLBACK (query_obj_removed_cb), model);
+	g_signal_connect (priv->query, "query_done",
+			  G_CALLBACK (query_query_done_cb), model);
+	g_signal_connect (priv->query, "eval_error",
+			  G_CALLBACK (query_eval_error_cb), model);
 }
 
 /* Callback used when a calendar is opened into the server */
@@ -2186,8 +2186,7 @@ calendar_model_set_cal_client (CalendarModel *model, CalClient *client, CalObjTy
 		if (cal_client_get_load_state (priv->client) == CAL_CLIENT_LOAD_LOADED)
 			update_query (model);
 		else
-			gtk_signal_connect (GTK_OBJECT (priv->client), "cal_opened",
-					    GTK_SIGNAL_FUNC (cal_opened_cb), model);
+			g_signal_connect (priv->client, "cal_opened", G_CALLBACK (cal_opened_cb), model);
 	}
 }
 
@@ -2296,7 +2295,7 @@ calendar_model_mark_task_complete (CalendarModel *model,
  **/
 CalComponent *
 calendar_model_get_component (CalendarModel *model,
-			       gint	      row)
+			      gint	      row)
 {
 	CalendarModelPrivate *priv;
 

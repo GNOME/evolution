@@ -1,5 +1,31 @@
 2002-11-08  Ettore Perazzoli  <ettore@ximian.com>
 
+	* gui/calendar-commands.c: Use g_signal_connect() instead of
+	gtk_signal_connect().
+	* calendar-commands.c: Likewise.
+	* calendar-config.c: Likewise.
+	* calendar-model.c: Likewise.
+	* comp-editor-factory.c: Likewise.
+	* component-factory.c: Likewise.
+	* control-factory.c: Likewise.
+	* e-calendar-table.c: Likewise.
+	* e-comp-editor-registry.c: Likewise.
+	* e-day-view-time-item.c: Likewise.
+	* e-day-view.c: Likewise.
+	* e-itip-control.c: Likewise.
+	* e-meeting-model.c: Likewise.
+	* e-meeting-time-sel.c: Likewise.
+	* e-tasks.c: Likewise.
+	* e-timezone-entry.c: Likewise.
+	* e-week-view.c: Likewise.
+	* gnome-cal.c: Likewise.
+	* goto.c: Likewise.
+	* tasks-control.c: Likewise.
+	* tasks-migrate.c: Likewise.
+	* weekday-picker.c: Likewise.
+
+2002-11-08  Ettore Perazzoli  <ettore@ximian.com>
+
 	* gui/calendar-offline-handler.c
 	(calendar_offline_handler_class_init): GObjectified.
 	(impl_finalize): Finalize impl.
