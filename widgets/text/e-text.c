@@ -2577,7 +2577,7 @@ _do_tooltip (gpointer data)
 		tooltip_x = 0;
 		break;
 	}
-	switch(E_TEXT(tooltip_text)->anchor) {
+	switch(text->anchor) {
 	case GTK_ANCHOR_NW:
 	case GTK_ANCHOR_N:
 	case GTK_ANCHOR_NE:
