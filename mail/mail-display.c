@@ -1197,14 +1197,14 @@ mail_display_redisplay (MailDisplay *md, gboolean unscroll)
 
 	mail_html_write (md->html, md->stream, "<!doctype html public \"-//W3C//DTD HTML 4.0 TRANSITIONAL//EN\">\n<html>\n<head>\n<meta name=\"generator\" content=\"Evolution Mail Component\">\n</head>\n");
 	mail_html_write (md->html, md->stream, "<body marginwidth=0 marginheight=0>\n");
-
+	
 	if (md->current_message) {
 		if (md->display_style == MAIL_CONFIG_DISPLAY_SOURCE)
 			mail_format_raw_message (md->current_message, md);
 		else
 			mail_format_mime_message (md->current_message, md);
 	}
-
+	
 	mail_html_write (md->html, md->stream, "</body></html>\n");
 	gtk_html_end (md->html, md->stream, GTK_HTML_STREAM_OK);
 	md->stream = NULL;
