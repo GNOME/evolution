@@ -87,7 +87,8 @@ typedef struct {
 	GList * (*get_content_languages) (CamelMimePart *mime_part);
 	void  (*set_header_lines) (CamelMimePart *mime_part, GList *header_lines);
 	GList * (*get_header_lines) (CamelMimePart *mime_part);
-
+	gboolean (*parse_header_pair) (CamelMimePart *mime_part, GString *header_name, GString *header_value);
+	
 	CamelDataWrapper * (*get_content_object) (CamelMimePart *mime_part);
 } CamelMimePartClass;
 

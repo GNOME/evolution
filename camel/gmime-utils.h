@@ -38,7 +38,7 @@ void gmime_write_header_pair_to_file (FILE* file, gchar* name, GString *value);
 void write_header_table_to_file (FILE *file, GHashTable *header_table);
 void write_header_with_glist_to_file (FILE *file, gchar *header_name, GList *header_values);
 
-GList *get_header_lines_from_file (FILE *file);
+GHashTable *get_header_table_from_file (FILE *file);
 
 
 

@@ -64,7 +64,7 @@ g_string_clone(GString *string)
 
 
 /**
- * right_dichotomy : return the strings before and/or after 
+ * g_string_dichotomy : return the strings before and/or after 
  * the last occurence of the specified separator
  *
  * This routine returns the string before and/or after
@@ -85,20 +85,20 @@ g_string_clone(GString *string)
  *
  **/
 gchar
-g_string_right_dichotomy( GString *string, gchar sep, GString **prefix, GString **suffix, DichotomyOption options)
+g_string_dichotomy (GString *string, gchar sep, GString **prefix, GString **suffix, DichotomyOption options)
 {
 	gchar *str, *tmp;
 	gint pos, len, first;
 	
 	CAMEL_LOG(FULL_DEBUG,\
-		  "Entering rightDichotomy: \n\tseparator=%c \n\tprefix=%p \n\tsuffix=%p \n\toptions=%ld\n",\
+		  "Entering string_dichotomy: \n\tseparator=%c \n\tprefix=%p \n\tsuffix=%p \n\toptions=%ld\n",\
 		  sep, prefix, suffix, options);
 	g_assert( tmp=string->str );
 	len = strlen(tmp);
 	if (!len) {
 		if (prefix) *prefix=NULL;
 		if (suffix) *suffix=NULL;
-		CAMEL_LOG(FULL_DEBUG,"rightDichotomy: string is empty\n");
+		CAMEL_LOG(FULL_DEBUG,"string_dichotomy: string is empty\n");
 		return 'n';
 	}
 	first = 0;
@@ -113,32 +113,48 @@ g_string_right_dichotomy( GString *string, gchar sep, GString **prefix, GString 
 	if (first==len) {
 		if (prefix) *prefix=NULL;
 		if (suffix) *suffix=NULL;
-		CAMEL_LOG(FULL_DEBUG,"rightDichotomy: after stripping, string is empty\n");
+		CAMEL_LOG(FULL_DEBUG,"string_dichotomy: after stripping, string is empty\n");
 		return 'n';
 	}
 	
-	pos = len;
+	if (options & RIGHT_DIR) {
+		pos = len;
+		
+		do {
+			pos--;
+		} while ((pos>=first) && (tmp[pos]!=sep));
+	} else {
+		pos = first;
+		do {
+			pos++;
+		} while ((pos<len) && (tmp[pos]!=sep));
+		
+	}
 	
-	do {
-		pos--;
-	} while ((pos>=first) && (tmp[pos]!=sep));
-	
-	
-	if (pos<first) 
+	if ( (pos<first) || (pos>=len) ) 
 		{
 			if (suffix) *suffix=NULL;
 			if (prefix) *prefix=NULL;
-			CAMEL_LOG(FULL_DEBUG,"rightDichotomy: separator not found\n");
+			CAMEL_LOG(FULL_DEBUG,"string_dichotomy: separator not found\n");
 			return 'n';
 		}
 	
-	/* if we have stripped trailongs separators, we should */
+	/* if we have stripped trailing separators, we should */
 	/* never enter here */
 	if (pos==len-1) 
 		{
 			if (suffix) *suffix=NULL;
 			if (prefix) *prefix=NULL;
-			CAMEL_LOG(FULL_DEBUG,"rightDichotomy: separator is last character\n");
+			CAMEL_LOG(FULL_DEBUG,"string_dichotomy: separator is last character\n");
+			return 'l';
+		}
+	/* if we have stripped leading separators, we should */
+	/* never enter here */
+	if (pos==first)
+		{
+			if (suffix) *suffix=NULL;
+			if (prefix) *prefix=NULL;
+			CAMEL_LOG(FULL_DEBUG,"string_dichotomy: separator is first character\n");
 			return 'l';
 		}
 	
@@ -157,7 +173,6 @@ g_string_right_dichotomy( GString *string, gchar sep, GString **prefix, GString 
 	
 	return 'o';
 }
-
 
 
 /**

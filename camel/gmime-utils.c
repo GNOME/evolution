@@ -24,6 +24,9 @@
 
 
 #include "gmime-utils.h"
+#include "gstring-util.h"
+#include "camel-log.h"
+
 void
 gmime_write_header_pair_to_file (FILE* file, gchar* name, GString *value)
 {
@@ -88,9 +91,29 @@ write_header_with_glist_to_file (FILE *file, gchar *header_name, GList *header_v
 /* * * * * * * * * * * */
 /* scanning functions  */
 
+static void
+_store_header_pair_from_gstring (GHashTable *header_table, GString *header_line)
+{
+	gchar dich_result;
+	GString *header_name, *header_value;
+	
+	g_assert (header_table);
+	if ( (header_line) && (header_line->str) ) {
+		dich_result = g_string_dichotomy(header_line, ':', &header_name, &header_value, NONE);
+		if (dich_result != 'o')
+			camel_log(WARNING, 
+				  "store_header_pair_from_gstring : dichotomy result is %c"
+				  "header line is :\n--\n%s\n--\n");
+		
+		else
+			g_hash_table_insert (header_table, header_name, header_value);
+	}
+		
+}
 
-GList *
-get_header_lines_from_file (FILE *file)
+
+GHashTable *
+get_header_table_from_file (FILE *file)
 {
 	int next_char;
 
@@ -99,8 +122,9 @@ get_header_lines_from_file (FILE *file)
 	gboolean end_of_headers = FALSE;
 	gboolean end_of_file = FALSE;
 	GString *header_line=NULL;
-	GList *header_lines=NULL;
+	GHashTable *header_table;
 
+	header_table = g_hash_table_new (g_string_hash, g_string_equal_for_hash);
 	next_char = fgetc (file);
 	do {
 		header_line = g_string_new("");
@@ -137,13 +161,12 @@ get_header_lines_from_file (FILE *file)
 		} while ( !end_of_header_line );
 		
 		if ( strlen(header_line->str) ) 
-			header_lines = g_list_append (header_lines, header_line);
-		else 
-			g_string_free (header_line, FALSE);
+			_store_header_pair_from_gstring (header_table, header_line);
+		g_string_free (header_line, FALSE);
 
 	} while ( (!end_of_headers) && (!end_of_file) );
 
-	return header_lines;
+	return header_table;
 }
 		
 		

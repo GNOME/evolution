@@ -33,6 +33,8 @@ extern FILE *camel_log_file_descriptor;
 
 typedef enum {
 	NO_LOG     =     0,
+	STRANGE    =     5,
+	WARNING    =     7,
 	FULL_DEBUG =     10
 } CamelLogLevel;
 

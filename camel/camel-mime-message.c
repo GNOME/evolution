@@ -26,6 +26,13 @@
 #include <stdio.h>
 #include "gmime-content-field.h"
 #include "gstring-util.h"
+#include "camel-log.h"
+
+typedef enum {
+	HEADER_UNKNOWN,
+	HEADER_FROM
+} CamelHeaderType;
+static GHashTable *header_name_table;
 
 
 
@@ -58,12 +65,20 @@ static void _set_message_number (CamelMimeMessage *mime_message, guint number);
 static guint _get_message_number (CamelMimeMessage *mime_message);
 
 static void _write_to_file(CamelDataWrapper *data_wrapper, FILE *file);
+static gboolean _parse_header_pair (CamelMimePart *mime_part, GString *header_name, GString *header_value);
 
 /* Returns the class for a CamelMimeMessage */
 #define CMM_CLASS(so) CAMEL_MIME_MESSAGE_CLASS (GTK_OBJECT(so)->klass)
 #define CDW_CLASS(so) CAMEL_DATA_WRAPPER_CLASS (GTK_OBJECT(so)->klass)
 
 
+static void
+_init_header_name_table()
+{
+	header_name_table = g_hash_table_new (g_string_hash, g_string_equal_for_hash);
+	g_hash_table_insert (header_name_table, g_string_new ("From"), (gpointer)HEADER_FROM);
+
+}
 
 static void
 camel_mime_message_class_init (CamelMimeMessageClass *camel_mime_message_class)
@@ -72,6 +87,7 @@ camel_mime_message_class_init (CamelMimeMessageClass *camel_mime_message_class)
 	CamelMimePartClass *camel_mime_part_class = CAMEL_MIME_PART_CLASS (camel_mime_message_class);
 
 	parent_class = gtk_type_class (camel_mime_part_get_type ());
+	_init_header_name_table();
 
 	received_date_str = g_string_new("");
 	sent_date_str = g_string_new("");
@@ -99,6 +115,8 @@ camel_mime_message_class_init (CamelMimeMessageClass *camel_mime_message_class)
 	
 	/* virtual method overload */
 	camel_data_wrapper_class->write_to_file = _write_to_file;
+	camel_mime_part_class->parse_header_pair = _parse_header_pair;
+
 }
 
 
@@ -521,3 +539,31 @@ _write_to_file (CamelDataWrapper *data_wrapper, FILE *file)
 	
 }
 
+/*******************************/
+/* mime message header parsing */
+
+static gboolean
+_parse_header_pair (CamelMimePart *mime_part, GString *header_name, GString *header_value)
+{
+	CamelHeaderType header_type;
+	CamelMimeMessage *message = CAMEL_MIME_MESSAGE (mime_part);
+	
+	
+	header_type = (CamelHeaderType) g_hash_table_lookup (header_name_table, header_name);
+	switch (header_type) {
+	
+	case HEADER_FROM:
+		camel_log(FULL_DEBUG,
+			  "CamelMimeMessage::parse_header_pair found HEADER_FROM : %s\n",
+			  header_value->str );
+
+		camel_mime_message_set_from (message, header_value);
+		g_string_free (header_name, TRUE);
+		return TRUE;
+		break;
+	
+	}
+
+	return parent_class->parse_header_pair (mime_part, header_name, header_value);
+	
+}

@@ -28,6 +28,16 @@
 #include "gstring-util.h"
 
 
+typedef enum {
+	HEADER_UNKNOWN,
+	HEADER_DESCRIPTION,
+	HEADER_DISPOSITION,
+	HEADER_CONTENT_ID,
+	HEADER_ENCODING,
+	HEADER_CONTENT_LANGUAGES
+} CamelHeaderType;
+static GHashTable *header_name_table;
+
 
 static CamelDataWrapperClass *parent_class=NULL;
 
@@ -57,14 +67,24 @@ static GList *_get_header_lines (CamelMimePart *mime_part);
 static CamelDataWrapper *_get_content_object(CamelMimePart *mime_part);
 static void _write_to_file(CamelDataWrapper *data_wrapper, FILE *file);
 
+static gboolean _parse_header_pair (CamelMimePart *mime_part, GString *header_name, GString *header_value);
 
 
+static void
+_init_header_name_table()
+{
+	header_name_table = g_hash_table_new (g_string_hash, g_string_equal_for_hash);
+	g_hash_table_insert (header_name_table, g_string_new ("Content-Description"), (gpointer)HEADER_DESCRIPTION);
+	g_hash_table_insert (header_name_table, g_string_new ("Content-Disposition"), (gpointer)HEADER_DISPOSITION);
+
+}
 
 static void
 camel_mime_part_class_init (CamelMimePartClass *camel_mime_part_class)
 {
 	CamelDataWrapperClass *camel_data_wrapper_class = CAMEL_DATA_WRAPPER_CLASS (camel_mime_part_class);
 	parent_class = gtk_type_class (camel_data_wrapper_get_type ());
+	_init_header_name_table();
 	
 	/* virtual method definition */
 	camel_mime_part_class->add_header=_add_header;
@@ -86,8 +106,10 @@ camel_mime_part_class_init (CamelMimePartClass *camel_mime_part_class)
 	camel_mime_part_class->get_content_languages=_get_content_languages;
 	camel_mime_part_class->set_header_lines=_set_header_lines;
 	camel_mime_part_class->get_header_lines=_get_header_lines;
-
+	camel_mime_part_class->parse_header_pair = _parse_header_pair;
 	camel_mime_part_class->get_content_object = _get_content_object;
+
+	
 	
 	/* virtual method overload */
 	camel_data_wrapper_class->write_to_file = _write_to_file;
@@ -98,7 +120,7 @@ camel_mime_part_init (gpointer   object,  gpointer   klass)
 {
 	CamelMimePart *camel_mime_part = CAMEL_MIME_PART (object);
 
-	camel_mime_part->headers =  g_hash_table_new(g_string_hash, g_string_equal_for_hash);
+	camel_mime_part->headers =  g_hash_table_new (g_string_hash, g_string_equal_for_hash);
 
 }
 
@@ -138,7 +160,9 @@ _add_header (CamelMimePart *mime_part, GString *header_name, GString *header_val
 	gboolean header_exists;
 	GString *old_header_name;
 	GString *old_header_value;
-
+	
+	if (CMP_CLASS(mime_part)->parse_header_pair (mime_part, header_name, header_value)) 
+		return;
 	header_exists = g_hash_table_lookup_extended (mime_part->headers, header_name, 
 						      (gpointer *) &old_header_name,
 						      (gpointer *) &old_header_value);
@@ -503,3 +527,24 @@ _write_to_file(CamelDataWrapper *data_wrapper, FILE *file)
 	
 }
 
+
+
+/*******************************/
+/* mime part parsing           */
+
+static gboolean
+_parse_header_pair (CamelMimePart *mime_part, GString *header_name, GString *header_value)
+{
+	CamelHeaderType header_type;
+	header_type = (CamelHeaderType) g_hash_table_lookup (header_name_table, header_name);
+	switch (header_type) {
+	
+	case HEADER_DESCRIPTION:
+		printf("found HEADER_DESCRIPTION\n");
+		return TRUE;
+		break;
+	
+	}
+	return FALSE;
+	
+}

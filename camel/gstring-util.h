@@ -36,15 +36,16 @@ extern "C" {
 
 typedef enum {
     NONE            =     0,
-    STRIP_TRAILING  =     1,
-    STRIP_LEADING   =     2
+    RIGHT_DIR       =     1,
+    STRIP_TRAILING  =     2,
+    STRIP_LEADING   =     4,
     
 } DichotomyOption;
 
 
 gboolean g_string_equals(GString *string1, GString *string2);
 GString *g_string_clone(GString *string);
-gchar g_string_right_dichotomy( GString *string, gchar sep, GString **prefix, GString **suffix, DichotomyOption options);
+gchar g_string_dichotomy( GString *string, gchar sep, GString **prefix, GString **suffix, DichotomyOption options);
 void g_string_append_g_string(GString *dest_string, GString *other_string);
 
 gboolean g_string_equal_for_hash (gconstpointer v, gconstpointer v2);
