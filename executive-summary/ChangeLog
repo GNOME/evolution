@@ -1,3 +1,7 @@
+2000-12-12  Dan Winship  <danw@helixcode.com>
+
+	* Makefile.am (EXTRA_DIST): Add stuff. (From campd.)
+
 2000-12-11  Iain Holmes  <iain@helixcode.com>
 
 	* evolution-services/executive-summary-html-view.h: Add a define
