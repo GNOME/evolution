@@ -1426,6 +1426,9 @@ apply_changes (ETableConfig *config, ETableHeaderItem *ethi)
 	if (ethi->tree)
 		e_tree_set_state (ethi->tree, state);
 	g_free (state);
+
+	gtk_dialog_set_response_sensitive (GTK_DIALOG (config->dialog_toplevel),
+					   GTK_RESPONSE_APPLY, FALSE);
 }
 
 static void
