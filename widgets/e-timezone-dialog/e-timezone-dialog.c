@@ -20,7 +20,10 @@
  * Boston, MA 02111-1307, USA.
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
+
 #include <gtk/gtksignal.h>
 #include <gtk/gtkcombo.h>
 #include <gtk/gtkentry.h>
@@ -30,8 +33,6 @@
 #include <widgets/misc/e-map.h>
 
 #include "e-timezone-dialog.h"
-
-#include <gal/util/e-util.h>
 
 #define E_TIMEZONE_DIALOG_MAP_POINT_NORMAL_RGBA 0xc070a0ff
 #define E_TIMEZONE_DIALOG_MAP_POINT_HOVER_RGBA 0xffff60ff
@@ -90,9 +91,7 @@ static void	set_map_timezone		(ETimezoneDialog *etd,
 static void	on_combo_changed		(GtkEditable	*entry,
 						 ETimezoneDialog *etd);
 
-
-static GObjectClass *parent_class;
-
+G_DEFINE_TYPE (ETimezoneDialog, e_timezone_dialog, G_TYPE_OBJECT)
 
 /* Class initialization function for the event editor */
 static void
@@ -103,8 +102,6 @@ e_timezone_dialog_class_init (ETimezoneDialogClass *class)
 	object_class = G_OBJECT_CLASS (class);
 	object_class->dispose  = e_timezone_dialog_dispose;
 	object_class->finalize = e_timezone_dialog_finalize;
-
-	parent_class = gtk_type_class (G_TYPE_OBJECT);
 }
 
 /* Object initialization function for the event editor */
@@ -150,7 +147,7 @@ e_timezone_dialog_dispose (GObject *object)
 		priv->xml = NULL;
 	}
 
-	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
+	(* G_OBJECT_CLASS (e_timezone_dialog_parent_class)->dispose) (object);
 }
 
 /* Finalize handler for the event editor */
@@ -168,7 +165,7 @@ e_timezone_dialog_finalize (GObject *object)
 
 	g_free (priv);
 
-	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
+	(* G_OBJECT_CLASS (e_timezone_dialog_parent_class)->finalize) (object);
 }
 
 
@@ -673,6 +670,3 @@ e_timezone_dialog_reparent (ETimezoneDialog *etd,
 
 	gtk_widget_reparent (priv->table, new_parent);
 }
-
-E_MAKE_TYPE (e_timezone_dialog, "ETimezoneDialog", ETimezoneDialog,
-	     e_timezone_dialog_class_init, e_timezone_dialog_init, G_TYPE_OBJECT)
