@@ -1,5 +1,14 @@
 2002-08-28  Chris Toshok  <toshok@ximian.com>
 
+	[ oops, merged the .h and .glade file back to the HEAD from the
+	1-0 branch, but missed the .c file. ]
+	* gui/component/select-names/e-select-names.c (status_message): set
+	the status label's text.
+	(e_select_names_init): get the status message widget from the
+	glade ui.
+
+2002-08-28  Chris Toshok  <toshok@ximian.com>
+
 	[ fixes #19286 ]
 	* gui/component/addressbook.c (delete_contact_cb): confirm
 	deletion of contacts when using the menubar or toolbar.

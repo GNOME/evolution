@@ -415,6 +415,15 @@ update_query (GtkWidget *widget, ESelectNames *e_select_names)
 }
 
 static void
+status_message (EAddressbookModel *model, const gchar *message, ESelectNames *e_select_names)
+{
+	if (message == NULL)
+		gtk_label_set_text (GTK_LABEL (e_select_names->status_message), "");
+	else
+		gtk_label_set_text (GTK_LABEL (e_select_names->status_message), message);
+}
+
+static void
 categories_changed (GtkWidget *widget, gint value, ESelectNames *e_select_names)
 {
 	update_query (widget, e_select_names);
@@ -515,6 +524,13 @@ e_select_names_init (ESelectNames *e_select_names)
 	e_select_names->model = gtk_object_get_data(GTK_OBJECT(e_select_names->table), "model");
 	e_select_names->adapter = gtk_object_get_data(GTK_OBJECT(e_select_names->table), "adapter");
 	e_select_names->without = gtk_object_get_data(GTK_OBJECT(e_select_names->table), "without");
+
+	e_select_names->status_message = glade_xml_get_widget (gui, "status-message");
+	if (e_select_names->status_message && !GTK_IS_LABEL (e_select_names->status_message))
+		e_select_names->status_message = NULL;
+	if (e_select_names->status_message)
+		gtk_signal_connect (GTK_OBJECT (e_select_names->model), "status_message",
+				    GTK_SIGNAL_FUNC (status_message), e_select_names);
 
 	e_select_names->categories = glade_xml_get_widget (gui, "custom-categories");
 	if (e_select_names->categories && !E_IS_CATEGORIES_MASTER_LIST_OPTION_MENU (e_select_names->categories))
