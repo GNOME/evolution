@@ -17,10 +17,7 @@
 	      		label="Exchange Settings"
 	      		factory="org_gnome_exchange_account_setup"/>
                 <item type="section"
-                        path="10.receive/10.config"
-			label="OWA Url"/>
-		<item type="item"
-			path="10.receive/10.config/00.owa"
+                        path="10.receive/00.config"
 			factory="org_gnome_exchange_set_url"/>
       	</group>
     </hook>
@@ -30,10 +27,7 @@
                 target="account"
                 id="org.gnome.evolution.mail.config.accountDruid">
                 <item type="section"
-                        path="10.receive/30.config"
-			label="OWA Url"/>
-		<item type="item"
-			path="10.receive/30.config/00.owa"
+                        path="10.receive/00.config"
 			factory="org_gnome_exchange_read_url"/>
         </group>
         <group

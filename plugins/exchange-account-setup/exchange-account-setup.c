@@ -203,11 +203,11 @@ org_gnome_exchange_account_setup (EPlugin *epl, EConfigHookItemFactoryData *data
 {
 	EMConfigTargetAccount *target_account;
 	GtkWidget *oof_page = NULL;
-	const char *account_url = NULL, *source_url = NULL, *temp_url = NULL;
+	const char *source_url = NULL, *temp_url = NULL;
 	char *exchange_url = NULL;
 	GConfClient *client;
 	EAccountList *account_list;
-	const char *uid;
+	const char *uid = NULL;
 	EAccount *gconf_account;
 
 	target_account = (EMConfigTargetAccount *)data->config->target;
@@ -215,7 +215,7 @@ org_gnome_exchange_account_setup (EPlugin *epl, EConfigHookItemFactoryData *data
 	client = gconf_client_get_default ();
 	account_list = e_account_list_new (client);
 	if (account_list) {
-		uid = g_strdup (target_account->account->uid);  
+		uid = target_account->account->uid;  
 		if (uid) {
 			gconf_account = e_account_list_find (account_list, 
 							     E_ACCOUNT_FIND_UID,
@@ -239,7 +239,6 @@ org_gnome_exchange_account_setup (EPlugin *epl, EConfigHookItemFactoryData *data
 						      	E_ACCOUNT_TRANSPORT_URL, 
 						      	temp_url); 
 			}
-			g_free (uid);	
 		}
 		g_object_unref (account_list);
 	}
@@ -250,9 +249,7 @@ org_gnome_exchange_account_setup (EPlugin *epl, EConfigHookItemFactoryData *data
 
 	source_url = e_account_get_string (target_account->account, 
 					   E_ACCOUNT_SOURCE_URL);
-	account_url = g_strdup (source_url);
-	exchange_url = g_strrstr (account_url, "exchange");
-	g_free (account_url);
+	exchange_url = g_strrstr (source_url, "exchange");
 
 	if (exchange_url) { 
 		if (data->old)
@@ -261,6 +258,12 @@ org_gnome_exchange_account_setup (EPlugin *epl, EConfigHookItemFactoryData *data
 		oof_page = construct_oof_editor (data);
 	}
 	return oof_page;
+}
+
+static void
+editor_ok_button_clicked (GtkWidget *entry, void *data)
+{
+	return;
 }
 
 static void
@@ -281,61 +284,77 @@ add_owa_entry_to_editor (GtkWidget *parent, EConfig *config,
 			 EAccountList *account_list, const char *url_value)
 {
 	GtkWidget *section, *owa_entry;
-	GtkWidget *hbox, *label;
-
-	section =  gtk_vbox_new (FALSE, 0);
-	gtk_widget_show (section);
-	gtk_box_pack_start (GTK_BOX (parent), section, FALSE, FALSE, 0);
-
-	hbox = gtk_hbox_new (FALSE, 6);
-	gtk_widget_show(hbox);
-	gtk_box_pack_start (GTK_BOX (section), hbox, FALSE, FALSE, 0);
-	label = gtk_label_new_with_mnemonic(_("_Url:"));
-	gtk_widget_show (label);
-
-	owa_entry = gtk_entry_new ();
-	if (url_value)
-		gtk_entry_set_text (GTK_ENTRY (owa_entry), url_value);
-	gtk_widget_show (owa_entry);
-
-	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (hbox), owa_entry, TRUE, TRUE, 0);
-
-	g_signal_connect (owa_entry, "changed", 
-			  G_CALLBACK(owa_editor_entry_changed), NULL); 
-	/* FIXME - gconf handling*/
-	return section;	/* FIXME: return entry */
-
-#if 0
-	GtkWidget *table;
-	GladeXML *gui;
+	GtkWidget *hbox, *hbox_inner, *label, *button;
+	GList *container_list, *l;
 	GValue rows = { 0, };
 	GValue cols = { 0, };
 	gint n_rows, n_cols;
-	gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config.glade",
-			     "table4", NULL);
-	table = glade_xml_get_widget (gui, "table4");
 
+	/* Since configure section in the receive page is not plugin enabled
+	 * traversing through the container hierarchy to get the reference
+	 * to the table, to which owa_url entry has to be added.
+	 * This needs to be changed once we can access configure section from
+	 * the plugin.
+	 */
+
+	container_list = gtk_container_get_children (GTK_CONTAINER (parent));
+	l = g_list_nth (container_list, 0); /* sourcevbox */
+	container_list = gtk_container_get_children (GTK_CONTAINER (l->data));
+	l = g_list_nth (container_list, 2); /* source frame */
+	container_list = gtk_container_get_children (GTK_CONTAINER (l->data));
+	l = g_list_nth (container_list, 1); /* hbox173 */
+	container_list = gtk_container_get_children (GTK_CONTAINER (l->data));
+	l = g_list_nth (container_list, 1); /* table 13 */
+	container_list = gtk_container_get_children (GTK_CONTAINER (l->data));
+	l = g_list_nth (container_list, 0); /* table 4*/
 
 	g_value_init (&rows, G_TYPE_INT);
 	g_value_init (&cols, G_TYPE_INT);
-	g_object_get_property (G_OBJECT (table), "n-rows", &rows);
-	g_object_get_property (G_OBJECT (table), "n-columns", &cols);
+	g_object_get_property (G_OBJECT (l->data), "n-rows", &rows);
+	g_object_get_property (G_OBJECT (l->data), "n-columns", &cols);
 	n_rows = g_value_get_int (&rows); 
 	n_cols = g_value_get_int (&cols); 
-	printf ("NO OF COLUMES = %d ROWS = %d \n", n_cols, n_rows);
 
-	if (owa_entry_text)
-		gtk_entry_set_text (owa_entry, owa_entry_text); 
+	hbox = gtk_hbox_new (FALSE, 6);
+	gtk_widget_show (hbox);
 
-	gtk_table_attach (GTK_TABLE (table), label, 0, n_cols-1, n_rows, n_rows+1, GTK_FILL, GTK_FILL, 0, 0); 
-	gtk_table_attach (GTK_TABLE (table), owa_entry, n_cols-1, n_cols, n_rows, n_rows+1, GTK_FILL, GTK_FILL, 0, 0); 
+	hbox_inner = gtk_hbox_new (FALSE, 6);
+	gtk_widget_show (hbox_inner);
 
-	gtk_widget_show (table); 
-	return table;
+	owa_entry = gtk_entry_new ();
+	if (url_value)
+		gtk_entry_set_text (GTK_ENTRY (owa_entry), url_value); 
+	gtk_widget_show (owa_entry);
 
-#endif
-	/* FIXME: Proper placing of the widget */
+	button = gtk_button_new_from_stock (GTK_STOCK_OK);
+	gtk_widget_set_sensitive (button, FALSE);
+	gtk_widget_show (button);
+
+	gtk_box_pack_start (GTK_BOX (hbox_inner), owa_entry, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox_inner), button, FALSE, FALSE, 0);
+	
+	label = gtk_label_new_with_mnemonic(_("_OWA Url:"));
+	gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
+	gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
+	gtk_widget_show (label);
+
+	gtk_box_pack_start (GTK_BOX (hbox), hbox_inner, TRUE, TRUE, 0);
+
+	gtk_table_attach (GTK_TABLE (l->data), label, 0, n_cols-1, n_rows, 
+			  n_rows+1, GTK_FILL, GTK_FILL, 0, 0); 
+	gtk_table_attach (GTK_TABLE (l->data), hbox, n_cols-1, n_cols, 
+			  n_rows, n_rows+1, GTK_FILL, GTK_FILL, 0, 0); 
+
+	gtk_widget_show (GTK_WIDGET (l->data)); 
+
+	g_signal_connect (owa_entry, "changed",
+			  G_CALLBACK (owa_editor_entry_changed), button);
+	g_signal_connect (button, "clicked",
+			  G_CALLBACK (editor_ok_button_clicked), target_account);
+
+	section =  gtk_vbox_new (FALSE, 0); /* Sending an invisible section */
+	gtk_widget_hide (section);
+	return section;
 }
 
 GtkWidget *
@@ -344,7 +363,7 @@ org_gnome_exchange_set_url (EPlugin *epl, EConfigHookItemFactoryData *data)
 	EMConfigTargetAccount *target_account;
 	EConfig *config;
 	char *account_url = NULL, *exchange_url = NULL;
-	const char *source_url, *temp_url, *uid, *owa_url = NULL;
+	const char *source_url, *temp_url, *uid = NULL, *owa_url = NULL;
 	GtkWidget *owa_entry = NULL, *parent;
 	GConfClient *client;
 	EAccountList *account_list = NULL;
@@ -357,7 +376,7 @@ org_gnome_exchange_set_url (EPlugin *epl, EConfigHookItemFactoryData *data)
 	client = gconf_client_get_default ();
 	account_list = e_account_list_new (client);
 	if (account_list) {
-		uid = g_strdup (target_account->account->uid);  
+		uid = target_account->account->uid;  
 		if (uid) {
 			gconf_account = e_account_list_find (account_list, 
 							     E_ACCOUNT_FIND_UID,
@@ -377,7 +396,6 @@ org_gnome_exchange_set_url (EPlugin *epl, EConfigHookItemFactoryData *data)
 						      E_ACCOUNT_TRANSPORT_URL, 
 						      temp_url); 
 			}
-			g_free (uid);	
 		}
 	}
 

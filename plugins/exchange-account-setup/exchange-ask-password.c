@@ -42,9 +42,9 @@ void exchange_options_commit (EPlugin *epl, EConfigHookItemFactoryData *data);
 GtkWidget *org_gnome_exchange_read_url (EPlugin *epl, EConfigHookItemFactoryData *data);
 gboolean org_gnome_exchange_check_options (EPlugin *epl, EConfigHookPageCheckData *data);
 
-char *owa_entry_text = NULL; 
+const char *owa_entry_text = NULL; 
 
-typedef gboolean (CamelProviderValidateUserFunc) (CamelURL *camel_url, char *url, gboolean *remember_password, CamelException *ex);
+typedef gboolean (CamelProviderValidateUserFunc) (CamelURL *camel_url, const char *url, gboolean *remember_password, CamelException *ex);
 
 typedef struct {
         CamelProviderValidateUserFunc *validate_user;
@@ -73,9 +73,9 @@ validate_exchange_user (void *data)
 	CamelProvider *provider = NULL;
 	gboolean valid = FALSE, *remember_password;
 	char *account_url, *url_string; 
-	const char *source_url;
+	const char *source_url, *id_name;
 	static int count = 0;
-	char *id_name, *at, *user;
+	char *at, *user;
 
 	if (count)
 		return valid;
@@ -148,32 +148,74 @@ add_owa_entry (GtkWidget *parent,
 	       EMConfigTargetAccount *target_account)
 {
 	GtkWidget *section, *owa_entry;
-	GtkWidget *hbox, *button, *label;
+        GtkWidget *hbox, *hbox_inner, *label, *button;
+        GList *container_list, *l;
+        GValue rows = { 0, };
+        GValue cols = { 0, };
+        gint n_rows, n_cols;
 
-	section =  gtk_vbox_new (FALSE, 0);
-	gtk_widget_show (section);
-	gtk_box_pack_start (GTK_BOX (parent), section, FALSE, FALSE, 0);
+	/* Since configure section in the receive page is not plugin enabled
+	 * traversing through the container hierarchy to get the reference
+	 * to the table, to which owa_url entry has to be added.
+	 * This needs to be changed once we can access configure section from
+	 * the plugin.
+	 */
+
+        container_list = gtk_container_get_children (GTK_CONTAINER (parent));
+        l = g_list_nth (container_list, 1); /* vboxsourceborder */
+        container_list = gtk_container_get_children (GTK_CONTAINER (l->data));
+        l = g_list_nth (container_list, 0); /* sourcevbox */
+        container_list = gtk_container_get_children (GTK_CONTAINER (l->data));
+        l = g_list_nth (container_list, 2); /* source frame */
+        container_list = gtk_container_get_children (GTK_CONTAINER (l->data));
+        l = g_list_nth (container_list, 1); /* hbox173 */
+        container_list = gtk_container_get_children (GTK_CONTAINER (l->data));
+        l = g_list_nth (container_list, 1); /* table 13 */
+        container_list = gtk_container_get_children (GTK_CONTAINER (l->data));
+        l = g_list_nth (container_list, 0); /* table 4*/
+
+        g_value_init (&rows, G_TYPE_INT);
+        g_value_init (&cols, G_TYPE_INT);
+        g_object_get_property (G_OBJECT (l->data), "n-rows", &rows);
+        g_object_get_property (G_OBJECT (l->data), "n-columns", &cols);
+        n_rows = g_value_get_int (&rows);
+        n_cols = g_value_get_int (&cols);
 
 	hbox = gtk_hbox_new (FALSE, 6);
 	gtk_widget_show (hbox);
-	gtk_box_pack_start (GTK_BOX (section), hbox, FALSE, FALSE, 0);
-	label = gtk_label_new_with_mnemonic(_("_Url:"));
-	gtk_widget_show (label);
+
+	hbox_inner = gtk_hbox_new (FALSE, 6);
+	gtk_widget_show (hbox_inner);
+
 	owa_entry = gtk_entry_new ();
 	gtk_widget_show (owa_entry);
+
 	button = gtk_button_new_from_stock (GTK_STOCK_OK);
 	gtk_widget_set_sensitive (button, FALSE);
 	gtk_widget_show (button);
 
-	gtk_box_pack_start (GTK_BOX (hbox), label, TRUE, TRUE, 0);
-	gtk_box_pack_start (GTK_BOX (hbox), owa_entry, TRUE, TRUE, 0);
-	gtk_box_pack_start (GTK_BOX (hbox), button, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox_inner), owa_entry, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox_inner), button, TRUE, TRUE, 0);
+
+	label = gtk_label_new_with_mnemonic(_("_OWA Url:"));
+	gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
+	gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
+	gtk_widget_show (label);
+
+	gtk_box_pack_start (GTK_BOX (hbox), hbox_inner, TRUE, TRUE, 0);
+
+        gtk_table_attach (GTK_TABLE (l->data), label, 0, n_cols-1, n_rows, n_rows+1, GTK_FILL, GTK_FILL, 0, 0);
+        gtk_table_attach (GTK_TABLE (l->data), hbox, n_cols-1, n_cols, n_rows, n_rows+1, GTK_FILL, GTK_FILL, 0, 0);
+
+	gtk_widget_show (GTK_WIDGET (l->data));
 
 	g_signal_connect (owa_entry, "changed", 
 			  G_CALLBACK (owa_entry_changed), button);
 	g_signal_connect (button, "clicked", 
 			  G_CALLBACK (ok_button_clicked), target_account);
-	
+
+	section =  gtk_vbox_new (FALSE, 0);
+        gtk_widget_hide (section);
 	return section;	/* FIXME: return entry */
 }
 
