@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "POT-Creation-Date: 2004-08-02 15:35-0400\n"
-"PO-Revision-Date: 2004-08-10 19:50+0300\n"
+"PO-Revision-Date: 2004-08-11 17:11+0300\n"
 "Last-Translator: Leonid Kanter <leon@asplinux.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2854,7 +2854,7 @@ msgstr "Успешно"
 #. E_BOOK_ERROR_BUSY
 #: addressbook/gui/widgets/eab-gui-util.c:51
 msgid "Backend busy"
-msgstr ""
+msgstr "Компонент занят"
 
 #. E_BOOK_ERROR_REPOSITORY_OFFLINE
 #: addressbook/gui/widgets/eab-gui-util.c:52
@@ -3983,27 +3983,27 @@ msgstr ""
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:15
 msgid "Position of the horizontal pane"
-msgstr ""
+msgstr "Позиция горизонтальной панели"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:16
 msgid "Position of the horizontal pane in the month view"
-msgstr ""
+msgstr "Позиция горизонтальной панели при просмотре в виде месяца"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:17
 msgid "Position of the vertical pane"
-msgstr ""
+msgstr "Позиция вертикальной панели"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:18
 msgid "Position of the vertical pane in the month view"
-msgstr ""
+msgstr "Позиция вертикальной панели при просмотре в виде месяца"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:19
 msgid "Position of the vertical pane in the task view"
-msgstr ""
+msgstr "Позиция вертикальной панели при просмотре задач"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:20
 msgid "Programs that can run as part of alarms"
-msgstr ""
+msgstr "Программы, которые могут использоваться как часть сигналов"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:21
 msgid "Show where events end in week and month views"
@@ -4055,7 +4055,7 @@ msgstr "Показывать ли номера недель в навигато�
 
 #: calendar/gui/cal-search-bar.c:50
 msgid "Summary contains"
-msgstr "\"Коротко\" содержит"
+msgstr "Сводка содержит"
 
 #: calendar/gui/cal-search-bar.c:51
 msgid "Description contains"
@@ -10644,7 +10644,6 @@ msgid "Unexpected token in response from IMAP server %s: "
 msgstr "Неожиданный ответ от сервера IMAP: %s"
 
 #: camel/providers/imap4/camel-imap4-utils.c:273
-#, fuzzy
 msgid "No data"
 msgstr "Нет данных"
 
@@ -11376,9 +11375,8 @@ msgid "Cannot authenticate to server: %s"
 msgstr "Сбой идентификации на сервере POP %s: %s"
 
 #: camel/providers/nntp/camel-nntp-store.c:1262
-#, fuzzy
 msgid "Not connected."
-msgstr "Нет контактов"
+msgstr "Не подключен."
 
 #: camel/providers/nntp/camel-nntp-store.c:1311
 #, c-format
@@ -12044,7 +12042,6 @@ msgid ""
 msgstr "Всегда подписывать сообщения, когда используется эта учётная запись"
 
 #: composer/e-msg-composer.c:1268
-#, fuzzy
 msgid "Could not open file"
 msgstr "Не удается открыть файл"
 
@@ -12053,9 +12050,8 @@ msgid "Unable to retrieve message from editor"
 msgstr "Не удается получить сообщение из редактора"
 
 #: composer/e-msg-composer.c:1546
-#, fuzzy
 msgid "Untitled Message"
-msgstr "Множество сообщений"
+msgstr "Неозаглавленное сообщение"
 
 #: composer/e-msg-composer.c:1576
 msgid "Open file"
@@ -12073,16 +12069,17 @@ msgstr "Подпись:"
 #, c-format
 msgid "<b>%d</b> File Attached"
 msgid_plural "<b>%d</b> Files Attached"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Вложен <b>%d</b> файл"
+msgstr[1] "Вложено <b>%d</b> файла"
+msgstr[2] "Вложено <b>%d</b> файлов"
 
 #: composer/e-msg-composer.c:2312
 msgid "Hide _Attachment Bar (drop attachments here)"
-msgstr ""
+msgstr "Скрыть панель вложений (для перетаскивания вложений)"
 
 #: composer/e-msg-composer.c:2315 composer/e-msg-composer.c:3271
 msgid "Show _Attachment Bar (drop attachments here)"
-msgstr ""
+msgstr "Показать панель _вложений (для перетаскивания вложений)"
 
 #: composer/e-msg-composer.c:2332 composer/e-msg-composer.c:3163
 #: composer/e-msg-composer.c:3164
@@ -12090,18 +12087,18 @@ msgid "Compose a message"
 msgstr "Новое сообщение"
 
 #: composer/e-msg-composer.c:2634
-#, fuzzy, c-format
+#, c-format
 msgid "Attached message - %s"
-msgstr "Пересланное сообщение - %s"
+msgstr "Вложенное сообщение - %s"
 
 #. translators, this count will always be >1
 #: composer/e-msg-composer.c:2639 composer/e-msg-composer.c:2783
-#, fuzzy, c-format
+#, c-format
 msgid "Attached message"
 msgid_plural "%d attached messages"
-msgstr[0] "Вложить оригинальное сообщение"
-msgstr[1] "Вложить оригинальное сообщение"
-msgstr[2] "Вложить оригинальное сообщение"
+msgstr[0] "%d вложенное сообщение"
+msgstr[1] "%d вложенных сообщения"
+msgstr[2] "%d вложенных сообщений"
 
 #: composer/e-msg-composer.c:4341
 msgid ""
@@ -12113,19 +12110,18 @@ msgstr ""
 
 #. mail-composer:no-attach primary
 #: composer/mail-composer-errors.xml.h:2
-#, fuzzy
 msgid "You cannot attach the file `{0}' to this message."
-msgstr "Вложить файл в сообщение"
+msgstr "Вы не можете вложить файл `{0}' в это сообщение."
 
 #. mail-composer:attach-notfile primary
 #: composer/mail-composer-errors.xml.h:6
 msgid "The file `{0}' is not a regular file and cannot be sent in a message."
-msgstr ""
+msgstr "Файл `{0}' не является обычным файлом и не может быть отправлен в сообщении."
 
 #. mail-composer:attach-directory primary
 #: composer/mail-composer-errors.xml.h:8
 msgid "Directories can not be attached to Messages."
-msgstr ""
+msgstr "Каталоги не могут быть вложены в сообщения."
 
 #. mail-composer:attach-directory secondary
 #: composer/mail-composer-errors.xml.h:10
@@ -12146,19 +12142,17 @@ msgstr "Не удается создать канал: %s"
 #: mail/mail-errors.xml.h:112 widgets/misc/e-system-errors.xml.h:11
 #: widgets/misc/e-system-errors.xml.h:15
 msgid "Because \"{1}\"."
-msgstr ""
+msgstr "Потому что \"{1}\"."
 
 #. mail-composer:recover-autosave title
 #: composer/mail-composer-errors.xml.h:16
-#, fuzzy
 msgid "Unfinished messages found"
-msgstr "Непрочитанных сообщений"
+msgstr "Найдены незавершенные сообщения"
 
 #. mail-composer:recover-autosave primary
 #: composer/mail-composer-errors.xml.h:18
-#, fuzzy
 msgid "Do you want to recover unfinished messages?"
-msgstr "Хотите сохранить изменения?"
+msgstr "Восстановить незавершенные сообщения?"
 
 #. mail-composer:recover-autosave secondary
 #: composer/mail-composer-errors.xml.h:20
@@ -12168,14 +12162,12 @@ msgid ""
 msgstr ""
 
 #: composer/mail-composer-errors.xml.h:21
-#, fuzzy
 msgid "Don't Recover"
-msgstr "Не удалять"
+msgstr "Не восстанавливать"
 
 #: composer/mail-composer-errors.xml.h:22
-#, fuzzy
 msgid "Recover"
-msgstr "Удалить"
+msgstr "Восстановить"
 
 #. mail-composer:no-autosave primary
 #: composer/mail-composer-errors.xml.h:24
@@ -12211,9 +12203,8 @@ msgid ""
 msgstr ""
 
 #: composer/mail-composer-errors.xml.h:34
-#, fuzzy
 msgid "Save Message"
-msgstr "Сохранить сообщение ..."
+msgstr "Сохранить сообщение"
 
 #. mail-composer:no-build-message primary
 #: composer/mail-composer-errors.xml.h:36
@@ -12277,9 +12268,8 @@ msgid "The Ximian Evolution Groupware Suite"
 msgstr "Набор приложений групповой работы Evolution"
 
 #: data/evolution.desktop.in.in.h:2
-#, fuzzy
 msgid "Ximian Evolution (Unstable)"
-msgstr "Ximian Evolution"
+msgstr "Ximian Evolution (нестабильный)"
 
 #: data/evolution.keys.in.in.h:1
 msgid "address card"
@@ -12501,60 +12491,60 @@ msgid "%I %p"
 msgstr "%I %p"
 
 #: filter/filter-datespec.c:73
-#, fuzzy, c-format
+#, c-format
 msgid "1 second ago"
 msgid_plural "%d seconds ago"
-msgstr[0] "1 секунду назад"
-msgstr[1] "1 секунду назад"
-msgstr[2] "1 секунду назад"
+msgstr[0] "%d секунду назад"
+msgstr[1] "%d секунды назад"
+msgstr[2] "%d секунд назад"
 
 #: filter/filter-datespec.c:74
-#, fuzzy, c-format
+#, c-format
 msgid "1 minute ago"
 msgid_plural "%d minutes ago"
-msgstr[0] "1 минуту назад"
-msgstr[1] "1 минуту назад"
-msgstr[2] "1 минуту назад"
+msgstr[0] "%d минуту назад"
+msgstr[1] "%d минуты назад"
+msgstr[2] "%d минут назад"
 
 #: filter/filter-datespec.c:75
-#, fuzzy, c-format
+#, c-format
 msgid "1 hour ago"
 msgid_plural "%d hours ago"
-msgstr[0] "1 час назад"
-msgstr[1] "1 час назад"
-msgstr[2] "1 час назад"
+msgstr[0] "%d час назад"
+msgstr[1] "%d часа назад"
+msgstr[2] "%d часов назад"
 
 #: filter/filter-datespec.c:76
-#, fuzzy, c-format
+#, c-format
 msgid "1 day ago"
 msgid_plural "%d days ago"
-msgstr[0] "1 день назад"
-msgstr[1] "1 день назад"
-msgstr[2] "1 день назад"
+msgstr[0] "%d день назад"
+msgstr[1] "%d дня назад"
+msgstr[2] "%d дней назад"
 
 #: filter/filter-datespec.c:77
-#, fuzzy, c-format
+#, c-format
 msgid "1 week ago"
 msgid_plural "%d weeks ago"
-msgstr[0] "1 неделю назад"
-msgstr[1] "1 неделю назад"
-msgstr[2] "1 неделю назад"
+msgstr[0] "%d неделю назад"
+msgstr[1] "%d недели назад"
+msgstr[2] "%d недель назад"
 
 #: filter/filter-datespec.c:78
-#, fuzzy, c-format
+#, c-format
 msgid "1 month ago"
 msgid_plural "%d months ago"
-msgstr[0] "1 месяц назад"
-msgstr[1] "1 месяц назад"
-msgstr[2] "1 месяц назад"
+msgstr[0] "%d месяц назад"
+msgstr[1] "%d месяца назад"
+msgstr[2] "%d месяцев назад"
 
 #: filter/filter-datespec.c:79
-#, fuzzy, c-format
+#, c-format
 msgid "1 year ago"
 msgid_plural "%d years ago"
-msgstr[0] "1 год назад"
-msgstr[1] "1 год назад"
-msgstr[2] "1 год назад"
+msgstr[0] "%d год назад"
+msgstr[1] "%d года назад"
+msgstr[2] "%d лет назад"
 
 #: filter/filter-datespec.c:280
 msgid "<click here to select a date>"
@@ -12575,20 +12565,18 @@ msgstr "Выбрать время для сравнения"
 
 #. filter:no-date primary
 #: filter/filter-errors.xml.h:2
-#, fuzzy
 msgid "Missing date."
-msgstr "Обновление собрания"
+msgstr "Отсутствует дата."
 
 #. filter:no-date secondary
 #: filter/filter-errors.xml.h:4
 msgid "You must choose a date."
-msgstr "Вы должны указать дату."
+msgstr "Необходимо указать дату."
 
 #. filter:no-file primary
 #: filter/filter-errors.xml.h:6
-#, fuzzy
 msgid "Missing file name."
-msgstr "Отличительное _имя (DN):"
+msgstr "Отсутствует имя файла."
 
 #. filter:no-file secondary
 #: filter/filter-errors.xml.h:8 filter/filter-errors.xml.h:12
@@ -12597,43 +12585,38 @@ msgstr "Необходимо указать имя файла."
 
 #. filter:bad-file primary
 #: filter/filter-errors.xml.h:10
-#, fuzzy
 msgid "File \"{0}\" does not exist or is not a regular file."
-msgstr "Файл \"%s\" не существует или не является обычным файлом."
+msgstr "Файл \"{0}\" не существует или не является обычным файлом."
 
 #. filter:bad-regexp primary
 #: filter/filter-errors.xml.h:14
-#, fuzzy
 msgid "Bad regular expression \"{0}\"."
-msgstr ""
-"Ошибка в регулярном выражении \"%s\":\n"
-"%s"
+msgstr "Неверное регулярное выражение \"{0}\"."
 
 #. filter:bad-regexp secondary
 #: filter/filter-errors.xml.h:16
 msgid "Could not compile regular expression \"{1}\"."
-msgstr ""
+msgstr "Не удается откомпилировать регулярное выражение \"{1}\"."
 
 #. filter:no-name primary
 #: filter/filter-errors.xml.h:18 mail/mail-errors.xml.h:214
-#, fuzzy
 msgid "Missing name."
-msgstr "Назначение"
+msgstr "Отсутствует имя."
 
 #. filter:no-name secondary
 #: filter/filter-errors.xml.h:20
 msgid "You must name this filter."
-msgstr "Вы должны наименовать этот фильтр"
+msgstr "Этому фильтру необходимо присвоить имя."
 
 #. filter:bad-name-notunique primary
 #: filter/filter-errors.xml.h:22
 msgid "Name \"{0}\" already used."
-msgstr ""
+msgstr "Имя \"{0}\" уже используется."
 
 #. filter:bad-name-notunique secondary
 #: filter/filter-errors.xml.h:24
 msgid "Please choose another name."
-msgstr ""
+msgstr "Выберите другое имя."
 
 #: filter/filter-file.c:288
 msgid "Choose a file"
@@ -12661,14 +12644,12 @@ msgid "Test"
 msgstr "Проверка"
 
 #: filter/filter-rule.c:790
-#, fuzzy
 msgid "Rule name:"
-msgstr "Имя фильтра: "
+msgstr "Имя правила:"
 
 #: filter/filter-rule.c:817
-#, fuzzy
 msgid "<b>If</b>"
-msgstr "<b>К:</b> "
+msgstr "<b>Если</b> "
 
 #: filter/filter-rule.c:854
 msgid "if all criteria are met"
@@ -12683,14 +12664,12 @@ msgid "Execute actions"
 msgstr "Выполнить действия"
 
 #: filter/filter-rule.c:877
-#, fuzzy
 msgid "All related"
-msgstr "Передано"
+msgstr "Всё связанное"
 
 #: filter/filter-rule.c:877
-#, fuzzy
 msgid "Replies"
-msgstr "Получатели"
+msgstr "Ответы"
 
 #: filter/filter-rule.c:877
 #, fuzzy
@@ -12698,9 +12677,8 @@ msgid "Replies and parents"
 msgstr "В ответ на %s"
 
 #: filter/filter-rule.c:879
-#, fuzzy
 msgid "Include threads"
-msgstr "Включить:"
+msgstr "Включая нити"
 
 #: filter/filter-rule.c:974
 msgid "incoming"
@@ -12711,9 +12689,8 @@ msgid "outgoing"
 msgstr "исходящие"
 
 #: filter/filter.glade.h:1
-#, fuzzy
 msgid "<b>_Filter Rules</b>"
-msgstr "Правила фильтра"
+msgstr "<b>_Правила фильтра</b>"
 
 #: filter/filter.glade.h:2
 msgid "Compare against"
@@ -12901,9 +12878,8 @@ msgid ""
 msgstr ""
 
 #: mail/em-filter-editor.c:147
-#, fuzzy
 msgid "_Filter Rules"
-msgstr "Правила фильтра"
+msgstr "_Правила фильтра"
 
 #: mail/em-filter-folder-element.c:237 mail/em-vfolder-rule.c:494
 #: mail/mail-account-gui.c:1347
@@ -12926,23 +12902,20 @@ msgid "Assign Score"
 msgstr "Назначено"
 
 #: mail/em-filter-i18n.h:5
-#, fuzzy
 msgid "Attachments"
-msgstr "Вложение"
+msgstr "Вложения"
 
 #: mail/em-filter-i18n.h:6
 msgid "Beep"
 msgstr "Сигнал"
 
 #: mail/em-filter-i18n.h:7
-#, fuzzy
 msgid "contains"
-msgstr "Тело содержит"
+msgstr "содержит"
 
 #: mail/em-filter-i18n.h:8
-#, fuzzy
 msgid "Copy to Folder"
-msgstr "_Копировать в папку"
+msgstr "Скопировать в папку"
 
 #: mail/em-filter-i18n.h:9
 #, fuzzy
@@ -12955,68 +12928,56 @@ msgid "Date sent"
 msgstr "Элемент отправлен!\n"
 
 #: mail/em-filter-i18n.h:12
-#, fuzzy
 msgid "Deleted"
-msgstr "Удалить"
+msgstr "Удалено"
 
 #: mail/em-filter-i18n.h:13
-#, fuzzy
 msgid "does not contain"
-msgstr "Тело не содержит"
+msgstr "не содержит"
 
 #: mail/em-filter-i18n.h:14
-#, fuzzy
 msgid "does not end with"
-msgstr "Файл \"%s\" не существует"
+msgstr "не заканчивается на"
 
 #: mail/em-filter-i18n.h:15
-#, fuzzy
 msgid "does not exist"
-msgstr "Файл \"%s\" не существует"
+msgstr "не существует"
 
 #: mail/em-filter-i18n.h:16
-#, fuzzy
 msgid "does not return"
-msgstr "Тело не содержит"
+msgstr "не возвращает"
 
 #: mail/em-filter-i18n.h:17
-#, fuzzy
 msgid "does not sound like"
-msgstr "Тело не содержит"
+msgstr "не похоже на"
 
 #: mail/em-filter-i18n.h:18
-#, fuzzy
 msgid "does not start with"
-msgstr "Не удается запустить wombat"
+msgstr "не начинается с"
 
 #: mail/em-filter-i18n.h:19
 msgid "Do Not Exist"
 msgstr ""
 
 #: mail/em-filter-i18n.h:20
-#, fuzzy
 msgid "Draft"
-msgstr "Дата"
+msgstr "Черновик"
 
 #: mail/em-filter-i18n.h:21
-#, fuzzy
 msgid "ends with"
-msgstr "Имя начинается с"
+msgstr "заканчивается на"
 
 #: mail/em-filter-i18n.h:22
-#, fuzzy
 msgid "Exist"
-msgstr "В_ыйти"
+msgstr "Существует"
 
 #: mail/em-filter-i18n.h:23
-#, fuzzy
 msgid "exists"
-msgstr "Текст"
+msgstr "существует"
 
 #: mail/em-filter-i18n.h:24
-#, fuzzy
 msgid "Expression"
-msgstr "Годен до"
+msgstr "Выражение"
 
 #: mail/em-filter-i18n.h:25
 #, fuzzy
@@ -13024,22 +12985,18 @@ msgid "Follow Up"
 msgstr "К исполнению"
 
 #: mail/em-filter-i18n.h:27
-#, fuzzy
 msgid "is"
-msgstr "Список"
+msgstr "является"
 
 #: mail/em-filter-i18n.h:28
-#, fuzzy
 msgid "is after"
 msgstr "после"
 
 #: mail/em-filter-i18n.h:29
-#, fuzzy
 msgid "is before"
 msgstr "до"
 
 #: mail/em-filter-i18n.h:30
-#, fuzzy
 msgid "is Flagged"
 msgstr "Отмечено"
 
@@ -13052,19 +13009,16 @@ msgid "is less than"
 msgstr ""
 
 #: mail/em-filter-i18n.h:33
-#, fuzzy
 msgid "is not"
-msgstr "Список"
+msgstr "не является"
 
 #: mail/em-filter-i18n.h:34
-#, fuzzy
 msgid "is not Flagged"
-msgstr "Отмечено"
+msgstr "не отмечено"
 
 #: mail/em-filter-i18n.h:36
-#, fuzzy
 msgid "Junk Test"
-msgstr "Июнь"
+msgstr "Тест на спам"
 
 #: mail/em-filter-i18n.h:37 mail/em-folder-view.c:932
 #: widgets/misc/e-expander.c:189
@@ -13077,24 +13031,20 @@ msgid "Mailing list"
 msgstr "список рассылки %s"
 
 #: mail/em-filter-i18n.h:39
-#, fuzzy
 msgid "Message Body"
-msgstr "Сообщение для отправки"
+msgstr "Тело сообщения"
 
 #: mail/em-filter-i18n.h:40
-#, fuzzy
 msgid "Message Header"
-msgstr "Сообщение для отправки"
+msgstr "Заголовок сообщения"
 
 #: mail/em-filter-i18n.h:41
-#, fuzzy
 msgid "Message is Junk"
-msgstr "_Сообщения"
+msgstr "Сообщение является спамом"
 
 #: mail/em-filter-i18n.h:42
-#, fuzzy
 msgid "Message is not Junk"
-msgstr "Пометить как _не спам"
+msgstr "Сообщение не является спамом"
 
 #: mail/em-filter-i18n.h:43
 #, fuzzy
@@ -13107,18 +13057,16 @@ msgid "Pipe to Program"
 msgstr "Выйти из программы"
 
 #: mail/em-filter-i18n.h:45
-#, fuzzy
 msgid "Play Sound"
-msgstr "Воспроизвести звук:"
+msgstr "Воспроизвести звук"
 
 #: mail/em-filter-i18n.h:46 mail/message-tag-followup.c:79
 msgid "Read"
 msgstr "Прочитанное"
 
 #: mail/em-filter-i18n.h:47
-#, fuzzy
 msgid "Recipients"
-msgstr "\"Получатели\" содержит"
+msgstr "Получатели"
 
 #: mail/em-filter-i18n.h:48
 msgid "Regex Match"
@@ -13142,28 +13090,24 @@ msgid "returns less than"
 msgstr ""
 
 #: mail/em-filter-i18n.h:53
-#, fuzzy
 msgid "Run Program"
-msgstr "Запустить программу:"
+msgstr "Запустить программу"
 
 #: mail/em-filter-i18n.h:54 mail/message-list.etspec.h:10
 msgid "Score"
 msgstr "Вес"
 
 #: mail/em-filter-i18n.h:55
-#, fuzzy
 msgid "Sender"
-msgstr "Отправить"
+msgstr "Отправитель"
 
 #: mail/em-filter-i18n.h:56
-#, fuzzy
 msgid "Set Status"
-msgstr "Состояние"
+msgstr "Установить состояние"
 
 #: mail/em-filter-i18n.h:57
-#, fuzzy
 msgid "Size (kB)"
-msgstr "Размер"
+msgstr "Размер (кБ)"
 
 #: mail/em-filter-i18n.h:58
 msgid "sounds like"
@@ -13202,9 +13146,8 @@ msgstr "Соединенные Штаты"
 
 #. and now for the action area
 #: mail/em-filter-rule.c:488
-#, fuzzy
 msgid "<b>Then</b>"
-msgstr "<b>К:</b> "
+msgstr "<b>Тогда</b>"
 
 #: mail/em-folder-browser.c:129
 msgid "Create _Virtual Folder From Search..."
@@ -13246,9 +13189,8 @@ msgid "Specify where to create the folder:"
 msgstr "Укажите, где создать папку:"
 
 #: mail/em-folder-selector.c:300
-#, fuzzy
 msgid "Create"
-msgstr "Создать новую папку"
+msgstr "Создать"
 
 #: mail/em-folder-selector.c:304
 msgid "Folder _name:"
@@ -13269,14 +13211,14 @@ msgid "Loading..."
 msgstr "Загрузка..."
 
 #: mail/em-folder-tree.c:846
-#, fuzzy, c-format
+#, c-format
 msgid "Moving folder %s"
-msgstr "Удаление папки \"%s\""
+msgstr "Перемещение папки %s"
 
 #: mail/em-folder-tree.c:848
-#, fuzzy, c-format
+#, c-format
 msgid "Copying folder %s"
-msgstr "Открытие папки \"%s\""
+msgstr "Копирование папки %s"
 
 #: mail/em-folder-tree.c:855 mail/message-list.c:1613
 #, fuzzy, c-format
@@ -13307,9 +13249,8 @@ msgid "_Move"
 msgstr "Пере_местить"
 
 #: mail/em-folder-tree.c:968 mail/message-list.c:1705
-#, fuzzy
 msgid "Cancel _Drag"
-msgstr "Отменить задачу"
+msgstr "Отменить _перенос"
 
 #: mail/em-folder-tree.c:2104 mail/em-folder-tree.c:2117
 #: mail/em-folder-view.c:803 mail/em-folder-view.c:817
@@ -13319,17 +13260,15 @@ msgid "Select folder"
 msgstr "Выбрать папку"
 
 #: mail/em-folder-tree.c:2104 mail/em-folder-view.c:817
-#, fuzzy
 msgid "C_opy"
-msgstr "Копировать"
+msgstr "_Копировать"
 
 #: mail/em-folder-tree.c:2144
-#, fuzzy, c-format
+#, c-format
 msgid "Creating folder `%s'"
-msgstr "Сохранение папки \"%s\""
+msgstr "Создание папки `%s'"
 
 #: mail/em-folder-tree.c:2330 mail/mail-component.c:707
-#, fuzzy
 msgid "Create folder"
 msgstr "Создать новую папку"
 
@@ -13353,14 +13292,12 @@ msgid "Open in _New Window"
 msgstr "Открыть в _новом окне"
 
 #: mail/em-folder-tree.c:2608
-#, fuzzy
 msgid "_Copy..."
-msgstr "_Копировать"
+msgstr "_Копировать..."
 
 #: mail/em-folder-tree.c:2609
-#, fuzzy
 msgid "_Move..."
-msgstr "Пере_местить"
+msgstr "Пере_местить..."
 
 #. FIXME: need to disable for nochildren folders
 #: mail/em-folder-tree.c:2613
@@ -13368,9 +13305,8 @@ msgid "_New Folder..."
 msgstr "_Создать папку..."
 
 #: mail/em-folder-tree.c:2616
-#, fuzzy
 msgid "_Rename..."
-msgstr "Пе_реименовать"
+msgstr "Пе_реименовать..."
 
 #: mail/em-folder-tree.c:2619 ui/evolution-mail-list.xml.h:27
 msgid "_Properties"
@@ -13462,9 +13398,8 @@ msgid "Appl_y Filters"
 msgstr "Применить _фильтры"
 
 #: mail/em-folder-view.c:941
-#, fuzzy
 msgid "F_ilter Junk"
-msgstr "Правила фильтра"
+msgstr "Ф_ильтровать спам"
 
 #: mail/em-folder-view.c:944
 msgid "Crea_te Rule From Message"
@@ -13517,9 +13452,9 @@ msgid "_Copy Link Location"
 msgstr "_Копировать ссылку"
 
 #: mail/em-folder-view.c:2380
-#, fuzzy, c-format
+#, c-format
 msgid "Click to mail %s"
-msgstr "Щёлкните здесь, чтобы добавить задачу"
+msgstr "Нажмите, чтобы написать письмо %s"
 
 #. message-search popup match count string
 #: mail/em-format-html-display.c:410
@@ -13638,9 +13573,8 @@ msgid "Overdue:"
 msgstr "Просроченные задачи:"
 
 #: mail/em-format-html-display.c:1015
-#, fuzzy
 msgid "by %B %d, %Y, %l:%M %p"
-msgstr "%b %d %l:%M %p"
+msgstr "от %B %d, %Y, %l:%M %p"
 
 #: mail/em-format-html-display.c:1054
 msgid "_View Inline"
@@ -13746,7 +13680,7 @@ msgstr "Дата"
 
 #: mail/em-format-html.c:1617 mail/em-format.c:807 mail/em-mailer-prefs.c:89
 msgid "Newsgroups"
-msgstr ""
+msgstr "Группы новостей"
 
 #: mail/em-format.c:1056
 #, c-format
@@ -13863,7 +13797,7 @@ msgstr "Сохранить как..."
 #: mail/em-popup.c:718
 #, fuzzy, c-format
 msgid "untitled_image.%s"
-msgstr "Неозаглавленное сообщение"
+msgstr "untitled_image.%s"
 
 #: mail/em-popup.c:808
 msgid "Set as _Background"
@@ -13878,9 +13812,8 @@ msgid "_Open Link in Browser"
 msgstr "_Открыть ссылку в браузере"
 
 #: mail/em-popup.c:860
-#, fuzzy
 msgid "Se_nd message to..."
-msgstr "Отправить сообщение в список..."
+msgstr "Отп_равить сообщение к..."
 
 #: mail/em-popup.c:861
 msgid "_Add to Addressbook"
@@ -13935,14 +13868,13 @@ msgstr "Добавить адрес"
 
 #. Drop filename for messages from a mailbox
 #: mail/em-utils.c:1021
-#, fuzzy, c-format
+#, c-format
 msgid "Messages from %s"
 msgstr "Почта от %s"
 
 #: mail/em-vfolder-editor.c:104
-#, fuzzy
 msgid "Virtual _Folders"
-msgstr "Виртуальные папки"
+msgstr "Виртуальные _папки"
 
 #: mail/em-vfolder-rule.c:494
 msgid "_Add"
@@ -14625,6 +14557,10 @@ msgid ""
 "for %s displayed below\n"
 "and tick the check box for accepting it\n"
 msgstr ""
+"\n"
+"Внимательно прочитайте лицензионное соглашение\n"
+"для %s, приведенное ниже\n"
+"и установите флажок, чтобы принять его\n"
 
 #: mail/mail-account-gui.c:252
 #, c-format
@@ -14668,10 +14604,10 @@ msgid "Add Filter Rule"
 msgstr "Добавить правило фильтра"
 
 #: mail/mail-component.c:459
-#, fuzzy, c-format
+#, c-format
 msgid "%d deleted"
 msgid_plural "%d deleted"
-msgstr[0] "%d удаленных"
+msgstr[0] "%d удаленное"
 msgstr[1] "%d удаленных"
 msgstr[2] "%d удаленных"
 
@@ -14679,36 +14615,36 @@ msgstr[2] "%d удаленных"
 #, c-format
 msgid "%d junk"
 msgid_plural "%d junk"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%d спам"
+msgstr[1] "%d спам"
+msgstr[2] "%d спам"
 
 #: mail/mail-component.c:484
-#, fuzzy, c-format
+#, c-format
 msgid "%d draft"
 msgid_plural "%d drafts"
 msgstr[0] "%d черновиков"
-msgstr[1] "%d черновиков"
+msgstr[1] "%d черновика"
 msgstr[2] "%d черновиков"
 
 #: mail/mail-component.c:486
-#, fuzzy, c-format
+#, c-format
 msgid "%d sent"
 msgid_plural "%d sent"
-msgstr[0] "%d отправленных"
+msgstr[0] "%d отправленное"
 msgstr[1] "%d отправленных"
 msgstr[2] "%d отправленных"
 
 #: mail/mail-component.c:488
-#, fuzzy, c-format
+#, c-format
 msgid "%d unsent"
 msgid_plural "%d unsent"
-msgstr[0] "%d неотправленных"
+msgstr[0] "%d неотправленное"
 msgstr[1] "%d неотправленных"
 msgstr[2] "%d неотправленных"
 
 #: mail/mail-component.c:492
-#, fuzzy, c-format
+#, c-format
 msgid "%d total"
 msgid_plural "%d total"
 msgstr[0] "%d всего"
@@ -14719,9 +14655,9 @@ msgstr[2] "%d всего"
 #, c-format
 msgid ", %d unread"
 msgid_plural ", %d unread"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] ", %d непрочитанное"
+msgstr[1] ", %d непрочитанных"
+msgstr[2] ", %d непрочитанных"
 
 #: mail/mail-component.c:659
 msgid "New Mail Message"
@@ -15116,9 +15052,8 @@ msgid "Execute Command..."
 msgstr "Выполнить команду..."
 
 #: mail/mail-config.glade.h:83
-#, fuzzy
 msgid "Fi_xed-width:"
-msgstr "Фиксированная ширина:"
+msgstr "_Моноширинный:"
 
 #: mail/mail-config.glade.h:84
 msgid "Font Properties"
@@ -15418,7 +15353,7 @@ msgstr "_Использовать такие же шрифты, как и про
 
 #: mail/mail-config.glade.h:181
 msgid "color"
-msgstr ""
+msgstr "."
 
 #: mail/mail-config.glade.h:182
 msgid "description"
@@ -15432,9 +15367,8 @@ msgid ""
 msgstr ""
 
 #: mail/mail-dialogs.glade.h:7
-#, fuzzy
 msgid "<b>vFolder Sources</b>"
-msgstr "Источники виртуальных папок"
+msgstr "<b>Источники виртуальных папок</b>"
 
 #: mail/mail-dialogs.glade.h:8
 msgid "<span weight=\"bold\">Digital Signature</span>"
@@ -15445,9 +15379,8 @@ msgid "<span weight=\"bold\">Encryption</span>"
 msgstr "<span weight=\"bold\">Шифрование</span>"
 
 #: mail/mail-dialogs.glade.h:10
-#, fuzzy
 msgid "Accept License"
-msgstr "Принято"
+msgstr "Принять лицензию"
 
 #: mail/mail-dialogs.glade.h:11 mail/message-tags.glade.h:2
 msgid "C_ompleted"
@@ -15475,9 +15408,8 @@ msgid "Folder Subscriptions"
 msgstr "Подписка на папки"
 
 #: mail/mail-dialogs.glade.h:18
-#, fuzzy
 msgid "License Agreement"
-msgstr "%s Лицензионное соглашение"
+msgstr "Лицензионное соглашение"
 
 #: mail/mail-dialogs.glade.h:19
 msgid "None Selected"
@@ -15505,9 +15437,8 @@ msgid "Tick this to accept the license agreement"
 msgstr "Список учетных записей"
 
 #: mail/mail-dialogs.glade.h:26 mail/message-tags.glade.h:6
-#, fuzzy
 msgid "_Due By:"
-msgstr "Срок до:"
+msgstr "_Срок до:"
 
 #: mail/mail-dialogs.glade.h:27 mail/message-tags.glade.h:7
 msgid "_Flag:"
@@ -15650,9 +15581,8 @@ msgstr ""
 "вместо этого системную папку черновиков?"
 
 #: mail/mail-errors.xml.h:41
-#, fuzzy
 msgid "Use _Default"
-msgstr "По умолчанию"
+msgstr "По _умолчанию"
 
 #. mail:ask-expunge primary
 #: mail/mail-errors.xml.h:43
@@ -15669,7 +15599,6 @@ msgid "If you continue, you will not be able to recover these messages."
 msgstr "Если вы продолжите, вы не сможете восстановить эти сообщения."
 
 #: mail/mail-errors.xml.h:46
-#, fuzzy
 msgid "_Expunge"
 msgstr "Уни_чтожить удаленные"
 
@@ -15920,15 +15849,13 @@ msgstr ""
 
 #. mail:ask-signature-changed title
 #: mail/mail-errors.xml.h:179
-#, fuzzy
 msgid "Discard changed?"
-msgstr "_Отклонить изменения"
+msgstr "Отклонить изменения?"
 
 #. mail:ask-signature-changed primary
 #: mail/mail-errors.xml.h:181
-#, fuzzy
 msgid "Do you wish to save your changes?"
-msgstr "Хотите сохранить изменения?"
+msgstr "Сохранить изменения?"
 
 #. mail:ask-signature-changed secondary
 #: mail/mail-errors.xml.h:183
@@ -16003,9 +15930,8 @@ msgstr ""
 
 #. mail:no-folder primary
 #: mail/mail-errors.xml.h:210
-#, fuzzy
 msgid "Missing folder."
-msgstr "Удаление папки \"%s\""
+msgstr "Несуществующая папка."
 
 #. mail:no-folder secondary
 #: mail/mail-errors.xml.h:212
@@ -16014,15 +15940,13 @@ msgstr "Необходимо указать папку."
 
 #. mail:no-name-vfolder secondary
 #: mail/mail-errors.xml.h:216
-#, fuzzy
 msgid "You must name this vFolder."
 msgstr "Укажите имя этой виртуальной папки."
 
 #. mail:vfolder-no-source primary
 #: mail/mail-errors.xml.h:218
-#, fuzzy
 msgid "No sources selected."
-msgstr "Не был выбран сервер"
+msgstr "Не выбрано ни одного источника"
 
 #. mail:vfolder-no-source secondary
 #: mail/mail-errors.xml.h:220
@@ -16048,17 +15972,15 @@ msgstr ""
 
 #: mail/mail-errors.xml.h:230
 msgid "Ignore"
-msgstr ""
+msgstr "Игнорировать"
 
 #: mail/mail-errors.xml.h:231 widgets/misc/e-system-errors.xml.h:7
-#, fuzzy
 msgid "_Overwrite"
-msgstr "Перезаписать"
+msgstr "_Перезаписать"
 
 #: mail/mail-errors.xml.h:232
-#, fuzzy
 msgid "_Append"
-msgstr "Отправить"
+msgstr "_Добавить"
 
 #. mail:gw-accountsetup-error primary
 #: mail/mail-errors.xml.h:234
@@ -16162,9 +16084,9 @@ msgid "Expunging and storing account '%s'"
 msgstr ""
 
 #: mail/mail-ops.c:1468
-#, fuzzy, c-format
+#, c-format
 msgid "Storing account '%s'"
-msgstr "Сохранение папки \"%s\""
+msgstr "Сохранение учётной записи '%s'"
 
 #: mail/mail-ops.c:1523
 msgid "Refreshing folder"
@@ -16809,7 +16731,7 @@ msgstr "Не удается запустить Bug buddy."
 
 #: shell/e-shell-window-commands.c:323
 msgid "Groupware Suite"
-msgstr "Пакет Groupware"
+msgstr "Пакет для групповой работы"
 
 #: shell/e-shell-window-commands.c:563
 msgid "_Work Online"
@@ -17108,14 +17030,13 @@ msgid ""
 msgstr ""
 
 #: shell/shell-errors.xml.h:25
-#, fuzzy
 msgid "Keep"
-msgstr "Белиз"
+msgstr "Сохранить"
 
 #. shell:upgrade-remove-1-4-confirm title
 #: shell/shell-errors.xml.h:27 shell/shell-errors.xml.h:29
 msgid "Really delete old data?"
-msgstr ""
+msgstr "Вы действительно хотите удалить старые данные?"
 
 #. shell:upgrade-remove-1-4-confirm secondary
 #: shell/shell-errors.xml.h:31
@@ -17433,7 +17354,7 @@ msgstr "%d.%m.%Y"
 #. x509 certificate usage types
 #: smime/lib/e-cert.c:424
 msgid "Sign"
-msgstr ""
+msgstr "Подписать"
 
 #: smime/lib/e-cert.c:425
 msgid "Encrypt"
@@ -17561,9 +17482,8 @@ msgid "Email Certificate Authority"
 msgstr "Поставщик сертификата эл. почты"
 
 #: smime/lib/e-cert.c:866
-#, fuzzy
 msgid "Signing"
-msgstr "Stauning"
+msgstr "Подписывание"
 
 #: smime/lib/e-cert.c:870
 #, fuzzy
@@ -18958,7 +18878,6 @@ msgid "E_xit"
 msgstr "В_ыйти"
 
 #: ui/evolution.xml.h:8
-#, fuzzy
 msgid "Evolution _FAQ"
 msgstr "_Часто задаваемые вопросы по Evolution"
 
@@ -19071,9 +18990,8 @@ msgid "_Day View"
 msgstr "Как день"
 
 #: views/calendar/galview.xml.h:3
-#, fuzzy
 msgid "_List View"
-msgstr "В виде списка"
+msgstr "В виде _списка"
 
 #: views/calendar/galview.xml.h:4
 msgid "_Month View"
@@ -19290,9 +19208,9 @@ msgstr "Запрос Evolution"
 
 #. setup a dummy error
 #: widgets/misc/e-error.c:421
-#, fuzzy, c-format
+#, c-format
 msgid "<span weight=\"bold\">Internal error, unknown error '%s' requested</span>"
-msgstr "Отправленные сообщения и черновики"
+msgstr "<span weight=\"bold\">Внутренняя ошибка, неизвестная ошибка '%s' requested</span>"
 
 #: widgets/misc/e-expander.c:181
 #, fuzzy
@@ -19318,9 +19236,8 @@ msgid ""
 msgstr ""
 
 #: widgets/misc/e-expander.c:205
-#, fuzzy
 msgid "Spacing"
-msgstr "Испания"
+msgstr "Пространство"
 
 #: widgets/misc/e-expander.c:206
 msgid "Space to put between the label and the child"
@@ -19336,11 +19253,11 @@ msgstr ""
 
 #: widgets/misc/e-expander.c:222
 msgid "Expander Size"
-msgstr ""
+msgstr "Размер расширителя"
 
 #: widgets/misc/e-expander.c:223
 msgid "Size of the expander arrow"
-msgstr ""
+msgstr "Размер стрелки расширителя"
 
 #: widgets/misc/e-expander.c:231
 #, fuzzy
@@ -19349,7 +19266,7 @@ msgstr "Indian Springs"
 
 #: widgets/misc/e-expander.c:232
 msgid "Spacing around expander arrow"
-msgstr ""
+msgstr "Пространство вокруг стрелки расширителя"
 
 #: widgets/misc/e-filter-bar.c:195
 msgid "_Searches"
