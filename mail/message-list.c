@@ -2803,7 +2803,10 @@ message_list_set_folder (MessageList *message_list, CamelFolder *folder, const c
 		g_source_remove (message_list->idle_id);
 		message_list->idle_id = 0;
 	}
-
+	
+	/* reset the normalised sort performance hack */
+	g_hash_table_foreach (message_list->normalised_hash, normalised_free, NULL);
+	
 	mail_regen_cancel(message_list);
 	
 	if (message_list->folder != NULL) {

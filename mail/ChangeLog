@@ -1,3 +1,8 @@
+2005-01-28  Jeffrey Stedfast  <fejj@novell.com>
+
+	* message-list.c (message_list_set_folder): Reset the normalised
+	string sort table.
+
 2005-01-31  JP Rosevear  <jpr@novell.com>
 
 	Fixes #71937
