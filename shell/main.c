@@ -86,6 +86,7 @@ static gboolean no_splash = FALSE;
 static gboolean start_online = FALSE;
 static gboolean start_offline = FALSE;
 static gboolean force_upgrade = FALSE;
+static gboolean setup_only = FALSE;
 static gboolean killev = FALSE;
 
 extern char *evolution_debug_log;
@@ -539,6 +540,8 @@ main (int argc, char **argv)
 		{ "force-upgrade", '\0', POPT_ARG_NONE, &force_upgrade, 0, 
 		  N_("Force upgrading of configuration files from Evolution 1.0.x"), NULL },
 #endif
+		{ "setup-only", '\0', POPT_ARG_NONE | POPT_ARGFLAG_DOC_HIDDEN,
+		  &setup_only, 0, NULL, NULL },
 		POPT_AUTOHELP
 		{ NULL, '\0', 0, NULL, 0, NULL, NULL }
 	};
@@ -598,6 +601,8 @@ main (int argc, char **argv)
 
 	if (! e_setup (evolution_directory))
 		exit (1);
+	if (setup_only)
+		exit (0);
 
 	uri_list = NULL;
 

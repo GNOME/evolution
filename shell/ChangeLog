@@ -6,6 +6,9 @@
 
 2003-04-08  Dan Winship  <danw@ximian.com>
 
+	* main.c (main): Add a "--setup-only" flag, to just run e_setup()
+	and exit. (For #40889)
+
 	* glade/evolution-startup-wizard.glade: Remove the color specs so
 	the druid will use theme colors
 
