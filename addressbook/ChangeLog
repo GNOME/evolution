@@ -1,3 +1,100 @@
+2003-09-29  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/select-names/e-select-names.c
+	(addressbook_model_set_uri): e_addressbook_model -> eab_model.
+	(contact_key): e-contactify this, and remove the call to
+	e_contact_get_book since we don't have it.
+	(sync_one_model): card -> contact.
+	(real_add_address_cb): track various name changes.
+	(esn_get_key_fn): same.
+	(e_addressbook_create_ebook_table): same.
+	(folder_selected): same.
+	(select_entry_changed): same.
+	(e_select_names_new): same.
+
+	* gui/component/select-names/e-select-names-text-model.c
+	(dump_model): s/card/contact.
+	(e_select_names_text_model_insert_length): e-destination ->
+	eab-destination.
+	(e_select_names_text_model_delete): same.
+	(e_select_names_text_model_obj_count): same.
+	(nth_obj_index): same.
+	(e_select_names_text_model_activate_obj): ifdef this out since we
+	don't have e_contact_get_book in the new api.
+
+	* gui/component/select-names/e-select-names-table-model.c
+	(fill_in_info): convert to e_contact/eab_destination.
+
+	* gui/component/select-names/e-select-names-popup.c
+	(change_email_num_cb): e_destination -> eab_destination.
+	(populate_popup_contact): same, and ECard -> EContact.  Also, the
+	email attribute is a GList, not an EList.  lastly, rename from
+	populate_popup_card.
+	(populate_popup_nocontact): same, and rename from
+	populate_popup_nocard.
+	(e_select_names_populate_popup): same.
+
+	* gui/component/select-names/e-select-names-model.h: track changes
+	to e_destination, and rename the cardify methods to something mode
+	descriptive.
+
+	* gui/component/select-names/e-select-names-model.c
+	(e_select_names_model_duplicate): e_destination ->
+	eab_destination.
+	(e_select_names_model_get_textification): same.
+	(e_select_names_model_get_address_text): same.
+	(e_select_names_model_get_destination): same.
+	(e_select_names_model_export_destinationv): same.
+	(send_changed): same.
+	(e_select_names_model_import_destinationv): same.
+	(e_select_names_model_get_contact): same, and rename from
+	_get_card
+	(e_select_names_model_get_string): same.
+	(connect_destination): same.
+	(disconnect_destination): same.
+	(e_select_names_model_contains): same.
+	(e_select_names_model_insert): same.
+	(e_select_names_model_append): same.
+	(e_select_names_model_replace): same.
+	(e_select_names_model_delete): same.
+	(e_select_names_model_clean): same.
+	(delete_all_iter): same.
+	(e_select_names_model_overwrite_copy): same.
+	(e_select_names_model_merge): same.
+	(e_select_names_model_name_pos): same.
+	(e_select_names_model_text_pos): same.
+	(e_select_names_model_cardify): nuke.
+	(e_select_names_model_uncardify): nuke.
+	(e_select_names_model_cancel_cardify): nuke.
+	(e_select_names_model_load_all_contacts): rename _cardify_all to
+	this.
+	(e_select_names_model_cancel_all_contact_load): rename
+	_cancel_cardify to this.
+
+	* gui/component/select-names/e-select-names-manager.c
+	(focus_in_cb): cancel_cardify_all -> cancel_all_contact_load
+	(focus_out_cb): cardify_all -> load_all_contacts.
+	(completion_popup_cb): same.
+	(load_completion_books): no e_book_expand_uri anymore.
+	(e_select_names_manager_new): e_book_get_config_database ->
+	eab_get_config_database.
+	(e_select_names_manager_dispose): same.
+
+	* gui/component/select-names/e-select-names-completion.h: e-book.h
+	-> e-book-async.h
+
+	* gui/component/select-names/e-select-names-completion.c:
+	EContactify this.
+
+	* gui/component/select-names/e-select-names-bonobo.c
+	(entry_get_property_fn): ifdef out the SIMPLE_CARD_LIST getter,
+	and cardify_all -> load_all_contacts.
+
+	* gui/component/select-names/Evolution-Addressbook-SelectNames.idl:
+	nuke all the SimpleCard stuff.  It's a horribly inefficient way to
+	deal with vcards, and since ebook is platform level now, we can
+	(and should) promote just linking to ebook to do this.
+
 2003-09-19  Gilbert Fang  <gilbert.fang@sun.com>
 
        * addressbook/gui/component/addressbook-component.c (xfer_folder):
