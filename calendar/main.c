@@ -523,17 +523,6 @@ enum {
 	VIEW_KEY     = -3
 };
 
-static struct argp_option argp_options [] = {
-	{ "events",     	'e', NULL,           0, N_("Show events and quit"),                 0 },
-	{ "from",       	'f', N_("DATE"),     0, N_("Specifies start date [for --events]"),  1 },
-	{ "file",         	'F', N_("FILE"),     0, N_("File to load calendar from"),           1 },
-	{ "userfile", USERFILE_KEY,  NULL,           0, N_("Load the user calendar"),               1 },
-	{ "geometry", GEOMETRY_KEY,  N_("GEOMETRY"), 0, N_("Geometry for starting up"),             1 },
-	{ "view",     VIEW_KEY,      N_("VIEW"),     0, N_("The startup view mode"),                1 },
-	{ "to",                 't', N_("DATE"),     0, N_("Specifies ending date [for --events]"), 1 },
-	{ NULL, 0, NULL, 0, NULL, 0 },
-};
-
 /* Lists used to startup various GnomeCalendars */
 static GList *start_calendars;
 static GList *start_geometries;
@@ -595,10 +584,12 @@ dump_events (void)
 
 extern time_t get_date ();
 
-static error_t
-parse_an_arg (int key, char *arg, struct argp_state *state)
+static void
+parse_an_arg (poptContext ctx,
+	      const struct poptOption *opt,
+	      char *arg, void *data)
 {
-	switch (key){
+	switch (opt->val){
 	case 'f':
 		from_t = get_date (arg, NULL);
 		break;
@@ -618,7 +609,7 @@ parse_an_arg (int key, char *arg, struct argp_state *state)
 		 * (ie, on a networked setup).
 		 */
 		arg = COOKIE_USER_HOME_DIR;
-		/* fall trough */
+		/* fall through */
 
 	case VIEW_KEY:
 		start_views = g_list_append (start_views, arg);
@@ -632,19 +623,21 @@ parse_an_arg (int key, char *arg, struct argp_state *state)
 		show_events = 1;
 		break;
 
-	case ARGP_KEY_END:
-		if (show_events)
-			dump_events ();
-
 	default:
-		return ARGP_ERR_UNKNOWN;
 	}
-	return 0;
 }
 
-static struct argp parser =
-{
-	argp_options, parse_an_arg, NULL, NULL, NULL, NULL, NULL
+static const struct poptOption options[] = {
+  {NULL, '\0', POPT_ARG_CALLBACK, parse_an_arg, 0, NULL, NULL},
+  {"events", 'e', POPT_ARG_NONE, NULL, 'e', N_("Show events and quit"),
+   NULL},
+  {"from", 'f', POPT_ARG_STRING, NULL, 'f', N_("Specifies start date [for --events]"), N_("DATE")},
+  {"file", 'F', POPT_ARG_STRING, NULL, 'F', N_("File to load calendar from"), N_("FILE")},
+  {"userfile", '\0', POPT_ARG_NONE, NULL, USERFILE_KEY, N_("Load the user calendar"), NULL},
+  {"geometry", '\0', POPT_ARG_STRING, NULL, GEOMETRY_KEY, N_("Geometry for starting up"), N_("GEOMETRY")},
+  {"view", '\0', POPT_ARG_STRING, NULL, VIEW_KEY, N_("The startup view mode"), N_("VIEW")},
+  {"to", 't', POPT_ARG_STRING, NULL, 't', N_("Specifies ending date [for --events]"), N_("DATE")},
+  {NULL, '\0', 0, NULL, 0}
 };
 
 static void
@@ -703,12 +696,14 @@ main(int argc, char *argv[])
 {
 	GnomeClient *client;
 	
-	argp_program_version = VERSION;
-
 	bindtextdomain(PACKAGE, GNOMELOCALEDIR);
 	textdomain(PACKAGE);
 
-	gnome_init ("calendar", &parser, argc, argv, 0, NULL);
+	gnome_init_with_popt_table("calendar", VERSION, argc, argv,
+				   options, 0, NULL);
+
+	if (show_events)
+	  dump_events ();
 
 	client = gnome_master_client ();
 	if (client){
