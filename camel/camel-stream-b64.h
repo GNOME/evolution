@@ -59,6 +59,20 @@ typedef struct {
  
 } CamelStream64DecodeStatus;
 
+typedef struct {
+
+	guchar state;
+	guchar keep;
+	guchar end_state;  
+	guchar line_length; 
+
+} CamelStream64EncodeStatus;
+
+
+typedef union {
+	CamelStream64DecodeStatus decode_status;
+	CamelStream64EncodeStatus encode_status;
+} CamelStream64Status;
 
 typedef struct 
 {
@@ -71,7 +85,7 @@ typedef struct
 	gboolean eos;
 
 	/* decoding status */
-	CamelStream64DecodeStatus decode_status;
+	CamelStream64Status status;
 
 } CamelStreamB64;
 

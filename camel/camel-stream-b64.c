@@ -26,6 +26,7 @@
 #include <config.h>
 #include "camel-stream-b64.h"
 
+#define BSIZE 512
 
 
 
@@ -73,37 +74,40 @@ static gchar six_bits_to_char[65] =
 /* Returns the class for a CamelStreamB64 */
 #define CSB64_CLASS(so) CAMEL_STREAM_B64_CLASS (GTK_OBJECT(so)->klass)
 
-static void           init_with_input_stream__static         (CamelStreamB64 *stream_b64, 
-							       CamelStream *input_stream);
+static void           my_init_with_input_stream         (CamelStreamB64 *stream_b64, 
+							 CamelStream *input_stream);
 
-static gint           read__static                           (CamelStream *stream, 
-							       gchar *buffer, 
-							       gint n);
+static gint           my_read                           (CamelStream *stream, 
+							 gchar *buffer, 
+							 gint n);
 
-static void           reset__static                          (CamelStream *stream);
+static void           my_reset                          (CamelStream *stream);
 
-static gint           read_decode__static                    (CamelStream *stream, 
-							       gchar *buffer, 
-							       gint n);
-static gboolean       eos__static                            (CamelStream *stream);
+static gint           my_read_decode                    (CamelStream *stream, 
+							 gchar *buffer, 
+							 gint n);
+static gint           my_read_encode                    (CamelStream *stream, 
+							 gchar *buffer, 
+							 gint n);
+static gboolean       my_eos                            (CamelStream *stream);
 
 static void
 camel_stream_b64_class_init (CamelStreamB64Class *camel_stream_b64_class)
 {
 	CamelStreamClass *camel_stream_class = CAMEL_STREAM_CLASS (camel_stream_b64_class);
-
-
+	
+	
 	parent_class = gtk_type_class (camel_stream_get_type ());
-
+	
 	/* virtual method definition */
-	camel_stream_b64_class->init_with_input_stream = init_with_input_stream__static;
-
-
+	camel_stream_b64_class->init_with_input_stream = my_init_with_input_stream;
+	
+	
 	/* virtual method overload */
-	camel_stream_class->read     = read__static;
-	camel_stream_class->eos      = eos__static; 
-	camel_stream_class->reset    = reset__static; 
-
+	camel_stream_class->read     = my_read;
+	camel_stream_class->eos      = my_eos; 
+	camel_stream_class->reset    = my_reset; 
+	
 	/* signal definition */
 	
 }
@@ -133,29 +137,28 @@ camel_stream_b64_get_type (void)
 }
 
 
-static void
-reemit_available_signal__static (CamelStream *parent_stream, gpointer user_data)
+static void 
+my_reemit_available_signal (CamelStream *parent_stream, gpointer user_data)
 {
 	gtk_signal_emit_by_name (GTK_OBJECT (user_data), "data_available");
 }
 
 static void           
-init_with_input_stream__static (CamelStreamB64 *stream_b64, 
-				 CamelStream *input_stream)
+my_init_with_input_stream (CamelStreamB64 *stream_b64, 
+			   CamelStream *input_stream)
 {
 	g_assert (stream_b64);
 	g_assert (input_stream);
 
-
-
+	
+	
 	/* by default, the stream is in decode mode */	
 	stream_b64->mode = CAMEL_STREAM_B64_DECODER;
-
-	stream_b64->eos = FALSE;
-	stream_b64->decode_status.keep = 0;
-	stream_b64->decode_status.state = 0;
 	
-
+	stream_b64->eos = FALSE;
+	stream_b64->status.decode_status.keep = 0;
+	stream_b64->status.decode_status.state = 0;
+		
 	stream_b64->input_stream = input_stream;
 	
 	gtk_object_ref (GTK_OBJECT (input_stream));
@@ -168,14 +171,14 @@ init_with_input_stream__static (CamelStreamB64 *stream_b64,
 	 */
 	gtk_signal_connect (GTK_OBJECT (input_stream),
 			    "data_available", 
-			    reemit_available_signal__static,
+			    my_reemit_available_signal,
 			    stream_b64);
 	
 	
 	/* bootstrapping signal */
 	gtk_signal_emit_by_name (GTK_OBJECT (stream_b64), "data_available");
-
-
+	
+	
 }
 
 
@@ -199,33 +202,45 @@ camel_stream_b64_set_mode (CamelStreamB64 *stream_b64,
 			   CamelStreamB64Mode mode)
 {
 	g_assert (stream_b64);
+
 	stream_b64->mode = mode;
+
+	if (mode == CAMEL_STREAM_B64_DECODER) {
+		stream_b64->status.decode_status.keep = 0;
+		stream_b64->status.decode_status.state = 0;
+	} else {
+		stream_b64->status.encode_status.keep = 0;
+		stream_b64->status.encode_status.state = 0;
+		stream_b64->status.encode_status.end_state = 0;
+	}
+
 }
 
 
 
 
 static gint 
-read__static (CamelStream *stream, 
-	      gchar *buffer, 
-	      gint n)
+my_read (CamelStream *stream, 
+	 gchar *buffer, 
+	 gint n)
 {
 	CamelStreamB64 *stream_b64 = CAMEL_STREAM_B64 (stream);
 	
 	g_assert (stream);
         
-
-	if (stream_b64->mode == CAMEL_STREAM_B64_DECODER)
-		return read_decode__static (stream, buffer, n);
 	
-	return 0;
+	if (stream_b64->mode == CAMEL_STREAM_B64_DECODER)
+		return my_read_decode (stream, buffer, n);
+	else 
+		return my_read_encode (stream, buffer, n);
 }
 
 
 
-static gint read_decode__static (CamelStream *stream, 
-				  gchar *buffer, 
-				  gint n)
+static gint 
+my_read_decode (CamelStream *stream, 
+		gchar *buffer, 
+		gint n)
 {
 	CamelStreamB64 *stream_b64 = CAMEL_STREAM_B64 (stream);
 	CamelStream64DecodeStatus *status;
@@ -237,14 +252,11 @@ static gint read_decode__static (CamelStream *stream,
 	
 	g_assert (stream);
 	input_stream = stream_b64->input_stream;
-
+	
 	g_assert (input_stream);
-	status = &(stream_b64->decode_status);
+	status = &(stream_b64->status.decode_status);
 	
-	
-	/* state = (CamelStream64DecodeState *)
-	   ((gchar *)stream_b64  + G_STRUCT_OFFSET (CamelStreamB64, decode_state)) */
-	
+
 	nb_read_in_input = camel_stream_read (input_stream, &c, 1);
 	
 	while ((nb_read_in_input >0 ) && (j<n)) {
@@ -264,7 +276,7 @@ static gint read_decode__static (CamelStream *stream,
 		if (six_bits_value != 128) {
 			six_bits_value = six_bits_value & 0x3f;
 
-			switch (status->state % 4){
+			switch (status->state){
 			case 0:
 				status->keep =  six_bits_value << 2;
 				
@@ -296,20 +308,223 @@ static gint read_decode__static (CamelStream *stream,
 }
 
 
+static gint 
+my_read_encode (CamelStream *stream, 
+		gchar *buffer, 
+		gint n)
+{
+	CamelStreamB64 *stream_b64 = CAMEL_STREAM_B64 (stream);
+	CamelStream64EncodeStatus *status;
+	CamelStream *input_stream;
+	gint nb_read_in_input = 0;
+	guchar c;
+	gint j = 0;
+	gboolean end_of_read = FALSE;
+	
+	g_assert (stream);
+	input_stream = stream_b64->input_stream;
+	
+	g_assert (input_stream);
+
+	/* I don't know why the caller would want to 
+	   read a zero length buffer but ... */
+	if (n == 0)
+		return 0;
 
 
+	status = &(stream_b64->status.encode_status);
+	
+	
+	if (status->end_state == 0) { 
+		/* we are not at the end of the input steam, 
+		   process the data normally */
+		
+		while ((j<n) && !end_of_read) {
+			
+			/* check if we must break the encoded line */
+			if (status->line_length == 76) {
+				buffer [j++] = '\n';
+				status->line_length = 0;
+				break;
+			}
+			
+			/* 
+			 * because we encode four characters for 
+			 * 3 bytes, the last char does not need any  
+			 * read to write in the stream
+			 */
+			if (status->state == 3) {
+				buffer [j++] = status->keep;
+				status->keep = 0;
+				status->line_length++;
+				break;
+			}
+			
+			/* 
+			 * in all the other phases of the stream 
+			 * writing, we need to read a byte from the
+			 * input stream 
+			 */
+			nb_read_in_input = camel_stream_read (input_stream, &c, 1);
+			
+			if (nb_read_in_input > 0) {
+				switch (status->state){
 
+				case 0:				
+					buffer [j++] = six_bits_to_char [c >> 2];
+					status->keep = (c & 0xc0 ) >> 2;
+					break;
+					
+				case 1:
+					buffer [j++] = six_bits_to_char [status->keep | (c >> 4)];
+					status->keep = (c & 0x0f ) << 2;
+					break;
+					
+				case 2:
+					buffer [j++] = six_bits_to_char [status->keep | (c >> 6)] ;
+					status->keep = (c & 0x3f );
+					break;
+					
+				}
+				
+				status->state = (status->state + 1) % 4;
+				status->line_length++;
+			} else 
+				end_of_read = TRUE;
+			
+			
+			if (camel_stream_eos (input_stream))
+				status->end_state = 1;
+			
+		}
+	}
+	
+	/* 
+	 * now comes the real annoying part. Because some clients
+	 * expect the b64 encoded sequence length to be multiple of 4,
+	 * we must pad the end with '='. 
+	 * This is trivial when we write to stream as much as we want
+	 * but this is not the case when we are limited in the number
+	 * of chars we can write to the output stream. The consequence
+	 * of this is that we must keep the state of the writing
+	 * so that we can resume the next time this routine is called. 
+	 */
 
+	if ( status->end_state != 0) { 
+		
+		/* 
+		 * we are at the end of the input stream
+		 * we must pad the output with '='.
+		 */
+
+		while ((j<n) && (status->end_state != 6)) {
+			
+			if (status->end_state == 5) {
+
+				status->end_state = 6;
+				buffer [j++] = '\n';
+				stream->eos = TRUE;
+;
+			} else {
+				
+				switch (status->state) {
+					
+				/* 
+				 * depending on state of the decoder, we need to 
+				 * write different things. 
+				 */
+				case 0:	       
+				/* 
+				 * everyting has been written already and the
+				 * output length is already a multiple of 3
+				 * so that we have nothing to do.  
+				 */
+					status->end_state = 5;
+					break;
+					
+				case 1:
+				/* 
+				 * we have something in keep  
+				 * and two '=' we must write
+				 */
+					switch (status->end_state) {
+					case 1:
+						buffer [j++] = six_bits_to_char [status->keep] ;
+						status->end_state++;
+						break;
+					case 2:
+						buffer [j++] = '=';
+						status->end_state++;
+						break;
+					case 3:
+						buffer [j++] = '=';
+						status->end_state = 5;
+						break;
+					}
+					
+					
+					status->end_state++;
+					break;
+					
+					
+				case 2:
+				/* 
+				 * we have something in keep  
+				 * and one '=' we must write
+				 */
+					switch (status->end_state) {
+					case 1:
+						buffer [j++] = six_bits_to_char [status->keep];
+						status->end_state++;
+						break;
+					case 2:
+						buffer [j++] = '=';
+						status->end_state = 5;
+						break;
+					}
+					
+					break;
+					
+				case 3:
+				/* 
+				 * we have something in keep we must write
+				 */
+					switch (status->end_state) {
+					case 1:
+						buffer [j++] = six_bits_to_char [status->keep];
+						status->end_state++;
+						break;
+					case 2:
+						buffer [j++] = '=';
+						status->end_state = 5;
+						break;
+					}
+					
+					break;
+				}
+				
+				
+			}
+		}
+		
+	}
+
+	return j;
+}
+	
+	
+	
+	
 	
 static gboolean
-eos__static (CamelStream *stream)
+my_eos (CamelStream *stream)
 {
 	CamelStreamB64 *stream_b64 = CAMEL_STREAM_B64 (stream);
 	
 	g_assert (stream);
 	g_assert (stream_b64->input_stream);
-
-	return (stream_b64->eos || camel_stream_eos (stream_b64->input_stream));
+	
+	return (stream_b64->eos);
 }
 
 
@@ -317,15 +532,19 @@ eos__static (CamelStream *stream)
 
 
 static void 
-reset__static (CamelStream *stream)
+my_reset (CamelStream *stream)
 {
 	CamelStreamB64 *stream_b64 = CAMEL_STREAM_B64 (stream);
 	
 	g_assert (stream);
 	g_assert (stream_b64->input_stream);
-
-	stream_b64->decode_status.keep = 0;
-	stream_b64->decode_status.state = 0;
+	
+	stream_b64->status.decode_status.keep = 0;
+	stream_b64->status.decode_status.state = 0;
 	
 	camel_stream_reset (stream_b64->input_stream);
 }
+
+
+
+

@@ -1,3 +1,19 @@
+2000-02-28  bertrand  <bertrand@helixcode.com>
+
+	* camel-stream-b64.c (my_read_encode): encoding
+	filter.
+
+2000-02-23  bertrand  <Bertrand.Guiheneuf@aful.org>
+
+	* camel-stream-b64.c: changed the __static 
+	suffix into a my_ prefix. 
+	(camel_stream_b64_set_mode): reset the persistent
+	status. 
+	(my_read_decode): remove superfluous %
+	
+	* providers/mbox/camel-mbox-utils.c (camel_mbox_copy_file_chunk): 
+	fix exception description message.
+
 2000-02-24  Dan Winship  <danw@helixcode.com>
 
 	* camel-session.c: Add camel_session_get_transport_for_protocol.
