@@ -1169,10 +1169,36 @@ setup_popup_icons (EPopupMenu *context_menu)
 	for (i = 0; context_menu[i].name; i++) {
 		GtkWidget *pixmap_widget = NULL;
 
-		if (!strcmp (context_menu[i].name, _("_Paste")))
+		if (!strcmp (context_menu[i].name, _("_Copy")))
+			pixmap_widget = gtk_image_new_from_stock (GTK_STOCK_COPY, GTK_ICON_SIZE_MENU);
+		else if (!strcmp (context_menu[i].name, _("C_ut")))
+			pixmap_widget = gtk_image_new_from_stock (GTK_STOCK_CUT, GTK_ICON_SIZE_MENU);
+		else if (!strcmp (context_menu[i].name, _("_Delete")) ||
+			 !strcmp (context_menu[i].name, _("Delete this _Occurrence")) ||
+			 !strcmp (context_menu[i].name, _("Delete _All Occurrences")))
+			pixmap_widget = gtk_image_new_from_stock (GTK_STOCK_DELETE, GTK_ICON_SIZE_MENU);
+		else if (!strcmp (context_menu[i].name, _("Go to _Today")))
+			pixmap_widget = gtk_image_new_from_stock (GTK_STOCK_HOME, GTK_ICON_SIZE_MENU);
+		else if (!strcmp (context_menu[i].name, _("_Go to Date...")))
+			pixmap_widget = gtk_image_new_from_stock (GTK_STOCK_JUMP_TO, GTK_ICON_SIZE_MENU);
+		else if (!strcmp (context_menu[i].name, _("New _Appointment...")))
+			pixmap_widget = gtk_image_new_from_file (EVOLUTION_IMAGESDIR "/new_appointment.xpm");
+		else if (!strcmp (context_menu[i].name, _("New All Day _Event")))
+			pixmap_widget = gtk_image_new_from_file (EVOLUTION_IMAGESDIR "/new_all_day_event.png");
+		else if (!strcmp (context_menu[i].name, _("New Meeting")))
+			pixmap_widget = gtk_image_new_from_file (EVOLUTION_IMAGESDIR "/meeting-request-16.png");
+		else if (!strcmp (context_menu[i].name, _("New Task")))
+			pixmap_widget = gtk_image_new_from_file (EVOLUTION_IMAGESDIR "/new_task-16.png");
+		else if (!strcmp (context_menu[i].name, _("_Open")))
+			pixmap_widget = gtk_image_new_from_stock (GTK_STOCK_OPEN, GTK_ICON_SIZE_MENU);
+		else if (!strcmp (context_menu[i].name, _("_Paste")))
 			pixmap_widget = gtk_image_new_from_stock (GTK_STOCK_PASTE, GTK_ICON_SIZE_MENU);
 		else if (!strcmp (context_menu[i].name, _("_Print...")))
 			pixmap_widget = gtk_image_new_from_stock (GTK_STOCK_PRINT, GTK_ICON_SIZE_MENU);
+		else if (!strcmp (context_menu[i].name, _("_Save As...")))
+			pixmap_widget = gtk_image_new_from_stock (GTK_STOCK_SAVE_AS, GTK_ICON_SIZE_MENU);
+		else if (!strcmp (context_menu[i].name, _("_Settings...")))
+			pixmap_widget = gtk_image_new_from_stock (GTK_STOCK_PREFERENCES, GTK_ICON_SIZE_MENU);
 
 		if (pixmap_widget)
 			gtk_widget_show (pixmap_widget);
