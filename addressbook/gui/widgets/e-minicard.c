@@ -780,7 +780,7 @@ remodel( EMinicard *e_minicard )
 		list = e_minicard->fields;
 		e_minicard->fields = NULL;
 
-		for(field = E_CARD_SIMPLE_FIELD_FULL_NAME; field != E_CARD_SIMPLE_FIELD_LAST - 2 && count < 5; field++) {
+		for(field = E_CARD_SIMPLE_FIELD_FULL_NAME; field != E_CARD_SIMPLE_FIELD_LAST - 6 && count < 5; field++) {
 			EMinicardField *minicard_field = NULL;
 
 			if (field == E_CARD_SIMPLE_FIELD_FAMILY_NAME)
