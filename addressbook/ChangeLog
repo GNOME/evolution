@@ -1,5 +1,16 @@
 2003-02-03  Chris Toshok  <toshok@ximian.com>
 
+	[ pull forward Jack Jia's fix for #34900 ]
+	* gui/contact-editor/e-contact-save-as.c (e_contact_save_as): use
+	a weak ref for the file selector.
+	(e_contact_list_save_as): same.
+	(destroy_it): rewrite this as a weak ref notify function.
+	(close_it): remove frees of the info (it's freed in the weak ref
+	function).
+	(save_it): same.
+
+2003-02-03  Chris Toshok  <toshok@ximian.com>
+
 	* gui/component/addressbook-component.c (remove_folder): pull
 	forward Jack Jia's fix for #33672, but convert it to use unlink
 	instead of the gnome-vfs stuff.

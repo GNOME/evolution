@@ -76,22 +76,19 @@ save_it(GtkWidget *widget, SaveAsInfo *info)
 		return;
 	}
 	
-	g_free (info->vcard);
 	gtk_widget_destroy(GTK_WIDGET(info->filesel));
-	g_free(info);
 }
 
 static void
 close_it(GtkWidget *widget, SaveAsInfo *info)
 {
-	g_free (info->vcard);
 	gtk_widget_destroy (GTK_WIDGET (info->filesel));
-	g_free (info);
 }
 
 static void
-delete_it(GtkWidget *widget, SaveAsInfo *info)
+destroy_it(void *data, GObject *where_the_object_was)
 {
+	SaveAsInfo *info = data;
 	g_free (info->vcard);
 	g_free (info);
 }
@@ -143,8 +140,7 @@ e_contact_save_as(char *title, ECard *card, GtkWindow *parent_window)
 			 G_CALLBACK (save_it), info);
 	g_signal_connect(filesel->cancel_button, "clicked",
 			 G_CALLBACK (close_it), info);
-	g_signal_connect(filesel, "delete_event",
-			 G_CALLBACK (delete_it), info);
+	g_object_weak_ref (G_OBJECT (filesel), destroy_it, info);
 
 	if (parent_window) {
 		gtk_window_set_transient_for (GTK_WINDOW (filesel),
@@ -186,8 +182,7 @@ e_contact_list_save_as(char *title, GList *list, GtkWindow *parent_window)
 			 G_CALLBACK (save_it), info);
 	g_signal_connect(filesel->cancel_button, "clicked",
 			 G_CALLBACK (close_it), info);
-	g_signal_connect(filesel, "delete_event",
-			 G_CALLBACK (delete_it), info);
+	g_object_weak_ref (G_OBJECT (filesel), destroy_it, info);
 
 	if (parent_window) {
 		gtk_window_set_transient_for (GTK_WINDOW (filesel),
