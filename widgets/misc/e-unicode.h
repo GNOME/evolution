@@ -53,7 +53,7 @@ gint e_utf8_gtk_clist_append (GtkCList *clist, gchar *text[]);
 gint g_unichar_to_utf8 (gint c, gchar *outbuf);
 guint32 gdk_keyval_to_unicode (guint keysym);
 
-BEGIN_GNOME_DECLS
+END_GNOME_DECLS
 
 #endif
 
