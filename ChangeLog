@@ -1,3 +1,11 @@
+2003-02-27  Chris Toshok  <toshok@ximian.com>
+
+	* tools/.cvsignore: ignore some stuff, yo.
+	
+	* tools/Makefile.am: add in the evolution-launch-composer stuff.
+
+	* tools/evolution-launch-composer.c: port this from the 1.2 branch.
+
 2003-02-27  JP Rosevear  <jpr@ximian.com>
 
 	* configure.in: export gnome-pilot cflags
