@@ -1,3 +1,7 @@
+2003-10-22  Dan Winship  <danw@ximian.com>
+
+	* POTFILES.in, POTFILES.skip: update to match the tree.
+
 2003-10-15  Rodrigo Moya <rodrigo@ximian.com>
 
 	* POTFILES.in: removed calendar-model.c.
