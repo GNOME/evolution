@@ -147,25 +147,8 @@ idle_cb (void *data)
 	shell = e_shell_new (evolution_directory, ! no_splash, &result);
 	g_free (evolution_directory);
 
-	if (result == E_SHELL_CONSTRUCT_RESULT_CANNOTREGISTER) {
-		corba_shell = oaf_activate_from_id (E_SHELL_OAFIID, 0, NULL, &ev);
-		if (ev._major != CORBA_NO_EXCEPTION || corba_shell == CORBA_OBJECT_NIL) {
-			e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
-				  _("Cannot access the Evolution shell."));
-			CORBA_exception_free (&ev);
-			gtk_main_quit ();
-			return FALSE;
-		}
-
-		restored = FALSE;
-	} else if (result != E_SHELL_CONSTRUCT_RESULT_OK) {
-		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
-			  _("Cannot initialize the Evolution shell: %s"),
-			  e_shell_construct_result_to_string (result));
-		CORBA_exception_free (&ev);
-		gtk_main_quit ();
-		return FALSE;
-	} else {
+	switch (result) {
+	case E_SHELL_CONSTRUCT_RESULT_OK:
 		gtk_signal_connect (GTK_OBJECT (shell), "no_views_left",
 				    GTK_SIGNAL_FUNC (no_views_left_cb), NULL);
 		gtk_signal_connect (GTK_OBJECT (shell), "destroy",
@@ -181,7 +164,29 @@ idle_cb (void *data)
 
 		corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell));
 		corba_shell = CORBA_Object_duplicate (corba_shell, &ev);
-		Bonobo_Unknown_ref (corba_shell, &ev);
+		break;
+
+	case E_SHELL_CONSTRUCT_RESULT_CANNOTREGISTER:
+		corba_shell = oaf_activate_from_id (E_SHELL_OAFIID, 0, NULL, &ev);
+		if (ev._major != CORBA_NO_EXCEPTION || corba_shell == CORBA_OBJECT_NIL) {
+			e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+				  _("Cannot access the Evolution shell."));
+			CORBA_exception_free (&ev);
+			gtk_main_quit ();
+			return FALSE;
+		}
+
+		restored = FALSE;
+		break;
+
+	default:
+		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+			  _("Cannot initialize the Evolution shell: %s"),
+			  e_shell_construct_result_to_string (result));
+		CORBA_exception_free (&ev);
+		gtk_main_quit ();
+		return FALSE;
+
 	}
 
 	if (! restored && uri_list == NULL) {
@@ -206,8 +211,10 @@ idle_cb (void *data)
 		g_slist_free (uri_list);
 	}
 
-	CORBA_exception_free (&ev);
+	CORBA_Object_release (corba_shell, &ev);
 
+	CORBA_exception_free (&ev);
+	
 	if (shell == NULL)
 		gtk_main_quit ();
 
@@ -230,6 +237,9 @@ main (int argc, char **argv)
 
 	bindtextdomain (PACKAGE, EVOLUTION_LOCALEDIR);
 	textdomain (PACKAGE);
+
+	/* Make ElectricFence work.  */
+	free (malloc (10));
 
 	gnome_init_with_popt_table ("Evolution", VERSION, argc, argv, options, 0, &popt_context);
 

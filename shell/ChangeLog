@@ -1,5 +1,11 @@
 2001-08-13  Ettore Perazzoli  <ettore@ximian.com>
 
+	* main.c (idle_cb): Replaced the chained `if' statements with a
+	`switch' statement for clarity.  Also, don't ref the created
+	shell, and release the object reference properly.
+
+2001-08-13  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-corba-shortcuts.c (shortcut_list_to_corba): set_release on the
 	sequence, not the buffer.
 
