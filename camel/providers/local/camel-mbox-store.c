@@ -336,7 +336,8 @@ create_folder (CamelStore *store, const char *parent_name, const char *folder_na
 	if (stat (path, &st) == 0 || errno != ENOENT) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
 				      _("Cannot create folder: %s: %s"),
-				      path, g_strerror (errno));
+				      path, errno ? g_strerror (errno) :
+				      _("Folder already exists"));
 		
 		g_free (path);
 		g_free (name);

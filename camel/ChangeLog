@@ -1,3 +1,8 @@
+2003-11-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/local/camel-mbox-store.c (create_folder): Fixed an
+	exception to give a more meaningful description.
+
 2003-11-14  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/local/camel-mbox-store.c (get_folder_info): Handle ""
