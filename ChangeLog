@@ -1,5 +1,10 @@
 2001-12-11  Ettore Perazzoli  <ettore@ximian.com>
 
+	* data/evolution.desktop.in (_Name): "Ximian Evolution", not
+	"Evolution".
+
+2001-12-11  Ettore Perazzoli  <ettore@ximian.com>
+
 	* configure.in: Up VERSION to 1.1.0.99.
 
 2001-12-06  Jeffrey Stedfast  <fejj@ximian.com>
