@@ -1,3 +1,10 @@
+2000-09-25  Dan Winship  <danw@helixcode.com>
+
+	* e-msg-composer-hdrs.c (setup_headers): fix typo in tooltip.
+	* e-msg-composer.c (create_menubar_file): fix accelerator for
+	"Save as" to be different from "Save". (Both problems pointed out
+	by menthos@menthos.com.)
+
 2000-09-24  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* e-msg-composer.c (get_signature): Updated to handle FIFO

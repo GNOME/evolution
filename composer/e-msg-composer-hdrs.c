@@ -294,7 +294,7 @@ setup_headers (EMsgComposerHdrs *hdrs)
 	
 	priv->from_entry = add_header
 		(hdrs, _("From:"), 
-		 _("Enter the identitiy you wish to send this message from"),
+		 _("Enter the identity you wish to send this message from"),
 		 NULL,
 		 HEADER_COMBOBOX);
 	priv->to_entry = add_header

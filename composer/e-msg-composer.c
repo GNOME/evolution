@@ -915,7 +915,7 @@ create_menubar_file (EMsgComposer *composer,
 					 menu_file_save_cb, composer);
 	
 	bonobo_ui_handler_menu_new_item (uih, "/File/Save as",
-					 _("_Save as..."),
+					 _("Save _as..."),
 					 _("Save message with a different name"),
 					 -1,
 					 BONOBO_UI_HANDLER_PIXMAP_STOCK,
