@@ -3,7 +3,7 @@ Important note for Camel hackers:
 
 Camel has been a lot of work, and has been conceived to be general
 enough to be used outside the gnome-mailer. It is possible in the
-future that it is used in softwares with licenses incompatible with the
+future that it is used in software with licenses incompatible with the
 LGPL. For this reason, the copyright has to be owned by a unique
 person.  Be sure, however, that Camel will always be available under
 the LGPL.  Significant authors will always be consulted before any
@@ -16,7 +16,7 @@ begining of the file:
 
 /* 
  *
- * Copyright 199x, 200x Helix Code, Inc. (http://www.helixcode.com)
+ * Copyright 1999, 200x Ximian, Inc. (http://www.ximian.com)
  * 
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -37,11 +37,9 @@ begining of the file:
 You may also want to add your name to the author name list after this
 header.
 
-Please contact me (Bertrand.Guiheneuf@aful.org) if you want to discuss
+Please contact Ximian, Inc. (http://www.ximian.com) if you want to discuss 
 this copyright issue.
 
 Happy hacking,
 
-Bertrand.
-
-
+Ximian, Inc.
