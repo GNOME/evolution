@@ -37,17 +37,17 @@ libicalss_la_SOURCES =		\
 libicalssincludedir = $(includedir)
 
 COMBINEDHEADERS = \
-        icalgauge.h \
-        icalset.h \
-        icalfileset.h \
-        icaldirset.h \
-        icalcalendar.h  \
-        icalclassify.h \
-	icalspanlist.h	\
-	icalmessage.h \
-	icalcstp.h \
-	icalcstpclient.h \
-	icalcstpserver.h
+        $(srcdir)/icalgauge.h \
+        $(srcdir)/icalset.h \
+        $(srcdir)/icalfileset.h \
+        $(srcdir)/icaldirset.h \
+        $(srcdir)/icalcalendar.h  \
+        $(srcdir)/icalclassify.h \
+	$(srcdir)/icalspanlist.h	\
+	$(srcdir)/icalmessage.h \
+	$(srcdir)/icalcstp.h \
+	$(srcdir)/icalcstpclient.h \
+	$(srcdir)/icalcstpserver.h
 
 
 icalss.h: $(COMBINEDHEADERS)
