@@ -1,5 +1,10 @@
 2001-03-29  Dan Winship  <danw@ximian.com>
 
+	* message-list.c: #include <camel/camel-vtrash-folder.h>
+
+	* mail-callbacks.c: #include <libgnome/gnome-paper.h>
+	for the gnome-print stuff.
+
 	* mail-display.c (pixmap_press): Ignore "funky" button clicks
 	(like scroll wheel scrolls)
 

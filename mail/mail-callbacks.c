@@ -30,6 +30,7 @@
 #endif
 
 #include <errno.h>
+#include <libgnome/gnome-paper.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-dialog-util.h>
 #include <libgnomeui/gnome-stock.h>

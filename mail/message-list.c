@@ -33,6 +33,7 @@
 #include <camel/camel-folder.h>
 #include <e-util/ename/e-name-western.h>
 #include <camel/camel-folder-thread.h>
+#include <camel/camel-vtrash-folder.h>
 #include <e-util/e-memory.h>
 
 #include "mail-config.h"
