@@ -1,3 +1,7 @@
+2001-08-02  Kevin Breit  <battery841@mediaone.net>
+
+	* C/usage-mail.sgml: Added a <tip> for scrolling through mails.
+
 2001-07-30  Kevin Breit  <battery841@mediaone.net>
 
 	* C/usage-mail.sgml: Fixed some breakage Aaron caused.

@@ -374,6 +374,14 @@
        </orderedlist>
       </para>
 
+      <tip id="spaceandbs">
+	<title>Reading email with keyboard</title>
+	<para>
+	  You can click the spacebar to page down while you're reading an email,
+	  and press backspace to page up in an email.  This may help to make
+	  reading your email faster.
+	</para>
+      </tip>
       <para>
 	To Open an Attachment in a Program:
 	<orderedlist numeration="arabic">
