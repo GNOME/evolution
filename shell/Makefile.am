@@ -20,13 +20,14 @@ CLEANFILES = $(IDL_GENERATED)
 # CORBA stuff
 
 IDLS = \
-	Evolution.idl			\
 	Evolution-LocalStorage.idl	\
 	Evolution-Session.idl		\
 	Evolution-Shell.idl		\
 	Evolution-ShellComponent.idl	\
 	Evolution-ShellView.idl		\
-	Evolution-Storage.idl
+	Evolution-Storage.idl		\
+	Evolution-StorageSetView.idl	\
+	Evolution.idl
 
 IDL_GENERATED = \
 	Evolution.h		\
@@ -114,6 +115,10 @@ evolution_SOURCES =				\
 	e-storage-set.h				\
 	e-storage.c				\
 	e-storage.h				\
+	evolution-storage-set-view.c		\
+	evolution-storage-set-view.h		\
+	evolution-storage-set-view-factory.c	\
+	evolution-storage-set-view-factory.h	\
 	main.c
 
 evolution_LDADD =						\

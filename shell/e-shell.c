@@ -269,6 +269,22 @@ impl_Shell_get_local_storage (PortableServer_Servant servant,
 	return copy_of_local_storage_interface;
 }
 
+static Bonobo_Control
+impl_Shell_create_storage_set_view (PortableServer_Servant servant,
+				    CORBA_Environment *ev)
+{
+	BonoboObject *bonobo_object;
+	EShell *shell;
+	BonoboControl *control;
+
+	bonobo_object = bonobo_object_from_servant (servant);
+	shell = E_SHELL (bonobo_object);
+
+	control = evolution_storage_set_view_factory_new_view (shell);
+
+	return bonobo_object_corba_objref (BONOBO_OBJECT (control));
+}
+
 
 /* Initialization of the storages.  */
 
@@ -484,9 +500,10 @@ corba_class_init (void)
 	base_epv->default_POA = NULL;
 
 	epv = g_new0 (POA_Evolution_Shell__epv, 1);
-	epv->get_component_for_type = impl_Shell_get_component_for_type;
-	epv->user_select_folder     = impl_Shell_user_select_folder;
-	epv->get_local_storage      = impl_Shell_get_local_storage;
+	epv->get_component_for_type  = impl_Shell_get_component_for_type;
+	epv->user_select_folder      = impl_Shell_user_select_folder;
+	epv->get_local_storage       = impl_Shell_get_local_storage;
+	epv->create_storage_set_view = impl_Shell_create_storage_set_view;
 
 	vepv = &shell_vepv;
 	vepv->Bonobo_Unknown_epv = bonobo_object_get_epv ();

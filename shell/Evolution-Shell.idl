@@ -63,6 +63,16 @@ module Evolution {
 		 * Return value: the `Evolution::LocalStorage' interface for
 		 * the local storage.  */
 		LocalStorage get_local_storage ();
+
+		/**
+		 * create_storage_set_view:
+		 *
+		 * Create a control for the storage set view.  This control
+		 * will also implement the `Evolution::StorageSetView' interface.
+		 *
+		 * Return value: the newly created control.
+		 */
+		Bonobo::Control create_storage_set_view ();
 	};
 
 	interface FolderSelectionListener {

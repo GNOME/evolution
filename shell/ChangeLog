@@ -1,5 +1,24 @@
 2000-10-02  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* e-shell.c (impl_Shell_create_storage_set_view): New,
+	implementation for `::create_storage_set_view'.
+	(corba_class_init): Install.
+
+	* evolution-storage-set-view-factory.c: New.
+	* evolution-storage-set-view-factory.h: New.
+
+	* evolution-storage-set-view.c: New.
+	* evolution-storage-set-view.h: New.
+
+	* Evolution-Shell.idl: New method
+	`Shell::create_storage_set_view'.
+
+	* Evolution.idl: #include <Evolution-StorageSetView.idl>.
+
+	* Evolution-StorageSetView.idl: New.
+
+2000-10-02  Ettore Perazzoli  <ettore@helixcode.com>
+
 	* evolution-storage.c (find_listener_in_list): New helper
 	function.
 	(impl_Storage_remove_listener): New, implementation for
