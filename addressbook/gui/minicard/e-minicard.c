@@ -347,7 +347,8 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 			gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dlg)->vbox),
 					    contact_editor, TRUE, TRUE, 0);
 			
-			gtk_widget_show_all (dlg);
+			gtk_widget_show(contact_editor);
+			gtk_widget_show (dlg);
 			
 			gnome_dialog_close_hides (GNOME_DIALOG (dlg), TRUE);
 			result = gnome_dialog_run_and_close (GNOME_DIALOG (dlg));

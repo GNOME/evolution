@@ -132,17 +132,23 @@ e_contact_editor_class_init (EContactEditorClass *klass)
 static void
 _add_image(GtkTable *table, gchar *image, int left, int right, int top, int bottom)
 {
+	GtkWidget *pixmap = gnome_pixmap_new_from_file(image);
+	GtkWidget *alignment = gtk_widget_new(gtk_alignment_get_type(),
+					      "child", pixmap,
+					      "xalign", (double) 0,
+					      "yalign", (double) 0,
+					      "xscale", (double) 0,
+					      "yscale", (double) 0,
+					      NULL);
+	
 	gtk_table_attach(table,
-			 gtk_widget_new(gtk_alignment_get_type(),
-					"child", gnome_pixmap_new_from_file(image),
-					"xalign", (double) 0,
-					"yalign", (double) 0,
-					"xscale", (double) 0,
-					"yscale", (double) 0,
-					NULL),
+			 alignment,
 			 left, right, top, bottom,
 			 GTK_FILL, GTK_FILL,
 			 0, 0);
+
+	gtk_widget_show(pixmap);
+	gtk_widget_show(alignment);
 }
 
 static void
@@ -169,11 +175,14 @@ _replace_button(EContactEditor *editor, gchar *button_xml, gchar *image, GtkSign
 {
 	GladeXML *gui = editor->gui;
 	GtkWidget *button = glade_xml_get_widget(gui, button_xml);
+	GtkWidget *pixmap;
 	gchar *image_temp;
 	image_temp = g_strdup_printf("%s%s", DATADIR "/evolution/", image);
+	pixmap = gnome_pixmap_new_from_file(image_temp);
 	gtk_container_add(GTK_CONTAINER(button),
-			  gnome_pixmap_new_from_file(image_temp));
+			  pixmap);
 	g_free(image_temp);
+	gtk_widget_show(pixmap);
 	gtk_signal_connect(GTK_OBJECT(button), "button_press_event", func, editor);
 			   
 }

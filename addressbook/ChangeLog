@@ -1,5 +1,11 @@
 2000-04-30  Christopher James Lahey  <clahey@helixcode.com>
 
+	* contact-editor/contact-editor.glade,
+	contact-editor/e-contact-editor.c, gui/minicard/e-minicard.c: Made
+	some fields invisible that were visible before.
+
+2000-04-30  Christopher James Lahey  <clahey@helixcode.com>
+
 	* backend/ebook/e-card.c: Make file as not have the : after it if
 	it's empty.  If there's no name, or file_as, fill in these fields
 	with defaults based on full_name or name respectively.
