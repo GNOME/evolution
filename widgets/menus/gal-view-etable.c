@@ -38,6 +38,7 @@ detach_table (GalViewEtable *view)
 	if (view->table_state_changed_id) {
 		gtk_signal_disconnect (GTK_OBJECT (view->table),
 				       view->table_state_changed_id);
+		view->table_state_changed_id = 0;
 	}
 	gtk_object_unref (GTK_OBJECT (view->table));
 	view->table = NULL;
@@ -51,6 +52,7 @@ detach_tree (GalViewEtable *view)
 	if (view->tree_state_changed_id) {
 		gtk_signal_disconnect (GTK_OBJECT (view->tree),
 				       view->tree_state_changed_id);
+		view->tree_state_changed_id = 0;
 	}
 	gtk_object_unref (GTK_OBJECT (view->tree));
 	view->tree = NULL;

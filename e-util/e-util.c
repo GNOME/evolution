@@ -816,6 +816,24 @@ e_marshal_INT__OBJECT_POINTER (GtkObject *object,
 				func_data);
 }
 
+typedef void (*GtkSignal_NONE__DOUBLE) (GtkObject *,
+				       gdouble,
+				       gpointer user_data);
+void
+e_marshal_NONE__DOUBLE (GtkObject *object,
+			GtkSignalFunc func,
+			gpointer func_data,
+			GtkArg *args)
+{
+	GtkSignal_NONE__DOUBLE rfunc;
+
+	rfunc = (GtkSignal_NONE__DOUBLE) func;
+
+	(*rfunc) (object,
+		  GTK_VALUE_DOUBLE (args[0]),
+		  func_data);
+}
+
 gchar**
 e_strsplit (const gchar *string,
 	    const gchar *delimiter,

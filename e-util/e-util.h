@@ -273,6 +273,10 @@ void      e_marshal_INT__OBJECT_POINTER                                    (GtkO
 									    GtkSignalFunc      func,
 									    gpointer           func_data,
 									    GtkArg            *args);
+void      e_marshal_NONE__DOUBLE                                           (GtkObject         *object,
+									    GtkSignalFunc      func,
+									    gpointer           func_data,
+									    GtkArg            *args);
 
 
 #ifdef __cplusplus
