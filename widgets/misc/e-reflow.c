@@ -233,7 +233,7 @@ reflow_columns (EReflow *reflow)
 		if (i != 0 && running_height + reflow->heights[unsorted] + E_REFLOW_BORDER_WIDTH > reflow->height) {
 			list = g_slist_prepend (list, GINT_TO_POINTER(i));
 			column_count ++;
-			running_height = E_REFLOW_BORDER_WIDTH * 2 + reflow->heights[2];
+			running_height = E_REFLOW_BORDER_WIDTH * 2 + reflow->heights[unsorted];
 		} else
 			running_height += reflow->heights[unsorted] + E_REFLOW_BORDER_WIDTH;
 	}
