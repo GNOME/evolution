@@ -1,3 +1,8 @@
+2002-11-18  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-accounts.c (mail_accounts_load): Specify the default
+	account. Also, don't need to use e_utf8_to_gtk_string() here.
+
 2002-11-18  Not Zed  <NotZed@Ximian.com>
 
 	* Makefile.am (evolution_mail_LDADD): Added back
