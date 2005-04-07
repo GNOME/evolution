@@ -318,14 +318,20 @@ free_iid_list (GList *list)
 static const char *
 get_name_from_component_info (const Bonobo_ServerInfo *info)
 {
-	Bonobo_ActivationProperty *property;
-	const char *name;
+	const char *name = NULL;
 
-	property = bonobo_server_info_prop_find ((Bonobo_ServerInfo *) info, "evolution:menu_name");
-	if (property == NULL || property->v._d != Bonobo_ACTIVATION_P_STRING)
-		return NULL;
+	GSList *language_list = NULL;
+	const GList *l = gnome_i18n_get_language_list("LC_MESSAGES");
 
-	name = property->v._u.value_string;
+	/* copy this piece of code from e-shell-settings-dialog.c:load_pages () */
+	for (language_list=NULL;l;l=l->next)
+		language_list = g_slist_append(language_list, l->data);
+
+	name = bonobo_server_info_prop_lookup ((Bonobo_ServerInfo *) info,
+						"evolution:menu_name",
+						language_list);
+
+	g_slist_free (language_list);
 
 	return name;
 }
