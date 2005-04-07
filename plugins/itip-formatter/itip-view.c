@@ -905,7 +905,7 @@ itip_view_init (ItipView *view)
 	priv->description_label = gtk_label_new (NULL);
 	gtk_label_set_line_wrap (GTK_LABEL (priv->description_label), TRUE);
 	gtk_misc_set_alignment (GTK_MISC (priv->description_label), 0, 0.5);
-//	gtk_box_pack_start (GTK_BOX (vbox), priv->description_label, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), priv->description_label, FALSE, FALSE, 0);
 
 	separator = gtk_hseparator_new ();
 	gtk_widget_show (separator);
