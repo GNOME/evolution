@@ -132,6 +132,9 @@ ea_minicard_get_name (AtkObject *accessible)
 
 	card = E_MINICARD(atk_gobject_accessible_get_object 
 			 (ATK_GOBJECT_ACCESSIBLE(accessible)));
+	if (!card)
+		return NULL;
+
 	g_object_get (card->header_text, "text", &string, NULL);
 
 	if (e_contact_get (card->contact, E_CONTACT_IS_LIST))
@@ -189,10 +192,11 @@ static AtkStateSet *ea_minicard_ref_state_set (AtkObject *obj)
 
 	state_set = ATK_OBJECT_CLASS (parent_class)->ref_state_set (obj);
 	if( !state_set )
-		return NULL;
+		state_set = atk_state_set_new ();
+
 	gobj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (obj));
 	if( !gobj )
-		return NULL;
+		return state_set;
 
 	atk_state_set_add_state (state_set, ATK_STATE_SELECTABLE);
 	atk_state_set_add_state (state_set, ATK_STATE_ENABLED);
