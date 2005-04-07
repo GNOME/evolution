@@ -1,3 +1,10 @@
+2005-04-07  JP Rosevear  <jpr@novell.com>
+
+	Fixes #74291
+	
+	* itip-view.c (itip_view_init): remove comment to re-enable
+	description display
+
 2005-03-31  JP Rosevear  <jpr@novell.com>
  
  	Fixes #73844
