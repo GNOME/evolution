@@ -1,3 +1,15 @@
+2005-04-06  Yu Mengjie  <meng-jie.yu@sun.com>
+
+	* addressbook/ea-minicard-view.c: (ea_minicard_view_get_name),
+	(ea_minicard_view_ref_state_set):
+	return proper atk_object name and atk_stateset to avoid crash.
+	
+	* addressbook/ea-minicard.c: (ea_minicard_get_name),
+	(ea_minicard_ref_state_set):
+	return proper atk_object name and atk_stateset to avoid crash.
+
+	Fixes #74404
+
 2005-02-23  Li Yuan  <li.yuan@sun.com>
 
 	Fix for 72897 and 72797.

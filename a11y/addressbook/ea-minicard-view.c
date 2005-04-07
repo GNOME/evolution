@@ -146,6 +146,9 @@ ea_minicard_view_get_name (AtkObject *accessible)
 
 	reflow = E_REFLOW(atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (accessible)));
 
+	if (!reflow)
+		return NULL;
+
 	string = g_strdup_printf (ngettext ("current addressbook folder has %d card", 
 				   "current addressbook folder has %d cards", 
 				   reflow->count), reflow->count);
@@ -206,10 +209,11 @@ static AtkStateSet *ea_minicard_view_ref_state_set (AtkObject *obj)
 	
 	state_set = ATK_OBJECT_CLASS (parent_class)->ref_state_set (obj);
 	if( !state_set )
-		return NULL;
+		state_set = atk_state_set_new ();
+
 	gobj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (obj));
 	if( !gobj )
-		return NULL;
+		return state_set;
 	
 	atk_state_set_add_state (state_set, ATK_STATE_ENABLED);
 	atk_state_set_add_state (state_set, ATK_STATE_SENSITIVE);
