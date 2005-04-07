@@ -1,3 +1,12 @@
+2005-04-05  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* gui/e-cal-model.c: (cal_opened_cb): If the status
+	is busy call open method again, do not remove the
+	client.
+	* gui/gnome-cal.c: (client_cal_opened_cb),
+	(default_client_cal_opened_cb): IF the status is busy
+	and the load_state is not loaded call open method.
+
 2005-04-04  Rodrigo Moya <rodrigo@novell.com>
 
 	Fixes #68423

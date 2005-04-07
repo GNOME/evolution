@@ -2177,6 +2177,7 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 	GnomeCalendarPrivate *priv;
 	ECalSourceType source_type;
 	ESource *source;
+	ECalLoadState state;
 	char *msg;
 	int i;
 
@@ -2184,6 +2185,7 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 
 	source_type = e_cal_get_source_type (ecal);
 	source = e_cal_get_source (ecal);
+	state = e_cal_get_load_state (ecal);
 
 	switch (source_type) {
 	case E_CAL_SOURCE_TYPE_EVENT:
@@ -2197,9 +2199,12 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 	}
 	switch (status) {
 	case E_CALENDAR_STATUS_OK:
+		g_message ("********* the state  in ok is %d \n", state);
 		break;
 	case E_CALENDAR_STATUS_BUSY:
-		e_cal_open_async (ecal, FALSE);
+		g_message ("********* the state is %d \n", state);
+		if (state == E_CAL_LOAD_NOT_LOADED)
+			e_cal_open_async (ecal, FALSE);
 		return;
 	case E_CALENDAR_STATUS_INVALID_SERVER_VERSION:
 		e_error_run (NULL, "calendar:server-version", NULL);
@@ -2268,12 +2273,14 @@ default_client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar 
 	GnomeCalendarPrivate *priv;
 	ECalSourceType source_type;
 	ESource *source;
+	ECalLoadState state;
 	int i;
 
 	priv = gcal->priv;
 
 	source_type = e_cal_get_source_type (ecal);
 	source = e_cal_get_source (ecal);
+	state = e_cal_get_load_state (ecal);
 
 	switch (source_type) {
 	case E_CAL_SOURCE_TYPE_EVENT:
@@ -2290,7 +2297,9 @@ default_client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar 
 	case E_CALENDAR_STATUS_OK:
 		break;
 	case E_CALENDAR_STATUS_BUSY:
-		e_cal_open_async (ecal, FALSE);
+		g_message ("********* the state is %d \n", state);
+		if (state == E_CAL_LOAD_NOT_LOADED)
+			e_cal_open_async (ecal, FALSE);
 		return;
 	case E_CALENDAR_STATUS_INVALID_SERVER_VERSION :
 		e_error_run (NULL, "calendar:server-version", NULL);

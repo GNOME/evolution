@@ -1495,6 +1495,11 @@ cal_opened_cb (ECal *client, ECalendarStatus status, gpointer user_data)
 	ECalModel *model = (ECalModel *) user_data;
 	ECalModelClient *client_data;
 
+	if (status == E_CALENDAR_STATUS_BUSY) {
+		e_cal_open_async (client, FALSE);
+		return;
+	}
+	
 	if (status != E_CALENDAR_STATUS_OK) {
 		e_cal_model_remove_client (model, client);
 
