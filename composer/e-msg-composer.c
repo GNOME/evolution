@@ -4830,6 +4830,7 @@ delete_old_signature (EMsgComposer *composer)
 	
 	/* printf ("delete_old_signature\n"); */
 	CORBA_exception_init (&ev);
+	GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "block-selection", &ev);
 	GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "cursor-bod", &ev);
 	if (GNOME_GtkHTML_Editor_Engine_searchByData (composer->editor_engine, 1, "ClueFlow", "signature", "1", &ev)) {
 		/* printf ("found\n"); */
@@ -4841,6 +4842,7 @@ delete_old_signature (EMsgComposer *composer)
 		GNOME_GtkHTML_Editor_Engine_setParagraphData (composer->editor_engine, "signature", "0", &ev);
 		GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "delete-back", &ev);
 	}
+	GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "unblock-selection", &ev);
 	CORBA_exception_free (&ev);
 }
 
