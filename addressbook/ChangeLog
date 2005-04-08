@@ -1,3 +1,11 @@
+2005-04-03  Sivaiah Nallagatla <snallagatla@novell.com>
+
+	* gui/widgets/eab-gui-util.c (do_copy) :
+	use eab_merging_book_add_contact instead of 
+	e_book_async_add_contact to take care of duplicate
+	checking 
+	Fixes #74255
+
 2005-03-16  Li Yuan  <li.yuan@sun.com>
 
 	* gui/widgets/gal-view-minicard.c: (gal_view_minicard_class_init):
