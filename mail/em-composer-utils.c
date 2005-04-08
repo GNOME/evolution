@@ -50,9 +50,10 @@
 #include "e-util/e-account-list.h"
 
 #include <camel/camel-string-utils.h>
+#include <camel/camel-stream-mem.h>
 #include <camel/camel-nntp-address.h>
 
-static EAccount *guess_account (CamelMimeMessage *message, CamelFolder *folder);
+static EAccount * guess_account (CamelMimeMessage *message, CamelFolder *folder);
 
 struct emcs_t {
 	unsigned int ref_count;
@@ -190,6 +191,7 @@ composer_send_queued_cb (CamelFolder *folder, CamelMimeMessage *msg, CamelMessag
 		if (emcs && emcs->folder) {
 			/* set any replied flags etc */
 			camel_folder_set_message_flags (emcs->folder, emcs->uid, emcs->flags, emcs->set);
+			camel_folder_set_message_user_flag (emcs->folder, emcs->uid, "receipt-handled", TRUE);
 			camel_object_unref (emcs->folder);
 			emcs->folder = NULL;
 			g_free (emcs->uid);
@@ -1064,6 +1066,191 @@ em_utils_redirect_message_by_uid (CamelFolder *folder, const char *uid)
 	g_return_if_fail (uid != NULL);
 	
 	mail_get_message (folder, uid, redirect_msg, NULL, mail_thread_new);
+}
+
+static void
+emu_handle_receipt_message(CamelFolder *folder, const char *uid, CamelMimeMessage *msg, void *data)
+{
+	if (msg)
+		em_utils_handle_receipt(folder, uid, msg);
+}
+
+/* Message disposition notifications, rfc 2298 */
+void
+em_utils_handle_receipt (CamelFolder *folder, const char *uid, CamelMimeMessage *msg)
+{
+	EAccount *account;
+	const char *addr;
+	CamelMessageInfo *info;
+
+	info = camel_folder_get_message_info(folder, uid);
+	if (info == NULL)
+		return;
+
+	if (camel_message_info_user_flag(info, "receipt-handled")) {
+		camel_message_info_free(info);
+		return;
+	}
+
+	if (msg == NULL) {
+		mail_get_message(folder, uid, emu_handle_receipt_message, NULL, mail_thread_new);
+		camel_message_info_free(info);
+		return;
+	}
+
+	if ( (addr = camel_medium_get_header((CamelMedium *)msg, "Disposition-Notification-To")) == NULL) {
+		camel_message_info_free(info);
+		return;
+	}
+
+	camel_message_info_set_user_flag(info, "receipt-handled", TRUE);
+	camel_message_info_free(info);
+	
+	account = guess_account(msg, folder);
+
+	/* TODO: should probably decode/format the address, it could be in rfc2047 format */
+	if (addr == NULL) {
+		addr = "";
+	} else {
+		while (camel_mime_is_lwsp(*addr))
+			addr++;
+	}
+	
+	if (account->receipt_policy == E_ACCOUNT_RECEIPT_ALWAYS
+	    || (account->receipt_policy == E_ACCOUNT_RECEIPT_ASK
+		&& e_error_run (NULL, "mail:ask-receipt", addr, camel_mime_message_get_subject(msg)) == GTK_RESPONSE_YES))
+		em_utils_send_receipt(folder, msg);
+}
+
+static void
+em_utils_receipt_done (CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *info,
+		       int queued, const char *appended_uid, void *data)
+{
+	camel_message_info_free (info);
+	mail_send ();
+}
+
+
+void
+em_utils_send_receipt (CamelFolder *folder, CamelMimeMessage *message)
+{
+	/* See RFC #2298 for a description of message receipts */
+
+	EAccount *account = guess_account (message, folder);
+
+	CamelMimeMessage *receipt = camel_mime_message_new ();
+	CamelMultipart *body = camel_multipart_new ();
+	CamelMimePart *part;
+	CamelDataWrapper *receipt_text, *receipt_data;
+	CamelContentType *type;
+	CamelInternetAddress *addr;
+	CamelStream *stream;	
+	CamelFolder *out_folder;
+	CamelMessageInfo *info;
+	const char *message_id = camel_medium_get_header (CAMEL_MEDIUM (message), "Message-ID");
+	const char *message_date = camel_medium_get_header (CAMEL_MEDIUM (message), "Date");
+	const char *message_subject = camel_mime_message_get_subject (message);
+	const char *receipt_address = camel_medium_get_header (CAMEL_MEDIUM (message), "Disposition-Notification-To");
+	char *fake_msgid;
+	char *hostname;
+	char *self_address, *receipt_subject;
+	char *ua, *recipient;
+
+	if (!receipt_address)
+		return;
+	
+	/* Collect information for the receipt */
+
+	/* We use camel_header_msgid_generate () to get a canonical
+	 * hostname, then skip the part leading to '@' */
+	fake_msgid = camel_header_msgid_generate ();
+	for (hostname = fake_msgid; hostname && *hostname != '@'; ++hostname);
+	++hostname;
+
+	self_address = account->id->address;
+
+	if (!message_id)
+		message_id = "";
+	if (!message_date)
+		message_date ="";
+	
+	/* Create toplevel container */
+	camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (body),
+					  "multipart/report;"
+					  "report-type=\"disposition-notification\"");
+	camel_multipart_set_boundary (body, NULL);	
+	
+	/* Create textual receipt */
+	receipt_text = camel_data_wrapper_new ();
+	type = camel_content_type_new ("text", "plain");
+	camel_content_type_set_param (type, "format", "flowed");
+	camel_data_wrapper_set_mime_type_field (receipt_text, type);
+	camel_content_type_unref (type);
+	stream = camel_stream_mem_new ();
+	camel_stream_printf (stream,
+			     "Your message to %s about \"%s\" on %s has been read.",
+			     self_address, message_subject, message_date);
+	camel_data_wrapper_construct_from_stream (receipt_text, stream);
+	camel_object_unref (stream);
+	
+	part = camel_mime_part_new ();
+	camel_medium_set_content_object (CAMEL_MEDIUM (part), receipt_text);
+	camel_object_unref (receipt_text);
+	camel_multipart_add_part (body, part);
+	camel_object_unref (part);	
+	
+	/* Create the machine-readable receipt */
+	receipt_data = camel_data_wrapper_new ();
+	type = camel_content_type_new ("message", "disposition-notification");
+	camel_data_wrapper_set_mime_type_field (receipt_data, type);
+	camel_content_type_unref (type);
+	stream = camel_stream_mem_new ();
+	part = camel_mime_part_new ();
+
+	ua = g_strdup_printf ("%s; %s", hostname, "Evolution " VERSION SUB_VERSION " " VERSION_COMMENT);
+	recipient = g_strdup_printf ("rfc822; %s", self_address);	
+
+	camel_medium_add_header (CAMEL_MEDIUM (part), "Reporting-UA", ua);
+	camel_medium_add_header (CAMEL_MEDIUM (part), "Final-Recipient", recipient);
+	camel_medium_add_header (CAMEL_MEDIUM (part), "Original-Message-ID", message_id);
+	camel_medium_add_header (CAMEL_MEDIUM (part), "Disposition", "manual-action/MDN-sent-manually; displayed");
+
+	g_free (ua);
+	g_free (recipient);
+	g_free (fake_msgid);
+	
+	camel_data_wrapper_construct_from_stream (receipt_data, stream);
+	camel_object_unref (stream);
+	camel_medium_set_content_object (CAMEL_MEDIUM (part), receipt_data);
+	camel_object_unref (receipt_data);
+	camel_multipart_add_part (body, part);
+	camel_object_unref (part);	
+	
+	/* Finish creating the message */
+	camel_medium_set_content_object (CAMEL_MEDIUM (receipt), CAMEL_DATA_WRAPPER (body));
+	camel_object_unref (body);
+	
+	receipt_subject = g_strdup_printf ("Delivery Notification for: \"%s\"", message_subject);
+	camel_mime_message_set_subject (receipt, receipt_subject);
+	g_free (receipt_subject);
+	
+	addr = camel_internet_address_new ();
+	camel_address_decode (CAMEL_ADDRESS (addr), self_address);
+	camel_mime_message_set_recipients (receipt, CAMEL_RECIPIENT_TYPE_TO, addr);
+	camel_object_unref (addr);
+	
+	addr = camel_internet_address_new ();
+	camel_address_decode (CAMEL_ADDRESS (addr), receipt_address);
+	camel_mime_message_set_from (receipt, addr);
+	camel_object_unref (addr);
+
+	camel_medium_set_header (CAMEL_MEDIUM (receipt), "Return-Path", "<>");
+
+	/* Send the receipt */
+	out_folder = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_OUTBOX);
+	info = camel_message_info_new (NULL);
+	camel_message_info_set_flags (info, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
+	mail_append_mail (out_folder, receipt, info, em_utils_receipt_done, 0);
 }
 
 /* Replying to messages... */

@@ -1,3 +1,28 @@
+2005-04-08  Not Zed  <NotZed@Ximian.com>
+
+	* em-composer-utils.c (em_utils_ask_receipt): removed.
+	(em_utils_handle_receipt): asynchronously load message if none is
+	supplied.
+
+	* em-folder-view.c (emfv_set_seen): pass message in.
+
+	* em-composer-utils.c (em_utils_ask_receipt): strip leading lwsp
+	on the disposition address.
+	(em_utils_ask_receipt): added a comment about which rfc.
+	(em_utils_handle_receipt): merged ask_receipt into here.  Changed
+	api to take a message instead, so we don't have to load the
+	message every time.  Also only set receipt-handled if we have a
+	receipt requested in the first place.
+
+2005-04-05  ERDI Gergo  <cactus@cactus.rulez.org>
+
+	* mail-errors.xml: Added new dialog for receipt requests
+
+	* em-composer-utils.c (em_utils_guess_account): Made guess_account
+	public, to be callable from em-folder-view
+	(em_utils_send_receipt): New function to send an RFC
+	2298-compliant message delivery notification
+
 2005-04-05  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #74320

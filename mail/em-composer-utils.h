@@ -34,6 +34,7 @@ struct _CamelFolder;
 struct _CamelMimeMessage;
 struct _EMsgComposer;
 struct _EMFormat;
+struct _EAccount;
 
 void em_composer_utils_setup_callbacks (struct _EMsgComposer *composer, struct _CamelFolder *folder, const char *uid,
 					guint32 flags, guint32 set, struct _CamelFolder *drafts, const char *drafts_uid);
@@ -62,6 +63,9 @@ void em_utils_forward_messages (struct _CamelFolder *folder, GPtrArray *uids, co
 
 void em_utils_redirect_message (struct _CamelMimeMessage *message);
 void em_utils_redirect_message_by_uid (struct _CamelFolder *folder, const char *uid);
+
+void em_utils_handle_receipt (struct _CamelFolder *folder, const char *uid, struct _CamelMimeMessage *msg);
+void em_utils_send_receipt   (struct _CamelFolder *folder, struct _CamelMimeMessage *message);
 
 enum {
 	REPLY_MODE_SENDER,

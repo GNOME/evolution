@@ -347,5 +347,13 @@ Please check your account settings and try again.
 </secondary>
 </error>
 
+  <error id="ask-receipt" type="question" default="GTK_RESPONSE_NO">
+    <title>Read receipt requested.</title>
+    <primary>Read receipt requested.</primary>
+    <secondary>A read receipt notification has been requested for &quot;{1}&quot;.  Send the reciept notification to {0}?</secondary>
+    <button stock="gtk-no" response="GTK_RESPONSE_NO"/>
+    <button stock="gtk-yes" label="Send Receipt" response="GTK_RESPONSE_YES"/>
+  </error>
+
 </error-list>
 

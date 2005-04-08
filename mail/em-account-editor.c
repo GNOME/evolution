@@ -724,6 +724,64 @@ emae_setup_signatures(EMAccountEditor *emae, GladeXML *xml)
 }
 
 static void
+emae_receipt_policy_changed(GtkComboBox *dropdown, EMAccountEditor *emae)
+{
+	int id = gtk_combo_box_get_active(dropdown);
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	EAccountReceiptPolicy policy;
+
+	if (id != -1) {
+		model = gtk_combo_box_get_model(dropdown);
+		if (gtk_tree_model_iter_nth_child(model, &iter, NULL, id)) {
+			gtk_tree_model_get(model, &iter, 1, &policy, -1);
+			e_account_set_int (emae->account, E_ACCOUNT_RECEIPT_POLICY, policy);
+		}
+	}
+
+}
+
+static GtkWidget *
+emae_setup_receipt_policy (EMAccountEditor *emae, GladeXML *xml)
+{
+	GtkComboBox *dropdown = (GtkComboBox *)glade_xml_get_widget(xml, "receipt_policy_dropdown");
+	GtkListStore *store;
+	int i = 0, active = 0;
+	GtkTreeIter iter;
+	EAccountReceiptPolicy current = emae->account->receipt_policy;
+	static struct {
+		EAccountReceiptPolicy policy;
+		char *label;			
+	} receipt_policies[] = {
+		{ E_ACCOUNT_RECEIPT_NEVER,  N_("Never") },
+		{ E_ACCOUNT_RECEIPT_ALWAYS, N_("Always") },
+		{ E_ACCOUNT_RECEIPT_ASK,    N_("Ask for each message") }
+	};
+
+	gtk_widget_show((GtkWidget *)dropdown);
+
+	store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_INT);
+
+	for (i = 0; i < 3; ++i) {
+		gtk_list_store_append (store, &iter);
+		gtk_list_store_set (store, &iter,
+				    0, _(receipt_policies[i].label),
+				    1, receipt_policies[i].policy,
+				    -1);
+		if (current == receipt_policies[i].policy)
+			active = i;		
+	}
+	
+	gtk_combo_box_set_model(dropdown, (GtkTreeModel *)store);
+	gtk_combo_box_set_active(dropdown, active);
+
+	g_signal_connect(dropdown, "changed", G_CALLBACK(emae_receipt_policy_changed), emae);
+	gtk_widget_set_sensitive((GtkWidget *)dropdown, e_account_writable(emae->account, E_ACCOUNT_RECEIPT_POLICY));
+
+	return (GtkWidget *)dropdown;
+}
+
+static void
 emae_account_entry_changed(GtkEntry *entry, EMAccountEditor *emae)
 {
 	int item = GPOINTER_TO_INT(g_object_get_data((GObject *)entry, "account-item"));
@@ -2081,6 +2139,9 @@ emae_defaults_page(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, st
 	gtk_widget_set_sensitive((GtkWidget *)gui->restore_folders_button,
 				 e_account_writable(emae->account, E_ACCOUNT_SENT_FOLDER_URI)
 				 || e_account_writable(emae->account, E_ACCOUNT_DRAFTS_FOLDER_URI));
+
+	/* Receipt policy */
+	emae_setup_receipt_policy (emae, xml);
 	
 	w = glade_xml_get_widget(xml, item->label);
 	gtk_notebook_append_page((GtkNotebook *)parent, w, gtk_label_new(_("Defaults")));
