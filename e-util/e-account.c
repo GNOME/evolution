@@ -265,6 +265,56 @@ xml_set_prop (xmlNodePtr node, const char *name, char **val)
 	return res;
 }
 
+static EAccountReceiptPolicy
+str_to_receipt_policy (const char *str)
+{
+	if (!strcmp (str, "ask"))
+		return E_ACCOUNT_RECEIPT_ASK;
+	if (!strcmp (str, "always"))
+		return E_ACCOUNT_RECEIPT_ALWAYS;
+
+	return E_ACCOUNT_RECEIPT_NEVER;
+}
+
+static char*
+receipt_policy_to_str (EAccountReceiptPolicy val)
+{
+	char *ret = 0;
+	
+	switch (val) {
+	case E_ACCOUNT_RECEIPT_NEVER:
+		ret = "never";
+		break;
+	case E_ACCOUNT_RECEIPT_ASK:
+		ret = "ask";
+		break;
+	case E_ACCOUNT_RECEIPT_ALWAYS:
+		ret = "always";
+		break;
+	}
+
+	return ret;
+}
+
+static gboolean
+xml_set_receipt_policy (xmlNodePtr node, const char *name, EAccountReceiptPolicy *val)
+{
+	EAccountReceiptPolicy new_val;
+	char *buf;
+
+	if ((buf = xmlGetProp (node, name))) {
+		new_val = str_to_receipt_policy (buf);
+		xmlFree (buf);
+
+		if (new_val != *val) {
+			*val = new_val;
+			return TRUE;
+		}
+	}
+
+	return FALSE;
+}
+
 static gboolean
 xml_set_content (xmlNodePtr node, char **val)
 {
@@ -387,7 +437,7 @@ e_account_set_from_xml (EAccount *account, const char *xml)
 	
 	changed |= xml_set_prop (node, "name", &account->name);
 	changed |= xml_set_bool (node, "enabled", &account->enabled);
-
+	
 	for (node = node->children; node; node = node->next) {
 		if (!strcmp (node->name, "identity")) {
 			changed |= xml_set_identity (node, account->id);
@@ -405,6 +455,8 @@ e_account_set_from_xml (EAccount *account, const char *xml)
 		} else if (!strcmp (node->name, "auto-bcc")) {
 			changed |= xml_set_bool (node, "always", &account->always_bcc);
 			changed |= xml_set_content (node, &account->bcc_addrs);
+		} else if (!strcmp (node->name, "receipt-policy")) {
+			changed |= xml_set_receipt_policy (node, "policy", &account->receipt_policy);
 		} else if (!strcmp (node->name, "pgp")) {
 			changed |= xml_set_bool (node, "encrypt-to-self", &account->pgp_encrypt_to_self);
 			changed |= xml_set_bool (node, "always-trust", &account->pgp_always_trust);
@@ -494,6 +546,8 @@ e_account_import (EAccount *dest, EAccount *src)
 	g_free (dest->bcc_addrs);
 	dest->bcc_addrs = g_strdup (src->bcc_addrs);
 	
+	dest->receipt_policy = src->receipt_policy;
+	
 	g_free (dest->pgp_key);
 	dest->pgp_key = g_strdup (src->pgp_key);
 	dest->pgp_encrypt_to_self = src->pgp_encrypt_to_self;
@@ -578,6 +632,9 @@ e_account_to_xml (EAccount *account)
 	if (account->bcc_addrs)
 		xmlNewTextChild (node, NULL, "recipients", account->bcc_addrs);
 
+	node = xmlNewChild (root, NULL, "receipt-policy", NULL);
+	xmlSetProp (node, "policy", receipt_policy_to_str (account->receipt_policy));
+	
 	node = xmlNewChild (root, NULL, "pgp", NULL);
 	xmlSetProp (node, "encrypt-to-self", account->pgp_encrypt_to_self ? "true" : "false");
 	xmlSetProp (node, "always-trust", account->pgp_always_trust ? "true" : "false");
@@ -708,6 +765,8 @@ static struct _account_info {
 	{ /* E_ACCOUNT_BCC_ALWAYS */ 0, TYPE_BOOL, G_STRUCT_OFFSET(EAccount, always_bcc) },
 	{ /* E_ACCOUNT_BCC_ADDRS */ 0, TYPE_STRING, G_STRUCT_OFFSET(EAccount, bcc_addrs) },
 
+	{ /* E_ACCOUNT_RECEIPT_POLICY */ 0, TYPE_INT, G_STRUCT_OFFSET(EAccount, receipt_policy) },
+	
 	{ /* E_ACCOUNT_PGP_KEY */ 0, TYPE_STRING, G_STRUCT_OFFSET(EAccount, pgp_key) },
 	{ /* E_ACCOUNT_PGP_ENCRYPT_TO_SELF */ 0, TYPE_BOOL, G_STRUCT_OFFSET(EAccount, pgp_encrypt_to_self) },
 	{ /* E_ACCOUNT_PGP_ALWAYS_SIGN */ 0, TYPE_BOOL, G_STRUCT_OFFSET(EAccount, pgp_always_sign) },

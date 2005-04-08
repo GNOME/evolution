@@ -55,6 +55,8 @@ typedef enum _e_account_item_t {
 	E_ACCOUNT_BCC_ALWAYS,
 	E_ACCOUNT_BCC_ADDRS,
 
+	E_ACCOUNT_RECEIPT_POLICY,
+	
 	E_ACCOUNT_PGP_KEY,
 	E_ACCOUNT_PGP_ENCRYPT_TO_SELF,
 	E_ACCOUNT_PGP_ALWAYS_SIGN,
@@ -82,6 +84,12 @@ typedef struct _EAccountIdentity {
 	char *sig_uid;
 } EAccountIdentity;
 
+typedef enum _EAccountReceiptPolicy {
+	E_ACCOUNT_RECEIPT_NEVER,
+	E_ACCOUNT_RECEIPT_ASK,
+	E_ACCOUNT_RECEIPT_ALWAYS
+} EAccountReceiptPolicy;
+
 typedef struct _EAccountService {
 	char *url;
 	gboolean keep_on_server;
@@ -108,6 +116,8 @@ typedef struct _EAccount {
 	char *cc_addrs;
 	gboolean always_bcc;
 	char *bcc_addrs;
+
+	EAccountReceiptPolicy receipt_policy;
 
 	char *pgp_key;
 	gboolean pgp_encrypt_to_self;
