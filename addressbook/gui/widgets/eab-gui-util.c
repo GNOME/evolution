@@ -34,7 +34,7 @@
 #include "widgets/misc/e-error.h"
 #include "widgets/misc/e-image-chooser.h"
 #include <e-util/e-icon-factory.h>
-
+#include "eab-contact-merging.h"
 #include <gnome.h>
 
 #include "addressbook/gui/contact-editor/eab-editor.h"
@@ -666,7 +666,7 @@ do_copy (gpointer data, gpointer user_data)
 	book = process->destination;
 
 	process->count ++;
-	e_book_async_add_contact(book, contact, contact_added_cb, process);
+	eab_merging_book_add_contact(book, contact, contact_added_cb, process);
 }
 
 static void
