@@ -362,7 +362,7 @@ support_format_fn (EvolutionImporter *importer,
 
 	if (g_file_get_contents (filename, &contents, NULL, NULL)) {
 		/* parse the file */
-		icalcomp = icalparser_parse_string (contents);
+		icalcomp = e_cal_util_parse_ics_string (contents);
 		g_free (contents);
 
 		if (icalcomp) {
@@ -392,7 +392,7 @@ load_file_fn (EvolutionImporter *importer,
 		icalcomponent *icalcomp;
 
 		/* parse the file */
-		icalcomp = icalparser_parse_string (contents);
+		icalcomp = e_cal_util_parse_ics_string (contents);
 		g_free (contents);
 		
 		if (icalcomp) {
