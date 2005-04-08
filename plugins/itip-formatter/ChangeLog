@@ -1,3 +1,10 @@
+2005-04-08  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #74265
+	* itip-view.c (format_date_and_time_x): In time_days_in_month
+	the  months are indexed from 0, so subtract one from the month
+	argument and send it.
+
 2005-04-07  JP Rosevear  <jpr@novell.com>
 
 	Fixes #74291
