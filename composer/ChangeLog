@@ -1,3 +1,10 @@
+2005-04-06  Radek Doulik  <rodo@novell.com>
+
+	* e-msg-composer.c (delete_old_signature): block gtkhtml's
+	selection so that we don't set primary X selection
+
+	Fixes #36972
+
 2005-03-16  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #73347
