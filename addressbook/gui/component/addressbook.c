@@ -36,6 +36,7 @@
 
 static void addressbook_authenticate (EBook *book, gboolean previous_failure,
 				      ESource *source, EBookCallback cb, gpointer closure);
+static void auth_required_cb (EBook *book, gpointer data);
 
 typedef struct {
 	EBookCallback cb;
@@ -56,7 +57,7 @@ free_load_source_data (LoadSourceData *data)
 in uri*/
 
 static gchar*
-remove_parameters_from_uri (gchar *uri)
+remove_parameters_from_uri (const gchar *uri)
 {
   gchar **components;
   gchar *new_uri = NULL;
@@ -112,7 +113,7 @@ load_source_auth_cb (EBook *book, EBookStatus status, gpointer closure)
 			return;
 
 		} else {
-			gchar *uri = e_source_get_uri (data->source);
+			const gchar *uri = e_book_get_uri (book);
 			gchar *stripped_uri = remove_parameters_from_uri (uri);
 			const gchar *auth_domain = e_source_get_property (data->source, "auth-domain");
 			const gchar *component_name;
@@ -123,7 +124,6 @@ load_source_auth_cb (EBook *book, EBookStatus status, gpointer closure)
 			addressbook_authenticate (book, TRUE, data->source, load_source_auth_cb, closure);
 
 			g_free (stripped_uri);
-			g_free (uri);
 			return;
 		}
 	}
@@ -161,13 +161,12 @@ addressbook_authenticate (EBook *book, gboolean previous_failure, ESource *sourc
 	char *pass_dup = NULL;
 	const gchar *auth;
 	const gchar *user;
-	gchar *uri = e_source_get_uri (source);
+	const gchar *uri = e_book_get_uri (book);
         gchar *stripped_uri = remove_parameters_from_uri (uri);
 	const gchar *auth_domain = e_source_get_property (source, "auth-domain");
 	const gchar *component_name;
 			
 	component_name = auth_domain ? auth_domain : "Addressbook";
-	g_free (uri);
 	uri = stripped_uri;
 
 	password = e_passwords_get_password (component_name, uri);
@@ -222,8 +221,7 @@ addressbook_authenticate (EBook *book, gboolean previous_failure, ESource *sourc
 	}
 	else {
 		/* they hit cancel */
-	
-			cb (book, E_BOOK_ERROR_CANCELLED, closure);
+		cb (book, E_BOOK_ERROR_CANCELLED, closure);
 	}
 
 	g_free (uri);

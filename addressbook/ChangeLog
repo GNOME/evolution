@@ -1,3 +1,14 @@
+2005-04-04  Sivaiah Nallagatla <snallagatla@novell.com>
+
+       * gui/component/addressbook.c (load_source_auth_cb)
+        (addressbook_authenticate) : get the uri from Ebook
+       instead of Esource. e_source_get_uri returns NULL when
+       it does not have a reference to source group with it
+       which happens when the source list from which this source
+       was taken is destroyed but Ebook has reference to that source.
+       e_book_get_uri returns the same uri and it will be always present
+       Fixes #73330
+
 2005-04-03  Sivaiah Nallagatla <snallagatla@novell.com>
 
 	* gui/widgets/eab-gui-util.c (do_copy) :
