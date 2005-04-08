@@ -1,3 +1,8 @@
+2005-04-08  Jeffrey Stedfast  <fejj@novell.com>
+
+	* em-composer-utils.c (em_utils_send_receipt): Simplify the
+	scanning for '@' by using strchr().
+
 2005-04-08  Not Zed  <NotZed@Ximian.com>
 
 	* em-composer-utils.c (em_utils_ask_receipt): removed.
@@ -225,8 +230,8 @@
 
 2005-02-25  Mengjie Yu  <meng-jie.yu@sun.com>
 
-	* em-folder-browser.c: (emfb_edit_select_all):make the 'select all'
-	work in all conditions.
+	* em-folder-browser.c (emfb_edit_select_all): make the 'select
+	all' work in all conditions.
 
 	Fixes #72545
 
@@ -288,7 +293,7 @@
 
 2005-02-22  Marco Pesenti Gritti  <marco@gnome.org>
 
-	* mail/em-popup.c: (emp_apps_open_in), (emp_standard_menu_factory):
+	* mail/em-popup.c (emp_apps_open_in, emp_standard_menu_factory):
 	Use gnome-vfs API to launch external applications
 
 2005-02-22  Not Zed  <NotZed@Ximian.com>

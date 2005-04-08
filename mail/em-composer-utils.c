@@ -1135,9 +1135,7 @@ void
 em_utils_send_receipt (CamelFolder *folder, CamelMimeMessage *message)
 {
 	/* See RFC #2298 for a description of message receipts */
-
 	EAccount *account = guess_account (message, folder);
-
 	CamelMimeMessage *receipt = camel_mime_message_new ();
 	CamelMultipart *body = camel_multipart_new ();
 	CamelMimePart *part;
@@ -1160,13 +1158,12 @@ em_utils_send_receipt (CamelFolder *folder, CamelMimeMessage *message)
 		return;
 	
 	/* Collect information for the receipt */
-
+	
 	/* We use camel_header_msgid_generate () to get a canonical
 	 * hostname, then skip the part leading to '@' */
-	fake_msgid = camel_header_msgid_generate ();
-	for (hostname = fake_msgid; hostname && *hostname != '@'; ++hostname);
-	++hostname;
-
+	hostname = strchr ((fake_msgid = camel_header_msgid_generate ()), '@');
+	hostname++;
+	
 	self_address = account->id->address;
 
 	if (!message_id)
