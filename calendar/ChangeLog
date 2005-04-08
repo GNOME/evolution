@@ -1,3 +1,10 @@
+2005-03-xx  Rodrigo Moya <rodrigo@novell.com>
+
+	Fixes #70035
+
+	* importers/icalendar-importer.c (support_format_fn, load_file_fn):
+	use e_cal_util_parse_ics_string instead of icalparser_parse_string.
+
 2005-04-05  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* gui/e-cal-model.c: (cal_opened_cb): If the status
