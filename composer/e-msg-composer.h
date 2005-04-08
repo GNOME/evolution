@@ -101,6 +101,7 @@ struct _EMsgComposer {
 	guint32 view_bcc               : 1;
 	guint32 view_cc                : 1;
 	guint32 view_subject           : 1;
+	guint32 request_receipt        : 1;
 	guint32 has_changed            : 1;
 	guint32 autosaved              : 1;
 	
@@ -191,6 +192,10 @@ void                     e_msg_composer_set_view_cc                      (EMsgCo
 gboolean                 e_msg_composer_get_view_bcc                     (EMsgComposer      *composer);
 void                     e_msg_composer_set_view_bcc                     (EMsgComposer      *composer,
 									  gboolean           view_bcc);
+
+gboolean                 e_msg_composer_get_request_receipt              (EMsgComposer *composer);
+void                     e_msg_composer_set_request_receipt              (EMsgComposer *composer,
+									  gboolean      request_receipt);
 
 EDestination           **e_msg_composer_get_recipients                   (EMsgComposer *composer);
 EDestination           **e_msg_composer_get_to                           (EMsgComposer *composer);

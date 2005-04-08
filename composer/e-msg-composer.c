@@ -463,6 +463,15 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 					 composer->extra_hdr_names->pdata[i],
 					 composer->extra_hdr_values->pdata[i]);
 	}
+
+	/* Message Disposition Notification */
+	if (composer->request_receipt) {
+		char *mdn_address = hdrs->account->id->reply_to;
+		if (!mdn_address || !*mdn_address)
+			mdn_address = hdrs->account->id->address;
+		
+		camel_medium_add_header (CAMEL_MEDIUM (new), "Disposition-Notification-To", mdn_address);
+	}
 	
 	if (composer->mime_body) {
 		plain_encoding = CAMEL_TRANSFER_ENCODING_7BIT;
@@ -525,7 +534,7 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 			CORBA_exception_init (&ev);
 			GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "save-data-on", &ev);
 		}
-		data = get_text (composer->persist_stream_interface, "text/html");		
+		data = get_text (composer->persist_stream_interface, "text/html");
 		if (save_html_object_data) {
 			GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "save-data-off", &ev);
 			CORBA_exception_free (&ev);
@@ -1928,6 +1937,19 @@ menu_view_bcc_cb (BonoboUIComponent           *component,
 }
 
 static void
+menu_insert_receipt_cb (BonoboUIComponent           *component,
+			const char                  *path,
+			Bonobo_UIComponent_EventType type,
+			const char                  *state,
+			gpointer                     user_data)
+{
+	if (type != Bonobo_UIComponent_STATE_CHANGED)
+		return;
+	
+	e_msg_composer_set_request_receipt (E_MSG_COMPOSER (user_data), atoi (state));
+}
+
+static void
 menu_changed_charset_cb (BonoboUIComponent           *component,
 			 const char                  *path,
 			 Bonobo_UIComponent_EventType type,
@@ -2228,6 +2250,14 @@ setup_ui (EMsgComposer *composer)
 	bonobo_ui_component_add_listener (
 		composer->uic, "ViewBCC",
 		menu_view_bcc_cb, composer);
+
+	/* Insert/Request Receipt */
+	bonobo_ui_component_set_prop (
+		composer->uic, "/commands/RequestReceipt",
+		"state", composer->request_receipt ? "1" : "0", NULL);
+	bonobo_ui_component_add_listener (
+		composer->uic, "RequestReceipt",
+		menu_insert_receipt_cb, composer);
 	
 	/* Security -> PGP Sign */
 	bonobo_ui_component_set_prop (
@@ -5358,6 +5388,7 @@ e_msg_composer_set_view_cc (EMsgComposer *composer, gboolean view_cc)
 }
 
 
+
 /**
  * e_msg_composer_get_view_bcc:
  * @composer: A message composer widget
@@ -5406,6 +5437,47 @@ e_msg_composer_set_view_bcc (EMsgComposer *composer, gboolean view_bcc)
 	e_msg_composer_hdrs_set_visible (E_MSG_COMPOSER_HDRS (composer->hdrs),
 					 e_msg_composer_get_visible_flags (composer));
 }
+
+
+
+/**
+ * e_msg_composer_get_request_receipt
+ * @composer: A message composer widget
+ * 
+ * Get the status of the "Request receipt" flag.
+ * 
+ * Return value: The status of the "Request receipt" flag.
+ **/
+gboolean
+e_msg_composer_get_request_receipt (EMsgComposer *composer)
+{
+	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
+	
+	return composer->request_receipt;
+}
+
+
+/**
+ * e_msg_composer_set_request_receipt:
+ * @composer: A message composer widget
+ * @state: whether to request or not a receipt
+ *
+ * If set, a message delivery notification request will be sent to the recipient
+ */
+void
+e_msg_composer_set_request_receipt (EMsgComposer *composer, gboolean request_receipt)
+{
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+	
+	if ((composer->request_receipt && request_receipt) ||
+	    (!composer->request_receipt && !request_receipt))
+		return;
+	
+	composer->request_receipt = request_receipt;
+	bonobo_ui_component_set_prop (composer->uic, "/commands/RequestReceipt",
+				      "state", composer->request_receipt ? "1" : "0", NULL);
+}
+
 
 
 EDestination **
