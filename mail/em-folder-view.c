@@ -64,7 +64,6 @@
 #include <bonobo/bonobo-ui-util.h>
 
 #include "widgets/misc/e-charset-picker.h"
-#include "widgets/misc/e-error.h"
 
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-icon-factory.h>
@@ -125,8 +124,6 @@ static void emfv_setting_setup(EMFolderView *emfv);
 
 static void emfv_on_url_cb(GObject *emitter, const char *url, EMFolderView *emfv);
 static void emfv_on_url(EMFolderView *emfv, const char *uri, const char *nice_uri);
-
-static void emfv_set_seen (EMFolderView *emfv, const char *uid);
 
 static gboolean emfv_popup_menu (GtkWidget *widget);
 
@@ -444,8 +441,6 @@ em_folder_view_open_selected(EMFolderView *emfv)
 		em_folder_view_set_folder((EMFolderView *)emmb, emfv->folder, emfv->folder_uri);
 		em_folder_view_set_message((EMFolderView *)emmb, views->pdata[i], FALSE);
 		gtk_widget_show(emmb->window);
-		/* TODO: this loads the message twice (!) */
-		em_utils_handle_receipt (emfv->folder, uids->pdata[i], NULL);
 		g_free(views->pdata[i]);
 	}
 	g_ptr_array_free(views, TRUE);
@@ -2106,7 +2101,7 @@ do_mark_seen (gpointer user_data)
 	MessageList *list = emfv->list;
 	
 	if (mst->uid && list->cursor_uid && !strcmp (mst->uid, list->cursor_uid))
-		emfv_set_seen (emfv, mst->uid);
+		camel_folder_set_message_flags (emfv->folder, mst->uid, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
 	
 	return FALSE;
 }
@@ -2152,7 +2147,7 @@ emfv_list_done_message_selected(CamelFolder *folder, const char *uid, CamelMimeM
 			emfv->priv->seen_id = g_timeout_add_full(G_PRIORITY_DEFAULT_IDLE, emfv->mark_seen_timeout,
 								 (GSourceFunc)do_mark_seen, mst, (GDestroyNotify)mst_free);
 		} else {
-			emfv_set_seen (emfv, uid);
+			camel_folder_set_message_flags(emfv->folder, uid, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
 		}
 	}
 	
@@ -2424,18 +2419,6 @@ emfv_format_popup_event(EMFormatHTMLDisplay *efhd, GdkEventButton *event, const 
 		gtk_menu_popup(menu, NULL, NULL, NULL, NULL, event->button, event->time);
 
 	return TRUE;
-}
-
-static void
-emfv_set_seen(EMFolderView *emfv, const char *uid)
-{
-	guint32 old_flags = camel_folder_get_message_flags(emfv->folder, uid);
-
-	/* If we're setting the SEEN flag on a message, handle receipt requests */
-	if (!(old_flags & CAMEL_MESSAGE_SEEN))
-		em_utils_handle_receipt(emfv->folder, uid, (CamelMimeMessage *)((EMFormat *)emfv->preview)->message);
-
-	camel_folder_set_message_flags(emfv->folder, uid, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
 }
 
 /* keep these two tables in sync */

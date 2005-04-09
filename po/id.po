@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-03-27 18:38+0700\n"
+"POT-Creation-Date: 2005-03-17 08:47+0700\n"
 "PO-Revision-Date: 2004-09-13 09:43+0700\n"
 "Last-Translator: Mohammad DAMT <mdamt@bisnisweb.com>\n"
 "Language-Team: Indonesian\n"
@@ -152,34 +152,34 @@ msgstr "informasi kalender"
 msgid "calendar view for one or more days"
 msgstr ""
 
-#: a11y/calendar/ea-gnome-calendar.c:187 calendar/gui/calendar-component.c:660
+#: a11y/calendar/ea-gnome-calendar.c:187 calendar/gui/calendar-component.c:671
 msgid "%A %d %b %Y"
 msgstr "%A %d %b %Y"
 
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
-#: a11y/calendar/ea-gnome-calendar.c:190 calendar/gui/calendar-component.c:663
+#: a11y/calendar/ea-gnome-calendar.c:190 calendar/gui/calendar-component.c:674
 #: calendar/gui/e-day-view-top-item.c:719 calendar/gui/e-day-view.c:1511
 #: calendar/gui/e-week-view-main-item.c:321
 msgid "%a %d %b"
 msgstr "%a %d %b"
 
 #: a11y/calendar/ea-gnome-calendar.c:192 a11y/calendar/ea-gnome-calendar.c:197
-#: a11y/calendar/ea-gnome-calendar.c:199 calendar/gui/calendar-component.c:665
-#: calendar/gui/calendar-component.c:670 calendar/gui/calendar-component.c:672
+#: a11y/calendar/ea-gnome-calendar.c:199 calendar/gui/calendar-component.c:676
+#: calendar/gui/calendar-component.c:681 calendar/gui/calendar-component.c:683
 msgid "%a %d %b %Y"
 msgstr "%a %d %b %Y"
 
 #: a11y/calendar/ea-gnome-calendar.c:216 a11y/calendar/ea-gnome-calendar.c:222
 #: a11y/calendar/ea-gnome-calendar.c:228 a11y/calendar/ea-gnome-calendar.c:230
-#: calendar/gui/calendar-component.c:684 calendar/gui/calendar-component.c:691
-#: calendar/gui/calendar-component.c:697 calendar/gui/calendar-component.c:699
+#: calendar/gui/calendar-component.c:695 calendar/gui/calendar-component.c:702
+#: calendar/gui/calendar-component.c:708 calendar/gui/calendar-component.c:710
 msgid "%d %b %Y"
 msgstr "%d %b %Y"
 
 #. strftime format %d = day of month, %b = abbreviated month name.
 #. Don't use any other specifiers.
-#: a11y/calendar/ea-gnome-calendar.c:220 calendar/gui/calendar-component.c:689
+#: a11y/calendar/ea-gnome-calendar.c:220 calendar/gui/calendar-component.c:700
 #: calendar/gui/e-day-view-top-item.c:723 calendar/gui/e-day-view.c:1527
 #: calendar/gui/e-week-view-main-item.c:335
 msgid "%d %b"
@@ -2727,7 +2727,7 @@ msgstr "Sumber"
 #: addressbook/gui/widgets/e-addressbook-view.c:244
 #: calendar/gui/dialogs/meeting-page.etspec.h:11
 #: calendar/gui/e-calendar-table.etspec.h:13
-#: calendar/gui/e-meeting-list-view.c:320
+#: calendar/gui/e-meeting-list-view.c:319
 #: calendar/gui/e-meeting-time-sel.etspec.h:11
 msgid "Type"
 msgstr "Tipe"
@@ -2761,7 +2761,7 @@ msgid "Send Message to Contact"
 msgstr "Kirim Pesan pada Kontak Ini"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:925
-#: calendar/gui/calendar-commands.c:120 calendar/gui/print.c:2501
+#: calendar/gui/calendar-commands.c:120 calendar/gui/print.c:2489
 #: ui/evolution-addressbook.xml.h:16 ui/evolution-calendar.xml.h:19
 #: ui/evolution-mail-message.xml.h:80 ui/evolution-tasks.xml.h:14
 msgid "Print"
@@ -2938,7 +2938,7 @@ msgstr "Radio"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:33
 #: calendar/gui/dialogs/meeting-page.etspec.h:9
-#: calendar/gui/e-meeting-list-view.c:327
+#: calendar/gui/e-meeting-list-view.c:326
 #: calendar/gui/e-meeting-time-sel.etspec.h:9
 msgid "Role"
 msgstr "Peranan"
@@ -3176,7 +3176,7 @@ msgstr "Protokol tidak didukung"
 #: calendar/gui/dialogs/task-details-page.glade.h:3
 #: calendar/gui/e-cal-component-preview.c:232
 #: calendar/gui/e-cal-model-tasks.c:347 calendar/gui/e-cal-model-tasks.c:660
-#: calendar/gui/e-calendar-table.c:458 calendar/gui/print.c:2364
+#: calendar/gui/e-calendar-table.c:458 calendar/gui/print.c:2352
 msgid "Cancelled"
 msgstr "Dibatalkan"
 
@@ -4117,7 +4117,7 @@ msgstr ""
 
 #. calendar:server-version secondary
 #: calendar/calendar-errors.xml.h:146
-msgid "Some features may not work correctly with your current server version "
+msgid " Some features may not work correctly with your current server version "
 msgstr ""
 
 #: calendar/common/authentication.c:49 calendar/gui/e-pub-utils.c:301
@@ -4155,7 +4155,7 @@ msgid "Calendar and Tasks"
 msgstr "Kalender dan Tugas"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:2
-#: calendar/gui/calendar-component.c:1290
+#: calendar/gui/calendar-component.c:1301
 msgid "Calendars"
 msgstr "Kalender"
 
@@ -4725,8 +4725,8 @@ msgstr "Lokasi berisi"
 msgid "Unmatched"
 msgstr "Tidak cocok"
 
-#: calendar/gui/calendar-commands.c:120 calendar/gui/calendar-component.c:708
-#: calendar/gui/dialogs/calendar-setup.c:362 calendar/gui/gnome-cal.c:1950
+#: calendar/gui/calendar-commands.c:120 calendar/gui/calendar-component.c:719
+#: calendar/gui/dialogs/calendar-setup.c:362 calendar/gui/gnome-cal.c:1942
 #: plugins/groupwise-account-setup/camel-gw-listener.c:382
 #: plugins/groupwise-account-setup/camel-gw-listener.c:412
 msgid "Calendar"
@@ -4777,69 +4777,69 @@ msgstr "Nanti"
 msgid "New Calendar"
 msgstr "Kalender Baru"
 
-#: calendar/gui/calendar-component.c:843
+#: calendar/gui/calendar-component.c:854
 msgid "Failed upgrading calendars."
 msgstr "Gagal saat mengupgrade kalender."
 
-#: calendar/gui/calendar-component.c:1139
+#: calendar/gui/calendar-component.c:1150
 #, c-format
 msgid "Unable to open the calendar '%s' for creating events and meetings"
 msgstr "Tidak dapat membuka kalender '%s' untuk mengatur acara dan pertemuan"
 
-#: calendar/gui/calendar-component.c:1155
+#: calendar/gui/calendar-component.c:1166
 msgid "There is no calendar available for creating events and meetings"
 msgstr "Tidak ada kalender tersedia untuk mengatur acara dan pertemuan"
 
-#: calendar/gui/calendar-component.c:1265
+#: calendar/gui/calendar-component.c:1276
 #, fuzzy
 msgid "Calendar Source Selector"
 msgstr "Lokasi Kalender"
 
-#: calendar/gui/calendar-component.c:1456
+#: calendar/gui/calendar-component.c:1467
 msgid "New appointment"
 msgstr "Janji baru"
 
-#: calendar/gui/calendar-component.c:1457
+#: calendar/gui/calendar-component.c:1468
 msgid "_Appointment"
 msgstr "J_anji"
 
-#: calendar/gui/calendar-component.c:1458
+#: calendar/gui/calendar-component.c:1469
 msgid "Create a new appointment"
 msgstr "Buat janji baru"
 
-#: calendar/gui/calendar-component.c:1464
+#: calendar/gui/calendar-component.c:1475
 msgid "New meeting"
 msgstr "Pertemuan baru"
 
-#: calendar/gui/calendar-component.c:1465
+#: calendar/gui/calendar-component.c:1476
 msgid "M_eeting"
 msgstr "P_ertemuan"
 
-#: calendar/gui/calendar-component.c:1466
+#: calendar/gui/calendar-component.c:1477
 msgid "Create a new meeting request"
 msgstr "Buat usulan pertemuan"
 
-#: calendar/gui/calendar-component.c:1472
+#: calendar/gui/calendar-component.c:1483
 msgid "New all day appointment"
 msgstr "Buat janji seharian penuh"
 
-#: calendar/gui/calendar-component.c:1473
+#: calendar/gui/calendar-component.c:1484
 msgid "All Day A_ppointment"
 msgstr "Janji Sehari _Penuh"
 
-#: calendar/gui/calendar-component.c:1474
+#: calendar/gui/calendar-component.c:1485
 msgid "Create a new all-day appointment"
 msgstr "Buat janji seharian penuh"
 
-#: calendar/gui/calendar-component.c:1480
+#: calendar/gui/calendar-component.c:1491
 msgid "New calendar"
 msgstr "Kalender baru"
 
-#: calendar/gui/calendar-component.c:1481
+#: calendar/gui/calendar-component.c:1492
 msgid "Cale_ndar"
 msgstr "Kale_nder"
 
-#: calendar/gui/calendar-component.c:1482
+#: calendar/gui/calendar-component.c:1493
 msgid "Create a new calendar"
 msgstr "Buat kalender baru"
 
@@ -5019,7 +5019,7 @@ msgid "attachment"
 msgstr "lampiran"
 
 #: calendar/gui/dialogs/cal-attachment-bar.c:439
-#: calendar/gui/dialogs/meeting-page.c:784
+#: calendar/gui/dialogs/meeting-page.c:781
 #: composer/e-msg-composer-attachment-bar.c:437
 #: plugins/shared-folder/properties.glade.h:14
 msgid "_Remove"
@@ -5532,7 +5532,7 @@ msgstr[0] "%d pesan terlampir"
 
 #: calendar/gui/dialogs/comp-editor.c:412 calendar/gui/e-calendar-table.c:1164
 #: calendar/gui/e-calendar-view.c:1404 composer/e-msg-composer.c:2906
-#: mail/em-folder-tree.c:1047 mail/em-folder-view.c:980
+#: mail/em-folder-tree.c:1047 mail/em-folder-view.c:966
 #: mail/message-list.c:1707 ui/evolution-addressbook.xml.h:31
 #: ui/evolution-calendar.xml.h:39 ui/evolution-composer-entries.xml.h:7
 #: ui/evolution-mail-message.xml.h:105 ui/evolution-tasks.xml.h:20
@@ -5541,7 +5541,7 @@ msgstr "_Salin"
 
 #: calendar/gui/dialogs/comp-editor.c:413 composer/e-msg-composer.c:2907
 #: mail/em-folder-tree.c:1048 mail/em-folder-tree.c:2312
-#: mail/em-folder-view.c:876 mail/message-list.c:1708
+#: mail/em-folder-view.c:862 mail/message-list.c:1708
 msgid "_Move"
 msgstr "_Pindahkan"
 
@@ -5704,13 +5704,13 @@ msgstr "Pengulangan"
 
 #: calendar/gui/dialogs/event-editor.c:161
 #: calendar/gui/dialogs/event-editor.c:233
-#: calendar/gui/dialogs/event-editor.c:397
+#: calendar/gui/dialogs/event-editor.c:379
 msgid "Scheduling"
 msgstr "Penjadwalan"
 
 #: calendar/gui/dialogs/event-editor.c:168
 #: calendar/gui/dialogs/event-editor.c:236
-#: calendar/gui/dialogs/event-editor.c:400
+#: calendar/gui/dialogs/event-editor.c:382
 msgid "Invitations"
 msgstr "Undangan"
 
@@ -5881,7 +5881,7 @@ msgstr "Waktu _mulai:"
 #: calendar/gui/e-cal-model-tasks.c:652 calendar/gui/e-itip-control.c:1104
 #: composer/e-msg-composer.c:2117 filter/filter-rule.c:878
 #: mail/em-account-editor.c:683 mail/em-account-editor.c:1288
-#: mail/em-account-prefs.c:437 mail/em-folder-view.c:1007
+#: mail/em-account-prefs.c:437 mail/em-folder-view.c:993
 #: plugins/calendar-weather/calendar-weather.c:371
 #: plugins/calendar-weather/calendar-weather.c:425
 #: plugins/itip-formatter/itip-formatter.c:1390
@@ -5891,24 +5891,24 @@ msgstr "Waktu _mulai:"
 msgid "None"
 msgstr "Tidak ada"
 
-#: calendar/gui/dialogs/meeting-page.c:435
+#: calendar/gui/dialogs/meeting-page.c:432
 msgid "The organizer selected no longer has an account."
 msgstr "Penyelenggara yang terpilih tidak memiliki account."
 
-#: calendar/gui/dialogs/meeting-page.c:441
+#: calendar/gui/dialogs/meeting-page.c:438
 msgid "An organizer is required."
 msgstr "Penyelenggara harus dipilih."
 
-#: calendar/gui/dialogs/meeting-page.c:456
+#: calendar/gui/dialogs/meeting-page.c:453
 msgid "At least one attendee is required."
 msgstr "Paling tidak harus ada seorang peserta."
 
-#: calendar/gui/dialogs/meeting-page.c:781
+#: calendar/gui/dialogs/meeting-page.c:778
 msgid "_Delegate To..."
 msgstr "_Delegasikan Ke..."
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:1
-#: calendar/gui/e-meeting-list-view.c:309
+#: calendar/gui/e-meeting-list-view.c:308
 #: calendar/gui/e-meeting-time-sel.etspec.h:1
 msgid "Attendee"
 msgstr "Peserta"
@@ -5944,7 +5944,7 @@ msgid "Member"
 msgstr "Anggota"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:8
-#: calendar/gui/e-meeting-list-view.c:334
+#: calendar/gui/e-meeting-list-view.c:333
 #: calendar/gui/e-meeting-time-sel.etspec.h:8
 msgid "RSVP"
 msgstr "Konfirmasi/RSVP"
@@ -5952,7 +5952,7 @@ msgstr "Konfirmasi/RSVP"
 #: calendar/gui/dialogs/meeting-page.etspec.h:10
 #: calendar/gui/dialogs/task-editor.c:146
 #: calendar/gui/e-calendar-table.etspec.h:10
-#: calendar/gui/e-meeting-list-view.c:341
+#: calendar/gui/e-meeting-list-view.c:340
 #: calendar/gui/e-meeting-time-sel.etspec.h:10 mail/em-filter-i18n.h:63
 #: mail/message-list.etspec.h:12
 msgid "Status"
@@ -6176,7 +6176,7 @@ msgstr "<span weight=\"bold\">Status</span>"
 #: calendar/gui/e-cal-model-tasks.c:345 calendar/gui/e-cal-model-tasks.c:658
 #: calendar/gui/e-calendar-table.c:457 calendar/gui/e-itip-control.c:896
 #: calendar/gui/e-meeting-store.c:196 calendar/gui/e-meeting-store.c:219
-#: calendar/gui/print.c:2361
+#: calendar/gui/print.c:2349
 msgid "Completed"
 msgstr "Selesai"
 
@@ -6190,7 +6190,7 @@ msgstr "Tinggi"
 #: calendar/gui/e-cal-component-preview.c:226
 #: calendar/gui/e-cal-model-tasks.c:343 calendar/gui/e-cal-model-tasks.c:656
 #: calendar/gui/e-cal-model-tasks.c:731 calendar/gui/e-calendar-table.c:456
-#: calendar/gui/print.c:2358
+#: calendar/gui/print.c:2346
 msgid "In Progress"
 msgstr "Dalam Proses"
 
@@ -6209,7 +6209,7 @@ msgstr "Normal"
 #: calendar/gui/dialogs/task-details-page.glade.h:9
 #: calendar/gui/e-cal-component-preview.c:236
 #: calendar/gui/e-cal-model-tasks.c:341 calendar/gui/e-cal-model-tasks.c:654
-#: calendar/gui/e-calendar-table.c:455 calendar/gui/print.c:2355
+#: calendar/gui/e-calendar-table.c:455 calendar/gui/print.c:2343
 msgid "Not Started"
 msgstr "Belum Dimulai"
 
@@ -6245,7 +6245,7 @@ msgstr "Tugas"
 
 #: calendar/gui/dialogs/task-editor.c:157
 #: calendar/gui/dialogs/task-editor.c:219
-#: calendar/gui/dialogs/task-editor.c:373
+#: calendar/gui/dialogs/task-editor.c:359
 msgid "Assignment"
 msgstr "Penugasan"
 
@@ -6398,7 +6398,7 @@ msgstr "%s pada %s"
 msgid "%s for an unknown trigger type"
 msgstr "%s dengan pemicu yang tidak diketahui"
 
-#: calendar/gui/e-cal-component-preview.c:70 mail/em-folder-view.c:2609
+#: calendar/gui/e-cal-component-preview.c:70 mail/em-folder-view.c:2573
 #, c-format
 msgid "Click to open %s"
 msgstr "Klik untuk membuka %s"
@@ -6589,7 +6589,7 @@ msgid "Open _Web Page"
 msgstr "Buka Halaman _Web"
 
 #: calendar/gui/e-calendar-table.c:1158 calendar/gui/e-calendar-view.c:1398
-#: mail/em-folder-view.c:990 mail/em-popup.c:494
+#: mail/em-folder-view.c:976 mail/em-popup.c:494
 #: ui/evolution-mail-message.xml.h:124
 msgid "_Save As..."
 msgstr "Simpan _Jadi..."
@@ -6632,7 +6632,7 @@ msgstr "_Tandai Tugas Sudah Selesai"
 
 #. FIXME: need to disable for undeletable folders
 #: calendar/gui/e-calendar-table.c:1176 calendar/gui/e-calendar-view.c:1416
-#: mail/em-folder-tree.c:2815 mail/em-folder-view.c:994
+#: mail/em-folder-tree.c:2815 mail/em-folder-view.c:980
 #: ui/evolution-addressbook.xml.h:33 ui/evolution-calendar.xml.h:40
 #: ui/evolution-mail-message.xml.h:108 ui/evolution-tasks.xml.h:21
 msgid "_Delete"
@@ -7371,7 +7371,7 @@ msgstr "_Orang-orang yang dibutuhkan dan satu sumber daya"
 msgid "Enter the password for %s"
 msgstr "Masukkan kata sandi %s"
 
-#: calendar/gui/e-tasks.c:763 calendar/gui/gnome-cal.c:2382
+#: calendar/gui/e-tasks.c:763 calendar/gui/gnome-cal.c:2374
 #, c-format
 msgid ""
 "Error on %s:\n"
@@ -7413,40 +7413,40 @@ msgstr "Zona waktu"
 msgid "%d %B"
 msgstr "%d %B"
 
-#: calendar/gui/gnome-cal.c:722
+#: calendar/gui/gnome-cal.c:718
 msgid "Updating query"
 msgstr "Perbarui query"
 
 #. bonobo displays this string so it must be in locale
-#: calendar/gui/gnome-cal.c:2065 widgets/menus/gal-view-menus.c:350
+#: calendar/gui/gnome-cal.c:2057 widgets/menus/gal-view-menus.c:350
 msgid "Custom View"
 msgstr "Tampilan Sendiri"
 
-#: calendar/gui/gnome-cal.c:2066
+#: calendar/gui/gnome-cal.c:2058
 #, fuzzy
 msgid "Save Custom View"
 msgstr "Simpan Tampilan Ini..."
 
-#: calendar/gui/gnome-cal.c:2071 widgets/menus/gal-view-menus.c:372
+#: calendar/gui/gnome-cal.c:2063 widgets/menus/gal-view-menus.c:372
 msgid "Define Views..."
 msgstr "Definisikan Tampilan..."
 
-#: calendar/gui/gnome-cal.c:2231
+#: calendar/gui/gnome-cal.c:2223
 #, c-format
 msgid "Loading appointments at %s"
 msgstr "Membuka janji pada %s"
 
-#: calendar/gui/gnome-cal.c:2250
+#: calendar/gui/gnome-cal.c:2242
 #, c-format
 msgid "Loading tasks at %s"
 msgstr "Membuka tugas pada %s"
 
-#: calendar/gui/gnome-cal.c:2348
+#: calendar/gui/gnome-cal.c:2340
 #, c-format
 msgid "Opening %s"
 msgstr "Membuka %s"
 
-#: calendar/gui/gnome-cal.c:3238
+#: calendar/gui/gnome-cal.c:3230
 msgid "Purging"
 msgstr "Menghapus"
 
@@ -7788,51 +7788,41 @@ msgstr "Bulan yang dipilih (%b %Y)"
 msgid "Selected year (%Y)"
 msgstr "Tahun yang dipilih (%Y)"
 
-#: calendar/gui/print.c:2320
-#, fuzzy, c-format
-msgid "Summary: %s"
-msgstr "Ringkasan:"
-
-#: calendar/gui/print.c:2328
-#, fuzzy, c-format
-msgid "Location: %s"
-msgstr "Lokasi:"
-
-#: calendar/gui/print.c:2371
+#: calendar/gui/print.c:2359
 #, c-format
 msgid "Status: %s"
 msgstr "Status: %s"
 
-#: calendar/gui/print.c:2388
+#: calendar/gui/print.c:2376
 #, c-format
 msgid "Priority: %s"
 msgstr "Prioritas: %s"
 
-#: calendar/gui/print.c:2400
+#: calendar/gui/print.c:2388
 #, c-format
 msgid "Percent Complete: %i"
 msgstr "Persen selesai: %i"
 
-#: calendar/gui/print.c:2412
+#: calendar/gui/print.c:2400
 #, c-format
 msgid "URL: %s"
 msgstr "URL: %s"
 
-#: calendar/gui/print.c:2426
+#: calendar/gui/print.c:2414
 #, c-format
 msgid "Categories: %s"
 msgstr "Kategori: %s"
 
-#: calendar/gui/print.c:2437
+#: calendar/gui/print.c:2425
 msgid "Contacts: "
 msgstr "Kontak: "
 
-#: calendar/gui/print.c:2577 calendar/gui/print.c:2665
-#: calendar/gui/print.c:2791 mail/em-format-html-print.c:178
+#: calendar/gui/print.c:2565 calendar/gui/print.c:2653
+#: calendar/gui/print.c:2779 mail/em-format-html-print.c:178
 msgid "Print Preview"
 msgstr "Tampilan Cetak"
 
-#: calendar/gui/print.c:2612
+#: calendar/gui/print.c:2600
 msgid "Print Item"
 msgstr "Cetak Item"
 
@@ -10337,7 +10327,7 @@ msgstr "Program konfigurasi penyusun Email Evolution"
 msgid "Evolution Mail preferences control"
 msgstr "Program pengaturan Email Evolution"
 
-#: mail/GNOME_Evolution_Mail.server.in.in.h:11 mail/em-folder-view.c:480
+#: mail/GNOME_Evolution_Mail.server.in.in.h:11 mail/em-folder-view.c:469
 #: mail/importers/elm-importer.c:418 mail/importers/netscape-importer.c:1902
 #: mail/importers/pine-importer.c:474 mail/mail-component.c:557
 #: mail/mail-component.c:608
@@ -10606,7 +10596,7 @@ msgstr "Sampah"
 msgid "Junk Test"
 msgstr "Tes Sampah"
 
-#: mail/em-filter-i18n.h:37 mail/em-folder-view.c:1006
+#: mail/em-filter-i18n.h:37 mail/em-folder-view.c:992
 #: widgets/misc/e-expander.c:189
 msgid "Label"
 msgstr "Label"
@@ -10853,13 +10843,13 @@ msgid "Copying `%s' to `%s'"
 msgstr "Menyalin pesan email ke %s."
 
 #: mail/em-folder-tree.c:2298 mail/em-folder-tree.c:2312
-#: mail/em-folder-view.c:876 mail/em-folder-view.c:891
+#: mail/em-folder-view.c:862 mail/em-folder-view.c:877
 #: mail/importers/evolution-mbox-importer.c:120
 #: mail/importers/evolution-outlook-importer.c:134
 msgid "Select folder"
 msgstr "Pilih folder"
 
-#: mail/em-folder-tree.c:2298 mail/em-folder-view.c:891
+#: mail/em-folder-tree.c:2298 mail/em-folder-view.c:877
 msgid "C_opy"
 msgstr "S_alin"
 
@@ -10915,138 +10905,138 @@ msgstr "Folder Bar_u"
 msgid "_Rename..."
 msgstr "_Ganti nama..."
 
-#: mail/em-folder-view.c:984 mail/em-popup.c:499
+#: mail/em-folder-view.c:970 mail/em-popup.c:499
 #: ui/evolution-mail-message.xml.h:87
 msgid "Reply to _All"
 msgstr "Balas ke Semu_a"
 
-#: mail/em-folder-view.c:985 ui/evolution-mail-message.xml.h:123
+#: mail/em-folder-view.c:971 ui/evolution-mail-message.xml.h:123
 msgid "_Reply to Sender"
 msgstr "Balas ke Pengi_rim"
 
-#: mail/em-folder-view.c:986 mail/em-popup.c:501
+#: mail/em-folder-view.c:972 mail/em-popup.c:501
 #: ui/evolution-mail-message.xml.h:110
 msgid "_Forward"
 msgstr "_Kirim ke Orang Lain"
 
-#: mail/em-folder-view.c:989 ui/evolution-mail-message.xml.h:109
+#: mail/em-folder-view.c:975 ui/evolution-mail-message.xml.h:109
 msgid "_Edit as New Message..."
 msgstr "Jadikan s_ebagai Pesan Baru..."
 
-#: mail/em-folder-view.c:991
+#: mail/em-folder-view.c:977
 msgid "_Print"
 msgstr "_Cetak"
 
-#: mail/em-folder-view.c:995
+#: mail/em-folder-view.c:981
 msgid "U_ndelete"
 msgstr "T_idak jadi hapus"
 
-#: mail/em-folder-view.c:996
+#: mail/em-folder-view.c:982
 msgid "Mo_ve to Folder..."
 msgstr "_Pindahkan ke Folder..."
 
-#: mail/em-folder-view.c:997 ui/evolution-addressbook.xml.h:32
+#: mail/em-folder-view.c:983 ui/evolution-addressbook.xml.h:32
 msgid "_Copy to Folder..."
 msgstr "_Salin ke Folder..."
 
-#: mail/em-folder-view.c:1000
+#: mail/em-folder-view.c:986
 msgid "Mark as _Important"
 msgstr "Tandai Sebagai Email Pent_ing"
 
-#: mail/em-folder-view.c:1001
+#: mail/em-folder-view.c:987
 msgid "_Mark as Unimportant"
 msgstr "Tandai Sebagai E_mail Tidak Penting"
 
-#: mail/em-folder-view.c:1002 ui/evolution-mail-message.xml.h:54
+#: mail/em-folder-view.c:988 ui/evolution-mail-message.xml.h:54
 msgid "Mark as _Junk"
 msgstr "Tandai Sebagai Email Sampa_h"
 
-#: mail/em-folder-view.c:1003 ui/evolution-mail-message.xml.h:55
+#: mail/em-folder-view.c:989 ui/evolution-mail-message.xml.h:55
 msgid "Mark as _Not Junk"
 msgstr "Tandai Buka_n Sebagai Sampah"
 
-#: mail/em-folder-view.c:1004
+#: mail/em-folder-view.c:990
 #, fuzzy
 msgid "Mark for Follo_w Up..."
 msgstr "Tindak Lan_juti..."
 
-#: mail/em-folder-view.c:1012
+#: mail/em-folder-view.c:998
 msgid "Fla_g Completed"
 msgstr "Fla_g Selesai"
 
-#: mail/em-folder-view.c:1013
+#: mail/em-folder-view.c:999
 msgid "Cl_ear Flag"
 msgstr "Ha_pus Flag"
 
-#: mail/em-folder-view.c:1016
+#: mail/em-folder-view.c:1002
 msgid "Crea_te Rule From Message"
 msgstr "Bua_t Aturan Baru dari Pesan Ini"
 
-#: mail/em-folder-view.c:1017
+#: mail/em-folder-view.c:1003
 #, fuzzy
 msgid "vFolder on _Subject"
 msgstr "VFolder Berdasarkan _Judul"
 
-#: mail/em-folder-view.c:1018
+#: mail/em-folder-view.c:1004
 #, fuzzy
 msgid "vFolder on Se_nder"
 msgstr "VFolder Berdasarkan Pe_ngirim"
 
-#: mail/em-folder-view.c:1019
+#: mail/em-folder-view.c:1005
 #, fuzzy
 msgid "vFolder on _Recipients"
 msgstr "VFolder Berdasarkan Pene_rima"
 
-#: mail/em-folder-view.c:1020
+#: mail/em-folder-view.c:1006
 #, fuzzy
 msgid "vFolder on Mailing _List"
 msgstr "VFolder Berdasarkan Mi_lis"
 
-#: mail/em-folder-view.c:1024
+#: mail/em-folder-view.c:1010
 msgid "Filter on Sub_ject"
 msgstr "Filter Berdasarkan Sub_yek"
 
-#: mail/em-folder-view.c:1025
+#: mail/em-folder-view.c:1011
 msgid "Filter on Sen_der"
 msgstr "Filter Berdasarkan Pen_girim"
 
-#: mail/em-folder-view.c:1026
+#: mail/em-folder-view.c:1012
 msgid "Filter on Re_cipients"
 msgstr "Filter Berdasarkan _Penerima"
 
-#: mail/em-folder-view.c:1027
+#: mail/em-folder-view.c:1013
 msgid "Filter on _Mailing List"
 msgstr "Filter Berdasarkan _Milis"
 
 #. default charset used in mail view
-#: mail/em-folder-view.c:1858 mail/em-folder-view.c:1902
+#: mail/em-folder-view.c:1844 mail/em-folder-view.c:1888
 msgid "Default"
 msgstr "Default"
 
-#: mail/em-folder-view.c:2001
+#: mail/em-folder-view.c:1987
 msgid "Print Message"
 msgstr "Cetak Pesan"
 
-#: mail/em-folder-view.c:2331
+#: mail/em-folder-view.c:2295
 msgid "_Copy Link Location"
 msgstr "_Salin Lokasi Link"
 
-#: mail/em-folder-view.c:2333
+#: mail/em-folder-view.c:2297
 #, fuzzy
 msgid "Create _vFolder"
 msgstr "Buat folder"
 
-#: mail/em-folder-view.c:2334
+#: mail/em-folder-view.c:2298
 #, fuzzy
 msgid "_From this Address"
 msgstr "_Alamat Email:"
 
-#: mail/em-folder-view.c:2335
+#: mail/em-folder-view.c:2299
 #, fuzzy
 msgid "_To this Address"
 msgstr "_Alamat:"
 
-#: mail/em-folder-view.c:2604
+#: mail/em-folder-view.c:2568
 #, c-format
 msgid "Click to mail %s"
 msgstr "Klik untuk mengirim email kepada %s"
@@ -14215,23 +14205,23 @@ msgstr "<b>Sedang Keluar Kantor, Pesan:</b>"
 msgid "Exchange Settings"
 msgstr "Setting"
 
-#: plugins/exchange-account-setup/exchange-account-setup.c:475
+#: plugins/exchange-account-setup/exchange-account-setup.c:448
 #: plugins/exchange-account-setup/exchange-ask-password.c:200
 msgid "_OWA Url:"
 msgstr ""
 
-#: plugins/exchange-account-setup/exchange-account-setup.c:500
+#: plugins/exchange-account-setup/exchange-account-setup.c:456
 #: plugins/exchange-account-setup/exchange-ask-password.c:193
 #, fuzzy
 msgid "A_uthenticate"
 msgstr "Otentikasi Salah"
 
-#: plugins/exchange-account-setup/exchange-account-setup.c:722
+#: plugins/exchange-account-setup/exchange-account-setup.c:664
 #, fuzzy
 msgid "Authentication Type"
 msgstr "Otentikasi Salah"
 
-#: plugins/exchange-account-setup/exchange-account-setup.c:736
+#: plugins/exchange-account-setup/exchange-account-setup.c:678
 #, fuzzy
 msgid "Ch_eck for Supported Types"
 msgstr "P_eriksa Jenis-jenis Yang Didukung "
@@ -14848,12 +14838,12 @@ msgstr "Tipe MIME:"
 msgid "Save"
 msgstr "Simpan"
 
-#: plugins/save-calendar/csv-format.c:168
+#: plugins/save-calendar/csv-format.c:167
 #, c-format
 msgid "%s%d/%s%d/%s%d %s%d:%s%d:%s%d"
 msgstr ""
 
-#: plugins/save-calendar/csv-format.c:371
+#: plugins/save-calendar/csv-format.c:370
 #, c-format
 msgid ""
 "Uid%sSummary%sDescription List%sCategories List%sComment List%sCompleted%"
@@ -14861,28 +14851,28 @@ msgid ""
 "sAttendees List%sLocation%sModified%s"
 msgstr ""
 
-#: plugins/save-calendar/csv-format.c:520
+#: plugins/save-calendar/csv-format.c:519
 msgid "Advanced options for the CSV format"
 msgstr ""
 
-#: plugins/save-calendar/csv-format.c:527
+#: plugins/save-calendar/csv-format.c:526
 msgid "Prepend a header"
 msgstr ""
 
-#: plugins/save-calendar/csv-format.c:536
+#: plugins/save-calendar/csv-format.c:535
 #, fuzzy
 msgid "Value delimiter:"
 msgstr "Pengiriman lokal"
 
-#: plugins/save-calendar/csv-format.c:542
+#: plugins/save-calendar/csv-format.c:541
 msgid "Record delimiter:"
 msgstr ""
 
-#: plugins/save-calendar/csv-format.c:548
+#: plugins/save-calendar/csv-format.c:547
 msgid "Encapsulate values with:"
 msgstr ""
 
-#: plugins/save-calendar/csv-format.c:570
+#: plugins/save-calendar/csv-format.c:569
 msgid "Comma separated value format (.csv)"
 msgstr ""
 
@@ -14891,7 +14881,7 @@ msgstr ""
 msgid "iCalendar format (.ics)"
 msgstr "File iCalendar (.ics)"
 
-#: plugins/save-calendar/rdf-format.c:391
+#: plugins/save-calendar/rdf-format.c:390
 msgid "RDF format (.rdf)"
 msgstr ""
 
@@ -14995,42 +14985,6 @@ msgstr ""
 msgid "Sharing"
 msgstr "Bayangan"
 
-#: plugins/startup-wizard/startup-wizard.c:255
-#: shell/evolution-startup-wizard.glade.h:2
-msgid "Evolution Setup Assistant"
-msgstr "Program Bantu Pengaturan Evolution"
-
-#: plugins/startup-wizard/startup-wizard.c:260
-#: shell/evolution-startup-wizard.glade.h:5
-msgid "Welcome"
-msgstr "Selamat datang di %h"
-
-#: plugins/startup-wizard/startup-wizard.c:261
-#: shell/evolution-startup-wizard.glade.h:6
-#, fuzzy
-msgid ""
-"Welcome to Evolution. The next few screens will allow Evolution to connect "
-"to your email accounts, and to import files from other applications. \n"
-"\n"
-"Please click the \"Forward\" button to continue. "
-msgstr ""
-"Selamat datang di Evolution. Sesaat lagi\n"
-"Evolution akan mengatur account email Anda, dan mengimpor\n"
-"file-file lama Anda dari aplikasi lain.\n"
-"\n"
-"Silakan klik tombol \"Maju\" untuk mulai."
-
-#: plugins/startup-wizard/startup-wizard.c:306 shell/e-shell-importer.c:159
-#: shell/e-shell-startup-wizard.c:750
-msgid "Please select the information that you would like to import:"
-msgstr "Pilih informasi mana saja yang hendak diimpor:"
-
-#: plugins/startup-wizard/startup-wizard.c:321 shell/e-shell-importer.c:899
-#: shell/e-shell-startup-wizard.c:700
-#, c-format
-msgid "From %s:"
-msgstr "Dari %s:"
-
 #. Create the checkbox we will display, complete with mnemonic that is unique in the dialog
 #: plugins/subject-thread/subject-thread.c:54
 msgid "Fall back to threading messages by sub_ject"
@@ -15126,7 +15080,7 @@ msgstr ""
 #: shell/apps_evolution_shell.schemas.in.in.h:17
 msgid ""
 "The style of the window buttons. Can be \"text\", \"icons\", \"both\", "
-"\"toolbar\". If \"toolbar\" is set, the style of the buttons is determined "
+"\"toolbar\". If \"toolbar\" is set, the style of the buutons is determined "
 "by the GNOME toolbar setting."
 msgstr ""
 
@@ -15200,6 +15154,10 @@ msgstr ""
 #: shell/e-shell-importer.c:156
 msgid "Choose the destination for this import"
 msgstr "Pilih tujuan impor ini"
+
+#: shell/e-shell-importer.c:159 shell/e-shell-startup-wizard.c:750
+msgid "Please select the information that you would like to import:"
+msgstr "Pilih informasi mana saja yang hendak diimpor:"
 
 #: shell/e-shell-importer.c:162
 msgid ""
@@ -15289,6 +15247,11 @@ msgstr ""
 #: shell/e-shell-importer.c:773
 msgid "Starting Intelligent Importers"
 msgstr "Menjalankan Program Impor yang Pintar"
+
+#: shell/e-shell-importer.c:899 shell/e-shell-startup-wizard.c:700
+#, c-format
+msgid "From %s:"
+msgstr "Dari %s:"
 
 #: shell/e-shell-importer.c:1105
 #, c-format
@@ -15441,6 +15404,10 @@ msgstr "Error generik"
 msgid "New"
 msgstr "Baru"
 
+#: shell/evolution-startup-wizard.glade.h:2
+msgid "Evolution Setup Assistant"
+msgstr "Program Bantu Pengaturan Evolution"
+
 #: shell/evolution-startup-wizard.glade.h:3
 msgid "Importing Files"
 msgstr "Mengimpor File"
@@ -15448,6 +15415,24 @@ msgstr "Mengimpor File"
 #: shell/evolution-startup-wizard.glade.h:4
 msgid "Timezone "
 msgstr "Zona waktu"
+
+#: shell/evolution-startup-wizard.glade.h:5
+msgid "Welcome"
+msgstr "Selamat datang di %h"
+
+#: shell/evolution-startup-wizard.glade.h:6
+#, fuzzy
+msgid ""
+"Welcome to Evolution. The next few screens will allow Evolution to connect "
+"to your email accounts, and to import files from other applications. \n"
+"\n"
+"Please click the \"Forward\" button to continue. "
+msgstr ""
+"Selamat datang di Evolution. Sesaat lagi\n"
+"Evolution akan mengatur account email Anda, dan mengimpor\n"
+"file-file lama Anda dari aplikasi lain.\n"
+"\n"
+"Silakan klik tombol \"Maju\" untuk mulai."
 
 #: shell/evolution-startup-wizard.glade.h:9
 #, fuzzy

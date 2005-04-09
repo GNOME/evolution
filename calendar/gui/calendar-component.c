@@ -564,8 +564,19 @@ popup_event_cb(ESourceSelector *selector, ESource *insource, GdkEventButton *eve
 	t = e_cal_popup_target_new_source(ep, selector);
 	t->target.widget = (GtkWidget *)component_view->calendar;
 
-	for (i=0;i<sizeof(ecc_source_popups)/sizeof(ecc_source_popups[0]);i++)
-		menus = g_slist_prepend(menus, &ecc_source_popups[i]);
+	if (!insource) {
+
+		ESourceGroup *group;
+
+		group = e_source_selector_get_primary_source_group (selector);
+		g_object_ref (group);
+		ecc_source_popups [0].user_data = group;
+		menus = g_slist_prepend (menus, &ecc_source_popups [0]);
+	}
+	else {
+		for (i=1;i<sizeof(ecc_source_popups)/sizeof(ecc_source_popups[0]);i++)
+			menus = g_slist_prepend(menus, &ecc_source_popups[i]);
+	}
 
 	e_popup_add_items((EPopup *)ep, menus, NULL, ecc_source_popup_free, component_view);
 

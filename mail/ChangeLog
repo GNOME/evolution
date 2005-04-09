@@ -1,46 +1,18 @@
-2005-04-08  Jeffrey Stedfast  <fejj@novell.com>
+2005-04-06  Rodney Dawes  <dobey@novell.com>
 
-	* em-composer-utils.c (em_utils_send_receipt): Simplify the
-	scanning for '@' by using strchr().
+	* em-folder-view.c (emfv_popup_items): Add Mark as Read/Unread back
+	to the context menu
+	Fix the ordering values for some menu items in the context menu that
+	had duplicate order values
 
-2005-04-08  Not Zed  <NotZed@Ximian.com>
-
-	* em-composer-utils.c (em_utils_ask_receipt): removed.
-	(em_utils_handle_receipt): asynchronously load message if none is
-	supplied.
-
-	* em-folder-view.c (emfv_set_seen): pass message in.
-
-	* em-composer-utils.c (em_utils_ask_receipt): strip leading lwsp
-	on the disposition address.
-	(em_utils_ask_receipt): added a comment about which rfc.
-	(em_utils_handle_receipt): merged ask_receipt into here.  Changed
-	api to take a message instead, so we don't have to load the
-	message every time.  Also only set receipt-handled if we have a
-	receipt requested in the first place.
-
-2005-04-05  ERDI Gergo  <cactus@cactus.rulez.org>
-
-	* mail-errors.xml: Added new dialog for receipt requests
-
-	* em-composer-utils.c (em_utils_guess_account): Made guess_account
-	public, to be callable from em-folder-view
-	(em_utils_send_receipt): New function to send an RFC
-	2298-compliant message delivery notification
-
+	Fixes bug #73192
+	
 2005-04-05  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #74320
 
 	* em-format.c (em_format_part_as): if the snooped type is NULL,
 	fall back to application/octet-stream.
-
-2005-04-04  Rodney Dawes  <dobey@novell.com>
-
-	* em-folder-view.c (emfv_popup_items): Add Mark as Read/Unread back
-	to the context menu (#73192)
-	Fix the ordering values for some menu items in the context menu that
-	had duplicate order values
 
 2005-03-31  Not Zed  <NotZed@Ximian.com>
 
@@ -60,15 +32,6 @@
 	* message-list.c (on_selection_changed_cmd): only noop if we only
 	have 1 message selected, otherwise we don't update the menu's.
 	Fixes a problem introduced by 64987's fix.
-
-2005-03-30  Li Yuan  <li.yuan@sun.com>
-
-	* em-account-prefs.c: (em_account_prefs_treeview_new):
-	add a11y name to Mail Accounts Table
-	* mail-config.glade:
-	add a11y name to tables in Mail Preferences page and 
-	Composer Preferences page.
-	Fixes #73914
 
 2005-03-16  Jeffrey Stedfast  <fejj@novell.com>
 
@@ -230,8 +193,8 @@
 
 2005-02-25  Mengjie Yu  <meng-jie.yu@sun.com>
 
-	* em-folder-browser.c (emfb_edit_select_all): make the 'select
-	all' work in all conditions.
+	* em-folder-browser.c: (emfb_edit_select_all):make the 'select all'
+	work in all conditions.
 
 	Fixes #72545
 
@@ -293,7 +256,7 @@
 
 2005-02-22  Marco Pesenti Gritti  <marco@gnome.org>
 
-	* mail/em-popup.c (emp_apps_open_in, emp_standard_menu_factory):
+	* mail/em-popup.c: (emp_apps_open_in), (emp_standard_menu_factory):
 	Use gnome-vfs API to launch external applications
 
 2005-02-22  Not Zed  <NotZed@Ximian.com>

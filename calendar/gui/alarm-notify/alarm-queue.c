@@ -52,7 +52,6 @@
 #include "config-data.h"
 #include "util.h"
 #include "e-util/e-popup.h"
-#include "widgets/misc/e-error.h"
 
 
 
@@ -684,7 +683,7 @@ edit_component (ECal *client, ECalComponent *comp)
 						      0, NULL, &ev);
 
 	if (BONOBO_EX (&ev)) {
-		e_error_run (NULL, "editor-error", bonobo_exception_get_text (&ev));
+		g_message (G_STRLOC ": Could not activate the component editor factory");
 		CORBA_exception_free (&ev);
 		return;
 	}
@@ -701,7 +700,7 @@ edit_component (ECal *client, ECalComponent *comp)
 	GNOME_Evolution_Calendar_CompEditorFactory_editExisting (factory, uri, (char *) uid, corba_type, &ev);
 
 	if (BONOBO_EX (&ev))
-		e_error_run (NULL, "editor-error", bonobo_exception_get_text (&ev));
+		g_message (G_STRLOC ": Exception while editing the component");
 
 	CORBA_exception_free (&ev);
 

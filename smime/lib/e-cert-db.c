@@ -240,6 +240,7 @@ install_loadable_roots (void)
 	if (RootsModule) {
 		/* Check version, and unload module if it is too old */
 		CK_INFO info;
+
 		if (PK11_GetModInfo (RootsModule, &info) != SECSuccess) {
 			/* Do not use this module */
 			RootsModule = NULL;
@@ -270,12 +271,19 @@ install_loadable_roots (void)
 		char *paths_to_check[] = {
 			"/usr/lib",
 			"/usr/lib/mozilla",
+			"/opt/mozilla/lib",
+			"/opt/mozilla/lib/mozilla"
 		};
 		
 		for (i = 0; i < G_N_ELEMENTS (paths_to_check); i ++) {
 			char *dll_path = g_module_build_path (paths_to_check [i], "nssckbi");
 			
 			if (g_file_test (dll_path, G_FILE_TEST_EXISTS)) {
+				PRInt32 modType;
+
+				/* Delete the existing module */
+				SECMOD_DeleteModule ("Mozilla Root Certs", &modType);
+
 				SECMOD_AddNewModule("Mozilla Root Certs",dll_path, 0, 0);
 				g_free (dll_path);
 				break;

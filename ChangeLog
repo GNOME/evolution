@@ -1,4 +1,8 @@
-2005-03-11  David Malcolm  <dmalcolm@redhat.com>
+2005-04-08  JP Rosevear  <jpr@novell.com>
+
+	* configure.in: bump version, requires
+
+2005-04-05  David Malcolm  <dmalcolm@redhat.com>
 
 	* configure.in: set up DBUS_VERSION for use in the new-mail-notify
 	plugin 
@@ -11,22 +15,22 @@
 
 	* configure.in: Added "xh" to ALL_LINGUAS.
 
-2005-03-27  Ahmad Riza H Nst  <ari@160c.afraid.org>
+2005-03-17  Ahmad Riza H Nst  <ari@160c.afraid.org>
 
-	* configure.in: Added id (Indonesian) to ALL_LINGUAS line.
+	* configure.in: Added Id (Indonesian) to ALL_LINGUAS line.
 
-2005-03-21  Radek Doulik  <rodo@novell.com>
-
-	* configure.in: require gtkhmtl 3.7.0 with 3.8 package/api version
-
-2005-03-21  Philip Van Hoof  <pvanhoof@gnome.org>
-
-	* configure.in: Fix for #73917
-	
 2005-03-16  Pawan Chitrakar  <pawan@nplinux.org>
 
 	* configure.in: Added ne in ALL_LINGUAS
 
+2005-03-15  JP Rosevear  <jpr@novell.com>
+
+	* configure.in: bump version, requires
+
+2005-03-15  JP Rosevear  <jpr@novell.com>
+ 
+ 	* configure.in: define development as 0
+	
 2005-03-07  JP Rosevear  <jpr@novell.com>
 
 	* configure.in: bump version, requires

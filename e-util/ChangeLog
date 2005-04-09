@@ -365,10 +365,6 @@
 	* e-icon-factory.c (icon_foreach_remove): We must return TRUE here
 	so that things actually get removed from the list
 
-2004-08-07  ERDI Gergo  <cactus@cactus.rulez.org>
-
-	* e-account.h: Added new receipt_policy field to services
-
 2004-08-05  Rodrigo Moya <rodrigo@novell.com>
 
 	* e-icon-factory.c (e_icon_factory_init): connect to "changed"

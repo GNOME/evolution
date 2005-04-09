@@ -40,14 +40,12 @@
 #include <camel/camel-store.h>
 #include <camel/camel-session.h>
 #include <camel/camel-store.h>
-#include <camel/camel-offline-store.h>
 #include <camel/camel-vee-store.h>
 #include <camel/camel-folder.h>
 #include <e-gw-container.h>
 #include <e-gw-connection.h>
 #include <glade/glade.h>
 #include <libgnomeui/libgnomeui.h>
-#include <widgets/misc/e-error.h>
 #include "share-folder.h"
 #define d(x)
 
@@ -166,7 +164,7 @@ create_folder__created (struct _mail_msg *mm)
 		if(E_IS_GW_CONNECTION (ccnc)) {
 			(ssi->sf)->cnc = ccnc;
 
-			(ssi->sf)->container_id = get_container_id ((ssi->sf)->cnc, m->full_name);
+			(ssi->sf)->container_id = g_strdup (get_container_id ((ssi->sf)->cnc, m->name));
 			share_folder(ssi->sf);
 		}
 
@@ -214,12 +212,6 @@ create_folder (CamelStore *store, const char *full_name, void (* done) (struct _
 	struct _EMCreateFolder *m;
 	const char *parent;
 	int id;
-	
-	if (((CamelOfflineStore *) store)->state == CAMEL_OFFLINE_STORE_NETWORK_UNAVAIL) {
-		//e_error_run (NULL,  _("Cannot create GroupWise folders in offline mode."), NULL, NULL);
-		g_warning (_("Cannot Create shared folder in offline mode."));
-		return -1;
-	}
 
 	namebuf = g_strdup (full_name);
 	if (!(name = strrchr (namebuf, '/'))) {
@@ -387,7 +379,7 @@ org_gnome_shared_folder_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_d
 	else
 		sub = folder_name;	
 
-	 /* This is kind of bad..but we don't have types for all these folders.*/
+	/* This is kind of bad..but we don't have types for all these folders.*/
 
 	if ( !( strcmp (sub, "Mailbox") && strcmp (sub, "Calendar") && strcmp (sub, "Contacts") && strcmp (sub, "Documents") && strcmp (sub, "Authored") && strcmp (sub, "Default Library") && strcmp (sub, "Work In Progress") && strcmp (sub, "Cabinet") && strcmp (sub, "Sent Items") && strcmp (sub, "Trash") && strcmp (sub, "Checklist"))) {
 		g_free (folderuri);
@@ -399,7 +391,7 @@ org_gnome_shared_folder_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_d
 		cnc = get_cnc (store);	
 	
 		if (E_IS_GW_CONNECTION (cnc)) 
-			id = get_container_id (cnc, folder_name);
+			id = get_container_id (cnc, sub);
 		else
 			g_warning("Could not Connnect\n");
 		
@@ -427,9 +419,6 @@ get_cnc (CamelStore *store)
 		
 		if (!store)
 			return  NULL;
-
-		if (((CamelOfflineStore *) store)->state == CAMEL_OFFLINE_STORE_NETWORK_UNAVAIL)
-			return NULL;	
 
 		service = CAMEL_SERVICE(store);
 		url = service->url;
@@ -467,17 +456,7 @@ get_container_id(EGwConnection *cnc, gchar *fname)
 {
 	GList *container_list = NULL;	
 	gchar *id = NULL;
-	gchar *name;
-	gchar **names;
-	int i = 0, parts = 0;
-
-	names = g_strsplit (fname, "/", -1);
-	if(names){
-		while (names [parts])
-			parts++;
-		fname = names[i]; 
-	}
-
+	const char *name;
 	/* get list of containers */
 	if (e_gw_connection_get_container_list (cnc, "folders", &(container_list)) == E_GW_CONNECTION_STATUS_OK) {
 		GList *container = NULL;
@@ -489,17 +468,12 @@ get_container_id(EGwConnection *cnc, gchar *fname)
 				id = g_strdup (e_gw_container_get_id (container->data));
 				break;
 			} else if (!strcmp (name, fname)) {
-				if (i == parts - 1) {
-					id = g_strdup (e_gw_container_get_id (container->data));
-					break;
-				} else
-					fname = names[++i];
+				id = g_strdup (e_gw_container_get_id (container->data));
+				break;
 			}
 			g_free (name);
 		}
 		e_gw_connection_free_container_list (container_list);
-		if (names)
-		g_strfreev(names);
 	}
 	return id;
 }

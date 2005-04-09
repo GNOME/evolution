@@ -1732,7 +1732,6 @@ itip_formatter_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
 	gtk_box_pack_start (GTK_BOX (inner_vbox), scrolledwin, TRUE, TRUE, 0);
 
 	ess = e_source_selector_new (source_list);
-	atk_object_set_name (gtk_widget_get_accessible (ess), _("Conflict Search Table"));
 	gtk_container_add (GTK_CONTAINER (scrolledwin), ess);
 
 	initialize_selection (E_SOURCE_SELECTOR (ess), source_list);

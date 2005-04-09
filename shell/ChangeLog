@@ -1,24 +1,13 @@
-2005-04-06  Yong Sun <Yong.Sun@Sun.COM>
-
-	* e-shell-importer.c: (get_name_from_component_info):
-	Return the localized name of the supported file type.
-
-2005-03-21  JP Rosevear  <jpr@novell.com>
-
-	Fixes #73066
-	
-	* apps_evolution_shell.schemas.in.in: fix typo
-
-2005-03-21  JP Rosevear  <jpr@novell.com>
-	
-	* main.c: switch #ifdef DEVELOPMENT to #if DEVELOPMENT so the
-	configure.in foo actually controls this
-
 2005-03-17  Not Zed  <NotZed@Ximian.com>
 
 	* es-event.h: fix the qualifier bit assignments for the STATE target.
 
 	* e-shell.c (offline_procedure_finished_cb): fix offline state event.
+
+2005-03-15  JP Rosevear  <jpr@novell.com>
+
+	* main.c: switch #ifdef DEVELOPMENT to #if DEVELOPMENT so the
+	configure.in foo actually controls this
 
 2005-02-28  JP Rosevear  <jpr@novell.com>
 

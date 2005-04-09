@@ -1,3 +1,147 @@
+Evolution 2.2.2, 2005-04-07
+---------------------------
+
+Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
+
+ * Addressbook 
+   #74404 - [Gnopernicus] Evolution crashes after deleting contacts with keyboard (Yu Mengjie)
+   #73330 - Tried adding attende in meeting under gw calendar - Evolution crashed (Siva)
+   #74255 - Copy to address book option doesnot check for duplicates (Siva)
+
+ * Calendar
+   #44719 - Alarm Notify window is not sticky any more (Rodrigo)
+   #69272 - crash creating new appointment (JP)
+   #73320 - double click attendee - removes user from meeting attendence list (Chen)
+   #44579 - appointment location / description does not get printed (Harry Lu)
+   #68525 - crash while evo is in background (Chen)
+   #72983 - 'List' view has one entry for recurring appointment (Rodrigo)
+   #68423 - Memory leak when purging (Rodrigo)
+   #73969 - 'Cancel' meeting doesnt delete all instances of recurring meeting in 'attendee's calendar
+
+ * Mail
+   #73347 - default action for recover files wrong (Michael)
+   #72935 - Cancel Button does not light up in second window (Michael)
+   #72518 - Delete warning untrue when choose Delete vFolder (Michael)
+   #70394 - "mailer" header is displayed twice when both "x-mailer" and "user-agent" set (Jeff)
+   #73363 - loads every message the cursor passes through (Michael)
+   #73559 - Evolution filter crash when using Source Account criteria (Michael)
+   #71003 - threads still running at exit (Michael)
+   #73550 - HTML mails don't show if "prefer plain-text" plugin no active (Michael)
+   #36972 - Composer overrides selection  (Radek)
+   #73192 - Mark as (un)read missing from context popup menu (Rodney)
+   #74320 - evolution crashes on non-malformed mail message (Michael)
+
+ * Plugins
+   #73627 - No way to configure mailbox != username (Sushma)
+   #73844 - Problem handling meeting requests with VTIMEZONEs (JP)
+
+Other bugs
+
+ * Calendar
+   - Fix memory leaks in calendar (Rodrigo)
+
+ * Mail
+   - Update menu sensitivity in the non-single message case (Michael)
+
+ * SMIME
+   - Handle cases where the version of the root cert module changed (Jeff)
+
+ * Shell
+   - Handle cases where the version of the root cert module changed (Jeff)
+
+ * Plugins
+   - Emit the offline event properly in the shell (Michael)
+   - Prevent crash of bbdb if the book can't be opened (Michael)
+
+ * All
+   - Clean up debug spew (Michael)
+   - Fix memory leak for gal view menus (Michael)
+
+Updated translations:
+	-pl (GNOME PL Team)
+	-ja (Takeshi AIHANA)
+	-da (Martin Willemoes Hansen)
+	-fr (Christophe Merlet)
+	-ko (Changwoo Ryu)
+	-en_GB (David Lodge)
+	-tr (Baris Cicek)
+	-cs (Miloslav Trmac)
+	-de (Frank Arnold)
+	-sr (Danilo Segan)
+	-sr@Latn (Danilo Segan)
+	-es (Francisco Javier F. Serrador)
+	-pt_BR (Raphael Higino)
+	-sq (Laurent Dhima)
+	-fi (Hile Tuohela)
+	-gu (Ankit Patel)
+	-sv (Christian Rose)
+	-pt (Duarte Loreto)
+	-en_CA (Adam Weinberger)
+
+Evolution 2.2.1, 2005-03-15
+---------------------------
+
+Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
+
+ * Addressbook
+   #73206 - Evolution crashed when clicked on 'Cancel' of LDAP authentication (Siva)
+
+ * Calendar
+   #73563 - evolution-alarm-notify crashes after pressing snooze button (JP)
+   #72979 - Meeting is displayed as appointment in 'List view' (Chen) 
+   #73501 - In 'Send Options' popup 'General Options' tab should be removed for exchange (Sush)
+
+ * Mail
+   #73293 - unread messages becoming read do not update menu items (Michael)
+   #73139 - Not able to see the icons of Shared Folders (Vivek)
+   #73100 - Unify Evolution license text check box messages in Evolution mailer (Michael)
+   #71733 - signature editor should set focus on title field (Harry Lu)
+   #73501 - In 'Send Options' popup 'General Options' tab should be removed (Sushma)
+
+ * Plugins
+   #72807 - Switching from gw account crashes Evolution (Siva)
+   #73201 -Sharing tab is not present in the properties of a folder which has a space in its name (Vivek)
+
+Other bugs
+
+ * Calendar
+   - Fix memory leak in calendar views (Michael)
+   - Fix forward as icalendar (JP)
+   - Fix default color and selection on first run (JP)
+
+ * Mail
+   - Improved Post-To handling (Michael)
+   - Fix To/CC/BCC cut and paste (Hans)
+
+ * Plugins
+   - Don't return an invisible item in gw account setup (Michael)
+   - Handle assigned tasks in itip formatter (JP)
+
+ * All
+   - Clean up debug spew (Michael)
+   - Fix memory leak for gal view menus (Michael)
+
+Updated translations:
+	-pl (GNOME PL Team)
+	-ja (Takeshi AIHANA)
+	-da (Martin Willemoes Hansen)
+	-fr (Christophe Merlet)
+	-ko (Changwoo Ryu)
+	-en_GB (David Lodge)
+	-tr (Baris Cicek)
+	-cs (Miloslav Trmac)
+	-de (Frank Arnold)
+	-sr (Danilo Segan)
+	-sr@Latn (Danilo Segan)
+	-es (Francisco Javier F. Serrador)
+	-pt_BR (Raphael Higino)
+	-sq (Laurent Dhima)
+	-fi (Hile Tuohela)
+	-gu (Ankit Patel)
+	-sv (Christian Rose)
+	-pt (Duarte Loreto)
+	-en_CA (Adam Weinberger)
+
 Evolution 2.2.0, 2005-03-07
 ---------------------------
 

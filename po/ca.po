@@ -4,17 +4,17 @@
 #
 # Víctor Nieto <vnie2025@alu-etsetb.upc.es>
 # Aleix Badia i Bosch <abadia@ica.es>, 2004
-# Xavier Conde Rueda <xaviconde@eresmas.com>, 2004, 2005
+# Xavier Conde Rueda <xaviconde@eresmas.com>, 2004
 # Francesc Dorca <f.dorca@filnet.es>, 2004
 # Jordi Mas <jmas@softcatala.org>, 2004
 # Enric Balletbò i Serra <eballetbo@km103.com>, 2004
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-03-26 15:05+0100\n"
-"PO-Revision-Date: 2005-03-26 15:07+0100\n"
+"POT-Creation-Date: 2005-03-26 13:39+0100\n"
+"PO-Revision-Date: 2005-03-26 15:00+0100\n"
 "Last-Translator: Xavier Conde Rueda <xaviconde@eresmas.com>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
 "MIME-Version: 1.0\n"
@@ -170,7 +170,7 @@ msgstr "visualització de calendari per a un o més dies"
 
 # fitxer: calendar.ca.po.5
 #: ../a11y/calendar/ea-gnome-calendar.c:187
-#: ../calendar/gui/calendar-component.c:660
+#: ../calendar/gui/calendar-component.c:671
 msgid "%A %d %b %Y"
 msgstr "%A, %d de %B del %Y"
 
@@ -182,7 +182,7 @@ msgstr "%A, %d de %B del %Y"
 #. You can change the order but don't change the
 #. specifiers or add anything.
 #: ../a11y/calendar/ea-gnome-calendar.c:190
-#: ../calendar/gui/calendar-component.c:663
+#: ../calendar/gui/calendar-component.c:674
 #: ../calendar/gui/e-day-view-top-item.c:719 ../calendar/gui/e-day-view.c:1511
 #: ../calendar/gui/e-week-view-main-item.c:321
 msgid "%a %d %b"
@@ -192,9 +192,9 @@ msgstr "%a %d %b"
 #: ../a11y/calendar/ea-gnome-calendar.c:192
 #: ../a11y/calendar/ea-gnome-calendar.c:197
 #: ../a11y/calendar/ea-gnome-calendar.c:199
-#: ../calendar/gui/calendar-component.c:665
-#: ../calendar/gui/calendar-component.c:670
-#: ../calendar/gui/calendar-component.c:672
+#: ../calendar/gui/calendar-component.c:676
+#: ../calendar/gui/calendar-component.c:681
+#: ../calendar/gui/calendar-component.c:683
 msgid "%a %d %b %Y"
 msgstr "%a %d %b %Y"
 
@@ -203,10 +203,10 @@ msgstr "%a %d %b %Y"
 #: ../a11y/calendar/ea-gnome-calendar.c:222
 #: ../a11y/calendar/ea-gnome-calendar.c:228
 #: ../a11y/calendar/ea-gnome-calendar.c:230
-#: ../calendar/gui/calendar-component.c:684
-#: ../calendar/gui/calendar-component.c:691
-#: ../calendar/gui/calendar-component.c:697
-#: ../calendar/gui/calendar-component.c:699
+#: ../calendar/gui/calendar-component.c:695
+#: ../calendar/gui/calendar-component.c:702
+#: ../calendar/gui/calendar-component.c:708
+#: ../calendar/gui/calendar-component.c:710
 msgid "%d %b %Y"
 msgstr "%d de %B del %Y"
 
@@ -217,7 +217,7 @@ msgstr "%d de %B del %Y"
 #. month name. You can change the order but don't
 #. change the specifiers or add anything.
 #: ../a11y/calendar/ea-gnome-calendar.c:220
-#: ../calendar/gui/calendar-component.c:689
+#: ../calendar/gui/calendar-component.c:700
 #: ../calendar/gui/e-day-view-top-item.c:723 ../calendar/gui/e-day-view.c:1527
 #: ../calendar/gui/e-week-view-main-item.c:335
 msgid "%d %b"
@@ -3304,7 +3304,7 @@ msgstr "Envia un missatge al contacte"
 
 # fitxer: addressbook.gui.widgets.ca.po
 #: ../addressbook/gui/widgets/e-addressbook-view.c:925
-#: ../calendar/gui/calendar-commands.c:120 ../calendar/gui/print.c:2501
+#: ../calendar/gui/calendar-commands.c:120 ../calendar/gui/print.c:2502
 #: ../ui/evolution-addressbook.xml.h:16 ../ui/evolution-calendar.xml.h:19
 #: ../ui/evolution-mail-message.xml.h:80 ../ui/evolution-tasks.xml.h:14
 msgid "Print"
@@ -3807,7 +3807,7 @@ msgstr "El protocol no està suportat"
 #: ../calendar/gui/e-cal-component-preview.c:232
 #: ../calendar/gui/e-cal-model-tasks.c:347
 #: ../calendar/gui/e-cal-model-tasks.c:660
-#: ../calendar/gui/e-calendar-table.c:458 ../calendar/gui/print.c:2364
+#: ../calendar/gui/e-calendar-table.c:458 ../calendar/gui/print.c:2365
 msgid "Cancelled"
 msgstr "Cancel·lat"
 
@@ -4898,7 +4898,7 @@ msgstr "No s'ha marcat la llista de tasques per usar en mode desconnectat"
 
 #. calendar:server-version secondary
 #: ../calendar/calendar-errors.xml.h:146
-msgid "Some features may not work correctly with your current server version "
+msgid " Some features may not work correctly with your current server version "
 msgstr ""
 " Algunes característiques no funcionaran correctament amb la versió actual "
 "del vostre servidor "
@@ -4946,7 +4946,7 @@ msgstr "Calendari i tasques"
 
 # fitxer: calendar.ca.po.5
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:2
-#: ../calendar/gui/calendar-component.c:1290
+#: ../calendar/gui/calendar-component.c:1301
 msgid "Calendars"
 msgstr "Calendaris"
 
@@ -5040,7 +5040,7 @@ msgstr "Hora de finalització:"
 # fitxer: addressbook.gui.contact-editor.ca.po
 #. Location
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:4
-#: ../calendar/gui/e-itip-control.c:1118
+#: ../calendar/gui/e-itip-control.c:1118 ../calendar/gui/print.c:2329
 #: ../plugins/itip-formatter/itip-view.c:859
 msgid "Location:"
 msgstr "Ubicació:"
@@ -5572,9 +5572,9 @@ msgstr "Sense coincidència"
 
 # fitxer: calendar.ca.po.5
 #: ../calendar/gui/calendar-commands.c:120
-#: ../calendar/gui/calendar-component.c:708
+#: ../calendar/gui/calendar-component.c:719
 #: ../calendar/gui/dialogs/calendar-setup.c:362
-#: ../calendar/gui/gnome-cal.c:1950
+#: ../calendar/gui/gnome-cal.c:1952
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:382
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:412
 msgid "Calendar"
@@ -5633,84 +5633,84 @@ msgid "New Calendar"
 msgstr "Nou calendari"
 
 # fitxer: calendar.ca.po.3
-#: ../calendar/gui/calendar-component.c:843
+#: ../calendar/gui/calendar-component.c:854
 msgid "Failed upgrading calendars."
 msgstr "No s'han actualitzats el calendari."
 
 # fitxer: calendar.ca.po.5
-#: ../calendar/gui/calendar-component.c:1139
+#: ../calendar/gui/calendar-component.c:1150
 #, c-format
 msgid "Unable to open the calendar '%s' for creating events and meetings"
 msgstr ""
 "No s'ha pogut obrir el calendari '%s' per crear esdeveniments i reunions"
 
 # fitxer: calendar.ca.po.5
-#: ../calendar/gui/calendar-component.c:1155
+#: ../calendar/gui/calendar-component.c:1166
 msgid "There is no calendar available for creating events and meetings"
 msgstr "No hi ha cap calendari disponible per crear esdeveniment i reunions"
 
 # fitxer: calendar.ca.po.4
-#: ../calendar/gui/calendar-component.c:1265
+#: ../calendar/gui/calendar-component.c:1276
 msgid "Calendar Source Selector"
 msgstr "Selector d'origen del calendari"
 
 # fitxer: calendar.ca.po.5
-#: ../calendar/gui/calendar-component.c:1456
+#: ../calendar/gui/calendar-component.c:1467
 msgid "New appointment"
 msgstr "Nova cit_a"
 
 # fitxer: calendar.ca.po.5
-#: ../calendar/gui/calendar-component.c:1457
+#: ../calendar/gui/calendar-component.c:1468
 msgid "_Appointment"
 msgstr "Cit_a"
 
 # fitxer: calendar.ca.po.5
-#: ../calendar/gui/calendar-component.c:1458
+#: ../calendar/gui/calendar-component.c:1469
 msgid "Create a new appointment"
 msgstr "Crea una nova cita"
 
 # fitxer: calendar.ca.po.5
-#: ../calendar/gui/calendar-component.c:1464
+#: ../calendar/gui/calendar-component.c:1475
 msgid "New meeting"
 msgstr "Nova reunió"
 
 # fitxer: calendar.ca.po.5
-#: ../calendar/gui/calendar-component.c:1465
+#: ../calendar/gui/calendar-component.c:1476
 msgid "M_eeting"
 msgstr "R_eunió"
 
 # fitxer: calendar.ca.po.5
-#: ../calendar/gui/calendar-component.c:1466
+#: ../calendar/gui/calendar-component.c:1477
 msgid "Create a new meeting request"
 msgstr "Crea una nova petició de reunió"
 
 # fitxer: calendar.ca.po.5
-#: ../calendar/gui/calendar-component.c:1472
+#: ../calendar/gui/calendar-component.c:1483
 msgid "New all day appointment"
 msgstr "Nova cita de tot el dia"
 
 # fitxer: calendar.ca.po.5
-#: ../calendar/gui/calendar-component.c:1473
+#: ../calendar/gui/calendar-component.c:1484
 msgid "All Day A_ppointment"
 msgstr "Cita de tot el _dia"
 
 # fitxer: calendar.ca.po.5
-#: ../calendar/gui/calendar-component.c:1474
+#: ../calendar/gui/calendar-component.c:1485
 msgid "Create a new all-day appointment"
 msgstr "Crea una nova cita de tot el dia"
 
 # fitxer: calendar.ca.po.5
-#: ../calendar/gui/calendar-component.c:1480
+#: ../calendar/gui/calendar-component.c:1491
 msgid "New calendar"
 msgstr "Nou calendari"
 
 # fitxer: calendar.ca.po.5
-#: ../calendar/gui/calendar-component.c:1481
+#: ../calendar/gui/calendar-component.c:1492
 msgid "Cale_ndar"
 msgstr "Cale_ndari"
 
 # fitxer: calendar.ca.po.5
-#: ../calendar/gui/calendar-component.c:1482
+#: ../calendar/gui/calendar-component.c:1493
 msgid "Create a new calendar"
 msgstr "Crea un nou calendari"
 
@@ -5930,7 +5930,7 @@ msgstr "fitxer adjunt"
 
 # fitxer: calendar.ca.po.4
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:439
-#: ../calendar/gui/dialogs/meeting-page.c:784
+#: ../calendar/gui/dialogs/meeting-page.c:781
 #: ../composer/e-msg-composer-attachment-bar.c:437
 #: ../plugins/shared-folder/properties.glade.h:14
 msgid "_Remove"
@@ -6758,14 +6758,14 @@ msgstr "Periodicitat"
 # fitxer: calendar.ca.po.4
 #: ../calendar/gui/dialogs/event-editor.c:161
 #: ../calendar/gui/dialogs/event-editor.c:233
-#: ../calendar/gui/dialogs/event-editor.c:397
+#: ../calendar/gui/dialogs/event-editor.c:379
 msgid "Scheduling"
 msgstr "Planificació"
 
 # fitxer: addressbook.printing.ca.po
 #: ../calendar/gui/dialogs/event-editor.c:168
 #: ../calendar/gui/dialogs/event-editor.c:236
-#: ../calendar/gui/dialogs/event-editor.c:400
+#: ../calendar/gui/dialogs/event-editor.c:382
 msgid "Invitations"
 msgstr "Invitacions"
 
@@ -6987,22 +6987,22 @@ msgid "None"
 msgstr "Cap"
 
 # fitxer: calendar.ca.po.4
-#: ../calendar/gui/dialogs/meeting-page.c:435
+#: ../calendar/gui/dialogs/meeting-page.c:432
 msgid "The organizer selected no longer has an account."
 msgstr "L'organitzador seleccionat ja no té cap compte."
 
 # fitxer: calendar.ca.po.4
-#: ../calendar/gui/dialogs/meeting-page.c:441
+#: ../calendar/gui/dialogs/meeting-page.c:438
 msgid "An organizer is required."
 msgstr "És necessari un organitzador."
 
 # fitxer: calendar.ca.po.4
-#: ../calendar/gui/dialogs/meeting-page.c:456
+#: ../calendar/gui/dialogs/meeting-page.c:453
 msgid "At least one attendee is required."
 msgstr "Com a mínim és necessari un assistent."
 
 # fitxer: calendar.ca.po.4
-#: ../calendar/gui/dialogs/meeting-page.c:781
+#: ../calendar/gui/dialogs/meeting-page.c:778
 msgid "_Delegate To..."
 msgstr "_Delega a..."
 
@@ -7328,7 +7328,7 @@ msgstr "<span weight=\"bold\">Estat</span>"
 #: ../calendar/gui/e-cal-model-tasks.c:658
 #: ../calendar/gui/e-calendar-table.c:457 ../calendar/gui/e-itip-control.c:896
 #: ../calendar/gui/e-meeting-store.c:196 ../calendar/gui/e-meeting-store.c:219
-#: ../calendar/gui/print.c:2361
+#: ../calendar/gui/print.c:2362
 msgid "Completed"
 msgstr "Completada"
 
@@ -7345,7 +7345,7 @@ msgstr "Alta"
 #: ../calendar/gui/e-cal-model-tasks.c:343
 #: ../calendar/gui/e-cal-model-tasks.c:656
 #: ../calendar/gui/e-cal-model-tasks.c:731
-#: ../calendar/gui/e-calendar-table.c:456 ../calendar/gui/print.c:2358
+#: ../calendar/gui/e-calendar-table.c:456 ../calendar/gui/print.c:2359
 msgid "In Progress"
 msgstr "En procés"
 
@@ -7369,7 +7369,7 @@ msgstr "Normal"
 #: ../calendar/gui/e-cal-component-preview.c:236
 #: ../calendar/gui/e-cal-model-tasks.c:341
 #: ../calendar/gui/e-cal-model-tasks.c:654
-#: ../calendar/gui/e-calendar-table.c:455 ../calendar/gui/print.c:2355
+#: ../calendar/gui/e-calendar-table.c:455 ../calendar/gui/print.c:2356
 msgid "Not Started"
 msgstr "No s'ha iniciat"
 
@@ -7413,7 +7413,7 @@ msgstr "Tasca"
 # fitxer: calendar.ca.po.4
 #: ../calendar/gui/dialogs/task-editor.c:157
 #: ../calendar/gui/dialogs/task-editor.c:219
-#: ../calendar/gui/dialogs/task-editor.c:373
+#: ../calendar/gui/dialogs/task-editor.c:359
 msgid "Assignment"
 msgstr "Assignació"
 
@@ -7614,7 +7614,7 @@ msgstr "Sense títol"
 # fitxer: calendar.ca.po.5
 #: ../calendar/gui/e-cal-component-preview.c:186
 #: ../calendar/gui/e-itip-control.c:1108
-#: ../calendar/gui/e-itip-control.glade.h:11
+#: ../calendar/gui/e-itip-control.glade.h:11 ../calendar/gui/print.c:2320
 msgid "Summary:"
 msgstr "Resum:"
 
@@ -8820,7 +8820,7 @@ msgid "Enter the password for %s"
 msgstr "Introduïu la contrasenya de %s"
 
 # fitxer: calendar.ca.po.3
-#: ../calendar/gui/e-tasks.c:763 ../calendar/gui/gnome-cal.c:2382
+#: ../calendar/gui/e-tasks.c:763 ../calendar/gui/gnome-cal.c:2384
 #, c-format
 msgid ""
 "Error on %s:\n"
@@ -8869,46 +8869,46 @@ msgid "%d %B"
 msgstr "%d %B"
 
 # fitxer: calendar.ca.po.4
-#: ../calendar/gui/gnome-cal.c:722
+#: ../calendar/gui/gnome-cal.c:724
 msgid "Updating query"
 msgstr "Actualitzar petició"
 
 # fitxer: widgets.ca.po
 #. bonobo displays this string so it must be in locale
-#: ../calendar/gui/gnome-cal.c:2065 ../widgets/menus/gal-view-menus.c:350
+#: ../calendar/gui/gnome-cal.c:2067 ../widgets/menus/gal-view-menus.c:350
 msgid "Custom View"
 msgstr "Visualització personalitzada"
 
 # fitxer: widgets.ca.po
-#: ../calendar/gui/gnome-cal.c:2066
+#: ../calendar/gui/gnome-cal.c:2068
 msgid "Save Custom View"
 msgstr "Desa la visualització personalitzada"
 
 # fitxer: widgets.ca.po
-#: ../calendar/gui/gnome-cal.c:2071 ../widgets/menus/gal-view-menus.c:372
+#: ../calendar/gui/gnome-cal.c:2073 ../widgets/menus/gal-view-menus.c:372
 msgid "Define Views..."
 msgstr "Defineix les visualitzacions..."
 
 # fitxer: calendar.ca.po.4
-#: ../calendar/gui/gnome-cal.c:2231
+#: ../calendar/gui/gnome-cal.c:2233
 #, c-format
 msgid "Loading appointments at %s"
 msgstr "S'estan carregant les cites a %s"
 
 # fitxer: calendar.ca.po.3
-#: ../calendar/gui/gnome-cal.c:2250
+#: ../calendar/gui/gnome-cal.c:2252
 #, c-format
 msgid "Loading tasks at %s"
 msgstr "S'estan carregant les tasques a %s"
 
 # fitxer: calendar.ca.po.3
-#: ../calendar/gui/gnome-cal.c:2348
+#: ../calendar/gui/gnome-cal.c:2350
 #, c-format
 msgid "Opening %s"
 msgstr "S'està obrint %s"
 
 # fitxer: calendar.ca.po.3
-#: ../calendar/gui/gnome-cal.c:3238
+#: ../calendar/gui/gnome-cal.c:3240
 msgid "Purging"
 msgstr "S'està buidant"
 
@@ -9326,61 +9326,49 @@ msgstr "Mes seleccionat (%b %Y)"
 msgid "Selected year (%Y)"
 msgstr "Any seleccionat (%Y)"
 
-# fitxer: calendar.ca.po.5
-#: ../calendar/gui/print.c:2320
-#, c-format
-msgid "Summary: %s"
-msgstr "Resum: %s"
-
-# fitxer: addressbook.gui.contact-editor.ca.po
-#: ../calendar/gui/print.c:2328
-#, c-format
-msgid "Location: %s"
-msgstr "Ubicació: %s"
-
 # fitxer: calendar.ca.po.2
-#: ../calendar/gui/print.c:2371
+#: ../calendar/gui/print.c:2372
 #, c-format
 msgid "Status: %s"
 msgstr "Estat: %s"
 
 # fitxer: calendar.ca.po.2
-#: ../calendar/gui/print.c:2388
+#: ../calendar/gui/print.c:2389
 #, c-format
 msgid "Priority: %s"
 msgstr "Prioritat: %s"
 
 # fitxer: calendar.ca.po.2
-#: ../calendar/gui/print.c:2400
+#: ../calendar/gui/print.c:2401
 #, c-format
 msgid "Percent Complete: %i"
 msgstr "Percentatge acabat: %i"
 
 # fitxer: calendar.ca.po.2
-#: ../calendar/gui/print.c:2412
+#: ../calendar/gui/print.c:2413
 #, c-format
 msgid "URL: %s"
 msgstr "URL: %s"
 
 # fitxer: calendar.ca.po.2
-#: ../calendar/gui/print.c:2426
+#: ../calendar/gui/print.c:2427
 #, c-format
 msgid "Categories: %s"
 msgstr "Categories: %s"
 
 # fitxer: calendar.ca.po.2
-#: ../calendar/gui/print.c:2437
+#: ../calendar/gui/print.c:2438
 msgid "Contacts: "
 msgstr "Contactes:"
 
 # fitxer: calendar.ca.po.2
-#: ../calendar/gui/print.c:2577 ../calendar/gui/print.c:2665
-#: ../calendar/gui/print.c:2791 ../mail/em-format-html-print.c:178
+#: ../calendar/gui/print.c:2578 ../calendar/gui/print.c:2666
+#: ../calendar/gui/print.c:2792 ../mail/em-format-html-print.c:178
 msgid "Print Preview"
 msgstr "Previsualització de la impressió"
 
 # fitxer: calendar.ca.po.2
-#: ../calendar/gui/print.c:2612
+#: ../calendar/gui/print.c:2613
 msgid "Print Item"
 msgstr "Imprimeix l'element"
 
@@ -12902,7 +12890,7 @@ msgstr "Compte origen"
 # fitxer: filter.ca.po
 #: ../mail/em-filter-i18n.h:61
 msgid "Specific header"
-msgstr "Capçalera específica"
+msgstr "capçalera específica"
 
 #: ../mail/em-filter-i18n.h:62
 msgid "starts with"
@@ -17642,12 +17630,12 @@ msgstr "Tipus MIME"
 msgid "Save"
 msgstr "Desa"
 
-#: ../plugins/save-calendar/csv-format.c:168
+#: ../plugins/save-calendar/csv-format.c:167
 #, c-format
 msgid "%s%d/%s%d/%s%d %s%d:%s%d:%s%d"
 msgstr "%s%d/%s%d/%s%d %s%d:%s%d:%s%d"
 
-#: ../plugins/save-calendar/csv-format.c:371
+#: ../plugins/save-calendar/csv-format.c:370
 #, c-format
 msgid ""
 "Uid%sSummary%sDescription List%sCategories List%sComment List%sCompleted%"
@@ -17658,28 +17646,28 @@ msgstr ""
 "sCompletat%sCreat%sLlista de contactes%sInici%sFi%sVenciment%sPercentatge "
 "completat%sPrioritat%sUrl%sLlista de participants%sUbicació%sModificat%s"
 
-#: ../plugins/save-calendar/csv-format.c:520
+#: ../plugins/save-calendar/csv-format.c:519
 msgid "Advanced options for the CSV format"
 msgstr "Opcions avançades del format CSV"
 
-#: ../plugins/save-calendar/csv-format.c:527
+#: ../plugins/save-calendar/csv-format.c:526
 msgid "Prepend a header"
 msgstr "Afegeix una capçalera al començament"
 
 # fitxer: camel.ca.po.2
-#: ../plugins/save-calendar/csv-format.c:536
+#: ../plugins/save-calendar/csv-format.c:535
 msgid "Value delimiter:"
 msgstr "Separador de valors:"
 
-#: ../plugins/save-calendar/csv-format.c:542
+#: ../plugins/save-calendar/csv-format.c:541
 msgid "Record delimiter:"
 msgstr "Separador de registres:"
 
-#: ../plugins/save-calendar/csv-format.c:548
+#: ../plugins/save-calendar/csv-format.c:547
 msgid "Encapsulate values with:"
 msgstr "Encapsula els valors amb:"
 
-#: ../plugins/save-calendar/csv-format.c:570
+#: ../plugins/save-calendar/csv-format.c:569
 msgid "Comma separated value format (.csv)"
 msgstr "Format de valors separats per comes (.csv)"
 
@@ -17688,7 +17676,7 @@ msgstr "Format de valors separats per comes (.csv)"
 msgid "iCalendar format (.ics)"
 msgstr "Format de l'iCalendar (.ics)"
 
-#: ../plugins/save-calendar/rdf-format.c:391
+#: ../plugins/save-calendar/rdf-format.c:390
 msgid "RDF format (.rdf)"
 msgstr "Format RDF (.rdf)"
 
@@ -17948,7 +17936,7 @@ msgstr ""
 #: ../shell/apps_evolution_shell.schemas.in.in.h:17
 msgid ""
 "The style of the window buttons. Can be \"text\", \"icons\", \"both\", "
-"\"toolbar\". If \"toolbar\" is set, the style of the buttons is determined "
+"\"toolbar\". If \"toolbar\" is set, the style of the buutons is determined "
 "by the GNOME toolbar setting."
 msgstr ""
 "L'estil dels botons de la finestra. Pot ser \"text\", \"icons\", \"both\", o "

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-03-29 14:02+0200\n"
+"POT-Creation-Date: 2005-03-29 15:02+0200\n"
 "PO-Revision-Date: 2005-03-23 09:33+0200\n"
 "Last-Translator: Canonical Ltd <translations@canonical.com>\n"
 "Language-Team: Xhosa <xh-translate@ubuntu.com>\n"
@@ -145,7 +145,7 @@ msgid "calendar view for one or more days"
 msgstr "ukubonisa ikhalenda yosuku okanye yeentsuku ezimbini"
 
 #: ../a11y/calendar/ea-gnome-calendar.c:187
-#: ../calendar/gui/calendar-component.c:660
+#: ../calendar/gui/calendar-component.c:671
 msgid "%A %d %b %Y"
 msgstr "i-%A %d %b %Y"
 
@@ -156,7 +156,7 @@ msgstr "i-%A %d %b %Y"
 #. You can change the order but don't change the
 #. specifiers or add anything.
 #: ../a11y/calendar/ea-gnome-calendar.c:190
-#: ../calendar/gui/calendar-component.c:663
+#: ../calendar/gui/calendar-component.c:674
 #: ../calendar/gui/e-day-view-top-item.c:719 ../calendar/gui/e-day-view.c:1511
 #: ../calendar/gui/e-week-view-main-item.c:321
 msgid "%a %d %b"
@@ -165,9 +165,9 @@ msgstr "i-%a %d %b"
 #: ../a11y/calendar/ea-gnome-calendar.c:192
 #: ../a11y/calendar/ea-gnome-calendar.c:197
 #: ../a11y/calendar/ea-gnome-calendar.c:199
-#: ../calendar/gui/calendar-component.c:665
-#: ../calendar/gui/calendar-component.c:670
-#: ../calendar/gui/calendar-component.c:672
+#: ../calendar/gui/calendar-component.c:676
+#: ../calendar/gui/calendar-component.c:681
+#: ../calendar/gui/calendar-component.c:683
 msgid "%a %d %b %Y"
 msgstr "i-%a %d %b %Y"
 
@@ -175,10 +175,10 @@ msgstr "i-%a %d %b %Y"
 #: ../a11y/calendar/ea-gnome-calendar.c:222
 #: ../a11y/calendar/ea-gnome-calendar.c:228
 #: ../a11y/calendar/ea-gnome-calendar.c:230
-#: ../calendar/gui/calendar-component.c:684
-#: ../calendar/gui/calendar-component.c:691
-#: ../calendar/gui/calendar-component.c:697
-#: ../calendar/gui/calendar-component.c:699
+#: ../calendar/gui/calendar-component.c:695
+#: ../calendar/gui/calendar-component.c:702
+#: ../calendar/gui/calendar-component.c:708
+#: ../calendar/gui/calendar-component.c:710
 msgid "%d %b %Y"
 msgstr "i-%d %b %Y"
 
@@ -189,7 +189,7 @@ msgstr "i-%d %b %Y"
 #. month name. You can change the order but don't
 #. change the specifiers or add anything.
 #: ../a11y/calendar/ea-gnome-calendar.c:220
-#: ../calendar/gui/calendar-component.c:689
+#: ../calendar/gui/calendar-component.c:700
 #: ../calendar/gui/e-day-view-top-item.c:723 ../calendar/gui/e-day-view.c:1527
 #: ../calendar/gui/e-week-view-main-item.c:335
 msgid "%d %b"
@@ -2767,7 +2767,7 @@ msgid "Send Message to Contact"
 msgstr "Thumela Umyalezo koQhagamshelana naye"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:925
-#: ../calendar/gui/calendar-commands.c:120 ../calendar/gui/print.c:2501
+#: ../calendar/gui/calendar-commands.c:120 ../calendar/gui/print.c:2502
 #: ../ui/evolution-addressbook.xml.h:16 ../ui/evolution-calendar.xml.h:19
 #: ../ui/evolution-mail-message.xml.h:80 ../ui/evolution-tasks.xml.h:14
 msgid "Print"
@@ -3191,7 +3191,7 @@ msgstr "Iimpawu nemithetho elawulayo ayixhaswa"
 #: ../calendar/gui/e-cal-component-preview.c:232
 #: ../calendar/gui/e-cal-model-tasks.c:347
 #: ../calendar/gui/e-cal-model-tasks.c:660
-#: ../calendar/gui/e-calendar-table.c:458 ../calendar/gui/print.c:2364
+#: ../calendar/gui/e-calendar-table.c:458 ../calendar/gui/print.c:2365
 msgid "Cancelled"
 msgstr "Irhoxisiwe"
 
@@ -4157,7 +4157,7 @@ msgstr ""
 #. calendar:server-version secondary
 #: ../calendar/calendar-errors.xml.h:146
 #, fuzzy
-msgid "Some features may not work correctly with your current server version "
+msgid " Some features may not work correctly with your current server version "
 msgstr ""
 "Ezinye izimo azisebenzi ngokuchanekileyo nohlobo lweseva olukhoyo ngoku"
 
@@ -4199,7 +4199,7 @@ msgid "Calendar and Tasks"
 msgstr "Ikhalenda neMisebenzi"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:2
-#: ../calendar/gui/calendar-component.c:1290
+#: ../calendar/gui/calendar-component.c:1301
 msgid "Calendars"
 msgstr "Iikhalenda"
 
@@ -4277,7 +4277,7 @@ msgstr "Ixesha lokuyeka:"
 
 #. Location
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:4
-#: ../calendar/gui/e-itip-control.c:1118
+#: ../calendar/gui/e-itip-control.c:1118 ../calendar/gui/print.c:2329
 #: ../plugins/itip-formatter/itip-view.c:859
 msgid "Location:"
 msgstr "Indawo:"
@@ -4748,9 +4748,9 @@ msgid "Unmatched"
 msgstr "Ezingahambelaniyo"
 
 #: ../calendar/gui/calendar-commands.c:120
-#: ../calendar/gui/calendar-component.c:708
+#: ../calendar/gui/calendar-component.c:719
 #: ../calendar/gui/dialogs/calendar-setup.c:362
-#: ../calendar/gui/gnome-cal.c:1950
+#: ../calendar/gui/gnome-cal.c:1952
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:382
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:412
 msgid "Calendar"
@@ -4802,68 +4802,68 @@ msgstr "Imozulu"
 msgid "New Calendar"
 msgstr "Ikhalenda Entsha"
 
-#: ../calendar/gui/calendar-component.c:843
+#: ../calendar/gui/calendar-component.c:854
 msgid "Failed upgrading calendars."
 msgstr "Ayiphumelelanga ukuphucula iikhalenda."
 
-#: ../calendar/gui/calendar-component.c:1139
+#: ../calendar/gui/calendar-component.c:1150
 #, c-format
 msgid "Unable to open the calendar '%s' for creating events and meetings"
 msgstr "Ayinako ukuvula ikhalenda '%s' yokwenza iziganeko neentlanganiso"
 
-#: ../calendar/gui/calendar-component.c:1155
+#: ../calendar/gui/calendar-component.c:1166
 msgid "There is no calendar available for creating events and meetings"
 msgstr "Akukho khalenda ifumanekayo ukwenza iziganeko neentlanganiso"
 
-#: ../calendar/gui/calendar-component.c:1265
+#: ../calendar/gui/calendar-component.c:1276
 msgid "Calendar Source Selector"
 msgstr "Isikhethi Somthombo Wekhalenda"
 
-#: ../calendar/gui/calendar-component.c:1456
+#: ../calendar/gui/calendar-component.c:1467
 msgid "New appointment"
 msgstr "Idinga elitsha"
 
-#: ../calendar/gui/calendar-component.c:1457
+#: ../calendar/gui/calendar-component.c:1468
 msgid "_Appointment"
 msgstr "_Idinga"
 
-#: ../calendar/gui/calendar-component.c:1458
+#: ../calendar/gui/calendar-component.c:1469
 msgid "Create a new appointment"
 msgstr "Yenza idinga elitsha"
 
-#: ../calendar/gui/calendar-component.c:1464
+#: ../calendar/gui/calendar-component.c:1475
 msgid "New meeting"
 msgstr "Intlanganiso entsha"
 
-#: ../calendar/gui/calendar-component.c:1465
+#: ../calendar/gui/calendar-component.c:1476
 msgid "M_eeting"
 msgstr "Intla_nganiso"
 
-#: ../calendar/gui/calendar-component.c:1466
+#: ../calendar/gui/calendar-component.c:1477
 msgid "Create a new meeting request"
 msgstr "Yenza isicelo sentlanganiso entsha"
 
-#: ../calendar/gui/calendar-component.c:1472
+#: ../calendar/gui/calendar-component.c:1483
 msgid "New all day appointment"
 msgstr "Idinga elitsha losuku lonke"
 
-#: ../calendar/gui/calendar-component.c:1473
+#: ../calendar/gui/calendar-component.c:1484
 msgid "All Day A_ppointment"
 msgstr "I_dinga Losuku Lonke"
 
-#: ../calendar/gui/calendar-component.c:1474
+#: ../calendar/gui/calendar-component.c:1485
 msgid "Create a new all-day appointment"
 msgstr "Yenza idinga elitsha losuku-lonke"
 
-#: ../calendar/gui/calendar-component.c:1480
+#: ../calendar/gui/calendar-component.c:1491
 msgid "New calendar"
 msgstr "Ikhalenda entsha"
 
-#: ../calendar/gui/calendar-component.c:1481
+#: ../calendar/gui/calendar-component.c:1492
 msgid "Cale_ndar"
 msgstr "Ikha_lenda"
 
-#: ../calendar/gui/calendar-component.c:1482
+#: ../calendar/gui/calendar-component.c:1493
 msgid "Create a new calendar"
 msgstr "Yenza ikhalenda entsha"
 
@@ -5044,7 +5044,7 @@ msgid "attachment"
 msgstr "isiqhoboshelo"
 
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:439
-#: ../calendar/gui/dialogs/meeting-page.c:784
+#: ../calendar/gui/dialogs/meeting-page.c:781
 #: ../composer/e-msg-composer-attachment-bar.c:437
 #: ../plugins/shared-folder/properties.glade.h:14
 msgid "_Remove"
@@ -5722,13 +5722,13 @@ msgstr "Ukwenzeka kwakhona"
 
 #: ../calendar/gui/dialogs/event-editor.c:161
 #: ../calendar/gui/dialogs/event-editor.c:233
-#: ../calendar/gui/dialogs/event-editor.c:397
+#: ../calendar/gui/dialogs/event-editor.c:379
 msgid "Scheduling"
 msgstr "Ukumisa uludwe lweenkqubo"
 
 #: ../calendar/gui/dialogs/event-editor.c:168
 #: ../calendar/gui/dialogs/event-editor.c:236
-#: ../calendar/gui/dialogs/event-editor.c:400
+#: ../calendar/gui/dialogs/event-editor.c:382
 msgid "Invitations"
 msgstr "Izimemo"
 
@@ -5917,19 +5917,19 @@ msgstr "_Ixesha lokuqalisa:"
 msgid "None"
 msgstr "Nanye"
 
-#: ../calendar/gui/dialogs/meeting-page.c:435
+#: ../calendar/gui/dialogs/meeting-page.c:432
 msgid "The organizer selected no longer has an account."
 msgstr "Lo mququzeleli umkhethileyo akasenayo i-akhawunti."
 
-#: ../calendar/gui/dialogs/meeting-page.c:441
+#: ../calendar/gui/dialogs/meeting-page.c:438
 msgid "An organizer is required."
 msgstr "Kufuneka umququzeleli."
 
-#: ../calendar/gui/dialogs/meeting-page.c:456
+#: ../calendar/gui/dialogs/meeting-page.c:453
 msgid "At least one attendee is required."
 msgstr "Kufuneka kubekho umntu omnye ubuncinane."
 
-#: ../calendar/gui/dialogs/meeting-page.c:781
+#: ../calendar/gui/dialogs/meeting-page.c:778
 msgid "_Delegate To..."
 msgstr "_Thumela ku..."
 
@@ -6200,7 +6200,7 @@ msgstr "<span weight=\"bold\">Ubume</span>"
 #: ../calendar/gui/e-cal-model-tasks.c:658
 #: ../calendar/gui/e-calendar-table.c:457 ../calendar/gui/e-itip-control.c:896
 #: ../calendar/gui/e-meeting-store.c:196 ../calendar/gui/e-meeting-store.c:219
-#: ../calendar/gui/print.c:2361
+#: ../calendar/gui/print.c:2362
 msgid "Completed"
 msgstr "Egqityiweyo"
 
@@ -6215,7 +6215,7 @@ msgstr "Phezulu"
 #: ../calendar/gui/e-cal-model-tasks.c:343
 #: ../calendar/gui/e-cal-model-tasks.c:656
 #: ../calendar/gui/e-cal-model-tasks.c:731
-#: ../calendar/gui/e-calendar-table.c:456 ../calendar/gui/print.c:2358
+#: ../calendar/gui/e-calendar-table.c:456 ../calendar/gui/print.c:2359
 msgid "In Progress"
 msgstr "Eqhubekayo"
 
@@ -6236,7 +6236,7 @@ msgstr "Eqhelekileyo"
 #: ../calendar/gui/e-cal-component-preview.c:236
 #: ../calendar/gui/e-cal-model-tasks.c:341
 #: ../calendar/gui/e-cal-model-tasks.c:654
-#: ../calendar/gui/e-calendar-table.c:455 ../calendar/gui/print.c:2355
+#: ../calendar/gui/e-calendar-table.c:455 ../calendar/gui/print.c:2356
 msgid "Not Started"
 msgstr "Ayiqaliswanga"
 
@@ -6272,7 +6272,7 @@ msgstr "Umsebenzi"
 
 #: ../calendar/gui/dialogs/task-editor.c:157
 #: ../calendar/gui/dialogs/task-editor.c:219
-#: ../calendar/gui/dialogs/task-editor.c:373
+#: ../calendar/gui/dialogs/task-editor.c:359
 msgid "Assignment"
 msgstr "Umsebenzi"
 
@@ -6439,7 +6439,7 @@ msgstr "Engenasihloko"
 
 #: ../calendar/gui/e-cal-component-preview.c:186
 #: ../calendar/gui/e-itip-control.c:1108
-#: ../calendar/gui/e-itip-control.glade.h:11
+#: ../calendar/gui/e-itip-control.glade.h:11 ../calendar/gui/print.c:2320
 msgid "Summary:"
 msgstr "Isishwankathelo:"
 
@@ -7442,7 +7442,7 @@ msgstr "Abantu abafunekayo no_vimba omnye"
 msgid "Enter the password for %s"
 msgstr "Faka i-password ye-%s"
 
-#: ../calendar/gui/e-tasks.c:763 ../calendar/gui/gnome-cal.c:2382
+#: ../calendar/gui/e-tasks.c:763 ../calendar/gui/gnome-cal.c:2384
 #, c-format
 msgid ""
 "Error on %s:\n"
@@ -7483,40 +7483,40 @@ msgstr "Iqhosha Lexesha Kwindawo Ethile"
 msgid "%d %B"
 msgstr "i-%d %B"
 
-#: ../calendar/gui/gnome-cal.c:722
+#: ../calendar/gui/gnome-cal.c:724
 msgid "Updating query"
 msgstr "Ukuhlaziya umbuzo"
 
 #. bonobo displays this string so it must be in locale
-#: ../calendar/gui/gnome-cal.c:2065 ../widgets/menus/gal-view-menus.c:350
+#: ../calendar/gui/gnome-cal.c:2067 ../widgets/menus/gal-view-menus.c:350
 msgid "Custom View"
 msgstr "Okuboniswa Umthengi kwiskrini"
 
-#: ../calendar/gui/gnome-cal.c:2066
+#: ../calendar/gui/gnome-cal.c:2068
 msgid "Save Custom View"
 msgstr "Gcina Okuboniswa Umthengi"
 
-#: ../calendar/gui/gnome-cal.c:2071 ../widgets/menus/gal-view-menus.c:372
+#: ../calendar/gui/gnome-cal.c:2073 ../widgets/menus/gal-view-menus.c:372
 msgid "Define Views..."
 msgstr "Chaza Okuboniswa Kwiskrini..."
 
-#: ../calendar/gui/gnome-cal.c:2231
+#: ../calendar/gui/gnome-cal.c:2233
 #, c-format
 msgid "Loading appointments at %s"
 msgstr "Ukufaka amadinga kwi-%s"
 
-#: ../calendar/gui/gnome-cal.c:2250
+#: ../calendar/gui/gnome-cal.c:2252
 #, c-format
 msgid "Loading tasks at %s"
 msgstr "Ukufaka imisebenzi kwi-%s"
 
-#: ../calendar/gui/gnome-cal.c:2348
+#: ../calendar/gui/gnome-cal.c:2350
 #, c-format
 msgid "Opening %s"
 msgstr "Ukuvula i-%s"
 
 # Translation much longer than original. Nothing shorter?
-#: ../calendar/gui/gnome-cal.c:3238
+#: ../calendar/gui/gnome-cal.c:3240
 msgid "Purging"
 msgstr "Ukucima okungabalulekanga"
 
@@ -7856,51 +7856,41 @@ msgstr "Inyanga ekhethiweyo (%b %Y)"
 msgid "Selected year (%Y)"
 msgstr "Unyaka okhethiweyo (%Y)"
 
-#: ../calendar/gui/print.c:2320
-#, fuzzy, c-format
-msgid "Summary: %s"
-msgstr "Isishwankathelo:"
-
-#: ../calendar/gui/print.c:2328
-#, fuzzy, c-format
-msgid "Location: %s"
-msgstr "Indawo:"
-
-#: ../calendar/gui/print.c:2371
+#: ../calendar/gui/print.c:2372
 #, c-format
 msgid "Status: %s"
 msgstr "Ubume: %s"
 
-#: ../calendar/gui/print.c:2388
+#: ../calendar/gui/print.c:2389
 #, c-format
 msgid "Priority: %s"
 msgstr "Umba ophambili: %s"
 
-#: ../calendar/gui/print.c:2400
+#: ../calendar/gui/print.c:2401
 #, c-format
 msgid "Percent Complete: %i"
 msgstr "Ipesenti Yokugqityiweyo: %i"
 
-#: ../calendar/gui/print.c:2412
+#: ../calendar/gui/print.c:2413
 #, c-format
 msgid "URL: %s"
 msgstr "i-URL: %s"
 
-#: ../calendar/gui/print.c:2426
+#: ../calendar/gui/print.c:2427
 #, c-format
 msgid "Categories: %s"
 msgstr "Iindidi: %s"
 
-#: ../calendar/gui/print.c:2437
+#: ../calendar/gui/print.c:2438
 msgid "Contacts: "
 msgstr "Oqhagamshelana nabo: "
 
-#: ../calendar/gui/print.c:2577 ../calendar/gui/print.c:2665
-#: ../calendar/gui/print.c:2791 ../mail/em-format-html-print.c:178
+#: ../calendar/gui/print.c:2578 ../calendar/gui/print.c:2666
+#: ../calendar/gui/print.c:2792 ../mail/em-format-html-print.c:178
 msgid "Print Preview"
 msgstr "Ukujonga Phambi Kokushicilela"
 
-#: ../calendar/gui/print.c:2612
+#: ../calendar/gui/print.c:2613
 msgid "Print Item"
 msgstr "Into Eshicilelwayo"
 
@@ -14996,12 +14986,12 @@ msgstr "Uhlobo lwe-MIME"
 msgid "Save"
 msgstr "Gcina"
 
-#: ../plugins/save-calendar/csv-format.c:168
+#: ../plugins/save-calendar/csv-format.c:167
 #, c-format
 msgid "%s%d/%s%d/%s%d %s%d:%s%d:%s%d"
 msgstr "%s%d/%s%d/%s%d %s%d:%s%d:%s%d"
 
-#: ../plugins/save-calendar/csv-format.c:371
+#: ../plugins/save-calendar/csv-format.c:370
 #, c-format
 msgid ""
 "Uid%sSummary%sDescription List%sCategories List%sComment List%sCompleted%"
@@ -15013,27 +15003,27 @@ msgstr ""
 "sIlindelekile%sIpesenti Esele Yenziwe%sOkuphambili%sI-Url%sUluhlu Lwabebekho%"
 "sIndawo%sSele Ilungisiwe%s"
 
-#: ../plugins/save-calendar/csv-format.c:520
+#: ../plugins/save-calendar/csv-format.c:519
 msgid "Advanced options for the CSV format"
 msgstr "Ukhetho oluphambili lobume beCSV"
 
-#: ../plugins/save-calendar/csv-format.c:527
+#: ../plugins/save-calendar/csv-format.c:526
 msgid "Prepend a header"
 msgstr "Isihloko esibekwe ngabom"
 
-#: ../plugins/save-calendar/csv-format.c:536
+#: ../plugins/save-calendar/csv-format.c:535
 msgid "Value delimiter:"
 msgstr "Ukumisa umda wexabiso:"
 
-#: ../plugins/save-calendar/csv-format.c:542
+#: ../plugins/save-calendar/csv-format.c:541
 msgid "Record delimiter:"
 msgstr "Ukumisa umda wengxelo:"
 
-#: ../plugins/save-calendar/csv-format.c:548
+#: ../plugins/save-calendar/csv-format.c:547
 msgid "Encapsulate values with:"
 msgstr "Ukuquka amaxabiso ne:"
 
-#: ../plugins/save-calendar/csv-format.c:570
+#: ../plugins/save-calendar/csv-format.c:569
 msgid "Comma separated value format (.csv)"
 msgstr "Ikhoma eyahlula ubume bexabiso (.csv)"
 
@@ -15041,7 +15031,7 @@ msgstr "Ikhoma eyahlula ubume bexabiso (.csv)"
 msgid "iCalendar format (.ics)"
 msgstr "Ubume be-iCalendar (.ics)"
 
-#: ../plugins/save-calendar/rdf-format.c:391
+#: ../plugins/save-calendar/rdf-format.c:390
 msgid "RDF format (.rdf)"
 msgstr "Ubume be-RDF (.rdf)"
 
@@ -15277,7 +15267,7 @@ msgstr ""
 #, fuzzy
 msgid ""
 "The style of the window buttons. Can be \"text\", \"icons\", \"both\", "
-"\"toolbar\". If \"toolbar\" is set, the style of the buttons is determined "
+"\"toolbar\". If \"toolbar\" is set, the style of the buutons is determined "
 "by the GNOME toolbar setting."
 msgstr ""
 "Isimo samaqhosha abonisiweyo. Kungaba ngumbhalo, umfanekiso, zombini, "

@@ -833,7 +833,6 @@ delete_event (ECalendarView *cal_view, ECalendarViewEvent *event)
 		}
 
 		e_cal_remove_object (event->comp_data->client, uid, &error);
-		
 		delete_error_dialog (error, E_CAL_COMPONENT_EVENT);
 		g_clear_error (&error);
 	}

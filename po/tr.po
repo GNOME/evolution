@@ -1,5 +1,4 @@
 # Turkish translation of Evolution.
-# Görkem �Getin <gorkem@gelecek.com.tr>, 2002, 2003.
 # Görkem Çetin <gorkem@kde.org>, 2004.
 # Baris Cicek <baris@teamforce.name.tr>, 2004, 2005.
 #
@@ -7,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-03-12 01:48+0200\n"
+"POT-Creation-Date: 2005-03-12 01:44+0200\n"
 "PO-Revision-Date: 2005-03-12 01:32+0200\n"
 "Last-Translator: Baris Cicek <baris@teamforce.name.tr>\n"
 "Language-Team: Turkish <gnome-turk@gnome.org>\n"
@@ -40,7 +39,7 @@ msgid_plural "current addressbook folder has %d cards"
 msgstr[0] "güncel adres defteri %d kart bulunduruyor"
 
 #: a11y/addressbook/ea-minicard.c:31
-#: calendar/gui/alarm-notify/alarm-queue.c:876
+#: calendar/gui/alarm-notify/alarm-queue.c:878
 #: ui/evolution-message-composer.xml.h:10
 msgid "Open"
 msgstr "Aç"
@@ -634,7 +633,7 @@ msgstr "Kimlik Doğrulama"
 
 #: addressbook/gui/component/addressbook-config.c:914
 #: addressbook/gui/component/ldap-config.glade.h:18
-#: mail/mail-dialogs.glade.h:8 smime/gui/smime-ui.glade.h:19
+#: mail/mail-dialogs.glade.h:12 smime/gui/smime-ui.glade.h:19
 msgid "Details"
 msgstr "Ayrıntılar"
 
@@ -735,12 +734,12 @@ msgstr "Bağlantı Kaynağı Seçicisi"
 msgid "Accessing LDAP Server anonymously"
 msgstr "LDAP Sunucuna anonim bağlantı kuruluyor"
 
-#: addressbook/gui/component/addressbook.c:194
+#: addressbook/gui/component/addressbook.c:193
 #: plugins/groupwise-account-setup/camel-gw-listener.c:478
 msgid "Failed to authenticate.\n"
 msgstr "Kimlik doğrulaması yapılamadı.\n"
 
-#: addressbook/gui/component/addressbook.c:201
+#: addressbook/gui/component/addressbook.c:200
 #: plugins/groupwise-account-setup/camel-gw-listener.c:461
 #, c-format
 msgid "Enter password for %s (user %s)"
@@ -809,7 +808,7 @@ msgstr "Önizleme panelinin nerede gösterileceği göster."
 #: calendar/gui/dialogs/new-calendar.glade.h:1
 #: calendar/gui/dialogs/new-task-list.glade.h:1
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:1
-#: composer/e-msg-composer-attachment.glade.h:1 mail/mail-dialogs.glade.h:2
+#: composer/e-msg-composer-attachment.glade.h:1 mail/mail-dialogs.glade.h:6
 #: mail/message-tags.glade.h:1 plugins/shared-folder/properties.glade.h:1
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:1
 msgid "*"
@@ -1076,7 +1075,7 @@ msgstr "kart"
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:12
 #: calendar/gui/dialogs/alarm-dialog.glade.h:26
 #: calendar/gui/dialogs/calendar-setup.glade.h:14 filter/filter.glade.h:16
-#: mail/em-account-editor.c:1882 plugins/calendar-http/calendar-http.c:263
+#: mail/em-account-editor.c:1885 plugins/calendar-http/calendar-http.c:263
 #: plugins/calendar-weather/calendar-weather.c:564
 msgid "minutes"
 msgstr "dakika"
@@ -4083,8 +4082,9 @@ msgstr "Görev listesi çevrim dışı kullanım için işaretlenmemiş"
 
 #. calendar:server-version secondary
 #: calendar/calendar-errors.xml.h:146
-msgid " Some features may not work correctly with your current server version"
-msgstr " Kimi özellikler mevcut sunucu sürümünüzle doğru olarak çalışmayabilir"
+msgid " Some features may not work correctly with your current server version "
+msgstr ""
+" Kimi özellikler mevcut sunucu sürümünüzle doğru olarak çalışmayabilir "
 
 #: calendar/common/authentication.c:49 calendar/gui/e-pub-utils.c:301
 #: smime/gui/component.c:48
@@ -4243,28 +4243,28 @@ msgstr "konum"
 msgid "start-time"
 msgstr "başlangıç-zamanı"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:877
+#: calendar/gui/alarm-notify/alarm-queue.c:879
 msgid "Dismiss"
 msgstr "Kaybet"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:878
+#: calendar/gui/alarm-notify/alarm-queue.c:880
 msgid "Dismiss All"
 msgstr "Hepsini Kaybet"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:960
+#: calendar/gui/alarm-notify/alarm-queue.c:962
 msgid "No summary available."
 msgstr "Hiçbir özet yok."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:969
 #: calendar/gui/alarm-notify/alarm-queue.c:971
+#: calendar/gui/alarm-notify/alarm-queue.c:973
 msgid "No description available."
 msgstr "Açıklama mevcut değil."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:979
+#: calendar/gui/alarm-notify/alarm-queue.c:981
 msgid "No location information available."
 msgstr "Hiçbir konum bilgisi mevcut değil."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:995
+#: calendar/gui/alarm-notify/alarm-queue.c:997
 #, c-format
 msgid ""
 "Alarm on %s\n"
@@ -4277,12 +4277,12 @@ msgstr ""
 "Başlangıç %s\n"
 "Bitiş %s"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1097
-#: calendar/gui/alarm-notify/alarm-queue.c:1121
+#: calendar/gui/alarm-notify/alarm-queue.c:1099
+#: calendar/gui/alarm-notify/alarm-queue.c:1123
 msgid "Warning"
 msgstr "Uyarı"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1101
+#: calendar/gui/alarm-notify/alarm-queue.c:1103
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -4294,7 +4294,7 @@ msgstr ""
 "yapılandırılmış.  Evolution bunun yerine normal hatırlatıcı\n"
 "penceresini gösterecek."
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1127
+#: calendar/gui/alarm-notify/alarm-queue.c:1129
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -4311,7 +4311,7 @@ msgstr ""
 "\n"
 "Bu programı çalıştırmak istediğinizden emin misiniz?"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1141
+#: calendar/gui/alarm-notify/alarm-queue.c:1143
 msgid "Do not ask me about this program again."
 msgstr "Bu program hakkında bir daha sorma."
 
@@ -4933,7 +4933,7 @@ msgstr "%.0fG"
 
 #: calendar/gui/dialogs/cal-attachment-bar.c:298
 #: calendar/gui/dialogs/cal-attachment-bar.c:922
-#: composer/e-msg-composer-attachment-bar.c:295 mail/em-utils.c:438
+#: composer/e-msg-composer-attachment-bar.c:295 mail/em-utils.c:436
 msgid "attachment"
 msgstr "ek"
 
@@ -4945,7 +4945,7 @@ msgid "_Remove"
 msgstr "_Sil"
 
 #: calendar/gui/dialogs/cal-attachment-bar.c:440
-#: composer/e-msg-composer-attachment-bar.c:438 mail/em-folder-tree.c:2819
+#: composer/e-msg-composer-attachment-bar.c:438 mail/em-folder-tree.c:2818
 #: ui/evolution-mail-list.xml.h:27
 msgid "_Properties"
 msgstr "Ö_zellikler"
@@ -5440,7 +5440,7 @@ msgstr[0] "Eklenmiş iletiler"
 
 #: calendar/gui/dialogs/comp-editor.c:412 calendar/gui/e-calendar-table.c:1164
 #: calendar/gui/e-calendar-view.c:1402 composer/e-msg-composer.c:2906
-#: mail/em-folder-tree.c:1047 mail/em-folder-view.c:966
+#: mail/em-folder-tree.c:1046 mail/em-folder-view.c:966
 #: mail/message-list.c:1707 ui/evolution-addressbook.xml.h:31
 #: ui/evolution-calendar.xml.h:39 ui/evolution-composer-entries.xml.h:7
 #: ui/evolution-mail-message.xml.h:105 ui/evolution-tasks.xml.h:20
@@ -5448,13 +5448,13 @@ msgid "_Copy"
 msgstr "_Kopyala"
 
 #: calendar/gui/dialogs/comp-editor.c:413 composer/e-msg-composer.c:2907
-#: mail/em-folder-tree.c:1048 mail/em-folder-tree.c:2312
+#: mail/em-folder-tree.c:1047 mail/em-folder-tree.c:2311
 #: mail/em-folder-view.c:862 mail/message-list.c:1708
 msgid "_Move"
 msgstr "_Taşı"
 
 #: calendar/gui/dialogs/comp-editor.c:415 composer/e-msg-composer.c:2909
-#: mail/em-folder-tree.c:1050 mail/message-list.c:1710
+#: mail/em-folder-tree.c:1049 mail/message-list.c:1710
 msgid "Cancel _Drag"
 msgstr "_Sürüklemeyi İptal Et"
 
@@ -5523,14 +5523,14 @@ msgstr "Günlük girişi - %s"
 msgid "No summary"
 msgstr "Özet yok"
 
-#: calendar/gui/dialogs/comp-editor.c:2033
-#: calendar/gui/dialogs/comp-editor.c:2066
-#: calendar/gui/dialogs/comp-editor.c:2090
+#: calendar/gui/dialogs/comp-editor.c:2030
+#: calendar/gui/dialogs/comp-editor.c:2063
+#: calendar/gui/dialogs/comp-editor.c:2087
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr ""
 "Eğer bir güncelleme olursa bu öğe ile alakalı değişiklikler silinebilir"
 
-#: calendar/gui/dialogs/comp-editor.c:2114
+#: calendar/gui/dialogs/comp-editor.c:2111
 msgid "Unable to use current version!"
 msgstr "Güncel sürüm kullanılamıyor!"
 
@@ -5622,48 +5622,48 @@ msgstr "Zaman Düzenleme"
 msgid "Invitations"
 msgstr "Davetler"
 
-#: calendar/gui/dialogs/event-page.c:721
+#: calendar/gui/dialogs/event-page.c:725
 msgid "Event with no start date"
 msgstr "Başlangıç tarihi olmayan olay"
 
-#: calendar/gui/dialogs/event-page.c:724
+#: calendar/gui/dialogs/event-page.c:728
 msgid "Event with no end date"
 msgstr "Bitiş tarihi olmayan olay"
 
-#: calendar/gui/dialogs/event-page.c:890 calendar/gui/dialogs/task-page.c:557
+#: calendar/gui/dialogs/event-page.c:894 calendar/gui/dialogs/task-page.c:561
 msgid "Start date is wrong"
 msgstr "Başlangıç tarihi yanlış"
 
-#: calendar/gui/dialogs/event-page.c:900
+#: calendar/gui/dialogs/event-page.c:904
 msgid "End date is wrong"
 msgstr "Bitiş tarihi yanlış"
 
-#: calendar/gui/dialogs/event-page.c:923
+#: calendar/gui/dialogs/event-page.c:927
 msgid "Start time is wrong"
 msgstr "Başlangıç zamanı yanlış"
 
-#: calendar/gui/dialogs/event-page.c:930
+#: calendar/gui/dialogs/event-page.c:934
 msgid "End time is wrong"
 msgstr "Bitiş zamanı yanlış"
 
-#: calendar/gui/dialogs/event-page.c:1676
+#: calendar/gui/dialogs/event-page.c:1675
 #, c-format
 msgid "Unable to open the calendar '%s'."
 msgstr "'%s' takvimi açılamadı."
 
-#: calendar/gui/dialogs/event-page.c:1882
+#: calendar/gui/dialogs/event-page.c:1881
 #, c-format
 msgid "%d day before appointment"
 msgid_plural "%d days before appointment"
 msgstr[0] "Randevudan %d gün önce"
 
-#: calendar/gui/dialogs/event-page.c:1890
+#: calendar/gui/dialogs/event-page.c:1889
 #, c-format
 msgid "%d hour before appointment"
 msgid_plural "%d hours before appointment"
 msgstr[0] "Randevudan %d saat önce"
 
-#: calendar/gui/dialogs/event-page.c:1898
+#: calendar/gui/dialogs/event-page.c:1897
 #, c-format
 msgid "%d minute before appointement"
 msgid_plural "%d minutes before appointment"
@@ -5790,7 +5790,7 @@ msgstr "B_aşlangıç zamanı:"
 #: calendar/gui/dialogs/meeting-page.glade.h:5
 #: calendar/gui/e-cal-model-tasks.c:652 calendar/gui/e-itip-control.c:1104
 #: composer/e-msg-composer.c:2117 filter/filter-rule.c:878
-#: mail/em-account-editor.c:683 mail/em-account-editor.c:1288
+#: mail/em-account-editor.c:685 mail/em-account-editor.c:1291
 #: mail/em-account-prefs.c:437 mail/em-folder-view.c:993
 #: plugins/calendar-weather/calendar-weather.c:371
 #: plugins/calendar-weather/calendar-weather.c:425
@@ -6086,7 +6086,7 @@ msgstr "Tamamlandı"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:5
 #: calendar/gui/e-cal-component-preview.c:248
-#: calendar/gui/e-calendar-table.c:382 mail/message-list.c:1007
+#: calendar/gui/e-calendar-table.c:382 mail/message-list.c:1006
 msgid "High"
 msgstr "Yüksek"
 
@@ -6100,13 +6100,13 @@ msgstr "İşlemde"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:7
 #: calendar/gui/e-cal-component-preview.c:252
-#: calendar/gui/e-calendar-table.c:384 mail/message-list.c:1005
+#: calendar/gui/e-calendar-table.c:384 mail/message-list.c:1004
 msgid "Low"
 msgstr "Düşük"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:8
 #: calendar/gui/e-cal-component-preview.c:250 calendar/gui/e-cal-model.c:899
-#: calendar/gui/e-calendar-table.c:383 mail/message-list.c:1006
+#: calendar/gui/e-calendar-table.c:383 mail/message-list.c:1005
 msgid "Normal"
 msgstr "Normal"
 
@@ -6153,11 +6153,11 @@ msgstr "Görev"
 msgid "Assignment"
 msgstr "Görevlendirme"
 
-#: calendar/gui/dialogs/task-page.c:530
+#: calendar/gui/dialogs/task-page.c:534
 msgid "Due date is wrong"
 msgstr "Tamamlanma tarihi hatalı"
 
-#: calendar/gui/dialogs/task-page.c:874
+#: calendar/gui/dialogs/task-page.c:878
 #, c-format
 msgid "Unable to open tasks in '%s'."
 msgstr "'%s' içindeki görevler açılamadı."
@@ -6355,7 +6355,7 @@ msgid "Start Date"
 msgstr "Başlangıç Tarihi"
 
 #: calendar/gui/e-cal-list-view.etspec.h:5
-#: calendar/gui/e-calendar-table.etspec.h:11 mail/mail-dialogs.glade.h:17
+#: calendar/gui/e-calendar-table.etspec.h:11 mail/mail-dialogs.glade.h:21
 msgid "Summary"
 msgstr "Özet"
 
@@ -6411,7 +6411,7 @@ msgstr "Hayır"
 #: calendar/gui/e-meeting-list-view.c:139
 #: calendar/gui/e-meeting-list-view.c:153 calendar/gui/e-meeting-store.c:124
 #: calendar/gui/e-meeting-store.c:159 calendar/gui/e-meeting-store.c:224
-#: mail/em-utils.c:1175 plugins/itip-formatter/itip-formatter.c:251
+#: mail/em-utils.c:1173 plugins/itip-formatter/itip-formatter.c:251
 #: plugins/itip-formatter/itip-formatter.c:1398
 #: plugins/plugin-manager/plugin-manager.c:72 shell/e-component-registry.c:201
 #: shell/e-component-registry.c:205 widgets/misc/e-charset-picker.c:62
@@ -6540,7 +6540,7 @@ msgstr "_Seçilen Görevleri Bitmiş Olarak İşaretle"
 
 #. FIXME: need to disable for undeletable folders
 #: calendar/gui/e-calendar-table.c:1176 calendar/gui/e-calendar-view.c:1414
-#: mail/em-folder-tree.c:2815 mail/em-folder-view.c:980
+#: mail/em-folder-tree.c:2814 mail/em-folder-view.c:980
 #: ui/evolution-addressbook.xml.h:33 ui/evolution-calendar.xml.h:40
 #: ui/evolution-mail-message.xml.h:108 ui/evolution-tasks.xml.h:21
 msgid "_Delete"
@@ -9413,15 +9413,15 @@ msgstr "Pasifik/Wallis"
 msgid "Pacific/Yap"
 msgstr "Pasifik/Yap"
 
-#: composer/e-msg-composer-hdrs.c:520
+#: composer/e-msg-composer-hdrs.c:519
 msgid "Posting destination"
 msgstr "Gönderme konumu"
 
-#: composer/e-msg-composer-hdrs.c:521
+#: composer/e-msg-composer-hdrs.c:520
 msgid "Choose folders to post the message to."
 msgstr "İletinin gönderileceği klasörleri seçin."
 
-#: composer/e-msg-composer-hdrs.c:555
+#: composer/e-msg-composer-hdrs.c:554
 msgid "Click here for the address book"
 msgstr "Adres defteri için buraya tıklayın"
 
@@ -9432,45 +9432,45 @@ msgstr "Adres defteri için buraya tıklayın"
 #. * because that causes from_changed to be called, which
 #. * expects the reply_to fields to be initialized.
 #.
-#: composer/e-msg-composer-hdrs.c:585
+#: composer/e-msg-composer-hdrs.c:584
 msgid "_Reply-To:"
 msgstr "_Cevap Kişisi:"
 
 #.
 #. * From
 #.
-#: composer/e-msg-composer-hdrs.c:592
+#: composer/e-msg-composer-hdrs.c:591
 msgid "Fr_om:"
 msgstr "_Gönderen:"
 
 #.
 #. * Subject
 #.
-#: composer/e-msg-composer-hdrs.c:599
+#: composer/e-msg-composer-hdrs.c:598
 msgid "S_ubject:"
 msgstr "_Konu:"
 
-#: composer/e-msg-composer-hdrs.c:609
+#: composer/e-msg-composer-hdrs.c:608
 msgid "_To:"
 msgstr "_Alıcı:"
 
-#: composer/e-msg-composer-hdrs.c:610
+#: composer/e-msg-composer-hdrs.c:609
 msgid "Enter the recipients of the message"
 msgstr "İletinin alıcılarını girin"
 
-#: composer/e-msg-composer-hdrs.c:613
+#: composer/e-msg-composer-hdrs.c:612
 msgid "_Cc:"
 msgstr "_Bilgi:"
 
-#: composer/e-msg-composer-hdrs.c:614
+#: composer/e-msg-composer-hdrs.c:613
 msgid "Enter the addresses that will receive a carbon copy of the message"
 msgstr "İletinin kopyasını alacak olan adresleri girin"
 
-#: composer/e-msg-composer-hdrs.c:617
+#: composer/e-msg-composer-hdrs.c:616
 msgid "_Bcc:"
 msgstr "_Saklı Bilgi:"
 
-#: composer/e-msg-composer-hdrs.c:618
+#: composer/e-msg-composer-hdrs.c:617
 msgid ""
 "Enter the addresses that will receive a carbon copy of the message without "
 "appearing in the recipient list of the message."
@@ -9481,15 +9481,15 @@ msgstr ""
 #.
 #. * Post-To
 #.
-#: composer/e-msg-composer-hdrs.c:625
+#: composer/e-msg-composer-hdrs.c:624
 msgid "_Post To:"
 msgstr "_Gönderilecek Yer:"
 
-#: composer/e-msg-composer-hdrs.c:630
+#: composer/e-msg-composer-hdrs.c:629
 msgid "Click here to select folders to post to"
 msgstr "Gönderilecek klasörleri seçmek için buraya tıklayın"
 
-#: composer/e-msg-composer-hdrs.c:636
+#: composer/e-msg-composer-hdrs.c:635
 msgid "Post To:"
 msgstr "Gönderilecek Yer:"
 
@@ -9530,7 +9530,7 @@ msgid "Open File"
 msgstr "Dosya Aç"
 
 #: composer/e-msg-composer.c:2001 mail/em-account-editor.c:588
-#: mail/em-account-editor.c:633 mail/em-account-editor.c:698
+#: mail/em-account-editor.c:633 mail/em-account-editor.c:700
 msgid "Autogenerated"
 msgstr "Otomatik hazırlanmış"
 
@@ -9543,7 +9543,7 @@ msgstr "_İmza:"
 msgid "Compose a message"
 msgstr "Bir ileti yaz"
 
-#: composer/e-msg-composer.c:4554
+#: composer/e-msg-composer.c:4542
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
@@ -10304,44 +10304,44 @@ msgstr ""
 msgid "Select Folder"
 msgstr "Klasör Seçin"
 
-#: mail/em-account-editor.c:1661 mail/mail-config.glade.h:89
+#: mail/em-account-editor.c:1664 mail/mail-config.glade.h:89
 msgid "Identity"
 msgstr "Kimlik"
 
-#: mail/em-account-editor.c:1697 mail/mail-config.glade.h:114
+#: mail/em-account-editor.c:1700 mail/mail-config.glade.h:114
 msgid "Receiving Email"
 msgstr "E-posta Alınıyor"
 
-#: mail/em-account-editor.c:1874
+#: mail/em-account-editor.c:1877
 msgid "Automatically check for _new mail every"
 msgstr "_Yeni mektupların denetlenme aralığı: "
 
-#: mail/em-account-editor.c:2042 mail/mail-config.glade.h:124
+#: mail/em-account-editor.c:2045 mail/mail-config.glade.h:124
 msgid "Sending Email"
 msgstr "İleti Gönderiliyor"
 
-#: mail/em-account-editor.c:2086 mail/mail-config.glade.h:67
+#: mail/em-account-editor.c:2089 mail/mail-config.glade.h:67
 msgid "Defaults"
 msgstr "Öntanımlılar"
 
-#: mail/em-account-editor.c:2145 mail/mail-config.glade.h:119
+#: mail/em-account-editor.c:2148 mail/mail-config.glade.h:119
 msgid "Security"
 msgstr "Güvenlik"
 
 #. Most sections for this is auto-generated fromt the camel config
-#: mail/em-account-editor.c:2182 mail/em-account-editor.c:2256
+#: mail/em-account-editor.c:2185 mail/em-account-editor.c:2260
 msgid "Receiving Options"
 msgstr "Alma Seçenekleri"
 
-#: mail/em-account-editor.c:2183 mail/em-account-editor.c:2257
+#: mail/em-account-editor.c:2186 mail/em-account-editor.c:2261
 msgid "Checking for New Mail"
 msgstr "Yeni Mektuplar Kontrol Ediliyor"
 
-#: mail/em-account-editor.c:2581 mail/mail-config.glade.h:33
+#: mail/em-account-editor.c:2585 mail/mail-config.glade.h:33
 msgid "Account Editor"
 msgstr "Hesap Düzenleyici"
 
-#: mail/em-account-editor.c:2581 mail/mail-config.glade.h:79
+#: mail/em-account-editor.c:2585 mail/mail-config.glade.h:79
 msgid "Evolution Account Assistant"
 msgstr "Evolution Hesap Asistanı"
 
@@ -10375,18 +10375,18 @@ msgstr "İmza betiği ekle"
 msgid "Signature(s)"
 msgstr "İmza(lar)"
 
-#: mail/em-composer-utils.c:849
+#: mail/em-composer-utils.c:911
 msgid "-------- Forwarded Message --------"
 msgstr "-------- Yönlendirilmiş İleti --------"
 
-#: mail/em-composer-utils.c:1459
+#: mail/em-composer-utils.c:1521
 msgid "an unknown sender"
 msgstr "bilinmeyen gönderici"
 
 #. Note to translators: this is the attribution string used when quoting messages.
 #. * each ${Variable} gets replaced with a value. To see a full list of available
 #. * variables, see em-composer-utils.c:1514
-#: mail/em-composer-utils.c:1506
+#: mail/em-composer-utils.c:1568
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
@@ -10641,7 +10641,7 @@ msgstr "başlayan"
 msgid "Stop Processing"
 msgstr "İşlemeyi Durdur"
 
-#: mail/em-filter-i18n.h:65 mail/em-format-html.c:1532
+#: mail/em-filter-i18n.h:65 mail/em-format-html.c:1533
 #: mail/em-format-quote.c:306 mail/em-format.c:853 mail/em-mailer-prefs.c:88
 #: mail/message-list.etspec.h:13 mail/message-tag-followup.c:330
 #: plugins/shared-folder/properties.glade.h:7 smime/lib/e-cert.c:1131
@@ -10684,7 +10684,7 @@ msgstr "<bir klasör seçmek için tıklayın>"
 msgid "Create New Folder"
 msgstr "Yeni Bir Klasör Yarat"
 
-#: mail/em-folder-selector.c:166 mail/em-folder-tree.c:2528
+#: mail/em-folder-selector.c:166 mail/em-folder-tree.c:2527
 #: mail/mail-component.c:770 plugins/shared-folder/install-shared.c:144
 #: plugins/shared-folder/share-folder-common.c:345
 msgid "Specify where to create the folder:"
@@ -10729,111 +10729,111 @@ msgstr "Gönderilenler"
 msgid "Loading..."
 msgstr "Yükleniyor..."
 
-#: mail/em-folder-tree.c:689
+#: mail/em-folder-tree.c:688
 msgid "Mail Folder Tree"
 msgstr "Posta Klasör Ağacı"
 
-#: mail/em-folder-tree.c:922
+#: mail/em-folder-tree.c:921
 #, c-format
 msgid "Moving folder %s"
 msgstr "%s klasörü taşınıyor"
 
-#: mail/em-folder-tree.c:924
+#: mail/em-folder-tree.c:923
 #, c-format
 msgid "Copying folder %s"
 msgstr "%s klasörü kopyalanıyor"
 
-#: mail/em-folder-tree.c:931 mail/message-list.c:1612
+#: mail/em-folder-tree.c:930 mail/message-list.c:1612
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "İletiler %s klasörüne taşınıyor"
 
-#: mail/em-folder-tree.c:933 mail/message-list.c:1614
+#: mail/em-folder-tree.c:932 mail/message-list.c:1614
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "İletiler %s klasörüne kopyalanıyor"
 
-#: mail/em-folder-tree.c:949
+#: mail/em-folder-tree.c:948
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "İleti(ler) üst seviye konuma taşınamıyor"
 
-#: mail/em-folder-tree.c:1045 ui/evolution-mail-message.xml.h:106
+#: mail/em-folder-tree.c:1044 ui/evolution-mail-message.xml.h:106
 msgid "_Copy to Folder"
 msgstr "Klasöre _Kopyala"
 
-#: mail/em-folder-tree.c:1046 ui/evolution-mail-message.xml.h:115
+#: mail/em-folder-tree.c:1045 ui/evolution-mail-message.xml.h:115
 msgid "_Move to Folder"
 msgstr "Klasöre _Taşı"
 
-#: mail/em-folder-tree.c:1751 mail/mail-ops.c:1051
+#: mail/em-folder-tree.c:1750 mail/mail-ops.c:1026
 #, c-format
 msgid "Scanning folders in \"%s\""
 msgstr "\"%s\" içinde klasörler taranıyor"
 
-#: mail/em-folder-tree.c:2024
+#: mail/em-folder-tree.c:2023
 #, c-format
 msgid "Copying `%s' to `%s'"
 msgstr "`%s' klasörü `%s' konumuna kopyalanıyor"
 
-#: mail/em-folder-tree.c:2298 mail/em-folder-tree.c:2312
+#: mail/em-folder-tree.c:2297 mail/em-folder-tree.c:2311
 #: mail/em-folder-view.c:862 mail/em-folder-view.c:877
 #: mail/importers/evolution-mbox-importer.c:120
 #: mail/importers/evolution-outlook-importer.c:134
 msgid "Select folder"
 msgstr "Klasör seçin"
 
-#: mail/em-folder-tree.c:2298 mail/em-folder-view.c:877
+#: mail/em-folder-tree.c:2297 mail/em-folder-view.c:877
 msgid "C_opy"
 msgstr "_Kopyala"
 
-#: mail/em-folder-tree.c:2339 plugins/shared-folder/share-folder-common.c:138
+#: mail/em-folder-tree.c:2338 plugins/shared-folder/share-folder-common.c:138
 #, c-format
 msgid "Creating folder `%s'"
 msgstr "'%s' klasörü oluşturuluyor"
 
-#: mail/em-folder-tree.c:2528 mail/mail-component.c:770
+#: mail/em-folder-tree.c:2527 mail/mail-component.c:770
 #: plugins/shared-folder/install-shared.c:144
 #: plugins/shared-folder/share-folder-common.c:345
 msgid "Create folder"
 msgstr "Yeni klasör yarat"
 
-#: mail/em-folder-tree.c:2721
+#: mail/em-folder-tree.c:2720
 #, c-format
 msgid "Rename the \"%s\" folder to:"
 msgstr "\"%s\" klasörünü yeniden adlandır:"
 
-#: mail/em-folder-tree.c:2723
+#: mail/em-folder-tree.c:2722
 msgid "Rename Folder"
 msgstr "Klasörü yeniden adlandır"
 
-#: mail/em-folder-tree.c:2729
+#: mail/em-folder-tree.c:2728
 msgid "Folder names cannot contain '/'"
 msgstr "Klasör adları '/' karakteri bulunduramaz"
 
-#: mail/em-folder-tree.c:2803 ui/evolution-addressbook.xml.h:44
+#: mail/em-folder-tree.c:2802 ui/evolution-addressbook.xml.h:44
 #: ui/evolution-mail-global.xml.h:17 ui/evolution-mail-messagedisplay.xml.h:8
 #: ui/evolution-message-composer.xml.h:53 ui/evolution.xml.h:49
 msgid "_View"
 msgstr "_Göster"
 
-#: mail/em-folder-tree.c:2804
+#: mail/em-folder-tree.c:2803
 msgid "Open in _New Window"
 msgstr "_Yeni Pencerede Aç"
 
-#: mail/em-folder-tree.c:2808
+#: mail/em-folder-tree.c:2807
 msgid "_Copy..."
 msgstr "_Kopyala..."
 
-#: mail/em-folder-tree.c:2809
+#: mail/em-folder-tree.c:2808
 msgid "_Move..."
 msgstr "_Taşı..."
 
 #. FIXME: need to disable for nochildren folders
-#: mail/em-folder-tree.c:2813
+#: mail/em-folder-tree.c:2812
 msgid "_New Folder..."
 msgstr "_Yeni Klasör..."
 
-#: mail/em-folder-tree.c:2816
+#: mail/em-folder-tree.c:2815
 msgid "_Rename..."
 msgstr "_Yeniden adlandır..."
 
@@ -11176,27 +11176,27 @@ msgid "Bcc"
 msgstr "Saklı Bilgi"
 
 #. pseudo-header
-#: mail/em-format-html.c:1536 mail/em-format-quote.c:315
+#: mail/em-format-html.c:1537 mail/em-format-quote.c:315
 #: mail/em-mailer-prefs.c:986
 msgid "Mailer"
 msgstr "Postacı"
 
 #. translators: strftime format for local time equivalent in Date header display, with day
-#: mail/em-format-html.c:1563
+#: mail/em-format-html.c:1564
 msgid "<I> (%a, %R %Z)</I>"
 msgstr "<I> (%a, %R %Z)</I>"
 
 #. translators: strftime format for local time equivalent in Date header display, without day
-#: mail/em-format-html.c:1566
+#: mail/em-format-html.c:1567
 msgid "<I> (%R %Z)</I>"
 msgstr "<I> (%R %Z)</I>"
 
-#: mail/em-format-html.c:1576 mail/em-format-quote.c:322 mail/em-format.c:854
+#: mail/em-format-html.c:1577 mail/em-format-quote.c:322 mail/em-format.c:854
 #: mail/em-mailer-prefs.c:89 mail/message-list.etspec.h:2
 msgid "Date"
 msgstr "Tarih"
 
-#: mail/em-format-html.c:1599 mail/em-format.c:855 mail/em-mailer-prefs.c:90
+#: mail/em-format-html.c:1600 mail/em-format.c:855 mail/em-mailer-prefs.c:90
 msgid "Newsgroups"
 msgstr "Haber grupları"
 
@@ -11376,20 +11376,20 @@ msgstr "Bu mesajı bir daha gösterme."
 msgid "Filters"
 msgstr "Filtreler"
 
-#: mail/em-utils.c:436
+#: mail/em-utils.c:434
 msgid "message"
 msgstr "ileti"
 
-#: mail/em-utils.c:545
+#: mail/em-utils.c:543
 msgid "Save Message..."
 msgstr "İletiyi Kaydet..."
 
-#: mail/em-utils.c:594
+#: mail/em-utils.c:592
 msgid "Add address"
 msgstr "Adres ekle"
 
 #. Drop filename for messages from a mailbox
-#: mail/em-utils.c:1073
+#: mail/em-utils.c:1071
 #, c-format
 msgid "Messages from %s"
 msgstr "%s konumundan iletiler"
@@ -12078,27 +12078,27 @@ msgstr ""
 msgid "Pine"
 msgstr "Pine"
 
-#: mail/mail-autofilter.c:75
+#: mail/mail-autofilter.c:74
 #, c-format
 msgid "Mail to %s"
 msgstr "%s adresine postala"
 
-#: mail/mail-autofilter.c:239 mail/mail-autofilter.c:278
+#: mail/mail-autofilter.c:238 mail/mail-autofilter.c:277
 #, c-format
 msgid "Mail from %s"
 msgstr "%s adresinden mektup"
 
-#: mail/mail-autofilter.c:262
+#: mail/mail-autofilter.c:261
 #, c-format
 msgid "Subject is %s"
 msgstr "Konu %s"
 
-#: mail/mail-autofilter.c:297
+#: mail/mail-autofilter.c:296
 #, c-format
 msgid "%s mailing list"
 msgstr "%s posta listesi"
 
-#: mail/mail-autofilter.c:366
+#: mail/mail-autofilter.c:365
 msgid "Add Filter Rule"
 msgstr "Filtre Kuralı Ekle"
 
@@ -12172,7 +12172,7 @@ msgstr "Yeni bir posta klasörü oluştur"
 msgid "Failed upgrading Mail settings or folders."
 msgstr "Posta ayarları ve klasörleri güncellenirken başarısız olundu."
 
-#: mail/mail-config.glade.h:1 mail/mail-dialogs.glade.h:1
+#: mail/mail-config.glade.h:1 mail/mail-dialogs.glade.h:5
 msgid "    "
 msgstr "    "
 
@@ -12778,60 +12778,71 @@ msgstr "rengini kullan"
 msgid "description"
 msgstr "açıklama"
 
-#: mail/mail-dialogs.glade.h:3
+#: mail/mail-dialogs.glade.h:1
+msgid ""
+"\n"
+" Please read carefully the license agreement displayed\n"
+" below and tick the check box for accepting it\n"
+msgstr ""
+"\n"
+" Lütfen aşağıda gösterilen lisans \n"
+" sözleşmesini dikkatlice okuyun\n"
+" ve kabul etmek için kontrol kutusunu işaretleyin\n"
+
+#: mail/mail-dialogs.glade.h:7
 msgid "<b>vFolder Sources</b>"
 msgstr "<b>sKlasör Sources</b>"
 
-#: mail/mail-dialogs.glade.h:4
+#: mail/mail-dialogs.glade.h:8
 msgid "<span weight=\"bold\">Digital Signature</span>"
 msgstr "<span weight=\"bold\">Dijital İmza</span>"
 
-#: mail/mail-dialogs.glade.h:5
+#: mail/mail-dialogs.glade.h:9
 msgid "<span weight=\"bold\">Encryption</span>"
 msgstr "<span weight=\"bold\">Şifreleme</span>"
 
-#: mail/mail-dialogs.glade.h:6
+#: mail/mail-dialogs.glade.h:10
 msgid "Case _Sensitive"
 msgstr "Küçük/Büyük _Harfe Duyarlı"
 
-#: mail/mail-dialogs.glade.h:7 mail/message-tags.glade.h:2
+#: mail/mail-dialogs.glade.h:11 mail/message-tags.glade.h:2
 msgid "Co_mpleted"
 msgstr "_Tamamlandı"
 
-#: mail/mail-dialogs.glade.h:9
+#: mail/mail-dialogs.glade.h:13
 msgid "F_ind:"
 msgstr "_Bul:"
 
-#: mail/mail-dialogs.glade.h:10
+#: mail/mail-dialogs.glade.h:14
 msgid "Find in Message"
 msgstr "İletide İçinde Bul"
 
-#: mail/mail-dialogs.glade.h:11 mail/message-tag-followup.c:295
+#: mail/mail-dialogs.glade.h:15 mail/message-tag-followup.c:295
 #: mail/message-tags.glade.h:3
 msgid "Flag to Follow Up"
 msgstr "Takip için İşaretle"
 
-#: mail/mail-dialogs.glade.h:12
+#: mail/mail-dialogs.glade.h:16
 msgid "Folder Subscriptions"
 msgstr "Klasör Kayıtları"
 
-#: mail/mail-dialogs.glade.h:13
+#: mail/mail-dialogs.glade.h:17
 msgid "License Agreement"
 msgstr "Lisans Sözleşmesi"
 
-#: mail/mail-dialogs.glade.h:14
+#: mail/mail-dialogs.glade.h:18
 msgid "None Selected"
 msgstr "Hiçbir Şey Seçili Değil"
 
-#: mail/mail-dialogs.glade.h:15
+#: mail/mail-dialogs.glade.h:19
 msgid "S_erver:"
 msgstr "S_unucu:"
 
-#: mail/mail-dialogs.glade.h:16
+#: mail/mail-dialogs.glade.h:20
 msgid "Security Information"
 msgstr "Güvenlik bilgisi"
 
-#: mail/mail-dialogs.glade.h:18 mail/message-tags.glade.h:4
+#: mail/mail-dialogs.glade.h:22 mail/message-tags.glade.h:4
 msgid ""
 "The messages you have selected for follow up are listed below.\n"
 "Please select a follow up action from the \"Flag\" menu."
@@ -12839,43 +12850,43 @@ msgstr ""
 "Takip için seçilen iletiler aşağıda listelenmiştir. \n"
 "Lütfen \"Bayrak\" menüsünden bir takip işlemi seçiniz."
 
-#: mail/mail-dialogs.glade.h:20
+#: mail/mail-dialogs.glade.h:24
 msgid "_Accept License"
 msgstr "_Lisansı Kabul Et"
 
-#: mail/mail-dialogs.glade.h:21 mail/message-tags.glade.h:6
+#: mail/mail-dialogs.glade.h:25 mail/message-tags.glade.h:6
 msgid "_Due By:"
 msgstr "_En son:"
 
-#: mail/mail-dialogs.glade.h:22 mail/message-tags.glade.h:7
+#: mail/mail-dialogs.glade.h:26 mail/message-tags.glade.h:7
 msgid "_Flag:"
 msgstr "_Bayrak:"
 
-#: mail/mail-dialogs.glade.h:23
+#: mail/mail-dialogs.glade.h:27
 msgid "_Subscribe"
 msgstr "_Kaydol"
 
-#: mail/mail-dialogs.glade.h:24
+#: mail/mail-dialogs.glade.h:28
 msgid "_Tick this to accept the license agreement"
 msgstr "Lisans _sözleşmesini kabul etmek için burayı tıklayın"
 
-#: mail/mail-dialogs.glade.h:25
+#: mail/mail-dialogs.glade.h:29
 msgid "_Unsubscribe"
 msgstr "K_aydını Sil"
 
-#: mail/mail-dialogs.glade.h:26
+#: mail/mail-dialogs.glade.h:30
 msgid "specific folders only"
 msgstr "sadece belirtilen klasörler"
 
-#: mail/mail-dialogs.glade.h:27
+#: mail/mail-dialogs.glade.h:31
 msgid "with all active remote folders"
 msgstr "tüm etkin uzaktaki klasörlerle birlikte"
 
-#: mail/mail-dialogs.glade.h:28
+#: mail/mail-dialogs.glade.h:32
 msgid "with all local and active remote folders"
 msgstr "tüm yerel ve etkin uzaktaki klasörlerle birlikte"
 
-#: mail/mail-dialogs.glade.h:29
+#: mail/mail-dialogs.glade.h:33
 msgid "with all local folders"
 msgstr "tüm yerel klasörlerle birlikte"
 
@@ -13506,7 +13517,7 @@ msgstr "Klasör Filtreleniyor"
 msgid "Fetching Mail"
 msgstr "Mektup Alınıyor"
 
-#: mail/mail-ops.c:556 mail/mail-ops.c:598
+#: mail/mail-ops.c:542 mail/mail-ops.c:585
 #, c-format
 msgid ""
 "Failed to append to %s: %s\n"
@@ -13516,119 +13527,119 @@ msgstr ""
 "Onun yerine yerel `Giden' klasörüne ekleme yapılıyor."
 
 #. sending mail, filtering failed
-#: mail/mail-ops.c:577
+#: mail/mail-ops.c:564
 #, c-format
 msgid "Failed to apply outgoing filters: %s"
 msgstr "Giden filtreleri uygularken hata oluştu: %s"
 
-#: mail/mail-ops.c:615
+#: mail/mail-ops.c:602
 #, c-format
 msgid "Failed to append to local `Sent' folder: %s"
 msgstr "Yerel `Giden' klasörüne ekleme yapılırken hata oluştu: %s"
 
-#: mail/mail-ops.c:727
+#: mail/mail-ops.c:702
 #, c-format
 msgid "Sending message %d of %d"
 msgstr "%d / %d iletisi gönderiliyor"
 
-#: mail/mail-ops.c:752
+#: mail/mail-ops.c:727
 #, c-format
 msgid "Failed to send %d of %d messages"
 msgstr "%d / %d iletisi gönderilirken hata oluştu"
 
-#: mail/mail-ops.c:754 mail/mail-send-recv.c:613
+#: mail/mail-ops.c:729 mail/mail-send-recv.c:613
 msgid "Cancelled."
 msgstr "İptal edildi."
 
-#: mail/mail-ops.c:756
+#: mail/mail-ops.c:731
 msgid "Complete."
 msgstr "Tamamlandı."
 
-#: mail/mail-ops.c:853
+#: mail/mail-ops.c:828
 msgid "Saving message to folder"
 msgstr "İleti dizine kaydediliyor"
 
-#: mail/mail-ops.c:938
+#: mail/mail-ops.c:913
 #, c-format
 msgid "Moving messages to %s"
 msgstr "İletiler %s klasörüne taşınıyor"
 
-#: mail/mail-ops.c:938
+#: mail/mail-ops.c:913
 #, c-format
 msgid "Copying messages to %s"
 msgstr "İletiler %s klasörüne kopyalanıyor"
 
-#: mail/mail-ops.c:1164
+#: mail/mail-ops.c:1139
 msgid "Forwarded messages"
 msgstr "Yönlendirilmiş iletiler"
 
-#: mail/mail-ops.c:1207
+#: mail/mail-ops.c:1182
 #, c-format
 msgid "Opening folder %s"
 msgstr "%s klasörü açılıyor"
 
-#: mail/mail-ops.c:1279
+#: mail/mail-ops.c:1254
 #, c-format
 msgid "Opening store %s"
 msgstr "%s konumu açılıyor"
 
-#: mail/mail-ops.c:1357
+#: mail/mail-ops.c:1332
 #, c-format
 msgid "Removing folder %s"
 msgstr "%s klasörü siliniyor"
 
-#: mail/mail-ops.c:1451
+#: mail/mail-ops.c:1426
 #, c-format
 msgid "Storing folder '%s'"
 msgstr "'%s' klasörü saklanıyor"
 
-#: mail/mail-ops.c:1516
+#: mail/mail-ops.c:1491
 #, c-format
 msgid "Expunging and storing account '%s'"
 msgstr "'%s' hesabı temizleniyor ve saklanıyor"
 
-#: mail/mail-ops.c:1517
+#: mail/mail-ops.c:1492
 #, c-format
 msgid "Storing account '%s'"
 msgstr "'%s' hesabı saklanıyor"
 
-#: mail/mail-ops.c:1572
+#: mail/mail-ops.c:1547
 msgid "Refreshing folder"
 msgstr "Klasör tazeleniyor"
 
-#: mail/mail-ops.c:1608 mail/mail-ops.c:1659
+#: mail/mail-ops.c:1583 mail/mail-ops.c:1634
 msgid "Expunging folder"
 msgstr "Klasör temizleniyor"
 
-#: mail/mail-ops.c:1656
+#: mail/mail-ops.c:1631
 #, c-format
 msgid "Emptying trash in '%s'"
 msgstr "'%s' içindeki çöpler boşaltılıyor"
 
-#: mail/mail-ops.c:1657
+#: mail/mail-ops.c:1632
 msgid "Local Folders"
 msgstr "Yerel Klasörler"
 
-#: mail/mail-ops.c:1740
+#: mail/mail-ops.c:1715
 #, c-format
 msgid "Retrieving message %s"
 msgstr "İleti %s alınıyor"
 
-#: mail/mail-ops.c:1812
+#: mail/mail-ops.c:1787
 #, c-format
 msgid "Retrieving %d message"
 msgid_plural "Retrieving %d messages"
 msgstr[0] "%d ileti alınıyor"
 msgstr[1] "%d ileti alınıyor"
 
-#: mail/mail-ops.c:1898
+#: mail/mail-ops.c:1873
 #, c-format
 msgid "Saving %d message"
 msgid_plural "Saving %d messsages"
 msgstr[0] "%d ileti kaydediliyor"
 msgstr[1] "%d ileti kaydediliyor"
 
-#: mail/mail-ops.c:1948
+#: mail/mail-ops.c:1923
 #, c-format
 msgid ""
 "Unable to create output file: %s\n"
@@ -13637,7 +13648,7 @@ msgstr ""
 "Çıktı dosyası yaratılamadı: %s\n"
 " %s"
 
-#: mail/mail-ops.c:1976
+#: mail/mail-ops.c:1951
 #, c-format
 msgid ""
 "Error saving messages to: %s:\n"
@@ -13646,11 +13657,11 @@ msgstr ""
 "İletilerin kaydında hata: %s:\n"
 " %s"
 
-#: mail/mail-ops.c:2047
+#: mail/mail-ops.c:2022
 msgid "Saving attachment"
 msgstr "Ek kaydediliyor"
 
-#: mail/mail-ops.c:2059
+#: mail/mail-ops.c:2034
 #, c-format
 msgid ""
 "Cannot create output file: %s:\n"
@@ -13659,22 +13670,22 @@ msgstr ""
 "Çıktı dosyası oluşturulamadı: %s:\n"
 " %s"
 
-#: mail/mail-ops.c:2069
+#: mail/mail-ops.c:2044
 #, c-format
 msgid "Could not write data: %s"
 msgstr "Veri yazılamadı: %s"
 
-#: mail/mail-ops.c:2219
+#: mail/mail-ops.c:2194
 #, c-format
 msgid "Disconnecting from %s"
 msgstr "%s bağlantısı kesiliyor"
 
-#: mail/mail-ops.c:2219
+#: mail/mail-ops.c:2194
 #, c-format
 msgid "Reconnecting to %s"
 msgstr "%s adresine tekrar bağlanılıyor"
 
-#: mail/mail-ops.c:2335
+#: mail/mail-ops.c:2310
 msgid "Checking Service"
 msgstr "Servis Denetleniyor"
 
@@ -13748,16 +13759,16 @@ msgstr "Depo dizini `%s' oluşturulamadı: %s"
 msgid "Trying to movemail a non-mbox source `%s'"
 msgstr "Mektubu mbox kaynağı olmayan `%s' konumuna taşımaya çalışılıyor"
 
-#: mail/mail-tools.c:241
+#: mail/mail-tools.c:277
 #, c-format
 msgid "Forwarded message - %s"
 msgstr "Yönlendirilmiş ileti - %s"
 
-#: mail/mail-tools.c:243
+#: mail/mail-tools.c:279
 msgid "Forwarded message"
 msgstr "Yönlendirilmiş ileti"
 
-#: mail/mail-tools.c:283
+#: mail/mail-tools.c:320
 #, c-format
 msgid "Invalid folder: `%s'"
 msgstr "Geçersiz klasör: `%s'"
@@ -13785,65 +13796,65 @@ msgstr "sKlasör Düzenle"
 msgid "New vFolder"
 msgstr "Yeni sKlasör"
 
-#: mail/message-list.c:995
+#: mail/message-list.c:994
 msgid "Unseen"
 msgstr "Okunmamış"
 
-#: mail/message-list.c:996
+#: mail/message-list.c:995
 msgid "Seen"
 msgstr "Okunmuş"
 
-#: mail/message-list.c:997
+#: mail/message-list.c:996
 msgid "Answered"
 msgstr "Cevaplanmış"
 
-#: mail/message-list.c:998
+#: mail/message-list.c:997
 msgid "Multiple Unseen Messages"
 msgstr "Birden Fazla Okunmayan İletiler"
 
-#: mail/message-list.c:999
+#: mail/message-list.c:998
 msgid "Multiple Messages"
 msgstr "Birden Fazla İleti"
 
-#: mail/message-list.c:1003
+#: mail/message-list.c:1002
 msgid "Lowest"
 msgstr "En Düşük"
 
-#: mail/message-list.c:1004
+#: mail/message-list.c:1003
 msgid "Lower"
 msgstr "Daha Düşük"
 
-#: mail/message-list.c:1008
+#: mail/message-list.c:1007
 msgid "Higher"
 msgstr "Daha Yüksek"
 
-#: mail/message-list.c:1009
+#: mail/message-list.c:1008
 msgid "Highest"
 msgstr "En Yüksek"
 
-#: mail/message-list.c:1337
+#: mail/message-list.c:1336
 msgid "?"
 msgstr "?"
 
 #. strftime format of a time,
 #. in 12-hour format, without seconds.
-#: mail/message-list.c:1344 plugins/itip-formatter/itip-view.c:189
+#: mail/message-list.c:1343 plugins/itip-formatter/itip-view.c:189
 msgid "Today %l:%M %p"
 msgstr "Bugün %l:%M %p"
 
-#: mail/message-list.c:1353
+#: mail/message-list.c:1352
 msgid "Yesterday %l:%M %p"
 msgstr "Dün %l:%M %p"
 
-#: mail/message-list.c:1365
+#: mail/message-list.c:1364
 msgid "%a %l:%M %p"
 msgstr "%a %l %M %p"
 
-#: mail/message-list.c:1373
+#: mail/message-list.c:1372
 msgid "%b %d %l:%M %p"
 msgstr "%d %b %l:%M %p"
 
-#: mail/message-list.c:1375
+#: mail/message-list.c:1374
 msgid "%b %d %Y"
 msgstr "%d %b %Y"
 
@@ -13851,7 +13862,7 @@ msgstr "%d %b %Y"
 msgid "Message List"
 msgstr "İleti Listesi"
 
-#: mail/message-list.c:3386
+#: mail/message-list.c:3384
 msgid "Generating message list"
 msgstr "İleti listesi oluşturuluyor"
 
@@ -14863,7 +14874,7 @@ msgstr "Kullanıcılar"
 msgid "Enter the users and set permissions"
 msgstr "Kullanıcıları gir ve izinleri ayarla"
 
-#: plugins/shared-folder/share-folder-common.c:403
+#: plugins/shared-folder/share-folder-common.c:401
 msgid "Sharing"
 msgstr "Paylaşım"
 
@@ -17827,43 +17838,43 @@ msgstr "Kategorileri Eşzamanlandır:"
 
 #. To translators: This is the accessibility name of
 #. the search bar's text entry widget
-#: widgets/misc/e-search-bar.c:345
+#: widgets/misc/e-search-bar.c:343
 msgid "Search Text Entry"
 msgstr "Metin Girişi Ara"
 
-#: widgets/misc/e-search-bar.c:549
+#: widgets/misc/e-search-bar.c:547
 msgid "_Search"
 msgstr "A_ra"
 
-#: widgets/misc/e-search-bar.c:555
+#: widgets/misc/e-search-bar.c:553
 msgid "_Find Now"
 msgstr "Ş_imdi Bul"
 
-#: widgets/misc/e-search-bar.c:556 widgets/misc/e-search-bar.c:943
+#: widgets/misc/e-search-bar.c:554 widgets/misc/e-search-bar.c:941
 msgid "_Clear"
 msgstr "_Temizle"
 
-#: widgets/misc/e-search-bar.c:647
+#: widgets/misc/e-search-bar.c:645
 msgid "Search Type"
 msgstr "Arama Türü"
 
-#: widgets/misc/e-search-bar.c:851
+#: widgets/misc/e-search-bar.c:849
 msgid "Item ID"
 msgstr "Öğe ID"
 
-#: widgets/misc/e-search-bar.c:858
+#: widgets/misc/e-search-bar.c:856
 msgid "Subitem ID"
 msgstr "Alt öğe ID"
 
-#: widgets/misc/e-search-bar.c:865
+#: widgets/misc/e-search-bar.c:863
 msgid "Text"
 msgstr "Metin"
 
-#: widgets/misc/e-search-bar.c:945
+#: widgets/misc/e-search-bar.c:943
 msgid "Find _Now"
 msgstr "Ş_imdi Bul"
 
-#: widgets/misc/e-send-options.c:506
+#: widgets/misc/e-send-options.c:505
 msgid "When de_leted:"
 msgstr "_Silindiğinde:"
 

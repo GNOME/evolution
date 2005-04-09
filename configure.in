@@ -1,7 +1,7 @@
 # Process this file with autoconf to produce a configure script.
 AC_PREREQ(2.52)
 
-AC_INIT(evolution, 2.2.0, http://bugzilla.ximian.com/enter_bug.cgi?product=Evolution)
+AC_INIT(evolution, 2.2.2, http://bugzilla.ximian.com/enter_bug.cgi?product=Evolution)
 AC_CONFIG_SRCDIR(README)
 AM_INIT_AUTOMAKE(AC_PACKAGE_NAME, AC_PACKAGE_VERSION)
 
@@ -45,7 +45,7 @@ dnl The controls whether things like the development warning in shell/main.c are
 dnl
 dnl This should be set to 0 for stable releases and 1 for unstable releases
 dnl *************************************************************************************************
-AC_DEFINE(DEVELOPMENT, 1, [If we are in development mode or not])
+AC_DEFINE(DEVELOPMENT, 0, [If we are in development mode or not])
 AC_SUBST(DEVELOPMENT)
 
 AC_ISC_POSIX
@@ -511,12 +511,12 @@ dnl *********
 dnl Libraries
 dnl *********
 
-PKG_CHECK_MODULES(GTKHTML, libgtkhtml-3.8)
+PKG_CHECK_MODULES(GTKHTML, libgtkhtml-3.6)
 AC_SUBST(GTKHTML_CFLAGS)
 AC_SUBST(GTKHTML_LIBS)
-GTKHTML_DATADIR=`$PKG_CONFIG --variable gtkhtml_datadir libgtkhtml-3.8`
+GTKHTML_DATADIR=`$PKG_CONFIG --variable gtkhtml_datadir libgtkhtml-3.6`
 AC_SUBST(GTKHTML_DATADIR)
-GTKHTML_API_VERSION=`$PKG_CONFIG --variable gtkhtml_apiversion libgtkhtml-3.8`
+GTKHTML_API_VERSION=`$PKG_CONFIG --variable gtkhtml_apiversion libgtkhtml-3.6`
 AC_DEFINE_UNQUOTED(GTKHTML_API_VERSION, "$GTKHTML_API_VERSION", [The gtkhtml api version])
 
 
@@ -1098,11 +1098,11 @@ fi
 
 dnl --- Required version numbers
 
-GAL_REQUIRED=2.4.0
+GAL_REQUIRED=2.4.2
 GAL_PACKAGE=2.4
-GTKHTML_REQUIRED=3.7.0
-GTKHTML_PACKAGE=3.8
-EDS_REQUIRED=1.2.0
+GTKHTML_REQUIRED=3.6.2
+GTKHTML_PACKAGE=3.6
+EDS_REQUIRED=1.2.2
 EDS_PACKAGE=1.2
 BONOBOUI_REQUIRED=2.4.2
 GNOME_VFS_REQUIRED=2.4
@@ -1337,7 +1337,7 @@ AC_ARG_ENABLE(plugins, [  --enable-plugins=[no/base/all/experimental/list]      
 dnl Add any new plugins here
 plugins_base="calendar-file calendar-http calendar-weather groupwise-account-setup itip-formatter plugin-manager send-options shared-folder groupwise-send-options exchange-account-setup groupwise-status-tracking default-source addressbook-file addressbook-groupwise startup-wizard" 
 
-plugins_standard="bbdb subject-thread save-attachments prefer-plain save-calendar select-one-source copy-tool mail-to-task mark-calendar-offline audio-inline mailing-list-actions new-mail-notify" 
+plugins_standard="bbdb subject-thread save-attachments prefer-plain save-calendar select-one-source copy-tool mail-to-task folder-unsubscribe mark-calendar-offline audio-inline mailing-list-actions new-mail-notify" 
 
 plugins_experimental="backup-restore folder-unsubscribe mail-to-meeting"
 
@@ -1386,7 +1386,7 @@ then
 fi
 
 if echo ${plugins_enabled} | grep -q "new-mail-notify" ; then
-	if ${PKG_CONFIG} --exists dbus-glib-1 ; then
+	if ${PKG_CONFIG} --max-version=0.23.4 dbus-glib-1 ; then
 		dnl **************************************************
 		dnl * New Mail Notify plugin
 		dnl **************************************************

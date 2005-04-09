@@ -1,30 +1,3 @@
-2005-03-31  Vivek Jain <jvivek@novell.com>
-	
-	**Fixes #74002
-	* share-folder-common.c : 
-	(get_cnc): return cnc as NULL if evoluiton is in offline.
-	(create_folder): return -1 if in offline
-
-2005-03-31  Vivek Jain <jvivek@novell.com>
-	
-	**Fixes #73787 (bugzilla innerweb.novell)
-	* share-folder.c : 
-	(add_right_clicked)
-	(edit_right_clicked)
-	(delete_right_clicked) : use path passed in the callback to get the
-	current iterator
-	also including some NULL checks
-
-2005-03-28  Vivek Jain <jvivek@novell.com>
-	
-	**Fixes #73198
-	* share-folder-common.c : 
-	(org_gnome_shared_folder_factory):
-	(create_folder__created) : pass the full name in get_conatiner_id
-	(get_container_id) : break the full name and start looking for the
-	name from the top most parent. This will give proper container id
-	even in the case of the duplicate names at different hierarchies
-
 2005-03-10  Vivek Jain <jvivek@novell.com>
 	
 	**Fixes #73201

@@ -258,10 +258,3 @@ char *s = N_("Unable to connect to the GroupWise\n"
 char *s = N_("\n"
 	"Please check your account settings and try again.\n"
 	"");
-/* mail:ask-receipt title */
-char *s = N_("Read receipt requested.");
-/* mail:ask-receipt primary */
-char *s = N_("Read receipt requested.");
-/* mail:ask-receipt secondary */
-char *s = N_("A read receipt notification has been requested for \"{1}\".  Send the reciept notification to {0}?");
-char *s = N_("Send Receipt");

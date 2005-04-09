@@ -36,7 +36,6 @@
 
 static void addressbook_authenticate (EBook *book, gboolean previous_failure,
 				      ESource *source, EBookCallback cb, gpointer closure);
-static void auth_required_cb (EBook *book, gpointer data);
 
 typedef struct {
 	EBookCallback cb;
@@ -221,7 +220,8 @@ addressbook_authenticate (EBook *book, gboolean previous_failure, ESource *sourc
 	}
 	else {
 		/* they hit cancel */
-		cb (book, E_BOOK_ERROR_CANCELLED, closure);
+	
+			cb (book, E_BOOK_ERROR_CANCELLED, closure);
 	}
 
 	g_free (uri);
