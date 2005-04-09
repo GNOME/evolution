@@ -1,4 +1,4 @@
-2005-03-11  David Malcolm  <dmalcolm@redhat.com>
+2005-04-05  David Malcolm  <dmalcolm@redhat.com>
 
 	* new-mail-notify.c: preprocessor hackery using the value of
 	DBUS_VERSION to cope with changes to the semantics of

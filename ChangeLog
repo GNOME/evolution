@@ -1,4 +1,8 @@
-2005-03-11  David Malcolm  <dmalcolm@redhat.com>
+2005-04-08  JP Rosevear  <jpr@novell.com>
+
+	* configure.in: bump version, requires
+
+2005-04-05  David Malcolm  <dmalcolm@redhat.com>
 
 	* configure.in: set up DBUS_VERSION for use in the new-mail-notify
 	plugin 
