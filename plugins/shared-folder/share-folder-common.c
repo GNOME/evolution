@@ -43,9 +43,11 @@
 #include <camel/camel-offline-store.h>
 #include <camel/camel-vee-store.h>
 #include <camel/camel-folder.h>
+#include <camel/camel-offline-store.h>
 #include <e-gw-container.h>
 #include <e-gw-connection.h>
 #include <glade/glade.h>
+#include <widgets/misc/e-error.h>
 #include <libgnomeui/libgnomeui.h>
 #include <widgets/misc/e-error.h>
 #include "share-folder.h"
@@ -214,6 +216,13 @@ create_folder (CamelStore *store, const char *full_name, void (* done) (struct _
 	struct _EMCreateFolder *m;
 	const char *parent;
 	int id;
+	
+	
+	if (((CamelOfflineStore *) store)->state == CAMEL_OFFLINE_STORE_NETWORK_UNAVAIL) {
+		//e_error_run (NULL,  _("Cannot create GroupWise folders in offline mode."), NULL, NULL);
+		g_warning (_("Cannot Create shared folder in offline mode."));
+		return -1;
+	}
 	
 	if (((CamelOfflineStore *) store)->state == CAMEL_OFFLINE_STORE_NETWORK_UNAVAIL) {
 		//e_error_run (NULL,  _("Cannot create GroupWise folders in offline mode."), NULL, NULL);
