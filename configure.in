@@ -1,7 +1,7 @@
 # Process this file with autoconf to produce a configure script.
 AC_PREREQ(2.52)
 
-AC_INIT(evolution, 2.2.0, http://bugzilla.ximian.com/enter_bug.cgi?product=Evolution)
+AC_INIT(evolution, 2.3.0, http://bugzilla.ximian.com/enter_bug.cgi?product=Evolution)
 AC_CONFIG_SRCDIR(README)
 AM_INIT_AUTOMAKE(AC_PACKAGE_NAME, AC_PACKAGE_VERSION)
 
@@ -23,7 +23,7 @@ dnl This is for api/versioning tracking for things like bonobo .server files
 dnl
 dnl This should always be the major/minor of the stable version or stable version to be
 dnl *************************************************************************************************
-BASE_VERSION=2.2
+BASE_VERSION=2.4
 AC_SUBST(BASE_VERSION)
 AC_DEFINE_UNQUOTED(BASE_VERSION, "$BASE_VERSION", [Base version (Major.Minor)])
 
@@ -81,7 +81,7 @@ AC_PROG_INTLTOOL([0.30])
 ALL_LINGUAS="am ar az be bg bs ca cs cy da de el en_AU en_CA en_GB es et eu fa fi fr ga gl gu he hr hu id is it ja ko lt lv mn ms nb ne nl nn no pa pl pt pt_BR ro ru rw sk sl sq sr sr@Latn sv tr uk vi wa xh zh_CN zh_TW"
 AM_GLIB_GNU_GETTEXT
 
-GETTEXT_PACKAGE=evolution-2.2
+GETTEXT_PACKAGE=evolution-$BASE_VERSION
 AC_SUBST(GETTEXT_PACKAGE)
 AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE", [Package name for gettext])
 
@@ -1098,8 +1098,8 @@ fi
 
 dnl --- Required version numbers
 
-GAL_REQUIRED=2.4.0
-GAL_PACKAGE=2.4
+GAL_REQUIRED=2.5.0
+GAL_PACKAGE=2.6
 GTKHTML_REQUIRED=3.7.0
 GTKHTML_PACKAGE=3.8
 EDS_REQUIRED=1.2.0
