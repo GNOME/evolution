@@ -1,3 +1,11 @@
+2005-04-07  Sushma Rai  <rsushma@novell.com>
+
+	* bbdb.c (bbdb_handle_reply): Check for camel_internet_address_get()
+	return value and initialize name and e-mail variables inside the loop. 
+	(bbdb_do_it): Check for query being NULL. Fixes #74366.
+	Free list of contacts before returning, on finding multiple contacts 
+	with the same name.
+
 2005-04-05  Not Zed  <NotZed@Ximian.com>
 
 	* bbdb.c (bbdb_handle_reply): noop if we can't open the book/we're

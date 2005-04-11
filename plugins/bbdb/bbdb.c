@@ -106,8 +106,6 @@ void
 bbdb_handle_reply (EPlugin *ep, EMEventTargetMessage *target)
 {
 	const CamelInternetAddress *cia;
-	const char *name;
-	const char *email;
 	EBook      *book = NULL;
 	int         i;
 
@@ -117,8 +115,10 @@ bbdb_handle_reply (EPlugin *ep, EMEventTargetMessage *target)
 		return;
 
 	cia = camel_mime_message_get_from (target->message);
-	for (i = 0; i < camel_address_length CAMEL_ADDRESS (cia); i ++) {
-		camel_internet_address_get (cia, i, &name, &email);
+	for (i = 0; i < camel_address_length (CAMEL_ADDRESS (cia)); i ++) {
+		const char *name=NULL, *email=NULL;
+		if (!(camel_internet_address_get (cia, i, &name, &email)))
+			continue;
 		bbdb_do_it (book, name, email);
 	}
 
@@ -129,14 +129,18 @@ bbdb_handle_reply (EPlugin *ep, EMEventTargetMessage *target)
 	}
 
 	cia = camel_mime_message_get_recipients (target->message, CAMEL_RECIPIENT_TYPE_TO);
-	for (i = 0; i < camel_address_length CAMEL_ADDRESS (cia); i ++) {
-		camel_internet_address_get (cia, i, &name, &email);
+	for (i = 0; i < camel_address_length (CAMEL_ADDRESS (cia)); i ++) {
+		const char *name=NULL, *email=NULL;
+		if (!(camel_internet_address_get (cia, i, &name, &email)))
+			continue;
 		bbdb_do_it (book, name, email);
 	}
 
 	cia = camel_mime_message_get_recipients (target->message, CAMEL_RECIPIENT_TYPE_CC);
-	for (i = 0; i < camel_address_length CAMEL_ADDRESS (cia); i ++) {
-		camel_internet_address_get (cia, i, &name, &email);
+	for (i = 0; i < camel_address_length (CAMEL_ADDRESS (cia)); i ++) {
+		const char *name=NULL, *email=NULL;
+		if (!(camel_internet_address_get (cia, i, &name, &email)))
+			continue;
 		bbdb_do_it (book, name, email);
 	}
 
@@ -171,9 +175,9 @@ bbdb_do_it (EBook *book, const char *name, const char *email)
 	g_free (query_string);
 
 	status = e_book_get_contacts (book, query, &contacts, NULL);
-	e_book_query_unref (query);
+	if (query)
+		e_book_query_unref (query);
 	if (contacts != NULL) {
-		GList *l;
 		for (l = contacts; l != NULL; l = l->next)
 			g_object_unref ((GObject *)l->data);
 		g_list_free (contacts);
@@ -187,13 +191,17 @@ bbdb_do_it (EBook *book, const char *name, const char *email)
 	g_free (query_string);
 
 	status = e_book_get_contacts (book, query, &contacts, NULL);
-	e_book_query_unref (query);
+	if (query)
+		e_book_query_unref (query);
 	if (contacts != NULL) {
 
 		/* FIXME: If there's more than one contact with this
 		   name, just give up; we're not smart enough for
 		   this. */
 		if (contacts->next != NULL) {
+			for (l = contacts; l != NULL; l = l->next)
+				g_object_unref ((GObject *)l->data);
+			g_list_free (contacts);
 			return;
 		}
 		
