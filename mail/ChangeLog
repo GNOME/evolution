@@ -1,3 +1,10 @@
+2005-04-12  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #273752
+
+	* em-folder-tree.c (emft_drop_folder_rec): handle NULL
+	"parent_name" - dropping to store node.
+
 2005-04-08  Jeffrey Stedfast  <fejj@novell.com>
 
 	* em-composer-utils.c (em_utils_send_receipt): Simplify the

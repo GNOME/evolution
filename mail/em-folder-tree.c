@@ -833,7 +833,7 @@ emft_drop_folder_rec (CamelStore *store, CamelFolderInfo *fi, const char *parent
 			break;
 		
 		/* handles dropping to the root properly */
-		if (parent_name[0])
+		if (parent_name && parent_name[0])
 			new_name = g_strdup_printf ("%s/%s", parent_name, src->name);
 		else
 			new_name = g_strdup (src->name);
