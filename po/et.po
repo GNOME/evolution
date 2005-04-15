@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Evolution CVS HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-02-28 14:10+0100\n"
-"PO-Revision-Date: 2005-03-18 19:08+0200\n"
+"PO-Revision-Date: 2005-04-08 11:45+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -37,11 +37,11 @@ msgid "New Contact List"
 msgstr "Uus kontaktide nimekiri"
 
 #: a11y/addressbook/ea-minicard-view.c:149
-#, fuzzy, c-format
+#, c-format
 msgid "current addressbook folder has %d card"
 msgid_plural "current addressbook folder has %d cards"
-msgstr[0] "aktiivne aadressiraamatu kaust"
-msgstr[1] "aktiivne aadressiraamatu kaust"
+msgstr[0] "käesolev aadressiraamatu kaust sisaldab %d kaardi"
+msgstr[1] "käesolev aadressiraamatu kaust sisaldab %d kaarti"
 
 #: a11y/addressbook/ea-minicard.c:31
 #: calendar/gui/alarm-notify/alarm-queue.c:863
@@ -66,23 +66,21 @@ msgid "It has alarms."
 msgstr ""
 
 #: a11y/calendar/ea-cal-view-event.c:238
-#, fuzzy
 msgid "It has recurrences."
-msgstr "kordumine"
+msgstr "See omab kordumisi."
 
 #: a11y/calendar/ea-cal-view-event.c:241
 msgid "It is a meeting."
-msgstr ""
+msgstr "See on kohtumine."
 
 #: a11y/calendar/ea-cal-view-event.c:247
-#, fuzzy, c-format
+#, c-format
 msgid "Calendar Event: Summary is %s."
-msgstr "Kalendrisündmused"
+msgstr "Kalendrisündmus: Kokkuvõte on %s."
 
 #: a11y/calendar/ea-cal-view-event.c:249
-#, fuzzy
 msgid "Calendar Event: It has no summary."
-msgstr "Kalendrisündmused"
+msgstr "Kalendrisündmus: Kokkuvõte puudub."
 
 #: a11y/calendar/ea-cal-view-event.c:268
 msgid "calendar view event"
@@ -243,7 +241,6 @@ msgstr ""
 
 #: a11y/widgets/ea-calendar-item.c:296
 #: a11y/widgets/ea-calendar-item.c:302
-#, fuzzy
 msgid "%d %B %Y"
 msgstr "%d. %B %Y"
 
@@ -254,7 +251,7 @@ msgstr "iKalendri vorming (.ics)"
 
 #: a11y/widgets/ea-calendar-item.c:339
 msgid "evolution calendar item"
-msgstr ""
+msgstr "evolution'i kalendrikirje"
 
 #: a11y/widgets/ea-combo-button.c:40
 #, fuzzy
@@ -382,7 +379,7 @@ msgstr "Viga aadressiraamatu laadimisel."
 #. addressbook:search-error primary
 #: addressbook/addressbook-errors.xml.h:38
 msgid "Unable to perform search."
-msgstr "Ei saa otsingut läbi viia."
+msgstr "Otsingut pole võimalik läbi viia."
 
 #. addressbook:prompt-save primary
 #: addressbook/addressbook-errors.xml.h:42
@@ -619,7 +616,7 @@ msgstr "_Tüüp:"
 
 #: addressbook/gui/component/addressbook-config.c:609
 msgid "Copy book content locally for offline operation"
-msgstr ""
+msgstr "Raamatu sisu kopeerimine kohapeale tarvitamiseks võrguvabas keskkonnas"
 
 #: addressbook/gui/component/addressbook-config.c:904
 #: addressbook/gui/component/ldap-config.glade.h:23
@@ -650,7 +647,7 @@ msgstr "Autentimine"
 #: mail/mail-dialogs.glade.h:12
 #: smime/gui/smime-ui.glade.h:19
 msgid "Details"
-msgstr "Täpsustused"
+msgstr "Üksikasjad"
 
 #: addressbook/gui/component/addressbook-config.c:915
 msgid "Searching"
@@ -756,9 +753,9 @@ msgstr "Tõrge autentimisel.\n"
 
 #: addressbook/gui/component/addressbook.c:200
 #: plugins/groupwise-account-setup/camel-gw-listener.c:461
-#, fuzzy, c-format
+#, c-format
 msgid "Enter password for %s (user %s)"
-msgstr "%sPalun sisesta %s parool (kasutaja %s)"
+msgstr "Sisesta %s parool (kasutaja %s)"
 
 #: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:1
 #, fuzzy
@@ -3326,17 +3323,11 @@ msgid "Merge E-Mail Address"
 msgstr "Ühenda e-posti aadressid"
 
 #: addressbook/gui/widgets/eab-vcard-control.c:139
-#, fuzzy, c-format
+#, c-format
 msgid "There is one other contact."
 msgid_plural "There are %d other contacts."
 msgstr[0] ""
-"\n"
-"\n"
-"Otsi kontakti."
 msgstr[1] ""
-"\n"
-"\n"
-"Otsi kontakti."
 
 #: addressbook/gui/widgets/eab-vcard-control.c:223
 #: addressbook/gui/widgets/eab-vcard-control.c:272
@@ -5025,7 +5016,7 @@ msgstr "_Lubamine"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:23
 msgid "Free/Busy"
-msgstr "Vaba/hõivatud:"
+msgstr "Vaba/hõivatud"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:24
 #: calendar/gui/dialogs/recurrence-page.c:1044
@@ -5192,6 +5183,7 @@ msgstr ""
 #: calendar/gui/dialogs/calendar-setup.c:284
 msgid "Copy calendar contents locally for offline operation"
 msgstr ""
+"Kalendri sisu kopeerimine kohapeale tarvitamiseks võrguvabas keskkonnas"
 
 #: calendar/gui/dialogs/calendar-setup.c:336
 #: calendar/gui/dialogs/calendar-setup.glade.h:4
@@ -6142,9 +6134,8 @@ msgid "<b>Publishing _Location</b>"
 msgstr "<b>Avalikustamise _asukoht</b>"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:6
-#, fuzzy
 msgid "Free/Busy Publishing Settings"
-msgstr "Vaba/Hõivatud teave"
+msgstr "Vaba/Hõivatud avalikustamise sätted"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:7
 msgid "_Daily"
@@ -6451,7 +6442,7 @@ msgstr "Objektide uuendamine"
 #: calendar/gui/e-calendar-view.c:1064
 #: composer/e-msg-composer.c:1241
 msgid "Save as..."
-msgstr "Salvesta kui..."
+msgstr "Salvestamine kui..."
 
 #: calendar/gui/e-calendar-table.c:1156
 #: calendar/gui/e-calendar-view.c:1395
@@ -6599,7 +6590,7 @@ msgstr "Vali _tänane kuupäev"
 
 #: calendar/gui/e-calendar-view.c:1386
 msgid "_Select Date..."
-msgstr "_Kuupäeva valimine..."
+msgstr "_Vali kuupäev..."
 
 #. TODO: Why is this in a context menu when it applies globally?
 #: calendar/gui/e-calendar-view.c:1391
@@ -6613,7 +6604,7 @@ msgstr "Kop_eeri kalendrisse..."
 
 #: calendar/gui/e-calendar-view.c:1408
 msgid "Mo_ve to Calendar..."
-msgstr "_Liiguta kalendrisse..."
+msgstr "_Tõsta kalendrisse..."
 
 #: calendar/gui/e-calendar-view.c:1409
 msgid "_Schedule Meeting..."
@@ -7266,7 +7257,7 @@ msgstr "Kontorist väljas"
 
 #: calendar/gui/e-meeting-time-sel.c:414
 msgid "No Information"
-msgstr "Info puudub"
+msgstr "Teave puudub"
 
 #: calendar/gui/e-meeting-time-sel.c:445
 msgid "O_ptions"
@@ -15576,7 +15567,7 @@ msgstr "Usaldatav sertifitseerimiskeskus"
 
 #: smime/gui/smime-ui.glade.h:16
 msgid "Certificate details"
-msgstr "Sertifikaadi detailid"
+msgstr "Sertifikaadi üksikasjad"
 
 #: smime/gui/smime-ui.glade.h:17
 msgid "Common Name (CN)"
@@ -17843,9 +17834,8 @@ msgid "%s (%d%% complete)"
 msgstr "%s (%d%% valmis)"
 
 #: widgets/misc/e-url-entry.c:107
-#, fuzzy
 msgid "click here to go to url"
-msgstr "<kausta valimiseks kliki siia>"
+msgstr "URL'i avamiseks kliki siin"
 
 #~ msgid "_Remember this password"
 #~ msgstr "_Jäta see parool meelde"
