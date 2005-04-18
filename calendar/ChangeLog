@@ -1,3 +1,10 @@
+2005-04-13  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #274476
+	* gui/e-calendar-view.c: (e_calendar_view_open_event): Send the
+	right value boolean variable meeting to e_calendar_view_edit_appointment
+	method.
+
 2005-04-08  Rodrigo Moya <rodrigo@novell.com>
 
 	Fixes #70035

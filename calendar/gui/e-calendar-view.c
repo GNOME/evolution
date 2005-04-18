@@ -1492,10 +1492,9 @@ e_calendar_view_open_event (ECalendarView *cal_view)
 	selected = e_calendar_view_get_selected_events (cal_view);
 	if (selected) {
 		ECalendarViewEvent *event = (ECalendarViewEvent *) selected->data;
-
 		if (event)
 			e_calendar_view_edit_appointment (cal_view, event->comp_data->client,
-						     event->comp_data->icalcomp, FALSE);
+					event->comp_data->icalcomp, icalcomponent_get_first_property(event->comp_data->icalcomp, ICAL_ATTENDEE_PROPERTY));
 
 		g_list_free (selected);
 	}
