@@ -1,4 +1,4 @@
-2005-04-13  Chenthill Palanisamy  <pchenthill@novell.com>
+2005-04-18  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #274476
 	* gui/e-calendar-view.c: (e_calendar_view_open_event): Send the
