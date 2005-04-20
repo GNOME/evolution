@@ -1079,13 +1079,11 @@ AC_MSG_RESULT($IDL_INCLUDES)
 AC_SUBST(IDL_INCLUDES)
 
 dnl Utility macro to set compiler flags for a specific lib.
-AC_DEFUN(EVO_SET_COMPILE_FLAGS, [
-	deps="$2"
-	extra_cflags="$3"
-	extra_libs="$4"
-	PKG_CHECK_MODULES(EVOLUTION, $deps)
-	$1_CFLAGS="$EVOLUTION_CFLAGS \$(WERROR) $extra_cflags"
-	$1_LIBS="$EVOLUTION_LIBS $extra_libs"
+dnl  EVO_SET_COMPILE_FLAGS(VAR-PREFIX, DEPS, EXTRA-CFLAGS, EXTRA-LIBS)
+AC_DEFUN([EVO_SET_COMPILE_FLAGS], [
+	PKG_CHECK_MODULES([$1], [$2])
+	$1_CFLAGS="[$]$1_CFLAGS \$(WERROR) $3"
+	$1_LIBS="[$]$1_LIBS $4"
 ])
 
 dnl enable USE_GTKFILECHOOSER if gtk version is > 2.4.0
