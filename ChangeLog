@@ -1,3 +1,9 @@
+2005-04-20  James Henstridge  <james@jamesh.id.au>
+
+	* configure.in (EVO_SET_COMPILE_FLAGS): fix up macro so that it
+	doesn't trigger configure failures with newer versions of
+	pkg-config.  Fixes bug #300436.
+
 2005-04-11  Harish Krishnaswamy  <kharish@novell.com>
 
 	* configure.in: bump version, requires
