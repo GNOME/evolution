@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 2.2.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-04-17 22:53+0900\n"
-"PO-Revision-Date: 2005-03-27 10:17+0900\n"
+"POT-Creation-Date: 2005-04-21 02:23+0900\n"
+"PO-Revision-Date: 2005-04-21 02:23+0900\n"
 "Last-Translator: Changwoo Ryu <cwryu@debian.org>\n"
 "Language-Team: GNOME Korea <gnome-kr-hackers@lists.kldp.net>\n"
 "MIME-Version: 1.0\n"
@@ -10418,7 +10418,7 @@ msgstr "신상 정보"
 
 #: ../mail/em-account-editor.c:1697 ../mail/mail-config.glade.h:114
 msgid "Receiving Email"
-msgstr "메일을 받음"
+msgstr "메일 받기"
 
 # FIXME - hard to translate UI + string based on English grammar
 #: ../mail/em-account-editor.c:1874
@@ -10427,7 +10427,7 @@ msgstr "새 메일을 자동으로 확인(_N), 매"
 
 #: ../mail/em-account-editor.c:2042 ../mail/mail-config.glade.h:124
 msgid "Sending Email"
-msgstr "메일을 보냄"
+msgstr "메일 보내기"
 
 #: ../mail/em-account-editor.c:2086 ../mail/mail-config.glade.h:67
 msgid "Defaults"
@@ -15388,10 +15388,11 @@ msgstr ""
 "Evolution은 오프라인 상태입니다.  온라인 상태로 작업하려면 이 단추를 누르십시"
 "오."
 
+# tooltip
 #: ../shell/e-shell-window.c:713
 #, c-format
 msgid "Switch to %s"
-msgstr "%s 창으로 바꾸기"
+msgstr "%s 창으로 바꿉니다"
 
 #: ../shell/e-shell.c:598
 msgid "Uknown system error."
@@ -16661,7 +16662,7 @@ msgstr "선택한 메세지와 같은 글타래의 모든 메세지를 선택합
 
 #: ../ui/evolution-mail-list.xml.h:17
 msgid "Select all visible messages"
-msgstr "모든 보이는 메세지 선택"
+msgstr "보이는 모든 메세지를 선택합니다"
 
 #: ../ui/evolution-mail-list.xml.h:18
 msgid "Sh_ow Hidden Messages"
@@ -17243,11 +17244,11 @@ msgstr "참조 항목을 보여줄 지 토글합니다"
 
 #: ../ui/evolution-message-composer.xml.h:34
 msgid "Toggles whether the From chooser is displayed"
-msgstr "발신 항목을 보여줄 지 토글합니다"
+msgstr "보낸 사람 항목을 보여줄 지 토글합니다"
 
 #: ../ui/evolution-message-composer.xml.h:35
 msgid "Toggles whether the Post-To field is displayed"
-msgstr "올리는 곳 항목을 보여줄 지 토글합니다"
+msgstr "게시 위치 항목을 보여줄 지 토글합니다"
 
 #: ../ui/evolution-message-composer.xml.h:36
 msgid "Toggles whether the Reply-To field is displayed"
@@ -17255,7 +17256,7 @@ msgstr "회신 주소 항목을 보여줄 지 토글합니다"
 
 #: ../ui/evolution-message-composer.xml.h:37
 msgid "Toggles whether the To field is displayed"
-msgstr "받는 이항목을 보여줄 지 토글합니다"
+msgstr "받는 사람 항목을 보여줄 지 토글합니다"
 
 #: ../ui/evolution-message-composer.xml.h:38
 msgid "_Attachment..."
@@ -17275,7 +17276,7 @@ msgstr "모두 지우기(_D)"
 
 #: ../ui/evolution-message-composer.xml.h:45
 msgid "_From Field"
-msgstr "발신 항목(_F)"
+msgstr "보낸 사람 항목(_F)"
 
 #: ../ui/evolution-message-composer.xml.h:46
 #: ../ui/evolution-signature-editor.xml.h:14
@@ -17288,7 +17289,7 @@ msgstr "열기(_O)..."
 
 #: ../ui/evolution-message-composer.xml.h:48
 msgid "_Post-To Field"
-msgstr "올리는 곳 항목(_P)"
+msgstr "게시 위치 항목(_P)"
 
 #: ../ui/evolution-message-composer.xml.h:49
 msgid "_Reply-To Field"
@@ -17305,7 +17306,7 @@ msgstr "보안(_S)"
 
 #: ../ui/evolution-message-composer.xml.h:52
 msgid "_To Field"
-msgstr "받는 이 항목(_T)"
+msgstr "받는 사람 항목(_T)"
 
 #: ../ui/evolution-signature-editor.xml.h:1
 msgid "C_lose"
@@ -17415,21 +17416,25 @@ msgstr "도구 모음을 볼 지 여부를 바꿉니다"
 msgid "Create a new window displaying this folder"
 msgstr "이 폴더를 표시하는 새 창을 만듭니다"
 
+# tooltip
 #: ../ui/evolution.xml.h:7
 msgid "Display window buttons using the desktop toolbar setting"
-msgstr "데스크탑 도구 모음 설정을 사용해 창 단추를 표시"
+msgstr "데스크탑 도구 모음 설정을 사용해 창 단추를 표시합니다"
 
+# tooltip
 #: ../ui/evolution.xml.h:8
 msgid "Display window buttons with icons and text"
-msgstr "아이콘과 텍스트를 사용해 창 단추를 표시"
+msgstr "아이콘과 텍스트를 사용해 창 단추를 표시합니다"
 
+# tooltip
 #: ../ui/evolution.xml.h:9
 msgid "Display window buttons with icons only"
-msgstr "아이콘만 사용해 창 단추를 표시"
+msgstr "아이콘만 사용해 창 단추를 표시합니다"
 
+# tooltip
 #: ../ui/evolution.xml.h:10
 msgid "Display window buttons with text only"
-msgstr "텍스트만 사용해 창 단추를 표시"
+msgstr "텍스트만 사용해 창 단추를 표시합니다"
 
 #: ../ui/evolution.xml.h:11
 msgid "E_xit"
@@ -18151,18 +18156,3 @@ msgstr "%s (%d%% 완료)"
 #: ../widgets/misc/e-url-entry.c:107
 msgid "click here to go to url"
 msgstr "URL을 보려면 여기를 누르십시오"
-
-#~ msgid "Summary: %s"
-#~ msgstr "요약: %s"
-
-#~ msgid "Location: %s"
-#~ msgstr "위치: %s"
-
-#~ msgid ""
-#~ "\n"
-#~ " Please read carefully the license agreement displayed\n"
-#~ " below and tick the check box for accepting it\n"
-#~ msgstr ""
-#~ "\n"
-#~ " 아래에 있는 사용 약관을 잘 읽어 보시고 \n"
-#~ " 동의하실 경우 체크 단추에 표시하십시오\n"
