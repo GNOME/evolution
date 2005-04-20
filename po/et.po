@@ -1,9 +1,13 @@
 # Evolution'i eesti keele tõlge.
-# Copyright (C) 2001 Free Software Foundation, Inc.
+# Estonian translation of Evolution
+# 
+# Copyright (C) 2001-2005 Free Software Foundation, Inc.
+# This file is distributed under the same license as the evolution package.
+# 
 # Ilmar Kerm <ikerm@hot.ee>, 2001
 # Ivar Smolin <okul@linux.ee>, 2002, 2003, 2005
 # Kaarel Jõgi <kaarel@gg.ee>, 2002
-# Priit Laes <amd@tt.ee>, 2003, 2004, 2005
+# Priit Laes <amd@tt.ee>, 2003-2005
 #
 # Riigi- ja linnanimed: Marek Sepp <marek.sepp@ttu.ee>, 2001, 2002
 #
@@ -12,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution CVS HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-02-28 14:10+0100\n"
-"PO-Revision-Date: 2005-04-08 11:45+0300\n"
+"PO-Revision-Date: 2005-04-20 18:06+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -254,9 +258,8 @@ msgid "evolution calendar item"
 msgstr "evolution'i kalendrikirje"
 
 #: a11y/widgets/ea-combo-button.c:40
-#, fuzzy
 msgid "Combo Button"
-msgstr "Ajavööndi nupp"
+msgstr ""
 
 #: a11y/widgets/ea-combo-button.c:50
 #, fuzzy
@@ -6616,15 +6619,15 @@ msgstr "Edasta i_Kalendrina"
 
 #: calendar/gui/e-calendar-view.c:1415
 msgid "Make this Occurrence _Movable"
-msgstr ""
+msgstr "Muuda seekordne sündmus _liigutatavaks"
 
 #: calendar/gui/e-calendar-view.c:1416
 msgid "Delete this _Occurrence"
-msgstr "Ku_stuta see sündmus"
+msgstr "Ku_stuta seekordne sündmus"
 
 #: calendar/gui/e-calendar-view.c:1417
 msgid "Delete _All Occurrences"
-msgstr "Kustuta k_õik sündmused"
+msgstr "Kustuta k_õik sündmused kordused"
 
 #. strftime format of a weekday, a date and a time, 24-hour.
 #. strptime format of a weekday, a date and a time,
@@ -10334,7 +10337,7 @@ msgstr "Vastuvõtmise valikud"
 #: mail/em-account-editor.c:2185
 #: mail/em-account-editor.c:2260
 msgid "Checking for New Mail"
-msgstr "Uute kirjade kontroll"
+msgstr "Uute sõnumite kontroll"
 
 #: mail/em-account-editor.c:2600
 #: mail/mail-config.glade.h:33
@@ -11344,7 +11347,7 @@ msgstr ""
 
 #: mail/em-popup.c:382
 msgid "Save As..."
-msgstr "Salvesta kui..."
+msgstr "Salvestamine kui..."
 
 #: mail/em-popup.c:401
 #, c-format
@@ -11801,7 +11804,7 @@ msgstr "Vaikimisi määratud konto UID string."
 #: mail/evolution-mail.schemas.in.in.h:91
 #, fuzzy
 msgid "Use Spamassassin daemon and client"
-msgstr "Kasuta Spamassassini deemonit ja klienti"
+msgstr "Kasuta Spamassassin'i deemonit ja klienti"
 
 #: mail/evolution-mail.schemas.in.in.h:92
 #, fuzzy
@@ -12705,7 +12708,7 @@ msgstr "_Kunagi ära lae ühtegi pilti Internetist"
 
 #: mail/mail-config.glade.h:162
 msgid "_Path:"
-msgstr "_Otsingutee:"
+msgstr "_Rada:"
 
 #: mail/mail-config.glade.h:163
 msgid "_Prompt when sending HTML messages to contacts that don't want them"
@@ -13948,16 +13951,15 @@ msgstr "Ü_hikud:"
 
 #: plugins/calendar-weather/calendar-weather.c:662
 msgid "Metric (Celsius, cm, etc)"
-msgstr ""
+msgstr "Meetermõõdustik (Celsius, cm, jms.)"
 
 #: plugins/calendar-weather/calendar-weather.c:663
 msgid "Imperial (Fahrenheit, inches, etc)"
 msgstr ""
 
 #: plugins/default-source/default-source.c:82
-#, fuzzy
 msgid "Mark  as default folder"
-msgstr "Vaikekausta kasutamine mustandite jaoks?"
+msgstr "Märkida vaikimisi kaustaks"
 
 #: plugins/default-source/default-source.c:108
 #, fuzzy
@@ -14510,11 +14512,11 @@ msgstr "_Genereerib uue kirja saabumisel D-BUS sõnumi"
 
 #: plugins/plugin-manager/org-gnome-plugin-manager.xml.h:1
 msgid "Enable and disable plugins"
-msgstr ""
+msgstr "Pluginate lubamine ja keelamine"
 
 #: plugins/plugin-manager/org-gnome-plugin-manager.xml.h:2
 msgid "Manage Plugins..."
-msgstr ""
+msgstr "Halda pluginaid..."
 
 #: plugins/plugin-manager/plugin-manager.c:45
 msgid "Author(s)"
@@ -14522,11 +14524,11 @@ msgstr "Autor(id)"
 
 #: plugins/plugin-manager/plugin-manager.c:46
 msgid "Id"
-msgstr ""
+msgstr "Id"
 
 #: plugins/plugin-manager/plugin-manager.c:47
 msgid "Path"
-msgstr "Otsingutee"
+msgstr "Rada"
 
 #: plugins/plugin-manager/plugin-manager.c:48
 msgid "Description"
@@ -14535,11 +14537,11 @@ msgstr "Kirjeldus"
 #. Setup the ui
 #: plugins/plugin-manager/plugin-manager.c:188
 msgid "Plugin Manager"
-msgstr ""
+msgstr "Pluginahaldur"
 
 #: plugins/plugin-manager/plugin-manager.c:201
 msgid "Note: Some changes will not take effect until restart"
-msgstr ""
+msgstr "Märkus: mõningad muudatused rakenduvad alles peale taaskäivitamist"
 
 #: plugins/plugin-manager/plugin-manager.c:210
 msgid "Plugin"
@@ -16148,7 +16150,7 @@ msgstr "Valib tänase kuupäeva"
 
 #: ui/evolution-calendar.xml.h:29
 msgid "Show as list"
-msgstr "Näitab loendit"
+msgstr "Näita loendit"
 
 #: ui/evolution-calendar.xml.h:30
 msgid "Show one day"
@@ -16156,15 +16158,15 @@ msgstr "Näita ühte päeva"
 
 #: ui/evolution-calendar.xml.h:31
 msgid "Show one month"
-msgstr "Näitab ühte kuud"
+msgstr "Näita ühte kuud"
 
 #: ui/evolution-calendar.xml.h:32
 msgid "Show one week"
-msgstr "Näitab ühte nädalat"
+msgstr "Näita ühte nädalat"
 
 #: ui/evolution-calendar.xml.h:33
 msgid "Show the working week"
-msgstr "Näitab ühte töönädalat"
+msgstr "Näita ühte töönädalat"
 
 #: ui/evolution-calendar.xml.h:35
 msgid "View the current appointment"
