@@ -1,3 +1,10 @@
+2005-04-17  Yu Mengjie  <meng-jie.yu@sun.com>
+
+	* gui/widgets/e-minicard.c: (e_minicard_event):
+	We should incarnate the reflow item if it doesn't exist.
+
+	Fixes #300970 (gnome bugzilla bugID)
+
 2005-04-04  Sivaiah Nallagatla <snallagatla@novell.com>
 
        * gui/component/addressbook.c (load_source_auth_cb)

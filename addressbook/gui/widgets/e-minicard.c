@@ -682,6 +682,13 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 						view_index--;
 
 					model_index = e_sorter_sorted_to_model (E_SORTER (reflow->sorter), view_index);
+					if (reflow->items[model_index] == NULL) {
+						reflow->items[model_index] = e_reflow_model_incarnate (reflow->model, model_index, GNOME_CANVAS_GROUP (reflow));
+						g_object_set (reflow->items[model_index],
+							      "width", (double) reflow->column_width,
+							      NULL);
+
+					}
 					e_canvas_item_grab_focus (reflow->items[model_index], FALSE);
 					return TRUE;
 				}
@@ -701,6 +708,13 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 						view_index++;
 
 					model_index = e_sorter_sorted_to_model (E_SORTER (reflow->sorter), view_index);
+					if (reflow->items[model_index] == NULL) {
+						reflow->items[model_index] = e_reflow_model_incarnate (reflow->model, model_index, GNOME_CANVAS_GROUP (reflow));
+						g_object_set (reflow->items[model_index],
+							      "width", (double) reflow->column_width,
+							      NULL);
+
+					}
 					e_canvas_item_grab_focus(reflow->items[model_index], FALSE);
 					return TRUE;
 				}
