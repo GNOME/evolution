@@ -607,6 +607,9 @@ e_selection_model_key_press      (ESelectionModel *selection,
 		if (selection->mode != GTK_SELECTION_SINGLE) {
 			int row = e_selection_model_cursor_row(selection);
 			int col = e_selection_model_cursor_col(selection);
+			if (row == -1)
+				break;
+
 			e_selection_model_toggle_single_row (selection, row);
 			g_signal_emit(selection,
 				      e_selection_model_signals[CURSOR_ACTIVATED], 0,
