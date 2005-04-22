@@ -98,6 +98,7 @@ struct _EReflow
 	double column_width;
 
 	int incarnate_idle_id;
+	int do_adjustment_idle_id;
 
 	/* These are all for when the column is being dragged. */
 	gdouble start_x;
