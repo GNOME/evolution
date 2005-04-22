@@ -1,4 +1,13 @@
-2005-04-17  Yu Mengjie  <meng-jie.yu@sun.com>
+2005-04-21  Mengjie Yu  <meng-jie.yu@sun.com>
+
+	* gui/widgets/e-minicard-view-widget.c:
+	(e_minicard_view_widget_class_init),
+	(e_minicard_view_widget_real_focus_in_event):
+	Add focus_in_event function.
+
+	Fixes #300968 (gnome bugzilla bugID)
+
+2005-04-17  Mengjie Yu  <meng-jie.yu@sun.com>
 
 	* gui/widgets/e-minicard.c: (e_minicard_event):
 	We should incarnate the reflow item if it doesn't exist.

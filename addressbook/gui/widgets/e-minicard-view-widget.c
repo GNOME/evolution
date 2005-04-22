@@ -38,6 +38,8 @@ static void e_minicard_view_widget_reflow        (ECanvas *canvas);
 static void e_minicard_view_widget_size_allocate (GtkWidget *widget, GtkAllocation *allocation);
 static void e_minicard_view_widget_style_set     (GtkWidget *widget, GtkStyle *previous_style);
 static void e_minicard_view_widget_realize       (GtkWidget *widget);
+static gboolean e_minicard_view_widget_real_focus_in_event (GtkWidget *widget, GdkEventFocus *event);
+
 
 static ECanvasClass *parent_class = NULL;
 
@@ -158,6 +160,8 @@ e_minicard_view_widget_class_init (EMinicardViewWidgetClass *klass)
 	widget_class->style_set     = e_minicard_view_widget_style_set;
 	widget_class->realize       = e_minicard_view_widget_realize;
 	widget_class->size_allocate = e_minicard_view_widget_size_allocate;
+	widget_class->focus_in_event = e_minicard_view_widget_real_focus_in_event;
+
 
 	canvas_class->reflow        = e_minicard_view_widget_reflow;
 
@@ -438,3 +442,30 @@ e_minicard_view_widget_get_view             (EMinicardViewWidget       *view)
 	else
 		return NULL;
 }
+
+static gboolean 
+e_minicard_view_widget_real_focus_in_event(GtkWidget *widget, GdkEventFocus *event)
+{
+	GnomeCanvas *canvas;
+	EMinicardViewWidget *view;
+
+	canvas = GNOME_CANVAS (widget);
+	view = E_MINICARD_VIEW_WIDGET(widget);
+
+	if (!canvas->focused_item) {
+		EReflow *reflow = E_REFLOW (view->emv);
+		if (reflow->count) {
+			int unsorted = e_sorter_sorted_to_model (E_SORTER (reflow->sorter), 0);
+
+			if (unsorted != -1)
+				canvas->focused_item = reflow->items [unsorted];
+		}
+	}
+
+	if (GTK_WIDGET_CLASS(parent_class)->focus_in_event)
+		return GTK_WIDGET_CLASS(parent_class)->focus_in_event (widget, event);
+
+	return FALSE;
+
+}
+
