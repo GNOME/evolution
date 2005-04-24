@@ -14,9 +14,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Evolution CVS HEAD\n"
-"Report-Msgid-Bugs-To: \n"
+"Report-Msgid-Bugs-To: gnome-et@linux.ee\n"
 "POT-Creation-Date: 2005-02-28 14:10+0100\n"
-"PO-Revision-Date: 2005-04-20 18:06+0300\n"
+"PO-Revision-Date: 2005-04-22 18:33+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -6665,7 +6665,7 @@ msgstr ""
 #: calendar/gui/e-day-view-time-item.c:527
 #, c-format
 msgid "%02i minute divisions"
-msgstr ""
+msgstr "%02i-minutiline jaotamine"
 
 #. strftime format %A = full weekday name, %d = day of month,
 #. %B = full month name. Don't use any other specifiers.
@@ -7438,7 +7438,7 @@ msgstr "Oktoober"
 
 #: calendar/gui/goto-dialog.glade.h:12
 msgid "Select Date"
-msgstr "Vali kuupäev"
+msgstr "Kuupäeva valimine"
 
 #: calendar/gui/goto-dialog.glade.h:13
 msgid "September"
