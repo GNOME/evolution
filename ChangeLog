@@ -1,3 +1,7 @@
+2005-04-25  Harish Krishnaswamy  <kharish@novell.com>
+
+	* configure.in: Bump libsoup requires.
+
 2005-04-20  James Henstridge  <james@jamesh.id.au>
 
 	* configure.in (EVO_SET_COMPILE_FLAGS): fix up macro so that it
