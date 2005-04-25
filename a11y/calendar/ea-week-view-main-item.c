@@ -600,9 +600,9 @@ ea_week_view_main_item_destory_cell_data (EaWeekViewMainItem *ea_main_item)
 	cell_data = g_object_get_data (G_OBJECT(ea_main_item),
 				       "ea-week-view-cell-table");
 	if (cell_data) {
-		ea_cell_table_destroy (cell_data);
 		g_object_set_data (G_OBJECT(ea_main_item),
 				   "ea-week-view-cell-table", NULL);
+		ea_cell_table_destroy (cell_data);
 	}
 }
 

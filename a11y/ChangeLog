@@ -1,3 +1,13 @@
+2005-04-22  Li Yuan  <li.yuan@sun.com>
+
+	* calendar/ea-day-view-main-item.c:
+	(ea_day_view_main_item_destory_cell_data):
+	* calendar/ea-week-view-main-item.c:
+	(ea_week_view_main_item_destory_cell_data):
+	change the order of the code to avoid a crash.
+
+	Fixes #301885
+
 2005-04-06  Yu Mengjie  <meng-jie.yu@sun.com>
 
 	* addressbook/ea-minicard-view.c: (ea_minicard_view_get_name),
