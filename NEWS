@@ -1,3 +1,91 @@
+Evolution  2.3.1, 2005-04-26
+---------------------------------------
+
+Bugzilla bugs fixed (see http://bugzilla.gnome.org/show_bug.cgi):
+
+* Calendar 
+
+	- #301885 - Evolution crash when shifting locale in calendar view 
+	  several times (Li Yuan)
+	- #274476 - File ->Open Appointments, opens meeting as appointment
+	  (Chenthill)
+	- #273508 - status of organizer of a meeting getting changed
+	  (Chenthill)
+	- #41740 - No error trying to edit Exchange appointments from alarm
+	  (Rodrigo)
+	- #73879 - Attach a file to 'Calendar' in offline, 'OK' button gets enabled
+	  (JPR)
+	- #73969 - 'Cancel' meeting doesnt delete all instances of recurring 
+	  meeting in 'attendee's calendar (Chenthill)
+	- #44719 - Alarm Notify window is not sticky any more (Rodrigo)
+	- #69272 - doesn't accept new date & crashes while retrying (JP)
+	- #73508 - evolution crash on startup (Chenthill)
+	- #44579 appointment location / description does not get printed(Li Yuan)
+	- #73031  - crash when closing event editor (Chenthill)
+	- #268525 - crash when evo is in background (Chenthill)
+	- #272983 - 'List' view has one entry for recurring appointment
+	  (Rodrigo)
+	 -#74265  incorrect start date display (Chenthill)
+	
+* Mail
+	- #273752 - Dragging folder from Maildir spool account to 'On This Computer' 
+	account crashes Evolution (Michael)
+	- #273192 - Mark as (un)read missing from context popup menu (Rodney)
+	- #273914 - Some of the tables do not have a11y names (Li Yuan)
+	- #74002 - create shared-to me folder from the wizard offline (Partha, Vivek)
+
+* Shell/GUI 
+	- #273066 - buutons" typo in Evolution schemas message (JP)
+	- #300968 - (Mengjie Yu)
+	- #300970 - (Mengjie Yu)
+	- #73270 - (Mengjie Yu)
+
+* a11y
+	- #73914 -add a11y name to Certificates Table (Li Yuan)
+
+* Addressbook
+	- #74366 (Sushma)
+
+
+Other Bugs
+
+* Mail 
+	-  asynchronously load message if no receipt is supplied (Michael)
+	-  New function to send an RFC2298-compliant message delivery notification
+	   (ERDI Gergo)
+	-  make the 'select all' work in all conditions (Mengjie Yu)
+	-  use gnome-vfs API to launch external applications (Marco Pesenti Gritti)
+	-  add new receipt_policy field to services (ERDI Gergo)
+
+* Shell
+	- return the localized name of the supported file type (Yong Sun)
+	- fix offline state event (Michael)
+
+* Calendar 
+	- display error messages when we can't load the component in the editor
+	  (Harry Lu)
+
+
+Updated Translations :
+
+	* et - Ivar Smolin
+	* bg - Vladimir Petkov	
+	* cs - Miloslav Trmac
+	* en_CA - Adam Weinberger
+	* en_GB - Gareth Owen
+	* es - Francisco Javier F. Serrador
+	* de - Frank Arnold
+	* id - Ahmad Riza H Nst
+	* ne - Pawan Chitrakar 
+	* nl - Tino Meinen
+	* da - Martin Willemoes Hansen
+	* gu - Ankit Patel 
+	* pt - Duarte Loreto
+	* pt_BR - Guilherme de S. Pastore 
+	* cs - Stanislav Brabec
+	* fi - Ilkka Tuohela
+	* sq - Laurent Dhima
+
 Evolution 2.2.0, 2005-03-07
 ---------------------------
 
