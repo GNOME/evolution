@@ -1,3 +1,7 @@
+2005-04-26  Harish Krishnaswamy  <kharish@novell.com>
+
+	* configure.in : Bump version
+
 2005-04-25  Harish Krishnaswamy  <kharish@novell.com>
 
 	* configure.in: Bump libsoup requires.
