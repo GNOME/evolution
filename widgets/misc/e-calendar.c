@@ -265,6 +265,9 @@ static void
 e_calendar_style_set		(GtkWidget	*widget,
 				 GtkStyle	*previous_style)
 {
+	ECalendar *e_calendar;
+
+	e_calendar = E_CALENDAR(widget);
 	if (GTK_WIDGET_CLASS (e_calendar_parent_class)->style_set)
 		(*GTK_WIDGET_CLASS (e_calendar_parent_class)->style_set) (widget,
 							       previous_style);
@@ -274,6 +277,7 @@ e_calendar_style_set		(GtkWidget	*widget,
 	if (GTK_WIDGET_REALIZED (widget->parent))
 		gdk_window_set_background (GTK_LAYOUT (widget)->bin_window,
 					   &widget->style->bg[GTK_STATE_NORMAL]);
+	e_calendar_item_style_set (widget, e_calendar->calitem);
 }
 
 

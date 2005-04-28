@@ -691,31 +691,7 @@ e_calendar_item_realize		(GnomeCanvasItem *item)
 
 	colormap = gtk_widget_get_colormap (GTK_WIDGET (item->canvas));
 
-	calitem->colors[E_CALENDAR_ITEM_COLOR_TODAY_BOX].red   = 65535;
-	calitem->colors[E_CALENDAR_ITEM_COLOR_TODAY_BOX].green = 0;
-	calitem->colors[E_CALENDAR_ITEM_COLOR_TODAY_BOX].blue  = 0;
-
-	calitem->colors[E_CALENDAR_ITEM_COLOR_SELECTION_FG].red   = 65535;
-	calitem->colors[E_CALENDAR_ITEM_COLOR_SELECTION_FG].green = 65535;
-	calitem->colors[E_CALENDAR_ITEM_COLOR_SELECTION_FG].blue  = 65535;
-
-	calitem->colors[E_CALENDAR_ITEM_COLOR_SELECTION_BG_FOCUSED].red   = 4700;
-	calitem->colors[E_CALENDAR_ITEM_COLOR_SELECTION_BG_FOCUSED].green = 4700;
-	calitem->colors[E_CALENDAR_ITEM_COLOR_SELECTION_BG_FOCUSED].blue  = 65535;
-
-	calitem->colors[E_CALENDAR_ITEM_COLOR_SELECTION_BG].red   = 47000;
-	calitem->colors[E_CALENDAR_ITEM_COLOR_SELECTION_BG].green = 47000;
-	calitem->colors[E_CALENDAR_ITEM_COLOR_SELECTION_BG].blue  = 48000;
-
-	calitem->colors[E_CALENDAR_ITEM_COLOR_PREV_OR_NEXT_MONTH_FG].red   = 47000;
-	calitem->colors[E_CALENDAR_ITEM_COLOR_PREV_OR_NEXT_MONTH_FG].green = 47000;
-	calitem->colors[E_CALENDAR_ITEM_COLOR_PREV_OR_NEXT_MONTH_FG].blue  = 48000;
-
-	nfailed = gdk_colormap_alloc_colors (colormap, calitem->colors,
-					     E_CALENDAR_ITEM_COLOR_LAST, FALSE,
-					     TRUE, success);
-	if (nfailed)
-		g_warning ("Failed to allocate all colors");
+	e_calendar_item_style_set (GTK_WIDGET(item->canvas), calitem);
 }
 
 
@@ -2972,6 +2948,16 @@ e_calendar_item_set_selection_if_emission (ECalendarItem	*calitem,
 
 	if (need_update)
 		gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (calitem));
+}
+
+void 
+e_calendar_item_style_set (GtkWidget *widget, ECalendarItem *calitem)
+{
+	calitem->colors[E_CALENDAR_ITEM_COLOR_TODAY_BOX] = widget->style->bg[GTK_STATE_SELECTED];
+	calitem->colors[E_CALENDAR_ITEM_COLOR_SELECTION_FG] = widget->style->base[GTK_STATE_NORMAL];
+	calitem->colors[E_CALENDAR_ITEM_COLOR_SELECTION_BG_FOCUSED] = widget->style->bg[GTK_STATE_SELECTED];
+	calitem->colors[E_CALENDAR_ITEM_COLOR_SELECTION_BG] = widget->style->fg[GTK_STATE_INSENSITIVE];
+	calitem->colors[E_CALENDAR_ITEM_COLOR_PREV_OR_NEXT_MONTH_FG] = widget->style->fg[GTK_STATE_INSENSITIVE];
 }
 
 void

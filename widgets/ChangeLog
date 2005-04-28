@@ -1,3 +1,15 @@
+2005-04-28  Li Yuan  <li.yuan@sun.com>
+
+	* misc/e-calendar-item.c: (e_calendar_item_realize),
+	(e_calendar_item_set_selection_if_emission),
+	(e_calendar_item_style_set):
+	use widget->style instead of hard code colors.
+	* misc/e-calendar-item.h:
+	* misc/e-calendar.c: (e_calendar_style_set):
+	call e_calendar_item_style_set when style changes.
+
+	Fixes #6767.
+
 2005-03-14  Not Zed  <NotZed@Ximian.com>
 
 	* menus/gal-view-menus.c (build_menus): don't
