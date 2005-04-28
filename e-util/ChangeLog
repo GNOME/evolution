@@ -1,3 +1,10 @@
+2005-04-27  Mengjie Yu  <meng-jie.yu@sun.com>
+
+	* e-config.c: (e_config_create_window):
+	We should set the title of the window.
+
+	Fixes #300477
+
 2005-03-14  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #73550 (related for config pages)
