@@ -1,3 +1,8 @@
+2005-04-28  Not Zed  <NotZed@Ximian.com>
+
+	* main.c (main): setup the profiling plugin hook if profiling is
+	compiled in.
+
 2005-04-06  Yong Sun <Yong.Sun@Sun.COM>
 
 	* e-shell-importer.c: (get_name_from_component_info):

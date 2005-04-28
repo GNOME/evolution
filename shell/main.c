@@ -30,6 +30,7 @@
 
 #include <e-util/e-icon-factory.h>
 #include "e-shell-constants.h"
+#include "e-util/e-profile-event.h"
 
 #include "e-shell.h"
 #include "es-menu.h"
@@ -593,6 +594,9 @@ main (int argc, char **argv)
 		e_plugin_register_type(e_plugin_lib_get_type());
 		e_plugin_hook_register_type(es_menu_hook_get_type());
 		e_plugin_hook_register_type(es_event_hook_get_type());
+#ifdef ENABLE_PROFILING
+		e_plugin_hook_register_type(e_profile_event_hook_get_type());
+#endif
 		e_plugin_load_plugins();
 	}
 
