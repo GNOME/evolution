@@ -261,7 +261,7 @@ etcta_event (GnomeCanvasItem *item, GdkEvent *e, gpointer data)
 	priv->rect = etcta->rect;
 	priv->row = etcta->row;
 
-	return TRUE;
+	return FALSE;
 }
 
 static void
