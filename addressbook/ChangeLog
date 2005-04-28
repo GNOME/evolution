@@ -1,3 +1,9 @@
+2005-04-28  Ross Burton  <ross@burtonini.com>
+
+	* gui/widgets/e-addressbook-view.c:
+	* gui/widgets/eab-contact-display.c:
+	Fix some memory leaks.
+
 2005-04-04  Sivaiah Nallagatla <snallagatla@novell.com>
 
        * gui/component/addressbook.c (load_source_auth_cb)

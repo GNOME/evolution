@@ -368,6 +368,16 @@ eab_view_dispose (GObject *object)
 		eav->invisible = NULL;
 	}
 
+	if (eav->search_context) {
+		g_object_unref (eav->search_context);
+		eav->search_context = NULL;
+	}
+
+	if (eav->search_rule) {
+		g_object_unref (eav->search_rule);
+		eav->search_rule = NULL;
+	}
+
 	if (eav->ecml_changed_id != 0) {
 		g_signal_handler_disconnect (get_master_list(),
 					     eav->ecml_changed_id);
