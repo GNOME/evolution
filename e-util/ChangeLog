@@ -1,3 +1,7 @@
+2005-04-28  Not Zed  <NotZed@Ximian.com>
+
+	* e-profile-event.[ch]: A profiling plugin hook.
+
 2005-04-27  Mengjie Yu  <meng-jie.yu@sun.com>
 
 	* e-config.c: (e_config_create_window):

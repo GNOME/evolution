@@ -28,7 +28,6 @@
 #define __E_EVENT_H__
 
 #include <glib-object.h>
-#include "libedataserver/e-msgport.h"
 
 #ifdef __cplusplus
 extern "C" {

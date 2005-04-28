@@ -43,6 +43,7 @@
 #include <e-util/e-icon-factory.h>
 
 #include <libgnome/gnome-i18n.h>
+#include <libedataserver/e-msgport.h>
 
 #define d(x)
 

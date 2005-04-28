@@ -45,6 +45,7 @@ eutilinclude_HEADERS = 				\
 	e-print.h				\
 	e-plugin.h				\
 	e-popup.h				\
+	e-profile-event.h			\
 	e-request.h				\
 	e-signature.h				\
 	e-signature-list.h			\
@@ -82,6 +83,7 @@ libeutil_la_SOURCES =				\
 	e-plugin.c				\
 	e-popup.c				\
 	e-print.c				\
+	e-profile-event.c			\
 	e-request.c				\
 	e-signature.c				\
 	e-signature-list.c			\
