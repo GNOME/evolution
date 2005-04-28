@@ -75,6 +75,8 @@ on_url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle,
 		gtk_html_stream_write (handle, photo->data, photo->length);
 
 		gtk_html_end (html, handle, GTK_HTML_STREAM_OK);
+
+		e_contact_photo_free (photo);
 	}
 	else if (!strncmp (url, "evo-icon:", strlen ("evo-icon:"))) {
 		gchar *data;
@@ -435,7 +437,7 @@ eab_contact_display_render_normal (EABContactDisplay *display, EContact *contact
 		}
 
 
-		if (e_contact_get (contact, E_CONTACT_IS_LIST))
+		if (e_contact_get_const (contact, E_CONTACT_IS_LIST))
 			render_contact_list (html_stream, contact);
 		else
 			render_contact (html_stream, contact);

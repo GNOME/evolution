@@ -1,3 +1,9 @@
+2005-04-28  Ross Burton  <ross@burtonini.com>
+
+	* gui/widgets/e-addressbook-view.c:
+	* gui/widgets/eab-contact-display.c:
+	Fix some memory leaks.
+
 2005-04-21  Mengjie Yu  <meng-jie.yu@sun.com>
 
 	* gui/widgets/e-minicard-view-widget.c:
