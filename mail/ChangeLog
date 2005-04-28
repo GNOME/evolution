@@ -1,3 +1,11 @@
+2005-04-28  Not Zed  <NotZed@Ximian.com>
+
+	* message-list.c: add some message list loading/profiling points,
+	"list".
+
+	* em-folder-view.c: add some message display/loading profiling
+	points, "goto".
+
 2005-04-12  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #273752

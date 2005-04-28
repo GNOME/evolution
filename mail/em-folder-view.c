@@ -69,6 +69,7 @@
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-icon-factory.h>
 #include <e-util/e-print.h>
+#include <e-util/e-profile-event.h>
 
 #include "em-format-html-display.h"
 #include "em-format-html-print.h"
@@ -162,6 +163,14 @@ static guint signals[LAST_SIGNAL];
 static void emfv_selection_get(GtkWidget *widget, GtkSelectionData *data, guint info, guint time_stamp, EMFolderView *emfv);
 static void emfv_selection_clear_event(GtkWidget *widget, GdkEventSelection *event, EMFolderView *emfv);
 
+#ifdef ENABLE_PROFILING
+static void
+emfv_format_complete(EMFormat *emf, EMFolderView *emfv)
+{
+	e_profile_event_emit("goto.done", emf->uid?emf->uid:"", 0);
+}
+#endif
+
 static void
 emfv_init(GObject *o)
 {
@@ -197,7 +206,9 @@ emfv_init(GObject *o)
 	g_signal_connect(emfv->preview, "link_clicked", G_CALLBACK(emfv_format_link_clicked), emfv);
 	g_signal_connect(emfv->preview, "popup_event", G_CALLBACK(emfv_format_popup_event), emfv);
 	g_signal_connect (emfv->preview, "on_url", G_CALLBACK (emfv_on_url_cb), emfv);
-
+#ifdef ENABLE_PROFILING
+	g_signal_connect(emfv->preview, "complete", G_CALLBACK (emfv_format_complete), emfv);
+#endif
 	p->invisible = gtk_invisible_new();
 	g_signal_connect(p->invisible, "selection_get", G_CALLBACK(emfv_selection_get), emfv);
 	g_signal_connect(p->invisible, "selection_clear_event", G_CALLBACK(emfv_selection_clear_event), emfv);
@@ -620,6 +631,8 @@ emfv_set_folder_uri(EMFolderView *emfv, const char *uri)
 static void
 emfv_set_message(EMFolderView *emfv, const char *uid, int nomarkseen)
 {
+	e_profile_event_emit("goto.uid", uid?uid:"<none>", 0);
+
 	/* This could possible race with other set messages, but likelyhood is small */
 	emfv->priv->nomarkseen = nomarkseen;
 	message_list_select_uid(emfv->list, uid);
@@ -1197,6 +1210,8 @@ static void
 emfv_mail_next(BonoboUIComponent *uid, void *data, const char *path)
 {
 	EMFolderView *emfv = data;
+
+	e_profile_event_emit("goto.next", "", 0);
 
 	message_list_select(emfv->list, MESSAGE_LIST_SELECT_NEXT, 0, 0);
 }
@@ -2123,7 +2138,10 @@ emfv_list_done_message_selected(CamelFolder *folder, const char *uid, CamelMimeM
 		emfv_enable_menus(emfv);
 		g_object_unref (emfv);
 		return;
+
 	}
+
+	e_profile_event_emit("goto.loaded", emfv->displayed_uid, 0);
 		
 	/** @Event: message.reading
 	 * @Title: Viewing a message
@@ -2137,7 +2155,7 @@ emfv_list_done_message_selected(CamelFolder *folder, const char *uid, CamelMimeM
 	e_event_emit((EEvent *)eme, "message.reading", (EEventTarget *)target);
 
 	em_format_format((EMFormat *)emfv->preview, folder, uid, msg);
-	
+
 	if (emfv->priv->seen_id)
 		g_source_remove(emfv->priv->seen_id);
 	
@@ -2173,12 +2191,15 @@ emfv_message_selected_timeout(void *data)
 			emfv->priv->selected_uid = NULL;
 			g_object_ref (emfv);
 			/* TODO: we should manage our own thread stuff, would make cancelling outstanding stuff easier */
+			e_profile_event_emit("goto.load", emfv->displayed_uid, 0);
 			mail_get_message(emfv->folder, emfv->displayed_uid, emfv_list_done_message_selected, emfv, mail_thread_queued);
 		} else {
+			e_profile_event_emit("goto.empty", "", 0);
 			g_free(emfv->priv->selected_uid);
 			emfv->priv->selected_uid = NULL;
 		}
 	} else {
+		e_profile_event_emit("goto.empty", "", 0);
 		g_free(emfv->displayed_uid);
 		emfv->displayed_uid = NULL;
 		em_format_format((EMFormat *)emfv->preview, NULL, NULL, NULL);
@@ -2193,6 +2214,8 @@ emfv_message_selected_timeout(void *data)
 static void
 emfv_list_message_selected(MessageList *ml, const char *uid, EMFolderView *emfv)
 {
+	e_profile_event_emit("goto.listuid", uid, 0);
+
 	if (emfv->preview_active) {
 		if (emfv->priv->selected_id != 0)
 			g_source_remove(emfv->priv->selected_id);
