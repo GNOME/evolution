@@ -602,9 +602,8 @@ emfv_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 
 	emfv->folder = folder;
 	if (folder) {
-		camel_object_ref(folder);
-		mail_refresh_folder(folder, NULL, NULL);
-		/* We need to set this up to get the right view options for the message-list, even if we're not showing it */
+		/* We need to set this up to get the right view options for the message-list, 
+		 * even if we're not showing it */
 		emfv_setup_view_instance(emfv);
 	}
 	

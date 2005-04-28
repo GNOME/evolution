@@ -1,3 +1,10 @@
+2005-04-28  Parthasarathi Susarla <sparthasarathi@novell.com>
+
+	* em-folder-view.c (emfv_set_folder): remove a call to
+	  refresh folder from here
+	* em-folder-browser.c (emfb_set_folder): call 
+	  mail_refresh_folder here
+	
 2005-04-28  Not Zed  <NotZed@Ximian.com>
 
 	* message-list.c: add some message list loading/profiling points,
