@@ -56,6 +56,13 @@ struct _ECanvasBackgroundPrivate {
 static GnomeCanvasItemClass *parent_class;
 
 enum {
+	STYLE_SET,
+	LAST_SIGNAL
+};
+
+static guint ecb_signals [LAST_SIGNAL] = { 0, };
+
+enum {
 	PROP_0,
 	PROP_FILL_COLOR,
 	PROP_FILL_COLOR_GDK,
@@ -415,9 +422,18 @@ ecb_point (GnomeCanvasItem *item, double x, double y, int cx, int cy,
 }
 
 static void
+ecb_style_set (ECanvasBackground *ecb, GtkStyle *previous_style)
+{
+	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (ecb);
+	gdk_gc_set_foreground (ecb->priv->gc, &GTK_WIDGET(item->canvas)->style->base[GTK_STATE_NORMAL]);
+	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (ecb));
+}
+
+static void
 ecb_class_init (GObjectClass *object_class)
 {
 	GnomeCanvasItemClass *item_class = (GnomeCanvasItemClass *) object_class;
+	ECanvasBackgroundClass *ecb_class = (ECanvasBackgroundClass *) object_class;
 	
 	parent_class                = g_type_class_ref (PARENT_OBJECT_TYPE);
 	
@@ -430,6 +446,8 @@ ecb_class_init (GObjectClass *object_class)
 	item_class->unrealize       = ecb_unrealize;
 	item_class->draw            = ecb_draw;
 	item_class->point           = ecb_point;
+
+	ecb_class->style_set	    = ecb_style_set;
 
 	g_object_class_install_property (object_class, PROP_FILL_COLOR,
 					 g_param_spec_string ("fill_color",
@@ -486,6 +504,14 @@ ecb_class_init (GObjectClass *object_class)
 							      _( "Y2" ),
 							      0.0, G_MAXDOUBLE, 0.0,
 							      G_PARAM_READWRITE));
+	ecb_signals [STYLE_SET] =
+		g_signal_new ("style_set",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ECanvasBackgroundClass, style_set),
+			      NULL, NULL,
+			      e_marshal_NONE__OBJECT,
+			      G_TYPE_NONE, 1, GTK_TYPE_STYLE);
 }
 
 E_MAKE_TYPE (e_canvas_background,
