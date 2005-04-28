@@ -39,19 +39,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: el\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-04-06 18:19+0300\n"
-"PO-Revision-Date: 2005-04-06 17:04+0300\n"
+"POT-Creation-Date: 2005-04-28 19:38+0300\n"
+"PO-Revision-Date: 2005-04-28 19:45+0300\n"
 "Last-Translator: Nikos Charonitakis <charosn@her.forthnet.gr>\n"
 "Language-Team: Greek <team@gnome.gr>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms:  nplurals=2; plural=(n != 1);\n"
-"X-Generator: KBabel 1.3.1\n"
+"Plural-Forms:  nplurals=2; plural=(n != 1);"
 
 #: ../a11y/addressbook/ea-addressbook-view.c:94
 #: ../a11y/addressbook/ea-addressbook-view.c:103
-#: ../a11y/addressbook/ea-minicard-view.c:166
+#: ../a11y/addressbook/ea-minicard-view.c:169
 msgid "evolution addressbook"
 msgstr "βιβλίο διευθύνσεων του evolution"
 
@@ -65,7 +64,7 @@ msgstr "Νέα Επαφή"
 msgid "New Contact List"
 msgstr "Νέα Λίστα Επαφών"
 
-#: ../a11y/addressbook/ea-minicard-view.c:149
+#: ../a11y/addressbook/ea-minicard-view.c:152
 #, c-format
 msgid "current addressbook folder has %d card"
 msgid_plural "current addressbook folder has %d cards"
@@ -74,19 +73,19 @@ msgstr[1] "Ο φάκελος τρέχοντος βιβλίου διευθύνσ�
 
 #: ../a11y/addressbook/ea-minicard.c:31
 #: ../calendar/gui/alarm-notify/alarm-queue.c:879
-#: ../ui/evolution-message-composer.xml.h:10
+#: ../ui/evolution-message-composer.xml.h:11
 msgid "Open"
 msgstr "Άνοιγμα"
 
-#: ../a11y/addressbook/ea-minicard.c:138
+#: ../a11y/addressbook/ea-minicard.c:141
 msgid "Contact List: "
 msgstr "Λίστα Επαφών: "
 
-#: ../a11y/addressbook/ea-minicard.c:139
+#: ../a11y/addressbook/ea-minicard.c:142
 msgid "Contact: "
 msgstr "Επαφή: "
 
-#: ../a11y/addressbook/ea-minicard.c:165
+#: ../a11y/addressbook/ea-minicard.c:168
 msgid "evolution minicard"
 msgstr "μίνι καρτέλα του evolution"
 
@@ -606,7 +605,7 @@ msgstr "Σε αυτό τον υπολογιστή"
 #: ../calendar/gui/calendar-component.c:216 ../calendar/gui/migration.c:470
 #: ../calendar/gui/migration.c:563 ../calendar/gui/tasks-component.c:196
 #: ../filter/filter-label.c:123 ../mail/em-migrate.c:1043
-#: ../mail/mail-config.c:78 ../mail/mail-config.glade.h:103
+#: ../mail/mail-config.c:78 ../mail/mail-config.glade.h:104
 msgid "Personal"
 msgstr "Προσωπικό"
 
@@ -669,7 +668,7 @@ msgstr "Αντιγραφή περιεχομένων βιβλίου τοπικά 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:25
 #: ../calendar/gui/dialogs/calendar-setup.c:361
 #: ../calendar/gui/dialogs/calendar-setup.c:372
-#: ../mail/em-folder-properties.c:215 ../mail/mail-config.glade.h:84
+#: ../mail/em-folder-properties.c:215 ../mail/mail-config.glade.h:85
 #: ../smime/gui/smime-ui.glade.h:28
 msgid "General"
 msgstr "Γενικά"
@@ -787,16 +786,16 @@ msgstr "Ιδιότητες..."
 msgid "Contact Source Selector"
 msgstr "Επιλογέας πηγής επαφής"
 
-#: ../addressbook/gui/component/addressbook.c:98
+#: ../addressbook/gui/component/addressbook.c:99
 msgid "Accessing LDAP Server anonymously"
 msgstr "Ανώνυμη πρόσβαση στο διακομιστή LDAP"
 
-#: ../addressbook/gui/component/addressbook.c:194
+#: ../addressbook/gui/component/addressbook.c:193
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:478
 msgid "Failed to authenticate.\n"
 msgstr "Δεν ήταν δυνατή η πιστοποίηση.\n"
 
-#: ../addressbook/gui/component/addressbook.c:201
+#: ../addressbook/gui/component/addressbook.c:200
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:461
 #, c-format
 msgid "Enter password for %s (user %s)"
@@ -819,12 +818,12 @@ msgid ""
 "Position of the vertical pane, between the card and list views and the "
 "preview pane, in pixels."
 msgstr ""
-"Τοποθεσία του κάθετου ταμπλώ ανάμεσα στις προβολές καρτέλας, λίστας και "
-"ταμπλώπροεπισκόπησης, σε εικονοστοιχεία."
+"Τοποθεσία του κάθετου ταμπλό ανάμεσα στις προβολές καρτέλας, λίστας και "
+"ταμπλό προεπισκόπησης, σε εικονοστοιχεία."
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:5
 msgid "Show preview pane"
-msgstr "Προβολή του ταμπλώ προπεπισκόπησης"
+msgstr "Προβολή του ταμπλό προεπισκόπησης"
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:6
 msgid ""
@@ -849,11 +848,11 @@ msgstr ""
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:9
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:49
 msgid "Vertical pane position"
-msgstr "Τοποθεσία κάθετου ταμπλώ"
+msgstr "Τοποθεσία κάθετου ταμπλό"
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:10
 msgid "Whether to show the preview pane."
-msgstr "Αν θα εμφανίζεται το ταμπλώ της προεπισκόπησης."
+msgstr "Αν θα εμφανίζεται το ταμπλό της προεπισκόπησης."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:1
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:1
@@ -926,7 +925,7 @@ msgid "Add Address Book"
 msgstr "Προσθήκη Βιβλίου Διευθύνσεων"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:15
-#: ../mail/em-account-editor.c:302
+#: ../mail/em-account-editor.c:302 ../mail/em-account-editor.c:757
 msgid "Always"
 msgstr "Πάντα"
 
@@ -962,7 +961,7 @@ msgid "Lo_gin:"
 msgstr "Εί_σοδος:"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:25
-#: ../mail/em-account-editor.c:300
+#: ../mail/em-account-editor.c:300 ../mail/em-account-editor.c:756
 msgid "Never"
 msgstr "Ποτέ"
 
@@ -1110,7 +1109,7 @@ msgstr "Μέθοδος _πιστοποίησης:"
 #: ../addressbook/gui/component/ldap-config.glade.h:47
 #: ../calendar/gui/dialogs/calendar-setup.c:243
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:8
-#: ../mail/mail-config.glade.h:163
+#: ../mail/mail-config.glade.h:165
 msgid "_Name:"
 msgstr "_Όνομα:"
 
@@ -1142,7 +1141,7 @@ msgstr "κάρτες"
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:12
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:26
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:14
-#: ../filter/filter.glade.h:16 ../mail/em-account-editor.c:1882
+#: ../filter/filter.glade.h:16 ../mail/em-account-editor.c:1940
 #: ../plugins/calendar-http/calendar-http.c:263
 #: ../plugins/calendar-weather/calendar-weather.c:564
 msgid "minutes"
@@ -1242,7 +1241,7 @@ msgstr "Τηλέφωνο"
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:235
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:199
 #: ../filter/filter-label.c:122 ../mail/em-migrate.c:1042
-#: ../mail/mail-config.c:77 ../mail/mail-config.glade.h:151
+#: ../mail/mail-config.c:77 ../mail/mail-config.glade.h:153
 msgid "Work"
 msgstr "Εργασία"
 
@@ -1370,7 +1369,7 @@ msgstr "Διεύθυνση"
 #: ../addressbook/gui/widgets/e-addressbook-model.c:310
 #: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:398
 #: ../addressbook/gui/widgets/e-minicard-label.c:164
-#: ../addressbook/gui/widgets/e-minicard-view-widget.c:119
+#: ../addressbook/gui/widgets/e-minicard-view-widget.c:121
 #: ../addressbook/gui/widgets/e-minicard-view.c:519
 #: ../addressbook/gui/widgets/e-minicard.c:174
 msgid "Editable"
@@ -2633,7 +2632,7 @@ msgstr ""
 #: ../addressbook/gui/widgets/e-addressbook-model.c:296
 #: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:384
 #: ../addressbook/gui/widgets/e-addressbook-view.c:223
-#: ../addressbook/gui/widgets/e-minicard-view-widget.c:105
+#: ../addressbook/gui/widgets/e-minicard-view-widget.c:107
 #: ../addressbook/gui/widgets/e-minicard-view.c:505
 msgid "Book"
 msgstr "Βιβλίο"
@@ -2707,7 +2706,7 @@ msgstr[1] "%d επαφές"
 #: ../addressbook/gui/widgets/e-addressbook-model.c:303
 #: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:391
 #: ../addressbook/gui/widgets/e-addressbook-view.c:237
-#: ../addressbook/gui/widgets/e-minicard-view-widget.c:112
+#: ../addressbook/gui/widgets/e-minicard-view-widget.c:114
 #: ../addressbook/gui/widgets/e-minicard-view.c:512
 msgid "Query"
 msgstr "Ερώτημα"
@@ -3032,7 +3031,7 @@ msgstr "Μοντέλο Κειμένου"
 msgid "Max field name length"
 msgstr "Μέγιστο μάκρος ονόματος πεδίου"
 
-#: ../addressbook/gui/widgets/e-minicard-view-widget.c:126
+#: ../addressbook/gui/widgets/e-minicard-view-widget.c:128
 msgid "Column Width"
 msgstr "Πλάτος στήλης"
 
@@ -3364,13 +3363,11 @@ msgstr "Σφάλμα αφαίρεσης επαφής"
 msgid ""
 "Opening %d contact will open %d new window as well.\n"
 "Do you really want to display this contact?"
-msgid_plural ""
 "Opening %d contacts will open %d new windows as well.\n"
 "Do you really want to display all of these contacts?"
-msgstr[0] ""
+msgstr ""
 "Ανοίγοντας %d επαφή θα γίνει άνοιγμα %d  νέου παραθύρου.\n"
 "Θέλετε να εμφανίσετε αυτή την επαφή;"
-msgstr[1] ""
 "Ανοίγοντας %d επαφή θα γίνει άνοιγμα %d  νέων παραθύρων.\n"
 "Θέλετε να εμφανίσετε αυτές τις επαφές;"
 
@@ -4025,7 +4022,7 @@ msgstr ""
 
 #: ../calendar/calendar-errors.xml.h:88 ../calendar/calendar-errors.xml.h:94
 #: ../calendar/calendar-errors.xml.h:100 ../calendar/calendar-errors.xml.h:106
-#: ../ui/evolution-message-composer.xml.h:24
+#: ../ui/evolution-message-composer.xml.h:26
 msgid "Send"
 msgstr "Αποστολή"
 
@@ -4098,9 +4095,8 @@ msgstr ""
 
 #. calendar:editor-error primary
 #: ../calendar/calendar-errors.xml.h:116
-#, fuzzy
 msgid "Editor could not be loaded."
-msgstr "Δεν ήταν δυνατό το άνοιγμα αυτού του ευρετηρίου διευθύνσεων."
+msgstr "Αδυναμία φόρτωσης επεξεργαστή."
 
 #. calendar:editor-error secondary
 #. mail:async-error-nodescribe secondary
@@ -4184,10 +4180,8 @@ msgstr "Η λίστα εργασιών δεν έχει σημειωθεί για
 
 #. calendar:server-version secondary
 #: ../calendar/calendar-errors.xml.h:150
-#, fuzzy
 msgid "Some features may not work correctly with your current server version "
-msgstr ""
-" Μερικές από τις λειτουργίες μπορεί να μην λειτουργούν σωστά με την τρέχουσα "
+msgstr " Μερικές από τις λειτουργίες μπορεί να μην λειτουργούν σωστά με την τρέχουσα "
 "έκδοση του εξυπηρετητή σας"
 
 #: ../calendar/common/authentication.c:49 ../calendar/gui/e-pub-utils.c:301
@@ -4323,11 +4317,11 @@ msgstr "Χρόνος Έναρξης:"
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:7
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:51
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:6
-#: ../filter/filter.glade.h:11 ../mail/mail-config.glade.h:156
+#: ../filter/filter.glade.h:11 ../mail/mail-config.glade.h:158
 #: ../ui/evolution-addressbook.xml.h:34 ../ui/evolution-calendar.xml.h:41
 #: ../ui/evolution-composer-entries.xml.h:8 ../ui/evolution-mail-list.xml.h:24
 #: ../ui/evolution-mail-messagedisplay.xml.h:6
-#: ../ui/evolution-message-composer.xml.h:43
+#: ../ui/evolution-message-composer.xml.h:45
 #: ../ui/evolution-signature-editor.xml.h:12
 #: ../ui/evolution-subscribe.xml.h:10 ../ui/evolution-tasks.xml.h:22
 #: ../ui/evolution.xml.h:38
@@ -4506,7 +4500,7 @@ msgstr "Απόκρυψη τιμής εργασίας"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:17
 msgid "Horizontal pane position"
-msgstr "Τοποθεσία οριζόντιου ταμπλώ"
+msgstr "Τοποθεσία οριζόντιου ταμπλό"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:18
 msgid "Hour the workday ends on, in twenty four hour format, 0 to 23."
@@ -4534,11 +4528,11 @@ msgstr "Λεπτό που ξεκινάει η εργάσιμη μέρα, από 
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:24
 msgid "Month view horizontal pane position"
-msgstr "Οριζόντια τοποθεσία του ταμπλώ μηνιαίας προβολής"
+msgstr "Οριζόντια τοποθεσία του ταμπλό μηνιαίας προβολής"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:25
 msgid "Month view vertical pane position"
-msgstr "Κάθετη τοποθεσία του ταμπλώ μηνιαίας προβολής"
+msgstr "Κάθετη τοποθεσία του ταμπλό μηνιαίας προβολής"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:26
 msgid "Number of units for determining for a default reminder."
@@ -4557,7 +4551,7 @@ msgid ""
 "Position of the horizontal pane, between the date navigator calendar and the "
 "task list when not in the month view, in pixels."
 msgstr ""
-"Τοποθεσία του οριζόντιου ταμπλώ, ανάμεσα στον περιηγητή ώρας ημερολογίου και "
+"Τοποθεσία του οριζόντιου ταμπλό, ανάμεσα στον περιηγητή ώρας ημερολογίου και "
 "στην λίστα εργασιώνόταν δεν υπάρχει μηνιαία προβολή, σε εικονοστοιχεία."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:30
@@ -4565,7 +4559,7 @@ msgid ""
 "Position of the horizontal pane, between the view and the date navigator "
 "calendar and task list in the month view, in pixels."
 msgstr ""
-"Τοποθεσία του οριζόντιου ταμπλώ, ανάμεσα στην προβολή και τον  περιηγητή "
+"Τοποθεσία του οριζόντιου ταμπλό, ανάμεσα στην προβολή και τον  περιηγητή "
 "ώρας ημερολογίου και την λίστα εργασιώνκατά την μηνιαία προβολή, σε "
 "εικονοστοιχεία."
 
@@ -4574,7 +4568,7 @@ msgid ""
 "Position of the vertical pane, between task list and the task preview pane, "
 "in pixels."
 msgstr ""
-"Τοποθεσία του κάθετου ταμπλώ, ανάμεσα στη λίστα εργασιών και το ταμπλώ "
+"Τοποθεσία του κάθετου ταμπλό, ανάμεσα στη λίστα εργασιών και το ταμπλό "
 "προεπισκόπησης λίστας, σε εικονοστοιχεία."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:32
@@ -4582,7 +4576,7 @@ msgid ""
 "Position of the vertical pane, between the view and the date navigator "
 "calendar and task list in the month view, in pixels."
 msgstr ""
-"Τοποθεσία του οριζόντιου ταμπλώ, ανάμεσα στην προβολή και τον  περιηγητή "
+"Τοποθεσία του οριζόντιου ταμπλό, ανάμεσα στην προβολή και τον  περιηγητή "
 "ώρας ημερολογίου και την λίστα εργασιώνκατά την μηνιαία προβολή, σε "
 "εικονοστοιχεία."
 
@@ -4591,7 +4585,7 @@ msgid ""
 "Position of the vertical pane, between the view and the date navigator "
 "calendar and task list when not in the month view, in pixels."
 msgstr ""
-"Τοποθεσία του οριζόντιου ταμπλώ, ανάμεσα στην προβολή και τον  περιηγητή "
+"Τοποθεσία του οριζόντιου ταμπλό, ανάμεσα στην προβολή και τον  περιηγητή "
 "ώρας ημερολογίου και την λίστα εργασιώνόταν δεν υπάρχει μηνιαία προβολή, σε "
 "εικονοστοιχεία."
 
@@ -4617,7 +4611,7 @@ msgstr "Χρώμα εργασιών που λήγουν σήμερα"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:39
 msgid "Tasks vertical pane position"
-msgstr "Τοποθεσία κάθετου ταμπλώ εργασιών"
+msgstr "Τοποθεσία κάθετου ταμπλό εργασιών"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:40
 msgid ""
@@ -5124,7 +5118,7 @@ msgstr "Ιδιότητες Συνημμένου"
 #: ../calendar/gui/e-itip-control.c:1164
 #: ../calendar/gui/e-itip-control.glade.h:6
 #: ../composer/e-msg-composer-attachment.glade.h:3
-#: ../mail/mail-config.glade.h:68
+#: ../mail/mail-config.glade.h:69
 msgid "Description:"
 msgstr "Περιγραφή:"
 
@@ -5254,7 +5248,7 @@ msgid "Display"
 msgstr "Εμφάνιση"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:22
-#: ../mail/mail-config.glade.h:73
+#: ../mail/mail-config.glade.h:74
 msgid "E_nable"
 msgstr "_Ενεργοποίηση"
 
@@ -5283,9 +5277,8 @@ msgid "Monday"
 msgstr "Δευτέρα"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:29
-#, fuzzy
 msgid "Publishing Table"
-msgstr "<b>Δημοσίευση</b>"
+msgstr "Πίνακας δημοσίευσης"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:30
 msgid "S_un"
@@ -5459,7 +5452,7 @@ msgid "Add Task List"
 msgstr "Προσθήκη Λίστας Εργασιών"
 
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:5
-#: ../mail/mail-config.glade.h:104
+#: ../mail/mail-config.glade.h:105
 msgid "Pick a color"
 msgstr "Επιλογή ενός χρώματος"
 
@@ -5561,15 +5554,15 @@ msgstr "(Λήξη"
 msgid "Due "
 msgstr "Λήξη "
 
-#: ../calendar/gui/dialogs/comp-editor.c:181 ../composer/e-msg-composer.c:2676
+#: ../calendar/gui/dialogs/comp-editor.c:181 ../composer/e-msg-composer.c:2706
 #, c-format
 msgid "Attached message - %s"
 msgstr "Συνημμένο μήνυμα - %s"
 
 #. translators, this count will always be >1
 #: ../calendar/gui/dialogs/comp-editor.c:186
-#: ../calendar/gui/dialogs/comp-editor.c:349 ../composer/e-msg-composer.c:2681
-#: ../composer/e-msg-composer.c:2844
+#: ../calendar/gui/dialogs/comp-editor.c:349 ../composer/e-msg-composer.c:2711
+#: ../composer/e-msg-composer.c:2874
 #, c-format
 msgid "Attached message"
 msgid_plural "%d attached messages"
@@ -5578,21 +5571,21 @@ msgstr[1] "%d συνημμένα μηνύματα"
 
 #: ../calendar/gui/dialogs/comp-editor.c:412
 #: ../calendar/gui/e-calendar-table.c:1164
-#: ../calendar/gui/e-calendar-view.c:1406 ../composer/e-msg-composer.c:2906
-#: ../mail/em-folder-tree.c:1047 ../mail/em-folder-view.c:980
+#: ../calendar/gui/e-calendar-view.c:1406 ../composer/e-msg-composer.c:2936
+#: ../mail/em-folder-tree.c:1047 ../mail/em-folder-view.c:985
 #: ../mail/message-list.c:1707 ../ui/evolution-addressbook.xml.h:31
 #: ../ui/evolution-calendar.xml.h:39 ../ui/evolution-composer-entries.xml.h:7
 #: ../ui/evolution-mail-message.xml.h:105 ../ui/evolution-tasks.xml.h:20
 msgid "_Copy"
 msgstr "Αντι_γραφή"
 
-#: ../calendar/gui/dialogs/comp-editor.c:413 ../composer/e-msg-composer.c:2907
+#: ../calendar/gui/dialogs/comp-editor.c:413 ../composer/e-msg-composer.c:2937
 #: ../mail/em-folder-tree.c:1048 ../mail/em-folder-tree.c:2312
-#: ../mail/em-folder-view.c:876 ../mail/message-list.c:1708
+#: ../mail/em-folder-view.c:881 ../mail/message-list.c:1708
 msgid "_Move"
 msgstr "_Μετακίνηση"
 
-#: ../calendar/gui/dialogs/comp-editor.c:415 ../composer/e-msg-composer.c:2909
+#: ../calendar/gui/dialogs/comp-editor.c:415 ../composer/e-msg-composer.c:2939
 #: ../mail/em-folder-tree.c:1050 ../mail/message-list.c:1710
 msgid "Cancel _Drag"
 msgstr "Ακύρωση _Drag"
@@ -5601,24 +5594,24 @@ msgstr "Ακύρωση _Drag"
 msgid "Could not update object"
 msgstr "Δεν ήταν δυνατή η ενημέρωση του αντικειμένου"
 
-#: ../calendar/gui/dialogs/comp-editor.c:843 ../composer/e-msg-composer.c:2310
+#: ../calendar/gui/dialogs/comp-editor.c:843 ../composer/e-msg-composer.c:2340
 #, c-format
 msgid "<b>%d</b> File Attached"
 msgid_plural "<b>%d</b> Files Attached"
 msgstr[0] "<b>%d</b> συνημμένο αρχείο"
 msgstr[1] "<b>%d</b> συνημμένα αρχεία"
 
-#: ../calendar/gui/dialogs/comp-editor.c:900 ../composer/e-msg-composer.c:2339
+#: ../calendar/gui/dialogs/comp-editor.c:900 ../composer/e-msg-composer.c:2369
 msgid "Hide _Attachment Bar (drop attachments here)"
 msgstr "Απόκρυψη εργαλειοθήκης συνη_μμένων (ρίξτε τα συνημμένα εδώ)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:903
-#: ../calendar/gui/dialogs/comp-editor.c:955 ../composer/e-msg-composer.c:2342
-#: ../composer/e-msg-composer.c:3487
+#: ../calendar/gui/dialogs/comp-editor.c:955 ../composer/e-msg-composer.c:2372
+#: ../composer/e-msg-composer.c:3517
 msgid "Show _Attachment Bar (drop attachments here)"
 msgstr "Εμφάνιση εργαλειοθήκης συνη_μμένων (ρίξτε τα συνημμένα εδώ)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:979 ../composer/e-msg-composer.c:3509
+#: ../calendar/gui/dialogs/comp-editor.c:979 ../composer/e-msg-composer.c:3539
 msgid "Attachment Button: Press space key to toggle attachment bar"
 msgstr ""
 "Κουμπί επισύναψης: Πατήστε το πλήκτρο space για εναλλαγή της  μπάρας "
@@ -5937,10 +5930,10 @@ msgstr "Χρόνος Έ_ναρξης:"
 #: ../calendar/gui/dialogs/meeting-page.c:296
 #: ../calendar/gui/dialogs/meeting-page.glade.h:5
 #: ../calendar/gui/e-cal-model-tasks.c:652
-#: ../calendar/gui/e-itip-control.c:1104 ../composer/e-msg-composer.c:2117
+#: ../calendar/gui/e-itip-control.c:1104 ../composer/e-msg-composer.c:2139
 #: ../filter/filter-rule.c:878 ../mail/em-account-editor.c:683
-#: ../mail/em-account-editor.c:1288 ../mail/em-account-prefs.c:437
-#: ../mail/em-folder-view.c:1009
+#: ../mail/em-account-editor.c:1346 ../mail/em-account-prefs.c:437
+#: ../mail/em-folder-view.c:1014
 #: ../plugins/calendar-weather/calendar-weather.c:371
 #: ../plugins/calendar-weather/calendar-weather.c:425
 #: ../plugins/itip-formatter/itip-formatter.c:1390
@@ -6463,7 +6456,7 @@ msgstr "%s στις %s"
 msgid "%s for an unknown trigger type"
 msgstr "%s για άγνωστο τύπο ενεργοποίησης"
 
-#: ../calendar/gui/e-cal-component-preview.c:70 ../mail/em-folder-view.c:2614
+#: ../calendar/gui/e-cal-component-preview.c:70 ../mail/em-folder-view.c:2631
 #, c-format
 msgid "Click to open %s"
 msgstr "Κλικ για άνοιγμα %s"
@@ -6651,7 +6644,7 @@ msgid "Updating objects"
 msgstr "Αναβάθμιση Αντικειμένων"
 
 #: ../calendar/gui/e-calendar-table.c:1014
-#: ../calendar/gui/e-calendar-view.c:1066 ../composer/e-msg-composer.c:1241
+#: ../calendar/gui/e-calendar-view.c:1066 ../composer/e-msg-composer.c:1250
 msgid "Save as..."
 msgstr "Αποθήκευση ως..."
 
@@ -6665,7 +6658,7 @@ msgid "Open _Web Page"
 msgstr "Άνοιγμα Ιστο_σελίδας"
 
 #: ../calendar/gui/e-calendar-table.c:1158
-#: ../calendar/gui/e-calendar-view.c:1400 ../mail/em-folder-view.c:990
+#: ../calendar/gui/e-calendar-view.c:1400 ../mail/em-folder-view.c:995
 #: ../mail/em-popup.c:494 ../ui/evolution-mail-message.xml.h:124
 msgid "_Save As..."
 msgstr "Αποθήκευση _Ως..."
@@ -6711,7 +6704,7 @@ msgstr "_Σημείωση επιλεγμένων εργασιών ως ολοκ�
 #. FIXME: need to disable for undeletable folders
 #: ../calendar/gui/e-calendar-table.c:1176
 #: ../calendar/gui/e-calendar-view.c:1418 ../mail/em-folder-tree.c:2816
-#: ../mail/em-folder-view.c:994 ../ui/evolution-addressbook.xml.h:33
+#: ../mail/em-folder-view.c:999 ../ui/evolution-addressbook.xml.h:33
 #: ../ui/evolution-calendar.xml.h:40 ../ui/evolution-mail-message.xml.h:108
 #: ../ui/evolution-tasks.xml.h:21
 msgid "_Delete"
@@ -7481,7 +7474,7 @@ msgstr "Απαιτούμενα Άτομα και έ_νας Πόρος"
 msgid "Enter the password for %s"
 msgstr "Εισάγετε κωδικό πρόσβασης για %s"
 
-#: ../calendar/gui/e-tasks.c:763 ../calendar/gui/gnome-cal.c:2382
+#: ../calendar/gui/e-tasks.c:763 ../calendar/gui/gnome-cal.c:2391
 #, c-format
 msgid ""
 "Error on %s:\n"
@@ -7539,22 +7532,22 @@ msgstr "Αποθήκευση Προσαρμοσμένης Προβολής"
 msgid "Define Views..."
 msgstr "Καθορισμός Προβολών..."
 
-#: ../calendar/gui/gnome-cal.c:2231
+#: ../calendar/gui/gnome-cal.c:2236
 #, c-format
 msgid "Loading appointments at %s"
 msgstr "Φόρτωση ραντεβού σε %s"
 
-#: ../calendar/gui/gnome-cal.c:2250
+#: ../calendar/gui/gnome-cal.c:2255
 #, c-format
 msgid "Loading tasks at %s"
 msgstr "Φόρτωση εργασιών σε %s"
 
-#: ../calendar/gui/gnome-cal.c:2348
+#: ../calendar/gui/gnome-cal.c:2357
 #, c-format
 msgid "Opening %s"
 msgstr "Άνοιγμα %s"
 
-#: ../calendar/gui/gnome-cal.c:3238
+#: ../calendar/gui/gnome-cal.c:3247
 msgid "Purging"
 msgstr "Εκκαθάριση"
 
@@ -9692,14 +9685,14 @@ msgstr ""
 msgid "Post To:"
 msgstr "Αποστολή Σε:"
 
-#: ../composer/e-msg-composer.c:730
+#: ../composer/e-msg-composer.c:739
 msgid ""
 "Cannot sign outgoing message: No signing certificate set for this account"
 msgstr ""
 "Αδυναμία υπογραφής εξερχόμενου μηνύματος: Δεν έχει ορισθεί πιστοποιητικό "
 "υπογραφής από το λογαριασμό"
 
-#: ../composer/e-msg-composer.c:737
+#: ../composer/e-msg-composer.c:746
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
 "account"
@@ -9707,42 +9700,42 @@ msgstr ""
 "Αδυναμία κρυπτογράφησης εξερχόμενου μηνύματος: Δεν έχει ορισθεί "
 "πιστοποιητικό κρυπτογράφησης από το λογαριασμό"
 
-#: ../composer/e-msg-composer.c:1222 ../composer/e-msg-composer.c:1255
+#: ../composer/e-msg-composer.c:1231 ../composer/e-msg-composer.c:1264
 msgid "Unknown reason"
 msgstr "Άγνωστος λόγος"
 
-#: ../composer/e-msg-composer.c:1292
+#: ../composer/e-msg-composer.c:1301
 msgid "Could not open file"
 msgstr "Δεν ήταν δυνατό το άνοιγμα του αρχείου"
 
-#: ../composer/e-msg-composer.c:1300
+#: ../composer/e-msg-composer.c:1309
 msgid "Unable to retrieve message from editor"
 msgstr "Αδύνατη η ανάκτηση του μηνύματος από τον επεξεργαστή"
 
-#: ../composer/e-msg-composer.c:1570
+#: ../composer/e-msg-composer.c:1579
 msgid "Untitled Message"
 msgstr "Μήνυμα χωρίς τίτλο"
 
 #. NB: This function is never used anymore
-#: ../composer/e-msg-composer.c:1604
+#: ../composer/e-msg-composer.c:1613
 msgid "Open File"
 msgstr "Άνοιγμα Αρχείου"
 
-#: ../composer/e-msg-composer.c:2001 ../mail/em-account-editor.c:588
+#: ../composer/e-msg-composer.c:2023 ../mail/em-account-editor.c:588
 #: ../mail/em-account-editor.c:633 ../mail/em-account-editor.c:698
 msgid "Autogenerated"
 msgstr "Αυτόματη δημιουργία"
 
-#: ../composer/e-msg-composer.c:2100
+#: ../composer/e-msg-composer.c:2122
 msgid "Si_gnature:"
 msgstr "_Υπογραφή:"
 
-#: ../composer/e-msg-composer.c:2359 ../composer/e-msg-composer.c:3376
-#: ../composer/e-msg-composer.c:3377
+#: ../composer/e-msg-composer.c:2389 ../composer/e-msg-composer.c:3406
+#: ../composer/e-msg-composer.c:3407
 msgid "Compose a message"
 msgstr "Συγγραφή νέου μηνύματος"
 
-#: ../composer/e-msg-composer.c:4570
+#: ../composer/e-msg-composer.c:4600
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
@@ -10280,19 +10273,19 @@ msgstr "Επιλογή ενός αρχείου"
 
 #: ../filter/filter-label.c:121 ../mail/em-filter-i18n.h:26
 #: ../mail/em-migrate.c:1041 ../mail/mail-config.c:76
-#: ../mail/mail-config.glade.h:90
+#: ../mail/mail-config.glade.h:91
 msgid "Important"
 msgstr "Σημαντικό"
 
 #. forest green
 #: ../filter/filter-label.c:124 ../mail/em-migrate.c:1044
-#: ../mail/mail-config.c:79 ../mail/mail-config.glade.h:143
+#: ../mail/mail-config.c:79 ../mail/mail-config.glade.h:145
 msgid "To Do"
 msgstr "Πρός Τακτοποίηση"
 
 #. blue
 #: ../filter/filter-label.c:125 ../mail/em-migrate.c:1045
-#: ../mail/mail-config.c:80 ../mail/mail-config.glade.h:94
+#: ../mail/mail-config.c:80 ../mail/mail-config.glade.h:95
 msgid "Later"
 msgstr "Αργότερα"
 
@@ -10392,7 +10385,7 @@ msgstr "πριν"
 msgid "months"
 msgstr "μήνες"
 
-#: ../filter/filter.glade.h:18 ../mail/mail-config.glade.h:175
+#: ../filter/filter.glade.h:18 ../mail/mail-config.glade.h:177
 msgid "seconds"
 msgstr "δευτερόλεπτα"
 
@@ -10464,7 +10457,7 @@ msgstr "Έλεγχος ρυθμίσεων επεξεργαστή μηνυμάτ�
 msgid "Evolution Mail preferences control"
 msgstr "Έλεγχος προτιμήσεων Evolution Mail"
 
-#: ../mail/GNOME_Evolution_Mail.server.in.in.h:11 ../mail/em-folder-view.c:480
+#: ../mail/GNOME_Evolution_Mail.server.in.in.h:11 ../mail/em-folder-view.c:485
 #: ../mail/importers/elm-importer.c:418
 #: ../mail/importers/netscape-importer.c:1902
 #: ../mail/importers/pine-importer.c:474 ../mail/mail-component.c:557
@@ -10477,7 +10470,7 @@ msgid "Mail Accounts"
 msgstr "Λογαριασμοί Αλληλογραφίας"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:13
-#: ../mail/mail-config.glade.h:97
+#: ../mail/mail-config.glade.h:98
 msgid "Mail Preferences"
 msgstr "Προτιμήσεις Αλληλογραφίας"
 
@@ -10508,44 +10501,48 @@ msgstr ""
 msgid "Select Folder"
 msgstr "Επιλογή Φακέλου"
 
-#: ../mail/em-account-editor.c:1661 ../mail/mail-config.glade.h:89
+#: ../mail/em-account-editor.c:758
+msgid "Ask for each message"
+msgstr "Ερώτηση για κάθε μήνυμα"
+
+#: ../mail/em-account-editor.c:1719 ../mail/mail-config.glade.h:90
 msgid "Identity"
 msgstr "Ταυτότητα"
 
-#: ../mail/em-account-editor.c:1697 ../mail/mail-config.glade.h:116
+#: ../mail/em-account-editor.c:1755 ../mail/mail-config.glade.h:117
 msgid "Receiving Email"
 msgstr "Λήψη Μηνυμάτων"
 
-#: ../mail/em-account-editor.c:1874
+#: ../mail/em-account-editor.c:1932
 msgid "Automatically check for _new mail every"
 msgstr "_Αυτόματος έλεγχος για νέα μηνύματα κάθε"
 
-#: ../mail/em-account-editor.c:2042 ../mail/mail-config.glade.h:126
+#: ../mail/em-account-editor.c:2100 ../mail/mail-config.glade.h:128
 msgid "Sending Email"
 msgstr "Αποστολή Μηνυμάτων"
 
-#: ../mail/em-account-editor.c:2086 ../mail/mail-config.glade.h:67
+#: ../mail/em-account-editor.c:2147 ../mail/mail-config.glade.h:68
 msgid "Defaults"
 msgstr "Προεπιλογές"
 
-#: ../mail/em-account-editor.c:2145 ../mail/mail-config.glade.h:121
+#: ../mail/em-account-editor.c:2206 ../mail/mail-config.glade.h:122
 msgid "Security"
 msgstr "Ασφάλεια"
 
 #. Most sections for this is auto-generated fromt the camel config
-#: ../mail/em-account-editor.c:2182 ../mail/em-account-editor.c:2256
+#: ../mail/em-account-editor.c:2243 ../mail/em-account-editor.c:2317
 msgid "Receiving Options"
 msgstr "Επιλογές Λήψης"
 
-#: ../mail/em-account-editor.c:2183 ../mail/em-account-editor.c:2257
+#: ../mail/em-account-editor.c:2244 ../mail/em-account-editor.c:2318
 msgid "Checking for New Mail"
 msgstr "Έλεγχος για νέα μηνύματα"
 
-#: ../mail/em-account-editor.c:2581 ../mail/mail-config.glade.h:33
+#: ../mail/em-account-editor.c:2642 ../mail/mail-config.glade.h:34
 msgid "Account Editor"
 msgstr "Επεξεργαστής Λογαριασμού"
 
-#: ../mail/em-account-editor.c:2581 ../mail/mail-config.glade.h:79
+#: ../mail/em-account-editor.c:2642 ../mail/mail-config.glade.h:80
 msgid "Evolution Account Assistant"
 msgstr "Βοηθός Λογαριασμού Evolution"
 
@@ -10563,9 +10560,8 @@ msgid "Protocol"
 msgstr "Πρωτόκολλο"
 
 #: ../mail/em-account-prefs.c:489
-#, fuzzy
 msgid "Mail Accounts Table"
-msgstr "Λογαριασμοί Αλληλογραφίας"
+msgstr "Πίνακας λογαριασμών αλληλογραφίας"
 
 #: ../mail/em-composer-prefs.c:306 ../mail/em-composer-prefs.c:429
 #: ../mail/mail-config.c:935
@@ -10584,18 +10580,18 @@ msgstr "Προσθήκη δέσμης ενεργειών υπογραφής"
 msgid "Signature(s)"
 msgstr "Υπογραφή(ές)"
 
-#: ../mail/em-composer-utils.c:849
+#: ../mail/em-composer-utils.c:851
 msgid "-------- Forwarded Message --------"
 msgstr "--------Προωθημένο Μήνυμα --------"
 
-#: ../mail/em-composer-utils.c:1459
+#: ../mail/em-composer-utils.c:1643
 msgid "an unknown sender"
 msgstr "ένας άγνωστος αποστολέας"
 
 #. Note to translators: this is the attribution string used when quoting messages.
 #. * each ${Variable} gets replaced with a value. To see a full list of available
 #. * variables, see em-composer-utils.c:1514
-#: ../mail/em-composer-utils.c:1506
+#: ../mail/em-composer-utils.c:1690
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
@@ -10732,7 +10728,7 @@ msgstr "δεν είναι"
 msgid "is not Flagged"
 msgstr "δεν έχει σημαία"
 
-#: ../mail/em-filter-i18n.h:35 ../mail/mail-config.glade.h:92
+#: ../mail/em-filter-i18n.h:35 ../mail/mail-config.glade.h:93
 #: ../ui/evolution-mail-message.xml.h:48
 msgid "Junk"
 msgstr "Ανεπιθύμητα μηνύματα"
@@ -10741,7 +10737,7 @@ msgstr "Ανεπιθύμητα μηνύματα"
 msgid "Junk Test"
 msgstr "Δοκιμή Ανεπιθυμήτων"
 
-#: ../mail/em-filter-i18n.h:37 ../mail/em-folder-view.c:1008
+#: ../mail/em-filter-i18n.h:37 ../mail/em-folder-view.c:1013
 #: ../widgets/misc/e-expander.c:189
 msgid "Label"
 msgstr "Ετικέτα"
@@ -10899,7 +10895,7 @@ msgstr "Δημιουργία Νέου Φακέλου"
 
 #: ../mail/em-folder-selector.c:166 ../mail/em-folder-tree.c:2528
 #: ../mail/mail-component.c:770 ../plugins/shared-folder/install-shared.c:144
-#: ../plugins/shared-folder/share-folder-common.c:353
+#: ../plugins/shared-folder/share-folder-common.c:362
 msgid "Specify where to create the folder:"
 msgstr "Ορίστε που θα δημιουργηθεί ο φάκελος:"
 
@@ -10989,25 +10985,25 @@ msgid "Copying `%s' to `%s'"
 msgstr "Αντιγραφή `%s' στο `%s'"
 
 #: ../mail/em-folder-tree.c:2298 ../mail/em-folder-tree.c:2312
-#: ../mail/em-folder-view.c:876 ../mail/em-folder-view.c:891
+#: ../mail/em-folder-view.c:881 ../mail/em-folder-view.c:896
 #: ../mail/importers/evolution-mbox-importer.c:120
 #: ../mail/importers/evolution-outlook-importer.c:134
 msgid "Select folder"
 msgstr "Επιλογή φακέλου"
 
-#: ../mail/em-folder-tree.c:2298 ../mail/em-folder-view.c:891
+#: ../mail/em-folder-tree.c:2298 ../mail/em-folder-view.c:896
 msgid "C_opy"
 msgstr "Α_ντιγραφή"
 
 #: ../mail/em-folder-tree.c:2339
-#: ../plugins/shared-folder/share-folder-common.c:140
+#: ../plugins/shared-folder/share-folder-common.c:142
 #, c-format
 msgid "Creating folder `%s'"
 msgstr "Δημιουργία φακέλου '%s'"
 
 #: ../mail/em-folder-tree.c:2528 ../mail/mail-component.c:770
 #: ../plugins/shared-folder/install-shared.c:144
-#: ../plugins/shared-folder/share-folder-common.c:353
+#: ../plugins/shared-folder/share-folder-common.c:362
 msgid "Create folder"
 msgstr "Δημιουργία φακέλου"
 
@@ -11027,7 +11023,7 @@ msgstr "Ο φάκελος δεν είναι δυνατό να περιέχει �
 #: ../mail/em-folder-tree.c:2804 ../ui/evolution-addressbook.xml.h:44
 #: ../ui/evolution-mail-global.xml.h:17
 #: ../ui/evolution-mail-messagedisplay.xml.h:8
-#: ../ui/evolution-message-composer.xml.h:53 ../ui/evolution.xml.h:49
+#: ../ui/evolution-message-composer.xml.h:55 ../ui/evolution.xml.h:49
 msgid "_View"
 msgstr "_Προβολή"
 
@@ -11052,138 +11048,138 @@ msgstr "_Νέος Φάκελος..."
 msgid "_Rename..."
 msgstr "_Μετονομασία..."
 
-#: ../mail/em-folder-view.c:984 ../mail/em-popup.c:499
+#: ../mail/em-folder-view.c:989 ../mail/em-popup.c:499
 #: ../ui/evolution-mail-message.xml.h:87
 msgid "Reply to _All"
 msgstr "Απάντηση σε _Όλους"
 
-#: ../mail/em-folder-view.c:985 ../ui/evolution-mail-message.xml.h:123
+#: ../mail/em-folder-view.c:990 ../ui/evolution-mail-message.xml.h:123
 msgid "_Reply to Sender"
 msgstr "_Απάντηση στον Αποστολέα"
 
-#: ../mail/em-folder-view.c:986 ../mail/em-popup.c:501
+#: ../mail/em-folder-view.c:991 ../mail/em-popup.c:501
 #: ../ui/evolution-mail-message.xml.h:110
 msgid "_Forward"
 msgstr "_Προώθηση"
 
-#: ../mail/em-folder-view.c:989 ../ui/evolution-mail-message.xml.h:109
+#: ../mail/em-folder-view.c:994 ../ui/evolution-mail-message.xml.h:109
 msgid "_Edit as New Message..."
 msgstr "_Επεξεργασία ως Νέο Μήνυμα..."
 
-#: ../mail/em-folder-view.c:991
+#: ../mail/em-folder-view.c:996
 msgid "_Print"
 msgstr "_Εκτύπωση"
 
-#: ../mail/em-folder-view.c:995
+#: ../mail/em-folder-view.c:1000
 msgid "U_ndelete"
 msgstr "Α_ναίρεση Διαγραφής"
 
-#: ../mail/em-folder-view.c:996
+#: ../mail/em-folder-view.c:1001
 msgid "Mo_ve to Folder..."
 msgstr "Με_τακίνηση στο Φάκελο..."
 
-#: ../mail/em-folder-view.c:997 ../ui/evolution-addressbook.xml.h:32
+#: ../mail/em-folder-view.c:1002 ../ui/evolution-addressbook.xml.h:32
 msgid "_Copy to Folder..."
 msgstr "_Αντιγραφή σε Φάκελο..."
 
-#: ../mail/em-folder-view.c:1000 ../ui/evolution-mail-message.xml.h:50
+#: ../mail/em-folder-view.c:1005 ../ui/evolution-mail-message.xml.h:50
 msgid "Mar_k as Read"
 msgstr "Σήμανση _ως Αναγνωσμένο"
 
-#: ../mail/em-folder-view.c:1001 ../ui/evolution-mail-message.xml.h:52
+#: ../mail/em-folder-view.c:1006 ../ui/evolution-mail-message.xml.h:52
 msgid "Mark as U_nread"
 msgstr "Σήμανση ως _μη Αναγνωσμένο"
 
-#: ../mail/em-folder-view.c:1002
+#: ../mail/em-folder-view.c:1007
 msgid "Mark as _Important"
 msgstr "Σήμανση ως _Σημαντικό"
 
-#: ../mail/em-folder-view.c:1003
+#: ../mail/em-folder-view.c:1008
 msgid "_Mark as Unimportant"
 msgstr "Σή_μανση ως μη Σημαντικό"
 
-#: ../mail/em-folder-view.c:1004 ../ui/evolution-mail-message.xml.h:54
+#: ../mail/em-folder-view.c:1009 ../ui/evolution-mail-message.xml.h:54
 msgid "Mark as _Junk"
 msgstr "Σήμανση ως ανεπι_θύμητη αλληλογραφία"
 
-#: ../mail/em-folder-view.c:1005 ../ui/evolution-mail-message.xml.h:55
+#: ../mail/em-folder-view.c:1010 ../ui/evolution-mail-message.xml.h:55
 msgid "Mark as _Not Junk"
 msgstr "Σήμανση ως επιθ_υμητή αλληλογραφία"
 
-#: ../mail/em-folder-view.c:1006
+#: ../mail/em-folder-view.c:1011
 msgid "Mark for Follo_w Up..."
 msgstr "Σημείωση για παρα_κολούθηση..."
 
-#: ../mail/em-folder-view.c:1014
+#: ../mail/em-folder-view.c:1019
 msgid "Fla_g Completed"
 msgstr "Ση_μαία Ολοκληρώθηκε"
 
-#: ../mail/em-folder-view.c:1015
+#: ../mail/em-folder-view.c:1020
 msgid "Cl_ear Flag"
 msgstr "Εκκα_θάριση Σημαίας"
 
-#: ../mail/em-folder-view.c:1018
+#: ../mail/em-folder-view.c:1023
 msgid "Crea_te Rule From Message"
 msgstr "Δη_μιουργία Κανόνα Από το Μήνυμα"
 
-#: ../mail/em-folder-view.c:1019
+#: ../mail/em-folder-view.c:1024
 msgid "vFolder on _Subject"
 msgstr "ΕΦάκελος στο _Θέμα"
 
-#: ../mail/em-folder-view.c:1020
+#: ../mail/em-folder-view.c:1025
 msgid "vFolder on Se_nder"
 msgstr "ΕΦάκελος στον _Αποστολέα"
 
-#: ../mail/em-folder-view.c:1021
+#: ../mail/em-folder-view.c:1026
 msgid "vFolder on _Recipients"
 msgstr "ΕΦάκελος στους _Παραλήπτες"
 
-#: ../mail/em-folder-view.c:1022
+#: ../mail/em-folder-view.c:1027
 msgid "vFolder on Mailing _List"
 msgstr "ΕΦάκελος στη Λίστα _Ταχυδρομείου"
 
-#: ../mail/em-folder-view.c:1026
+#: ../mail/em-folder-view.c:1031
 msgid "Filter on Sub_ject"
 msgstr "Φίλτρο στο Θ_έμα"
 
-#: ../mail/em-folder-view.c:1027
+#: ../mail/em-folder-view.c:1032
 msgid "Filter on Sen_der"
 msgstr "Φίλτρο στον Α_ποστολέα"
 
-#: ../mail/em-folder-view.c:1028
+#: ../mail/em-folder-view.c:1033
 msgid "Filter on Re_cipients"
 msgstr "Φίλτρο στους Παρα_λήπτες"
 
-#: ../mail/em-folder-view.c:1029
+#: ../mail/em-folder-view.c:1034
 msgid "Filter on _Mailing List"
 msgstr "Φίλτρο στη Λίστα _Ταχυδρομείου"
 
 #. default charset used in mail view
-#: ../mail/em-folder-view.c:1863 ../mail/em-folder-view.c:1907
+#: ../mail/em-folder-view.c:1868 ../mail/em-folder-view.c:1912
 msgid "Default"
 msgstr "Προεπιλογή"
 
-#: ../mail/em-folder-view.c:2006
+#: ../mail/em-folder-view.c:2011
 msgid "Print Message"
 msgstr "Εκτύπωση Μηνύματος"
 
-#: ../mail/em-folder-view.c:2336
+#: ../mail/em-folder-view.c:2341
 msgid "_Copy Link Location"
 msgstr "Αντι_γραφή τοποθεσίας δεσμού"
 
-#: ../mail/em-folder-view.c:2338
+#: ../mail/em-folder-view.c:2343
 msgid "Create _vFolder"
 msgstr "Δημιουργία _vFolder"
 
-#: ../mail/em-folder-view.c:2339
+#: ../mail/em-folder-view.c:2344
 msgid "_From this Address"
 msgstr "Από αυτή την διεύ_θυνση"
 
-#: ../mail/em-folder-view.c:2340
+#: ../mail/em-folder-view.c:2345
 msgid "_To this Address"
 msgstr "_Σε αυτή τη διεύθυνση"
 
-#: ../mail/em-folder-view.c:2609
+#: ../mail/em-folder-view.c:2626
 #, c-format
 msgid "Click to mail %s"
 msgstr "Κλικ εδώ για μήνυμα σε %s"
@@ -11734,11 +11730,11 @@ msgstr "Ενεργοποίηση/απενεργοποίηση λειτουργί
 
 #: ../mail/evolution-mail.schemas.in.in.h:25
 msgid "Height of the message-list pane"
-msgstr "Ύψος του ταμπλώ της λίστας μηνυμάτων"
+msgstr "Ύψος του ταμπλό της λίστας μηνυμάτων"
 
 #: ../mail/evolution-mail.schemas.in.in.h:26
 msgid "Height of the message-list pane."
-msgstr "Ύψος του ταμπλώ της λίστας μηνυμάτων."
+msgstr "Ύψος του ταμπλό της λίστας μηνυμάτων."
 
 #: ../mail/evolution-mail.schemas.in.in.h:27
 msgid ""
@@ -11965,11 +11961,11 @@ msgstr "Εμφάνιση διαγραμμένων μηνυμάτων στην λ
 
 #: ../mail/evolution-mail.schemas.in.in.h:73
 msgid "Show the \"Preview\" pane"
-msgstr "Προβολή του ταμπλώ \"Προεπισκόπηση\""
+msgstr "Προβολή του ταμπλό \"Προεπισκόπηση\""
 
 #: ../mail/evolution-mail.schemas.in.in.h:74
 msgid "Show the \"Preview\" pane."
-msgstr "Προβολή του ταμπλώ \"Προεπισκόπηση\"."
+msgstr "Προβολή του ταμπλό \"Προεπισκόπηση\"."
 
 #: ../mail/evolution-mail.schemas.in.in.h:75
 msgid "Sound file to play when new mail arrives."
@@ -12509,152 +12505,156 @@ msgid "<span weight=\"bold\">Message Fonts</span>"
 msgstr "<span weight=\"bold\">Γραμματοσειρές Μηνύματος</span>"
 
 #: ../mail/mail-config.glade.h:23
+msgid "<span weight=\"bold\">Message Receipts</span>"
+msgstr "<span weight=\"bold\">Παραλήπτες  Μηνύματος</span>"
+
+#: ../mail/mail-config.glade.h:24
 msgid "<span weight=\"bold\">New Mail Notification</span>"
 msgstr "<span weight=\"bold\">Ειδοποίηση Νέου Μηνύματος</span>"
 
-#: ../mail/mail-config.glade.h:24
+#: ../mail/mail-config.glade.h:25
 msgid "<span weight=\"bold\">Optional Information</span>"
 msgstr "<span weight=\"bold\">Προαιρετικές Πληροφορίες</span>"
 
-#: ../mail/mail-config.glade.h:25
+#: ../mail/mail-config.glade.h:26
 msgid "<span weight=\"bold\">Options</span>"
 msgstr "<span weight=\"bold\">Επιλογές</span>"
 
-#: ../mail/mail-config.glade.h:26
+#: ../mail/mail-config.glade.h:27
 msgid "<span weight=\"bold\">Pretty Good Privacy (PGP/GPG)</span>"
 msgstr "<span weight=\"bold\">Pretty Good Privacy (PGP/GPG)</span>"
 
-#: ../mail/mail-config.glade.h:27
+#: ../mail/mail-config.glade.h:28
 msgid "<span weight=\"bold\">Printed Fonts</span>"
 msgstr "<span weight=\"bold\">Εκτυπώσιμες Γραμματοσειρές</span>"
 
-#: ../mail/mail-config.glade.h:28
+#: ../mail/mail-config.glade.h:29
 msgid "<span weight=\"bold\">Required Information</span>"
 msgstr "<span weight=\"bold\">Απαιτούμενες Πληροφορίες</span>"
 
-#: ../mail/mail-config.glade.h:29
+#: ../mail/mail-config.glade.h:30
 msgid "<span weight=\"bold\">Secure MIME (S/MIME)</span>"
 msgstr "<span weight=\"bold\">Secure MIME (S/MIME)</span>"
 
-#: ../mail/mail-config.glade.h:30
+#: ../mail/mail-config.glade.h:31
 msgid "<span weight=\"bold\">Security</span>"
 msgstr "<span weight=\"bold\">Ασφάλεια</span>"
 
-#: ../mail/mail-config.glade.h:31
+#: ../mail/mail-config.glade.h:32
 msgid "<span weight=\"bold\">Sent and Draft Messages</span>"
 msgstr "<span weight=\"bold\">Απεσταλμένα και Πρόχειρα Μηνύματα</span>"
 
-#: ../mail/mail-config.glade.h:32
+#: ../mail/mail-config.glade.h:33
 msgid "<span weight=\"bold\">Server Configuration</span>"
 msgstr "<span weight=\"bold\">Ρύθμιση διακομιστή</span>"
 
-#: ../mail/mail-config.glade.h:34
+#: ../mail/mail-config.glade.h:35
 msgid "Account Management"
 msgstr "Διαχείριση Λογαριασμού"
 
-#: ../mail/mail-config.glade.h:35
+#: ../mail/mail-config.glade.h:36
 msgid "Add Ne_w Signature..."
 msgstr "Προσθήκη _νέας υπογραφής..."
 
-#: ../mail/mail-config.glade.h:36
+#: ../mail/mail-config.glade.h:37
 msgid "Add _Script"
 msgstr "Προσθήκη _Δέσμης Ενεργειών"
 
-#: ../mail/mail-config.glade.h:37
+#: ../mail/mail-config.glade.h:38
 msgid "Al_ways sign outgoing messages when using this account"
 msgstr "Να _υπογράφονται πάντα τα μηνύματα στη χρήση αυτού του λογαριασμού"
 
-#: ../mail/mail-config.glade.h:38
+#: ../mail/mail-config.glade.h:39
 msgid "Also encrypt to sel_f when sending encrypted mail"
 msgstr ""
 "Να γίνεται πάντα κρυπτογράφηση στον εαυ_τό μου κατά την αποστολή "
 "κρυπτογραφημένων μηνυμάτων"
 
-#: ../mail/mail-config.glade.h:39
+#: ../mail/mail-config.glade.h:40
 msgid "Alway_s carbon-copy (cc) to:"
 msgstr "Πάντοτε κοι_νοποίηση (Cc) σε:"
 
-#: ../mail/mail-config.glade.h:40
+#: ../mail/mail-config.glade.h:41
 msgid "Always _blind carbon-copy (bcc) to:"
 msgstr "Πάντοτε _κρυφή κοινοποίηση (Bcc) σε:"
 
-#: ../mail/mail-config.glade.h:41
+#: ../mail/mail-config.glade.h:42
 msgid "Always _trust keys in my keyring when encrypting"
 msgstr ""
 "Να είναι πάντοτε έμπισ_τα τα κλειδιά στην κλειδοθήκη μου κατά την "
 "κρυπτογράφηση"
 
-#: ../mail/mail-config.glade.h:42
+#: ../mail/mail-config.glade.h:43
 msgid "Always encrypt to _myself when sending encrypted mail"
 msgstr ""
 "Να γίνεται πάντα κ_ρυπτογράφηση στον εαυτό μου κατά την αποστολή "
 "κρυπτογραφημένων μηνυμάτων"
 
-#: ../mail/mail-config.glade.h:43
+#: ../mail/mail-config.glade.h:44
 msgid "Attach original message"
 msgstr "Επισύναψη αρχικού μηνύματος"
 
-#: ../mail/mail-config.glade.h:44 ../mail/message-list.etspec.h:1
+#: ../mail/mail-config.glade.h:45 ../mail/message-list.etspec.h:1
 msgid "Attachment"
 msgstr "Συνημμένο"
 
-#: ../mail/mail-config.glade.h:45
+#: ../mail/mail-config.glade.h:46
 msgid "Automatically _insert smiley images"
 msgstr "_Αυτόματη εισαγωγή εικονιδίων φατσούλας"
 
-#: ../mail/mail-config.glade.h:46
+#: ../mail/mail-config.glade.h:47
 msgid "Baltic (ISO-8859-13)"
 msgstr "Βαλτικής (ISO-8859-13)"
 
-#: ../mail/mail-config.glade.h:47
+#: ../mail/mail-config.glade.h:48
 msgid "Baltic (ISO-8859-4)"
 msgstr "Βαλτικής (ISO-8859-4)"
 
-#: ../mail/mail-config.glade.h:48
+#: ../mail/mail-config.glade.h:49
 msgid "Beep w_hen new mail arrives"
 msgstr "_Ήχος κατά την άφιξη νέου μηνύματος"
 
-#: ../mail/mail-config.glade.h:49
+#: ../mail/mail-config.glade.h:50
 msgid "C_haracter set:"
 msgstr "Κωδικοποίηση _Χαρακτήρων:"
 
-#: ../mail/mail-config.glade.h:50
+#: ../mail/mail-config.glade.h:51
 msgid "Ch_eck for Supported Types "
 msgstr "_Έλεγχος για υποστηριζόμενους τύπους "
 
-#: ../mail/mail-config.glade.h:51
+#: ../mail/mail-config.glade.h:52
 msgid "Check _incoming mail for junk"
 msgstr "Έλεγχος ε_ισερχόμενης αλληλογραφία για ανεπιθύμητα μηνύματα"
 
-#: ../mail/mail-config.glade.h:52
+#: ../mail/mail-config.glade.h:53
 msgid "Check spelling while I _type"
 msgstr "Έλεγχος αλληλογραφίας κατά την πληκ_τρολόγηση"
 
-#: ../mail/mail-config.glade.h:53
+#: ../mail/mail-config.glade.h:54
 msgid "Checks incoming mail messages to be Junk"
 msgstr "Ελέγχει την εισερχόμενη αλληλογραφία για ανεπιθύμητη αλληλογραφία"
 
-#: ../mail/mail-config.glade.h:54
+#: ../mail/mail-config.glade.h:55
 msgid "Cle_ar"
 msgstr "_Εκκαθάριση"
 
-#: ../mail/mail-config.glade.h:55
+#: ../mail/mail-config.glade.h:56
 msgid "Clea_r"
 msgstr "_Εκκαθάριση"
 
-#: ../mail/mail-config.glade.h:56
+#: ../mail/mail-config.glade.h:57
 msgid "Color for _misspelled words:"
 msgstr "Χρώμα για ανορ_θόγραφες λέξεις:"
 
-#: ../mail/mail-config.glade.h:57
+#: ../mail/mail-config.glade.h:58
 msgid "Colors"
 msgstr "Χρώματα"
 
-#: ../mail/mail-config.glade.h:58
+#: ../mail/mail-config.glade.h:59
 msgid "Confirm _when expunging a folder"
 msgstr "Επι_βεβαίωση στην εξάλειψη από ένα φάκελο"
 
-#: ../mail/mail-config.glade.h:59
+#: ../mail/mail-config.glade.h:60
 msgid ""
 "Congratulations, your mail configuration is complete.\n"
 "\n"
@@ -12670,128 +12670,126 @@ msgstr ""
 "\n"
 "Επιλέξτε \"Εφαρμογή\" για να αποθηκεύσετε τις ρυθμίσεις σας."
 
-#: ../mail/mail-config.glade.h:65
+#: ../mail/mail-config.glade.h:66
 msgid "De_fault"
 msgstr "Προε_πιλογή"
 
-#: ../mail/mail-config.glade.h:66
+#: ../mail/mail-config.glade.h:67
 msgid "Default character e_ncoding:"
 msgstr "Προεπιλεγμένη κω_δικοποίηση χαρακτήρων:"
 
-#: ../mail/mail-config.glade.h:69
+#: ../mail/mail-config.glade.h:70
 msgid "Digitally _sign outgoing messages (by default)"
 msgstr "Να _υπογράφονται πάντα ψηφιακά τα μηνύματα (προεπιλογή)"
 
-#: ../mail/mail-config.glade.h:70
+#: ../mail/mail-config.glade.h:71
 msgid "Do not quote original message"
 msgstr "Να μην γίνεται παράθεση αρχικού μηνύματος"
 
-#: ../mail/mail-config.glade.h:71 ../shell/evolution-startup-wizard.glade.h:1
+#: ../mail/mail-config.glade.h:72 ../shell/evolution-startup-wizard.glade.h:1
 msgid "Done"
 msgstr "Έγινε"
 
-#: ../mail/mail-config.glade.h:72
+#: ../mail/mail-config.glade.h:73
 msgid "Drafts _Folder:"
 msgstr "_Φάκελος προχείρων:"
 
-#: ../mail/mail-config.glade.h:74
+#: ../mail/mail-config.glade.h:75
 msgid "Email Accounts"
 msgstr "Λογαριασμοί Email"
 
-#: ../mail/mail-config.glade.h:75
+#: ../mail/mail-config.glade.h:76
 msgid "Email _Address:"
 msgstr "Διεύ_θυνση Email:"
 
-#: ../mail/mail-config.glade.h:76
+#: ../mail/mail-config.glade.h:77
 msgid "Empty trash folders on e_xit"
 msgstr "Άδειασμα των φακέλων απορριμμά_των στην έξοδο"
 
-#: ../mail/mail-config.glade.h:77
+#: ../mail/mail-config.glade.h:78
 msgid "Encry_ption certificate:"
 msgstr "Πιστοποιητικό κρ_υπτογράφησης:"
 
-#: ../mail/mail-config.glade.h:78
+#: ../mail/mail-config.glade.h:79
 msgid "Encrypt out_going messages (by default)"
 msgstr "_Κρυπτογράφηση εξερχόμενης αλληλογραφίας (προεπιλογή)"
 
-#: ../mail/mail-config.glade.h:80
+#: ../mail/mail-config.glade.h:81
 msgid "Execute Command..."
 msgstr "Εκτέλεση Εντολής..."
 
-#: ../mail/mail-config.glade.h:81
+#: ../mail/mail-config.glade.h:82
 msgid "Fi_xed-width:"
 msgstr "Στα_θερού πλάτους:"
 
-#: ../mail/mail-config.glade.h:82
+#: ../mail/mail-config.glade.h:83
 msgid "Font Properties"
 msgstr "Ιδιότητες Γραμματοσειράς"
 
-#: ../mail/mail-config.glade.h:83
+#: ../mail/mail-config.glade.h:84
 msgid "Format messages in _HTML"
 msgstr "Μορφοποίηση μηνυμάτων σε _HTML"
 
-#: ../mail/mail-config.glade.h:85
+#: ../mail/mail-config.glade.h:86
 msgid "HTML Mail"
 msgstr "Αλληλογραφία HTML"
 
-#: ../mail/mail-config.glade.h:86
+#: ../mail/mail-config.glade.h:87
 msgid "Headers"
 msgstr "Κεφαλίδες"
 
-#: ../mail/mail-config.glade.h:87
+#: ../mail/mail-config.glade.h:88
 msgid "Highlight _quotations with"
 msgstr "Επισήμανση παρα_θέσεων με"
 
-#: ../mail/mail-config.glade.h:88
+#: ../mail/mail-config.glade.h:89
 msgid "I_nclude remote tests"
 msgstr "Συμπεριλα_μβάνονται απομακρυσμένες δοκιμές"
 
-#: ../mail/mail-config.glade.h:91
+#: ../mail/mail-config.glade.h:92
 msgid "Inline"
 msgstr "Μέσα στο μήνυμα"
 
-#: ../mail/mail-config.glade.h:93
-#, fuzzy
+#: ../mail/mail-config.glade.h:94
 msgid "Languages Table"
-msgstr "Γλώσσα"
+msgstr "Πίνακας γλωσσών"
 
-#: ../mail/mail-config.glade.h:95
+#: ../mail/mail-config.glade.h:96
 msgid "Mail Configuration"
 msgstr "Ρύθμιση Αλληλογραφίας"
 
-#: ../mail/mail-config.glade.h:96
-#, fuzzy
+#: ../mail/mail-config.glade.h:97
 msgid "Mail Headers Table"
-msgstr "Δέντρο φάκελου αλληλογραφίας"
+msgstr "Πίνακας κεφαλίδων αλληλογραφίας"
 
-#: ../mail/mail-config.glade.h:98
+#: ../mail/mail-config.glade.h:99
 msgid "Mailbox location"
 msgstr "Τοποθεσία Mailbox"
 
-#: ../mail/mail-config.glade.h:99
+#: ../mail/mail-config.glade.h:100
 msgid "Message Composer"
 msgstr "Επεξεργαστής Μηνύματος"
 
-#: ../mail/mail-config.glade.h:100
+#: ../mail/mail-config.glade.h:101
 msgid ""
 "Note: you will not be prompted for a password until you connect for the "
 "first time"
 msgstr ""
 "Σημείωση: θα σας γίνει ερώτηση για κωδικό μέχρι να συνδεθείτε για πρώτη φορά"
 
-#: ../mail/mail-config.glade.h:101
+#: ../mail/mail-config.glade.h:102
 msgid "Or_ganization:"
 msgstr "Ορ_γανισμός:"
 
-#: ../mail/mail-config.glade.h:102
+#: ../mail/mail-config.glade.h:103
 msgid "PGP/GPG _Key ID:"
 msgstr "PGP/GPG _Key ID:"
 
-#: ../mail/mail-config.glade.h:105
+#: ../mail/mail-config.glade.h:106
 msgid "Play sound file when new mail arri_ves"
 msgstr "Αναπαραγωγή ήχου κατά την ά_φιξη νέου μηνύματος"
 
-#: ../mail/mail-config.glade.h:106
+#: ../mail/mail-config.glade.h:107
 msgid ""
 "Please enter a descriptive name for this account in the space below.\n"
 "This name will be used for display purposes only."
@@ -12800,7 +12798,7 @@ msgstr ""
 "διάστημα.\n"
 "Το όνομα θα χρησιμοποιείται μόνο για λόγους εμφάνισης."
 
-#: ../mail/mail-config.glade.h:108
+#: ../mail/mail-config.glade.h:109
 msgid ""
 "Please enter information about the way you will send mail. If you are not "
 "sure, ask your system administrator or Internet Service Provider."
@@ -12809,7 +12807,7 @@ msgstr ""
 "μηνυμάτων. Αν δεν είστε βέβαιοι ρωτήστε τον διαχειριστή δικτύου σας ή τον "
 "Παροχέα Διαδικτύου."
 
-#: ../mail/mail-config.glade.h:109
+#: ../mail/mail-config.glade.h:110
 msgid ""
 "Please enter your name and email address below. The \"optional\" fields "
 "below do not need to be filled in, unless you wish to include this "
@@ -12820,112 +12818,115 @@ msgstr ""
 "συμπληρωθούν εκτός αν θέλετε να συμπεριλάβετε αυτές τις πληροφορίες όταν "
 "στέλνετε μηνύματα."
 
-#: ../mail/mail-config.glade.h:110
+#: ../mail/mail-config.glade.h:111
 msgid "Please select among the following options"
 msgstr "Παρακαλώ επιλέξτε ανάμεσα ανάμεσα στις παρακάτω επιλογές"
 
-#: ../mail/mail-config.glade.h:111
+#: ../mail/mail-config.glade.h:112
 msgid "Pr_ompt when sending messages with only Bcc recipients defined"
 msgstr "Επιβε_βαίωση αποστολής μηνύματος με κρυφούς παραλήπτες (Bcc) μόνο"
 
-#: ../mail/mail-config.glade.h:112
+#: ../mail/mail-config.glade.h:113
 msgid "Quote original message"
 msgstr "Παράθεση αρχικού μηνύματος"
 
-#: ../mail/mail-config.glade.h:113
+#: ../mail/mail-config.glade.h:114
 msgid "Quoted"
 msgstr "Σε παράθεση"
 
-#: ../mail/mail-config.glade.h:114
+#: ../mail/mail-config.glade.h:115
 msgid "Re_member password"
 msgstr "Απο_μνημόνευση κωδικού"
 
-#: ../mail/mail-config.glade.h:115
+#: ../mail/mail-config.glade.h:116
 msgid "Re_ply-To:"
 msgstr "Α_πάντηση Σε:"
 
-#: ../mail/mail-config.glade.h:117
+#: ../mail/mail-config.glade.h:118
 msgid "Remember _password"
 msgstr "Απομνημόνευση κ_ωδικού"
 
-#: ../mail/mail-config.glade.h:118
+#: ../mail/mail-config.glade.h:119
 msgid "S_elect..."
 msgstr "Επιλο_γή..."
 
-#: ../mail/mail-config.glade.h:119
+#: ../mail/mail-config.glade.h:120
 msgid "S_tandard Font:"
 msgstr "_Κανονική γραμματοσειρά:"
 
-#: ../mail/mail-config.glade.h:120
+#: ../mail/mail-config.glade.h:121
 msgid "Se_lect..."
 msgstr "Επιλο_γή..."
 
-#: ../mail/mail-config.glade.h:122
+#: ../mail/mail-config.glade.h:123
 msgid "Select HTML fixed width font"
 msgstr "Επιλογή γραμματοσειράς HTML σταθερού πλάτους"
 
-#: ../mail/mail-config.glade.h:123
+#: ../mail/mail-config.glade.h:124
 msgid "Select HTML fixed width font for printing"
 msgstr "Επιλογή γραμματοσειράς HTML σταθερού πλάτους για εκτύπωση"
 
-#: ../mail/mail-config.glade.h:124
+#: ../mail/mail-config.glade.h:125
 msgid "Select HTML variable width font"
 msgstr "Επιλογή γραμματοσειράς HTML μεταβλητού πλάτους"
 
-#: ../mail/mail-config.glade.h:125
+#: ../mail/mail-config.glade.h:126
 msgid "Select HTML variable width font for printing"
 msgstr "Επιλογή γραμματοσειράς HTML μεταβλητού πλάτους για εκτύπωση"
 
 #: ../mail/mail-config.glade.h:127
+msgid "Send message receipts:"
+msgstr "Αποστολή αποδείξεων μηνυμάτων:"
+
+#: ../mail/mail-config.glade.h:129
 msgid "Sending Mail"
 msgstr "Αποστολή Αλληλογραφίας"
 
-#: ../mail/mail-config.glade.h:128
+#: ../mail/mail-config.glade.h:130
 msgid "Sent _Messages Folder:"
 msgstr "Φάκελος _απεσταλμένων μηνυμάτων:"
 
-#: ../mail/mail-config.glade.h:129
+#: ../mail/mail-config.glade.h:131
 msgid "Ser_ver requires authentication"
 msgstr "Ο _διακομιστής απαιτεί πιστοποίηση"
 
-#: ../mail/mail-config.glade.h:130
+#: ../mail/mail-config.glade.h:132
 msgid "Server _Type: "
 msgstr "Είδος _Διακομιστή: "
 
-#: ../mail/mail-config.glade.h:131
+#: ../mail/mail-config.glade.h:133
 msgid "Sig_ning certificate:"
 msgstr "Πιστοποιητικό υπογρα_φής:"
 
-#: ../mail/mail-config.glade.h:132
+#: ../mail/mail-config.glade.h:134
 msgid "Signat_ure:"
 msgstr "Υπογρα_φή:"
 
-#: ../mail/mail-config.glade.h:133
+#: ../mail/mail-config.glade.h:135
 msgid "Signatures"
 msgstr "Υπογραφές"
 
-#: ../mail/mail-config.glade.h:134
-#, fuzzy
+#: ../mail/mail-config.glade.h:136
 msgid "Signatures Table"
-msgstr "Υπογραφές"
+msgstr "Πίνακας υπογραφών"
 
-#: ../mail/mail-config.glade.h:135
+#: ../mail/mail-config.glade.h:137
 msgid "Specify _filename:"
 msgstr "Ορισμός ονόματος αρ_χείου:"
 
-#: ../mail/mail-config.glade.h:136
+#: ../mail/mail-config.glade.h:138
 msgid "Spell Checking"
 msgstr "Έλεγχος Ορθογραφίας"
 
-#: ../mail/mail-config.glade.h:137
+#: ../mail/mail-config.glade.h:139
 msgid "T_erminal Font:"
 msgstr "Γραμματοσειρά _Τερματικού:"
 
-#: ../mail/mail-config.glade.h:138
+#: ../mail/mail-config.glade.h:140
 msgid "T_ype: "
 msgstr "_Τύπος: "
 
-#: ../mail/mail-config.glade.h:139
+#: ../mail/mail-config.glade.h:141
 msgid ""
 "The list of languages here reflects only the languages for which you have a "
 "dictionary installed."
@@ -12933,7 +12934,7 @@ msgstr ""
 "Η λίστα των γλωσσών εδώ αντικατοπτρίζει μόνο τις γλώσσες για τις οποίες "
 "έχετε εγκαταστήσει το αντίστοιχο λεξικό."
 
-#: ../mail/mail-config.glade.h:140
+#: ../mail/mail-config.glade.h:142
 msgid ""
 "The output of this script will be used as your\n"
 "signature. The name you specify will be used\n"
@@ -12943,7 +12944,7 @@ msgstr ""
 "η υπογραφή σας. Το όνομα που θα καθορίσετε θα χρησιμοποιηθεί\n"
 "μόνο για την εμφάνιση. "
 
-#: ../mail/mail-config.glade.h:144
+#: ../mail/mail-config.glade.h:146
 msgid ""
 "Type the name by which you would like to refer to this account.\n"
 "For example: \"Work\" or \"Personal\""
@@ -12951,15 +12952,15 @@ msgstr ""
 "Πληκτρολογήστε το όνομα με το οποίο θα αναφέρεστε για τον λογαριασμό.\n"
 "Για παράδειγμα: \"Work\" or \"Personal\" "
 
-#: ../mail/mail-config.glade.h:146
+#: ../mail/mail-config.glade.h:148
 msgid "User_name:"
 msgstr "_Όνομα Χρήστη:"
 
-#: ../mail/mail-config.glade.h:147
+#: ../mail/mail-config.glade.h:149
 msgid "V_ariable-width:"
 msgstr "Μετ_αβλητού πλάτους:"
 
-#: ../mail/mail-config.glade.h:148
+#: ../mail/mail-config.glade.h:150
 msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
@@ -12969,88 +12970,88 @@ msgstr ""
 "\n"
 "Επιλέξτε \"Επόμενο\" για να ξεκινήσετε.. "
 
-#: ../mail/mail-config.glade.h:152
+#: ../mail/mail-config.glade.h:154
 msgid "_Add Signature"
 msgstr "_Προσθήκη υπογραφής"
 
-#: ../mail/mail-config.glade.h:153
+#: ../mail/mail-config.glade.h:155
 msgid "_Always load images from the Internet"
 msgstr "Να γίνεται _πάντα φόρτωση των εικόνων από το διαδίκτυο"
 
-#: ../mail/mail-config.glade.h:154
+#: ../mail/mail-config.glade.h:156
 msgid "_Do not notify me when new mail arrives"
 msgstr "_Να μην ειδοποιούμαι για νέα μηνύματα"
 
-#: ../mail/mail-config.glade.h:155
+#: ../mail/mail-config.glade.h:157
 msgid "_Don't sign meeting requests (for Outlook compatibility)"
 msgstr ""
 "Να μην υπογράφονται αιτήσεις _συναντήσεων (για συμβατότητα με το Outlook)"
 
-#: ../mail/mail-config.glade.h:157
+#: ../mail/mail-config.glade.h:159
 msgid "_Forward style:"
 msgstr "Στυλ _προώθησης:"
 
-#: ../mail/mail-config.glade.h:158
+#: ../mail/mail-config.glade.h:160
 msgid "_Full Name:"
 msgstr "Π_λήρες Όνομα:"
 
-#: ../mail/mail-config.glade.h:159
+#: ../mail/mail-config.glade.h:161
 msgid "_Host:"
 msgstr "_Σύστημα:"
 
-#: ../mail/mail-config.glade.h:160
+#: ../mail/mail-config.glade.h:162
 msgid "_Load images if sender is in address book"
 msgstr "_Φόρτωση εικόνων αν ο αποστολέας υπάρχει στο βιβλίο διευθύνσεων"
 
-#: ../mail/mail-config.glade.h:161
+#: ../mail/mail-config.glade.h:163
 msgid "_Make this my default account"
 msgstr "Αυτός είναι ο _προεπιλεγμένος λογαριασμός"
 
-#: ../mail/mail-config.glade.h:162
+#: ../mail/mail-config.glade.h:164
 msgid "_Mark messages as read after"
 msgstr "_Σήμανση μηνυμάτων ως αναγνωσμένα μετά από"
 
-#: ../mail/mail-config.glade.h:164
+#: ../mail/mail-config.glade.h:166
 msgid "_Never load images from the Internet"
 msgstr "_Να μην φορτώνονται ποτέ εικόνες από το διαδίκτυο"
 
-#: ../mail/mail-config.glade.h:165
+#: ../mail/mail-config.glade.h:167
 msgid "_Path:"
 msgstr "_Διαδρομή:"
 
-#: ../mail/mail-config.glade.h:166
+#: ../mail/mail-config.glade.h:168
 msgid "_Prompt when sending HTML messages to contacts that don't want them"
 msgstr "Ερώ_τηση στην αποστολή μηνυμάτων HTML σε επαφές που δεν το θέλουν"
 
-#: ../mail/mail-config.glade.h:167
+#: ../mail/mail-config.glade.h:169
 msgid "_Prompt when sending messages with an empty subject line"
 msgstr "Ε_ρώτηση στην αποστολή μηνυμάτων με άδειο θέμα"
 
-#: ../mail/mail-config.glade.h:168
+#: ../mail/mail-config.glade.h:170
 msgid "_Reply style:"
 msgstr "Στυλ α_πάντησης:"
 
-#: ../mail/mail-config.glade.h:169
+#: ../mail/mail-config.glade.h:171
 msgid "_Script:"
 msgstr "_Δέσμη ενεργειών:"
 
-#: ../mail/mail-config.glade.h:170
+#: ../mail/mail-config.glade.h:172
 msgid "_Show animated images"
 msgstr "Εμφάνι_ση κινούμενων εικόνων"
 
-#: ../mail/mail-config.glade.h:171
+#: ../mail/mail-config.glade.h:173
 msgid "_Use Secure Connection:"
 msgstr "_Χρήση ασφαλούς σύνδεσης:"
 
-#: ../mail/mail-config.glade.h:172
+#: ../mail/mail-config.glade.h:174
 msgid "_Use the same fonts as other applications"
 msgstr "_Χρήση των ίδιων γραμματοσειρών με τις άλλες εφαρμογές"
 
-#: ../mail/mail-config.glade.h:173
+#: ../mail/mail-config.glade.h:175
 msgid "color"
 msgstr "χρώμα"
 
-#: ../mail/mail-config.glade.h:174
+#: ../mail/mail-config.glade.h:176
 msgid "description"
 msgstr "περιγραφή"
 
@@ -13778,6 +13779,25 @@ msgstr ""
 "\n"
 "Ελέγξτε τις ρυθμίσεις του λογαριασμού σας και προσπαθείστε ξανά.\n"
 
+#. mail:ask-receipt title
+#. mail:ask-receipt primary
+#: ../mail/mail-errors.xml.h:262 ../mail/mail-errors.xml.h:264
+msgid "Read receipt requested."
+msgstr "Απαιτείται βεβαίωση ανάγνωσης."
+
+#. mail:ask-receipt secondary
+#: ../mail/mail-errors.xml.h:266
+msgid ""
+"A read receipt notification has been requested for \"{1}\".  Send the "
+"reciept notification to {0}?"
+msgstr ""
+"Ζητήθηκε μια βεβαίωση ανάγνωσης για \"{1}\".  Να σταλεί η ειδοποίηση "
+"βεβαίωσης σε {0}?"
+
+#: ../mail/mail-errors.xml.h:267
+msgid "Send Receipt"
+msgstr "Αποστολή βεβαίωσης"
+
 #: ../mail/mail-folder-cache.c:813
 #, c-format
 msgid "Pinging %s"
@@ -14273,28 +14293,28 @@ msgstr "Backup και ανάκτηση δεδομένων και ρυθμίσε�
 msgid "Restore Settings..."
 msgstr "Επαναφορά ρυθμίσεων..."
 
-#: ../plugins/bbdb/bbdb.c:390
+#: ../plugins/bbdb/bbdb.c:398
 msgid "Automatic Contacts"
 msgstr "Αυτόματες Επαφές"
 
-#: ../plugins/bbdb/bbdb.c:399
+#: ../plugins/bbdb/bbdb.c:407
 msgid "<span weight=\"bold\">Automatic Contacts</span>"
 msgstr "<span weight=\"bold\">Αυτόματες επαφές</span>"
 
 #. Enable BBDB checkbox
-#: ../plugins/bbdb/bbdb.c:412
+#: ../plugins/bbdb/bbdb.c:420
 msgid ""
 "_Automatically create entries in the addressbook when responding to mail"
 msgstr ""
 "Α_υτόματη δημιουργία εγγραφών στο βιβλίο διευθύνσεων όταν απαντάτε σε "
 "μηνύματα"
 
-#: ../plugins/bbdb/bbdb.c:430
+#: ../plugins/bbdb/bbdb.c:438
 msgid "<span weight=\"bold\">Instant Messaging Contacts</span>"
 msgstr "<span weight=\"bold\">Επαφές Instant Messaging</span>"
 
 #. Enable Gaim Checkbox
-#: ../plugins/bbdb/bbdb.c:443
+#: ../plugins/bbdb/bbdb.c:451
 msgid ""
 "Periodically synchronize contact information and images from my _instant "
 "messenger"
@@ -14303,7 +14323,7 @@ msgstr ""
 "messenger"
 
 #. Synchronize now button.
-#: ../plugins/bbdb/bbdb.c:450
+#: ../plugins/bbdb/bbdb.c:458
 msgid "Synchronize with _buddy list now"
 msgstr "Συγχρονισμός με _buddy list τώρα"
 
@@ -14554,7 +14574,7 @@ msgstr "Επιλογή ημερολογίων για αναζήτηση συγκ
 
 #: ../plugins/itip-formatter/itip-formatter.c:1735
 msgid "Conflict Search Table"
-msgstr ""
+msgstr "Πίνακας αναζήτησης συγκρούσεων"
 
 #. strftime format of a weekday and a date.
 #: ../plugins/itip-formatter/itip-view.c:175 ../ui/evolution-calendar.xml.h:34
@@ -15025,7 +15045,7 @@ msgid "MIME Type"
 msgstr "Τύπος MIME"
 
 #: ../plugins/save-attachments/save-attachments.c:359
-#: ../ui/evolution-message-composer.xml.h:16
+#: ../ui/evolution-message-composer.xml.h:18
 #: ../ui/evolution-signature-editor.xml.h:6
 msgid "Save"
 msgstr "Αποθήκευση"
@@ -15163,19 +15183,20 @@ msgid "_Sharing"
 msgstr "_Κοινή χρήση"
 
 #. e_error_run (NULL,  _("Cannot create GroupWise folders in offline mode."), NULL, NULL);
-#: ../plugins/shared-folder/share-folder-common.c:220
+#: ../plugins/shared-folder/share-folder-common.c:223
+#: ../plugins/shared-folder/share-folder-common.c:229
 msgid "Cannot Create shared folder in offline mode."
-msgstr ""
+msgstr "Αδυναμία δημιουργίας κοινόχρηστου φακέλου σε λειτουργία εργασίας χωρίς σύνδεση"
 
-#: ../plugins/shared-folder/share-folder-common.c:323
+#: ../plugins/shared-folder/share-folder-common.c:332
 msgid "Users"
 msgstr "Χρήστες"
 
-#: ../plugins/shared-folder/share-folder-common.c:324
+#: ../plugins/shared-folder/share-folder-common.c:333
 msgid "Enter the users and set permissions"
 msgstr "Εισάγετε τους χρήστες και καθορίστε τα δικαιώματα"
 
-#: ../plugins/shared-folder/share-folder-common.c:411
+#: ../plugins/shared-folder/share-folder-common.c:420
 msgid "Sharing"
 msgstr "Κοινή χρήση"
 
@@ -15209,7 +15230,7 @@ msgid "Please select the information that you would like to import:"
 msgstr "Παρακαλώ επιλέξτε την πληροφορία που θέλετε να εισάγετε:"
 
 #: ../plugins/startup-wizard/startup-wizard.c:321
-#: ../shell/e-shell-importer.c:899 ../shell/e-shell-startup-wizard.c:700
+#: ../shell/e-shell-importer.c:905 ../shell/e-shell-startup-wizard.c:700
 #, c-format
 msgid "From %s:"
 msgstr "Από %s:"
@@ -15305,7 +15326,6 @@ msgstr ""
 "ρυθμίσεων"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:17
-#, fuzzy
 msgid ""
 "The style of the window buttons. Can be \"text\", \"icons\", \"both\", "
 "\"toolbar\". If \"toolbar\" is set, the style of the buttons is determined "
@@ -15409,30 +15429,30 @@ msgstr ""
 "Εισάγεται το %s\n"
 "Εισάγεται το στοιχείο %d."
 
-#: ../shell/e-shell-importer.c:341
+#: ../shell/e-shell-importer.c:347
 msgid "Select importer"
 msgstr "Επιλογή Εισαγωγέα"
 
-#: ../shell/e-shell-importer.c:462 ../shell/e-shell-importer.c:1086
+#: ../shell/e-shell-importer.c:468 ../shell/e-shell-importer.c:1092
 #, c-format
 msgid "File %s does not exist"
 msgstr "Το αρχείο %s δεν υπάρχει"
 
-#: ../shell/e-shell-importer.c:470
+#: ../shell/e-shell-importer.c:476
 msgid "Importing"
 msgstr "Εισάγεται"
 
-#: ../shell/e-shell-importer.c:478
+#: ../shell/e-shell-importer.c:484
 #, c-format
 msgid "Importing %s.\n"
 msgstr "Εισάγεται %s.\n"
 
-#: ../shell/e-shell-importer.c:488 ../shell/e-shell-importer.c:489
+#: ../shell/e-shell-importer.c:494 ../shell/e-shell-importer.c:495
 #, c-format
 msgid "Error loading %s"
 msgstr "Σφάλμα κατά το φόρτωμα του %s"
 
-#: ../shell/e-shell-importer.c:507
+#: ../shell/e-shell-importer.c:513
 #, c-format
 msgid ""
 "Importing %s\n"
@@ -15441,31 +15461,31 @@ msgstr ""
 "Εισάγεται το %s\n"
 "Εισάγεται το στοιχείο 1."
 
-#: ../shell/e-shell-importer.c:583
+#: ../shell/e-shell-importer.c:589
 msgid "Automatic"
 msgstr "Αυτόματη"
 
-#: ../shell/e-shell-importer.c:639
+#: ../shell/e-shell-importer.c:645
 msgid "F_ilename:"
 msgstr "Όνομα _Αρχείου:"
 
-#: ../shell/e-shell-importer.c:644
+#: ../shell/e-shell-importer.c:650
 msgid "Select a file"
 msgstr "Επιλογή ενός αρχείου"
 
-#: ../shell/e-shell-importer.c:656
+#: ../shell/e-shell-importer.c:662
 msgid "File _type:"
 msgstr "_Τύπος αρχείου:"
 
-#: ../shell/e-shell-importer.c:695
+#: ../shell/e-shell-importer.c:701
 msgid "Import data and settings from _older programs"
 msgstr "Εισαγωγή δεδομένων και ρυθμίσεις από πα_λαιότερα προγράμματα"
 
-#: ../shell/e-shell-importer.c:698
+#: ../shell/e-shell-importer.c:704
 msgid "Import a _single file"
 msgstr "Εισαγωγή μο_ναδικού αρχείου"
 
-#: ../shell/e-shell-importer.c:766 ../shell/e-shell-startup-wizard.c:571
+#: ../shell/e-shell-importer.c:772 ../shell/e-shell-startup-wizard.c:571
 msgid ""
 "Please wait...\n"
 "Scanning for existing setups"
@@ -15473,20 +15493,20 @@ msgstr ""
 "Παρακαλώ περιμένετε...\n"
 "Γίνεται σάρωση για υπάρχουσες εγκαταστάσεις"
 
-#: ../shell/e-shell-importer.c:773
+#: ../shell/e-shell-importer.c:779
 msgid "Starting Intelligent Importers"
 msgstr "Εκκίνηση των Έξυπνων Εισαγωγέων"
 
-#: ../shell/e-shell-importer.c:1105
+#: ../shell/e-shell-importer.c:1111
 #, c-format
 msgid "No importer available for file %s"
 msgstr "Δεν υπάρχει διαθέσιμος εισαγωγέας για το αρχείο %s"
 
-#: ../shell/e-shell-importer.c:1119
+#: ../shell/e-shell-importer.c:1125
 msgid "Unable to execute importer"
 msgstr "Αποτυχία εκτέλεσης εισαγωγέα"
 
-#: ../shell/e-shell-importer.c:1235
+#: ../shell/e-shell-importer.c:1241
 msgid "_Import"
 msgstr "Ε_ισαγωγή"
 
@@ -16133,9 +16153,8 @@ msgid "Certificate details"
 msgstr "Λεπτομέρειες πιστοποιητικού"
 
 #: ../smime/gui/smime-ui.glade.h:17
-#, fuzzy
 msgid "Certificates Table"
-msgstr "Όνομα Πιστοποιητικού"
+msgstr "Πίνακς πιστοποιητικών"
 
 #: ../smime/gui/smime-ui.glade.h:18
 msgid "Common Name (CN)"
@@ -17323,7 +17342,7 @@ msgid "vFolder on _Subject..."
 msgstr "ΕΦάκελος στο _Θέμα..."
 
 #: ../ui/evolution-mail-messagedisplay.xml.h:1
-#: ../ui/evolution-message-composer.xml.h:3
+#: ../ui/evolution-message-composer.xml.h:4
 #: ../ui/evolution-signature-editor.xml.h:2 ../ui/evolution.xml.h:4
 msgid "Close"
 msgstr "Κλείσιμο"
@@ -17337,13 +17356,13 @@ msgid "Main toolbar"
 msgstr "Κύρια εργαλειοθήκη"
 
 #: ../ui/evolution-mail-messagedisplay.xml.h:5
-#: ../ui/evolution-message-composer.xml.h:41 ../ui/evolution-subscribe.xml.h:9
+#: ../ui/evolution-message-composer.xml.h:43 ../ui/evolution-subscribe.xml.h:9
 #: ../ui/evolution.xml.h:37
 msgid "_Close"
 msgstr "_Κλείσιμο"
 
 #: ../ui/evolution-mail-messagedisplay.xml.h:7
-#: ../ui/evolution-message-composer.xml.h:44
+#: ../ui/evolution-message-composer.xml.h:46
 #: ../ui/evolution-signature-editor.xml.h:13
 #: ../ui/evolution-subscribe.xml.h:11 ../ui/evolution.xml.h:39
 msgid "_File"
@@ -17357,182 +17376,190 @@ msgstr "Επισύναψη"
 msgid "Attach a file"
 msgstr "Επισύναψη αρχείου"
 
-#: ../ui/evolution-message-composer.xml.h:4
+#: ../ui/evolution-message-composer.xml.h:3
+msgid "Check to get delivery notification when your message is read"
+msgstr "Έλεγχος για λήψη ειδοποίησης παράδοσης όταν διαβαστεί το μήνυμα σας."
+
+#: ../ui/evolution-message-composer.xml.h:5
 #: ../ui/evolution-signature-editor.xml.h:3
 msgid "Close the current file"
 msgstr "Κλείσιμο του τρέχοντος αρχείου"
 
-#: ../ui/evolution-message-composer.xml.h:5
+#: ../ui/evolution-message-composer.xml.h:6
 msgid "Delete all but signature"
 msgstr "Διαγραφή όλων εκτός της υπογραφής"
 
-#: ../ui/evolution-message-composer.xml.h:6
+#: ../ui/evolution-message-composer.xml.h:7
 msgid "Encrypt this message with PGP"
 msgstr "Κρυπτογραφήστε αυτό το μήνυμα με PGP"
 
-#: ../ui/evolution-message-composer.xml.h:7
+#: ../ui/evolution-message-composer.xml.h:8
 msgid "Encrypt this message with your S/MIME Encryption Cetificate"
 msgstr ""
 "Κρυπτογραφήστε αυτό το μήνυμα με την πιστοποιημένη κρυπτογράφηση S/MIME"
 
-#: ../ui/evolution-message-composer.xml.h:8
+#: ../ui/evolution-message-composer.xml.h:9
 #: ../ui/evolution-signature-editor.xml.h:4
 msgid "For_mat"
 msgstr "_Μορφή"
 
-#: ../ui/evolution-message-composer.xml.h:9
+#: ../ui/evolution-message-composer.xml.h:10
 msgid "HT_ML"
 msgstr "HT_ML"
 
-#: ../ui/evolution-message-composer.xml.h:11
+#: ../ui/evolution-message-composer.xml.h:12
 msgid "Open a file"
 msgstr "Άνοιγμα ενός αρχείου"
 
-#: ../ui/evolution-message-composer.xml.h:12
+#: ../ui/evolution-message-composer.xml.h:13
 msgid "PGP Encrypt"
 msgstr "Κρυπτογράφηση PGP"
 
-#: ../ui/evolution-message-composer.xml.h:13
+#: ../ui/evolution-message-composer.xml.h:14
 msgid "PGP Sign"
 msgstr "Υπογραφή PGP"
 
-#: ../ui/evolution-message-composer.xml.h:14
+#: ../ui/evolution-message-composer.xml.h:15
+msgid "Request read receipt"
+msgstr "Αίτηση βεβαίωσης ανάγνωσης"
+
+#: ../ui/evolution-message-composer.xml.h:16
 msgid "S/MIME Encrypt"
 msgstr "Κρυπτογράφηση S/MIME"
 
-#: ../ui/evolution-message-composer.xml.h:15
+#: ../ui/evolution-message-composer.xml.h:17
 msgid "S/MIME Sign"
 msgstr "Υπογραφή S/MIME"
 
-#: ../ui/evolution-message-composer.xml.h:17
+#: ../ui/evolution-message-composer.xml.h:19
 msgid "Save As"
 msgstr "Αποθήκευση Ως"
 
-#: ../ui/evolution-message-composer.xml.h:18
+#: ../ui/evolution-message-composer.xml.h:20
 msgid "Save _As..."
 msgstr "Αποθήκευση _Ως..."
 
-#: ../ui/evolution-message-composer.xml.h:19
+#: ../ui/evolution-message-composer.xml.h:21
 msgid "Save _Draft"
 msgstr "Αποθήκευση _Προχείρου"
 
-#: ../ui/evolution-message-composer.xml.h:20
+#: ../ui/evolution-message-composer.xml.h:22
 msgid "Save in folder..."
 msgstr "Αποθήκευση στο φάκελο..."
 
-#: ../ui/evolution-message-composer.xml.h:21
+#: ../ui/evolution-message-composer.xml.h:23
 #: ../ui/evolution-signature-editor.xml.h:9
 msgid "Save the current file"
 msgstr "Αποθήκευση του τρέχοντος αρχείου"
 
-#: ../ui/evolution-message-composer.xml.h:22
+#: ../ui/evolution-message-composer.xml.h:24
 msgid "Save the current file with a different name"
 msgstr "Αποθήκευση του τρέχοντος αρχείου με διαφορετικό όνομα"
 
-#: ../ui/evolution-message-composer.xml.h:23
+#: ../ui/evolution-message-composer.xml.h:25
 msgid "Save the message in a specified folder"
 msgstr "Αποθήκευση του μηνύματος στον καθορισμένο φάκελο"
 
-#: ../ui/evolution-message-composer.xml.h:25
+#: ../ui/evolution-message-composer.xml.h:27
 #: ../ui/evolution-signature-editor.xml.h:11
 msgid "Send the mail in HTML format"
 msgstr "Αποστολή του μηνύματος σε μορφή HTML"
 
-#: ../ui/evolution-message-composer.xml.h:26
+#: ../ui/evolution-message-composer.xml.h:28
 msgid "Send this message"
 msgstr "Αποστολή του μηνύματος"
 
-#: ../ui/evolution-message-composer.xml.h:27
+#: ../ui/evolution-message-composer.xml.h:29
 msgid "Show / hide attachments"
 msgstr "Εμφάνιση/απόκρυψη συνημμένων"
 
-#: ../ui/evolution-message-composer.xml.h:28
+#: ../ui/evolution-message-composer.xml.h:30
 msgid "Show _attachments"
 msgstr "Εμφάνιση _συνημμένων"
 
-#: ../ui/evolution-message-composer.xml.h:29
+#: ../ui/evolution-message-composer.xml.h:31
 msgid "Show attachments"
 msgstr "Εμφάνιση συνημμένων"
 
-#: ../ui/evolution-message-composer.xml.h:30
+#: ../ui/evolution-message-composer.xml.h:32
 msgid "Sign this message with your PGP key"
 msgstr "Υπογράψτε αυτό το μήνυμα με το κλειδί PGP"
 
-#: ../ui/evolution-message-composer.xml.h:31
+#: ../ui/evolution-message-composer.xml.h:33
 msgid "Sign this message with your S/MIME Signature Certificate"
 msgstr "Υπογράψτε αυτό το μήνυμα με την πιστοποιημένη υπογραφή S/MIME"
 
-#: ../ui/evolution-message-composer.xml.h:32
+#: ../ui/evolution-message-composer.xml.h:34
 msgid "Toggles whether the BCC field is displayed"
 msgstr "Εναλλαγή της προβολής του πεδίου ιδιαίτερης κοινοποίησης"
 
-#: ../ui/evolution-message-composer.xml.h:33
+#: ../ui/evolution-message-composer.xml.h:35
 msgid "Toggles whether the CC field is displayed"
 msgstr "Εναλλαγή της προβολής του πεδίου κοινοποίησης"
 
-#: ../ui/evolution-message-composer.xml.h:34
+#: ../ui/evolution-message-composer.xml.h:36
 msgid "Toggles whether the From chooser is displayed"
 msgstr "Εναλλαγή της εμφάνισης του επιλογέα Από"
 
-#: ../ui/evolution-message-composer.xml.h:35
+#: ../ui/evolution-message-composer.xml.h:37
 msgid "Toggles whether the Post-To field is displayed"
 msgstr "Εναλλαγή της προβολής του πεδίου Αποστολή σε"
 
-#: ../ui/evolution-message-composer.xml.h:36
+#: ../ui/evolution-message-composer.xml.h:38
 msgid "Toggles whether the Reply-To field is displayed"
 msgstr "Εναλλαγή της προβολής του πεδίου Απάντησης"
 
-#: ../ui/evolution-message-composer.xml.h:37
+#: ../ui/evolution-message-composer.xml.h:39
 msgid "Toggles whether the To field is displayed"
 msgstr "Εναλλαγή της προβολής του πεδίου Πρός"
 
-#: ../ui/evolution-message-composer.xml.h:38
+#: ../ui/evolution-message-composer.xml.h:40
 msgid "_Attachment..."
 msgstr "_Συνημμένο..."
 
-#: ../ui/evolution-message-composer.xml.h:39
+#: ../ui/evolution-message-composer.xml.h:41
 msgid "_Bcc Field"
 msgstr "_Πεδίο Κρυφής Κοινοποίησης"
 
-#: ../ui/evolution-message-composer.xml.h:40
+#: ../ui/evolution-message-composer.xml.h:42
 msgid "_Cc Field"
 msgstr "_Πεδίο Κοινοποίησης"
 
-#: ../ui/evolution-message-composer.xml.h:42
+#: ../ui/evolution-message-composer.xml.h:44
 msgid "_Delete all"
 msgstr "_Διαγραφή όλων"
 
-#: ../ui/evolution-message-composer.xml.h:45
+#: ../ui/evolution-message-composer.xml.h:47
 msgid "_From Field"
 msgstr "Πεδίο _Από"
 
-#: ../ui/evolution-message-composer.xml.h:46
+#: ../ui/evolution-message-composer.xml.h:48
 #: ../ui/evolution-signature-editor.xml.h:14
 msgid "_Insert"
 msgstr "_Εισαγωγή"
 
-#: ../ui/evolution-message-composer.xml.h:47
+#: ../ui/evolution-message-composer.xml.h:49
 msgid "_Open..."
 msgstr "Ά_νοιγμα..."
 
-#: ../ui/evolution-message-composer.xml.h:48
+#: ../ui/evolution-message-composer.xml.h:50
 msgid "_Post-To Field"
 msgstr "_Πεδίο Αποστολή σε"
 
-#: ../ui/evolution-message-composer.xml.h:49
+#: ../ui/evolution-message-composer.xml.h:51
 msgid "_Reply-To Field"
 msgstr "_Πεδίο Απάντησης"
 
-#: ../ui/evolution-message-composer.xml.h:50
+#: ../ui/evolution-message-composer.xml.h:52
 #: ../ui/evolution-signature-editor.xml.h:15
 msgid "_Save"
 msgstr "_Αποθήκευση"
 
-#: ../ui/evolution-message-composer.xml.h:51
+#: ../ui/evolution-message-composer.xml.h:53
 msgid "_Security"
 msgstr "_Ασφάλεια"
 
-#: ../ui/evolution-message-composer.xml.h:52
+#: ../ui/evolution-message-composer.xml.h:54
 msgid "_To Field"
 msgstr "Πεδίο _Από"
 
@@ -17902,7 +17929,7 @@ msgid "MTWTFSS"
 msgstr "ΔΤΤΠΠΣΚ"
 
 #. This is a strftime() format. %B = Month name, %Y = Year.
-#: ../widgets/misc/e-calendar-item.c:1123
+#: ../widgets/misc/e-calendar-item.c:1099
 msgid "%B %Y"
 msgstr "%B %Y"
 
