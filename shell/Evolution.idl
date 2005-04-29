@@ -16,4 +16,3 @@
 #include <Evolution-ConfigControl.idl>
 #include <Evolution-Offline.idl>
 #include <Evolution-Shell.idl>
-#include <Evolution-Wizard.idl>

@@ -29,7 +29,6 @@ IDLS = \
 	Evolution-Component.idl			\
 	Evolution-Offline.idl			\
 	Evolution-Shell.idl			\
-	Evolution-Wizard.idl			\
 	Evolution-common.idl			\
 	Evolution.idl
 
@@ -83,18 +82,15 @@ eshellinclude_HEADERS = 			\
 	e-shell-utils.h				\
 	e-user-creatable-items-handler.h	\
 	evolution-config-control.h		\
-	evolution-shell-component-utils.h	\
-	evolution-wizard.h
+	evolution-shell-component-utils.h
 
 libeshell_la_SOURCES = 				\
 	$(IDL_GENERATED)			\
 	$(MARSHAL_GENERATED)			\
-	e-shell-corba-icon-utils.c		\
 	e-shell-utils.c				\
 	e-user-creatable-items-handler.c	\
 	evolution-config-control.c		\
 	evolution-shell-component-utils.c	\
-	evolution-wizard.c			\
 	$(eshellinclude_HEADERS)
 
 libeshell_la_LIBADD =				\
@@ -122,8 +118,6 @@ evolution_SOURCES =				\
 	e-shell-offline-handler.h		\
 	e-shell-settings-dialog.c		\
 	e-shell-settings-dialog.h		\
-	e-shell-startup-wizard.c		\
-	e-shell-startup-wizard.h		\
 	e-shell-window-commands.c		\
 	e-shell-window-commands.h		\
 	e-shell-window.c			\
@@ -184,8 +178,7 @@ errordir = $(privdatadir)/errors
 	$(top_builddir)/e-util/e-error-tool $^
 
 glade_DATA =						\
-	e-active-connection-dialog.glade		\
-	evolution-startup-wizard.glade
+	e-active-connection-dialog.glade
 
 # GConf schemas
 

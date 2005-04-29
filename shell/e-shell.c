@@ -37,7 +37,6 @@
 #include "e-shell-constants.h"
 #include "e-shell-offline-handler.h"
 #include "e-shell-settings-dialog.h"
-#include "e-shell-startup-wizard.h"
 
 #include "e-shell-marshal.h"
 #include "es-event.h"

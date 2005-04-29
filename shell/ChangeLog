@@ -1,3 +1,14 @@
+2005-04-29  JP Rosevear  <jpr@novell.com>
+
+	* Makefile.am: don't build wizard related code
+
+	* Evolution.idl: remove wizard idl include
+
+	* e-shell.c: remove wizard include
+
+	* Remove wizard related code which is now in a plugin (and is much
+	simpler due to eplugin)
+
 2005-04-28  Not Zed  <NotZed@Ximian.com>
 
 	* main.c (main): setup the profiling plugin hook if profiling is
