@@ -78,7 +78,6 @@ eshellincludedir = $(privincludedir)/shell
 
 eshellinclude_HEADERS = 			\
 	Evolution.h				\
-	e-shell-corba-icon-utils.h		\
 	e-shell-utils.h				\
 	e-user-creatable-items-handler.h	\
 	evolution-config-control.h		\

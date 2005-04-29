@@ -1,5 +1,11 @@
 2005-04-29  JP Rosevear  <jpr@novell.com>
 
+	* Makefile.am: don't build/install corba icon utils
+
+	* Remove e-shell-corba-icon-utils.c	
+
+2005-04-29  JP Rosevear  <jpr@novell.com>
+
 	* Makefile.am: don't build wizard related code
 
 	* Evolution.idl: remove wizard idl include
