@@ -452,7 +452,7 @@ e_xml_save_file (const char *filename, xmlDocPtr doc)
 	{
 		gchar *dirname = g_path_get_dirname (filename);
 		gchar *basename = g_path_get_basename (filename);
-		gchar *savebasename = g_strconcat (".#", basename);
+		gchar *savebasename = g_strconcat (".#", basename, NULL);
 
 		g_free (basename);
 		filesave = g_build_filename (dirname, savebasename, NULL);
