@@ -22,18 +22,20 @@
  */
 
 #include <config.h>
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <stdio.h>
+
 #include <libgnomecanvas/gnome-canvas.h>
-#include <gtk/gtksignal.h>
+#include <gtk/gtk.h>
 #include <libxml/parser.h>
 #include <libxml/xmlmemory.h>
 
+#include "gal/util/e-i18n.h"
+
 #include "e-table.h"
 #include "e-table-scrolled.h"
-#include "gal/util/e-i18n.h"
 
 #define COLUMN_HEADER_HEIGHT 16
 

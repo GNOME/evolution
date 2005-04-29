@@ -53,12 +53,16 @@
  */
 
 #include <config.h>
-#include <string.h> /* strcmp() */
+
+#include <string.h>
+
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
-#include <glib/gi18n.h>
+
+#include "gal/util/e-i18n.h"
 #include "gal/util/e-util.h"
 #include "gal/widgets/e-unicode.h"
+
 #include "e-table-item.h"
 #include "e-cell-combo.h"
 #include "e-cell-text.h"

@@ -23,20 +23,21 @@
 
 #include <config.h>
 
-#include "e-reflow.h"
-
 #include <math.h>
-#include <gdk/gdkkeysyms.h>
-#include "e-canvas-utils.h"
-#include "e-canvas.h"
-#include "gal/e-text/e-text.h"
-#include "gal/util/e-util.h"
-#include "gal/util/e-i18n.h"
-#include "gal/widgets/e-unicode.h"
-#include <gtk/gtksignal.h>
-#include "e-selection-model-simple.h"
-
 #include <string.h>
+
+#include <gdk/gdkkeysyms.h>
+#include <gtk/gtk.h>
+
+#include "gal/e-text/e-text.h"
+#include "gal/util/e-i18n.h"
+#include "gal/util/e-util.h"
+#include "gal/widgets/e-unicode.h"
+
+#include "e-canvas.h"
+#include "e-canvas-utils.h"
+#include "e-reflow.h"
+#include "e-selection-model-simple.h"
 
 static gboolean e_reflow_event (GnomeCanvasItem *item, GdkEvent *event);
 static void e_reflow_realize (GnomeCanvasItem *item);

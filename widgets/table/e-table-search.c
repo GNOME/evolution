@@ -22,10 +22,12 @@
  */
 
 #include <config.h>
-#include "e-table-search.h"
-#include "gal/util/e-util.h"
 
 #include <string.h>
+
+#include "gal/util/e-util.h"
+
+#include "e-table-search.h"
 
 #define d(x)
 

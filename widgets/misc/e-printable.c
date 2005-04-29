@@ -22,8 +22,11 @@
  */
 
 #include <config.h>
-#include <gtk/gtksignal.h>
+
+#include <gtk/gtk.h>
+
 #include "gal/util/e-util.h"
+
 #include "e-printable.h"
 
 #define EP_CLASS(e) ((EPrintableClass *)((GtkObject *)e)->klass)

@@ -6,15 +6,17 @@
  */
 
 #include <config.h>
-#include "gal-a11y-util.h"
+
+#include <atk/atk.h>
+
+#include "gal/a11y/gal-a11y-util.h"
+#include "gal/e-table/e-table-click-to-add.h"
+#include "gal/e-table/e-table-group.h"
+#include "gal/e-table/e-table-group-leaf.h"
+#include "gal/util/e-i18n.h"
+
 #include "gal-a11y-e-table-click-to-add.h"
 #include "gal-a11y-e-table-click-to-add-factory.h"
-#include <gal/e-table/e-table-group.h>
-#include <gal/e-table/e-table-group-leaf.h>
-#include <gal/e-table/e-table-click-to-add.h>
-#include <atk/atkcomponent.h>
-#include <atk/atkaction.h>
-#include <glib/gi18n.h>
 
 static AtkObjectClass *parent_class;
 static GType parent_type;

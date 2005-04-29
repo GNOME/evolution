@@ -22,39 +22,35 @@
  */
 
 #include <config.h>
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <stdio.h>
+
 #include <gdk/gdkkeysyms.h>
-#include <gtk/gtksignal.h>
+#include <gtk/gtk.h>
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
-#include <atk/atkregistry.h>
 
-#include <gal/util/e-i18n.h>
-#include <gal/util/e-util.h>
-#include <gal/util/e-marshal.h>
-#include <gal/widgets/e-canvas.h>
-#include <gal/widgets/e-canvas-background.h>
-
-#include <gal/e-table/e-table-column-specification.h>
-#include <gal/e-table/e-table-header-item.h>
-#include <gal/e-table/e-table-header.h>
-#include <gal/e-table/e-table-item.h>
-#include <gal/e-table/e-table-sort-info.h>
-#include <gal/e-table/e-table-utils.h>
-
-#ifdef E_TREE_USE_TREE_SELECTION
-#include <gal/e-table/e-tree-selection-model.h>
-#else
-#include <gal/e-table/e-table-selection-model.h>
-#endif
-
-#include <gal/e-table/e-tree-table-adapter.h>
-
-#include "e-tree.h"
-#include "gal/util/e-marshal.h"
 #include "gal/a11y/e-table/gal-a11y-e-tree.h"
+#include "gal/util/e-i18n.h"
+#include "gal/util/e-util.h"
+#include "gal/util/e-marshal.h"
+#include "gal/widgets/e-canvas.h"
+#include "gal/widgets/e-canvas-background.h"
+
+#include "e-table-column-specification.h"
+#include "e-table-header-item.h"
+#include "e-table-header.h"
+#include "e-table-item.h"
+#include "e-table-sort-info.h"
+#include "e-table-utils.h"
+#ifdef E_TREE_USE_TREE_SELECTION
+#include "e-tree-selection-model.h"
+#else
+#include "e-table-selection-model.h"
+#endif
+#include "e-tree.h"
+#include "e-tree-table-adapter.h"
 
 #define COLUMN_HEADER_HEIGHT 16
 

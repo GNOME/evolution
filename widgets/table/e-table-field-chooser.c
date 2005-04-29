@@ -22,14 +22,16 @@
  */
 
 #include <config.h>
-#include <gtk/gtksignal.h>
+
 #include <gtk/gtk.h>
-#include <gtk/gtkbox.h>
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
+
+#include "gal/util/e-i18n.h"
+#include "gal/util/e-util.h"
+#include "gal/util/e-util-private.h"
+
 #include "e-table-field-chooser.h"
 #include "e-table-field-chooser-item.h"
-#include <gal/util/e-i18n.h>
-#include <gal/util/e-util.h>
 
 static void e_table_field_chooser_init		(ETableFieldChooser		 *card);
 static void e_table_field_chooser_class_init	(ETableFieldChooserClass	 *klass);
@@ -153,8 +155,11 @@ e_table_field_chooser_init (ETableFieldChooser *etfc)
 {
 	GladeXML *gui;
 	GtkWidget *widget;
-
-	gui = glade_xml_new (ETABLE_GLADEDIR "/e-table-field-chooser.glade", NULL, E_I18N_DOMAIN);
+	gchar *filename = g_build_filename (GAL_GLADEDIR,
+					    "e-table-field-chooser.glade",
+					    NULL);
+	gui = glade_xml_new (filename, NULL, E_I18N_DOMAIN);
+	g_free (filename);
 	etfc->gui = gui;
 
 	widget = glade_xml_get_widget(gui, "vbox-top");

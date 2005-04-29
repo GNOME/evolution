@@ -27,24 +27,23 @@
 
 #include <config.h>
 
-#include "e-unicode.h"
-
-#include "gal/util/e-i18n.h"
-#include <ctype.h>
+#include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <ctype.h>
 #include <iconv.h>
-#include <gdk/gdk.h>
-#include <gdk/gdkx.h>
-#include <gdk/gdkkeysyms.h>
-#include <gtk/gtkmenuitem.h>
-#include <libxml/xmlmemory.h>
-#include <stdlib.h>
-#include "gal/util/e-iconv.h"
-
 #ifdef HAVE_ALLOCA_H
 #include <alloca.h>
 #endif
+
+#include <gdk/gdkkeysyms.h>
+#include <gtk/gtk.h>
+#include <libxml/xmlmemory.h>
+
+#include "gal/util/e-i18n.h"
+#include "gal/util/e-iconv.h"
+
+#include "e-unicode.h"
 
 #define d(x) x
 

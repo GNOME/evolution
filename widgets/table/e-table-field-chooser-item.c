@@ -22,9 +22,10 @@
  */
 
 #include <config.h>
+
 #include <string.h>
-#include <gtk/gtksignal.h>
-#include <gtk/gtkdnd.h>
+
+#include <gtk/gtk.h>
 #include <libgnomecanvas/gnome-canvas.h>
 #include <libgnomecanvas/gnome-canvas-util.h>
 #include <libgnomecanvas/gnome-canvas-polygon.h>
@@ -36,12 +37,11 @@
 #include "gal/util/e-xml-utils.h"
 #include "gal/widgets/e-canvas.h"
 
-#include "e-table-header.h"
 #include "e-table-col-dnd.h"
 #include "e-table-defines.h"
-#include "e-table-header-utils.h"
-
 #include "e-table-field-chooser-item.h"
+#include "e-table-header-utils.h"
+#include "e-table-header.h"
 
 #define d(x)
 

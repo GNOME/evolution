@@ -21,19 +21,20 @@
  * 02111-1307, USA.
  */
 
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
-
-#include "e-table-specification.h"
 
 #include <stdlib.h>
 #include <string.h>
 
+#include <glib.h>
+#include <glib/gstdio.h>
 #include <libxml/parser.h>
 #include <libxml/xmlmemory.h>
+
 #include "gal/util/e-util.h"
 #include "gal/util/e-xml-utils.h"
+
+#include "e-table-specification.h"
 
 static GObjectClass *etsp_parent_class;
 
@@ -133,7 +134,15 @@ e_table_specification_load_from_file (ETableSpecification *specification,
 	if (!g_file_test (filename, G_FILE_TEST_EXISTS))
 		return FALSE;
 
+#ifdef G_OS_WIN32
+	{
+		gchar *locale_filename = gnome_win32_locale_filename_from_utf8 (filename);
+		doc = xmlParseFile (locale_filename);
+		g_free (locale_filename);
+	}
+#else
 	doc = xmlParseFile (filename);
+#endif
 	if (doc) {
 		xmlNode *node = xmlDocGetRootElement (doc);
 		e_table_specification_load_from_node (specification, node);

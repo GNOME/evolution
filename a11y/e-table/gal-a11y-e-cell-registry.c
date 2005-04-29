@@ -7,8 +7,9 @@
  */
 
 #include <config.h>
-#include "gal-a11y-e-cell-registry.h"
+
 #include "gal-a11y-e-cell.h"
+#include "gal-a11y-e-cell-registry.h"
 
 static GObjectClass *parent_class;
 static GalA11yECellRegistry *default_registry;

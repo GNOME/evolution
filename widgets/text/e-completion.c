@@ -23,12 +23,16 @@
  */
 
 #include <config.h>
+
 #include <string.h>
 #include <stdio.h>
+
 #include <gtk/gtk.h>
-#include "e-completion.h"
-#include "gal/util/e-util.h"
+
 #include "gal/util/e-marshal.h"
+#include "gal/util/e-util.h"
+
+#include "e-completion.h"
 
 enum {
 	COMPLETION_STARTED,

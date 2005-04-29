@@ -21,17 +21,13 @@
  * 02111-1307, USA.
  */
 
-
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
+
+#include <gdk-pixbuf/gdk-pixbuf.h>
+#include <gtk/gtk.h>
+#include <libgnomecanvas/gnome-canvas-pixbuf.h>
 
 #include "e-gui-utils.h"
-
-#include <gtk/gtkentry.h>
-#include <gtk/gtksignal.h>
-#include <gdk-pixbuf/gdk-pixbuf.h>
-#include <libgnomecanvas/gnome-canvas-pixbuf.h>
 
 void
 e_auto_kill_popup_menu_on_selection_done (GtkMenu *menu)

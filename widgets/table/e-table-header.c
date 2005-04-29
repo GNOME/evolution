@@ -23,13 +23,16 @@
  */
 
 #include <config.h>
+
 #include <string.h>
+
 #include <glib-object.h>
-#include <gtk/gtkimage.h>
-#include <gal/util/e-util.h>
-#include "e-table-header.h"
-#include "e-table-defines.h"
+#include <gtk/gtk.h>
+
 #include "gal/util/e-util.h"
+
+#include "e-table-defines.h"
+#include "e-table-header.h"
 
 /* The arguments we take */
 enum {

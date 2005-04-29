@@ -22,8 +22,11 @@
  */
 
 #include <config.h>
+
 #include <string.h>
-#include <gal/widgets/e-unicode.h>
+
+#include "gal/widgets/e-unicode.h"
+
 #include "e-completion-match.h"
 
 static void

@@ -7,19 +7,17 @@
  */
 
 #include <config.h>
+
 #include <string.h>
-#include "gal-a11y-e-text.h"
-#include "gal-a11y-e-text-factory.h"
-#include "gal-a11y-util.h"
-#include <atk/atkobject.h>
-#include <atk/atktable.h>
-#include <atk/atkcomponent.h>
-#include <atk/atkobjectfactory.h>
-#include <atk/atkregistry.h>
-#include <atk/atkgobjectaccessible.h>
+
+#include <gtk/gtk.h>
+
+#include "gal/a11y/gal-a11y-util.h"
 #include "gal/e-text/e-text.h"
 #include "gal/e-text/e-text-model-repos.h"
-#include <gtk/gtkmain.h>
+
+#include "gal-a11y-e-text.h"
+#include "gal-a11y-e-text-factory.h"
 
 #define CS_CLASS(a11y) (G_TYPE_INSTANCE_GET_CLASS ((a11y), C_TYPE_STREAM, GalA11yETextClass))
 static GObjectClass *parent_class;

@@ -22,13 +22,16 @@
  */
 
 #include <config.h>
-#include <gtk/gtksignal.h>
+
+#include <gtk/gtk.h>
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
+
+#include "gal/util/e-util.h"
+
 #include "e-table-group.h"
 #include "e-table-group-container.h"
 #include "e-table-group-leaf.h"
 #include "e-table-item.h"
-#include "gal/util/e-util.h"
 
 #define PARENT_TYPE gnome_canvas_group_get_type ()
 

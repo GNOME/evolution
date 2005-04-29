@@ -24,8 +24,11 @@
 #include <config.h>
 
 #include <gnome.h>
+
+#include "gal/util/e-i18n.h"
+#include "gal/util/e-util-private.h"
+
 #include "e-entry.h"
-#include <gal/util/e-i18n.h>
 
 static void destroy_callback(gpointer data, GObject *where_object_was)
 {
@@ -57,7 +60,7 @@ int main( int argc, char *argv[] )
   GtkWidget *app;
   GtkWidget *entry;
 
-  /*  bindtextdomain (PACKAGE, GNOMELOCALEDIR);
+  /*  bindtextdomain (PACKAGE, GAL_LOCALEDIR);
       textdomain (PACKAGE);*/
 
   gnome_init( "EEntry Test", VERSION, argc, argv);

@@ -25,17 +25,17 @@
 #include <config.h>
 
 #include <stdio.h>
-#include <errno.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
 
+#include <gtk/gtk.h>
 #include <libxml/parser.h>
 #include <libxml/xmlmemory.h>
 
-#include <gtk/gtksignal.h>
 #include "gal/util/e-util.h"
 #include "gal/util/e-xml-utils.h"
+
 #include "e-tree-model.h"
 
 #define ETM_CLASS(e) (E_TREE_MODEL_GET_CLASS(e))

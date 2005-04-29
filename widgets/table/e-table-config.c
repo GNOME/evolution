@@ -29,24 +29,22 @@
 
 #include <config.h>
 
-#include "e-table-config.h"
-
 #include <stdlib.h>
 #include <string.h>
-#include <gtk/gtkdialog.h>
-#include <gtk/gtkentry.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtktogglebutton.h>
+
+#include <gtk/gtk.h>
 #include <libgnomeui/gnome-propertybox.h>
 #include <glade/glade.h>
-#include "gal/util/e-util.h"
+
 #include "gal/util/e-i18n.h"
+#include "gal/util/e-util-private.h"
+#include "gal/util/e-util.h"
 #include "gal/widgets/e-unicode.h"
 
-#include <e-table-scrolled.h>
-#include <e-table-without.h>
-#include <e-table-memory-store.h>
-
+#include "e-table-config.h"
+#include "e-table-memory-store.h"
+#include "e-table-scrolled.h"
+#include "e-table-without.h"
 
 static GObjectClass *config_parent_class;
 
@@ -1079,9 +1077,19 @@ setup_gui (ETableConfig *config)
 	create_global_store (config);
 
 	if (e_table_sort_info_get_can_group (config->state->sort_info)) {
-		gui = glade_xml_new (ETABLE_GLADEDIR "/e-table-config.glade", NULL, E_I18N_DOMAIN);
+		gchar *filename =
+			g_build_filename (GAL_GLADEDIR,
+					  "e-table-config.glade",
+					  NULL);
+		gui = glade_xml_new (filename, NULL, E_I18N_DOMAIN);
+		g_free (filename);
 	} else {
-		gui = glade_xml_new (ETABLE_GLADEDIR "/e-table-config-no-group.glade", NULL, E_I18N_DOMAIN);
+		gchar *filename =
+			g_build_filename (GAL_GLADEDIR,
+					  "e-table-config-no-group.glade",
+					  NULL);
+		gui = glade_xml_new (filename, NULL, E_I18N_DOMAIN);
+		g_free (filename);
 	}
 
 	g_object_unref (global_store);

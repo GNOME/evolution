@@ -22,7 +22,9 @@
  */
 
 #include <config.h>
-#include <gal/util/e-util.h>
+
+#include "gal/util/e-util.h"
+
 #include "e-selection-model-array.h"
 #include "e-selection-model-simple.h"
 

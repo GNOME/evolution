@@ -22,10 +22,13 @@
  */
 
 #include <config.h>
-#include <gtk/gtksignal.h>
-#include "e-selection-model-array.h"
+
+#include <gtk/gtk.h>
+
 #include "gal/util/e-i18n.h"
 #include "gal/util/e-util.h"
+
+#include "e-selection-model-array.h"
 
 #define PARENT_TYPE e_selection_model_get_type ()
 

@@ -23,16 +23,15 @@
 
 #include <config.h>
 
-#include "gal-view-instance-save-as-dialog.h"
+#include <gtk/gtk.h>
+
+#include "gal/e-table/e-table-scrolled.h"
+#include "gal/util/e-i18n.h"
+#include "gal/util/e-util-private.h"
 
 #include "gal-define-views-model.h"
+#include "gal-view-instance-save-as-dialog.h"
 #include "gal-view-new-dialog.h"
-#include <gal/e-table/e-table-scrolled.h>
-#include <gal/util/e-i18n.h>
-#include <gtk/gtkentry.h>
-#include <gtk/gtktogglebutton.h>
-#include <gtk/gtkbox.h>
-#include <gtk/gtkstock.h>
 
 static GtkDialogClass *parent_class = NULL;
 #define PARENT_TYPE GTK_TYPE_DIALOG
@@ -192,10 +191,14 @@ gal_view_instance_save_as_dialog_init (GalViewInstanceSaveAsDialog *dialog)
 	GladeXML *gui;
 	GtkWidget *widget;
 	GtkWidget *table;
+	gchar *filename = g_build_filename (GAL_GLADEDIR,
+					    "gal-view-instance-save-as-dialog.glade",
+					    NULL);
 
 	dialog->instance = NULL;
 
-	gui = glade_xml_new_with_domain (GAL_GLADEDIR "/gal-view-instance-save-as-dialog.glade", NULL, E_I18N_DOMAIN);
+	gui = glade_xml_new_with_domain (filename , NULL, E_I18N_DOMAIN);
+	g_free (filename);
 	dialog->gui = gui;
 
 	widget = glade_xml_get_widget(gui, "vbox-top");

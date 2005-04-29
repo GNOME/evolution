@@ -23,8 +23,10 @@
  */
 
 #include <config.h>
-#include "e-table-simple.h"
+
 #include "gal/util/e-util.h"
+
+#include "e-table-simple.h"
 
 static int
 simple_column_count (ETableModel *etm)

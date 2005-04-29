@@ -7,6 +7,7 @@
  */
 
 #include <config.h>
+
 #include "gal-a11y-util.h"
 
 GType

@@ -22,8 +22,10 @@
  */
 
 #include <config.h>
-#include "gal-view.h"
+
 #include "gal/util/e-util.h"
+
+#include "gal-view.h"
 
 #define PARENT_TYPE G_TYPE_OBJECT
 

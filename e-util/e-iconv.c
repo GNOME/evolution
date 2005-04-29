@@ -22,25 +22,21 @@
  * 02111-1307, USA.
  */
 
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
-
-#include <glib.h>
-#include "e-iconv.h"
-
 #include <locale.h>
-
 #ifdef HAVE_CODESET
 #include <langinfo.h>
 #endif
 
+#include <glib.h>
+
 #include "iconv-detect.h"
+#include "e-iconv.h"
 
 #define cd(x) 
 
@@ -289,7 +285,11 @@ e_iconv_init(int keep)
 	iconv_cache = g_hash_table_new(g_str_hash, g_str_equal);
 	iconv_cache_open = g_hash_table_new(NULL, NULL);
 	
+#ifndef G_OS_WIN32
 	locale = setlocale (LC_ALL, NULL);
+#else
+	locale = g_win32_getlocale ();
+#endif
 	
 	if (!locale || !strcmp (locale, "C") || !strcmp (locale, "POSIX")) {
 		/* The locale "C"  or  "POSIX"  is  a  portable  locale;  its

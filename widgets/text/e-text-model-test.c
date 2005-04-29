@@ -22,11 +22,13 @@
  */
 
 #include <gnome.h>
-#include <gal/widgets/e-canvas.h>
+
+#include "gal/util/e-util.h"
+#include "gal/widgets/e-canvas.h"
+
 #include "e-text-model.h"
 #include "e-text-model-uri.h"
 #include "e-text.h"
-#include <gal/util/e-util.h>
 
 #if 0
 static void

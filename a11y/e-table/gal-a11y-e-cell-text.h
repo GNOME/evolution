@@ -12,7 +12,7 @@
 #include <glib-object.h>
 #include <gal/e-table/e-table-item.h>
 #include <gal/e-table/e-cell-text.h>
-#include <a11y/e-table/gal-a11y-e-cell.h>
+#include <gal/a11y/e-table/gal-a11y-e-cell.h>
 
 #define GAL_A11Y_TYPE_E_CELL_TEXT            (gal_a11y_e_cell_text_get_type ())
 #define GAL_A11Y_E_CELL_TEXT(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GAL_A11Y_TYPE_E_CELL_TEXT, GalA11yECellText))

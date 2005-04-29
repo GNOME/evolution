@@ -22,15 +22,18 @@
  */
 
 #include <config.h>
-#include <gtk/gtksignal.h>
+
+#include <gtk/gtk.h>
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
-#include "e-table-group-leaf.h"
-#include "e-table-item.h"
-#include "e-table-sorted-variable.h"
-#include "e-table-sorted.h"
-#include "gal/util/e-util.h"
+
 #include "gal/util/e-i18n.h"
+#include "gal/util/e-util.h"
 #include "gal/widgets/e-canvas.h"
+
+#include "e-table-item.h"
+#include "e-table-group-leaf.h"
+#include "e-table-sorted.h"
+#include "e-table-sorted-variable.h"
 
 #define PARENT_TYPE e_table_group_get_type ()
 

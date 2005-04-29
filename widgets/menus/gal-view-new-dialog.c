@@ -22,14 +22,17 @@
  */
 
 #include <config.h>
+
 #include <gtk/gtk.h>
-#include <gtk/gtktreeselection.h>
-#include "gal-view-new-dialog.h"
+
+#include "gal/e-table/e-table-scrolled.h"
+#include "gal/util/e-i18n.h"
+#include "gal/util/e-util.h"
+#include "gal/util/e-util-private.h"
+#include "gal/widgets/e-unicode.h"
+
 #include "gal-define-views-model.h"
-#include <gal/widgets/e-unicode.h>
-#include <gal/e-table/e-table-scrolled.h>
-#include <gal/util/e-i18n.h>
-#include <gal/util/e-util.h>
+#include "gal-view-new-dialog.h"
 
 static void gal_view_new_dialog_init		(GalViewNewDialog		 *card);
 static void gal_view_new_dialog_class_init	(GalViewNewDialogClass	 *klass);
@@ -85,8 +88,12 @@ gal_view_new_dialog_init (GalViewNewDialog *dialog)
 {
 	GladeXML *gui;
 	GtkWidget *widget;
+	gchar *filename = g_build_filename (GAL_GLADEDIR,
+					    "gal-view-new-dialog.glade",
+					    NULL);
 
-	gui = glade_xml_new (GAL_GLADEDIR "/gal-view-new-dialog.glade", NULL, E_I18N_DOMAIN);
+	gui = glade_xml_new (filename, NULL, E_I18N_DOMAIN);
+	g_free (filename);
 	dialog->gui = gui;
 
 	widget = glade_xml_get_widget(gui, "table-top");

@@ -26,10 +26,7 @@
 
 /* FIXME: Overall e-tree-sorted.c needs to be made more efficient. */
 
-
 #include <config.h>
-
-#include "e-tree-sorted.h"
 
 #include <stdio.h>
 #include <errno.h>
@@ -43,7 +40,9 @@
 
 #include "gal/util/e-util.h"
 #include "gal/util/e-xml-utils.h"
+
 #include "e-table-sorting-utils.h"
+#include "e-tree-sorted.h"
 
 /* maximum insertions between an idle event that we will do without scheduling an idle sort */
 #define ETS_INSERT_MAX (4)

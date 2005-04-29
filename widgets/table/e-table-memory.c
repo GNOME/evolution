@@ -23,20 +23,20 @@
 
 #include <config.h>
 
-#include "e-table-memory.h"
-
 #include <stdio.h>
 #include <errno.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <string.h>
 
 #include <libxml/parser.h>
 #include <libxml/xmlmemory.h>
 
 #include "gal/util/e-util.h"
 #include "gal/util/e-xml-utils.h"
-#include <string.h>
+
+#include "e-table-memory.h"
 
 static ETableModel *parent_class;
 

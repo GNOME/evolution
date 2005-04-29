@@ -25,19 +25,13 @@
  */
 
 #include <config.h>
-#include <gtk/gtkhbox.h>
-#include <gtk/gtktogglebutton.h>
-#include <gtk/gtkarrow.h>
-#include <gtk/gtkeventbox.h>
-#include <gtk/gtkmain.h>
-#include <gtk/gtksignal.h>
-#include <gtk/gtkwindow.h>
-#include <gtk/gtkframe.h>
-#include <gtk/gtkvbox.h>
-#include <gtk/gtktearoffmenuitem.h>
+
 #include <gdk/gdkkeysyms.h>
-#include "gal-combo-box.h"
+#include <gtk/gtk.h>
+
 #include "gal/util/e-util.h"
+
+#include "gal-combo-box.h"
 
 #define PARENT_TYPE GTK_TYPE_HBOX
 static GObjectClass *gal_combo_box_parent_class;

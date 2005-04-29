@@ -22,14 +22,18 @@
  */
 
 #include <config.h>
+
 #include <math.h>
+
 #include <gdk/gdkkeysyms.h>
-#include <gtk/gtksignal.h>
-#include "e-canvas-vbox.h"
-#include "e-canvas-utils.h"
-#include "e-canvas.h"
-#include "gal/util/e-util.h"
+#include <gtk/gtk.h>
+
 #include "gal/util/e-i18n.h"
+#include "gal/util/e-util.h"
+
+#include "e-canvas.h"
+#include "e-canvas-utils.h"
+#include "e-canvas-vbox.h"
 
 static void e_canvas_vbox_init		(ECanvasVbox		 *CanvasVbox);
 static void e_canvas_vbox_class_init	(ECanvasVboxClass	 *klass);

@@ -21,12 +21,13 @@
  */
 
 #include <config.h>
+
 #include <ctype.h>
-#include <gal/util/e-util.h>
-#include <gtk/gtksignal.h>
-#include <gtk/gtkentry.h>
-#include <gtk/gtklist.h>
-#include <gtk/gtkscrolledwindow.h>
+
+#include <gtk/gtk.h>
+
+#include "gal/util/e-util.h"
+
 #include "gal-combo-text.h"
 
 #define PARENT_TYPE GAL_COMBO_BOX_TYPE

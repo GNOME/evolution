@@ -22,9 +22,11 @@
  */
 
 #include <config.h>
-#include <gtk/gtksignal.h>
+
+#include <gtk/gtk.h>
+
 #include "e-bit-array.h"
-#include "gal/util/e-util.h"
+#include "e-util.h"
 
 #define PARENT_TYPE G_TYPE_OBJECT
 

@@ -22,17 +22,23 @@
 
 #include <config.h>
 
-#include "e-cell-date.h"
-
 #include <sys/time.h>
 #include <time.h>
 #include <unistd.h>
 #include <string.h>
-#include <gal/util/e-util.h>
-#include <gal/widgets/e-unicode.h>
-#include <gal/util/e-i18n.h>
+
+#include "gal/util/e-i18n.h"
+#include "gal/util/e-util.h"
+#include "gal/widgets/e-unicode.h"
+
+#include "e-cell-date.h"
 
 #define PARENT_TYPE e_cell_text_get_type ()
+
+#ifdef G_OS_WIN32
+/* The localtime() in Microsoft's C library *is* thread-safe */
+#define localtime_r(timep, result)  (localtime (timep) ? memcpy ((result), localtime (timep), sizeof (*(result))) : 0)
+#endif
 
 static ECellTextClass *parent_class;
 

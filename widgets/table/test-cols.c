@@ -22,13 +22,17 @@
  */
 
 #include <config.h>
+
 #include <stdio.h>
 #include <string.h>
+
 #include <gnome.h>
+
 #include "gal/widgets/e-canvas-utils.h"
 #include "gal/widgets/e-canvas.h"
 #include "gal/widgets/e-cursors.h"
 #include "gal/util/e-util.h"
+
 #include "e-table-simple.h"
 #include "e-table-header.h"
 #include "e-table-header-item.h"

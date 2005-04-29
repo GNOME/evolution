@@ -24,14 +24,16 @@
  */
 
 #include <config.h>
-#include <gal/e-table/e-cell-popup.h>
+
+#include <gdk/gdkkeysyms.h>
+#include <gtk/gtk.h>
+
+#include "gal/a11y/gal-a11y-util.h"
+#include "gal/e-table/e-cell-popup.h"
+#include "gal/util/e-i18n.h"
+
 #include "gal-a11y-e-cell-popup.h"
 #include "gal-a11y-e-cell-registry.h"
-#include "gal-a11y-util.h"
-#include <atk/atkobject.h>
-#include <gdk/gdkkeysyms.h>
-#include <gtk/gtkwidget.h>
-#include <glib/gi18n.h>
 
 static AtkObjectClass *parent_class = NULL;
 #define PARENT_TYPE (gal_a11y_e_cell_get_type ())

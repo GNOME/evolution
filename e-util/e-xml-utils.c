@@ -21,12 +21,7 @@
  * 02111-1307, USA.
  */
 
-
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
-
-#include "e-xml-utils.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -39,11 +34,19 @@
 #include <errno.h>
 #include <math.h>
 #include <string.h>
+
+#include <glib.h>
+#include <glib/gstdio.h>
 #include <libxml/parser.h>
 #include <libxml/xmlmemory.h>
 
-#include "gal/util/e-i18n.h"
-#include "gal/util/e-util.h"
+#include "e-i18n.h"
+#include "e-util.h"
+#include "e-xml-utils.h"
+
+#ifdef G_OS_WIN32
+#define fsync(fd) 0		/* No fsync() in Microsoft's C library */
+#endif
 
 xmlNode *
 e_xml_get_child_by_name (const xmlNode *parent, const xmlChar *child_name)
@@ -440,27 +443,34 @@ e_xml_get_translated_string_prop_by_name (const xmlNode *parent, const xmlChar *
 int
 e_xml_save_file (const char *filename, xmlDocPtr doc)
 {
-	char *filesave, *slash, *xmlbuf;
+	char *filesave, *xmlbuf;
 	size_t n, written = 0;
 	int ret, fd, size;
 	int errnosave;
 	ssize_t w;
 	
-	filesave = alloca (strlen (filename) + 5);
-	slash = strrchr (filename, '/');
-	if (slash)
-		sprintf (filesave, "%.*s.#%s", slash - filename + 1, filename, slash + 1);
-	else
-		sprintf (filesave, ".#%s", filename);
+	{
+		gchar *dirname = g_path_get_dirname (filename);
+		gchar *basename = g_path_get_basename (filename);
+		gchar *savebasename = g_strconcat (".#", basename);
+
+		g_free (basename);
+		filesave = g_build_filename (dirname, savebasename, NULL);
+		g_free (savebasename);
+		g_free (dirname);
+	}
 	
-	fd = open (filesave, O_WRONLY | O_CREAT | O_TRUNC, 0600);
-	if (fd == -1)
+	fd = g_open (filesave, O_WRONLY | O_CREAT | O_TRUNC, 0600);
+	if (fd == -1) {
+		g_free (filesave);
 		return -1;
+	}
 	
 	xmlDocDumpFormatMemory (doc, (xmlChar **) &xmlbuf, &size, TRUE);
 	if (size <= 0) {
 		close (fd);
-		unlink (filesave);
+		g_unlink (filesave);
+		g_free (filesave);
 		errno = ENOMEM;
 		return -1;
 	}
@@ -480,7 +490,8 @@ e_xml_save_file (const char *filename, xmlDocPtr doc)
 	if (written < n || fsync (fd) == -1) {
 		errnosave = errno;
 		close (fd);
-		unlink (filesave);
+		g_unlink (filesave);
+		g_free (filesave);
 		errno = errnosave;
 		return -1;
 	}
@@ -488,15 +499,19 @@ e_xml_save_file (const char *filename, xmlDocPtr doc)
 	while ((ret = close (fd)) == -1 && errno == EINTR)
 		;
 	
-	if (ret == -1)
+	if (ret == -1) {
+		g_free (filesave);
 		return -1;
+	}
 	
-	if (rename (filesave, filename) == -1) {
+	if (g_rename (filesave, filename) == -1) {
 		errnosave = errno;
-		unlink (filesave);
+		g_unlink (filesave);
+		g_free (filesave);
 		errno = errnosave;
 		return -1;
 	}
+	g_free (filesave);
 	
 	return 0;
 }

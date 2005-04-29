@@ -22,7 +22,9 @@
  */
 
 #include <config.h>
+
 #include "gal/util/e-util.h"
+
 #include "e-tree-simple.h"
 
 static int

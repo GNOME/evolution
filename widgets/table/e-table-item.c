@@ -28,27 +28,25 @@
  */
 #include <config.h>
 
-#include "e-table-item.h"
-
-#include <X11/Xlib.h>
-
 #include <math.h>
 #include <stdio.h>
-#include <gtk/gtksignal.h>
-#include <gtk/gtkmain.h>
-#include <gdk/gdkkeysyms.h>
-#include "e-table-subset.h"
-#include "e-cell.h"
-#include "gal/a11y/e-table/gal-a11y-e-table-item-factory.h"
-#include "gal/widgets/e-hsv-utils.h"
-#include "gal/widgets/e-canvas.h"
-#include "gal/widgets/e-canvas-utils.h"
-#include "gal/util/e-util.h"
-#include "gal/a11y/e-table/gal-a11y-e-table-item.h"
-#include "gal/util/e-i18n.h"
 #include <string.h>
 #include <stdlib.h>
-#include <atk/atk.h>
+
+#include <gtk/gtk.h>
+#include <gdk/gdkkeysyms.h>
+
+#include "gal/a11y/e-table/gal-a11y-e-table-item-factory.h"
+#include "gal/a11y/e-table/gal-a11y-e-table-item.h"
+#include "gal/util/e-i18n.h"
+#include "gal/util/e-util.h"
+#include "gal/widgets/e-canvas.h"
+#include "gal/widgets/e-canvas-utils.h"
+#include "gal/widgets/e-hsv-utils.h"
+
+#include "e-cell.h"
+#include "e-table-item.h"
+#include "e-table-subset.h"
 
 #define PARENT_OBJECT_TYPE gnome_canvas_item_get_type ()
 
@@ -202,7 +200,7 @@ eti_grab (ETableItem *eti, guint32 time)
 				       | GDK_POINTER_MOTION_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK,
 				       NULL, time,
 				       grab_cancelled,
-				       eti) != GrabSuccess) {
+				       eti) != GDK_GRAB_SUCCESS) {
 			d(g_print ("%s: gtk_grab_add\n", __FUNCTION__));
 			gtk_grab_add (GTK_WIDGET (item->canvas));
 			eti->gtk_grabbed = TRUE;

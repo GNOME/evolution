@@ -7,15 +7,17 @@
  */
 
 #include <config.h>
+
+#include "gal/a11y/gal-a11y-util.h"
+#include "gal/e-table/e-table.h"
+#include "gal/e-table/e-table-click-to-add.h"
+#include "gal/e-table/e-table-group.h"
+#include "gal/e-table/e-table-group-container.h"
+#include "gal/e-table/e-table-group-leaf.h"
+
 #include "gal-a11y-e-table.h"
 #include "gal-a11y-e-table-factory.h"
 #include "gal-a11y-e-table-item.h"
-#include "gal-a11y-util.h"
-#include <gal/e-table/e-table.h>
-#include <gal/e-table/e-table-group.h>
-#include <gal/e-table/e-table-group-container.h>
-#include <gal/e-table/e-table-group-leaf.h>
-#include <gal/e-table/e-table-click-to-add.h>
 
 #define CS_CLASS(a11y) (G_TYPE_INSTANCE_GET_CLASS ((a11y), C_TYPE_STREAM, GalA11yETableClass))
 static AtkObjectClass *parent_class;

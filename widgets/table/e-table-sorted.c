@@ -22,9 +22,12 @@
  */
 
 #include <config.h>
+
 #include <stdlib.h>
 #include <string.h>
+
 #include "gal/util/e-util.h"
+
 #include "e-table-sorted.h"
 #include "e-table-sorting-utils.h"
 

@@ -22,8 +22,10 @@
  */
 
 #include <config.h>
-#include "e-reflow-model.h"
+
 #include "gal/util/e-util.h"
+
+#include "e-reflow-model.h"
 
 #define PARENT_TYPE G_TYPE_OBJECT
 

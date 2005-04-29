@@ -22,10 +22,13 @@
  */
 
 #include <config.h>
+
 #include <glib-object.h>
-#include "e-table-model.h"
-#include "gal/util/e-util.h"
+
 #include "gal/util/e-marshal.h"
+#include "gal/util/e-util.h"
+
+#include "e-table-model.h"
 
 #define ETM_CLASS(e) (E_TABLE_MODEL_GET_CLASS (e))
 #define ETM_FROZEN(e) (GPOINTER_TO_INT (g_object_get_data (G_OBJECT(e), "frozen")) != 0)

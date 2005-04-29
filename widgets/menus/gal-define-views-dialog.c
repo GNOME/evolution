@@ -23,14 +23,16 @@
 
 #include <config.h>
 
-#include "gal-define-views-dialog.h"
-
 #include <gtk/gtk.h>
+
+#include "gal/e-table/e-table-scrolled.h"
+#include "gal/util/e-i18n.h"
+#include "gal/util/e-util.h"
+#include "gal/util/e-util-private.h"
+
+#include "gal-define-views-dialog.h"
 #include "gal-define-views-model.h"
 #include "gal-view-new-dialog.h"
-#include <gal/e-table/e-table-scrolled.h>
-#include <gal/util/e-i18n.h>
-#include <gal/util/e-util.h>
 
 static void gal_define_views_dialog_init	 (GalDefineViewsDialog		 *card);
 static void gal_define_views_dialog_class_init	 (GalDefineViewsDialogClass	 *klass);
@@ -242,10 +244,14 @@ gal_define_views_dialog_init (GalDefineViewsDialog *dialog)
 	GladeXML *gui;
 	GtkWidget *widget;
 	GtkWidget *etable;
+	gchar *filename = g_build_filename (GAL_GLADEDIR,
+					    "gal-define-views.glade",
+					    NULL);
 
 	dialog->collection = NULL;
 
-	gui = glade_xml_new (GAL_GLADEDIR "/gal-define-views.glade", NULL, E_I18N_DOMAIN);
+	gui = glade_xml_new (filename, NULL, E_I18N_DOMAIN);
+	g_free (filename);
 	dialog->gui = gui;
 
 	widget = glade_xml_get_widget(gui, "table-top");

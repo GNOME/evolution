@@ -5,13 +5,15 @@
  */
 
 #include <config.h>
-#include "gal-a11y-e-table-click-to-add-factory.h"
-#include "gal-a11y-e-table-click-to-add.h"
-#include "gal-a11y-e-table.h"
-#include <gal/e-table/e-table.h>
-#include <gal/e-table/e-table-click-to-add.h>
+
 #include <atk/atk.h>
 
+#include "gal/e-table/e-table.h"
+#include "gal/e-table/e-table-click-to-add.h"
+
+#include "gal-a11y-e-table.h"
+#include "gal-a11y-e-table-click-to-add.h"
+#include "gal-a11y-e-table-click-to-add-factory.h"
 
 #define CS_CLASS(factory) (G_TYPE_INSTANCE_GET_CLASS ((factory), C_TYPE_STREAM, GalA11yETableClickToAddFactoryClass))
 static AtkObjectFactoryClass *parent_class;

@@ -21,10 +21,15 @@
  * 02111-1307, USA.
  */
 
+#include <config.h>
+
 #include <stdio.h>
+
 #include <libgnomecanvas/gnome-canvas.h>
+
+#include "gal/util/e-i18n.h"
+
 #include "e-cell-pixbuf.h"
-#include <gal/util/e-i18n.h>
 
 #define PARENT_TYPE E_CELL_TYPE
 static ECellClass *parent_class;

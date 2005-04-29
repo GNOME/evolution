@@ -23,18 +23,20 @@
 
 #include <config.h>
 
-#include "e-canvas-background.h"
-
 #include <math.h>
 #include <stdio.h>
-#include <gtk/gtksignal.h>
+#include <string.h>
+
 #include <gdk/gdkkeysyms.h>
-#include "gal/widgets/e-hsv-utils.h"
+#include <gtk/gtk.h>
+
+#include "gal/util/e-i18n.h"
+#include "gal/util/e-util.h"
 #include "gal/widgets/e-canvas.h"
 #include "gal/widgets/e-canvas-utils.h"
-#include "gal/util/e-util.h"
-#include "gal/util/e-i18n.h"
-#include <string.h>
+#include "gal/widgets/e-hsv-utils.h"
+
+#include "e-canvas-background.h"
 
 #define PARENT_OBJECT_TYPE gnome_canvas_item_get_type ()
 

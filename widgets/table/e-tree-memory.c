@@ -35,6 +35,7 @@
 
 #include "gal/util/e-util.h"
 #include "gal/util/e-xml-utils.h"
+
 #include "e-tree-memory.h"
 
 #define TREEPATH_CHUNK_AREA_SIZE (30 * sizeof (ETreeMemoryPath))

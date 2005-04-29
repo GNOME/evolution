@@ -19,10 +19,14 @@
  * Author: Eric Zhao <eric.zhao@sun.com> Sun Microsystem Inc., 2004
  *
  */
-#include "gal-a11y-e-cell-vbox.h"
+#include <config.h>
+
+#include <atk/atk.h>
+
+#include "gal/e-table/e-cell-vbox.h"
+
 #include "gal-a11y-e-cell-registry.h"
-#include <gal/e-table/e-cell-vbox.h>
-#include <atk/atkcomponent.h>
+#include "gal-a11y-e-cell-vbox.h"
 
 static GObjectClass *parent_class;
 static AtkComponentIface *component_parent_iface;

@@ -5,8 +5,9 @@
  */
 
 #include <config.h>
-#include "gal-a11y-e-tree-factory.h"
+
 #include "gal-a11y-e-tree.h"
+#include "gal-a11y-e-tree-factory.h"
 
 #define CS_CLASS(factory) (G_TYPE_INSTANCE_GET_CLASS ((factory), C_TYPE_STREAM, GalA11yETreeFactoryClass))
 static AtkObjectFactoryClass *parent_class;

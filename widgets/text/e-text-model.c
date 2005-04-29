@@ -24,13 +24,16 @@
 #undef  PARANOID_DEBUGGING
 
 #include <config.h>
+
 #include <ctype.h>
 #include <string.h>
-#include <gtk/gtksignal.h>
-#include <gal/util/e-util.h>
-#include "e-text-model-repos.h"
-#include "e-text-model.h"
+
+#include <gtk/gtk.h>
+
 #include "gal/util/e-util.h"
+
+#include "e-text-model.h"
+#include "e-text-model-repos.h"
 
 enum {
 	E_TEXT_MODEL_CHANGED,

@@ -22,10 +22,13 @@
  */
 
 #include <config.h>
-#include "e-table-field-chooser-dialog.h"
+
+#include <gtk/gtk.h>
+
 #include "gal/util/e-i18n.h"
 #include "gal/util/e-util.h"
-#include <gtk/gtkstock.h>
+
+#include "e-table-field-chooser-dialog.h"
 
 static void e_table_field_chooser_dialog_init		(ETableFieldChooserDialog		 *card);
 static void e_table_field_chooser_dialog_class_init	(ETableFieldChooserDialogClass	 *klass);

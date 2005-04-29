@@ -22,10 +22,12 @@
  */
 
 #include <config.h>
+
 #include "gal/util/e-i18n.h"
 #include "gal/util/e-util.h"
-#include "gal-view-factory-etable.h"
+
 #include "gal-view-etable.h"
+#include "gal-view-factory-etable.h"
 
 #define PARENT_TYPE GAL_VIEW_FACTORY_TYPE
 

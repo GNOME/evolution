@@ -27,16 +27,16 @@
  * 02111-1307, USA.
  */
 
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
 
-#include <gtk/gtksignal.h>
-#include <gal/e-table/e-table-item.h>
-#include <gal/e-table/e-table-model.h>
-#include <gal/e-table/e-cell-float.h>
-#include <gal/e-table/e-cell-number.h>
-#include <gal/util/e-util.h>
+#include <gtk/gtk.h>
+
+#include "gal/e-table/e-cell-float.h"
+#include "gal/e-table/e-cell-number.h"
+#include "gal/e-table/e-table-item.h"
+#include "gal/e-table/e-table-model.h"
+#include "gal/util/e-util.h"
+
 #include "e-cell-spin-button.h"
 
 #define E_CELL_SPIN_BUTTON_ARROW_WIDTH  16

@@ -23,16 +23,19 @@
 
 #include <config.h>
 
-#include <util/e-i18n.h>
-#include <sys/stat.h>
 #include <ctype.h>
 #include <string.h>
 #include <errno.h>
+
+#include <glib.h>
 #include <libxml/parser.h>
 #include <libgnome/gnome-util.h>
-#include <gal/util/e-util.h>
-#include <gal/util/e-xml-utils.h>
-#include <gal/widgets/e-unicode.h>
+
+#include "gal/util/e-i18n.h"
+#include "gal/util/e-util.h"
+#include "gal/util/e-xml-utils.h"
+#include "gal/widgets/e-unicode.h"
+
 #include "gal-view-collection.h"
 
 #define PARENT_TYPE G_TYPE_OBJECT
@@ -392,10 +395,17 @@ load_single_dir (GalViewCollection *collection,
 	xmlNode *child;
 	char *filename = g_concat_dir_and_file(dir, "galview.xml");
 	char *default_view;
-	struct stat st;
 	
-	if (stat (filename, &st) != -1 && S_ISREG (st.st_mode))
+	if (g_file_test (filename, G_FILE_TEST_IS_REGULAR)) {
+#ifdef G_OS_WIN32
+		gchar *locale_filename = gnome_win32_locale_filename_from_utf8 (filename);
+		if (locale_filename != NULL)
+			doc = xmlParseFile (locale_filename);
+		g_free (locale_filename);
+#else
 		doc = xmlParseFile (filename);
+#endif
+	}
 	
 	if (!doc) {
 		g_free (filename);

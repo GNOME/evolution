@@ -1,9 +1,10 @@
 #include <gtk/gtk.h>
+
+#include "gal/e-table/e-cell-toggle.h"
+#include "gal/e-table/e-table-model.h"
+#include "gal/util/e-i18n.h"
+
 #include "gal-a11y-e-cell-toggle.h"
-#include <gal/e-table/e-cell-toggle.h>
-#include <gal/e-table/e-table-model.h>
-#include <atk/atkcomponent.h>
-#include <glib/gi18n.h>
 
 #define PARENT_TYPE  (gal_a11y_e_cell_get_type ())
 static GObjectClass *parent_class;

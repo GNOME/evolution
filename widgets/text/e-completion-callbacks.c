@@ -22,10 +22,14 @@
  */
 
 #include <config.h>
+
 #include <string.h>
 #include <stdio.h>
+
 #include <gtk/gtk.h>
+
 #include "gal/util/e-util.h"
+
 #include "e-completion-callbacks.h"
 
 static void e_completion_callbacks_class_init (ECompletionCallbacksClass *klass);

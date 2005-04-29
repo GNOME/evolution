@@ -23,20 +23,17 @@
  * 02111-1307, USA.
  */
 
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
-
-#include "e-table-header-utils.h"
 
 #include <string.h> /* strlen() */
 #include <glib.h>
-#include <gtk/gtkbutton.h>
-#include <gtk/gtkwindow.h>
-#include "e-table-defines.h"
-#include <gal/widgets/e-unicode.h>
 
-
+#include <gtk/gtk.h>
+
+#include "gal/widgets/e-unicode.h"
+
+#include "e-table-defines.h"
+#include "e-table-header-utils.h"
 
 static PangoLayout*
 build_header_layout (GtkWidget *widget, const char *str)

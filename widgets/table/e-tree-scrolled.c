@@ -22,16 +22,18 @@
  */
 
 #include <config.h>
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <stdio.h>
+
 #include <libgnomecanvas/gnome-canvas.h>
-#include <gtk/gtksignal.h>
+#include <gtk/gtk.h>
 #include <libxml/parser.h>
 #include <libxml/xmlmemory.h>
-#include <gal/util/e-util.h>
-#include <gal/util/e-i18n.h>
+
+#include "gal/util/e-i18n.h"
+#include "gal/util/e-util.h"
 
 #include "e-tree-scrolled.h"
 

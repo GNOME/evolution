@@ -23,8 +23,10 @@
  */
 
 #include <config.h>
-#include "e-cell.h"
+
 #include "gal/util/e-util.h"
+
+#include "e-cell.h"
 
 #define PARENT_TYPE GTK_TYPE_OBJECT
 

@@ -22,8 +22,11 @@
  */
 
 #include <config.h>
-#include <gtk/gtksignal.h>
+
+#include <gtk/gtk.h>
+
 #include "gal/util/e-util.h"
+
 #include "e-tree-memory-callbacks.h"
 
 #define PARENT_TYPE E_TREE_MEMORY_TYPE

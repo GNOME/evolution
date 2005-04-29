@@ -22,9 +22,12 @@
  */
 
 #include <config.h>
+
 #include <stdlib.h>
 #include <string.h>
+
 #include "gal/util/e-util.h"
+
 #include "e-table-without.h"
 
 #define PARENT_TYPE E_TABLE_SUBSET_TYPE

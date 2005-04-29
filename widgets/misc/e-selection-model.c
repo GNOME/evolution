@@ -22,10 +22,13 @@
  */
 
 #include <config.h>
+
 #include <gdk/gdkkeysyms.h>
-#include "e-selection-model.h"
+
 #include "gal/util/e-i18n.h"
 #include "gal/util/e-util.h"
+
+#include "e-selection-model.h"
 
 #define PARENT_TYPE G_TYPE_OBJECT
 

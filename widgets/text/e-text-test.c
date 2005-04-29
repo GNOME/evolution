@@ -21,10 +21,12 @@
  * 02111-1307, USA.
  */
 
-#include "e-text.h"
 #include <gnome.h>
+
 #include "gal/widgets/e-canvas.h"
 #include "gal/widgets/e-unicode.h"
+
+#include "e-text.h"
 
 GnomeCanvasItem *rect;
 

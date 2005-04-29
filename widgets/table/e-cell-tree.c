@@ -33,27 +33,23 @@
 #include <math.h>
 #include <stdio.h>
 
-#include <gdk/gdkx.h> /* for BlackPixel */
-#include <gtk/gtkenums.h>
-#include <gtk/gtkentry.h>
-#include <gtk/gtkwindow.h>
-#include <gtk/gtkinvisible.h>
-#include <gtk/gtksignal.h>
 #include <gdk/gdkkeysyms.h>
+#include <gtk/gtk.h>
 #include <libgnomecanvas/gnome-canvas.h>
 
-#include "e-tree-table-adapter.h"
+#include "gal/a11y/e-table/gal-a11y-e-cell-registry.h"
+#include "gal/a11y/e-table/gal-a11y-e-cell-tree.h"
+#include "gal/util/e-util.h"
+
+#include "e-cell-tree.h"
+#include "e-table-item.h"
 #include "e-tree.h"
 #include "e-tree-model.h"
-#include "gal/util/e-util.h"
-#include "e-table-item.h"
-#include "e-cell-tree.h"
+#include "e-tree-table-adapter.h"
 
 #include "tree-expanded.xpm"
 #include "tree-unexpanded.xpm"
 
-#include "gal/a11y/e-table/gal-a11y-e-cell-registry.h"
-#include "gal/a11y/e-table/gal-a11y-e-cell-tree.h"
 
 #define PARENT_TYPE e_cell_get_type ()
 
@@ -174,7 +170,9 @@ ect_realize (ECellView *ecell_view)
 	tree_view->gc = gdk_gc_new (GTK_WIDGET (tree_view->canvas)->window);
 
 	gdk_gc_set_line_attributes (tree_view->gc, 1, 
-				    GDK_LINE_ON_OFF_DASH, None, None);
+				    GDK_LINE_ON_OFF_DASH,
+				    GDK_CAP_NOT_LAST,
+				    GDK_JOIN_MITER);
 	gdk_gc_set_dashes (tree_view->gc, 0, "\1\1", 2);
 
 	if (parent_class->realize)

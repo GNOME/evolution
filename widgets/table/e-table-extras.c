@@ -22,18 +22,22 @@
  */
 
 #include <config.h>
+
 #include <stdlib.h>
-#include <gtk/gtksignal.h>
-#include "gal/util/e-util.h"
-#include "gal/e-table/e-cell-text.h"
-#include "gal/e-table/e-cell-checkbox.h"
-#include "gal/e-table/e-cell-date.h"
-#include "gal/e-table/e-cell-number.h"
-#include "gal/e-table/e-cell-pixbuf.h"
-#include "gal/e-table/e-cell-size.h"
-#include "gal/e-table/e-cell-tree.h"
-#include "e-table-extras.h"
 #include <string.h>
+
+#include <gtk/gtk.h>
+
+#include "gal/util/e-util.h"
+
+#include "e-cell-checkbox.h"
+#include "e-cell-date.h"
+#include "e-cell-number.h"
+#include "e-cell-pixbuf.h"
+#include "e-cell-size.h"
+#include "e-cell-text.h"
+#include "e-cell-tree.h"
+#include "e-table-extras.h"
 
 static GObjectClass *ete_parent_class;
 

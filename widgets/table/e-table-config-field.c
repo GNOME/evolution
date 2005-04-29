@@ -22,11 +22,14 @@
  */
 
 #include <config.h>
+
 #include <stdlib.h>
+
 #include <gtk/gtk.h>
-#include <gtk/gtkbox.h>
-#include "gal/util/e-util.h"
+
 #include "gal/util/e-i18n.h"
+#include "gal/util/e-util.h"
+
 #include "e-table-config-field.h"
 
 #define PARENT_TYPE (gtk_vbox_get_type())

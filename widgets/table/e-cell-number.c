@@ -21,10 +21,13 @@
  */
 
 #include <config.h>
+
 #include <sys/time.h>
 #include <unistd.h>
-#include <gal/util/e-util.h>
-#include <gal/util/e-i18n.h>
+
+#include "gal/util/e-i18n.h"
+#include "gal/util/e-util.h"
+
 #include "e-cell-number.h"
 
 #define PARENT_TYPE e_cell_text_get_type ()

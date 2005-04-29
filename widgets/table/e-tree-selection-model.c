@@ -23,11 +23,12 @@
  */
 
 #include <config.h>
+
+#include "gal/e-table/e-tree-table-adapter.h"
+#include "gal/util/e-i18n.h"
+#include "gal/util/e-util.h"
+
 #include "e-tree-selection-model.h"
-#include <gal/util/e-i18n.h>
-#include <gal/util/e-util.h>
-#include <gdk/gdkkeysyms.h>
-#include <gal/e-table/e-tree-table-adapter.h>
 
 #define PARENT_TYPE e_selection_model_get_type ()
 

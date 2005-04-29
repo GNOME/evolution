@@ -7,16 +7,16 @@
  */
 
 #include <config.h>
+
 #include <string.h>
+
+#include <atk/atk.h>
+
+#include "gal/a11y/gal-a11y-util.h"
+#include "gal/e-table/e-cell-text.h"
+#include "gal/util/e-i18n.h"
+
 #include "gal-a11y-e-cell-text.h"
-#include "gal-a11y-util.h"
-#include <gal/e-table/e-cell-text.h>
-#include <atk/atkobject.h>
-#include <atk/atktext.h>
-#include <atk/atkeditabletext.h>
-#include <atk/atkaction.h>
-#include <atk/atkstateset.h>
-#include <glib/gi18n.h>
 
 #define CS_CLASS(a11y) (G_TYPE_INSTANCE_GET_CLASS ((a11y), C_TYPE_STREAM, GalA11yECellTextClass))
 static AtkObjectClass *parent_class;

@@ -26,21 +26,17 @@
  * 02111-1307, USA.
  */
 
-
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
 
 #include <string.h>
 
-#include <gtk/gtkenums.h>
-#include <gtk/gtkentry.h>
-#include <gtk/gtkwindow.h>
-#include <gtk/gtksignal.h>
 #include <gdk/gdkkeysyms.h>
+#include <gtk/gtk.h>
 #include <libgnomecanvas/gnome-canvas.h>
-#include "e-cell-progress.h"
+
 #include "gal/util/e-util.h"
+
+#include "e-cell-progress.h"
 #include "e-table-item.h"
 
 #define PARENT_TYPE e_cell_get_type ()

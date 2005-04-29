@@ -22,11 +22,15 @@
  */
 
 #include <config.h>
+
 #include <stdlib.h>
+
 #include <libxml/parser.h>
 #include <libxml/xmlmemory.h>
-#include "gal/util/e-xml-utils.h"
+
 #include "gal/util/e-util.h"
+#include "gal/util/e-xml-utils.h"
+
 #include "e-table-column-specification.h"
 
 static GObjectClass *etcs_parent_class;

@@ -7,19 +7,19 @@
  */
 
 #include <config.h>
+
 #include <string.h>
+
+#include <gtk/gtk.h>
+
+#include "gal/a11y/gal-a11y-util.h"
 #include "gal/e-table/e-table.h"
 #include "gal/e-table/e-tree.h"
-#include "gal-a11y-e-table-item.h"
+#include "gal/util/e-i18n.h"
+
 #include "gal-a11y-e-cell.h"
 #include "gal-a11y-e-cell-vbox.h"
-#include "gal-a11y-util.h"
-#include <atk/atkobject.h>
-#include <atk/atkcomponent.h>
-#include <atk/atkaction.h>
-#include <atk/atkstateset.h>
-#include <gtk/gtkwindow.h>
-#include <glib/gi18n.h>
+#include "gal-a11y-e-table-item.h"
 
 #define CS_CLASS(a11y) (G_TYPE_INSTANCE_GET_CLASS ((a11y), C_TYPE_STREAM, GalA11yECellClass))
 static GObjectClass *parent_class;

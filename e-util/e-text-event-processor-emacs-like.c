@@ -21,10 +21,14 @@
  * 02111-1307, USA.
  */
 
+#include <config.h>
+
 #include <string.h>
+
 #include <gdk/gdkkeysyms.h>
-#include <gal/util/e-util.h>
+
 #include "e-text-event-processor-emacs-like.h"
+#include "e-util.h"
 
 static void e_text_event_processor_emacs_like_init		(ETextEventProcessorEmacsLike		 *card);
 static void e_text_event_processor_emacs_like_class_init	(ETextEventProcessorEmacsLikeClass	 *klass);

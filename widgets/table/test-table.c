@@ -22,11 +22,15 @@
  */
 
 #include <config.h>
+
 #include <stdio.h>
 #include <string.h>
+
 #include <gnome.h>
+
 #include "gal/widgets/e-cursors.h"
 #include "gal/widgets/e-canvas.h"
+
 #include "e-table-simple.h"
 #include "e-table-header.h"
 #include "e-table-header-item.h"
@@ -36,8 +40,6 @@
 #include "e-table-config.h"
 
 #include "table-test.h"
-
-
 
 char buffer [1024];
 char **column_labels;

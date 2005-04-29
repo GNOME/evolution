@@ -1,10 +1,10 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/*
- * table-test.c
- * Copyright 1999, 2000, 2001, Ximian, Inc.
+/* 
+ * e-util-private.h
+ * Copyright 2005, Novell, Inc.
  *
  * Authors:
- *   Miguel de Icaza (miguel@gnu.org)
+ *   Tor Lillqvist <tml@novell.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -21,46 +21,26 @@
  * 02111-1307, USA.
  */
 
-#include <config.h>
+#ifndef _E_UTIL_PRIVATE_H_
+#define _E_UTIL_PRIVATE_H_
 
-#include <stdio.h>
-#include <string.h>
-#include <fcntl.h>
+#include <glib.h>
 
-#include <gnome.h>
+#ifdef G_OS_WIN32
 
-#include "gal/widgets/e-cursors.h"
+const char *_gal_get_localedir (void) G_GNUC_CONST;
+const char *_gal_get_gladedir (void) G_GNUC_CONST;
+const char *_gal_get_imagesdir (void) G_GNUC_CONST;
 
-#include "table-test.h"
+#undef GAL_LOCALEDIR
+#define GAL_LOCALEDIR _gal_get_localedir ()
 
-int
-main (int argc, char *argv [])
-{
+#undef GAL_GLADEDIR
+#define GAL_GLADEDIR _gal_get_gladedir ()
 
-	if (isatty (0)){
-		int fd;
+#undef GAL_IMAGESDIR
+#define GAL_IMAGESDIR _gal_get_imagesdir ()
 
-		close (0);
-		fd = open ("sample.table", O_RDONLY);
-		if (fd == -1){
-			fprintf (stderr, "Could not find sample.table, try feeding a table on stdin");
-			exit (1);
-		}
-		dup2 (fd, 0);
-	}
+#endif	/* G_OS_WIN32 */
 
-	gnome_init ("TableTest", "TableTest", argc, argv);
-	e_cursors_init ();
-
-
-/*  	table_browser_test (); */
-/*  	multi_cols_test (); */
-/*  	check_test (); */
-
-	e_table_test ();
-
-	gtk_main ();
-
-	e_cursors_shutdown ();
-	return 0;
-}
+#endif	/* _E_UTIL_PRIVATE_H_ */

@@ -24,14 +24,16 @@
 
 #include <config.h>
 
-#include "e-completion-view.h"
-
 #include <math.h>
+
 #include <gdk/gdkkeysyms.h>
-#include <gal/e-table/e-table-simple.h>
-#include <gal/e-table/e-table-scrolled.h>
-#include <gal/util/e-i18n.h>
+
+#include "gal/e-table/e-table-scrolled.h"
+#include "gal/e-table/e-table-simple.h"
+#include "gal/util/e-i18n.h"
 #include "gal/util/e-marshal.h"
+
+#include "e-completion-view.h"
 
 enum {
 	E_COMPLETION_VIEW_NONEMPTY,

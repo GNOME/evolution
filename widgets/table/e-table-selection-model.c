@@ -22,13 +22,15 @@
  */
 
 #include <config.h>
-#include "e-table-selection-model.h"
 
 #include <string.h>
+
 #include <gdk/gdkkeysyms.h>
 
 #include "gal/util/e-i18n.h"
 #include "gal/util/e-util.h"
+
+#include "e-table-selection-model.h"
 
 #define PARENT_TYPE e_selection_model_array_get_type ()
 

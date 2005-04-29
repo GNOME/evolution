@@ -23,14 +23,16 @@
 
 #include <config.h>
 
-#include "e-text-model-uri.h"
-
 #include <ctype.h>
 #include <sys/types.h>
 #include <regex.h>
+
 #include <gtk/gtkmain.h>
 #include <libgnome/gnome-url.h>
-#include <gal/util/e-util.h>
+
+#include "gal/util/e-util.h"
+
+#include "e-text-model-uri.h"
 
 static void e_text_model_uri_class_init (ETextModelURIClass *class);
 static void e_text_model_uri_init (ETextModelURI *model);

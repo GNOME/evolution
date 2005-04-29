@@ -21,11 +21,15 @@
  */
 
 #include <config.h>
-#include <gal/util/e-i18n.h>
+
 #include <gnome.h>
-#include "widget-color-combo.h"
+
+#include "gal/util/e-i18n.h"
+
 #include "color-palette.h"
 #include "e-colors.h"
+#include "widget-color-combo.h"
+
 #include "pixmaps/cursor_hand_open.xpm"
 
 /* To compile (from src/widgets):

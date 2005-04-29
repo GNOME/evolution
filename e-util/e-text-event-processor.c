@@ -21,10 +21,12 @@
  * 02111-1307, USA.
  */
 
+#include <config.h>
+
+#include "e-i18n.h"
+#include "e-marshal.h"
 #include "e-text-event-processor.h"
-#include <gal/util/e-util.h>
-#include <gal/util/e-i18n.h>
-#include "gal/util/e-marshal.h"
+#include "e-util.h"
 
 static void e_text_event_processor_init		(ETextEventProcessor		 *card);
 static void e_text_event_processor_class_init	(ETextEventProcessorClass	 *klass);

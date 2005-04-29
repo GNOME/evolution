@@ -21,19 +21,18 @@
  * 02111-1307, USA.
  */
 
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
 
 #include <stdlib.h>
 #include <string.h>
 
 #include <libxml/parser.h>
 #include <libxml/xmlmemory.h>
+
 #include "gal/util/e-util.h"
 #include "gal/util/e-xml-utils.h"
-#include "e-table-state.h"
 
+#include "e-table-state.h"
 
 #define STATE_VERSION 0.1
 

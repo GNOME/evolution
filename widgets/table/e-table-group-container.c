@@ -22,19 +22,23 @@
  */
 
 #include <config.h>
+
 #include <gdk/gdkkeysyms.h>
-#include <gtk/gtksignal.h>
+#include <gtk/gtk.h>
 #include <libgnome/libgnome.h>
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
+
+#include "gal/e-text/e-text.h"
+#include "gal/util/e-i18n.h"
+#include "gal/util/e-util.h"
+#include "gal/widgets/e-canvas-utils.h"
+#include "gal/widgets/e-canvas.h"
+#include "gal/widgets/e-unicode.h"
+
+#include "e-table-defines.h"
 #include "e-table-group-container.h"
 #include "e-table-group-leaf.h"
 #include "e-table-item.h"
-#include "gal/util/e-util.h"
-#include "gal/widgets/e-canvas.h"
-#include "gal/widgets/e-canvas-utils.h"
-#include "gal/widgets/e-unicode.h"
-#include "gal/e-text/e-text.h"
-#include "e-table-defines.h"
 
 #define TITLE_HEIGHT         16
 

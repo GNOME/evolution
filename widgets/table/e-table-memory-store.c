@@ -22,9 +22,12 @@
  */
 
 #include <config.h>
+
 #include <string.h>
-#include "e-table-memory-store.h"
+
 #include "gal/util/e-util.h"
+
+#include "e-table-memory-store.h"
 
 #define STORE_LOCATOR(etms, col, row) (*((etms)->priv->store + (row) * (etms)->priv->col_count + (col)))
 

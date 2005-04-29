@@ -23,8 +23,11 @@
  */
 
 #include <config.h>
+
 #include <stdlib.h>
+
 #include "gal/util/e-util.h"
+
 #include "e-table-subset.h"
 
 static void etss_proxy_model_pre_change_real (ETableSubset *etss, ETableModel *etm);

@@ -22,8 +22,10 @@
  */
 
 #include <config.h>
-#include "e-table-one.h"
+
 #include "gal/util/e-util.h"
+
+#include "e-table-one.h"
 
 static ETableModelClass *parent_class = NULL;
 

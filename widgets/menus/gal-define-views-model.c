@@ -22,12 +22,15 @@
  */
 
 #include <config.h>
+
 #include <libxml/tree.h>
 #include <libxml/parser.h>
 #include <libxml/xmlmemory.h>
+
+#include "gal/util/e-i18n.h"
+#include "gal/util/e-util.h"
+
 #include "gal-define-views-model.h"
-#include <gal/util/e-i18n.h>
-#include <gal/util/e-util.h>
 
 #define PARENT_TYPE E_TABLE_MODEL_TYPE
 static ETableModelClass *parent_class;

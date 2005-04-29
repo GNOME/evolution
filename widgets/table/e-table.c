@@ -22,41 +22,36 @@
  * 02111-1307, USA.
  */
 
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
 
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include <gdk/gdk.h>
+
+#include <glib.h>
+#include <glib/gstdio.h>
 #include <gdk/gdkkeysyms.h>
-#include <gtk/gtksignal.h>
+#include <gtk/gtk.h>
 #include <libgnomecanvas/gnome-canvas.h>
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 
+#include "gal/a11y/e-table/gal-a11y-e-table.h"
 #include "gal/util/e-i18n.h"
 #include "gal/util/e-util.h"
 #include "gal/widgets/e-canvas.h"
 #include "gal/widgets/e-canvas-background.h"
 #include "gal/widgets/e-canvas-vbox.h"
 #include "gal/widgets/e-unicode.h"
+
 #include "e-table.h"
+#include "e-table-click-to-add.h"
+#include "e-table-column-specification.h"
+#include "e-table-group-leaf.h"
 #include "e-table-header-item.h"
 #include "e-table-header-utils.h"
 #include "e-table-subset.h"
-#include "e-table-item.h"
-#include "e-table-group.h"
-#include "e-table-group-leaf.h"
-#include "e-table-click-to-add.h"
-#include "e-table-specification.h"
-#include "e-table-state.h"
-#include "e-table-column-specification.h"
-
 #include "e-table-utils.h"
 
-#include <atk/atk.h>
-#include "gal/a11y/e-table/gal-a11y-e-table.h"
 
 #define COLUMN_HEADER_HEIGHT 16
 
@@ -1946,7 +1941,15 @@ e_table_load_specification (ETable *e_table, gchar *filename)
 	g_return_val_if_fail(filename != NULL, -1);
 
 	/* doesn't work yet, yay */
+#ifdef G_OS_WIN32
+	{
+		gchar *locale_filename = gnome_win32_locale_filename_from_utf8 (filename);
+		xmlSpec = xmlParseFile (locale_filename);
+		g_free (locale_filename);
+	}
+#else
 	xmlSpec = xmlParseFile (filename);
+#endif
 	ret = et_real_set_specification(e_table, xmlSpec);
 	xmlFreeDoc (xmlSpec);
 

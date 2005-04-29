@@ -22,10 +22,13 @@
  */
 
 #include <config.h>
+
 #include <stdlib.h>
 #include <string.h>
+
 #include "gal/util/e-i18n.h"
 #include "gal/util/e-util.h"
+
 #include "e-table-sorter.h"
 
 #define d(x)

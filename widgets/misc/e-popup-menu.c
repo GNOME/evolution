@@ -24,21 +24,15 @@
  */
 
 #include <config.h>
+
+#include <libintl.h>
 #include <string.h>
-#include <gtk/gtkimage.h>
+
 #include <gdk/gdkkeysyms.h>
-#include <gtk/gtkaccellabel.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkmenuitem.h>
-#include <gtk/gtkcheckmenuitem.h>
-#include <gtk/gtkradiomenuitem.h>
-#include <gtk/gtksignal.h>
-#include <gtk/gtkimagemenuitem.h>
+#include <gtk/gtk.h>
 
-#include "e-popup-menu.h"
 #include "e-gui-utils.h"
-
-#include <gal/util/e-i18n.h>
+#include "e-popup-menu.h"
 
 /*
  * Creates an item with an optional icon

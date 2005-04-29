@@ -22,9 +22,11 @@
  */
 
 #include <config.h>
-#include "e-table-col.h"
-#include "gal/util/e-util.h"
+
 #include "gal/util/e-i18n.h"
+#include "gal/util/e-util.h"
+
+#include "e-table-col.h"
 
 static GObjectClass *parent_class;
 

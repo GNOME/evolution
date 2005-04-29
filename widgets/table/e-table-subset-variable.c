@@ -22,9 +22,12 @@
  */
 
 #include <config.h>
+
 #include <stdlib.h>
 #include <string.h>
+
 #include "gal/util/e-util.h"
+
 #include "e-table-subset-variable.h"
 
 #define ETSSV_CLASS(e) (E_TABLE_SUBSET_VARIABLE_GET_CLASS (e))

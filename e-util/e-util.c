@@ -22,27 +22,27 @@
  */
 
 #include <config.h>
-#include "e-util.h"
-#include "e-i18n.h"
 
-#include <glib.h>
-#include <gtk/gtkobject.h>
+#include <stdlib.h>
+#include <stdio.h>
 #include <errno.h>
-#include <fcntl.h>
 #include <unistd.h>
 #include <ctype.h>
-#include <sys/stat.h>
+#include <math.h>
 #include <string.h>
 #include <locale.h>
-#include <stdio.h>
-#include <stdlib.h>
 #include <time.h>
-#include <libgnome/gnome-util.h>
-#include <math.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 
-#if 0
-#include <libgnomevfs/gnome-vfs.h>
-#endif
+#include <glib.h>
+#include <glib/gstdio.h>
+#include <gtk/gtk.h>
+#include <libgnome/gnome-util.h>
+
+#include "e-i18n.h"
+#include "e-util.h"
+#include "e-util-private.h"
 
 int
 g_str_compare (const void *x, const void *y)
@@ -154,7 +154,7 @@ e_read_file(const char *filename)
 	int bytes;
 	char *ret_val;
 
-	fd = open(filename, O_RDONLY);
+	fd = g_open(filename, O_RDONLY, 0);
 	if (fd == -1)
 		return NULL;
 	bytes = read(fd, buffer, BUFF_SIZE);
@@ -198,7 +198,7 @@ e_write_file(const char *filename, const char *data, int flags)
 	int fd;
 	int length = strlen(data);
 	int bytes;
-	fd = open(filename, flags | O_WRONLY, 0666);
+	fd = g_open(filename, flags | O_WRONLY, 0666);
 	if (fd == -1)
 		return errno;
 	while (length > 0) {
@@ -226,7 +226,7 @@ e_write_file_mkstemp(char *filename, const char *data)
 	int fd;
 	int length = strlen(data);
 	int bytes;
-	fd = mkstemp (filename);
+	fd = g_mkstemp (filename);
 	if (fd == -1)
 		return errno;
 	while (length > 0) {
@@ -264,25 +264,37 @@ e_mkdir_hier(const char *path, mode_t mode)
 {
 	char *copy, *p;
 
-	if (path[0] == '/') {
+	if (g_path_is_absolute (path)) {
 		p = copy = g_strdup (path);
 	} else {
 		gchar *current_dir = g_get_current_dir();
-		p = copy = g_concat_dir_and_file (current_dir, path);
+		p = copy = g_build_filename (current_dir, path, NULL);
+		g_free (current_dir);
 	}
 
+	p = g_path_skip_root (p);
 	do {
-		p = strchr (p + 1, '/');
+		char *p1 = strchr (p, '/');
+#ifdef G_OS_WIN32
+		{
+			char *p2 = strchr (p, '\\');
+			if (p1 == NULL ||
+			    (p2 != NULL && p2 < p1))
+				p1 = p2;
+		}
+#endif
+		p = p1;
 		if (p)
 			*p = '\0';
-		if (access (copy, F_OK) == -1) {
-			if (mkdir (copy, mode) == -1) {
+		if (!g_file_test (copy, G_FILE_TEST_IS_DIR)) {
+			if (g_mkdir (copy, mode) == -1) {
 				g_free (copy);
 				return -1;
 			}
 		}
-		if (p)
-			*p = '/';
+		if (p) {
+			*p++ = '/';
+		}
 	} while (p);
 
 	g_free (copy);
@@ -1220,7 +1232,7 @@ e_gettext (const char *msgid)
 	static gboolean initialized = FALSE;
 
 	if (!initialized) {
-		bindtextdomain (E_I18N_DOMAIN, GNOMELOCALEDIR);
+		bindtextdomain (E_I18N_DOMAIN, GAL_LOCALEDIR);
 		bind_textdomain_codeset (E_I18N_DOMAIN, "UTF-8");
 		initialized = TRUE;
 	}        

@@ -23,24 +23,27 @@
  */
 
 #include <config.h>
+
 #include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
 #include <stdio.h>
+
 #include <gdk/gdkkeysyms.h>
-#include <gtk/gtksignal.h>
-#include <gtk/gtktypebuiltins.h>
+#include <gtk/gtk.h>
 #include <libxml/parser.h>
 #include <libgnomecanvas/gnome-canvas.h>
-#include "gal/util/e-util.h"
+
 #include "gal/util/e-i18n.h"
+#include "gal/util/e-util.h"
 #include "gal/widgets/e-canvas.h"
 #include "gal/widgets/e-canvas-utils.h"
+
 #include "e-completion-view.h"
-#include "e-text.h"
 #include "e-entry.h"
+#include "e-text.h"
 
 #define MIN_ENTRY_WIDTH  150
 #define INNER_BORDER 2

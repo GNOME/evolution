@@ -33,19 +33,14 @@
 #include <math.h>
 #include <stdio.h>
 
-#include <gdk/gdkx.h> /* for BlackPixel */
-#include <gtk/gtkenums.h>
-#include <gtk/gtkentry.h>
-#include <gtk/gtkwindow.h>
-#include <gtk/gtkinvisible.h>
-#include <gtk/gtksignal.h>
-#include <gdk/gdkkeysyms.h>
+#include <gtk/gtk.h>
 
-#include "gal/util/e-util.h"
 #include "gal/a11y/e-table/gal-a11y-e-cell-registry.h"
 #include "gal/a11y/e-table/gal-a11y-e-cell-vbox.h"
-#include "e-table-item.h"
+#include "gal/util/e-util.h"
+
 #include "e-cell-vbox.h"
+#include "e-table-item.h"
 
 #define PARENT_TYPE e_cell_get_type ()
 

@@ -21,15 +21,15 @@
  * 02111-1307, USA.
  */
 #include <config.h>
-#include <gtk/gtkenums.h>
-#include <gtk/gtkentry.h>
-#include <gtk/gtkwindow.h>
-#include <gtk/gtksignal.h>
+
 #include <gdk/gdkkeysyms.h>
+#include <gtk/gtk.h>
 #include <libgnomecanvas/gnome-canvas.h>
-#include "e-cell-checkbox.h"
+
 #include "gal/util/e-util.h"
+
 #include "e-table-item.h"
+#include "e-cell-checkbox.h"
 
 #include "check-empty.xpm"
 #include "check-filled.xpm"

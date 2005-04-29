@@ -7,8 +7,9 @@
  */
 
 #include <config.h>
-#include "gal-a11y-e-table-factory.h"
+
 #include "gal-a11y-e-table.h"
+#include "gal-a11y-e-table-factory.h"
 
 #define CS_CLASS(factory) (G_TYPE_INSTANCE_GET_CLASS ((factory), C_TYPE_STREAM, GalA11yETableFactoryClass))
 static AtkObjectFactoryClass *parent_class;

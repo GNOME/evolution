@@ -23,21 +23,25 @@
 
 #include <config.h>
 
-#include <util/e-i18n.h>
 #include <ctype.h>
 #include <string.h>
 #include <errno.h>
+#include <unistd.h>
+#include <sys/stat.h>
+
+#include <gtk/gtk.h>
 #include <libxml/parser.h>
 #include <libgnome/gnome-util.h>
-#include <gal/util/e-util.h>
-#include <gal/util/e-xml-utils.h>
-#include <gal/widgets/e-unicode.h>
+#include <glib/gstdio.h>
+
+#include "gal/util/e-i18n.h"
+#include "gal/util/e-util.h"
+#include "gal/util/e-xml-utils.h"
+#include "gal/widgets/e-unicode.h"
+
+#include "gal-define-views-dialog.h"
 #include "gal-view-instance.h"
 #include "gal-view-instance-save-as-dialog.h"
-#include "gal-define-views-dialog.h"
-#include <sys/stat.h>
-#include <unistd.h>
-#include <gtk/gtkcheckmenuitem.h>
 
 #define PARENT_TYPE G_TYPE_OBJECT
 
@@ -242,10 +246,17 @@ load_current_view (GalViewInstance *instance)
 	xmlDoc *doc = NULL;
 	xmlNode *root;
 	GalView *view = NULL;
-	struct stat st;
 	
-	if (stat (instance->current_view_filename, &st) != -1 && S_ISREG (st.st_mode))
+	if (g_file_test (instance->current_view_filename, G_FILE_TEST_IS_REGULAR)) {
+#ifdef G_OS_WIN32
+		gchar *locale_filename = gnome_win32_locale_filename_from_utf8 (instance->current_view_filename);
+		if (locale_filename != NULL)
+			doc = xmlParseFile(locale_filename);
+		g_free (locale_filename);
+#else
 		doc = xmlParseFile(instance->current_view_filename);
+#endif
+	}
 	
 	if (doc == NULL) {
 		instance->current_id = g_strdup (gal_view_instance_get_default_view (instance));
@@ -454,7 +465,7 @@ gal_view_instance_exists (GalViewInstance *instance)
 {
 	struct stat st;
 
-	if (instance->current_view_filename && stat (instance->current_view_filename, &st) == 0 && st.st_size > 0 && S_ISREG (st.st_mode))
+	if (instance->current_view_filename && g_stat (instance->current_view_filename, &st) == 0 && st.st_size > 0 && S_ISREG (st.st_mode))
 		return TRUE;
 	else
 		return FALSE;

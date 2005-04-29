@@ -21,12 +21,13 @@
  * 02111-1307, USA.
  */
 
-#include <gtk/gtksignal.h>
-#include "e-canvas.h"
+#include <config.h>
+
+#include <gtk/gtk.h>
+
 #include "gal/util/e-util.h"
-#include <X11/Xlib.h>
-#include <gtk/gtkmain.h>
-#include <gtk/gtkimmulticontext.h>
+
+#include "e-canvas.h"
 
 static void e_canvas_init           (ECanvas         *card);
 static void e_canvas_dispose        (GObject        *object);
@@ -1061,10 +1062,10 @@ e_canvas_item_grab (ECanvas *canvas,
 		    gpointer cancelled_data)
 {
 	if (gtk_grab_get_current ()) {
-		return AlreadyGrabbed;
+		return GDK_GRAB_ALREADY_GRABBED;
 	} else {
 		int ret_val = gnome_canvas_item_grab (item, event_mask, cursor, etime);
-		if (ret_val == GrabSuccess) {
+		if (ret_val == GDK_GRAB_SUCCESS) {
 			canvas->grab_cancelled_cb = cancelled_cb;
 			canvas->grab_cancelled_check_id =
 				g_timeout_add_full (G_PRIORITY_LOW,

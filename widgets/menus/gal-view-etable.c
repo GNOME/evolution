@@ -22,8 +22,10 @@
  */
 
 #include <config.h>
+
+#include "gal/e-table/e-table-config.h"
+
 #include "gal-view-etable.h"
-#include <gal/e-table/e-table-config.h>
 
 #define PARENT_TYPE GAL_VIEW_TYPE
 

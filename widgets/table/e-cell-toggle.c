@@ -22,18 +22,18 @@
  */
 
 #include <config.h>
-#include <gtk/gtkenums.h>
-#include <gtk/gtkentry.h>
-#include <gtk/gtkwindow.h>
-#include <gtk/gtksignal.h>
+
 #include <gdk/gdkkeysyms.h>
+#include <gtk/gtk.h>
 #include <libgnomecanvas/gnome-canvas.h>
-#include "e-cell-toggle.h"
-#include "gal/util/e-util.h"
-#include "gal/widgets/e-hsv-utils.h"
-#include "e-table-item.h"
+
 #include "gal/a11y/e-table/gal-a11y-e-cell-toggle.h"
 #include "gal/a11y/e-table/gal-a11y-e-cell-registry.h"
+#include "gal/util/e-util.h"
+#include "gal/widgets/e-hsv-utils.h"
+
+#include "e-cell-toggle.h"
+#include "e-table-item.h"
 
 #define PARENT_TYPE e_cell_get_type ()
 

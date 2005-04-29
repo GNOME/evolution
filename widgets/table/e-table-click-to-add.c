@@ -22,26 +22,26 @@
  */
 
 #include <config.h>
+
 #include <gdk/gdkkeysyms.h>
-#include <gtk/gtksignal.h>
+#include <gtk/gtk.h>
 #include <libgnomecanvas/gnome-canvas.h>
-#include <libgnomecanvas/gnome-canvas-util.h>
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
+#include <libgnomecanvas/gnome-canvas-util.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
-#include <atk/atkregistry.h>
-#include <atk/atkutil.h>
-#include <atk/atkgobjectaccessible.h>
-#include "e-table-header.h"
-#include "e-table-click-to-add.h"
-#include "e-table-defines.h"
-#include "e-table-one.h"
+
+#include "gal/a11y/e-table/gal-a11y-e-table-click-to-add.h"
 #include "gal/e-text/e-text.h"
-#include "gal/widgets/e-canvas.h"
-#include "gal/widgets/e-canvas-utils.h"
-#include "gal/util/e-util.h"
 #include "gal/util/e-i18n.h"
 #include "gal/util/e-marshal.h"
-#include "gal/a11y/e-table/gal-a11y-e-table-click-to-add.h"
+#include "gal/util/e-util.h"
+#include "gal/widgets/e-canvas-utils.h"
+#include "gal/widgets/e-canvas.h"
+
+#include "e-table-click-to-add.h"
+#include "e-table-defines.h"
+#include "e-table-header.h"
+#include "e-table-one.h"
 
 enum {
 	CURSOR_CHANGE,

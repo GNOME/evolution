@@ -5,12 +5,14 @@
  */
 
 #include <config.h>
+
+#include "gal/a11y/gal-a11y-util.h"
+#include "gal/e-table/e-table-item.h"
+#include "gal/e-table/e-tree.h"
+
+#include "gal-a11y-e-table-item.h"
 #include "gal-a11y-e-tree.h"
 #include "gal-a11y-e-tree-factory.h"
-#include "gal-a11y-util.h"
-#include "gal-a11y-e-table-item.h"
-#include <gal/e-table/e-tree.h>
-#include <gal/e-table/e-table-item.h>
 
 #define CS_CLASS(a11y) (G_TYPE_INSTANCE_GET_CLASS ((a11y), C_TYPE_STREAM, GalA11yETreeClass))
 static AtkObjectClass *parent_class;

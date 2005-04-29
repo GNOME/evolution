@@ -22,8 +22,10 @@
  */
 
 #include <config.h>
-#include "e-table-memory-callbacks.h"
+
 #include "gal/util/e-util.h"
+
+#include "e-table-memory-callbacks.h"
 
 static int
 etmc_column_count (ETableModel *etm)

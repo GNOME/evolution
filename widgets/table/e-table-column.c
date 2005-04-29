@@ -22,6 +22,7 @@
  */
 
 #include <config.h>
+
 #include "e-table-column.h"
 
 enum {

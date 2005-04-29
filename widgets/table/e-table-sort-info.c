@@ -23,11 +23,12 @@
 
 #include <config.h>
 
-#include "e-table-sort-info.h"
+#include <string.h>
 
 #include "gal/util/e-util.h"
 #include "gal/util/e-xml-utils.h"
-#include <string.h>
+
+#include "e-table-sort-info.h"
 
 #define ETM_CLASS(e) (E_TABLE_SORT_INFO_GET_CLASS (e))
 

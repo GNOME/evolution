@@ -22,9 +22,12 @@
  */
 
 #include <config.h>
+
 #include <string.h>
-#include <e-table-sorting-utils.h>
-#include <gal/util/e-util.h>
+
+#include "gal/util/e-util.h"
+
+#include "e-table-sorting-utils.h"
 
 #define d(x)
 

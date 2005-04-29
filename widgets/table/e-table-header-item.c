@@ -24,33 +24,34 @@
 
 #include <config.h>
 
-#include "e-table-header-item.h"
-
 #include <string.h>
-#include <gtk/gtksignal.h>
-#include <gtk/gtkdnd.h>
-#include <gtk/gtkimage.h>
+
+#include <gtk/gtk.h>
 #include <libgnomecanvas/gnome-canvas.h>
 #include <libgnomecanvas/gnome-canvas-util.h>
 #include <libgnomecanvas/gnome-canvas-polygon.h>
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gdk/gdkkeysyms.h>
-#include "gal/widgets/e-cursors.h"
+
 #include "gal/util/e-i18n.h"
+#include "gal/util/e-marshal.h"
 #include "gal/util/e-util.h"
 #include "gal/util/e-xml-utils.h"
-#include "gal/util/e-marshal.h"
 #include "gal/widgets/e-canvas.h"
-#include "gal/widgets/e-popup-menu.h"
+#include "gal/widgets/e-cursors.h"
 #include "gal/widgets/e-gui-utils.h"
-#include "e-table-header.h"
-#include "e-table-header-utils.h"
+#include "gal/widgets/e-popup-menu.h"
+
+#include "e-table.h"
 #include "e-table-col-dnd.h"
+#include "e-table-config.h"
 #include "e-table-defines.h"
 #include "e-table-field-chooser-dialog.h"
-#include "e-table-config.h"
-#include "e-table.h"
+#include "e-table-header.h"
+#include "e-table-header-utils.h"
+
+#include "e-table-header-item.h"
 
 #include "add-col.xpm"
 #include "remove-col.xpm"

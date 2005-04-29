@@ -28,7 +28,7 @@
 
 #include <glib-object.h>
 #include <gal/e-table/e-table-item.h>
-#include <a11y/e-table/gal-a11y-e-cell.h>
+#include <gal/a11y/e-table/gal-a11y-e-cell.h>
 #include <atk/atkgobjectaccessible.h>
 
 #define GAL_A11Y_TYPE_E_CELL_POPUP            (gal_a11y_e_cell_popup_get_type ())
