@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-04-06 19:35+0200\n"
-"PO-Revision-Date: 2005-04-06 19:59+0200\n"
+"POT-Creation-Date: 2005-04-30 03:29+0200\n"
+"PO-Revision-Date: 2005-04-30 03:28+0200\n"
 "Last-Translator: Francisco Javier F. Serrador <serrador@cvs.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -2586,7 +2586,7 @@ msgstr "Quitar una dirección de correo-e de la lista"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:9
 msgid "_Hide addresses when sending mail to this list"
-msgstr "_Ocultar direcciones al mandar correo a esta lista"
+msgstr "_Ocultar direcciones al enviar correo a esta lista"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:10
 msgid "_List name:"
@@ -5189,7 +5189,9 @@ msgstr "<b>Semana laboral</b>"
 #, no-c-format
 msgid ""
 "<i>%u and %d will be replaced by user and domain from the email address.</i>"
-msgstr "<i>%u y %d se reemplazarán por el usuario y el dominio de la dirección de correo-e.</i>"
+msgstr ""
+"<i>%u y %d se reemplazarán por el usuario y el dominio de la dirección de "
+"correo-e.</i>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
 msgid "Calendar and Tasks Settings"
@@ -11853,7 +11855,7 @@ msgstr "Preguntar cuando el usuario intente abrir diez o más mensajes a la vez"
 msgid ""
 "Prompt when user tries to send HTML mail to recipients that may not want to "
 "receive HTML mail."
-msgstr "Preguntar al mandar mensajes en HTML a contactos que no los quieren."
+msgstr "Preguntar al enviar mensajes en HTML a contactos que no los quieren."
 
 #: ../mail/evolution-mail.schemas.in.in.h:62
 msgid "Prompt when user tries to send a message with no To or Cc recipients."
@@ -12507,11 +12509,11 @@ msgstr "También cifrar a _mí mismo cuando envíe correo cifrado"
 
 #: ../mail/mail-config.glade.h:39
 msgid "Alway_s carbon-copy (cc) to:"
-msgstr "Siempre mandar _copia de carbón (Cc) a:"
+msgstr "Siempre enviar _copia de carbón (Cc) a:"
 
 #: ../mail/mail-config.glade.h:40
 msgid "Always _blind carbon-copy (bcc) to:"
-msgstr "Siempre mandar copia de carbón _oculta (Cco) a:"
+msgstr "Siempre enviar copia de carbón _oculta (Cco) a:"
 
 #: ../mail/mail-config.glade.h:41
 msgid "Always _trust keys in my keyring when encrypting"
@@ -12596,10 +12598,10 @@ msgid ""
 msgstr ""
 "Enhorabuena, ha terminado de configurar su correo.\n"
 "\n"
-"Ahora está listo para mandar y recibir correo \n"
+"Ahora está listo para enviar y recibir correo \n"
 "usando Evolution. \n"
 "\n"
-"Pulse «Finalizar» para guardar su configuración."
+"Pulse «Aplicar» para guardar su configuración."
 
 #: ../mail/mail-config.glade.h:65
 msgid "De_fault"
@@ -12753,7 +12755,7 @@ msgstr "Por favor selecciona entre las siguientes opciones"
 
 #: ../mail/mail-config.glade.h:111
 msgid "Pr_ompt when sending messages with only Bcc recipients defined"
-msgstr "Preguntar al mandar mensajes que tan sólo tengan definido el _Cco"
+msgstr "Preguntar al enviar mensajes que tan sólo tengan definido el _Cco"
 
 #: ../mail/mail-config.glade.h:112
 msgid "Quote original message"
@@ -12946,11 +12948,11 @@ msgstr "R_uta:"
 
 #: ../mail/mail-config.glade.h:166
 msgid "_Prompt when sending HTML messages to contacts that don't want them"
-msgstr "_Preguntar al mandar mensajes en HTML a contactos que no los quieren"
+msgstr "_Preguntar al enviar mensajes en HTML a contactos que no los quieren"
 
 #: ../mail/mail-config.glade.h:167
 msgid "_Prompt when sending messages with an empty subject line"
-msgstr "Pr_eguntar al mandar mensajes con el asunto vacío"
+msgstr "Pr_eguntar al enviar mensajes con el asunto vacío"
 
 #: ../mail/mail-config.glade.h:168
 msgid "_Reply style:"
@@ -15222,7 +15224,10 @@ msgid ""
 "The style of the window buttons. Can be \"text\", \"icons\", \"both\", "
 "\"toolbar\". If \"toolbar\" is set, the style of the buttons is determined "
 "by the GNOME toolbar setting."
-msgstr "El estilo de los botones de la ventana. Puede ser \"text\", \"icons\", \"both\", \"toolbar\". Si  se selecciona \"toolbar\", el estilo de los botones se determina por la configuración de la barra de herramientas de Gnome."
+msgstr ""
+"El estilo de los botones de la ventana. Puede ser \"text\", \"icons\", \"both"
+"\", \"toolbar\". Si  se selecciona \"toolbar\", el estilo de los botones se "
+"determina por la configuración de la barra de herramientas de Gnome."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:18
 msgid "Toolbar is visible"
@@ -21399,7 +21404,7 @@ msgstr "pulse aquí para ir a la url"
 #~ "The task being deleted is assigned, would you like to send a cancellation "
 #~ "notice?"
 #~ msgstr ""
-#~ "La tarea que está siendo borrada está asignada, ¿quiere mandar un mensaje "
+#~ "La tarea que está siendo borrada está asignada, ¿quiere enviar un mensaje "
 #~ "advirtiéndolo?"
 
 #~ msgid "Are you sure you want to cancel and delete this task?"
