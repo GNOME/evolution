@@ -1,3 +1,9 @@
+2005-04-26  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #274406
+	* gui/alarm-notify/alarm-notify.c: (cal_opened_cb): Removed the
+       	additional unref present.
+
 2005-04-18  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #274476
