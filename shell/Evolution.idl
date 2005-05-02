@@ -10,8 +10,6 @@
 
 #include <Bonobo.idl>
 
-#include <Evolution-common.idl>
-
 #include <Evolution-Component.idl>
 #include <Evolution-ConfigControl.idl>
 #include <Evolution-Offline.idl>

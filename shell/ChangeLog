@@ -1,3 +1,11 @@
+2005-05-02  JP Rosevear  <jpr@novell.com>
+
+	* Evolution.idl: remove Evolution-common.idl
+
+	* Makefile.am: don't build Evolution-common.idl
+
+	* Evolution-common.idl: remove dead code
+	
 2005-04-29  JP Rosevear  <jpr@novell.com>
 
 	* Makefile.am: don't build/install corba icon utils

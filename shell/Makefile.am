@@ -29,7 +29,6 @@ IDLS = \
 	Evolution-Component.idl			\
 	Evolution-Offline.idl			\
 	Evolution-Shell.idl			\
-	Evolution-common.idl			\
 	Evolution.idl
 
 IDL_GENERATED_H = \
