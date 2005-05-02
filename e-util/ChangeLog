@@ -1,3 +1,9 @@
+2005-05-02  Rodney Dawes  <dobey@novell.com>
+
+	* e-profile-event.h (e_profile_event_emit): This method is a no-op if
+	we are building without ENABLE_PROFILE defined, so we don't need to
+	define a macro to no-op it, and change ABI at compile time
+	
 2005-04-28  Not Zed  <NotZed@Ximian.com>
 
 	* e-profile-event.[ch]: A profiling plugin hook.

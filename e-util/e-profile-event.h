@@ -80,11 +80,7 @@ EProfileEvent *e_profile_event_peek(void);
 
 EProfileEventTarget *e_profile_event_target_new(EProfileEvent *emp, const char *id, const char *uid, guint32 flags);
 
-#ifndef ENABLE_PROFILING
-#define e_profile_event_emit(id, uid, flags)
-#else
 void e_profile_event_emit(const char *id, const char *uid, guint32 flags);
-#endif
 
 /* ********************************************************************** */
 
