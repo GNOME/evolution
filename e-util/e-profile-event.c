@@ -121,16 +121,24 @@ e_profile_event_target_new(EProfileEvent *eme, const char *id, const char *uid, 
 	return t;
 }
 
+#ifdef ENABLE_PROFILING
 void
 e_profile_event_emit(const char *id, const char *uid, guint32 flags)
 {
-#ifdef ENABLE_PROFILING
 	EProfileEvent *epe = e_profile_event_peek();
 	EProfileEventTarget *t = e_profile_event_target_new(epe, id, uid, flags);
 
 	e_event_emit((EEvent *)epe, "event", (EEventTarget *)t);
-#endif
 }
+#else
+#undef e_profile_event_emit
+void e_profile_event_emit(const char *id, const char *uid, guint32 flags);
+
+void
+e_profile_event_emit(const char *id, const char *uid, guint32 flags)
+{
+}
+#endif
 
 /* ********************************************************************** */
 

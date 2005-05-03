@@ -1,3 +1,12 @@
+2005-05-03  Not Zed  <NotZed@Ximian.com>
+
+	* e-profile-event.c (e_profile_event_emit): undefine
+	e_profile_event_emit if we are compiled without profiling.  The
+	'abi' is not, nor was ever changed.
+
+	* e-profile-event.h: revert previous patch, the assumptions were
+	incorrect & the code misunderstood.
+
 2005-05-02  Rodney Dawes  <dobey@novell.com>
 
 	* e-profile-event.h (e_profile_event_emit): This method is a no-op if
