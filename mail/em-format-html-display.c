@@ -30,7 +30,6 @@
 #include <gtkhtml/htmlengine.h>
 #include <gtkhtml/htmlobject.h>
 #include <gtkhtml/htmliframe.h>
-#include <gtkhtml/htmlinterval.h>
 #include <gtkhtml/gtkhtml-embedded.h>
 #include <gtkhtml/gtkhtml-search.h>
 
