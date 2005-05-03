@@ -1,15 +1,15 @@
 # Persian translation of evolution.
 # Copyright (C) 2004, 2005 Sharif FarsiWeb, Inc.
 # This file is distributed under the same license as the evolution package.
-# Roozbeh Pournader <roozbeh@farsiweb.info>, 2004.
+# Roozbeh Pournader <roozbeh@farsiweb.info>, 2004, 2005.
 # Meelad Zakaria <meelad@farsiweb.info>, 2004, 2005.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-05-02 04:08+0000\n"
-"PO-Revision-Date: 2005-05-02 16:31+0430\n"
+"POT-Creation-Date: 2005-05-03 12:11+0000\n"
+"PO-Revision-Date: 2005-05-03 21:24+0430\n"
 "Last-Translator: Meelad Zakaria <meelad@farsiweb.info>\n"
 "Language-Team: Persian <farsi@lists.sharif.edu>\n"
 "MIME-Version: 1.0\n"
@@ -34,10 +34,10 @@ msgid "New Contact List"
 msgstr "فهرست آشنای جدید"
 
 #: ../a11y/addressbook/ea-minicard-view.c:152
-#, fuzzy, c-format
+#, c-format
 msgid "current addressbook folder has %d card"
 msgid_plural "current addressbook folder has %d cards"
-msgstr[0] "پوشه‌ی دفترچه‌ی نشانی جاری"
+msgstr[0] "پوشه‌ی دفترچه‌ی نشانی فعلی %Id کارت دارد"
 
 #: ../a11y/addressbook/ea-minicard.c:31
 #: ../calendar/gui/alarm-notify/alarm-queue.c:878
@@ -47,7 +47,7 @@ msgstr "باز کردن"
 
 #: ../a11y/addressbook/ea-minicard.c:141
 msgid "Contact List: "
-msgstr "فهرست آشناها:"
+msgstr "فهرست آشناها: "
 
 #: ../a11y/addressbook/ea-minicard.c:142
 msgid "Contact: "
@@ -59,31 +59,28 @@ msgstr "کارت کوچک evolution"
 
 #: ../a11y/calendar/ea-cal-view-event.c:235
 msgid "It has alarms."
-msgstr ""
+msgstr "هشدار دارد."
 
 #: ../a11y/calendar/ea-cal-view-event.c:238
-#, fuzzy
 msgid "It has recurrences."
-msgstr "حذف این مورد"
+msgstr "تکرار دارد."
 
 #: ../a11y/calendar/ea-cal-view-event.c:241
 msgid "It is a meeting."
-msgstr ""
+msgstr "این یک جلسه است."
 
 #: ../a11y/calendar/ea-cal-view-event.c:247
-#, fuzzy, c-format
 msgid "Calendar Event: Summary is %s."
-msgstr "رویدادهای تقویم"
+msgstr ""
 
 #: ../a11y/calendar/ea-cal-view-event.c:249
-#, fuzzy
 msgid "Calendar Event: It has no summary."
-msgstr "رویدادهای تقویم"
+msgstr ""
 
 #: ../a11y/calendar/ea-cal-view-event.c:268
-#, fuzzy
+
 msgid "calendar view event"
-msgstr "رویدادهای تقویم"
+msgstr "رویداد نمای تقویم"
 
 #: ../a11y/calendar/ea-cal-view-event.c:485
 msgid "Grab Focus"
@@ -111,19 +108,18 @@ msgstr "رفتن به تاریخ"
 
 #: ../a11y/calendar/ea-day-view-main-item.c:299
 #: ../a11y/calendar/ea-week-view-main-item.c:301
-#, fuzzy
 msgid "a table to view and select the current time range"
-msgstr "زمانی به نسبت زمان جاری"
+msgstr "جدولی برای نمایش و انتخاب محدوده‌ی زمانی فعلی"
 
 #: ../a11y/calendar/ea-day-view.c:146 ../a11y/calendar/ea-week-view.c:148
 #, c-format
 msgid "It has %d event."
 msgid_plural "It has %d events."
-msgstr[0] ""
+msgstr[0] "‏%Id زویداد دارد."
 
 #: ../a11y/calendar/ea-day-view.c:148 ../a11y/calendar/ea-week-view.c:150
 msgid "It has no events."
-msgstr ""
+msgstr "رویدادی ندارد."
 
 #: ../a11y/calendar/ea-day-view.c:152
 #, c-format
@@ -141,12 +137,12 @@ msgstr "نمای تقویم برای یک هفته‌ی کاری"
 
 #: ../a11y/calendar/ea-day-view.c:188
 msgid "calendar view for one or more days"
-msgstr ""
+msgstr "نمای تقویم برای یک یا چند روز"
 
 #: ../a11y/calendar/ea-gnome-calendar.c:187
 #: ../calendar/gui/calendar-component.c:671
 msgid "%A %d %b %Y"
-msgstr ""
+msgstr "%A %Od %B %Oy"
 
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
@@ -159,7 +155,7 @@ msgstr ""
 #: ../calendar/gui/e-day-view-top-item.c:719 ../calendar/gui/e-day-view.c:1511
 #: ../calendar/gui/e-week-view-main-item.c:321
 msgid "%a %d %b"
-msgstr ""
+msgstr "%A %Od %B"
 
 #: ../a11y/calendar/ea-gnome-calendar.c:192
 #: ../a11y/calendar/ea-gnome-calendar.c:197
@@ -168,7 +164,7 @@ msgstr ""
 #: ../calendar/gui/calendar-component.c:681
 #: ../calendar/gui/calendar-component.c:683
 msgid "%a %d %b %Y"
-msgstr ""
+msgstr "%A %Od %B %Oy"
 
 #: ../a11y/calendar/ea-gnome-calendar.c:216
 #: ../a11y/calendar/ea-gnome-calendar.c:222
@@ -179,7 +175,7 @@ msgstr ""
 #: ../calendar/gui/calendar-component.c:708
 #: ../calendar/gui/calendar-component.c:710
 msgid "%d %b %Y"
-msgstr ""
+msgstr "%Od %B %Oy"
 
 #. strftime format %d = day of month, %b = abbreviated month name.
 #. Don't use any other specifiers.
@@ -191,7 +187,7 @@ msgstr ""
 #: ../calendar/gui/e-day-view-top-item.c:723 ../calendar/gui/e-day-view.c:1527
 #: ../calendar/gui/e-week-view-main-item.c:335
 msgid "%d %b"
-msgstr ""
+msgstr "%Od %B"
 
 #: ../a11y/calendar/ea-gnome-calendar.c:247
 #: ../a11y/calendar/ea-gnome-calendar.c:255
@@ -209,7 +205,7 @@ msgstr "نوار جستجوی تقویم Evolution"
 
 #: ../a11y/calendar/ea-jump-button.c:149
 msgid "Jump button"
-msgstr ""
+msgstr "دکمه‌ی پرش"
 
 #: ../a11y/calendar/ea-jump-button.c:158
 msgid "Click here, you can find more events."
@@ -236,30 +232,28 @@ msgstr "نمای تقویم برای یک یا چند هفته"
 #: ../a11y/widgets/ea-calendar-item.c:296
 #: ../a11y/widgets/ea-calendar-item.c:302
 msgid "%d %B %Y"
-msgstr ""
+msgstr "%Od %B %Oy"
 
 #: ../a11y/widgets/ea-calendar-item.c:304
-#, fuzzy, c-format
+#, c-format
 msgid "Calendar: from %s to %s"
-msgstr "اطلاعات تقویم"
+msgstr "تقویم: از %s تا %s"
 
 #: ../a11y/widgets/ea-calendar-item.c:339
-#, fuzzy
 msgid "evolution calendar item"
-msgstr "ویرایش‌گر تقویم/تکلیف Evolution"
+msgstr ""
 
 #: ../a11y/widgets/ea-combo-button.c:40
 msgid "Combo Button"
 msgstr ""
 
 #: ../a11y/widgets/ea-combo-button.c:50
-#, fuzzy
 msgid "Activate Default"
-msgstr "استفاده از پیش‌فرض"
+msgstr "فعال کردن پیش‌فرض"
 
 #: ../a11y/widgets/ea-combo-button.c:52
 msgid "Popup Menu"
-msgstr ""
+msgstr "منوی واشو"
 
 #. addressbook:ldap-init primary
 #: ../addressbook/addressbook-errors.xml.h:2
@@ -268,12 +262,11 @@ msgstr "باز کردن این دفترچه‌ی نشانی ممکن نیست."
 
 #. addressbook:ldap-init secondary
 #: ../addressbook/addressbook-errors.xml.h:4
-#, fuzzy
 msgid ""
 "This addressbook server might be unreachable or the server name may be "
 "misspelled or your network connection could be down."
 msgstr ""
-"ممکن است این کارگزار دفترچه‌ی نشانی غیر قابل دسترسی باشد یا نام سرویس‌دهنده بد "
+"ممکن است این کارگزار دفترچه‌ی نشانی غیر قابل دسترسی باشد یا نام کارگزار غلط "
 "هجی شده باشد یا اتصال شبکه‌ی شما قطع باشد."
 
 #. addressbook:ldap-auth primary
@@ -288,6 +281,8 @@ msgid ""
 "a supported login method. Remember that many passwords are case sensitive; "
 "your caps lock might be on."
 msgstr ""
+"بررسی کنید که گذرواژه‌تان درست هجی شده باشد و از روش ورودتان به سیستم پشتیبانی شده باشد. به یاد "
+"داشته باشید بسیاری از گذرواژه‌ها به کوچکی و بزرگی حروف حساسند؛ ممکن است قفل تبدیل‌تان روشن باشد."
 
 #. addressbook:ldap-search-base primary
 #: ../addressbook/addressbook-errors.xml.h:10
@@ -326,15 +321,13 @@ msgstr "حذف دفترچه‌ی نشانی ممکن نیست."
 
 #. addressbook:ask-delete-addressbook primary
 #: ../addressbook/addressbook-errors.xml.h:22
-#, fuzzy
 msgid "Delete address book '{0}'?"
-msgstr "دفترچه‌ی نشانی هدف را انتخاب کنید"
+msgstr "دفترچه‌ی نشانی «{0}» حذف شود؟"
 
 #. addressbook:ask-delete-addressbook secondary
 #: ../addressbook/addressbook-errors.xml.h:24
-#, fuzzy
 msgid "This address book will be removed permanently."
-msgstr "باز کردن این دفترچه‌ی نشانی ممکن نیست."
+msgstr "این دفترچه‌ی نشانی برای همیشه حذف خواهد شد."
 
 #. addressbook:edit-categories primary
 #: ../addressbook/addressbook-errors.xml.h:26
@@ -399,12 +392,12 @@ msgstr "شما در این آشنا تغییراتی داده‌اید. آیا �
 
 #: ../addressbook/addressbook-errors.xml.h:45
 msgid "_Discard"
-msgstr "دور انداختن"
+msgstr "_دور انداختن"
 
 #. addressbook:prompt-move primary
 #: ../addressbook/addressbook-errors.xml.h:47
 msgid "Cannot move contact."
-msgstr "انتقال آشنا ممکن نیست."
+msgstr "نمی‌توان آشنا را جابه‌جا کرد."
 
 #. addressbook:prompt-move secondary
 #: ../addressbook/addressbook-errors.xml.h:49
@@ -412,19 +405,19 @@ msgid ""
 "You are attempting to move a contact from one addressbook to another but it "
 "cannot be removed from the source. Do you want to save a copy instead?"
 msgstr ""
-"شما سعی می‌کنید آشنایی را از یک دفترچه‌ی نشانی به دفترچه‌ی دیگری منتقل کنید ولی "
+"شما سعی می‌کنید آشنایی را از یک دفترچه‌ی نشانی به دفترچه‌ی دیگری جابه‌جا کنید ولی "
 "نمی‌توان آشنا را از مبدأ حذف کرد. آیا می‌خواهید در عوض یک نسخه از آن را ذخیره "
 "کنید؟"
 
 #. addressbook:save-error primary
 #: ../addressbook/addressbook-errors.xml.h:51
 msgid "Unable to save contact(s)."
-msgstr "ذخیره‌ی آشنا(ها) ممکن نیست"
+msgstr "ذخیره‌ی آشنا(ها) ممکن نیست."
 
 #. addressbook:save-error secondary
 #: ../addressbook/addressbook-errors.xml.h:53
 msgid "Error saving contacts to {0}: {1}"
-msgstr "خطا در ذخیره‌ی آشنا‌ها در {0}: {1}"
+msgstr "خطا در ذخیره‌ی آشنا‌ها در {0}: {1}‏"
 
 #. addressbook:backend-died primary
 #: ../addressbook/addressbook-errors.xml.h:55
@@ -440,19 +433,17 @@ msgstr ""
 
 #. addressbook:ask-list-add-exists primary
 #: ../addressbook/addressbook-errors.xml.h:59
-#, fuzzy
 msgid "Address '{0}' already exists."
-msgstr "پوشه از قبل وجود دارد"
+msgstr "نشانی «{0}» از قبل وجود دارد."
 
 #. addressbook:ask-list-add-exists secondary
 #: ../addressbook/addressbook-errors.xml.h:61
-#, fuzzy
 msgid ""
 "A contact already exists with this address.  Would you like to add a new "
 "card with the same address anyway?"
 msgstr ""
-"نام یا آدرس پست الکترونیکی این آشنا از قبل در این پوشه وجود دارد.\n"
-" آیا می‌خواهید در هر صورت آن را اضافه کنید؟"
+"آشنایی با همین نشانی از قبل در این پوشه وجود دارد.  "
+" آیا می‌خواهید در هر صورت یک کارت جدید اضافه کنید؟"
 
 #: ../addressbook/addressbook-errors.xml.h:62 ../mail/em-vfolder-rule.c:494
 #: ../plugins/shared-folder/properties.glade.h:10
@@ -581,7 +572,7 @@ msgstr "روی کارگزارهای LDAP"
 
 #: ../addressbook/gui/component/addressbook-component.c:197
 msgid "_Contact"
-msgstr "آشنا"
+msgstr "آ_شنا"
 
 #: ../addressbook/gui/component/addressbook-component.c:198
 msgid "Create a new contact"
@@ -589,7 +580,7 @@ msgstr "ایجاد یک آشنای جدید"
 
 #: ../addressbook/gui/component/addressbook-component.c:205
 msgid "Contact _List"
-msgstr "فهرست آشنا"
+msgstr "_فهرست آشنا"
 
 #: ../addressbook/gui/component/addressbook-component.c:206
 msgid "Create a new contact list"
@@ -614,19 +605,18 @@ msgid "Failed upgrading Addressbook settings or folders."
 msgstr "به‌هنگام‌سازی تنظیمات دفترچه‌ی نشانی یا پوشه‌ها شکست خورد."
 
 #: ../addressbook/gui/component/addressbook-config.c:315
-#, fuzzy
 msgid "Base"
-msgstr "چسباندن"
+msgstr "پایه"
 
 #: ../addressbook/gui/component/addressbook-config.c:510
 #: ../calendar/gui/dialogs/calendar-setup.c:191
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:10
 msgid "_Type:"
-msgstr "نوع:"
+msgstr "_نوع:"
 
 #: ../addressbook/gui/component/addressbook-config.c:609
 msgid "Copy book content locally for offline operation"
-msgstr ""
+msgstr "نسخه‌برداری محلی از محتویات دفترچه برای عملیات محلی."
 
 #: ../addressbook/gui/component/addressbook-config.c:904
 #: ../addressbook/gui/component/ldap-config.glade.h:23
@@ -679,7 +669,7 @@ msgstr "در حال کوچ دادن..."
 #: ../calendar/gui/migration.c:189 ../mail/em-migrate.c:1231
 #, c-format
 msgid "Migrating `%s':"
-msgstr "در حال کوچ دادن '%s':"
+msgstr "در حال کوچ دادن «%s»:"
 
 #: ../addressbook/gui/component/addressbook-migrate.c:637
 msgid "LDAP Servers"
@@ -699,7 +689,7 @@ msgstr ""
 "مکان و سلسله مراتب پوشه‌های آشناهای Evolution از Evolution 1.x به بعد عوض شده "
 "است.\n"
 "\n"
-"لطفاْ در حینی که Evolution پوشه‌هایتان را کوچ می‌دهد صبور باشید."
+"لطفاً در مدتی که Evolution پوشه‌هایتان را کوچ می‌دهد صبور باشید..."
 
 #: ../addressbook/gui/component/addressbook-migrate.c:1137
 msgid ""
@@ -707,7 +697,9 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
-
+"قالب آشناهای فهرست پستی عوض شده است.\n"
+"\n"
+"لطفاً در مدتی که Evolution پوشه‌هایتان را کوچ می‌دهد صبور باشید..."
 #: ../addressbook/gui/component/addressbook-migrate.c:1146
 msgid ""
 "The way Evolution stores some phone numbers has changed.\n"
@@ -716,7 +708,7 @@ msgid ""
 msgstr ""
 "روش ذخیره کردن بعضی از شماره تلفن‌ها در Evolution تغییر کرده است.\n"
 "\n"
-"لطفاْ در حینی که Evolution پوشه‌هایتان را انتقال می‌دهد صبور باشید..."
+"لطفاً در مدتی که Evolution پوشه‌هایتان را کوچ می‌دهد صبور باشید..."
 
 #: ../addressbook/gui/component/addressbook-migrate.c:1156
 msgid ""
@@ -790,16 +782,18 @@ msgstr ""
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:7
 msgid "URI for the folder last used in the select names dialog"
-msgstr "نشانی اینترنتی پوشه‌ای که آخرین بار در محاوره‌ی انتخاب نام به کار رفته است"
+msgstr ""
+"نشانی اینترنتی پوشه‌ای که آخرین بار در محاوره‌ی انتخاب نام به کار رفته است"
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:8
 msgid "URI for the folder last used in the select names dialog."
-msgstr "نشانی اینترنتی پوشه‌ای که آخرین بار در محاوره‌ی انتخاب نام به کار رفته است"
+msgstr ""
+"نشانی اینترنتی پوشه‌ای که آخرین بار در محاوره‌ی انتخاب نام به کار رفته است"
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:9
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:49
 msgid "Vertical pane position"
-msgstr ""
+msgstr "موقعیت قاب عمودی"
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:10
 msgid "Whether to show the preview pane."
@@ -909,7 +903,7 @@ msgstr "یافتن پایه‌های جست و جوی ممکن"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:24
 msgid "Lo_gin:"
-msgstr "ورود به سیستم:"
+msgstr "_ورود به سیستم:"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:25
 #: ../mail/em-account-editor.c:300
@@ -922,7 +916,7 @@ msgstr "یک"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:27
 msgid "Search _base:"
-msgstr "پایه‌ی جست و جو:"
+msgstr "_پایه‌ی جست و جو:"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:28
 msgid ""
@@ -1003,9 +997,9 @@ msgid ""
 "setting this to \"Email Address\" requires anonymous access to your ldap "
 "server."
 msgstr ""
-"روشی است که Evolution برای تأیید هویت شما استفاده می‌کند.  به خاطر داشته باشید "
-"تنظیم این گزینه روی «نشانی پست الکترونیکی» به دسترسی ناشناس به کارگزار LADP "
-"شما نیاز دارد."
+"روشی است که Evolution برای تأیید هویت شما استفاده می‌کند.  به خاطر داشته "
+"باشید تنظیم این گزینه روی «نشانی پست الکترونیکی» به دسترسی ناشناس به کارگزار "
+"LADP شما نیاز دارد."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:38
 msgid ""
@@ -1174,7 +1168,7 @@ msgstr "_لقب:"
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:19
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:63
 msgid "Novell Groupwise"
-msgstr ""
+msgstr "گروهی ناول"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:21
 msgid "Personal Information"
@@ -1204,7 +1198,7 @@ msgstr "_سالگرد ازدواج:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:26
 msgid "_Assistant:"
-msgstr ""
+msgstr "_دستیار:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:27
 msgid "_Birthday:"
@@ -1240,29 +1234,24 @@ msgid "_File under:"
 msgstr "پرونده به نام:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:35
-#, fuzzy
 msgid "_Free/Busy:"
-msgstr "آزاد/مشغول"
+msgstr "آ_زاد/مشغول"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:36
-#, fuzzy
 msgid "_Home Page:"
-msgstr "صفحه‌ی آغازه"
+msgstr "_صفحه‌ی آغازه"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:37
-#, fuzzy
 msgid "_Manager:"
-msgstr "مدیر:"
+msgstr "_مدیر:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:38
-#, fuzzy
 msgid "_Notes:"
-msgstr "یادداشت:"
+msgstr "_یادداشت‌ها:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:39
-#, fuzzy
 msgid "_Office:"
-msgstr "دفتر:"
+msgstr "_دفتر:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:40
 #: ../addressbook/gui/contact-editor/fulladdr.glade.h:7
@@ -1270,19 +1259,17 @@ msgid "_PO Box:"
 msgstr "_صندوق پستی:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:41
-#, fuzzy
 msgid "_Profession:"
-msgstr "حرفه:"
+msgstr "_حرفه:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:42
-#, fuzzy
 msgid "_Spouse:"
-msgstr "همسر:"
+msgstr "_همسر:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:43
 #: ../addressbook/gui/contact-editor/fulladdr.glade.h:8
 msgid "_State/Province:"
-msgstr "_استان/ایالت:"
+msgstr "اس_تان/ایالت:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:44
 #: ../addressbook/gui/contact-editor/fullname.glade.h:18
@@ -1290,19 +1277,16 @@ msgid "_Title:"
 msgstr "_عنوان:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:45
-#, fuzzy
 msgid "_Video Chat:"
-msgstr "گپ تصویری"
+msgstr "_گپ تصویری:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:46
-#, fuzzy
 msgid "_Wants to receive HTML mail"
-msgstr "می‌خواهد نامه‌ی HTML دریافت کند"
+msgstr "_می‌خواهد نامه‌ی HTML دریافت کند"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:47
-#, fuzzy
 msgid "_Web Log:"
-msgstr "وب‌لاگ:"
+msgstr "_وب‌لاگ:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:48
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:13
@@ -1310,9 +1294,8 @@ msgid "_Where:"
 msgstr "_در:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:49
-#, fuzzy
 msgid "_Zip/Postal Code:"
-msgstr "کد پستی:"
+msgstr "_کد پستی:"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:96
 #: ../addressbook/gui/widgets/eab-contact-display.c:367
@@ -1460,11 +1443,11 @@ msgstr "برزیل"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:167
 msgid "British Indian Ocean Territory"
-msgstr ""
+msgstr "قلمرو بریتانیایی اقیانوس هند"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:168
 msgid "Brunei Darussalam"
-msgstr "برونئی درالسلام"
+msgstr "برونئی دارالسلام"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:169
 msgid "Bulgaria"
@@ -1520,7 +1503,7 @@ msgstr "جزیره‌ی کریسمس"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:182
 msgid "Cocos (Keeling) Islands"
-msgstr ""
+msgstr "جزایر کوکوس (کیلینگ)‏"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:183
 msgid "Colombia"
@@ -1712,7 +1695,7 @@ msgstr "هائیتی"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:230
 msgid "Heard And McDonald Islands"
-msgstr ""
+msgstr "جزایر هرد و مک‌دانلد"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:231
 msgid "Holy See"
@@ -1816,7 +1799,7 @@ msgstr "لائوس"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:256
 msgid "Latvia"
-msgstr ""
+msgstr "لاتویا"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:257
 msgid "Lebanon"
@@ -2384,9 +2367,8 @@ msgid "Writable Fields"
 msgstr "فیلدهای قابل نوشتن"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:291
-#, fuzzy
 msgid "Required Fields"
-msgstr "آدم‌های مورد نیاز"
+msgstr "فیلد‌های ضروری"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:305
 msgid "Changed"
@@ -2418,10 +2400,9 @@ msgstr "اضافه کردن سریع آشنا"
 
 #: ../addressbook/gui/contact-editor/e-contact-quick-add.c:280
 msgid "_Edit Full"
-msgstr "ویرایش کامل"
+msgstr "_ویرایش کامل"
 
 #: ../addressbook/gui/contact-editor/e-contact-quick-add.c:306
-#, fuzzy
 msgid "_Full name:"
 msgstr "نام _کامل:"
 
@@ -2788,9 +2769,8 @@ msgid "Any Category"
 msgstr "هر مقوله‌ای"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1760
-#, fuzzy
 msgid "Print cards"
-msgstr "چاپ تکلیف‌ها"
+msgstr "چاپ کارت‌ها"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:1
 msgid "Assistant"
@@ -2798,7 +2778,7 @@ msgstr "دستیار"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:2
 msgid "Assistant Phone"
-msgstr ""
+msgstr "تلفن دستیار"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:3
 msgid "Business Fax"
@@ -2999,7 +2979,6 @@ msgid "Column Width"
 msgstr "عرض ستون"
 
 #: ../addressbook/gui/widgets/e-minicard-view.c:171
-#, fuzzy
 msgid ""
 "\n"
 "\n"
@@ -3009,9 +2988,9 @@ msgid ""
 msgstr ""
 "\n"
 "\n"
-"موردی برای نشان دادن در این نما وجود ندارد.\n"
+"به دنبال آشنا جستجو کنید\n"
 "\n"
-"برای ایجاد یک آشنای جدید اینجا دوبل کلیلک کنید."
+"یا برای ایجاد یک آشنای جدید اینجا دوبار کلیک کنید."
 
 #: ../addressbook/gui/widgets/e-minicard-view.c:174
 msgid ""
@@ -3025,15 +3004,17 @@ msgstr ""
 "\n"
 "موردی برای نشان دادن در این نما وجود ندارد.\n"
 "\n"
-"برای ایجاد یک آشنای جدید اینجا دوبل کلیلک کنید."
+"برای ایجاد یک آشنای جدید اینجا دوبار کلیک کنید."
 
 #: ../addressbook/gui/widgets/e-minicard-view.c:179
-#, fuzzy
 msgid ""
 "\n"
 "\n"
 "Search for the Contact."
-msgstr "جست و جو به دنبال آشنا..."
+msgstr ""
+"\n"
+"\n"
+"به دنبال آشنا جست و جو  کنید."
 
 #: ../addressbook/gui/widgets/e-minicard-view.c:181
 msgid ""
@@ -3408,10 +3389,10 @@ msgid "Merge E-Mail Address"
 msgstr "ادغام نشانی‌های پست الکترونیکی"
 
 #: ../addressbook/gui/widgets/eab-vcard-control.c:139
-#, fuzzy, c-format
+#, c-format
 msgid "There is one other contact."
 msgid_plural "There are %d other contacts."
-msgstr[0] "و %Id آشنای دیگر."
+msgstr[0] "%Id آشنای دیگر هستند."
 
 #: ../addressbook/gui/widgets/eab-vcard-control.c:223
 #: ../addressbook/gui/widgets/eab-vcard-control.c:272
@@ -3632,7 +3613,7 @@ msgstr "عرض:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:42
 msgid "_Font..."
-msgstr "قلم_..."
+msgstr "_قلم..."
 
 #: ../addressbook/printing/test-contact-print-style-editor.c:53
 msgid "Contact Print Style Editor Test"
@@ -3659,7 +3640,7 @@ msgstr "این باید کد چاپ آشنا را آزمایش کند"
 #: ../addressbook/tools/evolution-addressbook-export-list-cards.c:693
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:49
 msgid "Can not open file"
-msgstr "باز کردن پرونده ممکن نیست"
+msgstr "نمی‌توان پرونده را باز کرد"
 
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:43
 msgid "Couldn't get list of addressbooks"
@@ -3690,12 +3671,10 @@ msgid "[vcard|csv]"
 msgstr ""
 
 #: ../addressbook/tools/evolution-addressbook-export.c:61
-#, fuzzy
 msgid "Export in asynchronous mode"
 msgstr "صدور در حالت ناهمگام"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:63
-#, fuzzy
 msgid ""
 "The number of cards in one output file in asychronous mode, default size 100."
 msgstr ""
@@ -3722,12 +3701,11 @@ msgstr "در حالت ناهمگام، خروجی باید یک پرونده ب�
 
 #: ../addressbook/tools/evolution-addressbook-export.c:122
 msgid "In normal mode, there is no need for the size option."
-msgstr ""
+msgstr "در حالت عادی، نیازی به گزینه‌ی اندازه نیست."
 
 #: ../addressbook/tools/evolution-addressbook-export.c:153
-#, fuzzy
 msgid "Unhandled error"
-msgstr "خطای ناشناخته"
+msgstr ""
 
 #: ../addressbook/tools/evolution-addressbook-import.c:46
 msgid "Error loading default addressbook."
@@ -3765,7 +3743,7 @@ msgstr "فرستاده نشود"
 #: ../calendar/calendar-errors.xml.h:6 ../calendar/calendar-errors.xml.h:16
 #: ../calendar/calendar-errors.xml.h:26
 msgid "Send Notice"
-msgstr "ارسال اعلان"
+msgstr "اعلان ارسال"
 
 #. calendar:prompt-delete-meeting primary
 #: ../calendar/calendar-errors.xml.h:8
@@ -4023,41 +4001,38 @@ msgstr ""
 
 #. calendar:prompt-delete-calendar primary
 #: ../calendar/calendar-errors.xml.h:116
-#, fuzzy
 msgid "Delete calendar '{0}'?"
-msgstr "\"{0}\" ؟حذف شود"
+msgstr ""
+"تقویم «{0}» حذف شود؟"
 
 #. calendar:prompt-delete-calendar secondary
 #: ../calendar/calendar-errors.xml.h:118
 msgid "This calendar will be removed permanently."
-msgstr ""
+msgstr "این تقویم برای همیشه حذف خواهد شد."
 
 #. calendar:prompt-delete-task-list primary
 #: ../calendar/calendar-errors.xml.h:120
-#, fuzzy
 msgid "Delete task list '{0}'?"
-msgstr "حذف این فهرست"
+msgstr "فهرست تکلیف «{0}» حذف شود؟"
 
 #. calendar:prompt-delete-task-list secondary
 #: ../calendar/calendar-errors.xml.h:122
 msgid "This task list will be removed permanently."
-msgstr ""
+msgstr "این فهرست تکلیف برای همیشه حذف خواهد شد."
 
 #. calendar:prompt-send-no-subject-calendar primary
 #: ../calendar/calendar-errors.xml.h:124
-#, fuzzy
 msgid "Are you sure you want to send the appointment without a summary?"
-msgstr "آیا مطمئنید که می‌خواهید پیغامی بدون موضوع بفرستید؟"
+msgstr "آیا مطمئنید که می‌خواهید قراری بدون خلاصه بفرستید؟"
 
 #. calendar:prompt-send-no-subject-calendar secondary
 #: ../calendar/calendar-errors.xml.h:126
-#, fuzzy
 msgid ""
 "Adding a meaningful Summary to your appointment will give your recipients an "
 "idea of what your appointment is about."
 msgstr ""
-"اضافه کردن یک خط موضوع بامعنی به پیغام، تصوری از این که نامه‌ی شما درباره‌ی چیست "
-"به مخاطبانتان می‌دهد "
+"اضافه کردن یک خلاصه‌ی بامعنی به قرار، تصوری از این که نامه‌ی شما درباره‌ی "
+"چیست به مخاطبانتان می‌دهد."
 
 #: ../calendar/calendar-errors.xml.h:127 ../calendar/calendar-errors.xml.h:132
 #: ../mail/mail-errors.xml.h:15 ../mail/mail-errors.xml.h:20
@@ -4067,46 +4042,42 @@ msgstr "_ارسال"
 
 #. calendar:prompt-send-no-subject-task primary
 #: ../calendar/calendar-errors.xml.h:129
-#, fuzzy
 msgid "Are you sure you want to send the task without a summary?"
-msgstr "آیا مطمئنید که می‌خواهید پیغامی بدون موضوع بفرستید؟"
+msgstr "آیا مطمئنید که می‌خواهید تکلیفی بدون موضوع بفرستید؟"
 
 #. calendar:prompt-send-no-subject-task secondary
 #: ../calendar/calendar-errors.xml.h:131
-#, fuzzy
 msgid ""
 "Adding a meaningful Summary to your task will give your recipients an idea "
 "of what your task is about."
 msgstr ""
-"اضافه کردن یک خط موضوع بامعنی به پیغام، تصوری از این که نامه‌ی شما درباره‌ی چیست "
-"به مخاطبانتان می‌دهد "
+"اضافه کردن یک خلاصه‌ی بامعنی به تکلیف، تصوری از این که نامه‌ی شما درباره‌ی "
+"چیست به مخاطبانتان می‌دهد "
 
 #. calendar:prompt-no-contents-offline-calendar primary
 #: ../calendar/calendar-errors.xml.h:134
-#, fuzzy
 msgid "Error loading calendar"
-msgstr "خطا هنگام باز کردن تقویم"
+msgstr "خطا در بار کردن تقویم"
 
 #. calendar:prompt-no-contents-offline-calendar secondary
 #: ../calendar/calendar-errors.xml.h:136
 msgid "The calendar is not marked for offline usage"
-msgstr ""
+msgstr "تقویم برای استفاده‌ی نامتصل علامت نخورده است"
 
 #. calendar:prompt-no-contents-offline-tasks primary
 #: ../calendar/calendar-errors.xml.h:138
-#, fuzzy
 msgid "Error loading task list"
-msgstr "خطا در اضافه کردن فهرست"
+msgstr "خطا در بار کردن فهرست تکلیف"
 
 #. calendar:prompt-no-contents-offline-tasks secondary
 #: ../calendar/calendar-errors.xml.h:140
 msgid "The task list is not marked for offline usage"
-msgstr ""
+msgstr "فهرست تکلیف برای استفاده‌ی نامتصل علامت نخورده است"
 
 #. calendar:server-version secondary
 #: ../calendar/calendar-errors.xml.h:146
 msgid " Some features may not work correctly with your current server version "
-msgstr ""
+msgstr " با نسخه‌ی فعلی کارگزار شما ممکن است بعضی امکانات درست کار نکنند "
 
 #: ../calendar/common/authentication.c:49 ../calendar/gui/e-pub-utils.c:301
 #: ../smime/gui/component.c:48
@@ -4122,7 +4093,7 @@ msgstr "شکستن رویدادهای چند روزه:"
 #: ../calendar/conduits/todo/todo-conduit.c:879
 #: ../calendar/conduits/todo/todo-conduit.c:880
 msgid "Could not start evolution-data-server"
-msgstr ""
+msgstr "آغاز کردن evolution-data-server ممکن نیست"
 
 #: ../calendar/conduits/calendar/calendar-conduit.c:1468
 #: ../calendar/conduits/calendar/calendar-conduit.c:1471
@@ -4210,14 +4181,12 @@ msgid "Appointment"
 msgstr "قرار"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:2
-#, fuzzy
 msgid "Appointment Title"
-msgstr "قرار"
+msgstr "عنوان قرار"
 
 #. End time
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:3
 #: ../plugins/itip-formatter/itip-view.c:876
-#, fuzzy
 msgid "End time:"
 msgstr "زمان پایان:"
 
@@ -4229,14 +4198,12 @@ msgid "Location:"
 msgstr "مکان:"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:5
-#, fuzzy
 msgid "Snooze _time:"
-msgstr "زمان پایان:"
+msgstr "_زمان چرت:"
 
 #. Start time
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:6
 #: ../plugins/itip-formatter/itip-view.c:867
-#, fuzzy
 msgid "Start time:"
 msgstr "زمان آغاز:"
 
@@ -4259,22 +4226,18 @@ msgid "_Snooze"
 msgstr "_چرت"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:9
-#, fuzzy
 msgid "description of appointment"
-msgstr "آغاز قرار"
+msgstr "شرح قرار"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:10
-#, fuzzy
 msgid "end-time"
 msgstr "زمان پایان:"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:11
-#, fuzzy
 msgid "location"
 msgstr "مکان"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:13
-#, fuzzy
 msgid "start-time"
 msgstr "زمان آغاز:"
 
@@ -4287,9 +4250,8 @@ msgid "Dismiss All"
 msgstr "رها کردن همه"
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:962
-#, fuzzy
 msgid "No summary available."
-msgstr "شرحی موجود نیست."
+msgstr "خلاصه‌ای موجود نیست."
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:971
 #: ../calendar/gui/alarm-notify/alarm-queue.c:973
@@ -4297,9 +4259,8 @@ msgid "No description available."
 msgstr "شرحی موجود نیست."
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:981
-#, fuzzy
 msgid "No location information available."
-msgstr "شرحی موجود نیست."
+msgstr "اطلاعاتی درباره‌ی مکان موجود نیست."
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:997
 #, c-format
@@ -4351,31 +4312,26 @@ msgid "invalid time"
 msgstr "زمان نامعتبر"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:1
-#, fuzzy
 msgid "Alarm programs"
-msgstr "اجرای یک برنامه"
+msgstr "برنامه‌های هشدار"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:2
-#, fuzzy
 msgid "Ask for confirmation when deleting items"
 msgstr "تأیید گرفتن هنگام حذف موارد"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:3
-#, fuzzy
 msgid "Background color of tasks that are due today, in \"#rrggbb\" format."
-msgstr "رنگ تکلیف‌هایی که موعدشان امروز سر می‌رسد"
+msgstr "رنگ پس‌زمینه‌ی تکلیف‌هایی که موعدشان امروز سر می‌رسد، در قالب «#rrggbb».‏"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:4
-#, fuzzy
 msgid "Background color of tasks that are overdue, in \"#rrggbb\" format."
-msgstr "رنگ تکلیف‌های عقب افتاده"
+msgstr "رنگ پس‌زمینه‌ی تکلیف‌های عقب افتاده، در قالب «#rrggbb»."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:5
 msgid "Calendars to run alarms for"
 msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:6
-#, fuzzy
 msgid "Compress weekends in month view"
 msgstr "فشرده کردن آخرهفته‌ها در نمای ماه"
 
@@ -4388,98 +4344,84 @@ msgid "Days on which the start and end of work hours should be indicated."
 msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:9
-#, fuzzy
 msgid "Default appointment reminder"
-msgstr "حذف قرار"
+msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:10
-#, fuzzy
 msgid "Default reminder units"
-msgstr "اولویت پیش‌فرض:"
+msgstr "واحد یادآور پیش‌فرض"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:11
-#, fuzzy
 msgid "Default reminder value"
-msgstr "واحدهای یادآور پیش‌فرض"
+msgstr "مقدار یادآور پیش‌فرض"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:12
-#, fuzzy
 msgid "Free/busy server urls"
-msgstr "درخواست آزاد/مشغول"
+msgstr "نشانی‌های اینترنتی کارگزار آزاد/مشغول"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:13
-#, fuzzy
 msgid "Free/busy template url"
-msgstr "پاسخ آزاد/مشغول"
+msgstr "نشانی اینترنتی قالب آزاد/مشغول"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:14
-#, fuzzy
 msgid "Hide completed tasks"
-msgstr "پنهان کردن کگلیف‌های انجام شده پس از"
+msgstr "پنهان کردن تکلیف‌های انجام شده"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:15
-#, fuzzy
 msgid "Hide task units"
-msgstr "فهرست تکلیف جدید"
+msgstr "پنهان کردن واحدهای تکلیف"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:16
 msgid "Hide task value"
-msgstr ""
+msgstr "پنهان کردن مقدار تکلیف"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:17
 msgid "Horizontal pane position"
-msgstr ""
+msgstr "موقعیت قاب افقی"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:18
 msgid "Hour the workday ends on, in twenty four hour format, 0 to 23."
-msgstr ""
+msgstr "ساعت پایان روز کاری، در قالب بیست و چهار ساعته،۰ تا ۲۳."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:19
 msgid "Hour the workday starts on, in twenty four hour format, 0 to 23."
-msgstr ""
+msgstr "ساعت آغاز روز کاری، در قالب بیست و چهار ساعته، ۰ تا ۲۳"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:20
 msgid "Last alarm time"
-msgstr ""
+msgstr "زمان آخرین هشدار"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:21
 msgid "List of server urls for free/busy publishing."
 msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:22
-#, fuzzy
 msgid "Minute the workday ends on, 0 to 59"
-msgstr "دقیقه‌ی پایان روز کاری"
+msgstr "دقیقه‌ی پایان روز کاری، ۰ تا ۵۹"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:23
-#, fuzzy
 msgid "Minute the workday starts on, 0 to 59."
-msgstr "دقیقه‌ی آغاز روز کاری"
+msgstr "دقیقه‌ی آغاز روز کاری، ۰ تا ۵۹"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:24
-#, fuzzy
 msgid "Month view horizontal pane position"
-msgstr "موقعیت قاب افقی"
+msgstr "موقعیت قاب افقی در نمای ماه"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:25
-#, fuzzy
 msgid "Month view vertical pane position"
-msgstr "موقعیت قاب عمودی در نمای اصلی"
+msgstr "موقعیت قاب عمودی در نمای ماه"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:26
-#, fuzzy
 msgid "Number of units for determining for a default reminder."
-msgstr "تعداد واحدهای یادآور پیش‌فرض"
+msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:27
-#, fuzzy
 msgid "Number of units for determining when to hide tasks."
-msgstr "تعداد واحدها برای تعیین هنگام پنهان کردن تکلیف‌ها"
+msgstr "تعداد واحدها برای تعیین موقع پنهان کردن تکلیف‌ها."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:28
-#, fuzzy
 msgid "Overdue tasks color"
-msgstr "تکلیف‌های عقب افتاده"
+msgstr "رنگ تکلیف‌های عقب افتاده"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:29
 msgid ""
@@ -4494,11 +4436,10 @@ msgid ""
 msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:31
-#, fuzzy
 msgid ""
 "Position of the vertical pane, between task list and the task preview pane, "
 "in pixels."
-msgstr "موقعیت قاب عمودی در نمای تکلیف"
+msgstr "موقعیت قاب عمودی در نمای تکلیف، بین فهرست تکلیف و قاب پیش‌نمایش تکلیف، به نقطه."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:32
 msgid ""
@@ -4517,7 +4458,6 @@ msgid "Programs that are allowed to be run by alarms."
 msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:35
-#, fuzzy
 msgid "Show appointment end times in week and month views"
 msgstr "نشان دادن زمان پایان قرارها در نمای هفته و ماه"
 
@@ -4530,7 +4470,6 @@ msgid "Show week numbers in date navigator"
 msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:38
-#, fuzzy
 msgid "Tasks due today color"
 msgstr "تکلیف‌هایی که موعدشان امروز سر می‌رسد:"
 
@@ -4552,19 +4491,16 @@ msgid ""
 msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:43
-#, fuzzy
 msgid ""
 "Time divisions</short> <short>Intervals shown in Day and Work Week views, in "
 "minutes."
-msgstr "فواصل نمایش داده شده در نمای روز و هفته‌ی کاری"
+msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:44
-#, fuzzy
 msgid "Time the last alarm ran, in time_t."
-msgstr "زمان آخرین اعلام هشدار"
+msgstr "زمان آخرین بار اعلام هشدار، در time_t"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:45
-#, fuzzy
 msgid "Timezone"
 msgstr "منطقه‌ی زمانی "
 
@@ -4577,34 +4513,29 @@ msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\"."
 msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:48
-#, fuzzy
 msgid ""
 "Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days\"."
-msgstr "تعداد واحدها برای تعیین هنگام پنهان کردن تکلیف‌ها"
+msgstr "تعداد واحدها برای تعیین موقع پنهان کردن تکلیف‌ها، «دقیقه»، «ساعت» یا «روز».‏"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:50
-#, fuzzy
 msgid "Week start"
 msgstr "شروع هفته:"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:51
-#, fuzzy
 msgid "Weekday the week starts on, from Sunday (0) to Saturday (6)."
-msgstr "روز شروع هفته"
+msgstr "روز شروع هفته، از یکشنبه(۰) تا شنبه(۶).‏"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:52
 msgid "Whether or not to use the notification tray for display alarms."
 msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:53
-#, fuzzy
 msgid "Whether to ask for confirmation when deleting an appointment or task."
-msgstr "این که آیا برای حذف قرارها تصدیق گرفته شود یا نه"
+msgstr "این که آیا برای حذف قرارها یا تکلیف‌ها تصدیق گرفته شود یا نه."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:54
-#, fuzzy
 msgid "Whether to ask for confirmation when expunging appointments and tasks."
-msgstr "این که آیا برای حذف قرارها تصدیق گرفته شود یا نه"
+msgstr "این که آیا برای محو کردن قرارها و تکلیف‌ها تصدیق گرفته شود یا نه"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:55
 msgid ""
@@ -4613,56 +4544,47 @@ msgid ""
 msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:56
-#, fuzzy
 msgid "Whether to display the end time of events in the week and month views."
-msgstr "نشان دادن زمان پایان قرارها در نمای هفته و ماه"
+msgstr "این که آیا زمان پایان رویدادها در نمای هفته و ماه نشان داده شود یا نه."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:57
-#, fuzzy
 msgid "Whether to hide completed tasks in the tasks view."
-msgstr "این که آیا تکلیف‌های انجام شده پنهان شوند یا نه"
+msgstr "این که آیا تکلیف‌های انجام شده در نمای تکلیف پنهان شوند یا نه."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:58
-#, fuzzy
 msgid "Whether to set a default reminder for appointments."
-msgstr "این که برای رویدادها یک یادآور پیش‌فرض تنظیم شود یا نه"
+msgstr "این که برای قرارها یک یادآور پیش‌فرض تنظیم شود یا نه."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:59
-#, fuzzy
 msgid ""
 "Whether to show times in twenty four hour format instead of using am/pm."
 msgstr ""
-"این که زمان به جای استفاده از صبح/عصر در قالب ۲۴ ساعته نشان داده شود یا نه"
+"این که وقت به جای استفاده از صبح/عصر در قالب بیست و چهار ساعته نشان داده شود یا نه"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:60
-#, fuzzy
 msgid "Whether to show week numbers in the date navigator."
 msgstr ""
-"این که زمان به جای استفاده از صبح/عصر در قالب ۲۴ ساعته نشان داده شود یا نه"
+"این که وقت به جای استفاده از صبح/عصر در قالب بیست و چهار ساعته نشان داده شود یا نه"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:61
-#, fuzzy
 msgid "Work days"
 msgstr "روزهای کاری:"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:62
-#, fuzzy
 msgid "Workday end hour"
 msgstr "ساعت پایان روز کاری"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:63
 msgid "Workday end minute"
-msgstr ""
+msgstr "دقیقه‌ی پایان روز کاری"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:64
-#, fuzzy
 msgid "Workday start hour"
 msgstr "ساعت آغاز روز کاری"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:65
-#, fuzzy
 msgid "Workday start minute"
-msgstr "ساعت آغاز روز کاری"
+msgstr "دقیقه‌ی آغاز روز کاری"
 
 #: ../calendar/gui/cal-search-bar.c:49
 msgid "Summary contains"
@@ -4674,7 +4596,7 @@ msgstr "شرح‌های حاوی"
 
 #: ../calendar/gui/cal-search-bar.c:51
 msgid "Comment contains"
-msgstr ""
+msgstr "توضیح‌های حاوی"
 
 #: ../calendar/gui/cal-search-bar.c:52
 msgid "Location contains"
@@ -4751,9 +4673,8 @@ msgid "There is no calendar available for creating events and meetings"
 msgstr "تقویمی برای ایجاد رویداد و قرارها موجود نیست"
 
 #: ../calendar/gui/calendar-component.c:1276
-#, fuzzy
 msgid "Calendar Source Selector"
-msgstr "مکان تقویم"
+msgstr "انتخاب‌گر مبدأ تقویم"
 
 #: ../calendar/gui/calendar-component.c:1467
 msgid "New appointment"
@@ -4934,7 +4855,7 @@ msgstr "ساعت"
 #: ../filter/filter.glade.h:15 ../plugins/calendar-http/calendar-http.c:264
 #: ../plugins/calendar-weather/calendar-weather.c:565
 msgid "hours"
-msgstr ""
+msgstr "ساعت"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:25
 msgid "minute(s)"
@@ -4995,15 +4916,13 @@ msgstr "_ویژگی‌ها:"
 
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:442
 #: ../composer/e-msg-composer-attachment-bar.c:440
-#, fuzzy
 msgid "_Add attachment..."
-msgstr "اضافه کردن پیوست"
+msgstr "ا_ضافه کردن پیوست..."
 
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:699
 #: ../composer/e-msg-composer-attachment-bar.c:703
-#, fuzzy
 msgid "Attachment Bar"
-msgstr "پیوست"
+msgstr "نوار پیوست"
 
 #: ../calendar/gui/dialogs/cal-attachment-select-file.c:96
 #: ../calendar/gui/dialogs/cal-attachment-select-file.c:115
@@ -5117,18 +5036,16 @@ msgid "<b>Alerts</b>"
 msgstr "<b>هشدارها</b>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:8
-#, fuzzy
 msgid "<b>Default Free/Busy Server</b>"
-msgstr "<b>تقویم‌های آزاد/مشغول</b>"
+msgstr "<b>کارگزار پیش‌فرض آزاد/مشغول</b>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:9
 msgid "<b>General</b>"
 msgstr "<b>عمومی</b>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:10
-#, fuzzy
 msgid "<b>Publishing</b>"
-msgstr "<b>مکان چاپ</b>"
+msgstr "<b>تشر</b>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:11
 msgid "<b>Task List</b>"
@@ -5175,10 +5092,9 @@ msgstr "نمایش"
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:22
 #: ../mail/mail-config.glade.h:73
 msgid "E_nable"
-msgstr "به کار انداختن"
+msgstr "به _کار انداختن"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:23
-#, fuzzy
 msgid "Free/Busy"
 msgstr "آزاد/مشغول"
 
@@ -5481,10 +5397,10 @@ msgstr "پیغام‌ پیوست شده - %s"
 #: ../calendar/gui/dialogs/comp-editor.c:186
 #: ../calendar/gui/dialogs/comp-editor.c:349 ../composer/e-msg-composer.c:2681
 #: ../composer/e-msg-composer.c:2844
-#, fuzzy, c-format
+#, c-format
 msgid "Attached message"
 msgid_plural "%d attached messages"
-msgstr[0] "ایالات متحده"
+msgstr[0] ""
 
 #: ../calendar/gui/dialogs/comp-editor.c:412
 #: ../calendar/gui/e-calendar-table.c:1164
@@ -5500,7 +5416,7 @@ msgstr "_نسخه‌برداری"
 #: ../mail/em-folder-tree.c:1048 ../mail/em-folder-tree.c:2312
 #: ../mail/em-folder-view.c:876 ../mail/message-list.c:1708
 msgid "_Move"
-msgstr "_انتقال"
+msgstr "_جابه‌جایی"
 
 #: ../calendar/gui/dialogs/comp-editor.c:415 ../composer/e-msg-composer.c:2909
 #: ../mail/em-folder-tree.c:1050 ../mail/message-list.c:1710
@@ -5538,9 +5454,9 @@ msgstr "ویرایش قرار"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1532
 #: ../calendar/gui/dialogs/comp-editor.c:1575
-#, fuzzy, c-format
+#, c-format
 msgid "Meeting - %s"
-msgstr "جلسه"
+msgstr "جلسه - %s"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1534
 #: ../calendar/gui/dialogs/comp-editor.c:1577
@@ -5752,20 +5668,20 @@ msgstr "رویداد تمام‌روز"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:9
 msgid "Ad_vanced  send options"
-msgstr ""
+msgstr "گزینه‌های ارسال _پبش‌رفته"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:10
 msgid "C_ustomize..."
-msgstr "سفارشی سازی..."
+msgstr "س_فارشی سازی..."
 
 #: ../calendar/gui/dialogs/event-page.glade.h:11
 #: ../calendar/gui/dialogs/task-page.glade.h:5
 msgid "Ca_tegories..."
-msgstr "مقولات..."
+msgstr "م_قولات..."
 
 #: ../calendar/gui/dialogs/event-page.glade.h:12
 msgid "Cale_ndar:"
-msgstr "تقویم:"
+msgstr "_تقویم:"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:13
 #: ../calendar/gui/dialogs/task-page.glade.h:7
@@ -5780,13 +5696,12 @@ msgid "Confidential"
 msgstr "محرمانه"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:15
-#, fuzzy
 msgid "Event Description"
-msgstr "شرح:"
+msgstr "شرح رویداد"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:16
 msgid "Locat_ion:"
-msgstr "مکان:"
+msgstr "_مکان:"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:17
 #: ../calendar/gui/dialogs/task-page.glade.h:10
@@ -5817,7 +5732,7 @@ msgstr "این قرار آژیرهای سفارشی دارد"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:22
 msgid "_Alarm"
-msgstr "آژیر"
+msgstr "_هشدار"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:23
 msgid "_Description:"
@@ -5923,30 +5838,29 @@ msgstr "وضعیت"
 
 #: ../calendar/gui/dialogs/meeting-page.glade.h:2
 msgid "<b>Att_endees</b>"
-msgstr ""
+msgstr "<b>حاـضران</b>"
 
 #: ../calendar/gui/dialogs/meeting-page.glade.h:3
 msgid "C_hange Organizer"
-msgstr "تغییر سازمان‌دهنده"
+msgstr "ت_غییر سازمان‌دهنده"
 
 #: ../calendar/gui/dialogs/meeting-page.glade.h:4
 #: ../calendar/gui/e-meeting-time-sel.c:428
 msgid "Con_tacts..."
-msgstr "آشنا‌ها..."
+msgstr "آ_شنا‌ها..."
 
 #: ../calendar/gui/dialogs/meeting-page.glade.h:6
 msgid "Or_ganizer:"
 msgstr "_سازمان‌دهنده:"
 
 #: ../calendar/gui/dialogs/meeting-page.glade.h:7
-#, fuzzy
 msgid "Organizer"
 msgstr "سازمان‌دهنده"
 
 #: ../calendar/gui/dialogs/meeting-page.glade.h:8
 #: ../calendar/gui/e-itip-control.glade.h:9
 msgid "Organizer:"
-msgstr "سازمان‌دهنده"
+msgstr "سازمان‌دهنده:"
 
 #: ../calendar/gui/dialogs/new-calendar.glade.h:2
 msgid "<b>Calendar options</b>"
@@ -5986,11 +5900,11 @@ msgstr "نام فهرست تکلیف"
 
 #: ../calendar/gui/dialogs/recur-comp.c:52
 msgid "You are modifying a recurring event, what would you like to modify?"
-msgstr ""
+msgstr "شما در حال تغییر دادن یک رویداد مکرر هستید، می‌خواهید کدام را تغییر دهید؟"
 
 #: ../calendar/gui/dialogs/recur-comp.c:56
 msgid "You are modifying a recurring task, what would you like to modify?"
-msgstr ""
+msgstr "شما در حال تغییر دادن یک تکلیف مکرر هستید، می‌خواهید کدام را تغییر دهید؟"
 
 #: ../calendar/gui/dialogs/recur-comp.c:60
 msgid ""
@@ -6015,7 +5929,7 @@ msgstr "همه‌ی موارد"
 
 #: ../calendar/gui/dialogs/recurrence-page.c:493
 msgid "This appointment contains recurrences that Evolution cannot edit."
-msgstr ""
+msgstr "این قرار تکرارهایی دارد که Evolution نمی‌تواند آنها را ویرایش کند."
 
 #: ../calendar/gui/dialogs/recurrence-page.c:812
 msgid "Recurrence date is invalid"
@@ -6023,7 +5937,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/recurrence-page.c:923
 msgid "on"
-msgstr ""
+msgstr "در"
 
 #: ../calendar/gui/dialogs/recurrence-page.c:984
 msgid "first"
@@ -6075,9 +5989,8 @@ msgid "<b>Preview</b>"
 msgstr "<b>پیش‌نمایش<b>"
 
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:3
-#, fuzzy
 msgid "<b>Recurrence</b>"
-msgstr "قبلی"
+msgstr ""
 
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:4
 msgid "Every"
@@ -6117,14 +6030,12 @@ msgid "Completed date is wrong"
 msgstr "زمان انجام اشتباه است"
 
 #: ../calendar/gui/dialogs/task-details-page.c:522
-#, fuzzy
 msgid "Web Page"
-msgstr "صفحه‌ی _وب:"
+msgstr "صفحه‌ی وب"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:1
-#, fuzzy
 msgid "<span weight=\"bold\">Miscellaneous</span>"
-msgstr "<span weight=\"bold\">متفرقه\t</span>"
+msgstr "<span weight=\"bold\">متفرقه</span>"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:2
 msgid "<span weight=\"bold\">Status</span>"
@@ -6730,7 +6641,7 @@ msgstr "حذف _همه‌ی موارد"
 #: ../calendar/gui/e-cell-date-edit-text.c:115 ../e-util/e-time-utils.c:180
 #: ../e-util/e-time-utils.c:393
 msgid "%a %m/%d/%Y %H:%M:%S"
-msgstr ""
+msgstr "٪OA %Oy/%OM/%Od %OH:%OM:%OS"
 
 #. strftime format of a weekday, a date and a time, 12-hour.
 #. strptime format of a weekday, a date and a time,
@@ -6740,7 +6651,7 @@ msgstr ""
 #: ../calendar/gui/e-cell-date-edit-text.c:118 ../e-util/e-time-utils.c:175
 #: ../e-util/e-time-utils.c:402
 msgid "%a %m/%d/%Y %I:%M:%S %p"
-msgstr ""
+msgstr "٪OA %Oy/%OM/%Od %OH:%OM:%OS"
 
 #: ../calendar/gui/e-cell-date-edit-text.c:123
 #, c-format
@@ -6767,7 +6678,7 @@ msgstr "تقسیمات %I02i دقیقه‌ای"
 #: ../calendar/gui/e-day-view-top-item.c:715 ../calendar/gui/e-day-view.c:1494
 #: ../calendar/gui/e-week-view-main-item.c:312 ../calendar/gui/print.c:1517
 msgid "%A %d %B"
-msgstr ""
+msgstr "%A %Od %B"
 
 #. String to use in 12-hour time format for times in the morning.
 #: ../calendar/gui/e-day-view.c:748 ../calendar/gui/e-week-view.c:512
@@ -7286,7 +7197,7 @@ msgstr "در حال اجرا"
 #: ../calendar/gui/e-meeting-time-sel-item.c:444
 #: ../calendar/gui/e-meeting-time-sel.c:2104
 msgid "%A, %B %d, %Y"
-msgstr ""
+msgstr "%A، %Od %B، %Oy"
 
 #. This is a strftime() format string %a = abbreviated weekday
 #. name, %m = month number, %d = month day, %Y = full year.
@@ -7298,7 +7209,7 @@ msgstr ""
 #: ../calendar/gui/e-meeting-time-sel.c:2137 ../e-util/e-time-utils.c:203
 #: ../e-util/e-time-utils.c:296 ../e-util/e-time-utils.c:384
 msgid "%a %m/%d/%Y"
-msgstr ""
+msgstr "%A %Oy/%Om/%Od"
 
 #. This is a strftime() format string %m = month number,
 #. %d = month day, %Y = full year.
@@ -7309,7 +7220,7 @@ msgstr ""
 #: ../calendar/gui/e-meeting-time-sel-item.c:452 ../e-util/e-time-utils.c:238
 #: ../e-util/e-time-utils.c:299 ../widgets/misc/e-dateedit.c:1660
 msgid "%m/%d/%Y"
-msgstr ""
+msgstr "%Oy/%Om/%Od"
 
 #: ../calendar/gui/e-meeting-time-sel.c:413 ../designs/OOA/ooa.glade.h:11
 msgid "Out of Office"
@@ -7392,23 +7303,22 @@ msgstr "در حال انجام تکلیف‌ها..."
 
 #: ../calendar/gui/e-tasks.c:1114
 msgid "Deleting selected objects..."
-msgstr ""
+msgstr "در حال حذف کردن اشیاء انتخاب شده..."
 
 #: ../calendar/gui/e-tasks.c:1141
 msgid "Expunging"
 msgstr ""
 
 #: ../calendar/gui/e-timezone-entry.c:133
-#, fuzzy
 msgid "Timezone Button"
-msgstr "منطقه‌ی زمانی "
+msgstr "دکمه‌ی منطقه‌ی زمانی "
 
 #. strftime format %d = day of month, %B = full
 #. month name. You can change the order but don't
 #. change the specifiers or add anything.
 #: ../calendar/gui/e-week-view-main-item.c:329 ../calendar/gui/print.c:1501
 msgid "%d %B"
-msgstr ""
+msgstr "%Od %B"
 
 #: ../calendar/gui/gnome-cal.c:724
 msgid "Updating query"
@@ -7420,7 +7330,6 @@ msgid "Custom View"
 msgstr "نمای سفارشی"
 
 #: ../calendar/gui/gnome-cal.c:2068
-#, fuzzy
 msgid "Save Custom View"
 msgstr "ذخیره‌ی نمای سفارشی"
 
@@ -7745,35 +7654,35 @@ msgstr "شن‍"
 #. Day
 #: ../calendar/gui/print.c:1917
 msgid "Selected day (%a %b %d %Y)"
-msgstr ""
+msgstr "روز انتخاب شده (%A %B %Od %Oy)"
 
 #: ../calendar/gui/print.c:1942 ../calendar/gui/print.c:1946
 msgid "%a %b %d"
-msgstr ""
+msgstr "%A %Od %B"
 
 #: ../calendar/gui/print.c:1943
 msgid "%a %d %Y"
-msgstr ""
+msgstr "%A %Od %Oy"
 
 #: ../calendar/gui/print.c:1947 ../calendar/gui/print.c:1949
 #: ../calendar/gui/print.c:1950
 msgid "%a %b %d %Y"
-msgstr ""
+msgstr "%A %B %Od %Oy"
 
 #: ../calendar/gui/print.c:1954
 #, c-format
 msgid "Selected week (%s - %s)"
-msgstr ""
+msgstr "هفته‌ی انتخاب شده (%s - %s)"
 
 #. Month
 #: ../calendar/gui/print.c:1962
 msgid "Selected month (%b %Y)"
-msgstr ""
+msgstr "ماه انتخاب شده (%B %Oy)"
 
 #. Year
 #: ../calendar/gui/print.c:1969
 msgid "Selected year (%Y)"
-msgstr ""
+msgstr "سال انتخاب شده (%Oy)"
 
 #: ../calendar/gui/print.c:2372
 #, c-format
@@ -7793,7 +7702,7 @@ msgstr "درصد تکمیل: %Ii"
 #: ../calendar/gui/print.c:2413
 #, c-format
 msgid "URL: %s"
-msgstr "URL: %s"
+msgstr "نشانی اینترنتی: %s"
 
 #: ../calendar/gui/print.c:2427
 #, c-format
@@ -9492,48 +9401,42 @@ msgstr "برای دفترچه‌ی نشانی اینجا کلیک کنید"
 #. * expects the reply_to fields to be initialized.
 #.
 #: ../composer/e-msg-composer-hdrs.c:585
-#, fuzzy
 msgid "_Reply-To:"
-msgstr "نشانی برگشت:"
+msgstr "نشانی _برگشت:"
 
 #.
 #. * From
 #.
 #: ../composer/e-msg-composer-hdrs.c:592
-#, fuzzy
 msgid "Fr_om:"
-msgstr "فرستنده:"
+msgstr "_فرستنده:"
 
 #.
 #. * Subject
 #.
 #: ../composer/e-msg-composer-hdrs.c:599
-#, fuzzy
 msgid "S_ubject:"
-msgstr "موضوع:"
+msgstr "مو_ضوع:"
 
 #: ../composer/e-msg-composer-hdrs.c:609
-#, fuzzy
 msgid "_To:"
-msgstr "گیرنده:"
+msgstr "_گیرنده:"
 
 #: ../composer/e-msg-composer-hdrs.c:610
 msgid "Enter the recipients of the message"
 msgstr "گیرنده‌های پیغام را وارد کنید"
 
 #: ../composer/e-msg-composer-hdrs.c:613
-#, fuzzy
 msgid "_Cc:"
-msgstr "رونوشت:"
+msgstr "_رونوشت:"
 
 #: ../composer/e-msg-composer-hdrs.c:614
 msgid "Enter the addresses that will receive a carbon copy of the message"
 msgstr "نشانی‌هایی که یک رونوشت از پیغام را دریافت خواهند کرد وارد کنید"
 
 #: ../composer/e-msg-composer-hdrs.c:617
-#, fuzzy
 msgid "_Bcc:"
-msgstr "رونوشت محرمانه:"
+msgstr "رونوشت _محرمانه:"
 
 #: ../composer/e-msg-composer-hdrs.c:618
 msgid ""
@@ -9588,7 +9491,6 @@ msgstr "پیغام بی‌عنوان"
 
 #. NB: This function is never used anymore
 #: ../composer/e-msg-composer.c:1604
-#, fuzzy
 msgid "Open File"
 msgstr "باز کردن پرونده"
 
@@ -9598,9 +9500,8 @@ msgid "Autogenerated"
 msgstr "تولید خودکار"
 
 #: ../composer/e-msg-composer.c:2100
-#, fuzzy
 msgid "Si_gnature:"
-msgstr "امضا:"
+msgstr "ام_ضا:"
 
 #: ../composer/e-msg-composer.c:2359 ../composer/e-msg-composer.c:3376
 #: ../composer/e-msg-composer.c:3377
@@ -9616,12 +9517,12 @@ msgstr ""
 #. mail-composer:no-attach primary
 #: ../composer/mail-composer-errors.xml.h:2
 msgid "You cannot attach the file `{0}' to this message."
-msgstr "نمی‌توانید پرونده‌ی '{0} را به این پیغام پیوست کنید."
+msgstr "نمی‌توانید پرونده‌ی «{0}» را به این پیغام پیوست کنید."
 
 #. mail-composer:attach-notfile primary
 #: ../composer/mail-composer-errors.xml.h:6
 msgid "The file `{0}' is not a regular file and cannot be sent in a message."
-msgstr "پرونده‌ی '{0} یک پرونده‌ی متعارف نیست و نمی‌تواند با پیغام ارسال شود."
+msgstr "پرونده‌ی «{0}» یک پرونده‌ی متعارف نیست و نمی‌تواند با پیغام ارسال شود."
 
 #. mail-composer:attach-directory primary
 #: ../composer/mail-composer-errors.xml.h:8
@@ -9653,12 +9554,12 @@ msgstr ""
 #: ../mail/mail-errors.xml.h:117 ../widgets/misc/e-system-errors.xml.h:11
 #: ../widgets/misc/e-system-errors.xml.h:15
 msgid "Because \"{1}\"."
-msgstr "به دلیل \"{1}\""
+msgstr "به دلیل «{1}».‏"
 
 #. mail-composer:recover-autosave title
 #: ../composer/mail-composer-errors.xml.h:16
 msgid "Unfinished messages found"
-msgstr "پیغام‌ ناتمام پیدا شد"
+msgstr "پیغام‌های‌ ناتمام پیدا شدند"
 
 #. mail-composer:recover-autosave primary
 #: ../composer/mail-composer-errors.xml.h:18
@@ -9674,21 +9575,21 @@ msgstr ""
 
 #: ../composer/mail-composer-errors.xml.h:21
 msgid "Don't Recover"
-msgstr "بازیابی"
+msgstr "بازیابی نشود"
 
 #: ../composer/mail-composer-errors.xml.h:22
 msgid "Recover"
-msgstr "بازیابی نشود"
+msgstr "بازیابی"
 
 #. mail-composer:no-autosave primary
 #: ../composer/mail-composer-errors.xml.h:24
 msgid "Could not save to autosave file \"{0}\"."
-msgstr "ذخیره در پرونده‌ی ذخیره‌ی خودکار \"{0}\" ممکن نیست."
+msgstr "ذخیره در پرونده‌ی ذخیره‌ی خودکار «{0}» ممکن نیست."
 
 #. mail-composer:no-autosave secondary
 #: ../composer/mail-composer-errors.xml.h:26
 msgid "Error saving to autosave because \"{1}\"."
-msgstr "خطا در ذخیره‌ی خودکار به دلیل »{1}»"
+msgstr "خطا در ذخیره‌ی خودکار به دلیل «{1}».‏"
 
 #. mail-composer:exit-unsaved title
 #: ../composer/mail-composer-errors.xml.h:28
@@ -9701,7 +9602,7 @@ msgid ""
 "Are you sure you want to discard the message, titled '{0}', you are "
 "composing?"
 msgstr ""
-"آیا مطمئنید که می‌خواهید پیغام با عنوان '{0} را که در حال نگارش آن هستید دور "
+"آیا مطمئنید که می‌خواهید پیغام با عنوان «{0}» را که در حال نگارش آن هستید دور "
 "بیاندازید؟"
 
 #. mail-composer:exit-unsaved secondary
@@ -9731,12 +9632,12 @@ msgstr "ایجاد پیغام ممکن نیست."
 #. mail-composer:no-build-message secondary
 #: ../composer/mail-composer-errors.xml.h:38
 msgid "Because \"{0}\", you may need to select different mail options."
-msgstr "به دلیل \"{0}\"، شاید لازم باشد گزینه‌های نامه‌ی دیگری را انتخاب کنید."
+msgstr "به دلیل «{0}»، شاید لازم باشد گزینه‌های نامه‌ی دیگری را انتخاب کنید."
 
 #. mail-composer:no-sig-file primary
 #: ../composer/mail-composer-errors.xml.h:40
 msgid "Could not read signature file \"{0}\"."
-msgstr "خواندن پرونده‌ی امضای \"{0}\" ممکن نیست."
+msgstr "خواندن پرونده‌ی امضای «{0}» ممکن نیست."
 
 #. mail-composer:all-accounts-deleted primary
 #: ../composer/mail-composer-errors.xml.h:44
@@ -9902,7 +9803,7 @@ msgstr "پرونده رونویسی شود؟"
 #. time, in 12-hour format, without seconds.
 #: ../e-util/e-time-utils.c:185 ../e-util/e-time-utils.c:398
 msgid "%a %m/%d/%Y %I:%M %p"
-msgstr ""
+msgstr "%A %Oy/%Om/%Od %OH:%OM"
 
 #. strptime format of a weekday, a date and a time,
 #. in 24-hour format, without seconds.
@@ -9910,65 +9811,65 @@ msgstr ""
 #. time, in 24-hour format, without seconds.
 #: ../e-util/e-time-utils.c:190 ../e-util/e-time-utils.c:389
 msgid "%a %m/%d/%Y %H:%M"
-msgstr ""
+msgstr "%A %Oy/%Om/%Od %OH:%OM"
 
 #. strptime format of a weekday, a date and a time,
 #. in 12-hour format, without minutes or seconds.
 #: ../e-util/e-time-utils.c:195
 msgid "%a %m/%d/%Y %I %p"
-msgstr ""
+msgstr "%A %Oy/%Om/%Od %OH"
 
 #. strptime format of a weekday, a date and a time,
 #. in 24-hour format, without minutes or seconds.
 #: ../e-util/e-time-utils.c:200
 msgid "%a %m/%d/%Y %H"
-msgstr ""
+msgstr "%A %Oy/%Om/%Od %OH"
 
 #. strptime format of a date and a time, in 12-hour format.
 #: ../e-util/e-time-utils.c:211
 msgid "%m/%d/%Y %I:%M:%S %p"
-msgstr ""
+msgstr "%Oy/%Om/%Od %OH:%OM:%OS"
 
 #. strptime format of a date and a time, in 24-hour format.
 #: ../e-util/e-time-utils.c:215
 msgid "%m/%d/%Y %H:%M:%S"
-msgstr ""
+msgstr "%Oy/%Om/%Od %OH:%OM:%OS"
 
 #. strptime format of a date and a time, in 12-hour format,
 #. without seconds.
 #: ../e-util/e-time-utils.c:220
 msgid "%m/%d/%Y %I:%M %p"
-msgstr ""
+msgstr "%Oy/%Om/%Od %OH:%OM"
 
 #. strptime format of a date and a time, in 24-hour format,
 #. without seconds.
 #: ../e-util/e-time-utils.c:225
 msgid "%m/%d/%Y %H:%M"
-msgstr ""
+msgstr "%Oy/%Om/%Od %OH:%OM"
 
 #. strptime format of a date and a time, in 12-hour format,
 #. without minutes or seconds.
 #: ../e-util/e-time-utils.c:230
 msgid "%m/%d/%Y %I %p"
-msgstr ""
+msgstr "%Oy/%Om/%Od %OH"
 
 #. strptime format of a date and a time, in 24-hour format,
 #. without minutes or seconds.
 #: ../e-util/e-time-utils.c:235
 msgid "%m/%d/%Y %H"
-msgstr ""
+msgstr "%Oy/%Om/%Od %OH"
 
 #. strptime format for a time of day, in 12-hour format.
 #. strftime format of a time in 12-hour format.
 #: ../e-util/e-time-utils.c:339 ../e-util/e-time-utils.c:438
 msgid "%I:%M:%S %p"
-msgstr ""
+msgstr "%OH:%OM:%OS"
 
 #. strptime format for a time of day, in 24-hour format.
 #. strftime format of a time in 24-hour format.
 #: ../e-util/e-time-utils.c:343 ../e-util/e-time-utils.c:430
 msgid "%H:%M:%S"
-msgstr ""
+msgstr "%OH:%OM:%OS"
 
 #. strptime format for time of day, without seconds,
 #. in 12-hour format.
@@ -9978,7 +9879,7 @@ msgstr ""
 #: ../e-util/e-time-utils.c:348 ../e-util/e-time-utils.c:435
 #: ../widgets/misc/e-dateedit.c:1431 ../widgets/misc/e-dateedit.c:1697
 msgid "%I:%M %p"
-msgstr ""
+msgstr "%OH:%OM"
 
 #. strptime format for time of day, without seconds 24-hour format.
 #. strftime format of a time in 24-hour format,
@@ -9987,59 +9888,58 @@ msgstr ""
 #: ../e-util/e-time-utils.c:352 ../e-util/e-time-utils.c:427
 #: ../widgets/misc/e-dateedit.c:1428 ../widgets/misc/e-dateedit.c:1694
 msgid "%H:%M"
-msgstr ""
+msgstr "%OH:%OM"
 
 #. strptime format for hour and AM/PM, 12-hour format.
 #: ../e-util/e-time-utils.c:356
 msgid "%I %p"
-msgstr ""
+msgstr "%H"
 
 #: ../e-util/eggtrayicon.c:119
-#, fuzzy
 msgid "The orientation of the tray."
-msgstr "شرح پیوست"
+msgstr "جهت سینی."
 
 #: ../filter/filter-datespec.c:73
 #, c-format
 msgid "1 second ago"
 msgid_plural "%d seconds ago"
-msgstr[0] "%Id ثانیه پیش"
+msgstr[0] "%Id ثانیه قبل"
 
 #: ../filter/filter-datespec.c:74
 #, c-format
 msgid "1 minute ago"
 msgid_plural "%d minutes ago"
-msgstr[0] "%Id دقیقه پیش"
+msgstr[0] "%Id دقیقه بعد"
 
 #: ../filter/filter-datespec.c:75
 #, c-format
 msgid "1 hour ago"
 msgid_plural "%d hours ago"
-msgstr[0] "%Id ساعت پیش"
+msgstr[0] "%Id ساعت قبل"
 
 #: ../filter/filter-datespec.c:76
 #, c-format
 msgid "1 day ago"
 msgid_plural "%d days ago"
-msgstr[0] "%Id روز پیش"
+msgstr[0] "%Id روز قبل"
 
 #: ../filter/filter-datespec.c:77
 #, c-format
 msgid "1 week ago"
 msgid_plural "%d weeks ago"
-msgstr[0] "%Id هفته پیش"
+msgstr[0] "%Id هفته قبل"
 
 #: ../filter/filter-datespec.c:78
 #, c-format
 msgid "1 month ago"
 msgid_plural "%d months ago"
-msgstr[0] "%Id ماه پیش"
+msgstr[0] "%Id ماه قبل"
 
 #: ../filter/filter-datespec.c:79
 #, c-format
 msgid "1 year ago"
 msgid_plural "%d years ago"
-msgstr[0] "%Id سال پیش"
+msgstr[0] "%Id سال قبل"
 
 #: ../filter/filter-datespec.c:280
 msgid "<click here to select a date>"
@@ -10052,7 +9952,7 @@ msgstr "حالا"
 #. strftime for date filter display, only needs to show a day date (i.e. no time)
 #: ../filter/filter-datespec.c:290
 msgid "%d-%b-%Y"
-msgstr ""
+msgstr "%Oy/%B/%Od"
 
 #: ../filter/filter-datespec.c:406
 msgid "Select a time to compare against"
@@ -10142,9 +10042,8 @@ msgid "Test"
 msgstr "آزمایش"
 
 #: ../filter/filter-rule.c:790
-#, fuzzy
 msgid "_Rule name:"
-msgstr "نام قاعده:"
+msgstr "نام _قاعده:"
 
 #: ../filter/filter-rule.c:818
 msgid "<b>If</b>"
@@ -10183,7 +10082,6 @@ msgid "Incoming"
 msgstr "وارده"
 
 #: ../filter/filter-rule.c:975
-#, fuzzy
 msgid "Outgoing"
 msgstr "صادره"
 
@@ -10239,11 +10137,11 @@ msgstr "ثانیه"
 
 #: ../filter/filter.glade.h:19
 msgid "the current time"
-msgstr "زمان جاری"
+msgstr "وقت جاری"
 
 #: ../filter/filter.glade.h:20
 msgid "the time you specify"
-msgstr ""
+msgstr "وقتی که شما مشخص می‌کنید"
 
 #: ../filter/filter.glade.h:22
 msgid "years"
@@ -10373,7 +10271,7 @@ msgstr "گزینه‌های دریافت"
 
 #: ../mail/em-account-editor.c:2183 ../mail/em-account-editor.c:2257
 msgid "Checking for New Mail"
-msgstr ""
+msgstr "بررسی به دنبال نامه‌ی جدید"
 
 #: ../mail/em-account-editor.c:2581 ../mail/mail-config.glade.h:33
 msgid "Account Editor"
@@ -10766,21 +10664,19 @@ msgstr "دریافتی"
 
 #: ../mail/em-folder-tree-model.c:474 ../mail/mail-component.c:143
 msgid "Outbox"
-msgstr ""
+msgstr "ارسالی"
 
 #: ../mail/em-folder-tree-model.c:476 ../mail/mail-component.c:144
-#, fuzzy
 msgid "Sent"
-msgstr "ارسال"
+msgstr "ارسال شده"
 
 #: ../mail/em-folder-tree-model.c:495 ../mail/em-folder-tree-model.c:799
 msgid "Loading..."
 msgstr "در حال بار کردن.."
 
 #: ../mail/em-folder-tree.c:689
-#, fuzzy
 msgid "Mail Folder Tree"
-msgstr "‌پوشه‌ی نامه"
+msgstr "‌درخت پوشه‌ی نامه"
 
 #: ../mail/em-folder-tree.c:922
 #, c-format
@@ -10812,17 +10708,17 @@ msgstr "_نسخه‌برداری در پوشه"
 
 #: ../mail/em-folder-tree.c:1046 ../ui/evolution-mail-message.xml.h:115
 msgid "_Move to Folder"
-msgstr "انتقا_ل به پوشه"
+msgstr "_جابه‌جا کردن به پوشه"
 
 #: ../mail/em-folder-tree.c:1751 ../mail/mail-ops.c:1051
 #, c-format
 msgid "Scanning folders in \"%s\""
-msgstr "پویش پوشه‌ها در \"%s\""
+msgstr "پویش پوشه‌ها در «%s»"
 
 #: ../mail/em-folder-tree.c:2024
-#, fuzzy, c-format
+#, c-format
 msgid "Copying `%s' to `%s'"
-msgstr "در حال نسخه‌برداری از پیغام‌ها در %s"
+msgstr "در حال نسخه‌برداری از «%s» در «%s»"
 
 #: ../mail/em-folder-tree.c:2298 ../mail/em-folder-tree.c:2312
 #: ../mail/em-folder-view.c:876 ../mail/em-folder-view.c:891
@@ -10858,14 +10754,14 @@ msgstr "تغییرنام پوشه"
 
 #: ../mail/em-folder-tree.c:2730
 msgid "Folder names cannot contain '/'"
-msgstr ""
+msgstr "نام پوشه نمی‌تواند «/» داشته باشد"
 
 #: ../mail/em-folder-tree.c:2804 ../ui/evolution-addressbook.xml.h:44
 #: ../ui/evolution-mail-global.xml.h:17
 #: ../ui/evolution-mail-messagedisplay.xml.h:8
 #: ../ui/evolution-message-composer.xml.h:53 ../ui/evolution.xml.h:49
 msgid "_View"
-msgstr "نما"
+msgstr "ن_ما"
 
 #: ../mail/em-folder-tree.c:2805
 msgid "Open in _New Window"
@@ -10947,9 +10843,8 @@ msgid "Mark as _Not Junk"
 msgstr "علامت‌گذاری به عنوان _غیر آشغال"
 
 #: ../mail/em-folder-view.c:1006
-#, fuzzy
 msgid "Mark for Follo_w Up..."
-msgstr "پیر_و..."
+msgstr ""
 
 #: ../mail/em-folder-view.c:1014
 msgid "Fla_g Completed"
@@ -10964,24 +10859,20 @@ msgid "Crea_te Rule From Message"
 msgstr "ایجاد قاعده از پیغام"
 
 #: ../mail/em-folder-view.c:1019
-#, fuzzy
 msgid "vFolder on _Subject"
-msgstr "صافی موضوع"
+msgstr ""
 
 #: ../mail/em-folder-view.c:1020
-#, fuzzy
 msgid "vFolder on Se_nder"
-msgstr "صافی فرستنده"
+msgstr ""
 
 #: ../mail/em-folder-view.c:1021
-#, fuzzy
 msgid "vFolder on _Recipients"
-msgstr "صافی گیرندگان"
+msgstr ""
 
 #: ../mail/em-folder-view.c:1022
-#, fuzzy
 msgid "vFolder on Mailing _List"
-msgstr "صافی بر حسب فهرست نامه"
+msgstr ""
 
 #: ../mail/em-folder-view.c:1026
 msgid "Filter on Sub_ject"
@@ -11245,7 +11136,7 @@ msgstr ""
 #. translators: strftime format for local time equivalent in Date header display, with day
 #: ../mail/em-format-html.c:1563
 msgid "<I> (%a, %R %Z)</I>"
-msgstr ""
+msgstr "<I> (%a، %R %Z)</I>"
 
 #. translators: strftime format for local time equivalent in Date header display, without day
 #: ../mail/em-format-html.c:1566
@@ -12973,8 +12864,8 @@ msgid ""
 "Adding a meaningful Subject line to your messages will give your recipients "
 "an idea of what your mail is about."
 msgstr ""
-"اضافه کردن یک خط موضوع بامعنی به پیغام، تصوری از این که نامه‌ی شما درباره‌ی چیست "
-"به مخاطبانتان می‌دهد "
+"اضافه کردن یک خط موضوع بامعنی به پیغام، تصوری از این که نامه‌ی شما درباره‌ی "
+"چیست به مخاطبانتان می‌دهد "
 
 #. mail:ask-send-only-bcc-contact primary
 #. mail:ask-send-only-bcc primary
@@ -15135,20 +15026,19 @@ msgstr ""
 
 #: ../shell/e-shell-importer.c:583
 msgid "Automatic"
-msgstr ""
+msgstr "خودکار"
 
 #: ../shell/e-shell-importer.c:639
-#, fuzzy
 msgid "F_ilename:"
 msgstr "_نام پرونده:"
 
 #: ../shell/e-shell-importer.c:644
 msgid "Select a file"
-msgstr ""
+msgstr "یک پرونده انتخاب کنید"
 
 #: ../shell/e-shell-importer.c:656
 msgid "File _type:"
-msgstr ""
+msgstr "نو_ع پرونده:"
 
 #: ../shell/e-shell-importer.c:695
 msgid "Import data and settings from _older programs"
@@ -15304,11 +15194,11 @@ msgstr ""
 
 #: ../shell/e-shell.c:1260
 msgid "Configuration Database not found"
-msgstr ""
+msgstr "پایگاه‌داده‌ی پیکربندی پیدا نشد"
 
 #: ../shell/e-shell.c:1262
 msgid "Generic error"
-msgstr ""
+msgstr "خطای عام"
 
 #: ../shell/e-user-creatable-items-handler.c:685
 msgid "New"
@@ -15522,7 +15412,7 @@ msgstr ""
 
 #: ../shell/shell-errors.xml.h:26
 msgid "_Keep Data"
-msgstr ""
+msgstr "_نگه داشتن داده‌ها"
 
 #. shell:upgrade-remove-1-4-confirm title
 #. shell:upgrade-remove-1-4-confirm primary
@@ -15548,13 +15438,13 @@ msgstr ""
 #. shell:noshell-reason title
 #: ../shell/shell-errors.xml.h:39 ../shell/shell-errors.xml.h:47
 msgid "Cannot start Evolution"
-msgstr ""
+msgstr "نمی‌توان Evolution را آغاز کرد"
 
 #. shell:noshell primary
 #. shell:noshell-reason primary
 #: ../shell/shell-errors.xml.h:41 ../shell/shell-errors.xml.h:49
 msgid "Evolution can not start."
-msgstr ""
+msgstr "Evolution نمی‌تواند آغاز شود."
 
 #. shell:noshell secondary
 #: ../shell/shell-errors.xml.h:43
@@ -15710,11 +15600,11 @@ msgstr ""
 
 #: ../smime/gui/smime-ui.glade.h:11
 msgid "Backup"
-msgstr ""
+msgstr "ساختن پشتیبان"
 
 #: ../smime/gui/smime-ui.glade.h:12
 msgid "Backup All"
-msgstr ""
+msgstr "ساختن پشتیبان برای همه"
 
 #: ../smime/gui/smime-ui.glade.h:13
 msgid ""
@@ -15780,11 +15670,11 @@ msgstr ""
 
 #: ../smime/gui/smime-ui.glade.h:31
 msgid "Organization (O)"
-msgstr "سازمان (س)"
+msgstr "سازمان (س)‏"
 
 #: ../smime/gui/smime-ui.glade.h:32
 msgid "Organizational Unit (OU)"
-msgstr "واحد سازمانی (وس)"
+msgstr "واحد سازمانی (وس)‏"
 
 #: ../smime/gui/smime-ui.glade.h:33
 msgid "SHA1 Fingerprint"
@@ -15854,14 +15744,12 @@ msgstr ""
 
 #. x509 certificate usage types
 #: ../smime/lib/e-cert.c:424
-#, fuzzy
 msgid "Sign"
-msgstr "امضا با PGP"
+msgstr "امضا"
 
 #: ../smime/lib/e-cert.c:425
-#, fuzzy
 msgid "Encrypt"
-msgstr "مصر"
+msgstr "رمزنگاری"
 
 #: ../smime/lib/e-cert.c:530
 msgid "Version"
@@ -16197,7 +16085,7 @@ msgstr "ارجاع آشنا..."
 
 #: ../ui/evolution-addressbook.xml.h:36
 msgid "_Move to Folder..."
-msgstr "انتقال به پوشه..."
+msgstr "جابه‌جایی به پوشه..."
 
 #: ../ui/evolution-addressbook.xml.h:39 ../ui/evolution-mail-global.xml.h:16
 msgid "_Preview Pane"
@@ -16213,7 +16101,7 @@ msgstr "انتخاب همه"
 
 #: ../ui/evolution-addressbook.xml.h:43
 msgid "_Send Message to Contact..."
-msgstr ""
+msgstr "ا_رسال پیغام به آشنا..."
 
 #: ../ui/evolution-calendar.xml.h:4
 msgid "Day"
@@ -17297,9 +17185,8 @@ msgid "Pi_lot Settings..."
 msgstr "تنظیمات اولیه"
 
 #: ../ui/evolution.xml.h:22
-#, fuzzy
 msgid "Prefere_nces"
-msgstr "ترجیحات نامه"
+msgstr "تر_جیحات"
 
 #: ../ui/evolution.xml.h:23
 msgid "Send / Receive"
@@ -17334,18 +17221,16 @@ msgid "Toggle whether we are working offline."
 msgstr ""
 
 #: ../ui/evolution.xml.h:31
-#, fuzzy
 msgid "Tool_bar"
-msgstr "نوار ابزار"
+msgstr "_نوار ابزار"
 
 #: ../ui/evolution.xml.h:32
-#, fuzzy
 msgid "Tool_bar style"
-msgstr "نوار ابزار"
+msgstr "سبک _نوار ابزار"
 
 #: ../ui/evolution.xml.h:33
 msgid "Window B_uttons"
-msgstr ""
+msgstr "_دکمه‌های پنجره"
 
 #: ../ui/evolution.xml.h:35
 msgid "_About Evolution..."
@@ -17357,11 +17242,11 @@ msgstr "_راهنما"
 
 #: ../ui/evolution.xml.h:41
 msgid "_Hide buttons"
-msgstr ""
+msgstr "_پنهان کردن دکمه‌ها"
 
 #: ../ui/evolution.xml.h:42
 msgid "_Icons only"
-msgstr ""
+msgstr "فقط _شمایل‌ها"
 
 #: ../ui/evolution.xml.h:43
 msgid "_Import..."
@@ -17380,9 +17265,8 @@ msgid "_Send / Receive"
 msgstr "ارسال / دریافت"
 
 #: ../ui/evolution.xml.h:47
-#, fuzzy
 msgid "_Text only"
-msgstr "مدل متن"
+msgstr "فقط _متنی"
 
 #: ../ui/evolution.xml.h:50
 msgid "_Window"
@@ -17498,17 +17382,15 @@ msgstr "دسچپجشی"
 #. This is a strftime() format. %B = Month name, %Y = Year.
 #: ../widgets/misc/e-calendar-item.c:1123
 msgid "%B %Y"
-msgstr "%B %Y"
+msgstr "%B %Oy"
 
 #: ../widgets/misc/e-calendar.c:177 ../widgets/misc/e-calendar.c:201
-#, fuzzy
 msgid "Previous Button"
-msgstr "قبلی"
+msgstr "دکمه‌ی قبل"
 
 #: ../widgets/misc/e-calendar.c:226
-#, fuzzy
 msgid "Month Calendar"
-msgstr "در حال بار کردن تقویم"
+msgstr "تقویم ماه"
 
 #: ../widgets/misc/e-cell-date-edit.c:232 ../widgets/misc/e-dateedit.c:444
 msgid "Now"
