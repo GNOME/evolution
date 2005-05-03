@@ -5,10 +5,10 @@
 # Changwoo Ryu <cwryu@debian.org>, 2003-2005.
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution 2.2.1\n"
+"Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-04-21 02:23+0900\n"
-"PO-Revision-Date: 2005-04-21 02:23+0900\n"
+"POT-Creation-Date: 2005-05-04 00:13+0900\n"
+"PO-Revision-Date: 2005-04-24 06:55+0900\n"
 "Last-Translator: Changwoo Ryu <cwryu@debian.org>\n"
 "Language-Team: GNOME Korea <gnome-kr-hackers@lists.kldp.net>\n"
 "MIME-Version: 1.0\n"
@@ -727,7 +727,7 @@ msgstr ""
 "폴더를 여기에 맞게 변환하는 동안 잠시 기다리십시오..."
 
 #: ../addressbook/gui/component/addressbook-view.c:758
-#: ../addressbook/gui/widgets/e-addressbook-view.c:935
+#: ../addressbook/gui/widgets/e-addressbook-view.c:945
 #: ../calendar/gui/calendar-component.c:537
 #: ../calendar/gui/tasks-component.c:441 ../mail/em-filter-i18n.h:11
 #: ../ui/evolution-addressbook.xml.h:8 ../ui/evolution-calendar.xml.h:5
@@ -1126,7 +1126,7 @@ msgstr "<b>직장</b> "
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:11
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:182
-#: ../addressbook/gui/widgets/eab-contact-display.c:346
+#: ../addressbook/gui/widgets/eab-contact-display.c:348
 msgid "AIM"
 msgstr "AIM"
 
@@ -1298,8 +1298,8 @@ msgid "_Zip/Postal Code:"
 msgstr "우편 번호(_Z):"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:96
-#: ../addressbook/gui/widgets/eab-contact-display.c:365
-#: ../addressbook/gui/widgets/eab-contact-display.c:380
+#: ../addressbook/gui/widgets/eab-contact-display.c:367
+#: ../addressbook/gui/widgets/eab-contact-display.c:382
 msgid "Address"
 msgstr "주소"
 
@@ -2297,7 +2297,7 @@ msgstr "AOL 인스턴스 메신저"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:64
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:183
-#: ../addressbook/gui/widgets/eab-contact-display.c:349
+#: ../addressbook/gui/widgets/eab-contact-display.c:351
 msgid "Jabber"
 msgstr "Jabber"
 
@@ -2307,7 +2307,7 @@ msgstr "Yahoo 메신저"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:67
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:186
-#: ../addressbook/gui/widgets/eab-contact-display.c:348
+#: ../addressbook/gui/widgets/eab-contact-display.c:350
 msgid "ICQ"
 msgstr "ICQ"
 
@@ -2336,17 +2336,17 @@ msgid "Other"
 msgstr "기타"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:184
-#: ../addressbook/gui/widgets/eab-contact-display.c:351
+#: ../addressbook/gui/widgets/eab-contact-display.c:353
 msgid "Yahoo"
 msgstr "야후"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:185
-#: ../addressbook/gui/widgets/eab-contact-display.c:350
+#: ../addressbook/gui/widgets/eab-contact-display.c:352
 msgid "MSN"
 msgstr "MSN"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:187
-#: ../addressbook/gui/widgets/eab-contact-display.c:347
+#: ../addressbook/gui/widgets/eab-contact-display.c:349
 msgid "GroupWise"
 msgstr "GroupWise"
 
@@ -2701,73 +2701,73 @@ msgstr "원본"
 msgid "Type"
 msgstr "형태"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:541
+#: ../addressbook/gui/widgets/e-addressbook-view.c:551
 msgid "Address Book"
 msgstr "주소록"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:804
-#: ../addressbook/gui/widgets/e-addressbook-view.c:922
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1982
+#: ../addressbook/gui/widgets/e-addressbook-view.c:814
+#: ../addressbook/gui/widgets/e-addressbook-view.c:932
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1992
 #: ../ui/evolution-addressbook.xml.h:19
 msgid "Save as VCard..."
 msgstr "VCard로 저장..."
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:918
+#: ../addressbook/gui/widgets/e-addressbook-view.c:928
 msgid "New Contact..."
 msgstr "새 연락처..."
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:919
+#: ../addressbook/gui/widgets/e-addressbook-view.c:929
 msgid "New Contact List..."
 msgstr "새 연락처 목록..."
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:923
+#: ../addressbook/gui/widgets/e-addressbook-view.c:933
 #: ../ui/evolution-addressbook.xml.h:10
 msgid "Forward Contact"
 msgstr "주소 전달"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:924
+#: ../addressbook/gui/widgets/e-addressbook-view.c:934
 msgid "Send Message to Contact"
 msgstr "연락처로 메세지 보내기"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:925
+#: ../addressbook/gui/widgets/e-addressbook-view.c:935
 #: ../calendar/gui/calendar-commands.c:120 ../calendar/gui/print.c:2502
 #: ../ui/evolution-addressbook.xml.h:16 ../ui/evolution-calendar.xml.h:19
 #: ../ui/evolution-mail-message.xml.h:80 ../ui/evolution-tasks.xml.h:14
 msgid "Print"
 msgstr "인쇄"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:928
+#: ../addressbook/gui/widgets/e-addressbook-view.c:938
 msgid "Copy to Address Book..."
 msgstr "주소록으로 복사..."
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:929
+#: ../addressbook/gui/widgets/e-addressbook-view.c:939
 msgid "Move to Address Book..."
 msgstr "주소록으로 이동..."
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:932
+#: ../addressbook/gui/widgets/e-addressbook-view.c:942
 #: ../ui/evolution-addressbook.xml.h:6 ../ui/evolution-tasks.xml.h:4
 msgid "Cut"
 msgstr "잘라내기"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:933
+#: ../addressbook/gui/widgets/e-addressbook-view.c:943
 #: ../calendar/gui/calendar-component.c:536
 #: ../calendar/gui/tasks-component.c:440 ../ui/evolution-addressbook.xml.h:2
 #: ../ui/evolution-mail-message.xml.h:9 ../ui/evolution-tasks.xml.h:2
 msgid "Copy"
 msgstr "복사"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:934
+#: ../addressbook/gui/widgets/e-addressbook-view.c:944
 #: ../ui/evolution-addressbook.xml.h:13 ../ui/evolution-tasks.xml.h:11
 msgid "Paste"
 msgstr "붙여 넣기"
 
 #. All, unmatched, separator
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1537
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1547
 #: ../calendar/gui/cal-search-bar.c:346
 msgid "Any Category"
 msgstr "모든 분류"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1750
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1760
 msgid "Print cards"
 msgstr "카드 인쇄"
 
@@ -2811,7 +2811,7 @@ msgid "Company Phone"
 msgstr "회사 전화"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:10
-#: ../addressbook/gui/widgets/eab-contact-display.c:560
+#: ../addressbook/gui/widgets/eab-contact-display.c:562
 #: ../smime/lib/e-cert.c:826
 msgid "Email"
 msgstr "전자메일"
@@ -2864,7 +2864,7 @@ msgid "Manager"
 msgstr "관리자"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:23
-#: ../addressbook/gui/widgets/eab-contact-display.c:379
+#: ../addressbook/gui/widgets/eab-contact-display.c:381
 msgid "Mobile Phone"
 msgstr "휴대 전화"
 
@@ -2873,7 +2873,7 @@ msgid "Nickname"
 msgstr "별명"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:25
-#: ../addressbook/gui/widgets/eab-contact-display.c:390
+#: ../addressbook/gui/widgets/eab-contact-display.c:392
 msgid "Note"
 msgstr "메모"
 
@@ -2882,7 +2882,7 @@ msgid "Office"
 msgstr "사무실"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:27
-#: ../addressbook/gui/widgets/eab-contact-display.c:360
+#: ../addressbook/gui/widgets/eab-contact-display.c:362
 msgid "Organization"
 msgstr "조직"
 
@@ -3040,66 +3040,66 @@ msgstr "선택됨"
 msgid "Has Cursor"
 msgstr "커서가 있는 지"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:133
-#: ../addressbook/gui/widgets/eab-contact-display.c:196
+#: ../addressbook/gui/widgets/eab-contact-display.c:135
+#: ../addressbook/gui/widgets/eab-contact-display.c:198
 msgid "(map)"
 msgstr "(지도)"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:143
-#: ../addressbook/gui/widgets/eab-contact-display.c:209
+#: ../addressbook/gui/widgets/eab-contact-display.c:145
+#: ../addressbook/gui/widgets/eab-contact-display.c:211
 msgid "map"
 msgstr "지도"
 
 # List는 여기서 Mailing List를 말한다
-#: ../addressbook/gui/widgets/eab-contact-display.c:274
-#: ../addressbook/gui/widgets/eab-contact-display.c:541
+#: ../addressbook/gui/widgets/eab-contact-display.c:276
+#: ../addressbook/gui/widgets/eab-contact-display.c:543
 msgid "List Members"
 msgstr "리스트 구성원"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:337
 #: ../addressbook/gui/widgets/eab-contact-display.c:339
+#: ../addressbook/gui/widgets/eab-contact-display.c:341
 msgid "E-mail"
 msgstr "전자메일"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:361
+#: ../addressbook/gui/widgets/eab-contact-display.c:363
 msgid "Position"
 msgstr "직위"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:362
+#: ../addressbook/gui/widgets/eab-contact-display.c:364
 msgid "Video Conferencing"
 msgstr "화상 회의"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:363
-#: ../addressbook/gui/widgets/eab-contact-display.c:378
+#: ../addressbook/gui/widgets/eab-contact-display.c:365
+#: ../addressbook/gui/widgets/eab-contact-display.c:380
 msgid "Phone"
 msgstr "전화"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:364
+#: ../addressbook/gui/widgets/eab-contact-display.c:366
 msgid "Fax"
 msgstr "팩스"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:368
+#: ../addressbook/gui/widgets/eab-contact-display.c:370
 msgid "work"
 msgstr "업무"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:375
+#: ../addressbook/gui/widgets/eab-contact-display.c:377
 msgid "WWW"
 msgstr "WWW"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:376
-#: ../addressbook/gui/widgets/eab-contact-display.c:595
+#: ../addressbook/gui/widgets/eab-contact-display.c:378
+#: ../addressbook/gui/widgets/eab-contact-display.c:597
 msgid "Blog"
 msgstr "블로그"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:383
+#: ../addressbook/gui/widgets/eab-contact-display.c:385
 msgid "personal"
 msgstr "개인"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:556
+#: ../addressbook/gui/widgets/eab-contact-display.c:558
 msgid "Job Title"
 msgstr "직함"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:587
+#: ../addressbook/gui/widgets/eab-contact-display.c:589
 msgid "Home page"
 msgstr "홈페이지"
 
@@ -10444,7 +10444,7 @@ msgstr "받기 옵션"
 
 #: ../mail/em-account-editor.c:2183 ../mail/em-account-editor.c:2257
 msgid "Checking for New Mail"
-msgstr "새 메일을 확인하는 중입니다"
+msgstr "새 메일 확인하기"
 
 #: ../mail/em-account-editor.c:2581 ../mail/mail-config.glade.h:33
 msgid "Account Editor"
@@ -11563,7 +11563,7 @@ msgstr "스마일리 자동 인식"
 
 #: ../mail/evolution-mail.schemas.in.in.h:3
 msgid "Check incoming mail being junk"
-msgstr "쓰레기 메일 검사"
+msgstr "받은 메일이 정크메일인지 검사"
 
 #: ../mail/evolution-mail.schemas.in.in.h:4
 msgid "Citation highlight color"
@@ -11841,7 +11841,7 @@ msgstr "텍스트의 스마일리를 인식하고 그림으로 바꿉니다."
 
 #: ../mail/evolution-mail.schemas.in.in.h:66
 msgid "Run junk test on incoming mail"
-msgstr "받은 메일에 대해 쓰레기 메일 검사를 실행합니다"
+msgstr "받은 메일에 대해 정크메일 검사를 실행합니다"
 
 #: ../mail/evolution-mail.schemas.in.in.h:67
 msgid "Send HTML mail by default"
@@ -12509,7 +12509,7 @@ msgstr "지원하는 형식인지 확인(_E) "
 
 #: ../mail/mail-config.glade.h:51
 msgid "Check _incoming mail for junk"
-msgstr "받는 메일이 정크 메일인지 검사(_I)"
+msgstr "받는 메일이 정크메일인지 검사(_I)"
 
 #: ../mail/mail-config.glade.h:52
 msgid "Check spelling while I _type"
@@ -12517,7 +12517,7 @@ msgstr "입력할 때 맞춤법 검사(_T)"
 
 #: ../mail/mail-config.glade.h:53
 msgid "Checks incoming mail messages to be Junk"
-msgstr "받는 메일이 정크메일인 지 검사합니다"
+msgstr "받는 메일이 정크메일인지 검사합니다"
 
 #: ../mail/mail-config.glade.h:54
 msgid "Cle_ar"
@@ -16882,11 +16882,11 @@ msgstr "선택한 메세지를 중요한 것으로 표시합니다 "
 
 #: ../ui/evolution-mail-message.xml.h:58
 msgid "Mark the selected message(s) as junk"
-msgstr "선택한 메세지를 쓰레기 메일로 표시합니다"
+msgstr "선택한 메세지를 정크메일로 표시합니다"
 
 #: ../ui/evolution-mail-message.xml.h:59
 msgid "Mark the selected message(s) as not being junk"
-msgstr "선택한 메세지를 쓰레기 메일이 아닌 것으로 표시합니다"
+msgstr "선택한 메세지를 정크메일이 아닌 것으로 표시합니다"
 
 #: ../ui/evolution-mail-message.xml.h:60
 msgid "Mark the selected message(s) as not having been read"
