@@ -249,9 +249,8 @@ msgid "evolution calendar item"
 msgstr "evolution'i kalendrikirje"
 
 #: ../a11y/widgets/ea-combo-button.c:40
-#, fuzzy
 msgid "Combo Button"
-msgstr "Ajavööndi nupp"
+msgstr ""
 
 #: ../a11y/widgets/ea-combo-button.c:50
 #, fuzzy
@@ -285,10 +284,7 @@ msgid ""
 "Check to make sure your password is spelled correctly and that you are using "
 "a supported login method. Remember that many passwords are case sensitive; "
 "your caps lock might be on."
-msgstr ""
-"Kontrolli, kas parool on õigesti kirjutatud ja kas sa kasutad toetatud "
-"logimismeetodit. Kuna paroolid on üldiselt tõstutundlikud, siis veendu, et "
-"caps lock ei oleks peal."
+msgstr "Kontrolli, kas parool on õigesti kirjutatud ja kas sa kasutad toetatud logimismeetodit. Kuna paroolid on üldiselt tõstutundlikud, siis veendu, et caps lock ei oleks peal."
 
 #. addressbook:ldap-search-base primary
 #: ../addressbook/addressbook-errors.xml.h:10
@@ -684,8 +680,7 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
-"Evolutioni kontaktikaustade asukoht ja hierarhia on alates Evolution 1.x. "
-"versioonist muutunud.\n"
+"Evolutioni kontaktikaustade asukoht ja hierarhia on alates Evolution 1.x. versioonist muutunud.\n"
 "\n"
 "Palun oota kuni Evolution siirdab sinu kaustasid..."
 
@@ -779,9 +774,7 @@ msgstr "\"Eelvaatlus\" paani kuvamine"
 msgid ""
 "The number of characters that must be typed before Evolution will attempt to "
 "autocomplete."
-msgstr ""
-"Tähtede arv, mis tuleb sisestada enne kui Evolution üritab "
-"automaatlõpetamist."
+msgstr "Tähtede arv, mis tuleb sisestada enne kui Evolution üritab automaatlõpetamist."
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:7
 msgid "URI for the folder last used in the select names dialog"
@@ -895,8 +888,7 @@ msgstr "E-posti aadress:"
 #: ../addressbook/gui/component/ldap-config.glade.h:21
 msgid ""
 "Evolution will use this email address to authenticate you with the server."
-msgstr ""
-"Evolution kasutab seda e-posti aadressi serverile sinu identuse tõendamiseks."
+msgstr "Evolution kasutab seda e-posti aadressi serverile sinu identuse tõendamiseks."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:22
 msgid "Find Possible Search Bases"
@@ -923,9 +915,7 @@ msgstr "_Otsingubaas:"
 msgid ""
 "Selecting this option means that Evolution will only connect to your LDAP "
 "server if your LDAP server supports SSL or TLS."
-msgstr ""
-"See valik tähendab seda, et Evolution ühendub sinu LDAP serverisse ainult "
-"juhul, kui LDAP server toetab SSL või TLS protokolli."
+msgstr "See valik tähendab seda, et Evolution ühendub sinu LDAP serverisse ainult juhul, kui LDAP server toetab SSL või TLS protokolli."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:29
 msgid ""
@@ -933,20 +923,14 @@ msgid ""
 "you are in a insecure environment. For example, if you and your LDAP server "
 "are behind a firewall at work, then Evolution doesn't need to use SSL/TLS "
 "because your connection is already secure."
-msgstr ""
-"See valik tähendab seda, et Evolution üritab kasutada SSL/TLS protokolli "
-"ainult siis kui sa oled ebaturvalises keskkonnas. Näiteks kui sina ja sinu "
-"LDAP server asuvad mõlemad tulemüüriga kaitstud võrgus, siis Evolution ei "
-"pea kasutama SSL/TLS protokolli, kuna sinu ühendus on juba turvaline."
+msgstr "See valik tähendab seda, et Evolution üritab kasutada SSL/TLS protokolli ainult siis kui sa oled ebaturvalises keskkonnas. Näiteks kui sina ja sinu LDAP server asuvad mõlemad tulemüüriga kaitstud võrgus, siis Evolution ei pea kasutama SSL/TLS protokolli, kuna sinu ühendus on juba turvaline."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:30
 msgid ""
 "Selecting this option means that your server does not support either SSL or "
 "TLS.  This means that your connection will be insecure, and that you will be "
 "vulnerable to security exploits. "
-msgstr ""
-"See valik tähendab seda, et sinu server ei toeta SSL ega TLS protokolle. "
-"Seega ei ole sinu ühendus turvaline ja võib-olla ohustatud turvaaukudest."
+msgstr "See valik tähendab seda, et sinu server ei toeta SSL ega TLS protokolle. Seega ei ole sinu ühendus turvaline ja võib-olla ohustatud turvaaukudest."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:31
 msgid "Sub"
@@ -988,10 +972,7 @@ msgid ""
 "This is the method Evolution will use to authenticate you.  Note that "
 "setting this to \"Email Address\" requires anonymous access to your ldap "
 "server."
-msgstr ""
-"Siin määrataks, mil viisil Evolution tõendab serverile kasutajat.  Märkus: "
-"seades selle väärtuseks \"E-posti aadress\", peab valitud LDAP serveri "
-"toetama anonüümset ligipääsu."
+msgstr "Siin määrataks, mil viisil Evolution tõendab serverile kasutajat.  Märkus: seades selle väärtuseks \"E-posti aadress\", peab valitud LDAP serveri toetama anonüümset ligipääsu."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:38
 msgid ""
@@ -1004,10 +985,7 @@ msgid ""
 "This is the port on the LDAP server that Evolution will try to connect to. A "
 "list of standard ports has been provided. Ask your system administrator what "
 "port you should specify."
-msgstr ""
-"See on LDAP serveri port, kuhu Evolution üritab ühendust luua. Nimekiri "
-"standardportidest on välja toodud. Küsi oma süsteemiülemalt millise pordi sa "
-"peaksid määrama."
+msgstr "See on LDAP serveri port, kuhu Evolution üritab ühendust luua. Nimekiri standardportidest on välja toodud. Küsi oma süsteemiülemalt millise pordi sa peaksid määrama."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:40
 msgid "Using distinguished name (DN)"
@@ -3189,35 +3167,26 @@ msgstr ""
 msgid ""
 "We were unable to open this addressbook.  Please check that the path exists "
 "and that you have permission to access it."
-msgstr ""
-"Aadressiraamatu avamine nurjus.  Palun kontrolli, kas otsingutee on õige ja "
-"kas sul on sellele vajalikud ligipääsuõigused."
+msgstr "Aadressiraamatu avamine nurjus.  Palun kontrolli, kas otsingutee on õige ja kas sul on sellele vajalikud ligipääsuõigused."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:105
 msgid ""
 "We were unable to open this addressbook.  This either means you have entered "
 "an incorrect URI, or the LDAP server is unreachable."
-msgstr ""
-"Aadressiraamatu avamine nurjus. Põhjuseks võib olla see, et sisestasid "
-"vigase URI või kasutatav LDAP server ei ole kättesaadav."
+msgstr "Aadressiraamatu avamine nurjus. Põhjuseks võib olla see, et sisestasid vigase URI või kasutatav LDAP server ei ole kättesaadav."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:110
 msgid ""
 "This version of Evolution does not have LDAP support compiled in to it.  If "
 "you want to use LDAP in Evolution, you must install an LDAP-enabled "
 "Evolution package."
-msgstr ""
-"Käesolev Evolution'i versioon ei ole kompileeritud LDAP'i toega. Kui sa "
-"soovid kasutada Evolution'i koos LDAP'i toega, pead paigaldama omale vastava "
-"Evolution'i paki."
+msgstr "Käesolev Evolution'i versioon ei ole kompileeritud LDAP'i toega. Kui sa soovid kasutada Evolution'i koos LDAP'i toega, pead paigaldama omale vastava Evolution'i paki."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:117
 msgid ""
 "We were unable to open this addressbook.  This either means you have entered "
 "an incorrect URI, or the server is unreachable."
-msgstr ""
-"Aadressiraamatu avamine nurjus.  Põhjuseks võib olla see, et sisestasid "
-"vigase URI või kasutatav server ei ole kättesaadav."
+msgstr "Aadressiraamatu avamine nurjus.  Põhjuseks võib olla see, et sisestasid vigase URI või kasutatav server ei ole kättesaadav."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:137
 msgid ""
@@ -3714,9 +3683,7 @@ msgstr "Kas soovid teisi osalejaid katkestamisest teavitada?"
 msgid ""
 "If you don't send a cancellation notice, the other participants may not know "
 "the meeting is canceled."
-msgstr ""
-"Kui sa ei saada katkestamisteadet, siis ülejäänud osalised võivad "
-"katkestamisest mitte teada saada."
+msgstr "Kui sa ei saada katkestamisteadet, siis ülejäänud osalised võivad katkestamisest mitte teada saada."
 
 #: ../calendar/calendar-errors.xml.h:5 ../calendar/calendar-errors.xml.h:15
 #: ../calendar/calendar-errors.xml.h:25 ../calendar/calendar-errors.xml.h:87
@@ -3739,18 +3706,14 @@ msgstr "Kas sa tõesti soovid kustutada seda koosolekut?"
 #: ../calendar/calendar-errors.xml.h:10
 msgid ""
 "All information on this meeting will be deleted and can not be restored."
-msgstr ""
-"Kõik selle koosoleku kohta käiv teave kustutatakse ja seda ei ole võimalik "
-"enam taastada."
+msgstr "Kõik selle koosoleku kohta käiv teave kustutatakse ja seda ei ole võimalik enam taastada."
 
 #. calendar:prompt-cancel-task secondary
 #: ../calendar/calendar-errors.xml.h:14
 msgid ""
 "If you don't send a cancellation notice, the other participants may not know "
 "the task has been deleted."
-msgstr ""
-"Kui sa ei saada kustutamisteadet, siis ülejäänud osalised võivad selle "
-"ülesande kustutamisest mitte teada saada."
+msgstr "Kui sa ei saada kustutamisteadet, siis ülejäänud osalised võivad selle ülesande kustutamisest mitte teada saada."
 
 #. calendar:prompt-delete-task primary
 #: ../calendar/calendar-errors.xml.h:18 ../calendar/calendar-errors.xml.h:44
@@ -3763,24 +3726,19 @@ msgstr "Kas sa tõesti soovid kustutada seda ülesannet?"
 #: ../calendar/calendar-errors.xml.h:20 ../calendar/calendar-errors.xml.h:42
 #: ../calendar/calendar-errors.xml.h:46
 msgid "All information on this task will be deleted and can not be restored."
-msgstr ""
-"Kõik selle ülesande kohta käiv teave kustutatakse ja seda ei ole võimalik "
-"enam taastada."
+msgstr "Kõik selle ülesande kohta käiv teave kustutatakse ja seda ei ole võimalik enam taastada."
 
 #. calendar:prompt-cancel-journal primary
 #: ../calendar/calendar-errors.xml.h:22
 msgid "Would you like to send a cancellation notice for this journal entry?"
-msgstr ""
-"Kas soovid teisi osalejaid selle päevikukirje katkestamisest teavitada?"
+msgstr "Kas soovid teisi osalejaid selle päevikukirje katkestamisest teavitada?"
 
 #. calendar:prompt-cancel-journal secondary
 #: ../calendar/calendar-errors.xml.h:24
 msgid ""
 "If you don't send a cancellation notice, the other participants may not know "
 "the journal has been deleted."
-msgstr ""
-"Kui sa ei saada katkestamisteadet, siis ülejäänud osalised võivad selle "
-"päeviku kustutamisest mitte teada saada."
+msgstr "Kui sa ei saada katkestamisteadet, siis ülejäänud osalised võivad selle päeviku kustutamisest mitte teada saada."
 
 #. calendar:prompt-delete-journal primary
 #: ../calendar/calendar-errors.xml.h:28 ../calendar/calendar-errors.xml.h:52
@@ -3792,9 +3750,7 @@ msgstr "Kas sa tõesti soovid kustutada seda päevikukirjet?"
 msgid ""
 "All information on this journal entry will be deleted and can not be "
 "restored."
-msgstr ""
-"Kõik selle päevikukirje kohta käiv teave kustutatakse ja seda ei ole "
-"võimalik enam taastada."
+msgstr "Kõik selle päevikukirje kohta käiv teave kustutatakse ja seda ei ole võimalik enam taastada."
 
 #. calendar:prompt-delete-titled-appointment primary
 #: ../calendar/calendar-errors.xml.h:32
@@ -3806,9 +3762,7 @@ msgstr "Kas sa tõesti soovid kustutada sündmust nimega '{0}'?"
 #: ../calendar/calendar-errors.xml.h:34 ../calendar/calendar-errors.xml.h:38
 msgid ""
 "All information on this appointment will be deleted and can not be restored."
-msgstr ""
-"Kõik selle sündmuse kohta käiv teave kustutatakse ja seda ei ole võimalik "
-"enam taastada."
+msgstr "Kõik selle sündmuse kohta käiv teave kustutatakse ja seda ei ole võimalik enam taastada."
 
 #. calendar:prompt-delete-appointment primary
 #: ../calendar/calendar-errors.xml.h:36
@@ -3830,9 +3784,7 @@ msgstr "Kas sa tõesti soovid kustutada päevikukirjet '{0}'?"
 #: ../calendar/calendar-errors.xml.h:50 ../calendar/calendar-errors.xml.h:54
 msgid ""
 "All information in this journal will be deleted and can not be restored."
-msgstr ""
-"Kõik selle päeviku kohta käiv teave kustutatakse ja seda ei ole võimalik "
-"enam taastada."
+msgstr "Kõik selle päeviku kohta käiv teave kustutatakse ja seda ei ole võimalik enam taastada."
 
 #. calendar:prompt-delete-appointments primary
 #: ../calendar/calendar-errors.xml.h:56
@@ -3844,9 +3796,7 @@ msgstr "Kas sa tõesti soovid kustutada neid {0} sündmusi?"
 msgid ""
 "All information on these appointments will be deleted and can not be "
 "restored."
-msgstr ""
-"Kõik nende sündmuste kohta käiv teave kustutatakse ja seda ei ole võimalik "
-"enam taastada."
+msgstr "Kõik nende sündmuste kohta käiv teave kustutatakse ja seda ei ole võimalik enam taastada."
 
 #. calendar:prompt-delete-tasks primary
 #: ../calendar/calendar-errors.xml.h:60
@@ -3856,9 +3806,7 @@ msgstr "Kas sa tõesti soovid kustutada neid {0} ülesandeid?"
 #. calendar:prompt-delete-tasks secondary
 #: ../calendar/calendar-errors.xml.h:62
 msgid "All information on these tasks will be deleted and can not be restored."
-msgstr ""
-"Kõik nende ülesannete kohta käiv teave kustutatakse ja seda ei ole võimalik "
-"enam taastada."
+msgstr "Kõik nende ülesannete kohta käiv teave kustutatakse ja seda ei ole võimalik enam taastada."
 
 #. calendar:prompt-delete-journals primary
 #: ../calendar/calendar-errors.xml.h:64
@@ -3870,9 +3818,7 @@ msgstr "Kas sa tõesti soovid kustutada neid {0} päevikukirjeid?"
 msgid ""
 "All information in these journal entries will be deleted and can not be "
 "restored."
-msgstr ""
-"Kõik nende päevikukirjete kohta käiv teave kustutatakse ja seda ei ole "
-"võimalik enam taastada."
+msgstr "Kõik nende päevikukirjete kohta käiv teave kustutatakse ja seda ei ole võimalik enam taastada."
 
 #. calendar:prompt-save-appointment title
 #: ../calendar/calendar-errors.xml.h:68
@@ -3921,9 +3867,7 @@ msgstr "Kas soovid saata osalejatele osalemiskutsed?"
 #: ../calendar/calendar-errors.xml.h:86
 msgid ""
 "Email invitations will be sent to all participants and allow them to RSVP."
-msgstr ""
-"E-posti teel edastatud kutsed saadetakse kõikidele osalejatele, see lubab "
-"neil oma osalemisest teada anda (RSVP)."
+msgstr "E-posti teel edastatud kutsed saadetakse kõikidele osalejatele, see lubab neil oma osalemisest teada anda (RSVP)."
 
 #: ../calendar/calendar-errors.xml.h:88 ../calendar/calendar-errors.xml.h:94
 #: ../calendar/calendar-errors.xml.h:100 ../calendar/calendar-errors.xml.h:106
@@ -3941,9 +3885,7 @@ msgstr "Kas soovid osalejaid teavitada koosoleku muutusest?"
 msgid ""
 "Sending updated information allows other participants to keep their "
 "calendars up to date."
-msgstr ""
-"Värskendatud teave aitab teistel osalejatel nende kalendreid ajakohasena "
-"hoida"
+msgstr "Värskendatud teave aitab teistel osalejatel nende kalendreid ajakohasena hoida"
 
 #. calendar:prompt-send-task primary
 #: ../calendar/calendar-errors.xml.h:96
@@ -3955,9 +3897,7 @@ msgstr "Kas soovid osalejaid teavitada sellest ülesandest?"
 msgid ""
 "Email invitations will be sent to all participants and allow them to accept "
 "this task."
-msgstr ""
-"E-posti teel edastatud kutsed saadetakse kõikidele osalejatele, see lubab "
-"neil ülesandele nõusolekut anda."
+msgstr "E-posti teel edastatud kutsed saadetakse kõikidele osalejatele, see lubab neil ülesandele nõusolekut anda."
 
 #. calendar:prompt-send-updated-task-info primary
 #: ../calendar/calendar-errors.xml.h:102
@@ -3969,9 +3909,7 @@ msgstr "Kas soovid saata osalejatele värskemat teavet ülesande kohta?"
 msgid ""
 "Sending updated information allows other participants to keep their task "
 "lists up to date."
-msgstr ""
-"Värskendatud teave aitab teistel osalejatel nende ülesannete nimekirja "
-"ajakohasena hoida"
+msgstr "Värskendatud teave aitab teistel osalejatel nende ülesannete nimekirja ajakohasena hoida"
 
 #. calendar:tasks-crashed primary
 #: ../calendar/calendar-errors.xml.h:108
@@ -4580,8 +4518,7 @@ msgstr "Kas küsida nõusolekut sündmuste kustutamisel"
 #, fuzzy
 msgid ""
 "Whether to show times in twenty four hour format instead of using am/pm."
-msgstr ""
-"Kas näidata kellaaega 24-tunnises vormingus või kasutada EL/PL vormingut"
+msgstr "Kas näidata kellaaega 24-tunnises vormingus või kasutada EL/PL vormingut"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:60
 #, fuzzy
@@ -4642,9 +4579,7 @@ msgid ""
 "This operation will permanently erase all events older than the selected "
 "amount of time. If you continue, you will not be able to recover these "
 "events."
-msgstr ""
-"See tegevus eemaldab lõplikult kõik sündmused, mis on vanemad kui valitud "
-"päevade arv. Eemaldatud sõnumeid ei ole hiljem enam võimalik taastada."
+msgstr "See tegevus eemaldab lõplikult kõik sündmused, mis on vanemad kui valitud päevade arv. Eemaldatud sõnumeid ei ole hiljem enam võimalik taastada."
 
 #: ../calendar/gui/calendar-commands.c:361
 msgid "Purge events older than"
@@ -5086,9 +5021,7 @@ msgstr "<b>Töönädal</b>"
 #, no-c-format
 msgid ""
 "<i>%u and %d will be replaced by user and domain from the email address.</i>"
-msgstr ""
-"<i>%u ja %d asendatakse kasutajanime ja domeeniga, mis võetakse e-post "
-"aadressist.</i>"
+msgstr "<i>%u ja %d asendatakse kasutajanime ja domeeniga, mis võetakse e-post aadressist.</i>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
 msgid "Calendar and Tasks Settings"
@@ -5360,8 +5293,7 @@ msgstr "Antud päeviku sissekanne on kustutatud."
 #: ../calendar/gui/dialogs/changed-comp.c:77
 #, c-format
 msgid "%s  You have made changes. Forget those changes and close the editor?"
-msgstr ""
-"%s  Sa oled teinud muutusi. Kas unustada need muudatused ja sulgeda aken?"
+msgstr "%s  Sa oled teinud muutusi. Kas unustada need muudatused ja sulgeda aken?"
 
 #: ../calendar/gui/dialogs/changed-comp.c:79
 #, c-format
@@ -5383,9 +5315,7 @@ msgstr "Antud päeviku sissekannet on muudetud."
 #: ../calendar/gui/dialogs/changed-comp.c:101
 #, c-format
 msgid "%s  You have made changes. Forget those changes and update the editor?"
-msgstr ""
-"%s  On tehtud muudatusi.  Kas tühistada need muudatused ja uuendada "
-"redaktorit?"
+msgstr "%s  On tehtud muudatusi.  Kas tühistada need muudatused ja uuendada redaktorit?"
 
 #: ../calendar/gui/dialogs/changed-comp.c:103
 #, c-format
@@ -6657,15 +6587,15 @@ msgstr "Edasta i_Kalendrina"
 
 #: ../calendar/gui/e-calendar-view.c:1418
 msgid "Make this Occurrence _Movable"
-msgstr ""
+msgstr "Muuda seekordne sündmus _liigutatavaks"
 
 #: ../calendar/gui/e-calendar-view.c:1419
 msgid "Delete this _Occurrence"
-msgstr "Ku_stuta see sündmus"
+msgstr "Ku_stuta seekordne sündmus"
 
 #: ../calendar/gui/e-calendar-view.c:1420
 msgid "Delete _All Occurrences"
-msgstr "Kustuta k_õik sündmused"
+msgstr "Kustuta k_õik sündmused kordused"
 
 #. strftime format of a weekday, a date and a time, 24-hour.
 #. strptime format of a weekday, a date and a time,
@@ -6701,7 +6631,7 @@ msgstr ""
 #: ../calendar/gui/e-day-view-time-item.c:527
 #, c-format
 msgid "%02i minute divisions"
-msgstr ""
+msgstr "%02i-minutiline jaotamine"
 
 #. strftime format %A = full weekday name, %d = day of month,
 #. %B = full month name. Don't use any other specifiers.
@@ -6825,9 +6755,7 @@ msgstr "Tundmatu isik"
 msgid ""
 "<br> Please review the following information, and then select an action from "
 "the menu below."
-msgstr ""
-"<br> Palun vaata järgnev info üle ja vali allpool olevast menüüst  sobilik "
-"tegevus."
+msgstr "<br> Palun vaata järgnev info üle ja vali allpool olevast menüüst  sobilik tegevus."
 
 #: ../calendar/gui/e-itip-control.c:1137
 #: ../calendar/gui/e-meeting-list-view.c:175
@@ -7065,8 +6993,7 @@ msgstr "Osavõtja olek värskendatud\n"
 #: ../calendar/gui/e-itip-control.c:1979
 #: ../plugins/itip-formatter/itip-formatter.c:852
 msgid "Attendee status can not be updated because the item no longer exists"
-msgstr ""
-"Osavõtja olekut ei olnud võimailk uuendada, kuna objekti pole enam olemas"
+msgstr "Osavõtja olekut ei olnud võimailk uuendada, kuna objekti pole enam olemas"
 
 #: ../calendar/gui/e-itip-control.c:2006
 msgid "Removal Complete"
@@ -7445,7 +7372,7 @@ msgstr "Oktoober"
 
 #: ../calendar/gui/goto-dialog.glade.h:12
 msgid "Select Date"
-msgstr "Vali kuupäev"
+msgstr "Kuupäeva valimine"
 
 #: ../calendar/gui/goto-dialog.glade.h:13
 msgid "September"
@@ -7516,8 +7443,7 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
-"Evolution'i kontaktikaustade asukoht ja hierarhia on peale Evolution 1.x. "
-"versiooni muutunud.\n"
+"Evolution'i kontaktikaustade asukoht ja hierarhia on peale Evolution 1.x. versiooni muutunud.\n"
 "\n"
 "Palun oota kuni Evolution siirdab sinu kaustasid..."
 
@@ -7528,8 +7454,7 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
-"Evolutioni kontaktikaustade asukoht ja hierarhia on alates Evolution 1.x. "
-"versioonist muutunud.\n"
+"Evolutioni kontaktikaustade asukoht ja hierarhia on alates Evolution 1.x. versioonist muutunud.\n"
 "\n"
 "Palun oota kuni Evolution siirdab sinu kaustasid..."
 
@@ -7851,8 +7776,7 @@ msgid ""
 "\n"
 "Really erase these tasks?"
 msgstr ""
-"See operatsioon kustutab jäädavalt kõik ülesanded, mis on märgitud kui "
-"lõpetatud. Kui sa jätkad, siis neid ülesandeid ei ole võimalik taastada.\n"
+"See operatsioon kustutab jäädavalt kõik ülesanded, mis on märgitud kui lõpetatud. Kui sa jätkad, siis neid ülesandeid ei ole võimalik taastada.\n"
 "Kas tõesti kustutada need ülesanded? "
 
 #: ../calendar/gui/tasks-control.c:373
@@ -9520,17 +9444,13 @@ msgstr "Postita kellele:"
 #: ../composer/e-msg-composer.c:730
 msgid ""
 "Cannot sign outgoing message: No signing certificate set for this account"
-msgstr ""
-"Väljuvat sõnumit pole võimalik signeerida: selle konto jaoks ei ole "
-"signeerimissertifikaati määratud."
+msgstr "Väljuvat sõnumit pole võimalik signeerida: selle konto jaoks ei ole signeerimissertifikaati määratud."
 
 #: ../composer/e-msg-composer.c:737
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
 "account"
-msgstr ""
-"Väljuvat sõnumit pole võimalik krüptida: selle konto jaoks ei ole "
-"krüptimissertifikaati määratud."
+msgstr "Väljuvat sõnumit pole võimalik krüptida: selle konto jaoks ei ole krüptimissertifikaati määratud."
 
 #: ../composer/e-msg-composer.c:1222 ../composer/e-msg-composer.c:1255
 msgid "Unknown reason"
@@ -9571,9 +9491,7 @@ msgstr "Sõnumi koostamine"
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
-msgstr ""
-"<b>(Redaktor sisaldab mittetekstilist sõnumit ja seda ei ole võimalik "
-"redigeerida.)<b>"
+msgstr "<b>(Redaktor sisaldab mittetekstilist sõnumit ja seda ei ole võimalik redigeerida.)<b>"
 
 #. mail-composer:no-attach primary
 #: ../composer/mail-composer-errors.xml.h:2
@@ -9660,8 +9578,7 @@ msgstr "Hoiatus: salvestamata sõnum"
 msgid ""
 "Are you sure you want to discard the message, titled '{0}', you are "
 "composing?"
-msgstr ""
-"Kas sa tõesti soovid tühistada sõnumit '{0}', mille koostamine on pooleli?"
+msgstr "Kas sa tõesti soovid tühistada sõnumit '{0}', mille koostamine on pooleli?"
 
 #. mail-composer:exit-unsaved secondary
 #: ../composer/mail-composer-errors.xml.h:32
@@ -9669,9 +9586,7 @@ msgid ""
 "Closing this composer window will discard the message permanently, unless "
 "you choose to save the message in your Drafts folder. This will allow you to "
 "continue the message at a later date."
-msgstr ""
-"Selle redaktoriakna sulgemine tühistab sõnumi lõplikult. Kui sa tahad sõnumi "
-"koostamist hiljem jätkata, siis salvesta see sõnum Mustandite kausta."
+msgstr "Selle redaktoriakna sulgemine tühistab sõnumi lõplikult. Kui sa tahad sõnumi koostamist hiljem jätkata, siis salvesta see sõnum Mustandite kausta."
 
 #: ../composer/mail-composer-errors.xml.h:33
 msgid "_Discard Changes"
@@ -10333,7 +10248,7 @@ msgstr "Vastuvõtmise valikud"
 
 #: ../mail/em-account-editor.c:2183 ../mail/em-account-editor.c:2257
 msgid "Checking for New Mail"
-msgstr "Uute kirjade kontroll"
+msgstr "Uute sõnumite kontroll"
 
 #: ../mail/em-account-editor.c:2581 ../mail/mail-config.glade.h:33
 msgid "Account Editor"
@@ -10388,9 +10303,7 @@ msgstr "tundmatu saatja"
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
-msgstr ""
-"Ühel kenal päeval, ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} kell "
-"${24Hour}:${Minute}, kirjutas ${Sender}:"
+msgstr "Ühel kenal päeval, ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} kell ${24Hour}:${Minute}, kirjutas ${Sender}:"
 
 #: ../mail/em-filter-editor.c:147
 msgid "_Filter Rules"
@@ -10995,8 +10908,7 @@ msgstr "Allkirjastamata"
 msgid ""
 "This message is not signed. There is no guarantee that this message is "
 "authentic."
-msgstr ""
-"See sõnum ei ole allkirjastatud. Selle sõnumi tõesust ei saa garanteerida."
+msgstr "See sõnum ei ole allkirjastatud. Selle sõnumi tõesust ei saa garanteerida."
 
 #: ../mail/em-format-html-display.c:681 ../mail/em-format-html.c:580
 msgid "Valid signature"
@@ -11006,9 +10918,7 @@ msgstr "Kehtiv allkiri"
 msgid ""
 "This message is signed and is valid meaning that it is very likely that this "
 "message is authentic."
-msgstr ""
-"See sõnum on allkirjastatud ja kehtiv, seega on väga tõenäoline, et tegemist "
-"on tõese sõnumiga."
+msgstr "See sõnum on allkirjastatud ja kehtiv, seega on väga tõenäoline, et tegemist on tõese sõnumiga."
 
 #: ../mail/em-format-html-display.c:682 ../mail/em-format-html.c:581
 msgid "Invalid signature"
@@ -11018,9 +10928,7 @@ msgstr "Vigane allkiri"
 msgid ""
 "The signature of this message cannot be verified, it may have been altered "
 "in transit."
-msgstr ""
-"Selle sõnumi signatuuri ei saa verifitseerida. See võib olla sõnumi "
-"kohaletoimetamise käigus asendatud."
+msgstr "Selle sõnumi signatuuri ei saa verifitseerida. See võib olla sõnumi kohaletoimetamise käigus asendatud."
 
 #: ../mail/em-format-html-display.c:683
 msgid "Valid signature, cannot verify sender"
@@ -11040,9 +10948,7 @@ msgstr "Krüptimata"
 msgid ""
 "This message is not encrypted.  Its content may be viewed in transit across "
 "the Internet."
-msgstr ""
-"See sõnum ei ole krüptitud. Sõnumi sisu edastati internetis kaudu lahtiselt "
-"ja see võis näha olla ka kolmandale osapoolele."
+msgstr "See sõnum ei ole krüptitud. Sõnumi sisu edastati internetis kaudu lahtiselt ja see võis näha olla ka kolmandale osapoolele."
 
 #: ../mail/em-format-html-display.c:690 ../mail/em-format-html.c:589
 msgid "Encrypted, weak"
@@ -11053,10 +10959,7 @@ msgid ""
 "This message is encrypted, but with a weak encryption algorithm.  It would "
 "be difficult, but not impossible for an outsider to view the content of this "
 "message in a practical amount of time."
-msgstr ""
-"See sõnum on krüptitud nõrga krüptoalgoritmiga.  Võimalikul ründajal peaks "
-"olema väga raske aga sugugi mitte võimatu mõistliku aja jooksul sõnumi "
-"krüpteering lahti murda."
+msgstr "See sõnum on krüptitud nõrga krüptoalgoritmiga.  Võimalikul ründajal peaks olema väga raske aga sugugi mitte võimatu mõistliku aja jooksul sõnumi krüpteering lahti murda."
 
 #: ../mail/em-format-html-display.c:691 ../mail/em-format-html.c:590
 msgid "Encrypted"
@@ -11066,8 +10969,7 @@ msgstr "Krüptitud"
 msgid ""
 "This message is encrypted.  It would be difficult for an outsider to view "
 "the content of this message."
-msgstr ""
-"See sõnum on krüptitud.  Sõnumi sisu ei tohiks olla teistele iskutele loetav."
+msgstr "See sõnum on krüptitud.  Sõnumi sisu ei tohiks olla teistele iskutele loetav."
 
 #: ../mail/em-format-html-display.c:692 ../mail/em-format-html.c:591
 msgid "Encrypted, strong"
@@ -11078,9 +10980,7 @@ msgid ""
 "This message is encrypted, with a strong encryption algorithm.  It would be "
 "very difficult for an outsider to view the content of this message in a "
 "practical amount of time."
-msgstr ""
-"See sõnum on krüptitud tugeva krüptoalgoritmiga.  Võimalikul ründajal peaks "
-"olema väga raske mõistliku aja jooksul sõnumi krüpteering lahti murda."
+msgstr "See sõnum on krüptitud tugeva krüptoalgoritmiga.  Võimalikul ründajal peaks olema väga raske mõistliku aja jooksul sõnumi krüpteering lahti murda."
 
 #: ../mail/em-format-html-display.c:793 ../smime/gui/smime-ui.glade.h:47
 msgid "_View Certificate"
@@ -11271,8 +11171,7 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
-"Evolutioni kontaktikaustade asukoht ja hierarhia on alates Evolution 1.x. "
-"versioonist muutunud.\n"
+"Evolutioni kontaktikaustade asukoht ja hierarhia on alates Evolution 1.x. versioonist muutunud.\n"
 "\n"
 "Palun oota kuni Evolution siirdab sinu kaustasid..."
 
@@ -11324,7 +11223,7 @@ msgstr ""
 
 #: ../mail/em-popup.c:382
 msgid "Save As..."
-msgstr "Salvesta kui..."
+msgstr "Salvestamine kui..."
 
 #: ../mail/em-popup.c:401
 #, c-format
@@ -11524,9 +11423,7 @@ msgstr "Sõnumiloendi paani kõrgus."
 msgid ""
 "If a user tries to open 10 or more messages at one time, ask the user if "
 "they really want to do it."
-msgstr ""
-"Kui kasutaja üritab avada rohkem kui 10 sõnumit ühel ajal, küsi temalt kas "
-"ta tõesti soovib seda teha."
+msgstr "Kui kasutaja üritab avada rohkem kui 10 sõnumit ühel ajal, küsi temalt kas ta tõesti soovib seda teha."
 
 #: ../mail/evolution-mail.schemas.in.in.h:28
 msgid ""
@@ -11584,10 +11481,7 @@ msgid ""
 "Load images for HTML messages over http(s). Possible values are: 0 - Never "
 "load images off the net 1 - Load images if sender is in the addressbook 2 - "
 "Always load images off the net"
-msgstr ""
-"Laadi HTML sõnumite pildid üle http(s). Võimalikud väärtused on: 0 - Kunagi "
-"ära laadi pilte võrgust maha 2 - Laadi pildid ainult siis kui saatja on "
-"aadressiraamatus 3 - Alati laadi pildid võrgust maha."
+msgstr "Laadi HTML sõnumite pildid üle http(s). Võimalikud väärtused on: 0 - Kunagi ära laadi pilte võrgust maha 2 - Laadi pildid ainult siis kui saatja on aadressiraamatus 3 - Alati laadi pildid võrgust maha."
 
 #: ../mail/evolution-mail.schemas.in.in.h:40
 msgid "Log filter actions"
@@ -11673,23 +11567,17 @@ msgstr "Kinnituse küsimine, kui kasutaja määrab ainult pimekoopia"
 #: ../mail/evolution-mail.schemas.in.in.h:60
 #, fuzzy
 msgid "Prompt when user tries to open 10 or more messages at once"
-msgstr ""
-"Kinnituse küsimine, kui püütakse saata sõnumit, millel pole tavalist saajat "
-"ega pimekoopa saajat määratud."
+msgstr "Kinnituse küsimine, kui püütakse saata sõnumit, millel pole tavalist saajat ega pimekoopa saajat määratud."
 
 #: ../mail/evolution-mail.schemas.in.in.h:61
 msgid ""
 "Prompt when user tries to send HTML mail to recipients that may not want to "
 "receive HTML mail."
-msgstr ""
-"Täpsustus, kui püütakse saata HTML sõnumit isikule, kes ei soovi HTML sisuga "
-"sõnumeid vastu võtta."
+msgstr "Täpsustus, kui püütakse saata HTML sõnumit isikule, kes ei soovi HTML sisuga sõnumeid vastu võtta."
 
 #: ../mail/evolution-mail.schemas.in.in.h:62
 msgid "Prompt when user tries to send a message with no To or Cc recipients."
-msgstr ""
-"Kinnituse küsimine, kui püütakse saata sõnumit, millel pole tavalist saajat "
-"ega pimekoopa saajat määratud."
+msgstr "Kinnituse küsimine, kui püütakse saata sõnumit, millel pole tavalist saajat ega pimekoopa saajat määratud."
 
 #: ../mail/evolution-mail.schemas.in.in.h:63
 msgid "Prompt when user tries to send unwanted HTML"
@@ -11810,7 +11698,7 @@ msgstr "Vaikimisi määratud konto UID string."
 #: ../mail/evolution-mail.schemas.in.in.h:91
 #, fuzzy
 msgid "Use Spamassassin daemon and client"
-msgstr "Kasuta Spamassassini deemonit ja klienti"
+msgstr "Kasuta Spamassassin'i deemonit ja klienti"
 
 #: ../mail/evolution-mail.schemas.in.in.h:92
 #, fuzzy
@@ -12525,20 +12413,14 @@ msgstr ""
 msgid ""
 "Please enter information about the way you will send mail. If you are not "
 "sure, ask your system administrator or Internet Service Provider."
-msgstr ""
-"Palun sisesta teave oma e-posti väljasaatmise kohta. Kui sa ei tea, mida "
-"siia sisestada, küsi oma lisateavet oma süsteemiülemalt või interneti "
-"teenusepakkujalt."
+msgstr "Palun sisesta teave oma e-posti väljasaatmise kohta. Kui sa ei tea, mida siia sisestada, küsi oma lisateavet oma süsteemiülemalt või interneti teenusepakkujalt."
 
 #: ../mail/mail-config.glade.h:107
 msgid ""
 "Please enter your name and email address below. The \"optional\" fields "
 "below do not need to be filled in, unless you wish to include this "
 "information in email you send."
-msgstr ""
-"Palun sisesta allpool olevasse vormi oma nimi ja e-posti aadress. "
-"Mittekohustuslikud väljad võib täita siis, kui sa soovid nendes väljades "
-"olevat teavet lisada enda saadetud sõnumitesse."
+msgstr "Palun sisesta allpool olevasse vormi oma nimi ja e-posti aadress. Mittekohustuslikud väljad võib täita siis, kui sa soovid nendes väljades olevat teavet lisada enda saadetud sõnumitesse."
 
 #: ../mail/mail-config.glade.h:108
 msgid "Please select among the following options"
@@ -12546,9 +12428,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:109
 msgid "Pr_ompt when sending messages with only Bcc recipients defined"
-msgstr ""
-"_Täpsustus, kui püütakse saata sõnumit, millel on kirjeldatud ainult "
-"pimekoopia adressaadid"
+msgstr "_Täpsustus, kui püütakse saata sõnumit, millel on kirjeldatud ainult pimekoopia adressaadid"
 
 #: ../mail/mail-config.glade.h:110
 msgid "Quote original message"
@@ -12729,7 +12609,7 @@ msgstr "_Kunagi ära lae ühtegi pilti Internetist"
 
 #: ../mail/mail-config.glade.h:162
 msgid "_Path:"
-msgstr "_Otsingutee:"
+msgstr "_Rada:"
 
 #: ../mail/mail-config.glade.h:163
 msgid "_Prompt when sending HTML messages to contacts that don't want them"
@@ -12876,9 +12756,7 @@ msgstr "Vigane autentimine"
 msgid ""
 "This server does not support this type of authentication and may not support "
 "authentication at all."
-msgstr ""
-"See server ei toeta seda tüüpi autentimist ja arvatavasti ei toeta see "
-"autentimist üleüldse."
+msgstr "See server ei toeta seda tüüpi autentimist ja arvatavasti ei toeta see autentimist üleüldse."
 
 #. mail:camel-service-auth-failed primary
 #: ../mail/mail-errors.xml.h:6
@@ -12890,10 +12768,7 @@ msgstr "Tõrge serverisse \"{0}\" sisselogimisel kasutajana \"{0}\"."
 msgid ""
 "Check to make sure your password is spelled correctly.  Remember that many "
 "passwords are case sensitive; your caps lock might be on."
-msgstr ""
-"Kontrolli, kas parool on õigesti sisestatud.  Kuna paroolid on üldiselt "
-"tõstutundlikud, siis veendu, et klaviatuuri caps lock klahv ei oleks sisse "
-"lülitatud."
+msgstr "Kontrolli, kas parool on õigesti sisestatud.  Kuna paroolid on üldiselt tõstutundlikud, siis veendu, et klaviatuuri caps lock klahv ei oleks sisse lülitatud."
 
 #. mail:ask-send-html primary
 #: ../mail/mail-errors.xml.h:10
@@ -12925,8 +12800,7 @@ msgstr ""
 #. mail:ask-send-only-bcc primary
 #: ../mail/mail-errors.xml.h:22 ../mail/mail-errors.xml.h:29
 msgid "Are you sure you want to send a message with only BCC recipients?"
-msgstr ""
-"Oled sa kindel, et soovid saata seda sõnumit pimekoopia adressaatidele?"
+msgstr "Oled sa kindel, et soovid saata seda sõnumit pimekoopia adressaatidele?"
 
 #. mail:ask-send-only-bcc-contact secondary
 #: ../mail/mail-errors.xml.h:24
@@ -12959,9 +12833,7 @@ msgstr "Seda sõnumit ei saa saata kuna sa pole määranud ühtegi sõnumi saaja
 msgid ""
 "Please enter a valid email address in the To: field. You can search for "
 "email addresses by clicking on the To: button next to the entry box."
-msgstr ""
-"Palun määra sõnumi saaja. Saajat saab kontaktide valida, kui sa vajutad "
-"nupule \"Kellele:\"."
+msgstr "Palun määra sõnumi saaja. Saajat saab kontaktide valida, kui sa vajutad nupule \"Kellele:\"."
 
 #. mail:ask-default-drafts primary
 #: ../mail/mail-errors.xml.h:38
@@ -12984,9 +12856,7 @@ msgstr "Kasuta _vaikekodeeringut"
 msgid ""
 "Are you sure you want to permanently remove all the deleted message in "
 "folder \"{0}\"?"
-msgstr ""
-"Kas sa tõesti soovid jäädavalt eemaldada kõik kustutatud sõnumid kaustast "
-"\"{0}\"?"
+msgstr "Kas sa tõesti soovid jäädavalt eemaldada kõik kustutatud sõnumid kaustast \"{0}\"?"
 
 #. mail:ask-expunge secondary
 #. mail:ask-empty-trash secondary
@@ -13003,9 +12873,7 @@ msgstr "_Puhasta"
 msgid ""
 "Are you sure you want to permanently remove all the deleted messages in all "
 "folders?"
-msgstr ""
-"Kas sa tõesti soovid jäädavalt eemaldada kõik kustutatud sõnumid kõikidest "
-"kaustadest?"
+msgstr "Kas sa tõesti soovid jäädavalt eemaldada kõik kustutatud sõnumid kõikidest kaustadest?"
 
 #: ../mail/mail-errors.xml.h:51
 msgid "_Empty Trash"
@@ -13015,8 +12883,7 @@ msgstr "_Tühjenda prügikast"
 #: ../mail/mail-errors.xml.h:53
 #, fuzzy
 msgid "Are you sure you want to open {0} messages at once?"
-msgstr ""
-"Oled sa kindel, et soovid saata seda sõnumit pimekoopia adressaatidele?"
+msgstr "Oled sa kindel, et soovid saata seda sõnumit pimekoopia adressaatidele?"
 
 #. mail:ask-open-many secondary
 #: ../mail/mail-errors.xml.h:55
@@ -13038,9 +12905,7 @@ msgstr "Sul on saatmata sõnumeid, kas tõesti soovid lõpetada?"
 msgid ""
 "If you quit, these messages will not be sent until Evolution is started "
 "again."
-msgstr ""
-"Kui sa praegu lõpetad, siis ei saadeta saatmata sõnumeid enne, kui sa "
-"Evolution'i uuesti käivitad."
+msgstr "Kui sa praegu lõpetad, siis ei saadeta saatmata sõnumeid enne, kui sa Evolution'i uuesti käivitad."
 
 #. mail:camel-exception primary
 #: ../mail/mail-errors.xml.h:62
@@ -13135,9 +13000,7 @@ msgstr "Süsteemikausta \"{0}\" ei saa kustutada."
 msgid ""
 "System folders are required for Ximian Evolution to function correctly and "
 "cannot be renamed, moved, or deleted."
-msgstr ""
-"Süsteemsed kaustad on tarvilikud Evolutioni korrektseks toimimiseks ja neid "
-"ei saa ümber nimetada, ümber tõsta või kustutada."
+msgstr "Süsteemsed kaustad on tarvilikud Evolutioni korrektseks toimimiseks ja neid ei saa ümber nimetada, ümber tõsta või kustutada."
 
 #. mail:no-rename-special-folder primary
 #: ../mail/mail-errors.xml.h:123
@@ -13161,9 +13024,7 @@ msgstr "Kas tõesti kustutada kaust \"{0}\" ja selle kõik alamkaustad?"
 msgid ""
 "If you delete the folder, all of its contents and its subfolders contents "
 "will be deleted permanently."
-msgstr ""
-"Kui sa slle kausta kustutad, siis kustuvad jäädavalt ka kõik selles olevad "
-"sõnumid ja alamkaustad."
+msgstr "Kui sa slle kausta kustutad, siis kustuvad jäädavalt ka kõik selles olevad sõnumid ja alamkaustad."
 
 #. mail:no-rename-folder-exists primary
 #. mail:no-rename-folder primary
@@ -13884,7 +13745,7 @@ msgstr "Teema sisaldab"
 #: ../mail/searchtypes.xml.h:6
 #, fuzzy
 msgid "Subject or Sender contains"
-msgstr "Teema või saatja sisaldab"
+msgstr "Teema sisaldab"
 
 #: ../plugins/backup-restore/backup-restore.c:51
 msgid "Select name of Evolution archive"
@@ -13967,7 +13828,7 @@ msgstr "Ilm: Pilves"
 
 #: ../plugins/calendar-weather/calendar-weather.c:61
 msgid "Weather: Fog"
-msgstr "Ilm: Udune"
+msgstr "Ilm: Udu"
 
 #: ../plugins/calendar-weather/calendar-weather.c:62
 msgid "Weather: Partly Cloudy"
@@ -13987,7 +13848,7 @@ msgstr "Ilm: Selge"
 
 #: ../plugins/calendar-weather/calendar-weather.c:66
 msgid "Weather: Thunderstorms"
-msgstr "Ilm: Äikeseline"
+msgstr "Ilm: Äike"
 
 #: ../plugins/calendar-weather/calendar-weather.c:268
 msgid "Select a location"
@@ -13999,19 +13860,19 @@ msgstr "Ü_hikud:"
 
 #: ../plugins/calendar-weather/calendar-weather.c:662
 msgid "Metric (Celsius, cm, etc)"
-msgstr "Meetrisüsteemis (Celsius, cm, jne.)"
+msgstr "Meetermõõdustik (Celsius, cm, jms.)"
 
 #: ../plugins/calendar-weather/calendar-weather.c:663
 msgid "Imperial (Fahrenheit, inches, etc)"
-msgstr "Briti kuninglik (Fahrenheit, tollid, jne)"
+msgstr ""
 
 #: ../plugins/default-source/default-source.c:82
 msgid "Mark  as default folder"
-msgstr "Märgi vaikimisi kaustaks"
+msgstr "Märkida vaikimisi kaustaks"
 
 #: ../plugins/default-source/default-source.c:108
 msgid "Mark as default folder"
-msgstr "Märgi vaikimisi kaustaks"
+msgstr "Vaikekausta kasutamine mustandite jaoks?"
 
 #. i18n: "Secure Password Authentication" is an Outlookism
 #: ../plugins/exchange-account-setup/exchange-account-setup.c:59
@@ -14025,7 +13886,7 @@ msgstr "Parooli sisestamine"
 msgid ""
 "This option will connect to the Exchange server using secure password (NTLM) "
 "authentication."
-msgstr "See valik loob ühenduse serverisse Kerberos 4 autentimist kasutades."
+msgstr "See valik loob ühenduse serverisse kasutades Kerberos 4 autentimist."
 
 #: ../plugins/exchange-account-setup/exchange-account-setup.c:70
 #, fuzzy
@@ -14037,8 +13898,7 @@ msgstr "Parooli sisestamine"
 msgid ""
 "This option will connect to the Exchange server using standard plaintext "
 "password authentication."
-msgstr ""
-"See valik loob ühenduse IMAPv4rev1 serveriga tavalist parooli kasutades."
+msgstr "See valik loob ühenduse IMAPv4rev1 serveriga kasutades tavalist parooli."
 
 #. Description section
 #: ../plugins/exchange-account-setup/exchange-account-setup.c:193
@@ -14389,9 +14249,7 @@ msgstr "<b>%s</b> soovib lisada olemasolevale koosolekule:"
 #, c-format
 msgid ""
 "<b>%s</b> wishes to receive the latest information for the following meeting:"
-msgstr ""
-"<b>%s</b> soovib saada värskeimat infot ülesande kohta järgneva koosoleku "
-"kohta:"
+msgstr "<b>%s</b> soovib saada värskeimat infot ülesande kohta järgneva koosoleku kohta:"
 
 #: ../plugins/itip-formatter/itip-view.c:361
 #, fuzzy, c-format
@@ -14582,11 +14440,11 @@ msgstr "_Genereerib uue kirja saabumisel D-BUS sõnumi"
 
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.xml.h:1
 msgid "Enable and disable plugins"
-msgstr ""
+msgstr "Pluginate lubamine ja keelamine"
 
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.xml.h:2
 msgid "Manage Plugins..."
-msgstr ""
+msgstr "Halda pluginaid..."
 
 #: ../plugins/plugin-manager/plugin-manager.c:45
 msgid "Author(s)"
@@ -14594,11 +14452,11 @@ msgstr "Autor(id)"
 
 #: ../plugins/plugin-manager/plugin-manager.c:46
 msgid "Id"
-msgstr ""
+msgstr "Id"
 
 #: ../plugins/plugin-manager/plugin-manager.c:47
 msgid "Path"
-msgstr "Otsingutee"
+msgstr "Rada"
 
 #: ../plugins/plugin-manager/plugin-manager.c:48
 msgid "Description"
@@ -14607,11 +14465,11 @@ msgstr "Kirjeldus"
 #. Setup the ui
 #: ../plugins/plugin-manager/plugin-manager.c:188
 msgid "Plugin Manager"
-msgstr ""
+msgstr "Pluginahaldur"
 
 #: ../plugins/plugin-manager/plugin-manager.c:201
 msgid "Note: Some changes will not take effect until restart"
-msgstr ""
+msgstr "Märkus: mõningad muudatused rakenduvad alles peale taaskäivitamist"
 
 #: ../plugins/plugin-manager/plugin-manager.c:210
 msgid "Plugin"
@@ -15103,9 +14961,7 @@ msgid ""
 "\n"
 "Do you want to quit using the Assistant now?"
 msgstr ""
-"Kui sa praegu Evolution'i seadistusabilise sulged, lähevad kõik sisestatud "
-"andmed kaotsi. Sel juhul pead sa Evolution'i järgmisel käivitamisel uuesti "
-"ka seadistusabilise käivitama.\n"
+"Kui sa praegu Evolution'i seadistusabilise sulged, lähevad kõik sisestatud andmed kaotsi. Sel juhul pead sa Evolution'i järgmisel käivitamisel uuesti ka seadistusabilise käivitama.\n"
 "\n"
 "Kas sa soovid seadistusabilist sulgeda?"
 
@@ -15179,9 +15035,7 @@ msgstr "Siirdu autonoomsesse olekusse"
 
 #: ../shell/e-shell-window.c:341
 msgid "Evolution is currently online.  Click on this button to work offline."
-msgstr ""
-"Evolution on hetkel võrku ühendatud.  Autonoomsesse olekusse siirdumiseks "
-"vajuta seda nuppu."
+msgstr "Evolution on hetkel võrku ühendatud.  Autonoomsesse olekusse siirdumiseks vajuta seda nuppu."
 
 #: ../shell/e-shell-window.c:349
 msgid "Evolution is in the process of going offline."
@@ -15189,9 +15043,7 @@ msgstr "Evolution siirdub autonoomsesse olekusse."
 
 #: ../shell/e-shell-window.c:356
 msgid "Evolution is currently offline.  Click on this button to work online."
-msgstr ""
-"Evolution on hetkel autonoomses olekus.  Võrku ühendumiseks vajuta seda "
-"nuppu."
+msgstr "Evolution on hetkel autonoomses olekus.  Võrku ühendumiseks vajuta seda nuppu."
 
 #: ../shell/e-shell-window.c:713
 #, c-format
@@ -15398,8 +15250,7 @@ msgid ""
 "You will need to make more space available in your home directory before you "
 "can continue."
 msgstr ""
-"Sinu andmete ja sätete uuendamine vajab kuni {0} kettaruumi, kuid sul on "
-"saadaval ainult {1}.\n"
+"Sinu andmete ja sätete uuendamine vajab kuni {0} kettaruumi, kuid sul on saadaval ainult {1}.\n"
 "\n"
 "Enne jätkamise pead Sa oma kodukataloogi looma rohkem vaba ruumi."
 
@@ -15422,8 +15273,7 @@ msgid ""
 msgstr ""
 "{1}\n"
 "\n"
-"Kui sa valid jätkamise, siis võid sa kaotada ligipääsu mõnedele vanadele "
-"andmetele.\n"
+"Kui sa valid jätkamise, siis võid sa kaotada ligipääsu mõnedele vanadele andmetele.\n"
 
 #: ../shell/shell-errors.xml.h:15
 msgid "Continue"
@@ -15447,9 +15297,7 @@ msgid ""
 msgstr ""
 "Evolution'i eelmine versioon hoidis andmeid teises kohas.\n"
 "\n"
-"Kui sa valid andmete eemaldamise, siis eemaldatakse kogu \"evolution\" "
-"kataloogi jäädavalt. Kui sa valid andmete säilitamise, siis võid sa hiljem "
-"omal vabal valikul käsitsi eemaldada kataloogi  \"evolution\".\n"
+"Kui sa valid andmete eemaldamise, siis eemaldatakse kogu \"evolution\" kataloogi jäädavalt. Kui sa valid andmete säilitamise, siis võid sa hiljem omal vabal valikul käsitsi eemaldada kataloogi  \"evolution\".\n"
 
 #: ../shell/shell-errors.xml.h:25
 msgid "_Remind Me Later"
@@ -15639,8 +15487,7 @@ msgstr "<b>Omanik</b>"
 
 #: ../smime/gui/smime-ui.glade.h:8
 msgid "<b>This certificate has been verified for the following uses:</b>"
-msgstr ""
-"<b>See sertifikaat on verifitseeritud järgnevate toimingute tarbeks:</b>"
+msgstr "<b>See sertifikaat on verifitseeritud järgnevate toimingute tarbeks:</b>"
 
 #: ../smime/gui/smime-ui.glade.h:9
 msgid "<b>Validity</b>"
@@ -15662,10 +15509,7 @@ msgstr "Varunda kõik"
 msgid ""
 "Before trusting this CA for any purpose, you should examine its certificate "
 "and its policy and procedures (if available)."
-msgstr ""
-"Enne selle sertifitseerimiskeskuse (SK) usaldamist ükskõik mis eesmärgil, "
-"peaksid sa selle SK kasutamisreeglitega ja protseduuridega (kui need on "
-"saadaval)."
+msgstr "Enne selle sertifitseerimiskeskuse (SK) usaldamist ükskõik mis eesmärgil, peaksid sa selle SK kasutamisreeglitega ja protseduuridega (kui need on saadaval)."
 
 #: ../smime/gui/smime-ui.glade.h:14 ../smime/lib/e-cert.c:1076
 msgid "Certificate"
@@ -16240,7 +16084,7 @@ msgstr "Valib tänase kuupäeva"
 
 #: ../ui/evolution-calendar.xml.h:29
 msgid "Show as list"
-msgstr "Näitab loendit"
+msgstr "Näita loendit"
 
 #: ../ui/evolution-calendar.xml.h:30
 msgid "Show one day"
@@ -16248,15 +16092,15 @@ msgstr "Näita ühte päeva"
 
 #: ../ui/evolution-calendar.xml.h:31
 msgid "Show one month"
-msgstr "Näitab ühte kuud"
+msgstr "Näita ühte kuud"
 
 #: ../ui/evolution-calendar.xml.h:32
 msgid "Show one week"
-msgstr "Näitab ühte nädalat"
+msgstr "Näita ühte nädalat"
 
 #: ../ui/evolution-calendar.xml.h:33
 msgid "Show the working week"
-msgstr "Näitab ühte töönädalat"
+msgstr "Näita ühte töönädalat"
 
 #: ../ui/evolution-calendar.xml.h:35
 msgid "View the current appointment"
@@ -17592,8 +17436,7 @@ msgstr "Evolutioni küsimus"
 #, c-format
 msgid ""
 "<span weight=\"bold\">Internal error, unknown error '%s' requested</span>"
-msgstr ""
-"<span weight=\"bold\">Sisemine viga, tundmatu viga '%s'  küsitud</span>"
+msgstr "<span weight=\"bold\">Sisemine viga, tundmatu viga '%s'  küsitud</span>"
 
 #: ../widgets/misc/e-expander.c:181
 msgid "Expanded"
@@ -17906,1925 +17749,3 @@ msgstr "%s (%d%% valmis)"
 #: ../widgets/misc/e-url-entry.c:107
 msgid "click here to go to url"
 msgstr "URL'i avamiseks kliki siin"
-
-#~ msgid "_Remember this password"
-#~ msgstr "_Jäta see parool meelde"
-
-#~ msgid "_Remember this password for the remainder of this session"
-#~ msgstr "_Jäta see parool meelde kuni selle sessiooni lõpuni"
-
-#~ msgid "Mark as _Unread"
-#~ msgstr "Märgi _mitteloetuks"
-
-#~ msgid "Add Sender to Address_book"
-#~ msgstr "Lisa saatja _aadressiraamatusse"
-
-#~ msgid "Appl_y Filters"
-#~ msgstr "Rakenda _filtrid"
-
-#~ msgid "F_ilter Junk"
-#~ msgstr "_Rämpsu filtreerimine"
-
-#~ msgid "have "
-#~ msgstr "omab"
-
-#~ msgid "has "
-#~ msgstr "omab"
-
-#~ msgid " cards"
-#~ msgstr " kaarti"
-
-#~ msgid " card"
-#~ msgstr " kaart"
-
-#~ msgid "alarm "
-#~ msgstr "alarm "
-
-#~ msgid "time-zone "
-#~ msgstr "ajavöönd"
-
-#~ msgid "meeting "
-#~ msgstr "koosolek"
-
-#~ msgid ", %d events"
-#~ msgstr ", %d sündmust"
-
-#~ msgid "work week view :"
-#~ msgstr "töönädala vaade :"
-
-#~ msgid "day view :"
-#~ msgstr "päeva vaade :"
-
-#~ msgid "month view :"
-#~ msgstr "kuu vaade :"
-
-#~ msgid "week view :"
-#~ msgstr "nädala vaade :"
-
-#~ msgid ")"
-#~ msgstr ")"
-
-#~ msgid "Position of the vertical pane in main view."
-#~ msgstr "Vertikaalpaani asukoht põhivaates."
-
-#~ msgid ""
-#~ "The number of characters that must be typed before Evolution will attempt "
-#~ "to autocomplete"
-#~ msgstr ""
-#~ "Tähtede arv, mis tuleb sisestada enne kui Evolution üritab "
-#~ "automaatlõpetamist"
-
-#~ msgid "Address:"
-#~ msgstr "Aadress:"
-
-#~ msgid "Calendar:"
-#~ msgstr "Kalender:"
-
-#~ msgid "PO Box:"
-#~ msgstr "Sidejaoskonna postkast:"
-
-#~ msgid "State/Province:"
-#~ msgstr "Maakond/Provints:"
-
-#~ msgid "Title:"
-#~ msgstr "Tiitel:"
-
-#~ msgid "This contact belongs to these categories:"
-#~ msgstr "Antud kontakt kuulub järgnevatesse kategooriatesse:"
-
-#~ msgid "Edit Contact Info"
-#~ msgstr "Muuda kontakti andmeid"
-
-#~ msgid "Add to Contacts"
-#~ msgstr "Lisa kontaktide hulka"
-
-#~ msgid "Days that are work days"
-#~ msgstr "Päevad, mis on tööpäevad"
-
-#~ msgid "Default timezone for meetings"
-#~ msgstr "Vaikimisi ajavöönd koosolekute jaoks"
-
-#~ msgid "Position of the horizontal pane in the month view"
-#~ msgstr "Horisontaalpaani asukoht kuuvaates"
-
-#~ msgid "Position of the vertical pane"
-#~ msgstr "Vertikaalpaani asukoht"
-
-#~ msgid "Show where events end in week and month views"
-#~ msgstr "Näita sündmuste lõpuaegu nädala ja kuu vaadetel"
-
-#~ msgid "Whether to ask for confirmation when folder is expunged"
-#~ msgstr "Kas küsida nõusolekut kausta puhastamisel"
-
-#~ msgid "<span weight=\"bold\">Basics</span>"
-#~ msgstr "<span weight=\"bold\">Põhiline</span>"
-
-#~ msgid "<span weight=\"bold\">Date and Time</span>"
-#~ msgstr "<span weight=\"bold\">Kuupäev ja aeg</span>"
-
-#~ msgid "Free/Busy Editor"
-#~ msgstr "Vaba/Hõivatud teabe redaktor"
-
-#~ msgid "Print Setup"
-#~ msgstr "Trükkimise seaded"
-
-#~ msgid "Signing is not supported by this cipher"
-#~ msgstr "See šiffer ei toeta allkirjastamist"
-
-#~ msgid "Signing message"
-#~ msgstr "Sõnumi signeerimine"
-
-#~ msgid "Verifying is not supported by this cipher"
-#~ msgstr "See šiffer ei toeta kontrolli"
-
-#~ msgid "Verifying message"
-#~ msgstr "Sõnumi verifitseerimine"
-
-#~ msgid "Encryption is not supported by this cipher"
-#~ msgstr "See šiffer ei toeta krüptimist"
-
-#~ msgid "Encrypting message"
-#~ msgstr "Sõnumi krüptimine"
-
-#~ msgid "Decryption is not supported by this cipher"
-#~ msgstr "See šiffer ei toeta dekrüptimist"
-
-#~ msgid "Decrypting message"
-#~ msgstr "Sõnumi dekrüptimine"
-
-#~ msgid "You may not import keys with this cipher"
-#~ msgstr "Sa ei tohi importida selle šifriga võtmeid"
-
-#~ msgid "You may not export keys with this cipher"
-#~ msgstr "Sa ei tohi eksportida selle šifriga võtmeid"
-
-#~ msgid ""
-#~ "Could not write log entry: %s\n"
-#~ "Further operations on this server will not be replayed when you\n"
-#~ "reconnect to the network."
-#~ msgstr ""
-#~ "Ei olnud võimalik kirjutada logisse kirjet: %s\n"
-#~ "Tulevased operatsioonid selles serveris jäävad tegemata kui sa\n"
-#~ "taastad ühenduse võrguga."
-
-#~ msgid ""
-#~ "Could not open `%s':\n"
-#~ "%s\n"
-#~ "Changes made to this folder will not be resynchronized."
-#~ msgstr ""
-#~ "Ei ole võimalik avada `%s':\n"
-#~ "%s\n"
-#~ "Sellesse kausta tehtud muudatused jäävad sünkroniseerimata."
-
-#~ msgid "Resynchronizing with server"
-#~ msgstr "Taassünkroniseeritakse serveriga"
-
-#~ msgid "You must be working online to complete this operation"
-#~ msgstr "Selle operatsiooni täitmiseks pead olema võrku ühendatud"
-
-#~ msgid "Failed to create pipe to '%s': %s"
-#~ msgstr "Tõrge toru loomisel -> '%s': %s"
-
-#~ msgid "Failed to create child process '%s': %s"
-#~ msgstr "Tõrge alamprotsessi '%s' loomisel: %s"
-
-#~ msgid "Invalid message stream received from %s: %s"
-#~ msgstr "Vastu võetud vigane sõnum %s'lt: %s"
-
-#~ msgid "Syncing folders"
-#~ msgstr "Kaustade sünkroniseerimine"
-
-#~ msgid "Error parsing filter: %s: %s"
-#~ msgstr "Viga filtri analüüsil: %s: %s"
-
-#~ msgid "Error executing filter: %s: %s"
-#~ msgstr "Viga filtri täitmisel: %s: %s"
-
-#~ msgid "Unable to open spool folder"
-#~ msgstr "Puhverkausta pole võimalik avada"
-
-#~ msgid "Unable to process spool folder"
-#~ msgstr "Puhverkausta pole võimalik töödelda"
-
-#~ msgid "Getting message %d (%d%%)"
-#~ msgstr "Võetakse vastu teadet %d (%d%%)"
-
-#~ msgid "Cannot open message"
-#~ msgstr "Sõnumit ei saa avada"
-
-#~ msgid "Failed on message %d"
-#~ msgstr "Tõrge sõnumi %d juures"
-
-#~ msgid "Syncing folder"
-#~ msgstr "Kausta sünkroniseerimine"
-
-#~ msgid "Getting message %d of %d"
-#~ msgstr "Tõmban %d. sõnumit %dst"
-
-#~ msgid "Failed at message %d of %d"
-#~ msgstr "Tõrge sõnumi %d juures (kokku sõnumeid: %d)"
-
-#~ msgid "Failed to retrieve message"
-#~ msgstr "Tõrge sõnumi vastuvõtmisel"
-
-#~ msgid "Failed to create create child process '%s': %s"
-#~ msgstr "Tõrge alamprotsessi '%s' loomisel: %s"
-
-#~ msgid "Error executing filter search: %s: %s"
-#~ msgstr "Viga filterotsingu täitmisel: %s: %s"
-
-#~ msgid "Unsupported operation: append message: for %s"
-#~ msgstr "Toetamata operatsioon: lisa sõnum: %s"
-
-#~ msgid "Unsupported operation: search by expression: for %s"
-#~ msgstr "Toetamata operatsioon: otsimine avaldise järgi: %s"
-
-#~ msgid "Unsupported operation: search by uids: for %s"
-#~ msgstr "Toetamata operatsioon: otsing UID järgi: %s"
-
-#~ msgid "Moving messages"
-#~ msgstr "Sõnumite liigutamine"
-
-#~ msgid "Copying messages"
-#~ msgstr "Sõnumite kopeerimine"
-
-#~ msgid "Learning junk"
-#~ msgstr "Rämpsposti tundmaõppimine"
-
-#~ msgid "Learning non-junk"
-#~ msgstr "Mitte-rämpsposti tundmaõppimine"
-
-#~ msgid "Filtering new message(s)"
-#~ msgstr "Uute sõnumite filtreerimine"
-
-#~ msgid ""
-#~ "Cannot parse search expression: %s:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Otsinguavaldist ei ole võimalik analüüsida: %s\n"
-#~ "%s"
-
-#~ msgid ""
-#~ "Error executing search expression: %s:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Viga otsinguavaldise täitmisel: %s:\n"
-#~ "%s"
-
-#~ msgid "(match-all) requires a single bool result"
-#~ msgstr "(match-all) nõuab ühtainust tõeväärtustüüpi tulemust"
-
-#~ msgid "Performing query on unknown header: %s"
-#~ msgstr "Täidetakse päringut tundmatul päisel: %s"
-
-#~ msgid ""
-#~ "Unexpected GnuPG status message encountered:\n"
-#~ "\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Ootamatu GnuPG olekusõnum:\n"
-#~ "\n"
-#~ "%s"
-
-#~ msgid "Failed to parse gpg userid hint."
-#~ msgstr "Tõrge gpg kasutaja ID vihje analüüsimisel."
-
-#~ msgid "Failed to parse gpg passphrase request."
-#~ msgstr "Tõrge gpg paroolipäringu analüüsimisel."
-
-#~ msgid ""
-#~ "You need a passphrase to unlock the key for\n"
-#~ "user: \"%s\""
-#~ msgstr "Sul on kasutaja \"%s\" võtme lahtilukustamiseks vaja parooli"
-
-#~ msgid "Failed to unlock secret key: 3 bad passphrases given."
-#~ msgstr "Tõrge salajase võtme avamisel: sisestati 3 valet parooli."
-
-#~ msgid "Unexpected response from GnuPG: %s"
-#~ msgstr "Ootamatu vastus GnuPG'lt: %s"
-
-#~ msgid "Failed to encrypt: No valid recipients specified."
-#~ msgstr "Tõrge sõnumi krüptimisel: Saajate aadressid on määramata."
-
-#~ msgid ""
-#~ "Failed to GPG %s: %s\n"
-#~ "\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Tõrge GPG töötlemisel %s: %s\n"
-#~ "\n"
-#~ "%s"
-
-#~ msgid "Failed to GPG %s: %s\n"
-#~ msgstr "Tõrge %s GPG töötlemisel: %s\n"
-
-#~ msgid "Could not generate signing data: %s"
-#~ msgstr "Signeerimisandmete genereerimine ei õnnestunud: %s"
-
-#~ msgid "Failed to execute gpg: %s"
-#~ msgstr "gpg käivitamine nurjus: %s"
-
-#~ msgid "Failed to execute gpg."
-#~ msgstr "Tõrge gpg käivitamisel."
-
-#~ msgid "This is a digitally signed message part"
-#~ msgstr "See on sõnumi digitaalselt allkirjastatud osa"
-
-#~ msgid "Cannot verify message signature: Incorrect message format"
-#~ msgstr "Ei saa kontrollida sõnumi signatuuri: Sõnum on vigaselt vormindatud"
-
-#~ msgid "Cannot verify message signature: could not create temp file: %s"
-#~ msgstr ""
-#~ "Ei saa kontrollida sõnumi signatuuri: ajutise faili loomine nurjus: %s"
-
-#~ msgid "This is a digitally encrypted message part"
-#~ msgstr "See on sõnumi digitaalselt krüptitud osa"
-
-#~ msgid "Failed to decrypt MIME part: protocol error"
-#~ msgstr "Tõrge MIME osa dekrüptimisel: protokolli viga"
-
-#~ msgid "Encrypted content"
-#~ msgstr "Krüpteeritud sisu"
-
-#~ msgid "Could not create lock file for %s: %s"
-#~ msgstr "Ei suuda luua lukufaili %s jaoks: %s"
-
-#~ msgid "Timed out trying to get lock file on %s. Try again later."
-#~ msgstr ""
-#~ "%s - Lukufaili saamise päring ületas ajapiirangu. Ürita hiljem uuesti."
-
-#~ msgid "Failed to get lock using fcntl(2): %s"
-#~ msgstr "Tõrge fcntl(2) abil lukustamisel: %s"
-
-#~ msgid "Failed to get lock using flock(2): %s"
-#~ msgstr "Tõrge flock(2) abil lukustamisel: %s"
-
-#~ msgid "Cannot build locking helper pipe: %s"
-#~ msgstr "Ei suuda luua lukustamisabilise toru: %s"
-
-#~ msgid "Could not lock '%s': protocol error with lock-helper"
-#~ msgstr ""
-#~ "'%s' ei lukustamine ei õnnestunud, protokolli viga lukustamisabilises"
-
-#~ msgid "Could not lock '%s'"
-#~ msgstr "Ei saa lukustada '%s'"
-
-#~ msgid "Could not open mail file %s: %s"
-#~ msgstr "Sõnumifaili %s ei saa avada: %s"
-
-#~ msgid "Could not open temporary mail file %s: %s"
-#~ msgstr "Ei saa avada ajutist sõnumifaili %s: %s"
-
-#~ msgid "Failed to store mail in temp file %s: %s"
-#~ msgstr "Tõrge sõnumi salvestamisel ajutisse faili %s: %s"
-
-#~ msgid "Could not create pipe: %s"
-#~ msgstr "Soklit ei saa luua: %s"
-
-#~ msgid "Could not fork: %s"
-#~ msgstr "Ei saa forkida: %s"
-
-#~ msgid "Movemail program failed: %s"
-#~ msgstr "Tõrge Movemail programmis: %s"
-
-#~ msgid "(Unknown error)"
-#~ msgstr "(tundmatu viga)"
-
-#~ msgid "Error reading mail file: %s"
-#~ msgstr "Viga sõnumifaili lugemisel: %s"
-
-#~ msgid "Error writing mail temp file: %s"
-#~ msgstr "Viga ajutise sõnumifaili kirjutamisel: %s"
-
-#~ msgid "Error copying mail temp file: %s"
-#~ msgstr "Viga ajutise sõnumifaili kopeerimisel: %s"
-
-#~ msgid "parse error"
-#~ msgstr "analüüsimisviga"
-
-#~ msgid "cannot create thread"
-#~ msgstr "lõime ei saa luua"
-
-#~ msgid "Resolving: %s"
-#~ msgstr "Lahendan: %s"
-
-#~ msgid "Host lookup failed"
-#~ msgstr "Hostinime lahendamine nurjus"
-
-#~ msgid "Host lookup failed: %s: %s"
-#~ msgstr "Hostinime lahendamine nurjus: %s: %s"
-
-#~ msgid "Resolving address"
-#~ msgstr "Aadressi lahendamine"
-
-#~ msgid "Name lookup failed"
-#~ msgstr "Tõrge nime lahendamisel"
-
-#~ msgid "Name lookup failed: %s"
-#~ msgstr "Tõrge nime lahendamisel: %s"
-
-#~ msgid "Could not load %s: Module loading not supported on this system."
-#~ msgstr "Ei saa laadida %s: süsteem ei toeta moodulite laadimist."
-
-#~ msgid "Could not load %s: %s"
-#~ msgstr "Ei saa laadida '%s': %s"
-
-#~ msgid "Could not load %s: No initialization code in module."
-#~ msgstr "Ei saa laadida %s: moodulis puudub initsialiseerimiskood."
-
-#~ msgid "Anonymous"
-#~ msgstr "Anonüümne"
-
-#~ msgid "This option will connect to the server using an anonymous login."
-#~ msgstr "See valik ühendub serveriga, kasutades anonüümset sisselogimist."
-
-#~ msgid "Authentication failed."
-#~ msgstr "Autentimine nurjus."
-
-#~ msgid ""
-#~ "Invalid email address trace information:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Ebakorrektne e-posti aadressi jälitusinfo:\n"
-#~ "%s"
-
-#~ msgid ""
-#~ "Invalid trace information:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Vigane jälitusinfo:\n"
-#~ "%s"
-
-#~ msgid "CRAM-MD5"
-#~ msgstr "CRAM-MD5"
-
-#~ msgid ""
-#~ "This option will connect to the server using a secure CRAM-MD5 password, "
-#~ "if the server supports it."
-#~ msgstr ""
-#~ "See seadistus aitab juhul, kui server seda toetab, ühenduda serverisse "
-#~ "kasutades turvalist CRAM-MD5 parooli."
-
-#~ msgid "DIGEST-MD5"
-#~ msgstr "DIGEST-MD5"
-
-#~ msgid ""
-#~ "This option will connect to the server using a secure DIGEST-MD5 "
-#~ "password, if the server supports it."
-#~ msgstr ""
-#~ "See seadistus aitab juhul, kui server seda toetab, ühenduda serverisse "
-#~ "kasutades turvalist DIGEST-MD5 parooli."
-
-#~ msgid "Server challenge too long (>2048 octets)\n"
-#~ msgstr "Serveri kutsung liiga pikk (>2048 oktetti)\n"
-
-#~ msgid "Server challenge invalid\n"
-#~ msgstr "Vigane serveri kutsung\n"
-
-#~ msgid "Server challenge contained invalid \"Quality of Protection\" token\n"
-#~ msgstr "Serveri kutsung sisaldas vigast \"Quality of Protection\" lipikut\n"
-
-#~ msgid "Server response did not contain authorization data\n"
-#~ msgstr "Serveri vastus ei sisaldanud autoriseerimisinfot\n"
-
-#~ msgid "Server response contained incomplete authorization data\n"
-#~ msgstr "Serveri vastus sisaldas puudulikku autoriseerimisinfot\n"
-
-#~ msgid "Server response does not match\n"
-#~ msgstr "Serveri vastus oli vigane\n"
-
-#~ msgid "GSSAPI"
-#~ msgstr "GSSAPI"
-
-#~ msgid ""
-#~ "This option will connect to the server using Kerberos 5 authentication."
-#~ msgstr ""
-#~ "See valik loob ühenduse serverisse kasutades Kerberos 5 autentimist."
-
-#~ msgid "The consistency checks performed on the input_token failed."
-#~ msgstr "Tõrge input_token'i kooskõlalisuse kontrollimisel."
-
-#~ msgid "The consistency checks performed on the credential failed."
-#~ msgstr "Tõrge volituste kooskõlalisuse kontrollimisel."
-
-#~ msgid "The referenced credentials have expired."
-#~ msgstr "Osutatud volitused on aegunud."
-
-#~ msgid "Bad authentication response from server."
-#~ msgstr "Serverilt saadi vigane autentimise vastus."
-
-#~ msgid "Unsupported security layer."
-#~ msgstr "Toetamata turvakiht."
-
-#~ msgid "Kerberos 4"
-#~ msgstr "Kerberos 4"
-
-#~ msgid ""
-#~ "Could not get Kerberos ticket:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Kerberose piletit ei saa hankida:\n"
-#~ "%s"
-
-#~ msgid "Login"
-#~ msgstr "Kasutajanimi"
-
-#~ msgid "This option will connect to the server using a simple password."
-#~ msgstr "See valik loob ühenduse serveriga kasutades tavalist parooli."
-
-#~ msgid "Unknown authentication state."
-#~ msgstr "Teadmata autentimisseisund"
-
-#~ msgid "NTLM / SPA"
-#~ msgstr "NTLM / SPA"
-
-#~ msgid ""
-#~ "This option will connect to a Windows-based server using NTLM / Secure "
-#~ "Password Authentication."
-#~ msgstr ""
-#~ "See valik loob ühenduse Windowsil baseeruvasse serverisse kasutades "
-#~ "NTLM / Secure Password Authentication autentimist."
-
-#~ msgid "POP before SMTP"
-#~ msgstr "POP enne SMTPd"
-
-#~ msgid "This option will authorise a POP connection before attempting SMTP"
-#~ msgstr "See valik lubab POP ühenduse enne SMTP ühenduse üritamist"
-
-#~ msgid "POP Source URI"
-#~ msgstr "POP allika URI"
-
-#~ msgid "Regular expression compilation failed: %s: %s"
-#~ msgstr "Regulaaravaldise kompileerimine nurjus: %s: %s"
-
-#~ msgid "URL '%s' needs a username component"
-#~ msgstr "URL '%s' vajab kasutajanime osa"
-
-#~ msgid "URL '%s' needs a host component"
-#~ msgstr "URL '%s' vajab hosti osa"
-
-#~ msgid "URL '%s' needs a path component"
-#~ msgstr "URL '%s' vajab kataloogitee osa"
-
-#~ msgid ""
-#~ "Could not create directory %s:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Ei suuda luua kataloogi %s:\n"
-#~ "%s"
-
-#~ msgid "Cannot find certificate for '%s'"
-#~ msgstr "Ei leia sertifikaato '%s' jaoks"
-
-#~ msgid "Cannot create CMS message"
-#~ msgstr "CMS sõnumit ei saa luua"
-
-#~ msgid "Cannot create CMS signed data"
-#~ msgstr "CMS sõnumi signeeritud andmeid ei saa luua"
-
-#~ msgid "Cannot attach CMS signed data"
-#~ msgstr "CMS signeeritud andmeid ei saa manustada"
-
-#~ msgid "Cannot attach CMS data"
-#~ msgstr "CMS andmeid ei saa manustada"
-
-#~ msgid "Cannot create CMS Signer information"
-#~ msgstr "CMS Signeerija teavet ei saa luua"
-
-#~ msgid "Cannot find certificate chain"
-#~ msgstr "Sertifikaadiahelat ei leitud"
-
-#~ msgid "Cannot add CMS Signing time"
-#~ msgstr "CMS Signeerimise aega ei saa lisada"
-
-#~ msgid "Encryption certificate for '%s' does not exist"
-#~ msgstr "Sertifikaati \"%s\" krüpteerimise jaoks ei ole olemas"
-
-#~ msgid "Cannot add SMIMEEncKeyPrefs attribute"
-#~ msgstr "Attribuuti SMIMEEncKeyPrefs ei saa lisada"
-
-#~ msgid "Cannot add MS SMIMEEncKeyPrefs attribute"
-#~ msgstr "Attribuuti MS SMIMEEncKeyPrefs ei saa lisada"
-
-#~ msgid "Cannot add encryption certificate"
-#~ msgstr "Krüptimissertifikaati ei saa lisada"
-
-#~ msgid "Cannot add CMS Signer information"
-#~ msgstr "CMS Signeerija teavet ei saa lisada"
-
-#~ msgid "Failed to add data to CMS encoder"
-#~ msgstr "Tõrge andmete lisamisel CMS kodeerijasse"
-
-#~ msgid "Failed to encode data"
-#~ msgstr "Tõrge andmete kodeerimisel"
-
-#~ msgid "Unverified"
-#~ msgstr "Määramata"
-
-#~ msgid "Good signature"
-#~ msgstr "Hea allkiri"
-
-#~ msgid "Bad signature"
-#~ msgstr "Halb allkiri"
-
-#~ msgid "Signing certificate not found"
-#~ msgstr "Allkirjastamissertifikaati ei leitud"
-
-#~ msgid "Signing certificate not trusted"
-#~ msgstr "Signeerimissertifikaat ei ole usaldusväärne"
-
-#~ msgid "Signature algorithm unknown"
-#~ msgstr "Tundmatu signeerimisalgoritm"
-
-#~ msgid "Signature algorithm unsupported"
-#~ msgstr "Toetamata signeerimisalgoritm"
-
-#~ msgid "Processing error"
-#~ msgstr "Vea töötlemine"
-
-#~ msgid "Digests missing from enveloped data"
-#~ msgstr "Andmeümbrikus puudub sõnumilühend"
-
-#~ msgid "Cannot calculate digests"
-#~ msgstr "Sõnumilühendeid pole võimalik arvutada"
-
-#~ msgid "Cannot set message digests"
-#~ msgstr "Sõnumilühendit pole võimalik määrata"
-
-#~ msgid "Certificate import failed"
-#~ msgstr "Tõrge sertifikaadi importimisel"
-
-#~ msgid "Cannot find signature digests"
-#~ msgstr "Ei leia signatuurilühendit"
-
-#~ msgid "Signer: %s <%s>: %s\n"
-#~ msgstr "Allkirjastaja: %s <%s>: %s\n"
-
-#~ msgid "Decoder failed"
-#~ msgstr "Tõrge dekodeerimisel"
-
-#~ msgid "Cannot find certificate for `%s'"
-#~ msgstr "Ei leia sertifikaati `%s' jaoks"
-
-#~ msgid "Cannot create CMS Message"
-#~ msgstr "CMS sõnumit ei saa luua"
-
-#~ msgid "Cannot create CMS Enveloped data"
-#~ msgstr "CMS Ümbriku andmeid ei saa luua"
-
-#~ msgid "Cannot attach CMS Enveloped data"
-#~ msgstr "CMS Ümbriku andmeid ei saa manustada"
-
-#~ msgid "Cannot attach CMS data object"
-#~ msgstr "CMS andmeobjekti ei saa manustada"
-
-#~ msgid "Cannot add CMS Recipient information"
-#~ msgstr "CMS Vastuvõtja teavet ei saa lisada"
-
-#~ msgid "Failed to add data to encoder"
-#~ msgstr "Tõrge andmete lisamisel enkooderile"
-
-#~ msgid "Decoder failed, error %d"
-#~ msgstr "Tõrge dekodeerimisel, viga %d"
-
-#~ msgid "S/MIME Decrypt: No encrypted content found"
-#~ msgstr "S/MIME dekrüptimine: Krüptitud sisu ei leitud"
-
-#~ msgid "import keys: unimplemented"
-#~ msgstr "võtmete importimine: pole veel teostatud"
-
-#~ msgid "export keys: unimplemented"
-#~ msgstr "võtmete eksportimine: pole veel teostatud"
-
-#~ msgid "Cannot create folder `%s': folder exists"
-#~ msgstr "Kausta `%s' ei saa luua: kaust on juba olemas"
-
-#~ msgid "Cannot create folder: %s: folder exists"
-#~ msgstr "Kausta `%s' ei saa luua: kaust on juba olemas"
-
-#~ msgid "Cannot delete folder: %s: Invalid operation"
-#~ msgstr "Kausta kustutamine nurjus: %s: vigane operatsioon"
-
-#~ msgid "Cannot rename folder: %s: Invalid operation"
-#~ msgstr "Kausta ümbernimetamine nurjus: %s: vigane operatsioon"
-
-#~ msgid "Trash"
-#~ msgstr "Prügikast"
-
-#~ msgid "Unable to decrypt certificate signature"
-#~ msgstr "Ei saa dekrüptida sertifikaadi signatuuri"
-
-#~ msgid "Unable to decode issuer's public key"
-#~ msgstr "Väljaandja avalikku võtit ei saa dekodeerida"
-
-#~ msgid "Certificate signature failure"
-#~ msgstr "Sertifikaadi signatuuri tõrge"
-
-#~ msgid "Certificate Revocation List signature failure"
-#~ msgstr "Sertifikaadi tühistusnimekirja (CRL) tõrge"
-
-#~ msgid "Certificate not yet valid"
-#~ msgstr "Sertifikaat ei ole veel kehtiv"
-
-#~ msgid "Certificate has expired"
-#~ msgstr "Sertifikaat on aegunud"
-
-#~ msgid "CRL not yet valid"
-#~ msgstr "CRL ei ole veel kehtiv"
-
-#~ msgid "CRL has expired"
-#~ msgstr "CRL on aegunud."
-
-#~ msgid "Error in CRL"
-#~ msgstr "Viga CRL'is"
-
-#~ msgid "Out of memory"
-#~ msgstr "Mälu puudujääk"
-
-#~ msgid "Certificate chain too long"
-#~ msgstr "Sertifitseerimisahel on liiga pikk"
-
-#~ msgid "Certificate Revoked"
-#~ msgstr "Sertifikaat on tühistatud"
-
-#~ msgid "Invalid Certificate Authority (CA)"
-#~ msgstr "Vigane sertifitseerimiskeskus"
-
-#~ msgid "Path length exceeded"
-#~ msgstr "Otsingutee pikkus ületatud"
-
-#~ msgid "Certificate untrusted"
-#~ msgstr "Sertifikaat ei ole usaldatav"
-
-#~ msgid "AKID/SKID mismatch"
-#~ msgstr "AKID/SKID mittesobivus"
-
-#~ msgid "Key usage does not support certificate signing"
-#~ msgstr "Kasutusala ei sisalda sertifikaatide signeerimist"
-
-#~ msgid "Error in application verification"
-#~ msgstr "Viga rakenduse verifitseerimisel"
-
-#~ msgid ""
-#~ "Issuer:            %s\n"
-#~ "Subject:           %s\n"
-#~ "Fingerprint:       %s\n"
-#~ "Signature:         %s"
-#~ msgstr ""
-#~ "Väljastaja:            %s\n"
-#~ "Teema:           %s\n"
-#~ "Sõrmejälg:       %s\n"
-#~ "Signatuur:       %s"
-
-#~ msgid "GOOD"
-#~ msgstr "HEA"
-
-#~ msgid "BAD"
-#~ msgstr "HALB"
-
-#~ msgid ""
-#~ "Bad certificate from %s:\n"
-#~ "\n"
-#~ "%s\n"
-#~ "\n"
-#~ "%s\n"
-#~ "\n"
-#~ "Do you wish to accept anyway?"
-#~ msgstr ""
-#~ "Halb sertifikaat %s isikult:\n"
-#~ "\n"
-#~ "%s\n"
-#~ "\n"
-#~ "%s\n"
-#~ "\n"
-#~ "Kas soovid seda siiski vastu võtta?"
-
-#~ msgid ""
-#~ "SSL Certificate check for %s:\n"
-#~ "\n"
-#~ "%s\n"
-#~ "\n"
-#~ "Do you wish to accept?"
-#~ msgstr ""
-#~ "SSL sertifikaadi kontrollimine %s:\n"
-#~ "\n"
-#~ "%s\n"
-#~ "\n"
-#~ "Kas soovida vastu võtta?"
-
-#~ msgid ""
-#~ "Certificate problem: %s\n"
-#~ "Issuer: %s"
-#~ msgstr ""
-#~ "Probleem sertifikaadiga: %s\n"
-#~ "Väljastaja: %s"
-
-#~ msgid ""
-#~ "Certificate expired: %s\n"
-#~ "Issuer: %s"
-#~ msgstr ""
-#~ "Sertifikaat on aegunud: %s\n"
-#~ "Väljastaja: %s"
-
-#~ msgid ""
-#~ "Certificate revocation list expired: %s\n"
-#~ "Issuer: %s"
-#~ msgstr ""
-#~ "Sertifikaatide tühistusnimekiri on aegunud: %s\n"
-#~ "Väljaandja: %s"
-
-#~ msgid "Could not parse URL `%s'"
-#~ msgstr "URL'i `%s' ei saa töödelda"
-
-#~ msgid "Error storing `%s': %s"
-#~ msgstr "Viga `%s' salvestamisel: %s"
-
-#~ msgid "No such message %s in %s"
-#~ msgstr "Sõnumit %s ei ole %s seas"
-
-#~ msgid "Cannot copy or move messages into a Virtual Folder"
-#~ msgstr "Sõnumeid ei saa koppeerida või liigutaad Virtuaalkausta"
-
-#~ msgid "Cannot delete folder: %s: No such folder"
-#~ msgstr "Kausta kustutamine nurjus: %s: kausta ei ole olemas"
-
-#~ msgid "Cannot rename folder: %s: No such folder"
-#~ msgstr "Ei saa muuta kausta nime: %s: kausta ei ole olemas"
-
-#~ msgid "Cannot copy messages to the Trash folder"
-#~ msgstr "Sõnumeid ei saa kopeerida Prügi kausta"
-
-#~ msgid "Cannot copy messages to the Junk folder"
-#~ msgstr "Sõnumeid ei saa kopeerida Rämpsu kausta"
-
-#~ msgid "Checking for new mail"
-#~ msgstr "Kontrollin uusi sõnumeid"
-
-#~ msgid "Check for new messages in all folders"
-#~ msgstr "Kontrolli uusi sõnumeid kõikides kaustades"
-
-#~ msgid "Apply filters to new messages in Inbox on this server"
-#~ msgstr ""
-#~ "Rakenda filtreid kõikidele selles serveris Sisendkastis asuvatele uutele "
-#~ "sõnumitele "
-
-#~ msgid "Check new messages for Junk contents"
-#~ msgstr "Kontrolli, kas uued sõnumid on rämpspost"
-
-#~ msgid "Only check for Junk messages in the INBOX folder"
-#~ msgstr "Rämpssõnumeid kontrollitakse ainult sisendkaustas"
-
-#~ msgid "Automatically synchronize account locally"
-#~ msgstr "Automaatne konto kohalik sünkroniseerimine"
-
-#~ msgid "Address Book and Calendar"
-#~ msgstr "Aadressiraamat ja kalender"
-
-#~ msgid "Use Secure Connection (SSL)"
-#~ msgstr "Turvalise ühenduse (SSL) kasutamine"
-
-#~ msgid "Novell GroupWise"
-#~ msgstr "Novell Groupwise"
-
-#~ msgid "For accessing Novell Groupwise servers"
-#~ msgstr "Novell Groupwise serveri kasutamiseks"
-
-#~ msgid "Password"
-#~ msgstr "Parool"
-
-#~ msgid "Failed sending command to IMAP server %s: %s"
-#~ msgstr "Tõrge käsu saatmisel IMAP serverisse %s: %s"
-
-#~ msgid "Unexpected response from IMAP4 server %s: %s"
-#~ msgstr "Ootamatu vastus IMAP serverilt %s: %s"
-
-#~ msgid "Unexpected greeting from IMAP server %s."
-#~ msgstr "Ootamatu tervitus IMAP serverilt: %s"
-
-#~ msgid "Cannot select folder `%s': Invalid mailbox name"
-#~ msgstr "Kausta `%s' ei saa valida: Vigane kirjakasti nimi"
-
-#~ msgid "Cannot select folder `%s': Bad command"
-#~ msgstr "Kausta `%s' ei saa valida: Puudulik käsk"
-
-#~ msgid "IMAP4 server %s unexpectedly disconnected: %s"
-#~ msgstr "Ühendus IMAP4 serverisse %s suleti ootamatult: %s"
-
-#~ msgid "Cannot access folder `%s': %s"
-#~ msgstr "Kaustale `%s' ei pääse ligi: %s"
-
-#~ msgid "Cannot expunge folder `%s': Unknown"
-#~ msgstr "Kausta `%s' ei saa tühjendada: Tundmatu"
-
-#~ msgid "Cannot expunge folder `%s': Bad command"
-#~ msgstr "Kausta `%s' ei saa tühjendada: Puudulik käsk"
-
-#~ msgid "User cancelled"
-#~ msgstr "Kasutaja tühistas"
-
-#~ msgid "Cannot get message %s: %s"
-#~ msgstr "Sõnumit %s ei saadud: %s"
-
-#~ msgid "This message is not available in offline mode."
-#~ msgstr "See sõnum ei ole autonoomses režiimis kättesaadav."
-
-#~ msgid "Cannot get message %s from folder `%s': No such message"
-#~ msgstr "Ei saa võtta sõnumit %s kaustast `%s': sellist sõnumit ei ole"
-
-#~ msgid "Cannot get message %s from folder `%s': Bad command"
-#~ msgstr "Ei saa võtta sõnumit %s kaustast `%s': Vigane käsk"
-
-#~ msgid "Cannot append messages to IMAP folders in offline mode."
-#~ msgstr "IMAP kausta ei saa autonoomses režiimis sõnumeid lisada."
-
-#~ msgid "Cannot append message to folder `%s': Unknown error"
-#~ msgstr "Sõnumeid ei saa lisada `%s' kausta: Tundmatu viga"
-
-#~ msgid "Cannot append message to folder `%s': Bad command"
-#~ msgstr "Sõnumeid ei saa lisada `%s' kausta: Puudulik käsk"
-
-#~ msgid "Cannot move messages to or from IMAP folders in offline mode."
-#~ msgstr "Autonoomses olekus ei saa IMAP kausta vahel sõnumeid liigutada."
-
-#~ msgid "Cannot copy messages to or from IMAP folders in offline mode."
-#~ msgstr "Autonoomses olekus ei saa IMAP kausta vahel sõnumeid kopeerida."
-
-#~ msgid "Cannot move messages from folder `%s' to folder `%s': Unknown"
-#~ msgstr "Sõnumeid ei saa liigutada kaustast `%s' `%s' kausta: Tundmatu"
-
-#~ msgid "Cannot copy messages from folder `%s' to folder `%s': Unknown"
-#~ msgstr "Sõnumeid ei saa kopeerida kaustast `%s' `%s' kausta: Tundmatu"
-
-#~ msgid "Cannot move messages from folder `%s' to folder `%s': Bad command"
-#~ msgstr "Sõnumeid ei saa liigutada kaustast `%s' `%s' kausta: Puudulik käsk"
-
-#~ msgid "Cannot copy messages from folder `%s' to folder `%s': Bad command"
-#~ msgstr "Sõnumeid ei saa kopeerida kaustast `%s' `%s' kausta: Puudulik käsk"
-
-#~ msgid "Folders"
-#~ msgstr "Kaustad"
-
-#~ msgid "Show only subscribed folders"
-#~ msgstr "Näita ainult tellitud kaustu"
-
-#~ msgid "Override server-supplied folder namespace"
-#~ msgstr "Kasuta serveri pakutava kaustade nimeruumi asemel enda oma"
-
-#~ msgid "Namespace"
-#~ msgstr "Nimeruum"
-
-#~ msgid "Apply filters to new messages in INBOX on this server"
-#~ msgstr "Rakenda filtreid kõikidele sisendkausta uutele sõnumitele"
-
-#~ msgid "Automatically synchronize remote mail locally"
-#~ msgstr "Automaatne kohaliku posti sünkroniseerimine kaugpostiga"
-
-#~ msgid "IMAPv4rev1"
-#~ msgstr "IMAPv4rev1"
-
-#~ msgid "IMAP server %s"
-#~ msgstr "IMAP server %s"
-
-#~ msgid "Could not connect to %s: %s"
-#~ msgstr "Ei saa ühenduda hosti %s: %s"
-
-#~ msgid "SSL unavailable"
-#~ msgstr "SSL ei ole saadaval"
-
-#~ msgid "Connection cancelled"
-#~ msgstr "Ühendus katkestatud"
-
-#~ msgid "Failed to connect to IMAP server %s in secure mode: %s"
-#~ msgstr "Tõrge turvalisel ühendumisel IMAP serveriga %s: %s"
-
-#~ msgid ""
-#~ "Cannot authenticate to IMAP server %s using the %s authentication "
-#~ "mechanism"
-#~ msgstr "IMAP serverisse %s ei saa autentimistüüpi %s kasutades autentida"
-
-#~ msgid "Cannot create IMAP folders in offline mode."
-#~ msgstr "Autonoomses olekus ei saa IMAP kausta luua."
-
-#~ msgid "Cannot get folder `%s' on IMAP server %s: Unknown"
-#~ msgstr "Kausta `%s' ei saadud IMAP serverist %s: Tundmatu"
-
-#~ msgid ""
-#~ "The folder name \"%s\" is invalid because it contains the character \"%c\""
-#~ msgstr "Kausta nimi \"%s\" on lubamatu kuna see sisaldab \"%c\" kirjamärki"
-
-#~ msgid "Cannot create folder `%s': Invalid mailbox name"
-#~ msgstr "Kausta `%s' ei saa luua: Vigane kirjakasti nimi"
-
-#~ msgid "Cannot create folder `%s': Bad command"
-#~ msgstr "Kausta `%s' ei saa luua: Puudulik käsk"
-
-#~ msgid "Cannot delete folder `%s': Special folder"
-#~ msgstr "Kausta `%s' ei saa kustutada: Spetsiaalkaust"
-
-#~ msgid "Cannot delete IMAP folders in offline mode."
-#~ msgstr "Autonoomses olekus ei saa IMAP kausta kustutada."
-
-#~ msgid "Cannot delete folder `%s': Invalid mailbox name"
-#~ msgstr "Kausta `%s' ei saa kustutada: Vigane kirjakasti nimi"
-
-#~ msgid "Cannot delete folder `%s': Bad command"
-#~ msgstr "Kausta `%s' ei saa kustutada: Puudulik käsk"
-
-#~ msgid "Cannot rename folder `%s' to `%s': Special folder"
-#~ msgstr "Kausta `%s' ei saa ümber nimetada `%s'-ks: kaust on eritähenduslik"
-
-#~ msgid "Cannot rename IMAP folders in offline mode."
-#~ msgstr "Autonoomses olekus ei saa IMAP kausta ümber nimetada."
-
-#~ msgid "Cannot rename folder `%s' to `%s': Invalid mailbox name"
-#~ msgstr "Kausta `%s' ei saa ümber nimetada `%s'-ks: Vigane kirjakasti nimi"
-
-#~ msgid "Cannot rename folder `%s' to `%s': Bad command"
-#~ msgstr "Kausta `%s' ei saa ümber nimetada `%s'-ks: Puudulik käsk"
-
-#~ msgid "Bad command"
-#~ msgstr "Puudulik käsk"
-
-#~ msgid "Cannot subscribe to IMAP folders in offline mode."
-#~ msgstr "Autonoomses olekus ei saa IMAP kausta tellida."
-
-#~ msgid "Cannot subscribe to folder `%s': Invalid mailbox name"
-#~ msgstr "Kausta `%s' ei saa tellida: Vigane kirjakasti nimi name"
-
-#~ msgid "Cannot subscribe to folder `%s': Bad command"
-#~ msgstr "Kausta `%s' ei saa tellida: Puudulik käsk"
-
-#~ msgid "Cannot unsubscribe from IMAP folders in offline mode."
-#~ msgstr "Autonoomses olekus ei saa IMAP kausta tellimisest loobuda."
-
-#~ msgid "Cannot unsubscribe from folder `%s': Invalid mailbox name"
-#~ msgstr "Kausta `%s' tellimisest ei saa loobuda: Vigane kirjakasti nimi"
-
-#~ msgid "Cannot unsubscribe from folder `%s': Bad command"
-#~ msgstr "Kaustast `%s' ei saa loobuda: Puudulik käsk"
-
-#~ msgid "Scanning for changed messages"
-#~ msgstr "Kontrollin muudetud sõnumite olemasolu"
-
-#~ msgid "Fetching envelopes for new messages"
-#~ msgstr "Uute sõnumite ümbrikute vastuvõtmine"
-
-#~ msgid "No data"
-#~ msgstr "Andmeid pole"
-
-#~ msgid "IMAP server %s unexpectedly disconnected: %s"
-#~ msgstr "IMAP server %s katkestas ootamatult ühenduse: %s"
-
-#~ msgid "Operation cancelled"
-#~ msgstr "Operatsioon katekstatud"
-
-#~ msgid "Server unexpectedly disconnected: %s"
-#~ msgstr "Server katkestas ootamatult: %s"
-
-#~ msgid ""
-#~ "Alert from IMAP server %s@%s:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Häire IMAP serverilt %s@%s:\n"
-#~ "%s"
-
-#~ msgid "Unexpected response from IMAP server: %s"
-#~ msgstr "Ootamatu vastus IMAP serverilt: %s"
-
-#~ msgid "IMAP command failed: %s"
-#~ msgstr "IMAPi käsk nurjus: %s"
-
-#~ msgid "Server response ended too soon."
-#~ msgstr "Serveri vastus lõppes liiga vara."
-
-#~ msgid "IMAP server response did not contain %s information"
-#~ msgstr "IMAP serveri vastus ei sisalda %s teavet"
-
-#~ msgid "Unexpected OK response from IMAP server: %s"
-#~ msgstr "Ootamatu OK vastus IMAP serverilt: %s"
-
-#~ msgid "Could not create directory %s: %s"
-#~ msgstr "Kataloogi %s ei saa luua: %s"
-
-#~ msgid "Could not load summary for %s"
-#~ msgstr "%s kokkuvõtet ei saa laadida"
-
-#~ msgid "Folder was destroyed and recreated on server."
-#~ msgstr "Kaust hävitati ja taasloodi serveris."
-
-#~ msgid "Unable to retrieve message: %s"
-#~ msgstr "Sõnumite ei saa vastu võtta: %s"
-
-#~ msgid ""
-#~ "Cannot get message: %s\n"
-#~ "  %s"
-#~ msgstr ""
-#~ "Sõnumit %s ei saadud: \n"
-#~ "  %s"
-
-#~ msgid "No such message"
-#~ msgstr "Sõnumit ei leitud"
-
-#~ msgid "This message is not currently available"
-#~ msgstr "See sõnum ei ole hetkel kättesaadav"
-
-#~ msgid "Fetching summary information for new messages"
-#~ msgstr "Võtan kokkuvõtvat infot uute sõnumite kohta"
-
-#~ msgid "Could not find message body in FETCH response."
-#~ msgstr "Ei leia sõnumi sisu FETCH vastuses."
-
-#~ msgid "Could not open cache directory: %s"
-#~ msgstr "Puhvermälu kausta ei saa avada: %s "
-
-#~ msgid "Failed to cache message %s: %s"
-#~ msgstr "Tõrge sõnumi %s puhverdamisel: %s"
-
-#~ msgid "Failed to cache %s: %s"
-#~ msgstr "Tõrge %s puhverdamisel: %s"
-
-#~ msgid "C_heck for new messages in all folders"
-#~ msgstr "_Kontrolli uusi sõnumeid kõikides kaustades"
-
-#~ msgid "Connection to Server"
-#~ msgstr "Ühendus serveriga"
-
-#~ msgid "_Use custom command to connect to server"
-#~ msgstr "_Proxyserveriga ühendumiseks kasutatakse kohandatud käsku"
-
-#~ msgid "_Show only subscribed folders"
-#~ msgstr "_Näita ainult tellitud kaustu"
-
-#~ msgid "O_verride server-supplied folder namespace"
-#~ msgstr "Kasuta serveri pakutava kaustade _nimeruumi asemel enda oma"
-
-#~ msgid "_Apply filters to new messages in INBOX on this server"
-#~ msgstr "Rakenda _filtreid kõikidele Sisendkasti uutele sõnumitele"
-
-#~ msgid "Check new messages for _Junk contents"
-#~ msgstr "Uute sõnumite _rämpspostikontroll"
-
-#~ msgid "Only check for Junk messa_ges in the INBOX folder"
-#~ msgstr "Rämpssõnumeid kontrollitakse _ainult sisendkaustas"
-
-#~ msgid "Automatically synchroni_ze remote mail locally"
-#~ msgstr "Automaatne kohaliku posti _sünkroniseerimine kaugpostiga"
-
-#~ msgid "IMAP"
-#~ msgstr "IMAP"
-
-#~ msgid "For reading and storing mail on IMAP servers."
-#~ msgstr "E-posti loetakse ja hoitakse IMAP serveris."
-
-#~ msgid "STARTTLS not supported"
-#~ msgstr "STARTTLS ei ole toetatud."
-
-#~ msgid "IMAP server %s does not support requested authentication type %s"
-#~ msgstr "IMAP server %s ei toeta küsitud autentimistüüpi %s"
-
-#~ msgid "No support for authentication type %s"
-#~ msgstr "Autentimistüübi %s tugi puudub"
-
-#~ msgid "%sPlease enter the IMAP password for %s@%s"
-#~ msgstr "%sPalun sisesta IMAP parool %s@%s jaoks"
-
-#~ msgid "You didn't enter a password."
-#~ msgstr "Sa ei sisestanud parooli."
-
-#~ msgid ""
-#~ "Unable to authenticate to IMAP server.\n"
-#~ "%s\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Ei saa autentimida IMAP serverisse.\n"
-#~ "%s\n"
-#~ "\n"
-
-#~ msgid "No such folder %s"
-#~ msgstr "Kausta %s ei leitud"
-
-#~ msgid "Cannot create folder `%s': folder exists."
-#~ msgstr "Kausta `%s' ei saa luua: kaust on juba olemas."
-
-#~ msgid "Unknown parent folder: %s"
-#~ msgstr "Tundmatu ülemkaust: %s"
-
-#~ msgid "Message storage"
-#~ msgstr "Sõnumite säilitamine"
-
-#~ msgid "IMAP+"
-#~ msgstr "IMAP+"
-
-#~ msgid ""
-#~ "Experimental IMAP 4(.1) client\n"
-#~ "This is untested and unsupported code, you want to use plain imap "
-#~ "instead.\n"
-#~ "\n"
-#~ " !!! DO NOT USE THIS FOR PRODUCTION EMAIL  !!!\n"
-#~ msgstr ""
-#~ "Eksperimentaalne IMAP 4(.1) klient\n"
-#~ "See on testimata ja mittetoetatud kood, parem kasuta selle asemel "
-#~ "tavalist imap'i.\n"
-#~ "\n"
-#~ " !!! ÄRA KASUTA SEDA OMA TAVAKIRJADE PUHUL !!!\n"
-
-#~ msgid "Could not connect to %s (port %s): %s"
-#~ msgstr "Ei saa ühenduda %s (port: %s): %s"
-
-#~ msgid "Could not connect to POP server on %s"
-#~ msgstr "Ei saa luua ühendust POP serveriga %s"
-
-#~ msgid "Index message body data"
-#~ msgstr "Sõnumite sisu indekseerimine"
-
-#~ msgid "~%s (%s)"
-#~ msgstr "~%s (%s)"
-
-#~ msgid "mailbox:%s (%s)"
-#~ msgstr "postkast:%s (%s)"
-
-#~ msgid "%s (%s)"
-#~ msgstr "%s (%s)"
-
-#~ msgid "Use the `.folders' folder summary file (exmh)"
-#~ msgstr "Kasuta `.folders' kaustakokkuvõttefaili (exmh)"
-
-#~ msgid "MH-format mail directories"
-#~ msgstr "MH-vormingus postikataloogid"
-
-#~ msgid "For storing local mail in MH-like mail directories."
-#~ msgstr "Kohalikku posti hoitakse MH vorminguga kataloogides."
-
-#~ msgid "Local delivery"
-#~ msgstr "Kohalik postijagaja"
-
-#~ msgid ""
-#~ "For retrieving (moving) local mail from standard mbox formated spools "
-#~ "into folders managed by Evolution."
-#~ msgstr ""
-#~ "Kohalikku e-posti võetakse standardsest \"mbox\" vorminguga puhvrist ja "
-#~ "tõstetakse Evolution'i poolt hallatavatesse kaustadesse."
-
-#~ msgid "Apply filters to new messages in INBOX"
-#~ msgstr "Rakenda filtreid Sisendkasti uutele sõnumitele"
-
-#~ msgid "Maildir-format mail directories"
-#~ msgstr "\"Maildir\" vormingus postikataloog"
-
-#~ msgid "For storing local mail in maildir directories."
-#~ msgstr "Kohalikku posti hoitakse maildir vorminguga kataloogides."
-
-#~ msgid "Store status headers in Elm/Pine/Mutt format"
-#~ msgstr "Salvesta olekupäised Elm/Pine/Mutt vormingus"
-
-#~ msgid "Standard Unix mbox spool or directory"
-#~ msgstr "Standardne Unix'i \"mbox\" puhverfail või -kataloog"
-
-#~ msgid ""
-#~ "For reading and storing local mail in external standard mbox spool "
-#~ "files.\n"
-#~ "May also be used to read a tree of Elm, Pine, or Mutt style folders."
-#~ msgstr ""
-#~ "Kohalikku e-posti loetakse ja salvestatakse standardsetes välistes \"mbox"
-#~ "\" vorminguga puhverfailides. Võib kasutada ka juhul, kui soovitakse "
-#~ "kasutada programmide Elm, Pine või Mutt postikaustu."
-
-#~ msgid "Store root %s is not an absolute path"
-#~ msgstr "Hoidla juurikas %s ei ole absoluutne tee"
-
-#~ msgid "Cannot get folder: %s: %s"
-#~ msgstr "Kausta `%s' ei saadud: %s"
-
-#~ msgid "Local mail file %s"
-#~ msgstr "Kohaliku posti fail %s"
-
-#~ msgid "Could not rename folder %s to %s: %s"
-#~ msgstr "Kausta %s ei saa ümber nimetada %s-ks: %s"
-
-#~ msgid "Could not rename '%s': %s"
-#~ msgstr "Ei saa ümber nimetada '%s': %s"
-
-#~ msgid "Could not delete folder summary file `%s': %s"
-#~ msgstr "Kausta kokkuvõttefaili `%s' ei saa kustutada: %s"
-
-#~ msgid "Could not delete folder index file `%s': %s"
-#~ msgstr "Kausta indeksfaili `%s' ei saa kustutada: %s"
-
-#~ msgid "Could not delete folder meta file `%s': %s"
-#~ msgstr "Kausta üldistusfaili `%s' ei saa kustutada: %s"
-
-#~ msgid "Could not save summary: %s: %s"
-#~ msgstr "Ei saa salvestada kokkuvõtet: %s: %s"
-
-#~ msgid "Unable to add message to summary: unknown reason"
-#~ msgstr "Sõnumite ei saa lisada kokkuvõttesse: tundmatu põhjus"
-
-#~ msgid "Maildir append message cancelled"
-#~ msgstr "Sõnumi lisamine maildir kausta katkestati"
-
-#~ msgid "Cannot append message to maildir folder: %s: %s"
-#~ msgstr "Sõnumi lisamine maildir kausta nurjus: %s: %s"
-
-#~ msgid ""
-#~ "Cannot get message: %s from folder %s\n"
-#~ "  %s"
-#~ msgstr ""
-#~ "Ei saa kätte sõnumit %s kaustast %s\n"
-#~ "  %s"
-
-#~ msgid "Invalid message contents"
-#~ msgstr "Vigane sõnumi sisu"
-
-#~ msgid "Cannot get folder `%s': %s"
-#~ msgstr "Kausta `%s' ei saadud: %s"
-
-#~ msgid "Cannot get folder `%s': folder does not exist."
-#~ msgstr "Kausta `%s' ei saadud: seda ei ole olemas."
-
-#~ msgid "Cannot create folder `%s': %s"
-#~ msgstr "Kausta `%s' ei saa luua: %s"
-
-#~ msgid "Cannot get folder `%s': not a maildir directory."
-#~ msgstr "Kausta `%s' ei saadud: see ei ole maildir kataloog."
-
-#~ msgid "Could not delete folder `%s': %s"
-#~ msgstr "Kausta `%s' ei saa kustutada: %s"
-
-#~ msgid "not a maildir directory"
-#~ msgstr "ei ole maildir vormingus kataloog"
-
-#~ msgid "Could not scan folder `%s': %s"
-#~ msgstr "Kausta `%s' ei saa läbi vaadata: %s"
-
-#~ msgid "Cannot open maildir directory path: %s: %s"
-#~ msgstr "Maildir kataloogi ei saa avada %s: %s"
-
-#~ msgid "Checking folder consistency"
-#~ msgstr "Kausta kooskõlalisuse kontrollimine"
-
-#~ msgid "Checking for new messages"
-#~ msgstr "Uute sõnumite kontrollimine"
-
-#~ msgid "Storing folder"
-#~ msgstr "Kausta salvestamine"
-
-#~ msgid "Cannot create folder lock on %s: %s"
-#~ msgstr "%s lukustamine nurjus: %s"
-
-#~ msgid "Cannot open mailbox: %s: %s\n"
-#~ msgstr "Ei saa avada kirjakasti: %s: %s\n"
-
-#~ msgid "Mail append cancelled"
-#~ msgstr "E-posti lisamine katkestati"
-
-#~ msgid "Cannot append message to mbox file: %s: %s"
-#~ msgstr "Sõnumit ei saa mbox faili lisada: %s: %s"
-
-#~ msgid "The folder appears to be irrecoverably corrupted."
-#~ msgstr "Kaust tundub olevad parandamatult rikutud."
-
-#~ msgid "Message construction failed."
-#~ msgstr "Tõrge sõnumi kokkupanekul."
-
-#~ msgid "Cannot create a folder by this name."
-#~ msgstr "Sellise nimega kausta ei saa luua."
-
-#~ msgid "Cannot get folder `%s': not a regular file."
-#~ msgstr "Kausta `%s' ei saadud: see ei ole tavaline fail."
-
-#~ msgid ""
-#~ "Could not delete folder `%s':\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Kataloogi `%s' ei saa kustutada:\n"
-#~ "%s"
-
-#~ msgid "`%s' is not a regular file."
-#~ msgstr "`%s' ei ole tavaline fail."
-
-#~ msgid "Folder `%s' is not empty. Not deleted."
-#~ msgstr "Kaust '%s' ei ole tühi, jätan kustutamata."
-
-#~ msgid "Cannot create directory `%s': %s."
-#~ msgstr "Kataloogi %s ei saa luua: %s"
-
-#~ msgid "Cannot create folder: %s: %s"
-#~ msgstr "Kausta %s ei saa luua: %s"
-
-#~ msgid "Folder already exists"
-#~ msgstr "Kaust on juba olemas"
-
-#~ msgid "The new folder name is illegal."
-#~ msgstr "Uus kaustanimi on lubamatu!"
-
-#~ msgid "Could not rename `%s': `%s': %s"
-#~ msgstr "Ei saa ümber nimetada '%s': `%s': %s"
-
-#~ msgid "Could not rename '%s' to %s: %s"
-#~ msgstr "Kausta '%s' ei saa ümber nimetada '%s'-ks: %s"
-
-#~ msgid "Could not open folder: %s: %s"
-#~ msgstr "Kausta ei saa avada: %s: %s"
-
-#~ msgid "Fatal mail parser error near position %ld in folder %s"
-#~ msgstr "Pöördumatu postianalüüsija viga positsioonil %ld kaustad %s"
-
-#~ msgid "Cannot check folder: %s: %s"
-#~ msgstr "Kausta ei saa kontrollida: %s: %s"
-
-#~ msgid "Could not open file: %s: %s"
-#~ msgstr "Faili %s ei saa avada: %s"
-
-#~ msgid "Cannot open temporary mailbox: %s"
-#~ msgstr "Ajutist kirjakasti ei saa avada: %s"
-
-#~ msgid "Could not close source folder %s: %s"
-#~ msgstr "Lähtekausta ei saa sulgeda %s: %s"
-
-#~ msgid "Could not close temp folder: %s"
-#~ msgstr "Ajutist kausta ei saa sulgeda: %s"
-
-#~ msgid "Could not rename folder: %s"
-#~ msgstr "Kataloogi ei saa ümber nimetada: %s"
-
-#~ msgid "Summary and folder mismatch, even after a sync"
-#~ msgstr "Kokkuvõtte ja kausta ebavõrdlus, isegi peale sünkroniseerimist"
-
-#~ msgid "Unknown error: %s"
-#~ msgstr "Tundmatu viga: %s"
-
-#~ msgid "Could not store folder: %s"
-#~ msgstr "Kausta ei saa salvestada: %s"
-
-#~ msgid "Error writing to temp mailbox: %s"
-#~ msgstr "Viga ajutise kirjakasti kirjutamisel: %s"
-
-#~ msgid "Writing to tmp mailbox failed: %s: %s"
-#~ msgstr "Tõrge ajutisse kirjakasti kirjutamisel: %s: %s"
-
-#~ msgid "MH append message cancelled"
-#~ msgstr "MH sõnumi lisamine katkestatud"
-
-#~ msgid "Cannot append message to mh folder: %s: %s"
-#~ msgstr "Sõnumi lisamine mh vormingus kausta nurjus: %s: %s"
-
-#~ msgid "Could not create folder `%s': %s"
-#~ msgstr "Kataloogi `%s' ei saa luua: %s"
-
-#~ msgid "Cannot get folder `%s': not a directory."
-#~ msgstr "Kausta `%s' ei saa lugeda: see ei ole kataloog."
-
-#~ msgid "Cannot open MH directory path: %s: %s"
-#~ msgstr "Ei saa avada MH kataloogi: %s: %s"
-
-#~ msgid "Spool `%s' cannot be opened: %s"
-#~ msgstr "Puhvrit `%s' ei saa avada: %s"
-
-#~ msgid "Spool `%s' is not a regular file or directory"
-#~ msgstr "Puhver '%s' pole tavaline fail ega kataloog"
-
-#~ msgid "Folder `%s/%s' does not exist."
-#~ msgstr "Kausta `%s/%s' ei ole olemas."
-
-#~ msgid ""
-#~ "Could not open folder `%s':\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Kausta `%s' ei saa avada:\n"
-#~ "%s"
-
-#~ msgid "Folder `%s' does not exist."
-#~ msgstr "Kataloogi '%s' pole olema."
-
-#~ msgid ""
-#~ "Could not create folder `%s':\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Kausta `%s' ei saa luua:\n"
-#~ "%s"
-
-#~ msgid "`%s' is not a mailbox file."
-#~ msgstr "`%s' ei ole kirjakasti fail."
-
-#~ msgid "Spool mail file %s"
-#~ msgstr "E-posti puhverfail %s"
-
-#~ msgid "Spool folders cannot be renamed"
-#~ msgstr "Puhverkaustu ei saa ümber nimetada"
-
-#~ msgid "Spool folders cannot be deleted"
-#~ msgstr "Puhverkaustu ei saa kustutada"
-
-#~ msgid "Please enter the NNTP password for %s@%s"
-#~ msgstr "Palun sisesta NNTP parool %s@%s jaoks"
-
-#~ msgid "Server rejected username"
-#~ msgstr "Server keeldus kasutajanime vastu võtmast"
-
-#~ msgid "Failed to send username to server"
-#~ msgstr "Tõrge kasutajanime saatmisel serverile"
-
-#~ msgid "Server rejected username/password"
-#~ msgstr "Server keeldus kasutajanime/parooli vastu võtmast"
-
-#~ msgid "Internal error: uid in invalid format: %s"
-#~ msgstr "Sisemine viga: uid on vigases vormingus: %s"
-
-#~ msgid "Posting failed: %s"
-#~ msgstr "Postitamine nurjus: %s"
-
-#~ msgid "You cannot copy messages from a NNTP folder!"
-#~ msgstr "Sõnumeid ei saa NNTP kaustast kopeerida!"
-
-#~ msgid "Could not get group list from server."
-#~ msgstr "Gruppide nimekirja serverist ei saadud."
-
-#~ msgid ""
-#~ "Show folders in short notation (e.g. c.o.linux rather than comp.os.linux)"
-#~ msgstr "Kaustanimede näitamine lühendatult (comp.os.linux asemel c.o.linux)"
-
-#~ msgid "In the subscription dialog, show relative folder names"
-#~ msgstr "Kaustade tellimisdialoogis näita kaustade suhtnimesid"
-
-#~ msgid "USENET news"
-#~ msgstr "USENETi uudised"
-
-#~ msgid "This is a provider for reading from and posting toUSENET newsgroups."
-#~ msgstr ""
-#~ "Selle kaudu on võimalik lugeda ja kirjutada USENET'i uudistegruppidesse."
-
-#~ msgid "NNTP server %s returned error code %d: %s"
-#~ msgstr "NNTP server %s tagastas veakoodi %d: %s"
-
-#~ msgid "USENET News via %s"
-#~ msgstr "USENETi uudised üle %s"
-
-#~ msgid ""
-#~ "Error retrieving newsgroups:\n"
-#~ "\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Viga uudistegrupi vastuvõtmisel:\n"
-#~ "\n"
-#~ "%s"
-
-#~ msgid "Authentication requested but no username provided"
-#~ msgstr "Nõutakse autentimist kuid kasutajanime ei ole sisestatud"
-
-#~ msgid "Cannot authenticate to server: %s"
-#~ msgstr "Ei saa autentida serverisse: %s"
-
-#~ msgid "NNTP Command failed: %s"
-#~ msgstr "Tõrge NNTP käsu täitmisel: %s"
-
-#~ msgid "Not connected."
-#~ msgstr "Ühendamata."
-
-#~ msgid "No such folder: %s"
-#~ msgstr "Kausta ei leitud: %s"
-
-#~ msgid "%s: Scanning new messages"
-#~ msgstr "%s: uute kirjade skannimine"
-
-#~ msgid "Operation failed: %s"
-#~ msgstr "Tõrge toimingu läbiviimisel: %s"
-
-#~ msgid "Retrieving POP summary"
-#~ msgstr "Võtan vastu POP kokkuvõtet"
-
-#~ msgid "Cannot get POP summary: %s"
-#~ msgstr "Ei saa võtta POP kokkuvõtet: %s"
-
-#~ msgid "Expunging deleted messages"
-#~ msgstr "Hävitan kustutatud sõnumid"
-
-#~ msgid "No message with uid %s"
-#~ msgstr "Sõnumit uid'iga %s ei ole"
-
-#~ msgid "Retrieving POP message %d"
-#~ msgstr "POP sõnumi %d vastuvõtt"
-
-#~ msgid "Delete after %s day(s)"
-#~ msgstr "Kustuta %s päeva möödumisel"
-
-#~ msgid "Disable support for all POP3 extensions"
-#~ msgstr "Keela kõigi POP3 laienduste toetus"
-
-#~ msgid "POP"
-#~ msgstr "POP"
-
-#~ msgid "For connecting to and downloading mail from POP servers."
-#~ msgstr "E-posti laetakse alla POP serverist"
-
-#~ msgid ""
-#~ "This option will connect to the POP server using a plaintext password. "
-#~ "This is the only option supported by many POP servers."
-#~ msgstr ""
-#~ "See valik ühendub POP serverisse kasutades lihttekstiparooli. See on "
-#~ "ainus valik, mida toetavad paljud POP serverid."
-
-#~ msgid "Failed to read a valid greeting from POP server %s"
-#~ msgstr "POP serverilt %s ei saa korrektset tervitust"
-
-#~ msgid "Failed to connect to POP server %s in secure mode: %s"
-#~ msgstr "Tõrge turvalisel ühendumisel POP serverisse %s: %s"
-
-#~ msgid "STLS not supported"
-#~ msgstr "STLS ei ole toetatud."
-
-#~ msgid "Could not connect to POP server %s"
-#~ msgstr "Ei saa luua ühendust POP serveriga %s"
-
-#~ msgid "SASL `%s' Login failed for POP server %s: %s"
-#~ msgstr "Tõrge SASL `%s' sisselogimisel POP serverisse %s: %s"
-
-#~ msgid "Cannot login to POP server %s: SASL Protocol error"
-#~ msgstr "POP serverisse %s ei saa sisse logida: SASL protokolli viga"
-
-#~ msgid "Failed to authenticate on POP server %s: %s"
-#~ msgstr "Tõrge autentimisel POP serverisse %s: %s"
-
-#~ msgid "%sPlease enter the POP password for %s on host %s"
-#~ msgstr "%sPalun sisesta kasutaja %s POP parool hostile %s"
-
-#~ msgid ""
-#~ "Unable to connect to POP server %s.\n"
-#~ "Error sending password: %s"
-#~ msgstr ""
-#~ "Ei saa luua ühendust POP serveriga %s.\n"
-#~ "Viga parooli saatmisel: %s"
-
-#~ msgid ""
-#~ "Unable to connect to POP server %s.\n"
-#~ "Error sending username: %s"
-#~ msgstr ""
-#~ "Ei saa luua ühendust POP serveriga %s.\n"
-#~ "Viga kasutajanime saatmisel: %s"
-
-#~ msgid "No such folder `%s'."
-#~ msgstr "Kausta '%s' ei ole olemas."
-
-#~ msgid "Sendmail"
-#~ msgstr "Sendmail"
-
-#~ msgid ""
-#~ "For delivering mail by passing it to the \"sendmail\" program on the "
-#~ "local system."
-#~ msgstr "E-posti saatmiseks kohaliku süsteemi programmi \"sendmail\" abil."
-
-#~ msgid "Could not parse recipient list"
-#~ msgstr "Saajate nimekirja ei õnnestu analüüsida"
-
-#~ msgid "Could not create pipe to sendmail: %s: mail not sent"
-#~ msgstr "Ei saa luua toru sendmailiga: %s: sõnumit ei saadetud"
-
-#~ msgid "Could not fork sendmail: %s: mail not sent"
-#~ msgstr ""
-#~ "Sendmail'i haruprotsessi pole võimalik tekitada: %s: e-post jäi saatmata"
-
-#~ msgid "Could not send message: %s"
-#~ msgstr "Sõnumit ei saa saata: %s"
-
-#~ msgid "sendmail exited with signal %s: mail not sent."
-#~ msgstr "sendmail lõpetas töö signaaliga %s: sõnumit ei saadetud."
-
-#~ msgid "Could not execute %s: mail not sent."
-#~ msgstr "Ei saa käivitada %s: sõnumit ei saadetud."
-
-#~ msgid "sendmail exited with status %d: mail not sent."
-#~ msgstr "sendmail lõpetas töö staatusega %d: sõnumit ei saadetud."
-
-#~ msgid "sendmail"
-#~ msgstr "sendmail"
-
-#~ msgid "Mail delivery via the sendmail program"
-#~ msgstr "Sõnumite trantsport sendmail programmiga"
-
-#~ msgid "SMTP"
-#~ msgstr "SMTP"
-
-#~ msgid "For delivering mail by connecting to a remote mailhub using SMTP."
-#~ msgstr ""
-#~ "E-posti saatmiseks SMTP protokolli kaudu välisele mailhub serverile."
-
-#~ msgid "Syntax error, command unrecognized"
-#~ msgstr "Viga süntaksis, tundmatu käsk"
-
-#~ msgid "Syntax error in parameters or arguments"
-#~ msgstr "Süntaksi viga parameetrites või argumentides"
-
-#~ msgid "Command not implemented"
-#~ msgstr "Käsku ei ole veel teostatud"
-
-#~ msgid "Command parameter not implemented"
-#~ msgstr "Käsu parameeter ei ole veel teostatud"
-
-#~ msgid "Help message"
-#~ msgstr "Abiteade"
-
-#~ msgid "Service ready"
-#~ msgstr "Teenus on valmis"
-
-#~ msgid "Service closing transmission channel"
-#~ msgstr "Teenus sulgeb ülekandekanali"
-
-#~ msgid "Service not available, closing transmission channel"
-#~ msgstr "Teenus ei ole saadaval, sulgen ülekandekanali"
-
-#~ msgid "Requested mail action okay, completed"
-#~ msgstr "Nõutud kirjategevus korras, lõpetatud"
-
-#~ msgid "Requested mail action not taken: mailbox unavailable"
-#~ msgstr "Nõutud kirjategevust ei tehtud: kirjakast ei ole saadaval"
-
-#~ msgid "Requested action not taken: mailbox unavailable"
-#~ msgstr "Nõutud tegevust ei tehtud: kirjakast ei ole saadaval"
-
-#~ msgid "Requested action aborted: error in processing"
-#~ msgstr "Nõutud tegevus nurjatud: viga töötlemisel"
-
-#~ msgid "Requested action not taken: mailbox name not allowed"
-#~ msgstr "Nõutud toimingut ei teostatud: kirjakasti nimi ei ole lubatud"
-
-#~ msgid "Transaction failed"
-#~ msgstr "Tõrge transaktsiooni läbiviimisel"
-
-#~ msgid "Authentication mechanism is too weak"
-#~ msgstr "Autentimismehhanism on liiga nõrk"
-
-#~ msgid "Temporary authentication failure"
-#~ msgstr "Ajutine autentimise tõrge"
-
-#~ msgid "Authentication required"
-#~ msgstr "Autentimine on vajalik"
-
-#~ msgid "Welcome response error"
-#~ msgstr "Tervitusvastuse viga"
-
-#~ msgid "Failed to connect to SMTP server %s in secure mode: %s"
-#~ msgstr "Tõrge turvalisel ühendumisel SMTP serverisse %s: %s"
-
-#~ msgid "STARTTLS command failed: %s"
-#~ msgstr "Tõrge STARTTLS käsu täitmisel: %s"
-
-#~ msgid "STARTTLS command failed"
-#~ msgstr "Tõrge STARTTLS käsu täitmisel"
-
-#~ msgid "SMTP server %s does not support requested authentication type %s."
-#~ msgstr "SMTP server %s ei toeta küsitud autentimistüüpi %s."
-
-#~ msgid "%sPlease enter the SMTP password for %s on host %s"
-#~ msgstr "%sPalun sisesta kasutaja %s SMTP parool hostile %s"
-
-#~ msgid ""
-#~ "Unable to authenticate to SMTP server.\n"
-#~ "%s\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Autentimine SMPT serverisse nurjus.\n"
-#~ "%s\n"
-#~ "\n"
-
-#~ msgid "SMTP server %s"
-#~ msgstr "SMTP server %s"
-
-#~ msgid "SMTP mail delivery via %s"
-#~ msgstr "SMTP posti saatmine %s kaudu"
-
-#~ msgid "Cannot send message: service not connected."
-#~ msgstr "Sõnumit ei saa saata: teenusega ei saa ühendust"
-
-#~ msgid "Cannot send message: sender address not valid."
-#~ msgstr "Ei saa saata sõnumit: saatja aadress on vigane"
-
-#~ msgid "Sending message"
-#~ msgstr "Sõnumi saatmine"
-
-#~ msgid "Cannot send message: no recipients defined."
-#~ msgstr "Ei saa saata sõnumit: saajate aadressid on määramata."
-
-#~ msgid "Cannot send message: one or more invalid recipients"
-#~ msgstr "Sõnumit ei saa saata: saajate aadress või aadressid on vigased."
-
-#~ msgid "SMTP Greeting"
-#~ msgstr "SMTP Tervitus"
-
-#~ msgid "HELO command failed: %s"
-#~ msgstr "Tõrge HELO käsu täitmisel: %s"
-
-#~ msgid "HELO command failed"
-#~ msgstr "Tõrge HELO käsu täitmisel"
-
-#~ msgid "SMTP Authentication"
-#~ msgstr "SMTP autentimine"
-
-#~ msgid "Error creating SASL authentication object."
-#~ msgstr "Viga SASL autentimisobjekti loomise."
-
-#~ msgid "AUTH command failed: %s"
-#~ msgstr "Tõrge AUTH käsu täitmisel: %s"
-
-#~ msgid "AUTH command failed"
-#~ msgstr "Tõrge AUTH käsu täitmisel"
-
-#~ msgid "Bad authentication response from server.\n"
-#~ msgstr "Halb autentimisvastus serverilt.\n"
-
-#~ msgid "MAIL FROM command failed: %s: mail not sent"
-#~ msgstr "Tõrge MAIL FROM käsu täitmisel: %s: sõnum jäi saatmata"
-
-#~ msgid "MAIL FROM command failed"
-#~ msgstr "Tõrge MAIL FROM käsu täitmisel"
-
-#~ msgid "RCPT TO command failed: %s: mail not sent"
-#~ msgstr "Tõrge RCPT TO käsu täitmisel: %s: sõnum jäi saatmata"
-
-#~ msgid "RCPT TO <%s> failed"
-#~ msgstr "Tõrge RCPT TO <%s> käsu täitmisel"
-
-#~ msgid "DATA command failed: %s: mail not sent"
-#~ msgstr "Tõrge DATA käsu täitmisel: %s: sõnum jäi saatmata"
-
-#~ msgid "DATA command failed"
-#~ msgstr "Tõrge DATA käsu täitmisel"
-
-#~ msgid "RSET command failed: %s"
-#~ msgstr "Tõrge RSET käsu täitmisel: %s"
-
-#~ msgid "RSET command failed"
-#~ msgstr "Tõrge RSET käsu täitmisel"
-
-#~ msgid "QUIT command failed: %s"
-#~ msgstr "Tõrge QUIT käsu täitmisel: %s"
-
-#~ msgid "QUIT command failed"
-#~ msgstr "Tõrge QUIT käsu täitmisel"
-
-#~ msgid "VFolders"
-#~ msgstr "VKaustad"
-
-#~ msgid "Virtual _Folders"
-#~ msgstr "Virtuaalsed _kaustad"
-
-#~ msgid ""
-#~ "You are almost done with the mail configuration process. The identity, "
-#~ "incoming mail server and outgoing mail transport method which you "
-#~ "provided will be grouped together to make an Evolution mail account. "
-#~ "Please enter a name for this account in the space below. This name will "
-#~ "be used for display purposes only."
-#~ msgstr ""
-#~ "E-posti konto seadistamine on peaaegu lõppenud. Sinu poolt määratud "
-#~ "identiteet, siseneva ja väljuva posti serverid koondatakse ühe nime alla "
-#~ "ja sellest saab Evolution'i postikonto. Palun anna sellele kontole nimi. "
-#~ "Nime kasutatakse hiljem ainult kuvamise eesmärgil."
-
-#~ msgid "_Enable"
-#~ msgstr "_Lubamine"
-
-#~ msgid "Body does not contain"
-#~ msgstr "Sisu ei sisalda"
-
-#~ msgid "Body or subject contains"
-#~ msgstr "Sisu või teema sisaldab"
-
-#~ msgid "Subject does not contain"
-#~ msgstr "Teema ei sisalda"
-
-#~ msgid "Meetings"
-#~ msgstr "Koosolekud"
-
-#~ msgid "Contact list _owner"
-#~ msgstr "Võta postilendi _omanikuga ühendust"
-
-#~ msgid "Get list _archive"
-#~ msgstr "Hangi postilendi _arhiiv"
-
-#~ msgid "Get list _usage information"
-#~ msgstr "_Hangi postilendi kasutusteave"
-
-#~ msgid "Mailing _List"
-#~ msgstr "_Postiloend"
-
-#~ msgid "_Post message to list"
-#~ msgstr "_Sõnumi saatmine loendisse"
-
-#~ msgid "_Subscribe to list"
-#~ msgstr "_Telli postiloend"
-
-#~ msgid "_Un-subscribe to list"
-#~ msgstr "_Lõpeta postiloendi tellimus"
-
-#~ msgid "Ad_d"
-#~ msgstr "_Lisa"
-
-#~ msgid "Delet_e"
-#~ msgstr "_Kustuta"
-
-#~ msgid "Edi_t"
-#~ msgstr "_Redigeermine"
-
-#~ msgid "Button style"
-#~ msgstr "Nuppude stiil"
-
-#~ msgid "Create _Virtual Folder From Message"
-#~ msgstr "Loo sõnumi baasil _Virtuaalne Kaust"
