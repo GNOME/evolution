@@ -1,3 +1,9 @@
+2005-05-04 Amish <lists@munshi.biz>
+	
+	* evolution-plugin.pc.in, evolution-shell.pc.in : use
+	@GAL_PACKAGE@ instead of hardcoding the version. Fixes
+	evolution-exchange build issues.
+	
 2005-04-28  Not Zed  <NotZed@Ximian.com>
 
 	* configure.in: add an --enable-profiling arg, build the profiling
