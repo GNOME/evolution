@@ -1,0 +1,77 @@
+/* Evolution Mail Interface
+ *
+ * Copyright (C) 2005 Novell, Inc.
+ *
+ * Authors: Michael Zucchi <notzed@novell.com>
+ */
+
+#ifndef _EVOLUTION_DATASERVER_MAIL_IDL_
+#define _EVOLUTION_DATASERVER_MAIL_IDL_
+
+#include <Bonobo.idl>
+
+module GNOME {
+module Evolution {
+module Mail {
+	exception NOT_SUPPORTED {
+		string why;
+	};
+
+	interface Folder;
+	typedef sequence<Folder> Folders;
+
+	interface Store;
+	typedef sequence<Store> Stores;
+
+	// NB: tiny subset of omg properties service
+	typedef string PropertyName;
+	typedef sequence <PropertyName> PropertyNames;
+	struct Property {
+		PropertyName name;
+		any value;
+	};
+	typedef sequence <Property> Properties;
+
+	interface Session : Bonobo::Unknown {
+		boolean getProperties(in PropertyNames names, out Properties props);
+
+		Stores getStores(in string pattern);
+	};
+
+	interface Store : Bonobo::Unknown {
+		boolean getProperties(in PropertyNames names, out Properties props);
+
+		Folders getFolders(in string pattern)
+			raises (NOT_SUPPORTED);
+
+		void sendMessage(in Bonobo::Stream msg, in string from, in string recipients)
+			raises (NOT_SUPPORTED);
+	};
+
+	struct MessageInfo {
+		string uid;
+		string subject;
+		string to;
+		string from;
+	};
+
+	typedef sequence <MessageInfo> MessageInfos;
+
+//	interface MessageInfoIterator : Bonobo::Unknown {
+//		MessageInfos next(in long limit);
+//	};
+
+	interface Folder : Bonobo::Unknown {
+		void getProperties(inout Properties pseq);
+
+//		MessageInfoIterator getMessageInfo(in string pattern);
+
+		Bonobo::Stream getMessage(in string uid);
+
+//		void appendMessage(in MessageInfo info, in Bonobo::Stream msg);
+	};
+};
+};
+};
+
+#endif
