@@ -1,3 +1,7 @@
+2005-05-05  Harish Krishnaswamy  <kharish@novell.com>
+
+	* configure.in: reset upgrade revision to 0
+
 2005-05-04 Amish <lists@munshi.biz>
 	
 	* evolution-plugin.pc.in, evolution-shell.pc.in : use

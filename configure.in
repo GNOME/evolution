@@ -34,7 +34,7 @@ dnl This is for triggering migration calls between varying versions.
 dnl
 dnl This should be reset to 0 whenever BASE_VERSION changes
 dnl *************************************************************************************************
-UPGRADE_REVISION=1
+UPGRADE_REVISION=0
 AC_SUBST(UPGRADE_REVISION)
 AC_DEFINE_UNQUOTED(UPGRADE_REVISION, "$UPGRADE_REVISION", [The number of times we've upgraded since the BASE_VERSION release])
 
