@@ -34,7 +34,6 @@
 #include <gtk/gtkmessagedialog.h>
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
-#include <gal/widgets/e-categories.h>
 #include <libedataserverui/e-source-option-menu.h>
 #include <widgets/misc/e-dateedit.h>
 #include "common/authentication.h"

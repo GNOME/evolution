@@ -1,3 +1,8 @@
+2005-05-05  Rodrigo Moya <rodrigo@novell.com>
+
+	* gui/dialogs/event-page.c:
+	* gui/dialogs/task-page.c: removed GAL's e-categories.h include.
+
 2005-05-01  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #274406
