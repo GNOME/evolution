@@ -1,3 +1,8 @@
+2005-05-05  Radek Doulik  <rodo@site>
+
+	* e-msg-composer.c (e_msg_composer_ignore): removed old unused
+	function which was using low level gtkhtml APIs
+
 2005-04-06  Radek Doulik  <rodo@novell.com>
 
 	* e-msg-composer.c (delete_old_signature): block gtkhtml's

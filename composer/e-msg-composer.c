@@ -82,8 +82,6 @@
 
 #include <libgnomevfs/gnome-vfs.h>
 
-#include <gtkhtml/htmlselection.h>
-
 #include <glade/glade.h>
 
 #include <libedataserver/e-iconv.h>
@@ -5634,75 +5632,6 @@ e_msg_composer_is_autosaved (EMsgComposer *composer)
 
 	return composer->autosaved;
 }
-
-void
-e_msg_composer_set_enable_autosave  (EMsgComposer *composer, gboolean enabled)
-{
-	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
-	
-	composer->enable_autosave = enabled;
-}
-
-static char *
-next_word (const char *s, const char **sr)
-{
-	if (!s || !*s)
-		return NULL;
-	else {
-		const char *begin;
-		gunichar uc;
-		gboolean cited;
-		
-		do {
-			begin = s;
-			cited = FALSE;
-			uc = g_utf8_get_char (s);
-			if (uc == 0)
-				return NULL;
-			s  = g_utf8_next_char (s);
-		} while (!html_selection_spell_word (uc, &cited) && !cited && s);
-		
-		/* we are at beginning of word */
-		if (s && *s) {
-			gboolean cited_end;
-			
-			cited_end = FALSE;
-			uc = g_utf8_get_char (s);
-			
-			/* go to end of word */
-			while (html_selection_spell_word (uc, &cited_end) || (!cited && cited_end)) {
-				cited_end = FALSE;
-				s  = g_utf8_next_char (s);
-				uc = g_utf8_get_char (s);
-				if (uc == 0)
-					break;
-			}
-			*sr = s;
-			return s ? g_strndup (begin, s - begin) : g_strdup (begin);
-		} else
-			return NULL;
-	}
-}
-
-
-void
-e_msg_composer_ignore (EMsgComposer *composer, const char *str)
-{
-	CORBA_Environment ev;
-	char *word;
-	
-	if (!str)
-		return;
-	
-	CORBA_exception_init (&ev);
-	while ((word = next_word (str, &str))) {
-		/* printf ("ignore word %s\n", word); */
-		GNOME_GtkHTML_Editor_Engine_ignoreWord (composer->editor_engine, word, &ev);
-		g_free (word);
-	}
-	CORBA_exception_free (&ev);
-}
-
 
 void
 e_msg_composer_drop_editor_undo (EMsgComposer *composer)
