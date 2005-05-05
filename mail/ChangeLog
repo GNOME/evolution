@@ -1,3 +1,12 @@
+2005-05-05  Radek Doulik  <rodo@site>
+
+	* em-folder-view.c (em_folder_view_get_popup_target): use
+	gtk_html_command to ask if selection is active tto avoid using
+	selection API directly
+	(emfv_popup_copy_text): use gtkhtml API instead of engine API
+	(emfv_message_reply): use new gtk_html_get_selection_html function
+	to avoid using low level gtkhtml APIs
+
 2005-05-03  Radek Doulik  <rodo@site>
 
 	* em-format-html-display.c: removed include of htmlinterval.h as

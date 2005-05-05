@@ -85,11 +85,6 @@
 #include "em-event.h"
 
 #include <gtkhtml/gtkhtml.h>
-#include <gtkhtml/htmlobject.h>
-#include <gtkhtml/htmlengine.h>
-#include <gtkhtml/htmlengine-save.h>
-#include <gtkhtml/htmlengine-edit-cut-and-paste.h>
-#include <gtkhtml/htmlselection.h>
 
 #include "mail-mt.h"
 #include "mail-ops.h"
@@ -709,7 +704,7 @@ static void
 emfv_popup_copy_text(EPopup *ep, EPopupItem *pitem, void *data)
 {
 	EMFolderView *emfv = data;
-	html_engine_copy (((EMFormatHTML *)emfv->preview)->html->engine);
+	gtk_html_copy (((EMFormatHTML *)emfv->preview)->html);
 }
 
 static void
@@ -1333,7 +1328,7 @@ emfv_message_post_reply (BonoboUIComponent *uic, void *data, const char *path)
 static void
 emfv_message_reply(EMFolderView *emfv, int mode)
 {
-	HTMLObject *selection;
+	char *selection_string;
 	guint len;
 	
 	if (emfv->list->cursor_uid == NULL)
@@ -1341,15 +1336,9 @@ emfv_message_reply(EMFolderView *emfv, int mode)
 	
 	if (!em_utils_check_user_can_send_mail ((GtkWidget *) emfv))
 		return;
-	
-	html_engine_copy_object (((EMFormatHTML *)emfv->preview)->html->engine, &selection, &len);
-	if (selection != NULL) {
-		HTMLEngineSaveState *state;
-		
-		state = html_engine_save_buffer_new(((EMFormatHTML *)emfv->preview)->html->engine, TRUE);
-		html_object_save (selection, state);
-		html_object_destroy (selection);
-		if (state->user_data && ((GString *)state->user_data)->len) {
+
+	selection_string = gtk_html_get_selection_html (((EMFormatHTML *)emfv->preview)->html, &len);
+	if (selection_string && len) {
 			CamelMimeMessage *msg, *src;
 			struct _camel_header_raw *header;
 
@@ -1365,18 +1354,11 @@ emfv_message_reply(EMFolderView *emfv, int mode)
 			}
 			camel_mime_part_set_encoding((CamelMimePart *)msg, CAMEL_TRANSFER_ENCODING_8BIT);
 			camel_mime_part_set_content((CamelMimePart *)msg,
-						    ((GString *)state->user_data)->str,
-						    ((GString *)state->user_data)->len,
-						    "text/html");
+						    selection_string, len, "text/html");
 			em_utils_reply_to_message (emfv->folder, emfv->list->cursor_uid, msg, mode, NULL);
 			camel_object_unref(msg);
-		} else {
-			em_utils_reply_to_message (emfv->folder, emfv->list->cursor_uid, NULL, mode, (EMFormat *)emfv->preview);
-		}
-
-		html_engine_save_buffer_free(state);
 	} else {
-		em_utils_reply_to_message(emfv->folder, emfv->list->cursor_uid, NULL, mode, (EMFormat *)emfv->preview);
+		em_utils_reply_to_message (emfv->folder, emfv->list->cursor_uid, NULL, mode, (EMFormat *)emfv->preview);
 	}
 }
 
@@ -2058,7 +2040,7 @@ em_folder_view_get_popup_target(EMFolderView *emfv, EMPopup *emp, int on_display
 	else
 		t->target.mask &= ~EM_FOLDER_VIEW_SELECT_LISTONLY;
 
-	if (html_engine_is_selection_active(((EMFormatHTML *)emfv->preview)->html->engine))
+	if (gtk_html_command (((EMFormatHTML *)emfv->preview)->html, "is-selection-active"))
 		t->target.mask &= ~EM_FOLDER_VIEW_SELECT_SELECTION;
 	else
 		t->target.mask &= ~EM_FOLDER_VIEW_SELECT_NOSELECTION;
