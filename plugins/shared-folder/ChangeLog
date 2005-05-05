@@ -32,7 +32,6 @@
 	name from the top most parent. This will give proper container id
 	even in the case of the duplicate names at different hierarchies
 
->>>>>>> 1.15
 2005-03-10  Vivek Jain <jvivek@novell.com>
 	
 	**Fixes #73201
