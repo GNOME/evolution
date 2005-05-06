@@ -371,7 +371,7 @@
 			  <child>
 			    <widget class="GtkButton" id="select-button">
 			      <property name="visible">True</property>
-			      <property name="tooltip" translatable="yes">Insert email adresses from Adress Book</property>
+			      <property name="tooltip" translatable="yes">Insert email addresses from Address Book</property>
 			      <property name="can_default">True</property>
 			      <property name="can_focus">True</property>
 			      <property name="label" translatable="yes">_Select</property>

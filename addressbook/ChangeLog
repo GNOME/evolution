@@ -1,4 +1,10 @@
 2005-05-06  Chenthill Palanisamy  <pchenthill@novell.com>
+	
+	Fixes #301459
+	* gui/contact-list-editor/contact-list-editor.glade: Corrected 
+	the spelling for addresses and address.
+
+2005-05-06  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #272464
 	* addressbook-errors.xml:
