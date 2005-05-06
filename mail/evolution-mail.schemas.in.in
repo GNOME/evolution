@@ -768,20 +768,6 @@
       </locale>
     </schema>
 
-    <schema>
-      <key>/schemas/apps/evolution/mail/junk/sa/daemon_port</key>
-      <applyto>/apps/evolution/mail/junk/sa/daemon_port</applyto>
-      <owner>evolution-mail</owner>
-      <type>int</type>
-      <default>7830</default>
-      <locale name="C">
-         <short>spamd port</short>
-         <long>
-          port for starting user runned spamd
-         </long>
-      </locale>
-    </schema>
-
     <!-- Account settings -->
 
     <schema>

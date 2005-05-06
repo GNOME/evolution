@@ -1,3 +1,9 @@
+2005-05-06  Chenthill Palanisamy  <pchenthill@novell.com>
+	
+	* evolution-mail.schemas.in.in: Removed the schema 
+	/schemas/apps/evolution/mail/junk/sa/daemon_port
+	since its not used anymore.
+
 2005-05-06  Sarfraaz Ahmed <asarfraaz@novell.com>
 
 	* mail/mail-errors.xml : Fixed a typo for #272786
