@@ -1,3 +1,10 @@
+2005-05-06  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #273063
+	* org-gnome-shared-folder-errors.xml:
+	* org-gnome-shared-folder-errors.xml.h:Removed the unwanted
+	tabs and new line characters.
+
 2005-05-05  Srinivasa Ragavan <sragavan@novell.com>
 
 	* properties.glade : Fixed a typo 272538
