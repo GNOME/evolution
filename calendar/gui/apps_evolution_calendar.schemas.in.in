@@ -83,7 +83,7 @@
       <default>0</default>
       <locale name="C">
         <short>Workday end minute</short>
-        <long>Minute the workday ends on, 0 to 59</long>
+        <long>Minute the workday ends on, 0 to 59.</long>
       </locale>
     </schema>
 
@@ -95,7 +95,7 @@
       <default>30</default>
       <locale name="C">
         <short>Time divisions</short>
-        <short>Intervals shown in Day and Work Week views, in minutes.</short>
+        <long>Intervals shown in Day and Work Week views, in minutes.</long>
       </locale>
     </schema>
 
