@@ -1,3 +1,9 @@
+2005-05-06  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* gui/apps_evolution_calendar.schemas.in.in: Fixing a 
+	grammar mistake.
+	See 301459
+
 2005-05-06  Changwoo Ryu  <cwryu@debian.org>
 
 	* gui/apps_evolution_calendar.schemas.in.in: added a missing
