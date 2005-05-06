@@ -1,5 +1,10 @@
 2005-05-06  Rodrigo Moya <rodrigo@novell.com>
 
+	* gui/e-cal-model.c (e_cal_view_objects_added_cb): uncomment code that
+	shouldn't be.
+
+2005-05-06  Rodrigo Moya <rodrigo@novell.com>
+
 	Fixes #271679
 
 	* gui/dialogs/comp-editor.c (save_comp):
