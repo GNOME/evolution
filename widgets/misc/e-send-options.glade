@@ -1080,8 +1080,7 @@ Mail Receipt</property>
 			    <widget class="GtkComboBox" id="delete-combo">
 			      <property name="visible">True</property>
 			      <property name="items" translatable="yes">None
-Mail Receipt
-</property>
+Mail Receipt</property>
 			    </widget>
 			    <packing>
 			      <property name="left_attach">1</property>
