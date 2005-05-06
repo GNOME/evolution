@@ -1,6 +1,6 @@
 2005-05-06  Harish Krishnaswamy  <kharish@novell.com>
 
-	* e-send-options.glade: Fixes bug #273096
+	* e-send-options.glade: Fix for bugs #273096, #273097
 
 2005-03-01  Jeffrey Stedfast  <fejj@novell.com>
 

@@ -968,7 +968,7 @@ Confidential
 			  <child>
 			    <widget class="GtkLabel" id="opened-label">
 			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">_When opened:     </property>
+			      <property name="label" translatable="yes">_When opened:</property>
 			      <property name="use_underline">True</property>
 			      <property name="use_markup">False</property>
 			      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -992,7 +992,7 @@ Confidential
 			  <child>
 			    <widget class="GtkLabel" id="declined-label">
 			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">When decli_ned:    </property>
+			      <property name="label" translatable="yes">When decli_ned:</property>
 			      <property name="use_underline">True</property>
 			      <property name="use_markup">False</property>
 			      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -1040,7 +1040,7 @@ Confidential
 			  <child>
 			    <widget class="GtkLabel" id="accepted-label">
 			      <property name="visible">True</property>
-			      <property name="label" translatable="yes">When acce_pted: </property>
+			      <property name="label" translatable="yes">When acce_pted:</property>
 			      <property name="use_underline">True</property>
 			      <property name="use_markup">False</property>
 			      <property name="justify">GTK_JUSTIFY_LEFT</property>
