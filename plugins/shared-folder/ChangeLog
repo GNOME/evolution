@@ -1,3 +1,7 @@
+2005-05-06  Sarfraaz Ahmed <asarfraaz@novell.com>
+
+	* properties.glade : Fixed a typo #273064
+
 2005-03-31  Parthasarathi Susarla <sparthasarathi@novell.com>
 	
 	* share-folder-common.c:(create_folder):
