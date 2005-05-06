@@ -360,7 +360,7 @@
     <submenu name="Tools" _label="_Tools">
       <placeholder name="ComponentPlaceholder">
         <placeholder name="MailFilterTools">
-          <submenu name="ToolsFilterFromMessage" _label="_Create Filter From Message">
+          <submenu name="ToolsFilterFromMessage" _label="_Create Filter from Message">
             <menuitem name="ToolsFilterSubject" verb="" _label="Filter on _Subject..."/>
             <menuitem name="ToolsFilterSender" verb="" _label="Filter on Se_nder..."/>
             <menuitem name="ToolsFilterRecipient" verb="" _label="Filter on _Recipients..."/>
@@ -368,7 +368,7 @@
           </submenu>
         </placeholder>
         <placeholder name="MailVFolderTools">
-          <submenu name="ToolsVFolderFromMessage" _label="Create _vFolder From Message">
+          <submenu name="ToolsVFolderFromMessage" _label="Create _vFolder from Message">
             <menuitem name="ToolsVFolderSubject" verb="" _label="vFolder on _Subject..."/>
             <menuitem name="ToolsVFolderSender" verb="" _label="vFolder on Se_nder..."/>
             <menuitem name="ToolsVFolderRecipient" verb="" _label="vFolder on _Recipients..."/>

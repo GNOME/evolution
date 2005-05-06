@@ -236,7 +236,7 @@
          <long>
           Load images for HTML messages over http(s). Possible values are:
           0 - Never load images off the net
-          1 - Load images if sender is in the addressbook
+          1 - Load images in mail from contacts
           2 - Always load images off the net
          </long>
       </locale>

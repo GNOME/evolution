@@ -1,3 +1,10 @@
+2005-05-06	Srinivasa Ragavan <sragavan@novell.com>
+
+	* addressbook/gui/component/ldap-config.glade: Changed string 'login'
+	* mail/evolution-mail.schemas.in.in: Rephrased photo string
+	* mail/mail-config.glade: Rephrased photo string
+	* ui/evolution-mail-message.xml: Changed 'From' to 'from'
+	
 2005-05-05  Harish Krishnaswamy  <kharish@novell.com>
 
 	* configure.in: reset upgrade revision to 0
