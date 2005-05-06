@@ -1,3 +1,7 @@
+2005-05-06  Harish Krishnaswamy  <kharish@novell.com>
+
+	* e-send-options.glade: Fixes bug #273096
+
 2005-03-01  Jeffrey Stedfast  <fejj@novell.com>
 
 	* e-search-bar.c (subitem_activated_cb): Make the entry widget
