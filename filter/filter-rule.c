@@ -779,6 +779,7 @@ get_widget (FilterRule *fr, struct _RuleContext *f)
 	GtkWidget *scrolledwindow;
 	GtkObject *hadj, *vadj;
 	GList *l;
+	gchar *text;
 	FilterPart *part;
 	struct _rule_data *data;
 	int rows, i;
@@ -815,11 +816,13 @@ get_widget (FilterRule *fr, struct _RuleContext *f)
 	gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
 	gtk_widget_show (hbox);
 
-	label = gtk_label_new (_("<b>If</b>"));
+	text = g_strdup_printf("<b>%s</b>", _("If"));
+	label = gtk_label_new (text);
 	gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
 	gtk_misc_set_alignment (GTK_MISC (label), 0, 0.5);
 	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
 	gtk_widget_show (label);
+	g_free(text);
 
 	hbox = gtk_hbox_new (FALSE, 12);
 	gtk_box_pack_start (GTK_BOX (vbox), hbox, TRUE, TRUE, 0);
