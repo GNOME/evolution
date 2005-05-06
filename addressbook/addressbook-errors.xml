@@ -93,7 +93,7 @@
  
  <error id="server-version" type="warning">
   <title>Server Version</title> 
-  <primary>Some features may not work properly with your current server </primary> 
+  <primary>Some features may not work properly with your current server</primary> 
   <secondary>You are connecting to an unsupported GroupWise server and may encounter problems using Evolution. For best results the server should be upgraded to a supported version</secondary>
  </error>
 
