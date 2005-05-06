@@ -145,6 +145,6 @@ char *s = N_("The task list is not marked for offline usage");
 /* calendar:server-version title */
 char *s = N_("Server Version");
 /* calendar:server-version primary */
-char *s = N_("Your server needs to be updated");
+char *s = N_("Some features may not work properly with your current server");
 /* calendar:server-version secondary */
-char *s = N_("Some features may not work correctly with your current server version ");
+char *s = N_("You are connecting to an unsupported GroupWise server and may encounter problems using Evolution. For best results the server should be upgraded to a supported version");
