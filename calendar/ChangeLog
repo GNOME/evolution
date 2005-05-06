@@ -1,3 +1,9 @@
+2005-05-06  Vivek Jain <jvivek@novell.com>
+	
+	**Fixes #272566
+	* gui/dialogs/event-page.glade:
+	removed unwanted space in button label
+
 2005-05-06  Rodrigo Moya <rodrigo@novell.com>
 
 	* gui/e-cal-model.c (e_cal_view_objects_added_cb): uncomment code that
