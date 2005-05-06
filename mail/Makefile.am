@@ -218,11 +218,10 @@ server_DATA = $(server_in_files:.server.in.in=_$(BASE_VERSION).server)
 filterdir = $(privdatadir)
 filter_DATA = filtertypes.xml vfoldertypes.xml searchtypes.xml
 
-error_DATA = mail-errors.xml
-error_i18n = $(error_DATA:.xml=.xml.h)
+error_DATA = mail.error
 errordir = $(privdatadir)/errors
-%.xml.h: %.xml
-	$(top_builddir)/e-util/e-error-tool $^
+# provides error rules too
+@EVO_PLUGIN_RULE@
 
 em-filter-i18n.h: filtertypes.xml vfoldertypes.xml searchtypes.xml
 	echo "/* Automatically generated. Do not edit. */" > $@;	      \
@@ -240,8 +239,7 @@ EXTRA_DIST = 				\
 	ChangeLog.pre-1-4		\
 	em-marshal.list			\
 	$(SPELL_IDL)			\
-	$(error_DATA)			\
-	$(error_i18n)			\
+	mail.error.xml			\
 	$(glade_DATA)			\
 	$(schema_in_files)		\
 	$(server_in_files)		\
@@ -288,6 +286,6 @@ install-data-local:
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)
 
-BUILT_SOURCES = $(SPELL_IDL_GENERATED) $(MARSHAL_GENERATED) $(server_DATA) $(error_i18n)
+BUILT_SOURCES = $(SPELL_IDL_GENERATED) $(MARSHAL_GENERATED) $(server_DATA) $(error_DATA)
 
 CLEANFILES = $(BUILT_SOURCES)
