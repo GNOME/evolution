@@ -1,3 +1,9 @@
+2005-05-06  Sarfraaz Ahmed <asarfraaz@novell.com>
+
+	* misc/e-search-bar.c: (set_menu) Solaris gettext crashes on NULL 
+	input string. Fixes #260312. Patch submitted by 
+	Suresh Chandrasekharan <suresh.chandrasekharan@sun.com>
+
 2005-04-28  Li Yuan  <li.yuan@sun.com>
 
 	* misc/e-calendar-item.c: (e_calendar_item_realize),
