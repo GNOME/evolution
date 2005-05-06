@@ -63,6 +63,6 @@ char *s = N_("_Add");
 /* addressbook:server-version title */
 char *s = N_("Server Version");
 /* addressbook:server-version primary */
-char *s = N_("Your server needs to be updated");
+char *s = N_("Some features may not work properly with your current server ");
 /* addressbook:server-version secondary */
-char *s = N_("Some features may not work correctly with your current server version");
+char *s = N_("You are connecting to an unsupported GroupWise server and may encounter problems using Evolution. For best results the server should be upgraded to a supported version");
