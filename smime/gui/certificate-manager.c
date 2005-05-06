@@ -131,7 +131,7 @@ import_your (GtkWidget *widget, CertificateManagerData *cfm)
 	const char *filename;
 
 #ifdef USE_GTKFILECHOOSER
-	filesel = gtk_file_chooser_dialog_new (_("Select a cert to import..."),
+	filesel = gtk_file_chooser_dialog_new (_("Select a certificate to import..."),
 					       NULL,
 					       GTK_FILE_CHOOSER_ACTION_OPEN,
 					       GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
@@ -139,7 +139,7 @@ import_your (GtkWidget *widget, CertificateManagerData *cfm)
 					       NULL);
 	gtk_dialog_set_default_response (GTK_DIALOG (filesel), GTK_RESPONSE_OK);
 #else
-	filesel = gtk_file_selection_new (_("Select a cert to import..."));
+	filesel = gtk_file_selection_new (_("Select a certificate to import..."));
 #endif
 
 	if (GTK_RESPONSE_OK == gtk_dialog_run (GTK_DIALOG (filesel))) {
@@ -374,7 +374,7 @@ import_contact (GtkWidget *widget, CertificateManagerData *cfm)
 	const char *filename;
 
 #ifdef USE_GTKFILECHOOSER
-	filesel = gtk_file_chooser_dialog_new (_("Select a cert to import..."),
+	filesel = gtk_file_chooser_dialog_new (_("Select a certificate to import..."),
 					       NULL,
 					       GTK_FILE_CHOOSER_ACTION_OPEN,
 					       GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
@@ -382,7 +382,7 @@ import_contact (GtkWidget *widget, CertificateManagerData *cfm)
 					       NULL);
 	gtk_dialog_set_default_response (GTK_DIALOG (filesel), GTK_RESPONSE_OK);
 #else
-	filesel = gtk_file_selection_new (_("Select a cert to import..."));
+	filesel = gtk_file_selection_new (_("Select a certificate to import..."));
 #endif
 
 	if (GTK_RESPONSE_OK == gtk_dialog_run (GTK_DIALOG (filesel))) {
@@ -594,7 +594,7 @@ import_ca (GtkWidget *widget, CertificateManagerData *cfm)
 	const char *filename;
 
 #ifdef USE_GTKFILECHOOSER
-	filesel = gtk_file_chooser_dialog_new (_("Select a cert to import..."),
+	filesel = gtk_file_chooser_dialog_new (_("Select a certificate to import..."),
 					       NULL,
 					       GTK_FILE_CHOOSER_ACTION_OPEN,
 					       GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
@@ -602,7 +602,7 @@ import_ca (GtkWidget *widget, CertificateManagerData *cfm)
 					       NULL);
 	gtk_dialog_set_default_response (GTK_DIALOG (filesel), GTK_RESPONSE_OK);
 #else
-	filesel = gtk_file_selection_new (_("Select a cert to import..."));
+	filesel = gtk_file_selection_new (_("Select a certificate to import..."));
 #endif
 
 	if (GTK_RESPONSE_OK == gtk_dialog_run (GTK_DIALOG (filesel))) {
