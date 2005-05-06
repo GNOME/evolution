@@ -10,4 +10,4 @@ plugin_LTLIBRARIES = liborg-gnome-subject-thread.la
 liborg_gnome_subject_thread_la_SOURCES = subject-thread.c
 liborg_gnome_subject_thread_la_LDFLAGS = -module -avoid-version
 
-EXTRA_DIST = org-gnome-subject-thread.eplug.in
+EXTRA_DIST = org-gnome-subject-thread.eplug.xml

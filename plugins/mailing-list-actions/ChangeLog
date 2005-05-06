@@ -1,3 +1,11 @@
+2005-05-06  Not Zed  <NotZed@Ximian.com>
+
+	* org-gnome-mailing-list-actions.error.xml:
+	s/-errors.xml/.error.xml/ & i18n tags.
+
+	* Makefile.am:
+	* org-gnome-mailing-list-actions.eplug.xml: s/.in/.xml/, & i18n.
+
 2005-02-24  Björn Torkelsson  <torkel@acc.umu.se>
 
 	* org-gnome-mailing-list-actions.eplug.in: Fixed description and

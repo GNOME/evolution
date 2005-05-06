@@ -4,9 +4,9 @@
      type="shlib"
      location="@PLUGINDIR@/liborg-gnome-calendar-http.so"
      id="org.gnome.evolution.calendar.http"
-     name="HTTP Calendars">
+     _name="HTTP Calendars">
      <author name="David Trowbridge" email="David.Trowbridge@Colorado.edu"/>
-     <description>Provides core functionality for webcal and http calendars.</description>
+     <_description>Provides core functionality for webcal and http calendars.</_description>
         <hook class="org.gnome.evolution.calendar.config:1.0">
             <group
 	     target="source"

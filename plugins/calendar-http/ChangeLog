@@ -1,3 +1,8 @@
+2005-05-06  Not Zed  <NotZed@Ximian.com>
+
+	* Makefile.am:
+	* org-gnome-calendar-http.eplug.xml: s/.in/.xml/ & i18n.
+
 2005-02-24  Björn Torkelsson  <torkel@acc.umu.se>
 
 	* org-gnome-calendar-http.eplug.in: Added author and description.

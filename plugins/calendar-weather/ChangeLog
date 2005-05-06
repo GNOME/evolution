@@ -1,3 +1,9 @@
+2005-05-06  Not Zed  <NotZed@Ximian.com>
+
+	* Makefile.am:
+
+	* org-gnome-calendar-weather.eplug.xml: s/.in/.xml/ & i18n.
+
 2005-03-22  David Trowbridge  <trowbrds@cs.colorado.edu>
 
 	* Makefile.am: Use $(weatherdatadir) rather than $(weatherdir), get

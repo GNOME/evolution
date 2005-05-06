@@ -1,3 +1,8 @@
+2005-05-06  Not Zed  <NotZed@Ximian.com>
+
+	* Makefile.am: 
+	* org-gnome-evolution-startup-wizard.eplug.xml: s/.in/.xml/ & i18n.
+
 2005-02-21  JP Rosevear  <jpr@novell.com>
 
 	* startup-wizard.c: A plugin the does the startup wizard

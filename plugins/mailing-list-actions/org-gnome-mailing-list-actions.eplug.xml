@@ -5,9 +5,9 @@
 		id="org.gnome.plugin.mailing-list.actions"
 		domain="eplug-mailing-list-actions"
 		location="@PLUGINDIR@/liborg-gnome-mailing-list-actions.so"
-		name="Mailing List Actions">
+		_name="Mailing List Actions">
 	    	<author name="Meilof Veeningen" email="meilof@wanadoo.nl"/>
-		<description>Provide actions for common mailing list commands (subscribe, unsubscribe, ...).</description>
+		<_description>Provide actions for common mailing list commands (subscribe, unsubscribe, ...).</_description>
 		<hook class="org.gnome.evolution.mail.bonobomenu:1.0">
 			<menu id="org.gnome.evolution.mail.browser" target="select">
 				<ui file="@PLUGINDIR@/org-gnome-mailing-list-actions.xml"/>
@@ -31,13 +31,13 @@
 		<hook class="org.gnome.evolution.mail.popup:1.0">
 			<menu id="org.gnome.mail.folderview.popup.select" target="select">
 				<item type="bar" path="96.list" visible="mailing_list" activate=""/>
-				<item type="submenu" path="96.list.00" visible="mailing_list" activate="" label="Mailing _List"/>
-				<item type="item" verb="ListHelp" path="96.list.00/00.help" label="Get list _usage information" visible="mailing_list" activate="emla_list_help"/>
-				<item type="item" verb="ListSubscribe" path="96.list.00/10.subscribe" label="_Subscribe to list" visible="mailing_list" activate="emla_list_subscribe"/>
-				<item type="item" verb="ListUnsubscribe" path="96.list.00/20.unsubscribe" label="_Un-subscribe to list" visible="mailing_list" activate="emla_list_unsubscribe"/>
-				<item type="item" verb="ListPost" path="96.list.00/30.post" label="_Post message to list" visible="mailing_list" activate="emla_list_post"/>
-				<item type="item" verb="ListOwner" path="96.list.00/40.owner" label="Contact list _owner" visible="mailing_list" activate="emla_list_owner"/>
-				<item type="item" verb="ListArchive" path="96.list.00/50.archive" label="Get list _archive" visible="mailing_list" activate="emla_list_archive"/>
+				<item type="submenu" path="96.list.00" visible="mailing_list" activate="" _label="Mailing _List"/>
+				<item type="item" verb="ListHelp" path="96.list.00/00.help" _label="Get list _usage information" visible="mailing_list" activate="emla_list_help"/>
+				<item type="item" verb="ListSubscribe" path="96.list.00/10.subscribe" _label="_Subscribe to list" visible="mailing_list" activate="emla_list_subscribe"/>
+				<item type="item" verb="ListUnsubscribe" path="96.list.00/20.unsubscribe" _label="_Un-subscribe to list" visible="mailing_list" activate="emla_list_unsubscribe"/>
+				<item type="item" verb="ListPost" path="96.list.00/30.post" _label="_Post message to list" visible="mailing_list" activate="emla_list_post"/>
+				<item type="item" verb="ListOwner" path="96.list.00/40.owner" _label="Contact list _owner" visible="mailing_list" activate="emla_list_owner"/>
+				<item type="item" verb="ListArchive" path="96.list.00/50.archive" _label="Get list _archive" visible="mailing_list" activate="emla_list_archive"/>
 			</menu>
 		</hook>
   	</e-plugin>

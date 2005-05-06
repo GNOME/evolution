@@ -2,10 +2,10 @@
 	<e-plugin
 	  type="shlib"
 	  id="org.gnome.evolution.bbdb"
-	  name="Automatic contacts"
+	  _name="Automatic contacts"
  	  location="@PLUGINDIR@/liborg-gnome-evolution-bbdb.so">
 
-	  	<description>Automatically fills your addressbook with names and email addresses as you reply to mails.  Also fills in IM contact information from your buddy lists.</description>
+	  	<_description>Automatically fills your addressbook with names and email addresses as you reply to mails.  Also fills in IM contact information from your buddy lists.</_description>
 
 		<author name="Nat Friedman" email="nat@novell.com"/>
 
@@ -19,7 +19,7 @@
 
 		<hook class="org.gnome.evolution.mail.config:1.0">
 			<group id="org.gnome.evolution.mail.prefs" target="prefs">
-				<item type="page" path="80.bbdb" label="BBDB" factory="bbdb_page_factory"/>
+				<item type="page" path="80.bbdb" _label="BBDB" factory="bbdb_page_factory"/>
 			</group>
 		</hook>
 

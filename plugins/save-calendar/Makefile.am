@@ -16,4 +16,5 @@ liborg_gnome_save_calendar_la_SOURCES = \
 
 liborg_gnome_save_calendar_la_LDFLAGS = -module -avoid-version
 
-EXTRA_DIST = org-gnome-save-calendar.eplug.in
+EXTRA_DIST = org-gnome-save-calendar.eplug.xml
+

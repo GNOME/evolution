@@ -16,4 +16,5 @@ plugin_LTLIBRARIES = liborg-gnome-new-mail-notify.la
 liborg_gnome_new_mail_notify_la_SOURCES = new-mail-notify.c
 liborg_gnome_new_mail_notify_la_LDFLAGS = -module -avoid-version
 
-EXTRA_DIST = org-gnome-new-mail-notify.eplug.in
+EXTRA_DIST = org-gnome-new-mail-notify.eplug.xml
+

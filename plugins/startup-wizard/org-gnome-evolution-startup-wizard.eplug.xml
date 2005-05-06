@@ -4,7 +4,7 @@
 	    type="shlib"
 	    id="org.gnome.evolution.plugin.startup-wizard"
 	    location="@PLUGINDIR@/liborg-gnome-evolution-startup-wizard.so"
-	    name="Startup wizard">
+	    _name="Startup wizard">
 
 		<hook class="org.gnome.evolution.shell.events:1.0">
 			<event

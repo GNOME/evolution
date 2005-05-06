@@ -2,10 +2,10 @@
 <e-plugin-list>
   <e-plugin
     type="shlib"
-    id="org.gnome.evolution.plugin.mailToTask"
-    location="@PLUGINDIR@/liborg-gnome-mail-to-task.so"
-    name="Mail to task">
-    <description>A plugin which allows the creation of tasks from the contents of a mail message.</description>
+    id="org.gnome.evolution.plugin.mailToMeeting"
+    location="@PLUGINDIR@/liborg-gnome-mail-to-meeting.so"
+    _name="Mail to meeting">
+    <_description>A plugin which allows the creation of meetings from the contents of a mail message.</_description>
     <author name="Rodrigo Moya" email="rodrigo@novell.com"/>
 
     <!-- hook into the uri popup menu -->
@@ -13,12 +13,12 @@
       <menu id="org.gnome.evolution.mail.folderview.popup" target="select">
 	<item
 	  type="item"
-	  path="71.mail_to_task"
-	  icon="stock_todo"
-	  label="Con_vert to Task"
+	  path="72.mail_to_meeting"
+	  icon="stock_new-meeting"
+	  _label="Con_vert to Meeting"
 	  enable="one"
 	  visible="one"
-	  activate="org_gnome_mail_to_task"/>
+	  activate="org_gnome_mail_to_meeting"/>
       </menu>
     </hook>
   </e-plugin>

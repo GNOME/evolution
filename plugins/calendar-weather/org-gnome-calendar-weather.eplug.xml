@@ -4,8 +4,8 @@
      type="shlib"
      location="@PLUGINDIR@/liborg-gnome-calendar-weather.so"
      id="org.gnome.evolution.calendar.weather"
-     name="Weather Calendars">
-        <description>Provides core functionality for weather calendars.</description>
+     _name="Weather Calendars">
+        <_description>Provides core functionality for weather calendars.</_description>
 	<author name="David Trowbridge" email="trowbrds@cs.colorado.edu"/>
         <hook class="org.gnome.evolution.calendar.config:1.0">
 	    <group

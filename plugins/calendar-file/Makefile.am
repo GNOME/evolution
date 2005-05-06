@@ -13,4 +13,5 @@ plugin_LTLIBRARIES = liborg-gnome-calendar-file.la
 liborg_gnome_calendar_file_la_SOURCES = calendar-file.c
 liborg_gnome_calendar_file_la_LDFLAGS = -module -avoid-version
 
-EXTRA_DIST = org-gnome-calendar-file.eplug.in
+EXTRA_DIST = org-gnome-calendar-file.eplug.xml
+

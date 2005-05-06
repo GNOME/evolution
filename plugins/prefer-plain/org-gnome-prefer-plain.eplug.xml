@@ -4,11 +4,11 @@
     type="shlib"
     id="org.gnome.evolution.plugin.preferPlain"
     location="@PLUGINDIR@/liborg-gnome-prefer-plain.so"
-    name="Prefer plain-text">
+    _name="Prefer plain-text">
 
 
-    <description>A test plugin which demonstrates a formatter plugin
-    which lets you choose to disable HTML mails.</description>
+    <_description>A test plugin which demonstrates a formatter plugin
+    which lets you choose to disable HTML mails.</_description>
     <author name="Michael Zucchi" email="NotZed@Ximian.com"/>
 
 
@@ -17,7 +17,7 @@
       <group target="prefs" id="org.gnome.evolution.mail.prefs">
 	<!-- we could also just insert our own items from a section factory, -->
 	<!-- but then we also need to create our own section frame -->
-	<item type="section_table" path="10.html/80.mode" label="Plain Text Mode"/>
+	<item type="section_table" path="10.html/80.mode" _label="Plain Text Mode"/>
 	<item type="item_table" path="10.html/80.mode/00.mode" factory="org_gnome_prefer_plain_config_mode"/>
       </group>
     </hook>

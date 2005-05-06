@@ -1,3 +1,10 @@
+2005-05-06  Not Zed  <NotZed@Ximian.com>
+
+	* org-gnome-itip-formatter.error.xml: s/-errors.xml/.error.xml/
+
+	* Makefile.am: 
+	* org-gnome-itip-formatter.eplug.xml: s/.in/.xml/ & i18n.
+
 2005-04-08  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #74265

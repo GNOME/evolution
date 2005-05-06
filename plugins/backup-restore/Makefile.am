@@ -22,5 +22,5 @@ backup_SOURCES = backup.c
 backup_LDADD = $(SHELL_LIBS)
 
 EXTRA_DIST = 					\
-	org-gnome-backup-restore.eplug.in	\
+	org-gnome-backup-restore.eplug.xml	\
 	org-gnome-backup-restore.xml

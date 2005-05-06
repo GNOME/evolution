@@ -11,5 +11,5 @@ liborg_gnome_save_attachments_la_SOURCES = save-attachments.c
 liborg_gnome_save_attachments_la_LDFLAGS = -module -avoid-version
 
 EXTRA_DIST = 					\
-	org-gnome-save-attachments.eplug.in	\
+	org-gnome-save-attachments.eplug.xml	\
 	org-gnome-save-attachments.xml

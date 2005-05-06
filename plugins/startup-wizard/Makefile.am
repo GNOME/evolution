@@ -17,4 +17,5 @@ liborg_gnome_evolution_startup_wizard_la_LIBADD = 		\
 
 liborg_gnome_evolution_startup_wizard_la_LDFLAGS = -module -avoid-version
 
-EXTRA_DIST = org-gnome-evolution-startup-wizard.eplug.in
+EXTRA_DIST = org-gnome-evolution-startup-wizard.eplug.xml
+

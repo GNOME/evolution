@@ -10,4 +10,4 @@ plugin_LTLIBRARIES = liborg-gnome-mail-to-meeting.la
 liborg_gnome_mail_to_meeting_la_SOURCES = mail-to-meeting.c
 liborg_gnome_mail_to_meeting_la_LDFLAGS = -module -avoid-version
 
-EXTRA_DIST = org-gnome-mail-to-meeting.eplug.in
+EXTRA_DIST = org-gnome-mail-to-meeting.eplug.xml

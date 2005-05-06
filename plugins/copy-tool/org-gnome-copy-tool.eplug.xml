@@ -4,8 +4,8 @@
     type="shlib"
     id="org.gnome.evolution.plugin.copyTool"
     location="@PLUGINDIR@/liborg-gnome-copy-tool.so"
-    name="Copy tool">
-    <description>A test plugin which demonstrates a popup menu plugin which lets you copy things to the clipboard.</description>
+    _name="Copy tool">
+    <_description>A test plugin which demonstrates a popup menu plugin which lets you copy things to the clipboard.</_description>
     <author name="Michael Zucchi" email="notzed@ximian.com"/>
 
     <!-- hook into the uri popup menu -->
@@ -15,7 +15,7 @@
 	  type="item"
 	  path="80.test"
 	  icon="gtk-copy"
-	  label="Copy _Email Address"
+	  _label="Copy _Email Address"
 	  visible="mailto"
 	  activate="org_gnome_copy_tool_copy_address"/>
       </menu>

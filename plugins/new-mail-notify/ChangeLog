@@ -1,3 +1,24 @@
+2005-05-06  Not Zed  <NotZed@Ximian.com>
+
+	* new-mail-notify.c: make the bus connection global and keep track
+	of the gconf state directly too.
+	(org_gnome_new_mail_config): removed configuration section,
+	implicitly enabled by enabling the plugin now.
+
+2005-04-06  Timo Hoenig  <thoenig@novell.com>
+
+	* new-mail-notify.c (send_dbus_message): added two checks to prevent
+	Evolution to crash if the D-BUS session bus is not running or if
+	D-BUS is not able to allocate memory for the message
+	* new-mail-notify.c (e_plugin_lib_enable): refuse to load the plugin
+	if the address of the D-BUS session bus can not be determined
+	* new-mail-notify.c (e_plugin_lib_enable): new function
+
+2005-05-06  Not Zed  <NotZed@Ximian.com>
+
+	* Makefile.am: 
+	* org-gnome-new-mail-notify.eplug.xml: s/.in/.xml/ & i18n.
+
 2005-03-11  David Malcolm  <dmalcolm@redhat.com>
 
 	* new-mail-notify.c: preprocessor hackery using the value of

@@ -1,3 +1,8 @@
+2005-05-06  Not Zed  <NotZed@Ximian.com>
+
+	* Makefile.am: 
+	* org-gnome-prefer-plain.eplug.xml: s/.in/.xml/, fix i18n tags.
+
 2005-02-13  Björn Torkelsson  <torkel@acc.umu.se>
 
 	* org-gnome-prefer-plain.eplug.in: Added author and moved the

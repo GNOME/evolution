@@ -1,3 +1,8 @@
+2005-05-06  Not Zed  <NotZed@Ximian.com>
+
+	* Makefile.am: 
+	* org-gnome-evolution-bbdb.eplug.xml: s/.in/.xml/ & i18n.
+
 2005-04-07  Sushma Rai  <rsushma@novell.com>
 
 	* bbdb.c (bbdb_handle_reply): Check for camel_internet_address_get()
