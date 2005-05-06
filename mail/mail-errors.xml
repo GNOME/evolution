@@ -56,7 +56,7 @@ Many email systems add an Apparently-To header to messages that only have BCC re
  </error>
 
  <error id="ask-expunge" type="question" default="GTK_RESPONSE_CANCEL">
-  <primary>Are you sure you want to permanently remove all the deleted message in folder &quot;{0}&quot;?</primary>
+  <primary>Are you sure you want to permanently remove all the deleted messages in folder &quot;{0}&quot;?</primary>
   <secondary>If you continue, you will not be able to recover these messages.</secondary>
   <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
   <button label="_Expunge" response="GTK_RESPONSE_YES"/>
