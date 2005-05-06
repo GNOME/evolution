@@ -5634,6 +5634,14 @@ e_msg_composer_is_autosaved (EMsgComposer *composer)
 }
 
 void
+e_msg_composer_set_enable_autosave  (EMsgComposer *composer, gboolean enabled)
+{
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+
+	composer->enable_autosave = enabled;
+}
+
+void
 e_msg_composer_drop_editor_undo (EMsgComposer *composer)
 {
 	CORBA_Environment ev;
