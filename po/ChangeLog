@@ -1,5 +1,9 @@
 2005-05-06  Not Zed  <NotZed@Ximian.com>
 
+	* POTFILES.in: handle renamed error files.
+
+2005-05-06  Not Zed  <NotZed@Ximian.com>
+
 	* POTFILES.in: updates for plugins.
 
 2005-05-05  Pawan Chitrakar  <pawan@nplinux.org>

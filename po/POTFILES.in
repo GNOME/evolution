@@ -173,7 +173,7 @@ composer/e-msg-composer-hdrs.c
 composer/e-msg-composer-select-file.c
 composer/e-msg-composer.c
 composer/evolution-composer.c
-composer/mail-composer-errors.xml.h
+composer/mail-composer.error.xml
 data/evolution.desktop.in.in
 data/evolution.keys.in.in
 designs/OOA/ooa.glade
@@ -237,7 +237,7 @@ mail/mail-config.c
 mail/mail-config.glade
 mail/mail-crypto.c
 mail/mail-dialogs.glade
-mail/mail-errors.xml.h
+mail/mail.error.xml
 mail/mail-folder-cache.c
 mail/mail-mt.c
 mail/mail-ops.c
@@ -261,7 +261,7 @@ plugins/bbdb/bbdb.c
 plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml
 plugins/calendar-file/org-gnome-calendar-file.eplug.xml
 plugins/calendar-http/calendar-http.c
-plugins/calendar-file/org-gnome-calendar-http.eplug.xml
+plugins/calendar-http/org-gnome-calendar-http.eplug.xml
 plugins/calendar-weather/calendar-weather.c
 plugins/calendar-weather/org-gnome-calendar-weather.eplug.xml
 plugins/copy-tool/org-gnome-copy-tool.eplug.xml
@@ -281,7 +281,7 @@ plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml
 plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml
 plugins/mail-to-meeting/org-gnome-mail-to-meeting.eplug.xml
 plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml
-plugins/mark-calendar-offline/org-mark-calendar-offline.eplug.xml
+plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml
 plugins/new-mail-notify/new-mail-notify.c
 plugins/new-mail-notify/org-gnome-new-mail-notify.eplug.xml
 plugins/plugin-manager/org-gnome-plugin-manager.eplug.xml
