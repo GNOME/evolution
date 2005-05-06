@@ -1,3 +1,9 @@
+2005-05-06  Chenthill Palanisamy  <pchenthill@novell.com>
+	
+	Fixes #301459
+	* e-shell-importer.c: Correct the typo error and made
+	the sentence more clear.
+
 2005-05-02  JP Rosevear  <jpr@novell.com>
 
 	* Evolution.idl: remove Evolution-common.idl

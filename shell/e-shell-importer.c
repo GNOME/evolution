@@ -160,8 +160,8 @@ static struct {
 	},
 	{ "nodata_html",
 	  N_("Evolution checked for settings to import from the following\n"
-	     "applications: Pine, Netscape, Elm, iCalendar. No settings\n"
-	     "that could be imported where found. If you would like to\n"
+	     "applications: Pine, Netscape, Elm, iCalendar. No importable\n"
+	     "settings found. If you would like to\n"
 	     "try again, please click the \"Back\" button.\n")
 	}
 };
