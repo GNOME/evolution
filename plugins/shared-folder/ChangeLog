@@ -1,3 +1,7 @@
+2005-05-05  Srinivasa Ragavan <sragavan@novell.com>
+
+	* properties.glade : Fixed a typo 272538
+	
 2005-05-06  Sarfraaz Ahmed <asarfraaz@novell.com>
 
 	* properties.glade : Fixed a typo #273064
