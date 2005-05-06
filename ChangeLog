@@ -1,3 +1,9 @@
+2005-05-06  Not Zed  <NotZed@Ximian.com>
+
+	* plugin.mk: changed .eplug rule to also convert i18n tags if it
+	ends in xml.  Also convert .error.xml into .error converting i18n
+	tags.
+
 2005-05-06	Srinivasa Ragavan <sragavan@novell.com>
 
 	* addressbook/gui/component/ldap-config.glade: Changed string 'login'
