@@ -1,3 +1,7 @@
+2005-05-06  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* read_receipts/read.glade: Corrected the spelling for receipt.
+
 2003-01-15  Anna Marie Dirks  <anna@ximian.com>
 
 	* OOA/Comments: Added this file to store discussion of OOA designs

@@ -259,7 +259,7 @@ sent is read, and to specify what Evolution should do when someone requests a re
 		    <widget class="GtkRadioButton" id="radiobutton13">
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
-		      <property name="label" translatable="yes">Always send back a read reciept</property>
+		      <property name="label" translatable="yes">Always send back a read receipt</property>
 		      <property name="use_underline">True</property>
 		      <property name="relief">GTK_RELIEF_NORMAL</property>
 		      <property name="active">False</property>
