@@ -1,3 +1,8 @@
+2005-05-06  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #301459
+	* evolution-message-composer.xml: Fixed the typo error.
+
 2005-04-08  Not Zed  <NotZed@Ximian.com>
 
 	* evolution-message-composer.xml: change the label to "Request

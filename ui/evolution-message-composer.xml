@@ -75,7 +75,7 @@
 		type="toggle" state="0" hidden="1"/>
 		
                 <cmd name="SecuritySMimeEncrypt" _label="S/MIME Encrypt" 
-                _tip="Encrypt this message with your S/MIME Encryption Cetificate"
+                _tip="Encrypt this message with your S/MIME Encryption Certificate"
 		type="toggle" state="0" hidden="1"/>
 
 	</commands>
