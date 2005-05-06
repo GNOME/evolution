@@ -1521,7 +1521,7 @@ et_real_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 
 	e_table->use_click_to_add = specification->click_to_add;
 	e_table->use_click_to_add_end = specification->click_to_add_end;
-	e_table->click_to_add_message = g_strdup (dgettext (e_table->domain, specification->click_to_add_message));
+	e_table->click_to_add_message = specification->click_to_add_message ? g_strdup (dgettext (e_table->domain, specification->click_to_add_message)) : NULL;
 	e_table->alternating_row_colors = specification->alternating_row_colors;
 	e_table->horizontal_draw_grid = specification->horizontal_draw_grid;
 	e_table->vertical_draw_grid = specification->vertical_draw_grid;
