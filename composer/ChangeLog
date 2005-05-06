@@ -1,3 +1,8 @@
+2005-05-06  Rodney Dawes  <dobey@novell.com>
+
+	* e-msg-composer-select-file.c (get_selector): Use "Attach" as the
+	text for the "Open" action button in the file chooser
+
 2005-05-06  Not Zed  <NotZed@Ximian.com>
 
 	* mail.error.xml: renamed from mail-errors.xml, add i18n tags, fix
