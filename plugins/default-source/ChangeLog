@@ -1,3 +1,8 @@
+2005-05-06  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* default-source.c: (org_gnome_default_book): Removed the extra
+	space in "Mark  as default folder".
+
 2005-02-24  Björn Torkelsson  <torkel@acc.umu.se>
 
 	* org-gnome-default-source.eplug.in: Added author and description.

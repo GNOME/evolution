@@ -79,7 +79,7 @@ org_gnome_default_book (EPlugin *epl, EConfigHookItemFactoryData *data)
  
 	if (data->old)
 		return data->old;
-	widget = gtk_check_button_new_with_label (_("Mark  as default folder"));
+	widget = gtk_check_button_new_with_label (_("Mark as default folder"));
 	book_target = (EABConfigTargetSource *) data->target;
 	source = book_target->source;
     
