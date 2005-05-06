@@ -3486,7 +3486,7 @@ e_day_view_on_top_canvas_motion (GtkWidget *widget,
 		cursor = day_view->normal_cursor;
 
 		/* Recurring events can't be resized. */
-		if (event && !e_cal_util_component_has_recurrences (event->comp_data->icalcomp))  {
+		if (event && !e_cal_util_component_has_recurrences (event->comp_data->icalcomp)) {
 			switch (pos) {
 			case E_CALENDAR_VIEW_POS_LEFT_EDGE:
 			case E_CALENDAR_VIEW_POS_RIGHT_EDGE:
@@ -3854,16 +3854,37 @@ e_day_view_finish_long_event_resize (EDayView *day_view)
 		e_cal_component_set_dtend (comp, &date);
 	}
 	
+	e_cal_component_commit_sequence (comp);
  	if (e_cal_component_is_instance (comp)) {
  		if (!recur_component_dialog (client, comp, &mod, NULL)) {
  			gtk_widget_queue_draw (day_view->top_canvas);
 			goto out;
  		}
+
+		if (mod == CALOBJ_MOD_THIS) {
+			/* set the correct DTSTART/DTEND on the individual recurrence */
+			if (day_view->resize_drag_pos == E_CALENDAR_VIEW_POS_TOP_EDGE) {
+				*date.value = icaltime_from_timet_with_zone (
+					event->comp_data->instance_end, FALSE,
+					e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
+				e_cal_component_set_dtend (comp, &date);
+			} else {
+				*date.value = icaltime_from_timet_with_zone (
+					event->comp_data->instance_start, FALSE,
+					e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
+				e_cal_component_set_dtstart (comp, &date);
+			}
+
+			e_cal_component_set_rdate_list (comp, NULL);
+			e_cal_component_set_rrule_list (comp, NULL);
+			e_cal_component_set_exdate_list (comp, NULL);
+			e_cal_component_set_exrule_list (comp, NULL);
+
+			e_cal_component_commit_sequence (comp);
+		}
 	}
 	
 	toplevel = GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (day_view)));
-	
-	e_cal_component_commit_sequence (comp);
 	e_calendar_view_modify_and_send (comp, client, mod, toplevel, TRUE);
 	
  out:
@@ -3945,6 +3966,26 @@ e_day_view_finish_resize (EDayView *day_view)
  			gtk_widget_queue_draw (day_view->top_canvas);
 			goto out;
  		}
+
+		if (mod == CALOBJ_MOD_THIS) {
+			/* set the correct DTSTART/DTEND on the individual recurrence */
+			if (day_view->resize_drag_pos == E_CALENDAR_VIEW_POS_TOP_EDGE) {
+				*date.value = icaltime_from_timet_with_zone (
+					event->comp_data->instance_end, FALSE,
+					e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
+				e_cal_component_set_dtend (comp, &date);
+			} else {
+				*date.value = icaltime_from_timet_with_zone (
+					event->comp_data->instance_start, FALSE,
+					e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
+				e_cal_component_set_dtstart (comp, &date);
+			}
+
+			e_cal_component_set_rdate_list (comp, NULL);
+			e_cal_component_set_rrule_list (comp, NULL);
+			e_cal_component_set_exdate_list (comp, NULL);
+			e_cal_component_set_exrule_list (comp, NULL);
+		}
 	}
 	
 	toplevel = GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (day_view)));
@@ -4281,7 +4322,7 @@ e_day_view_reshape_long_event (EDayView *day_view,
 
 		if (e_cal_component_has_alarms (comp))
 			num_icons++;
-		if (e_cal_component_has_recurrences (comp))
+		if (e_cal_component_has_recurrences (comp) || e_cal_component_is_instance (comp))
 			num_icons++;
 		if (event->different_timezone)
 			num_icons++;
@@ -4451,7 +4492,7 @@ e_day_view_reshape_day_event (EDayView *day_view,
 
 			if (e_cal_component_has_alarms (comp))
 				num_icons++;
-			if (e_cal_component_has_recurrences (comp))
+			if (e_cal_component_has_recurrences (comp) || e_cal_component_is_instance (comp))
 				num_icons++;
 			if (e_cal_component_has_attachments (comp))
 				num_icons++;
@@ -5820,6 +5861,13 @@ e_day_view_change_event_time (EDayView *day_view, time_t start_dt, time_t end_dt
  			gtk_widget_queue_draw (day_view->top_canvas);
 			goto out;
  		}
+
+		if (mod == CALOBJ_MOD_THIS) {
+			e_cal_component_set_rdate_list (comp, NULL);
+			e_cal_component_set_rrule_list (comp, NULL);
+			e_cal_component_set_exdate_list (comp, NULL);
+			e_cal_component_set_exrule_list (comp, NULL);
+		}
 	}
 	
 	toplevel = GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (day_view)));
@@ -6034,6 +6082,45 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 			if (e_cal_component_is_instance (comp)) {
 				if (!recur_component_dialog (client, comp, &mod, NULL)) {
 					goto out;
+				}
+
+				if (mod == CALOBJ_MOD_THIS) {
+					ECalComponentDateTime dt;
+
+					e_cal_component_get_dtstart (comp, &dt);
+					if (dt.value->zone) {
+						*dt.value = icaltime_from_timet_with_zone (
+							event->comp_data->instance_start,
+							dt.value->is_date,
+							dt.value->zone);
+					} else {
+						*dt.value = icaltime_from_timet_with_zone (
+							event->comp_data->instance_start,
+							dt.value->is_date,
+							e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
+					}
+					e_cal_component_set_dtstart (comp, &dt);
+
+					e_cal_component_get_dtend (comp, &dt);
+					if (dt.value->zone) {
+						*dt.value = icaltime_from_timet_with_zone (
+							event->comp_data->instance_end,
+							dt.value->is_date,
+							dt.value->zone);
+					} else {
+						*dt.value = icaltime_from_timet_with_zone (
+							event->comp_data->instance_end,
+							dt.value->is_date,
+							e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
+					}
+					e_cal_component_set_dtend (comp, &dt);
+
+					e_cal_component_set_rdate_list (comp, NULL);
+					e_cal_component_set_rrule_list (comp, NULL);
+					e_cal_component_set_exdate_list (comp, NULL);
+					e_cal_component_set_exrule_list (comp, NULL);
+
+					e_cal_component_commit_sequence (comp);
 				}
 			}
 			
@@ -6997,9 +7084,7 @@ e_day_view_on_drag_data_get (GtkWidget          *widget,
 
 		vcal = e_cal_util_new_top_level ();
 		e_cal_util_add_timezones_from_component (vcal, event->comp_data->icalcomp);
-		icalcomponent_add_component (
-			vcal,
-			icalcomponent_new_clone (event->comp_data->icalcomp));
+		icalcomponent_add_component (vcal, icalcomponent_new_clone (event->comp_data->icalcomp));
 
 		comp_str = icalcomponent_as_ical_string (vcal);
 		if (comp_str) {
@@ -7136,14 +7221,20 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 			if (event->canvas_item)
 				gnome_canvas_item_show (event->canvas_item);
 
+			e_cal_component_commit_sequence (comp);
 			if (e_cal_component_is_instance (comp)) {
 				if (!recur_component_dialog (client, comp, &mod, NULL))
 					return;
+
+				if (mod == CALOBJ_MOD_THIS) {
+					e_cal_component_set_rdate_list (comp, NULL);
+					e_cal_component_set_rrule_list (comp, NULL);
+					e_cal_component_set_exdate_list (comp, NULL);
+					e_cal_component_set_exrule_list (comp, NULL);
+				}
 			}
 
 			toplevel = GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (day_view)));
-			e_cal_component_commit_sequence (comp);
-	
 			e_calendar_view_modify_and_send (comp, client, mod, toplevel, FALSE);
 			
 			g_object_unref (comp);
@@ -7325,16 +7416,22 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 			if (event->canvas_item)
 				gnome_canvas_item_show (event->canvas_item);
 
+			e_cal_component_commit_sequence (comp);
 			if (e_cal_component_is_instance (comp)) {
 				if (!recur_component_dialog (client, comp, &mod, NULL)) {
 					g_object_unref (comp);
 					return;
 				}
+
+				if (mod == CALOBJ_MOD_THIS) {
+					e_cal_component_set_rdate_list (comp, NULL);
+					e_cal_component_set_rrule_list (comp, NULL);
+					e_cal_component_set_exdate_list (comp, NULL);
+					e_cal_component_set_exrule_list (comp, NULL);
+				}
 			}
 
 			toplevel = GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (day_view)));
-			e_cal_component_commit_sequence (comp);
-	
 			e_calendar_view_modify_and_send (comp, client, mod, toplevel, FALSE);
 
 			g_object_unref (comp);

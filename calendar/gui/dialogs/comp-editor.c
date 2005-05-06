@@ -650,6 +650,12 @@ save_comp (CompEditor *editor)
 	if (!cal_comp_is_on_server (priv->comp, priv->client)) {
 		result = e_cal_create_object (priv->client, icalcomp, NULL, &error);
 	} else {
+		if (priv->mod == CALOBJ_MOD_THIS) {
+			e_cal_component_set_rdate_list (priv->comp, NULL);
+			e_cal_component_set_rrule_list (priv->comp, NULL);
+			e_cal_component_set_exdate_list (priv->comp, NULL);
+			e_cal_component_set_exrule_list (priv->comp, NULL);
+		}
 		result = e_cal_modify_object (priv->client, icalcomp, priv->mod, &error);
 	}
 
@@ -1830,7 +1836,7 @@ real_send_comp (CompEditor *editor, ECalComponentItipMethod method)
 
 	comp_editor_set_changed (editor, TRUE);
 	
-	return FALSE;	
+	return FALSE;
 
 }
 

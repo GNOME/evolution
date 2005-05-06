@@ -670,7 +670,21 @@ e_calendar_view_cut_clipboard (ECalendarView *cal_view)
 					event->comp_data->client, NULL, NULL);
 
 		e_cal_component_get_uid (comp, &uid);
-		e_cal_remove_object (event->comp_data->client, uid, &error);
+		if (e_cal_component_is_instance (comp)) {
+			const char *rid;
+			icalcomponent *icalcomp;
+
+			/* when cutting detached instances, only cut that instance */
+			rid = e_cal_component_get_recurid_as_string (comp);
+			if (e_cal_get_object (event->comp_data->client, uid, rid, &icalcomp, NULL)) {
+				e_cal_remove_object_with_mod (event->comp_data->client, uid,
+							      rid, CALOBJ_MOD_THIS,
+							      &error);
+				icalcomponent_free (icalcomp);
+			} else
+				e_cal_remove_object (event->comp_data->client, uid, &error);
+		} else
+			e_cal_remove_object (event->comp_data->client, uid, &error);
 		delete_error_dialog (error, E_CAL_COMPONENT_EVENT);
 
 		g_clear_error (&error);
@@ -711,6 +725,15 @@ e_calendar_view_copy_clipboard (ECalendarView *cal_view)
 		event = (ECalendarViewEvent *) l->data;
 
 		new_icalcomp = icalcomponent_new_clone (event->comp_data->icalcomp);
+
+		/* remove RECURRENCE-IDs from copied objects */
+		if (e_cal_util_component_is_instance (new_icalcomp)) {
+			icalproperty *prop;
+
+			prop = icalcomponent_get_first_property (new_icalcomp, ICAL_RECURRENCEID_PROPERTY);
+			if (prop)
+				icalcomponent_remove_property (new_icalcomp, prop);
+		}
 		icalcomponent_add_component (vcal_comp, new_icalcomp);
 	}
 
@@ -885,6 +908,9 @@ e_calendar_view_delete_selected_occurrence (ECalendarView *cal_view)
 	const char *uid, *rid = NULL;
 	GError *error = NULL;
 	ECalComponent *comp;
+	struct icaltimetype itt;
+	ECalComponentDateTime dt;
+	icaltimezone *zone;
 		
 	selected = e_calendar_view_get_selected_events (cal_view);
 	if (!selected)
@@ -895,27 +921,17 @@ e_calendar_view_delete_selected_occurrence (ECalendarView *cal_view)
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
 	e_cal_component_get_uid (comp, &uid);
-	if (e_cal_component_is_instance (comp))
-		rid = e_cal_component_get_recurid_as_string (comp);
-	else {
-		ECalComponentDateTime dt;
-		icaltimezone *zone;
 
-		if (!e_cal_component_has_recurrences (comp)) {
-			g_object_unref (comp);
-			return;
-		}
+	e_cal_component_get_dtstart (comp, &dt);
+	e_cal_get_timezone (event->comp_data->client, dt.tzid, &zone, NULL);
 
-		/* get the RECUR-ID from the instance start date */
-		e_cal_component_get_dtstart (comp, &dt);
-		if (e_cal_get_timezone (event->comp_data->client, dt.tzid, &zone, NULL)) {
-			rid = icaltime_as_ical_string (
-				icaltime_from_timet_with_zone (event->comp_data->instance_start, TRUE, zone));
-		} else
-			rid = icaltime_as_ical_string (icaltime_from_timet (event->comp_data->instance_start, TRUE));
+	if (zone)
+		itt = icaltime_from_timet_with_zone (event->comp_data->instance_start, TRUE, zone);
+	else
+		itt = icaltime_from_timet (event->comp_data->instance_start, TRUE);
+	rid = icaltime_as_ical_string (itt);
 
-		e_cal_component_free_datetime (&dt);
-	}
+	e_cal_component_free_datetime (&dt);
 
 	if (rid) {
 		if (delete_component_dialog (comp, FALSE, 1, e_cal_component_get_vtype (comp), GTK_WIDGET (cal_view))) {
@@ -1275,6 +1291,7 @@ on_unrecur_appointment (EPopup *ep, EPopupItem *pitem, void *data)
 	GList *selected;
 	ECal *client;
 	char *new_uid;
+	icalproperty *prop;
 
 	selected = e_calendar_view_get_selected_events (cal_view);
 	if (!selected)
@@ -1300,6 +1317,9 @@ on_unrecur_appointment (EPopup *ep, EPopupItem *pitem, void *data)
 	   the start & end times to the instances times. */
 	new_comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (new_comp, icalcomponent_new_clone (event->comp_data->icalcomp));
+	if ((prop = icalcomponent_get_first_property (e_cal_component_get_icalcomponent (new_comp),
+						      ICAL_RECURRENCEID_PROPERTY)))
+		icalcomponent_remove_property (e_cal_component_get_icalcomponent (new_comp), prop);
 	new_uid = e_cal_component_gen_uid ();
 	e_cal_component_set_uid (new_comp, new_uid);
 	g_free (new_uid);

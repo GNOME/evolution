@@ -1,3 +1,44 @@
+2005-05-06  Rodrigo Moya <rodrigo@novell.com>
+
+	Fixes #271679
+
+	* gui/dialogs/comp-editor.c (save_comp):
+	* gui/e-week-view.c (e_week_view_on_editing_stopped,
+	e_week_view_change_event_time): set correct start/end times for
+	individual instances and remove all rules and exceptions.
+	(e_week_view_reshape_event_span): show recurrence icons for
+	detached instances also.
+
+	* gui/e-day-view.c (e_day_view_finish_resize,
+	e_day_view_finish_long_event_resize, e_day_view_on_editing_stopped,
+	e_day_view_on_top_canvas_drag_data_received,
+	e_day_view_on_main_canvas_drag_data_received,
+	e_day_view_change_event_time): set the correct start/end times when
+	modifying individual instances and remove all rules and exceptions.
+	(e_day_view_on_top_canvas_motion, e_day_view_on_main_canvas_motion):
+	disable D&D for recurring events.
+	(e_day_view_reshape_long_event, e_day_view_reshape_day_event):
+	check for detached instances and show recurrence icons for them also.
+
+	* gui/e-week-view-event-item.c (e_week_view_event_item_draw_icons):
+	* gui/e-day-view-top-item.c (e_day_view_top_item_draw_long_event):
+	* gui/e-day-view-main-item.c (e_day_view_main_item_draw_day_event):
+	check for detached instances and show recurrence icons for them also.
+
+	* gui/e-cal-model.c (set_instance_times): don't use the RECURRENCE-ID
+	to get the datetime.
+
+	* gui/e-calendar-view.c (e_calendar_view_delete_selected_occurrence):
+	exceptions need to be date only.
+	(e_calendar_view_copy_clipboard): remove RECURRENCE-IDs from components
+	we copy to the clipboard.
+	(e_calendar_view_cut_clipboard): when cutting instances, remove only
+	the selected instances.
+	(on_unrecur_appointment): use MOD_ALL to modify the master object and
+	remove recurrence-id from detached event.
+
+	* gui/dialogs/recur-comp.c (recur_component_dialog): re-enabled.
+
 2005-05-05  Rodrigo Moya <rodrigo@novell.com>
 
 	* gui/dialogs/event-page.c:

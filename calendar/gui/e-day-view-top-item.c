@@ -522,7 +522,7 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 	icon_y = item_y + E_DAY_VIEW_LONG_EVENT_BORDER_HEIGHT
 		+ E_DAY_VIEW_ICON_Y_PAD - y;
 
-	if (icon_x <= max_icon_x && e_cal_component_has_recurrences (comp)) {
+	if (icon_x <= max_icon_x && (e_cal_component_has_recurrences (comp) || e_cal_component_is_instance (comp))) {
 		gdk_gc_set_clip_mask (gc, NULL);
 		gdk_draw_pixbuf (drawable, gc,
 				 day_view->recurrence_icon,

@@ -2581,7 +2581,7 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 
 		if (e_cal_component_has_alarms (comp))
 			num_icons++;
-		if (e_cal_component_has_recurrences (comp))
+		if (e_cal_component_has_recurrences (comp) || e_cal_component_is_instance (comp))
 			num_icons++;
 		if (e_cal_component_has_attachments (comp))
 			num_icons++;
@@ -3193,6 +3193,13 @@ e_week_view_change_event_time (EWeekView *week_view, time_t start_dt, time_t end
  			gtk_widget_queue_draw (week_view->main_canvas);
 			goto out;
  		}
+
+		if (mod == CALOBJ_MOD_THIS) {
+			e_cal_component_set_rdate_list (comp, NULL);
+			e_cal_component_set_rrule_list (comp, NULL);
+			e_cal_component_set_exdate_list (comp, NULL);
+			e_cal_component_set_exrule_list (comp, NULL);
+		}
 	}
 	
 	toplevel = GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (week_view)));
@@ -3319,6 +3326,45 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 			if (e_cal_component_is_instance (comp)) {
 				if (!recur_component_dialog (client, comp, &mod, NULL)) {
 					goto out;
+				}
+
+				if (mod == CALOBJ_MOD_THIS) {
+					ECalComponentDateTime dt;
+
+					e_cal_component_get_dtstart (comp, &dt);
+					if (dt.value->zone) {
+						*dt.value = icaltime_from_timet_with_zone (
+							event->comp_data->instance_start,
+							dt.value->is_date,
+							dt.value->zone);
+					} else {
+						*dt.value = icaltime_from_timet_with_zone (
+							event->comp_data->instance_start,
+							dt.value->is_date,
+							e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
+					}
+					e_cal_component_set_dtstart (comp, &dt);
+
+					e_cal_component_get_dtend (comp, &dt);
+					if (dt.value->zone) {
+						*dt.value = icaltime_from_timet_with_zone (
+							event->comp_data->instance_end,
+							dt.value->is_date,
+							dt.value->zone);
+					} else {
+						*dt.value = icaltime_from_timet_with_zone (
+							event->comp_data->instance_end,
+							dt.value->is_date,
+							e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
+					}
+					e_cal_component_set_dtend (comp, &dt);
+
+					e_cal_component_set_rdate_list (comp, NULL);
+					e_cal_component_set_rrule_list (comp, NULL);
+					e_cal_component_set_exdate_list (comp, NULL);
+					e_cal_component_set_exrule_list (comp, NULL);
+
+					e_cal_component_commit_sequence (comp);
 				}
 			}
 			

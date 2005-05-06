@@ -615,7 +615,7 @@ e_week_view_event_item_draw_icons (EWeekViewEventItem *wveitem,
 		num_icons++;
 	}
 
-	if (e_cal_component_has_recurrences (comp)) {
+	if (e_cal_component_has_recurrences (comp) || e_cal_component_is_instance (comp)) {
 		draw_recurrence_icon = TRUE;
 		num_icons++;
 	}
