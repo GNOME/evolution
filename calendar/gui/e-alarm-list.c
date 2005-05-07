@@ -471,14 +471,20 @@ get_alarm_string (ECalComponentAlarm *alarm)
 
 		if (dur) {
 			if (trigger.u.rel_duration.is_neg)
-				str = g_strdup_printf (_("%s %s before the start of the appointment"),
+				/*Translator: The first %s refers to the base, which would be actions like 
+				 * "Play a Sound". Second %s refers to the duration string e.g:"15 minutes"*/
+				 str = g_strdup_printf (_("%s %s before the start of the appointment"),
 						       base, dur);
 			else
+				/*Translator: The first %s refers to the base, which would be actions like 
+				 * "Play a Sound". Second %s refers to the duration string e.g:"15 minutes"*/
 				str = g_strdup_printf (_("%s %s after the start of the appointment"),
 						       base, dur);
 
 			g_free (dur);
 		} else
+			/*Translator: The %s refers to the base, which would be actions like 
+			 * "Play a sound" */ 
 			str = g_strdup_printf (_("%s at the start of the appointment"), base);
 
 		break;

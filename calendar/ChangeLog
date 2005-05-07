@@ -1,3 +1,9 @@
+2005-05-06  Vivek Jain <jvivek@novell.com>
+	
+	**Fixes #261079
+	* gui/e-alarm-list.c:(get_alarm_string)
+	 Added translator comments.
+
 2005-05-06  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* gui/apps_evolution_calendar.schemas.in.in: Fixing a 
