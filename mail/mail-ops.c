@@ -550,21 +550,6 @@ mail_send_message(CamelFolder *queue, const char *uid, const char *destination, 
 	/* post process */
 	mail_tool_restore_xevolution_headers (message, xev);
 	
-	if (sent_folder_uri) {
-		folder = mail_tool_uri_to_folder (sent_folder_uri, 0, ex);
-		if (camel_exception_is_set(ex)) {
-			g_string_append_printf (err, _("Failed to append to %s: %s\n"
-						       "Appending to local `Sent' folder instead."),
-						sent_folder_uri, camel_exception_get_description (ex));
-			camel_exception_clear (ex);
-		}
-	}
-	
-	if (!folder) {
-		folder = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_SENT);	
-		camel_object_ref(folder);
-	}
-	
 	if (driver) {
 		camel_filter_driver_filter_message (driver, message, info,
 						    NULL, NULL, NULL, "", ex);
@@ -580,46 +565,65 @@ mail_send_message(CamelFolder *queue, const char *uid, const char *destination, 
 	}
 	
 	camel_exception_clear (ex);
-	camel_folder_append_message (folder, message, info, NULL, ex);
-	if (camel_exception_is_set (ex)) {
-		CamelFolder *sent_folder;
 
-		if (camel_exception_get_id (ex) == CAMEL_EXCEPTION_USER_CANCEL)
-			goto exit;
-
-		sent_folder = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_SENT);
-
-		if (folder != sent_folder) {
-			const char *name;
-			
-			camel_object_get (folder, NULL, CAMEL_OBJECT_DESCRIPTION, (char **) &name, 0);
-			if (err->len)
-				g_string_append(err, "\n\n");
-			g_string_append_printf (err, _("Failed to append to %s: %s\n"
-						"Appending to local `Sent' folder instead."),
-						name, camel_exception_get_description (ex));
-			camel_object_ref (sent_folder);
-			camel_object_unref (folder);
-			folder = sent_folder;
-
-			camel_exception_clear (ex);
-			camel_folder_append_message (folder, message, info, NULL, ex);
+	if (!( ((CamelService *)xport)->provider->flags & CAMEL_PROVIDER_DISABLE_SENT_FOLDER)) {	
+		if (sent_folder_uri) {
+			folder = mail_tool_uri_to_folder (sent_folder_uri, 0, ex);
+			if (camel_exception_is_set(ex)) {
+				g_string_append_printf (err, _("Failed to append to %s: %s\n"
+							"Appending to local `Sent' folder instead."),
+						sent_folder_uri, camel_exception_get_description (ex));
+				camel_exception_clear (ex);
+			}
 		}
 
+		if (!folder) {
+			folder = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_SENT);	
+			camel_object_ref(folder);
+		}
+
+
+
+		camel_folder_append_message (folder, message, info, NULL, ex);
 		if (camel_exception_is_set (ex)) {
+			CamelFolder *sent_folder;
+
 			if (camel_exception_get_id (ex) == CAMEL_EXCEPTION_USER_CANCEL)
 				goto exit;
 
-			if (err->len)
-				g_string_append(err, "\n\n");
-			g_string_append_printf (err, _("Failed to append to local `Sent' folder: %s"),
+			sent_folder = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_SENT);
+
+			if (folder != sent_folder) {
+				const char *name;
+
+				camel_object_get (folder, NULL, CAMEL_OBJECT_DESCRIPTION, (char **) &name, 0);
+				if (err->len)
+					g_string_append(err, "\n\n");
+				g_string_append_printf (err, _("Failed to append to %s: %s\n"
+							"Appending to local `Sent' folder instead."),
+						name, camel_exception_get_description (ex));
+				camel_object_ref (sent_folder);
+				camel_object_unref (folder);
+				folder = sent_folder;
+
+				camel_exception_clear (ex);
+				camel_folder_append_message (folder, message, info, NULL, ex);
+			}
+
+			if (camel_exception_is_set (ex)) {
+				if (camel_exception_get_id (ex) == CAMEL_EXCEPTION_USER_CANCEL)
+					goto exit;
+
+				if (err->len)
+					g_string_append(err, "\n\n");
+				g_string_append_printf (err, _("Failed to append to local `Sent' folder: %s"),
 						camel_exception_get_description (ex));
+			}
 		}
 	}
-
 	if (!camel_exception_is_set(ex))
 		camel_folder_set_message_flags (queue, uid, CAMEL_MESSAGE_DELETED|CAMEL_MESSAGE_SEEN, ~0);
-	
+
 	if (err->len) {
 		/* set the culmulative exception report */
 		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, err->str);
