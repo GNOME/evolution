@@ -311,23 +311,35 @@ eab_editor_get_all_editors (void)
 }
 
 gboolean
-eab_editor_confirm_delete (GtkWindow *parent)
+eab_editor_confirm_delete (GtkWindow *parent, gboolean plural, gboolean is_list, char *name)
 {
 	GtkWidget *dialog;
 	gint result;
+	char *msg;
+
+	if (is_list) {
+		/* contact list(s) */
+		if (!plural)
+			msg = g_strdup_printf (_("Are you sure you want\nto delete contact list (%s) ?"), 
+						name);
+		else
+			msg = g_strdup (_("Are you sure you want\nto delete these contact lists?"));
+	}
+	else {
+		/* contact(s) */ 
+		if (!plural)
+			msg = g_strdup_printf (_("Are you sure you want\nto delete contact (%s) ?"),
+						name);
+		else
+			msg = g_strdup (_("Are you sure you want\nto delete these contacts?"));
+	}
 
 	dialog = gtk_message_dialog_new (parent,
 					 0,
 					 GTK_MESSAGE_QUESTION,
 					 GTK_BUTTONS_NONE,
-#if notyet
-					 /* XXX we really need to handle the plural case here.. */
-					 (plural
-					  ? _("Are you sure you want\n"
-					      "to delete these contacts?"))
-#endif
-					  _("Are you sure you want\n"
-					    "to delete this contact?"));
+					 msg);
+	g_free (msg);
 
 	gtk_dialog_add_buttons (GTK_DIALOG (dialog),
 				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,

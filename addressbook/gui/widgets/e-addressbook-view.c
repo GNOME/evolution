@@ -1854,11 +1854,27 @@ void
 eab_view_delete_selection(EABView *view)
 {
 	GList *list, *l;
+	gboolean plural = FALSE, is_list = FALSE;
+	EContact *contact;
+	char *name = NULL;
 
-	if (!eab_editor_confirm_delete(GTK_WINDOW(gtk_widget_get_toplevel(view->widget))))
+	list = get_selected_contacts (view);
+	contact = list->data;
+
+	if (g_list_next(list))
+		plural = TRUE;
+	else
+		name = e_contact_get (contact, E_CONTACT_FILE_AS);
+
+	if (e_contact_get (contact, E_CONTACT_IS_LIST))
+		is_list = TRUE;
+
+	if (!eab_editor_confirm_delete(GTK_WINDOW(gtk_widget_get_toplevel(view->widget)),
+				       plural, is_list, name)) {
+		g_free (name);
 		return;
+	}
 
-	list = get_selected_contacts(view);
 	if (e_book_check_static_capability (view->book, "bulk-remove")) {
 		GList *ids = NULL;
 

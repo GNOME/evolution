@@ -1,3 +1,14 @@
+2005-05-09  Sushma Rai  <rsushma@novell.com>
+
+	* gui/widgets/e-addressbook-view.c (eab_view_delete_selection): Checking
+	if single or multiple contacts/contact lists are being deleted. Also
+	finding the name, if the single contact/contact list is being deleted. 
+
+	* gui/contact-editor/eab-editor.c (eab_editor_confirm_delete): Forming
+	the display messages based on the contact/contact list and number of
+	contacts/contact lists being deleted. 
+	Fixes #222599
+
 2005-05-06  Chenthill Palanisamy  <pchenthill@novell.com>
 	
 	Fixes #301459
