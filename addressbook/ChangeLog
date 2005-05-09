@@ -1,5 +1,17 @@
 2005-05-09  Sushma Rai  <rsushma@novell.com>
 
+	* gui/widgets/eab-gui-util.c (eab_contact_save)(eab_contact_list_save):
+	Finding if multiple contacts or a single contact has been selected for
+	saving, and storing it in SaveAsInfo structure.
+	(save_it): Depending on selected contacts, forming a part of error
+	message. 
+
+	* addressbook-errors.xml: Changed the save-error message, to read
+	string contact/contacts.
+	Fixes #261969.
+
+2005-05-09  Sushma Rai  <rsushma@novell.com>
+
 	* gui/widgets/e-addressbook-view.c (eab_view_delete_selection): Checking
 	if single or multiple contacts/contact lists are being deleted. Also
 	finding the name, if the single contact/contact list is being deleted. 

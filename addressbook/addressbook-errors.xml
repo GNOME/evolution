@@ -75,8 +75,8 @@
  </error>
 
  <error id="save-error" type="error">
-  <primary>Unable to save contact(s).</primary>
-  <secondary>Error saving contacts to {0}: {1}</secondary>
+  <primary>Unable to save {0}.</primary>
+  <secondary>Error saving {0} to {1}: {2}</secondary>
  </error>
 
  <error id="backend-died" type="error">

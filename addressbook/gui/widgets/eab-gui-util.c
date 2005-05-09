@@ -323,6 +323,7 @@ file_exists(GtkWindow *window, const char *filename)
 typedef struct {
 	GtkWidget *filesel;
 	char *vcard;
+	gboolean has_multiple_contacts; 
 } SaveAsInfo;
 
 static void
@@ -351,7 +352,23 @@ save_it(GtkWidget *widget, SaveAsInfo *info)
 				return;
 		}
 	} else if (error != 0) {
-		e_error_run (GTK_WINDOW (info->filesel), "addressbook:save-error", filename, g_strerror (errno));
+		char *err_str_ext;
+		if (info->has_multiple_contacts) {
+			/* more than one, finding the total number of contacts might
+			 * hit performance while saving large number of contacts 
+			 */
+			err_str_ext = ngettext ("contact", "contacts", 2);
+		}
+		else {
+			err_str_ext = ngettext ("contact", "contacts", 1);
+		}
+
+		/* translators: Arguments, err_str_ext (item to be saved: "contact"/"contacts"), 
+		 * destination file name, and error code will fill the placeholders 
+		 * {0}, {1} and {2}, respectively in the error message formed 
+		 */
+		e_error_run (GTK_WINDOW (info->filesel), "addressbook:save-error", 
+					 err_str_ext, filename, g_strerror (errno));
 		return;
 	}
 	
@@ -479,6 +496,8 @@ eab_contact_save (char *title, EContact *contact, GtkWindow *parent_window)
 	name = e_contact_get (contact, E_CONTACT_FILE_AS);
 	file = make_safe_filename (name);
 
+	info->has_multiple_contacts = FALSE;
+
 #ifdef USE_GTKFILECHOOSER
 	filesel = gtk_file_chooser_dialog_new (title,
 					       parent_window,
@@ -542,6 +561,12 @@ eab_contact_list_save (char *title, GList *list, GtkWindow *parent_window)
 #else
 	filesel = gtk_file_selection_new(title);
 #endif
+
+	/* Check if the list has more than one contact */
+	if (g_list_next (list))
+		info->has_multiple_contacts = TRUE;
+	else
+		info->has_multiple_contacts = FALSE;
 
 	/* This is a filename. Translators take note. */
 	if (list && list->data && list->next == NULL) {
