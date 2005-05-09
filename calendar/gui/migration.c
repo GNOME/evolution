@@ -325,7 +325,7 @@ migrate_ical_folder_to_source (char *old_path, ESource *new_source, ECalSourceTy
 		g_warning ("could not find a backend for '%s'", e_source_get_uri (old_source));
 		goto finish;
 	}
-	if (!e_cal_open (old_ecal, TRUE, &error)) {
+	if (!e_cal_open (old_ecal, FALSE, &error)) {
 		g_warning ("failed to load source ecal for migration: '%s' (%s)", error->message,
 			   e_source_get_uri (old_source));
 		goto finish;
