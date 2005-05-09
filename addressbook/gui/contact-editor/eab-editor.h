@@ -90,7 +90,7 @@ gboolean        eab_editor_is_changed        (EABEditor *editor);
 GtkWindow*      eab_editor_get_window        (EABEditor *editor);
 
 gboolean        eab_editor_prompt_to_save_changes (EABEditor *editor, GtkWindow *window);
-gboolean        eab_editor_confirm_delete    (GtkWindow *parent);
+gboolean	eab_editor_confirm_delete    (GtkWindow *parent, gboolean plural, gboolean is_list, char *name);
 
 /* these four generate EABEditor signals */
 void 		eab_editor_contact_added     (EABEditor *editor, EBookStatus status, EContact *contact);
