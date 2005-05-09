@@ -77,7 +77,7 @@ get_selector(struct _EMsgComposer *composer, const char *title, guint32 flags)
 							 NULL,
 							 GTK_FILE_CHOOSER_ACTION_OPEN,
 							 GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-							 _("Attach"), GTK_RESPONSE_OK,
+							 _("A_ttach"), GTK_RESPONSE_OK,
 							 NULL);
 	
 	gtk_dialog_set_default_response (GTK_DIALOG (selection), GTK_RESPONSE_OK);
