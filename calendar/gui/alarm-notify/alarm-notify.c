@@ -285,7 +285,7 @@ AlarmNotify *
 alarm_notify_new (void)
 {
 	AlarmNotify *an;
-
+	
 	an = g_object_new (TYPE_ALARM_NOTIFY,
 			   "poa", bonobo_poa_get_threaded (ORBIT_THREAD_HINT_PER_REQUEST, NULL),
 			   NULL);

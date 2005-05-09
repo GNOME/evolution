@@ -1,3 +1,8 @@
+2005-05-11  Philip Van Hoof <pvanhoof@gnome.org>
+
+	* gui/alarm-notify/*: Made the alarm-notify dialog
+	multi-alarm aware
+	
 2005-05-09  Rodrigo Moya <rodrigo@novell.com>
 
 	* gui/migration.c (migrate_ical_folder_to_source): cover the case when
