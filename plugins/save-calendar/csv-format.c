@@ -34,6 +34,8 @@
 #include <gtk/gtkstock.h>
 #include <gtk/gtk.h>
 #include <libedataserver/e-source.h>
+#include <libecal/e-cal-time-util.h>
+#include <libedataserver/e-util.h>
 #include <libedataserverui/e-source-selector.h>
 #include <libecal/e-cal.h>
 #include "calendar/common/authentication.h"
@@ -156,25 +158,34 @@ add_nummeric_to_csv (GString *line, gint *nummeric, CsvConfig *config)
 static GString *
 add_time_to_csv (GString *line, icaltimetype *time, CsvConfig *config)
 {
-	/*
-	 * Perhaps we should check for quotes, delimiter and newlines in the
-	 * resulting string: The translators can put it there!
-	 *
-	 * Or perhaps we shouldn't make this translatable?
-	 * Or perhaps there is a library-function to do this?
-	 */
 
 	if (time) {
-		g_string_append_printf (line, _("%s%d/%s%d/%s%d %s%d:%s%d:%s%d"), 
-					(time->month < 10)?"0":"", time->month, 
-					(time->day < 10)?"0":"", time->day, 
-					(time->year < 10)?"0":"", time->year, 
-					(time->hour < 10)?"0":"", time->hour, 
-					(time->minute < 10)?"0":"", time->minute, 
-					(time->second < 10)?"0":"", time->second);
+		gboolean needquotes = FALSE;
+		struct tm mytm =  icaltimetype_to_tm (time);
+		gchar *str = (gchar*) g_malloc (sizeof (gchar) * 200);
+		
+		/* 
+		 * Translator: the %F %T is the thirth argument for a strftime function.
+		 * It lets you define the formatting of the date in the csv-file.
+		 * */
+		e_utf8_strftime (str, 200, _("%F %T"), &mytm);
+		
+		needquotes = string_needsquotes (str, config);
+		
+		if (needquotes)
+			line = g_string_append (line, config->quote);	
+		
+		line = g_string_append (line, str);
+		
+		if (needquotes)
+			line = g_string_append (line, config->quote);
+	
+		g_free (str);
+		
 	}
 
 	line = g_string_append (line, config->delimiter);
+
 	return line;
 }
 
@@ -353,7 +364,7 @@ do_save_calendar_csv (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSource
 
 	result = gnome_vfs_open_uri (&handle, uri, GNOME_VFS_OPEN_READ);
 	if (result == GNOME_VFS_OK)
-		doit = e_error_run(gtk_widget_get_toplevel (GTK_WIDGET (target->selector)),
+		doit = e_error_run(GTK_WINDOW(gtk_widget_get_toplevel (GTK_WIDGET (target->selector))),
 			 E_ERROR_ASK_FILE_EXISTS_OVERWRITE, dest_uri, NULL) == GTK_RESPONSE_OK;
 
 	if (doit) {
@@ -367,16 +378,37 @@ do_save_calendar_csv (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSource
 	if (result == GNOME_VFS_OK && doit && e_cal_get_object_list_as_comp (source_client, "#t", &objects, NULL)) {
 
 		if (config->header) {
+			
+			gint i=0;
+			
+			static gchar *labels[] = {
+				 N_("Uid"),
+				 N_("Summary"),
+				 N_("Description List"),
+				 N_("Categories List"),
+				 N_("Comment List"),
+				 N_("Completed"),
+				 N_("Created"),
+				 N_("Contact List"),
+				 N_("Start"),
+				 N_("End"),
+				 N_("Due"),
+				 N_("percent Done"),
+				 N_("Priority"),
+				 N_("Url"),
+				 N_("Attendees List"),
+				 N_("Location"),
+				 N_("Modified"),
+			};
+
 			line = g_string_new ("");
-			g_string_append_printf (line, _("Uid%sSummary%sDescription List%sCategories List%s"
-							"Comment List%sCompleted%sCreated%sContact List%s"
-							"Start%sEnd%sDue%sPercent Done%sPriority%sUrl%s"
-							"Attendees List%sLocation%sModified%s"),
-						config->delimiter, config->delimiter, config->delimiter, config->delimiter, 
-						config->delimiter, config->delimiter, config->delimiter, config->delimiter, 
-						config->delimiter, config->delimiter, config->delimiter, config->delimiter, 
-						config->delimiter, config->delimiter, config->delimiter, config->delimiter, 
-						config->newline);
+			for (i=0;i<G_N_ELEMENTS(labels);i++) {
+				if (i>0)
+					line = g_string_append(line, config->delimiter);
+				line = g_string_append(line, _(labels[i]));
+			}
+			
+			line = g_string_append (line, config->newline);
 
 			gnome_vfs_write (handle, line->str, line->len, NULL);
 			g_string_free (line, TRUE);

@@ -1,3 +1,9 @@
+2005-03-02  Philip Van Hoof  <pvanhoof@gnome.org>
+
+	* rdf-format.c: Fixes for Bug #73099 and Bug #73098
+	* csv-format.c: Changed malloc to g_malloc and char to gchar
+	* csv-format.c: Fixes for Bug #73099 and Bug #73098
+	
 2005-05-06  Not Zed  <NotZed@Ximian.com>
 
 	* Makefile.am: 

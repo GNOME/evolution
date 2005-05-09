@@ -38,6 +38,8 @@
 #include <libecal/e-cal.h>
 #include <calendar/gui/e-cal-popup.h>
 #include <libgnomevfs/gnome-vfs.h>
+#include <libecal/e-cal-time-util.h>
+#include <libedataserver/e-util.h>
 #include <libxml/xmlmemory.h>
 #include <libxml/parser.h>
 #include <libxml/tree.h>
@@ -62,18 +64,18 @@ add_string_to_rdf (xmlNodePtr node, const gchar *tag, const char *value);
 #define CALENDAR_CONFIG_PREFIX "/apps/evolution/calendar"
 #define CALENDAR_CONFIG_TIMEZONE CALENDAR_CONFIG_PREFIX "/display/timezone"
 
-GConfClient *config = NULL;
+static GConfClient *config = NULL;
 
 static gchar *
 calendar_config_get_timezone (void)
 {
+
 	gchar *retval = NULL;
 
 	if (!config)
 		config = gconf_client_get_default ();
 
 	retval = gconf_client_get_string (config, CALENDAR_CONFIG_TIMEZONE, NULL);
-
 	if (!retval) 
 		retval = g_strdup ("UTC");
 
@@ -144,14 +146,17 @@ add_time_to_rdf (xmlNodePtr node, const gchar *tag, icaltimetype *time)
 {
 	if (time) {
 		xmlNodePtr cur_node = NULL;
+		struct tm mytm =  icaltimetype_to_tm (time);
+		gchar *str = (gchar*) g_malloc (sizeof (gchar) * 200);
 		gchar *tmp = NULL;
-		gchar *str = g_strdup_printf ("%s%d-%s%d-%s%dT%s%d:%s%d:%s%d", 
-					(time->year < 10)?"0":"", time->year, 
-					(time->month < 10)?"0":"", time->month, 
-					(time->day < 10)?"0":"", time->day, 
-					(time->hour < 10)?"0":"", time->hour, 
-					(time->minute < 10)?"0":"", time->minute, 
-					(time->second < 10)?"0":"", time->second);
+
+		/*
+		 * Translator: the %FT%T is the thirth argument for a strftime function.
+		 * It lets you define the formatting of the date in the rdf-file.
+		 * Also check out http://www.w3.org/2002/12/cal/tzd 
+		 * */
+		e_utf8_strftime (str, 200, _("%FT%T"), &mytm);
+
 		cur_node = xmlNewChild (node, NULL, tag, str);
 
 		/* Not sure about this property */
@@ -218,7 +223,7 @@ do_save_calendar_rdf (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSource
 
 	result = gnome_vfs_open_uri (&handle, uri, GNOME_VFS_OPEN_READ);
 	if (result == GNOME_VFS_OK) 
-		doit = e_error_run(gtk_widget_get_toplevel (GTK_WIDGET (target->selector)),
+		doit = e_error_run(GTK_WINDOW(gtk_widget_get_toplevel (GTK_WIDGET (target->selector))),
 			 E_ERROR_ASK_FILE_EXISTS_OVERWRITE, dest_uri, NULL) == GTK_RESPONSE_OK;
 
 	if (doit) {
