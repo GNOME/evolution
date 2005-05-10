@@ -1,3 +1,13 @@
+2005-05-09  Rodrigo Moya <rodrigo@novell.com>
+
+	Fixes #301350
+
+	* gui/alarm-notify/alarm-queue.c (alarm_queue_init): install a timeout
+	handler to check, every 30 minutes, for not losing the midnight refresh.
+	(check_midnight_refresh): check the midnight refresh and if we missed it,
+	reload alarms.
+	(queue_midnight_refresh): made the midnight value be global.
+
 2005-05-09  Philip Van Hoof <pvanhoof@gnome.org>
 
 	* gui/alarm-notify/*: Made the alarm-notify dialog
