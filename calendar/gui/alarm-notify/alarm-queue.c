@@ -121,6 +121,7 @@ typedef struct {
 
 /* Alarm ID for the midnight refresh function */
 static gpointer midnight_refresh_id = NULL;
+static time_t midnight = 0;
 
 static void display_notification (time_t trigger, CompQueuedAlarms *cqa,
 				  gpointer alarm_id, gboolean use_description);
@@ -146,7 +147,6 @@ static void midnight_refresh_cb (gpointer alarm_id, time_t trigger, gpointer dat
 static void
 queue_midnight_refresh (void)
 {
-	time_t midnight;
 	icaltimezone *zone;
 
 	if (midnight_refresh_id != NULL) {
@@ -1220,6 +1220,25 @@ procedure_notification (time_t trigger, CompQueuedAlarms *cqa, gpointer alarm_id
 
 
 
+static gboolean
+check_midnight_refresh (gpointer user_data)
+{
+	time_t new_midnight;
+	icaltimezone *zone;
+
+	zone = config_data_get_timezone ();
+	new_midnight = time_day_end_with_zone (time (NULL), zone);
+
+	if (new_midnight > midnight) {
+		/* Re-load the alarms for all clients */
+		g_hash_table_foreach (client_alarms_hash, add_client_alarms_cb, NULL);
+
+		queue_midnight_refresh ();
+	}
+
+	return TRUE;
+}
+
 /**
  * alarm_queue_init:
  *
@@ -1239,6 +1258,9 @@ alarm_queue_init (void)
 		saved_notification_time = time (NULL);
 		config_data_set_last_notification_time (saved_notification_time);
 	}
+
+	/* install timeout handler (every 30 mins) for not missing the midnight refresh */
+	g_timeout_add (1800000, (GSourceFunc) check_midnight_refresh, NULL);
 
 	alarm_queue_inited = TRUE;
 }
