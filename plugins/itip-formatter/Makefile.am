@@ -16,7 +16,9 @@ errordir = $(privdatadir)/errors
 
 BUILT_SOURCES = $(plugin_DATA) $(error_DATA)
 
-EXTRA_DIST = $(error_DATA) \
+CLEANFILES = $(BUILT_SOURCES)
+
+EXTRA_DIST = \
 	org-gnome-itip-formatter.eplug.xml \
 	org-gnome-itip-formatter.error.xml
 

@@ -1,3 +1,7 @@
+2005-05-11  Not Zed  <NotZed@Ximian.com>
+
+	* Makefile.am: setup cleanfiles & fix extra_dist
+
 2005-05-06  Not Zed  <NotZed@Ximian.com>
 
 	* org-gnome-itip-formatter.error.xml: s/-errors.xml/.error.xml/
