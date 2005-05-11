@@ -1,3 +1,8 @@
+2005-05-11  Srinivasa Ragavan <sragavan@novell.com>
+	* gui/widgets//e-minicard.c: (add_field), (remodel):
+	Fixed the bug 209416. It shows a different view for contact lists
+	
+	
 2005-05-09  Sushma Rai  <rsushma@novell.com>
 
 	* gui/widgets/eab-gui-util.c (eab_contact_save)(eab_contact_list_save):

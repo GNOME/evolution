@@ -774,13 +774,25 @@ add_field (EMinicard *e_minicard, EContactField field, gdouble left_width)
 	string = e_contact_get (e_minicard->contact, field);
 
 	new_item = e_minicard_label_new(group);
-	gnome_canvas_item_set( new_item,
-			       "width", e_minicard->width - 4.0,
-			       "fieldname", name,
-			       "field", string,
-			       "max_field_name_length", left_width,
-			       "editable", FALSE /* e_minicard->editable */,
-			       NULL );
+	
+	if (e_minicard->contact && e_contact_get (e_minicard->contact, E_CONTACT_IS_LIST))
+		gnome_canvas_item_set( new_item,
+				       "width", e_minicard->width - 4.0,
+				       "fieldname", string,
+			    	   "field", "",
+			 	      "max_field_name_length", left_width,
+			    	   "editable", FALSE /* e_minicard->editable */,
+			    	   NULL );
+	else
+		gnome_canvas_item_set( new_item,
+				       "width", e_minicard->width - 4.0,
+				       "fieldname", name,
+			    	   "field", string,
+			 	      "max_field_name_length", left_width,
+			    	   "editable", FALSE /* e_minicard->editable */,
+			    	   NULL );
+
+
 #if notyet
 	g_object_set(E_MINICARD_LABEL(new_item)->field,
 		     "allow_newlines", e_card_simple_get_allow_newlines (e_minicard->contact, field),
@@ -837,6 +849,7 @@ remodel( EMinicard *e_minicard )
 		GList *list;
 		char *file_as;
 		int left_width = -1;
+		gboolean is_list = FALSE;
 
 		if (e_minicard->header_text) {
 			file_as = e_contact_get (e_minicard->contact, E_CONTACT_FILE_AS);
@@ -847,6 +860,9 @@ remodel( EMinicard *e_minicard )
 		}
 
 		if (e_minicard->contact && e_contact_get (e_minicard->contact, E_CONTACT_IS_LIST))
+			is_list = TRUE;
+
+		if (is_list)
 			gnome_canvas_item_show (e_minicard->list_icon);
 		else
 			gnome_canvas_item_hide (e_minicard->list_icon);
@@ -858,6 +874,9 @@ remodel( EMinicard *e_minicard )
 			EMinicardField *minicard_field = NULL;
 
 			if (field == E_CONTACT_FAMILY_NAME || field == E_CONTACT_GIVEN_NAME)
+				continue;
+
+			if (field == E_CONTACT_FULL_NAME && is_list)
 				continue;
 
 			if (list)
