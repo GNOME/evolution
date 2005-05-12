@@ -1,7 +1,13 @@
+2005-04-21  Jeffrey Stedfast  <fejj@novell.com>
+
+	* em-composer-utils.c (post_reply_to_message): Use the real folder
+	and real uid (not the virtual if replying to a message in a
+	vfolder). Fixes bug #269129.
+
 2005-05-06  Vivek Jain <jvivek@novell.com>
 
-	 * em-folder-view.c :EPopupItem emfv_popup_items[]
-	  replace Print with Print... Fixes #272242 
+	* em-folder-view.c: EPopupItem emfv_popup_items[] replace Print
+	  with Print... Fixes #272242
 
 2005-05-07  Sankar P  <psankar@novell.com>
 	

@@ -52,6 +52,7 @@
 #include <camel/camel-string-utils.h>
 #include <camel/camel-stream-mem.h>
 #include <camel/camel-nntp-address.h>
+#include <camel/camel-vee-folder.h>
 
 static EAccount * guess_account (CamelMimeMessage *message, CamelFolder *folder);
 
@@ -1958,15 +1959,29 @@ post_reply_to_message (CamelFolder *folder, const char *uid, CamelMimeMessage *m
 	const char *message_id, *references;
 	CamelInternetAddress *to;
 	EDestination **tov = NULL;
+	CamelFolder *real_folder;
 	EMsgComposer *composer;
 	char *subject, *url;
 	EAccount *account;
+	char *real_uid;
 	guint32 flags;
 	
 	if (message == NULL)
 		return;
 	
-	account = guess_account (message, folder);
+	if (CAMEL_IS_VEE_FOLDER (folder)) {
+		CamelMessageInfo *info;
+		
+		info = camel_folder_get_message_info (folder, uid);
+		real_folder = camel_vee_folder_get_location ((CamelVeeFolder *) folder, (struct _CamelVeeMessageInfo *) info, &real_uid);
+		camel_folder_free_message_info (folder, info);
+	} else {
+		real_folder = folder;
+		camel_object_ref (folder);
+		real_uid = g_strdup (uid);
+	}
+	
+	account = guess_account (message, real_folder);
 	flags = CAMEL_MESSAGE_ANSWERED | CAMEL_MESSAGE_SEEN;
 	
 	to = camel_internet_address_new();
@@ -1991,7 +2006,7 @@ post_reply_to_message (CamelFolder *folder, const char *uid, CamelMimeMessage *m
 	
 	g_free (subject);
 	
-	url = mail_tools_folder_to_url (folder);
+	url = mail_tools_folder_to_url (real_folder);
 	e_msg_composer_hdrs_set_post_to ((EMsgComposerHdrs *) composer->hdrs, url);
 	g_free (url);
 	
@@ -2020,12 +2035,14 @@ post_reply_to_message (CamelFolder *folder, const char *uid, CamelMimeMessage *m
 	
 	composer_set_body (composer, message, NULL);
 	
-	em_composer_utils_setup_callbacks (composer, folder, uid, flags, flags, NULL, NULL);
+	em_composer_utils_setup_callbacks (composer, real_folder, real_uid, flags, flags, NULL, NULL);
 	
 	gtk_widget_show (GTK_WIDGET (composer));	
 	e_msg_composer_unset_changed (composer);
-
+	
+	camel_object_unref (real_folder);
 	camel_object_unref(to);
+	g_free (real_uid);
 }
 
 /**

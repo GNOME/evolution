@@ -1339,24 +1339,24 @@ emfv_message_reply(EMFolderView *emfv, int mode)
 
 	selection_string = gtk_html_get_selection_html (((EMFormatHTML *)emfv->preview)->html, &len);
 	if (selection_string && len) {
-			CamelMimeMessage *msg, *src;
-			struct _camel_header_raw *header;
-
-			src = (CamelMimeMessage *)((EMFormat *)emfv->preview)->message;
-			msg = camel_mime_message_new();
-
-			/* need to strip content- headers */
-			header = ((CamelMimePart *)src)->headers;
-			while (header) {
-				if (g_ascii_strncasecmp(header->name, "content-", 8) != 0)
-					camel_medium_add_header((CamelMedium *)msg, header->name, header->value);
-				header = header->next;
-			}
-			camel_mime_part_set_encoding((CamelMimePart *)msg, CAMEL_TRANSFER_ENCODING_8BIT);
-			camel_mime_part_set_content((CamelMimePart *)msg,
-						    selection_string, len, "text/html");
-			em_utils_reply_to_message (emfv->folder, emfv->list->cursor_uid, msg, mode, NULL);
-			camel_object_unref(msg);
+		CamelMimeMessage *msg, *src;
+		struct _camel_header_raw *header;
+		
+		src = (CamelMimeMessage *)((EMFormat *)emfv->preview)->message;
+		msg = camel_mime_message_new();
+		
+		/* need to strip content- headers */
+		header = ((CamelMimePart *)src)->headers;
+		while (header) {
+			if (g_ascii_strncasecmp(header->name, "content-", 8) != 0)
+				camel_medium_add_header((CamelMedium *)msg, header->name, header->value);
+			header = header->next;
+		}
+		camel_mime_part_set_encoding((CamelMimePart *)msg, CAMEL_TRANSFER_ENCODING_8BIT);
+		camel_mime_part_set_content((CamelMimePart *)msg,
+					    selection_string, len, "text/html");
+		em_utils_reply_to_message (emfv->folder, emfv->list->cursor_uid, msg, mode, NULL);
+		camel_object_unref(msg);
 	} else {
 		em_utils_reply_to_message (emfv->folder, emfv->list->cursor_uid, NULL, mode, (EMFormat *)emfv->preview);
 	}
