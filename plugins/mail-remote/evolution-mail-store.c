@@ -91,25 +91,32 @@ impl_getProperties(PortableServer_Servant _servant,
 	for (i=0;i<names->_length;i++) {
 		const CORBA_char *name = names->_buffer[i];
 		GNOME_Evolution_Mail_Property *prop = &props->_buffer[i];
+		char *val = NULL;
 
 		prop->value._release = CORBA_TRUE;
 
+		printf("getting property '%s'\n", name);
+
 		if (!strcmp(name, "name")) {
-			prop->value._type = TC_CORBA_string;
 			if (p->account)
-				prop->value._value = CORBA_string_dup(p->account->name);
+				val = p->account->name;
 			else
 				/* FIXME: name & i18n */
-				prop->value._value = CORBA_string_dup("Local");
+				val = "Local";
 		} else if (!strcmp(name, "uid")) {
-			prop->value._type = TC_CORBA_string;
 			if (p->account)
-				prop->value._value = CORBA_string_dup(p->account->uid);
+				val = p->account->uid;
 			else
-				prop->value._value = CORBA_string_dup("local@local");
+				val = "local@local";
 		} else {
 			prop->value._type = TC_null;
 			ok = CORBA_FALSE;
+		}
+
+		if (val) {
+			prop->value._type = TC_CORBA_string;
+			prop->value._value = CORBA_sequence_CORBA_string_allocbuf(1);
+			((char **)prop->value._value)[0] = CORBA_string_dup(val);
 		}
 
 		prop->name = CORBA_string_dup(name);
@@ -123,8 +130,8 @@ impl_getFolders(PortableServer_Servant _servant,
 		const CORBA_char * pattern,
 		CORBA_Environment * ev)
 {
-	EvolutionMailStore *ems = (EvolutionMailStore *)bonobo_object_from_servant(_servant);
 #if 0
+	EvolutionMailStore *ems = (EvolutionMailStore *)bonobo_object_from_servant(_servant);
 	GNOME_Evolution_Mail_NOT_SUPPORTED *ex;
 
 	ex = GNOME_Evolution_Mail_NOT_SUPPORTED__alloc();
@@ -144,10 +151,16 @@ impl_sendMessage(PortableServer_Servant _servant,
 		 CORBA_Environment * ev)
 {
 	EvolutionMailStore *ems = (EvolutionMailStore *)bonobo_object_from_servant(_servant);
+	struct _EvolutionMailStorePrivate *p = _PRIVATE(ems);
 
 	printf("Sending message from '%s' to '%s'\n", from, recipients);
-
-	ems = ems;
+	if (p->account == NULL) {
+		printf("Local mail can only store ...\n");
+	} else if (p->account->transport && p->account->transport->url) {
+		printf("via '%s'\n", p->account->transport->url);
+	} else {
+		printf("Account not setup for sending '%s'\n", p->account->name);
+	}
 }
 
 /* Initialization */
