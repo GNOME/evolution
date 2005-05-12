@@ -934,7 +934,6 @@ make_weekly_special (RecurrencePage *rpage)
 
 	weekday_picker_set_week_start_day (wp, calendar_config_get_week_start_day ());
 	weekday_picker_set_days (wp, priv->weekday_day_mask);
-	weekday_picker_set_blocked_days (wp, priv->weekday_blocked_day_mask);
 
 	g_signal_connect((wp), "changed",
 			    G_CALLBACK (weekday_picker_changed_cb),

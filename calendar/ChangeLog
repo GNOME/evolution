@@ -1,3 +1,12 @@
+2005-05-12  Harish Krishnaswamy  <kharish@novell.com>
+
+	on behalf of jack jia <jack.jia@sun.com>
+	fixes #229794
+
+	* gui/dialogs/recurrence-page.c: (make_weekly_special):
+	Allow deselection of the current day while scheduling
+	recurrences based on weeek days.
+
 2005-05-12  Sushma Rai  <rsushma@novell.com>
 
 	* gui/e-cal-model-tasks.c (get_geo): Not marking geographical locations
