@@ -134,6 +134,7 @@ kill_dataserver (void)
 
 	system (KILL_PROCESS_CMD " -9 lt-evolution-data-server 2> /dev/null");
 	system (KILL_PROCESS_CMD " -9 evolution-data-server-1.0 2> /dev/null");
+	system (KILL_PROCESS_CMD " -9 evolution-data-server-1.2 2> /dev/null");
 
 	system (KILL_PROCESS_CMD " -9 lt-evolution-alarm-notify 2> /dev/null");
 	system (KILL_PROCESS_CMD " -9 evolution-alarm-notify 2> /dev/null");
