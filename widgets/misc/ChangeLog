@@ -1,3 +1,7 @@
+2005-05-12  Shreyas Srinivasan	<sshreyas@novell.com>
+
+	* e-send-options.c : Fixed #272005
+	
 2005-05-06  Sarfraaz Ahmed <asarfraaz@novell.com>
 
 	* e-send-options.glade : Fixed a typo. #273095
