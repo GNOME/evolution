@@ -294,9 +294,9 @@ get_geo (ECalModelComponent *comp_data)
 		geo = icalproperty_get_geo (prop);
 		g_snprintf (buf, sizeof (buf), "%g %s, %g %s",
 			    fabs (geo.lat),
-			    geo.lat >= 0.0 ? _("N") : _("S"),
+			    geo.lat >= 0.0 ? "N" : "S",
 			    fabs (geo.lon),
-			    geo.lon >= 0.0 ? _("E") : _("W"));
+			    geo.lon >= 0.0 ? "E" : "W");
 		return buf;
 	}
 
