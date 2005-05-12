@@ -32,7 +32,7 @@
 #include <libedataserver/e-source-list.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/libgnomeui.h>
-
+#include <libecal/e-cal.h>
 #include "calendar-setup.h"
 #include "../e-cal-config.h"
 
@@ -55,6 +55,7 @@ struct _CalendarSourceDialog {
 
 	/* Source group we're creating/editing a source in */
 	ESourceGroup *source_group;
+	ECalSourceType *source_type;
 };
 
 static gboolean
@@ -281,7 +282,13 @@ eccp_general_offline (EConfig *ec, EConfigItem *item, struct _GtkWidget *parent,
 		return old;
 	else {
 		row = ((GtkTable*)parent)->nrows;
-		offline_setting = gtk_check_button_new_with_label (N_("Copy calendar contents locally for offline operation"));
+
+		if (sdialog->source_type == E_CAL_SOURCE_TYPE_EVENT)	
+			offline_setting = gtk_check_button_new_with_label (N_("Copy calendar contents locally for offline operation"));
+		else if (sdialog->source_type == E_CAL_SOURCE_TYPE_TODO)	
+
+			offline_setting = gtk_check_button_new_with_label (N_("Copy task list contents locally for offline operation"));
+
 		gtk_widget_show (offline_setting);
 		g_signal_connect (offline_setting, "toggled", G_CALLBACK (offline_status_changed_cb), sdialog);
 		gtk_table_attach (GTK_TABLE (parent), offline_setting, 1, 2, row, row+1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
@@ -427,6 +434,7 @@ calendar_setup_edit_calendar (struct _GtkWindow *parent, ESource *source, ESourc
 	e_source_set_absolute_uri (sdialog->source, NULL);
 	e_source_set_group (sdialog->source, sdialog->source_group);
 
+	sdialog->source_type = E_CAL_SOURCE_TYPE_EVENT; 
 	sdialog->config = ec = e_cal_config_new (E_CONFIG_BOOK, "org.gnome.evolution.calendar.calendarProperties");
 	for (i = 0; eccp_items[i].path; i++)
 		items = g_slist_prepend (items, &eccp_items[i]);
@@ -494,6 +502,7 @@ calendar_setup_edit_task_list (struct _GtkWindow *parent, ESource *source)
 	e_source_set_absolute_uri (sdialog->source, NULL);
 	e_source_set_group (sdialog->source, sdialog->source_group);
 
+	sdialog->source_type = E_CAL_SOURCE_TYPE_TODO;
 	sdialog->config = ec = e_cal_config_new (E_CONFIG_BOOK, "org.gnome.evolution.calendar.calendarProperties");
 	for (i = 0; ectp_items[i].path; i++)
 		items = g_slist_prepend (items, &ectp_items[i]);
