@@ -181,6 +181,9 @@ static void on_date_edit_time_selected		(GtkList	*list,
 static gint on_time_entry_key_press		(GtkWidget	*widget,
 						 GdkEventKey	*event,
 						 EDateEdit	*dedit);
+static gint on_time_entry_key_release		(GtkWidget	*widget,
+						 GdkEventKey	*event,
+						 EDateEdit	*dedit);
 static gint on_date_entry_focus_out		(GtkEntry	*entry,
 						 GdkEventFocus  *event,
 						 EDateEdit	*dedit);
@@ -374,6 +377,10 @@ create_children			(EDateEdit	*dedit)
 	g_signal_connect (GTK_COMBO (priv->time_combo)->entry,
 			  "key_press_event",
 			  G_CALLBACK (on_time_entry_key_press),
+			  dedit);
+	g_signal_connect (GTK_COMBO (priv->time_combo)->entry,
+			  "key_release_event",
+			  G_CALLBACK (on_time_entry_key_release),
 			  dedit);
 	g_signal_connect_after (GTK_COMBO (priv->time_combo)->entry,
 				"focus_out_event",
@@ -1570,6 +1577,21 @@ on_time_entry_key_press			(GtkWidget	*widget,
 	if (event->keyval == GDK_Return) {
 		g_signal_stop_emission_by_name (widget,
 						"key_press_event");
+		e_date_edit_check_time_changed (dedit);
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+static gint
+on_time_entry_key_release		(GtkWidget	*widget,
+					 GdkEventKey	*event,
+					 EDateEdit	*dedit)
+{
+	if (event->keyval == GDK_Up || event->keyval == GDK_Down) {
+		g_signal_stop_emission_by_name (widget,
+						"key_release_event");
 		e_date_edit_check_time_changed (dedit);
 		return TRUE;
 	}

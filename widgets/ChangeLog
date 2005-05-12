@@ -1,3 +1,8 @@
+2005-05-12  Srinivasa Ragavan <sragavan@novell.com>
+	* misc/e-dateedit.c: (on_time_entry_key_release),
+	(create_children): Fix the bug 303856. Enables OK button
+	when arrow key used to change the time in a appointment.
+
 2005-05-06  Sarfraaz Ahmed <asarfraaz@novell.com>
 
 	* misc/e-search-bar.c: (set_menu) Solaris gettext crashes on NULL 
