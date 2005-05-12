@@ -1,3 +1,8 @@
+2005-05-12  Harish Krishnaswamy  <kharish@novell.com>
+
+	* configure.in: check for libsoup-2.4 else fail over
+	to libsoup-2.2.
+
 2005-05-06  Not Zed  <NotZed@Ximian.com>
 
 	* plugin.mk: changed .eplug rule to also convert i18n tags if it
