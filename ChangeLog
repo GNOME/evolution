@@ -1,3 +1,7 @@
+2005-05-12  Not Zed  <NotZed@Ximian.com>
+
+	* configure.in: Added mail-remote stuff.  an experimental plugin.
+
 2005-05-12  Harish Krishnaswamy  <kharish@novell.com>
 
 	* configure.in: check for libsoup-2.4 else fail over

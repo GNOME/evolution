@@ -1346,7 +1346,7 @@ plugins_base="calendar-file calendar-http calendar-weather groupwise-account-set
 
 plugins_standard="bbdb subject-thread save-attachments prefer-plain save-calendar select-one-source copy-tool mail-to-task mark-calendar-offline audio-inline mailing-list-actions new-mail-notify" 
 
-plugins_experimental="backup-restore folder-unsubscribe mail-to-meeting"
+plugins_experimental="backup-restore folder-unsubscribe mail-to-meeting mail-remote"
 
 case x"$enable_plugins" in
 xno)
@@ -1592,6 +1592,7 @@ plugins/bbdb/Makefile
 plugins/audio-inline/Makefile
 plugins/mail-to-meeting/Makefile
 plugins/mail-to-task/Makefile
+plugins/mail-remote/Makefile
 plugins/new-mail-notify/Makefile
 plugins/subject-thread/Makefile
 plugins/save-attachments/Makefile
