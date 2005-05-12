@@ -1,3 +1,8 @@
+2005-05-06  Vivek Jain <jvivek@novell.com>
+
+	 * em-folder-view.c :EPopupItem emfv_popup_items[]
+	  replace Print with Print... Fixes #272242 
+
 2005-05-07  Sankar P  <psankar@novell.com>
 	
 	* mail-ops.c (mail_send_message)

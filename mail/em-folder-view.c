@@ -1000,7 +1000,7 @@ static EPopupItem emfv_popup_items[] = {
 	{ E_POPUP_BAR, "20.emfv", NULL, NULL, NULL, NULL },
 	{ E_POPUP_ITEM, "20.emfv.00", N_("_Edit as New Message..."), emfv_popup_edit, NULL, NULL, EM_POPUP_SELECT_EDIT },
 	{ E_POPUP_ITEM, "20.emfv.01", N_("_Save As..."), emfv_popup_saveas, NULL, "stock_save-as", EM_POPUP_SELECT_MANY },
-	{ E_POPUP_ITEM, "20.emfv.02", N_("_Print"), emfv_popup_print, NULL, "stock_print", EM_POPUP_SELECT_ONE },
+	{ E_POPUP_ITEM, "20.emfv.02", N_("_Print..."), emfv_popup_print, NULL, "stock_print", EM_POPUP_SELECT_ONE },
 
 	{ E_POPUP_BAR, "40.emfv", NULL, NULL, NULL, NULL },
 	{ E_POPUP_ITEM, "40.emfv.00", N_("_Delete"), emfv_popup_delete, NULL, "stock_delete", EM_POPUP_SELECT_DELETE|EM_FOLDER_VIEW_SELECT_LISTONLY },
