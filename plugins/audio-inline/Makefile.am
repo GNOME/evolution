@@ -13,3 +13,6 @@ liborg_gnome_audio_inline_la_LDFLAGS = -module -avoid-version
 liborg_gnome_audio_inline_la_LIBADD = $(GSTREAMER_LIBS)
 
 EXTRA_DIST = org-gnome-audio-inline.eplug.xml
+
+BUILT_SOURCES = $(plugin_DATA)
+CLEANFILES = $(BUILT_SOURCES)

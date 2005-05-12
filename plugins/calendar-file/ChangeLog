@@ -1,3 +1,7 @@
+2005-05-11  Not Zed  <NotZed@Ximian.com>
+
+	* Makefile.am: add built_sources/cleanfiles
+
 2005-05-06  Not Zed  <NotZed@Ximian.com>
 
 	* Makefile.am: 

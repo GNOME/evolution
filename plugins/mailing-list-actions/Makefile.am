@@ -17,6 +17,8 @@ BUILT_SOURCES = \
 	org-gnome-mailing-list-actions.eplug		\
 	org-gnome-mailing-list-actions.error
 
+CLEANFILES = $(BUILT_SOURCES)
+
 EXTRA_DIST = 						\
 	org-gnome-mailing-list-actions.eplug.xml	\
 	org-gnome-mailing-list-actions.error.xml	\

@@ -18,3 +18,5 @@ liborg_gnome_new_mail_notify_la_LDFLAGS = -module -avoid-version
 
 EXTRA_DIST = org-gnome-new-mail-notify.eplug.xml
 
+BUILT_SOURCES = $(plugin_DATA)
+CLEANFILES = $(BUILT_SOURCES)

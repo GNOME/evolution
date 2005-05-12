@@ -12,3 +12,6 @@ liborg_gnome_evolution_bbdb_la_SOURCES = bbdb.c bbdb.h gaimbuddies.c
 liborg_gnome_evolution_bbdb_la_LDFLAGS = -module -avoid-version
 
 EXTRA_DIST = org-gnome-evolution-bbdb.eplug.xml
+
+BUILT_SOURCES = $(plugin_DATA)
+CLEANFILES = $(BUILT_SOURCES)

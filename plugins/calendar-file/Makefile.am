@@ -15,3 +15,5 @@ liborg_gnome_calendar_file_la_LDFLAGS = -module -avoid-version
 
 EXTRA_DIST = org-gnome-calendar-file.eplug.xml
 
+BUILT_SOURCES = $(plugin_DATA)
+CLEANFILES = $(BUILT_SOURCES)

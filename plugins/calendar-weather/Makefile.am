@@ -29,3 +29,6 @@ liborg_gnome_calendar_weather_la_LDFLAGS = -module -avoid-version
 EXTRA_DIST =	\
 	org-gnome-calendar-weather.eplug.xml	\
 	$(weatherdata_DATA)
+
+BUILT_SOURCES = $(plugin_DATA)
+CLEANFILES = $(BUILT_SOURCES)

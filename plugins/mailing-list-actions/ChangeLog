@@ -1,3 +1,7 @@
+2005-05-11  Not Zed  <NotZed@Ximian.com>
+
+	* Makefile.am (CLEANFILES): setup cleanfiles.
+
 2005-05-06  Not Zed  <NotZed@Ximian.com>
 
 	* org-gnome-mailing-list-actions.error.xml:
