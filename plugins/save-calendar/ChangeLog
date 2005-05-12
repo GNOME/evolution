@@ -1,3 +1,7 @@
+2005-05-12  Not Zed  <NotZed@Ximian.com>
+
+	* Makefile.am: setup built_sources/cleanfiles
+
 2005-03-02  Philip Van Hoof  <pvanhoof@gnome.org>
 
 	* rdf-format.c: Fixes for Bug #73099 and Bug #73098

@@ -1,3 +1,7 @@
+2005-05-12  Not Zed  <NotZed@Ximian.com>
+
+	* Makefile.am: fix built_sources/cleanfiles.
+
 2005-04-26  Not Zed  <NotZed@Ximian.com>
 
 	* A profiler plugin.

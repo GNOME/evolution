@@ -13,3 +13,6 @@ liborg_gnome_evolution_profiler_la_SOURCES = profiler.c
 liborg_gnome_evolution_profiler_la_LDFLAGS = -module -avoid-version
 
 EXTRA_DIST = org-gnome-evolution-profiler.eplug.in
+
+BUILT_SOURCES = $(plugin_DATA)
+CLEANFILES = $(BUILT_SOURCES)

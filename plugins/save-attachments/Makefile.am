@@ -13,3 +13,6 @@ liborg_gnome_save_attachments_la_LDFLAGS = -module -avoid-version
 EXTRA_DIST = 					\
 	org-gnome-save-attachments.eplug.xml	\
 	org-gnome-save-attachments.xml
+
+BUILT_SOURCES = org-gnome-save-attachments.eplug
+CLEANFILES = $(BUILT_SOURCES)

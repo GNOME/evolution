@@ -11,3 +11,6 @@ liborg_gnome_prefer_plain_la_SOURCES = prefer-plain.c
 liborg_gnome_prefer_plain_la_LDFLAGS = -module -avoid-version
 
 EXTRA_DIST = org-gnome-prefer-plain.eplug.xml
+
+BUILT_SOURCES = $(plugin_DATA)
+CLEANFILES = $(BUILT_SOURCES)

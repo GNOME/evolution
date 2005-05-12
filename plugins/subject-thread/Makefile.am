@@ -11,3 +11,6 @@ liborg_gnome_subject_thread_la_SOURCES = subject-thread.c
 liborg_gnome_subject_thread_la_LDFLAGS = -module -avoid-version
 
 EXTRA_DIST = org-gnome-subject-thread.eplug.xml
+
+BUILT_SOURCES = $(plugin_DATA)
+CLEANFILES = $(BUILT_SOURCES)
