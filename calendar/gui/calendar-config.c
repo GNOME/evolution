@@ -444,6 +444,34 @@ calendar_config_add_notification_time_divisions (GConfClientNotifyFunc func, gpo
 	return id;
 }
 
+/* Whether we show the Marcus Bains Line (current time), and in what colors. */
+void
+calendar_config_get_marcus_bains (gboolean *show_line, const char **dayview_color, const char **timebar_color)
+{
+	static char *dcolor = NULL, *tcolor = NULL;
+
+	if (dcolor)
+		g_free (dcolor);
+	if (tcolor)
+		g_free (tcolor);
+
+	dcolor = gconf_client_get_string (config, CALENDAR_CONFIG_MARCUS_BAINS_COLOR_DAYVIEW, NULL);
+	tcolor = gconf_client_get_string (config, CALENDAR_CONFIG_MARCUS_BAINS_COLOR_TIMEBAR, NULL);
+
+	*show_line = gconf_client_get_bool (config, CALENDAR_CONFIG_MARCUS_BAINS_LINE, NULL);
+	*dayview_color = dcolor;
+	*timebar_color = tcolor;
+}
+
+
+void
+calendar_config_add_notification_marcus_bains (GConfClientNotifyFunc func, gpointer data, gint *not_show, gint *not_dcolor, gint *not_tcolor)
+{
+	*not_show = gconf_client_notify_add (config, CALENDAR_CONFIG_MARCUS_BAINS_LINE, func, data, NULL, NULL);
+	*not_dcolor = gconf_client_notify_add (config, CALENDAR_CONFIG_MARCUS_BAINS_COLOR_DAYVIEW, func, data, NULL, NULL);
+	*not_tcolor = gconf_client_notify_add (config, CALENDAR_CONFIG_MARCUS_BAINS_COLOR_TIMEBAR, func, data, NULL, NULL);
+}
+
 /* Whether we show week numbers in the Date Navigator. */
 gboolean
 calendar_config_get_dnav_show_week_no	(void)

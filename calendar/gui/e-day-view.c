@@ -716,6 +716,10 @@ e_day_view_init (EDayView *day_view)
 	day_view->week_start_day = 0;
 	day_view->scroll_to_work_day = TRUE;
 
+	day_view->show_marcus_bains_line = TRUE;
+	day_view->marcus_bains_day_view_color = NULL;
+	day_view->marcus_bains_time_bar_color = NULL;
+
 	day_view->editing_event_day = -1;
 	day_view->editing_event_num = -1;
 
@@ -1161,6 +1165,7 @@ e_day_view_set_colors(EDayView *day_view, GtkWidget *widget)
 	day_view->colors[E_DAY_VIEW_COLOR_EVENT_BORDER] = widget->style->dark[GTK_STATE_NORMAL];
 	day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND] = widget->style->bg[GTK_STATE_ACTIVE];
 	day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BORDER] = widget->style->dark[GTK_STATE_NORMAL];
+	day_view->colors[E_DAY_VIEW_COLOR_MARCUS_BAINS_LINE] = widget->style->dark[GTK_STATE_PRELIGHT];
 }
 
 static void
@@ -2467,6 +2472,59 @@ e_day_view_set_working_day		(EDayView	*day_view,
 
 	gtk_widget_queue_draw (day_view->main_canvas);
 }
+
+
+/* Whether we display the Marcus Bains Line in the main canvas and time canvas. */
+gboolean
+e_day_view_get_show_marcus_bains	(EDayView       *day_view)
+{
+	g_return_val_if_fail (E_IS_DAY_VIEW (day_view), TRUE);
+	return day_view->show_marcus_bains_line;
+}
+
+/* Force a redraw of the Marcus Bains Lines */
+void
+e_day_view_update_marcus_bains		(EDayView *day_view)
+{
+	g_return_if_fail (E_IS_DAY_VIEW (day_view));
+	gtk_widget_queue_draw (day_view->main_canvas);
+	gtk_widget_queue_draw (day_view->time_canvas);
+}
+
+
+/* Update the variables controlling the Marcus Bains Line (display toggle, and colors). */
+void
+e_day_view_set_marcus_bains		(EDayView       *day_view,
+					 gboolean        show_line,
+					 const char 	*dayview_color,
+					 const char     *timebar_color)
+{
+	g_return_if_fail (E_IS_DAY_VIEW (day_view));
+
+	if ((day_view->show_marcus_bains_line != show_line) |
+	    (day_view->marcus_bains_day_view_color != dayview_color) |
+	    (day_view->marcus_bains_time_bar_color != timebar_color)) {
+
+		if (day_view->marcus_bains_day_view_color) 
+			g_free (day_view->marcus_bains_day_view_color);
+		if (day_view->marcus_bains_time_bar_color) 
+			g_free (day_view->marcus_bains_time_bar_color);
+	
+		day_view->show_marcus_bains_line = show_line;
+		if (dayview_color) 
+			day_view->marcus_bains_day_view_color = g_strdup (dayview_color);
+		else 
+			day_view->marcus_bains_day_view_color = NULL;
+
+		if (timebar_color)
+			day_view->marcus_bains_time_bar_color = g_strdup (timebar_color);
+		else
+			day_view->marcus_bains_time_bar_color = NULL;
+
+		e_day_view_update_marcus_bains (day_view);
+	}
+}
+
 
 /* Whether we display event end times in the main canvas. */
 gboolean

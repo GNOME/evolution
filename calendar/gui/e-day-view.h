@@ -153,6 +153,8 @@ typedef enum
 	E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND,
 	E_DAY_VIEW_COLOR_LONG_EVENT_BORDER,
 
+	E_DAY_VIEW_COLOR_MARCUS_BAINS_LINE,
+
 	E_DAY_VIEW_COLOR_LAST
 } EDayViewColors;
 
@@ -277,6 +279,11 @@ struct _EDayView
 	gint work_day_start_minute;
 	gint work_day_end_hour;
 	gint work_day_end_minute;
+
+	/* Whether we show the Marcus Bains Line in the main canvas and time canvas. */
+	gboolean show_marcus_bains_line;
+	char *marcus_bains_day_view_color;
+	char *marcus_bains_time_bar_color;
 
 	/* Whether we use show event end times in the main canvas. */
 	gboolean show_event_end_times;
@@ -493,6 +500,13 @@ void	   e_day_view_set_working_day		(EDayView	*day_view,
 						 gint		 end_hour,
 						 gint		 end_minute);
 
+/* Whether we display the Marcus Bains Line in the main canvas and time canvas. */
+gboolean   e_day_view_get_show_marcus_bains	(EDayView	*day_view);
+void       e_day_view_set_marcus_bains		(EDayView       *day_view,
+						 gboolean        show_line,
+						 const char 	*dayview_color,
+						 const char     *timebar_color);
+
 /* Whether we display event end times in the main canvas. */
 gboolean   e_day_view_get_show_event_end_times	(EDayView	*day_view);
 void	   e_day_view_set_show_event_end_times	(EDayView	*day_view,
@@ -572,6 +586,8 @@ void e_day_view_ensure_rows_visible (EDayView *day_view,
 				     gint start_row,
 				     gint end_row);
 
+
+void e_day_view_update_marcus_bains (EDayView *day_view);
 
 G_END_DECLS
 
