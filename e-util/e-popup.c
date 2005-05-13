@@ -685,7 +685,7 @@ e_popup_target_free(EPopup *ep, void *o)
   description="IMAP4 and IMAP4v1 mail store">
   <hook class="org.gnome.mail.popupMenu:1.0"
         handler="HandlePopup">
-  <menu id="any" target="select">
+  <menu id="any" target="select" factory="funcspec"?>
    <item
     type="item|toggle|radio|image|submenu|bar"
     active
@@ -693,7 +693,7 @@ e_popup_target_free(EPopup *ep, void *o)
     label="label"
     icon="foo"
     visible="select_one"
-    activate="ep_view_emacs"/>
+    activate="ep_view_emacs"/> *
   </menu>
   </extension>
 
@@ -735,6 +735,9 @@ emph_popup_factory(EPopup *emp, void *data)
 
 	if (menu->items)
 		e_popup_add_items(emp, menu->items, menu->hook->hook.plugin->domain, NULL, menu->hook);
+
+	if (menu->factory)
+		e_plugin_invoke(menu->hook->hook.plugin, menu->factory, emp->target);
 }
 
 static void
@@ -753,6 +756,7 @@ emph_free_menu(struct _EPopupHookMenu *menu)
 	g_slist_foreach(menu->items, (GFunc)emph_free_item, NULL);
 	g_slist_free(menu->items);
 
+	g_free(menu->factory);
 	g_free(menu->id);
 	g_free(menu);
 }
@@ -817,6 +821,9 @@ emph_construct_menu(EPluginHook *eph, xmlNodePtr root)
 			  ((EPluginHookClass *)G_OBJECT_GET_CLASS(eph))->id);
 		goto error;
 	}
+
+	menu->factory = e_plugin_xml_prop(root, "factory");
+
 	node = root->children;
 	while (node) {
 		if (0 == strcmp(node->name, "item")) {

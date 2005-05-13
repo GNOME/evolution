@@ -1,3 +1,9 @@
+2005-05-13  Not Zed  <NotZed@Ximian.com>
+
+	* e-popup.c (emph_popup_factory): if we have a factory method
+	supplied, call that as well.  More flexible popup building.
+	(emph_construct_menu): load factory def.
+
 2005-05-03  Not Zed  <NotZed@Ximian.com>
 
 	* e-profile-event.c (e_profile_event_emit): undefine

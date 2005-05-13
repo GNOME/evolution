@@ -236,6 +236,7 @@ typedef void (*EPopupHookFunc)(struct _EPlugin *plugin, EPopupTarget *target);
  * @target_type: The target number of the type of target these menu
  * items expect. It will generally also be defined by the menu id.
  * @items: A list of EPopupItems.
+ * @factory: If supplied, a function to call
  * 
  * The structure used to keep track of all of the items that a plugin
  * wishes to add to a given menu. This is used internally by a factory
@@ -246,6 +247,7 @@ struct _EPopupHookMenu {
 	char *id;		/* target menu id for these menu items */
 	int target_type;	/* target type of this menu */
 	GSList *items;		/* items to add to menu */
+	char *factory;		/* optional factory to call for adding menu items */
 };
 
 /**
