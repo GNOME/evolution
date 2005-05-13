@@ -1,3 +1,8 @@
+2005-05-13  Not Zed  <NotZed@Ximian.com>
+
+	* evolution-plugin-manual.xml: added some info on the menu tag for
+	popup menus.
+
 2004-11-18  Not Zed  <NotZed@Ximian.com>
 
 	* evolution-plugin-manual.xml: define load-on-startup parameter.

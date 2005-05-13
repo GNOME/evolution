@@ -821,7 +821,7 @@
 	  <programlisting>
 	    <![CDATA[
 <hook class="com.ximian.evolution.mail.popup:1.0">
- <menu id="menuid" target="targettype">
+ <menu id="menuid" target="targettype" factory="function spec"? >
   <item
    type="item | toggle | radio | image | submenu | bar"
    active ?
@@ -835,8 +835,41 @@
 </hook>]]></programlisting>
 	  <!-- this is all too bloody verbose, is there a better way? -->
 	  <para>
-	    <emphasis>Need to define menu tag</emphasis>
+	    <emphasis>Menu Tag</emphasis>
 	  </para>
+	  <variablelist>
+	    <varlistentry>
+	      <term><parameter>id</parameter></term>
+	      <listitem>
+		<simpara>
+		  The id of the menu to which these items should be added.
+		</simpara>
+	      </listitem>
+	    </varlistentry>
+	    <varlistentry>
+	      <term><parameter>target</parameter></term>
+	      <listitem>
+		<simpara>
+		  The target expected.  There will normally only be one target
+		  type defined for any given menu, however some menu's may
+		  supply multiple targets depending on context.
+		</simpara>
+	      </listitem>
+	    </varlistentry>
+	    <varlistentry>
+	      <term><parameter>factory</parameter></term>
+	      <listitem>
+		<simpara>
+		  If present, then a plugin-specific function specification of
+		  the the function to invoke when the the menu is being
+		  created.  This function will normally call
+		  e_popup_add_items() to add custom menu items.  It is used to
+		  provide more control than the visible and enable masks
+		  provide.  The plugin argument is the popup target.
+		</simpara>
+	      </listitem>
+	    </varlistentry>
+	  </variablelist>
 	  <variablelist>
 	    <varlistentry>
 	      <term><parameter>type</parameter></term>
