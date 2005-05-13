@@ -1,3 +1,9 @@
+2005-05-13  Sushma Rai  <rsushma@novell.com>
+
+	* gui/dialogs/recurrence-page.c (make_ending_until_special): Setting
+	two weeks after the start date as default "until" date. 
+	Fixes #268906
+
 2005-05-12  Harish Krishnaswamy  <kharish@novell.com>
 
 	on behalf of jack jia <jack.jia@sun.com>
