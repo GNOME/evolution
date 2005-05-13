@@ -33,6 +33,7 @@
 #include "em-folder-tree.h"
 
 #include <camel/camel-disco-store.h>
+#include <camel/camel-offline-store.h>
 #include "mail-session.h"
 
 #include <gtk/gtkmain.h>
@@ -56,7 +57,9 @@ service_is_relevant (CamelService *service, gboolean going_offline)
 	if (CAMEL_IS_DISCO_STORE (service) &&
 	    camel_disco_store_status (CAMEL_DISCO_STORE (service)) == CAMEL_DISCO_STORE_OFFLINE)
 			return !going_offline;
-
+	else if ( CAMEL_IS_OFFLINE_STORE (service) && 
+		  CAMEL_OFFLINE_STORE ( service )->state == CAMEL_OFFLINE_STORE_NETWORK_UNAVAIL )
+				return !going_offline;
 	return service->status != CAMEL_SERVICE_DISCONNECTED;
 }
 

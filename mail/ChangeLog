@@ -1,3 +1,10 @@
+2005-05-13  Shreyas Srinivasan	<sshreyas@novell.com>
+	
+	* Fixes bug #273868, #300113, #302831.
+	
+	* mail-offline-handler.c : Add check for Camel Offline
+	store to is_service_relevant.
+
 2005-04-21  Jeffrey Stedfast  <fejj@novell.com>
 
 	* em-composer-utils.c (post_reply_to_message): Use the real folder
