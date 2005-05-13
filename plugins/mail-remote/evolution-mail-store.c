@@ -30,9 +30,16 @@
 #include <bonobo/bonobo-i18n.h>
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-arg.h>
-#include "evolution-mail-store.h"
 
-#include <libedataserver/e-account.h>
+#include "evolution-mail-store.h"
+#include "evolution-mail-session.h"
+
+#include "e-corba-utils.h"
+
+#include <camel/camel-store.h>
+#include <camel/camel-session.h>
+
+#include <e-util/e-account.h>
 
 #define FACTORY_ID "OAFIID:GNOME_Evolution_Mail_Store_Factory:" BASE_VERSION
 #define MAIL_STORE_ID  "OAFIID:GNOME_Evolution_Mail_Store:" BASE_VERSION
@@ -45,6 +52,9 @@ static BonoboObjectClass *parent_class = NULL;
 
 struct _EvolutionMailStorePrivate {
 	struct _EAccount *account;
+
+	CamelStore *store;
+	EvolutionMailSession *session;
 };
 
 /* GObject methods */
@@ -93,8 +103,6 @@ impl_getProperties(PortableServer_Servant _servant,
 		GNOME_Evolution_Mail_Property *prop = &props->_buffer[i];
 		char *val = NULL;
 
-		prop->value._release = CORBA_TRUE;
-
 		printf("getting property '%s'\n", name);
 
 		if (!strcmp(name, "name")) {
@@ -103,23 +111,17 @@ impl_getProperties(PortableServer_Servant _servant,
 			else
 				/* FIXME: name & i18n */
 				val = "Local";
+			e_mail_property_set_string(prop, name, val);
 		} else if (!strcmp(name, "uid")) {
 			if (p->account)
 				val = p->account->uid;
 			else
 				val = "local@local";
+			e_mail_property_set_string(prop, name, val);
 		} else {
-			prop->value._type = TC_null;
+			e_mail_property_set_null(prop, name);
 			ok = CORBA_FALSE;
 		}
-
-		if (val) {
-			prop->value._type = TC_CORBA_string;
-			prop->value._value = CORBA_sequence_CORBA_string_allocbuf(1);
-			((char **)prop->value._value)[0] = CORBA_string_dup(val);
-		}
-
-		prop->name = CORBA_string_dup(name);
 	}
 
 	return ok;
@@ -130,17 +132,35 @@ impl_getFolders(PortableServer_Servant _servant,
 		const CORBA_char * pattern,
 		CORBA_Environment * ev)
 {
-#if 0
 	EvolutionMailStore *ems = (EvolutionMailStore *)bonobo_object_from_servant(_servant);
-	GNOME_Evolution_Mail_NOT_SUPPORTED *ex;
+	struct _EvolutionMailStorePrivate *p = _PRIVATE(ems);
+	CamelFolderInfo *fi;
+	CamelException ex = { 0 };
 
-	ex = GNOME_Evolution_Mail_NOT_SUPPORTED__alloc();
-	ex->why = CORBA_string_dup("Unimplemented");
+	if (p->store == NULL) {
+		if (p->account == NULL) {
+			p->store = mail_component_peek_local_store(NULL);
+			camel_object_ref(p->store);
+		} else {
+			const char *uri;
 
-	ev->_id = ex_GNOME_Evolution_Mail_NOT_SUPPORTED;
-	ev->_major = CORBA_USER_EXCEPTION;
-	ev->_any = ex;
-#endif
+			uri = e_account_get_string(p->account, E_ACCOUNT_SOURCE_URL);
+			if (uri && *uri) {
+				p->store = camel_session_get_store(p->session->session, uri, &ex);
+				if (camel_exception_is_set(&ex)) {
+					camel_exception_clear(&ex);
+					return NULL;
+				}
+			} else {
+				return NULL;
+			}
+		}
+	}
+
+	fi = camel_store_get_folder_info(p->store, pattern, CAMEL_STORE_FOLDER_INFO_RECURSIVE|CAMEL_STORE_FOLDER_INFO_FAST, &ex);
+
+	/* flatten folders ... */
+
 	return NULL;
 }
 
@@ -191,7 +211,7 @@ evolution_mail_store_init(EvolutionMailStore *component, EvolutionMailStoreClass
 BONOBO_TYPE_FUNC_FULL (EvolutionMailStore, GNOME_Evolution_Mail_Store, PARENT_TYPE, evolution_mail_store)
 
 EvolutionMailStore *
-evolution_mail_store_new(struct _EAccount *ea)
+evolution_mail_store_new(struct _EvolutionMailSession *s, struct _EAccount *ea)
 {
 	EvolutionMailStore *ems = g_object_new (EVOLUTION_MAIL_TYPE_STORE, NULL);
 	struct _EvolutionMailStorePrivate *p = _PRIVATE(ems);
@@ -200,6 +220,8 @@ evolution_mail_store_new(struct _EAccount *ea)
 		p->account = ea;
 		g_object_ref(ea);
 	}
+
+	p->session = s;
 
 	return ems;
 }

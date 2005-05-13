@@ -37,6 +37,8 @@ typedef struct _EvolutionMailSessionClass   EvolutionMailSessionClass;
 
 struct _EvolutionMailSession {
 	BonoboObject parent;
+
+	struct _CamelSession *session;
 };
 
 struct _EvolutionMailSessionClass {

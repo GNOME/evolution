@@ -11,8 +11,12 @@ plugin_LTLIBRARIES = liborg-gnome-evolution-mail-remote.la
 liborg_gnome_evolution_mail_remote_la_SOURCES = \
 	$(IDL_GENERATED_C)			\
 	$(IDL_GENERATED_H)			\
+	e-corba-utils.c				\
+	e-corba-utils.h				\
 	evolution-mail-folder.c			\
 	evolution-mail-folder.h			\
+	evolution-mail-messageiterator.c	\
+	evolution-mail-messageiterator.h	\
 	evolution-mail-session.c		\
 	evolution-mail-session.h		\
 	evolution-mail-store.c			\

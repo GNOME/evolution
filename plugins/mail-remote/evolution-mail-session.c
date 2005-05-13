@@ -35,6 +35,8 @@
 
 #include "evolution-mail-store.h"
 
+#include <camel/camel-session.h>
+
 #define FACTORY_ID "OAFIID:GNOME_Evolution_Mail_Session_Factory:" BASE_VERSION
 #define MAIL_SESSION_ID  "OAFIID:GNOME_Evolution_Mail_Session:" BASE_VERSION
 
@@ -145,11 +147,12 @@ evolution_mail_session_init (EvolutionMailSession *ems, EvolutionMailSessionClas
 	struct _EvolutionMailSessionPrivate *p = _PRIVATE(ems);
 	EIterator *iter;
 	EvolutionMailStore *store;
+	extern CamelSession *session;
 
 	/* FIXME: listen to changes */
 
 	/* local store first */
-	p->stores = g_list_append(p->stores, evolution_mail_store_new(NULL));
+	p->stores = g_list_append(p->stores, evolution_mail_store_new(ems, NULL));
 
 	p->accounts = e_account_list_new(gconf);
 	iter = e_list_get_iterator((EList *)p->accounts);
@@ -157,7 +160,7 @@ evolution_mail_session_init (EvolutionMailSession *ems, EvolutionMailSessionClas
 		EAccount *ea;
 
 		if ((ea = (EAccount *)e_iterator_get(iter))
-		    && (store = evolution_mail_store_new((struct _EAccount *)ea))) {
+		    && (store = evolution_mail_store_new(ems, (struct _EAccount *)ea))) {
 			p->stores = g_list_append(p->stores, store);
 		}
 
@@ -166,29 +169,8 @@ evolution_mail_session_init (EvolutionMailSession *ems, EvolutionMailSessionClas
 	g_object_unref(iter);
 
 	g_object_unref(gconf);
+
+	ems->session = session;
 }
 
 BONOBO_TYPE_FUNC_FULL (EvolutionMailSession, GNOME_Evolution_Mail_Session, PARENT_TYPE, evolution_mail_session)
-
-#if 0
-static BonoboObject *
-factory (BonoboGenericFactory *factory, const char *component_id, void *closure)
-{
-	if (strcmp(component_id, MAIL_SESSION_ID) == 0) {
-		static BonoboObject *object;
-
-		/* Enfoce singleton instance */
-		if (object == NULL)
-			object = BONOBO_OBJECT (g_object_new (EVOLUTION_MAIL_TYPE_SESSION, NULL));
-
-		bonobo_object_ref (object);
-		return object;
-	}
-	
-	g_warning (FACTORY_ID ": Don't know what to do with %s", component_id);
-
-	return NULL;
-}
-
-BONOBO_ACTIVATION_SHLIB_FACTORY (FACTORY_ID, "Evolution Mail Session factory", factory, NULL)
-#endif

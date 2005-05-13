@@ -23,6 +23,9 @@ module Mail {
 	interface Store;
 	typedef sequence<Store> Stores;
 
+	interface Session;
+
+	/* ********************************************************************** */
 	// NB: tiny subset of omg properties service
 	typedef string PropertyName;
 	typedef sequence <PropertyName> PropertyNames;
@@ -32,10 +35,26 @@ module Mail {
 	};
 	typedef sequence <Property> Properties;
 
+	/* ********************************************************************** */
+
+	// ??
+	interface Listener {
+		void storeAdded(in Store store);
+		void storeRemoved(in Store store);
+
+		void folderAdded(in Store store, in Folder folder);
+		void folderRemoved(in Store store, in Folder folder);
+	};
+
+	/* ********************************************************************** */
+
 	interface Session : Bonobo::Unknown {
 		boolean getProperties(in PropertyNames names, out Properties props);
 
 		Stores getStores(in string pattern);
+
+		void addListener(in Listener listener);
+		void removeListener(in Listener listener);
 	};
 
 	interface Store : Bonobo::Unknown {
@@ -48,23 +67,22 @@ module Mail {
 			raises (NOT_SUPPORTED);
 	};
 
-	struct MessageInfo {
+	struct Message {
 		string uid;
 		string subject;
 		string to;
 		string from;
 	};
 
-	typedef sequence <MessageInfo> MessageInfos;
-
-//	interface MessageInfoIterator : Bonobo::Unknown {
-//		MessageInfos next(in long limit);
-//	};
+	typedef sequence <Message> Messages;
+	interface MessageIterator : Bonobo::Unknown {
+		Messages next(in long limit);
+	};
 
 	interface Folder : Bonobo::Unknown {
-		void getProperties(inout Properties pseq);
+		boolean getProperties(in PropertyNames names, out Properties props);
 
-//		MessageInfoIterator getMessageInfo(in string pattern);
+		MessageIterator getMessages(in string pattern);
 
 		Bonobo::Stream getMessage(in string uid);
 

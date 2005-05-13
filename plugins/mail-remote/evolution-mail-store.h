@@ -32,6 +32,7 @@
 #define EVOLUTION_MAIL_IS_STORE_CLASS(klass)		(G_TYPE_CHECK_CLASS_TYPE ((obj), EVOLUTION_MAIL_TYPE_STORE))
 
 struct _EAccount;
+struct _EvolutionMailSession;
 
 typedef struct _EvolutionMailStore        EvolutionMailStore;
 typedef struct _EvolutionMailStoreClass   EvolutionMailStoreClass;
@@ -48,6 +49,6 @@ struct _EvolutionMailStoreClass {
 
 GType           evolution_mail_store_get_type(void);
 
-EvolutionMailStore *evolution_mail_store_new(struct _EAccount *ea);
+EvolutionMailStore *evolution_mail_store_new(struct _EvolutionMailSession *s, struct _EAccount *ea);
 
 #endif /* _EVOLUTION_MAIL_STORE_H_ */
