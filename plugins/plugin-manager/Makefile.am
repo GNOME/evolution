@@ -11,7 +11,7 @@ liborg_gnome_plugin_manager_la_SOURCES = plugin-manager.c
 liborg_gnome_plugin_manager_la_LDFLAGS = -module -avoid-version
 
 EXTRA_DIST =						\
-	org-gnome-plugin-manager.eplug.xml
+	org-gnome-plugin-manager.eplug.xml		\
 	org-gnome-plugin-manager.xml
 
 BUILT_SOURCES = org-gnome-plugin-manager.eplug
