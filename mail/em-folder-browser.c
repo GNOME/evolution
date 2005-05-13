@@ -73,6 +73,7 @@
 #include "em-format-html-print.h"
 #include "em-folder-browser.h"
 #include "em-folder-properties.h"
+#include "em-folder-utils.h"
 #include "em-subscribe-editor.h"
 #include "em-menu.h"
 #include "message-list.h"
@@ -569,6 +570,91 @@ emfb_folder_properties(BonoboUIComponent *uid, void *data, const char *path)
 }
 
 static void
+emfb_folder_copy(BonoboUIComponent *uid, void *data, const char *path)
+{
+	EMFolderBrowser *emfb = data;
+	CamelFolderInfo *fi = NULL;
+	CamelException ex;
+
+	camel_exception_init (&ex);
+
+	if ((fi = camel_store_get_folder_info (emfb->view.folder->parent_store,
+					       emfb->view.folder->full_name,
+					       CAMEL_STORE_FOLDER_INFO_FAST,
+					       &ex)) != NULL)
+		emfu_copy_folder (fi);
+
+	camel_exception_clear (&ex);
+
+	return;
+}
+
+static void
+emfb_folder_move(BonoboUIComponent *uid, void *data, const char *path)
+{
+	EMFolderBrowser *emfb = data;
+	CamelFolderInfo *fi = NULL;
+	CamelException ex;
+
+	camel_exception_init (&ex);
+
+	if ((fi = camel_store_get_folder_info (emfb->view.folder->parent_store,
+					       emfb->view.folder->full_name,
+					       CAMEL_STORE_FOLDER_INFO_FAST,
+					       &ex)) != NULL)
+		emfu_move_folder (fi);
+
+	camel_exception_clear (&ex);
+
+	return;
+}
+
+static void
+emfb_folder_delete(BonoboUIComponent *uid, void *data, const char *path)
+{
+	EMFolderBrowser *emfb = data;
+
+	emfu_delete_folder (emfb->view.folder);
+
+	return;
+}
+
+static void
+emfb_folder_rename(BonoboUIComponent *uid, void *data, const char *path)
+{
+	EMFolderBrowser *emfb = data;
+
+	emfu_rename_folder (emfb->view.folder);
+
+	return;
+}
+
+static void
+emfb_folder_create(BonoboUIComponent *uid, void *data, const char *path)
+{
+	EMFolderBrowser *emfb = data;
+	CamelFolderInfo *fi = NULL;
+	CamelException ex;
+
+	camel_exception_init (&ex);
+
+	if (emfb->view.folder) {
+		if ((fi = camel_store_get_folder_info (emfb->view.folder->parent_store,
+						       emfb->view.folder->full_name,
+						       CAMEL_STORE_FOLDER_INFO_FAST,
+						       &ex)) != NULL)
+			emfu_folder_create (fi);
+	} else {
+		emfu_folder_create (NULL);
+	}
+			
+
+	camel_exception_clear (&ex);
+
+	return;
+}
+
+static void
 emfb_folder_expunge(BonoboUIComponent *uid, void *data, const char *path)
 {
 	EMFolderBrowser *emfb = data;
@@ -626,25 +712,6 @@ emfb_view_show_all(BonoboUIComponent *uid, void *data, const char *path)
 }
 
 /* ********************************************************************** */
-
-static void
-emfb_empty_trash(BonoboUIComponent *uid, void *data, const char *path)
-{
-	EMFolderView *emfv = data;
-	
-	em_utils_empty_trash (gtk_widget_get_toplevel ((GtkWidget *) emfv));
-}
-
-static void
-emfb_mail_compose(BonoboUIComponent *uid, void *data, const char *path)
-{
-	EMFolderView *emfv = data;
-
-	if (!em_utils_check_user_can_send_mail((GtkWidget *)emfv))
-		return;
-
-	em_utils_compose_new_message(emfv->folder_uri);
-}
 
 static void
 emfb_mail_stop(BonoboUIComponent *uid, void *data, const char *path)
@@ -712,8 +779,12 @@ static BonoboUIVerb emfb_verbs[] = {
 	BONOBO_UI_UNSAFE_VERB ("ViewShowAll", emfb_view_show_all),
 	/* ViewThreaded is a toggle */
 
-	BONOBO_UI_UNSAFE_VERB ("EmptyTrash", emfb_empty_trash),
-	BONOBO_UI_UNSAFE_VERB ("MailCompose", emfb_mail_compose),
+	BONOBO_UI_UNSAFE_VERB ("FolderCopy", emfb_folder_copy),
+	BONOBO_UI_UNSAFE_VERB ("FolderMove", emfb_folder_move),
+	BONOBO_UI_UNSAFE_VERB ("FolderDelete", emfb_folder_delete),
+	BONOBO_UI_UNSAFE_VERB ("FolderRename", emfb_folder_rename),
+	BONOBO_UI_UNSAFE_VERB ("FolderCreate", emfb_folder_create),
+
 	BONOBO_UI_UNSAFE_VERB ("MailPost", emfb_mail_post),
 	BONOBO_UI_UNSAFE_VERB ("MailStop", emfb_mail_stop),
 	BONOBO_UI_UNSAFE_VERB ("ToolsFilters", emfb_tools_filters),
@@ -726,11 +797,8 @@ static BonoboUIVerb emfb_verbs[] = {
 
 static EPixmap emfb_pixmaps[] = {
 	E_PIXMAP ("/commands/ChangeFolderProperties", "stock_folder-properties", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/ViewHideRead", "stock_mail-hide-read", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/ViewHideSelected", "stock_mail-hide-selected", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/ViewShowAll", "stock_show-all", E_ICON_SIZE_MENU),
-	
-	E_PIXMAP ("/commands/MailCompose", "stock_mail-compose", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/FolderCopy", "stock_folder-copy", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/FolderMove", "stock_folder-move", E_ICON_SIZE_MENU),
 
 	E_PIXMAP_END
 };
@@ -740,10 +808,13 @@ static const EMFolderViewEnable emfb_enable_map[] = {
 	{ "EditSelectAll", EM_POPUP_SELECT_FOLDER },
 	{ "EditSelectThread", EM_FOLDER_VIEW_SELECT_THREADED },
 	{ "FolderExpunge", EM_POPUP_SELECT_FOLDER },
+	{ "FolderCopy", EM_POPUP_SELECT_FOLDER },
+	{ "FolderMove", EM_POPUP_SELECT_FOLDER },
+	{ "FolderDelete", EM_POPUP_SELECT_FOLDER },
+	{ "FolderRename", EM_POPUP_SELECT_FOLDER },
 	{ "MailPost", EM_POPUP_SELECT_FOLDER },
 	{ "MessageMarkAllAsRead", EM_POPUP_SELECT_FOLDER },
 	{ "ViewHideSelected", EM_POPUP_SELECT_MANY },
-	{ "ViewShowAll", EM_FOLDER_VIEW_SELECT_HIDDEN },
 	{ NULL },
 };
 

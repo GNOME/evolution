@@ -24,21 +24,42 @@
     </submenu>
 
     <submenu name="View" _label="_View">
-      <placeholder name="MailMessageView"/>
+      <placeholder name="MailViewType"/>
+
+      <placeholder name="MailMessageZoom"/>
+      <separator f="" name="CharsetSeparator"/>
     </submenu>
 
-    <submenu name="Actions" _label="_Actions">
-      <placeholder name="ComponentActionsPlaceholder">
+    <placeholder name="MessagePlaceholder">
+      <submenu name="Message" _label="_Message">
+        <placeholder name="MessageTopActions"/>
+
+        <separator f="" name="emailglobal"/>
+
+        <placeholder name="MessageNavigation"/>
+
+        <placeholder name="MailListActions"/>
+
         <placeholder name="MailMessageActions"/>
-      </placeholder>
-    </submenu>
 
-    <submenu name="Tools">
-      <placeholder name="ComponentPlaceholder">
-	<placeholder name="MailFilterTools"/>
-	<placeholder name="MailVFolderTools"/>
+        <separator f="" name="emaillist5"/>
+
+        <placeholder name="MessageRuleCreate"/>
+
+    </submenu>
+    </placeholder>
+
+
+<!--
+    <placeholder name="MessagePlaceholder">
+      <submenu name="Message" _label="_Message">
+
+        <placeholder name="ComponentActionsPlaceholder">
+          <placeholder name="MailMessageActions"/>
       </placeholder>
     </submenu>
+    </placeholder>
+-->
 
   </menu>
 

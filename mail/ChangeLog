@@ -1,3 +1,32 @@
+2005-05-13  Rodney Dawes  <dobey@novell.com>
+
+	* Makefile.am: Add new em-folder-utils.[ch] abstraction
+
+	* em-folder-browser.c: Update for new menu layout
+	Add new methods to handle the actions that were previously only
+	available from the context menu when right-clicking on a folder
+
+	* em-folder-selector.c (emfs_response): Just call emfu_folder_create
+	if the user wants to create a new folder in the selector dialog
+	(em_folder_selector_get_selected_path): Clean up the code to fix a
+	couple potential crashes
+
+	* em-folder-tree.[ch]: Add methods to get pointers to a CamelFolder or
+	CamelFolderInfo object for the selected item in the tree
+	Add a method to get a pointer to an EMFolderTreeModelStoreInfo object
+	for the selected store in the tree
+	Move folder operations out into em-folder-utils.[ch] so that they
+	are abstracted from the tree and can be used by methods other than
+	the internal context menu
+
+	* em-folder-utils.[ch]: Move the folder operations code to here
+
+	* em-folder-view.c: Update for the new menu layout
+	Fix Mark as Read/Unread in the context menu to only show up in the list
+
+	* mail-component.c (create_item): Just call emfu_folder_create here
+	when the user requests to create a new folder from the New toolbar item
+
 2005-05-13  Shreyas Srinivasan	<sshreyas@novell.com>
 	
 	* Fixes bug #273868, #300113, #302831.

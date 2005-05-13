@@ -737,23 +737,6 @@ impl__get_userCreatableItems (PortableServer_Servant servant, CORBA_Environment 
 	return list;
 }
 
-static void
-emc_new_folder_response(EMFolderSelector *emfs, int response, void *dummy)
-{
-	const char *uri, *path;
-	
-	if (response != GTK_RESPONSE_OK) {
-		gtk_widget_destroy((GtkWidget *)emfs);
-		return;
-	}
-	
-	uri = em_folder_selector_get_selected_uri(emfs);
-	path = em_folder_selector_get_selected_path(emfs);
-	
-	if (em_folder_tree_create_folder(emfs->emft, path, uri))
-		gtk_widget_destroy((GtkWidget *)emfs);
-}
-
 static int
 create_item(const char *type, EMFolderTreeModel *model, const char *uri)
 {
@@ -763,15 +746,7 @@ create_item(const char *type, EMFolderTreeModel *model, const char *uri)
 	
 		em_utils_compose_new_message(uri);
 	} else if (strcmp(type, "folder") == 0) {
-		EMFolderTree *folder_tree;
-		GtkWidget *dialog;
-		
-		folder_tree = (EMFolderTree *)em_folder_tree_new_with_model(model);
-		dialog = em_folder_selector_create_new (folder_tree, 0, _("Create folder"), _("Specify where to create the folder:"));
-		if (uri)
-			em_folder_selector_set_selected ((EMFolderSelector *) dialog, uri);
-		g_signal_connect (dialog, "response", G_CALLBACK(emc_new_folder_response), NULL);
-		gtk_widget_show(dialog);
+		emfu_folder_create (NULL);
 	} else
 		return -1;
 

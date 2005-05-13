@@ -4,10 +4,10 @@
       _tip="Create a new window displaying this folder"
       accel="*Control**Shift*w"/>
 
-    <cmd name="FileClose" _label="Close" _tip="Close this window"
+    <cmd name="FileClose" _label="_Close Window" _tip="Close this window"
       pixtype="stock" pixname="gtk-close" accel="*Control*w"/>
 
-    <cmd name="FileExit" _label="E_xit" _tip="Exit the program"
+    <cmd name="FileExit" _label="_Quit" _tip="Exit the program"
       pixtype="stock" pixname="gtk-quit" accel="*Control*q"/>
 
     <cmd name="ViewButtonsIconText" _label="Icons _and text" 
@@ -57,27 +57,38 @@
 
       <menuitem name="OpenNewWindow" verb="" pixtype="pixbuf"/>
 
+      <separator f="" name="eshell4"/>
+      
+      <menuitem name="SendReceive" verb="" _label="_Send / Receive" accel="F9"/>
+
       <placeholder name="FileOps"/>
 
-      <separator f="" name="eshell4"/>
+      <separator f="" name="eshell1"/>
       
       <menuitem name="FileImporter" verb=""
 	_label="_Import..."
-	_tip="Import data from other programs" accel="*Control*i"
+	_tip="Import data from other programs"
 	pixtype="pixbuf"/>
 
       <placeholder name="Print" delimit="top"/>
 
+<!--
       <placeholder name="ComponentPlaceholder"/>
+-->
 
       <separator f="" name="eshell5"/>
 
+      <placeholder name="EmptyTrashPlaceholder"/>
+
+
+      <menuitem name="ForgetPasswords" verb="" _label="Forget _Passwords"/>
+
       <menuitem name="ToggleOffline" verb=""
-	_label="Work Offline"
+	_label="_Work Offline"
 	pixtype="pixbuf"/>
       
       <menuitem name="FileClose" verb=""
-	_label="_Close"/>
+	_label="_Close Window"/>
 
       <menuitem name="FileExit" verb="FileExit"/>
     </submenu>
@@ -85,33 +96,41 @@
     <submenu name="Edit" _label="_Edit">
       <placeholder name="EditPlaceholder"/>
       <separator/>
+      <menuitem name="PilotSettings" verb="" _label="_Synchronization Options..." _tip="Set up Pilot configuration"/>
+      <placeholder name="MailFilterTools"/>
+      <placeholder name="MailVFolderTools"/>
+
+      <placeholder name="PluginManagerPlaceholder"/>
+
       <menuitem name="Settings" verb="" _label="Prefere_nces" _tip="Change Evolution's settings"/>
     </submenu>
 
     <submenu name="View" _label="_View">
       <placeholder name="ViewBegin"/>
-      <submenu name="Window" _label="_Window"/>
-      <submenu name="Buttons" _label="Window B_uttons">
+      <menuitem name="ViewToolbar" id="ViewToolbar" verb="" accel="*Control**Shift*o"/>
+      <placeholder name="ViewPreview"/>
+      <submenu name="Buttons" _label="_Switcher Appearance">
             <menuitem name="ViewButtonsIconText" id="ViewButtonsIconText" verb=""/>
             <menuitem name="ViewButtonsIcon" id="ViewButtonsIcon" verb=""/>
             <menuitem name="ViewButtonsText" id="ViewButtonsText" verb=""/>
             <menuitem name="ViewButtonsGnome" id="ViewButtonsToolbar" verb=""/>
-            <separator/>
+            <separator f="" name="Switcher1"/>
             <menuitem name="ViewButtonsHide" id="ViewButtonsHide" verb=""/>
       </submenu>
-      <menuitem name="ViewToolbar" id="ViewToolbar" verb="" accel="*Control**Shift*o"/>
       <placeholder name="ViewAfterControl"/>
     </submenu>
 
-    <submenu name="Actions" _label="_Actions">
-      <menuitem name="SendReceive" verb="" _label="_Send / Receive" accel="F9"/>
-      <menuitem name="ForgetPasswords" verb="" _label="Forget _Passwords"/>
-      <placeholder name="ComponentActionsPlaceholder"/>
-    </submenu>
+    <placeholder name="FolderPlaceholder">
+    </placeholder>
+
+    <placeholder name="MessagePlaceholder">
+    </placeholder>
+
+    <placeholder name="ActionsPlaceholder">
+    </placeholder>
 
     <submenu name="Tools" _label="_Tools">
       <placeholder name="ComponentPlaceholder"/>
-      <menuitem name="PilotSettings" verb="" _label="Pi_lot Settings..." _tip="Set up Pilot configuration"/>
     </submenu>
 
     <placeholder name="SearchPlaceholder">

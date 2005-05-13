@@ -28,30 +28,30 @@
 
     <cmd name="ChangeFolderProperties"
      _tip="Change the properties of this folder"
-     pixtype="stock" pixname="gtk-properties"/>
+     pixtype="pixbuf"/>
 
     <cmd name="FolderExpunge"
      _tip="Permanently remove all deleted messages from this folder"
      accel="*Control*e"/>
 
+    <cmd name="FolderDelete"
+     _tip="Permanently remove this folder"/>
+
+    <cmd name="FolderRename"
+     _tip="Change the name of this folder"/>
+
     <cmd name="HideDeleted"
      _tip="Hide deleted messages rather than displaying them with a line through them"
      type="toggle" />
 
-    <cmd name="MessageMarkAllAsRead"
-     _tip="Mark all visible messages as read"/>
+    <cmd name="ViewHideRead"  _tip="Temporarily hide all messages that have already been read"
+     type="radio" group="Message_Filter"/>
 
-    <cmd name="ViewHideRead"
-     _tip="Temporarily hide all messages that have already been read"
-     pixtype="pixbuf"/>
+    <cmd name="ViewHideSelected" _tip="Temporarily hide the selected messages"
+     type="radio" group="Message_Filter"/>
 
-    <cmd name="ViewHideSelected"
-     _tip="Temporarily hide the selected messages"
-     pixtype="pixbuf"/>
-
-    <cmd name="ViewShowAll"
-     _tip="Show messages that have been temporarily hidden"
-     pixtype="pixbuf"/>
+    <cmd name="ViewShowAll" _tip="Show messages that have been temporarily hidden"
+     type="radio" group="Message_Filter"/>
 
     <cmd name="ViewThreaded"
      _tip="Threaded Message list"
@@ -66,54 +66,76 @@
 
   <menu>
 
-    <submenu name="File">
-      <placeholder name="ComponentPlaceholder">
-        <separator name="mail-list-folder"/>
-        <submenu name="Folder" _label="_Folder">
-           <menuitem name="ChangeFolderProperties" verb="" _label="_Properties"/>
-        </submenu>
-      </placeholder>
-    </submenu>
-
-    <submenu name="Edit" _label="_Edit">
-      <placeholder name="EditPlaceholder">
-        <placeholder name="MailListEdit">
-          <menuitem name="EditSelectAll" verb="" _label="Select _All"/>
-          <menuitem name="EditSelectThread" verb="" _label="Select _Thread"/>
-          <menuitem name="EditInvertSelection" verb="" _label="_Invert Selection"/>
-
-	  <separator f="" name="emaillist2"/>
-        </placeholder>
-
-        <placeholder name="MailListEditFlags">
-          <menuitem name="MessageMarkAllAsRead" verb="" _label="Mark All as _Read"/>
-        </placeholder>
-      </placeholder>
-    </submenu>
-
     <submenu name="View">
-      <placeholder name="MailMessageView">
-        <menuitem name="ViewThreaded" verb="" _label="_Threaded Message List"/>
-        <menuitem name="HideDeleted" verb="" _label="Hide _Deleted Messages"/>
 
-  	<separator f="" name="emaillist"/>
+      <placeholder name="MailMessageFilter">
+<!--
+        <submenu name="FilterMessages" _label="Show _Messages">
+
+          <menuitem name="ViewShowAll" verb="" _label="_All"/>
+	  <menuitem name="ViewHideSelected" verb="" _label="_Selected Messages"/>
+          <menuitem name="ViewHideRead" verb="" _label="Un_read Messages"/>
+
+	</submenu>
+-->
+      </placeholder>
+
+      <placeholder name="MailMessageView">
+        <menuitem name="ViewThreaded" verb="" _label="Group By _Threads"/>
+        <menuitem name="HideDeleted" verb="" _label="Hide _Deleted Messages"/>
       </placeholder>
 
       <placeholder name="MailListView">
 	<separator f="" name="emaillist"/>
-        <menuitem name="ViewHideSelected" verb="" _label="Hide S_elected Messages"/>
-        <menuitem name="ViewHideRead" verb="" _label="Hide _Read Messages"/>
-        <menuitem name="ViewShowAll" verb="" _label="Sh_ow Hidden Messages"/>
      </placeholder>
     </submenu>
 
+    <placeholder name="MessagePlaceholder">
+      <submenu name="Message" _label="_Message">
+        <placeholder name="MessageTopActions"/>
+
+        <separator f="" name="emailglobal"/>
+
+        <placeholder name="MessageNavigation"/>
+	<placeholder name="MailListActions"/>
+        <placeholder name="MailMessageActions"/>
+
+        <separator f="" name="emaillist5"/>
+
+        <placeholder name="MessageRuleCreate"/>
+
+      </submenu>
+    </placeholder>
+
+    <placeholder name="FolderPlaceholder">
+      <submenu name="Folder" _label="F_older">
+
+        <placeholder name="MessagesInFolder">
+          <menuitem name="EditSelectAll" verb="" _label="Select _All Messages"/>
+          <menuitem name="MessageMarkAllAsRead" verb="" _label="Mark Me_ssages as Read"/>
+          <menuitem name="FolderExpunge" verb="" _label="E_xpunge"/>
+        </placeholder>
+
+ 	<placeholder name="FolderOps">
+	  <menuitem name="FolderRename" verb="" _label="_Rename..."/>
+	  <menuitem name="FolderDelete" verb="" _label="_Delete" pixtype="stock" pixname="gtk-delete"/>
+
+ 	  <separator f="" name="FolderOps1"/>
+          <menuitem name="ChangeFolderProperties" verb="" _label="_Properties"/>
+ 	</placeholder>
+
+      </submenu>
+    </placeholder>
+
+<!--
     <submenu name="Actions" _label="_Actions">
       <placeholder name="ComponentActionsPlaceholder">
         <placeholder name="MailListActions">
-          <menuitem name="FolderExpunge" verb="" _label="E_xpunge"/>
         </placeholder>
       </placeholder>
     </submenu>
+-->
+
   </menu>
 
 </Root>

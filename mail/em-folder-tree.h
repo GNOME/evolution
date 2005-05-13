@@ -85,8 +85,11 @@ GList *em_folder_tree_get_selected_paths (EMFolderTree *emft);
 void em_folder_tree_set_selected (EMFolderTree *emft, const char *uri);
 char *em_folder_tree_get_selected_uri (EMFolderTree *emft);
 char *em_folder_tree_get_selected_path (EMFolderTree *emft);
+CamelFolder *em_folder_tree_get_selected_folder (EMFolderTree *emft);
+CamelFolderInfo *em_folder_tree_get_selected_folder_info (EMFolderTree *emft);
 
 EMFolderTreeModel *em_folder_tree_get_model (EMFolderTree *emft);
+EMFolderTreeModelStoreInfo *em_folder_tree_get_model_storeinfo (EMFolderTree *emft, CamelStore *store);
 
 gboolean em_folder_tree_create_folder (EMFolderTree *emft, const char *full_name, const char *uri);
 

@@ -702,8 +702,7 @@ setup_widgets (EShellWindow *window)
 					      (BonoboUIVerbFn)menu_component_selected,
 					      window);
 
-		g_string_printf(xml, "<submenu name=\"View\">"
-				"<submenu name=\"Window\">"
+		g_string_printf(xml, "<submenu name=\"Tools\">"
 				"<placeholder name=\"WindowComponent\">"
 				"<menuitem name=\"SwitchComponent-%s\" "
 				"verb=\"\" label=\"%s\" accel=\"%s\" tip=\"",
@@ -713,7 +712,7 @@ setup_widgets (EShellWindow *window)
 		g_string_append_printf(xml, _("Switch to %s"), info->button_label);
 		tmp = bonobo_ui_util_pixbuf_to_xml (info->menu_icon),
 		g_string_append_printf(xml, "\" pixtype=\"pixbuf\" pixname=\"%s\"/>"
-				       "</placeholder></submenu></submenu>\n",
+				       "</placeholder></submenu>\n",
 				       tmp);
 		g_free(tmp);
 		bonobo_ui_component_set_translate (e_shell_window_peek_bonobo_ui_component (window),

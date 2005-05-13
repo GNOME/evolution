@@ -1,3 +1,8 @@
+2005-05-13  Rodney Dawes  <dobey@novell.com>
+
+	* e-shell-window.c (setup_widgets): Update for the new menu layout by
+	putting the "component" switching items under the "Tools" menu
+
 2005-05-13  Shreyas Srinivasan	<sshreyas@novell.com>
 
 	* e-shell-offline-handler.c: Remove the go->offline dialog.

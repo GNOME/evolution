@@ -1,3 +1,8 @@
+2005-05-13  Rodney Dawes  <dobey@novell.com>
+
+	* plugins/Makefile.am (DIST_SUBDIRS): Add profiler so that it gets
+	disted properly
+
 2005-05-12  Not Zed  <NotZed@Ximian.com>
 
 	* configure.in: Added mail-remote stuff.  an experimental plugin.

@@ -334,17 +334,6 @@ build_items (ESearchBar *esb, ESearchBarItem *items, int type, int *start, GPtrA
 
 	g_ptr_array_set_size(rules, 0);
 
-	/* find a unique starting point for the id's of our items */
-	for (i = 0; items[i].id != -1; i++) {
-		ESearchBarItem dup_item;
-
-		if (items[i].id >= id)
-			id = items[i].id + 1;
-
-		dup_item_no_subitems (&dup_item, items + i);
-		g_array_append_vals (menu, &dup_item, 1);
-	}
-	
 	*start = id;
 	
 	if (type == 0) {
@@ -384,6 +373,17 @@ build_items (ESearchBar *esb, ESearchBarItem *items, int type, int *start, GPtrA
 		g_ptr_array_add (rules, rule);
 	}
 
+	/* find a unique starting point for the id's of our items */
+	for (i = 0; items[i].id != -1; i++) {
+		ESearchBarItem dup_item;
+
+		if (items[i].id >= id)
+			id = items[i].id + 1;
+
+		dup_item_no_subitems (&dup_item, items + i);
+		g_array_append_vals (menu, &dup_item, 1);
+	}
+	
 	/* anything elft in gtksux has gone away, and we need to unref/disconnect from it */
 	while (gtksux) {
 		GSList *next;

@@ -5,11 +5,6 @@
     <cmd name="EmptyTrash"
      _tip="Permanently remove all deleted messages from all folders"/>
 
-    <cmd name="MailCompose"
-     _tip="Open a window for composing a mail message"
-     pixtype="pixbuf"
-     accel="*Control**Shift*m"/>
-
     <cmd name="MailPost"
      _tip="Post a message to a Public folder"
      accel="*Control**Alt*m"/>
@@ -17,6 +12,19 @@
     <cmd name="MailStop"
      _tip="Cancel the current mail operation"
      pixtype="stock" pixname="gtk-stop"/>
+
+    <cmd name="FolderCreate"
+     _tip="Create a new folder for storing mail"
+     accel="*Control**Shift*f"
+     pixtype="pixbuf"/>
+
+    <cmd name="FolderCopy"
+     _tip="Copy the selected folder into another folder"
+     pixtype="pixbuf"/>
+
+    <cmd name="FolderMove"
+     _tip="Move the selected folder into another folder"
+     pixtype="pixbuf"/>
 
     <cmd name="ToolsFilters"
      _tip="Create or edit rules for filtering new mail"/>
@@ -29,17 +37,39 @@
 
     <cmd name="ViewPreview"
      _tip="Show message preview window"
-     accel="*Control*grave"
+     accel="*Control*m"
      type="toggle"/>
 
   </commands>
 
   <menu>
 
+    <submenu name="File">
+      <placeholder name="EmptyTrashPlaceholder">
+      <menuitem name="EmptyTrash" verb="" _label="Empty _Trash" pixtype="stock" pixname="gtk-delete"/>
+      </placeholder>
+    </submenu>
+
     <submenu name="View" _label="_View">
-      <menuitem name="ViewPreview" verb="" _label="_Preview Pane"/>
+      <placeholder name="ViewPreview">
+        <menuitem name="ViewPreview" verb="" _label="Message _Preview"/>
+      </placeholder>
+
       <separator f="" name="emailglobal"/>
+      <placeholder name="MailMessageFilter"/>
       <placeholder name="MailMessageView"/>
+
+<!-- This is the menu we want to replace "Current View" with
+      <submenu name="ViewAs" _label="Message _List As">
+        <placeholder name="CurrentView"/>
+      </submenu>
+-->
+      
+      <placeholder name="MailViewType">
+        <separator f="" name="MailViewOps"/>
+      </placeholder>
+
+      <placeholder name="MailMessageZoom"/>
       <placeholder name="MailListView"/>
     </submenu>
 
@@ -49,47 +79,45 @@
         <placeholder name="MailMessageEdit"/>
         <placeholder name="MailListEditFlags"/>
       </placeholder>
-    </submenu>
 
-    <submenu name="Actions" _label="_Actions">
-      <placeholder name="ComponentActionsPlaceholder">
-        <menuitem name="ActionCompose" verb="MailCompose" _label="Compose _New Message"/>
-        <menuitem name="ActionPost" verb="MailPost" _label="Post Ne_w Message"/>
-	<menuitem name="ActionStop" verb="MailStop" _label="Cancel"/>
+      <placeholder name="MailFilterTools">
+        <menuitem name="ToolsFilters" verb="" _label="Message F_ilters"/>
+      </placeholder>
 
-	<separator f="" name="emailglobal"/>
-
-        <placeholder name="MailMessageActions"/>
-
-        <placeholder name="MailListActions"/>
-
-        <menuitem name="EmptyTrash" verb="" _label="Empty _Trash"/>
+      <placeholder name="MailVFolderTools">
+        <menuitem name="ToolsVFolders" verb="" _label="Search F_olders"/>
       </placeholder>
     </submenu>
+
+    <placeholder name="FolderPlaceholder">
+      <submenu name="Folder" _label="F_older">
+
+        <menuitem name="FolderCreate" verb="" _label="_New..." pixtype="pixbuf"/>
+<!--
+        <menuitem name="CreateVFolder" verb="CreateVFolder" _label="_New Search _Folder (FIXME)"/>
+-->
+        <menuitem name="ToolsSubscriptions" verb="" _label="_Subscriptions"/>
+
+ 	<separator f="" name="Folder1"/>
+
+        <menuitem name="FolderCopy" verb="" _label="_Copy Folder To..."/>
+        <menuitem name="FolderMove" verb="" _label="_Move Folder To..."/>
+
+ 	<separator f="" name="Folder2"/>
+
+        <placeholder name="MessagesInFolder"/>
+
+ 	<separator f="" name="Folder3"/>
+
+ 	<placeholder name="FolderOps"/>        
+
+      </submenu>
+    </placeholder>
 
     <submenu name="Tools">
-
-      <placeholder name="ComponentPlaceholder">
-
-        <placeholder name="MailFilterTools">
-          <menuitem name="ToolsFilters" verb="" _label="_Filters..."/>
-        </placeholder>
-
-	<separator f="" name="emailglobal2"/>
-
-        <placeholder name="MailVFolderTools">
-          <menuitem name="ToolsVFolders" verb="" _label="vFolder _Editor..."/>
-        </placeholder>
-
-	<separator f="" name="emailglobal3"/>
-
-        <menuitem name="ToolsSubscriptions" verb="" _label="S_ubscribe to Folders..."/>
-
-	<separator f="" name="emailglobal4"/>
-
-      </placeholder>
-
+      <placeholder name="ComponentPlaceholder"/>
     </submenu>
+
   </menu>
 
   <dockitem name="Toolbar">

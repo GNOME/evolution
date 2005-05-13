@@ -1,5 +1,9 @@
 2005-05-13  Rodney Dawes  <dobey@novell.com>
 
+	* org-gnome-plugin-manager.xml: Update for new menu layout
+
+2005-05-13  Rodney Dawes  <dobey@novell.com>
+
 	* Makefile.am: Add a backslash line separator to EXTRA_DIST
 
 2005-05-11  Not Zed  <NotZed@Ximian.com>

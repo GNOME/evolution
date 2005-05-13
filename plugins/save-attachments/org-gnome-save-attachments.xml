@@ -6,14 +6,15 @@
   </commands>
 
   <menu>
-    <submenu name="Actions">
-      <placeholder name="ComponentActionsPlaceholder">
+<!--
+    <placeholder name="MessagePlaceholder">
+      <submenu name="Message">
         <placeholder name="MailMessageActions">
 	  <separator f="" name="emaillist5"/>
 	  <menuitem name="EPSASaveAttachments" verb=""/>
         </placeholder>
-      </placeholder>
    </submenu>
-
+    </placeholder>
+-->
   </menu>
 </Root>

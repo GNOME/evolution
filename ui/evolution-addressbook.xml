@@ -105,9 +105,8 @@
       </placeholder>
     </submenu>
 
+    <placeholder name="ActionsPlaceholder">
     <submenu name="Actions" _label="_Actions">
-      <placeholder name="ComponentActionsPlaceholder">
-	<separator f="" name="eadbk4"/>
 	<menuitem name="ContactsSendContactToOther"
 		  _label="_Forward Contact..." verb=""/>
 
@@ -119,8 +118,8 @@
 
 	<menuitem name="ContactsCopyToFolder" _label="_Copy to Folder..." verb=""/>
 	<menuitem name="ContactsMoveToFolder" _label="_Move to Folder..." verb=""/>
-      </placeholder>
     </submenu>
+    </placeholder>
 
   </menu>
 

@@ -44,12 +44,11 @@
       </placeholder>
     </submenu>
 
+    <placeholder name="ActionsPlaceholder">
     <submenu name="Actions" _label="_Actions">
-      <placeholder name="ComponentActionsPlaceholder">
-        <separator/>
 	<menuitem name="TasksPurge" verb=""/>
-      </placeholder>
     </submenu>
+    </placeholder>
 
   </menu>
 

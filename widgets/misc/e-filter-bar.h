@@ -91,14 +91,14 @@ enum {
 
 #define E_FILTERBAR_SAVE      { N_("_Save Search..."), E_FILTERBAR_SAVE_ID, NULL }
 #define E_FILTERBAR_EDIT      { N_("_Edit Saved Searches..."), E_FILTERBAR_EDIT_ID, NULL }
-#define E_FILTERBAR_ADVANCED  { N_("_Advanced..."), E_FILTERBAR_ADVANCED_ID, NULL }
+#define E_FILTERBAR_ADVANCED  { N_("_Advanced Search..."), E_FILTERBAR_ADVANCED_ID, NULL }
 #define E_FILTERBAR_SEPARATOR { NULL, 0, NULL }
 
 #ifdef JUST_FOR_TRANSLATORS
 const char * strings[] = {
 	N_("_Save Search..."),
 	N_("_Edit Saved Searches..."),
-	N_("_Advanced...")
+	N_("_Advanced Search...")
 };
 #endif
 

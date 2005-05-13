@@ -161,28 +161,7 @@ emfs_response (GtkWidget *dialog, int response, EMFolderSelector *emfs)
 	if (response != EM_FOLDER_SELECTOR_RESPONSE_NEW)
 		return;
 	
-	model = em_folder_tree_get_model (emfs->emft);
-	emft = (EMFolderTree *) em_folder_tree_new_with_model (model);
-	dialog = em_folder_selector_create_new (emft, 0, _("Create New Folder"), _("Specify where to create the folder:"));
-	gtk_window_set_transient_for ((GtkWindow *) dialog, (GtkWindow *) emfs);
-	uri = em_folder_selector_get_selected_uri (emfs);
-	if (uri)
-		em_folder_tree_set_selected (emft, uri);
-	
-	if (gtk_dialog_run ((GtkDialog *) dialog) == GTK_RESPONSE_OK) {
-		uri = em_folder_selector_get_selected_uri ((EMFolderSelector *) dialog);
-		path = em_folder_selector_get_selected_path ((EMFolderSelector *) dialog);
-		
-		g_free (emfs->created_uri);
-		emfs->created_uri = g_strdup (uri);
-		
-		if (emfs->created_id == 0)
-			emfs->created_id = g_signal_connect (model, "folder-added", G_CALLBACK (folder_created_cb), emfs);
-		
-		em_folder_tree_create_folder (emfs->emft, path, uri);
-	}
-	
-	gtk_widget_destroy (dialog);
+	emfu_folder_create (NULL);
 	
 	g_signal_stop_emission_by_name (emfs, "response");
 }
@@ -421,13 +400,10 @@ em_folder_selector_get_selected_path (EMFolderSelector *emfs)
 		char *newpath;
 		
 		name = gtk_entry_get_text (emfs->name_entry);
-		if (strcmp (path, "") != 0)
-			newpath = g_strdup_printf ("%s/%s", path?path:"", name);
-		else
-			newpath = g_strdup (name);
-		
+		newpath = g_strdup_printf ("%s/%s", path?path:"", name);
+
 		g_free(path);
-		emfs->selected_path = newpath;
+		emfs->selected_path = g_strdup (newpath);
 	} else {
 		g_free(emfs->selected_path);
 		emfs->selected_path = path?path:g_strdup("");
