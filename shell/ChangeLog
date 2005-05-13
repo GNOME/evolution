@@ -1,3 +1,7 @@
+2005-05-13  Shreyas Srinivasan	<sshreyas@novell.com>
+
+	* e-shell-offline-handler.c: Remove the go->offline dialog.
+	
 2005-05-12  Harish Krishnaswamy  <kharish@novell.com>
 
 	* main.c: (kill_dataserver): add evolution-data-server-1.2

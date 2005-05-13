@@ -86,10 +86,6 @@ typedef struct _ComponentInfo ComponentInfo;
 struct _EShellOfflineHandlerPrivate {
 	EShell *shell;
 
-	GtkWindow *parent_window;
-
-	GladeXML *dialog_gui;
-
 	int num_total_connections;
 	GHashTable *id_to_component_info;
 
@@ -208,8 +204,6 @@ impl_OfflineProgressListener_updateProgress (PortableServer_Servant servant,
 
 	CORBA_free (component_info->active_connection_list);
 	component_info->active_connection_list = duplicate_connection_list (current_active_connections);
-
-	update_dialog_clist (offline_handler);
 
 	if (priv->num_total_connections == 0 && ! priv->finished) {
 		priv->finished = TRUE;
@@ -543,128 +537,6 @@ update_dialog_tree_view_hash_foreach (void *key,
 	}
 }
 
-static void
-update_dialog_clist (EShellOfflineHandler *offline_handler)
-{
-	EShellOfflineHandlerPrivate *priv;
-	GtkWidget *tree_view;
-	GtkListStore *model;
-	GtkCellRenderer *renderer;
-	GtkTreeViewColumn *column;
-
-	priv = offline_handler->priv;
-	if (priv->dialog_gui == NULL)
-		return;
-
-        tree_view = glade_xml_get_widget (priv->dialog_gui, "active_connection_treeview");
-	g_assert (GTK_IS_TREE_VIEW (tree_view));
-
-	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (tree_view), FALSE);
-
-	renderer = gtk_cell_renderer_text_new ();
-	column = gtk_tree_view_column_new_with_attributes ("Host", renderer, "text", 0, NULL);
-	gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view), column);
-
-	model = gtk_list_store_new (1, G_TYPE_STRING);
-	g_hash_table_foreach (priv->id_to_component_info, update_dialog_tree_view_hash_foreach, model);
-
-	gtk_tree_view_set_model (GTK_TREE_VIEW (tree_view), GTK_TREE_MODEL(model));
-}
-
-static void
-dialog_handle_ok (GtkDialog *dialog,
-		  EShellOfflineHandler *offline_handler)
-{
-	EShellOfflineHandlerPrivate *priv;
-	GtkWidget *instruction_label;
-
-	priv = offline_handler->priv;
-
-	gtk_dialog_set_response_sensitive (dialog, GTK_RESPONSE_OK, FALSE);
-
-	instruction_label = glade_xml_get_widget (priv->dialog_gui, "instruction_label");
-	g_assert (instruction_label != NULL);
-	g_assert (GTK_IS_LABEL (instruction_label));
-
-	gtk_label_set_text (GTK_LABEL (instruction_label), _("Closing connections..."));
-
-	finalize_offline (offline_handler);
-}
-
-static void
-dialog_handle_cancel (GtkDialog *dialog,
-		      EShellOfflineHandler *offline_handler)
-{
-	EShellOfflineHandlerPrivate *priv;
-
-	priv = offline_handler->priv;
-
-	gtk_widget_destroy (GTK_WIDGET (dialog));
-
-	g_object_unref (priv->dialog_gui);
-	priv->dialog_gui = NULL;
-
-	cancel_offline (offline_handler);
-}
-
-static void
-dialog_response_cb (GtkDialog *dialog,
-		    int response_id,
-		    void *data)
-{
-	EShellOfflineHandler *offline_handler;
-
-	offline_handler = E_SHELL_OFFLINE_HANDLER (data);
-
-	switch (response_id) {
-	case GTK_RESPONSE_OK:
-		dialog_handle_ok (dialog, offline_handler);
-		break;
-
-	case GTK_RESPONSE_CANCEL:
-	case GTK_RESPONSE_DELETE_EVENT:
-		dialog_handle_cancel (dialog, offline_handler);
-		break;
-
-	default:
-		g_assert_not_reached ();
-	}
-}
-
-static void
-pop_up_confirmation_dialog (EShellOfflineHandler *offline_handler)
-{
-	EShellOfflineHandlerPrivate *priv;
-	GtkWidget *dialog;
-
-	priv = offline_handler->priv;
-
-	if (priv->dialog_gui == NULL) {
-		priv->dialog_gui = glade_xml_new (GLADE_DIALOG_FILE_NAME, NULL, NULL);
-		if (priv->dialog_gui == NULL) {
-			g_warning ("Cannot load the active connection dialog (installation problem?) -- %s",
-				   GLADE_DIALOG_FILE_NAME);
-			finalize_offline (offline_handler);
-			return;
-		}
-	}
-
-	dialog = glade_xml_get_widget (priv->dialog_gui, "active_connection_dialog");
-	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), 0);
-	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->action_area), 12);
-
-	/* FIXME: do we really want this?  */
-	/* gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (priv->parent_shell_view)); */
-	/* gtk_window_set_modal (GTK_WINDOW (dialog), TRUE); */
-
-	update_dialog_clist (offline_handler);
-
-	g_signal_connect (dialog, "response", G_CALLBACK (dialog_response_cb), offline_handler);
-
-	gtk_widget_show (dialog);
-}
-
-
 /* GObject methods.  */
 
 static void
@@ -682,16 +554,6 @@ impl_dispose (GObject *object)
 		g_hash_table_foreach (priv->id_to_component_info, hash_foreach_free_component_info, NULL);
 		g_hash_table_destroy (priv->id_to_component_info);
 		priv->id_to_component_info = NULL;
-	}
-
-	if (priv->dialog_gui != NULL) {
-		GtkWidget *dialog;
-
-		dialog = glade_xml_get_widget (priv->dialog_gui, "active_connection_dialog");
-		gtk_widget_destroy (dialog);
-
-		g_object_unref (priv->dialog_gui);
-		priv->dialog_gui = NULL;
 	}
 
 	(* G_OBJECT_CLASS (e_shell_offline_handler_parent_class)->dispose) (object);
@@ -752,9 +614,6 @@ e_shell_offline_handler_init (EShellOfflineHandler *shell_offline_handler)
 	priv = g_new (EShellOfflineHandlerPrivate, 1);
 
 	priv->shell                 = NULL;
-	priv->parent_window         = NULL;
-
-	priv->dialog_gui            = NULL;
 
 	priv->num_total_connections = 0;
 	priv->id_to_component_info  = g_hash_table_new (g_str_hash, g_str_equal);
@@ -827,12 +686,10 @@ e_shell_offline_handler_put_components_offline (EShellOfflineHandler *offline_ha
 
 	g_return_if_fail (offline_handler != NULL);
 	g_return_if_fail (E_IS_SHELL_OFFLINE_HANDLER (offline_handler));
-	g_return_if_fail (parent_window == NULL || GTK_IS_WINDOW (parent_window));
 
 	priv = offline_handler->priv;
 
 	priv->procedure_in_progress = TRUE;
-	priv->parent_window = parent_window;
 
 	/* Add an extra ref here as the signal handlers might want to unref
 	   us.  */
@@ -852,9 +709,6 @@ e_shell_offline_handler_put_components_offline (EShellOfflineHandler *offline_ha
 		return;
 	}
 
-	if (priv->num_total_connections > 0 && priv->parent_window != NULL)
-		pop_up_confirmation_dialog (offline_handler);
-	else
 		finalize_offline (offline_handler);
 
 	g_object_unref (offline_handler);
