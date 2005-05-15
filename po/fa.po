@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the evolution package.
 # Roozbeh Pournader <roozbeh@farsiweb.info>, 2004, 2005.
 # Meelad Zakaria <meelad@farsiweb.info>, 2004, 2005.
+# Hamed Malek <hamed@farsiweb.info>, 2005.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-05-03 12:11+0000\n"
-"PO-Revision-Date: 2005-05-03 21:24+0430\n"
-"Last-Translator: Meelad Zakaria <meelad@farsiweb.info>\n"
+"POT-Creation-Date: 2005-05-15 04:10+0000\n"
+"PO-Revision-Date: 2005-05-15 17:47+0430\n"
+"Last-Translator: Roozbeh Pournader <roozbeh@farsiweb.info>\n"
 "Language-Team: Persian <farsi@lists.sharif.edu>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -70,6 +71,7 @@ msgid "It is a meeting."
 msgstr "این یک جلسه است."
 
 #: ../a11y/calendar/ea-cal-view-event.c:247
+#, c-format
 msgid "Calendar Event: Summary is %s."
 msgstr ""
 
@@ -78,7 +80,6 @@ msgid "Calendar Event: It has no summary."
 msgstr ""
 
 #: ../a11y/calendar/ea-cal-view-event.c:268
-
 msgid "calendar view event"
 msgstr "رویداد نمای تقویم"
 
@@ -281,8 +282,9 @@ msgid ""
 "a supported login method. Remember that many passwords are case sensitive; "
 "your caps lock might be on."
 msgstr ""
-"بررسی کنید که گذرواژه‌تان درست هجی شده باشد و از روش ورودتان به سیستم پشتیبانی شده باشد. به یاد "
-"داشته باشید بسیاری از گذرواژه‌ها به کوچکی و بزرگی حروف حساسند؛ ممکن است قفل تبدیل‌تان روشن باشد."
+"بررسی کنید که گذرواژه‌تان درست هجی شده باشد و از روش ورودتان به سیستم "
+"پشتیبانی شده باشد. به یاد داشته باشید بسیاری از گذرواژه‌ها به کوچکی و بزرگی "
+"حروف حساسند؛ ممکن است قفل تبدیل‌تان روشن باشد."
 
 #. addressbook:ldap-search-base primary
 #: ../addressbook/addressbook-errors.xml.h:10
@@ -405,9 +407,9 @@ msgid ""
 "You are attempting to move a contact from one addressbook to another but it "
 "cannot be removed from the source. Do you want to save a copy instead?"
 msgstr ""
-"شما سعی می‌کنید آشنایی را از یک دفترچه‌ی نشانی به دفترچه‌ی دیگری جابه‌جا کنید ولی "
-"نمی‌توان آشنا را از مبدأ حذف کرد. آیا می‌خواهید در عوض یک نسخه از آن را ذخیره "
-"کنید؟"
+"شما سعی می‌کنید آشنایی را از یک دفترچه‌ی نشانی به دفترچه‌ی دیگری جابه‌جا کنید "
+"ولی نمی‌توان آشنا را از مبدأ حذف کرد. آیا می‌خواهید در عوض یک نسخه از آن را "
+"ذخیره کنید؟"
 
 #. addressbook:save-error primary
 #: ../addressbook/addressbook-errors.xml.h:51
@@ -442,8 +444,8 @@ msgid ""
 "A contact already exists with this address.  Would you like to add a new "
 "card with the same address anyway?"
 msgstr ""
-"آشنایی با همین نشانی از قبل در این پوشه وجود دارد.  "
-" آیا می‌خواهید در هر صورت یک کارت جدید اضافه کنید؟"
+"آشنایی با همین نشانی از قبل در این پوشه وجود دارد.   آیا می‌خواهید در هر صورت "
+"یک کارت جدید اضافه کنید؟"
 
 #: ../addressbook/addressbook-errors.xml.h:62 ../mail/em-vfolder-rule.c:494
 #: ../plugins/shared-folder/properties.glade.h:10
@@ -700,6 +702,7 @@ msgstr ""
 "قالب آشناهای فهرست پستی عوض شده است.\n"
 "\n"
 "لطفاً در مدتی که Evolution پوشه‌هایتان را کوچ می‌دهد صبور باشید..."
+
 #: ../addressbook/gui/component/addressbook-migrate.c:1146
 msgid ""
 "The way Evolution stores some phone numbers has changed.\n"
@@ -2683,7 +2686,7 @@ msgstr "مقوله‌ی"
 #: ../addressbook/gui/widgets/e-addressbook-view.c:172
 #: ../calendar/gui/cal-search-bar.c:48
 msgid "Any field contains"
-msgstr "همه‌ی فیلدهای شامل"
+msgstr "همه‌ی فیلدهای حاوی"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:173
 #: ../addressbook/gui/widgets/e-addressbook-view.c:178
@@ -4002,8 +4005,7 @@ msgstr ""
 #. calendar:prompt-delete-calendar primary
 #: ../calendar/calendar-errors.xml.h:116
 msgid "Delete calendar '{0}'?"
-msgstr ""
-"تقویم «{0}» حذف شود؟"
+msgstr "تقویم «{0}» حذف شود؟"
 
 #. calendar:prompt-delete-calendar secondary
 #: ../calendar/calendar-errors.xml.h:118
@@ -4031,8 +4033,8 @@ msgid ""
 "Adding a meaningful Summary to your appointment will give your recipients an "
 "idea of what your appointment is about."
 msgstr ""
-"اضافه کردن یک خلاصه‌ی بامعنی به قرار، تصوری از این که نامه‌ی شما درباره‌ی "
-"چیست به مخاطبانتان می‌دهد."
+"اضافه کردن یک خلاصه‌ی بامعنی به قرار، تصوری از این که نامه‌ی شما درباره‌ی چیست "
+"به مخاطبانتان می‌دهد."
 
 #: ../calendar/calendar-errors.xml.h:127 ../calendar/calendar-errors.xml.h:132
 #: ../mail/mail-errors.xml.h:15 ../mail/mail-errors.xml.h:20
@@ -4051,8 +4053,8 @@ msgid ""
 "Adding a meaningful Summary to your task will give your recipients an idea "
 "of what your task is about."
 msgstr ""
-"اضافه کردن یک خلاصه‌ی بامعنی به تکلیف، تصوری از این که نامه‌ی شما درباره‌ی "
-"چیست به مخاطبانتان می‌دهد "
+"اضافه کردن یک خلاصه‌ی بامعنی به تکلیف، تصوری از این که نامه‌ی شما درباره‌ی چیست "
+"به مخاطبانتان می‌دهد "
 
 #. calendar:prompt-no-contents-offline-calendar primary
 #: ../calendar/calendar-errors.xml.h:134
@@ -4439,7 +4441,9 @@ msgstr ""
 msgid ""
 "Position of the vertical pane, between task list and the task preview pane, "
 "in pixels."
-msgstr "موقعیت قاب عمودی در نمای تکلیف، بین فهرست تکلیف و قاب پیش‌نمایش تکلیف، به نقطه."
+msgstr ""
+"موقعیت قاب عمودی در نمای تکلیف، بین فهرست تکلیف و قاب پیش‌نمایش تکلیف، به "
+"نقطه."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:32
 msgid ""
@@ -4515,7 +4519,8 @@ msgstr ""
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:48
 msgid ""
 "Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days\"."
-msgstr "تعداد واحدها برای تعیین موقع پنهان کردن تکلیف‌ها، «دقیقه»، «ساعت» یا «روز».‏"
+msgstr ""
+"تعداد واحدها برای تعیین موقع پنهان کردن تکلیف‌ها، «دقیقه»، «ساعت» یا «روز».‏"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:50
 msgid "Week start"
@@ -4559,12 +4564,14 @@ msgstr "این که برای قرارها یک یادآور پیش‌فرض تن
 msgid ""
 "Whether to show times in twenty four hour format instead of using am/pm."
 msgstr ""
-"این که وقت به جای استفاده از صبح/عصر در قالب بیست و چهار ساعته نشان داده شود یا نه"
+"این که وقت به جای استفاده از صبح/عصر در قالب بیست و چهار ساعته نشان داده شود "
+"یا نه"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:60
 msgid "Whether to show week numbers in the date navigator."
 msgstr ""
-"این که وقت به جای استفاده از صبح/عصر در قالب بیست و چهار ساعته نشان داده شود یا نه"
+"این که وقت به جای استفاده از صبح/عصر در قالب بیست و چهار ساعته نشان داده شود "
+"یا نه"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:61
 msgid "Work days"
@@ -5218,7 +5225,7 @@ msgstr "جمعه"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:52
 msgid "_Hide completed tasks after"
-msgstr "پنهان کردن کگلیف‌های انجام شده پس از"
+msgstr "پنهان کردن تکلیف‌های انجام شده پس از"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:53
 msgid "_Mon"
@@ -5900,11 +5907,13 @@ msgstr "نام فهرست تکلیف"
 
 #: ../calendar/gui/dialogs/recur-comp.c:52
 msgid "You are modifying a recurring event, what would you like to modify?"
-msgstr "شما در حال تغییر دادن یک رویداد مکرر هستید، می‌خواهید کدام را تغییر دهید؟"
+msgstr ""
+"شما در حال تغییر دادن یک رویداد مکرر هستید، می‌خواهید کدام را تغییر دهید؟"
 
 #: ../calendar/gui/dialogs/recur-comp.c:56
 msgid "You are modifying a recurring task, what would you like to modify?"
-msgstr "شما در حال تغییر دادن یک تکلیف مکرر هستید، می‌خواهید کدام را تغییر دهید؟"
+msgstr ""
+"شما در حال تغییر دادن یک تکلیف مکرر هستید، می‌خواهید کدام را تغییر دهید؟"
 
 #: ../calendar/gui/dialogs/recur-comp.c:60
 msgid ""
@@ -6641,7 +6650,7 @@ msgstr "حذف _همه‌ی موارد"
 #: ../calendar/gui/e-cell-date-edit-text.c:115 ../e-util/e-time-utils.c:180
 #: ../e-util/e-time-utils.c:393
 msgid "%a %m/%d/%Y %H:%M:%S"
-msgstr "٪OA %Oy/%OM/%Od %OH:%OM:%OS"
+msgstr "%OA %Oy/%OM/%Od %OH:%OM:%OS"
 
 #. strftime format of a weekday, a date and a time, 12-hour.
 #. strptime format of a weekday, a date and a time,
@@ -6651,7 +6660,7 @@ msgstr "٪OA %Oy/%OM/%Od %OH:%OM:%OS"
 #: ../calendar/gui/e-cell-date-edit-text.c:118 ../e-util/e-time-utils.c:175
 #: ../e-util/e-time-utils.c:402
 msgid "%a %m/%d/%Y %I:%M:%S %p"
-msgstr "٪OA %Oy/%OM/%Od %OH:%OM:%OS"
+msgstr "%OA %Oy/%OM/%Od %OH:%OM:%OS"
 
 #: ../calendar/gui/e-cell-date-edit-text.c:123
 #, c-format
@@ -13808,28 +13817,27 @@ msgstr ""
 
 #: ../mail/searchtypes.xml.h:1
 msgid "Body contains"
-msgstr ""
+msgstr "بدنه حاوی"
 
 #: ../mail/searchtypes.xml.h:2
 msgid "Message contains"
-msgstr ""
+msgstr "پیغام‌ حاوی"
 
 #: ../mail/searchtypes.xml.h:3
 msgid "Recipients contain"
-msgstr ""
+msgstr "گیرنده‌ حاوی"
 
 #: ../mail/searchtypes.xml.h:4
 msgid "Sender contains"
-msgstr ""
+msgstr "فرستنده حاوی"
 
 #: ../mail/searchtypes.xml.h:5
 msgid "Subject contains"
-msgstr ""
+msgstr "موضوع حاوی"
 
 #: ../mail/searchtypes.xml.h:6
-#, fuzzy
 msgid "Subject or Sender contains"
-msgstr "شرح‌های حاوی"
+msgstr "موضوع یا فرستنده حاوی"
 
 #: ../plugins/backup-restore/backup-restore.c:51
 msgid "Select name of Evolution archive"
@@ -15136,7 +15144,8 @@ msgstr ""
 msgid "translator-credits"
 msgstr ""
 "روزبه پورنادر <roozbeh@farsiweb.info>‏\n"
-"میلاد زکریا <meelad@farsiweb.info>"
+"میلاد زکریا <meelad@farsiweb.info>‏\n"
+"حامد ملک <hamed@farsiweb.info>"
 
 #: ../shell/e-shell-window-commands.c:515
 msgid "Groupware Suite"
