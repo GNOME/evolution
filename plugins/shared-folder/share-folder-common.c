@@ -47,9 +47,9 @@
 #include <e-gw-container.h>
 #include <e-gw-connection.h>
 #include <glade/glade.h>
-#include <widgets/misc/e-error.h>
+#include "e-util/e-error.h"
 #include <libgnomeui/libgnomeui.h>
-#include <widgets/misc/e-error.h>
+#include "e-util/e-error.h"
 #include "share-folder.h"
 #define d(x)
 

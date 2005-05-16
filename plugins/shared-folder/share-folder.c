@@ -38,7 +38,7 @@
 #include <libedataserverui/e-contact-store.h>
 #include <libgnomeui/gnome-ui-init.h>
 #include <libgnome/gnome-init.h>
-#include <widgets/misc/e-error.h>
+#include <e-util/e-error.h>
 #include <e-gw-container.h>
 #include <e-gw-connection.h>
 #define ROOTNODE "vboxSharing"

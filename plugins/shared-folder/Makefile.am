@@ -18,15 +18,11 @@ liborg_gnome_shared_folder_la_LDFLAGS = -module -avoid-version
 
 glade_DATA =properties.glade 
 
-error_DATA = org-gnome-shared-folder-errors.xml
-error_i18n = $(error_DATA:.xml=.xml.h)
+error_DATA = org-gnome-shared-folder.error
 errordir = $(privdatadir)/errors
-%.xml.h: %.xml
-	$(top_builddir)/e-util/e-error-tool $^
 
-BUILT_SOURCES = $(error_i18n)
+BUILT_SOURCES = $(error_DATA)
 EXTRA_DIST = 						\
-	$(error_DATA)					\
-	$(error_i18n)					\
-       	$(glade_DATA) 					\
+	org-gnome-shared-folder.error.xml		\
+	$(glade_DATA) 					\
 	org-gnome-shared-folder.eplug.in
