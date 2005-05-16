@@ -1,3 +1,7 @@
+2005-05-16  Not Zed  <NotZed@Ximian.com>
+
+	* moved e-error to e-util.
+
 2005-05-09  Rodney Dawes  <dobey@novell.com>
 
 	* e-msg-composer-select-file.c (get_selector): Set a mnemonic for

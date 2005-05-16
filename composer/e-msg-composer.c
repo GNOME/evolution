@@ -91,7 +91,7 @@
 #include "e-util/e-signature-list.h"
 #include "widgets/misc/e-charset-picker.h"
 #include "widgets/misc/e-expander.h"
-#include "widgets/misc/e-error.h"
+#include "e-util/e-error.h"
 
 #include <camel/camel-session.h>
 #include <camel/camel-charset-map.h>

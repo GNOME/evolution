@@ -53,7 +53,7 @@
 
 #include <gal/e-text/e-entry.h>
 
-#include "widgets/misc/e-error.h"
+#include "e-util/e-error.h"
 
 #include <camel/camel.h>
 #include "e-msg-composer-hdrs.h"
