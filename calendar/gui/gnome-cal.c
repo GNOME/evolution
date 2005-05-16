@@ -2223,10 +2223,8 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 	}
 	switch (status) {
 	case E_CALENDAR_STATUS_OK:
-		g_message ("********* the state  in ok is %d \n", state);
 		break;
 	case E_CALENDAR_STATUS_BUSY:
-		g_message ("********* the state is %d \n", state);
 		if (state == E_CAL_LOAD_NOT_LOADED)
 			e_cal_open_async (ecal, FALSE);
 		return;
@@ -2321,7 +2319,6 @@ default_client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar 
 	case E_CALENDAR_STATUS_OK:
 		break;
 	case E_CALENDAR_STATUS_BUSY:
-		g_message ("********* the state is %d \n", state);
 		if (state == E_CAL_LOAD_NOT_LOADED)
 			e_cal_open_async (ecal, FALSE);
 		return;
