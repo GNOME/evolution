@@ -46,7 +46,7 @@
 #include "em-migrate.h"
 
 #include "widgets/misc/e-info-label.h"
-#include "widgets/misc/e-error.h"
+#include "e-util/e-error.h"
 
 #include "em-search-context.h"
 #include "mail-config.h"

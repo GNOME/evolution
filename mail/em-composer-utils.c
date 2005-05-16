@@ -38,7 +38,7 @@
 #include "mail-send-recv.h"
 #include "mail-component.h"
 
-#include "widgets/misc/e-error.h"
+#include "e-util/e-error.h"
 
 #include "em-utils.h"
 #include "em-composer-utils.h"

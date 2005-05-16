@@ -51,8 +51,7 @@
 #include "e-util/e-mktemp.h"
 #include "e-util/e-request.h"
 #include "e-util/e-icon-factory.h"
-
-#include "widgets/misc/e-error.h"
+#include "e-util/e-error.h"
 
 #include "em-vfolder-rule.h"
 

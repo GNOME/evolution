@@ -56,7 +56,7 @@
 #include <e-util/e-mktemp.h>
 #include <e-util/e-account-list.h>
 #include <e-util/e-dialog-utils.h>
-#include "widgets/misc/e-error.h"
+#include "e-util/e-error.h"
 
 #include <gal/util/e-util.h>
 

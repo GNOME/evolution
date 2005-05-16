@@ -60,7 +60,7 @@
 #include "e-util/e-bconf-map.h"
 #include "e-util/e-account-list.h"
 #include "e-util/e-signature-list.h"
-#include "widgets/misc/e-error.h"
+#include "e-util/e-error.h"
 
 #include "mail-config.h"
 #include "em-utils.h"

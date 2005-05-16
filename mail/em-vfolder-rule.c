@@ -37,7 +37,7 @@
 #include "mail/em-folder-tree.h"
 #include "mail/em-folder-selector.h"
 #include "mail/mail-component.h"
-#include "widgets/misc/e-error.h"
+#include "e-util/e-error.h"
 
 #define d(x)
 

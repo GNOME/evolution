@@ -60,7 +60,7 @@
 #include <gtkhtml/gtkhtml.h>
 
 #include "widgets/misc/e-charset-picker.h"
-#include "widgets/misc/e-error.h"
+#include "e-util/e-error.h"
 
 #include <e-util/e-icon-factory.h>
 

@@ -41,7 +41,7 @@
 #include "mail-send-recv.h"
 
 #include "e-util/e-account-list.h"
-#include "widgets/misc/e-error.h"
+#include "e-util/e-error.h"
 
 #include "em-account-prefs.h"
 

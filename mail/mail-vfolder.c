@@ -39,7 +39,7 @@
 #include "em-utils.h"
 
 #include "e-util/e-account-list.h"
-#include "widgets/misc/e-error.h"
+#include "e-util/e-error.h"
 
 #include "camel/camel-vee-folder.h"
 #include "camel/camel-vee-store.h"

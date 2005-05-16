@@ -19,7 +19,7 @@
 #include <gal/widgets/e-gui-utils.h>
 
 #include "libedataserver/e-msgport.h"
-#include "widgets/misc/e-error.h"
+#include "e-util/e-error.h"
 
 #include "e-activity-handler.h"
 #include <e-util/e-icon-factory.h>

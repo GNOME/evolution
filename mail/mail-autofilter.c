@@ -41,7 +41,7 @@
 #include "mail-autofilter.h"
 #include "mail-component.h"
 #include "em-utils.h"
-#include "widgets/misc/e-error.h"
+#include "e-util/e-error.h"
 
 #include "em-vfolder-context.h"
 #include "em-vfolder-rule.h"

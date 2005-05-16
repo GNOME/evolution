@@ -70,7 +70,7 @@
 #include <e-util/e-account-list.h>
 #include <e-util/e-signature-list.h>
 
-#include <widgets/misc/e-error.h>
+#include "e-util/e-error.h"
 
 #include "em-config.h"
 #include "em-folder-selection-button.h"
