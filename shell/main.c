@@ -74,7 +74,7 @@
 #include "Evolution-DataServer.h"
 
 #include <gal/widgets/e-cursors.h>
-#include "widgets/misc/e-error.h"
+#include "e-util/e-error.h"
 
 #include <fcntl.h>
 #include <signal.h>

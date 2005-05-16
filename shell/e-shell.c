@@ -32,7 +32,7 @@
 #include "e-util/e-dialog-utils.h"
 #include "e-util/e-bconf-map.h"
 #include "e-util/e-fsutils.h"
-#include "widgets/misc/e-error.h"
+#include "e-util/e-error.h"
 
 #include "e-shell-constants.h"
 #include "e-shell-offline-handler.h"

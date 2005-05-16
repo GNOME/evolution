@@ -169,11 +169,9 @@ server_DATA = $(server_in_files:.server.in.in=_$(BASE_VERSION).server)
 @EVO_SERVER_RULE@
 @INTLTOOL_SERVER_RULE@
 
-error_DATA = shell-errors.xml
-error_i18n = $(error_DATA:.xml=.xml.h)
+error_DATA = shell.error
 errordir = $(privdatadir)/errors
-%.xml.h: %.xml
-	$(top_builddir)/e-util/e-error-tool $^
+@EVO_PLUGIN_RULE@
 
 glade_DATA =						\
 	e-active-connection-dialog.glade
@@ -235,8 +233,7 @@ EXTRA_DIST = 					\
 	$(IDLS)					\
 	$(server_in_files)			\
 	GNOME_Evolution_Test.server.in.in	\
-	$(error_DATA)				\
-	$(error_i18n)				\
+	shell.error.xml				\
 	$(glade_DATA)				\
 	$(schema_in_files)			\
 	ChangeLog.pre-1-4			\
@@ -257,7 +254,7 @@ evolution.pure: evolution
 
 endif
 
-BUILT_SOURCES = $(IDL_GENERATED) $(MARSHAL_GENERATED) $(server_DATA) $(testserver_DATA) $(DATASERVER_IDL_GENERATED) $(error_i18n)
+BUILT_SOURCES = $(IDL_GENERATED) $(MARSHAL_GENERATED) $(server_DATA) $(testserver_DATA) $(DATASERVER_IDL_GENERATED) $(error_DATA)
 CLEANFILES = $(BUILT_SOURCES)
 
 dist-hook:
