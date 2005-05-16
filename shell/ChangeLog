@@ -1,3 +1,12 @@
+2005-05-16  Srinivasa Ragavan <sragavan@novell.com>
+	* e-component-registry.c(component_info_new) (component_info_free)(query_components):
+	  e-component-registry.h:
+	  e-shell-window.c (setup_widgets):
+	  e-sidebar.c (button_new) (button_free) (e_sidebar_add_button) (set_mode_internal):
+	  e-sidebar.h:
+	  
+	  Added support to read .server files for tooltips and show them in ICON only mode.
+	  
 2005-05-13  Rodney Dawes  <dobey@novell.com>
 
 	* e-shell-window.c (setup_widgets): Update for the new menu layout by

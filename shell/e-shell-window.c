@@ -694,7 +694,7 @@ setup_widgets (EShellWindow *window)
 		ComponentView *view = component_view_new (info->id, info->alias, button_id);
 
 		window->priv->component_views = g_slist_prepend (window->priv->component_views, view);
-		e_sidebar_add_button (E_SIDEBAR (priv->sidebar), info->button_label, info->button_icon, button_id);
+		e_sidebar_add_button (E_SIDEBAR (priv->sidebar), info->button_label, info->button_tooltips, info->button_icon, button_id);
 
 		g_string_printf(xml, "SwitchComponent-%s", info->alias);
 		bonobo_ui_component_add_verb (e_shell_window_peek_bonobo_ui_component (window),

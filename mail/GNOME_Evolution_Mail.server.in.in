@@ -32,6 +32,7 @@
     <oaf_attribute name="evolution:menu_label" type="string" _value="_Mail"/>
     <oaf_attribute name="evolution:menu_accelerator" type="string" value="*Control*F1"/>
     <oaf_attribute name="evolution:button_label" type="string" _value="Mail"/>
+	<oaf_attribute name="evolution:button_tooltips" type="string" _value="Mail"/>
     <oaf_attribute name="evolution:button_sort_order" type="string" value="-10"/>
     <oaf_attribute name="evolution:button_icon" type="string" value="stock_mail"/>
 

@@ -51,6 +51,7 @@ component_info_new (const char *id,
 		    GNOME_Evolution_Component iface,
 		    const char *alias,
 		    const char *button_label,
+	  	    const char *button_tooltips,
 		    const char *menu_label,
 		    const char *menu_accelerator,
 		    int sort_order,
@@ -63,6 +64,7 @@ component_info_new (const char *id,
 	info->iface = bonobo_object_dup_ref(iface, NULL);
 	info->alias = g_strdup (alias);
 	info->button_label = g_strdup (button_label);
+	info->button_tooltips = g_strdup (button_tooltips);
 	info->menu_label = g_strdup (menu_label);
 	info->menu_accelerator = g_strdup (menu_accelerator);
 	info->sort_order = sort_order;
@@ -84,6 +86,7 @@ component_info_free (EComponentInfo *info)
 	g_free (info->id);
 	g_free (info->alias);
 	g_free (info->button_label);
+	g_free (info->button_tooltips);
 	g_free (info->menu_label);
 	g_free (info->menu_accelerator);
 
@@ -179,6 +182,7 @@ query_components (EComponentRegistry *registry)
 		const char *alias;
 		const char *icon_name;
 		const char *sort_order_string;
+		const char *tooltips;
 		GdkPixbuf *icon = NULL, *menuicon = NULL;
 		EComponentInfo *info;
 		int sort_order;
@@ -199,6 +203,8 @@ query_components (EComponentRegistry *registry)
 		label = bonobo_server_info_prop_lookup (& info_list->_buffer[i], "evolution:button_label", language_list);
 		if (label == NULL)
 			label = g_strdup (_("Unknown"));
+
+		tooltips = bonobo_server_info_prop_lookup (& info_list->_buffer[i], "evolution:button_tooltips", language_list);
 
 		menu_label = bonobo_server_info_prop_lookup (& info_list->_buffer[i], "evolution:menu_label", language_list);
 		if (menu_label == NULL)
@@ -221,7 +227,7 @@ query_components (EComponentRegistry *registry)
 		else
 			sort_order = atoi (sort_order_string);
 
-		info = component_info_new (id, iface, alias, label, menu_label,
+		info = component_info_new (id, iface, alias, label, tooltips, menu_label,
 					   menu_accelerator, sort_order, icon, menuicon);
 		set_schemas (info, & info_list->_buffer [i]);
 

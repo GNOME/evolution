@@ -1,3 +1,7 @@
+2005-05-16  Srinivasa Ragavan <sragavan@novell.com>
+
+	* GNOME_Evolution_Mail.server.in.in: Added tooltips
+		
 2005-05-13  Rodney Dawes  <dobey@novell.com>
 
 	* Makefile.am: Add new em-folder-utils.[ch] abstraction

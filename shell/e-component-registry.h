@@ -72,6 +72,7 @@ struct _EComponentInfo {
 	GNOME_Evolution_Component iface;
 
 	char *button_label;
+	char *button_tooltips;
 	GdkPixbuf *button_icon;
 	char *menu_label;
 	char *menu_accelerator;

@@ -1,3 +1,7 @@
+2005-05-16: Srinivasa Ragavan <sragavan@novell.com>
+
+	* gui/GNOME_Evolution_Calendar.server.in.in: Added tooltips
+
 2005-05-13  Thouis R. Jones  <thouis@csail.mit.edu>
 
 	Fixes #272301
