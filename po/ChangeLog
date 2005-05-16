@@ -1,3 +1,9 @@
+2005-05-16  Not Zed  <NotZed@Ximian.com>
+
+	* POTFILES.in: moved widgets/misc/e-system-errors to
+	e-util/e-system.error.  Moved shell error file.
+	Moved calendar error file. filter error file.
+
 2005-05-15  Roozbeh Pournader  <roozbeh@farsiweb.info>
 
 	* fa.po: Updated Persian translation by

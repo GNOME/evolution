@@ -13,7 +13,7 @@ a11y/calendar/ea-week-view-main-item.c
 a11y/calendar/ea-week-view.c
 a11y/widgets/ea-calendar-item.c
 a11y/widgets/ea-combo-button.c
-addressbook/addressbook-errors.xml.h
+addressbook/addressbook.error.xml
 addressbook/conduit/address-conduit.c
 addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in
 addressbook/gui/component/addressbook-component.c
@@ -67,7 +67,7 @@ addressbook/tools/evolution-addressbook-export-list-cards.c
 addressbook/tools/evolution-addressbook-export-list-folders.c
 addressbook/tools/evolution-addressbook-export.c
 addressbook/tools/evolution-addressbook-import.c
-calendar/calendar-errors.xml.h
+calendar/calendar.error.xml
 calendar/common/authentication.c
 calendar/conduits/calendar/calendar-conduit.c
 calendar/conduits/todo/todo-conduit.c
@@ -181,10 +181,11 @@ designs/read_receipts/read.glade
 e-util/e-categories-config.c
 e-util/e-component-listener.c
 e-util/e-dialog-utils.c
+e-util/e-system.error.xml
 e-util/e-time-utils.c
 e-util/eggtrayicon.c
+filter/filter.error.xml
 filter/filter-datespec.c
-filter/filter-errors.xml.h
 filter/filter-file.c
 filter/filter-input.c
 filter/filter-label.c
@@ -300,7 +301,7 @@ plugins/save-calendar/save-calendar.c
 plugins/select-one-source/org-gnome-select-one-source.eplug.xml
 plugins/send-options/send-options.c
 plugins/shared-folder/install-shared.c
-plugins/shared-folder/org-gnome-shared-folder-errors.xml.h
+plugins/shared-folder/org-gnome-shared-folder.error.xml
 plugins/shared-folder/properties.glade
 plugins/shared-folder/share-folder-common.c
 plugins/startup-wizard/startup-wizard.c
@@ -327,7 +328,7 @@ shell/evolution-test-component.c
 shell/importer/import.glade
 shell/importer/intelligent.c
 shell/main.c
-shell/shell-errors.xml.h
+shell/shell.error.xml
 smime/gui/ca-trust-dialog.c
 smime/gui/cert-trust-dialog.c
 smime/gui/certificate-manager.c
@@ -377,6 +378,5 @@ widgets/misc/e-pilot-settings.c
 widgets/misc/e-search-bar.c
 widgets/misc/e-send-options.c
 widgets/misc/e-send-options.glade
-widgets/misc/e-system-errors.xml.h
 widgets/misc/e-task-widget.c
 widgets/misc/e-url-entry.c
