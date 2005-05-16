@@ -3,7 +3,7 @@
 #include <config.h>
 #include <string.h>
 #include "e-contact-list-model.h"
-#include "widgets/misc/e-error.h"
+#include "e-util/e-error.h"
 
 #include <gtk/gtkmessagedialog.h>
 #define PARENT_TYPE e_table_model_get_type()

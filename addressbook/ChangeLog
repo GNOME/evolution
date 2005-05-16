@@ -1,3 +1,9 @@
+2005-05-16  Not Zed  <NotZed@Ximian.com>
+
+	* moved e-error to e-util
+
+	* Makefile.am: renamed error xml file & u18n stuff.
+
 2005-05-16  Srinivasa Ragavan <sragavan@novell.com>
 
 	* gui/components/GNOME_Evolution_Addressbook.server.in.in: Added tooltips

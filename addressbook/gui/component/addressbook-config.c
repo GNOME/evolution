@@ -40,7 +40,7 @@
 #include "addressbook-component.h"
 #include "addressbook-config.h"
 
-#include "widgets/misc/e-error.h"
+#include "e-util/e-error.h"
 
 #include "evolution-config-control.h"
 

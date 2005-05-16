@@ -29,7 +29,7 @@
 #include <libebook/e-book.h>
 #include <libedataserverui/e-passwords.h>
 
-#include "widgets/misc/e-error.h"
+#include "e-util/e-error.h"
 #include "addressbook.h"
 
 #define d(x)

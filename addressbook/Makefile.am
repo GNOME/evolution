@@ -5,19 +5,16 @@ endif
 SUBDIRS =	\
 	util printing gui importers tools $(CONDUIT_SUBDIR)
 
-error_DATA = addressbook-errors.xml
-error_i18n = $(error_DATA:.xml=.xml.h)
+error_DATA = addressbook.error
 errordir = $(privdatadir)/errors
-%.xml.h: %.xml
-	$(top_builddir)/e-util/e-error-tool $^
+@EVO_PLUGIN_RULE@
 
 EXTRA_DIST =			\
 	ChangeLog.pre-1-4	\
-	$(error_DATA)
+	addressbook.error.xml
 
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)
 
-BUILT_SOURCES = $(error_i18n)
-
+BUILT_SOURCES = $(error_DATA)
 CLEANFILES = $(BUILT_SOURCES)

@@ -42,7 +42,7 @@
 #include <libedataserverui/e-source-selector.h>
 #include <libedataserverui/e-passwords.h>
 
-#include "widgets/misc/e-error.h"
+#include "e-util/e-error.h"
 #include "widgets/misc/e-task-bar.h"
 #include "widgets/misc/e-info-label.h"
 
