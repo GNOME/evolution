@@ -38,7 +38,6 @@ widgetsinclude_HEADERS =			\
 	e-combo-button.h			\
 	e-dateedit.h				\
 	e-dropdown-button.h			\
-	e-error.h				\
 	e-expander.h				\
 	e-image-chooser.h			\
 	e-info-label.h				\
@@ -67,7 +66,6 @@ libemiscwidgets_la_SOURCES =			\
 	e-combo-button.c			\
 	e-dateedit.c				\
 	e-dropdown-button.c			\
-	e-error.c				\
 	e-expander.c				\
 	e-image-chooser.c			\
 	e-info-label.c				\
@@ -82,12 +80,6 @@ libemiscwidgets_la_SOURCES =			\
 MARSHAL_GENERATED = e-util-marshal.c e-util-marshal.h
 @EVO_MARSHAL_RULE@
 
-error_DATA = e-system-errors.xml
-error_i18n = $(error_DATA:.xml=.xml.h)
-errordir = $(privdatadir)/errors
-%.xml.h: %.xml
-	$(top_builddir)/e-util/e-error-tool $^
-
 libemiscwidgets_la_LIBADD = $(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/a11y/widgets/libevolution-widgets-a11y.la	\
 	$(E_WIDGETS_LIBS)
@@ -100,7 +92,6 @@ noinst_PROGRAMS = 			\
 	test-calendar			\
 	test-dateedit			\
 	test-dropdown-button		\
-	test-error			\
 	test-multi-config-dialog 	\
 	test-info-label
 
@@ -154,22 +145,11 @@ test_info_label_LDADD = 		\
 	$(top_builddir)/e-util/libeutil.la	\
 	$(E_WIDGETS_LIBS)
 
-test_error_SOURCES = 	\
-	test-error.c
-
-test_error_LDADD = 				\
-	$(top_builddir)/e-util/libeutil.la	\
-	./libemiscwidgets.la			\
-	$(E_WIDGETS_LIBS)
-
-
-BUILT_SOURCES = $(MARSHAL_GENERATED) $(error_i18n)
+BUILT_SOURCES = $(MARSHAL_GENERATED)
 CLEANFILES    = $(BUILT_SOURCES)
 
 EXTRA_DIST =			\
 	$(glade_DATA)		\
-	$(error_DATA)		\
-	$(error_i18n)		\
 	e-pilot-settings.h	\
 	e-pilot-settings.c	\
 	e-util-marshal.list	\

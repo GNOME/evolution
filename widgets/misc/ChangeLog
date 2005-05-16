@@ -1,3 +1,8 @@
+2005-05-16  Not Zed  <NotZed@Ximian.com>
+
+	* Makefile.am: move e-error.[ch] and e-system-errors.xml to
+	e-util/. remove test-error.
+
 2005-05-13  Rodney Dawes  <dobey@novell.com>
 
 	* e-filter-bar.[ch]: Update for the new menu layout
