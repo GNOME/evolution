@@ -43,7 +43,7 @@
 #include <libgnomevfs/gnome-vfs.h>
 #include <string.h>
 
-#include "widgets/misc/e-error.h"
+#include "e-util/e-error.h"
 
 #include "format-handler.h"
 

@@ -1,3 +1,7 @@
+2005-05-16  Not Zed  <NotZed@Ximian.com>
+
+	* itip-formatter.c: moved e-error to e-util
+
 2005-05-11  Not Zed  <NotZed@Ximian.com>
 
 	* Makefile.am: setup cleanfiles & fix extra_dist

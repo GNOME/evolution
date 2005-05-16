@@ -46,7 +46,7 @@
 #include <mail/em-utils.h>
 #include <e-util/e-account-list.h>
 #include <e-util/e-icon-factory.h>
-#include <widgets/misc/e-error.h>
+#include <e-util/e-error.h>
 #include <calendar/gui/calendar-config.h>
 #include <calendar/gui/itip-utils.h>
 #include <calendar/common/authentication.h>

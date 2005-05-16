@@ -35,7 +35,7 @@
 #include "mail/mail-ops.h"
 #include "mail/mail-mt.h"
 #include "mail/mail-config.h"
-#include "widgets/misc/e-error.h"
+#include "e-util/e-error.h"
 
 typedef enum {
 	EMLA_ACTION_HELP,

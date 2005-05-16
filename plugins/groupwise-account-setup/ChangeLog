@@ -1,3 +1,7 @@
+2005-05-16  Not Zed  <NotZed@Ximian.com>
+
+	* camel-gw-listener.c: moved e-error to e-util.
+
 2005-03-07  Sivaiah Nallagatla <snallagatla@novell.com>
 
 	* camel-gw-listner.c (add_addressbook_sources) :

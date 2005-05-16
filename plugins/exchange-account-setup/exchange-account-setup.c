@@ -37,7 +37,7 @@
 #include "mail/em-account-editor.h"
 #include "mail/em-config.h"
 #include "e-util/e-account.h"
-#include "widgets/misc/e-error.h"
+#include "e-util/e-error.h"
 
 GtkWidget* org_gnome_exchange_settings(EPlugin *epl, EConfigHookItemFactoryData *data);
 GtkWidget *org_gnome_exchange_owa_url(EPlugin *epl, EConfigHookItemFactoryData *data);

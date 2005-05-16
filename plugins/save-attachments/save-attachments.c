@@ -53,7 +53,7 @@
 #include <camel/camel-multipart.h>
 #include <camel/camel-utf8.h>
 
-#include "widgets/misc/e-error.h"
+#include "e-util/e-error.h"
 
 #include "mail/em-menu.h"
 #include "mail/em-utils.h"
