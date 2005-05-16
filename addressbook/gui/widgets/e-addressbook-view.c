@@ -69,7 +69,7 @@
 #endif
 #include "eab-contact-merging.h"
 
-#include "widgets/misc/e-error.h"
+#include "e-util/e-error.h"
 
 #include "e-contact-editor.h"
 #include <gdk/gdkkeysyms.h>
