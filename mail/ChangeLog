@@ -1,5 +1,13 @@
 2005-05-16  Not Zed  <NotZed@Ximian.com>
 
+	* mail-vfolder.h: 
+	* mail-autofilter.h: forward-reference structures
+
+	* *.h: Make installed headers includable from mail/
+
+	* Makefile.am (mailinclude_HEADERS): install various mail headers
+	as first cut at public plugin api.
+
 	* move e-error into e-util/
 
 2005-05-16  Srinivasa Ragavan <sragavan@novell.com>

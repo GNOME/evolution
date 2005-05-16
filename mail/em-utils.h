@@ -30,6 +30,8 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus */
 
+#include <sys/types.h>
+
 struct _GtkWidget;
 struct _GtkWindow;
 struct _CamelFolder;

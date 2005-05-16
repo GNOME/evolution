@@ -71,6 +71,8 @@
 #include <e-util/e-print.h>
 #include <e-util/e-profile-event.h>
 
+#include "filter/filter-rule.h"
+
 #include "em-format-html-display.h"
 #include "em-format-html-print.h"
 #include "em-folder-selection.h"

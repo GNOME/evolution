@@ -27,7 +27,7 @@
 #include <gtk/gtkvbox.h>
 #include <camel/camel-store.h>
 
-#include "em-folder-tree-model.h"
+#include "mail/em-folder-tree-model.h"
 
 #ifdef __cplusplus
 extern "C" {

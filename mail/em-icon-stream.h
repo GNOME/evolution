@@ -36,7 +36,7 @@ extern "C" {
 struct _GtkHTML;
 struct _GtkIconStream;
 
-#include "em-sync-stream.h"
+#include "mail/em-sync-stream.h"
 
 typedef struct _EMIconStream {
 	EMSyncStream sync;

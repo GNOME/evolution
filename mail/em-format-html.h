@@ -27,7 +27,7 @@
 #ifndef _EM_FORMAT_HTML_H
 #define _EM_FORMAT_HTML_H
 
-#include "em-format.h"
+#include "mail/em-format.h"
 
 typedef struct _EMFormatHTML EMFormatHTML;
 typedef struct _EMFormatHTMLClass EMFormatHTMLClass;

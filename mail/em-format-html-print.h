@@ -6,7 +6,7 @@
 #ifndef _EM_FORMAT_HTML_PRINT_H
 #define _EM_FORMAT_HTML_PRINT_H
 
-#include "em-format-html.h"
+#include "mail/em-format-html.h"
 
 struct _GnomePrintConfig;
 

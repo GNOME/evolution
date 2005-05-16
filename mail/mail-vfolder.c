@@ -47,6 +47,7 @@
 
 #include "em-vfolder-context.h"
 #include "em-vfolder-editor.h"
+#include "em-vfolder-rule.h"
 
 #define d(x) /*(printf("%s(%d):%s: ",  __FILE__, __LINE__, __PRETTY_FUNCTION__), (x))*/
 

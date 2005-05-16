@@ -24,7 +24,7 @@
 #ifndef _EM_FORMAT_QUOTE_H
 #define _EM_FORMAT_QUOTE_H
 
-#include "em-format.h"
+#include "mail/em-format.h"
 
 typedef struct _EMFormatQuote EMFormatQuote;
 typedef struct _EMFormatQuoteClass EMFormatQuoteClass;

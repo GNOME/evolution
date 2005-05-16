@@ -25,7 +25,7 @@
 #define _EM_FOLDER_VIEW_H
 
 #include <gtk/gtkvbox.h>
-#include "em-popup.h"
+#include "mail/em-popup.h"
 
 #ifdef __cplusplus
 extern "C" {

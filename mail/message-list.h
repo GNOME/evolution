@@ -29,7 +29,6 @@
 
 #include <gal/e-table/e-table-simple.h>
 #include <gal/e-table/e-tree-scrolled.h>
-#include "mail-types.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -78,6 +77,8 @@ enum {
 #define ML_HIDE_NONE_END (2147483647)
 /* dont change */
 #define ML_HIDE_SAME (2147483646)
+
+typedef struct _MessageList MessageList;
 
 struct _MessageList {
 	ETreeScrolled parent;

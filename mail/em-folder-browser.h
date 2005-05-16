@@ -20,11 +20,10 @@
  *
  */
 
-
 #ifndef _EM_FOLDER_BROWSER_H
 #define _EM_FOLDER_BROWSER_H
 
-#include "em-folder-view.h"
+#include "mail/em-folder-view.h"
 
 #ifdef __cplusplus
 extern "C" {

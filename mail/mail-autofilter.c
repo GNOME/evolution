@@ -52,6 +52,9 @@
 #include "em-filter-editor.h"
 #include "filter/filter-option.h"
 
+#include <camel/camel-internet-address.h>
+#include <camel/camel-mime-message.h>
+
 #define d(x)
 
 static void

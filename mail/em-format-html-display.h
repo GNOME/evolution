@@ -6,7 +6,7 @@
 #ifndef _EM_FORMAT_HTML_DISPLAY_H
 #define _EM_FORMAT_HTML_DISPLAY_H
 
-#include "em-format-html.h"
+#include "mail/em-format-html.h"
 
 typedef struct _EMFormatHTMLDisplay EMFormatHTMLDisplay;
 typedef struct _EMFormatHTMLDisplayClass EMFormatHTMLDisplayClass;

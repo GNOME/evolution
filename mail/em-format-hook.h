@@ -27,7 +27,7 @@
 #include "libedataserver/e-msgport.h"
 #include "e-util/e-plugin.h"
 
-#include "em-format.h"
+#include "mail/em-format.h"
 
 #ifdef __cplusplus
 extern "C" {
