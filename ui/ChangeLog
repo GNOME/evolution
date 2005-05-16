@@ -1,3 +1,9 @@
+2005-05-16  Srinivasa Ragavan <sragavan@novell.com>
+	
+	* evolution-message-composer.xml: Removed the Show Attachment
+	  menu item, since the attachment bar cannot be made hidden 
+	  any more and is visible always
+	  
 2005-05-13  Rodney Dawes  <dobey@novell.com>
 
 	* *.xml: Update to the new menu layout

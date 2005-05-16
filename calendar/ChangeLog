@@ -1,3 +1,11 @@
+2005-05-16  Srinivasa Ragavan <sragavan@novell.com>
+
+	* gui/dialogs/comp-editor.c (attachment_bar_changed_cb) 
+	  (attachment_bar_icon_clicked_cb)   (setup_widgets) 
+	  (comp_editor_sensitize_attachment_bar) (fill_widgets): 
+	  Removed the expander in calendar attachment. It keeps showing
+	  now, to ease DnD.
+	  
 2005-05-16  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* gui/gnome-cal.c: (client_cal_opened_cb),

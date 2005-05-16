@@ -1192,13 +1192,6 @@ set_editor_text(EMsgComposer *composer, const char *text, ssize_t len, int set_s
 /* Commands.  */
 
 static void
-show_attachments (EMsgComposer *composer,
-		  gboolean show)
-{
-	e_expander_set_expanded (E_EXPANDER (composer->attachment_expander), show);
-}
-
-static void
 save (EMsgComposer *composer, const char *filename)
 {
 	CORBA_Environment ev;
@@ -1768,24 +1761,6 @@ menu_edit_delete_all_cb (BonoboUIComponent *uic, void *data, const char *path)
 }
 
 static void
-menu_view_attachments_activate_cb (BonoboUIComponent           *component,
-				   const char                  *path,
-				   Bonobo_UIComponent_EventType type,
-				   const char                  *state,
-				   gpointer                     user_data)
-
-{
-	gboolean new_state;
-	
-	if (type != Bonobo_UIComponent_STATE_CHANGED)
-		return;
-	
-	new_state = atoi (state);
-	
-	e_msg_composer_show_attachments (E_MSG_COMPOSER (user_data), new_state);
-}
-
-static void
 menu_format_html_cb (BonoboUIComponent           *component,
 		     const char                  *path,
 		     Bonobo_UIComponent_EventType type,
@@ -2305,11 +2280,6 @@ setup_ui (EMsgComposer *composer)
 		composer->uic, "SecuritySMimeEncrypt",
 		menu_security_smime_encrypt_cb, composer);
 	
-	/* View -> Attachments */
-	bonobo_ui_component_add_listener (
-		composer->uic, "ViewAttach",
-		menu_view_attachments_activate_cb, composer);
-	
 	bonobo_ui_component_thaw (composer->uic, NULL);
 
 	/* Create the UIComponent for the non-control entries */
@@ -2335,7 +2305,7 @@ attachment_bar_changed_cb (EMsgComposerAttachmentBar *bar,
 		E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar));
 	if (attachment_num) {
 		gchar *num_text = g_strdup_printf (
-			ngettext ("<b>%d</b> File Attached", "<b>%d</b> Files Attached", attachment_num),
+			ngettext ("<b>%d</b> Attachment", "<b>%d</b> Attachments", attachment_num),
 			attachment_num);
 		gtk_label_set_markup (GTK_LABEL (composer->attachment_expander_num),
 				      num_text);
@@ -2352,27 +2322,6 @@ attachment_bar_changed_cb (EMsgComposerAttachmentBar *bar,
 	/* Mark the composer as changed so it prompts about unsaved
            changes on close */
 	e_msg_composer_set_changed (composer);
-}
-
-static void
-attachment_expander_activate_cb (EExpander *expander,
-				 void      *data)
-{
-	EMsgComposer *composer = E_MSG_COMPOSER (data);
-	gboolean show = e_expander_get_expanded (expander);
-	
-	/* Update the expander label */
-	if (show)
-		gtk_label_set_text_with_mnemonic (GTK_LABEL (composer->attachment_expander_label),
-						  _("Hide _Attachment Bar (drop attachments here)"));
-	else
-		gtk_label_set_text_with_mnemonic (GTK_LABEL (composer->attachment_expander_label),
-						  _("Show _Attachment Bar (drop attachments here)"));
-	
-	/* Update the GUI.  */
-	bonobo_ui_component_set_prop (
-		composer->uic, "/commands/ViewAttach",
-		"state", show ? "1" : "0", NULL);
 }
 
 static void
@@ -3512,7 +3461,7 @@ create_composer (int visible_mask)
 			  G_CALLBACK (attachment_bar_changed_cb), composer);
 
 	composer->attachment_expander_label =
-		gtk_label_new_with_mnemonic (_("Show _Attachment Bar (drop attachments here)"));
+		gtk_label_new_with_mnemonic (_("_Attachment Bar (drop attachments here)"));
 	composer->attachment_expander_num = gtk_label_new ("");
 	gtk_label_set_use_markup (GTK_LABEL (composer->attachment_expander_num), TRUE);
 	gtk_misc_set_alignment (GTK_MISC (composer->attachment_expander_label), 0.0, 0.5);
@@ -3524,25 +3473,21 @@ create_composer (int visible_mask)
 	gtk_widget_set_size_request (composer->attachment_expander_icon, 100, -1);
 
 	gtk_box_pack_start (GTK_BOX (expander_hbox), composer->attachment_expander_label,
-			    TRUE, TRUE, 0);
+			    TRUE, TRUE, GNOME_PAD_SMALL);
 	gtk_box_pack_start (GTK_BOX (expander_hbox), composer->attachment_expander_icon,
 			    TRUE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (expander_hbox), composer->attachment_expander_num,
-			    TRUE, TRUE, 0);
+			    FALSE, FALSE, GNOME_PAD_SMALL);
 	gtk_widget_show_all (expander_hbox);
 	gtk_widget_hide (composer->attachment_expander_icon);
 
-	composer->attachment_expander = e_expander_new ("");	
-	e_expander_set_label_widget (E_EXPANDER (composer->attachment_expander), expander_hbox);
-	atk_object_set_name (gtk_widget_get_accessible (composer->attachment_expander), _("Attachment Button: Press space key to toggle attachment bar"));
 	
-	gtk_container_add (GTK_CONTAINER (composer->attachment_expander),
-			   composer->attachment_scrolled_window);
-	gtk_box_pack_start (GTK_BOX (vbox), composer->attachment_expander,
+	gtk_box_pack_start (GTK_BOX (vbox), expander_hbox, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), composer->attachment_scrolled_window,
 			    FALSE, FALSE, GNOME_PAD_SMALL);
-	gtk_widget_show (composer->attachment_expander);
-	g_signal_connect_after (composer->attachment_expander, "activate",
-				G_CALLBACK (attachment_expander_activate_cb), composer);
+
+	gtk_widget_show (composer->attachment_scrolled_window);
+	gtk_widget_show (expander_hbox);
 	
 	bonobo_window_set_contents (BONOBO_WINDOW (composer), vbox);
 	gtk_widget_show (vbox);
@@ -3552,7 +3497,6 @@ create_composer (int visible_mask)
 	   variable. */
 	gtk_widget_show (composer->editor);
 	
-	e_msg_composer_show_attachments (composer, FALSE);
 	prepare_engine (composer);
 	if (composer->editor_engine == CORBA_OBJECT_NIL) {
 		e_error_run (GTK_WINDOW (composer), "mail-composer:no-editor-control", NULL);
@@ -4510,24 +4454,6 @@ e_msg_composer_new_from_url (const char *url)
 	handle_mailto (composer, url);
 	
 	return composer;
-}
-
-
-/**
- * e_msg_composer_show_attachments:
- * @composer: A message composer widget
- * @show: A boolean specifying whether the attachment bar should be shown or
- * not
- * 
- * If @show is %FALSE, hide the attachment bar.  Otherwise, show it.
- **/
-void
-e_msg_composer_show_attachments (EMsgComposer *composer,
-				 gboolean show)
-{
-	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
-	
-	show_attachments (composer, show);
 }
 
 

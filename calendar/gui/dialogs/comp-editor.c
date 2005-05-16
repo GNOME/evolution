@@ -846,7 +846,7 @@ attachment_bar_changed_cb (CalAttachmentBar *bar,
 		CAL_ATTACHMENT_BAR (editor->priv->attachment_bar));
 	if (attachment_num) {
 		gchar *num_text = g_strdup_printf (
-			ngettext ("<b>%d</b> File Attached", "<b>%d</b> Files Attached", attachment_num),
+			ngettext ("<b>%d</b> Attachment", "<b>%d</b> Attachments", attachment_num),
 			attachment_num);
 		gtk_label_set_markup (GTK_LABEL (editor->priv->attachment_expander_num),
 				      num_text);
@@ -891,23 +891,6 @@ attachment_bar_icon_clicked_cb (CalAttachmentBar *bar, GdkEvent *event, void *da
 		return TRUE;
 	} else 
 		return FALSE;
-}
-
-static void
-attachment_expander_activate_cb (EExpander *expander,
-				 void *data)
-{
-	CompEditor *editor = COMP_EDITOR (data);
-	gboolean show = e_expander_get_expanded (expander);
-	
-	/* Update the expander label */
-	if (show)
-		gtk_label_set_text_with_mnemonic (GTK_LABEL (editor->priv->attachment_expander_label),
-						  _("Hide _Attachment Bar (drop attachments here)"));
-	else
-		gtk_label_set_text_with_mnemonic (GTK_LABEL (editor->priv->attachment_expander_label),
-						  _("Show _Attachment Bar (drop attachments here)"));
-
 }
 
 /* Creates the basic in the editor */
@@ -958,7 +941,7 @@ setup_widgets (CompEditor *editor)
 	g_signal_connect (GNOME_ICON_LIST (priv->attachment_bar), "event",
 			  G_CALLBACK (attachment_bar_icon_clicked_cb), NULL);			
 	priv->attachment_expander_label =
-		gtk_label_new_with_mnemonic (_("Show _Attachment Bar (drop attachments here)"));
+		gtk_label_new_with_mnemonic (_("_Attachment Bar (drop attachments here)"));
 	priv->attachment_expander_num = gtk_label_new ("");
 	gtk_label_set_use_markup (GTK_LABEL (priv->attachment_expander_num), TRUE);
 	gtk_misc_set_alignment (GTK_MISC (priv->attachment_expander_label), 0.0, 0.5);
@@ -976,22 +959,16 @@ setup_widgets (CompEditor *editor)
 	gtk_box_pack_start (GTK_BOX (expander_hbox), priv->attachment_expander_icon,
 			    TRUE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (expander_hbox), priv->attachment_expander_num,
-			    TRUE, TRUE, 0);
+			    FALSE, TRUE, 0);
 	gtk_widget_show_all (expander_hbox);
 	gtk_widget_hide (priv->attachment_expander_icon);
 
-	priv->attachment_expander = e_expander_new ("");	
-	e_expander_set_label_widget (E_EXPANDER (priv->attachment_expander), expander_hbox);
-	atk_object_set_name (gtk_widget_get_accessible (priv->attachment_expander), _("Attachment Button: Press space key to toggle attachment bar"));
-	
-	gtk_container_add (GTK_CONTAINER (priv->attachment_expander),
-			   priv->attachment_scrolled_window);
-	gtk_box_pack_start (GTK_BOX (vbox), priv->attachment_expander,
-			    FALSE, FALSE, GNOME_PAD_SMALL);
-	gtk_widget_show (priv->attachment_expander);
-	e_expander_set_expanded (E_EXPANDER (priv->attachment_expander), FALSE);
-	g_signal_connect_after (priv->attachment_expander, "activate",
-				G_CALLBACK (attachment_expander_activate_cb), editor);
+	gtk_box_pack_start (GTK_BOX (vbox), expander_hbox,
+			    FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), priv->attachment_scrolled_window, FALSE, FALSE, GNOME_PAD_SMALL);
+
+	gtk_widget_show (priv->attachment_scrolled_window);
+	gtk_widget_show (expander_hbox);
 
 	
 }
@@ -1007,7 +984,6 @@ comp_editor_sensitize_attachment_bar (CompEditor *editor, gboolean  set)
 	
 	gtk_widget_set_sensitive (GTK_WIDGET (priv->attachment_bar),  set);
 	gtk_widget_set_sensitive (GTK_WIDGET (priv->attachment_scrolled_window),  set);
-	gtk_widget_set_sensitive (GTK_WIDGET (priv->attachment_expander),  set);
 }
 	
 /* Object initialization function for the calendar component editor */
@@ -1697,7 +1673,6 @@ fill_widgets (CompEditor *editor)
 		e_cal_component_get_attachment_list (priv->comp, &attachment_list);
 		cal_attachment_bar_set_attachment_list
 			((CalAttachmentBar *)priv->attachment_bar, attachment_list);
-		e_expander_set_expanded (E_EXPANDER (priv->attachment_expander), TRUE);
 	}	
 
 	for (l = priv->pages; l != NULL; l = l->next)

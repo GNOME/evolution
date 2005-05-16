@@ -61,8 +61,6 @@
 		_tip="Toggles whether the BCC field is displayed"
 		type="toggle" state="0"/>
 		
-		<cmd name="ViewAttach" _label="Show attachments" _tip="Show / hide attachments"
-		type="toggle" state="0"/>
 		
                 <cmd name="SecurityPGPSign" _label="PGP Sign" _tip="Sign this message with your PGP key"
 		type="toggle" state="0"/>
@@ -122,8 +120,6 @@
 		</submenu>
 		
 		<submenu name="View" _label="_View">
-			<menuitem name="ViewAttach" verb="" _label="Show _attachments"/>
-			<separator f="" name="emailcomposer"/>
 	                <menuitem name="ViewFrom" verb=""/>
 			<menuitem name="ViewTo" verb=""/>
 			<menuitem name="ViewPostTo" verb=""/>

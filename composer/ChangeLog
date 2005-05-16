@@ -1,3 +1,10 @@
+2005-05-16  Srinivasa Ragavan <sragavan@novell.com>
+
+	* e-msg-composer.c (set_editor_text) (menu_edit_delete_all_cb)
+	  (setup_ui) (attachment_bar_changed_cb) (create_composer)
+	  (e_msg_composer_new_from_url): Removed the expander in the 
+	  composer attachment and made it visible all the times.
+	  
 2005-05-16  Not Zed  <NotZed@Ximian.com>
 
 	* moved e-error to e-util.
