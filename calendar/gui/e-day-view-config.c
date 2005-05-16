@@ -355,28 +355,6 @@ time_divisions_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpo
 }
 
 static void
-set_marcus_bains (EDayView *day_view) 
-{
-	gboolean show_marcus_bains_line;
-	const char *dayview_color, *timebar_color;
-
-	calendar_config_get_marcus_bains (&show_marcus_bains_line, &dayview_color, &timebar_color);
-
-	e_day_view_set_marcus_bains (day_view, show_marcus_bains_line, dayview_color, timebar_color);
-}
-
-static void
-marcus_bains_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
-{
-	EDayViewConfig *view_config = data;
-	EDayViewConfigPrivate *priv;
-	
-	priv = view_config->priv;
-	
-	set_marcus_bains (priv->view);
-}
-
-static void
 set_show_event_end (EDayView *day_view) 
 {
 	gboolean show_event_end;
@@ -401,7 +379,7 @@ void
 e_day_view_config_set_view (EDayViewConfig *view_config, EDayView *day_view) 
 {
 	EDayViewConfigPrivate *priv;
-	guint not, not_1, not_2;
+	guint not;
 	GList *l;
 	
 	g_return_if_fail (view_config != NULL);
@@ -479,14 +457,6 @@ e_day_view_config_set_view (EDayViewConfig *view_config, EDayView *day_view)
 
 	not = calendar_config_add_notification_time_divisions (time_divisions_changed_cb, view_config);
 	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
-
-	/* Showing Marcus Bains Line */
-	set_marcus_bains (day_view);
-
-	calendar_config_add_notification_marcus_bains (marcus_bains_changed_cb, view_config, &not, &not_1, &not_2);
-	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
-	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not_1));
-	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not_2));
 
 	/* Showing event end */
 	set_show_event_end (day_view);

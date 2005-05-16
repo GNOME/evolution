@@ -40,7 +40,6 @@
 #include <gal/widgets/e-gui-utils.h>
 #include "e-day-view-time-item.h"
 #include "calendar-config.h"
-#include <libecal/e-cal-time-util.h>
 
 
 /* The spacing between items in the time column. GRID_X_PAD is the space down
@@ -253,7 +252,7 @@ e_day_view_time_item_draw (GnomeCanvasItem *canvas_item,
 	EDayView *day_view;
 	EDayViewTimeItem *dvtmitem;
 	GtkStyle *style;
-	GdkGC *gc, *fg_gc, *dark_gc;
+	GdkGC *fg_gc, *dark_gc;
 	gchar buffer[64], *suffix;
 	gint hour, display_hour, minute, row;
 	gint row_y, start_y, large_hour_y_offset, small_font_y_offset;
@@ -279,7 +278,6 @@ e_day_view_time_item_draw (GnomeCanvasItem *canvas_item,
 	small_font_metrics = pango_context_get_metrics (context, small_font_desc,
 							pango_context_get_language (context));
 
-	gc = day_view->main_gc;
 	fg_gc = style->fg_gc[GTK_STATE_NORMAL];
 	dark_gc = style->dark_gc[GTK_STATE_NORMAL];
 
@@ -332,30 +330,6 @@ e_day_view_time_item_draw (GnomeCanvasItem *canvas_item,
 			   (pango_font_metrics_get_ascent (large_font_metrics) +
 			    pango_font_metrics_get_descent (large_font_metrics)) / PANGO_SCALE +
 			   E_DVTMI_LARGE_HOUR_Y_PAD);
-
-	/* Draw the Marcus Bains Line first, so it appears under other elements. */
-	if (e_day_view_get_show_marcus_bains (day_view)) {
-		struct icaltimetype time_now;
-		int marcus_bains_y;
-		GdkColor mb_color;
-		
-		gdk_gc_set_foreground (gc, &day_view->colors[E_DAY_VIEW_COLOR_MARCUS_BAINS_LINE]);
-
-		if (day_view->marcus_bains_time_bar_color && gdk_color_parse (day_view->marcus_bains_time_bar_color, &mb_color)) {
-			GdkColormap *colormap;
-			
-			colormap = gtk_widget_get_colormap (GTK_WIDGET (day_view));
-			if (gdk_colormap_alloc_color (colormap, &mb_color, TRUE, TRUE)) {
-				gdk_gc_set_foreground (gc, &mb_color);
-			}
-		}
-
-		time_now = icaltime_current_time_with_zone (e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
-		marcus_bains_y = (time_now.hour * 60 + time_now.minute) * day_view->row_height / day_view->mins_per_row - y;
-		gdk_draw_line (drawable, gc,
-				long_line_x1, marcus_bains_y,
-				long_line_x2, marcus_bains_y);
-	}
 
 	/* Step through each row, drawing the times and the horizontal lines
 	   between them. */
@@ -639,6 +613,7 @@ e_day_view_time_item_on_button_release (EDayViewTimeItem *dvtmitem,
 
 	dvtmitem->dragging_selection = FALSE;
 }
+
 
 static void
 e_day_view_time_item_on_motion_notify (EDayViewTimeItem *dvtmitem,

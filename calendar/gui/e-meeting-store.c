@@ -1046,7 +1046,7 @@ process_free_busy_comp (EMeetingAttendee *attendee,
 			icalcomponent *tz_top_level)
 {
 	icalproperty *ip;
-
+	
 	ip = icalcomponent_get_first_property (fb_comp, ICAL_DTSTART_PROPERTY);
 	if (ip != NULL) {
 		struct icaltimetype dtstart;

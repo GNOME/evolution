@@ -117,10 +117,6 @@ gint	  calendar_config_get_time_divisions	(void);
 void	  calendar_config_set_time_divisions	(gint	      divisions);
 guint calendar_config_add_notification_time_divisions (GConfClientNotifyFunc func, gpointer data);
 
-/* Whether we show the Marcus Bains Line, and in what colors. */
-void calendar_config_get_marcus_bains (gboolean *show_line, const char **dayview_color, const char **timebar_color);
-void calendar_config_add_notification_marcus_bains (GConfClientNotifyFunc func, gpointer data, gint *not_show, gint *not_dcolor, gint *not_tcolor);
-
 /* Whether we show event end times. */
 gboolean  calendar_config_get_show_event_end	(void);
 void	  calendar_config_set_show_event_end	(gboolean     show_end);

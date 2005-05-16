@@ -20,27 +20,6 @@
 
 	* gui/GNOME_Evolution_Calendar.server.in.in: Added tooltips
 
-2005-05-13  Thouis R. Jones  <thouis@csail.mit.edu>
-
-	Fixes #272301
-
-	* gui/apps_evolution_calendar.schemas.in.in: 
-	* gui/calendar-config-keys.h:
-	* gui/calendar-config.c: (calendar_config_get_marcus_bains,
-	calendar_config_add_notification_marcus_bains): 
-	* gui/calendar-config.h:
-	* gui/e-day-view-config.c: (set_marcus_bains,
-	marcus_bains_changed_cb, e_day_view_config_set_view):
-	* gui/e-day-view-main-item.c: (e_day_view_main_item_draw):
-	* gui/e-day-view-time-item.c: (e_day_view_time_item_draw):
-	* gui/e-day-view.c: (e_day_view_init, e_day_view_set_colors,
-	e_day_view_get_show_marcus_bains, e_day_view_set_marcus_bains,
-	e_day_view_update_marcus_bains):
-	* gui/e-day-view.h:
-	* gui/gnome-cal.c: (update_marcus_bains_line_cb, setup_widgets,
-	gnome_calendar_destroy):  Added Marcus Bains Line to main item
-	view and time bar.
-
 2005-05-13  Sushma Rai  <rsushma@novell.com>
 
 	* gui/dialogs/recurrence-page.c (make_ending_until_special): Setting
