@@ -1,3 +1,8 @@
+2005-05-16  Not Zed  <NotZed@Ximian.com>
+
+	* Makefile.am: added e-error.[ch], removed e-error-tool, and added
+	e-system.error.xml
+
 2005-05-13  Not Zed  <NotZed@Ximian.com>
 
 	* e-popup.c (emph_popup_factory): if we have a factory method

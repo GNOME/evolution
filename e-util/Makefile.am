@@ -12,6 +12,7 @@ INCLUDES =								\
 	-DEVOLUTION_ICONSDIR=\""$(imagesdir)"\"				\
 	-DEVOLUTION_CATEGORY_ICONS=\""$(imagesdir)/categories"\"	\
 	-DEVOLUTION_PLUGINDIR=\""$(plugindir)"\"			\
+	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"			\
 	-DG_LOG_DOMAIN=\"e-utils\"					\
 	$(GNOME_PILOT_CFLAGS)						\
 	$(E_UTIL_CFLAGS)
@@ -30,6 +31,7 @@ eutilinclude_HEADERS = 				\
 	e-corba-utils.h				\
 	e-dialog-utils.h			\
 	e-dialog-widgets.h			\
+	e-error.h				\
 	e-event.h				\
 	e-folder-map.h				\
 	e-fsutils.h				\
@@ -68,6 +70,7 @@ libeutil_la_SOURCES =				\
 	e-corba-utils.c				\
 	e-dialog-utils.c			\
 	e-dialog-widgets.c			\
+	e-error.c				\
 	e-event.c				\
 	e-folder-map.c				\
 	e-fsutils.c				\
@@ -116,24 +119,18 @@ endif
 
 libeconduit_la_SOURCES = $(pilot_compile)
 
-# e-error-tool
-
-e_error_tool_SOURCES = \
-	e-error-tool.c
-
-e_error_tool_LDADD = \
-	$(GNOME_FULL_LIBS)
-
-noinst_PROGRAMS = 			\
-	e-error-tool
+error_DATA = e-system.error
+errordir = $(privdatadir)/errors
+@EVO_PLUGIN_RULE@
 
 EXTRA_DIST =				\
+	e-system.error.xml		\
 	$(pilot_sources)		\
 	ChangeLog.pre-1-4		\
 	e-util-marshal.list
 
-BUILT_SOURCES = $(MARSHAL_GENERATED)
+BUILT_SOURCES = $(MARSHAL_GENERATED) $(error_DATA)
 CLEANFILES    = $(BUILT_SOURCES)
 
-dist-hook: e-error-tool
+dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)
