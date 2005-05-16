@@ -35,7 +35,7 @@
 #include <gtk/gtk.h>
 #include <libgnome/gnome-i18n.h>
 #include <gal/util/e-xml-utils.h>
-#include "widgets/misc/e-error.h"
+#include "e-util/e-error.h"
 
 #include "rule-context.h"
 #include "filter-rule.h"

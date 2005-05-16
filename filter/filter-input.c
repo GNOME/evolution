@@ -34,7 +34,7 @@
 
 #include "filter-input.h"
 #include "libedataserver/e-sexp.h"
-#include "widgets/misc/e-error.h"
+#include "e-util/e-error.h"
 
 #define d(x)
 

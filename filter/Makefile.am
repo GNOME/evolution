@@ -44,20 +44,17 @@ libfilter_la_SOURCES =				\
 
 EXTRA_DIST =					\
 	$(glade_DATA)				\
-	$(error_DATA)				\
-	$(error_i18n)				\
+	filter.error.xml			\
 	ChangeLog.pre-1-4			\
 	filter-marshal.list
 
 # basic rules.
-error_DATA = filter-errors.xml
-error_i18n = $(error_DATA:.xml=.xml.h)
+error_DATA = filter.error
 errordir = $(privdatadir)/errors
-%.xml.h: %.xml
-	$(top_builddir)/e-util/e-error-tool $^
+@EVO_PLUGIN_RULE@
 
 MARSHAL_GENERATED = filter-marshal.c filter-marshal.h
 @EVO_MARSHAL_RULE@
 
-BUILT_SOURCES = $(MARSHAL_GENERATED) $(error_i18n)
+BUILT_SOURCES = $(MARSHAL_GENERATED) $(error_DATA)
 CLEANFILES = $(BUILT_SOURCES)
