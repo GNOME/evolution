@@ -27,7 +27,7 @@
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-uidefs.h>
 #include <e-util/e-icon-factory.h>
-#include "widgets/misc/e-error.h"
+#include "e-util/e-error.h"
 #include "cancel-comp.h"
 
 

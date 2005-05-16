@@ -6,13 +6,12 @@ endif
 
 SUBDIRS = idl common gui importers $(CONDUIT_DIR)
 
-error_DATA = calendar-errors.xml
-error_i18n = $(error_DATA:.xml=.xml.h)
+error_DATA = calendar.error
 errordir = $(privdatadir)/errors
-%.xml.h: %.xml
-	$(top_builddir)/e-util/e-error-tool $^
+@EVO_PLUGIN_RULE@
 
 EXTRA_DIST =			\
+	calendar.error.xml	\
 	ChangeLog.pre-1-4	\
 	$(error_DATA)		\
 	zones.h
@@ -20,6 +19,6 @@ EXTRA_DIST =			\
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)
 
-BUILT_SOURCES = $(error_i18n)
+BUILT_SOURCES = $(error_DATA)
 
 CLEANFILES = $(BUILT_SOURCES)

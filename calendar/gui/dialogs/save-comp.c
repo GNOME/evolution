@@ -23,7 +23,7 @@
 #include <config.h>
 #endif
 
-#include "widgets/misc/e-error.h"
+#include "e-util/e-error.h"
 #include "save-comp.h"
 #include "comp-editor.h"
 

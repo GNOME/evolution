@@ -27,7 +27,7 @@
 #include <gtk/gtkmessagedialog.h>
 #include <libgnome/gnome-i18n.h>
 #include <e-util/e-icon-factory.h>
-#include "widgets/misc/e-error.h"
+#include "e-util/e-error.h"
 #include "../calendar-config.h"
 #include "delete-comp.h"
 

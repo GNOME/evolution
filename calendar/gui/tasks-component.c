@@ -48,7 +48,7 @@
 #include "dialogs/copy-source-dialog.h"
 #include "dialogs/task-editor.h"
 #include "widgets/misc/e-info-label.h"
-#include "widgets/misc/e-error.h"
+#include "e-util/e-error.h"
 #include "e-util/e-icon-factory.h"
 
 #define CREATE_TASK_ID               "task"

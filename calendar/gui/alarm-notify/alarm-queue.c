@@ -52,7 +52,7 @@
 #include "config-data.h"
 #include "util.h"
 #include "e-util/e-popup.h"
-#include "widgets/misc/e-error.h"
+#include "e-util/e-error.h"
 
 
 

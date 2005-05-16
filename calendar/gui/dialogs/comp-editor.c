@@ -60,7 +60,7 @@
 
 #include "cal-attachment-bar.h"
 #include "widgets/misc/e-expander.h"
-#include "widgets/misc/e-error.h"
+#include "e-util/e-error.h"
 
 
 #define d(x) x

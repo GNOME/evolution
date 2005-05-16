@@ -51,7 +51,7 @@
 #include <gal/menus/gal-view-etable.h>
 #include <gal/menus/gal-define-views-dialog.h>
 #include "widgets/menus/gal-view-menus.h"
-#include "widgets/misc/e-error.h"
+#include "e-util/e-error.h"
 #include "e-comp-editor-registry.h"
 #include "dialogs/delete-error.h"
 #include "dialogs/event-editor.h"

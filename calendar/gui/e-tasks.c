@@ -33,7 +33,7 @@
 #include <gal/menus/gal-view-factory-etable.h>
 #include <gal/menus/gal-view-etable.h>
 
-#include "widgets/misc/e-error.h"
+#include "e-util/e-error.h"
 #include "e-util/e-categories-config.h"
 #include "e-util/e-config-listener.h"
 #include "e-util/e-time-utils.h"

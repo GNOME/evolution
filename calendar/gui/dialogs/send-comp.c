@@ -23,7 +23,7 @@
 #endif
 
 #include <gtk/gtkmessagedialog.h>
-#include "widgets/misc/e-error.h"
+#include "e-util/e-error.h"
 #include "send-comp.h"
 
 

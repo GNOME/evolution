@@ -1,3 +1,7 @@
+2005-05-16  Not Zed  <NotZed@Ximian.com>
+
+	* moved e-error to e-util/
+
 2005-05-16: Srinivasa Ragavan <sragavan@novell.com>
 
 	* gui/GNOME_Evolution_Calendar.server.in.in: Added tooltips

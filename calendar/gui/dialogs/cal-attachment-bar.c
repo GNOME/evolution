@@ -56,7 +56,7 @@
 
 #include "e-util/e-gui-utils.h"
 #include "e-util/e-icon-factory.h"
-#include "widgets/misc/e-error.h"
+#include "e-util/e-error.h"
 #include "mail/em-popup.h"
 
 #define ICON_WIDTH 64
