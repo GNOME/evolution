@@ -155,7 +155,8 @@ namespace Camel {
 			types.Add("CamelMedium", typeof(Camel.Medium));
 			types.Add("CamelMimeMessage", typeof(Camel.MimeMessage));
 			types.Add("CamelMimePart", typeof(Camel.MimePart));
-			// camelmultipart?
+			types.Add("CamelMultipart", typeof(Camel.Multipart));
+
 			types.Add("CamelStore", typeof(Camel.Store));
 			types.Add("CamelTransport", typeof(Camel.Transport));
 			types.Add("CamelAddress", typeof(Camel.Address));
@@ -510,6 +511,7 @@ namespace Camel {
 		[DllImport("camel-1.2")] static extern int camel_data_wrapper_write_to_stream(IntPtr o, IntPtr s);
 		[DllImport("camel-1.2")] static extern int camel_data_wrapper_decode_to_stream(IntPtr o, IntPtr s);
 		[DllImport("camel-1.2")] static extern int camel_data_wrapper_construct_from_stream(IntPtr o, IntPtr s);
+		[DllImport("camel-1.2")] static extern IntPtr camel_data_wrapper_get_mime_type_field(IntPtr o);
 
 		public void writeToStream(Camel.Stream stream) {
 			int res;
@@ -534,6 +536,8 @@ namespace Camel {
 			if (res == -1)
 				throw new Exception(Exception.Type.SYSTEM, "IO Error");
 		}
+
+		public ContentType mimeType { get { return new ContentType(camel_data_wrapper_get_mime_type_field(cobject)); } }
 	}
 
 	public class Medium : Camel.DataWrapper {
@@ -555,6 +559,40 @@ namespace Camel {
 				camel_medium_set_content_object(cobject, value.cobject);
 			}
 		}
+	}
+
+	public class Multipart : Camel.DataWrapper {
+		[DllImport("camel-1.2")] static extern IntPtr camel_multipart_new();
+		[DllImport("camel-1.2")] static extern void camel_multipart_add_part(IntPtr o, IntPtr p);
+		[DllImport("camel-1.2")] static extern void camel_multipart_remove_part(IntPtr o, IntPtr p);
+		[DllImport("camel-1.2")] static extern IntPtr camel_multipart_get_part(IntPtr o, int index);
+		[DllImport("camel-1.2")] static extern int camel_multipart_get_number(IntPtr o);
+
+		public Multipart(IntPtr raw) : base(raw) { }
+
+		public void addPart(MimePart part) {
+			camel_multipart_add_part(cobject, part.cobject);
+		}
+
+		public void removePart(MimePart part) {
+			camel_multipart_add_part(cobject, part.cobject);
+		}
+
+		public MimePart getPart(int index) {
+			IntPtr o;
+
+			o = camel_multipart_get_part(cobject, index);
+			if (o != (IntPtr)0)
+				return (MimePart)Object.fromCamel(o);
+			else
+				return null;
+		}
+
+		public int getNumber() {
+			return camel_multipart_get_number(cobject);
+		}
+
+		// FIXME: finish
 	}
 
 	public class MimePart : Camel.Medium {
@@ -881,6 +919,23 @@ namespace Camel {
 
 		public static string format(string name, string addr) {
 			return camel_internet_address_format_address(name, addr);
+		}
+	}
+
+	public class ContentType {
+		public IntPtr cobject;
+
+		public ContentType(IntPtr raw) {
+			cobject = raw;
+		}
+
+		[DllImport("camel-1.2")] static extern bool camel_content_type_is(IntPtr raw, string type, string subtype);
+
+		~ContentType() {
+		}
+
+		public bool isType(string type, string subtype) {
+			return camel_content_type_is(cobject, type, subtype);
 		}
 	}
 

@@ -4,45 +4,6 @@ using System.Reflection;
 
 using Camel;
 
-[StructLayout (LayoutKind.Sequential)]
-struct EMPopupTargetSelect {
-	int type;
-	int mask;
-	IntPtr parent;
-	IntPtr folder;
-	string folderURI;
-	IntPtr uids;
-};
-
-[StructLayout (LayoutKind.Sequential)]
-struct EMPopupTargetFolder {
-	int type;
-	int mask;
-	IntPtr parent;
-	string folderURI;
-};
-
-
-[StructLayout (LayoutKind.Sequential)]
-struct aCamelObject {
-IntPtr klass;
-uint magic;
-IntPtr hooks;
-uint bitfield1;
-// ref_count:24
-uint ref_count { // highly non-portable
-	get { return (bitfield1 & 0xffffff) >> 0; }
-	set { bitfield1 = (bitfield1 & 0xff000000) | ((value << 0) & 0xffffff); }
-}
-// flags:8
-uint flags { // highly non-portable
-	get { return (bitfield1 & 0xff000000) >> 24; }
-	set { bitfield1 = (bitfield1 & 0xffffff) | ((value << 24) & 0xff000000); }
-}
-IntPtr next;
-IntPtr prev;
-}
-
 namespace Evolution {
 	[StructLayout (LayoutKind.Sequential)]
 	public class PopupTarget {
@@ -67,6 +28,29 @@ namespace Evolution {
 		public int mask;
 	};
 };
+
+namespace Evolution {
+	public class Error {
+		// can we marshal varags from c#?
+		[DllImport("eutil")] static extern int e_error_run(IntPtr parent, string tag, IntPtr end);
+		[DllImport("eutil")] static extern int e_error_run(IntPtr parent, string tag, string arg0, IntPtr end);
+		[DllImport("eutil")] static extern int e_error_run(IntPtr parent, string tag, string arg0, string arg1, IntPtr end);
+		[DllImport("eutil")] static extern int e_error_run(IntPtr parent, string tag, string arg0, string arg1, string arg2, IntPtr end);
+
+		public static int run(IntPtr parent, string tag) {
+			return e_error_run(parent, tag, (IntPtr)0);
+		}
+		public static int run(IntPtr parent, string tag, string arg0) {
+			return e_error_run(parent, tag, arg0, (IntPtr)0);
+		}
+		public static int run(IntPtr parent, string tag, string arg0, string arg1) {
+			return e_error_run(parent, tag, arg0, arg1, (IntPtr)0);
+		}
+		public static int run(IntPtr parent, string tag, string arg0, string arg1, string arg2) {
+			return e_error_run(parent, tag, arg0, arg1, arg2, (IntPtr)0);
+		}
+	}
+}
 
 namespace Evolution.Mail {
 	/* ********************************************************************** */

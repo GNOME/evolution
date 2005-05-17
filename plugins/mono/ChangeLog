@@ -1,0 +1,7 @@
+2005-05-17  Not Zed  <NotZed@Ximian.com>
+
+	* Evolution.cs: added initial e_error wrapper.
+
+	* Camel.cs: added multipart & contenttype wrappers.
+	
+
