@@ -27,8 +27,6 @@
 #include <string.h>
 
 #include <gtkhtml/gtkhtml.h>
-#include <gtkhtml/htmlengine.h>
-#include <gtkhtml/htmlobject.h>
 #include <gtkhtml/gtkhtml-embedded.h>
 #include <gtkhtml/gtkhtml-search.h>
 
@@ -239,7 +237,7 @@ efhd_init(GObject *o)
 	efhd->priv = g_malloc0(sizeof(*efhd->priv));
 
 	efhd->search_tok = (ESearchingTokenizer *)e_searching_tokenizer_new();
-	html_engine_set_tokenizer(efh->html->engine, (HTMLTokenizer *)efhd->search_tok);
+	gtk_html_set_tokenizer (efh->html, (HTMLTokenizer *)efhd->search_tok);
 
 	g_signal_connect(efh->html, "realize", G_CALLBACK(efhd_gtkhtml_realise), o);
 	g_signal_connect(efh->html, "style-set", G_CALLBACK(efhd_gtkhtml_style_set), o);
@@ -578,34 +576,26 @@ efhd_iframe_created(GtkHTML *html, GtkHTML *iframe, EMFormatHTMLDisplay *efh)
 static int
 efhd_html_button_press_event (GtkWidget *widget, GdkEventButton *event, EMFormatHTMLDisplay *efhd)
 {
-	HTMLEngine *e;
-	HTMLObject *obj;
-	const char *url;
+	char *url;
 	gboolean res = FALSE;
-	gint offset;
 	EMFormatPURI *puri = NULL;
-	char *uri = NULL;
 
 	if (event->button != 3)
 		return FALSE;
 
-	e = ((GtkHTML *)widget)->engine;
-	obj = html_engine_get_object_at(e, event->x, event->y, &offset, FALSE);
+	url = gtk_html_get_url_at (GTK_HTML (widget), event->x, event->y);
 
 	d(printf("popup button pressed\n"));
 
-	if ( obj != NULL
-	     && ((url = html_object_get_src(obj)) != NULL
-		 || (url = html_object_get_url(obj, offset)) != NULL)) {
-		uri = gtk_html_get_url_object_relative((GtkHTML *)widget, obj, url);
-		puri = em_format_find_puri((EMFormat *)efhd, uri);
+	if (url) {
+		puri = em_format_find_puri((EMFormat *)efhd, url);
 
 		d(printf("poup event, uri = '%s' part = '%p'\n", uri, puri?puri->part:NULL));
 	}
 
-	g_signal_emit((GtkObject *)efhd, efhd_signals[EFHD_POPUP_EVENT], 0, event, uri, puri?puri->part:NULL, &res);
+	g_signal_emit((GtkObject *)efhd, efhd_signals[EFHD_POPUP_EVENT], 0, event, url, puri?puri->part:NULL, &res);
 
-	g_free(uri);
+	g_free(url);
 
 	return res;
 }
@@ -614,33 +604,20 @@ gboolean
 em_format_html_display_popup_menu (EMFormatHTMLDisplay *efhd)
 {
 	GtkHTML *html;
-	HTMLEngine *e;
-	HTMLObject *obj;
-	const char *url;
+	char *url;
 	gboolean res = FALSE;
-	gint offset;
 	EMFormatPURI *puri = NULL;
-	char *uri = NULL;
 
 	html = efhd->formathtml.html;
-	e = html->engine;
-	if (!efhd->caret_mode)
-		obj = html_engine_get_focus_object (e, &offset);
-	else {
-		obj = e->cursor->object;
-		offset = e->cursor->offset;
-	}
 
-	if ( obj != NULL
-	     && ((url = html_object_get_src(obj)) != NULL
-		 || (url = html_object_get_url(obj, offset)) != NULL)) {
-		uri = gtk_html_get_url_object_relative(html, obj, url);
-		puri = em_format_find_puri((EMFormat *)efhd, uri);
-	}
+	url = gtk_html_get_cursor_url (html);
 
-	g_signal_emit((GtkObject *)efhd, efhd_signals[EFHD_POPUP_EVENT], 0, NULL, uri, puri?puri->part:NULL, &res);
+	if (url)
+		puri = em_format_find_puri((EMFormat *)efhd, url);
 
-	g_free(uri);
+	g_signal_emit((GtkObject *)efhd, efhd_signals[EFHD_POPUP_EVENT], 0, NULL, url, puri?puri->part:NULL, &res);
+
+	g_free(url);
 
 	return res;
 }

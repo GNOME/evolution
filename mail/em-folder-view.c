@@ -760,7 +760,6 @@ emfv_popup_selectall(EPopup *ep, EPopupItem *pitem, void *data)
 {
 	EMFolderView *emfv = data;
 	gtk_html_select_all (((EMFormatHTML *)emfv->preview)->html);
-
 }
 
 static void
@@ -1271,7 +1270,7 @@ emfv_select_all_text(BonoboUIComponent *uid, void *data, const char *path)
 {
 	EMFolderView *emfv = data;
 
-	html_engine_select_all (((EMFormatHTML *)emfv->preview)->html->engine);
+	gtk_html_select_all (((EMFormatHTML *)emfv->preview)->html);
 }
 
 static void

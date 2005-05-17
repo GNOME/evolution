@@ -39,7 +39,6 @@
 #include <gtkhtml/gtkhtml.h>
 #include <gtkhtml/gtkhtml-embedded.h>
 #include <gtkhtml/gtkhtml-stream.h>
-#include <gtkhtml/htmlengine.h>
 
 #include <libgnome/gnome-i18n.h>
 

@@ -1,3 +1,14 @@
+2005-05-17  Radek Doulik  <rodo@novell.com>
+
+	* em-format-html.c: removed include of htmlengine.h which wasn't
+	needed
+
+	* em-format-html-display.c: use top level gtkhtml API instead of
+	lower level one
+
+	* em-folder-view.c (emfv_popup_selectall): use gtk_html_select_all
+	instead of calling html engine directly
+
 2005-05-16  Not Zed  <NotZed@Ximian.com>
 
 	* mail-vfolder.h: 
