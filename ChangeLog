@@ -1,3 +1,7 @@
+2005-05-18  Harish Krishnaswamy  <kharish@novell.com>
+
+	* configure.in : Bump version
+
 2005-05-13  Rodney Dawes  <dobey@novell.com>
 
 	* plugins/Makefile.am (DIST_SUBDIRS): Add profiler so that it gets

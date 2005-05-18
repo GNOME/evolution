@@ -1,3 +1,59 @@
+Evolution 2.3.2, 2005-05-18
+---------------------------
+
+Bugzilla bugs fixed (see http://bugzilla.gnome.org/show_bug.cgi):
+
+#269129 replying to a newsgroup post from a vfolder gets group wrong (Jeffrey Stedfast) 
+#271679 "make this occurrence movable" unusable (Rodrigo Moya)
+#274406 alarm notify crasher (Chenthill)
+#209416 Mini-card view for mailing list is wrong (Srinivasa Ragavan)
+
+
+i18n :
+272242 action "Print" doesn't have dots at the end of name (Vivek)
+Fixes #301459 - A collection of typos from the Evolution .po file (Chenthill)
+"all the deleted message" typo in Evolution mail-errors.xml (Sarfraaz)
+273075 - "cert" slang in Evolution certificate manager" (Sarfraaz)
+#300477 - Evolution account assistent does not have label (Mengjie Yu)
+#268906 - improve date selection for recurring appointments (Sushma)
+#229794 - When creating a recurrent appointment, current weekday can't be deselected (Harish)
+          Patch from  jack jia.
+#269416 - Drag/drop between task lists copies instead of moving (Srinivasa Ragavan)	  
+#301350 - alarms totally unreliable . (Rodrigo Moya)
+#261079 - Please add translator comments for "%s %s" messages in evolution (Vivek)
+#272464 - Error message on GW server needs to be clarified (Chenthill)
+#261969 - Bad plural form: foo(s) in addressbook-errors.xml (Sushma) 
+#272005 - Click on 'Help' in 'Send Options' popup, this popup closes (Shreyas)
+#273096 - Double spacing in Evolution widget message (Harish)
+#273097 - Unnecessary trailing spaces in Evolution widget messages (Harish)
+
+Other fixes and features :
+
+	New menu layout - Rodney Dawes
+	Attachment Expander changes - Srinivas
+	Remove wizard related code and use eplugin (JP)
+	Evolution Force shutdown fixes (Harish)
+	Pkg config fixes for evolution exchange (Amish)
+	Move e-error to e-util (Michael Zucchi)
+	Prevent crash if D-BUS session bus is not running (Timo Hoenig) 
+	Fixes for Bug #73099 and Bug #73098 - rdf, csv formats (Philip Van Hoof)
+	moved widgets/misc/e-system-errors to e-util/e-system.error (Michael Zucchi)
+	Memory leak fixes (Ross burton)
+	Miscellaneous config fixes (Harish)
+	Potfiles - remove dead files (JP)
+
+New plugins :
+
+- mono, mail-remote, profiler (Michael Zucchi)
+
+Updated Translations:
+
+	- bg (Rostislav Raykov)
+	- el (Kostas Papadimas) 
+	- ne (Pawan Chitrakar)
+	- fa (Meelad Zakaria and Roozbeh Pournader) 
+	- es (Francisco Javier F. Serrador) 
+
 Evolution  2.3.1, 2005-04-26
 ---------------------------------------
 
