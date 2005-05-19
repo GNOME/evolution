@@ -40,13 +40,13 @@ msgstr ""
 "Project-Id-Version: el\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-05-11 12:57+0300\n"
-"PO-Revision-Date: 2005-04-28 19:45+0300\n"
+"PO-Revision-Date: 2005-05-19 10:17+0300\n"
 "Last-Translator: Nikos Charonitakis <charosn@her.forthnet.gr>\n"
 "Language-Team: Greek <team@gnome.gr>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms:  nplurals=2; plural=(n != 1);\n"
+"Plural-Forms:  nplurals=2; plural=(n != 1);"
 
 #: ../a11y/addressbook/ea-addressbook-view.c:94
 #: ../a11y/addressbook/ea-addressbook-view.c:103
@@ -488,10 +488,8 @@ msgstr "Έκδοση διακομιστή"
 #. calendar:server-version primary
 #: ../addressbook/addressbook-errors.xml.h:66
 #: ../calendar/calendar-errors.xml.h:148
-#, fuzzy
 msgid "Some features may not work properly with your current server"
-msgstr ""
-"Μερικές από τις λειτουργίες μπορεί να μην λειτουργούν σωστά με την τρέχουσα "
+msgstr "Μερικές από τις λειτουργίες μπορεί να μην λειτουργούν σωστά με την τρέχουσα "
 "έκδοση του εξυπηρετητή σας"
 
 #. addressbook:server-version secondary
@@ -1093,7 +1091,6 @@ msgid "_Find Possible Search Bases"
 msgstr "Εύ_ρεση πιθανών βάσεως αναζήτησης"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:46
-#, fuzzy
 msgid "_Login method:"
 msgstr "Μέθοδος _πιστοποίησης:"
 
@@ -2461,31 +2458,30 @@ msgid "E-_mail:"
 msgstr "E-_mail:"
 
 #: ../addressbook/gui/contact-editor/eab-editor.c:323
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Are you sure you want\n"
 "to delete contact list (%s) ?"
 msgstr ""
 "Είστε βέβαιοι ότι θέλετε\n"
-"να διαγραφούν αυτές οι επαφές;"
+"να διαγραφούν οι επαφές (%s) ?;"
 
 #: ../addressbook/gui/contact-editor/eab-editor.c:326
-#, fuzzy
 msgid ""
 "Are you sure you want\n"
 "to delete these contact lists?"
 msgstr ""
 "Είστε βέβαιοι ότι θέλετε\n"
-"να διαγραφούν αυτές οι επαφές;"
+"να διαγραφούν αυτές οι λίστες επαφών;"
 
 #: ../addressbook/gui/contact-editor/eab-editor.c:331
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Are you sure you want\n"
 "to delete contact (%s) ?"
 msgstr ""
 "Είστε βέβαιοι ότι θέλετε\n"
-"να διαγραφούν αυτές οι επαφές;"
+"να διαγραφεί η επαφή (%s);"
 
 #: ../addressbook/gui/contact-editor/eab-editor.c:334
 msgid ""
@@ -2611,7 +2607,6 @@ msgid "Contact List Editor"
 msgstr "Επεξεργαστής Λίστας Επαφών"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:6
-#, fuzzy
 msgid "Insert email addresses from Address Book"
 msgstr "Εισαγωγή διευθύνσεων email από το Βιβλίο Διευθύνσεων"
 
@@ -3375,15 +3370,13 @@ msgstr "Σφάλμα αφαίρεσης επαφής"
 msgid ""
 "Opening %d contact will open %d new window as well.\n"
 "Do you really want to display this contact?"
-msgid_plural ""
 "Opening %d contacts will open %d new windows as well.\n"
 "Do you really want to display all of these contacts?"
-msgstr[0] ""
+msgstr ""
 "Ανοίγοντας %d επαφή θα γίνει άνοιγμα %d  νέου παραθύρου.\n"
 "Θέλετε να εμφανίσετε αυτή την επαφή;Ανοίγοντας %d επαφή θα γίνει άνοιγμα %d  "
 "νέων παραθύρων.\n"
 "Θέλετε να εμφανίσετε αυτές τις επαφές;"
-msgstr[1] ""
 "Ανοίγοντας %d επαφή θα γίνει άνοιγμα %d  νέου παραθύρου.\n"
 "Θέλετε να εμφανίσετε αυτή την επαφή;Ανοίγοντας %d επαφή θα γίνει άνοιγμα %d  "
 "νέων παραθύρων.\n"
@@ -3407,11 +3400,10 @@ msgstr "Αντικατάσταση"
 #.
 #: ../addressbook/gui/widgets/eab-gui-util.c:360
 #: ../addressbook/gui/widgets/eab-gui-util.c:363
-#, fuzzy
 msgid "contact"
 msgid_plural "contacts"
 msgstr[0] "Επαφή"
-msgstr[1] "Επαφή"
+msgstr[1] "Επαφές"
 
 #. This is a filename. Translators take note.
 #: ../addressbook/gui/widgets/eab-gui-util.c:410
@@ -4304,9 +4296,8 @@ msgstr[0] "λεπτό"
 msgstr[1] "λεπτά"
 
 #: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:215
-#, fuzzy
 msgid "Start time"
-msgstr "Χρόνος Έναρξης:"
+msgstr "Χρόνος έναρξης"
 
 #: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:312
 #, c-format
@@ -4316,7 +4307,6 @@ msgid ""
 msgstr ""
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:1
-#, fuzzy
 msgid "Appointments"
 msgstr "Ραντεβού"
 
@@ -4354,9 +4344,8 @@ msgid "description of appointment"
 msgstr "περιγραφή του ραντεβού"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:7
-#, fuzzy
 msgid "location of appointment"
-msgstr "περιγραφή του ραντεβού"
+msgstr "τοποθεσία του ραντεβού"
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:954
 msgid "Dismiss"
@@ -4521,11 +4510,9 @@ msgid "Hour the workday starts on, in twenty four hour format, 0 to 23."
 msgstr "Η ώρα που ξεκινάει η εργάσιμη ημέρα, σε 24ωρη μορφή, από 0 σε 23."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:20
-#, fuzzy
 msgid "Intervals shown in Day and Work Week views, in minutes."
-msgstr ""
-"Χρονικά διαστήματα</short> <short που προβάλλονται στις προβολές Ημέρας, "
-"Εβδομάδας και εργάσιμης εβδομάδαςσε λεπτά."
+msgstr "Χρονικά διαστήματα που προβάλλονται στις προβολές Ημέρας, "
+"Εβδομάδας και εργάσιμης εβδομάδας σε λεπτά."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:21
 msgid "Last alarm time"
@@ -4536,7 +4523,6 @@ msgid "List of server urls for free/busy publishing."
 msgstr "Λίστα από urls εξυπηρετητών για δημοσιοποίηση διαθεσιμότητας."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:23
-#, fuzzy
 msgid "Minute the workday ends on, 0 to 59."
 msgstr "Λεπτό που τελειώνει η εργάσιμη μέρα, από 0 ως 59"
 
@@ -4582,12 +4568,11 @@ msgstr ""
 "εικονοστοιχεία."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:32
-#, fuzzy
 msgid ""
 "Position of the vertical pane, between the task list and the task preview "
 "pane, in pixels."
 msgstr ""
-"Τοποθεσία του κάθετου ταμπλό, ανάμεσα στη λίστα εργασιών και το ταμπλό "
+"Τοποθεσία του κάθετου πίνακα, ανάμεσα στη λίστα εργασιών και τον πίνακα"
 "προεπισκόπησης λίστας, σε εικονοστοιχεία."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:33
@@ -4652,9 +4637,8 @@ msgstr ""
 "αντικαθίσταται από το τομέα."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:44
-#, fuzzy
 msgid "Time divisions"
-msgstr "_Διαιρέσεις ώρας:"
+msgstr "Διαιρέσεις ώρας"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:45
 msgid "Time the last alarm ran, in time_t."
@@ -9711,9 +9695,8 @@ msgid "Post To:"
 msgstr "Αποστολή Σε:"
 
 #: ../composer/e-msg-composer-select-file.c:80
-#, fuzzy
 msgid "A_ttach"
-msgstr "Επισύναψη"
+msgstr "Επι_σύναψη"
 
 #: ../composer/e-msg-composer.c:737
 msgid ""
@@ -9785,16 +9768,12 @@ msgstr ""
 "Είστε βέβαιοι για τη διαγραφή του μηνύματος με όνομα '{0}', που συντάσσετε;"
 
 #: ../composer/mail-composer.error.xml.h:3
-#, fuzzy
 msgid "Because &quot;{0}&quot;, you may need to select different mail options."
-msgstr ""
-"Λόγω του \"${0}\", θα πρέπει να επιλέξετε διαφορετικές επιλογές "
-"αλληλογραφίας."
+msgstr "Λόγω του &quot;{0}&quot;, θα πρέπει να επιλέξετε διαφορετικές επιλογές αλληλογραφίας."
 
 #: ../composer/mail-composer.error.xml.h:4 ../mail/mail.error.xml.h:16
-#, fuzzy
 msgid "Because &quot;{1}&quot;."
-msgstr "Λόγω του \"{1}\"."
+msgstr "Λόγω του &quot;{1}&quot;."
 
 #: ../composer/mail-composer.error.xml.h:5
 msgid ""
@@ -9815,18 +9794,16 @@ msgid "Could not create message."
 msgstr "Δεν ήταν δυνατή η δημιουργία μηνύματος."
 
 #: ../composer/mail-composer.error.xml.h:8
-#, fuzzy
 msgid "Could not read signature file &quot;{0}&quot;."
-msgstr "Δεν ήταν δυνατή η ανάγνωση του αρχείου υπογραφής \"{0}\"."
+msgstr "Δεν ήταν δυνατή η ανάγνωση του αρχείου υπογραφής &quot;{0}&quot;."
 
 #: ../composer/mail-composer.error.xml.h:9
 msgid "Could not retrieve messages to attach from {0}."
 msgstr "Δεν ήταν δυνατή η ανάκτηση μηνυμάτων για επισύναψη από {0}."
 
 #: ../composer/mail-composer.error.xml.h:10
-#, fuzzy
 msgid "Could not save to autosave file &quot;{0}&quot;."
-msgstr "Δεν ήταν δυνατή η αποθήκευση στο αρχείο αυτόματης αποθήκευσης \"{0}\"."
+msgstr "Δεν ήταν δυνατή η αυτόματη αποθήκευση του αρχείου &quot;{0}&quot;."
 
 #: ../composer/mail-composer.error.xml.h:11
 msgid "Directories can not be attached to Messages."
@@ -9841,9 +9818,8 @@ msgid "Don't Recover"
 msgstr "Να μη γίνει Ανάκτηση"
 
 #: ../composer/mail-composer.error.xml.h:14
-#, fuzzy
 msgid "Error saving to autosave because &quot;{1}&quot;."
-msgstr "Σφάλμα κατά την αυτόματη αποθήκευση λόγω του \"{1}\"."
+msgstr "Σφάλμα κατά την αυτόματη αποθήκευση λόγω του &quot;{1}&quot;."
 
 #: ../composer/mail-composer.error.xml.h:15
 msgid ""
@@ -9999,7 +9975,6 @@ msgstr ""
 "και πότε όταν κάποιος τρίτος ζητά μια απόδειξη από εσάς.</small>"
 
 #: ../designs/read_receipts/read.glade.h:6
-#, fuzzy
 msgid "Always send back a read receipt"
 msgstr "Να αποστέλλεται πάντα απόδειξη ανάγνωσης"
 
@@ -10301,9 +10276,8 @@ msgid "_Rule name:"
 msgstr "'Όνομα _κανόνα:"
 
 #: ../filter/filter-rule.c:819
-#, fuzzy
 msgid "If"
-msgstr "Ι"
+msgstr "αν"
 
 #: ../filter/filter-rule.c:858
 msgid "if all criteria are met"
@@ -11809,7 +11783,6 @@ msgid "Load images for HTML messages over http"
 msgstr "Φόρτωση εικόνων για μηνύματα HTML σε http"
 
 #: ../mail/evolution-mail.schemas.in.in.h:39
-#, fuzzy
 msgid ""
 "Load images for HTML messages over http(s). Possible values are: 0 - Never "
 "load images off the net 1 - Load images in mail from contacts 2 - Always "
@@ -11817,7 +11790,7 @@ msgid ""
 msgstr ""
 "Φόρτωση εικόνων για μηνύματα HTML σε http(s). Πιθανές τιμές είναι: 0 - Να μη "
 "φορτώνονται ποτέ εικόνες από το δίκτυο 1 - Φόρτωση εικόνων αν ο αποστολέας "
-"είναι στο βιβλίο διευθύνσεων  2 - Να φορτώνονται πάντοτε εικόνες από το "
+"είναι στις επαφές  2 - Να φορτώνονται πάντοτε εικόνες από το "
 "δίκτυο"
 
 #: ../mail/evolution-mail.schemas.in.in.h:40
@@ -13155,33 +13128,30 @@ msgid "with all local folders"
 msgstr "με όλους τους τοπικούς φακέλους"
 
 #: ../mail/mail.error.xml.h:1
-#, fuzzy
 msgid ""
 "A folder named &quot;{1}&quot; already exists. Please use a different name."
 msgstr ""
-"Ένας φάκελος που ονομάζεται \"{1}\" υπάρχει ήδη. Παρακαλώ χρησιμοποιείστε "
+"Ένας φάκελος που ονομάζεται &quot;{1}&quot; υπάρχει ήδη. Παρακαλώ χρησιμοποιείστε "
 "ένα διαφορετικό όνομα."
 
 #: ../mail/mail.error.xml.h:2
-#, fuzzy
 msgid ""
 "A non-empty folder at &quot;{1}&quot; already exists.\n"
 "\n"
 "You can choose to ignore this folder, overwrite or append its contents, or "
 "quit.\n"
 msgstr ""
-"Ένας φάκελος που δεν είναι άδειος στο \"{1}\" υπάρχει ήδη.\n"
+"Ένας φάκελος που δεν είναι άδειος στο&quot;{1}&quot; υπάρχει ήδη.\n"
 "\n"
 "Μπορείτε να αγνοήσετε αυτό το φάκελο, να αντικαταστήσετε ή προσθέσετε στα "
 "περιεχόμενα του ή να εγκαταλείψετε.\n"
 
 #: ../mail/mail.error.xml.h:6
-#, fuzzy
 msgid ""
 "A read receipt notification has been requested for &quot;{1}&quot;.  Send "
 "the reciept notification to {0}?"
 msgstr ""
-"Ζητήθηκε μια βεβαίωση ανάγνωσης για \"{1}\".  Να σταλεί η ειδοποίηση "
+"Ζητήθηκε μια βεβαίωση ανάγνωσης για&quot;{1}&quot;.  Να σταλεί η ειδοποίηση "
 "βεβαίωσης σε {0}?"
 
 #: ../mail/mail.error.xml.h:7
@@ -13209,13 +13179,12 @@ msgstr ""
 "διαγραφεί σε όλους τους φακέλους;"
 
 #: ../mail/mail.error.xml.h:11
-#, fuzzy
 msgid ""
 "Are you sure you want to permanently remove all the deleted messages in "
 "folder &quot;{0}&quot;?"
 msgstr ""
 "Είστε σίγουροι ότι θέλετε να διαγράψετε οριστικά όλα τα μηνύματα που έχουν "
-"διαγραφεί στο φάκελο \"{0}\";"
+"διαγραφεί στο φάκελο  &quot;{0}&quot;?"
 
 #: ../mail/mail.error.xml.h:12
 msgid "Are you sure you want to send a message in HTML format?"
@@ -13232,117 +13201,94 @@ msgid "Are you sure you want to send a message without a subject?"
 msgstr "Είστε σίγουροι ότι θέλετε να στείλετε ένα μήνυμα χωρίς θέμα;"
 
 #: ../mail/mail.error.xml.h:15
-#, fuzzy
 msgid "Because &quot;{0}&quot;."
-msgstr "Λόγω του \"{0}\"."
+msgstr "Λόγω του &quot;{0}&quot;."
 
 #: ../mail/mail.error.xml.h:17
-#, fuzzy
 msgid "Because &quot;{2}&quot;."
-msgstr "Λόγω του \"{2}\"."
+msgstr "Λόγω του &quot;{2}&quot;."
 
 #: ../mail/mail.error.xml.h:18
-#, fuzzy
 msgid "Cannot add vFolder &quot;{0}&quot;."
-msgstr "Αδυναμία προσθήκης εΦακέλου \"{0}\"."
+msgstr "Αδυναμία προσθήκης εΦακέλου&quot;{0}&quot;."
 
 #: ../mail/mail.error.xml.h:19
-#, fuzzy
 msgid "Cannot copy folder &quot;{0}&quot; to &quot;{1}&quot;."
-msgstr "Αδυναμία αντιγραφής φακέλου \"{0}\" σε \"{1}\"."
+msgstr "Αδυναμία αντιγραφής φακέλου &quot;{0}&quot; σε &quot;{1}&quot;."
 
 #: ../mail/mail.error.xml.h:20
-#, fuzzy
 msgid "Cannot create folder &quot;{0}&quot;."
-msgstr "Δεν είναι δυνατή η δημιουργία φακέλου \"{0}\"."
+msgstr "Δεν είναι δυνατή η δημιουργία φακέλου &quot;{0}&quot;."
 
 #: ../mail/mail.error.xml.h:21
 msgid "Cannot create temporary save directory."
 msgstr "Δεν είναι δυνατή η δημιουργία του προσωρινού καταλόγου."
 
 #: ../mail/mail.error.xml.h:22
-#, fuzzy
 msgid "Cannot create the save directory, because &quot;{1}&quot;"
-msgstr ""
-"Δεν ήταν δυνατή η δημιουργία του καταλόγου αποθήκευσης. λόγω του \"{1}\""
+msgstr "Δεν ήταν δυνατή η δημιουργία του καταλόγου αποθήκευσης. λόγω του &quot;{1}&quot;"
 
 #: ../mail/mail.error.xml.h:23
-#, fuzzy
 msgid "Cannot delete folder &quot;{0}&quot;."
-msgstr "Δεν ήταν δυνατή η διαγραφή του φακέλου \"{0}\"."
+msgstr "Δεν ήταν δυνατή η διαγραφή του φακέλου &quot;{0}&quot;.."
 
 #: ../mail/mail.error.xml.h:24
-#, fuzzy
 msgid "Cannot delete system folder &quot;{0}&quot;."
-msgstr "Δεν ήταν δυνατή η διαγραφή του φακέλου συστήματος \"{0}\"."
+msgstr "Δεν ήταν δυνατή η διαγραφή του φακέλου συστήματος &quot;{0}&quot;."
 
 #: ../mail/mail.error.xml.h:25
-#, fuzzy
 msgid "Cannot edit vFolder &quot;{0}&quot; as it does not exist."
-msgstr ""
-"Δεν είναι δυνατή η επεξεργασία του Εφακέλου \"{0}\" επειδή δεν υπάρχει."
+msgstr "Δεν είναι δυνατή η επεξεργασία του Εφακέλου  &quot;{0}&quot; επειδή δεν υπάρχει."
 
 #: ../mail/mail.error.xml.h:26
-#, fuzzy
 msgid "Cannot move folder &quot;{0}&quot; to &quot;{1}&quot;."
-msgstr "Αδυναμία μετακίνησης φακέλου \"{0}\" σε \"{1}\"."
+msgstr "Αδυναμία μετακίνησης φακέλου &quot;{0}&quot; σε &quot;{1}&quot;."
 
 #: ../mail/mail.error.xml.h:27
-#, fuzzy
 msgid "Cannot open source &quot;{1}&quot;"
-msgstr "Δεν ήταν δυνατό το άνοιγμα πηγής \"{1}\""
+msgstr "Δεν ήταν δυνατό το άνοιγμα πηγής &quot;{1}&quot;"
 
 #: ../mail/mail.error.xml.h:28
-#, fuzzy
 msgid "Cannot open source &quot;{2}&quot;."
-msgstr "Δεν ήταν δυνατό το άνοιγμα πηγής \"{2}\"."
+msgstr "Δεν ήταν δυνατό το άνοιγμα πηγής &quot;{2}&quot;."
 
 #: ../mail/mail.error.xml.h:29
-#, fuzzy
 msgid "Cannot open target &quot;{2}&quot;."
-msgstr "Δεν ήταν δυνατό το άνοιγμα στόχου \"{2}\"."
+msgstr "Δεν ήταν δυνατό το άνοιγμα στόχου &quot;{2}&quot;."
 
 #: ../mail/mail.error.xml.h:30
-#, fuzzy
 msgid ""
 "Cannot read the license file &quot;{0}&quot;, due to an installation "
 "problem.  You will not be able to use this provider until you can accept its "
 "license."
 msgstr ""
-"Αδυναμία ανάγνωσης του αρχείου άδειας χρήσης \"{0}\", λόγω ενός\n"
-"      προβλήματος εγκατάστασης.  Δεν θα μπορείτε να χρησιμοποιείτε αυτόν τον "
-"πάροχο μέχρι\n"
-"      να αποδεχθείτε την άδεια χρήσης του."
+"Αδυναμία ανάγνωσης του αρχείου άδειας χρήσης &quot;{0}&quot;, λόγω ενός"
+"προβλήματος εγκατάστασης.  Δεν θα μπορείτε να χρησιμοποιείτε αυτόν τον "
+"πάροχο μέχρι να αποδεχθείτε την άδεια χρήσης του."
 
 #: ../mail/mail.error.xml.h:31
-#, fuzzy
 msgid "Cannot rename &quot;{0}&quot; to &quot;{1}&quot;."
-msgstr "Αδυναμία μετονομασίας \"{0}\" σε \"{1}\"."
+msgstr "Αδυναμία μετονομασίας &quot;{0}&quot; σε &quot;{1}&quot;."
 
 #: ../mail/mail.error.xml.h:32
-#, fuzzy
 msgid "Cannot rename or move system folder &quot;{0}&quot;."
-msgstr ""
-"Δεν ήταν δυνατή η μετονομασία ή η μετακίνηση του φακέλου συστήματος \"{0}\"."
+msgstr "Δεν ήταν δυνατή η μετονομασία ή η μετακίνηση του φακέλου συστήματος &quot;{0}&quot;."
 
 #: ../mail/mail.error.xml.h:33
 msgid "Cannot save changes to account."
 msgstr "Αδυναμία αποθήκευσης αλλαγών στο λογαριασμό."
 
 #: ../mail/mail.error.xml.h:34
-#, fuzzy
 msgid "Cannot save to directory &quot;{0}&quot;."
-msgstr "Δεν ήταν δυνατή η αποθήκευση στον κατάλογο \"{0}\"."
+msgstr "Δεν ήταν δυνατή η αποθήκευση στον κατάλογο &quot;{0}&quot;."
 
 #: ../mail/mail.error.xml.h:35
-#, fuzzy
 msgid "Cannot save to file &quot;{0}&quot;."
-msgstr "Αδυναμία αποθήκευσης σε αρχείο\"{0}\"."
+msgstr "Αδυναμία αποθήκευσης σε αρχείο &quot;{0}&quot;."
 
 #: ../mail/mail.error.xml.h:36
-#, fuzzy
 msgid "Cannot set signature script &quot;{0}&quot;."
-msgstr "Αδυναμία ορισμού δέσμης ενεργειών υπογραφής \"{0}\"."
+msgstr "Αδυναμία ορισμού δέσμης ενεργειών υπογραφής  &quot;{0}&quot;."
 
 #: ../mail/mail.error.xml.h:37
 msgid ""
@@ -13357,9 +13303,8 @@ msgid "Could not save signature file."
 msgstr "Δεν ήταν δυνατή η αποθήκευση του αρχείου υπογραφής."
 
 #: ../mail/mail.error.xml.h:39
-#, fuzzy
 msgid "Delete &quot;{0}&quot;?"
-msgstr "Διαγραφή \"{0}\";"
+msgstr "Διαγραφή &quot;{0}&quot;?"
 
 #: ../mail/mail.error.xml.h:40
 msgid "Delete account?"
@@ -13462,11 +13407,8 @@ msgid "Opening too many messages at once may take a long time."
 msgstr "Το άνοιγμα πολλών μυνημάτων μαζί μπορεί να διαρκέσει αρκετά."
 
 #: ../mail/mail.error.xml.h:62
-#, fuzzy
 msgid "Please check your account settings and try again."
-msgstr ""
-"\n"
-"Ελέγξτε τις ρυθμίσεις του λογαριασμού σας και προσπαθείστε ξανά.\n"
+msgstr "Ελέγξτε τις ρυθμίσεις του λογαριασμού σας και προσπαθείστε ξανά."
 
 #: ../mail/mail.error.xml.h:63
 msgid ""
@@ -13494,9 +13436,8 @@ msgid "Please wait."
 msgstr "Παρακαλώ περιμένετε."
 
 #: ../mail/mail.error.xml.h:68
-#, fuzzy
 msgid "Problem migrating old mail folder &quot;{0}&quot;."
-msgstr "Πρόβλημα εισαγωγής παλιού φακέλου αλληλογραφίας \"{0}\"."
+msgstr "Πρόβλημα εισαγωγής παλιού φακέλου αλληλογραφίας  &quot;{0}&quot;."
 
 #: ../mail/mail.error.xml.h:69
 msgid "Querying server"
@@ -13512,10 +13453,8 @@ msgid "Read receipt requested."
 msgstr "Απαιτείται βεβαίωση ανάγνωσης."
 
 #: ../mail/mail.error.xml.h:72
-#, fuzzy
 msgid "Really delete folder &quot;{0}&quot; and all of its subfolders?"
-msgstr ""
-"Να γίνει πραγματικά διαγραφή του φακέλου \"{0}\" και όλων των υποφακέλων του;"
+msgstr "Να γίνει πραγματικά διαγραφή του φακέλου &quot;{0}&quot; και όλων των υποφακέλων του;"
 
 #: ../mail/mail.error.xml.h:73
 msgid "Send Receipt"
@@ -13547,7 +13486,6 @@ msgstr ""
 "τουλάχιστον ένα παραλήπτη στο πεδία Πρός ή Κοιν."
 
 #: ../mail/mail.error.xml.h:78
-#, fuzzy
 msgid ""
 "The following filter rule(s):\n"
 "{0}\n"
@@ -13558,11 +13496,10 @@ msgstr ""
 "Οι παρακάτω κανόνες φίλτρων:\n"
 "{0}\n"
 "Έκαναν χρήση του διαγραμμένου φακέλου:\n"
-"    \"{1}\"\n"
+"&quot;{1}&quot;\n"
 "Και τώρα έγινε η ενημέρωση."
 
 #: ../mail/mail.error.xml.h:83
-#, fuzzy
 msgid ""
 "The following vFolder(s):\n"
 "{0}\n"
@@ -13573,18 +13510,17 @@ msgstr ""
 "Οι παρακάτω εφάκελος(οι):\n"
 "{0}\n"
 "Έκαναν χρήση του διαγραμμένου φακέλου:\n"
-"    \"{1}\"\n"
+"    &quot;{1}&quot;\n"
 "Και τώρα έγινε η ενημέρωση."
 
 #: ../mail/mail.error.xml.h:88
-#, fuzzy
 msgid ""
 "The message was sent via the &quot;sendmail&quot; external application.  "
 "Sendmail reports the following error: status 67: mail not sent.\n"
 "The message is stored in the Outbox folder.  Check the message for errors "
 "and resend."
 msgstr ""
-"Αυτό το μήνυμα στάλθηκε μέσω της εξωτερικής εφαρμογής \"sendmail\". Το "
+"Αυτό το μήνυμα στάλθηκε μέσω της εξωτερικής εφαρμογής &quot;sendmail&quot;. Το "
 "Sendmail αναφέρει το ακόλουθο σφάλμα: status 67: μήνυμα δε στάλθηκε.\n"
 "Το μήνυμα αποθηκεύτηκε στο φάκελων των εξερχομένων. Ελέγξτε το μήνυμα για "
 "σφάλματα και ξαναστείλτε το."
@@ -13621,11 +13557,8 @@ msgid "This signature has been changed, but has not been saved."
 msgstr "Η υπογραφή έχει αλλάξει αλλά δεν έχει αποθηκευτεί."
 
 #: ../mail/mail.error.xml.h:95
-#, fuzzy
 msgid "Unable to connect to the GroupWise server."
-msgstr ""
-"Αδυναμία σύνδεσης στο GroupWise\n"
-"server."
+msgstr "Αδυναμία σύνδεσης στο GroupWise server."
 
 #: ../mail/mail.error.xml.h:96
 msgid ""
@@ -13670,7 +13603,6 @@ msgid "You must specify a folder."
 msgstr "Πρέπει να καθορίσετε ένα κατάλογο."
 
 #: ../mail/mail.error.xml.h:105
-#, fuzzy
 msgid ""
 "You must specify at least one folder as a source.\n"
 "Either by selecting the folders individually, and/or by selecting all local "
@@ -13682,14 +13614,12 @@ msgstr ""
 "ή και τα δύο."
 
 #: ../mail/mail.error.xml.h:107
-#, fuzzy
 msgid "Your login to your server &quot;{0}&quot; as &quot;{0}&quot; failed."
-msgstr "Η είσοδος σας στο διακομιστή \"{0}\" ως \"{0}\" απέτυχε."
+msgstr "Η είσοδος σας στο διακομιστή  &quot;{0}&quot; ως &quot;{0}&quot; απέτυχε."
 
 #: ../mail/mail.error.xml.h:108
-#, fuzzy
 msgid "Your message with the subject &quot;{0}&quot; was not delivered."
-msgstr "Το μήνυμα σας με θέμα \"{0}\" δεν παραδόθηκε."
+msgstr "Το μήνυμα σας με θέμα &quot;{0}&quot; δεν παραδόθηκε."
 
 #: ../mail/mail.error.xml.h:109
 msgid "_Append"
@@ -14213,14 +14143,12 @@ msgid "Restart Evolution"
 msgstr "Επανεκκίνηση Evolution"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:1
-#, fuzzy
 msgid "A plugin for backing up and restore Evolution data and settings."
-msgstr "Backup και ανάκτηση δεδομένων και ρυθμίσεων του Evolution"
+msgstr "Μια πρόσθετη λειτουργία για backup και ανάκτηση δεδομένων και ρυθμίσεων του Evolution."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:2
-#, fuzzy
 msgid "Backup and restore plugin"
-msgstr "Backup και ανάκτηση δεδομένων και ρυθμίσεων του Evolution"
+msgstr "Πρόσθετη λειτουργία για backup και ανάκτηση δεδομένων και ρυθμίσεων"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.xml.h:1
 msgid "Backup Settings..."
@@ -14269,7 +14197,6 @@ msgid "Synchronize with _buddy list now"
 msgstr "Συγχρονισμός με _buddy list τώρα"
 
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:1
-#, fuzzy
 msgid "Automatic contacts"
 msgstr "Αυτόματες Επαφές"
 
@@ -14284,18 +14211,16 @@ msgid "BBDB"
 msgstr ""
 
 #: ../plugins/calendar-file/org-gnome-calendar-file.eplug.xml.h:1
-#, fuzzy
 msgid "Local Calendars"
-msgstr "Φόρτωση Ημερολογίου"
+msgstr "Τοπικά ημερολόγια"
 
 #: ../plugins/calendar-file/org-gnome-calendar-file.eplug.xml.h:2
 msgid "Provides core functionality for local calendars."
 msgstr ""
 
 #: ../plugins/calendar-http/org-gnome-calendar-http.eplug.xml.h:1
-#, fuzzy
 msgid "HTTP Calendars"
-msgstr "Ημερολόγια"
+msgstr "Ημερολόγια HTTP "
 
 #: ../plugins/calendar-http/org-gnome-calendar-http.eplug.xml.h:2
 msgid "Provides core functionality for webcal and http calendars."
@@ -14351,9 +14276,8 @@ msgid "Provides core functionality for weather calendars."
 msgstr ""
 
 #: ../plugins/calendar-weather/org-gnome-calendar-weather.eplug.xml.h:2
-#, fuzzy
 msgid "Weather Calendars"
-msgstr "Ημερολόγιο Μήνα"
+msgstr "Ημερολόγια καιρού"
 
 #: ../plugins/copy-tool/org-gnome-copy-tool.eplug.xml.h:1
 msgid ""
@@ -14362,14 +14286,12 @@ msgid ""
 msgstr ""
 
 #: ../plugins/copy-tool/org-gnome-copy-tool.eplug.xml.h:2
-#, fuzzy
 msgid "Copy _Email Address"
-msgstr "Διεύ_θυνση Email:"
+msgstr "Αντιγραφή διεύ_θυνσης Email:"
 
 #: ../plugins/copy-tool/org-gnome-copy-tool.eplug.xml.h:3
-#, fuzzy
 msgid "Copy tool"
-msgstr "Αντιγραφή σε Φάκελο"
+msgstr "Εργαλείο αντιγραφής"
 
 #: ../plugins/default-source/default-source.c:82
 #: ../plugins/default-source/default-source.c:108
@@ -14898,27 +14820,23 @@ msgid "Displays text/calendar parts in messages."
 msgstr "Εμφάνιση επόμενου σημαντικού μηνύματος"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.eplug.xml.h:2
-#, fuzzy
 msgid "Itip Formatter"
-msgstr "Εισαγωγείς"
+msgstr "Itip Formatter"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:1
-#, fuzzy
 msgid ""
 "This response is not from a current attendee. Add the sender as an attendee?"
 msgstr ""
-"Αυτή η απάντηση δεν είναι από ένα τρέχοντα παρευρισκόμενο. Να προστεθεί;"
+"Αυτή η απάντηση δεν είναι από ένα τρέχοντα παρευρισκόμενο. Να προστεθεί ο αποστολέας ως παρευρισκόμενος;"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:1
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:1
-#, fuzzy
 msgid "Contact list _owner"
-msgstr "Επεξεργαστής Λίστας Επαφών"
+msgstr "Ι_διοκτήτης λίστας επαφών"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:2
-#, fuzzy
 msgid "Contact the owner of the mailing list this message belongs to"
-msgstr "Συγγραφή απάντησης στη λίστα ταχυδρομείου από αυτό το μήνυμα"
+msgstr "Επικοινωνία με τον ιδιοκτήτη της λίστας ταχυδρομείου από αυτό το μήνυμα"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:3
 msgid "Get an archive of the list this message belongs to"
@@ -14942,19 +14860,16 @@ msgstr "Πληροφορίες Συνάντησης"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:7
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:5
-#, fuzzy
 msgid "Mailing _List"
-msgstr "Λίστα ταχυδρομείου"
+msgstr "Λί_στα ταχυδρομείου"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:8
-#, fuzzy
 msgid "Post a message to the mailing list this message belongs to"
-msgstr "Συγγραφή απάντησης στη λίστα ταχυδρομείου από αυτό το μήνυμα"
+msgstr "Συγγραφή μηνύματος στη λίστα ταχυδρομείου από αυτό το μήνυμα"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:9
-#, fuzzy
 msgid "Subscribe to the mailing list this message belongs to"
-msgstr "Συγγραφή απάντησης στη λίστα ταχυδρομείου από αυτό το μήνυμα"
+msgstr "Συνδρομή στη λίστα ταχυδρομείου από αυτό το μήνυμα"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:10
 #, fuzzy
@@ -14963,26 +14878,22 @@ msgstr "Συγγραφή απάντησης στη λίστα ταχυδρομε
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:11
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:7
-#, fuzzy
 msgid "_Post message to list"
-msgstr "Αποστολή μηνύματος σε κοινόχρηστο φάκελο"
+msgstr "Αποστο_λή μηνύματος σε λίστα"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:12
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:8
-#, fuzzy
 msgid "_Subscribe to list"
-msgstr "_Συνδρομή"
+msgstr "_Συνδρομή σε λίστα"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:13
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:9
-#, fuzzy
 msgid "_Un-subscribe to list"
-msgstr "_Κατάργηση Συνδρομής"
+msgstr "_Κατάργηση συνδρομής από τη λίστα"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:4
-#, fuzzy
 msgid "Mailing List Actions"
-msgstr "Λίστα ταχυδρομείου"
+msgstr "Ενέργειες λίστας ταχυδρομείου"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:6
 msgid ""
@@ -15108,23 +15019,20 @@ msgid "Mark calendar offline"
 msgstr ""
 
 #: ../plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml.h:2
-#, fuzzy
 msgid "Marks the selected calendar for offline viewing."
-msgstr "Σήμανση των επιλεγμένων μηνυμάτων για διαγραφή"
+msgstr "Σήμανση των επιλεγμένων μηνυμάτων για εργασία χωρίς σύνδεση."
 
 #: ../plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml.h:3
 msgid "_Do not make this available offline"
 msgstr ""
 
 #: ../plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml.h:4
-#, fuzzy
 msgid "_Mark Calendar for offline use"
-msgstr "Το ημερολόγιο δεν έχει σημειωθεί για εργασία χωρίς σύνδεση"
+msgstr "Ση_μείωση ημερολογίου για εργασία χωρίς σύνδεση"
 
 #: ../plugins/new-mail-notify/org-gnome-new-mail-notify.eplug.xml.h:1
-#, fuzzy
 msgid "Generates a D-BUS message when new mail arrives."
-msgstr "_Δημιουργεί ένα μήνυμα D-BUS όταν καταφθάνει ένα νέο μήνυμα"
+msgstr "Δημιουργεί ένα μήνυμα D-BUS όταν καταφθάνει ένα νέο μήνυμα."
 
 #: ../plugins/new-mail-notify/org-gnome-new-mail-notify.eplug.xml.h:2
 #, fuzzy
@@ -15141,7 +15049,6 @@ msgid "A plugin for managing which plugins are enabled or disabled."
 msgstr ""
 
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.eplug.xml.h:2
-#, fuzzy
 msgid "Plugin manager"
 msgstr "Διαχειριστής πρόσθετων λειτουργιών"
 
@@ -15191,9 +15098,8 @@ msgstr ""
 
 #. but then we also need to create our own section frame
 #: ../plugins/prefer-plain/org-gnome-prefer-plain.eplug.xml.h:3
-#, fuzzy
 msgid "Plain Text Mode"
-msgstr "Μοντέλο Κειμένου"
+msgstr "Λειτουργία απλού κειμένου"
 
 #: ../plugins/prefer-plain/org-gnome-prefer-plain.eplug.xml.h:4
 msgid "Prefer plain-text"
@@ -15251,17 +15157,14 @@ msgstr "Αποθήκευση"
 #. * It lets you define the formatting of the date in the csv-file.
 #. *
 #: ../plugins/save-calendar/csv-format.c:171
-#, fuzzy
 msgid "%F %T"
-msgstr "%B %Y"
+msgstr "%F %T"
 
 #: ../plugins/save-calendar/csv-format.c:385
-#, fuzzy
 msgid "Uid"
-msgstr "Unicode"
+msgstr "Uid"
 
 #: ../plugins/save-calendar/csv-format.c:387
-#, fuzzy
 msgid "Description List"
 msgstr "Περιγραφή"
 
@@ -15276,43 +15179,36 @@ msgid "Comment List"
 msgstr "_Λίστα Επαφών"
 
 #: ../plugins/save-calendar/csv-format.c:391
-#, fuzzy
 msgid "Created"
-msgstr "Δημιουργία"
+msgstr "Δημιουργήθηκε"
 
 #: ../plugins/save-calendar/csv-format.c:392
-#, fuzzy
 msgid "Contact List"
-msgstr "_Λίστα Επαφών"
+msgstr "Λίστα Επαφών"
 
 #: ../plugins/save-calendar/csv-format.c:393
-#, fuzzy
 msgid "Start"
 msgstr "Ξεκινάει"
 
 #: ../plugins/save-calendar/csv-format.c:394
-#, fuzzy
 msgid "End"
 msgstr "Τελειώνει"
 
 #: ../plugins/save-calendar/csv-format.c:396
-#, fuzzy
 msgid "percent Done"
-msgstr "_Ποσοστό ολοκλήρωσης:"
+msgstr "ποσοστό ολοκλήρωσης"
 
 #: ../plugins/save-calendar/csv-format.c:398
 msgid "Url"
 msgstr ""
 
 #: ../plugins/save-calendar/csv-format.c:399
-#, fuzzy
 msgid "Attendees List"
-msgstr "Παρευρισκόμενος"
+msgstr "Λίστα παρευρισκομένων"
 
 #: ../plugins/save-calendar/csv-format.c:401
-#, fuzzy
 msgid "Modified"
-msgstr "Μοντέλο"
+msgstr "Τροποποιήθηκε"
 
 #: ../plugins/save-calendar/csv-format.c:552
 msgid "Advanced options for the CSV format"
@@ -15343,14 +15239,12 @@ msgid "iCalendar format (.ics)"
 msgstr "μορφή iCalendar (.ics)"
 
 #: ../plugins/save-calendar/org-gnome-save-calendar.eplug.xml.h:1
-#, fuzzy
 msgid "Save Selected"
-msgstr "Κανένα Επιλεγμένο"
+msgstr "Αποθήκευση επιλεγμένων"
 
 #: ../plugins/save-calendar/org-gnome-save-calendar.eplug.xml.h:2
-#, fuzzy
 msgid "Save to _Disk"
-msgstr "Αποθήκευση εργασίας"
+msgstr "Αποθήκευση στο _δίσκο"
 
 #: ../plugins/save-calendar/org-gnome-save-calendar.eplug.xml.h:3
 #, fuzzy
@@ -15415,11 +15309,8 @@ msgstr "Μη έγκυρος χρήστης"
 
 #. org.gnome.evolution.mail_shared_folder:invalid-user secondary
 #: ../plugins/shared-folder/org-gnome-shared-folder-errors.xml.h:4
-#, fuzzy
 msgid "You cannot share folder with specified user \"{0}\""
-msgstr ""
-"\n"
-"Δεν μπορείτε να μοιραστείτε το φάκελο με τον καθορισμένο χρήστη \"{0}\" \n"
+msgstr "Δεν μπορείτε να μοιραστείτε το φάκελο με τον καθορισμένο χρήστη \"{0}\""
 
 #. org.gnome.evolution.mail_shared_folder:no-user primary
 #: ../plugins/shared-folder/org-gnome-shared-folder-errors.xml.h:6
@@ -15428,15 +15319,11 @@ msgstr "Καθορισμός χρήστη"
 
 #. org.gnome.evolution.mail_shared_folder:no-user secondary
 #: ../plugins/shared-folder/org-gnome-shared-folder-errors.xml.h:8
-#, fuzzy
 msgid "You have to specify a user name whom you want to add to the list"
-msgstr ""
-"\n"
-"\tΘα πρέπει να καθορίσετε ένα όνομα χρήστη αυτού που θέλετε να προσθέσετε "
-"στη λίστα \n"
+msgstr "Θα πρέπει να καθορίσετε ένα όνομα χρήστη αυτού που θέλετε να προσθέσετε "
+"στη λίστα."
 
 #: ../plugins/shared-folder/properties.glade.h:2
-#, fuzzy
 msgid "<b>Users:</b>"
 msgstr "<b>Χρήστες:</b> "
 
@@ -15457,7 +15344,6 @@ msgid "_Contacts..."
 msgstr "Επα_φές..."
 
 #: ../plugins/shared-folder/properties.glade.h:12
-#, fuzzy
 msgid "_Customize notification message"
 msgstr "_Προσαρμογή μηνύματος ειδοποίησης"
 
@@ -15534,14 +15420,12 @@ msgid "Indicates if threading of messages should fall back to subject."
 msgstr ""
 
 #: ../plugins/subject-thread/org-gnome-subject-thread.eplug.xml.h:2
-#, fuzzy
 msgid "Subject Threading"
-msgstr "Επιλογή _Θέματος"
+msgstr "Αλληλουχία θεμάτων"
 
 #: ../plugins/subject-thread/org-gnome-subject-thread.eplug.xml.h:3
-#, fuzzy
 msgid "Thread messages by subject"
-msgstr "Αλληλουχία λίστας μηνυμάτων κατά Θέμα"
+msgstr "Αλληλουχία λίστας μηνυμάτων κατά θέμα"
 
 #. Create the checkbox we will display, complete with mnemonic that is unique in the dialog
 #: ../plugins/subject-thread/subject-thread.c:54
@@ -15717,7 +15601,6 @@ msgid "Choose the destination for this import"
 msgstr "Επιλέξτε τον προορισμό για αυτή την εισαγωγή"
 
 #: ../shell/e-shell-importer.c:162
-#, fuzzy
 msgid ""
 "Evolution checked for settings to import from the following\n"
 "applications: Pine, Netscape, Elm, iCalendar. No importable\n"
@@ -16285,7 +16168,6 @@ msgstr ""
 #: ../smime/gui/certificate-manager.c:385
 #: ../smime/gui/certificate-manager.c:597
 #: ../smime/gui/certificate-manager.c:605
-#, fuzzy
 msgid "Select a certificate to import..."
 msgstr "Επιλογή ενός πιστοποιητικού για εισαγωγή..."
 
@@ -17252,7 +17134,6 @@ msgid "Copy selected messages to another folder"
 msgstr "Αντιγραφή επιλεγμένων μηνυμάτων σε άλλο φάκελο"
 
 #: ../ui/evolution-mail-message.xml.h:12
-#, fuzzy
 msgid "Create _vFolder from Message"
 msgstr "_Δημιουργία εικονικού φακέλου από το μήνυμα"
 
@@ -17551,9 +17432,8 @@ msgid "_Attached"
 msgstr "Ε_πισύναψη"
 
 #: ../ui/evolution-mail-message.xml.h:107
-#, fuzzy
 msgid "_Create Filter from Message"
-msgstr "_Δημιουργία Φίλτρου Από Το Μήνυμα"
+msgstr "_Δημιουργία φίλτρου από το μήνυμα"
 
 #: ../ui/evolution-mail-message.xml.h:111
 msgid "_Go To"
@@ -17668,10 +17548,8 @@ msgid "Encrypt this message with PGP"
 msgstr "Κρυπτογραφήστε αυτό το μήνυμα με PGP"
 
 #: ../ui/evolution-message-composer.xml.h:8
-#, fuzzy
 msgid "Encrypt this message with your S/MIME Encryption Certificate"
-msgstr ""
-"Κρυπτογραφήστε αυτό το μήνυμα με την πιστοποιημένη κρυπτογράφηση S/MIME"
+msgstr "Κρυπτογραφήστε αυτό το μήνυμα με την πιστοποιημένη κρυπτογράφηση S/MIME"
 
 #: ../ui/evolution-message-composer.xml.h:9
 #: ../ui/evolution-signature-editor.xml.h:4
@@ -18584,7 +18462,6 @@ msgid "R_eply requested"
 msgstr "Απαιτείται α_πάντηση"
 
 #: ../widgets/misc/e-send-options.glade.h:18
-#, fuzzy
 msgid "Sta_tus Tracking"
 msgstr "Παρακολού_θηση κατάστασης"
 
@@ -18605,7 +18482,6 @@ msgid "W_ithin"
 msgstr "Μέ_σα"
 
 #: ../widgets/misc/e-send-options.glade.h:24
-#, fuzzy
 msgid "When acce_pted:"
 msgstr "Όταν γίνονται αποδε_κτά: "
 
@@ -18614,7 +18490,6 @@ msgid "When co_mpleted:"
 msgstr "Όταν ολοκληρω_θεί:"
 
 #: ../widgets/misc/e-send-options.glade.h:26
-#, fuzzy
 msgid "When decli_ned:"
 msgstr "Όταν α_πορρίπτονται:    "
 
@@ -18635,7 +18510,6 @@ msgid "_Delivered"
 msgstr "_Παραδόθηκε"
 
 #: ../widgets/misc/e-send-options.glade.h:32
-#, fuzzy
 msgid "_Set expiration date"
 msgstr "Ο_ρισμός ημερομηνίας λήξης"
 
@@ -18648,7 +18522,6 @@ msgid "_When convenient"
 msgstr "Ό_ταν είναι βολικό"
 
 #: ../widgets/misc/e-send-options.glade.h:35
-#, fuzzy
 msgid "_When opened:"
 msgstr "Ό_ταν ανοίγονται:    "
 
