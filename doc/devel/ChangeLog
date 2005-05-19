@@ -1,3 +1,8 @@
+2005-05-19  Not Zed  <NotZed@Ximian.com>
+
+	* evolution-plugin-manual.xml: added some stuff about the pseudo
+	mime types used for finer control of the formatter.
+
 2005-05-13  Not Zed  <NotZed@Ximian.com>
 
 	* evolution-plugin-manual.xml: added some info on the menu tag for

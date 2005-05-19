@@ -1735,12 +1735,15 @@
 	  <orderedlist>
 	    <listitem>
 	      <simpara>Outputs pre-amble information.  e.g. Flag-For-Followup
-		status.</simpara>
+		status.  The pre-amble renderer is chosen using the pseudo
+		mime-type <constant>x-evolution/message/prefix</constant>, and can be
+		overridden or added to by plugging in to that type.</simpara>
 	    </listitem>
 	    <listitem>
-	      <simpara>Invokes <methodname>format_message</methodname> to begin the message
-		formatting. <methodname>format_message</methodname> displays the message header, then
-		looks up the content object.</simpara>
+	      <simpara>Looks up a handler for the pseudo mime-type
+		<constant>x-evolution/message/rfc822</constant> and invokes it
+		to begin message formatting.  The default handler displays the
+		message headers and then formats the message contents.
 	    </listitem>
 	    <listitem>
 	      <simpara>Using the mime-type of the content object (whether
@@ -2328,6 +2331,43 @@
 	  The mail formatter hook class is
 	  <interfacename>com.novell.evolution.mail.format:1.0</interfacename>.
 	</para>
+
+	<para>
+	  The mail formatter allows the rendering of attachments to be
+	  overridden based on the mime-type of the attachment.  There are
+	  additional pseudo-mime-types which can be hooked on to to override
+	  some basic functions.  These types are invalid mime-types so cannot
+	  occur in received messages.
+	</para>
+
+	<informaltable>
+	  <tgroup cols="2">
+	    <colspec colnum="1" colname="field" colwidth="1*"/>
+	    <colspec colnum="2" colname="value" colwidth="4*"/>
+	    <tbody valign="top">
+	      <row>
+		<entry><constant>x-evolution/message/prefix</constant></entry>
+		<entry>If it exists, this handler will be called before any
+		  other content is output.  This can be used to display global
+		  message-information, such as follow-up details.  Normally
+		  this handler should chain its call to the parent handler once
+		  it is finished.</entry>
+	      </row>
+	      <row>
+		<entry><constant>x-evolution/message/rfc822</entry>
+		<entry>This handler is called to output messages, including
+		  attached messages.  The default handler will output the
+		  user-desired message headers and then render the message
+		  content.  It also does some processing to do with secured
+		  message validation contexts.  As this is not a simple
+		  handler, generally this hook point should only be used to
+		  supplement the prefix output where it is desirable to operate
+		  on attached messages.
+		</entry>
+	      </row>
+	    </tbody>
+	  </tgroup>
+	</informaltable>
 
 	<sect2>
 	  <title>Base Formatter</title>
