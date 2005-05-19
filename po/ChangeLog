@@ -1,3 +1,8 @@
+2005-05-19  Vivek Jain  <jvivek@novell.com>
+
+	* POTFILES.in: Added
+	plugins/print-message/org-gnome-print-message.eplug.xml
+
 2005-05-19  Kostas Papadimas <pkst@gnome.org>
 
 	*el.po Updated Greek Translation

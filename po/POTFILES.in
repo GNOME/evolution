@@ -308,6 +308,7 @@ plugins/startup-wizard/startup-wizard.c
 plugins/startup-wizard/org-gnome-evolution-startup-wizard.eplug.xml
 plugins/subject-thread/org-gnome-subject-thread.eplug.xml
 plugins/subject-thread/subject-thread.c
+plugins/print-message/org-gnome-print-message.eplug.xml
 shell/GNOME_Evolution_Shell.server.in.in
 shell/GNOME_Evolution_Test.server.in.in
 shell/apps_evolution_shell.schemas.in.in
