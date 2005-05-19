@@ -161,7 +161,7 @@ emfs_response (GtkWidget *dialog, int response, EMFolderSelector *emfs)
 	if (response != EM_FOLDER_SELECTOR_RESPONSE_NEW)
 		return;
 	
-	emfu_folder_create (NULL);
+	em_folder_utils_create_folder(NULL);
 	
 	g_signal_stop_emission_by_name (emfs, "response");
 }

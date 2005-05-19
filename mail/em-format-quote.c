@@ -46,7 +46,7 @@ struct _EMFormatQuotePrivate {
 
 static void emfq_format_clone(EMFormat *, CamelFolder *, const char *, CamelMimeMessage *, EMFormat *);
 static void emfq_format_error(EMFormat *emf, CamelStream *stream, const char *txt);
-static void emfq_format_message(EMFormat *, CamelStream *, CamelMedium *);
+static void emfq_format_message(EMFormat *, CamelStream *, CamelMimePart *, const EMFormatHandler *);
 static void emfq_format_source(EMFormat *, CamelStream *, CamelMimePart *);
 static void emfq_format_attachment(EMFormat *, CamelStream *, CamelMimePart *, const char *, const EMFormatHandler *);
 
@@ -90,7 +90,6 @@ emfq_class_init(GObjectClass *klass)
 {
 	((EMFormatClass *) klass)->format_clone = emfq_format_clone;
 	((EMFormatClass *) klass)->format_error = emfq_format_error;
-	((EMFormatClass *) klass)->format_message = emfq_format_message;
 	((EMFormatClass *) klass)->format_source = emfq_format_source;
 	((EMFormatClass *) klass)->format_attachment = emfq_format_attachment;
 	
@@ -138,11 +137,16 @@ static void
 emfq_format_clone(EMFormat *emf, CamelFolder *folder, const char *uid, CamelMimeMessage *msg, EMFormat *src)
 {
 	EMFormatQuote *emfq = (EMFormatQuote *) emf;
-	
+	const EMFormatHandler *handle;
+
 	((EMFormatClass *)emfq_parent)->format_clone(emf, folder, uid, msg, src);
 
 	camel_stream_reset(emfq->stream);
-	em_format_format_message(emf, emfq->stream, (CamelMedium *)msg);
+
+	handle = em_format_find_handler(emf, "x-evolution/message/rfc822");
+	if (handle)
+		handle->handler(emf, emfq->stream, (CamelMimePart *)msg, handle);	
+
 	camel_stream_flush(emfq->stream);
 
 	g_signal_emit_by_name(emf, "complete");
@@ -359,7 +363,7 @@ emfq_format_headers (EMFormatQuote *emfq, CamelStream *stream, CamelMedium *part
 }
 
 static void
-emfq_format_message(EMFormat *emf, CamelStream *stream, CamelMedium *part)
+emfq_format_message(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info)
 {
 	EMFormatQuote *emfq = (EMFormatQuote *) emf;
 
@@ -373,9 +377,9 @@ emfq_format_message(EMFormat *emf, CamelStream *stream, CamelMedium *part)
 				    emfq->citation_colour & 0xffffff);
 	
 	if (emfq->flags & EM_FORMAT_QUOTE_HEADERS)
-		emfq_format_headers (emfq, stream, part);
+		emfq_format_headers (emfq, stream, (CamelMedium *)part);
 	
-	em_format_part (emf, stream, (CamelMimePart *) part);
+	em_format_part (emf, stream, part);
 	
 	if (emfq->flags & EM_FORMAT_QUOTE_CITE)
 		camel_stream_write_string(stream, "</blockquote></font><!--+GtkHTML:<DATA class=\"ClueFlow\" clear=\"orig\">-->");
@@ -510,6 +514,9 @@ static EMFormatHandler type_builtin_table[] = {
 /*	{ "multipart/related",(EMFormatFunc)emfq_multipart_related },*/
 	{ "message/external-body", (EMFormatFunc)emfq_ignore },
 	{ "multipart/appledouble", (EMFormatFunc)emfq_ignore },
+
+	/* internal evolution types */
+	{ "x-evolution/message/rfc822", (EMFormatFunc)emfq_format_message },
 };
 
 static void

@@ -21,12 +21,17 @@
  *
  */
 
-#include <camel/camel-store.h>
+#ifndef _EM_FOLDER_UTILS_H
+#define _EM_FOLDER_UTILS_H
 
-void emfu_copy_folder (CamelFolderInfo *folderinfo);
-void emfu_move_folder (CamelFolderInfo *folderinfo);
+/* FIXME: These api's are really busted, there is no consistency and most rely on the wrong data */
 
-void emfu_delete_folder (CamelFolder *folder);
-void emfu_rename_folder (CamelFolder *folder);
+void em_folder_utils_copy_folder (struct _CamelFolderInfo *folderinfo);
+void em_folder_utils_move_folder (struct _CamelFolderInfo *folderinfo);
 
-void emfu_folder_create (CamelFolderInfo *folderinfo);
+void em_folder_utils_delete_folder (struct _CamelFolder *folder);
+void em_folder_utils_rename_folder (struct _CamelFolder *folder);
+
+void em_folder_utils_create_folder (struct _CamelFolderInfo *folderinfo);
+
+#endif

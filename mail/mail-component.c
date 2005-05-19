@@ -746,7 +746,7 @@ create_item(const char *type, EMFolderTreeModel *model, const char *uri)
 	
 		em_utils_compose_new_message(uri);
 	} else if (strcmp(type, "folder") == 0) {
-		emfu_folder_create (NULL);
+		em_folder_utils_create_folder(NULL);
 	} else
 		return -1;
 

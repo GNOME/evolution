@@ -125,11 +125,11 @@ static void efhd_iframe_created(GtkHTML *html, GtkHTML *iframe, EMFormatHTMLDisp
 /*static void efhd_url_requested(GtkHTML *html, const char *url, GtkHTMLStream *handle, EMFormatHTMLDisplay *efh);
   static gboolean efhd_object_requested(GtkHTML *html, GtkHTMLEmbedded *eb, EMFormatHTMLDisplay *efh);*/
 
+static void efhd_message_prefix(EMFormat *emf, CamelStream *stream, CamelMimePart *part, EMFormatHandler *info);
+
 static const EMFormatHandler *efhd_find_handler(EMFormat *emf, const char *mime_type);
 static void efhd_format_clone(EMFormat *, CamelFolder *folder, const char *, CamelMimeMessage *msg, EMFormat *);
-static void efhd_format_prefix(EMFormat *emf, CamelStream *stream);
 static void efhd_format_error(EMFormat *emf, CamelStream *stream, const char *txt);
-static void efhd_format_message(EMFormat *, CamelStream *, CamelMedium *);
 static void efhd_format_source(EMFormat *, CamelStream *, CamelMimePart *);
 static void efhd_format_attachment(EMFormat *, CamelStream *, CamelMimePart *, const char *, const EMFormatHandler *);
 static void efhd_format_secure(EMFormat *emf, CamelStream *stream, CamelMimePart *part, CamelCipherValidity *valid);
@@ -274,9 +274,7 @@ efhd_class_init(GObjectClass *klass)
 {
 	((EMFormatClass *)klass)->find_handler = efhd_find_handler;
 	((EMFormatClass *)klass)->format_clone = efhd_format_clone;
-	((EMFormatClass *)klass)->format_prefix = efhd_format_prefix;
 	((EMFormatClass *)klass)->format_error = efhd_format_error;
-	((EMFormatClass *)klass)->format_message = efhd_format_message;
 	((EMFormatClass *)klass)->format_source = efhd_format_source;
 	((EMFormatClass *)klass)->format_attachment = efhd_format_attachment;
 	((EMFormatClass *)klass)->format_secure = efhd_format_secure;
@@ -908,6 +906,7 @@ efhd_format_secure(EMFormat *emf, CamelStream *stream, CamelMimePart *part, Came
 /* ********************************************************************** */
 
 static EMFormatHandler type_builtin_table[] = {
+	{ "x-evolution/message/prefix", (EMFormatFunc)efhd_message_prefix },
 };
 
 static void
@@ -970,7 +969,7 @@ efhd_write_image(EMFormat *emf, CamelStream *stream, EMFormatPURI *puri)
 	camel_stream_close(stream);
 }
 
-static void efhd_format_prefix(EMFormat *emf, CamelStream *stream)
+static void efhd_message_prefix(EMFormat *emf, CamelStream *stream, CamelMimePart *part, EMFormatHandler *info)
 {
 	const char *flag, *comp, *due;
 	time_t date;
@@ -1033,11 +1032,6 @@ static void efhd_format_prefix(EMFormat *emf, CamelStream *stream)
 static void efhd_format_error(EMFormat *emf, CamelStream *stream, const char *txt)
 {
 	((EMFormatClass *)efhd_parent)->format_error(emf, stream, txt);
-}
-
-static void efhd_format_message(EMFormat *emf, CamelStream *stream, CamelMedium *part)
-{
-	((EMFormatClass *)efhd_parent)->format_message(emf, stream, part);
 }
 
 static void efhd_format_source(EMFormat *emf, CamelStream *stream, CamelMimePart *part)

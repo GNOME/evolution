@@ -2002,7 +2002,6 @@ emft_popup_open_new (GtkWidget *item, EMFolderTree *emft)
 }
 #endif
 
-
 static void
 emft_popup_copy(EPopup *ep, EPopupItem *item, void *data)
 {
@@ -2010,7 +2009,7 @@ emft_popup_copy(EPopup *ep, EPopupItem *item, void *data)
 	CamelFolderInfo *fi = NULL;
 
 	if ((fi = em_folder_tree_get_selected_folder_info (emft)) != NULL) {
-		emfu_copy_folder (fi);
+		em_folder_utils_copy_folder (fi);
 	}
 }
 
@@ -2021,7 +2020,7 @@ emft_popup_move(EPopup *ep, EPopupItem *item, void *data)
 	CamelFolderInfo *fi = NULL;
 
 	if ((fi = em_folder_tree_get_selected_folder_info (emft)) != NULL) {
-		emfu_copy_folder (fi);
+		em_folder_utils_copy_folder(fi);
 	}
 }
 
@@ -2032,7 +2031,7 @@ emft_popup_new_folder (EPopup *ep, EPopupItem *pitem, void *data)
 	CamelFolderInfo *fi;
 
 	if ((fi = em_folder_tree_get_selected_folder_info (emft)) != NULL) {
-		emfu_folder_create (fi);
+		em_folder_utils_create_folder(fi);
 	}
 }
 
@@ -2069,7 +2068,7 @@ emft_popup_delete_folder (EPopup *ep, EPopupItem *pitem, void *data)
 	CamelFolder *folder;	
 
 	if ((folder = em_folder_tree_get_selected_folder (emft)) != NULL) {
-		emfu_delete_folder (folder);
+		em_folder_utils_delete_folder(folder);
 	}
 }
 
@@ -2080,10 +2079,9 @@ emft_popup_rename_folder (EPopup *ep, EPopupItem *pitem, void *data)
 	CamelFolder *folder;
 
 	if ((folder = em_folder_tree_get_selected_folder (emft)) != NULL) {
-		emfu_rename_folder (folder);
+		em_folder_utils_rename_folder(folder);
 	}
 }
-
 
 static void
 emft_popup_properties (EPopup *ep, EPopupItem *pitem, void *data)

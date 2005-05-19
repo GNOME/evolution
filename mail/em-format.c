@@ -77,7 +77,6 @@ static void emf_builtin_init(EMFormatClass *);
 
 static const EMFormatHandler *emf_find_handler(EMFormat *emf, const char *mime_type);
 static void emf_format_clone(EMFormat *emf, CamelFolder *folder, const char *uid, CamelMimeMessage *msg, EMFormat *emfsource);
-static void emf_format_prefix(EMFormat *emf, CamelStream *stream);
 static void emf_format_secure(EMFormat *emf, CamelStream *stream, CamelMimePart *part, CamelCipherValidity *valid);
 static gboolean emf_busy(EMFormat *emf);
 
@@ -162,7 +161,6 @@ emf_class_init(GObjectClass *klass)
 	klass->finalize = emf_finalise;
 	((EMFormatClass *)klass)->find_handler = emf_find_handler;
 	((EMFormatClass *)klass)->format_clone = emf_format_clone;
-	((EMFormatClass *)klass)->format_prefix = emf_format_prefix;
 	((EMFormatClass *)klass)->format_secure = emf_format_secure;
 	((EMFormatClass *)klass)->busy = emf_busy;
 
@@ -681,12 +679,6 @@ emf_format_clone(EMFormat *emf, CamelFolder *folder, const char *uid, CamelMimeM
 		g_string_append_printf(emf->part_id, ".%p", folder);
 	if (uid != NULL)
 		g_string_append_printf(emf->part_id, ".%s", uid);
-}
-
-static void
-emf_format_prefix(EMFormat *emf, CamelStream *stream)
-{
-	/* NOOP */
 }
 
 static void
@@ -1464,6 +1456,7 @@ static void
 emf_message_rfc822(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info)
 {
 	CamelDataWrapper *dw = camel_medium_get_content_object((CamelMedium *)part);
+	const EMFormatHandler *handle;
 	int len;
 
 	if (!CAMEL_IS_MIME_MESSAGE(dw)) {
@@ -1473,7 +1466,11 @@ emf_message_rfc822(EMFormat *emf, CamelStream *stream, CamelMimePart *part, cons
 
 	len = emf->part_id->len;
 	g_string_append_printf(emf->part_id, ".rfc822");
-	em_format_format_message(emf, stream, (CamelMedium *)dw);
+
+	handle = em_format_find_handler(emf, "x-evolution/message/rfc822");
+	if (handle)
+		handle->handler(emf, stream, (CamelMimePart *)dw, handle);
+	
 	g_string_truncate(emf->part_id, len);
 }
 

@@ -239,16 +239,16 @@ struct _EMFormatClass {
 	/* start formatting a message */
 	void (*format_clone)(EMFormat *, struct _CamelFolder *, const char *uid, struct _CamelMimeMessage *, EMFormat *);
 
-	/* called to insert prefix material, after format_clone but before format_message */
-	void (*format_prefix)(EMFormat *, struct _CamelStream *);
+	void *dummy0;
 
 	/* some internel error/inconsistency */
 	void (*format_error)(EMFormat *, struct _CamelStream *, const char *msg);
 
 	/* use for external structured parts */
 	void (*format_attachment)(EMFormat *, struct _CamelStream *, struct _CamelMimePart *, const char *mime_type, const struct _EMFormatHandler *info);
-	/* for any message parts */
-	void (*format_message)(EMFormat *, struct _CamelStream *, struct _CamelMedium *);
+
+	void *dummy1;
+
 	/* use for unparsable content */
 	void (*format_source)(EMFormat *, struct _CamelStream *, struct _CamelMimePart *);
 	/* for outputing secure(d) content */
@@ -303,7 +303,6 @@ void em_format_pull_level(EMFormat *emf);
 #define em_format_format_clone(emf, folder, uid, msg, src) ((EMFormatClass *)G_OBJECT_GET_CLASS(emf))->format_clone((emf), (folder), (uid), (msg), (src))
 /* formats a new message */
 #define em_format_format(emf, folder, uid, msg) ((EMFormatClass *)G_OBJECT_GET_CLASS(emf))->format_clone((emf), (folder), (uid), (msg), NULL)
-#define em_format_format_prefix(emf, stream) ((EMFormatClass *)G_OBJECT_GET_CLASS(emf))->format_prefix((emf), (stream))
 #define em_format_redraw(emf) ((EMFormatClass *)G_OBJECT_GET_CLASS(emf))->format_clone((emf),				\
 										       ((EMFormat *)(emf))->folder,	\
 										       ((EMFormat *)(emf))->uid,	\
@@ -311,7 +310,6 @@ void em_format_pull_level(EMFormat *emf);
 										       (emf))
 void em_format_format_error(EMFormat *emf, struct _CamelStream *stream, const char *fmt, ...);
 #define em_format_format_attachment(emf, stream, msg, type, info) ((EMFormatClass *)G_OBJECT_GET_CLASS(emf))->format_attachment((emf), (stream), (msg), (type), (info))
-#define em_format_format_message(emf, stream, msg) ((EMFormatClass *)G_OBJECT_GET_CLASS(emf))->format_message((emf), (stream), (msg))
 #define em_format_format_source(emf, stream, msg) ((EMFormatClass *)G_OBJECT_GET_CLASS(emf))->format_source((emf), (stream), (msg))
 void em_format_format_secure(EMFormat *emf, struct _CamelStream *stream, struct _CamelMimePart *part, struct _CamelCipherValidity *valid);
 

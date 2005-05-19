@@ -353,8 +353,10 @@ emfu_copy_folder_exclude(EMFolderTree *tree, GtkTreeModel *model, GtkTreeIter *i
 	return (flags & EMFT_EXCLUDE_NOINFERIORS) == 0;
 }
 
+/* FIXME: this interface references the folderinfo without copying it  */
+/* FIXME: these functions must be documented */
 void
-emfu_copy_folder (CamelFolderInfo *folderinfo)
+em_folder_utils_copy_folder (CamelFolderInfo *folderinfo)
 {
 	struct _copy_folder_data *cfd;
 	
@@ -366,11 +368,14 @@ emfu_copy_folder (CamelFolderInfo *folderinfo)
 			  NULL, emfu_copy_folder_exclude,
 			  emfu_copy_folder_selected, cfd);}
 
+
+/* FIXME: this interface references the folderinfo without copying it  */
+/* FIXME: these functions must be documented */
 void
-emfu_move_folder (CamelFolderInfo *folderinfo)
+em_folder_utils_move_folder (CamelFolderInfo *folderinfo)
 {
 	struct _copy_folder_data *cfd;
-	
+
 	cfd = g_malloc (sizeof (*cfd));
 	cfd->fi = folderinfo;
 	cfd->delete = TRUE;
@@ -463,8 +468,9 @@ emfu_delete_response (GtkWidget *dialog, int response, gpointer data)
 	gtk_widget_destroy (dialog);
 }
 
+/* FIXME: these functions must be documented */
 void
-emfu_delete_folder (CamelFolder *folder)
+em_folder_utils_delete_folder (CamelFolder *folder)
 {
 	CamelStore *local;
 	GtkWidget *dialog;
@@ -487,8 +493,10 @@ emfu_delete_folder (CamelFolder *folder)
 	gtk_widget_show (dialog);
 }
 
+/* FIXME: this must become threaded */
+/* FIXME: these functions must be documented */
 void
-emfu_rename_folder (CamelFolder *folder)
+em_folder_utils_rename_folder (CamelFolder *folder)
 {
 	char *prompt, *new_name;
 	const char *p;
@@ -727,8 +735,9 @@ emfu_popup_new_folder_response (EMFolderSelector *emfs, int response, gpointer d
 	camel_exception_clear (&ex);
 }
 
+/* FIXME: these functions must be documented */
 void
-emfu_folder_create (CamelFolderInfo *folderinfo) {
+em_folder_utils_create_folder (CamelFolderInfo *folderinfo) {
 	EMFolderTree *folder_tree;
 	EMFolderTreeModel *model;
 	GtkWidget *dialog;

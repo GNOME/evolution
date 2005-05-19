@@ -576,13 +576,16 @@ emfb_folder_copy(BonoboUIComponent *uid, void *data, const char *path)
 	CamelFolderInfo *fi = NULL;
 	CamelException ex;
 
+	/* FIXME: This function MUST become multi-threaded.
+	   FIXME: This interface should NOT use a folderinfo */
+
 	camel_exception_init (&ex);
 
 	if ((fi = camel_store_get_folder_info (emfb->view.folder->parent_store,
 					       emfb->view.folder->full_name,
 					       CAMEL_STORE_FOLDER_INFO_FAST,
 					       &ex)) != NULL)
-		emfu_copy_folder (fi);
+		em_folder_utils_copy_folder (fi);
 
 	camel_exception_clear (&ex);
 
@@ -598,11 +601,14 @@ emfb_folder_move(BonoboUIComponent *uid, void *data, const char *path)
 
 	camel_exception_init (&ex);
 
+	/* FIXME: This function MUST become multi-threaded.
+	   FIXME: This interface should NOT use a folderinfo */
+
 	if ((fi = camel_store_get_folder_info (emfb->view.folder->parent_store,
 					       emfb->view.folder->full_name,
 					       CAMEL_STORE_FOLDER_INFO_FAST,
 					       &ex)) != NULL)
-		emfu_move_folder (fi);
+		em_folder_utils_move_folder (fi);
 
 	camel_exception_clear (&ex);
 
@@ -614,7 +620,7 @@ emfb_folder_delete(BonoboUIComponent *uid, void *data, const char *path)
 {
 	EMFolderBrowser *emfb = data;
 
-	emfu_delete_folder (emfb->view.folder);
+	em_folder_utils_delete_folder (emfb->view.folder);
 
 	return;
 }
@@ -624,7 +630,7 @@ emfb_folder_rename(BonoboUIComponent *uid, void *data, const char *path)
 {
 	EMFolderBrowser *emfb = data;
 
-	emfu_rename_folder (emfb->view.folder);
+	em_folder_utils_rename_folder (emfb->view.folder);
 
 	return;
 }
@@ -638,14 +644,16 @@ emfb_folder_create(BonoboUIComponent *uid, void *data, const char *path)
 
 	camel_exception_init (&ex);
 
+	/* FIXME: This function MUST be multithreaded
+	   FIXME: This interface should NOT use a folderinfo */
 	if (emfb->view.folder) {
 		if ((fi = camel_store_get_folder_info (emfb->view.folder->parent_store,
 						       emfb->view.folder->full_name,
 						       CAMEL_STORE_FOLDER_INFO_FAST,
 						       &ex)) != NULL)
-			emfu_folder_create (fi);
+			em_folder_utils_create_folder(fi);
 	} else {
-		emfu_folder_create (NULL);
+		em_folder_utils_create_folder(NULL);
 	}
 			
 

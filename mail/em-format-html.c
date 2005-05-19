@@ -95,9 +95,10 @@ static void efh_url_requested(GtkHTML *html, const char *url, GtkHTMLStream *han
 static gboolean efh_object_requested(GtkHTML *html, GtkHTMLEmbedded *eb, EMFormatHTML *efh);
 static void efh_gtkhtml_destroy(GtkHTML *html, EMFormatHTML *efh);
 
+static void efh_format_message(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info);
+
 static void efh_format_clone(EMFormat *emf, CamelFolder *folder, const char *uid, CamelMimeMessage *msg, EMFormat *emfsource);
 static void efh_format_error(EMFormat *emf, CamelStream *stream, const char *txt);
-static void efh_format_message(EMFormat *, CamelStream *, CamelMedium *);
 static void efh_format_source(EMFormat *, CamelStream *, CamelMimePart *);
 static void efh_format_attachment(EMFormat *, CamelStream *, CamelMimePart *, const char *, const EMFormatHandler *);
 static void efh_format_secure(EMFormat *emf, CamelStream *stream, CamelMimePart *part, CamelCipherValidity *valid);
@@ -219,7 +220,6 @@ efh_class_init(GObjectClass *klass)
 {
 	((EMFormatClass *)klass)->format_clone = efh_format_clone;
 	((EMFormatClass *)klass)->format_error = efh_format_error;
-	((EMFormatClass *)klass)->format_message = efh_format_message;
 	((EMFormatClass *)klass)->format_source = efh_format_source;
 	((EMFormatClass *)klass)->format_attachment = efh_format_attachment;
 	((EMFormatClass *)klass)->format_secure = efh_format_secure;
@@ -1106,6 +1106,10 @@ static EMFormatHandler type_builtin_table[] = {
 
 	{ "image/jpg", (EMFormatFunc)efh_image },
 	{ "image/pjpeg", (EMFormatFunc)efh_image },
+
+	/* special internal types */
+
+	{ "x-evolution/message/rfc822", (EMFormatFunc)efh_format_message }
 };
 
 static void
@@ -1159,8 +1163,14 @@ static void efh_format_do(struct _mail_msg *mm)
 	if (((EMFormat *)m->format)->mode == EM_FORMAT_SOURCE) {
 		em_format_format_source((EMFormat *)m->format, (CamelStream *)m->estream, (CamelMimePart *)m->message);
 	} else {
-		em_format_format_prefix((EMFormat *)m->format, (CamelStream *)m->estream);
-		em_format_format_message((EMFormat *)m->format, (CamelStream *)m->estream, (CamelMedium *)m->message);
+		const EMFormatHandler *handle;
+
+		handle = em_format_find_handler((EMFormat *)m->format, "x-evolution/message/prefix");
+		if (handle)
+			handle->handler((EMFormat *)m->format, (CamelStream *)m->estream, (CamelMimePart *)m->message, handle);
+		handle = em_format_find_handler((EMFormat *)m->format, "x-evolution/message/rfc822");
+		if (handle)
+			handle->handler((EMFormat *)m->format, (CamelStream *)m->estream, (CamelMimePart *)m->message, handle);
 	}
 
 	camel_stream_flush((CamelStream *)m->estream);
@@ -1688,7 +1698,7 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 	}
 }
 
-static void efh_format_message(EMFormat *emf, CamelStream *stream, CamelMedium *part)
+static void efh_format_message(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info)
 {
 	/* TODO: make this validity stuff a method */
 	EMFormatHTML *efh = (EMFormatHTML *) emf;
@@ -1701,10 +1711,10 @@ static void efh_format_message(EMFormat *emf, CamelStream *stream, CamelMedium *
 		camel_stream_printf(stream, "<blockquote>\n");
 
 	if (!efh->hide_headers)
-		efh_format_headers(efh, stream, part);
+		efh_format_headers(efh, stream, (CamelMedium *)part);
 	
 	camel_stream_printf(stream, EM_FORMAT_HTML_VPAD);
-	em_format_part(emf, stream, (CamelMimePart *)part);
+	em_format_part(emf, stream, part);
 
 	if (emf->message != (CamelMimeMessage *)part)
 		camel_stream_printf(stream, "</blockquote>\n");

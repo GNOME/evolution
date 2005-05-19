@@ -1,3 +1,26 @@
+2005-05-19  Not Zed  <NotZed@Ximian.com>
+
+	* em-folder-utils.h: fix rodney's name choices.  fix
+	multiple-inclusion.  fix forward references.  fix all callers.
+	add many fixme's for the busted api's.
+
+	* em-format-quote.c (emfq_format_clone): use pseudo mime type to
+	find message formatter.
+
+	* em-format-html-display.c (efhd_format_message): remove, it
+	didn't do anything.
+
+	* em-format-html.c (efh_format_message): make this a handler
+	callback.
+
+	* em-format.c (emf_message_rfc822): make this use the pseudo
+	mime-type x-evolution/message/rfc822 instead of the hardcoded
+	format_message callback.
+
+	* em-format-html-display.c (efhd_message_prefix): make this use a
+	pseudo-mime-type handler rather than hard-coded, so it can be
+	overridden by a plugin.
+
 2005-05-17  Radek Doulik  <rodo@novell.com>
 
 	* em-format-html.c: removed include of htmlengine.h which wasn't
