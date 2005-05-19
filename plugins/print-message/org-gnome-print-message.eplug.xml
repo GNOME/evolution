@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<e-plugin-list>
+  <e-plugin
+    type="shlib"
+    id="org.gnome.evolution.plugin.compose.PrintMessage"
+    location="@PLUGINDIR@/liborg-gnome-print-message.so"
+    _name="Print Message">
+    <_description>Gives an option to print mail from composer</_description>
+    <author name="Vivek Jain" email="jvivek@novell.com"/>
+
+    <!-- hook into the popup menu -->
+    <hook class="org.gnome.evolution.mail.bonobomenu:1.0">
+      <menu id="org.gnome.evolution.mail.composer" target="widget">
+	      <ui file="@PLUGINDIR@/org-gnome-print-message.xml"/>
+	<item
+	  type="item"
+	  verb="EPPrintPreview"
+	  path="/commands/EPPrintPreview"
+	  enable="one"
+	  activate="org_gnome_print_preview"/>
+	<item
+	  type="item"
+	  verb="EPPrintMessage"
+	  path="/commands/EPPrintMessage"
+	  enable="one"
+	  activate="org_gnome_print_message"/>
+	      </menu>
+    </hook>
+
+  </e-plugin>
+</e-plugin-list>
