@@ -1,3 +1,8 @@
+2005-05-19  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* mail.error.xml: Added a error message required for
+	marking messages as read in subfolders.
+
 2005-05-19  Not Zed  <NotZed@Ximian.com>
 
 	* em-format-html-print.c (em_format_html_print_raw_message): new
