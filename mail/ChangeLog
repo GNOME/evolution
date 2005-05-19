@@ -1,5 +1,10 @@
 2005-05-19  Not Zed  <NotZed@Ximian.com>
 
+	* em-format-html-print.c (em_format_html_print_raw_message): new
+	function to print a non-foldered message.  untested.
+
+2005-05-19  Not Zed  <NotZed@Ximian.com>
+
 	* em-folder-utils.h: fix rodney's name choices.  fix
 	multiple-inclusion.  fix forward references.  fix all callers.
 	add many fixme's for the busted api's.

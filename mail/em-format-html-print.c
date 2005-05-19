@@ -233,6 +233,20 @@ int em_format_html_print_message(EMFormatHTMLPrint *efhp, EMFormatHTML *source, 
 	return 0;		/* damn async ... */
 }
 
+int em_format_html_print_raw_message(EMFormatHTMLPrint *efhp, struct _GnomePrintConfig *print_config, struct _CamelMimeMessage *msg, int preview)
+{
+	efhp->config = print_config;
+	if (print_config)
+		g_object_ref(print_config);
+	efhp->source = NULL;
+	efhp->preview = preview;
+	g_object_ref(efhp);
+
+	emfhp_got_message(NULL, NULL, msg, efhp);
+
+	return 0;
+}
+
 /* ********************************************************************** */
 
 /* if only ... but i doubt this is possible with gnome print/gtkhtml */

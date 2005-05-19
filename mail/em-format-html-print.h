@@ -35,5 +35,6 @@ EMFormatHTMLPrint *em_format_html_print_new(void);
 
 int em_format_html_print_print(EMFormatHTMLPrint *efhp, EMFormatHTML *source, struct _GnomePrintConfig *print_config, int preview);
 int em_format_html_print_message(EMFormatHTMLPrint *efhp, EMFormatHTML *source, struct _GnomePrintConfig *print_config, struct _CamelFolder *folder, const char *uid, int preview);
+int em_format_html_print_raw_message(EMFormatHTMLPrint *efhp, struct _GnomePrintConfig *print_config, struct _CamelMimeMessage *msg, int preview);
 
 #endif /* ! _EM_FORMAT_HTML_PRINT_H */
