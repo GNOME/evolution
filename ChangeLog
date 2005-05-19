@@ -1,3 +1,8 @@
+2005-05-19  Vivek Jain <jvivek@novell.com>
+	
+	* configure.in : add print-message plugin to base plugins and 
+	 AC_OUTPUT
+
 2005-05-18  Harish Krishnaswamy  <kharish@novell.com>
 
 	* configure.in : Bump version
