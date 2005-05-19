@@ -1,0 +1,7 @@
+2005-05-19 Chenthill Palanisamy <pchenthill@novell.com>
+
+	* MakeFile.am:
+	* org-gnome-send-options.eplug.in: Plugin file to add
+          the Mark all Messages read menu item.
+  	* send-options.c: Contains methods to mark messages as read.	
+
