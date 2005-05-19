@@ -1,3 +1,9 @@
+2005-05-19  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* configure.in: Added a plugin to mark all messages
+	as read for the selected and the sub folders to base
+       	plugin.
+
 2005-05-19  Vivek Jain <jvivek@novell.com>
 	
 	* configure.in : add print-message plugin to base plugins and 
