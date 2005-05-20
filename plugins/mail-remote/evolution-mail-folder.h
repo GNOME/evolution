@@ -38,6 +38,9 @@ typedef struct _EvolutionMailFolderClass   EvolutionMailFolderClass;
 
 struct _EvolutionMailFolder {
 	BonoboObject parent;
+
+	char *full_name;
+	char *name;
 };
 
 struct _EvolutionMailFolderClass {

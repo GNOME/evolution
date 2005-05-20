@@ -39,6 +39,8 @@ typedef struct _EvolutionMailStoreClass   EvolutionMailStoreClass;
 
 struct _EvolutionMailStore {
 	BonoboObject parent;
+
+	struct _EAccount *account;
 };
 
 struct _EvolutionMailStoreClass {
@@ -50,5 +52,8 @@ struct _EvolutionMailStoreClass {
 GType           evolution_mail_store_get_type(void);
 
 EvolutionMailStore *evolution_mail_store_new(struct _EvolutionMailSession *s, struct _EAccount *ea);
+
+const char *evolution_mail_store_get_name(EvolutionMailStore *);
+const char *evolution_mail_store_get_uid(EvolutionMailStore *);
 
 #endif /* _EVOLUTION_MAIL_STORE_H_ */

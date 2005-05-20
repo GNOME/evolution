@@ -15,6 +15,8 @@ liborg_gnome_evolution_mail_remote_la_SOURCES = \
 	e-corba-utils.h				\
 	evolution-mail-folder.c			\
 	evolution-mail-folder.h			\
+	evolution-mail-listener.c		\
+	evolution-mail-listener.h		\
 	evolution-mail-messageiterator.c	\
 	evolution-mail-messageiterator.h	\
 	evolution-mail-session.c		\
@@ -30,7 +32,10 @@ client_SOURCES = \
 
 client_LDADD = \
 	$(EVOLUTION_MAIL_LIBS)			\
-	liborg-gnome-evolution-mail-remote.la
+	evolution-mail-listener.o		\
+	Evolution-DataServer-Mail-common.o	\
+	Evolution-DataServer-Mail-stubs.o	\
+	Evolution-DataServer-Mail-skels.o
 
 noinst_PROGRAMS =				\
 	client

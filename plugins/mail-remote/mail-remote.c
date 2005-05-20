@@ -5,9 +5,15 @@
 #include "evolution-mail-session.h"
 #include <bonobo/bonobo-main.h>
 
-#define MAIL_SESSION_ID  "OAFIID:GNOME_Evolution_Mail_Session:" BASE_VERSION
+struct _EPlugin;
+struct _ESEventTargetUpgrade;
 
+void org_gnome_evolution_mail_remote_startup(struct _EPlugin *ep, struct _ESEventTargetUpgrade *target);
 int e_plugin_lib_enable(int enable);
+
+void org_gnome_evolution_mail_remote_startup(struct _EPlugin *ep, struct _ESEventTargetUpgrade *target) {
+	/* noop */ ;
+}
 
 int e_plugin_lib_enable(int enable)
 {

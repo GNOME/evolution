@@ -44,8 +44,7 @@ static BonoboObjectClass *parent_class = NULL;
 #define _PRIVATE(o) (g_type_instance_get_private ((GTypeInstance *)o, evolution_mail_folder_get_type()))
 
 struct _EvolutionMailFolderPrivate {
-	char *full_name;
-	char *name;
+	int dummy;
 };
 
 /* GObject methods */
@@ -59,10 +58,14 @@ impl_dispose (GObject *object)
 static void
 impl_finalize (GObject *object)
 {
+	EvolutionMailFolder *emf = (EvolutionMailFolder *)object;
 	struct _EvolutionMailFolderPrivate *p = _PRIVATE(object);
 
-	g_free(p->full_name);
-	g_free(p->name);
+	p = p;
+	g_warning("EvolutionMailFolder is finalised!\n");
+
+	g_free(emf->full_name);
+	g_free(emf->name);
 
 	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
@@ -78,7 +81,6 @@ impl_getProperties(PortableServer_Servant _servant,
 	EvolutionMailFolder *emf = (EvolutionMailFolder *)bonobo_object_from_servant(_servant);
 	int i;
 	GNOME_Evolution_Mail_Properties *props;
-	struct _EvolutionMailFolderPrivate *p = _PRIVATE(emf);
 	CORBA_boolean ok = CORBA_TRUE;
 
 	*propsp = props = GNOME_Evolution_Mail_Properties__alloc();
@@ -95,10 +97,10 @@ impl_getProperties(PortableServer_Servant _servant,
 
 		if (!strcmp(name, "name")) {
 			prop->value._type = TC_CORBA_string;
-			prop->value._value = CORBA_string_dup(p->name);
+			prop->value._value = CORBA_string_dup(emf->name);
 		} else if (!strcmp(name, "full_name")) {
 			prop->value._type = TC_CORBA_string;
-			prop->value._value = CORBA_string_dup(p->full_name);
+			prop->value._value = CORBA_string_dup(emf->full_name);
 		} else {
 			prop->value._type = TC_null;
 			ok = CORBA_FALSE;
@@ -139,10 +141,9 @@ EvolutionMailFolder *
 evolution_mail_folder_new(const char *name, const char *full_name)
 {
 	EvolutionMailFolder *emf = g_object_new (EVOLUTION_MAIL_TYPE_FOLDER, NULL);
-	struct _EvolutionMailFolderPrivate *p = _PRIVATE(emf);
 
-	p->name = g_strdup(name);
-	p->full_name = g_strdup(full_name);
+	emf->name = g_strdup(name);
+	emf->full_name = g_strdup(full_name);
 
 	return emf;
 }

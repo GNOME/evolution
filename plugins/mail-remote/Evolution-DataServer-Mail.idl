@@ -17,13 +17,39 @@ module Mail {
 		string why;
 	};
 
+	exception FAILED {
+		string why;
+	};
+
 	interface Folder;
 	typedef sequence<Folder> Folders;
+
+	struct FolderInfo {
+		string name;
+		string full_name;
+		Folder folder;
+	};
+	typedef sequence <FolderInfo> FolderInfos;
 
 	interface Store;
 	typedef sequence<Store> Stores;
 
+	struct StoreInfo {
+		string name;
+		string uid;
+		Store store;
+	};
+	typedef sequence <StoreInfo> StoreInfos;
+
 	interface Session;
+
+	struct Message {
+		string uid;
+		string subject;
+		string to;
+		string from;
+	};
+	typedef sequence <Message> Messages;
 
 	/* ********************************************************************** */
 	// NB: tiny subset of omg properties service
@@ -37,13 +63,35 @@ module Mail {
 
 	/* ********************************************************************** */
 
-	// ??
-	interface Listener {
-		void storeAdded(in Store store);
-		void storeRemoved(in Store store);
+	enum ChangeType {
+		ADDED,
+		REMOVED,
+		CHANGED
+	};
 
-		void folderAdded(in Store store, in Folder folder);
-		void folderRemoved(in Store store, in Folder folder);
+	// ??
+	struct SessionChange {
+		ChangeType type;
+		StoreInfos stores;
+	};
+	typedef sequence <SessionChange> SessionChanges;
+
+	struct StoreChange {
+		ChangeType type;
+		Folders folders;
+	};
+	typedef sequence <StoreChange> StoreChanges;
+
+	struct FolderChange {
+		ChangeType type;
+		Messages messages;
+	};
+	typedef sequence <FolderChange> FolderChanges;
+
+	interface Listener : Bonobo::Unknown {
+		oneway void sessionChanged(in Session session, in SessionChange change);
+		oneway void storeChanged(in Session session, in Store store, in StoreChanges change);
+		oneway void folderChanged(in Session session, in Store store, in Folder folder, in FolderChanges changes);
 	};
 
 	/* ********************************************************************** */
@@ -51,7 +99,7 @@ module Mail {
 	interface Session : Bonobo::Unknown {
 		boolean getProperties(in PropertyNames names, out Properties props);
 
-		Stores getStores(in string pattern);
+		StoreInfos getStores(in string pattern);
 
 		void addListener(in Listener listener);
 		void removeListener(in Listener listener);
@@ -60,21 +108,13 @@ module Mail {
 	interface Store : Bonobo::Unknown {
 		boolean getProperties(in PropertyNames names, out Properties props);
 
-		Folders getFolders(in string pattern)
-			raises (NOT_SUPPORTED);
+		FolderInfos getFolders(in string pattern)
+			raises (NOT_SUPPORTED, FAILED);
 
 		void sendMessage(in Bonobo::Stream msg, in string from, in string recipients)
-			raises (NOT_SUPPORTED);
+			raises (NOT_SUPPORTED, FAILED);
 	};
 
-	struct Message {
-		string uid;
-		string subject;
-		string to;
-		string from;
-	};
-
-	typedef sequence <Message> Messages;
 	interface MessageIterator : Bonobo::Unknown {
 		Messages next(in long limit);
 	};
