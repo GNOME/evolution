@@ -134,7 +134,7 @@ gal_a11y_e_cell_get_index_in_parent (AtkObject *accessible)
 	if (!is_valid (accessible))
 		return -1;
 
-	return a11y->row * a11y->item->cols + a11y->view_col;
+	return (a11y->row + 1) * a11y->item->cols + a11y->view_col;
 }
 
 
