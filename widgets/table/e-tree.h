@@ -306,6 +306,8 @@ void            e_tree_right_click_up             (ETree                *et);
 
 ETableItem *	e_tree_get_item(ETree * et);
 
+GnomeCanvasItem * e_tree_get_header_item(ETree * et);
+
 G_END_DECLS
 
 #endif /* _E_TREE_H_ */

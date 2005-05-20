@@ -112,6 +112,9 @@ typedef struct {
 	void (*button_pressed) (ETableHeaderItem *ethi, GdkEventButton *button);
 } ETableHeaderItemClass;
 
+void
+ethi_change_sort_state (ETableHeaderItem *ethi, ETableCol *col);
+
 GType      e_table_header_item_get_type (void);
 
 G_END_DECLS

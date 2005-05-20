@@ -1538,7 +1538,7 @@ ethi_button_pressed (ETableHeaderItem *ethi, GdkEventButton *event)
 		       ethi_signals [BUTTON_PRESSED], 0, event);
 }
 
-static void
+void
 ethi_change_sort_state (ETableHeaderItem *ethi, ETableCol *col)
 {
 	int model_col;

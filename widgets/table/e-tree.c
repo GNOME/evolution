@@ -2159,6 +2159,14 @@ e_tree_get_item(ETree * et)
 	return E_TABLE_ITEM (et->priv->item);
 }
 
+GnomeCanvasItem *
+e_tree_get_header_item(ETree * et)
+{
+	g_return_val_if_fail (et != NULL, NULL);
+	g_return_val_if_fail (E_IS_TREE (et), NULL);
+
+	return et->priv->header_item;
+}
 
 struct _ETreeDragSourceSite
 {
