@@ -950,6 +950,13 @@ mail_component_peek_activity_handler (MailComponent *component)
 	return component->priv->activity_handler;
 }
 
+struct _CamelSession *mail_component_peek_session(MailComponent *component)
+{
+	MAIL_COMPONENT_DEFAULT(component);
+
+	return session;
+}
+
 void
 mail_component_add_store (MailComponent *component, CamelStore *store, const char *name)
 {

@@ -1,3 +1,8 @@
+2005-05-20  Not Zed  <NotZed@Ximian.com>
+
+	* mail-component.c (mail_component_peek_session): add helper for
+	plugins to get mail session.
+
 2005-05-19  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* mail.error.xml: Added a error message required for

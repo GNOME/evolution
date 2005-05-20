@@ -71,6 +71,8 @@ const char       *mail_component_peek_base_directory    (MailComponent *componen
 struct _RuleContext      *mail_component_peek_search_context    (MailComponent *component);
 struct _EActivityHandler *mail_component_peek_activity_handler  (MailComponent *component);
 
+struct _CamelSession *mail_component_peek_session(MailComponent *);
+
 void        mail_component_add_store            (MailComponent *component,
 						 struct _CamelStore    *store,
 						 const char    *name);
