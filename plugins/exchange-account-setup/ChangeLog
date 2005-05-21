@@ -1,3 +1,12 @@
+2005-05-21  Sarfraaz Ahmed <asarfraaz@novell.com>
+
+	Added a bunch of files to create exchange plugins for UI changes
+	* exchange-change-password.[ch]/.glade
+	* exchange-delegates.[ch]/.glade
+	* exchange-delegate-user.[ch]
+	* exchange-folder-size.[ch]
+	* exchange-folder-tree.glade
+
 2005-05-16  Not Zed  <NotZed@Ximian.com>
 
 	* exchange-account-setup.c: moved e-error to e-util
