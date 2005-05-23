@@ -1,0 +1,107 @@
+<?xml version="1.0"?>
+<e-plugin-list>
+	<e-plugin id="org.gnome.evolution.groupwise_features" type="shlib" _name="Groupwise Features" 
+		location="@PLUGINDIR@/liborg-gnome-groupwise-features.so">
+		<author name="Sivaiah Nallagatla" email="snallagatla@novell.com" />
+		<author name="Vivek Jain" email="jvivek@novell.com" />
+		<author name="Chenthill Palanisamy" email="pchenthill@novell.com"/>
+		<author name="Parthasarathi Susarla" email="sparthasarathi@novell.com"/>
+		<_description>A consolidated plugin for the features in Groupwise accounts.</_description>
+		<hook class="org.gnome.evolution.mail.config:1.0">
+			<group id="org.gnome.evolution.mail.config.accountDruid" target="account">
+				<item 
+				      type="item_table" 
+				      path="20.receive_options/30.soapport/50.dummy" 
+				      factory="org_gnome_gw_account_setup"/>
+			</group>
+			<group id="org.gnome.evolution.mail.config.accountEditor" target="account">
+				<item 
+				      type="item_table" 
+				      path="20.receive_options/30.soapport/50.dummy" 
+				      factory="org_gnome_gw_account_setup"/>
+			</group>
+			<group id="org.gnome.evolution.mail.config.accountWizard" target="account">
+				<item 
+				      type="item_table" 
+				      path="20.receive_options/30.soapport/50.dummy" 
+				      factory="org_gnome_gw_account_setup"/>
+			</group>
+			<group id="org.gnome.evolution.mail.folderConfig" target="folder"
+				check= "shared_folder_check"
+				commit="shared_folder_commit"
+				abort ="shared_folder_abort">
+			<item 
+				type="page" 
+				path="10.shared" 
+				label="Shared" 
+				factory="org_gnome_shared_folder_factory"/>
+			</group>
+			<group id="org.gnome.evolution.mail.config.accountEditor" target="account" 
+				check  = "send_options_changed" 
+				commit = "send_options_commit"
+				abort  = "send_options_abort">
+				<item 
+					type="section" 
+					path="40.defaults/50.send_options" 
+					label="Send Options" 
+					factory="org_gnome_send_options" />
+			</group>
+		</hook>
+		<hook class="org.gnome.evolution.mail.events:1.0">
+			<event
+					target="message"
+					id="message.reading"
+					type="pass"
+					handle="org_gnome_popup_wizard"/>
+		</hook>
+		<hook class="org.gnome.evolution.mail.popup:1.0">
+			<menu id="org.gnome.evolution.mail.foldertree.popup" target="folder">
+				<item 
+					type="item" 
+					path="20.emc.00" 
+					label="_New Shared Folder"
+					activate="org_gnome_create_option"
+					enable="delete" visible="delete"/>
+			</menu>
+			<menu id="org.gnome.evolution.mail.folderview.popup" target="select">
+				<item
+					type="item"
+					path="21.gw_status_tracking"
+					label="Track Message Status"
+					enable="one"
+					visible="one"
+					activate="org_gnome_track_status"/>
+			</menu>
+		</hook>
+		<hook class="org.gnome.evolution.addressbook.config:1.0">
+			<group
+				id="com.novell.evolution.addressbook.config.accountEditor" target="source" 
+				commit="commit_groupwise_addressbook">
+				<item
+					type="item"
+					path="00.general/10.display/00.gw_dummy"
+					factory="e_book_groupwise_dummy"/>
+			</group>
+			<group
+				id="com.novell.evolution.addressbook.config.accountEditor" target="source" 
+				commit="commit_groupwise_addressbook">
+				<item
+					type="item"
+					path="00.general/10.display/00.gw_dummy"
+					factory="e_book_groupwise_dummy"/>
+			</group>
+		</hook>
+		<hook class="org.gnome.evolution.mail.bonobomenu:1.0">
+			<menu id="org.gnome.evolution.mail.composer" target="select">
+				<ui file="@PLUGINDIR@/org-gnome-compose-send-options.xml"/>
+				<item
+					type="item"
+					verb="EPSOSendOptions"
+					path="/commands/EPSOSendOptions"
+					enable="one"
+					activate="org_gnome_compose_send_options"/>
+			</menu>
+		</hook>
+	</e-plugin>
+
+</e-plugin-list>

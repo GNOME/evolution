@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<error-list domain="org.gnome.evolution.mail_shared_folder">
+<error id="invalid-user" type="error">
+<primary>Invalid user</primary>
+<secondary>
+You cannot share folder with specified user &quot;{0}&quot; 
+</secondary>
+</error>
+
+<error id="no-user" type="error">
+<primary>Specify User</primary>
+<secondary>
+	You have to specify a user name whom you want to add to the list 
+</secondary>
+</error>
+
+
+</error-list>
+
