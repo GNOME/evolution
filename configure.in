@@ -1342,7 +1342,7 @@ AC_SUBST_FILE(EVO_PLUGIN_RULE)
 AC_ARG_ENABLE(plugins, [  --enable-plugins=[no/base/all/experimental/list]      Enable plugins.],enable_plugins="$enableval",enable_plugins=all)
 
 dnl Add any new plugins here
-plugins_base="calendar-file calendar-http calendar-weather groupwise-account-setup itip-formatter plugin-manager send-options shared-folder groupwise-send-options exchange-account-setup groupwise-status-tracking default-source addressbook-file addressbook-groupwise startup-wizard print-message mark-all-read" 
+plugins_base="calendar-file calendar-http calendar-weather itip-formatter plugin-manager exchange-account-setup default-source addressbook-file startup-wizard print-message mark-all-read groupwise-features" 
 
 plugins_standard="bbdb subject-thread save-attachments prefer-plain save-calendar select-one-source copy-tool mail-to-task mark-calendar-offline audio-inline mailing-list-actions new-mail-notify" 
 
@@ -1584,7 +1584,6 @@ mail/default/pt/Makefile
 mail/importers/Makefile
 plugins/Makefile
 plugins/mark-all-read/Makefile
-plugins/send-options/Makefile
 plugins/calendar-file/Makefile
 plugins/calendar-http/Makefile
 plugins/calendar-weather/Makefile
@@ -1606,17 +1605,13 @@ plugins/copy-tool/Makefile
 plugins/folder-unsubscribe/Makefile
 plugins/mailing-list-actions/Makefile
 plugins/itip-formatter/Makefile
-plugins/groupwise-account-setup/Makefile
 plugins/backup-restore/Makefile
-plugins/shared-folder/Makefile
-plugins/groupwise-send-options/Makefile
 plugins/exchange-account-setup/Makefile
-plugins/groupwise-status-tracking/Makefile
 plugins/default-source/Makefile
 plugins/addressbook-file/Makefile
-plugins/addressbook-groupwise/Makefile
 plugins/startup-wizard/Makefile
 plugins/print-message/Makefile
+plugins/groupwise-features/Makefile
 smime/Makefile
 smime/lib/Makefile
 smime/gui/Makefile

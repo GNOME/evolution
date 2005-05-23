@@ -1,8 +1,21 @@
+2005-05-23  Vivek Jain <jvivek@novell.com>
+	
+	* configure.in : Removed the entries of 
+	groupwise-account-setup
+	shared-folder
+	groupwise-send-options
+	groupwise-status-tacking
+	send-options
+	addressbook-groupwise
+	from AC_OUTPUT and base plugins and added
+	consolidated 'groupwise-features' plugin to base plugins and 
+	AC_OUTPUT
+
 2005-05-19  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* configure.in: Added a plugin to mark all messages
 	as read for the selected and the sub folders to base
-       	plugin.
+	plugin.
 
 2005-05-19  Vivek Jain <jvivek@novell.com>
 	
