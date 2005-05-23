@@ -1,6 +1,14 @@
+2005-05-23  Vivek Jain  <jvivek@novell.com>
+	
+	* POTFILES.in: replaced shared-folder/
+	send-options/ groupwise-send-options/
+	groupwise-account-setup/ with groupwise-features/
+	added plugins/groupwise-features/org-gnome-groupwise-features.eplug.xml
+
 2005-05-21  Clytie Siddall <clytie@riverland.net.au>
 
-        * vi.po: Updated Vietnamese translation.
+	* vi.po: Updated Vietnamese translation.
+
 2005-05-19  Vivek Jain  <jvivek@novell.com>
 
 	* POTFILES.in: Added
