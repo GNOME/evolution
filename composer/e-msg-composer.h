@@ -241,6 +241,8 @@ void                     e_msg_composer_drop_editor_undo                 (EMsgCo
 
 gboolean                 e_msg_composer_request_close_all                (void);
 void			 e_msg_composer_check_autosave			 (GtkWindow *parent);
+int			 e_msg_composer_get_remote_download_count   	 (EMsgComposer *composer);
+
 
 #ifdef __cplusplus
 }

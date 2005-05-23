@@ -27,6 +27,7 @@
 #include <glade/glade-xml.h>
 #include <camel/camel-mime-part.h>
 #include <camel/camel-exception.h>
+#include <libgnomevfs/gnome-vfs.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -53,6 +54,13 @@ struct _EMsgComposerAttachment {
 	gulong size;
 
 	GdkPixbuf *pixbuf_cache;
+	
+	GnomeVFSAsyncHandle *handle;
+	gboolean is_available_local;
+	char *file_name;
+	char *description;
+	gboolean disposition;
+	int index;
 };
 
 struct _EMsgComposerAttachmentClass {
@@ -66,9 +74,17 @@ GType e_msg_composer_attachment_get_type (void);
 EMsgComposerAttachment *e_msg_composer_attachment_new (const char *file_name,
 						       const char *disposition,
 						       CamelException *ex);
+EMsgComposerAttachment * e_msg_composer_attachment_new_remote_file (const char *file_name,
+						       		    const char *disposition,
+			       		   			    CamelException *ex);
+void e_msg_composer_attachment_build_remote_file (const char *filename,
+						  EMsgComposerAttachment *attachment,
+					   	  const char *disposition,
+					   	  CamelException *ex);
 EMsgComposerAttachment *e_msg_composer_attachment_new_from_mime_part (CamelMimePart *part);
 void e_msg_composer_attachment_edit (EMsgComposerAttachment *attachment,
 				     GtkWidget *parent);
+				     
 
 #ifdef __cplusplus
 }

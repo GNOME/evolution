@@ -1,3 +1,11 @@
+2005-05-23  Srininvasa Ragavan <sragavan@novell.com>
+
+	* e-msg-composer-attachment-bar.c, e-msg-composer-attachment-bar.h,
+	  e-msg-composer-attachment.c, e-msg-composer-attachment.h, e-msg-composer.c,
+	  e-msg-composer.h, mail-composer.error.xml : Added attachment of remote URL.
+	  The dnd of url, downloads the files and attaches to the mail.
+
+
 2005-05-16  Srinivasa Ragavan <sragavan@novell.com>
 
 	* e-msg-composer.c (set_editor_text) (menu_edit_delete_all_cb)

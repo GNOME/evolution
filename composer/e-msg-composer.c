@@ -2679,6 +2679,13 @@ struct _drop_data {
 	unsigned int aborted:1;
 };
 
+int
+e_msg_composer_get_remote_download_count (EMsgComposer *composer)
+{
+	return e_msg_composer_attachment_bar_get_download_count 
+				(E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar));
+}
+
 static void
 drop_action(EMsgComposer *composer, GdkDragContext *context, guint32 action, GtkSelectionData *selection, guint info, guint time)
 {
@@ -2727,16 +2734,22 @@ drop_action(EMsgComposer *composer, GdkDragContext *context, guint32 action, Gtk
 				g_free (str);
 			} else {
 				url = camel_url_new (str, NULL);
-				g_free (str);
 
-				if (url == NULL)
+				if (url == NULL) {
+					g_free (str);
 					continue;
+				}
 
 				if (!g_ascii_strcasecmp (url->protocol, "file"))
 					e_msg_composer_attachment_bar_attach
 						(E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar),
 					 	url->path);
-
+				else	{
+					e_msg_composer_attachment_bar_attach_remote_file 
+						(E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar),
+						str);
+				}
+				g_free (str);
 				camel_url_free (url);
 			}
 		}
@@ -4687,6 +4700,11 @@ CamelMimeMessage *
 e_msg_composer_get_message (EMsgComposer *composer, gboolean save_html_object_data)
 {
 	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), NULL);
+	if ( e_msg_composer_get_remote_download_count (composer) != 0) {
+		if (!em_utils_prompt_user((GtkWindow *)composer, NULL, "mail-composer:ask-send-message-pending-download", NULL)) {
+			return NULL;
+		}
+	}
 	
 	return build_message (composer, save_html_object_data);
 }
@@ -4713,7 +4731,7 @@ e_msg_composer_get_message_draft (EMsgComposer *composer)
 	old_flags[3] = composer->smime_encrypt;
 	composer->smime_encrypt = FALSE;
 	
-	msg = e_msg_composer_get_message (composer, TRUE);
+	msg = build_message (composer, TRUE);
 	
 	composer->send_html = old_send_html;
 	composer->pgp_sign = old_flags[0];

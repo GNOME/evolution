@@ -73,12 +73,21 @@ finalise(GObject *object)
 	EMsgComposerAttachment *attachment;
 	
 	attachment = E_MSG_COMPOSER_ATTACHMENT (object);
-	
-	camel_object_unref (attachment->body);
-	if (attachment->pixbuf_cache != NULL)
-		g_object_unref (attachment->pixbuf_cache);
-	
-        G_OBJECT_CLASS (parent_class)->finalize (object);
+
+	if (attachment->is_available_local) {
+		camel_object_unref (attachment->body);
+		if (attachment->pixbuf_cache != NULL)
+			g_object_unref (attachment->pixbuf_cache);
+
+	        G_OBJECT_CLASS (parent_class)->finalize (object);
+	} else {
+		if (attachment->handle)
+			gnome_vfs_async_cancel(attachment->handle);
+		if (attachment->file_name)
+			g_free (attachment->file_name);
+		if (attachment->description)
+			g_free (attachment->description);
+	}
 }
 
 
@@ -119,6 +128,10 @@ init (EMsgComposerAttachment *msg_composer_attachment)
 	msg_composer_attachment->body = NULL;
 	msg_composer_attachment->size = 0;
 	msg_composer_attachment->pixbuf_cache = NULL;
+	msg_composer_attachment->index = -1;
+	msg_composer_attachment->file_name = NULL;
+	msg_composer_attachment->description = NULL;
+	msg_composer_attachment->disposition = FALSE;
 }
 
 GType
@@ -236,10 +249,123 @@ e_msg_composer_attachment_new (const char *file_name,
 	new->body = part;
 	new->size = statbuf.st_size;
 	new->guessed_type = TRUE;
+	new->handle = NULL;
+	new->is_available_local = TRUE;
 	
 	return new;
 }
 
+
+EMsgComposerAttachment *
+e_msg_composer_attachment_new_remote_file (const char *file_name,
+			       		   const char *disposition,
+			       		   CamelException *ex)
+{
+	EMsgComposerAttachment *new;
+	
+	g_return_val_if_fail (file_name != NULL, NULL);
+	
+	new = g_object_new (E_TYPE_MSG_COMPOSER_ATTACHMENT, NULL);
+	new->editor_gui = NULL;
+	new->body = NULL;
+	new->size = 0;
+	new->guessed_type = FALSE;
+	new->handle = NULL;
+	new->is_available_local = FALSE;
+	new->file_name = g_path_get_basename(file_name);
+	
+	return new;
+}
+
+void
+e_msg_composer_attachment_build_remote_file (const char *file_name,
+					     EMsgComposerAttachment *attachment,
+					     const char *disposition,
+					     CamelException *ex)
+{
+	CamelMimePart *part;
+	CamelDataWrapper *wrapper;
+	CamelStream *stream;
+	struct stat statbuf;
+	char *mime_type;
+	char *filename;
+	
+	g_return_if_fail (file_name != NULL);
+	
+	if (stat (file_name, &statbuf) < 0) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Cannot attach file %s: %s"),
+				      file_name, g_strerror (errno));
+		return;
+	}
+	
+	/* return if it's not a regular file */
+	if (!S_ISREG (statbuf.st_mode)) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Cannot attach file %s: not a regular file"),
+				      file_name);
+		return;
+	}
+	
+	stream = camel_stream_fs_new_with_name (file_name, O_RDONLY, 0);
+	if (!stream) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Cannot attach file %s: %s"),
+				      file_name, g_strerror (errno));
+		return;
+	}
+	
+	mime_type = e_msg_composer_guess_mime_type (file_name);
+	if (mime_type) {
+		if (!g_ascii_strcasecmp (mime_type, "message/rfc822")) {
+			wrapper = (CamelDataWrapper *) camel_mime_message_new ();
+		} else {
+			wrapper = camel_data_wrapper_new ();
+		}
+		
+		camel_data_wrapper_construct_from_stream (wrapper, stream);
+		camel_data_wrapper_set_mime_type (wrapper, mime_type);
+		g_free (mime_type);
+	} else {
+		wrapper = camel_data_wrapper_new ();
+		camel_data_wrapper_construct_from_stream (wrapper, stream);
+		camel_data_wrapper_set_mime_type (wrapper, "application/octet-stream");
+	}
+	
+	camel_object_unref (stream);
+	
+	part = camel_mime_part_new ();
+	camel_medium_set_content_object (CAMEL_MEDIUM (part), wrapper);
+	camel_object_unref (wrapper);
+
+	if (attachment->disposition)
+		camel_mime_part_set_disposition (part, "inline");
+	else
+		camel_mime_part_set_disposition (part, "attachment");
+		
+	if (!attachment->file_name)
+		filename = g_path_get_basename (file_name);
+	else
+		filename = g_path_get_basename (attachment->file_name);
+		
+	camel_mime_part_set_filename (part, filename);
+	g_free (filename);
+
+	if (attachment->description) {
+		camel_mime_part_set_description (part, attachment->description);
+		g_free (attachment->description);
+		attachment->description = NULL;
+	}
+	
+	attachment->editor_gui = NULL;
+	attachment->body = part;
+	attachment->size = statbuf.st_size;
+	attachment->guessed_type = TRUE;
+	if (attachment->file_name) {
+		g_free (attachment->file_name);
+		attachment->file_name = NULL;
+	}
+}
 
 /**
  * e_msg_composer_attachment_new_from_mime_part:
@@ -357,26 +483,43 @@ ok_cb (GtkWidget *widget, gpointer data)
 	attachment = dialog_data->attachment;
 	
 	str = gtk_entry_get_text (dialog_data->file_name_entry);
-	camel_mime_part_set_filename (attachment->body, str);
+	if (attachment->is_available_local) {
+		camel_mime_part_set_filename (attachment->body, str);
+	} else {
+		if (attachment->file_name) 
+			g_free (attachment->file_name);	
+		attachment->file_name = g_strdup (str);
+	}
 	
 	str = gtk_entry_get_text (dialog_data->description_entry);
-	camel_mime_part_set_description (attachment->body, str);
+	if (attachment->is_available_local) {
+		camel_mime_part_set_description (attachment->body, str);
+	} else {
+		if (attachment->description)
+			g_free (attachment->description);
+		attachment->description = g_strdup (str);
+	}
 	
 	str = gtk_entry_get_text (dialog_data->mime_type_entry);
-	camel_mime_part_set_content_type (attachment->body, str);
-	
-	camel_data_wrapper_set_mime_type(camel_medium_get_content_object(CAMEL_MEDIUM (attachment->body)), str);
-	
-	switch (gtk_toggle_button_get_active (dialog_data->disposition_checkbox)) {
-	case 0:
-		camel_mime_part_set_disposition (attachment->body, "attachment");
-		break;
-	case 1:
-		camel_mime_part_set_disposition (attachment->body, "inline");
-		break;
-	default:
-		/* Hmmmm? */
-		break;
+	if (attachment->is_available_local) {
+		camel_mime_part_set_content_type (attachment->body, str);
+		camel_data_wrapper_set_mime_type(camel_medium_get_content_object(CAMEL_MEDIUM (attachment->body)), str);
+	}
+
+	if (attachment->is_available_local) {
+		switch (gtk_toggle_button_get_active (dialog_data->disposition_checkbox)) {
+		case 0:
+			camel_mime_part_set_disposition (attachment->body, "attachment");
+			break;
+		case 1:
+			camel_mime_part_set_disposition (attachment->body, "inline");
+			break;
+		default:
+			/* Hmmmm? */
+			break;
+		}
+	} else {
+		attachment->disposition = gtk_toggle_button_get_active (dialog_data->disposition_checkbox);
 	}
 	
 	changed (attachment);
@@ -438,19 +581,36 @@ e_msg_composer_attachment_edit (EMsgComposerAttachment *attachment, GtkWidget *p
 		glade_xml_get_widget (editor_gui, "mime_type_entry"));
 	dialog_data->disposition_checkbox = GTK_TOGGLE_BUTTON (
 		glade_xml_get_widget (editor_gui, "disposition_checkbox"));
+
+	if (attachment->is_available_local)	{
+		set_entry (editor_gui, "file_name_entry",
+			   camel_mime_part_get_filename (attachment->body));
+		set_entry (editor_gui, "description_entry",
+			   camel_mime_part_get_description (attachment->body));
+		content_type = camel_mime_part_get_content_type (attachment->body);
+		type = camel_content_type_simple (content_type);
+		set_entry (editor_gui, "mime_type_entry", type);
+		g_free (type);
 	
-	set_entry (editor_gui, "file_name_entry",
-		   camel_mime_part_get_filename (attachment->body));
-	set_entry (editor_gui, "description_entry",
-		   camel_mime_part_get_description (attachment->body));
-	content_type = camel_mime_part_get_content_type (attachment->body);
-	type = camel_content_type_simple (content_type);
-	set_entry (editor_gui, "mime_type_entry", type);
-	g_free (type);
+		disposition = camel_mime_part_get_disposition (attachment->body);
+		gtk_toggle_button_set_active (dialog_data->disposition_checkbox,
+					      disposition && !g_ascii_strcasecmp (disposition, "inline"));
+	} else {
+		set_entry (editor_gui, "file_name_entry",
+			   attachment->file_name);
+		set_entry (editor_gui, "description_entry",
+			   attachment->description);
+		type = e_msg_composer_guess_mime_type (attachment->file_name);
+		if (type) {
+			set_entry (editor_gui, "mime_type_entry", type);
+			g_free (type);
+		} else {
+			set_entry (editor_gui, "mime_type_entry", "");
+		}
 	
-	disposition = camel_mime_part_get_disposition (attachment->body);
-	gtk_toggle_button_set_active (dialog_data->disposition_checkbox,
-				      disposition && !g_ascii_strcasecmp (disposition, "inline"));
+		gtk_toggle_button_set_active (dialog_data->disposition_checkbox, attachment->disposition);
+		
+	}
 	
 	connect_widget (editor_gui, "dialog", "response", (GCallback)response_cb, dialog_data);
 #warning "signal connect while alive"	

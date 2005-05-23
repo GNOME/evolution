@@ -32,6 +32,13 @@
   <_primary>Could not save to autosave file &quot;{0}&quot;.</_primary>
   <_secondary>Error saving to autosave because &quot;{1}&quot;.</_secondary>
  </error>
+ 
+  <error id="ask-send-message-pending-download" type="question" default="GTK_RESPONSE_YES">
+  <_primary>Download in progress. Do you want to send the mail?</_primary>
+  <_secondary xml:space="preserve"> There are few attachments getting downloaded. Sending the mail will cause the mail to be sent without those pending attachments </_secondary>
+  <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
+  <button _label="_Send" response="GTK_RESPONSE_YES"/>
+ </error>
 
  <error id="exit-unsaved" modal="true" type="warning" default="GTK_RESPONSE_YES">
   <_title>Warning: Modified Message</_title>
