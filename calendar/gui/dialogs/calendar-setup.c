@@ -109,8 +109,8 @@ eccp_commit (EConfig *ec, GSList *items, void *data)
 		e_source_update_from_xml_node (sdialog->original_source, xml->children, NULL);
 		xmlFreeNode (xml);
 
-		e_source_get_color (sdialog->source, &color);
-		e_source_set_color (sdialog->original_source, color);
+		if (e_source_get_color (sdialog->source, &color))
+			e_source_set_color (sdialog->original_source, color);
 	} else {
 		e_source_group_add_source (sdialog->source_group, sdialog->source, -1);
 		e_source_list_sync (sdialog->source_list, NULL);
@@ -412,8 +412,8 @@ calendar_setup_edit_calendar (struct _GtkWindow *parent, ESource *source, ESourc
 		sdialog->source = e_source_new_from_standalone_xml (xml);
 		g_free (xml);
 
-		e_source_get_color (source, &color);
-		e_source_set_color (sdialog->source, color);
+		if (e_source_get_color (source, &color))
+			e_source_set_color (sdialog->source, color);
 	} else {
 		GConfClient *gconf;
 		GSList *l;

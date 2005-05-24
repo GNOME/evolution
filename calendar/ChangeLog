@@ -1,3 +1,10 @@
+2005-05-24  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #272114
+	* gui/dialogs/calendar-setup.c: (eccp_commit),
+	(calendar_setup_edit_calendar): Check if the color is 
+	present in the source before setting it.
+
 2005-05-24  Srinivasa Ragavan <sragavan@novell.com>
 	* gui/dialogs/cal-attachment-bar.c, gui/dialogs/cal-attachment-bar.h,
 	  gui/dialogs/cal-attachment.c, gui/dialogs/cal-attachment.h, 
