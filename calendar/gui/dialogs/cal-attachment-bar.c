@@ -57,6 +57,7 @@
 #include "e-util/e-gui-utils.h"
 #include "e-util/e-icon-factory.h"
 #include "e-util/e-error.h"
+#include "e-util/e-mktemp.h"
 #include "mail/em-popup.h"
 
 #define ICON_WIDTH 64
@@ -78,6 +79,7 @@ struct _CalAttachmentBarPrivate {
 	 */
 	char *local_attachment_store;
 	char *comp_uid;
+	char *path;
 };
 
 enum {
@@ -226,10 +228,21 @@ update (CalAttachmentBar *bar)
 		CalAttachment *attachment;
 		CamelContentType *content_type;
 		char *size_string, *label;
-		GdkPixbuf *pixbuf;
+		GdkPixbuf *pixbuf=NULL;
 		const char *desc;
 		
 		attachment = p->data;
+
+		if (!attachment->is_available_local) {
+			/* stock_attach would be better, but its fugly scaled up */
+			pixbuf = e_icon_factory_get_icon("stock_unknown", E_ICON_SIZE_DIALOG);
+			if (pixbuf) {
+				attachment->index = gnome_icon_list_append_pixbuf (icon_list, pixbuf, NULL, "");
+				g_object_unref(pixbuf);
+			}
+			continue;
+		}
+
 		content_type = camel_mime_part_get_content_type (attachment->body);
 		/* Get the image out of the attachment 
 		   and create a thumbnail for it */
@@ -324,6 +337,27 @@ update (CalAttachmentBar *bar)
 		
 		g_free (label);
 	}	
+	gnome_icon_list_thaw (icon_list);
+}
+
+static void
+update_remote_file (CalAttachmentBar *bar, CalAttachment *attachment, char *msg)
+{
+	CalAttachmentBarPrivate *priv;
+	GnomeIconList *icon_list;
+	GnomeIconTextItem *item;
+	
+	priv = bar->priv;
+	icon_list = GNOME_ICON_LIST (bar);
+	
+	gnome_icon_list_freeze (icon_list);
+
+	item = gnome_icon_list_get_icon_text_item (icon_list, attachment->index);
+	if (!item->is_text_allocated)
+		g_free (item->text);
+		
+	gnome_icon_text_item_configure (item, item->x, item->y, item->width, item->fontname, msg, item->is_editable, TRUE);
+
 	gnome_icon_list_thaw (icon_list);
 }
 
@@ -538,6 +572,8 @@ destroy (GtkObject *object)
 			g_free (bar->priv->local_attachment_store);
 		if (bar->priv->comp_uid)
 			g_free (bar->priv->comp_uid);
+		if (bar->priv->path)
+			g_free (bar->priv->path);
 		g_free (bar->priv);
 		bar->priv = NULL;
 	}
@@ -634,6 +670,7 @@ init (CalAttachmentBar *bar)
 	priv->num_attachments = 0;
 	priv->local_attachment_store = NULL;
 	priv->comp_uid = NULL;
+	priv->path = NULL;
 	
 	bar->priv = priv;
 }
@@ -776,6 +813,147 @@ cal_attachment_bar_attach (CalAttachmentBar *bar,
 		add_from_file (bar, file_name, "attachment");
 }
 
+typedef struct DownloadInfo {
+	CalAttachment *attachment;
+	CalAttachmentBar *bar;
+	gchar *file_name;
+}DownloadInfo;
+
+static int
+async_progress_update_cb (GnomeVFSAsyncHandle      *handle,
+			  GnomeVFSXferProgressInfo *info,
+			  DownloadInfo *download_info)
+{
+	int percent=0;
+	switch (info->status) {
+	case GNOME_VFS_XFER_PROGRESS_STATUS_OK:
+	{
+		gchar *base_path =  g_path_get_basename(download_info->attachment->file_name);
+		if (info->file_size) {
+			percent = info->bytes_copied*100/info->file_size;
+			update_remote_file (download_info->bar, 
+					    download_info->attachment, 
+					    g_strdup_printf("%s (%d\%)", base_path, percent));
+		} else {
+			update_remote_file (download_info->bar, 
+					    download_info->attachment, 
+					    g_strdup_printf("%s (%d\%)", base_path, percent));	
+		}
+		g_free (base_path);
+		
+		if (info->phase == GNOME_VFS_XFER_PHASE_COMPLETED) {
+			CamelException ex;
+			
+			download_info->attachment->is_available_local = TRUE;
+			download_info->attachment->handle = NULL;
+			camel_exception_init (&ex);
+			cal_attachment_build_remote_file (download_info->file_name, download_info->attachment, "attachment", &ex);
+			update(download_info->bar);
+			g_free (download_info->file_name);
+			g_free (download_info);
+		}
+		return TRUE;
+		break;
+	}
+	case GNOME_VFS_XFER_PROGRESS_STATUS_VFSERROR:
+		gnome_vfs_async_cancel (handle);
+		g_free (download_info->file_name);
+		g_free (download_info);
+		return FALSE;
+		break;
+
+	default:
+		break;
+	}
+
+	return TRUE;
+}
+
+static void
+download_to_local_path (GnomeVFSURI  *source_uri, GnomeVFSURI  *target_uri, DownloadInfo *download_info)
+			
+{
+	GnomeVFSResult       result;
+	GList               *source_uri_list = NULL;
+	GList               *target_uri_list = NULL;
+
+	source_uri_list = g_list_prepend (source_uri_list, source_uri);
+	target_uri_list = g_list_prepend (target_uri_list, target_uri);
+
+	/* Callback info */
+	result = gnome_vfs_async_xfer (&download_info->attachment->handle,                        /* handle_return   */
+				       source_uri_list,                       /* source_uri_list */
+				       target_uri_list,                       /* target_uri_list */
+				       GNOME_VFS_XFER_DEFAULT,                /* xfer_options    */
+				       GNOME_VFS_XFER_ERROR_MODE_ABORT,       /* error_mode      */ 
+				       GNOME_VFS_XFER_OVERWRITE_MODE_REPLACE, /* overwrite_mode  */ 
+				       GNOME_VFS_PRIORITY_DEFAULT,            /* priority        */
+				       async_progress_update_cb,              /* progress_update_callback */
+				       download_info,                         /* update_callback_data     */
+				       NULL,                                  /* progress_sync_callback   */
+				       NULL);                                 /* sync_callback_data       */
+}
+
+
+int 
+cal_attachment_bar_get_download_count (CalAttachmentBar *bar)
+{
+	CalAttachmentBarPrivate *priv;
+	GList *p;
+	int count=0;
+	
+	priv = bar->priv;
+	
+	for (p = priv->attachments; p != NULL; p = p->next) {
+		CalAttachment *attachment;
+		
+		attachment = p->data;
+		if (!attachment->is_available_local)
+			count++;
+	}
+
+	return count;
+}
+
+void 
+cal_attachment_bar_attach_remote_file (CalAttachmentBar *bar,
+				       const gchar *url)
+{
+	CalAttachment *attachment;
+	CamelException ex;
+	gchar *tmpfile;
+	gchar *base;
+
+	if (!bar->priv->path)
+		bar->priv->path = e_mkdtemp("attach-XXXXXX");
+	base = g_path_get_basename (url);
+	
+	g_return_if_fail (E_IS_CAL_ATTACHMENT_BAR (bar));
+	tmpfile = g_build_filename (bar->priv->path, base, NULL);
+
+	g_free (base);
+
+	camel_exception_init (&ex);
+	attachment = cal_attachment_new_remote_file (tmpfile, "attachment", &ex);
+	if (attachment) {
+		DownloadInfo *download_info;
+		download_info = g_new (DownloadInfo, 1);
+		download_info->attachment = attachment;
+		download_info->bar =bar;
+		download_info->file_name = g_strdup (tmpfile);
+		add_common (bar, attachment);
+		download_to_local_path (gnome_vfs_uri_new(url), gnome_vfs_uri_new(tmpfile), download_info);
+
+	} else {
+		e_error_run((GtkWindow *)gtk_widget_get_toplevel((GtkWidget *)bar), "mail-composer:no-attach",
+			    attachment->file_name, camel_exception_get_description(&ex), NULL);
+		camel_exception_clear (&ex);
+	}
+
+	g_free (tmpfile);
+	
+}
+
 /*
  *  TODO  write a good documentation
  *  this method serializes the attached files on the filesystem
@@ -797,6 +975,9 @@ cal_attachment_bar_get_attachment_list (CalAttachmentBar *bar)
 		char *attach_file_url;
 	
 		attachment = p->data;
+
+		if (!attachment->is_available_local)
+			continue;
 		wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (attachment->body));
 		mstream = (CamelStreamMem *) camel_stream_mem_new ();
 			
@@ -905,6 +1086,9 @@ cal_attachment_bar_get_mime_attach_list (CalAttachmentBar *bar)
 		CamelStreamMem *mstream;
 		unsigned char *buffer = NULL;
 		char *desc;
+
+		if (!attach->is_available_local)
+			continue;
 		
 		cal_mime_attach = g_malloc0 (sizeof (struct CalMimeAttach));
 		wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (attach->body));

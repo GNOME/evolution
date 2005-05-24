@@ -255,17 +255,23 @@ drop_action(CompEditor *editor, GdkDragContext *context, guint32 action, GtkSele
 				g_free (str);
 			} else {
 				url = camel_url_new (str, NULL);
-				g_free (str);
 
-				if (url == NULL)
+				if (url == NULL) {
+					g_free (str);
 					continue;
+				}
 
 				if (!g_ascii_strcasecmp (url->protocol, "file"))
 					cal_attachment_bar_attach
 						(CAL_ATTACHMENT_BAR (editor->priv->attachment_bar),
 					 	url->path);
+				else
+					cal_attachment_bar_attach_remote_file
+						(CAL_ATTACHMENT_BAR (editor->priv->attachment_bar),
+					 	str);
 
 				camel_url_free (url);
+				g_free (str);
 			}
 		}
 		
@@ -785,6 +791,24 @@ response_cb (GtkWidget *widget, int response, gpointer data)
 
 	switch (response) {
 	case GTK_RESPONSE_OK:
+		/* Check whether the downloads are completed */
+		if (cal_attachment_bar_get_download_count (CAL_ATTACHMENT_BAR (editor->priv->attachment_bar)) ){
+			ECalComponentVType vtype = e_cal_component_get_vtype(editor->priv->comp);
+			gboolean response;
+	
+			if (vtype == E_CAL_COMPONENT_EVENT)
+				response = em_utils_prompt_user((GtkWindow *)widget, 
+								 NULL, 
+								 "calendar:ask-send-event-pending-download", 
+								  NULL);
+			else
+				response = em_utils_prompt_user((GtkWindow *)widget, 
+								 NULL, 
+								 "calendar:ask-send-task-pending-download", 
+								  NULL);
+		if (!response) 
+			return;
+		}	
 		commit_all_fields (editor);
 		
 		if (e_cal_component_is_instance (priv->comp))

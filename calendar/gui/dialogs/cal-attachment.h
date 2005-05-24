@@ -27,6 +27,7 @@
 #include <glade/glade-xml.h>
 #include <camel/camel-mime-part.h>
 #include <camel/camel-exception.h>
+#include <libgnomevfs/gnome-vfs.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -52,6 +53,13 @@ struct _CalAttachment {
 	gulong size;
 
 	GdkPixbuf *pixbuf_cache;
+
+	GnomeVFSAsyncHandle *handle;
+	gboolean is_available_local;
+	char *file_name;
+	char *description;
+	gboolean disposition;
+	int index;
 };
 
 struct _CalAttachmentClass {
@@ -71,6 +79,8 @@ struct CalMimeAttach {
 GType cal_attachment_get_type (void);
 CalAttachment *cal_attachment_new (const char *file_name, const char *disposition, CamelException *ex);
 CalAttachment *cal_attachment_new_from_mime_part (CamelMimePart *part);
+CalAttachment * cal_attachment_new_remote_file (const char *file_name, const char *disposition, CamelException *ex);
+void cal_attachment_build_remote_file (const char *filename, CalAttachment *attachment, const char *disposition, CamelException *ex);
 void cal_attachment_edit (CalAttachment *attachment, GtkWidget *parent);
 
 #ifdef __cplusplus

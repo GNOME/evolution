@@ -1,3 +1,10 @@
+2005-05-24  Srinivasa Ragavan <sragavan@novell.com>
+	* gui/dialogs/cal-attachment-bar.c, gui/dialogs/cal-attachment-bar.h,
+	  gui/dialogs/cal-attachment.c, gui/dialogs/cal-attachment.h, 
+	  gui/dialogs/comp-editor.c, calendar.error.xml: Added the support to DnD
+	  remote URL to the attachment window. It downloads asynchronously and
+	  attaches.
+
 2005-05-16  Srinivasa Ragavan <sragavan@novell.com>
 
 	* gui/dialogs/comp-editor.c (attachment_bar_changed_cb) 

@@ -69,6 +69,8 @@ void cal_attachment_bar_to_multipart (CalAttachmentBar *bar, CamelMultipart *mul
 guint cal_attachment_bar_get_num_attachments (CalAttachmentBar *bar);
 void cal_attachment_bar_attach (CalAttachmentBar *bar, const char *file_name);
 void cal_attachment_bar_attach_mime_part (CalAttachmentBar *bar, CamelMimePart *part);
+void cal_attachment_bar_attach_remote_file (CalAttachmentBar *bar, const gchar *url);
+int cal_attachment_bar_get_download_count (CalAttachmentBar *bar);
 GSList *cal_attachment_bar_get_attachment_list (CalAttachmentBar *bar);
 char * cal_attachment_bar_get_nth_attachment_filename (CalAttachmentBar *bar, int n);
 GSList *cal_attachment_bar_get_mime_attach_list (CalAttachmentBar *bar);

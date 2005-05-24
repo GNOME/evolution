@@ -145,6 +145,20 @@
   <button _label="Send" response="GTK_RESPONSE_YES"/>
  </error>
 
+ <error id="ask-send-task-pending-download" type="question" default="GTK_RESPONSE_YES">
+  <_primary>Download in progress. Do you want to save the task?</_primary>
+  <_secondary xml:space="preserve"> There are few attachments getting downloaded. Saving the task will cause the task to be saved without those pending attachments </_secondary>
+  <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
+  <button _label="_Save" response="GTK_RESPONSE_YES"/>
+ </error>
+
+  <error id="ask-send-event-pending-download" type="question" default="GTK_RESPONSE_YES">
+  <_primary>Download in progress. Do you want to save the appointment?</_primary>
+  <_secondary xml:space="preserve"> There are few attachments getting downloaded. Saving the appointment will cause the appointment to be saved without those pending attachments </_secondary>
+  <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
+  <button _label="_Save" response="GTK_RESPONSE_YES"/>
+ </error>
+
  <error id="prompt-send-updated-task-info" type="question" default="GTK_RESPONSE_YES">
   <_primary>Would you like to send updated task information to participants?</_primary>
   <_secondary>Sending updated information allows other participants to keep their task lists up to date.</_secondary>
