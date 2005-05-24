@@ -6,7 +6,7 @@
 		<author name="Vivek Jain" email="jvivek@novell.com" />
 		<author name="Chenthill Palanisamy" email="pchenthill@novell.com"/>
 		<author name="Parthasarathi Susarla" email="sparthasarathi@novell.com"/>
-		<_description>A consolidated plugin for the features in Groupwise accounts.</_description>
+		<_description>A plugin for the features in Groupwise accounts.</_description>
 		<hook class="org.gnome.evolution.mail.config:1.0">
 			<group id="org.gnome.evolution.mail.config.accountDruid" target="account">
 				<item 
@@ -55,13 +55,7 @@
 					handle="org_gnome_popup_wizard"/>
 		</hook>
 		<hook class="org.gnome.evolution.mail.popup:1.0">
-			<menu id="org.gnome.evolution.mail.foldertree.popup" target="folder">
-				<item 
-					type="item" 
-					path="20.emc.00" 
-					label="_New Shared Folder"
-					activate="org_gnome_create_option"
-					enable="delete" visible="delete"/>
+			<menu id="org.gnome.evolution.mail.foldertree.popup" target="folder" factory = "org_gnome_create_option">
 			</menu>
 			<menu id="org.gnome.evolution.mail.folderview.popup" target="select">
 				<item

@@ -1,4 +1,14 @@
-23-05-2005 Vivek Jain <jvivek@novell.com>
+2005-05-24 Vivek Jain <jvivek@novell.com>
+	
+	* org-gnome-groupwise-features.eplug.xml:
+	 removed "Item" tag entries, included a factory method
+	 
+	 * shared-folder-common.c: changed callback (org_gnome_create_option)
+	 to a factory method, check uri before adding the option to the menu.
+	 New folder dialog now comes in another callback (create_shared_folder)
+	 also added a function to free the item list.
+
+2005-05-23 Vivek Jain <jvivek@novell.com>
 
 	Created a plugin "groupwise-features" which is a consolidation of 
 	following existing plugins

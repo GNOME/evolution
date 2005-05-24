@@ -60,6 +60,8 @@ struct ShareInfo {
 	
 GtkWidget * org_gnome_shared_folder_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data);
 void org_gnome_create_option(EPlugin *ep, EMPopupTargetFolder *target);
+static void create_shared_folder(EPopup *ep, EPopupItem *p, void *data);
+static void popup_free (EPopup *ep, GSList *items, void *data);
 void shared_folder_commit (EPlugin *ep, EConfigTarget *tget);
 void shared_folder_abort (EPlugin *ep, EConfigTarget *target);
 
@@ -331,8 +333,43 @@ new_folder_response (EMFolderSelector *emfs, int response, EMFolderTreeModel *mo
 
 }
 
+static EPopupItem popup_items[] = {
+{ E_POPUP_ITEM, "20.emc.001", N_("New _Shared Folder..."), create_shared_folder, NULL, "stock_new-dir", 0, EM_POPUP_FOLDER_INFERIORS }
+};
+
+static void 
+popup_free (EPopup *ep, GSList *items, void *data)
+{
+g_slist_free (items);
+}
+
 void 
-org_gnome_create_option(EPlugin *ep, EMPopupTargetFolder *target)
+org_gnome_create_option(EPlugin *ep, EMPopupTargetFolder *t)
+{
+	GSList *menus = NULL;
+	int i = 0;
+	static int first =1;
+	
+	if (! g_strrstr (t->uri, "groupwise://"))
+		return ;
+	
+	/* for translation*/
+	if (first) {
+		popup_items[0].label =  _(popup_items[0].label);
+	
+	}
+	
+	first++;
+	
+	for (i = 0; i < sizeof (popup_items) / sizeof (popup_items[0]); i++)
+		menus = g_slist_prepend (menus, &popup_items[i]);
+	
+	e_popup_add_items (t->target.popup, menus, NULL, popup_free, NULL);
+       	
+}
+	
+static void 
+create_shared_folder(EPopup *ep, EPopupItem *p, void *data)
 {
 
 	EMFolderTreeModel *model;
