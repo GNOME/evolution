@@ -1,3 +1,8 @@
+2005-05-24  Frederic Crozat  <fcrozat@mandriva.com>
+
+	* main.c: (kill_dataserver):
+	Kill evolution-data-server-1.2 too.
+
 2005-03-17  Not Zed  <NotZed@Ximian.com>
 
 	* es-event.h: fix the qualifier bit assignments for the STATE target.
