@@ -705,13 +705,6 @@ emfv_view_load_images(BonoboUIComponent *uic, void *data, const char *path)
 }
 
 static void
-emfv_popup_load_images(EPopup *ep, EPopupItem *pitem, void *data)
-{
-	EMFolderView *emfv = data;	
-	emfv_view_load_images(NULL, data, NULL);
-}
-
-static void
 emfv_popup_print(EPopup *ep, EPopupItem *pitem, void *data)
 {
 	EMFolderView *emfv = data;
@@ -753,13 +746,6 @@ emfv_mail_compose(BonoboUIComponent *uid, void *data, const char *path)
 		return;
 
 	em_utils_compose_new_message(emfv->folder_uri);
-}
-
-static void
-emfv_popup_selectall(EPopup *ep, EPopupItem *pitem, void *data)
-{
-	EMFolderView *emfv = data;
-	gtk_html_select_all (((EMFormatHTML *)emfv->preview)->html);
 }
 
 static void

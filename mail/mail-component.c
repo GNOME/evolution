@@ -43,6 +43,7 @@
 #include "em-message-browser.h"
 #include "em-folder-selector.h"
 #include "em-folder-selection.h"
+#include "em-folder-utils.h"
 #include "em-migrate.h"
 
 #include "widgets/misc/e-info-label.h"

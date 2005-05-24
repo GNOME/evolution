@@ -1,3 +1,13 @@
+2005-05-24  Rodney Dawes  <dobey@novell.com>
+
+	* em-folder-selector.c (folder_created_cb): Remove this unused method
+	(emfs_response): Remove unused variable declarations
+
+	* em-folder-view.c (emfv_popup_{load_images,selectall}): Remove
+	these unused methods
+	
+	* mail-component.c: Include em-folder-utils.h to fix warnings
+	
 2005-05-20  Not Zed  <NotZed@Ximian.com>
 
 	* mail-component.c (mail_component_peek_session): add helper for
