@@ -14,7 +14,7 @@ module GNOME {
 module Evolution {
 module Mail {
 	exception NOT_SUPPORTED {
-		string why;
+//		string why;
 	};
 
 	exception FAILED {
@@ -43,13 +43,38 @@ module Mail {
 
 	interface Session;
 
-	struct Message {
+	// ********************************************************************** 
+	// MessageInfo wrappers
+	typedef string UserFlag;
+	typedef sequence <UserFlag> UserFlags;
+
+	struct UserTag {
+		string name;
+		string value;	// value == "" == unset
+	};
+	typedef sequence <UserTag> UserTags;
+
+	struct MessageInfo {
 		string uid;
 		string subject;
 		string to;
 		string from;
+		long flags;	// CamelMessageInfo flag bits
+		UserFlags userFlags;
+		UserTags userTags;
 	};
-	typedef sequence <Message> Messages;
+	typedef sequence <MessageInfo> MessageInfos;
+
+	// Used to pass to altering functions
+	struct MessageInfoSet {
+		string uid;
+		long flagSet;	// values bits to set in the flags
+		long flagMask;	// mask of bits to change in the flags
+		UserFlags userFlagSet;
+		UserFlags userFlagUnset;
+		UserTags userTags;
+	};
+	typedef sequence <MessageInfoSet> MessageInfoSets;
 
 	/* ********************************************************************** */
 	// NB: tiny subset of omg properties service
@@ -78,30 +103,46 @@ module Mail {
 
 	struct StoreChange {
 		ChangeType type;
-		Folders folders;
+		FolderInfos folders;
 	};
 	typedef sequence <StoreChange> StoreChanges;
 
 	struct FolderChange {
 		ChangeType type;
-		Messages messages;
+		MessageInfos messages;
 	};
 	typedef sequence <FolderChange> FolderChanges;
 
 	interface Listener : Bonobo::Unknown {
-		oneway void sessionChanged(in Session session, in SessionChange change);
-		oneway void storeChanged(in Session session, in Store store, in StoreChanges change);
+		oneway void sessionChanged(in Session session, in SessionChanges changes);
+		// maybe folder/store should be folderinfo/storeinfo?
+		oneway void storeChanged(in Session session, in Store store, in StoreChanges changes);
 		oneway void folderChanged(in Session session, in Store store, in Folder folder, in FolderChanges changes);
+
+		// session is closed/exited?
+		//oneway void closed();
 	};
 
 	/* ********************************************************************** */
 
 	interface Session : Bonobo::Unknown {
+		// Flags to pass to addListener
+		const long SESSION_ADDED = 1 << 0;
+		const long SESSION_CHANGED = 1 << 1;
+		const long SESSION_REMOVED = 1 << 2;
+		const long STORE_ADDED = 1 << 3;
+		const long STORE_CHANGED = 1 << 4;
+		const long STORE_REMOVED = 1 << 5;
+		const long FOLDER_ADDED = 1 << 6;
+		const long FOLDER_CHANGED = 1 << 7;
+		const long FOLDER_REMOVED = 1 << 8;
+
 		boolean getProperties(in PropertyNames names, out Properties props);
 
 		StoreInfos getStores(in string pattern);
 
-		void addListener(in Listener listener);
+		/* flags defines what to listen to */
+		void addListener(in Listener listener, in long flags);
 		void removeListener(in Listener listener);
 	};
 
@@ -111,12 +152,12 @@ module Mail {
 		FolderInfos getFolders(in string pattern)
 			raises (NOT_SUPPORTED, FAILED);
 
-		void sendMessage(in Bonobo::Stream msg, in string from, in string recipients)
+		void sendMessage(in Bonobo::Stream msg)
 			raises (NOT_SUPPORTED, FAILED);
 	};
 
 	interface MessageIterator : Bonobo::Unknown {
-		Messages next(in long limit);
+		MessageInfos next(in long limit);
 	};
 
 	interface Folder : Bonobo::Unknown {
@@ -124,9 +165,10 @@ module Mail {
 
 		MessageIterator getMessages(in string pattern);
 
-		Bonobo::Stream getMessage(in string uid);
+		void changeMessages(in MessageInfoSets infos);
 
-//		void appendMessage(in MessageInfo info, in Bonobo::Stream msg);
+//		Bonobo::Stream getMessage(in string uid);
+//		void appendMessage(in MessageInfoSet info, in Bonobo::Stream msg);
 	};
 };
 };

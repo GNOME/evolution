@@ -49,4 +49,10 @@ struct _EvolutionMailSessionClass {
 
 GType           evolution_mail_session_get_type(void);
 
+CORBA_long evolution_mail_session_listening(EvolutionMailSession *ems);
+
+void evolution_mail_session_session_changed(EvolutionMailSession *ems, GNOME_Evolution_Mail_SessionChanges *changes);
+void evolution_mail_session_store_changed(EvolutionMailSession *ems, GNOME_Evolution_Mail_Store store, GNOME_Evolution_Mail_StoreChanges *changes);
+void evolution_mail_session_folder_changed(EvolutionMailSession *ems, GNOME_Evolution_Mail_Store store, GNOME_Evolution_Mail_Folder folder, GNOME_Evolution_Mail_FolderChanges *changes);
+
 #endif /* _EVOLUTION_MAIL_SESSION_H_ */

@@ -43,6 +43,10 @@ struct _EvolutionMailListenerClass {
 	BonoboObjectClass parent_class;
 
 	POA_GNOME_Evolution_Mail_Listener__epv epv;
+
+	void (*session_changed)(const GNOME_Evolution_Mail_Session session, const GNOME_Evolution_Mail_SessionChange *change);
+	void (*store_changed)(const GNOME_Evolution_Mail_Session session, const GNOME_Evolution_Mail_Store store, const GNOME_Evolution_Mail_StoreChanges *);
+	void (*folder_changed)(const GNOME_Evolution_Mail_Session session, const GNOME_Evolution_Mail_Store store, const GNOME_Evolution_Mail_Folder folder, const GNOME_Evolution_Mail_FolderChanges *);
 };
 
 GType           evolution_mail_listener_get_type(void);

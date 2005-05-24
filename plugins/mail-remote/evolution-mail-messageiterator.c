@@ -32,10 +32,7 @@
 
 #include <camel/camel-folder.h>
 
-#include <libedataserver/e-account.h>
-
-#define FACTORY_ID "OAFIID:GNOME_Evolution_Mail_MessageIterator_Factory:" BASE_VERSION
-#define MAIL_MESSAGEITERATOR_ID  "OAFIID:GNOME_Evolution_Mail_MessageIterator:" BASE_VERSION
+#include "e-corba-utils.h"
 
 #define PARENT_TYPE bonobo_object_get_type ()
 
@@ -63,6 +60,8 @@ impl_finalize (GObject *object)
 {
 	struct _EvolutionMailMessageIteratorPrivate *p = _PRIVATE(object);
 
+	printf("EvolutionMailMessageIterator: finalise\n");
+
 	if (*p->expr)
 		camel_folder_search_free(p->folder, p->search);
 	else
@@ -75,12 +74,12 @@ impl_finalize (GObject *object)
 }
 
 /* Evolution.Mail.MessageIterator */
-static GNOME_Evolution_Mail_Messages *
+static GNOME_Evolution_Mail_MessageInfos *
 impl_next(PortableServer_Servant _servant, const CORBA_long limit, CORBA_Environment * ev)
 {
 	EvolutionMailMessageIterator *emf = (EvolutionMailMessageIterator *)bonobo_object_from_servant(_servant);
 	int i, j;
-	GNOME_Evolution_Mail_Messages *msgs;
+	GNOME_Evolution_Mail_MessageInfos *msgs;
 	struct _EvolutionMailMessageIteratorPrivate *p = _PRIVATE(emf);
 	CamelException ex = { 0 };
 
@@ -98,9 +97,9 @@ impl_next(PortableServer_Servant _servant, const CORBA_long limit, CORBA_Environ
 		p->index = 0;
 	}
 
-	msgs = GNOME_Evolution_Mail_Messages__alloc();
+	msgs = GNOME_Evolution_Mail_MessageInfos__alloc();
 	msgs->_maximum = MIN(limit, p->search->len - p->index);
-	msgs->_buffer = GNOME_Evolution_Mail_Messages_allocbuf(msgs->_maximum);
+	msgs->_buffer = GNOME_Evolution_Mail_MessageInfos_allocbuf(msgs->_maximum);
 	CORBA_sequence_set_release(msgs, CORBA_TRUE);
 
 	j=0;
@@ -108,15 +107,13 @@ impl_next(PortableServer_Servant _servant, const CORBA_long limit, CORBA_Environ
 		CamelMessageInfo *info = camel_folder_get_message_info(p->folder, p->search->pdata[i]);
 
 		if (info) {
-			msgs->_buffer[j].uid = CORBA_string_dup(camel_message_info_uid(info));
-			msgs->_buffer[j].subject = CORBA_string_dup(camel_message_info_subject(info));
-			msgs->_buffer[j].to = CORBA_string_dup(camel_message_info_to(info));
-			msgs->_buffer[j].from = CORBA_string_dup(camel_message_info_from(info));
+			e_mail_messageinfo_set_message(&msgs->_buffer[j], info);
 			j++;
 			camel_message_info_free(info);
 		}
 	}
 
+	p->index = i;
 	msgs->_length = j;
 
 	return msgs;

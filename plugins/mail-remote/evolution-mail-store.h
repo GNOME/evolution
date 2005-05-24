@@ -40,6 +40,8 @@ typedef struct _EvolutionMailStoreClass   EvolutionMailStoreClass;
 struct _EvolutionMailStore {
 	BonoboObject parent;
 
+	struct _EvolutionMailSession *session;
+
 	struct _EAccount *account;
 };
 
@@ -55,5 +57,8 @@ EvolutionMailStore *evolution_mail_store_new(struct _EvolutionMailSession *s, st
 
 const char *evolution_mail_store_get_name(EvolutionMailStore *);
 const char *evolution_mail_store_get_uid(EvolutionMailStore *);
+
+/* unref when done */
+struct _CamelStore *evolution_mail_store_get_store(EvolutionMailStore *ems);
 
 #endif /* _EVOLUTION_MAIL_STORE_H_ */

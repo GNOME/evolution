@@ -31,13 +31,15 @@
 #define EVOLUTION_MAIL_IS_FOLDER(obj)			(G_TYPE_CHECK_INSTANCE_TYPE ((obj), EVOLUTION_MAIL_TYPE_FOLDER))
 #define EVOLUTION_MAIL_IS_FOLDER_CLASS(klass)		(G_TYPE_CHECK_CLASS_TYPE ((obj), EVOLUTION_MAIL_TYPE_FOLDER))
 
-struct _EAccount;
+struct _EvolutionMailStore;
 
 typedef struct _EvolutionMailFolder        EvolutionMailFolder;
 typedef struct _EvolutionMailFolderClass   EvolutionMailFolderClass;
 
 struct _EvolutionMailFolder {
 	BonoboObject parent;
+
+	struct _EvolutionMailStore *store;
 
 	char *full_name;
 	char *name;
@@ -51,6 +53,8 @@ struct _EvolutionMailFolderClass {
 
 GType           evolution_mail_folder_get_type(void);
 
-EvolutionMailFolder *evolution_mail_folder_new(const char *name, const char *full_name);
+EvolutionMailFolder *evolution_mail_folder_new(struct _EvolutionMailStore *ems, const char *name, const char *full_name);
+
+struct _CamelFolder *evolution_mail_folder_get_folder(EvolutionMailFolder *emf);
 
 #endif /* _EVOLUTION_MAIL_FOLDER_H_ */

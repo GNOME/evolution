@@ -23,6 +23,8 @@ liborg_gnome_evolution_mail_remote_la_SOURCES = \
 	evolution-mail-session.h		\
 	evolution-mail-store.c			\
 	evolution-mail-store.h			\
+	evolution-mail-marshal.c		\
+	evolution-mail-marshal.h		\
 	mail-remote.c
 
 liborg_gnome_evolution_mail_remote_la_LDFLAGS = -module -avoid-version
@@ -33,6 +35,7 @@ client_SOURCES = \
 client_LDADD = \
 	$(EVOLUTION_MAIL_LIBS)			\
 	evolution-mail-listener.o		\
+	evolution-mail-marshal.o		\
 	Evolution-DataServer-Mail-common.o	\
 	Evolution-DataServer-Mail-stubs.o	\
 	Evolution-DataServer-Mail-skels.o
@@ -59,8 +62,13 @@ $(IDL_GENERATED_H) $(IDL_GENERATED_C): $(IDL)
 
 #idl_DATA = $(IDL)
 
-EXTRA_DIST = 				\
-	$(IDL)
+# marshallers for glib
+MARSHAL_GENERATED = evolution-mail-marshal.c evolution-mail-marshal.h
+@EVO_MARSHAL_RULE@
 
-BUILT_SOURCES = $(IDL_GENERATED_H) $(IDL_GENERATED_C)
+EXTRA_DIST = 				\
+	$(IDL)				\
+	evolution-mail-marshal.list
+
+BUILT_SOURCES = $(IDL_GENERATED_H) $(IDL_GENERATED_C) $(MARSHAL_GENERATED)
 CLEANFILES = $(BUILT_SOURCES)

@@ -1,3 +1,8 @@
+2005-05-24  Not Zed  <NotZed@Ximian.com>
+
+	* Lots more work.  Now implements a full listener interface.
+	Filled out api.
+
 2005-05-20  Not Zed  <NotZed@Ximian.com>
 
 	* Lots of work, filled out functions, cleaned up idl to make the
