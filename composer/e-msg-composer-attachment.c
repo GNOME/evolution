@@ -78,8 +78,6 @@ finalise(GObject *object)
 		camel_object_unref (attachment->body);
 		if (attachment->pixbuf_cache != NULL)
 			g_object_unref (attachment->pixbuf_cache);
-
-	        G_OBJECT_CLASS (parent_class)->finalize (object);
 	} else {
 		if (attachment->handle)
 			gnome_vfs_async_cancel(attachment->handle);
@@ -88,6 +86,8 @@ finalise(GObject *object)
 		if (attachment->description)
 			g_free (attachment->description);
 	}
+
+	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
 

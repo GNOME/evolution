@@ -1,4 +1,9 @@
-2005-05-23  Srininvasa Ragavan <sragavan@novell.com>
+2005-05-24  Srinivasa Ragavan <sragavan@novell.com>
+
+	* e-msg-composer-attachment.c (finalise): Fixed a potential memory
+	  leak.
+
+2005-05-23  Srinivasa Ragavan <sragavan@novell.com>
 
 	* e-msg-composer-attachment-bar.c, e-msg-composer-attachment-bar.h,
 	  e-msg-composer-attachment.c, e-msg-composer-attachment.h, e-msg-composer.c,
