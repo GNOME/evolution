@@ -1,3 +1,8 @@
+2005-05-25  Not Zed  <NotZed@Ximian.com>
+
+	* main.c (main): remove mono registrtion, this is implemented
+	using a plugin now.  register the plugin type loader hook.
+
 2005-05-16  Not Zed  <NotZed@Ximian.com>
 
 	* Makefile.am: fix error file build/path changes
