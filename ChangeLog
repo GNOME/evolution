@@ -1,3 +1,7 @@
+2005-05-25  Not Zed  <NotZed@Ximian.com>
+
+	* configure.in: if --enable-mono, then enable the mono plugin.
+
 2005-05-23  Vivek Jain <jvivek@novell.com>
 	
 	* configure.in : Removed the entries of 

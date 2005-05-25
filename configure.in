@@ -688,7 +688,8 @@ AC_SUBST(KRB4_CFLAGS)
 AC_SUBST(KRB4_LDFLAGS)
 
 dnl Mono hooks
-
+dnl This should just define mono CFLAGS etc here, it is used later to
+dnl turn on the mono plugin or not.
 AC_ARG_ENABLE(mono, [  --enable-mono=[yes,no]        Add Mono embedded hooks.],
 	enable_mono="$enableval", enable_mono="no")
 
@@ -696,7 +697,6 @@ if test "x${enable_mono}" = "xyes"; then
 	AC_DEFINE(ENABLE_MONO,1,[Define if Mono embedding should be enabled])
 	mono_package="mono"
 fi
-AM_CONDITIONAL(ENABLE_MONO, test x$enable_mono = xyes)
 
 dnl ********************************************************************************
 dnl security extension support (SSL and S/MIME)
@@ -1380,6 +1380,11 @@ x | xyes)
 	;;
 esac
 
+if test "x${enable_mono}" = "xyes"; then
+	plugins_enabled="$plugins_enabled mono"
+	msg_plugins="$msg_plugins (and mono)"
+fi
+
 AC_SUBST(plugins_enabled)
 AC_SUBST(plugins_base)
 AC_SUBST(plugins_standard)
@@ -1593,6 +1598,7 @@ plugins/audio-inline/Makefile
 plugins/mail-to-meeting/Makefile
 plugins/mail-to-task/Makefile
 plugins/mail-remote/Makefile
+plugins/mono/Makefile
 plugins/new-mail-notify/Makefile
 plugins/subject-thread/Makefile
 plugins/save-attachments/Makefile
