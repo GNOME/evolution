@@ -1,3 +1,17 @@
+2005-05-25  Not Zed  <NotZed@Ximian.com>
+
+	* e-plugin-mono.[ch]: Removed, these are now implemented as a
+	plugin.
+
+	* e-plugin.c (ep_load_plugin): separate out plugin xml loading
+	code from the loading loop.  If a plugin type doesn't exist, then
+	save it in a list for later checking.
+	(ep_load): call above to do the work.
+	(e_plugin_register_type): check the pending doc list, if any
+	plugins now have a type, load them.
+	(e_plugin_type_hook_get_type): a plugin hook for registering new
+	plugin types ('loaders') at runtime.
+
 2005-05-19  Not Zed  <NotZed@Ximian.com>
 
 	* e-import.[ch]: Initial, and un-finished work on importer plugin

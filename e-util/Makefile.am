@@ -1,11 +1,6 @@
 eutilincludedir = $(privincludedir)/e-util
 econdincludedir = $(privincludedir)/e-conduit
 
-if ENABLE_MONO
-MONOHEADERS = e-plugin-mono.h
-MONOSOURCES = e-plugin-mono.c
-endif
-
 INCLUDES =								\
 	-I$(top_srcdir)							\
 	-DEVOLUTION_IMAGES=\""$(imagesdir)"\"				\
@@ -54,8 +49,7 @@ eutilinclude_HEADERS = 				\
 	e-signature-list.h			\
 	e-time-utils.h				\
 	e-uid.h					\
-	md5-utils.h				\
-	$(MONOHEADERS)
+	md5-utils.h
 
 libeutil_la_SOURCES =				\
 	$(MARSHAL_GENERATED)			\
@@ -96,8 +90,7 @@ libeutil_la_SOURCES =				\
 	e-uid.c					\
 	eggtrayicon.c				\
 	eggtrayicon.h				\
-	md5-utils.c				\
-	$(MONOSOURCES)
+	md5-utils.c
 
 MARSHAL_GENERATED = e-util-marshal.c e-util-marshal.h
 @EVO_MARSHAL_RULE@

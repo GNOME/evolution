@@ -54,7 +54,7 @@ static GSList *ep_path;
 /* global table of plugins by plugin.id */
 static GHashTable *ep_plugins;
 /* a table of GSLists of plugins by hook class for hooks not loadable yet */
-static GHashTable *ep_plugins_pending;
+static GHashTable *ep_plugins_pending_hooks;
 /* list of all cached xml docs:struct _plugin_doc's */
 static EDList ep_plugin_docs = E_DLIST_INITIALISER(ep_plugin_docs);
 /* gconf client */
@@ -71,8 +71,11 @@ struct _plugin_doc {
 	struct _plugin_doc *next;
 	struct _plugin_doc *prev;
 
+	char *filename;
 	xmlDocPtr doc;
-	GSList *plugins;
+
+	GSList *plugin_hooks;	/* EPlugin objects with pending hooks */
+	GSList *plugins;	/* xmlNodePtr's of plugins with unknown type (mono,etc) */
 };
 
 static gboolean
@@ -159,14 +162,14 @@ ep_construct(EPlugin *ep, xmlNodePtr root)
 				GSList *l;
 				char *oldclass;
 
-				if (ep_plugins_pending == NULL)
-					ep_plugins_pending = g_hash_table_new(g_str_hash, g_str_equal);
-				if (!g_hash_table_lookup_extended(ep_plugins_pending, class, (void **)&oldclass, (void **)&l)) {
+				if (ep_plugins_pending_hooks == NULL)
+					ep_plugins_pending_hooks = g_hash_table_new(g_str_hash, g_str_equal);
+				if (!g_hash_table_lookup_extended(ep_plugins_pending_hooks, class, (void **)&oldclass, (void **)&l)) {
 					oldclass = class;
 					l = NULL;
 				}
 				l = g_slist_prepend(l, ep);
-				g_hash_table_insert(ep_plugins_pending, oldclass, l);
+				g_hash_table_insert(ep_plugins_pending_hooks, oldclass, l);
 				ep->hooks_pending = g_slist_prepend(ep->hooks_pending, node);
 			}
 		} else if (strcmp(node->name, "description") == 0) {
@@ -281,6 +284,54 @@ e_plugin_get_type(void)
 	return type;
 }
 
+static EPlugin *
+ep_load_plugin(xmlNodePtr root, struct _plugin_doc *pdoc)
+{
+	char *prop, *id;
+	EPluginClass *klass;
+	EPlugin *ep;
+
+	id = e_plugin_xml_prop(root, "id");
+	if (id == NULL) {
+		g_warning("Invalid e-plugin entry in '%s': no id", pdoc->filename);
+		return NULL;
+	}
+
+	if (g_hash_table_lookup(ep_plugins, id)) {
+		g_warning("Plugin '%s' already defined", id);
+		g_free(id);
+		return NULL;
+	}
+
+	prop = xmlGetProp(root, "type");
+	if (prop == NULL) {
+		g_free(id);
+		g_warning("Invalid e-plugin entry in '%s': no type", pdoc->filename);
+		return NULL;
+	}
+
+	/* If we can't find a plugin, add it to a pending list which is checked when a new type is registered */
+	klass = g_hash_table_lookup(ep_types, prop);
+	if (klass == NULL) {
+		pd(printf("Delaying loading of plugin '%s' unknown type '%s'\n", id, prop));
+		g_free(id);
+		xmlFree(prop);
+		pdoc->plugins = g_slist_prepend(pdoc->plugins, root);
+		return NULL;
+	}
+	xmlFree(prop);
+
+	ep = g_object_new(G_TYPE_FROM_CLASS(klass), NULL);
+	ep->id = id;
+	ep->path = g_strdup(pdoc->filename);
+	ep->enabled = ep_check_enabled(id);
+	if (e_plugin_construct(ep, root) == -1)
+		e_plugin_enable(ep, FALSE);
+	g_hash_table_insert(ep_plugins, ep->id, ep);
+
+	return ep;
+}
+
 static int
 ep_load(const char *filename)
 {
@@ -305,60 +356,28 @@ ep_load(const char *filename)
 
 	pdoc = g_malloc0(sizeof(*pdoc));
 	pdoc->doc = doc;
-	pdoc->plugins = NULL;
+	pdoc->filename = g_strdup(filename);
 
 	for (root = root->children; root ; root = root->next) {
 		if (strcmp(root->name, "e-plugin") == 0) {
-			char *prop, *id;
-			EPluginClass *klass;
-
-			id = e_plugin_xml_prop(root, "id");
-			if (id == NULL) {
-				g_warning("Invalid e-plugin entry in '%s': no id", filename);
-				goto fail;
+			ep = ep_load_plugin(root, pdoc);
+			if (ep) {
+				pdoc->plugin_hooks = g_slist_prepend(pdoc->plugin_hooks, ep);
+				cache |= (ep->hooks_pending != NULL);
 			}
-
-			if (g_hash_table_lookup(ep_plugins, id)) {
-				g_warning("Plugin '%s' already defined", id);
-				g_free(id);
-				continue;
-			}
-
-			prop = xmlGetProp(root, "type");
-			if (prop == NULL) {
-				g_free(id);
-				g_warning("Invalid e-plugin entry in '%s': no type", filename);
-				goto fail;
-			}
-
-			klass = g_hash_table_lookup(ep_types, prop);
-			if (klass == NULL) {
-				g_warning("Can't find plugin type '%s' for plugin '%s'\n", prop, id);
-				g_free(id);
-				xmlFree(prop);
-				continue;
-			}
-			xmlFree(prop);
-
-			ep = g_object_new(G_TYPE_FROM_CLASS(klass), NULL);
-			ep->id = id;
-			ep->path = g_strdup(filename);
-			ep->enabled = ep_check_enabled(id);
-			if (e_plugin_construct(ep, root) == -1)
-				e_plugin_enable(ep, FALSE);
-			g_hash_table_insert(ep_plugins, ep->id, ep);
-			pdoc->plugins = g_slist_prepend(pdoc->plugins, ep);
-			cache |= (ep->hooks_pending != NULL);
+			cache |= pdoc->plugins != NULL;
 		}
 	}
 
 	res = 0;
-fail:
+
 	if (cache) {
 		pd(printf("Caching plugin description '%s' for unknown future hooks\n", filename));
 		e_dlist_addtail(&ep_plugin_docs, (EDListNode *)pdoc);
 	} else {
+		pd(printf("freeing plugin description '%s', nothing uses it\n", filename));
 		xmlFreeDoc(pdoc->doc);
+		g_free(pdoc->filename);
 		g_free(pdoc);
 	}
 
@@ -453,7 +472,6 @@ e_plugin_load_plugins(void)
 		return 0;
 	}
 
-
 	for (l = ep_path;l;l = g_slist_next(l)) {
 		DIR *dir;
 		struct dirent *d;
@@ -495,6 +513,7 @@ void
 e_plugin_register_type(GType type)
 {
 	EPluginClass *klass;
+	struct _plugin_doc *pdoc, *ndoc;
 
 	if (ep_types == NULL) {
 		ep_types = g_hash_table_new(g_str_hash, g_str_equal);
@@ -509,6 +528,41 @@ e_plugin_register_type(GType type)
 	pd(printf("register plugin type '%s'\n", klass->type));
 
 	g_hash_table_insert(ep_types, (void *)klass->type, klass);
+
+	/* check for pending plugins */
+	pdoc = (struct _plugin_doc *)ep_plugin_docs.head;
+	ndoc = pdoc->next;
+	while (ndoc) {
+		if (pdoc->plugins) {
+			GSList *l, *add = NULL;
+
+			for (l=pdoc->plugins;l;l=g_slist_next(l)) {
+				xmlNodePtr root = l->data;
+				char *type;
+
+				type = xmlGetProp(root, "type");
+				if (!strcmp(type, klass->type))
+					add = g_slist_append(add, l->data);
+				xmlFree(type);
+			}
+
+			for (l=add;l;l=g_slist_next(l)) {
+				xmlNodePtr root = l->data;
+				EPlugin *ep;
+
+				pdoc->plugins = g_slist_remove(pdoc->plugins, root);
+				ep = ep_load_plugin(root, pdoc);
+				if (ep)
+					pdoc->plugin_hooks = g_slist_prepend(pdoc->plugin_hooks, ep);
+				/* TODO: garbage collect plugin doc? */
+			}
+
+			g_slist_free(add);
+		}
+
+		pdoc = ndoc;
+		ndoc = ndoc->next;
+	}
 }
 
 static void
@@ -798,8 +852,10 @@ epl_construct(EPlugin *ep, xmlNodePtr root)
 
 	epl->location = e_plugin_xml_prop(root, "location");
 
-	if (epl->location == NULL)
+	if (epl->location == NULL) {
+		g_warning("Library plugin '%s' has no location", ep->id);
 		return -1;
+	}
 
 	/* If we're enabled, check for the load-on-startup property */
 	if (ep->enabled) {
@@ -999,11 +1055,11 @@ e_plugin_hook_register_type(GType type)
 
 	/* if we've already loaded a plugin that needed this hook but it didn't exist, re-load it now */
 
-	if (ep_plugins_pending
-	    && g_hash_table_lookup_extended(ep_plugins_pending, klass->id, (void **)&class, (void **)&plugins)) {
+	if (ep_plugins_pending_hooks
+	    && g_hash_table_lookup_extended(ep_plugins_pending_hooks, klass->id, (void **)&class, (void **)&plugins)) {
 		struct _plugin_doc *pdoc, *ndoc;
 
-		g_hash_table_remove(ep_plugins_pending, class);
+		g_hash_table_remove(ep_plugins_pending_hooks, class);
 		g_free(class);
 		for (l = plugins; l; l = g_slist_next(l)) {
 			EPlugin *ep = l->data;
@@ -1020,15 +1076,16 @@ e_plugin_hook_register_type(GType type)
 		ndoc = pdoc->next;
 		while (ndoc) {
 			if (pdoc->doc) {
-				int cache = FALSE;
+				int cache = pdoc->plugins != NULL;
 
-				for (l=pdoc->plugins;l;l=g_slist_next(l))
+				for (l=pdoc->plugin_hooks;!cache && l;l=g_slist_next(l))
 					cache |= (((EPlugin *)l->data)->hooks_pending != NULL);
 
 				if (!cache) {
-					pd(printf("Gargabe collecting plugin description\n"));
+					pd(printf("Gargabe collecting plugin description '%s'\n", pdoc->filename));
 					e_dlist_remove((EDListNode *)pdoc);
 					xmlFreeDoc(pdoc->doc);
+					g_free(pdoc->filename);
 					g_free(pdoc);
 				}
 			}
@@ -1127,39 +1184,100 @@ e_plugin_hook_id(xmlNodePtr root, const struct _EPluginHookTargetKey *map, const
 	return ~0;
 }
 
-#if 0
-/*
-  e-mail-format-handler
-    mime_type
-    target
-*/
-struct _EMFormatPlugin {
-	EPlugin plugin;
+/* ********************************************************************** */
+/* Plugin plugin */
 
-	char *target;
-	char *mime_type;
-	struct _EMFormatHandler *(*get_handler)(void);
-};
+static void *epth_parent_class;
+#define epth ((EPluginTypeHook *)eph)
 
-struct _EMFormatPluginClass {
-	EPluginClass plugin_class;
-};
-
-#endif
-
-#if 0
-void em_setup_plugins(void);
-
-void
-em_setup_plugins(void)
+static int
+epth_load_plugin(void *d)
 {
-	GType *e_plugin_mono_get_type(void);
+	EPluginHook *eph = d;
+	GType type;
 
-	e_plugin_register_type(e_plugin_lib_get_type());
-	e_plugin_register_type(e_plugin_mono_get_type());
+	epth->idle = 0;
 
-	e_plugin_hook_register_type(em_popup_hook_get_type());
+	type = GPOINTER_TO_UINT(e_plugin_invoke(eph->plugin, epth->get_type, eph->plugin));
+	if (type != 0)
+		e_plugin_register_type(type);
 
-	e_plugin_load_plugins(".");
+	return FALSE;
 }
-#endif
+
+static int
+epth_construct(EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
+{
+	xmlNodePtr node;
+
+	phd(printf("loading plugin hook\n"));
+
+	if (((EPluginHookClass *)epth_parent_class)->construct(eph, ep, root) == -1)
+		return -1;
+
+	node = root->children;
+	while (node) {
+		if (strcmp(node->name, "plugin-type") == 0) {
+			epth->get_type = e_plugin_xml_prop(node, "get-type");
+			/* We need to run this in an idle handler,
+			 * since at this point the parent EPlugin wont
+			 * be fully initialised ... darn */
+			if (epth->get_type)
+				epth->idle = g_idle_add(epth_load_plugin, epth);
+			else
+				g_warning("Plugin type plugin missing get-type callback");
+		}
+		node = node->next;
+	}
+
+	eph->plugin = ep;
+
+	return 0;
+}
+
+static void
+epth_finalise(GObject *o)
+{
+	EPluginHook *eph = (EPluginHook *)o;
+
+	if (epth->idle != 0)
+		g_source_remove(epth->idle);
+
+	g_free(epth->get_type);
+
+	((GObjectClass *)eph_parent_class)->finalize((GObject *)o);
+}
+
+static void
+epth_class_init(EPluginHookClass *klass)
+{
+	((GObjectClass *)klass)->finalize = epth_finalise;
+	klass->construct = epth_construct;
+
+	klass->id = "org.gnome.evolution.plugin.type:1.0";
+}
+
+/**
+ * e_plugin_type_hook_get_type:
+ * 
+ * Get the type for the plugin plugin hook.
+ *
+ * Return value: The type of the plugin type hook.
+ **/
+GType
+e_plugin_type_hook_get_type(void)
+{
+	static GType type = 0;
+	
+	if (!type) {
+		static const GTypeInfo info = {
+			sizeof(EPluginTypeHookClass), NULL, NULL, (GClassInitFunc) epth_class_init, NULL, NULL,
+			sizeof(EPluginTypeHook), 0, (GInstanceInitFunc) NULL,
+		};
+
+		epth_parent_class = g_type_class_ref(e_plugin_hook_get_type());
+		type = g_type_register_static(e_plugin_hook_get_type(), "EPluginTypeHook", &info, 0);
+	}
+	
+	return type;
+}

@@ -247,4 +247,27 @@ void e_plugin_hook_enable(EPluginHook *eph, int state);
 guint32 e_plugin_hook_mask(xmlNodePtr root, const struct _EPluginHookTargetKey *map, const char *prop);
 guint32 e_plugin_hook_id(xmlNodePtr root, const struct _EPluginHookTargetKey *map, const char *prop);
 
+/* ********************************************************************** */
+
+/* EPluginTypeHook lets a plugin register a new plugin type.
+  <hook class="org.gnome.evolution.plugin.type:1.0">
+   <plugin-type get-type="e_plugin_mono_get_type/>
+  </hook>
+*/
+typedef struct _EPluginTypeHook EPluginTypeHook;
+typedef struct _EPluginTypeHookClass EPluginTypeHookClass;
+
+struct _EPluginTypeHook {
+	EPluginHook hook;
+
+	char *get_type;
+	guint idle;
+};
+
+struct _EPluginTypeHookClass {
+	EPluginHookClass hook_class;
+};
+
+GType e_plugin_type_hook_get_type(void);
+
 #endif /* ! _E_PLUGIN_H */
