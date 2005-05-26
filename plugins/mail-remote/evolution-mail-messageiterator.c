@@ -74,12 +74,12 @@ impl_finalize (GObject *object)
 }
 
 /* Evolution.Mail.MessageIterator */
-static GNOME_Evolution_Mail_MessageInfos *
+static Evolution_Mail_MessageInfos *
 impl_next(PortableServer_Servant _servant, const CORBA_long limit, CORBA_Environment * ev)
 {
 	EvolutionMailMessageIterator *emf = (EvolutionMailMessageIterator *)bonobo_object_from_servant(_servant);
 	int i, j;
-	GNOME_Evolution_Mail_MessageInfos *msgs;
+	Evolution_Mail_MessageInfos *msgs;
 	struct _EvolutionMailMessageIteratorPrivate *p = _PRIVATE(emf);
 	CamelException ex = { 0 };
 
@@ -97,9 +97,9 @@ impl_next(PortableServer_Servant _servant, const CORBA_long limit, CORBA_Environ
 		p->index = 0;
 	}
 
-	msgs = GNOME_Evolution_Mail_MessageInfos__alloc();
+	msgs = Evolution_Mail_MessageInfos__alloc();
 	msgs->_maximum = MIN(limit, p->search->len - p->index);
-	msgs->_buffer = GNOME_Evolution_Mail_MessageInfos_allocbuf(msgs->_maximum);
+	msgs->_buffer = Evolution_Mail_MessageInfos_allocbuf(msgs->_maximum);
 	CORBA_sequence_set_release(msgs, CORBA_TRUE);
 
 	j=0;
@@ -119,17 +119,27 @@ impl_next(PortableServer_Servant _servant, const CORBA_long limit, CORBA_Environ
 	return msgs;
 }
 
+static void
+impl_mi_dispose(PortableServer_Servant _servant, CORBA_Environment *ev)
+{
+	EvolutionMailMessageIterator *emmi = (EvolutionMailMessageIterator *)bonobo_object_from_servant(_servant);
+
+	bonobo_object_set_immortal((BonoboObject *)emmi, FALSE);
+	/*bonobo_object_unref((BonoboObject *)emmi);*/
+}
+
 /* Initialization */
 
 static void
 evolution_mail_messageiterator_class_init (EvolutionMailMessageIteratorClass *klass)
 {
-	POA_GNOME_Evolution_Mail_MessageIterator__epv *epv = &klass->epv;
+	POA_Evolution_Mail_MessageIterator__epv *epv = &klass->epv;
 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
 	parent_class = g_type_class_peek_parent (klass);
 
 	epv->next = impl_next;
+	epv->dispose = impl_mi_dispose;
 
 	object_class->dispose = impl_dispose;
 	object_class->finalize = impl_finalize;
@@ -138,11 +148,12 @@ evolution_mail_messageiterator_class_init (EvolutionMailMessageIteratorClass *kl
 }
 
 static void
-evolution_mail_messageiterator_init(EvolutionMailMessageIterator *component, EvolutionMailMessageIteratorClass *klass)
+evolution_mail_messageiterator_init(EvolutionMailMessageIterator *emi, EvolutionMailMessageIteratorClass *klass)
 {
+	bonobo_object_set_immortal((BonoboObject *)emi, TRUE);
 }
 
-BONOBO_TYPE_FUNC_FULL (EvolutionMailMessageIterator, GNOME_Evolution_Mail_MessageIterator, PARENT_TYPE, evolution_mail_messageiterator)
+BONOBO_TYPE_FUNC_FULL (EvolutionMailMessageIterator, Evolution_Mail_MessageIterator, PARENT_TYPE, evolution_mail_messageiterator)
 
 EvolutionMailMessageIterator *
 evolution_mail_messageiterator_new(CamelFolder *folder, const char *expr)

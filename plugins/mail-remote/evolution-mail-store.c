@@ -67,6 +67,8 @@ struct _EvolutionMailStorePrivate {
 	guint32 folder_renamed;
 	guint32 folder_subscribed;
 	guint32 folder_unsubscribed;
+
+	EDList listeners;
 };
 
 /* GObject methods */
@@ -77,8 +79,6 @@ impl_dispose (GObject *object)
 	EvolutionMailStore *ems = (EvolutionMailStore *)object;
 	struct _EvolutionMailStorePrivate *p = _PRIVATE(object);
 
-	p = p;
-
 	/* FIXME: unref store
 	   unhook events */
 
@@ -86,6 +86,8 @@ impl_dispose (GObject *object)
 		g_object_unref(ems->account);
 		ems->account = NULL;
 	}
+
+	e_mail_listener_free(&p->listeners);
 
 	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
 }
@@ -111,25 +113,25 @@ impl_finalize (GObject *object)
 
 static CORBA_boolean
 impl_getProperties(PortableServer_Servant _servant,
-		   const GNOME_Evolution_Mail_PropertyNames* names,
-		   GNOME_Evolution_Mail_Properties **propsp,
+		   const Evolution_Mail_PropertyNames* names,
+		   Evolution_Mail_Properties **propsp,
 		   CORBA_Environment * ev)
 {
 	EvolutionMailStore *ems = (EvolutionMailStore *)bonobo_object_from_servant(_servant);
 	int i;
-	GNOME_Evolution_Mail_Properties *props;
+	Evolution_Mail_Properties *props;
 	/*struct _EvolutionMailStorePrivate *p = _PRIVATE(ems);*/
 	CORBA_boolean ok = CORBA_TRUE;
 
-	*propsp = props = GNOME_Evolution_Mail_Properties__alloc();
+	*propsp = props = Evolution_Mail_Properties__alloc();
 	props->_length = names->_length;
 	props->_maximum = props->_length;
-	props->_buffer = GNOME_Evolution_Mail_Properties_allocbuf(props->_maximum);
+	props->_buffer = Evolution_Mail_Properties_allocbuf(props->_maximum);
 	CORBA_sequence_set_release(props, CORBA_TRUE);
 
 	for (i=0;i<names->_length;i++) {
 		const CORBA_char *name = names->_buffer[i];
-		GNOME_Evolution_Mail_Property *prop = &props->_buffer[i];
+		Evolution_Mail_Property *prop = &props->_buffer[i];
 
 		printf("getting property '%s'\n", name);
 
@@ -212,31 +214,31 @@ ems_sort_folders(struct _EvolutionMailStorePrivate *p)
 }
 
 static void
-ems_set_changes(GNOME_Evolution_Mail_StoreChange *change, GNOME_Evolution_Mail_ChangeType how, GPtrArray *changed)
+ems_set_changes(Evolution_Mail_StoreChange *change, Evolution_Mail_ChangeType how, GPtrArray *changed)
 {
 	int i;
 
 	change->type = how;
 	change->folders._maximum = changed->len;
 	change->folders._length = changed->len;
-	change->folders._buffer = GNOME_Evolution_Mail_FolderInfos_allocbuf(change->folders._maximum);
+	change->folders._buffer = Evolution_Mail_FolderInfos_allocbuf(change->folders._maximum);
 	CORBA_sequence_set_release(&change->folders, TRUE);
 
 	for (i=0;i<changed->len;i++)
 		e_mail_folderinfo_set_folder(&change->folders._buffer[i], changed->pdata[i]);
 }
 
-static GNOME_Evolution_Mail_StoreChanges *
-ems_create_changes(EvolutionMailStore *ems, GNOME_Evolution_Mail_ChangeType how, GPtrArray *changed)
+static Evolution_Mail_StoreChanges *
+ems_create_changes(EvolutionMailStore *ems, Evolution_Mail_ChangeType how, GPtrArray *changed)
 {
-	GNOME_Evolution_Mail_StoreChanges *changes;
+	Evolution_Mail_StoreChanges *changes;
 
 	/* NB: we only ever create 1 changetype at the moment */
 
-	changes = GNOME_Evolution_Mail_StoreChanges__alloc();
+	changes = Evolution_Mail_StoreChanges__alloc();
 	changes->_maximum = 1;
 	changes->_length = 1;
-	changes->_buffer = GNOME_Evolution_Mail_StoreChanges_allocbuf(1);
+	changes->_buffer = Evolution_Mail_StoreChanges_allocbuf(1);
 	CORBA_sequence_set_release(changes, TRUE);
 
 	ems_set_changes(&changes->_buffer[0], how, changed);
@@ -260,19 +262,17 @@ ems_folder_subscribed(CamelObject *o, void *d, void *data)
 {
 	EvolutionMailStore *ems = data;
 	CamelFolderInfo *fi = d;
-	GPtrArray *added = NULL;
+	GPtrArray *added;
 	int i;
 
-	if (evolution_mail_session_listening(ems->session) & GNOME_Evolution_Mail_Session_STORE_ADDED)
-		added = g_ptr_array_new();
-
+	added = g_ptr_array_new();
 	ems_add_folders(ems, fi, added);
 
 	if (added) {
 		if (added->len) {
-			GNOME_Evolution_Mail_StoreChanges *changes = ems_create_changes(ems, GNOME_Evolution_Mail_ADDED, added);
+			Evolution_Mail_StoreChanges *changes = ems_create_changes(ems, Evolution_Mail_ADDED, added);
 
-			evolution_mail_session_store_changed(ems->session, bonobo_object_corba_objref((BonoboObject *)ems), changes);
+			evolution_mail_store_changed(ems, changes);
 			CORBA_free(changes);
 
 			for (i=0;i<added->len;i++)
@@ -290,16 +290,14 @@ ems_folder_unsubscribed(CamelObject *o, void *d, void *data)
 	GPtrArray *removed = NULL;
 	int i;
 
-	if (evolution_mail_session_listening(ems->session) & GNOME_Evolution_Mail_Session_STORE_REMOVED)
-		removed = g_ptr_array_new();
-
+	removed = g_ptr_array_new();
 	ems_remove_folders(ems, fi, removed);
 
 	if (removed) {
 		if (removed->len) {
-			GNOME_Evolution_Mail_StoreChanges *changes = ems_create_changes(ems, GNOME_Evolution_Mail_REMOVED, removed);
+			Evolution_Mail_StoreChanges *changes = ems_create_changes(ems, Evolution_Mail_REMOVED, removed);
 
-			evolution_mail_session_store_changed(ems->session, bonobo_object_corba_objref((BonoboObject *)ems), changes);
+			evolution_mail_store_changed(ems, changes);
 			CORBA_free(changes);
 
 			for (i=0;i<removed->len;i++)
@@ -356,12 +354,9 @@ ems_folder_renamed(CamelObject *o, void *d, void *data)
 	struct _EvolutionMailStorePrivate *p = _PRIVATE(ems);
 	CamelRenameInfo *reninfo = d;
 	int i, oldlen, newlen;
-	GPtrArray *renamed = NULL, *folders = g_ptr_array_new();
+	GPtrArray *renamed = g_ptr_array_new(), *folders = g_ptr_array_new();
 	CamelFolderInfo *top;
 	GString *name = g_string_new("");
-
-	if (evolution_mail_session_listening(ems->session) & GNOME_Evolution_Mail_Session_STORE_CHANGED)
-		renamed = g_ptr_array_new();
 
 	/* flatten/sort folders to make sure they're in the right order */
 	get_folders(reninfo->new, folders);
@@ -397,9 +392,9 @@ ems_folder_renamed(CamelObject *o, void *d, void *data)
 
 	if (renamed) {
 		if (renamed->len) {
-			GNOME_Evolution_Mail_StoreChanges *changes = ems_create_changes(ems, GNOME_Evolution_Mail_CHANGED, renamed);
+			Evolution_Mail_StoreChanges *changes = ems_create_changes(ems, Evolution_Mail_CHANGED, renamed);
 
-			evolution_mail_session_store_changed(ems->session, bonobo_object_corba_objref((BonoboObject *)ems), changes);
+			evolution_mail_store_changed(ems, changes);
 			CORBA_free(changes);
 
 			for (i=0;i<renamed->len;i++)
@@ -409,27 +404,23 @@ ems_folder_renamed(CamelObject *o, void *d, void *data)
 	}
 }
 
-static GNOME_Evolution_Mail_FolderInfos *
+static Evolution_Mail_FolderInfos *
 impl_getFolders(PortableServer_Servant _servant,
 		const CORBA_char * pattern,
+		const Evolution_Mail_FolderListener listener,
 		CORBA_Environment * ev)
 {
 	EvolutionMailStore *ems = (EvolutionMailStore *)bonobo_object_from_servant(_servant);
 	struct _EvolutionMailStorePrivate *p = _PRIVATE(ems);
 	CamelFolderInfo *fi;
 	CamelException ex = { 0 };
-	GNOME_Evolution_Mail_FolderInfos *folders = NULL;
+	Evolution_Mail_FolderInfos *folders = NULL;
 	int i;
 	CamelStore *store;
 
 	store = evolution_mail_store_get_store(ems);
 	if (store == NULL) {
-		GNOME_Evolution_Mail_FAILED *x;
-
-		x = GNOME_Evolution_Mail_FAILED__alloc();
-		x->why = CORBA_string_dup("Unable to open store");
-		CORBA_exception_set(ev, CORBA_USER_EXCEPTION, ex_GNOME_Evolution_Mail_FAILED, x);
-
+		CORBA_exception_set(ev, CORBA_USER_EXCEPTION, ex_Evolution_Mail_FAILED, NULL);
 		return CORBA_OBJECT_NIL;
 	}
 
@@ -443,26 +434,23 @@ impl_getFolders(PortableServer_Servant _servant,
 			camel_store_free_folder_info(store, fi);
 			ems_sort_folders(p);
 		} else {
-			GNOME_Evolution_Mail_FAILED *x;
-
-			x = GNOME_Evolution_Mail_FAILED__alloc();
-			x->why = CORBA_string_dup("Unable to list folders");
-			CORBA_exception_set(ev, CORBA_USER_EXCEPTION, ex_GNOME_Evolution_Mail_FAILED, x);
+			CORBA_exception_set(ev, CORBA_USER_EXCEPTION, ex_Evolution_Mail_FAILED, NULL);
 
 			camel_object_unref(store);
 			return CORBA_OBJECT_NIL;
 		}
 	}
 
-	folders = GNOME_Evolution_Mail_FolderInfos__alloc();
+	folders = Evolution_Mail_FolderInfos__alloc();
 	folders->_length = p->folders_array->len;
 	folders->_maximum = folders->_length;
-	folders->_buffer = GNOME_Evolution_Mail_FolderInfos_allocbuf(folders->_maximum);
+	folders->_buffer = Evolution_Mail_FolderInfos_allocbuf(folders->_maximum);
 	CORBA_sequence_set_release(folders, CORBA_TRUE);
 
 	for (i=0;i<p->folders_array->len;i++) {
 		EvolutionMailFolder *emf = p->folders_array->pdata[i];
 
+		evolution_mail_folder_addlistener(emf, listener);
 		e_mail_folderinfo_set_folder(&folders->_buffer[i], emf);
 	}
 
@@ -481,37 +469,25 @@ impl_sendMessage(PortableServer_Servant _servant,
 	CamelMimeMessage *msg;
 	CamelInternetAddress *from;
 	CamelMessageInfo *info;
-	CamelStream *mem;
 
 	if (ems->account == NULL
 	    || ems->account->transport == NULL
 	    || ems->account->transport->url == NULL) {
 #if 0
-		GNOME_Evolution_Mail_NOT_SUPPORTED *x;
+		Evolution_Mail_NOT_SUPPORTED *x;
 
-		x = GNOME_Evolution_Mail_NOT_SUPPORTED__alloc();
+		x = Evolution_Mail_NOT_SUPPORTED__alloc();
 		x->why = CORBA_string_dup(ex.desc);
 #endif
-		CORBA_exception_set(ev, CORBA_USER_EXCEPTION, ex_GNOME_Evolution_Mail_NOT_SUPPORTED, NULL);
+		CORBA_exception_set(ev, CORBA_USER_EXCEPTION, ex_Evolution_Mail_NOT_SUPPORTED, NULL);
 		return;
 	}
 
-	mem = camel_stream_mem_new();
-	if (e_stream_bonobo_to_camel(message, mem) == -1) {
-		CORBA_exception_set(ev, CORBA_USER_EXCEPTION, ex_GNOME_Evolution_Mail_FAILED, NULL);
+	msg = e_stream_bonobo_to_message(message);
+	if (msg == NULL) {
+		CORBA_exception_set(ev, CORBA_USER_EXCEPTION, ex_Evolution_Mail_FAILED, NULL);
 		return;
 	}
-
-	printf("Sending message '%.*s'\n", ((CamelStreamMem *)mem)->buffer->len, ((CamelStreamMem *)mem)->buffer->data);
-
-	msg = camel_mime_message_new();
-	if (camel_data_wrapper_construct_from_stream((CamelDataWrapper *)msg, mem) == -1) {
-		camel_object_unref(mem);
-		camel_object_unref(msg);
-		CORBA_exception_set(ev, CORBA_USER_EXCEPTION, ex_GNOME_Evolution_Mail_FAILED, NULL);
-		return;
-	}
-	camel_object_unref(mem);
 
 	from = camel_internet_address_new();
 	camel_internet_address_add(from, ems->account->id->name, ems->account->id->address);
@@ -530,7 +506,7 @@ impl_sendMessage(PortableServer_Servant _servant,
 	camel_message_info_free(info);
 
 	if (camel_exception_is_set(&ex)) {
-		CORBA_exception_set(ev, CORBA_USER_EXCEPTION, ex_GNOME_Evolution_Mail_FAILED, NULL);
+		CORBA_exception_set(ev, CORBA_USER_EXCEPTION, ex_Evolution_Mail_FAILED, NULL);
 		camel_exception_clear(&ex);
 	} else {
 		/*mail_send();*/
@@ -544,7 +520,7 @@ impl_sendMessage(PortableServer_Servant _servant,
 static void
 evolution_mail_store_class_init (EvolutionMailStoreClass *klass)
 {
-	POA_GNOME_Evolution_Mail_Store__epv *epv = &klass->epv;
+	POA_Evolution_Mail_Store__epv *epv = &klass->epv;
 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
 	parent_class = g_type_class_peek_parent (klass);
@@ -560,11 +536,15 @@ evolution_mail_store_class_init (EvolutionMailStoreClass *klass)
 }
 
 static void
-evolution_mail_store_init(EvolutionMailStore *component, EvolutionMailStoreClass *klass)
+evolution_mail_store_init(EvolutionMailStore *ems, EvolutionMailStoreClass *klass)
 {
+	struct _EvolutionMailStorePrivate *p = _PRIVATE(ems);
+
+	bonobo_object_set_immortal((BonoboObject *)ems, TRUE);
+	e_dlist_init(&p->listeners);
 }
 
-BONOBO_TYPE_FUNC_FULL (EvolutionMailStore, GNOME_Evolution_Mail_Store, PARENT_TYPE, evolution_mail_store)
+BONOBO_TYPE_FUNC_FULL (EvolutionMailStore, Evolution_Mail_Store, PARENT_TYPE, evolution_mail_store)
 
 EvolutionMailStore *
 evolution_mail_store_new(struct _EvolutionMailSession *s, struct _EAccount *ea)
@@ -641,4 +621,24 @@ CamelStore *evolution_mail_store_get_store(EvolutionMailStore *ems)
 
 	camel_object_ref(p->store);
 	return p->store;
+}
+
+void
+evolution_mail_store_addlistener(EvolutionMailStore *ems, Evolution_Mail_StoreListener listener)
+{
+	struct _EvolutionMailStorePrivate *p = _PRIVATE(ems);
+
+	/* FIXME: locking */
+	e_mail_listener_add(&p->listeners, listener);
+}
+
+void
+evolution_mail_store_changed(EvolutionMailStore *ems, Evolution_Mail_StoreChanges *changes)
+{
+	struct _EvolutionMailStorePrivate *p = _PRIVATE(ems);
+
+	if (!e_mail_listener_emit(&p->listeners, (EMailListenerChanged)Evolution_Mail_StoreListener_changed,
+				  bonobo_object_corba_objref((BonoboObject *)ems), changes)) {
+		printf("No more listeners for store, could dispose store object now\n");
+	}
 }

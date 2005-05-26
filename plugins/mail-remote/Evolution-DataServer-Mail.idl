@@ -10,7 +10,6 @@
 
 #include <Bonobo.idl>
 
-module GNOME {
 module Evolution {
 module Mail {
 	exception NOT_SUPPORTED {
@@ -18,7 +17,7 @@ module Mail {
 	};
 
 	exception FAILED {
-		string why;
+//		string why;
 	};
 
 	interface Folder;
@@ -113,43 +112,43 @@ module Mail {
 	};
 	typedef sequence <FolderChange> FolderChanges;
 
-	interface Listener : Bonobo::Unknown {
-		oneway void sessionChanged(in Session session, in SessionChanges changes);
-		// maybe folder/store should be folderinfo/storeinfo?
-		oneway void storeChanged(in Session session, in Store store, in StoreChanges changes);
-		oneway void folderChanged(in Session session, in Store store, in Folder folder, in FolderChanges changes);
+	/* ********************************************************************** */
+	/* listeners */
 
-		// session is closed/exited?
-		//oneway void closed();
+	interface SessionListener : Bonobo::Unknown {
+		oneway void changed(in Session session, in SessionChanges changes);
+
+		oneway void shutdown(in Session session);
+	};
+
+	interface StoreListener : Bonobo::Unknown {
+		oneway void changed(in Store store, in StoreChanges changes);
+	};
+
+	interface FolderListener : Bonobo::Unknown {
+		oneway void changed(in Folder folder, in FolderChanges changes);
 	};
 
 	/* ********************************************************************** */
 
-	interface Session : Bonobo::Unknown {
-		// Flags to pass to addListener
-		const long SESSION_ADDED = 1 << 0;
-		const long SESSION_CHANGED = 1 << 1;
-		const long SESSION_REMOVED = 1 << 2;
-		const long STORE_ADDED = 1 << 3;
-		const long STORE_CHANGED = 1 << 4;
-		const long STORE_REMOVED = 1 << 5;
-		const long FOLDER_ADDED = 1 << 6;
-		const long FOLDER_CHANGED = 1 << 7;
-		const long FOLDER_REMOVED = 1 << 8;
+// If this is done, then Session shouldn't have add/removeListener anymore
+//	interface Factory : Bonobo::Unknown {
+//		Session getSession(in string base, in SessionListener listener);
+//	};
 
+	interface Session : Bonobo::Unknown {
 		boolean getProperties(in PropertyNames names, out Properties props);
 
-		StoreInfos getStores(in string pattern);
+		StoreInfos getStores(in string pattern, in StoreListener listener);
 
-		/* flags defines what to listen to */
-		void addListener(in Listener listener, in long flags);
-		void removeListener(in Listener listener);
+		void addListener(in SessionListener listener);
+		void removeListener(in SessionListener listener);
 	};
 
 	interface Store : Bonobo::Unknown {
 		boolean getProperties(in PropertyNames names, out Properties props);
 
-		FolderInfos getFolders(in string pattern)
+		FolderInfos getFolders(in string pattern, in FolderListener listener)
 			raises (NOT_SUPPORTED, FAILED);
 
 		void sendMessage(in Bonobo::Stream msg)
@@ -157,20 +156,27 @@ module Mail {
 	};
 
 	interface MessageIterator : Bonobo::Unknown {
-		MessageInfos next(in long limit);
+		MessageInfos next(in long limit)
+			raises (FAILED);
+
+		void dispose();
 	};
 
 	interface Folder : Bonobo::Unknown {
 		boolean getProperties(in PropertyNames names, out Properties props);
 
-		MessageIterator getMessages(in string pattern);
+		MessageIterator getMessages(in string pattern)
+			raises (NOT_SUPPORTED, FAILED);
 
-		void changeMessages(in MessageInfoSets infos);
+		void changeMessages(in MessageInfoSets infos)
+			raises (NOT_SUPPORTED);
 
-//		Bonobo::Stream getMessage(in string uid);
-//		void appendMessage(in MessageInfoSet info, in Bonobo::Stream msg);
+		Bonobo::Stream getMessage(in string uid)
+			raises (NOT_SUPPORTED, FAILED);
+
+		void appendMessage(in MessageInfoSet info, in Bonobo::Stream msg)
+			raises (NOT_SUPPORTED, FAILED);
 	};
-};
 };
 };
 

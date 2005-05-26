@@ -48,12 +48,15 @@ struct _EvolutionMailStore {
 struct _EvolutionMailStoreClass {
 	BonoboObjectClass parent_class;
 
-	POA_GNOME_Evolution_Mail_Store__epv epv;
+	POA_Evolution_Mail_Store__epv epv;
 };
 
 GType           evolution_mail_store_get_type(void);
 
 EvolutionMailStore *evolution_mail_store_new(struct _EvolutionMailSession *s, struct _EAccount *ea);
+
+void evolution_mail_store_addlistener(EvolutionMailStore *store, Evolution_Mail_StoreListener listener);
+void evolution_mail_store_changed(EvolutionMailStore *ems, Evolution_Mail_StoreChanges *changes);
 
 const char *evolution_mail_store_get_name(EvolutionMailStore *);
 const char *evolution_mail_store_get_uid(EvolutionMailStore *);

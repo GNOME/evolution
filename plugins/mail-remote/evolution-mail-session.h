@@ -44,15 +44,11 @@ struct _EvolutionMailSession {
 struct _EvolutionMailSessionClass {
 	BonoboObjectClass parent_class;
 
-	POA_GNOME_Evolution_Mail_Session__epv epv;
+	POA_Evolution_Mail_Session__epv epv;
 };
 
 GType           evolution_mail_session_get_type(void);
 
-CORBA_long evolution_mail_session_listening(EvolutionMailSession *ems);
-
-void evolution_mail_session_session_changed(EvolutionMailSession *ems, GNOME_Evolution_Mail_SessionChanges *changes);
-void evolution_mail_session_store_changed(EvolutionMailSession *ems, GNOME_Evolution_Mail_Store store, GNOME_Evolution_Mail_StoreChanges *changes);
-void evolution_mail_session_folder_changed(EvolutionMailSession *ems, GNOME_Evolution_Mail_Store store, GNOME_Evolution_Mail_Folder folder, GNOME_Evolution_Mail_FolderChanges *changes);
+void evolution_mail_session_changed(EvolutionMailSession *ems, Evolution_Mail_SessionChanges *changes);
 
 #endif /* _EVOLUTION_MAIL_SESSION_H_ */

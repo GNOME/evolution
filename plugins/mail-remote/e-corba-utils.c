@@ -5,9 +5,24 @@
 #include "evolution-mail-folder.h"
 
 #include <camel/camel-folder-summary.h>
+#include <camel/camel-stream-mem.h>
+#include <camel/camel-mime-message.h>
+
+#include <bonobo/bonobo-stream-memory.h>
+
+#include <libedataserver/e-msgport.h>
+
+CORBA_char *
+e_corba_strdup(const char *v)
+{
+	if (v)
+		return CORBA_string_dup(v);
+	else
+		return CORBA_string_dup("");
+}
 
 void
-e_mail_property_set_string(GNOME_Evolution_Mail_Property *prop, const char *name, const char *val)
+e_mail_property_set_string(Evolution_Mail_Property *prop, const char *name, const char *val)
 {
 	prop->value._release = CORBA_TRUE;
 	prop->value._type = TC_CORBA_string;
@@ -17,7 +32,7 @@ e_mail_property_set_string(GNOME_Evolution_Mail_Property *prop, const char *name
 }
 
 void
-e_mail_property_set_null(GNOME_Evolution_Mail_Property *prop, const char *name)
+e_mail_property_set_null(Evolution_Mail_Property *prop, const char *name)
 {
 	prop->value._release = CORBA_TRUE;
 	prop->value._type = TC_null;
@@ -25,7 +40,7 @@ e_mail_property_set_null(GNOME_Evolution_Mail_Property *prop, const char *name)
 }
 
 void
-e_mail_storeinfo_set_store(GNOME_Evolution_Mail_StoreInfo *si, EvolutionMailStore *store)
+e_mail_storeinfo_set_store(Evolution_Mail_StoreInfo *si, EvolutionMailStore *store)
 {
 	si->name = CORBA_string_dup(evolution_mail_store_get_name(store));
 	si->uid = CORBA_string_dup(evolution_mail_store_get_uid(store));
@@ -33,23 +48,23 @@ e_mail_storeinfo_set_store(GNOME_Evolution_Mail_StoreInfo *si, EvolutionMailStor
 }
 
 void
-e_mail_messageinfo_set_message(GNOME_Evolution_Mail_MessageInfo *mi, CamelMessageInfo *info)
+e_mail_messageinfo_set_message(Evolution_Mail_MessageInfo *mi, CamelMessageInfo *info)
 {
 	const CamelTag *tag;
 	const CamelFlag *flag;
 	int i;
 
 	mi->uid = CORBA_string_dup(camel_message_info_uid(info));
-	mi->subject = CORBA_string_dup(camel_message_info_subject(info));
-	mi->to = CORBA_string_dup(camel_message_info_to(info));
-	mi->from = CORBA_string_dup(camel_message_info_from(info));
+	mi->subject = e_corba_strdup(camel_message_info_subject(info));
+	mi->to = e_corba_strdup(camel_message_info_to(info));
+	mi->from = e_corba_strdup(camel_message_info_from(info));
 	mi->flags = camel_message_info_flags(info);
 
 	flag = camel_message_info_user_flags(info);
 	mi->userFlags._maximum = camel_flag_list_size((CamelFlag **)&flag);
 	mi->userFlags._length = mi->userFlags._maximum;
 	if (mi->userFlags._maximum) {
-		mi->userFlags._buffer = GNOME_Evolution_Mail_UserFlags_allocbuf(mi->userFlags._maximum);
+		mi->userFlags._buffer = Evolution_Mail_UserFlags_allocbuf(mi->userFlags._maximum);
 		CORBA_sequence_set_release(&mi->userFlags, CORBA_TRUE);
 
 		for (i=0;flag;flag = flag->next,i++) {
@@ -62,7 +77,7 @@ e_mail_messageinfo_set_message(GNOME_Evolution_Mail_MessageInfo *mi, CamelMessag
 	mi->userTags._maximum = camel_tag_list_size((CamelTag **)&tag);
 	mi->userTags._length = mi->userTags._maximum;
 	if (mi->userTags._maximum) {
-		mi->userTags._buffer = GNOME_Evolution_Mail_UserTags_allocbuf(mi->userTags._maximum);
+		mi->userTags._buffer = Evolution_Mail_UserTags_allocbuf(mi->userTags._maximum);
 		CORBA_sequence_set_release(&mi->userFlags, CORBA_TRUE);
 
 		for (i=0;tag;tag = tag->next,i++) {
@@ -74,8 +89,24 @@ e_mail_messageinfo_set_message(GNOME_Evolution_Mail_MessageInfo *mi, CamelMessag
 	}
 }
 
+CamelMessageInfo *
+e_mail_messageinfoset_to_info(const Evolution_Mail_MessageInfoSet *mi)
+{
+	CamelMessageInfo *info;
+	int i;
+
+	info = camel_message_info_new(NULL);
+	camel_message_info_set_flags(info, mi->flagSet, mi->flagMask);
+	for (i=0;i<mi->userFlagSet._length;i++)
+		camel_message_info_set_user_flag(info, mi->userFlagSet._buffer[i], TRUE);
+	for (i=0;i<mi->userTags._length;i++)
+		camel_message_info_set_user_tag(info, mi->userTags._buffer[i].name, mi->userTags._buffer[i].value);
+
+	return info;
+}
+
 void
-e_mail_folderinfo_set_folder(GNOME_Evolution_Mail_FolderInfo *fi, EvolutionMailFolder *emf)
+e_mail_folderinfo_set_folder(Evolution_Mail_FolderInfo *fi, EvolutionMailFolder *emf)
 {
 	fi->name = CORBA_string_dup(emf->name);
 	fi->full_name = CORBA_string_dup(emf->full_name);
@@ -109,5 +140,142 @@ e_stream_bonobo_to_camel(Bonobo_Stream in, CamelStream *out)
 	camel_stream_reset(out);
 
 	return 0;
+}
+
+CamelMimeMessage *
+e_stream_bonobo_to_message(Bonobo_Stream in)
+{
+	CamelStream *mem;
+	CamelMimeMessage *msg;
+
+	mem = camel_stream_mem_new();
+	if (e_stream_bonobo_to_camel(in, mem) == -1)
+		return NULL;
+
+	msg = camel_mime_message_new();
+	if (camel_data_wrapper_construct_from_stream((CamelDataWrapper *)msg, mem) == -1) {
+		camel_object_unref(msg);
+		msg = NULL;
+	}
+	camel_object_unref(mem);
+
+	return msg;
+}
+
+Bonobo_Stream
+e_stream_message_to_bonobo(CamelMimeMessage *msg)
+{
+	CamelStreamMem *mem;
+	BonoboObject *bmem;
+
+	/* didn't say it was going to be efficient ... */
+
+	mem = (CamelStreamMem *)camel_stream_mem_new();
+	camel_data_wrapper_write_to_stream((CamelDataWrapper *)msg, (CamelStream *)mem);
+	bmem = bonobo_stream_mem_create(mem->buffer->data, mem->buffer->len, TRUE, FALSE);
+	camel_object_unref(mem);
+
+	return bonobo_object_corba_objref((BonoboObject *)bmem);
+}
+
+struct _e_mail_listener {
+	struct _e_mail_listener *next;
+	struct _e_mail_listener *prev;
+
+	CORBA_Object listener;
+};
+
+static struct _e_mail_listener *
+eml_find(struct _EDList *list, CORBA_Object listener)
+{
+	struct _e_mail_listener *l, *n;
+
+	l = (struct _e_mail_listener *)list->head;
+	n = l->next;
+	while (n) {
+		if (l->listener == listener)
+			return l;
+		l = n;
+		n = n->next;
+	}
+
+	return NULL;
+}
+
+static void
+eml_remove(struct _e_mail_listener *l)
+{
+	CORBA_Environment ev = { 0 };
+
+	e_dlist_remove((EDListNode *)l);
+	CORBA_Object_release(l->listener, &ev);
+	g_free(l);
+
+	if (ev._major != CORBA_NO_EXCEPTION)
+		CORBA_exception_free(&ev);
+}
+
+void e_mail_listener_add(struct _EDList *list, CORBA_Object listener)
+{
+	struct _e_mail_listener *l;
+	CORBA_Environment ev = { 0 };
+
+	if (eml_find(list, listener) != NULL)
+		return;
+
+	listener = CORBA_Object_duplicate(listener, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		CORBA_exception_free(&ev);
+	} else {
+		l = g_malloc(sizeof(*l));
+		l->listener = listener;
+		e_dlist_addtail(list, (EDListNode *)l);
+	}
+}
+
+gboolean e_mail_listener_remove(struct _EDList *list, CORBA_Object listener)
+{
+	struct _e_mail_listener *l;
+
+	l = eml_find(list, listener);
+	if (l)
+		eml_remove(l);
+
+	return !e_dlist_empty(list);
+}
+
+gboolean e_mail_listener_emit(struct _EDList *list, EMailListenerChanged emit, CORBA_Object source, void *changes)
+{
+	struct _e_mail_listener *l, *n;
+	CORBA_Environment ev = { 0 };
+
+	l = (struct _e_mail_listener *)list->head;
+	n = l->next;
+	while (n) {
+		emit(l->listener, source, changes, &ev);
+		if (ev._major != CORBA_NO_EXCEPTION) {
+			printf("emit changed failed '%s', removing listener\n", ev._id);
+			CORBA_exception_free(&ev);
+			eml_remove(l);
+		}
+		l = n;
+		n = n->next;
+	}
+
+	return !e_dlist_empty(list);
+}
+
+void e_mail_listener_free(struct _EDList *list)
+{
+	struct _e_mail_listener *l, *n;
+
+	l = (struct _e_mail_listener *)list->head;
+	n = l->next;
+	while (n) {
+		eml_remove(l);
+
+		l = n;
+		n = n->next;
+	}
 }
 

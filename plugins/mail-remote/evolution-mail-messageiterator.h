@@ -37,7 +37,7 @@ struct _EvolutionMailMessageIterator {
 struct _EvolutionMailMessageIteratorClass {
 	BonoboObjectClass parent_class;
 
-	POA_GNOME_Evolution_Mail_MessageIterator__epv epv;
+	POA_Evolution_Mail_MessageIterator__epv epv;
 };
 
 GType           evolution_mail_messageiterator_get_type(void);

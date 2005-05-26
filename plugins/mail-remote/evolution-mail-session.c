@@ -44,14 +44,6 @@ static BonoboObjectClass *parent_class = NULL;
 
 #define _PRIVATE(o) (g_type_instance_get_private ((GTypeInstance *)o, evolution_mail_session_get_type()))
 
-struct _listener {
-	struct _listener *next;
-	struct _listener *prev;
-
-	CORBA_long flags;
-	GNOME_Evolution_Mail_Listener listener;
-};
-
 struct _EvolutionMailSessionPrivate {
 	EAccountList *accounts;
 	GList *stores;
@@ -105,8 +97,8 @@ impl_finalize (GObject *object)
 
 static CORBA_boolean
 impl_getProperties(PortableServer_Servant _servant,
-		   const GNOME_Evolution_Mail_PropertyNames* names,
-		   GNOME_Evolution_Mail_Properties **props,
+		   const Evolution_Mail_PropertyNames* names,
+		   Evolution_Mail_Properties **props,
 		   CORBA_Environment * ev)
 {
 	EvolutionMailSession *ems = (EvolutionMailSession *)bonobo_object_from_servant(_servant);
@@ -116,18 +108,19 @@ impl_getProperties(PortableServer_Servant _servant,
 	return CORBA_TRUE;
 }
 
-static GNOME_Evolution_Mail_StoreInfos *
+static Evolution_Mail_StoreInfos *
 impl_getStores(PortableServer_Servant _servant,
 	       const CORBA_char * pattern,
+	       const Evolution_Mail_StoreListener listener,
 	       CORBA_Environment * ev)
 {
 	EvolutionMailSession *ems = (EvolutionMailSession *)bonobo_object_from_servant(_servant);
 	struct _EvolutionMailSessionPrivate *p = _PRIVATE(ems);
-	GNOME_Evolution_Mail_StoreInfos *seq;
+	Evolution_Mail_StoreInfos *seq;
 	int i, len;
 	GList *l;
 
-	seq = GNOME_Evolution_Mail_StoreInfos__alloc();
+	seq = Evolution_Mail_StoreInfos__alloc();
 
 	/* FIXME: pattern? */
 
@@ -135,12 +128,14 @@ impl_getStores(PortableServer_Servant _servant,
 
 	seq->_length = len;
 	seq->_maximum = len;
-	seq->_buffer = GNOME_Evolution_Mail_StoreInfos_allocbuf(seq->_length);
+	seq->_buffer = Evolution_Mail_StoreInfos_allocbuf(seq->_length);
 	CORBA_sequence_set_release(seq, TRUE);
 
 	l = p->stores;
 	for (i=0;l && i<len;i++) {
 		EvolutionMailStore *store = l->data;
+
+		evolution_mail_store_addlistener(store, listener);
 
 		e_mail_storeinfo_set_store(&seq->_buffer[i], store);
 		l = g_list_next(l);
@@ -151,54 +146,27 @@ impl_getStores(PortableServer_Servant _servant,
 
 static void
 impl_addListener(PortableServer_Servant _servant,
-		 const GNOME_Evolution_Mail_Listener listener,
-		 CORBA_long flags,
+		 const Evolution_Mail_SessionListener listener,
 		 CORBA_Environment * ev)
 {
 	EvolutionMailSession *ems = (EvolutionMailSession *)bonobo_object_from_servant(_servant);
 	struct _EvolutionMailSessionPrivate *p = _PRIVATE(ems);
-	struct _listener *l;
 
-	printf("Adding listener to session %p\n", listener);
-	l = g_malloc0(sizeof(*l));
-	l->listener = CORBA_Object_duplicate(listener, ev);
-	l->flags = flags?flags:~0;
-
-	e_dlist_addtail(&p->listeners, (EDListNode *)l);
-}
-
-static void
-remove_listener(struct _listener *l)
-{
-	CORBA_Environment ev = { 0 };
-
-	CORBA_Object_release(l->listener, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION)
-		CORBA_exception_free(&ev);
-	e_dlist_remove((EDListNode *)l);
-	g_free(l);
+	e_mail_listener_add(&p->listeners, listener);
 }
 
 static void
 impl_removeListener(PortableServer_Servant _servant,
-		    const GNOME_Evolution_Mail_Listener listener,
+		    const Evolution_Mail_SessionListener listener,
 		    CORBA_Environment * ev)
 {
 	EvolutionMailSession *ems = (EvolutionMailSession *)bonobo_object_from_servant(_servant);
 	struct _EvolutionMailSessionPrivate *p = _PRIVATE(ems);
-	struct _listener *l;
 
 	printf("Removing listener from session\n");
 
-	l = (struct _listener *)p->listeners.head;
-	while (l->next) {
-		/* FIXME: need to use proper comparison function & free stuff, this works with orbit though */
-		if (l->listener == listener) {
-			remove_listener(l);
-			break;
-		}
-		
-		l = l->next;
+	if (!e_mail_listener_remove(&p->listeners, listener)) {
+		printf("no more listeners, could shut down session?\n");
 	}
 }
 
@@ -207,7 +175,7 @@ impl_removeListener(PortableServer_Servant _servant,
 static void
 evolution_mail_session_class_init (EvolutionMailSessionClass *klass)
 {
-	POA_GNOME_Evolution_Mail_Session__epv *epv = &klass->epv;
+	POA_Evolution_Mail_Session__epv *epv = &klass->epv;
 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
 	parent_class = g_type_class_peek_parent (klass);
@@ -225,48 +193,32 @@ evolution_mail_session_class_init (EvolutionMailSessionClass *klass)
 }
 
 static void
-ems_set_changes(GNOME_Evolution_Mail_SessionChange *change, GNOME_Evolution_Mail_ChangeType how, EvolutionMailStore *store)
+ems_set_changes(Evolution_Mail_SessionChange *change, Evolution_Mail_ChangeType how, EvolutionMailStore *store)
 {
 	change->type = how;
 	change->stores._length = 1;
 	change->stores._maximum = 1;
-	change->stores._buffer = GNOME_Evolution_Mail_StoreInfos_allocbuf(change->stores._maximum);
+	change->stores._buffer = Evolution_Mail_StoreInfos_allocbuf(change->stores._maximum);
 	CORBA_sequence_set_release(&change->stores, TRUE);
 
 	e_mail_storeinfo_set_store(&change->stores._buffer[0], store);
 }
 
 static void
-ems_listener_session_event(EvolutionMailSession *ems, GNOME_Evolution_Mail_ChangeType how, EvolutionMailStore *store)
+ems_listener_session_event(EvolutionMailSession *ems, Evolution_Mail_ChangeType how, EvolutionMailStore *store)
 {
-	GNOME_Evolution_Mail_SessionChanges *changes;
-	CORBA_long flags = 0;
-
-	switch (how) {
-	case GNOME_Evolution_Mail_ADDED:
-		flags = GNOME_Evolution_Mail_Session_SESSION_ADDED;
-		break;
-	case GNOME_Evolution_Mail_CHANGED:
-		flags = GNOME_Evolution_Mail_Session_SESSION_CHANGED;
-		break;
-	case GNOME_Evolution_Mail_REMOVED:
-		flags = GNOME_Evolution_Mail_Session_SESSION_REMOVED;
-		break;
-	}
-
-	if ((evolution_mail_session_listening(ems) & flags) == 0)
-		return;
+	Evolution_Mail_SessionChanges *changes;
 
 	/* NB: we only ever create 1 changetype at the moment */
 
-	changes = GNOME_Evolution_Mail_SessionChanges__alloc();
+	changes = Evolution_Mail_SessionChanges__alloc();
 	changes->_maximum = 1;
 	changes->_length = 1;
-	changes->_buffer = GNOME_Evolution_Mail_SessionChanges_allocbuf(1);
+	changes->_buffer = Evolution_Mail_SessionChanges_allocbuf(1);
 	CORBA_sequence_set_release(changes, TRUE);
 	ems_set_changes(&changes->_buffer[0], how, store);
 
-	evolution_mail_session_session_changed(ems, changes);
+	evolution_mail_session_changed(ems, changes);
 
 	CORBA_free(changes);
 }
@@ -282,7 +234,7 @@ ems_account_added(EAccountList *eal, EAccount *ea, EvolutionMailSession *ems)
 		printf("Account added %s\n", ea->uid);
 		store = evolution_mail_store_new(ems, ea);
 		p->stores = g_list_append(p->stores, store);
-		ems_listener_session_event(ems, GNOME_Evolution_Mail_ADDED, store);
+		ems_listener_session_event(ems, Evolution_Mail_ADDED, store);
 	}
 }
 
@@ -305,17 +257,17 @@ ems_account_changed(EAccountList *eal, EAccount *ea, EvolutionMailSession *ems)
 		if (!ea->enabled) {
 			printf("Account changed, now disabled %s\n", ea->uid);
 			p->stores = g_list_remove(p->stores, store);
-			ems_listener_session_event(ems, GNOME_Evolution_Mail_REMOVED, store);
+			ems_listener_session_event(ems, Evolution_Mail_REMOVED, store);
 			g_object_unref(store);
 		} else {
 			printf("Account changed, dont know how %s\n", ea->uid);
-			ems_listener_session_event(ems, GNOME_Evolution_Mail_CHANGED, store);
+			ems_listener_session_event(ems, Evolution_Mail_CHANGED, store);
 		}
 	} else if (ea->enabled && is_storage(ea)) {
 		printf("Account changed, now added %s\n", ea->uid);
 		store = evolution_mail_store_new(ems, ea);
 		p->stores = g_list_append(p->stores, store);
-		ems_listener_session_event(ems, GNOME_Evolution_Mail_ADDED, store);
+		ems_listener_session_event(ems, Evolution_Mail_ADDED, store);
 	}
 }
 
@@ -333,7 +285,7 @@ ems_account_removed(EAccountList *eal, EAccount *ea, EvolutionMailSession *ems)
 		if (store->account == ea) {
 			printf("Account removed %s\n", ea->uid);
 			p->stores = g_list_remove(p->stores, store);
-			ems_listener_session_event(ems, GNOME_Evolution_Mail_REMOVED, store);
+			ems_listener_session_event(ems, Evolution_Mail_REMOVED, store);
 			g_object_unref(store);
 			break;
 		}
@@ -379,108 +331,14 @@ evolution_mail_session_init (EvolutionMailSession *ems, EvolutionMailSessionClas
 }
 
 void
-evolution_mail_session_session_changed(EvolutionMailSession *ems, GNOME_Evolution_Mail_SessionChanges *changes)
+evolution_mail_session_changed(EvolutionMailSession *ems, Evolution_Mail_SessionChanges *changes)
 {
 	struct _EvolutionMailSessionPrivate *p = _PRIVATE(ems);
-	struct _listener *l, *n;
-	CORBA_Environment ev;
 
-	l=(struct _listener *)p->listeners.head;
-	n=l->next;
-	while (n) {
-		if (l->flags & (GNOME_Evolution_Mail_Session_SESSION_CHANGED|GNOME_Evolution_Mail_Session_SESSION_ADDED|GNOME_Evolution_Mail_Session_SESSION_REMOVED)) {
-			memset(&ev, 0, sizeof(ev));
-			GNOME_Evolution_Mail_Listener_sessionChanged(l->listener, bonobo_object_corba_objref((BonoboObject *)ems), changes, &ev);
-			if (ev._major != CORBA_NO_EXCEPTION) {
-				printf("listener.sessionChanged() failed, removing listener: %s\n", ev._id);
-				CORBA_exception_free(&ev);
-
-				remove_listener(l);
-			} else {
-				printf("listener.sessionChanged() successful\n");
-			}
-		}
-		l = n;
-		n = n->next;
+	if (!e_mail_listener_emit(&p->listeners, (EMailListenerChanged)Evolution_Mail_SessionListener_changed,
+				  bonobo_object_corba_objref((BonoboObject *)ems), changes)) {
+		printf("No more listeners for store, could dispose session object now?\n");
 	}
 }
 
-void
-evolution_mail_session_store_changed(EvolutionMailSession *ems, GNOME_Evolution_Mail_Store store, GNOME_Evolution_Mail_StoreChanges *changes)
-{
-	struct _EvolutionMailSessionPrivate *p = _PRIVATE(ems);
-	struct _listener *l, *n;
-	CORBA_Environment ev;
-
-	l=(struct _listener *)p->listeners.head;
-	n=l->next;
-	while (n) {
-		if (l->flags & (GNOME_Evolution_Mail_Session_STORE_CHANGED|GNOME_Evolution_Mail_Session_STORE_ADDED|GNOME_Evolution_Mail_Session_STORE_REMOVED)) {
-			memset(&ev, 0, sizeof(ev));
-			GNOME_Evolution_Mail_Listener_storeChanged(l->listener, bonobo_object_corba_objref((BonoboObject *)ems),
-								   store, changes, &ev);
-
-			if (ev._major != CORBA_NO_EXCEPTION) {
-				printf("listener.storeChanged() failed, removing listener: %s\n", ev._id);
-				CORBA_exception_free(&ev);
-
-				remove_listener(l);
-			} else {
-				printf("listener.storeChanged() successful\n");
-			}
-		}
-		l = n;
-		n = n->next;
-	}
-}
-
-void
-evolution_mail_session_folder_changed(EvolutionMailSession *ems, GNOME_Evolution_Mail_Store store, GNOME_Evolution_Mail_Folder folder, GNOME_Evolution_Mail_FolderChanges *changes)
-{
-	struct _EvolutionMailSessionPrivate *p = _PRIVATE(ems);
-	struct _listener *l, *n;
-	CORBA_Environment ev;
-
-	l=(struct _listener *)p->listeners.head;
-	n=l->next;
-	while (n) {
-		if (l->flags & (GNOME_Evolution_Mail_Session_FOLDER_CHANGED|GNOME_Evolution_Mail_Session_FOLDER_ADDED|GNOME_Evolution_Mail_Session_FOLDER_REMOVED)) {
-			memset(&ev, 0, sizeof(ev));
-			GNOME_Evolution_Mail_Listener_folderChanged(l->listener, bonobo_object_corba_objref((BonoboObject *)ems),
-								    store, folder, changes, &ev);
-
-			if (ev._major != CORBA_NO_EXCEPTION) {
-				printf("listener.folderChanged() failed, removing listener: %s\n", ev._id);
-				CORBA_exception_free(&ev);
-				remove_listener(l);
-			} else {
-				printf("listener.folderChanged() successful\n");
-			}
-		}
-		l = n;
-		n = n->next;
-	}
-}
-
-/**
- * evolution_mail_session_listening:
- * @ems: 
- * 
- * Check if anything is listening for events.  Used to optimise the
- * code so it doesn't generate events if it doesn't need to.
- * 
- * Return value: 
- **/
-CORBA_long evolution_mail_session_listening(EvolutionMailSession *ems)
-{
-	struct _EvolutionMailSessionPrivate *p = _PRIVATE(ems);
-	struct _listener *l;
-	CORBA_long flags = 0;
-
-	for (l=(struct _listener *)p->listeners.head;l->next;l=l->next)
-		flags |= l->flags;
-
-	return flags;
-}
-
-BONOBO_TYPE_FUNC_FULL (EvolutionMailSession, GNOME_Evolution_Mail_Session, PARENT_TYPE, evolution_mail_session)
+BONOBO_TYPE_FUNC_FULL (EvolutionMailSession, Evolution_Mail_Session, PARENT_TYPE, evolution_mail_session)

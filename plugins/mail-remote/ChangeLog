@@ -1,3 +1,16 @@
+2005-05-26  Not Zed  <NotZed@Ximian.com>
+
+	* evolution-mail-folderlistener.[ch]:
+	* evolution-mail-sessionlistener.[ch]:
+	* evolution-mail-storelistener.[ch]: New helpers for listeners.
+
+	* evolution-mail-listener.[ch]: removed.
+
+	* Evolution-DataServer-Mail.idl: removed the GNOME prefix, Bonobo
+	doesn't use it, and it just adds pointless typing.  Added
+	getmessage and appendmessage interaces.  Moved listeners to each
+	object rather than one global listener.
+
 2005-05-24  Not Zed  <NotZed@Ximian.com>
 
 	* Lots more work.  Now implements a full listener interface.

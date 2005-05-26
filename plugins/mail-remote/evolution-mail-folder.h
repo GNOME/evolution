@@ -48,12 +48,15 @@ struct _EvolutionMailFolder {
 struct _EvolutionMailFolderClass {
 	BonoboObjectClass parent_class;
 
-	POA_GNOME_Evolution_Mail_Folder__epv epv;
+	POA_Evolution_Mail_Folder__epv epv;
 };
 
 GType           evolution_mail_folder_get_type(void);
 
 EvolutionMailFolder *evolution_mail_folder_new(struct _EvolutionMailStore *ems, const char *name, const char *full_name);
+
+void evolution_mail_folder_addlistener(EvolutionMailFolder *emf, Evolution_Mail_FolderListener listener);
+void evolution_mail_folder_changed(EvolutionMailFolder *emf, Evolution_Mail_FolderChanges *changes);
 
 struct _CamelFolder *evolution_mail_folder_get_folder(EvolutionMailFolder *emf);
 

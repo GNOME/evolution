@@ -15,16 +15,20 @@ liborg_gnome_evolution_mail_remote_la_SOURCES = \
 	e-corba-utils.h				\
 	evolution-mail-folder.c			\
 	evolution-mail-folder.h			\
-	evolution-mail-listener.c		\
-	evolution-mail-listener.h		\
+	evolution-mail-folderlistener.c		\
+	evolution-mail-folderlistener.h		\
+	evolution-mail-marshal.c		\
+	evolution-mail-marshal.h		\
 	evolution-mail-messageiterator.c	\
 	evolution-mail-messageiterator.h	\
 	evolution-mail-session.c		\
 	evolution-mail-session.h		\
+	evolution-mail-sessionlistener.c	\
+	evolution-mail-sessionlistener.h	\
 	evolution-mail-store.c			\
 	evolution-mail-store.h			\
-	evolution-mail-marshal.c		\
-	evolution-mail-marshal.h		\
+	evolution-mail-storelistener.c		\
+	evolution-mail-storelistener.h		\
 	mail-remote.c
 
 liborg_gnome_evolution_mail_remote_la_LDFLAGS = -module -avoid-version
@@ -34,7 +38,9 @@ client_SOURCES = \
 
 client_LDADD = \
 	$(EVOLUTION_MAIL_LIBS)			\
-	evolution-mail-listener.o		\
+	evolution-mail-sessionlistener.o	\
+	evolution-mail-storelistener.o		\
+	evolution-mail-folderlistener.o		\
 	evolution-mail-marshal.o		\
 	Evolution-DataServer-Mail-common.o	\
 	Evolution-DataServer-Mail-stubs.o	\

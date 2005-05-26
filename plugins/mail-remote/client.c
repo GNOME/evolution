@@ -6,17 +6,21 @@
 
 #include "Evolution-DataServer-Mail.h"
 
-#include "evolution-mail-listener.h"
+#include "evolution-mail-sessionlistener.h"
+#include "evolution-mail-storelistener.h"
+#include "evolution-mail-folderlistener.h"
 
 #include <camel/camel-folder.h>
 
-static EvolutionMailListener *listener;
+static EvolutionMailSessionListener *listener_sess;
+static EvolutionMailStoreListener *listener_store;
+static EvolutionMailFolderListener *listener_folder;
 
-static GNOME_Evolution_Mail_Session
+static Evolution_Mail_Session
 get_session(void)
 {
 	char *path, *ior;
-	GNOME_Evolution_Mail_Session sess = NULL;
+	Evolution_Mail_Session sess = NULL;
 	CORBA_Environment ev = { 0 };
 
 	/* The new-improved bonobo-activation ... */
@@ -28,8 +32,10 @@ get_session(void)
 	}
 
 	if (sess != CORBA_OBJECT_NIL) {
-		listener = evolution_mail_listener_new();
-		GNOME_Evolution_Mail_Session_addListener(sess, bonobo_object_corba_objref((BonoboObject *)listener), 0, &ev);
+		listener_sess = evolution_mail_sessionlistener_new();
+		listener_store = evolution_mail_storelistener_new();
+		listener_folder = evolution_mail_folderlistener_new();
+		Evolution_Mail_Session_addListener(sess, bonobo_object_corba_objref((BonoboObject *)listener_sess), &ev);
 		if (ev._major != CORBA_NO_EXCEPTION) {
 			printf("AddListener failed: %s\n", ev._id);
 			CORBA_exception_free(&ev);
@@ -40,13 +46,13 @@ get_session(void)
 }
 
 static void
-list_folder(GNOME_Evolution_Mail_Folder folder)
+list_folder(Evolution_Mail_Folder folder)
 {
 	CORBA_Environment ev = { 0 };
-	GNOME_Evolution_Mail_MessageIterator iter;
+	Evolution_Mail_MessageIterator iter;
 	int more, total = 0;
 
-	iter = GNOME_Evolution_Mail_Folder_getMessages(folder, "", &ev);
+	iter = Evolution_Mail_Folder_getMessages(folder, "", &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		printf("getmessages failed: %s\n", ev._id);
 		CORBA_exception_free(&ev);
@@ -54,10 +60,10 @@ list_folder(GNOME_Evolution_Mail_Folder folder)
 	}
 
 	do {
-		GNOME_Evolution_Mail_MessageInfos *msgs;
+		Evolution_Mail_MessageInfos *msgs;
 		int i;
 
-		msgs = GNOME_Evolution_Mail_MessageIterator_next(iter, 50, &ev);
+		msgs = Evolution_Mail_MessageIterator_next(iter, 50, &ev);
 		if (ev._major != CORBA_NO_EXCEPTION) {
 			printf("msgs.next(): %s\n", ev._id);
 			CORBA_exception_free(&ev);
@@ -66,19 +72,19 @@ list_folder(GNOME_Evolution_Mail_Folder folder)
 
 		/* NB: set the first 50 messages in private to unseen */
 		if (total == 0) {
-			GNOME_Evolution_Mail_MessageInfoSets *changes;
+			Evolution_Mail_MessageInfoSets *changes;
 			int j;
 
-			changes = GNOME_Evolution_Mail_MessageInfoSets__alloc();
+			changes = Evolution_Mail_MessageInfoSets__alloc();
 			changes->_length = msgs->_length;
 			changes->_maximum = msgs->_maximum;
-			changes->_buffer = GNOME_Evolution_Mail_MessageInfoSets_allocbuf(changes->_maximum);
+			changes->_buffer = Evolution_Mail_MessageInfoSets_allocbuf(changes->_maximum);
 			for (j=0;j<msgs->_length;j++) {
 				changes->_buffer[j].uid = CORBA_string_dup(msgs->_buffer[j].uid);
 				changes->_buffer[j].flagSet = 0;
 				changes->_buffer[j].flagMask = CAMEL_MESSAGE_SEEN;
 			}
-			GNOME_Evolution_Mail_Folder_changeMessages(folder, changes, &ev);
+			Evolution_Mail_Folder_changeMessages(folder, changes, &ev);
 			if (ev._major != CORBA_NO_EXCEPTION) {
 				printf("changemessages failed: %s\n", ev._id);
 				CORBA_exception_free(&ev);
@@ -96,22 +102,47 @@ list_folder(GNOME_Evolution_Mail_Folder folder)
 		CORBA_free(msgs);
 	} while (more);
 
+	Evolution_Mail_MessageIterator_dispose(iter, &ev);
 	CORBA_Object_release(iter, &ev);
 
 	printf("Got %d messages total\n", total);
 }
 
+static void
+add_message(Evolution_Mail_Folder folder, const char *msg)
+{
+	BonoboObject *mem;
+	CORBA_Environment ev = { 0 };
+	Evolution_Mail_MessageInfoSet mis = { 0 };
+
+	mis.uid = "";
+	mis.flagSet = CAMEL_MESSAGE_SEEN;
+	mis.flagMask = CAMEL_MESSAGE_SEEN;
+
+	mem = bonobo_stream_mem_create(msg, strlen(msg), TRUE, FALSE);
+			
+	printf("attempt send mail to store\n");
+	Evolution_Mail_Folder_appendMessage(folder, &mis, bonobo_object_corba_objref(mem), &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		printf("appendmessage failed: %s\n", ev._id);
+		CORBA_exception_free(&ev);
+		CORBA_exception_init(&ev);
+	}
+
+	bonobo_object_unref(mem);
+}
+
 static int domain(void *data)
 {
-	GNOME_Evolution_Mail_Session sess;
-	GNOME_Evolution_Mail_StoreInfos *stores;
-	GNOME_Evolution_Mail_FolderInfos *folders;
+	Evolution_Mail_Session sess;
+	Evolution_Mail_StoreInfos *stores;
+	Evolution_Mail_FolderInfos *folders;
 	CORBA_Environment ev = { 0 };
 	int i, j, f;
 
 	sess = get_session();
 
-	stores = GNOME_Evolution_Mail_Session_getStores(sess, "", &ev);
+	stores = Evolution_Mail_Session_getStores(sess, "", bonobo_object_corba_objref((BonoboObject *)listener_store), &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		printf("getStores failed: %s\n", ev._id);
 		CORBA_exception_free(&ev);
@@ -122,22 +153,22 @@ static int domain(void *data)
 	printf("Got %d stores\n", stores->_length);
 	for (i=0;i<stores->_length;i++) {
 #if 0
-		GNOME_Evolution_Mail_PropertyName namesarray[] = {
+		Evolution_Mail_PropertyName namesarray[] = {
 			"name", "uid"
 		};
-		GNOME_Evolution_Mail_PropertyNames names = {
+		Evolution_Mail_PropertyNames names = {
 			2, 2,
 			namesarray,
 			FALSE,
 		};
-		GNOME_Evolution_Mail_Properties *props;
+		Evolution_Mail_Properties *props;
 #endif
-		GNOME_Evolution_Mail_Store store = stores->_buffer[i].store;
+		Evolution_Mail_Store store = stores->_buffer[i].store;
 		
 		printf("store %p '%s' uid '%s'\n", store, stores->_buffer[i].name, stores->_buffer[i].uid);
 			
 #if 0
-		GNOME_Evolution_Mail_Store_getProperties(store, &names, &props, &ev);
+		Evolution_Mail_Store_getProperties(store, &names, &props, &ev);
 		if (ev._major != CORBA_NO_EXCEPTION) {
 			printf("getProperties failed\n");
 			return 1;
@@ -167,7 +198,7 @@ static int domain(void *data)
 			mem = bonobo_stream_mem_create(msg, strlen(msg), TRUE, FALSE);
 			
 			printf("attempt send mail to store\n");
-			GNOME_Evolution_Mail_Store_sendMessage(store, bonobo_object_corba_objref(mem), &ev);
+			Evolution_Mail_Store_sendMessage(store, bonobo_object_corba_objref(mem), &ev);
 			if (ev._major != CORBA_NO_EXCEPTION) {
 				printf("sendmessage failed: %s\n", ev._id);
 				CORBA_exception_free(&ev);
@@ -178,7 +209,7 @@ static int domain(void *data)
 		}
 #endif
 
-		folders = GNOME_Evolution_Mail_Store_getFolders(store, "", &ev);
+		folders = Evolution_Mail_Store_getFolders(store, "", bonobo_object_corba_objref((BonoboObject *)listener_folder), &ev);
 		if (ev._major != CORBA_NO_EXCEPTION) {
 			printf("getfolders failed\n");
 			/* FIXME: leaks ex data? */
@@ -190,7 +221,13 @@ static int domain(void *data)
 
 			for (f = 0; f<folders->_length;f++) {
 				if (!strcmp(folders->_buffer[f].full_name, "Private")) {
+					const char *msg = "To: notzed@novell.com\r\n"
+						"Subject: This is a test append from client\r\n"
+						"\r\n" 
+						"Blah blah, test appended message!\r\n";
+
 					list_folder(folders->_buffer[f].folder);
+					add_message(folders->_buffer[f].folder, msg);
 				}
 			}
 
