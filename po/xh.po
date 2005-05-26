@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-03-29 15:02+0200\n"
+"POT-Creation-Date: 2005-05-26 17:17+0200\n"
 "PO-Revision-Date: 2005-03-23 09:33+0200\n"
 "Last-Translator: Canonical Ltd <translations@canonical.com>\n"
 "Language-Team: Xhosa <xh-translate@ubuntu.com>\n"
@@ -19,7 +19,7 @@ msgstr ""
 
 #: ../a11y/addressbook/ea-addressbook-view.c:94
 #: ../a11y/addressbook/ea-addressbook-view.c:103
-#: ../a11y/addressbook/ea-minicard-view.c:166
+#: ../a11y/addressbook/ea-minicard-view.c:169
 msgid "evolution addressbook"
 msgstr "I-evolution sencwadi yedilesi"
 
@@ -33,12 +33,12 @@ msgstr "Abatsha Oqhagamshelana Nabo"
 msgid "New Contact List"
 msgstr "Uluhlu Lwabatsha Oqhagamshelana Nabo"
 
-#: ../a11y/addressbook/ea-minicard-view.c:149
-#, fuzzy, c-format
+#: ../a11y/addressbook/ea-minicard-view.c:152
+#, c-format
 msgid "current addressbook folder has %d card"
 msgid_plural "current addressbook folder has %d cards"
-msgstr[0] "isiqulathi seefayili seedilesi esinazo ngoku "
-msgstr[1] "isiqulathi seefayili seedilesi esinazo ngoku "
+msgstr[0] "isiqulathi seefayili seedilesi esinazo ngoku sine-%d yekhadi"
+msgstr[1] "isiqulathi seefayili seedilesi esinazo ngoku sine-%d yeekhadi"
 
 #: ../a11y/addressbook/ea-minicard.c:31
 #: ../calendar/gui/alarm-notify/alarm-queue.c:878
@@ -46,41 +46,38 @@ msgstr[1] "isiqulathi seefayili seedilesi esinazo ngoku "
 msgid "Open"
 msgstr "Vula"
 
-#: ../a11y/addressbook/ea-minicard.c:138
+#: ../a11y/addressbook/ea-minicard.c:141
 msgid "Contact List: "
 msgstr "Uluhlu Loqhagamshelana Nabo: "
 
-#: ../a11y/addressbook/ea-minicard.c:139
+#: ../a11y/addressbook/ea-minicard.c:142
 msgid "Contact: "
 msgstr "Qhagamshelana: "
 
-#: ../a11y/addressbook/ea-minicard.c:165
+#: ../a11y/addressbook/ea-minicard.c:168
 msgid "evolution minicard"
 msgstr "Ikhadi elincinane i-evolution"
 
 #: ../a11y/calendar/ea-cal-view-event.c:235
-#, fuzzy
 msgid "It has alarms."
-msgstr "Asiyokhalenda le."
+msgstr "Ineziqaphelisi."
 
 #: ../a11y/calendar/ea-cal-view-event.c:238
-#, fuzzy
 msgid "It has recurrences."
-msgstr "ukwenzeka kwakhona "
+msgstr "Inezenzeko ngokuphinda-phindayo."
 
 #: ../a11y/calendar/ea-cal-view-event.c:241
 msgid "It is a meeting."
-msgstr ""
+msgstr "Yintlanganiso."
 
 #: ../a11y/calendar/ea-cal-view-event.c:247
-#, fuzzy, c-format
+#, c-format
 msgid "Calendar Event: Summary is %s."
-msgstr "isehlo. Isishwankathelo yi "
+msgstr "Ikhalenda Yesehlo: Isishwankathelo yi- %s."
 
 #: ../a11y/calendar/ea-cal-view-event.c:249
-#, fuzzy
 msgid "Calendar Event: It has no summary."
-msgstr "Izehlo ezikwiKhalenda"
+msgstr "IKhalenda Yesehlo: Ayinasishwankathelo."
 
 #: ../a11y/calendar/ea-cal-view-event.c:268
 msgid "calendar view event"
@@ -98,7 +95,7 @@ msgstr "Idinga Elitsha"
 msgid "New All Day Event"
 msgstr "Isiganeko Esitsha Sosuku Lonke"
 
-#: ../a11y/calendar/ea-cal-view.c:308 ../calendar/gui/e-calendar-view.c:1374
+#: ../a11y/calendar/ea-cal-view.c:308 ../calendar/gui/e-calendar-view.c:1375
 msgid "New Meeting"
 msgstr "Intlanganiso Entsha"
 
@@ -116,25 +113,25 @@ msgid "a table to view and select the current time range"
 msgstr "itheyibhile yokubonisa nokukhetha isithuba kwixesha langoku"
 
 #: ../a11y/calendar/ea-day-view.c:146 ../a11y/calendar/ea-week-view.c:148
-#, fuzzy, c-format
+#, c-format
 msgid "It has %d event."
 msgid_plural "It has %d events."
-msgstr[0] ", %d isehlo"
-msgstr[1] ", %d isehlo"
+msgstr[0] "Ine-%d yesehlo."
+msgstr[1] "Ine-%d yezehlo."
 
 #: ../a11y/calendar/ea-day-view.c:148 ../a11y/calendar/ea-week-view.c:150
 msgid "It has no events."
-msgstr ""
+msgstr "Ayinaziganeko."
 
 #: ../a11y/calendar/ea-day-view.c:152
-#, fuzzy, c-format
+#, c-format
 msgid "Work Week View: %s. %s"
-msgstr "Ukujonga Umsebenzi Weveki"
+msgstr "Ukubonisa Umsebenzi Weveki: %s. %s"
 
 #: ../a11y/calendar/ea-day-view.c:155
-#, fuzzy, c-format
+#, c-format
 msgid "Day View: %s. %s"
-msgstr "Ukujonga ubume bosuku"
+msgstr "Ukubonisa Ubume Bosuku: %s. %s"
 
 #: ../a11y/calendar/ea-day-view.c:186
 msgid "calendar view for a work week"
@@ -241,27 +238,25 @@ msgid "%d %B %Y"
 msgstr "i-%d %B %Y"
 
 #: ../a11y/widgets/ea-calendar-item.c:304
-#, fuzzy, c-format
+#, c-format
 msgid "Calendar: from %s to %s"
-msgstr "ikhalenda (evela "
+msgstr "Ikhalenda: ukusuka kwi-%s ukuya kwi-%s"
 
 #: ../a11y/widgets/ea-calendar-item.c:339
 msgid "evolution calendar item"
 msgstr "i-evolution yokuthile kwikhalenda"
 
 #: ../a11y/widgets/ea-combo-button.c:40
-#, fuzzy
 msgid "Combo Button"
-msgstr "Iqhosha Lexesha Kwindawo Ethile"
+msgstr "Iqhosha Elinoludwe Onokukhetha Kulo"
 
 #: ../a11y/widgets/ea-combo-button.c:50
-#, fuzzy
 msgid "Activate Default"
-msgstr "Sebenzisa _Ummiselo"
+msgstr "Yenza Okumiselweyo Kusebenze"
 
 #: ../a11y/widgets/ea-combo-button.c:52
 msgid "Popup Menu"
-msgstr ""
+msgstr "Imenyu yokukhetha okuvelayo"
 
 #. addressbook:ldap-init primary
 #: ../addressbook/addressbook-errors.xml.h:2
@@ -467,16 +462,15 @@ msgstr "_Yongeza"
 #. calendar:server-version title
 #: ../addressbook/addressbook-errors.xml.h:64
 #: ../calendar/calendar-errors.xml.h:142
-#, fuzzy
 msgid "Server Version"
-msgstr "Ulwazi Ngeseva"
+msgstr "Uhlobo Lweseva"
 
 #. addressbook:server-version primary
 #. calendar:server-version primary
 #: ../addressbook/addressbook-errors.xml.h:66
 #: ../calendar/calendar-errors.xml.h:144
 msgid "Your server needs to be updated"
-msgstr ""
+msgstr "Iseva yakho ifuna ukuhlaziywa"
 
 #. addressbook:server-version secondary
 #: ../addressbook/addressbook-errors.xml.h:68
@@ -518,7 +512,7 @@ msgstr "Apha akha isigqibezeli-ngokuzenzekelayo"
 #. Create the contacts group
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:5
 #: ../addressbook/gui/component/addressbook-view.c:1119
-#: ../calendar/gui/calendar-component.c:246 ../calendar/gui/migration.c:385
+#: ../calendar/gui/calendar-component.c:246 ../calendar/gui/migration.c:388
 msgid "Contacts"
 msgstr "Abantu Oqhagamshelana Nabo"
 
@@ -558,8 +552,8 @@ msgstr "Lawula apha izatifiketi sakho se-S/MIME"
 #. On This Computer is always first and vFolders is always last
 #: ../addressbook/gui/component/addressbook-component.c:133
 #: ../addressbook/gui/component/addressbook-migrate.c:493
-#: ../calendar/gui/calendar-component.c:208 ../calendar/gui/migration.c:459
-#: ../calendar/gui/migration.c:552 ../calendar/gui/tasks-component.c:188
+#: ../calendar/gui/calendar-component.c:208 ../calendar/gui/migration.c:462
+#: ../calendar/gui/migration.c:555 ../calendar/gui/tasks-component.c:188
 #: ../mail/em-folder-tree-model.c:197 ../mail/em-folder-tree-model.c:199
 #: ../mail/mail-component.c:290 ../mail/mail-vfolder.c:222
 msgid "On This Computer"
@@ -573,8 +567,8 @@ msgstr "Kule Khompyutha"
 #: ../addressbook/gui/component/addressbook-component.c:141
 #: ../addressbook/gui/component/addressbook-migrate.c:501
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:20
-#: ../calendar/gui/calendar-component.c:216 ../calendar/gui/migration.c:467
-#: ../calendar/gui/migration.c:560 ../calendar/gui/tasks-component.c:196
+#: ../calendar/gui/calendar-component.c:216 ../calendar/gui/migration.c:470
+#: ../calendar/gui/migration.c:563 ../calendar/gui/tasks-component.c:196
 #: ../filter/filter-label.c:123 ../mail/em-migrate.c:1043
 #: ../mail/mail-config.c:78 ../mail/mail-config.glade.h:101
 msgid "Personal"
@@ -741,7 +735,7 @@ msgstr ""
 "Nceda ube nomonde ngelixa i-Evolution ifudusa i-Pilot Sync data yakho..."
 
 #: ../addressbook/gui/component/addressbook-view.c:758
-#: ../addressbook/gui/widgets/e-addressbook-view.c:935
+#: ../addressbook/gui/widgets/e-addressbook-view.c:945
 #: ../calendar/gui/calendar-component.c:537
 #: ../calendar/gui/tasks-component.c:441 ../mail/em-filter-i18n.h:11
 #: ../ui/evolution-addressbook.xml.h:8 ../ui/evolution-calendar.xml.h:5
@@ -756,29 +750,27 @@ msgid "Properties..."
 msgstr "Iimpawu..."
 
 #: ../addressbook/gui/component/addressbook-view.c:1130
-#, fuzzy
 msgid "Contact Source Selector"
-msgstr "Isikhethi Somthombo Wekhalenda"
+msgstr "Isikhethi Somthombo Woqhagamshelana naye"
 
 #: ../addressbook/gui/component/addressbook.c:98
 msgid "Accessing LDAP Server anonymously"
 msgstr "Ukufikelela kwiseva ye-LDAP ngokungaziwayo"
 
-#: ../addressbook/gui/component/addressbook.c:194
+#: ../addressbook/gui/component/addressbook.c:192
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:478
 msgid "Failed to authenticate.\n"
 msgstr "Ayiphumelelanga ukuzisa ubungqina bobunyani.\n"
 
-#: ../addressbook/gui/component/addressbook.c:201
+#: ../addressbook/gui/component/addressbook.c:199
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:461
 #, c-format
 msgid "Enter password for %s (user %s)"
 msgstr "Faka i-password kwi-%s (umsebenzisi %s)"
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:1
-#, fuzzy
 msgid "Autocomplete length"
-msgstr "Ukugqibezela okuzenzekelayo"
+msgstr "Ubude bokugqibezela okuzenzekelayo"
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:2
 msgid "EFolderList XML for the list of completion URIs"
@@ -789,16 +781,16 @@ msgid "EFolderList XML for the list of completion URIs."
 msgstr "I-EFolderList XML yoluhlu lokugqitywa kwe-URIs."
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:4
-#, fuzzy
 msgid ""
 "Position of the vertical pane, between the card and list views and the "
 "preview pane, in pixels."
-msgstr "Indawo yobubanzi begilasi yefestile kwisithuba senyanga"
+msgstr ""
+"Indawo yobubanzi begilasi yefestile phakathi kwekhadi noluhlu lwemiboniso "
+"kunye negilasi yokujonga phambi kokushicilela ngokwee-pixel."
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:5
-#, fuzzy
 msgid "Show preview pane"
-msgstr "Bonisa i \"Khangela Phambi Kokuyishicilela\" igilasi yefestile"
+msgstr "Bonisa igilasi yefestile phambi kokushicilela"
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:6
 msgid ""
@@ -823,12 +815,11 @@ msgstr ""
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:9
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:49
 msgid "Vertical pane position"
-msgstr ""
+msgstr "Indawo yobude begilasi yefestile"
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:10
-#, fuzzy
 msgid "Whether to show the preview pane."
-msgstr "Bonisa i \"Khangela Phambi Kokuyishicilela\" igilasi yefestile."
+msgstr "Nokuba ubonise igilasi yefestile phambi kokushicilela."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:1
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:1
@@ -1163,7 +1154,7 @@ msgstr "<b>Umsebenzi</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:11
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:182
-#: ../addressbook/gui/widgets/eab-contact-display.c:346
+#: ../addressbook/gui/widgets/eab-contact-display.c:348
 msgid "AIM"
 msgstr "I-AIM"
 
@@ -1334,8 +1325,8 @@ msgid "_Zip/Postal Code:"
 msgstr "i-_Zip/Ikhowudi yeposi:"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:96
-#: ../addressbook/gui/widgets/eab-contact-display.c:365
-#: ../addressbook/gui/widgets/eab-contact-display.c:380
+#: ../addressbook/gui/widgets/eab-contact-display.c:367
+#: ../addressbook/gui/widgets/eab-contact-display.c:382
 msgid "Address"
 msgstr "Idilesi"
 
@@ -2333,7 +2324,7 @@ msgstr "Isigidimi esikhawulezayo se-AOL"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:64
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:183
-#: ../addressbook/gui/widgets/eab-contact-display.c:349
+#: ../addressbook/gui/widgets/eab-contact-display.c:351
 msgid "Jabber"
 msgstr "I-Jabber"
 
@@ -2343,7 +2334,7 @@ msgstr "Isigidimi se-Yahoo"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:67
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:186
-#: ../addressbook/gui/widgets/eab-contact-display.c:348
+#: ../addressbook/gui/widgets/eab-contact-display.c:350
 msgid "ICQ"
 msgstr "I-ICQ"
 
@@ -2372,17 +2363,17 @@ msgid "Other"
 msgstr "Okunye"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:184
-#: ../addressbook/gui/widgets/eab-contact-display.c:351
+#: ../addressbook/gui/widgets/eab-contact-display.c:353
 msgid "Yahoo"
 msgstr "I-Yahoo"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:185
-#: ../addressbook/gui/widgets/eab-contact-display.c:350
+#: ../addressbook/gui/widgets/eab-contact-display.c:352
 msgid "MSN"
 msgstr "I-MSN"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:187
-#: ../addressbook/gui/widgets/eab-contact-display.c:347
+#: ../addressbook/gui/widgets/eab-contact-display.c:349
 msgid "GroupWise"
 msgstr "I-Groupwise"
 
@@ -2676,11 +2667,11 @@ msgid "No contacts"
 msgstr "Akukho mntu ungaqhagamshelana naye"
 
 #: ../addressbook/gui/widgets/e-addressbook-model.c:151
-#, fuzzy, c-format
+#, c-format
 msgid "%d contact"
 msgid_plural "%d contacts"
-msgstr[0] "Akukho mntu ungaqhagamshelana naye"
-msgstr[1] "Akukho mntu ungaqhagamshelana naye"
+msgstr[0] "%d yoqhagamshelana naye"
+msgstr[1] "%d yoqhagamshelana nabo"
 
 #: ../addressbook/gui/widgets/e-addressbook-model.c:303
 #: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:391
@@ -2738,76 +2729,75 @@ msgstr "Umthombo"
 msgid "Type"
 msgstr "Uhlobo"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:541
+#: ../addressbook/gui/widgets/e-addressbook-view.c:551
 msgid "Address Book"
 msgstr "Incwadi Yedilesi"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:804
-#: ../addressbook/gui/widgets/e-addressbook-view.c:922
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1982
+#: ../addressbook/gui/widgets/e-addressbook-view.c:814
+#: ../addressbook/gui/widgets/e-addressbook-view.c:932
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1992
 #: ../ui/evolution-addressbook.xml.h:19
 msgid "Save as VCard..."
 msgstr "Yigcine njenge-VCard..."
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:918
+#: ../addressbook/gui/widgets/e-addressbook-view.c:928
 msgid "New Contact..."
 msgstr "Abatsha Ongaqhagamshelana Nabo..."
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:919
+#: ../addressbook/gui/widgets/e-addressbook-view.c:929
 msgid "New Contact List..."
 msgstr "Uluhlu Olutsha Loqhagamshelana Nabo..."
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:923
+#: ../addressbook/gui/widgets/e-addressbook-view.c:933
 #: ../ui/evolution-addressbook.xml.h:10
 msgid "Forward Contact"
 msgstr "Dlulisa Uqhagamshelwano"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:924
+#: ../addressbook/gui/widgets/e-addressbook-view.c:934
 msgid "Send Message to Contact"
 msgstr "Thumela Umyalezo koQhagamshelana naye"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:925
+#: ../addressbook/gui/widgets/e-addressbook-view.c:935
 #: ../calendar/gui/calendar-commands.c:120 ../calendar/gui/print.c:2502
 #: ../ui/evolution-addressbook.xml.h:16 ../ui/evolution-calendar.xml.h:19
 #: ../ui/evolution-mail-message.xml.h:80 ../ui/evolution-tasks.xml.h:14
 msgid "Print"
 msgstr "Shicilela"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:928
+#: ../addressbook/gui/widgets/e-addressbook-view.c:938
 msgid "Copy to Address Book..."
 msgstr "Khuphela Kwincwadi Yedilesi..."
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:929
+#: ../addressbook/gui/widgets/e-addressbook-view.c:939
 msgid "Move to Address Book..."
 msgstr "Yiya Kwincwadi Yedilesi..."
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:932
+#: ../addressbook/gui/widgets/e-addressbook-view.c:942
 #: ../ui/evolution-addressbook.xml.h:6 ../ui/evolution-tasks.xml.h:4
 msgid "Cut"
 msgstr "Sika"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:933
+#: ../addressbook/gui/widgets/e-addressbook-view.c:943
 #: ../calendar/gui/calendar-component.c:536
 #: ../calendar/gui/tasks-component.c:440 ../ui/evolution-addressbook.xml.h:2
 #: ../ui/evolution-mail-message.xml.h:9 ../ui/evolution-tasks.xml.h:2
 msgid "Copy"
 msgstr "Kopa"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:934
+#: ../addressbook/gui/widgets/e-addressbook-view.c:944
 #: ../ui/evolution-addressbook.xml.h:13 ../ui/evolution-tasks.xml.h:11
 msgid "Paste"
 msgstr "Ncamathelisa"
 
 #. All, unmatched, separator
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1537
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1547
 #: ../calendar/gui/cal-search-bar.c:346
 msgid "Any Category"
 msgstr "Naluphi Na Udidi"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1750
-#, fuzzy
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1760
 msgid "Print cards"
-msgstr "Shicilela Imisebenzi"
+msgstr "Shicilela Iikhadi"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:1
 msgid "Assistant"
@@ -2849,7 +2839,7 @@ msgid "Company Phone"
 msgstr "Umnxeba Wenkampani"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:10
-#: ../addressbook/gui/widgets/eab-contact-display.c:560
+#: ../addressbook/gui/widgets/eab-contact-display.c:562
 #: ../smime/lib/e-cert.c:826
 msgid "Email"
 msgstr "I-imeyile"
@@ -2901,7 +2891,7 @@ msgid "Manager"
 msgstr "Umphathi"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:23
-#: ../addressbook/gui/widgets/eab-contact-display.c:379
+#: ../addressbook/gui/widgets/eab-contact-display.c:381
 msgid "Mobile Phone"
 msgstr "Iselula"
 
@@ -2910,7 +2900,7 @@ msgid "Nickname"
 msgstr "Igama lokudlalisa"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:25
-#: ../addressbook/gui/widgets/eab-contact-display.c:390
+#: ../addressbook/gui/widgets/eab-contact-display.c:392
 msgid "Note"
 msgstr "Qaphela"
 
@@ -2919,7 +2909,7 @@ msgid "Office"
 msgstr "I-ofisi"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:27
-#: ../addressbook/gui/widgets/eab-contact-display.c:360
+#: ../addressbook/gui/widgets/eab-contact-display.c:362
 msgid "Organization"
 msgstr "Isilungiselelo"
 
@@ -3075,65 +3065,65 @@ msgstr "Ekhethiweyo"
 msgid "Has Cursor"
 msgstr "Inekhesa"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:133
-#: ../addressbook/gui/widgets/eab-contact-display.c:196
+#: ../addressbook/gui/widgets/eab-contact-display.c:135
+#: ../addressbook/gui/widgets/eab-contact-display.c:198
 msgid "(map)"
 msgstr "u-(umzobo obonisa ubume bovimba wolwazi)"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:143
-#: ../addressbook/gui/widgets/eab-contact-display.c:209
+#: ../addressbook/gui/widgets/eab-contact-display.c:145
+#: ../addressbook/gui/widgets/eab-contact-display.c:211
 msgid "map"
 msgstr "umzobo obonisa ubume bovimba wolwazi"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:274
-#: ../addressbook/gui/widgets/eab-contact-display.c:541
+#: ../addressbook/gui/widgets/eab-contact-display.c:276
+#: ../addressbook/gui/widgets/eab-contact-display.c:543
 msgid "List Members"
 msgstr "Amalungu Oluhlu"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:337
 #: ../addressbook/gui/widgets/eab-contact-display.c:339
+#: ../addressbook/gui/widgets/eab-contact-display.c:341
 msgid "E-mail"
 msgstr "I-imeyili"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:361
+#: ../addressbook/gui/widgets/eab-contact-display.c:363
 msgid "Position"
 msgstr "Indawo ekuyo into"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:362
+#: ../addressbook/gui/widgets/eab-contact-display.c:364
 msgid "Video Conferencing"
 msgstr "INkomfa Eyenziwa Ngevidiyo"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:363
-#: ../addressbook/gui/widgets/eab-contact-display.c:378
+#: ../addressbook/gui/widgets/eab-contact-display.c:365
+#: ../addressbook/gui/widgets/eab-contact-display.c:380
 msgid "Phone"
 msgstr "Umnxeba"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:364
+#: ../addressbook/gui/widgets/eab-contact-display.c:366
 msgid "Fax"
 msgstr "Ifeksi"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:368
+#: ../addressbook/gui/widgets/eab-contact-display.c:370
 msgid "work"
 msgstr "umsebenzi"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:375
+#: ../addressbook/gui/widgets/eab-contact-display.c:377
 msgid "WWW"
 msgstr "I-WWW"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:376
-#: ../addressbook/gui/widgets/eab-contact-display.c:595
+#: ../addressbook/gui/widgets/eab-contact-display.c:378
+#: ../addressbook/gui/widgets/eab-contact-display.c:597
 msgid "Blog"
 msgstr "I-Blog"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:383
+#: ../addressbook/gui/widgets/eab-contact-display.c:385
 msgid "personal"
 msgstr "yeyakho buqu"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:556
+#: ../addressbook/gui/widgets/eab-contact-display.c:558
 msgid "Job Title"
 msgstr "Umsebenzi Owenzayo"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:587
+#: ../addressbook/gui/widgets/eab-contact-display.c:589
 msgid "Home page"
 msgstr "Iphepha lokuqala"
 
@@ -3348,7 +3338,13 @@ msgid_plural ""
 "Opening %d contacts will open %d new windows as well.\n"
 "Do you really want to display all of these contacts?"
 msgstr[0] ""
+"Ukuvula uqhagamshelwano lwe-%d kuza kuvula ifestile entsha ye-%d "
+"ngokunjalo.\n"
+"Ingaba uyafuna ngokwenene ukubonisa olu qhagamshelwano?"
 msgstr[1] ""
+"Ukuvula aboqhagamshelwano lwe-%d kuza kuvula iifestile ezintsha ze-%d "
+"kananjalo.\n"
+"Ingaba uyafuna ngokwenene ukubonisa bonke abolu qhagamshelwano?"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:311
 #, c-format
@@ -3437,11 +3433,11 @@ msgid "Merge E-Mail Address"
 msgstr "Dibanisa Idilesi ye-Imeyili"
 
 #: ../addressbook/gui/widgets/eab-vcard-control.c:139
-#, fuzzy, c-format
+#, c-format
 msgid "There is one other contact."
 msgid_plural "There are %d other contacts."
-msgstr[0] "Ukuqhelaniswa kwetreyi."
-msgstr[1] "Ukuqhelaniswa kwetreyi."
+msgstr[0] "Kukho omnye oqhagamshelana naye."
+msgstr[1] "Kukho aba-%d oqhagamshelana nabo."
 
 #: ../addressbook/gui/widgets/eab-vcard-control.c:223
 #: ../addressbook/gui/widgets/eab-vcard-control.c:272
@@ -4118,48 +4114,38 @@ msgstr ""
 
 #. calendar:prompt-send-no-subject-task secondary
 #: ../calendar/calendar-errors.xml.h:131
-#, fuzzy
 msgid ""
 "Adding a meaningful Summary to your task will give your recipients an idea "
 "of what your task is about."
 msgstr ""
-"Ukongeza ngeSishwankathelo esinentsingiselo kumsebenzi wakho kuza kunika lo "
-"liya kuye babe nolwazi lokuba lingantoni na idinga lakho."
+"Ukongeza iSishwankathelo esinentsingiselo kumsebenzi wakho kuza kunika "
+"umamkeli uluvo lokuba ungantoni na umsebenzi wakho."
 
 #. calendar:prompt-no-contents-offline-calendar primary
 #: ../calendar/calendar-errors.xml.h:134
-#, fuzzy
 msgid "Error loading calendar"
-msgstr "Impazamo ngelixa kuvulwa ikhalenda"
+msgstr "Impazamo ngelixa kufakwa ikhalenda"
 
 #. calendar:prompt-no-contents-offline-calendar secondary
 #: ../calendar/calendar-errors.xml.h:136
-#, fuzzy
 msgid "The calendar is not marked for offline usage"
-msgstr ""
-"Esi siqulathi seefayili asiphawulelwanga kuxhasa ukusebenza ungekho kwi-"
-"intanethi"
+msgstr "Le khalenda ayiphawulelwanga kusebenza ungekho kwi-intanethi"
 
 #. calendar:prompt-no-contents-offline-tasks primary
 #: ../calendar/calendar-errors.xml.h:138
-#, fuzzy
 msgid "Error loading task list"
-msgstr "Impazamo ngelixa kusongezwa uluhlu"
+msgstr "Impazamo ngelixa kufakwa uluhlu lomsebenzi"
 
 #. calendar:prompt-no-contents-offline-tasks secondary
 #: ../calendar/calendar-errors.xml.h:140
-#, fuzzy
 msgid "The task list is not marked for offline usage"
-msgstr ""
-"Esi siqulathi seefayili asiphawulelwanga kuxhasa ukusebenza ungekho kwi-"
-"intanethi"
+msgstr "Olu luhlu lomsebenzi aluphawulelwanga kusebenza ungekho kwi-intanethi"
 
 #. calendar:server-version secondary
 #: ../calendar/calendar-errors.xml.h:146
-#, fuzzy
 msgid " Some features may not work correctly with your current server version "
 msgstr ""
-"Ezinye izimo azisebenzi ngokuchanekileyo nohlobo lweseva olukhoyo ngoku"
+" Ezinye izimo azingesebenzi ngokuchanekileyo nolu hlobo lweseva unalo ngoku "
 
 #: ../calendar/common/authentication.c:49 ../calendar/gui/e-pub-utils.c:301
 #: ../smime/gui/component.c:48
@@ -4232,7 +4218,7 @@ msgid "Evolution's Tasks component"
 msgstr "Ilungu lemisebenzi ye-Evolution"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:10
-#: ../calendar/gui/e-tasks.c:1219 ../calendar/gui/print.c:1822
+#: ../calendar/gui/e-tasks.c:1222 ../calendar/gui/print.c:1822
 #: ../calendar/gui/tasks-component.c:519 ../calendar/gui/tasks-component.c:992
 #: ../calendar/gui/tasks-control.c:408
 #: ../calendar/importers/icalendar-importer.c:83
@@ -4377,9 +4363,8 @@ msgstr ""
 "khelwe ukuthumela i-imeyili.  I-Evolution iza kubonisa kwiskrini\n"
 "ibhokisi y eqhelekileyo okukhumbuza endaweni yaso."
 
-# Evolution
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1130
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
 "configured to run the following program:\n"
@@ -4388,8 +4373,8 @@ msgid ""
 "\n"
 "Are you sure you want to run this program?"
 msgstr ""
-"Isikhumbuzi seSikhulisi sekhalenda sesiza kuchukumiseka. Esi sikhumbuzi "
-"sakhelwe ukuphumeza ezi nkqubo zilandelayo:\n"
+"Isikhumbuzi seKhalenda ye-Evolution singesichukumisi. Esi sikhumbuzi "
+"sakhelwe inkqubo yokuphumeza ezi nkqubo zilandelayo:\n"
 "\n"
 "        %s\n"
 "\n"
@@ -4412,24 +4397,23 @@ msgid "invalid time"
 msgstr "ixesha elingavumelekanga"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:1
-#, fuzzy
 msgid "Alarm programs"
-msgstr "Phumeza inkqubo"
+msgstr "Iinkqubo zesiqaphelisi"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:2
-#, fuzzy
 msgid "Ask for confirmation when deleting items"
-msgstr "_Cela isiqinisekiso xa ucima izinto"
+msgstr "Cela isiqinisekiso ngelixa ucima izinto"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:3
-#, fuzzy
 msgid "Background color of tasks that are due today, in \"#rrggbb\" format."
-msgstr "Umbala wemisebenzi efuneka namhlanje"
+msgstr ""
+"Umbala ongasemva wemisebenzi elindeleke namhlanje ngokobume be-\"#rrggbb\"."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:4
-#, fuzzy
 msgid "Background color of tasks that are overdue, in \"#rrggbb\" format."
-msgstr "Umbala wemisebenzi edlulelwe lixesha"
+msgstr ""
+"Umbala ongasemva wemisebenzi esele idlulelwe lixesha ngokobume be-\"#rrggbb"
+"\"."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:5
 msgid "Calendars to run alarms for"
@@ -4440,144 +4424,145 @@ msgid "Compress weekends in month view"
 msgstr "Zicuthe iimpelaveki kumboniso wenyanga"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:7
-#, fuzzy
 msgid "Confirm expunge"
-msgstr "Azisa_xa ucima isiqulathi seefayili"
+msgstr "Qinisekisa ukucima"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:8
 msgid "Days on which the start and end of work hours should be indicated."
 msgstr ""
+"Iintsuku zokubonisa isiqalo nesiphelo seeyure zokusebenza kufuneka "
+"zibonisiwe."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:9
-#, fuzzy
 msgid "Default appointment reminder"
-msgstr "Cima onke amadinga"
+msgstr "Misela isikhumbuzi ngamadinga"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:10
-#, fuzzy
 msgid "Default reminder units"
-msgstr "Izimiso Ezibekwe Phambili:"
+msgstr "Misela iiyunithi zesikhumbuzi"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:11
-#, fuzzy
 msgid "Default reminder value"
-msgstr "Iiyunithi zesikhumbuzi ezimiselweyo"
+msgstr "Misela ixabiso lesikhumbuzi"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:12
-#, fuzzy
 msgid "Free/busy server urls"
-msgstr "Isicelo Esifumanekayo/Esixakekeileyo"
+msgstr "Iiseva zee-url Ezifumanekayo/Ezixakekeileyo"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:13
-#, fuzzy
 msgid "Free/busy template url"
-msgstr "Impendulo Efumanekanyo/Exakekileyo"
+msgstr "Isikhokelo se-url Efumanekanyo/Exakekileyo"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:14
 msgid "Hide completed tasks"
 msgstr "Fihla imisebenzi egqitywe"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:15
-#, fuzzy
 msgid "Hide task units"
-msgstr "Uluhlu olutsha lomsebenzi"
+msgstr "Fihla iiyunithi zomsebenzi"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:16
 msgid "Hide task value"
-msgstr ""
+msgstr "Fihla ixabiso lomsebenzi"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:17
 msgid "Horizontal pane position"
-msgstr ""
+msgstr "Indawo yobubanzi begilasi yefestile"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:18
 msgid "Hour the workday ends on, in twenty four hour format, 0 to 23."
 msgstr ""
+"Iyure oluphela ngayo usuku lokusebenza, ngokobume beeyure ezingamashumi "
+"amabini anesine, ukusuka ku-0 ukuya kuma-23 eeyure."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:19
 msgid "Hour the workday starts on, in twenty four hour format, 0 to 23."
 msgstr ""
+"Iyure yokuqalisa usuku lokusebenza, ngokobume beeyure ezingamashumi amabini "
+"anesine eeyure, ukusuka ku-0 ukuya kuma-23 eeyure."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:20
-#, fuzzy
 msgid "Last alarm time"
-msgstr "ixesha-lokuqala"
+msgstr "Ixesha lokugqibela lokulumkisa"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:21
-#, fuzzy
 msgid "List of server urls for free/busy publishing."
-msgstr "Uluhlu lwe-urls elingahlawulwayo/luxakekile lusapapasha"
+msgstr "Uluhlu lweseva yee-url olufumanekayo/oluxakekileyo lusashicilelwa."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:22
-#, fuzzy
 msgid "Minute the workday ends on, 0 to 59"
-msgstr "Umzuzu oluphela ngawo usuku lomsebenzi"
+msgstr "Umzuzu oluphela ngawo usuku lokusebenza, ukusuka ku-0 ukuya kuma-59"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:23
-#, fuzzy
 msgid "Minute the workday starts on, 0 to 59."
-msgstr "Umzuzu oluqala ngawo usuku lomsebenzi"
+msgstr "Umzuzu oluqala ngawo usuku lokusebenza, ukusuka ku-0 ukuya kuma-59."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:24
-#, fuzzy
 msgid "Month view horizontal pane position"
-msgstr "Indawo yobubanzi begilasi yefestile"
+msgstr "Umboniso wenyanga wobubanzi bendawo yegilasi yefestile"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:25
-#, fuzzy
 msgid "Month view vertical pane position"
-msgstr "Indawo yobude begilasi yefestile kwisibonisi esingundoqo"
+msgstr "Umboniso wenyanga wobubanzi bendawo yegilasi yefestile"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:26
-#, fuzzy
 msgid "Number of units for determining for a default reminder."
-msgstr "Inani leeyunithi zesikhumbuzi esimiselweyo"
+msgstr "Inani leeyunithi zokumisa ummiselo wesikhumbuzi."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:27
-#, fuzzy
 msgid "Number of units for determining when to hide tasks."
-msgstr "Inani leeyunithi zokumisa ukuba ungawufihla nini na umsebenzi"
+msgstr "Inani leeyunithi zokumisa ixesha lokufihla imisebenzi."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:28
-#, fuzzy
 msgid "Overdue tasks color"
-msgstr "_Imisebenzi edlulelwe lixesha:"
+msgstr "Umbala wemisebenzi edlulelwe lixesha"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:29
 msgid ""
 "Position of the horizontal pane, between the date navigator calendar and the "
 "task list when not in the month view, in pixels."
 msgstr ""
+"Indawo yobubanzi begilasi yefestile phakathi kwekhalenda yomsebenzi kunye "
+"noluhlu lwemisebenzi engaboniswanga kumboniso wenyanga ngokwee-pixel."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:30
 msgid ""
 "Position of the horizontal pane, between the view and the date navigator "
 "calendar and task list in the month view, in pixels."
 msgstr ""
+"Indawo yobubanzi begilasi yefestile phakathi komboniso kunye nomhla "
+"wekhalenda yomsebenzi kunye noluhlu lomsebenzi oluboniswe kumboniso wenyanga "
+"ngokwee-pixel."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:31
-#, fuzzy
 msgid ""
 "Position of the vertical pane, between task list and the task preview pane, "
 "in pixels."
-msgstr "Indawo yobubanzi begilasi yefestile kumsebenzi owujongileyo"
+msgstr ""
+"Indawo yobubanzi begilasi yefestile phakathi koluhlu lomsebenzi kunye "
+"negilasi yefestile ejongwa phambi koshicilelo ngee-pixel."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:32
 msgid ""
 "Position of the vertical pane, between the view and the date navigator "
 "calendar and task list in the month view, in pixels."
 msgstr ""
+"Indawo yobude begilasi yefestile phakathi komboniso kunye nomhla wekhalenda "
+"yomsebenzi kunye noluhlu lomsebenzi oluboniswe kumboniso wenyanga ngokwee-"
+"pixel."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:33
 msgid ""
 "Position of the vertical pane, between the view and the date navigator "
 "calendar and task list when not in the month view, in pixels."
 msgstr ""
+"Indawo yobude begilasi yefestile phakathi komboniso kunye nomhla wekhalenda "
+"yomsebenzi kunye noluhlu lomsebenzi olungaboniswanga kumboniso wenyanga "
+"ngokwee-pixel."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:34
-#, fuzzy
 msgid "Programs that are allowed to be run by alarms."
-msgstr "Iinkqubo ezingaphunyezwa njengenxalenye yesandi esilumkisayo"
+msgstr "Iinkqubo ezivunyelwe ukuba zingaphunyezwa ngezilumkisi."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:35
 msgid "Show appointment end times in week and month views"
@@ -4585,27 +4570,28 @@ msgstr "Bonisa amaxesha okuphela kwedinga kumboniso wenyanga noweveki"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:36
 msgid "Show display alarms in notification tray"
-msgstr ""
+msgstr "Bonisa izilumkiso zomboniso kwitreyi yesaziso"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:37
-#, fuzzy
 msgid "Show week numbers in date navigator"
-msgstr "Bonisa iinombolo_zeveki kumhloli onemihla"
+msgstr "Bonisa amanani_eveki kwikhalenda enemihla"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:38
-#, fuzzy
 msgid "Tasks due today color"
-msgstr "Imi_sebenzi efuna namhlanje:"
+msgstr "Imibala yemisebenzi efuneka namhlanje"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:39
 msgid "Tasks vertical pane position"
-msgstr ""
+msgstr "Imisebenzi ekwindawo ekubude begilasi yefestile"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:40
 msgid ""
 "The default timezone to use for dates and times in the calendar, as an "
 "untranslated Olsen timezone database location like \"America/New York\"."
 msgstr ""
+"Ukumiselwa kwexesha lendawo emalisetyenziswe ukubonisa imihla namaxesha "
+"kwikhalenda njengangaguqulwanga kulawo asekwa ngu-Olsen kwi-database "
+"enjenge- \"America/New York\"."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:42
 #, no-c-format
@@ -4613,18 +4599,21 @@ msgid ""
 "The url template to use as a free/busy data fallback, %u is replaced by the "
 "user part of the mail address and %d is replaced by the domain."
 msgstr ""
+"Isikhokelo se-url emasisetyenziswe njengesifumanekayo/esixakekileyo, "
+"endaweni ye-%u kubekwe inxenye yomsebenzisi wedilesi ye-imeyile ze endaweni "
+"ye-%d kubekwe ummandla."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:43
-#, fuzzy
 msgid ""
 "Time divisions</short> <short>Intervals shown in Day and Work Week views, in "
 "minutes."
-msgstr "Ixesha lokuphumla kumboniso kuSuku neVeki yoMsebenzi"
+msgstr ""
+"Ukwahlulwa-hlulwa kwexesha</short> <short>Ixesha lokuphumla liboniswe "
+"ngemiboniso yoSuku neVeki Yokusebenza, ngemizuzu."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:44
-#, fuzzy
 msgid "Time the last alarm ran, in time_t."
-msgstr "Ubude bexesha lokukhala kwesandi esilumkisayo"
+msgstr "Ixesha esikhale okokugqibela ngaso isilumkisi, ngo-time_t."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:45
 msgid "Timezone"
@@ -4632,78 +4621,79 @@ msgstr "Ixesha lendawo"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:46
 msgid "Twenty four hour time format"
-msgstr ""
+msgstr "Ubume bexesha ngokweeyure ezingamashumi amabini anesine"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:47
 msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\"."
 msgstr ""
+"Iiyunithi zokumisela isikhumbuzi,  \"ngemizuzu\", \"ngeeyure\" okanye "
+"\"ngeentsuku\"."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:48
-#, fuzzy
 msgid ""
 "Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days\"."
-msgstr "Iiyunithi ezimisa ixesha lokufihlwa kwemisebenzi"
+msgstr ""
+"Iiyunithi ezimisa ixesha lokufihlwa kwemisebenzi, ngokwe\"mizuzu\", \"iiyure"
+"\" okanye \"iintsuku\"."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:50
-#, fuzzy
 msgid "Week start"
-msgstr "Ukuqala kweve_ki:"
+msgstr "Ukuqalisa kweveki"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:51
-#, fuzzy
 msgid "Weekday the week starts on, from Sunday (0) to Saturday (6)."
-msgstr "Usuku lweveki eqala ngayo iveki"
+msgstr ""
+"Usuku eqalisa ngayo iveki yokusebenza, ukusuka ngeCawe (0) ukuya ngoMgqibelo "
+"(6)."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:52
-#, fuzzy
 msgid "Whether or not to use the notification tray for display alarms."
 msgstr ""
-"Ukuba ungayisebenzisa okanye ungayisebenzisi itreyi yokubonisa isandi "
-"esilumkisayo kwiskrini"
+"Nokuba uyayisebenzisa okanye akuyisebenzisi na itreyi yesaziso ukukunika "
+"isilumkiso kumboniso okwiskrini."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:53
-#, fuzzy
 msgid "Whether to ask for confirmation when deleting an appointment or task."
-msgstr "Ukuba ungacela ukwaziswa xa kucinywa idinga"
+msgstr ""
+"Nokuba kufuneka ucele isiqinisekiso ngelixa ucima idinga okanye umsebenzi."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:54
-#, fuzzy
 msgid "Whether to ask for confirmation when expunging appointments and tasks."
-msgstr "Ukuba ungacela ukwaziswa xa kucinywa idinga"
+msgstr ""
+"Nokuba ungacela isiqinisekiso ngelixa ucima amadinga okanye imisebenzi."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:55
 msgid ""
 "Whether to compress weekends in the month view, which puts Saturday and "
 "Sunday in the space of one weekday."
 msgstr ""
+"Nokudibanisa iimpelaveki kumboniso wenyanga, nokubeka uMgqibelo neCawe "
+"kwisithuba sosuku olunye lweveki."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:56
-#, fuzzy
 msgid "Whether to display the end time of events in the week and month views."
-msgstr "_Bonisa amaxesha okuphela kwedinga kumboniso wenyanga noweveki"
+msgstr ""
+"Nokuba ubonisa kwiskrini ixesha lokuphela kwezehlo kwimiboniso yeveki "
+"neyenyanga."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:57
-#, fuzzy
 msgid "Whether to hide completed tasks in the tasks view."
-msgstr "Ukuba ingafihlwa na imisebenzi egqityiweyo"
+msgstr "Nokuba ingafihlwa na imisebenzi egqityiweyo kumboniso wemisebenzi."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:58
-#, fuzzy
 msgid "Whether to set a default reminder for appointments."
-msgstr "Ukuba kungamiswa isikhumbuzi-ziganeko"
+msgstr "Nokuba kungamiswa imimiselo yesikhumbuzi samadinga."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:59
-#, fuzzy
 msgid ""
 "Whether to show times in twenty four hour format instead of using am/pm."
 msgstr ""
-"Ukuba kungaboniswa ixesha ngendlela yeeyure ezingama-24 endaweni "
-"yokusebenzisa ukusasa/emva kwemini"
+"Nokuba kungaboniswa amaxesha ngobume beeyure ezingama-24 endaweni "
+"yokusebenzisa ukusasa/emva kwemini."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:60
-#, fuzzy
 msgid "Whether to show week numbers in the date navigator."
-msgstr "Ukuba kuboniswe inombolo yeveki kwisihloli esinomhla"
+msgstr "Nokuba kuboniswe amanani eveki kwikhalenda yomhla."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:61
 msgid "Work days"
@@ -4711,21 +4701,19 @@ msgstr "Iintsuku zomsebenzi"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:62
 msgid "Workday end hour"
-msgstr ""
+msgstr "Iyure yokuphela kosuku lokusebenza"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:63
 msgid "Workday end minute"
-msgstr ""
+msgstr "Umzuzu wokuphela kosuku lokusebenza"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:64
-#, fuzzy
 msgid "Workday start hour"
-msgstr "Iyure oluqala ngayo usuku lomsebenzi"
+msgstr "Iyure yokuqalisa usuku lokusebenza"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:65
-#, fuzzy
 msgid "Workday start minute"
-msgstr "Iyure oluqala ngayo usuku lomsebenzi"
+msgstr "Umzuzu wokuqalisa usuku lokusebenza"
 
 #: ../calendar/gui/cal-search-bar.c:49
 msgid "Summary contains"
@@ -4782,12 +4770,12 @@ msgstr "iintsuku"
 #. Create the On the web source group
 #. Create the Webcal source group
 #. Create the LDAP source group
-#: ../calendar/gui/calendar-component.c:234 ../calendar/gui/migration.c:486
-#: ../calendar/gui/migration.c:579 ../calendar/gui/tasks-component.c:215
+#: ../calendar/gui/calendar-component.c:234 ../calendar/gui/migration.c:489
+#: ../calendar/gui/migration.c:582 ../calendar/gui/tasks-component.c:215
 msgid "On The Web"
 msgstr "Kwi-Web"
 
-#: ../calendar/gui/calendar-component.c:252 ../calendar/gui/migration.c:388
+#: ../calendar/gui/calendar-component.c:252 ../calendar/gui/migration.c:391
 msgid "Birthdays & Anniversaries"
 msgstr "Imihla yokuzalwa & Izikhumbuzo zomnyaka"
 
@@ -5044,7 +5032,7 @@ msgid "attachment"
 msgstr "isiqhoboshelo"
 
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:439
-#: ../calendar/gui/dialogs/meeting-page.c:781
+#: ../calendar/gui/dialogs/meeting-page.c:784
 #: ../composer/e-msg-composer-attachment-bar.c:437
 #: ../plugins/shared-folder/properties.glade.h:14
 msgid "_Remove"
@@ -5052,7 +5040,7 @@ msgstr "_Susa"
 
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:440
 #: ../composer/e-msg-composer-attachment-bar.c:438
-#: ../mail/em-folder-tree.c:2819 ../ui/evolution-mail-list.xml.h:27
+#: ../mail/em-folder-tree.c:2820 ../ui/evolution-mail-list.xml.h:27
 msgid "_Properties"
 msgstr "_Iimpawu"
 
@@ -5550,7 +5538,7 @@ msgstr[1] "%d Imiyalezo eqhotyoshelweyo"
 
 #: ../calendar/gui/dialogs/comp-editor.c:412
 #: ../calendar/gui/e-calendar-table.c:1164
-#: ../calendar/gui/e-calendar-view.c:1404 ../composer/e-msg-composer.c:2906
+#: ../calendar/gui/e-calendar-view.c:1405 ../composer/e-msg-composer.c:2906
 #: ../mail/em-folder-tree.c:1047 ../mail/em-folder-view.c:980
 #: ../mail/message-list.c:1707 ../ui/evolution-addressbook.xml.h:31
 #: ../ui/evolution-calendar.xml.h:39 ../ui/evolution-composer-entries.xml.h:7
@@ -5593,6 +5581,8 @@ msgstr "Bonisa _Uphawu Lwesiqhoboshelo (zibeke apha iziqhoboshelo)"
 #: ../calendar/gui/dialogs/comp-editor.c:979 ../composer/e-msg-composer.c:3509
 msgid "Attachment Button: Press space key to toggle attachment bar"
 msgstr ""
+"Iqhosha Lokuqhoboshela: Cofa iqhosha lokushiya isithuba uku-toggle i-bar "
+"yokuqhoboshela"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1526
 #: ../calendar/gui/dialogs/comp-editor.c:1569
@@ -5763,25 +5753,25 @@ msgid "Unable to open the calendar '%s'."
 msgstr "Ayiphumelelanga ukuvula ikhalenda '%s'."
 
 #: ../calendar/gui/dialogs/event-page.c:1882
-#, fuzzy, c-format
+#, c-format
 msgid "%d day before appointment"
 msgid_plural "%d days before appointment"
-msgstr[0] "Usuku olunye ngaphambi kwedinga"
-msgstr[1] "Usuku olunye ngaphambi kwedinga"
+msgstr[0] "I-%d yosuku ngaphambi kwedinga"
+msgstr[1] "I-%d yeentsuku ngaphambi kwedinga"
 
 #: ../calendar/gui/dialogs/event-page.c:1890
-#, fuzzy, c-format
+#, c-format
 msgid "%d hour before appointment"
 msgid_plural "%d hours before appointment"
-msgstr[0] "Iyure enye ngaphambi kwedinga"
-msgstr[1] "Iyure enye ngaphambi kwedinga"
+msgstr[0] "I-%d yeyure ngaphambi kwedinga"
+msgstr[1] "I-%d yeeyure ngaphambi kwedinga"
 
 #: ../calendar/gui/dialogs/event-page.c:1898
-#, fuzzy, c-format
+#, c-format
 msgid "%d minute before appointement"
 msgid_plural "%d minutes before appointment"
-msgstr[0] "Imizuzu eli-15 ngaphambi kwedinga"
-msgstr[1] "Imizuzu eli-15 ngaphambi kwedinga"
+msgstr[0] "I-%d yomzuzu  ngaphambi kwedinga"
+msgstr[1] "I-%d yemizuzu ngaphambi kwedinga"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:2
 msgid "1 day before appointment"
@@ -5907,7 +5897,7 @@ msgstr "_Ixesha lokuqalisa:"
 #: ../calendar/gui/e-itip-control.c:1104 ../composer/e-msg-composer.c:2117
 #: ../filter/filter-rule.c:878 ../mail/em-account-editor.c:683
 #: ../mail/em-account-editor.c:1288 ../mail/em-account-prefs.c:437
-#: ../mail/em-folder-view.c:1007
+#: ../mail/em-folder-view.c:1009
 #: ../plugins/calendar-weather/calendar-weather.c:371
 #: ../plugins/calendar-weather/calendar-weather.c:425
 #: ../plugins/itip-formatter/itip-formatter.c:1390
@@ -5917,19 +5907,19 @@ msgstr "_Ixesha lokuqalisa:"
 msgid "None"
 msgstr "Nanye"
 
-#: ../calendar/gui/dialogs/meeting-page.c:432
+#: ../calendar/gui/dialogs/meeting-page.c:435
 msgid "The organizer selected no longer has an account."
 msgstr "Lo mququzeleli umkhethileyo akasenayo i-akhawunti."
 
-#: ../calendar/gui/dialogs/meeting-page.c:438
+#: ../calendar/gui/dialogs/meeting-page.c:441
 msgid "An organizer is required."
 msgstr "Kufuneka umququzeleli."
 
-#: ../calendar/gui/dialogs/meeting-page.c:453
+#: ../calendar/gui/dialogs/meeting-page.c:456
 msgid "At least one attendee is required."
 msgstr "Kufuneka kubekho umntu omnye ubuncinane."
 
-#: ../calendar/gui/dialogs/meeting-page.c:778
+#: ../calendar/gui/dialogs/meeting-page.c:781
 msgid "_Delegate To..."
 msgstr "_Thumela ku..."
 
@@ -6323,7 +6313,7 @@ msgstr "<b>Indawo _Yokushicilela</b>"
 
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:6
 msgid "Free/Busy Publishing Settings"
-msgstr ""
+msgstr "Imimiselo Yoshicilelo Olufumanekayo/Oluxakekileyo"
 
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:7
 msgid "_Daily"
@@ -6428,7 +6418,7 @@ msgstr "i-%s e-%s"
 msgid "%s for an unknown trigger type"
 msgstr "i-%s ngohlobo olungaziwayo lwenkcukumiso"
 
-#: ../calendar/gui/e-cal-component-preview.c:70 ../mail/em-folder-view.c:2609
+#: ../calendar/gui/e-cal-component-preview.c:70 ../mail/em-folder-view.c:2614
 #, c-format
 msgid "Click to open %s"
 msgstr "Cofa ukuvula i-%s"
@@ -6602,9 +6592,8 @@ msgid "100%"
 msgstr "100%"
 
 #: ../calendar/gui/e-calendar-table.c:516
-#, fuzzy
 msgid "Task Table"
-msgstr "Ukuhlaziya Umsebenzi"
+msgstr "Itheyibhile Yomsebenzi"
 
 #: ../calendar/gui/e-calendar-table.c:694
 #: ../calendar/gui/e-calendar-view.c:652
@@ -6617,12 +6606,12 @@ msgid "Updating objects"
 msgstr "Hlaziya izinto"
 
 #: ../calendar/gui/e-calendar-table.c:1014
-#: ../calendar/gui/e-calendar-view.c:1064 ../composer/e-msg-composer.c:1241
+#: ../calendar/gui/e-calendar-view.c:1065 ../composer/e-msg-composer.c:1241
 msgid "Save as..."
 msgstr "Gcina njenge..."
 
 #: ../calendar/gui/e-calendar-table.c:1156
-#: ../calendar/gui/e-calendar-view.c:1397 ../ui/evolution-addressbook.xml.h:37
+#: ../calendar/gui/e-calendar-view.c:1398 ../ui/evolution-addressbook.xml.h:37
 msgid "_Open"
 msgstr "_Vula"
 
@@ -6631,28 +6620,28 @@ msgid "Open _Web Page"
 msgstr "Vula i-_Web Page"
 
 #: ../calendar/gui/e-calendar-table.c:1158
-#: ../calendar/gui/e-calendar-view.c:1398 ../mail/em-folder-view.c:990
+#: ../calendar/gui/e-calendar-view.c:1399 ../mail/em-folder-view.c:990
 #: ../mail/em-popup.c:494 ../ui/evolution-mail-message.xml.h:124
 msgid "_Save As..."
 msgstr "_Gcina Njenge..."
 
 #: ../calendar/gui/e-calendar-table.c:1159
-#: ../calendar/gui/e-calendar-view.c:1378
-#: ../calendar/gui/e-calendar-view.c:1399 ../ui/evolution-addressbook.xml.h:40
+#: ../calendar/gui/e-calendar-view.c:1379
+#: ../calendar/gui/e-calendar-view.c:1400 ../ui/evolution-addressbook.xml.h:40
 #: ../ui/evolution-calendar.xml.h:44 ../ui/evolution-mail-message.xml.h:121
 #: ../ui/evolution-tasks.xml.h:25
 msgid "_Print..."
 msgstr "_Shicilela..."
 
 #: ../calendar/gui/e-calendar-table.c:1163
-#: ../calendar/gui/e-calendar-view.c:1403 ../ui/evolution-addressbook.xml.h:1
+#: ../calendar/gui/e-calendar-view.c:1404 ../ui/evolution-addressbook.xml.h:1
 #: ../ui/evolution-calendar.xml.h:1 ../ui/evolution-tasks.xml.h:1
 msgid "C_ut"
 msgstr "S_ika"
 
 #: ../calendar/gui/e-calendar-table.c:1165
-#: ../calendar/gui/e-calendar-view.c:1381
-#: ../calendar/gui/e-calendar-view.c:1405 ../ui/evolution-addressbook.xml.h:38
+#: ../calendar/gui/e-calendar-view.c:1382
+#: ../calendar/gui/e-calendar-view.c:1406 ../ui/evolution-addressbook.xml.h:38
 #: ../ui/evolution-calendar.xml.h:43 ../ui/evolution-composer-entries.xml.h:9
 #: ../ui/evolution-mail-message.xml.h:119 ../ui/evolution-tasks.xml.h:24
 msgid "_Paste"
@@ -6676,7 +6665,7 @@ msgstr "_Phawula Imisebenzi Ekhethiweyo njengeGqityiweyo"
 
 #. FIXME: need to disable for undeletable folders
 #: ../calendar/gui/e-calendar-table.c:1176
-#: ../calendar/gui/e-calendar-view.c:1416 ../mail/em-folder-tree.c:2815
+#: ../calendar/gui/e-calendar-view.c:1417 ../mail/em-folder-tree.c:2816
 #: ../mail/em-folder-view.c:994 ../ui/evolution-addressbook.xml.h:33
 #: ../ui/evolution-calendar.xml.h:40 ../ui/evolution-mail-message.xml.h:108
 #: ../ui/evolution-tasks.xml.h:21
@@ -6721,69 +6710,69 @@ msgstr "Umhla wokuqalisa"
 msgid "Task sort"
 msgstr "Ukuhlela umsebenzi"
 
-#: ../calendar/gui/e-calendar-view.c:1185
+#: ../calendar/gui/e-calendar-view.c:1186
 msgid "Moving items"
 msgstr "Shenxisa izinto"
 
-#: ../calendar/gui/e-calendar-view.c:1187
+#: ../calendar/gui/e-calendar-view.c:1188
 msgid "Copying items"
 msgstr "Ukukopa izinto"
 
-#: ../calendar/gui/e-calendar-view.c:1372
+#: ../calendar/gui/e-calendar-view.c:1373
 msgid "New _Appointment..."
 msgstr "Idinga _Elitsha..."
 
-#: ../calendar/gui/e-calendar-view.c:1373
+#: ../calendar/gui/e-calendar-view.c:1374
 msgid "New All Day _Event"
 msgstr "Isiganeko _Esitsha Sosuku Lonke"
 
-#: ../calendar/gui/e-calendar-view.c:1375
+#: ../calendar/gui/e-calendar-view.c:1376
 msgid "New Task"
 msgstr "Umsebenzi Omtsha"
 
 #. FIXME: hook in this somehow
-#: ../calendar/gui/e-calendar-view.c:1385
+#: ../calendar/gui/e-calendar-view.c:1386
 msgid "Current View"
 msgstr "Okubona Ngoku"
 
-#: ../calendar/gui/e-calendar-view.c:1387 ../ui/evolution-calendar.xml.h:26
+#: ../calendar/gui/e-calendar-view.c:1388 ../ui/evolution-calendar.xml.h:26
 msgid "Select _Today"
 msgstr "Khetha _Namhlanje"
 
-#: ../calendar/gui/e-calendar-view.c:1388
+#: ../calendar/gui/e-calendar-view.c:1389
 msgid "_Select Date..."
 msgstr "_Khetha Umhla..."
 
 #. TODO: Why is this in a context menu when it applies globally?
-#: ../calendar/gui/e-calendar-view.c:1393 ../ui/evolution-calendar.xml.h:45
+#: ../calendar/gui/e-calendar-view.c:1394 ../ui/evolution-calendar.xml.h:45
 msgid "_Publish Free/Busy Information"
 msgstr "_Shicilela Ulwazi Olufumanekayo/Oluxakekileyo"
 
-#: ../calendar/gui/e-calendar-view.c:1409
+#: ../calendar/gui/e-calendar-view.c:1410
 msgid "Cop_y to Calendar..."
 msgstr "Kop_ela kwiKhalenda..."
 
-#: ../calendar/gui/e-calendar-view.c:1410
+#: ../calendar/gui/e-calendar-view.c:1411
 msgid "Mo_ve to Calendar..."
 msgstr "She_nxisela kwiKhalenda..."
 
-#: ../calendar/gui/e-calendar-view.c:1411
+#: ../calendar/gui/e-calendar-view.c:1412
 msgid "_Schedule Meeting..."
 msgstr "_Ceba intlanganiso..."
 
-#: ../calendar/gui/e-calendar-view.c:1412
+#: ../calendar/gui/e-calendar-view.c:1413
 msgid "_Forward as iCalendar..."
 msgstr "_Dlulisa njenge-iCalendar..."
 
-#: ../calendar/gui/e-calendar-view.c:1417
+#: ../calendar/gui/e-calendar-view.c:1418
 msgid "Make this Occurrence _Movable"
 msgstr "Yenza esi Senzeko _Sishenxiseke"
 
-#: ../calendar/gui/e-calendar-view.c:1418
+#: ../calendar/gui/e-calendar-view.c:1419
 msgid "Delete this _Occurrence"
 msgstr "Cima esi _Senzeko"
 
-#: ../calendar/gui/e-calendar-view.c:1419
+#: ../calendar/gui/e-calendar-view.c:1420
 msgid "Delete _All Occurrences"
 msgstr "Cima _Zonke Izenzeko"
 
@@ -6851,18 +6840,18 @@ msgid "Yes. (Complex Recurrence)"
 msgstr "Ewe. (Isenzekho esineenkcukacha eziziphindaphindayp)"
 
 #: ../calendar/gui/e-itip-control.c:772
-#, fuzzy, c-format
+#, c-format
 msgid "Every day"
 msgid_plural "Every %d days"
-msgstr[0] "Minyaka le"
-msgstr[1] "Ngayo yonke le %d minyaka"
+msgstr[0] "Yonke imihla"
+msgstr[1] "Ngayo yonke le %d mihla"
 
 #: ../calendar/gui/e-itip-control.c:777
-#, fuzzy, c-format
+#, c-format
 msgid "Every week"
 msgid_plural "Every %d weeks"
-msgstr[0] "Ngeveki ngo "
-msgstr[1] "Zonke %d iiveki ngo "
+msgstr[0] "Zonke iiveki"
+msgstr[1] "Zonke ezi-%d zeeveki"
 
 #: ../calendar/gui/e-itip-control.c:779
 #, c-format
@@ -7442,7 +7431,7 @@ msgstr "Abantu abafunekayo no_vimba omnye"
 msgid "Enter the password for %s"
 msgstr "Faka i-password ye-%s"
 
-#: ../calendar/gui/e-tasks.c:763 ../calendar/gui/gnome-cal.c:2384
+#: ../calendar/gui/e-tasks.c:763 ../calendar/gui/gnome-cal.c:2393
 #, c-format
 msgid ""
 "Error on %s:\n"
@@ -7500,23 +7489,23 @@ msgstr "Gcina Okuboniswa Umthengi"
 msgid "Define Views..."
 msgstr "Chaza Okuboniswa Kwiskrini..."
 
-#: ../calendar/gui/gnome-cal.c:2233
+#: ../calendar/gui/gnome-cal.c:2238
 #, c-format
 msgid "Loading appointments at %s"
 msgstr "Ukufaka amadinga kwi-%s"
 
-#: ../calendar/gui/gnome-cal.c:2252
+#: ../calendar/gui/gnome-cal.c:2257
 #, c-format
 msgid "Loading tasks at %s"
 msgstr "Ukufaka imisebenzi kwi-%s"
 
-#: ../calendar/gui/gnome-cal.c:2350
+#: ../calendar/gui/gnome-cal.c:2359
 #, c-format
 msgid "Opening %s"
 msgstr "Ukuvula i-%s"
 
 # Translation much longer than original. Nothing shorter?
-#: ../calendar/gui/gnome-cal.c:3240
+#: ../calendar/gui/gnome-cal.c:3249
 msgid "Purging"
 msgstr "Ukucima okungabalulekanga"
 
@@ -7655,18 +7644,18 @@ msgstr ""
 "Nceda ube nomonde ngelixa i-Evolution ifudusa iziqulathi zeefayili zakho..."
 
 #. FIXME: set proper domain/code
-#: ../calendar/gui/migration.c:745 ../calendar/gui/migration.c:912
+#: ../calendar/gui/migration.c:748 ../calendar/gui/migration.c:915
 msgid "Unable to migrate old settings from evolution/config.xmldb"
 msgstr "Ayinako ukufudusa imimiselo emidala iyisusa evolution/config.xmldb"
 
 #. FIXME: domain/code
-#: ../calendar/gui/migration.c:774
+#: ../calendar/gui/migration.c:777
 #, c-format
 msgid "Unable to migrate calendar `%s'"
 msgstr "Ayinako ukufudusa ikhalenda `%s'"
 
 #. FIXME: domain/code
-#: ../calendar/gui/migration.c:941
+#: ../calendar/gui/migration.c:944
 #, c-format
 msgid "Unable to migrate tasks `%s'"
 msgstr "Ayinako ukufudusa imisebenzi `%s'"
@@ -7899,18 +7888,18 @@ msgid "New Task List"
 msgstr "Uluhlu Olutsha Lwemisebenzi"
 
 #: ../calendar/gui/tasks-component.c:515
-#, fuzzy, c-format
+#, c-format
 msgid "%d task"
 msgid_plural "%d tasks"
-msgstr[0] "Umsebenzi omtsha"
-msgstr[1] "Umsebenzi omtsha"
+msgstr[0] "I-%d umsebenzi"
+msgstr[1] "Ii-%d imisebenzi"
 
 #: ../calendar/gui/tasks-component.c:517 ../mail/mail-component.c:544
-#, fuzzy, c-format
+#, c-format
 msgid ", %d selected"
 msgid_plural ", %d selected"
-msgstr[0] "%d icinyiwe"
-msgstr[1] "%d zicinyiwe"
+msgstr[0] ", i-%d ekhethiweyo"
+msgstr[1] ", ii-%d ezikhethiweyo"
 
 #: ../calendar/gui/tasks-component.c:564
 msgid "Failed upgrading tasks."
@@ -9864,7 +9853,7 @@ msgstr ""
 "Nceda uqinisekise ukuba ufake uhlobo oluchanekileyo lwe-gtkhtml ne-"
 "libgtkhtml."
 
-#: ../data/evolution.desktop.in.in.h:1 ../shell/main.c:517
+#: ../data/evolution.desktop.in.in.h:1 ../shell/main.c:518
 msgid "Evolution"
 msgstr "I-Evolution"
 
@@ -10204,7 +10193,7 @@ msgstr "Ayikwazanga ukwenza intetho eqhelekileyo \"{1}\"."
 
 #. filter:no-name primary
 #. mail:no-name-vfolder primary
-#: ../filter/filter-errors.xml.h:18 ../mail/mail-errors.xml.h:219
+#: ../filter/filter-errors.xml.h:18 ../mail/mail-errors.xml.h:223
 msgid "Missing name."
 msgstr "Igama elilahlekileyo."
 
@@ -10686,7 +10675,7 @@ msgstr "Ulwazi olungasebenziyo"
 msgid "Junk Test"
 msgstr "Uvavanyo Lwento Engenamsebenzi"
 
-#: ../mail/em-filter-i18n.h:37 ../mail/em-folder-view.c:1006
+#: ../mail/em-filter-i18n.h:37 ../mail/em-folder-view.c:1008
 #: ../widgets/misc/e-expander.c:189
 msgid "Label"
 msgstr "Ilebhile"
@@ -10796,7 +10785,7 @@ msgid "Stop Processing"
 msgstr "Nqumamisa Ukuphumeza"
 
 #: ../mail/em-filter-i18n.h:65 ../mail/em-format-html.c:1532
-#: ../mail/em-format-quote.c:306 ../mail/em-format.c:853
+#: ../mail/em-format-quote.c:306 ../mail/em-format.c:856
 #: ../mail/em-mailer-prefs.c:88 ../mail/message-list.etspec.h:13
 #: ../mail/message-tag-followup.c:330
 #: ../plugins/shared-folder/properties.glade.h:7 ../smime/lib/e-cert.c:1131
@@ -10813,9 +10802,8 @@ msgid "<b>Then</b>"
 msgstr "<b>Emva koko</b>"
 
 #: ../mail/em-folder-browser.c:133
-#, fuzzy
 msgid "Create _vFolder From Search..."
-msgstr "Yenza _Isiqulathi seefayili Esingeyonyani Kolu Khangelo..."
+msgstr "Yenza i-_vFolder Esuka Kwisikhangeli..."
 
 #. TODO: can this be done in a loop?
 #: ../mail/em-folder-properties.c:144
@@ -10930,9 +10918,9 @@ msgid "Scanning folders in \"%s\""
 msgstr "Ukuskena iziqulathi zeefayili kwi-\"%s\""
 
 #: ../mail/em-folder-tree.c:2024
-#, fuzzy, c-format
+#, c-format
 msgid "Copying `%s' to `%s'"
-msgstr "Ukukopa imiyalezo uyise %s"
+msgstr "Ukukopa i-`%s' uyise kwi-`%s'"
 
 #: ../mail/em-folder-tree.c:2298 ../mail/em-folder-tree.c:2312
 #: ../mail/em-folder-view.c:876 ../mail/em-folder-view.c:891
@@ -10957,45 +10945,44 @@ msgstr "Ukwenza isiqulathi seefayili `%s'"
 msgid "Create folder"
 msgstr "Yenza isiqulathi seefayili"
 
-#: ../mail/em-folder-tree.c:2721
+#: ../mail/em-folder-tree.c:2722
 #, c-format
 msgid "Rename the \"%s\" folder to:"
 msgstr "Yinike elinye igama esi \"%s\" siqulathi seefayili siya ku:"
 
-#: ../mail/em-folder-tree.c:2723
+#: ../mail/em-folder-tree.c:2724
 msgid "Rename Folder"
 msgstr "Yinike Elinye Igama"
 
-#: ../mail/em-folder-tree.c:2729
-#, fuzzy
+#: ../mail/em-folder-tree.c:2730
 msgid "Folder names cannot contain '/'"
-msgstr "Igama lesiqulathi seefayili alikwazi ukuqulatha olu phawu \"/\"."
+msgstr "Amagama esiqulathi seefayili akanakuqulatha '/'"
 
-#: ../mail/em-folder-tree.c:2803 ../ui/evolution-addressbook.xml.h:44
+#: ../mail/em-folder-tree.c:2804 ../ui/evolution-addressbook.xml.h:44
 #: ../ui/evolution-mail-global.xml.h:17
 #: ../ui/evolution-mail-messagedisplay.xml.h:8
 #: ../ui/evolution-message-composer.xml.h:53 ../ui/evolution.xml.h:49
 msgid "_View"
 msgstr "_Yikhangele"
 
-#: ../mail/em-folder-tree.c:2804
+#: ../mail/em-folder-tree.c:2805
 msgid "Open in _New Window"
 msgstr "Yivule _Kwifestile Entsha"
 
-#: ../mail/em-folder-tree.c:2808
+#: ../mail/em-folder-tree.c:2809
 msgid "_Copy..."
 msgstr "_Kopa..."
 
-#: ../mail/em-folder-tree.c:2809
+#: ../mail/em-folder-tree.c:2810
 msgid "_Move..."
 msgstr "_Shenxa..."
 
 #. FIXME: need to disable for nochildren folders
-#: ../mail/em-folder-tree.c:2813
+#: ../mail/em-folder-tree.c:2814
 msgid "_New Folder..."
 msgstr "Isiqulathi Seefayili _Esitsha..."
 
-#: ../mail/em-folder-tree.c:2816
+#: ../mail/em-folder-tree.c:2817
 msgid "_Rename..."
 msgstr "_Yinike elinye igama..."
 
@@ -11033,100 +11020,104 @@ msgstr "She_nxisela Kwisiqulathi Seefayili..."
 msgid "_Copy to Folder..."
 msgstr "_Kopela Kwisiqulathi Seefayili..."
 
-#: ../mail/em-folder-view.c:1000
+#: ../mail/em-folder-view.c:1000 ../ui/evolution-mail-message.xml.h:50
+msgid "Mar_k as Read"
+msgstr "Yiphawu_le njengeFundiweyo"
+
+#: ../mail/em-folder-view.c:1001 ../ui/evolution-mail-message.xml.h:52
+msgid "Mark as U_nread"
+msgstr "Phawula njengoN_gafundwanga"
+
+#: ../mail/em-folder-view.c:1002
 msgid "Mark as _Important"
 msgstr "Yiphawule njenge_Balulekileyo"
 
-#: ../mail/em-folder-view.c:1001
+#: ../mail/em-folder-view.c:1003
 msgid "_Mark as Unimportant"
 msgstr "_Yiphawule njengeNgabalulekanga"
 
-#: ../mail/em-folder-view.c:1002 ../ui/evolution-mail-message.xml.h:54
+#: ../mail/em-folder-view.c:1004 ../ui/evolution-mail-message.xml.h:54
 msgid "Mark as _Junk"
 msgstr "Yiphawule njenge_Ngasebenziyo"
 
-#: ../mail/em-folder-view.c:1003 ../ui/evolution-mail-message.xml.h:55
+#: ../mail/em-folder-view.c:1005 ../ui/evolution-mail-message.xml.h:55
 msgid "Mark as _Not Junk"
 msgstr "Yiphawule njenge_Sebenzayo"
 
-#: ../mail/em-folder-view.c:1004
-#, fuzzy
+#: ../mail/em-folder-view.c:1006
 msgid "Mark for Follo_w Up..."
-msgstr "Yila_ndele..."
+msgstr "Phawulela ukuba Uyila_ndele..."
 
-#: ../mail/em-folder-view.c:1012
+#: ../mail/em-folder-view.c:1014
 msgid "Fla_g Completed"
 msgstr "Fle_ga Igqityiwe"
 
-#: ../mail/em-folder-view.c:1013
+#: ../mail/em-folder-view.c:1015
 msgid "Cl_ear Flag"
 msgstr "Su_la iFlegi"
 
-#: ../mail/em-folder-view.c:1016
+#: ../mail/em-folder-view.c:1018
 msgid "Crea_te Rule From Message"
 msgstr "Yen_za Umthetho Ovela Kumyalezo"
 
-#: ../mail/em-folder-view.c:1017
+#: ../mail/em-folder-view.c:1019
 msgid "vFolder on _Subject"
 msgstr "I-vFolder ekwi _Sihloko"
 
-#: ../mail/em-folder-view.c:1018
+#: ../mail/em-folder-view.c:1020
 msgid "vFolder on Se_nder"
 msgstr "I-vFolder kuMth_umeli"
 
-#: ../mail/em-folder-view.c:1019
+#: ../mail/em-folder-view.c:1021
 msgid "vFolder on _Recipients"
 msgstr "I-vFolder eku_Bamkeli"
 
-#: ../mail/em-folder-view.c:1020
+#: ../mail/em-folder-view.c:1022
 msgid "vFolder on Mailing _List"
 msgstr "I-vFolder ekuLuhlu _Lwabantu Oqhagamshelana nabo nge-imeyili"
 
-#: ../mail/em-folder-view.c:1024
+#: ../mail/em-folder-view.c:1026
 msgid "Filter on Sub_ject"
 msgstr "Hluza kwiSihl_oko"
 
-#: ../mail/em-folder-view.c:1025
+#: ../mail/em-folder-view.c:1027
 msgid "Filter on Sen_der"
 msgstr "Hluza kuMthume_li"
 
-#: ../mail/em-folder-view.c:1026
+#: ../mail/em-folder-view.c:1028
 msgid "Filter on Re_cipients"
 msgstr "Hluza ku_Bamkeli"
 
-#: ../mail/em-folder-view.c:1027
+#: ../mail/em-folder-view.c:1029
 msgid "Filter on _Mailing List"
 msgstr "Hluza ku_Luhlu Lwabantu Oqhagamshelana nabo"
 
 #. default charset used in mail view
-#: ../mail/em-folder-view.c:1858 ../mail/em-folder-view.c:1902
+#: ../mail/em-folder-view.c:1863 ../mail/em-folder-view.c:1907
 msgid "Default"
 msgstr "Misela"
 
-#: ../mail/em-folder-view.c:2001
+#: ../mail/em-folder-view.c:2006
 msgid "Print Message"
 msgstr "Umyalezo Woshicilelo"
 
-#: ../mail/em-folder-view.c:2331
+#: ../mail/em-folder-view.c:2336
 msgid "_Copy Link Location"
 msgstr "_Kopa Indawo Yokunxulumanisa"
 
-#: ../mail/em-folder-view.c:2333
-#, fuzzy
+#: ../mail/em-folder-view.c:2338
 msgid "Create _vFolder"
-msgstr "Yenza isiqulathi seefayili"
+msgstr "Yenza i-_vFolder"
 
-#: ../mail/em-folder-view.c:2334
-#, fuzzy
+#: ../mail/em-folder-view.c:2339
 msgid "_From this Address"
-msgstr "Idilesi Yasekhaya"
+msgstr "_Ivela kule Dilesi"
 
-#: ../mail/em-folder-view.c:2335
-#, fuzzy
+#: ../mail/em-folder-view.c:2340
 msgid "_To this Address"
-msgstr "Enye idilesi"
+msgstr "_Iya kule Dilesi"
 
-#: ../mail/em-folder-view.c:2604
+#: ../mail/em-folder-view.c:2609
 #, c-format
 msgid "Click to mail %s"
 msgstr "Cofa kwi-imeyili %s"
@@ -11318,29 +11309,29 @@ msgid "Formatting message"
 msgstr "Ubume bomyalezo"
 
 #: ../mail/em-format-html.c:1424 ../mail/em-format-quote.c:193
-#: ../mail/em-format.c:848 ../mail/em-mailer-prefs.c:83
+#: ../mail/em-format.c:851 ../mail/em-mailer-prefs.c:83
 #: ../mail/message-list.etspec.h:7 ../mail/message-tag-followup.c:326
 msgid "From"
 msgstr "Ivela"
 
 #: ../mail/em-format-html.c:1424 ../mail/em-format-quote.c:193
-#: ../mail/em-format.c:849 ../mail/em-mailer-prefs.c:84
+#: ../mail/em-format.c:852 ../mail/em-mailer-prefs.c:84
 msgid "Reply-To"
 msgstr "Phendulela-Ku"
 
 #: ../mail/em-format-html.c:1424 ../mail/em-format-quote.c:193
-#: ../mail/em-format.c:850 ../mail/em-mailer-prefs.c:85
+#: ../mail/em-format.c:853 ../mail/em-mailer-prefs.c:85
 #: ../mail/message-list.etspec.h:14
 msgid "To"
 msgstr "Iya"
 
 #: ../mail/em-format-html.c:1424 ../mail/em-format-quote.c:193
-#: ../mail/em-format.c:851 ../mail/em-mailer-prefs.c:86
+#: ../mail/em-format.c:854 ../mail/em-mailer-prefs.c:86
 msgid "Cc"
 msgstr "Kopela ku"
 
 #: ../mail/em-format-html.c:1424 ../mail/em-format-quote.c:193
-#: ../mail/em-format.c:852 ../mail/em-mailer-prefs.c:87
+#: ../mail/em-format.c:855 ../mail/em-mailer-prefs.c:87
 msgid "Bcc"
 msgstr "Kopela ngokufihliweyo"
 
@@ -11361,43 +11352,43 @@ msgid "<I> (%R %Z)</I>"
 msgstr "<I> (%R %Z)</I>"
 
 #: ../mail/em-format-html.c:1576 ../mail/em-format-quote.c:322
-#: ../mail/em-format.c:854 ../mail/em-mailer-prefs.c:89
+#: ../mail/em-format.c:857 ../mail/em-mailer-prefs.c:89
 #: ../mail/message-list.etspec.h:2
 msgid "Date"
 msgstr "Umhla"
 
-#: ../mail/em-format-html.c:1599 ../mail/em-format.c:855
+#: ../mail/em-format-html.c:1599 ../mail/em-format.c:858
 #: ../mail/em-mailer-prefs.c:90
 msgid "Newsgroups"
 msgstr "Amaqela eendaba"
 
-#: ../mail/em-format.c:1104
+#: ../mail/em-format.c:1107
 #, c-format
 msgid "%s attachment"
 msgstr "I-%s isiqhobosheli"
 
-#: ../mail/em-format.c:1143 ../mail/em-format.c:1276
+#: ../mail/em-format.c:1146 ../mail/em-format.c:1279
 msgid "Could not parse S/MIME message: Unknown error"
 msgstr "Ayikwazanga ukwahlula ngezijungqu umyalezo we-S/MIME: Impazamo ayaziwa"
 
-#: ../mail/em-format.c:1266
+#: ../mail/em-format.c:1269
 msgid "Unsupported encryption type for multipart/encrypted"
 msgstr "Uhlobo olungaxhaswanga lokukhowudela inxalenye eninzi/ezikhowudiweyo"
 
-#: ../mail/em-format.c:1414
+#: ../mail/em-format.c:1417
 msgid "Could not parse MIME message. Displaying as source."
 msgstr ""
 "Ayikwazanga ukwahlula ngezijungqu umyalezo we-MIME. Iboniswa njengomthombo."
 
-#: ../mail/em-format.c:1433
+#: ../mail/em-format.c:1436
 msgid "Unsupported signature format"
 msgstr "Ubume bosayino olungaxhaswanga"
 
-#: ../mail/em-format.c:1441
+#: ../mail/em-format.c:1444
 msgid "Error verifying signature"
 msgstr "Impazamo xa kuqinisekiswa usayino"
 
-#: ../mail/em-format.c:1441
+#: ../mail/em-format.c:1444
 msgid "Unknown error verifying signature"
 msgstr "Impazamo engaziwayo ngelixa kuqinisekiswa usayino"
 
@@ -11508,9 +11499,8 @@ msgid "_Open Link in Browser"
 msgstr "_Vula Unxulumano kwiSikhangeli"
 
 #: ../mail/em-popup.c:550
-#, fuzzy
 msgid "_Send New Message To..."
-msgstr "Thu_mela umyalezo ku..."
+msgstr "_Thumela Umyalezo Omtsha Ku..."
 
 #: ../mail/em-popup.c:551
 msgid "_Add to Addressbook"
@@ -11686,6 +11676,8 @@ msgid ""
 "If a user tries to open 10 or more messages at one time, ask the user if "
 "they really want to do it."
 msgstr ""
+"Ukuba umsebenzisi uzama ukuvula imiyalezo eli-10 nangaphezulu ngaxeshanye, "
+"buza lo msebenzisi ukuba ufuna ngenene na ukwenza njalo."
 
 #: ../mail/evolution-mail.schemas.in.in.h:28
 msgid ""
@@ -11852,11 +11844,10 @@ msgstr ""
 "kuphela"
 
 #: ../mail/evolution-mail.schemas.in.in.h:60
-#, fuzzy
 msgid "Prompt when user tries to open 10 or more messages at once"
 msgstr ""
-"Phawula ngelixa umsebenzisi ezama ukuthumela umyalezo engenaye u-Iya okanye "
-"u-Kopela kumamkeli."
+"Phawula ngelixa umsebenzisi ezama ukuvula imiyalezo eli-10 nangaphezulu "
+"ngaxeshanye"
 
 #: ../mail/evolution-mail.schemas.in.in.h:61
 msgid ""
@@ -12741,6 +12732,9 @@ msgid ""
 "Please enter a descriptive name for this account in the space below.\n"
 "This name will be used for display purposes only."
 msgstr ""
+"Nceda ufake igama elichazayo lale akhawunti kwisithuba osinikwe apha "
+"ngezantsi.\n"
+"Eli gama liza kusetyenziswa xa kuboniswa kwiskrini kuphela."
 
 #: ../mail/mail-config.glade.h:106
 msgid ""
@@ -13267,21 +13261,17 @@ msgstr "_Chitha Umgqomo"
 
 #. mail:ask-open-many primary
 #: ../mail/mail-errors.xml.h:53
-#, fuzzy
 msgid "Are you sure you want to open {0} messages at once?"
-msgstr ""
-"Uqinisekile na ukuba ufuna ukuthumela umyalezo okopela kubamkeli "
-"abafihliweyo kuphela?"
+msgstr "Uqinisekile na ukuba ufuna ukuvula le {0} miyalezo ngaxeshanye?"
 
 #. mail:ask-open-many secondary
 #: ../mail/mail-errors.xml.h:55
 msgid "Opening too many messages at once may take a long time."
-msgstr ""
+msgstr "Ukuvula imiyalezo emininzi ngaxeshanye kungathabatha ixesha elide."
 
 #: ../mail/mail-errors.xml.h:56
-#, fuzzy
 msgid "_Open Messages"
-msgstr "_Vula Umyalezo"
+msgstr "_Vula Imiyalezo"
 
 #. mail:exit-unsaved primary
 #: ../mail/mail-errors.xml.h:58
@@ -13409,12 +13399,14 @@ msgstr ""
 "seefayili \"{0}\"."
 
 #. mail:ask-delete-folder title
-#: ../mail/mail-errors.xml.h:127
+#. mail:ask-delete-vfolder title
+#: ../mail/mail-errors.xml.h:127 ../mail/mail-errors.xml.h:133
 msgid "Delete \"{0}\"?"
 msgstr "Cima \"{0}\"?"
 
 #. mail:ask-delete-folder primary
-#: ../mail/mail-errors.xml.h:129
+#. mail:ask-delete-vfolder primary
+#: ../mail/mail-errors.xml.h:129 ../mail/mail-errors.xml.h:135
 msgid "Really delete folder \"{0}\" and all of its subfolders?"
 msgstr ""
 "Sicinywe nyhani na esi siqulathi seefayili \"{0}\" nazo zonke iziqulathi "
@@ -13431,159 +13423,158 @@ msgstr ""
 
 #. mail:no-rename-folder-exists primary
 #. mail:no-rename-folder primary
-#: ../mail/mail-errors.xml.h:133 ../mail/mail-errors.xml.h:137
+#: ../mail/mail-errors.xml.h:137 ../mail/mail-errors.xml.h:141
 msgid "Cannot rename \"{0}\" to \"{1}\"."
 msgstr "Ayikwazi ukunika elinye igama \"{0}\" to \"{1}\"."
 
 #. mail:no-rename-folder-exists secondary
 #. mail:vfolder-notunique secondary
-#: ../mail/mail-errors.xml.h:135 ../mail/mail-errors.xml.h:197
+#: ../mail/mail-errors.xml.h:139 ../mail/mail-errors.xml.h:201
 msgid "A folder named \"{1}\" already exists. Please use a different name."
 msgstr ""
 "Isiqulathi seefayili esineligama \"{1}\" sesikho. Nceda usebenzise elinye "
 "igama."
 
 #. mail:no-rename-folder secondary
-#: ../mail/mail-errors.xml.h:139
+#: ../mail/mail-errors.xml.h:143
 msgid "Because \"{2}\"."
 msgstr "Kuba \"{2}\"."
 
 #. mail:no-move-folder-nostore primary
 #. mail:no-move-folder-to-nostore primary
-#: ../mail/mail-errors.xml.h:141 ../mail/mail-errors.xml.h:145
+#: ../mail/mail-errors.xml.h:145 ../mail/mail-errors.xml.h:149
 msgid "Cannot move folder \"{0}\" to \"{1}\"."
 msgstr "Ayikwazi ukususa isiqulathi seefayili \"{0}\" isise \"{1}\"."
 
 #. mail:no-move-folder-nostore secondary
 #. mail:no-copy-folder-nostore secondary
-#: ../mail/mail-errors.xml.h:143 ../mail/mail-errors.xml.h:151
+#: ../mail/mail-errors.xml.h:147 ../mail/mail-errors.xml.h:155
 msgid "Cannot open source \"{2}\"."
 msgstr "Ayikwazi ukuvula lo mthombo \"{2}\"."
 
 #. mail:no-move-folder-to-nostore secondary
 #. mail:no-copy-folder-to-nostore secondary
-#: ../mail/mail-errors.xml.h:147 ../mail/mail-errors.xml.h:155
+#: ../mail/mail-errors.xml.h:151 ../mail/mail-errors.xml.h:159
 msgid "Cannot open target \"{2}\"."
 msgstr "Ayikwazi ukuvula le nto ujolise kuyo \"{2}\"."
 
 #. mail:no-copy-folder-nostore primary
 #. mail:no-copy-folder-to-nostore primary
-#: ../mail/mail-errors.xml.h:149 ../mail/mail-errors.xml.h:153
+#: ../mail/mail-errors.xml.h:153 ../mail/mail-errors.xml.h:157
 msgid "Cannot copy folder \"{0}\" to \"{1}\"."
 msgstr "Ayikwazi ukukopa isiqulathi seefayili \"{0}\" to \"{1}\"."
 
 #. mail:no-create-folder-nostore primary
-#: ../mail/mail-errors.xml.h:157
+#: ../mail/mail-errors.xml.h:161
 msgid "Cannot create folder \"{0}\"."
 msgstr "Ayikwazi ukwenza isiqulathi seefayili \"{0}\"."
 
 #. mail:no-create-folder-nostore secondary
-#: ../mail/mail-errors.xml.h:159
+#: ../mail/mail-errors.xml.h:163
 msgid "Cannot open source \"{1}\""
 msgstr "Ayikwazi ukuvula umthombo \"{1}\""
 
 #. mail:account-incomplete primary
 #. mail:account-notunique primary
-#: ../mail/mail-errors.xml.h:161 ../mail/mail-errors.xml.h:165
+#: ../mail/mail-errors.xml.h:165 ../mail/mail-errors.xml.h:169
 msgid "Cannot save changes to account."
 msgstr "Ayikwazi ukugcina iinguquko kwi-akhawunti."
 
 #. mail:account-incomplete secondary
-#: ../mail/mail-errors.xml.h:163
+#: ../mail/mail-errors.xml.h:167
 msgid "You have not filled in all of the required information."
 msgstr "Awuluzalisanga lonke ulwazi olufunekayo."
 
 #. mail:account-notunique secondary
-#: ../mail/mail-errors.xml.h:167
+#: ../mail/mail-errors.xml.h:171
 msgid "You may not create two accounts with the same name."
 msgstr "Awunakwenza akhawunti ezimbini ezinamagama afanayo."
 
 #. mail:ask-delete-account title
-#: ../mail/mail-errors.xml.h:169
+#: ../mail/mail-errors.xml.h:173
 msgid "Delete account?"
 msgstr "Icinywe le akhawunti?"
 
 #. mail:ask-delete-account primary
-#: ../mail/mail-errors.xml.h:171
+#: ../mail/mail-errors.xml.h:175
 msgid "Are you sure you want to delete this account?"
 msgstr "Uqinisekile ufuna ukuyicima le akhawunti?"
 
 #. mail:ask-delete-account secondary
-#: ../mail/mail-errors.xml.h:173
+#: ../mail/mail-errors.xml.h:177
 msgid "If you proceed, the account information will be deleted permanently."
 msgstr ""
 "Ukuba uyaqhubeka, olu lwazi lwale akhawunti luza kucinywa ngokusisigxina."
 
-#: ../mail/mail-errors.xml.h:174
+#: ../mail/mail-errors.xml.h:178
 msgid "Don't delete"
 msgstr "Musa ukucima"
 
 #. mail:no-save-signature primary
-#: ../mail/mail-errors.xml.h:176
+#: ../mail/mail-errors.xml.h:180
 msgid "Could not save signature file."
 msgstr "Ayikwazanga ukugcina ifayile yosayino."
 
 #. mail:no-save-signature secondary
-#: ../mail/mail-errors.xml.h:178
+#: ../mail/mail-errors.xml.h:182
 msgid "Because \"{0}\"."
 msgstr "Kuba \"{0}\"."
 
 #. mail:signature-notscript primary
-#: ../mail/mail-errors.xml.h:180
+#: ../mail/mail-errors.xml.h:184
 msgid "Cannot set signature script \"{0}\"."
 msgstr "Awukwazi ukumisela iskripti sosayino \"{0}\"."
 
 #. mail:signature-notscript secondary
-#: ../mail/mail-errors.xml.h:182
+#: ../mail/mail-errors.xml.h:186
 msgid "The script file must exist and be executable."
 msgstr "Kufuneka sibekho size siphunyezwe esi skripti sefayili."
 
 #. mail:ask-signature-changed title
-#: ../mail/mail-errors.xml.h:184
+#: ../mail/mail-errors.xml.h:188
 msgid "Discard changed?"
 msgstr "Kungabi salahlwa?"
 
 #. mail:ask-signature-changed primary
-#: ../mail/mail-errors.xml.h:186
+#: ../mail/mail-errors.xml.h:190
 msgid "Do you wish to save your changes?"
 msgstr "Ingaba uyafuna na ukugcina inguqulo ozenzileyo?"
 
 #. mail:ask-signature-changed secondary
-#: ../mail/mail-errors.xml.h:188
+#: ../mail/mail-errors.xml.h:192
 msgid "This signature has been changed, but has not been saved."
 msgstr "Olu sayino sele luguqulwe, kodwa alukagcinwa."
 
-#: ../mail/mail-errors.xml.h:189
+#: ../mail/mail-errors.xml.h:193
 msgid "_Discard changes"
 msgstr "_Zilahle ezi nguqulo"
 
 #. mail:vfolder-notexist primary
-#: ../mail/mail-errors.xml.h:191
+#: ../mail/mail-errors.xml.h:195
 msgid "Cannot edit vFolder \"{0}\" as it does not exist."
 msgstr "Ayikwazi ukuhlela i-vFolder \"{0}\" kuba ayikho kwayona."
 
 #. mail:vfolder-notexist secondary
-#: ../mail/mail-errors.xml.h:193
-#, fuzzy
+#: ../mail/mail-errors.xml.h:197
 msgid ""
 "This folder may have been added implicitly, go to the vFolder editor to add "
 "it explicitly, if required."
 msgstr ""
-"Kusenokwenzeka ukuba esi siqulathi seefayili sesiqulwe, yiya kumhleli "
-"wesiqulathi seefayili esiyinyani ukuyifaka ngokuphandle ukuba ufuna njalo."
+"Kusenokwenzeka ukuba esi siqulathi seefayili songezwe ngokuqukiweyo, yiya "
+"kumhleli we-vFolder ukuyongeza ngokuphandle ukuba kukho imfuneko yoko."
 
 #. mail:vfolder-notunique primary
-#: ../mail/mail-errors.xml.h:195
+#: ../mail/mail-errors.xml.h:199
 msgid "Cannot add vFolder \"{0}\"."
 msgstr "Ayikwazi ukongeza i-vFolder \"{0}\"."
 
 #. mail:vfolder-updated primary
-#: ../mail/mail-errors.xml.h:199
+#: ../mail/mail-errors.xml.h:203
 msgid "vFolders automatically updated."
 msgstr "Le vFolder inyuswe ngokuzenzekela."
 
 #. mail:vfolder-updated secondary
-#: ../mail/mail-errors.xml.h:201
+#: ../mail/mail-errors.xml.h:205
 msgid ""
 "The following vFolder(s):\n"
 "{0}\n"
@@ -13598,12 +13589,12 @@ msgstr ""
 "Yaye sele ihlaziyiwe."
 
 #. mail:filter-updated primary
-#: ../mail/mail-errors.xml.h:207
+#: ../mail/mail-errors.xml.h:211
 msgid "Mail filters automatically updated."
 msgstr "Ezi zihluzi ze-imeyili zinyuswe ngokuzenzekela."
 
 #. mail:filter-updated secondary
-#: ../mail/mail-errors.xml.h:209
+#: ../mail/mail-errors.xml.h:213
 msgid ""
 "The following filter rule(s):\n"
 "{0}\n"
@@ -13618,27 +13609,27 @@ msgstr ""
 "Yaye sele zihlaziyiwe."
 
 #. mail:no-folder primary
-#: ../mail/mail-errors.xml.h:215
+#: ../mail/mail-errors.xml.h:219
 msgid "Missing folder."
 msgstr "Isiqulathi seefayili elahlekileyo."
 
 #. mail:no-folder secondary
-#: ../mail/mail-errors.xml.h:217
+#: ../mail/mail-errors.xml.h:221
 msgid "You must specify a folder."
 msgstr "Kufuneka uchaze isiqulathi seefayili."
 
 #. mail:no-name-vfolder secondary
-#: ../mail/mail-errors.xml.h:221
+#: ../mail/mail-errors.xml.h:225
 msgid "You must name this vFolder."
 msgstr "Kufuneka unike le-vFolder igama."
 
 #. mail:vfolder-no-source primary
-#: ../mail/mail-errors.xml.h:223
+#: ../mail/mail-errors.xml.h:227
 msgid "No sources selected."
 msgstr "Akukho mithombo ichongiweyo."
 
 #. mail:vfolder-no-source secondary
-#: ../mail/mail-errors.xml.h:225
+#: ../mail/mail-errors.xml.h:229
 msgid ""
 "You must specify at least one folder as a source.\n"
 "Either by selecting the folders individually, and/or by selecting\n"
@@ -13651,12 +13642,12 @@ msgstr ""
 "okanye zombini."
 
 #. mail:ask-migrate-existing primary
-#: ../mail/mail-errors.xml.h:229
+#: ../mail/mail-errors.xml.h:233
 msgid "Problem migrating old mail folder \"{0}\"."
 msgstr "Kube nengxaki ngelixa kufuduswa isiqulathi seefayili ezindala \"{0}\"."
 
 #. mail:ask-migrate-existing secondary
-#: ../mail/mail-errors.xml.h:231
+#: ../mail/mail-errors.xml.h:235
 msgid ""
 "A non-empty folder at \"{1}\" already exists.\n"
 "\n"
@@ -13668,25 +13659,25 @@ msgstr ""
 "Ungakhetha ukungasinanzi isiqulathi seefayili, sibhale phezu kwaso okanye "
 "sihlomele iziqulatho okanye siphume.\n"
 
-#: ../mail/mail-errors.xml.h:235
+#: ../mail/mail-errors.xml.h:239
 msgid "Ignore"
 msgstr "Ungayinanzi"
 
-#: ../mail/mail-errors.xml.h:236 ../widgets/misc/e-system-errors.xml.h:7
+#: ../mail/mail-errors.xml.h:240 ../widgets/misc/e-system-errors.xml.h:7
 msgid "_Overwrite"
 msgstr "_Bhala phezu kwenye"
 
-#: ../mail/mail-errors.xml.h:237
+#: ../mail/mail-errors.xml.h:241
 msgid "_Append"
 msgstr "_Hlomela"
 
 #. mail:no-load-license primary
-#: ../mail/mail-errors.xml.h:239
+#: ../mail/mail-errors.xml.h:243
 msgid "Unable to read license file."
 msgstr "Ayinako ukufunda ifayili yephepha-mvume."
 
 #. mail:no-load-license secondary
-#: ../mail/mail-errors.xml.h:241
+#: ../mail/mail-errors.xml.h:245
 msgid ""
 "Cannot read the license file \"{0}\", due to an\n"
 "      installation problem.  You will not be able to use this provider "
@@ -13698,22 +13689,22 @@ msgstr ""
 "     ube nako ukwamkela iphepha-mvume laso."
 
 #. mail:checking-service title
-#: ../mail/mail-errors.xml.h:245
+#: ../mail/mail-errors.xml.h:249
 msgid "Querying server"
 msgstr "Ukubuza ngeseva"
 
 #. mail:checking-service primary
-#: ../mail/mail-errors.xml.h:247
+#: ../mail/mail-errors.xml.h:251
 msgid "Please wait."
 msgstr "Nceda ulinde."
 
 #. mail:checking-service secondary
-#: ../mail/mail-errors.xml.h:249
+#: ../mail/mail-errors.xml.h:253
 msgid "Querying server for a list of supported authentication mechanisms."
 msgstr "Ukubuza iseva ngoluhlu lweendlela ezingqina inkxaso."
 
 #. mail:gw-accountsetup-error primary
-#: ../mail/mail-errors.xml.h:251
+#: ../mail/mail-errors.xml.h:255
 msgid ""
 "Unable to connect to the GroupWise\n"
 "server."
@@ -13722,7 +13713,7 @@ msgstr ""
 "i-GroupWise."
 
 #. mail:gw-accountsetup-error secondary
-#: ../mail/mail-errors.xml.h:254
+#: ../mail/mail-errors.xml.h:258
 msgid ""
 "\n"
 "Please check your account settings and try again.\n"
@@ -14180,9 +14171,8 @@ msgid "Subject contains"
 msgstr "Isihloko siqulethe"
 
 #: ../mail/searchtypes.xml.h:6
-#, fuzzy
 msgid "Subject or Sender contains"
-msgstr "Isihloko siqulethe"
+msgstr "Isihloko okanye Umthumeli uqulethe"
 
 #: ../plugins/backup-restore/backup-restore.c:51
 msgid "Select name of Evolution archive"
@@ -14228,27 +14218,27 @@ msgstr "Kopa ukwabuyisela i-data nemimiselo yenkqubo ye-Evolution"
 msgid "Restore Settings..."
 msgstr "Buyisela Imimiselo..."
 
-#: ../plugins/bbdb/bbdb.c:388
+#: ../plugins/bbdb/bbdb.c:398
 msgid "Automatic Contacts"
 msgstr "Oqhagamshelana nabo ngokuzenzekelayo"
 
-#: ../plugins/bbdb/bbdb.c:397
+#: ../plugins/bbdb/bbdb.c:407
 msgid "<span weight=\"bold\">Automatic Contacts</span>"
 msgstr "<span weight=\"bold\">Oqhagamshelana Nabo Ngokuzenzekelayo</span>"
 
 #. Enable BBDB checkbox
-#: ../plugins/bbdb/bbdb.c:410
+#: ../plugins/bbdb/bbdb.c:420
 msgid ""
 "_Automatically create entries in the addressbook when responding to mail"
 msgstr ""
 "_Ngenisa ngokuzenzekelayo kwincwadi yedilesi ngelixa uphendula i-imeyili"
 
-#: ../plugins/bbdb/bbdb.c:428
+#: ../plugins/bbdb/bbdb.c:438
 msgid "<span weight=\"bold\">Instant Messaging Contacts</span>"
 msgstr "<span weight=\"bold\">Oqhagamshelana Nabo Ngelo Xesha</span>"
 
 #. Enable Gaim Checkbox
-#: ../plugins/bbdb/bbdb.c:441
+#: ../plugins/bbdb/bbdb.c:451
 msgid ""
 "Periodically synchronize contact information and images from my _instant "
 "messenger"
@@ -14257,7 +14247,7 @@ msgstr ""
 "ivela kwisithunywa sam _sophanyazo"
 
 #. Synchronize now button.
-#: ../plugins/bbdb/bbdb.c:448
+#: ../plugins/bbdb/bbdb.c:458
 msgid "Synchronize with _buddy list now"
 msgstr "Enza ngexesha elinye na_bahlobo abakuluhlu ngoku"
 
@@ -14291,9 +14281,8 @@ msgid "Weather: Thunderstorms"
 msgstr "Imozulu: Iimvula ezikhatshwa zindudumo"
 
 #: ../plugins/calendar-weather/calendar-weather.c:268
-#, fuzzy
 msgid "Select a location"
-msgstr "Khetha Okufuneka Kwenziwe"
+msgstr "Khetha indawo"
 
 #: ../plugins/calendar-weather/calendar-weather.c:655
 msgid "_Units:"
@@ -14301,51 +14290,45 @@ msgstr "_Iiyunithi:"
 
 #: ../plugins/calendar-weather/calendar-weather.c:662
 msgid "Metric (Celsius, cm, etc)"
-msgstr ""
+msgstr "Umlinganiso we-Metric (Celsius, cm, njl.njl.)"
 
 #: ../plugins/calendar-weather/calendar-weather.c:663
 msgid "Imperial (Fahrenheit, inches, etc)"
-msgstr ""
+msgstr "Umlinganiso we-Imperial (Fahrenheit, inches, njl.njl.)"
 
 #: ../plugins/default-source/default-source.c:82
-#, fuzzy
 msgid "Mark  as default folder"
-msgstr "Sisebenzise isiqulathi seefayili esimiselwe iidrafti?"
+msgstr "Phawula njengesiqulathi seefayili esimisiweyo"
 
 #: ../plugins/default-source/default-source.c:108
-#, fuzzy
 msgid "Mark as default folder"
-msgstr "Sisebenzise isiqulathi seefayili esimiselwe iidrafti?"
+msgstr "Phawula njengesiqulathi seefayili esimisiweyo"
 
 #. i18n: "Secure Password Authentication" is an Outlookism
 #: ../plugins/exchange-account-setup/exchange-account-setup.c:59
 msgid "Secure Password"
 msgstr "Khusela I-Password"
 
-# "Exchange" should remain verbatim in translation (it is a type of mail server, i.e. adjective)
 #. i18n: "NTLM" probably doesn't translate
 #: ../plugins/exchange-account-setup/exchange-account-setup.c:62
-#, fuzzy
 msgid ""
 "This option will connect to the Exchange server using secure password (NTLM) "
 "authentication."
 msgstr ""
-"Olu khetho luza kunxulumana kwiseva yenkqubo yoTshintshiselwano "
-"kusetyenziswa ubungqina be-password ekhuselekileyo le-(NTLM)."
+"Olu khetho luza kunxulumana kwiseva ye-Exchange kusetyenziswa i-password "
+"ekhuselekileyo yobungqina be-(NTLM)."
 
 #: ../plugins/exchange-account-setup/exchange-account-setup.c:70
 msgid "Plaintext Password"
 msgstr "I-Password yombhalo oqhelekileyo"
 
-# "Exchange" should remain verbatim in translation (it is a type of mail server, i.e. adjective)
 #: ../plugins/exchange-account-setup/exchange-account-setup.c:72
-#, fuzzy
 msgid ""
 "This option will connect to the Exchange server using standard plaintext "
 "password authentication."
 msgstr ""
-"Olu khetho luza kunxulumana kwiseva yenkqubo yoTshintshiselwano "
-"kusetyenziswa ubungqina obusemgangathweni be-password yombhalo oqhelekileyo."
+"Olu khetho luza kunxulumana kwiseva ye-Exchange kusetyenziswa ubungqina "
+"obusemgangathweni be-password yombhalo."
 
 #. Description section
 #: ../plugins/exchange-account-setup/exchange-account-setup.c:193
@@ -14359,25 +14342,21 @@ msgstr ""
 
 #: ../plugins/exchange-account-setup/exchange-account-setup.c:221
 #: ../plugins/exchange-account-setup/exchange-account-setup.c:231
-#, fuzzy
 msgid "I am out of the office"
-msgstr "Andikho e-ofisini ngokwangoku"
+msgstr "Andikho e-ofisini"
 
 #: ../plugins/exchange-account-setup/exchange-account-setup.c:224
 #: ../plugins/exchange-account-setup/exchange-account-setup.c:228
-#, fuzzy
 msgid "I am in the office"
-msgstr "Ndise-ofisini ngokwangoku"
+msgstr "Ndise-ofisini"
 
 #: ../plugins/exchange-account-setup/exchange-account-setup.c:257
-#, fuzzy
 msgid "Out of office Message:"
-msgstr "<b>Umyalezo Wokungabikho E-ofisini:</b>"
+msgstr "Umyalezo Wokungabikho E-ofisini:"
 
 #: ../plugins/exchange-account-setup/exchange-account-setup.c:302
-#, fuzzy
 msgid "Exchange Settings"
-msgstr "Imimiselo"
+msgstr "Imimiselo Ye-Exchange"
 
 #: ../plugins/exchange-account-setup/exchange-account-setup.c:475
 #: ../plugins/exchange-account-setup/exchange-ask-password.c:200
@@ -14386,14 +14365,12 @@ msgstr "I-_OWA Url:"
 
 #: ../plugins/exchange-account-setup/exchange-account-setup.c:500
 #: ../plugins/exchange-account-setup/exchange-ask-password.c:193
-#, fuzzy
 msgid "A_uthenticate"
-msgstr "Ubungqina Bobunyani"
+msgstr "Nika u_bungqina"
 
 #: ../plugins/exchange-account-setup/exchange-account-setup.c:722
-#, fuzzy
 msgid "Authentication Type"
-msgstr "Ubungqina Bobunyani"
+msgstr "Uhlobo Lobungqina"
 
 #: ../plugins/exchange-account-setup/exchange-account-setup.c:736
 msgid "Ch_eck for Supported Types"
@@ -14410,7 +14387,7 @@ msgstr "Uluhlu Lokukhangela"
 
 #: ../plugins/groupwise-send-options/org-gnome-compose-send-options.xml.h:1
 msgid "Add Send Options to groupwise messages"
-msgstr ""
+msgstr "Yongeza Ukhetho Lokuthumela kwimiyalezo ye-groupwise"
 
 #: ../plugins/groupwise-send-options/org-gnome-compose-send-options.xml.h:2
 #: ../widgets/misc/e-send-options.glade.h:20
@@ -14418,9 +14395,8 @@ msgid "Send Options"
 msgstr "Thumela Okukhethileyo"
 
 #: ../plugins/itip-formatter/itip-formatter.c:704
-#, fuzzy
 msgid "Unable to parse item"
-msgstr "Ayikwazanga ukwahlula isiqulatho semiyalezo ngezijungqu"
+msgstr "Ayinako ukwahlula into ngezijungqu"
 
 #: ../plugins/itip-formatter/itip-formatter.c:757
 #, c-format
@@ -14452,31 +14428,31 @@ msgid "Attendee status could not be updated because the status is invalid"
 msgstr "Ayikwazanga ukuhlaziya ubume bokhoyo kuba obo bume abuqinisekiswanga"
 
 #: ../plugins/itip-formatter/itip-formatter.c:844
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to update attendee. %s"
-msgstr "Ayinako ukufudusa ikhalenda `%s'"
+msgstr "Ayinako ukuhlaziya abakhoyo. %s"
 
 #: ../plugins/itip-formatter/itip-formatter.c:848
 msgid "Attendee status updated"
 msgstr "Ubume bokhoyo sele buhlaziyiwe"
 
 #: ../plugins/itip-formatter/itip-formatter.c:973
-#, fuzzy
 msgid "The calendar attached is not valid"
-msgstr "Uhlobo lwesiqulathi seefayili aluqinisekiswanga"
+msgstr "Le khalenda eqhotyoshelweyo ayiqinisekiswanga"
 
 #: ../plugins/itip-formatter/itip-formatter.c:974
 msgid ""
 "The message claims to contain a calendar, but the calendar is not valid "
 "iCalendar."
 msgstr ""
+"Lo myalezo ubonisa ukuba uqulethe ikhalenda, kodwa loo khalenda "
+"ayiqinisekiswanga njenge-iCalendar."
 
 #: ../plugins/itip-formatter/itip-formatter.c:1008
 #: ../plugins/itip-formatter/itip-formatter.c:1023
 #: ../plugins/itip-formatter/itip-formatter.c:1078
-#, fuzzy
 msgid "The item in the calendar is not valid"
-msgstr "Uhlobo lwesiqulathi seefayili aluqinisekiswanga"
+msgstr "Le nto ikule khalenda ayiqinisekiswanga"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1009
 #: ../plugins/itip-formatter/itip-formatter.c:1024
@@ -14485,21 +14461,23 @@ msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
 msgstr ""
+"Lo myalezo awuqulathanga khalenda, kodwa le khalenda ayiqulathanga zehlo, "
+"misebenzi okanye ulwazi olufumanekayo/oluxakekileyo"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1034
 msgid "The calendar attached contains multiple items"
-msgstr ""
+msgstr "Le khalenda iqhotyoshelweyo iqulethe izinto ezininzi"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1035
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
 msgstr ""
+"Ukuziphumeza zonke ezi zinto, le fayili mayigcinwe ze kungeniswe le khalenda"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1672
-#, fuzzy
 msgid "Meetings and Tasks"
-msgstr "Intlanganiso - %s"
+msgstr "Iintlanganiso neMisebenzi"
 
 #. Delete message after acting
 #. FIXME Need a schema for this
@@ -14543,35 +14521,31 @@ msgstr "Namhlanje %l:%M:%S %p"
 #. strftime format of a weekday and a date.
 #: ../plugins/itip-formatter/itip-view.c:203
 msgid "Tomorrow"
-msgstr ""
+msgstr "Ngomso"
 
 #. strftime format of a time,
 #. in 24-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:208
-#, fuzzy
 msgid "Tomorrow %H:%M"
-msgstr "Namhlanje %H:%M"
+msgstr "Ngomso i-%H:%M"
 
 #. strftime format of a time,
 #. in 24-hour format.
 #: ../plugins/itip-formatter/itip-view.c:212
-#, fuzzy
 msgid "Tomorrow %H:%M:%S"
-msgstr "Namhlanje %H:%M:%S"
+msgstr "Ngomso i-%H:%M:%S"
 
 #. strftime format of a time,
 #. in 12-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:217
-#, fuzzy
 msgid "Tomorrow %l:%M %p"
-msgstr "Namhlanje %l:%M %p"
+msgstr "Ngomso i-%l:%M %p"
 
 #. strftime format of a time,
 #. in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:221
-#, fuzzy
 msgid "Tomorrow %l:%M:%S %p"
-msgstr "Namhlanje %l:%M:%S %p"
+msgstr "Ngomso i-%l:%M:%S %p"
 
 #. strftime format of a weekday.
 #: ../plugins/itip-formatter/itip-view.c:240
@@ -14706,14 +14680,14 @@ msgstr ""
 "<b>%s</b>: unqwenela ukufumana ulwazi olutsha ngentlanganiso elandelayo:"
 
 #: ../plugins/itip-formatter/itip-view.c:361
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has sent back the following meeting response:"
-msgstr "<b>%s</b> uyamkele le ntlanganiso ilandelayo:"
+msgstr "<b>%s</b> ibuyisele emva ezi mpendulo zentlanganiso zilandelayo:"
 
 #: ../plugins/itip-formatter/itip-view.c:365
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has cancelled the following meeting:"
-msgstr "<b>%s</b> nge %s uyirhoxisile le ntlanganiso ilandelayo:"
+msgstr "<b>%s</b> ngo %s uyirhoxisile le ntlanganiso ilandelayo:"
 
 #: ../plugins/itip-formatter/itip-view.c:367
 #, c-format
@@ -14721,92 +14695,93 @@ msgid "<b>%s</b> has cancelled the following meeting."
 msgstr "<b>%s</b> uyirhoxisile le ntlanganiso ilandelayo."
 
 #: ../plugins/itip-formatter/itip-view.c:370
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has proposed the following meeting changes."
-msgstr "<b>%s</b> uyamkele le ntlanganiso ilandelayo:"
+msgstr "<b>%s</b> uphakamise ezi nguqu zentlanganiso zilandelayo."
 
 #: ../plugins/itip-formatter/itip-view.c:374
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has declined the following meeting changes:"
-msgstr "<b>%s</b> nge %s uyirhoxisile le ntlanganiso ilandelayo:"
+msgstr "<b>%s</b> ngo %s akazivumanga ezi nguqu zentlanganiso zilandelayo:"
 
 #: ../plugins/itip-formatter/itip-view.c:376
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has declined the following meeting changes."
-msgstr "<b>%s</b> uyirhoxisile le ntlanganiso ilandelayo."
+msgstr "<b>%s</b> akazivumanga ezi nguqu zentlanganiso zilandelayo."
 
 #: ../plugins/itip-formatter/itip-view.c:403
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has published the following task:"
-msgstr "<b>%s</b> nge-%s sele ipapashe olu lwazi lwentlanganiso lulandelayo:"
+msgstr "<b>%s</b> ngo-%s sele eshicilele lo msebenzi ulandelayo:"
 
 #: ../plugins/itip-formatter/itip-view.c:405
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has published the following task:"
-msgstr "<b>%s</b> sele ipapashe olu lwazi lwentlanganiso lulandelayo:"
+msgstr "<b>%s</b> sele eshicilele lo msebenzi ulandelayo:"
 
 #: ../plugins/itip-formatter/itip-view.c:410
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> requests the assignment of %s to the following task:"
-msgstr "<b>%s</b> icela ubukho buka-%s kwintlanganiso elandelayo:"
+msgstr "<b>%s</b> icela ubukho buka-%s kulo msebenzi ulandelayo:"
 
 #: ../plugins/itip-formatter/itip-view.c:413
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has assigned you a task:"
-msgstr "<b>%s</b> nge %s uyirhoxisile le ntlanganiso ilandelayo:"
+msgstr "<b>%s</b> ngo %s ukunike umsebenzi:"
 
 #: ../plugins/itip-formatter/itip-view.c:415
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has assigned you a task:"
-msgstr "u-<b>%s</b> uwurhoxisile umsebenzi."
+msgstr "u-<b>%s</b> ukunike umsebenzi:"
 
 #: ../plugins/itip-formatter/itip-view.c:421
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s wishes to add to an existing task:"
-msgstr "<b>%s</b> nge-%s unqwenela ukongeza kwintlanganiso ekhoyo ngoku:"
+msgstr "<b>%s</b> ngo-%s unqwenela ukongeza kumsebenzi okhoyo:"
 
 #: ../plugins/itip-formatter/itip-view.c:423
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> wishes to add to an existing task:"
-msgstr "u-<b>%s</b> unqwenela ukongeza kumsebenzi osele ukho."
+msgstr "u-<b>%s</b> unqwenela ukongeza kumsebenzi okhoyo:"
 
 #: ../plugins/itip-formatter/itip-view.c:426
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "<b>%s</b> wishes to receive the latest information for the following "
 "assigned task:"
 msgstr ""
-"<b>%s</b>: unqwenela ukufumana ulwazi olutsha ngentlanganiso elandelayo:"
+"<b>%s</b> unqwenela ukufumana ulwazi olutsha ngalo msebenzi unikiweyo "
+"ulandelayo:"
 
 #: ../plugins/itip-formatter/itip-view.c:429
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has sent back the following assigned task response:"
-msgstr "<b>%s</b> uyamkele le ntlanganiso ilandelayo:"
+msgstr "<b>%s</b> ubuyisele emva le mpendulo yomsebenzi onikiweyo ilandelayo:"
 
 #: ../plugins/itip-formatter/itip-view.c:433
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has cancelled the following assigned task:"
-msgstr "<b>%s</b> nge %s uyirhoxisile le ntlanganiso ilandelayo:"
+msgstr "<b>%s</b> ngo %s uwurhoxisile lo msebenzi unikiweyo ulandelayo:"
 
 #: ../plugins/itip-formatter/itip-view.c:435
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has cancelled the following assigned task:"
-msgstr "<b>%s</b> uyirhoxisile le ntlanganiso ilandelayo."
+msgstr "<b>%s</b> uwurhoxisile lo msebenzi unikiweyo ulandelayo:"
 
 #: ../plugins/itip-formatter/itip-view.c:438
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has proposed the following task assignment changes:"
-msgstr "<b>%s</b> uyamkele le ntlanganiso ilandelayo:"
+msgstr "<b>%s</b> uphakamise ezi nguqu zomsebenzi onikiweyo zilandelayo:"
 
 #: ../plugins/itip-formatter/itip-view.c:442
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> through %s has declined the following assigned task:"
-msgstr "<b>%s</b> nge %s uyirhoxisile le ntlanganiso ilandelayo:"
+msgstr "<b>%s</b> ngo %s akawuvumanga lo msebenzi unikiweyo ulandelayo:"
 
 #: ../plugins/itip-formatter/itip-view.c:444
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has declined the following assigned task:"
-msgstr "<b>%s</b> uyamkele le ntlanganiso ilandelayo:"
+msgstr "<b>%s</b> akawamkelanga lo msebenzi unikiweyo ulandelayo:"
 
 #. Comment
 #: ../plugins/itip-formatter/itip-view.c:892
@@ -14907,9 +14882,8 @@ msgstr ""
 
 #. Create the checkbox we will display, complete with mnemonic that is unique in the dialog
 #: ../plugins/new-mail-notify/new-mail-notify.c:66
-#, fuzzy
 msgid "_Generates a D-BUS message when new mail arrives"
-msgstr "Nika isandi nge_lixa kufika umyalezo"
+msgstr "_Yenza umyalezo we-D-BUS ngelixa kufika i-imeyili entsha"
 
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.xml.h:1
 msgid "Enable and disable plugins"
@@ -15056,9 +15030,8 @@ msgstr "%sFaka i-password ye %s (umsebenzisi %s)"
 
 #. org.gnome.evolution.mail_shared_folder:invalid-user primary
 #: ../plugins/shared-folder/org-gnome-shared-folder-errors.xml.h:2
-#, fuzzy
 msgid "Invalid user"
-msgstr "Injongo engagunyaziswanga"
+msgstr "Umsebenzisi ongangagunyaziswanga"
 
 #. org.gnome.evolution.mail_shared_folder:invalid-user secondary
 #: ../plugins/shared-folder/org-gnome-shared-folder-errors.xml.h:4
@@ -15066,12 +15039,13 @@ msgid ""
 "\n"
 "You cannot share folder with specified user \"{0}\" \n"
 msgstr ""
+"\n"
+"Awunako ukwabelana ngesi siqulathi seefayili nomnye umsebenzisi \"{0}\" \n"
 
 #. org.gnome.evolution.mail_shared_folder:no-user primary
 #: ../plugins/shared-folder/org-gnome-shared-folder-errors.xml.h:8
-#, fuzzy
 msgid "Specify User"
-msgstr "Khetha Umsebenzisi"
+msgstr "Balula Umsebenzisi"
 
 #. org.gnome.evolution.mail_shared_folder:no-user secondary
 #: ../plugins/shared-folder/org-gnome-shared-folder-errors.xml.h:10
@@ -15079,6 +15053,8 @@ msgid ""
 "\n"
 "\tYou have to specify a user name whom you want to add to the list \n"
 msgstr ""
+"\n"
+"\tKufanele ucacise igama lomsebenzisi ofuna ukumongeza kuluhlu \n"
 
 #: ../plugins/shared-folder/properties.glade.h:2
 msgid "<b>Users :</b>"
@@ -15101,9 +15077,8 @@ msgid "_Contacts..."
 msgstr "_Abantu oqhagamshelana nabo..."
 
 #: ../plugins/shared-folder/properties.glade.h:12
-#, fuzzy
 msgid "_Cutomize notification message"
-msgstr "Thume_la Isaziso Somthengi"
+msgstr "_Lungisa isaziso somyalezo ngendlela oyithandayo"
 
 #: ../plugins/shared-folder/properties.glade.h:13
 msgid "_Not Shared"
@@ -15139,10 +15114,8 @@ msgstr "Umncedisi wokumisela inkqubo ye-Evolution"
 msgid "Welcome"
 msgstr "Wamkelekile"
 
-# Missing second occurrence of "Evolution" in translation
 #: ../plugins/startup-wizard/startup-wizard.c:261
 #: ../shell/evolution-startup-wizard.glade.h:6
-#, fuzzy
 msgid ""
 "Welcome to Evolution. The next few screens will allow Evolution to connect "
 "to your email accounts, and to import files from other applications. \n"
@@ -15150,10 +15123,10 @@ msgid ""
 "Please click the \"Forward\" button to continue. "
 msgstr ""
 "Wamkelekile kwinkqubo ye-Evolution. Izikrini ezimbalwa ezilandelayo ziza "
-"kuvumela ukuba unxulumane nee-akhawunti zakho ze-imeyili nokuba ungenise "
-"iifayili ezivela kwezinye iinkqubo.\n"
+"kuvumela i-Evolution ukuba inxulumane nee-akhawunti zakho ze-imeyili nokuba "
+"ungenise iifayili ezivela kwezinye iinkqubo.\n"
 "\n"
-"Nceda ucofe iqhosha u \"Dlulisa\" xa uqhubeka. "
+"Nceda ucofe iqhosha u \"Dlulisa\" ukuqhubeka. "
 
 #: ../plugins/startup-wizard/startup-wizard.c:306
 #: ../shell/e-shell-importer.c:159 ../shell/e-shell-startup-wizard.c:750
@@ -15187,16 +15160,15 @@ msgstr "I-Evolution yenxalenye Yovavanyo"
 #: ../shell/apps_evolution_shell.schemas.in.in.h:1
 msgid "A GNOME Print description of the current printer settings"
 msgstr ""
+"Inkcazelo Yoshicilelo lwe-GNOME lwemimiselo ekwesi sishicileli ngokwangoku"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:2
-#, fuzzy
 msgid "Configuration version"
-msgstr "Uhlobo lokumisela inkqubo ye-Evolution"
+msgstr "Uhlobo lokumiselwa kwenkqubo"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:3
-#, fuzzy
 msgid "Default sidebar width"
-msgstr "Misela ububanzi befestile"
+msgstr "Misela ububanzi be-sidebar"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:4
 msgid "Default window height"
@@ -15212,9 +15184,8 @@ msgstr ""
 "I-ID okanye igama elimele isisele maliboniswe ngokumiselwa kusaqalwa nje."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:7
-#, fuzzy
 msgid "Last upgraded configuration version"
-msgstr "Uhlaziyo lokugqibela lohlobo lokumisela inkqubo ye-Evolution"
+msgstr "Uhlobo oluhlaziywe okokugqibela lokumiselwa kwenkqubo"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:8
 msgid ""
@@ -15224,16 +15195,14 @@ msgstr ""
 "ukuze zisetyenziswe kungekho intanethi"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:9
-#, fuzzy
 msgid "Printer settings"
-msgstr "Imimiselo Yesi_khokelo..."
+msgstr "Imimiselo Yesishicileli"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:10
-#, fuzzy
 msgid "Skip development warning dialog"
-msgstr "Ukuba kutsitywe uphuhliso lwesilumkisi"
+msgstr "Tsiba ukuphuhliswa kwebhokisi yokulumkisa"
 
-#: ../shell/apps_evolution_shell.schemas.in.in.h:11 ../shell/main.c:472
+#: ../shell/apps_evolution_shell.schemas.in.in.h:11 ../shell/main.c:473
 msgid "Start in offline mode"
 msgstr "Yiqalise ungekho kwi-intanethi"
 
@@ -15241,76 +15210,71 @@ msgstr "Yiqalise ungekho kwi-intanethi"
 msgid ""
 "The configuration version of Evolution, with major/minor/configuration level"
 msgstr ""
+"Uhlobo lokumiselwa kwenkqubo ye-Evolution nemigangatho emikhulu/emincinane/"
+"yokumiselwa kwenkqubo"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:13
-#, fuzzy
 msgid "The default height for the main window, in pixels."
-msgstr "Misela ubude beFestile Yemiyalezo"
+msgstr "Ubude obumiselweyo beFestile engundoqo ngee-pixel."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:14
-#, fuzzy
 msgid "The default width for the main window, in pixels."
-msgstr "Misela ububanzi beFestile Yomyalezo"
+msgstr "Ububanzi obumiselweyo beFestile engundoqo ngee-pixel."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:15
-#, fuzzy
 msgid "The default width for the sidebar, in pixels."
-msgstr "Misela ububanzi begilasi yesiqulathi seefayili"
+msgstr "Ububanzi obumiselweyo be-sidebar ngee-pixel."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:16
 msgid ""
 "The last upgraded configuration version of Evolution, with major/minor/"
 "configuration level"
 msgstr ""
+"Uhlobo lokumiselwa kwenkqubo ye-Evolution nemigangatho emikhulu/emincinane/"
+"yokumiselwa kwenkqubo"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:17
-#, fuzzy
 msgid ""
 "The style of the window buttons. Can be \"text\", \"icons\", \"both\", "
 "\"toolbar\". If \"toolbar\" is set, the style of the buutons is determined "
 "by the GNOME toolbar setting."
 msgstr ""
-"Isimo samaqhosha abonisiweyo. Kungaba ngumbhalo, umfanekiso, zombini, "
-"isithinteli-zixhobo. Ukuba umisela isithinteli-sixhobo, isimo sesithinteli-"
-"sixhobo siza kumiswa kukumiselwa kwe-GNOME."
+"Isimo samaqhosha efestile. Kungaba \"text\", \"icons\", \"both\", \"toolbar"
+"\".  Ukuba i-\"toolbar\" imiselwe, isimo samaqhosha simiswa ngemimiselo ye-"
+"toolbar ye-GNOME."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:18
 msgid "Toolbar is visible"
 msgstr "Isithinteli-sixhobo esibonakalayo"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:19
-#, fuzzy
 msgid "Whether Evolution will start up in offline mode instead of online mode."
 msgstr ""
-"Ukuba uyimisele ku-ilungile, inkqubo ye-Evolution iza kuqala ungangenanga "
-"kwi-intanethi endaweni yokufuna ukuba ungene."
+"Nokuba i-Evolution iza kuqala ungangenanga kwi-intanethi endaweni yokufuna "
+"ukuba ungene."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:20
 msgid "Whether the toolbar should be visible."
 msgstr "Ukuba isithineli-sixhobo kufuneka sibonakale."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:21
-#, fuzzy
 msgid ""
 "Whether the warning dialog in development versions of Evolution is skipped."
 msgstr ""
-"Ukuba imiselwe ku-iyinyaniso, uphawu lwesilumkisi kwinkqubo ye-Evolution "
-"aluboniswa."
+"Nokuba ibhokisi yokunxibelelana ekuhlobo lophuhliso lwe-Evolution ithe "
+"yatsitywa."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:22
-#, fuzzy
 msgid "Whether the window buttons should be visible."
-msgstr "Ukuba iqhosha kufuneka libonakale."
+msgstr "Nokuba amaqhosha efestile kufuneka ebonakele."
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:23
-#, fuzzy
 msgid "Window button style"
-msgstr "A_maqhosha Efestile"
+msgstr "Isimo samaqhosha efestile"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:24
-#, fuzzy
 msgid "Window buttons are visible"
-msgstr "Amaqhosha ayabonakala"
+msgstr "Amaqhosha efestile ayabonakala"
 
 #: ../shell/e-active-connection-dialog.glade.h:1
 msgid "<b>Active Connections</b>"
@@ -15353,18 +15317,16 @@ msgstr ""
 msgid "Choose the destination for this import"
 msgstr "Khetha indawo oluya kuyo olu ngeniso"
 
-# Evolution - verbatim
 #: ../shell/e-shell-importer.c:162
-#, fuzzy
 msgid ""
 "Evolution checked for settings to import from the following\n"
 "applications: Pine, Netscape, Elm, iCalendar. No settings\n"
 "that could be imported where found. If you would like to\n"
 "try again, please click the \"Back\" button.\n"
 msgstr ""
-"Inkqubo yoPhuhliso ikhangele imimiselo yokungeniswa kwezi nkqubo\n"
-"zilandelayo: i-Pine, i-Netscape, i-Elm, i-iCalendar. Akukho\n"
-"mimiselo inokungeniswa ifunyenweyo. Ukuba uyafuna\n"
+"Inkqubo ye-Evolution ikhangele imimiselo yokungenisa ususa kwezi nkqubo\n"
+"zilandelayo: i-Pine, i-Netscape, i-Elm, i-iCalendar. Akukho mimiselo\n"
+"inokungeniswa ifunyenweyo. Ukuba uyafuna\n"
 "ungazama kwakhona, nceda ucofe iqhosha u-\"Buyela emva\".\n"
 
 #: ../shell/e-shell-importer.c:233 ../shell/e-shell-importer.c:267
@@ -15690,7 +15652,7 @@ msgstr ""
 "Inkqubo ye-Evolution ingangenisa i-data evela kwezi fayili zilandelayo:"
 
 #. Preview/Alpha/Beta version warning message
-#: ../shell/main.c:234
+#: ../shell/main.c:235
 #, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
@@ -15728,7 +15690,7 @@ msgstr ""
 "Siyathemba uya kuzonwabela iziphumo zakho zokusebenza nzima, yaye thina\n"
 "silinde ngolangazelelo ukuva izimvo zakho!\n"
 
-#: ../shell/main.c:258
+#: ../shell/main.c:259
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
@@ -15736,40 +15698,40 @@ msgstr ""
 "Siyabulela\n"
 "Iqela lenkqubo ye-Evolution\n"
 
-#: ../shell/main.c:265
+#: ../shell/main.c:266
 msgid "Don't tell me again"
 msgstr "Musa ukundixelela kwakhona"
 
-#: ../shell/main.c:470
+#: ../shell/main.c:471
 msgid "Start Evolution activating the specified component"
 msgstr ""
 "Ukuqalisa inkqubo ye-Evolution kwenza ukuba iinxalenye ezichaziweyo zisebenze"
 
-#: ../shell/main.c:474
+#: ../shell/main.c:475
 msgid "Start in online mode"
 msgstr "Yiqalise ukwi-intanethi"
 
-#: ../shell/main.c:477
+#: ../shell/main.c:478
 msgid "Forcibly shut down all Evolution components"
 msgstr "Inyanzelisa ukuvala zonke iinxalenye zenkqubo ye-Evolution"
 
-#: ../shell/main.c:481
+#: ../shell/main.c:482
 msgid "Forcibly re-migrate from Evolution 1.4"
 msgstr "Inyanzelisa ukufuduka kwakhona kwinkqubo ye-Evolution 1.4"
 
-#: ../shell/main.c:484
+#: ../shell/main.c:485
 msgid "Send the debugging output of all components to a file."
 msgstr "Thumela isiphumo sesilungisi-ziphene kuzo zonke iinxalenye zefayili."
 
-#: ../shell/main.c:487
+#: ../shell/main.c:488
 msgid "Disable the mono plugin environment."
 msgstr "Yenze ingasebenzi indawo yoncedo lwenkqubo enye."
 
-#: ../shell/main.c:490
+#: ../shell/main.c:491
 msgid "Disable loading of any plugins."
 msgstr "Yenze kungasebenzi nakuphi na ukufakwa kwenkqubo yoncedo."
 
-#: ../shell/main.c:521
+#: ../shell/main.c:522
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -16208,7 +16170,7 @@ msgid "dialog1"
 msgstr "unxibelelwano1"
 
 #. XXX we shouldn't be popping up dialogs in this code.
-#: ../smime/lib/e-cert-db.c:612
+#: ../smime/lib/e-cert-db.c:650
 msgid "Certificate already exists"
 msgstr "Isatifiketi sele sikho"
 
@@ -16736,9 +16698,8 @@ msgid "Create or edit rules for filtering new mail"
 msgstr "Yenza okanye uhlele imithetho yokuhluza i-imeyili entsha"
 
 #: ../ui/evolution-mail-global.xml.h:5
-#, fuzzy
 msgid "Create or edit vFolder definitions"
-msgstr "Yenza okanye uhlele iinkcazelo eziyinyani zesiqulathi seefayili"
+msgstr "Yenza okanye uhlele inkcazelo ye-vFolder"
 
 #: ../ui/evolution-mail-global.xml.h:6
 msgid "Empty _Trash"
@@ -16781,9 +16742,8 @@ msgid "_Filters..."
 msgstr "_Izihluzi..."
 
 #: ../ui/evolution-mail-global.xml.h:18
-#, fuzzy
 msgid "vFolder _Editor..."
-msgstr "Umhleli _Wesiqulathi Seefayili Eziyinyani..."
+msgstr "_Umhleli We-vFolder..."
 
 #: ../ui/evolution-mail-list.xml.h:1
 msgid "Change the properties of this folder"
@@ -16925,9 +16885,8 @@ msgid "Copy selected messages to another folder"
 msgstr "Kopela imiyalezo echongiweyo kwesinye isiqulathi seefayili"
 
 #: ../ui/evolution-mail-message.xml.h:12
-#, fuzzy
 msgid "Create _vFolder From Message"
-msgstr "_Yenza Isihluzi Kumyalezo"
+msgstr "Yenza i-_vFolder NgoMyalezo"
 
 #: ../ui/evolution-mail-message.xml.h:13
 msgid "Create a rule to filter messages from this sender"
@@ -16946,24 +16905,20 @@ msgid "Create a rule to filter messages with this subject"
 msgstr "Yenza umthetho ohluza imiyalezo enesi sihloko"
 
 #: ../ui/evolution-mail-message.xml.h:17
-#, fuzzy
 msgid "Create a vFolder for these recipients"
-msgstr "Yenza isiqulathi seefayili zenyani zaba bamkeli"
+msgstr "Yenza i-vFolder yaba bamkeli"
 
 #: ../ui/evolution-mail-message.xml.h:18
-#, fuzzy
 msgid "Create a vFolder for this mailing list"
-msgstr "Yenza isiqulathi seefayili zenyani zolu luhlu loqhagamshelana naye"
+msgstr "Yenza i-vFolder yolu luhlu loqhagamshelana nabo"
 
 #: ../ui/evolution-mail-message.xml.h:19
-#, fuzzy
 msgid "Create a vFolder for this sender"
-msgstr "Yenza isiqulathi seefayili zenyani zalo mthumeli"
+msgstr "Yenza i-vFolder yalo mthumeli"
 
 #: ../ui/evolution-mail-message.xml.h:20
-#, fuzzy
 msgid "Create a vFolder for this subject"
-msgstr "Yenza isiqulathi seefayili zenyani zesi sihloko"
+msgstr "Yenza i-vFolder yesi sihloko"
 
 #: ../ui/evolution-mail-message.xml.h:23
 msgid "Decrease the text size"
@@ -17062,17 +17017,9 @@ msgstr "Yandisa ubungakanani bombhalo"
 msgid "Load _Images"
 msgstr "Faka _Imifanekiso"
 
-#: ../ui/evolution-mail-message.xml.h:50
-msgid "Mar_k as Read"
-msgstr "Yiphawu_le njengeFundiweyo"
-
 #: ../ui/evolution-mail-message.xml.h:51
 msgid "Mark as I_mportant"
 msgstr "Phawula njengeB_alulekileyo"
-
-#: ../ui/evolution-mail-message.xml.h:52
-msgid "Mark as U_nread"
-msgstr "Phawula njengoN_gafundwanga"
 
 #: ../ui/evolution-mail-message.xml.h:53
 msgid "Mark as Unimp_ortant"
@@ -18159,9 +18106,8 @@ msgstr "Yenza Iimpawu Zisebenze Ngaxeshanye:"
 #. To translators: This is the accessibility name of
 #. the search bar's text entry widget
 #: ../widgets/misc/e-search-bar.c:345
-#, fuzzy
 msgid "Search Text Entry"
-msgstr "Umhleli Wokukhangela"
+msgstr "Khangela Ukungeniswa Kombhalo"
 
 #: ../widgets/misc/e-search-bar.c:549
 msgid "_Search"
@@ -18176,9 +18122,8 @@ msgid "_Clear"
 msgstr "_Sula"
 
 #: ../widgets/misc/e-search-bar.c:647
-#, fuzzy
 msgid "Search Type"
-msgstr "_Ummandla okhangela kuwo:"
+msgstr "Uhlobo Lokukhangela"
 
 #: ../widgets/misc/e-search-bar.c:851
 msgid "Item ID"
@@ -18197,65 +18142,60 @@ msgid "Find _Now"
 msgstr "Fumana _Ngoku"
 
 #: ../widgets/misc/e-send-options.c:506
-#, fuzzy
 msgid "When de_leted:"
-msgstr "%d icinyiwe"
+msgstr "Ici_nywe nini:"
 
 #: ../widgets/misc/e-send-options.glade.h:1
-#, fuzzy
 msgid "<b>Delivery Options</b>"
-msgstr "<b>Thumela Okukhethileyo</b>"
+msgstr "<b>Ukhetho Lokufikisa</b>"
 
 #: ../widgets/misc/e-send-options.glade.h:2
 msgid "<b>Replies</b>"
 msgstr "<b>Iimpendulo</b>"
 
 #: ../widgets/misc/e-send-options.glade.h:3
-#, fuzzy
 msgid "<b>Return Notification</b>"
-msgstr "<b>Ukubonisa Ubungqina Bobunyani</b>"
+msgstr "<b>Isaziso Sokubuyisela Emva</b>"
 
 #: ../widgets/misc/e-send-options.glade.h:4
-#, fuzzy
 msgid "<b>Status Tracking</b>"
-msgstr "<b>Uyakhangela</b>"
+msgstr "<b>Ubume Bokukhangela</b>"
 
 #: ../widgets/misc/e-send-options.glade.h:5
 msgid "A_uto-delete sent item"
-msgstr ""
+msgstr "Ukucima ngoku_zenzekelayo into ethunyelweyo"
 
 #: ../widgets/misc/e-send-options.glade.h:6
-#, fuzzy
 msgid "C_lassification"
-msgstr "Uhl_elo:"
+msgstr "Uhl_elo"
 
 #: ../widgets/misc/e-send-options.glade.h:7
-#, fuzzy
 msgid "Creat_e a sent item to track information"
-msgstr "Ayikwazi ukwenza ulwazi Lomamkeli we-CMS"
+msgstr "Yenz_a ukuba into ethunyelweyo ikwazi ukukhangela ulwazi"
 
 #: ../widgets/misc/e-send-options.glade.h:8
 msgid "Deli_vered and opened"
-msgstr ""
+msgstr "Ifi_kile yaye ivuliwe"
 
 #: ../widgets/misc/e-send-options.glade.h:9
-#, fuzzy
 msgid "Gene_ral Options"
-msgstr "Jikelele"
+msgstr "Ukhetho Jike_lele"
 
 #: ../widgets/misc/e-send-options.glade.h:10
-#, fuzzy
 msgid ""
 "None\n"
 "Mail Receipt"
-msgstr "Funda iirisithi"
+msgstr ""
+"Nanye\n"
+"I-imeyile ifunyenwe"
 
 #: ../widgets/misc/e-send-options.glade.h:12
-#, fuzzy
 msgid ""
 "None\n"
 "Mail Receipt\n"
-msgstr "Funda iirisithi"
+msgstr ""
+"Nanye\n"
+"I-imeyile ifunyenwe\n"
 
 #: ../widgets/misc/e-send-options.glade.h:15
 msgid ""
@@ -18263,15 +18203,17 @@ msgid ""
 "Private\n"
 "Confidential\n"
 msgstr ""
+"Kuwonke-wonke\n"
+"Bucala\n"
+"Iyimfihlo\n"
 
 #: ../widgets/misc/e-send-options.glade.h:19
-#, fuzzy
 msgid "R_eply requested"
-msgstr "Kucelwe Impendulo: ngu-"
+msgstr "Kucelwe Im_pendulo"
 
 #: ../widgets/misc/e-send-options.glade.h:21
 msgid "Sta_tus  Tracking"
-msgstr ""
+msgstr "Ubu_me Nokuyilandelela"
 
 #: ../widgets/misc/e-send-options.glade.h:22
 msgid ""
@@ -18280,61 +18222,58 @@ msgid ""
 "Standard\n"
 "Low"
 msgstr ""
+"Ayichazwanga\n"
+"Iphakamile\n"
+"Isemgangatheni\n"
+"Iphantsi"
 
 #: ../widgets/misc/e-send-options.glade.h:26
-#, fuzzy
 msgid "W_ithin"
-msgstr "Isalindile"
+msgstr "Kunga_phelanga"
 
 #: ../widgets/misc/e-send-options.glade.h:27
 msgid "When acce_pted: "
-msgstr ""
+msgstr "Ivu_nywe nini: "
 
 #: ../widgets/misc/e-send-options.glade.h:28
-#, fuzzy
 msgid "When co_mpleted:"
-msgstr "_Umhla egqitywe ngawo:"
+msgstr "Xa igqi_tyiweyo:"
 
 #: ../widgets/misc/e-send-options.glade.h:29
 msgid "When decli_ned:    "
-msgstr ""
+msgstr "Ya_liwe nini:    "
 
 #: ../widgets/misc/e-send-options.glade.h:30
 msgid "_After:"
 msgstr "_Emva:"
 
 #: ../widgets/misc/e-send-options.glade.h:31
-#, fuzzy
 msgid "_All information"
-msgstr "Ulwazi ngomsebenzi"
+msgstr "_Lonke ulwazi"
 
 #: ../widgets/misc/e-send-options.glade.h:32
-#, fuzzy
 msgid "_Delay message delivery"
-msgstr "Yeka imiyalezo kwiseva"
+msgstr "_Libazisa ukufikiswa kwe-imeyile"
 
 #: ../widgets/misc/e-send-options.glade.h:33
-#, fuzzy
 msgid "_Delivered"
-msgstr "_Cima"
+msgstr "_Ifikisiwe"
 
 #: ../widgets/misc/e-send-options.glade.h:35
 msgid "_Set expiration  date"
-msgstr ""
+msgstr "_Misa umhla wokuphelelwa"
 
 #: ../widgets/misc/e-send-options.glade.h:36
-#, fuzzy
 msgid "_Until:"
-msgstr "de"
+msgstr "_De:"
 
 #: ../widgets/misc/e-send-options.glade.h:37
-#, fuzzy
 msgid "_When convenient"
-msgstr "Kucelwa Impendulo: Xa unexesha"
+msgstr "_Xa unexesha"
 
 #: ../widgets/misc/e-send-options.glade.h:38
 msgid "_When opened:     "
-msgstr ""
+msgstr "_Ivulwe nini:     "
 
 #. system:ask-save-file-exists-overwrite primary
 #: ../widgets/misc/e-system-errors.xml.h:4
@@ -18367,2573 +18306,5 @@ msgid "%s (%d%% complete)"
 msgstr "%s (%d%% igqityiwe)"
 
 #: ../widgets/misc/e-url-entry.c:107
-#, fuzzy
 msgid "click here to go to url"
-msgstr "<cofa apha ukukhetha isiqulathi seefayili>"
-
-#~ msgid "have "
-#~ msgstr "ba na-"
-
-#~ msgid "has "
-#~ msgstr "une-"
-
-#~ msgid " cards"
-#~ msgstr " iikhadi"
-
-#~ msgid " card"
-#~ msgstr " ikhadi"
-
-#~ msgid "alarm "
-#~ msgstr "isiqaphelisi "
-
-#~ msgid "time-zone "
-#~ msgstr "ixesha elibekiweyo "
-
-#~ msgid "meeting "
-#~ msgstr "intlanganiso "
-
-#~ msgid "empty"
-#~ msgstr "ayinanto"
-
-#~ msgid ", %d events"
-#~ msgstr ", %d izehlo"
-
-#~ msgid "work week view :"
-#~ msgstr "ukubonisa iveki yomsebenzi :"
-
-#~ msgid "day view :"
-#~ msgstr "ukubonisa umsebenzi wosuku :"
-
-#~ msgid "month view :"
-#~ msgstr "ukubonisa ubume benyanga :"
-
-#~ msgid "week view :"
-#~ msgstr "ukubonisa ubume beveki :"
-
-#~ msgid ")"
-#~ msgstr ")"
-
-#~ msgid "Position of the vertical pane in main view."
-#~ msgstr "Indawo yobude begilasi yefestile kwisibonisi esingundoqo."
-
-#~ msgid ""
-#~ "The number of characters that must be typed before Evolution will attempt "
-#~ "to autocomplete"
-#~ msgstr ""
-#~ "Inani loonobumba ekufuneka bechwetheziwe phambi kokuba i-Evolution "
-#~ "ibagqibezele ngokuzenzekelayo"
-
-#~ msgid "Address:"
-#~ msgstr "Idilesi:"
-
-#~ msgid "Calendar:"
-#~ msgstr "Ikhalenda:"
-
-#~ msgid "PO Box:"
-#~ msgstr "Ibhokisi yeposi:"
-
-#~ msgid "State/Province:"
-#~ msgstr "Isizwe/Iphondo:"
-
-#~ msgid "Title:"
-#~ msgstr "Isihloko:"
-
-#~ msgid "This contact belongs to these categories:"
-#~ msgstr "Olu qhagamshelwano lolwezi ndidi:"
-
-#~ msgid "Edit Contact Info"
-#~ msgstr "Hlela Ulwazi Loqhagamshelwano"
-
-#~ msgid "Add to Contacts"
-#~ msgstr "Yongeza Koqhagamshelana Nabo"
-
-#~ msgid "Allocate less space to weekend appointments"
-#~ msgstr "Wanike indawo encinane amadinga angeempelaveki"
-
-#~ msgid "Days that are work days"
-#~ msgstr "Iintsuku ezizintsuku zomsebenzi"
-
-#~ msgid "Default timezone for meetings"
-#~ msgstr "Wamisele amaxesha eentlanganiso"
-
-#~ msgid "Hour the workday ends on"
-#~ msgstr "Iyure oluphela ngayo usuku lomsebenzi"
-
-#~ msgid "Position of the horizontal pane in the month view"
-#~ msgstr "Indawo yobubanzi begilasi yefestile kwisithuba senyanga"
-
-#~ msgid "Position of the vertical pane"
-#~ msgstr "Indawo yobubanzi begilasi yefestile"
-
-#~ msgid "Show where events end in week and month views"
-#~ msgstr ""
-#~ "Bonisa ukuba siphela phi na isiganeko kwisithuba seveki okanye inyanga"
-
-#~ msgid "The url template to use as a free/busy data fallback"
-#~ msgstr ""
-#~ "Isikhokelo se-url esisetyenziswa njengesingahlawulwayo /njenge-data "
-#~ "exakekileyo ekungabuyelwa kuyo"
-
-#~ msgid "Whether to ask for confirmation when folder is expunged"
-#~ msgstr "Ukuba ungacela ukwaziswa xa isiqulathi seefayili sicinywa"
-
-#~ msgid "option menu to choose alarm action"
-#~ msgstr "imenyu okhetha kuyo isenzo esinesandi esilumkisayo"
-
-#~ msgid "option menu to choose alarm relative"
-#~ msgstr "imenyu okhetha kuyo isandi esilumkisayo esihambelanayo"
-
-#~ msgid "option menu to choose alarm time"
-#~ msgstr "imenyu okhetha kuyo isandi sexesha esilumkisayo"
-
-#~ msgid "option menu to choose alarm value units"
-#~ msgstr "imenyu okhetha kuyo ixabiso leyunithi yesandi esilumkisayo"
-
-#~ msgid "<span weight=\"bold\">Basics</span>"
-#~ msgstr "<span weight=\"bold\">Iziseko</span>"
-
-#~ msgid "<span weight=\"bold\">Date and Time</span>"
-#~ msgstr "<span weight=\"bold\">Umhla neXesha</span>"
-
-#~ msgid "Free/Busy Editor"
-#~ msgstr "Umhleli Ofumanekayo/Oxakekileyo"
-
-#~ msgid "Print Setup"
-#~ msgstr "Ukumisela Inkqubo Yokushicilela"
-
-#~ msgid "Signing is not supported by this cipher"
-#~ msgstr ""
-#~ "Ukusayina akuxhaswanga sisixokelelwano esenza i-data ifundwe ngokuyivula "
-#~ "ngesitshixo"
-
-#~ msgid "Signing message"
-#~ msgstr "Ukusayina umyalezo"
-
-#~ msgid "Verifying is not supported by this cipher"
-#~ msgstr ""
-#~ "Ukuqinisekisa akuxhaswanga sisixokelelwano esenza i-data ifundwe "
-#~ "ngokuyivula ngesitshixo"
-
-#~ msgid "Verifying message"
-#~ msgstr "Ukuqinisekisa umyalezo"
-
-#~ msgid "Encryption is not supported by this cipher"
-#~ msgstr ""
-#~ "Ukukhowuda i-data akuxhaswanga sisixokelelwano esenza i-data ifundwe "
-#~ "ngokuyivula ngesitshixo"
-
-#~ msgid "Encrypting message"
-#~ msgstr "Ukukhowuda umyalezo"
-
-#~ msgid "Decryption is not supported by this cipher"
-#~ msgstr ""
-#~ "Ukususa ikhowudi akuxhaswanga sisixokelelwano esenza i-data ifundwe "
-#~ "ngokuyivula ngesitshixo"
-
-#~ msgid "Decrypting message"
-#~ msgstr "Ukususa ikhowudi kumyalezo"
-
-#~ msgid "You may not import keys with this cipher"
-#~ msgstr ""
-#~ "Akungengenisi ngesitshixo ngesixokelelwano esenza i-data ifundwe "
-#~ "ngokuyivula ngesitshixo"
-
-#~ msgid "You may not export keys with this cipher"
-#~ msgstr ""
-#~ "Akunako ukususa ulwazi kwenye inkqubo uluse kwenye usebenzisa "
-#~ "isixokelelwano esenza i-data ifundwe ngokuyivula ngesitshixo"
-
-#~ msgid "Unable to create cache path"
-#~ msgstr ""
-#~ "Ayinako ukwenza indlela kwinxalenye egcina iikopi ze-data ezisetyenziswa "
-#~ "xa kufakwa inkqubo"
-
-#~ msgid "Could not remove cache entry: %s: %s"
-#~ msgstr "Asikwazanga ukususa inxalenye yokukhowuda i-data: %s: %s"
-
-#~ msgid ""
-#~ "Could not write log entry: %s\n"
-#~ "Further operations on this server will not be replayed when you\n"
-#~ "reconnect to the network."
-#~ msgstr ""
-#~ "Ayikwazanga ukubhala ingeniso ye-log: %s\n"
-#~ "Ezinye izenzo kule seva azinakudlalwa kwakhona ngelixa u\n"
-#~ "enxulumana nothungelwano."
-
-#~ msgid ""
-#~ "Could not open `%s':\n"
-#~ "%s\n"
-#~ "Changes made to this folder will not be resynchronized."
-#~ msgstr ""
-#~ "Ayikwazanga ukuvula `%s':\n"
-#~ "%s\n"
-#~ "Iinguqu ezenziwe kwesi siqulathi seefayili azinakukhowudwa kwakhona."
-
-#~ msgid "Resynchronizing with server"
-#~ msgstr "Kuphindwa okwenziwe ngaxeshanye neseva"
-
-#~ msgid "Copy folder content locally for offline operation"
-#~ msgstr ""
-#~ "Kopa okuqulathwe kwisiqulathi fayili ukuze ukusebenzise xa ikhompyutha "
-#~ "ziphumile kwi-intanethi"
-
-#~ msgid "Downloading new messages for offline mode"
-#~ msgstr ""
-#~ "Ukukhuphela ulwazi lwemiyalezo emitsha ukuze lusetyenziswa ngaphandle kwe-"
-#~ "intanethi"
-
-#~ msgid "Preparing folder '%s' for offline"
-#~ msgstr ""
-#~ "Ukulungisa isiqulathi seefayili '%s' usilungiselela xa ungekho kwi-"
-#~ "intanethi"
-
-#~ msgid "You must be working online to complete this operation"
-#~ msgstr ""
-#~ "Kufuneka ube usebenza kwi-intanethi ukuze ukwazi ukugqibezela lo msebenzi"
-
-#~ msgid "Failed to create pipe to '%s': %s"
-#~ msgstr "Ayiphumelelanga ukwenza umbhobho we-'%s': %s"
-
-#~ msgid "Failed to create child process '%s': %s"
-#~ msgstr "Ayiphumelelanga ukwenza inkqubo yomntwana '%s': %s"
-
-#~ msgid "Invalid message stream received from %s: %s"
-#~ msgstr "Uludwe lomyalezo ophuthileyo uvela ku-%s: %s"
-
-#~ msgid "Syncing folders"
-#~ msgstr "Iziqulathi zeefayili ezenziwe ngaxeshanye"
-
-#~ msgid "Error parsing filter: %s: %s"
-#~ msgstr "Impazamo kwisihluzi sokwahlula ngezijungqu: %s: %s"
-
-#~ msgid "Error executing filter: %s: %s"
-#~ msgstr "Impazamo ekuphumezeni isihluzi: %s: %s"
-
-#~ msgid "Unable to open spool folder"
-#~ msgstr "Ayinako ukuvula ibhobhini yesiqulathi seefayili"
-
-#~ msgid "Unable to process spool folder"
-#~ msgstr "Ayinako ukulungisa ibhobhini yesiqulathi seefayili"
-
-#~ msgid "Getting message %d (%d%%)"
-#~ msgstr "Ukufumana Umyalezo %d (%d%%)"
-
-#~ msgid "Cannot open message"
-#~ msgstr "Ayikwazanga ukuvula umyalezo"
-
-#~ msgid "Failed on message %d"
-#~ msgstr "Ayiphumelelanga kulo myalezo %d"
-
-#~ msgid "Syncing folder"
-#~ msgstr "Isiqulathi seefayili esenziwe ngaxeshanye"
-
-#~ msgid "Getting message %d of %d"
-#~ msgstr "Ukufumana umyalezo %d of %d"
-
-#~ msgid "Failed at message %d of %d"
-#~ msgstr "Ayiphumelelanga kumyalezo %d of %d"
-
-#~ msgid "Failed to retrieve message"
-#~ msgstr "Ayiphumelelanga ukuwufumana kwakhona umyalezo"
-
-#~ msgid "Invalid arguments to (system-flag)"
-#~ msgstr "Iimpikiswano ezingasebenziyo kwi (sixokelelwano-flegi)"
-
-#~ msgid "Invalid arguments to (user-tag)"
-#~ msgstr "Iimpikiswano ezingasebenziyo ziya (kwisiphawuli-somsebenzisi)"
-
-#~ msgid "Failed to create create child process '%s': %s"
-#~ msgstr "Ayiphumelelanga ukwenza inkqubo yomntwana '%s': %s"
-
-#~ msgid "Error executing filter search: %s: %s"
-#~ msgstr "Impazamo xa kuphunyezwa ukufuna ngesihluzi: %s: %s"
-
-#~ msgid "Unsupported operation: append message: for %s"
-#~ msgstr "Umsebenzi ongaxhaswanga: ukongeza umyalezo: we-%s"
-
-#~ msgid "Unsupported operation: search by expression: for %s"
-#~ msgstr "Umsebenzi ongaxhaswanga: ukufuna ngefomula: usenzela i-%s"
-
-#~ msgid "Unsupported operation: search by uids: for %s"
-#~ msgstr "Umsebenzi ongaxhaswanga: ukufuna nge-uids: usenzela i-%s"
-
-#~ msgid "Moving messages"
-#~ msgstr "Shenxisa imiyalezo"
-
-#~ msgid "Copying messages"
-#~ msgstr "Ukukopa imiyalezo"
-
-#~ msgid "Learning junk"
-#~ msgstr "Ukufunda ulwazi olungenamsebenzi"
-
-#~ msgid "Learning non-junk"
-#~ msgstr "Ukufunda ulwazi olusebenzayo"
-
-#~ msgid "Filtering new message(s)"
-#~ msgstr "Ukuhluza u(imi)yalezo emitsha"
-
-#~ msgid ""
-#~ "Cannot parse search expression: %s:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Ayikwazanga ukwahlula ukukhangela intetho ngokwezijungqu: %s\n"
-#~ "%s"
-
-#~ msgid ""
-#~ "Error executing search expression: %s:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Kwenzeke impazamo ngelixa kukhangelwa intethol: %s:\n"
-#~ "%s"
-
-#~ msgid "(match-all) requires a single bool result"
-#~ msgstr "(yelelisa-konke) ifuna iziphumo ze-bool enye"
-
-#~ msgid "(match-threads) not allowed inside match-all"
-#~ msgstr "(yelelisa-imicu) ayivumelekanga phakathi kokuyelelisa-konke"
-
-#~ msgid "(match-threads) requires a match type string"
-#~ msgstr "(yelelisa-imicu) ifuna uhlobo lomcu oluyeleleyo"
-
-#~ msgid "(match-threads) expects an array result"
-#~ msgstr "(yelelisa-imicu) ilindele uludwe lweziphumo"
-
-#~ msgid "(match-threads) requires the folder set"
-#~ msgstr "(yelelisa-imicu) ifuna ummiselo wesiqulathi seefayili"
-
-#~ msgid "Performing query on unknown header: %s"
-#~ msgstr "Ibuza imibuzo kwintloko engaziwayo: %s"
-
-#~ msgid ""
-#~ "Unexpected GnuPG status message encountered:\n"
-#~ "\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Kufumaneke ubume bomyalezo we-GnuPG obungalindelekanga:\n"
-#~ "\n"
-#~ "%s"
-
-#~ msgid "Failed to parse gpg userid hint."
-#~ msgstr "Ayiphumelelanga ukwahlula icebiso le-gpg userid ngezijungqu."
-
-#~ msgid "Failed to parse gpg passphrase request."
-#~ msgstr ""
-#~ "Ayiphumelelanga ukwahlula isicelo se-gpg sebinzana lokudlula ngezijungqu."
-
-#~ msgid ""
-#~ "You need a passphrase to unlock the key for\n"
-#~ "user: \"%s\""
-#~ msgstr ""
-#~ "Ufuna ibinzana lokudlula ukuvula isitshixo se-\n"
-#~ "umsebenzisi: \"%s\""
-
-#~ msgid "Failed to unlock secret key: 3 bad passphrases given."
-#~ msgstr ""
-#~ "Ayiphumelelanga ukuvula isitshixo esilihlebo: Ilinikwe ka-3 ibinzana "
-#~ "lokudlula elingalunganga."
-
-#~ msgid "Unexpected response from GnuPG: %s"
-#~ msgstr "Impendulo engalindelekanga evela kwi-GnuPG: %s"
-
-#~ msgid "Failed to encrypt: No valid recipients specified."
-#~ msgstr ""
-#~ "Ayiphumelelanga ukuguqula isiqendu sikhowudwe: Umamkeli uchaziweyo "
-#~ "akaqinisekiswanga."
-
-#~ msgid ""
-#~ "Failed to GPG %s: %s\n"
-#~ "\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Ayiphumelelanga uku-GPG %s: %s\n"
-#~ "\n"
-#~ "%s"
-
-#~ msgid "Failed to GPG %s: %s\n"
-#~ msgstr "Ayiphumelelanga uku-GPG %s: %s\n"
-
-#~ msgid "Could not generate signing data: %s"
-#~ msgstr "Ayikwazanga ukwenza i-data yokusayina: %s"
-
-#~ msgid "Failed to execute gpg: %s"
-#~ msgstr "Ayiphumelelanga ukuphumeza i-gpg: %s"
-
-#~ msgid "Failed to execute gpg."
-#~ msgstr "Ayiphumelelanga ukuphumeza i-gpg."
-
-#~ msgid "This is a digitally signed message part"
-#~ msgstr "Le yinxalenye yomyalezo ngokwemivo"
-
-#~ msgid "Cannot verify message signature: Incorrect message format"
-#~ msgstr ""
-#~ "Ayikwazanga ukuqinisekisa usayino lomyalezo: Ukulungiselela umyalezo "
-#~ "akuchanekanga"
-
-#~ msgid "Cannot verify message signature: could not create temp file: %s"
-#~ msgstr ""
-#~ "Ayikwazanga ukuqinisekisa usayino lomyalezo: ayikwazanga ukwenza ifayili "
-#~ "yethutyana: %s"
-
-#~ msgid "Could not generate encrypting data: %s"
-#~ msgstr "Ayikwazanga ukwenza i-data ekhowudiweyo: %s"
-
-#~ msgid "This is a digitally encrypted message part"
-#~ msgstr "Le yinxalenye yomyalezo okhowudwe ngokwemivo"
-
-#~ msgid "Failed to decrypt MIME part: protocol error"
-#~ msgstr ""
-#~ "Ayiphumelelanga ukubuyisela inxalenye ye-MIME: kwenzeke impazamo "
-#~ "kwimithehto yokusebenza"
-
-#~ msgid "Encrypted content"
-#~ msgstr "Isiqulatho esikhowudiweyo"
-
-#~ msgid "Could not create lock file for %s: %s"
-#~ msgstr "Ayikwazanga ukwenza ifayili etshixwayo ye-%s: %s"
-
-#~ msgid "Timed out trying to get lock file on %s. Try again later."
-#~ msgstr ""
-#~ "Iphelelwe lixesha isazama ukungenisa ifayili etshixwayo kwi-%s. Zama "
-#~ "kwakhona ethubeni."
-
-#~ msgid "Failed to get lock using fcntl(2): %s"
-#~ msgstr "Ayiphumelelanga ukufumana isitshixo isebenzisa i-fcntl(2): %s"
-
-#~ msgid "Failed to get lock using flock(2): %s"
-#~ msgstr "Ayiphumelelanga ukufumana isitshixo isebenzisa i-flock(2): %s"
-
-#~ msgid "Cannot build locking helper pipe: %s"
-#~ msgstr "Ayikwazi ukwakha umbhobho wokuncedisa xa kutshixwayo: %s"
-
-#~ msgid "Cannot fork locking helper: %s"
-#~ msgstr ""
-#~ "Ayikwazi ukwenza uvimba okhethekileyo weefayili isincedisi sokutshixa: %s"
-
-#~ msgid "Could not lock '%s': protocol error with lock-helper"
-#~ msgstr ""
-#~ "Ayikwazanga ukutshixa '%s': impazamo kwimithetho yokusebenza nge-lock-"
-#~ "helper"
-
-#~ msgid "Could not lock '%s'"
-#~ msgstr "Ayikwazanga ukutshixa '%s'"
-
-#~ msgid "Could not check mail file %s: %s"
-#~ msgstr "Ayikwazanga ukukhangela ifayili ye-imeyili %s: %s"
-
-#~ msgid "Could not open mail file %s: %s"
-#~ msgstr "Ayikwazanga ukuvula ifayili ye-imeyili %s: %s"
-
-#~ msgid "Could not open temporary mail file %s: %s"
-#~ msgstr "Ayikwazanga ukuvula ifayili ye-imeyili yexeshana %s: %s"
-
-#~ msgid "Failed to store mail in temp file %s: %s"
-#~ msgstr "Ayikwazanga ukugcina ifayili ye-imeyili yethutyana %s: %s"
-
-#~ msgid "Could not create pipe: %s"
-#~ msgstr "Ayikwazanga ukwenza umbhobho: %s"
-
-#~ msgid "Could not fork: %s"
-#~ msgstr "Ayikwazanga ukwenza uvimba okhethekileyo weefayili zeenkqubo: %s"
-
-#~ msgid "Movemail program failed: %s"
-#~ msgstr "Inkqubo yokushenxisa i-imeyili ayiphumelelanga: %s"
-
-#~ msgid "(Unknown error)"
-#~ msgstr "(Impazamo engaziwayo)"
-
-#~ msgid "Error reading mail file: %s"
-#~ msgstr "Impazamo ekufundweni kwefayili ye-imeyili: %s"
-
-#~ msgid "Error writing mail temp file: %s"
-#~ msgstr "Impazamo ekubhalweni kwe-imeyili yexeshana: %s"
-
-#~ msgid "Error copying mail temp file: %s"
-#~ msgstr "Impazamo ekukopeni ifayili ye-imeyili yexeshana: %s"
-
-#~ msgid "parse error"
-#~ msgstr "impazamo ekwahluleni ngezijungqu"
-
-#~ msgid "cannot create thread"
-#~ msgstr "ayikwazanga ukwenza inkqubo enamacandelo amancinane azimeleyo"
-
-#~ msgid "Resolving: %s"
-#~ msgstr "Ukusombulula: %s"
-
-#~ msgid "Host lookup failed"
-#~ msgstr "Ukukhangela umququzeleli akuphumelelanga"
-
-#~ msgid "Host lookup failed: %s: %s"
-#~ msgstr "Ukukhangela umququzeleli akuphumelelanga: %s: %s"
-
-#~ msgid "Resolving address"
-#~ msgstr "Ukusombulula idilesi"
-
-#~ msgid "Name lookup failed"
-#~ msgstr "Igama olikhangelayo aliphumelelanga"
-
-#~ msgid "Name lookup failed: %s"
-#~ msgstr "Igama olikhangelayo aliphumelelanga: %s"
-
-#~ msgid "Virtual folder email provider"
-#~ msgstr ""
-#~ "Isinikezeli sesiqulathi seefayili ze-imeyili esisebenza ngokwahlukileyo"
-
-#~ msgid "For reading mail as a query of another set of folders"
-#~ msgstr ""
-#~ "Yeyokufunda i-imeyili njengombuzo kwenye isethi yeziqulathi zeefayili"
-
-#~ msgid "Could not load %s: Module loading not supported on this system."
-#~ msgstr ""
-#~ "Ayikwazanga ukufaka %s: Imodyuli yokufaka ayixhaswanga kwesi "
-#~ "sixokelelwano."
-
-#~ msgid "Could not load %s: %s"
-#~ msgstr "Ayikwazanga ukufaka %s: %s"
-
-#~ msgid "Could not load %s: No initialization code in module."
-#~ msgstr "Ayikwazanga ukufaka %s: Ayikho ikhowudi yokuyiqalisa kule modyuli."
-
-#~ msgid "No provider available for protocol `%s'"
-#~ msgstr "Akukho sinikezeli sifumanekayo kwisivumelwano sangaphambili `%s'"
-
-#~ msgid "Anonymous"
-#~ msgstr "Engenagama"
-
-#~ msgid "This option will connect to the server using an anonymous login."
-#~ msgstr ""
-#~ "Olu khetho luza kunxulumana neseva lusebenzisa ukungena okungaziwayo."
-
-#~ msgid "Authentication failed."
-#~ msgstr "Akuphumelelanga ukuqinisekisa ubungqina."
-
-#~ msgid ""
-#~ "Invalid email address trace information:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Ulwazi lokukhangela lufumanise ukuba ayisebenzi le dilesi:\n"
-#~ "%s"
-
-#~ msgid ""
-#~ "Invalid opaque trace information:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Ukuphutha kokulandela umzila wolwazi olungavisiswayo:\n"
-#~ "%s"
-
-#~ msgid ""
-#~ "Invalid trace information:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Ukulandela umzila wolwazi akusebenzi:\n"
-#~ "%s"
-
-#~ msgid "CRAM-MD5"
-#~ msgstr "i-CRAM-MD5"
-
-#~ msgid ""
-#~ "This option will connect to the server using a secure CRAM-MD5 password, "
-#~ "if the server supports it."
-#~ msgstr ""
-#~ "Olu khetho luza kunxulumanisa kwiseva kusebenzisa i-password "
-#~ "ekhuselekileyo ye-CRAM-MD5, ukuba loo seva iyalixhasa."
-
-#~ msgid "DIGEST-MD5"
-#~ msgstr "i-DIGEST-MD5"
-
-#~ msgid ""
-#~ "This option will connect to the server using a secure DIGEST-MD5 "
-#~ "password, if the server supports it."
-#~ msgstr ""
-#~ "Olu khetho luza kunxulumanisa kwiseva kusebenzisa i-password "
-#~ "ekhuselekileyo ye-DIGEST-MD5, ukuba loo seva iyalixhasa."
-
-#~ msgid "Server challenge too long (>2048 octets)\n"
-#~ msgstr "Umceli mngeni kwiseva ende kakhulu (>2048 octets)\n"
-
-#~ msgid "Server challenge invalid\n"
-#~ msgstr "Umceli mngeni kwiseva engasebenziyo\n"
-
-#~ msgid "Server challenge contained invalid \"Quality of Protection\" token\n"
-#~ msgstr ""
-#~ "Umceli mngeni kwiseva uqulethe okuphuthileyo \"Ubulunga nokhuseleko\" "
-#~ "umqondiso\n"
-
-#~ msgid "Server response did not contain authorization data\n"
-#~ msgstr "Impendulo yeseva ayiqulathanga bungqina be-data\n"
-
-#~ msgid "Server response contained incomplete authorization data\n"
-#~ msgstr "Impendulo yeseva iqulathe ubungqina obungaphelelanga be-data\n"
-
-#~ msgid "Server response does not match\n"
-#~ msgstr "Impendulo yeseva ayihambelani ne\n"
-
-#~ msgid "GSSAPI"
-#~ msgstr "i-GSSAPI"
-
-#~ msgid ""
-#~ "This option will connect to the server using Kerberos 5 authentication."
-#~ msgstr ""
-#~ "Olu khetho luza kunxulumana neseva lusebenzisa i-Kerberos 5 yobungqina."
-
-#~ msgid ""
-#~ "The specified mechanism is not supported by the provided credential, or "
-#~ "is unrecognized by the implementation."
-#~ msgstr ""
-#~ "Le ndlela ichaziweyo ayixhaswa ngabaqinisekisi abanikiweyo, okanye "
-#~ "ayaziwa ngabazalisekisi."
-
-#~ msgid "The provided target_name parameter was ill-formed."
-#~ msgstr "Umda onikiweyo we-target_name awakhiwanga kakuhle."
-
-#~ msgid ""
-#~ "The provided target_name parameter contained an invalid or unsupported "
-#~ "type of name."
-#~ msgstr ""
-#~ "Umda onikiweyo we-target_name uqulethe uhlobo lwegama olungasebenziyo "
-#~ "okanye olungaxhaswanga."
-
-#~ msgid ""
-#~ "The input_token contains different channel bindings to those specified "
-#~ "via the input_chan_bindings parameter."
-#~ msgstr ""
-#~ "Le input_token iqulethe eyahlukahlukeneyo imidibaniso yejelo kunaleyo "
-#~ "ichazwe ngokudlula kumda wee-input_chan_bindings."
-
-#~ msgid ""
-#~ "The input_token contains an invalid signature, or a signature that could "
-#~ "not be verified."
-#~ msgstr ""
-#~ "Le input_token iqulethe usayino olungasebenziyo, okanye usayino "
-#~ "olungenakuqinisekiswa."
-
-#~ msgid ""
-#~ "The supplied credentials were not valid for context initiation, or the "
-#~ "credential handle did not reference any credentials."
-#~ msgstr ""
-#~ "Iziqinisekiso ezinikeziweyo azikulungelanga ukuqalisa okuqulethweyo, "
-#~ "okanye okunokwenziwa sisiqinisekizo akubonisanga naziphi na iziqinisekiso."
-
-#~ msgid "The supplied context handle did not refer to a valid context."
-#~ msgstr ""
-#~ "Okunokwenziwa sisiqulatho esinikiweyo akubhekisi kwisiqulatho "
-#~ "esilungileyo."
-
-#~ msgid "The consistency checks performed on the input_token failed."
-#~ msgstr ""
-#~ "Ukukhangela ukungaguquguquki okwenziwe kwi-input_token akuphumelelanga."
-
-#~ msgid "The consistency checks performed on the credential failed."
-#~ msgstr ""
-#~ "Ukukhangela ukungaguquguquki okwenziwe kwiziqinisekiso akuphumelelanga."
-
-#~ msgid "The referenced credentials have expired."
-#~ msgstr "Iziqinisekiso ekubhekiswe kuzo sele ziphelelwe lixesha."
-
-#~ msgid "Bad authentication response from server."
-#~ msgstr ""
-#~ "Impendulo ebonisa ukungalundi kobungqina bobunyaniso obuvela kwiseva."
-
-#~ msgid "Unsupported security layer."
-#~ msgstr "Ukungaxhaswa komgangatho wokhuseleko."
-
-#~ msgid "Kerberos 4"
-#~ msgstr "i-Kerberos 4"
-
-#~ msgid ""
-#~ "This option will connect to the server using Kerberos 4 authentication."
-#~ msgstr ""
-#~ "Olu khetho alunxulumaniswanga kwiseva kusetyenziswa i-Kerberos 4 "
-#~ "ukufumanisa ubungqina bobunyani."
-
-#~ msgid ""
-#~ "Could not get Kerberos ticket:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Ayilifumananga itikiti le-Kerberos:\n"
-#~ "%s"
-
-#~ msgid "Login"
-#~ msgstr "Ngena"
-
-#~ msgid "This option will connect to the server using a simple password."
-#~ msgstr "Olu khetho luza kungena kwiseva lusebenzisa i-password elula."
-
-#~ msgid "Unknown authentication state."
-#~ msgstr "Abaziwa ubume bobungqina bobunyani."
-
-#~ msgid "NTLM / SPA"
-#~ msgstr "i-NTLM / SPA"
-
-#~ msgid ""
-#~ "This option will connect to a Windows-based server using NTLM / Secure "
-#~ "Password Authentication."
-#~ msgstr ""
-#~ "Olu khetho luza kunxulumanisa kwiseva esekelwe kwi-Windows lusebenzisa i-"
-#~ "NTLM / Igama eliyimfihlo Elikhuselekileyo Lokungqina ubunyani."
-
-#~ msgid "PLAIN"
-#~ msgstr "i-PLAIN"
-
-#~ msgid "POP before SMTP"
-#~ msgstr "i-POP phambi kwe-SMTP"
-
-#~ msgid "This option will authorise a POP connection before attempting SMTP"
-#~ msgstr ""
-#~ "Olu khetho luza kugunyazisa unxulumano lwe-POP phambi kokuzama i-SMTP"
-
-#~ msgid "POP Source URI"
-#~ msgstr "Umthombo i-POP we-URI"
-
-#~ msgid "POP Before SMTP auth using an unknown transport"
-#~ msgstr ""
-#~ "i-POP Phambi kwesigunyaziso se- SMTP kusetyenziswa isithuthi esingaziwayo"
-
-#~ msgid "POP Before SMTP auth using a non-pop source"
-#~ msgstr ""
-#~ "i-POP Phambi kwewesigunyaziso se-SMTP kusetyenziswa umthombo ongaziveziyo"
-
-#~ msgid "Regular expression compilation failed: %s: %s"
-#~ msgstr "Ukwenziwa komboniso oqhelekileyo akuphumelelanga: %s: %s"
-
-#~ msgid "URL '%s' needs a username component"
-#~ msgstr "i-URL '%s' ifuna icandelo legama lomsebenzisi"
-
-#~ msgid "URL '%s' needs a host component"
-#~ msgstr "i-URL '%s' ifuna icandelo lomququzeleli"
-
-#~ msgid "URL '%s' needs a path component"
-#~ msgstr "i-URL '%s' ifuna icandelo lendlela"
-
-#~ msgid ""
-#~ "Could not create directory %s:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Ayikwazanga ukwenza uvimba wefayili %s:\n"
-#~ "%s"
-
-#~ msgid "Cannot find certificate for '%s'"
-#~ msgstr "Asifumaneki isatifikethi se-'%s'"
-
-#~ msgid "Cannot create CMS message"
-#~ msgstr "Ayikwazi ukwenza umyalezo we-CMS"
-
-#~ msgid "Cannot create CMS signed data"
-#~ msgstr "Ayikwazi ukwenza i-data ye-CMS esayiniweyo"
-
-#~ msgid "Cannot attach CMS signed data"
-#~ msgstr "Ayikwazi ukuqhoboshela i-data ye-CMS esayiniweyo"
-
-#~ msgid "Cannot attach CMS data"
-#~ msgstr "Ayikwazi ukwenza i-data ye-CMS"
-
-#~ msgid "Cannot create CMS Signer information"
-#~ msgstr "Ayikwazi ukwenza ulwazi loMsayini we-CMS"
-
-#~ msgid "Cannot find certificate chain"
-#~ msgstr "Ayiyifumananga imiyalelo yesatifikethi"
-
-#~ msgid "Cannot add CMS Signing time"
-#~ msgstr "Ayinakongeza ixesha lokusayina le-CMS"
-
-#~ msgid "Encryption certificate for '%s' does not exist"
-#~ msgstr "Akukho ukukhowuda isatifikethi se-'%s'"
-
-#~ msgid "Cannot add SMIMEEncKeyPrefs attribute"
-#~ msgstr "Ayinako ukongeza uphawu lwe-SMIMEEncKeyPrefs"
-
-#~ msgid "Cannot add MS SMIMEEncKeyPrefs attribute"
-#~ msgstr "Ayinako ukongeza uphawu lwe-MS SMIMEEncKeyPrefs"
-
-#~ msgid "Cannot add encryption certificate"
-#~ msgstr "Ayinako ukongeza ukukhowuda isatifikethi"
-
-#~ msgid "Cannot add CMS Signer information"
-#~ msgstr "Ayinako ukongeza ulwazi losayina i-CMS"
-
-#~ msgid "Cannot create encoder context"
-#~ msgstr "Ayinako ukwenza imeko yokukhowuda"
-
-#~ msgid "Failed to add data to CMS encoder"
-#~ msgstr "Ayiphumelelanga ukongeza i-data kwisingenisi khowudi se-CMS"
-
-#~ msgid "Failed to encode data"
-#~ msgstr "Ayiphumelelanga ukukhowuda i-data"
-
-#~ msgid "Unverified"
-#~ msgstr "Ayiqinisekiswanga"
-
-#~ msgid "Good signature"
-#~ msgstr "Usayino olulungileyo"
-
-#~ msgid "Bad signature"
-#~ msgstr "Usayino olungalunganga"
-
-#~ msgid "Content tampered with or altered in transit"
-#~ msgstr "Okuqulethweyo kuphazanyisiwe ne- okanye kuguqulwe kusahanjiswa"
-
-#~ msgid "Signing certificate not found"
-#~ msgstr "Ukusayina isatifikethi akufunyanwanga"
-
-#~ msgid "Signing certificate not trusted"
-#~ msgstr "Ukusayina isatifikethi akuthembekanga"
-
-#~ msgid "Signature algorithm unknown"
-#~ msgstr "Alwaziwa usayino lwemithetho esetyenziswa ukwenza umsebenzi othile"
-
-#~ msgid "Signature algorithm unsupported"
-#~ msgstr ""
-#~ "Aluxhaswanga usayino lwemithetho esetyenziswa ukwenza umsebenzi othile"
-
-#~ msgid "Malformed signature"
-#~ msgstr "Usayino olungemanga kakuhle"
-
-#~ msgid "Processing error"
-#~ msgstr "Impazamo ekulungisweni kwenkqubo"
-
-#~ msgid "No signed data in signature"
-#~ msgstr "Akukho data ityikityiweyo kolu sayino"
-
-#~ msgid "Digests missing from enveloped data"
-#~ msgstr "Akukho zishwankathelo zifutshane kwi-data esemvulophini"
-
-#~ msgid "Cannot calculate digests"
-#~ msgstr "Ayikwazi ukubala izishwankathelo ezifutshane"
-
-#~ msgid "Cannot set message digests"
-#~ msgstr "Ayikwazi ukumisela izishwankathelo ezifutshane zomyalezo"
-
-#~ msgid "Certificate import failed"
-#~ msgstr "Isatifiketi sokungenisa i-data okanye inkqubo asiphumelelanga"
-
-#~ msgid "Certificate is the only message, cannot verify certificates"
-#~ msgstr ""
-#~ "Isatifiketi siso kuphela esingumyalezo, ayikwazi ukuqinisekisa izatifiketi"
-
-#~ msgid "Certificate is the only message, certificates imported and verified"
-#~ msgstr ""
-#~ "Isatifiketi siso kuphela esingumyalezo, izatifikethi zangeniswa zaza "
-#~ "zaqinisekiswa"
-
-#~ msgid "Cannot find signature digests"
-#~ msgstr "Ayikwazi ukufumana usayino lwezishwankathelo ezimfutshane"
-
-#~ msgid "Signer: %s <%s>: %s\n"
-#~ msgstr "Umsayini: %s <%s>: %s\n"
-
-#~ msgid "Decoder failed"
-#~ msgstr "Isixhobo sokukhupha iikhowudi asiphumelelanga"
-
-#~ msgid "Cannot find certificate for `%s'"
-#~ msgstr "Ayikwazi ukufumana isatifiketi se `%s'"
-
-#~ msgid "Cannot find common bulk encryption algorithm"
-#~ msgstr ""
-#~ "Ayikwazi ukufumana imithetho eqhelekileyo echaza ukukhowudwa kwe-data "
-#~ "eninzi"
-
-#~ msgid "Cannot allocate slot for encryption bulk key"
-#~ msgstr "Ayikwazi ukwabela iqhosha lokukhowuda i-data eninzi"
-
-#~ msgid "Cannot create CMS Message"
-#~ msgstr "Ayikwazi ukwenza Umyalezo we-CMS"
-
-#~ msgid "Cannot create CMS Enveloped data"
-#~ msgstr "Ayikwazi ukwenza i-data Esongelweyo ye-CMS"
-
-#~ msgid "Cannot attach CMS Enveloped data"
-#~ msgstr "Ayikwazi ukuqhoboshela i-data Esongelweyo ye-CMS"
-
-#~ msgid "Cannot attach CMS data object"
-#~ msgstr "Ayikwazi ukuqhoboshela i-data yomfanekiso ye-CMS"
-
-#~ msgid "Cannot add CMS Recipient information"
-#~ msgstr "Ayikwazi ukongeza ulwazi Lomamkeli we-CMS"
-
-#~ msgid "Failed to add data to encoder"
-#~ msgstr "Akuphumelelanga ukongeza i-data kwisixhobo sokukhowuda"
-
-#~ msgid "Decoder failed, error %d"
-#~ msgstr "Isixhobo sokukhupha iikhowudi asiphumelelanga, impazamo %d"
-
-#~ msgid "S/MIME Decrypt: No encrypted content found"
-#~ msgstr ""
-#~ "Ukukhupha ikhowudi kwi-S/MIME: Akufunyanwanga siqulatho sikhowudiweyo"
-
-#~ msgid "import keys: unimplemented"
-#~ msgstr "amaqhosha okungenisa: awazalisekiswanga"
-
-#~ msgid "export keys: unimplemented"
-#~ msgstr "amaqhosha okufudusa: awazalisekiswanga"
-
-#~ msgid "Cannot get folder: Invalid operation on this store"
-#~ msgstr ""
-#~ "Ayikwazi ukufumana isiqulathi seefayili: Kukho ukusebenza "
-#~ "okungagunyaziswanga kulo vimba"
-
-#~ msgid "Cannot create folder `%s': folder exists"
-#~ msgstr ""
-#~ "Ayikwazi ukwenza isiqulathi seefayili `%s': esi siqulathi seefayili sele "
-#~ "sikho"
-
-#~ msgid "Cannot create folder: Invalid operation on this store"
-#~ msgstr ""
-#~ "Ayikwazi ukwenza isiqulathi seefayili: Kukho ukusebenza "
-#~ "okungagunyaziswanga kulo vimba"
-
-#~ msgid "Cannot create folder: %s: folder exists"
-#~ msgstr ""
-#~ "Ayikwazi ukwenza isiqulathi seefayili %s: esi siqulathi seefayili sele "
-#~ "sikho"
-
-#~ msgid "Cannot delete folder: %s: Invalid operation"
-#~ msgstr ""
-#~ "Ayikwazi ukwenza isiqulathi seefayili: %s: Ukusebenza akungagunyaziswanga"
-
-#~ msgid "Cannot rename folder: %s: Invalid operation"
-#~ msgstr ""
-#~ "Ayikwazi ukuthiya isiqulathi seefayili ngokutsha: %s: Ukusebenza "
-#~ "akungagunyaziswanga"
-
-#~ msgid "Trash"
-#~ msgstr "Umgqomo"
-
-#~ msgid "Unable to get issuer's certificate"
-#~ msgstr "Ayinakho ukufumana isatifiketi somntu ozikhuphayo"
-
-#~ msgid "Unable to get Certificate Revocation List"
-#~ msgstr "Ayinakho ukufumana Uluhlu Lokurhoxisa Isatifiketi"
-
-#~ msgid "Unable to decrypt certificate signature"
-#~ msgstr "Ayinakho ukuguqula idata yokusayina isatifiketi ekhowudiweyo"
-
-#~ msgid "Unable to decrypt Certificate Revocation List signature"
-#~ msgstr ""
-#~ "Ayinakho ukukhupha ikhowudi yokusayina Uluhlu Lokurhoxisa Isatifiketi"
-
-#~ msgid "Unable to decode issuer's public key"
-#~ msgstr ""
-#~ "Ayinakho ukukhupha ikhowudi kwisitshixo sikawonkewonke somntu okhupha "
-#~ "isatifiketi"
-
-#~ msgid "Certificate signature failure"
-#~ msgstr "Usayino lwesatifiketi aluphumelelanga"
-
-#~ msgid "Certificate Revocation List signature failure"
-#~ msgstr "Ukusayina Uluhlu Olurhoxisa Isatifiketi akuphumelelanga"
-
-#~ msgid "Certificate not yet valid"
-#~ msgstr "Isatifiketi asikagunyaziswa okwangoku"
-
-#~ msgid "Certificate has expired"
-#~ msgstr "Isatifikethi siphelelwe lixesha"
-
-#~ msgid "CRL not yet valid"
-#~ msgstr "I-CRL ayikabi semthethweni okwangoku"
-
-#~ msgid "CRL has expired"
-#~ msgstr "I-CRL iphelelwe lixesha"
-
-#~ msgid "Error in CRL"
-#~ msgstr "Impazamo kwi-CRL"
-
-#~ msgid "Out of memory"
-#~ msgstr "Ukuzala kovimba wolwazi"
-
-#~ msgid "Zero-depth self-signed certificate"
-#~ msgstr "Isatifiketi ozisayinela sona asinabunzulu"
-
-#~ msgid "Self-signed certificate in chain"
-#~ msgstr "Isatifiketi ozisayinela sona kuludwe lwazo"
-
-#~ msgid "Unable to get issuer's certificate locally"
-#~ msgstr "Ayinakho ukufumana isatifiketi ngaphakathi"
-
-#~ msgid "Unable to verify leaf signature"
-#~ msgstr "Ayinakho ukuqinisekisa usayino lwegqabi"
-
-#~ msgid "Certificate chain too long"
-#~ msgstr "Uludwe lwezatifiketi lude kakhulu"
-
-#~ msgid "Certificate Revoked"
-#~ msgstr "Isatifiketi Sirhoxisiwe"
-
-#~ msgid "Invalid Certificate Authority (CA)"
-#~ msgstr "Iziphathi-mandla Zezatifikethi Azigunyaziswanga (CA)"
-
-#~ msgid "Path length exceeded"
-#~ msgstr "Ubude bendlela budluliwe"
-
-#~ msgid "Certificate untrusted"
-#~ msgstr "Isatifiketi asithenjwanga"
-
-#~ msgid "Certificate rejected"
-#~ msgstr "Isatifiketi saliwe"
-
-#~ msgid "Subject/Issuer mismatch"
-#~ msgstr "Ulinganiso olungachanekanga lweSihloko/Lomabi"
-
-#~ msgid "AKID/SKID mismatch"
-#~ msgstr "Ulinganiso olungachanekanga lwe-AKID/I-SKID"
-
-#~ msgid "AKID/Issuer serial mismatch"
-#~ msgstr "Ulinganiso olungachanekanga lolandelwano lwe-AKID/Lomabi"
-
-#~ msgid "Key usage does not support certificate signing"
-#~ msgstr "Ukusetyenziswa okuphambili akuluxhasi ukusayinwa kwesatifiketi"
-
-#~ msgid "Error in application verification"
-#~ msgstr "Impazamo ngelixa kuqinisekiswa inkqubo"
-
-#~ msgid ""
-#~ "Issuer:            %s\n"
-#~ "Subject:           %s\n"
-#~ "Fingerprint:       %s\n"
-#~ "Signature:         %s"
-#~ msgstr ""
-#~ "Osikhuphayo:       %s\n"
-#~ "Isihloko:          %s\n"
-#~ "Uphawu lomnwe:     %s\n"
-#~ "Usayino:           %s"
-
-#~ msgid "GOOD"
-#~ msgstr "KULUNGILE"
-
-#~ msgid "BAD"
-#~ msgstr "AKULUNGANGA"
-
-#~ msgid ""
-#~ "Bad certificate from %s:\n"
-#~ "\n"
-#~ "%s\n"
-#~ "\n"
-#~ "%s\n"
-#~ "\n"
-#~ "Do you wish to accept anyway?"
-#~ msgstr ""
-#~ "Isatifiketi esingalunganga sivela %s:\n"
-#~ "\n"
-#~ "%s\n"
-#~ "\n"
-#~ "%s\n"
-#~ "\n"
-#~ "Unqwenela ukuyivuma nakuba kunjalo?"
-
-#~ msgid ""
-#~ "SSL Certificate check for %s:\n"
-#~ "\n"
-#~ "%s\n"
-#~ "\n"
-#~ "Do you wish to accept?"
-#~ msgstr ""
-#~ "Ukukhangela isatifiketi se-SSL %s:\n"
-#~ "\n"
-#~ "%s\n"
-#~ "\n"
-#~ "Unqwenela ukuvuma na?"
-
-#~ msgid ""
-#~ "Certificate problem: %s\n"
-#~ "Issuer: %s"
-#~ msgstr ""
-#~ "Ingxaki kwisatifiketi: %s\n"
-#~ "Osikhuphayo: %s"
-
-#~ msgid ""
-#~ "Bad certificate domain: %s\n"
-#~ "Issuer: %s"
-#~ msgstr ""
-#~ "Indawo yesatifiketi engalunganga: %s\n"
-#~ "Osikhuphayo: %s"
-
-#~ msgid ""
-#~ "Certificate expired: %s\n"
-#~ "Issuer: %s"
-#~ msgstr ""
-#~ "Isatifiketi esiphelelwe lixesha: %s\n"
-#~ "Osikhuphayo: %s"
-
-#~ msgid ""
-#~ "Certificate revocation list expired: %s\n"
-#~ "Issuer: %s"
-#~ msgstr ""
-#~ "Uluhlu lokurhixisa isatifiketi luphelelwe lixesha: %s\n"
-#~ "Osikhuphayo: %s"
-
-#~ msgid "Could not parse URL `%s'"
-#~ msgstr "Ayikwazanga ukwahlula i-URL `%s' ngezijungqu"
-
-#~ msgid "Error storing `%s': %s"
-#~ msgstr "Impazamo ekugcineni i-`%s': %s"
-
-#~ msgid "No such message %s in %s"
-#~ msgstr "Akukho myalezo unjalo %s kwi-%s"
-
-#~ msgid "Cannot copy or move messages into a Virtual Folder"
-#~ msgstr ""
-#~ "Ayikwazi ukukopa okanye ukufudusa imiyalezo iyise Kwisiqulathi seefayili "
-#~ "Esingeyonyaniso"
-
-#~ msgid "Cannot delete folder: %s: No such folder"
-#~ msgstr ""
-#~ "Ayikwazi ukucima isiqulathi seefayili: %s: Asikho isiqulathi seefayili "
-#~ "esinjalo"
-
-#~ msgid "Cannot rename folder: %s: No such folder"
-#~ msgstr ""
-#~ "Ayikwazi ukunika elinye igama kwisiqulathi seefayili: %s: Asikho "
-#~ "isiqulathi seefayili esinjalo"
-
-#~ msgid "Cannot copy messages to the Trash folder"
-#~ msgstr "Ayikwazi ukukopa imiyalezo kwisiqulathi seefayili Esingumgqomo"
-
-#~ msgid "Cannot copy messages to the Junk folder"
-#~ msgstr ""
-#~ "Ayikwazi ukukopa imiyalezo iyise kwisiqulathi seefayili "
-#~ "Esinokungasebenziyo"
-
-#~ msgid "Checking for new mail"
-#~ msgstr "Ukukhangela i-imeyili entsha"
-
-#~ msgid "Check for new messages in all folders"
-#~ msgstr "Khangela imiyalezo emitsha kuzo zonke iziqulathi zeefayili"
-
-#~ msgid "Apply filters to new messages in Inbox on this server"
-#~ msgstr ""
-#~ "Sebenzisa izihluzi kwimiyalezo emitsha ekwibhokisi lezingenayo kule seva"
-
-#~ msgid "Check new messages for Junk contents"
-#~ msgstr "Khangela imiyalezo emitsha"
-
-#~ msgid "Only check for Junk messages in the INBOX folder"
-#~ msgstr ""
-#~ "Khangela loo miyalezo ingasebenziyo kuphela kwisiqulathi seefayile "
-#~ "SEMIYALEZO ENGENAYO"
-
-#~ msgid "Automatically synchronize account locally"
-#~ msgstr "Ukumisa ixesha ngokuzenzekelayo ngaphakathi"
-
-#~ msgid "Address Book and Calendar"
-#~ msgstr "Incwadi Yedilesi neKhalenda"
-
-#~ msgid "Post Office Agent:"
-#~ msgstr "I-arhente Enguvimba Wemiyalezo:"
-
-#~ msgid "Post Office Agent SOAP Port:"
-#~ msgstr "Isixhobo i-SOAP esiyi-arhente Enguvimba Wemiyalezo:"
-
-#~ msgid "Use Secure Connection (SSL)"
-#~ msgstr "Sebenzisa Unxulumano Olunokhuseleko (I-SSL)"
-
-#~ msgid "Novell GroupWise"
-#~ msgstr "I-Novell GroupWise"
-
-#~ msgid "For accessing Novell Groupwise servers"
-#~ msgstr "Ukufikelela kwiseva ye-Novell GroupWise"
-
-#~ msgid "Password"
-#~ msgstr "I-Password"
-
-#~ msgid ""
-#~ "This option will connect to the IMAP server using a plaintext password."
-#~ msgstr ""
-#~ "Olu khetho luza kunxulumana kwiseva i-IMAP kusetyenziswa igama "
-#~ "eliyimfihlo lombhalo oqhelekileyo."
-
-#~ msgid "Failed sending command to IMAP server %s: %s"
-#~ msgstr "Ayiphumelelanga ukuthumela umyalelo kwiseva i-IMAP %s: %s"
-
-#~ msgid "Unexpected response from IMAP4 server %s: %s"
-#~ msgstr "Impendulo engalindelekanga evela kwiseva i-IMAP4 %s: %s"
-
-#~ msgid "Unexpected greeting from IMAP server %s."
-#~ msgstr "Isibuliso esingalindelekanga esivela kwiseva i-IMAP %s."
-
-#~ msgid "Cannot select folder `%s': Invalid mailbox name"
-#~ msgstr ""
-#~ "Ayikwazi ukuchonga isiqulathi seefayili `%s': Igama lebhokisi ye-imeyili "
-#~ "aligunyaziswanga"
-
-#~ msgid "Cannot select folder `%s': Bad command"
-#~ msgstr "Ayikwazi ukuchonga isiqulathi seefayili `%s': Umyalelo ongalunganga"
-
-#~ msgid "IMAP4 server %s unexpectedly disconnected: %s"
-#~ msgstr "Iseva i-IMAP4 %s iphume ngokungalindelekanga: %s"
-
-#~ msgid "Cannot access folder `%s': %s"
-#~ msgstr "Ayikwazi ukufikelela kwisiqulathi seefayili `%s': %s"
-
-#~ msgid "Cannot sync flags to folder `%s': Unknown"
-#~ msgstr ""
-#~ "Ayikwazi ukumisa ixesha lee-flags kwisiqulathi seefayili `%s': Ayaziwa"
-
-#~ msgid "Cannot sync flags to folder `%s': Bad command"
-#~ msgstr ""
-#~ "Ayikwazi ukumisela ii-flags ixesha kwisiqulathi seefayili `%s': Umyalelo "
-#~ "ongalunganga"
-
-#~ msgid "Cannot expunge folder `%s': Unknown"
-#~ msgstr "Ayikwazi ukucima isiqulathi seefayili `%s': Ayaziwa"
-
-#~ msgid "Cannot expunge folder `%s': Bad command"
-#~ msgstr "Ayikwazi ukucima isiqulathi seefayili %s': Umyalelo ongalunganga"
-
-#~ msgid "User cancelled"
-#~ msgstr "Urhoxisiwe umsebenzisi"
-
-#~ msgid "Cannot get message %s: %s"
-#~ msgstr "Ayikwazi ukufumana umyalezo %s: %s"
-
-#~ msgid "This message is not available in offline mode."
-#~ msgstr "Lo myalezo awufumaneki xa ungasebenzi kwi-intanethi."
-
-#~ msgid "Cannot get message %s from folder `%s': No such message"
-#~ msgstr ""
-#~ "Ayikwazi ukufumana umyalezo %s osuka kwisiqulathi seefayili `%s': akukho "
-#~ "myalezo unjalo"
-
-#~ msgid "Cannot get message %s from folder `%s': Bad command"
-#~ msgstr ""
-#~ "Ayikwazi ukufumana umyalezo %s osuka kwisiqulathi seefayili `%s': "
-#~ "Umyalelo ongalunganga"
-
-#~ msgid "Cannot append messages to IMAP folders in offline mode."
-#~ msgstr ""
-#~ "Ayikwazi ukuhlomela imiyalezo kwisiqulathi seefayili i-IMAP xa "
-#~ "ungasebenzi kwi-intanethi."
-
-#~ msgid "Cannot append message to folder `%s': Unknown error"
-#~ msgstr ""
-#~ "Ayikwazi ukuhlomela umyalezo kwisiqulathi seefayili `%s': Impazamo ayaziwa"
-
-#~ msgid "Cannot append message to folder `%s': Bad command"
-#~ msgstr ""
-#~ "Ayikwazi ukuhlomela umyalezo kwisiqulathi seefayili `%s': Umyalelo "
-#~ "ongalunganga"
-
-#~ msgid "Cannot move messages to or from IMAP folders in offline mode."
-#~ msgstr ""
-#~ "Ayikwazi ukushenxisa imiyalezo ukuya nokusuka kwisiqulathi seefayili i-"
-#~ "IMAP xa ungasebenzi kwi-intanethi."
-
-#~ msgid "Cannot copy messages to or from IMAP folders in offline mode."
-#~ msgstr ""
-#~ "Ayikwazi ukukopa imiyalezo ukuya nokusuka kwisiqulathi seefayili i-IMAP "
-#~ "xa ungasebenzi kwi-intanethi."
-
-#~ msgid "Cannot move messages from folder `%s' to folder `%s': Unknown"
-#~ msgstr ""
-#~ "Ayikwazi ukushenxisa imiyalezo ukusuka kwisiqulathi seefayili `%s' ukuya "
-#~ "kwisiqulathi seefayili `%s': Ayaziwa"
-
-#~ msgid "Cannot copy messages from folder `%s' to folder `%s': Unknown"
-#~ msgstr ""
-#~ "Ayikwazi ukukopa imiyalezo ukusuka kwisiqulathi seefayili `%s' ukuya "
-#~ "kwisiqulathi seefayili `%s': Ayaziwa"
-
-#~ msgid "Cannot move messages from folder `%s' to folder `%s': Bad command"
-#~ msgstr ""
-#~ "Ayikwazi ukushenxisa imiyalezo ukusuka kwisiqulathi seefayili `%s' ukuya "
-#~ "kwisiqulathi seefayili `%s': Umyalelo awulunganga"
-
-#~ msgid "Cannot copy messages from folder `%s' to folder `%s': Bad command"
-#~ msgstr ""
-#~ "Ayikwazi ukukopa imiyalezo ukusuka kwisiqulathi seefayili `%s' ukuya "
-#~ "kwisiqulathi seefayili `%s': Umyalelo awulunganga"
-
-#~ msgid "Folders"
-#~ msgstr "Iziqulathi zeefayili"
-
-#~ msgid "Show only subscribed folders"
-#~ msgstr "Bonisa iziqulathi zeefayili zabazibopheleleyo kuphela"
-
-#~ msgid "Override server-supplied folder namespace"
-#~ msgstr "Ukungananzi indawo yegama leseva yesiqulathi seefayili"
-
-#~ msgid "Namespace"
-#~ msgstr "Igama lendawo"
-
-#~ msgid "Apply filters to new messages in INBOX on this server"
-#~ msgstr ""
-#~ "Sebenzisa izihluzi kwimiyalezo emitsha ekwiBHOKISI LEZINGENAYO kule seva"
-
-#~ msgid "Automatically synchronize remote mail locally"
-#~ msgstr "Ukubekela i-imeyili yangaphakathi ixesha ngokuzenzekelayo"
-
-#~ msgid "IMAPv4rev1"
-#~ msgstr "IMAPv4rev1"
-
-#~ msgid "For reading and storing mail on IMAPv4rev1 servers. EXPERIMENTAL !!"
-#~ msgstr "Ukufunda nokugcina i-imeyili kwiseva i-IMAPv4rev1. ISALINGWA!!"
-
-#~ msgid ""
-#~ "This option will connect to the IMAPv4rev1 server using a plaintext "
-#~ "password."
-#~ msgstr ""
-#~ "Olu khetho luza kunxulumaniswa kwiseva ye-IMAPv4rev1 kusetyenziswa igama "
-#~ "eliyimfihlo lombhalo ofundekayo."
-
-#~ msgid "IMAP server %s"
-#~ msgstr "Iseva i-IMAP %s"
-
-#~ msgid "IMAP service for %s on %s"
-#~ msgstr "Inkonzo i-IMAP ye-%s kwi-%s"
-
-#~ msgid "Could not connect to %s: %s"
-#~ msgstr "Ayikwazi ukunxulumanisa kwi-%s: %s"
-
-#~ msgid "SSL unavailable"
-#~ msgstr "Ayifumaneki i-SSL"
-
-#~ msgid "Connection cancelled"
-#~ msgstr "Unxulumano lurhoxisiwe"
-
-#~ msgid "Failed to connect to IMAP server %s in secure mode: %s"
-#~ msgstr ""
-#~ "Ayiphumelelanga ukurhoxisa unxulumano kwiseva ye-IMAP %s kwindlela "
-#~ "ekhuselekileyo: %s"
-
-#~ msgid "SSL negotiations failed"
-#~ msgstr "Uthethwathethwano lwe-SSL aluphumelelanga"
-
-#~ msgid ""
-#~ "Cannot authenticate to IMAP server %s using the %s authentication "
-#~ "mechanism"
-#~ msgstr ""
-#~ "Ayikwazi ukungqina kwiseva ye-IMAP %s isebenzisa indlela %s yokufuman "
-#~ "ubungqina"
-
-#~ msgid "%sPlease enter the IMAP password for %s on host %s"
-#~ msgstr "%sNceda ungenise i-password ye-IMAP ye-%s kumququzeleli %s"
-
-#~ msgid "Cannot authenticate to IMAP server %s using %s"
-#~ msgstr "Ayikwazi ukungqina ubunyaniso beseva ye-IMAP %s isebenzisa i-%s"
-
-#~ msgid "Cannot create IMAP folders in offline mode."
-#~ msgstr ""
-#~ "Ayikwazi ukwenza iziqulathi zeefayili ze-IMAP xa ungasebenzi kwi-"
-#~ "intanethi."
-
-#~ msgid "Cannot get folder `%s' on IMAP server %s: Unknown"
-#~ msgstr ""
-#~ "Ayikwazi ukufumana isiqulathi seefayili `%s' kwiseva ye-IMAP %s: Ayaziwa"
-
-#~ msgid ""
-#~ "The folder name \"%s\" is invalid because it contains the character \"%c\""
-#~ msgstr ""
-#~ "Igama lesiqulathi seefayili \"%s\" aligunyaziswanga kuba liqulethe uphawu "
-#~ "\"%c\""
-
-#~ msgid "Cannot create folder `%s': Invalid mailbox name"
-#~ msgstr ""
-#~ "Ayikwazi ukwenza isiqulathi seefayili `%s': Igama lebhokisi ye-imeyili "
-#~ "aligunyaziswanga"
-
-#~ msgid "Cannot create folder `%s': Bad command"
-#~ msgstr "Ayikwazi ukwenza isiqulathi seefayili `%s': Umyalelo awulunganga"
-
-#~ msgid "Cannot delete folder `%s': Special folder"
-#~ msgstr ""
-#~ "Ayikwazi ukucima isiqulathi seefayili `%s': Isiqulathi seefayili "
-#~ "esikhethekileyo"
-
-#~ msgid "Cannot delete IMAP folders in offline mode."
-#~ msgstr ""
-#~ "Ayikwazi ukucima isiqulathi seefayili se-IMAP xa ingasebenzi kwi-"
-#~ "intanethi."
-
-#~ msgid "Cannot delete folder `%s': Invalid mailbox name"
-#~ msgstr ""
-#~ "Ayikwazi ukucima isiqulathi seefayili `%s': Igama lebhokisi ye-imeyili "
-#~ "aligunyaziswanga"
-
-#~ msgid "Cannot delete folder `%s': Bad command"
-#~ msgstr "Ayikwazi ukucima isiqulathi seefayili `%s': Umyalelo awulunganga"
-
-#~ msgid "Cannot rename folder `%s' to `%s': Special folder"
-#~ msgstr ""
-#~ "Ayikwazi ukunika isiqulathi seefayili elinye igama `%s' ukuya `%s': "
-#~ "Isiqulathi seefayili esikhethekileyo"
-
-#~ msgid "Cannot rename IMAP folders in offline mode."
-#~ msgstr ""
-#~ "Ayikwazi ukunika isiqulathi seefayili se-IMAP elinye igama xa ingasebenzi "
-#~ "kwi-intanethi."
-
-#~ msgid "Cannot rename folder `%s' to `%s': Invalid mailbox name"
-#~ msgstr ""
-#~ "Ayikwazi ukunika isiqulathi seefayili elinye igama `%s' ukuya `%s': Igama "
-#~ "lebhokisi ye-imeyili aligunyaziswanga"
-
-#~ msgid "Cannot rename folder `%s' to `%s': Bad command"
-#~ msgstr ""
-#~ "Ayikwazi ukunika isiqulathi seefayili elinye igama `%s' ukuya `%s': "
-#~ "Umyalelo ongalunganga"
-
-#~ msgid "Cannot get %s information for pattern `%s' on IMAP server %s: %s"
-#~ msgstr ""
-#~ "Ayikwazi ukufumana %s ulwazi lwesakhiwo `%s' esikwiseva i-IMAP %s: %s"
-
-#~ msgid "Bad command"
-#~ msgstr "Umyalelo ongalunganga"
-
-#~ msgid "Cannot subscribe to IMAP folders in offline mode."
-#~ msgstr ""
-#~ "Awukwazi ukuzibophelela kwiziqulathi zeefayili i-IMAP xa ungasebenzi kwi-"
-#~ "intanethi."
-
-#~ msgid "Cannot subscribe to folder `%s': Invalid mailbox name"
-#~ msgstr ""
-#~ "Awukwazi ukuzibophelela kwisiqulathi seefayili `%s': Igama lebhokisi ye-"
-#~ "imeyili aligunyaziswanga"
-
-#~ msgid "Cannot subscribe to folder `%s': Bad command"
-#~ msgstr ""
-#~ "Awukwazi ukuzibophelela kwiziqulathi zeefayili `%s': Umyalelo awulunganga"
-
-#~ msgid "Cannot unsubscribe from IMAP folders in offline mode."
-#~ msgstr ""
-#~ "Awukwazi ukuzikhupha kwisibophelelo esisuka kwiziqulathi zeefayili ze-"
-#~ "IMAP ungasebenzi kwi-intanethi."
-
-#~ msgid "Cannot unsubscribe from folder `%s': Invalid mailbox name"
-#~ msgstr ""
-#~ "Awukwazi ukuzikhupha kwisibophelelo esisuka kwisiqulathi seefayili `%s': "
-#~ "Igama lebhokisi ye-imeyili aligunyaziswanga"
-
-#~ msgid "Cannot unsubscribe from folder `%s': Bad command"
-#~ msgstr ""
-#~ "Awukwazi ukuzikhupha kwisibophelelo esisuka kwisiqulathi seefayili `%s': "
-#~ "Umyalelo ongalunganga"
-
-#~ msgid "Scanning for changed messages"
-#~ msgstr "Ukuskena imiyalezo eguquliweyo"
-
-#~ msgid "Fetching envelopes for new messages"
-#~ msgstr "Ukuphuthuma iimvulophu zemiyalezo emitsha"
-
-#~ msgid "Unexpected token in response from IMAP server %s: "
-#~ msgstr "Umqondiso ongalindelekanga ukuphendula okuvela kwiseva i-IMAP %s: "
-
-#~ msgid "No data"
-#~ msgstr "Akukho data"
-
-#~ msgid "IMAP server %s unexpectedly disconnected: %s"
-#~ msgstr "Iseva ye- IMAP %s icinywe kungalindelekanga: %s"
-
-#~ msgid "Operation cancelled"
-#~ msgstr "Umsebenzi urhoxisiwe"
-
-#~ msgid "Server unexpectedly disconnected: %s"
-#~ msgstr "Iseva icinywe kungalindelekanga: %s"
-
-#~ msgid ""
-#~ "Alert from IMAP server %s@%s:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Isilumkiso esivela kwiseva i-IMAP %s@%s:\n"
-#~ "%s"
-
-#~ msgid "Unexpected response from IMAP server: %s"
-#~ msgstr "Impendulo engalindelekanga evela kwiseva i-IMAP: %s"
-
-#~ msgid "IMAP command failed: %s"
-#~ msgstr "Umyalelo i-IMAP awuphumelelanga: %s"
-
-#~ msgid "Server response ended too soon."
-#~ msgstr "Impendulo yeseva iphele msinyane kakhulu."
-
-#~ msgid "IMAP server response did not contain %s information"
-#~ msgstr "Impendulo yeseva i-IMAP ibingaluqulathanga ulwazi %s"
-
-#~ msgid "Unexpected OK response from IMAP server: %s"
-#~ msgstr "Impendulo engalindelekanga ethi OK ivela kwiseva i-IMAP: %s"
-
-#~ msgid "Could not create directory %s: %s"
-#~ msgstr "Ayikwazanga ukwenza uvimba weefayili %s: %s"
-
-#~ msgid "Could not load summary for %s"
-#~ msgstr "Ayikwazanga ukufaka isishwankathelo se-%s"
-
-#~ msgid "Folder was destroyed and recreated on server."
-#~ msgstr ""
-#~ "Isiqulathi seefayili satshatyalaliswa saza sakhiwa ngokutsha kwiseva."
-
-#~ msgid "Unable to retrieve message: %s"
-#~ msgstr "Ayinakho ukuphinda ifumane lo myalezo: %s"
-
-#~ msgid ""
-#~ "Cannot get message: %s\n"
-#~ "  %s"
-#~ msgstr ""
-#~ "Ayiwufumani umyalezo: %s\n"
-#~ "  %s"
-
-#~ msgid "No such message"
-#~ msgstr "Akukho myalezo unjalo"
-
-#~ msgid "This message is not currently available"
-#~ msgstr "Lo myalezo awufumaneki ngokwangoku"
-
-#~ msgid "Fetching summary information for new messages"
-#~ msgstr "Isaphuthuma isishwankathelo solwazi lwemiyalezo emitsha"
-
-#~ msgid "Incomplete server response: no information provided for message %d"
-#~ msgstr ""
-#~ "Impendulo yeseva ayiphelelanga: akukho lwazi lunikiweyo ngalo myalezo %d"
-
-#~ msgid "Incomplete server response: no UID provided for message %d"
-#~ msgstr "Impendulo yeseva ayiphelelanga: ayinikwanga i-UID yomyalezo %d"
-
-#~ msgid ""
-#~ "Unexpected server response: Identical UIDs provided for messages %d and %d"
-#~ msgstr ""
-#~ "Le mpendulo yeseva ayilindelekanga: Inike ii-UID zemiyalezo ezifanayo ze-%"
-#~ "d ne-%d"
-
-#~ msgid "Could not find message body in FETCH response."
-#~ msgstr "Ayiwufumananga umzimba womyalezo kwimpendulo ethi FETCH."
-
-#~ msgid "Could not open cache directory: %s"
-#~ msgstr "Ayikwazanga ukuvula uvimba weefayili ofumaneka ngokukhawuleza: %s"
-
-#~ msgid "Failed to cache message %s: %s"
-#~ msgstr "Ayiphumelelanga ukuvula umyalezo ngokukhawuleza %s: %s"
-
-#~ msgid "Failed to cache %s: %s"
-#~ msgstr "Ayiphumelelanga ukuvula umyalezo ngokukhawuleza %s: %s"
-
-#~ msgid "C_heck for new messages in all folders"
-#~ msgstr "Uku_khangela imiyalezo emitsha kuzo zonke iziqulathi zeefayili"
-
-#~ msgid "Connection to Server"
-#~ msgstr "Ukunxulumanisa Kwiseva"
-
-#~ msgid "_Use custom command to connect to server"
-#~ msgstr "_Sebenzisa umyalelo womthengi ukungena kwiseva"
-
-#~ msgid "_Show only subscribed folders"
-#~ msgstr "_Bonisa kuphela ezo ziqulathi zeefayili kuzibophelelwa kuzo"
-
-#~ msgid "O_verride server-supplied folder namespace"
-#~ msgstr "Uku_ngananzi indawo yegama enikwa yiseva yesiqulathi seefayili"
-
-#~ msgid "_Apply filters to new messages in INBOX on this server"
-#~ msgstr ""
-#~ "_Sebenzisa izihluzi kwimiyalezo emitsha ekwiBHOKISI LEZINGENAYO kule seva"
-
-#~ msgid "Check new messages for _Junk contents"
-#~ msgstr "Khangela imiyalezo emitsha ye_ziqulathi Zokungasebenziyo"
-
-#~ msgid "Only check for Junk messa_ges in the INBOX folder"
-#~ msgstr ""
-#~ "Khangela kuphela imiya_lezo Engasebenziyo kwisiqulathi seefayili "
-#~ "seBHOKISI LEZINGENAYO"
-
-#~ msgid "Automatically synchroni_ze remote mail locally"
-#~ msgstr "Ukubeke_la i-imeyili yangaphakathi ixesha ngokuzenzekelayo"
-
-#~ msgid "IMAP"
-#~ msgstr "I-IMAP"
-
-#~ msgid "For reading and storing mail on IMAP servers."
-#~ msgstr "Ukufunda nokugcina i-imeyili kwiseva ye-IMAP."
-
-#~ msgid "STARTTLS not supported"
-#~ msgstr "I-STARTTLS asixhaswanga"
-
-#~ msgid "Could not connect with command \"%s\": %s"
-#~ msgstr "Ayinakho ukunxulumana nomyalelo \"%s\": %s"
-
-#~ msgid "IMAP server %s does not support requested authentication type %s"
-#~ msgstr "Iseva i-IMAP %s ayiluxhasi udidi lobungqina obuceliweyo %s"
-
-#~ msgid "No support for authentication type %s"
-#~ msgstr "Akukho nkxaso yodidi lobungqina %s"
-
-#~ msgid "%sPlease enter the IMAP password for %s@%s"
-#~ msgstr "%sNceda ufake i-password le-IMAP ye-%s@%s"
-
-#~ msgid "You didn't enter a password."
-#~ msgstr "Akulifakanga i-password."
-
-#~ msgid ""
-#~ "Unable to authenticate to IMAP server.\n"
-#~ "%s\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Ayikwazi ukunika ubungqina kwiseva ye-IMAP.\n"
-#~ "%s\n"
-#~ "\n"
-
-#~ msgid "No such folder %s"
-#~ msgstr "Akukho siqulathi seefayili sinjalo %s"
-
-#~ msgid "The parent folder is not allowed to contain subfolders"
-#~ msgstr ""
-#~ "Isiqulathi seefayili esingumzali asivunyelwanga ukuba singaqulatha "
-#~ "iziqulathi zeefayili zangaphakathi"
-
-#~ msgid "Cannot create folder `%s': folder exists."
-#~ msgstr ""
-#~ "Ayikwazi ukwenza isiqulathi seefayili `%s': isiqulathi seefayili sele "
-#~ "sikho."
-
-#~ msgid "Unknown parent folder: %s"
-#~ msgstr "Isiqulathi seefayili esingumzali asaziwa: %s"
-
-#~ msgid "Message storage"
-#~ msgstr "Uvimba wemiyalezo"
-
-#~ msgid "IMAP+"
-#~ msgstr "IMAP+"
-
-#~ msgid ""
-#~ "Experimental IMAP 4(.1) client\n"
-#~ "This is untested and unsupported code, you want to use plain imap "
-#~ "instead.\n"
-#~ "\n"
-#~ " !!! DO NOT USE THIS FOR PRODUCTION EMAIL  !!!\n"
-#~ msgstr ""
-#~ "I-IMAP 4(.1) esalingwayi umthengi\n"
-#~ "Le khowudi ayivavanywanga yaye ayixhaswanga, ingaba ufuna ukusebenzisa i-"
-#~ "imap eqhelekileyo.\n"
-#~ "\n"
-#~ " !!! MUSA UKUSEBENZISA OKU UKWENZA I-IMEYILI !!!\n"
-
-#~ msgid "Could not connect to %s (port %s): %s"
-#~ msgstr "Ayinakho ukunxulumana kwi- %s (isiqhagamsheli %s): %s"
-
-#~ msgid "Could not connect to POP server on %s"
-#~ msgstr "Ayinakho ukunxulumana kwiseva i-POP ekwi-%s"
-
-#~ msgid "Index message body data"
-#~ msgstr "Isalathiso se-data yomzimba womyalezo"
-
-#~ msgid "~%s (%s)"
-#~ msgstr "~%s (%s)"
-
-#~ msgid "mailbox:%s (%s)"
-#~ msgstr "ibokhisi ye-imeyili:%s (%s)"
-
-#~ msgid "%s (%s)"
-#~ msgstr "%s (%s)"
-
-#~ msgid "Use the `.folders' folder summary file (exmh)"
-#~ msgstr ""
-#~ "Sebenzisa ii-`.folders' ifayili yesiqulathi seefayili soshwankathelo "
-#~ "(exmh)"
-
-#~ msgid "MH-format mail directories"
-#~ msgstr "Ubume be-MH enguvimba weefayili ze-imeyili"
-
-#~ msgid "For storing local mail in MH-like mail directories."
-#~ msgstr ""
-#~ "Ukugcina i-imeyili yangaphakathi kuvimba weefayili ze-imeyili ofana ne-MH."
-
-#~ msgid "Local delivery"
-#~ msgstr "Ukusabalalisa kwangaphakathi"
-
-#~ msgid ""
-#~ "For retrieving (moving) local mail from standard mbox formated spools "
-#~ "into folders managed by Evolution."
-#~ msgstr ""
-#~ "Ukufumana (ukushenxisa) i-imeyili yangaphakathi uyisusa kwibhobhini ye-"
-#~ "mbox enobume obusemgangathweni uyise kwiziqulathi zeefayili ezilawulwa yi-"
-#~ "Evolution."
-
-#~ msgid "Apply filters to new messages in INBOX"
-#~ msgstr "Sebenzisa izihluzi kwimiyalezo emitsha ekwiBHOKISI LEZINGENAYO"
-
-#~ msgid "Maildir-format mail directories"
-#~ msgstr "Ubume be-Maildir-enguvimba weefayili ze-imeyili"
-
-#~ msgid "For storing local mail in maildir directories."
-#~ msgstr "Yokugcina i-imeyili yangaphakathi kuvimba weefayili ze-imeyili."
-
-#~ msgid "Store status headers in Elm/Pine/Mutt format"
-#~ msgstr "Gcina ubume bokuvela phezulu ephepheni bukubume be-Elm/Pine/Mutt"
-
-#~ msgid "Standard Unix mbox spool or directory"
-#~ msgstr "Ibhobhini okanye uvimba weefayili osemgangathweni we-Unix mbox"
-
-#~ msgid ""
-#~ "For reading and storing local mail in external standard mbox spool "
-#~ "files.\n"
-#~ "May also be used to read a tree of Elm, Pine, or Mutt style folders."
-#~ msgstr ""
-#~ "Ukufunda nokugcina i-imeyili yangaphakathi kwibhobhini yeefayili ye-mbox "
-#~ "esemgangathweni wangaphandle.\n"
-#~ "Ingasetyenziswa ukufunda umthi we-Elm, Pine, okanye ubume beziqulathi "
-#~ "zeefayili ze-Mutt."
-
-#~ msgid "Store root %s is not an absolute path"
-#~ msgstr "Ingcambu yovimba %s asiyiyo kuphela ndlela"
-
-#~ msgid "Store root %s is not a regular directory"
-#~ msgstr "Ingcambu yovimba %s asingovimba weefayili uqhelekileyo"
-
-#~ msgid "Cannot get folder: %s: %s"
-#~ msgstr "Ayikwazi ukufumana isiqulathi seefayili: %s: %s"
-
-#~ msgid "Local stores do not have an inbox"
-#~ msgstr "Oovimba bangaphakathi abanalo ibhokisi lezingenayo"
-
-#~ msgid "Local mail file %s"
-#~ msgstr "Ifayili ye-imeyili yangaphakathi %s"
-
-#~ msgid "Could not rename folder %s to %s: %s"
-#~ msgstr ""
-#~ "Ayikwazanga ukunika isiqulathi seefayili elinye igama %s ukuya %s: %s"
-
-#~ msgid "Could not rename '%s': %s"
-#~ msgstr "Ayikwazanga ukunika elinye igama '%s': %s"
-
-#~ msgid "Could not delete folder summary file `%s': %s"
-#~ msgstr ""
-#~ "Ayikwazanga ukucima isiqulathi seefayili esiyifayili yoshwankathelo `%s': "
-#~ "%s"
-
-#~ msgid "Could not delete folder index file `%s': %s"
-#~ msgstr ""
-#~ "Ayikwazanga ukucima isiqulathi seefayili esiyifayili yesalathiso`%s': %s"
-
-#~ msgid "Could not delete folder meta file `%s': %s"
-#~ msgstr ""
-#~ "Ayikwazanga ukucima isiqulathi seefayili esiyifayili equlethe ezinye `%"
-#~ "s': %s"
-
-#~ msgid "Could not save summary: %s: %s"
-#~ msgstr "Ayikwazanga ukugcina isishwankathelo: %s: %s"
-
-#~ msgid "Unable to add message to summary: unknown reason"
-#~ msgstr "Ayinakho ukongeza umyalezo kwisishwankathelo: isizathu asaziwa"
-
-#~ msgid "Maildir append message cancelled"
-#~ msgstr "Ukuhlomela umyalezo kuvimba weefayili ongundoqo sirhoxisiwe"
-
-#~ msgid "Cannot append message to maildir folder: %s: %s"
-#~ msgstr ""
-#~ "Ayikwazi ukuhlomela umyalezo kwisiqulathi seefayili esikuvimba weefayili "
-#~ "ongundoqo: %s: %s"
-
-#~ msgid ""
-#~ "Cannot get message: %s from folder %s\n"
-#~ "  %s"
-#~ msgstr ""
-#~ "Ayikwazi ukufumana umyalezo: %s ukusuka kwisiqulathi seefayili %s\n"
-#~ "  %s"
-
-#~ msgid "Invalid message contents"
-#~ msgstr "Isiqulatho semiyalezo asigunyaziswanga"
-
-#~ msgid "Cannot get folder `%s': %s"
-#~ msgstr "Ayikwazi ukufumana isiqulathi seefayili `%s': %s"
-
-#~ msgid "Cannot get folder `%s': folder does not exist."
-#~ msgstr ""
-#~ "Ayikwazi ukufumana isiqulathi seefayili `%s': isiqulathi seefayili asikho."
-
-#~ msgid "Cannot create folder `%s': %s"
-#~ msgstr "Ayikwazi ukwenza isiqulathi seefayili `%s': %s"
-
-#~ msgid "Cannot get folder `%s': not a maildir directory."
-#~ msgstr ""
-#~ "Ayikwazi ukufumana isiqulathi seefayili `%s': asingovimba wefayili i-"
-#~ "maildir."
-
-#~ msgid "Could not delete folder `%s': %s"
-#~ msgstr "Ayikwazanga ukucima isiqulathi seefayili `%s': %s"
-
-#~ msgid "not a maildir directory"
-#~ msgstr "asingovimba weefayili we-maildir"
-
-#~ msgid "Could not scan folder `%s': %s"
-#~ msgstr "Ayikwazanga ukuskena isiqulathi seefayili `%s': %s"
-
-#~ msgid "Cannot open maildir directory path: %s: %s"
-#~ msgstr "Ayikwazi ukuvula indlela yovimba weefayili i-maildir: %s: %s"
-
-#~ msgid "Checking folder consistency"
-#~ msgstr "Ikhangela ukuhambelana kwesiqulathi seefayili"
-
-#~ msgid "Checking for new messages"
-#~ msgstr "Ikhangela imiyalezo emitsha"
-
-#~ msgid "Storing folder"
-#~ msgstr "Isiqulathi seefayili esinguvimba"
-
-#~ msgid "Cannot create folder lock on %s: %s"
-#~ msgstr "Ayikwazi ukwenza isitshixo sesiqulathi seefayili kwi-%s: %s"
-
-#~ msgid "Cannot open mailbox: %s: %s\n"
-#~ msgstr "Ayikwazi ukuvula ibhokisi ye-imeyili: %s: %s\n"
-
-#~ msgid "Mail append cancelled"
-#~ msgstr "Ukuhlomela i-imeyili kurhoxisiwe"
-
-#~ msgid "Cannot append message to mbox file: %s: %s"
-#~ msgstr "Ayikwazi ukuhlomela umyalezo kwifayili i-mbox: %s: %s"
-
-#~ msgid "The folder appears to be irrecoverably corrupted."
-#~ msgstr "Isiqulathi seefayili esibonakala singenakubhangiswa sonakalisiwe."
-
-#~ msgid "Message construction failed."
-#~ msgstr "Akuphumelelanga ukubhala umyalezo."
-
-#~ msgid "Cannot create a folder by this name."
-#~ msgstr "Ayikwazi ukuthiya isiqulathi seefayili ngeli gama."
-
-#~ msgid "Cannot get folder `%s': not a regular file."
-#~ msgstr ""
-#~ "Ayikwazi ukufumana isiqulathi seefayili `%s': asiyofayili iqhelekileyo."
-
-#~ msgid ""
-#~ "Could not delete folder `%s':\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Ayikwazanga ukucima isiqulathi seefayili `%s':\n"
-#~ "%s"
-
-#~ msgid "`%s' is not a regular file."
-#~ msgstr "I-`%s' asiyofayili iqhelekileyo."
-
-#~ msgid "Folder `%s' is not empty. Not deleted."
-#~ msgstr "Esi siqulathi seefayili `%s' sinento. Ayicinywanga."
-
-#~ msgid "Cannot create directory `%s': %s."
-#~ msgstr "Ayikwazi ukwenza uvimba weefayili `%s': %s."
-
-#~ msgid "Cannot create folder: %s: %s"
-#~ msgstr "Ayikwazi ukwenza isiqulathi seefayili %s: %s"
-
-#~ msgid "Folder already exists"
-#~ msgstr "Esi siqulathi seefayili sele sikho kade"
-
-#~ msgid "The new folder name is illegal."
-#~ msgstr "Eli gama litsha lesi siqulathi seefayile alikho mthethweni."
-
-#~ msgid "Could not rename `%s': `%s': %s"
-#~ msgstr "Ayikwazanga ukuphinda iyinike elinye igama `%s': `%s': %s"
-
-#~ msgid "Could not rename '%s' to %s: %s"
-#~ msgstr "Ayikwazanga ukuphinda iyinike elinye igama '%s' ukuya %s: %s"
-
-#~ msgid "Could not open folder: %s: %s"
-#~ msgstr "Ayikwazanga ukuvula isiqulathi seefayili %s: %s"
-
-#~ msgid "Fatal mail parser error near position %ld in folder %s"
-#~ msgstr ""
-#~ "Impazamo ebulalayo ekwahluleni i-imeyili ngezijungqu kufuphi nendawo %ld "
-#~ "kwisiqulathi seefayili %s"
-
-#~ msgid "Cannot check folder: %s: %s"
-#~ msgstr "Ayikwazanga ukukhangela isiqulathi seefayili: %s: %s"
-
-#~ msgid "Could not open file: %s: %s"
-#~ msgstr "Ayikwazanga ukuvula ifayili: %s: %s"
-
-#~ msgid "Cannot open temporary mailbox: %s"
-#~ msgstr "Ayikwazi ukuvula ibhokisi ye-imeyili yexeshana: %s"
-
-#~ msgid "Could not close source folder %s: %s"
-#~ msgstr "Ayikwazanga ukuvala umthombo wesiqulathi seefayili %s: %s"
-
-#~ msgid "Could not close temp folder: %s"
-#~ msgstr "Ayikwazanga ukuvala isiqulathi seefayili yexeshana: %s"
-
-#~ msgid "Could not rename folder: %s"
-#~ msgstr "Ayikwazanga ukuphinda ithiye igama kwisiqulathi seefayili: %s"
-
-#~ msgid "Summary and folder mismatch, even after a sync"
-#~ msgstr ""
-#~ "Isishwankathelo nesiqulathi seefayili azihambelani, nasemva kokuzimisela "
-#~ "ixesha"
-
-#~ msgid "Unknown error: %s"
-#~ msgstr "Impazamo engaziwayo: %s"
-
-#~ msgid "Could not store folder: %s"
-#~ msgstr "Ayikwazanga ukugcina isiqulathi seefayili: %s"
-
-#~ msgid "Error writing to temp mailbox: %s"
-#~ msgstr "Impazamo ngelixa kubhalwa kwibhokisi ye-imeyili yexeshana: %s"
-
-#~ msgid "Writing to tmp mailbox failed: %s: %s"
-#~ msgstr "Ukubhala kwibhokisi ye-imeyili ye-tmp akuphumelelanga: %s: %s"
-
-#~ msgid "MH append message cancelled"
-#~ msgstr "Ukuhlomela umyalezo kwi-MH kurhoxisiwe"
-
-#~ msgid "Cannot append message to mh folder: %s: %s"
-#~ msgstr "Ayikwazi ukuhlomela umyalezo kwisiqulathi seefayili i-mh: %s: %s"
-
-#~ msgid "Could not create folder `%s': %s"
-#~ msgstr "Ayikwazanga ukwenza isiqulathi seefayili `%s': %s"
-
-#~ msgid "Cannot get folder `%s': not a directory."
-#~ msgstr "Ayikwazi ukufumana `%s': ayingovimba weefayili."
-
-#~ msgid "Cannot open MH directory path: %s: %s"
-#~ msgstr "Ayikwazi ukuvula indlela yovimba weefayili i-MH: %s: %s"
-
-#~ msgid "Spool `%s' cannot be opened: %s"
-#~ msgstr "Ibhobhini `%s' ayivuleki: %s"
-
-#~ msgid "Spool `%s' is not a regular file or directory"
-#~ msgstr "Ibhobhini `%s' ayiyofayili okanye ayingovimba weefayili"
-
-#~ msgid "Folder `%s/%s' does not exist."
-#~ msgstr "Esi siqulathi seefayili `%s/%s' asikho."
-
-#~ msgid ""
-#~ "Could not open folder `%s':\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Ayikwazanga ukuvula isiqulathi seefayili `%s':\n"
-#~ "%s"
-
-#~ msgid "Folder `%s' does not exist."
-#~ msgstr "Esi siqulathi seefayili `%s' asikho."
-
-#~ msgid ""
-#~ "Could not create folder `%s':\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Ayikwazanga ukwenza isiqulathi seefayili `%s':\n"
-#~ "%s"
-
-#~ msgid "`%s' is not a mailbox file."
-#~ msgstr "I-`%s' asiyofayili yebhokisi ye-imeyili."
-
-#~ msgid "Store does not support an INBOX"
-#~ msgstr "Uvimba akayixhasi IBHOKISI YEZINGENAYO"
-
-#~ msgid "Spool mail file %s"
-#~ msgstr "Ifayili yebhobhini ye-imeyili %s"
-
-#~ msgid "Spool folder tree %s"
-#~ msgstr "Umthi webhobhini yesiqulathi seefayili %s"
-
-#~ msgid "Spool folders cannot be renamed"
-#~ msgstr "Ibhobhini yeziqulathi zeefayili ayinakuthiywa ngokutsha"
-
-#~ msgid "Spool folders cannot be deleted"
-#~ msgstr "Ibhobhini yeziqulathi zeefayili ayinakucinywa"
-
-#~ msgid "Could not sync temporary folder %s: %s"
-#~ msgstr "Ayikwazanga ukumisa ixesha kwisiqulathi seefayili sexeshana %s: %s"
-
-#~ msgid "Could not sync spool folder %s: %s"
-#~ msgstr "Ayikwazanga ukumisa ixesha kwibhobhini yesiqulathi seefayili %s: %s"
-
-#~ msgid ""
-#~ "Could not sync spool folder %s: %s\n"
-#~ "Folder may be corrupt, copy saved in `%s'"
-#~ msgstr ""
-#~ "Ayikwazanga ukumisa ixesha lesiqulathi seefayili %s: %s\n"
-#~ "Isiqulathi seefayili sisenokuba sonakele, ikopi igcinwe kwi-`%s'"
-
-#~ msgid "Please enter the NNTP password for %s@%s"
-#~ msgstr "Nceda ufake igama eliyimfihlo le-NNTP ye-%s@%s"
-
-#~ msgid "Server rejected username"
-#~ msgstr "Iseva ayilivumanga igama lalo msebenzisi"
-
-#~ msgid "Failed to send username to server"
-#~ msgstr "Ayiphumelelanga ukuthumela igama lomsebenzisi kwiseva"
-
-#~ msgid "Server rejected username/password"
-#~ msgstr "Iseva ayilivumanga igama lomsebenzisi/i-password"
-
-#~ msgid "Internal error: uid in invalid format: %s"
-#~ msgstr "Impazamo yangaphakathi: ubume be-uid abugunyaziswanga: %s"
-
-#~ msgid "Posting failed: %s"
-#~ msgstr "Ukuposa akuphumelelanga: %s"
-
-#~ msgid "You cannot post NNTP messages while working offline!"
-#~ msgstr "Awunako ukuthumela imiyalezo ye-NNTP ungasebenzi kwi-intanethi!"
-
-#~ msgid "You cannot copy messages from a NNTP folder!"
-#~ msgstr "Awunako ukukopa imiyalezo evela kwisiqulathi seefayili ye-NNTP!"
-
-#~ msgid "Could not get group list from server."
-#~ msgstr "Ayikwazi ukufumana uluhlu lweqela elivela kwiseva."
-
-#~ msgid "Unable to load grouplist file for %s: %s"
-#~ msgstr "Ayikwazanga ukufaka ifayili yoluhlu lweqela le %s: %s"
-
-#~ msgid "Unable to save grouplist file for %s: %s"
-#~ msgstr "Ayikwazanga ukugcina ifayili yoluhlu lweqela le %s: %s"
-
-#~ msgid ""
-#~ "Show folders in short notation (e.g. c.o.linux rather than comp.os.linux)"
-#~ msgstr ""
-#~ "Bonisa iziqulathi zeefayili ngokufinyeziweyo (umz. c.o.linux kune- comp."
-#~ "os.linux)"
-
-#~ msgid "In the subscription dialog, show relative folder names"
-#~ msgstr ""
-#~ "Kwiskrini sabazibopheleleyo, bonisa amagama esiqulathi seefayili "
-#~ "esinxulumeneyo"
-
-#~ msgid "USENET news"
-#~ msgstr "Iindaba ze-USENET"
-
-#~ msgid "This is a provider for reading from and posting toUSENET newsgroups."
-#~ msgstr "Lo ngumnikezeli wokufundela nokuposela kwiqela leendaba i-USENET."
-
-#~ msgid ""
-#~ "This option will authenticate with the NNTP server using a plaintext "
-#~ "password."
-#~ msgstr ""
-#~ "Olu khetho luza kungqinwa neseva ye-NNTP kusetyenziswa igama eliyimfihlo "
-#~ "lombhalo ofundekayo."
-
-#~ msgid "Could not read greeting from %s: %s"
-#~ msgstr "Ayikwazanga ukufunda umbuliso kwi-%s: %s"
-
-#~ msgid "NNTP server %s returned error code %d: %s"
-#~ msgstr "Iseva ye-NNTP i- %s iyibuyisile ikhowudi eyimpazamo %d: %s"
-
-#~ msgid "USENET News via %s"
-#~ msgstr "Iindaba ze-USENET ngendlela edlula %s"
-
-#~ msgid ""
-#~ "Error retrieving newsgroups:\n"
-#~ "\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Impazamo ekufumaneni iqela leendaba:\n"
-#~ "\n"
-#~ "%s"
-
-#~ msgid ""
-#~ "You cannot subscribe to this newsgroup:\n"
-#~ "\n"
-#~ "No such newsgroup. The selected item is a probably a parent folder."
-#~ msgstr ""
-#~ "Awukwazi ukuzibophelela kweli qela leendaba:\n"
-#~ "\n"
-#~ "Akukho qela landaba linjalo. Le nto uyikhethileyo kusenokwenzeka ukuba "
-#~ "sisiqulathi seefayile esingumzali."
-
-#~ msgid ""
-#~ "You cannot unsubscribe to this newsgroup:\n"
-#~ "\n"
-#~ "newsgroup does not exist!"
-#~ msgstr ""
-#~ "Awukwazi ukuzikhupha koku kuzibophelela kweli qela leendaba:\n"
-#~ "\n"
-#~ "Alikho iqela leendaba elinjalo!"
-
-#~ msgid "You cannot create a folder in a News store: subscribe instead."
-#~ msgstr ""
-#~ "Awukwazi ukwenza isiqulathi seefayili kuvimba Weendaba: endaweni yoko "
-#~ "zibophelele."
-
-#~ msgid "You cannot rename a folder in a News store."
-#~ msgstr ""
-#~ "Awukwazi ukunika isiqulathi seefayili elinye igama kulo vimba Weendaba."
-
-#~ msgid "You cannot remove a folder in a News store: unsubscribe instead."
-#~ msgstr ""
-#~ "Awukwazi ukususa uvimba weefayili kuvimba Weendaba: endaweni yoko sula "
-#~ "ekuzibopheleleni."
-
-#~ msgid "Authentication requested but no username provided"
-#~ msgstr "Ubungqina buceliwe kodwa abunikwanga igama lomsebenzisi"
-
-#~ msgid "Cannot authenticate to server: %s"
-#~ msgstr "Ayikwazi ukunika ubungqina kwiseva: %s"
-
-#~ msgid "NNTP Command failed: %s"
-#~ msgstr "Umyalelo i-NNTP awuphumelelanga: %s"
-
-#~ msgid "Not connected."
-#~ msgstr "Awukho kwi-intanethi."
-
-#~ msgid "No such folder: %s"
-#~ msgstr "Akukho siqulathi seefayili sinjalo: %s"
-
-#~ msgid "%s: Scanning new messages"
-#~ msgstr "I-%s: Ukuskena imiyalezo emitsha"
-
-#~ msgid "Unexpected server response from xover: %s"
-#~ msgstr "Impendulo engalindelekanga yeseva ivela kwi-xover: %s"
-
-#~ msgid "Unexpected server response from head: %s"
-#~ msgstr "Impendulo engalindelekanga yeseva ivela kwintloko: %s"
-
-#~ msgid "Use cancel"
-#~ msgstr "Sebenzisa urhoxiso"
-
-#~ msgid "Operation failed: %s"
-#~ msgstr "Isenzo esingaphumelelanga: %s"
-
-#~ msgid "Retrieving POP summary"
-#~ msgstr "Ukuvula isishwankathelo i-POP"
-
-#~ msgid "Cannot get POP summary: %s"
-#~ msgstr "Ayikwazi ukufumana isishwankathelo se-POP: %s"
-
-#~ msgid "Expunging deleted messages"
-#~ msgstr "Ukucima imiyalezo ecinyiweyo"
-
-#~ msgid "No message with uid %s"
-#~ msgstr "Akukho myalezo une- uid %s"
-
-#~ msgid "Retrieving POP message %d"
-#~ msgstr "Ukuvula umyalezo i-POP %d"
-
-#~ msgid "Delete after %s day(s)"
-#~ msgstr "Cima emva kosuku (kweentsuku) %s"
-
-#~ msgid "Disable support for all POP3 extensions"
-#~ msgstr "Vala inkxaso yazo zonke izongezeleli ze-POP3"
-
-#~ msgid "POP"
-#~ msgstr "I-POP"
-
-#~ msgid "For connecting to and downloading mail from POP servers."
-#~ msgstr ""
-#~ "Ukunxulumana kwi-nokukhuphela ulwazi lwe-imeyli oluvela kwiseva i-POP."
-
-#~ msgid ""
-#~ "This option will connect to the POP server using a plaintext password. "
-#~ "This is the only option supported by many POP servers."
-#~ msgstr ""
-#~ "Olu khetho luza kunxulumanisa kwiseva ye-POP usebenzisa igama eliyimfihlo "
-#~ "elifundekayo. Olu khetho lulo kuphela oluxhaswa ziiseva ezininzi ze-POP."
-
-#~ msgid ""
-#~ "This option will connect to the POP server using an encrypted password "
-#~ "via the APOP protocol. This may not work for all users even on servers "
-#~ "that claim to support it."
-#~ msgstr ""
-#~ "Olu khetho luza kunxulumanisa kwiseva i-POP usebenzisa igama eliyimfihlo "
-#~ "elikhowudiweyo lidlula kumthetho wokusebenza we-APOP. Oku "
-#~ "kusenokungasebenzi kuzo zonke iiseva eziphakamisa inkxazo yazo kulo."
-
-#~ msgid "Failed to read a valid greeting from POP server %s"
-#~ msgstr ""
-#~ "Ayiphumelelanga ukufunda isibuliso esisemthethweni esivela kwiseva i-POP %"
-#~ "s"
-
-#~ msgid "Failed to connect to POP server %s in secure mode: %s"
-#~ msgstr ""
-#~ "Ayiphumelelanga ukunxulumana kwiseva ye-POP %s ekwindlela ekhuselekileyo: "
-#~ "%s"
-
-#~ msgid "STLS not supported"
-#~ msgstr "I-STLS ayixhaswanga"
-
-#~ msgid "Could not connect to POP server %s"
-#~ msgstr "Ayikwazanga ukunxulumana kwiseva i-POP %s"
-
-#~ msgid ""
-#~ "Unable to connect to POP server %s: No support for requested "
-#~ "authentication mechanism."
-#~ msgstr ""
-#~ "Ayinakho ukunxulumanisa kwiseva i-POP %s: Akukho nkxaso yesicelo sendlela "
-#~ "yobungqina."
-
-#~ msgid "SASL `%s' Login failed for POP server %s: %s"
-#~ msgstr "I-SASL `%s' Yokungena ayiphumelelanga kwiseva ye-POP %s: %s"
-
-#~ msgid "Cannot login to POP server %s: SASL Protocol error"
-#~ msgstr ""
-#~ "Ayikwazi ukungena kwiseva ye-POP %s: Impazamo kwimithetho yokusebenza ye-"
-#~ "SASL"
-
-#~ msgid "Failed to authenticate on POP server %s: %s"
-#~ msgstr "Ayiphumelelanga ukunika ubungqina kwiseva i-POP %s: %s"
-
-#~ msgid "%sPlease enter the POP password for %s on host %s"
-#~ msgstr "%sNceda faka igama eliyimfihlo le-POP ye-%s kumququzeleli %s"
-
-#~ msgid ""
-#~ "Unable to connect to POP server %s.\n"
-#~ "Error sending password: %s"
-#~ msgstr ""
-#~ "Ayinakho ukunxulumanisa kwiseva ye-POP %s.\n"
-#~ "Impazamo xa kuthunyelwa igama eliyimfihlo: %s"
-
-#~ msgid ""
-#~ "Unable to connect to POP server %s.\n"
-#~ "Error sending username: %s"
-#~ msgstr ""
-#~ "Ayinakho ukunxulumanisa kwiseva ye-POP %s.\n"
-#~ "Impazamo xa kuthunyelwa igama lomsebenzisi: %s"
-
-#~ msgid "No such folder `%s'."
-#~ msgstr "Akukho siqulathi seefayili sinjalo `%s'."
-
-#~ msgid "Sendmail"
-#~ msgstr "I-Sendmail"
-
-#~ msgid ""
-#~ "For delivering mail by passing it to the \"sendmail\" program on the "
-#~ "local system."
-#~ msgstr ""
-#~ "Ngokuhambisa i-imeyili ngokuyidlulisa kwinkqubo i-\"sendmail\" "
-#~ "kwisixokelelwano sangaphakathi."
-
-#~ msgid "Could not parse recipient list"
-#~ msgstr "Ayikwazanga ukwahlula uluhlu lomamkeli ngezijungqu"
-
-#~ msgid "Could not create pipe to sendmail: %s: mail not sent"
-#~ msgstr ""
-#~ "Ayikwazanga ukwenza umbhobho we-sendmail: %s: i-imeyili ayithunyelwanga"
-
-#~ msgid "Could not fork sendmail: %s: mail not sent"
-#~ msgstr "Ayikwazanga ukuphakamisa i-sendmail: %s: i-imeyili ayithunyelwanga"
-
-#~ msgid "Could not send message: %s"
-#~ msgstr "Ayikwazanga ukuthumela umyalezo: %s"
-
-#~ msgid "sendmail exited with signal %s: mail not sent."
-#~ msgstr ""
-#~ "i-sendmail iphume ngaphandle kokubonisa uphawu %s: umyalezo "
-#~ "awuthunyelwanga."
-
-#~ msgid "Could not execute %s: mail not sent."
-#~ msgstr "Ayikwazanga ukuphumeza %s: umyalezo awuthunyelwanga."
-
-#~ msgid "sendmail exited with status %d: mail not sent."
-#~ msgstr "i-sendmail iphume nobume %d: umyalezo awuthunyelwanga."
-
-#~ msgid "sendmail"
-#~ msgstr "i-sendmail"
-
-#~ msgid "Mail delivery via the sendmail program"
-#~ msgstr "Ukuhambisa i-imeyili uyidlulisa kwinkqubo ye-sendmail"
-
-#~ msgid "SMTP"
-#~ msgstr "i-SMTP"
-
-#~ msgid "For delivering mail by connecting to a remote mailhub using SMTP."
-#~ msgstr ""
-#~ "Ukuhambisa i-imeyili ngokunxulumanisa kwi-mailhub ekwenye indawo "
-#~ "kusetyenziswa i-SMTP."
-
-#~ msgid "Syntax error, command unrecognized"
-#~ msgstr ""
-#~ "Impazamo yeengxelo ezingaqondakaliyo ngenxa yokungalandeli imithetho "
-#~ "yokwenza iinkqubo, umyalelo awunakanwa"
-
-#~ msgid "Syntax error in parameters or arguments"
-#~ msgstr ""
-#~ "Impazamo yeengxelo ezingaqondakaliyo ngenxa yokungalandeli imithetho "
-#~ "yokwenza iinkqubo nefumaneka kwimida okanye kwimpikiswano"
-
-#~ msgid "Command not implemented"
-#~ msgstr "Umyalelo awenziwanga"
-
-#~ msgid "Command parameter not implemented"
-#~ msgstr "Imida yomyalezo ayenziwanga"
-
-#~ msgid "System status, or system help reply"
-#~ msgstr ""
-#~ "Ubume besixokelelwano, okanye impendulo yoncedo evela kwisixokelelwano"
-
-#~ msgid "Help message"
-#~ msgstr "Umyalezo woncedo"
-
-#~ msgid "Service ready"
-#~ msgstr "Inkonzo sele ilungile"
-
-#~ msgid "Service closing transmission channel"
-#~ msgstr "Le nkonzo ivala ijelo losasazo"
-
-#~ msgid "Service not available, closing transmission channel"
-#~ msgstr "Inkonzo ayifumaneki, ijelo losasazo liyavala"
-
-#~ msgid "Requested mail action okay, completed"
-#~ msgstr "Isenzo esiceliweyo se-imeyili silungile, sesigqityiwe"
-
-#~ msgid "User not local; will forward to <forward-path>"
-#~ msgstr ""
-#~ "Lo msebenzisi akakho apha ngaphakathi; uza kudluliselwa ku <forward-path>"
-
-#~ msgid "Requested mail action not taken: mailbox unavailable"
-#~ msgstr ""
-#~ "Isenzo se-imeyili esiceliweyo asenzekanga: ibhokisi le-imeyili alifumaneki"
-
-#~ msgid "Requested action not taken: mailbox unavailable"
-#~ msgstr "Isenzo esiceliweyo asenzekanga: ibhokisi le-imeyili alifumaneki"
-
-#~ msgid "Requested action aborted: error in processing"
-#~ msgstr "Isenzo esiceliweyo siyekiwe: impazamo ekuphunyezweni kwaso"
-
-#~ msgid "User not local; please try <forward-path>"
-#~ msgstr "Umsebenzisi akakho apha ngaphakathi; nceda uzame <forward-path>"
-
-#~ msgid "Requested action not taken: insufficient system storage"
-#~ msgstr "Isenzo esiceliweyo asenzekanga: uvimba wesixokelelwano akonelanga"
-
-#~ msgid "Requested mail action aborted: exceeded storage allocation"
-#~ msgstr "Isenzo esiceliweyo siyekiwe: sidlule uvimba onikiweyo"
-
-#~ msgid "Requested action not taken: mailbox name not allowed"
-#~ msgstr ""
-#~ "Isenzo esiceliweyo asenzekanga: igama lebhokisi ye-imeyili alivunywanga"
-
-#~ msgid "Start mail input; end with <CRLF>.<CRLF>"
-#~ msgstr "Qalisa ukungenisa i-imeyili; gqibezela nge <CRLF>.<CRLF>"
-
-#~ msgid "Transaction failed"
-#~ msgstr "Utshintshiselwano aluphumelelanga"
-
-#~ msgid "A password transition is needed"
-#~ msgstr "Ukudlulisa i-password kuyafuneka"
-
-#~ msgid "Authentication mechanism is too weak"
-#~ msgstr "Indlela yokungqina ubunyaniso ibuthathaka kakhulu"
-
-#~ msgid "Encryption required for requested authentication mechanism"
-#~ msgstr "Ukukhowudwa kuyafuneka ukunika ubungqina obuceliweyo"
-
-#~ msgid "Temporary authentication failure"
-#~ msgstr "Ukungaphumeleli kobungqina bexeshana"
-
-#~ msgid "Authentication required"
-#~ msgstr "Kufuneka ubungqina"
-
-#~ msgid "Welcome response error"
-#~ msgstr "Impazamo kwimpendulo yokwamkela"
-
-#~ msgid "Failed to connect to SMTP server %s in secure mode: %s"
-#~ msgstr ""
-#~ "Ayiphumelelanga ukunxulumanisa kwiseva ye-SMTP %s kwindlela "
-#~ "ekhuselekileyo: %s"
-
-#~ msgid "STARTTLS command failed: %s"
-#~ msgstr "Umyalelo i-STARTTLS awuphumelelanga: %s"
-
-#~ msgid "STARTTLS command failed"
-#~ msgstr "Umyalelo i-STARTTLS awuphumelelanga"
-
-#~ msgid "SMTP server %s does not support requested authentication type %s."
-#~ msgstr "Iseva i-SMTP %s ayibuxhasi ubungqina bohlobo lwe %s."
-
-#~ msgid "%sPlease enter the SMTP password for %s on host %s"
-#~ msgstr "%sNceda faka i-password ye-SMTP ye %s kumququzeleli %s"
-
-#~ msgid ""
-#~ "Unable to authenticate to SMTP server.\n"
-#~ "%s\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Ayinakho ukunika ubungqina kwiseva ye-SMTP.\n"
-#~ "%s\n"
-#~ "\n"
-
-#~ msgid "SMTP server %s"
-#~ msgstr "Iseva ye-SMTP %s"
-
-#~ msgid "SMTP mail delivery via %s"
-#~ msgstr "Isihambisi se-imeyili i-SMTP sidlula %s"
-
-#~ msgid "Cannot send message: service not connected."
-#~ msgstr "Ayikwazanga ukuthumela umyalezo: le nkonzo ayinxulumaniswanga."
-
-#~ msgid "Cannot send message: sender address not valid."
-#~ msgstr ""
-#~ "Ayikwazanga ukuthumela umyalezo: lidilesi yomthumeli ayiqinisekiswanga."
-
-#~ msgid "Sending message"
-#~ msgstr "Ukuthumela umyalezo"
-
-#~ msgid "Cannot send message: no recipients defined."
-#~ msgstr "Ayikwazanga ukuthumela umyalezo: akukho bamkeli bachaziweyo."
-
-#~ msgid "Cannot send message: one or more invalid recipients"
-#~ msgstr ""
-#~ "Ayikwazanga ukuthumela umyalezo: omnye okanye ngaphezulu wabamkeli "
-#~ "akaqinisekiswanga"
-
-#~ msgid "SMTP Greeting"
-#~ msgstr "Isibuliso se-SMTP"
-
-#~ msgid "HELO command failed: %s"
-#~ msgstr "Umyalelo u-HELO awuphumelelanga: %s"
-
-#~ msgid "HELO command failed"
-#~ msgstr "Umyalelo u-HELO awuphumelelanga"
-
-#~ msgid "SMTP Authentication"
-#~ msgstr "Ubungqina be-SMTP"
-
-#~ msgid "Error creating SASL authentication object."
-#~ msgstr "Impazamo xa kusenziwa i-SASL ukufumana ubungqina bento."
-
-#~ msgid "AUTH command failed: %s"
-#~ msgstr "Umyalelo u-AUTH awuphumelelanga: %s"
-
-#~ msgid "AUTH command failed"
-#~ msgstr "Umyalelo u-AUTH awuphumelelanga"
-
-#~ msgid "Bad authentication response from server.\n"
-#~ msgstr "Impendulo yobungqina obungalunganga obuvela kwiseva.\n"
-
-#~ msgid "MAIL FROM command failed: %s: mail not sent"
-#~ msgstr "Umyalelo i-MAIL FROM awuphumelelanga: %s: umyalezo awuthunyelwanga"
-
-#~ msgid "MAIL FROM command failed"
-#~ msgstr "Umyalelo i-MAIL FROM awuphumelelanga"
-
-#~ msgid "RCPT TO command failed: %s: mail not sent"
-#~ msgstr "Umyalelo i-RCPT TO awuphumelelanga: %s: umyalezo awuthunyelwanga"
-
-#~ msgid "RCPT TO <%s> failed"
-#~ msgstr "Umyalelo i-RCPT TO <%s> awuphumelelanga"
-
-#~ msgid "DATA command failed: %s: mail not sent"
-#~ msgstr "Umyalelo othi DATA awuphumelelanga: %s: i-imeyili ayithunyelwanga"
-
-#~ msgid "DATA command failed"
-#~ msgstr "Umyalelo othi DATA awuphumelelanga"
-
-#~ msgid "RSET command failed: %s"
-#~ msgstr "Umyalelo othi RSET awuphumelelanga %s"
-
-#~ msgid "RSET command failed"
-#~ msgstr "Umyalelo othi RSET awuphumelelanga"
-
-#~ msgid "QUIT command failed: %s"
-#~ msgstr "Umyalelo othi QUIT awuphumelelanga: %s"
-
-#~ msgid "QUIT command failed"
-#~ msgstr "Umyalelo othi QUIT awuphumelelanga"
-
-#~ msgid "_Remember this password"
-#~ msgstr "_Khumbula le password"
-
-#~ msgid "_Remember this password for the remainder of this session"
-#~ msgstr "_Khumbula le password de kuphele le seshini"
-
-#~ msgid "VFolders"
-#~ msgstr "Ii-VFolders"
-
-#~ msgid "Mark as _Unread"
-#~ msgstr "Yiphawule njenge_Ngafundwanga"
-
-#~ msgid "Add Sender to Address_book"
-#~ msgstr "Yongeza Umthumeli kwi_Ncwadi Yeedilesi"
-
-#~ msgid "Appl_y Filters"
-#~ msgstr "Sebenzis_a Izihluzi"
-
-#~ msgid "F_ilter Junk"
-#~ msgstr "H_luza Okungasebenziyo"
-
-#~ msgid "Virtual _Folders"
-#~ msgstr "Iziqulathi _zeefayili"
-
-#~ msgid ""
-#~ "You are almost done with the mail configuration process. The identity, "
-#~ "incoming mail server and outgoing mail transport method which you "
-#~ "provided will be grouped together to make an Evolution mail account. "
-#~ "Please enter a name for this account in the space below. This name will "
-#~ "be used for display purposes only."
-#~ msgstr ""
-#~ "Sele uza kugqiba ukumisela inkqubo ye-imeyili. Isazisi, iseva yee-imeyili "
-#~ "ezingenayo nendlela yokuthutha ii-imeyili ziphumayo oyinikileyo ziza "
-#~ "kudityaniswa ukwenza i-akhawunti yee-imeyili zenkqubo ye-Evolution. Nceda "
-#~ "ufake igama lale akhawunti kwisithuba osinikwe apha ngezantsi. Eli gama "
-#~ "liza kusetyenziswa ngenjongo yokubonisa kwiskrini kuphela."
-
-#~ msgid "_Enable"
-#~ msgstr "_Ukwenza isebenze"
-
-#~ msgid ""
-#~ "\n"
-#~ " Please read carefully the license agreement displayed\n"
-#~ " below and tick the check box for accepting it\n"
-#~ msgstr ""
-#~ "\n"
-#~ " Nceda ulifunde ngocoselelo iphepha-mvume eliboniswe\n"
-#~ " apha ngezantsi ze ufake uphawu kwbhokisi xa uluvumayo\n"
-
-#~ msgid "Body does not contain"
-#~ msgstr "Umzimba awuqulathanga"
-
-#~ msgid "Body or subject contains"
-#~ msgstr "Umzimba okanye isihloko siqulethe"
-
-#~ msgid "Subject does not contain"
-#~ msgstr "Isihloko asiqulathanga"
-
-#~ msgid "Unable to update attendee statusAttendee status updated. %s"
-#~ msgstr "Ayinako ukuhlaziya ubume bokhoyoUbume bokhoyo sele buhlaziyiwe. %s"
-
-#~ msgid "Meetings"
-#~ msgstr "Iintlanganiso"
-
-#~ msgid "Contact list _owner"
-#~ msgstr "Umnini woluhlu _loqhagamshelwano"
-
-#~ msgid "Contact the owner of the mailing list this message belongs to"
-#~ msgstr "Qhagamshelana nomnini womyalezo woluhlu lwabakuqhagamshelwano"
-
-#~ msgid "Get an archive of the list this message belongs to"
-#~ msgstr "Fumana uvimba woluhlu lwalo myalezo"
-
-#~ msgid "Get information about the usage of the list this message belongs to"
-#~ msgstr "Fumana ulwazi ngokusetyenziswa kolu luhlu lwalo myalezo"
-
-#~ msgid "Get list _archive"
-#~ msgstr "Fumana uvimba _woluhlu"
-
-#~ msgid "Get list _usage information"
-#~ msgstr "Fumana uluhlu _lokusetyenziswa kolwazi"
-
-#~ msgid "Mailing _List"
-#~ msgstr "Uluhlu _Lwabo Uqhagamshelana Nabo"
-
-#~ msgid "Post a message to the mailing list this message belongs to"
-#~ msgstr "Thumela umyalezo kuluhlu loqhagamshelana nabo kulo myalezo"
-
-#~ msgid "Subscribe to the mailing list this message belongs to"
-#~ msgstr "Zibophelele kuluhlu loqhagamshelwano lwalo myalezo"
-
-#~ msgid "Unsubscribe to the mailing list this message belongs to"
-#~ msgstr "Zikhuphe ekuzibopheleleni kuluhlu loqhagamshelwano lwalo myalezo"
-
-#~ msgid "_Post message to list"
-#~ msgstr "_Thumela umyalezo kuluhlu"
-
-#~ msgid "_Subscribe to list"
-#~ msgstr "_Zibophelele kuluhlu"
-
-#~ msgid "_Un-subscribe to list"
-#~ msgstr "_Zikhuphe-ekuzibopheleleni kuluhlu"
-
-#~ msgid ""
-#~ "\n"
-#~ "Share List"
-#~ msgstr ""
-#~ "\n"
-#~ "Uluhlu Ekwabelwana ngalo"
-
-#~ msgid "Ad_d"
-#~ msgstr "Yong_eza"
-
-#~ msgid "Additional Access"
-#~ msgstr "Ufikelelo Olongeziweyo"
-
-#~ msgid "Delet_e"
-#~ msgstr "Cim_a"
-
-#~ msgid "Edi_t"
-#~ msgstr "Hlel_a"
-
-#~ msgid "Button style"
-#~ msgstr "Isimbo seqhosha"
-
-#~ msgid "Whether Evolution should start up in offline mode"
-#~ msgstr "Ukuba inkqubo ye-Evolution kufuneka iqalisiwe ingekho kwi-intanethi"
-
-#~ msgid "Create _Virtual Folder From Message"
-#~ msgstr "Yenza _Isiqulathi Seefayili Esiyinyani Esivela Kumyalezo"
+msgstr "cofa apha ukuya kwi-url"
