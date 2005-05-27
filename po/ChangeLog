@@ -1,3 +1,10 @@
+2005-05-27  Alexander Shopov  <ash@contact.bg>
+
+	* bg.po: Updated Bulgarian translation by
+	Vladimir Petkov <vpetkov@i-space.org>,
+	Yavor Doganov <yavor@doganov.org>,
+	Ivelina Karcheva <anima@mail.bg>
+
 2005-05-23  Vivek Jain  <jvivek@novell.com>
 	
 	* POTFILES.in: replaced shared-folder/
