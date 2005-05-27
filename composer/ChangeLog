@@ -1,4 +1,8 @@
 2005-05-24  Srinivasa Ragavan <sragavan@novell.com>
+	* e-msg-composer-attachment.c (e_msg_composer_attachment_new_from_mime_part);
+	Fixed a bug, which considered forwarded mails as remote files.
+
+2005-05-24  Srinivasa Ragavan <sragavan@novell.com>
 
 	* e-msg-composer-attachment.c (finalise): Fixed a potential memory
 	  leak.

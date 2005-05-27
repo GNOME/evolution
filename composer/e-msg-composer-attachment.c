@@ -403,6 +403,7 @@ e_msg_composer_attachment_new_from_mime_part (CamelMimePart *part)
 	new->editor_gui = NULL;
 	new->body = mime_part;
 	new->guessed_type = FALSE;
+	new->is_available_local = TRUE;
 	new->size = 0;
 	
 	return new;
