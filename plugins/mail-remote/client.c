@@ -9,12 +9,79 @@
 #include "evolution-mail-sessionlistener.h"
 #include "evolution-mail-storelistener.h"
 #include "evolution-mail-folderlistener.h"
+#include "evolution-mail-messagestream.h"
 
 #include <camel/camel-folder.h>
 
 static EvolutionMailSessionListener *listener_sess;
 static EvolutionMailStoreListener *listener_store;
 static EvolutionMailFolderListener *listener_folder;
+
+#if 0
+static char *
+em_map_mail_ex(CORBA_Environment *ev, void *data)
+{
+	Evolution_Mail_MailException *x = CORBA_exception_value(ev);
+
+	switch (x->id) {
+	case Evolution_Mail_SYSTEM_ERROR:
+		return g_strdup_printf(_("System error: %s"), x->desc);
+	case Evolution_Mail_CAMEL_ERROR:
+		return g_strdup_printf(_("Camel error: %s"), x->desc);
+	default:
+		return g_strdup(x->desc);
+	}
+}
+#endif
+
+static void e_mail_exception_dump(CORBA_Environment *ev, char *what)
+{
+#if 0
+	static int init = 0;
+	char *d;
+
+	/* *shrug* this doesn't work */
+	if (!init) {
+		bonobo_exception_add_handler_fn(ex_Evolution_Mail_MailException, em_map_mail_ex, NULL, NULL);
+		init = 1;
+	}
+
+	d = bonobo_exception_get_text(ev);
+
+	if (d) {
+		printf("Failed %s: %s\n", what, d);
+		g_free(d);
+	}
+	CORBA_exception_free(ev);
+#else
+	const char *id = CORBA_exception_id(ev);
+
+	switch (ev->_major) {
+	case CORBA_USER_EXCEPTION:
+		if (!strcmp(id, ex_Evolution_Mail_MailException)) {
+			Evolution_Mail_MailException *x = CORBA_exception_value(ev);
+
+			switch (x->id) {
+			case Evolution_Mail_SYSTEM_ERROR:
+				printf("Failed %s: System error %s\n", what, x->desc);
+				break;
+			case Evolution_Mail_CAMEL_ERROR:
+				printf("Failed %s: Camel error %s\n", what, x->desc);
+				break;
+			default:
+				printf("Failed %s: %s\n", what, x->desc);
+				break;
+			}
+			break;
+		}
+	default:
+		printf("Failed %s: %s\n", what, id);
+		break;
+	}
+
+	CORBA_exception_free(ev);
+#endif
+}
 
 static Evolution_Mail_Session
 get_session(void)
@@ -37,8 +104,7 @@ get_session(void)
 		listener_folder = evolution_mail_folderlistener_new();
 		Evolution_Mail_Session_addListener(sess, bonobo_object_corba_objref((BonoboObject *)listener_sess), &ev);
 		if (ev._major != CORBA_NO_EXCEPTION) {
-			printf("AddListener failed: %s\n", ev._id);
-			CORBA_exception_free(&ev);
+			e_mail_exception_dump(&ev, "adding store listener");
 		}
 	}
 
@@ -54,8 +120,7 @@ list_folder(Evolution_Mail_Folder folder)
 
 	iter = Evolution_Mail_Folder_getMessages(folder, "", &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
-		printf("getmessages failed: %s\n", ev._id);
-		CORBA_exception_free(&ev);
+		e_mail_exception_dump(&ev, "getting mssages");
 		return;
 	}
 
@@ -65,8 +130,7 @@ list_folder(Evolution_Mail_Folder folder)
 
 		msgs = Evolution_Mail_MessageIterator_next(iter, 50, &ev);
 		if (ev._major != CORBA_NO_EXCEPTION) {
-			printf("msgs.next(): %s\n", ev._id);
-			CORBA_exception_free(&ev);
+			e_mail_exception_dump(&ev, "getting next messages");
 			break;
 		}
 
@@ -85,11 +149,8 @@ list_folder(Evolution_Mail_Folder folder)
 				changes->_buffer[j].flagMask = CAMEL_MESSAGE_SEEN;
 			}
 			Evolution_Mail_Folder_changeMessages(folder, changes, &ev);
-			if (ev._major != CORBA_NO_EXCEPTION) {
-				printf("changemessages failed: %s\n", ev._id);
-				CORBA_exception_free(&ev);
-				memset(&ev, 0, sizeof(ev));
-			}
+			if (ev._major != CORBA_NO_EXCEPTION)
+				e_mail_exception_dump(&ev, "changing messages");
 		}
 
 		total += msgs->_length;
@@ -102,7 +163,11 @@ list_folder(Evolution_Mail_Folder folder)
 		CORBA_free(msgs);
 	} while (more);
 
+	printf("calling dispose\n");
 	Evolution_Mail_MessageIterator_dispose(iter, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION)
+		e_mail_exception_dump(&ev, "disposing messageiterator");
+
 	CORBA_Object_release(iter, &ev);
 
 	printf("Got %d messages total\n", total);
@@ -119,7 +184,7 @@ add_message(Evolution_Mail_Folder folder, const char *msg)
 	mis.flagSet = CAMEL_MESSAGE_SEEN;
 	mis.flagMask = CAMEL_MESSAGE_SEEN;
 
-	mem = bonobo_stream_mem_create(msg, strlen(msg), TRUE, FALSE);
+	mem = (BonoboObject *)evolution_mail_messagestream_new_buffer(msg, strlen(msg));
 			
 	printf("attempt send mail to store\n");
 	Evolution_Mail_Folder_appendMessage(folder, &mis, bonobo_object_corba_objref(mem), &ev);
@@ -128,8 +193,6 @@ add_message(Evolution_Mail_Folder folder, const char *msg)
 		CORBA_exception_free(&ev);
 		CORBA_exception_init(&ev);
 	}
-
-	bonobo_object_unref(mem);
 }
 
 static int domain(void *data)
@@ -144,8 +207,7 @@ static int domain(void *data)
 
 	stores = Evolution_Mail_Session_getStores(sess, "", bonobo_object_corba_objref((BonoboObject *)listener_store), &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
-		printf("getStores failed: %s\n", ev._id);
-		CORBA_exception_free(&ev);
+		e_mail_exception_dump(&ev, "getting stores");
 		_exit(1);
 		return 0;
 	}
@@ -170,7 +232,7 @@ static int domain(void *data)
 #if 0
 		Evolution_Mail_Store_getProperties(store, &names, &props, &ev);
 		if (ev._major != CORBA_NO_EXCEPTION) {
-			printf("getProperties failed\n");
+			e_mail_exception_dump(&ev, "getting store properties");
 			return 1;
 		}
 
@@ -195,25 +257,19 @@ static int domain(void *data)
 				"Blah blah, test message!\r\n";
 			BonoboObject *mem;
 
-			mem = bonobo_stream_mem_create(msg, strlen(msg), TRUE, FALSE);
+			mem = (BonoboObject *)evolution_mail_messagestream_new_buffer(msg, strlen(msg));
 			
 			printf("attempt send mail to store\n");
 			Evolution_Mail_Store_sendMessage(store, bonobo_object_corba_objref(mem), &ev);
-			if (ev._major != CORBA_NO_EXCEPTION) {
-				printf("sendmessage failed: %s\n", ev._id);
-				CORBA_exception_free(&ev);
-				CORBA_exception_init(&ev);
-			}
-
-			g_object_unref(mem);
+			if (ev._major != CORBA_NO_EXCEPTION)
+				e_mail_exception_dump(&ev, "sending message to store");
+			/* If we get a system exception, do we have to dispose it ourselves?? */
 		}
 #endif
 
 		folders = Evolution_Mail_Store_getFolders(store, "", bonobo_object_corba_objref((BonoboObject *)listener_folder), &ev);
 		if (ev._major != CORBA_NO_EXCEPTION) {
-			printf("getfolders failed\n");
-			/* FIXME: leaks ex data? */
-			CORBA_exception_free(&ev);
+			e_mail_exception_dump(&ev, "getting folders");
 		} else {
 			for (f = 0; f<folders->_length;f++) {
 				printf("folder %p full:'%s' name:'%s'\n", folders->_buffer[f].folder, folders->_buffer[f].full_name, folders->_buffer[f].name);

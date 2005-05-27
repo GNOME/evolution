@@ -1,18 +1,29 @@
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
+#include <errno.h>
+
 #include "e-corba-utils.h"
 
 #include "evolution-mail-store.h"
 #include "evolution-mail-folder.h"
+#include "evolution-mail-messagestream.h"
+
+#include "em-message-stream.h"
 
 #include <camel/camel-folder-summary.h>
 #include <camel/camel-stream-mem.h>
 #include <camel/camel-mime-message.h>
 
 #include <bonobo/bonobo-stream-memory.h>
+#include <bonobo/bonobo-i18n.h>
+#include <bonobo/bonobo-exception.h>
 
 #include <libedataserver/e-msgport.h>
 
-CORBA_char *
+static CORBA_char *
 e_corba_strdup(const char *v)
 {
 	if (v)
@@ -113,69 +124,50 @@ e_mail_folderinfo_set_folder(Evolution_Mail_FolderInfo *fi, EvolutionMailFolder 
 	fi->folder = CORBA_Object_duplicate(bonobo_object_corba_objref((BonoboObject *)emf), NULL);
 }
 
-int
-e_stream_bonobo_to_camel(Bonobo_Stream in, CamelStream *out)
-{
-	Bonobo_Stream_iobuf *buf;
-	CORBA_Environment ev;
-	int go;
-
-	do {
-		Bonobo_Stream_read(in, 4096, &buf, &ev);
-		if (ev._major != CORBA_NO_EXCEPTION) {
-			printf("stream read failed: %s\n", ev._id);
-			CORBA_exception_free(&ev);
-			return -1;
-		}
-
-		go = buf->_length > 0;
-		if (go && camel_stream_write(out, buf->_buffer, buf->_length) == -1) {
-			CORBA_free(buf);
-			return -1;
-		}
-
-		CORBA_free(buf);
-	} while (go);
-
-	camel_stream_reset(out);
-
-	return 0;
-}
-
 CamelMimeMessage *
-e_stream_bonobo_to_message(Bonobo_Stream in)
+e_messagestream_to_message(const Evolution_Mail_MessageStream in, CORBA_Environment *ev)
 {
-	CamelStream *mem;
+	CamelStream *emms;
 	CamelMimeMessage *msg;
 
-	mem = camel_stream_mem_new();
-	if (e_stream_bonobo_to_camel(in, mem) == -1)
+	emms = em_message_stream_new(in);
+	if (emms == NULL) {
+		e_mail_exception_set(ev, Evolution_Mail_FAILED, _("Unknown reason"));
 		return NULL;
+	}
 
 	msg = camel_mime_message_new();
-	if (camel_data_wrapper_construct_from_stream((CamelDataWrapper *)msg, mem) == -1) {
+	if (camel_data_wrapper_construct_from_stream((CamelDataWrapper *)msg, emms) == -1) {
+		e_mail_exception_set(ev, Evolution_Mail_SYSTEM_ERROR, g_strerror(errno));
 		camel_object_unref(msg);
 		msg = NULL;
 	}
-	camel_object_unref(mem);
+	camel_object_unref(emms);
 
 	return msg;
 }
 
-Bonobo_Stream
-e_stream_message_to_bonobo(CamelMimeMessage *msg)
+Evolution_Mail_MessageStream
+e_messagestream_from_message(CamelMimeMessage *msg, CORBA_Environment *ev)
 {
 	CamelStreamMem *mem;
-	BonoboObject *bmem;
+	EvolutionMailMessageStream *emms;
+	Evolution_Mail_MessageStream out;
 
 	/* didn't say it was going to be efficient ... */
 
 	mem = (CamelStreamMem *)camel_stream_mem_new();
-	camel_data_wrapper_write_to_stream((CamelDataWrapper *)msg, (CamelStream *)mem);
-	bmem = bonobo_stream_mem_create(mem->buffer->data, mem->buffer->len, TRUE, FALSE);
+	if (camel_data_wrapper_write_to_stream((CamelDataWrapper *)msg, (CamelStream *)mem) == -1) {
+		e_mail_exception_set(ev, Evolution_Mail_SYSTEM_ERROR, g_strerror(errno));
+		out = CORBA_OBJECT_NIL;
+	} else {
+		camel_stream_reset((CamelStream *)mem);
+		emms = evolution_mail_messagestream_new((CamelStream *)mem);
+		out = CORBA_Object_duplicate(bonobo_object_corba_objref((BonoboObject *)emms), NULL);
+	}
 	camel_object_unref(mem);
 
-	return bonobo_object_corba_objref((BonoboObject *)bmem);
+	return out;
 }
 
 struct _e_mail_listener {
@@ -279,3 +271,18 @@ void e_mail_listener_free(struct _EDList *list)
 	}
 }
 
+void e_mail_exception_set(CORBA_Environment *ev, Evolution_Mail_ErrorType id, const char *desc)
+{
+	Evolution_Mail_MailException *x;
+
+	x = Evolution_Mail_MailException__alloc();
+	x->id = id;
+	x->desc = CORBA_string_dup(desc);
+	CORBA_exception_set(ev, CORBA_USER_EXCEPTION, ex_Evolution_Mail_MailException, x);
+}
+
+void e_mail_exception_xfer_camel(CORBA_Environment *ev, CamelException *ex)
+{
+	e_mail_exception_set(ev, Evolution_Mail_CAMEL_ERROR, ex && ex->desc ? ex->desc:"");
+	camel_exception_clear(ex);
+}

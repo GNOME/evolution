@@ -13,6 +13,8 @@ liborg_gnome_evolution_mail_remote_la_SOURCES = \
 	$(IDL_GENERATED_H)			\
 	e-corba-utils.c				\
 	e-corba-utils.h				\
+	em-message-stream.c			\
+	em-message-stream.h			\
 	evolution-mail-folder.c			\
 	evolution-mail-folder.h			\
 	evolution-mail-folderlistener.c		\
@@ -21,6 +23,8 @@ liborg_gnome_evolution_mail_remote_la_SOURCES = \
 	evolution-mail-marshal.h		\
 	evolution-mail-messageiterator.c	\
 	evolution-mail-messageiterator.h	\
+	evolution-mail-messagestream.c		\
+	evolution-mail-messagestream.h		\
 	evolution-mail-session.c		\
 	evolution-mail-session.h		\
 	evolution-mail-sessionlistener.c	\
@@ -42,6 +46,7 @@ client_LDADD = \
 	evolution-mail-storelistener.o		\
 	evolution-mail-folderlistener.o		\
 	evolution-mail-marshal.o		\
+	evolution-mail-messagestream.o		\
 	Evolution-DataServer-Mail-common.o	\
 	Evolution-DataServer-Mail-stubs.o	\
 	Evolution-DataServer-Mail-skels.o

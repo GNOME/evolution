@@ -1,4 +1,4 @@
-/* Evolution Mail Interface
+/* Evolution Mail Data Interface
  *
  * Copyright (C) 2005 Novell, Inc.
  *
@@ -12,14 +12,34 @@
 
 module Evolution {
 module Mail {
-	exception NOT_SUPPORTED {
-//		string why;
+	/* ********************************************************************** */
+	// NB: tiny subset of omg properties service
+	typedef string PropertyName;
+	typedef sequence <PropertyName> PropertyNames;
+	struct Property {
+		PropertyName name;
+		any value;
+	};
+	typedef sequence <Property> Properties;
+
+	/* ********************************************************************** */
+	// exceptions
+
+	enum ErrorType {
+		SYSTEM_ERROR,
+		CAMEL_ERROR,
+		FAILED,
+		NOT_SUPPORTED,
+		NO_PERMISSION
 	};
 
-	exception FAILED {
-//		string why;
+	exception MailException {
+		ErrorType id;
+		string desc;
 	};
 
+	/* ********************************************************************** */
+	// Main interfaces
 	interface Folder;
 	typedef sequence<Folder> Folders;
 
@@ -76,14 +96,22 @@ module Mail {
 	typedef sequence <MessageInfoSet> MessageInfoSets;
 
 	/* ********************************************************************** */
-	// NB: tiny subset of omg properties service
-	typedef string PropertyName;
-	typedef sequence <PropertyName> PropertyNames;
-	struct Property {
-		PropertyName name;
-		any value;
+	/* Messages are passed as full rfc822 encoded messages in a stream */
+	typedef sequence <octet>Buffer;
+
+	interface MessageStream : Bonobo::Unknown {
+		Buffer next(in long size)
+			raises (MailException);
+
+		void dispose();
 	};
-	typedef sequence <Property> Properties;
+
+	interface MessageIterator : Bonobo::Unknown {
+		MessageInfos next(in long limit)
+			raises (MailException);
+
+		void dispose();
+	};
 
 	/* ********************************************************************** */
 
@@ -119,6 +147,10 @@ module Mail {
 		oneway void changed(in Session session, in SessionChanges changes);
 
 		oneway void shutdown(in Session session);
+
+		// We need to use gnome-keyring instead of an interface like this?
+		// Or does gnome-keyring run off this?
+		//string getPassword(in Session session, string uri, string domain, string item, string prompt, long flags);
 	};
 
 	interface StoreListener : Bonobo::Unknown {
@@ -139,7 +171,8 @@ module Mail {
 	interface Session : Bonobo::Unknown {
 		boolean getProperties(in PropertyNames names, out Properties props);
 
-		StoreInfos getStores(in string pattern, in StoreListener listener);
+		StoreInfos getStores(in string pattern, in StoreListener listener)
+			raises (MailException);
 
 		void addListener(in SessionListener listener);
 		void removeListener(in SessionListener listener);
@@ -149,33 +182,26 @@ module Mail {
 		boolean getProperties(in PropertyNames names, out Properties props);
 
 		FolderInfos getFolders(in string pattern, in FolderListener listener)
-			raises (NOT_SUPPORTED, FAILED);
+			raises (MailException);
 
-		void sendMessage(in Bonobo::Stream msg)
-			raises (NOT_SUPPORTED, FAILED);
-	};
-
-	interface MessageIterator : Bonobo::Unknown {
-		MessageInfos next(in long limit)
-			raises (FAILED);
-
-		void dispose();
+		void sendMessage(in MessageStream msg)
+			raises (MailException);
 	};
 
 	interface Folder : Bonobo::Unknown {
 		boolean getProperties(in PropertyNames names, out Properties props);
 
 		MessageIterator getMessages(in string pattern)
-			raises (NOT_SUPPORTED, FAILED);
+			raises (MailException);
 
 		void changeMessages(in MessageInfoSets infos)
-			raises (NOT_SUPPORTED);
+			raises (MailException);
 
-		Bonobo::Stream getMessage(in string uid)
-			raises (NOT_SUPPORTED, FAILED);
+		MessageStream getMessage(in string uid)
+			raises (MailException);
 
-		void appendMessage(in MessageInfoSet info, in Bonobo::Stream msg)
-			raises (NOT_SUPPORTED, FAILED);
+		void appendMessage(in MessageInfoSet info, in MessageStream msg)
+			raises (MailException);
 	};
 };
 };

@@ -1,3 +1,18 @@
+2005-05-27  Not Zed  <NotZed@Ximian.com>
+
+	* em-message-stream.[ch]: A camel-stream to wrap
+	Evolution_Mail_MessageStream.
+
+	* evolution-mail-messagestream.[ch]: simplified read-only stream
+	interface rather than using bonobo-stream.  It wraps a
+	camel-stream only & simplified lifecycle management.
+
+	* evolution-mail-store.c (evolution_mail_store_changed): if we
+	have no more listeners, close the camelstore object off.
+
+	* Evolution-DataServer-Mail.idl: changed exceptions to use one
+	exception type with details.  Fixed code to use these.
+
 2005-05-26  Not Zed  <NotZed@Ximian.com>
 
 	* evolution-mail-folderlistener.[ch]:

@@ -16,7 +16,7 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
  * Boston, MA 02111-1307, USA.
  *
- * Author: JP Rosevear <jpr@ximian.com>
+ * Author: Michael Zucchi <notzed@novell.com>
  */
 
 #ifndef _EVOLUTION_MAIL_STORE_H_
@@ -62,6 +62,7 @@ const char *evolution_mail_store_get_name(EvolutionMailStore *);
 const char *evolution_mail_store_get_uid(EvolutionMailStore *);
 
 /* unref when done */
-struct _CamelStore *evolution_mail_store_get_store(EvolutionMailStore *ems);
+struct _CamelStore *evolution_mail_store_get_store(EvolutionMailStore *ems, CORBA_Environment *ev);
+int evolution_mail_store_close_store(EvolutionMailStore *ems);
 
 #endif /* _EVOLUTION_MAIL_STORE_H_ */

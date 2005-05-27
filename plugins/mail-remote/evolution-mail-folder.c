@@ -139,18 +139,16 @@ impl_getMessages(PortableServer_Servant _servant, const CORBA_char * pattern, CO
 	EvolutionMailMessageIterator *emi;
 	Evolution_Mail_MessageIterator iter;
 
-	folder = evolution_mail_folder_get_folder(emf);
-	if (folder == NULL) {
-		CORBA_exception_set(ev, CORBA_USER_EXCEPTION, ex_Evolution_Mail_FAILED, NULL);
+	folder = evolution_mail_folder_get_folder(emf, ev);
+	if (folder == NULL)
 		return CORBA_OBJECT_NIL;
-	}
 
 	emi = evolution_mail_messageiterator_new(folder, pattern);
 	camel_object_unref(folder);
 
 	/* NB: How do we destroy the object once we're done? */
 
-	iter = bonobo_object_corba_objref((BonoboObject *)emi);
+	iter = CORBA_Object_duplicate(bonobo_object_corba_objref((BonoboObject *)emi), NULL);
 
 	return iter;
 }
@@ -162,11 +160,9 @@ impl_changeMessages(PortableServer_Servant _servant, const Evolution_Mail_Messag
 	struct _CamelFolder *folder;
 	int i, j;
 
-	folder = evolution_mail_folder_get_folder(emf);
-	if (folder == NULL) {
-		CORBA_exception_set(ev, CORBA_USER_EXCEPTION, ex_Evolution_Mail_FAILED, NULL);
+	folder = evolution_mail_folder_get_folder(emf, ev);
+	if (folder == NULL)
 		return;
-	}
 
 	camel_folder_freeze(folder);
 	for (i=0;i<infos->_length;i++) {
@@ -194,52 +190,47 @@ impl_changeMessages(PortableServer_Servant _servant, const Evolution_Mail_Messag
 	camel_object_unref(folder);
 }
 
-static Bonobo_Stream
+static Evolution_Mail_MessageStream
 impl_getMessage(PortableServer_Servant _servant, const CORBA_char * uid, CORBA_Environment *ev)
 {
 	EvolutionMailFolder *emf = (EvolutionMailFolder *)bonobo_object_from_servant(_servant);
 	struct _CamelFolder *folder;
 	CamelMimeMessage *msg;
-	Bonobo_Stream out;
+	Evolution_Mail_MessageStream out;
 	CamelException ex = { 0 };
 
-	folder = evolution_mail_folder_get_folder(emf);
+	folder = evolution_mail_folder_get_folder(emf, ev);
 	if (folder == NULL)
-		goto fail;
+		return CORBA_OBJECT_NIL;
 
 	msg = camel_folder_get_message(folder, uid, &ex);
-	if (msg == NULL)
-		goto fail;
-
-	out = e_stream_message_to_bonobo(msg);
-	camel_object_unref(msg);
+	if (msg == NULL) {
+		e_mail_exception_xfer_camel(ev, &ex);
+		out = CORBA_OBJECT_NIL;
+	} else {
+		out = e_messagestream_from_message(msg, ev);
+		camel_object_unref(msg);
+	}
+	camel_object_unref(folder);
 
 	return out;
-
-fail:
-	if (folder)
-		camel_object_unref(folder);
-
-	CORBA_exception_set(ev, CORBA_USER_EXCEPTION, ex_Evolution_Mail_FAILED, NULL);
-	camel_exception_clear(&ex);
-
-	return CORBA_OBJECT_NIL;
 }
 
 static void 
-impl_appendMessage(PortableServer_Servant _servant, const Evolution_Mail_MessageInfoSet*mi, const Bonobo_Stream message, CORBA_Environment *ev)
+impl_appendMessage(PortableServer_Servant _servant, const Evolution_Mail_MessageInfoSet*mi, const Evolution_Mail_MessageStream message, CORBA_Environment *ev)
 {
 	EvolutionMailFolder *emf = (EvolutionMailFolder *)bonobo_object_from_servant(_servant);
 	struct _CamelFolder *folder;
 	CamelMimeMessage *msg = NULL;
 	CamelMessageInfo *info;
 	CamelException ex = { 0 };
+	CORBA_Environment wev = { 0 };
 
-	folder = evolution_mail_folder_get_folder(emf);
+	folder = evolution_mail_folder_get_folder(emf, ev);
 	if (folder == NULL)
 		goto fail3;
 
-	msg = e_stream_bonobo_to_message(message);
+	msg = e_messagestream_to_message(message, ev);
 	if (msg == NULL)
 		goto fail2;
 
@@ -248,20 +239,13 @@ impl_appendMessage(PortableServer_Servant _servant, const Evolution_Mail_Message
 	camel_message_info_free(info);
 
 	if (camel_exception_is_set(&ex))
-		goto fail;
+		e_mail_exception_xfer_camel(ev, &ex);
 
-	camel_object_unref(msg);
-	camel_object_unref(folder);
-
-	return;
-
-fail:
 	camel_object_unref(msg);
 fail2:
 	camel_object_unref(folder);
 fail3:
-	CORBA_exception_set(ev, CORBA_USER_EXCEPTION, ex_Evolution_Mail_FAILED, NULL);
-	camel_exception_clear(&ex);
+	Evolution_Mail_MessageStream_dispose(message, &wev);
 }
 
 /* Initialization */
@@ -368,14 +352,14 @@ emf_folder_changed(CamelObject *o, void *d, void *data)
 	CORBA_free(changes);
 }
 
-struct _CamelFolder *evolution_mail_folder_get_folder(EvolutionMailFolder *emf)
+struct _CamelFolder *evolution_mail_folder_get_folder(EvolutionMailFolder *emf, CORBA_Environment *ev)
 {
 	struct _EvolutionMailFolderPrivate *p = _PRIVATE(emf);
 	CamelStore *store;
 	CamelException ex;
 
 	if (p->folder == NULL) {
-		store = evolution_mail_store_get_store(emf->store);
+		store = evolution_mail_store_get_store(emf->store, ev);
 		if (store == NULL)
 			return NULL;
 
@@ -384,7 +368,7 @@ struct _CamelFolder *evolution_mail_folder_get_folder(EvolutionMailFolder *emf)
 		if (p->folder) {
 			p->folder_changed = camel_object_hook_event(p->folder, "folder_changed", emf_folder_changed, emf);
 		} else {
-			camel_exception_clear(&ex);
+			e_mail_exception_xfer_camel(ev, &ex);
 		}
 		camel_object_unref(store);
 	}
@@ -393,6 +377,23 @@ struct _CamelFolder *evolution_mail_folder_get_folder(EvolutionMailFolder *emf)
 		camel_object_ref(p->folder);
 
 	return p->folder;
+}
+
+int evolution_mail_folder_close_folder(EvolutionMailFolder *emf)
+{
+	struct _EvolutionMailFolderPrivate *p = _PRIVATE(emf);
+
+	/* FIXME: locking */
+	if (p->folder) {
+		if (!e_dlist_empty(&p->listeners))
+			return -1;
+
+		camel_object_remove_event(p->folder, p->folder_changed);
+		camel_object_unref(p->folder);
+		p->folder = NULL;
+	}
+
+	return 0;
 }
 
 void evolution_mail_folder_addlistener(EvolutionMailFolder *emf, Evolution_Mail_FolderListener listener)
@@ -411,5 +412,6 @@ evolution_mail_folder_changed(EvolutionMailFolder *emf, Evolution_Mail_FolderCha
 	if (!e_mail_listener_emit(&p->listeners, (EMailListenerChanged)Evolution_Mail_FolderListener_changed,
 				  bonobo_object_corba_objref((BonoboObject *)emf), changes)) {
 		printf("No more listeners for folder, could dispose store object now\n");
+		evolution_mail_folder_close_folder(emf);
 	}
 }

@@ -328,6 +328,8 @@ evolution_mail_session_init (EvolutionMailSession *ems, EvolutionMailSessionClas
 	p->account_removed = g_signal_connect(p->accounts, "account_removed", G_CALLBACK(ems_account_removed), ems);
 
 	ems->session = mail_component_peek_session(NULL);
+
+	bonobo_object_set_immortal((BonoboObject *)ems, TRUE);
 }
 
 void

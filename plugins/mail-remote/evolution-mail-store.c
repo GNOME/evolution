@@ -47,6 +47,7 @@
 #include <e-util/e-account.h>
 
 #include "mail/mail-component.h"
+#include "mail/mail-send-recv.h"
 
 #define PARENT_TYPE bonobo_object_get_type ()
 
@@ -418,9 +419,8 @@ impl_getFolders(PortableServer_Servant _servant,
 	int i;
 	CamelStore *store;
 
-	store = evolution_mail_store_get_store(ems);
+	store = evolution_mail_store_get_store(ems, ev);
 	if (store == NULL) {
-		CORBA_exception_set(ev, CORBA_USER_EXCEPTION, ex_Evolution_Mail_FAILED, NULL);
 		return CORBA_OBJECT_NIL;
 	}
 
@@ -434,8 +434,7 @@ impl_getFolders(PortableServer_Servant _servant,
 			camel_store_free_folder_info(store, fi);
 			ems_sort_folders(p);
 		} else {
-			CORBA_exception_set(ev, CORBA_USER_EXCEPTION, ex_Evolution_Mail_FAILED, NULL);
-
+			e_mail_exception_xfer_camel(ev, &ex);
 			camel_object_unref(store);
 			return CORBA_OBJECT_NIL;
 		}
@@ -461,7 +460,7 @@ impl_getFolders(PortableServer_Servant _servant,
 
 static void
 impl_sendMessage(PortableServer_Servant _servant,
-		 const Bonobo_Stream message,
+		 const Evolution_Mail_MessageStream message,
 		 CORBA_Environment * ev)
 {
 	EvolutionMailStore *ems = (EvolutionMailStore *)bonobo_object_from_servant(_servant);
@@ -469,25 +468,18 @@ impl_sendMessage(PortableServer_Servant _servant,
 	CamelMimeMessage *msg;
 	CamelInternetAddress *from;
 	CamelMessageInfo *info;
+	CORBA_Environment wev = { 0 };
 
 	if (ems->account == NULL
 	    || ems->account->transport == NULL
 	    || ems->account->transport->url == NULL) {
-#if 0
-		Evolution_Mail_NOT_SUPPORTED *x;
-
-		x = Evolution_Mail_NOT_SUPPORTED__alloc();
-		x->why = CORBA_string_dup(ex.desc);
-#endif
-		CORBA_exception_set(ev, CORBA_USER_EXCEPTION, ex_Evolution_Mail_NOT_SUPPORTED, NULL);
-		return;
+		e_mail_exception_set(ev, Evolution_Mail_NOT_SUPPORTED, _("Account cannot send e-mail"));
+		goto done;
 	}
 
-	msg = e_stream_bonobo_to_message(message);
-	if (msg == NULL) {
-		CORBA_exception_set(ev, CORBA_USER_EXCEPTION, ex_Evolution_Mail_FAILED, NULL);
-		return;
-	}
+	msg = e_messagestream_to_message(message, ev);
+	if (msg == NULL)
+		goto done;
 
 	from = camel_internet_address_new();
 	camel_internet_address_add(from, ems->account->id->name, ems->account->id->address);
@@ -506,13 +498,16 @@ impl_sendMessage(PortableServer_Servant _servant,
 	camel_message_info_free(info);
 
 	if (camel_exception_is_set(&ex)) {
-		CORBA_exception_set(ev, CORBA_USER_EXCEPTION, ex_Evolution_Mail_FAILED, NULL);
-		camel_exception_clear(&ex);
+		e_mail_exception_xfer_camel(ev, &ex);
 	} else {
-		/*mail_send();*/
+		mail_send();
 	}
 
 	camel_object_unref(msg);
+done:
+	Evolution_Mail_MessageStream_dispose(message, &wev);
+	if (wev._major != CORBA_NO_EXCEPTION)
+		CORBA_exception_free(&wev);
 }
 
 /* Initialization */
@@ -587,7 +582,7 @@ const char *evolution_mail_store_get_uid(EvolutionMailStore *ems)
 		return "local@local";
 }
 
-CamelStore *evolution_mail_store_get_store(EvolutionMailStore *ems)
+CamelStore *evolution_mail_store_get_store(EvolutionMailStore *ems, CORBA_Environment *ev)
 {
 	struct _EvolutionMailStorePrivate *p = _PRIVATE(ems);
 
@@ -603,10 +598,11 @@ CamelStore *evolution_mail_store_get_store(EvolutionMailStore *ems)
 			if (uri && *uri) {
 				p->store = camel_session_get_store(ems->session->session, uri, &ex);
 				if (camel_exception_is_set(&ex)) {
-					camel_exception_clear(&ex);
+					e_mail_exception_xfer_camel(ev, &ex);
 					return NULL;
 				}
 			} else {
+				e_mail_exception_set(ev, Evolution_Mail_NOT_SUPPORTED, _("No store available"));
 				return NULL;
 			}
 		}
@@ -621,6 +617,30 @@ CamelStore *evolution_mail_store_get_store(EvolutionMailStore *ems)
 
 	camel_object_ref(p->store);
 	return p->store;
+}
+
+int evolution_mail_store_close_store(EvolutionMailStore *ems)
+{
+	struct _EvolutionMailStorePrivate *p = _PRIVATE(ems);
+
+	/* FIXME: locking */
+	if (p->store) {
+		if (!e_dlist_empty(&p->listeners))
+			return -1;
+
+		camel_object_remove_event(p->store, p->folder_opened);
+		camel_object_remove_event(p->store, p->folder_created);
+		camel_object_remove_event(p->store, p->folder_deleted);
+		camel_object_remove_event(p->store, p->folder_renamed);
+		camel_object_remove_event(p->store, p->folder_subscribed);
+		camel_object_remove_event(p->store, p->folder_unsubscribed);
+		camel_object_unref(p->store);
+		p->store = NULL;
+	}
+
+	/* FIXME: need to close of sub-folders too? */
+
+	return 0;
 }
 
 void
@@ -639,6 +659,7 @@ evolution_mail_store_changed(EvolutionMailStore *ems, Evolution_Mail_StoreChange
 
 	if (!e_mail_listener_emit(&p->listeners, (EMailListenerChanged)Evolution_Mail_StoreListener_changed,
 				  bonobo_object_corba_objref((BonoboObject *)ems), changes)) {
-		printf("No more listeners for store, could dispose store object now\n");
+		evolution_mail_store_close_store(ems);
+		printf("No more listeners for store, could dispose store object now?\n");
 	}
 }

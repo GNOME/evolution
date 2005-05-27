@@ -125,7 +125,7 @@ impl_mi_dispose(PortableServer_Servant _servant, CORBA_Environment *ev)
 	EvolutionMailMessageIterator *emmi = (EvolutionMailMessageIterator *)bonobo_object_from_servant(_servant);
 
 	bonobo_object_set_immortal((BonoboObject *)emmi, FALSE);
-	/*bonobo_object_unref((BonoboObject *)emmi);*/
+	bonobo_object_unref((BonoboObject *)emmi);
 }
 
 /* Initialization */

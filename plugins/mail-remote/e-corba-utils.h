@@ -9,6 +9,7 @@ struct _EvolutionMailFolder;
 struct _CamelMessageInfo;
 struct _CamelStream;
 struct _CamelMimeMessage;
+struct _CamelException;
 
 void e_mail_property_set_string(Evolution_Mail_Property *prop, const char *name, const char *val);
 void e_mail_property_set_null(Evolution_Mail_Property *prop, const char *name);
@@ -19,9 +20,8 @@ void e_mail_folderinfo_set_folder(Evolution_Mail_FolderInfo *fi, struct _Evoluti
 void e_mail_messageinfo_set_message(Evolution_Mail_MessageInfo *mi, struct _CamelMessageInfo *info);
 struct _CamelMessageInfo *e_mail_messageinfoset_to_info(const Evolution_Mail_MessageInfoSet *mi);
 
-int e_stream_bonobo_to_camel(Bonobo_Stream in, struct _CamelStream *out);
-struct _CamelMimeMessage *e_stream_bonobo_to_message(Bonobo_Stream in);
-Bonobo_Stream e_stream_message_to_bonobo(struct _CamelMimeMessage *msg);
+struct _CamelMimeMessage *e_messagestream_to_message(const Evolution_Mail_MessageStream in, CORBA_Environment *ev);
+Evolution_Mail_MessageStream e_messagestream_from_message(struct _CamelMimeMessage *msg, CORBA_Environment *ev);
 
 struct _EDList;
 
@@ -31,5 +31,9 @@ void e_mail_listener_add(struct _EDList *list, CORBA_Object listener);
 gboolean e_mail_listener_remove(struct _EDList *list, CORBA_Object listener);
 gboolean e_mail_listener_emit(struct _EDList *list, EMailListenerChanged emit, CORBA_Object source, void *changes);
 void e_mail_listener_free(struct _EDList *list);
+
+/* raise an exception */
+void e_mail_exception_set(CORBA_Environment *ev, Evolution_Mail_ErrorType id, const char *desc);
+void e_mail_exception_xfer_camel(CORBA_Environment *ev, struct _CamelException *ex);
 
 #endif /* !_E_CORBA_UTILS_H */

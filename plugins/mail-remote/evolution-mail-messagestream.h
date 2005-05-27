@@ -19,29 +19,35 @@
  * Author: Michael Zucchi <notzed@novell.com>
  */
 
-#ifndef _EVOLUTION_MAIL_MESSAGEITERATOR_H_
-#define _EVOLUTION_MAIL_MESSAGEITERATOR_H_
+#ifndef _EVOLUTION_MAIL_MESSAGESTREAM_H_
+#define _EVOLUTION_MAIL_MESSAGESTREAM_H_
 
 #include <bonobo/bonobo-object.h>
 #include "Evolution-DataServer-Mail.h"
 
-struct _CamelFolder;
+typedef struct _EvolutionMailMessageStream        EvolutionMailMessageStream;
+typedef struct _EvolutionMailMessageStreamClass   EvolutionMailMessageStreamClass;
 
-typedef struct _EvolutionMailMessageIterator        EvolutionMailMessageIterator;
-typedef struct _EvolutionMailMessageIteratorClass   EvolutionMailMessageIteratorClass;
-
-struct _EvolutionMailMessageIterator {
+struct _EvolutionMailMessageStream {
 	BonoboObject parent;
+
+	/* only one or the other is set */
+	struct _CamelStream *source;
+
+	char *buffer;
+	size_t len;
+	size_t pos;
 };
 
-struct _EvolutionMailMessageIteratorClass {
+struct _EvolutionMailMessageStreamClass {
 	BonoboObjectClass parent_class;
 
-	POA_Evolution_Mail_MessageIterator__epv epv;
+	POA_Evolution_Mail_MessageStream__epv epv;
 };
 
-GType           evolution_mail_messageiterator_get_type(void);
+GType           evolution_mail_messagestream_get_type(void);
 
-EvolutionMailMessageIterator *evolution_mail_messageiterator_new(struct _CamelFolder *folder, const char *expr);
+EvolutionMailMessageStream *evolution_mail_messagestream_new(struct _CamelStream *source);
+EvolutionMailMessageStream *evolution_mail_messagestream_new_buffer(const char *buffer, size_t len);
 
-#endif /* _EVOLUTION_MAIL_MESSAGEITERATOR_H_ */
+#endif /* _EVOLUTION_MAIL_MESSAGESTREAM_H_ */
