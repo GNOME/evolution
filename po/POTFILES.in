@@ -181,6 +181,7 @@ designs/read_receipts/read.glade
 e-util/e-categories-config.c
 e-util/e-component-listener.c
 e-util/e-dialog-utils.c
+e-util/e-error.c
 e-util/e-system.error.xml
 e-util/e-time-utils.c
 e-util/eggtrayicon.c
@@ -301,7 +302,7 @@ plugins/save-calendar/save-calendar.c
 plugins/select-one-source/org-gnome-select-one-source.eplug.xml
 plugins/groupwise-features/send-options.c
 plugins/groupwise-features/install-shared.c
-plugins/groupwise-features/org-gnome-shared-folder.error.xml
+plugins/groupwise-features/org-gnome-shared-folder.errors.xml
 plugins/groupwise-features/org-gnome-groupwise-features.eplug.xml
 plugins/groupwise-features/properties.glade
 plugins/groupwise-features/share-folder-common.c
@@ -370,7 +371,6 @@ widgets/misc/e-cell-percent.c
 widgets/misc/e-charset-picker.c
 widgets/misc/e-clipped-label.c
 widgets/misc/e-dateedit.c
-widgets/misc/e-error.c
 widgets/misc/e-expander.c
 widgets/misc/e-filter-bar.c
 widgets/misc/e-filter-bar.h

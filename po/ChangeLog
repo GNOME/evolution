@@ -1,3 +1,10 @@
+2005-05-28  Abel Cheung  <maddog@linuxhall.org>
+
+	* POTFILES.in:
+	plugins/groupwise-features/org-gnome-shared-folder.error.xml ->
+	plugins/groupwise-features/org-gnome-shared-folder.errors.xml
+	widgets/misc/e-error.c -> e-util/e-error.c
+
 2005-05-27  Alexander Shopov  <ash@contact.bg>
 
 	* bg.po: Updated Bulgarian translation by
