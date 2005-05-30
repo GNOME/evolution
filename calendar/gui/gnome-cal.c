@@ -138,6 +138,7 @@ struct _GnomeCalendarPrivate {
 	char        *sexp;
 	char        *todo_sexp;
 	guint        update_timeout;
+	guint        update_marcus_bains_line_timeout;
 	
 	/* This is the view currently shown. We use it to keep track of the
 	   positions of the panes. range_selected is TRUE if a range of dates
@@ -1087,6 +1088,21 @@ update_todo_view_cb (GnomeCalendar *gcal)
 	return TRUE;
 }
 
+static gboolean
+update_marcus_bains_line_cb (GnomeCalendar *gcal)
+{	
+	GnomeCalendarPrivate *priv;
+
+	priv = gcal->priv;
+
+	if ((priv->current_view_type == GNOME_CAL_DAY_VIEW) ||
+	    (priv->current_view_type == GNOME_CAL_WORK_WEEK_VIEW)) {
+		e_day_view_update_marcus_bains (E_DAY_VIEW (gnome_calendar_get_current_view_widget (gcal)));
+	}
+
+	return TRUE;
+}
+
 static void
 config_hide_completed_tasks_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
 {
@@ -1319,6 +1335,9 @@ setup_widgets (GnomeCalendar *gcal)
 	e_calendar_view_set_timezone (E_CALENDAR_VIEW (priv->work_week_view), priv->zone);
 	connect_day_view_focus (gcal, E_DAY_VIEW (priv->work_week_view));
 
+	/* The Marcus Bains line */
+	priv->update_marcus_bains_line_timeout = g_timeout_add_full (G_PRIORITY_LOW, 60000, (GSourceFunc) update_marcus_bains_line_cb, gcal, NULL);	
+
 	/* The Week View. */
 	priv->week_view = e_week_view_new ();
 	e_calendar_view_set_calendar (E_CALENDAR_VIEW (priv->week_view), gcal);
@@ -1518,6 +1537,11 @@ gnome_calendar_destroy (GtkObject *object)
 		if (priv->view_instance) {
 			g_object_unref (priv->view_instance);
 			priv->view_instance = NULL;
+		}
+
+		if (priv->update_marcus_bains_line_timeout) {
+			g_source_remove (priv->update_marcus_bains_line_timeout);
+			priv->update_marcus_bains_line_timeout = 0;
 		}
 
 		if (priv->view_menus) {

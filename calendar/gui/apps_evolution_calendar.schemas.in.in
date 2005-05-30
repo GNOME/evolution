@@ -195,6 +195,42 @@
       </locale>
     </schema>
 
+    <schema>
+      <key>/schemas/apps/evolution/calendar/display/marcus_bains_line</key>
+      <applyto>/apps/evolution/calendar/display/marcus_bains_line</applyto>
+      <owner>evolution-calendar</owner>
+      <type>bool</type>
+      <default>true</default>
+      <locale name="C">
+        <short>Marcus Bains Line</short>
+        <long>Whether to draw the Marcus Bains Line (line at current time) in the calendar.</long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/calendar/display/marcus_bains_color_dayview</key>
+      <applyto>/apps/evolution/calendar/display/marcus_bains_color_dayview</applyto>
+      <owner>evolution-calendar</owner>
+      <type>string</type>
+      <default>#ff0000</default>
+      <locale name="C">
+        <short>Marcus Bains Line Color - Day View</short>
+        <long>Color to draw the Marcus Bains line in the Day View.</long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/calendar/display/marcus_bains_color_timebar</key>
+      <applyto>/apps/evolution/calendar/display/marcus_bains_color_timebar</applyto>
+      <owner>evolution-calendar</owner>
+      <type>string</type>
+      <default>#ff0000</default>
+      <locale name="C">
+        <short>Marcus Bains Line Color - Time bar</short>
+        <long>Color to draw the Marcus Bains Line in the Time bar (empty for default).</long>
+      </locale>
+    </schema>
+
     <!-- Tasks -->
 
     <schema>

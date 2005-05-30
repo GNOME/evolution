@@ -35,6 +35,7 @@
 #include "e-day-view-layout.h"
 #include "e-day-view-main-item.h"
 #include "ea-calendar.h"
+#include <libecal/e-cal-time-util.h>
 
 static void e_day_view_main_item_set_arg (GtkObject *o, GtkArg *arg,
 					  guint arg_id);
@@ -299,6 +300,44 @@ e_day_view_main_item_draw (GnomeCanvasItem *canvas_item, GdkDrawable *drawable,
 						      x, y, width, height,
 						      day);
 	}
+
+
+	if (e_day_view_get_show_marcus_bains (day_view)) {
+		icaltimezone *zone;
+		struct icaltimetype time_now, day_start;
+		int marcus_bains_y;
+		GdkColor mb_color;
+
+		gdk_gc_set_foreground (gc, &day_view->colors[E_DAY_VIEW_COLOR_MARCUS_BAINS_LINE]);
+
+		if (day_view->marcus_bains_day_view_color && gdk_color_parse (day_view->marcus_bains_day_view_color, &mb_color)) {
+			GdkColormap *colormap;
+			
+			colormap = gtk_widget_get_colormap (GTK_WIDGET (day_view));
+			if (gdk_colormap_alloc_color (colormap, &mb_color, TRUE, TRUE)) {
+				gdk_gc_set_foreground (gc, &mb_color);
+			}
+		}
+
+		zone = e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view));
+		time_now = icaltime_current_time_with_zone (zone);
+		
+		for (day = 0; day < day_view->days_shown; day++) {
+			day_start = icaltime_from_timet_with_zone (day_view->day_starts[day], FALSE, zone);
+
+			if ((day_start.year  == time_now.year) &&
+			    (day_start.month == time_now.month) &&
+			    (day_start.day   == time_now.day)) {
+
+				grid_x1 = day_view->day_offsets[day] - x + E_DAY_VIEW_BAR_WIDTH;
+				grid_x2 = day_view->day_offsets[day + 1] - x - 1;
+				marcus_bains_y = (time_now.hour * 60 + time_now.minute) * day_view->row_height / day_view->mins_per_row - y;
+				gdk_draw_line (drawable, gc, grid_x1, marcus_bains_y, grid_x2, marcus_bains_y);
+			}
+		}
+	}
+
+
 }
 
 
