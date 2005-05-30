@@ -895,11 +895,15 @@ itip_send_comp (ECalComponentItipMethod method, ECalComponent *send_comp,
 	char *ical_string;
 	CORBA_Environment ev;
 	gboolean retval = FALSE;
+
+	/* check whether backend could handle sending resuests/updates */
+	if (method != E_CAL_COMPONENT_METHOD_PUBLISH && e_cal_get_save_schedules (client))
+		return TRUE;
 	
 	CORBA_exception_init (&ev);
 
 	/* Give the server a chance to manipulate the comp */
-	if (method != E_CAL_COMPONENT_METHOD_PUBLISH && !e_cal_get_save_schedules (client)) {
+	if (method != E_CAL_COMPONENT_METHOD_PUBLISH) {
 		if (!comp_server_send (method, send_comp, client, zones, &users))
 			goto cleanup;
 	}

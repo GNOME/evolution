@@ -1,3 +1,8 @@
+2005-05-30  Harry Lu  <harry.lu@sun.com>
+
+	* gui/itip-utils.c: (itip_send_comp): check whether backend could
+	handle sending resuests/updates, and if so, just return.
+
 2005-05-09  Rodrigo Moya <rodrigo@novell.com>
 
 	Fixes #301350
