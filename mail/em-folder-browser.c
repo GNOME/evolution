@@ -691,7 +691,7 @@ emfb_mark_all_read(BonoboUIComponent *uid, void *data, const char *path)
 }
 
 static void
-emfb_view_hide_read(BonoboUIComponent *uid, void *data, const char *path)
+emfb_view_hide_read(BonoboUIComponent *uic, const char *path, Bonobo_UIComponent_EventType type, const char *state, void *data)
 {
 	EMFolderView *emfv = data;
 	
@@ -699,7 +699,7 @@ emfb_view_hide_read(BonoboUIComponent *uid, void *data, const char *path)
 }
 
 static void
-emfb_view_hide_selected(BonoboUIComponent *uid, void *data, const char *path)
+emfb_view_show_selected(BonoboUIComponent *uic, const char *path, Bonobo_UIComponent_EventType type, const char *state, void *data)
 {
 	EMFolderView *emfv = data;
 	GPtrArray *uids;
@@ -712,7 +712,7 @@ emfb_view_hide_selected(BonoboUIComponent *uid, void *data, const char *path)
 }
 
 static void
-emfb_view_show_all(BonoboUIComponent *uid, void *data, const char *path)
+emfb_view_show_all(BonoboUIComponent *uic, const char *path, Bonobo_UIComponent_EventType type, const char *state, void *data)
 {
 	EMFolderView *emfv = data;
 
@@ -782,9 +782,12 @@ static BonoboUIVerb emfb_verbs[] = {
 	BONOBO_UI_UNSAFE_VERB ("FolderExpunge", emfb_folder_expunge),
 	/* HideDeleted is a toggle */
 	BONOBO_UI_UNSAFE_VERB ("MessageMarkAllAsRead", emfb_mark_all_read),
+	/*
+	   These are radio buttons now
 	BONOBO_UI_UNSAFE_VERB ("ViewHideRead", emfb_view_hide_read),
-	BONOBO_UI_UNSAFE_VERB ("ViewHideSelected", emfb_view_hide_selected),
+	BONOBO_UI_UNSAFE_VERB ("ViewShowSelected", emfb_view_show_selected),
 	BONOBO_UI_UNSAFE_VERB ("ViewShowAll", emfb_view_show_all),
+	*/
 	/* ViewThreaded is a toggle */
 
 	BONOBO_UI_UNSAFE_VERB ("FolderCopy", emfb_folder_copy),
@@ -822,7 +825,7 @@ static const EMFolderViewEnable emfb_enable_map[] = {
 	{ "FolderRename", EM_POPUP_SELECT_FOLDER },
 	{ "MailPost", EM_POPUP_SELECT_FOLDER },
 	{ "MessageMarkAllAsRead", EM_POPUP_SELECT_FOLDER },
-	{ "ViewHideSelected", EM_POPUP_SELECT_MANY },
+	{ "ViewShowSelected", EM_POPUP_SELECT_MANY },
 	{ NULL },
 };
 
@@ -1144,6 +1147,10 @@ emfb_activate(EMFolderView *emfv, BonoboUIComponent *uic, int act)
 		message_list_set_threaded(emfv->list, state);
 
 		/* FIXME: Selection state */
+
+		bonobo_ui_component_add_listener(uic, "ViewHideRead", emfb_view_hide_read, emfv);
+		bonobo_ui_component_add_listener(uic, "ViewShowSelected", emfb_view_show_selected, emfv);
+		bonobo_ui_component_add_listener(uic, "ViewShowAll", emfb_view_show_all, emfv);
 
 		/* FIXME: property menu customisation */
 		/*folder_browser_setup_property_menu (fb, fb->uicomp);*/

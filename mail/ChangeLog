@@ -1,3 +1,14 @@
+2005-05-31  Rodney Dawes  <dobey@novell.com>
+
+	* em-folder-browser.c (emfb_view_hide_read, emfb_view_show_selected):
+	(emfb_view_show_all): Update these methods to use the listener method
+	of access from bonobo as they are radio buttons now
+	(emfb_verbs): Comment out the verbs for the above methods, as they are
+	configured through add_listener now
+	(emfb_enable_map): s/ViewHideSelected/ViewShowSelected/
+	(emfb_activate): Add the listeners for the radio buttons for filtering
+	the message list for unread, selected, or all messages
+	
 2005-05-24  Rodney Dawes  <dobey@novell.com>
 
 	* em-folder-selector.c (folder_created_cb): Remove this unused method
