@@ -1,3 +1,10 @@
+2005-05-31  Li Yuan  <li.yuan@sun.com>
+
+	* e-dateedit.c:(e_date_edit_update_date_entry):
+	add relation to date_button.
+
+	Fixes #302267
+
 2005-05-16  Not Zed  <NotZed@Ximian.com>
 
 	* Makefile.am: move e-error.[ch] and e-system-errors.xml to

@@ -1684,6 +1684,7 @@ e_date_edit_update_date_entry		(EDateEdit	*dedit)
 	}
 
 	add_relation (dedit, priv->date_entry);
+	add_relation (dedit, priv->date_button);
 }
 
 
