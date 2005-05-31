@@ -1,3 +1,8 @@
+2005-05-31  Rodrigo Moya <rodrigo@novell.com>
+
+	* GNOME_Evolution_Shell.server.in.in: added missing name to
+	Shell_Config_Factory object description.
+
 2005-05-25  Not Zed  <NotZed@Ximian.com>
 
 	* main.c (main): remove mono registrtion, this is implemented

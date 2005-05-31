@@ -19,6 +19,8 @@
     <oaf_attribute name="repo_ids" type="stringv">
       <item value="IDL:GNOME/GenericFactory:1.0"/>
     </oaf_attribute>
+
+    <oaf_attribute name="name" type="string" _value="Evolution Shell Config factory"/>
   </oaf_server>
 
 </oaf_info>
