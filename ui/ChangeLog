@@ -1,3 +1,10 @@
+2005-05-31  Rodney Dawes  <dobey@novell.com>
+
+	* evolution-mail-list.xml: Rename ViewHideSelected to ViewShowSelected
+	Enable the "Show Messages" sub-menu under "View"
+
+	Fixes #305376
+
 2005-05-16  Srinivasa Ragavan <sragavan@novell.com>
 	
 	* evolution-message-composer.xml: Removed the Show Attachment

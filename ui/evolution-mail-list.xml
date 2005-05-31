@@ -47,7 +47,7 @@
     <cmd name="ViewHideRead"  _tip="Temporarily hide all messages that have already been read"
      type="radio" group="Message_Filter"/>
 
-    <cmd name="ViewHideSelected" _tip="Temporarily hide the selected messages"
+    <cmd name="ViewShowSelected" _tip="Temporarily hide the selected messages"
      type="radio" group="Message_Filter"/>
 
     <cmd name="ViewShowAll" _tip="Show messages that have been temporarily hidden"
@@ -69,15 +69,16 @@
     <submenu name="View">
 
       <placeholder name="MailMessageFilter">
-<!--
         <submenu name="FilterMessages" _label="Show _Messages">
 
           <menuitem name="ViewShowAll" verb="" _label="_All"/>
-	  <menuitem name="ViewHideSelected" verb="" _label="_Selected Messages"/>
+<!--
+	  <menuitem name="ViewShowSelected" verb="" _label="_Selected Messages"/>
+-->
           <menuitem name="ViewHideRead" verb="" _label="Un_read Messages"/>
 
 	</submenu>
--->
+
       </placeholder>
 
       <placeholder name="MailMessageView">
