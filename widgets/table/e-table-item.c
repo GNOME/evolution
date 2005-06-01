@@ -1435,7 +1435,9 @@ eti_dispose (GObject *object)
 		g_free (eti->height_cache);
 	eti->height_cache = NULL;
 
-	e_canvas_hide_tooltip (E_CANVAS(GNOME_CANVAS_ITEM(eti)->canvas));
+	if (E_CANVAS(GNOME_CANVAS_ITEM(eti)->canvas))
+		e_canvas_hide_tooltip (E_CANVAS(GNOME_CANVAS_ITEM(eti)->canvas));
+
 	if (eti->tooltip) {
 		if (eti->tooltip->background)
 			gdk_color_free (eti->tooltip->background);
