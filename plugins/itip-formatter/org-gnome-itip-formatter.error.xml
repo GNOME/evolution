@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<error-list domain="org.gnome.itip-formatter">
-
- <error id="add-unknown-attendee" type="question">
-  <_primary>This response is not from a current attendee.  Add the sender as an attendee?</_primary>
- </error>
-
-</error-list>

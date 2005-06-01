@@ -1,9 +1,0 @@
-<gnome-pilot-conduit version="1.0">
-	<conduit id="e_calendar_conduit" type="shlib" location="@privconduitdir@/libecalendar_conduit.so"/>
-	<name value="ECalendar"/>
-	<conduit-attribute name="description" value="Synchronizes Calendar with Evolution @BASE_VERSION@"/>
-	<conduit-attribute name="default-synctype" value="synchronize"/>
-	<conduit-attribute name="valid-synctypes" value="synchronize copy_from_pilot copy_to_pilot"/>
-     	<conduit-attribute name="settings" value="TRUE"/>
-	<conduit-attribute name="icon" value="@datadir@/images/evolution/conduits/48_evo-calendar-conduit.png"/>
-</gnome-pilot-conduit>
