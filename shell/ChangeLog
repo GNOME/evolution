@@ -1,3 +1,7 @@
+2005-06-01 S.Çaglar Onur <caglar@uludag.org.tr>
+
+	* e-shell-window-commands.c (authors[]): Fixed my name.
+
 2005-05-31  Rodrigo Moya <rodrigo@novell.com>
 
 	* GNOME_Evolution_Shell.server.in.in: added missing name to
