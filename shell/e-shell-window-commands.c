@@ -135,7 +135,14 @@ command_submit_bug (BonoboUIComponent *uih,
 }
 
 /* must be in utf8, the weird breaking of escaped strings
-   is so the hex escape strings dont swallow too many chars */
+   is so the hex escape strings dont swallow too many chars
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+   So that means, 8 bit characters, use \xXX hex encoding ONLY
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+  No all environments are utf8 and not all editors can handle it.
+*/
 static const char *authors[] = {
 	"Aaron Weber",
 	"Abel Cheung",
@@ -413,10 +420,9 @@ static const char *authors[] = {
 	"Russell Steinthal",
 	"Ryan P. Skadberg",
 	"S N Tejasvi",
-	"S.Ça%GÄ%@lar Onur",
+	"S.\xc3\x87" "a\xc4\x9" "flar Onur",
 	"Sam Creasey",
 	"Sam\xC3\xBA" "el J\xC3\xB3" "n Gunnarsson",
-	"Samúel Jón Gunnarsson",
 	"Sankar P",
 	"Sanlig Badral",
 	"Sanshao Jiang",
