@@ -1,3 +1,7 @@
+2005-06-01  Not Zed  <NotZed@Ximian.com>
+
+	* e-shell-window-commands.c: fixed the utf8 in the last patch.
+
 2005-06-01 S.Çaglar Onur <caglar@uludag.org.tr>
 
 	* e-shell-window-commands.c (authors[]): Fixed my name.
