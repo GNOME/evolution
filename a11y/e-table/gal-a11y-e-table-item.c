@@ -8,25 +8,26 @@
  */
 
 #include <config.h>
-
 #include <string.h>
-
-#include <atk/atk.h>
-
-#include "gal/a11y/gal-a11y-util.h"
-#include "gal/e-table/e-table-click-to-add.h"
-#include "gal/e-table/e-table-subset.h"
-#include "gal/e-table/e-table.h"
-#include "gal/e-table/e-tree.h"
-#include "gal/widgets/e-canvas.h"
-#include "gal/widgets/e-selection-model.h"
-
 #include "gal-a11y-e-table-item.h"
 #include "gal-a11y-e-table-item-factory.h"
 #include "gal-a11y-e-table-click-to-add.h"
 #include "gal-a11y-e-cell-registry.h"
 #include "gal-a11y-e-cell.h"
-#include "gal-a11y-e-table-column-header.h"
+#include "gal-a11y-util.h"
+#include <gal/e-table/e-table-subset.h>
+#include <gal/widgets/e-selection-model.h>
+#include <gal/widgets/e-canvas.h>
+#include <gal/e-table/e-table.h>
+#include <gal/e-table/e-table-click-to-add.h>
+#include <gal/e-table/e-tree.h>
+
+#include <atk/atkobject.h>
+#include <atk/atktable.h>
+#include <atk/atkcomponent.h>
+#include <atk/atkobjectfactory.h>
+#include <atk/atkregistry.h>
+#include <atk/atkgobjectaccessible.h>
 
 #define CS_CLASS(a11y) (G_TYPE_INSTANCE_GET_CLASS ((a11y), C_TYPE_STREAM, GalA11yETableItemClass))
 static GObjectClass *parent_class;
@@ -206,7 +207,7 @@ eti_get_n_children (AtkObject *accessible)
 		return 0;
 
 	return atk_table_get_n_columns (ATK_TABLE (accessible)) *
-		(atk_table_get_n_rows (ATK_TABLE (accessible)) + 1);
+		atk_table_get_n_rows (ATK_TABLE (accessible));
 }
 
 static AtkObject*
@@ -220,15 +221,7 @@ eti_ref_child (AtkObject *accessible, gint index)
 	if (!item)
 		return NULL;
 
-	if (index < item->cols) {
-		ETableCol *ecol;
-		AtkObject *child;
-
-		ecol = e_table_header_get_column (item->header, index);
-		child = gal_a11y_e_table_column_header_new (ecol, item);
-		return child;
-	}
-	index -= item->cols;
+	/* don't support column header now */
 
 	col = index % item->cols;
 	row = index / item->cols;
@@ -425,7 +418,7 @@ eti_get_n_rows (AtkTable *table)
 	if (!item)
 		return -1;
 
-	return item->rows + 1;
+	return item->rows;
 }
 
 static gint
@@ -510,7 +503,12 @@ eti_get_column_header (AtkTable *table, gint column)
 
 	ecol = e_table_header_get_column (item->header, column);
 	if (ecol) {
-		atk_obj = gal_a11y_e_table_column_header_new (ecol, item);
+		atk_obj = atk_gobject_accessible_for_object (G_OBJECT (ecol));
+		if (atk_obj) {
+			if (ecol->text)
+				atk_object_set_name (atk_obj, ecol->text);
+			atk_object_set_role (atk_obj, ATK_ROLE_TABLE_COLUMN_HEADER);
+		}
 	}
 
 	return atk_obj;

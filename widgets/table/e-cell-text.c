@@ -35,30 +35,27 @@
  */
 
 #include <config.h>
-
 #include <stdio.h>
 #include <ctype.h>
 #include <math.h>
 #include <string.h>
-
+#include <gdk/gdkx.h> /* for BlackPixel */
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
 #include <libgnomecanvas/gnome-canvas.h>
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
-
-#include "gal/a11y/e-table/gal-a11y-e-cell-registry.h"
-#include "gal/a11y/e-table/gal-a11y-e-cell-text.h"
-#include "gal/e-text/e-text.h"
-#include "gal/util/e-i18n.h"
-#include "gal/util/e-text-event-processor.h"
-#include "gal/util/e-text-event-processor-emacs-like.h"
+#include "e-cell-text.h"
 #include "gal/util/e-util.h"
 #include "gal/widgets/e-canvas.h"
 #include "gal/widgets/e-unicode.h"
-
-#include "e-cell-text.h"
 #include "e-table-item.h"
+#include "gal/util/e-text-event-processor.h"
+#include "gal/e-text/e-text.h"
+#include "gal/util/e-text-event-processor-emacs-like.h"
+#include "gal/util/e-i18n.h"
 #include "e-table-tooltip.h"
+#include "gal/a11y/e-table/gal-a11y-e-cell-registry.h"
+#include "gal/a11y/e-table/gal-a11y-e-cell-text.h"
 
 #define d(x)
 #define DO_SELECTION 1

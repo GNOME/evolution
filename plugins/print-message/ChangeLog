@@ -1,9 +1,0 @@
-2005-05-19  Vivek Jain <jvivek@novell.com>
-	
-	Plugin to provide "print" option to composer. Files added:
-	
-	* print-message.c
-	* Makefile.am
-	* org-gnome-print-message.eplug.xml
-	* org-gnome-print-message.xml
-

@@ -23,21 +23,20 @@
 
 #include <config.h>
 
-#include <math.h>
-#include <string.h>
-
-#include <gdk/gdkkeysyms.h>
-#include <gtk/gtk.h>
-
-#include "gal/e-text/e-text.h"
-#include "gal/util/e-i18n.h"
-#include "gal/util/e-util.h"
-#include "gal/widgets/e-unicode.h"
-
-#include "e-canvas.h"
-#include "e-canvas-utils.h"
 #include "e-reflow.h"
+
+#include <math.h>
+#include <gdk/gdkkeysyms.h>
+#include "e-canvas-utils.h"
+#include "e-canvas.h"
+#include "gal/e-text/e-text.h"
+#include "gal/util/e-util.h"
+#include "gal/util/e-i18n.h"
+#include "gal/widgets/e-unicode.h"
+#include <gtk/gtksignal.h>
 #include "e-selection-model-simple.h"
+
+#include <string.h>
 
 static gboolean e_reflow_event (GnomeCanvasItem *item, GdkEvent *event);
 static void e_reflow_realize (GnomeCanvasItem *item);
@@ -161,40 +160,6 @@ selection_row_changed (ESelectionModel *selection, int row, EReflow *reflow)
 	e_reflow_update_selection_row (reflow, row);
 }
 
-static gboolean
-do_adjustment (gpointer user_data)
-{
-	int row;
-	GtkAdjustment *adj ;
-	gfloat value, min_value, max_value;
-	EReflow *reflow = user_data;
-
-	row = reflow->cursor_row;
-	if (row == -1)
-		return FALSE;
-
-	adj = gtk_layout_get_hadjustment (GTK_LAYOUT (GNOME_CANVAS_ITEM (reflow)->canvas));
-	value = adj->value;
-
-	min_value = reflow->items[row]->x2 - adj->page_size;
-	max_value = reflow->items[row]->x1;
-
-	if (value < min_value)
-		value = min_value;
-
-	if (value > max_value)
-		value = max_value;
-
-	if (value != adj->value) {
-		adj->value = value;
-		gtk_adjustment_value_changed (adj);
-	}
-
-	reflow->do_adjustment_idle_id = 0;
-	
-	return FALSE;
-}
-
 static void
 cursor_changed (ESelectionModel *selection, int row, int col, EReflow *reflow)
 {
@@ -224,12 +189,7 @@ cursor_changed (ESelectionModel *selection, int row, int col, EReflow *reflow)
 				      NULL);
 		}
 	}
-	
-	if (reflow->do_adjustment_idle_id == 0)
-		reflow->do_adjustment_idle_id = g_idle_add (do_adjustment, reflow);
-	
 }
-
 
 static void
 incarnate (EReflow *reflow)
@@ -806,10 +766,6 @@ e_reflow_dispose (GObject *object)
 	if (reflow->incarnate_idle_id)
 		g_source_remove (reflow->incarnate_idle_id);
 	reflow->incarnate_idle_id = 0;
-
-	if (reflow->do_adjustment_idle_id)
-		g_source_remove (reflow->do_adjustment_idle_id);
-	reflow->do_adjustment_idle_id = 0;	
 
 	disconnect_model (reflow);
 	disconnect_selection (reflow);
@@ -1523,7 +1479,6 @@ e_reflow_init (EReflow *reflow)
 	reflow->cursor_row                = -1;
 
 	reflow->incarnate_idle_id         = 0;
-	reflow->do_adjustment_idle_id     = 0;
 	reflow->set_scroll_adjustments_id = 0;
 
 	reflow->selection                 = E_SELECTION_MODEL (e_selection_model_simple_new());

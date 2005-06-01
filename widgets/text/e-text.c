@@ -36,27 +36,39 @@
 
 #include <config.h>
 
+#include "e-text.h"
+
 #include <math.h>
 #include <ctype.h>
 #include <string.h>
-
 #include <glib-object.h>
+#include <gdk/gdkx.h> /* for BlackPixel */
 #include <gdk/gdkkeysyms.h>
-#include <gtk/gtk.h>
+#include <gtk/gtkclipboard.h>
+#include <gtk/gtkmain.h>
+#include <gtk/gtkselection.h>
+#include <gtk/gtkstock.h>
+#include <gtk/gtkwindow.h>
+#include <gtk/gtktypebuiltins.h>
+#include <gtk/gtkmenu.h>
+#include <gtk/gtkimagemenuitem.h>
+#include <gtk/gtkimmulticontext.h>
+#include <gtk/gtkmenuitem.h>
+#include <gtk/gtkseparatormenuitem.h>
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
+#include <libgnome/gnome-i18n.h>
+#include "gal/util/e-util.h"
+#include "gal/widgets/e-canvas.h"
+#include "gal/widgets/e-canvas-utils.h"
+#include "gal/widgets/e-unicode.h"
+#include "gal/util/e-text-event-processor-emacs-like.h"
+#include "gal/util/e-util.h"
 #include <libart_lgpl/art_affine.h>
 #include <libart_lgpl/art_rgb.h>
 #include <libart_lgpl/art_rgb_bitmap_affine.h>
 
+#include <atk/atk.h>
 #include "gal/a11y/e-text/gal-a11y-e-text.h"
-#include "gal/widgets/e-canvas.h"
-#include "gal/widgets/e-canvas-utils.h"
-#include "gal/widgets/e-unicode.h"
-#include "gal/util/e-i18n.h"
-#include "gal/util/e-text-event-processor-emacs-like.h"
-#include "gal/util/e-util.h"
-
-#include "e-text.h"
 
 #define PARENT_TYPE (gnome_canvas_item_get_type())
 
