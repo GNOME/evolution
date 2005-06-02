@@ -1,5 +1,13 @@
 2005-06-02  Not Zed  <NotZed@Ximian.com>
 
+	* Evolution-Mail.idl: only let this be included once.
+
+	* mail-component.c (mail_component_class_init): Setup a test
+	function, and fix the bonobo init function so we're actually a
+	mailcomponent and not just an evolutioncomponent.
+	
+2005-06-02  Not Zed  <NotZed@Ximian.com>
+
 	* mail-component.c: change this to sub-class evolution-component,
 	not bonobo-object.
 

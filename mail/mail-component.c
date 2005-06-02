@@ -860,6 +860,12 @@ impl_upgradeFromVersion (PortableServer_Servant servant, const short major, cons
 	camel_exception_clear (&ex);
 }
 
+static void
+impl_mail_test(PortableServer_Servant servant, CORBA_Environment *ev)
+{
+	printf("*** Testing mail interface!! ***\n");
+}
+
 /* Initialization.  */
 
 static void
@@ -883,7 +889,7 @@ mail_component_class_init (MailComponentClass *class)
 	epv->sendAndReceive          = impl_sendAndReceive;
 	epv->upgradeFromVersion      = impl_upgradeFromVersion;
 
-	mepv = mepv;
+	mepv->test = impl_mail_test;
 }
 
 static void
@@ -1175,4 +1181,4 @@ mail_component_get_folder_uri(MailComponent *mc, enum _mail_component_folder_t i
 	return mc_default_folders[id].uri;
 }
 
-BONOBO_TYPE_FUNC_FULL (MailComponent, GNOME_Evolution_Component, PARENT_TYPE, mail_component)
+BONOBO_TYPE_FUNC_FULL (MailComponent, GNOME_Evolution_MailComponent, PARENT_TYPE, mail_component)
