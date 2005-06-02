@@ -27,8 +27,8 @@
 #define _MAIL_COMPONENT_H_
 
 #include <bonobo/bonobo-object.h>
-
-#include "shell/Evolution.h"
+#include "shell/evolution-component.h"
+#include "Evolution-Mail.h"
 
 struct _CamelStore;
 
@@ -51,15 +51,15 @@ enum _mail_component_folder_t {
 };
 
 struct _MailComponent {
-	BonoboObject parent;
+	EvolutionComponent parent;
 	
 	MailComponentPrivate *priv;
 };
 
 struct _MailComponentClass {
-	BonoboObjectClass parent_class;
+	EvolutionComponentClass parent_class;
 	
-	POA_GNOME_Evolution_Component__epv epv;
+	POA_GNOME_Evolution_MailComponent__epv epv;
 };
 
 GType  mail_component_get_type  (void);

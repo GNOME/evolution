@@ -51,6 +51,24 @@ $(SPELL_IDL_GENERATED_C): $(SPELL_IDL_GENERATED_H)
 
 Spell-impl.o: Spell.h
 
+# Mail.idl
+MAIL_IDL = Evolution-Mail.idl
+MAIL_IDL_GENERATED_H = 		\
+	Evolution-Mail.h
+MAIL_IDL_GENERATED_C = 		\
+	Evolution-Mail-common.c		\
+	Evolution-Mail-skels.c		\
+	Evolution-Mail-stubs.c
+MAIL_IDL_GENERATED = $(MAIL_IDL_GENERATED_C) $(MAIL_IDL_GENERATED_H)
+
+$(MAIL_IDL_GENERATED_H): $(MAIL_IDL)
+	$(ORBIT_IDL) -I $(top_srcdir) -I $(datadir)/idl $(IDL_INCLUDES) $^
+$(MAIL_IDL_GENERATED_C): $(MAIL_IDL_GENERATED_H)
+
+# IDL install
+
+idl_DATA = $(MAIL_IDL)
+
 # plugin mail api
 mailinclude_HEADERS =				\
 	em-composer-utils.h			\
@@ -91,6 +109,7 @@ mailinclude_HEADERS =				\
 
 libevolution_mail_la_SOURCES =			\
 	$(SPELL_IDL_GENERATED)			\
+	$(MAIL_IDL_GENERATED)			\
 	$(MARSHAL_GENERATED)			\
 	$(mailinclude_HEADERS)			\
 	e-searching-tokenizer.c			\
@@ -246,6 +265,7 @@ EXTRA_DIST = 				\
 	ChangeLog.pre-1-4		\
 	em-marshal.list			\
 	$(SPELL_IDL)			\
+	$(MAIL_IDL)			\
 	mail.error.xml			\
 	$(glade_DATA)			\
 	$(schema_in_files)		\
@@ -293,6 +313,6 @@ install-data-local:
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)
 
-BUILT_SOURCES = $(SPELL_IDL_GENERATED) $(MARSHAL_GENERATED) $(server_DATA) $(error_DATA)
+BUILT_SOURCES = $(SPELL_IDL_GENERATED) $(MAIL_IDL_GENERATED) $(MARSHAL_GENERATED) $(server_DATA) $(error_DATA)
 
 CLEANFILES = $(BUILT_SOURCES)

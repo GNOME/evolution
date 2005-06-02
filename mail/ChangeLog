@@ -1,3 +1,12 @@
+2005-06-02  Not Zed  <NotZed@Ximian.com>
+
+	* mail-component.c: change this to sub-class evolution-component,
+	not bonobo-object.
+
+	* Evolution-Mail.idl: Made the mail component sub-class
+	Evolution.Component so it can add new interfaces for remote gui
+	mail operations.
+
 2005-05-31  Rodney Dawes  <dobey@novell.com>
 
 	* em-folder-browser.c (emfb_view_hide_read, emfb_view_show_selected):

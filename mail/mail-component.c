@@ -89,7 +89,7 @@ static void create_local_item_cb(EUserCreatableItemsHandler *handler, const char
 
 #define MAIL_COMPONENT_DEFAULT(mc) if (mc == NULL) mc = mail_component_peek();
 
-#define PARENT_TYPE bonobo_object_get_type ()
+#define PARENT_TYPE evolution_component_get_type ()
 static BonoboObjectClass *parent_class = NULL;
 
 struct _store_info {	
@@ -865,7 +865,8 @@ impl_upgradeFromVersion (PortableServer_Servant servant, const short major, cons
 static void
 mail_component_class_init (MailComponentClass *class)
 {
-	POA_GNOME_Evolution_Component__epv *epv = &class->epv;
+	POA_GNOME_Evolution_Component__epv *epv = &((EvolutionComponentClass *)class)->epv;
+	POA_GNOME_Evolution_MailComponent__epv *mepv = &class->epv;
 	GObjectClass *object_class = G_OBJECT_CLASS (class);
 	
 	parent_class = g_type_class_peek_parent (class);
@@ -881,6 +882,8 @@ mail_component_class_init (MailComponentClass *class)
 	epv->handleURI               = impl_handleURI;
 	epv->sendAndReceive          = impl_sendAndReceive;
 	epv->upgradeFromVersion      = impl_upgradeFromVersion;
+
+	mepv = mepv;
 }
 
 static void

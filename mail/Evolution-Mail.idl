@@ -1,0 +1,9 @@
+#include <shell/Evolution-Component.idl>
+
+module GNOME {
+module Evolution {
+	interface MailComponent : Component {
+		// Insert wonderous remote mail operations here.
+	};
+};
+};
