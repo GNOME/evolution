@@ -8,9 +8,14 @@
  * Copyright (C) 2000, 2001 Ximian, Inc.
  */
 
+#ifndef _GNOME_EVOLUTION_IDL
+#define _GNOME_EVOLUTION_IDL
+
 #include <Bonobo.idl>
 
 #include <Evolution-Component.idl>
 #include <Evolution-ConfigControl.idl>
 #include <Evolution-Offline.idl>
 #include <Evolution-Shell.idl>
+
+#endif

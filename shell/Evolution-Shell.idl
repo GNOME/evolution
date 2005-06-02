@@ -8,6 +8,9 @@
  * Copyright (C) 2000, 2001 Ximian, Inc.
  */
 
+#ifndef _GNOME_EVOLUTION_SHELL_IDL
+#define _GNOME_EVOLUTION_SHELL_IDL
+
 #include <Bonobo.idl>
 
 module GNOME {
@@ -57,3 +60,5 @@ module Evolution {
 	};
 };
 };
+
+#endif

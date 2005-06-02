@@ -1,5 +1,7 @@
 2005-06-02  Not Zed  <NotZed@Ximian.com>
 
+	* Evolution.*.idl: Fix so these are only ever included once.
+
 	* evolution-component.c: BonoboObject wrapper for
 	Evolution::Component interface.  Abstract, doesn't implement
 	methods.

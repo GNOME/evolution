@@ -8,6 +8,9 @@
  * Copyright (C) 2001 Ximian, Inc.
  */
 
+#ifndef _GNOME_EVOLUTION_OFFLINE_IDL
+#define _GNOME_EVOLUTION_OFFLINE_IDL
+
 #include <Bonobo.idl>
 
 module GNOME {
@@ -51,3 +54,5 @@ interface Offline : Bonobo::Unknown {
 
 };
 };
+
+#endif

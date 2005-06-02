@@ -8,6 +8,9 @@
  * Copyright (C) 2002 Ximian, Inc.
  */
 
+#ifndef _GNOME_EVOLUTION_CONFIGCONTROL_IDL
+#define _GNOME_EVOLUTION_CONFIGCONTROL_IDL
+
 module GNOME {
 module Evolution {
 	interface ConfigControl : Bonobo::Unknown {
@@ -19,3 +22,5 @@ module Evolution {
 	};
 }; /* module Evolution */
 }; /* module GNOME */
+
+#endif
