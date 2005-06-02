@@ -49,7 +49,9 @@ client_LDADD = \
 	evolution-mail-messagestream.o		\
 	Evolution-DataServer-Mail-common.o	\
 	Evolution-DataServer-Mail-stubs.o	\
-	Evolution-DataServer-Mail-skels.o
+	Evolution-DataServer-Mail-skels.o	\
+	Evolution-common.o			\
+	Evolution-stubs.o
 
 noinst_PROGRAMS =				\
 	client
@@ -66,8 +68,13 @@ IDL_GENERATED_C = \
 	Evolution-DataServer-Mail-skels.c	\
 	Evolution-DataServer-Mail-stubs.c
 
+EVO_GENERATED = Evolution.h Evolution-common.c Evolution-stubs.c Evolution-skels.c
+
 $(IDL_GENERATED_H) $(IDL_GENERATED_C): $(IDL)
 	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl $(IDL_INCLUDES) $^
+
+$(EVO_GENERATED): $(srcdir)/Evolution.idl
+	$(ORBIT_IDL) -I $(top_srcdir) -I $(top_srcdir)/shell -I $(datadir)/idl $(IDL_INCLUDES) $^
 
 # installed idls
 
@@ -79,7 +86,8 @@ MARSHAL_GENERATED = evolution-mail-marshal.c evolution-mail-marshal.h
 
 EXTRA_DIST = 				\
 	$(IDL)				\
+	Evolution.idl			\
 	evolution-mail-marshal.list
 
-BUILT_SOURCES = $(IDL_GENERATED_H) $(IDL_GENERATED_C) $(MARSHAL_GENERATED)
+BUILT_SOURCES = $(IDL_GENERATED_H) $(IDL_GENERATED_C) $(MARSHAL_GENERATED) $(SHELL_GENERATED)
 CLEANFILES = $(BUILT_SOURCES)

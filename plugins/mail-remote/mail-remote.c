@@ -23,35 +23,34 @@ int e_plugin_lib_enable(int enable)
 
 	if (enable) {
 		static PortableServer_POA poa = NULL;
-		CORBA_string ior;
-		CORBA_Environment ev = { 0 };
+		void *component;
 
 		if (sess != NULL)
 			return 0;
+
+		component = mail_component_peek();
+		if (component == NULL) {
+			g_warning("Unable to find mail component, cannot instantiate mail remote api");
+			return -1;
+		}
 
 		if (poa == NULL)
 			poa = bonobo_poa_get_threaded (ORBIT_THREAD_HINT_PER_REQUEST, NULL);
 
 		sess = g_object_new(evolution_mail_session_get_type(), "poa", poa, NULL);
-		ior = CORBA_ORB_object_to_string(bonobo_orb(), bonobo_object_corba_objref((BonoboObject *)sess), &ev);
 
-		path = g_build_filename(g_get_home_dir(), ".evolution-mail-remote.ior", NULL);
-		fp = fopen(path, "w");
-		fprintf(fp, "%s", ior);
-		fclose(fp);
-		g_free(path);
+		/*
+		  NB: This only works if this is done early enough in the process ...
+		  I guess it will be.  But i'm not entirely sure ...
 
-		printf("Enable mail-remote: IOR=%s\n", ior);
+		  If this wrong, then we have to add a mechanism to the mailcomponent directly
+		  to retrieve it */
+
+		bonobo_object_add_interface((BonoboObject *)component, (BonoboObject *)sess);
+		printf(" ** Added mail interface to mail component\n");
 	} else {
-		if (sess == NULL)
-			return 0;
-
-		path = g_build_filename(g_get_home_dir(), ".evolution-mail-remote.ior", NULL);
-		unlink(path);
-		g_free(path);
-
-		g_object_unref(sess);
-		sess = NULL;
+		/* can't easily disable this until restart? */
+		/* can we just destroy it? */
 	}
 
 	return 0;

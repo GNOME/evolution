@@ -1,3 +1,15 @@
+2005-06-02  Not Zed  <NotZed@Ximian.com>
+
+	* Evolution.idl: seutp an idl file so we only need to generate one
+	set of skels/stubs for all imported.
+
+	* mail-remote.c (e_plugin_lib_enable): instead of writing ior to a
+	file, just add the Session interface to the mail component.
+
+	* client.c (get_session): use the new shell interface to find the
+	mail compnent and retrieve the session interface using
+	bonobo-activation, so the mailer starts if we try to access it.
+
 2005-05-27  Not Zed  <NotZed@Ximian.com>
 
 	* em-message-stream.[ch]: A camel-stream to wrap

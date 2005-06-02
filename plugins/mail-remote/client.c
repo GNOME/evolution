@@ -11,6 +11,8 @@
 #include "evolution-mail-folderlistener.h"
 #include "evolution-mail-messagestream.h"
 
+#include "shell/e-shell.h"
+
 #include <camel/camel-folder.h>
 
 static EvolutionMailSessionListener *listener_sess;
@@ -86,26 +88,58 @@ static void e_mail_exception_dump(CORBA_Environment *ev, char *what)
 static Evolution_Mail_Session
 get_session(void)
 {
-	char *path, *ior;
 	Evolution_Mail_Session sess = NULL;
 	CORBA_Environment ev = { 0 };
+	GNOME_Evolution_Component mail;
+	GNOME_Evolution_Shell shell;
 
-	/* The new-improved bonobo-activation ... */
-
-	path = g_build_filename(g_get_home_dir(), ".evolution-mail-remote.ior", NULL);
-	if (g_file_get_contents(path, &ior, NULL, NULL)) {
-		sess = CORBA_ORB_string_to_object(bonobo_orb(), ior, &ev);
-		g_free(ior);
+	shell = bonobo_activation_activate_from_id("OAFIID:GNOME_Evolution_Shell:2.4", 0, NULL, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		e_mail_exception_dump(&ev, "activating shell");
+		return NULL;
 	}
 
-	if (sess != CORBA_OBJECT_NIL) {
-		listener_sess = evolution_mail_sessionlistener_new();
-		listener_store = evolution_mail_storelistener_new();
-		listener_folder = evolution_mail_folderlistener_new();
-		Evolution_Mail_Session_addListener(sess, bonobo_object_corba_objref((BonoboObject *)listener_sess), &ev);
-		if (ev._major != CORBA_NO_EXCEPTION) {
-			e_mail_exception_dump(&ev, "adding store listener");
-		}
+	do {
+		mail = GNOME_Evolution_Shell_findComponent(shell, "mail", &ev);
+		if (ev._major == CORBA_USER_EXCEPTION
+		    && !strcmp(ev._id, ex_GNOME_Evolution_Shell_NotReady)) {
+			CORBA_exception_free(&ev);
+			printf("Shell not ready yet, waiting\n");
+			sleep(1);
+		} else if (ev._major != CORBA_NO_EXCEPTION) {
+			e_mail_exception_dump(&ev, "finding mail component");
+			CORBA_Object_release(shell, NULL);
+			return NULL;
+		} else
+			break;
+	} while (1);
+
+	printf("got mail interface\n");
+	GNOME_Evolution_MailComponent_test(mail, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		e_mail_exception_dump(&ev, "testing mail interface?");
+	}
+
+	sess = Bonobo_Unknown_queryInterface(mail, "IDL:Evolution/Mail/Session:1.0", &ev);
+	if (sess == NULL || ev._major != CORBA_NO_EXCEPTION) {
+		if (ev._major != CORBA_NO_EXCEPTION)
+			e_mail_exception_dump(&ev, "querying for session interface");
+		else
+			printf("can't find session interface?\n");
+		CORBA_Object_release(shell, NULL);
+		CORBA_Object_release(mail, NULL);
+		return NULL;
+	}
+
+	printf("got session interface: %p\n", sess);
+
+	listener_sess = evolution_mail_sessionlistener_new();
+	listener_store = evolution_mail_storelistener_new();
+	listener_folder = evolution_mail_folderlistener_new();
+	Evolution_Mail_Session_addListener(sess, bonobo_object_corba_objref((BonoboObject *)listener_sess), &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		e_mail_exception_dump(&ev, "adding store listener");
+		return NULL;
 	}
 
 	return sess;
