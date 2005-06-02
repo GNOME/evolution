@@ -2178,7 +2178,7 @@ msgstr "Tajska"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:351
 msgid "Timor-Leste"
-msgstr ""
+msgstr "Vzhodni Timor"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:352
 msgid "Togo"
@@ -7966,19 +7966,19 @@ msgstr ""
 #.
 #: ../calendar/zones.h:7
 msgid "Africa/Abidjan"
-msgstr ""
+msgstr "Afrika/Abidjan"
 
 #: ../calendar/zones.h:8
 msgid "Africa/Accra"
-msgstr ""
+msgstr "Afrika/Akra"
 
 #: ../calendar/zones.h:9
 msgid "Africa/Addis_Ababa"
-msgstr ""
+msgstr "Afrika/Adis_Abeba"
 
 #: ../calendar/zones.h:10
 msgid "Africa/Algiers"
-msgstr ""
+msgstr "Afrika/Alžir"
 
 #: ../calendar/zones.h:11
 msgid "Africa/Asmera"
@@ -7986,19 +7986,19 @@ msgstr "Afrika/Asmara"
 
 #: ../calendar/zones.h:12
 msgid "Africa/Bamako"
-msgstr ""
+msgstr "Afrika/Bamako"
 
 #: ../calendar/zones.h:13
 msgid "Africa/Bangui"
-msgstr ""
+msgstr "Afrika/Bangui"
 
 #: ../calendar/zones.h:14
 msgid "Africa/Banjul"
-msgstr ""
+msgstr "Afrika/Banjul"
 
 #: ../calendar/zones.h:15
 msgid "Africa/Bissau"
-msgstr ""
+msgstr "Afrika/Bissau"
 
 #: ../calendar/zones.h:16
 msgid "Africa/Blantyre"
@@ -8006,11 +8006,11 @@ msgstr ""
 
 #: ../calendar/zones.h:17
 msgid "Africa/Brazzaville"
-msgstr ""
+msgstr "Afrika/Brazzaville"
 
 #: ../calendar/zones.h:18
 msgid "Africa/Bujumbura"
-msgstr ""
+msgstr "Afrika/Bujumbura"
 
 #: ../calendar/zones.h:19
 msgid "Africa/Cairo"
@@ -8022,19 +8022,19 @@ msgstr "Afrika/Casablanca"
 
 #: ../calendar/zones.h:21
 msgid "Africa/Ceuta"
-msgstr ""
+msgstr "Afrika/Ceuta"
 
 #: ../calendar/zones.h:22
 msgid "Africa/Conakry"
-msgstr ""
+msgstr "Gvineja/Conakry"
 
 #: ../calendar/zones.h:23
 msgid "Africa/Dakar"
-msgstr ""
+msgstr "Afrika/Dakar"
 
 #: ../calendar/zones.h:24
 msgid "Africa/Dar_es_Salaam"
-msgstr ""
+msgstr "Afrika/Dar_es_Salam"
 
 #: ../calendar/zones.h:25
 msgid "Africa/Djibouti"
@@ -8042,19 +8042,19 @@ msgstr "Afrika/Džibuti"
 
 #: ../calendar/zones.h:26
 msgid "Africa/Douala"
-msgstr ""
+msgstr "Afrika/Douala"
 
 #: ../calendar/zones.h:27
 msgid "Africa/El_Aaiun"
-msgstr ""
+msgstr "Afrika/Laayoune"
 
 #: ../calendar/zones.h:28
 msgid "Africa/Freetown"
-msgstr ""
+msgstr "Afrika/Freetown"
 
 #: ../calendar/zones.h:29
 msgid "Africa/Gaborone"
-msgstr ""
+msgstr "Afrika/Gaborone"
 
 #: ../calendar/zones.h:30
 msgid "Africa/Harare"
@@ -8066,19 +8066,19 @@ msgstr "Afrika/Johannesburg"
 
 #: ../calendar/zones.h:32
 msgid "Africa/Kampala"
-msgstr ""
+msgstr "Afrika/Kampala"
 
 #: ../calendar/zones.h:33
 msgid "Africa/Khartoum"
-msgstr ""
+msgstr "Afrika/Kartum"
 
 #: ../calendar/zones.h:34
 msgid "Africa/Kigali"
-msgstr ""
+msgstr "Afrika/Kigali"
 
 #: ../calendar/zones.h:35
 msgid "Africa/Kinshasa"
-msgstr ""
+msgstr "Afrika/Kinšasa"
 
 #: ../calendar/zones.h:36
 msgid "Africa/Lagos"
@@ -8086,15 +8086,15 @@ msgstr "Afrika/Lagos"
 
 #: ../calendar/zones.h:37
 msgid "Africa/Libreville"
-msgstr ""
+msgstr "Afrika/Libreville"
 
 #: ../calendar/zones.h:38
 msgid "Africa/Lome"
-msgstr ""
+msgstr "Afrika/Lomé"
 
 #: ../calendar/zones.h:39
 msgid "Africa/Luanda"
-msgstr ""
+msgstr "Afrika/Luanda"
 
 #: ../calendar/zones.h:40
 msgid "Africa/Lubumbashi"
@@ -8102,31 +8102,31 @@ msgstr ""
 
 #: ../calendar/zones.h:41
 msgid "Africa/Lusaka"
-msgstr ""
+msgstr "Afrika/Lusaka"
 
 #: ../calendar/zones.h:42
 msgid "Africa/Malabo"
-msgstr ""
+msgstr "Afrika/Malabo"
 
 #: ../calendar/zones.h:43
 msgid "Africa/Maputo"
-msgstr ""
+msgstr "Afrika/Maputo"
 
 #: ../calendar/zones.h:44
 msgid "Africa/Maseru"
-msgstr ""
+msgstr "Afrika/Maseru"
 
 #: ../calendar/zones.h:45
 msgid "Africa/Mbabane"
-msgstr ""
+msgstr "Afrika/Mbabane"
 
 #: ../calendar/zones.h:46
 msgid "Africa/Mogadishu"
-msgstr ""
+msgstr "Afrika/Mogadiš"
 
 #: ../calendar/zones.h:47
 msgid "Africa/Monrovia"
-msgstr ""
+msgstr "Afrika/Monrovija"
 
 #: ../calendar/zones.h:48
 msgid "Africa/Nairobi"
@@ -8134,27 +8134,27 @@ msgstr "Afrika/Nairobi"
 
 #: ../calendar/zones.h:49
 msgid "Africa/Ndjamena"
-msgstr ""
+msgstr "Afrika/N'Djamena"
 
 #: ../calendar/zones.h:50
 msgid "Africa/Niamey"
-msgstr ""
+msgstr "Afrika/Niamey"
 
 #: ../calendar/zones.h:51
 msgid "Africa/Nouakchott"
-msgstr ""
+msgstr "Afrika/Nouakchott"
 
 #: ../calendar/zones.h:52
 msgid "Africa/Ouagadougou"
-msgstr ""
+msgstr "Afrika/Ouagadougou"
 
 #: ../calendar/zones.h:53
 msgid "Africa/Porto-Novo"
-msgstr ""
+msgstr "Afrika/Porto_Novo"
 
 #: ../calendar/zones.h:54
 msgid "Africa/Sao_Tome"
-msgstr ""
+msgstr "Afrika/Sao_Tome"
 
 #: ../calendar/zones.h:55
 msgid "Africa/Timbuktu"
@@ -8170,7 +8170,7 @@ msgstr "Afrika/Tunis"
 
 #: ../calendar/zones.h:58
 msgid "Africa/Windhoek"
-msgstr ""
+msgstr "Afrika/Windhoek"
 
 #: ../calendar/zones.h:59
 msgid "America/Adak"
