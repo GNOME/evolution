@@ -305,6 +305,30 @@ impl_Shell_setLineStatus (PortableServer_Servant servant,
 		e_shell_go_offline (shell, NULL);
 }
 
+static GNOME_Evolution_Component
+impl_Shell_findComponent(PortableServer_Servant servant,
+			 const CORBA_string id,
+			 CORBA_Environment *ev)
+{
+	EShell *shell;
+	EComponentInfo *ci;
+
+	if (raise_exception_if_not_ready (servant, ev))
+		return CORBA_OBJECT_NIL;
+
+	shell = (EShell *)bonobo_object_from_servant (servant);
+	ci = e_component_registry_peek_info(shell->priv->component_registry, ECR_FIELD_ALIAS, id);
+	if (ci == NULL) {
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION, ex_GNOME_Evolution_Shell_ComponentNotFound, NULL);
+		return CORBA_OBJECT_NIL;
+	} else if (ci->iface == NULL) {
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION, ex_GNOME_Evolution_Shell_NotReady, NULL);
+		return CORBA_OBJECT_NIL;
+	} else {
+		return ci->iface;
+	}
+}
+
 
 /* EShellWindow handling and bookkeeping.  */
 
@@ -491,6 +515,7 @@ e_shell_class_init (EShellClass *klass)
 	epv->createNewWindow = impl_Shell_createNewWindow;
 	epv->handleURI       = impl_Shell_handleURI;
 	epv->setLineStatus   = impl_Shell_setLineStatus;
+	epv->findComponent   = impl_Shell_findComponent;
 }
 
 static void

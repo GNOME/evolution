@@ -48,6 +48,12 @@ module Evolution {
 		 */
 		void setLineStatus (in boolean online)
 			raises (NotReady);
+
+		/*
+		 * Lookup a component by id.
+		 */
+		Component findComponent(in string id)
+			raises (NotReady, ComponentNotFound);
 	};
 };
 };

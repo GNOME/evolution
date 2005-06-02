@@ -1,3 +1,14 @@
+2005-06-02  Not Zed  <NotZed@Ximian.com>
+
+	* evolution-component.c: BonoboObject wrapper for
+	Evolution::Component interface.  Abstract, doesn't implement
+	methods.
+
+	* Evolution-Shell.idl: add a method to find a component by
+	component alias.
+
+	* e-shell.c (impl_Shell_findComponent): & implement it
+
 2005-06-01  Not Zed  <NotZed@Ximian.com>
 
 	* e-shell-window-commands.c: fixed the utf8 in the last patch.

@@ -80,11 +80,13 @@ eshellinclude_HEADERS = 			\
 	e-shell-utils.h				\
 	e-user-creatable-items-handler.h	\
 	evolution-config-control.h		\
+	evolution-component.h			\
 	evolution-shell-component-utils.h
 
 libeshell_la_SOURCES = 				\
 	$(IDL_GENERATED)			\
 	$(MARSHAL_GENERATED)			\
+	evolution-component.c			\
 	e-shell-utils.c				\
 	e-user-creatable-items-handler.c	\
 	evolution-config-control.c		\
