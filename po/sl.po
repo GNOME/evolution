@@ -10859,7 +10859,7 @@ msgstr "_Kopiraj v mapo"
 
 #: ../mail/em-folder-tree.c:1046 ../ui/evolution-mail-message.xml.h:115
 msgid "_Move to Folder"
-msgstr "_Prestavi v mapo"
+msgstr "Prestavi v _mapo"
 
 #: ../mail/em-folder-tree.c:1751 ../mail/mail-ops.c:1051
 #, c-format
@@ -10946,7 +10946,7 @@ msgstr "_Odgovori pošiljatelju"
 #: ../mail/em-folder-view.c:986 ../mail/em-popup.c:501
 #: ../ui/evolution-mail-message.xml.h:110
 msgid "_Forward"
-msgstr "_Posreduj naprej"
+msgstr "Posreduj n_aprej"
 
 #: ../mail/em-folder-view.c:989 ../ui/evolution-mail-message.xml.h:109
 msgid "_Edit as New Message..."
@@ -10978,19 +10978,19 @@ msgstr "Označi kot _neprebrano"
 
 #: ../mail/em-folder-view.c:1002
 msgid "Mark as _Important"
-msgstr "Označi kot po_membno"
+msgstr "Označi kot pomem_bno"
 
 #: ../mail/em-folder-view.c:1003
 msgid "_Mark as Unimportant"
-msgstr "Označi kot _nepomembno"
+msgstr "Označi kot nepo_membno"
 
 #: ../mail/em-folder-view.c:1004 ../ui/evolution-mail-message.xml.h:54
 msgid "Mark as _Junk"
-msgstr "Označi kot n_esnago"
+msgstr "Označi kot nesna_go"
 
 #: ../mail/em-folder-view.c:1005 ../ui/evolution-mail-message.xml.h:55
 msgid "Mark as _Not Junk"
-msgstr "Označi kot _ne-nesnago"
+msgstr "Označi kot ne-ne_snago"
 
 #: ../mail/em-folder-view.c:1006
 msgid "Mark for Follo_w Up..."
@@ -11436,7 +11436,7 @@ msgstr "O_dgovori pošiljatelju"
 
 #: ../mail/em-popup.c:498 ../ui/evolution-mail-message.xml.h:88
 msgid "Reply to _List"
-msgstr "Odgovori na _seznam"
+msgstr "Odgovori na se_znam"
 
 #: ../mail/em-popup.c:549
 msgid "_Open Link in Browser"
@@ -12505,7 +12505,7 @@ msgstr "Preveri dohodna sporočila ali so nesnaga"
 
 #: ../mail/mail-config.glade.h:54
 msgid "Cle_ar"
-msgstr "_Počisti"
+msgstr "Poči_sti"
 
 #: ../mail/mail-config.glade.h:55
 msgid "Clea_r"
@@ -13152,7 +13152,7 @@ msgstr "Če nadaljujete, teh sporočil ne boste mogli obuditi."
 
 #: ../mail/mail-errors.xml.h:46
 msgid "_Expunge"
-msgstr "_Počisti"
+msgstr "Poči_sti"
 
 #. mail:ask-empty-trash primary
 #: ../mail/mail-errors.xml.h:48
@@ -13165,7 +13165,7 @@ msgstr ""
 
 #: ../mail/mail-errors.xml.h:51
 msgid "_Empty Trash"
-msgstr "Sprazni _smeti"
+msgstr "Sp_razni smeti"
 
 #. mail:ask-open-many primary
 #: ../mail/mail-errors.xml.h:53
@@ -15339,7 +15339,7 @@ msgstr "Delaj na _mreži"
 
 #: ../shell/e-shell-window-commands.c:755 ../ui/evolution.xml.h:51
 msgid "_Work Offline"
-msgstr "Delaj _brez mreže"
+msgstr "_Delaj brez mreže"
 
 #: ../shell/e-shell-window-commands.c:768 ../ui/evolution.xml.h:34
 msgid "Work Offline"
@@ -16287,7 +16287,7 @@ msgstr "Predogled stikov, ki bodo natisnjeni"
 #: ../ui/evolution-addressbook.xml.h:17 ../ui/evolution-calendar.xml.h:20
 #: ../ui/evolution-mail-message.xml.h:81 ../ui/evolution-tasks.xml.h:15
 msgid "Print Pre_view"
-msgstr "Predogled _tiskanja"
+msgstr "_Predogled tiskanja"
 
 #: ../ui/evolution-addressbook.xml.h:18
 msgid "Print selected contacts"
@@ -16351,7 +16351,7 @@ msgstr "Prestavi v _mapo..."
 
 #: ../ui/evolution-addressbook.xml.h:39 ../ui/evolution-mail-global.xml.h:16
 msgid "_Preview Pane"
-msgstr "Pano _predogleda"
+msgstr "_Pano predogleda"
 
 #: ../ui/evolution-addressbook.xml.h:41
 msgid "_Save as VCard..."
@@ -16427,7 +16427,7 @@ msgstr "Objavi podatek o zasedenosti za ta koledar"
 
 #: ../ui/evolution-calendar.xml.h:23 ../ui/evolution-tasks.xml.h:17
 msgid "Purg_e"
-msgstr "_Počisti"
+msgstr "Poči_sti"
 
 #: ../ui/evolution-calendar.xml.h:24
 msgid "Purge old appointments and meetings"
@@ -16529,7 +16529,7 @@ msgstr "Ustvari ali uredi določitve vMap"
 
 #: ../ui/evolution-mail-global.xml.h:6
 msgid "Empty _Trash"
-msgstr "Sprazni _smeti"
+msgstr "Sprazni sm_eti"
 
 #: ../ui/evolution-mail-global.xml.h:7
 msgid "Open a window for composing a mail message"
@@ -16541,7 +16541,7 @@ msgstr "Trajno odstrani vsa zbrisana sporočila iz vseh map"
 
 #: ../ui/evolution-mail-global.xml.h:9
 msgid "Post Ne_w Message"
-msgstr "Pošlji _novo sporočilo"
+msgstr "Dodaj novo s_poročilo"
 
 #: ../ui/evolution-mail-global.xml.h:10
 msgid "Post a message to a Public folder"
@@ -16565,7 +16565,7 @@ msgstr "_Filtri..."
 
 #: ../ui/evolution-mail-global.xml.h:18
 msgid "vFolder _Editor..."
-msgstr "_Urejevalnik vMap ..."
+msgstr "Urejevalnik v_Map ..."
 
 #: ../ui/evolution-mail-list.xml.h:1
 msgid "Change the properties of this folder"
@@ -16593,7 +16593,7 @@ msgstr "Skrij _zbrisana sporočila"
 
 #: ../ui/evolution-mail-list.xml.h:7
 msgid "Hide _Read Messages"
-msgstr "Skrij _prebrana sporočila"
+msgstr "S_krij prebrana sporočila"
 
 #: ../ui/evolution-mail-list.xml.h:8
 msgid ""
@@ -16666,11 +16666,11 @@ msgstr "_Niten seznam sporočil"
 
 #: ../ui/evolution-mail-message.xml.h:1
 msgid "A_dd Sender to Address Book"
-msgstr "Pošiljatelja _dodaj v adresar"
+msgstr "Poš_iljatelja dodaj v adresar"
 
 #: ../ui/evolution-mail-message.xml.h:2
 msgid "A_pply Filters"
-msgstr "_Uveljavi filtre"
+msgstr "Uveljavi _filtre"
 
 #: ../ui/evolution-mail-message.xml.h:3
 msgid "Add Sender to Address Book"
@@ -16770,7 +16770,7 @@ msgstr "Kaži prejšnje neprebrano sporočilo"
 
 #: ../ui/evolution-mail-message.xml.h:32
 msgid "F_orward As..."
-msgstr "P_osreduj kot..."
+msgstr "Posreduj ko_t..."
 
 #: ../ui/evolution-mail-message.xml.h:33
 msgid "Filter _Junk"
@@ -16834,11 +16834,11 @@ msgstr "Naloži _slike"
 
 #: ../ui/evolution-mail-message.xml.h:51
 msgid "Mark as I_mportant"
-msgstr "Označi kot po_membno"
+msgstr "Označi kot pomem_bno"
 
 #: ../ui/evolution-mail-message.xml.h:53
 msgid "Mark as Unimp_ortant"
-msgstr "Označi kot _nepomembno"
+msgstr "Označi kot nepo_membno"
 
 #: ../ui/evolution-mail-message.xml.h:56
 msgid "Mark the selected message(s) as having been read"
@@ -16910,7 +16910,7 @@ msgstr "P_rejšnje neprebrano sporočilo"
 
 #: ../ui/evolution-mail-message.xml.h:75
 msgid "Post a Repl_y"
-msgstr "Pošlji _odgovor"
+msgstr "Poš_lji odgovor"
 
 #: ../ui/evolution-mail-message.xml.h:76
 msgid "Post a reply to a message in a Public folder"
@@ -16942,7 +16942,7 @@ msgstr "Ponastavi besedilo na njegovo izvorno velikost"
 
 #: ../ui/evolution-mail-message.xml.h:90
 msgid "S_earch in Message..."
-msgstr "_Išči v sporočilu..."
+msgstr "Išči v sporoči_lu..."
 
 #: ../ui/evolution-mail-message.xml.h:91
 msgid "S_maller"
@@ -16998,7 +16998,7 @@ msgstr "_Priloženo"
 
 #: ../ui/evolution-mail-message.xml.h:107
 msgid "_Create Filter From Message"
-msgstr "Iz sporočila _ustvari filter"
+msgstr "Iz _sporočila ustvari filter"
 
 #: ../ui/evolution-mail-message.xml.h:111
 msgid "_Go To"
@@ -17430,15 +17430,15 @@ msgstr "Uvozi podatke iz drugih programov"
 
 #: ../ui/evolution.xml.h:20
 msgid "New _Window"
-msgstr "_Novo okno"
+msgstr "Novo o_kno"
 
 #: ../ui/evolution.xml.h:21
 msgid "Pi_lot Settings..."
-msgstr "Nastavitve pi_lota..."
+msgstr "N_astavitve pilota..."
 
 #: ../ui/evolution.xml.h:22
 msgid "Prefere_nces"
-msgstr "_Nastavitve"
+msgstr "N_astavitve"
 
 #: ../ui/evolution.xml.h:23
 msgid "Send / Receive"
@@ -17474,7 +17474,7 @@ msgstr "Preklopi delo z mrežo"
 
 #: ../ui/evolution.xml.h:31
 msgid "Tool_bar"
-msgstr "_Orodjarna"
+msgstr "O_rodjarna"
 
 #: ../ui/evolution.xml.h:32
 msgid "Tool_bar style"
@@ -17514,7 +17514,7 @@ msgstr "_Hitra pomoč"
 
 #: ../ui/evolution.xml.h:46
 msgid "_Send / Receive"
-msgstr "_Oddaja / sprejem"
+msgstr "O_ddaja / sprejem"
 
 #: ../ui/evolution.xml.h:47
 msgid "_Text only"
