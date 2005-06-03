@@ -45,6 +45,7 @@
 
 #include "e-msg-composer-select-file.h"
 #include <e-util/e-icon-factory.h>
+#include "e-msg-composer.h"
 
 enum {
 	SELECTOR_MODE_MULTI    = (1 << 0),
@@ -213,6 +214,9 @@ select_attach_response(GtkWidget *selector, guint response, struct _EMsgComposer
 		g_object_set_data_full ((GObject *) composer, "attach_path", path, g_free);
 
 		func(composer, names, gtk_toggle_button_get_active(showinline));
+		
+		gtk_widget_show (composer->attachment_expander);
+		gtk_widget_show (composer->attachment_scrolled_window);
 
 		g_slist_foreach(names, (GFunc)g_free, NULL);
 		g_slist_free(names);

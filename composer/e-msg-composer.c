@@ -2315,7 +2315,8 @@ attachment_bar_changed_cb (EMsgComposerAttachmentBar *bar,
 		
 	} else {
 		gtk_label_set_text (GTK_LABEL (composer->attachment_expander_num), "");
-		gtk_widget_hide (composer->attachment_expander_icon);
+		gtk_widget_hide (composer->attachment_expander);
+		gtk_widget_hide (composer->attachment_scrolled_window);
 	}
 	
 	
@@ -2865,6 +2866,8 @@ drop_action(EMsgComposer *composer, GdkDragContext *context, guint32 action, Gtk
 		d(printf ("dropping an unknown\n"));
 		break;
 	}
+	gtk_widget_show (composer->attachment_expander);
+	gtk_widget_show (composer->attachment_scrolled_window);
 
 	printf("Drag finished, success %d delete %d\n", success, delete);
 
@@ -2914,9 +2917,10 @@ drop_popup_free(EPopup *ep, GSList *items, void *data)
 }
 
 static void
-drag_data_received (EMsgComposer *composer, GdkDragContext *context,
+drag_data_received (GtkWidget *w, GdkDragContext *context,
 		    int x, int y, GtkSelectionData *selection,
-		    guint info, guint time)
+		    guint info, guint time,
+		    EMsgComposer *composer)
 {
 	if (selection->data == NULL || selection->length == -1)
 		return;
@@ -3362,6 +3366,9 @@ create_composer (int visible_mask)
 	int vis;
 	GList *icon_list;
 	BonoboControlFrame *control_frame;
+	GtkWidget *html_widget = NULL;
+	gpointer servant;;
+	BonoboObject *impl;	
 	
 	composer = g_object_new (E_TYPE_MSG_COMPOSER, "win_name", _("Compose a message"), NULL);
 	gtk_window_set_title ((GtkWindow *) composer, _("Compose a message"));
@@ -3385,7 +3392,7 @@ create_composer (int visible_mask)
 
 	/* DND support */
 	gtk_drag_dest_set (GTK_WIDGET (composer), GTK_DEST_DEFAULT_ALL,  drop_types, num_drop_types, GDK_ACTION_COPY|GDK_ACTION_ASK|GDK_ACTION_MOVE);
-	g_signal_connect(composer, "drag_data_received", G_CALLBACK (drag_data_received), NULL);
+	g_signal_connect(composer, "drag_data_received", G_CALLBACK (drag_data_received), composer);
 	g_signal_connect(composer, "drag-motion", G_CALLBACK(drag_motion), composer);
 	e_msg_composer_load_config (composer, visible_mask);
 	
@@ -3474,7 +3481,7 @@ create_composer (int visible_mask)
 			  G_CALLBACK (attachment_bar_changed_cb), composer);
 
 	composer->attachment_expander_label =
-		gtk_label_new_with_mnemonic (_("_Attachment Bar (drop attachments here)"));
+		gtk_label_new_with_mnemonic (_("_Attachment Bar"));
 	composer->attachment_expander_num = gtk_label_new ("");
 	gtk_label_set_use_markup (GTK_LABEL (composer->attachment_expander_num), TRUE);
 	gtk_misc_set_alignment (GTK_MISC (composer->attachment_expander_label), 0.0, 0.5);
@@ -3498,9 +3505,10 @@ create_composer (int visible_mask)
 	gtk_box_pack_start (GTK_BOX (vbox), expander_hbox, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (vbox), composer->attachment_scrolled_window,
 			    FALSE, FALSE, GNOME_PAD_SMALL);
-
-	gtk_widget_show (composer->attachment_scrolled_window);
-	gtk_widget_show (expander_hbox);
+	
+	composer->attachment_expander = expander_hbox;
+	gtk_widget_hide (composer->attachment_scrolled_window);
+	gtk_widget_hide (expander_hbox);
 	
 	bonobo_window_set_contents (BONOBO_WINDOW (composer), vbox);
 	gtk_widget_show (vbox);
@@ -3515,6 +3523,18 @@ create_composer (int visible_mask)
 		e_error_run (GTK_WINDOW (composer), "mail-composer:no-editor-control", NULL);
 		gtk_object_destroy (GTK_OBJECT (composer));
 		return NULL;
+	}
+
+	/* The engine would have the GtkHTML widget stored in "html-widget"
+	 * We'll use that to listen for DnD signals
+	 */
+	
+	servant = ORBit_small_get_servant (composer->editor_engine);
+    	if (servant && (impl = bonobo_object (servant)))
+		html_widget = g_object_get_data (G_OBJECT(impl), "html-widget");
+
+	if (html_widget) {
+		g_signal_connect (html_widget, "drag_data_received", G_CALLBACK (drag_data_received), composer);
 	}
 	
 	setup_cut_copy_paste (composer);

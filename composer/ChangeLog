@@ -1,3 +1,13 @@
+2005-06-03  Srinivasa Ragavan <sragavan@novell.com>
+
+	* e-msg-composer-select-file.c (select_attach_response): Show
+	attachment bar when attachments are added
+	e-msg-composer.c (attachment_bar_changed_cb), (drop_action),
+	(drag_data_received), (create_composer): Added support to
+	DnD targets to the composer GtkHTML window. Also show the 
+	attachment bar when there are attachments and hide when all
+	attachments are removed.
+	 
 2005-05-24  Srinivasa Ragavan <sragavan@novell.com>
 	* e-msg-composer-attachment.c (e_msg_composer_attachment_new_from_mime_part);
 	Fixed a bug, which considered forwarded mails as remote files.
