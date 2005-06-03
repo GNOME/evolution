@@ -1,3 +1,8 @@
+2005-06-03  Srinivasa Ragavan <sragavan@novell.com>
+
+	* e-msg-composer.c (e_msg_composer_attach): Fixed to show the
+	attachment bar, when a message is forwarded
+
 2005-06-03  Not Zed  <NotZed@Ximian.com>
 
 	* e-msg-composer-hdrs.c: hack up so we dont include

@@ -4611,6 +4611,9 @@ e_msg_composer_attach (EMsgComposer *composer, CamelMimePart *attachment)
 	
 	bar = E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar);
 	e_msg_composer_attachment_bar_attach_mime_part (bar, attachment);
+	gtk_widget_show (composer->attachment_expander);
+	gtk_widget_show (composer->attachment_scrolled_window);
+
 }
 
 
