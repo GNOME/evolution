@@ -1,3 +1,9 @@
+2005-06-03  Not Zed  <NotZed@Ximian.com>
+
+	* e-msg-composer-hdrs.c: hack up so we dont include
+	mail-component.h anymore, since it now relies on files generated
+	in mail/
+
 2005-06-03  Srinivasa Ragavan <sragavan@novell.com>
 
 	* e-msg-composer-select-file.c (select_attach_response): Show
