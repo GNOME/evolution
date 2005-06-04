@@ -82,6 +82,8 @@
 
 #include <libgnomevfs/gnome-vfs.h>
 
+#include <gtkhtml/htmlselection.h>
+
 #include <glade/glade.h>
 
 #include <libedataserver/e-iconv.h>
@@ -91,7 +93,7 @@
 #include "e-util/e-signature-list.h"
 #include "widgets/misc/e-charset-picker.h"
 #include "widgets/misc/e-expander.h"
-#include "e-util/e-error.h"
+#include "widgets/misc/e-error.h"
 
 #include <camel/camel-session.h>
 #include <camel/camel-charset-map.h>
@@ -461,15 +463,6 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 					 composer->extra_hdr_names->pdata[i],
 					 composer->extra_hdr_values->pdata[i]);
 	}
-
-	/* Message Disposition Notification */
-	if (composer->request_receipt) {
-		char *mdn_address = hdrs->account->id->reply_to;
-		if (!mdn_address || !*mdn_address)
-			mdn_address = hdrs->account->id->address;
-		
-		camel_medium_add_header (CAMEL_MEDIUM (new), "Disposition-Notification-To", mdn_address);
-	}
 	
 	if (composer->mime_body) {
 		plain_encoding = CAMEL_TRANSFER_ENCODING_7BIT;
@@ -532,7 +525,7 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 			CORBA_exception_init (&ev);
 			GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "save-data-on", &ev);
 		}
-		data = get_text (composer->persist_stream_interface, "text/html");
+		data = get_text (composer->persist_stream_interface, "text/html");		
 		if (save_html_object_data) {
 			GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "save-data-off", &ev);
 			CORBA_exception_free (&ev);
@@ -1192,6 +1185,13 @@ set_editor_text(EMsgComposer *composer, const char *text, ssize_t len, int set_s
 /* Commands.  */
 
 static void
+show_attachments (EMsgComposer *composer,
+		  gboolean show)
+{
+	e_expander_set_expanded (E_EXPANDER (composer->attachment_expander), show);
+}
+
+static void
 save (EMsgComposer *composer, const char *filename)
 {
 	CORBA_Environment ev;
@@ -1761,6 +1761,24 @@ menu_edit_delete_all_cb (BonoboUIComponent *uic, void *data, const char *path)
 }
 
 static void
+menu_view_attachments_activate_cb (BonoboUIComponent           *component,
+				   const char                  *path,
+				   Bonobo_UIComponent_EventType type,
+				   const char                  *state,
+				   gpointer                     user_data)
+
+{
+	gboolean new_state;
+	
+	if (type != Bonobo_UIComponent_STATE_CHANGED)
+		return;
+	
+	new_state = atoi (state);
+	
+	e_msg_composer_show_attachments (E_MSG_COMPOSER (user_data), new_state);
+}
+
+static void
 menu_format_html_cb (BonoboUIComponent           *component,
 		     const char                  *path,
 		     Bonobo_UIComponent_EventType type,
@@ -1907,19 +1925,6 @@ menu_view_bcc_cb (BonoboUIComponent           *component,
 		return;
 	
 	e_msg_composer_set_view_bcc (E_MSG_COMPOSER (user_data), atoi (state));
-}
-
-static void
-menu_insert_receipt_cb (BonoboUIComponent           *component,
-			const char                  *path,
-			Bonobo_UIComponent_EventType type,
-			const char                  *state,
-			gpointer                     user_data)
-{
-	if (type != Bonobo_UIComponent_STATE_CHANGED)
-		return;
-	
-	e_msg_composer_set_request_receipt (E_MSG_COMPOSER (user_data), atoi (state));
 }
 
 static void
@@ -2223,14 +2228,6 @@ setup_ui (EMsgComposer *composer)
 	bonobo_ui_component_add_listener (
 		composer->uic, "ViewBCC",
 		menu_view_bcc_cb, composer);
-
-	/* Insert/Request Receipt */
-	bonobo_ui_component_set_prop (
-		composer->uic, "/commands/RequestReceipt",
-		"state", composer->request_receipt ? "1" : "0", NULL);
-	bonobo_ui_component_add_listener (
-		composer->uic, "RequestReceipt",
-		menu_insert_receipt_cb, composer);
 	
 	/* Security -> PGP Sign */
 	bonobo_ui_component_set_prop (
@@ -2280,6 +2277,11 @@ setup_ui (EMsgComposer *composer)
 		composer->uic, "SecuritySMimeEncrypt",
 		menu_security_smime_encrypt_cb, composer);
 	
+	/* View -> Attachments */
+	bonobo_ui_component_add_listener (
+		composer->uic, "ViewAttach",
+		menu_view_attachments_activate_cb, composer);
+	
 	bonobo_ui_component_thaw (composer->uic, NULL);
 
 	/* Create the UIComponent for the non-control entries */
@@ -2305,7 +2307,7 @@ attachment_bar_changed_cb (EMsgComposerAttachmentBar *bar,
 		E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar));
 	if (attachment_num) {
 		gchar *num_text = g_strdup_printf (
-			ngettext ("<b>%d</b> Attachment", "<b>%d</b> Attachments", attachment_num),
+			ngettext ("<b>%d</b> File Attached", "<b>%d</b> Files Attached", attachment_num),
 			attachment_num);
 		gtk_label_set_markup (GTK_LABEL (composer->attachment_expander_num),
 				      num_text);
@@ -2315,14 +2317,34 @@ attachment_bar_changed_cb (EMsgComposerAttachmentBar *bar,
 		
 	} else {
 		gtk_label_set_text (GTK_LABEL (composer->attachment_expander_num), "");
-		gtk_widget_hide (composer->attachment_expander);
-		gtk_widget_hide (composer->attachment_scrolled_window);
+		gtk_widget_hide (composer->attachment_expander_icon);
 	}
 	
 	
 	/* Mark the composer as changed so it prompts about unsaved
            changes on close */
 	e_msg_composer_set_changed (composer);
+}
+
+static void
+attachment_expander_activate_cb (EExpander *expander,
+				 void      *data)
+{
+	EMsgComposer *composer = E_MSG_COMPOSER (data);
+	gboolean show = e_expander_get_expanded (expander);
+	
+	/* Update the expander label */
+	if (show)
+		gtk_label_set_text_with_mnemonic (GTK_LABEL (composer->attachment_expander_label),
+						  _("Hide _Attachment Bar (drop attachments here)"));
+	else
+		gtk_label_set_text_with_mnemonic (GTK_LABEL (composer->attachment_expander_label),
+						  _("Show _Attachment Bar (drop attachments here)"));
+	
+	/* Update the GUI.  */
+	bonobo_ui_component_set_prop (
+		composer->uic, "/commands/ViewAttach",
+		"state", show ? "1" : "0", NULL);
 }
 
 static void
@@ -2680,13 +2702,6 @@ struct _drop_data {
 	unsigned int aborted:1;
 };
 
-int
-e_msg_composer_get_remote_download_count (EMsgComposer *composer)
-{
-	return e_msg_composer_attachment_bar_get_download_count 
-				(E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar));
-}
-
 static void
 drop_action(EMsgComposer *composer, GdkDragContext *context, guint32 action, GtkSelectionData *selection, guint info, guint time)
 {
@@ -2735,22 +2750,16 @@ drop_action(EMsgComposer *composer, GdkDragContext *context, guint32 action, Gtk
 				g_free (str);
 			} else {
 				url = camel_url_new (str, NULL);
+				g_free (str);
 
-				if (url == NULL) {
-					g_free (str);
+				if (url == NULL)
 					continue;
-				}
 
 				if (!g_ascii_strcasecmp (url->protocol, "file"))
 					e_msg_composer_attachment_bar_attach
 						(E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar),
 					 	url->path);
-				else	{
-					e_msg_composer_attachment_bar_attach_remote_file 
-						(E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar),
-						str);
-				}
-				g_free (str);
+
 				camel_url_free (url);
 			}
 		}
@@ -2866,8 +2875,6 @@ drop_action(EMsgComposer *composer, GdkDragContext *context, guint32 action, Gtk
 		d(printf ("dropping an unknown\n"));
 		break;
 	}
-	gtk_widget_show (composer->attachment_expander);
-	gtk_widget_show (composer->attachment_scrolled_window);
 
 	printf("Drag finished, success %d delete %d\n", success, delete);
 
@@ -2917,10 +2924,9 @@ drop_popup_free(EPopup *ep, GSList *items, void *data)
 }
 
 static void
-drag_data_received (GtkWidget *w, GdkDragContext *context,
+drag_data_received (EMsgComposer *composer, GdkDragContext *context,
 		    int x, int y, GtkSelectionData *selection,
-		    guint info, guint time,
-		    EMsgComposer *composer)
+		    guint info, guint time)
 {
 	if (selection->data == NULL || selection->length == -1)
 		return;
@@ -3366,9 +3372,6 @@ create_composer (int visible_mask)
 	int vis;
 	GList *icon_list;
 	BonoboControlFrame *control_frame;
-	GtkWidget *html_widget = NULL;
-	gpointer servant;;
-	BonoboObject *impl;	
 	
 	composer = g_object_new (E_TYPE_MSG_COMPOSER, "win_name", _("Compose a message"), NULL);
 	gtk_window_set_title ((GtkWindow *) composer, _("Compose a message"));
@@ -3392,7 +3395,7 @@ create_composer (int visible_mask)
 
 	/* DND support */
 	gtk_drag_dest_set (GTK_WIDGET (composer), GTK_DEST_DEFAULT_ALL,  drop_types, num_drop_types, GDK_ACTION_COPY|GDK_ACTION_ASK|GDK_ACTION_MOVE);
-	g_signal_connect(composer, "drag_data_received", G_CALLBACK (drag_data_received), composer);
+	g_signal_connect(composer, "drag_data_received", G_CALLBACK (drag_data_received), NULL);
 	g_signal_connect(composer, "drag-motion", G_CALLBACK(drag_motion), composer);
 	e_msg_composer_load_config (composer, visible_mask);
 	
@@ -3481,7 +3484,7 @@ create_composer (int visible_mask)
 			  G_CALLBACK (attachment_bar_changed_cb), composer);
 
 	composer->attachment_expander_label =
-		gtk_label_new_with_mnemonic (_("_Attachment Bar"));
+		gtk_label_new_with_mnemonic (_("Show _Attachment Bar (drop attachments here)"));
 	composer->attachment_expander_num = gtk_label_new ("");
 	gtk_label_set_use_markup (GTK_LABEL (composer->attachment_expander_num), TRUE);
 	gtk_misc_set_alignment (GTK_MISC (composer->attachment_expander_label), 0.0, 0.5);
@@ -3493,22 +3496,25 @@ create_composer (int visible_mask)
 	gtk_widget_set_size_request (composer->attachment_expander_icon, 100, -1);
 
 	gtk_box_pack_start (GTK_BOX (expander_hbox), composer->attachment_expander_label,
-			    TRUE, TRUE, GNOME_PAD_SMALL);
+			    TRUE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (expander_hbox), composer->attachment_expander_icon,
 			    TRUE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (expander_hbox), composer->attachment_expander_num,
-			    FALSE, FALSE, GNOME_PAD_SMALL);
+			    TRUE, TRUE, 0);
 	gtk_widget_show_all (expander_hbox);
 	gtk_widget_hide (composer->attachment_expander_icon);
 
+	composer->attachment_expander = e_expander_new ("");	
+	e_expander_set_label_widget (E_EXPANDER (composer->attachment_expander), expander_hbox);
+	atk_object_set_name (gtk_widget_get_accessible (composer->attachment_expander), _("Attachment Button: Press space key to toggle attachment bar"));
 	
-	gtk_box_pack_start (GTK_BOX (vbox), expander_hbox, FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (vbox), composer->attachment_scrolled_window,
+	gtk_container_add (GTK_CONTAINER (composer->attachment_expander),
+			   composer->attachment_scrolled_window);
+	gtk_box_pack_start (GTK_BOX (vbox), composer->attachment_expander,
 			    FALSE, FALSE, GNOME_PAD_SMALL);
-	
-	composer->attachment_expander = expander_hbox;
-	gtk_widget_hide (composer->attachment_scrolled_window);
-	gtk_widget_hide (expander_hbox);
+	gtk_widget_show (composer->attachment_expander);
+	g_signal_connect_after (composer->attachment_expander, "activate",
+				G_CALLBACK (attachment_expander_activate_cb), composer);
 	
 	bonobo_window_set_contents (BONOBO_WINDOW (composer), vbox);
 	gtk_widget_show (vbox);
@@ -3518,23 +3524,12 @@ create_composer (int visible_mask)
 	   variable. */
 	gtk_widget_show (composer->editor);
 	
+	e_msg_composer_show_attachments (composer, FALSE);
 	prepare_engine (composer);
 	if (composer->editor_engine == CORBA_OBJECT_NIL) {
 		e_error_run (GTK_WINDOW (composer), "mail-composer:no-editor-control", NULL);
 		gtk_object_destroy (GTK_OBJECT (composer));
 		return NULL;
-	}
-
-	/* The engine would have the GtkHTML widget stored in "html-widget"
-	 * We'll use that to listen for DnD signals
-	 */
-	
-	servant = ORBit_small_get_servant (composer->editor_engine);
-    	if (servant && (impl = bonobo_object (servant)))
-		html_widget = g_object_get_data (G_OBJECT(impl), "html-widget");
-
-	if (html_widget) {
-		g_signal_connect (html_widget, "drag_data_received", G_CALLBACK (drag_data_received), composer);
 	}
 	
 	setup_cut_copy_paste (composer);
@@ -4491,6 +4486,24 @@ e_msg_composer_new_from_url (const char *url)
 
 
 /**
+ * e_msg_composer_show_attachments:
+ * @composer: A message composer widget
+ * @show: A boolean specifying whether the attachment bar should be shown or
+ * not
+ * 
+ * If @show is %FALSE, hide the attachment bar.  Otherwise, show it.
+ **/
+void
+e_msg_composer_show_attachments (EMsgComposer *composer,
+				 gboolean show)
+{
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+	
+	show_attachments (composer, show);
+}
+
+
+/**
  * e_msg_composer_set_headers:
  * @composer: a composer object
  * @from: the name of the account the user will send from,
@@ -4611,9 +4624,6 @@ e_msg_composer_attach (EMsgComposer *composer, CamelMimePart *attachment)
 	
 	bar = E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar);
 	e_msg_composer_attachment_bar_attach_mime_part (bar, attachment);
-	gtk_widget_show (composer->attachment_expander);
-	gtk_widget_show (composer->attachment_scrolled_window);
-
 }
 
 
@@ -4723,11 +4733,6 @@ CamelMimeMessage *
 e_msg_composer_get_message (EMsgComposer *composer, gboolean save_html_object_data)
 {
 	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), NULL);
-	if ( e_msg_composer_get_remote_download_count (composer) != 0) {
-		if (!em_utils_prompt_user((GtkWindow *)composer, NULL, "mail-composer:ask-send-message-pending-download", NULL)) {
-			return NULL;
-		}
-	}
 	
 	return build_message (composer, save_html_object_data);
 }
@@ -4754,7 +4759,7 @@ e_msg_composer_get_message_draft (EMsgComposer *composer)
 	old_flags[3] = composer->smime_encrypt;
 	composer->smime_encrypt = FALSE;
 	
-	msg = build_message (composer, TRUE);
+	msg = e_msg_composer_get_message (composer, TRUE);
 	
 	composer->send_html = old_send_html;
 	composer->pgp_sign = old_flags[0];
@@ -5355,7 +5360,6 @@ e_msg_composer_set_view_cc (EMsgComposer *composer, gboolean view_cc)
 }
 
 
-
 /**
  * e_msg_composer_get_view_bcc:
  * @composer: A message composer widget
@@ -5404,47 +5408,6 @@ e_msg_composer_set_view_bcc (EMsgComposer *composer, gboolean view_bcc)
 	e_msg_composer_hdrs_set_visible (E_MSG_COMPOSER_HDRS (composer->hdrs),
 					 e_msg_composer_get_visible_flags (composer));
 }
-
-
-
-/**
- * e_msg_composer_get_request_receipt
- * @composer: A message composer widget
- * 
- * Get the status of the "Request receipt" flag.
- * 
- * Return value: The status of the "Request receipt" flag.
- **/
-gboolean
-e_msg_composer_get_request_receipt (EMsgComposer *composer)
-{
-	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
-	
-	return composer->request_receipt;
-}
-
-
-/**
- * e_msg_composer_set_request_receipt:
- * @composer: A message composer widget
- * @state: whether to request or not a receipt
- *
- * If set, a message delivery notification request will be sent to the recipient
- */
-void
-e_msg_composer_set_request_receipt (EMsgComposer *composer, gboolean request_receipt)
-{
-	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
-	
-	if ((composer->request_receipt && request_receipt) ||
-	    (!composer->request_receipt && !request_receipt))
-		return;
-	
-	composer->request_receipt = request_receipt;
-	bonobo_ui_component_set_prop (composer->uic, "/commands/RequestReceipt",
-				      "state", composer->request_receipt ? "1" : "0", NULL);
-}
-
 
 
 EDestination **
@@ -5604,9 +5567,70 @@ void
 e_msg_composer_set_enable_autosave  (EMsgComposer *composer, gboolean enabled)
 {
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
-
+	
 	composer->enable_autosave = enabled;
 }
+
+static char *
+next_word (const char *s, const char **sr)
+{
+	if (!s || !*s)
+		return NULL;
+	else {
+		const char *begin;
+		gunichar uc;
+		gboolean cited;
+		
+		do {
+			begin = s;
+			cited = FALSE;
+			uc = g_utf8_get_char (s);
+			if (uc == 0)
+				return NULL;
+			s  = g_utf8_next_char (s);
+		} while (!html_selection_spell_word (uc, &cited) && !cited && s);
+		
+		/* we are at beginning of word */
+		if (s && *s) {
+			gboolean cited_end;
+			
+			cited_end = FALSE;
+			uc = g_utf8_get_char (s);
+			
+			/* go to end of word */
+			while (html_selection_spell_word (uc, &cited_end) || (!cited && cited_end)) {
+				cited_end = FALSE;
+				s  = g_utf8_next_char (s);
+				uc = g_utf8_get_char (s);
+				if (uc == 0)
+					break;
+			}
+			*sr = s;
+			return s ? g_strndup (begin, s - begin) : g_strdup (begin);
+		} else
+			return NULL;
+	}
+}
+
+
+void
+e_msg_composer_ignore (EMsgComposer *composer, const char *str)
+{
+	CORBA_Environment ev;
+	char *word;
+	
+	if (!str)
+		return;
+	
+	CORBA_exception_init (&ev);
+	while ((word = next_word (str, &str))) {
+		/* printf ("ignore word %s\n", word); */
+		GNOME_GtkHTML_Editor_Engine_ignoreWord (composer->editor_engine, word, &ev);
+		g_free (word);
+	}
+	CORBA_exception_free (&ev);
+}
+
 
 void
 e_msg_composer_drop_editor_undo (EMsgComposer *composer)

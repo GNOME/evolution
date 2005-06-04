@@ -1,25 +1,3 @@
-2005-05-16  Not Zed  <NotZed@Ximian.com>
-
-	* itip-formatter.c: moved e-error to e-util
-
-2005-05-11  Not Zed  <NotZed@Ximian.com>
-
-	* Makefile.am: setup cleanfiles & fix extra_dist
-
-2005-05-06  Not Zed  <NotZed@Ximian.com>
-
-	* org-gnome-itip-formatter.error.xml: s/-errors.xml/.error.xml/
-
-	* Makefile.am: 
-	* org-gnome-itip-formatter.eplug.xml: s/.in/.xml/ & i18n.
-
-2005-04-08  Chenthill Palanisamy  <pchenthill@novell.com>
-
-	Fixes #74265
-	* itip-view.c (format_date_and_time_x): In time_days_in_month
-	the  months are indexed from 0, so subtract one from the month
-	argument and send it.
-
 2005-04-07  JP Rosevear  <jpr@novell.com>
 
 	Fixes #74291
@@ -28,17 +6,11 @@
 	description display
 
 2005-03-31  JP Rosevear  <jpr@novell.com>
- 
- 	Fixes #73844
- 	
- 	* itip-formatter.c (extract_itip_data): make sure we check the
- 	kind of the correct item
-	
-2005-03-30  Li Yuan  <li.yuan@sun.com>
 
-	* itip-formatter.c: (itip_formatter_page_factory):
-	add a11y name to Conflict Search Table
-	Fixes #73914
+	Fixes #73844
+	
+	* itip-formatter.c (extract_itip_data): make sure we check the
+	kind of the correct item
 
 2005-03-11  JP Rosevear  <jpr@novell.com>
 

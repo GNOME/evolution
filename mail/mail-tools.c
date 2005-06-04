@@ -41,7 +41,6 @@
 #include <camel/camel-vee-folder.h>
 #include <camel/camel-file-utils.h>
 #include <camel/camel-movemail.h>
-#include <camel/camel-mime-message.h>
 
 #include "em-vfolder-rule.h"
 #include "em-vfolder-context.h"

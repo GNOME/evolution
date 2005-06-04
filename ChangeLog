@@ -1,96 +1,14 @@
-2005-05-25  Not Zed  <NotZed@Ximian.com>
-
-	* configure.in: if --enable-mono, then enable the mono plugin.
-
-2005-05-23  Vivek Jain <jvivek@novell.com>
-	
-	* configure.in : Removed the entries of 
-	groupwise-account-setup
-	shared-folder
-	groupwise-send-options
-	groupwise-status-tacking
-	send-options
-	addressbook-groupwise
-	from AC_OUTPUT and base plugins and added
-	consolidated 'groupwise-features' plugin to base plugins and 
-	AC_OUTPUT
-
-2005-05-19  Chenthill Palanisamy  <pchenthill@novell.com>
-
-	* configure.in: Added a plugin to mark all messages
-	as read for the selected and the sub folders to base
-	plugin.
-
-2005-05-19  Vivek Jain <jvivek@novell.com>
-	
-	* configure.in : add print-message plugin to base plugins and 
-	 AC_OUTPUT
-
-2005-05-18  Harish Krishnaswamy  <kharish@novell.com>
-
-	* configure.in : Bump version
-
-2005-05-13  Rodney Dawes  <dobey@novell.com>
-
-	* plugins/Makefile.am (DIST_SUBDIRS): Add profiler so that it gets
-	disted properly
-
-2005-05-12  Not Zed  <NotZed@Ximian.com>
-
-	* configure.in: Added mail-remote stuff.  an experimental plugin.
-
-2005-05-12  Harish Krishnaswamy  <kharish@novell.com>
-
-	* configure.in: check for libsoup-2.4 else fail over
-	to libsoup-2.2.
-
-2005-05-06  Not Zed  <NotZed@Ximian.com>
-
-	* plugin.mk: changed .eplug rule to also convert i18n tags if it
-	ends in xml.  Also convert .error.xml into .error converting i18n
-	tags.
-
-2005-05-06	Srinivasa Ragavan <sragavan@novell.com>
-
-	* addressbook/gui/component/ldap-config.glade: Changed string 'login'
-	* mail/evolution-mail.schemas.in.in: Rephrased photo string
-	* mail/mail-config.glade: Rephrased photo string
-	* ui/evolution-mail-message.xml: Changed 'From' to 'from'
-	
-2005-05-05  Harish Krishnaswamy  <kharish@novell.com>
-
-	* configure.in: reset upgrade revision to 0
-
-2005-05-04 Amish <lists@munshi.biz>
-	
-	* evolution-plugin.pc.in, evolution-shell.pc.in : use
-	@GAL_PACKAGE@ instead of hardcoding the version. Fixes
-	evolution-exchange build issues.
-	
-2005-04-28  Not Zed  <NotZed@Ximian.com>
-
-	* configure.in: add an --enable-profiling arg, build the profiling
-	plugin optionally as well.
-
-2005-04-26  Harish Krishnaswamy  <kharish@novell.com>
-
-	* configure.in : Bump version
-
-2005-04-25  Harish Krishnaswamy  <kharish@novell.com>
-
-	* configure.in: Bump libsoup requires.
-
 2005-04-20  James Henstridge  <james@jamesh.id.au>
 
 	* configure.in (EVO_SET_COMPILE_FLAGS): fix up macro so that it
 	doesn't trigger configure failures with newer versions of
 	pkg-config.  Fixes bug #300436.
 
-2005-04-11  Harish Krishnaswamy  <kharish@novell.com>
+2005-04-08  JP Rosevear  <jpr@novell.com>
 
 	* configure.in: bump version, requires
 
-2005-03-11  David Malcolm  <dmalcolm@redhat.com>
+2005-04-05  David Malcolm  <dmalcolm@redhat.com>
 
 	* configure.in: set up DBUS_VERSION for use in the new-mail-notify
 	plugin 
@@ -103,22 +21,22 @@
 
 	* configure.in: Added "xh" to ALL_LINGUAS.
 
-2005-03-27  Ahmad Riza H Nst  <ari@160c.afraid.org>
+2005-03-17  Ahmad Riza H Nst  <ari@160c.afraid.org>
 
-	* configure.in: Added id (Indonesian) to ALL_LINGUAS line.
+	* configure.in: Added Id (Indonesian) to ALL_LINGUAS line.
 
-2005-03-21  Radek Doulik  <rodo@novell.com>
-
-	* configure.in: require gtkhmtl 3.7.0 with 3.8 package/api version
-
-2005-03-21  Philip Van Hoof  <pvanhoof@gnome.org>
-
-	* configure.in: Fix for #73917
-	
 2005-03-16  Pawan Chitrakar  <pawan@nplinux.org>
 
 	* configure.in: Added ne in ALL_LINGUAS
 
+2005-03-15  JP Rosevear  <jpr@novell.com>
+
+	* configure.in: bump version, requires
+
+2005-03-15  JP Rosevear  <jpr@novell.com>
+ 
+ 	* configure.in: define development as 0
+	
 2005-03-07  JP Rosevear  <jpr@novell.com>
 
 	* configure.in: bump version, requires

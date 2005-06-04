@@ -52,12 +52,8 @@
 #include "config-data.h"
 #include "util.h"
 #include "e-util/e-popup.h"
-#include "e-util/e-error.h"
 
 
-
-/* The dialog with alarm nofications */
-static AlarmNotificationsDialog *alarm_notifications_dialog = NULL;
 
 /* Whether the queueing system has been initialized */
 static gboolean alarm_queue_inited;
@@ -127,8 +123,6 @@ typedef struct {
 static gpointer midnight_refresh_id = NULL;
 static time_t midnight = 0;
 
-static void
-remove_client_alarms (ClientAlarms *ca);
 static void display_notification (time_t trigger, CompQueuedAlarms *cqa,
 				  gpointer alarm_id, gboolean use_description);
 static void audio_notification (time_t trigger, CompQueuedAlarms *cqa, gpointer alarm_id);
@@ -689,7 +683,7 @@ edit_component (ECal *client, ECalComponent *comp)
 						      0, NULL, &ev);
 
 	if (BONOBO_EX (&ev)) {
-		e_error_run (NULL, "editor-error", bonobo_exception_get_text (&ev));
+		g_message (G_STRLOC ": Could not activate the component editor factory");
 		CORBA_exception_free (&ev);
 		return;
 	}
@@ -706,7 +700,7 @@ edit_component (ECal *client, ECalComponent *comp)
 	GNOME_Evolution_Calendar_CompEditorFactory_editExisting (factory, uri, (char *) uid, corba_type, &ev);
 
 	if (BONOBO_EX (&ev))
-		e_error_run (NULL, "editor-error", bonobo_exception_get_text (&ev));
+		g_message (G_STRLOC ": Exception while editing the component");
 
 	CORBA_exception_free (&ev);
 
@@ -728,7 +722,7 @@ typedef struct {
 	ECalView *query;
 	GtkWidget *tray_icon;
 	GtkWidget *image;
-	GtkTreeIter iter;
+	GtkWidget *alarm_dialog;
 } TrayIconData;
 
 static void
@@ -761,7 +755,7 @@ static void
 notify_dialog_cb (AlarmNotifyResult result, int snooze_mins, gpointer data)
 {
 	TrayIconData *tray_data = data;
-	
+
 	g_signal_handlers_disconnect_matched (tray_data->query, G_SIGNAL_MATCH_FUNC,
 					      0, 0, NULL, on_dialog_objs_removed_cb, NULL);
 
@@ -769,85 +763,38 @@ notify_dialog_cb (AlarmNotifyResult result, int snooze_mins, gpointer data)
 	case ALARM_NOTIFY_SNOOZE:
 		create_snooze (tray_data->cqa, tray_data->alarm_id, snooze_mins);
 		tray_data->cqa = NULL;
-	
-		if (alarm_notifications_dialog) {
-			GtkTreeSelection *selection = 
-				gtk_tree_view_get_selection (
-					GTK_TREE_VIEW (alarm_notifications_dialog->treeview));
-			GtkTreeIter iter;
-			GtkTreeModel *model = NULL;
-			
-			/* We can also use tray_data->iter */
-			if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
-				gtk_list_store_remove (GTK_LIST_STORE (model), &iter);
-				if (!gtk_tree_model_get_iter_first (model, &iter)) {
-					/* We removed the last one */
-					gtk_widget_destroy (alarm_notifications_dialog->dialog);
-					g_free (alarm_notifications_dialog);
-					alarm_notifications_dialog = NULL;
-				} else {
-					/* Select the first */
-					gtk_tree_selection_select_iter (selection, &iter);
-				}
-			}
-			
-		}
-		
 		break;
 
 	case ALARM_NOTIFY_EDIT:
 		edit_component (tray_data->client, tray_data->comp);
-
-		gtk_widget_destroy (alarm_notifications_dialog->dialog);
-		g_free (alarm_notifications_dialog);
-		alarm_notifications_dialog = NULL;
-
-		gtk_widget_destroy (tray_data->tray_icon);
-		
 		break;
 
 	case ALARM_NOTIFY_CLOSE:
-
-		
-		if (alarm_notifications_dialog) {
-			GtkTreeIter iter;
-			GtkTreeModel *model = 
-				gtk_tree_view_get_model (
-					GTK_TREE_VIEW (alarm_notifications_dialog->treeview));
-			gboolean valid = gtk_tree_model_get_iter_first (model, &iter);
-		
-			/* Maybe we should warn about this first? */			
-			while (valid) {
-				gtk_list_store_remove (GTK_LIST_STORE (model), &iter);
-				valid = gtk_tree_model_iter_next (model, &iter);
-			}
-			
-			gtk_widget_destroy (alarm_notifications_dialog->dialog);
-			g_free (alarm_notifications_dialog);
-			alarm_notifications_dialog = NULL;
-		}
-		
-		gtk_widget_destroy (tray_data->tray_icon);	
-		
+		/* Do nothing */
 		break;
 
 	default:
 		g_assert_not_reached ();
 	}
 
-	return;
+	gtk_widget_destroy (tray_data->tray_icon);
 }
 
 static gint
 tray_icon_destroyed_cb (GtkWidget *tray, gpointer user_data)
 {
 	TrayIconData *tray_data = user_data;
-	
+
 	g_signal_handlers_disconnect_matched (tray_data->query, G_SIGNAL_MATCH_FUNC,
 					      0, 0, NULL, on_dialog_objs_removed_cb, NULL);
 
 	if (tray_data->cqa != NULL)
 		remove_queued_alarm (tray_data->cqa, tray_data->alarm_id, TRUE, TRUE);
+
+	if (tray_data->alarm_dialog != NULL) {
+		gtk_widget_destroy (tray_data->alarm_dialog);
+		tray_data->alarm_dialog = NULL;
+	}
 
 	if (tray_data->summary != NULL) {
 		g_free (tray_data->summary);
@@ -882,28 +829,11 @@ static gboolean
 open_alarm_dialog (TrayIconData *tray_data)
 {
 	QueuedAlarm *qa;
-	
+
 	qa = lookup_queued_alarm (tray_data->cqa, tray_data->alarm_id);
 	if (qa) {
-		
 		gtk_widget_hide (tray_data->tray_icon);
-	
-		if (!alarm_notifications_dialog)
-			alarm_notifications_dialog = notified_alarms_dialog_new ();
-		
-		if (alarm_notifications_dialog) {
-
-			GtkTreeSelection *selection = NULL;
-			GtkTreeModel *model = NULL;
-			
-			selection = gtk_tree_view_get_selection (
-				GTK_TREE_VIEW (alarm_notifications_dialog->treeview));
-			model = gtk_tree_view_get_model (
-				GTK_TREE_VIEW(alarm_notifications_dialog->treeview));
-		
-			tray_data->iter = add_alarm_to_notified_alarms_dialog (
-								   alarm_notifications_dialog,
-								   tray_data->trigger,
+		tray_data->alarm_dialog = alarm_notify_dialog (tray_data->trigger,
 							       qa->instance->occur_start,
 							       qa->instance->occur_end,
 							       e_cal_component_get_vtype (tray_data->comp),
@@ -911,11 +841,6 @@ open_alarm_dialog (TrayIconData *tray_data)
 							       tray_data->description,
 							       tray_data->location,
 							       notify_dialog_cb, tray_data);
-		
-			gtk_tree_selection_select_iter (selection, &tray_data->iter);
-
-		}
-		
 	}
 
 	return TRUE;
@@ -1111,7 +1036,7 @@ display_notification (time_t trigger, CompQueuedAlarms *cqa,
 	if (!config_data_get_notify_with_tray ()) {
 		tray_data->blink_id = -1;
 		open_alarm_dialog (tray_data);
-		gtk_window_stick (GTK_WINDOW (alarm_notifications_dialog->dialog));
+		gtk_window_stick (GTK_WINDOW (tray_data->alarm_dialog));
 	} else {
 		tray_data->blink_id = g_timeout_add (500, tray_icon_blink_cb, tray_data);
 		gtk_widget_show (tray_icon);

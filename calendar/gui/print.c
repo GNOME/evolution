@@ -2317,7 +2317,7 @@ print_comp_item (GnomePrintContext *pc, ECalComponent *comp, ECal *client,
 	/* Summary */
 	font = get_font_for_size (18, GNOME_FONT_BOLD, FALSE);
 	e_cal_component_get_summary (comp, &text);
-	summary_string = g_strdup_printf (_("Summary: %s"), text.value);
+	summary_string = g_strdup_printf (("%s %s"), _("Summary:"), text.value);
 	top = bound_text (pc, font, summary_string, left, right,
 			  top - 3, bottom, 0);
 	g_free (summary_string);
@@ -2325,7 +2325,8 @@ print_comp_item (GnomePrintContext *pc, ECalComponent *comp, ECal *client,
 	/* Location */
 	e_cal_component_get_location (comp, &location);
 	if (location && location[0]) {
-		location_string = g_strdup_printf (_("Location: %s"),
+		location_string = g_strdup_printf (("%s %s"),
+						   _("Location:"),
 						   location);
 		top = bound_text (pc, font, location_string, left, right,
 				  top - 3, bottom, 0);

@@ -37,7 +37,7 @@
 #include <bonobo/bonobo-stream-memory.h>
 
 #include <e-util/e-signature-list.h>
-#include "e-util/e-error.h"
+#include "widgets/misc/e-error.h"
 
 #include "e-msg-composer.h"
 #include "mail-signature-editor.h"

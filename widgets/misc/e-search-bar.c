@@ -603,7 +603,7 @@ set_menu (ESearchBar *esb,
 		g_assert (items[i].subitems == NULL);
 
 		new_item = g_new (ESearchBarItem, 1);
-		new_item->text 	   = items[i].text ? g_strdup (_(items[i].text)) : NULL;
+		new_item->text 	   = g_strdup (_(items[i].text));
 		new_item->id   	   = items[i].id;
 		new_item->subitems = NULL;
 

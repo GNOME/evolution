@@ -1,12 +1,3 @@
-2005-05-11  Not Zed  <NotZed@Ximian.com>
-
-	* Makefile.am: add built_sources/cleanfiles
-
-2005-05-06  Not Zed  <NotZed@Ximian.com>
-
-	* Makefile.am: 
-	* org-gnome-calendar-file.eplug.xml: s/.in/.xml/ & i18n.
-
 2005-02-28  Sivaiah Nallagatla <snallagatla@novell.com>
 
 	* calendar-file.c (e_calendar_file_dummy) :

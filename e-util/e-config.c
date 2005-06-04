@@ -913,7 +913,6 @@ e_config_create_window(EConfig *emp, struct _GtkWindow *parent, const char *titl
 	} else {
 		/* response is handled directly by the druid stuff */
 		w = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-		gtk_window_set_title ((GtkWindow *)w, title);
 		gtk_container_add((GtkContainer *)w, emp->widget);
 		gtk_window_set_type_hint((GtkWindow *)w, GDK_WINDOW_TYPE_HINT_DIALOG);
 	}

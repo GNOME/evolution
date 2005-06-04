@@ -1,59 +1,3 @@
-2005-05-25  Not Zed  <NotZed@Ximian.com>
-
-	* e-plugin-mono.[ch]: Removed, these are now implemented as a
-	plugin.
-
-	* e-plugin.c (ep_load_plugin): separate out plugin xml loading
-	code from the loading loop.  If a plugin type doesn't exist, then
-	save it in a list for later checking.
-	(ep_load): call above to do the work.
-	(e_plugin_register_type): check the pending doc list, if any
-	plugins now have a type, load them.
-	(e_plugin_type_hook_get_type): a plugin hook for registering new
-	plugin types ('loaders') at runtime.
-
-2005-05-19  Not Zed  <NotZed@Ximian.com>
-
-	* e-import.[ch]: Initial, and un-finished work on importer plugin
-	hooks.
-
-2005-05-16  Not Zed  <NotZed@Ximian.com>
-
-	* Makefile.am: added e-error.[ch], removed e-error-tool, and added
-	e-system.error.xml
-
-2005-05-13  Not Zed  <NotZed@Ximian.com>
-
-	* e-popup.c (emph_popup_factory): if we have a factory method
-	supplied, call that as well.  More flexible popup building.
-	(emph_construct_menu): load factory def.
-
-2005-05-03  Not Zed  <NotZed@Ximian.com>
-
-	* e-profile-event.c (e_profile_event_emit): undefine
-	e_profile_event_emit if we are compiled without profiling.  The
-	'abi' is not, nor was ever changed.
-
-	* e-profile-event.h: revert previous patch, the assumptions were
-	incorrect & the code misunderstood.
-
-2005-05-02  Rodney Dawes  <dobey@novell.com>
-
-	* e-profile-event.h (e_profile_event_emit): This method is a no-op if
-	we are building without ENABLE_PROFILE defined, so we don't need to
-	define a macro to no-op it, and change ABI at compile time
-	
-2005-04-28  Not Zed  <NotZed@Ximian.com>
-
-	* e-profile-event.[ch]: A profiling plugin hook.
-
-2005-04-27  Mengjie Yu  <meng-jie.yu@sun.com>
-
-	* e-config.c: (e_config_create_window):
-	We should set the title of the window.
-
-	Fixes #300477
-
 2005-03-14  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #73550 (related for config pages)
@@ -420,10 +364,6 @@
 
 	* e-icon-factory.c (icon_foreach_remove): We must return TRUE here
 	so that things actually get removed from the list
-
-2004-08-07  ERDI Gergo  <cactus@cactus.rulez.org>
-
-	* e-account.h: Added new receipt_policy field to services
 
 2004-08-05  Rodrigo Moya <rodrigo@novell.com>
 

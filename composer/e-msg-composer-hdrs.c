@@ -53,19 +53,14 @@
 
 #include <gal/e-text/e-entry.h>
 
-#include "e-util/e-error.h"
+#include "widgets/misc/e-error.h"
 
 #include <camel/camel.h>
 #include "e-msg-composer-hdrs.h"
 #include "mail/mail-config.h"
 /*#include "mail/em-folder-selection-button.h"*/
 #include "mail/em-folder-selector.h"
-
-/* another 'temporary' kludge, so we dont need to build idl's for the MailComponent */
-/*#include "mail/mail-component.h"*/
-struct _MailComponent *mail_component_peek(void);
-extern struct _EMFolderTreeModel *mail_component_peek_tree_model(struct _MailComponent *);
-
+#include "mail/mail-component.h"
 #include "mail/em-folder-tree.h"
 
 /* TEMPORARY KLUDGE */

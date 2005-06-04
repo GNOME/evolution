@@ -43,11 +43,10 @@
 #include "em-message-browser.h"
 #include "em-folder-selector.h"
 #include "em-folder-selection.h"
-#include "em-folder-utils.h"
 #include "em-migrate.h"
 
 #include "widgets/misc/e-info-label.h"
-#include "e-util/e-error.h"
+#include "widgets/misc/e-error.h"
 
 #include "em-search-context.h"
 #include "mail-config.h"
@@ -89,7 +88,7 @@ static void create_local_item_cb(EUserCreatableItemsHandler *handler, const char
 
 #define MAIL_COMPONENT_DEFAULT(mc) if (mc == NULL) mc = mail_component_peek();
 
-#define PARENT_TYPE evolution_component_get_type ()
+#define PARENT_TYPE bonobo_object_get_type ()
 static BonoboObjectClass *parent_class = NULL;
 
 struct _store_info {	
@@ -738,6 +737,23 @@ impl__get_userCreatableItems (PortableServer_Servant servant, CORBA_Environment 
 	return list;
 }
 
+static void
+emc_new_folder_response(EMFolderSelector *emfs, int response, void *dummy)
+{
+	const char *uri, *path;
+	
+	if (response != GTK_RESPONSE_OK) {
+		gtk_widget_destroy((GtkWidget *)emfs);
+		return;
+	}
+	
+	uri = em_folder_selector_get_selected_uri(emfs);
+	path = em_folder_selector_get_selected_path(emfs);
+	
+	if (em_folder_tree_create_folder(emfs->emft, path, uri))
+		gtk_widget_destroy((GtkWidget *)emfs);
+}
+
 static int
 create_item(const char *type, EMFolderTreeModel *model, const char *uri)
 {
@@ -747,7 +763,15 @@ create_item(const char *type, EMFolderTreeModel *model, const char *uri)
 	
 		em_utils_compose_new_message(uri);
 	} else if (strcmp(type, "folder") == 0) {
-		em_folder_utils_create_folder(NULL);
+		EMFolderTree *folder_tree;
+		GtkWidget *dialog;
+		
+		folder_tree = (EMFolderTree *)em_folder_tree_new_with_model(model);
+		dialog = em_folder_selector_create_new (folder_tree, 0, _("Create folder"), _("Specify where to create the folder:"));
+		if (uri)
+			em_folder_selector_set_selected ((EMFolderSelector *) dialog, uri);
+		g_signal_connect (dialog, "response", G_CALLBACK(emc_new_folder_response), NULL);
+		gtk_widget_show(dialog);
 	} else
 		return -1;
 
@@ -860,19 +884,12 @@ impl_upgradeFromVersion (PortableServer_Servant servant, const short major, cons
 	camel_exception_clear (&ex);
 }
 
-static void
-impl_mail_test(PortableServer_Servant servant, CORBA_Environment *ev)
-{
-	printf("*** Testing mail interface!! ***\n");
-}
-
 /* Initialization.  */
 
 static void
 mail_component_class_init (MailComponentClass *class)
 {
-	POA_GNOME_Evolution_Component__epv *epv = &((EvolutionComponentClass *)class)->epv;
-	POA_GNOME_Evolution_MailComponent__epv *mepv = &class->epv;
+	POA_GNOME_Evolution_Component__epv *epv = &class->epv;
 	GObjectClass *object_class = G_OBJECT_CLASS (class);
 	
 	parent_class = g_type_class_peek_parent (class);
@@ -888,8 +905,6 @@ mail_component_class_init (MailComponentClass *class)
 	epv->handleURI               = impl_handleURI;
 	epv->sendAndReceive          = impl_sendAndReceive;
 	epv->upgradeFromVersion      = impl_upgradeFromVersion;
-
-	mepv->test = impl_mail_test;
 }
 
 static void
@@ -958,13 +973,6 @@ mail_component_peek_activity_handler (MailComponent *component)
 	MAIL_COMPONENT_DEFAULT(component);
 
 	return component->priv->activity_handler;
-}
-
-struct _CamelSession *mail_component_peek_session(MailComponent *component)
-{
-	MAIL_COMPONENT_DEFAULT(component);
-
-	return session;
 }
 
 void
@@ -1181,4 +1189,4 @@ mail_component_get_folder_uri(MailComponent *mc, enum _mail_component_folder_t i
 	return mc_default_folders[id].uri;
 }
 
-BONOBO_TYPE_FUNC_FULL (MailComponent, GNOME_Evolution_MailComponent, PARENT_TYPE, mail_component)
+BONOBO_TYPE_FUNC_FULL (MailComponent, GNOME_Evolution_Component, PARENT_TYPE, mail_component)

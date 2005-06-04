@@ -1,26 +1,3 @@
-2005-05-12  Srinivasa Ragavan <sragavan@novell.com>
-	* misc/e-dateedit.c: (on_time_entry_key_release),
-	(create_children): Fix the bug 303856. Enables OK button
-	when arrow key used to change the time in a appointment.
-
-2005-05-06  Sarfraaz Ahmed <asarfraaz@novell.com>
-
-	* misc/e-search-bar.c: (set_menu) Solaris gettext crashes on NULL 
-	input string. Fixes #260312. Patch submitted by 
-	Suresh Chandrasekharan <suresh.chandrasekharan@sun.com>
-
-2005-04-28  Li Yuan  <li.yuan@sun.com>
-
-	* misc/e-calendar-item.c: (e_calendar_item_realize),
-	(e_calendar_item_set_selection_if_emission),
-	(e_calendar_item_style_set):
-	use widget->style instead of hard code colors.
-	* misc/e-calendar-item.h:
-	* misc/e-calendar.c: (e_calendar_style_set):
-	call e_calendar_item_style_set when style changes.
-
-	Fixes #6767.
-
 2005-03-14  Not Zed  <NotZed@Ximian.com>
 
 	* menus/gal-view-menus.c (build_menus): don't

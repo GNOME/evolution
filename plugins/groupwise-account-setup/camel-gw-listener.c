@@ -30,7 +30,7 @@
 #include  <camel/camel-i18n.h>
 #include <e-gw-connection.h>
 #include <libedataserverui/e-passwords.h>
-#include "e-util/e-error.h"
+#include "widgets/misc/e-error.h"
 
 /*stores some info about all currently existing groupwise accounts 
   list of GwAccountInfo structures */

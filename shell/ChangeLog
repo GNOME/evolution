@@ -1,16 +1,3 @@
-2005-06-02  Not Zed  <NotZed@Ximian.com>
-
-	* Evolution.*.idl: Fix so these are only ever included once.
-
-	* evolution-component.c: BonoboObject wrapper for
-	Evolution::Component interface.  Abstract, doesn't implement
-	methods.
-
-	* Evolution-Shell.idl: add a method to find a component by
-	component alias.
-
-	* e-shell.c (impl_Shell_findComponent): & implement it
-
 2005-06-01  Not Zed  <NotZed@Ximian.com>
 
 	* e-shell-window-commands.c: fixed the utf8 in the last patch.
@@ -19,100 +6,21 @@
 
 	* e-shell-window-commands.c (authors[]): Fixed my name.
 
-2005-05-31  Rodrigo Moya <rodrigo@novell.com>
+2005-05-24  Frederic Crozat  <fcrozat@mandriva.com>
 
-	* GNOME_Evolution_Shell.server.in.in: added missing name to
-	Shell_Config_Factory object description.
-
-2005-05-25  Not Zed  <NotZed@Ximian.com>
-
-	* main.c (main): remove mono registrtion, this is implemented
-	using a plugin now.  register the plugin type loader hook.
-
-2005-05-16  Not Zed  <NotZed@Ximian.com>
-
-	* Makefile.am: fix error file build/path changes
-
-2005-05-16  Srinivasa Ragavan <sragavan@novell.com>
-	* e-component-registry.c(component_info_new) (component_info_free)(query_components):
-	  e-component-registry.h:
-	  e-shell-window.c (setup_widgets):
-	  e-sidebar.c (button_new) (button_free) (e_sidebar_add_button) (set_mode_internal):
-	  e-sidebar.h:
-	  
-	  Added support to read .server files for tooltips and show them in ICON only mode.
-	  
-2005-05-13  Rodney Dawes  <dobey@novell.com>
-
-	* e-shell-window.c (setup_widgets): Update for the new menu layout by
-	putting the "component" switching items under the "Tools" menu
-
-2005-05-13  Shreyas Srinivasan	<sshreyas@novell.com>
-
-	* e-shell-offline-handler.c: Remove the go->offline dialog.
-	
-2005-05-12  Harish Krishnaswamy  <kharish@novell.com>
-
-	* main.c: (kill_dataserver): add evolution-data-server-1.2
-	to the list of old dataserver instances.
-
-2005-05-06  Chenthill Palanisamy  <pchenthill@novell.com>
-	
-	Fixes #301459
-	* e-shell-importer.c: Correct the typo error and made
-	the sentence more clear.
-
-2005-05-02  JP Rosevear  <jpr@novell.com>
-
-	* Evolution.idl: remove Evolution-common.idl
-
-	* Makefile.am: don't build Evolution-common.idl
-
-	* Evolution-common.idl: remove dead code
-	
-2005-04-29  JP Rosevear  <jpr@novell.com>
-
-	* Makefile.am: don't build/install corba icon utils
-
-	* Remove e-shell-corba-icon-utils.c	
-
-2005-04-29  JP Rosevear  <jpr@novell.com>
-
-	* Makefile.am: don't build wizard related code
-
-	* Evolution.idl: remove wizard idl include
-
-	* e-shell.c: remove wizard include
-
-	* Remove wizard related code which is now in a plugin (and is much
-	simpler due to eplugin)
-
-2005-04-28  Not Zed  <NotZed@Ximian.com>
-
-	* main.c (main): setup the profiling plugin hook if profiling is
-	compiled in.
-
-2005-04-06  Yong Sun <Yong.Sun@Sun.COM>
-
-	* e-shell-importer.c: (get_name_from_component_info):
-	Return the localized name of the supported file type.
-
-2005-03-21  JP Rosevear  <jpr@novell.com>
-
-	Fixes #73066
-	
-	* apps_evolution_shell.schemas.in.in: fix typo
-
-2005-03-21  JP Rosevear  <jpr@novell.com>
-	
-	* main.c: switch #ifdef DEVELOPMENT to #if DEVELOPMENT so the
-	configure.in foo actually controls this
+	* main.c: (kill_dataserver):
+	Kill evolution-data-server-1.2 too.
 
 2005-03-17  Not Zed  <NotZed@Ximian.com>
 
 	* es-event.h: fix the qualifier bit assignments for the STATE target.
 
 	* e-shell.c (offline_procedure_finished_cb): fix offline state event.
+
+2005-03-15  JP Rosevear  <jpr@novell.com>
+
+	* main.c: switch #ifdef DEVELOPMENT to #if DEVELOPMENT so the
+	configure.in foo actually controls this
 
 2005-02-28  JP Rosevear  <jpr@novell.com>
 

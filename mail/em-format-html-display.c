@@ -27,6 +27,10 @@
 #include <string.h>
 
 #include <gtkhtml/gtkhtml.h>
+#include <gtkhtml/htmlengine.h>
+#include <gtkhtml/htmlobject.h>
+#include <gtkhtml/htmliframe.h>
+#include <gtkhtml/htmlinterval.h>
 #include <gtkhtml/gtkhtml-embedded.h>
 #include <gtkhtml/gtkhtml-search.h>
 
@@ -125,11 +129,11 @@ static void efhd_iframe_created(GtkHTML *html, GtkHTML *iframe, EMFormatHTMLDisp
 /*static void efhd_url_requested(GtkHTML *html, const char *url, GtkHTMLStream *handle, EMFormatHTMLDisplay *efh);
   static gboolean efhd_object_requested(GtkHTML *html, GtkHTMLEmbedded *eb, EMFormatHTMLDisplay *efh);*/
 
-static void efhd_message_prefix(EMFormat *emf, CamelStream *stream, CamelMimePart *part, EMFormatHandler *info);
-
 static const EMFormatHandler *efhd_find_handler(EMFormat *emf, const char *mime_type);
 static void efhd_format_clone(EMFormat *, CamelFolder *folder, const char *, CamelMimeMessage *msg, EMFormat *);
+static void efhd_format_prefix(EMFormat *emf, CamelStream *stream);
 static void efhd_format_error(EMFormat *emf, CamelStream *stream, const char *txt);
+static void efhd_format_message(EMFormat *, CamelStream *, CamelMedium *);
 static void efhd_format_source(EMFormat *, CamelStream *, CamelMimePart *);
 static void efhd_format_attachment(EMFormat *, CamelStream *, CamelMimePart *, const char *, const EMFormatHandler *);
 static void efhd_format_secure(EMFormat *emf, CamelStream *stream, CamelMimePart *part, CamelCipherValidity *valid);
@@ -237,7 +241,7 @@ efhd_init(GObject *o)
 	efhd->priv = g_malloc0(sizeof(*efhd->priv));
 
 	efhd->search_tok = (ESearchingTokenizer *)e_searching_tokenizer_new();
-	gtk_html_set_tokenizer (efh->html, (HTMLTokenizer *)efhd->search_tok);
+	html_engine_set_tokenizer(efh->html->engine, (HTMLTokenizer *)efhd->search_tok);
 
 	g_signal_connect(efh->html, "realize", G_CALLBACK(efhd_gtkhtml_realise), o);
 	g_signal_connect(efh->html, "style-set", G_CALLBACK(efhd_gtkhtml_style_set), o);
@@ -274,7 +278,9 @@ efhd_class_init(GObjectClass *klass)
 {
 	((EMFormatClass *)klass)->find_handler = efhd_find_handler;
 	((EMFormatClass *)klass)->format_clone = efhd_format_clone;
+	((EMFormatClass *)klass)->format_prefix = efhd_format_prefix;
 	((EMFormatClass *)klass)->format_error = efhd_format_error;
+	((EMFormatClass *)klass)->format_message = efhd_format_message;
 	((EMFormatClass *)klass)->format_source = efhd_format_source;
 	((EMFormatClass *)klass)->format_attachment = efhd_format_attachment;
 	((EMFormatClass *)klass)->format_secure = efhd_format_secure;
@@ -574,26 +580,34 @@ efhd_iframe_created(GtkHTML *html, GtkHTML *iframe, EMFormatHTMLDisplay *efh)
 static int
 efhd_html_button_press_event (GtkWidget *widget, GdkEventButton *event, EMFormatHTMLDisplay *efhd)
 {
-	char *url;
+	HTMLEngine *e;
+	HTMLObject *obj;
+	const char *url;
 	gboolean res = FALSE;
+	gint offset;
 	EMFormatPURI *puri = NULL;
+	char *uri = NULL;
 
 	if (event->button != 3)
 		return FALSE;
 
-	url = gtk_html_get_url_at (GTK_HTML (widget), event->x, event->y);
+	e = ((GtkHTML *)widget)->engine;
+	obj = html_engine_get_object_at(e, event->x, event->y, &offset, FALSE);
 
 	d(printf("popup button pressed\n"));
 
-	if (url) {
-		puri = em_format_find_puri((EMFormat *)efhd, url);
+	if ( obj != NULL
+	     && ((url = html_object_get_src(obj)) != NULL
+		 || (url = html_object_get_url(obj, offset)) != NULL)) {
+		uri = gtk_html_get_url_object_relative((GtkHTML *)widget, obj, url);
+		puri = em_format_find_puri((EMFormat *)efhd, uri);
 
 		d(printf("poup event, uri = '%s' part = '%p'\n", uri, puri?puri->part:NULL));
 	}
 
-	g_signal_emit((GtkObject *)efhd, efhd_signals[EFHD_POPUP_EVENT], 0, event, url, puri?puri->part:NULL, &res);
+	g_signal_emit((GtkObject *)efhd, efhd_signals[EFHD_POPUP_EVENT], 0, event, uri, puri?puri->part:NULL, &res);
 
-	g_free(url);
+	g_free(uri);
 
 	return res;
 }
@@ -602,20 +616,33 @@ gboolean
 em_format_html_display_popup_menu (EMFormatHTMLDisplay *efhd)
 {
 	GtkHTML *html;
-	char *url;
+	HTMLEngine *e;
+	HTMLObject *obj;
+	const char *url;
 	gboolean res = FALSE;
+	gint offset;
 	EMFormatPURI *puri = NULL;
+	char *uri = NULL;
 
 	html = efhd->formathtml.html;
+	e = html->engine;
+	if (!efhd->caret_mode)
+		obj = html_engine_get_focus_object (e, &offset);
+	else {
+		obj = e->cursor->object;
+		offset = e->cursor->offset;
+	}
 
-	url = gtk_html_get_cursor_url (html);
+	if ( obj != NULL
+	     && ((url = html_object_get_src(obj)) != NULL
+		 || (url = html_object_get_url(obj, offset)) != NULL)) {
+		uri = gtk_html_get_url_object_relative(html, obj, url);
+		puri = em_format_find_puri((EMFormat *)efhd, uri);
+	}
 
-	if (url)
-		puri = em_format_find_puri((EMFormat *)efhd, url);
+	g_signal_emit((GtkObject *)efhd, efhd_signals[EFHD_POPUP_EVENT], 0, NULL, uri, puri?puri->part:NULL, &res);
 
-	g_signal_emit((GtkObject *)efhd, efhd_signals[EFHD_POPUP_EVENT], 0, NULL, url, puri?puri->part:NULL, &res);
-
-	g_free(url);
+	g_free(uri);
 
 	return res;
 }
@@ -906,7 +933,6 @@ efhd_format_secure(EMFormat *emf, CamelStream *stream, CamelMimePart *part, Came
 /* ********************************************************************** */
 
 static EMFormatHandler type_builtin_table[] = {
-	{ "x-evolution/message/prefix", (EMFormatFunc)efhd_message_prefix },
 };
 
 static void
@@ -969,7 +995,7 @@ efhd_write_image(EMFormat *emf, CamelStream *stream, EMFormatPURI *puri)
 	camel_stream_close(stream);
 }
 
-static void efhd_message_prefix(EMFormat *emf, CamelStream *stream, CamelMimePart *part, EMFormatHandler *info)
+static void efhd_format_prefix(EMFormat *emf, CamelStream *stream)
 {
 	const char *flag, *comp, *due;
 	time_t date;
@@ -1032,6 +1058,11 @@ static void efhd_message_prefix(EMFormat *emf, CamelStream *stream, CamelMimePar
 static void efhd_format_error(EMFormat *emf, CamelStream *stream, const char *txt)
 {
 	((EMFormatClass *)efhd_parent)->format_error(emf, stream, txt);
+}
+
+static void efhd_format_message(EMFormat *emf, CamelStream *stream, CamelMedium *part)
+{
+	((EMFormatClass *)efhd_parent)->format_message(emf, stream, part);
 }
 
 static void efhd_format_source(EMFormat *emf, CamelStream *stream, CamelMimePart *part)

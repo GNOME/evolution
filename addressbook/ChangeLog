@@ -1,86 +1,13 @@
-2005-05-16  Not Zed  <NotZed@Ximian.com>
-
-	* moved e-error to e-util
-
-	* Makefile.am: renamed error xml file & u18n stuff.
-
-2005-05-16  Srinivasa Ragavan <sragavan@novell.com>
-
-	* gui/components/GNOME_Evolution_Addressbook.server.in.in: Added tooltips
-	
-2005-05-12  Ulrich Neumann  <uli@myuli.com>
- 
- 	* gui/contact-editor/contact-editor.glade:
-	Fixed wrong xalign of Zip/Postal Code. This
- 	was very ugly in languages like german, dutch etc.
- 
-2005-05-11  Srinivasa Ragavan <sragavan@novell.com>
-	* gui/widgets//e-minicard.c: (add_field), (remodel):
-	Fixed the bug 209416. It shows a different view for contact lists
-	
-	
-2005-05-09  Sushma Rai  <rsushma@novell.com>
-
-	* gui/widgets/eab-gui-util.c (eab_contact_save)(eab_contact_list_save):
-	Finding if multiple contacts or a single contact has been selected for
-	saving, and storing it in SaveAsInfo structure.
-	(save_it): Depending on selected contacts, forming a part of error
-	message. 
-
-	* addressbook-errors.xml: Changed the save-error message, to read
-	string contact/contacts.
-	Fixes #261969.
-
-2005-05-09  Sushma Rai  <rsushma@novell.com>
-
-	* gui/widgets/e-addressbook-view.c (eab_view_delete_selection): Checking
-	if single or multiple contacts/contact lists are being deleted. Also
-	finding the name, if the single contact/contact list is being deleted. 
-
-	* gui/contact-editor/eab-editor.c (eab_editor_confirm_delete): Forming
-	the display messages based on the contact/contact list and number of
-	contacts/contact lists being deleted. 
-	Fixes #222599
-
-2005-05-06  Chenthill Palanisamy  <pchenthill@novell.com>
-	
-	Fixes #301459
-	* gui/contact-list-editor/contact-list-editor.glade: Corrected 
-	the spelling for addresses and address.
-
-2005-05-06  Chenthill Palanisamy  <pchenthill@novell.com>
-
-	Fixes #272464
-	* addressbook-errors.xml:
-	* addressbook-errors.xml.h: Changed the primary and secondary
-	to make it more clear.
-
 2005-04-28  Ross Burton  <ross@burtonini.com>
 
 	* gui/widgets/e-addressbook-view.c:
 	* gui/widgets/eab-contact-display.c:
 	Fix some memory leaks.
 
-2005-04-21  Mengjie Yu  <meng-jie.yu@sun.com>
-
-	* gui/widgets/e-minicard-view-widget.c:
-	(e_minicard_view_widget_class_init),
-	(e_minicard_view_widget_real_focus_in_event):
-	Add focus_in_event function.
-
-	Fixes #300968 (gnome bugzilla bugID)
-
-2005-04-17  Mengjie Yu  <meng-jie.yu@sun.com>
-
-	* gui/widgets/e-minicard.c: (e_minicard_event):
-	We should incarnate the reflow item if it doesn't exist.
-
-	Fixes #300970 (gnome bugzilla bugID)
-
 2005-04-04  Sivaiah Nallagatla <snallagatla@novell.com>
 
        * gui/component/addressbook.c (load_source_auth_cb)
-        (addressbook_authenticate) : get the uri from Ebook
+         (addressbook_authenticate) : get the uri from Ebook
        instead of Esource. e_source_get_uri returns NULL when
        it does not have a reference to source group with it
        which happens when the source list from which this source
@@ -90,26 +17,11 @@
 
 2005-04-03  Sivaiah Nallagatla <snallagatla@novell.com>
 
-	* gui/widgets/eab-gui-util.c (do_copy) :
-	use eab_merging_book_add_contact instead of 
-	e_book_async_add_contact to take care of duplicate
-	checking 
-	Fixes #74255
-
-2005-03-16  Li Yuan  <li.yuan@sun.com>
-
-	* gui/widgets/gal-view-minicard.c: (gal_view_minicard_class_init):
-	remove the edit function.
-
-	Fixes #40762
-
-2005-03-16  Mengjie Yu  <meng-jie.yu@sun.com>
-
-	* gui/widgets/e-addressbook-view.c: (search_menu_activated):
-	make the search field consistent with the Search Dialog.
-
-	Fixes #73270
-
+       * gui/widgets/eab-gui-util.c (do_copy) :
+       use eab_merging_book_add_contact instead of
+       e_book_async_add_contact to take care of duplicate
+       checking
+       Fixes #74255
 
 2005-03-03   Sivaiah Nallagatla <snallagatla@novell.com>
 

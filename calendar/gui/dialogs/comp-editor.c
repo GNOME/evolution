@@ -60,7 +60,7 @@
 
 #include "cal-attachment-bar.h"
 #include "widgets/misc/e-expander.h"
-#include "e-util/e-error.h"
+#include "widgets/misc/e-error.h"
 
 
 #define d(x) x
@@ -255,23 +255,17 @@ drop_action(CompEditor *editor, GdkDragContext *context, guint32 action, GtkSele
 				g_free (str);
 			} else {
 				url = camel_url_new (str, NULL);
+				g_free (str);
 
-				if (url == NULL) {
-					g_free (str);
+				if (url == NULL)
 					continue;
-				}
 
 				if (!g_ascii_strcasecmp (url->protocol, "file"))
 					cal_attachment_bar_attach
 						(CAL_ATTACHMENT_BAR (editor->priv->attachment_bar),
 					 	url->path);
-				else
-					cal_attachment_bar_attach_remote_file
-						(CAL_ATTACHMENT_BAR (editor->priv->attachment_bar),
-					 	str);
 
 				camel_url_free (url);
-				g_free (str);
 			}
 		}
 		
@@ -656,12 +650,6 @@ save_comp (CompEditor *editor)
 	if (!cal_comp_is_on_server (priv->comp, priv->client)) {
 		result = e_cal_create_object (priv->client, icalcomp, NULL, &error);
 	} else {
-		if (priv->mod == CALOBJ_MOD_THIS) {
-			e_cal_component_set_rdate_list (priv->comp, NULL);
-			e_cal_component_set_rrule_list (priv->comp, NULL);
-			e_cal_component_set_exdate_list (priv->comp, NULL);
-			e_cal_component_set_exrule_list (priv->comp, NULL);
-		}
 		result = e_cal_modify_object (priv->client, icalcomp, priv->mod, &error);
 	}
 
@@ -791,24 +779,6 @@ response_cb (GtkWidget *widget, int response, gpointer data)
 
 	switch (response) {
 	case GTK_RESPONSE_OK:
-		/* Check whether the downloads are completed */
-		if (cal_attachment_bar_get_download_count (CAL_ATTACHMENT_BAR (editor->priv->attachment_bar)) ){
-			ECalComponentVType vtype = e_cal_component_get_vtype(editor->priv->comp);
-			gboolean response;
-	
-			if (vtype == E_CAL_COMPONENT_EVENT)
-				response = em_utils_prompt_user((GtkWindow *)widget, 
-								 NULL, 
-								 "calendar:ask-send-event-pending-download", 
-								  NULL);
-			else
-				response = em_utils_prompt_user((GtkWindow *)widget, 
-								 NULL, 
-								 "calendar:ask-send-task-pending-download", 
-								  NULL);
-		if (!response) 
-			return;
-		}	
 		commit_all_fields (editor);
 		
 		if (e_cal_component_is_instance (priv->comp))
@@ -870,7 +840,7 @@ attachment_bar_changed_cb (CalAttachmentBar *bar,
 		CAL_ATTACHMENT_BAR (editor->priv->attachment_bar));
 	if (attachment_num) {
 		gchar *num_text = g_strdup_printf (
-			ngettext ("<b>%d</b> Attachment", "<b>%d</b> Attachments", attachment_num),
+			ngettext ("<b>%d</b> File Attached", "<b>%d</b> Files Attached", attachment_num),
 			attachment_num);
 		gtk_label_set_markup (GTK_LABEL (editor->priv->attachment_expander_num),
 				      num_text);
@@ -915,6 +885,23 @@ attachment_bar_icon_clicked_cb (CalAttachmentBar *bar, GdkEvent *event, void *da
 		return TRUE;
 	} else 
 		return FALSE;
+}
+
+static void
+attachment_expander_activate_cb (EExpander *expander,
+				 void *data)
+{
+	CompEditor *editor = COMP_EDITOR (data);
+	gboolean show = e_expander_get_expanded (expander);
+	
+	/* Update the expander label */
+	if (show)
+		gtk_label_set_text_with_mnemonic (GTK_LABEL (editor->priv->attachment_expander_label),
+						  _("Hide _Attachment Bar (drop attachments here)"));
+	else
+		gtk_label_set_text_with_mnemonic (GTK_LABEL (editor->priv->attachment_expander_label),
+						  _("Show _Attachment Bar (drop attachments here)"));
+
 }
 
 /* Creates the basic in the editor */
@@ -965,7 +952,7 @@ setup_widgets (CompEditor *editor)
 	g_signal_connect (GNOME_ICON_LIST (priv->attachment_bar), "event",
 			  G_CALLBACK (attachment_bar_icon_clicked_cb), NULL);			
 	priv->attachment_expander_label =
-		gtk_label_new_with_mnemonic (_("_Attachment Bar (drop attachments here)"));
+		gtk_label_new_with_mnemonic (_("Show _Attachment Bar (drop attachments here)"));
 	priv->attachment_expander_num = gtk_label_new ("");
 	gtk_label_set_use_markup (GTK_LABEL (priv->attachment_expander_num), TRUE);
 	gtk_misc_set_alignment (GTK_MISC (priv->attachment_expander_label), 0.0, 0.5);
@@ -983,33 +970,26 @@ setup_widgets (CompEditor *editor)
 	gtk_box_pack_start (GTK_BOX (expander_hbox), priv->attachment_expander_icon,
 			    TRUE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (expander_hbox), priv->attachment_expander_num,
-			    FALSE, TRUE, 0);
+			    TRUE, TRUE, 0);
 	gtk_widget_show_all (expander_hbox);
 	gtk_widget_hide (priv->attachment_expander_icon);
 
-	gtk_box_pack_start (GTK_BOX (vbox), expander_hbox,
-			    FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (vbox), priv->attachment_scrolled_window, FALSE, FALSE, GNOME_PAD_SMALL);
-
-	gtk_widget_show (priv->attachment_scrolled_window);
-	gtk_widget_show (expander_hbox);
+	priv->attachment_expander = e_expander_new ("");	
+	e_expander_set_label_widget (E_EXPANDER (priv->attachment_expander), expander_hbox);
+	atk_object_set_name (gtk_widget_get_accessible (priv->attachment_expander), _("Attachment Button: Press space key to toggle attachment bar"));
+	
+	gtk_container_add (GTK_CONTAINER (priv->attachment_expander),
+			   priv->attachment_scrolled_window);
+	gtk_box_pack_start (GTK_BOX (vbox), priv->attachment_expander,
+			    FALSE, FALSE, GNOME_PAD_SMALL);
+	gtk_widget_show (priv->attachment_expander);
+	e_expander_set_expanded (E_EXPANDER (priv->attachment_expander), FALSE);
+	g_signal_connect_after (priv->attachment_expander, "activate",
+				G_CALLBACK (attachment_expander_activate_cb), editor);
 
 	
 }
 
-void
-comp_editor_sensitize_attachment_bar (CompEditor *editor, gboolean  set)
-{
-	CompEditorPrivate *priv;
-
-	g_return_if_fail (IS_COMP_EDITOR (editor));
-
-	priv = editor->priv;
-	
-	gtk_widget_set_sensitive (GTK_WIDGET (priv->attachment_bar),  set);
-	gtk_widget_set_sensitive (GTK_WIDGET (priv->attachment_scrolled_window),  set);
-}
-	
 /* Object initialization function for the calendar component editor */
 static void
 comp_editor_init (CompEditor *editor)
@@ -1697,6 +1677,7 @@ fill_widgets (CompEditor *editor)
 		e_cal_component_get_attachment_list (priv->comp, &attachment_list);
 		cal_attachment_bar_set_attachment_list
 			((CalAttachmentBar *)priv->attachment_bar, attachment_list);
+		e_expander_set_expanded (E_EXPANDER (priv->attachment_expander), TRUE);
 	}	
 
 	for (l = priv->pages; l != NULL; l = l->next)
@@ -1788,7 +1769,6 @@ real_send_comp (CompEditor *editor, ECalComponentItipMethod method)
 	if (!e_cal_component_has_attachments (priv->comp)) {
 		if (itip_send_comp (method, priv->comp, priv->client,
 					NULL, NULL)) {
-#if 0
 			tmp_comp = priv->comp;
 			g_object_ref (tmp_comp);
 			comp_editor_edit_comp (editor, tmp_comp);
@@ -1796,7 +1776,6 @@ real_send_comp (CompEditor *editor, ECalComponentItipMethod method)
 			
 			comp_editor_set_changed (editor, TRUE);
 			save_comp (editor);
-#endif
 
 			return TRUE;
 		}
@@ -1835,7 +1814,7 @@ real_send_comp (CompEditor *editor, ECalComponentItipMethod method)
 
 	comp_editor_set_changed (editor, TRUE);
 	
-	return FALSE;
+	return FALSE;	
 
 }
 
@@ -2035,7 +2014,7 @@ comp_editor_notify_client_changed (CompEditor *editor, ECal *client)
 
 	if (!e_cal_is_read_only (client, &read_only, NULL))
 		read_only = TRUE;
-	comp_editor_sensitize_attachment_bar (editor, !read_only);
+
 	gtk_dialog_set_response_sensitive (GTK_DIALOG (editor), GTK_RESPONSE_OK, !read_only);
 }
 

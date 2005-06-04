@@ -18,16 +18,11 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Bangalore, MA 02111-1307, India.
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include <string.h>
 #include <glib.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtk.h>
-#include <libgnome/libgnome.h>
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
 #include <time.h>
@@ -94,14 +89,12 @@ struct _ESendOptionsDialogPrivate {
 	GtkWidget *accepted_label;	
 	GtkWidget *completed_label;
 	GtkWidget *until_label;
-        char *help_section;
 };
 
 static void e_sendoptions_dialog_class_init (GObjectClass *object_class);
 static void e_sendoptions_dialog_finalize (GObject *object);
 static void e_sendoptions_dialog_init (GObject *object);
 static void e_sendoptions_dialog_dispose (GObject *object);
-static void e_send_options_cb (GtkDialog *dialog, gint state, gpointer func_data);
 
 static GObjectClass *parent_class = NULL;
 
@@ -386,7 +379,6 @@ init_widgets (ESendOptionsDialog *sod)
 	g_signal_connect (priv->delay_delivery, "toggled", G_CALLBACK (delay_delivery_toggled_cb), sod);	
 	g_signal_connect (priv->create_sent, "toggled", G_CALLBACK (sent_item_toggled_cb), sod);
 
-	g_signal_connect (GTK_DIALOG (priv->main), "response", G_CALLBACK(e_send_options_cb), sod);
 	g_signal_connect (priv->delay_until, "changed", G_CALLBACK (delay_until_date_changed_cb), sod);
 
 	if (priv->global)
@@ -507,7 +499,6 @@ setup_widgets (ESendOptionsDialog *sod, Item_type type)
 		
 	switch (type) {
 		case E_ITEM_MAIL:
-		        priv->help_section = g_strdup ("usage-mail");
 			gtk_widget_hide (priv->accepted_label);
 			gtk_widget_hide (priv->when_accepted);
 			gtk_widget_hide (priv->completed_label);
@@ -515,11 +506,9 @@ setup_widgets (ESendOptionsDialog *sod, Item_type type)
 			gtk_label_set_text_with_mnemonic (GTK_LABEL (priv->declined_label), (_("When de_leted:")));
 			break;
 		case E_ITEM_CALENDAR:
-         	        priv->help_section = g_strdup ("usage-calendar");
 			gtk_widget_hide (priv->completed_label);
 			gtk_widget_hide (priv->when_completed);
 		case E_ITEM_TASK:
-		        priv->help_section = g_strdup ("usage-calendar-todo");
 			gtk_widget_hide (priv->classification_label);
 			gtk_widget_hide (priv->classification);
 			gtk_widget_set_sensitive (priv->autodelete, FALSE);
@@ -579,41 +568,12 @@ e_sendoptions_set_global (ESendOptionsDialog *sod, gboolean set)
 	return TRUE;
 }
 
-static void e_send_options_cb (GtkDialog *dialog, gint state, gpointer func_data)
-{
-
-    ESendOptionsDialogPrivate *priv;
-    ESendOptionsDialog *sod;
-    GError *error = NULL;     
-
-    sod = func_data;
-    priv = sod->priv;
-
-    switch (state) {
-	case GTK_RESPONSE_OK:
-	    e_send_options_get_widgets_data (sod);
-	case GTK_RESPONSE_CANCEL:
-	    gtk_widget_hide (priv->main);
-	    gtk_widget_destroy (priv->main);
-	    g_object_unref (priv->xml);
-	    break;
-	case GTK_RESPONSE_HELP:
-	gnome_help_display_desktop (NULL,
-				    "evolution-" BASE_VERSION,
-				    "evolution-" BASE_VERSION ".xml",
-				    priv->help_section,
-				    &error);
-	    if (error != NULL)
-		g_warning ("%s", error->message);
-	    break;
-    }
-}
-
 gboolean 
 e_sendoptions_dialog_run (ESendOptionsDialog *sod, GtkWidget *parent, Item_type type)
 {
 	ESendOptionsDialogPrivate *priv;
 	GtkWidget *toplevel;
+	int result;
 
 	g_return_val_if_fail (sod != NULL || E_IS_SENDOPTIONS_DIALOG (sod), FALSE);
 	
@@ -646,10 +606,16 @@ e_sendoptions_dialog_run (ESendOptionsDialog *sod, GtkWidget *parent, Item_type 
 	e_send_options_fill_widgets_with_data (sod);
 	sensitize_widgets (sod);
 	init_widgets (sod);
-	gtk_window_set_modal ((GtkWindow *)priv->main, TRUE);
+
+	result = gtk_dialog_run (GTK_DIALOG (priv->main));
 	
-	gtk_widget_show (priv->main);
-       
+	if (result == GTK_RESPONSE_OK) 
+		e_send_options_get_widgets_data (sod);
+	
+	gtk_widget_hide (priv->main);
+	gtk_widget_destroy (priv->main);
+	g_object_unref (priv->xml);
+
 	return TRUE;
 }
 
@@ -661,8 +627,6 @@ e_sendoptions_dialog_finalize (GObject *object)
 
 	g_return_if_fail (E_IS_SENDOPTIONS_DIALOG (sod));
 	priv = sod->priv;
-
-	g_free (priv->help_section);
 
 	if (sod->data->gopts) {
 		g_free (sod->data->gopts);

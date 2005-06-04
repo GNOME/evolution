@@ -97,7 +97,7 @@ org_gnome_compose_send_options (EPlugin *ep, EMMenuTargetWidget *t)
 			e_msg_composer_add_header (comp, X_REPLY_CONVENIENT ,"1" ) ;
 		else if (dialog->data->gopts->reply_within) {
 			time_t t;
-			t = add_day_to_time (time (NULL), dialog->data->gopts->reply_within);
+			t = add_day_to_time (time (NULL), dialog->data->gopts->reply_convenient);
 			strftime (value, 17, "%Y%m%dT%H%M%SZ", gmtime (&t));
 			e_msg_composer_add_header (comp, X_REPLY_WITHIN , value) ;
 		}
@@ -133,7 +133,7 @@ org_gnome_compose_send_options (EPlugin *ep, EMMenuTargetWidget *t)
 	}
 	if (dialog->data->sopts->declined) {
 		temp = g_strdup_printf ("%d",dialog->data->sopts->declined) ;
-		e_msg_composer_add_header (comp, X_RETURN_NOTIFY_DELETE, temp) ;
+		e_msg_composer_add_header (comp, X_RETURN_NOTIFY_DECLINE, temp) ;
 		g_free (temp) ;
 	}
 

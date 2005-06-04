@@ -1,101 +1,7 @@
-2005-05-30  Thouis R. Jones  <thouis@csail.mit.edu>
-
-	Fixes #272301
-
-	* gui/apps_evolution_calendar.schemas.in.in: 
-	* gui/calendar-config-keys.h:
-	* gui/calendar-config.c: (calendar_config_get_marcus_bains,
-	calendar_config_add_notification_marcus_bains): 
-	* gui/calendar-config.h:
-	* gui/e-day-view-config.c: (set_marcus_bains,
-	marcus_bains_changed_cb, e_day_view_config_set_view): 
-	* gui/e-day-view-main-item.c: (e_day_view_main_item_draw):
-	* gui/e-day-view-time-item.c: (e_day_view_time_item_draw):
-	* gui/e-day-view.c: (e_day_view_init, e_day_view_set_colors,
-	e_day_view_get_show_marcus_bains, e_day_view_set_marcus_bains,
-	e_day_view_update_marcus_bains):
-	* gui/e-day-view.h:
-	* gui/gnome-cal.c: (update_marcus_bains_line_cb, setup_widgets,
-	gnome_calendar_destroy):  Added Marcus Bains Line to main item
-	view and time bar.
-	
 2005-05-30  Harry Lu  <harry.lu@sun.com>
 
-	* gui/itip-utils.c: (itip_send_comp): check whether backend could 
+	* gui/itip-utils.c: (itip_send_comp): check whether backend could
 	handle sending resuests/updates, and if so, just return.
-
-2005-05-24  Chenthill Palanisamy  <pchenthill@novell.com>
-
-	Fixes #272114
-	* gui/dialogs/calendar-setup.c: (eccp_commit),
-	(calendar_setup_edit_calendar): Check if the color is 
-	present in the source before setting it.
-
-2005-05-24  Srinivasa Ragavan <sragavan@novell.com>
-	* gui/dialogs/cal-attachment-bar.c, gui/dialogs/cal-attachment-bar.h,
-	  gui/dialogs/cal-attachment.c, gui/dialogs/cal-attachment.h, 
-	  gui/dialogs/comp-editor.c, calendar.error.xml: Added the support to DnD
-	  remote URL to the attachment window. It downloads asynchronously and
-	  attaches.
-
-2005-05-16  Srinivasa Ragavan <sragavan@novell.com>
-
-	* gui/dialogs/comp-editor.c (attachment_bar_changed_cb) 
-	  (attachment_bar_icon_clicked_cb)   (setup_widgets) 
-	  (comp_editor_sensitize_attachment_bar) (fill_widgets): 
-	  Removed the expander in calendar attachment. It keeps showing
-	  now, to ease DnD.
-	  
-2005-05-16  Chenthill Palanisamy  <pchenthill@novell.com>
-
-	* gui/gnome-cal.c: (client_cal_opened_cb),
-	(default_client_cal_opened_cb): Removed the debug 
-	messages.
-
-2005-05-16  Not Zed  <NotZed@Ximian.com>
-
-	* moved e-error to e-util/
-
-2005-05-16: Srinivasa Ragavan <sragavan@novell.com>
-
-	* gui/GNOME_Evolution_Calendar.server.in.in: Added tooltips
-
-2005-05-13  Sushma Rai  <rsushma@novell.com>
-
-	* gui/dialogs/recurrence-page.c (make_ending_until_special): Setting
-	two weeks after the start date as default "until" date. 
-	Fixes #268906
-
-2005-05-12  Harish Krishnaswamy  <kharish@novell.com>
-
-	on behalf of jack jia <jack.jia@sun.com>
-	fixes #229794
-
-	* gui/dialogs/recurrence-page.c: (make_weekly_special):
-	Allow deselection of the current day while scheduling
-	recurrences based on weeek days.
-
-2005-05-12  Sushma Rai  <rsushma@novell.com>
-
-	* gui/e-cal-model-tasks.c (get_geo): Not marking geographical locations
-	for translation.
-	Fixes #261080
- 
-2005-05-12 Vivek Jain <jvivek@novell.com>
-
-	Fixes #271523
-
-	* gui/dialogs/calendar-setup.c:
-	(CalendarSourceDialog):	included an ECalSourceType member in
-	the structure 
-	(calendar_setup_edit_calendar): set source_type as EVENT
-	(calendar_setup_edit_task_list): set source_type as TODO
-	(eccp_general_offline): Change the label according to the type
-
-2005-05-12  Srinivasa Ragavan <sragavan@novell.com>
-	* gui/task-component.c (selector_tree_drag_motion): Fixes the bug 269416
-	It makes the DnD to move tasks instead copying.
-
 
 2005-05-09  Rodrigo Moya <rodrigo@novell.com>
 
@@ -107,102 +13,16 @@
 	reload alarms.
 	(queue_midnight_refresh): made the midnight value be global.
 
-2005-05-09  Philip Van Hoof <pvanhoof@gnome.org>
-
-	* gui/alarm-notify/*: Made the alarm-notify dialog
-	multi-alarm aware
-	
 2005-05-09  Rodrigo Moya <rodrigo@novell.com>
 
 	* gui/migration.c (migrate_ical_folder_to_source): cover the case when
 	there is no calendar.ics/tasks.ics file in the folder to migrate.
-	
-2005-05-06  Vivek Jain <jvivek@novell.com>
-	
-	**Fixes #261079
-	* gui/e-alarm-list.c:(get_alarm_string)
-	 Added translator comments.
-
-2005-05-06  Chenthill Palanisamy  <pchenthill@novell.com>
-
-	* gui/apps_evolution_calendar.schemas.in.in: Fixing a 
-	grammar mistake.
-	See 301459
-
-2005-05-06  Changwoo Ryu  <cwryu@debian.org>
-
-	* gui/apps_evolution_calendar.schemas.in.in: added a missing
-	period in long description. and fixed an invalid tag.
-
-2005-05-06  Chenthill Palanisamy  <pchenthill@novell.com>
-
-	Fixes #272464
-	* calendar-errors.xml:
-	* calendar-errors.xml.h: Changed the primary and secondary
-	messages to make it more clear.
-
-2005-05-06  Vivek Jain <jvivek@novell.com>
-	
-	**Fixes #272566
-	* gui/dialogs/event-page.glade:
-	removed unwanted space in button label
-
-2005-05-06  Rodrigo Moya <rodrigo@novell.com>
-
-	* gui/e-cal-model.c (e_cal_view_objects_added_cb): uncomment code that
-	shouldn't be.
-
-2005-05-06  Rodrigo Moya <rodrigo@novell.com>
-
-	Fixes #271679
-
-	* gui/dialogs/comp-editor.c (save_comp):
-	* gui/e-week-view.c (e_week_view_on_editing_stopped,
-	e_week_view_change_event_time): set correct start/end times for
-	individual instances and remove all rules and exceptions.
-	(e_week_view_reshape_event_span): show recurrence icons for
-	detached instances also.
-
-	* gui/e-day-view.c (e_day_view_finish_resize,
-	e_day_view_finish_long_event_resize, e_day_view_on_editing_stopped,
-	e_day_view_on_top_canvas_drag_data_received,
-	e_day_view_on_main_canvas_drag_data_received,
-	e_day_view_change_event_time): set the correct start/end times when
-	modifying individual instances and remove all rules and exceptions.
-	(e_day_view_on_top_canvas_motion, e_day_view_on_main_canvas_motion):
-	disable D&D for recurring events.
-	(e_day_view_reshape_long_event, e_day_view_reshape_day_event):
-	check for detached instances and show recurrence icons for them also.
-
-	* gui/e-week-view-event-item.c (e_week_view_event_item_draw_icons):
-	* gui/e-day-view-top-item.c (e_day_view_top_item_draw_long_event):
-	* gui/e-day-view-main-item.c (e_day_view_main_item_draw_day_event):
-	check for detached instances and show recurrence icons for them also.
-
-	* gui/e-cal-model.c (set_instance_times): don't use the RECURRENCE-ID
-	to get the datetime.
-
-	* gui/e-calendar-view.c (e_calendar_view_delete_selected_occurrence):
-	exceptions need to be date only.
-	(e_calendar_view_copy_clipboard): remove RECURRENCE-IDs from components
-	we copy to the clipboard.
-	(e_calendar_view_cut_clipboard): when cutting instances, remove only
-	the selected instances.
-	(on_unrecur_appointment): use MOD_ALL to modify the master object and
-	remove recurrence-id from detached event.
-
-	* gui/dialogs/recur-comp.c (recur_component_dialog): re-enabled.
-
-2005-05-05  Rodrigo Moya <rodrigo@novell.com>
-
-	* gui/dialogs/event-page.c:
-	* gui/dialogs/task-page.c: removed GAL's e-categories.h include.
-
+		
 2005-05-01  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #274406
 	* gui/alarm-notify/alarm-notify.c: (cal_opened_cb): Removed the
-	additional unref present.
+       	additional unref present.
 
 2005-04-18  Chenthill Palanisamy  <pchenthill@novell.com>
 
@@ -223,9 +43,22 @@
 	* gui/e-cal-model.c: (cal_opened_cb): If the status
 	is busy call open method again, do not remove the
 	client.
+	
 	* gui/gnome-cal.c: (client_cal_opened_cb),
 	(default_client_cal_opened_cb): IF the status is busy
 	and the load_state is not loaded call open method.
+
+2005-04-06  Chenthill Palanisamy  <pchenthill@novell.com>
+	
+	Fixes #73508
+	* gui/dialogs/meeting-page.c: (meeting_page_fill_widgets): Set the 
+	organizers status as NEEDS ACTION, checking for the static capability.
+
+2005-04-06  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #73969
+	* gui/e-calendar-view.c: (delete_event): Remove the
+	recurrence id property if its present.
 
 2005-04-04  Rodrigo Moya <rodrigo@novell.com>
 
@@ -236,43 +69,6 @@
 	* gui/gnome-cal.c (gnome_calendar_purge): fixed huge (in some cases)
 	memory leaks.
 
-2005-04-01  Rodrigo Moya <rodrigo@novell.com>
-
-	Fixes #41740
-
-	* gui/calendar-errors.xml:
-	* gui/calendar-errors.xml.h: added editor error.
-
-	* gui/alarm-notify/alarm-queue.c (edit_component): display error messages
-	when we can't load the component in the editor.
-
-	* gui/alarm-notify/Makefile.am: linked against libemiscwidgets.la.
-
-2005-04-01  Chenthill Palanisamy  <pchenthill@novell.com>
-
-	Fixes #73879
-	* gui/dialogs/comp-editor.[ch]:
-	(comp_editor_sensitize_attachment_bar): Added a function
-	to sensitize/desensitize the attachment bar.
-	(comp_editor_notify_client_changed): When client changes
-	sensitize the attachment bar.
-	* gui/dialogs/event-editor.c: (event_editor_construct): 
-	* gui/dialogs/task-editor.c: (task_editor_construct): Sensitize
-	the attachment bar.
-
-2005-03-31  Chenthill Palanisamy  <pchenthill@novell.com>
-
-	Fixes #73969
-	* gui/e-calendar-view.c: (delete_event): Remove the
-	recurrence id property if its present.
-
-2005-03-30  Li Yuan  <li.yuan@sun.com>
-
-	Fixes #73914
-
-	* gui/dialogs/cal-prefs-dialog.glade:
-	add a11y name to Publishing Table.
-
 2005-03-28  Rodrigo Moya <rodrigo@novell.com>
 
 	Fixes #44719
@@ -280,15 +76,22 @@
 	* gui/alarm-queue.c (display_notification): make the alarm dialog sticky
 	when not using the system tray.
 
+2005-03-25  Harry Lu  <harry.lu@sun.com>
+
+	Fix a string break by 44579's patch.
+
+	* gui/print.c: (print_comp_item): split the strings to 
+	reuse existing strings.
+
 2005-03-24  JP Rosevear  <jpr@novell.com>
- 
- 	Fixes #69272
- 	
- 	* gui/comp-util.c (cal_comp_event_new_with_defaults): ensure we
- 	always return a valid comp
- 
- 	* gui/comp-util.c (cal_comp_task_new_with_defaults): ditto; fix
- 	obvious pasto that would cause a leak
+
+	Fixes #69272
+	
+	* gui/comp-util.c (cal_comp_event_new_with_defaults): ensure we
+	always return a valid comp
+
+	* gui/comp-util.c (cal_comp_task_new_with_defaults): ditto; fix
+	obvious pasto that would cause a leak
 	
 2005-03-24  Chenthill Palanisamy  <pchenthill@novell.com>
 	
@@ -296,59 +99,13 @@
 	* gui/e-meeting-list-view.c: (attendee_edited_cb): Check if
 	we are editing the same row and if so do not remove the attendee.
 
-2005-03-24  Chenthill Palanisamy  <pchenthill@novell.com>
-	
-	Fixes #73508
-	* gui/dialogs/meeting-page.c: (meeting_page_fill_widgets): Set the 
-	organizers status as NEEDS ACTION, checking for the static capability.
-
 2005-03-16  Li Yuan  <li.yuan@sun.com>
 
-	* gui/calendar-view.c: (calendar_view_class_init):
-	remove the edit function.
-
-	Fixes # 40762
-
-2005-03-22  Chenthill Palanisamy  <pchenthill@novell.com>
-
-	* gui/calendar-component.c: (popup_event_cb): Popup all the 
-	menu items when clicked on the source. 
-
-2005-03-21  Chenthill Palanisamy  <pchenthill@novell.com>
-
-	Fixes #73031
-	* gui/dialogs/event-editor.c: (event_editor_finalize):
-	* gui/dialogs/task-editor.c: (task_editor_finalize): Added
-	a check for the presence of the object before unreffing it.
-
-2005-03-21  JP Rosevear  <jpr@novell.com> 
- 
- 	* gui/gnome-cal.c (default_client_cal_opened_cb): if its busy, try
- 	again
- 	(client_cal_opened_cb): ditto
-  
-2005-03-21  JP Rosevear  <jpr@novell.com> 
- 
- 	* gui/e-day-view.c (e_day_view_on_main_canvas_drag_data_received):
- 	abort sequence
- 	(e_day_view_on_top_canvas_motion): prevent drag of recurring events
- 	(e_day_view_on_main_canvas_motion): ditto
- 
- 	* gui/e-calendar-view.c (on_unrecur_appointment): clear recur id
-	
-2005-03-21  JP Rosevear  <jpr@novell.com>
-  
- 	* gui/tasks-component.c (ensure_sources): ensure the color and
- 	primary config are set on the personal source
- 
- 	* gui/calendar-component.c (ensure_sources): ditto
-	
-2005-03-21  Li Yuan  <li.yuan@sun.com>
-
 	* gui/print.c: (print_comp_item):
+
 	Fixes #44579
 
-2005-03-17  Chenthill Palanisamy  <pchenthill@novell.com>
+2005-03-18  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #68525, 68580
 	* gui/gnome-cal.c (update_query), (gnome_calendar_init):
@@ -357,18 +114,34 @@
 
 2005-03-16  Rodrigo Moya <rodrigo@novell.com>
 
-	Fixes #73101
-
-	* calendar-errors.xml:
-	* calendar-errors.xml.h: removed unnecessary leading space.
-
-2005-03-16  Rodrigo Moya <rodrigo@novell.com>
-
 	Fixes #72983
 
 	* gui/e-cal-list-view.c (e_cal_list_view_new): set EXPAND_RECURRENCES
 	flag on the model.
 
+2005-03-15  JP Rosevear  <jpr@novell.com> 
+ 
+ 	* gui/gnome-cal.c (default_client_cal_opened_cb): if its busy, try
+ 	again
+ 	(client_cal_opened_cb): ditto
+  
+2005-03-15  JP Rosevear  <jpr@novell.com> 
+ 
+ 	* gui/e-day-view.c (e_day_view_on_main_canvas_drag_data_received):
+ 	abort sequence
+ 	(e_day_view_on_top_canvas_motion): prevent drag of recurring events
+ 	(e_day_view_on_main_canvas_motion): ditto
+ 
+ 	* gui/e-calendar-view.c (on_unrecur_appointment): clear recur id
+ 	on the existing and new before updating, modify ALL for the master
+	
+2005-03-15  JP Rosevear  <jpr@novell.com>
+ 
+ 	* gui/tasks-component.c (ensure_sources): ensure the color and
+ 	primary config are set on the personal source
+ 
+ 	* gui/calendar-component.c (ensure_sources): ditto
+	
 2005-03-15  JP Rosevear  <jpr@novell.com>
 
 	* gui/itip-utils.c (itip_send_comp): when publishing, the to_list

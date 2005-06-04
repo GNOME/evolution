@@ -36,6 +36,7 @@ recur_component_dialog (ECal *client,
 			CalObjModType *mod,
 			GtkWindow *parent)
 {
+#if 0
 	char *str;
 	GtkWidget *dialog, *rb_this, *rb_prior, *rb_future, *rb_all, *hbox;
 	GtkWidget *placeholder, *vbox;
@@ -133,4 +134,16 @@ recur_component_dialog (ECal *client,
 	gtk_widget_destroy (dialog);
 
 	return ret;
+#endif
+
+	icalproperty *prop;
+
+	prop = icalcomponent_get_first_property (e_cal_component_get_icalcomponent (comp),
+						 ICAL_RECURRENCEID_PROPERTY);
+	if (prop)
+		icalcomponent_remove_property (e_cal_component_get_icalcomponent (comp), prop);
+
+	*mod = CALOBJ_MOD_ALL;
+
+	return TRUE;
 }

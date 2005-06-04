@@ -1,14 +1,8 @@
-2005-05-06  Sankar P <psankar@novell.com>
+2005-03-31  Jeffrey Stedfast  <fejj@novell.com>
 
-	*gui/certificate-manager.c
-	Changed cert to certificates
-	Fixes #273075
-
-2005-03-30  Li Yuan  <li.yuan@sun.com>
-
-	* gui/smime-ui.glade:
-	add a11y name to Certificates Table
-	Fixes #73914
+	* lib/e-cert-db.c (install_loadable_roots): Copied Mozilla code to
+	check if the nssckbi root certs module was too old and if it was,
+	delete/unload it.
 
 2005-02-21  Not Zed  <NotZed@Ximian.com>
 

@@ -1301,7 +1301,12 @@ set_instance_times (ECalModelComponent *comp_data, icaltimezone *zone)
 	start_time = icalcomponent_get_dtstart (comp_data->icalcomp);
 	end_time = icalcomponent_get_dtend (comp_data->icalcomp);
 
-	comp_data->instance_start = icaltime_as_timet (start_time);
+	if (e_cal_util_component_is_instance (comp_data->icalcomp)) {
+		itt = icaltime_convert_to_zone (recur_time, icaltimezone_get_utc_timezone ());
+		comp_data->instance_start = icaltime_as_timet (itt);
+	} else {
+		comp_data->instance_start = icaltime_as_timet (start_time);
+	}
 
 	comp_data->instance_end = comp_data->instance_start +
 		(icaltime_as_timet (end_time) - icaltime_as_timet (start_time));
@@ -1327,9 +1332,9 @@ e_cal_view_objects_added_cb (ECalView *query, GList *objects, gpointer user_data
 			pos = get_position_in_array (priv->objects, comp_data);
 			e_table_model_row_deleted (E_TABLE_MODEL (model), pos);
 
- 			g_ptr_array_remove (priv->objects, comp_data);
- 			e_cal_model_free_component_data (comp_data);
- 		}
+			g_ptr_array_remove (priv->objects, comp_data);
+			e_cal_model_free_component_data (comp_data);
+		}
 
 		if ((priv->flags & E_CAL_MODEL_FLAGS_EXPAND_RECURRENCES)) {
 			RecurrenceExpansionData rdata;

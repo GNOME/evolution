@@ -55,7 +55,7 @@
 #include <libedataserverui/e-passwords.h>
 #include "libedataserver/e-msgport.h"
 #include "em-junk-filter.h"
-#include "e-util/e-error.h"
+#include "widgets/misc/e-error.h"
 
 #define d(x)
 

@@ -48,7 +48,7 @@
 #include "dialogs/copy-source-dialog.h"
 #include "dialogs/task-editor.h"
 #include "widgets/misc/e-info-label.h"
-#include "e-util/e-error.h"
+#include "widgets/misc/e-error.h"
 #include "e-util/e-icon-factory.h"
 
 #define CREATE_TASK_ID               "task"
@@ -641,8 +641,6 @@ selector_tree_drag_motion (GtkWidget *widget,
 	
 	gtk_tree_view_set_drag_dest_row(GTK_TREE_VIEW (widget), path, GTK_TREE_VIEW_DROP_INTO_OR_BEFORE);
 	action = context->suggested_action;
-	if (action == GDK_ACTION_COPY && (context->actions & GDK_ACTION_MOVE))
-		action=GDK_ACTION_MOVE;
 
  finish:
 	if (path)

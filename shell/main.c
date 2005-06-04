@@ -30,7 +30,6 @@
 
 #include <e-util/e-icon-factory.h>
 #include "e-shell-constants.h"
-#include "e-util/e-profile-event.h"
 
 #include "e-shell.h"
 #include "es-menu.h"
@@ -74,7 +73,7 @@
 #include "Evolution-DataServer.h"
 
 #include <gal/widgets/e-cursors.h>
-#include "e-util/e-error.h"
+#include "widgets/misc/e-error.h"
 
 #include <fcntl.h>
 #include <signal.h>
@@ -86,6 +85,9 @@
 #include <pthread.h>
 
 #include "e-util/e-plugin.h"
+#ifdef ENABLE_MONO
+#include "e-util/e-plugin-mono.h"
+#endif
 
 static EShell *shell = NULL;
 
@@ -96,6 +98,9 @@ static gboolean setup_only = FALSE;
 static gboolean killev = FALSE;
 #if DEVELOPMENT
 static gboolean force_migrate = FALSE;
+#endif
+#ifdef ENABLE_MONO
+static gboolean disable_mono = FALSE;
 #endif
 static gboolean disable_eplugin = FALSE;
 
@@ -478,6 +483,10 @@ main (int argc, char **argv)
 #endif
 		{ "debug", '\0', POPT_ARG_STRING, &evolution_debug_log, 0, 
 		  N_("Send the debugging output of all components to a file."), NULL },
+#ifdef ENABLE_MONO
+		{ "disable-mono", '\0', POPT_ARG_NONE, &disable_mono, 0, 
+		  N_("Disable the mono plugin environment."), NULL },
+#endif
 		{ "disable-eplugin", '\0', POPT_ARG_NONE, &disable_eplugin, 0, 
 		  N_("Disable loading of any plugins."), NULL },
 		{ "setup-only", '\0', POPT_ARG_NONE | POPT_ARGFLAG_DOC_HIDDEN,
@@ -578,13 +587,13 @@ main (int argc, char **argv)
 	gnome_sound_init ("localhost");
 
 	if (!disable_eplugin) {
+#ifdef ENABLE_MONO
+		if (!disable_mono && getenv("EVOLUTION_DISABLE_MONO") == NULL)
+			e_plugin_register_type(e_plugin_mono_get_type());
+#endif
 		e_plugin_register_type(e_plugin_lib_get_type());
 		e_plugin_hook_register_type(es_menu_hook_get_type());
 		e_plugin_hook_register_type(es_event_hook_get_type());
-#ifdef ENABLE_PROFILING
-		e_plugin_hook_register_type(e_profile_event_hook_get_type());
-#endif
-		e_plugin_hook_register_type(e_plugin_type_hook_get_type());
 		e_plugin_load_plugins();
 	}
 

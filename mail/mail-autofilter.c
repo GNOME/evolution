@@ -41,7 +41,7 @@
 #include "mail-autofilter.h"
 #include "mail-component.h"
 #include "em-utils.h"
-#include "e-util/e-error.h"
+#include "widgets/misc/e-error.h"
 
 #include "em-vfolder-context.h"
 #include "em-vfolder-rule.h"
@@ -51,9 +51,6 @@
 #include "em-filter-rule.h"
 #include "em-filter-editor.h"
 #include "filter/filter-option.h"
-
-#include <camel/camel-internet-address.h>
-#include <camel/camel-mime-message.h>
 
 #define d(x)
 

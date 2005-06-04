@@ -1,15 +1,3 @@
-2005-03-18 Vivek Jain <jvivek@novell.com>
-		
-	* send-options.h: 
-	* send-options.c: (org_gnome_compose_send_options): replace
-	X_RETURN_NOTIFY_DECLINE with X_RETURN_NOTIFY_DELETE
-
-2005-03-18  Vivek Jain <jvivek@novell.com>
-	
-	**Fixes #73473
-	* send-options.c :(org_gnome_compose_send_options)
-	 user proper entry to calculate the date of reply requested
-
 2005-03-09  Sankar P <psankar@novell.com>
 
 	* send-options.c: (org_gnome_compose_send_options)

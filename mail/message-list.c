@@ -71,7 +71,6 @@
 
 #include "em-utils.h"
 #include <e-util/e-icon-factory.h>
-#include <e-util/e-profile-event.h>
 
 #include "art/empty.xpm"
 
@@ -2797,7 +2796,7 @@ message_list_set_folder (MessageList *message_list, CamelFolder *folder, const c
 		return;
 	
 	camel_exception_init (&ex);
-
+	
 	/* remove the cursor activate idle handler */
 	if (message_list->idle_id != 0) {
 		g_source_remove (message_list->idle_id);
@@ -3398,8 +3397,6 @@ regen_list_regen (struct _mail_msg *mm)
 	if (m->folder != m->ml->folder)
 		return;
 
-	e_profile_event_emit("list.getuids", m->folder->full_name, 0);
-
 	/* if we have hidedeleted on, use a search to find it out, merge with existing search if set */
 	if (!camel_folder_has_search_capability(m->folder)) {
 		/* if we have no search capability, dont let search or hide deleted work */
@@ -3518,8 +3515,6 @@ regen_list_regen (struct _mail_msg *mm)
 	}
 	
 	MESSAGE_LIST_UNLOCK(m->ml, hide_lock);
-
-	e_profile_event_emit("list.threaduids", m->folder->full_name, 0);
 	
 	if (!camel_operation_cancel_check(mm->cancel)) {
 		/* update/build a new tree */
@@ -3566,8 +3561,6 @@ regen_list_regened (struct _mail_msg *mm)
 	if (m->ml->folder != m->folder)
 		return;
 
-	e_profile_event_emit("list.buildtree", m->folder->full_name, 0);
-
 	if (m->dotree) {
 		if (m->ml->just_set_folder)
 			m->ml->just_set_folder = FALSE;
@@ -3607,8 +3600,6 @@ regen_list_free (struct _mail_msg *mm)
 	struct _regen_list_msg *m = (struct _regen_list_msg *)mm;
 	int i;
 
-	e_profile_event_emit("list.regenerated", m->folder->full_name, 0);
-
 	if (m->summary) {
 		for (i = 0; i < m->summary->len; i++)
 			camel_folder_free_message_info (m->folder, m->summary->pdata[i]);
@@ -3641,8 +3632,6 @@ static struct _mail_msg_op regen_list_op = {
 static gboolean
 ml_regen_timeout(struct _regen_list_msg *m)
 {
-	e_profile_event_emit("list.regenerate", m->folder->full_name, 0);
-
 	m->ml->regen = g_list_prepend(m->ml->regen, m);
 	/* TODO: we should manage our own thread stuff, would make cancelling outstanding stuff easier */
 	e_thread_put (mail_thread_queued, (EMsg *)m);
@@ -3683,7 +3672,7 @@ mail_regen_list (MessageList *ml, const char *search, const char *hideexpr, Came
 {
 	struct _regen_list_msg *m;
 	GConfClient *gconf;
-
+	
 	if (ml->folder == NULL) {
 		if (ml->search != search) {
 			g_free(ml->search);
