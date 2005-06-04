@@ -1,3 +1,43 @@
+Evolution 2.2.3, 2005-06-04
+----------------------------
+
+Bugzilla bugs fixed (see http://bugzilla.gnome.org/show_bug.cgi):
+
+ * Mail
+   #273752 - Dragging folder from Maildir spool account to 'On This Computer' 
+             crashes Evolution  (Michael Zucchi) 
+
+ * Calendar
+   #301350 - alarms totally unreliable (Rodrigo Moya)
+   #274406 - alarm notify crasher (Chenthill)
+   #274476 - File ->Open Appointments, opens meeting as appointment (Chenthill)
+
+ * Plugins 
+   #274366 - Received a mail with multiple address. 
+             crash clicking reply all (Sushma)
+   
+ * Others
+   - Kill evolution-data-server-1.2 in kill_data_server (Frederic Crozat) 
+   - just return in itip_send_comp if backend can handle sending requests
+     (Harry Lu)
+   - fix some addressbook leaks (Ross Burton)
+
+Updated Translations :
+
+	- de (Hendrik Richter)
+	- zh_TW (Chao-Hsiung Liao) 
+	- xh (Adi Attar)
+	- cy (Rhys Jones)
+	- fa (Hamed Malek) 
+	- nb (Kjartan Maraas)
+	- et (Ivar Smolin)
+	- fa (Meelad Zakaria)
+	- ko (Changwoo Ryu) 
+	- es (Francisco Javier F. Serrador) 
+	- bg (Vladimir Petkov)
+	- vi (Clytie Siddall)  
+
+
 Evolution 2.2.2, 2005-04-07
 ---------------------------
 
