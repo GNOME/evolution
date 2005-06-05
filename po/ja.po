@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution gnome-2-10\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-06-05 10:26+0900\n"
-"PO-Revision-Date: 2005-06-05 10:22+0900\n"
+"POT-Creation-Date: 2005-06-05 18:27+0900\n"
+"PO-Revision-Date: 2005-06-05 18:25+0900\n"
 "Last-Translator: Takeshi AIHANA <aihana@gnome.gr.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
@@ -11401,7 +11401,7 @@ msgstr "アドレス帳に追加(_A)"
 #: ../mail/em-popup.c:666
 #, c-format
 msgid "Open in %s..."
-msgstr "%s で開きます..."
+msgstr "%s で開く..."
 
 #: ../mail/em-subscribe-editor.c:611
 msgid "This store does not support subscriptions, or they are not enabled."
