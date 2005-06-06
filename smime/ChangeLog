@@ -1,8 +1,19 @@
+2005-06-06  JP Rosevear  <jpr@novell.com>
+
+	* lib/e-cert-db.c (install_loadable_roots): pull up missing merge
+	from branch
+
 2005-05-06  Sankar P <psankar@novell.com>
 
 	*gui/certificate-manager.c
 	Changed cert to certificates
 	Fixes #273075
+	
+2005-03-31  Jeffrey Stedfast  <fejj@novell.com>
+
+	* lib/e-cert-db.c (install_loadable_roots): Copied Mozilla code to
+	check if the nssckbi root certs module was too old and if it was,
+	delete/unload it.
 
 2005-03-30  Li Yuan  <li.yuan@sun.com>
 
