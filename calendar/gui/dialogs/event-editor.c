@@ -168,9 +168,16 @@ event_editor_construct (EventEditor *ee, ECal *client)
 		priv->meet_page = meeting_page_new (priv->model, client);
 		g_object_ref (priv->meet_page);
 		gtk_object_sink (GTK_OBJECT (priv->meet_page));
-		comp_editor_append_page (COMP_EDITOR (ee),
+		
+		if (comp_editor_get_flags (COMP_EDITOR (ee)) & COMP_EDITOR_DELEGATE) {
+			comp_editor_append_page (COMP_EDITOR (ee),
 					 COMP_EDITOR_PAGE (priv->meet_page),
-					 _("Invitations"));
+					 _("Delegatees"));
+		} else
+			comp_editor_append_page (COMP_EDITOR (ee),
+					 COMP_EDITOR_PAGE (priv->meet_page),
+					 _("Attendees"));
+		priv->meeting_shown=TRUE;
 	}
 	comp_editor_set_e_cal (COMP_EDITOR (ee), client);
 
@@ -222,7 +229,7 @@ event_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 	e_meeting_store_remove_all_attendees (priv->model);
 
 	/* Set up the attendees */
-	if (attendees == NULL) {
+	if (attendees == NULL && !(comp_editor_get_flags (COMP_EDITOR (editor)) & COMP_EDITOR_DELEGATE)) {
 		if (priv->meet_page)
 			comp_editor_remove_page (editor, COMP_EDITOR_PAGE (priv->meet_page));
 		if (priv->sched_page)
@@ -231,6 +238,7 @@ event_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 	} else {
 		GSList *l;
 		int row;
+		const char *user_email;
 	
 		if (!priv->meeting_shown) {
 			comp_editor_append_page (COMP_EDITOR (ee),
@@ -240,52 +248,53 @@ event_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 						 COMP_EDITOR_PAGE (priv->meet_page),
 						 _("Invitations"));
 		}
-	
-		for (l = attendees; l != NULL; l = l->next) {
-			ECalComponentAttendee *ca = l->data;
-			EMeetingAttendee *ia;
-
-			ia = E_MEETING_ATTENDEE (e_meeting_attendee_new_from_e_cal_component_attendee (ca));
-
-			/* If we aren't the organizer or the attendee is just delegating, don't allow editing */
-			if (!comp_editor_get_user_org (editor) || e_meeting_attendee_is_set_delto (ia))
-				e_meeting_attendee_set_edit_level (ia,  E_MEETING_ATTENDEE_EDIT_NONE);
-			e_meeting_store_add_attendee (priv->model, ia);
-
-			g_object_unref(ia);
-		}
-
-		/* If we aren't the organizer we can still change our own status */
-		if (!comp_editor_get_user_org (editor)) {
-			EAccountList *accounts;
-			EAccount *account;
-			EIterator *it;
-
-			accounts = itip_addresses_get ();
-			for (it = e_list_get_iterator((EList *)accounts);e_iterator_is_valid(it);e_iterator_next(it)) {
+		
+		if (! (comp_editor_get_flags (COMP_EDITOR (editor)) & COMP_EDITOR_DELEGATE)) {
+			for (l = attendees; l != NULL; l = l->next) {
+				ECalComponentAttendee *ca = l->data;
 				EMeetingAttendee *ia;
 
-				account = (EAccount*)e_iterator_get(it);
+				ia = E_MEETING_ATTENDEE (e_meeting_attendee_new_from_e_cal_component_attendee (ca));
 
-				ia = e_meeting_store_find_attendee (priv->model, account->id->address, &row);
-				if (ia != NULL)
-					e_meeting_attendee_set_edit_level (ia, E_MEETING_ATTENDEE_EDIT_STATUS);
+				/* If we aren't the organizer or the attendee is just delegating, don't allow editing */
+				if (!comp_editor_get_user_org (editor) || e_meeting_attendee_is_set_delto (ia))
+					e_meeting_attendee_set_edit_level (ia,  E_MEETING_ATTENDEE_EDIT_NONE);
+				e_meeting_store_add_attendee (priv->model, ia);
+
+				g_object_unref(ia);
 			}
-			g_object_unref(it);
-		} else if (e_cal_get_organizer_must_attend (client)) {
-			EMeetingAttendee *ia;
 
-			ia = e_meeting_store_find_attendee (priv->model, organizer.value, &row);
-			if (ia != NULL)
-				e_meeting_attendee_set_edit_level (ia, E_MEETING_ATTENDEE_EDIT_NONE);
+			/* If we aren't the organizer we can still change our own status */
+			if (!comp_editor_get_user_org (editor)) {
+				EAccountList *accounts;
+				EAccount *account;
+				EIterator *it;
+
+				accounts = itip_addresses_get ();
+				for (it = e_list_get_iterator((EList *)accounts);e_iterator_is_valid(it);e_iterator_next(it)) {
+					EMeetingAttendee *ia;
+
+					account = (EAccount*)e_iterator_get(it);
+
+					ia = e_meeting_store_find_attendee (priv->model, account->id->address, &row);
+					if (ia != NULL)
+						e_meeting_attendee_set_edit_level (ia, E_MEETING_ATTENDEE_EDIT_STATUS);
+				}
+				g_object_unref(it);
+			} else if (e_cal_get_organizer_must_attend (client)) {
+				EMeetingAttendee *ia;
+
+				ia = e_meeting_store_find_attendee (priv->model, organizer.value, &row);
+				if (ia != NULL)
+					e_meeting_attendee_set_edit_level (ia, E_MEETING_ATTENDEE_EDIT_NONE);
+			}
 		}
-		
 		priv->meeting_shown = TRUE;
 	}	
 	e_cal_component_free_attendee_list (attendees);
 
 	comp_editor_set_needs_send (COMP_EDITOR (ee), priv->meeting_shown && itip_organizer_is_user (comp, client));
-	
+
 	priv->updating = FALSE;
 }
 
@@ -378,12 +387,13 @@ event_editor_finalize (GObject *object)
  * editor could not be created.
  **/
 EventEditor *
-event_editor_new (ECal *client, gboolean is_meeting)
+event_editor_new (ECal *client, CompEditorFlags flags)
 {
 	EventEditor *ee;
 
 	ee = EVENT_EDITOR (g_object_new (TYPE_EVENT_EDITOR, NULL));
-	ee->priv->is_meeting = is_meeting;
+	ee->priv->is_meeting = flags & COMP_EDITOR_MEETING;
+	comp_editor_set_flags (COMP_EDITOR (ee), flags);
 	return event_editor_construct (ee, client);
 }
 
@@ -408,6 +418,8 @@ show_meeting (EventEditor *ee)
  		comp_editor_set_changed (COMP_EDITOR (ee), FALSE);
 		comp_editor_set_needs_send (COMP_EDITOR (ee), priv->meeting_shown);
 	}
+	if (comp_editor_get_flags (COMP_EDITOR (ee)) & COMP_EDITOR_DELEGATE)
+		comp_editor_show_page (COMP_EDITOR (ee), COMP_EDITOR_PAGE (priv->meet_page));
 	
 }
 

@@ -1194,9 +1194,11 @@ create_new_event (CalendarComponent *calendar_component, CalendarComponentView *
 	} else {
 		ECalComponent *comp;
 		EventEditor *editor;
+		CompEditorFlags flags;
 
-		editor = event_editor_new (ecal, is_meeting);
+		flags |= COMP_EDITOR_MEETING;
 		comp = cal_comp_event_new_with_current_time (ecal, is_allday);
+		editor = event_editor_new (ecal, flags);
 		e_cal_component_commit_sequence (comp);
 
 		comp_editor_edit_comp (COMP_EDITOR (editor), comp);

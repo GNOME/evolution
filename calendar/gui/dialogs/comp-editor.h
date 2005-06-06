@@ -56,6 +56,13 @@ typedef struct {
 	gboolean (* send_comp) (CompEditor *page, ECalComponentItipMethod method);
 } CompEditorClass;
 
+typedef enum {
+	COMP_EDITOR_NEW_ITEM = 1<<0,
+	COMP_EDITOR_MEETING = 1<<1,
+	COMP_EDITOR_DELEGATE = 1<<2,
+	COMP_EDITOR_USER_ORG = 1<<3,
+} CompEditorFlags;
+
 GtkType       comp_editor_get_type         (void);
 void          comp_editor_set_changed      (CompEditor             *editor,
 					    gboolean                changed);
@@ -100,6 +107,8 @@ void          comp_editor_focus            (CompEditor             *editor);
 void          comp_editor_notify_client_changed (CompEditor *editor, ECal *client);
 
 void comp_editor_sensitize_attachment_bar (CompEditor *editor, gboolean set);
+void comp_editor_set_flags (CompEditor *editor, CompEditorFlags flags);
+CompEditorFlags comp_editor_get_flags (CompEditor *editor);
 
 
 G_END_DECLS

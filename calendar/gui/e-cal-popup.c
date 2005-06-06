@@ -159,6 +159,9 @@ e_cal_popup_target_new_select(ECalPopup *eabp, struct _ECalModel *model, GPtrArr
 		if (e_cal_util_component_is_instance (comp_data->icalcomp))
 			mask &= ~E_CAL_POPUP_SELECT_INSTANCE;
 
+		if (e_cal_util_component_has_attendee (comp_data->icalcomp))
+			mask &= ~E_CAL_POPUP_SELECT_MEETING;
+
 		if (e_cal_util_component_has_organizer (comp_data->icalcomp)) {
 			ECalComponent *comp;
 
@@ -180,6 +183,9 @@ e_cal_popup_target_new_select(ECalPopup *eabp, struct _ECalModel *model, GPtrArr
 	if (!read_only)
 		mask &= ~E_CAL_POPUP_SELECT_EDITABLE;
 
+	if (e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_DELEGATE_SUPPORTED))
+		mask &= ~E_CAL_POPUP_SELECT_DELEGATABLE;
+		
 	if (!e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_NO_TASK_ASSIGNMENT)
 	    && !e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_NO_CONV_TO_ASSIGN_TASK))
 		mask &= ~E_CAL_POPUP_SELECT_ASSIGNABLE;
@@ -276,8 +282,10 @@ static const EPopupHookTargetMask ecalph_select_masks[] = {
 	{ "organizer", E_CAL_POPUP_SELECT_ORGANIZER },
 	{ "not-editing", E_CAL_POPUP_SELECT_NOTEDITING },
 	{ "not-meeting", E_CAL_POPUP_SELECT_NOTMEETING },
+	{ "meeting", E_CAL_POPUP_SELECT_MEETING },
 	{ "assignable", E_CAL_POPUP_SELECT_ASSIGNABLE },
 	{ "hasurl", E_CAL_POPUP_SELECT_HASURL },
+	{ "delegate", E_CAL_POPUP_SELECT_DELEGATABLE }, 
 	{ 0 }
 };
 

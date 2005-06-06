@@ -1,3 +1,45 @@
+2005-06-07  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* gui/calendar-component.c: (create_new_event):
+	call the event_editor_new with comp editor flags.
+	* gui/dialogs/comp-editor-page.h:
+	* gui/dialogs/comp-editor.c: (comp_editor_set_flags), 
+	(comp_editor_get_flags), (comp_editor_append_page):
+	* gui/dialogs/comp-editor.h: Set the comp editor
+	flags, to indicate whether the item is a meeting, appointment,
+	a new event, or a delegated item etc.
+	* gui/dialogs/event-editor.c: (event_editor_construct),
+	(event_editor_edit_comp): Do not show the existing attendees
+	while delegating.
+	(event_editor_new): Replaced the meeting variable  with 
+	the comp editor flags
+       	(show_meeting): Show the delegate page while delegating a
+	meeting.
+	* gui/dialogs/event-editor.h: Modified the event_editor_new
+	function.
+	* gui/dialogs/meeting-page.c: 
+	(set_attendees):
+	(meeting_page_finalize),(clear_widgets),
+	(sensitize_widgets),(meeting_page_fill_widgets), 
+	(meeting_page_fill_component), (get_widgets), 
+	(add_clicked_cb), (meeting_page_construct): Set the label
+	for the meeting page to Delegatee. Changed the organizer label
+	to From since groupwise does have a concept of organizer.
+       	Enabled Add, remove buttons for delegation. Added the delegte's
+	to the exiting attendee list while filling the component. Added
+	a boolean variable to the private structure to store the user's
+	address. Modified the label for meeting page as Attendees. If 
+	the meeting is delegated, then to delegatees.
+	* gui/dialogs/meeting-page.glade: Added a reference to organizer
+	widget as org-label.
+	* gui/e-cal-popup.c: (e_cal_popup_target_new_select):
+	* gui/e-cal-popup.h: Added new masks for supporring delegation.
+	* gui/e-calendar-view.c: (set_attendee_status_for_delegate),
+	(on_delegate), (e_calendar_view_new_appointment_for),
+	(open_event_with_flags), (e_calendar_view_edit_appointment):
+	Call the event editor with comp editor flags. Set the users
+	partstat to delegated.
+
 2005-05-30  Thouis R. Jones  <thouis@csail.mit.edu>
 
 	Fixes #272301

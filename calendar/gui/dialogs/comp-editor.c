@@ -96,7 +96,10 @@ struct _CompEditorPrivate {
 	GtkWidget *attachment_expander_num;
 
 	guint32 attachment_bar_visible : 1;
-
+	
+	/* TODO use this flags for setting all the boolean variables 
+	   below */
+	CompEditorFlags flags;
 	
 	gboolean changed;
 	gboolean needs_send;
@@ -1281,6 +1284,35 @@ comp_editor_get_changed (CompEditor *editor)
 	return priv->changed;
 }
 
+void 
+comp_editor_set_flags (CompEditor *editor, CompEditorFlags flags)
+{
+	
+	CompEditorPrivate *priv;
+
+	g_return_if_fail (editor != NULL);
+	g_return_if_fail (IS_COMP_EDITOR (editor));
+
+	priv = editor->priv;
+
+	priv->flags = flags;
+}
+
+
+CompEditorFlags 
+comp_editor_get_flags (CompEditor *editor)
+{
+		
+	CompEditorPrivate *priv;
+
+	g_return_val_if_fail (editor != NULL, FALSE);
+	g_return_val_if_fail (IS_COMP_EDITOR (editor), FALSE);
+
+	priv = editor->priv;
+
+	return priv->flags;
+}
+
 /**
  * comp_editor_set_needs_send:
  * @editor: A component editor
@@ -1374,6 +1406,9 @@ comp_editor_append_page (CompEditor *editor,
 	priv = editor->priv;
 
 	g_object_ref (page);
+
+	/* set the flags */
+	page->flags = priv->flags;
 
 	/* If we are editing something, fill the widgets with current info */
 	if (priv->comp != NULL) {

@@ -43,6 +43,13 @@ typedef struct {
 	struct icaltimetype *complete;
 } CompEditorPageDates;
 
+typedef enum {
+	COMP_EDITOR_PAGE_NEW_ITEM = 1<<0,
+	COMP_EDITOR_PAGE_MEETING = 1<<1,
+	COMP_EDITOR_PAGE_DELEGATE = 1<<2,
+	COMP_EDITOR_PAGE_USER_ORG = 1<<3,
+} CompEditorPageFlags;
+
 typedef struct {
 	GtkObject object;
 
@@ -55,6 +62,9 @@ typedef struct {
 	   normally, but we create our pages individually so have to do it
 	   ourselves. */
 	GtkAccelGroup *accel_group;
+
+	CompEditorPageFlags flags;
+
 } CompEditorPage;
 
 typedef struct {
@@ -81,7 +91,6 @@ typedef struct {
 	void (* set_summary) (CompEditorPage *page, const char *summary);
 	void (* set_dates) (CompEditorPage *page, CompEditorPageDates *dates);
 } CompEditorPageClass;
-
 
 GtkType    comp_editor_page_get_type               (void);
 GtkWidget *comp_editor_page_get_widget             (CompEditorPage      *page);

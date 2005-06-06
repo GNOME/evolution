@@ -82,6 +82,7 @@ struct _ECalendarViewPrivate {
 static void e_calendar_view_get_property (GObject *object, guint property_id, GValue *value, GParamSpec *pspec);
 static void e_calendar_view_set_property (GObject *object, guint property_id, const GValue *value, GParamSpec *pspec);
 static void e_calendar_view_destroy (GtkObject *object);
+static void open_event_with_flags (ECalendarView *cal_view, ECal *client, icalcomponent *icalcomp, guint32 flags);
 
 static GdkAtom clipboard_atom = GDK_NONE;
 extern ECompEditorRegistry *comp_editor_registry;
@@ -1247,6 +1248,53 @@ on_meeting (EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static void
+set_attendee_status_for_delegate (icalcomponent *icalcomp, const char *email_id, ECal *client)
+{
+	icalproperty *prop;	
+	
+	if (!email_id)
+		return;
+
+	for (prop = icalcomponent_get_first_property (icalcomp, ICAL_ATTENDEE_PROPERTY);
+			prop;
+			prop = icalcomponent_get_next_property (icalcomp, ICAL_ATTENDEE_PROPERTY)) {
+		const char *attendee = icalproperty_get_attendee (prop);
+
+		if (g_str_equal (attendee + 7, email_id)) {
+			icalparameter *param;
+
+			param = icalparameter_new_partstat (ICAL_PARTSTAT_DELEGATED);
+			icalproperty_set_parameter (prop, param);
+			break;
+		} 
+
+	}
+}
+
+static void
+on_delegate (EPopup *ep, EPopupItem *pitem, void *data)
+{
+	ECalendarView *cal_view = data;
+	GList *selected;
+	guint32 flags;
+
+	selected = e_calendar_view_get_selected_events (cal_view);
+	if (selected) {
+		ECalendarViewEvent *event = (ECalendarViewEvent *) selected->data;
+		char *address;
+		
+		e_cal_get_cal_address (event->comp_data->client, &address, NULL);
+		set_attendee_status_for_delegate (event->comp_data->icalcomp, address, event->comp_data->client);
+
+		flags |= COMP_EDITOR_MEETING | COMP_EDITOR_DELEGATE;
+
+		open_event_with_flags (cal_view, event->comp_data->client, event->comp_data->icalcomp, flags);
+
+		g_list_free (selected);
+	}
+}
+
+static void
 on_forward (EPopup *ep, EPopupItem *pitem, void *data)
 {
 	ECalendarView *cal_view = data;
@@ -1430,8 +1478,9 @@ static EPopupItem ecv_child_items [] = {
 
 	{ E_POPUP_ITEM, "41.copyto", N_("Cop_y to Calendar..."), on_copy_to, NULL, NULL, 0, E_CAL_POPUP_SELECT_NOTEDITING },
 	{ E_POPUP_ITEM, "42.moveto", N_("Mo_ve to Calendar..."), on_move_to, NULL, NULL, 0, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_EDITABLE },
-	{ E_POPUP_ITEM, "43.schedule", N_("_Schedule Meeting..."), on_meeting, NULL, NULL, 0, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_EDITABLE | E_CAL_POPUP_SELECT_NOTMEETING },
-	{ E_POPUP_ITEM, "44.forward", N_("_Forward as iCalendar..."), on_forward, NULL, "stock_mail-forward", 0, E_CAL_POPUP_SELECT_NOTEDITING },
+	{ E_POPUP_ITEM, "43.delegate", N_("_Delegate Meeting..."), on_delegate, NULL, NULL, 0, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_EDITABLE | E_CAL_POPUP_SELECT_DELEGATABLE },
+	{ E_POPUP_ITEM, "44.schedule", N_("_Schedule Meeting..."), on_meeting, NULL, NULL, 0, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_EDITABLE | E_CAL_POPUP_SELECT_NOTMEETING },
+	{ E_POPUP_ITEM, "45.forward", N_("_Forward as iCalendar..."), on_forward, NULL, "stock_mail-forward", 0, E_CAL_POPUP_SELECT_NOTEDITING },
 
 	{ E_POPUP_BAR, "50." },
 
@@ -1543,6 +1592,7 @@ e_calendar_view_new_appointment_for (ECalendarView *cal_view,
 	ECalComponent *comp;
 	icalcomponent *icalcomp;
 	ECalComponentTransparency transparency;
+	guint32 flags = 0;
 
 	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
 
@@ -1589,9 +1639,12 @@ e_calendar_view_new_appointment_for (ECalendarView *cal_view,
 	/* edit the object */
 	e_cal_component_commit_sequence (comp);
 
-	e_calendar_view_edit_appointment (cal_view,
-				     e_cal_model_get_default_client (priv->model),
-				     icalcomp, meeting);
+	flags |= COMP_EDITOR_NEW_ITEM;
+	if (meeting)
+		flags |= COMP_EDITOR_MEETING;
+	
+	open_event_with_flags (cal_view, e_cal_model_get_default_client (priv->model),
+			icalcomp, flags);
 
 	g_object_unref (comp);
 }
@@ -1630,6 +1683,41 @@ e_calendar_view_new_appointment (ECalendarView *cal_view)
 	e_calendar_view_new_appointment_full (cal_view, FALSE, FALSE);
 }
 
+static void
+open_event_with_flags (ECalendarView *cal_view, ECal *client, icalcomponent *icalcomp, guint32 flags)
+{
+	ECalendarViewPrivate *priv;
+	CompEditor *ce;
+	const char *uid;
+	ECalComponent *comp;
+
+
+	priv = cal_view->priv;
+
+	uid = icalcomponent_get_uid (icalcomp);
+
+	ce = e_comp_editor_registry_find (comp_editor_registry, uid);
+	if (!ce) {
+		EventEditor *ee;
+
+		ee = event_editor_new (client, flags);
+		ce = COMP_EDITOR (ee);
+
+		comp = e_cal_component_new ();
+		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (icalcomp));
+		comp_editor_edit_comp (ce, comp);
+		if (flags & COMP_EDITOR_MEETING)
+			event_editor_show_meeting (ee);
+
+		e_comp_editor_registry_add (comp_editor_registry, ce, FALSE);
+
+		g_object_unref (comp);
+	}
+
+	comp_editor_focus (ce);
+
+}
+
 /**
  * e_calendar_view_edit_appointment
  * @cal_view: A calendar view.
@@ -1646,38 +1734,16 @@ e_calendar_view_edit_appointment (ECalendarView *cal_view,
 			     icalcomponent *icalcomp,
 			     gboolean meeting)
 {
-	ECalendarViewPrivate *priv;
-	CompEditor *ce;
-	const char *uid;
-	ECalComponent *comp;
-
+	guint32 flags = 0;
+	
 	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
 	g_return_if_fail (E_IS_CAL (client));
 	g_return_if_fail (icalcomp != NULL);
 
-	priv = cal_view->priv;
+	if (meeting)
+		flags |= COMP_EDITOR_MEETING;
 
-	uid = icalcomponent_get_uid (icalcomp);
-
-	ce = e_comp_editor_registry_find (comp_editor_registry, uid);
-	if (!ce) {
-		EventEditor *ee;
-
-		ee = event_editor_new (client, meeting);
-		ce = COMP_EDITOR (ee);
-
-		comp = e_cal_component_new ();
-		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (icalcomp));
-		comp_editor_edit_comp (ce, comp);
-		if (meeting)
-			event_editor_show_meeting (ee);
-
-		e_comp_editor_registry_add (comp_editor_registry, ce, FALSE);
-
-		g_object_unref (comp);
-	}
-
-	comp_editor_focus (ce);
+	open_event_with_flags (cal_view, client, icalcomp, flags);
 }
 
 void

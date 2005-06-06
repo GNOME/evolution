@@ -62,6 +62,7 @@ struct _MeetingPagePrivate {
 	EAccountList *accounts;
 	EMeetingAttendee *ia;
 	char *default_address;
+	char *user_add;
 	
 	/* Glade XML data */
 	GladeXML *xml;
@@ -78,6 +79,7 @@ struct _MeetingPagePrivate {
 	GtkWidget *remove;
 	GtkWidget *invite;
 	GtkWidget *att_label;
+	GtkWidget *org_label;
 
 	/* ListView stuff */
 	EMeetingStore *model;
@@ -196,6 +198,7 @@ set_attendees (ECalComponent *comp, const GPtrArray *attendees)
 		
 	}
 	comp_attendees = g_slist_reverse (comp_attendees);
+	
 	e_cal_component_set_attendee_list (comp, comp_attendees);
 	
 	for (l = comp_attendees; l != NULL; l = l->next)
@@ -249,6 +252,10 @@ meeting_page_finalize (GObject *object)
 		priv->default_address = NULL;
 	}
 
+	if (priv->user_add) {
+		g_free (priv->user_add);
+		priv->user_add = NULL;
+	}
 	g_free (priv);
 	mpage->priv = NULL;
 
@@ -292,7 +299,17 @@ clear_widgets (MeetingPage *mpage)
 
 	priv = mpage->priv;
 
+	if (COMP_EDITOR_PAGE (mpage)->flags & COMP_EDITOR_PAGE_DELEGATE) {
+		gtk_label_set_markup_with_mnemonic (priv->att_label, _("<b>Dele_gatees</b>"));
+	}
+
+	if (e_cal_get_static_capability (COMP_EDITOR_PAGE (mpage)->client, CAL_STATIC_CAPABILITY_NO_ORGANIZER)) {
+		gtk_label_set_label (GTK_LABEL (priv->org_label), _("From:"));
+		gtk_widget_hide (priv->existing_organizer_btn);
+	}
+				
 	gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (priv->organizer)->entry), priv->default_address);
+
 	gtk_label_set_text (GTK_LABEL (priv->existing_organizer), _("None"));
 
 	gtk_widget_show (priv->organizer_table);
@@ -308,7 +325,12 @@ sensitize_widgets (MeetingPage *mpage)
 	gboolean read_only = FALSE;
 	MeetingPagePrivate *priv = mpage->priv;
 	GError *error = NULL;
+	guint32 flags;
+	gboolean delegate;
 	
+	flags = COMP_EDITOR_PAGE (mpage)->flags;
+	delegate = flags & COMP_EDITOR_PAGE_DELEGATE;
+
 	if (!e_cal_is_read_only (COMP_EDITOR_PAGE (mpage)->client, &read_only, &error)) {
 		if (error->code != E_CALENDAR_STATUS_BUSY)
 			read_only = TRUE;
@@ -316,9 +338,9 @@ sensitize_widgets (MeetingPage *mpage)
 	}	
 	gtk_widget_set_sensitive (priv->organizer, !read_only);
 	gtk_widget_set_sensitive (priv->existing_organizer_btn, !read_only);
-	gtk_widget_set_sensitive (priv->add, !read_only && priv->user_org);
-	gtk_widget_set_sensitive (priv->remove, !read_only && priv->user_org);
-	gtk_widget_set_sensitive (priv->invite, !read_only && priv->user_org);
+	gtk_widget_set_sensitive (priv->add, !read_only && (priv->user_org || delegate));
+	gtk_widget_set_sensitive (priv->remove, !read_only && (priv->user_org|| delegate));
+	gtk_widget_set_sensitive (priv->invite, !read_only && (priv->user_org || delegate));
 	gtk_widget_set_sensitive (GTK_WIDGET (priv->list_view), !read_only);
 }
 
@@ -334,6 +356,7 @@ meeting_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	priv = mpage->priv;
 
 	priv->updating = TRUE;
+	
 	
 	/* Clean out old data */
 	if (priv->comp != NULL)
@@ -378,10 +401,13 @@ meeting_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 				priv->user_org = FALSE;
 			}
 			
-			if (organizer.cn != NULL)
+			if (e_cal_get_static_capability (COMP_EDITOR_PAGE (mpage)->client, CAL_STATIC_CAPABILITY_NO_ORGANIZER))
+				string = g_strdup (priv->user_add);
+			else if ( organizer.cn != NULL)
 				string = g_strdup_printf ("%s <%s>", organizer.cn, strip);
 			else
 				string = g_strdup (strip);
+
 			gtk_label_set_text (GTK_LABEL (priv->existing_organizer), string);
 			g_free (string);
 
@@ -456,7 +482,28 @@ meeting_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 			  _("At least one attendee is required."));
 		return FALSE;
 	}
-	set_attendees (comp, e_meeting_store_get_attendees (priv->model));
+	
+
+	if (COMP_EDITOR_PAGE (mpage)->flags & COMP_EDITOR_PAGE_DELEGATE ) {
+		GSList *attendee_list, *l;
+		int i;
+		GPtrArray *attendees = e_meeting_store_get_attendees (priv->model);
+
+		e_cal_component_get_attendee_list (priv->comp, &attendee_list);
+		
+		for (i = 0; i < attendees->len; i++) {
+			EMeetingAttendee *ia = g_ptr_array_index (attendees, i);
+			ECalComponentAttendee *ca;
+		
+			ca = e_meeting_attendee_as_e_cal_component_attendee (ia);
+
+			attendee_list = g_slist_append (attendee_list, ca);
+		}
+		e_cal_component_set_attendee_list (comp, attendee_list);
+		e_cal_component_free_attendee_list (attendee_list);
+	} else 
+		set_attendees (comp, e_meeting_store_get_attendees (priv->model));
+
 	
 	return TRUE;
 }
@@ -512,6 +559,7 @@ get_widgets (MeetingPage *mpage)
 
 	/* Attendees Label */
 	priv->att_label = GW ("attendees-label");
+	priv->org_label = GW ("org-label");
 
 #undef GW
 
@@ -585,6 +633,11 @@ add_clicked_cb (GtkButton *btn, MeetingPage *mpage)
 	EMeetingAttendee *attendee;
 	
 	attendee = e_meeting_store_add_attendee_with_defaults (mpage->priv->model);
+
+	if (COMP_EDITOR_PAGE (mpage)->flags & COMP_EDITOR_PAGE_DELEGATE) {
+		e_meeting_attendee_set_delfrom (attendee, g_strdup (mpage->priv->user_add));	
+	}
+
 	e_meeting_list_view_edit (mpage->priv->list_view, attendee);
 }
 
@@ -855,6 +908,7 @@ meeting_page_construct (MeetingPage *mpage, EMeetingStore *ems,
 	EAccount *def_account;
 	GList *address_strings = NULL, *l;
 	GtkWidget *sw;
+	EAccount *a;
 	
 	priv = mpage->priv;
 
@@ -879,7 +933,7 @@ meeting_page_construct (MeetingPage *mpage, EMeetingStore *ems,
 	for (it = e_list_get_iterator((EList *)priv->accounts);
 	     e_iterator_is_valid(it);
 	     e_iterator_next(it)) {
-		EAccount *a = (EAccount *)e_iterator_get(it);
+		a = (EAccount *)e_iterator_get(it);
 		char *full;
 		
 		full = g_strdup_printf("%s <%s>", a->id->name, a->id->address);
@@ -898,8 +952,13 @@ meeting_page_construct (MeetingPage *mpage, EMeetingStore *ems,
 			priv->default_address = g_strdup (full);
 		}
 	}
+	
+	if (backend_address)
+		priv->user_add = backend_address;
+	else
+		priv->user_add = g_strdup (a->id->address);
+
 	g_object_unref(it);
-	g_free (backend_address);
 
 	if (address_strings)
 		gtk_combo_set_popdown_strings (GTK_COMBO (priv->organizer), address_strings);

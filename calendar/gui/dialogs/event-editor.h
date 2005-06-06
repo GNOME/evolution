@@ -53,7 +53,7 @@ struct _EventEditorClass {
 GtkType      event_editor_get_type     (void);
 EventEditor *event_editor_construct    (EventEditor *ee,
 					ECal   *client);
-EventEditor *event_editor_new          (ECal   *client, gboolean is_meeting);
+EventEditor *event_editor_new          (ECal   *client, CompEditorFlags flags);
 void         event_editor_show_meeting (EventEditor *ee);
 
 
