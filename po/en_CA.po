@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-06-01 04:45-0400\n"
-"PO-Revision-Date: 2005-06-01 19:18-0400\n"
+"POT-Creation-Date: 2005-06-05 22:09-0400\n"
+"PO-Revision-Date: 2005-06-05 19:18-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: Canadian English <adamw@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -4730,7 +4730,7 @@ msgstr "Method not supported when opening the calendar"
 msgid "Permission denied to open the calendar"
 msgstr "Permission denied to open the calendar"
 
-#: calendar/gui/comp-editor-factory.c:437 shell/e-shell.c:1263
+#: calendar/gui/comp-editor-factory.c:437 shell/e-shell.c:1288
 msgid "Unknown error"
 msgstr "Unknown error"
 
@@ -4903,13 +4903,13 @@ msgstr "Attachment Bar"
 #: calendar/gui/dialogs/cal-attachment-select-file.c:115
 #: calendar/gui/dialogs/cal-attachment.glade.h:6
 #: composer/e-msg-composer-attachment.glade.h:6
-#: composer/e-msg-composer-select-file.c:95
-#: composer/e-msg-composer-select-file.c:115
+#: composer/e-msg-composer-select-file.c:96
+#: composer/e-msg-composer-select-file.c:116
 msgid "Suggest automatic display of attachment"
 msgstr "Suggest automatic display of attachment"
 
 #: calendar/gui/dialogs/cal-attachment-select-file.c:190
-#: composer/e-msg-composer-select-file.c:231
+#: composer/e-msg-composer-select-file.c:235
 msgid "Attach file(s)"
 msgstr "Attach file(s)"
 
@@ -5372,15 +5372,15 @@ msgstr " (Due "
 msgid "Due "
 msgstr "Due "
 
-#: calendar/gui/dialogs/comp-editor.c:181 composer/e-msg-composer.c:2653
+#: calendar/gui/dialogs/comp-editor.c:181 composer/e-msg-composer.c:2654
 #, c-format
 msgid "Attached message - %s"
 msgstr "Attached message - %s"
 
 #. translators, this count will always be >1
 #: calendar/gui/dialogs/comp-editor.c:186
-#: calendar/gui/dialogs/comp-editor.c:355 composer/e-msg-composer.c:2658
-#: composer/e-msg-composer.c:2834
+#: calendar/gui/dialogs/comp-editor.c:355 composer/e-msg-composer.c:2659
+#: composer/e-msg-composer.c:2835
 #, c-format
 msgid "Attached message"
 msgid_plural "%d attached messages"
@@ -5388,7 +5388,7 @@ msgstr[0] "Attached message"
 msgstr[1] "%d attached messages"
 
 #: calendar/gui/dialogs/comp-editor.c:418 calendar/gui/e-calendar-table.c:1164
-#: calendar/gui/e-calendar-view.c:1426 composer/e-msg-composer.c:2896
+#: calendar/gui/e-calendar-view.c:1426 composer/e-msg-composer.c:2899
 #: mail/em-folder-tree.c:1047 mail/em-folder-view.c:1033
 #: mail/message-list.c:1708 ui/evolution-addressbook.xml.h:31
 #: ui/evolution-calendar.xml.h:39 ui/evolution-composer-entries.xml.h:7
@@ -5396,13 +5396,13 @@ msgstr[1] "%d attached messages"
 msgid "_Copy"
 msgstr "_Copy"
 
-#: calendar/gui/dialogs/comp-editor.c:419 composer/e-msg-composer.c:2897
+#: calendar/gui/dialogs/comp-editor.c:419 composer/e-msg-composer.c:2900
 #: mail/em-folder-tree.c:1048 mail/em-folder-view.c:929
 #: mail/message-list.c:1709
 msgid "_Move"
 msgstr "_Move"
 
-#: calendar/gui/dialogs/comp-editor.c:421 composer/e-msg-composer.c:2899
+#: calendar/gui/dialogs/comp-editor.c:421 composer/e-msg-composer.c:2902
 #: mail/em-folder-tree.c:1050 mail/message-list.c:1711
 msgid "Cancel _Drag"
 msgstr "Cancel _Drag"
@@ -5418,7 +5418,7 @@ msgid_plural "<b>%d</b> Attachments"
 msgstr[0] "<b>%d</b> Attachment"
 msgstr[1] "<b>%d</b> Attachments"
 
-#: calendar/gui/dialogs/comp-editor.c:968 composer/e-msg-composer.c:3477
+#: calendar/gui/dialogs/comp-editor.c:968
 msgid "_Attachment Bar (drop attachments here)"
 msgstr "_Attachment Bar (drop attachments here)"
 
@@ -9360,15 +9360,15 @@ msgstr "Pacific/Wallis"
 msgid "Pacific/Yap"
 msgstr "Pacific/Yap"
 
-#: composer/e-msg-composer-hdrs.c:520
+#: composer/e-msg-composer-hdrs.c:525
 msgid "Posting destination"
 msgstr "Posting destination"
 
-#: composer/e-msg-composer-hdrs.c:521
+#: composer/e-msg-composer-hdrs.c:526
 msgid "Choose folders to post the message to."
 msgstr "Choose folders to post the message to."
 
-#: composer/e-msg-composer-hdrs.c:555
+#: composer/e-msg-composer-hdrs.c:560
 msgid "Click here for the address book"
 msgstr "Click here for the address book"
 
@@ -9379,45 +9379,45 @@ msgstr "Click here for the address book"
 #. * because that causes from_changed to be called, which
 #. * expects the reply_to fields to be initialized.
 #.
-#: composer/e-msg-composer-hdrs.c:585
+#: composer/e-msg-composer-hdrs.c:590
 msgid "_Reply-To:"
 msgstr "_Reply-To:"
 
 #.
 #. * From
 #.
-#: composer/e-msg-composer-hdrs.c:592
+#: composer/e-msg-composer-hdrs.c:597
 msgid "Fr_om:"
 msgstr "Fr_om:"
 
 #.
 #. * Subject
 #.
-#: composer/e-msg-composer-hdrs.c:599
+#: composer/e-msg-composer-hdrs.c:604
 msgid "S_ubject:"
 msgstr "S_ubject:"
 
-#: composer/e-msg-composer-hdrs.c:609
+#: composer/e-msg-composer-hdrs.c:614
 msgid "_To:"
 msgstr "_To:"
 
-#: composer/e-msg-composer-hdrs.c:610
+#: composer/e-msg-composer-hdrs.c:615
 msgid "Enter the recipients of the message"
 msgstr "Enter the recipients of the message"
 
-#: composer/e-msg-composer-hdrs.c:613
+#: composer/e-msg-composer-hdrs.c:618
 msgid "_Cc:"
 msgstr "_Cc:"
 
-#: composer/e-msg-composer-hdrs.c:614
+#: composer/e-msg-composer-hdrs.c:619
 msgid "Enter the addresses that will receive a carbon copy of the message"
 msgstr "Enter the addresses that will receive a carbon copy of the message"
 
-#: composer/e-msg-composer-hdrs.c:617
+#: composer/e-msg-composer-hdrs.c:622
 msgid "_Bcc:"
 msgstr "_Bcc:"
 
-#: composer/e-msg-composer-hdrs.c:618
+#: composer/e-msg-composer-hdrs.c:623
 msgid ""
 "Enter the addresses that will receive a carbon copy of the message without "
 "appearing in the recipient list of the message."
@@ -9428,19 +9428,19 @@ msgstr ""
 #.
 #. * Post-To
 #.
-#: composer/e-msg-composer-hdrs.c:625
+#: composer/e-msg-composer-hdrs.c:630
 msgid "_Post To:"
 msgstr "_Post To:"
 
-#: composer/e-msg-composer-hdrs.c:630
+#: composer/e-msg-composer-hdrs.c:635
 msgid "Click here to select folders to post to"
 msgstr "Click here to select folders to post to"
 
-#: composer/e-msg-composer-hdrs.c:636
+#: composer/e-msg-composer-hdrs.c:641
 msgid "Post To:"
 msgstr "Post To:"
 
-#: composer/e-msg-composer-select-file.c:80
+#: composer/e-msg-composer-select-file.c:81
 msgid "A_ttach"
 msgstr "A_ttach"
 
@@ -9488,12 +9488,16 @@ msgstr "Autogenerated"
 msgid "Si_gnature:"
 msgstr "Si_gnature:"
 
-#: composer/e-msg-composer.c:2336 composer/e-msg-composer.c:3366
-#: composer/e-msg-composer.c:3367
+#: composer/e-msg-composer.c:2337 composer/e-msg-composer.c:3373
+#: composer/e-msg-composer.c:3374
 msgid "Compose a message"
 msgstr "Compose a message"
 
-#: composer/e-msg-composer.c:4537
+#: composer/e-msg-composer.c:3484
+msgid "_Attachment Bar"
+msgstr "_Attachment Bar"
+
+#: composer/e-msg-composer.c:4557
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
@@ -15471,32 +15475,32 @@ msgstr "Evolution is currently offline.  Click on this button to work online."
 msgid "Switch to %s"
 msgstr "Switch to %s"
 
-#: shell/e-shell.c:597
+#: shell/e-shell.c:622
 msgid "Uknown system error."
 msgstr "Uknown system error."
 
-#: shell/e-shell.c:799 shell/e-shell.c:800
+#: shell/e-shell.c:824 shell/e-shell.c:825
 #, c-format
 msgid "%ld KB"
 msgstr "%ld KB"
 
-#: shell/e-shell.c:1253 widgets/misc/e-cell-date-edit.c:256
+#: shell/e-shell.c:1278 widgets/misc/e-cell-date-edit.c:256
 msgid "OK"
 msgstr "OK"
 
-#: shell/e-shell.c:1255
+#: shell/e-shell.c:1280
 msgid "Invalid arguments"
 msgstr "Invalid arguments"
 
-#: shell/e-shell.c:1257
+#: shell/e-shell.c:1282
 msgid "Cannot register on OAF"
 msgstr "Cannot register on OAF"
 
-#: shell/e-shell.c:1259
+#: shell/e-shell.c:1284
 msgid "Configuration Database not found"
 msgstr "Configuration Database not found"
 
-#: shell/e-shell.c:1261
+#: shell/e-shell.c:1286
 msgid "Generic error"
 msgstr "Generic error"
 
