@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-05-27 09:21+0300\n"
-"PO-Revision-Date: 2005-05-27 09:21+0300\n"
+"POT-Creation-Date: 2005-06-06 13:39+0300\n"
+"PO-Revision-Date: 2005-06-06 13:39+0300\n"
 "Last-Translator: Rostislav \"zbrox\" Raykov <zbrox@i-space.org>\n"
 "Language-Team: Bulgarian <dict@fsa-bg.org>\n"
 "MIME-Version: 1.0\n"
@@ -160,7 +160,7 @@ msgstr "%a %d %b %Y"
 #. specifiers or add anything.
 #: ../a11y/calendar/ea-gnome-calendar.c:190
 #: ../calendar/gui/calendar-component.c:663
-#: ../calendar/gui/e-day-view-top-item.c:719 ../calendar/gui/e-day-view.c:1511
+#: ../calendar/gui/e-day-view-top-item.c:719 ../calendar/gui/e-day-view.c:1516
 #: ../calendar/gui/e-week-view-main-item.c:321
 msgid "%a %d %b"
 msgstr "%a %d %b"
@@ -192,7 +192,7 @@ msgstr "%d %B %Y"
 #. change the specifiers or add anything.
 #: ../a11y/calendar/ea-gnome-calendar.c:220
 #: ../calendar/gui/calendar-component.c:689
-#: ../calendar/gui/e-day-view-top-item.c:723 ../calendar/gui/e-day-view.c:1527
+#: ../calendar/gui/e-day-view-top-item.c:723 ../calendar/gui/e-day-view.c:1532
 #: ../calendar/gui/e-week-view-main-item.c:335
 msgid "%d %b"
 msgstr "%d %b"
@@ -765,7 +765,7 @@ msgid "URI for the folder last used in the select names dialog."
 msgstr "URI на папката, последно използвана в диалога за избор на име."
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:9
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:50
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:55
 msgid "Vertical pane position"
 msgstr "Разположение на вертикалния панел"
 
@@ -4318,104 +4318,127 @@ msgid "Calendars to run alarms for"
 msgstr "Календари, за които да се пускат аларми"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:6
+msgid ""
+"Color to draw the Marcus Bains Line in the Time bar (empty for default)."
+msgstr ""
+"Цвят за изобразяване на кривата на Marcus Bains в полето за време (празно по "
+"подразбиране)."
+
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:7
+msgid "Color to draw the Marcus Bains line in the Day View."
+msgstr "Цвят за изобразяване на кривата на Marcus Bains в изгледа за деня."
+
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:8
 msgid "Compress weekends in month view"
 msgstr "Сбиване на почивните дни в месечния преглед"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:7
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:9
 msgid "Confirm expunge"
 msgstr "Потвърждаване на зачеркването"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:8
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:10
 msgid "Days on which the start and end of work hours should be indicated."
 msgstr "Дни, в които да се показват началните и крайните работни часове."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:9
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:11
 msgid "Default appointment reminder"
 msgstr "Стандартно напомняне за среща"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:10
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:12
 msgid "Default reminder units"
 msgstr "Стандартни единици за напомняне"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:11
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:13
 msgid "Default reminder value"
 msgstr "Единици на стандартното напомняне"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:12
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:14
 msgid "Free/busy server urls"
 msgstr "Адреси на сървър свободен/зает"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:13
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:15
 msgid "Free/busy template url"
 msgstr "Шаблон за адрес свободен/зает"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:14
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:16
 msgid "Hide completed tasks"
 msgstr "Скриване на завършените задачи"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:15
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:17
 msgid "Hide task units"
 msgstr "Скриване на единиците на задачите"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:16
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:18
 msgid "Hide task value"
 msgstr "Скриване на стойността на задачата"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:17
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:19
 msgid "Horizontal pane position"
 msgstr "Позиция на хоризонталния панел"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:18
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:20
 msgid "Hour the workday ends on, in twenty four hour format, 0 to 23."
 msgstr "Час, в който свършва работния ден, в 24 часов формат от 0 до 23."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:19
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:21
 msgid "Hour the workday starts on, in twenty four hour format, 0 to 23."
 msgstr "Час, в който започва работния ден, в 24 часов формат от 0 до 23."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:20
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:22
 msgid "Intervals shown in Day and Work Week views, in minutes."
 msgstr ""
 "Интервалите, показани в прегледите за деня или за работната седмица, в "
 "минути."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:21
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:23
 msgid "Last alarm time"
 msgstr "Последно време на алармиране"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:22
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:24
 msgid "List of server urls for free/busy publishing."
 msgstr "Изписване на адресите за свободно/заето публикуване."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:23
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:25
+msgid "Marcus Bains Line"
+msgstr "Крива на Marcus Bains"
+
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:26
+msgid "Marcus Bains Line Color - Day View"
+msgstr "Цвят на кривата на Marcus Bains - изглед за деня"
+
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:27
+msgid "Marcus Bains Line Color - Time bar"
+msgstr "Цвят на кривата на Marcus Bains - поле за време"
+
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:28
 msgid "Minute the workday ends on, 0 to 59."
 msgstr "Минута, в която завършва работния ден, от 0 до 59."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:24
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:29
 msgid "Minute the workday starts on, 0 to 59."
 msgstr "Минута, в която започва работния ден, от 0 до 59."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:25
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:30
 msgid "Month view horizontal pane position"
 msgstr "Позиция на хоризонталния панел за месечния изглед"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:26
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:31
 msgid "Month view vertical pane position"
 msgstr "Позицията на вертикалния панел в месечния изглед"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:27
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:32
 msgid "Number of units for determining for a default reminder."
 msgstr "Брой единици за стандартното напомняне."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:28
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:33
 msgid "Number of units for determining when to hide tasks."
 msgstr "Брой единици за определяне кога да се скриват задачи."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:29
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:34
 msgid "Overdue tasks color"
 msgstr "Цвят на просрочените задачи"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:30
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:35
 msgid ""
 "Position of the horizontal pane, between the date navigator calendar and the "
 "task list when not in the month view, in pixels."
@@ -4423,7 +4446,7 @@ msgstr ""
 "Позицията на хоризонталния панел, между навигатора за датите и списъка със "
 "задачи, когато не сте в месечния изглед; в пиксели."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:31
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:36
 msgid ""
 "Position of the horizontal pane, between the view and the date navigator "
 "calendar and task list in the month view, in pixels."
@@ -4431,7 +4454,7 @@ msgstr ""
 "Позицията на хоризонталния панел, между навигатора за прегледа и датите и "
 "списъка със задачи в месечния изглед; в пиксели."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:32
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:37
 msgid ""
 "Position of the vertical pane, between the task list and the task preview "
 "pane, in pixels."
@@ -4439,7 +4462,7 @@ msgstr ""
 "Позиция на вертикалния панел, между списъка със задачи и панела за преглед "
 "на задачи, в пиксели."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:33
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:38
 msgid ""
 "Position of the vertical pane, between the view and the date navigator "
 "calendar and task list in the month view, in pixels."
@@ -4447,7 +4470,7 @@ msgstr ""
 "Позицията на вертикалния панел, между навигатора за прегледа и датата и "
 "списъка със задачи в месечния изглед; в пиксели;"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:34
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:39
 msgid ""
 "Position of the vertical pane, between the view and the date navigator "
 "calendar and task list when not in the month view, in pixels."
@@ -4455,32 +4478,32 @@ msgstr ""
 "Позицията на вертикалния панел, между навигатора за прегледа и датите и "
 "списъка със задачите, когато не сте в месечния изглед; в пиксели."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:35
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:40
 msgid "Programs that are allowed to be run by alarms."
 msgstr "Програми, които могат да бъдат стартирани от аларми."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:36
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:41
 msgid "Show appointment end times in week and month views"
 msgstr ""
 "Показване на края на срещите в седмичните и месечните календарни изгледи"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:37
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:42
 msgid "Show display alarms in notification tray"
 msgstr "Показване на алармите в зоната за уведомяване"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:38
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:43
 msgid "Show week numbers in date navigator"
 msgstr "Показване на номерата на седмиците в навигацията за дати"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:39
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:44
 msgid "Tasks due today color"
 msgstr "Цвят на задачите за днес"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:40
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:45
 msgid "Tasks vertical pane position"
 msgstr "Разположение на вертикалния панел със задачи"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:41
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:46
 msgid ""
 "The default timezone to use for dates and times in the calendar, as an "
 "untranslated Olsen timezone database location like \"America/New York\"."
@@ -4488,7 +4511,7 @@ msgstr ""
 "Стандартният часови пояс за дати и време в календара, във вид на непреведена "
 "база от данни на Olsen за местоположения, например \"America/New York\"."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:43
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:48
 #, no-c-format
 msgid ""
 "The url template to use as a free/busy data fallback, %u is replaced by the "
@@ -4497,56 +4520,56 @@ msgstr ""
 "Шаблонът за използване на адреси за данни свободен/зает, %u се заменя с "
 "потребителската част от адреса на е-поща, а %d се заменя от домейна."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:44
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:49
 msgid "Time divisions"
 msgstr "Времеви разделения"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:45
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:50
 msgid "Time the last alarm ran, in time_t."
 msgstr "Времето на последната аларма, в time_t."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:46
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:51
 msgid "Timezone"
 msgstr "Часови пояс"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:47
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:52
 msgid "Twenty four hour time format"
 msgstr "24 часов формат на времето"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:48
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:53
 msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\"."
 msgstr ""
 "Мерни единици в подразбиращото се напомняне - \"минути\", \"часове\" или "
 "\"дни\"."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:49
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:54
 msgid ""
 "Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days\"."
 msgstr ""
 "Единици за определяне кога да се скриват задачи, \"минути\", \"часове\" или "
 "\"дни\"."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:51
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:56
 msgid "Week start"
 msgstr "Начало на седмицата"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:52
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:57
 msgid "Weekday the week starts on, from Sunday (0) to Saturday (6)."
 msgstr "Ден, в който започва работната седмица, от неделя (0) до събота (6)."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:53
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:58
 msgid "Whether or not to use the notification tray for display alarms."
 msgstr "Дали да се използва зоната за уведомяване за изобразяване на аларми."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:54
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:59
 msgid "Whether to ask for confirmation when deleting an appointment or task."
 msgstr "Дали да пита за потвърждение при изтриване на среща или задача."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:55
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:60
 msgid "Whether to ask for confirmation when expunging appointments and tasks."
 msgstr "Дали да пита за потвърждение при изтриване на срещи или задачи."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:56
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:61
 msgid ""
 "Whether to compress weekends in the month view, which puts Saturday and "
 "Sunday in the space of one weekday."
@@ -4554,46 +4577,52 @@ msgstr ""
 "Дали да се свиват почивните дни в месечния изглед, което ще изобрази "
 "съботите и неделите като един разделителен почивен ден."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:57
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:62
 msgid "Whether to display the end time of events in the week and month views."
 msgstr ""
 "Дали да се показва края на срещите в седмичните и месечните календарни "
 "изгледи."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:58
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:63
+msgid ""
+"Whether to draw the Marcus Bains Line (line at current time) in the calendar."
+msgstr ""
+"Дали да се изобразява кривата на Marcus Bains (в текущо време) в календара."
+
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:64
 msgid "Whether to hide completed tasks in the tasks view."
 msgstr "Дали да се скриват завършените задачи в списъка със задачи."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:59
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:65
 msgid "Whether to set a default reminder for appointments."
 msgstr "Дали да бъде зададено стандартното напомняне за срещи."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:60
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:66
 msgid ""
 "Whether to show times in twenty four hour format instead of using am/pm."
 msgstr "Дали времето да се показва в 24ч формат вместо с am/pm."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:61
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:67
 msgid "Whether to show week numbers in the date navigator."
 msgstr "Дали да се показват номерата на седмиците в навигатора за дати."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:62
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:68
 msgid "Work days"
 msgstr "Работни дни"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:63
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:69
 msgid "Workday end hour"
 msgstr "Час, в който завършва работния ден"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:64
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:70
 msgid "Workday end minute"
 msgstr "Минута, в която завършва работния ден"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:65
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:71
 msgid "Workday start hour"
 msgstr "Час, в който започва работния ден"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:66
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:72
 msgid "Workday start minute"
 msgstr "Минута, в която започва работния ден"
 
@@ -4620,7 +4649,7 @@ msgstr "Несъвпадащ"
 #: ../calendar/gui/calendar-commands.c:120
 #: ../calendar/gui/calendar-component.c:708
 #: ../calendar/gui/dialogs/calendar-setup.c:369
-#: ../calendar/gui/gnome-cal.c:1950
+#: ../calendar/gui/gnome-cal.c:1974
 #: ../plugins/groupwise-features/camel-gw-listener.c:382
 #: ../plugins/groupwise-features/camel-gw-listener.c:412
 msgid "Calendar"
@@ -4765,7 +4794,7 @@ msgstr "Методът не е поддържан при отварянето н
 msgid "Permission denied to open the calendar"
 msgstr "Не беше разрешено да се отвори календара"
 
-#: ../calendar/gui/comp-editor-factory.c:437 ../shell/e-shell.c:1263
+#: ../calendar/gui/comp-editor-factory.c:437 ../shell/e-shell.c:1288
 msgid "Unknown error"
 msgstr "Неизвестна грешка"
 
@@ -4940,13 +4969,13 @@ msgstr "Лента за прикачени файлове"
 #: ../calendar/gui/dialogs/cal-attachment-select-file.c:115
 #: ../calendar/gui/dialogs/cal-attachment.glade.h:6
 #: ../composer/e-msg-composer-attachment.glade.h:6
-#: ../composer/e-msg-composer-select-file.c:95
-#: ../composer/e-msg-composer-select-file.c:115
+#: ../composer/e-msg-composer-select-file.c:96
+#: ../composer/e-msg-composer-select-file.c:116
 msgid "Suggest automatic display of attachment"
 msgstr "Предлагане на автоматично показване на прикачен"
 
 #: ../calendar/gui/dialogs/cal-attachment-select-file.c:190
-#: ../composer/e-msg-composer-select-file.c:231
+#: ../composer/e-msg-composer-select-file.c:235
 msgid "Attach file(s)"
 msgstr "Прикачване на файл(ове)"
 
@@ -5420,15 +5449,15 @@ msgstr " (Краен срок "
 msgid "Due "
 msgstr "Краен срок "
 
-#: ../calendar/gui/dialogs/comp-editor.c:181 ../composer/e-msg-composer.c:2653
+#: ../calendar/gui/dialogs/comp-editor.c:181 ../composer/e-msg-composer.c:2654
 #, c-format
 msgid "Attached message - %s"
 msgstr "Прикачено писмо - %s"
 
 #. translators, this count will always be >1
 #: ../calendar/gui/dialogs/comp-editor.c:186
-#: ../calendar/gui/dialogs/comp-editor.c:355 ../composer/e-msg-composer.c:2658
-#: ../composer/e-msg-composer.c:2834
+#: ../calendar/gui/dialogs/comp-editor.c:355 ../composer/e-msg-composer.c:2659
+#: ../composer/e-msg-composer.c:2835
 #, c-format
 msgid "Attached message"
 msgid_plural "%d attached messages"
@@ -5437,7 +5466,7 @@ msgstr[1] "%d прикачени писма"
 
 #: ../calendar/gui/dialogs/comp-editor.c:418
 #: ../calendar/gui/e-calendar-table.c:1164
-#: ../calendar/gui/e-calendar-view.c:1426 ../composer/e-msg-composer.c:2896
+#: ../calendar/gui/e-calendar-view.c:1426 ../composer/e-msg-composer.c:2899
 #: ../mail/em-folder-tree.c:1047 ../mail/em-folder-view.c:1033
 #: ../mail/message-list.c:1708 ../ui/evolution-addressbook.xml.h:31
 #: ../ui/evolution-calendar.xml.h:39 ../ui/evolution-composer-entries.xml.h:7
@@ -5445,13 +5474,13 @@ msgstr[1] "%d прикачени писма"
 msgid "_Copy"
 msgstr "_Копиране"
 
-#: ../calendar/gui/dialogs/comp-editor.c:419 ../composer/e-msg-composer.c:2897
+#: ../calendar/gui/dialogs/comp-editor.c:419 ../composer/e-msg-composer.c:2900
 #: ../mail/em-folder-tree.c:1048 ../mail/em-folder-view.c:929
 #: ../mail/message-list.c:1709
 msgid "_Move"
 msgstr "Пре_местване"
 
-#: ../calendar/gui/dialogs/comp-editor.c:421 ../composer/e-msg-composer.c:2899
+#: ../calendar/gui/dialogs/comp-editor.c:421 ../composer/e-msg-composer.c:2902
 #: ../mail/em-folder-tree.c:1050 ../mail/message-list.c:1711
 msgid "Cancel _Drag"
 msgstr "Отказване на _извлачването"
@@ -5467,7 +5496,7 @@ msgid_plural "<b>%d</b> Attachments"
 msgstr[0] "<b>%d</b> прикрепен файл"
 msgstr[1] "<b>%d</b> прикрепени файла"
 
-#: ../calendar/gui/dialogs/comp-editor.c:968 ../composer/e-msg-composer.c:3477
+#: ../calendar/gui/dialogs/comp-editor.c:968
 msgid "_Attachment Bar (drop attachments here)"
 msgstr "Лент_а за прикрепени файлове (пускайте обектите за прикачване тук)"
 
@@ -6684,7 +6713,7 @@ msgstr ""
 "\n"
 "%s"
 
-#: ../calendar/gui/e-day-view-time-item.c:527
+#: ../calendar/gui/e-day-view-time-item.c:553
 #, c-format
 msgid "%02i minute divisions"
 msgstr "Разделения от по %02i минути"
@@ -6695,19 +6724,19 @@ msgstr "Разделения от по %02i минути"
 #. month, %B = full month name. You can change the
 #. order but don't change the specifiers or add
 #. anything.
-#: ../calendar/gui/e-day-view-top-item.c:715 ../calendar/gui/e-day-view.c:1494
+#: ../calendar/gui/e-day-view-top-item.c:715 ../calendar/gui/e-day-view.c:1499
 #: ../calendar/gui/e-week-view-main-item.c:312 ../calendar/gui/print.c:1517
 msgid "%A %d %B"
 msgstr "%A %d %B"
 
 #. String to use in 12-hour time format for times in the morning.
-#: ../calendar/gui/e-day-view.c:748 ../calendar/gui/e-week-view.c:512
+#: ../calendar/gui/e-day-view.c:752 ../calendar/gui/e-week-view.c:512
 #: ../calendar/gui/print.c:841
 msgid "am"
 msgstr "сутрин"
 
 #. String to use in 12-hour time format for times in the afternoon.
-#: ../calendar/gui/e-day-view.c:751 ../calendar/gui/e-week-view.c:515
+#: ../calendar/gui/e-day-view.c:755 ../calendar/gui/e-week-view.c:515
 #: ../calendar/gui/print.c:843
 msgid "pm"
 msgstr "следобед"
@@ -7315,7 +7344,7 @@ msgstr "Нужни хора и _един ресурс"
 msgid "Enter the password for %s"
 msgstr "Въведете паролата за %s"
 
-#: ../calendar/gui/e-tasks.c:763 ../calendar/gui/gnome-cal.c:2388
+#: ../calendar/gui/e-tasks.c:763 ../calendar/gui/gnome-cal.c:2412
 #, c-format
 msgid ""
 "Error on %s:\n"
@@ -7356,39 +7385,39 @@ msgstr "Бутон за часови пояс"
 msgid "%d %B"
 msgstr "%d %B"
 
-#: ../calendar/gui/gnome-cal.c:722
+#: ../calendar/gui/gnome-cal.c:723
 msgid "Updating query"
 msgstr "Актуализиране на заявката"
 
 #. bonobo displays this string so it must be in locale
-#: ../calendar/gui/gnome-cal.c:2065 ../widgets/menus/gal-view-menus.c:350
+#: ../calendar/gui/gnome-cal.c:2089 ../widgets/menus/gal-view-menus.c:350
 msgid "Custom View"
 msgstr "Личен изглед"
 
-#: ../calendar/gui/gnome-cal.c:2066
+#: ../calendar/gui/gnome-cal.c:2090
 msgid "Save Custom View"
 msgstr "Запазване на личния изглед"
 
-#: ../calendar/gui/gnome-cal.c:2071 ../widgets/menus/gal-view-menus.c:372
+#: ../calendar/gui/gnome-cal.c:2095 ../widgets/menus/gal-view-menus.c:372
 msgid "Define Views..."
 msgstr "Дефиниране на изгледите..."
 
-#: ../calendar/gui/gnome-cal.c:2234
+#: ../calendar/gui/gnome-cal.c:2258
 #, c-format
 msgid "Loading appointments at %s"
 msgstr "Зареждане на срещи на %s"
 
-#: ../calendar/gui/gnome-cal.c:2253
+#: ../calendar/gui/gnome-cal.c:2277
 #, c-format
 msgid "Loading tasks at %s"
 msgstr "Зареждане на задачи на %s"
 
-#: ../calendar/gui/gnome-cal.c:2354
+#: ../calendar/gui/gnome-cal.c:2378
 #, c-format
 msgid "Opening %s"
 msgstr "Отваряне на %s..."
 
-#: ../calendar/gui/gnome-cal.c:3244
+#: ../calendar/gui/gnome-cal.c:3268
 msgid "Purging"
 msgstr "Прочистване"
 
@@ -9444,15 +9473,15 @@ msgstr "Тихи океан/Уолис"
 msgid "Pacific/Yap"
 msgstr "Тихи океан/Яп"
 
-#: ../composer/e-msg-composer-hdrs.c:520
+#: ../composer/e-msg-composer-hdrs.c:525
 msgid "Posting destination"
 msgstr "Получател на пощата"
 
-#: ../composer/e-msg-composer-hdrs.c:521
+#: ../composer/e-msg-composer-hdrs.c:526
 msgid "Choose folders to post the message to."
 msgstr "Избор на папки, в които да бъде копирано писмото."
 
-#: ../composer/e-msg-composer-hdrs.c:555
+#: ../composer/e-msg-composer-hdrs.c:560
 msgid "Click here for the address book"
 msgstr "Натиснете тук за адресника"
 
@@ -9463,45 +9492,45 @@ msgstr "Натиснете тук за адресника"
 #. * because that causes from_changed to be called, which
 #. * expects the reply_to fields to be initialized.
 #.
-#: ../composer/e-msg-composer-hdrs.c:585
+#: ../composer/e-msg-composer-hdrs.c:590
 msgid "_Reply-To:"
 msgstr "От_говор до:"
 
 #.
 #. * From
 #.
-#: ../composer/e-msg-composer-hdrs.c:592
+#: ../composer/e-msg-composer-hdrs.c:597
 msgid "Fr_om:"
 msgstr "_От:"
 
 #.
 #. * Subject
 #.
-#: ../composer/e-msg-composer-hdrs.c:599
+#: ../composer/e-msg-composer-hdrs.c:604
 msgid "S_ubject:"
 msgstr "_Тема:"
 
-#: ../composer/e-msg-composer-hdrs.c:609
+#: ../composer/e-msg-composer-hdrs.c:614
 msgid "_To:"
 msgstr "_До:"
 
-#: ../composer/e-msg-composer-hdrs.c:610
+#: ../composer/e-msg-composer-hdrs.c:615
 msgid "Enter the recipients of the message"
 msgstr "Въведете получател(и) на писмото"
 
-#: ../composer/e-msg-composer-hdrs.c:613
+#: ../composer/e-msg-composer-hdrs.c:618
 msgid "_Cc:"
 msgstr "_Копие до:"
 
-#: ../composer/e-msg-composer-hdrs.c:614
+#: ../composer/e-msg-composer-hdrs.c:619
 msgid "Enter the addresses that will receive a carbon copy of the message"
 msgstr "Въведете адресите на получатели на копие на това писмо"
 
-#: ../composer/e-msg-composer-hdrs.c:617
+#: ../composer/e-msg-composer-hdrs.c:622
 msgid "_Bcc:"
 msgstr "_Скрито копие до:"
 
-#: ../composer/e-msg-composer-hdrs.c:618
+#: ../composer/e-msg-composer-hdrs.c:623
 msgid ""
 "Enter the addresses that will receive a carbon copy of the message without "
 "appearing in the recipient list of the message."
@@ -9512,19 +9541,19 @@ msgstr ""
 #.
 #. * Post-To
 #.
-#: ../composer/e-msg-composer-hdrs.c:625
+#: ../composer/e-msg-composer-hdrs.c:630
 msgid "_Post To:"
 msgstr "Копиране в _папка:"
 
-#: ../composer/e-msg-composer-hdrs.c:630
+#: ../composer/e-msg-composer-hdrs.c:635
 msgid "Click here to select folders to post to"
 msgstr "Натиснете тук, за да въведете папки, в които да бъде копирано писмото"
 
-#: ../composer/e-msg-composer-hdrs.c:636
+#: ../composer/e-msg-composer-hdrs.c:641
 msgid "Post To:"
 msgstr "Копиране в папка:"
 
-#: ../composer/e-msg-composer-select-file.c:80
+#: ../composer/e-msg-composer-select-file.c:81
 msgid "A_ttach"
 msgstr "_Прикрепяне"
 
@@ -9573,12 +9602,16 @@ msgstr "Автоматично генериран"
 msgid "Si_gnature:"
 msgstr "_Подпис:"
 
-#: ../composer/e-msg-composer.c:2336 ../composer/e-msg-composer.c:3366
-#: ../composer/e-msg-composer.c:3367
+#: ../composer/e-msg-composer.c:2337 ../composer/e-msg-composer.c:3373
+#: ../composer/e-msg-composer.c:3374
 msgid "Compose a message"
 msgstr "Писане на писмо"
 
-#: ../composer/e-msg-composer.c:4537
+#: ../composer/e-msg-composer.c:3484
+msgid "_Attachment Bar"
+msgstr "Лент_а за прикачени файлове"
+
+#: ../composer/e-msg-composer.c:4557
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
@@ -9864,6 +9897,31 @@ msgstr ""
 msgid "Overwrite file?"
 msgstr "Презаписване на файла?"
 
+#: ../e-util/e-error.c:84 ../e-util/e-error.c:85 ../e-util/e-error.c:127
+msgid "Evolution Error"
+msgstr "Грешка в Evolution"
+
+#: ../e-util/e-error.c:86 ../e-util/e-error.c:87 ../e-util/e-error.c:125
+msgid "Evolution Warning"
+msgstr "Предупреждение на Evolution"
+
+#: ../e-util/e-error.c:124
+msgid "Evolution Information"
+msgstr "Информация за Evolution"
+
+#: ../e-util/e-error.c:126
+msgid "Evolution Query"
+msgstr "Заявка на Evolution"
+
+#. setup a dummy error
+#: ../e-util/e-error.c:438
+#, c-format
+msgid ""
+"<span weight=\"bold\">Internal error, unknown error '%s' requested</span>"
+msgstr ""
+"<span weight=\"bold\">Вътрешна грешка, непозната грешка \"%s\" се изисква</"
+"span>"
+
 #: ../e-util/e-system.error.xml.h:2
 msgid "Cannot open file &quot;{0}&quot;."
 msgstr "Неуспех при отварянето на файл &quot;{0}&quot;."
@@ -9964,7 +10022,7 @@ msgstr "%H:%M:%S"
 #. without seconds.
 #. This is a strftime() format. %I = hour (1-12), %M = minute, %p = am/pm string.
 #: ../e-util/e-time-utils.c:348 ../e-util/e-time-utils.c:435
-#: ../widgets/misc/e-dateedit.c:1438 ../widgets/misc/e-dateedit.c:1719
+#: ../widgets/misc/e-dateedit.c:1438 ../widgets/misc/e-dateedit.c:1720
 msgid "%I:%M %p"
 msgstr "%I:%M %p"
 
@@ -9973,7 +10031,7 @@ msgstr "%I:%M %p"
 #. without seconds.
 #. This is a strftime() format. %H = hour (0-23), %M = minute.
 #: ../e-util/e-time-utils.c:352 ../e-util/e-time-utils.c:427
-#: ../widgets/misc/e-dateedit.c:1435 ../widgets/misc/e-dateedit.c:1716
+#: ../widgets/misc/e-dateedit.c:1435 ../widgets/misc/e-dateedit.c:1717
 msgid "%H:%M"
 msgstr "%H:%M"
 
@@ -15229,6 +15287,10 @@ msgstr "Дава възможност за печатане на писма от
 msgid "Evolution Shell"
 msgstr "Обвивка на Evolution"
 
+#: ../shell/GNOME_Evolution_Shell.server.in.in.h:2
+msgid "Evolution Shell Config factory"
+msgstr "Фабрика за настройката на обвивката на Evolution"
+
 #: ../shell/GNOME_Evolution_Test.server.in.in.h:1
 msgid "Evolution Test"
 msgstr "Тест на Evolution"
@@ -15544,7 +15606,7 @@ msgstr "Bug buddy не може да бъде стартиран."
 #. The translator-credits string is for translators to list
 #. * per language credits for translation, displayed in the
 #. * about box
-#: ../shell/e-shell-window-commands.c:501
+#: ../shell/e-shell-window-commands.c:507
 msgid "translator-credits"
 msgstr ""
 "Владимир \"Kaladan\" Петков <vpetkov@i-space,org>\n"
@@ -15553,21 +15615,21 @@ msgstr ""
 "\n"
 "Проектът за превод на GNOME има нужда от подкрепа.\n"
 "Научете повече за нас на http://gnome.cult.bg\n"
-"Докладвайте за грешки на https://gnome.cult.bg/bugs"
+"Докладвайте за грешки на http://gnome.cult.bg/bugs"
 
-#: ../shell/e-shell-window-commands.c:515
+#: ../shell/e-shell-window-commands.c:521
 msgid "Groupware Suite"
 msgstr "Програма за работа в група"
 
-#: ../shell/e-shell-window-commands.c:742
+#: ../shell/e-shell-window-commands.c:748
 msgid "_Work Online"
 msgstr "Работа в режим \"_Включен\""
 
-#: ../shell/e-shell-window-commands.c:755 ../ui/evolution.xml.h:47
+#: ../shell/e-shell-window-commands.c:761 ../ui/evolution.xml.h:47
 msgid "_Work Offline"
 msgstr "Работа в режим \"_Изключен\""
 
-#: ../shell/e-shell-window-commands.c:768
+#: ../shell/e-shell-window-commands.c:774
 msgid "Work Offline"
 msgstr "Работа в режим \"Изключен\""
 
@@ -15592,32 +15654,32 @@ msgstr ""
 msgid "Switch to %s"
 msgstr "Превключване към %s"
 
-#: ../shell/e-shell.c:597
+#: ../shell/e-shell.c:622
 msgid "Uknown system error."
 msgstr "Непозната системна грешка."
 
-#: ../shell/e-shell.c:799 ../shell/e-shell.c:800
+#: ../shell/e-shell.c:824 ../shell/e-shell.c:825
 #, c-format
 msgid "%ld KB"
 msgstr "%ld KB"
 
-#: ../shell/e-shell.c:1253 ../widgets/misc/e-cell-date-edit.c:256
+#: ../shell/e-shell.c:1278 ../widgets/misc/e-cell-date-edit.c:256
 msgid "OK"
 msgstr "Да"
 
-#: ../shell/e-shell.c:1255
+#: ../shell/e-shell.c:1280
 msgid "Invalid arguments"
 msgstr "Грешни аргументи"
 
-#: ../shell/e-shell.c:1257
+#: ../shell/e-shell.c:1282
 msgid "Cannot register on OAF"
 msgstr "Не може да регистрира в OAF"
 
-#: ../shell/e-shell.c:1259
+#: ../shell/e-shell.c:1284
 msgid "Configuration Database not found"
 msgstr "Конфигурационната база от данни не е намерена"
 
-#: ../shell/e-shell.c:1261
+#: ../shell/e-shell.c:1286
 msgid "Generic error"
 msgstr "Грешка"
 
@@ -18306,31 +18368,6 @@ msgstr "натиснете тук, за да отидете на url"
 #~ msgid "Save Task"
 #~ msgstr "Запазване на задача"
 
-#~ msgid ""
-#~ "Color to draw the Marcus Bains Line in the Time bar (empty for default)."
-#~ msgstr ""
-#~ "Цвят за изобразяване на кривата на Marcus Bains в полето за време (празно "
-#~ "по подразбиране)."
-
-#~ msgid "Color to draw the Marcus Bains line in the Day View."
-#~ msgstr "Цвят за изобразяване на кривата на Marcus Bains в изгледа за деня."
-
-#~ msgid "Marcus Bains Line"
-#~ msgstr "Крива на Marcus Bains"
-
-#~ msgid "Marcus Bains Line Color - Day View"
-#~ msgstr "Цвят на кривата на Marcus Bains - изглед за деня"
-
-#~ msgid "Marcus Bains Line Color - Time bar"
-#~ msgstr "Цвят на кривата на Marcus Bains - поле за време"
-
-#~ msgid ""
-#~ "Whether to draw the Marcus Bains Line (line at current time) in the "
-#~ "calendar."
-#~ msgstr ""
-#~ "Дали да се изобразява кривата на Marcus Bains (в текущо време) в "
-#~ "календара."
-
 #~ msgid "Show _Attachment Bar (drop attachments here)"
 #~ msgstr "Показване на лент_ата за прикрепените файлове"
 
@@ -18369,24 +18406,6 @@ msgstr "натиснете тук, за да отидете на url"
 
 #~ msgid "Show attachments"
 #~ msgstr "Показване на прикачени"
-
-#~ msgid "Evolution Error"
-#~ msgstr "Грешка в Evolution"
-
-#~ msgid "Evolution Warning"
-#~ msgstr "Предупреждение на Evolution"
-
-#~ msgid "Evolution Information"
-#~ msgstr "Информация за Evolution"
-
-#~ msgid "Evolution Query"
-#~ msgstr "Заявка на Evolution"
-
-#~ msgid ""
-#~ "<span weight=\"bold\">Internal error, unknown error '%s' requested</span>"
-#~ msgstr ""
-#~ "<span weight=\"bold\">Вътрешна грешка, непозната грешка \"%s\" се "
-#~ "изисква</span>"
 
 #~ msgid "File exists \"{0}\"."
 #~ msgstr "Файлът \"{0}\" съществува."
