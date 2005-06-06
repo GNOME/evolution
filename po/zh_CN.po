@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-05-28 21:14+0000\n"
-"PO-Revision-Date: 2005-05-29 10:11+0800\n"
+"POT-Creation-Date: 2005-06-05 04:27+0000\n"
+"PO-Revision-Date: 2005-06-05 17:27+0800\n"
 "Last-Translator: Funda Wang <fundawang@linux.net.cn>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
 "MIME-Version: 1.0\n"
@@ -153,7 +153,7 @@ msgstr "%Y年%-m月%-d日%A"
 #. specifiers or add anything.
 #: ../a11y/calendar/ea-gnome-calendar.c:190
 #: ../calendar/gui/calendar-component.c:663
-#: ../calendar/gui/e-day-view-top-item.c:719 ../calendar/gui/e-day-view.c:1511
+#: ../calendar/gui/e-day-view-top-item.c:719 ../calendar/gui/e-day-view.c:1516
 #: ../calendar/gui/e-week-view-main-item.c:321
 msgid "%a %d %b"
 msgstr "%-m月%-d日%A"
@@ -185,7 +185,7 @@ msgstr "%Y年%-m月%-d日"
 #. change the specifiers or add anything.
 #: ../a11y/calendar/ea-gnome-calendar.c:220
 #: ../calendar/gui/calendar-component.c:689
-#: ../calendar/gui/e-day-view-top-item.c:723 ../calendar/gui/e-day-view.c:1527
+#: ../calendar/gui/e-day-view-top-item.c:723 ../calendar/gui/e-day-view.c:1532
 #: ../calendar/gui/e-week-view-main-item.c:335
 msgid "%d %b"
 msgstr "%B%-d日"
@@ -386,6 +386,8 @@ msgid ""
 "problems using Evolution. For best results the server should be upgraded to "
 "a supported version"
 msgstr ""
+"您正在连接到不支持的 GroupWise 服务器，此时使用 Evolution 可能遇到问题。"
+"为了得到最佳效果，服务器应该升级到 Evolution 支持的版本"
 
 #: ../addressbook/addressbook.error.xml.h:28
 msgid ""
@@ -737,7 +739,7 @@ msgid "URI for the folder last used in the select names dialog."
 msgstr "选择名称对话框中上次使用的文件夹 URI。"
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:9
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:50
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:55
 msgid "Vertical pane position"
 msgstr "垂直面板的位置"
 
@@ -3673,12 +3675,14 @@ msgid ""
 " There are few attachments getting downloaded. Saving the appointment will "
 "cause the appointment to be saved without those pending attachments "
 msgstr ""
+"附件正在下载中。保存约会将使得约会保存时无法包含后续的附件"
 
 #: ../calendar/calendar.error.xml.h:2
 msgid ""
 " There are few attachments getting downloaded. Saving the task will cause "
 "the task to be saved without those pending attachments "
 msgstr ""
+"附件正在下载中。保存任务将使得任务保存时无法包含后续的附件"
 
 #: ../calendar/calendar.error.xml.h:3
 msgid ""
@@ -4063,6 +4067,8 @@ msgid ""
 "<big><b>%s</b></big>\n"
 "%s until %s"
 msgstr ""
+"<big><b>%s</b></big>\n"
+"%s 直道 %s"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:1
 msgid "Appointments"
@@ -4209,156 +4215,177 @@ msgid "Calendars to run alarms for"
 msgstr "运行提醒的日历"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:6
+msgid ""
+"Color to draw the Marcus Bains Line in the Time bar (empty for default)."
+msgstr ""
+
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:7
+msgid "Color to draw the Marcus Bains line in the Day View."
+msgstr ""
+
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:8
 msgid "Compress weekends in month view"
 msgstr "在月视图中压缩周末"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:7
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:9
 msgid "Confirm expunge"
 msgstr "确认销毁"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:8
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:10
 msgid "Days on which the start and end of work hours should be indicated."
 msgstr "标为工作日的日子。"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:9
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:11
 msgid "Default appointment reminder"
 msgstr "默认约会提醒"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:10
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:12
 msgid "Default reminder units"
 msgstr "默认提醒单位"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:11
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:13
 msgid "Default reminder value"
 msgstr "默认提醒值"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:12
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:14
 msgid "Free/busy server urls"
 msgstr "忙/闲服务器 URL"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:13
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:15
 msgid "Free/busy template url"
 msgstr "忙/闲模板 URL"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:14
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:16
 msgid "Hide completed tasks"
 msgstr "隐藏已完成的任务"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:15
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:17
 msgid "Hide task units"
 msgstr "隐藏任务单位"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:16
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:18
 msgid "Hide task value"
 msgstr "隐藏任务值"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:17
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:19
 msgid "Horizontal pane position"
 msgstr "水平面板位置"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:18
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:20
 msgid "Hour the workday ends on, in twenty four hour format, 0 to 23."
 msgstr "工作日结束的小时，以 24 小时格式表示，0 到 23。"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:19
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:21
 msgid "Hour the workday starts on, in twenty four hour format, 0 to 23."
 msgstr "工作日开始的小时，以 24 小时格式表示，0 到 23。"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:20
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:22
 msgid "Intervals shown in Day and Work Week views, in minutes."
 msgstr "日视图和工作日视图中显示的间隔，以分钟计。"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:21
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:23
 msgid "Last alarm time"
 msgstr "上次提醒时间"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:22
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:24
 msgid "List of server urls for free/busy publishing."
 msgstr "列出发表忙/闲的服务器 URL。"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:23
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:25
+msgid "Marcus Bains Line"
+msgstr ""
+
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:26
+msgid "Marcus Bains Line Color - Day View"
+msgstr ""
+
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:27
+msgid "Marcus Bains Line Color - Time bar"
+msgstr ""
+
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:28
 msgid "Minute the workday ends on, 0 to 59."
 msgstr "工作日结束的分钟，0 到 59。"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:24
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:29
 msgid "Minute the workday starts on, 0 to 59."
 msgstr "工作日开始的分钟，0 到 59。"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:25
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:30
 msgid "Month view horizontal pane position"
 msgstr "月视图水平面板的位置"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:26
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:31
 msgid "Month view vertical pane position"
 msgstr "月视图中垂直面板的位置"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:27
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:32
 msgid "Number of units for determining for a default reminder."
 msgstr "默认提醒的单位数量。"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:28
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:33
 msgid "Number of units for determining when to hide tasks."
 msgstr "决定何时隐藏任务的数字单位。"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:29
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:34
 msgid "Overdue tasks color"
 msgstr "延期任务的颜色"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:30
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:35
 msgid ""
 "Position of the horizontal pane, between the date navigator calendar and the "
 "task list when not in the month view, in pixels."
 msgstr "非月视图中日期导航器日历和任务列表之间水平面板的位置，以像素计。"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:31
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:36
 msgid ""
 "Position of the horizontal pane, between the view and the date navigator "
 "calendar and task list in the month view, in pixels."
 msgstr "月视图中视图和日期导航器日历之间水平面板的位置，以像素计。"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:32
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:37
 msgid ""
 "Position of the vertical pane, between the task list and the task preview "
 "pane, in pixels."
 msgstr "任务列表和任务预览面板间垂直面板的位置，以像素计。"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:33
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:38
 msgid ""
 "Position of the vertical pane, between the view and the date navigator "
 "calendar and task list in the month view, in pixels."
 msgstr "月视图中视图和日期导航器日历及任务列表之间垂直面板的位置，以像素计。"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:34
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:39
 msgid ""
 "Position of the vertical pane, between the view and the date navigator "
 "calendar and task list when not in the month view, in pixels."
 msgstr "非月视图中视图和日期导航器日历及任务列表之间垂直面板的位置，以像素计。"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:35
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:40
 msgid "Programs that are allowed to be run by alarms."
 msgstr "允许提醒运行的程序。"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:36
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:41
 msgid "Show appointment end times in week and month views"
 msgstr "在周视图和月视图中显示约会结束时间"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:37
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:42
 msgid "Show display alarms in notification tray"
 msgstr "在通知托盘中显示提醒"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:38
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:43
 msgid "Show week numbers in date navigator"
 msgstr "在日期浏览器中显示周数"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:39
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:44
 msgid "Tasks due today color"
 msgstr "今天到期的任务颜色"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:40
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:45
 msgid "Tasks vertical pane position"
 msgstr "任务垂直面板位置"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:41
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:46
 msgid ""
 "The default timezone to use for dates and times in the calendar, as an "
 "untranslated Olsen timezone database location like \"America/New York\"."
@@ -4366,7 +4393,7 @@ msgstr ""
 "日历中日期和时间所使用的默认时区，以未翻译的时区数据库位置表示，如“Asia/"
 "Shanghai”。"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:43
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:48
 #, no-c-format
 msgid ""
 "The url template to use as a free/busy data fallback, %u is replaced by the "
@@ -4375,95 +4402,100 @@ msgstr ""
 "用作忙/闲数据发布的 URL 模板，%u 将替换为电子邮件的拥护不分，而 %d 将替换为域"
 "名。"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:44
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:49
 msgid "Time divisions"
 msgstr "时间分割"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:45
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:50
 msgid "Time the last alarm ran, in time_t."
 msgstr "提醒上次运行的时间，以 time_t 格式。"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:46
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:51
 msgid "Timezone"
 msgstr "时区"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:47
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:52
 msgid "Twenty four hour time format"
 msgstr "二十四小时时间格式"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:48
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:53
 msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\"."
 msgstr "默认提醒的单位，可为“minutes”，“hours”或“days”。"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:49
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:54
 msgid ""
 "Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days\"."
 msgstr "决定是否隐藏任务的单位，可为“minutes”，“hours”或“days”。"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:51
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:56
 msgid "Week start"
 msgstr "一周开始"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:52
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:57
 msgid "Weekday the week starts on, from Sunday (0) to Saturday (6)."
 msgstr "一周开始的日子，从星期日(0)到星期六(6)。"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:53
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:58
 msgid "Whether or not to use the notification tray for display alarms."
 msgstr "是否使用通知托盘来显示提醒。"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:54
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:59
 msgid "Whether to ask for confirmation when deleting an appointment or task."
 msgstr "删除约会或任务时是否要求确认。"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:55
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:60
 msgid "Whether to ask for confirmation when expunging appointments and tasks."
 msgstr "销毁约会和任务时是否要求确认。"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:56
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:61
 msgid ""
 "Whether to compress weekends in the month view, which puts Saturday and "
 "Sunday in the space of one weekday."
 msgstr "在月视图中是否压缩周末；压缩时将把周六和周日用一个单元格显示。"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:57
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:62
 msgid "Whether to display the end time of events in the week and month views."
 msgstr "是否在周视图和月视图中显示事件的结束时间。"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:58
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:63
+msgid ""
+"Whether to draw the Marcus Bains Line (line at current time) in the calendar."
+msgstr ""
+
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:64
 msgid "Whether to hide completed tasks in the tasks view."
 msgstr "是否在任务视图中隐藏已完成的任务。"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:59
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:65
 msgid "Whether to set a default reminder for appointments."
 msgstr "是否为约会设置默认提醒。"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:60
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:66
 msgid ""
 "Whether to show times in twenty four hour format instead of using am/pm."
 msgstr "是以 24 小时格式还是以 12 小时格式显示时间。"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:61
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:67
 msgid "Whether to show week numbers in the date navigator."
 msgstr "是否在日期浏览器中显示周数。"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:62
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:68
 msgid "Work days"
 msgstr "工作日"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:63
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:69
 msgid "Workday end hour"
 msgstr "工作日结束小时"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:64
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:70
 msgid "Workday end minute"
 msgstr "工作日结束分钟"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:65
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:71
 msgid "Workday start hour"
 msgstr "工作日开始小时"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:66
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.in.h:72
 msgid "Workday start minute"
 msgstr "工作日开始分钟"
 
@@ -4490,7 +4522,7 @@ msgstr "无匹配"
 #: ../calendar/gui/calendar-commands.c:120
 #: ../calendar/gui/calendar-component.c:708
 #: ../calendar/gui/dialogs/calendar-setup.c:369
-#: ../calendar/gui/gnome-cal.c:1950
+#: ../calendar/gui/gnome-cal.c:1974
 #: ../plugins/groupwise-features/camel-gw-listener.c:382
 #: ../plugins/groupwise-features/camel-gw-listener.c:412
 msgid "Calendar"
@@ -4633,7 +4665,7 @@ msgstr "打开日历的方法不支持"
 msgid "Permission denied to open the calendar"
 msgstr "没有权限打开日历"
 
-#: ../calendar/gui/comp-editor-factory.c:437 ../shell/e-shell.c:1263
+#: ../calendar/gui/comp-editor-factory.c:437 ../shell/e-shell.c:1288
 msgid "Unknown error"
 msgstr "未知的错误"
 
@@ -4808,13 +4840,13 @@ msgstr "附件栏"
 #: ../calendar/gui/dialogs/cal-attachment-select-file.c:115
 #: ../calendar/gui/dialogs/cal-attachment.glade.h:6
 #: ../composer/e-msg-composer-attachment.glade.h:6
-#: ../composer/e-msg-composer-select-file.c:95
-#: ../composer/e-msg-composer-select-file.c:115
+#: ../composer/e-msg-composer-select-file.c:96
+#: ../composer/e-msg-composer-select-file.c:116
 msgid "Suggest automatic display of attachment"
 msgstr "建议自动显示附件"
 
 #: ../calendar/gui/dialogs/cal-attachment-select-file.c:190
-#: ../composer/e-msg-composer-select-file.c:231
+#: ../composer/e-msg-composer-select-file.c:235
 msgid "Attach file(s)"
 msgstr "添加附件"
 
@@ -5282,15 +5314,15 @@ msgstr " (预定 "
 msgid "Due "
 msgstr "预定 "
 
-#: ../calendar/gui/dialogs/comp-editor.c:181 ../composer/e-msg-composer.c:2653
+#: ../calendar/gui/dialogs/comp-editor.c:181 ../composer/e-msg-composer.c:2654
 #, c-format
 msgid "Attached message - %s"
 msgstr "附加的信件 - %s"
 
 #. translators, this count will always be >1
 #: ../calendar/gui/dialogs/comp-editor.c:186
-#: ../calendar/gui/dialogs/comp-editor.c:355 ../composer/e-msg-composer.c:2658
-#: ../composer/e-msg-composer.c:2834
+#: ../calendar/gui/dialogs/comp-editor.c:355 ../composer/e-msg-composer.c:2659
+#: ../composer/e-msg-composer.c:2835
 #, c-format
 msgid "Attached message"
 msgid_plural "%d attached messages"
@@ -5298,7 +5330,7 @@ msgstr[0] "%d 封附加的信件"
 
 #: ../calendar/gui/dialogs/comp-editor.c:418
 #: ../calendar/gui/e-calendar-table.c:1164
-#: ../calendar/gui/e-calendar-view.c:1426 ../composer/e-msg-composer.c:2896
+#: ../calendar/gui/e-calendar-view.c:1426 ../composer/e-msg-composer.c:2899
 #: ../mail/em-folder-tree.c:1047 ../mail/em-folder-view.c:1033
 #: ../mail/message-list.c:1708 ../ui/evolution-addressbook.xml.h:31
 #: ../ui/evolution-calendar.xml.h:39 ../ui/evolution-composer-entries.xml.h:7
@@ -5306,13 +5338,13 @@ msgstr[0] "%d 封附加的信件"
 msgid "_Copy"
 msgstr "复制(_C)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:419 ../composer/e-msg-composer.c:2897
+#: ../calendar/gui/dialogs/comp-editor.c:419 ../composer/e-msg-composer.c:2900
 #: ../mail/em-folder-tree.c:1048 ../mail/em-folder-view.c:929
 #: ../mail/message-list.c:1709
 msgid "_Move"
 msgstr "移动(_M)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:421 ../composer/e-msg-composer.c:2899
+#: ../calendar/gui/dialogs/comp-editor.c:421 ../composer/e-msg-composer.c:2902
 #: ../mail/em-folder-tree.c:1050 ../mail/message-list.c:1711
 msgid "Cancel _Drag"
 msgstr "取消拖曳(_D)"
@@ -5327,7 +5359,7 @@ msgid "<b>%d</b> Attachment"
 msgid_plural "<b>%d</b> Attachments"
 msgstr[0] "<b>%d</b> 个附件"
 
-#: ../calendar/gui/dialogs/comp-editor.c:968 ../composer/e-msg-composer.c:3477
+#: ../calendar/gui/dialogs/comp-editor.c:968
 msgid "_Attachment Bar (drop attachments here)"
 msgstr "附件栏(将附件拖至此处)(_A)"
 
@@ -6535,7 +6567,7 @@ msgstr ""
 "\n"
 "%s"
 
-#: ../calendar/gui/e-day-view-time-item.c:527
+#: ../calendar/gui/e-day-view-time-item.c:553
 #, c-format
 msgid "%02i minute divisions"
 msgstr "%02i 分钟分割"
@@ -6546,19 +6578,19 @@ msgstr "%02i 分钟分割"
 #. month, %B = full month name. You can change the
 #. order but don't change the specifiers or add
 #. anything.
-#: ../calendar/gui/e-day-view-top-item.c:715 ../calendar/gui/e-day-view.c:1494
+#: ../calendar/gui/e-day-view-top-item.c:715 ../calendar/gui/e-day-view.c:1499
 #: ../calendar/gui/e-week-view-main-item.c:312 ../calendar/gui/print.c:1517
 msgid "%A %d %B"
 msgstr "%B%d日%A"
 
 #. String to use in 12-hour time format for times in the morning.
-#: ../calendar/gui/e-day-view.c:748 ../calendar/gui/e-week-view.c:512
+#: ../calendar/gui/e-day-view.c:752 ../calendar/gui/e-week-view.c:512
 #: ../calendar/gui/print.c:841
 msgid "am"
 msgstr "上午"
 
 #. String to use in 12-hour time format for times in the afternoon.
-#: ../calendar/gui/e-day-view.c:751 ../calendar/gui/e-week-view.c:515
+#: ../calendar/gui/e-day-view.c:755 ../calendar/gui/e-week-view.c:515
 #: ../calendar/gui/print.c:843
 msgid "pm"
 msgstr "下午"
@@ -7151,7 +7183,7 @@ msgstr "必需的人和一个资源(_O)"
 msgid "Enter the password for %s"
 msgstr "为 %s 输入密码"
 
-#: ../calendar/gui/e-tasks.c:763 ../calendar/gui/gnome-cal.c:2388
+#: ../calendar/gui/e-tasks.c:763 ../calendar/gui/gnome-cal.c:2412
 #, c-format
 msgid ""
 "Error on %s:\n"
@@ -7192,39 +7224,39 @@ msgstr "时区按钮"
 msgid "%d %B"
 msgstr "%-m月%-d日"
 
-#: ../calendar/gui/gnome-cal.c:722
+#: ../calendar/gui/gnome-cal.c:723
 msgid "Updating query"
 msgstr "更新查询"
 
 #. bonobo displays this string so it must be in locale
-#: ../calendar/gui/gnome-cal.c:2065 ../widgets/menus/gal-view-menus.c:350
+#: ../calendar/gui/gnome-cal.c:2089 ../widgets/menus/gal-view-menus.c:350
 msgid "Custom View"
 msgstr "当前视图"
 
-#: ../calendar/gui/gnome-cal.c:2066
+#: ../calendar/gui/gnome-cal.c:2090
 msgid "Save Custom View"
 msgstr "保存自定义视图"
 
-#: ../calendar/gui/gnome-cal.c:2071 ../widgets/menus/gal-view-menus.c:372
+#: ../calendar/gui/gnome-cal.c:2095 ../widgets/menus/gal-view-menus.c:372
 msgid "Define Views..."
 msgstr "定义视图..."
 
-#: ../calendar/gui/gnome-cal.c:2234
+#: ../calendar/gui/gnome-cal.c:2258
 #, c-format
 msgid "Loading appointments at %s"
 msgstr "装入位于 %s 的约会"
 
-#: ../calendar/gui/gnome-cal.c:2253
+#: ../calendar/gui/gnome-cal.c:2277
 #, c-format
 msgid "Loading tasks at %s"
 msgstr "装入位于 %s 的任务"
 
-#: ../calendar/gui/gnome-cal.c:2354
+#: ../calendar/gui/gnome-cal.c:2378
 #, c-format
 msgid "Opening %s"
 msgstr "打开 %s"
 
-#: ../calendar/gui/gnome-cal.c:3244
+#: ../calendar/gui/gnome-cal.c:3268
 msgid "Purging"
 msgstr "销毁"
 
@@ -9273,15 +9305,15 @@ msgstr "太平洋/沃利斯"
 msgid "Pacific/Yap"
 msgstr "太平洋/雅浦"
 
-#: ../composer/e-msg-composer-hdrs.c:520
+#: ../composer/e-msg-composer-hdrs.c:525
 msgid "Posting destination"
 msgstr "投递目的"
 
-#: ../composer/e-msg-composer-hdrs.c:521
+#: ../composer/e-msg-composer-hdrs.c:526
 msgid "Choose folders to post the message to."
 msgstr "选择要将信件投递到哪个文件夹。"
 
-#: ../composer/e-msg-composer-hdrs.c:555
+#: ../composer/e-msg-composer-hdrs.c:560
 msgid "Click here for the address book"
 msgstr "单击此处以使用地址簿"
 
@@ -9292,45 +9324,45 @@ msgstr "单击此处以使用地址簿"
 #. * because that causes from_changed to be called, which
 #. * expects the reply_to fields to be initialized.
 #.
-#: ../composer/e-msg-composer-hdrs.c:585
+#: ../composer/e-msg-composer-hdrs.c:590
 msgid "_Reply-To:"
 msgstr "回复到(_R)："
 
 #.
 #. * From
 #.
-#: ../composer/e-msg-composer-hdrs.c:592
+#: ../composer/e-msg-composer-hdrs.c:597
 msgid "Fr_om:"
 msgstr "发件人(_O)："
 
 #.
 #. * Subject
 #.
-#: ../composer/e-msg-composer-hdrs.c:599
+#: ../composer/e-msg-composer-hdrs.c:604
 msgid "S_ubject:"
 msgstr "主题(_U)："
 
-#: ../composer/e-msg-composer-hdrs.c:609
+#: ../composer/e-msg-composer-hdrs.c:614
 msgid "_To:"
 msgstr "收信人(_T)："
 
-#: ../composer/e-msg-composer-hdrs.c:610
+#: ../composer/e-msg-composer-hdrs.c:615
 msgid "Enter the recipients of the message"
 msgstr "输入信件的收件人"
 
-#: ../composer/e-msg-composer-hdrs.c:613
+#: ../composer/e-msg-composer-hdrs.c:618
 msgid "_Cc:"
 msgstr "抄送(_C)："
 
-#: ../composer/e-msg-composer-hdrs.c:614
+#: ../composer/e-msg-composer-hdrs.c:619
 msgid "Enter the addresses that will receive a carbon copy of the message"
 msgstr "输入将接收该信件副本的收件人地址"
 
-#: ../composer/e-msg-composer-hdrs.c:617
+#: ../composer/e-msg-composer-hdrs.c:622
 msgid "_Bcc:"
 msgstr "暗送(_B)："
 
-#: ../composer/e-msg-composer-hdrs.c:618
+#: ../composer/e-msg-composer-hdrs.c:623
 msgid ""
 "Enter the addresses that will receive a carbon copy of the message without "
 "appearing in the recipient list of the message."
@@ -9339,19 +9371,19 @@ msgstr "输入将接收该信件副本，但不出现在收件人列表中的收
 #.
 #. * Post-To
 #.
-#: ../composer/e-msg-composer-hdrs.c:625
+#: ../composer/e-msg-composer-hdrs.c:630
 msgid "_Post To:"
 msgstr "投递到(_P)："
 
-#: ../composer/e-msg-composer-hdrs.c:630
+#: ../composer/e-msg-composer-hdrs.c:635
 msgid "Click here to select folders to post to"
 msgstr "单击此处以选择要投递到的文件夹"
 
-#: ../composer/e-msg-composer-hdrs.c:636
+#: ../composer/e-msg-composer-hdrs.c:641
 msgid "Post To:"
 msgstr "投递到："
 
-#: ../composer/e-msg-composer-select-file.c:80
+#: ../composer/e-msg-composer-select-file.c:81
 msgid "A_ttach"
 msgstr "附件(_T)"
 
@@ -9396,12 +9428,16 @@ msgstr "自动生成的"
 msgid "Si_gnature:"
 msgstr "签名(_G)："
 
-#: ../composer/e-msg-composer.c:2336 ../composer/e-msg-composer.c:3366
-#: ../composer/e-msg-composer.c:3367
+#: ../composer/e-msg-composer.c:2337 ../composer/e-msg-composer.c:3373
+#: ../composer/e-msg-composer.c:3374
 msgid "Compose a message"
 msgstr "撰写新件"
 
-#: ../composer/e-msg-composer.c:4537
+#: ../composer/e-msg-composer.c:3484
+msgid "_Attachment Bar"
+msgstr "附件栏(_A)"
+
+#: ../composer/e-msg-composer.c:4557
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
@@ -9412,6 +9448,7 @@ msgid ""
 " There are few attachments getting downloaded. Sending the mail will cause "
 "the mail to be sent without those pending attachments "
 msgstr ""
+"附件正在下载中。发送邮件将使得邮件发送时无法包含后续的附件"
 
 #: ../composer/mail-composer.error.xml.h:2
 msgid "All accounts have been removed."
@@ -9791,7 +9828,7 @@ msgstr "%H:%M:%S"
 #. without seconds.
 #. This is a strftime() format. %I = hour (1-12), %M = minute, %p = am/pm string.
 #: ../e-util/e-time-utils.c:348 ../e-util/e-time-utils.c:435
-#: ../widgets/misc/e-dateedit.c:1438 ../widgets/misc/e-dateedit.c:1719
+#: ../widgets/misc/e-dateedit.c:1438 ../widgets/misc/e-dateedit.c:1720
 msgid "%I:%M %p"
 msgstr "%p %I:%M"
 
@@ -9800,7 +9837,7 @@ msgstr "%p %I:%M"
 #. without seconds.
 #. This is a strftime() format. %H = hour (0-23), %M = minute.
 #: ../e-util/e-time-utils.c:352 ../e-util/e-time-utils.c:427
-#: ../widgets/misc/e-dateedit.c:1435 ../widgets/misc/e-dateedit.c:1716
+#: ../widgets/misc/e-dateedit.c:1435 ../widgets/misc/e-dateedit.c:1717
 msgid "%H:%M"
 msgstr "%H:%M"
 
@@ -12690,6 +12727,7 @@ msgid ""
 "A read receipt notification has been requested for &quot;{1}&quot;.  Send "
 "the reciept notification to {0}?"
 msgstr ""
+"“{1}”请求了阅读收条。将阅读收条发送给{0}吗？"
 
 #: ../mail/mail.error.xml.h:7
 msgid ""
@@ -12791,8 +12829,8 @@ msgid ""
 "problem.  You will not be able to use this provider until you can accept its "
 "license."
 msgstr ""
-"无法读取许可文件“{0}”，原因是安装有问题。"
-"您将无法使用此提供者，除非您接受其许可协议。"
+"无法读取许可文件“{0}”，原因是安装有问题。您将无法使用此提供者，除非您接受其许"
+"可协议。"
 
 #: ../mail/mail.error.xml.h:31
 msgid "Cannot rename &quot;{0}&quot; to &quot;{1}&quot;."
@@ -13605,6 +13643,7 @@ msgid ""
 "A formatter plugin which displays audio attachments inline and allows you to "
 "play them directly from evolution."
 msgstr ""
+"一个格式化插件，该插件将就地显示音频附件，允许您从 Evolution 中直接播放。"
 
 #: ../plugins/audio-inline/org-gnome-audio-inline.eplug.xml.h:2
 msgid "Audio inline plugin"
@@ -13701,6 +13740,8 @@ msgid ""
 "Automatically fills your addressbook with names and email addresses as you "
 "reply to mails. Also fills in IM contact information from your buddy lists."
 msgstr ""
+"在您回复邮件时自动用姓名和电子邮件地址填入您的地址簿。"
+"同时还将填入您好友列表的即时通讯联系信息。"
 
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:3
 msgid "BBDB"
@@ -13780,6 +13821,7 @@ msgid ""
 "A test plugin which demonstrates a popup menu plugin which lets you copy "
 "things to the clipboard."
 msgstr ""
+"一个测试插件，它将显示允许您将文字复制到剪贴板的弹出菜单插件。"
 
 #: ../plugins/copy-tool/org-gnome-copy-tool.eplug.xml.h:2
 msgid "Copy _Email Address"
@@ -14312,11 +14354,11 @@ msgstr "联系这封信所属邮件列表的所有者"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:3
 msgid "Get an archive of the list this message belongs to"
-msgstr ""
+msgstr "获取这封信所属邮件列表的存档"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:4
 msgid "Get information about the usage of the list this message belongs to"
-msgstr ""
+msgstr "获取这封信所属邮件列表的用法信息"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:5
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:2
@@ -14369,6 +14411,7 @@ msgid ""
 "Provide actions for common mailing list commands (subscribe, "
 "unsubscribe, ...)."
 msgstr ""
+"提供邮件列表公共命令的动作(订阅、退订等等)。"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:1
 msgid "Action not available"
@@ -14552,6 +14595,8 @@ msgid ""
 "\n"
 "This plugin is unsupported demonstration code only.\n"
 msgstr ""
+"一个测试插件，它演示了可让您禁用 HTML 邮件的格式化插件。\n\n"
+"此插件只是一个不提供任何技术支持的演示而已。\n"
 
 #. but then we also need to create our own section frame
 #: ../plugins/prefer-plain/org-gnome-prefer-plain.eplug.xml.h:6
@@ -14588,7 +14633,7 @@ msgstr "保存全部附件"
 
 #: ../plugins/save-attachments/org-gnome-save-attachments.eplug.xml.h:1
 msgid "A plugin for saving all attachments or parts of a message at once."
-msgstr ""
+msgstr "一次保存全部附件或信件的不同部分的插件。"
 
 #: ../plugins/save-attachments/org-gnome-save-attachments.eplug.xml.h:2
 msgid "Save attachments"
@@ -14862,7 +14907,7 @@ msgstr "启动向导"
 
 #: ../plugins/subject-thread/org-gnome-subject-thread.eplug.xml.h:1
 msgid "Indicates if threading of messages should fall back to subject."
-msgstr ""
+msgstr "表明信件线索是否应以主题为准。"
 
 #: ../plugins/subject-thread/org-gnome-subject-thread.eplug.xml.h:2
 msgid "Subject Threading"
@@ -14879,11 +14924,15 @@ msgstr "默认按照主体对线索中的信件排序(_J)"
 
 #: ../plugins/print-message/org-gnome-print-message.eplug.xml.h:1
 msgid "Gives an option to print mail from composer"
-msgstr ""
+msgstr "在撰写器中添加打印邮件的选项"
 
 #: ../shell/GNOME_Evolution_Shell.server.in.in.h:1
 msgid "Evolution Shell"
 msgstr "Evolution 外壳"
+
+#: ../shell/GNOME_Evolution_Shell.server.in.in.h:2
+msgid "Evolution Shell Config factory"
+msgstr "Evolution 外壳配置工厂"
 
 #: ../shell/GNOME_Evolution_Test.server.in.in.h:1
 msgid "Evolution Test"
@@ -14967,8 +15016,8 @@ msgid ""
 "\"toolbar\". If \"toolbar\" is set, the style of the buttons is determined "
 "by the GNOME toolbar setting."
 msgstr ""
-"窗口按钮的样式。可以是文字、图标、二者、工具栏。如果设置为工具栏，则工具栏"
-"的样式由 GNOME 设置决定。"
+"窗口按钮的样式。可以是文字、图标、二者、工具栏。如果设置为工具栏，则工具栏的"
+"样式由 GNOME 设置决定。"
 
 #: ../shell/apps_evolution_shell.schemas.in.in.h:18
 msgid "Toolbar is visible"
@@ -15181,23 +15230,23 @@ msgstr "无法运行 Bug buddy。"
 #. The translator-credits string is for translators to list
 #. * per language credits for translation, displayed in the
 #. * about box
-#: ../shell/e-shell-window-commands.c:501
+#: ../shell/e-shell-window-commands.c:507
 msgid "translator-credits"
 msgstr "开源软件国际化之简体中文组 http://i18n.linux.net.cn"
 
-#: ../shell/e-shell-window-commands.c:515
+#: ../shell/e-shell-window-commands.c:521
 msgid "Groupware Suite"
 msgstr "Groupwise 套件"
 
-#: ../shell/e-shell-window-commands.c:742
+#: ../shell/e-shell-window-commands.c:748
 msgid "_Work Online"
 msgstr "联机工作(_W)"
 
-#: ../shell/e-shell-window-commands.c:755 ../ui/evolution.xml.h:47
+#: ../shell/e-shell-window-commands.c:761 ../ui/evolution.xml.h:47
 msgid "_Work Offline"
 msgstr "脱机工作(_W)"
 
-#: ../shell/e-shell-window-commands.c:768
+#: ../shell/e-shell-window-commands.c:774
 msgid "Work Offline"
 msgstr "脱机工作"
 
@@ -15218,32 +15267,32 @@ msgstr "Evolution 目前脱机。单击该按钮可在线工作。"
 msgid "Switch to %s"
 msgstr "切换到 %s"
 
-#: ../shell/e-shell.c:597
+#: ../shell/e-shell.c:622
 msgid "Uknown system error."
 msgstr "未知的系统错误。"
 
-#: ../shell/e-shell.c:799 ../shell/e-shell.c:800
+#: ../shell/e-shell.c:824 ../shell/e-shell.c:825
 #, c-format
 msgid "%ld KB"
 msgstr "%ld KB"
 
-#: ../shell/e-shell.c:1253 ../widgets/misc/e-cell-date-edit.c:256
+#: ../shell/e-shell.c:1278 ../widgets/misc/e-cell-date-edit.c:256
 msgid "OK"
 msgstr "确定"
 
-#: ../shell/e-shell.c:1255
+#: ../shell/e-shell.c:1280
 msgid "Invalid arguments"
 msgstr "无效参数"
 
-#: ../shell/e-shell.c:1257
+#: ../shell/e-shell.c:1282
 msgid "Cannot register on OAF"
 msgstr "无法注册到 OAF"
 
-#: ../shell/e-shell.c:1259
+#: ../shell/e-shell.c:1284
 msgid "Configuration Database not found"
 msgstr "找不到配置数据库"
 
-#: ../shell/e-shell.c:1261
+#: ../shell/e-shell.c:1286
 msgid "Generic error"
 msgstr "通用错误"
 
@@ -15453,9 +15502,7 @@ msgstr ""
 
 #: ../shell/shell.error.xml.h:16
 msgid "Upgrade from previous version failed: {0}"
-msgstr ""
-"从先前版本升级失败："
-"{0}"
+msgstr "从先前版本升级失败：{0}"
 
 #: ../shell/shell.error.xml.h:17
 msgid ""
@@ -16933,7 +16980,7 @@ msgstr "添加附件"
 
 #: ../ui/evolution-message-composer.xml.h:3
 msgid "Check to get delivery notification when your message is read"
-msgstr ""
+msgstr "选中可当您的信件被阅读时得到投递通知"
 
 #: ../ui/evolution-message-composer.xml.h:5
 #: ../ui/evolution-signature-editor.xml.h:3
@@ -17890,4 +17937,3 @@ msgstr "%s (%d%% 完成)"
 #: ../widgets/misc/e-url-entry.c:107
 msgid "click here to go to url"
 msgstr "单击此处转到 URL"
-
