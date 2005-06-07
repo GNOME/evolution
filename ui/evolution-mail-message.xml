@@ -377,7 +377,7 @@
             <menuitem name="ToolsVFolderSubject" verb="" _label="VFolder on S_ubject..."/>
             <menuitem name="ToolsVFolderSender" verb="" _label="VFolder on Sen_der..."/>
             <menuitem name="ToolsVFolderRecipient" verb="" _label="VFolder on Recipients..."/>
-            <menuitem name="ToolsVFolderMailingList" verb="" _label="VFolder on _Mailing _List..."/>
+            <menuitem name="ToolsVFolderMailingList" verb="" _label="VFolder on Mailing _List..."/>
 
           </submenu>
         </placeholder>
