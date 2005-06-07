@@ -352,7 +352,7 @@ You can choose to ignore this folder, overwrite or append its contents, or quit.
   <error id="ask-mark-read" type="question" default="GTK_RESPONSE_NO">
     <_title>Mark all messages as read</_title>
     <_primary>Mark all messages as read in the selected folder</_primary>
-    <_secondary xml:space="preserve">Do you want the operation to be performed in the sub folders ?</_secondary>
+    <_secondary xml:space="preserve">Do you want the operation to be performed in the subfolders?</_secondary>
     <button stock="gtk-no" response="GTK_RESPONSE_NO"/>
     <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>   
     <button stock="gtk-yes" response="GTK_RESPONSE_YES"/>
