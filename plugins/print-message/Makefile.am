@@ -11,6 +11,6 @@ liborg_gnome_print_message_la_SOURCES = print-message.c
 liborg_gnome_print_message_la_LDFLAGS = -module -avoid-version
 
 EXTRA_DIST = 					\
-	org-gnome-compose-print-message.eplug.xml\
-	org-gnome-compose-print-message.xml
+	org-gnome-print-message.eplug.xml\
+	org-gnome-print-message.xml
 CLEANFILES = $(BUILT_SOURCES)
