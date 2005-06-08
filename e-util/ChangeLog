@@ -1,3 +1,7 @@
+2005-06-08  Srinivasa Ragavan <sragavan@novell.com>
+	* e-cursor.[ch]: Added functions to show busy cursor.
+	* Makefile.am: Add the files
+
 2005-05-25  Not Zed  <NotZed@Ximian.com>
 
 	* e-plugin-mono.[ch]: Removed, these are now implemented as a
