@@ -487,7 +487,7 @@ view_on_url (GObject *emitter, const char *url, const char *nice_url, MailCompon
 }
 
 static void
-view_changed_cb(EMFolderView *emfv, EInfoLabel *el)
+view_changed(EMFolderView *emfv, EInfoLabel *el)
 {
 	if (emfv->folder) {
 		char *name;
@@ -557,6 +557,42 @@ view_changed_cb(EMFolderView *emfv, EInfoLabel *el)
 	} else {
 		e_info_label_set_info(el, _("Mail"), "");
 	}
+}
+
+static int
+view_changed_timeout(void *d)
+{
+	EInfoLabel *el = d;
+	EMFolderView *emfv = g_object_get_data((GObject *)el, "folderview");
+
+	view_changed(emfv, el);
+
+	g_object_set_data((GObject *)emfv, "view-changed-timeout", NULL);
+
+	g_object_unref(el);
+	g_object_unref(emfv);
+
+	return 0;
+}
+
+static void
+view_changed_cb(EMFolderView *emfv, EInfoLabel *el)
+{
+	void *v;
+
+	/* This can get called 3 times every cursor move, so
+	   we don't need to/want to run it immediately */
+
+	/* NB: we should have a 'view' struct/object to manage this crap, but this'll do for now */
+	v = g_object_get_data((GObject *)emfv, "view-changed-timeout");
+	if (v) {
+		g_source_remove(GPOINTER_TO_INT(v));
+	} else {
+		g_object_ref(emfv);
+		g_object_ref(el);
+	}
+
+	g_object_set_data((GObject *)emfv, "view-changed-timeout", GINT_TO_POINTER(g_timeout_add(250, view_changed_timeout, el)));
 }
 
 /* Evolution::Component CORBA methods.  */
@@ -630,6 +666,8 @@ impl_createControls (PortableServer_Servant servant,
 
 	g_signal_connect(view_widget, "changed", G_CALLBACK(view_changed_cb), info);
 	g_signal_connect(view_widget, "loaded", G_CALLBACK(view_changed_cb), info);
+
+	g_object_set_data((GObject*)info, "folderview", view_widget);
 }
 
 static CORBA_boolean
