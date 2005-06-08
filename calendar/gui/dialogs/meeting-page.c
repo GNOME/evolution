@@ -337,10 +337,10 @@ sensitize_widgets (MeetingPage *mpage)
 		g_error_free (error);
 	}	
 	gtk_widget_set_sensitive (priv->organizer, !read_only);
-	gtk_widget_set_sensitive (priv->existing_organizer_btn, !read_only);
-	gtk_widget_set_sensitive (priv->add, !read_only && (priv->user_org || delegate));
-	gtk_widget_set_sensitive (priv->remove, !read_only && (priv->user_org|| delegate));
-	gtk_widget_set_sensitive (priv->invite, !read_only && (priv->user_org || delegate));
+	gtk_widget_set_sensitive (priv->existing_organizer_btn, (!read_only && priv->user_org));
+	gtk_widget_set_sensitive (priv->add, (!read_only &&  priv->user_org) || delegate);
+	gtk_widget_set_sensitive (priv->remove, (!read_only &&  priv->user_org) || delegate);
+	gtk_widget_set_sensitive (priv->invite, (!read_only &&  priv->user_org) || delegate);
 	gtk_widget_set_sensitive (GTK_WIDGET (priv->list_view), !read_only);
 }
 

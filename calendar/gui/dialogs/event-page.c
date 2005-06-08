@@ -603,10 +603,12 @@ is_custom_alarm_store (EAlarmList *alarm_list_store, char *old_summary,  CalUnit
 static void
 sensitize_widgets (EventPage *epage)
 {
-	gboolean read_only, custom, alarm;
+	gboolean read_only, custom, alarm, sens = TRUE;
 	EventPagePrivate *priv;
 	
 	priv = epage->priv;
+	if (COMP_EDITOR_PAGE (epage)->flags & COMP_EDITOR_MEETING)
+	 	sens = COMP_EDITOR_PAGE (epage)->flags & COMP_EDITOR_PAGE_USER_ORG;
 
 	if (!e_cal_is_read_only (COMP_EDITOR_PAGE (epage)->client, &read_only, NULL))
 		read_only = TRUE;
@@ -614,28 +616,28 @@ sensitize_widgets (EventPage *epage)
 	custom = is_custom_alarm_store (priv->alarm_list_store, priv->old_summary, priv->alarm_units, priv->alarm_interval, NULL);
 	alarm = e_dialog_toggle_get (priv->alarm);
 	
-	gtk_widget_set_sensitive (priv->summary_label, !read_only);
-	gtk_entry_set_editable (GTK_ENTRY (priv->summary), !read_only);
-	gtk_widget_set_sensitive (priv->location_label, !read_only);
-	gtk_entry_set_editable (GTK_ENTRY (priv->location), !read_only);
-	gtk_widget_set_sensitive (priv->start_time, !read_only);
-	gtk_widget_set_sensitive (priv->start_timezone, !read_only);
-	gtk_widget_set_sensitive (priv->end_time, !read_only);
-	gtk_widget_set_sensitive (priv->end_timezone, !read_only);
-	gtk_widget_set_sensitive (priv->all_day_event, !read_only);
-	gtk_widget_set_sensitive (priv->description, !read_only);
-	gtk_widget_set_sensitive (priv->classification, !read_only);
-	gtk_widget_set_sensitive (priv->show_time_as_busy, !read_only);
-	gtk_widget_set_sensitive (priv->alarm, !read_only);
+	gtk_widget_set_sensitive (priv->summary_label, !read_only && sens);
+	gtk_entry_set_editable (GTK_ENTRY (priv->summary), !read_only && sens);
+	gtk_widget_set_sensitive (priv->location_label, !read_only && sens);
+	gtk_entry_set_editable (GTK_ENTRY (priv->location), !read_only && sens);
+	gtk_widget_set_sensitive (priv->start_time, !read_only && sens);
+	gtk_widget_set_sensitive (priv->start_timezone, !read_only && sens);
+	gtk_widget_set_sensitive (priv->end_time, !read_only && sens);
+	gtk_widget_set_sensitive (priv->end_timezone, !read_only && sens);
+	gtk_widget_set_sensitive (priv->all_day_event, !read_only && sens);
+	gtk_widget_set_sensitive (priv->description, !read_only && sens);
+	gtk_widget_set_sensitive (priv->classification, !read_only && sens);
+	gtk_widget_set_sensitive (priv->show_time_as_busy, !read_only && sens);
+	gtk_widget_set_sensitive (priv->alarm, !read_only && sens);
 	gtk_widget_set_sensitive (priv->alarm_time, !read_only && !custom && alarm);
 	gtk_widget_set_sensitive (priv->alarm_custom, alarm);
 	if (custom)
 		gtk_widget_show (priv->alarm_warning);
 	else
 		gtk_widget_hide (priv->alarm_warning);
-	gtk_widget_set_sensitive (priv->categories_btn, !read_only);
-	gtk_widget_set_sensitive (priv->sendoptions_button, !read_only);
-	gtk_entry_set_editable (GTK_ENTRY (priv->categories), !read_only);
+	gtk_widget_set_sensitive (priv->categories_btn, !read_only && sens);
+	gtk_widget_set_sensitive (priv->sendoptions_button, !read_only && sens);
+	gtk_entry_set_editable (GTK_ENTRY (priv->categories), !read_only && sens);
 }
 
 void
@@ -687,6 +689,9 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	epage = EVENT_PAGE (page);
 	priv = epage->priv;
 
+	if (!e_cal_component_has_organizer (comp)) 
+		page->flags |= COMP_EDITOR_PAGE_USER_ORG;
+		
 	/* Don't send off changes during this time */
 	priv->updating = TRUE;
 

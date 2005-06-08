@@ -470,10 +470,11 @@ static void
 sensitize_recur_widgets (RecurrencePage *rpage)
 {
 	RecurrencePagePrivate *priv;
-	gboolean recurs;
+	gboolean recurs, sens = TRUE;
 	GtkWidget *label;
 
 	priv = rpage->priv;
+	sens = COMP_EDITOR_PAGE (rpage)->flags & COMP_EDITOR_PAGE_USER_ORG;
 
 	recurs = e_dialog_toggle_get (priv->recurs);
 	
@@ -481,7 +482,7 @@ sensitize_recur_widgets (RecurrencePage *rpage)
 	if (e_cal_component_is_instance (priv->comp))
 		gtk_widget_set_sensitive (priv->preview_calendar, FALSE);
 	else
-		gtk_widget_set_sensitive (priv->preview_calendar, TRUE);
+		gtk_widget_set_sensitive (priv->preview_calendar, TRUE && sens);
 
 	if (GTK_BIN (priv->custom_warning_bin)->child)
 		gtk_widget_destroy (GTK_BIN (priv->custom_warning_bin)->child);
@@ -497,7 +498,7 @@ sensitize_recur_widgets (RecurrencePage *rpage)
 				   label);
 		gtk_widget_show_all (priv->custom_warning_bin);
 	} else if (recurs) {
-		gtk_widget_set_sensitive (priv->params, TRUE);
+		gtk_widget_set_sensitive (priv->params, sens);
 		gtk_widget_show (priv->params);
 		gtk_widget_hide (priv->custom_warning_bin);
 	} else {
@@ -510,14 +511,16 @@ sensitize_recur_widgets (RecurrencePage *rpage)
 static void
 sensitize_buttons (RecurrencePage *rpage)
 {
-	gboolean read_only;
+	gboolean read_only, sens = TRUE;
 	gint selected_rows;
 	RecurrencePagePrivate *priv;
 	icalcomponent *icalcomp;
 	const char *uid;
 
 	priv = rpage->priv;
-
+	if (COMP_EDITOR_PAGE (rpage)->flags & COMP_EDITOR_PAGE_MEETING)
+		sens = COMP_EDITOR_PAGE (rpage)->flags & COMP_EDITOR_PAGE_USER_ORG;
+	
 	selected_rows = gtk_tree_selection_count_selected_rows (
 		gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->exception_list)));
 
@@ -551,10 +554,10 @@ sensitize_buttons (RecurrencePage *rpage)
 	else
 		gtk_widget_set_sensitive (priv->params, FALSE);
 
-	gtk_widget_set_sensitive (priv->recurs, !read_only);
-	gtk_widget_set_sensitive (priv->exception_add, !read_only && e_cal_component_has_recurrences (priv->comp));
-	gtk_widget_set_sensitive (priv->exception_modify, !read_only && selected_rows > 0);
-	gtk_widget_set_sensitive (priv->exception_delete, !read_only && selected_rows > 0);
+	gtk_widget_set_sensitive (priv->recurs, !read_only && sens);
+	gtk_widget_set_sensitive (priv->exception_add, !read_only && e_cal_component_has_recurrences (priv->comp) && sens);
+	gtk_widget_set_sensitive (priv->exception_modify, !read_only && selected_rows > 0 && sens);
+	gtk_widget_set_sensitive (priv->exception_delete, !read_only && selected_rows > 0 && sens);
 }
 
 #if 0
@@ -1520,6 +1523,9 @@ recurrence_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 
 	priv->comp = e_cal_component_clone (comp);
 
+	if (!e_cal_component_has_organizer (comp))
+		 page->flags |= COMP_EDITOR_PAGE_USER_ORG;
+	
 	/* Don't send off changes during this time */
 	priv->updating = TRUE;
 

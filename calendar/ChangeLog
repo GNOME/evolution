@@ -1,3 +1,25 @@
+2005-06-08 viren.l <viren@novell.com>
+
+	 * gui/dialogs/event-editor.c (event_editor_edit_comp): set COMP_EDITOR_PAGE_USER_ORG
+	   flag. sensitizing attachment bar if user is organizer.
+	 * gui/dialogs/event-page.c, gui/dialogs/recurrencepage.c, 
+	   gui/dialogs/meeting-page.c 
+	   (fill_widgets)
+	   (sensitize_widget) 
+	   (sensitize_button): 
+	   sensitizing widgets if user is not an organizer.Boolean check 
+	   for user_org is achieved by using the flags in CompEditorPage structure.
+	   check that variable while sensitizing widgets.Remove the scheduling page 
+	   if user is not organizer.Retrive values based on a key using hash table. 
+	   Added a call back for row_activation. Enabling and disabling the 
+	   "editing" property of the renderers based E_MEETING_STORE_EDIT_STATUS.
+	   Also check whether user is creating new meeting or openning an existing 
+	   meeting and hence disable widgets appropriate.
+	 * gui/e-meeting-list-view.c (build_table, edit_col_for_user, 
+	   edit_col_for_organizer, row_activation_cb): store renderers in hash table
+	   using direct hashing since we can to enable/disable only column-wise since 
+	   tree view is used here.
+		
 2005-06-07  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* gui/calendar-component.c: (create_new_event):

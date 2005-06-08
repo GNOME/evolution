@@ -50,6 +50,8 @@ struct _EMeetingListViewPrivate {
 	EMeetingStore *store;
 
 	ENameSelector *name_selector;
+
+	GHashTable *renderers;
 };
 
 #define BUF_SIZE 1024
@@ -75,8 +77,15 @@ e_meeting_list_view_finalize (GObject *obj)
 	EMeetingListView *view = E_MEETING_LIST_VIEW (obj);
 	EMeetingListViewPrivate *priv = view->priv;
 
-	if (priv->name_selector)
+	if (priv->name_selector) {
 		g_object_unref (priv->name_selector);
+		priv->name_selector = NULL;
+	}
+
+	if (priv->renderers) {
+		g_hash_table_destroy (priv->renderers);
+		priv->renderers = NULL;
+	}
 
 	g_free (priv);
 
@@ -114,6 +123,8 @@ e_meeting_list_view_init (EMeetingListView *view)
 	priv = g_new0 (EMeetingListViewPrivate, 1);
 
 	view->priv = priv;
+	
+	priv->renderers = g_hash_table_new (g_direct_hash, g_int_equal);
 
 	priv->name_selector = e_name_selector_new ();
 
@@ -297,10 +308,15 @@ status_edited_cb (GtkCellRenderer *renderer, const gchar *path, const gchar *tex
 }
 
 static void
-build_table (GtkTreeView *view)
+build_table (EMeetingListView *lview)
 {
 	GtkCellRenderer *renderer;
+	GtkTreeView *view = GTK_TREE_VIEW (lview);
+	EMeetingListViewPrivate *priv;
+	GHashTable *edit_table;
 	
+	priv = lview->priv;
+	edit_table = priv->renderers;
 	gtk_tree_view_set_headers_visible (view, TRUE);
 	gtk_tree_view_set_rules_hint (view, TRUE);
 
@@ -314,6 +330,7 @@ build_table (GtkTreeView *view)
 						     NULL);
 	g_signal_connect (renderer, "cell_edited", G_CALLBACK (attendee_edited_cb), view);
 	g_signal_connect (renderer, "editing-canceled", G_CALLBACK (attendee_editing_canceled_cb), view);
+	g_hash_table_insert (edit_table, GINT_TO_POINTER (E_MEETING_STORE_ATTENDEE_COL), renderer);	
 	
 	renderer = e_cell_renderer_combo_new ();
 	g_object_set (G_OBJECT (renderer), "list", get_type_strings (), "editable", TRUE, NULL);
@@ -321,6 +338,7 @@ build_table (GtkTreeView *view)
 						     "text", E_MEETING_STORE_TYPE_COL,
 						     NULL);
 	g_signal_connect (renderer, "edited", G_CALLBACK (type_edited_cb), view);
+	g_hash_table_insert (edit_table, GINT_TO_POINTER (E_MEETING_STORE_TYPE_COL), renderer); 
 	
 	renderer = e_cell_renderer_combo_new ();
 	g_object_set (G_OBJECT (renderer), "list", get_role_strings (), "editable", TRUE, NULL);
@@ -328,6 +346,7 @@ build_table (GtkTreeView *view)
 						     "text", E_MEETING_STORE_ROLE_COL,
 						     NULL);
 	g_signal_connect (renderer, "edited", G_CALLBACK (role_edited_cb), view);
+	g_hash_table_insert (edit_table, GINT_TO_POINTER (E_MEETING_STORE_ROLE_COL), renderer);
 
 	renderer = e_cell_renderer_combo_new ();
 	g_object_set (G_OBJECT (renderer), "list", get_rsvp_strings (), "editable", TRUE, NULL);
@@ -335,6 +354,7 @@ build_table (GtkTreeView *view)
 						     "text", E_MEETING_STORE_RSVP_COL,
 						     NULL);
 	g_signal_connect (renderer, "edited", G_CALLBACK (rsvp_edited_cb), view);
+	g_hash_table_insert (edit_table, GINT_TO_POINTER (E_MEETING_STORE_RSVP_COL), renderer);
 
 	renderer = e_cell_renderer_combo_new ();
 	g_object_set (G_OBJECT (renderer), "list", get_status_strings (), "editable", TRUE, NULL);
@@ -342,19 +362,101 @@ build_table (GtkTreeView *view)
 						     "text", E_MEETING_STORE_STATUS_COL,
 						     NULL);
 	g_signal_connect (renderer, "edited", G_CALLBACK (status_edited_cb), view);
+	g_hash_table_insert (edit_table, GINT_TO_POINTER (E_MEETING_STORE_STATUS_COL), renderer);
+	
+	priv->renderers = edit_table;
 }
+
+static void
+change_edit_cols_for_user (gpointer key, gpointer value, gpointer user_data)
+{
+       GtkCellRenderer *renderer = (GtkCellRenderer *) value;
+       int key_val = GPOINTER_TO_INT (key);
+       switch (key_val)
+       {
+               case E_MEETING_STORE_ATTENDEE_COL:
+                       g_object_set (G_OBJECT (renderer), "editable", FALSE, NULL);
+               break;
+               case E_MEETING_STORE_ROLE_COL:
+                       g_object_set (G_OBJECT (renderer), "editable", FALSE, NULL);
+               break;
+               case E_MEETING_STORE_TYPE_COL:
+                       g_object_set (G_OBJECT (renderer), "editable", FALSE, NULL);
+               break;
+               case E_MEETING_STORE_RSVP_COL:
+                       g_object_set (G_OBJECT (renderer), "editable", TRUE, NULL);
+               break;
+               case E_MEETING_STORE_STATUS_COL:
+                       g_object_set (G_OBJECT (renderer), "editable", TRUE, NULL);
+               break;
+       }
+}
+
+static void   
+change_edit_cols_for_organizer (gpointer key, gpointer value, gpointer user_data)
+{
+       GtkCellRenderer *renderer = (GtkCellRenderer *) value;
+       guint edit_level = GPOINTER_TO_INT (user_data); 
+       g_object_set (G_OBJECT (renderer), "editable", GINT_TO_POINTER (edit_level), NULL);
+}
+
+static void
+row_activated_cb (GtkTreeSelection *selection, EMeetingListView *view)
+{
+       EMeetingAttendee *existing_attendee;
+       EMeetingListViewPrivate *priv;
+       GtkTreeIter iter;
+       int row;
+       EMeetingAttendeeEditLevel el;
+       gint  edit_level;
+       GtkTreeModel *model; 
+       GtkTreePath *path;
+
+       priv = view->priv;
+               
+
+       if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
+               path = gtk_tree_model_get_path  (model, &iter);
+       }
+       row = gtk_tree_path_get_indices (path)[0];
+       existing_attendee = e_meeting_store_find_attendee_at_row (priv->store, row);
+       el = e_meeting_attendee_get_edit_level (existing_attendee);
+       
+       switch (el)
+       {
+               case  E_MEETING_ATTENDEE_EDIT_NONE:
+               edit_level = FALSE;
+               g_hash_table_foreach (priv->renderers, change_edit_cols_for_organizer, GINT_TO_POINTER (edit_level));
+               break;
+       
+               case E_MEETING_ATTENDEE_EDIT_FULL:
+               edit_level = TRUE;
+               g_hash_table_foreach (priv->renderers, change_edit_cols_for_organizer, GINT_TO_POINTER (edit_level));
+               break;
+             
+               case E_MEETING_ATTENDEE_EDIT_STATUS:
+               edit_level = FALSE;
+               g_hash_table_foreach (priv->renderers, change_edit_cols_for_user, GINT_TO_POINTER (edit_level));
+               break;
+       }
+               
+}
+ 
 
 EMeetingListView *
 e_meeting_list_view_new (EMeetingStore *store)
 {
 	EMeetingListView *view = g_object_new (E_TYPE_MEETING_LIST_VIEW, NULL);
+	GtkTreeSelection *selection;
 
 	if (view) {
 		view->priv->store = store;
 		gtk_tree_view_set_model (GTK_TREE_VIEW (view), GTK_TREE_MODEL (store));
-		build_table (GTK_TREE_VIEW (view));
+		build_table (view);
 	}
 
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW(view));
+	g_signal_connect (selection, "changed", G_CALLBACK (row_activated_cb), view);
 	return view;
 }
 

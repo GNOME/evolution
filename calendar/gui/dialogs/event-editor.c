@@ -215,11 +215,16 @@ event_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 	priv = ee->priv;
 	
 	priv->updating = TRUE;
-	
-	if (COMP_EDITOR_CLASS (event_editor_parent_class)->edit_comp)
-		COMP_EDITOR_CLASS (event_editor_parent_class)->edit_comp (editor, comp);
+
 
 	client = comp_editor_get_e_cal (COMP_EDITOR (editor));
+	if (priv->is_meeting && itip_organizer_is_user (comp, client)) {	
+		 COMP_EDITOR_PAGE (priv->event_page)->flags |= COMP_EDITOR_PAGE_USER_ORG;
+		 COMP_EDITOR_PAGE (priv->recur_page)->flags |= COMP_EDITOR_PAGE_USER_ORG;
+	}
+
+	if (COMP_EDITOR_CLASS (event_editor_parent_class)->edit_comp)
+		COMP_EDITOR_CLASS (event_editor_parent_class)->edit_comp (editor, comp);
 
 	/* Get meeting related stuff */
 	e_cal_component_get_organizer (comp, &organizer);
@@ -294,6 +299,9 @@ event_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 	e_cal_component_free_attendee_list (attendees);
 
 	comp_editor_set_needs_send (COMP_EDITOR (ee), priv->meeting_shown && itip_organizer_is_user (comp, client));
+	if (e_cal_component_has_organizer (comp) && (COMP_EDITOR_PAGE (priv->event_page)->flags & 
+									COMP_EDITOR_PAGE_MEETING)) 
+	        comp_editor_sensitize_attachment_bar (editor, itip_organizer_is_user (comp, client));	
 
 	priv->updating = FALSE;
 }
@@ -420,7 +428,8 @@ show_meeting (EventEditor *ee)
 	}
 	if (comp_editor_get_flags (COMP_EDITOR (ee)) & COMP_EDITOR_DELEGATE)
 		comp_editor_show_page (COMP_EDITOR (ee), COMP_EDITOR_PAGE (priv->meet_page));
-	
+	if (comp_editor_get_existing_org (COMP_EDITOR (ee)) && !comp_editor_get_user_org (COMP_EDITOR (ee)))
+                comp_editor_remove_page (COMP_EDITOR (ee), COMP_EDITOR_PAGE (priv->sched_page));	 
 }
 
 void
