@@ -1,3 +1,55 @@
+Evolution 2.3.3, 2005-06-07
+---------------------------
+
+Bugzilla bugs fixed (see http://bugzilla.gnome.org/show_bug.cgi):
+
+UI:
+	#306153 Two mnemonics in same string (Andre Klapper)
+	#305376 Hide/unhide read messages missing from new menu layout (Rodney Dawes)
+
+Mail:
+	#306151 Extra space in string (Andre Klapper)
+
+Calendar:
+	#272114 Beside 'Task' & 'Calender' folders, color boxs get displayed
+	when properties are changed (Chenthill)
+	#302267 Date button should have a detailed name (Li Yuan)
+
+
+Other fixes and new features :
+	
+	- subclass mail-component from evolution-component and 
+	  not a bonobo object (Michael Zucchi)
+	- plugin type loader registration, using a plugin itself. 
+	  remove e-plugin-mono. (Michael Zucchi )
+	- Delegation of meetings for GW backend (Chenthill)
+	- Marcus Bains line for Calendar (Thouis Jones)
+	- Folder browser listeners for filtering message list (Rodney Dawes) 
+	- helper for plugins to get mail session. (Michael Zucchi)
+	- pseudo mime type to find message formatter (Michael Zucchi)
+	- missing bits of e-cert-db from branch merge (JP)
+	- delete/unload old nssckbi root certs module (Jeffrey Stedfast)
+	- initial commits for importer plugin hooks (Michael Zucchi)
+	- DnD support for remote URLs to the attachment window. (Srinivasa
+	  Ragavan)
+	- exchange plugin UI changes (Sarfraaz Ahmed)
+	- mail-remote plugin (Michael Zucchi)
+	
+Updated translation :
+
+	- zh_CN (Funda Wang) 
+	- bg (Vladimir Petkov)
+	- en_CA (Adam Weinberger)
+	- es (Francisco Javier F. Serrador)
+	- nb (Kjartan Maraas)
+	- no (Kjartan Maraas)
+	- vi (Clytie Siddall)
+	- de (Hendrik Richter)
+	- cs (Miloslav Trmac)
+	- bg (Yavor Doganov, Ivelina Karcheva)
+	- el (Kostas Papadimas)
+	- da (Martin Willemoes Hansen)
+
 Evolution 2.3.2, 2005-05-18
 ---------------------------
 
