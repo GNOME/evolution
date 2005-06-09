@@ -8158,7 +8158,7 @@ msgstr "Afrika/Sao_Tome"
 
 #: ../calendar/zones.h:55
 msgid "Africa/Timbuktu"
-msgstr ""
+msgstr "Afrika/Timbuktu"
 
 #: ../calendar/zones.h:56
 msgid "Africa/Tripoli"
@@ -8334,7 +8334,7 @@ msgstr ""
 
 #: ../calendar/zones.h:99
 msgid "America/Grenada"
-msgstr ""
+msgstr "Amerika/Grenada"
 
 #: ../calendar/zones.h:100
 msgid "America/Guadeloupe"
@@ -8350,11 +8350,11 @@ msgstr ""
 
 #: ../calendar/zones.h:103
 msgid "America/Guyana"
-msgstr ""
+msgstr "Amerika/Gvajana"
 
 #: ../calendar/zones.h:104
 msgid "America/Halifax"
-msgstr ""
+msgstr "Amerika/Halifax"
 
 #: ../calendar/zones.h:105
 msgid "America/Havana"
@@ -8366,7 +8366,7 @@ msgstr ""
 
 #: ../calendar/zones.h:107
 msgid "America/Indiana/Indianapolis"
-msgstr ""
+msgstr "Amerika/Indiana/Indianapolis"
 
 #: ../calendar/zones.h:108
 msgid "America/Indiana/Knox"
@@ -8398,7 +8398,7 @@ msgstr "Amerika/Jamajka"
 
 #: ../calendar/zones.h:115
 msgid "America/Jujuy"
-msgstr ""
+msgstr "Amerika/Jujuy"
 
 #: ../calendar/zones.h:116
 msgid "America/Juneau"
@@ -8414,7 +8414,7 @@ msgstr ""
 
 #: ../calendar/zones.h:119
 msgid "America/La_Paz"
-msgstr ""
+msgstr "Amerika/La_Paz"
 
 #: ../calendar/zones.h:120
 msgid "America/Lima"
@@ -8462,7 +8462,7 @@ msgstr ""
 
 #: ../calendar/zones.h:131
 msgid "America/Mexico_City"
-msgstr ""
+msgstr "Amerika/Mexico_City"
 
 #: ../calendar/zones.h:132
 msgid "America/Miquelon"
@@ -8699,7 +8699,7 @@ msgstr ""
 
 #: ../calendar/zones.h:190
 msgid "Asia/Amman"
-msgstr ""
+msgstr "Azija/Aman"
 
 #: ../calendar/zones.h:191
 msgid "Asia/Anadyr"
@@ -8739,15 +8739,15 @@ msgstr "Azija/Bejrut"
 
 #: ../calendar/zones.h:200
 msgid "Asia/Bishkek"
-msgstr ""
+msgstr "Azija/Baku"
 
 #: ../calendar/zones.h:201
 msgid "Asia/Brunei"
-msgstr ""
+msgstr "Azija/Brunej"
 
 #: ../calendar/zones.h:202
 msgid "Asia/Calcutta"
-msgstr ""
+msgstr "Azija/Kalkuta"
 
 #: ../calendar/zones.h:203
 msgid "Asia/Choibalsan"
@@ -8771,7 +8771,7 @@ msgstr ""
 
 #: ../calendar/zones.h:208
 msgid "Asia/Dili"
-msgstr ""
+msgstr "Azija/Dili"
 
 #: ../calendar/zones.h:209
 msgid "Asia/Dubai"
@@ -8787,7 +8787,7 @@ msgstr "Azija/Gaza"
 
 #: ../calendar/zones.h:212
 msgid "Asia/Harbin"
-msgstr ""
+msgstr "Azija/Harbin"
 
 #: ../calendar/zones.h:213
 msgid "Asia/Hong_Kong"
@@ -8839,7 +8839,7 @@ msgstr "Azija/Katmandu"
 
 #: ../calendar/zones.h:225
 msgid "Asia/Krasnoyarsk"
-msgstr ""
+msgstr "Azija/Krasnojarsk"
 
 #: ../calendar/zones.h:226
 msgid "Asia/Kuala_Lumpur"
@@ -8931,7 +8931,7 @@ msgstr ""
 
 #: ../calendar/zones.h:248
 msgid "Asia/Samarkand"
-msgstr ""
+msgstr "Azija/samarkand"
 
 #: ../calendar/zones.h:249
 msgid "Asia/Seoul"
@@ -8963,7 +8963,7 @@ msgstr "Azija/Teheran"
 
 #: ../calendar/zones.h:256
 msgid "Asia/Thimphu"
-msgstr ""
+msgstr "Azija/Thimphu"
 
 #: ../calendar/zones.h:257
 msgid "Asia/Tokyo"
@@ -9339,7 +9339,7 @@ msgstr ""
 
 #: ../calendar/zones.h:350
 msgid "Pacific/Auckland"
-msgstr ""
+msgstr "Pacifik/Auckland"
 
 #: ../calendar/zones.h:351
 msgid "Pacific/Chatham"
@@ -9407,7 +9407,7 @@ msgstr ""
 
 #: ../calendar/zones.h:367
 msgid "Pacific/Majuro"
-msgstr ""
+msgstr "Pacifik/Majuro"
 
 #: ../calendar/zones.h:368
 msgid "Pacific/Marquesas"
@@ -9467,7 +9467,7 @@ msgstr "Pacifik/Tahiti"
 
 #: ../calendar/zones.h:382
 msgid "Pacific/Tarawa"
-msgstr ""
+msgstr "Pacifik/Tarawa"
 
 #: ../calendar/zones.h:383
 msgid "Pacific/Tongatapu"
