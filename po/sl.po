@@ -3534,7 +3534,7 @@ msgstr "Levo:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:20
 msgid "Letter tabs on side"
-msgstr "Uhlji črk ob strani"
+msgstr "Zavihki črk ob strani"
 
 #: ../addressbook/printing/e-contact-print.glade.h:21
 msgid "Margins"
@@ -16802,7 +16802,7 @@ msgstr "Označi izbrana sporočila za navezavo"
 
 #: ../ui/evolution-mail-message.xml.h:40
 msgid "Follow _Up..."
-msgstr "Nadal_jevanje..."
+msgstr "Nada_ljevanje..."
 
 #: ../ui/evolution-mail-message.xml.h:41
 msgid "Force images in HTML mail to be loaded"
