@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-06-05 04:27+0000\n"
-"PO-Revision-Date: 2005-06-05 17:27+0800\n"
+"POT-Creation-Date: 2005-06-09 05:41+0000\n"
+"PO-Revision-Date: 2005-06-09 19:08+0800\n"
 "Last-Translator: Funda Wang <fundawang@linux.net.cn>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
 "MIME-Version: 1.0\n"
@@ -68,7 +68,7 @@ msgstr "有再现。"
 
 #: ../a11y/calendar/ea-cal-view-event.c:241
 msgid "It is a meeting."
-msgstr "有会议。"
+msgstr "为会议。"
 
 #: ../a11y/calendar/ea-cal-view-event.c:247
 #, c-format
@@ -95,7 +95,7 @@ msgstr "新建约会"
 msgid "New All Day Event"
 msgstr "新建全天事件"
 
-#: ../a11y/calendar/ea-cal-view.c:308 ../calendar/gui/e-calendar-view.c:1396
+#: ../a11y/calendar/ea-cal-view.c:308 ../calendar/gui/e-calendar-view.c:1444
 msgid "New Meeting"
 msgstr "新会议"
 
@@ -386,8 +386,8 @@ msgid ""
 "problems using Evolution. For best results the server should be upgraded to "
 "a supported version"
 msgstr ""
-"您正在连接到不支持的 GroupWise 服务器，此时使用 Evolution 可能遇到问题。"
-"为了得到最佳效果，服务器应该升级到 Evolution 支持的版本"
+"您正在连接到不支持的 GroupWise 服务器，此时使用 Evolution 可能遇到问题。为了"
+"得到最佳效果，服务器应该升级到 Evolution 支持的版本"
 
 #: ../addressbook/addressbook.error.xml.h:28
 msgid ""
@@ -757,7 +757,6 @@ msgstr "是否显示预览面板。"
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:1
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:1
 #: ../calendar/gui/dialogs/event-page.glade.h:1
-#: ../calendar/gui/dialogs/meeting-page.glade.h:1
 #: ../calendar/gui/dialogs/new-calendar.glade.h:1
 #: ../calendar/gui/dialogs/new-task-list.glade.h:1
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:1
@@ -2642,7 +2641,7 @@ msgstr "来源"
 #: ../addressbook/gui/widgets/e-addressbook-view.c:244
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:11
 #: ../calendar/gui/e-calendar-table.etspec.h:13
-#: ../calendar/gui/e-meeting-list-view.c:320
+#: ../calendar/gui/e-meeting-list-view.c:337
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:11
 msgid "Type"
 msgstr "类型"
@@ -2853,7 +2852,7 @@ msgstr "收音机"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:33
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:9
-#: ../calendar/gui/e-meeting-list-view.c:327
+#: ../calendar/gui/e-meeting-list-view.c:345
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:9
 msgid "Role"
 msgstr "角色"
@@ -3674,15 +3673,13 @@ msgstr "没有提供文件名。"
 msgid ""
 " There are few attachments getting downloaded. Saving the appointment will "
 "cause the appointment to be saved without those pending attachments "
-msgstr ""
-"附件正在下载中。保存约会将使得约会保存时无法包含后续的附件"
+msgstr "附件正在下载中。保存约会将使得约会保存时无法包含后续的附件"
 
 #: ../calendar/calendar.error.xml.h:2
 msgid ""
 " There are few attachments getting downloaded. Saving the task will cause "
 "the task to be saved without those pending attachments "
-msgstr ""
-"附件正在下载中。保存任务将使得任务保存时无法包含后续的附件"
+msgstr "附件正在下载中。保存任务将使得任务保存时无法包含后续的附件"
 
 #: ../calendar/calendar.error.xml.h:3
 msgid ""
@@ -3997,7 +3994,7 @@ msgid "Calendar and Tasks"
 msgstr "日历和任务"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:2
-#: ../calendar/gui/calendar-component.c:1290
+#: ../calendar/gui/calendar-component.c:1292
 msgid "Calendars"
 msgstr "日历"
 
@@ -4585,55 +4582,55 @@ msgstr "无法打开日历“%s”来创建事件和会议"
 msgid "There is no calendar available for creating events and meetings"
 msgstr "没有可创建事件和会议的日历"
 
-#: ../calendar/gui/calendar-component.c:1265
+#: ../calendar/gui/calendar-component.c:1267
 msgid "Calendar Source Selector"
 msgstr "日历源选择器"
 
-#: ../calendar/gui/calendar-component.c:1456
+#: ../calendar/gui/calendar-component.c:1458
 msgid "New appointment"
 msgstr "新建约会"
 
-#: ../calendar/gui/calendar-component.c:1457
+#: ../calendar/gui/calendar-component.c:1459
 msgid "_Appointment"
 msgstr "约会(_A)"
 
-#: ../calendar/gui/calendar-component.c:1458
+#: ../calendar/gui/calendar-component.c:1460
 msgid "Create a new appointment"
 msgstr "创建新约会"
 
-#: ../calendar/gui/calendar-component.c:1464
+#: ../calendar/gui/calendar-component.c:1466
 msgid "New meeting"
 msgstr "新建会议"
 
-#: ../calendar/gui/calendar-component.c:1465
+#: ../calendar/gui/calendar-component.c:1467
 msgid "M_eeting"
 msgstr "会议(_E)"
 
-#: ../calendar/gui/calendar-component.c:1466
+#: ../calendar/gui/calendar-component.c:1468
 msgid "Create a new meeting request"
 msgstr "创建一条新会议请求"
 
-#: ../calendar/gui/calendar-component.c:1472
+#: ../calendar/gui/calendar-component.c:1474
 msgid "New all day appointment"
 msgstr "新建全天约会"
 
-#: ../calendar/gui/calendar-component.c:1473
+#: ../calendar/gui/calendar-component.c:1475
 msgid "All Day A_ppointment"
 msgstr "全天约会(_P)"
 
-#: ../calendar/gui/calendar-component.c:1474
+#: ../calendar/gui/calendar-component.c:1476
 msgid "Create a new all-day appointment"
 msgstr "创建新全天约会"
 
-#: ../calendar/gui/calendar-component.c:1480
+#: ../calendar/gui/calendar-component.c:1482
 msgid "New calendar"
 msgstr "新建日历"
 
-#: ../calendar/gui/calendar-component.c:1481
+#: ../calendar/gui/calendar-component.c:1483
 msgid "Cale_ndar"
 msgstr "日历(_N)"
 
-#: ../calendar/gui/calendar-component.c:1482
+#: ../calendar/gui/calendar-component.c:1484
 msgid "Create a new calendar"
 msgstr "创建新日历"
 
@@ -4814,7 +4811,7 @@ msgid "attachment"
 msgstr "附件"
 
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:473
-#: ../calendar/gui/dialogs/meeting-page.c:784
+#: ../calendar/gui/dialogs/meeting-page.c:837
 #: ../composer/e-msg-composer-attachment-bar.c:470
 #: ../plugins/groupwise-features/properties.glade.h:14
 msgid "_Remove"
@@ -5017,7 +5014,7 @@ msgid "Free/Busy"
 msgstr "忙/闲"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:24
-#: ../calendar/gui/dialogs/recurrence-page.c:1043
+#: ../calendar/gui/dialogs/recurrence-page.c:1046
 #: ../calendar/gui/e-itip-control.c:732
 msgid "Friday"
 msgstr "星期五"
@@ -5031,7 +5028,7 @@ msgid "Minutes"
 msgstr "分钟"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:28
-#: ../calendar/gui/dialogs/recurrence-page.c:1039
+#: ../calendar/gui/dialogs/recurrence-page.c:1042
 #: ../calendar/gui/e-itip-control.c:728
 msgid "Monday"
 msgstr "星期一"
@@ -5045,7 +5042,7 @@ msgid "S_un"
 msgstr "周日(_U)"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:31
-#: ../calendar/gui/dialogs/recurrence-page.c:1044
+#: ../calendar/gui/dialogs/recurrence-page.c:1047
 #: ../calendar/gui/e-itip-control.c:733
 msgid "Saturday"
 msgstr "星期六"
@@ -5059,7 +5056,7 @@ msgid "Show week _numbers in date navigator"
 msgstr "在日期浏览器中显示周数(_N)"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:34
-#: ../calendar/gui/dialogs/recurrence-page.c:1045
+#: ../calendar/gui/dialogs/recurrence-page.c:1048
 #: ../calendar/gui/e-itip-control.c:727
 msgid "Sunday"
 msgstr "星期日"
@@ -5077,7 +5074,7 @@ msgid "Template:"
 msgstr "模板："
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:38
-#: ../calendar/gui/dialogs/recurrence-page.c:1042
+#: ../calendar/gui/dialogs/recurrence-page.c:1045
 #: ../calendar/gui/e-itip-control.c:731
 msgid "Thursday"
 msgstr "星期四"
@@ -5091,7 +5088,7 @@ msgid "Time format:"
 msgstr "时间格式："
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:41
-#: ../calendar/gui/dialogs/recurrence-page.c:1040
+#: ../calendar/gui/dialogs/recurrence-page.c:1043
 #: ../calendar/gui/e-itip-control.c:729
 msgid "Tuesday"
 msgstr "星期二"
@@ -5101,7 +5098,7 @@ msgid "W_eek starts:"
 msgstr "一周开始(_E)："
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:43
-#: ../calendar/gui/dialogs/recurrence-page.c:1041
+#: ../calendar/gui/dialogs/recurrence-page.c:1044
 #: ../calendar/gui/e-itip-control.c:730
 msgid "Wednesday"
 msgstr "星期三"
@@ -5314,23 +5311,23 @@ msgstr " (预定 "
 msgid "Due "
 msgstr "预定 "
 
-#: ../calendar/gui/dialogs/comp-editor.c:181 ../composer/e-msg-composer.c:2654
+#: ../calendar/gui/dialogs/comp-editor.c:184 ../composer/e-msg-composer.c:2654
 #, c-format
 msgid "Attached message - %s"
 msgstr "附加的信件 - %s"
 
 #. translators, this count will always be >1
-#: ../calendar/gui/dialogs/comp-editor.c:186
-#: ../calendar/gui/dialogs/comp-editor.c:355 ../composer/e-msg-composer.c:2659
+#: ../calendar/gui/dialogs/comp-editor.c:189
+#: ../calendar/gui/dialogs/comp-editor.c:358 ../composer/e-msg-composer.c:2659
 #: ../composer/e-msg-composer.c:2835
 #, c-format
 msgid "Attached message"
 msgid_plural "%d attached messages"
 msgstr[0] "%d 封附加的信件"
 
-#: ../calendar/gui/dialogs/comp-editor.c:418
+#: ../calendar/gui/dialogs/comp-editor.c:421
 #: ../calendar/gui/e-calendar-table.c:1164
-#: ../calendar/gui/e-calendar-view.c:1426 ../composer/e-msg-composer.c:2899
+#: ../calendar/gui/e-calendar-view.c:1474 ../composer/e-msg-composer.c:2899
 #: ../mail/em-folder-tree.c:1047 ../mail/em-folder-view.c:1033
 #: ../mail/message-list.c:1708 ../ui/evolution-addressbook.xml.h:31
 #: ../ui/evolution-calendar.xml.h:39 ../ui/evolution-composer-entries.xml.h:7
@@ -5338,78 +5335,78 @@ msgstr[0] "%d 封附加的信件"
 msgid "_Copy"
 msgstr "复制(_C)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:419 ../composer/e-msg-composer.c:2900
+#: ../calendar/gui/dialogs/comp-editor.c:422 ../composer/e-msg-composer.c:2900
 #: ../mail/em-folder-tree.c:1048 ../mail/em-folder-view.c:929
 #: ../mail/message-list.c:1709
 msgid "_Move"
 msgstr "移动(_M)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:421 ../composer/e-msg-composer.c:2902
+#: ../calendar/gui/dialogs/comp-editor.c:424 ../composer/e-msg-composer.c:2902
 #: ../mail/em-folder-tree.c:1050 ../mail/message-list.c:1711
 msgid "Cancel _Drag"
 msgstr "取消拖曳(_D)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:694
+#: ../calendar/gui/dialogs/comp-editor.c:697
 msgid "Could not update object"
 msgstr "无法更新对象"
 
-#: ../calendar/gui/dialogs/comp-editor.c:873 ../composer/e-msg-composer.c:2308
+#: ../calendar/gui/dialogs/comp-editor.c:876 ../composer/e-msg-composer.c:2308
 #, c-format
 msgid "<b>%d</b> Attachment"
 msgid_plural "<b>%d</b> Attachments"
 msgstr[0] "<b>%d</b> 个附件"
 
-#: ../calendar/gui/dialogs/comp-editor.c:968
+#: ../calendar/gui/dialogs/comp-editor.c:971
 msgid "_Attachment Bar (drop attachments here)"
 msgstr "附件栏(将附件拖至此处)(_A)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1546
-#: ../calendar/gui/dialogs/comp-editor.c:1589
+#: ../calendar/gui/dialogs/comp-editor.c:1581
+#: ../calendar/gui/dialogs/comp-editor.c:1624
 msgid "Edit Appointment"
 msgstr "编辑约会"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1552
-#: ../calendar/gui/dialogs/comp-editor.c:1595
+#: ../calendar/gui/dialogs/comp-editor.c:1587
+#: ../calendar/gui/dialogs/comp-editor.c:1630
 #, c-format
 msgid "Meeting - %s"
 msgstr "会议 - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1554
-#: ../calendar/gui/dialogs/comp-editor.c:1597
+#: ../calendar/gui/dialogs/comp-editor.c:1589
+#: ../calendar/gui/dialogs/comp-editor.c:1632
 #, c-format
 msgid "Appointment - %s"
 msgstr "约会 - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1558
-#: ../calendar/gui/dialogs/comp-editor.c:1601
+#: ../calendar/gui/dialogs/comp-editor.c:1593
+#: ../calendar/gui/dialogs/comp-editor.c:1636
 #, c-format
 msgid "Assigned Task - %s"
 msgstr "指派的任务 - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1560
-#: ../calendar/gui/dialogs/comp-editor.c:1603
+#: ../calendar/gui/dialogs/comp-editor.c:1595
+#: ../calendar/gui/dialogs/comp-editor.c:1638
 #, c-format
 msgid "Task - %s"
 msgstr "任务 - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1563
-#: ../calendar/gui/dialogs/comp-editor.c:1606
+#: ../calendar/gui/dialogs/comp-editor.c:1598
+#: ../calendar/gui/dialogs/comp-editor.c:1641
 #, c-format
 msgid "Journal entry - %s"
 msgstr "日志条目 - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1574
-#: ../calendar/gui/dialogs/comp-editor.c:1616
+#: ../calendar/gui/dialogs/comp-editor.c:1609
+#: ../calendar/gui/dialogs/comp-editor.c:1651
 msgid "No summary"
 msgstr "没有概要"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2054
-#: ../calendar/gui/dialogs/comp-editor.c:2087
-#: ../calendar/gui/dialogs/comp-editor.c:2111
+#: ../calendar/gui/dialogs/comp-editor.c:2089
+#: ../calendar/gui/dialogs/comp-editor.c:2122
+#: ../calendar/gui/dialogs/comp-editor.c:2146
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr "如果更新到达的话，对此项目的更改将被丢弃"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2135
+#: ../calendar/gui/dialogs/comp-editor.c:2170
 msgid "Unable to use current version!"
 msgstr "无法使用当前版本！"
 
@@ -5494,60 +5491,67 @@ msgid "Recurrence"
 msgstr "再现"
 
 #: ../calendar/gui/dialogs/event-editor.c:166
-#: ../calendar/gui/dialogs/event-editor.c:238
-#: ../calendar/gui/dialogs/event-editor.c:402
+#: ../calendar/gui/dialogs/event-editor.c:251
+#: ../calendar/gui/dialogs/event-editor.c:420
 msgid "Scheduling"
 msgstr "调度"
 
-#: ../calendar/gui/dialogs/event-editor.c:173
-#: ../calendar/gui/dialogs/event-editor.c:241
-#: ../calendar/gui/dialogs/event-editor.c:405
+#: ../calendar/gui/dialogs/event-editor.c:175
+msgid "Delegatees"
+msgstr "代理人"
+
+#: ../calendar/gui/dialogs/event-editor.c:179
+msgid "Attendees"
+msgstr "出席者"
+
+#: ../calendar/gui/dialogs/event-editor.c:254
+#: ../calendar/gui/dialogs/event-editor.c:423
 msgid "Invitations"
 msgstr "邀请"
 
-#: ../calendar/gui/dialogs/event-page.c:720
+#: ../calendar/gui/dialogs/event-page.c:725
 msgid "Event with no start date"
 msgstr "没有开始日期的事件"
 
-#: ../calendar/gui/dialogs/event-page.c:723
+#: ../calendar/gui/dialogs/event-page.c:728
 msgid "Event with no end date"
 msgstr "没有结束日期的事件"
 
-#: ../calendar/gui/dialogs/event-page.c:889
+#: ../calendar/gui/dialogs/event-page.c:894
 #: ../calendar/gui/dialogs/task-page.c:556
 msgid "Start date is wrong"
 msgstr "开始日期有错"
 
-#: ../calendar/gui/dialogs/event-page.c:899
+#: ../calendar/gui/dialogs/event-page.c:904
 msgid "End date is wrong"
 msgstr "结束日期有错"
 
-#: ../calendar/gui/dialogs/event-page.c:922
+#: ../calendar/gui/dialogs/event-page.c:927
 msgid "Start time is wrong"
 msgstr "开始时间有错"
 
-#: ../calendar/gui/dialogs/event-page.c:929
+#: ../calendar/gui/dialogs/event-page.c:934
 msgid "End time is wrong"
 msgstr "结束时间有错"
 
-#: ../calendar/gui/dialogs/event-page.c:1675
+#: ../calendar/gui/dialogs/event-page.c:1680
 #, c-format
 msgid "Unable to open the calendar '%s'."
 msgstr "无法打开日历“%s”。"
 
-#: ../calendar/gui/dialogs/event-page.c:1881
+#: ../calendar/gui/dialogs/event-page.c:1886
 #, c-format
 msgid "%d day before appointment"
 msgid_plural "%d days before appointment"
 msgstr[0] "约会的 %d 天前"
 
-#: ../calendar/gui/dialogs/event-page.c:1889
+#: ../calendar/gui/dialogs/event-page.c:1894
 #, c-format
 msgid "%d hour before appointment"
 msgid_plural "%d hours before appointment"
 msgstr[0] "约会的 %d 小时前"
 
-#: ../calendar/gui/dialogs/event-page.c:1897
+#: ../calendar/gui/dialogs/event-page.c:1902
 #, c-format
 msgid "%d minute before appointement"
 msgid_plural "%d minutes before appointment"
@@ -5667,13 +5671,21 @@ msgstr "结束时间(_E)："
 msgid "_Start time:"
 msgstr "开始时间(_S)："
 
+#: ../calendar/gui/dialogs/meeting-page.c:303
+msgid "<b>Dele_gatees</b>"
+msgstr "<b>代理人(_G)</b>"
+
+#: ../calendar/gui/dialogs/meeting-page.c:307
+msgid "From:"
+msgstr "来自："
+
 #. an empty string is the same as 'None'
 #. Put the "None" and "UTC" entries at the top of the combo's list.
 #. When "None" is selected we want the field to be cleared.
 #. Note that we don't show this here, since by default a 'None' date
 #. is not permitted.
-#: ../calendar/gui/dialogs/meeting-page.c:296
-#: ../calendar/gui/dialogs/meeting-page.glade.h:5
+#: ../calendar/gui/dialogs/meeting-page.c:313
+#: ../calendar/gui/dialogs/meeting-page.glade.h:4
 #: ../calendar/gui/e-cal-model-tasks.c:652
 #: ../calendar/gui/e-itip-control.c:1104 ../composer/e-msg-composer.c:2112
 #: ../filter/filter-rule.c:881 ../mail/em-account-editor.c:683
@@ -5688,24 +5700,24 @@ msgstr "开始时间(_S)："
 msgid "None"
 msgstr "无"
 
-#: ../calendar/gui/dialogs/meeting-page.c:435
+#: ../calendar/gui/dialogs/meeting-page.c:461
 msgid "The organizer selected no longer has an account."
 msgstr "选中的组织者没有帐户了。"
 
-#: ../calendar/gui/dialogs/meeting-page.c:441
+#: ../calendar/gui/dialogs/meeting-page.c:467
 msgid "An organizer is required."
 msgstr "需要一名组织者。"
 
-#: ../calendar/gui/dialogs/meeting-page.c:456
+#: ../calendar/gui/dialogs/meeting-page.c:482
 msgid "At least one attendee is required."
 msgstr "需要至少一个参加者。"
 
-#: ../calendar/gui/dialogs/meeting-page.c:781
+#: ../calendar/gui/dialogs/meeting-page.c:834
 msgid "_Delegate To..."
 msgstr "授权给(_D)..."
 
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:1
-#: ../calendar/gui/e-meeting-list-view.c:309
+#: ../calendar/gui/e-meeting-list-view.c:325
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:1
 msgid "Attendee"
 msgstr "出席者"
@@ -5741,7 +5753,7 @@ msgid "Member"
 msgstr "成员"
 
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:8
-#: ../calendar/gui/e-meeting-list-view.c:334
+#: ../calendar/gui/e-meeting-list-view.c:353
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:8
 msgid "RSVP"
 msgstr "RSVP"
@@ -5749,34 +5761,34 @@ msgstr "RSVP"
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:10
 #: ../calendar/gui/dialogs/task-editor.c:147
 #: ../calendar/gui/e-calendar-table.etspec.h:10
-#: ../calendar/gui/e-meeting-list-view.c:341
+#: ../calendar/gui/e-meeting-list-view.c:361
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:10 ../mail/em-filter-i18n.h:63
 #: ../mail/message-list.etspec.h:12
 msgid "Status"
 msgstr "状态"
 
-#: ../calendar/gui/dialogs/meeting-page.glade.h:2
+#: ../calendar/gui/dialogs/meeting-page.glade.h:1
 msgid "<b>Att_endees</b>"
 msgstr "<b>与会者(_E)</b>"
 
-#: ../calendar/gui/dialogs/meeting-page.glade.h:3
+#: ../calendar/gui/dialogs/meeting-page.glade.h:2
 msgid "C_hange Organizer"
 msgstr "更改组织者(_H)"
 
-#: ../calendar/gui/dialogs/meeting-page.glade.h:4
+#: ../calendar/gui/dialogs/meeting-page.glade.h:3
 #: ../calendar/gui/e-meeting-time-sel.c:428
 msgid "Con_tacts..."
 msgstr "联系人(_T)..."
 
-#: ../calendar/gui/dialogs/meeting-page.glade.h:6
+#: ../calendar/gui/dialogs/meeting-page.glade.h:5
 msgid "Or_ganizer:"
 msgstr "组织者(_G)："
 
-#: ../calendar/gui/dialogs/meeting-page.glade.h:7
+#: ../calendar/gui/dialogs/meeting-page.glade.h:6
 msgid "Organizer"
 msgstr "组织者"
 
-#: ../calendar/gui/dialogs/meeting-page.glade.h:8
+#: ../calendar/gui/dialogs/meeting-page.glade.h:7
 #: ../calendar/gui/e-itip-control.glade.h:9
 msgid "Organizer:"
 msgstr "组织者："
@@ -5846,55 +5858,55 @@ msgstr "本次和以后各次"
 msgid "All Instances"
 msgstr "所有各次"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:493
+#: ../calendar/gui/dialogs/recurrence-page.c:494
 msgid "This appointment contains recurrences that Evolution cannot edit."
 msgstr "此约会含有 Evolution 无法编辑的再现。"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:812
+#: ../calendar/gui/dialogs/recurrence-page.c:815
 msgid "Recurrence date is invalid"
 msgstr "再现日期无效"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:923
+#: ../calendar/gui/dialogs/recurrence-page.c:926
 msgid "on"
 msgstr "在"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:983
+#: ../calendar/gui/dialogs/recurrence-page.c:986
 msgid "first"
 msgstr "第一"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:984
+#: ../calendar/gui/dialogs/recurrence-page.c:987
 msgid "second"
 msgstr "第二"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:985
+#: ../calendar/gui/dialogs/recurrence-page.c:988
 msgid "third"
 msgstr "第三"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:986
+#: ../calendar/gui/dialogs/recurrence-page.c:989
 msgid "fourth"
 msgstr "第四"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:987
+#: ../calendar/gui/dialogs/recurrence-page.c:990
 msgid "last"
 msgstr "最后"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1010
+#: ../calendar/gui/dialogs/recurrence-page.c:1013
 msgid "Other Date"
 msgstr "其它日期"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1038
+#: ../calendar/gui/dialogs/recurrence-page.c:1041
 msgid "day"
 msgstr "天"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1175
+#: ../calendar/gui/dialogs/recurrence-page.c:1178
 msgid "on the"
 msgstr "在"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1364
+#: ../calendar/gui/dialogs/recurrence-page.c:1367
 msgid "occurrences"
 msgstr "循环"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2317
+#: ../calendar/gui/dialogs/recurrence-page.c:2323
 msgid "Date/Time"
 msgstr "日期/时间"
 
@@ -6271,14 +6283,14 @@ msgstr ""
 "45.436845,125.862501"
 
 #: ../calendar/gui/e-cal-model-tasks.c:1017 ../calendar/gui/e-cal-model.c:905
-#: ../calendar/gui/e-meeting-list-view.c:163
+#: ../calendar/gui/e-meeting-list-view.c:174
 #: ../calendar/gui/e-meeting-store.c:168 ../calendar/gui/e-meeting-store.c:178
 #: ../calendar/gui/e-meeting-store.c:808
 msgid "Yes"
 msgstr "是"
 
 #: ../calendar/gui/e-cal-model-tasks.c:1017 ../calendar/gui/e-cal-model.c:905
-#: ../calendar/gui/e-meeting-list-view.c:164
+#: ../calendar/gui/e-meeting-list-view.c:175
 #: ../calendar/gui/e-meeting-store.c:180
 msgid "No"
 msgstr "否"
@@ -6286,8 +6298,8 @@ msgstr "否"
 #. This is the default filename used for temporary file creation
 #: ../calendar/gui/e-cal-model.c:307 ../calendar/gui/e-cal-model.c:310
 #: ../calendar/gui/e-itip-control.c:1149 ../calendar/gui/e-itip-control.c:1290
-#: ../calendar/gui/e-meeting-list-view.c:139
-#: ../calendar/gui/e-meeting-list-view.c:153
+#: ../calendar/gui/e-meeting-list-view.c:150
+#: ../calendar/gui/e-meeting-list-view.c:164
 #: ../calendar/gui/e-meeting-store.c:124 ../calendar/gui/e-meeting-store.c:159
 #: ../calendar/gui/e-meeting-store.c:224 ../mail/em-utils.c:1175
 #: ../plugins/itip-formatter/itip-formatter.c:251
@@ -6355,22 +6367,22 @@ msgid "Task Table"
 msgstr "任务表"
 
 #: ../calendar/gui/e-calendar-table.c:694
-#: ../calendar/gui/e-calendar-view.c:652
+#: ../calendar/gui/e-calendar-view.c:653
 msgid "Deleting selected objects"
 msgstr "删除选中的对象"
 
 #: ../calendar/gui/e-calendar-table.c:873
-#: ../calendar/gui/e-calendar-view.c:779
+#: ../calendar/gui/e-calendar-view.c:780
 msgid "Updating objects"
 msgstr "更新对象"
 
 #: ../calendar/gui/e-calendar-table.c:1014
-#: ../calendar/gui/e-calendar-view.c:1082 ../composer/e-msg-composer.c:1241
+#: ../calendar/gui/e-calendar-view.c:1083 ../composer/e-msg-composer.c:1241
 msgid "Save as..."
 msgstr "另存为..."
 
 #: ../calendar/gui/e-calendar-table.c:1156
-#: ../calendar/gui/e-calendar-view.c:1419 ../ui/evolution-addressbook.xml.h:37
+#: ../calendar/gui/e-calendar-view.c:1467 ../ui/evolution-addressbook.xml.h:37
 msgid "_Open"
 msgstr "打开(_O)"
 
@@ -6379,28 +6391,28 @@ msgid "Open _Web Page"
 msgstr "打开网页(_W)"
 
 #: ../calendar/gui/e-calendar-table.c:1158
-#: ../calendar/gui/e-calendar-view.c:1420 ../mail/em-folder-view.c:1043
+#: ../calendar/gui/e-calendar-view.c:1468 ../mail/em-folder-view.c:1043
 #: ../mail/em-popup.c:494
 msgid "_Save As..."
 msgstr "另存为(_S)..."
 
 #: ../calendar/gui/e-calendar-table.c:1159
-#: ../calendar/gui/e-calendar-view.c:1400
-#: ../calendar/gui/e-calendar-view.c:1421 ../mail/em-folder-view.c:1044
+#: ../calendar/gui/e-calendar-view.c:1448
+#: ../calendar/gui/e-calendar-view.c:1469 ../mail/em-folder-view.c:1044
 #: ../ui/evolution-addressbook.xml.h:40 ../ui/evolution-calendar.xml.h:44
 #: ../ui/evolution-mail-message.xml.h:117 ../ui/evolution-tasks.xml.h:25
 msgid "_Print..."
 msgstr "打印(_P)..."
 
 #: ../calendar/gui/e-calendar-table.c:1163
-#: ../calendar/gui/e-calendar-view.c:1425 ../ui/evolution-addressbook.xml.h:1
+#: ../calendar/gui/e-calendar-view.c:1473 ../ui/evolution-addressbook.xml.h:1
 #: ../ui/evolution-calendar.xml.h:1 ../ui/evolution-tasks.xml.h:1
 msgid "C_ut"
 msgstr "剪切(_U)"
 
 #: ../calendar/gui/e-calendar-table.c:1165
-#: ../calendar/gui/e-calendar-view.c:1403
-#: ../calendar/gui/e-calendar-view.c:1427 ../ui/evolution-addressbook.xml.h:38
+#: ../calendar/gui/e-calendar-view.c:1451
+#: ../calendar/gui/e-calendar-view.c:1475 ../ui/evolution-addressbook.xml.h:38
 #: ../ui/evolution-calendar.xml.h:43 ../ui/evolution-composer-entries.xml.h:9
 #: ../ui/evolution-tasks.xml.h:24
 msgid "_Paste"
@@ -6424,7 +6436,7 @@ msgstr "把任务标记为完成(_M)"
 
 #. FIXME: need to disable for undeletable folders
 #: ../calendar/gui/e-calendar-table.c:1176
-#: ../calendar/gui/e-calendar-view.c:1438 ../mail/em-folder-tree.c:2119
+#: ../calendar/gui/e-calendar-view.c:1487 ../mail/em-folder-tree.c:2119
 #: ../mail/em-folder-view.c:1047 ../ui/evolution-addressbook.xml.h:33
 #: ../ui/evolution-calendar.xml.h:40 ../ui/evolution-mail-list.xml.h:26
 #: ../ui/evolution-tasks.xml.h:21
@@ -6470,69 +6482,73 @@ msgstr "开始日期"
 msgid "Task sort"
 msgstr "任务排序"
 
-#: ../calendar/gui/e-calendar-view.c:1203
+#: ../calendar/gui/e-calendar-view.c:1204
 msgid "Moving items"
 msgstr "移动项目"
 
-#: ../calendar/gui/e-calendar-view.c:1205
+#: ../calendar/gui/e-calendar-view.c:1206
 msgid "Copying items"
 msgstr "复制项目"
 
-#: ../calendar/gui/e-calendar-view.c:1394
+#: ../calendar/gui/e-calendar-view.c:1442
 msgid "New _Appointment..."
 msgstr "新建约会(_A)..."
 
-#: ../calendar/gui/e-calendar-view.c:1395
+#: ../calendar/gui/e-calendar-view.c:1443
 msgid "New All Day _Event"
 msgstr "新建全天事件(_E)"
 
-#: ../calendar/gui/e-calendar-view.c:1397
+#: ../calendar/gui/e-calendar-view.c:1445
 msgid "New Task"
 msgstr "新建任务"
 
 #. FIXME: hook in this somehow
-#: ../calendar/gui/e-calendar-view.c:1407
+#: ../calendar/gui/e-calendar-view.c:1455
 msgid "Current View"
 msgstr "当前视图"
 
-#: ../calendar/gui/e-calendar-view.c:1409 ../ui/evolution-calendar.xml.h:26
+#: ../calendar/gui/e-calendar-view.c:1457 ../ui/evolution-calendar.xml.h:26
 msgid "Select _Today"
 msgstr "选择今天(_T)"
 
-#: ../calendar/gui/e-calendar-view.c:1410
+#: ../calendar/gui/e-calendar-view.c:1458
 msgid "_Select Date..."
 msgstr "选择日期(_S)..."
 
 #. TODO: Why is this in a context menu when it applies globally?
-#: ../calendar/gui/e-calendar-view.c:1415 ../ui/evolution-calendar.xml.h:45
+#: ../calendar/gui/e-calendar-view.c:1463 ../ui/evolution-calendar.xml.h:45
 msgid "_Publish Free/Busy Information"
 msgstr "发布忙闲信息(_P)"
 
-#: ../calendar/gui/e-calendar-view.c:1431
+#: ../calendar/gui/e-calendar-view.c:1479
 msgid "Cop_y to Calendar..."
 msgstr "复制到日历(_Y)..."
 
-#: ../calendar/gui/e-calendar-view.c:1432
+#: ../calendar/gui/e-calendar-view.c:1480
 msgid "Mo_ve to Calendar..."
 msgstr "移动到日历(_V)..."
 
-#: ../calendar/gui/e-calendar-view.c:1433
+#: ../calendar/gui/e-calendar-view.c:1481
+msgid "_Delegate Meeting..."
+msgstr "代理会议(_D)..."
+
+#: ../calendar/gui/e-calendar-view.c:1482
 msgid "_Schedule Meeting..."
 msgstr "调度会议(_S)..."
 
-#: ../calendar/gui/e-calendar-view.c:1434
+#: ../calendar/gui/e-calendar-view.c:1483
 msgid "_Forward as iCalendar..."
 msgstr "作为 iCalendar 转发(_F)..."
 
-#: ../calendar/gui/e-calendar-view.c:1439
+#: ../calendar/gui/e-calendar-view.c:1488
 msgid "Make this Occurrence _Movable"
 msgstr "将此次发生变为可移动(_M)"
 
-#: ../calendar/gui/e-calendar-view.c:1440
+#: ../calendar/gui/e-calendar-view.c:1489
 msgid "Delete this _Occurrence"
 msgstr "删除此次出现(_O)"
 
-#: ../calendar/gui/e-calendar-view.c:1441
+#: ../calendar/gui/e-calendar-view.c:1490
 msgid "Delete _All Occurrences"
 msgstr "删除所有出现(_A)"
 
@@ -6692,7 +6708,7 @@ msgid ""
 msgstr "<br> 请查看下列信息，并从下面的菜单中选择一个动作。"
 
 #: ../calendar/gui/e-itip-control.c:1137
-#: ../calendar/gui/e-meeting-list-view.c:175
+#: ../calendar/gui/e-meeting-list-view.c:186
 #: ../calendar/gui/e-meeting-store.c:188 ../calendar/gui/e-meeting-store.c:211
 #: ../calendar/gui/itip-utils.c:421
 #: ../plugins/itip-formatter/itip-formatter.c:1403
@@ -6705,7 +6721,7 @@ msgid "Tentatively Accepted"
 msgstr "暂时接受"
 
 #: ../calendar/gui/e-itip-control.c:1145
-#: ../calendar/gui/e-meeting-list-view.c:176
+#: ../calendar/gui/e-meeting-list-view.c:187
 #: ../calendar/gui/e-meeting-store.c:190 ../calendar/gui/e-meeting-store.c:213
 #: ../calendar/gui/itip-utils.c:427 ../calendar/gui/itip-utils.c:453
 #: ../plugins/itip-formatter/itip-formatter.c:1409
@@ -7016,78 +7032,78 @@ msgstr "日期-结束"
 msgid "date-start"
 msgstr "日期-开始"
 
-#: ../calendar/gui/e-meeting-list-view.c:59
+#: ../calendar/gui/e-meeting-list-view.c:61
 msgid "Chair Persons"
 msgstr "主席人员"
 
-#: ../calendar/gui/e-meeting-list-view.c:60
-#: ../calendar/gui/e-meeting-list-view.c:124
+#: ../calendar/gui/e-meeting-list-view.c:62
+#: ../calendar/gui/e-meeting-list-view.c:135
 msgid "Required Participants"
 msgstr "必需的参与者"
 
-#: ../calendar/gui/e-meeting-list-view.c:61
+#: ../calendar/gui/e-meeting-list-view.c:63
 msgid "Optional Participants"
 msgstr "可选的参与者"
 
-#: ../calendar/gui/e-meeting-list-view.c:62
+#: ../calendar/gui/e-meeting-list-view.c:64
 msgid "Resources"
 msgstr "资源"
 
-#: ../calendar/gui/e-meeting-list-view.c:135
+#: ../calendar/gui/e-meeting-list-view.c:146
 #: ../calendar/gui/e-meeting-store.c:99 ../calendar/gui/e-meeting-store.c:116
 #: ../calendar/gui/e-meeting-store.c:802
 msgid "Individual"
 msgstr "个人"
 
-#: ../calendar/gui/e-meeting-list-view.c:136
+#: ../calendar/gui/e-meeting-list-view.c:147
 #: ../calendar/gui/e-meeting-store.c:101 ../calendar/gui/e-meeting-store.c:118
 msgid "Group"
 msgstr "组"
 
-#: ../calendar/gui/e-meeting-list-view.c:137
+#: ../calendar/gui/e-meeting-list-view.c:148
 #: ../calendar/gui/e-meeting-store.c:103 ../calendar/gui/e-meeting-store.c:120
 msgid "Resource"
 msgstr "资源"
 
-#: ../calendar/gui/e-meeting-list-view.c:138
+#: ../calendar/gui/e-meeting-list-view.c:149
 #: ../calendar/gui/e-meeting-store.c:105 ../calendar/gui/e-meeting-store.c:122
 msgid "Room"
 msgstr "房间"
 
-#: ../calendar/gui/e-meeting-list-view.c:149
+#: ../calendar/gui/e-meeting-list-view.c:160
 #: ../calendar/gui/e-meeting-store.c:134 ../calendar/gui/e-meeting-store.c:151
 msgid "Chair"
 msgstr "主席"
 
-#: ../calendar/gui/e-meeting-list-view.c:150
+#: ../calendar/gui/e-meeting-list-view.c:161
 #: ../calendar/gui/e-meeting-store.c:136 ../calendar/gui/e-meeting-store.c:153
 #: ../calendar/gui/e-meeting-store.c:805
 msgid "Required Participant"
 msgstr "必需的参与者"
 
-#: ../calendar/gui/e-meeting-list-view.c:151
+#: ../calendar/gui/e-meeting-list-view.c:162
 #: ../calendar/gui/e-meeting-store.c:138 ../calendar/gui/e-meeting-store.c:155
 msgid "Optional Participant"
 msgstr "可选的参与者"
 
-#: ../calendar/gui/e-meeting-list-view.c:152
+#: ../calendar/gui/e-meeting-list-view.c:163
 #: ../calendar/gui/e-meeting-store.c:140 ../calendar/gui/e-meeting-store.c:157
 msgid "Non-Participant"
 msgstr "不参加"
 
-#: ../calendar/gui/e-meeting-list-view.c:174
+#: ../calendar/gui/e-meeting-list-view.c:185
 #: ../calendar/gui/e-meeting-store.c:186 ../calendar/gui/e-meeting-store.c:209
 #: ../calendar/gui/e-meeting-store.c:815
 msgid "Needs Action"
 msgstr "需要动作"
 
-#: ../calendar/gui/e-meeting-list-view.c:177
+#: ../calendar/gui/e-meeting-list-view.c:188
 #: ../calendar/gui/e-meeting-store.c:192 ../calendar/gui/e-meeting-store.c:215
 #: ../calendar/gui/e-meeting-time-sel.c:411
 msgid "Tentative"
 msgstr "暂时的"
 
-#: ../calendar/gui/e-meeting-list-view.c:178
+#: ../calendar/gui/e-meeting-list-view.c:189
 #: ../calendar/gui/e-meeting-store.c:194 ../calendar/gui/e-meeting-store.c:217
 msgid "Delegated"
 msgstr "被委任的"
@@ -9447,8 +9463,7 @@ msgstr "<b>(编写器含有不可编辑的非文本信体。)<b>"
 msgid ""
 " There are few attachments getting downloaded. Sending the mail will cause "
 "the mail to be sent without those pending attachments "
-msgstr ""
-"附件正在下载中。发送邮件将使得邮件发送时无法包含后续的附件"
+msgstr "附件正在下载中。发送邮件将使得邮件发送时无法包含后续的附件"
 
 #: ../composer/mail-composer.error.xml.h:2
 msgid "All accounts have been removed."
@@ -10138,7 +10153,7 @@ msgstr "Evolution 邮件首选项控件"
 #: ../mail/importers/elm-importer.c:418
 #: ../mail/importers/netscape-importer.c:1902
 #: ../mail/importers/pine-importer.c:474 ../mail/mail-component.c:558
-#: ../mail/mail-component.c:609
+#: ../mail/mail-component.c:645
 msgid "Mail"
 msgstr "邮件"
 
@@ -11956,31 +11971,31 @@ msgid ", %d unread"
 msgid_plural ", %d unread"
 msgstr[0] "，%d 封未读"
 
-#: ../mail/mail-component.c:723
+#: ../mail/mail-component.c:761
 msgid "New Mail Message"
 msgstr "新建信件"
 
-#: ../mail/mail-component.c:724
+#: ../mail/mail-component.c:762
 msgid "_Mail Message"
 msgstr "信件(_M)"
 
-#: ../mail/mail-component.c:725
+#: ../mail/mail-component.c:763
 msgid "Compose a new mail message"
 msgstr "撰写一封新信"
 
-#: ../mail/mail-component.c:731
+#: ../mail/mail-component.c:769
 msgid "New Mail Folder"
 msgstr "新建邮件文件夹"
 
-#: ../mail/mail-component.c:732
+#: ../mail/mail-component.c:770
 msgid "Mail _Folder"
 msgstr "邮件文件夹(_F)"
 
-#: ../mail/mail-component.c:733
+#: ../mail/mail-component.c:771
 msgid "Create a new mail folder"
 msgstr "创建新邮件文件夹"
 
-#: ../mail/mail-component.c:855
+#: ../mail/mail-component.c:893
 msgid "Failed upgrading Mail settings or folders."
 msgstr "升级邮件设置或文件夹失败。"
 
@@ -12726,8 +12741,7 @@ msgstr ""
 msgid ""
 "A read receipt notification has been requested for &quot;{1}&quot;.  Send "
 "the reciept notification to {0}?"
-msgstr ""
-"“{1}”请求了阅读收条。将阅读收条发送给{0}吗？"
+msgstr "“{1}”请求了阅读收条。将阅读收条发送给{0}吗？"
 
 #: ../mail/mail.error.xml.h:7
 msgid ""
@@ -12881,7 +12895,7 @@ msgid "Discard changed?"
 msgstr "丢弃更改吗？"
 
 #: ../mail/mail.error.xml.h:42
-msgid "Do you want the operation to be performed in the sub folders ?"
+msgid "Do you want the operation to be performed in the subfolders?"
 msgstr "您是否想要操作也在子文件夹中执行？"
 
 #: ../mail/mail.error.xml.h:43
@@ -13740,8 +13754,8 @@ msgid ""
 "Automatically fills your addressbook with names and email addresses as you "
 "reply to mails. Also fills in IM contact information from your buddy lists."
 msgstr ""
-"在您回复邮件时自动用姓名和电子邮件地址填入您的地址簿。"
-"同时还将填入您好友列表的即时通讯联系信息。"
+"在您回复邮件时自动用姓名和电子邮件地址填入您的地址簿。同时还将填入您好友列表"
+"的即时通讯联系信息。"
 
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:3
 msgid "BBDB"
@@ -13820,8 +13834,7 @@ msgstr "天气月历"
 msgid ""
 "A test plugin which demonstrates a popup menu plugin which lets you copy "
 "things to the clipboard."
-msgstr ""
-"一个测试插件，它将显示允许您将文字复制到剪贴板的弹出菜单插件。"
+msgstr "一个测试插件，它将显示允许您将文字复制到剪贴板的弹出菜单插件。"
 
 #: ../plugins/copy-tool/org-gnome-copy-tool.eplug.xml.h:2
 msgid "Copy _Email Address"
@@ -14410,8 +14423,7 @@ msgstr "邮件列表操作"
 msgid ""
 "Provide actions for common mailing list commands (subscribe, "
 "unsubscribe, ...)."
-msgstr ""
-"提供邮件列表公共命令的动作(订阅、退订等等)。"
+msgstr "提供邮件列表公共命令的动作(订阅、退订等等)。"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:1
 msgid "Action not available"
@@ -14595,7 +14607,8 @@ msgid ""
 "\n"
 "This plugin is unsupported demonstration code only.\n"
 msgstr ""
-"一个测试插件，它演示了可让您禁用 HTML 邮件的格式化插件。\n\n"
+"一个测试插件，它演示了可让您禁用 HTML 邮件的格式化插件。\n"
+"\n"
 "此插件只是一个不提供任何技术支持的演示而已。\n"
 
 #. but then we also need to create our own section frame
@@ -15839,7 +15852,7 @@ msgid "dialog1"
 msgstr "dialog1"
 
 #. XXX we shouldn't be popping up dialogs in this code.
-#: ../smime/lib/e-cert-db.c:642
+#: ../smime/lib/e-cert-db.c:650
 msgid "Certificate already exists"
 msgstr "证书已经存在"
 
@@ -16857,20 +16870,20 @@ msgid "Uni_mportant"
 msgstr "不重要(_M)"
 
 #: ../ui/evolution-mail-message.xml.h:94
+msgid "VFolder on Mailing _List..."
+msgstr "基于邮件列表的虚拟文件夹(_L)..."
+
+#: ../ui/evolution-mail-message.xml.h:95
 msgid "VFolder on Recipients..."
 msgstr "基于收件人的虚拟文件夹..."
 
-#: ../ui/evolution-mail-message.xml.h:95
+#: ../ui/evolution-mail-message.xml.h:96
 msgid "VFolder on S_ubject..."
 msgstr "基于主题的虚拟文件夹(_U)..."
 
-#: ../ui/evolution-mail-message.xml.h:96
+#: ../ui/evolution-mail-message.xml.h:97
 msgid "VFolder on Sen_der..."
 msgstr "基于发件人的虚拟文件夹(_D)..."
-
-#: ../ui/evolution-mail-message.xml.h:97
-msgid "VFolder on _Mailing _List..."
-msgstr "基于邮件列表的虚拟文件夹(_M)..."
 
 #: ../ui/evolution-mail-message.xml.h:98
 msgid "Zoom _Out"
