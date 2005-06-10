@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-06-06 13:39+0300\n"
-"PO-Revision-Date: 2005-06-06 13:39+0300\n"
+"POT-Creation-Date: 2005-06-10 11:06+0300\n"
+"PO-Revision-Date: 2005-06-10 11:06+0300\n"
 "Last-Translator: Rostislav \"zbrox\" Raykov <zbrox@i-space.org>\n"
 "Language-Team: Bulgarian <dict@fsa-bg.org>\n"
 "MIME-Version: 1.0\n"
@@ -101,7 +101,7 @@ msgstr "Нова среща"
 msgid "New All Day Event"
 msgstr "Ново събитие за целия ден"
 
-#: ../a11y/calendar/ea-cal-view.c:308 ../calendar/gui/e-calendar-view.c:1396
+#: ../a11y/calendar/ea-cal-view.c:308 ../calendar/gui/e-calendar-view.c:1444
 msgid "New Meeting"
 msgstr "Ново събрание"
 
@@ -691,7 +691,7 @@ msgstr ""
 "Изчакайте, докато Evolution мигрира вашите Pilot Sync данни..."
 
 #: ../addressbook/gui/component/addressbook-view.c:758
-#: ../addressbook/gui/widgets/e-addressbook-view.c:945
+#: ../addressbook/gui/widgets/e-addressbook-view.c:937
 #: ../calendar/gui/calendar-component.c:537
 #: ../calendar/gui/tasks-component.c:441 ../mail/em-filter-i18n.h:11
 #: ../ui/evolution-addressbook.xml.h:8 ../ui/evolution-calendar.xml.h:5
@@ -783,7 +783,6 @@ msgstr "Показване на панела \"Предварителен пре
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:1
 #: ../calendar/gui/dialogs/calendar-setup.glade.h:1
 #: ../calendar/gui/dialogs/event-page.glade.h:1
-#: ../calendar/gui/dialogs/meeting-page.glade.h:1
 #: ../calendar/gui/dialogs/new-calendar.glade.h:1
 #: ../calendar/gui/dialogs/new-task-list.glade.h:1
 #: ../calendar/gui/dialogs/url-editor-dialog.glade.h:1
@@ -2564,7 +2563,7 @@ msgstr "Напи_шете адрес на е-поща или завлечете 
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:162
 #: ../addressbook/gui/widgets/e-addressbook-model.c:296
 #: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:384
-#: ../addressbook/gui/widgets/e-addressbook-view.c:223
+#: ../addressbook/gui/widgets/e-addressbook-view.c:222
 #: ../addressbook/gui/widgets/e-minicard-view-widget.c:107
 #: ../addressbook/gui/widgets/e-minicard-view.c:505
 msgid "Book"
@@ -2638,7 +2637,7 @@ msgstr[1] "%d контакта"
 
 #: ../addressbook/gui/widgets/e-addressbook-model.c:303
 #: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:391
-#: ../addressbook/gui/widgets/e-addressbook-view.c:237
+#: ../addressbook/gui/widgets/e-addressbook-view.c:236
 #: ../addressbook/gui/widgets/e-minicard-view-widget.c:114
 #: ../addressbook/gui/widgets/e-minicard-view.c:512
 msgid "Query"
@@ -2656,109 +2655,109 @@ msgstr "Модел"
 msgid "Error modifying card"
 msgstr "Грешка при промяна на карта"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:169
+#: ../addressbook/gui/widgets/e-addressbook-view.c:168
 msgid "Name begins with"
 msgstr "Името започва с"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:170
+#: ../addressbook/gui/widgets/e-addressbook-view.c:169
 msgid "Email begins with"
 msgstr "Електронната поща започва с"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:171
+#: ../addressbook/gui/widgets/e-addressbook-view.c:170
 #: ../calendar/gui/cal-search-bar.c:53
 msgid "Category is"
 msgstr "Категорията е"
 
 #. We attach subitems below
-#: ../addressbook/gui/widgets/e-addressbook-view.c:172
+#: ../addressbook/gui/widgets/e-addressbook-view.c:171
 #: ../calendar/gui/cal-search-bar.c:48
 msgid "Any field contains"
 msgstr "Кое да е поле съдържа"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:173
-#: ../addressbook/gui/widgets/e-addressbook-view.c:178
+#: ../addressbook/gui/widgets/e-addressbook-view.c:172
+#: ../addressbook/gui/widgets/e-addressbook-view.c:177
 msgid "Advanced..."
 msgstr "Допълнителни..."
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:230
+#: ../addressbook/gui/widgets/e-addressbook-view.c:229
 msgid "Source"
 msgstr "Източник"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:244
+#: ../addressbook/gui/widgets/e-addressbook-view.c:243
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:11
 #: ../calendar/gui/e-calendar-table.etspec.h:13
-#: ../calendar/gui/e-meeting-list-view.c:320
+#: ../calendar/gui/e-meeting-list-view.c:337
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:11
 msgid "Type"
 msgstr "Тип"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:551
+#: ../addressbook/gui/widgets/e-addressbook-view.c:543
 msgid "Address Book"
 msgstr "Адресник"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:814
-#: ../addressbook/gui/widgets/e-addressbook-view.c:932
-#: ../addressbook/gui/widgets/e-addressbook-view.c:2008
+#: ../addressbook/gui/widgets/e-addressbook-view.c:806
+#: ../addressbook/gui/widgets/e-addressbook-view.c:924
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1986
 #: ../ui/evolution-addressbook.xml.h:19
 msgid "Save as VCard..."
 msgstr "Запазване като VCard..."
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:928
+#: ../addressbook/gui/widgets/e-addressbook-view.c:920
 msgid "New Contact..."
 msgstr "Нов контакт..."
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:929
+#: ../addressbook/gui/widgets/e-addressbook-view.c:921
 msgid "New Contact List..."
 msgstr "Нов списък с контакти..."
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:933
+#: ../addressbook/gui/widgets/e-addressbook-view.c:925
 #: ../ui/evolution-addressbook.xml.h:10
 msgid "Forward Contact"
 msgstr "Препращане на контакт"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:934
+#: ../addressbook/gui/widgets/e-addressbook-view.c:926
 msgid "Send Message to Contact"
 msgstr "Изпращане на съобщение до контакт"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:935
+#: ../addressbook/gui/widgets/e-addressbook-view.c:927
 #: ../calendar/gui/calendar-commands.c:120 ../calendar/gui/print.c:2501
 #: ../ui/evolution-addressbook.xml.h:16 ../ui/evolution-calendar.xml.h:19
 #: ../ui/evolution-mail-message.xml.h:74 ../ui/evolution-tasks.xml.h:14
 msgid "Print"
 msgstr "Печат"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:938
+#: ../addressbook/gui/widgets/e-addressbook-view.c:930
 msgid "Copy to Address Book..."
 msgstr "Копиране в адресника..."
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:939
+#: ../addressbook/gui/widgets/e-addressbook-view.c:931
 msgid "Move to Address Book..."
 msgstr "Преместване в адресника..."
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:942
+#: ../addressbook/gui/widgets/e-addressbook-view.c:934
 #: ../ui/evolution-addressbook.xml.h:6 ../ui/evolution-tasks.xml.h:4
 msgid "Cut"
 msgstr "Изрязване"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:943
+#: ../addressbook/gui/widgets/e-addressbook-view.c:935
 #: ../calendar/gui/calendar-component.c:536
 #: ../calendar/gui/tasks-component.c:440 ../ui/evolution-addressbook.xml.h:2
 #: ../ui/evolution-mail-message.xml.h:11 ../ui/evolution-tasks.xml.h:2
 msgid "Copy"
 msgstr "Копиране"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:944
+#: ../addressbook/gui/widgets/e-addressbook-view.c:936
 #: ../ui/evolution-addressbook.xml.h:13 ../ui/evolution-tasks.xml.h:11
 msgid "Paste"
 msgstr "Поставяне"
 
 #. All, unmatched, separator
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1547
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1539
 #: ../calendar/gui/cal-search-bar.c:346
 msgid "Any Category"
 msgstr "Всяка категория"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1760
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1738
 msgid "Print cards"
 msgstr "Печатане на карти"
 
@@ -2898,7 +2897,7 @@ msgstr "Радио"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:33
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:9
-#: ../calendar/gui/e-meeting-list-view.c:327
+#: ../calendar/gui/e-meeting-list-view.c:345
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:9
 msgid "Role"
 msgstr "Роля"
@@ -4097,7 +4096,7 @@ msgid "Calendar and Tasks"
 msgstr "Календар и задачи"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:2
-#: ../calendar/gui/calendar-component.c:1290
+#: ../calendar/gui/calendar-component.c:1292
 msgid "Calendars"
 msgstr "Календари"
 
@@ -4714,55 +4713,55 @@ msgstr ""
 msgid "There is no calendar available for creating events and meetings"
 msgstr "Няма наличен календар за създаване на събития и събрания"
 
-#: ../calendar/gui/calendar-component.c:1265
+#: ../calendar/gui/calendar-component.c:1267
 msgid "Calendar Source Selector"
 msgstr "Местонахождение на календара"
 
-#: ../calendar/gui/calendar-component.c:1456
+#: ../calendar/gui/calendar-component.c:1458
 msgid "New appointment"
 msgstr "Нова среща"
 
-#: ../calendar/gui/calendar-component.c:1457
+#: ../calendar/gui/calendar-component.c:1459
 msgid "_Appointment"
 msgstr "Срещ_а"
 
-#: ../calendar/gui/calendar-component.c:1458
+#: ../calendar/gui/calendar-component.c:1460
 msgid "Create a new appointment"
 msgstr "Създаване на нова среща"
 
-#: ../calendar/gui/calendar-component.c:1464
+#: ../calendar/gui/calendar-component.c:1466
 msgid "New meeting"
 msgstr "Ново събрание"
 
-#: ../calendar/gui/calendar-component.c:1465
+#: ../calendar/gui/calendar-component.c:1467
 msgid "M_eeting"
 msgstr "Събрани_е"
 
-#: ../calendar/gui/calendar-component.c:1466
+#: ../calendar/gui/calendar-component.c:1468
 msgid "Create a new meeting request"
 msgstr "Създаване на ново искане за събрание"
 
-#: ../calendar/gui/calendar-component.c:1472
+#: ../calendar/gui/calendar-component.c:1474
 msgid "New all day appointment"
 msgstr "Нова среща за цял ден"
 
-#: ../calendar/gui/calendar-component.c:1473
+#: ../calendar/gui/calendar-component.c:1475
 msgid "All Day A_ppointment"
 msgstr "Среща за _цял ден"
 
-#: ../calendar/gui/calendar-component.c:1474
+#: ../calendar/gui/calendar-component.c:1476
 msgid "Create a new all-day appointment"
 msgstr "Създаване на нова среща за цял ден"
 
-#: ../calendar/gui/calendar-component.c:1480
+#: ../calendar/gui/calendar-component.c:1482
 msgid "New calendar"
 msgstr "Нов календар"
 
-#: ../calendar/gui/calendar-component.c:1481
+#: ../calendar/gui/calendar-component.c:1483
 msgid "Cale_ndar"
 msgstr "Кале_ндар"
 
-#: ../calendar/gui/calendar-component.c:1482
+#: ../calendar/gui/calendar-component.c:1484
 msgid "Create a new calendar"
 msgstr "Създаване на нов календар"
 
@@ -4943,7 +4942,7 @@ msgid "attachment"
 msgstr "прикрепено"
 
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:473
-#: ../calendar/gui/dialogs/meeting-page.c:784
+#: ../calendar/gui/dialogs/meeting-page.c:837
 #: ../composer/e-msg-composer-attachment-bar.c:470
 #: ../plugins/groupwise-features/properties.glade.h:14
 msgid "_Remove"
@@ -5147,7 +5146,7 @@ msgid "Free/Busy"
 msgstr "Свободен/зает"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:24
-#: ../calendar/gui/dialogs/recurrence-page.c:1043
+#: ../calendar/gui/dialogs/recurrence-page.c:1046
 #: ../calendar/gui/e-itip-control.c:732
 msgid "Friday"
 msgstr "Петък"
@@ -5161,7 +5160,7 @@ msgid "Minutes"
 msgstr "Минути"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:28
-#: ../calendar/gui/dialogs/recurrence-page.c:1039
+#: ../calendar/gui/dialogs/recurrence-page.c:1042
 #: ../calendar/gui/e-itip-control.c:728
 msgid "Monday"
 msgstr "Понеделник"
@@ -5175,7 +5174,7 @@ msgid "S_un"
 msgstr "_Нед"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:31
-#: ../calendar/gui/dialogs/recurrence-page.c:1044
+#: ../calendar/gui/dialogs/recurrence-page.c:1047
 #: ../calendar/gui/e-itip-control.c:733
 msgid "Saturday"
 msgstr "Събота"
@@ -5189,7 +5188,7 @@ msgid "Show week _numbers in date navigator"
 msgstr "Показване на номерата на седмиците в навигацията за _ден"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:34
-#: ../calendar/gui/dialogs/recurrence-page.c:1045
+#: ../calendar/gui/dialogs/recurrence-page.c:1048
 #: ../calendar/gui/e-itip-control.c:727
 msgid "Sunday"
 msgstr "Неделя"
@@ -5207,7 +5206,7 @@ msgid "Template:"
 msgstr "Шаблон:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:38
-#: ../calendar/gui/dialogs/recurrence-page.c:1042
+#: ../calendar/gui/dialogs/recurrence-page.c:1045
 #: ../calendar/gui/e-itip-control.c:731
 msgid "Thursday"
 msgstr "Четвъртък"
@@ -5221,7 +5220,7 @@ msgid "Time format:"
 msgstr "Формат на време:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:41
-#: ../calendar/gui/dialogs/recurrence-page.c:1040
+#: ../calendar/gui/dialogs/recurrence-page.c:1043
 #: ../calendar/gui/e-itip-control.c:729
 msgid "Tuesday"
 msgstr "Вторник"
@@ -5231,7 +5230,7 @@ msgid "W_eek starts:"
 msgstr "С_едмицата започва в:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:43
-#: ../calendar/gui/dialogs/recurrence-page.c:1041
+#: ../calendar/gui/dialogs/recurrence-page.c:1044
 #: ../calendar/gui/e-itip-control.c:730
 msgid "Wednesday"
 msgstr "Сряда"
@@ -5449,14 +5448,14 @@ msgstr " (Краен срок "
 msgid "Due "
 msgstr "Краен срок "
 
-#: ../calendar/gui/dialogs/comp-editor.c:181 ../composer/e-msg-composer.c:2654
+#: ../calendar/gui/dialogs/comp-editor.c:184 ../composer/e-msg-composer.c:2654
 #, c-format
 msgid "Attached message - %s"
 msgstr "Прикачено писмо - %s"
 
 #. translators, this count will always be >1
-#: ../calendar/gui/dialogs/comp-editor.c:186
-#: ../calendar/gui/dialogs/comp-editor.c:355 ../composer/e-msg-composer.c:2659
+#: ../calendar/gui/dialogs/comp-editor.c:189
+#: ../calendar/gui/dialogs/comp-editor.c:358 ../composer/e-msg-composer.c:2659
 #: ../composer/e-msg-composer.c:2835
 #, c-format
 msgid "Attached message"
@@ -5464,9 +5463,9 @@ msgid_plural "%d attached messages"
 msgstr[0] "Прикачено писмо"
 msgstr[1] "%d прикачени писма"
 
-#: ../calendar/gui/dialogs/comp-editor.c:418
+#: ../calendar/gui/dialogs/comp-editor.c:421
 #: ../calendar/gui/e-calendar-table.c:1164
-#: ../calendar/gui/e-calendar-view.c:1426 ../composer/e-msg-composer.c:2899
+#: ../calendar/gui/e-calendar-view.c:1474 ../composer/e-msg-composer.c:2899
 #: ../mail/em-folder-tree.c:1047 ../mail/em-folder-view.c:1033
 #: ../mail/message-list.c:1708 ../ui/evolution-addressbook.xml.h:31
 #: ../ui/evolution-calendar.xml.h:39 ../ui/evolution-composer-entries.xml.h:7
@@ -5474,80 +5473,80 @@ msgstr[1] "%d прикачени писма"
 msgid "_Copy"
 msgstr "_Копиране"
 
-#: ../calendar/gui/dialogs/comp-editor.c:419 ../composer/e-msg-composer.c:2900
+#: ../calendar/gui/dialogs/comp-editor.c:422 ../composer/e-msg-composer.c:2900
 #: ../mail/em-folder-tree.c:1048 ../mail/em-folder-view.c:929
 #: ../mail/message-list.c:1709
 msgid "_Move"
 msgstr "Пре_местване"
 
-#: ../calendar/gui/dialogs/comp-editor.c:421 ../composer/e-msg-composer.c:2902
+#: ../calendar/gui/dialogs/comp-editor.c:424 ../composer/e-msg-composer.c:2902
 #: ../mail/em-folder-tree.c:1050 ../mail/message-list.c:1711
 msgid "Cancel _Drag"
 msgstr "Отказване на _извлачването"
 
-#: ../calendar/gui/dialogs/comp-editor.c:694
+#: ../calendar/gui/dialogs/comp-editor.c:697
 msgid "Could not update object"
 msgstr "Обектът не може да бъде актуализиран"
 
-#: ../calendar/gui/dialogs/comp-editor.c:873 ../composer/e-msg-composer.c:2308
+#: ../calendar/gui/dialogs/comp-editor.c:876 ../composer/e-msg-composer.c:2308
 #, c-format
 msgid "<b>%d</b> Attachment"
 msgid_plural "<b>%d</b> Attachments"
 msgstr[0] "<b>%d</b> прикрепен файл"
 msgstr[1] "<b>%d</b> прикрепени файла"
 
-#: ../calendar/gui/dialogs/comp-editor.c:968
+#: ../calendar/gui/dialogs/comp-editor.c:971
 msgid "_Attachment Bar (drop attachments here)"
 msgstr "Лент_а за прикрепени файлове (пускайте обектите за прикачване тук)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1546
-#: ../calendar/gui/dialogs/comp-editor.c:1589
+#: ../calendar/gui/dialogs/comp-editor.c:1581
+#: ../calendar/gui/dialogs/comp-editor.c:1624
 msgid "Edit Appointment"
 msgstr "Редактиране на среща"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1552
-#: ../calendar/gui/dialogs/comp-editor.c:1595
+#: ../calendar/gui/dialogs/comp-editor.c:1587
+#: ../calendar/gui/dialogs/comp-editor.c:1630
 #, c-format
 msgid "Meeting - %s"
 msgstr "Събрание - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1554
-#: ../calendar/gui/dialogs/comp-editor.c:1597
+#: ../calendar/gui/dialogs/comp-editor.c:1589
+#: ../calendar/gui/dialogs/comp-editor.c:1632
 #, c-format
 msgid "Appointment - %s"
 msgstr "Среща - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1558
-#: ../calendar/gui/dialogs/comp-editor.c:1601
+#: ../calendar/gui/dialogs/comp-editor.c:1593
+#: ../calendar/gui/dialogs/comp-editor.c:1636
 #, c-format
 msgid "Assigned Task - %s"
 msgstr "Назначена задача - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1560
-#: ../calendar/gui/dialogs/comp-editor.c:1603
+#: ../calendar/gui/dialogs/comp-editor.c:1595
+#: ../calendar/gui/dialogs/comp-editor.c:1638
 #, c-format
 msgid "Task - %s"
 msgstr "Задача - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1563
-#: ../calendar/gui/dialogs/comp-editor.c:1606
+#: ../calendar/gui/dialogs/comp-editor.c:1598
+#: ../calendar/gui/dialogs/comp-editor.c:1641
 #, c-format
 msgid "Journal entry - %s"
 msgstr "Запис в дневника - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1574
-#: ../calendar/gui/dialogs/comp-editor.c:1616
+#: ../calendar/gui/dialogs/comp-editor.c:1609
+#: ../calendar/gui/dialogs/comp-editor.c:1651
 msgid "No summary"
 msgstr "Няма обобщение"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2054
-#: ../calendar/gui/dialogs/comp-editor.c:2087
-#: ../calendar/gui/dialogs/comp-editor.c:2111
+#: ../calendar/gui/dialogs/comp-editor.c:2089
+#: ../calendar/gui/dialogs/comp-editor.c:2122
+#: ../calendar/gui/dialogs/comp-editor.c:2146
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr ""
 "Промените по този запис може да бъдат презаписани, ако пристигне обновяване"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2135
+#: ../calendar/gui/dialogs/comp-editor.c:2170
 msgid "Unable to use current version!"
 msgstr "Не може да се използва текущата версия!"
 
@@ -5632,62 +5631,69 @@ msgid "Recurrence"
 msgstr "Повторение"
 
 #: ../calendar/gui/dialogs/event-editor.c:166
-#: ../calendar/gui/dialogs/event-editor.c:238
-#: ../calendar/gui/dialogs/event-editor.c:402
+#: ../calendar/gui/dialogs/event-editor.c:251
+#: ../calendar/gui/dialogs/event-editor.c:420
 msgid "Scheduling"
 msgstr "Разпределение"
 
-#: ../calendar/gui/dialogs/event-editor.c:173
-#: ../calendar/gui/dialogs/event-editor.c:241
-#: ../calendar/gui/dialogs/event-editor.c:405
+#: ../calendar/gui/dialogs/event-editor.c:175
+msgid "Delegatees"
+msgstr "Делегирани"
+
+#: ../calendar/gui/dialogs/event-editor.c:179
+msgid "Attendees"
+msgstr "Присъстващи"
+
+#: ../calendar/gui/dialogs/event-editor.c:254
+#: ../calendar/gui/dialogs/event-editor.c:423
 msgid "Invitations"
 msgstr "Покани"
 
-#: ../calendar/gui/dialogs/event-page.c:720
+#: ../calendar/gui/dialogs/event-page.c:725
 msgid "Event with no start date"
 msgstr "Събитие без начална дата"
 
-#: ../calendar/gui/dialogs/event-page.c:723
+#: ../calendar/gui/dialogs/event-page.c:728
 msgid "Event with no end date"
 msgstr "Събитие без крайна дата"
 
-#: ../calendar/gui/dialogs/event-page.c:889
+#: ../calendar/gui/dialogs/event-page.c:894
 #: ../calendar/gui/dialogs/task-page.c:556
 msgid "Start date is wrong"
 msgstr "Началната дата е грешна"
 
-#: ../calendar/gui/dialogs/event-page.c:899
+#: ../calendar/gui/dialogs/event-page.c:904
 msgid "End date is wrong"
 msgstr "Крайната дата е грешна"
 
-#: ../calendar/gui/dialogs/event-page.c:922
+#: ../calendar/gui/dialogs/event-page.c:927
 msgid "Start time is wrong"
 msgstr "Началният час е грешен"
 
-#: ../calendar/gui/dialogs/event-page.c:929
+#: ../calendar/gui/dialogs/event-page.c:934
 msgid "End time is wrong"
 msgstr "Крайният час е грешен"
 
-#: ../calendar/gui/dialogs/event-page.c:1675
+#: ../calendar/gui/dialogs/event-page.c:1680
 #, c-format
 msgid "Unable to open the calendar '%s'."
 msgstr "Не може да се отвори календара \"%s\"."
 
-#: ../calendar/gui/dialogs/event-page.c:1881
+#: ../calendar/gui/dialogs/event-page.c:1886
 #, c-format
 msgid "%d day before appointment"
 msgid_plural "%d days before appointment"
 msgstr[0] "%d ден преди среща"
 msgstr[1] "%d дни преди среща"
 
-#: ../calendar/gui/dialogs/event-page.c:1889
+#: ../calendar/gui/dialogs/event-page.c:1894
 #, c-format
 msgid "%d hour before appointment"
 msgid_plural "%d hours before appointment"
 msgstr[0] "%d час преди среща"
 msgstr[1] "%d часа преди среща"
 
-#: ../calendar/gui/dialogs/event-page.c:1897
+#: ../calendar/gui/dialogs/event-page.c:1902
 #, c-format
 msgid "%d minute before appointement"
 msgid_plural "%d minutes before appointment"
@@ -5808,13 +5814,21 @@ msgstr "_Край:"
 msgid "_Start time:"
 msgstr "_Начало:"
 
+#: ../calendar/gui/dialogs/meeting-page.c:303
+msgid "<b>Dele_gatees</b>"
+msgstr "<b>Деле_гирани</b>"
+
+#: ../calendar/gui/dialogs/meeting-page.c:307
+msgid "From:"
+msgstr "От:"
+
 #. an empty string is the same as 'None'
 #. Put the "None" and "UTC" entries at the top of the combo's list.
 #. When "None" is selected we want the field to be cleared.
 #. Note that we don't show this here, since by default a 'None' date
 #. is not permitted.
-#: ../calendar/gui/dialogs/meeting-page.c:296
-#: ../calendar/gui/dialogs/meeting-page.glade.h:5
+#: ../calendar/gui/dialogs/meeting-page.c:313
+#: ../calendar/gui/dialogs/meeting-page.glade.h:4
 #: ../calendar/gui/e-cal-model-tasks.c:652
 #: ../calendar/gui/e-itip-control.c:1104 ../composer/e-msg-composer.c:2112
 #: ../filter/filter-rule.c:881 ../mail/em-account-editor.c:683
@@ -5829,24 +5843,24 @@ msgstr "_Начало:"
 msgid "None"
 msgstr "Без"
 
-#: ../calendar/gui/dialogs/meeting-page.c:435
+#: ../calendar/gui/dialogs/meeting-page.c:461
 msgid "The organizer selected no longer has an account."
 msgstr "Избраният организатор вече няма абонамент."
 
-#: ../calendar/gui/dialogs/meeting-page.c:441
+#: ../calendar/gui/dialogs/meeting-page.c:467
 msgid "An organizer is required."
 msgstr "Необходим е организатор."
 
-#: ../calendar/gui/dialogs/meeting-page.c:456
+#: ../calendar/gui/dialogs/meeting-page.c:482
 msgid "At least one attendee is required."
 msgstr "Необходим е поне един участник."
 
-#: ../calendar/gui/dialogs/meeting-page.c:781
+#: ../calendar/gui/dialogs/meeting-page.c:834
 msgid "_Delegate To..."
 msgstr "_Делегиране на..."
 
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:1
-#: ../calendar/gui/e-meeting-list-view.c:309
+#: ../calendar/gui/e-meeting-list-view.c:325
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:1
 msgid "Attendee"
 msgstr "Присъстващ"
@@ -5882,7 +5896,7 @@ msgid "Member"
 msgstr "Член"
 
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:8
-#: ../calendar/gui/e-meeting-list-view.c:334
+#: ../calendar/gui/e-meeting-list-view.c:353
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:8
 msgid "RSVP"
 msgstr "RSVP"
@@ -5890,34 +5904,34 @@ msgstr "RSVP"
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:10
 #: ../calendar/gui/dialogs/task-editor.c:147
 #: ../calendar/gui/e-calendar-table.etspec.h:10
-#: ../calendar/gui/e-meeting-list-view.c:341
+#: ../calendar/gui/e-meeting-list-view.c:361
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:10 ../mail/em-filter-i18n.h:63
 #: ../mail/message-list.etspec.h:12
 msgid "Status"
 msgstr "Състояние"
 
-#: ../calendar/gui/dialogs/meeting-page.glade.h:2
+#: ../calendar/gui/dialogs/meeting-page.glade.h:1
 msgid "<b>Att_endees</b>"
 msgstr "<b>При_състващи</b>"
 
-#: ../calendar/gui/dialogs/meeting-page.glade.h:3
+#: ../calendar/gui/dialogs/meeting-page.glade.h:2
 msgid "C_hange Organizer"
 msgstr "Пром_яна на организатор"
 
-#: ../calendar/gui/dialogs/meeting-page.glade.h:4
+#: ../calendar/gui/dialogs/meeting-page.glade.h:3
 #: ../calendar/gui/e-meeting-time-sel.c:428
 msgid "Con_tacts..."
 msgstr "К_онтакти..."
 
-#: ../calendar/gui/dialogs/meeting-page.glade.h:6
+#: ../calendar/gui/dialogs/meeting-page.glade.h:5
 msgid "Or_ganizer:"
 msgstr "О_рганизатор:"
 
-#: ../calendar/gui/dialogs/meeting-page.glade.h:7
+#: ../calendar/gui/dialogs/meeting-page.glade.h:6
 msgid "Organizer"
 msgstr "Организатор"
 
-#: ../calendar/gui/dialogs/meeting-page.glade.h:8
+#: ../calendar/gui/dialogs/meeting-page.glade.h:7
 #: ../calendar/gui/e-itip-control.glade.h:9
 msgid "Organizer:"
 msgstr "Организатор:"
@@ -5987,55 +6001,55 @@ msgstr "В този и бъдещите случаи"
 msgid "All Instances"
 msgstr "Всички случаи"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:493
+#: ../calendar/gui/dialogs/recurrence-page.c:494
 msgid "This appointment contains recurrences that Evolution cannot edit."
 msgstr "Тази среща съдържа повторения, които Evolution не може да редактира."
 
-#: ../calendar/gui/dialogs/recurrence-page.c:812
+#: ../calendar/gui/dialogs/recurrence-page.c:815
 msgid "Recurrence date is invalid"
 msgstr "Датата на повторното събитие е невалидна"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:923
+#: ../calendar/gui/dialogs/recurrence-page.c:926
 msgid "on"
 msgstr "на"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:983
+#: ../calendar/gui/dialogs/recurrence-page.c:986
 msgid "first"
 msgstr "първи"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:984
+#: ../calendar/gui/dialogs/recurrence-page.c:987
 msgid "second"
 msgstr "секунда"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:985
+#: ../calendar/gui/dialogs/recurrence-page.c:988
 msgid "third"
 msgstr "трети"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:986
+#: ../calendar/gui/dialogs/recurrence-page.c:989
 msgid "fourth"
 msgstr "четвърти"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:987
+#: ../calendar/gui/dialogs/recurrence-page.c:990
 msgid "last"
 msgstr "последен"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1010
+#: ../calendar/gui/dialogs/recurrence-page.c:1013
 msgid "Other Date"
 msgstr "Друга дата"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1038
+#: ../calendar/gui/dialogs/recurrence-page.c:1041
 msgid "day"
 msgstr "ден"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1175
+#: ../calendar/gui/dialogs/recurrence-page.c:1178
 msgid "on the"
 msgstr "на"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:1364
+#: ../calendar/gui/dialogs/recurrence-page.c:1367
 msgid "occurrences"
 msgstr "събития"
 
-#: ../calendar/gui/dialogs/recurrence-page.c:2317
+#: ../calendar/gui/dialogs/recurrence-page.c:2323
 msgid "Date/Time"
 msgstr "Дата/време:"
 
@@ -6417,14 +6431,14 @@ msgstr ""
 "45.436845,125.862501"
 
 #: ../calendar/gui/e-cal-model-tasks.c:1017 ../calendar/gui/e-cal-model.c:905
-#: ../calendar/gui/e-meeting-list-view.c:163
+#: ../calendar/gui/e-meeting-list-view.c:174
 #: ../calendar/gui/e-meeting-store.c:168 ../calendar/gui/e-meeting-store.c:178
 #: ../calendar/gui/e-meeting-store.c:808
 msgid "Yes"
 msgstr "Да"
 
 #: ../calendar/gui/e-cal-model-tasks.c:1017 ../calendar/gui/e-cal-model.c:905
-#: ../calendar/gui/e-meeting-list-view.c:164
+#: ../calendar/gui/e-meeting-list-view.c:175
 #: ../calendar/gui/e-meeting-store.c:180
 msgid "No"
 msgstr "Не"
@@ -6432,8 +6446,8 @@ msgstr "Не"
 #. This is the default filename used for temporary file creation
 #: ../calendar/gui/e-cal-model.c:307 ../calendar/gui/e-cal-model.c:310
 #: ../calendar/gui/e-itip-control.c:1149 ../calendar/gui/e-itip-control.c:1290
-#: ../calendar/gui/e-meeting-list-view.c:139
-#: ../calendar/gui/e-meeting-list-view.c:153
+#: ../calendar/gui/e-meeting-list-view.c:150
+#: ../calendar/gui/e-meeting-list-view.c:164
 #: ../calendar/gui/e-meeting-store.c:124 ../calendar/gui/e-meeting-store.c:159
 #: ../calendar/gui/e-meeting-store.c:224 ../mail/em-utils.c:1175
 #: ../plugins/itip-formatter/itip-formatter.c:251
@@ -6501,22 +6515,22 @@ msgid "Task Table"
 msgstr "Таблица със задачи"
 
 #: ../calendar/gui/e-calendar-table.c:694
-#: ../calendar/gui/e-calendar-view.c:652
+#: ../calendar/gui/e-calendar-view.c:653
 msgid "Deleting selected objects"
 msgstr "Изтриване на избраните обекти"
 
 #: ../calendar/gui/e-calendar-table.c:873
-#: ../calendar/gui/e-calendar-view.c:779
+#: ../calendar/gui/e-calendar-view.c:780
 msgid "Updating objects"
 msgstr "Обновяване на обектите"
 
 #: ../calendar/gui/e-calendar-table.c:1014
-#: ../calendar/gui/e-calendar-view.c:1082 ../composer/e-msg-composer.c:1241
+#: ../calendar/gui/e-calendar-view.c:1083 ../composer/e-msg-composer.c:1241
 msgid "Save as..."
 msgstr "Запазване като..."
 
 #: ../calendar/gui/e-calendar-table.c:1156
-#: ../calendar/gui/e-calendar-view.c:1419 ../ui/evolution-addressbook.xml.h:37
+#: ../calendar/gui/e-calendar-view.c:1467 ../ui/evolution-addressbook.xml.h:37
 msgid "_Open"
 msgstr "_Отваряне"
 
@@ -6525,28 +6539,28 @@ msgid "Open _Web Page"
 msgstr "Отваряне на _интернет страница"
 
 #: ../calendar/gui/e-calendar-table.c:1158
-#: ../calendar/gui/e-calendar-view.c:1420 ../mail/em-folder-view.c:1043
+#: ../calendar/gui/e-calendar-view.c:1468 ../mail/em-folder-view.c:1043
 #: ../mail/em-popup.c:494
 msgid "_Save As..."
 msgstr "Запазване _като..."
 
 #: ../calendar/gui/e-calendar-table.c:1159
-#: ../calendar/gui/e-calendar-view.c:1400
-#: ../calendar/gui/e-calendar-view.c:1421 ../mail/em-folder-view.c:1044
+#: ../calendar/gui/e-calendar-view.c:1448
+#: ../calendar/gui/e-calendar-view.c:1469 ../mail/em-folder-view.c:1044
 #: ../ui/evolution-addressbook.xml.h:40 ../ui/evolution-calendar.xml.h:44
 #: ../ui/evolution-mail-message.xml.h:117 ../ui/evolution-tasks.xml.h:25
 msgid "_Print..."
 msgstr "_Разпечатване..."
 
 #: ../calendar/gui/e-calendar-table.c:1163
-#: ../calendar/gui/e-calendar-view.c:1425 ../ui/evolution-addressbook.xml.h:1
+#: ../calendar/gui/e-calendar-view.c:1473 ../ui/evolution-addressbook.xml.h:1
 #: ../ui/evolution-calendar.xml.h:1 ../ui/evolution-tasks.xml.h:1
 msgid "C_ut"
 msgstr "Из_рязване"
 
 #: ../calendar/gui/e-calendar-table.c:1165
-#: ../calendar/gui/e-calendar-view.c:1403
-#: ../calendar/gui/e-calendar-view.c:1427 ../ui/evolution-addressbook.xml.h:38
+#: ../calendar/gui/e-calendar-view.c:1451
+#: ../calendar/gui/e-calendar-view.c:1475 ../ui/evolution-addressbook.xml.h:38
 #: ../ui/evolution-calendar.xml.h:43 ../ui/evolution-composer-entries.xml.h:9
 #: ../ui/evolution-tasks.xml.h:24
 msgid "_Paste"
@@ -6570,7 +6584,7 @@ msgstr "_Отбелязване на избраните задачи като п
 
 #. FIXME: need to disable for undeletable folders
 #: ../calendar/gui/e-calendar-table.c:1176
-#: ../calendar/gui/e-calendar-view.c:1438 ../mail/em-folder-tree.c:2119
+#: ../calendar/gui/e-calendar-view.c:1487 ../mail/em-folder-tree.c:2119
 #: ../mail/em-folder-view.c:1047 ../ui/evolution-addressbook.xml.h:33
 #: ../ui/evolution-calendar.xml.h:40 ../ui/evolution-mail-list.xml.h:26
 #: ../ui/evolution-tasks.xml.h:21
@@ -6616,69 +6630,73 @@ msgstr "Начална дата"
 msgid "Task sort"
 msgstr "Подреждане на задачи"
 
-#: ../calendar/gui/e-calendar-view.c:1203
+#: ../calendar/gui/e-calendar-view.c:1204
 msgid "Moving items"
 msgstr "Преместване на обекти"
 
-#: ../calendar/gui/e-calendar-view.c:1205
+#: ../calendar/gui/e-calendar-view.c:1206
 msgid "Copying items"
 msgstr "Копиране на обекти"
 
-#: ../calendar/gui/e-calendar-view.c:1394
+#: ../calendar/gui/e-calendar-view.c:1442
 msgid "New _Appointment..."
 msgstr "Нова _среща..."
 
-#: ../calendar/gui/e-calendar-view.c:1395
+#: ../calendar/gui/e-calendar-view.c:1443
 msgid "New All Day _Event"
 msgstr "Всички нови _събития за деня"
 
-#: ../calendar/gui/e-calendar-view.c:1397
+#: ../calendar/gui/e-calendar-view.c:1445
 msgid "New Task"
 msgstr "Нова задача"
 
 #. FIXME: hook in this somehow
-#: ../calendar/gui/e-calendar-view.c:1407
+#: ../calendar/gui/e-calendar-view.c:1455
 msgid "Current View"
 msgstr "Текущ изглед"
 
-#: ../calendar/gui/e-calendar-view.c:1409 ../ui/evolution-calendar.xml.h:26
+#: ../calendar/gui/e-calendar-view.c:1457 ../ui/evolution-calendar.xml.h:26
 msgid "Select _Today"
 msgstr "Избиране на _днес"
 
-#: ../calendar/gui/e-calendar-view.c:1410
+#: ../calendar/gui/e-calendar-view.c:1458
 msgid "_Select Date..."
 msgstr "Избор на д_ата..."
 
 #. TODO: Why is this in a context menu when it applies globally?
-#: ../calendar/gui/e-calendar-view.c:1415 ../ui/evolution-calendar.xml.h:45
+#: ../calendar/gui/e-calendar-view.c:1463 ../ui/evolution-calendar.xml.h:45
 msgid "_Publish Free/Busy Information"
 msgstr "_Публикуване на информация свободен/зает"
 
-#: ../calendar/gui/e-calendar-view.c:1431
+#: ../calendar/gui/e-calendar-view.c:1479
 msgid "Cop_y to Calendar..."
 msgstr "Копиране в _календар..."
 
-#: ../calendar/gui/e-calendar-view.c:1432
+#: ../calendar/gui/e-calendar-view.c:1480
 msgid "Mo_ve to Calendar..."
 msgstr "Преме_стване в календар..."
 
-#: ../calendar/gui/e-calendar-view.c:1433
+#: ../calendar/gui/e-calendar-view.c:1481
+msgid "_Delegate Meeting..."
+msgstr "_Делегиране на събрание..."
+
+#: ../calendar/gui/e-calendar-view.c:1482
 msgid "_Schedule Meeting..."
 msgstr "Насрочване на с_ъбрание..."
 
-#: ../calendar/gui/e-calendar-view.c:1434
+#: ../calendar/gui/e-calendar-view.c:1483
 msgid "_Forward as iCalendar..."
 msgstr "Препра_ща като iCalendar..."
 
-#: ../calendar/gui/e-calendar-view.c:1439
+#: ../calendar/gui/e-calendar-view.c:1488
 msgid "Make this Occurrence _Movable"
 msgstr "Прави това събитие пр_еместваемо"
 
-#: ../calendar/gui/e-calendar-view.c:1440
+#: ../calendar/gui/e-calendar-view.c:1489
 msgid "Delete this _Occurrence"
 msgstr "Изтриване на това с_ъбитие"
 
-#: ../calendar/gui/e-calendar-view.c:1441
+#: ../calendar/gui/e-calendar-view.c:1490
 msgid "Delete _All Occurrences"
 msgstr "Изтриване на всички _събития"
 
@@ -6846,7 +6864,7 @@ msgstr ""
 "меню."
 
 #: ../calendar/gui/e-itip-control.c:1137
-#: ../calendar/gui/e-meeting-list-view.c:175
+#: ../calendar/gui/e-meeting-list-view.c:186
 #: ../calendar/gui/e-meeting-store.c:188 ../calendar/gui/e-meeting-store.c:211
 #: ../calendar/gui/itip-utils.c:421
 #: ../plugins/itip-formatter/itip-formatter.c:1403
@@ -6859,7 +6877,7 @@ msgid "Tentatively Accepted"
 msgstr "Неуверено прието"
 
 #: ../calendar/gui/e-itip-control.c:1145
-#: ../calendar/gui/e-meeting-list-view.c:176
+#: ../calendar/gui/e-meeting-list-view.c:187
 #: ../calendar/gui/e-meeting-store.c:190 ../calendar/gui/e-meeting-store.c:213
 #: ../calendar/gui/itip-utils.c:427 ../calendar/gui/itip-utils.c:453
 #: ../plugins/itip-formatter/itip-formatter.c:1409
@@ -7177,78 +7195,78 @@ msgstr "крайна дата"
 msgid "date-start"
 msgstr "начална дата"
 
-#: ../calendar/gui/e-meeting-list-view.c:59
+#: ../calendar/gui/e-meeting-list-view.c:61
 msgid "Chair Persons"
 msgstr "Председателстващи"
 
-#: ../calendar/gui/e-meeting-list-view.c:60
-#: ../calendar/gui/e-meeting-list-view.c:124
+#: ../calendar/gui/e-meeting-list-view.c:62
+#: ../calendar/gui/e-meeting-list-view.c:135
 msgid "Required Participants"
 msgstr "Нужни участници"
 
-#: ../calendar/gui/e-meeting-list-view.c:61
+#: ../calendar/gui/e-meeting-list-view.c:63
 msgid "Optional Participants"
 msgstr "Възможни други участници"
 
-#: ../calendar/gui/e-meeting-list-view.c:62
+#: ../calendar/gui/e-meeting-list-view.c:64
 msgid "Resources"
 msgstr "Ресурси"
 
-#: ../calendar/gui/e-meeting-list-view.c:135
+#: ../calendar/gui/e-meeting-list-view.c:146
 #: ../calendar/gui/e-meeting-store.c:99 ../calendar/gui/e-meeting-store.c:116
 #: ../calendar/gui/e-meeting-store.c:802
 msgid "Individual"
 msgstr "Индивидуално"
 
-#: ../calendar/gui/e-meeting-list-view.c:136
+#: ../calendar/gui/e-meeting-list-view.c:147
 #: ../calendar/gui/e-meeting-store.c:101 ../calendar/gui/e-meeting-store.c:118
 msgid "Group"
 msgstr "Група"
 
-#: ../calendar/gui/e-meeting-list-view.c:137
+#: ../calendar/gui/e-meeting-list-view.c:148
 #: ../calendar/gui/e-meeting-store.c:103 ../calendar/gui/e-meeting-store.c:120
 msgid "Resource"
 msgstr "Ресурс"
 
-#: ../calendar/gui/e-meeting-list-view.c:138
+#: ../calendar/gui/e-meeting-list-view.c:149
 #: ../calendar/gui/e-meeting-store.c:105 ../calendar/gui/e-meeting-store.c:122
 msgid "Room"
 msgstr "Помещение"
 
-#: ../calendar/gui/e-meeting-list-view.c:149
+#: ../calendar/gui/e-meeting-list-view.c:160
 #: ../calendar/gui/e-meeting-store.c:134 ../calendar/gui/e-meeting-store.c:151
 msgid "Chair"
 msgstr "Председател"
 
-#: ../calendar/gui/e-meeting-list-view.c:150
+#: ../calendar/gui/e-meeting-list-view.c:161
 #: ../calendar/gui/e-meeting-store.c:136 ../calendar/gui/e-meeting-store.c:153
 #: ../calendar/gui/e-meeting-store.c:805
 msgid "Required Participant"
 msgstr "Заявен участник"
 
-#: ../calendar/gui/e-meeting-list-view.c:151
+#: ../calendar/gui/e-meeting-list-view.c:162
 #: ../calendar/gui/e-meeting-store.c:138 ../calendar/gui/e-meeting-store.c:155
 msgid "Optional Participant"
 msgstr "Възможен участник"
 
-#: ../calendar/gui/e-meeting-list-view.c:152
+#: ../calendar/gui/e-meeting-list-view.c:163
 #: ../calendar/gui/e-meeting-store.c:140 ../calendar/gui/e-meeting-store.c:157
 msgid "Non-Participant"
 msgstr "Не е участник"
 
-#: ../calendar/gui/e-meeting-list-view.c:174
+#: ../calendar/gui/e-meeting-list-view.c:185
 #: ../calendar/gui/e-meeting-store.c:186 ../calendar/gui/e-meeting-store.c:209
 #: ../calendar/gui/e-meeting-store.c:815
 msgid "Needs Action"
 msgstr "Необходими действия"
 
-#: ../calendar/gui/e-meeting-list-view.c:177
+#: ../calendar/gui/e-meeting-list-view.c:188
 #: ../calendar/gui/e-meeting-store.c:192 ../calendar/gui/e-meeting-store.c:215
 #: ../calendar/gui/e-meeting-time-sel.c:411
 msgid "Tentative"
 msgstr "Пробен"
 
-#: ../calendar/gui/e-meeting-list-view.c:178
+#: ../calendar/gui/e-meeting-list-view.c:189
 #: ../calendar/gui/e-meeting-store.c:194 ../calendar/gui/e-meeting-store.c:217
 msgid "Delegated"
 msgstr "Делегиран"
@@ -10347,7 +10365,7 @@ msgstr "Настройки на пощата на Evolution"
 #: ../mail/importers/elm-importer.c:418
 #: ../mail/importers/netscape-importer.c:1902
 #: ../mail/importers/pine-importer.c:474 ../mail/mail-component.c:558
-#: ../mail/mail-component.c:609
+#: ../mail/mail-component.c:645
 msgid "Mail"
 msgstr "Поща"
 
@@ -12216,31 +12234,31 @@ msgid_plural ", %d unread"
 msgstr[0] ", %d непрочетено"
 msgstr[1] ", %d непрочетени"
 
-#: ../mail/mail-component.c:723
+#: ../mail/mail-component.c:761
 msgid "New Mail Message"
 msgstr "Ново _писмо"
 
-#: ../mail/mail-component.c:724
+#: ../mail/mail-component.c:762
 msgid "_Mail Message"
 msgstr "_Писмо"
 
-#: ../mail/mail-component.c:725
+#: ../mail/mail-component.c:763
 msgid "Compose a new mail message"
 msgstr "Създаване на ново писмо"
 
-#: ../mail/mail-component.c:731
+#: ../mail/mail-component.c:769
 msgid "New Mail Folder"
 msgstr "Нова пощенска папка"
 
-#: ../mail/mail-component.c:732
+#: ../mail/mail-component.c:770
 msgid "Mail _Folder"
 msgstr "По_щенска папка"
 
-#: ../mail/mail-component.c:733
+#: ../mail/mail-component.c:771
 msgid "Create a new mail folder"
 msgstr "Създаване на нова пощенска папка"
 
-#: ../mail/mail-component.c:855
+#: ../mail/mail-component.c:893
 msgid "Failed upgrading Mail settings or folders."
 msgstr "Неуспех при обновяването на пощенските настройки или папки."
 
@@ -13169,7 +13187,7 @@ msgid "Discard changed?"
 msgstr "Игнориране на промените?"
 
 #: ../mail/mail.error.xml.h:42
-msgid "Do you want the operation to be performed in the sub folders ?"
+msgid "Do you want the operation to be performed in the subfolders?"
 msgstr "Искате ли операцията да се извърши и в подпапките?"
 
 #: ../mail/mail.error.xml.h:43
@@ -16250,7 +16268,7 @@ msgid "dialog1"
 msgstr "прозорец1"
 
 #. XXX we shouldn't be popping up dialogs in this code.
-#: ../smime/lib/e-cert-db.c:642
+#: ../smime/lib/e-cert-db.c:650
 msgid "Certificate already exists"
 msgstr "Сертификатът вече съществува"
 
@@ -17268,20 +17286,20 @@ msgid "Uni_mportant"
 msgstr "_Не е важно"
 
 #: ../ui/evolution-mail-message.xml.h:94
+msgid "VFolder on Mailing _List..."
+msgstr "vFolder за пощенски _списък..."
+
+#: ../ui/evolution-mail-message.xml.h:95
 msgid "VFolder on Recipients..."
 msgstr "vFolder за получатели..."
 
-#: ../ui/evolution-mail-message.xml.h:95
+#: ../ui/evolution-mail-message.xml.h:96
 msgid "VFolder on S_ubject..."
 msgstr "vFolder за _тема..."
 
-#: ../ui/evolution-mail-message.xml.h:96
+#: ../ui/evolution-mail-message.xml.h:97
 msgid "VFolder on Sen_der..."
 msgstr "vFolder за _изпращач..."
-
-#: ../ui/evolution-mail-message.xml.h:97
-msgid "VFolder on _Mailing _List..."
-msgstr "vFolder за пощенски _списък..."
 
 #: ../ui/evolution-mail-message.xml.h:98
 msgid "Zoom _Out"
