@@ -46,9 +46,9 @@
 #include "addressbook/gui/widgets/eab-popup.h"
 #include "addressbook/gui/widgets/eab-menu.h"
 
-#include "e-util/e-categories-master-list-wombat.h"
 #include "e-util/e-print.h"
 #include "libedataserver/e-sexp.h"
+#include <libedataserver/e-categories.h>
 
 #ifdef WITH_ADDRESSBOOK_VIEW_TREEVIEW
 #include <gal/widgets/e-treeview-selection-model.h>
@@ -116,8 +116,7 @@ static void make_suboptions             (EABView *view);
 static void query_changed               (ESearchBar *esb, EABView *view);
 static void search_activated            (ESearchBar *esb, EABView *view);
 static void search_menu_activated       (ESearchBar *esb, int id, EABView *view);
-static void connect_master_list_changed (EABView *view);
-static ECategoriesMasterList *get_master_list (void);
+static GList *get_master_list (void);
 
 #define PARENT_TYPE GTK_TYPE_VBOX
 static GtkVBoxClass *parent_class = NULL;
@@ -378,12 +377,6 @@ eab_view_dispose (GObject *object)
 		eav->search_rule = NULL;
 	}
 
-	if (eav->ecml_changed_id != 0) {
-		g_signal_handler_disconnect (get_master_list(),
-					     eav->ecml_changed_id);
-		eav->ecml_changed_id = 0;
-	}
-
 	if (G_OBJECT_CLASS(parent_class)->dispose)
 		G_OBJECT_CLASS(parent_class)->dispose(object);
 }
@@ -456,7 +449,6 @@ eab_view_new (void)
 	eav->search = E_SEARCH_BAR (e_search_bar_new (NULL, addressbook_search_option_items));
 	e_search_bar_set_menu (eav->search, addressbook_search_items);
 	make_suboptions (eav);
-	connect_master_list_changed (eav);
 	g_signal_connect (eav->search, "query_changed",
 			  G_CALLBACK (query_changed), eav);
 	g_signal_connect (eav->search, "search_activated",
@@ -1433,7 +1425,7 @@ change_view_type (EABView *view, EABViewType view_type)
 static void
 search_activated (ESearchBar *esb, EABView *v)
 {
-	ECategoriesMasterList *master_list;
+	GList *master_list;
 	char *search_word, *search_query;
 	const char *category_name;
 	int search_type, subid;
@@ -1473,7 +1465,7 @@ search_activated (ESearchBar *esb, EABView *v)
 					search_query = g_strdup ("(contains \"x-evolution-any-field\" \"\")");
 				} else {
 					master_list = get_master_list ();
-					category_name = e_categories_master_list_nth (master_list, subid);
+					category_name = g_list_nth_data (master_list, subid);
 					search_query = g_strdup_printf ("(is \"category_list\" \"%s\")", category_name);
 				}
 				break;
@@ -1536,11 +1528,11 @@ static void
 make_suboptions (EABView *view)
 {
 	ESearchBarSubitem *subitems, *s;
-	ECategoriesMasterList *master_list;
+	GList *master_list;
 	gint i, N;
 
 	master_list = get_master_list ();
-	N = e_categories_master_list_count (master_list);
+	N = g_list_length (master_list);
 	subitems = g_new (ESearchBarSubitem, N+2);
 
 	subitems[0].id = G_MAXINT;
@@ -1548,7 +1540,7 @@ make_suboptions (EABView *view)
 	subitems[0].translate = FALSE;
 
 	for (i=0; i<N; ++i) {
-		const char *category = e_categories_master_list_nth (master_list, i);
+		const char *category = g_list_nth_data (master_list, i);
 
 		subitems[i+1].id = i;
 		subitems[i+1].text = g_strdup (category);
@@ -1568,28 +1560,14 @@ make_suboptions (EABView *view)
 	g_free (subitems);
 }
 
-static void
-ecml_changed (ECategoriesMasterList *ecml, EABView *view)
-{
-	make_suboptions (view);
-}
-
-static ECategoriesMasterList *
+static GList *
 get_master_list (void)
 {
-	static ECategoriesMasterList *category_list = NULL;
+	static GList *category_list = NULL;
 
 	if (category_list == NULL)
-		category_list = e_categories_master_list_wombat_new ();
+		category_list = e_categories_get_list ();
 	return category_list;
-}
-
-static void
-connect_master_list_changed (EABView *view)
-{
-	view->ecml_changed_id =
-		g_signal_connect (get_master_list(), "changed",
-				  G_CALLBACK (ecml_changed), view);
 }
 
 
