@@ -1,6 +1,7 @@
 INCLUDES = -I .						\
 	-I$(top_srcdir)	                                \
 	$(EVOLUTION_MAIL_CFLAGS) 			\
+	$(CAMEL_EXCHANGE_CFLAGS) 			\
 	$(CAMEL_CFLAGS)					\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"
 
@@ -15,6 +16,8 @@ liborg_gnome_exchange_account_settings_la_SOURCES = 		\
 liborg_gnome_exchange_account_settings_la_LIBADD = 		\
 	$(top_builddir)/e-util/libeutil.la 			\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la		\
+	$(CAMEL_EXCHANGE_LIBS)					\
+	$(LDAP_LIBS)						\
 	$(CAMEL_LIBS)
 
 liborg_gnome_exchange_account_settings_la_LDFLAGS = -module -avoid-version

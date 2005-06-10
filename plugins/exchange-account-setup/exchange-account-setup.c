@@ -22,6 +22,9 @@
 #include "config.h"
 #endif
 
+#include "e-util/e-account.h"
+#include "e-util/e-error.h"
+
 #include <string.h>
 #include <unistd.h>
 #include <sys/stat.h>
@@ -34,11 +37,17 @@
 #include <camel/camel-url.h>
 #include <camel/camel-service.h>
 #include <libedataserver/e-xml-hash-utils.h>
+#include <exchange/e2k-validate.h>
+#include <exchange/exchange-oof.h>
+#include <e-util/e-dialog-utils.h>
+#include <exchange/exchange-config-listener.h>
 #include "mail/em-account-editor.h"
 #include "mail/em-config.h"
-#include "e-util/e-account.h"
-#include "e-util/e-error.h"
 
+
+static ExchangeConfigListener *exchange_global_config_listener = NULL;
+
+int e_plugin_lib_enable (EPluginLib *eplib, int enable);
 GtkWidget* org_gnome_exchange_settings(EPlugin *epl, EConfigHookItemFactoryData *data);
 GtkWidget *org_gnome_exchange_owa_url(EPlugin *epl, EConfigHookItemFactoryData *data);
 gboolean org_gnome_exchange_check_options(EPlugin *epl, EConfigHookPageCheckData *data);
@@ -79,11 +88,28 @@ CamelServiceAuthType camel_exchange_password_authtype = {
 
 typedef struct {
 	gboolean state;
-	char *account_name, *message;
+	char *message;
 	GtkWidget *text_view;
 }OOFData;
 
 OOFData *oof_data;
+
+static void
+free_exchange_listener (void)
+{
+	g_object_unref (exchange_global_config_listener);
+}
+
+int
+e_plugin_lib_enable (EPluginLib *eplib, int enable)
+{
+	if (!exchange_global_config_listener) {
+		exchange_global_config_listener = exchange_config_listener_new ();
+		g_atexit (free_exchange_listener);
+	}
+	
+	return 0;
+}
 
 static void
 update_state (GtkTextBuffer *buffer, gpointer data)
@@ -128,9 +154,12 @@ org_gnome_exchange_settings(EPlugin *epl, EConfigHookItemFactoryData *data)
 	GtkWidget *textview_oof;
 	GtkTextBuffer *buffer;
 	GtkTextIter start, end;
-	char *txt, *oof_message, *oof_info_file, *base_dir;
-	GHashTable *oof_props;
-	xmlDoc *doc;
+	char *txt, *oof_message;
+	gboolean oof_state;
+	ExchangeAccount *account = NULL;
+	GSList *accounts = NULL;
+	GSList *acc = NULL;
+	gchar *message = NULL;
 
 	target_account = (EMConfigTargetAccount *)data->config->target;
 	source_url = e_account_get_string (target_account->account,  E_ACCOUNT_SOURCE_URL);
@@ -147,44 +176,33 @@ org_gnome_exchange_settings(EPlugin *epl, EConfigHookItemFactoryData *data)
 		return data->old;
 	}
 
+        accounts = exchange_config_listener_get_accounts (exchange_global_config_listener);
+        for (acc = accounts; acc;  acc = acc->next) {
+                printf ("Inside loop\n");
+                account = acc->data;
+        }
 	oof_data = g_new0 (OOFData, 1);
-
-	/* See if oof info found already */
-	
-	oof_data->account_name =  g_strdup_printf ("%s@%s", url->user, url->host);
-	base_dir = g_strdup_printf ("%s/.evolution/exchange/%s", 
-				    g_get_home_dir (), oof_data->account_name);
-
-	oof_info_file = g_build_filename (base_dir, OOF_INFO_FILE_NAME, NULL);
-	g_free(base_dir);
 
 	oof_data->state = FALSE;
 	oof_data->message = NULL;
 	oof_data->text_view = NULL;
 
-	if (g_file_test (oof_info_file, G_FILE_TEST_EXISTS)) {
-		doc = xmlParseFile (oof_info_file);
-		if (doc) {
-			char *status, *message;
-
-			oof_props = e_xml_to_hash (doc, E_XML_HASH_TYPE_PROPERTY);
-			xmlFreeDoc (doc);
-			status = g_hash_table_lookup (oof_props, "oof-state");
-			if (!strcmp (status, "oof")) {
-				oof_data->state = TRUE;
-				message = g_hash_table_lookup (oof_props, "oof-message");
-				if (message && *message)
-					oof_data->message = g_strdup (message);
-				else
-					oof_data->message = NULL;
-			}
-			g_hash_table_destroy (oof_props);
-		}
-	}
-	g_free (oof_info_file);
+	/* See if oof info found already */
 	
-	/* construct page */
+	if (!exchange_oof_get (account, &oof_state, &message)) {
+                e_notice (NULL, GTK_MESSAGE_ERROR,
+                          _("Could not read out-of-office state"));
+                return NULL;
+        }
+	
+	if (message && *message)
+		oof_data->message = g_strdup (message);
+	else
+		oof_data->message = NULL;
+	oof_data->state = oof_state;
 
+
+	/* construct page */
 	oof_page = gtk_vbox_new (FALSE, 6);
 	gtk_container_set_border_width (GTK_CONTAINER (oof_page), 12);
 
@@ -289,7 +307,6 @@ org_gnome_exchange_settings(EPlugin *epl, EConfigHookItemFactoryData *data)
 		gtk_text_view_set_buffer (GTK_TEXT_VIEW (textview_oof), buffer);
 		
 	}
-	gtk_text_buffer_set_modified (buffer, FALSE);
 	if (!oof_data->state)
 		gtk_widget_set_sensitive (textview_oof, FALSE);
 	oof_data->text_view = textview_oof;
@@ -307,23 +324,25 @@ static void
 owa_authenticate_user(GtkWidget *button, EConfig *config)
 {
 	EMConfigTargetAccount *target_account = (EMConfigTargetAccount *)config->target;
-	CamelProviderValidate *validate;
 	CamelURL *url=NULL;
-	CamelProvider *provider = NULL;
 	gboolean remember_password;
 	char *url_string; 
 	const char *source_url, *id_name;
 	char *at, *user;
+	gboolean valid = FALSE;
+	ExchangeParams *exchange_params;
+
+	exchange_params = g_new0 (ExchangeParams, 1);
+	exchange_params->host = NULL;
+	exchange_params->ad_server = NULL;
+	exchange_params->mailbox = NULL;
+	exchange_params->owa_path = NULL;
+	exchange_params->is_ntlm = TRUE;
+
 
 	source_url = e_account_get_string (target_account->account, E_ACCOUNT_SOURCE_URL);
-	provider = camel_provider_get (source_url, NULL);
-	if (!provider || provider->priv == NULL) {
-		/* can't happen? */
-		return;
-	}
 
 	url = camel_url_new(source_url, NULL);
-	validate = provider->priv; 
 	if (url->user == NULL) {
 		id_name = e_account_get_string (target_account->account, E_ACCOUNT_ID_ADDRESS);
 		if (id_name) {
@@ -342,14 +361,27 @@ owa_authenticate_user(GtkWidget *button, EConfig *config)
 	   It must use camel_session_ask_password, and it should return an exception for any problem,
 	   which should then be shown using e-error */
 
-	if (validate->validate_user(url, camel_url_get_param(url, "owa_url"), &remember_password, NULL)) {
+	valid =  e2k_validate_user ((const char *)camel_url_get_param (url, "owa_url"), 
+				    url->user, exchange_params, &remember_password);
+	camel_url_set_host (url, valid ? exchange_params->host : "");
+
+	if (valid)
+		camel_url_set_authmech (url, exchange_params->is_ntlm ? "NTLM" : "Basic");
+	camel_url_set_param (url, "ad_server", valid ? exchange_params->ad_server: NULL);
+	camel_url_set_param (url, "mailbox", valid ? exchange_params->mailbox : NULL);
+	camel_url_set_param (url, "owa_path", valid ? exchange_params->owa_path : NULL);
+
+	g_free (exchange_params->owa_path);
+	g_free (exchange_params->mailbox);
+	g_free (exchange_params);
+
+	if (valid) {	
 		url_string = camel_url_to_string (url, 0);
-		e_account_set_string(target_account->account, E_ACCOUNT_SOURCE_URL, url_string);
-		e_account_set_string(target_account->account, E_ACCOUNT_TRANSPORT_URL, url_string);
-		e_account_set_bool(target_account->account, E_ACCOUNT_SOURCE_SAVE_PASSWD, remember_password);
-		g_free(url_string);
+		e_account_set_string (target_account->account, E_ACCOUNT_SOURCE_URL, url_string);
+		e_account_set_string (target_account->account, E_ACCOUNT_TRANSPORT_URL, url_string);
+		e_account_set_bool (target_account->account, E_ACCOUNT_SOURCE_SAVE_PASSWD, remember_password);
+		g_free (url_string);
 	}
-	
 	camel_url_free (url);
 }
 
@@ -550,56 +582,26 @@ org_gnome_exchange_check_options(EPlugin *epl, EConfigHookPageCheckData *data)
 }
 
 static void 
-store_oof_info ()
+set_oof_info ()
 {
-	char *oof_storage_base_dir, *oof_storage_file, *status;
-	xmlDocPtr doc;
-	int result;
-	GHashTable *oof_props;
+	GSList *accounts, *acc;
+	ExchangeAccount *account = NULL;
 
-	/* oof information is entered at editor need to be written to the 
-	 * server, dump it to the file */
-	oof_storage_base_dir = g_strdup_printf ("%s/.evolution/exchange/%s",
-				    g_get_home_dir (), oof_data->account_name);
+	accounts = exchange_config_listener_get_accounts (exchange_global_config_listener);
+        for (acc = accounts; acc;  acc = acc->next) {
+                account = acc->data;
+        }
 
-	if (!g_file_test (oof_storage_base_dir, G_FILE_TEST_EXISTS)) {
-		if (mkdir (oof_storage_base_dir, 0755)) {
-			/* Failed to create file */
-			g_free (oof_storage_base_dir);
-			return;
-		}
+	if (!exchange_oof_set (account, oof_data->state, oof_data->message)) {
+		e_notice (NULL, GTK_MESSAGE_ERROR,
+				_("Could not update out-of-office state"));
 	}
 
-	oof_storage_file = g_build_filename (oof_storage_base_dir, 
-					     OOF_INFO_FILE_NAME, NULL);
-	if (g_file_test (oof_storage_file, G_FILE_TEST_EXISTS))
-		unlink (oof_storage_file);
-		
-	if (oof_data->state)
-		status = g_strdup ("oof");
-	else
-		status = g_strdup ("in-office");
-
-	oof_props = g_hash_table_new (g_str_hash, g_str_equal);
-	g_hash_table_insert (oof_props, "oof-state", status);
-	g_hash_table_insert (oof_props, "sync-state", g_strdup("0"));
-	g_hash_table_insert (oof_props, "oof-message", oof_data->message);
-	doc = e_xml_from_hash (oof_props, E_XML_HASH_TYPE_PROPERTY, "oof-info");
-	result = xmlSaveFile (oof_storage_file, doc);
-	xmlFreeDoc (doc);
-	if (result < 0)
-		unlink (oof_storage_file);
-	g_hash_table_destroy (oof_props);
-	g_free (status);
-	g_free (oof_storage_file);
-	g_free (oof_storage_base_dir);
 }
 
 static void
 destroy_oof_data ()
 {
-	if (oof_data->account_name)
-		g_free (oof_data->account_name);
 	if (oof_data->message)
 		g_free (oof_data->message);
 	g_free (oof_data);	
@@ -627,8 +629,8 @@ org_gnome_exchange_commit (EPlugin *epl, EConfigHookItemFactoryData *data)
 		return;
 	}
 
-	/* dump oof data so that can be set in exchange account */
-	store_oof_info ();
+	/* Set oof data in exchange account */
+	set_oof_info ();
 	destroy_oof_data ();
 	return;
 }

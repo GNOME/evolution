@@ -1,3 +1,15 @@
+2005-06-10  Sarfraaz Ahmed <asarfraaz@novell.com>
+
+	* exchange-account-setup.c (e_plugin_lib_enable)
+	(free_exchange_listener)(e_plugin_lib_enable) : Added new to 
+	initialise the config listener.
+	(update_state) : Now updates the state directly from the server and not
+	from the file as earlier.
+	(owa_authenticate_user) : Authenticates and validates directly from
+	the server instead of using the camel APIs as earlier.
+	(set_oof_info) : Sets the state directly on the server
+	* Makefile.am : Use CAMEL_EXCHANGE CFLAGS and LIBS
+
 2005-05-21  Sarfraaz Ahmed <asarfraaz@novell.com>
 
 	Added a bunch of files to create exchange plugins for UI changes
