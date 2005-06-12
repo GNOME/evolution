@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-05-04 00:13+0900\n"
-"PO-Revision-Date: 2005-04-24 06:55+0900\n"
+"PO-Revision-Date: 2005-06-12 02:27+0900\n"
 "Last-Translator: Changwoo Ryu <cwryu@debian.org>\n"
 "Language-Team: GNOME Korea <gnome-kr-hackers@lists.kldp.net>\n"
 "MIME-Version: 1.0\n"
@@ -13223,7 +13223,7 @@ msgstr ""
 #. mail:async-error primary
 #: ../mail/mail-errors.xml.h:67
 msgid "Error while {0}."
-msgstr "{0} 중에 오류가 발생했습니다."
+msgstr "{0}에 오류가 발생했습니다."
 
 #. mail:async-error secondary
 #: ../mail/mail-errors.xml.h:69
