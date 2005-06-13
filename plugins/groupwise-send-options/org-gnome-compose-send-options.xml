@@ -1,11 +1,11 @@
 <Root>
   <commands>
-  <cmd name="EPSOSendOptions" _label="Send Options"
-	  _tip="Add Send Options to groupwise messages"/>
+  <cmd name="EPSOSendOptions" _label="Print"
+	  _tip="Prints the message"/>
   </commands>
 
   <menu>
-  <submenu name="Insert">
+  <submenu name="File">
       <placeholder name="Component">
 	  <separator f="" name="sendoptions1"/>
 	  <menuitem name="EPSOSendOptions" verb=""/>
