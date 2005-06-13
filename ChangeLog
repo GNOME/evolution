@@ -1,3 +1,8 @@
+2005-06-12  Sarfraaz Ahmed <asarfraaz@novell.com>
+
+	* plugins/exchange-operations : Added a new plugin directory for
+	renaming exchange-account-setup as exchange-operations.
+
 2005-06-10  Sarfraaz Ahmed <asarfraaz@novell.com>
 
 	* configure.in : Added CAMEL_EXCHANGE CFLAGS/LIBS for exchange plugins.
