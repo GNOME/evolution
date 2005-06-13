@@ -1,3 +1,9 @@
+2005-06-13  Jedy Wang  <jedy.wang@sun.com>
+
+	We need compare backend for long events too.
+
+	* gui/e-day-view.c: (e_day_view_find_event_from_uid):
+
 2005-05-30  Harry Lu  <harry.lu@sun.com>
 
 	* gui/itip-utils.c: (itip_send_comp): check whether backend could

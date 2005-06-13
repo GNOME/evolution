@@ -1962,6 +1962,14 @@ e_day_view_find_event_from_uid (EDayView *day_view,
 		event = &g_array_index (day_view->long_events,
 					EDayViewEvent, event_num);
 
+		if (event->comp_data->client != client)
+			continue;
+
+ 		u = icalcomponent_get_uid (event->comp_data->icalcomp);
+
+		if (event->comp_data->client != client)
+			continue;
+
 		u = icalcomponent_get_uid (event->comp_data->icalcomp);
 		if (u && !strcmp (uid, u)) {
 			*day_return = E_DAY_VIEW_LONG_EVENT;
