@@ -1,3 +1,9 @@
+2005-06-14  Sarfraaz Ahmed <asarfraaz@novell.com>
+
+	* configure.in : Add a configure option --enable-exchange to build
+	Exchange plugins. Also changed the Exchange plugin name to
+	exchange-operations.
+
 2005-06-12  Sarfraaz Ahmed <asarfraaz@novell.com>
 
 	* plugins/exchange-operations : Added a new plugin directory for
