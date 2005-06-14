@@ -1,3 +1,8 @@
+2005-06-14  Sarfaaz Ahmed <asarfraaz@novell.com>
+
+	* exchange-account-setup.c : Fixed some warnings
+	* exchange-config-listener.c : Similar
+
 2005-06-12  Sarfraaz Ahmed <asarfraaz@novell.com>
 
 	* Initial commit to rename Exchange-account-setup as Exchange 

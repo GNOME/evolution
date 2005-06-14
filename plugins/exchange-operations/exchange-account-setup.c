@@ -285,7 +285,7 @@ org_gnome_exchange_settings(EPlugin *epl, EConfigHookItemFactoryData *data)
 	}
 	gtk_misc_set_alignment (GTK_MISC (radio_iof), 0, 0.5);
 	gtk_misc_set_alignment (GTK_MISC (radio_oof), 0, 0.5);
-	gtk_signal_connect (GTK_WIDGET (radio_oof), "toggled", G_CALLBACK (toggled_state), NULL);
+	gtk_signal_connect (GTK_OBJECT (radio_oof), "toggled", G_CALLBACK (toggled_state), NULL);
 	
 
 	gtk_table_attach (tbl_oof_status, GTK_WIDGET (lbl_status), 0, 1, 0, 1, GTK_FILL, GTK_FILL, 0, 0);
@@ -314,7 +314,7 @@ org_gnome_exchange_settings(EPlugin *epl, EConfigHookItemFactoryData *data)
 	gtk_text_buffer_set_modified (buffer, FALSE);
 	if (!oof_data->state)
 		gtk_widget_set_sensitive (GTK_WIDGET (txtview_oof), FALSE);
-	oof_data->text_view = txtview_oof;
+	oof_data->text_view = GTK_WIDGET (txtview_oof);
 	g_signal_connect (buffer, "changed", G_CALLBACK (update_state), NULL);
 	gtk_container_add (GTK_CONTAINER (scrwnd_oof), GTK_WIDGET (txtview_oof));
 
@@ -333,8 +333,8 @@ org_gnome_exchange_settings(EPlugin *epl, EConfigHookItemFactoryData *data)
 	lbl_dass = (GtkLabel*) gtk_object_new (GTK_TYPE_LABEL, "label", _("Manage the delegate settings for Exchange account"), NULL);
 	gtk_misc_set_alignment (GTK_MISC (lbl_dass), 0, 0.5);
 	btn_dass = (GtkButton*) gtk_object_new (GTK_TYPE_BUTTON, "label", _("Delegation Assitant"));
-	gtk_signal_connect (GTK_WIDGET (btn_chpass), "clicked", G_CALLBACK (btn_chpass_clicked), NULL);
-	gtk_signal_connect (GTK_WIDGET (btn_dass), "clicked", G_CALLBACK (btn_dass_clicked), NULL);
+	gtk_signal_connect (GTK_OBJECT (btn_chpass), "clicked", G_CALLBACK (btn_chpass_clicked), NULL);
+	gtk_signal_connect (GTK_OBJECT (btn_dass), "clicked", G_CALLBACK (btn_dass_clicked), NULL);
 	gtk_table_attach_defaults (tbl_auth, GTK_WIDGET (lbl_chpass), 0, 1, 0, 1);
 	gtk_table_attach (tbl_auth, GTK_WIDGET (btn_chpass), 1, 2, 0, 1, GTK_FILL, GTK_FILL, 0, 0);
 	gtk_table_attach_defaults (tbl_auth, GTK_WIDGET (lbl_dass), 0, 1, 1, 2);
@@ -353,7 +353,7 @@ org_gnome_exchange_settings(EPlugin *epl, EConfigHookItemFactoryData *data)
 	lbl_fsize = (GtkLabel*) gtk_object_new (GTK_TYPE_LABEL, "label", _("View the size of all Exchange folders"), NULL);
 	gtk_misc_set_alignment (GTK_MISC (lbl_fsize), 0, 0.5);
 	btn_fsize = (GtkButton*) gtk_object_new (GTK_TYPE_BUTTON, "label", _("Folders Size"), NULL);
-	gtk_signal_connect (GTK_WIDGET (btn_fsize), "clicked", G_CALLBACK (btn_fsize_clicked), NULL);
+	gtk_signal_connect (GTK_OBJECT (btn_fsize), "clicked", G_CALLBACK (btn_fsize_clicked), NULL);
 	gtk_table_attach_defaults (tbl_misc, GTK_WIDGET (lbl_fsize), 0, 1, 0, 1);
 	gtk_table_attach (tbl_misc, GTK_WIDGET (btn_fsize), 1, 2, 0, 1, GTK_FILL, GTK_FILL, 0, 0);
 	gtk_box_pack_start (GTK_BOX (vbox_misc), GTK_WIDGET (tbl_misc), FALSE, FALSE, 0);
