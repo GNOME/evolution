@@ -32,6 +32,7 @@ SMIME_DIR=smime
 endif
 
 SUBDIRS = 			\
+	win32			\
         data                    \
         e-util                  \
 	a11y			\
