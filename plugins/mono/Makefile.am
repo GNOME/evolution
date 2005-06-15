@@ -7,7 +7,7 @@ INCLUDES =						\
 plugin_DATA = org-gnome-evolution-mono.eplug
 plugin_LTLIBRARIES = liborg-gnome-evolution-mono.la
 
-liborg_gnome_evolution_mono_la_SOURCES = mono-plugin.c
+liborg_gnome_evolution_mono_la_SOURCES = mono-plugin.c mono-plugin.h
 liborg_gnome_evolution_mono_la_LDFLAGS = -module -avoid-version
 
 EXTRA_DIST = org-gnome-evolution-mono.eplug.xml
