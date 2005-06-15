@@ -6,6 +6,10 @@
 	in a separate -lregex. Include also camel-provider's CFLAGS and
 	LIBS for IMPORTERS. Expand win32/Makefile.
 
+	* plugin.mk: Expand also @SOEXT@.
+
+	* server.mk: Expand also @SOEXT@ and @EXEEXT@.
+
 	* win32/README
 	* win32/Makefile.am
 	* win32/dummy.la
