@@ -92,6 +92,25 @@ dnl Initialize libtool
 AM_DISABLE_STATIC
 AM_PROG_LIBTOOL
 
+dnl Win32
+AC_MSG_CHECKING([for Win32])
+case "$host" in
+*-mingw*)
+    os_win32=yes
+    NO_UNDEFINED='-no-undefined'
+    SOEXT='.dll'
+    ;;
+*)  os_win32=no
+    NO_UNDEFINED=''
+    SOCKET_LIBS=''
+    SOEXT='.so'
+    ;;
+esac
+AC_MSG_RESULT([$os_win32])
+AM_CONDITIONAL(OS_WIN32, [test $os_win32 = yes])
+AC_SUBST(NO_UNDEFINED)
+AC_SUBST(SOEXT)
+
 dnl alloca()
 AC_CHECK_HEADERS(alloca.h)
 
@@ -510,6 +529,12 @@ AC_MSG_RESULT($with_broken_spool)
 dnl *********
 dnl Libraries
 dnl *********
+
+AC_CHECK_FUNCS(regexec,,[AC_CHECK_LIB(regex,regexec,
+				      [REGEX_LIBS=-lregex
+				       AC_DEFINE(HAVE_REGEXEC,1,[Define to 1 if you have the regexec function.])],
+				      [AC_MSG_ERROR([No regex library found])])])
+AC_SUBST(REGEX_LIBS)
 
 PKG_CHECK_MODULES(GTKHTML, libgtkhtml-3.8)
 AC_SUBST(GTKHTML_CFLAGS)
@@ -1189,7 +1214,7 @@ EVO_SET_COMPILE_FLAGS(E_WIDGETS, glib-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED 
 AC_SUBST(E_WIDGETS_CFLAGS)
 AC_SUBST(E_WIDGETS_LIBS)
  
-EVO_SET_COMPILE_FLAGS(IMPORTERS, camel-$EDS_PACKAGE gconf-2.0 libglade-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED libgnomeui-2.0 libebook-$EDS_PACKAGE >= $EDS_REQUIRED)
+EVO_SET_COMPILE_FLAGS(IMPORTERS, camel-provider-$EDS_PACKAGE camel-$EDS_PACKAGE gconf-2.0 libglade-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED libgnomeui-2.0 libebook-$EDS_PACKAGE >= $EDS_REQUIRED)
 AC_SUBST(IMPORTERS_CFLAGS)
 AC_SUBST(IMPORTERS_LIBS)
 
@@ -1538,6 +1563,7 @@ AC_SUBST(EVOLUTION_DIR)
 
 AC_OUTPUT([ po/Makefile.in
 Makefile
+win32/Makefile
 a11y/Makefile
 a11y/addressbook/Makefile
 a11y/calendar/Makefile

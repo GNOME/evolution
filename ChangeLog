@@ -1,5 +1,10 @@
 2005-06-15  Tor Lillqvist  <tml@novell.com>
 
+	* configure.in: Check for Win32. Define Automake conditional
+	OS_WIN32. Define autoconf substitutions SOEXT (.so vs. .dll) and
+	NO_UNDEFINED (empty vs. -no-undefined). Check for regexec, perhaps
+	in a separate -lregex. Expand win32/Makefile.
+
 	* win32/README
 	* win32/Makefile.am
 	* win32/dummy.la
