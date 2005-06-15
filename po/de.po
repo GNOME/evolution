@@ -12963,7 +12963,7 @@ msgid ""
 msgstr ""
 "Willkommen zum Evolution-E-Mail-Konfigurationsassistenten!\n"
 "\n"
-"Klicken Sie auf »Weiter«, um zu beginnen."
+"Klicken Sie auf »Vor«, um zu beginnen."
 
 #: ../mail/mail-config.glade.h:149
 msgid "_Add Signature"
@@ -15208,7 +15208,7 @@ msgstr ""
 "Mail-Konten einzurichten und Dateien aus anderen Anwendungen zu "
 "importieren.\n"
 "\n"
-"Klicken Sie auf »Weiter«, um fortzufahren. "
+"Klicken Sie auf »Vor«, um fortzufahren. "
 
 #: ../plugins/startup-wizard/startup-wizard.c:306
 #: ../shell/e-shell-importer.c:159 ../shell/e-shell-startup-wizard.c:750
