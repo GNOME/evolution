@@ -1,3 +1,11 @@
+2005-06-15  Sushma Rai  <rsushma@novell.com>
+
+	* exchange-account-setup.c (org_gnome_exchange_settings): Trying to 
+	get the exchange account, after checking the account selected in 
+	an exchange account or not. It fixes a crash, when trying to edit an
+	non-exchange account, where e-d-s and evolution are built with exchange
+	support, but exchange account is not configured.
+
 2005-06-14  Sarfaaz Ahmed <asarfraaz@novell.com>
 
 	* exchange-account-setup.c : Fixed some warnings

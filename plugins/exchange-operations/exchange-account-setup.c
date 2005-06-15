@@ -215,8 +215,6 @@ org_gnome_exchange_settings(EPlugin *epl, EConfigHookItemFactoryData *data)
 	GtkTextBuffer *buffer;
 	GtkTextIter start, end;
 
-	account = exchange_operations_get_exchange_account ();
-
 	target_account = (EMConfigTargetAccount *)data->config->target;
 	source_url = e_account_get_string (target_account->account,  E_ACCOUNT_SOURCE_URL);
 	url = camel_url_new(source_url, NULL);
@@ -231,6 +229,8 @@ org_gnome_exchange_settings(EPlugin *epl, EConfigHookItemFactoryData *data)
 		camel_url_free(url);
 		return data->old;
 	}
+
+	account = exchange_operations_get_exchange_account ();
 
 	oof_data = g_new0 (OOFData, 1);
 
