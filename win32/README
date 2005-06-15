@@ -1,0 +1,13 @@
+This directory contains .def files for some of the DLLs in
+Evolution. They are used to build bootstrap import libraries for these
+DLLs in advance before they have actually been built. This is
+necessary because Evolution's shared libraries have circular
+dependencies, and one can't have unresolved symbols when building
+shared libraries on Win32.
+
+These .def files aren't used when building the actual DLLs in
+question. They are only used to produce bootstrap import libraries for
+them. Thus a .def file for libFOO here doesn't list all the actual
+entry points in libFOO, only those that are used by other DLLs that
+are built before libFOO. When the actual libFOO is built, we rely on
+the GNU linker's auto-export to export all public symbols.

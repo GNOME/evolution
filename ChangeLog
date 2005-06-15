@@ -1,3 +1,18 @@
+2005-06-15  Tor Lillqvist  <tml@novell.com>
+
+	* win32/README
+	* win32/Makefile.am
+	* win32/dummy.la
+	* win32/libemiscwidgets.def
+	* win32/libevolution-addressbook.def
+	* win32/libevolution-calendar.def
+	* win32/libevolution-mail.def
+	* win32/libfilter.def: New files. Build bootstrap import libraries
+	for some of Evolution's DLLs to work around circular dependencies
+	between some of the shared libraries. Circular dependecies are
+	problematic on Win32 where one can't have undefined symbols in
+	executables (or shared libraries).
+
 2005-06-14  Sarfraaz Ahmed <asarfraaz@novell.com>
 
 	* configure.in : Add a configure option --enable-exchange to build

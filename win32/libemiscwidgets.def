@@ -1,0 +1,20 @@
+EXPORTS
+	e_calendar_item_get_date_range
+	e_calendar_item_get_selection
+	e_calendar_item_get_type
+	e_calendar_item_get_week_number
+	e_calendar_item_normalize_date
+	e_calendar_item_set_selection
+	e_combo_button_get_label
+	e_combo_button_get_type
+	e_combo_button_popup_menu
+	e_map_add_point
+	e_map_get_closest_point
+	e_map_get_magnification
+	e_map_new
+	e_map_point_get_color_rgba
+	e_map_point_get_location
+	e_map_point_set_color_rgba
+	e_map_window_to_world
+	e_map_zoom_out
+	e_map_zoom_to_location

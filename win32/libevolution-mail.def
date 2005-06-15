@@ -1,0 +1,10 @@
+EXPORTS
+	em_popup_new
+	em_popup_target_new_attachments
+	em_utils_prompt_user
+	mail_component_get_folder
+	mail_component_peek_base_directory
+	mail_msg_free
+	mail_msg_new
+	mail_tool_uri_to_folder
+	mail_thread_queued
