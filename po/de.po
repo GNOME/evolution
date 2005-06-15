@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-06-15 13:36+0200\n"
-"PO-Revision-Date: 2005-06-15 13:36+0200\n"
+"POT-Creation-Date: 2005-06-15 18:57+0200\n"
+"PO-Revision-Date: 2005-06-15 18:57+0200\n"
 "Last-Translator: Hendrik Richter <hendi@gnome-de.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -12966,7 +12966,7 @@ msgid ""
 msgstr ""
 "Willkommen zum Evolution-E-Mail-Konfigurationsassistenten!\n"
 "\n"
-"Klicken Sie auf »Weiter«, um zu beginnen."
+"Klicken Sie auf »Vor«, um zu beginnen."
 
 #: ../mail/mail-config.glade.h:154
 msgid "_Add Signature"
@@ -15536,7 +15536,7 @@ msgstr ""
 "Mail-Konten einzurichten und Dateien aus anderen Anwendungen zu "
 "importieren.\n"
 "\n"
-"Klicken Sie auf »Weiter«, um fortzufahren. "
+"Klicken Sie auf »Vor«, um fortzufahren. "
 
 #: ../plugins/startup-wizard/startup-wizard.c:306
 #: ../shell/e-shell-importer.c:159
