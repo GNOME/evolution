@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-05-31 10:41+0200\n"
-"PO-Revision-Date: 2005-03-22 12:14+0100\n"
+"POT-Creation-Date: 2005-06-15 18:47+0200\n"
+"PO-Revision-Date: 2005-06-15 18:47+0200\n"
 "Last-Translator: Hendrik Richter <hendi@gnome-de.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -8472,7 +8472,7 @@ msgstr "Amerika/Hermosillo"
 
 #: ../calendar/zones.h:107
 msgid "America/Indiana/Indianapolis"
-msgstr "Amerika/Indiana/Indianaplois"
+msgstr "Amerika/Indiana/Indianapolis"
 
 #: ../calendar/zones.h:108
 msgid "America/Indiana/Knox"
@@ -11799,7 +11799,7 @@ msgstr ""
 #: ../mail/evolution-mail.schemas.in.in.h:36
 msgid "List of mime types to check for bonobo component viewers"
 msgstr ""
-"Liste der MIME-Typen, die auf Bonobo-Komponentebetrachter hin überprüft "
+"Liste der MIME-Typen, die auf Bonobo-Komponentenbetrachter hin überprüft "
 "werden sollen"
 
 #: ../mail/evolution-mail.schemas.in.in.h:37
@@ -12364,8 +12364,8 @@ msgstr[1] "%d gelöscht"
 #, c-format
 msgid "%d junk"
 msgid_plural "%d junk"
-msgstr[0] "%d im Müll"
-msgstr[1] "%d im Müll"
+msgstr[0] "%d unerwünscht"
+msgstr[1] "%d unerwünscht"
 
 #: ../mail/mail-component.c:530
 #, c-format
@@ -15565,7 +15565,7 @@ msgstr "Bug-Buddy konnte nicht gestartet werden."
 #. The translator-credits string is for translators to list
 #. * per language credits for translation, displayed in the
 #. * about box
-#: ../shell/e-shell-window-commands.c:501
+#: ../shell/e-shell-window-commands.c:507
 msgid "translator-credits"
 msgstr ""
 "Kai Lahmann <kl@linuxfaqs.de>\n"
@@ -15575,19 +15575,19 @@ msgstr ""
 "Hendrik Richter <hendi@gnome-de.org>\n"
 "Frank Arnold <frank@scirocco-5v-turbo.de>"
 
-#: ../shell/e-shell-window-commands.c:515
+#: ../shell/e-shell-window-commands.c:521
 msgid "Groupware Suite"
 msgstr "Groupware-Suite"
 
-#: ../shell/e-shell-window-commands.c:742
+#: ../shell/e-shell-window-commands.c:748
 msgid "_Work Online"
 msgstr "_Online arbeiten"
 
-#: ../shell/e-shell-window-commands.c:755 ../ui/evolution.xml.h:51
+#: ../shell/e-shell-window-commands.c:761 ../ui/evolution.xml.h:51
 msgid "_Work Offline"
 msgstr "_Offline arbeiten"
 
-#: ../shell/e-shell-window-commands.c:768 ../ui/evolution.xml.h:34
+#: ../shell/e-shell-window-commands.c:774 ../ui/evolution.xml.h:34
 msgid "Work Offline"
 msgstr "Offline arbeiten"
 
