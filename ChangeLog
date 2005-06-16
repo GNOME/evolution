@@ -1,3 +1,11 @@
+2005-06-16 Harish Krishnaswamy <kharish@novell.com>
+	
+	* configure.in : add mono to the plugins list
+	
+	* data/evolution.desktop.in.in : 
+	Fix for	#307176 (patch from Andre Klapper)
+	correct the version of evolution-data-server.
+
 2005-06-15  Tor Lillqvist  <tml@novell.com>
 
 	* configure.in: Check for Win32. Define Automake conditional

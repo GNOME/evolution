@@ -1,3 +1,9 @@
+Evolution 2.3.3.1 2005-06-15
+-----------------------------
+
+	#307176 - Remove X-GNOME-Bugzilla-Bugzilla=Ximian (Andre Klapper)
+	Fix build issues related to the mono plugin (Harish)
+
 Evolution 2.3.3, 2005-06-07
 ---------------------------
 
