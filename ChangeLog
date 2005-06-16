@@ -1,44 +1,11 @@
-2005-06-15  Tor Lillqvist  <tml@novell.com>
-
-	* configure.in: Check for Win32. Define Automake conditional
-	OS_WIN32. Define autoconf substitutions SOEXT (.so vs. .dll) and
-	NO_UNDEFINED (empty vs. -no-undefined). Check for regexec, perhaps
-	in a separate -lregex. Include also camel-provider's CFLAGS and
-	LIBS for IMPORTERS. Expand win32/Makefile.
-
-	* Makefile.am (SUBDIRS): Add win32.
+2005-06-15 Harish Krishnaswamy <kharish@novell.com>
 	
-	* plugin.mk: Expand also @SOEXT@.
-
-	* server.mk: Expand also @SOEXT@ and @EXEEXT@.
-
-	* win32/README
-	* win32/Makefile.am
-	* win32/dummy.la
-	* win32/libemiscwidgets.def
-	* win32/libevolution-addressbook.def
-	* win32/libevolution-calendar.def
-	* win32/libevolution-mail.def
-	* win32/libfilter.def: New files. Build bootstrap import libraries
-	for some of Evolution's DLLs to work around circular dependencies
-	between some of the shared libraries. Circular dependecies are
-	problematic on Win32 where one can't have undefined symbols in
-	executables (or shared libraries).
-
-2005-06-14  Sarfraaz Ahmed <asarfraaz@novell.com>
-
-	* configure.in : Add a configure option --enable-exchange to build
-	Exchange plugins. Also changed the Exchange plugin name to
-	exchange-operations.
-
-2005-06-12  Sarfraaz Ahmed <asarfraaz@novell.com>
-
-	* plugins/exchange-operations : Added a new plugin directory for
-	renaming exchange-account-setup as exchange-operations.
-
-2005-06-10  Sarfraaz Ahmed <asarfraaz@novell.com>
-
-	* configure.in : Added CAMEL_EXCHANGE CFLAGS/LIBS for exchange plugins.
+	* configure.in : bump version, add mono
+	to the plugins list
+	
+	* data/evolution.desktop.in.in : 
+	Fix for	#307176 (patch from Andre Klapper)
+	correct the version of evolution-data-server.
 
 2005-06-07 Harish Krishnaswamy <kharish@novell.com>
 

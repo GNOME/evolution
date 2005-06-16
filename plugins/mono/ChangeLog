@@ -1,3 +1,8 @@
+2005-06-15  Harish Krishnaswamy <kharish@novell.com>
+
+	* Makefile.am : mono-plugin.h should be included
+	in the sources too.
+	
 2005-05-25  Not Zed  <NotZed@Ximian.com>
 
 	* mono-plugin.c: implement the mono loader as a plugin itself.
