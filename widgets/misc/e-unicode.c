@@ -40,8 +40,8 @@
 #include <gtk/gtk.h>
 #include <libxml/xmlmemory.h>
 
-#include "gal/util/e-i18n.h"
-#include "gal/util/e-iconv.h"
+#include "e-util/e-i18n.h"
+#include "e-util/e-iconv.h"
 
 #include "e-unicode.h"
 

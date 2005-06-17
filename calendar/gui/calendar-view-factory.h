@@ -21,7 +21,7 @@
 #ifndef CALENDAR_VIEW_FACTORY_H
 #define CALENDAR_VIEW_FACTORY_H
 
-#include <gal/menus/gal-view-factory.h>
+#include <widgets/menus/gal-view-factory.h>
 #include "gnome-cal.h"
 
 G_BEGIN_DECLS

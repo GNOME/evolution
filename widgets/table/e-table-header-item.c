@@ -34,14 +34,14 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gdk/gdkkeysyms.h>
 
-#include "gal/util/e-i18n.h"
-#include "gal/util/e-marshal.h"
-#include "gal/util/e-util.h"
-#include "gal/util/e-xml-utils.h"
-#include "gal/widgets/e-canvas.h"
-#include "gal/widgets/e-cursors.h"
-#include "gal/widgets/e-gui-utils.h"
-#include "gal/widgets/e-popup-menu.h"
+#include "e-util/e-i18n.h"
+#include "e-util/e-util-marshal.h"
+#include "e-util/e-util.h"
+#include "e-util/e-xml-utils.h"
+#include "widgets/misc/e-canvas.h"
+#include "widgets/misc/e-cursors.h"
+#include "widgets/misc/e-gui-utils.h"
+#include "widgets/misc/e-popup-menu.h"
 
 #include "e-table.h"
 #include "e-table-col-dnd.h"
@@ -1872,7 +1872,7 @@ ethi_class_init (GObjectClass *object_class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableHeaderItemClass, button_pressed),
 			      NULL, NULL,
-			      e_marshal_NONE__BOXED,
+			      e_util_marshal_NONE__BOXED,
 			      G_TYPE_NONE, 1, GDK_TYPE_EVENT);
 }
 

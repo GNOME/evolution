@@ -35,7 +35,7 @@ extern "C" {
 #include <glade/glade.h>
 #include <gtk/gtktreeview.h>
 
-#include <gal/e-table/e-table.h>
+#include <table/e-table.h>
 
 #include "evolution-config-control.h"
 

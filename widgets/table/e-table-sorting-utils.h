@@ -28,10 +28,10 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#include <gal/e-table/e-table-model.h>
-#include <gal/e-table/e-tree-model.h>
-#include <gal/e-table/e-table-sort-info.h>
-#include <gal/e-table/e-table-header.h>
+#include <table/e-table-model.h>
+#include <table/e-tree-model.h>
+#include <table/e-table-sort-info.h>
+#include <table/e-table-header.h>
 gboolean  e_table_sorting_utils_affects_sort         (ETableSortInfo *sort_info,
 						      ETableHeader   *full_header,
 						      int             col);

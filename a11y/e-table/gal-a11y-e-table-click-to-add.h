@@ -4,7 +4,7 @@
 #define __GAL_A11Y_E_TABLE_CLICK_TO_ADD_H__
 
 #include <glib-object.h>
-#include <gal/e-table/e-table-item.h>
+#include <table/e-table-item.h>
 #include <atk/atkgobjectaccessible.h>
 
 #define GAL_A11Y_TYPE_E_TABLE_CLICK_TO_ADD            (gal_a11y_e_table_click_to_add_get_type ())

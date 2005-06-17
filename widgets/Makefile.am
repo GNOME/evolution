@@ -1,6 +1,8 @@
 
 SUBDIRS =			\
 	e-timezone-dialog	\
+	table			\
+	text			\
 	misc			\
 	menus
 

@@ -25,7 +25,7 @@
 
 #include <gtk/gtk.h>
 
-#include "gal/util/e-util.h"
+#include "e-util/e-util.h"
 
 #include "e-tree-memory-callbacks.h"
 

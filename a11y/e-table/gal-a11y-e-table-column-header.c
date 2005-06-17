@@ -8,8 +8,8 @@
 #include <glib/gi18n.h>
 #include <atk/atkobject.h>
 #include <atk/atkregistry.h>
-#include "gal/e-table/e-table-header-item.h"
-#include "gal/a11y/gal-a11y-util.h"
+#include "table/e-table-header-item.h"
+#include "a11y/gal-a11y-util.h"
 #include "gal-a11y-e-table-column-header.h"
 
 static GObjectClass *parent_class;

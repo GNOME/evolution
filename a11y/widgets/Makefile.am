@@ -6,6 +6,7 @@ privlib_LTLIBRARIES = libevolution-widgets-a11y.la
 
 INCLUDES =						\
 	-DG_LOG_DOMAIN=\"evolution-a11y\"		\
+	-I$(top_srcdir)					\
 	-I$(top_srcdir)/widgets				\
 	-I$(top_srcdir)/a11y				\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\

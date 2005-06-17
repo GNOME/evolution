@@ -25,12 +25,12 @@
 #ifndef _E_TABLE_HEADER_ITEM_H_
 #define _E_TABLE_HEADER_ITEM_H_
 
-#include <gal/e-table/e-table.h>
-#include <gal/e-table/e-tree.h>
+#include <table/e-table.h>
+#include <table/e-tree.h>
 #include <libgnomecanvas/gnome-canvas.h>
 #include <libxml/tree.h>
-#include <gal/e-table/e-table-header.h>
-#include <gal/e-table/e-table-sort-info.h>
+#include <table/e-table-header.h>
+#include <table/e-table-sort-info.h>
 
 G_BEGIN_DECLS
 

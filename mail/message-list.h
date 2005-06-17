@@ -27,8 +27,8 @@
 #include <gtk/gtkobject.h>
 #include <gtk/gtkwidget.h>
 
-#include <gal/e-table/e-table-simple.h>
-#include <gal/e-table/e-tree-scrolled.h>
+#include <table/e-table-simple.h>
+#include <table/e-tree-scrolled.h>
 
 #ifdef __cplusplus
 extern "C" {

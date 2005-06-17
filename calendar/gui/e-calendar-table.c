@@ -34,11 +34,11 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <gnome.h>
-#include <gal/widgets/e-gui-utils.h>
-#include <gal/e-table/e-cell-checkbox.h>
-#include <gal/e-table/e-cell-toggle.h>
-#include <gal/e-table/e-cell-text.h>
-#include <gal/e-table/e-cell-combo.h>
+#include <widgets/misc/e-gui-utils.h>
+#include <table/e-cell-checkbox.h>
+#include <table/e-cell-toggle.h>
+#include <table/e-cell-text.h>
+#include <table/e-cell-combo.h>
 #include <e-util/e-dialog-utils.h>
 #include <widgets/misc/e-cell-date-edit.h>
 #include <widgets/misc/e-cell-percent.h>

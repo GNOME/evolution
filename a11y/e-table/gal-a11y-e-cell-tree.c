@@ -10,11 +10,11 @@
 
 #include <atk/atk.h>
 
-#include "gal/a11y/gal-a11y-util.h"
-#include "gal/e-table/e-cell-tree.h"
-#include "gal/e-table/e-table.h"
-#include "gal/e-table/e-tree-table-adapter.h"
-#include "gal/util/e-i18n.h"
+#include "a11y/gal-a11y-util.h"
+#include "table/e-cell-tree.h"
+#include "table/e-table.h"
+#include "table/e-tree-table-adapter.h"
+#include "e-util/e-i18n.h"
 
 #include "gal-a11y-e-cell-tree.h"
 #include "gal-a11y-e-cell-registry.h"

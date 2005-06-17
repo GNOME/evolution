@@ -34,7 +34,7 @@
 #include <gtk/gtk.h>
 #include <libgnomecanvas/gnome-canvas.h>
 
-#include "gal/util/e-util.h"
+#include "e-util/e-util.h"
 
 #include "e-cell-progress.h"
 #include "e-table-item.h"

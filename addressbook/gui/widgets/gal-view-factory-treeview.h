@@ -11,7 +11,7 @@
 #define _GAL_VIEW_FACTORY_TREEVIEW_H_
 
 #include <gtk/gtkobject.h>
-#include <gal/menus/gal-view-factory.h>
+#include <widgets/menus/gal-view-factory.h>
 
 #define GAL_TYPE_VIEW_FACTORY_TREEVIEW        (gal_view_factory_treeview_get_type ())
 #define GAL_VIEW_FACTORY_TREEVIEW(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GAL_TYPE_VIEW_FACTORY_TREEVIEW, GalViewFactoryTreeView))

@@ -1,11 +1,16 @@
 INCLUDES =								\
 	-I$(top_srcdir)							\
-	-I$(top_srcdir)/a11y/widgets/					\
+	-I$(top_srcdir)/a11y/widgets					\
+	-I$(top_srcdir)/widgets/					\
 	-DMAP_DIR=\""$(imagesdir)"\"					\
 	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"			\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"				\
+	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"			\
 	-DG_LOG_DOMAIN=__FILE__						\
-	$(E_WIDGETS_CFLAGS)
+	$(E_WIDGETS_CFLAGS)						\
+	$(EXTRA_GNOME_CFLAGS)						\
+	$(ICONV_CFLAGS)
+
 
 privlib_LTLIBRARIES =		\
 	libemiscwidgets.la	\
@@ -21,7 +26,11 @@ pilot_sources =
 pilot_headers =
 endif
 
-glade_DATA = e-send-options.glade
+glade_DATA = e-send-options.glade \
+	     gal-categories.glade
+
+libemiscwidgets_la_LDFLAGS = $(ICONV_LIBS)
+
 
 widgetsinclude_HEADERS =			\
 	$(pilot_headers)			\
@@ -47,7 +56,25 @@ widgetsinclude_HEADERS =			\
 	e-task-bar.h				\
 	e-task-widget.h				\
 	e-send-options.h			\
-	e-url-entry.h
+	e-url-entry.h				\
+	e-canvas-background.h			\
+	e-canvas-utils.h			\
+	e-canvas-vbox.h				\
+	e-canvas.h				\
+	e-cursors.h				\
+	e-gui-utils.h				\
+	e-hsv-utils.h				\
+	e-popup-menu.h				\
+	e-printable.h				\
+	e-reflow-model.h			\
+	e-reflow.h				\
+	e-selection-model-array.h		\
+	e-selection-model-simple.h		\
+	e-selection-model.h			\
+	e-unicode.h				\
+	e-colors.h				\
+	gal-combo-box.h				\
+	gal-combo-text.h
 
 libemiscwidgets_la_SOURCES =			\
 	$(MARSHAL_GENERATED)			\
@@ -75,13 +102,34 @@ libemiscwidgets_la_SOURCES =			\
 	e-task-bar.c				\
 	e-task-widget.c				\
 	e-send-options.c			\
-	e-url-entry.c
+	e-url-entry.c				\
+	e-canvas-background.c			\
+	e-canvas-utils.c			\
+	e-canvas-vbox.c				\
+	e-canvas.c				\
+	e-cursors.c				\
+	e-gui-utils.c				\
+	e-hsv-utils.c				\
+	e-popup-menu.c				\
+	e-printable.c				\
+	e-reflow-model.c			\
+	e-reflow.c				\
+	e-selection-model-array.c		\
+	e-selection-model-simple.c		\
+	e-selection-model.c			\
+	e-unicode.c				\
+	e-colors.c				\
+	gal-combo-box.c				\
+	gal-combo-text.c
 
 MARSHAL_GENERATED = e-util-marshal.c e-util-marshal.h
 @EVO_MARSHAL_RULE@
 
 libemiscwidgets_la_LIBADD = $(top_builddir)/e-util/libeutil.la		\
+	$(top_builddir)/widgets/table/libetable.la			\
+	$(top_builddir)/widgets/text/libetext.la			\
 	$(top_builddir)/a11y/widgets/libevolution-widgets-a11y.la	\
+	$(top_builddir)/a11y/libevolution-a11y.la			\
 	$(E_WIDGETS_LIBS)
 
 libefilterbar_la_SOURCES =	\
@@ -156,4 +204,6 @@ EXTRA_DIST =			\
 	ChangeLog.pre-1-4
 
 dist-hook:
+	-mkdir $(distdir)/pixmaps
+	cp $(srcdir)/pixmaps/*.xpm $(distdir)/pixmaps
 	cd $(distdir); rm -f $(BUILT_SOURCES)

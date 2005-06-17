@@ -23,7 +23,7 @@
 #ifndef _E_CELL_DATE_H_
 #define _E_CELL_DATE_H_
 
-#include <gal/e-table/e-cell-text.h>
+#include <table/e-cell-text.h>
 
 G_BEGIN_DECLS
 

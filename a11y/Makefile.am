@@ -1,16 +1,28 @@
-SUBDIRS = . calendar widgets addressbook
+SUBDIRS = e-text e-table . calendar widgets addressbook
 
 # for debug
 #A11Y_CFLAGS += -pedantic -ansi -DACC_DEBUG -Werror
 
 privlib_LTLIBRARIES = libevolution-a11y.la
 
-INCLUDES =                                              \
-        -I$(top_srcdir)/a11y                            \
-        $(A11Y_CFLAGS)
+INCLUDES =				\
+	-I$(top_srcdir)/a11y		\
+	$(A11Y_CFLAGS)
 
-libevolution_a11y_la_SOURCES = 		        \
-        ea-factory.h                            \
-        ea-cell-table.h                         \
-        ea-cell-table.c
+libevolution_a11y_la_SOURCES =		\
+	ea-factory.h			\
+	ea-cell-table.h			\
+	ea-cell-table.c			\
+	gal-a11y-util.c
 
+libevolution_a11yincludedir = $(privincludedir)/a11y
+
+libevolution_a11yinclude_HEADERS =		\
+	gal-a11y-util.h				\
+	gal-a11y-factory.h
+
+libevolution_a11y_la_LIBADD =		\
+	e-text/libgal-a11y-etext.la	\
+	e-table/libgal-a11y-etable.la	\
+	$(EXTRA_GNOME_LIBS)		\
+	$(REGEX_LIBS)

@@ -23,8 +23,8 @@
 
 #include <gnome.h>
 
-#include "gal/widgets/e-canvas.h"
-#include "gal/widgets/e-unicode.h"
+#include "widgets/misc/e-canvas.h"
+#include "widgets/misc/e-unicode.h"
 
 #include "e-text.h"
 

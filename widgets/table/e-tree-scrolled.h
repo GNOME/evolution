@@ -25,8 +25,8 @@
 #define _E_TREE_SCROLLED_H_
 
 #include <gtk/gtkscrolledwindow.h>
-#include <gal/e-table/e-tree-model.h>
-#include <gal/e-table/e-tree.h>
+#include <table/e-tree-model.h>
+#include <table/e-tree.h>
 
 G_BEGIN_DECLS
 

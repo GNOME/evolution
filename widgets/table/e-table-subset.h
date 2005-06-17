@@ -26,7 +26,7 @@
 #define _E_TABLE_SUBSET_H_
 
 #include <glib-object.h>
-#include <gal/e-table/e-table-model.h>
+#include <table/e-table-model.h>
 
 G_BEGIN_DECLS
 

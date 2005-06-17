@@ -11,8 +11,8 @@
 
 #include <glib-object.h>
 #include <atk/atkobject.h>
-#include <gal/e-table/e-table-item.h>
-#include <gal/e-table/e-cell.h>
+#include <table/e-table-item.h>
+#include <table/e-cell.h>
 
 #define GAL_A11Y_TYPE_E_CELL_REGISTRY            (gal_a11y_e_cell_registry_get_type ())
 #define GAL_A11Y_E_CELL_REGISTRY(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GAL_A11Y_TYPE_E_CELL_REGISTRY, GalA11yECellRegistry))

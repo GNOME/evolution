@@ -2,7 +2,7 @@
 #ifndef _E_CONTACT_LIST_MODEL_H_
 #define _E_CONTACT_LIST_MODEL_H_
 
-#include <gal/e-table/e-table-model.h>
+#include <table/e-table-model.h>
 #include <libebook/e-contact.h>
 #include <libebook/e-destination.h>
 

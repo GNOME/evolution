@@ -23,7 +23,7 @@
  *
  */
 
-#include <gal/e-text/e-text.h>
+#include <text/e-text.h>
 #include <libgnomecanvas/gnome-canvas-pixbuf.h>
 #include "ea-calendar-helpers.h"
 #include "ea-factory.h"

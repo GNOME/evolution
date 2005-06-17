@@ -24,7 +24,7 @@
 #ifndef E_TEXT_MODEL_URI_H
 #define E_TEXT_MODEL_URI_H
 
-#include <gal/e-text/e-text-model.h>
+#include <text/e-text-model.h>
 
 G_BEGIN_DECLS
 

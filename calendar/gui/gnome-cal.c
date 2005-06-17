@@ -47,9 +47,9 @@
 #include "e-util/e-config-listener.h"
 #include "shell/e-user-creatable-items-handler.h"
 #include <libecal/e-cal-time-util.h>
-#include <gal/menus/gal-view-factory-etable.h>
-#include <gal/menus/gal-view-etable.h>
-#include <gal/menus/gal-define-views-dialog.h>
+#include <widgets/menus/gal-view-factory-etable.h>
+#include <widgets/menus/gal-view-etable.h>
+#include <widgets/menus/gal-define-views-dialog.h>
 #include "widgets/menus/gal-view-menus.h"
 #include "e-util/e-error.h"
 #include "e-comp-editor-registry.h"

@@ -58,7 +58,7 @@
 #include <e-util/e-dialog-utils.h>
 #include "e-util/e-error.h"
 
-#include <gal/util/e-util.h>
+#include <e-util/e-util.h>
 
 #include "em-utils.h"
 #include "em-composer-utils.h"

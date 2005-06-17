@@ -23,7 +23,7 @@
 
 #include <atk/atk.h>
 
-#include "gal/e-table/e-cell-vbox.h"
+#include "table/e-cell-vbox.h"
 
 #include "gal-a11y-e-cell-registry.h"
 #include "gal-a11y-e-cell-vbox.h"

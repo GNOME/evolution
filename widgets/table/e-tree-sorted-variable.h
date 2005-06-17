@@ -26,9 +26,9 @@
 
 #include <glib-object.h>
 #include <gal/e-tree/e-tree-model.h>
-#include <gal/e-table/e-table-subset-variable.h>
-#include <gal/e-table/e-table-sort-info.h>
-#include <gal/e-table/e-table-header.h>
+#include <table/e-table-subset-variable.h>
+#include <table/e-table-sort-info.h>
+#include <table/e-table-header.h>
 
 G_BEGIN_DECLS
 

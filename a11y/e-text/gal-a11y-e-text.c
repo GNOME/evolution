@@ -12,9 +12,9 @@
 
 #include <gtk/gtk.h>
 
-#include "gal/a11y/gal-a11y-util.h"
-#include "gal/e-text/e-text.h"
-#include "gal/e-text/e-text-model-repos.h"
+#include "a11y/gal-a11y-util.h"
+#include "text/e-text.h"
+#include "text/e-text-model-repos.h"
 
 #include "gal-a11y-e-text.h"
 #include "gal-a11y-e-text-factory.h"

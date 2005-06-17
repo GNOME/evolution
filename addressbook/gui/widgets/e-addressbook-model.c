@@ -14,7 +14,7 @@
 #include <libxml/parser.h>
 #include <libxml/xmlmemory.h>
 #include <gnome.h>
-#include <gal/widgets/e-gui-utils.h>
+#include <widgets/misc/e-gui-utils.h>
 #include "eab-gui-util.h"
 
 #define PARENT_TYPE G_TYPE_OBJECT

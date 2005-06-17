@@ -25,9 +25,9 @@
 #define _E_TABLE_GROUP_LEAF_H_
 
 #include <libgnomecanvas/gnome-canvas.h>
-#include <gal/e-table/e-table-group.h>
-#include <gal/e-table/e-table-subset.h>
-#include <gal/e-table/e-table-item.h>
+#include <table/e-table-group.h>
+#include <table/e-table-subset.h>
+#include <table/e-table-item.h>
 
 G_BEGIN_DECLS
 

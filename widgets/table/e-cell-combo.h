@@ -31,7 +31,7 @@
 #ifndef _E_CELL_COMBO_H_
 #define _E_CELL_COMBO_H_
 
-#include <gal/e-table/e-cell-popup.h>
+#include <table/e-cell-popup.h>
 
 #define E_CELL_COMBO_TYPE        (e_cell_combo_get_type ())
 #define E_CELL_COMBO(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_CELL_COMBO_TYPE, ECellCombo))

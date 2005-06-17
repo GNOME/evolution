@@ -10,7 +10,7 @@
 #define __GAL_A11Y_E_TEXT_H__
 
 #include <glib-object.h>
-#include <gal/e-table/e-table-item.h>
+#include <table/e-table-item.h>
 
 #define GAL_A11Y_TYPE_E_TEXT            (gal_a11y_e_text_get_type ())
 #define GAL_A11Y_E_TEXT(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GAL_A11Y_TYPE_E_TEXT, GalA11yEText))

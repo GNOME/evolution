@@ -23,7 +23,7 @@
 #ifndef _E_CELL_CHECKBOX_H_
 #define _E_CELL_CHECKBOX_H_
 
-#include <gal/e-table/e-cell-toggle.h>
+#include <table/e-cell-toggle.h>
 
 G_BEGIN_DECLS
 

@@ -6,9 +6,9 @@
 
 #include <config.h>
 
-#include "gal/a11y/gal-a11y-util.h"
-#include "gal/e-table/e-table-item.h"
-#include "gal/e-table/e-tree.h"
+#include "a11y/gal-a11y-util.h"
+#include "table/e-table-item.h"
+#include "table/e-tree.h"
 
 #include "gal-a11y-e-table-item.h"
 #include "gal-a11y-e-tree.h"

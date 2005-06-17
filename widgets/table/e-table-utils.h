@@ -24,10 +24,10 @@
 #ifndef _E_TABLE_UTILS_H_
 #define _E_TABLE_UTILS_H_
 
-#include <gal/e-table/e-table-header.h>
-#include <gal/e-table/e-table-state.h>
-#include <gal/e-table/e-table-specification.h>
-#include <gal/e-table/e-table-extras.h>
+#include <table/e-table-header.h>
+#include <table/e-table-state.h>
+#include <table/e-table-specification.h>
+#include <table/e-table-extras.h>
 
 G_BEGIN_DECLS
 

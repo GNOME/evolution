@@ -36,7 +36,7 @@
 
 #include <e-util/e-mktemp.h>
 
-#include <gal/util/e-xml-utils.h>
+#include <e-util/e-xml-utils.h>
 #include <libgnome/gnome-i18n.h>
 
 #include <camel/camel-file-utils.h>

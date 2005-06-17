@@ -10,8 +10,8 @@
 #define __GAL_A11Y_E_CELL_TREE_H__
 
 #include <glib-object.h>
-#include <gal/e-table/e-table-item.h>
-#include <gal/e-table/e-cell-tree.h>
+#include <table/e-table-item.h>
+#include <table/e-cell-tree.h>
 #include "gal-a11y-e-cell.h"
 
 #define GAL_A11Y_TYPE_E_CELL_TREE            (gal_a11y_e_cell_tree_get_type ())

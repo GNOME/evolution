@@ -27,8 +27,8 @@
 
 #include <gtk/gtk.h>
 
-#include "gal/util/e-i18n.h"
-#include "gal/util/e-util.h"
+#include "e-util/e-i18n.h"
+#include "e-util/e-util.h"
 
 #include "e-table-config-field.h"
 

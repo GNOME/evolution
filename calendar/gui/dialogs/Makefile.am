@@ -1,6 +1,7 @@
 INCLUDES = 								\
 	-DG_LOG_DOMAIN=\"calendar-gui\"					\
 	-I$(top_srcdir)							\
+	-I$(top_srcdir)/widgets						\
 	-I$(top_builddir)						\
 	-I$(top_srcdir)/calendar					\
 	-I$(top_srcdir)/calendar/cal-client				\

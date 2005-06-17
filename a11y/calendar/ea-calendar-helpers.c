@@ -29,7 +29,7 @@
 #include "e-day-view.h"
 #include "e-week-view.h"
 
-#include <gal/e-text/e-text.h>
+#include <text/e-text.h>
 #include <libgnomecanvas/gnome-canvas-pixbuf.h>
 
 /**

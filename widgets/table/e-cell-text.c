@@ -46,15 +46,15 @@
 #include <libgnomecanvas/gnome-canvas.h>
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 
-#include "gal/a11y/e-table/gal-a11y-e-cell-registry.h"
-#include "gal/a11y/e-table/gal-a11y-e-cell-text.h"
-#include "gal/e-text/e-text.h"
-#include "gal/util/e-i18n.h"
-#include "gal/util/e-text-event-processor.h"
-#include "gal/util/e-text-event-processor-emacs-like.h"
-#include "gal/util/e-util.h"
-#include "gal/widgets/e-canvas.h"
-#include "gal/widgets/e-unicode.h"
+#include "a11y/e-table/gal-a11y-e-cell-registry.h"
+#include "a11y/e-table/gal-a11y-e-cell-text.h"
+#include "text/e-text.h"
+#include "e-util/e-i18n.h"
+#include "e-util/e-text-event-processor.h"
+#include "e-util/e-text-event-processor-emacs-like.h"
+#include "e-util/e-util.h"
+#include "widgets/misc/e-canvas.h"
+#include "widgets/misc/e-unicode.h"
 
 #include "e-cell-text.h"
 #include "e-table-item.h"
@@ -1717,7 +1717,7 @@ e_cell_text_class_init (GObjectClass *object_class)
 			      G_SIGNAL_RUN_FIRST,
 			      G_STRUCT_OFFSET (ECellTextClass, text_inserted),
 			      NULL, NULL,
-			      e_marshal_VOID__POINTER_INT_INT_INT_INT,
+			      e_util_marshal_VOID__POINTER_INT_INT_INT_INT,
 			      G_TYPE_NONE, 5,
 			      G_TYPE_POINTER, G_TYPE_INT, G_TYPE_INT,
 			      G_TYPE_INT, G_TYPE_INT);
@@ -1728,7 +1728,7 @@ e_cell_text_class_init (GObjectClass *object_class)
 			      G_SIGNAL_RUN_FIRST,
 			      G_STRUCT_OFFSET (ECellTextClass, text_deleted),
 			      NULL, NULL,
-			      e_marshal_VOID__POINTER_INT_INT_INT_INT,
+			      e_util_marshal_VOID__POINTER_INT_INT_INT_INT,
 			      G_TYPE_NONE, 5,
 			      G_TYPE_POINTER, G_TYPE_INT, G_TYPE_INT,
 			      G_TYPE_INT, G_TYPE_INT);

@@ -42,11 +42,11 @@
 #include <gtk/gtksignal.h>
 #include <gtk/gtkvscrollbar.h>
 #include <gtk/gtkwindow.h>
-#include <gal/e-text/e-text.h>
-#include <gal/widgets/e-canvas-utils.h>
-#include <gal/widgets/e-popup-menu.h>
-#include <gal/widgets/e-gui-utils.h>
-#include <gal/widgets/e-unicode.h>
+#include <text/e-text.h>
+#include <widgets/misc/e-canvas-utils.h>
+#include <widgets/misc/e-popup-menu.h>
+#include <widgets/misc/e-gui-utils.h>
+#include <widgets/misc/e-unicode.h>
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-exec.h>

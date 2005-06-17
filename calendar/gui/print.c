@@ -44,7 +44,7 @@
 #include <libgnomeprintui/gnome-print-paper-selector.h>
 #include <libgnomeprintui/gnome-print-preview.h>
 #include <libgnomeprintui/gnome-print-dialog.h>
-#include <gal/util/e-util.h>
+#include <e-util/e-util.h>
 #include <e-util/e-dialog-widgets.h>
 #include <e-util/e-time-utils.h>
 #include <e-util/e-print.h>

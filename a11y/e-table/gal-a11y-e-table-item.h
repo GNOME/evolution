@@ -10,7 +10,7 @@
 #define __GAL_A11Y_E_TABLE_ITEM_H__
 
 #include <glib-object.h>
-#include <gal/e-table/e-table-item.h>
+#include <table/e-table-item.h>
 #include <atk/atkgobjectaccessible.h>
 
 #define GAL_A11Y_TYPE_E_TABLE_ITEM            (gal_a11y_e_table_item_get_type ())

@@ -1,10 +1,11 @@
 INCLUDES =						\
 	-I$(top_srcdir)					\
+	-I$(top_srcdir)/widgets				\
 	-I$(top_srcdir)/addressbook/			\
 	-I$(top_srcdir)/addressbook/backend		\
 	-I$(top_builddir)/addressbook/backend		\
 	-I$(top_srcdir)/addressbook/gui/merging		\
-	-I$(top_srcdir)/widgets/e-table			\
+	-I$(top_srcdir)/widgets/table			\
 	-I$(top_builddir)/shell				\
 	-I$(top_srcdir)/camel				\
 	-I$(top_builddir)/camel				\

@@ -27,8 +27,8 @@
 
 #include <glib-object.h>
 #include <gdk/gdk.h>
-#include <gal/e-table/e-table-sort-info.h>
-#include <gal/e-table/e-table-col.h>
+#include <table/e-table-sort-info.h>
+#include <table/e-table-col.h>
 
 G_BEGIN_DECLS
 

@@ -29,7 +29,8 @@
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
 
-#include "gal/util/e-util.h"
+#include "e-util-marshal.h"
+#include "e-util/e-util.h"
 
 #include "gal-combo-box.h"
 
@@ -136,7 +137,7 @@ gal_combo_box_class_init (GObjectClass *object_class)
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (GalComboBoxClass, pop_down_widget),
 		NULL, NULL,
-		e_marshal_POINTER__NONE,
+		e_util_marshal_POINTER__NONE,
 		G_TYPE_POINTER, 0, G_TYPE_NONE);
 
 	gal_combo_box_signals [POP_DOWN_DONE] = g_signal_new (
@@ -145,7 +146,7 @@ gal_combo_box_class_init (GObjectClass *object_class)
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (GalComboBoxClass, pop_down_done),
 		NULL, NULL,
-		e_marshal_BOOLEAN__OBJECT,
+		e_util_marshal_BOOLEAN__OBJECT,
 		G_TYPE_BOOLEAN, 1, G_TYPE_OBJECT);
 
 	gal_combo_box_signals [PRE_POP_DOWN] = g_signal_new (
@@ -154,7 +155,7 @@ gal_combo_box_class_init (GObjectClass *object_class)
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (GalComboBoxClass, pre_pop_down),
 		NULL, NULL,
-		e_marshal_NONE__NONE,
+		e_util_marshal_NONE__NONE,
 		G_TYPE_NONE, 0);
 
 	gal_combo_box_signals [POST_POP_HIDE] = g_signal_new (
@@ -163,7 +164,7 @@ gal_combo_box_class_init (GObjectClass *object_class)
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (GalComboBoxClass, post_pop_hide),
 		NULL, NULL,
-		e_marshal_NONE__NONE,
+		e_util_marshal_NONE__NONE,
 		G_TYPE_NONE, 0);
 }
 

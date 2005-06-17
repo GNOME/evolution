@@ -30,7 +30,7 @@
 #include <gtk/gtkselection.h>
 #include <gtk/gtkdnd.h>
 #include <gdk/gdkkeysyms.h>
-#include <gal/widgets/e-canvas.h>
+#include <widgets/misc/e-canvas.h>
 #include <libgnome/gnome-i18n.h>
 #include <string.h>
 

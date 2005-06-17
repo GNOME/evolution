@@ -36,10 +36,10 @@
 #include <libxml/parser.h>
 #include <libgnomecanvas/gnome-canvas.h>
 
-#include "gal/util/e-i18n.h"
-#include "gal/util/e-util.h"
-#include "gal/widgets/e-canvas.h"
-#include "gal/widgets/e-canvas-utils.h"
+#include "e-util/e-i18n.h"
+#include "e-util/e-util.h"
+#include "widgets/misc/e-canvas.h"
+#include "widgets/misc/e-canvas-utils.h"
 
 #include "e-completion-view.h"
 #include "e-entry.h"
@@ -1200,7 +1200,7 @@ e_entry_class_init (GObjectClass *object_class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EEntryClass, changed),
 			      NULL, NULL,
-			      e_marshal_NONE__NONE,
+			      e_util_marshal_NONE__NONE,
 			      G_TYPE_NONE, 0);
 
 	e_entry_signals[E_ENTRY_ACTIVATE] =
@@ -1209,7 +1209,7 @@ e_entry_class_init (GObjectClass *object_class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EEntryClass, activate),
 			      NULL, NULL,
-			      e_marshal_NONE__NONE,
+			      e_util_marshal_NONE__NONE,
 			      G_TYPE_NONE, 0);
 
 	e_entry_signals[E_ENTRY_POPULATE_POPUP] =
@@ -1218,7 +1218,7 @@ e_entry_class_init (GObjectClass *object_class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EEntryClass, populate_popup),
 			      NULL, NULL,
-			      e_marshal_NONE__POINTER_INT_OBJECT,
+			      e_util_marshal_NONE__POINTER_INT_OBJECT,
 			      G_TYPE_NONE, 3, G_TYPE_POINTER, G_TYPE_INT, GTK_TYPE_MENU);
 
 	e_entry_signals[E_ENTRY_COMPLETION_POPUP] =

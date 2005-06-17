@@ -10,8 +10,8 @@
 #define __GAL_A11Y_E_CELL_H__
 
 #include <glib-object.h>
-#include <gal/e-table/e-table-item.h>
-#include <gal/e-table/e-cell.h>
+#include <table/e-table-item.h>
+#include <table/e-cell.h>
 
 #define GAL_A11Y_TYPE_E_CELL            (gal_a11y_e_cell_get_type ())
 #define GAL_A11Y_E_CELL(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GAL_A11Y_TYPE_E_CELL, GalA11yECell))

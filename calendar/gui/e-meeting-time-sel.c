@@ -54,8 +54,8 @@
 #include <libgnome/gnome-i18n.h>
 #include <libgnomecanvas/gnome-canvas-widget.h>
 
-#include <gal/widgets/e-canvas.h>
-#include <gal/widgets/e-canvas-utils.h>
+#include <widgets/misc/e-canvas.h>
+#include <widgets/misc/e-canvas-utils.h>
 
 #include <widgets/misc/e-dateedit.h>
 #include <e-util/e-gui-utils.h>

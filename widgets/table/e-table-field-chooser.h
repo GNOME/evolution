@@ -26,7 +26,7 @@
 
 #include <glade/glade.h>
 #include <gtk/gtkvbox.h>
-#include <gal/e-table/e-table-header.h>
+#include <table/e-table-header.h>
 
 G_BEGIN_DECLS
 

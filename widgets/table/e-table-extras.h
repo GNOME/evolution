@@ -25,7 +25,7 @@
 #define _E_TABLE_EXTRAS_H_
 
 #include <glib-object.h>
-#include <gal/e-table/e-cell.h>
+#include <table/e-cell.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
 G_BEGIN_DECLS

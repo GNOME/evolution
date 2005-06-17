@@ -26,7 +26,7 @@
 #define _E_TREE_MEMORY_H_
 
 #include <gdk-pixbuf/gdk-pixbuf.h>
-#include <gal/e-table/e-tree-model.h>
+#include <table/e-tree-model.h>
 
 G_BEGIN_DECLS
 

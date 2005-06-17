@@ -51,7 +51,7 @@
 #include <gconf/gconf.h>
 #include <gconf/gconf-client.h>
 
-#include <gal/e-text/e-entry.h>
+#include <text/e-entry.h>
 
 #include "e-util/e-error.h"
 

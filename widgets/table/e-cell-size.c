@@ -26,7 +26,7 @@
 #include <sys/time.h>
 #include <unistd.h>
 
-#include "gal/util/e-util.h"
+#include "e-util/e-util.h"
 
 #include "e-cell-size.h"
 

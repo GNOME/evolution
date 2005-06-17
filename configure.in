@@ -111,6 +111,108 @@ AM_CONDITIONAL(OS_WIN32, [test $os_win32 = yes])
 AC_SUBST(NO_UNDEFINED)
 AC_SUBST(SOEXT)
 
+dnl ******************************
+dnl iconv checking
+dnl ******************************
+have_iconv=no
+AC_ARG_WITH(libiconv, [  --with-libiconv         Prefix where libiconv is in
+stalled])
+case $withval in
+/*)
+    ICONV_CFLAGS="-I$withval/include"
+    ICONV_LIBS="-L$withval/lib"
+    ;;
+esac
+
+save_CFLAGS="$CFLAGS"
+save_LIBS="$LIBS"
+CFLAGS="$CFLAGS $ICONV_CFLAGS"
+LIBS="$LIBS $ICONV_LIBS -liconv"
+AC_CACHE_CHECK(for iconv in -liconv, ac_cv_libiconv, AC_TRY_LINK([
+#include <iconv.h>
+], [
+        iconv_t cd;
+        cd = iconv_open ("UTF-8", "ISO-8859-1");
+], ac_cv_libiconv=yes, ac_cv_libiconv=no))
+if test $ac_cv_libiconv = yes; then
+        ICONV_LIBS="$ICONV_LIBS -liconv"
+        have_iconv=yes
+else
+        CFLAGS="$save_CFLAGS"
+        LIBS="$save_LIBS"
+        AC_CHECK_FUNC(iconv, have_iconv=yes, have_iconv=no)
+fi
+
+if test $have_iconv = yes; then
+        if test $ac_cv_libiconv = no; then
+                AC_CHECK_FUNCS(gnu_get_libc_version)
+        fi
+        AC_CACHE_CHECK([if iconv() handles UTF-8], ac_cv_libiconv_utf8, AC_TRY_RUN([
+#include <iconv.h>
+#include <stdlib.h>
+#include <string.h>
+#ifdef HAVE_GNU_GET_LIBC_VERSION
+#include <gnu/libc-version.h>
+#endif
+
+int main (int argc, char **argv)
+{
+        const char *jp = "\x1B\x24\x42\x46\x7C\x4B\x5C\x38\x6C";
+        const char *utf8 = "\xE6\x97\xA5\xE6\x9C\xAC\xE8\xAA\x9E";
+        char *transbuf = malloc (10), *trans = transbuf;
+        iconv_t cd;
+        size_t jp_len = strlen (jp), utf8_len = 10;
+        size_t utf8_real_len = strlen (utf8);
+
+#ifdef HAVE_GNU_GET_LIBC_VERSION
+        /* glibc 2.1.2's iconv is broken in hard to test ways. */
+        if (!strcmp (gnu_get_libc_version (), "2.1.2"))
+                exit (1);
+#endif
+
+        cd = iconv_open ("UTF-8", "ISO-2022-JP");
+        if (cd == (iconv_t) -1)
+                exit (1);
+        if (iconv (cd, &jp, &jp_len, &trans, &utf8_len) == -1 || jp_len != 0
+)
+                exit (1);
+        if (memcmp (utf8, transbuf, utf8_real_len) != 0)
+                exit (1);
+
+        exit (0);
+}], ac_cv_libiconv_utf8=yes, [ac_cv_libiconv_utf8=no; have_iconv=no], [ac_cv
+_libiconv_utf8=no; have_iconv=no]))
+fi
+
+if test "$have_iconv" = no; then
+        AC_MSG_ERROR([You need to install a working iconv implementation, su
+ch as ftp://ftp.gnu.org/pub/gnu/libiconv])
+fi
+AC_SUBST(ICONV_CFLAGS)
+AC_SUBST(ICONV_LIBS)
+
+CFLAGS="$CFLAGS -I$srcdir"
+
+AC_MSG_CHECKING(preferred charset formats for system iconv)
+AC_TRY_RUN([
+#define CONFIGURE_IN
+#include "iconv-detect.c"
+],[
+        AC_MSG_RESULT(found)
+],[
+        AC_MSG_RESULT(not found)
+        AC_WARN([
+        *** The iconv-detect program was unable to determine the
+        *** preferred charset formats recognized by your system
+        *** iconv library. It is suggested that you install a
+        *** working iconv library such as the one found at
+        *** ftp://ftp.gnu.org/pub/gnu/libiconv
+        ])
+])
+
+CFLAGS="$save_CFLAGS"
+LIBS="$save_LIBS"
+
 dnl alloca()
 AC_CHECK_HEADERS(alloca.h)
 
@@ -1133,8 +1235,6 @@ fi
 
 dnl --- Required version numbers
 
-GAL_REQUIRED=2.5.1
-GAL_PACKAGE=2.6
 GTKHTML_REQUIRED=3.7.0
 GTKHTML_PACKAGE=3.8
 EDS_REQUIRED=1.3.1
@@ -1142,8 +1242,6 @@ EDS_PACKAGE=1.2
 BONOBOUI_REQUIRED=2.4.2
 GNOME_VFS_REQUIRED=2.4
 
-AC_SUBST(GAL_REQUIRED)
-AC_SUBST(GAL_PACKAGE)
 AC_SUBST(GTKHTML_REQUIRED)
 AC_SUBST(GTKHTML_PACKAGE)
 AC_SUBST(EDS_REQUIRED)
@@ -1153,7 +1251,7 @@ AC_SUBST(GNOME_VFS_REQUIRED)
 
 dnl --- Flags to get all the GNOME stuff
 
-FULL_GNOME_DEPS="glib-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED gnome-vfs-2.0 >= $GNOME_VFS_REQUIRED libgnomeui-2.0 libglade-2.0 libgnomecanvas-2.0 libxml-2.0 gconf-2.0 gal-$GAL_PACKAGE >= $GAL_REQUIRED"
+FULL_GNOME_DEPS="glib-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED gnome-vfs-2.0 >= $GNOME_VFS_REQUIRED libgnomeui-2.0 libglade-2.0 libgnomecanvas-2.0 libxml-2.0 gconf-2.0"
 
 EVO_SET_COMPILE_FLAGS(GNOME_FULL, $FULL_GNOME_DEPS)
 AC_SUBST(GNOME_FULL_CFLAGS)
@@ -1165,6 +1263,10 @@ AC_CHECK_HEADERS(libgnomeui/gnome-icon-lookup.h)
 AC_CHECK_HEADERS(libgnomeui/gnome-thumbnail.h)
 CPPFLAGS="$CPPFLAGS_save"
 
+PKG_CHECK_MODULES(EXTRA_GNOME, libgnomeprint-2.2 >= 2.2.0 libgnomeprintui-2.2 >= 2.2.1 libglade-2.0 libgnomeui-2.0 libgnomecanvas-2.0 >= 2.2.0.2 libxml-2.0)
+AC_SUBST(EXTRA_GNOME_LIBS)
+AC_SUBST(EXTRA_GNOME_CFLAGS)
+ 
 dnl --- Flags for the various libraries we build
 
 EVO_SET_COMPILE_FLAGS(CAMEL, camel-provider-$EDS_PACKAGE)
@@ -1198,11 +1300,11 @@ EVO_SET_COMPILE_FLAGS(CERT_UI, glib-2.0 gobject-2.0 gthread-2.0,
 AC_SUBST(CERT_UI_CFLAGS)
 AC_SUBST(CERT_UI_LIBS)
 
-EVO_SET_COMPILE_FLAGS(E_NAME, libgnomeui-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED gal-$GAL_PACKAGE >= $GAL_REQUIRED)
+EVO_SET_COMPILE_FLAGS(E_NAME, libgnomeui-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED)
 AC_SUBST(E_NAME_CFLAGS)
 AC_SUBST(E_NAME_LIBS)
 
-EVO_SET_COMPILE_FLAGS(E_UTIL, gthread-2.0 gconf-2.0 libxml-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED libglade-2.0 gal-$GAL_PACKAGE >= $GAL_REQUIRED libgnomeui-2.0 libgnome-2.0 libgnomecanvas-2.0 libgnomeprintui-2.2 libedataserver-$EDS_PACKAGE libedataserverui-$EDS_PACKAGE >= $EDS_REQUIRED $mozilla_nspr $mono_package, $THREADS_CFLAGS $MANUAL_NSPR_CFLAGS, $THREADS_LIBS $MANUAL_NSPR_LIBS)
+EVO_SET_COMPILE_FLAGS(E_UTIL, gthread-2.0 gconf-2.0 libxml-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED libglade-2.0 libgnomeui-2.0 libgnome-2.0 libgnomecanvas-2.0 libgnomeprintui-2.2 libedataserver-$EDS_PACKAGE libedataserverui-$EDS_PACKAGE >= $EDS_REQUIRED $mozilla_nspr $mono_package, $THREADS_CFLAGS $MANUAL_NSPR_CFLAGS, $THREADS_LIBS $MANUAL_NSPR_LIBS)
 AC_SUBST(E_UTIL_CFLAGS)
 AC_SUBST(E_UTIL_LIBS)
 
@@ -1210,7 +1312,7 @@ EVO_SET_COMPILE_FLAGS(TZDIALOG, libecal-$EDS_PACKAGE >= $EDS_REQUIRED, $GNOME_FU
 AC_SUBST(TZDIALOG_CFLAGS)
 AC_SUBST(TZDIALOG_LIBS)
 
-EVO_SET_COMPILE_FLAGS(E_WIDGETS, glib-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED gnome-vfs-2.0 libgnomeui-2.0 libglade-2.0 libgnomecanvas-2.0 libxml-2.0 gconf-2.0 gal-$GAL_PACKAGE >= $GAL_REQUIRED libedataserverui-$EDS_PACKAGE)
+EVO_SET_COMPILE_FLAGS(E_WIDGETS, glib-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED gnome-vfs-2.0 libgnomeui-2.0 libglade-2.0 libgnomecanvas-2.0 libxml-2.0 gconf-2.0 libedataserverui-$EDS_PACKAGE)
 AC_SUBST(E_WIDGETS_CFLAGS)
 AC_SUBST(E_WIDGETS_LIBS)
  
@@ -1218,19 +1320,19 @@ EVO_SET_COMPILE_FLAGS(IMPORTERS, camel-provider-$EDS_PACKAGE camel-$EDS_PACKAGE 
 AC_SUBST(IMPORTERS_CFLAGS)
 AC_SUBST(IMPORTERS_LIBS)
 
-EVO_SET_COMPILE_FLAGS(LIBFILTER, libgnome-2.0 libgnomeui-2.0 libglade-2.0 libxml-2.0 gconf-2.0 gal-$GAL_PACKAGE >= $GAL_REQUIRED libedataserver-$EDS_PACKAGE >= $EDS_REQUIRED)
+EVO_SET_COMPILE_FLAGS(LIBFILTER, libgnome-2.0 libgnomeui-2.0 libglade-2.0 libxml-2.0 gconf-2.0 libedataserver-$EDS_PACKAGE >= $EDS_REQUIRED)
 AC_SUBST(LIBFILTER_CFLAGS)
 AC_SUBST(LIBFILTER_LIBS)
 
 dnl --- evolution (shell) flags
 
-EVO_SET_COMPILE_FLAGS(SHELL, libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED gal-$GAL_PACKAGE >= $GAL_REQUIRED libglade-2.0 gnome-vfs-2.0 libgtkhtml-$GTKHTML_PACKAGE >= $GTKHTML_REQUIRED)
+EVO_SET_COMPILE_FLAGS(SHELL, libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED libglade-2.0 gnome-vfs-2.0 libgtkhtml-$GTKHTML_PACKAGE >= $GTKHTML_REQUIRED)
 AC_SUBST(SHELL_CFLAGS)
 AC_SUBST(SHELL_LIBS)
 
 dnl --- evolution-addressbook flags
 
-EVOLUTION_ADDRESSBOOK_DEPS="gconf-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED libglade-2.0 gal-$GAL_PACKAGE >= $GAL_REQUIRED libgnomeui-2.0 libgnome-2.0 libgnomecanvas-2.0 gnome-vfs-2.0 libgnomeprintui-2.2 libgtkhtml-$GTKHTML_PACKAGE >= $GTKHTML_REQUIRED libebook-$EDS_PACKAGE >= $EDS_REQUIRED libedataserverui-$EDS_PACKAGE >= $EDS_REQUIRED camel-$EDS_PACKAGE"
+EVOLUTION_ADDRESSBOOK_DEPS="gconf-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED libglade-2.0 libgnomeui-2.0 libgnome-2.0 libgnomecanvas-2.0 gnome-vfs-2.0 libgnomeprintui-2.2 libgtkhtml-$GTKHTML_PACKAGE >= $GTKHTML_REQUIRED libebook-$EDS_PACKAGE >= $EDS_REQUIRED libedataserverui-$EDS_PACKAGE >= $EDS_REQUIRED camel-$EDS_PACKAGE"
 
 EVO_SET_COMPILE_FLAGS(EVOLUTION_ADDRESSBOOK, $EVOLUTION_ADDRESSBOOK_DEPS)
 AC_SUBST(EVOLUTION_ADDRESSBOOK_CFLAGS)
@@ -1256,7 +1358,7 @@ EVO_SET_COMPILE_FLAGS(LIBSOUP, $LIBSOUP >= $LIBSOUP_REQUIRED)
 AC_SUBST(LIBSOUP_CFLAGS)
 AC_SUBST(LIBSOUP_LIBS)
 
-EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR, libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 gal-$GAL_PACKAGE >= $GAL_REQUIRED libglade-2.0 gnome-vfs-2.0 libgnomeprint-2.2 libgnomeprintui-2.2 gnome-vfs-module-2.0 libgtkhtml-$GTKHTML_PACKAGE >= $GTKHTML_REQUIRED libebook-$EDS_PACKAGE >= $EDS_REQUIRED libecal-$EDS_PACKAGE >= $EDS_REQUIRED libedataserverui-$EDS_PACKAGE >= $EDS_REQUIRED)
+EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR, libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 libglade-2.0 gnome-vfs-2.0 libgnomeprint-2.2 libgnomeprintui-2.2 gnome-vfs-module-2.0 libgtkhtml-$GTKHTML_PACKAGE >= $GTKHTML_REQUIRED libebook-$EDS_PACKAGE >= $EDS_REQUIRED libecal-$EDS_PACKAGE >= $EDS_REQUIRED libedataserverui-$EDS_PACKAGE >= $EDS_REQUIRED)
 AC_SUBST(EVOLUTION_CALENDAR_CFLAGS)
 AC_SUBST(EVOLUTION_CALENDAR_LIBS)
 
@@ -1268,7 +1370,7 @@ fi
 
 dnl --- evolution-mail flags
 
-EVO_SET_COMPILE_FLAGS(EVOLUTION_MAIL, camel-provider-$EDS_PACKAGE libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED gal-$GAL_PACKAGE >= $GAL_REQUIRED libglade-2.0 gnome-vfs-module-2.0 libgnomeprint-2.2 libgnomeprintui-2.2 libgtkhtml-$GTKHTML_PACKAGE >= $GTKHTML_REQUIRED libxml-2.0 bonobo-activation-2.0 gthread-2.0 gconf-2.0 $mozilla_nss libebook-$EDS_PACKAGE >= $EDS_REQUIRED libedataserverui-$EDS_PACKAGE >= $EDS_REQUIRED)
+EVO_SET_COMPILE_FLAGS(EVOLUTION_MAIL, camel-provider-$EDS_PACKAGE libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED libglade-2.0 gnome-vfs-module-2.0 libgnomeprint-2.2 libgnomeprintui-2.2 libgtkhtml-$GTKHTML_PACKAGE >= $GTKHTML_REQUIRED libxml-2.0 bonobo-activation-2.0 gthread-2.0 gconf-2.0 $mozilla_nss libebook-$EDS_PACKAGE >= $EDS_REQUIRED libedataserverui-$EDS_PACKAGE >= $EDS_REQUIRED)
 AC_SUBST(EVOLUTION_MAIL_CFLAGS)
 AC_SUBST(EVOLUTION_MAIL_LIBS)
 
@@ -1568,6 +1670,8 @@ a11y/Makefile
 a11y/addressbook/Makefile
 a11y/calendar/Makefile
 a11y/widgets/Makefile
+a11y/e-table/Makefile
+a11y/e-text/Makefile
 addressbook/Makefile
 addressbook/conduit/Makefile
 addressbook/gui/Makefile
@@ -1613,6 +1717,8 @@ widgets/Makefile
 widgets/e-timezone-dialog/Makefile
 widgets/menus/Makefile
 widgets/misc/Makefile
+widgets/text/Makefile
+widgets/table/Makefile
 calendar/Makefile
 calendar/importers/Makefile
 calendar/common/Makefile

@@ -28,7 +28,7 @@
 
 #include <gtk/gtk.h>
 
-#include "gal/util/e-util.h"
+#include "e-util/e-util.h"
 
 #include "e-cell-checkbox.h"
 #include "e-cell-date.h"

@@ -25,8 +25,8 @@
 
 #include <gnome.h>
 
-#include "gal/util/e-i18n.h"
-#include "gal/util/e-util-private.h"
+#include "e-util/e-i18n.h"
+#include "e-util/e-util-private.h"
 
 #include "e-entry.h"
 
@@ -60,7 +60,7 @@ int main( int argc, char *argv[] )
   GtkWidget *app;
   GtkWidget *entry;
 
-  /*  bindtextdomain (PACKAGE, GAL_LOCALEDIR);
+  /*  bindtextdomain (PACKAGE, EVOLUTION_LOCALEDIR);
       textdomain (PACKAGE);*/
 
   gnome_init( "EEntry Test", VERSION, argc, argv);

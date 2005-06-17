@@ -29,7 +29,7 @@
 #include <glib-object.h>
 #include <gtk/gtk.h>
 
-#include "gal/util/e-util.h"
+#include "e-util/e-util.h"
 
 #include "e-table-defines.h"
 #include "e-table-header.h"
@@ -305,7 +305,7 @@ e_table_header_class_init (GObjectClass *object_class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableHeaderClass, request_width),
 			      (GSignalAccumulator) NULL, NULL,
-			      e_marshal_INT__INT,
+			      e_util_marshal_INT__INT,
 			      G_TYPE_INT, 1, G_TYPE_INT);
 
 	klass->structure_change = NULL;

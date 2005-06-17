@@ -8,8 +8,8 @@
 
 #include <atk/atk.h>
 
-#include "gal/e-table/e-table.h"
-#include "gal/e-table/e-tree.h"
+#include "table/e-table.h"
+#include "table/e-tree.h"
 
 #include "gal-a11y-e-table.h"
 #include "gal-a11y-e-table-item.h"

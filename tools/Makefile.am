@@ -32,6 +32,7 @@ killev_SOURCES =						\
 	killev.c
 
 killev_LDADD =							\
+	$(top_builddir)/widgets/misc/libemiscwidgets.la		\
 	$(top_builddir)/e-util/libeutil.la			\
 	$(E_UTIL_LIBS)
 

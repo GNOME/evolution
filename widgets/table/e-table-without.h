@@ -25,7 +25,7 @@
 #define _E_TABLE_WITHOUT_H_
 
 #include <gtk/gtkobject.h>
-#include <gal/e-table/e-table-subset.h>
+#include <table/e-table-subset.h>
 
 #ifdef __cplusplus
 extern "C" {

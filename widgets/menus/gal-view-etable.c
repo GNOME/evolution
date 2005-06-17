@@ -23,7 +23,7 @@
 
 #include <config.h>
 
-#include "gal/e-table/e-table-config.h"
+#include "table/e-table-config.h"
 
 #include "gal-view-etable.h"
 

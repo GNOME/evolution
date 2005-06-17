@@ -40,9 +40,9 @@
 
 #include <gconf/gconf-client.h>
 
-#include <gal/menus/gal-view-etable.h>
-#include <gal/menus/gal-view-factory-etable.h>
-#include <gal/menus/gal-view-instance.h>
+#include <widgets/menus/gal-view-etable.h>
+#include <widgets/menus/gal-view-factory-etable.h>
+#include <widgets/menus/gal-view-instance.h>
 #include "widgets/menus/gal-view-menus.h"
 
 #include <camel/camel-mime-message.h>

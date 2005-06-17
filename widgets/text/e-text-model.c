@@ -30,7 +30,7 @@
 
 #include <gtk/gtk.h>
 
-#include "gal/util/e-util.h"
+#include "e-util/e-util.h"
 
 #include "e-text-model.h"
 #include "e-text-model-repos.h"
@@ -98,7 +98,7 @@ e_text_model_class_init (ETextModelClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETextModelClass, changed),
 			      NULL, NULL,
-			      e_marshal_NONE__NONE,
+			      e_util_marshal_NONE__NONE,
 			      G_TYPE_NONE, 0);
 
 	e_text_model_signals[E_TEXT_MODEL_REPOSITION] =
@@ -107,7 +107,7 @@ e_text_model_class_init (ETextModelClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETextModelClass, reposition),
 			      NULL, NULL,
-			      e_marshal_NONE__POINTER_POINTER,
+			      e_util_marshal_NONE__POINTER_POINTER,
 			      G_TYPE_NONE, 2,
 			      G_TYPE_POINTER, G_TYPE_POINTER);
 
@@ -117,7 +117,7 @@ e_text_model_class_init (ETextModelClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETextModelClass, object_activated),
 			      NULL, NULL,
-			      e_marshal_NONE__INT,
+			      e_util_marshal_NONE__INT,
 			      G_TYPE_NONE, 1,
 			      G_TYPE_INT);
 
@@ -127,7 +127,7 @@ e_text_model_class_init (ETextModelClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETextModelClass, cancel_completion),
 			      NULL, NULL,
-			      e_marshal_NONE__NONE,
+			      e_util_marshal_NONE__NONE,
 			      G_TYPE_NONE, 0);
 	
 	/* No default signal handlers. */

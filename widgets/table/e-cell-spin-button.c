@@ -31,11 +31,11 @@
 
 #include <gtk/gtk.h>
 
-#include "gal/e-table/e-cell-float.h"
-#include "gal/e-table/e-cell-number.h"
-#include "gal/e-table/e-table-item.h"
-#include "gal/e-table/e-table-model.h"
-#include "gal/util/e-util.h"
+#include "table/e-cell-float.h"
+#include "table/e-cell-number.h"
+#include "table/e-table-item.h"
+#include "table/e-table-model.h"
+#include "e-util/e-util.h"
 
 #include "e-cell-spin-button.h"
 
@@ -152,7 +152,7 @@ e_cell_spin_button_class_init     (GObjectClass   *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ECellSpinButtonClass, step),
 			      NULL, NULL,
-			      e_marshal_NONE__POINTER_INT_INT_INT,
+			      e_util_marshal_NONE__POINTER_INT_INT_INT,
 			      G_TYPE_NONE,
 			      4, G_TYPE_POINTER, G_TYPE_INT, 
 			      G_TYPE_INT, G_TYPE_INT);

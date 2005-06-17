@@ -23,7 +23,7 @@
 #ifndef _E_CELL_PIXBUF_H_
 #define _E_CELL_PIXBUF_H_
 
-#include <gal/e-table/e-table.h>
+#include <table/e-table.h>
 
 #define E_CELL_PIXBUF_TYPE		(e_cell_pixbuf_get_type ())
 #define E_CELL_PIXBUF(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), E_CELL_PIXBUF_TYPE, ECellPixbuf))

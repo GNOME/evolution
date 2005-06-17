@@ -29,18 +29,18 @@
 #include <gtk/gtkdnd.h>
 #include <gtk/gtktable.h>
 #include <libxml/tree.h>
-#include <gal/e-table/e-table-model.h>
-#include <gal/e-table/e-table-header.h>
-#include <gal/e-table/e-table-group.h>
-#include <gal/e-table/e-table-sort-info.h>
-#include <gal/e-table/e-table-item.h>
-#include <gal/e-table/e-table-selection-model.h>
-#include <gal/e-table/e-table-extras.h>
-#include <gal/e-table/e-table-specification.h>
-#include <gal/widgets/e-printable.h>
-#include <gal/e-table/e-table-state.h>
-#include <gal/e-table/e-table-sorter.h>
-#include <gal/e-table/e-table-search.h>
+#include <table/e-table-model.h>
+#include <table/e-table-header.h>
+#include <table/e-table-group.h>
+#include <table/e-table-sort-info.h>
+#include <table/e-table-item.h>
+#include <table/e-table-selection-model.h>
+#include <table/e-table-extras.h>
+#include <table/e-table-specification.h>
+#include <widgets/misc/e-printable.h>
+#include <table/e-table-state.h>
+#include <table/e-table-sorter.h>
+#include <table/e-table-search.h>
 
 G_BEGIN_DECLS
 

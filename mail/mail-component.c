@@ -73,8 +73,8 @@
 
 #include <e-util/e-mktemp.h>
 
-#include <gal/e-table/e-tree.h>
-#include <gal/e-table/e-tree-memory.h>
+#include <table/e-tree.h>
+#include <table/e-tree-memory.h>
 #include <libgnome/gnome-i18n.h>
 
 #include <camel/camel-file-utils.h>

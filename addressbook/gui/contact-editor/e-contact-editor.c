@@ -41,8 +41,8 @@
 
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <libedataserverui/e-categories-dialog.h>
-#include <gal/widgets/e-gui-utils.h>
-#include <gal/e-text/e-entry.h>
+#include <widgets/misc/e-gui-utils.h>
+#include <text/e-entry.h>
 
 #include <libebook/e-address-western.h>
 #include <libedataserverui/e-source-option-menu.h>

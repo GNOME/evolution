@@ -35,9 +35,9 @@
 
 #include <gtk/gtk.h>
 
-#include "gal/a11y/e-table/gal-a11y-e-cell-registry.h"
-#include "gal/a11y/e-table/gal-a11y-e-cell-vbox.h"
-#include "gal/util/e-util.h"
+#include "a11y/e-table/gal-a11y-e-cell-registry.h"
+#include "a11y/e-table/gal-a11y-e-cell-vbox.h"
+#include "e-util/e-util.h"
 
 #include "e-cell-vbox.h"
 #include "e-table-item.h"

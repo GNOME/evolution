@@ -24,7 +24,7 @@
 #include <config.h>
 
 #include "e-i18n.h"
-#include "e-marshal.h"
+#include "e-util-marshal.h"
 #include "e-text-event-processor.h"
 #include "e-util.h"
 
@@ -81,7 +81,7 @@ e_text_event_processor_class_init (ETextEventProcessorClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETextEventProcessorClass, command),
 			      NULL, NULL,
-			      e_marshal_NONE__POINTER,
+			      e_util_marshal_NONE__POINTER,
 			      G_TYPE_NONE, 1,
 			      G_TYPE_POINTER);
 

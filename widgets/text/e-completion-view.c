@@ -28,10 +28,10 @@
 
 #include <gdk/gdkkeysyms.h>
 
-#include "gal/e-table/e-table-scrolled.h"
-#include "gal/e-table/e-table-simple.h"
-#include "gal/util/e-i18n.h"
-#include "gal/util/e-marshal.h"
+#include "table/e-table-scrolled.h"
+#include "table/e-table-simple.h"
+#include "e-util/e-i18n.h"
+#include "e-util/e-util-marshal.h"
 
 #include "e-completion-view.h"
 
@@ -220,7 +220,7 @@ e_completion_view_class_init (ECompletionViewClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ECompletionViewClass, nonempty),
 			      NULL, NULL,
-			      e_marshal_NONE__NONE,
+			      e_util_marshal_NONE__NONE,
 			      G_TYPE_NONE, 0);
 
 	e_completion_view_signals[E_COMPLETION_VIEW_ADDED] =
@@ -229,7 +229,7 @@ e_completion_view_class_init (ECompletionViewClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ECompletionViewClass, added),
 			      NULL, NULL,
-			      e_marshal_NONE__NONE,
+			      e_util_marshal_NONE__NONE,
 			      G_TYPE_NONE, 0);
 
 	e_completion_view_signals[E_COMPLETION_VIEW_FULL] =
@@ -238,7 +238,7 @@ e_completion_view_class_init (ECompletionViewClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ECompletionViewClass, full),
 			      NULL, NULL,
-			      e_marshal_NONE__NONE,
+			      e_util_marshal_NONE__NONE,
 			      G_TYPE_NONE, 0);
 
 	e_completion_view_signals[E_COMPLETION_VIEW_BROWSE] =
@@ -247,7 +247,7 @@ e_completion_view_class_init (ECompletionViewClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ECompletionViewClass, browse),
 			      NULL, NULL,
-			      e_marshal_NONE__POINTER,
+			      e_util_marshal_NONE__POINTER,
 			      G_TYPE_NONE, 1,
 			      G_TYPE_POINTER);
 
@@ -257,7 +257,7 @@ e_completion_view_class_init (ECompletionViewClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ECompletionViewClass, unbrowse),
 			      NULL, NULL,
-			      e_marshal_NONE__NONE,
+			      e_util_marshal_NONE__NONE,
 			      G_TYPE_NONE, 0);
 
 	e_completion_view_signals[E_COMPLETION_VIEW_ACTIVATE] =
@@ -266,7 +266,7 @@ e_completion_view_class_init (ECompletionViewClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ECompletionViewClass, activate),
 			      NULL, NULL,
-			      e_marshal_NONE__POINTER,
+			      e_util_marshal_NONE__POINTER,
 			      G_TYPE_NONE, 1,
 			      G_TYPE_POINTER);
 

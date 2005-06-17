@@ -28,12 +28,12 @@
 #include <libgnome/libgnome.h>
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 
-#include "gal/e-text/e-text.h"
-#include "gal/util/e-i18n.h"
-#include "gal/util/e-util.h"
-#include "gal/widgets/e-canvas-utils.h"
-#include "gal/widgets/e-canvas.h"
-#include "gal/widgets/e-unicode.h"
+#include "text/e-text.h"
+#include "e-util/e-i18n.h"
+#include "e-util/e-util.h"
+#include "widgets/misc/e-canvas-utils.h"
+#include "widgets/misc/e-canvas.h"
+#include "widgets/misc/e-unicode.h"
 
 #include "e-table-defines.h"
 #include "e-table-group-container.h"

@@ -3,6 +3,7 @@ privlib_LTLIBRARIES = libevolution-addressbook-a11y.la
 INCLUDES =						\
 	-DG_LOG_DOMAIN=\"evolution-a11y\"		\
 	-I$(top_srcdir)		                        \
+	-I$(top_srcdir)/widgets	                        \
 	-I$(top_srcdir)/a11y				\
 	-I$(top_srcdir)/a11y/addressbook		\
 	-I$(top_srcdir)/shell				\

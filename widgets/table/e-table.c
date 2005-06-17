@@ -35,13 +35,13 @@
 #include <libgnomecanvas/gnome-canvas.h>
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 
-#include "gal/a11y/e-table/gal-a11y-e-table.h"
-#include "gal/util/e-i18n.h"
-#include "gal/util/e-util.h"
-#include "gal/widgets/e-canvas.h"
-#include "gal/widgets/e-canvas-background.h"
-#include "gal/widgets/e-canvas-vbox.h"
-#include "gal/widgets/e-unicode.h"
+#include "a11y/e-table/gal-a11y-e-table.h"
+#include "e-util/e-i18n.h"
+#include "e-util/e-util.h"
+#include "widgets/misc/e-canvas.h"
+#include "widgets/misc/e-canvas-background.h"
+#include "widgets/misc/e-canvas-vbox.h"
+#include "widgets/misc/e-unicode.h"
 
 #include "e-table.h"
 #include "e-table-click-to-add.h"
@@ -3106,7 +3106,7 @@ e_table_class_init (ETableClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableClass, cursor_change),
 			      NULL, NULL,
-			      e_marshal_NONE__INT,
+			      e_util_marshal_NONE__INT,
 			      G_TYPE_NONE, 1, G_TYPE_INT);
 
 	et_signals [CURSOR_ACTIVATED] =
@@ -3115,7 +3115,7 @@ e_table_class_init (ETableClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableClass, cursor_activated),
 			      NULL, NULL,
-			      e_marshal_NONE__INT,
+			      e_util_marshal_NONE__INT,
 			      G_TYPE_NONE, 1, G_TYPE_INT);
 
 	et_signals [SELECTION_CHANGE] =
@@ -3124,7 +3124,7 @@ e_table_class_init (ETableClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableClass, selection_change),
 			      NULL, NULL,
-			      e_marshal_NONE__NONE,
+			      e_util_marshal_NONE__NONE,
 			      G_TYPE_NONE, 0);
 
 	et_signals [DOUBLE_CLICK] =
@@ -3133,7 +3133,7 @@ e_table_class_init (ETableClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableClass, double_click),
 			      NULL, NULL,
-			      e_marshal_NONE__INT_INT_BOXED,
+			      e_util_marshal_NONE__INT_INT_BOXED,
 			      G_TYPE_NONE, 3, G_TYPE_INT,
 			      G_TYPE_INT, GDK_TYPE_EVENT);
 
@@ -3143,7 +3143,7 @@ e_table_class_init (ETableClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableClass, right_click),
 			      NULL, NULL,
-			      e_marshal_INT__INT_INT_BOXED,
+			      e_util_marshal_INT__INT_INT_BOXED,
 			      G_TYPE_INT, 3, G_TYPE_INT,
 			      G_TYPE_INT, GDK_TYPE_EVENT);
 
@@ -3153,7 +3153,7 @@ e_table_class_init (ETableClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableClass, click),
 			      NULL, NULL,
-			      e_marshal_INT__INT_INT_BOXED,
+			      e_util_marshal_INT__INT_INT_BOXED,
 			      G_TYPE_INT, 3, G_TYPE_INT,
 			      G_TYPE_INT, GDK_TYPE_EVENT);
 
@@ -3163,7 +3163,7 @@ e_table_class_init (ETableClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableClass, key_press),
 			      NULL, NULL,
-			      e_marshal_INT__INT_INT_BOXED,
+			      e_util_marshal_INT__INT_INT_BOXED,
 			      G_TYPE_INT, 3, G_TYPE_INT,
 			      G_TYPE_INT, GDK_TYPE_EVENT);
 
@@ -3173,7 +3173,7 @@ e_table_class_init (ETableClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableClass, start_drag),
 			      NULL, NULL,
-			      e_marshal_INT__INT_INT_BOXED,
+			      e_util_marshal_INT__INT_INT_BOXED,
 			      G_TYPE_INT, 3, G_TYPE_INT,
 			      G_TYPE_INT, GDK_TYPE_EVENT);
 
@@ -3183,7 +3183,7 @@ e_table_class_init (ETableClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableClass, state_change),
 			      NULL, NULL,
-			      e_marshal_NONE__NONE,
+			      e_util_marshal_NONE__NONE,
 			      G_TYPE_NONE, 0);
 
 	et_signals [WHITE_SPACE_EVENT] =
@@ -3192,7 +3192,7 @@ e_table_class_init (ETableClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableClass, white_space_event),
 			      NULL, NULL,
-			      e_marshal_INT__BOXED,
+			      e_util_marshal_INT__BOXED,
 			      G_TYPE_INT, 1, GDK_TYPE_EVENT);
 
 	et_signals[TABLE_DRAG_BEGIN] =
@@ -3201,7 +3201,7 @@ e_table_class_init (ETableClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableClass, table_drag_begin),
 			      NULL, NULL,
-			      e_marshal_NONE__INT_INT_OBJECT,
+			      e_util_marshal_NONE__INT_INT_OBJECT,
 			      G_TYPE_NONE, 3,
 			      G_TYPE_INT,
 			      G_TYPE_INT,
@@ -3212,7 +3212,7 @@ e_table_class_init (ETableClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableClass, table_drag_end),
 			      NULL, NULL,
-			      e_marshal_NONE__INT_INT_OBJECT,
+			      e_util_marshal_NONE__INT_INT_OBJECT,
 			      G_TYPE_NONE, 3,
 			      G_TYPE_INT,
 			      G_TYPE_INT,
@@ -3223,7 +3223,7 @@ e_table_class_init (ETableClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableClass, table_drag_data_get),
 			      NULL, NULL,
-			      e_marshal_NONE__INT_INT_OBJECT_BOXED_UINT_UINT,
+			      e_util_marshal_NONE__INT_INT_OBJECT_BOXED_UINT_UINT,
 			      G_TYPE_NONE, 6,
 			      G_TYPE_INT,
 			      G_TYPE_INT,
@@ -3237,7 +3237,7 @@ e_table_class_init (ETableClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableClass, table_drag_data_delete),
 			      NULL, NULL,
-			      e_marshal_NONE__INT_INT_OBJECT,
+			      e_util_marshal_NONE__INT_INT_OBJECT,
 			      G_TYPE_NONE, 3,
 			      G_TYPE_INT,
 			      G_TYPE_INT,
@@ -3249,7 +3249,7 @@ e_table_class_init (ETableClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableClass, table_drag_leave),
 			      NULL, NULL,
-			      e_marshal_NONE__INT_INT_OBJECT_UINT,
+			      e_util_marshal_NONE__INT_INT_OBJECT_UINT,
 			      G_TYPE_NONE, 4,
 			      G_TYPE_INT,
 			      G_TYPE_INT,
@@ -3261,7 +3261,7 @@ e_table_class_init (ETableClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableClass, table_drag_motion),
 			      NULL, NULL,
-			      e_marshal_BOOLEAN__INT_INT_OBJECT_INT_INT_UINT,
+			      e_util_marshal_BOOLEAN__INT_INT_OBJECT_INT_INT_UINT,
 			      G_TYPE_BOOLEAN, 6,
 			      G_TYPE_INT,
 			      G_TYPE_INT,
@@ -3275,7 +3275,7 @@ e_table_class_init (ETableClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableClass, table_drag_drop),
 			      NULL, NULL,
-			      e_marshal_BOOLEAN__INT_INT_OBJECT_INT_INT_UINT,
+			      e_util_marshal_BOOLEAN__INT_INT_OBJECT_INT_INT_UINT,
 			      G_TYPE_BOOLEAN, 6,
 			      G_TYPE_INT,
 			      G_TYPE_INT,
@@ -3289,7 +3289,7 @@ e_table_class_init (ETableClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableClass, table_drag_data_received),
 			      NULL, NULL,
-			      e_marshal_NONE__INT_INT_OBJECT_INT_INT_BOXED_UINT_UINT,
+			      e_util_marshal_NONE__INT_INT_OBJECT_INT_INT_BOXED_UINT_UINT,
 			      G_TYPE_NONE, 8,
 			      G_TYPE_INT,
 			      G_TYPE_INT,
@@ -3308,7 +3308,7 @@ e_table_class_init (ETableClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableClass, set_scroll_adjustments),
 			      NULL, NULL,
-			      e_marshal_NONE__OBJECT_OBJECT,
+			      e_util_marshal_NONE__OBJECT_OBJECT,
 			      G_TYPE_NONE, 2, GTK_TYPE_ADJUSTMENT, GTK_TYPE_ADJUSTMENT);
 
 	g_object_class_install_property (object_class, PROP_LENGTH_THRESHOLD,

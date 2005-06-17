@@ -63,7 +63,7 @@
 #include <time.h>
 
 #include <libgnome/gnome-i18n.h>
-#include <gal/util/e-util.h>	/* for e_utf8_strftime, what about e_time_format_time? */
+#include <e-util/e-util.h>	/* for e_utf8_strftime, what about e_time_format_time? */
 
 #include "e-cert.h"
 #include "e-cert-trust.h"

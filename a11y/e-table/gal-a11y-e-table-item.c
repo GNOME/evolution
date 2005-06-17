@@ -13,13 +13,13 @@
 
 #include <atk/atk.h>
 
-#include "gal/a11y/gal-a11y-util.h"
-#include "gal/e-table/e-table-click-to-add.h"
-#include "gal/e-table/e-table-subset.h"
-#include "gal/e-table/e-table.h"
-#include "gal/e-table/e-tree.h"
-#include "gal/widgets/e-canvas.h"
-#include "gal/widgets/e-selection-model.h"
+#include "a11y/gal-a11y-util.h"
+#include "table/e-table-click-to-add.h"
+#include "table/e-table-subset.h"
+#include "table/e-table.h"
+#include "table/e-tree.h"
+#include "widgets/misc/e-canvas.h"
+#include "widgets/misc/e-selection-model.h"
 
 #include "gal-a11y-e-table-item.h"
 #include "gal-a11y-e-table-item-factory.h"

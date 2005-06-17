@@ -24,9 +24,9 @@
 #ifndef _GAL_DEFINE_VIEWS_MODEL_H_
 #define _GAL_DEFINE_VIEWS_MODEL_H_
 
-#include <gal/e-table/e-table-model.h>
-#include <gal/menus/gal-view.h>
-#include <gal/menus/gal-view-collection.h>
+#include <table/e-table-model.h>
+#include <widgets/menus/gal-view.h>
+#include <widgets/menus/gal-view-collection.h>
 
 #ifdef __cplusplus
 extern "C" {

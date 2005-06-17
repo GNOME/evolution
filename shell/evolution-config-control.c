@@ -28,7 +28,7 @@
 
 #include "e-shell-marshal.h"
 
-#include <gal/util/e-util.h>
+#include <e-util/e-util.h>
 
 #include <gtk/gtksignal.h>
 

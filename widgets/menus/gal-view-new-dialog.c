@@ -25,11 +25,11 @@
 
 #include <gtk/gtk.h>
 
-#include "gal/e-table/e-table-scrolled.h"
-#include "gal/util/e-i18n.h"
-#include "gal/util/e-util.h"
-#include "gal/util/e-util-private.h"
-#include "gal/widgets/e-unicode.h"
+#include "table/e-table-scrolled.h"
+#include "e-util/e-i18n.h"
+#include "e-util/e-util.h"
+#include "e-util/e-util-private.h"
+#include "widgets/misc/e-unicode.h"
 
 #include "gal-define-views-model.h"
 #include "gal-view-new-dialog.h"
@@ -88,7 +88,7 @@ gal_view_new_dialog_init (GalViewNewDialog *dialog)
 {
 	GladeXML *gui;
 	GtkWidget *widget;
-	gchar *filename = g_build_filename (GAL_GLADEDIR,
+	gchar *filename = g_build_filename (EVOLUTION_GLADEDIR,
 					    "gal-view-new-dialog.glade",
 					    NULL);
 

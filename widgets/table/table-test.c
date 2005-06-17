@@ -29,7 +29,7 @@
 
 #include <gnome.h>
 
-#include "gal/widgets/e-cursors.h"
+#include "widgets/misc/e-cursors.h"
 
 #include "table-test.h"
 

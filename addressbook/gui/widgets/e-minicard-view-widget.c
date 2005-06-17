@@ -22,8 +22,8 @@
 #include <config.h>
 
 #include <gtk/gtksignal.h>
-#include <gal/widgets/e-canvas-background.h>
-#include <gal/widgets/e-canvas.h>
+#include <widgets/misc/e-canvas-background.h>
+#include <widgets/misc/e-canvas.h>
 #include <libgnome/gnome-i18n.h>
 
 #include "eab-marshal.h"

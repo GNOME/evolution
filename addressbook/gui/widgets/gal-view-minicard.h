@@ -10,7 +10,7 @@
 #ifndef _GAL_VIEW_MINICARD_H_
 #define _GAL_VIEW_MINICARD_H_
 
-#include <gal/menus/gal-view.h>
+#include <widgets/menus/gal-view.h>
 #include <e-minicard-view-widget.h>
 
 #define GAL_TYPE_VIEW_MINICARD        (gal_view_minicard_get_type ())

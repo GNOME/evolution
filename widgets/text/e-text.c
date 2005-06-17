@@ -48,13 +48,13 @@
 #include <libart_lgpl/art_rgb.h>
 #include <libart_lgpl/art_rgb_bitmap_affine.h>
 
-#include "gal/a11y/e-text/gal-a11y-e-text.h"
-#include "gal/widgets/e-canvas.h"
-#include "gal/widgets/e-canvas-utils.h"
-#include "gal/widgets/e-unicode.h"
-#include "gal/util/e-i18n.h"
-#include "gal/util/e-text-event-processor-emacs-like.h"
-#include "gal/util/e-util.h"
+#include "a11y/e-text/gal-a11y-e-text.h"
+#include "widgets/misc/e-canvas.h"
+#include "widgets/misc/e-canvas-utils.h"
+#include "widgets/misc/e-unicode.h"
+#include "e-util/e-i18n.h"
+#include "e-util/e-text-event-processor-emacs-like.h"
+#include "e-util/e-util.h"
 
 #include "e-text.h"
 
@@ -3413,7 +3413,7 @@ e_text_class_init (ETextClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETextClass, changed),
 			      NULL, NULL,
-			      e_marshal_NONE__NONE,
+			      e_util_marshal_NONE__NONE,
 			      G_TYPE_NONE, 0);
 
 	e_text_signals[E_TEXT_ACTIVATE] =
@@ -3422,7 +3422,7 @@ e_text_class_init (ETextClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETextClass, activate),
 			      NULL, NULL,
-			      e_marshal_NONE__NONE,
+			      e_util_marshal_NONE__NONE,
 			      G_TYPE_NONE, 0);
 
 	e_text_signals[E_TEXT_KEYPRESS] =
@@ -3431,7 +3431,7 @@ e_text_class_init (ETextClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETextClass, keypress),
 			      NULL, NULL,
-			      e_marshal_NONE__INT_INT,
+			      e_util_marshal_NONE__INT_INT,
 			      G_TYPE_NONE, 2, G_TYPE_UINT, G_TYPE_UINT);
 
 	e_text_signals[E_TEXT_POPULATE_POPUP] =
@@ -3440,7 +3440,7 @@ e_text_class_init (ETextClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETextClass, populate_popup),
 			      NULL, NULL,
-			      e_marshal_NONE__POINTER_INT_OBJECT,
+			      e_util_marshal_NONE__POINTER_INT_OBJECT,
 			      G_TYPE_NONE, 3, G_TYPE_POINTER, G_TYPE_INT, GTK_TYPE_MENU);
 
 	g_object_class_install_property (gobject_class, PROP_MODEL,

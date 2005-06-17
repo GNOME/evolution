@@ -20,7 +20,7 @@
 #ifndef __E_MINICARD_VIEW_WIDGET_H__
 #define __E_MINICARD_VIEW_WIDGET_H__
 
-#include <gal/widgets/e-canvas.h>
+#include <widgets/misc/e-canvas.h>
 #include <libebook/e-book.h>
 #include "e-minicard-view.h"
 

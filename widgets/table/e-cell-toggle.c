@@ -27,10 +27,10 @@
 #include <gtk/gtk.h>
 #include <libgnomecanvas/gnome-canvas.h>
 
-#include "gal/a11y/e-table/gal-a11y-e-cell-toggle.h"
-#include "gal/a11y/e-table/gal-a11y-e-cell-registry.h"
-#include "gal/util/e-util.h"
-#include "gal/widgets/e-hsv-utils.h"
+#include "a11y/e-table/gal-a11y-e-cell-toggle.h"
+#include "a11y/e-table/gal-a11y-e-cell-registry.h"
+#include "e-util/e-util.h"
+#include "widgets/misc/e-hsv-utils.h"
 
 #include "e-cell-toggle.h"
 #include "e-table-item.h"

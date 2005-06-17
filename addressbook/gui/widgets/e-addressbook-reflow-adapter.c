@@ -12,7 +12,7 @@
 #include "eab-gui-util.h"
 
 #include "e-minicard.h"
-#include <gal/widgets/e-gui-utils.h>
+#include <widgets/misc/e-gui-utils.h>
 #include "addressbook/printing/e-contact-print.h"
 #include "addressbook/printing/e-contact-print-envelope.h"
 

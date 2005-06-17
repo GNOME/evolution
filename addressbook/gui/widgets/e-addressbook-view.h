@@ -22,7 +22,7 @@
 
 #include <gtk/gtkvbox.h>
 #include <bonobo/bonobo-ui-component.h>
-#include <gal/menus/gal-view-instance.h>
+#include <widgets/menus/gal-view-instance.h>
 #include <libebook/e-book.h>
 #include "e-addressbook-model.h"
 #include "eab-contact-display.h"

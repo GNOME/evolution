@@ -25,7 +25,7 @@
 #define _GAL_VIEW_FACTORY_H_
 
 #include <gtk/gtkobject.h>
-#include <gal/menus/gal-view.h>
+#include <widgets/menus/gal-view.h>
 
 #ifdef __cplusplus
 extern "C" {

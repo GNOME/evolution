@@ -42,16 +42,16 @@
 #include <libgnome/gnome-i18n.h>
 #include <atk/atkutil.h>
 
-#include <gal/util/e-util.h>
-#include <gal/widgets/e-gui-utils.h>
-#include <gal/e-table/e-cell-text.h>
-#include <gal/e-table/e-cell-toggle.h>
-#include <gal/e-table/e-cell-checkbox.h>
-#include <gal/e-table/e-cell-tree.h>
-#include <gal/e-table/e-cell-date.h>
-#include <gal/e-table/e-cell-size.h>
-#include <gal/e-table/e-tree-memory.h>
-#include <gal/e-table/e-tree-memory-callbacks.h>
+#include <e-util/e-util.h>
+#include <widgets/misc/e-gui-utils.h>
+#include <table/e-cell-text.h>
+#include <table/e-cell-toggle.h>
+#include <table/e-cell-checkbox.h>
+#include <table/e-cell-tree.h>
+#include <table/e-cell-date.h>
+#include <table/e-cell-size.h>
+#include <table/e-tree-memory.h>
+#include <table/e-tree-memory-callbacks.h>
 
 #include <camel/camel-exception.h>
 #include <camel/camel-file-utils.h>

@@ -61,7 +61,7 @@
 #include <gconf/gconf.h>
 #include <gconf/gconf-client.h>
 
-#include <gal/util/e-util.h>
+#include <e-util/e-util.h>
 
 static void emp_standard_menu_factory(EMenu *emp, void *data);
 

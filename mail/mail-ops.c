@@ -35,7 +35,7 @@
 #include <string.h>
 #include <errno.h>
 #include <libgnome/gnome-exec.h>
-#include <gal/util/e-util.h>
+#include <e-util/e-util.h>
 #include <libgnome/gnome-i18n.h>
 
 #include <camel/camel-mime-filter-from.h>

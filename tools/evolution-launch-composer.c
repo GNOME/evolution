@@ -26,7 +26,7 @@
 #include <Evolution-Composer.h>
 
 #include <string.h>
-#include <gal/util/e-util.h>
+#include <e-util/e-util.h>
 #include <bonobo-activation/bonobo-activation.h>
 #include <gtk/gtkmain.h>
 

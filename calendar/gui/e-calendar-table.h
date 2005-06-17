@@ -25,7 +25,7 @@
 #define _E_CALENDAR_TABLE_H_
 
 #include <gtk/gtktable.h>
-#include <gal/e-table/e-table-scrolled.h>
+#include <table/e-table-scrolled.h>
 #include <widgets/misc/e-cell-date-edit.h>
 #include "e-activity-handler.h"
 #include "e-cal-model.h"

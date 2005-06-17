@@ -61,7 +61,7 @@
 #include <gconf/gconf.h>
 #include <gconf/gconf-client.h>
 
-#include <gal/util/e-util.h>
+#include <e-util/e-util.h>
 
 static GObjectClass *emp_parent;
 

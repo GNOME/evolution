@@ -28,10 +28,10 @@
 
 #include <gnome.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
-#include <gal/e-table/e-table-scrolled.h>
-#include <gal/menus/gal-view-instance.h>
-#include <gal/menus/gal-view-factory-etable.h>
-#include <gal/menus/gal-view-etable.h>
+#include <table/e-table-scrolled.h>
+#include <widgets/menus/gal-view-instance.h>
+#include <widgets/menus/gal-view-factory-etable.h>
+#include <widgets/menus/gal-view-etable.h>
 
 #include "e-util/e-error.h"
 #include "e-util/e-categories-config.h"

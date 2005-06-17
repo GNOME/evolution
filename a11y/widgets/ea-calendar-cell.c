@@ -24,7 +24,7 @@
  */
 
 #include <gtk/gtk.h>
-#include <gal/util/e-util.h>
+#include <e-util/e-util.h>
 #include "ea-calendar-cell.h"
 #include "ea-calendar-item.h"
 #include "ea-factory.h"

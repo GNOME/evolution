@@ -30,13 +30,13 @@
 #include <libgnomecanvas/gnome-canvas-util.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
-#include "gal/a11y/e-table/gal-a11y-e-table-click-to-add.h"
-#include "gal/e-text/e-text.h"
-#include "gal/util/e-i18n.h"
-#include "gal/util/e-marshal.h"
-#include "gal/util/e-util.h"
-#include "gal/widgets/e-canvas-utils.h"
-#include "gal/widgets/e-canvas.h"
+#include "a11y/e-table/gal-a11y-e-table-click-to-add.h"
+#include "text/e-text.h"
+#include "e-util/e-i18n.h"
+#include "e-util/e-util-marshal.h"
+#include "e-util/e-util.h"
+#include "widgets/misc/e-canvas-utils.h"
+#include "widgets/misc/e-canvas.h"
 
 #include "e-table-click-to-add.h"
 #include "e-table-defines.h"
@@ -532,7 +532,7 @@ etcta_class_init (ETableClickToAddClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableClickToAddClass, cursor_change),
 			      NULL, NULL,
-			      e_marshal_VOID__INT_INT,
+			      e_util_marshal_VOID__INT_INT,
 			      G_TYPE_NONE, 2, G_TYPE_INT, G_TYPE_INT);
 
 	etcta_signals [STYLE_SET] =
@@ -541,7 +541,7 @@ etcta_class_init (ETableClickToAddClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableClickToAddClass, style_set),
 			      NULL, NULL,
-			      e_marshal_NONE__OBJECT,
+			      e_util_marshal_NONE__OBJECT,
 			      G_TYPE_NONE, 1, GTK_TYPE_STYLE);
 
 	gal_a11y_e_table_click_to_add_init ();

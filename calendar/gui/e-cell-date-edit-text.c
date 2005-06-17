@@ -37,7 +37,7 @@
 #include <libgnomeui/gnome-messagebox.h>
 #include <libgnomeui/gnome-stock-icons.h> 
 #include <libgnome/gnome-i18n.h>
-#include <gal/util/e-util.h>
+#include <e-util/e-util.h>
 #include <e-util/e-time-utils.h>
 #include <libecal/e-cal-time-util.h>
 

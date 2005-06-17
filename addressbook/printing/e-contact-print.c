@@ -40,7 +40,7 @@
 #include <libgnomeprintui/gnome-print-job-preview.h>
 #include <libebook/e-book.h>
 #include <libebook/e-contact.h>
-#include <gal/util/e-util.h>
+#include <e-util/e-util.h>
 #include <e-util/e-print.h>
 
 #define SCALE 5

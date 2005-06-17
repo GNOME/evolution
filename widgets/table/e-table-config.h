@@ -25,12 +25,12 @@
 #ifndef _E_TABLE_CONFIG_H_
 #define _E_TABLE_CONFIG_H_
 
-#include <gal/e-table/e-table-sort-info.h>
-#include <gal/e-table/e-table-specification.h>
-#include <gal/widgets/gal-combo-text.h>
-#include <gal/e-table/e-table-without.h>
-#include <gal/e-table/e-table-subset-variable.h>
-#include <gal/e-table/e-table.h>
+#include <table/e-table-sort-info.h>
+#include <table/e-table-specification.h>
+#include <widgets/misc/gal-combo-text.h>
+#include <table/e-table-without.h>
+#include <table/e-table-subset-variable.h>
+#include <table/e-table.h>
 #include <gtk/gtkwindow.h>
 
 G_BEGIN_DECLS

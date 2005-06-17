@@ -29,10 +29,11 @@
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
 
-#include "gal/e-text/e-text.h"
-#include "gal/util/e-i18n.h"
-#include "gal/util/e-util.h"
-#include "gal/widgets/e-unicode.h"
+#include "text/e-text.h"
+#include "e-util/e-i18n.h"
+#include "e-util-marshal.h"
+#include "e-util/e-util.h"
+#include "widgets/misc/e-unicode.h"
 
 #include "e-canvas.h"
 #include "e-canvas-utils.h"
@@ -1473,7 +1474,7 @@ e_reflow_class_init (EReflowClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EReflowClass, selection_event),
 			      NULL, NULL,
-			      e_marshal_INT__OBJECT_BOXED,
+			      e_util_marshal_INT__OBJECT_BOXED,
 			      G_TYPE_INT, 2, G_TYPE_OBJECT,
 			      GDK_TYPE_EVENT);
 
@@ -1483,7 +1484,7 @@ e_reflow_class_init (EReflowClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EReflowClass, column_width_changed),
 			      NULL, NULL,
-			      e_marshal_NONE__DOUBLE,
+			      e_util_marshal_NONE__DOUBLE,
 			      G_TYPE_NONE, 1, G_TYPE_DOUBLE);
 }
 

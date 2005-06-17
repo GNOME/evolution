@@ -26,7 +26,7 @@
 #ifndef E_TABLE_HEADER_UTILS_H
 #define E_TABLE_HEADER_UTILS_H
 
-#include <gal/e-table/e-table-col.h>
+#include <table/e-table-col.h>
 
 #ifdef __cplusplus
 extern "C" {

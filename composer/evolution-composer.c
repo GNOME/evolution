@@ -29,8 +29,8 @@
 #include <gtk/gtksignal.h>
 #include <bonobo/bonobo-item-handler.h>
 #include <bonobo/bonobo-generic-factory.h>
-#include <gal/util/e-util.h>
-#include <gal/widgets/e-gui-utils.h>
+#include <e-util/e-util.h>
+#include <widgets/misc/e-gui-utils.h>
 #include "evolution-composer.h"
 #include "mail/mail-config.h"
 #include "e-util/e-account-list.h"

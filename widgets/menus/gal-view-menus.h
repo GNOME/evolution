@@ -4,7 +4,7 @@
 
 #include <libxml/tree.h>
 #include <bonobo/bonobo-ui-component.h>
-#include <gal/menus/gal-view-instance.h>
+#include <widgets/menus/gal-view-instance.h>
 
 #include <glib-object.h>
 

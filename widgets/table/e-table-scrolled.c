@@ -32,7 +32,7 @@
 #include <libxml/parser.h>
 #include <libxml/xmlmemory.h>
 
-#include "gal/util/e-i18n.h"
+#include "e-util/e-i18n.h"
 
 #include "e-table.h"
 #include "e-table-scrolled.h"

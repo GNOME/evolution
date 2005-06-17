@@ -33,7 +33,7 @@
 
 #include <libedataserverui/e-source-option-menu.h>
 
-#include <gal/e-table/e-table-scrolled.h>
+#include <table/e-table-scrolled.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
 
 #include "shell/evolution-shell-component-utils.h"

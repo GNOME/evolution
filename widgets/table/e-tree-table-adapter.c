@@ -32,8 +32,8 @@
 #include <libxml/tree.h>
 #include <libxml/parser.h>
 
-#include "gal/util/e-util.h"
-#include "gal/util/e-xml-utils.h"
+#include "e-util/e-util.h"
+#include "e-util/e-xml-utils.h"
 
 #include "e-table-sorting-utils.h"
 #include "e-tree-table-adapter.h"

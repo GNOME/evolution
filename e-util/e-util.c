@@ -346,8 +346,7 @@ e_read_uri(const char *uri)
 
 /* Include build marshalers */
 
-#include "e-marshal.h"
-#include "e-marshal.c"
+#include "e-util-marshal.h"
 
 gchar**
 e_strsplit (const gchar *string,
@@ -1232,7 +1231,7 @@ e_gettext (const char *msgid)
 	static gboolean initialized = FALSE;
 
 	if (!initialized) {
-		bindtextdomain (E_I18N_DOMAIN, GAL_LOCALEDIR);
+		bindtextdomain (E_I18N_DOMAIN, EVOLUTION_LOCALEDIR);
 		bind_textdomain_codeset (E_I18N_DOMAIN, "UTF-8");
 		initialized = TRUE;
 	}        

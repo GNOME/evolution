@@ -27,12 +27,12 @@
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
 #include <gtk/gtkscrolledwindow.h>
-#include <gal/e-table/e-table-scrolled.h>
-#include <gal/e-table/e-table-model.h>
-#include <gal/widgets/e-gui-utils.h>
-#include <gal/menus/gal-view-factory-etable.h>
-#include <gal/menus/gal-view-etable.h>
-#include <gal/util/e-xml-utils.h>
+#include <table/e-table-scrolled.h>
+#include <table/e-table-model.h>
+#include <widgets/misc/e-gui-utils.h>
+#include <widgets/menus/gal-view-factory-etable.h>
+#include <widgets/menus/gal-view-etable.h>
+#include <e-util/e-xml-utils.h>
 #include <libgnomeui/gnome-dialog-util.h>
 
 #include <libgnomeprint/gnome-print.h>
@@ -51,7 +51,7 @@
 #include <libedataserver/e-categories.h>
 
 #ifdef WITH_ADDRESSBOOK_VIEW_TREEVIEW
-#include <gal/widgets/e-treeview-selection-model.h>
+#include <widgets/misc/e-treeview-selection-model.h>
 #include "gal-view-factory-treeview.h"
 #include "gal-view-treeview.h"
 #endif

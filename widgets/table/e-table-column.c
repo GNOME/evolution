@@ -72,14 +72,14 @@ e_table_column_class_init (GtkObjectClass *object_class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableColumn, structure_change),
 			      NULL, NULL,
-			      e_marshal_NONE__NONE,
+			      e_util_marshal_NONE__NONE,
 			      G_TYPE_NONE, 0);
 	etc_signals [DIMENSION_CHANGE] = 
 		g_signal_new ("dimension_change", 
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableColumn, dimension_change),
-			      e_marshal_NONE__INT,
+			      e_util_marshal_NONE__INT,
 			      G_TYPE_NONE, 1, G_TYPE_INT);
 }
 

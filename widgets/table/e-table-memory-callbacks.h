@@ -24,7 +24,7 @@
 #ifndef _E_TABLE_MEMORY_CALLBACKS_H_
 #define _E_TABLE_MEMORY_CALLBACKS_H_
 
-#include <gal/e-table/e-table-memory.h>
+#include <table/e-table-memory.h>
 
 G_BEGIN_DECLS
 

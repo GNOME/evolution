@@ -36,7 +36,7 @@
 #include "e-week-view-event-item.h"
 
 #include <gtk/gtksignal.h>
-#include <gal/e-text/e-text.h>
+#include <text/e-text.h>
 
 static void e_week_view_event_item_set_arg	(GtkObject	 *o,
 						 GtkArg		 *arg,

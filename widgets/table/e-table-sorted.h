@@ -25,10 +25,10 @@
 #define _E_TABLE_SORTED_H_
 
 #include <glib-object.h>
-#include <gal/e-table/e-table-model.h>
-#include <gal/e-table/e-table-subset.h>
-#include <gal/e-table/e-table-sort-info.h>
-#include <gal/e-table/e-table-header.h>
+#include <table/e-table-model.h>
+#include <table/e-table-subset.h>
+#include <table/e-table-sort-info.h>
+#include <table/e-table-header.h>
 
 G_BEGIN_DECLS
 

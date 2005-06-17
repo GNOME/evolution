@@ -35,7 +35,7 @@
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
 #include <libgnomeui/gnome-stock-icons.h>
-#include <gal/widgets/e-gui-utils.h>
+#include <widgets/misc/e-gui-utils.h>
 #include <widgets/misc/e-dateedit.h>
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-dialog-widgets.h>

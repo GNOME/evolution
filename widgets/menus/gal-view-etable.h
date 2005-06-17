@@ -25,11 +25,11 @@
 #define _GAL_VIEW_ETABLE_H_
 
 #include <gtk/gtkobject.h>
-#include <gal/menus/gal-view.h>
-#include <gal/e-table/e-table-state.h>
-#include <gal/e-table/e-table-specification.h>
-#include <gal/e-table/e-table.h>
-#include <gal/e-table/e-tree.h>
+#include <widgets/menus/gal-view.h>
+#include <table/e-table-state.h>
+#include <table/e-table-specification.h>
+#include <table/e-table.h>
+#include <table/e-tree.h>
 
 G_BEGIN_DECLS
 

@@ -27,9 +27,9 @@
 #include <unistd.h>
 #include <string.h>
 
-#include "gal/util/e-i18n.h"
-#include "gal/util/e-util.h"
-#include "gal/widgets/e-unicode.h"
+#include "e-util/e-i18n.h"
+#include "e-util/e-util.h"
+#include "widgets/misc/e-unicode.h"
 
 #include "e-cell-date.h"
 

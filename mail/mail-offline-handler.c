@@ -38,7 +38,7 @@
 
 #include <gtk/gtkmain.h>
 
-#include <gal/util/e-util.h>
+#include <e-util/e-util.h>
 
 
 #define PARENT_TYPE bonobo_object_get_type ()

@@ -10,7 +10,7 @@
 #ifndef _GAL_VIEW_TREEVIEW_H_
 #define _GAL_VIEW_TREEVIEW_H_
 
-#include <gal/menus/gal-view.h>
+#include <widgets/menus/gal-view.h>
 #include <gtk/gtktreeview.h>
 
 #define GAL_TYPE_VIEW_TREEVIEW        (gal_view_treeview_get_type ())

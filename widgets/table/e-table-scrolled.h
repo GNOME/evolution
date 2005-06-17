@@ -25,8 +25,8 @@
 #define _E_TABLE_SCROLLED_H_
 
 #include <gtk/gtkscrolledwindow.h>
-#include <gal/e-table/e-table-model.h>
-#include <gal/e-table/e-table.h>
+#include <table/e-table-model.h>
+#include <table/e-table.h>
 
 G_BEGIN_DECLS
 

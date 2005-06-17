@@ -36,10 +36,10 @@
 #include <libgnomeui/gnome-propertybox.h>
 #include <glade/glade.h>
 
-#include "gal/util/e-i18n.h"
-#include "gal/util/e-util-private.h"
-#include "gal/util/e-util.h"
-#include "gal/widgets/e-unicode.h"
+#include "e-util/e-i18n.h"
+#include "e-util/e-util-private.h"
+#include "e-util/e-util.h"
+#include "widgets/misc/e-unicode.h"
 
 #include "e-table-config.h"
 #include "e-table-memory-store.h"
@@ -1078,14 +1078,14 @@ setup_gui (ETableConfig *config)
 
 	if (e_table_sort_info_get_can_group (config->state->sort_info)) {
 		gchar *filename =
-			g_build_filename (GAL_GLADEDIR,
+			g_build_filename (EVOLUTION_GLADEDIR,
 					  "e-table-config.glade",
 					  NULL);
 		gui = glade_xml_new (filename, NULL, E_I18N_DOMAIN);
 		g_free (filename);
 	} else {
 		gchar *filename =
-			g_build_filename (GAL_GLADEDIR,
+			g_build_filename (EVOLUTION_GLADEDIR,
 					  "e-table-config-no-group.glade",
 					  NULL);
 		gui = glade_xml_new (filename, NULL, E_I18N_DOMAIN);

@@ -25,7 +25,7 @@
 #define _E_SELECTION_MODEL_H_
 
 #include <gtk/gtkobject.h>
-#include <gal/util/e-sorter.h>
+#include <e-util/e-sorter.h>
 #include <gdk/gdkevents.h>
 
 #ifdef __cplusplus

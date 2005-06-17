@@ -25,8 +25,8 @@
 
 #include <string.h>
 
-#include "gal/util/e-util.h"
-#include "gal/util/e-xml-utils.h"
+#include "e-util/e-util.h"
+#include "e-util/e-xml-utils.h"
 
 #include "e-table-sort-info.h"
 

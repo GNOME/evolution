@@ -38,8 +38,8 @@
 #include <libxml/parser.h>
 #include <libxml/xmlmemory.h>
 
-#include "gal/util/e-util.h"
-#include "gal/util/e-xml-utils.h"
+#include "e-util/e-util.h"
+#include "e-util/e-xml-utils.h"
 
 #include "e-table-sorting-utils.h"
 #include "e-tree-sorted.h"

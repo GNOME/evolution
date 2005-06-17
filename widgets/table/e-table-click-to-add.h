@@ -26,10 +26,10 @@
 
 #include <libxml/tree.h>
 #include <libgnomecanvas/gnome-canvas.h>
-#include <gal/e-table/e-table-header.h>
-#include <gal/e-table/e-table-sort-info.h>
-#include <gal/e-table/e-table-item.h>
-#include <gal/e-table/e-table-selection-model.h>
+#include <table/e-table-header.h>
+#include <table/e-table-sort-info.h>
+#include <table/e-table-item.h>
+#include <table/e-table-selection-model.h>
 
 G_BEGIN_DECLS
 

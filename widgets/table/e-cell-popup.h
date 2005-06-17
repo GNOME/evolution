@@ -33,7 +33,7 @@
 #define _E_CELL_POPUP_H_
 
 #include <libgnomecanvas/gnome-canvas.h>
-#include <gal/e-table/e-cell.h>
+#include <table/e-cell.h>
 
 #define E_CELL_POPUP_TYPE        (e_cell_popup_get_type ())
 #define E_CELL_POPUP(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_CELL_POPUP_TYPE, ECellPopup))

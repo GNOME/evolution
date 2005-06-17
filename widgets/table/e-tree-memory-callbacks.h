@@ -25,7 +25,7 @@
 #ifndef _E_TREE_MEMORY_CALLBACKS_H_
 #define _E_TREE_MEMORY_CALLBACKS_H_
 
-#include <gal/e-table/e-tree-memory.h>
+#include <table/e-tree-memory.h>
 
 #ifdef __cplusplus
 extern "C" {

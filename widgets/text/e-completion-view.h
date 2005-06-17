@@ -26,7 +26,7 @@
 #define E_COMPLETION_VIEW_H
 
 #include <gtk/gtk.h>
-#include <gal/e-table/e-table.h>
+#include <table/e-table.h>
 #include "e-completion.h"
 
 G_BEGIN_DECLS

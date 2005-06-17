@@ -46,10 +46,10 @@
 #include <libgnome/gnome-util.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <libgnomecanvas/gnome-canvas-pixbuf.h>
-#include <gal/e-text/e-text.h>
-#include <gal/widgets/e-canvas-utils.h>
-#include <gal/widgets/e-gui-utils.h>
-#include <gal/widgets/e-unicode.h>
+#include <text/e-text.h>
+#include <widgets/misc/e-canvas-utils.h>
+#include <widgets/misc/e-gui-utils.h>
+#include <widgets/misc/e-unicode.h>
 #include <e-util/e-categories-config.h>
 #include <e-util/e-dialog-utils.h>
 #include "dialogs/delete-comp.h"

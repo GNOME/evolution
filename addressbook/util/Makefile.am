@@ -19,6 +19,7 @@ libeabutil_la_SOURCES =					\
 
 libeabutil_la_LIBADD =					\
 	$(EVOLUTION_ADDRESSBOOK_LIBS)			\
+	$(top_builddir)/widgets/misc/libemiscwidgets.la \
 	$(top_builddir)/e-util/libeutil.la
 
 MARSHAL_GENERATED = eab-marshal.c eab-marshal.h

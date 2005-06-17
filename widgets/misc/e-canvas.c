@@ -25,7 +25,7 @@
 
 #include <gtk/gtk.h>
 
-#include "gal/util/e-util.h"
+#include "e-util/e-util.h"
 
 #include "e-canvas.h"
 
@@ -105,7 +105,7 @@ e_canvas_class_init (ECanvasClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ECanvasClass, reflow),
 			      NULL, NULL,
-			      e_marshal_NONE__NONE,
+			      e_util_marshal_NONE__NONE,
 			      G_TYPE_NONE, 0);
 }
 

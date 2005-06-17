@@ -30,7 +30,7 @@
 #include <gtk/gtklabel.h>
 #include <gtk/gtkhbox.h>
 
-#include <gal/util/e-util.h>
+#include <e-util/e-util.h>
 #include <libgnome/gnome-i18n.h>
 
 #include "mail-component.h"

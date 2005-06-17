@@ -30,7 +30,7 @@
 #define _E_CELL_DATE_EDIT_TEXT_H_
 
 #include <libical/ical.h>
-#include <gal/e-table/e-cell-text.h>
+#include <table/e-cell-text.h>
 
 G_BEGIN_DECLS
 

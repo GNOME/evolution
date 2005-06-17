@@ -25,7 +25,9 @@
 
 #include <gtk/gtk.h>
 
-#include "gal/util/e-util.h"
+#include "e-util-marshal.h"
+
+#include "e-util/e-util.h"
 
 #include "e-printable.h"
 
@@ -59,7 +61,7 @@ e_printable_class_init (GtkObjectClass *object_class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EPrintableClass, print_page),
 			      NULL, NULL,
-			      e_marshal_NONE__OBJECT_DOUBLE_DOUBLE_BOOLEAN,
+			      e_util_marshal_NONE__OBJECT_DOUBLE_DOUBLE_BOOLEAN,
 			      G_TYPE_NONE, 4, G_TYPE_OBJECT, G_TYPE_DOUBLE,
 			      G_TYPE_DOUBLE, G_TYPE_BOOLEAN);
 
@@ -69,7 +71,7 @@ e_printable_class_init (GtkObjectClass *object_class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EPrintableClass, data_left),
 			      NULL, NULL,
-			      e_marshal_BOOLEAN__NONE,
+			      e_util_marshal_BOOLEAN__NONE,
 			      G_TYPE_BOOLEAN, 0, G_TYPE_NONE);
 
 	e_printable_signals [RESET] =
@@ -78,7 +80,7 @@ e_printable_class_init (GtkObjectClass *object_class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EPrintableClass, reset),
 			      NULL, NULL,
-			      e_marshal_NONE__NONE,
+			      e_util_marshal_NONE__NONE,
 			      G_TYPE_NONE, 0, G_TYPE_NONE);
 
 	e_printable_signals [HEIGHT] =
@@ -87,7 +89,7 @@ e_printable_class_init (GtkObjectClass *object_class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EPrintableClass, height),
 			      NULL, NULL,
-			      e_marshal_DOUBLE__OBJECT_DOUBLE_DOUBLE_BOOLEAN,
+			      e_util_marshal_DOUBLE__OBJECT_DOUBLE_DOUBLE_BOOLEAN,
 			      G_TYPE_DOUBLE, 4, G_TYPE_OBJECT, G_TYPE_DOUBLE,
 			      G_TYPE_DOUBLE, G_TYPE_BOOLEAN);
 	
@@ -97,7 +99,7 @@ e_printable_class_init (GtkObjectClass *object_class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EPrintableClass, will_fit),
 			      NULL, NULL,
-			      e_marshal_BOOLEAN__OBJECT_DOUBLE_DOUBLE_BOOLEAN,
+			      e_util_marshal_BOOLEAN__OBJECT_DOUBLE_DOUBLE_BOOLEAN,
 			      G_TYPE_BOOLEAN, 4, G_TYPE_OBJECT, G_TYPE_DOUBLE,
 			      G_TYPE_DOUBLE, G_TYPE_BOOLEAN);
 

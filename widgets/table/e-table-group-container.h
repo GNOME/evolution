@@ -25,10 +25,10 @@
 #define _E_TABLE_GROUP_CONTAINER_H_
 
 #include <libgnomecanvas/gnome-canvas.h>
-#include <gal/e-table/e-table-model.h>
-#include <gal/e-table/e-table-header.h>
-#include <gal/e-table/e-table-group.h>
-#include <gal/e-table/e-table-item.h>
+#include <table/e-table-model.h>
+#include <table/e-table-header.h>
+#include <table/e-table-group.h>
+#include <table/e-table-item.h>
 
 G_BEGIN_DECLS
 

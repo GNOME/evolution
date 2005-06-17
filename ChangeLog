@@ -1,3 +1,33 @@
+2005-06-17  Kaushal Kumar  <kakumar@novell.com>
+
+	* Retired GAL from Head. The relevant files have moved inside 
+	evolution. Thanks to JP Rosevear for performing the cvs surgery. The 
+	files have been moved in the following order.
+
+	evolution/e-util <- gal/gal/util
+	evolution/a11y <-  gal/gal/a11y
+	evolution/a11y/e-table <- gal/gal/a11y/e-table
+	evolution/a11y/e-text <- gal/gal/a11y/e-text
+	evolution/widgets/table <- gal/gal/e-table
+	evolution/widgets/text <- gal/gal/e-text
+	evolution/widgets/misc <- gal/gal/widgets
+	evolution/widgets/misc/pixmaps <- gal/gal/widgets/pixmaps
+	evolution/widgets/menus <- gal/gal/menus
+
+	Following is the summary of changes done to fix the build:-
+	- New files added to cvs repository,
+		- a11y/e-table/Makefile.am
+		- a11y/e-text/Makefile.am
+		- widgets/table/Makefile.am
+		- widgets/text/Makefile.am
+		- widgets/misc/pixmaps/Makefile.am
+		- iconv-detect.h
+		- iconv-detect.c
+	- Updated configure.in.
+	- Updated all the relevant Makefile.am files.
+	- Updated the include paths to replace all gal references.
+	- Updated the marshal list to suit gal files requirements. 
+
 2005-06-16 Harish Krishnaswamy <kharish@novell.com>
 	
 	* configure.in : add mono to the plugins list

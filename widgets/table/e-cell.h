@@ -28,8 +28,8 @@
 #include <gdk/gdktypes.h>
 #include <libgnomeprint/gnome-print.h>
 #include <libgnomeprint/gnome-font.h>
-#include <gal/e-table/e-table-model.h>
-#include <gal/e-table/e-table-tooltip.h>
+#include <table/e-table-model.h>
+#include <table/e-table-tooltip.h>
 
 G_BEGIN_DECLS
 

@@ -26,7 +26,7 @@
 
 #include <glib.h>
 #include <gtk/gtkobject.h>
-#include <gal/util/e-text-event-processor-types.h>
+#include <e-util/e-text-event-processor-types.h>
 
 #ifdef __cplusplus
 extern "C" {

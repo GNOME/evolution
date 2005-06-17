@@ -50,7 +50,7 @@
 #include "importer/evolution-importer-client.h"
 
 #include <glade/glade.h>
-#include <gal/widgets/e-gui-utils.h>
+#include <widgets/misc/e-gui-utils.h>
 
 #include <e-util/e-gtk-utils.h>
 #include <e-util/e-dialog-utils.h>

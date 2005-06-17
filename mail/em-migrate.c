@@ -53,9 +53,9 @@
 
 #include <libgnome/gnome-i18n.h>
 
-#include <gal/util/e-util.h>
+#include <e-util/e-util.h>
 #include <libedataserver/e-iconv.h>
-#include <gal/util/e-xml-utils.h>
+#include <e-util/e-xml-utils.h>
 
 #include "e-util/e-bconf-map.h"
 #include "e-util/e-account-list.h"

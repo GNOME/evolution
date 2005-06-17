@@ -27,10 +27,10 @@
 #include <gtk/gtksignal.h>
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 #include <libgnome/gnome-i18n.h>
-#include <gal/util/e-util.h>
-#include <gal/e-text/e-text.h>
-#include <gal/widgets/e-canvas.h>
-#include <gal/widgets/e-canvas-utils.h>
+#include <e-util/e-util.h>
+#include <text/e-text.h>
+#include <widgets/misc/e-canvas.h>
+#include <widgets/misc/e-canvas-utils.h>
 #include <gdk/gdkkeysyms.h>
 
 static void e_minicard_label_init		(EMinicardLabel		 *card);

@@ -24,8 +24,8 @@
 #ifndef _E_TABLE_MEMORY_STORE_H_
 #define _E_TABLE_MEMORY_STORE_H_
 
-#include <gal/e-table/e-table-memory.h>
-#include <gal/e-table/e-table-memory-callbacks.h>
+#include <table/e-table-memory.h>
+#include <table/e-table-memory-callbacks.h>
 
 G_BEGIN_DECLS
 

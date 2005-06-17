@@ -33,7 +33,7 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus */
 
-#include <gal/util/e-marshal.h>
+#include <e-util/e-util-marshal.h>
 
 #define E_MAKE_TYPE(l,str,t,ci,i,parent) \
 GType l##_get_type(void)\

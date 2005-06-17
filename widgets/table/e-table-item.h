@@ -26,12 +26,12 @@
 #define _E_TABLE_ITEM_H_
 
 #include <libgnomecanvas/gnome-canvas.h>
-#include <gal/e-table/e-table-model.h>
-#include <gal/e-table/e-table-header.h>
-#include <gal/e-table/e-table-defines.h>
-#include <gal/e-table/e-table-tooltip.h>
-#include <gal/widgets/e-selection-model.h>
-#include <gal/widgets/e-printable.h>
+#include <table/e-table-model.h>
+#include <table/e-table-header.h>
+#include <table/e-table-defines.h>
+#include <table/e-table-tooltip.h>
+#include <widgets/misc/e-selection-model.h>
+#include <widgets/misc/e-printable.h>
 
 G_BEGIN_DECLS
 

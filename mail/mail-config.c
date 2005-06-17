@@ -51,8 +51,8 @@
 #include <bonobo/bonobo-moniker-util.h>
 #include <bonobo/bonobo-exception.h>
 
-#include <gal/util/e-util.h>
-#include <gal/widgets/e-gui-utils.h>
+#include <e-util/e-util.h>
+#include <widgets/misc/e-gui-utils.h>
 
 #include <e-util/e-account-list.h>
 #include <e-util/e-signature-list.h>

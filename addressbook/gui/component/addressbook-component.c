@@ -43,7 +43,7 @@
 #include <bonobo/bonobo-i18n.h>
 #include <gtk/gtkimage.h>
 #include <gconf/gconf-client.h>
-#include <gal/util/e-util.h>
+#include <e-util/e-util.h>
 
 #ifdef ENABLE_SMIME
 #include "smime/gui/component.h"

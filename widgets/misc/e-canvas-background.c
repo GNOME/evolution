@@ -30,11 +30,11 @@
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
 
-#include "gal/util/e-i18n.h"
-#include "gal/util/e-util.h"
-#include "gal/widgets/e-canvas.h"
-#include "gal/widgets/e-canvas-utils.h"
-#include "gal/widgets/e-hsv-utils.h"
+#include "e-util/e-i18n.h"
+#include "e-util/e-util.h"
+#include "widgets/misc/e-canvas.h"
+#include "widgets/misc/e-canvas-utils.h"
+#include "widgets/misc/e-hsv-utils.h"
 
 #include "e-canvas-background.h"
 
@@ -512,7 +512,7 @@ ecb_class_init (GObjectClass *object_class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ECanvasBackgroundClass, style_set),
 			      NULL, NULL,
-			      e_marshal_NONE__OBJECT,
+			      e_util_marshal_NONE__OBJECT,
 			      G_TYPE_NONE, 1, GTK_TYPE_STYLE);
 }
 

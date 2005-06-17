@@ -36,13 +36,13 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 
-#include "gal/a11y/e-table/gal-a11y-e-table-item-factory.h"
-#include "gal/a11y/e-table/gal-a11y-e-table-item.h"
-#include "gal/util/e-i18n.h"
-#include "gal/util/e-util.h"
-#include "gal/widgets/e-canvas.h"
-#include "gal/widgets/e-canvas-utils.h"
-#include "gal/widgets/e-hsv-utils.h"
+#include "a11y/e-table/gal-a11y-e-table-item-factory.h"
+#include "a11y/e-table/gal-a11y-e-table-item.h"
+#include "e-util/e-i18n.h"
+#include "e-util/e-util.h"
+#include "widgets/misc/e-canvas.h"
+#include "widgets/misc/e-canvas-utils.h"
+#include "widgets/misc/e-hsv-utils.h"
 
 #include "e-cell.h"
 #include "e-table-item.h"
@@ -3036,7 +3036,7 @@ eti_class_init (GObjectClass *object_class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableItemClass, cursor_change),
 			      NULL, NULL,
-			      e_marshal_NONE__INT,
+			      e_util_marshal_NONE__INT,
 			      G_TYPE_NONE, 1, G_TYPE_INT);
 
 	eti_signals [CURSOR_ACTIVATED] =
@@ -3045,7 +3045,7 @@ eti_class_init (GObjectClass *object_class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableItemClass, cursor_activated),
 			      NULL, NULL,
-			      e_marshal_NONE__INT,
+			      e_util_marshal_NONE__INT,
 			      G_TYPE_NONE, 1, G_TYPE_INT);
 
 	eti_signals [DOUBLE_CLICK] =
@@ -3054,7 +3054,7 @@ eti_class_init (GObjectClass *object_class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableItemClass, double_click),
 			      NULL, NULL,
-			      e_marshal_NONE__INT_INT_BOXED,
+			      e_util_marshal_NONE__INT_INT_BOXED,
 			      G_TYPE_NONE, 3, G_TYPE_INT,
 			      G_TYPE_INT, GDK_TYPE_EVENT);
 
@@ -3064,7 +3064,7 @@ eti_class_init (GObjectClass *object_class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableItemClass, start_drag),
 			      NULL, NULL,
-			      e_marshal_INT__INT_INT_BOXED,
+			      e_util_marshal_INT__INT_INT_BOXED,
 			      G_TYPE_INT, 3, G_TYPE_INT,
 			      G_TYPE_INT, GDK_TYPE_EVENT);
 
@@ -3074,7 +3074,7 @@ eti_class_init (GObjectClass *object_class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableItemClass, right_click),
 			      NULL, NULL,
-			      e_marshal_INT__INT_INT_BOXED,
+			      e_util_marshal_INT__INT_INT_BOXED,
 			      G_TYPE_INT, 3, G_TYPE_INT,
 			      G_TYPE_INT, GDK_TYPE_EVENT);
 
@@ -3084,7 +3084,7 @@ eti_class_init (GObjectClass *object_class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableItemClass, click),
 			      NULL, NULL,
-			      e_marshal_INT__INT_INT_BOXED,
+			      e_util_marshal_INT__INT_INT_BOXED,
 			      G_TYPE_INT, 3, G_TYPE_INT,
 			      G_TYPE_INT, GDK_TYPE_EVENT);
 
@@ -3094,7 +3094,7 @@ eti_class_init (GObjectClass *object_class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableItemClass, key_press),
 			      NULL, NULL,
-			      e_marshal_INT__INT_INT_BOXED,
+			      e_util_marshal_INT__INT_INT_BOXED,
 			      G_TYPE_INT, 3, G_TYPE_INT,
 			      G_TYPE_INT, GDK_TYPE_EVENT);
 
@@ -3104,7 +3104,7 @@ eti_class_init (GObjectClass *object_class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableItemClass, style_set),
 			      NULL, NULL,
-			      e_marshal_NONE__OBJECT,
+			      e_util_marshal_NONE__OBJECT,
 			      G_TYPE_NONE, 1, GTK_TYPE_STYLE);
 
 	eti_signals[SELECTION_MODEL_REMOVED] =

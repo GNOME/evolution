@@ -25,8 +25,8 @@
 #define _E_TABLE_CONFIG_FIELD_H_
 
 #include <gtk/gtkvbox.h>
-#include <gal/e-table/e-table-sort-info.h>
-#include <gal/e-table/e-table-specification.h>
+#include <table/e-table-sort-info.h>
+#include <table/e-table-specification.h>
 
 G_BEGIN_DECLS
 

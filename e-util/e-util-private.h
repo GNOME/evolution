@@ -32,11 +32,11 @@ const char *_gal_get_localedir (void) G_GNUC_CONST;
 const char *_gal_get_gladedir (void) G_GNUC_CONST;
 const char *_gal_get_imagesdir (void) G_GNUC_CONST;
 
-#undef GAL_LOCALEDIR
-#define GAL_LOCALEDIR _gal_get_localedir ()
+#undef EVOLUTION_LOCALEDIR
+#define EVOLUTION_LOCALEDIR _gal_get_localedir ()
 
-#undef GAL_GLADEDIR
-#define GAL_GLADEDIR _gal_get_gladedir ()
+#undef EVOLUTION_GLADEDIR
+#define EVOLUTION_GLADEDIR _gal_get_gladedir ()
 
 #undef GAL_IMAGESDIR
 #define GAL_IMAGESDIR _gal_get_imagesdir ()

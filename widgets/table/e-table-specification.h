@@ -26,10 +26,10 @@
 
 #include <glib-object.h>
 #include <libxml/tree.h>
-#include <gal/widgets/e-selection-model.h>
-#include <gal/e-table/e-table-state.h>
-#include <gal/e-table/e-table-column-specification.h>
-#include <gal/e-table/e-table-defines.h>
+#include <widgets/misc/e-selection-model.h>
+#include <table/e-table-state.h>
+#include <table/e-table-column-specification.h>
+#include <table/e-table-defines.h>
 
 G_BEGIN_DECLS
 

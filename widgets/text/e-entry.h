@@ -28,7 +28,7 @@
 #include <libgnomecanvas/gnome-canvas.h>
 #include <gtk/gtktable.h>
 #include <libxml/tree.h>
-#include <gal/e-text/e-text.h>
+#include <text/e-text.h>
 #include "e-completion.h"
 
 G_BEGIN_DECLS

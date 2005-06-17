@@ -26,7 +26,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "gal/util/e-util.h"
+#include "e-util/e-util.h"
 
 #include "e-table-subset-variable.h"
 

@@ -24,8 +24,8 @@
 #ifndef E_TABLE_TEXT_MODEL_H
 #define E_TABLE_TEXT_MODEL_H
 
-#include <gal/e-text/e-text-model.h>
-#include <gal/e-table/e-table-model.h>
+#include <text/e-text-model.h>
+#include <table/e-table-model.h>
 
 G_BEGIN_DECLS
 

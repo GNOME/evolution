@@ -24,8 +24,8 @@
 #ifndef _E_TREE_SIMPLE_H_
 #define _E_TREE_SIMPLE_H_
 
-#include <gal/e-table/e-tree-model.h>
-#include <gal/e-table/e-table-simple.h>
+#include <table/e-tree-model.h>
+#include <table/e-table-simple.h>
 
 G_BEGIN_DECLS
 

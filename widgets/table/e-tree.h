@@ -28,19 +28,19 @@
 #include <gtk/gtktable.h>
 #include <libxml/tree.h>
 #include <libgnomecanvas/gnome-canvas.h>
-#include <gal/widgets/e-printable.h>
+#include <widgets/misc/e-printable.h>
 
-#include <gal/e-table/e-table-extras.h>
-#include <gal/e-table/e-table-specification.h>
-#include <gal/e-table/e-table-state.h>
-#include <gal/e-table/e-tree-model.h>
-#include <gal/e-table/e-tree-table-adapter.h>
-#include <gal/e-table/e-table-item.h>
+#include <table/e-table-extras.h>
+#include <table/e-table-specification.h>
+#include <table/e-table-state.h>
+#include <table/e-tree-model.h>
+#include <table/e-tree-table-adapter.h>
+#include <table/e-table-item.h>
 
 #define E_TREE_USE_TREE_SELECTION
 
 #ifdef E_TREE_USE_TREE_SELECTION
-#include <gal/e-table/e-tree-selection-model.h>
+#include <table/e-tree-selection-model.h>
 #endif
 
 G_BEGIN_DECLS

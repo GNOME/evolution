@@ -28,9 +28,9 @@
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
 
-#include "gal/a11y/gal-a11y-util.h"
-#include "gal/e-table/e-cell-popup.h"
-#include "gal/util/e-i18n.h"
+#include "a11y/gal-a11y-util.h"
+#include "table/e-cell-popup.h"
+#include "e-util/e-i18n.h"
 
 #include "gal-a11y-e-cell-popup.h"
 #include "gal-a11y-e-cell-registry.h"

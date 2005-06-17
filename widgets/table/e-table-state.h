@@ -26,7 +26,7 @@
 
 #include <glib-object.h>
 #include <libxml/tree.h>
-#include <gal/e-table/e-table-sort-info.h>
+#include <table/e-table-sort-info.h>
 
 G_BEGIN_DECLS
 

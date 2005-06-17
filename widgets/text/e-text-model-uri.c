@@ -30,7 +30,7 @@
 #include <gtk/gtkmain.h>
 #include <libgnome/gnome-url.h>
 
-#include "gal/util/e-util.h"
+#include "e-util/e-util.h"
 
 #include "e-text-model-uri.h"
 

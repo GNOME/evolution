@@ -23,7 +23,7 @@
 #include <libgnomeui/gnome-app.h>
 #include <libgnomeui/gnome-app-helper.h>
 #include <glade/glade.h>
-#include <gal/e-table/e-table-model.h>
+#include <table/e-table-model.h>
 #include <libedataserverui/e-name-selector.h>
 
 #include "addressbook/gui/contact-editor/eab-editor.h"

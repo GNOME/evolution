@@ -27,7 +27,7 @@
 #include "evolution-importer-listener.h"
 
 #include <bonobo/bonobo-object.h>
-#include <gal/util/e-util.h>
+#include <e-util/e-util.h>
 
 #include "GNOME_Evolution_Importer.h"
 #define PARENT_TYPE BONOBO_OBJECT_TYPE

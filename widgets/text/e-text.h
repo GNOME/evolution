@@ -39,9 +39,9 @@
 
 #include <gtk/gtkmenu.h>
 
-#include <gal/util/e-text-event-processor.h>
-#include <gal/e-text/e-text-model.h>
-#include <gal/widgets/e-canvas.h>
+#include <e-util/e-text-event-processor.h>
+#include <text/e-text-model.h>
+#include <widgets/misc/e-canvas.h>
 
 G_BEGIN_DECLS
 

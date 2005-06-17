@@ -65,10 +65,10 @@ replace_prefix (const char *runtime_prefix,
                 const char *configure_time_path)
 {
         if (runtime_prefix &&
-            strncmp (configure_time_path, GAL_PREFIX "/",
-                     strlen (GAL_PREFIX) + 1) == 0) {
+            strncmp (configure_time_path, EVOLUTION_PREFIX "/",
+                     strlen (EVOLUTION_PREFIX) + 1) == 0) {
                 return g_strconcat (runtime_prefix,
-                                    configure_time_path + strlen (GAL_PREFIX),
+                                    configure_time_path + strlen (EVOLUTION_PREFIX),
                                     NULL);
         } else
                 return g_strdup (configure_time_path);
@@ -88,10 +88,10 @@ setup (void)
 
         gnome_win32_get_prefixes (hmodule, &full_prefix, &cp_prefix);
 
-        localedir = replace_prefix (cp_prefix, GAL_LOCALEDIR);
+        localedir = replace_prefix (cp_prefix, EVOLUTION_LOCALEDIR);
         g_free (cp_prefix);
 
-        gladedir = replace_prefix (full_prefix, GAL_GLADEDIR);
+        gladedir = replace_prefix (full_prefix, EVOLUTION_GLADEDIR);
         imagesdir = replace_prefix (full_prefix, GAL_IMAGESDIR);
         g_free (full_prefix);
 

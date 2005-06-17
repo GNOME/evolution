@@ -66,7 +66,7 @@
 #include <camel/camel-string-utils.h>
 
 /* should this be in e-util rather than gal? */
-#include <gal/util/e-util.h>
+#include <e-util/e-util.h>
 
 #include <libedataserver/e-msgport.h>
 #include <e-util/e-gui-utils.h>

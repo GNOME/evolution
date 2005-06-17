@@ -25,7 +25,7 @@
 #define _GAL_VIEW_SET_H_
 
 #include <gtk/gtkobject.h>
-#include <gal/menus/gal-view-factory.h>
+#include <widgets/menus/gal-view-factory.h>
 
 G_BEGIN_DECLS
 

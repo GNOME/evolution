@@ -25,9 +25,9 @@
 
 #include <gtk/gtk.h>
 
-#include "gal/e-table/e-table-scrolled.h"
-#include "gal/util/e-i18n.h"
-#include "gal/util/e-util-private.h"
+#include "table/e-table-scrolled.h"
+#include "e-util/e-i18n.h"
+#include "e-util/e-util-private.h"
 
 #include "gal-define-views-model.h"
 #include "gal-view-instance-save-as-dialog.h"
@@ -191,7 +191,7 @@ gal_view_instance_save_as_dialog_init (GalViewInstanceSaveAsDialog *dialog)
 	GladeXML *gui;
 	GtkWidget *widget;
 	GtkWidget *table;
-	gchar *filename = g_build_filename (GAL_GLADEDIR,
+	gchar *filename = g_build_filename (EVOLUTION_GLADEDIR,
 					    "gal-view-instance-save-as-dialog.glade",
 					    NULL);
 

@@ -26,9 +26,9 @@
 
 #include <gdk/gdktypes.h>
 #include <gtk/gtkobject.h>
-#include <gal/util/e-sorter.h>
-#include <gal/widgets/e-selection-model.h>
-#include <gal/e-table/e-tree-model.h>
+#include <e-util/e-sorter.h>
+#include <widgets/misc/e-selection-model.h>
+#include <table/e-tree-model.h>
 
 #ifdef __cplusplus
 extern "C" {

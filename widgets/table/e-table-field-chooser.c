@@ -26,9 +26,9 @@
 #include <gtk/gtk.h>
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 
-#include "gal/util/e-i18n.h"
-#include "gal/util/e-util.h"
-#include "gal/util/e-util-private.h"
+#include "e-util/e-i18n.h"
+#include "e-util/e-util.h"
+#include "e-util/e-util-private.h"
 
 #include "e-table-field-chooser.h"
 #include "e-table-field-chooser-item.h"
@@ -155,7 +155,7 @@ e_table_field_chooser_init (ETableFieldChooser *etfc)
 {
 	GladeXML *gui;
 	GtkWidget *widget;
-	gchar *filename = g_build_filename (GAL_GLADEDIR,
+	gchar *filename = g_build_filename (EVOLUTION_GLADEDIR,
 					    "e-table-field-chooser.glade",
 					    NULL);
 	gui = glade_xml_new (filename, NULL, E_I18N_DOMAIN);

@@ -29,8 +29,8 @@
 
 #include <gtk/gtk.h>
 
-#include "gal/util/e-marshal.h"
-#include "gal/util/e-util.h"
+#include "e-util/e-util-marshal.h"
+#include "e-util/e-util.h"
 
 #include "e-completion.h"
 
@@ -89,7 +89,7 @@ e_completion_class_init (ECompletionClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ECompletionClass, completion_started),
 			      NULL, NULL,
-			      e_marshal_NONE__POINTER_INT_INT,
+			      e_util_marshal_NONE__POINTER_INT_INT,
 			      G_TYPE_NONE, 3,
 			      G_TYPE_POINTER, G_TYPE_INT, G_TYPE_INT);
 
@@ -99,7 +99,7 @@ e_completion_class_init (ECompletionClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ECompletionClass, completion_found),
 			      NULL, NULL,
-			      e_marshal_NONE__POINTER,
+			      e_util_marshal_NONE__POINTER,
 			      G_TYPE_NONE, 1,
 			      G_TYPE_POINTER);
 
@@ -109,7 +109,7 @@ e_completion_class_init (ECompletionClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ECompletionClass, completion_finished),
 			      NULL, NULL,
-			      e_marshal_NONE__NONE,
+			      e_util_marshal_NONE__NONE,
 			      G_TYPE_NONE, 0);
 
 	object_class->dispose = e_completion_dispose;

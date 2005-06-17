@@ -9,11 +9,11 @@
 
 #include <atk/atk.h>
 
-#include "gal/a11y/gal-a11y-util.h"
-#include "gal/e-table/e-table-click-to-add.h"
-#include "gal/e-table/e-table-group.h"
-#include "gal/e-table/e-table-group-leaf.h"
-#include "gal/util/e-i18n.h"
+#include "a11y/gal-a11y-util.h"
+#include "table/e-table-click-to-add.h"
+#include "table/e-table-group.h"
+#include "table/e-table-group-leaf.h"
+#include "e-util/e-i18n.h"
 
 #include "gal-a11y-e-table-click-to-add.h"
 #include "gal-a11y-e-table-click-to-add-factory.h"

@@ -22,7 +22,7 @@
 #ifndef E_CAL_MODEL_H
 #define E_CAL_MODEL_H
 
-#include <gal/e-table/e-table-model.h>
+#include <table/e-table-model.h>
 #include <libecal/e-cal.h>
 #include "e-cell-date-edit-text.h"
 

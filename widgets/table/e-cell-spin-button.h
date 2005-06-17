@@ -32,7 +32,7 @@
 
 #include <glib.h>
 #include <gtk/gtktypeutils.h>
-#include <gal/e-table/e-cell.h>
+#include <table/e-cell.h>
 
 #define E_CELL_SPIN_BUTTON_TYPE        (e_cell_spin_button_get_type ())
 #define E_CELL_SPIN_BUTTON(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_CELL_SPIN_BUTTON_TYPE, ECellSpinButton))

@@ -26,7 +26,7 @@
 #include <gtk/gtk.h>
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 
-#include "gal/util/e-util.h"
+#include "e-util/e-util.h"
 
 #include "e-table-group.h"
 #include "e-table-group-container.h"
@@ -650,7 +650,7 @@ etg_class_init (GObjectClass *object_class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableGroupClass, cursor_change),
 			      NULL, NULL,
-			      e_marshal_NONE__INT,
+			      e_util_marshal_NONE__INT,
 			      G_TYPE_NONE, 1, G_TYPE_INT);
 
 	etg_signals [CURSOR_ACTIVATED] =
@@ -659,7 +659,7 @@ etg_class_init (GObjectClass *object_class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableGroupClass, cursor_activated),
 			      NULL, NULL,
-			      e_marshal_NONE__INT,
+			      e_util_marshal_NONE__INT,
 			      G_TYPE_NONE, 1, G_TYPE_INT);
 
 	etg_signals [DOUBLE_CLICK] =
@@ -668,7 +668,7 @@ etg_class_init (GObjectClass *object_class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableGroupClass, double_click),
 			      NULL, NULL,
-			      e_marshal_NONE__INT_INT_BOXED,
+			      e_util_marshal_NONE__INT_INT_BOXED,
 			      G_TYPE_NONE, 3, G_TYPE_INT,
 			      G_TYPE_INT, GDK_TYPE_EVENT);
 
@@ -678,7 +678,7 @@ etg_class_init (GObjectClass *object_class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableGroupClass, right_click),
 			      NULL, NULL,
-			      e_marshal_INT__INT_INT_BOXED,
+			      e_util_marshal_INT__INT_INT_BOXED,
 			      G_TYPE_INT, 3, G_TYPE_INT, G_TYPE_INT, GDK_TYPE_EVENT);
 
 	etg_signals [CLICK] =
@@ -687,7 +687,7 @@ etg_class_init (GObjectClass *object_class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableGroupClass, click),
 			      NULL, NULL,
-			      e_marshal_INT__INT_INT_BOXED,
+			      e_util_marshal_INT__INT_INT_BOXED,
 			      G_TYPE_INT, 3, G_TYPE_INT,
 			      G_TYPE_INT, GDK_TYPE_EVENT);
 
@@ -697,7 +697,7 @@ etg_class_init (GObjectClass *object_class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableGroupClass, key_press),
 			      NULL, NULL,
-			      e_marshal_INT__INT_INT_BOXED,
+			      e_util_marshal_INT__INT_INT_BOXED,
 			      G_TYPE_INT, 3, G_TYPE_INT,
 			      G_TYPE_INT, GDK_TYPE_EVENT);
 
@@ -707,7 +707,7 @@ etg_class_init (GObjectClass *object_class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableGroupClass, start_drag),
 			      NULL, NULL,
-			      e_marshal_INT__INT_INT_BOXED,
+			      e_util_marshal_INT__INT_INT_BOXED,
 			      G_TYPE_INT, 3, G_TYPE_INT,
 			      G_TYPE_INT, GDK_TYPE_EVENT);
 }

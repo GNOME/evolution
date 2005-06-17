@@ -26,7 +26,7 @@
 
 #include <glib.h>
 #include <glib-object.h>
-#include <gal/util/e-sorter.h>
+#include <e-util/e-sorter.h>
 
 G_BEGIN_DECLS
 

@@ -24,7 +24,7 @@
 #ifndef _E_SELECTION_MODEL_SIMPLE_H_
 #define _E_SELECTION_MODEL_SIMPLE_H_
 
-#include <gal/widgets/e-selection-model-array.h>
+#include <widgets/misc/e-selection-model-array.h>
 
 #ifdef __cplusplus
 extern "C" {

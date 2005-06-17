@@ -27,7 +27,7 @@
 #include <string.h>
 
 #include <libedataserverui/e-source-selector.h>
-#include <gal/util/e-util.h>
+#include <e-util/e-util.h>
 #include "eab-gui-util.h"
 #include "util/eab-book-util.h"
 #include <libebook/e-destination.h>

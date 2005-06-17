@@ -12,9 +12,9 @@
 
 #include <atk/atk.h>
 
-#include "gal/a11y/gal-a11y-util.h"
-#include "gal/e-table/e-cell-text.h"
-#include "gal/util/e-i18n.h"
+#include "a11y/gal-a11y-util.h"
+#include "table/e-cell-text.h"
+#include "e-util/e-i18n.h"
 
 #include "gal-a11y-e-cell-text.h"
 

@@ -37,7 +37,7 @@
 #include <libxml/tree.h>
 #include <libxml/parser.h>
 #include <libxml/xmlmemory.h>
-#include <gal/util/e-xml-utils.h>
+#include <e-util/e-xml-utils.h>
 
 #include <gtk/gtk.h>
 #include <libgnome/gnome-i18n.h>

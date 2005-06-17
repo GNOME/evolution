@@ -7,7 +7,7 @@
  */
 
 #include <config.h>
-#include "gal/e-text/e-text.h"
+#include "text/e-text.h"
 #include "gal-a11y-e-text-factory.h"
 #include "gal-a11y-e-text.h"
 

@@ -24,7 +24,7 @@
 #ifndef _E_TABLE_ONE_H_
 #define _E_TABLE_ONE_H_
 
-#include <gal/e-table/e-table-model.h>
+#include <table/e-table-model.h>
 
 G_BEGIN_DECLS
 

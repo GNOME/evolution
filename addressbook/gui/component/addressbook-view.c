@@ -38,7 +38,7 @@
 #include <bonobo/bonobo-generic-factory.h>
 #include <bonobo/bonobo-ui-util.h>
 #include <bonobo/bonobo-exception.h>
-#include <gal/util/e-util.h>
+#include <e-util/e-util.h>
 #include <libedataserverui/e-source-selector.h>
 #include <libedataserverui/e-passwords.h>
 

@@ -25,7 +25,7 @@
 #define _E_TABLE_MEMORY_H_
 
 #include <gdk-pixbuf/gdk-pixbuf.h>
-#include <gal/e-table/e-table-model.h>
+#include <table/e-table-model.h>
 
 G_BEGIN_DECLS
 

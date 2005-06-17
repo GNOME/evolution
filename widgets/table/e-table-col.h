@@ -25,7 +25,7 @@
 #define _E_TABLE_COL_H_
 
 #include <gdk-pixbuf/gdk-pixbuf.h>
-#include <gal/e-table/e-cell.h>
+#include <table/e-cell.h>
 
 G_BEGIN_DECLS
 

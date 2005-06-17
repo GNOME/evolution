@@ -25,8 +25,9 @@
 
 #include <gdk/gdkkeysyms.h>
 
-#include "gal/util/e-i18n.h"
-#include "gal/util/e-util.h"
+#include "e-util/e-i18n.h"
+#include "e-util-marshal.h"
+#include "e-util/e-util.h"
 
 #include "e-selection-model.h"
 
@@ -155,7 +156,7 @@ e_selection_model_class_init (ESelectionModelClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ESelectionModelClass, cursor_changed),
 			      NULL, NULL,
-			      e_marshal_NONE__INT_INT,
+			      e_util_marshal_NONE__INT_INT,
 			      G_TYPE_NONE, 2, G_TYPE_INT, G_TYPE_INT);
 
 	e_selection_model_signals [CURSOR_ACTIVATED] =
@@ -164,7 +165,7 @@ e_selection_model_class_init (ESelectionModelClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ESelectionModelClass, cursor_activated),
 			      NULL, NULL,
-			      e_marshal_NONE__INT_INT,
+			      e_util_marshal_NONE__INT_INT,
 			      G_TYPE_NONE, 2, G_TYPE_INT, G_TYPE_INT);
 
 	e_selection_model_signals [SELECTION_CHANGED] =
@@ -173,7 +174,7 @@ e_selection_model_class_init (ESelectionModelClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ESelectionModelClass, selection_changed),
 			      NULL, NULL,
-			      e_marshal_NONE__NONE,
+			      e_util_marshal_NONE__NONE,
 			      G_TYPE_NONE, 0);
 
 	e_selection_model_signals [SELECTION_ROW_CHANGED] =
@@ -182,7 +183,7 @@ e_selection_model_class_init (ESelectionModelClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ESelectionModelClass, selection_row_changed),
 			      NULL, NULL,
-			      e_marshal_NONE__INT,
+			      e_util_marshal_NONE__INT,
 			      G_TYPE_NONE, 1, G_TYPE_INT);
 
 	klass->cursor_changed        = NULL;

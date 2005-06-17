@@ -58,7 +58,7 @@
 #include <atk/atkrelation.h>
 #include <atk/atkrelationset.h>
 #include <libgnome/gnome-i18n.h>
-#include <gal/util/e-util.h>
+#include <e-util/e-util.h>
 #include "e-util/e-time-utils.h"
 #include "e-calendar.h"
 

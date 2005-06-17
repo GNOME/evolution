@@ -1,15 +1,27 @@
 eutilincludedir = $(privincludedir)/e-util
 econdincludedir = $(privincludedir)/e-conduit
 
+if OS_WIN32
+PLATFORM_SOURCES = e-win32-reloc.c
+endif
+
 INCLUDES =								\
 	-I$(top_srcdir)							\
+	-I$(top_builddir)						\
+	-DEVOLUTION_PREFIX=\""$(prefix)"\"				\
 	-DEVOLUTION_IMAGES=\""$(imagesdir)"\"				\
 	-DEVOLUTION_ICONSDIR=\""$(imagesdir)"\"				\
 	-DEVOLUTION_CATEGORY_ICONS=\""$(imagesdir)/categories"\"	\
 	-DEVOLUTION_PLUGINDIR=\""$(plugindir)"\"			\
 	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"			\
+	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"			\
+	-DGAL_IMAGESDIR=\""$(imagesdir)"\"				\
 	-DG_LOG_DOMAIN=\"e-utils\"					\
 	$(GNOME_PILOT_CFLAGS)						\
+	$(EXTRA_GNOME_CFLAGS)                   			\
+	$(GNOME_FULL_CFLAGS)						\
+	$(GNOME_INCLUDEDIR)						\
+	$(ICONV_CFLAGS)                        				\
 	$(E_UTIL_CFLAGS)
 
 privlib_LTLIBRARIES = libeutil.la libeconduit.la
@@ -19,7 +31,6 @@ eutilinclude_HEADERS = 				\
 	e-account.h				\
 	e-bconf-map.h				\
 	e-categories-config.h			\
-	e-categories-master-list-wombat.h	\
 	e-component-listener.h			\
 	e-config.h				\
 	e-config-listener.h			\
@@ -50,7 +61,16 @@ eutilinclude_HEADERS = 				\
 	e-signature-list.h			\
 	e-time-utils.h				\
 	e-uid.h					\
-	md5-utils.h
+	md5-utils.h				\
+	e-bit-array.h				\
+	e-iconv.h				\
+	e-sorter.h				\
+	e-sorter-array.h			\
+	e-text-event-processor-emacs-like.h	\
+	e-text-event-processor-types.h		\
+	e-text-event-processor.h		\
+	e-util.h				\
+	e-xml-utils.h
 
 libeutil_la_SOURCES =				\
 	$(MARSHAL_GENERATED)			\
@@ -59,7 +79,6 @@ libeutil_la_SOURCES =				\
 	e-account.c				\
 	e-bconf-map.c				\
 	e-categories-config.c			\
-	e-categories-master-list-wombat.c	\
 	e-component-listener.c			\
 	e-config.c				\
 	e-config-listener.c			\
@@ -92,7 +111,18 @@ libeutil_la_SOURCES =				\
 	e-uid.c					\
 	eggtrayicon.c				\
 	eggtrayicon.h				\
-	md5-utils.c
+	md5-utils.c				\
+	e-bit-array.c				\
+	e-i18n.h				\
+	e-iconv.c				\
+	e-sorter.c				\
+	e-sorter-array.c			\
+	e-text-event-processor-emacs-like.c     \
+	e-text-event-processor.c                \
+	e-util.c				\
+	e-util-private.h			\
+	e-xml-utils.c				\
+	$(PLATFORM_SOURCES)
 
 MARSHAL_GENERATED = e-util-marshal.c e-util-marshal.h
 @EVO_MARSHAL_RULE@

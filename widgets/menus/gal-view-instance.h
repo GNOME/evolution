@@ -25,8 +25,8 @@
 #define _GAL_VIEW_INSTANCE_H_
 
 #include <gtk/gtkobject.h>
-#include <gal/menus/gal-view-collection.h>
-#include <gal/widgets/e-popup-menu.h>
+#include <widgets/menus/gal-view-collection.h>
+#include <widgets/misc/e-popup-menu.h>
 
 G_BEGIN_DECLS
 

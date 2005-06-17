@@ -2,7 +2,7 @@
 #ifndef _EAB_TABLE_ADAPTER_H_
 #define _EAB_TABLE_ADAPTER_H_
 
-#include <gal/e-table/e-table-model.h>
+#include <table/e-table-model.h>
 #include <libebook/e-book.h>
 #include <libebook/e-book-view.h>
 

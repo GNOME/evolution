@@ -23,7 +23,7 @@
  *
  */
 
-#include <gal/e-text/e-text.h>
+#include <text/e-text.h>
 #include "ea-factory.h"
 #include "ea-addressbook.h"
 #include "addressbook/ea-minicard.h"

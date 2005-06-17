@@ -31,7 +31,7 @@
 #define _E_CELL_TREE_H_
 
 #include <libgnomecanvas/gnome-canvas.h>
-#include <gal/e-table/e-cell.h>
+#include <table/e-cell.h>
 
 G_BEGIN_DECLS
 

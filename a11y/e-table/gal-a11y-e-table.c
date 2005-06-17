@@ -8,12 +8,12 @@
 
 #include <config.h>
 
-#include "gal/a11y/gal-a11y-util.h"
-#include "gal/e-table/e-table.h"
-#include "gal/e-table/e-table-click-to-add.h"
-#include "gal/e-table/e-table-group.h"
-#include "gal/e-table/e-table-group-container.h"
-#include "gal/e-table/e-table-group-leaf.h"
+#include "a11y/gal-a11y-util.h"
+#include "table/e-table.h"
+#include "table/e-table-click-to-add.h"
+#include "table/e-table-group.h"
+#include "table/e-table-group-container.h"
+#include "table/e-table-group-leaf.h"
 
 #include "gal-a11y-e-table.h"
 #include "gal-a11y-e-table-factory.h"

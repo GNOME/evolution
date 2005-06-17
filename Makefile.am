@@ -20,6 +20,7 @@ EXTRA_DIST = 			\
 	NEWS			\
 	NEWS-1.0		\
 	marshal.mk		\
+	iconv-detect.c		\
 	plugin.mk		\
 	server.mk		\
 	intltool-merge.in	\
@@ -52,7 +53,7 @@ SUBDIRS = 			\
 	help			\
 	po
 
-DISTCLEANFILES = intltool-extract intltool-merge intltool-update $(pkgconfig_DATA)
+DISTCLEANFILES = intltool-extract intltool-merge intltool-update iconv-detect.c $(pkgconfig_DATA)
 
 # CDE Stuff
 

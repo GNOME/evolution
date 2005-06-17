@@ -31,10 +31,10 @@
 #include <libxml/parser.h>
 #include <libgnome/gnome-util.h>
 
-#include "gal/util/e-i18n.h"
-#include "gal/util/e-util.h"
-#include "gal/util/e-xml-utils.h"
-#include "gal/widgets/e-unicode.h"
+#include "e-util/e-i18n.h"
+#include "e-util/e-util.h"
+#include "e-util/e-xml-utils.h"
+#include "widgets/misc/e-unicode.h"
 
 #include "gal-view-collection.h"
 

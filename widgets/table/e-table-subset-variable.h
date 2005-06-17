@@ -25,7 +25,7 @@
 #define _E_TABLE_SUBSET_VARIABLE_H_
 
 #include <glib-object.h>
-#include <gal/e-table/e-table-subset.h>
+#include <table/e-table-subset.h>
 
 G_BEGIN_DECLS
 

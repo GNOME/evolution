@@ -10,7 +10,7 @@
 #include <config.h>
 #include "gal-view-treeview.h"
 #include <libxml/parser.h>
-#include <gal/util/e-xml-utils.h>
+#include <e-util/e-xml-utils.h>
 
 #define PARENT_TYPE gal_view_get_type ()
 #define d(x) x

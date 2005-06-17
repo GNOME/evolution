@@ -25,10 +25,10 @@
 
 #include <gtk/gtk.h>
 
-#include "gal/e-table/e-table-scrolled.h"
-#include "gal/util/e-i18n.h"
-#include "gal/util/e-util.h"
-#include "gal/util/e-util-private.h"
+#include "table/e-table-scrolled.h"
+#include "e-util/e-i18n.h"
+#include "e-util/e-util.h"
+#include "e-util/e-util-private.h"
 
 #include "gal-define-views-dialog.h"
 #include "gal-define-views-model.h"
@@ -244,7 +244,7 @@ gal_define_views_dialog_init (GalDefineViewsDialog *dialog)
 	GladeXML *gui;
 	GtkWidget *widget;
 	GtkWidget *etable;
-	gchar *filename = g_build_filename (GAL_GLADEDIR,
+	gchar *filename = g_build_filename (EVOLUTION_GLADEDIR,
 					    "gal-define-views.glade",
 					    NULL);
 

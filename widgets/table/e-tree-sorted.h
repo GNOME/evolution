@@ -25,9 +25,9 @@
 #define _E_TREE_SORTED_H_
 
 #include <gdk-pixbuf/gdk-pixbuf.h>
-#include <gal/e-table/e-tree-model.h>
-#include <gal/e-table/e-table-sort-info.h>
-#include <gal/e-table/e-table-header.h>
+#include <table/e-tree-model.h>
+#include <table/e-table-sort-info.h>
+#include <table/e-table-header.h>
 
 G_BEGIN_DECLS
 

@@ -25,9 +25,9 @@
 #define _E_TABLE_SELECTION_MODEL_H_
 
 #include <gtk/gtkobject.h>
-#include <gal/widgets/e-selection-model-array.h>
-#include <gal/e-table/e-table-model.h>
-#include <gal/e-table/e-table-header.h>
+#include <widgets/misc/e-selection-model-array.h>
+#include <table/e-table-model.h>
+#include <table/e-table-header.h>
 
 #ifdef __cplusplus
 extern "C" {

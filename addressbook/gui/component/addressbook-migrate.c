@@ -36,8 +36,8 @@
 #include <libebook/e-destination.h>
 #include <libebook/e-book.h>
 #include <libgnome/gnome-i18n.h>
-#include <gal/util/e-util.h>
-#include <gal/util/e-xml-utils.h>
+#include <e-util/e-util.h>
+#include <e-util/e-xml-utils.h>
 #include <gtk/gtkwidget.h>
 #include <gtk/gtkvbox.h>
 #include <gtk/gtkmain.h>
