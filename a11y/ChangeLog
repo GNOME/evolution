@@ -1,6 +1,7 @@
 2005-06-18  Tor Lillqvist  <tml@novell.com>
 
-	* e-text/Makefile.am (INCLUDES): Remove stray trailing slash from
+	* e-text/Makefile.am (INCLUDES)
+	* e-table/Makefile.am (INCLUDES): Remove stray trailing slash from
 	-I path, confuses gcc on Win32.
 
 2005-04-22  Li Yuan  <li.yuan@sun.com>

@@ -1,6 +1,6 @@
 INCLUDES =					\
 	-I$(top_srcdir)                         \
-	-I$(top_srcdir)/widgets/                \
+	-I$(top_srcdir)/widgets                 \
 	$(EXTRA_GNOME_CFLAGS)			\
 	$(GNOME_BONOBO_CFLAGS)			\
 	$(GNOME_INCLUDEDIR)			\
