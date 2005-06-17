@@ -1,5 +1,4 @@
-EXTRA_DIST =
-	README				\
+EXTRA_DIST =				\
 	dummy.la			\
 	libemiscwidgets.def		\
 	libevolution-addressbook.def	\
