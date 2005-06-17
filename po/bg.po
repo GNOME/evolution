@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-06-10 11:06+0300\n"
-"PO-Revision-Date: 2005-06-10 11:06+0300\n"
+"POT-Creation-Date: 2005-06-17 10:54+0300\n"
+"PO-Revision-Date: 2005-06-17 10:51+0300\n"
 "Last-Translator: Rostislav \"zbrox\" Raykov <zbrox@i-space.org>\n"
 "Language-Team: Bulgarian <dict@fsa-bg.org>\n"
 "MIME-Version: 1.0\n"
@@ -6382,7 +6382,7 @@ msgstr "Крайна дата:"
 #. Status
 #: ../calendar/gui/e-cal-component-preview.c:222
 #: ../calendar/gui/e-itip-control.c:1132
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:209
+#: ../plugins/exchange-account-setup/exchange-account-setup.c:227
 #: ../plugins/itip-formatter/itip-view.c:884
 msgid "Status:"
 msgstr "Състояние:"
@@ -14071,8 +14071,8 @@ msgid ""
 "Periodically synchronize contact information and images from my _instant "
 "messenger"
 msgstr ""
-"Периодично синхронизиране на информацията за контактите и изображенията с "
-"програмата за _бързи съобщения"
+"Периодично синхронизиране на информацията за контактите\n"
+"и изображенията с програмата за _бързи съобщения"
 
 #. Synchronize now button.
 #: ../plugins/bbdb/bbdb.c:458
@@ -14186,12 +14186,12 @@ msgid "Mark as default folder"
 msgstr "Обозначаване като стандартна папка"
 
 #. i18n: "Secure Password Authentication" is an Outlookism
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:59
+#: ../plugins/exchange-account-setup/exchange-account-setup.c:68
 msgid "Secure Password"
 msgstr "Сигурна парола"
 
 #. i18n: "NTLM" probably doesn't translate
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:62
+#: ../plugins/exchange-account-setup/exchange-account-setup.c:71
 msgid ""
 "This option will connect to the Exchange server using secure password (NTLM) "
 "authentication."
@@ -14199,18 +14199,22 @@ msgstr ""
 "При тази опция свързването с Exchange сървъра става чрез сигурно (NTLM) "
 "удостоверяване."
 
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:70
+#: ../plugins/exchange-account-setup/exchange-account-setup.c:79
 msgid "Plaintext Password"
 msgstr "Обикновена парола в текстов формат"
 
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:72
+#: ../plugins/exchange-account-setup/exchange-account-setup.c:81
 msgid ""
 "This option will connect to the Exchange server using standard plaintext "
 "password authentication."
 msgstr "Свързване към сървъра, тип Exchange, чрез стандартно удостоверяване."
 
+#: ../plugins/exchange-account-setup/exchange-account-setup.c:194
+msgid "Could not read out-of-office state"
+msgstr "Състоянието \"Извън офиса\" не може да бъде прочетено."
+
 #. Description section
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:193
+#: ../plugins/exchange-account-setup/exchange-account-setup.c:211
 msgid ""
 "The message specified below will be automatically sent to \n"
 "each person who sends mail to you while you are out of the office."
@@ -14218,39 +14222,43 @@ msgstr ""
 "Писмото, посочено по-долу, ще бъде пращано автоматично до всеки, \n"
 "който ви изпрати писмо, докато сте извън офиса."
 
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:221
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:231
+#: ../plugins/exchange-account-setup/exchange-account-setup.c:239
+#: ../plugins/exchange-account-setup/exchange-account-setup.c:249
 msgid "I am out of the office"
 msgstr "В момента не съм в офиса"
 
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:224
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:228
+#: ../plugins/exchange-account-setup/exchange-account-setup.c:242
+#: ../plugins/exchange-account-setup/exchange-account-setup.c:246
 msgid "I am in the office"
 msgstr "В момента съм в офиса"
 
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:257
+#: ../plugins/exchange-account-setup/exchange-account-setup.c:275
 msgid "Out of office Message:"
 msgstr "Съобщение \"Не съм в офиса\":"
 
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:302
+#: ../plugins/exchange-account-setup/exchange-account-setup.c:319
 msgid "Exchange Settings"
 msgstr "Настройки на Exchange"
 
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:475
+#: ../plugins/exchange-account-setup/exchange-account-setup.c:507
 #: ../plugins/exchange-account-setup/exchange-ask-password.c:200
 msgid "_OWA Url:"
 msgstr "_OWA Url:"
 
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:500
+#: ../plugins/exchange-account-setup/exchange-account-setup.c:532
 #: ../plugins/exchange-account-setup/exchange-ask-password.c:193
 msgid "A_uthenticate"
 msgstr "_Удостоверяване"
 
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:722
+#: ../plugins/exchange-account-setup/exchange-account-setup.c:597
+msgid "Could not update out-of-office state"
+msgstr "Състоянието \"Извън офиса\" не може да бъде актуализирано "
+
+#: ../plugins/exchange-account-setup/exchange-account-setup.c:724
 msgid "Authentication Type"
 msgstr "Тип удостоверяване"
 
-#: ../plugins/exchange-account-setup/exchange-account-setup.c:736
+#: ../plugins/exchange-account-setup/exchange-account-setup.c:738
 msgid "Ch_eck for Supported Types"
 msgstr "_Проверка за поддържани типове"
 
