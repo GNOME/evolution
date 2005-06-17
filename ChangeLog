@@ -2,6 +2,9 @@
 
 	* win32/Makefile.am (EXTRA_DIST): Typo.
 
+	* win32/libemiscwidgets.def: Add e_utf8_to_locale_string, used in
+	e-util.
+
 2005-06-17  Kaushal Kumar  <kakumar@novell.com>
 
 	* Retired GAL from Head. The relevant files have moved inside 

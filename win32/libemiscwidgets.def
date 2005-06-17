@@ -18,3 +18,4 @@ EXPORTS
 	e_map_window_to_world
 	e_map_zoom_out
 	e_map_zoom_to_location
+	e_utf8_to_locale_string
