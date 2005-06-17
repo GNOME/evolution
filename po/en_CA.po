@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-06-08 17:32-0400\n"
-"PO-Revision-Date: 2005-06-08 19:18-0400\n"
+"POT-Creation-Date: 2005-06-17 01:14-0400\n"
+"PO-Revision-Date: 2005-06-17 19:18-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: Canadian English <adamw@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -665,7 +665,7 @@ msgstr ""
 "Please be patient while Evolution migrates your Pilot Sync data..."
 
 #: addressbook/gui/component/addressbook-view.c:758
-#: addressbook/gui/widgets/e-addressbook-view.c:945
+#: addressbook/gui/widgets/e-addressbook-view.c:937
 #: calendar/gui/calendar-component.c:537 calendar/gui/tasks-component.c:441
 #: mail/em-filter-i18n.h:11 ui/evolution-addressbook.xml.h:8
 #: ui/evolution-calendar.xml.h:5 ui/evolution-mail-message.xml.h:25
@@ -2536,7 +2536,7 @@ msgstr "_Type an email address or drag a contact into the list below:"
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:162
 #: addressbook/gui/widgets/e-addressbook-model.c:296
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:384
-#: addressbook/gui/widgets/e-addressbook-view.c:223
+#: addressbook/gui/widgets/e-addressbook-view.c:222
 #: addressbook/gui/widgets/e-minicard-view-widget.c:107
 #: addressbook/gui/widgets/e-minicard-view.c:505
 msgid "Book"
@@ -2610,7 +2610,7 @@ msgstr[1] "%d contacts"
 
 #: addressbook/gui/widgets/e-addressbook-model.c:303
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:391
-#: addressbook/gui/widgets/e-addressbook-view.c:237
+#: addressbook/gui/widgets/e-addressbook-view.c:236
 #: addressbook/gui/widgets/e-minicard-view-widget.c:114
 #: addressbook/gui/widgets/e-minicard-view.c:512
 msgid "Query"
@@ -2628,35 +2628,35 @@ msgstr "Model"
 msgid "Error modifying card"
 msgstr "Error modifying card"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:169
+#: addressbook/gui/widgets/e-addressbook-view.c:168
 msgid "Name begins with"
 msgstr "Name begins with"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:170
+#: addressbook/gui/widgets/e-addressbook-view.c:169
 msgid "Email begins with"
 msgstr "Email begins with"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:171
+#: addressbook/gui/widgets/e-addressbook-view.c:170
 #: calendar/gui/cal-search-bar.c:53
 msgid "Category is"
 msgstr "Category is"
 
 #. We attach subitems below
-#: addressbook/gui/widgets/e-addressbook-view.c:172
+#: addressbook/gui/widgets/e-addressbook-view.c:171
 #: calendar/gui/cal-search-bar.c:48
 msgid "Any field contains"
 msgstr "Any field contains"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:173
-#: addressbook/gui/widgets/e-addressbook-view.c:178
+#: addressbook/gui/widgets/e-addressbook-view.c:172
+#: addressbook/gui/widgets/e-addressbook-view.c:177
 msgid "Advanced..."
 msgstr "Advanced..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:230
+#: addressbook/gui/widgets/e-addressbook-view.c:229
 msgid "Source"
 msgstr "Source"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:244
+#: addressbook/gui/widgets/e-addressbook-view.c:243
 #: calendar/gui/dialogs/meeting-page.etspec.h:11
 #: calendar/gui/e-calendar-table.etspec.h:13
 #: calendar/gui/e-meeting-list-view.c:337
@@ -2664,73 +2664,73 @@ msgstr "Source"
 msgid "Type"
 msgstr "Type"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:551
+#: addressbook/gui/widgets/e-addressbook-view.c:543
 msgid "Address Book"
 msgstr "Address Book"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:814
-#: addressbook/gui/widgets/e-addressbook-view.c:932
-#: addressbook/gui/widgets/e-addressbook-view.c:2008
+#: addressbook/gui/widgets/e-addressbook-view.c:806
+#: addressbook/gui/widgets/e-addressbook-view.c:924
+#: addressbook/gui/widgets/e-addressbook-view.c:1986
 #: ui/evolution-addressbook.xml.h:19
 msgid "Save as VCard..."
 msgstr "Save as VCard..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:928
+#: addressbook/gui/widgets/e-addressbook-view.c:920
 msgid "New Contact..."
 msgstr "New Contact..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:929
+#: addressbook/gui/widgets/e-addressbook-view.c:921
 msgid "New Contact List..."
 msgstr "New Contact List..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:933
+#: addressbook/gui/widgets/e-addressbook-view.c:925
 #: ui/evolution-addressbook.xml.h:10
 msgid "Forward Contact"
 msgstr "Forward Contact"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:934
+#: addressbook/gui/widgets/e-addressbook-view.c:926
 msgid "Send Message to Contact"
 msgstr "Send Message to Contact"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:935
+#: addressbook/gui/widgets/e-addressbook-view.c:927
 #: calendar/gui/calendar-commands.c:120 calendar/gui/print.c:2501
 #: ui/evolution-addressbook.xml.h:16 ui/evolution-calendar.xml.h:19
 #: ui/evolution-mail-message.xml.h:74 ui/evolution-tasks.xml.h:14
 msgid "Print"
 msgstr "Print"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:938
+#: addressbook/gui/widgets/e-addressbook-view.c:930
 msgid "Copy to Address Book..."
 msgstr "Copy to Address Book..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:939
+#: addressbook/gui/widgets/e-addressbook-view.c:931
 msgid "Move to Address Book..."
 msgstr "Move to Address Book..."
 
-#: addressbook/gui/widgets/e-addressbook-view.c:942
+#: addressbook/gui/widgets/e-addressbook-view.c:934
 #: ui/evolution-addressbook.xml.h:6 ui/evolution-tasks.xml.h:4
 msgid "Cut"
 msgstr "Cut"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:943
+#: addressbook/gui/widgets/e-addressbook-view.c:935
 #: calendar/gui/calendar-component.c:536 calendar/gui/tasks-component.c:440
 #: ui/evolution-addressbook.xml.h:2 ui/evolution-mail-message.xml.h:11
 #: ui/evolution-tasks.xml.h:2
 msgid "Copy"
 msgstr "Copy"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:944
+#: addressbook/gui/widgets/e-addressbook-view.c:936
 #: ui/evolution-addressbook.xml.h:13 ui/evolution-tasks.xml.h:11
 msgid "Paste"
 msgstr "Paste"
 
 #. All, unmatched, separator
-#: addressbook/gui/widgets/e-addressbook-view.c:1547
+#: addressbook/gui/widgets/e-addressbook-view.c:1539
 #: calendar/gui/cal-search-bar.c:346
 msgid "Any Category"
 msgstr "Any Category"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:1760
+#: addressbook/gui/widgets/e-addressbook-view.c:1738
 msgid "Print cards"
 msgstr "Print cards"
 
@@ -6295,7 +6295,7 @@ msgstr "Due Date:"
 #. Status
 #: calendar/gui/e-cal-component-preview.c:222
 #: calendar/gui/e-itip-control.c:1132
-#: plugins/exchange-account-setup/exchange-account-setup.c:209
+#: plugins/exchange-account-setup/exchange-account-setup.c:227
 #: plugins/itip-formatter/itip-view.c:884
 msgid "Status:"
 msgstr "Status:"
@@ -14027,12 +14027,12 @@ msgid "Mark as default folder"
 msgstr "Mark as default folder"
 
 #. i18n: "Secure Password Authentication" is an Outlookism
-#: plugins/exchange-account-setup/exchange-account-setup.c:59
+#: plugins/exchange-account-setup/exchange-account-setup.c:68
 msgid "Secure Password"
 msgstr "Secure Password"
 
 #. i18n: "NTLM" probably doesn't translate
-#: plugins/exchange-account-setup/exchange-account-setup.c:62
+#: plugins/exchange-account-setup/exchange-account-setup.c:71
 msgid ""
 "This option will connect to the Exchange server using secure password (NTLM) "
 "authentication."
@@ -14040,20 +14040,24 @@ msgstr ""
 "This option will connect to the Exchange server using secure password (NTLM) "
 "authentication."
 
-#: plugins/exchange-account-setup/exchange-account-setup.c:70
+#: plugins/exchange-account-setup/exchange-account-setup.c:79
 msgid "Plaintext Password"
 msgstr "Plaintext Password"
 
-#: plugins/exchange-account-setup/exchange-account-setup.c:72
+#: plugins/exchange-account-setup/exchange-account-setup.c:81
 msgid ""
 "This option will connect to the Exchange server using standard plaintext "
 "password authentication."
 msgstr ""
 "This option will connect to the Exchange server using standard plaintext "
 "password authentication."
+
+#: plugins/exchange-account-setup/exchange-account-setup.c:194
+msgid "Could not read out-of-office state"
+msgstr "Could not read out-of-office state"
 
 #. Description section
-#: plugins/exchange-account-setup/exchange-account-setup.c:193
+#: plugins/exchange-account-setup/exchange-account-setup.c:211
 msgid ""
 "The message specified below will be automatically sent to \n"
 "each person who sends mail to you while you are out of the office."
@@ -14061,39 +14065,43 @@ msgstr ""
 "The message specified below will be automatically sent to \n"
 "each person who sends mail to you while you are out of the office."
 
-#: plugins/exchange-account-setup/exchange-account-setup.c:221
-#: plugins/exchange-account-setup/exchange-account-setup.c:231
+#: plugins/exchange-account-setup/exchange-account-setup.c:239
+#: plugins/exchange-account-setup/exchange-account-setup.c:249
 msgid "I am out of the office"
 msgstr "I am out of the office"
 
-#: plugins/exchange-account-setup/exchange-account-setup.c:224
-#: plugins/exchange-account-setup/exchange-account-setup.c:228
+#: plugins/exchange-account-setup/exchange-account-setup.c:242
+#: plugins/exchange-account-setup/exchange-account-setup.c:246
 msgid "I am in the office"
 msgstr "I am in the office"
 
-#: plugins/exchange-account-setup/exchange-account-setup.c:257
+#: plugins/exchange-account-setup/exchange-account-setup.c:275
 msgid "Out of office Message:"
 msgstr "Out of office Message:"
 
-#: plugins/exchange-account-setup/exchange-account-setup.c:302
+#: plugins/exchange-account-setup/exchange-account-setup.c:319
 msgid "Exchange Settings"
 msgstr "Exchange Settings"
 
-#: plugins/exchange-account-setup/exchange-account-setup.c:475
+#: plugins/exchange-account-setup/exchange-account-setup.c:507
 #: plugins/exchange-account-setup/exchange-ask-password.c:200
 msgid "_OWA Url:"
 msgstr "_OWA URL:"
 
-#: plugins/exchange-account-setup/exchange-account-setup.c:500
+#: plugins/exchange-account-setup/exchange-account-setup.c:532
 #: plugins/exchange-account-setup/exchange-ask-password.c:193
 msgid "A_uthenticate"
 msgstr "A_uthenticate"
 
-#: plugins/exchange-account-setup/exchange-account-setup.c:722
+#: plugins/exchange-account-setup/exchange-account-setup.c:597
+msgid "Could not update out-of-office state"
+msgstr "Could not update out-of-office state"
+
+#: plugins/exchange-account-setup/exchange-account-setup.c:724
 msgid "Authentication Type"
 msgstr "Authentication Type"
 
-#: plugins/exchange-account-setup/exchange-account-setup.c:736
+#: plugins/exchange-account-setup/exchange-account-setup.c:738
 msgid "Ch_eck for Supported Types"
 msgstr "Ch_eck for Supported Types"
 
