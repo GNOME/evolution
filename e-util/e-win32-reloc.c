@@ -32,11 +32,15 @@
 /* localedir uses system codepage as it is passed to the non-UTF8ified
  * gettext library
  */
-static char *localedir = NULL;
+static const char *localedir = NULL;
 
 /* The others are in UTF-8 */
-static char *gladedir;
-static char *imagesdir;
+static const char *gladedir;
+static const char *images;
+static const char *iconsdir;
+static const char *category_icons;
+static const char *plugindir;
+static const char *privdatadir;
 
 static HMODULE hmodule;
 G_LOCK_DEFINE_STATIC (mutex);
@@ -92,7 +96,10 @@ setup (void)
         g_free (cp_prefix);
 
         gladedir = replace_prefix (full_prefix, EVOLUTION_GLADEDIR);
-        imagesdir = replace_prefix (full_prefix, GAL_IMAGESDIR);
+        images = replace_prefix (full_prefix, EVOLUTION_IMAGES);
+	category_icons = replace_prefix (full_prefix, EVOLUTION_CATEGORY_ICONS);
+	plugindir = replace_prefix (full_prefix, EVOLUTION_PLUGINDIR);
+	privdatadir = replace_prefix (full_prefix, EVOLUTION_PRIVDATADIR);
         g_free (full_prefix);
 
 	G_UNLOCK (mutex);
@@ -102,7 +109,7 @@ setup (void)
 
 #define GETTER(varbl)				\
 const char *					\
-_gal_get_##varbl (void)				\
+_e_get_##varbl (void)				\
 {						\
         setup ();				\
         return varbl;				\
@@ -110,6 +117,8 @@ _gal_get_##varbl (void)				\
 
 GETTER(localedir)
 GETTER(gladedir)
-GETTER(imagesdir)
-
-
+GETTER(images)
+GETTER(iconsdir)
+GETTER(category_icons)
+GETTER(plugindir)
+GETTER(privdatadir)

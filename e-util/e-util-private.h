@@ -28,18 +28,34 @@
 
 #ifdef G_OS_WIN32
 
-const char *_gal_get_localedir (void) G_GNUC_CONST;
-const char *_gal_get_gladedir (void) G_GNUC_CONST;
-const char *_gal_get_imagesdir (void) G_GNUC_CONST;
+const char *_e_get_localedir (void) G_GNUC_CONST;
+const char *_e_get_gladedir (void) G_GNUC_CONST;
+const char *_e_get_images (void) G_GNUC_CONST;
+const char *_e_get_iconsdir (void) G_GNUC_CONST;
+const char *_e_get_category_icons (void) G_GNUC_CONST;
+const char *_e_get_plugindir (void) G_GNUC_CONST;
+const char *_e_get_privdatadir (void) G_GNUC_CONST;
 
 #undef EVOLUTION_LOCALEDIR
-#define EVOLUTION_LOCALEDIR _gal_get_localedir ()
+#define EVOLUTION_LOCALEDIR _e_get_localedir ()
 
 #undef EVOLUTION_GLADEDIR
-#define EVOLUTION_GLADEDIR _gal_get_gladedir ()
+#define EVOLUTION_GLADEDIR _e_get_gladedir ()
 
-#undef GAL_IMAGESDIR
-#define GAL_IMAGESDIR _gal_get_imagesdir ()
+#undef EVOLUTION_IMAGES
+#define EVOLUTION_IMAGES _e_get_images ()
+
+#undef EVOLUTION_ICONSDIR
+#define EVOLUTION_ICONSDIR _e_get_iconsdir ()
+
+#undef EVOLUTION_CATEGORY_ICONS
+#define EVOLUTION_CATEGORY_ICONS _e_get_category_icons ()
+
+#undef EVOLUTION_PLUGINDIR
+#define EVOLUTION_PLUGINDIR _e_get_plugindir ()
+
+#undef EVOLUTION_PRIVDATADIR
+#define EVOLUTION_PRIVDATADIR _e_get_privdatadir ()
 
 #endif	/* G_OS_WIN32 */
 

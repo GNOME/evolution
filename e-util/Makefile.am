@@ -2,6 +2,7 @@ eutilincludedir = $(privincludedir)/e-util
 econdincludedir = $(privincludedir)/e-conduit
 
 if OS_WIN32
+WIN32_BOOTSTRAP_LIBS = $(top_builddir)/win32/libemiscwidgets.la
 PLATFORM_SOURCES = e-win32-reloc.c
 endif
 
@@ -9,13 +10,13 @@ INCLUDES =								\
 	-I$(top_srcdir)							\
 	-I$(top_builddir)						\
 	-DEVOLUTION_PREFIX=\""$(prefix)"\"				\
+	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"				\
 	-DEVOLUTION_IMAGES=\""$(imagesdir)"\"				\
 	-DEVOLUTION_ICONSDIR=\""$(imagesdir)"\"				\
 	-DEVOLUTION_CATEGORY_ICONS=\""$(imagesdir)/categories"\"	\
 	-DEVOLUTION_PLUGINDIR=\""$(plugindir)"\"			\
 	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"			\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"			\
-	-DGAL_IMAGESDIR=\""$(imagesdir)"\"				\
 	-DG_LOG_DOMAIN=\"e-utils\"					\
 	$(GNOME_PILOT_CFLAGS)						\
 	$(EXTRA_GNOME_CFLAGS)                   			\
@@ -127,7 +128,12 @@ libeutil_la_SOURCES =				\
 MARSHAL_GENERATED = e-util-marshal.c e-util-marshal.h
 @EVO_MARSHAL_RULE@
 
-libeutil_la_LIBADD = $(E_UTIL_LIBS)
+libeutil_la_LDFLAGS = $(NO_UNDEFINED)
+
+libeutil_la_LIBADD = 		\
+	$(WIN32_BOOTSTRAP_LIBS)	\
+	$(ICONV_LIBS)		\
+	$(E_UTIL_LIBS)
 
 econdinclude_HEADERS =		\
 	e-pilot-map.h		\
@@ -145,6 +151,10 @@ pilot_compile = md5-utils.c
 endif
 
 libeconduit_la_SOURCES = $(pilot_compile)
+
+libeconduit_la_LDFLAGS = $(NO_UNDEFINED)
+
+libeconduit_la_LIBADD = $(E_UTIL_LIBS)
 
 error_DATA = e-system.error
 errordir = $(privdatadir)/errors

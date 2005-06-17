@@ -1,3 +1,20 @@
+2005-06-18  Tor Lillqvist  <tml@novell.com>
+
+	* Makefile.am (WIN32_BOOTSTRAP_LIBS): Use bootstrap library for
+	libemisdwidgets. Code here uses e_utf8_to_locale_string() from
+	libemiscwidgets which hasn't been built yet if building from
+	scratch.
+	(GAL_IMAGESDIR): Remove, unused leftover.
+	(EVOLUTION_GLADEDIR): Add.
+	(libeutil_la_LDFLAGS, libeconduit_la_LDFLAGS): Use NO_UNDEFINED.
+	(libeutil_la_LIBADD, libeconduit_la_LIBADD): Link with necessary
+	libs.
+
+	* e-win32-reloc.c: Update now that it is here in evolution. Use _e
+	prefix instead of _gal. Add getters for more run-time paths.
+
+	* e-util-private.h: Corresponding changes.
+
 2005-06-08  Srinivasa Ragavan <sragavan@novell.com>
 	* e-cursor.[ch]: Added functions to show busy cursor.
 	* Makefile.am: Add the files
