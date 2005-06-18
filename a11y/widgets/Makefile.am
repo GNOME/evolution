@@ -6,7 +6,7 @@ if OS_WIN32
 WIN32_BOOTSTRAP_LIBS = $(top_builddir)/win32/libemiscwidgets.la
 endif
 
-privlib_LTLIBRARIES = libevolution-widgets-a11y.la
+privsolib_LTLIBRARIES = libevolution-widgets-a11y.la
 
 INCLUDES =						\
 	-DG_LOG_DOMAIN=\"evolution-a11y\"		\

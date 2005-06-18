@@ -9,7 +9,7 @@ WIN32_BOOTSTRAP_LIBS = 					\
 	$(top_builddir)/win32/libevolution-calendar.la
 endif
 
-privlib_LTLIBRARIES = libevolution-calendar-a11y.la
+privsolib_LTLIBRARIES = libevolution-calendar-a11y.la
 
 INCLUDES =						\
 	-DG_LOG_DOMAIN=\"evolution-a11y\"		\

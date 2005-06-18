@@ -4,7 +4,9 @@
 	* addressbook/Makefile.am
 	* calendar/Makefile.am
 	* widgets/Makefile.am: Use the fake "bootstrap" libraries on Win32
-	to get around circular dependencies. Use NO_UNDEFINED.
+	to get around circular dependencies. Use NO_UNDEFINED. Use
+	privsolib_LTLIBRARIES instead of privlib_LTLIBRARIES (see
+	../ChangeLog).
 
 	* Makefile.am: No need to pass -I pointing to this directory
 	itself, all inclusions of headers from here are with

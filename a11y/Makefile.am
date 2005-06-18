@@ -11,7 +11,7 @@ endif
 # for debug
 #A11Y_CFLAGS += -pedantic -ansi -DACC_DEBUG -Werror
 
-privlib_LTLIBRARIES = libevolution-a11y.la
+privsolib_LTLIBRARIES = libevolution-a11y.la
 
 INCLUDES =				\
 	$(A11Y_CFLAGS)

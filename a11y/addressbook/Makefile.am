@@ -4,7 +4,7 @@ WIN32_BOOTSTRAP_LIBS =						\
 	$(top_builddir)/win32/libevolution-addressbook.la
 endif
 
-privlib_LTLIBRARIES = libevolution-addressbook-a11y.la
+privsolib_LTLIBRARIES = libevolution-addressbook-a11y.la
 
 INCLUDES =						\
 	-DG_LOG_DOMAIN=\"evolution-a11y\"		\
