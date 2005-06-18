@@ -1,3 +1,7 @@
+2005-06-18  Tor Lillqvist  <tml@novell.com>
+
+	* GNOME_Evolution_Mail.server.in.in: Use SOEXT.
+
 2005-06-08  Not Zed  <NotZed@Ximian.com>
 
 	* mail-component.c (view_changed_cb): make this run a timeout so

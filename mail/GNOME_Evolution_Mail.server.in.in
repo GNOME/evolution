@@ -5,7 +5,7 @@
   <!-- (factory) -->
   <oaf_server iid="OAFIID:GNOME_Evolution_Mail_Factory:@VERSION@"
 	      type="shlib"
-	      location="@COMPONENTDIR@/libevolution-mail.so">
+	      location="@COMPONENTDIR@/libevolution-mail@SOEXT@">
 
     <oaf_attribute name="repo_ids" type="stringv">
       <item value="IDL:GNOME/ObjectFactory:1.0"/>
