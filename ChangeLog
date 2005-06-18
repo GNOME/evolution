@@ -1,5 +1,11 @@
 2005-06-18  Tor Lillqvist  <tml@novell.com>
 
+	* configure.in (EXTRA_GNOME dependencies): Use $FULL_GNOME_DEPS
+	here explicitly, as it de facto is a superset of it. In the
+	makefiles thus no need to use both EXTRA_GNOME_CFLAGS and
+	GNOME_FULL_CFLAGS, EXTRA_GNOME_CFLAGS is enough. (Ditto for
+	_LIBS.)
+
 	* win32/Makefile.am (EXTRA_DIST): Fix typo. Add libetable and
 	libetext.
 

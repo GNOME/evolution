@@ -1263,7 +1263,7 @@ AC_CHECK_HEADERS(libgnomeui/gnome-icon-lookup.h)
 AC_CHECK_HEADERS(libgnomeui/gnome-thumbnail.h)
 CPPFLAGS="$CPPFLAGS_save"
 
-PKG_CHECK_MODULES(EXTRA_GNOME, libgnomeprint-2.2 >= 2.2.0 libgnomeprintui-2.2 >= 2.2.1 libglade-2.0 libgnomeui-2.0 libgnomecanvas-2.0 >= 2.2.0.2 libxml-2.0)
+PKG_CHECK_MODULES(EXTRA_GNOME, libgnomeprint-2.2 >= 2.2.0 libgnomeprintui-2.2 >= 2.2.1 $FULL_GNOME_DEPS)
 AC_SUBST(EXTRA_GNOME_LIBS)
 AC_SUBST(EXTRA_GNOME_CFLAGS)
  
