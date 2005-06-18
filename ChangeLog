@@ -5,6 +5,22 @@
 	no need to use both EXTRA_GNOME_CFLAGS and GNOME_FULL_CFLAGS,
 	EXTRA_GNOME_CFLAGS is enough. (Ditto for _LIBS.)
 
+	(privsolibdir): New autoconf variable. On Unix it is identical to
+	privlibdir, on Win32 identical to libdir.
+
+	There is no RPATH mechanism in Win32 DLLs or EXEs. The intention
+	is that Evolution's private shared libraries will be marked in the
+	Makefile.am files as privsolib_LTLIBRARIES. They will thus on
+	Windows get installed in libdir. The DLLs will actually get
+	installed in bindir, thanks to libtool magic. It will thus suffice
+	to have bindir in PATH.
+
+	This also means that we can use gnome_win32_get_prefixes() in
+	libeutil to find out the installation location on the end-user
+	machine based on the location of the DLL. gnome_win32_get_prefixes() 
+	assumes the DLL is in a "bin" subfolder of the end-user
+	installation prefix.
+
 	* win32/Makefile.am (EXTRA_DIST): Fix typo. Add libetable and
 	libetext.
 

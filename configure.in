@@ -1405,6 +1405,18 @@ dnl --- etc)
 privlibdir='${libdir}'/evolution/$BASE_VERSION
 AC_SUBST(privlibdir)
 
+if test "$os_win32" = yes; then
+  # On Win32 there is no "rpath" mechanism. We install the private
+  # shared libraries in $libdir, meaning the DLLs will actually be in
+  # $bindir. This means just having $bindir in PATH will be enough. This
+  # also means gnome_win32_get_prefixes() will be able to deduce the
+  # installation folder correctly.
+  privsolibdir=$libdir
+else
+  privsolibdir=$privlibdir
+fi
+AC_SUBST(privsolibdir)
+
 privlibexecdir='${libexecdir}'/evolution/$BASE_VERSION
 AC_SUBST(privlibexecdir)
 
