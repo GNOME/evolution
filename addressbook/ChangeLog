@@ -1,5 +1,32 @@
 2005-06-18  Tor Lillqvist  <tml@novell.com>
 
+	* gui/component/Makefile.am
+	* gui/contact-editor/Makefile.am
+	* gui/contact-list-editor/Makefile.am
+	* gui/merging/Makefile.am
+	* gui/search/Makefile.am
+	* gui/widgets/Makefile.am: Prune unnecessary and nonexistent
+	directories from the -I options. Prune pathname macros not used in
+	the sources in that directory from the -D options.
+
+	* gui/component/Makefile.am
+	* gui/contact-editor/Makefile.am
+	* gui/contact-list-editor/Makefile.am
+	* util/Makefile.am: Use NO_UNDEFINED. Link with all necessary
+	libraries.
+
+	* gui/component/Makefile.am: Use Win32-specific hack to work
+	around MSYS feature in the gconftool invocation.
+
+	* gui/contact-editor/Makefile.am
+	* gui/contact-list-editor/Makefile.am: Use bootstrap library
+	libevolution-addressbook on Win32.
+
+	* gui/contact-editor/Makefile.am
+	* gui/contact-list-editor/Makefile.am
+	* util/Makefile.am: Use privsolib_LTLIBRARIES instead of
+	privlib_LTLIBRARIES (see ../ChangeLog).
+
 	* gui/component/GNOME_Evolution_Addressbook.server.in.in
 	* importers/GNOME_Evolution_Addressbook_LDIF_Importer.server.in.in
 	* importers/GNOME_Evolution_Addressbook_VCard_Importer.server.in.in: 

@@ -3,19 +3,16 @@ ruledir = $(privdatadir)
 INCLUDES =										\
 	-DG_LOG_DOMAIN=\"eab-widgets\"			\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"	\
-	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"	\
 	-DEVOLUTION_GALVIEWSDIR=\""$(viewsdir)"\"	\
+	-DSEARCH_RULE_DIR=\"$(ruledir)\"		\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/widgets				\
 	-I$(top_srcdir)/addressbook			\
-	-I$(top_srcdir)/addressbook/backend		\
-	-I$(top_builddir)/addressbook/backend		\
 	-I$(top_srcdir)/addressbook/gui/contact-editor	\
 	-I$(top_srcdir)/addressbook/gui/merging		\
 	-I$(top_srcdir)/addressbook/gui/component	\
 	-I$(top_srcdir)/widgets/misc			\
 	-I$(top_builddir)/shell				\
-	-DSEARCH_RULE_DIR=\"$(ruledir)\"		\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
 
 CORBA_COMPOSER_SOURCE_H	=			\

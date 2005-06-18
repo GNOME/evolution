@@ -2,20 +2,14 @@ INCLUDES =									\
 	-DG_LOG_DOMAIN=\"evolution-addressbook\"		\
 	-I$(top_srcdir)						\
 	-I$(top_srcdir)/widgets					\
-	-I$(top_builddir)					\
-	-I$(top_srcdir)/shell					\
 	-I$(top_builddir)/shell					\
 	-I$(top_srcdir)/widgets/misc				\
 	-I$(top_srcdir)/addressbook/util			\
 	-I$(top_srcdir)/addressbook/gui/contact-editor		\
 	-I$(top_srcdir)/addressbook/gui/contact-list-editor	\
 	-I$(top_srcdir)/addressbook/gui/widgets			\
-	-I$(top_builddir)/a11y/addressbook			\
-	-DEVOLUTION_DATADIR=\""$(datadir)"\"			\
+	-I$(top_srcdir)/a11y/addressbook			\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"			\
-	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"		\
-	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"		\
-	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"		\
 	-DEVOLUTION_UIDIR=\""$(evolutionuidir)"\"		\
 	-DPREFIX=\""$(prefix)"\"				\
 	$(LDAP_CFLAGS)						\
@@ -46,6 +40,7 @@ endif
 
 libevolution_addressbook_la_LIBADD =							\
 	$(SMIME_LIB)									\
+	$(top_builddir)/e-util/libeutil.la						\
 	$(top_builddir)/addressbook/printing/libecontactprint.la			\
 	$(top_builddir)/shell/libeshell.la						\
 	$(top_builddir)/addressbook/gui/merging/libeabbookmerging.la			\
@@ -55,6 +50,8 @@ libevolution_addressbook_la_LIBADD =							\
 	$(top_builddir)/addressbook/util/libeabutil.la					\
 	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.la		\
 	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.la	\
+	$(top_builddir)/widgets/table/libetable.la					\
+	$(top_builddir)/widgets/text/libetext.la					\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la					\
 	$(top_builddir)/widgets/menus/libmenus.la					\
 	$(top_builddir)/a11y/addressbook/libevolution-addressbook-a11y.la		\
@@ -62,7 +59,7 @@ libevolution_addressbook_la_LIBADD =							\
 
 
 
-libevolution_addressbook_la_LDFLAGS = -module -avoid-version
+libevolution_addressbook_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 
 # GConf schemas
 
@@ -74,12 +71,23 @@ schema_DATA = $(schema_in_files:.schemas.in.in=-$(BASE_VERSION).schemas)
 
 @INTLTOOL_SCHEMAS_RULE@
 
+if OS_WIN32
+install-data-local:
+	if test -z "$(DESTDIR)" ; then \
+		for p in $(schema_DATA) ; do \
+			(echo set GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE); \
+			 echo $(GCONFTOOL) --makefile-install-rule $$p) >_temp.bat; \
+			cmd /c _temp.bat; \
+		done \
+	fi
+else
 install-data-local:
 	if test -z "$(DESTDIR)" ; then \
 		for p in $(schema_DATA) ; do \
 			GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) $(GCONFTOOL) --makefile-install-rule $$p; \
 		done \
 	fi
+endif
 
 server_in_files = GNOME_Evolution_Addressbook.server.in.in
 server_DATA = $(server_in_files:.server.in.in=_$(BASE_VERSION).server)

@@ -10,12 +10,14 @@ INCLUDES =						\
 	-I$(top_srcdir)/shell				\
         $(EVOLUTION_ADDRESSBOOK_CFLAGS)
 
-privlib_LTLIBRARIES = libeabutil.la
+privsolib_LTLIBRARIES = libeabutil.la
 
 libeabutil_la_SOURCES =					\
 	eab-marshal.c					\
 	eab-book-util.c					\
 	eab-book-util.h
+
+libeabutil_la_LDFLAGS = $(NO_UNDEFINED)
 
 libeabutil_la_LIBADD =					\
 	$(EVOLUTION_ADDRESSBOOK_LIBS)			\
