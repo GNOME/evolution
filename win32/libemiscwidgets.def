@@ -5,10 +5,29 @@ EXPORTS
 	e_calendar_item_get_week_number
 	e_calendar_item_normalize_date
 	e_calendar_item_set_selection
+	e_canvas_background_get_type
+	e_canvas_get_type
+	e_canvas_hide_tooltip
+	e_canvas_item_area_shown
+	e_canvas_item_grab
 	e_canvas_item_grab_focus
+	e_canvas_item_move_absolute
+	e_canvas_item_request_parent_reflow
+	e_canvas_item_request_reflow
+	e_canvas_item_set_reflow_callback
+	e_canvas_item_show_area
+	e_canvas_item_show_area_delayed
+	e_canvas_item_ungrab
+	e_canvas_new
+	e_canvas_popup_tooltip
+	e_canvas_vbox_add_item
+	e_canvas_vbox_add_item_start
+	e_canvas_vbox_get_type
 	e_combo_button_get_label
 	e_combo_button_get_type
 	e_combo_button_popup_menu
+	e_cursor_get
+	e_hsv_tweak
 	e_map_add_point
 	e_map_get_closest_point
 	e_map_get_magnification
@@ -19,17 +38,46 @@ EXPORTS
 	e_map_window_to_world
 	e_map_zoom_out
 	e_map_zoom_to_location
+	e_popup_menu
+	e_popup_menu_create_with_domain
+	e_printable_data_left
+	e_printable_height
+	e_printable_new
+	e_printable_print_page
+	e_printable_reset
+	e_printable_will_fit
 	e_reflow_get_type
+	e_selection_model_array_confirm_row_count
+	e_selection_model_array_delete_rows
+	e_selection_model_array_get_type
+	e_selection_model_array_insert_rows
 	e_selection_model_change_cursor
+	e_selection_model_change_one_row
 	e_selection_model_clear
 	e_selection_model_cursor_activated
 	e_selection_model_cursor_changed
 	e_selection_model_cursor_col
 	e_selection_model_cursor_col
 	e_selection_model_cursor_row
+	e_selection_model_do_something
+	e_selection_model_foreach
 	e_selection_model_get_type
+	e_selection_model_invert_selection
 	e_selection_model_is_row_selected
+	e_selection_model_key_press
+	e_selection_model_maybe_do_something
+	e_selection_model_right_click_down
+	e_selection_model_right_click_up
+	e_selection_model_right_key_press
+	e_selection_model_select_all
+	e_selection_model_select_as_key_press
 	e_selection_model_select_single_row
 	e_selection_model_selected_count
+	e_selection_model_selection_changed
 	e_selection_model_toggle_single_row
+	e_utf8_from_gtk_event_key
 	e_utf8_to_locale_string
+	gal_combo_text_add_item
+	gal_combo_text_get_type
+	gal_combo_text_new
+	gal_combo_text_set_text
