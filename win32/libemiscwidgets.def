@@ -5,6 +5,7 @@ EXPORTS
 	e_calendar_item_get_week_number
 	e_calendar_item_normalize_date
 	e_calendar_item_set_selection
+	e_canvas_item_grab_focus
 	e_combo_button_get_label
 	e_combo_button_get_type
 	e_combo_button_popup_menu
@@ -18,4 +19,17 @@ EXPORTS
 	e_map_window_to_world
 	e_map_zoom_out
 	e_map_zoom_to_location
+	e_reflow_get_type
+	e_selection_model_change_cursor
+	e_selection_model_clear
+	e_selection_model_cursor_activated
+	e_selection_model_cursor_changed
+	e_selection_model_cursor_col
+	e_selection_model_cursor_col
+	e_selection_model_cursor_row
+	e_selection_model_get_type
+	e_selection_model_is_row_selected
+	e_selection_model_select_single_row
+	e_selection_model_selected_count
+	e_selection_model_toggle_single_row
 	e_utf8_to_locale_string

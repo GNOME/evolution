@@ -1,9 +1,12 @@
 2005-06-18  Tor Lillqvist  <tml@novell.com>
 
-	* win32/Makefile.am (EXTRA_DIST): Typo.
+	* win32/Makefile.am (EXTRA_DIST): Fix typo. Add libetable and
+	libetext.
 
-	* win32/libemiscwidgets.def: Add e_utf8_to_locale_string, used in
-	e-util.
+	* win32/libetable.def
+	* win32/libetext.def: New files.
+
+	* win32/libemiscwidgets.def: Add new entries.
 
 2005-06-17  Kaushal Kumar  <kakumar@novell.com>
 

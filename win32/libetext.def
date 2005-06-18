@@ -1,0 +1,9 @@
+EXPORTS
+	e_repos_delete_shift
+	e_repos_insert_shift
+	e_text_copy_clipboard
+	e_text_delete_selection
+	e_text_get_type
+	e_text_model_get_text
+	e_text_model_set_text
+	e_text_paste_clipboard

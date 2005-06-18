@@ -1,6 +1,8 @@
 EXTRA_DIST =				\
 	dummy.la			\
 	libemiscwidgets.def		\
+	libetable.def			\
+	libetext.def			\
 	libevolution-addressbook.def	\
 	libevolution-calendar.def	\
 	libevolution-mail.def		\
@@ -9,6 +11,8 @@ EXTRA_DIST =				\
 if OS_WIN32
 BOOTSTRAP_LIBS =			\
 	libemiscwidgets.la		\
+	libetable.la			\
+	libetext.la			\
 	libevolution-addressbook.la	\
 	libevolution-calendar.la	\
 	libevolution-mail.la		\
@@ -26,6 +30,16 @@ libemiscwidgets.la: dummy.la libemiscwidgets.def
 	sed -e s!%DLL%!libemiscwidgets-0! -e s!%LIB%!libemiscwidgets! -e s!%PFX%!$(prefix)! <dummy.la >$@
 	mkdir -p .libs
 	dlltool --output-lib=.libs/libemiscwidgets.dll.a --dllname=libemiscwidgets-0.dll --input-def=libemiscwidgets.def
+
+libetable.la: dummy.la libetable.def
+	sed -e s!%DLL%!libetable! -e s!%LIB%!libetable! -e s!%PFX%!$(prefix)! <dummy.la >$@
+	mkdir -p .libs
+	dlltool --output-lib=.libs/libetable.dll.a --dllname=libetable.dll --input-def=libetable.def
+
+libetext.la: dummy.la libetext.def
+	sed -e s!%DLL%!libetext! -e s!%LIB%!libetext! -e s!%PFX%!$(prefix)! <dummy.la >$@
+	mkdir -p .libs
+	dlltool --output-lib=.libs/libetext.dll.a --dllname=libetext.dll --input-def=libetext.def
 
 libevolution-addressbook.la: dummy.la libevolution-addressbook.def
 	sed -e s!%DLL%!libevolution-addressbook! -e s!%LIB%!libevolution-addressbook! -e s!%PFX%!$(prefix)! <dummy.la >$@
