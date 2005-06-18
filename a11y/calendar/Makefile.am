@@ -3,26 +3,21 @@
 # for debug
 #A11Y_CFLAGS += -pedantic -ansi -DACC_DEBUG -Werror
 
+if OS_WIN32
+WIN32_BOOTSTRAP_LIBS = 					\
+	$(top_builddir)/win32/libetext.la		\
+	$(top_builddir)/win32/libevolution-calendar.la
+endif
+
 privlib_LTLIBRARIES = libevolution-calendar-a11y.la
 
 INCLUDES =						\
 	-DG_LOG_DOMAIN=\"evolution-a11y\"		\
 	-I$(top_srcdir)					\
-	-I$(top_srcdir)/shell				\
-	-I$(top_srcdir)/calendar			\
-	-I$(top_srcdir)/calendar/cal-client		\
 	-I$(top_srcdir)/calendar/gui			\
 	-I$(top_srcdir)/widgets				\
 	-I$(top_srcdir)/widgets/misc			\
 	-I$(top_srcdir)/a11y				\
-	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
-	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
-	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"	\
-	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"	\
-	-DEVOLUTION_GALVIEWSDIR=\""$(viewsdir)"\"	\
-	-DEVOLUTION_UIDIR=\""$(evolutionuidir)"\"	\
-	-DPREFIX=\""$(prefix)"\"			\
-	$(A11Y_CFLAGS)					\
 	$(EVOLUTION_CALENDAR_CFLAGS)
 
 libevolution_calendar_a11y_la_SOURCES =		\
@@ -51,5 +46,9 @@ libevolution_calendar_a11y_la_SOURCES =		\
 	ea-gnome-calendar.c			\
 	ea-gnome-calendar.h
 
-libevolution_calendar_a11y_la_LIBADD =   \
-        $(top_builddir)/a11y/libevolution-a11y.la
+libevolution_calendar_a11y_la_LDFLAGS = $(NO_UNDEFINED)
+
+libevolution_calendar_a11y_la_LIBADD =			\
+	$(WIN32_BOOTSTRAP_LIBS)				\
+        $(top_builddir)/a11y/libevolution-a11y.la	\
+	$(EVOLUTION_CALENDAR_LIBS)

@@ -2,11 +2,6 @@ INCLUDES =					\
 	-I$(top_srcdir)                         \
 	-I$(top_srcdir)/widgets                 \
 	$(EXTRA_GNOME_CFLAGS)			\
-	$(GNOME_BONOBO_CFLAGS)			\
-	$(GNOME_INCLUDEDIR)			\
-	$(ICONV_CFLAGS)				\
-	$(GNOME_FULL_CFLAGS)			\
-	$(GNOME_EXTRA_CFLAGS)			\
         -DG_LOG_DOMAIN=\"e-text\"
 
 noinst_LTLIBRARIES = libgal-a11y-etext.la

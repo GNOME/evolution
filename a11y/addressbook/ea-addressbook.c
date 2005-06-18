@@ -26,9 +26,9 @@
 #include <text/e-text.h>
 #include "ea-factory.h"
 #include "ea-addressbook.h"
-#include "addressbook/ea-minicard.h"
-#include "addressbook/ea-minicard-view.h"
-#include "addressbook/ea-addressbook-view.h"
+#include "ea-minicard.h"
+#include "ea-minicard-view.h"
+#include "ea-addressbook-view.h"
 
 EA_FACTORY_GOBJECT (EA_TYPE_MINICARD, ea_minicard, ea_minicard_new);
 EA_FACTORY_GOBJECT (EA_TYPE_MINICARD_VIEW, ea_minicard_view, ea_minicard_view_new);
