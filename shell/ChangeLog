@@ -1,3 +1,9 @@
+2005-06-18  Tor Lillqvist  <tml@novell.com>
+
+	* GNOME_Evolution_Shell.server.in.in: Use EXEEXT.
+
+	* GNOME_Evolution_Test.server.in.in: Use SOEXT.
+
 2005-06-02  Not Zed  <NotZed@Ximian.com>
 
 	* Evolution.*.idl: Fix so these are only ever included once.
