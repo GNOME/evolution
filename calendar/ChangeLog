@@ -1,3 +1,8 @@
+2005-06-18  Tor Lillqvist  <tml@novell.com>
+
+	* gui/GNOME_Evolution_Calendar.server.in.in
+	* importers/GNOME_Evolution_Calendar_Importer.server.in.in: Use SOEXT.
+
 2005-06-13  Jedy Wang  <jedy.wang@sun.com>
 
 	We need compare backend for long events too.
