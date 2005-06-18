@@ -37,6 +37,7 @@ static const char *localedir = NULL;
 /* The others are in UTF-8 */
 static const char *gladedir;
 static const char *helpdir;
+static const char *etspecdir;
 static const char *images;
 static const char *iconsdir;
 static const char *category_icons;
@@ -98,6 +99,7 @@ setup (void)
 
         gladedir = replace_prefix (full_prefix, EVOLUTION_GLADEDIR);
         helpdir = replace_prefix (full_prefix, EVOLUTION_HELPDIR);
+        etspecdir = replace_prefix (full_prefix, EVOLUTION_ETSPECDIR);
         images = replace_prefix (full_prefix, EVOLUTION_IMAGES);
 	category_icons = replace_prefix (full_prefix, EVOLUTION_CATEGORY_ICONS);
 	plugindir = replace_prefix (full_prefix, EVOLUTION_PLUGINDIR);
@@ -120,6 +122,7 @@ _e_get_##varbl (void)				\
 GETTER(localedir)
 GETTER(gladedir)
 GETTER(helpdir)
+GETTER(etspecdir)
 GETTER(images)
 GETTER(iconsdir)
 GETTER(category_icons)

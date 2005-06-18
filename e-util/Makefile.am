@@ -12,6 +12,7 @@ INCLUDES =								\
 	-DEVOLUTION_PREFIX=\""$(prefix)"\"				\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"				\
 	-DEVOLUTION_HELPDIR=\""$(evolutionhelpdir)"\"			\
+	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"			\
 	-DEVOLUTION_IMAGES=\""$(imagesdir)"\"				\
 	-DEVOLUTION_ICONSDIR=\""$(imagesdir)"\"				\
 	-DEVOLUTION_CATEGORY_ICONS=\""$(imagesdir)/categories"\"	\

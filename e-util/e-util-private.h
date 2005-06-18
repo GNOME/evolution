@@ -46,6 +46,9 @@ const char *_e_get_privdatadir (void) G_GNUC_CONST;
 #undef EVOLUTION_HELPDIR
 #define EVOLUTION_HELPDIR _e_get_helpdir ()
 
+#undef EVOLUTION_ETSPECDIR
+#define EVOLUTION_ETSPECDIR _e_get_etspecdir ()
+
 #undef EVOLUTION_IMAGES
 #define EVOLUTION_IMAGES _e_get_images ()
 
