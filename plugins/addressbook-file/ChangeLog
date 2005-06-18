@@ -1,3 +1,7 @@
+2005-06-18  Tor Lillqvist  <tml@novell.com>
+
+	* org-gnome-addressbook-file.eplug.in: Use SOEXT.
+
 2005-02-28  Sivaiah Nallagatla <snallagatla@novell.com>
 
 	* addressbook-file.c (e_book_file_dummy) :

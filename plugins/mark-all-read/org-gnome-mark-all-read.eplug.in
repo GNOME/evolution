@@ -2,7 +2,7 @@
 <e-plugin-list>
   <e-plugin id="org.gnome.mail.folder.mark_all_read" 
    type="shlib" domain="evolution" name="Mark All Read"
-   location="@PLUGINDIR@/liborg-gnome-mark-all-read.so">
+   location="@PLUGINDIR@/liborg-gnome-mark-all-read@SOEXT@">
     <description>Used for marking all the messages under a folder as read</description>
     <author name="Chenthill Palanisamy" email="pchenthill@novell.com"/>
     <hook class="org.gnome.evolution.mail.popup:1.0">

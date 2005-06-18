@@ -1,3 +1,7 @@
+2005-06-18  Tor Lillqvist  <tml@novell.com>
+
+	* org-gnome-mark-all-read.eplug.in: Use SOEXT.
+
 2005-05-19 Chenthill Palanisamy <pchenthill@novell.com>
 
 	* MakeFile.am:
