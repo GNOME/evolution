@@ -30,6 +30,7 @@
 
 const char *_e_get_localedir (void) G_GNUC_CONST;
 const char *_e_get_gladedir (void) G_GNUC_CONST;
+const char *_e_get_helpdir (void) G_GNUC_CONST;
 const char *_e_get_images (void) G_GNUC_CONST;
 const char *_e_get_iconsdir (void) G_GNUC_CONST;
 const char *_e_get_category_icons (void) G_GNUC_CONST;
@@ -41,6 +42,9 @@ const char *_e_get_privdatadir (void) G_GNUC_CONST;
 
 #undef EVOLUTION_GLADEDIR
 #define EVOLUTION_GLADEDIR _e_get_gladedir ()
+
+#undef EVOLUTION_HELPDIR
+#define EVOLUTION_HELPDIR _e_get_helpdir ()
 
 #undef EVOLUTION_IMAGES
 #define EVOLUTION_IMAGES _e_get_images ()

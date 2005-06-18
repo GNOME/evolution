@@ -11,6 +11,7 @@ INCLUDES =								\
 	-I$(top_builddir)						\
 	-DEVOLUTION_PREFIX=\""$(prefix)"\"				\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"				\
+	-DEVOLUTION_HELPDIR=\""$(evolutionhelpdir)"\"			\
 	-DEVOLUTION_IMAGES=\""$(imagesdir)"\"				\
 	-DEVOLUTION_ICONSDIR=\""$(imagesdir)"\"				\
 	-DEVOLUTION_CATEGORY_ICONS=\""$(imagesdir)/categories"\"	\
@@ -21,7 +22,6 @@ INCLUDES =								\
 	$(GNOME_PILOT_CFLAGS)						\
 	$(EXTRA_GNOME_CFLAGS)                   			\
 	$(GNOME_FULL_CFLAGS)						\
-	$(GNOME_INCLUDEDIR)						\
 	$(ICONV_CFLAGS)                        				\
 	$(E_UTIL_CFLAGS)
 

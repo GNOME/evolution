@@ -4,8 +4,9 @@
 	libemisdwidgets. Code here uses e_utf8_to_locale_string() from
 	libemiscwidgets which hasn't been built yet if building from
 	scratch.
-	(GAL_IMAGESDIR): Remove, unused leftover.
-	(EVOLUTION_GLADEDIR): Add.
+	(INCLUDES) Remove GAL_IMAGESDIR, unused leftover. Add
+	EVOLUTION_GLADEDIR, EVOLUTION_HELPDIR. Remove undefined
+	GNOME_INCLUDEDIR.
 	(libeutil_la_LDFLAGS, libeconduit_la_LDFLAGS): Use NO_UNDEFINED.
 	(libeutil_la_LIBADD, libeconduit_la_LIBADD): Link with necessary
 	libs.
