@@ -32,14 +32,14 @@ libemiscwidgets.la: dummy.la libemiscwidgets.def
 	dlltool --output-lib=.libs/libemiscwidgets.dll.a --dllname=libemiscwidgets-0.dll --input-def=libemiscwidgets.def
 
 libetable.la: dummy.la libetable.def
-	sed -e s!%DLL%!libetable! -e s!%LIB%!libetable! -e s!%PFX%!$(prefix)! <dummy.la >$@
+	sed -e s!%DLL%!libetable-0! -e s!%LIB%!libetable! -e s!%PFX%!$(prefix)! <dummy.la >$@
 	mkdir -p .libs
-	dlltool --output-lib=.libs/libetable.dll.a --dllname=libetable.dll --input-def=libetable.def
+	dlltool --output-lib=.libs/libetable.dll.a --dllname=libetable-0.dll --input-def=libetable.def
 
 libetext.la: dummy.la libetext.def
-	sed -e s!%DLL%!libetext! -e s!%LIB%!libetext! -e s!%PFX%!$(prefix)! <dummy.la >$@
+	sed -e s!%DLL%!libetext-0! -e s!%LIB%!libetext! -e s!%PFX%!$(prefix)! <dummy.la >$@
 	mkdir -p .libs
-	dlltool --output-lib=.libs/libetext.dll.a --dllname=libetext.dll --input-def=libetext.def
+	dlltool --output-lib=.libs/libetext.dll.a --dllname=libetext-0.dll --input-def=libetext.def
 
 libevolution-addressbook.la: dummy.la libevolution-addressbook.def
 	sed -e s!%DLL%!libevolution-addressbook! -e s!%LIB%!libevolution-addressbook! -e s!%PFX%!$(prefix)! <dummy.la >$@
