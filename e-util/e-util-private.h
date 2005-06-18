@@ -31,11 +31,13 @@
 const char *_e_get_localedir (void) G_GNUC_CONST;
 const char *_e_get_gladedir (void) G_GNUC_CONST;
 const char *_e_get_helpdir (void) G_GNUC_CONST;
-const char *_e_get_images (void) G_GNUC_CONST;
+const char *_e_get_imagesdir (void) G_GNUC_CONST;
 const char *_e_get_iconsdir (void) G_GNUC_CONST;
 const char *_e_get_category_icons (void) G_GNUC_CONST;
 const char *_e_get_plugindir (void) G_GNUC_CONST;
 const char *_e_get_privdatadir (void) G_GNUC_CONST;
+const char *_e_get_search_rule_dir (void) G_GNUC_CONST;
+const char *_e_get_galviewsdir (void) G_GNUC_CONST;
 
 #undef EVOLUTION_LOCALEDIR
 #define EVOLUTION_LOCALEDIR _e_get_localedir ()
@@ -49,8 +51,11 @@ const char *_e_get_privdatadir (void) G_GNUC_CONST;
 #undef EVOLUTION_ETSPECDIR
 #define EVOLUTION_ETSPECDIR _e_get_etspecdir ()
 
+#undef EVOLUTION_IMAGESDIR
+#define EVOLUTION_IMAGESDIR _e_get_imagesdir ()
+
 #undef EVOLUTION_IMAGES
-#define EVOLUTION_IMAGES _e_get_images ()
+#define EVOLUTION_IMAGES EVOLUTION_IMAGESDIR
 
 #undef EVOLUTION_ICONSDIR
 #define EVOLUTION_ICONSDIR _e_get_iconsdir ()
@@ -63,6 +68,12 @@ const char *_e_get_privdatadir (void) G_GNUC_CONST;
 
 #undef EVOLUTION_PRIVDATADIR
 #define EVOLUTION_PRIVDATADIR _e_get_privdatadir ()
+
+#undef SEARCH_RULE_DIR
+#define SEARCH_RULE_DIR _e_get_search_rule_dir ()
+
+#undef EVOLUTION_GALVIEWSDIR
+#define EVOLUTION_GALVIEWSDIR _e_get_galviewsdir ()
 
 #endif	/* G_OS_WIN32 */
 

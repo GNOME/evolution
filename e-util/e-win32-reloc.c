@@ -38,11 +38,13 @@ static const char *localedir = NULL;
 static const char *gladedir;
 static const char *helpdir;
 static const char *etspecdir;
-static const char *images;
+static const char *imagesdir;
 static const char *iconsdir;
 static const char *category_icons;
 static const char *plugindir;
 static const char *privdatadir;
+static const char *search_rule_dir;
+static const char *galviewsdir;
 
 static HMODULE hmodule;
 G_LOCK_DEFINE_STATIC (mutex);
@@ -100,10 +102,12 @@ setup (void)
         gladedir = replace_prefix (full_prefix, EVOLUTION_GLADEDIR);
         helpdir = replace_prefix (full_prefix, EVOLUTION_HELPDIR);
         etspecdir = replace_prefix (full_prefix, EVOLUTION_ETSPECDIR);
-        images = replace_prefix (full_prefix, EVOLUTION_IMAGES);
+        imagesdir = replace_prefix (full_prefix, EVOLUTION_IMAGESDIR);
 	category_icons = replace_prefix (full_prefix, EVOLUTION_CATEGORY_ICONS);
 	plugindir = replace_prefix (full_prefix, EVOLUTION_PLUGINDIR);
 	privdatadir = replace_prefix (full_prefix, EVOLUTION_PRIVDATADIR);
+	search_rule_dir = replace_prefix (full_prefix, SEARCH_RULE_DIR);
+	galviewsdir = replace_prefix (full_prefix, EVOLUTION_GALVIEWSDIR);
         g_free (full_prefix);
 
 	G_UNLOCK (mutex);
@@ -123,8 +127,10 @@ GETTER(localedir)
 GETTER(gladedir)
 GETTER(helpdir)
 GETTER(etspecdir)
-GETTER(images)
+GETTER(imagesdir)
 GETTER(iconsdir)
 GETTER(category_icons)
 GETTER(plugindir)
 GETTER(privdatadir)
+GETTER(search_rule_dir)
+GETTER(galviewsdir)

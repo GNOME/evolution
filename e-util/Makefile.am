@@ -13,12 +13,14 @@ INCLUDES =								\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"				\
 	-DEVOLUTION_HELPDIR=\""$(evolutionhelpdir)"\"			\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"			\
-	-DEVOLUTION_IMAGES=\""$(imagesdir)"\"				\
+	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"			\
 	-DEVOLUTION_ICONSDIR=\""$(imagesdir)"\"				\
 	-DEVOLUTION_CATEGORY_ICONS=\""$(imagesdir)/categories"\"	\
 	-DEVOLUTION_PLUGINDIR=\""$(plugindir)"\"			\
 	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"			\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"			\
+	-DEVOLUTION_GALVIEWSDIR=\""$(viewsdir)"\"			\
+	-DSEARCH_RULE_DIR=\"$(ruledir)\"				\
 	-DG_LOG_DOMAIN=\"e-utils\"					\
 	$(GNOME_PILOT_CFLAGS)						\
 	$(EXTRA_GNOME_CFLAGS)                   			\
