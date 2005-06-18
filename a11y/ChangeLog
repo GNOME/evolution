@@ -22,13 +22,13 @@
 	EVOLUTION_ADDRESSBOOK_CFLAGS anyway. Link with
 	EVOLUTION_ADDRESSBOOK_LIBS.
 
-	* a11y/addressbook/ea-addressbook.c: Include headers from the same
+	* addressbook/ea-addressbook.c: Include headers from the same
 	directory as such.
-	
+
 	* calendar/Makefile.am: Drop A11Y_CFLAGS, its a subset of
 	EVOLUTION_CALENDAR_CFLAGS anyway. Link with
 	EVOLUTION_CALENDAR_LIBS.
-	
+
 	* e-table/Makefile.am (INCLUDES)
 	* e-text/Makefile.am (INCLUDES): Remove stray trailing slash from
 	-I path, confuses gcc on Win32. Drop the undefined
@@ -38,7 +38,7 @@
 	* widgets/Makefile.am: E_WIDGETS_CFLAGS is enough. No need for
 	EVOLUTION_CALENDAR_CFLAGS. Link with E_WIDGET_LIBS. Drop
 	A11Y_CFLAGS, subset of E_WIDGET_CFLAGS.
-	
+
 2005-04-22  Li Yuan  <li.yuan@sun.com>
 
 	* calendar/ea-day-view-main-item.c:
