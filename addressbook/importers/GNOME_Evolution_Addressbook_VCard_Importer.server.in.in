@@ -2,7 +2,7 @@
 
 <oaf_server iid="OAFIID:GNOME_Evolution_Addressbook_VCard_ImporterFactory:@VERSION@"
 	    type="shlib"
-	    location="@IMPORTERSDIR@/libevolution-addressbook-vcard-importer.so">
+	    location="@IMPORTERSDIR@/libevolution-addressbook-vcard-importer@SOEXT@">
 
 	<oaf_attribute name="repo_ids" type="stringv">
 		<item value="IDL:GNOME/ObjectFactory:1.0"/>

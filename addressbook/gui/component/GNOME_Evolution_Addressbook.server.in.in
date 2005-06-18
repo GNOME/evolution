@@ -2,7 +2,7 @@
 
 <oaf_server iid="OAFIID:GNOME_Evolution_Addressbook_Factory:@VERSION@"
             type="shlib"
-            location="@COMPONENTDIR@/libevolution-addressbook.so">
+            location="@COMPONENTDIR@/libevolution-addressbook@SOEXT@">
 
 	<oaf_attribute name="repo_ids" type="stringv">
 		<item value="IDL:GNOME/ObjectFactory:1.0"/>

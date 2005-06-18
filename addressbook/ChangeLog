@@ -1,3 +1,10 @@
+2005-06-18  Tor Lillqvist  <tml@novell.com>
+
+	* gui/component/GNOME_Evolution_Addressbook.server.in.in
+	* importers/GNOME_Evolution_Addressbook_LDIF_Importer.server.in.in
+	* importers/GNOME_Evolution_Addressbook_VCard_Importer.server.in.in: 
+	Use SOEXT.
+
 2005-06-09  Sushma Rai  <rsushma@novell.com>
 
 	* gui/widgets/e-addressbook-view.c: 
