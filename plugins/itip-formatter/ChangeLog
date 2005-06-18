@@ -1,3 +1,7 @@
+2005-06-18  Tor Lillqvist  <tml@novell.com>
+
+	* org-gnome-itip-formatter.eplug.xml: Use SOEXT.
+
 2005-05-16  Not Zed  <NotZed@Ximian.com>
 
 	* itip-formatter.c: moved e-error to e-util

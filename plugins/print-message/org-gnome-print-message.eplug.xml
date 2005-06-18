@@ -3,7 +3,7 @@
   <e-plugin
     type="shlib"
     id="org.gnome.evolution.plugin.compose.PrintMessage"
-    location="@PLUGINDIR@/liborg-gnome-print-message.so"
+    location="@PLUGINDIR@/liborg-gnome-print-message@SOEXT@"
     _name="Print Message">
     <_description>Gives an option to print mail from composer</_description>
     <author name="Vivek Jain" email="jvivek@novell.com"/>

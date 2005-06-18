@@ -2,7 +2,7 @@
 <e-plugin-list>
 	<e-plugin id="org.gnome.evolution.itip_formatter" 
 		type="shlib" _name="Itip Formatter"
-		location="@PLUGINDIR@/liborg-gnome-itip-formatter.so">
+		location="@PLUGINDIR@/liborg-gnome-itip-formatter@SOEXT@">
 		<_description>Displays text/calendar parts in messages.</_description>
 		<author name="JP Rosevear" email="jpr@novell.com"/>
 	

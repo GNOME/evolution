@@ -3,7 +3,7 @@
 	  <e-plugin
 	    type="shlib"
 	    id="org.gnome.evolution.plugin.startup-wizard"
-	    location="@PLUGINDIR@/liborg-gnome-evolution-startup-wizard.so"
+	    location="@PLUGINDIR@/liborg-gnome-evolution-startup-wizard@SOEXT@"
 	    _name="Startup wizard">
 
 		<hook class="org.gnome.evolution.shell.events:1.0">

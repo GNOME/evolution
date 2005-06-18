@@ -1,3 +1,7 @@
+2005-06-18  Tor Lillqvist  <tml@novell.com>
+
+	* org-gnome-groupwise-features.eplug.xml: Use SOEXT.
+
 2005-05-24 Vivek Jain <jvivek@novell.com>
 	
 	* org-gnome-groupwise-features.eplug.xml:

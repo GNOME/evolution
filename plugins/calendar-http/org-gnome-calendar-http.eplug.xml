@@ -2,7 +2,7 @@
 <e-plugin-list>
     <e-plugin
      type="shlib"
-     location="@PLUGINDIR@/liborg-gnome-calendar-http.so"
+     location="@PLUGINDIR@/liborg-gnome-calendar-http@SOEXT@"
      id="org.gnome.evolution.calendar.http"
      _name="HTTP Calendars">
      <author name="David Trowbridge" email="David.Trowbridge@Colorado.edu"/>

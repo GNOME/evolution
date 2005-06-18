@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <e-plugin-list>
 	<e-plugin id="org.gnome.evolution.groupwise_features" type="shlib" _name="Groupwise Features" 
-		location="@PLUGINDIR@/liborg-gnome-groupwise-features.so">
+		location="@PLUGINDIR@/liborg-gnome-groupwise-features@SOEXT@">
 		<author name="Sivaiah Nallagatla" email="snallagatla@novell.com" />
 		<author name="Vivek Jain" email="jvivek@novell.com" />
 		<author name="Chenthill Palanisamy" email="pchenthill@novell.com"/>

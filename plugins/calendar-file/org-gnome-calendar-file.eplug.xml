@@ -2,7 +2,7 @@
 <e-plugin-list>
     <e-plugin
      type="shlib"
-     location="@PLUGINDIR@/liborg-gnome-calendar-file.so"
+     location="@PLUGINDIR@/liborg-gnome-calendar-file@SOEXT@"
      id="org.gnome.evolution.calendar.file"
      _name="Local Calendars">
      <author name="JP Rosevear" email="jpr@novell.com"/>
