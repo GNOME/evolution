@@ -145,55 +145,39 @@ find_my_address (FormatItipPObject *pitip, icalcomponent *ical_comp, icalparamet
 			name_clean = NULL;
 		}
 
-		if (pitip->delegator_address) {
-			char *delegator_clean;
-			
-			delegator_clean = g_strdup (itip_strip_mailto (attendee));
-			delegator_clean = g_strstrip (delegator_clean);
-			
-			/* If the mailer told us the address to use, use that */
-			if (delegator_clean != NULL
-			    && !g_ascii_strcasecmp (attendee_clean, delegator_clean)) {
-				pitip->my_address = g_strdup (itip_strip_mailto (pitip->delegator_address));
-				pitip->my_address = g_strstrip (pitip->my_address);
+		it = e_list_get_iterator((EList *)pitip->accounts);
+		while (e_iterator_is_valid(it)) {
+			const EAccount *account = e_iterator_get(it);
 
+			if (!account->enabled) {
+				e_iterator_next(it);
+				continue;
+			}
+
+			/* Check for a matching address */
+			if (attendee_clean != NULL
+					&& !g_ascii_strcasecmp (account->id->address, attendee_clean)) {
+				pitip->my_address = g_strdup (account->id->address);
 				if (status) {
 					param = icalproperty_get_first_parameter (prop, ICAL_PARTSTAT_PARAMETER);
 					*status = param ? icalparameter_get_partstat (param) : ICAL_PARTSTAT_NEEDSACTION;
 				}
+				g_free (attendee_clean);
+				g_free (name_clean);
+				g_free (my_alt_address);
+				g_object_unref(it);
+				return;
 			}
 
-			g_free (delegator_clean);
-		} else {
-			it = e_list_get_iterator((EList *)pitip->accounts);
-			while (e_iterator_is_valid(it)) {
-				const EAccount *account = e_iterator_get(it);
-				
-				/* Check for a matching address */
-				if (attendee_clean != NULL
-				    && !g_ascii_strcasecmp (account->id->address, attendee_clean)) {
-					pitip->my_address = g_strdup (account->id->address);
-					if (status) {
-						param = icalproperty_get_first_parameter (prop, ICAL_PARTSTAT_PARAMETER);
-						*status = param ? icalparameter_get_partstat (param) : ICAL_PARTSTAT_NEEDSACTION;
-					}
-					g_free (attendee_clean);
-					g_free (name_clean);
-					g_free (my_alt_address);
-					g_object_unref(it);
-					return;
-				}
-				
-				/* Check for a matching cname to fall back on */
-				if (name_clean != NULL 
-				    && !g_ascii_strcasecmp (account->id->name, name_clean))
-					my_alt_address = g_strdup (attendee_clean);
-				
-				e_iterator_next(it);
-			}
-			g_object_unref(it);
+			/* Check for a matching cname to fall back on */
+			if (name_clean != NULL 
+					&& !g_ascii_strcasecmp (account->id->name, name_clean))
+				my_alt_address = g_strdup (attendee_clean);
+
+			e_iterator_next(it);
 		}
-		
+		g_object_unref(it);
+
 		g_free (attendee_clean);
 		g_free (name_clean);
 	}
@@ -794,16 +778,112 @@ update_item (FormatItipPObject *pitip, ItipViewResponse response)
 	g_object_unref (clone_comp);
 }
 
+/* TODO These operations should be available in e-cal-component.c */
+static void
+set_attendee (ECalComponent *comp, const char *address)
+{
+	icalproperty *prop;	
+	icalcomponent *icalcomp;
+	gboolean found = FALSE;
+	
+	icalcomp = e_cal_component_get_icalcomponent (comp);
+
+	for (prop = icalcomponent_get_first_property (icalcomp, ICAL_ATTENDEE_PROPERTY);
+			prop;
+			prop = icalcomponent_get_next_property (icalcomp, ICAL_ATTENDEE_PROPERTY)) {
+		const char *attendee = icalproperty_get_attendee (prop);
+
+		if (!(g_str_equal (itip_strip_mailto (attendee), address)))
+			icalcomponent_remove_property (icalcomp, prop);
+		else
+			found = TRUE;
+	}
+
+	if (!found) {
+		icalparameter *param;
+		char *temp = g_strdup_printf ("MAILTO:%s", address);
+		
+		prop = icalproperty_new_attendee ((const char *) temp);
+		icalcomponent_add_property (icalcomp, prop);
+
+		param = icalparameter_new_partstat (ICAL_PARTSTAT_NEEDSACTION);
+		icalproperty_add_parameter (prop, param);
+
+		param = icalparameter_new_role (ICAL_ROLE_REQPARTICIPANT);
+		icalproperty_add_parameter (prop, param);
+
+		param = icalparameter_new_cutype (ICAL_CUTYPE_INDIVIDUAL);
+		icalproperty_add_parameter (prop, param);
+
+		param = icalparameter_new_rsvp (ICAL_RSVP_TRUE);
+		icalproperty_add_parameter (prop, param);
+
+		g_free (temp);
+	}
+
+}
+
+static gboolean
+send_comp_to_attendee (ECalComponentItipMethod method, ECalComponent *comp, const char *user, ECal *client, const char *comment) 
+{
+	gboolean status;
+	ECalComponent *send_comp = e_cal_component_clone (comp); 
+		
+	set_attendee (send_comp, user);		
+	
+	if (comment) {
+		GSList comments;
+		ECalComponentText text;
+			
+		text.value = comment;
+		text.altrep = NULL;
+
+		comments.data = &text;
+		comments.next = NULL;
+
+		e_cal_component_set_comment_list (send_comp, &comments);
+	}
+	
+	/* FIXME send the attachments in the request */
+	status = itip_send_comp (method, send_comp, client, NULL, NULL);
+	
+	g_object_unref (send_comp);
+
+	return status;	
+}
+
+static void 
+remove_delegate (FormatItipPObject *pitip, const char *delegate, const char *delegator, ECalComponent *comp) 
+{
+	gboolean status;
+	char *comment = g_strdup_printf (_("Organizer has removed the delegate %s "), itip_strip_mailto (delegate));
+
+	/* send cancellation notice to delegate */
+	status = send_comp_to_attendee (E_CAL_COMPONENT_METHOD_CANCEL, pitip->comp, delegate, pitip->current_ecal, comment);
+	if (status)
+		send_comp_to_attendee (E_CAL_COMPONENT_METHOD_REQUEST, pitip->comp, delegator, pitip->current_ecal, comment);
+	if (status) {			
+		itip_view_add_lower_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_INFO, _("Sent a cancellation notice to the delegate"));
+	} else
+		itip_view_add_lower_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_INFO, _("Could not send the cancellation notice to the delegate"));
+
+	g_free (comment);
+
+}
+
 static void
 update_attendee_status (FormatItipPObject *pitip)
 {
 	ECalComponent *comp = NULL;
-	icalcomponent *icalcomp = NULL;
+	icalcomponent *icalcomp = NULL, *org_icalcomp;
 	const char *uid, *rid;
+	const char *delegate;
 	GError *error;
 	
 	/* Obtain our version */
 	e_cal_component_get_uid (pitip->comp, &uid);
+	org_icalcomp = e_cal_component_get_icalcomponent (pitip->comp);
+
 	rid = e_cal_component_get_recurid_as_string (pitip->comp);
 	if (e_cal_get_object (pitip->current_ecal, uid, rid, &icalcomp, NULL)) {
 		GSList *attendees;
@@ -817,11 +897,38 @@ update_attendee_status (FormatItipPObject *pitip)
 			e_cal_component_get_attendee_list (pitip->comp, &attendees);
 			if (attendees != NULL) {
 				ECalComponentAttendee *a = attendees->data;
-				icalproperty *prop;
+				icalproperty *prop, *del_prop;
 
 				prop = find_attendee (icalcomp, itip_strip_mailto (a->value));
+				if ((a->status == ICAL_PARTSTAT_DELEGATED) && (del_prop = find_attendee (org_icalcomp, itip_strip_mailto (a->delto))) && !(find_attendee (icalcomp, itip_strip_mailto (a->delto)))) {			
+					gint response;
+					delegate = icalproperty_get_attendee (del_prop);	 	
+					
+					 if ((response = e_error_run (NULL, "org.gnome.itip-formatter:add-delegate",itip_strip_mailto (a->value), itip_strip_mailto (delegate))) == GTK_RESPONSE_YES) {
+					icalcomponent_add_property (icalcomp, icalproperty_new_clone (del_prop));
+					e_cal_component_rescan (comp);
+					 } else if (response == GTK_RESPONSE_NO) {
+						 remove_delegate (pitip, delegate, itip_strip_mailto (a->value), comp); 
+						 goto cleanup;
+					 } else
+						 goto cleanup;
+				}
 
 				if (prop == NULL) {
+					gint response;
+					
+					if (a->delfrom && *a->delfrom) {
+						if ((response == e_error_run (NULL, "org.gnome.itip-formatter:add-delegate", itip_strip_mailto (a->delfrom)), itip_strip_mailto (a->value)) == GTK_RESPONSE_YES) {
+						icalproperty *prop = find_attendee (icalcomp, itip_strip_mailto (a->value));
+						icalcomponent_add_property (icalcomp,icalproperty_new_clone (prop));
+						e_cal_component_rescan (comp);
+						
+						} else if (response == GTK_RESPONSE_NO){
+							remove_delegate (pitip, itip_strip_mailto (a->value) , itip_strip_mailto (a->delfrom), comp);
+							goto cleanup;
+						} else
+							goto cleanup;
+					}
 					if (e_error_run (NULL, "org.gnome.itip-formatter:add-unknown-attendee", NULL) == GTK_RESPONSE_YES) {
 						change_status (icalcomp, itip_strip_mailto (a->value), a->status);
 						e_cal_component_rescan (comp);
@@ -833,12 +940,27 @@ update_attendee_status (FormatItipPObject *pitip)
 								       _("Attendee status could not be updated because the status is invalid"));
 					goto cleanup;
 				} else {
-					change_status (icalcomp, itip_strip_mailto (a->value), a->status);
+					if (a->status == ICAL_PARTSTAT_DELEGATED) {
+						icalproperty *prop, *new_prop;
+
+						prop = find_attendee (icalcomp, itip_strip_mailto (a->value));
+						icalcomponent_remove_property (icalcomp, prop);
+
+						new_prop = find_attendee (org_icalcomp, itip_strip_mailto (a->value));
+						icalcomponent_add_property (icalcomp, icalproperty_new_clone (new_prop));
+					} else
+						change_status (icalcomp, itip_strip_mailto (a->value), a->status);
+
 					e_cal_component_rescan (comp);
 				}
 			}
 		}
 
+		if (itip_view_get_update (ITIP_VIEW (pitip->view))) {
+			e_cal_component_commit_sequence (comp);
+			itip_send_comp (E_CAL_COMPONENT_METHOD_REQUEST, comp, pitip->current_ecal, NULL, NULL);
+		}
+		
 		if (!e_cal_modify_object (pitip->current_ecal, icalcomp, rid ? CALOBJ_MOD_THIS : CALOBJ_MOD_ALL, &error)) {
 			itip_view_add_lower_info_item_printf (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_ERROR, 
 							      _("Unable to update attendee. %s"), error->message);
@@ -956,6 +1078,8 @@ extract_itip_data (FormatItipPObject *pitip, GtkContainer *container)
 	icalcompiter tz_iter;
 	icalcomponent *alarm_comp;
 	icalcompiter alarm_iter;
+	ECalComponent *comp;
+	char *my_address;
 
 	content = camel_medium_get_content_object ((CamelMedium *) pitip->pobject.part);
 	mem = camel_stream_mem_new ();
@@ -1040,7 +1164,28 @@ extract_itip_data (FormatItipPObject *pitip, GtkContainer *container)
 	} else {
 		pitip->current = 0;
 	}
+
 	
+	comp = e_cal_component_new ();
+	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (pitip->ical_comp));
+	my_address = itip_get_comp_attendee (comp, NULL);
+	g_object_unref (comp);
+	comp = NULL;
+	
+	prop = find_attendee (pitip->ical_comp, my_address);	
+
+	if (prop) {
+		icalparameter *param;
+		const char * delfrom; 
+
+		if ((param =icalproperty_get_first_parameter (prop, ICAL_DELEGATEDFROM_PARAMETER))) {
+			delfrom = icalparameter_get_delegatedfrom (param);
+
+			pitip->delegator_address = g_strdup (itip_strip_mailto (delfrom));
+		}
+			
+	}
+
 	/* Determine any delegate sections */
 	prop = icalcomponent_get_first_property (pitip->ical_comp, ICAL_X_PROPERTY);
 	while (prop) {
@@ -1354,6 +1499,8 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 	case ICAL_METHOD_ADD:
 	case ICAL_METHOD_CANCEL:
 	case ICAL_METHOD_DECLINECOUNTER:
+		itip_view_set_show_update (ITIP_VIEW (pitip->view), FALSE);
+
 		/* An organizer sent this */
 		e_cal_component_get_organizer (pitip->comp, &organizer);
 		itip_view_set_organizer (ITIP_VIEW (pitip->view), organizer.cn ? organizer.cn : itip_strip_mailto (organizer.value));
@@ -1369,6 +1516,8 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 	case ICAL_METHOD_REPLY:
 	case ICAL_METHOD_REFRESH:
 	case ICAL_METHOD_COUNTER:
+		itip_view_set_show_update (ITIP_VIEW (pitip->view), TRUE);
+
 		/* An attendee sent this */
 		e_cal_component_get_attendee_list (pitip->comp, &list);
 		if (list != NULL) {
@@ -1407,6 +1556,9 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 				break;
 			case ICAL_PARTSTAT_DECLINED:
 				itip_view_set_status (ITIP_VIEW (pitip->view), _("Declined"));
+				break;
+			case ICAL_PARTSTAT_DELEGATED:
+				itip_view_set_status (ITIP_VIEW (pitip->view), _("Delegated"));
 				break;
 			default:
 				itip_view_set_status (ITIP_VIEW (pitip->view), _("Unknown"));

@@ -112,6 +112,10 @@ struct _ItipViewPrivate {
 	GtkWidget *rsvp_comment_entry;
 	gboolean rsvp_show;
 
+	GtkWidget *update_box;
+	GtkWidget *update_check;
+	gboolean update_show;
+	
 	GtkWidget *button_box;
 	gboolean buttons_sensitive;
 };
@@ -339,7 +343,7 @@ set_calendar_sender_text (ItipView *view)
 	case ITIP_VIEW_MODE_REQUEST:
 		/* FIXME is the delegator stuff handled correctly here? */
 		if (priv->delegator) {
-			sender = g_strdup_printf (_("<b>%s</b> requests the presence of %s at the following meeting:"), organizer, priv->delegator);
+			sender = g_strdup_printf (_("<b>%s</b> has delegated the following meeting to you:"), priv->delegator);
 		} else {
 			if (priv->sentby)
 				sender = g_strdup_printf (_("<b>%s</b> through %s requests your presence at the following meeting:"), organizer, priv->sentby);
@@ -948,6 +952,14 @@ itip_view_init (ItipView *view)
 	gtk_widget_set_sensitive (priv->rsvp_comment_entry, FALSE);
 	gtk_widget_show (priv->rsvp_comment_entry);
 	gtk_box_pack_start (GTK_BOX (hbox), priv->rsvp_comment_entry, FALSE, TRUE, 0);
+
+	/* RSVP area */
+	priv->update_box = gtk_vbox_new (FALSE, 12);
+	gtk_box_pack_start (GTK_BOX (vbox), priv->update_box, FALSE, FALSE, 0);
+
+	priv->update_check = gtk_check_button_new_with_mnemonic (_("Send u_pdates to attendees"));
+	gtk_widget_show (priv->update_check);
+	gtk_box_pack_start (GTK_BOX (priv->update_box), priv->update_check, FALSE, FALSE, 0);
 
 	/* The buttons for actions */
 	priv->button_box = gtk_hbutton_box_new ();
@@ -1725,6 +1737,60 @@ itip_view_get_show_rsvp (ItipView *view)
 	priv = view->priv;
 	
 	return priv->rsvp_show;
+}
+
+void
+itip_view_set_update (ItipView *view, gboolean update)
+{
+	ItipViewPrivate *priv;
+	
+	g_return_if_fail (view != NULL);
+	g_return_if_fail (ITIP_IS_VIEW (view));	
+	
+	priv = view->priv;
+	
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->update_check), update);
+}
+
+gboolean
+itip_view_get_update (ItipView *view)
+{
+	ItipViewPrivate *priv;
+
+	g_return_val_if_fail (view != NULL, FALSE);
+	g_return_val_if_fail (ITIP_IS_VIEW (view), FALSE);
+	
+	priv = view->priv;
+	
+	return gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->update_check));
+}
+
+void
+itip_view_set_show_update (ItipView *view, gboolean update)
+{
+	ItipViewPrivate *priv;
+	
+	g_return_if_fail (view != NULL);
+	g_return_if_fail (ITIP_IS_VIEW (view));	
+	
+	priv = view->priv;
+	
+	priv->update_show = update;
+
+	priv->update_show ? gtk_widget_show (priv->update_box) : gtk_widget_hide (priv->update_box);
+}
+
+gboolean
+itip_view_get_show_update (ItipView *view)
+{
+	ItipViewPrivate *priv;
+
+	g_return_val_if_fail (view != NULL, FALSE);
+	g_return_val_if_fail (ITIP_IS_VIEW (view), FALSE);
+	
+	priv = view->priv;
+	
+	return priv->update_show;
 }
 
 void

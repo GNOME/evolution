@@ -4,5 +4,12 @@
  <error id="add-unknown-attendee" type="question">
   <_primary>This response is not from a current attendee.  Add the sender as an attendee?</_primary>
  </error>
+ 
+ <error id="add-delegate" type="question">
+  <_primary>This meeting has been delegated</_primary>
+  <_secondary>&quot;{0}&quot; has delegated the meeting. Do you want to add the delegate &quot;{1}&quot; ?</_secondary>
+  <button _label="Yes" response="GTK_RESPONSE_YES"/>
+  <button _label="No" response="GTK_RESPONSE_NO"/>
+ </error>
 
 </error-list>

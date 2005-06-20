@@ -153,6 +153,12 @@ gboolean itip_view_get_rsvp (ItipView *view);
 void itip_view_set_show_rsvp (ItipView *view, gboolean rsvp);
 gboolean itip_view_get_show_rsvp (ItipView *view);
 
+void itip_view_set_update (ItipView *view, gboolean update);
+gboolean itip_view_get_update (ItipView *view);
+
+void itip_view_set_show_update (ItipView *view, gboolean update);
+gboolean itip_view_get_show_update (ItipView *view);
+
 void itip_view_set_rsvp_comment (ItipView *view, const char *comment);
 const char *itip_view_get_rsvp_comment (ItipView *view);
 

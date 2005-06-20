@@ -1,3 +1,20 @@
+2005-06-20  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* itip-formatter.c: (find_my_address), (set_attendee),
+	(send_comp_to_attendee), (remove_delegate),
+	(update_attendee_status), (extract_itip_data),
+	(format_itip_object): Set the delegator address. If the 
+	organizer refuses to add the new delegate, send a cancel
+	method to the delegate and request to the attendee.
+	* itip-view.h:
+	* itip-view.c: (set_calendar_sender_text), (itip_view_init),
+	(itip_view_get_show_rsvp), (itip_view_set_update),
+	(itip_view_get_update), (itip_view_set_show_update),
+	(itip_view_get_show_update): Added functions to show an
+	option to send updates to attendees.
+	* org-gnome-itip-formatter.error.xml: Added the error
+	message to add a new delegate.
+
 2005-06-18  Tor Lillqvist  <tml@novell.com>
 
 	* org-gnome-itip-formatter.eplug.xml: Use SOEXT.
