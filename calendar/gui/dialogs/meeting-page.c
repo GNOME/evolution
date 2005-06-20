@@ -101,7 +101,7 @@ static GtkWidget *meeting_page_get_widget (CompEditorPage *page);
 static void meeting_page_focus_main_widget (CompEditorPage *page);
 static gboolean meeting_page_fill_widgets (CompEditorPage *page, ECalComponent *comp);
 static gboolean meeting_page_fill_component (CompEditorPage *page, ECalComponent *comp);
-
+static void attendee_added_cb (EMeetingListView *emlv, EMeetingAttendee *attendee, gpointer user_data);
 G_DEFINE_TYPE (MeetingPage, meeting_page, TYPE_COMP_EDITOR_PAGE);
 
 /* Class initialization function for the task page */
@@ -304,7 +304,7 @@ clear_widgets (MeetingPage *mpage)
 	}
 
 	if (e_cal_get_static_capability (COMP_EDITOR_PAGE (mpage)->client, CAL_STATIC_CAPABILITY_NO_ORGANIZER)) {
-		gtk_label_set_label (GTK_LABEL (priv->org_label), _("From:"));
+		gtk_label_set_markup (GTK_LABEL (priv->org_label), _("<b>From:</b>"));
 		gtk_widget_hide (priv->existing_organizer_btn);
 	}
 				
@@ -371,7 +371,9 @@ meeting_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 
 	/* Component for cancellation */
 	priv->comp = e_cal_component_clone (comp);
-	
+
+	priv->user_add = itip_get_comp_attendee (comp, COMP_EDITOR_PAGE (mpage)->client);	
+
 	/* If there is an existing organizer show it properly */
 	if (e_cal_component_has_organizer (comp)) {
 		e_cal_component_get_organizer (comp, &organizer);
@@ -401,7 +403,7 @@ meeting_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 				priv->user_org = FALSE;
 			}
 			
-			if (e_cal_get_static_capability (COMP_EDITOR_PAGE (mpage)->client, CAL_STATIC_CAPABILITY_NO_ORGANIZER))
+			if (e_cal_get_static_capability (COMP_EDITOR_PAGE (mpage)->client, CAL_STATIC_CAPABILITY_NO_ORGANIZER) && (COMP_EDITOR_PAGE (mpage)->flags & COMP_EDITOR_PAGE_DELEGATE))
 				string = g_strdup (priv->user_add);
 			else if ( organizer.cn != NULL)
 				string = g_strdup_printf ("%s <%s>", organizer.cn, strip);
@@ -495,6 +497,18 @@ meeting_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 			EMeetingAttendee *ia = g_ptr_array_index (attendees, i);
 			ECalComponentAttendee *ca;
 		
+			/* Remove the duplicate user from the component if present */
+			if (e_meeting_attendee_is_set_delto (ia)) {
+				for (l = attendee_list; l; l = l->next) {
+					ECalComponentAttendee *a = l->data;
+
+					if (g_str_equal (a->value, e_meeting_attendee_get_address (ia))) {
+						attendee_list = g_slist_remove (attendee_list, l->data);
+						break;
+					}
+				}
+			}
+			
 			ca = e_meeting_attendee_as_e_cal_component_attendee (ia);
 
 			attendee_list = g_slist_append (attendee_list, ca);
@@ -635,7 +649,7 @@ add_clicked_cb (GtkButton *btn, MeetingPage *mpage)
 	attendee = e_meeting_store_add_attendee_with_defaults (mpage->priv->model);
 
 	if (COMP_EDITOR_PAGE (mpage)->flags & COMP_EDITOR_PAGE_DELEGATE) {
-		e_meeting_attendee_set_delfrom (attendee, g_strdup (mpage->priv->user_add));	
+		e_meeting_attendee_set_delfrom (attendee, g_strdup_printf ("MAILTO:%s", mpage->priv->user_add));
 	}
 
 	e_meeting_list_view_edit (mpage->priv->list_view, attendee);
@@ -674,6 +688,7 @@ remove_attendee (MeetingPage *mpage, EMeetingAttendee *ia)
 {
 	MeetingPagePrivate *priv;
 	int pos = 0;
+	gboolean delegate = (COMP_EDITOR_PAGE (mpage)->flags & COMP_EDITOR_PAGE_DELEGATE);
 	
 	priv = mpage->priv;
 
@@ -691,7 +706,9 @@ remove_attendee (MeetingPage *mpage, EMeetingAttendee *ia)
 		ib = e_meeting_store_find_attendee (priv->model, e_meeting_attendee_get_delfrom (ia), &pos);
 		if (ib != NULL) {
 			e_meeting_attendee_set_delto (ib, NULL);
-			e_meeting_attendee_set_edit_level (ib,  E_MEETING_ATTENDEE_EDIT_FULL);
+			
+			if (!delegate) 
+				e_meeting_attendee_set_edit_level (ib,  E_MEETING_ATTENDEE_EDIT_FULL);
 		}		
 	}
 	
@@ -710,7 +727,7 @@ remove_attendee (MeetingPage *mpage, EMeetingAttendee *ia)
 
 		ia = ib;
 	}
-
+	
 	sensitize_widgets (mpage);
 }
 
@@ -750,6 +767,8 @@ remove_clicked_cb (GtkButton *btn, MeetingPage *mpage)
 	ia = e_meeting_store_find_attendee (priv->model, address, NULL);
 	g_free (address);
 	if (!ia)
+		return;
+	else if (e_meeting_attendee_get_edit_level (ia) != E_MEETING_ATTENDEE_EDIT_FULL)
 		return;
 	
 	remove_attendee (mpage, ia);
@@ -803,6 +822,39 @@ init_widgets (MeetingPage *mpage)
 
 	/* Contacts button */
 	g_signal_connect(priv->invite, "clicked", G_CALLBACK (invite_cb), mpage);
+
+	/* Meeting List View */
+	g_signal_connect (priv->list_view, "attendee_added", G_CALLBACK (attendee_added_cb), mpage);
+}
+
+static void
+attendee_added_cb (EMeetingListView *emlv, EMeetingAttendee *ia, gpointer user_data)
+{
+   MeetingPage *mpage = MEETING_PAGE (user_data);	
+   MeetingPagePrivate *priv;
+   gboolean delegate = (COMP_EDITOR_PAGE (mpage)->flags & COMP_EDITOR_PAGE_DELEGATE);
+
+   priv = mpage->priv;
+
+   if (delegate) {
+	   if (existing_attendee (ia, priv->comp))
+		   e_meeting_store_remove_attendee (priv->model, ia);
+	   else {
+		   if (!e_cal_get_static_capability (COMP_EDITOR_PAGE(mpage)->client, 
+					   CAL_STATIC_CAPABILITY_DELEGATE_TO_MANY)) {
+			   const char *delegator_id = e_meeting_attendee_get_delfrom (ia);
+			   EMeetingAttendee *delegator;
+
+			   delegator = e_meeting_store_find_attendee (priv->model, delegator_id, NULL);
+			   e_meeting_attendee_set_delto (delegator, 
+					   g_strdup (e_meeting_attendee_get_address (ia)));
+
+			   gtk_widget_set_sensitive (priv->invite, FALSE);
+			   gtk_widget_set_sensitive (priv->add, FALSE);
+		   }
+	   }
+   }
+
 }
 
 static void
@@ -953,11 +1005,6 @@ meeting_page_construct (MeetingPage *mpage, EMeetingStore *ems,
 		}
 	}
 	
-	if (backend_address)
-		priv->user_add = backend_address;
-	else
-		priv->user_add = g_strdup (a->id->address);
-
 	g_object_unref(it);
 
 	if (address_strings)

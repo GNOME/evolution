@@ -138,7 +138,81 @@ itip_sentby_is_user (ECalComponent *comp)
 
 	return user_sentby;
 }
-				 
+
+static ECalComponentAttendee *
+get_attendee (GSList *attendees, char *address) 
+{
+	GSList *l;
+
+	for (l = attendees; l; l = l->next) {
+		ECalComponentAttendee *attendee = l->data;
+
+		if (g_str_equal (itip_strip_mailto (attendee->value), address)) {
+			return attendee;		
+		}	
+	}
+
+	return NULL;
+}
+
+char *
+itip_get_comp_attendee (ECalComponent *comp, ECal *client)
+{
+	GSList *attendees;
+	EAccountList *al;
+	EAccount *a;
+	EIterator *it;
+	ECalComponentAttendee *attendee = NULL;
+	char *address = NULL;
+
+	e_cal_component_get_attendee_list (comp, &attendees);	
+	al = itip_addresses_get ();
+	
+	if (client)
+		 e_cal_get_cal_address (client, &address, NULL);
+
+	if (address && *address) {
+		attendee = get_attendee (attendees, address);	
+
+		if (attendee) {
+			char *user_email = g_strdup (itip_strip_mailto (attendee->value));
+
+			e_cal_component_free_attendee_list (attendees);
+			g_free (address);
+			return user_email;	
+		}
+	}
+
+	for (it = e_list_get_iterator((EList *)al);
+			e_iterator_is_valid(it);
+			e_iterator_next(it)) {
+		a = (EAccount *) e_iterator_get(it);
+		
+		if (!a->enabled) 
+			continue;
+
+		attendee = get_attendee (attendees, a->id->address);
+		if (attendee) {
+			char *user_email = g_strdup (itip_strip_mailto (attendee->value));
+			
+			e_cal_component_free_attendee_list (attendees);
+			g_free (address);
+			return user_email;		
+		}
+	}
+
+	/* We could not find the attendee in the component, so just give the default
+	account address if the email address is not set in the backend */
+	/* FIXME do we have a better way ? */
+	if (!(address && *address)) {
+		a = itip_addresses_get_default ();
+		address = g_strdup (a->id->address);
+	}
+	
+	e_cal_component_free_attendee_list (attendees);
+	return address;
+}
+
 const gchar *
 itip_strip_mailto (const gchar *address) 
 {
@@ -256,14 +330,22 @@ comp_from (ECalComponentItipMethod method, ECalComponent *comp)
 	ECalComponentAttendee *attendee;
 	GSList *attendees;
 	CORBA_char *str;
+	char *sender = NULL;
 	
 	switch (method) {
 	case E_CAL_COMPONENT_METHOD_PUBLISH:
 		return CORBA_string_dup ("");
 		
 	case E_CAL_COMPONENT_METHOD_REQUEST:
+		sender = itip_get_comp_attendee (comp, NULL);
+		if (sender) {
+			str = CORBA_string_dup (sender);
+			g_free (sender);
+			return str;
+		}	
 	case E_CAL_COMPONENT_METHOD_CANCEL:
-	case E_CAL_COMPONENT_METHOD_ADD:
+	case E_CAL_COMPONENT_METHOD_ADD:	
+		
 		e_cal_component_get_organizer (comp, &organizer);
 		if (organizer.value == NULL) {
 			e_notice (NULL, GTK_MESSAGE_ERROR,
@@ -294,6 +376,7 @@ comp_to_list (ECalComponentItipMethod method, ECalComponent *comp, GList *users)
 	ECalComponentOrganizer organizer;
 	GSList *attendees, *l;
 	gint len;
+ 	char *sender = NULL;
 
 	switch (method) {
 	case E_CAL_COMPONENT_METHOD_REQUEST:
@@ -318,6 +401,7 @@ comp_to_list (ECalComponentItipMethod method, ECalComponent *comp, GList *users)
 				  _("An organizer must be set."));
 			return NULL;
 		}
+		sender = itip_get_comp_attendee (comp, NULL);
 
 		for (l = attendees; l != NULL; l = l->next) {
 			ECalComponentAttendee *att = l->data;
@@ -326,6 +410,12 @@ comp_to_list (ECalComponentItipMethod method, ECalComponent *comp, GList *users)
 				continue;
 			else if (!g_strcasecmp (att->value, organizer.value))
 				continue;
+			else if (!g_strcasecmp (itip_strip_mailto (att->value), sender))
+				continue;
+			else if (att->status == ICAL_PARTSTAT_DELEGATED && (att->delto && *att->delto)
+					&& !(att->rsvp) && method == E_CAL_COMPONENT_METHOD_REQUEST)
+				continue;
+					
 			
 			recipient = &(to_list->_buffer[to_list->_length]);
 			if (att->cn)
@@ -336,6 +426,7 @@ comp_to_list (ECalComponentItipMethod method, ECalComponent *comp, GList *users)
 			
 			to_list->_length++;
 		}
+		g_free (sender);
 		e_cal_component_free_attendee_list (attendees);
 		break;
 
@@ -351,19 +442,42 @@ comp_to_list (ECalComponentItipMethod method, ECalComponent *comp, GList *users)
 			return NULL;
 		}
 		
-		len = 1;
+		len = 2;
 
 		to_list = GNOME_Evolution_Composer_RecipientList__alloc ();
 		to_list->_maximum = len;
-		to_list->_length = len;
+		to_list->_length = 0;
 		to_list->_buffer = CORBA_sequence_GNOME_Evolution_Composer_Recipient_allocbuf (len);
 		recipient = &(to_list->_buffer[0]);
+		to_list->_length++;
 
 		if (organizer.cn != NULL)
 			recipient->name = CORBA_string_dup (organizer.cn);
 		else
 			recipient->name = CORBA_string_dup ("");
 		recipient->address = CORBA_string_dup (itip_strip_mailto (organizer.value));
+		
+		/* send the status to delegatee to the delegate  also*/	
+		e_cal_component_get_attendee_list (comp, &attendees);
+		sender = itip_get_comp_attendee (comp, NULL);
+
+		for (l = attendees; l != NULL; l = l->next) {
+			ECalComponentAttendee *att = l->data;
+
+			if (!g_strcasecmp (itip_strip_mailto (att->value), sender)){
+
+				if (!(att->delfrom && *att->delfrom))
+					break;
+
+				recipient = &(to_list->_buffer[to_list->_length]);
+				recipient->name = CORBA_string_dup ("");
+				recipient->address = CORBA_string_dup (itip_strip_mailto (att->delfrom));
+				to_list->_length++;
+			}
+
+		}
+		e_cal_component_free_attendee_list (attendees);
+		
 		break;
 
 	default:
@@ -381,8 +495,10 @@ comp_subject (ECalComponentItipMethod method, ECalComponent *comp)
 {
 	ECalComponentText caltext;
 	const char *description, *prefix = NULL;
-	GSList *alist;
+	GSList *alist, *l;
 	CORBA_char *subject;
+	char *sender;
+	ECalComponentAttendee *a;
 
 	e_cal_component_get_summary (comp, &caltext);
 	if (caltext.value != NULL)	
@@ -413,8 +529,18 @@ comp_subject (ECalComponentItipMethod method, ECalComponent *comp)
 
 	case E_CAL_COMPONENT_METHOD_REPLY:
 		e_cal_component_get_attendee_list (comp, &alist);
+		sender = itip_get_comp_attendee (comp, NULL);
+		if (sender) {
+
+			for (l = alist; l != NULL ; l = l->next) {
+				a = l->data;
+				if ((sender && *sender) && g_str_equal (itip_strip_mailto (a->value), sender)) 
+					break;
+			}
+			g_free (sender);
+		}
+
 		if (alist != NULL) {
-			ECalComponentAttendee *a = alist->data;
 
 			switch (a->status) {
 			case ICAL_PARTSTAT_ACCEPTED:
@@ -425,6 +551,9 @@ comp_subject (ECalComponentItipMethod method, ECalComponent *comp)
 				break;
 			case ICAL_PARTSTAT_DECLINED:
 				prefix = _("Declined");
+				break;
+			case ICAL_PARTSTAT_DELEGATED:
+				prefix = _("Delegated");
 				break;
 			default:
 				break;
@@ -614,6 +743,8 @@ static void
 comp_sentby (ECalComponent *comp, ECal *client)
 {
 	ECalComponentOrganizer organizer;
+	GList * attendees, *l;
+	char *user = NULL;
 	
 	e_cal_component_get_organizer (comp, &organizer);
 	if (!organizer.value) {
@@ -630,6 +761,17 @@ comp_sentby (ECalComponent *comp, ECal *client)
 		return;
 	}
 
+	e_cal_component_get_attendee_list (comp, &attendees);
+	user = itip_get_comp_attendee (comp, client);
+	for (l = attendees; l; l = l->next) {
+		ECalComponentAttendee *a = l->data;
+
+		if (g_str_equal (itip_strip_mailto (a->value), user)) {
+			g_free (user);
+			return;
+		}
+	}
+	
 	if (!itip_organizer_is_user (comp, client) && !itip_sentby_is_user (comp)) {
 		EAccount *a = itip_addresses_get_default ();
 		
@@ -960,6 +1102,7 @@ itip_send_comp (ECalComponentItipMethod method, ECalComponent *send_comp,
 
 	top_level = comp_toplevel_with_zones (method, comp, client, zones);
 	ical_string = icalcomponent_as_ical_string (top_level);
+
 
 	if (e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_EVENT) {
 		GNOME_Evolution_Composer_setBody (composer_server, ical_string, content_type, &ev);

@@ -731,19 +731,26 @@ save_comp_with_send (CompEditor *editor)
 {
 	CompEditorPrivate *priv;
 	gboolean send;
+	gboolean delegate;
 
 	priv = editor->priv;
-
+	
 	send = priv->changed && priv->needs_send;
+	delegate = priv->flags & COMP_EDITOR_DELEGATE;
 
 	if (!save_comp (editor))
 		return FALSE;
 
- 	if (send && send_component_dialog ((GtkWindow *) editor, priv->client, priv->comp, !priv->existing_org)) {
+	if (delegate || (send && send_component_dialog ((GtkWindow *) editor, priv->client, priv->comp, !priv->existing_org))) {
  		if (itip_organizer_is_user (priv->comp, priv->client))
  			return comp_editor_send_comp (editor, E_CAL_COMPONENT_METHOD_REQUEST);
- 		else
- 			return comp_editor_send_comp (editor, E_CAL_COMPONENT_METHOD_REPLY);
+ 		else {
+			if (!comp_editor_send_comp (editor, E_CAL_COMPONENT_METHOD_REQUEST))
+				return FALSE;
+ 			
+			if (delegate)
+				return comp_editor_send_comp (editor, E_CAL_COMPONENT_METHOD_REPLY);
+		}
  	}
 
 	return TRUE;
@@ -1801,6 +1808,9 @@ real_edit_comp (CompEditor *editor, ECalComponent *comp)
 			e_cal_get_local_attachment_store (priv->client)); 
 	cal_attachment_bar_set_comp_uid (priv->attachment_bar, g_strdup	(uid));
 
+	if (!itip_organizer_is_user  (comp, priv->client))
+		comp_editor_sensitize_attachment_bar (editor, FALSE);
+		
 	fill_widgets (editor);
 
 	priv->changed =FALSE;
@@ -1808,20 +1818,58 @@ real_edit_comp (CompEditor *editor, ECalComponent *comp)
 	listen_for_changes (editor);
 }
 
+/* TODO These functions should be available in e-cal-component.c */
+static void
+set_attendees_for_delegation (ECalComponent *comp, const char *address, ECalComponentItipMethod method)
+{
+	GSList *attendees, *l, *new;
+	icalproperty *prop;	
+	icalparameter *param;
+	icalcomponent *icalcomp;
+	
+	icalcomp = e_cal_component_get_icalcomponent (comp);
+
+	for (prop = icalcomponent_get_first_property (icalcomp, ICAL_ATTENDEE_PROPERTY);
+			prop;
+			prop = icalcomponent_get_next_property (icalcomp, ICAL_ATTENDEE_PROPERTY)) {
+		const char *attendee = icalproperty_get_attendee (prop);
+		const char *delfrom;
+
+		param = icalproperty_get_first_parameter(prop, ICAL_DELEGATEDFROM_PARAMETER);
+		delfrom = icalparameter_get_delegatedfrom (param);
+		if (!(g_str_equal (itip_strip_mailto (attendee), address) ||
+				((delfrom && *delfrom) &&
+				 g_str_equal (itip_strip_mailto (delfrom), address)))) {
+			icalcomponent_remove_property (icalcomp, prop);
+		} 
+
+	}
+
+}
 
 static gboolean
 real_send_comp (CompEditor *editor, ECalComponentItipMethod method)
 {
 	CompEditorPrivate *priv;
-	ECalComponent *tmp_comp;
+	ECalComponent *tmp_comp, *send_comp;
+	char *address = NULL;
 	
 	g_return_val_if_fail (editor != NULL, FALSE);
 	g_return_val_if_fail (IS_COMP_EDITOR (editor), FALSE);
 
 	priv = editor->priv;
 
+	send_comp = e_cal_component_clone (priv->comp);
+	/* The user updates the delegated status to the Organizer, so remove all other attendees */
+	if ((priv->flags & COMP_EDITOR_DELEGATE)) {
+		address = itip_get_comp_attendee (send_comp, priv->client);
+
+		if (address)
+			set_attendees_for_delegation (send_comp, address, method);
+	}
+	
 	if (!e_cal_component_has_attachments (priv->comp)) {
-		if (itip_send_comp (method, priv->comp, priv->client,
+		if (itip_send_comp (method, send_comp, priv->client,
 					NULL, NULL)) {
 #if 0
 			tmp_comp = priv->comp;
@@ -1830,20 +1878,19 @@ real_send_comp (CompEditor *editor, ECalComponentItipMethod method)
 			g_object_unref (tmp_comp);
 			
 			comp_editor_set_changed (editor, TRUE);
-			save_comp (editor);
 #endif
 
+			save_comp (editor);
+			g_object_unref (send_comp);
 			return TRUE;
 		}
 
 	} else {
 		/* Clone the component with attachments set to CID:...  */
-		ECalComponent *send_comp;
 		int num_attachments, i;
 		GSList *attach_list = NULL;
 		GSList *mime_attach_list;
 			
-		send_comp = e_cal_component_clone (priv->comp);
 		num_attachments = e_cal_component_get_num_attachments (send_comp);
 
 		for (i = 0; i < num_attachments ; i++) {
@@ -1865,9 +1912,10 @@ real_send_comp (CompEditor *editor, ECalComponentItipMethod method)
 			g_object_unref (send_comp);
 			return TRUE;
 		}
-		g_object_unref (send_comp);
 	}
 
+	g_object_unref (send_comp);
+	g_free (address);
 	comp_editor_set_changed (editor, TRUE);
 	
 	return FALSE;

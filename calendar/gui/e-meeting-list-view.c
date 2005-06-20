@@ -56,6 +56,14 @@ struct _EMeetingListViewPrivate {
 
 #define BUF_SIZE 1024
 
+/* Signal IDs */
+enum {
+	ATTENDEE_ADDED,
+	LAST_SIGNAL
+};
+
+static guint e_meeting_list_view_signals[LAST_SIGNAL] = { 0 };
+
 static void name_selector_dialog_close_cb (ENameSelectorDialog *dialog, gint response, gpointer data);
 
 static char *sections[] = {N_("Chair Persons"), 
@@ -101,6 +109,16 @@ e_meeting_list_view_class_init (EMeetingListViewClass *klass)
 	object_class = G_OBJECT_CLASS (klass);
 
 	object_class->finalize = e_meeting_list_view_finalize;
+
+	e_meeting_list_view_signals [ATTENDEE_ADDED] = 
+		g_signal_new ("attendee_added", 
+			      G_TYPE_FROM_CLASS (klass),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (EMeetingListViewClass, attendee_added),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__POINTER,
+			      G_TYPE_NONE, 1, 
+			      G_TYPE_POINTER);
 }
 
 
@@ -209,6 +227,7 @@ attendee_edited_cb (GtkCellRenderer *renderer, const gchar *path, GList *address
 	GtkTreePath *treepath = gtk_tree_path_new_from_string (path);
 	int row = gtk_tree_path_get_indices (treepath)[0];
 	EMeetingAttendee *existing_attendee;
+	gboolean removed = FALSE;
 
 	existing_attendee = e_meeting_store_find_attendee_at_row (model, row);
 
@@ -219,8 +238,8 @@ attendee_edited_cb (GtkCellRenderer *renderer, const gchar *path, GList *address
 		for (l = addresses, m = names; l && m; l = l->next, m = m->next) {
 			char *name = m->data, *email = l->data;
 			
-			if (!((name && *name) || (email && *email)))
-				continue;
+			if (!((name && *name) || (email && *email))) 
+					continue;
 			
 			if (e_meeting_store_find_attendee (model, email, NULL) != NULL)
 				continue;
@@ -237,26 +256,40 @@ attendee_edited_cb (GtkCellRenderer *renderer, const gchar *path, GList *address
 			}
 		}
 
-		if (existing_attendee)
+		if (existing_attendee) {
+			removed = TRUE;
 			e_meeting_store_remove_attendee (model, existing_attendee);
+		}
 		
 	} else if (g_list_length (addresses) == 1) {
 		char *name = names->data, *email = addresses->data;
 		int existing_row;
 
 		if (!((name && *name) || (email && *email)) || ((e_meeting_store_find_attendee (model, email, &existing_row) != NULL) && existing_row != row)){
-			if (existing_attendee)
+			if (existing_attendee) {
+				removed = TRUE;
 				e_meeting_store_remove_attendee (model, existing_attendee);
+			}
 		} else {
 			value_edited (view, E_MEETING_STORE_ADDRESS_COL, path, email);
 			value_edited (view, E_MEETING_STORE_CN_COL, path, name);
 		}
 	} else {
-		if (existing_attendee)
+		if (existing_attendee) {
+			const char *address = e_meeting_attendee_get_address (existing_attendee);
+			
+			if (address && *address)
+				return;
+
+			 removed = TRUE;
 			e_meeting_store_remove_attendee (model, existing_attendee);
+		}
 	}
 
 	gtk_tree_path_free (treepath);
+
+	if (!removed)	
+		g_signal_emit_by_name (G_OBJECT (view), "attendee_added", (gpointer) existing_attendee); 
 }
 
 static void

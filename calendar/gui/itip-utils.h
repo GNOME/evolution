@@ -28,6 +28,8 @@ gboolean itip_sentby_is_user (ECalComponent *comp);
 
 const gchar *itip_strip_mailto (const gchar *address);
 
+char *itip_get_comp_attendee (ECalComponent *comp, ECal *client);
+
 gboolean itip_send_comp (ECalComponentItipMethod method, ECalComponent *comp,
 			 ECal *client, icalcomponent *zones, GSList *attachments_list);
 

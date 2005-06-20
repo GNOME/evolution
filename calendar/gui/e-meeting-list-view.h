@@ -47,6 +47,9 @@ struct _EMeetingListView {
 
 struct _EMeetingListViewClass {
 	GtkTreeViewClass parent_class;
+
+	/* Notification Signals */
+	void (*attendee_added) (EMeetingListView *emlv, EMeetingAttendee *attendee);
 };
 
 GType      e_meeting_list_view_get_type (void);

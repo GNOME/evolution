@@ -1248,27 +1248,63 @@ on_meeting (EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static void
-set_attendee_status_for_delegate (icalcomponent *icalcomp, const char *email_id, ECal *client)
+set_attendee_status_for_delegate (icalcomponent *icalcomp, ECal *client)
 {
 	icalproperty *prop;	
+	icalparameter *param;
+	char *address = NULL;
+	ECalComponent *comp;
+	gboolean found = FALSE;
+
+	comp = e_cal_component_new ();
+	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (icalcomp));
 	
-	if (!email_id)
-		return;
+	address = itip_get_comp_attendee (comp, client);	
+	
 
 	for (prop = icalcomponent_get_first_property (icalcomp, ICAL_ATTENDEE_PROPERTY);
 			prop;
 			prop = icalcomponent_get_next_property (icalcomp, ICAL_ATTENDEE_PROPERTY)) {
 		const char *attendee = icalproperty_get_attendee (prop);
 
-		if (g_str_equal (attendee + 7, email_id)) {
-			icalparameter *param;
+		if (g_str_equal (itip_strip_mailto (attendee), address)) {
+			param = icalparameter_new_role (ICAL_ROLE_NONPARTICIPANT);
+			icalproperty_set_parameter (prop, param);
 
 			param = icalparameter_new_partstat (ICAL_PARTSTAT_DELEGATED);
 			icalproperty_set_parameter (prop, param);
+				
+			found = TRUE;
 			break;
 		} 
 
 	}
+
+	/* We couldn find the attendee in the component, so add a new attendee */
+	if (!found) {
+		char *temp = g_strdup_printf ("MAILTO:%s", address);
+		
+		prop = icalproperty_new_attendee ((const char *) temp);
+		icalcomponent_add_property (icalcomp, prop);
+
+		param = icalparameter_new_partstat (ICAL_PARTSTAT_DELEGATED);
+		icalproperty_add_parameter (prop, param);
+
+		param = icalparameter_new_role (ICAL_ROLE_NONPARTICIPANT);
+		icalproperty_add_parameter (prop, param);
+
+		param = icalparameter_new_cutype (ICAL_CUTYPE_INDIVIDUAL);
+		icalproperty_add_parameter (prop, param);
+
+		param = icalparameter_new_rsvp (ICAL_RSVP_TRUE);
+		icalproperty_add_parameter (prop, param);
+
+		g_free (temp);
+	}
+
+
+	g_free (address);
+	g_object_unref (comp);
 }
 
 static void
@@ -1277,6 +1313,7 @@ on_delegate (EPopup *ep, EPopupItem *pitem, void *data)
 	ECalendarView *cal_view = data;
 	GList *selected;
 	guint32 flags;
+	icalcomponent *clone;
 
 	selected = e_calendar_view_get_selected_events (cal_view);
 	if (selected) {
@@ -1284,12 +1321,14 @@ on_delegate (EPopup *ep, EPopupItem *pitem, void *data)
 		char *address;
 		
 		e_cal_get_cal_address (event->comp_data->client, &address, NULL);
-		set_attendee_status_for_delegate (event->comp_data->icalcomp, address, event->comp_data->client);
+		clone = icalcomponent_new_clone (event->comp_data->icalcomp);
+		set_attendee_status_for_delegate (clone, event->comp_data->client);
 
 		flags |= COMP_EDITOR_MEETING | COMP_EDITOR_DELEGATE;
 
-		open_event_with_flags (cal_view, event->comp_data->client, event->comp_data->icalcomp, flags);
+		open_event_with_flags (cal_view, event->comp_data->client, clone, flags);
 
+		icalcomponent_free (clone);
 		g_list_free (selected);
 	}
 }
@@ -1478,7 +1517,7 @@ static EPopupItem ecv_child_items [] = {
 
 	{ E_POPUP_ITEM, "41.copyto", N_("Cop_y to Calendar..."), on_copy_to, NULL, NULL, 0, E_CAL_POPUP_SELECT_NOTEDITING },
 	{ E_POPUP_ITEM, "42.moveto", N_("Mo_ve to Calendar..."), on_move_to, NULL, NULL, 0, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_EDITABLE },
-	{ E_POPUP_ITEM, "43.delegate", N_("_Delegate Meeting..."), on_delegate, NULL, NULL, 0, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_EDITABLE | E_CAL_POPUP_SELECT_DELEGATABLE },
+	{ E_POPUP_ITEM, "43.delegate", N_("_Delegate Meeting..."), on_delegate, NULL, NULL, 0, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_EDITABLE | E_CAL_POPUP_SELECT_DELEGATABLE | E_CAL_POPUP_SELECT_MEETING},
 	{ E_POPUP_ITEM, "44.schedule", N_("_Schedule Meeting..."), on_meeting, NULL, NULL, 0, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_EDITABLE | E_CAL_POPUP_SELECT_NOTMEETING },
 	{ E_POPUP_ITEM, "45.forward", N_("_Forward as iCalendar..."), on_forward, NULL, "stock_mail-forward", 0, E_CAL_POPUP_SELECT_NOTEDITING },
 

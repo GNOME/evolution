@@ -1,3 +1,42 @@
+2005-06-20  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* gui/dialogs/comp-editor.c (save_comp_with_send),
+	(real_edit_comp), (set_attendees_for_delegation), (real_send_comp):
+	If a meeting is delegated. Send a Request to the delegate and a
+	reply to the organizer.
+	* gui/dialogs/event-editor.c: (event_editor_edit_comp): Add the 
+	delegator alone in the meeting editor for personal calendar.
+	(event_editor_send_comp), (show_meeting): Show the scheduling
+	page if the meeting is being delegated. 
+	* gui/dialogs/meeting-page.c: (clear_widgets),
+	(meeting_page_fill_widgets), (meeting_page_fill_component),
+	(add_clicked_cb), (remove_attendee), (remove_clicked_cb),
+	(init_widgets), (attendee_added_cb), (meeting_page_construct):
+	Do not allow only non-attendees to be added as delegatees.
+	While sending the delegated item remove the other attendees.
+	Allow only one delegate to be added for personal calendar.
+	* gui/e-cal-popup.c: (get_attendee_prop), (is_delegated)
+	(e_cal_popup_target_new_select):Disabled
+	the popup menu item if the meeting is already delegated.
+	* gui/e-cal-popup.h: Added a new mask to check if the meeting
+	is already delegated.
+	* gui/e-calendar-view.c: (set_attendee_status_for_delegate),
+	(on_delegate): Change the status of the attendee to delegated.
+	Set the new mask for the delegate popup menu item.
+	* gui/e-meeting-list-view.c: (e_meeting_list_view_class_init),
+	(attendee_edited_cb): Added a new signal to identify the attendee
+	added in meeting page. Do not remove the attendee if the user
+	modifies the existing email id to NULL value.
+	* gui/e-meeting-list-view.h: Added the notification signal.
+	* gui/itip-utils.h: Added a new function to get our email id
+	from the list of attendees.
+	* gui/itip-utils.c (get_attendee), (itip_get_comp_attendee),
+	(comp_from), (comp_to_list), (comp_subject), (comp_sentby),
+	(itip_send_comp):  Send udpates to delegator only
+        if the rsvp is enabled. Set the status of the attendee
+	properly in the REPLY method, since there will two attendees
+ 	unlike the updating attendee status.	
+
 2005-06-18  Tor Lillqvist  <tml@novell.com>
 
 	* gui/GNOME_Evolution_Calendar.server.in.in

@@ -109,6 +109,60 @@ ECalPopup *e_cal_popup_new(const char *menuid)
 	return eabp;
 }
 
+static icalproperty *
+get_attendee_prop (icalcomponent *icalcomp, const char *address)
+{
+	
+	icalproperty *prop;
+
+	if (!(address && *address))
+		return NULL;
+	
+	for (prop = icalcomponent_get_first_property (icalcomp, ICAL_ATTENDEE_PROPERTY);
+			prop;
+			prop = icalcomponent_get_next_property (icalcomp, ICAL_ATTENDEE_PROPERTY)) {
+		const char *attendee = icalproperty_get_attendee (prop);
+
+		if (g_str_equal (itip_strip_mailto (attendee), address)) {
+			return prop;
+		}
+	}
+	return NULL;
+}
+	
+static gboolean 
+is_delegated (icalcomponent *icalcomp, char *user_email)
+{
+	icalproperty *prop;
+	icalparameter *param;
+	const char *delto = NULL;
+	
+	prop = get_attendee_prop (icalcomp, user_email);
+
+	if (prop) {
+		param = icalproperty_get_first_parameter (prop, ICAL_DELEGATEDTO_PARAMETER);
+		delto = icalparameter_get_delegatedto (param);
+	} else
+		return FALSE;
+	
+	prop = get_attendee_prop (icalcomp, itip_strip_mailto (delto));	
+
+	if (prop) {
+		const char *delfrom;
+		icalparameter_partstat	status;
+
+		param = icalproperty_get_first_parameter (prop, ICAL_DELEGATEDFROM_PARAMETER);
+		delfrom = icalparameter_get_delegatedfrom (param);
+		param = icalproperty_get_first_parameter (prop, ICAL_PARTSTAT_PARAMETER);
+		status = icalparameter_get_partstat (param);
+		if ((delfrom && *delfrom) && g_str_equal (itip_strip_mailto (delfrom), user_email)
+				&& status != ICAL_PARTSTAT_DECLINED)
+			return TRUE;
+	}
+
+	return FALSE;	
+}
+
 /**
  * e_cal_popup_target_new_select:
  * @eabp:
@@ -127,18 +181,22 @@ e_cal_popup_target_new_select(ECalPopup *eabp, struct _ECalModel *model, GPtrArr
 	ECalPopupTargetSelect *t = e_popup_target_new(&eabp->popup, E_CAL_POPUP_TARGET_SELECT, sizeof(*t));
 	guint32 mask = ~0;
 	ECal *client;
-	gboolean read_only;
+	gboolean read_only, user_org = FALSE;
 
 	/* FIXME: This is duplicated in e-cal-menu */
 
 	t->model = model;
 	g_object_ref(t->model);
 	t->events = events;
-
+	
 	if (t->events->len == 0) {
 		client = e_cal_model_get_default_client(t->model);
 	} else {
 		ECalModelComponent *comp_data = (ECalModelComponent *)t->events->pdata[0];
+		ECalComponent *comp;
+
+		comp = e_cal_component_new ();
+		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (comp_data->icalcomp));
 
 		mask &= ~E_CAL_POPUP_SELECT_ANY;
 		if (t->events->len == 1)
@@ -163,28 +221,37 @@ e_cal_popup_target_new_select(ECalPopup *eabp, struct _ECalModel *model, GPtrArr
 			mask &= ~E_CAL_POPUP_SELECT_MEETING;
 
 		if (e_cal_util_component_has_organizer (comp_data->icalcomp)) {
-			ECalComponent *comp;
 
-			comp = e_cal_component_new ();
-			e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (comp_data->icalcomp));
-			if (!itip_organizer_is_user (comp, comp_data->client))
+			if (itip_organizer_is_user (comp, comp_data->client)) {
 				mask &= ~E_CAL_POPUP_SELECT_ORGANIZER;
+				user_org = TRUE;
+			}
 
-			g_object_unref (comp);
 		} else {
 			/* organiser is synonym for owner in this case */
 			mask &= ~(E_CAL_POPUP_SELECT_ORGANIZER|E_CAL_POPUP_SELECT_NOTMEETING);
 		}
 
 		client = comp_data->client;
+
+		if (e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_DELEGATE_SUPPORTED)) {
+			char *user_email = itip_get_comp_attendee (comp, client);
+
+			if (e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_DELEGATE_TO_MANY))
+				mask &= ~E_CAL_POPUP_SELECT_DELEGATABLE;
+			else if (!user_org && !is_delegated (comp_data->icalcomp, user_email))
+				mask &= ~E_CAL_POPUP_SELECT_DELEGATABLE;
+		
+			g_object_unref (comp);
+
+		}
 	}
 
 	e_cal_is_read_only(client, &read_only, NULL);
 	if (!read_only)
 		mask &= ~E_CAL_POPUP_SELECT_EDITABLE;
 
-	if (e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_DELEGATE_SUPPORTED))
-		mask &= ~E_CAL_POPUP_SELECT_DELEGATABLE;
+	
 		
 	if (!e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_NO_TASK_ASSIGNMENT)
 	    && !e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_NO_CONV_TO_ASSIGN_TASK))

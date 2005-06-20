@@ -208,6 +208,7 @@ event_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 	EventEditor *ee;
 	EventEditorPrivate *priv;
 	ECalComponentOrganizer organizer;
+	gboolean delegate;
 	ECal *client;
 	GSList *attendees = NULL;
 	
@@ -215,16 +216,12 @@ event_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 	priv = ee->priv;
 	
 	priv->updating = TRUE;
-
-
-	client = comp_editor_get_e_cal (COMP_EDITOR (editor));
-	if (priv->is_meeting && itip_organizer_is_user (comp, client)) {	
-		 COMP_EDITOR_PAGE (priv->event_page)->flags |= COMP_EDITOR_PAGE_USER_ORG;
-		 COMP_EDITOR_PAGE (priv->recur_page)->flags |= COMP_EDITOR_PAGE_USER_ORG;
-	}
-
+	delegate = (comp_editor_get_flags (COMP_EDITOR (editor)) & COMP_EDITOR_DELEGATE);
+	
 	if (COMP_EDITOR_CLASS (event_editor_parent_class)->edit_comp)
 		COMP_EDITOR_CLASS (event_editor_parent_class)->edit_comp (editor, comp);
+
+	client = comp_editor_get_e_cal (COMP_EDITOR (editor));
 
 	/* Get meeting related stuff */
 	e_cal_component_get_organizer (comp, &organizer);
@@ -243,8 +240,9 @@ event_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 	} else {
 		GSList *l;
 		int row;
-		const char *user_email;
-	
+		char *user_email;
+		
+		user_email = itip_get_comp_attendee (comp, client);	
 		if (!priv->meeting_shown) {
 			comp_editor_append_page (COMP_EDITOR (ee),
 						 COMP_EDITOR_PAGE (priv->sched_page),
@@ -254,16 +252,21 @@ event_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 						 _("Invitations"));
 		}
 		
-		if (! (comp_editor_get_flags (COMP_EDITOR (editor)) & COMP_EDITOR_DELEGATE)) {
+		if (!(delegate && e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_DELEGATE_TO_MANY))) {
 			for (l = attendees; l != NULL; l = l->next) {
 				ECalComponentAttendee *ca = l->data;
 				EMeetingAttendee *ia;
-
+					
+				if (delegate &&	!g_str_equal (itip_strip_mailto (ca->value), user_email))
+					continue;
+				
 				ia = E_MEETING_ATTENDEE (e_meeting_attendee_new_from_e_cal_component_attendee (ca));
 
-				/* If we aren't the organizer or the attendee is just delegating, don't allow editing */
+				/* If we aren't the organizer or the attendee is just delegated, don't allow editing */
 				if (!comp_editor_get_user_org (editor) || e_meeting_attendee_is_set_delto (ia))
 					e_meeting_attendee_set_edit_level (ia,  E_MEETING_ATTENDEE_EDIT_NONE);
+
+
 				e_meeting_store_add_attendee (priv->model, ia);
 
 				g_object_unref(ia);
@@ -299,9 +302,6 @@ event_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 	e_cal_component_free_attendee_list (attendees);
 
 	comp_editor_set_needs_send (COMP_EDITOR (ee), priv->meeting_shown && itip_organizer_is_user (comp, client));
-	if (e_cal_component_has_organizer (comp) && (COMP_EDITOR_PAGE (priv->event_page)->flags & 
-									COMP_EDITOR_PAGE_MEETING)) 
-	        comp_editor_sensitize_attachment_bar (editor, itip_organizer_is_user (comp, client));	
 
 	priv->updating = FALSE;
 }
@@ -332,6 +332,8 @@ event_editor_send_comp (CompEditor *editor, ECalComponentItipMethod method)
 
 		if (!result)
 			return FALSE;
+		else 
+			return TRUE;
 	}
 
  parent:
@@ -428,8 +430,7 @@ show_meeting (EventEditor *ee)
 	}
 	if (comp_editor_get_flags (COMP_EDITOR (ee)) & COMP_EDITOR_DELEGATE)
 		comp_editor_show_page (COMP_EDITOR (ee), COMP_EDITOR_PAGE (priv->meet_page));
-	if (comp_editor_get_existing_org (COMP_EDITOR (ee)) && !comp_editor_get_user_org (COMP_EDITOR (ee)))
-                comp_editor_remove_page (COMP_EDITOR (ee), COMP_EDITOR_PAGE (priv->sched_page));	 
+	
 }
 
 void
