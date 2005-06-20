@@ -573,16 +573,44 @@ etsm_cursor_col (ESelectionModel *selection)
 }
 
 static void
+etsm_get_rows(int row, void *d)
+{
+	int **rowp = d;
+
+	**rowp = row;
+	(*rowp)++;
+}
+
+static void
 etsm_select_single_row (ESelectionModel *selection, gint row)
 {
 	ETreeSelectionModel *etsm = E_TREE_SELECTION_MODEL(selection);
 	ETreePath path = e_tree_table_adapter_node_at_row (etsm->priv->etta, row);
+	int rows[5], *rowp = NULL, size;
 
 	g_return_if_fail (path != NULL);
 
+	/* we really only care about the size=1 case (cursor changed),
+	   but this doesn't cost much */
+	size = g_hash_table_size(etsm->priv->paths);
+	if (size > 0 && size <= 5) {
+		rowp = rows;
+		etsm_foreach(selection, etsm_get_rows, &rowp);
+	}
+
 	select_single_path (etsm, path);
 
-	e_selection_model_selection_changed(E_SELECTION_MODEL(etsm));
+	if (size>5) {
+		e_selection_model_selection_changed(E_SELECTION_MODEL(etsm));
+	} else {
+		if (rowp) {
+			int *p = rows;
+
+			while (p<rowp)
+				e_selection_model_selection_row_changed((ESelectionModel *)etsm, *p++);
+		}
+		e_selection_model_selection_row_changed((ESelectionModel *)etsm, row);
+	}
 }
 
 static void
@@ -599,7 +627,8 @@ etsm_toggle_single_row (ESelectionModel *selection, gint row)
 		g_hash_table_insert (etsm->priv->paths, path, path);
 
 	etsm->priv->start_path = NULL;
-	e_selection_model_selection_changed(E_SELECTION_MODEL(etsm));
+
+	e_selection_model_selection_row_changed((ESelectionModel *)etsm, row);
 }
 
 static void
