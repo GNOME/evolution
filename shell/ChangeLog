@@ -1,3 +1,7 @@
+2005-06-21  Not Zed  <NotZed@Ximian.com>
+
+	* e-shell-window-commands.c: add brian mury to contributors.
+
 2005-06-18  Tor Lillqvist  <tml@novell.com>
 
 	* GNOME_Evolution_Shell.server.in.in: Use EXEEXT.
