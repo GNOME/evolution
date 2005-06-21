@@ -1,3 +1,10 @@
+2005-06-21 Brian Mury <b.mury@ieee.org>
+
+	** See bug #301466.
+
+	* filtertypes.xml, searchtypes.xml, vfoldertypes.xml: fix the
+	"match all" case to actually work.
+
 2005-06-18  Tor Lillqvist  <tml@novell.com>
 
 	* GNOME_Evolution_Mail.server.in.in: Use SOEXT.
