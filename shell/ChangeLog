@@ -1,3 +1,7 @@
+2005-06-21  Not Zed  <NotZed@Ximian.com>
+
+	* e-shell-window-commands.c: add brian mury to contributors.
+
 2005-06-01  Not Zed  <NotZed@Ximian.com>
 
 	* e-shell-window-commands.c: fixed the utf8 in the last patch.
