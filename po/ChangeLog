@@ -1,5 +1,7 @@
 2005-06-21  Not Zed  <NotZed@Ximian.com>
 
+	* en_AU.po, is.po, he.po, wa.po: Fix breaks from last commit.
+
 	* POTFILES.in: added all the new gal widgets & a couple of other
 	missing files.  re-sorted properly (it wasn't).  *.po: merged in
 	gal strings and updated (many strings no longer exist).
