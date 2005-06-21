@@ -1,3 +1,8 @@
+2005-06-21 Brian Mury <b.mury@ieee.org>
+
+	* filtertypes.xml, searchtypes.xml, vfoldertypes.xml: fix the
+	"match all" case to actually work.
+
 2005-06-08  Not Zed  <NotZed@Ximian.com>
 
 	* mail-component.c (view_changed_cb): make this run a timeout so

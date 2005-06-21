@@ -423,7 +423,7 @@
     <part name="all">
       <title>Match All</title>
       <code>
-	(#t)
+       (match-all #t)
       </code>
     </part>
 
