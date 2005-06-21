@@ -411,10 +411,10 @@ msgstr ""
 #: addressbook/gui/widgets/e-addressbook-view.c:1124
 #: calendar/gui/calendar-component.c:430 calendar/gui/tasks-component.c:376
 #: mail/em-filter-i18n.h:11 ui/evolution-addressbook.xml.h:8
-#: ui/evolution-calendar.xml.h:5 ui/evolution-comp-editor.xml.h:4
-#: ui/evolution-contact-editor.xml.h:3
-#: ui/evolution-contact-list-editor.xml.h:3 ui/evolution-mail-message.xml.h:24
-#: ui/evolution-tasks.xml.h:6
+evolution-calendar.xml.h:5 ui/evolution-comp-editor.xml.h:4
+evolution-contact-editor.xml.h:3
+evolution-contact-list-editor.xml.h:3 ui/evolution-mail-message.xml.h:24
+evolution-tasks.xml.h:6
 msgid "Delete"
 msgstr "מחק"
 
@@ -2429,7 +2429,7 @@ msgstr "ספר כתובות"
 #: addressbook/gui/widgets/e-addressbook-view.c:888
 #: addressbook/gui/widgets/e-addressbook-view.c:1108
 #: addressbook/gui/widgets/e-addressbook-view.c:2098
-#: ui/evolution-addressbook.xml.h:19
+evolution-addressbook.xml.h:19
 msgid "Save as VCard..."
 msgstr ""
 
@@ -2462,7 +2462,7 @@ msgid "Pilot Settings..."
 msgstr "הגדרות מחשב כף יד..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1109
-#: ui/evolution-addressbook.xml.h:10
+evolution-addressbook.xml.h:10
 msgid "Forward Contact"
 msgstr "העבר איש קשר"
 
@@ -2471,9 +2471,9 @@ msgid "Send Message to Contact"
 msgstr "שלח הודעה לאיש קשר"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1111 calendar/gui/print.c:2480
-#: ui/evolution-addressbook.xml.h:16 ui/evolution-calendar.xml.h:19
-#: ui/evolution-comp-editor.xml.h:8 ui/evolution-contact-editor.xml.h:5
-#: ui/evolution-mail-message.xml.h:80 ui/evolution-tasks.xml.h:14
+evolution-addressbook.xml.h:16 ui/evolution-calendar.xml.h:19
+evolution-comp-editor.xml.h:8 ui/evolution-contact-editor.xml.h:5
+evolution-mail-message.xml.h:80 ui/evolution-tasks.xml.h:14
 msgid "Print"
 msgstr "הדפס"
 
@@ -2490,19 +2490,19 @@ msgid "Move to Address Book..."
 msgstr "העבר לפנקס הכתובות..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1121
-#: ui/evolution-addressbook.xml.h:6 ui/evolution-tasks.xml.h:4
+evolution-addressbook.xml.h:6 ui/evolution-tasks.xml.h:4
 msgid "Cut"
 msgstr "גזור"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1122
 #: calendar/gui/calendar-component.c:428 calendar/gui/tasks-component.c:374
-#: ui/evolution-addressbook.xml.h:2 ui/evolution-mail-message.xml.h:9
-#: ui/evolution-tasks.xml.h:2
+evolution-addressbook.xml.h:2 ui/evolution-mail-message.xml.h:9
+evolution-tasks.xml.h:2
 msgid "Copy"
 msgstr "העתק"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1123
-#: ui/evolution-addressbook.xml.h:13 ui/evolution-tasks.xml.h:11
+evolution-addressbook.xml.h:13 ui/evolution-tasks.xml.h:11
 msgid "Paste"
 msgstr "הדבק"
 
@@ -3618,7 +3618,7 @@ msgstr ""
 
 #: calendar/calendar-errors.xml.h:88 calendar/calendar-errors.xml.h:94
 #: calendar/calendar-errors.xml.h:100 calendar/calendar-errors.xml.h:106
-#: ui/evolution-message-composer.xml.h:24
+evolution-message-composer.xml.h:24
 msgid "Send"
 msgstr "שלח"
 
@@ -3804,7 +3804,7 @@ msgid "_Snooze"
 msgstr ""
 
 #: calendar/gui/alarm-notify/alarm-queue.c:885
-#: ui/evolution-message-composer.xml.h:10
+evolution-message-composer.xml.h:10
 msgid "Open"
 msgstr "פתח"
 
@@ -4553,11 +4553,11 @@ msgstr "_יום מתחיל:"
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:44
 #: calendar/gui/dialogs/recurrence-page.glade.h:6 filter/filter.glade.h:10
 #: mail/mail-config.glade.h:162 ui/evolution-addressbook.xml.h:34
-#: ui/evolution-calendar.xml.h:41 ui/evolution-composer-entries.xml.h:8
-#: ui/evolution-mail-list.xml.h:24 ui/evolution-mail-messagedisplay.xml.h:6
-#: ui/evolution-message-composer.xml.h:43
-#: ui/evolution-signature-editor.xml.h:12 ui/evolution-subscribe.xml.h:10
-#: ui/evolution-tasks.xml.h:22
+evolution-calendar.xml.h:41 ui/evolution-composer-entries.xml.h:8
+evolution-mail-list.xml.h:24 ui/evolution-mail-messagedisplay.xml.h:6
+evolution-message-composer.xml.h:43
+evolution-signature-editor.xml.h:12 ui/evolution-subscribe.xml.h:10
+evolution-tasks.xml.h:22
 msgid "_Edit"
 msgstr "_עריכה"
 
@@ -5744,40 +5744,40 @@ msgstr ""
 #: calendar/gui/e-calendar-table.c:1045 calendar/gui/e-calendar-table.c:1090
 #: calendar/gui/e-calendar-view.c:1432 calendar/gui/e-calendar-view.c:1518
 #: mail/em-folder-view.c:901 mail/em-popup.c:691 mail/em-popup.c:807
-#: ui/evolution-mail-message.xml.h:128
+evolution-mail-message.xml.h:128
 msgid "_Save As..."
 msgstr "_שמירה בשם..."
 
 #: calendar/gui/e-calendar-table.c:1046 calendar/gui/e-calendar-table.c:1088
 #: calendar/gui/e-calendar-view.c:1410 calendar/gui/e-calendar-view.c:1433
 #: calendar/gui/e-calendar-view.c:1516 ui/evolution-addressbook.xml.h:40
-#: ui/evolution-calendar.xml.h:44 ui/evolution-comp-editor.xml.h:19
-#: ui/evolution-contact-editor.xml.h:17 ui/evolution-mail-message.xml.h:125
-#: ui/evolution-tasks.xml.h:25
+evolution-calendar.xml.h:44 ui/evolution-comp-editor.xml.h:19
+evolution-contact-editor.xml.h:17 ui/evolution-mail-message.xml.h:125
+evolution-tasks.xml.h:25
 msgid "_Print..."
 msgstr "ה_דפס..."
 
 #: calendar/gui/e-calendar-table.c:1050 calendar/gui/e-calendar-table.c:1079
 #: calendar/gui/e-calendar-view.c:1438 calendar/gui/e-calendar-view.c:1482
-#: ui/evolution-addressbook.xml.h:1 ui/evolution-calendar.xml.h:1
-#: ui/evolution-tasks.xml.h:1
+evolution-addressbook.xml.h:1 ui/evolution-calendar.xml.h:1
+evolution-tasks.xml.h:1
 msgid "C_ut"
 msgstr "_גזור"
 
 #: calendar/gui/e-calendar-table.c:1051 calendar/gui/e-calendar-table.c:1077
 #: calendar/gui/e-calendar-view.c:1439 calendar/gui/e-calendar-view.c:1480
 #: mail/em-folder-tree.c:965 mail/message-list.c:1702
-#: ui/evolution-addressbook.xml.h:31 ui/evolution-calendar.xml.h:39
-#: ui/evolution-composer-entries.xml.h:7 ui/evolution-mail-message.xml.h:109
-#: ui/evolution-tasks.xml.h:20
+evolution-addressbook.xml.h:31 ui/evolution-calendar.xml.h:39
+evolution-composer-entries.xml.h:7 ui/evolution-mail-message.xml.h:109
+evolution-tasks.xml.h:20
 msgid "_Copy"
 msgstr "ה_עתק"
 
 #: calendar/gui/e-calendar-table.c:1052 calendar/gui/e-calendar-table.c:1086
 #: calendar/gui/e-calendar-view.c:1414 calendar/gui/e-calendar-view.c:1440
 #: calendar/gui/e-calendar-view.c:1514 ui/evolution-addressbook.xml.h:38
-#: ui/evolution-calendar.xml.h:43 ui/evolution-composer-entries.xml.h:9
-#: ui/evolution-mail-message.xml.h:123 ui/evolution-tasks.xml.h:24
+evolution-calendar.xml.h:43 ui/evolution-composer-entries.xml.h:9
+evolution-mail-message.xml.h:123 ui/evolution-tasks.xml.h:24
 msgid "_Paste"
 msgstr "ה_דבק"
 
@@ -5801,9 +5801,9 @@ msgstr ""
 #: calendar/gui/e-calendar-table.c:1063 calendar/gui/e-calendar-table.c:1081
 #: calendar/gui/e-calendar-view.c:1451 calendar/gui/e-calendar-view.c:1484
 #: mail/em-folder-tree.c:2615 mail/em-folder-view.c:924
-#: ui/evolution-addressbook.xml.h:33 ui/evolution-calendar.xml.h:40
-#: ui/evolution-comp-editor.xml.h:17 ui/evolution-contact-editor.xml.h:14
-#: ui/evolution-mail-message.xml.h:112 ui/evolution-tasks.xml.h:21
+evolution-addressbook.xml.h:33 ui/evolution-calendar.xml.h:40
+evolution-comp-editor.xml.h:17 ui/evolution-contact-editor.xml.h:14
+evolution-mail-message.xml.h:112 ui/evolution-tasks.xml.h:21
 msgid "_Delete"
 msgstr "_מחק"
 
@@ -6154,7 +6154,7 @@ msgstr ""
 
 #: calendar/gui/e-itip-control.c:1159 calendar/gui/itip-utils.c:442
 #: mail/mail-send-recv.c:410 mail/mail-send-recv.c:464
-#: ui/evolution-mail-global.xml.h:1
+evolution-mail-global.xml.h:1
 msgid "Cancel"
 msgstr "ביטול"
 
@@ -13031,8 +13031,8 @@ msgid "Rename Folder"
 msgstr "החלף את שם התיקייה"
 
 #: mail/em-folder-tree.c:2603 ui/evolution-addressbook.xml.h:44
-#: ui/evolution-mail-global.xml.h:18 ui/evolution-mail-messagedisplay.xml.h:8
-#: ui/evolution-message-composer.xml.h:53 ui/evolution.xml.h:37
+evolution-mail-global.xml.h:18 ui/evolution-mail-messagedisplay.xml.h:8
+evolution-message-composer.xml.h:53 ui/evolution.xml.h:37
 msgid "_View"
 msgstr "_תצוגה"
 
@@ -13063,7 +13063,7 @@ msgstr "_מאפיינים"
 
 #. { EM_POPUP_ITEM, "00.select.00", N_("_Open"), G_CALLBACK(emp_popup_open), NULL, NULL, 0 },
 #: mail/em-folder-view.c:900 mail/em-popup.c:690
-#: ui/evolution-mail-message.xml.h:113
+evolution-mail-message.xml.h:113
 msgid "_Edit as New Message..."
 msgstr "_ערוך כהודעה חדשה..."
 
@@ -13076,17 +13076,17 @@ msgid "_Reply to Sender"
 msgstr "ה_שב לשולח"
 
 #: mail/em-folder-view.c:906 mail/em-popup.c:811
-#: ui/evolution-mail-message.xml.h:88
+evolution-mail-message.xml.h:88
 msgid "Reply to _List"
 msgstr "השב ל_רשימה"
 
 #: mail/em-folder-view.c:907 mail/em-popup.c:812
-#: ui/evolution-mail-message.xml.h:87
+evolution-mail-message.xml.h:87
 msgid "Reply to _All"
 msgstr "השב ל_כולם"
 
 #: mail/em-folder-view.c:908 mail/em-popup.c:814
-#: ui/evolution-mail-message.xml.h:114
+evolution-mail-message.xml.h:114
 msgid "_Forward"
 msgstr "הע_בר"
 
@@ -17191,1377 +17191,1377 @@ msgstr ""
 msgid "Shutting down %s (%s)\n"
 msgstr ""
 
-#: ui/evolution-addressbook.xml.h:3
+evolution-addressbook.xml.h:3
 msgid "Copy Contact(s) to Another Folder..."
 msgstr ""
 
-#: ui/evolution-addressbook.xml.h:4 ui/evolution-calendar.xml.h:2
+evolution-addressbook.xml.h:4 ui/evolution-calendar.xml.h:2
 msgid "Copy the selection"
 msgstr ""
 
-#: ui/evolution-addressbook.xml.h:5
+evolution-addressbook.xml.h:5
 msgid "Copy to Folder..."
 msgstr ""
 
-#: ui/evolution-addressbook.xml.h:7 ui/evolution-calendar.xml.h:3
+evolution-addressbook.xml.h:7 ui/evolution-calendar.xml.h:3
 msgid "Cut the selection"
 msgstr ""
 
-#: ui/evolution-addressbook.xml.h:9
+evolution-addressbook.xml.h:9
 msgid "Delete selected contacts"
 msgstr ""
 
-#: ui/evolution-addressbook.xml.h:11
+evolution-addressbook.xml.h:11
 msgid "Move Contact(s) to Another Folder..."
 msgstr ""
 
-#: ui/evolution-addressbook.xml.h:12
+evolution-addressbook.xml.h:12
 msgid "Move to Folder..."
 msgstr ""
 
-#: ui/evolution-addressbook.xml.h:14 ui/evolution-calendar.xml.h:16
+evolution-addressbook.xml.h:14 ui/evolution-calendar.xml.h:16
 msgid "Paste the clipboard"
 msgstr ""
 
-#: ui/evolution-addressbook.xml.h:15
+evolution-addressbook.xml.h:15
 msgid "Previews the contacts to be printed"
 msgstr ""
 
-#: ui/evolution-addressbook.xml.h:17 ui/evolution-calendar.xml.h:20
-#: ui/evolution-comp-editor.xml.h:9 ui/evolution-mail-message.xml.h:81
-#: ui/evolution-tasks.xml.h:15
+evolution-addressbook.xml.h:17 ui/evolution-calendar.xml.h:20
+evolution-comp-editor.xml.h:9 ui/evolution-mail-message.xml.h:81
+evolution-tasks.xml.h:15
 msgid "Print Pre_view"
 msgstr "_תצוגה לפני הדפסה"
 
-#: ui/evolution-addressbook.xml.h:18
+evolution-addressbook.xml.h:18
 msgid "Print selected contacts"
 msgstr ""
 
-#: ui/evolution-addressbook.xml.h:20
+evolution-addressbook.xml.h:20
 msgid "Save selected contacts as a VCard."
 msgstr ""
 
-#: ui/evolution-addressbook.xml.h:21
+evolution-addressbook.xml.h:21
 msgid "Select All"
 msgstr ""
 
-#: ui/evolution-addressbook.xml.h:22
+evolution-addressbook.xml.h:22
 msgid "Select all contacts"
 msgstr ""
 
-#: ui/evolution-addressbook.xml.h:23
+evolution-addressbook.xml.h:23
 msgid "Send a message to the selected contacts."
 msgstr ""
 
-#: ui/evolution-addressbook.xml.h:24
+evolution-addressbook.xml.h:24
 msgid "Send message to contact"
 msgstr ""
 
-#: ui/evolution-addressbook.xml.h:25
+evolution-addressbook.xml.h:25
 msgid "Send selected contacts to another person."
 msgstr ""
 
-#: ui/evolution-addressbook.xml.h:26
+evolution-addressbook.xml.h:26
 msgid "Show contact preview window"
 msgstr ""
 
-#: ui/evolution-addressbook.xml.h:27
+evolution-addressbook.xml.h:27
 msgid "Stop"
 msgstr ""
 
-#: ui/evolution-addressbook.xml.h:28
+evolution-addressbook.xml.h:28
 msgid "Stop Loading"
 msgstr ""
 
-#: ui/evolution-addressbook.xml.h:29
+evolution-addressbook.xml.h:29
 msgid "View the current contact"
 msgstr ""
 
-#: ui/evolution-addressbook.xml.h:30 ui/evolution-calendar.xml.h:38
-#: ui/evolution-comp-editor.xml.h:16 ui/evolution-contact-editor.xml.h:13
-#: ui/evolution-contact-list-editor.xml.h:11
-#: ui/evolution-event-editor.xml.h:11 ui/evolution-mail-global.xml.h:15
-#: ui/evolution-mail-list.xml.h:23 ui/evolution-mail-message.xml.h:107
-#: ui/evolution-mail-messagedisplay.xml.h:4 ui/evolution-task-editor.xml.h:9
-#: ui/evolution-tasks.xml.h:19 ui/evolution.xml.h:27
+evolution-addressbook.xml.h:30 ui/evolution-calendar.xml.h:38
+evolution-comp-editor.xml.h:16 ui/evolution-contact-editor.xml.h:13
+evolution-contact-list-editor.xml.h:11
+evolution-event-editor.xml.h:11 ui/evolution-mail-global.xml.h:15
+evolution-mail-list.xml.h:23 ui/evolution-mail-message.xml.h:107
+evolution-mail-messagedisplay.xml.h:4 ui/evolution-task-editor.xml.h:9
+evolution-tasks.xml.h:19 ui/evolution.xml.h:27
 msgid "_Actions"
 msgstr "_פעולות"
 
-#: ui/evolution-addressbook.xml.h:35 ui/evolution-contact-editor.xml.h:16
+evolution-addressbook.xml.h:35 ui/evolution-contact-editor.xml.h:16
 msgid "_Forward Contact..."
 msgstr ""
 
-#: ui/evolution-addressbook.xml.h:36
+evolution-addressbook.xml.h:36
 msgid "_Move to Folder..."
 msgstr ""
 
-#: ui/evolution-addressbook.xml.h:39 ui/evolution-mail-global.xml.h:17
+evolution-addressbook.xml.h:39 ui/evolution-mail-global.xml.h:17
 msgid "_Preview Pane"
 msgstr ""
 
-#: ui/evolution-addressbook.xml.h:41
+evolution-addressbook.xml.h:41
 msgid "_Save as VCard..."
 msgstr ""
 
-#: ui/evolution-addressbook.xml.h:42
+evolution-addressbook.xml.h:42
 msgid "_Select All"
 msgstr ""
 
-#: ui/evolution-addressbook.xml.h:43
+evolution-addressbook.xml.h:43
 msgid "_Send Message to Contact..."
 msgstr ""
 
-#: ui/evolution-calendar.xml.h:4
+evolution-calendar.xml.h:4
 msgid "Day"
 msgstr ""
 
-#: ui/evolution-calendar.xml.h:6
+evolution-calendar.xml.h:6
 msgid "Delete All Occurrences"
 msgstr ""
 
-#: ui/evolution-calendar.xml.h:7
+evolution-calendar.xml.h:7
 msgid "Delete the appointment"
 msgstr ""
 
-#: ui/evolution-calendar.xml.h:8
+evolution-calendar.xml.h:8
 msgid "Delete this Occurrence"
 msgstr ""
 
-#: ui/evolution-calendar.xml.h:9
+evolution-calendar.xml.h:9
 msgid "Delete this occurrence"
 msgstr ""
 
-#: ui/evolution-calendar.xml.h:10
+evolution-calendar.xml.h:10
 msgid "Go To"
 msgstr ""
 
-#: ui/evolution-calendar.xml.h:11
+evolution-calendar.xml.h:11
 msgid "Go back"
 msgstr ""
 
-#: ui/evolution-calendar.xml.h:12
+evolution-calendar.xml.h:12
 msgid "Go forward"
 msgstr ""
 
-#: ui/evolution-calendar.xml.h:13
+evolution-calendar.xml.h:13
 msgid "List"
 msgstr ""
 
-#: ui/evolution-calendar.xml.h:14
+evolution-calendar.xml.h:14
 msgid "Month"
 msgstr ""
 
-#: ui/evolution-calendar.xml.h:15 ui/evolution-mail-message.xml.h:65
+evolution-calendar.xml.h:15 ui/evolution-mail-message.xml.h:65
 msgid "Next"
 msgstr "הבא"
 
-#: ui/evolution-calendar.xml.h:17
+evolution-calendar.xml.h:17
 msgid "Previews the calendar to be printed"
 msgstr ""
 
-#: ui/evolution-calendar.xml.h:18 ui/evolution-mail-message.xml.h:79
+evolution-calendar.xml.h:18 ui/evolution-mail-message.xml.h:79
 msgid "Previous"
 msgstr "הקודם"
 
-#: ui/evolution-calendar.xml.h:21
+evolution-calendar.xml.h:21
 msgid "Print this calendar"
 msgstr ""
 
-#: ui/evolution-calendar.xml.h:22
+evolution-calendar.xml.h:22
 msgid "Publish Free/Busy information for this calendar"
 msgstr ""
 
-#: ui/evolution-calendar.xml.h:23 ui/evolution-tasks.xml.h:17
+evolution-calendar.xml.h:23 ui/evolution-tasks.xml.h:17
 msgid "Purg_e"
 msgstr ""
 
-#: ui/evolution-calendar.xml.h:24
+evolution-calendar.xml.h:24
 msgid "Purge old appointments and meetings"
 msgstr ""
 
-#: ui/evolution-calendar.xml.h:25
+evolution-calendar.xml.h:25
 msgid "Select _Date"
 msgstr ""
 
-#: ui/evolution-calendar.xml.h:27
+evolution-calendar.xml.h:27
 msgid "Select a specific date"
 msgstr ""
 
-#: ui/evolution-calendar.xml.h:28
+evolution-calendar.xml.h:28
 msgid "Select today"
 msgstr ""
 
-#: ui/evolution-calendar.xml.h:29
+evolution-calendar.xml.h:29
 msgid "Show as list"
 msgstr ""
 
-#: ui/evolution-calendar.xml.h:30
+evolution-calendar.xml.h:30
 msgid "Show one day"
 msgstr ""
 
-#: ui/evolution-calendar.xml.h:31
+evolution-calendar.xml.h:31
 msgid "Show one month"
 msgstr ""
 
-#: ui/evolution-calendar.xml.h:32
+evolution-calendar.xml.h:32
 msgid "Show one week"
 msgstr ""
 
-#: ui/evolution-calendar.xml.h:33
+evolution-calendar.xml.h:33
 msgid "Show the working week"
 msgstr ""
 
-#: ui/evolution-calendar.xml.h:34 widgets/misc/e-cell-date-edit.c:249
+evolution-calendar.xml.h:34 widgets/misc/e-cell-date-edit.c:249
 #: widgets/misc/e-dateedit.c:435
 msgid "Today"
 msgstr ""
 
-#: ui/evolution-calendar.xml.h:35
+evolution-calendar.xml.h:35
 msgid "View the current appointment"
 msgstr ""
 
-#: ui/evolution-calendar.xml.h:36
+evolution-calendar.xml.h:36
 msgid "Week"
 msgstr ""
 
-#: ui/evolution-calendar.xml.h:37
+evolution-calendar.xml.h:37
 msgid "Work Week"
 msgstr ""
 
-#: ui/evolution-calendar.xml.h:42
+evolution-calendar.xml.h:42
 msgid "_Open Appointment"
 msgstr ""
 
-#: ui/evolution-comp-editor.xml.h:1 ui/evolution-contact-editor.xml.h:1
-#: ui/evolution-contact-list-editor.xml.h:1
-#: ui/evolution-signature-editor.xml.h:1
+evolution-comp-editor.xml.h:1 ui/evolution-contact-editor.xml.h:1
+evolution-contact-list-editor.xml.h:1
+evolution-signature-editor.xml.h:1
 msgid "C_lose"
 msgstr ""
 
-#: ui/evolution-comp-editor.xml.h:2 ui/evolution-contact-editor.xml.h:2
-#: ui/evolution-contact-list-editor.xml.h:2
-#: ui/evolution-mail-messagedisplay.xml.h:1
-#: ui/evolution-message-composer.xml.h:3 ui/evolution-signature-editor.xml.h:2
-#: ui/evolution.xml.h:4
+evolution-comp-editor.xml.h:2 ui/evolution-contact-editor.xml.h:2
+evolution-contact-list-editor.xml.h:2
+evolution-mail-messagedisplay.xml.h:1
+evolution-message-composer.xml.h:3 ui/evolution-signature-editor.xml.h:2
+evolution.xml.h:4
 msgid "Close"
 msgstr ""
 
-#: ui/evolution-comp-editor.xml.h:3
+evolution-comp-editor.xml.h:3
 msgid "Close this item"
 msgstr ""
 
-#: ui/evolution-comp-editor.xml.h:5 ui/evolution-contact-editor.xml.h:4
+evolution-comp-editor.xml.h:5 ui/evolution-contact-editor.xml.h:4
 msgid "Delete this item"
 msgstr ""
 
-#: ui/evolution-comp-editor.xml.h:6 ui/evolution-event-editor.xml.h:5
-#: ui/evolution-mail-messagedisplay.xml.h:3 ui/evolution.xml.h:13
+evolution-comp-editor.xml.h:6 ui/evolution-event-editor.xml.h:5
+evolution-mail-messagedisplay.xml.h:3 ui/evolution.xml.h:13
 msgid "Main toolbar"
 msgstr ""
 
-#: ui/evolution-comp-editor.xml.h:7
+evolution-comp-editor.xml.h:7
 msgid "Preview the printed item"
 msgstr ""
 
-#: ui/evolution-comp-editor.xml.h:10 ui/evolution-contact-editor.xml.h:7
+evolution-comp-editor.xml.h:10 ui/evolution-contact-editor.xml.h:7
 msgid "Print this item"
 msgstr ""
 
-#: ui/evolution-comp-editor.xml.h:11 ui/evolution-contact-editor.xml.h:8
-#: ui/evolution-contact-list-editor.xml.h:5
-#: ui/evolution-message-composer.xml.h:18
+evolution-comp-editor.xml.h:11 ui/evolution-contact-editor.xml.h:8
+evolution-contact-list-editor.xml.h:5
+evolution-message-composer.xml.h:18
 msgid "Save _As..."
 msgstr "שמור _בשם..."
 
-#: ui/evolution-comp-editor.xml.h:12 ui/evolution-contact-editor.xml.h:9
-#: ui/evolution-contact-list-editor.xml.h:6
-#: ui/evolution-signature-editor.xml.h:7
+evolution-comp-editor.xml.h:12 ui/evolution-contact-editor.xml.h:9
+evolution-contact-list-editor.xml.h:6
+evolution-signature-editor.xml.h:7
 msgid "Save and Close"
 msgstr ""
 
-#: ui/evolution-comp-editor.xml.h:13 ui/evolution-contact-editor.xml.h:10
-#: ui/evolution-contact-list-editor.xml.h:7
-#: ui/evolution-signature-editor.xml.h:8
+evolution-comp-editor.xml.h:13 ui/evolution-contact-editor.xml.h:10
+evolution-contact-list-editor.xml.h:7
+evolution-signature-editor.xml.h:8
 msgid "Save and _Close"
 msgstr "שמור ו_סגור"
 
-#: ui/evolution-comp-editor.xml.h:14
+evolution-comp-editor.xml.h:14
 msgid "Save the item and close the dialog box"
 msgstr "שמור את הפריט וסגור את תיבת הדו-שיח"
 
-#: ui/evolution-comp-editor.xml.h:15
+evolution-comp-editor.xml.h:15
 msgid "Save this item to disk"
 msgstr "שמור פריט זה בדיסק"
 
-#: ui/evolution-comp-editor.xml.h:18 ui/evolution-contact-editor.xml.h:15
-#: ui/evolution-contact-list-editor.xml.h:13
-#: ui/evolution-mail-messagedisplay.xml.h:7
-#: ui/evolution-message-composer.xml.h:44
-#: ui/evolution-signature-editor.xml.h:13 ui/evolution-subscribe.xml.h:11
-#: ui/evolution.xml.h:29
+evolution-comp-editor.xml.h:18 ui/evolution-contact-editor.xml.h:15
+evolution-contact-list-editor.xml.h:13
+evolution-mail-messagedisplay.xml.h:7
+evolution-message-composer.xml.h:44
+evolution-signature-editor.xml.h:13 ui/evolution-subscribe.xml.h:11
+evolution.xml.h:29
 msgid "_File"
 msgstr "_קובץ"
 
-#: ui/evolution-composer-entries.xml.h:1
+evolution-composer-entries.xml.h:1
 msgid "Copy selected text to the clipboard"
 msgstr ""
 
-#: ui/evolution-composer-entries.xml.h:2 ui/evolution-mail-message.xml.h:21
+evolution-composer-entries.xml.h:2 ui/evolution-mail-message.xml.h:21
 msgid "Cu_t"
 msgstr "ג_זור"
 
-#: ui/evolution-composer-entries.xml.h:3
+evolution-composer-entries.xml.h:3
 msgid "Cut selected text to the clipboard"
 msgstr ""
 
-#: ui/evolution-composer-entries.xml.h:4
+evolution-composer-entries.xml.h:4
 msgid "Paste text from the clipboard"
 msgstr ""
 
-#: ui/evolution-composer-entries.xml.h:5 ui/evolution-mail-list.xml.h:13
-#: ui/evolution-subscribe.xml.h:6
+evolution-composer-entries.xml.h:5 ui/evolution-mail-list.xml.h:13
+evolution-subscribe.xml.h:6
 msgid "Select _All"
 msgstr "בחר ה_כל"
 
-#: ui/evolution-composer-entries.xml.h:6
+evolution-composer-entries.xml.h:6
 msgid "Select all text"
 msgstr "בחר את כל המלל"
 
-#: ui/evolution-contact-editor.xml.h:6
+evolution-contact-editor.xml.h:6
 msgid "Print En_velope..."
 msgstr "הדפס _מעטפה..."
 
-#: ui/evolution-contact-editor.xml.h:11
+evolution-contact-editor.xml.h:11
 msgid "Save the contact and close the dialog box"
 msgstr ""
 
-#: ui/evolution-contact-editor.xml.h:12
+evolution-contact-editor.xml.h:12
 msgid "Send _Message to Contact..."
 msgstr "של_ח הודעה לאיש קשר..."
 
-#: ui/evolution-contact-editor.xml.h:18
-#: ui/evolution-contact-list-editor.xml.h:14
-#: ui/evolution-message-composer.xml.h:50
-#: ui/evolution-signature-editor.xml.h:15
+evolution-contact-editor.xml.h:18
+evolution-contact-list-editor.xml.h:14
+evolution-message-composer.xml.h:50
+evolution-signature-editor.xml.h:15
 msgid "_Save"
 msgstr "_שמור"
 
-#: ui/evolution-contact-list-editor.xml.h:4
+evolution-contact-list-editor.xml.h:4
 msgid "Delete this list"
 msgstr ""
 
-#: ui/evolution-contact-list-editor.xml.h:8
+evolution-contact-list-editor.xml.h:8
 msgid "Save the list and close the dialog box"
 msgstr ""
 
-#: ui/evolution-contact-list-editor.xml.h:9
+evolution-contact-list-editor.xml.h:9
 msgid "Se_nd list to other..."
 msgstr ""
 
-#: ui/evolution-contact-list-editor.xml.h:10
+evolution-contact-list-editor.xml.h:10
 msgid "Send _message to list..."
 msgstr ""
 
-#: ui/evolution-contact-list-editor.xml.h:12
+evolution-contact-list-editor.xml.h:12
 msgid "_Delete..."
 msgstr "_מחק..."
 
-#: ui/evolution-event-editor.xml.h:1
+evolution-event-editor.xml.h:1
 msgid "Cancel Mee_ting"
 msgstr ""
 
-#: ui/evolution-event-editor.xml.h:2
+evolution-event-editor.xml.h:2
 msgid "Cancel the meeting for this item"
 msgstr ""
 
-#: ui/evolution-event-editor.xml.h:3 ui/evolution-task-editor.xml.h:5
+evolution-event-editor.xml.h:3 ui/evolution-task-editor.xml.h:5
 msgid "Forward as i_Calendar"
 msgstr ""
 
-#: ui/evolution-event-editor.xml.h:4 ui/evolution-task-editor.xml.h:6
+evolution-event-editor.xml.h:4 ui/evolution-task-editor.xml.h:6
 msgid "Forward this item via email"
 msgstr ""
 
-#: ui/evolution-event-editor.xml.h:6
+evolution-event-editor.xml.h:6
 msgid "Meeting"
 msgstr "ישיבה"
 
-#: ui/evolution-event-editor.xml.h:7
+evolution-event-editor.xml.h:7
 msgid "Obtain the latest meeting information"
 msgstr ""
 
-#: ui/evolution-event-editor.xml.h:8
+evolution-event-editor.xml.h:8
 msgid "Re_fresh Meeting"
 msgstr ""
 
-#: ui/evolution-event-editor.xml.h:9
+evolution-event-editor.xml.h:9
 msgid "Schedule _Meeting"
 msgstr "_קבע אסיפה"
 
-#: ui/evolution-event-editor.xml.h:10
+evolution-event-editor.xml.h:10
 msgid "Schedule a meeting for this item"
 msgstr "קבע אסיפה עבור פריט זה"
 
-#: ui/evolution-executive-summary.xml.h:1
+evolution-executive-summary.xml.h:1
 msgid "Customize My Evolution"
 msgstr ""
 
-#: ui/evolution-mail-global.xml.h:2
+evolution-mail-global.xml.h:2
 msgid "Cancel the current mail operation"
 msgstr "ביטול פעולת הדואר הנוכחית"
 
-#: ui/evolution-mail-global.xml.h:3
+evolution-mail-global.xml.h:3
 msgid "Compose _New Message"
 msgstr "_חבר הודעה חדשה"
 
-#: ui/evolution-mail-global.xml.h:4
+evolution-mail-global.xml.h:4
 msgid "Create or edit rules for filtering new mail"
 msgstr ""
 
-#: ui/evolution-mail-global.xml.h:5
+evolution-mail-global.xml.h:5
 msgid "Create or edit virtual folder definitions"
 msgstr ""
 
-#: ui/evolution-mail-global.xml.h:6
+evolution-mail-global.xml.h:6
 msgid "Empty _Trash"
 msgstr ""
 
-#: ui/evolution-mail-global.xml.h:7
+evolution-mail-global.xml.h:7
 msgid "Open a window for composing a mail message"
 msgstr ""
 
-#: ui/evolution-mail-global.xml.h:8
+evolution-mail-global.xml.h:8
 msgid "Permanently remove all deleted messages from all folders"
 msgstr ""
 
-#: ui/evolution-mail-global.xml.h:9
+evolution-mail-global.xml.h:9
 msgid "Post Ne_w Message"
 msgstr ""
 
-#: ui/evolution-mail-global.xml.h:10
+evolution-mail-global.xml.h:10
 msgid "Post a message to a Public folder"
 msgstr ""
 
-#: ui/evolution-mail-global.xml.h:11
+evolution-mail-global.xml.h:11
 msgid "S_ubscribe to Folders..."
 msgstr ""
 
-#: ui/evolution-mail-global.xml.h:12
+evolution-mail-global.xml.h:12
 msgid "Show message preview window"
 msgstr ""
 
-#: ui/evolution-mail-global.xml.h:13
+evolution-mail-global.xml.h:13
 msgid "Subscribe or unsubscribe to folders on remote servers"
 msgstr ""
 
-#: ui/evolution-mail-global.xml.h:14
+evolution-mail-global.xml.h:14
 msgid "Virtual Folder _Editor..."
 msgstr "_עורך התיקיות הוירטואליות..."
 
-#: ui/evolution-mail-global.xml.h:16
+evolution-mail-global.xml.h:16
 msgid "_Filters..."
 msgstr "מסננים..."
 
-#: ui/evolution-mail-list.xml.h:1
+evolution-mail-list.xml.h:1
 msgid "Change the properties of this folder"
 msgstr "שנה את המאפיינים של תיקייה זו"
 
-#: ui/evolution-mail-list.xml.h:2 ui/evolution-mail-message.xml.h:10
+evolution-mail-list.xml.h:2 ui/evolution-mail-message.xml.h:10
 msgid "Copy selected message(s) to the clipboard"
 msgstr ""
 
-#: ui/evolution-mail-list.xml.h:3 ui/evolution-mail-message.xml.h:22
+evolution-mail-list.xml.h:3 ui/evolution-mail-message.xml.h:22
 msgid "Cut selected message(s) to the clipboard"
 msgstr ""
 
-#: ui/evolution-mail-list.xml.h:4
+evolution-mail-list.xml.h:4
 msgid "E_xpunge"
 msgstr ""
 
-#: ui/evolution-mail-list.xml.h:5
+evolution-mail-list.xml.h:5
 msgid "Hide S_elected Messages"
 msgstr ""
 
-#: ui/evolution-mail-list.xml.h:6
+evolution-mail-list.xml.h:6
 msgid "Hide _Deleted Messages"
 msgstr ""
 
-#: ui/evolution-mail-list.xml.h:7
+evolution-mail-list.xml.h:7
 msgid "Hide _Read Messages"
 msgstr ""
 
-#: ui/evolution-mail-list.xml.h:8
+evolution-mail-list.xml.h:8
 msgid ""
 "Hide deleted messages rather than displaying them with a line through them"
 msgstr ""
 
-#: ui/evolution-mail-list.xml.h:9
+evolution-mail-list.xml.h:9
 msgid "Mark All as _Read"
 msgstr "סמן הכל כ_נקרא"
 
-#: ui/evolution-mail-list.xml.h:10
+evolution-mail-list.xml.h:10
 msgid "Mark all visible messages as read"
 msgstr "סמן את כל ההודעות הגלויות כאילו נקראו"
 
-#: ui/evolution-mail-list.xml.h:11 ui/evolution-mail-message.xml.h:74
+evolution-mail-list.xml.h:11 ui/evolution-mail-message.xml.h:74
 msgid "Paste message(s) from the clipboard"
 msgstr ""
 
-#: ui/evolution-mail-list.xml.h:12
+evolution-mail-list.xml.h:12
 msgid "Permanently remove all deleted messages from this folder"
 msgstr ""
 
-#: ui/evolution-mail-list.xml.h:14
+evolution-mail-list.xml.h:14
 msgid "Select _Thread"
 msgstr ""
 
-#: ui/evolution-mail-list.xml.h:15
+evolution-mail-list.xml.h:15
 msgid "Select all and only the messages that are not currently selected"
 msgstr ""
 
-#: ui/evolution-mail-list.xml.h:16
+evolution-mail-list.xml.h:16
 msgid "Select all messages in the same thread as the selected message"
 msgstr ""
 
-#: ui/evolution-mail-list.xml.h:17
+evolution-mail-list.xml.h:17
 msgid "Select all visible messages"
 msgstr ""
 
-#: ui/evolution-mail-list.xml.h:18
+evolution-mail-list.xml.h:18
 msgid "Sh_ow Hidden Messages"
 msgstr ""
 
-#: ui/evolution-mail-list.xml.h:19
+evolution-mail-list.xml.h:19
 msgid "Show messages that have been temporarily hidden"
 msgstr ""
 
-#: ui/evolution-mail-list.xml.h:20
+evolution-mail-list.xml.h:20
 msgid "Temporarily hide all messages that have already been read"
 msgstr ""
 
-#: ui/evolution-mail-list.xml.h:21
+evolution-mail-list.xml.h:21
 msgid "Temporarily hide the selected messages"
 msgstr ""
 
-#: ui/evolution-mail-list.xml.h:22
+evolution-mail-list.xml.h:22
 msgid "Threaded Message list"
 msgstr ""
 
-#: ui/evolution-mail-list.xml.h:25
+evolution-mail-list.xml.h:25
 msgid "_Folder"
 msgstr "_תיקייה"
 
-#: ui/evolution-mail-list.xml.h:26 ui/evolution-subscribe.xml.h:12
+evolution-mail-list.xml.h:26 ui/evolution-subscribe.xml.h:12
 msgid "_Invert Selection"
 msgstr "ה_פוך בחירה"
 
-#: ui/evolution-mail-list.xml.h:28
+evolution-mail-list.xml.h:28
 msgid "_Threaded Message List"
 msgstr ""
 
-#: ui/evolution-mail-message.xml.h:1
+evolution-mail-message.xml.h:1
 msgid "A_dd Sender to Address Book"
 msgstr "הו_סף את השולח לפנקס הכתובות"
 
-#: ui/evolution-mail-message.xml.h:2
+evolution-mail-message.xml.h:2
 msgid "A_pply Filters"
 msgstr ""
 
-#: ui/evolution-mail-message.xml.h:3
+evolution-mail-message.xml.h:3
 msgid "Add Sender to Address Book"
 msgstr "הוסף את השולח לפנקס הכתובות"
 
-#: ui/evolution-mail-message.xml.h:4
+evolution-mail-message.xml.h:4
 msgid "Apply filter rules to the selected messages"
 msgstr ""
 
-#: ui/evolution-mail-message.xml.h:5
+evolution-mail-message.xml.h:5
 msgid "Caret _Mode"
 msgstr ""
 
-#: ui/evolution-mail-message.xml.h:6
+evolution-mail-message.xml.h:6
 msgid "Compose a reply to all of the recipients of the selected message"
 msgstr ""
 
-#: ui/evolution-mail-message.xml.h:7
+evolution-mail-message.xml.h:7
 msgid "Compose a reply to the mailing list of the selected message"
 msgstr ""
 
-#: ui/evolution-mail-message.xml.h:8
+evolution-mail-message.xml.h:8
 msgid "Compose a reply to the sender of the selected message"
 msgstr ""
 
-#: ui/evolution-mail-message.xml.h:11
+evolution-mail-message.xml.h:11
 msgid "Copy selected messages to another folder"
 msgstr ""
 
-#: ui/evolution-mail-message.xml.h:12
+evolution-mail-message.xml.h:12
 msgid "Create _Virtual Folder From Message"
 msgstr "צור תיקייה וירטואלית מההודעה"
 
-#: ui/evolution-mail-message.xml.h:13
+evolution-mail-message.xml.h:13
 msgid "Create a rule to filter messages from this sender"
 msgstr ""
 
-#: ui/evolution-mail-message.xml.h:14
+evolution-mail-message.xml.h:14
 msgid "Create a rule to filter messages to these recipients"
 msgstr ""
 
-#: ui/evolution-mail-message.xml.h:15
+evolution-mail-message.xml.h:15
 msgid "Create a rule to filter messages to this mailing list"
 msgstr ""
 
-#: ui/evolution-mail-message.xml.h:16
+evolution-mail-message.xml.h:16
 msgid "Create a rule to filter messages with this subject"
 msgstr ""
 
-#: ui/evolution-mail-message.xml.h:17
+evolution-mail-message.xml.h:17
 msgid "Create a virtual folder for these recipients"
 msgstr "צור תיקייה וירטואלית עבור נמענים אלו"
 
-#: ui/evolution-mail-message.xml.h:18
+evolution-mail-message.xml.h:18
 msgid "Create a virtual folder for this mailing list"
 msgstr "צור תיקייה וירטואלית עבור רשימת תפוצה זו"
 
-#: ui/evolution-mail-message.xml.h:19
+evolution-mail-message.xml.h:19
 msgid "Create a virtual folder for this sender"
 msgstr "צור תיקייה וירטואלית עבור שולח זה"
 
-#: ui/evolution-mail-message.xml.h:20
+evolution-mail-message.xml.h:20
 msgid "Create a virtual folder for this subject"
 msgstr "צור תיקייה וירטואלית עבור נושא זה"
 
-#: ui/evolution-mail-message.xml.h:23
+evolution-mail-message.xml.h:23
 msgid "Decrease the text size"
 msgstr "הקטן את גודל המלל"
 
-#: ui/evolution-mail-message.xml.h:25
+evolution-mail-message.xml.h:25
 msgid "Display the next important message"
 msgstr ""
 
-#: ui/evolution-mail-message.xml.h:26
+evolution-mail-message.xml.h:26
 msgid "Display the next message"
 msgstr ""
 
-#: ui/evolution-mail-message.xml.h:27
+evolution-mail-message.xml.h:27
 msgid "Display the next unread message"
 msgstr ""
 
-#: ui/evolution-mail-message.xml.h:28
+evolution-mail-message.xml.h:28
 msgid "Display the next unread thread"
 msgstr ""
 
-#: ui/evolution-mail-message.xml.h:29
+evolution-mail-message.xml.h:29
 msgid "Display the previous important message"
 msgstr ""
 
-#: ui/evolution-mail-message.xml.h:30
+evolution-mail-message.xml.h:30
 msgid "Display the previous message"
 msgstr ""
 
-#: ui/evolution-mail-message.xml.h:31
+evolution-mail-message.xml.h:31
 msgid "Display the previous unread message"
 msgstr ""
 
-#: ui/evolution-mail-message.xml.h:32
+evolution-mail-message.xml.h:32
 msgid "F_orward As..."
 msgstr ""
 
-#: ui/evolution-mail-message.xml.h:33
+evolution-mail-message.xml.h:33
 msgid "Filter _Junk"
 msgstr ""
 
-#: ui/evolution-mail-message.xml.h:34
+evolution-mail-message.xml.h:34
 msgid "Filter on Mailing _List..."
 msgstr ""
 
-#: ui/evolution-mail-message.xml.h:35
+evolution-mail-message.xml.h:35
 msgid "Filter on Se_nder..."
 msgstr ""
 
-#: ui/evolution-mail-message.xml.h:36
+evolution-mail-message.xml.h:36
 msgid "Filter on _Recipients..."
 msgstr ""
 
-#: ui/evolution-mail-message.xml.h:37
+evolution-mail-message.xml.h:37
 msgid "Filter on _Subject..."
 msgstr ""
 
-#: ui/evolution-mail-message.xml.h:38
+evolution-mail-message.xml.h:38
 msgid "Filter the selected messages for junk status"
 msgstr ""
 
-#: ui/evolution-mail-message.xml.h:39
+evolution-mail-message.xml.h:39
 msgid "Flag selected message(s) for follow-up"
 msgstr ""
 
-#: ui/evolution-mail-message.xml.h:40
+evolution-mail-message.xml.h:40
 msgid "Follow _Up..."
 msgstr ""
 
-#: ui/evolution-mail-message.xml.h:41
+evolution-mail-message.xml.h:41
 msgid "Force images in HTML mail to be loaded"
 msgstr ""
 
-#: ui/evolution-mail-message.xml.h:43
+evolution-mail-message.xml.h:43
 msgid "Forward the selected message in the body of a new message"
 msgstr ""
 
-#: ui/evolution-mail-message.xml.h:44
+evolution-mail-message.xml.h:44
 msgid "Forward the selected message quoted like a reply"
 msgstr ""
 
-#: ui/evolution-mail-message.xml.h:45
+evolution-mail-message.xml.h:45
 msgid "Forward the selected message to someone"
 msgstr ""
 
-#: ui/evolution-mail-message.xml.h:46
+evolution-mail-message.xml.h:46
 msgid "Forward the selected message to someone as an attachment"
 msgstr ""
 
-#: ui/evolution-mail-message.xml.h:47
+evolution-mail-message.xml.h:47
 msgid "Increase the text size"
 msgstr ""
 
-#: ui/evolution-mail-message.xml.h:49
+evolution-mail-message.xml.h:49
 msgid "Load _Images"
 msgstr "טען _תמונות"
 
-#: ui/evolution-mail-message.xml.h:51
+evolution-mail-message.xml.h:51
 msgid "Mark as I_mportant"
 msgstr "סמן כ_חשוב"
 
-#: ui/evolution-mail-message.xml.h:52
+evolution-mail-message.xml.h:52
 msgid "Mark as U_nread"
 msgstr "סמן כ_לא נקרא"
 
-#: ui/evolution-mail-message.xml.h:53
+evolution-mail-message.xml.h:53
 msgid "Mark as Unimp_ortant"
 msgstr "סמן כל_א חשוב"
 
-#: ui/evolution-mail-message.xml.h:56
+evolution-mail-message.xml.h:56
 msgid "Mark the selected message(s) as having been read"
 msgstr "סמן את ההודעות שנבחרו כאילו נקראו"
 
-#: ui/evolution-mail-message.xml.h:57
+evolution-mail-message.xml.h:57
 msgid "Mark the selected message(s) as important"
 msgstr "סמן את ההודעות שנבחרו כחשובות"
 
-#: ui/evolution-mail-message.xml.h:58
+evolution-mail-message.xml.h:58
 msgid "Mark the selected message(s) as junk"
 msgstr "סמן את ההודעות שנבחרו כדואר זבל"
 
-#: ui/evolution-mail-message.xml.h:59
+evolution-mail-message.xml.h:59
 msgid "Mark the selected message(s) as not being junk"
 msgstr "סמן את ההודעות שנבחרו כלא דואר זבל"
 
-#: ui/evolution-mail-message.xml.h:60
+evolution-mail-message.xml.h:60
 msgid "Mark the selected message(s) as not having been read"
 msgstr "סמן את ההודעות שנבחרו כאילו לא נקראו"
 
-#: ui/evolution-mail-message.xml.h:61
+evolution-mail-message.xml.h:61
 msgid "Mark the selected message(s) as unimportant"
 msgstr "סמן את ההודעות שנבחרו כלא חשובות"
 
-#: ui/evolution-mail-message.xml.h:62
+evolution-mail-message.xml.h:62
 msgid "Mark the selected messages for deletion"
 msgstr "העבר את ההודעות שנבחרו לאשפה"
 
-#: ui/evolution-mail-message.xml.h:63
+evolution-mail-message.xml.h:63
 msgid "Move"
 msgstr "העבר לתיקייה"
 
-#: ui/evolution-mail-message.xml.h:64
+evolution-mail-message.xml.h:64
 msgid "Move selected message(s) to another folder"
 msgstr "העבר את ההודעות שנבחרו לתיקייה אחרת"
 
-#: ui/evolution-mail-message.xml.h:66
+evolution-mail-message.xml.h:66
 msgid "Next _Important Message"
 msgstr "ההודעה ה_חשוב הבאה"
 
-#: ui/evolution-mail-message.xml.h:67
+evolution-mail-message.xml.h:67
 msgid "Next _Thread"
 msgstr "ה_דיון הבא"
 
-#: ui/evolution-mail-message.xml.h:68
+evolution-mail-message.xml.h:68
 msgid "Next _Unread Message"
 msgstr "ההודעה ש_לא נקראה הבאה"
 
-#: ui/evolution-mail-message.xml.h:69
+evolution-mail-message.xml.h:69
 msgid "Not Junk"
 msgstr "לא דואר זבל"
 
-#: ui/evolution-mail-message.xml.h:70
+evolution-mail-message.xml.h:70
 msgid "Open the selected message in a new window"
 msgstr "פתח את ההודעה שנבחרה בחלון חדש"
 
-#: ui/evolution-mail-message.xml.h:71
+evolution-mail-message.xml.h:71
 msgid "Open the selected message in the composer for editing"
 msgstr ""
 
-#: ui/evolution-mail-message.xml.h:72
+evolution-mail-message.xml.h:72
 msgid "Original Si_ze"
 msgstr "הגודל המקורי"
 
-#: ui/evolution-mail-message.xml.h:73
+evolution-mail-message.xml.h:73
 msgid "P_revious Unread Message"
 msgstr ""
 
-#: ui/evolution-mail-message.xml.h:75
+evolution-mail-message.xml.h:75
 msgid "Post a Repl_y"
 msgstr ""
 
-#: ui/evolution-mail-message.xml.h:76
+evolution-mail-message.xml.h:76
 msgid "Post a reply to a message in a Public folder"
 msgstr ""
 
-#: ui/evolution-mail-message.xml.h:77
+evolution-mail-message.xml.h:77
 msgid "Pr_evious Important Message"
 msgstr ""
 
-#: ui/evolution-mail-message.xml.h:78
+evolution-mail-message.xml.h:78
 msgid "Preview the message to be printed"
 msgstr ""
 
-#: ui/evolution-mail-message.xml.h:82
+evolution-mail-message.xml.h:82
 msgid "Print this message"
 msgstr ""
 
-#: ui/evolution-mail-message.xml.h:83
+evolution-mail-message.xml.h:83
 msgid "Re_direct"
 msgstr ""
 
-#: ui/evolution-mail-message.xml.h:84
+evolution-mail-message.xml.h:84
 msgid "Redirect (bounce) the selected message to someone"
 msgstr ""
 
-#: ui/evolution-mail-message.xml.h:89
+evolution-mail-message.xml.h:89
 msgid "Reset the text to its original size"
 msgstr ""
 
-#: ui/evolution-mail-message.xml.h:90
+evolution-mail-message.xml.h:90
 msgid "S_earch in Message..."
 msgstr "חפ_ש בהודעה..."
 
-#: ui/evolution-mail-message.xml.h:91
+evolution-mail-message.xml.h:91
 msgid "S_maller"
 msgstr "_קטן יותר"
 
-#: ui/evolution-mail-message.xml.h:92
+evolution-mail-message.xml.h:92
 msgid "Save the message as a text file"
 msgstr "שמור את ההודעה כקובץ מלל"
 
-#: ui/evolution-mail-message.xml.h:93
+evolution-mail-message.xml.h:93
 msgid "Search for text in the body of the displayed message"
 msgstr ""
 
-#: ui/evolution-mail-message.xml.h:94
+evolution-mail-message.xml.h:94
 msgid "Set up the page settings for your current printer"
 msgstr ""
 
-#: ui/evolution-mail-message.xml.h:95
+evolution-mail-message.xml.h:95
 msgid "Show Email _Source"
 msgstr ""
 
-#: ui/evolution-mail-message.xml.h:96
+evolution-mail-message.xml.h:96
 msgid "Show Full _Headers"
 msgstr ""
 
-#: ui/evolution-mail-message.xml.h:97
+evolution-mail-message.xml.h:97
 msgid "Show a blinking cursor in the body of displayed messages"
 msgstr ""
 
-#: ui/evolution-mail-message.xml.h:98
+evolution-mail-message.xml.h:98
 msgid "Show message in the normal style"
 msgstr ""
 
-#: ui/evolution-mail-message.xml.h:99
+evolution-mail-message.xml.h:99
 msgid "Show message with all email headers"
 msgstr ""
 
-#: ui/evolution-mail-message.xml.h:100
+evolution-mail-message.xml.h:100
 msgid "Show the raw email source of the message"
 msgstr ""
 
-#: ui/evolution-mail-message.xml.h:101
+evolution-mail-message.xml.h:101
 msgid "Text Si_ze"
 msgstr ""
 
-#: ui/evolution-mail-message.xml.h:102
+evolution-mail-message.xml.h:102
 msgid "Un-delete the selected messages"
 msgstr ""
 
-#: ui/evolution-mail-message.xml.h:103
+evolution-mail-message.xml.h:103
 msgid "VFolder on Mailing _List..."
 msgstr ""
 
-#: ui/evolution-mail-message.xml.h:104
+evolution-mail-message.xml.h:104
 msgid "VFolder on Se_nder..."
 msgstr ""
 
-#: ui/evolution-mail-message.xml.h:105
+evolution-mail-message.xml.h:105
 msgid "VFolder on _Recipients..."
 msgstr ""
 
-#: ui/evolution-mail-message.xml.h:106
+evolution-mail-message.xml.h:106
 msgid "VFolder on _Subject..."
 msgstr ""
 
-#: ui/evolution-mail-message.xml.h:108
+evolution-mail-message.xml.h:108
 msgid "_Attached"
 msgstr ""
 
-#: ui/evolution-mail-message.xml.h:111
+evolution-mail-message.xml.h:111
 msgid "_Create Filter From Message"
 msgstr "_צור מסנן מההודעה"
 
-#: ui/evolution-mail-message.xml.h:115
+evolution-mail-message.xml.h:115
 msgid "_Go To"
 msgstr "_לך אל"
 
-#: ui/evolution-mail-message.xml.h:116
+evolution-mail-message.xml.h:116
 msgid "_Inline"
 msgstr ""
 
-#: ui/evolution-mail-message.xml.h:117
+evolution-mail-message.xml.h:117
 msgid "_Larger"
 msgstr "_גדול יותר"
 
-#: ui/evolution-mail-message.xml.h:118
+evolution-mail-message.xml.h:118
 msgid "_Message Display"
 msgstr ""
 
-#: ui/evolution-mail-message.xml.h:120
+evolution-mail-message.xml.h:120
 msgid "_Next Message"
 msgstr "ההודעה ה_באה"
 
-#: ui/evolution-mail-message.xml.h:121
+evolution-mail-message.xml.h:121
 msgid "_Normal Display"
 msgstr ""
 
-#: ui/evolution-mail-message.xml.h:122
+evolution-mail-message.xml.h:122
 msgid "_Open Message"
 msgstr "_פתח הודעה"
 
-#: ui/evolution-mail-message.xml.h:124
+evolution-mail-message.xml.h:124
 msgid "_Previous Message"
 msgstr "ההודעה ה_קודמת"
 
-#: ui/evolution-mail-message.xml.h:126
+evolution-mail-message.xml.h:126
 msgid "_Quoted"
 msgstr "_צוטט"
 
-#: ui/evolution-mail-message.xml.h:129 ui/evolution.xml.h:36
+evolution-mail-message.xml.h:129 ui/evolution.xml.h:36
 msgid "_Tools"
 msgstr "_כלים"
 
-#: ui/evolution-mail-message.xml.h:130
+evolution-mail-message.xml.h:130
 msgid "_Undelete"
 msgstr "בטל מח_יקה"
 
-#: ui/evolution-mail-messagedisplay.xml.h:2 ui/evolution.xml.h:5
+evolution-mail-messagedisplay.xml.h:2 ui/evolution.xml.h:5
 msgid "Close this window"
 msgstr "סגור חלון זה"
 
-#: ui/evolution-mail-messagedisplay.xml.h:5
-#: ui/evolution-message-composer.xml.h:41 ui/evolution-subscribe.xml.h:9
-#: ui/evolution.xml.h:28
+evolution-mail-messagedisplay.xml.h:5
+evolution-message-composer.xml.h:41 ui/evolution-subscribe.xml.h:9
+evolution.xml.h:28
 msgid "_Close"
 msgstr "_סגור"
 
-#: ui/evolution-message-composer.xml.h:1
+evolution-message-composer.xml.h:1
 msgid "Attach"
 msgstr ""
 
-#: ui/evolution-message-composer.xml.h:2
+evolution-message-composer.xml.h:2
 msgid "Attach a file"
 msgstr ""
 
-#: ui/evolution-message-composer.xml.h:4 ui/evolution-signature-editor.xml.h:3
+evolution-message-composer.xml.h:4 ui/evolution-signature-editor.xml.h:3
 msgid "Close the current file"
 msgstr ""
 
-#: ui/evolution-message-composer.xml.h:5
+evolution-message-composer.xml.h:5
 msgid "Delete all but signature"
 msgstr ""
 
-#: ui/evolution-message-composer.xml.h:6
+evolution-message-composer.xml.h:6
 msgid "Encrypt this message with PGP"
 msgstr ""
 
-#: ui/evolution-message-composer.xml.h:7
+evolution-message-composer.xml.h:7
 msgid "Encrypt this message with your S/MIME Encryption Cetificate"
 msgstr ""
 
-#: ui/evolution-message-composer.xml.h:8 ui/evolution-signature-editor.xml.h:4
+evolution-message-composer.xml.h:8 ui/evolution-signature-editor.xml.h:4
 msgid "For_mat"
 msgstr ""
 
-#: ui/evolution-message-composer.xml.h:9
+evolution-message-composer.xml.h:9
 msgid "HT_ML"
 msgstr ""
 
-#: ui/evolution-message-composer.xml.h:11
+evolution-message-composer.xml.h:11
 msgid "Open a file"
 msgstr ""
 
-#: ui/evolution-message-composer.xml.h:12
+evolution-message-composer.xml.h:12
 msgid "PGP Encrypt"
 msgstr ""
 
-#: ui/evolution-message-composer.xml.h:13
+evolution-message-composer.xml.h:13
 msgid "PGP Sign"
 msgstr ""
 
-#: ui/evolution-message-composer.xml.h:14
+evolution-message-composer.xml.h:14
 msgid "S/MIME Encrypt"
 msgstr ""
 
-#: ui/evolution-message-composer.xml.h:15
+evolution-message-composer.xml.h:15
 msgid "S/MIME Sign"
 msgstr ""
 
-#: ui/evolution-message-composer.xml.h:16
-#: ui/evolution-signature-editor.xml.h:6
+evolution-message-composer.xml.h:16
+evolution-signature-editor.xml.h:6
 msgid "Save"
 msgstr ""
 
-#: ui/evolution-message-composer.xml.h:17
+evolution-message-composer.xml.h:17
 msgid "Save As"
 msgstr ""
 
-#: ui/evolution-message-composer.xml.h:19
+evolution-message-composer.xml.h:19
 msgid "Save _Draft"
 msgstr ""
 
-#: ui/evolution-message-composer.xml.h:20
+evolution-message-composer.xml.h:20
 msgid "Save in folder..."
 msgstr ""
 
-#: ui/evolution-message-composer.xml.h:21
-#: ui/evolution-signature-editor.xml.h:9
+evolution-message-composer.xml.h:21
+evolution-signature-editor.xml.h:9
 msgid "Save the current file"
 msgstr ""
 
-#: ui/evolution-message-composer.xml.h:22
+evolution-message-composer.xml.h:22
 msgid "Save the current file with a different name"
 msgstr ""
 
-#: ui/evolution-message-composer.xml.h:23
+evolution-message-composer.xml.h:23
 msgid "Save the message in a specified folder"
 msgstr ""
 
-#: ui/evolution-message-composer.xml.h:25
-#: ui/evolution-signature-editor.xml.h:11
+evolution-message-composer.xml.h:25
+evolution-signature-editor.xml.h:11
 msgid "Send the mail in HTML format"
 msgstr ""
 
-#: ui/evolution-message-composer.xml.h:26
+evolution-message-composer.xml.h:26
 msgid "Send this message"
 msgstr ""
 
-#: ui/evolution-message-composer.xml.h:27
+evolution-message-composer.xml.h:27
 msgid "Show / hide attachments"
 msgstr ""
 
-#: ui/evolution-message-composer.xml.h:28
+evolution-message-composer.xml.h:28
 msgid "Show _attachments"
 msgstr ""
 
-#: ui/evolution-message-composer.xml.h:29
+evolution-message-composer.xml.h:29
 msgid "Show attachments"
 msgstr ""
 
-#: ui/evolution-message-composer.xml.h:30
+evolution-message-composer.xml.h:30
 msgid "Sign this message with your PGP key"
 msgstr ""
 
-#: ui/evolution-message-composer.xml.h:31
+evolution-message-composer.xml.h:31
 msgid "Sign this message with your S/MIME Signature Certificate"
 msgstr ""
 
-#: ui/evolution-message-composer.xml.h:32
+evolution-message-composer.xml.h:32
 msgid "Toggles whether the BCC field is displayed"
 msgstr ""
 
-#: ui/evolution-message-composer.xml.h:33
+evolution-message-composer.xml.h:33
 msgid "Toggles whether the CC field is displayed"
 msgstr ""
 
-#: ui/evolution-message-composer.xml.h:34
+evolution-message-composer.xml.h:34
 msgid "Toggles whether the From chooser is displayed"
 msgstr ""
 
-#: ui/evolution-message-composer.xml.h:35
+evolution-message-composer.xml.h:35
 msgid "Toggles whether the Post-To field is displayed"
 msgstr ""
 
-#: ui/evolution-message-composer.xml.h:36
+evolution-message-composer.xml.h:36
 msgid "Toggles whether the Reply-To field is displayed"
 msgstr ""
 
-#: ui/evolution-message-composer.xml.h:37
+evolution-message-composer.xml.h:37
 msgid "Toggles whether the To field is displayed"
 msgstr ""
 
-#: ui/evolution-message-composer.xml.h:38
+evolution-message-composer.xml.h:38
 msgid "_Attachment..."
 msgstr ""
 
-#: ui/evolution-message-composer.xml.h:39
+evolution-message-composer.xml.h:39
 msgid "_Bcc Field"
 msgstr ""
 
-#: ui/evolution-message-composer.xml.h:40
+evolution-message-composer.xml.h:40
 msgid "_Cc Field"
 msgstr ""
 
-#: ui/evolution-message-composer.xml.h:42
+evolution-message-composer.xml.h:42
 msgid "_Delete all"
 msgstr "מ_חק הכל"
 
-#: ui/evolution-message-composer.xml.h:45
+evolution-message-composer.xml.h:45
 msgid "_From Field"
 msgstr ""
 
-#: ui/evolution-message-composer.xml.h:46
-#: ui/evolution-signature-editor.xml.h:14
+evolution-message-composer.xml.h:46
+evolution-signature-editor.xml.h:14
 msgid "_Insert"
 msgstr ""
 
-#: ui/evolution-message-composer.xml.h:47
+evolution-message-composer.xml.h:47
 msgid "_Open..."
 msgstr "_פתח..."
 
-#: ui/evolution-message-composer.xml.h:48
+evolution-message-composer.xml.h:48
 msgid "_Post-To Field"
 msgstr ""
 
-#: ui/evolution-message-composer.xml.h:49
+evolution-message-composer.xml.h:49
 msgid "_Reply-To Field"
 msgstr ""
 
-#: ui/evolution-message-composer.xml.h:51
+evolution-message-composer.xml.h:51
 msgid "_Security"
 msgstr "_אבטחה"
 
-#: ui/evolution-message-composer.xml.h:52
+evolution-message-composer.xml.h:52
 msgid "_To Field"
 msgstr ""
 
-#: ui/evolution-signature-editor.xml.h:5
+evolution-signature-editor.xml.h:5
 msgid "H_TML"
 msgstr ""
 
-#: ui/evolution-signature-editor.xml.h:10
+evolution-signature-editor.xml.h:10
 msgid "Save the current file and close the window"
 msgstr "שמור את הקובץ הנוכחי וסגור את החלון"
 
-#: ui/evolution-subscribe.xml.h:1
+evolution-subscribe.xml.h:1
 msgid "Add folder to your list of subscribed folders"
 msgstr ""
 
-#: ui/evolution-subscribe.xml.h:2
+evolution-subscribe.xml.h:2
 msgid "F_older"
 msgstr "_תיקייה"
 
-#: ui/evolution-subscribe.xml.h:3
+evolution-subscribe.xml.h:3
 msgid "Refresh List"
 msgstr "רענן רשימה"
 
-#: ui/evolution-subscribe.xml.h:4
+evolution-subscribe.xml.h:4
 msgid "Refresh List of Folders"
 msgstr ""
 
-#: ui/evolution-subscribe.xml.h:5
+evolution-subscribe.xml.h:5
 msgid "Remove folder from your list of subscribed folders"
 msgstr ""
 
-#: ui/evolution-subscribe.xml.h:7
+evolution-subscribe.xml.h:7
 msgid "Subscribe"
 msgstr ""
 
-#: ui/evolution-subscribe.xml.h:8
+evolution-subscribe.xml.h:8
 msgid "Unsubscribe"
 msgstr ""
 
-#: ui/evolution-task-editor.xml.h:1
+evolution-task-editor.xml.h:1
 msgid "Assign Task"
 msgstr ""
 
-#: ui/evolution-task-editor.xml.h:2
+evolution-task-editor.xml.h:2
 msgid "Assign this task to others"
 msgstr ""
 
-#: ui/evolution-task-editor.xml.h:3
+evolution-task-editor.xml.h:3
 msgid "Cancel Task"
 msgstr ""
 
-#: ui/evolution-task-editor.xml.h:4
+evolution-task-editor.xml.h:4
 msgid "Cancel this task"
 msgstr ""
 
-#: ui/evolution-task-editor.xml.h:7
+evolution-task-editor.xml.h:7
 msgid "Obtain the latest task information"
 msgstr ""
 
-#: ui/evolution-task-editor.xml.h:8
+evolution-task-editor.xml.h:8
 msgid "Re_fresh Task"
 msgstr ""
 
-#: ui/evolution-tasks.xml.h:3
+evolution-tasks.xml.h:3
 msgid "Copy selected task"
 msgstr "העתק את ההודעה המסומנת"
 
-#: ui/evolution-tasks.xml.h:5
+evolution-tasks.xml.h:5
 msgid "Cut selected task"
 msgstr "גזור את ההודעה המסומנת"
 
-#: ui/evolution-tasks.xml.h:7
+evolution-tasks.xml.h:7
 msgid "Delete completed tasks"
 msgstr ""
 
-#: ui/evolution-tasks.xml.h:8
+evolution-tasks.xml.h:8
 msgid "Delete selected tasks"
 msgstr ""
 
-#: ui/evolution-tasks.xml.h:9
+evolution-tasks.xml.h:9
 msgid "Mar_k as Complete"
 msgstr ""
 
-#: ui/evolution-tasks.xml.h:10
+evolution-tasks.xml.h:10
 msgid "Mark selected tasks as complete"
 msgstr ""
 
-#: ui/evolution-tasks.xml.h:12
+evolution-tasks.xml.h:12
 msgid "Paste task from the clipboard"
 msgstr ""
 
-#: ui/evolution-tasks.xml.h:13
+evolution-tasks.xml.h:13
 msgid "Previews the list of tasks to be printed"
 msgstr ""
 
-#: ui/evolution-tasks.xml.h:16
+evolution-tasks.xml.h:16
 msgid "Print the list of tasks"
 msgstr ""
 
-#: ui/evolution-tasks.xml.h:18
+evolution-tasks.xml.h:18
 msgid "View the selected task"
 msgstr ""
 
-#: ui/evolution-tasks.xml.h:23
+evolution-tasks.xml.h:23
 msgid "_Open Task"
 msgstr ""
 
-#: ui/evolution.xml.h:1
+evolution.xml.h:1
 msgid "About Evolution..."
 msgstr ""
 
-#: ui/evolution.xml.h:2
+evolution.xml.h:2
 msgid "Change Evolution's settings"
 msgstr ""
 
-#: ui/evolution.xml.h:3
+evolution.xml.h:3
 msgid "Change the visibility of the toolbar"
 msgstr ""
 
-#: ui/evolution.xml.h:6
+evolution.xml.h:6
 msgid "Create a new window displaying this folder"
 msgstr ""
 
-#: ui/evolution.xml.h:7
+evolution.xml.h:7
 msgid "E_xit"
 msgstr "י_ציאה"
 
-#: ui/evolution.xml.h:8
+evolution.xml.h:8
 msgid "Evolution _FAQ"
 msgstr ""
 
-#: ui/evolution.xml.h:9
+evolution.xml.h:9
 msgid "Exit the program"
 msgstr "צא מהתוכנית"
 
-#: ui/evolution.xml.h:10
+evolution.xml.h:10
 msgid "Forget _Passwords"
 msgstr ""
 
-#: ui/evolution.xml.h:11
+evolution.xml.h:11
 msgid "Forget remembered passwords so you will be prompted for them again"
 msgstr ""
 
-#: ui/evolution.xml.h:12
+evolution.xml.h:12
 msgid "Import data from other programs"
 msgstr ""
 
-#: ui/evolution.xml.h:14
+evolution.xml.h:14
 msgid "New _Window"
 msgstr "ח_לון חדש"
 
-#: ui/evolution.xml.h:15
+evolution.xml.h:15
 msgid "Pi_lot Settings..."
 msgstr ""
 
-#: ui/evolution.xml.h:16
+evolution.xml.h:16
 msgid "Send / Receive"
 msgstr "שלח / קבל"
 
-#: ui/evolution.xml.h:17
+evolution.xml.h:17
 msgid "Send queued items and retrieve new items"
 msgstr ""
 
-#: ui/evolution.xml.h:18
+evolution.xml.h:18
 msgid "Set up Pilot configuration"
 msgstr ""
 
-#: ui/evolution.xml.h:19
+evolution.xml.h:19
 msgid "Show information about Evolution"
 msgstr ""
 
-#: ui/evolution.xml.h:20
+evolution.xml.h:20
 msgid "Submit Bug Report"
 msgstr "שלוח דו\"ח באגים"
 
-#: ui/evolution.xml.h:21
+evolution.xml.h:21
 msgid "Submit _Bug Report"
 msgstr "שלח _דו\"ח באגים"
 
-#: ui/evolution.xml.h:22
+evolution.xml.h:22
 msgid "Submit a bug report using Bug Buddy"
 msgstr "שלח דו\"ח באגים בעזרת Bug Buddy"
 
-#: ui/evolution.xml.h:23
+evolution.xml.h:23
 msgid "T_oolbar"
 msgstr ""
 
-#: ui/evolution.xml.h:24
+evolution.xml.h:24
 msgid "Toggle whether we are working offline."
 msgstr ""
 
-#: ui/evolution.xml.h:26
+evolution.xml.h:26
 msgid "_About Evolution..."
 msgstr ""
 
-#: ui/evolution.xml.h:30
+evolution.xml.h:30
 msgid "_Help"
 msgstr "עזר_ה"
 
-#: ui/evolution.xml.h:31
+evolution.xml.h:31
 msgid "_Import..."
 msgstr "_יבא..."
 
-#: ui/evolution.xml.h:32
+evolution.xml.h:32
 msgid "_New"
 msgstr "_חדש"
 
-#: ui/evolution.xml.h:33
+evolution.xml.h:33
 msgid "_Quick Reference"
 msgstr ""
 
-#: ui/evolution.xml.h:34
+evolution.xml.h:34
 msgid "_Send / Receive"
 msgstr ""
 
-#: ui/evolution.xml.h:38
+evolution.xml.h:38
 msgid "_Window"
 msgstr "_חלון"
 

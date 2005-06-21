@@ -9,13 +9,13 @@
 # Lukas Lipka <lukas@pmad.net>, 2005.
 # Marcel Telka <marcel@telka.sk>, 2005.
 #
-# $Id: sk.po,v 1.86 2005/06/17 22:26:01 marcel Exp $
+# $Id: sk.po,v 1.87 2005/06/21 08:34:50 zucchi Exp $
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-06-17 23:56+0200\n"
+"POT-Creation-Date: 2005-06-21 13:59+0800\n"
 "PO-Revision-Date: 2005-01-30 20:38+0100\n"
 "Last-Translator: Marcel Telka <marcel@telka.sk>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
@@ -106,7 +106,7 @@ msgstr "Nová schôdzka"
 msgid "New All Day Event"
 msgstr "Nová celodenná udalosť"
 
-#: ../a11y/calendar/ea-cal-view.c:308 ../calendar/gui/e-calendar-view.c:1444
+#: ../a11y/calendar/ea-cal-view.c:308 ../calendar/gui/e-calendar-view.c:1483
 msgid "New Meeting"
 msgstr "Nové stretnutie"
 
@@ -242,6 +242,67 @@ msgstr "pohľad na kalendár pre mesiac"
 #: ../a11y/calendar/ea-week-view.c:192
 msgid "calendar view for one or more weeks"
 msgstr "pohľad na kalendár pre jeden alebo viac týždňov"
+
+#: ../a11y/e-table/gal-a11y-e-cell-popup.c:124
+msgid "popup"
+msgstr "prekryť"
+
+#. action name
+#: ../a11y/e-table/gal-a11y-e-cell-popup.c:125
+msgid "popup a child"
+msgstr "prekryť potomka"
+
+#: ../a11y/e-table/gal-a11y-e-cell-text.c:612
+msgid "edit"
+msgstr "upraviť"
+
+#: ../a11y/e-table/gal-a11y-e-cell-text.c:613
+msgid "begin editing this cell"
+msgstr "začať úpravu tejto bunky"
+
+#: ../a11y/e-table/gal-a11y-e-cell-toggle.c:151
+msgid "toggle"
+msgstr "prepnúť"
+
+#. action name
+#: ../a11y/e-table/gal-a11y-e-cell-toggle.c:152
+msgid "toggle the cell"
+msgstr "prepnúť bunku"
+
+#: ../a11y/e-table/gal-a11y-e-cell-tree.c:171
+msgid "expand"
+msgstr "rozbaliť"
+
+#: ../a11y/e-table/gal-a11y-e-cell-tree.c:172
+msgid "expands the row in the ETree containing this cell"
+msgstr "rozbaliť riadok v ETree obsahujúci túto bunku"
+
+#: ../a11y/e-table/gal-a11y-e-cell-tree.c:177
+msgid "collapse"
+msgstr "zbaliť"
+
+#: ../a11y/e-table/gal-a11y-e-cell-tree.c:178
+msgid "collapses the row in the ETree containing this cell"
+msgstr "zbaliť riadok v ETree obsahujúci túto bunku"
+
+#: ../a11y/e-table/gal-a11y-e-cell.c:107
+msgid "Table Cell"
+msgstr "Bunka tabuľky"
+
+#: ../a11y/e-table/gal-a11y-e-table-click-to-add.c:44
+#: ../a11y/e-table/gal-a11y-e-table-click-to-add.c:119
+#: ../widgets/table/e-table-click-to-add.c:575
+msgid "click to add"
+msgstr "pridať kliknutím"
+
+#: ../a11y/e-table/gal-a11y-e-table-click-to-add.c:53
+msgid "click"
+msgstr "kliknúť"
+
+#: ../a11y/e-table/gal-a11y-e-table-column-header.c:135
+#, fuzzy
+msgid "sort"
+msgstr "Netriedené"
 
 #: ../a11y/widgets/ea-calendar-item.c:296
 #: ../a11y/widgets/ea-calendar-item.c:302
@@ -1175,7 +1236,7 @@ msgid "_Birthday:"
 msgstr "Dátum na_rodenia:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:28
-#: ../plugins/itip-formatter/itip-view.c:1619
+#: ../plugins/itip-formatter/itip-view.c:1631
 msgid "_Calendar:"
 msgstr "_Kalendár:"
 
@@ -1295,6 +1356,9 @@ msgstr "Adresa"
 #: ../addressbook/gui/widgets/e-minicard-view-widget.c:121
 #: ../addressbook/gui/widgets/e-minicard-view.c:519
 #: ../addressbook/gui/widgets/e-minicard.c:174
+#: ../widgets/table/e-cell-text.c:1768 ../widgets/text/e-entry.c:1312
+#: ../widgets/text/e-entry.c:1313 ../widgets/text/e-text.c:3584
+#: ../widgets/text/e-text.c:3585
 msgid "Editable"
 msgstr "Upraviteľný"
 
@@ -2277,6 +2341,7 @@ msgstr "Zimbabwe"
 #: ../addressbook/gui/contact-editor/e-contact-editor-fullname.c:89
 #: ../plugins/plugin-manager/plugin-manager.c:44
 #: ../plugins/save-attachments/save-attachments.c:362
+#: ../widgets/menus/gal-view-new-dialog.c:73
 msgid "Name"
 msgstr "Meno"
 
@@ -2688,6 +2753,12 @@ msgid "Error getting book view"
 msgstr "Chyba pri vytváraní pohľadu na adresár"
 
 #: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:405
+#: ../widgets/table/e-table-click-to-add.c:503
+#: ../widgets/table/e-table-selection-model.c:311
+#: ../widgets/table/e-table.c:3344
+#: ../widgets/table/e-tree-selection-model.c:825
+#: ../widgets/text/e-entry.c:1235 ../widgets/text/e-entry.c:1236
+#: ../widgets/text/e-text.c:3448 ../widgets/text/e-text.c:3449
 msgid "Model"
 msgstr "Model"
 
@@ -2726,7 +2797,7 @@ msgstr "Zdroj"
 #: ../addressbook/gui/widgets/e-addressbook-view.c:243
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:11
 #: ../calendar/gui/e-calendar-table.etspec.h:13
-#: ../calendar/gui/e-meeting-list-view.c:337
+#: ../calendar/gui/e-meeting-list-view.c:370
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:11
 msgid "Type"
 msgstr "Typ"
@@ -2944,7 +3015,7 @@ msgstr "Rádio"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:33
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:9
-#: ../calendar/gui/e-meeting-list-view.c:345
+#: ../calendar/gui/e-meeting-list-view.c:378
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:9
 msgid "Role"
 msgstr "Rola"
@@ -2983,11 +3054,28 @@ msgstr "WWW stránka"
 
 #: ../addressbook/gui/widgets/e-minicard-label.c:115
 #: ../addressbook/gui/widgets/e-minicard.c:137
+#: ../widgets/misc/e-canvas-vbox.c:96 ../widgets/misc/e-canvas-vbox.c:97
+#: ../widgets/misc/e-reflow.c:1437 ../widgets/misc/e-reflow.c:1438
+#: ../widgets/table/e-table-click-to-add.c:517
+#: ../widgets/table/e-table-col.c:98
+#: ../widgets/table/e-table-field-chooser-item.c:667
+#: ../widgets/table/e-table-group-leaf.c:629
+#: ../widgets/table/e-table-group-leaf.c:630
+#: ../widgets/table/e-table-item.c:3008 ../widgets/table/e-table-item.c:3009
+#: ../widgets/text/e-text.c:3626 ../widgets/text/e-text.c:3627
 msgid "Width"
 msgstr "Šírka"
 
 #: ../addressbook/gui/widgets/e-minicard-label.c:122
 #: ../addressbook/gui/widgets/e-minicard.c:144
+#: ../widgets/misc/e-canvas-vbox.c:108 ../widgets/misc/e-canvas-vbox.c:109
+#: ../widgets/misc/e-reflow.c:1445 ../widgets/misc/e-reflow.c:1446
+#: ../widgets/table/e-table-click-to-add.c:524
+#: ../widgets/table/e-table-field-chooser-item.c:674
+#: ../widgets/table/e-table-group-leaf.c:622
+#: ../widgets/table/e-table-group-leaf.c:623
+#: ../widgets/table/e-table-item.c:3014 ../widgets/table/e-table-item.c:3015
+#: ../widgets/text/e-text.c:3634 ../widgets/text/e-text.c:3635
 msgid "Height"
 msgstr "Výška"
 
@@ -3573,6 +3661,12 @@ msgid "Format"
 msgstr "Formát"
 
 #: ../addressbook/printing/e-contact-print.glade.h:11
+#: ../widgets/table/e-table-click-to-add.c:496
+#: ../widgets/table/e-table-field-chooser-dialog.c:91
+#: ../widgets/table/e-table-field-chooser-item.c:660
+#: ../widgets/table/e-table-field-chooser.c:93
+#: ../widgets/table/e-table-header-item.c:1831
+#: ../widgets/table/e-table-selection-model.c:318
 msgid "Header"
 msgstr "Hlavička"
 
@@ -4253,7 +4347,7 @@ msgstr "Schôdzka"
 #. Location
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:2
 #: ../calendar/gui/e-itip-control.c:1118
-#: ../plugins/itip-formatter/itip-view.c:859
+#: ../plugins/itip-formatter/itip-view.c:863
 msgid "Location:"
 msgstr "Umiestnenie:"
 
@@ -5033,7 +5127,7 @@ msgid "attachment"
 msgstr "príloha"
 
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:473
-#: ../calendar/gui/dialogs/meeting-page.c:837
+#: ../calendar/gui/dialogs/meeting-page.c:889
 #: ../composer/e-msg-composer-attachment-bar.c:470
 #: ../plugins/groupwise-features/properties.glade.h:14
 msgid "_Remove"
@@ -5577,7 +5671,7 @@ msgstr[1] "Priložiť pôvodnú správu"
 
 #: ../calendar/gui/dialogs/comp-editor.c:421
 #: ../calendar/gui/e-calendar-table.c:1164
-#: ../calendar/gui/e-calendar-view.c:1474 ../composer/e-msg-composer.c:2899
+#: ../calendar/gui/e-calendar-view.c:1513 ../composer/e-msg-composer.c:2899
 #: ../mail/em-folder-tree.c:1047 ../mail/em-folder-view.c:1033
 #: ../mail/message-list.c:1708 ../ui/evolution-addressbook.xml.h:31
 #: ../ui/evolution-calendar.xml.h:39 ../ui/evolution-composer-entries.xml.h:7
@@ -5586,8 +5680,8 @@ msgid "_Copy"
 msgstr "_Kopírovať"
 
 #: ../calendar/gui/dialogs/comp-editor.c:422 ../composer/e-msg-composer.c:2900
-#: ../mail/em-folder-tree.c:1048 ../mail/em-folder-view.c:929
-#: ../mail/message-list.c:1709
+#: ../mail/em-folder-tree.c:1048 ../mail/em-folder-utils.c:383
+#: ../mail/em-folder-view.c:929 ../mail/message-list.c:1709
 #, fuzzy
 msgid "_Move"
 msgstr "Presunúť"
@@ -5602,7 +5696,7 @@ msgstr "Zrušiť úlohu"
 msgid "Could not update object"
 msgstr "Nepodarilo sa aktualizovať objekt"
 
-#: ../calendar/gui/dialogs/comp-editor.c:876 ../composer/e-msg-composer.c:2308
+#: ../calendar/gui/dialogs/comp-editor.c:883 ../composer/e-msg-composer.c:2308
 #, fuzzy, c-format
 msgid "<b>%d</b> Attachment"
 msgid_plural "<b>%d</b> Attachments"
@@ -5610,57 +5704,57 @@ msgstr[0] "Príloha"
 msgstr[1] "Príloha"
 msgstr[2] "Príloha"
 
-#: ../calendar/gui/dialogs/comp-editor.c:971
+#: ../calendar/gui/dialogs/comp-editor.c:978
 msgid "_Attachment Bar (drop attachments here)"
 msgstr ""
 
-#: ../calendar/gui/dialogs/comp-editor.c:1581
-#: ../calendar/gui/dialogs/comp-editor.c:1624
+#: ../calendar/gui/dialogs/comp-editor.c:1588
+#: ../calendar/gui/dialogs/comp-editor.c:1631
 msgid "Edit Appointment"
 msgstr "Upraviť schôdzku"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1587
-#: ../calendar/gui/dialogs/comp-editor.c:1630
+#: ../calendar/gui/dialogs/comp-editor.c:1594
+#: ../calendar/gui/dialogs/comp-editor.c:1637
 #, fuzzy, c-format
 msgid "Meeting - %s"
 msgstr "Stretnutie"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1589
-#: ../calendar/gui/dialogs/comp-editor.c:1632
+#: ../calendar/gui/dialogs/comp-editor.c:1596
+#: ../calendar/gui/dialogs/comp-editor.c:1639
 #, c-format
 msgid "Appointment - %s"
 msgstr "Schôdzka - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1593
-#: ../calendar/gui/dialogs/comp-editor.c:1636
+#: ../calendar/gui/dialogs/comp-editor.c:1600
+#: ../calendar/gui/dialogs/comp-editor.c:1643
 #, fuzzy, c-format
 msgid "Assigned Task - %s"
 msgstr "Priradiť úlohu"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1595
-#: ../calendar/gui/dialogs/comp-editor.c:1638
+#: ../calendar/gui/dialogs/comp-editor.c:1602
+#: ../calendar/gui/dialogs/comp-editor.c:1645
 #, c-format
 msgid "Task - %s"
 msgstr "Úloha - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1598
-#: ../calendar/gui/dialogs/comp-editor.c:1641
+#: ../calendar/gui/dialogs/comp-editor.c:1605
+#: ../calendar/gui/dialogs/comp-editor.c:1648
 #, c-format
 msgid "Journal entry - %s"
 msgstr "Položka denníka - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1609
-#: ../calendar/gui/dialogs/comp-editor.c:1651
+#: ../calendar/gui/dialogs/comp-editor.c:1616
+#: ../calendar/gui/dialogs/comp-editor.c:1658
 msgid "No summary"
 msgstr "Žiadny súhrn"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2089
-#: ../calendar/gui/dialogs/comp-editor.c:2122
-#: ../calendar/gui/dialogs/comp-editor.c:2146
+#: ../calendar/gui/dialogs/comp-editor.c:2137
+#: ../calendar/gui/dialogs/comp-editor.c:2170
+#: ../calendar/gui/dialogs/comp-editor.c:2194
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr "Zmeny tejto položky môžu byť zahodné v prípade, že príde aktualizácia"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2170
+#: ../calendar/gui/dialogs/comp-editor.c:2218
 #, fuzzy
 msgid "Unable to use current version!"
 msgstr "Nepodarilo sa získať aktuálnu verziu!"
@@ -5753,8 +5847,8 @@ msgid "Recurrence"
 msgstr "Opakovanie"
 
 #: ../calendar/gui/dialogs/event-editor.c:166
-#: ../calendar/gui/dialogs/event-editor.c:251
-#: ../calendar/gui/dialogs/event-editor.c:420
+#: ../calendar/gui/dialogs/event-editor.c:249
+#: ../calendar/gui/dialogs/event-editor.c:422
 msgid "Scheduling"
 msgstr "Plánovanie"
 
@@ -5768,8 +5862,8 @@ msgstr "Delegované"
 msgid "Attendees"
 msgstr "Účastník"
 
-#: ../calendar/gui/dialogs/event-editor.c:254
-#: ../calendar/gui/dialogs/event-editor.c:423
+#: ../calendar/gui/dialogs/event-editor.c:252
+#: ../calendar/gui/dialogs/event-editor.c:425
 #, fuzzy
 msgid "Invitations"
 msgstr "Informácia"
@@ -5959,8 +6053,8 @@ msgstr "<b>Stav:</b>"
 
 #: ../calendar/gui/dialogs/meeting-page.c:307
 #, fuzzy
-msgid "From:"
-msgstr "Od:"
+msgid "<b>From:</b>"
+msgstr "<b>Domov</b>"
 
 #. an empty string is the same as 'None'
 #. Put the "None" and "UTC" entries at the top of the combo's list.
@@ -5976,31 +6070,31 @@ msgstr "Od:"
 #: ../mail/em-folder-view.c:1062
 #: ../plugins/calendar-weather/calendar-weather.c:371
 #: ../plugins/calendar-weather/calendar-weather.c:425
-#: ../plugins/itip-formatter/itip-formatter.c:1390
+#: ../plugins/itip-formatter/itip-formatter.c:1539
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.c:190
 #: ../widgets/misc/e-cell-date-edit.c:248 ../widgets/misc/e-dateedit.c:465
 #: ../widgets/misc/e-dateedit.c:1504 ../widgets/misc/e-dateedit.c:1673
 msgid "None"
 msgstr "Žiadna"
 
-#: ../calendar/gui/dialogs/meeting-page.c:461
+#: ../calendar/gui/dialogs/meeting-page.c:463
 msgid "The organizer selected no longer has an account."
 msgstr "Vybraný organizér už nemá účet."
 
-#: ../calendar/gui/dialogs/meeting-page.c:467
+#: ../calendar/gui/dialogs/meeting-page.c:469
 msgid "An organizer is required."
 msgstr "Organizátor je vyžadovaný."
 
-#: ../calendar/gui/dialogs/meeting-page.c:482
+#: ../calendar/gui/dialogs/meeting-page.c:484
 msgid "At least one attendee is required."
 msgstr "Nutný je aspoň jeden účastník."
 
-#: ../calendar/gui/dialogs/meeting-page.c:834
+#: ../calendar/gui/dialogs/meeting-page.c:886
 msgid "_Delegate To..."
 msgstr "_Delegovať na..."
 
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:1
-#: ../calendar/gui/e-meeting-list-view.c:325
+#: ../calendar/gui/e-meeting-list-view.c:358
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:1
 msgid "Attendee"
 msgstr "Účastník"
@@ -6036,7 +6130,7 @@ msgid "Member"
 msgstr "Člen"
 
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:8
-#: ../calendar/gui/e-meeting-list-view.c:353
+#: ../calendar/gui/e-meeting-list-view.c:386
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:8
 msgid "RSVP"
 msgstr "RSVP"
@@ -6044,7 +6138,7 @@ msgstr "RSVP"
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:10
 #: ../calendar/gui/dialogs/task-editor.c:147
 #: ../calendar/gui/e-calendar-table.etspec.h:10
-#: ../calendar/gui/e-meeting-list-view.c:361
+#: ../calendar/gui/e-meeting-list-view.c:394
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:10 ../mail/em-filter-i18n.h:63
 #: ../mail/message-list.etspec.h:12
 msgid "Status"
@@ -6565,7 +6659,7 @@ msgstr "_Termín:"
 #: ../calendar/gui/e-cal-component-preview.c:222
 #: ../calendar/gui/e-itip-control.c:1132
 #: ../plugins/exchange-account-setup/exchange-account-setup.c:227
-#: ../plugins/itip-formatter/itip-view.c:884
+#: ../plugins/itip-formatter/itip-view.c:888
 msgid "Status:"
 msgstr "Stav:"
 
@@ -6615,27 +6709,29 @@ msgstr ""
 "45.436845,125.862501"
 
 #: ../calendar/gui/e-cal-model-tasks.c:1017 ../calendar/gui/e-cal-model.c:905
-#: ../calendar/gui/e-meeting-list-view.c:174
+#: ../calendar/gui/e-meeting-list-view.c:192
 #: ../calendar/gui/e-meeting-store.c:168 ../calendar/gui/e-meeting-store.c:178
 #: ../calendar/gui/e-meeting-store.c:808
+#: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:5
 msgid "Yes"
 msgstr "Áno"
 
 #: ../calendar/gui/e-cal-model-tasks.c:1017 ../calendar/gui/e-cal-model.c:905
-#: ../calendar/gui/e-meeting-list-view.c:175
+#: ../calendar/gui/e-meeting-list-view.c:193
 #: ../calendar/gui/e-meeting-store.c:180
+#: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:2
 msgid "No"
 msgstr "Nie"
 
 #. This is the default filename used for temporary file creation
 #: ../calendar/gui/e-cal-model.c:307 ../calendar/gui/e-cal-model.c:310
 #: ../calendar/gui/e-itip-control.c:1149 ../calendar/gui/e-itip-control.c:1290
-#: ../calendar/gui/e-meeting-list-view.c:150
-#: ../calendar/gui/e-meeting-list-view.c:164
+#: ../calendar/gui/e-meeting-list-view.c:168
+#: ../calendar/gui/e-meeting-list-view.c:182
 #: ../calendar/gui/e-meeting-store.c:124 ../calendar/gui/e-meeting-store.c:159
 #: ../calendar/gui/e-meeting-store.c:224 ../mail/em-utils.c:1175
-#: ../plugins/itip-formatter/itip-formatter.c:251
-#: ../plugins/itip-formatter/itip-formatter.c:1412
+#: ../plugins/itip-formatter/itip-formatter.c:235
+#: ../plugins/itip-formatter/itip-formatter.c:1564
 #: ../plugins/plugin-manager/plugin-manager.c:72
 #: ../shell/e-component-registry.c:205 ../shell/e-component-registry.c:211
 #: ../widgets/misc/e-charset-picker.c:62
@@ -6715,7 +6811,7 @@ msgid "Save as..."
 msgstr "Uložiť ako..."
 
 #: ../calendar/gui/e-calendar-table.c:1156
-#: ../calendar/gui/e-calendar-view.c:1467 ../ui/evolution-addressbook.xml.h:37
+#: ../calendar/gui/e-calendar-view.c:1506 ../ui/evolution-addressbook.xml.h:37
 msgid "_Open"
 msgstr "_Otvoriť"
 
@@ -6725,28 +6821,28 @@ msgid "Open _Web Page"
 msgstr "_Otvoriť správu"
 
 #: ../calendar/gui/e-calendar-table.c:1158
-#: ../calendar/gui/e-calendar-view.c:1468 ../mail/em-folder-view.c:1043
+#: ../calendar/gui/e-calendar-view.c:1507 ../mail/em-folder-view.c:1043
 #: ../mail/em-popup.c:494
 msgid "_Save As..."
 msgstr "Uložiť _ako..."
 
 #: ../calendar/gui/e-calendar-table.c:1159
-#: ../calendar/gui/e-calendar-view.c:1448
-#: ../calendar/gui/e-calendar-view.c:1469 ../mail/em-folder-view.c:1044
+#: ../calendar/gui/e-calendar-view.c:1487
+#: ../calendar/gui/e-calendar-view.c:1508 ../mail/em-folder-view.c:1044
 #: ../ui/evolution-addressbook.xml.h:40 ../ui/evolution-calendar.xml.h:44
 #: ../ui/evolution-mail-message.xml.h:117 ../ui/evolution-tasks.xml.h:25
 msgid "_Print..."
 msgstr "_Tlačiť..."
 
 #: ../calendar/gui/e-calendar-table.c:1163
-#: ../calendar/gui/e-calendar-view.c:1473 ../ui/evolution-addressbook.xml.h:1
+#: ../calendar/gui/e-calendar-view.c:1512 ../ui/evolution-addressbook.xml.h:1
 #: ../ui/evolution-calendar.xml.h:1 ../ui/evolution-tasks.xml.h:1
 msgid "C_ut"
 msgstr "Vystri_hnúť"
 
 #: ../calendar/gui/e-calendar-table.c:1165
-#: ../calendar/gui/e-calendar-view.c:1451
-#: ../calendar/gui/e-calendar-view.c:1475 ../ui/evolution-addressbook.xml.h:38
+#: ../calendar/gui/e-calendar-view.c:1490
+#: ../calendar/gui/e-calendar-view.c:1514 ../ui/evolution-addressbook.xml.h:38
 #: ../ui/evolution-calendar.xml.h:43 ../ui/evolution-composer-entries.xml.h:9
 #: ../ui/evolution-tasks.xml.h:24
 msgid "_Paste"
@@ -6770,7 +6866,7 @@ msgstr "_Označiť úlohy ako dokončené"
 
 #. FIXME: need to disable for undeletable folders
 #: ../calendar/gui/e-calendar-table.c:1176
-#: ../calendar/gui/e-calendar-view.c:1487 ../mail/em-folder-tree.c:2119
+#: ../calendar/gui/e-calendar-view.c:1526 ../mail/em-folder-tree.c:2119
 #: ../mail/em-folder-view.c:1047 ../ui/evolution-addressbook.xml.h:33
 #: ../ui/evolution-calendar.xml.h:40 ../ui/evolution-mail-list.xml.h:26
 #: ../ui/evolution-tasks.xml.h:21
@@ -6829,70 +6925,70 @@ msgstr "Presúvam správy"
 msgid "Copying items"
 msgstr "Kopírujem správy"
 
-#: ../calendar/gui/e-calendar-view.c:1442
+#: ../calendar/gui/e-calendar-view.c:1481
 msgid "New _Appointment..."
 msgstr "Nová _schôdzka..."
 
-#: ../calendar/gui/e-calendar-view.c:1443
+#: ../calendar/gui/e-calendar-view.c:1482
 msgid "New All Day _Event"
 msgstr "Nová celodenná _udalosť"
 
-#: ../calendar/gui/e-calendar-view.c:1445
+#: ../calendar/gui/e-calendar-view.c:1484
 msgid "New Task"
 msgstr "Nová úloha"
 
 #. FIXME: hook in this somehow
-#: ../calendar/gui/e-calendar-view.c:1455
+#: ../calendar/gui/e-calendar-view.c:1494
 msgid "Current View"
 msgstr "Aktuálny pohľad"
 
-#: ../calendar/gui/e-calendar-view.c:1457 ../ui/evolution-calendar.xml.h:26
+#: ../calendar/gui/e-calendar-view.c:1496 ../ui/evolution-calendar.xml.h:26
 #, fuzzy
 msgid "Select _Today"
 msgstr "Vybrať _vlákno"
 
-#: ../calendar/gui/e-calendar-view.c:1458
+#: ../calendar/gui/e-calendar-view.c:1497
 #, fuzzy
 msgid "_Select Date..."
 msgstr "Odstrániť..."
 
 #. TODO: Why is this in a context menu when it applies globally?
-#: ../calendar/gui/e-calendar-view.c:1463 ../ui/evolution-calendar.xml.h:45
+#: ../calendar/gui/e-calendar-view.c:1502 ../ui/evolution-calendar.xml.h:45
 msgid "_Publish Free/Busy Information"
 msgstr "_Publikovať informácie o voľnom čase"
 
-#: ../calendar/gui/e-calendar-view.c:1479
+#: ../calendar/gui/e-calendar-view.c:1518
 #, fuzzy
 msgid "Cop_y to Calendar..."
 msgstr "Kopírovať do priečinku..."
 
-#: ../calendar/gui/e-calendar-view.c:1480
+#: ../calendar/gui/e-calendar-view.c:1519
 #, fuzzy
 msgid "Mo_ve to Calendar..."
 msgstr "Pre_sunúť do priečinka..."
 
-#: ../calendar/gui/e-calendar-view.c:1481
+#: ../calendar/gui/e-calendar-view.c:1520
 #, fuzzy
 msgid "_Delegate Meeting..."
 msgstr "Naplánovať _stretnutie..."
 
-#: ../calendar/gui/e-calendar-view.c:1482
+#: ../calendar/gui/e-calendar-view.c:1521
 msgid "_Schedule Meeting..."
 msgstr "Naplánovať _stretnutie..."
 
-#: ../calendar/gui/e-calendar-view.c:1483
+#: ../calendar/gui/e-calendar-view.c:1522
 msgid "_Forward as iCalendar..."
 msgstr "Poslať ďalej ako i_Calendar..."
 
-#: ../calendar/gui/e-calendar-view.c:1488
+#: ../calendar/gui/e-calendar-view.c:1527
 msgid "Make this Occurrence _Movable"
 msgstr "Nastaviť tento výskyt ako _presunuteľný"
 
-#: ../calendar/gui/e-calendar-view.c:1489
+#: ../calendar/gui/e-calendar-view.c:1528
 msgid "Delete this _Occurrence"
 msgstr "Odstrániť tento vý_skyt"
 
-#: ../calendar/gui/e-calendar-view.c:1490
+#: ../calendar/gui/e-calendar-view.c:1529
 msgid "Delete _All Occurrences"
 msgstr "Odstrániť _všetky výskyty"
 
@@ -7046,10 +7142,10 @@ msgstr "Chyba iCalendar"
 
 #: ../calendar/gui/e-itip-control.c:1038 ../calendar/gui/e-itip-control.c:1054
 #: ../calendar/gui/e-itip-control.c:1065 ../calendar/gui/e-itip-control.c:1082
-#: ../plugins/itip-formatter/itip-view.c:329
-#: ../plugins/itip-formatter/itip-view.c:330
-#: ../plugins/itip-formatter/itip-view.c:397
-#: ../plugins/itip-formatter/itip-view.c:398
+#: ../plugins/itip-formatter/itip-view.c:333
+#: ../plugins/itip-formatter/itip-view.c:334
+#: ../plugins/itip-formatter/itip-view.c:401
+#: ../plugins/itip-formatter/itip-view.c:402
 msgid "An unknown person"
 msgstr "Neznáma osoba"
 
@@ -7062,23 +7158,23 @@ msgstr ""
 "<br> Prosím, skontrolujte tieto informácie a potom vyberte z menu akciu."
 
 #: ../calendar/gui/e-itip-control.c:1137
-#: ../calendar/gui/e-meeting-list-view.c:186
+#: ../calendar/gui/e-meeting-list-view.c:204
 #: ../calendar/gui/e-meeting-store.c:188 ../calendar/gui/e-meeting-store.c:211
-#: ../calendar/gui/itip-utils.c:421
-#: ../plugins/itip-formatter/itip-formatter.c:1403
+#: ../calendar/gui/itip-utils.c:547
+#: ../plugins/itip-formatter/itip-formatter.c:1552
 msgid "Accepted"
 msgstr "Akceptované"
 
-#: ../calendar/gui/e-itip-control.c:1141 ../calendar/gui/itip-utils.c:424
-#: ../plugins/itip-formatter/itip-formatter.c:1406
+#: ../calendar/gui/e-itip-control.c:1141 ../calendar/gui/itip-utils.c:550
+#: ../plugins/itip-formatter/itip-formatter.c:1555
 msgid "Tentatively Accepted"
 msgstr "Predbežne akceptové"
 
 #: ../calendar/gui/e-itip-control.c:1145
-#: ../calendar/gui/e-meeting-list-view.c:187
+#: ../calendar/gui/e-meeting-list-view.c:205
 #: ../calendar/gui/e-meeting-store.c:190 ../calendar/gui/e-meeting-store.c:213
-#: ../calendar/gui/itip-utils.c:427 ../calendar/gui/itip-utils.c:453
-#: ../plugins/itip-formatter/itip-formatter.c:1409
+#: ../calendar/gui/itip-utils.c:553 ../calendar/gui/itip-utils.c:582
+#: ../plugins/itip-formatter/itip-formatter.c:1558
 msgid "Declined"
 msgstr "Odmietnuté"
 
@@ -7296,7 +7392,7 @@ msgid "Attendee status updated\n"
 msgstr "Stav účastníka bol aktualizovaný\n"
 
 #: ../calendar/gui/e-itip-control.c:1979
-#: ../plugins/itip-formatter/itip-formatter.c:852
+#: ../plugins/itip-formatter/itip-formatter.c:974
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
 "Stav účastníka nie je možné aktualizovať, pretože položka už neexistuje"
@@ -7345,7 +7441,7 @@ msgstr "Aktualizovať stav respondenta"
 msgid "Send Latest Information"
 msgstr "Poslať najnovšie informácie"
 
-#: ../calendar/gui/e-itip-control.c:2375 ../calendar/gui/itip-utils.c:441
+#: ../calendar/gui/e-itip-control.c:2375 ../calendar/gui/itip-utils.c:570
 #: ../mail/mail-send-recv.c:414 ../mail/mail-send-recv.c:466
 #: ../ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
@@ -7388,79 +7484,81 @@ msgstr "dátum konca"
 msgid "date-start"
 msgstr "dátum začiatku"
 
-#: ../calendar/gui/e-meeting-list-view.c:61
+#: ../calendar/gui/e-meeting-list-view.c:69
 msgid "Chair Persons"
 msgstr "Predsedovia"
 
-#: ../calendar/gui/e-meeting-list-view.c:62
-#: ../calendar/gui/e-meeting-list-view.c:135
+#: ../calendar/gui/e-meeting-list-view.c:70
+#: ../calendar/gui/e-meeting-list-view.c:153
 msgid "Required Participants"
 msgstr "Vyžadovaní účastníci"
 
-#: ../calendar/gui/e-meeting-list-view.c:63
+#: ../calendar/gui/e-meeting-list-view.c:71
 msgid "Optional Participants"
 msgstr "Nepovinní účastníci"
 
-#: ../calendar/gui/e-meeting-list-view.c:64
+#: ../calendar/gui/e-meeting-list-view.c:72
 msgid "Resources"
 msgstr "Zdroje"
 
-#: ../calendar/gui/e-meeting-list-view.c:146
+#: ../calendar/gui/e-meeting-list-view.c:164
 #: ../calendar/gui/e-meeting-store.c:99 ../calendar/gui/e-meeting-store.c:116
 #: ../calendar/gui/e-meeting-store.c:802
 msgid "Individual"
 msgstr "Individuálne"
 
-#: ../calendar/gui/e-meeting-list-view.c:147
+#: ../calendar/gui/e-meeting-list-view.c:165
 #: ../calendar/gui/e-meeting-store.c:101 ../calendar/gui/e-meeting-store.c:118
 msgid "Group"
 msgstr "Skupina"
 
-#: ../calendar/gui/e-meeting-list-view.c:148
+#: ../calendar/gui/e-meeting-list-view.c:166
 #: ../calendar/gui/e-meeting-store.c:103 ../calendar/gui/e-meeting-store.c:120
 msgid "Resource"
 msgstr "Zdroj"
 
-#: ../calendar/gui/e-meeting-list-view.c:149
+#: ../calendar/gui/e-meeting-list-view.c:167
 #: ../calendar/gui/e-meeting-store.c:105 ../calendar/gui/e-meeting-store.c:122
 msgid "Room"
 msgstr "Miestnosť"
 
-#: ../calendar/gui/e-meeting-list-view.c:160
+#: ../calendar/gui/e-meeting-list-view.c:178
 #: ../calendar/gui/e-meeting-store.c:134 ../calendar/gui/e-meeting-store.c:151
 msgid "Chair"
 msgstr "Predseda"
 
-#: ../calendar/gui/e-meeting-list-view.c:161
+#: ../calendar/gui/e-meeting-list-view.c:179
 #: ../calendar/gui/e-meeting-store.c:136 ../calendar/gui/e-meeting-store.c:153
 #: ../calendar/gui/e-meeting-store.c:805
 msgid "Required Participant"
 msgstr "Vyžadovaný účastník"
 
-#: ../calendar/gui/e-meeting-list-view.c:162
+#: ../calendar/gui/e-meeting-list-view.c:180
 #: ../calendar/gui/e-meeting-store.c:138 ../calendar/gui/e-meeting-store.c:155
 msgid "Optional Participant"
 msgstr "Nepovinný účastník"
 
-#: ../calendar/gui/e-meeting-list-view.c:163
+#: ../calendar/gui/e-meeting-list-view.c:181
 #: ../calendar/gui/e-meeting-store.c:140 ../calendar/gui/e-meeting-store.c:157
 msgid "Non-Participant"
 msgstr "Bez účasti"
 
-#: ../calendar/gui/e-meeting-list-view.c:185
+#: ../calendar/gui/e-meeting-list-view.c:203
 #: ../calendar/gui/e-meeting-store.c:186 ../calendar/gui/e-meeting-store.c:209
 #: ../calendar/gui/e-meeting-store.c:815
 msgid "Needs Action"
 msgstr "Potrebné úkony"
 
-#: ../calendar/gui/e-meeting-list-view.c:188
+#: ../calendar/gui/e-meeting-list-view.c:206
 #: ../calendar/gui/e-meeting-store.c:192 ../calendar/gui/e-meeting-store.c:215
 #: ../calendar/gui/e-meeting-time-sel.c:411
 msgid "Tentative"
 msgstr "Predbežný"
 
-#: ../calendar/gui/e-meeting-list-view.c:189
+#: ../calendar/gui/e-meeting-list-view.c:207
 #: ../calendar/gui/e-meeting-store.c:194 ../calendar/gui/e-meeting-store.c:217
+#: ../calendar/gui/itip-utils.c:556
+#: ../plugins/itip-formatter/itip-formatter.c:1561
 msgid "Delegated"
 msgstr "Delegované"
 
@@ -7703,57 +7801,57 @@ msgstr "September"
 msgid "_Select Today"
 msgstr "Vybrať priečinok"
 
-#: ../calendar/gui/itip-utils.c:270 ../calendar/gui/itip-utils.c:318
-#: ../calendar/gui/itip-utils.c:350
+#: ../calendar/gui/itip-utils.c:352 ../calendar/gui/itip-utils.c:401
+#: ../calendar/gui/itip-utils.c:441
 msgid "An organizer must be set."
 msgstr "Organizátor musí byť nastavený."
 
-#: ../calendar/gui/itip-utils.c:305
+#: ../calendar/gui/itip-utils.c:388
 msgid "At least one attendee is necessary"
 msgstr "Nutný je aspoň jeden účastník"
 
-#: ../calendar/gui/itip-utils.c:393 ../calendar/gui/itip-utils.c:502
+#: ../calendar/gui/itip-utils.c:509 ../calendar/gui/itip-utils.c:631
 msgid "Event information"
 msgstr "informácie o udalosti"
 
-#: ../calendar/gui/itip-utils.c:395 ../calendar/gui/itip-utils.c:504
+#: ../calendar/gui/itip-utils.c:511 ../calendar/gui/itip-utils.c:633
 msgid "Task information"
 msgstr "Informácie o úlohe"
 
-#: ../calendar/gui/itip-utils.c:397 ../calendar/gui/itip-utils.c:506
+#: ../calendar/gui/itip-utils.c:513 ../calendar/gui/itip-utils.c:635
 msgid "Journal information"
 msgstr "Informácie o denníku"
 
-#: ../calendar/gui/itip-utils.c:399 ../calendar/gui/itip-utils.c:524
+#: ../calendar/gui/itip-utils.c:515 ../calendar/gui/itip-utils.c:653
 msgid "Free/Busy information"
 msgstr "Informácie o voľnom čase"
 
-#: ../calendar/gui/itip-utils.c:401
+#: ../calendar/gui/itip-utils.c:517
 msgid "Calendar information"
 msgstr "Informácie o kalendári"
 
-#: ../calendar/gui/itip-utils.c:437
+#: ../calendar/gui/itip-utils.c:566
 msgid "Updated"
 msgstr "Aktualizované"
 
-#: ../calendar/gui/itip-utils.c:445
+#: ../calendar/gui/itip-utils.c:574
 msgid "Refresh"
 msgstr "Aktualizovať"
 
-#: ../calendar/gui/itip-utils.c:449
+#: ../calendar/gui/itip-utils.c:578
 msgid "Counter-proposal"
 msgstr "Protinávrh"
 
-#: ../calendar/gui/itip-utils.c:520
+#: ../calendar/gui/itip-utils.c:649
 #, c-format
 msgid "Free/Busy information (%s to %s)"
 msgstr "Informácie o voľnom čase (%s do %s)"
 
-#: ../calendar/gui/itip-utils.c:530
+#: ../calendar/gui/itip-utils.c:659
 msgid "iCalendar information"
 msgstr "Informácie iCalendar"
 
-#: ../calendar/gui/itip-utils.c:672
+#: ../calendar/gui/itip-utils.c:814
 msgid "You must be an attendee of the event."
 msgstr "Musíte byť účastníkom stretnutia."
 
@@ -10298,57 +10396,6 @@ msgstr "%I %p"
 msgid "The orientation of the tray."
 msgstr "Popis prílohy."
 
-#: ../filter/filter.error.xml.h:1
-#, fuzzy
-msgid "Bad regular expression &quot;{0}&quot;."
-msgstr ""
-"Chyba v regulárnom výraze '%s':\n"
-"%s"
-
-#: ../filter/filter.error.xml.h:2
-msgid "Could not compile regular expression &quot;{1}&quot;."
-msgstr ""
-
-#: ../filter/filter.error.xml.h:3
-#, fuzzy
-msgid "File &quot;{0}&quot; does not exist or is not a regular file."
-msgstr "Súbor \"%s\" neexistuje alebo nie je normálny súbor."
-
-#: ../filter/filter.error.xml.h:4
-#, fuzzy
-msgid "Missing date."
-msgstr "Aktualizácia stretnutia"
-
-#: ../filter/filter.error.xml.h:5
-#, fuzzy
-msgid "Missing file name."
-msgstr "_Známe meno:"
-
-#: ../filter/filter.error.xml.h:6 ../mail/mail.error.xml.h:62
-#, fuzzy
-msgid "Missing name."
-msgstr "Priradenie"
-
-#: ../filter/filter.error.xml.h:7
-msgid "Name &quot;{0}&quot; already used."
-msgstr ""
-
-#: ../filter/filter.error.xml.h:8
-msgid "Please choose another name."
-msgstr ""
-
-#: ../filter/filter.error.xml.h:9
-msgid "You must choose a date."
-msgstr "Musíte vybrať dátum."
-
-#: ../filter/filter.error.xml.h:10
-msgid "You must name this filter."
-msgstr "Musíte tento filter pomenovať."
-
-#: ../filter/filter.error.xml.h:11
-msgid "You must specify a file name."
-msgstr "Musíte zadať meno súboru."
-
 #: ../filter/filter-datespec.c:73
 #, fuzzy, c-format
 msgid "1 second ago"
@@ -10490,6 +10537,57 @@ msgstr "Prijatá"
 #: ../filter/filter-rule.c:978
 msgid "Outgoing"
 msgstr "Odoslaná"
+
+#: ../filter/filter.error.xml.h:1
+#, fuzzy
+msgid "Bad regular expression &quot;{0}&quot;."
+msgstr ""
+"Chyba v regulárnom výraze '%s':\n"
+"%s"
+
+#: ../filter/filter.error.xml.h:2
+msgid "Could not compile regular expression &quot;{1}&quot;."
+msgstr ""
+
+#: ../filter/filter.error.xml.h:3
+#, fuzzy
+msgid "File &quot;{0}&quot; does not exist or is not a regular file."
+msgstr "Súbor \"%s\" neexistuje alebo nie je normálny súbor."
+
+#: ../filter/filter.error.xml.h:4
+#, fuzzy
+msgid "Missing date."
+msgstr "Aktualizácia stretnutia"
+
+#: ../filter/filter.error.xml.h:5
+#, fuzzy
+msgid "Missing file name."
+msgstr "_Známe meno:"
+
+#: ../filter/filter.error.xml.h:6 ../mail/mail.error.xml.h:62
+#, fuzzy
+msgid "Missing name."
+msgstr "Priradenie"
+
+#: ../filter/filter.error.xml.h:7
+msgid "Name &quot;{0}&quot; already used."
+msgstr ""
+
+#: ../filter/filter.error.xml.h:8
+msgid "Please choose another name."
+msgstr ""
+
+#: ../filter/filter.error.xml.h:9
+msgid "You must choose a date."
+msgstr "Musíte vybrať dátum."
+
+#: ../filter/filter.error.xml.h:10
+msgid "You must name this filter."
+msgstr "Musíte tento filter pomenovať."
+
+#: ../filter/filter.error.xml.h:11
+msgid "You must specify a file name."
+msgstr "Musíte zadať meno súboru."
 
 #: ../filter/filter.glade.h:1
 #, fuzzy
@@ -11175,16 +11273,56 @@ msgstr "Nový _priečinok..."
 msgid "_Rename..."
 msgstr "_Premenovať..."
 
+#: ../mail/em-folder-utils.c:104
+#, fuzzy, c-format
+msgid "Copying `%s' to `%s'"
+msgstr "Kopírujem správy do %s"
+
+#: ../mail/em-folder-utils.c:367 ../mail/em-folder-utils.c:383
 #: ../mail/em-folder-view.c:929 ../mail/em-folder-view.c:944
 #: ../mail/importers/evolution-mbox-importer.c:120
 #: ../mail/importers/evolution-outlook-importer.c:134
 msgid "Select folder"
 msgstr "Vybrať priečinok"
 
-#: ../mail/em-folder-view.c:944
+#: ../mail/em-folder-utils.c:367 ../mail/em-folder-view.c:944
 #, fuzzy
 msgid "C_opy"
 msgstr "Kopírovať"
+
+#: ../mail/em-folder-utils.c:521
+#, c-format
+msgid "Rename the \"%s\" folder to:"
+msgstr ""
+
+#: ../mail/em-folder-utils.c:523
+#, fuzzy
+msgid "Rename Folder"
+msgstr "Vytvoriť nový priečinok"
+
+#: ../mail/em-folder-utils.c:529
+#, fuzzy
+msgid "Folder names cannot contain '/'"
+msgstr "Meno priečinku nesmie obsahovať znak \"/\"."
+
+#: ../mail/em-folder-utils.c:599
+#: ../plugins/groupwise-features/share-folder-common.c:140
+#, fuzzy, c-format
+msgid "Creating folder `%s'"
+msgstr "Ukladám priečinok '%s'"
+
+#: ../mail/em-folder-utils.c:748
+#: ../plugins/groupwise-features/install-shared.c:156
+#: ../plugins/groupwise-features/share-folder-common.c:382
+#, fuzzy
+msgid "Create folder"
+msgstr "Vytvoriť nový priečinok"
+
+#: ../mail/em-folder-utils.c:748
+#: ../plugins/groupwise-features/install-shared.c:156
+#: ../plugins/groupwise-features/share-folder-common.c:382
+msgid "Specify where to create the folder:"
+msgstr "Zadajte, kde vytvoriť priečinok"
 
 #: ../mail/em-folder-view.c:1037 ../mail/em-popup.c:499
 msgid "Reply to _All"
@@ -12646,7 +12784,7 @@ msgid "<span weight=\"bold\">Filter Options</span>"
 msgstr ""
 
 #: ../mail/mail-config.glade.h:18
-#: ../plugins/itip-formatter/itip-formatter.c:1681
+#: ../plugins/itip-formatter/itip-formatter.c:1833
 msgid "<span weight=\"bold\">General</span>"
 msgstr ""
 
@@ -13368,6 +13506,303 @@ msgstr "pre všetky lokálne a aktívne vzdialené priečinky"
 msgid "with all local folders"
 msgstr "pre všetky lokálne priečinky"
 
+#: ../mail/mail-folder-cache.c:813
+#, c-format
+msgid "Pinging %s"
+msgstr "Prehľadávam %s"
+
+#: ../mail/mail-ops.c:101
+msgid "Filtering Folder"
+msgstr "Filtrujem priečinok"
+
+#: ../mail/mail-ops.c:262
+msgid "Fetching Mail"
+msgstr "Prijímam poštu"
+
+#. sending mail, filtering failed
+#: ../mail/mail-ops.c:562
+#, c-format
+msgid "Failed to apply outgoing filters: %s"
+msgstr "Nepodarilo sa použiť filtre pre odosielanú poštu : %s"
+
+#: ../mail/mail-ops.c:573 ../mail/mail-ops.c:602
+#, c-format
+msgid ""
+"Failed to append to %s: %s\n"
+"Appending to local `Sent' folder instead."
+msgstr ""
+"Nepodarilo sa pridať do %s: %s\n"
+"Namiesto toho sa pridá do priečinka `Odoslané'."
+
+#: ../mail/mail-ops.c:619
+#, c-format
+msgid "Failed to append to local `Sent' folder: %s"
+msgstr "Nepodarilo sa pridať do lokálneho priečinku \"Odoslené\": %s"
+
+#: ../mail/mail-ops.c:731
+#, c-format
+msgid "Sending message %d of %d"
+msgstr "Posielam správu %d z %d"
+
+#: ../mail/mail-ops.c:756
+#, fuzzy, c-format
+msgid "Failed to send %d of %d messages"
+msgstr "Nepodarilo sa dekódovať správu."
+
+#: ../mail/mail-ops.c:758 ../mail/mail-send-recv.c:613
+msgid "Cancelled."
+msgstr "Zrušené."
+
+#: ../mail/mail-ops.c:760
+msgid "Complete."
+msgstr "Dokončené."
+
+#: ../mail/mail-ops.c:857
+msgid "Saving message to folder"
+msgstr "Ukladám správu do priečinku"
+
+#: ../mail/mail-ops.c:942
+#, c-format
+msgid "Moving messages to %s"
+msgstr "Presúvam správy do %s"
+
+#: ../mail/mail-ops.c:942
+#, c-format
+msgid "Copying messages to %s"
+msgstr "Kopírujem správy do %s"
+
+#: ../mail/mail-ops.c:1168
+msgid "Forwarded messages"
+msgstr "Správy predané ďalej"
+
+#: ../mail/mail-ops.c:1211
+#, c-format
+msgid "Opening folder %s"
+msgstr "Otváram priečinok %s"
+
+#: ../mail/mail-ops.c:1283
+#, c-format
+msgid "Opening store %s"
+msgstr "Otváram sklad %s"
+
+#: ../mail/mail-ops.c:1361
+#, c-format
+msgid "Removing folder %s"
+msgstr "Odstraňujem priečinok %s"
+
+#: ../mail/mail-ops.c:1455
+#, c-format
+msgid "Storing folder '%s'"
+msgstr "Ukladám priečinok '%s'"
+
+#: ../mail/mail-ops.c:1520
+#, c-format
+msgid "Expunging and storing account '%s'"
+msgstr ""
+
+#: ../mail/mail-ops.c:1521
+#, fuzzy, c-format
+msgid "Storing account '%s'"
+msgstr "Ukladám priečinok '%s'"
+
+#: ../mail/mail-ops.c:1576
+msgid "Refreshing folder"
+msgstr "Aktualizujem priečinok"
+
+#: ../mail/mail-ops.c:1612 ../mail/mail-ops.c:1663
+msgid "Expunging folder"
+msgstr "Čistím priečinok"
+
+#: ../mail/mail-ops.c:1660
+#, c-format
+msgid "Emptying trash in '%s'"
+msgstr "Vyprázdňujem kôš v '%s'"
+
+#: ../mail/mail-ops.c:1661
+msgid "Local Folders"
+msgstr "Lokálne priečinky"
+
+#: ../mail/mail-ops.c:1744
+#, c-format
+msgid "Retrieving message %s"
+msgstr "Získavam správu %s"
+
+#: ../mail/mail-ops.c:1816
+#, fuzzy, c-format
+msgid "Retrieving %d message"
+msgid_plural "Retrieving %d messages"
+msgstr[0] "Získavam %d správ"
+msgstr[1] "Získavam %d správ"
+
+#: ../mail/mail-ops.c:1902
+#, fuzzy, c-format
+msgid "Saving %d message"
+msgid_plural "Saving %d messsages"
+msgstr[0] "Ukladám %d správ"
+msgstr[1] "Ukladám %d správ"
+
+#: ../mail/mail-ops.c:1952
+#, c-format
+msgid ""
+"Unable to create output file: %s\n"
+" %s"
+msgstr ""
+"Nepodarilo sa vytvoriť výstupný súbor: %s\n"
+" %s"
+
+#: ../mail/mail-ops.c:1980
+#, c-format
+msgid ""
+"Error saving messages to: %s:\n"
+" %s"
+msgstr ""
+"Chyba pri ukladaní správ do `%s':\n"
+"%s"
+
+#: ../mail/mail-ops.c:2051
+msgid "Saving attachment"
+msgstr "Ukladám prílohu"
+
+#: ../mail/mail-ops.c:2063
+#, c-format
+msgid ""
+"Cannot create output file: %s:\n"
+" %s"
+msgstr ""
+"Nepodarilo sa vytvoriť výstupný súbor: %s\n"
+" %s"
+
+#: ../mail/mail-ops.c:2073
+#, c-format
+msgid "Could not write data: %s"
+msgstr "Nie je možné zapísať dáta: %s"
+
+#: ../mail/mail-ops.c:2223
+#, c-format
+msgid "Disconnecting from %s"
+msgstr "Odpojujem sa od %s"
+
+#: ../mail/mail-ops.c:2223
+#, c-format
+msgid "Reconnecting to %s"
+msgstr "Znovu sa pripojujem na %s"
+
+#: ../mail/mail-ops.c:2339
+msgid "Checking Service"
+msgstr "Kontrolujem službu"
+
+#: ../mail/mail-send-recv.c:158
+msgid "Cancelling..."
+msgstr "Ruším..."
+
+#: ../mail/mail-send-recv.c:265
+#, c-format
+msgid "Server: %s, Type: %s"
+msgstr "Server: %s, Typ: %s"
+
+#: ../mail/mail-send-recv.c:267
+#, c-format
+msgid "Path: %s, Type: %s"
+msgstr "Cesta: %s, Typ: %s"
+
+#: ../mail/mail-send-recv.c:269
+#, c-format
+msgid "Type: %s"
+msgstr "Typ: %s"
+
+#: ../mail/mail-send-recv.c:320
+msgid "Send & Receive Mail"
+msgstr "Príjem a odoslanie pošty"
+
+#: ../mail/mail-send-recv.c:327
+msgid "Cancel _All"
+msgstr "Zrušiť _všetko"
+
+#: ../mail/mail-send-recv.c:416
+msgid "Updating..."
+msgstr "Obnovujem..."
+
+#: ../mail/mail-send-recv.c:416 ../mail/mail-send-recv.c:468
+msgid "Waiting..."
+msgstr "Čakám..."
+
+#: ../mail/mail-session.c:208
+#, c-format
+msgid "Enter Password for %s"
+msgstr "Zadajte vaše heslo pre %s"
+
+#: ../mail/mail-session.c:210
+msgid "Enter Password"
+msgstr "Zadajte heslo"
+
+#: ../mail/mail-session.c:239
+msgid "User canceled operation."
+msgstr "Používateľ zrušil operáciu."
+
+#: ../mail/mail-signature-editor.c:372
+msgid "Edit signature"
+msgstr "Upraviť podpis"
+
+#: ../mail/mail-signature-editor.c:412
+msgid "Enter a name for this signature."
+msgstr "Zadajte meno pre tento podpis."
+
+#: ../mail/mail-signature-editor.c:415
+#: ../plugins/groupwise-features/properties.glade.h:5
+msgid "Name:"
+msgstr "Meno:"
+
+#: ../mail/mail-tools.c:116
+#, fuzzy, c-format
+msgid "Could not create spool directory `%s': %s"
+msgstr ""
+"Nie je možné vytvoriť priečinok %s:\n"
+"%s"
+
+#: ../mail/mail-tools.c:143
+#, c-format
+msgid "Trying to movemail a non-mbox source `%s'"
+msgstr ""
+
+#: ../mail/mail-tools.c:242
+#, c-format
+msgid "Forwarded message - %s"
+msgstr "Predaná správa - %s"
+
+#: ../mail/mail-tools.c:244
+msgid "Forwarded message"
+msgstr "Predaná správa"
+
+#: ../mail/mail-tools.c:284
+#, fuzzy, c-format
+msgid "Invalid folder: `%s'"
+msgstr "Otváram priečinok %s"
+
+#: ../mail/mail-vfolder.c:91
+#, fuzzy, c-format
+msgid "Setting up vFolder: %s"
+msgstr "Nastavujem vpriečinok: '%s'"
+
+#: ../mail/mail-vfolder.c:240
+#, fuzzy, c-format
+msgid "Updating vFolders for '%s:%s'"
+msgstr "Aktualizujem vpriečinky pre uri: %s"
+
+#: ../mail/mail-vfolder.c:247
+#, fuzzy, c-format
+msgid "Updating vFolders for '%s'"
+msgstr "Aktualizujem vpriečinky pre uri: %s"
+
+#: ../mail/mail-vfolder.c:1009
+#, fuzzy
+msgid "Edit vFolder"
+msgstr "Upraviť vpriečinok"
+
+#: ../mail/mail-vfolder.c:1093
+#, fuzzy
+msgid "New vFolder"
+msgstr "Nový vPriečinok"
+
 #: ../mail/mail.error.xml.h:1
 #, fuzzy
 msgid ""
@@ -13918,303 +14353,6 @@ msgstr "_Otvoriť správu"
 msgid "vFolders automatically updated."
 msgstr ""
 
-#: ../mail/mail-folder-cache.c:813
-#, c-format
-msgid "Pinging %s"
-msgstr "Prehľadávam %s"
-
-#: ../mail/mail-ops.c:101
-msgid "Filtering Folder"
-msgstr "Filtrujem priečinok"
-
-#: ../mail/mail-ops.c:262
-msgid "Fetching Mail"
-msgstr "Prijímam poštu"
-
-#. sending mail, filtering failed
-#: ../mail/mail-ops.c:562
-#, c-format
-msgid "Failed to apply outgoing filters: %s"
-msgstr "Nepodarilo sa použiť filtre pre odosielanú poštu : %s"
-
-#: ../mail/mail-ops.c:573 ../mail/mail-ops.c:602
-#, c-format
-msgid ""
-"Failed to append to %s: %s\n"
-"Appending to local `Sent' folder instead."
-msgstr ""
-"Nepodarilo sa pridať do %s: %s\n"
-"Namiesto toho sa pridá do priečinka `Odoslané'."
-
-#: ../mail/mail-ops.c:619
-#, c-format
-msgid "Failed to append to local `Sent' folder: %s"
-msgstr "Nepodarilo sa pridať do lokálneho priečinku \"Odoslené\": %s"
-
-#: ../mail/mail-ops.c:731
-#, c-format
-msgid "Sending message %d of %d"
-msgstr "Posielam správu %d z %d"
-
-#: ../mail/mail-ops.c:756
-#, fuzzy, c-format
-msgid "Failed to send %d of %d messages"
-msgstr "Nepodarilo sa dekódovať správu."
-
-#: ../mail/mail-ops.c:758 ../mail/mail-send-recv.c:613
-msgid "Cancelled."
-msgstr "Zrušené."
-
-#: ../mail/mail-ops.c:760
-msgid "Complete."
-msgstr "Dokončené."
-
-#: ../mail/mail-ops.c:857
-msgid "Saving message to folder"
-msgstr "Ukladám správu do priečinku"
-
-#: ../mail/mail-ops.c:942
-#, c-format
-msgid "Moving messages to %s"
-msgstr "Presúvam správy do %s"
-
-#: ../mail/mail-ops.c:942
-#, c-format
-msgid "Copying messages to %s"
-msgstr "Kopírujem správy do %s"
-
-#: ../mail/mail-ops.c:1168
-msgid "Forwarded messages"
-msgstr "Správy predané ďalej"
-
-#: ../mail/mail-ops.c:1211
-#, c-format
-msgid "Opening folder %s"
-msgstr "Otváram priečinok %s"
-
-#: ../mail/mail-ops.c:1283
-#, c-format
-msgid "Opening store %s"
-msgstr "Otváram sklad %s"
-
-#: ../mail/mail-ops.c:1361
-#, c-format
-msgid "Removing folder %s"
-msgstr "Odstraňujem priečinok %s"
-
-#: ../mail/mail-ops.c:1455
-#, c-format
-msgid "Storing folder '%s'"
-msgstr "Ukladám priečinok '%s'"
-
-#: ../mail/mail-ops.c:1520
-#, c-format
-msgid "Expunging and storing account '%s'"
-msgstr ""
-
-#: ../mail/mail-ops.c:1521
-#, fuzzy, c-format
-msgid "Storing account '%s'"
-msgstr "Ukladám priečinok '%s'"
-
-#: ../mail/mail-ops.c:1576
-msgid "Refreshing folder"
-msgstr "Aktualizujem priečinok"
-
-#: ../mail/mail-ops.c:1612 ../mail/mail-ops.c:1663
-msgid "Expunging folder"
-msgstr "Čistím priečinok"
-
-#: ../mail/mail-ops.c:1660
-#, c-format
-msgid "Emptying trash in '%s'"
-msgstr "Vyprázdňujem kôš v '%s'"
-
-#: ../mail/mail-ops.c:1661
-msgid "Local Folders"
-msgstr "Lokálne priečinky"
-
-#: ../mail/mail-ops.c:1744
-#, c-format
-msgid "Retrieving message %s"
-msgstr "Získavam správu %s"
-
-#: ../mail/mail-ops.c:1816
-#, fuzzy, c-format
-msgid "Retrieving %d message"
-msgid_plural "Retrieving %d messages"
-msgstr[0] "Získavam %d správ"
-msgstr[1] "Získavam %d správ"
-
-#: ../mail/mail-ops.c:1902
-#, fuzzy, c-format
-msgid "Saving %d message"
-msgid_plural "Saving %d messsages"
-msgstr[0] "Ukladám %d správ"
-msgstr[1] "Ukladám %d správ"
-
-#: ../mail/mail-ops.c:1952
-#, c-format
-msgid ""
-"Unable to create output file: %s\n"
-" %s"
-msgstr ""
-"Nepodarilo sa vytvoriť výstupný súbor: %s\n"
-" %s"
-
-#: ../mail/mail-ops.c:1980
-#, c-format
-msgid ""
-"Error saving messages to: %s:\n"
-" %s"
-msgstr ""
-"Chyba pri ukladaní správ do `%s':\n"
-"%s"
-
-#: ../mail/mail-ops.c:2051
-msgid "Saving attachment"
-msgstr "Ukladám prílohu"
-
-#: ../mail/mail-ops.c:2063
-#, c-format
-msgid ""
-"Cannot create output file: %s:\n"
-" %s"
-msgstr ""
-"Nepodarilo sa vytvoriť výstupný súbor: %s\n"
-" %s"
-
-#: ../mail/mail-ops.c:2073
-#, c-format
-msgid "Could not write data: %s"
-msgstr "Nie je možné zapísať dáta: %s"
-
-#: ../mail/mail-ops.c:2223
-#, c-format
-msgid "Disconnecting from %s"
-msgstr "Odpojujem sa od %s"
-
-#: ../mail/mail-ops.c:2223
-#, c-format
-msgid "Reconnecting to %s"
-msgstr "Znovu sa pripojujem na %s"
-
-#: ../mail/mail-ops.c:2339
-msgid "Checking Service"
-msgstr "Kontrolujem službu"
-
-#: ../mail/mail-send-recv.c:158
-msgid "Cancelling..."
-msgstr "Ruším..."
-
-#: ../mail/mail-send-recv.c:265
-#, c-format
-msgid "Server: %s, Type: %s"
-msgstr "Server: %s, Typ: %s"
-
-#: ../mail/mail-send-recv.c:267
-#, c-format
-msgid "Path: %s, Type: %s"
-msgstr "Cesta: %s, Typ: %s"
-
-#: ../mail/mail-send-recv.c:269
-#, c-format
-msgid "Type: %s"
-msgstr "Typ: %s"
-
-#: ../mail/mail-send-recv.c:320
-msgid "Send & Receive Mail"
-msgstr "Príjem a odoslanie pošty"
-
-#: ../mail/mail-send-recv.c:327
-msgid "Cancel _All"
-msgstr "Zrušiť _všetko"
-
-#: ../mail/mail-send-recv.c:416
-msgid "Updating..."
-msgstr "Obnovujem..."
-
-#: ../mail/mail-send-recv.c:416 ../mail/mail-send-recv.c:468
-msgid "Waiting..."
-msgstr "Čakám..."
-
-#: ../mail/mail-session.c:208
-#, c-format
-msgid "Enter Password for %s"
-msgstr "Zadajte vaše heslo pre %s"
-
-#: ../mail/mail-session.c:210
-msgid "Enter Password"
-msgstr "Zadajte heslo"
-
-#: ../mail/mail-session.c:239
-msgid "User canceled operation."
-msgstr "Používateľ zrušil operáciu."
-
-#: ../mail/mail-signature-editor.c:372
-msgid "Edit signature"
-msgstr "Upraviť podpis"
-
-#: ../mail/mail-signature-editor.c:412
-msgid "Enter a name for this signature."
-msgstr "Zadajte meno pre tento podpis."
-
-#: ../mail/mail-signature-editor.c:415
-#: ../plugins/groupwise-features/properties.glade.h:5
-msgid "Name:"
-msgstr "Meno:"
-
-#: ../mail/mail-tools.c:116
-#, fuzzy, c-format
-msgid "Could not create spool directory `%s': %s"
-msgstr ""
-"Nie je možné vytvoriť priečinok %s:\n"
-"%s"
-
-#: ../mail/mail-tools.c:143
-#, c-format
-msgid "Trying to movemail a non-mbox source `%s'"
-msgstr ""
-
-#: ../mail/mail-tools.c:242
-#, c-format
-msgid "Forwarded message - %s"
-msgstr "Predaná správa - %s"
-
-#: ../mail/mail-tools.c:244
-msgid "Forwarded message"
-msgstr "Predaná správa"
-
-#: ../mail/mail-tools.c:284
-#, fuzzy, c-format
-msgid "Invalid folder: `%s'"
-msgstr "Otváram priečinok %s"
-
-#: ../mail/mail-vfolder.c:91
-#, fuzzy, c-format
-msgid "Setting up vFolder: %s"
-msgstr "Nastavujem vpriečinok: '%s'"
-
-#: ../mail/mail-vfolder.c:240
-#, fuzzy, c-format
-msgid "Updating vFolders for '%s:%s'"
-msgstr "Aktualizujem vpriečinky pre uri: %s"
-
-#: ../mail/mail-vfolder.c:247
-#, fuzzy, c-format
-msgid "Updating vFolders for '%s'"
-msgstr "Aktualizujem vpriečinky pre uri: %s"
-
-#: ../mail/mail-vfolder.c:1009
-#, fuzzy
-msgid "Edit vFolder"
-msgstr "Upraviť vpriečinok"
-
-#: ../mail/mail-vfolder.c:1093
-#, fuzzy
-msgid "New vFolder"
-msgstr "Nový vPriečinok"
-
 #: ../mail/message-list.c:996
 msgid "Unseen"
 msgstr "Nevidené"
@@ -14251,29 +14389,30 @@ msgstr "Vyššia"
 msgid "Highest"
 msgstr "Najvyššia"
 
-#: ../mail/message-list.c:1338
+#: ../mail/message-list.c:1338 ../widgets/table/e-cell-date.c:57
 msgid "?"
 msgstr "?"
 
 #. strftime format of a time,
 #. in 12-hour format, without seconds.
-#: ../mail/message-list.c:1345 ../plugins/itip-formatter/itip-view.c:189
+#: ../mail/message-list.c:1345 ../plugins/itip-formatter/itip-view.c:193
+#: ../widgets/table/e-cell-date.c:72
 msgid "Today %l:%M %p"
 msgstr "Dnes %l:%M %p"
 
-#: ../mail/message-list.c:1354
+#: ../mail/message-list.c:1354 ../widgets/table/e-cell-date.c:82
 msgid "Yesterday %l:%M %p"
 msgstr "Včera %l:%M %p"
 
-#: ../mail/message-list.c:1366
+#: ../mail/message-list.c:1366 ../widgets/table/e-cell-date.c:94
 msgid "%a %l:%M %p"
 msgstr "%a %l:%M %p"
 
-#: ../mail/message-list.c:1374
+#: ../mail/message-list.c:1374 ../widgets/table/e-cell-date.c:102
 msgid "%b %d %l:%M %p"
 msgstr "%b %d %l:%M %p"
 
-#: ../mail/message-list.c:1376
+#: ../mail/message-list.c:1376 ../widgets/table/e-cell-date.c:104
 msgid "%b %d %Y"
 msgstr "%b %d %Y"
 
@@ -14712,210 +14851,300 @@ msgstr ""
 msgid "Send Options"
 msgstr "Nastavenie"
 
-#: ../plugins/itip-formatter/itip-formatter.c:704
+#: ../plugins/groupwise-features/org-gnome-groupwise-features.eplug.xml.h:1
+msgid "A plugin for the features in Groupwise accounts."
+msgstr ""
+
+#: ../plugins/groupwise-features/org-gnome-groupwise-features.eplug.xml.h:2
+#, fuzzy
+msgid "Groupwise Features"
+msgstr "Skupina"
+
+#: ../plugins/groupwise-features/properties.glade.h:2
+#, fuzzy
+msgid "<b>Users :</b>"
+msgstr "<b>Začína:</b> "
+
+#: ../plugins/groupwise-features/properties.glade.h:4
+#: ../widgets/table/e-table-click-to-add.c:510
+#, fuzzy
+msgid "Message"
+msgstr "Správy"
+
+#: ../plugins/groupwise-features/properties.glade.h:6
+msgid "Shared Folder Notification"
+msgstr ""
+
+#: ../plugins/groupwise-features/properties.glade.h:8
+msgid "The participants will receive the following notification.\n"
+msgstr ""
+
+#: ../plugins/groupwise-features/properties.glade.h:11
+#, fuzzy
+msgid "_Contacts..."
+msgstr "Kontakty"
+
+#: ../plugins/groupwise-features/properties.glade.h:12
+#, fuzzy
+msgid "_Cutomize notification message"
+msgstr "Nie je možné vytvoriť rúru: %s"
+
+#: ../plugins/groupwise-features/properties.glade.h:13
+#, fuzzy
+msgid "_Not Shared"
+msgstr "Nezačal"
+
+#: ../plugins/groupwise-features/properties.glade.h:15
+msgid "_Shared With ..."
+msgstr ""
+
+#: ../plugins/groupwise-features/properties.glade.h:16
+#, fuzzy
+msgid "_Sharing"
+msgstr "Tieňovanie"
+
+#: ../plugins/groupwise-features/send-options.c:82
+#, c-format
+msgid "%sEnter password for %s (user %s)"
+msgstr "%sZadajte heslo pre %s (používateľ %s)"
+
+#: ../plugins/groupwise-features/share-folder-common.c:317
+#, fuzzy
+msgid "Users"
+msgstr "_Používateľ:"
+
+#: ../plugins/groupwise-features/share-folder-common.c:318
+msgid "Enter the users and set permissions"
+msgstr ""
+
+#: ../plugins/groupwise-features/share-folder-common.c:337
+#, fuzzy
+msgid "New _Shared Folder..."
+msgstr "Nový _priečinok..."
+
+#: ../plugins/groupwise-features/share-folder-common.c:440
+#, fuzzy
+msgid "Sharing"
+msgstr "Tieňovanie"
+
+#: ../plugins/itip-formatter/itip-formatter.c:688
 #, fuzzy
 msgid "Unable to parse item"
 msgstr "Nie je možné získať správu z editora"
 
-#: ../plugins/itip-formatter/itip-formatter.c:757
+#: ../plugins/itip-formatter/itip-formatter.c:741
 #, fuzzy, c-format
 msgid "Unable to send item to calendar '%s'.  %s"
 msgstr "Prístup zamietnutý pri otváraní kalendára"
 
-#: ../plugins/itip-formatter/itip-formatter.c:768
+#: ../plugins/itip-formatter/itip-formatter.c:752
 #, c-format
 msgid "Sent to calendar '%s' as accepted"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-formatter.c:772
+#: ../plugins/itip-formatter/itip-formatter.c:756
 #, c-format
 msgid "Sent to calendar '%s' as tentative"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-formatter.c:777
+#: ../plugins/itip-formatter/itip-formatter.c:761
 #, c-format
 msgid "Sent to calendar '%s' as declined"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-formatter.c:782
+#: ../plugins/itip-formatter/itip-formatter.c:766
 #, c-format
 msgid "Sent to calendar '%s' as cancelled"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-formatter.c:833
+#: ../plugins/itip-formatter/itip-formatter.c:859
+#, c-format
+msgid "Organizer has removed the delegate %s "
+msgstr ""
+
+#: ../plugins/itip-formatter/itip-formatter.c:866
+msgid "Sent a cancellation notice to the delegate"
+msgstr ""
+
+#: ../plugins/itip-formatter/itip-formatter.c:868
+#, fuzzy
+msgid "Could not send the cancellation notice to the delegate"
+msgstr "Naozaj chcete zrušiť a odstrániť túto položku denníka?"
+
+#: ../plugins/itip-formatter/itip-formatter.c:940
 #, fuzzy
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr ""
 "Stav účastníka nie je možné aktualizovať, pretože jeho stav nie je platný!\n"
 
-#: ../plugins/itip-formatter/itip-formatter.c:844
+#: ../plugins/itip-formatter/itip-formatter.c:966
 #, fuzzy, c-format
 msgid "Unable to update attendee. %s"
 msgstr "Prístup zamietnutý pri otváraní kalendára"
 
-#: ../plugins/itip-formatter/itip-formatter.c:848
+#: ../plugins/itip-formatter/itip-formatter.c:970
 #, fuzzy
 msgid "Attendee status updated"
 msgstr "Stav účastníka bol aktualizovaný\n"
 
-#: ../plugins/itip-formatter/itip-formatter.c:973
+#: ../plugins/itip-formatter/itip-formatter.c:1097
 #, fuzzy
 msgid "The calendar attached is not valid"
 msgstr "Uvedený typ priečinku nie je platný"
 
-#: ../plugins/itip-formatter/itip-formatter.c:974
+#: ../plugins/itip-formatter/itip-formatter.c:1098
 msgid ""
 "The message claims to contain a calendar, but the calendar is not valid "
 "iCalendar."
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-formatter.c:1008
-#: ../plugins/itip-formatter/itip-formatter.c:1023
-#: ../plugins/itip-formatter/itip-formatter.c:1078
+#: ../plugins/itip-formatter/itip-formatter.c:1132
+#: ../plugins/itip-formatter/itip-formatter.c:1147
+#: ../plugins/itip-formatter/itip-formatter.c:1223
 #, fuzzy
 msgid "The item in the calendar is not valid"
 msgstr "Ukážka kalendára pred tlačou"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1009
-#: ../plugins/itip-formatter/itip-formatter.c:1024
-#: ../plugins/itip-formatter/itip-formatter.c:1079
+#: ../plugins/itip-formatter/itip-formatter.c:1133
+#: ../plugins/itip-formatter/itip-formatter.c:1148
+#: ../plugins/itip-formatter/itip-formatter.c:1224
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-formatter.c:1034
+#: ../plugins/itip-formatter/itip-formatter.c:1158
 msgid "The calendar attached contains multiple items"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-formatter.c:1035
+#: ../plugins/itip-formatter/itip-formatter.c:1159
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-formatter.c:1672
+#: ../plugins/itip-formatter/itip-formatter.c:1824
 #, fuzzy
 msgid "Meetings and Tasks"
 msgstr "Kalendár a úlohy"
 
 #. Delete message after acting
 #. FIXME Need a schema for this
-#: ../plugins/itip-formatter/itip-formatter.c:1695
+#: ../plugins/itip-formatter/itip-formatter.c:1847
 msgid "_Delete message after acting"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-formatter.c:1705
+#: ../plugins/itip-formatter/itip-formatter.c:1857
 #, fuzzy
 msgid "<span weight=\"bold\">Conflict Search</span>"
 msgstr "Zobrazené správy:"
 
 #. Source selector
-#: ../plugins/itip-formatter/itip-formatter.c:1718
+#: ../plugins/itip-formatter/itip-formatter.c:1870
 msgid "Select the calendars to search for meeting conflicts"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-formatter.c:1735
+#: ../plugins/itip-formatter/itip-formatter.c:1887
 msgid "Conflict Search Table"
 msgstr ""
 
 #. strftime format of a weekday and a date.
-#: ../plugins/itip-formatter/itip-view.c:175 ../ui/evolution-calendar.xml.h:34
+#: ../plugins/itip-formatter/itip-view.c:179 ../ui/evolution-calendar.xml.h:34
 #: ../widgets/misc/e-cell-date-edit.c:240 ../widgets/misc/e-dateedit.c:457
 msgid "Today"
 msgstr "Dnes"
 
 #. strftime format of a time,
 #. in 24-hour format, without seconds.
-#: ../plugins/itip-formatter/itip-view.c:180
+#: ../plugins/itip-formatter/itip-view.c:184
 #, fuzzy
 msgid "Today %H:%M"
 msgstr "Dnes %l:%M %p"
 
 #. strftime format of a time,
 #. in 24-hour format.
-#: ../plugins/itip-formatter/itip-view.c:184
+#: ../plugins/itip-formatter/itip-view.c:188
 #, fuzzy
 msgid "Today %H:%M:%S"
 msgstr "Dnes %l:%M %p"
 
 #. strftime format of a time,
 #. in 12-hour format.
-#: ../plugins/itip-formatter/itip-view.c:193
+#: ../plugins/itip-formatter/itip-view.c:197
 #, fuzzy
 msgid "Today %l:%M:%S %p"
 msgstr "Dnes %l:%M %p"
 
 #. strftime format of a weekday and a date.
-#: ../plugins/itip-formatter/itip-view.c:203
+#: ../plugins/itip-formatter/itip-view.c:207
 #, fuzzy
 msgid "Tomorrow"
 msgstr "Torreon"
 
 #. strftime format of a time,
 #. in 24-hour format, without seconds.
-#: ../plugins/itip-formatter/itip-view.c:208
+#: ../plugins/itip-formatter/itip-view.c:212
 msgid "Tomorrow %H:%M"
 msgstr ""
 
 #. strftime format of a time,
 #. in 24-hour format.
-#: ../plugins/itip-formatter/itip-view.c:212
+#: ../plugins/itip-formatter/itip-view.c:216
 #, fuzzy
 msgid "Tomorrow %H:%M:%S"
 msgstr "%H:%M:%S"
 
 #. strftime format of a time,
 #. in 12-hour format, without seconds.
-#: ../plugins/itip-formatter/itip-view.c:217
+#: ../plugins/itip-formatter/itip-view.c:221
 #, fuzzy
 msgid "Tomorrow %l:%M %p"
 msgstr "Dnes %l:%M %p"
 
 #. strftime format of a time,
 #. in 12-hour format.
-#: ../plugins/itip-formatter/itip-view.c:221
+#: ../plugins/itip-formatter/itip-view.c:225
 #, fuzzy
 msgid "Tomorrow %l:%M:%S %p"
 msgstr "Dnes %l:%M %p"
 
 #. strftime format of a weekday.
-#: ../plugins/itip-formatter/itip-view.c:240
+#: ../plugins/itip-formatter/itip-view.c:244
 #, c-format
 msgid "%A"
 msgstr ""
 
 #. strftime format of a weekday and a
 #. time, in 24-hour format, without seconds.
-#: ../plugins/itip-formatter/itip-view.c:245
+#: ../plugins/itip-formatter/itip-view.c:249
 #, fuzzy
 msgid "%A %H:%M"
 msgstr "%H:%M"
 
 #. strftime format of a weekday and a
 #. time, in 24-hour format.
-#: ../plugins/itip-formatter/itip-view.c:249
+#: ../plugins/itip-formatter/itip-view.c:253
 #, fuzzy
 msgid "%A %H:%M:%S"
 msgstr "%H:%M:%S"
 
 #. strftime format of a weekday and a
 #. time, in 12-hour format, without seconds.
-#: ../plugins/itip-formatter/itip-view.c:254
+#: ../plugins/itip-formatter/itip-view.c:258
 #, fuzzy
 msgid "%A %l:%M %p"
 msgstr "%a %l:%M %p"
 
 #. strftime format of a weekday and a
 #. time, in 12-hour format.
-#: ../plugins/itip-formatter/itip-view.c:258
+#: ../plugins/itip-formatter/itip-view.c:262
 #, fuzzy
 msgid "%A %l:%M:%S %p"
 msgstr "%I:%M:%S %p"
 
 #. strftime format of a weekday and a date
 #. without a year.
-#: ../plugins/itip-formatter/itip-view.c:267
+#: ../plugins/itip-formatter/itip-view.c:271
 #, fuzzy
 msgid "%A, %B %e"
 msgstr "%A, %B %e %Y"
@@ -14923,227 +15152,232 @@ msgstr "%A, %B %e %Y"
 #. strftime format of a weekday, a date
 #. without a year and a time,
 #. in 24-hour format, without seconds.
-#: ../plugins/itip-formatter/itip-view.c:273
+#: ../plugins/itip-formatter/itip-view.c:277
 #, fuzzy
 msgid "%A, %B %e %H:%M"
 msgstr "%A, %B %e %Y"
 
 #. strftime format of a weekday, a date without a year
 #. and a time, in 24-hour format.
-#: ../plugins/itip-formatter/itip-view.c:277
+#: ../plugins/itip-formatter/itip-view.c:281
 #, fuzzy
 msgid "%A, %B %e %H:%M:%S"
 msgstr "%A, %B %e %Y"
 
 #. strftime format of a weekday, a date without a year
 #. and a time, in 12-hour format, without seconds.
-#: ../plugins/itip-formatter/itip-view.c:282
+#: ../plugins/itip-formatter/itip-view.c:286
 #, fuzzy
 msgid "%A, %B %e %l:%M %p"
 msgstr "%b %d %l:%M %p"
 
 #. strftime format of a weekday, a date without a year
 #. and a time, in 12-hour format.
-#: ../plugins/itip-formatter/itip-view.c:286
+#: ../plugins/itip-formatter/itip-view.c:290
 #, fuzzy
 msgid "%A, %B %e %l:%M:%S %p"
 msgstr "%b %d %l:%M %p"
 
 #. strftime format of a weekday and a date.
-#: ../plugins/itip-formatter/itip-view.c:292
+#: ../plugins/itip-formatter/itip-view.c:296
 #, fuzzy
 msgid "%A, %B %e, %Y"
 msgstr "%A, %B %e %Y"
 
 #. strftime format of a weekday, a date and a
 #. time, in 24-hour format, without seconds.
-#: ../plugins/itip-formatter/itip-view.c:297
+#: ../plugins/itip-formatter/itip-view.c:301
 #, fuzzy
 msgid "%A, %B %e, %Y %H:%M"
 msgstr "%A, %B %e %Y"
 
 #. strftime format of a weekday, a date and a
 #. time, in 24-hour format.
-#: ../plugins/itip-formatter/itip-view.c:301
+#: ../plugins/itip-formatter/itip-view.c:305
 #, fuzzy
 msgid "%A, %B %e, %Y %H:%M:%S"
 msgstr "%a %d/%m/%Y %H:%M:%S"
 
 #. strftime format of a weekday, a date and a
 #. time, in 12-hour format, without seconds.
-#: ../plugins/itip-formatter/itip-view.c:306
+#: ../plugins/itip-formatter/itip-view.c:310
 #, fuzzy
 msgid "%A, %B %e, %Y %l:%M %p"
 msgstr "%B %d, %Y, %l:%M %p"
 
 #. strftime format of a weekday, a date and a
 #. time, in 12-hour format.
-#: ../plugins/itip-formatter/itip-view.c:310
+#: ../plugins/itip-formatter/itip-view.c:314
 #, fuzzy
 msgid "%A, %B %e, %Y %l:%M:%S %p"
 msgstr "%B %d, %Y, %l:%M %p"
 
-#: ../plugins/itip-formatter/itip-view.c:335
+#: ../plugins/itip-formatter/itip-view.c:339
 #, fuzzy, c-format
 msgid "<b>%s</b> through %s has published the following meeting information:"
 msgstr "<b>%s</b> poslal informácie o stretnutí."
 
-#: ../plugins/itip-formatter/itip-view.c:337
+#: ../plugins/itip-formatter/itip-view.c:341
 #, fuzzy, c-format
 msgid "<b>%s</b> has published the following meeting information:"
 msgstr "<b>%s</b> poslal informácie o stretnutí."
 
-#: ../plugins/itip-formatter/itip-view.c:342
+#: ../plugins/itip-formatter/itip-view.c:346
 #, fuzzy, c-format
-msgid "<b>%s</b> requests the presence of %s at the following meeting:"
-msgstr "<b>%s</b> požaduje účasť %s na stretnutí."
+msgid "<b>%s</b> has delegated the following meeting to you:"
+msgstr "<b>%s</b> zrušil stretnutie."
 
-#: ../plugins/itip-formatter/itip-view.c:345
+#: ../plugins/itip-formatter/itip-view.c:349
 #, fuzzy, c-format
 msgid "<b>%s</b> through %s requests your presence at the following meeting:"
 msgstr "<b>%s</b> požaduje vašu účasť na stretnutí."
 
-#: ../plugins/itip-formatter/itip-view.c:347
+#: ../plugins/itip-formatter/itip-view.c:351
 #, fuzzy, c-format
 msgid "<b>%s</b> requests your presence at the following meeting:"
 msgstr "<b>%s</b> požaduje vašu účasť na stretnutí."
 
-#: ../plugins/itip-formatter/itip-view.c:353
+#: ../plugins/itip-formatter/itip-view.c:357
 #, fuzzy, c-format
 msgid "<b>%s</b> through %s wishes to add to an existing meeting:"
 msgstr "<b>%s</b> si praje byť pridaný na existujúce stretnutie."
 
-#: ../plugins/itip-formatter/itip-view.c:355
+#: ../plugins/itip-formatter/itip-view.c:359
 #, fuzzy, c-format
 msgid "<b>%s</b> wishes to add to an existing meeting:"
 msgstr "<b>%s</b> si praje byť pridaný na existujúce stretnutie."
 
-#: ../plugins/itip-formatter/itip-view.c:358
+#: ../plugins/itip-formatter/itip-view.c:362
 #, fuzzy, c-format
 msgid ""
 "<b>%s</b> wishes to receive the latest information for the following meeting:"
 msgstr "<b>%s</b> si praje získať najnovšie informácie o úlohe."
 
-#: ../plugins/itip-formatter/itip-view.c:361
+#: ../plugins/itip-formatter/itip-view.c:365
 #, fuzzy, c-format
 msgid "<b>%s</b> has sent back the following meeting response:"
 msgstr "<b>%s</b> poslal nerozpoznateľnú správu."
 
-#: ../plugins/itip-formatter/itip-view.c:365
+#: ../plugins/itip-formatter/itip-view.c:369
 #, fuzzy, c-format
 msgid "<b>%s</b> through %s has cancelled the following meeting:"
 msgstr "<b>%s</b> zrušil stretnutie."
 
-#: ../plugins/itip-formatter/itip-view.c:367
+#: ../plugins/itip-formatter/itip-view.c:371
 #, fuzzy, c-format
 msgid "<b>%s</b> has cancelled the following meeting."
 msgstr "<b>%s</b> zrušil stretnutie."
 
-#: ../plugins/itip-formatter/itip-view.c:370
+#: ../plugins/itip-formatter/itip-view.c:374
 #, fuzzy, c-format
 msgid "<b>%s</b> has proposed the following meeting changes."
 msgstr "<b>%s</b> odpovedal na požiadavku o stretnutí."
 
-#: ../plugins/itip-formatter/itip-view.c:374
+#: ../plugins/itip-formatter/itip-view.c:378
 #, fuzzy, c-format
 msgid "<b>%s</b> through %s has declined the following meeting changes:"
 msgstr "<b>%s</b> odpovedal na požiadavku o stretnutí."
 
-#: ../plugins/itip-formatter/itip-view.c:376
+#: ../plugins/itip-formatter/itip-view.c:380
 #, fuzzy, c-format
 msgid "<b>%s</b> has declined the following meeting changes."
 msgstr "<b>%s</b> odpovedal na požiadavku o stretnutí."
 
-#: ../plugins/itip-formatter/itip-view.c:403
+#: ../plugins/itip-formatter/itip-view.c:407
 #, fuzzy, c-format
 msgid "<b>%s</b> through %s has published the following task:"
 msgstr "<b>%s</b> poslal informácie o úlohe."
 
-#: ../plugins/itip-formatter/itip-view.c:405
+#: ../plugins/itip-formatter/itip-view.c:409
 #, fuzzy, c-format
 msgid "<b>%s</b> has published the following task:"
 msgstr "<b>%s</b> poslal informácie o úlohe."
 
-#: ../plugins/itip-formatter/itip-view.c:410
+#: ../plugins/itip-formatter/itip-view.c:414
 #, fuzzy, c-format
 msgid "<b>%s</b> requests the assignment of %s to the following task:"
 msgstr "<b>%s</b> požaduje účasť %s na stretnutí."
 
-#: ../plugins/itip-formatter/itip-view.c:413
+#: ../plugins/itip-formatter/itip-view.c:417
 #, fuzzy, c-format
 msgid "<b>%s</b> through %s has assigned you a task:"
 msgstr "<b>%s</b> zrušil úlohu."
 
-#: ../plugins/itip-formatter/itip-view.c:415
+#: ../plugins/itip-formatter/itip-view.c:419
 #, fuzzy, c-format
 msgid "<b>%s</b> has assigned you a task:"
 msgstr "<b>%s</b> zrušil úlohu."
 
-#: ../plugins/itip-formatter/itip-view.c:421
+#: ../plugins/itip-formatter/itip-view.c:425
 #, fuzzy, c-format
 msgid "<b>%s</b> through %s wishes to add to an existing task:"
 msgstr "<b>%s</b> si praje byť pridaný do existujúcej úlohy."
 
-#: ../plugins/itip-formatter/itip-view.c:423
+#: ../plugins/itip-formatter/itip-view.c:427
 #, fuzzy, c-format
 msgid "<b>%s</b> wishes to add to an existing task:"
 msgstr "<b>%s</b> si praje byť pridaný do existujúcej úlohy."
 
-#: ../plugins/itip-formatter/itip-view.c:426
+#: ../plugins/itip-formatter/itip-view.c:430
 #, fuzzy, c-format
 msgid ""
 "<b>%s</b> wishes to receive the latest information for the following "
 "assigned task:"
 msgstr "<b>%s</b> si praje získať najnovšie informácie o úlohe."
 
-#: ../plugins/itip-formatter/itip-view.c:429
+#: ../plugins/itip-formatter/itip-view.c:433
 #, fuzzy, c-format
 msgid "<b>%s</b> has sent back the following assigned task response:"
 msgstr "<b>%s</b> poslal nerozpoznateľnú správu."
 
-#: ../plugins/itip-formatter/itip-view.c:433
+#: ../plugins/itip-formatter/itip-view.c:437
 #, fuzzy, c-format
 msgid "<b>%s</b> through %s has cancelled the following assigned task:"
 msgstr "<b>%s</b> zrušil úlohu."
 
-#: ../plugins/itip-formatter/itip-view.c:435
+#: ../plugins/itip-formatter/itip-view.c:439
 #, fuzzy, c-format
 msgid "<b>%s</b> has cancelled the following assigned task:"
 msgstr "<b>%s</b> zrušil úlohu."
 
-#: ../plugins/itip-formatter/itip-view.c:438
+#: ../plugins/itip-formatter/itip-view.c:442
 #, fuzzy, c-format
 msgid "<b>%s</b> has proposed the following task assignment changes:"
 msgstr "<b>%s</b> odpovedal na priradenie úlohy."
 
-#: ../plugins/itip-formatter/itip-view.c:442
+#: ../plugins/itip-formatter/itip-view.c:446
 #, c-format
 msgid "<b>%s</b> through %s has declined the following assigned task:"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-view.c:444
+#: ../plugins/itip-formatter/itip-view.c:448
 #, fuzzy, c-format
 msgid "<b>%s</b> has declined the following assigned task:"
 msgstr "<b>%s</b> odpovedal na priradenie úlohy."
 
 #. Start time
-#: ../plugins/itip-formatter/itip-view.c:867
+#: ../plugins/itip-formatter/itip-view.c:871
 #, fuzzy
 msgid "Start time:"
 msgstr "Čas _začiatku:"
 
 #. End time
-#: ../plugins/itip-formatter/itip-view.c:876
+#: ../plugins/itip-formatter/itip-view.c:880
 #, fuzzy
 msgid "End time:"
 msgstr "Čas _konca:"
 
 #. Comment
-#: ../plugins/itip-formatter/itip-view.c:892
-#: ../plugins/itip-formatter/itip-view.c:942
+#: ../plugins/itip-formatter/itip-view.c:896
+#: ../plugins/itip-formatter/itip-view.c:946
 #, fuzzy
 msgid "Comment:"
 msgstr "Firma"
+
+#: ../plugins/itip-formatter/itip-view.c:960
+#, fuzzy
+msgid "Send u_pdates to attendees"
+msgstr "Prístup zamietnutý pri otváraní kalendára"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.eplug.xml.h:1
 #, fuzzy
@@ -15156,84 +15390,80 @@ msgid "Itip Formatter"
 msgstr "Importy"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:1
+msgid ""
+"&quot;{0}&quot; has delegated the meeting. Do you want to add the delegate "
+"&quot;{1}&quot; ?"
+msgstr ""
+
+#: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:3
+#, fuzzy
+msgid "This meeting has been delegated"
+msgstr "Táto udalosť bola odstránená."
+
+#: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:4
 #, fuzzy
 msgid ""
 "This response is not from a current attendee. Add the sender as an attendee?"
 msgstr "Táto odpoveď nie je od účastníka. Chcete ho ako účastníka pridať?"
 
-#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:1
+#: ../plugins/mail-to-meeting/org-gnome-mail-to-meeting.eplug.xml.h:1
+msgid ""
+"A plugin which allows the creation of meetings from the contents of a mail "
+"message."
+msgstr ""
+
+#: ../plugins/mail-to-meeting/org-gnome-mail-to-meeting.eplug.xml.h:2
+#, fuzzy
+msgid "Con_vert to Meeting"
+msgstr "_Obrátiť výber"
+
+#: ../plugins/mail-to-meeting/org-gnome-mail-to-meeting.eplug.xml.h:3
+#, fuzzy
+msgid "Mail to meeting"
+msgstr "Pošta pre %s"
+
+#: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:1
+msgid ""
+"A plugin which allows the creation of tasks from the contents of a mail "
+"message."
+msgstr ""
+
+#: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:2
+msgid "Con_vert to Task"
+msgstr ""
+
+#: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:3
+#, fuzzy
+msgid "Mail to task"
+msgstr "Pošta pre %s"
+
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:1
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:1
 #, fuzzy
 msgid "Contact list _owner"
 msgstr "Editor zoznamu kontaktov"
 
-#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:2
-#, fuzzy
-msgid "Contact the owner of the mailing list this message belongs to"
-msgstr "Odpovedať do konferencie tejto správy"
-
-#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:3
-msgid "Get an archive of the list this message belongs to"
-msgstr ""
-
-#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:4
-msgid "Get information about the usage of the list this message belongs to"
-msgstr ""
-
-#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:5
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:2
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:5
 #, fuzzy
 msgid "Get list _archive"
 msgstr "Sada groupvérových nástrojov Evolution"
 
-#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:6
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:3
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:6
 #, fuzzy
 msgid "Get list _usage information"
 msgstr "Informácie o stretnutí"
 
-#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:7
-#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:5
-#, fuzzy
-msgid "Mailing _List"
-msgstr "Konferencia"
-
-#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:8
-#, fuzzy
-msgid "Post a message to the mailing list this message belongs to"
-msgstr "Odpovedať do konferencie tejto správy"
-
-#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:9
-#, fuzzy
-msgid "Subscribe to the mailing list this message belongs to"
-msgstr "Odpovedať do konferencie tejto správy"
-
-#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:10
-#, fuzzy
-msgid "Unsubscribe to the mailing list this message belongs to"
-msgstr "Odpovedať do konferencie tejto správy"
-
-#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:11
-#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:7
-#, fuzzy
-msgid "_Post message to list"
-msgstr "Poslať správu do verejného priečinku"
-
-#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:12
-#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:8
-#, fuzzy
-msgid "_Subscribe to list"
-msgstr "_Prihlásiť si"
-
-#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:13
-#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:9
-#, fuzzy
-msgid "_Un-subscribe to list"
-msgstr "O_dhlásiť"
-
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:4
 #, fuzzy
 msgid "Mailing List Actions"
+msgstr "Konferencia"
+
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:5
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:7
+#, fuzzy
+msgid "Mailing _List"
 msgstr "Konferencia"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:6
@@ -15241,6 +15471,24 @@ msgid ""
 "Provide actions for common mailing list commands (subscribe, "
 "unsubscribe, ...)."
 msgstr ""
+
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:7
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:11
+#, fuzzy
+msgid "_Post message to list"
+msgstr "Poslať správu do verejného priečinku"
+
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:8
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:12
+#, fuzzy
+msgid "_Subscribe to list"
+msgstr "_Prihlásiť si"
+
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:9
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:13
+#, fuzzy
+msgid "_Un-subscribe to list"
+msgstr "O_dhlásiť"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:1
 #, fuzzy
@@ -15313,36 +15561,33 @@ msgstr "Posielam správu"
 msgid "_Send message"
 msgstr "Posielam správu"
 
-#: ../plugins/mail-to-meeting/org-gnome-mail-to-meeting.eplug.xml.h:1
-msgid ""
-"A plugin which allows the creation of meetings from the contents of a mail "
-"message."
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:2
+#, fuzzy
+msgid "Contact the owner of the mailing list this message belongs to"
+msgstr "Odpovedať do konferencie tejto správy"
+
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:3
+msgid "Get an archive of the list this message belongs to"
 msgstr ""
 
-#: ../plugins/mail-to-meeting/org-gnome-mail-to-meeting.eplug.xml.h:2
-#, fuzzy
-msgid "Con_vert to Meeting"
-msgstr "_Obrátiť výber"
-
-#: ../plugins/mail-to-meeting/org-gnome-mail-to-meeting.eplug.xml.h:3
-#, fuzzy
-msgid "Mail to meeting"
-msgstr "Pošta pre %s"
-
-#: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:1
-msgid ""
-"A plugin which allows the creation of tasks from the contents of a mail "
-"message."
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:4
+msgid "Get information about the usage of the list this message belongs to"
 msgstr ""
 
-#: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:2
-msgid "Con_vert to Task"
-msgstr ""
-
-#: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:3
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:8
 #, fuzzy
-msgid "Mail to task"
-msgstr "Pošta pre %s"
+msgid "Post a message to the mailing list this message belongs to"
+msgstr "Odpovedať do konferencie tejto správy"
+
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:9
+#, fuzzy
+msgid "Subscribe to the mailing list this message belongs to"
+msgstr "Odpovedať do konferencie tejto správy"
+
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:10
+#, fuzzy
+msgid "Unsubscribe to the mailing list this message belongs to"
+msgstr "Odpovedať do konferencie tejto správy"
 
 #: ../plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml.h:1
 msgid "Mark calendar offline"
@@ -15464,15 +15709,9 @@ msgstr ""
 msgid "HTML Mode"
 msgstr "_HTML správy"
 
-#: ../plugins/save-attachments/org-gnome-save-attachments.xml.h:1
-#, fuzzy
-msgid "Save Attachments ..."
-msgstr "Uložiť prílohu..."
-
-#: ../plugins/save-attachments/org-gnome-save-attachments.xml.h:2
-#, fuzzy
-msgid "Save all attachments"
-msgstr "Uložiť prílohu"
+#: ../plugins/print-message/org-gnome-print-message.eplug.xml.h:1
+msgid "Gives an option to print mail from composer"
+msgstr ""
 
 #: ../plugins/save-attachments/org-gnome-save-attachments.eplug.xml.h:1
 msgid "A plugin for saving all attachments or parts of a message at once."
@@ -15481,6 +15720,16 @@ msgstr ""
 #: ../plugins/save-attachments/org-gnome-save-attachments.eplug.xml.h:2
 #, fuzzy
 msgid "Save attachments"
+msgstr "Uložiť prílohu"
+
+#: ../plugins/save-attachments/org-gnome-save-attachments.xml.h:1
+#, fuzzy
+msgid "Save Attachments ..."
+msgstr "Uložiť prílohu..."
+
+#: ../plugins/save-attachments/org-gnome-save-attachments.xml.h:2
+#, fuzzy
+msgid "Save all attachments"
 msgstr "Uložiť prílohu"
 
 #: ../plugins/save-attachments/save-attachments.c:331
@@ -15656,96 +15905,9 @@ msgstr "Načítavam kalendár"
 msgid "_Show only this Task List"
 msgstr ""
 
-#: ../plugins/groupwise-features/send-options.c:82
-#, c-format
-msgid "%sEnter password for %s (user %s)"
-msgstr "%sZadajte heslo pre %s (používateľ %s)"
-
-#: ../plugins/groupwise-features/install-shared.c:156
-#: ../plugins/groupwise-features/share-folder-common.c:382
-#, fuzzy
-msgid "Create folder"
-msgstr "Vytvoriť nový priečinok"
-
-#: ../plugins/groupwise-features/install-shared.c:156
-#: ../plugins/groupwise-features/share-folder-common.c:382
-msgid "Specify where to create the folder:"
-msgstr "Zadajte, kde vytvoriť priečinok"
-
-#: ../plugins/groupwise-features/org-gnome-groupwise-features.eplug.xml.h:1
-msgid "A plugin for the features in Groupwise accounts."
+#: ../plugins/startup-wizard/org-gnome-evolution-startup-wizard.eplug.xml.h:1
+msgid "Startup wizard"
 msgstr ""
-
-#: ../plugins/groupwise-features/org-gnome-groupwise-features.eplug.xml.h:2
-#, fuzzy
-msgid "Groupwise Features"
-msgstr "Skupina"
-
-#: ../plugins/groupwise-features/properties.glade.h:2
-#, fuzzy
-msgid "<b>Users :</b>"
-msgstr "<b>Začína:</b> "
-
-#: ../plugins/groupwise-features/properties.glade.h:4
-#, fuzzy
-msgid "Message"
-msgstr "Správy"
-
-#: ../plugins/groupwise-features/properties.glade.h:6
-msgid "Shared Folder Notification"
-msgstr ""
-
-#: ../plugins/groupwise-features/properties.glade.h:8
-msgid "The participants will receive the following notification.\n"
-msgstr ""
-
-#: ../plugins/groupwise-features/properties.glade.h:11
-#, fuzzy
-msgid "_Contacts..."
-msgstr "Kontakty"
-
-#: ../plugins/groupwise-features/properties.glade.h:12
-#, fuzzy
-msgid "_Cutomize notification message"
-msgstr "Nie je možné vytvoriť rúru: %s"
-
-#: ../plugins/groupwise-features/properties.glade.h:13
-#, fuzzy
-msgid "_Not Shared"
-msgstr "Nezačal"
-
-#: ../plugins/groupwise-features/properties.glade.h:15
-msgid "_Shared With ..."
-msgstr ""
-
-#: ../plugins/groupwise-features/properties.glade.h:16
-#, fuzzy
-msgid "_Sharing"
-msgstr "Tieňovanie"
-
-#: ../plugins/groupwise-features/share-folder-common.c:140
-#, fuzzy, c-format
-msgid "Creating folder `%s'"
-msgstr "Ukladám priečinok '%s'"
-
-#: ../plugins/groupwise-features/share-folder-common.c:317
-#, fuzzy
-msgid "Users"
-msgstr "_Používateľ:"
-
-#: ../plugins/groupwise-features/share-folder-common.c:318
-msgid "Enter the users and set permissions"
-msgstr ""
-
-#: ../plugins/groupwise-features/share-folder-common.c:337
-#, fuzzy
-msgid "New _Shared Folder..."
-msgstr "Nový _priečinok..."
-
-#: ../plugins/groupwise-features/share-folder-common.c:440
-#, fuzzy
-msgid "Sharing"
-msgstr "Tieňovanie"
 
 #: ../plugins/startup-wizard/startup-wizard.c:255
 msgid "Evolution Setup Assistant"
@@ -15780,10 +15942,6 @@ msgstr "Prosím, vyberte informácie, ktoré chcete importovať:"
 msgid "From %s:"
 msgstr "Od %s:"
 
-#: ../plugins/startup-wizard/org-gnome-evolution-startup-wizard.eplug.xml.h:1
-msgid "Startup wizard"
-msgstr ""
-
 #: ../plugins/subject-thread/org-gnome-subject-thread.eplug.xml.h:1
 msgid "Indicates if threading of messages should fall back to subject."
 msgstr ""
@@ -15801,10 +15959,6 @@ msgstr "Zoznam vlákien"
 #. Create the checkbox we will display, complete with mnemonic that is unique in the dialog
 #: ../plugins/subject-thread/subject-thread.c:54
 msgid "Fall back to threading messages by sub_ject"
-msgstr ""
-
-#: ../plugins/print-message/org-gnome-print-message.eplug.xml.h:1
-msgid "Gives an option to print mail from composer"
 msgstr ""
 
 #: ../shell/GNOME_Evolution_Shell.server.in.in.h:1
@@ -16134,24 +16288,24 @@ msgstr "Nedá sa spustiť nástroj pre oznamovanie chýb"
 #. The translator-credits string is for translators to list
 #. * per language credits for translation, displayed in the
 #. * about box
-#: ../shell/e-shell-window-commands.c:507
+#: ../shell/e-shell-window-commands.c:508
 msgid "translator-credits"
 msgstr "Marcel Telka <marcel@telka.sk>"
 
-#: ../shell/e-shell-window-commands.c:521
+#: ../shell/e-shell-window-commands.c:522
 #, fuzzy
 msgid "Groupware Suite"
 msgstr "Skupina"
 
-#: ../shell/e-shell-window-commands.c:748
+#: ../shell/e-shell-window-commands.c:749
 msgid "_Work Online"
 msgstr "Pracovať _on-line"
 
-#: ../shell/e-shell-window-commands.c:761 ../ui/evolution.xml.h:47
+#: ../shell/e-shell-window-commands.c:762 ../ui/evolution.xml.h:47
 msgid "_Work Offline"
 msgstr "_Pracovať off-line"
 
-#: ../shell/e-shell-window-commands.c:774
+#: ../shell/e-shell-window-commands.c:775
 msgid "Work Offline"
 msgstr "Pracovať off-line"
 
@@ -17110,7 +17264,7 @@ msgstr "Tlačiť vybrané kontakty"
 msgid "Save selected contacts as a VCard."
 msgstr "Uloží vybrané kontakty ako vKartu."
 
-#: ../ui/evolution-addressbook.xml.h:21
+#: ../ui/evolution-addressbook.xml.h:21 ../widgets/text/e-text.c:2684
 msgid "Select All"
 msgstr "Vybrať všetko"
 
@@ -18567,6 +18721,13 @@ msgstr ""
 "zónu.\n"
 "Pre zmenšenie použite pravé tlačidlo myši."
 
+#: ../widgets/menus/gal-view-factory-etable.c:39
+#: ../widgets/table/e-table-header-item.c:1845
+#: ../widgets/table/e-table-scrolled.c:224
+#: ../widgets/table/e-table-scrolled.c:225
+msgid "Table"
+msgstr "Tabuľka"
+
 #: ../widgets/menus/gal-view-menus.c:291
 msgid "_Current View"
 msgstr "_Aktuálny pohľad"
@@ -18574,6 +18735,14 @@ msgstr "_Aktuálny pohľad"
 #: ../widgets/menus/gal-view-menus.c:359
 msgid "Save Custom View..."
 msgstr "Uložiť vlastný pohľad..."
+
+#: ../widgets/menus/gal-view-new-dialog.c:80
+msgid "Factory"
+msgstr "Vytváracie rozhranie"
+
+#: ../widgets/menus/gal-view-new-dialog.c:115
+msgid "Define New View"
+msgstr "Definovať nový pohľad"
 
 #. Translators: These are the first characters of each day of the
 #. week, 'M' for 'Monday', 'T' for Tuesday etc.
@@ -18595,6 +18764,74 @@ msgstr "Predchádzajúca"
 #, fuzzy
 msgid "Month Calendar"
 msgstr "Načítavam kalendár"
+
+#: ../widgets/misc/e-canvas-background.c:456
+#: ../widgets/misc/e-canvas-background.c:457 ../widgets/text/e-entry.c:1284
+#: ../widgets/text/e-entry.c:1285 ../widgets/text/e-text.c:3540
+#: ../widgets/text/e-text.c:3541
+msgid "Fill color"
+msgstr "Farba výplne"
+
+#: ../widgets/misc/e-canvas-background.c:463
+#: ../widgets/misc/e-canvas-background.c:464
+#: ../widgets/misc/e-canvas-background.c:470
+#: ../widgets/misc/e-canvas-background.c:471 ../widgets/text/e-entry.c:1291
+#: ../widgets/text/e-entry.c:1292 ../widgets/text/e-entry.c:1298
+#: ../widgets/text/e-entry.c:1299 ../widgets/text/e-text.c:3547
+#: ../widgets/text/e-text.c:3548 ../widgets/text/e-text.c:3555
+#: ../widgets/text/e-text.c:3556
+msgid "GDK fill color"
+msgstr "Farba výplne GDK"
+
+#: ../widgets/misc/e-canvas-background.c:477 ../widgets/text/e-entry.c:1305
+#: ../widgets/text/e-text.c:3562 ../widgets/text/e-text.c:3563
+msgid "Fill stipple"
+msgstr "Bodkovanie výplne"
+
+#: ../widgets/misc/e-canvas-background.c:478 ../widgets/text/e-entry.c:1306
+#, fuzzy
+msgid "FIll stipple"
+msgstr "Bodkovanie výplne"
+
+#: ../widgets/misc/e-canvas-background.c:484
+#: ../widgets/misc/e-canvas-background.c:485
+#, fuzzy
+msgid "X1"
+msgstr "1"
+
+#: ../widgets/misc/e-canvas-background.c:491
+#: ../widgets/misc/e-canvas-background.c:492
+msgid "X2"
+msgstr ""
+
+#: ../widgets/misc/e-canvas-background.c:498
+#: ../widgets/misc/e-canvas-background.c:499
+#, fuzzy
+msgid "Y1"
+msgstr "1"
+
+#: ../widgets/misc/e-canvas-background.c:505
+#: ../widgets/misc/e-canvas-background.c:506
+msgid "Y2"
+msgstr ""
+
+#: ../widgets/misc/e-canvas-vbox.c:102 ../widgets/misc/e-reflow.c:1430
+#: ../widgets/table/e-table-group-leaf.c:636
+#: ../widgets/table/e-table-item.c:3001
+msgid "Minimum width"
+msgstr "Minimálna šírka"
+
+#: ../widgets/misc/e-canvas-vbox.c:103 ../widgets/misc/e-reflow.c:1431
+#: ../widgets/table/e-table-group-leaf.c:637
+#: ../widgets/table/e-table-item.c:3002
+msgid "Minimum Width"
+msgstr "Minimálna šírka"
+
+#: ../widgets/misc/e-canvas-vbox.c:114 ../widgets/misc/e-canvas-vbox.c:115
+#: ../widgets/misc/e-expander.c:205
+#, fuzzy
+msgid "Spacing"
+msgstr "Španielsko"
 
 #: ../widgets/misc/e-cell-date-edit.c:232 ../widgets/misc/e-dateedit.c:451
 msgid "Now"
@@ -18753,11 +18990,6 @@ msgid ""
 "for the mnemonic accelerator key"
 msgstr ""
 
-#: ../widgets/misc/e-expander.c:205
-#, fuzzy
-msgid "Spacing"
-msgstr "Španielsko"
-
 #: ../widgets/misc/e-expander.c:206
 msgid "Space to put between the label and the child"
 msgstr ""
@@ -18770,13 +19002,13 @@ msgstr ""
 msgid "A widget to display in place of the usual expander label"
 msgstr ""
 
-#: ../widgets/misc/e-expander.c:222
+#: ../widgets/misc/e-expander.c:222 ../widgets/table/e-tree.c:3318
 msgid "Expander Size"
-msgstr ""
+msgstr "Veľkosť expandera"
 
-#: ../widgets/misc/e-expander.c:223
+#: ../widgets/misc/e-expander.c:223 ../widgets/table/e-tree.c:3319
 msgid "Size of the expander arrow"
-msgstr ""
+msgstr "Veľkosť šípok expandera"
 
 #: ../widgets/misc/e-expander.c:231
 #, fuzzy
@@ -18843,6 +19075,21 @@ msgstr "Synchronizovať súkromné záznamy:"
 msgid "Sync Categories:"
 msgstr "Synchronizované kategórie:"
 
+#: ../widgets/misc/e-reflow.c:1452 ../widgets/misc/e-reflow.c:1453
+#, fuzzy
+msgid "Empty message"
+msgstr "Posielam správu"
+
+#: ../widgets/misc/e-reflow.c:1459 ../widgets/misc/e-reflow.c:1460
+#, fuzzy
+msgid "Reflow model"
+msgstr "Model výberu"
+
+#: ../widgets/misc/e-reflow.c:1466 ../widgets/misc/e-reflow.c:1467
+#, fuzzy
+msgid "Column width"
+msgstr "Šírka stĺpca"
+
 #. To translators: This is the accessibility name of
 #. the search bar's text entry widget
 #: ../widgets/misc/e-search-bar.c:345
@@ -18875,7 +19122,9 @@ msgstr "ID položky"
 msgid "Subitem ID"
 msgstr "ID podpoložky"
 
-#: ../widgets/misc/e-search-bar.c:865
+#: ../widgets/misc/e-search-bar.c:865 ../widgets/text/e-entry.c:1249
+#: ../widgets/text/e-entry.c:1250 ../widgets/text/e-text.c:3462
+#: ../widgets/text/e-text.c:3463
 msgid "Text"
 msgstr "Text"
 
@@ -18883,6 +19132,28 @@ msgstr "Text"
 #, fuzzy
 msgid "Find _Now"
 msgstr "Nájsť"
+
+#: ../widgets/misc/e-selection-model-array.c:546
+#: ../widgets/table/e-tree-selection-model.c:811
+msgid "Cursor Row"
+msgstr "Riadok kurzora"
+
+#: ../widgets/misc/e-selection-model-array.c:553
+#: ../widgets/table/e-tree-selection-model.c:818
+msgid "Cursor Column"
+msgstr "Stĺpec kurzora"
+
+#: ../widgets/misc/e-selection-model.c:214
+msgid "Sorter"
+msgstr "Triedenie"
+
+#: ../widgets/misc/e-selection-model.c:221
+msgid "Selection Mode"
+msgstr "Režim výberu"
+
+#: ../widgets/misc/e-selection-model.c:229
+msgid "Cursor Mode"
+msgstr "Režim kurzora"
 
 #: ../widgets/misc/e-send-options.c:515
 #, fuzzy
@@ -19036,3 +19307,416 @@ msgstr "%s (%d%% hotových)"
 #: ../widgets/misc/e-url-entry.c:107
 msgid "click here to go to url"
 msgstr "kliknutím prejdete na url"
+
+#: ../widgets/table/e-cell-combo.c:177
+msgid "popup list"
+msgstr "prekryť zoznam"
+
+#: ../widgets/table/e-cell-date.c:64
+msgid "%l:%M %p"
+msgstr "%I:%M %p"
+
+#: ../widgets/table/e-cell-pixbuf.c:397
+msgid "Selected Column"
+msgstr "Vybraný stĺpec"
+
+#: ../widgets/table/e-cell-pixbuf.c:404
+msgid "Focused Column"
+msgstr "Aktívny stĺpec"
+
+#: ../widgets/table/e-cell-pixbuf.c:411
+msgid "Unselected Column"
+msgstr "Neoznačený stĺpec"
+
+#: ../widgets/table/e-cell-text.c:1740
+msgid "Strikeout Column"
+msgstr "Prečiarknutý stĺpec"
+
+#: ../widgets/table/e-cell-text.c:1747
+msgid "Underline Column"
+msgstr "Podčiarknuť stĺpec"
+
+#: ../widgets/table/e-cell-text.c:1754
+msgid "Bold Column"
+msgstr "Tučný stĺpec"
+
+#: ../widgets/table/e-cell-text.c:1761
+msgid "Color Column"
+msgstr "Stĺpec farby"
+
+#: ../widgets/table/e-cell-text.c:1775
+msgid "BG Color Column"
+msgstr "Stĺpec farby pozadia"
+
+#: ../widgets/table/e-table-config-field.c:254
+msgid "Then By"
+msgstr "Potom podľa"
+
+#: ../widgets/table/e-table-config-field.c:254
+#, fuzzy
+msgid "Group By"
+msgstr "_Zoskupiť podľa..."
+
+#: ../widgets/table/e-table-config-field.c:254
+#, fuzzy
+msgid "Sort By"
+msgstr "Triedenie"
+
+#: ../widgets/table/e-table-config-field.c:270
+msgid "Ascending"
+msgstr "Vzostupne"
+
+#: ../widgets/table/e-table-config-field.c:273
+msgid "Descending"
+msgstr "Zostupne"
+
+#: ../widgets/table/e-table-config.c:150
+msgid "State"
+msgstr "Stav"
+
+#: ../widgets/table/e-table-config.c:307 ../widgets/table/e-table-config.c:349
+msgid "(Ascending)"
+msgstr "(Vzostupne)"
+
+#: ../widgets/table/e-table-config.c:307 ../widgets/table/e-table-config.c:349
+msgid "(Descending)"
+msgstr "(Zostupne)"
+
+#: ../widgets/table/e-table-config.c:314
+msgid "Not sorted"
+msgstr "Neutriedené"
+
+#: ../widgets/table/e-table-config.c:355
+msgid "No grouping"
+msgstr "Bez zoskupovania"
+
+#: ../widgets/table/e-table-field-chooser-dialog.c:77
+#: ../widgets/table/e-table-field-chooser-item.c:646
+#: ../widgets/table/e-table-field-chooser.c:79
+#: ../widgets/table/e-table-header-item.c:1810
+msgid "DnD code"
+msgstr "Kód DnD"
+
+#: ../widgets/table/e-table-field-chooser-dialog.c:84
+#: ../widgets/table/e-table-field-chooser-item.c:653
+#: ../widgets/table/e-table-field-chooser.c:86
+#: ../widgets/table/e-table-header-item.c:1824
+msgid "Full Header"
+msgstr "Plná hlavička"
+
+#: ../widgets/table/e-table-field-chooser-dialog.c:126
+msgid "Add a column..."
+msgstr "Pridať stĺpec..."
+
+#: ../widgets/table/e-table-group-leaf.c:573
+#: ../widgets/table/e-table-group-leaf.c:574
+#: ../widgets/table/e-table-item.c:2959 ../widgets/table/e-table-item.c:2960
+msgid "Alternating Row Colors"
+msgstr "Striedavé farby riadkov"
+
+#: ../widgets/table/e-table-group-leaf.c:580
+#: ../widgets/table/e-table-group-leaf.c:581
+#: ../widgets/table/e-table-item.c:2966 ../widgets/table/e-table-item.c:2967
+#: ../widgets/table/e-tree.c:3271 ../widgets/table/e-tree.c:3272
+msgid "Horizontal Draw Grid"
+msgstr "Kresliť horizontálnu mriežku"
+
+#: ../widgets/table/e-table-group-leaf.c:587
+#: ../widgets/table/e-table-group-leaf.c:588
+#: ../widgets/table/e-table-item.c:2973 ../widgets/table/e-table-item.c:2974
+#: ../widgets/table/e-tree.c:3277 ../widgets/table/e-tree.c:3278
+msgid "Vertical Draw Grid"
+msgstr "Kresliť vertikálnu mriežku"
+
+#: ../widgets/table/e-table-group-leaf.c:594
+#: ../widgets/table/e-table-group-leaf.c:595
+#: ../widgets/table/e-table-item.c:2980 ../widgets/table/e-table-item.c:2981
+#: ../widgets/table/e-tree.c:3283 ../widgets/table/e-tree.c:3284
+msgid "Draw focus"
+msgstr "Kresliť fokus"
+
+#: ../widgets/table/e-table-group-leaf.c:601
+#: ../widgets/table/e-table-group-leaf.c:602
+#: ../widgets/table/e-table-item.c:2987 ../widgets/table/e-table-item.c:2988
+msgid "Cursor mode"
+msgstr "Režim kurzoru"
+
+#: ../widgets/table/e-table-group-leaf.c:608
+#: ../widgets/table/e-table-group-leaf.c:609
+#: ../widgets/table/e-table-item.c:2994 ../widgets/table/e-table-item.c:2995
+#: ../widgets/table/e-table.c:3316 ../widgets/table/e-tree.c:3265
+#: ../widgets/table/e-tree.c:3266
+msgid "Length Threshold"
+msgstr "Hranica dĺžky"
+
+#: ../widgets/table/e-table-group-leaf.c:615
+#: ../widgets/table/e-table-group-leaf.c:616
+#: ../widgets/table/e-table-item.c:2952 ../widgets/table/e-table-item.c:2953
+msgid "Selection model"
+msgstr "Model výberu"
+
+#: ../widgets/table/e-table-group-leaf.c:643
+#: ../widgets/table/e-table-group-leaf.c:644
+msgid "Frozen"
+msgstr "Zamknutý"
+
+#: ../widgets/table/e-table-group-leaf.c:650
+#: ../widgets/table/e-table-group-leaf.c:651
+#: ../widgets/table/e-table-item.c:3028 ../widgets/table/e-table-item.c:3029
+#: ../widgets/table/e-table.c:3323 ../widgets/table/e-tree.c:3297
+#: ../widgets/table/e-tree.c:3298
+msgid "Uniform row height"
+msgstr "Rovnaká výška riadkov"
+
+#: ../widgets/table/e-table-header-item.c:1472
+msgid "Customize Current View"
+msgstr "Prispôsobiť aktuálny pohľad"
+
+#: ../widgets/table/e-table-header-item.c:1492
+msgid "Sort Ascending"
+msgstr "Utriediť vzostupne"
+
+#: ../widgets/table/e-table-header-item.c:1493
+msgid "Sort Descending"
+msgstr "Utriediť zostupne"
+
+#: ../widgets/table/e-table-header-item.c:1494
+msgid "Unsort"
+msgstr "Netriedené"
+
+#: ../widgets/table/e-table-header-item.c:1496
+msgid "Group By This Field"
+msgstr "Zoskupiť podľa tohto poľa"
+
+#: ../widgets/table/e-table-header-item.c:1497
+msgid "Group By Box"
+msgstr "Zoskupiť podľa boxu"
+
+#: ../widgets/table/e-table-header-item.c:1499
+msgid "Remove This Column"
+msgstr "Odstráni tento stĺpec"
+
+#: ../widgets/table/e-table-header-item.c:1500
+msgid "Add a Column..."
+msgstr "Pridať stĺpec..."
+
+#: ../widgets/table/e-table-header-item.c:1502
+msgid "Alignment"
+msgstr "Zarovnanie"
+
+#: ../widgets/table/e-table-header-item.c:1503
+msgid "Best Fit"
+msgstr "Nejlepšie"
+
+#: ../widgets/table/e-table-header-item.c:1504
+msgid "Format Columns..."
+msgstr "Formát stĺpcov..."
+
+#: ../widgets/table/e-table-header-item.c:1506
+msgid "Customize Current View..."
+msgstr "Prispôsobiť aktuálny pohľad..."
+
+#: ../widgets/table/e-table-header-item.c:1817 ../widgets/text/e-entry.c:1263
+#: ../widgets/text/e-entry.c:1264
+msgid "Fontset"
+msgstr "Sada písiem"
+
+#: ../widgets/table/e-table-header-item.c:1838
+#: ../widgets/table/e-table-sorter.c:175
+msgid "Sort Info"
+msgstr "Informácie o triedení"
+
+#: ../widgets/table/e-table-header-item.c:1852
+#: ../widgets/table/e-tree-scrolled.c:223
+#: ../widgets/table/e-tree-scrolled.c:224
+msgid "Tree"
+msgstr "Strom"
+
+#: ../widgets/table/e-table-item.c:2938 ../widgets/table/e-table-item.c:2939
+#, fuzzy
+msgid "Table header"
+msgstr "Uložiť podpis"
+
+#: ../widgets/table/e-table-item.c:2945 ../widgets/table/e-table-item.c:2946
+#, fuzzy
+msgid "Table model"
+msgstr "Bunka tabuľky"
+
+#: ../widgets/table/e-table-item.c:3021 ../widgets/table/e-table-item.c:3022
+#, fuzzy
+msgid "Cursor row"
+msgstr "Riadok kurzora"
+
+#: ../widgets/table/e-table.c:3330
+msgid "Always Search"
+msgstr "Vždy hľadať"
+
+#: ../widgets/table/e-table.c:3337
+msgid "Use click to add"
+msgstr "Pridať kliknutím"
+
+#: ../widgets/table/e-tree.c:3290 ../widgets/table/e-tree.c:3291
+msgid "ETree table adapter"
+msgstr "Tabuľkový adaptér ETree"
+
+#: ../widgets/table/e-tree.c:3304 ../widgets/table/e-tree.c:3305
+msgid "Always search"
+msgstr "Vždy hľadať"
+
+#: ../widgets/table/e-tree.c:3311
+msgid "Retro Look"
+msgstr "Retro vzhľad"
+
+#: ../widgets/table/e-tree.c:3312
+msgid "Draw lines and +/- expanders."
+msgstr "Nakresliť čiary a +/- expandery."
+
+#: ../widgets/text/e-entry-test.c:49
+msgid "Minicard Test"
+msgstr ""
+
+#: ../widgets/text/e-entry-test.c:50
+msgid "Copyright (C) 2000, Helix Code, Inc."
+msgstr ""
+
+#: ../widgets/text/e-entry-test.c:52
+msgid "This should test the minicard canvas item"
+msgstr ""
+
+#: ../widgets/text/e-entry.c:1242 ../widgets/text/e-entry.c:1243
+#: ../widgets/text/e-text.c:3455 ../widgets/text/e-text.c:3456
+msgid "Event Processor"
+msgstr "Spracovanie udalostí"
+
+#: ../widgets/text/e-entry.c:1256 ../widgets/text/e-entry.c:1257
+#, fuzzy
+msgid "Font"
+msgstr "Písma"
+
+#: ../widgets/text/e-entry.c:1270 ../widgets/text/e-entry.c:1271
+#, fuzzy
+msgid "GDKFont"
+msgstr "Písma"
+
+#: ../widgets/text/e-entry.c:1277 ../widgets/text/e-entry.c:1278
+#: ../widgets/text/e-text.c:3491 ../widgets/text/e-text.c:3492
+msgid "Justification"
+msgstr "Zarovnanie"
+
+#: ../widgets/text/e-entry.c:1319 ../widgets/text/e-entry.c:1320
+#: ../widgets/text/e-text.c:3591 ../widgets/text/e-text.c:3592
+msgid "Use ellipsis"
+msgstr "Použiť vypustenie"
+
+#: ../widgets/text/e-entry.c:1326 ../widgets/text/e-entry.c:1327
+#: ../widgets/text/e-text.c:3598 ../widgets/text/e-text.c:3599
+msgid "Ellipsis"
+msgstr "Vypustenie"
+
+#: ../widgets/text/e-entry.c:1333 ../widgets/text/e-entry.c:1334
+#: ../widgets/text/e-text.c:3605 ../widgets/text/e-text.c:3606
+msgid "Line wrap"
+msgstr "Zalamovanie riadkov"
+
+#: ../widgets/text/e-entry.c:1340 ../widgets/text/e-entry.c:1341
+#: ../widgets/text/e-text.c:3612 ../widgets/text/e-text.c:3613
+msgid "Break characters"
+msgstr "Znaky konca riadkov"
+
+#: ../widgets/text/e-entry.c:1347 ../widgets/text/e-entry.c:1348
+#: ../widgets/text/e-text.c:3619 ../widgets/text/e-text.c:3620
+msgid "Max lines"
+msgstr "Max. riadkov"
+
+#: ../widgets/text/e-entry.c:1354 ../widgets/text/e-entry.c:1355
+#: ../widgets/text/e-text.c:3648 ../widgets/text/e-text.c:3649
+msgid "Allow newlines"
+msgstr "Povoliť nové riadky"
+
+#: ../widgets/text/e-entry.c:1361 ../widgets/text/e-entry.c:1362
+#: ../widgets/text/e-text.c:3641 ../widgets/text/e-text.c:3642
+msgid "Draw borders"
+msgstr "Kresliť okraje"
+
+#: ../widgets/text/e-entry.c:1368 ../widgets/text/e-entry.c:1369
+#: ../widgets/text/e-text.c:3655 ../widgets/text/e-text.c:3656
+msgid "Draw background"
+msgstr "Kresliť pozadie"
+
+#: ../widgets/text/e-entry.c:1375 ../widgets/text/e-entry.c:1376
+#: ../widgets/text/e-text.c:3662 ../widgets/text/e-text.c:3663
+msgid "Draw button"
+msgstr "Kresliť tlačidlo"
+
+#: ../widgets/text/e-entry.c:1382 ../widgets/text/e-entry.c:1383
+#: ../widgets/text/e-text.c:3669 ../widgets/text/e-text.c:3670
+msgid "Cursor position"
+msgstr "Pozícia kurzora"
+
+#: ../widgets/text/e-entry.c:1389 ../widgets/text/e-entry.c:1390
+msgid "Emulate label resize"
+msgstr ""
+
+#: ../widgets/text/e-text.c:2696
+msgid "Input Methods"
+msgstr "Metódy vstupu"
+
+#: ../widgets/text/e-text.c:3469 ../widgets/text/e-text.c:3470
+msgid "Bold"
+msgstr "Tučné"
+
+#: ../widgets/text/e-text.c:3476 ../widgets/text/e-text.c:3477
+msgid "Strikeout"
+msgstr "Prečiarknuté"
+
+#: ../widgets/text/e-text.c:3483 ../widgets/text/e-text.c:3484
+msgid "Anchor"
+msgstr "Kotva"
+
+#: ../widgets/text/e-text.c:3498 ../widgets/text/e-text.c:3499
+msgid "Clip Width"
+msgstr "Šírka orezania"
+
+#: ../widgets/text/e-text.c:3505 ../widgets/text/e-text.c:3506
+msgid "Clip Height"
+msgstr "Výška orezania"
+
+#: ../widgets/text/e-text.c:3512 ../widgets/text/e-text.c:3513
+msgid "Clip"
+msgstr "Orezanie"
+
+#: ../widgets/text/e-text.c:3519 ../widgets/text/e-text.c:3520
+msgid "Fill clip rectangle"
+msgstr "Vyplniť obdĺžnik orezania"
+
+#: ../widgets/text/e-text.c:3526 ../widgets/text/e-text.c:3527
+msgid "X Offset"
+msgstr "Posun X"
+
+#: ../widgets/text/e-text.c:3533 ../widgets/text/e-text.c:3534
+msgid "Y Offset"
+msgstr "Posun Y"
+
+#: ../widgets/text/e-text.c:3569 ../widgets/text/e-text.c:3570
+msgid "Text width"
+msgstr "Šírka textu"
+
+#: ../widgets/text/e-text.c:3576 ../widgets/text/e-text.c:3577
+msgid "Text height"
+msgstr "Výška textu"
+
+#: ../widgets/text/e-text.c:3676 ../widgets/text/e-text.c:3677
+msgid "IM Context"
+msgstr "Kontext IM"
+
+#: ../widgets/text/e-text.c:3683 ../widgets/text/e-text.c:3684
+msgid "Handle Popup"
+msgstr "Spracovať vyskakovanie okno"
+
+#, fuzzy
+#~ msgid "From:"
+#~ msgstr "Od:"
+
+#, fuzzy
+#~ msgid "<b>%s</b> requests the presence of %s at the following meeting:"
+#~ msgstr "<b>%s</b> požaduje účasť %s na stretnutí."

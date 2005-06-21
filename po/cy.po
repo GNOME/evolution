@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-06-18 15:24+0100\n"
+"POT-Creation-Date: 2005-06-21 13:59+0800\n"
 "PO-Revision-Date: 2005-05-18 22:30+0100\n"
 "Last-Translator: Rhys Jones <rhys@sgwarnog.com>\n"
 "Language-Team: Cymraeg <gnome-cy@pengwyn.linux.org.uk>\n"
@@ -105,7 +105,7 @@ msgstr "_Apwyntiad Newydd"
 msgid "New All Day Event"
 msgstr "Apwyntiad drwy'r diwrnod newydd"
 
-#: ../a11y/calendar/ea-cal-view.c:308 ../calendar/gui/e-calendar-view.c:1444
+#: ../a11y/calendar/ea-cal-view.c:308 ../calendar/gui/e-calendar-view.c:1483
 msgid "New Meeting"
 msgstr "Cyfarfod Newydd"
 
@@ -240,6 +240,67 @@ msgstr "gwybodaeth galendr am fis"
 #: ../a11y/calendar/ea-week-view.c:192
 msgid "calendar view for one or more weeks"
 msgstr ""
+
+#: ../a11y/e-table/gal-a11y-e-cell-popup.c:124
+msgid "popup"
+msgstr "dangos naidlen"
+
+#. action name
+#: ../a11y/e-table/gal-a11y-e-cell-popup.c:125
+msgid "popup a child"
+msgstr "dangos naidlen blentyn"
+
+#: ../a11y/e-table/gal-a11y-e-cell-text.c:612
+msgid "edit"
+msgstr "golygu"
+
+#: ../a11y/e-table/gal-a11y-e-cell-text.c:613
+msgid "begin editing this cell"
+msgstr "dechrau golygu'r gell"
+
+#: ../a11y/e-table/gal-a11y-e-cell-toggle.c:151
+msgid "toggle"
+msgstr "toglu"
+
+#. action name
+#: ../a11y/e-table/gal-a11y-e-cell-toggle.c:152
+msgid "toggle the cell"
+msgstr "toglu'r gell"
+
+#: ../a11y/e-table/gal-a11y-e-cell-tree.c:171
+msgid "expand"
+msgstr "ehangu"
+
+#: ../a11y/e-table/gal-a11y-e-cell-tree.c:172
+msgid "expands the row in the ETree containing this cell"
+msgstr "ehangu'r rhes yn yr ETree sy'n cynnwys y gell"
+
+#: ../a11y/e-table/gal-a11y-e-cell-tree.c:177
+msgid "collapse"
+msgstr "ymgwympo"
+
+#: ../a11y/e-table/gal-a11y-e-cell-tree.c:178
+msgid "collapses the row in the ETree containing this cell"
+msgstr "ymgwympo'r rhes yn yr ETree sy'n cynnwys y gell"
+
+#: ../a11y/e-table/gal-a11y-e-cell.c:107
+msgid "Table Cell"
+msgstr "Cell Tabl"
+
+#: ../a11y/e-table/gal-a11y-e-table-click-to-add.c:44
+#: ../a11y/e-table/gal-a11y-e-table-click-to-add.c:119
+#: ../widgets/table/e-table-click-to-add.c:575
+msgid "click to add"
+msgstr "cliciwch i ychwanegu"
+
+#: ../a11y/e-table/gal-a11y-e-table-click-to-add.c:53
+msgid "click"
+msgstr "clic"
+
+#: ../a11y/e-table/gal-a11y-e-table-column-header.c:135
+#, fuzzy
+msgid "sort"
+msgstr "Dad-drefnu"
 
 #: ../a11y/widgets/ea-calendar-item.c:296
 #: ../a11y/widgets/ea-calendar-item.c:302
@@ -1124,7 +1185,7 @@ msgid "_Birthday:"
 msgstr "_Penblwydd:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:28
-#: ../plugins/itip-formatter/itip-view.c:1619
+#: ../plugins/itip-formatter/itip-view.c:1631
 msgid "_Calendar:"
 msgstr "_Calendr:"
 
@@ -1233,6 +1294,9 @@ msgstr "Cyfeiriad"
 #: ../addressbook/gui/widgets/e-minicard-view-widget.c:121
 #: ../addressbook/gui/widgets/e-minicard-view.c:519
 #: ../addressbook/gui/widgets/e-minicard.c:174
+#: ../widgets/table/e-cell-text.c:1768 ../widgets/text/e-entry.c:1312
+#: ../widgets/text/e-entry.c:1313 ../widgets/text/e-text.c:3584
+#: ../widgets/text/e-text.c:3585
 msgid "Editable"
 msgstr "Golygadwy"
 
@@ -2207,6 +2271,7 @@ msgstr "Zimbabwe"
 #: ../addressbook/gui/contact-editor/e-contact-editor-fullname.c:89
 #: ../plugins/plugin-manager/plugin-manager.c:44
 #: ../plugins/save-attachments/save-attachments.c:362
+#: ../widgets/menus/gal-view-new-dialog.c:73
 msgid "Name"
 msgstr "Enw"
 
@@ -2585,6 +2650,12 @@ msgid "Error getting book view"
 msgstr "Gwall estyn golwg llyfr"
 
 #: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:405
+#: ../widgets/table/e-table-click-to-add.c:503
+#: ../widgets/table/e-table-selection-model.c:311
+#: ../widgets/table/e-table.c:3344
+#: ../widgets/table/e-tree-selection-model.c:825
+#: ../widgets/text/e-entry.c:1235 ../widgets/text/e-entry.c:1236
+#: ../widgets/text/e-text.c:3448 ../widgets/text/e-text.c:3449
 msgid "Model"
 msgstr "Model:"
 
@@ -2623,7 +2694,7 @@ msgstr "Tardd"
 #: ../addressbook/gui/widgets/e-addressbook-view.c:243
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:11
 #: ../calendar/gui/e-calendar-table.etspec.h:13
-#: ../calendar/gui/e-meeting-list-view.c:337
+#: ../calendar/gui/e-meeting-list-view.c:370
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:11
 msgid "Type"
 msgstr "Math"
@@ -2834,7 +2905,7 @@ msgstr "Radio"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:33
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:9
-#: ../calendar/gui/e-meeting-list-view.c:345
+#: ../calendar/gui/e-meeting-list-view.c:378
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:9
 msgid "Role"
 msgstr "Rôl"
@@ -2871,11 +2942,28 @@ msgstr "Safle Gwe"
 
 #: ../addressbook/gui/widgets/e-minicard-label.c:115
 #: ../addressbook/gui/widgets/e-minicard.c:137
+#: ../widgets/misc/e-canvas-vbox.c:96 ../widgets/misc/e-canvas-vbox.c:97
+#: ../widgets/misc/e-reflow.c:1437 ../widgets/misc/e-reflow.c:1438
+#: ../widgets/table/e-table-click-to-add.c:517
+#: ../widgets/table/e-table-col.c:98
+#: ../widgets/table/e-table-field-chooser-item.c:667
+#: ../widgets/table/e-table-group-leaf.c:629
+#: ../widgets/table/e-table-group-leaf.c:630
+#: ../widgets/table/e-table-item.c:3008 ../widgets/table/e-table-item.c:3009
+#: ../widgets/text/e-text.c:3626 ../widgets/text/e-text.c:3627
 msgid "Width"
 msgstr "Lled"
 
 #: ../addressbook/gui/widgets/e-minicard-label.c:122
 #: ../addressbook/gui/widgets/e-minicard.c:144
+#: ../widgets/misc/e-canvas-vbox.c:108 ../widgets/misc/e-canvas-vbox.c:109
+#: ../widgets/misc/e-reflow.c:1445 ../widgets/misc/e-reflow.c:1446
+#: ../widgets/table/e-table-click-to-add.c:524
+#: ../widgets/table/e-table-field-chooser-item.c:674
+#: ../widgets/table/e-table-group-leaf.c:622
+#: ../widgets/table/e-table-group-leaf.c:623
+#: ../widgets/table/e-table-item.c:3014 ../widgets/table/e-table-item.c:3015
+#: ../widgets/text/e-text.c:3634 ../widgets/text/e-text.c:3635
 msgid "Height"
 msgstr "Uchder"
 
@@ -3412,6 +3500,12 @@ msgid "Format"
 msgstr "Fformat"
 
 #: ../addressbook/printing/e-contact-print.glade.h:11
+#: ../widgets/table/e-table-click-to-add.c:496
+#: ../widgets/table/e-table-field-chooser-dialog.c:91
+#: ../widgets/table/e-table-field-chooser-item.c:660
+#: ../widgets/table/e-table-field-chooser.c:93
+#: ../widgets/table/e-table-header-item.c:1831
+#: ../widgets/table/e-table-selection-model.c:318
 msgid "Header"
 msgstr "Pennawd"
 
@@ -4055,7 +4149,7 @@ msgstr "_Apwyntiad Newydd"
 #. Location
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:2
 #: ../calendar/gui/e-itip-control.c:1118
-#: ../plugins/itip-formatter/itip-view.c:859
+#: ../plugins/itip-formatter/itip-view.c:863
 msgid "Location:"
 msgstr "Lleoliad:"
 
@@ -4776,7 +4870,7 @@ msgid "attachment"
 msgstr "atodiad"
 
 #: ../calendar/gui/dialogs/cal-attachment-bar.c:473
-#: ../calendar/gui/dialogs/meeting-page.c:837
+#: ../calendar/gui/dialogs/meeting-page.c:889
 #: ../composer/e-msg-composer-attachment-bar.c:470
 #: ../plugins/groupwise-features/properties.glade.h:14
 msgid "_Remove"
@@ -5297,7 +5391,7 @@ msgstr[2] ""
 
 #: ../calendar/gui/dialogs/comp-editor.c:421
 #: ../calendar/gui/e-calendar-table.c:1164
-#: ../calendar/gui/e-calendar-view.c:1474 ../composer/e-msg-composer.c:2899
+#: ../calendar/gui/e-calendar-view.c:1513 ../composer/e-msg-composer.c:2899
 #: ../mail/em-folder-tree.c:1047 ../mail/em-folder-view.c:1033
 #: ../mail/message-list.c:1708 ../ui/evolution-addressbook.xml.h:31
 #: ../ui/evolution-calendar.xml.h:39 ../ui/evolution-composer-entries.xml.h:7
@@ -5306,8 +5400,8 @@ msgid "_Copy"
 msgstr "_Copio"
 
 #: ../calendar/gui/dialogs/comp-editor.c:422 ../composer/e-msg-composer.c:2900
-#: ../mail/em-folder-tree.c:1048 ../mail/em-folder-view.c:929
-#: ../mail/message-list.c:1709
+#: ../mail/em-folder-tree.c:1048 ../mail/em-folder-utils.c:383
+#: ../mail/em-folder-view.c:929 ../mail/message-list.c:1709
 msgid "_Move"
 msgstr "_Symud"
 
@@ -5320,7 +5414,7 @@ msgstr ""
 msgid "Could not update object"
 msgstr ""
 
-#: ../calendar/gui/dialogs/comp-editor.c:876 ../composer/e-msg-composer.c:2308
+#: ../calendar/gui/dialogs/comp-editor.c:883 ../composer/e-msg-composer.c:2308
 #, fuzzy, c-format
 msgid "<b>%d</b> Attachment"
 msgid_plural "<b>%d</b> Attachments"
@@ -5328,57 +5422,57 @@ msgstr[0] "Atodiad"
 msgstr[1] "Atodiad"
 msgstr[2] "Atodiad"
 
-#: ../calendar/gui/dialogs/comp-editor.c:971
+#: ../calendar/gui/dialogs/comp-editor.c:978
 msgid "_Attachment Bar (drop attachments here)"
 msgstr ""
 
-#: ../calendar/gui/dialogs/comp-editor.c:1581
-#: ../calendar/gui/dialogs/comp-editor.c:1624
+#: ../calendar/gui/dialogs/comp-editor.c:1588
+#: ../calendar/gui/dialogs/comp-editor.c:1631
 msgid "Edit Appointment"
 msgstr ""
 
-#: ../calendar/gui/dialogs/comp-editor.c:1587
-#: ../calendar/gui/dialogs/comp-editor.c:1630
+#: ../calendar/gui/dialogs/comp-editor.c:1594
+#: ../calendar/gui/dialogs/comp-editor.c:1637
 #, c-format
 msgid "Meeting - %s"
 msgstr "Cyfarfod - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1589
-#: ../calendar/gui/dialogs/comp-editor.c:1632
+#: ../calendar/gui/dialogs/comp-editor.c:1596
+#: ../calendar/gui/dialogs/comp-editor.c:1639
 #, c-format
 msgid "Appointment - %s"
 msgstr ""
 
-#: ../calendar/gui/dialogs/comp-editor.c:1593
-#: ../calendar/gui/dialogs/comp-editor.c:1636
+#: ../calendar/gui/dialogs/comp-editor.c:1600
+#: ../calendar/gui/dialogs/comp-editor.c:1643
 #, c-format
 msgid "Assigned Task - %s"
 msgstr "Tasg wedi Neilltuo - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1595
-#: ../calendar/gui/dialogs/comp-editor.c:1638
+#: ../calendar/gui/dialogs/comp-editor.c:1602
+#: ../calendar/gui/dialogs/comp-editor.c:1645
 #, c-format
 msgid "Task - %s"
 msgstr "Tasg - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1598
-#: ../calendar/gui/dialogs/comp-editor.c:1641
+#: ../calendar/gui/dialogs/comp-editor.c:1605
+#: ../calendar/gui/dialogs/comp-editor.c:1648
 #, c-format
 msgid "Journal entry - %s"
 msgstr ""
 
-#: ../calendar/gui/dialogs/comp-editor.c:1609
-#: ../calendar/gui/dialogs/comp-editor.c:1651
+#: ../calendar/gui/dialogs/comp-editor.c:1616
+#: ../calendar/gui/dialogs/comp-editor.c:1658
 msgid "No summary"
 msgstr ""
 
-#: ../calendar/gui/dialogs/comp-editor.c:2089
-#: ../calendar/gui/dialogs/comp-editor.c:2122
-#: ../calendar/gui/dialogs/comp-editor.c:2146
+#: ../calendar/gui/dialogs/comp-editor.c:2137
+#: ../calendar/gui/dialogs/comp-editor.c:2170
+#: ../calendar/gui/dialogs/comp-editor.c:2194
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr ""
 
-#: ../calendar/gui/dialogs/comp-editor.c:2170
+#: ../calendar/gui/dialogs/comp-editor.c:2218
 msgid "Unable to use current version!"
 msgstr "Ni ellir defnyddio'r fersiwn cyfredol!"
 
@@ -5463,8 +5557,8 @@ msgid "Recurrence"
 msgstr ""
 
 #: ../calendar/gui/dialogs/event-editor.c:166
-#: ../calendar/gui/dialogs/event-editor.c:251
-#: ../calendar/gui/dialogs/event-editor.c:420
+#: ../calendar/gui/dialogs/event-editor.c:249
+#: ../calendar/gui/dialogs/event-editor.c:422
 msgid "Scheduling"
 msgstr ""
 
@@ -5478,8 +5572,8 @@ msgstr "Dileu"
 msgid "Attendees"
 msgstr "Mynychwr"
 
-#: ../calendar/gui/dialogs/event-editor.c:254
-#: ../calendar/gui/dialogs/event-editor.c:423
+#: ../calendar/gui/dialogs/event-editor.c:252
+#: ../calendar/gui/dialogs/event-editor.c:425
 msgid "Invitations"
 msgstr "Gwahoddiadau"
 
@@ -5658,8 +5752,8 @@ msgstr "<b>_Llofnodion</b>"
 
 #: ../calendar/gui/dialogs/meeting-page.c:307
 #, fuzzy
-msgid "From:"
-msgstr "_Oddi wrth:"
+msgid "<b>From:</b>"
+msgstr "<b>Cartref</b>"
 
 #. an empty string is the same as 'None'
 #. Put the "None" and "UTC" entries at the top of the combo's list.
@@ -5675,31 +5769,31 @@ msgstr "_Oddi wrth:"
 #: ../mail/em-folder-view.c:1062
 #: ../plugins/calendar-weather/calendar-weather.c:371
 #: ../plugins/calendar-weather/calendar-weather.c:425
-#: ../plugins/itip-formatter/itip-formatter.c:1390
+#: ../plugins/itip-formatter/itip-formatter.c:1539
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.c:190
 #: ../widgets/misc/e-cell-date-edit.c:248 ../widgets/misc/e-dateedit.c:465
 #: ../widgets/misc/e-dateedit.c:1504 ../widgets/misc/e-dateedit.c:1673
 msgid "None"
 msgstr "Dim"
 
-#: ../calendar/gui/dialogs/meeting-page.c:461
+#: ../calendar/gui/dialogs/meeting-page.c:463
 msgid "The organizer selected no longer has an account."
 msgstr ""
 
-#: ../calendar/gui/dialogs/meeting-page.c:467
+#: ../calendar/gui/dialogs/meeting-page.c:469
 msgid "An organizer is required."
 msgstr ""
 
-#: ../calendar/gui/dialogs/meeting-page.c:482
+#: ../calendar/gui/dialogs/meeting-page.c:484
 msgid "At least one attendee is required."
 msgstr "Mae eisiau un neu fwy o'r mynychwyr."
 
-#: ../calendar/gui/dialogs/meeting-page.c:834
+#: ../calendar/gui/dialogs/meeting-page.c:886
 msgid "_Delegate To..."
 msgstr ""
 
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:1
-#: ../calendar/gui/e-meeting-list-view.c:325
+#: ../calendar/gui/e-meeting-list-view.c:358
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:1
 msgid "Attendee"
 msgstr "Mynychwr"
@@ -5735,7 +5829,7 @@ msgid "Member"
 msgstr "Aelodau"
 
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:8
-#: ../calendar/gui/e-meeting-list-view.c:353
+#: ../calendar/gui/e-meeting-list-view.c:386
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:8
 msgid "RSVP"
 msgstr "RSVP"
@@ -5743,7 +5837,7 @@ msgstr "RSVP"
 #: ../calendar/gui/dialogs/meeting-page.etspec.h:10
 #: ../calendar/gui/dialogs/task-editor.c:147
 #: ../calendar/gui/e-calendar-table.etspec.h:10
-#: ../calendar/gui/e-meeting-list-view.c:361
+#: ../calendar/gui/e-meeting-list-view.c:394
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:10 ../mail/em-filter-i18n.h:63
 #: ../mail/message-list.etspec.h:12
 msgid "Status"
@@ -6230,7 +6324,7 @@ msgstr ""
 #: ../calendar/gui/e-cal-component-preview.c:222
 #: ../calendar/gui/e-itip-control.c:1132
 #: ../plugins/exchange-account-setup/exchange-account-setup.c:227
-#: ../plugins/itip-formatter/itip-view.c:884
+#: ../plugins/itip-formatter/itip-view.c:888
 msgid "Status:"
 msgstr "Statws:"
 
@@ -6278,27 +6372,29 @@ msgstr ""
 "45.436845,125.862501"
 
 #: ../calendar/gui/e-cal-model-tasks.c:1017 ../calendar/gui/e-cal-model.c:905
-#: ../calendar/gui/e-meeting-list-view.c:174
+#: ../calendar/gui/e-meeting-list-view.c:192
 #: ../calendar/gui/e-meeting-store.c:168 ../calendar/gui/e-meeting-store.c:178
 #: ../calendar/gui/e-meeting-store.c:808
+#: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:5
 msgid "Yes"
 msgstr "Ie"
 
 #: ../calendar/gui/e-cal-model-tasks.c:1017 ../calendar/gui/e-cal-model.c:905
-#: ../calendar/gui/e-meeting-list-view.c:175
+#: ../calendar/gui/e-meeting-list-view.c:193
 #: ../calendar/gui/e-meeting-store.c:180
+#: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:2
 msgid "No"
 msgstr "Nage"
 
 #. This is the default filename used for temporary file creation
 #: ../calendar/gui/e-cal-model.c:307 ../calendar/gui/e-cal-model.c:310
 #: ../calendar/gui/e-itip-control.c:1149 ../calendar/gui/e-itip-control.c:1290
-#: ../calendar/gui/e-meeting-list-view.c:150
-#: ../calendar/gui/e-meeting-list-view.c:164
+#: ../calendar/gui/e-meeting-list-view.c:168
+#: ../calendar/gui/e-meeting-list-view.c:182
 #: ../calendar/gui/e-meeting-store.c:124 ../calendar/gui/e-meeting-store.c:159
 #: ../calendar/gui/e-meeting-store.c:224 ../mail/em-utils.c:1175
-#: ../plugins/itip-formatter/itip-formatter.c:251
-#: ../plugins/itip-formatter/itip-formatter.c:1412
+#: ../plugins/itip-formatter/itip-formatter.c:235
+#: ../plugins/itip-formatter/itip-formatter.c:1564
 #: ../plugins/plugin-manager/plugin-manager.c:72
 #: ../shell/e-component-registry.c:205 ../shell/e-component-registry.c:211
 #: ../widgets/misc/e-charset-picker.c:62
@@ -6377,7 +6473,7 @@ msgid "Save as..."
 msgstr "Cadw fel..."
 
 #: ../calendar/gui/e-calendar-table.c:1156
-#: ../calendar/gui/e-calendar-view.c:1467 ../ui/evolution-addressbook.xml.h:37
+#: ../calendar/gui/e-calendar-view.c:1506 ../ui/evolution-addressbook.xml.h:37
 msgid "_Open"
 msgstr "_Agor"
 
@@ -6386,28 +6482,28 @@ msgid "Open _Web Page"
 msgstr "Agor Tudalen _Gwe"
 
 #: ../calendar/gui/e-calendar-table.c:1158
-#: ../calendar/gui/e-calendar-view.c:1468 ../mail/em-folder-view.c:1043
+#: ../calendar/gui/e-calendar-view.c:1507 ../mail/em-folder-view.c:1043
 #: ../mail/em-popup.c:494
 msgid "_Save As..."
 msgstr "_Cadw Fel..."
 
 #: ../calendar/gui/e-calendar-table.c:1159
-#: ../calendar/gui/e-calendar-view.c:1448
-#: ../calendar/gui/e-calendar-view.c:1469 ../mail/em-folder-view.c:1044
+#: ../calendar/gui/e-calendar-view.c:1487
+#: ../calendar/gui/e-calendar-view.c:1508 ../mail/em-folder-view.c:1044
 #: ../ui/evolution-addressbook.xml.h:40 ../ui/evolution-calendar.xml.h:44
 #: ../ui/evolution-mail-message.xml.h:117 ../ui/evolution-tasks.xml.h:25
 msgid "_Print..."
 msgstr "_Argraffu..."
 
 #: ../calendar/gui/e-calendar-table.c:1163
-#: ../calendar/gui/e-calendar-view.c:1473 ../ui/evolution-addressbook.xml.h:1
+#: ../calendar/gui/e-calendar-view.c:1512 ../ui/evolution-addressbook.xml.h:1
 #: ../ui/evolution-calendar.xml.h:1 ../ui/evolution-tasks.xml.h:1
 msgid "C_ut"
 msgstr "_Torri"
 
 #: ../calendar/gui/e-calendar-table.c:1165
-#: ../calendar/gui/e-calendar-view.c:1451
-#: ../calendar/gui/e-calendar-view.c:1475 ../ui/evolution-addressbook.xml.h:38
+#: ../calendar/gui/e-calendar-view.c:1490
+#: ../calendar/gui/e-calendar-view.c:1514 ../ui/evolution-addressbook.xml.h:38
 #: ../ui/evolution-calendar.xml.h:43 ../ui/evolution-composer-entries.xml.h:9
 #: ../ui/evolution-tasks.xml.h:24
 msgid "_Paste"
@@ -6431,7 +6527,7 @@ msgstr ""
 
 #. FIXME: need to disable for undeletable folders
 #: ../calendar/gui/e-calendar-table.c:1176
-#: ../calendar/gui/e-calendar-view.c:1487 ../mail/em-folder-tree.c:2119
+#: ../calendar/gui/e-calendar-view.c:1526 ../mail/em-folder-tree.c:2119
 #: ../mail/em-folder-view.c:1047 ../ui/evolution-addressbook.xml.h:33
 #: ../ui/evolution-calendar.xml.h:40 ../ui/evolution-mail-list.xml.h:26
 #: ../ui/evolution-tasks.xml.h:21
@@ -6485,66 +6581,66 @@ msgstr ""
 msgid "Copying items"
 msgstr "Copïo eitemau"
 
-#: ../calendar/gui/e-calendar-view.c:1442
+#: ../calendar/gui/e-calendar-view.c:1481
 msgid "New _Appointment..."
 msgstr "_Apwyntiad Newydd..."
 
-#: ../calendar/gui/e-calendar-view.c:1443
+#: ../calendar/gui/e-calendar-view.c:1482
 msgid "New All Day _Event"
 msgstr ""
 
-#: ../calendar/gui/e-calendar-view.c:1445
+#: ../calendar/gui/e-calendar-view.c:1484
 msgid "New Task"
 msgstr "Tasg Newydd"
 
 #. FIXME: hook in this somehow
-#: ../calendar/gui/e-calendar-view.c:1455
+#: ../calendar/gui/e-calendar-view.c:1494
 msgid "Current View"
 msgstr "Golwg Cyfredol"
 
-#: ../calendar/gui/e-calendar-view.c:1457 ../ui/evolution-calendar.xml.h:26
+#: ../calendar/gui/e-calendar-view.c:1496 ../ui/evolution-calendar.xml.h:26
 msgid "Select _Today"
 msgstr "Dewis _Heddiw"
 
-#: ../calendar/gui/e-calendar-view.c:1458
+#: ../calendar/gui/e-calendar-view.c:1497
 msgid "_Select Date..."
 msgstr "_Dewis Dyddiad..."
 
 #. TODO: Why is this in a context menu when it applies globally?
-#: ../calendar/gui/e-calendar-view.c:1463 ../ui/evolution-calendar.xml.h:45
+#: ../calendar/gui/e-calendar-view.c:1502 ../ui/evolution-calendar.xml.h:45
 msgid "_Publish Free/Busy Information"
 msgstr ""
 
-#: ../calendar/gui/e-calendar-view.c:1479
+#: ../calendar/gui/e-calendar-view.c:1518
 msgid "Cop_y to Calendar..."
 msgstr ""
 
-#: ../calendar/gui/e-calendar-view.c:1480
+#: ../calendar/gui/e-calendar-view.c:1519
 msgid "Mo_ve to Calendar..."
 msgstr ""
 
-#: ../calendar/gui/e-calendar-view.c:1481
+#: ../calendar/gui/e-calendar-view.c:1520
 #, fuzzy
 msgid "_Delegate Meeting..."
 msgstr "_Trefnu Cyfarfod..."
 
-#: ../calendar/gui/e-calendar-view.c:1482
+#: ../calendar/gui/e-calendar-view.c:1521
 msgid "_Schedule Meeting..."
 msgstr "_Trefnu Cyfarfod..."
 
-#: ../calendar/gui/e-calendar-view.c:1483
+#: ../calendar/gui/e-calendar-view.c:1522
 msgid "_Forward as iCalendar..."
 msgstr "_Blaenyrru fel iCalendar..."
 
-#: ../calendar/gui/e-calendar-view.c:1488
+#: ../calendar/gui/e-calendar-view.c:1527
 msgid "Make this Occurrence _Movable"
 msgstr "Gwneud yr trefnlennu yma yn Symudadwy"
 
-#: ../calendar/gui/e-calendar-view.c:1489
+#: ../calendar/gui/e-calendar-view.c:1528
 msgid "Delete this _Occurrence"
 msgstr "Dileu _digwyddiad hyn"
 
-#: ../calendar/gui/e-calendar-view.c:1490
+#: ../calendar/gui/e-calendar-view.c:1529
 msgid "Delete _All Occurrences"
 msgstr "Dileu _Pob digwyddiadau"
 
@@ -6701,10 +6797,10 @@ msgstr "Gwall iCalendar"
 
 #: ../calendar/gui/e-itip-control.c:1038 ../calendar/gui/e-itip-control.c:1054
 #: ../calendar/gui/e-itip-control.c:1065 ../calendar/gui/e-itip-control.c:1082
-#: ../plugins/itip-formatter/itip-view.c:329
-#: ../plugins/itip-formatter/itip-view.c:330
-#: ../plugins/itip-formatter/itip-view.c:397
-#: ../plugins/itip-formatter/itip-view.c:398
+#: ../plugins/itip-formatter/itip-view.c:333
+#: ../plugins/itip-formatter/itip-view.c:334
+#: ../plugins/itip-formatter/itip-view.c:401
+#: ../plugins/itip-formatter/itip-view.c:402
 msgid "An unknown person"
 msgstr ""
 
@@ -6716,23 +6812,23 @@ msgid ""
 msgstr ""
 
 #: ../calendar/gui/e-itip-control.c:1137
-#: ../calendar/gui/e-meeting-list-view.c:186
+#: ../calendar/gui/e-meeting-list-view.c:204
 #: ../calendar/gui/e-meeting-store.c:188 ../calendar/gui/e-meeting-store.c:211
-#: ../calendar/gui/itip-utils.c:421
-#: ../plugins/itip-formatter/itip-formatter.c:1403
+#: ../calendar/gui/itip-utils.c:547
+#: ../plugins/itip-formatter/itip-formatter.c:1552
 msgid "Accepted"
 msgstr "Derbyniwyd"
 
-#: ../calendar/gui/e-itip-control.c:1141 ../calendar/gui/itip-utils.c:424
-#: ../plugins/itip-formatter/itip-formatter.c:1406
+#: ../calendar/gui/e-itip-control.c:1141 ../calendar/gui/itip-utils.c:550
+#: ../plugins/itip-formatter/itip-formatter.c:1555
 msgid "Tentatively Accepted"
 msgstr ""
 
 #: ../calendar/gui/e-itip-control.c:1145
-#: ../calendar/gui/e-meeting-list-view.c:187
+#: ../calendar/gui/e-meeting-list-view.c:205
 #: ../calendar/gui/e-meeting-store.c:190 ../calendar/gui/e-meeting-store.c:213
-#: ../calendar/gui/itip-utils.c:427 ../calendar/gui/itip-utils.c:453
-#: ../plugins/itip-formatter/itip-formatter.c:1409
+#: ../calendar/gui/itip-utils.c:553 ../calendar/gui/itip-utils.c:582
+#: ../plugins/itip-formatter/itip-formatter.c:1558
 msgid "Declined"
 msgstr "Gwrthododd"
 
@@ -6949,7 +7045,7 @@ msgid "Attendee status updated\n"
 msgstr "Cyflwr mynychwr wedi diweddaru\n"
 
 #: ../calendar/gui/e-itip-control.c:1979
-#: ../plugins/itip-formatter/itip-formatter.c:852
+#: ../plugins/itip-formatter/itip-formatter.c:974
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
 
@@ -6997,7 +7093,7 @@ msgstr ""
 msgid "Send Latest Information"
 msgstr "Anfon Gwybodaeth Diweddar"
 
-#: ../calendar/gui/e-itip-control.c:2375 ../calendar/gui/itip-utils.c:441
+#: ../calendar/gui/e-itip-control.c:2375 ../calendar/gui/itip-utils.c:570
 #: ../mail/mail-send-recv.c:414 ../mail/mail-send-recv.c:466
 #: ../ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
@@ -7040,79 +7136,81 @@ msgstr "dyddiad-diwedd"
 msgid "date-start"
 msgstr "dyddiad-dechrau"
 
-#: ../calendar/gui/e-meeting-list-view.c:61
+#: ../calendar/gui/e-meeting-list-view.c:69
 msgid "Chair Persons"
 msgstr ""
 
-#: ../calendar/gui/e-meeting-list-view.c:62
-#: ../calendar/gui/e-meeting-list-view.c:135
+#: ../calendar/gui/e-meeting-list-view.c:70
+#: ../calendar/gui/e-meeting-list-view.c:153
 msgid "Required Participants"
 msgstr "Cyfranogwyr Angenrheidiol"
 
-#: ../calendar/gui/e-meeting-list-view.c:63
+#: ../calendar/gui/e-meeting-list-view.c:71
 msgid "Optional Participants"
 msgstr "Cyfranogwyr Dewisol"
 
-#: ../calendar/gui/e-meeting-list-view.c:64
+#: ../calendar/gui/e-meeting-list-view.c:72
 msgid "Resources"
 msgstr "Adnoddau"
 
-#: ../calendar/gui/e-meeting-list-view.c:146
+#: ../calendar/gui/e-meeting-list-view.c:164
 #: ../calendar/gui/e-meeting-store.c:99 ../calendar/gui/e-meeting-store.c:116
 #: ../calendar/gui/e-meeting-store.c:802
 msgid "Individual"
 msgstr "Unigol"
 
-#: ../calendar/gui/e-meeting-list-view.c:147
+#: ../calendar/gui/e-meeting-list-view.c:165
 #: ../calendar/gui/e-meeting-store.c:101 ../calendar/gui/e-meeting-store.c:118
 msgid "Group"
 msgstr "Grŵp"
 
-#: ../calendar/gui/e-meeting-list-view.c:148
+#: ../calendar/gui/e-meeting-list-view.c:166
 #: ../calendar/gui/e-meeting-store.c:103 ../calendar/gui/e-meeting-store.c:120
 msgid "Resource"
 msgstr "Adnodd"
 
-#: ../calendar/gui/e-meeting-list-view.c:149
+#: ../calendar/gui/e-meeting-list-view.c:167
 #: ../calendar/gui/e-meeting-store.c:105 ../calendar/gui/e-meeting-store.c:122
 msgid "Room"
 msgstr "Ystafell"
 
-#: ../calendar/gui/e-meeting-list-view.c:160
+#: ../calendar/gui/e-meeting-list-view.c:178
 #: ../calendar/gui/e-meeting-store.c:134 ../calendar/gui/e-meeting-store.c:151
 msgid "Chair"
 msgstr ""
 
-#: ../calendar/gui/e-meeting-list-view.c:161
+#: ../calendar/gui/e-meeting-list-view.c:179
 #: ../calendar/gui/e-meeting-store.c:136 ../calendar/gui/e-meeting-store.c:153
 #: ../calendar/gui/e-meeting-store.c:805
 msgid "Required Participant"
 msgstr "Cyfranogwyr Angenrheidiol"
 
-#: ../calendar/gui/e-meeting-list-view.c:162
+#: ../calendar/gui/e-meeting-list-view.c:180
 #: ../calendar/gui/e-meeting-store.c:138 ../calendar/gui/e-meeting-store.c:155
 msgid "Optional Participant"
 msgstr "Cyfranog Dewisol"
 
-#: ../calendar/gui/e-meeting-list-view.c:163
+#: ../calendar/gui/e-meeting-list-view.c:181
 #: ../calendar/gui/e-meeting-store.c:140 ../calendar/gui/e-meeting-store.c:157
 msgid "Non-Participant"
 msgstr "Di-Gyfranog"
 
-#: ../calendar/gui/e-meeting-list-view.c:185
+#: ../calendar/gui/e-meeting-list-view.c:203
 #: ../calendar/gui/e-meeting-store.c:186 ../calendar/gui/e-meeting-store.c:209
 #: ../calendar/gui/e-meeting-store.c:815
 msgid "Needs Action"
 msgstr "Angen Gweithred"
 
-#: ../calendar/gui/e-meeting-list-view.c:188
+#: ../calendar/gui/e-meeting-list-view.c:206
 #: ../calendar/gui/e-meeting-store.c:192 ../calendar/gui/e-meeting-store.c:215
 #: ../calendar/gui/e-meeting-time-sel.c:411
 msgid "Tentative"
 msgstr ""
 
-#: ../calendar/gui/e-meeting-list-view.c:189
+#: ../calendar/gui/e-meeting-list-view.c:207
 #: ../calendar/gui/e-meeting-store.c:194 ../calendar/gui/e-meeting-store.c:217
+#: ../calendar/gui/itip-utils.c:556
+#: ../plugins/itip-formatter/itip-formatter.c:1561
 msgid "Delegated"
 msgstr ""
 
@@ -7340,57 +7438,57 @@ msgstr "Medi"
 msgid "_Select Today"
 msgstr ""
 
-#: ../calendar/gui/itip-utils.c:270 ../calendar/gui/itip-utils.c:318
-#: ../calendar/gui/itip-utils.c:350
+#: ../calendar/gui/itip-utils.c:352 ../calendar/gui/itip-utils.c:401
+#: ../calendar/gui/itip-utils.c:441
 msgid "An organizer must be set."
 msgstr ""
 
-#: ../calendar/gui/itip-utils.c:305
+#: ../calendar/gui/itip-utils.c:388
 msgid "At least one attendee is necessary"
 msgstr ""
 
-#: ../calendar/gui/itip-utils.c:393 ../calendar/gui/itip-utils.c:502
+#: ../calendar/gui/itip-utils.c:509 ../calendar/gui/itip-utils.c:631
 msgid "Event information"
 msgstr ""
 
-#: ../calendar/gui/itip-utils.c:395 ../calendar/gui/itip-utils.c:504
+#: ../calendar/gui/itip-utils.c:511 ../calendar/gui/itip-utils.c:633
 msgid "Task information"
 msgstr "Gwybodaeth Tasg"
 
-#: ../calendar/gui/itip-utils.c:397 ../calendar/gui/itip-utils.c:506
+#: ../calendar/gui/itip-utils.c:513 ../calendar/gui/itip-utils.c:635
 msgid "Journal information"
 msgstr ""
 
-#: ../calendar/gui/itip-utils.c:399 ../calendar/gui/itip-utils.c:524
+#: ../calendar/gui/itip-utils.c:515 ../calendar/gui/itip-utils.c:653
 msgid "Free/Busy information"
 msgstr ""
 
-#: ../calendar/gui/itip-utils.c:401
+#: ../calendar/gui/itip-utils.c:517
 msgid "Calendar information"
 msgstr "Gwybodaeth Calendr"
 
-#: ../calendar/gui/itip-utils.c:437
+#: ../calendar/gui/itip-utils.c:566
 msgid "Updated"
 msgstr "Diweddarwyd"
 
-#: ../calendar/gui/itip-utils.c:445
+#: ../calendar/gui/itip-utils.c:574
 msgid "Refresh"
 msgstr "Adnewyddu"
 
-#: ../calendar/gui/itip-utils.c:449
+#: ../calendar/gui/itip-utils.c:578
 msgid "Counter-proposal"
 msgstr ""
 
-#: ../calendar/gui/itip-utils.c:520
+#: ../calendar/gui/itip-utils.c:649
 #, c-format
 msgid "Free/Busy information (%s to %s)"
 msgstr ""
 
-#: ../calendar/gui/itip-utils.c:530
+#: ../calendar/gui/itip-utils.c:659
 msgid "iCalendar information"
 msgstr "Gwybodaeth iCalendr"
 
-#: ../calendar/gui/itip-utils.c:672
+#: ../calendar/gui/itip-utils.c:814
 msgid "You must be an attendee of the event."
 msgstr ""
 
@@ -9860,50 +9958,6 @@ msgstr "%I %p"
 msgid "The orientation of the tray."
 msgstr ""
 
-#: ../filter/filter.error.xml.h:1
-msgid "Bad regular expression &quot;{0}&quot;."
-msgstr ""
-
-#: ../filter/filter.error.xml.h:2
-msgid "Could not compile regular expression &quot;{1}&quot;."
-msgstr ""
-
-#: ../filter/filter.error.xml.h:3
-msgid "File &quot;{0}&quot; does not exist or is not a regular file."
-msgstr ""
-
-#: ../filter/filter.error.xml.h:4
-msgid "Missing date."
-msgstr ""
-
-#: ../filter/filter.error.xml.h:5
-msgid "Missing file name."
-msgstr ""
-
-#: ../filter/filter.error.xml.h:6 ../mail/mail.error.xml.h:62
-msgid "Missing name."
-msgstr ""
-
-#: ../filter/filter.error.xml.h:7
-msgid "Name &quot;{0}&quot; already used."
-msgstr ""
-
-#: ../filter/filter.error.xml.h:8
-msgid "Please choose another name."
-msgstr ""
-
-#: ../filter/filter.error.xml.h:9
-msgid "You must choose a date."
-msgstr ""
-
-#: ../filter/filter.error.xml.h:10
-msgid "You must name this filter."
-msgstr ""
-
-#: ../filter/filter.error.xml.h:11
-msgid "You must specify a file name."
-msgstr ""
-
 #: ../filter/filter-datespec.c:73
 #, c-format
 msgid "1 second ago"
@@ -10047,6 +10101,50 @@ msgstr "Dod I Mewn"
 #: ../filter/filter-rule.c:978
 msgid "Outgoing"
 msgstr "Mynd Allan"
+
+#: ../filter/filter.error.xml.h:1
+msgid "Bad regular expression &quot;{0}&quot;."
+msgstr ""
+
+#: ../filter/filter.error.xml.h:2
+msgid "Could not compile regular expression &quot;{1}&quot;."
+msgstr ""
+
+#: ../filter/filter.error.xml.h:3
+msgid "File &quot;{0}&quot; does not exist or is not a regular file."
+msgstr ""
+
+#: ../filter/filter.error.xml.h:4
+msgid "Missing date."
+msgstr ""
+
+#: ../filter/filter.error.xml.h:5
+msgid "Missing file name."
+msgstr ""
+
+#: ../filter/filter.error.xml.h:6 ../mail/mail.error.xml.h:62
+msgid "Missing name."
+msgstr ""
+
+#: ../filter/filter.error.xml.h:7
+msgid "Name &quot;{0}&quot; already used."
+msgstr ""
+
+#: ../filter/filter.error.xml.h:8
+msgid "Please choose another name."
+msgstr ""
+
+#: ../filter/filter.error.xml.h:9
+msgid "You must choose a date."
+msgstr ""
+
+#: ../filter/filter.error.xml.h:10
+msgid "You must name this filter."
+msgstr ""
+
+#: ../filter/filter.error.xml.h:11
+msgid "You must specify a file name."
+msgstr ""
 
 #: ../filter/filter.glade.h:1
 msgid "<b>_Filter Rules</b>"
@@ -10699,15 +10797,52 @@ msgstr "_Plygell Newydd..."
 msgid "_Rename..."
 msgstr "_Ailenwi..."
 
+#: ../mail/em-folder-utils.c:104
+#, c-format
+msgid "Copying `%s' to `%s'"
+msgstr "Copïo `%s' i `%s'"
+
+#: ../mail/em-folder-utils.c:367 ../mail/em-folder-utils.c:383
 #: ../mail/em-folder-view.c:929 ../mail/em-folder-view.c:944
 #: ../mail/importers/evolution-mbox-importer.c:120
 #: ../mail/importers/evolution-outlook-importer.c:134
 msgid "Select folder"
 msgstr "Dewis plygell"
 
-#: ../mail/em-folder-view.c:944
+#: ../mail/em-folder-utils.c:367 ../mail/em-folder-view.c:944
 msgid "C_opy"
 msgstr "C_opïo"
+
+#: ../mail/em-folder-utils.c:521
+#, fuzzy, c-format
+msgid "Rename the \"%s\" folder to:"
+msgstr "Ailenwi Plygell"
+
+#: ../mail/em-folder-utils.c:523
+msgid "Rename Folder"
+msgstr "Ailenwi Plygell"
+
+#: ../mail/em-folder-utils.c:529
+msgid "Folder names cannot contain '/'"
+msgstr "Ni all enwau ffolderi gynnwys '/'"
+
+#: ../mail/em-folder-utils.c:599
+#: ../plugins/groupwise-features/share-folder-common.c:140
+#, c-format
+msgid "Creating folder `%s'"
+msgstr ""
+
+#: ../mail/em-folder-utils.c:748
+#: ../plugins/groupwise-features/install-shared.c:156
+#: ../plugins/groupwise-features/share-folder-common.c:382
+msgid "Create folder"
+msgstr "Creu plygell"
+
+#: ../mail/em-folder-utils.c:748
+#: ../plugins/groupwise-features/install-shared.c:156
+#: ../plugins/groupwise-features/share-folder-common.c:382
+msgid "Specify where to create the folder:"
+msgstr ""
 
 #: ../mail/em-folder-view.c:1037 ../mail/em-popup.c:499
 msgid "Reply to _All"
@@ -12052,7 +12187,7 @@ msgid "<span weight=\"bold\">Filter Options</span>"
 msgstr ""
 
 #: ../mail/mail-config.glade.h:18
-#: ../plugins/itip-formatter/itip-formatter.c:1681
+#: ../plugins/itip-formatter/itip-formatter.c:1833
 msgid "<span weight=\"bold\">General</span>"
 msgstr ""
 
@@ -12695,6 +12830,295 @@ msgstr ""
 msgid "with all local folders"
 msgstr ""
 
+#: ../mail/mail-folder-cache.c:813
+#, c-format
+msgid "Pinging %s"
+msgstr ""
+
+#: ../mail/mail-ops.c:101
+msgid "Filtering Folder"
+msgstr "Hidlo Plygell"
+
+#: ../mail/mail-ops.c:262
+msgid "Fetching Mail"
+msgstr "Gafael Ebost"
+
+#. sending mail, filtering failed
+#: ../mail/mail-ops.c:562
+#, c-format
+msgid "Failed to apply outgoing filters: %s"
+msgstr ""
+
+#: ../mail/mail-ops.c:573 ../mail/mail-ops.c:602
+#, c-format
+msgid ""
+"Failed to append to %s: %s\n"
+"Appending to local `Sent' folder instead."
+msgstr ""
+
+#: ../mail/mail-ops.c:619
+#, c-format
+msgid "Failed to append to local `Sent' folder: %s"
+msgstr ""
+
+#: ../mail/mail-ops.c:731
+#, c-format
+msgid "Sending message %d of %d"
+msgstr "Anfon neges %d o %d"
+
+#: ../mail/mail-ops.c:756
+#, c-format
+msgid "Failed to send %d of %d messages"
+msgstr ""
+
+#: ../mail/mail-ops.c:758 ../mail/mail-send-recv.c:613
+msgid "Cancelled."
+msgstr "Diddymwyd."
+
+#: ../mail/mail-ops.c:760
+msgid "Complete."
+msgstr "Cyflawn."
+
+#: ../mail/mail-ops.c:857
+msgid "Saving message to folder"
+msgstr "Cadw'r neges i'r plygell"
+
+#: ../mail/mail-ops.c:942
+#, c-format
+msgid "Moving messages to %s"
+msgstr ""
+
+#: ../mail/mail-ops.c:942
+#, c-format
+msgid "Copying messages to %s"
+msgstr ""
+
+#: ../mail/mail-ops.c:1168
+msgid "Forwarded messages"
+msgstr ""
+
+#: ../mail/mail-ops.c:1211
+#, c-format
+msgid "Opening folder %s"
+msgstr "Yn agor plygell %s"
+
+#: ../mail/mail-ops.c:1283
+#, c-format
+msgid "Opening store %s"
+msgstr ""
+
+#: ../mail/mail-ops.c:1361
+#, c-format
+msgid "Removing folder %s"
+msgstr ""
+
+#: ../mail/mail-ops.c:1455
+#, c-format
+msgid "Storing folder '%s'"
+msgstr ""
+
+#: ../mail/mail-ops.c:1520
+#, c-format
+msgid "Expunging and storing account '%s'"
+msgstr ""
+
+#: ../mail/mail-ops.c:1521
+#, c-format
+msgid "Storing account '%s'"
+msgstr ""
+
+#: ../mail/mail-ops.c:1576
+msgid "Refreshing folder"
+msgstr ""
+
+#: ../mail/mail-ops.c:1612 ../mail/mail-ops.c:1663
+msgid "Expunging folder"
+msgstr ""
+
+#: ../mail/mail-ops.c:1660
+#, c-format
+msgid "Emptying trash in '%s'"
+msgstr ""
+
+#: ../mail/mail-ops.c:1661
+msgid "Local Folders"
+msgstr "Plygelli Lleol"
+
+#: ../mail/mail-ops.c:1744
+#, c-format
+msgid "Retrieving message %s"
+msgstr ""
+
+#: ../mail/mail-ops.c:1816
+#, c-format
+msgid "Retrieving %d message"
+msgid_plural "Retrieving %d messages"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+#: ../mail/mail-ops.c:1902
+#, c-format
+msgid "Saving %d message"
+msgid_plural "Saving %d messsages"
+msgstr[0] "Yn cadw %d neges"
+msgstr[1] "Yn cadw %d neges"
+msgstr[2] "Yn cadw %d neges"
+
+#: ../mail/mail-ops.c:1952
+#, c-format
+msgid ""
+"Unable to create output file: %s\n"
+" %s"
+msgstr ""
+
+#: ../mail/mail-ops.c:1980
+#, c-format
+msgid ""
+"Error saving messages to: %s:\n"
+" %s"
+msgstr ""
+"Gwall wrth gadw'r negeseuon i: %s:\n"
+" %s"
+
+#: ../mail/mail-ops.c:2051
+msgid "Saving attachment"
+msgstr "Cadw'r atodiad"
+
+#: ../mail/mail-ops.c:2063
+#, c-format
+msgid ""
+"Cannot create output file: %s:\n"
+" %s"
+msgstr ""
+
+#: ../mail/mail-ops.c:2073
+#, c-format
+msgid "Could not write data: %s"
+msgstr ""
+
+#: ../mail/mail-ops.c:2223
+#, c-format
+msgid "Disconnecting from %s"
+msgstr "Datgysylltu o %s"
+
+#: ../mail/mail-ops.c:2223
+#, c-format
+msgid "Reconnecting to %s"
+msgstr ""
+
+#: ../mail/mail-ops.c:2339
+msgid "Checking Service"
+msgstr ""
+
+#: ../mail/mail-send-recv.c:158
+msgid "Cancelling..."
+msgstr "Diddymu..."
+
+#: ../mail/mail-send-recv.c:265
+#, c-format
+msgid "Server: %s, Type: %s"
+msgstr ""
+
+#: ../mail/mail-send-recv.c:267
+#, c-format
+msgid "Path: %s, Type: %s"
+msgstr "Llwybr: %s, Math: %s"
+
+#: ../mail/mail-send-recv.c:269
+#, c-format
+msgid "Type: %s"
+msgstr "Math: %s"
+
+#: ../mail/mail-send-recv.c:320
+msgid "Send & Receive Mail"
+msgstr "Anfon a Derbyn Ebost"
+
+#: ../mail/mail-send-recv.c:327
+msgid "Cancel _All"
+msgstr "Diddymu _Popeth"
+
+#: ../mail/mail-send-recv.c:416
+msgid "Updating..."
+msgstr "Diweddaru..."
+
+#: ../mail/mail-send-recv.c:416 ../mail/mail-send-recv.c:468
+msgid "Waiting..."
+msgstr "Aros..."
+
+#: ../mail/mail-session.c:208
+#, c-format
+msgid "Enter Password for %s"
+msgstr "Rhowch Cyfinair am %s"
+
+#: ../mail/mail-session.c:210
+msgid "Enter Password"
+msgstr "Rhowch Gyfrinair"
+
+#: ../mail/mail-session.c:239
+msgid "User canceled operation."
+msgstr ""
+
+#: ../mail/mail-signature-editor.c:372
+msgid "Edit signature"
+msgstr ""
+
+#: ../mail/mail-signature-editor.c:412
+msgid "Enter a name for this signature."
+msgstr ""
+
+#: ../mail/mail-signature-editor.c:415
+#: ../plugins/groupwise-features/properties.glade.h:5
+msgid "Name:"
+msgstr "Enw:"
+
+#: ../mail/mail-tools.c:116
+#, c-format
+msgid "Could not create spool directory `%s': %s"
+msgstr ""
+
+#: ../mail/mail-tools.c:143
+#, c-format
+msgid "Trying to movemail a non-mbox source `%s'"
+msgstr ""
+
+#: ../mail/mail-tools.c:242
+#, c-format
+msgid "Forwarded message - %s"
+msgstr "Anfonwyd neges ymlaen - %s"
+
+#: ../mail/mail-tools.c:244
+msgid "Forwarded message"
+msgstr "Anfonwyd neges ymlaen"
+
+#: ../mail/mail-tools.c:284
+#, c-format
+msgid "Invalid folder: `%s'"
+msgstr "Plygell annilys: `%s'"
+
+#: ../mail/mail-vfolder.c:91
+#, c-format
+msgid "Setting up vFolder: %s"
+msgstr "Yn gosod Rhith-ffolder: %s"
+
+#: ../mail/mail-vfolder.c:240
+#, c-format
+msgid "Updating vFolders for '%s:%s'"
+msgstr ""
+
+#: ../mail/mail-vfolder.c:247
+#, c-format
+msgid "Updating vFolders for '%s'"
+msgstr ""
+
+#: ../mail/mail-vfolder.c:1009
+msgid "Edit vFolder"
+msgstr "Golygu Rhith-ffolder"
+
+#: ../mail/mail-vfolder.c:1093
+msgid "New vFolder"
+msgstr "Rhith-ffolder Newydd"
+
 #: ../mail/mail.error.xml.h:1
 msgid ""
 "A folder named &quot;{1}&quot; already exists. Please use a different name."
@@ -13160,295 +13584,6 @@ msgstr "_Agor Negeseuon"
 msgid "vFolders automatically updated."
 msgstr ""
 
-#: ../mail/mail-folder-cache.c:813
-#, c-format
-msgid "Pinging %s"
-msgstr ""
-
-#: ../mail/mail-ops.c:101
-msgid "Filtering Folder"
-msgstr "Hidlo Plygell"
-
-#: ../mail/mail-ops.c:262
-msgid "Fetching Mail"
-msgstr "Gafael Ebost"
-
-#. sending mail, filtering failed
-#: ../mail/mail-ops.c:562
-#, c-format
-msgid "Failed to apply outgoing filters: %s"
-msgstr ""
-
-#: ../mail/mail-ops.c:573 ../mail/mail-ops.c:602
-#, c-format
-msgid ""
-"Failed to append to %s: %s\n"
-"Appending to local `Sent' folder instead."
-msgstr ""
-
-#: ../mail/mail-ops.c:619
-#, c-format
-msgid "Failed to append to local `Sent' folder: %s"
-msgstr ""
-
-#: ../mail/mail-ops.c:731
-#, c-format
-msgid "Sending message %d of %d"
-msgstr "Anfon neges %d o %d"
-
-#: ../mail/mail-ops.c:756
-#, c-format
-msgid "Failed to send %d of %d messages"
-msgstr ""
-
-#: ../mail/mail-ops.c:758 ../mail/mail-send-recv.c:613
-msgid "Cancelled."
-msgstr "Diddymwyd."
-
-#: ../mail/mail-ops.c:760
-msgid "Complete."
-msgstr "Cyflawn."
-
-#: ../mail/mail-ops.c:857
-msgid "Saving message to folder"
-msgstr "Cadw'r neges i'r plygell"
-
-#: ../mail/mail-ops.c:942
-#, c-format
-msgid "Moving messages to %s"
-msgstr ""
-
-#: ../mail/mail-ops.c:942
-#, c-format
-msgid "Copying messages to %s"
-msgstr ""
-
-#: ../mail/mail-ops.c:1168
-msgid "Forwarded messages"
-msgstr ""
-
-#: ../mail/mail-ops.c:1211
-#, c-format
-msgid "Opening folder %s"
-msgstr "Yn agor plygell %s"
-
-#: ../mail/mail-ops.c:1283
-#, c-format
-msgid "Opening store %s"
-msgstr ""
-
-#: ../mail/mail-ops.c:1361
-#, c-format
-msgid "Removing folder %s"
-msgstr ""
-
-#: ../mail/mail-ops.c:1455
-#, c-format
-msgid "Storing folder '%s'"
-msgstr ""
-
-#: ../mail/mail-ops.c:1520
-#, c-format
-msgid "Expunging and storing account '%s'"
-msgstr ""
-
-#: ../mail/mail-ops.c:1521
-#, c-format
-msgid "Storing account '%s'"
-msgstr ""
-
-#: ../mail/mail-ops.c:1576
-msgid "Refreshing folder"
-msgstr ""
-
-#: ../mail/mail-ops.c:1612 ../mail/mail-ops.c:1663
-msgid "Expunging folder"
-msgstr ""
-
-#: ../mail/mail-ops.c:1660
-#, c-format
-msgid "Emptying trash in '%s'"
-msgstr ""
-
-#: ../mail/mail-ops.c:1661
-msgid "Local Folders"
-msgstr "Plygelli Lleol"
-
-#: ../mail/mail-ops.c:1744
-#, c-format
-msgid "Retrieving message %s"
-msgstr ""
-
-#: ../mail/mail-ops.c:1816
-#, c-format
-msgid "Retrieving %d message"
-msgid_plural "Retrieving %d messages"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-
-#: ../mail/mail-ops.c:1902
-#, c-format
-msgid "Saving %d message"
-msgid_plural "Saving %d messsages"
-msgstr[0] "Yn cadw %d neges"
-msgstr[1] "Yn cadw %d neges"
-msgstr[2] "Yn cadw %d neges"
-
-#: ../mail/mail-ops.c:1952
-#, c-format
-msgid ""
-"Unable to create output file: %s\n"
-" %s"
-msgstr ""
-
-#: ../mail/mail-ops.c:1980
-#, c-format
-msgid ""
-"Error saving messages to: %s:\n"
-" %s"
-msgstr ""
-"Gwall wrth gadw'r negeseuon i: %s:\n"
-" %s"
-
-#: ../mail/mail-ops.c:2051
-msgid "Saving attachment"
-msgstr "Cadw'r atodiad"
-
-#: ../mail/mail-ops.c:2063
-#, c-format
-msgid ""
-"Cannot create output file: %s:\n"
-" %s"
-msgstr ""
-
-#: ../mail/mail-ops.c:2073
-#, c-format
-msgid "Could not write data: %s"
-msgstr ""
-
-#: ../mail/mail-ops.c:2223
-#, c-format
-msgid "Disconnecting from %s"
-msgstr "Datgysylltu o %s"
-
-#: ../mail/mail-ops.c:2223
-#, c-format
-msgid "Reconnecting to %s"
-msgstr ""
-
-#: ../mail/mail-ops.c:2339
-msgid "Checking Service"
-msgstr ""
-
-#: ../mail/mail-send-recv.c:158
-msgid "Cancelling..."
-msgstr "Diddymu..."
-
-#: ../mail/mail-send-recv.c:265
-#, c-format
-msgid "Server: %s, Type: %s"
-msgstr ""
-
-#: ../mail/mail-send-recv.c:267
-#, c-format
-msgid "Path: %s, Type: %s"
-msgstr "Llwybr: %s, Math: %s"
-
-#: ../mail/mail-send-recv.c:269
-#, c-format
-msgid "Type: %s"
-msgstr "Math: %s"
-
-#: ../mail/mail-send-recv.c:320
-msgid "Send & Receive Mail"
-msgstr "Anfon a Derbyn Ebost"
-
-#: ../mail/mail-send-recv.c:327
-msgid "Cancel _All"
-msgstr "Diddymu _Popeth"
-
-#: ../mail/mail-send-recv.c:416
-msgid "Updating..."
-msgstr "Diweddaru..."
-
-#: ../mail/mail-send-recv.c:416 ../mail/mail-send-recv.c:468
-msgid "Waiting..."
-msgstr "Aros..."
-
-#: ../mail/mail-session.c:208
-#, c-format
-msgid "Enter Password for %s"
-msgstr "Rhowch Cyfinair am %s"
-
-#: ../mail/mail-session.c:210
-msgid "Enter Password"
-msgstr "Rhowch Gyfrinair"
-
-#: ../mail/mail-session.c:239
-msgid "User canceled operation."
-msgstr ""
-
-#: ../mail/mail-signature-editor.c:372
-msgid "Edit signature"
-msgstr ""
-
-#: ../mail/mail-signature-editor.c:412
-msgid "Enter a name for this signature."
-msgstr ""
-
-#: ../mail/mail-signature-editor.c:415
-#: ../plugins/groupwise-features/properties.glade.h:5
-msgid "Name:"
-msgstr "Enw:"
-
-#: ../mail/mail-tools.c:116
-#, c-format
-msgid "Could not create spool directory `%s': %s"
-msgstr ""
-
-#: ../mail/mail-tools.c:143
-#, c-format
-msgid "Trying to movemail a non-mbox source `%s'"
-msgstr ""
-
-#: ../mail/mail-tools.c:242
-#, c-format
-msgid "Forwarded message - %s"
-msgstr "Anfonwyd neges ymlaen - %s"
-
-#: ../mail/mail-tools.c:244
-msgid "Forwarded message"
-msgstr "Anfonwyd neges ymlaen"
-
-#: ../mail/mail-tools.c:284
-#, c-format
-msgid "Invalid folder: `%s'"
-msgstr "Plygell annilys: `%s'"
-
-#: ../mail/mail-vfolder.c:91
-#, c-format
-msgid "Setting up vFolder: %s"
-msgstr "Yn gosod Rhith-ffolder: %s"
-
-#: ../mail/mail-vfolder.c:240
-#, c-format
-msgid "Updating vFolders for '%s:%s'"
-msgstr ""
-
-#: ../mail/mail-vfolder.c:247
-#, c-format
-msgid "Updating vFolders for '%s'"
-msgstr ""
-
-#: ../mail/mail-vfolder.c:1009
-msgid "Edit vFolder"
-msgstr "Golygu Rhith-ffolder"
-
-#: ../mail/mail-vfolder.c:1093
-msgid "New vFolder"
-msgstr "Rhith-ffolder Newydd"
-
 #: ../mail/message-list.c:996
 msgid "Unseen"
 msgstr ""
@@ -13485,29 +13620,30 @@ msgstr "Uwch"
 msgid "Highest"
 msgstr "Uchaf"
 
-#: ../mail/message-list.c:1338
+#: ../mail/message-list.c:1338 ../widgets/table/e-cell-date.c:57
 msgid "?"
 msgstr "?"
 
 #. strftime format of a time,
 #. in 12-hour format, without seconds.
-#: ../mail/message-list.c:1345 ../plugins/itip-formatter/itip-view.c:189
+#: ../mail/message-list.c:1345 ../plugins/itip-formatter/itip-view.c:193
+#: ../widgets/table/e-cell-date.c:72
 msgid "Today %l:%M %p"
 msgstr "Heddyw %l:%M %p"
 
-#: ../mail/message-list.c:1354
+#: ../mail/message-list.c:1354 ../widgets/table/e-cell-date.c:82
 msgid "Yesterday %l:%M %p"
 msgstr "Ddoe %l:%M %p"
 
-#: ../mail/message-list.c:1366
+#: ../mail/message-list.c:1366 ../widgets/table/e-cell-date.c:94
 msgid "%a %l:%M %p"
 msgstr "%a %l:$M %p"
 
-#: ../mail/message-list.c:1374
+#: ../mail/message-list.c:1374 ../widgets/table/e-cell-date.c:102
 msgid "%b %d %l:%M %p"
 msgstr "%b %d %l:%M %p"
 
-#: ../mail/message-list.c:1376
+#: ../mail/message-list.c:1376 ../widgets/table/e-cell-date.c:104
 msgid "%b %d %Y"
 msgstr "%b %d %Y"
 
@@ -13909,406 +14045,491 @@ msgstr ""
 msgid "Send Options"
 msgstr "Opsiynau Anfon"
 
-#: ../plugins/itip-formatter/itip-formatter.c:704
+#: ../plugins/groupwise-features/org-gnome-groupwise-features.eplug.xml.h:1
+msgid "A plugin for the features in Groupwise accounts."
+msgstr ""
+
+#: ../plugins/groupwise-features/org-gnome-groupwise-features.eplug.xml.h:2
+msgid "Groupwise Features"
+msgstr ""
+
+#: ../plugins/groupwise-features/properties.glade.h:2
+msgid "<b>Users :</b>"
+msgstr "<b>Defnyddwyr :</b>"
+
+#: ../plugins/groupwise-features/properties.glade.h:4
+#: ../widgets/table/e-table-click-to-add.c:510
+msgid "Message"
+msgstr "Neges"
+
+#: ../plugins/groupwise-features/properties.glade.h:6
+msgid "Shared Folder Notification"
+msgstr ""
+
+#: ../plugins/groupwise-features/properties.glade.h:8
+msgid "The participants will receive the following notification.\n"
+msgstr ""
+
+#: ../plugins/groupwise-features/properties.glade.h:11
+msgid "_Contacts..."
+msgstr "Cysylltau..."
+
+#: ../plugins/groupwise-features/properties.glade.h:12
+msgid "_Cutomize notification message"
+msgstr ""
+
+#: ../plugins/groupwise-features/properties.glade.h:13
+msgid "_Not Shared"
+msgstr "_Heb ei Rannu"
+
+#: ../plugins/groupwise-features/properties.glade.h:15
+msgid "_Shared With ..."
+msgstr ""
+
+#: ../plugins/groupwise-features/properties.glade.h:16
+msgid "_Sharing"
+msgstr "_Yn Rhannu"
+
+#: ../plugins/groupwise-features/send-options.c:82
+#, c-format
+msgid "%sEnter password for %s (user %s)"
+msgstr "%sRhowch cyfrinair am %s (defnyddiwr %s)"
+
+#: ../plugins/groupwise-features/share-folder-common.c:317
+msgid "Users"
+msgstr "Defnyddwyr"
+
+#: ../plugins/groupwise-features/share-folder-common.c:318
+msgid "Enter the users and set permissions"
+msgstr ""
+
+#: ../plugins/groupwise-features/share-folder-common.c:337
+#, fuzzy
+msgid "New _Shared Folder..."
+msgstr "_Plygell Newydd..."
+
+#: ../plugins/groupwise-features/share-folder-common.c:440
+msgid "Sharing"
+msgstr "Rhannu"
+
+#: ../plugins/itip-formatter/itip-formatter.c:688
 msgid "Unable to parse item"
 msgstr "Methu gramadegu eitem"
 
-#: ../plugins/itip-formatter/itip-formatter.c:757
+#: ../plugins/itip-formatter/itip-formatter.c:741
 #, c-format
 msgid "Unable to send item to calendar '%s'.  %s"
 msgstr "Methu anfon eitem i galendr '%s'.  %s"
 
-#: ../plugins/itip-formatter/itip-formatter.c:768
+#: ../plugins/itip-formatter/itip-formatter.c:752
 #, c-format
 msgid "Sent to calendar '%s' as accepted"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-formatter.c:772
+#: ../plugins/itip-formatter/itip-formatter.c:756
 #, c-format
 msgid "Sent to calendar '%s' as tentative"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-formatter.c:777
+#: ../plugins/itip-formatter/itip-formatter.c:761
 #, c-format
 msgid "Sent to calendar '%s' as declined"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-formatter.c:782
+#: ../plugins/itip-formatter/itip-formatter.c:766
 #, c-format
 msgid "Sent to calendar '%s' as cancelled"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-formatter.c:833
+#: ../plugins/itip-formatter/itip-formatter.c:859
+#, c-format
+msgid "Organizer has removed the delegate %s "
+msgstr ""
+
+#: ../plugins/itip-formatter/itip-formatter.c:866
+msgid "Sent a cancellation notice to the delegate"
+msgstr ""
+
+#: ../plugins/itip-formatter/itip-formatter.c:868
+msgid "Could not send the cancellation notice to the delegate"
+msgstr ""
+
+#: ../plugins/itip-formatter/itip-formatter.c:940
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr "Methwyd diweddaru cyflwr mynychwr am fod y statws yn annilys"
 
-#: ../plugins/itip-formatter/itip-formatter.c:844
+#: ../plugins/itip-formatter/itip-formatter.c:966
 #, c-format
 msgid "Unable to update attendee. %s"
 msgstr "Methu diweddaru mynychwr. %s"
 
-#: ../plugins/itip-formatter/itip-formatter.c:848
+#: ../plugins/itip-formatter/itip-formatter.c:970
 msgid "Attendee status updated"
 msgstr "Statws mynychwr wedi diweddaru"
 
-#: ../plugins/itip-formatter/itip-formatter.c:973
+#: ../plugins/itip-formatter/itip-formatter.c:1097
 msgid "The calendar attached is not valid"
 msgstr "Mae'r calendr sydd wedi'i atodi yn annilys"
 
-#: ../plugins/itip-formatter/itip-formatter.c:974
+#: ../plugins/itip-formatter/itip-formatter.c:1098
 msgid ""
 "The message claims to contain a calendar, but the calendar is not valid "
 "iCalendar."
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-formatter.c:1008
-#: ../plugins/itip-formatter/itip-formatter.c:1023
-#: ../plugins/itip-formatter/itip-formatter.c:1078
+#: ../plugins/itip-formatter/itip-formatter.c:1132
+#: ../plugins/itip-formatter/itip-formatter.c:1147
+#: ../plugins/itip-formatter/itip-formatter.c:1223
 msgid "The item in the calendar is not valid"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-formatter.c:1009
-#: ../plugins/itip-formatter/itip-formatter.c:1024
-#: ../plugins/itip-formatter/itip-formatter.c:1079
+#: ../plugins/itip-formatter/itip-formatter.c:1133
+#: ../plugins/itip-formatter/itip-formatter.c:1148
+#: ../plugins/itip-formatter/itip-formatter.c:1224
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-formatter.c:1034
+#: ../plugins/itip-formatter/itip-formatter.c:1158
 msgid "The calendar attached contains multiple items"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-formatter.c:1035
+#: ../plugins/itip-formatter/itip-formatter.c:1159
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-formatter.c:1672
+#: ../plugins/itip-formatter/itip-formatter.c:1824
 msgid "Meetings and Tasks"
 msgstr "Cyfarfodydd a Thasgau"
 
 #. Delete message after acting
 #. FIXME Need a schema for this
-#: ../plugins/itip-formatter/itip-formatter.c:1695
+#: ../plugins/itip-formatter/itip-formatter.c:1847
 msgid "_Delete message after acting"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-formatter.c:1705
+#: ../plugins/itip-formatter/itip-formatter.c:1857
 msgid "<span weight=\"bold\">Conflict Search</span>"
 msgstr "<span weight=\"bold\">Chwilio am Wrthdaro</span>"
 
 #. Source selector
-#: ../plugins/itip-formatter/itip-formatter.c:1718
+#: ../plugins/itip-formatter/itip-formatter.c:1870
 msgid "Select the calendars to search for meeting conflicts"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-formatter.c:1735
+#: ../plugins/itip-formatter/itip-formatter.c:1887
 msgid "Conflict Search Table"
 msgstr ""
 
 #. strftime format of a weekday and a date.
-#: ../plugins/itip-formatter/itip-view.c:175 ../ui/evolution-calendar.xml.h:34
+#: ../plugins/itip-formatter/itip-view.c:179 ../ui/evolution-calendar.xml.h:34
 #: ../widgets/misc/e-cell-date-edit.c:240 ../widgets/misc/e-dateedit.c:457
 msgid "Today"
 msgstr "Heddiw"
 
 #. strftime format of a time,
 #. in 24-hour format, without seconds.
-#: ../plugins/itip-formatter/itip-view.c:180
+#: ../plugins/itip-formatter/itip-view.c:184
 msgid "Today %H:%M"
 msgstr "Heddiw %H:%M"
 
 #. strftime format of a time,
 #. in 24-hour format.
-#: ../plugins/itip-formatter/itip-view.c:184
+#: ../plugins/itip-formatter/itip-view.c:188
 msgid "Today %H:%M:%S"
 msgstr "Heddiw %H:%M:%S"
 
 #. strftime format of a time,
 #. in 12-hour format.
-#: ../plugins/itip-formatter/itip-view.c:193
+#: ../plugins/itip-formatter/itip-view.c:197
 msgid "Today %l:%M:%S %p"
 msgstr "Heddiw %I:%M:%S %p"
 
 #. strftime format of a weekday and a date.
-#: ../plugins/itip-formatter/itip-view.c:203
+#: ../plugins/itip-formatter/itip-view.c:207
 msgid "Tomorrow"
 msgstr "Yfory"
 
 #. strftime format of a time,
 #. in 24-hour format, without seconds.
-#: ../plugins/itip-formatter/itip-view.c:208
+#: ../plugins/itip-formatter/itip-view.c:212
 msgid "Tomorrow %H:%M"
 msgstr ""
 
 #. strftime format of a time,
 #. in 24-hour format.
-#: ../plugins/itip-formatter/itip-view.c:212
+#: ../plugins/itip-formatter/itip-view.c:216
 msgid "Tomorrow %H:%M:%S"
 msgstr "Yfory %H:%M:%S"
 
 #. strftime format of a time,
 #. in 12-hour format, without seconds.
-#: ../plugins/itip-formatter/itip-view.c:217
+#: ../plugins/itip-formatter/itip-view.c:221
 msgid "Tomorrow %l:%M %p"
 msgstr "Yfory %l:%M %p"
 
 #. strftime format of a time,
 #. in 12-hour format.
-#: ../plugins/itip-formatter/itip-view.c:221
+#: ../plugins/itip-formatter/itip-view.c:225
 msgid "Tomorrow %l:%M:%S %p"
 msgstr "Yfory %l:%M:%S %p"
 
 #. strftime format of a weekday.
-#: ../plugins/itip-formatter/itip-view.c:240
+#: ../plugins/itip-formatter/itip-view.c:244
 #, c-format
 msgid "%A"
 msgstr ""
 
 #. strftime format of a weekday and a
 #. time, in 24-hour format, without seconds.
-#: ../plugins/itip-formatter/itip-view.c:245
+#: ../plugins/itip-formatter/itip-view.c:249
 msgid "%A %H:%M"
 msgstr "%A %H:%M"
 
 #. strftime format of a weekday and a
 #. time, in 24-hour format.
-#: ../plugins/itip-formatter/itip-view.c:249
+#: ../plugins/itip-formatter/itip-view.c:253
 msgid "%A %H:%M:%S"
 msgstr "%A %H:%M:%S"
 
 #. strftime format of a weekday and a
 #. time, in 12-hour format, without seconds.
-#: ../plugins/itip-formatter/itip-view.c:254
+#: ../plugins/itip-formatter/itip-view.c:258
 msgid "%A %l:%M %p"
 msgstr "%A %l:%M %p"
 
 #. strftime format of a weekday and a
 #. time, in 12-hour format.
-#: ../plugins/itip-formatter/itip-view.c:258
+#: ../plugins/itip-formatter/itip-view.c:262
 msgid "%A %l:%M:%S %p"
 msgstr "%A %l:%M:%S %p"
 
 #. strftime format of a weekday and a date
 #. without a year.
-#: ../plugins/itip-formatter/itip-view.c:267
+#: ../plugins/itip-formatter/itip-view.c:271
 msgid "%A, %B %e"
 msgstr "%A, %B %e"
 
 #. strftime format of a weekday, a date
 #. without a year and a time,
 #. in 24-hour format, without seconds.
-#: ../plugins/itip-formatter/itip-view.c:273
+#: ../plugins/itip-formatter/itip-view.c:277
 msgid "%A, %B %e %H:%M"
 msgstr "%A, %B %e %H:%M"
 
 #. strftime format of a weekday, a date without a year
 #. and a time, in 24-hour format.
-#: ../plugins/itip-formatter/itip-view.c:277
+#: ../plugins/itip-formatter/itip-view.c:281
 msgid "%A, %B %e %H:%M:%S"
 msgstr "%A, %B %e %H:%M:%S"
 
 #. strftime format of a weekday, a date without a year
 #. and a time, in 12-hour format, without seconds.
-#: ../plugins/itip-formatter/itip-view.c:282
+#: ../plugins/itip-formatter/itip-view.c:286
 msgid "%A, %B %e %l:%M %p"
 msgstr "%A, %B %e %l:%M %p"
 
 #. strftime format of a weekday, a date without a year
 #. and a time, in 12-hour format.
-#: ../plugins/itip-formatter/itip-view.c:286
+#: ../plugins/itip-formatter/itip-view.c:290
 msgid "%A, %B %e %l:%M:%S %p"
 msgstr "%A, %B %e %l:%M:%S %p"
 
 #. strftime format of a weekday and a date.
-#: ../plugins/itip-formatter/itip-view.c:292
+#: ../plugins/itip-formatter/itip-view.c:296
 msgid "%A, %B %e, %Y"
 msgstr "%A, %B %e, %Y"
 
 #. strftime format of a weekday, a date and a
 #. time, in 24-hour format, without seconds.
-#: ../plugins/itip-formatter/itip-view.c:297
+#: ../plugins/itip-formatter/itip-view.c:301
 msgid "%A, %B %e, %Y %H:%M"
 msgstr "%A, %B %e, %Y %H:%M"
 
 #. strftime format of a weekday, a date and a
 #. time, in 24-hour format.
-#: ../plugins/itip-formatter/itip-view.c:301
+#: ../plugins/itip-formatter/itip-view.c:305
 msgid "%A, %B %e, %Y %H:%M:%S"
 msgstr "%A, %B %e, %Y %H:%M:%S"
 
 #. strftime format of a weekday, a date and a
 #. time, in 12-hour format, without seconds.
-#: ../plugins/itip-formatter/itip-view.c:306
+#: ../plugins/itip-formatter/itip-view.c:310
 msgid "%A, %B %e, %Y %l:%M %p"
 msgstr "%A, %B %e, %Y %l:%M %p"
 
 #. strftime format of a weekday, a date and a
 #. time, in 12-hour format.
-#: ../plugins/itip-formatter/itip-view.c:310
+#: ../plugins/itip-formatter/itip-view.c:314
 msgid "%A, %B %e, %Y %l:%M:%S %p"
 msgstr "%A, %B %e, %Y %l:%M:%S %p"
 
-#: ../plugins/itip-formatter/itip-view.c:335
+#: ../plugins/itip-formatter/itip-view.c:339
 #, c-format
 msgid "<b>%s</b> through %s has published the following meeting information:"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-view.c:337
+#: ../plugins/itip-formatter/itip-view.c:341
 #, c-format
 msgid "<b>%s</b> has published the following meeting information:"
 msgstr "Mae <b>%s</b> wedi cyhoeddi'r gwybodaeth cyfarfod canlynol:"
 
-#: ../plugins/itip-formatter/itip-view.c:342
-#, c-format
-msgid "<b>%s</b> requests the presence of %s at the following meeting:"
-msgstr ""
+#: ../plugins/itip-formatter/itip-view.c:346
+#, fuzzy, c-format
+msgid "<b>%s</b> has delegated the following meeting to you:"
+msgstr "Mae <b>%s</b> wedi cyhoeddi'r gwybodaeth cyfarfod canlynol:"
 
-#: ../plugins/itip-formatter/itip-view.c:345
+#: ../plugins/itip-formatter/itip-view.c:349
 #, c-format
 msgid "<b>%s</b> through %s requests your presence at the following meeting:"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-view.c:347
+#: ../plugins/itip-formatter/itip-view.c:351
 #, c-format
 msgid "<b>%s</b> requests your presence at the following meeting:"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-view.c:353
+#: ../plugins/itip-formatter/itip-view.c:357
 #, c-format
 msgid "<b>%s</b> through %s wishes to add to an existing meeting:"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-view.c:355
+#: ../plugins/itip-formatter/itip-view.c:359
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing meeting:"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-view.c:358
+#: ../plugins/itip-formatter/itip-view.c:362
 #, c-format
 msgid ""
 "<b>%s</b> wishes to receive the latest information for the following meeting:"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-view.c:361
+#: ../plugins/itip-formatter/itip-view.c:365
 #, c-format
 msgid "<b>%s</b> has sent back the following meeting response:"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-view.c:365
+#: ../plugins/itip-formatter/itip-view.c:369
 #, c-format
 msgid "<b>%s</b> through %s has cancelled the following meeting:"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-view.c:367
+#: ../plugins/itip-formatter/itip-view.c:371
 #, c-format
 msgid "<b>%s</b> has cancelled the following meeting."
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-view.c:370
+#: ../plugins/itip-formatter/itip-view.c:374
 #, c-format
 msgid "<b>%s</b> has proposed the following meeting changes."
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-view.c:374
+#: ../plugins/itip-formatter/itip-view.c:378
 #, c-format
 msgid "<b>%s</b> through %s has declined the following meeting changes:"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-view.c:376
+#: ../plugins/itip-formatter/itip-view.c:380
 #, c-format
 msgid "<b>%s</b> has declined the following meeting changes."
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-view.c:403
+#: ../plugins/itip-formatter/itip-view.c:407
 #, c-format
 msgid "<b>%s</b> through %s has published the following task:"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-view.c:405
+#: ../plugins/itip-formatter/itip-view.c:409
 #, c-format
 msgid "<b>%s</b> has published the following task:"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-view.c:410
+#: ../plugins/itip-formatter/itip-view.c:414
 #, c-format
 msgid "<b>%s</b> requests the assignment of %s to the following task:"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-view.c:413
+#: ../plugins/itip-formatter/itip-view.c:417
 #, c-format
 msgid "<b>%s</b> through %s has assigned you a task:"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-view.c:415
+#: ../plugins/itip-formatter/itip-view.c:419
 #, c-format
 msgid "<b>%s</b> has assigned you a task:"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-view.c:421
+#: ../plugins/itip-formatter/itip-view.c:425
 #, c-format
 msgid "<b>%s</b> through %s wishes to add to an existing task:"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-view.c:423
+#: ../plugins/itip-formatter/itip-view.c:427
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing task:"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-view.c:426
+#: ../plugins/itip-formatter/itip-view.c:430
 #, c-format
 msgid ""
 "<b>%s</b> wishes to receive the latest information for the following "
 "assigned task:"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-view.c:429
+#: ../plugins/itip-formatter/itip-view.c:433
 #, c-format
 msgid "<b>%s</b> has sent back the following assigned task response:"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-view.c:433
+#: ../plugins/itip-formatter/itip-view.c:437
 #, c-format
 msgid "<b>%s</b> through %s has cancelled the following assigned task:"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-view.c:435
+#: ../plugins/itip-formatter/itip-view.c:439
 #, c-format
 msgid "<b>%s</b> has cancelled the following assigned task:"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-view.c:438
+#: ../plugins/itip-formatter/itip-view.c:442
 #, c-format
 msgid "<b>%s</b> has proposed the following task assignment changes:"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-view.c:442
+#: ../plugins/itip-formatter/itip-view.c:446
 #, c-format
 msgid "<b>%s</b> through %s has declined the following assigned task:"
 msgstr ""
 
-#: ../plugins/itip-formatter/itip-view.c:444
+#: ../plugins/itip-formatter/itip-view.c:448
 #, c-format
 msgid "<b>%s</b> has declined the following assigned task:"
 msgstr ""
 
 #. Start time
-#: ../plugins/itip-formatter/itip-view.c:867
+#: ../plugins/itip-formatter/itip-view.c:871
 msgid "Start time:"
 msgstr "Amser cychwyn:"
 
 #. End time
-#: ../plugins/itip-formatter/itip-view.c:876
+#: ../plugins/itip-formatter/itip-view.c:880
 msgid "End time:"
 msgstr "Amser gorffen:"
 
 #. Comment
-#: ../plugins/itip-formatter/itip-view.c:892
-#: ../plugins/itip-formatter/itip-view.c:942
+#: ../plugins/itip-formatter/itip-view.c:896
+#: ../plugins/itip-formatter/itip-view.c:946
 msgid "Comment:"
 msgstr "Sylw:"
+
+#: ../plugins/itip-formatter/itip-view.c:960
+#, fuzzy
+msgid "Send u_pdates to attendees"
+msgstr "Methu diweddaru mynychwr. %s"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.eplug.xml.h:1
 #, fuzzy
@@ -14322,78 +14543,77 @@ msgstr "Fformat"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:1
 msgid ""
+"&quot;{0}&quot; has delegated the meeting. Do you want to add the delegate "
+"&quot;{1}&quot; ?"
+msgstr ""
+
+#: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:3
+msgid "This meeting has been delegated"
+msgstr ""
+
+#: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:4
+msgid ""
 "This response is not from a current attendee. Add the sender as an attendee?"
 msgstr ""
 
-#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:1
+#: ../plugins/mail-to-meeting/org-gnome-mail-to-meeting.eplug.xml.h:1
+msgid ""
+"A plugin which allows the creation of meetings from the contents of a mail "
+"message."
+msgstr ""
+
+#: ../plugins/mail-to-meeting/org-gnome-mail-to-meeting.eplug.xml.h:2
+#, fuzzy
+msgid "Con_vert to Meeting"
+msgstr "Diddymu _Cyfarfod"
+
+#: ../plugins/mail-to-meeting/org-gnome-mail-to-meeting.eplug.xml.h:3
+#, fuzzy
+msgid "Mail to meeting"
+msgstr "Ebost i %s"
+
+#: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:1
+msgid ""
+"A plugin which allows the creation of tasks from the contents of a mail "
+"message."
+msgstr ""
+
+#: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:2
+msgid "Con_vert to Task"
+msgstr ""
+
+#: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:3
+#, fuzzy
+msgid "Mail to task"
+msgstr "Ebost i %s"
+
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:1
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:1
 #, fuzzy
 msgid "Contact list _owner"
 msgstr "Rhestr Gyswllt:"
 
-#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:2
-msgid "Contact the owner of the mailing list this message belongs to"
-msgstr ""
-
-#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:3
-msgid "Get an archive of the list this message belongs to"
-msgstr ""
-
-#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:4
-msgid "Get information about the usage of the list this message belongs to"
-msgstr ""
-
-#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:5
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:2
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:5
 #, fuzzy
 msgid "Get list _archive"
 msgstr "Chwilio archif Evolution"
 
-#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:6
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:3
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:6
 #, fuzzy
 msgid "Get list _usage information"
 msgstr "Gwybodaeth Cyfarfod"
 
-#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:7
-#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:5
-#, fuzzy
-msgid "Mailing _List"
-msgstr "Rhestr E-bostio"
-
-#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:8
-msgid "Post a message to the mailing list this message belongs to"
-msgstr ""
-
-#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:9
-msgid "Subscribe to the mailing list this message belongs to"
-msgstr ""
-
-#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:10
-msgid "Unsubscribe to the mailing list this message belongs to"
-msgstr ""
-
-#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:11
-#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:7
-#, fuzzy
-msgid "_Post message to list"
-msgstr "Rhestr Negeseuon"
-
-#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:12
-#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:8
-#, fuzzy
-msgid "_Subscribe to list"
-msgstr "_Tanysgrifio"
-
-#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:13
-#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:9
-#, fuzzy
-msgid "_Un-subscribe to list"
-msgstr "Dad-danysgrifio"
-
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:4
 #, fuzzy
 msgid "Mailing List Actions"
+msgstr "Rhestr E-bostio"
+
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:5
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:7
+#, fuzzy
+msgid "Mailing _List"
 msgstr "Rhestr E-bostio"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:6
@@ -14401,6 +14621,24 @@ msgid ""
 "Provide actions for common mailing list commands (subscribe, "
 "unsubscribe, ...)."
 msgstr ""
+
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:7
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:11
+#, fuzzy
+msgid "_Post message to list"
+msgstr "Rhestr Negeseuon"
+
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:8
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:12
+#, fuzzy
+msgid "_Subscribe to list"
+msgstr "_Tanysgrifio"
+
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:9
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:13
+#, fuzzy
+msgid "_Un-subscribe to list"
+msgstr "Dad-danysgrifio"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:1
 msgid "Action not available"
@@ -14466,36 +14704,29 @@ msgstr "_Golygu neges"
 msgid "_Send message"
 msgstr "_Anfon neges"
 
-#: ../plugins/mail-to-meeting/org-gnome-mail-to-meeting.eplug.xml.h:1
-msgid ""
-"A plugin which allows the creation of meetings from the contents of a mail "
-"message."
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:2
+msgid "Contact the owner of the mailing list this message belongs to"
 msgstr ""
 
-#: ../plugins/mail-to-meeting/org-gnome-mail-to-meeting.eplug.xml.h:2
-#, fuzzy
-msgid "Con_vert to Meeting"
-msgstr "Diddymu _Cyfarfod"
-
-#: ../plugins/mail-to-meeting/org-gnome-mail-to-meeting.eplug.xml.h:3
-#, fuzzy
-msgid "Mail to meeting"
-msgstr "Ebost i %s"
-
-#: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:1
-msgid ""
-"A plugin which allows the creation of tasks from the contents of a mail "
-"message."
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:3
+msgid "Get an archive of the list this message belongs to"
 msgstr ""
 
-#: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:2
-msgid "Con_vert to Task"
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:4
+msgid "Get information about the usage of the list this message belongs to"
 msgstr ""
 
-#: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:3
-#, fuzzy
-msgid "Mail to task"
-msgstr "Ebost i %s"
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:8
+msgid "Post a message to the mailing list this message belongs to"
+msgstr ""
+
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:9
+msgid "Subscribe to the mailing list this message belongs to"
+msgstr ""
+
+#: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:10
+msgid "Unsubscribe to the mailing list this message belongs to"
+msgstr ""
 
 #: ../plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml.h:1
 msgid "Mark calendar offline"
@@ -14608,13 +14839,9 @@ msgstr ""
 msgid "HTML Mode"
 msgstr "Modd HTML"
 
-#: ../plugins/save-attachments/org-gnome-save-attachments.xml.h:1
-msgid "Save Attachments ..."
-msgstr "Cadw Atodiadau..."
-
-#: ../plugins/save-attachments/org-gnome-save-attachments.xml.h:2
-msgid "Save all attachments"
-msgstr "Cadw pob atodiad"
+#: ../plugins/print-message/org-gnome-print-message.eplug.xml.h:1
+msgid "Gives an option to print mail from composer"
+msgstr ""
 
 #: ../plugins/save-attachments/org-gnome-save-attachments.eplug.xml.h:1
 msgid "A plugin for saving all attachments or parts of a message at once."
@@ -14623,6 +14850,14 @@ msgstr ""
 #: ../plugins/save-attachments/org-gnome-save-attachments.eplug.xml.h:2
 #, fuzzy
 msgid "Save attachments"
+msgstr "Cadw pob atodiad"
+
+#: ../plugins/save-attachments/org-gnome-save-attachments.xml.h:1
+msgid "Save Attachments ..."
+msgstr "Cadw Atodiadau..."
+
+#: ../plugins/save-attachments/org-gnome-save-attachments.xml.h:2
+msgid "Save all attachments"
 msgstr "Cadw pob atodiad"
 
 #: ../plugins/save-attachments/save-attachments.c:331
@@ -14792,86 +15027,9 @@ msgstr "Calendr Mis"
 msgid "_Show only this Task List"
 msgstr ""
 
-#: ../plugins/groupwise-features/send-options.c:82
-#, c-format
-msgid "%sEnter password for %s (user %s)"
-msgstr "%sRhowch cyfrinair am %s (defnyddiwr %s)"
-
-#: ../plugins/groupwise-features/install-shared.c:156
-#: ../plugins/groupwise-features/share-folder-common.c:382
-msgid "Create folder"
-msgstr "Creu plygell"
-
-#: ../plugins/groupwise-features/install-shared.c:156
-#: ../plugins/groupwise-features/share-folder-common.c:382
-msgid "Specify where to create the folder:"
+#: ../plugins/startup-wizard/org-gnome-evolution-startup-wizard.eplug.xml.h:1
+msgid "Startup wizard"
 msgstr ""
-
-#: ../plugins/groupwise-features/org-gnome-groupwise-features.eplug.xml.h:1
-msgid "A plugin for the features in Groupwise accounts."
-msgstr ""
-
-#: ../plugins/groupwise-features/org-gnome-groupwise-features.eplug.xml.h:2
-msgid "Groupwise Features"
-msgstr ""
-
-#: ../plugins/groupwise-features/properties.glade.h:2
-msgid "<b>Users :</b>"
-msgstr "<b>Defnyddwyr :</b>"
-
-#: ../plugins/groupwise-features/properties.glade.h:4
-msgid "Message"
-msgstr "Neges"
-
-#: ../plugins/groupwise-features/properties.glade.h:6
-msgid "Shared Folder Notification"
-msgstr ""
-
-#: ../plugins/groupwise-features/properties.glade.h:8
-msgid "The participants will receive the following notification.\n"
-msgstr ""
-
-#: ../plugins/groupwise-features/properties.glade.h:11
-msgid "_Contacts..."
-msgstr "Cysylltau..."
-
-#: ../plugins/groupwise-features/properties.glade.h:12
-msgid "_Cutomize notification message"
-msgstr ""
-
-#: ../plugins/groupwise-features/properties.glade.h:13
-msgid "_Not Shared"
-msgstr "_Heb ei Rannu"
-
-#: ../plugins/groupwise-features/properties.glade.h:15
-msgid "_Shared With ..."
-msgstr ""
-
-#: ../plugins/groupwise-features/properties.glade.h:16
-msgid "_Sharing"
-msgstr "_Yn Rhannu"
-
-#: ../plugins/groupwise-features/share-folder-common.c:140
-#, c-format
-msgid "Creating folder `%s'"
-msgstr ""
-
-#: ../plugins/groupwise-features/share-folder-common.c:317
-msgid "Users"
-msgstr "Defnyddwyr"
-
-#: ../plugins/groupwise-features/share-folder-common.c:318
-msgid "Enter the users and set permissions"
-msgstr ""
-
-#: ../plugins/groupwise-features/share-folder-common.c:337
-#, fuzzy
-msgid "New _Shared Folder..."
-msgstr "_Plygell Newydd..."
-
-#: ../plugins/groupwise-features/share-folder-common.c:440
-msgid "Sharing"
-msgstr "Rhannu"
 
 #: ../plugins/startup-wizard/startup-wizard.c:255
 msgid "Evolution Setup Assistant"
@@ -14900,10 +15058,6 @@ msgstr ""
 msgid "From %s:"
 msgstr "Oddi wrth %s:"
 
-#: ../plugins/startup-wizard/org-gnome-evolution-startup-wizard.eplug.xml.h:1
-msgid "Startup wizard"
-msgstr ""
-
 #: ../plugins/subject-thread/org-gnome-subject-thread.eplug.xml.h:1
 msgid "Indicates if threading of messages should fall back to subject."
 msgstr ""
@@ -14921,10 +15075,6 @@ msgstr "Rhestr Neges Trywyddwyd"
 #. Create the checkbox we will display, complete with mnemonic that is unique in the dialog
 #: ../plugins/subject-thread/subject-thread.c:54
 msgid "Fall back to threading messages by sub_ject"
-msgstr ""
-
-#: ../plugins/print-message/org-gnome-print-message.eplug.xml.h:1
-msgid "Gives an option to print mail from composer"
 msgstr ""
 
 #: ../shell/GNOME_Evolution_Shell.server.in.in.h:1
@@ -15220,23 +15370,23 @@ msgstr ""
 #. The translator-credits string is for translators to list
 #. * per language credits for translation, displayed in the
 #. * about box
-#: ../shell/e-shell-window-commands.c:507
+#: ../shell/e-shell-window-commands.c:508
 msgid "translator-credits"
 msgstr ""
 
-#: ../shell/e-shell-window-commands.c:521
+#: ../shell/e-shell-window-commands.c:522
 msgid "Groupware Suite"
 msgstr ""
 
-#: ../shell/e-shell-window-commands.c:748
+#: ../shell/e-shell-window-commands.c:749
 msgid "_Work Online"
 msgstr "_Gweithio Ar-lein"
 
-#: ../shell/e-shell-window-commands.c:761 ../ui/evolution.xml.h:47
+#: ../shell/e-shell-window-commands.c:762 ../ui/evolution.xml.h:47
 msgid "_Work Offline"
 msgstr "_Gweithio All-lein"
 
-#: ../shell/e-shell-window-commands.c:774
+#: ../shell/e-shell-window-commands.c:775
 msgid "Work Offline"
 msgstr "Gweithio All-lein"
 
@@ -16097,7 +16247,7 @@ msgstr "Argraffu cysylltiadau dewisiedig"
 msgid "Save selected contacts as a VCard."
 msgstr ""
 
-#: ../ui/evolution-addressbook.xml.h:21
+#: ../ui/evolution-addressbook.xml.h:21 ../widgets/text/e-text.c:2684
 msgid "Select All"
 msgstr "Dewis Popeth"
 
@@ -17493,6 +17643,13 @@ msgid ""
 "Use the right mouse button to zoom out."
 msgstr ""
 
+#: ../widgets/menus/gal-view-factory-etable.c:39
+#: ../widgets/table/e-table-header-item.c:1845
+#: ../widgets/table/e-table-scrolled.c:224
+#: ../widgets/table/e-table-scrolled.c:225
+msgid "Table"
+msgstr "Tabl"
+
 #: ../widgets/menus/gal-view-menus.c:291
 msgid "_Current View"
 msgstr "Golwg _Cyfredol"
@@ -17500,6 +17657,14 @@ msgstr "Golwg _Cyfredol"
 #: ../widgets/menus/gal-view-menus.c:359
 msgid "Save Custom View..."
 msgstr "Cadw Golwg Addasiedig..."
+
+#: ../widgets/menus/gal-view-new-dialog.c:80
+msgid "Factory"
+msgstr "Ffatri"
+
+#: ../widgets/menus/gal-view-new-dialog.c:115
+msgid "Define New View"
+msgstr "Diffinio Golwg Newydd"
 
 #. Translators: These are the first characters of each day of the
 #. week, 'M' for 'Monday', 'T' for Tuesday etc.
@@ -17519,6 +17684,73 @@ msgstr "Botwm Blaenorol"
 #: ../widgets/misc/e-calendar.c:226
 msgid "Month Calendar"
 msgstr "Calendr Mis"
+
+#: ../widgets/misc/e-canvas-background.c:456
+#: ../widgets/misc/e-canvas-background.c:457 ../widgets/text/e-entry.c:1284
+#: ../widgets/text/e-entry.c:1285 ../widgets/text/e-text.c:3540
+#: ../widgets/text/e-text.c:3541
+msgid "Fill color"
+msgstr "Lliw llenwi"
+
+#: ../widgets/misc/e-canvas-background.c:463
+#: ../widgets/misc/e-canvas-background.c:464
+#: ../widgets/misc/e-canvas-background.c:470
+#: ../widgets/misc/e-canvas-background.c:471 ../widgets/text/e-entry.c:1291
+#: ../widgets/text/e-entry.c:1292 ../widgets/text/e-entry.c:1298
+#: ../widgets/text/e-entry.c:1299 ../widgets/text/e-text.c:3547
+#: ../widgets/text/e-text.c:3548 ../widgets/text/e-text.c:3555
+#: ../widgets/text/e-text.c:3556
+msgid "GDK fill color"
+msgstr "Lliw llenwi GDK"
+
+#: ../widgets/misc/e-canvas-background.c:477 ../widgets/text/e-entry.c:1305
+#: ../widgets/text/e-text.c:3562 ../widgets/text/e-text.c:3563
+msgid "Fill stipple"
+msgstr "Llenwi dotwaith"
+
+#: ../widgets/misc/e-canvas-background.c:478 ../widgets/text/e-entry.c:1306
+#, fuzzy
+msgid "FIll stipple"
+msgstr "Llenwi dotwaith"
+
+#: ../widgets/misc/e-canvas-background.c:484
+#: ../widgets/misc/e-canvas-background.c:485
+#, fuzzy
+msgid "X1"
+msgstr "1"
+
+#: ../widgets/misc/e-canvas-background.c:491
+#: ../widgets/misc/e-canvas-background.c:492
+msgid "X2"
+msgstr ""
+
+#: ../widgets/misc/e-canvas-background.c:498
+#: ../widgets/misc/e-canvas-background.c:499
+#, fuzzy
+msgid "Y1"
+msgstr "1"
+
+#: ../widgets/misc/e-canvas-background.c:505
+#: ../widgets/misc/e-canvas-background.c:506
+msgid "Y2"
+msgstr ""
+
+#: ../widgets/misc/e-canvas-vbox.c:102 ../widgets/misc/e-reflow.c:1430
+#: ../widgets/table/e-table-group-leaf.c:636
+#: ../widgets/table/e-table-item.c:3001
+msgid "Minimum width"
+msgstr "Lleiafswm lled"
+
+#: ../widgets/misc/e-canvas-vbox.c:103 ../widgets/misc/e-reflow.c:1431
+#: ../widgets/table/e-table-group-leaf.c:637
+#: ../widgets/table/e-table-item.c:3002
+msgid "Minimum Width"
+msgstr "Lleiafswm Lled"
+
+#: ../widgets/misc/e-canvas-vbox.c:114 ../widgets/misc/e-canvas-vbox.c:115
+#: ../widgets/misc/e-expander.c:205
+msgid "Spacing"
+msgstr "Blychu"
 
 #: ../widgets/misc/e-cell-date-edit.c:232 ../widgets/misc/e-dateedit.c:451
 msgid "Now"
@@ -17673,10 +17905,6 @@ msgstr ""
 "A dylir defnyddio tanlinellu yn y testun er mwyn dynodi y dylai'r "
 "defnyddio'r nod nesaf fel coflythyren bysell gyflymu"
 
-#: ../widgets/misc/e-expander.c:205
-msgid "Spacing"
-msgstr "Blychu"
-
 #: ../widgets/misc/e-expander.c:206
 msgid "Space to put between the label and the child"
 msgstr ""
@@ -17689,11 +17917,11 @@ msgstr "Teclyn label"
 msgid "A widget to display in place of the usual expander label"
 msgstr ""
 
-#: ../widgets/misc/e-expander.c:222
+#: ../widgets/misc/e-expander.c:222 ../widgets/table/e-tree.c:3318
 msgid "Expander Size"
 msgstr "Maint Ehangwr"
 
-#: ../widgets/misc/e-expander.c:223
+#: ../widgets/misc/e-expander.c:223 ../widgets/table/e-tree.c:3319
 msgid "Size of the expander arrow"
 msgstr "Maint y saeth ehangu"
 
@@ -17757,6 +17985,21 @@ msgstr ""
 msgid "Sync Categories:"
 msgstr ""
 
+#: ../widgets/misc/e-reflow.c:1452 ../widgets/misc/e-reflow.c:1453
+#, fuzzy
+msgid "Empty message"
+msgstr "_Golygu neges"
+
+#: ../widgets/misc/e-reflow.c:1459 ../widgets/misc/e-reflow.c:1460
+#, fuzzy
+msgid "Reflow model"
+msgstr "Model Dewis"
+
+#: ../widgets/misc/e-reflow.c:1466 ../widgets/misc/e-reflow.c:1467
+#, fuzzy
+msgid "Column width"
+msgstr "Lleiafswm lled"
+
 #. To translators: This is the accessibility name of
 #. the search bar's text entry widget
 #: ../widgets/misc/e-search-bar.c:345
@@ -17787,13 +18030,37 @@ msgstr ""
 msgid "Subitem ID"
 msgstr ""
 
-#: ../widgets/misc/e-search-bar.c:865
+#: ../widgets/misc/e-search-bar.c:865 ../widgets/text/e-entry.c:1249
+#: ../widgets/text/e-entry.c:1250 ../widgets/text/e-text.c:3462
+#: ../widgets/text/e-text.c:3463
 msgid "Text"
 msgstr "Testun"
 
 #: ../widgets/misc/e-search-bar.c:945
 msgid "Find _Now"
 msgstr "Chwilio _Nawr"
+
+#: ../widgets/misc/e-selection-model-array.c:546
+#: ../widgets/table/e-tree-selection-model.c:811
+msgid "Cursor Row"
+msgstr "Rhes Gyrchwr"
+
+#: ../widgets/misc/e-selection-model-array.c:553
+#: ../widgets/table/e-tree-selection-model.c:818
+msgid "Cursor Column"
+msgstr "Colofn Gyrchwr"
+
+#: ../widgets/misc/e-selection-model.c:214
+msgid "Sorter"
+msgstr "Trefnydd"
+
+#: ../widgets/misc/e-selection-model.c:221
+msgid "Selection Mode"
+msgstr "Modd Dewis"
+
+#: ../widgets/misc/e-selection-model.c:229
+msgid "Cursor Mode"
+msgstr "Modd Cyrchwr"
 
 #: ../widgets/misc/e-send-options.c:515
 msgid "When de_leted:"
@@ -17936,6 +18203,417 @@ msgstr "%s (%d%% cyflawn)"
 msgid "click here to go to url"
 msgstr "cliciwch yma i fynd i'r url"
 
+#: ../widgets/table/e-cell-combo.c:177
+msgid "popup list"
+msgstr "rhestr naidlenni"
+
+#: ../widgets/table/e-cell-date.c:64
+msgid "%l:%M %p"
+msgstr "%l:%M %p"
+
+#: ../widgets/table/e-cell-pixbuf.c:397
+msgid "Selected Column"
+msgstr "Colofn Wedi Dewis"
+
+#: ../widgets/table/e-cell-pixbuf.c:404
+msgid "Focused Column"
+msgstr "Colofn Wedi Ffocysu"
+
+#: ../widgets/table/e-cell-pixbuf.c:411
+msgid "Unselected Column"
+msgstr "Colofn Wedi Dad-Ddewis"
+
+#: ../widgets/table/e-cell-text.c:1740
+msgid "Strikeout Column"
+msgstr "Colofn Wedi Taro Drwyddi"
+
+#: ../widgets/table/e-cell-text.c:1747
+msgid "Underline Column"
+msgstr "Colofn Wedi Tanlinellu"
+
+#: ../widgets/table/e-cell-text.c:1754
+msgid "Bold Column"
+msgstr "Colofn Fras"
+
+#: ../widgets/table/e-cell-text.c:1761
+msgid "Color Column"
+msgstr "Lliw Colofn"
+
+#: ../widgets/table/e-cell-text.c:1775
+msgid "BG Color Column"
+msgstr "Colofn Lliw Cefndir"
+
+#: ../widgets/table/e-table-config-field.c:254
+msgid "Then By"
+msgstr "Yna Wrth"
+
+#: ../widgets/table/e-table-config-field.c:254
+#, fuzzy
+msgid "Group By"
+msgstr "_Dosbarthu Wrth..."
+
+#: ../widgets/table/e-table-config-field.c:254
+#, fuzzy
+msgid "Sort By"
+msgstr "Trefnu"
+
+#: ../widgets/table/e-table-config-field.c:270
+msgid "Ascending"
+msgstr "Esgynnol"
+
+#: ../widgets/table/e-table-config-field.c:273
+msgid "Descending"
+msgstr "Disgynnol"
+
+#: ../widgets/table/e-table-config.c:150
+msgid "State"
+msgstr "Cyflwr"
+
+#: ../widgets/table/e-table-config.c:307 ../widgets/table/e-table-config.c:349
+msgid "(Ascending)"
+msgstr "(Esgynnol)"
+
+#: ../widgets/table/e-table-config.c:307 ../widgets/table/e-table-config.c:349
+msgid "(Descending)"
+msgstr "(Disgynnol)"
+
+#: ../widgets/table/e-table-config.c:314
+msgid "Not sorted"
+msgstr "Heb eu trefnu"
+
+#: ../widgets/table/e-table-config.c:355
+msgid "No grouping"
+msgstr "Dim dosbarthiad"
+
+#: ../widgets/table/e-table-field-chooser-dialog.c:77
+#: ../widgets/table/e-table-field-chooser-item.c:646
+#: ../widgets/table/e-table-field-chooser.c:79
+#: ../widgets/table/e-table-header-item.c:1810
+msgid "DnD code"
+msgstr "Côd llusgo-a-gollwng"
+
+#: ../widgets/table/e-table-field-chooser-dialog.c:84
+#: ../widgets/table/e-table-field-chooser-item.c:653
+#: ../widgets/table/e-table-field-chooser.c:86
+#: ../widgets/table/e-table-header-item.c:1824
+msgid "Full Header"
+msgstr "Pennyn Llawn"
+
+#: ../widgets/table/e-table-field-chooser-dialog.c:126
+msgid "Add a column..."
+msgstr "Ychwanegu colofn..."
+
+#: ../widgets/table/e-table-group-leaf.c:573
+#: ../widgets/table/e-table-group-leaf.c:574
+#: ../widgets/table/e-table-item.c:2959 ../widgets/table/e-table-item.c:2960
+msgid "Alternating Row Colors"
+msgstr "Lliwiau Bob yn Ail Res"
+
+#: ../widgets/table/e-table-group-leaf.c:580
+#: ../widgets/table/e-table-group-leaf.c:581
+#: ../widgets/table/e-table-item.c:2966 ../widgets/table/e-table-item.c:2967
+#: ../widgets/table/e-tree.c:3271 ../widgets/table/e-tree.c:3272
+msgid "Horizontal Draw Grid"
+msgstr "Grid Tynnu Llorweddol"
+
+#: ../widgets/table/e-table-group-leaf.c:587
+#: ../widgets/table/e-table-group-leaf.c:588
+#: ../widgets/table/e-table-item.c:2973 ../widgets/table/e-table-item.c:2974
+#: ../widgets/table/e-tree.c:3277 ../widgets/table/e-tree.c:3278
+msgid "Vertical Draw Grid"
+msgstr "Grid Tynnu Fertigol"
+
+#: ../widgets/table/e-table-group-leaf.c:594
+#: ../widgets/table/e-table-group-leaf.c:595
+#: ../widgets/table/e-table-item.c:2980 ../widgets/table/e-table-item.c:2981
+#: ../widgets/table/e-tree.c:3283 ../widgets/table/e-tree.c:3284
+msgid "Draw focus"
+msgstr "Tynnu ffocws"
+
+#: ../widgets/table/e-table-group-leaf.c:601
+#: ../widgets/table/e-table-group-leaf.c:602
+#: ../widgets/table/e-table-item.c:2987 ../widgets/table/e-table-item.c:2988
+msgid "Cursor mode"
+msgstr "Modd cyrchwr"
+
+#: ../widgets/table/e-table-group-leaf.c:608
+#: ../widgets/table/e-table-group-leaf.c:609
+#: ../widgets/table/e-table-item.c:2994 ../widgets/table/e-table-item.c:2995
+#: ../widgets/table/e-table.c:3316 ../widgets/table/e-tree.c:3265
+#: ../widgets/table/e-tree.c:3266
+msgid "Length Threshold"
+msgstr "Trothwy Hyd"
+
+#: ../widgets/table/e-table-group-leaf.c:615
+#: ../widgets/table/e-table-group-leaf.c:616
+#: ../widgets/table/e-table-item.c:2952 ../widgets/table/e-table-item.c:2953
+msgid "Selection model"
+msgstr "Model Dewis"
+
+#: ../widgets/table/e-table-group-leaf.c:643
+#: ../widgets/table/e-table-group-leaf.c:644
+msgid "Frozen"
+msgstr "Wedi rhewi"
+
+#: ../widgets/table/e-table-group-leaf.c:650
+#: ../widgets/table/e-table-group-leaf.c:651
+#: ../widgets/table/e-table-item.c:3028 ../widgets/table/e-table-item.c:3029
+#: ../widgets/table/e-table.c:3323 ../widgets/table/e-tree.c:3297
+#: ../widgets/table/e-tree.c:3298
+msgid "Uniform row height"
+msgstr "Uchder cyson rhesi"
+
+#: ../widgets/table/e-table-header-item.c:1472
+msgid "Customize Current View"
+msgstr "Addasu'r Olwg Bresennol"
+
+#: ../widgets/table/e-table-header-item.c:1492
+msgid "Sort Ascending"
+msgstr "Trefnu'n Esgynnol"
+
+#: ../widgets/table/e-table-header-item.c:1493
+msgid "Sort Descending"
+msgstr "Trefnu'n Ddisgynnol"
+
+#: ../widgets/table/e-table-header-item.c:1494
+msgid "Unsort"
+msgstr "Dad-drefnu"
+
+#: ../widgets/table/e-table-header-item.c:1496
+msgid "Group By This Field"
+msgstr "Grŵpio wrth y Maes Hwn"
+
+#: ../widgets/table/e-table-header-item.c:1497
+msgid "Group By Box"
+msgstr "Grwpio Wrth Focs"
+
+#: ../widgets/table/e-table-header-item.c:1499
+msgid "Remove This Column"
+msgstr "Tynnu'r Golofn"
+
+#: ../widgets/table/e-table-header-item.c:1500
+msgid "Add a Column..."
+msgstr "Ychwanegu Colofn..."
+
+#: ../widgets/table/e-table-header-item.c:1502
+msgid "Alignment"
+msgstr "Aliniad"
+
+#: ../widgets/table/e-table-header-item.c:1503
+msgid "Best Fit"
+msgstr "Ffit Orau"
+
+#: ../widgets/table/e-table-header-item.c:1504
+msgid "Format Columns..."
+msgstr "Fformatio Colofnau..."
+
+#: ../widgets/table/e-table-header-item.c:1506
+msgid "Customize Current View..."
+msgstr "Addasu'r Olwg Gyfredol..."
+
+#: ../widgets/table/e-table-header-item.c:1817 ../widgets/text/e-entry.c:1263
+#: ../widgets/text/e-entry.c:1264
+msgid "Fontset"
+msgstr "Set Ffontiau"
+
+#: ../widgets/table/e-table-header-item.c:1838
+#: ../widgets/table/e-table-sorter.c:175
+msgid "Sort Info"
+msgstr "Manylion Trefnu"
+
+#: ../widgets/table/e-table-header-item.c:1852
+#: ../widgets/table/e-tree-scrolled.c:223
+#: ../widgets/table/e-tree-scrolled.c:224
+msgid "Tree"
+msgstr "Coeden"
+
+#: ../widgets/table/e-table-item.c:2938 ../widgets/table/e-table-item.c:2939
+#, fuzzy
+msgid "Table header"
+msgstr "Pennyn wedi'i gamffurfio"
+
+#: ../widgets/table/e-table-item.c:2945 ../widgets/table/e-table-item.c:2946
+#, fuzzy
+msgid "Table model"
+msgstr "Cell Tabl"
+
+#: ../widgets/table/e-table-item.c:3021 ../widgets/table/e-table-item.c:3022
+#, fuzzy
+msgid "Cursor row"
+msgstr "Rhes Gyrchwr"
+
+#: ../widgets/table/e-table.c:3330
+msgid "Always Search"
+msgstr "Chwilio o Hyd"
+
+#: ../widgets/table/e-table.c:3337
+msgid "Use click to add"
+msgstr "Defnyddiwch glic i ychwanegu"
+
+#: ../widgets/table/e-tree.c:3290 ../widgets/table/e-tree.c:3291
+msgid "ETree table adapter"
+msgstr "Addasydd tabl ETree"
+
+#: ../widgets/table/e-tree.c:3304 ../widgets/table/e-tree.c:3305
+msgid "Always search"
+msgstr "Chwilio o hyd"
+
+#: ../widgets/table/e-tree.c:3311
+msgid "Retro Look"
+msgstr "Golwg Retro"
+
+#: ../widgets/table/e-tree.c:3312
+msgid "Draw lines and +/- expanders."
+msgstr "Tynnu llinellau ac ehangwyr +/-."
+
+#: ../widgets/text/e-entry-test.c:49
+msgid "Minicard Test"
+msgstr ""
+
+#: ../widgets/text/e-entry-test.c:50
+#, fuzzy
+msgid "Copyright (C) 2000, Helix Code, Inc."
+msgstr "Hawlfraint (C) 2000, Ximian, Inc."
+
+#: ../widgets/text/e-entry-test.c:52
+#, fuzzy
+msgid "This should test the minicard canvas item"
+msgstr "Fe ddylau hyn brofi'r côd argraffu cyswllt"
+
+#: ../widgets/text/e-entry.c:1242 ../widgets/text/e-entry.c:1243
+#: ../widgets/text/e-text.c:3455 ../widgets/text/e-text.c:3456
+msgid "Event Processor"
+msgstr "Prosesydd Digwyddiadau"
+
+#: ../widgets/text/e-entry.c:1256 ../widgets/text/e-entry.c:1257
+#, fuzzy
+msgid "Font"
+msgstr "Ffontiau"
+
+#: ../widgets/text/e-entry.c:1270 ../widgets/text/e-entry.c:1271
+#, fuzzy
+msgid "GDKFont"
+msgstr "Ffontiau"
+
+#: ../widgets/text/e-entry.c:1277 ../widgets/text/e-entry.c:1278
+#: ../widgets/text/e-text.c:3491 ../widgets/text/e-text.c:3492
+msgid "Justification"
+msgstr "Unioniad"
+
+#: ../widgets/text/e-entry.c:1319 ../widgets/text/e-entry.c:1320
+#: ../widgets/text/e-text.c:3591 ../widgets/text/e-text.c:3592
+msgid "Use ellipsis"
+msgstr "Defnyddio marc colli geiriau"
+
+#: ../widgets/text/e-entry.c:1326 ../widgets/text/e-entry.c:1327
+#: ../widgets/text/e-text.c:3598 ../widgets/text/e-text.c:3599
+msgid "Ellipsis"
+msgstr "Coll geiriau"
+
+#: ../widgets/text/e-entry.c:1333 ../widgets/text/e-entry.c:1334
+#: ../widgets/text/e-text.c:3605 ../widgets/text/e-text.c:3606
+msgid "Line wrap"
+msgstr "Amlapio llinell"
+
+#: ../widgets/text/e-entry.c:1340 ../widgets/text/e-entry.c:1341
+#: ../widgets/text/e-text.c:3612 ../widgets/text/e-text.c:3613
+msgid "Break characters"
+msgstr "Torri nodau"
+
+#: ../widgets/text/e-entry.c:1347 ../widgets/text/e-entry.c:1348
+#: ../widgets/text/e-text.c:3619 ../widgets/text/e-text.c:3620
+msgid "Max lines"
+msgstr "Uchafswm llinellau"
+
+#: ../widgets/text/e-entry.c:1354 ../widgets/text/e-entry.c:1355
+#: ../widgets/text/e-text.c:3648 ../widgets/text/e-text.c:3649
+msgid "Allow newlines"
+msgstr "Caniatau llinellau newydd"
+
+#: ../widgets/text/e-entry.c:1361 ../widgets/text/e-entry.c:1362
+#: ../widgets/text/e-text.c:3641 ../widgets/text/e-text.c:3642
+msgid "Draw borders"
+msgstr "Tynnu borderi"
+
+#: ../widgets/text/e-entry.c:1368 ../widgets/text/e-entry.c:1369
+#: ../widgets/text/e-text.c:3655 ../widgets/text/e-text.c:3656
+msgid "Draw background"
+msgstr "Tynnu cefndir"
+
+#: ../widgets/text/e-entry.c:1375 ../widgets/text/e-entry.c:1376
+#: ../widgets/text/e-text.c:3662 ../widgets/text/e-text.c:3663
+msgid "Draw button"
+msgstr "Tynnu botwm"
+
+#: ../widgets/text/e-entry.c:1382 ../widgets/text/e-entry.c:1383
+#: ../widgets/text/e-text.c:3669 ../widgets/text/e-text.c:3670
+msgid "Cursor position"
+msgstr "Man y cyrchwr"
+
+#: ../widgets/text/e-entry.c:1389 ../widgets/text/e-entry.c:1390
+msgid "Emulate label resize"
+msgstr ""
+
+#: ../widgets/text/e-text.c:2696
+msgid "Input Methods"
+msgstr "Dulliau Mewnbwn"
+
+#: ../widgets/text/e-text.c:3469 ../widgets/text/e-text.c:3470
+msgid "Bold"
+msgstr "Bras"
+
+#: ../widgets/text/e-text.c:3476 ../widgets/text/e-text.c:3477
+msgid "Strikeout"
+msgstr "Llinell Drwodd"
+
+#: ../widgets/text/e-text.c:3483 ../widgets/text/e-text.c:3484
+msgid "Anchor"
+msgstr "Angor"
+
+#: ../widgets/text/e-text.c:3498 ../widgets/text/e-text.c:3499
+msgid "Clip Width"
+msgstr "Lled Clip"
+
+#: ../widgets/text/e-text.c:3505 ../widgets/text/e-text.c:3506
+msgid "Clip Height"
+msgstr "Uchder Clip"
+
+#: ../widgets/text/e-text.c:3512 ../widgets/text/e-text.c:3513
+msgid "Clip"
+msgstr "Clip"
+
+#: ../widgets/text/e-text.c:3519 ../widgets/text/e-text.c:3520
+msgid "Fill clip rectangle"
+msgstr "Llenwi petryal clip"
+
+#: ../widgets/text/e-text.c:3526 ../widgets/text/e-text.c:3527
+msgid "X Offset"
+msgstr "Atred X"
+
+#: ../widgets/text/e-text.c:3533 ../widgets/text/e-text.c:3534
+msgid "Y Offset"
+msgstr "Atred Y"
+
+#: ../widgets/text/e-text.c:3569 ../widgets/text/e-text.c:3570
+msgid "Text width"
+msgstr "Lled testun"
+
+#: ../widgets/text/e-text.c:3576 ../widgets/text/e-text.c:3577
+msgid "Text height"
+msgstr "Uchder testun"
+
+#: ../widgets/text/e-text.c:3676 ../widgets/text/e-text.c:3677
+msgid "IM Context"
+msgstr "Cyd-destun IM"
+
+#: ../widgets/text/e-text.c:3683 ../widgets/text/e-text.c:3684
+msgid "Handle Popup"
+msgstr "Deliwr Naidlen"
+
+#, fuzzy
+#~ msgid "From:"
+#~ msgstr "_Oddi wrth:"
+
 #~ msgid "Save Appointment"
 #~ msgstr "Arbed yr Apwyntiad"
 
@@ -17956,15 +18634,6 @@ msgstr "cliciwch yma i fynd i'r url"
 
 #~ msgid "Create New Folder"
 #~ msgstr "Creu Plygell Newydd"
-
-#~ msgid "Copying `%s' to `%s'"
-#~ msgstr "Copïo `%s' i `%s'"
-
-#~ msgid "Rename Folder"
-#~ msgstr "Ailenwi Plygell"
-
-#~ msgid "Folder names cannot contain '/'"
-#~ msgstr "Ni all enwau ffolderi gynnwys '/'"
 
 #~ msgid "_Print"
 #~ msgstr "_Argraffu"
