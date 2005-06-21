@@ -1,3 +1,8 @@
+2005-06-21  Kaushal Kumar  <kakumar@novell.com>
+
+	* table/ChangeLog: Added from gal/gal/e-table as Gal is 
+	retired from Head and e-table files are moved here.
+
 2005-05-12  Srinivasa Ragavan <sragavan@novell.com>
 	* misc/e-dateedit.c: (on_time_entry_key_release),
 	(create_children): Fix the bug 303856. Enables OK button
