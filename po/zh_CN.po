@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-06-21 13:59+0800\n"
+"POT-Creation-Date: 2005-06-21 21:13+0000\n"
 "PO-Revision-Date: 2005-06-09 19:08+0800\n"
 "Last-Translator: Funda Wang <fundawang@linux.net.cn>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
@@ -287,9 +287,8 @@ msgid "click"
 msgstr "单击"
 
 #: ../a11y/e-table/gal-a11y-e-table-column-header.c:135
-#, fuzzy
 msgid "sort"
-msgstr "未排序"
+msgstr "排序"
 
 #: ../a11y/widgets/ea-calendar-item.c:296
 #: ../a11y/widgets/ea-calendar-item.c:302
@@ -5770,9 +5769,8 @@ msgid "<b>Dele_gatees</b>"
 msgstr "<b>代理人(_G)</b>"
 
 #: ../calendar/gui/dialogs/meeting-page.c:307
-#, fuzzy
 msgid "<b>From:</b>"
-msgstr "<b>家庭</b>"
+msgstr "<b>来自：</b>"
 
 #. an empty string is the same as 'None'
 #. Put the "None" and "UTC" entries at the top of the combo's list.
@@ -10787,9 +10785,9 @@ msgid "_Rename..."
 msgstr "重命名(_R)..."
 
 #: ../mail/em-folder-utils.c:104
-#, fuzzy, c-format
+#, c-format
 msgid "Copying `%s' to `%s'"
-msgstr "把信件复制到 %s"
+msgstr "把“%s”复制到 %s"
 
 #: ../mail/em-folder-utils.c:367 ../mail/em-folder-utils.c:383
 #: ../mail/em-folder-view.c:929 ../mail/em-folder-view.c:944
@@ -10805,17 +10803,15 @@ msgstr "复制(_O)"
 #: ../mail/em-folder-utils.c:521
 #, c-format
 msgid "Rename the \"%s\" folder to:"
-msgstr ""
+msgstr "将“%s”文件夹重命名为："
 
 #: ../mail/em-folder-utils.c:523
-#, fuzzy
 msgid "Rename Folder"
-msgstr "创建虚拟文件夹(_V)"
+msgstr "重命名文件夹"
 
 #: ../mail/em-folder-utils.c:529
-#, fuzzy
 msgid "Folder names cannot contain '/'"
-msgstr "文件夹名不能含有字符“/”。"
+msgstr "文件夹名不能含有字符“/”"
 
 #: ../mail/em-folder-utils.c:599
 #: ../plugins/groupwise-features/share-folder-common.c:140
@@ -14011,9 +14007,8 @@ msgid ""
 msgstr "此选项将使用标准的纯文本密码身份验证连接到 Exchange 服务器。"
 
 #: ../plugins/exchange-account-setup/exchange-account-setup.c:194
-#, fuzzy
 msgid "Could not read out-of-office state"
-msgstr "无法创建信件。"
+msgstr "无法读取办公室外状态"
 
 #. Description section
 #: ../plugins/exchange-account-setup/exchange-account-setup.c:211
@@ -14053,9 +14048,8 @@ msgid "A_uthenticate"
 msgstr "身份验证(_U)"
 
 #: ../plugins/exchange-account-setup/exchange-account-setup.c:597
-#, fuzzy
 msgid "Could not update out-of-office state"
-msgstr "无法更新对象"
+msgstr "无法更新办公室外状态"
 
 #: ../plugins/exchange-account-setup/exchange-account-setup.c:724
 msgid "Authentication Type"
@@ -14189,16 +14183,15 @@ msgstr "将日历“%s”发送为已取消"
 #: ../plugins/itip-formatter/itip-formatter.c:859
 #, c-format
 msgid "Organizer has removed the delegate %s "
-msgstr ""
+msgstr "组织者已经删除了代理人 %s"
 
 #: ../plugins/itip-formatter/itip-formatter.c:866
 msgid "Sent a cancellation notice to the delegate"
-msgstr ""
+msgstr "已给代理人发送了取消通知"
 
 #: ../plugins/itip-formatter/itip-formatter.c:868
-#, fuzzy
 msgid "Could not send the cancellation notice to the delegate"
-msgstr "您是否想要为此日记项发送取消通知？"
+msgstr "无法给代理人发送取消通知"
 
 #: ../plugins/itip-formatter/itip-formatter.c:940
 msgid "Attendee status could not be updated because the status is invalid"
@@ -14424,9 +14417,9 @@ msgid "<b>%s</b> has published the following meeting information:"
 msgstr "<b>%s</b> 发布了会议信息："
 
 #: ../plugins/itip-formatter/itip-view.c:346
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has delegated the following meeting to you:"
-msgstr "<b>%s</b> 取消了下列会议："
+msgstr "<b>%s</b> 为您代理了下列会议："
 
 #: ../plugins/itip-formatter/itip-view.c:349
 #, c-format
@@ -14573,9 +14566,8 @@ msgid "Comment:"
 msgstr "注释："
 
 #: ../plugins/itip-formatter/itip-view.c:960
-#, fuzzy
 msgid "Send u_pdates to attendees"
-msgstr "无法更新参与者。%s"
+msgstr "给与会者发送更新(_P)"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.eplug.xml.h:1
 msgid "Displays text/calendar parts in messages."
@@ -14590,11 +14582,11 @@ msgid ""
 "&quot;{0}&quot; has delegated the meeting. Do you want to add the delegate "
 "&quot;{1}&quot; ?"
 msgstr ""
+"“{0}”代理了该会议。您是否想要添加代理人“{1}”？"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:3
-#, fuzzy
 msgid "This meeting has been delegated"
-msgstr "该事件已经被删除。"
+msgstr "该会议已被代理"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:4
 msgid ""
@@ -17741,31 +17733,28 @@ msgid "Fill stipple"
 msgstr "点绘填充"
 
 #: ../widgets/misc/e-canvas-background.c:478 ../widgets/text/e-entry.c:1306
-#, fuzzy
 msgid "FIll stipple"
 msgstr "点绘填充"
 
 #: ../widgets/misc/e-canvas-background.c:484
 #: ../widgets/misc/e-canvas-background.c:485
-#, fuzzy
 msgid "X1"
-msgstr "1"
+msgstr "X1"
 
 #: ../widgets/misc/e-canvas-background.c:491
 #: ../widgets/misc/e-canvas-background.c:492
 msgid "X2"
-msgstr ""
+msgstr "X2"
 
 #: ../widgets/misc/e-canvas-background.c:498
 #: ../widgets/misc/e-canvas-background.c:499
-#, fuzzy
 msgid "Y1"
-msgstr "1"
+msgstr "Y1"
 
 #: ../widgets/misc/e-canvas-background.c:505
 #: ../widgets/misc/e-canvas-background.c:506
 msgid "Y2"
-msgstr ""
+msgstr "Y2"
 
 #: ../widgets/misc/e-canvas-vbox.c:102 ../widgets/misc/e-reflow.c:1430
 #: ../widgets/table/e-table-group-leaf.c:636
@@ -18017,17 +18006,14 @@ msgid "Sync Categories:"
 msgstr "同步类别："
 
 #: ../widgets/misc/e-reflow.c:1452 ../widgets/misc/e-reflow.c:1453
-#, fuzzy
 msgid "Empty message"
-msgstr "编辑信件(_E)"
+msgstr "空信件"
 
 #: ../widgets/misc/e-reflow.c:1459 ../widgets/misc/e-reflow.c:1460
-#, fuzzy
 msgid "Reflow model"
-msgstr "选择模型"
+msgstr "回流模型"
 
 #: ../widgets/misc/e-reflow.c:1466 ../widgets/misc/e-reflow.c:1467
-#, fuzzy
 msgid "Column width"
 msgstr "列宽"
 
@@ -18278,14 +18264,12 @@ msgid "Then By"
 msgstr "然后按"
 
 #: ../widgets/table/e-table-config-field.c:254
-#, fuzzy
 msgid "Group By"
-msgstr "分组依据(_G)..."
+msgstr "分组依据"
 
 #: ../widgets/table/e-table-config-field.c:254
-#, fuzzy
 msgid "Sort By"
-msgstr "排序"
+msgstr "排序依据"
 
 #: ../widgets/table/e-table-config-field.c:270
 msgid "Ascending"
@@ -18458,17 +18442,14 @@ msgid "Tree"
 msgstr "树"
 
 #: ../widgets/table/e-table-item.c:2938 ../widgets/table/e-table-item.c:2939
-#, fuzzy
 msgid "Table header"
-msgstr "头格式不对"
+msgstr "表头"
 
 #: ../widgets/table/e-table-item.c:2945 ../widgets/table/e-table-item.c:2946
-#, fuzzy
 msgid "Table model"
-msgstr "表格单元格"
+msgstr "表格模型"
 
 #: ../widgets/table/e-table-item.c:3021 ../widgets/table/e-table-item.c:3022
-#, fuzzy
 msgid "Cursor row"
 msgstr "光标行"
 
@@ -18498,17 +18479,15 @@ msgstr "绘制行和 +/- 扩展柄。"
 
 #: ../widgets/text/e-entry-test.c:49
 msgid "Minicard Test"
-msgstr ""
+msgstr "迷你卡测试"
 
 #: ../widgets/text/e-entry-test.c:50
-#, fuzzy
 msgid "Copyright (C) 2000, Helix Code, Inc."
-msgstr "版权 (C) 2000, Ximian, Inc."
+msgstr "版权 (C) 2000, Helix Code, Inc."
 
 #: ../widgets/text/e-entry-test.c:52
-#, fuzzy
 msgid "This should test the minicard canvas item"
-msgstr "这应该测试联系人打印代码"
+msgstr "这应该测试迷你卡画布项"
 
 #: ../widgets/text/e-entry.c:1242 ../widgets/text/e-entry.c:1243
 #: ../widgets/text/e-text.c:3455 ../widgets/text/e-text.c:3456
@@ -18516,14 +18495,12 @@ msgid "Event Processor"
 msgstr "事件处理器"
 
 #: ../widgets/text/e-entry.c:1256 ../widgets/text/e-entry.c:1257
-#, fuzzy
 msgid "Font"
 msgstr "字体"
 
 #: ../widgets/text/e-entry.c:1270 ../widgets/text/e-entry.c:1271
-#, fuzzy
 msgid "GDKFont"
-msgstr "字体"
+msgstr "GDKFont"
 
 #: ../widgets/text/e-entry.c:1277 ../widgets/text/e-entry.c:1278
 #: ../widgets/text/e-text.c:3491 ../widgets/text/e-text.c:3492
@@ -18582,7 +18559,7 @@ msgstr "光标位置"
 
 #: ../widgets/text/e-entry.c:1389 ../widgets/text/e-entry.c:1390
 msgid "Emulate label resize"
-msgstr ""
+msgstr "模拟标签缩放"
 
 #: ../widgets/text/e-text.c:2696
 msgid "Input Methods"
@@ -18640,8 +18617,3 @@ msgstr "输入法环境"
 msgid "Handle Popup"
 msgstr "处理弹出"
 
-#~ msgid "From:"
-#~ msgstr "来自："
-
-#~ msgid "<b>%s</b> requests the presence of %s at the following meeting:"
-#~ msgstr "<b>%s</b> 请求 %s 参加下列会议："

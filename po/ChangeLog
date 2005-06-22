@@ -1,3 +1,7 @@
+2005-06-22  Funda Wang  <fundawang@linux.net.cn>
+
+	* zh_CN.po: Updated Simplified Chinese translation.
+
 2005-06-21  Not Zed  <NotZed@Ximian.com>
 
 	* en_AU.po, is.po, he.po, wa.po: Fix breaks from last commit.
