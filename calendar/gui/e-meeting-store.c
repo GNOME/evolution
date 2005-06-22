@@ -1225,9 +1225,14 @@ freebusy_async (gpointer data)
 	FreeBusyAsyncData *fbd = data;
 	EMeetingAttendee *attendee = fbd->attendee;
 	gchar *default_fb_uri;
+	static GStaticMutex mutex = G_STATIC_MUTEX_INIT;
 
 	if (fbd->client) {
+		/* FIXME this a work around for getting all th free busy information for the users 
+		 we should be able to get free busy asynchronously */
+		g_mutex_lock (&mutex);		
 		e_cal_get_free_busy (fbd->client, fbd->users, fbd->startt, fbd->endt, &(fbd->fb_data), NULL);
+		g_mutex_unlock (&mutex);		
 
 		g_list_foreach (fbd->users, (GFunc)g_free, NULL);
 		g_list_free (fbd->users);

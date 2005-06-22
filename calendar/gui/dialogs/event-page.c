@@ -680,7 +680,6 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	ECalComponentClassification cl;
 	ECalComponentTransparency transparency;
 	ECalComponentDateTime start_date, end_date;
-	icalcomponent *icalcomp = NULL;
 	const char *location, *uid = NULL;
 	const char *categories;
 	ESource *source;
@@ -802,8 +801,8 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	e_source_option_menu_select (E_SOURCE_OPTION_MENU (priv->source_selector), source);
 
 	e_cal_component_get_uid (comp, &uid);
-	if (!(COMP_EDITOR_PAGE (epage)->flags & COMP_EDITOR_PAGE_DELEGATE) && e_cal_get_object (COMP_EDITOR_PAGE (epage)->client, uid, NULL, &icalcomp, NULL)) {
-		icalcomponent_free (icalcomp);
+	if (!(COMP_EDITOR_PAGE (epage)->flags & COMP_EDITOR_PAGE_DELEGATE) 
+			&& !(COMP_EDITOR_PAGE (epage)->flags && COMP_EDITOR_PAGE_NEW_ITEM)) {
 		event_page_hide_options (epage);
 	}
 

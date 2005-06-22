@@ -1817,9 +1817,6 @@ real_edit_comp (CompEditor *editor, ECalComponent *comp)
 			e_cal_get_local_attachment_store (priv->client)); 
 	cal_attachment_bar_set_comp_uid (priv->attachment_bar, g_strdup	(uid));
 
-	if (!itip_organizer_is_user  (comp, priv->client))
-		comp_editor_sensitize_attachment_bar (editor, FALSE);
-		
 	fill_widgets (editor);
 
 	priv->changed =FALSE;

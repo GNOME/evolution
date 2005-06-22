@@ -1,3 +1,24 @@
+2005-06-22  viren.l <viren@novell.com>
+
+	Fixes #305590 
+	* gui/e-meeting-store.c: (freebusy_async):
+	Lock the mutex before invoking e_cal_get_free_busy(),
+	unlock the mutex after the function call.
+ 
+2005-06-22  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* gui/dialogs/comp-editor.c: (real_edit_comp): Do
+	not sensitize the attachment bar here.
+	* gui/dialogs/event-editor.c (event_editor_construct):
+	 Do not construct the scheduling page for non organizer
+	 and sensitize the attachment bar.
+	* gui/dialogs/event-page.c: (event_page_fill_widgets): Need
+	not call the e_cal_get_object to find if the event is existing
+	one or not.
+	* gui/e-calendar-view.c: (e_calendar_view_new_appointment_for),
+	(e_calendar_view_edit_appointment): Set the user org flags
+	here itslef.
+
 2005-06-22  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* gui/dialogs/comp-editor.c 

@@ -130,6 +130,7 @@ event_editor_construct (EventEditor *ee, ECal *client)
 {
 	EventEditorPrivate *priv;
 	gboolean read_only = FALSE;
+	guint32 flags = comp_editor_get_flags (COMP_EDITOR (ee));
 
 	priv = ee->priv;
 
@@ -151,19 +152,23 @@ event_editor_construct (EventEditor *ee, ECal *client)
 
 	if (!e_cal_is_read_only (client, &read_only, NULL))
 			read_only = TRUE;
-	comp_editor_sensitize_attachment_bar (COMP_EDITOR (ee), !read_only);
+	comp_editor_sensitize_attachment_bar (COMP_EDITOR (ee), !read_only && 
+			(flags & COMP_EDITOR_USER_ORG));
 	
 	if (priv->is_meeting) {
+
 		if (e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_REQ_SEND_OPTIONS))
 			event_page_show_options (priv->event_page);
 
 		comp_editor_set_group_item (COMP_EDITOR (ee), TRUE);
-		priv->sched_page = schedule_page_new (priv->model);
-		g_object_ref (priv->sched_page);
-		gtk_object_sink (GTK_OBJECT (priv->sched_page));
-		comp_editor_append_page (COMP_EDITOR (ee),
-					 COMP_EDITOR_PAGE (priv->sched_page),
-					 _("Scheduling"));
+		if ((flags & COMP_EDITOR_USER_ORG) || (flags & COMP_EDITOR_DELEGATE)) {
+			priv->sched_page = schedule_page_new (priv->model);
+			g_object_ref (priv->sched_page);
+			gtk_object_sink (GTK_OBJECT (priv->sched_page));
+			comp_editor_append_page (COMP_EDITOR (ee),
+					COMP_EDITOR_PAGE (priv->sched_page),
+					_("Scheduling"));
+		}
 		
 		priv->meet_page = meeting_page_new (priv->model, client);
 		g_object_ref (priv->meet_page);
@@ -231,7 +236,7 @@ event_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 	e_meeting_store_remove_all_attendees (priv->model);
 
 	/* Set up the attendees */
-	if (attendees == NULL && !(comp_editor_get_flags (COMP_EDITOR (editor)) & COMP_EDITOR_DELEGATE)) {
+	if (attendees == NULL && !delegate) {
 		if (priv->meet_page)
 			comp_editor_remove_page (editor, COMP_EDITOR_PAGE (priv->meet_page));
 		if (priv->sched_page)
@@ -414,7 +419,6 @@ show_meeting (EventEditor *ee)
 
 	priv = ee->priv;
 
-	
 	event_page_set_meeting (priv->event_page, TRUE);
 	if (!priv->meeting_shown) {
 		comp_editor_append_page (COMP_EDITOR (ee),
@@ -428,9 +432,8 @@ show_meeting (EventEditor *ee)
  		comp_editor_set_changed (COMP_EDITOR (ee), FALSE);
 		comp_editor_set_needs_send (COMP_EDITOR (ee), priv->meeting_shown);
 	}
-	if (comp_editor_get_flags (COMP_EDITOR (ee)) & COMP_EDITOR_DELEGATE)
-		comp_editor_show_page (COMP_EDITOR (ee), COMP_EDITOR_PAGE (priv->meet_page));
-	
+ 	if (comp_editor_get_flags (COMP_EDITOR (ee)) & COMP_EDITOR_DELEGATE)
+ 		comp_editor_show_page (COMP_EDITOR (ee), COMP_EDITOR_PAGE (priv->meet_page));
 }
 
 void

@@ -1679,8 +1679,10 @@ e_calendar_view_new_appointment_for (ECalendarView *cal_view,
 	e_cal_component_commit_sequence (comp);
 
 	flags |= COMP_EDITOR_NEW_ITEM;
-	if (meeting)
+	if (meeting) {
 		flags |= COMP_EDITOR_MEETING;
+		flags |= COMP_EDITOR_USER_ORG;
+	}
 	
 	open_event_with_flags (cal_view, e_cal_model_get_default_client (priv->model),
 			icalcomp, flags);
@@ -1779,8 +1781,14 @@ e_calendar_view_edit_appointment (ECalendarView *cal_view,
 	g_return_if_fail (E_IS_CAL (client));
 	g_return_if_fail (icalcomp != NULL);
 
-	if (meeting)
+	if (meeting) {
+		ECalComponent *comp = e_cal_component_new ();
+		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (icalcomp));
 		flags |= COMP_EDITOR_MEETING;
+		if (itip_organizer_is_user (comp, client))
+			flags |= COMP_EDITOR_USER_ORG;
+		g_object_unref (comp);
+	}
 
 	open_event_with_flags (cal_view, client, icalcomp, flags);
 }
