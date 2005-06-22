@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-06-21 13:59+0800\n"
-"PO-Revision-Date: 2005-06-08 23:41+0200\n"
+"POT-Creation-Date: 2005-06-22 21:10+0200\n"
+"PO-Revision-Date: 2005-06-22 21:20+0200\n"
 "Last-Translator: \n"
 "Language-Team:  <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -298,9 +298,8 @@ msgid "click"
 msgstr "pulsar"
 
 #: ../a11y/e-table/gal-a11y-e-table-column-header.c:135
-#, fuzzy
 msgid "sort"
-msgstr "Desordenar"
+msgstr "ordenar"
 
 #: ../a11y/widgets/ea-calendar-item.c:296
 #: ../a11y/widgets/ea-calendar-item.c:302
@@ -5614,70 +5613,70 @@ msgstr "_Mover"
 msgid "Cancel _Drag"
 msgstr "Cancelar _arrastre"
 
-#: ../calendar/gui/dialogs/comp-editor.c:697
+#: ../calendar/gui/dialogs/comp-editor.c:705
 msgid "Could not update object"
 msgstr "No se pudo actualizar el objeto"
 
-#: ../calendar/gui/dialogs/comp-editor.c:883 ../composer/e-msg-composer.c:2308
+#: ../calendar/gui/dialogs/comp-editor.c:892 ../composer/e-msg-composer.c:2308
 #, c-format
 msgid "<b>%d</b> Attachment"
 msgid_plural "<b>%d</b> Attachments"
 msgstr[0] "<b>%d</b> adjunto"
 msgstr[1] "<b>%d</b> adjuntos"
 
-#: ../calendar/gui/dialogs/comp-editor.c:978
+#: ../calendar/gui/dialogs/comp-editor.c:987
 msgid "_Attachment Bar (drop attachments here)"
 msgstr "Barra de _adjuntos (soltar adjuntos aquí)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1588
-#: ../calendar/gui/dialogs/comp-editor.c:1631
+#: ../calendar/gui/dialogs/comp-editor.c:1597
+#: ../calendar/gui/dialogs/comp-editor.c:1640
 msgid "Edit Appointment"
 msgstr "Editar cita"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1594
-#: ../calendar/gui/dialogs/comp-editor.c:1637
+#: ../calendar/gui/dialogs/comp-editor.c:1603
+#: ../calendar/gui/dialogs/comp-editor.c:1646
 #, c-format
 msgid "Meeting - %s"
 msgstr "Reunión - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1596
-#: ../calendar/gui/dialogs/comp-editor.c:1639
+#: ../calendar/gui/dialogs/comp-editor.c:1605
+#: ../calendar/gui/dialogs/comp-editor.c:1648
 #, c-format
 msgid "Appointment - %s"
 msgstr "Cita - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1600
-#: ../calendar/gui/dialogs/comp-editor.c:1643
+#: ../calendar/gui/dialogs/comp-editor.c:1609
+#: ../calendar/gui/dialogs/comp-editor.c:1652
 #, c-format
 msgid "Assigned Task - %s"
 msgstr "Tarea asignada - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1602
-#: ../calendar/gui/dialogs/comp-editor.c:1645
+#: ../calendar/gui/dialogs/comp-editor.c:1611
+#: ../calendar/gui/dialogs/comp-editor.c:1654
 #, c-format
 msgid "Task - %s"
 msgstr "Tarea - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1605
-#: ../calendar/gui/dialogs/comp-editor.c:1648
+#: ../calendar/gui/dialogs/comp-editor.c:1614
+#: ../calendar/gui/dialogs/comp-editor.c:1657
 #, c-format
 msgid "Journal entry - %s"
 msgstr "Entrada del diario - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1616
-#: ../calendar/gui/dialogs/comp-editor.c:1658
+#: ../calendar/gui/dialogs/comp-editor.c:1625
+#: ../calendar/gui/dialogs/comp-editor.c:1667
 msgid "No summary"
 msgstr "Sin resumen"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2137
-#: ../calendar/gui/dialogs/comp-editor.c:2170
-#: ../calendar/gui/dialogs/comp-editor.c:2194
+#: ../calendar/gui/dialogs/comp-editor.c:2142
+#: ../calendar/gui/dialogs/comp-editor.c:2175
+#: ../calendar/gui/dialogs/comp-editor.c:2199
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr ""
 "Los cambios efectuados a este elemento pueden descartarse si llega una "
 "actualización por correo"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2218
+#: ../calendar/gui/dialogs/comp-editor.c:2223
 msgid "Unable to use current version!"
 msgstr "Imposible obtener versión actual."
 
@@ -5755,78 +5754,78 @@ msgstr "Delegar en:"
 msgid "Enter Delegate"
 msgstr "Introducir un delegado"
 
-#: ../calendar/gui/dialogs/event-editor.c:141 ../calendar/gui/print.c:2298
+#: ../calendar/gui/dialogs/event-editor.c:142 ../calendar/gui/print.c:2298
 msgid "Appointment"
 msgstr "Cita"
 
-#: ../calendar/gui/dialogs/event-editor.c:150
+#: ../calendar/gui/dialogs/event-editor.c:151
 msgid "Recurrence"
 msgstr "Repetición"
 
-#: ../calendar/gui/dialogs/event-editor.c:166
-#: ../calendar/gui/dialogs/event-editor.c:249
-#: ../calendar/gui/dialogs/event-editor.c:422
+#: ../calendar/gui/dialogs/event-editor.c:170
+#: ../calendar/gui/dialogs/event-editor.c:254
+#: ../calendar/gui/dialogs/event-editor.c:426
 msgid "Scheduling"
 msgstr "Planificación"
 
-#: ../calendar/gui/dialogs/event-editor.c:175
+#: ../calendar/gui/dialogs/event-editor.c:180
 msgid "Delegatees"
 msgstr "Delegados"
 
-#: ../calendar/gui/dialogs/event-editor.c:179
+#: ../calendar/gui/dialogs/event-editor.c:184
 msgid "Attendees"
 msgstr "Participantes"
 
-#: ../calendar/gui/dialogs/event-editor.c:252
-#: ../calendar/gui/dialogs/event-editor.c:425
+#: ../calendar/gui/dialogs/event-editor.c:257
+#: ../calendar/gui/dialogs/event-editor.c:429
 msgid "Invitations"
 msgstr "Invitaciones"
 
-#: ../calendar/gui/dialogs/event-page.c:725
+#: ../calendar/gui/dialogs/event-page.c:727
 msgid "Event with no start date"
 msgstr "Acontecimiento sin fecha de inicio"
 
-#: ../calendar/gui/dialogs/event-page.c:728
+#: ../calendar/gui/dialogs/event-page.c:730
 msgid "Event with no end date"
 msgstr "Acontecimiento sin fecha de finalización"
 
-#: ../calendar/gui/dialogs/event-page.c:894
+#: ../calendar/gui/dialogs/event-page.c:896
 #: ../calendar/gui/dialogs/task-page.c:556
 msgid "Start date is wrong"
 msgstr "La fecha de inicio está equivocada"
 
-#: ../calendar/gui/dialogs/event-page.c:904
+#: ../calendar/gui/dialogs/event-page.c:906
 msgid "End date is wrong"
 msgstr "La fecha de finalización  está equivocada"
 
-#: ../calendar/gui/dialogs/event-page.c:927
+#: ../calendar/gui/dialogs/event-page.c:929
 msgid "Start time is wrong"
 msgstr "La hora de inicio está equivocada"
 
-#: ../calendar/gui/dialogs/event-page.c:934
+#: ../calendar/gui/dialogs/event-page.c:936
 msgid "End time is wrong"
 msgstr "La  hora de finalización  está equivocada"
 
-#: ../calendar/gui/dialogs/event-page.c:1680
+#: ../calendar/gui/dialogs/event-page.c:1682
 #, c-format
 msgid "Unable to open the calendar '%s'."
 msgstr "No se pudo abrir el calendario «%s»."
 
-#: ../calendar/gui/dialogs/event-page.c:1886
+#: ../calendar/gui/dialogs/event-page.c:1888
 #, c-format
 msgid "%d day before appointment"
 msgid_plural "%d days before appointment"
 msgstr[0] "%d día antes de la cita"
 msgstr[1] "%d días antes de la cita"
 
-#: ../calendar/gui/dialogs/event-page.c:1894
+#: ../calendar/gui/dialogs/event-page.c:1896
 #, c-format
 msgid "%d hour before appointment"
 msgid_plural "%d hours before appointment"
 msgstr[0] "%d hora antes de la cita"
 msgstr[1] "%d horas antes de la cita"
 
-#: ../calendar/gui/dialogs/event-page.c:1902
+#: ../calendar/gui/dialogs/event-page.c:1904
 #, c-format
 msgid "%d minute before appointement"
 msgid_plural "%d minutes before appointment"
@@ -5952,9 +5951,8 @@ msgid "<b>Dele_gatees</b>"
 msgstr "<b>_Delegados</b>"
 
 #: ../calendar/gui/dialogs/meeting-page.c:307
-#, fuzzy
 msgid "<b>From:</b>"
-msgstr "<b>Domicilio</b>"
+msgstr "<b>De:</b>"
 
 #. an empty string is the same as 'None'
 #. Put the "None" and "UTC" entries at the top of the combo's list.
@@ -6106,34 +6104,38 @@ msgstr "Agrupar lista de tareas"
 msgid "Task List Name"
 msgstr "Nombre de la lista de tareas"
 
-#: ../calendar/gui/dialogs/recur-comp.c:51
+#: ../calendar/gui/dialogs/recur-comp.c:52
 msgid "You are modifying a recurring event, what would you like to modify?"
 msgstr ""
 "Está modificando un acontecimiento que se repite, ¿qué quiere modificar?"
 
-#: ../calendar/gui/dialogs/recur-comp.c:55
+#: ../calendar/gui/dialogs/recur-comp.c:54
+msgid "You are delegating a recurring event, what would like to delegate?"
+msgstr "Está delegando un acontecimiento que se repite, ¿qué quiere delegar?"
+
+#: ../calendar/gui/dialogs/recur-comp.c:58
 msgid "You are modifying a recurring task, what would you like to modify?"
 msgstr "Está modificando una tarea que se repite, ¿qué quiere modificar?"
 
-#: ../calendar/gui/dialogs/recur-comp.c:59
+#: ../calendar/gui/dialogs/recur-comp.c:62
 msgid ""
 "You are modifying a recurring journal entry, what would you like to modify?"
 msgstr ""
 "Está modificando una entrada del diario que se repite, ¿qué quiere modificar?"
 
-#: ../calendar/gui/dialogs/recur-comp.c:87
+#: ../calendar/gui/dialogs/recur-comp.c:90
 msgid "This Instance Only"
 msgstr "Esta instancia únicamente"
 
-#: ../calendar/gui/dialogs/recur-comp.c:91
+#: ../calendar/gui/dialogs/recur-comp.c:94
 msgid "This and Prior Instances"
 msgstr "Esta instancia y las anteriores"
 
-#: ../calendar/gui/dialogs/recur-comp.c:97
+#: ../calendar/gui/dialogs/recur-comp.c:100
 msgid "This and Future Instances"
 msgstr "Esta instancia y las futuras"
 
-#: ../calendar/gui/dialogs/recur-comp.c:102
+#: ../calendar/gui/dialogs/recur-comp.c:105
 msgid "All Instances"
 msgstr "Todas las instancias"
 
@@ -11041,9 +11043,9 @@ msgid "_Rename..."
 msgstr "_Renombrar..."
 
 #: ../mail/em-folder-utils.c:104
-#, fuzzy, c-format
+#, c-format
 msgid "Copying `%s' to `%s'"
-msgstr "Copiando mensajes a %s"
+msgstr "Copiando «%s» a «%s»"
 
 #: ../mail/em-folder-utils.c:367 ../mail/em-folder-utils.c:383
 #: ../mail/em-folder-view.c:929 ../mail/em-folder-view.c:944
@@ -11059,17 +11061,15 @@ msgstr "C_opiar"
 #: ../mail/em-folder-utils.c:521
 #, c-format
 msgid "Rename the \"%s\" folder to:"
-msgstr ""
+msgstr "Renombrar la carpeta «%s» a:"
 
 #: ../mail/em-folder-utils.c:523
-#, fuzzy
 msgid "Rename Folder"
-msgstr "Crear carpeta _virtual"
+msgstr "Renombrar carpeta"
 
 #: ../mail/em-folder-utils.c:529
-#, fuzzy
 msgid "Folder names cannot contain '/'"
-msgstr "El nombre de la carpeta no puede contener el carácter «/»."
+msgstr "Los nombres de carpetas no pueden contener el carácter «/»."
 
 #: ../mail/em-folder-utils.c:599
 #: ../plugins/groupwise-features/share-folder-common.c:140
@@ -14376,9 +14376,8 @@ msgstr ""
 "contraseña estándar de texto simple."
 
 #: ../plugins/exchange-account-setup/exchange-account-setup.c:194
-#, fuzzy
 msgid "Could not read out-of-office state"
-msgstr "No se pudo crear un mensaje."
+msgstr "No se pudo leer el estado de fuera de oficina"
 
 #. Description section
 #: ../plugins/exchange-account-setup/exchange-account-setup.c:211
@@ -14418,9 +14417,8 @@ msgid "A_uthenticate"
 msgstr "A_utenticación"
 
 #: ../plugins/exchange-account-setup/exchange-account-setup.c:597
-#, fuzzy
 msgid "Could not update out-of-office state"
-msgstr "No se pudo actualizar el objeto"
+msgstr "No se pudo actualizar el estado de fuera de oficina"
 
 #: ../plugins/exchange-account-setup/exchange-account-setup.c:724
 msgid "Authentication Type"
@@ -14556,18 +14554,15 @@ msgstr "Enviado al calendario «%s» como cancelado"
 #: ../plugins/itip-formatter/itip-formatter.c:859
 #, c-format
 msgid "Organizer has removed the delegate %s "
-msgstr ""
+msgstr "El organizador ha quitado al delegado %s"
 
 #: ../plugins/itip-formatter/itip-formatter.c:866
 msgid "Sent a cancellation notice to the delegate"
-msgstr ""
+msgstr "Enviar una notificación de cancelación al delegado"
 
 #: ../plugins/itip-formatter/itip-formatter.c:868
-#, fuzzy
 msgid "Could not send the cancellation notice to the delegate"
-msgstr ""
-"¿Seguro que quiere enviar una notificación de cancelación para esta entrada "
-"de diario?"
+msgstr "No se pudo enviar una notificación de cancelación al delegado"
 
 #: ../plugins/itip-formatter/itip-formatter.c:940
 msgid "Attendee status could not be updated because the status is invalid"
@@ -14800,9 +14795,9 @@ msgid "<b>%s</b> has published the following meeting information:"
 msgstr "<b>%s</b> ha publicado la siguiente información de reunión:"
 
 #: ../plugins/itip-formatter/itip-view.c:346
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has delegated the following meeting to you:"
-msgstr "<b>%s</b> ha cancelado la reunión siguiente."
+msgstr "<b>%s</b> ha delegado la reunión siguiente en usted:"
 
 #: ../plugins/itip-formatter/itip-view.c:349
 #, c-format
@@ -14955,9 +14950,8 @@ msgid "Comment:"
 msgstr "Comentario:"
 
 #: ../plugins/itip-formatter/itip-view.c:960
-#, fuzzy
 msgid "Send u_pdates to attendees"
-msgstr "No se pudo actualizar la asistencia. %s"
+msgstr "Mandar _actualizaciones a los asistentes"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.eplug.xml.h:1
 msgid "Displays text/calendar parts in messages."
@@ -14971,12 +14965,11 @@ msgstr "Formateador iTip"
 msgid ""
 "&quot;{0}&quot; has delegated the meeting. Do you want to add the delegate "
 "&quot;{1}&quot; ?"
-msgstr ""
+msgstr "&quot;{0}&quot; ha delegado la reunión. Quiere añadir al delegado &quot;{1}&quot; ?"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:3
-#, fuzzy
 msgid "This meeting has been delegated"
-msgstr "Este acontecimiento ha sido borrado."
+msgstr "Esta reunión se ha delegado"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:4
 msgid ""
@@ -18200,25 +18193,23 @@ msgstr "Punteo de relleno"
 
 #: ../widgets/misc/e-canvas-background.c:484
 #: ../widgets/misc/e-canvas-background.c:485
-#, fuzzy
 msgid "X1"
-msgstr "1"
+msgstr "X1"
 
 #: ../widgets/misc/e-canvas-background.c:491
 #: ../widgets/misc/e-canvas-background.c:492
 msgid "X2"
-msgstr ""
+msgstr "X2"
 
 #: ../widgets/misc/e-canvas-background.c:498
 #: ../widgets/misc/e-canvas-background.c:499
-#, fuzzy
 msgid "Y1"
-msgstr "1"
+msgstr "Y1"
 
 #: ../widgets/misc/e-canvas-background.c:505
 #: ../widgets/misc/e-canvas-background.c:506
 msgid "Y2"
-msgstr ""
+msgstr "Y2"
 
 #: ../widgets/misc/e-canvas-vbox.c:102 ../widgets/misc/e-reflow.c:1430
 #: ../widgets/table/e-table-group-leaf.c:636
@@ -18473,17 +18464,14 @@ msgid "Sync Categories:"
 msgstr "Sincr. de categorías:"
 
 #: ../widgets/misc/e-reflow.c:1452 ../widgets/misc/e-reflow.c:1453
-#, fuzzy
 msgid "Empty message"
-msgstr "_Editar mensaje"
+msgstr "Mensaje vacío"
 
 #: ../widgets/misc/e-reflow.c:1459 ../widgets/misc/e-reflow.c:1460
-#, fuzzy
 msgid "Reflow model"
-msgstr "Modelo de selección"
+msgstr "Modelo de reflujo"
 
 #: ../widgets/misc/e-reflow.c:1466 ../widgets/misc/e-reflow.c:1467
-#, fuzzy
 msgid "Column width"
 msgstr "Anchura de columna"
 
@@ -18734,12 +18722,10 @@ msgid "Then By"
 msgstr "Luego por"
 
 #: ../widgets/table/e-table-config-field.c:254
-#, fuzzy
 msgid "Group By"
-msgstr "_Agrupar por..."
+msgstr "Agrupar por"
 
 #: ../widgets/table/e-table-config-field.c:254
-#, fuzzy
 msgid "Sort By"
 msgstr "Ordenar"
 
@@ -18914,19 +18900,16 @@ msgid "Tree"
 msgstr "Árbol"
 
 #: ../widgets/table/e-table-item.c:2938 ../widgets/table/e-table-item.c:2939
-#, fuzzy
 msgid "Table header"
-msgstr "Cabecera mal formada"
+msgstr "Cabecera de la tabla"
 
 #: ../widgets/table/e-table-item.c:2945 ../widgets/table/e-table-item.c:2946
-#, fuzzy
 msgid "Table model"
-msgstr "Celda de la tabla"
+msgstr "Modelo de la tabla"
 
 #: ../widgets/table/e-table-item.c:3021 ../widgets/table/e-table-item.c:3022
-#, fuzzy
 msgid "Cursor row"
-msgstr "Cursor de fila"
+msgstr "Fila del cursor"
 
 #: ../widgets/table/e-table.c:3330
 msgid "Always Search"
@@ -18954,17 +18937,15 @@ msgstr "Dibujar líneas y expansores +/-."
 
 #: ../widgets/text/e-entry-test.c:49
 msgid "Minicard Test"
-msgstr ""
+msgstr "Prueba de minitarjetas"
 
 #: ../widgets/text/e-entry-test.c:50
-#, fuzzy
 msgid "Copyright (C) 2000, Helix Code, Inc."
-msgstr "Copyright © 2000, Ximian, Inc."
+msgstr "Copyright © 2000, Helix Code, Inc."
 
 #: ../widgets/text/e-entry-test.c:52
-#, fuzzy
 msgid "This should test the minicard canvas item"
-msgstr "Esto debería probar el código de impresión de los contactos"
+msgstr "Esto debería probar el elemento de lienzo de minitarjetas"
 
 #: ../widgets/text/e-entry.c:1242 ../widgets/text/e-entry.c:1243
 #: ../widgets/text/e-text.c:3455 ../widgets/text/e-text.c:3456
@@ -18972,14 +18953,12 @@ msgid "Event Processor"
 msgstr "Procesador de eventos"
 
 #: ../widgets/text/e-entry.c:1256 ../widgets/text/e-entry.c:1257
-#, fuzzy
 msgid "Font"
-msgstr "Tipografías"
+msgstr "Tipografía"
 
 #: ../widgets/text/e-entry.c:1270 ../widgets/text/e-entry.c:1271
-#, fuzzy
 msgid "GDKFont"
-msgstr "Tipografías"
+msgstr "Tipografía GDK"
 
 #: ../widgets/text/e-entry.c:1277 ../widgets/text/e-entry.c:1278
 #: ../widgets/text/e-text.c:3491 ../widgets/text/e-text.c:3492
@@ -19038,7 +19017,7 @@ msgstr "Posición del cursor"
 
 #: ../widgets/text/e-entry.c:1389 ../widgets/text/e-entry.c:1390
 msgid "Emulate label resize"
-msgstr ""
+msgstr "Emular redimensionado de etiqueta"
 
 #: ../widgets/text/e-text.c:2696
 msgid "Input Methods"
