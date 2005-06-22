@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-06-22 21:10+0200\n"
-"PO-Revision-Date: 2005-06-22 21:20+0200\n"
+"PO-Revision-Date: 2005-06-22 22:48+0200\n"
 "Last-Translator: \n"
 "Language-Team:  <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -12805,7 +12805,7 @@ msgid ""
 "This name will be used for display purposes only."
 msgstr ""
 "Introduzca un nombre descriptivo para esta cuenta en el espacio de abajo.\n"
-"Este nombre se usará solo para mostrarlo."
+"Este nombre se usará sólo para mostrarlo."
 
 #: ../mail/mail-config.glade.h:109
 msgid ""
@@ -12828,7 +12828,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:111
 msgid "Please select among the following options"
-msgstr "Por favor selecciona entre las siguientes opciones"
+msgstr "Por favor seleccione entre las siguientes opciones"
 
 #: ../mail/mail-config.glade.h:112
 msgid "Pr_ompt when sending messages with only Bcc recipients defined"
