@@ -638,6 +638,9 @@ sensitize_widgets (EventPage *epage)
 	gtk_widget_set_sensitive (priv->categories_btn, !read_only && sens);
 	gtk_widget_set_sensitive (priv->sendoptions_button, !read_only && sens);
 	gtk_entry_set_editable (GTK_ENTRY (priv->categories), !read_only && sens);
+
+	if (COMP_EDITOR_PAGE (epage)->flags & COMP_EDITOR_PAGE_DELEGATE)
+		gtk_widget_set_sensitive (priv->sendoptions_button, TRUE);
 }
 
 void
@@ -677,7 +680,7 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	ECalComponentClassification cl;
 	ECalComponentTransparency transparency;
 	ECalComponentDateTime start_date, end_date;
-	icalcomponent *icalcomp;
+	icalcomponent *icalcomp = NULL;
 	const char *location, *uid = NULL;
 	const char *categories;
 	ESource *source;
@@ -799,7 +802,7 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	e_source_option_menu_select (E_SOURCE_OPTION_MENU (priv->source_selector), source);
 
 	e_cal_component_get_uid (comp, &uid);
-	if (e_cal_get_object (COMP_EDITOR_PAGE (epage)->client, uid, NULL, &icalcomp, NULL)) {
+	if (!(COMP_EDITOR_PAGE (epage)->flags & COMP_EDITOR_PAGE_DELEGATE) && e_cal_get_object (COMP_EDITOR_PAGE (epage)->client, uid, NULL, &icalcomp, NULL)) {
 		icalcomponent_free (icalcomp);
 		event_page_hide_options (epage);
 	}

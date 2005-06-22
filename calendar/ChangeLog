@@ -1,3 +1,29 @@
+2005-06-22  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* gui/dialogs/comp-editor.c 
+	(save_comp): Commit the sequence all the fields event if 
+	the delegator is delegating a paticular instance.
+	(prompt_to_save_changes): Send FALSE to recur_comp_dialog 
+	for last argument.
+	(response_cb): Send the delegate as true if the 
+	event is being delegated.
+       	(delete_event_cb),(set_attendees_for_delegation): removed the warning.
+	* gui/dialogs/event-page.c: (sensitize_widgets),
+	(event_page_fill_widgets): Do not sensitize the send options 
+	button if the item is being delegated.
+	* gui/dialogs/recur-comp.c: (recur_component_dialog):
+	* gui/dialogs/recur-comp.h: Added a new boolean argument
+	to recurrence dialog to indicate the item is delegated.
+	* gui/e-cal-model-calendar.c: (ecmc_set_value_at):
+	* gui/e-day-view.c: (e_day_view_finish_long_event_resize),
+	(e_day_view_finish_resize), (e_day_view_change_event_time),
+	(e_day_view_on_editing_stopped),
+	(e_day_view_on_top_canvas_drag_data_received),
+	(e_day_view_on_main_canvas_drag_data_received):
+	* gui/e-week-view.c: (e_week_view_change_event_time),
+	(e_week_view_on_editing_stopped): Send FALSE to delegate
+	if the delegate in the call recur_component_dialog.
+
 2005-06-20  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* gui/dialogs/comp-editor.c (save_comp_with_send),

@@ -29,6 +29,7 @@
 gboolean recur_component_dialog (ECal *client,
 				 ECalComponent *comp,
 				 CalObjModType *mod,
-				 GtkWindow *parent);
+				 GtkWindow *parent,
+				 gboolean delegated);
 
 #endif

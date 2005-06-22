@@ -666,6 +666,14 @@ save_comp (CompEditor *editor)
 			e_cal_component_set_exrule_list (priv->comp, NULL);
 		}
 		result = e_cal_modify_object (priv->client, icalcomp, priv->mod, &error);
+
+		if (result && priv->mod == CALOBJ_MOD_THIS) {
+			/* FIXME do we really need to do this ? */
+			if ((priv->flags & COMP_EDITOR_DELEGATE) || !e_cal_component_has_organizer (clone) || itip_organizer_is_user (clone, priv->client))
+				e_cal_component_commit_sequence (clone);
+			else
+				e_cal_component_abort_sequence (clone);
+		}
 	}
 
 	/* If the delay delivery is set, the items will not be created in the server immediately,
@@ -773,7 +781,7 @@ prompt_to_save_changes (CompEditor *editor, gboolean send)
 	switch (save_component_dialog (GTK_WINDOW(editor), priv->comp)) {
 	case GTK_RESPONSE_YES: /* Save */
 		if (e_cal_component_is_instance (priv->comp))
-			if (!recur_component_dialog (priv->client, priv->comp, &priv->mod, GTK_WINDOW (editor)))
+			if (!recur_component_dialog (priv->client, priv->comp, &priv->mod, GTK_WINDOW (editor), FALSE))
 				return FALSE;
 		
 		if (send && save_comp_with_send (editor))
@@ -796,8 +804,10 @@ response_cb (GtkWidget *widget, int response, gpointer data)
 	CompEditor *editor = COMP_EDITOR (data);
 	CompEditorPrivate *priv;
 	ECalComponentText text;
+	gboolean delegated;
 	
 	priv = editor->priv;
+	delegated = (priv->flags & COMP_EDITOR_DELEGATE);
 
 	switch (response) {
 	case GTK_RESPONSE_OK:
@@ -822,7 +832,7 @@ response_cb (GtkWidget *widget, int response, gpointer data)
 		commit_all_fields (editor);
 		
 		if (e_cal_component_is_instance (priv->comp))
-			if (!recur_component_dialog (priv->client, priv->comp, &priv->mod, GTK_WINDOW (editor)))
+			if (!recur_component_dialog (priv->client, priv->comp, &priv->mod, GTK_WINDOW (editor), delegated))
 				return;
 	
 		if (save_comp_with_send (editor)) {
@@ -858,7 +868,6 @@ delete_event_cb (GtkWidget *widget, GdkEvent *event, gpointer data)
 {
 	CompEditor *editor = COMP_EDITOR (data);
 	CompEditorPrivate *priv;
-	ECalComponentText text;
 	
 	priv = editor->priv;
 
@@ -1822,7 +1831,6 @@ real_edit_comp (CompEditor *editor, ECalComponent *comp)
 static void
 set_attendees_for_delegation (ECalComponent *comp, const char *address, ECalComponentItipMethod method)
 {
-	GSList *attendees, *l, *new;
 	icalproperty *prop;	
 	icalparameter *param;
 	icalcomponent *icalcomp;

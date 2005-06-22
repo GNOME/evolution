@@ -358,7 +358,7 @@ ecmc_set_value_at (ETableModel *etm, int col, int row, const void *value)
 
 	/* ask about mod type */
 	if (e_cal_component_is_instance (comp)) {
-		if (!recur_component_dialog (comp_data->client, comp, &mod, NULL)) {
+		if (!recur_component_dialog (comp_data->client, comp, &mod, NULL, FALSE)) {
 			g_object_unref (comp);
 			return;
 		}

@@ -34,7 +34,7 @@ gboolean
 recur_component_dialog (ECal *client,
 			ECalComponent *comp,
 			CalObjModType *mod,
-			GtkWindow *parent)
+			GtkWindow *parent, gboolean delegated)
 {
 	char *str;
 	GtkWidget *dialog, *rb_this, *rb_prior, *rb_future, *rb_all, *hbox;
@@ -48,7 +48,10 @@ recur_component_dialog (ECal *client,
 	
 	switch (vtype) {
 	case E_CAL_COMPONENT_EVENT:
-		str = g_strdup_printf (_("You are modifying a recurring event, what would you like to modify?"));
+		if (!delegated)
+			str = g_strdup_printf (_("You are modifying a recurring event, what would you like to modify?"));
+		else 
+			str = g_strdup_printf (_("You are delegating a recurring event, what would like to delegate?"));
 		break;
 
 	case E_CAL_COMPONENT_TODO:
