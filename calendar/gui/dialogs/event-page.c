@@ -639,8 +639,10 @@ sensitize_widgets (EventPage *epage)
 	gtk_widget_set_sensitive (priv->sendoptions_button, !read_only && sens);
 	gtk_entry_set_editable (GTK_ENTRY (priv->categories), !read_only && sens);
 
-	if (COMP_EDITOR_PAGE (epage)->flags & COMP_EDITOR_PAGE_DELEGATE)
+	if (COMP_EDITOR_PAGE (epage)->flags & COMP_EDITOR_PAGE_DELEGATE) {
 		gtk_widget_set_sensitive (priv->sendoptions_button, TRUE);
+		gtk_widget_set_sensitive (priv->source_selector, FALSE);
+	}
 }
 
 void

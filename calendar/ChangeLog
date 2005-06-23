@@ -1,3 +1,9 @@
+2005-06-23  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* gui/dialogs/event-page.c: (sensitize_widgets): 
+	desensitize the source selector if a meeting is
+	delegated.
+
 2005-06-22  viren.l <viren@novell.com>
 
 	Fixes #305590 
