@@ -1,3 +1,8 @@
+2005-06-23  Not Zed  <NotZed@Ximian.com>
+
+	* configure.in: fix the --enable-profiler not to disable otherwise
+	enabled plugins.  & added default-mailer plugin stuff.
+
 2005-06-18  Tor Lillqvist  <tml@novell.com>
 
 	* configure.in (EXTRA_GNOME dependencies): Use $FULL_GNOME_DEPS
