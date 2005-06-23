@@ -28,7 +28,7 @@
 #include <time.h>
 #include <gtk/gtkvbox.h>
 #include <bonobo/bonobo-ui-component.h>
-#include <widgets/misc/e-calendar.h>
+#include <misc/e-calendar.h>
 #include <libecal/e-cal.h>
 
 #include "e-calendar-table.h"

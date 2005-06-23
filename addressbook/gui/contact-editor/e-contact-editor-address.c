@@ -27,7 +27,7 @@
 #include <glib.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
-#include <widgets/misc/e-gui-utils.h>
+#include <misc/e-gui-utils.h>
 #include <gtk/gtkcombo.h>
 #include <gtk/gtkentry.h>
 #include <gtk/gtkstock.h>

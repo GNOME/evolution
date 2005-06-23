@@ -43,7 +43,7 @@
 #include <atk/atkutil.h>
 
 #include <e-util/e-util.h>
-#include <widgets/misc/e-gui-utils.h>
+#include <misc/e-gui-utils.h>
 #include <table/e-cell-text.h>
 #include <table/e-cell-toggle.h>
 #include <table/e-cell-checkbox.h>

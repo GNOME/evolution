@@ -61,7 +61,7 @@
 
 #include "e-util/e-i18n.h"
 #include "e-util/e-util.h"
-#include "widgets/misc/e-unicode.h"
+#include "misc/e-unicode.h"
 
 #include "e-table-item.h"
 #include "e-cell-combo.h"

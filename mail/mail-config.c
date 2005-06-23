@@ -52,7 +52,7 @@
 #include <bonobo/bonobo-exception.h>
 
 #include <e-util/e-util.h>
-#include <widgets/misc/e-gui-utils.h>
+#include <misc/e-gui-utils.h>
 
 #include <e-util/e-account-list.h>
 #include <e-util/e-signature-list.h>

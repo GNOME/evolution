@@ -30,8 +30,8 @@
 #include <table/e-table-header.h>
 #include <table/e-table-defines.h>
 #include <table/e-table-tooltip.h>
-#include <widgets/misc/e-selection-model.h>
-#include <widgets/misc/e-printable.h>
+#include <misc/e-selection-model.h>
+#include <misc/e-printable.h>
 
 G_BEGIN_DECLS
 

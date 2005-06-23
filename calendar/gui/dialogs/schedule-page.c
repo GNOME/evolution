@@ -34,7 +34,7 @@
 #include <libgnomeui/gnome-dialog-util.h>
 #include <glade/glade.h>
 #include <e-util/e-dialog-widgets.h>
-#include <widgets/misc/e-dateedit.h>
+#include <misc/e-dateedit.h>
 #include "../calendar-config.h"
 #include "../e-meeting-time-sel.h"
 #include "../itip-utils.h"

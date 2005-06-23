@@ -1,3 +1,9 @@
+2005-06-23  Kaushal Kumar  <kakumar@novell.com>
+
+	* Makefile.am: Set libetableincludedir to table to match 
+	source directory name and fix evolution-exchange build 
+	without GAL.
+
 2005-06-01  Kaushal Kumar  <kakumar@novell.com>
 
 	* e-table-item.c (eti_dispose): Don't hide the tooltip if we don't

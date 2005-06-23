@@ -38,7 +38,7 @@
 
 #include "shell/evolution-shell-component-utils.h"
 
-#include "widgets/misc/e-image-chooser.h"
+#include "misc/e-image-chooser.h"
 
 #include "addressbook/gui/component/addressbook.h"
 #include "addressbook/gui/widgets/eab-gui-util.h"

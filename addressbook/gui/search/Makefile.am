@@ -6,6 +6,7 @@ EXTRA_DIST = addresstypes.xml
 INCLUDES =						\
 	-DG_LOG_DOMAIN=\"e-addressbook-search\"		\
 	-I$(top_srcdir)					\
+	-I$(top_srcdir)/widgets				\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
 
 noinst_LTLIBRARIES =				\

@@ -22,7 +22,7 @@
 #ifndef __E_SENDOPTIONS_UTILS_H__
 #define __E_SENDOPTIONS_UTILS_H__
 
-#include "widgets/misc/e-send-options.h"
+#include "misc/e-send-options.h"
 #include <libecal/e-cal-component.h>
 #include <libedataserver/e-source-list.h>
 

@@ -37,7 +37,7 @@
 #include <table/e-table-selection-model.h>
 #include <table/e-table-extras.h>
 #include <table/e-table-specification.h>
-#include <widgets/misc/e-printable.h>
+#include <misc/e-printable.h>
 #include <table/e-table-state.h>
 #include <table/e-table-sorter.h>
 #include <table/e-table-search.h>

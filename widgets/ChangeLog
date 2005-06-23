@@ -1,3 +1,8 @@
+2005-06-23  Kaushal Kumar  <kakumar@novell.com>
+
+	* text/Makefile.am: Set libetextincludedir to text to match 
+	source directory name.
+
 2005-06-21  Kaushal Kumar  <kakumar@novell.com>
 
 	* table/ChangeLog: Added from gal/gal/e-table as Gal is 

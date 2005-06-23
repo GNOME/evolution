@@ -30,8 +30,8 @@
 #include <libgnomecanvas/gnome-canvas-pixbuf.h>
 #include <text/e-text.h>
 #include <e-util/e-util.h>
-#include <widgets/misc/e-canvas-utils.h>
-#include <widgets/misc/e-canvas.h>
+#include <misc/e-canvas-utils.h>
+#include <misc/e-canvas.h>
 #include <libebook/e-book.h>
 #include "eab-marshal.h"
 #include "eab-gui-util.h"

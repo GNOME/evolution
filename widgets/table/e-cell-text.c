@@ -53,8 +53,8 @@
 #include "e-util/e-text-event-processor.h"
 #include "e-util/e-text-event-processor-emacs-like.h"
 #include "e-util/e-util.h"
-#include "widgets/misc/e-canvas.h"
-#include "widgets/misc/e-unicode.h"
+#include "misc/e-canvas.h"
+#include "misc/e-unicode.h"
 
 #include "e-cell-text.h"
 #include "e-table-item.h"

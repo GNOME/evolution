@@ -59,7 +59,7 @@
 #include "comp-editor.h"
 
 #include "cal-attachment-bar.h"
-#include "widgets/misc/e-expander.h"
+#include "misc/e-expander.h"
 #include "e-util/e-error.h"
 
 

@@ -25,8 +25,8 @@
 #define __E_REFLOW_H__
 
 #include <libgnomecanvas/gnome-canvas.h>
-#include <widgets/misc/e-reflow-model.h>
-#include <widgets/misc/e-selection-model.h>
+#include <misc/e-reflow-model.h>
+#include <misc/e-selection-model.h>
 #include <e-util/e-sorter-array.h>
 
 #ifdef __cplusplus

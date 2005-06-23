@@ -16,7 +16,7 @@ privlib_LTLIBRARIES =		\
 	libemiscwidgets.la	\
 	libefilterbar.la
 
-widgetsincludedir = $(privincludedir)/widgets
+widgetsincludedir = $(privincludedir)/misc
 
 if ENABLE_PILOT_CONDUITS
 pilot_sources = e-pilot-settings.c

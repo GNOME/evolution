@@ -36,8 +36,8 @@
 #include "common/authentication.h"
 #include "e-util/e-categories-config.h"
 #include "e-util/e-dialog-widgets.h"
-#include "widgets/misc/e-dateedit.h"
-#include "widgets/misc/e-send-options.h"
+#include "misc/e-dateedit.h"
+#include "misc/e-send-options.h"
 #include <libecal/e-cal-time-util.h>
 #include "../calendar-config.h"
 #include "../e-timezone-entry.h"

@@ -26,7 +26,7 @@
 
 #include <gtk/gtkobject.h>
 #include <widgets/menus/gal-view-collection.h>
-#include <widgets/misc/e-popup-menu.h>
+#include <misc/e-popup-menu.h>
 
 G_BEGIN_DECLS
 

@@ -37,7 +37,7 @@
 #include "composer/e-msg-composer.h"
 #include "e-util/e-account.h"
 
-#include "widgets/misc/e-send-options.h"
+#include "misc/e-send-options.h"
 
 static ESendOptionsDialog * dialog = NULL ;
 

@@ -27,7 +27,7 @@
 #include <gdk/gdktypes.h>
 #include <gtk/gtkobject.h>
 #include <e-util/e-sorter.h>
-#include <widgets/misc/e-selection-model.h>
+#include <misc/e-selection-model.h>
 #include <table/e-tree-model.h>
 
 #ifdef __cplusplus

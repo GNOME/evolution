@@ -41,7 +41,7 @@
 
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <libedataserverui/e-categories-dialog.h>
-#include <widgets/misc/e-gui-utils.h>
+#include <misc/e-gui-utils.h>
 #include <text/e-entry.h>
 
 #include <libebook/e-address-western.h>
@@ -55,9 +55,9 @@
 #include "addressbook/gui/widgets/eab-gui-util.h"
 #include "e-util/e-gui-utils.h"
 #include "e-util/e-error.h"
-#include "widgets/misc/e-dateedit.h"
-#include "widgets/misc/e-image-chooser.h"
-#include "widgets/misc/e-url-entry.h"
+#include "misc/e-dateedit.h"
+#include "misc/e-image-chooser.h"
+#include "misc/e-url-entry.h"
 #include "shell/evolution-shell-component-utils.h"
 #include "e-util/e-icon-factory.h"
 

@@ -27,8 +27,8 @@
 #include "e-addressbook-model.h"
 #include "eab-contact-display.h"
 #include "widgets/menus/gal-view-menus.h"
-#include "widgets/misc/e-search-bar.h"
-#include "widgets/misc/e-filter-bar.h"
+#include "misc/e-search-bar.h"
+#include "misc/e-filter-bar.h"
 
 G_BEGIN_DECLS
 

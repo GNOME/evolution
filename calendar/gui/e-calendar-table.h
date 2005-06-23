@@ -26,7 +26,7 @@
 
 #include <gtk/gtktable.h>
 #include <table/e-table-scrolled.h>
-#include <widgets/misc/e-cell-date-edit.h>
+#include <misc/e-cell-date-edit.h>
 #include "e-activity-handler.h"
 #include "e-cal-model.h"
 

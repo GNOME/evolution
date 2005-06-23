@@ -24,7 +24,7 @@
 #define _E_CALENDAR_H_
 
 #include <gtk/gtkwidget.h>
-#include <widgets/misc/e-canvas.h>
+#include <misc/e-canvas.h>
 #include "e-calendar-item.h"
 
 #ifdef __cplusplus

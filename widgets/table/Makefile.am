@@ -77,7 +77,7 @@ libetable_la_SOURCES = 				\
 	e-tree-table-adapter.c			\
 	e-tree.c
 
-libetableincludedir = $(privincludedir)/e-table
+libetableincludedir = $(privincludedir)/table
 
 libetableinclude_HEADERS = 			\
 	e-cell.h				\

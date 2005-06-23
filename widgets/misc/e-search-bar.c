@@ -36,8 +36,8 @@
 #include <gtk/gtkoptionmenu.h>
 #include <gtk/gtkmain.h>
 
-#include <widgets/misc/e-unicode.h>
-#include <widgets/misc/e-gui-utils.h>
+#include <misc/e-unicode.h>
+#include <misc/e-gui-utils.h>
 
 #include <libgnome/gnome-i18n.h>
 

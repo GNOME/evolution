@@ -23,7 +23,7 @@
 #ifndef _GAL_COMBO_TEXT_H
 #define _GAL_COMBO_TEXT_H
 
-#include <widgets/misc/gal-combo-box.h>
+#include <misc/gal-combo-box.h>
 
 #ifdef __cplusplus
 extern "C" {

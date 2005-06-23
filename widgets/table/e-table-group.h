@@ -30,7 +30,7 @@
 #include <table/e-table-sort-info.h>
 #include <table/e-table-defines.h>
 #include <e-util/e-util.h>
-#include <widgets/misc/e-printable.h>
+#include <misc/e-printable.h>
 
 G_BEGIN_DECLS
 

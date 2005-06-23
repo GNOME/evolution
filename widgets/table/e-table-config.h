@@ -27,7 +27,7 @@
 
 #include <table/e-table-sort-info.h>
 #include <table/e-table-specification.h>
-#include <widgets/misc/gal-combo-text.h>
+#include <misc/gal-combo-text.h>
 #include <table/e-table-without.h>
 #include <table/e-table-subset-variable.h>
 #include <table/e-table.h>

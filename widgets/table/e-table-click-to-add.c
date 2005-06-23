@@ -35,8 +35,8 @@
 #include "e-util/e-i18n.h"
 #include "e-util/e-util-marshal.h"
 #include "e-util/e-util.h"
-#include "widgets/misc/e-canvas-utils.h"
-#include "widgets/misc/e-canvas.h"
+#include "misc/e-canvas-utils.h"
+#include "misc/e-canvas.h"
 
 #include "e-table-click-to-add.h"
 #include "e-table-defines.h"

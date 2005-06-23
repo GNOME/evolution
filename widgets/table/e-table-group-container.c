@@ -31,9 +31,9 @@
 #include "text/e-text.h"
 #include "e-util/e-i18n.h"
 #include "e-util/e-util.h"
-#include "widgets/misc/e-canvas-utils.h"
-#include "widgets/misc/e-canvas.h"
-#include "widgets/misc/e-unicode.h"
+#include "misc/e-canvas-utils.h"
+#include "misc/e-canvas.h"
+#include "misc/e-unicode.h"
 
 #include "e-table-defines.h"
 #include "e-table-group-container.h"

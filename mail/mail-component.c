@@ -46,7 +46,7 @@
 #include "em-folder-utils.h"
 #include "em-migrate.h"
 
-#include "widgets/misc/e-info-label.h"
+#include "misc/e-info-label.h"
 #include "e-util/e-error.h"
 
 #include "em-search-context.h"

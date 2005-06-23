@@ -30,7 +30,7 @@
 #include <gnome.h>
 #include <libical/ical.h>
 #include <glade/glade.h>
-#include <widgets/misc/e-map.h>
+#include <misc/e-map.h>
 #include <libebook/e-destination.h>
 #include <libedataserverui/e-name-selector.h>
 #include "e-delegate-dialog.h"

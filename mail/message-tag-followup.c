@@ -59,7 +59,7 @@
 #include "message-tag-followup.h"
 #include "mail-config.h"
 #include <e-util/e-icon-factory.h>
-#include "widgets/misc/e-dateedit.h"
+#include "misc/e-dateedit.h"
 
 static void message_tag_followup_class_init (MessageTagFollowUpClass *class);
 static void message_tag_followup_init (MessageTagFollowUp *followup);

@@ -34,7 +34,7 @@
 #include <libgnome/gnome-i18n.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
-#include "widgets/misc/e-clipped-label.h"
+#include "misc/e-clipped-label.h"
 #include "e-shell-constants.h"
 #include "e-shell-marshal.h"
 #include "e-shell-folder-title-bar.h"

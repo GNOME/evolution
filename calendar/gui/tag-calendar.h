@@ -22,7 +22,7 @@
 #ifndef TAG_CALENDAR_H
 #define TAG_CALENDAR_H
 
-#include <widgets/misc/e-calendar.h>
+#include <misc/e-calendar.h>
 #include <libecal/e-cal.h>
 
 void tag_calendar_by_client (ECalendar *ecal, ECal *client);

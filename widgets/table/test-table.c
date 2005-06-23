@@ -28,8 +28,8 @@
 
 #include <gnome.h>
 
-#include "widgets/misc/e-cursors.h"
-#include "widgets/misc/e-canvas.h"
+#include "misc/e-cursors.h"
+#include "misc/e-canvas.h"
 
 #include "e-table-simple.h"
 #include "e-table-header.h"

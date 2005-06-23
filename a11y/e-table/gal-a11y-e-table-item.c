@@ -18,8 +18,8 @@
 #include "table/e-table-subset.h"
 #include "table/e-table.h"
 #include "table/e-tree.h"
-#include "widgets/misc/e-canvas.h"
-#include "widgets/misc/e-selection-model.h"
+#include "misc/e-canvas.h"
+#include "misc/e-selection-model.h"
 
 #include "gal-a11y-e-table-item.h"
 #include "gal-a11y-e-table-item-factory.h"

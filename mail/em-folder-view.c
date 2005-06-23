@@ -63,7 +63,7 @@
 #include <bonobo/bonobo-ui-component.h>
 #include <bonobo/bonobo-ui-util.h>
 
-#include "widgets/misc/e-charset-picker.h"
+#include "misc/e-charset-picker.h"
 #include "e-util/e-error.h"
 
 #include <e-util/e-dialog-utils.h>

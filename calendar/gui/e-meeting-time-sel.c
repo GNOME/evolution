@@ -54,10 +54,10 @@
 #include <libgnome/gnome-i18n.h>
 #include <libgnomecanvas/gnome-canvas-widget.h>
 
-#include <widgets/misc/e-canvas.h>
-#include <widgets/misc/e-canvas-utils.h>
+#include <misc/e-canvas.h>
+#include <misc/e-canvas-utils.h>
 
-#include <widgets/misc/e-dateedit.h>
+#include <misc/e-dateedit.h>
 #include <e-util/e-gui-utils.h>
 
 #include "calendar-component.h"

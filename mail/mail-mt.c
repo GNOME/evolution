@@ -16,7 +16,7 @@
 #include <gtk/gtkstock.h>
 #include <gtk/gtkmessagedialog.h>
 #include <libgnome/gnome-i18n.h>
-#include <widgets/misc/e-gui-utils.h>
+#include <misc/e-gui-utils.h>
 
 #include "libedataserver/e-msgport.h"
 #include "e-util/e-error.h"

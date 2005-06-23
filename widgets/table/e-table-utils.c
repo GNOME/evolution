@@ -26,7 +26,7 @@
 #include <libintl.h>		/* This file uses dgettext() but no _() */
 
 #include "e-util/e-util.h"
-#include "widgets/misc/e-unicode.h"
+#include "misc/e-unicode.h"
 
 #include "e-table-utils.h"
 #include "e-table-header-utils.h"

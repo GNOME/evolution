@@ -9,6 +9,7 @@ endif
 INCLUDES =								\
 	-I$(top_srcdir)							\
 	-I$(top_builddir)						\
+	-I$(top_srcdir)/widgets						\
 	-DEVOLUTION_PREFIX=\""$(prefix)"\"				\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"				\
 	-DEVOLUTION_HELPDIR=\""$(evolutionhelpdir)"\"			\
@@ -74,11 +75,12 @@ eutilinclude_HEADERS = 				\
 	e-text-event-processor-types.h		\
 	e-text-event-processor.h		\
 	e-util.h				\
+	e-util-marshal.h			\
 	e-xml-utils.h
 
 libeutil_la_SOURCES =				\
-	$(MARSHAL_GENERATED)			\
 	$(eutilinclude_HEADERS)			\
+	e-util-marshal.c			\
 	e-account-list.c			\
 	e-account.c				\
 	e-bconf-map.c				\

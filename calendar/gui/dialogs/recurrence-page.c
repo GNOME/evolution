@@ -43,7 +43,7 @@
 #include <glade/glade.h>
 #include <e-util/e-dialog-widgets.h>
 #include <e-util/e-time-utils.h>
-#include <widgets/misc/e-dateedit.h>
+#include <misc/e-dateedit.h>
 #include <libecal/e-cal-recur.h>
 #include <libecal/e-cal-time-util.h>
 #include "../calendar-config.h"

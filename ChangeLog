@@ -1,3 +1,11 @@
+2005-06-23  Kaushal Kumar  <kakumar@novell.com>
+
+	* e-util/Makefile.am, widgets/e-timezone-dialog/Makefile.am,
+	addressbook/gui/search/Makefile.am, 
+	plugins/groupwise-features/Makefile.am: Added widgets in INCLUDES.
+
+	Updated the include paths to use misc instead of widgets/misc.
+ 
 2005-06-23  Not Zed  <NotZed@Ximian.com>
 
 	* configure.in: fix the --enable-profiler not to disable otherwise

@@ -43,7 +43,7 @@
 #include "e-util/e-gtk-utils.h"
 #include "e-util/e-account-list.h"
 
-#include "widgets/misc/e-clipped-label.h"
+#include "misc/e-clipped-label.h"
 #include "em-filter-rule.h"
 #include "camel/camel-filter-driver.h"
 #include "camel/camel-folder.h"

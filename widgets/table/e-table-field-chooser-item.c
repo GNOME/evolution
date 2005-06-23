@@ -35,7 +35,7 @@
 #include "e-util/e-i18n.h"
 #include "e-util/e-util.h"
 #include "e-util/e-xml-utils.h"
-#include "widgets/misc/e-canvas.h"
+#include "misc/e-canvas.h"
 
 #include "e-table-col-dnd.h"
 #include "e-table-defines.h"

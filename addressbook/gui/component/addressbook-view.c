@@ -43,8 +43,8 @@
 #include <libedataserverui/e-passwords.h>
 
 #include "e-util/e-error.h"
-#include "widgets/misc/e-task-bar.h"
-#include "widgets/misc/e-info-label.h"
+#include "misc/e-task-bar.h"
+#include "misc/e-info-label.h"
 
 
 #include "e-util/e-icon-factory.h"

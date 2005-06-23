@@ -43,7 +43,7 @@
 #include <glade/glade.h>
 #include <e-util/e-dialog-widgets.h>
 #include <e-util/e-icon-factory.h>
-#include <widgets/misc/e-dateedit.h>
+#include <misc/e-dateedit.h>
 #include <stdlib.h>
 #include <string.h>
 

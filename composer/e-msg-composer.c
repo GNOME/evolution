@@ -89,8 +89,8 @@
 
 #include "e-util/e-dialog-utils.h"
 #include "e-util/e-signature-list.h"
-#include "widgets/misc/e-charset-picker.h"
-#include "widgets/misc/e-expander.h"
+#include "misc/e-charset-picker.h"
+#include "misc/e-expander.h"
 #include "e-util/e-error.h"
 
 #include <camel/camel-session.h>

@@ -32,7 +32,7 @@
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-popup-menu.h>
 
-#include <widgets/misc/e-popup-menu.h>
+#include <misc/e-popup-menu.h>
 
 #define ICON_SIZE 16
 

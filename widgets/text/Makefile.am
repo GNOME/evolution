@@ -22,7 +22,7 @@ libetext_la_SOURCES =				\
 	e-text-model-uri.c                      \
 	e-text.c
 
-libetextincludedir = $(privincludedir)/e-text
+libetextincludedir = $(privincludedir)/text
 
 libetextinclude_HEADERS = 			\
 	e-entry.h				\

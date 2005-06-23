@@ -38,8 +38,8 @@
 
 #include "e-util/e-i18n.h"
 #include "e-util/e-util.h"
-#include "widgets/misc/e-canvas.h"
-#include "widgets/misc/e-canvas-utils.h"
+#include "misc/e-canvas.h"
+#include "misc/e-canvas-utils.h"
 
 #include "e-completion-view.h"
 #include "e-entry.h"

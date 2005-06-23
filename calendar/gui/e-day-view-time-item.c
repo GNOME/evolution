@@ -37,7 +37,7 @@
 #include <gtk/gtkradiomenuitem.h>
 #include <gtk/gtkcheckmenuitem.h>
 #include <libgnome/gnome-i18n.h>
-#include <widgets/misc/e-gui-utils.h>
+#include <misc/e-gui-utils.h>
 #include "e-day-view-time-item.h"
 #include "calendar-config.h"
 #include <libecal/e-cal-time-util.h>

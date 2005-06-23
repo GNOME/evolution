@@ -39,7 +39,7 @@
 #include <bonobo/bonobo-generic-factory.h>
 
 #include <libedataserver/e-iconv.h>
-#include <widgets/misc/e-gui-utils.h>
+#include <misc/e-gui-utils.h>
 
 #include <gtk/gtktreemodel.h>
 #include <gtk/gtkliststore.h>
@@ -59,7 +59,7 @@
 
 #include <gtkhtml/gtkhtml.h>
 
-#include "widgets/misc/e-charset-picker.h"
+#include "misc/e-charset-picker.h"
 #include "e-util/e-error.h"
 
 #include <e-util/e-icon-factory.h>

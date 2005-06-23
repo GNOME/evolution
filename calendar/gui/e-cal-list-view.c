@@ -42,14 +42,14 @@
 #include <gtk/gtksignal.h>
 #include <gtk/gtkvscrollbar.h>
 #include <gtk/gtkwindow.h>
-#include <widgets/misc/e-gui-utils.h>
+#include <misc/e-gui-utils.h>
 #include <table/e-table-memory-store.h>
 #include <table/e-cell-checkbox.h>
 #include <table/e-cell-toggle.h>
 #include <table/e-cell-text.h>
 #include <table/e-cell-combo.h>
-#include <widgets/misc/e-popup-menu.h>
-#include <widgets/misc/e-cell-date-edit.h>
+#include <misc/e-popup-menu.h>
+#include <misc/e-cell-date-edit.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-exec.h>
 #include <libgnome/gnome-util.h>

@@ -29,7 +29,7 @@
 #include "e-util/e-i18n.h"
 #include "e-util/e-util.h"
 #include "e-util/e-util-private.h"
-#include "widgets/misc/e-unicode.h"
+#include "misc/e-unicode.h"
 
 #include "gal-define-views-model.h"
 #include "gal-view-new-dialog.h"

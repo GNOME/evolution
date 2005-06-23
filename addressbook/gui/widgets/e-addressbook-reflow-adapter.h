@@ -2,7 +2,7 @@
 #ifndef _E_ADDRESSBOOK_REFLOW_ADAPTER_H_
 #define _E_ADDRESSBOOK_REFLOW_ADAPTER_H_
 
-#include <widgets/misc/e-reflow-model.h>
+#include <misc/e-reflow-model.h>
 #include <libebook/e-contact.h>
 #include "e-addressbook-model.h"
 

@@ -36,8 +36,8 @@
 #include "addressbook/gui/widgets/eab-menu.h"
 #include "addressbook/gui/widgets/eab-config.h"
 
-#include "widgets/misc/e-task-bar.h"
-#include "widgets/misc/e-info-label.h"
+#include "misc/e-task-bar.h"
+#include "misc/e-info-label.h"
 
 #include <string.h>
 #include <bonobo/bonobo-i18n.h>

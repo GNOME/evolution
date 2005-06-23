@@ -47,7 +47,7 @@
 #include "dialogs/comp-editor.h"
 #include "dialogs/copy-source-dialog.h"
 #include "dialogs/task-editor.h"
-#include "widgets/misc/e-info-label.h"
+#include "misc/e-info-label.h"
 #include "e-util/e-error.h"
 #include "e-util/e-icon-factory.h"
 

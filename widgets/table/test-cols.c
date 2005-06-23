@@ -28,9 +28,9 @@
 
 #include <gnome.h>
 
-#include "widgets/misc/e-canvas-utils.h"
-#include "widgets/misc/e-canvas.h"
-#include "widgets/misc/e-cursors.h"
+#include "misc/e-canvas-utils.h"
+#include "misc/e-canvas.h"
+#include "misc/e-cursors.h"
 #include "e-util/e-util.h"
 
 #include "e-table-simple.h"

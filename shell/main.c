@@ -73,7 +73,7 @@
 #include "e-config-upgrade.h"
 #include "Evolution-DataServer.h"
 
-#include <widgets/misc/e-cursors.h>
+#include <misc/e-cursors.h>
 #include "e-util/e-error.h"
 
 #include <fcntl.h>

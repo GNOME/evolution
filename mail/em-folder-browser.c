@@ -63,7 +63,7 @@
 #include <libedataserver/e-sexp.h>
 #include "mail-vfolder.h"
 #include "em-vfolder-rule.h"
-#include <widgets/misc/e-filter-bar.h>
+#include <misc/e-filter-bar.h>
 #include <camel/camel-search-private.h>
 
 #include "e-util/e-dialog-utils.h"

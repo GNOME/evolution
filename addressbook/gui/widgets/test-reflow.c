@@ -54,9 +54,9 @@
 #include <gtk/gtkvbox.h>
 #include <libgnomeui/gnome-canvas-rect-ellipse.h>
 #include <libgnomeui/gnome-init.h>
-#include <widgets/misc/e-canvas.h>
-#include <widgets/misc/e-reflow.h>
-#include <widgets/misc/e-scroll-frame.h>
+#include <misc/e-canvas.h>
+#include <misc/e-reflow.h>
+#include <misc/e-scroll-frame.h>
 
 #include "e-minicard.h"
 

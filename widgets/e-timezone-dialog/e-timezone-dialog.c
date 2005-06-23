@@ -30,7 +30,7 @@
 #include <gtk/gtklabel.h>
 #include <gnome.h>
 #include <glade/glade.h>
-#include <widgets/misc/e-map.h>
+#include <misc/e-map.h>
 
 #include "e-timezone-dialog.h"
 

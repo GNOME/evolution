@@ -23,7 +23,7 @@
 #ifndef _E_MINI_CALENDAR_CONFIG_H_
 #define _E_MINI_CALENDAR_CONFIG_H_
 
-#include <widgets/misc/e-calendar.h>
+#include <misc/e-calendar.h>
 
 G_BEGIN_DECLS
 

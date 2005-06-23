@@ -23,7 +23,7 @@
 #ifndef _E_DATE_EDIT_CONFIG_H_
 #define _E_DATE_EDIT_CONFIG_H_
 
-#include <widgets/misc/e-dateedit.h>
+#include <misc/e-dateedit.h>
 
 G_BEGIN_DECLS
 

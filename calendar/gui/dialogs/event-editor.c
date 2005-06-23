@@ -30,7 +30,7 @@
 #include <string.h>
 #include <glade/glade.h>
 #include <libgnome/gnome-i18n.h>
-#include <widgets/misc/e-dateedit.h>
+#include <misc/e-dateedit.h>
 #include <e-util/e-icon-factory.h>
 
 #include "event-page.h"

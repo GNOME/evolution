@@ -30,7 +30,7 @@
 #include "Evolution.h"
 
 #include "e-util/e-corba-utils.h"
-#include "widgets/misc/e-combo-button.h"
+#include "misc/e-combo-button.h"
 
 #include <bonobo/bonobo-ui-util.h>
 #include <bonobo/bonobo-exception.h>

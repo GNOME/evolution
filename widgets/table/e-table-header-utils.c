@@ -30,7 +30,7 @@
 
 #include <gtk/gtk.h>
 
-#include "widgets/misc/e-unicode.h"
+#include "misc/e-unicode.h"
 
 #include "e-table-defines.h"
 #include "e-table-header-utils.h"

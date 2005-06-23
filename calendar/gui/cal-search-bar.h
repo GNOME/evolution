@@ -21,8 +21,8 @@
 #ifndef CAL_SEARCH_BAR_H
 #define CAL_SEARCH_BAR_H
 
-#include "widgets/misc/e-search-bar.h"
-#include "widgets/misc/e-filter-bar.h"
+#include "misc/e-search-bar.h"
+#include "misc/e-filter-bar.h"
 
 G_BEGIN_DECLS
 

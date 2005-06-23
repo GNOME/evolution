@@ -29,7 +29,7 @@
 #include <gtk/gtkscrolledwindow.h>
 #include <table/e-table-scrolled.h>
 #include <table/e-table-model.h>
-#include <widgets/misc/e-gui-utils.h>
+#include <misc/e-gui-utils.h>
 #include <widgets/menus/gal-view-factory-etable.h>
 #include <widgets/menus/gal-view-etable.h>
 #include <e-util/e-xml-utils.h>
@@ -51,7 +51,7 @@
 #include <libedataserver/e-categories.h>
 
 #ifdef WITH_ADDRESSBOOK_VIEW_TREEVIEW
-#include <widgets/misc/e-treeview-selection-model.h>
+#include <misc/e-treeview-selection-model.h>
 #include "gal-view-factory-treeview.h"
 #include "gal-view-treeview.h"
 #endif

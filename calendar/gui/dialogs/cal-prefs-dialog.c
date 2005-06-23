@@ -47,7 +47,7 @@
 #include <libgnomeui/gnome-color-picker.h>
 #include <glade/glade.h>
 #include <e-util/e-dialog-widgets.h>
-#include <widgets/misc/e-dateedit.h>
+#include <misc/e-dateedit.h>
 
 
 static const int week_start_day_map[] = {

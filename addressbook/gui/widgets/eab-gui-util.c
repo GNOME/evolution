@@ -32,7 +32,7 @@
 #include "util/eab-book-util.h"
 #include <libebook/e-destination.h>
 #include "e-util/e-error.h"
-#include "widgets/misc/e-image-chooser.h"
+#include "misc/e-image-chooser.h"
 #include <e-util/e-icon-factory.h>
 #include "eab-contact-merging.h"
 #include <gnome.h>

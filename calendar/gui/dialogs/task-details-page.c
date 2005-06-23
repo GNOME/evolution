@@ -29,8 +29,8 @@
 #include <gtk/gtktogglebutton.h>
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
-#include <widgets/misc/e-dateedit.h>
-#include <widgets/misc/e-url-entry.h>
+#include <misc/e-dateedit.h>
+#include <misc/e-url-entry.h>
 #include "e-util/e-dialog-widgets.h"
 #include "../calendar-config.h"
 #include "../e-timezone-entry.h"

@@ -26,7 +26,7 @@
 
 #include <glib-object.h>
 #include <libxml/tree.h>
-#include <widgets/misc/e-selection-model.h>
+#include <misc/e-selection-model.h>
 #include <table/e-table-state.h>
 #include <table/e-table-column-specification.h>
 #include <table/e-table-defines.h>

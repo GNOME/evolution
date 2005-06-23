@@ -17,7 +17,7 @@
 
 #include <time.h>
 #include <sys/time.h>
-#include <widgets/misc/e-unicode.h>
+#include <misc/e-unicode.h>
 
 #ifdef __linux__
 #undef _GNU_SOURCE

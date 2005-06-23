@@ -32,7 +32,7 @@
 #include <libedataserver/e-iconv.h>
 #include <gtkhtml/gtkhtml-properties.h>
 #include <libxml/tree.h>
-#include "widgets/misc/e-charset-picker.h"
+#include "misc/e-charset-picker.h"
 #include <bonobo/bonobo-generic-factory.h>
 
 #include <libgnomeui/gnome-color-picker.h>
