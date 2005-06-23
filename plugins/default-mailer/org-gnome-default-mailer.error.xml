@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<error-list domain="org.gnome.default.mailer">
+
+ <error id="check-default" type="question" default="GTK_RESPONSE_YES">
+  <_title>Evolution</_title>
+  <_secondary>Do you want to make Evolution your default e-mail client?</_secondary>
+  <button stock="gtk-yes" response="GTK_RESPONSE_YES"/>
+  <button stock="gtk-no"  response="GTK_RESPONSE_NO"/>
+ </error>
+
+</error-list>

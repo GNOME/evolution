@@ -1,0 +1,55 @@
+2005-06-23  Not Zed  <NotZed@Ximian.com>
+
+	* Makefile.am: Changed the way the i18n stuff and xml building is
+	done for the 'new way'.
+
+	* default-mailer.c: fixed e-error header move and removed some
+	other unecessary includes.
+
+2005-03-24  Jonathan Dieter  <jdieter99@gmx.net>
+	* default-mailer.c: removed code to put a checkbox in the
+	configuration menu, changed procedure names to avoid
+	namespace pollution.
+
+	* org-gnome-default-mailer.eplug.in: removed definitions
+	to put a checkbox in the configuration menu.
+
+	* apps-evolution-mail-prompts-checkdefault.schema.in.in:
+	schema for GConf key /apps/evolution/mail/prompts/checkdefault.
+
+	* Makefile.am: added steps to build GConf schema.
+
+2005-03-17  Jonathan Dieter  <jdieter99@gmx.net>
+
+	* default-mailer.c: renamed from default-mail-client-check.c
+	Renamed modules to fit new name and cleaned up code.  Fixed
+	small memory leak.
+
+	* org-gnome-default-mailer.xml: renamed from
+	org-gnome-default-mail-client-check.xml.
+
+	* org-gnome-default-mailer.eplug.in: renamed from
+	org-gnome-default-mail-client-check.eplug.in.
+
+	* Makefile.am: Fixed references to fit new file names.
+
+2005-03-15  Jonathan Dieter  <jdieter99@gmx.net>
+
+	* default-mail-client-check.c (check_default_mail_client):
+	Removed gtk_message_dialog() call and replaced with 
+	e_error().
+	
+	* Makefile.am: added necessary steps to build xml.
+	
+	* org-gnome-default-mail-client-check.xml: define the
+	message box that shows up on startup.
+
+2005-03-07  Jonathan Dieter  <jdieter99@gmx.net>
+
+	* default-mail-client-check.c: Plugin implementation.
+
+	* org-gnome-default-mail-client-check.eplug.in: define the
+	default mail client check plugin.
+
+	* Makefile.am: build the default mail client check plugin.
+

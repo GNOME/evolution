@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<e-plugin-list>
+	<e-plugin
+	id="org.gnome.evolution.default.mailer" 
+	type="shlib" 
+	_name="Default Mail Client " 
+	location="@PLUGINDIR@/liborg-gnome-default-mailer.so">
+
+		<_description>Checks whether Evolution is the default mail client on startup.</_description>
+		<author name="Jonathan Dieter" email="jdieter99@gmx.net"/>
+
+		<hook class="org.gnome.evolution.shell.events:1.0">
+			<event
+				id="upgrade.done"
+				handle="org_gnome_default_mailer_check_default"
+				target="upgrade"
+			/>
+		</hook>
+	</e-plugin>
+</e-plugin-list>
