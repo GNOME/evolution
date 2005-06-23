@@ -1,3 +1,8 @@
+2005-06-23  Harish Krishnaswamy <kharish@novell.com>
+	
+	* configure.in : add mono plugin to the base list only if 
+	it was enabled as a configure option.
+
 2005-06-23  Kaushal Kumar  <kakumar@novell.com>
 
 	* e-util/Makefile.am, widgets/e-timezone-dialog/Makefile.am,
