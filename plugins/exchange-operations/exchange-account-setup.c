@@ -47,8 +47,6 @@
 #include "mail/em-config.h"
 
 
-static ExchangeConfigListener *exchange_global_config_listener = NULL;
-
 GtkWidget* org_gnome_exchange_settings(EPlugin *epl, EConfigHookItemFactoryData *data);
 GtkWidget *org_gnome_exchange_owa_url(EPlugin *epl, EConfigHookItemFactoryData *data);
 gboolean org_gnome_exchange_check_options(EPlugin *epl, EConfigHookPageCheckData *data);
@@ -140,15 +138,22 @@ btn_chpass_clicked (GtkButton *button, gpointer data)
 	/* FIXME: For now, we have only one account in the list.
 	   Find a way to handle multiple accounts.
 	*/
+	if (!acclist)
+		return;
 	account = acclist->data; 
 					
 	old_password = exchange_account_get_password (account);
+	if (!old_password) {
+		printf ("could not fetch old password\n");
+		return;
+	}
+
 	g_print ("Current password is \"%s\"\n", old_password);
 	//new_password = exchange_get_new_password (old_password, TRUE);
 	exchange_account_set_password (account, old_password, new_password);
 	
-	g_free (old_password);
-	g_free (new_password);	
+//	g_free (old_password);
+//	g_free (new_password);	
 }
 
 static void

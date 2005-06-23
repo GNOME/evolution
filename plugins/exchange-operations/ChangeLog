@@ -1,3 +1,9 @@
+2005-06-22  Sarfraaz Ahmed <asarfraaz@novell.com>
+
+	* exchange-account-setup.c : We no longer should be declaring the
+	global_config_listener as a static variable here. Also, added some
+	NULL checks to avoid crashes.
+
 2005-06-15  Sushma Rai  <rsushma@novell.com>
 
 	* exchange-account-setup.c (org_gnome_exchange_settings): Trying to 
