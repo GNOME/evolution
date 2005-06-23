@@ -1,3 +1,8 @@
+2005-06-23  Not Zed  <NotZed@Ximian.com>
+
+	* e-shell-window-commands.c: added jonathan dieter.  Fixed up the
+	busted utf8 and duplicates.
+
 2005-06-21  Not Zed  <NotZed@Ximian.com>
 
 	* e-shell-window-commands.c: add brian mury to contributors.
