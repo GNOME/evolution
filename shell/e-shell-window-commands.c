@@ -506,7 +506,7 @@ about_box_new (void)
 	 * about box*/
 	char *translator_credits = _("translator-credits");
 	
-	g_sprintf (copyright, "Copyright \xC2\xA9 1999 - 2004 Novell, Inc. and Others");
+	g_sprintf (copyright, "Copyright \xC2\xA9 1999 - 2005 Novell, Inc. and Others");
                                                                                 
 	filename = g_build_filename (EVOLUTION_DATADIR, "pixmaps",
 				     "evolution-1.5.png", NULL);
