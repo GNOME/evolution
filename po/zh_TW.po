@@ -7,10 +7,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.3.1.99\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-06-21 13:59+0800\n"
-"PO-Revision-Date: 2004-09-22 16:09+0100\n"
+"POT-Creation-Date: 2005-06-23 21:14+0000\n"
+"PO-Revision-Date: 2005-06-24 10:57+0800\n"
 "Last-Translator: Craig Jeffares <cjeffares@novell.com>\n"
-"Language-Team: Chinese (traditional) <zh-l10n@linux.org.tw>\n"
+"Language-Team: Chinese (traditional) <community@linuxhall.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bitPlural-Forms: nplurals=1; plural=0;\n"
@@ -6965,48 +6965,48 @@ msgid "Cancel _Drag"
 msgstr "取消拖曳(_D)"
 
 # shell/e-setup.c:163
-#: ../calendar/gui/dialogs/comp-editor.c:697
+#: ../calendar/gui/dialogs/comp-editor.c:705
 msgid "Could not update object"
 msgstr "無法更新物件"
 
 # mail/mail-format.c:527
-#: ../calendar/gui/dialogs/comp-editor.c:883 ../composer/e-msg-composer.c:2308
+#: ../calendar/gui/dialogs/comp-editor.c:892 ../composer/e-msg-composer.c:2308
 #, fuzzy, c-format
 msgid "<b>%d</b> Attachment"
 msgid_plural "<b>%d</b> Attachments"
 msgstr[0] "%s 附加檔案"
 
 # Novell Translation
-#: ../calendar/gui/dialogs/comp-editor.c:978
+#: ../calendar/gui/dialogs/comp-editor.c:987
 #, fuzzy
 msgid "_Attachment Bar (drop attachments here)"
 msgstr "隱藏附件列 (將附件拖曳至此處)(_A)"
 
 # calendar/gui/dialogs/alarm-notify.glade.h:2
-#: ../calendar/gui/dialogs/comp-editor.c:1588
-#: ../calendar/gui/dialogs/comp-editor.c:1631
+#: ../calendar/gui/dialogs/comp-editor.c:1597
+#: ../calendar/gui/dialogs/comp-editor.c:1640
 msgid "Edit Appointment"
 msgstr "編輯約會"
 
 # importers/netscape-importer.c:790
 # importers/pine-importer.c:656
-#: ../calendar/gui/dialogs/comp-editor.c:1594
-#: ../calendar/gui/dialogs/comp-editor.c:1637
+#: ../calendar/gui/dialogs/comp-editor.c:1603
+#: ../calendar/gui/dialogs/comp-editor.c:1646
 #, fuzzy, c-format
 msgid "Meeting - %s"
 msgstr "會議"
 
 # calendar/gui/event-editor-dialog.glade.h:3
-#: ../calendar/gui/dialogs/comp-editor.c:1596
-#: ../calendar/gui/dialogs/comp-editor.c:1639
+#: ../calendar/gui/dialogs/comp-editor.c:1605
+#: ../calendar/gui/dialogs/comp-editor.c:1648
 #, c-format
 msgid "Appointment - %s"
 msgstr "約會 - %s"
 
 # calendar/gui/calendar-model.c:1578
 # Novell Translation
-#: ../calendar/gui/dialogs/comp-editor.c:1600
-#: ../calendar/gui/dialogs/comp-editor.c:1643
+#: ../calendar/gui/dialogs/comp-editor.c:1609
+#: ../calendar/gui/dialogs/comp-editor.c:1652
 #, fuzzy, c-format
 msgid "Assigned Task - %s"
 msgstr "指定的工作(_D)"
@@ -7014,33 +7014,33 @@ msgstr "指定的工作(_D)"
 # calendar/gui/calendar-summary.c:275
 # calendar/gui/print.c:948
 # views/tasks/galview.xml.h:1
-#: ../calendar/gui/dialogs/comp-editor.c:1602
-#: ../calendar/gui/dialogs/comp-editor.c:1645
+#: ../calendar/gui/dialogs/comp-editor.c:1611
+#: ../calendar/gui/dialogs/comp-editor.c:1654
 #, c-format
 msgid "Task - %s"
 msgstr "工作 - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1605
-#: ../calendar/gui/dialogs/comp-editor.c:1648
+#: ../calendar/gui/dialogs/comp-editor.c:1614
+#: ../calendar/gui/dialogs/comp-editor.c:1657
 #, c-format
 msgid "Journal entry - %s"
 msgstr "日誌項目 - %s"
 
 # calendar/gui/e-calendar-table.c:159
-#: ../calendar/gui/dialogs/comp-editor.c:1616
-#: ../calendar/gui/dialogs/comp-editor.c:1658
+#: ../calendar/gui/dialogs/comp-editor.c:1625
+#: ../calendar/gui/dialogs/comp-editor.c:1667
 msgid "No summary"
 msgstr "沒有摘要"
 
 # Novell Translation
-#: ../calendar/gui/dialogs/comp-editor.c:2137
-#: ../calendar/gui/dialogs/comp-editor.c:2170
-#: ../calendar/gui/dialogs/comp-editor.c:2194
+#: ../calendar/gui/dialogs/comp-editor.c:2142
+#: ../calendar/gui/dialogs/comp-editor.c:2175
+#: ../calendar/gui/dialogs/comp-editor.c:2199
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr "如果有新的更新，則會放棄對此項目所做的變更"
 
 # Novell Translation
-#: ../calendar/gui/dialogs/comp-editor.c:2218
+#: ../calendar/gui/dialogs/comp-editor.c:2223
 msgid "Unable to use current version!"
 msgstr "無法使用目前的版本！"
 
@@ -7139,78 +7139,78 @@ msgid "Enter Delegate"
 msgstr "輸入代表"
 
 # calendar/gui/event-editor-dialog.glade.h:3
-#: ../calendar/gui/dialogs/event-editor.c:141 ../calendar/gui/print.c:2298
+#: ../calendar/gui/dialogs/event-editor.c:142 ../calendar/gui/print.c:2298
 msgid "Appointment"
 msgstr "約會"
 
 # calendar/gui/event-editor-dialog.glade.h:18
-#: ../calendar/gui/dialogs/event-editor.c:150
+#: ../calendar/gui/dialogs/event-editor.c:151
 msgid "Recurrence"
 msgstr "週期性"
 
 # ui/evolution-event-editor.xml.h:46
-#: ../calendar/gui/dialogs/event-editor.c:166
-#: ../calendar/gui/dialogs/event-editor.c:249
-#: ../calendar/gui/dialogs/event-editor.c:422
+#: ../calendar/gui/dialogs/event-editor.c:170
+#: ../calendar/gui/dialogs/event-editor.c:254
+#: ../calendar/gui/dialogs/event-editor.c:426
 msgid "Scheduling"
 msgstr "會議排程"
 
-#: ../calendar/gui/dialogs/event-editor.c:175
+#: ../calendar/gui/dialogs/event-editor.c:180
 #, fuzzy
 msgid "Delegatees"
 msgstr "已委派"
 
 # widgets/meeting-time-sel/e-meeting-time-sel.c:744
-#: ../calendar/gui/dialogs/event-editor.c:179
+#: ../calendar/gui/dialogs/event-editor.c:184
 #, fuzzy
 msgid "Attendees"
 msgstr "到會者"
 
 # widgets/misc/e-messagebox.c:152
 # Novell Translation
-#: ../calendar/gui/dialogs/event-editor.c:252
-#: ../calendar/gui/dialogs/event-editor.c:425
+#: ../calendar/gui/dialogs/event-editor.c:257
+#: ../calendar/gui/dialogs/event-editor.c:429
 msgid "Invitations"
 msgstr "邀請"
 
 # Novell Translation
-#: ../calendar/gui/dialogs/event-page.c:725
+#: ../calendar/gui/dialogs/event-page.c:729
 msgid "Event with no start date"
 msgstr "無開始日期的事件"
 
 # Novell Translation
-#: ../calendar/gui/dialogs/event-page.c:728
+#: ../calendar/gui/dialogs/event-page.c:732
 msgid "Event with no end date"
 msgstr "無結束日期的事件"
 
 # calendar/gui/e-calendar-table.c:154
-#: ../calendar/gui/dialogs/event-page.c:894
+#: ../calendar/gui/dialogs/event-page.c:898
 #: ../calendar/gui/dialogs/task-page.c:556
 msgid "Start date is wrong"
 msgstr "開始日期錯誤"
 
-#: ../calendar/gui/dialogs/event-page.c:904
+#: ../calendar/gui/dialogs/event-page.c:908
 msgid "End date is wrong"
 msgstr "結束日期錯誤"
 
 # calendar/gui/event-editor-dialog.glade.h:31
-#: ../calendar/gui/dialogs/event-page.c:927
+#: ../calendar/gui/dialogs/event-page.c:931
 msgid "Start time is wrong"
 msgstr "開始時間錯誤"
 
-#: ../calendar/gui/dialogs/event-page.c:934
+#: ../calendar/gui/dialogs/event-page.c:938
 msgid "End time is wrong"
 msgstr "結束時間錯誤"
 
 # shell/e-storage.c:475
 # Novell Translation
-#: ../calendar/gui/dialogs/event-page.c:1680
+#: ../calendar/gui/dialogs/event-page.c:1684
 #, c-format
 msgid "Unable to open the calendar '%s'."
 msgstr "無法開啟行事曆 '%s'。"
 
 # calendar/gui/event-editor.c:1612
-#: ../calendar/gui/dialogs/event-page.c:1886
+#: ../calendar/gui/dialogs/event-page.c:1890
 #, c-format
 msgid "%d day before appointment"
 msgid_plural "%d days before appointment"
@@ -7218,7 +7218,7 @@ msgstr[0] "在每個約會前"
 msgstr[1] "在每個約會前"
 
 # calendar/gui/event-editor-dialog.glade.h:36
-#: ../calendar/gui/dialogs/event-page.c:1894
+#: ../calendar/gui/dialogs/event-page.c:1898
 #, c-format
 msgid "%d hour before appointment"
 msgid_plural "%d hours before appointment"
@@ -7226,7 +7226,7 @@ msgstr[0] "約會結束"
 msgstr[1] "約會結束"
 
 # calendar/gui/event-editor.c:1612
-#: ../calendar/gui/dialogs/event-page.c:1902
+#: ../calendar/gui/dialogs/event-page.c:1906
 #, c-format
 msgid "%d minute before appointement"
 msgid_plural "%d minutes before appointment"
@@ -7631,40 +7631,46 @@ msgid "Task List Name"
 msgstr "工作清單名稱"
 
 # Novell Translation
-#: ../calendar/gui/dialogs/recur-comp.c:51
+#: ../calendar/gui/dialogs/recur-comp.c:52
 msgid "You are modifying a recurring event, what would you like to modify?"
 msgstr "您正在修改週期性事件，您想要修改什麼?"
 
 # Novell Translation
-#: ../calendar/gui/dialogs/recur-comp.c:55
+#: ../calendar/gui/dialogs/recur-comp.c:54
+#, fuzzy
+msgid "You are delegating a recurring event, what would like to delegate?"
+msgstr "您正在修改週期性事件，您想要修改什麼?"
+
+# Novell Translation
+#: ../calendar/gui/dialogs/recur-comp.c:58
 msgid "You are modifying a recurring task, what would you like to modify?"
 msgstr "您正在修改週期性工作，您想要修改什麼？"
 
 # Novell Translation
-#: ../calendar/gui/dialogs/recur-comp.c:59
+#: ../calendar/gui/dialogs/recur-comp.c:62
 msgid ""
 "You are modifying a recurring journal entry, what would you like to modify?"
 msgstr "您正在修改週期性日誌項目，您想要修改什麼？"
 
 # Novell Translation
-#: ../calendar/gui/dialogs/recur-comp.c:87
+#: ../calendar/gui/dialogs/recur-comp.c:90
 msgid "This Instance Only"
 msgstr "限此例項"
 
 # Novell Translation
-#: ../calendar/gui/dialogs/recur-comp.c:91
+#: ../calendar/gui/dialogs/recur-comp.c:94
 msgid "This and Prior Instances"
 msgstr "此例項和先前的例項"
 
 # Novell Translation
-#: ../calendar/gui/dialogs/recur-comp.c:97
+#: ../calendar/gui/dialogs/recur-comp.c:100
 msgid "This and Future Instances"
 msgstr "此例項和以後的例項"
 
 # widgets/misc/e-filter-bar.h:97
 # widgets/misc/e-filter-bar.h:104
 # Novell Translation
-#: ../calendar/gui/dialogs/recur-comp.c:102
+#: ../calendar/gui/dialogs/recur-comp.c:105
 msgid "All Instances"
 msgstr "所有例項"
 
@@ -19539,28 +19545,35 @@ msgstr "無法執行 Bug buddy。"
 #. The translator-credits string is for translators to list
 #. * per language credits for translation, displayed in the
 #. * about box
-#: ../shell/e-shell-window-commands.c:508
+#: ../shell/e-shell-window-commands.c:507
 msgid "translator-credits"
 msgstr ""
+"如對翻譯有任何意見，請送一封電子郵件給\n"
+"以下地址，GNOME 翻譯團隊會盡快回覆您：\n"
+"community@linuxhall.org\n"
+"\n"
+"Chao-Hsiung Liao <j_h_liau@yahoo.com.tw>, 2003, 05\n"
+"Craig Jeffares <cjeffares@novell.com>, 2004\n"
+"Joe Man <trmetal@yahoo.com.hk>, 2001"
 
 # shell/e-shortcuts-view.c:137
 # Novell Translation
-#: ../shell/e-shell-window-commands.c:522
+#: ../shell/e-shell-window-commands.c:521
 msgid "Groupware Suite"
 msgstr "Groupware 套裝軟體"
 
 # shell/e-shell-view-menu.c:590
-#: ../shell/e-shell-window-commands.c:749
+#: ../shell/e-shell-window-commands.c:748
 msgid "_Work Online"
 msgstr "線上工作(_W)"
 
 # ui/evolution.xml.h:66
-#: ../shell/e-shell-window-commands.c:762 ../ui/evolution.xml.h:47
+#: ../shell/e-shell-window-commands.c:761 ../ui/evolution.xml.h:47
 msgid "_Work Offline"
 msgstr "離線工作(_W)"
 
 # ui/evolution.xml.h:39
-#: ../shell/e-shell-window-commands.c:775
+#: ../shell/e-shell-window-commands.c:774
 msgid "Work Offline"
 msgstr "離線工作"
 
