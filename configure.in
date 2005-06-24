@@ -1504,9 +1504,9 @@ AC_ARG_ENABLE(plugins, [  --enable-plugins=[no/base/all/experimental/list]      
 dnl Add any new plugins here
 plugins_base="calendar-file calendar-http calendar-weather itip-formatter plugin-manager default-source addressbook-file startup-wizard print-message mark-all-read groupwise-features $EXCHANGE_PLUGIN $MONO_PLUGIN" 
 
-plugins_standard="bbdb subject-thread save-attachments prefer-plain save-calendar select-one-source copy-tool mail-to-task mark-calendar-offline audio-inline mailing-list-actions new-mail-notify default-mailer" 
+plugins_standard="bbdb subject-thread save-calendar select-one-source copy-tool mail-to-task mark-calendar-offline audio-inline mailing-list-actions new-mail-notify default-mailer" 
 
-plugins_experimental="backup-restore folder-unsubscribe mail-to-meeting mail-remote"
+plugins_experimental="backup-restore folder-unsubscribe mail-to-meeting mail-remote prefer-plain save-attachments"
 
 case x"$enable_plugins" in
 xno)

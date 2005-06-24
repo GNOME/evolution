@@ -1,3 +1,8 @@
+2005-06-25  Not Zed  <NotZed@Ximian.com>
+
+	* configure.in: move prefer-plain and save-attachments to
+	experimental where they belong.
+
 2005-06-23  Harish Krishnaswamy <kharish@novell.com>
 	
 	* configure.in : add mono plugin to the base list only if 
