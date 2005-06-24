@@ -455,8 +455,8 @@ AC_CACHE_CHECK([if system supports getaddrinfo and getnameinfo], have_addrinfo,
 		char host[NI_MAXHOST];
 		char serv[NI_MAXSERV];
 
-		getaddrinfo ("www.ximian.com", NULL, &hints, &res);
-		freeaddrinfo (res);
+		getaddrinfo("www.ximian.com", 0, &hints, &res);
+		freeaddrinfo(res);
 		getnameinfo((struct sockaddr *)&sin6, sizeof(sin6), host, sizeof(host), serv, sizeof(serv), 0);
 	],[
 		have_addrinfo=yes
