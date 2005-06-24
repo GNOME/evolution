@@ -1,3 +1,18 @@
+2005-06-25  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #307398
+
+	* mail-session.c (alert_user): copy the prompt string, in 'no
+	cancel' mode we run asynchronously.
+	(free_user_message): & free it.
+
+2005-06-24  Not Zed  <NotZed@Ximian.com>
+
+	* em-format-html.c (efh_url_requested): dont pass data gtkhtml
+	definitely can't handle, to gtkhtml.  This is no security patch,
+	but stops gtkhtml wasting time tying to render malicious mails or
+	other rubbish.
+
 2005-06-21 Brian Mury <b.mury@ieee.org>
 
 	** See bug #301466.

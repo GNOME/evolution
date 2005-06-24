@@ -527,10 +527,25 @@ efh_url_requested(GtkHTML *html, const char *url, GtkHTMLStream *handle, EMForma
 
 	puri = em_format_find_visible_puri((EMFormat *)efh, url);
 	if (puri) {
-		puri->use_count++;
+		CamelContentType *ct = ((CamelDataWrapper *)puri->part)->mime_type;
 
-		d(printf(" adding puri job\n"));
-		job = em_format_html_job_new(efh, emfh_getpuri, puri);
+		/* GtkHTML only handles text and images.
+		   application/octet-stream parts are the only ones
+		   which are snooped for other content.  So only try
+		   to pass these to it - any other types are badly
+		   formed or intentionally malicious emails.  They
+		   will still show as attachments anyway */
+
+		if (ct && (camel_content_type_is(ct, "text", "*")
+			   || camel_content_type_is(ct, "image", "*")
+			   || camel_content_type_is(ct, "application", "octet-stream"))) {
+			puri->use_count++;
+
+			d(printf(" adding puri job\n"));
+			job = em_format_html_job_new(efh, emfh_getpuri, puri);
+		} else {
+			gtk_html_stream_close(handle, GTK_HTML_STREAM_ERROR);
+		}
 	} else if (g_ascii_strncasecmp(url, "http:", 5) == 0 || g_ascii_strncasecmp(url, "https:", 6) == 0) {
 		d(printf(" adding job, get %s\n", url));
 		job = em_format_html_job_new(efh, emfh_gethttp, g_strdup(url));
