@@ -1,3 +1,8 @@
+2005-06-25  Sushma Rai  <rsushma@novell.com>
+
+	* gui/contact-list-editor/Makefile.am: Linking to 
+	libevolution-addressbook.
+
 2005-06-18  Tor Lillqvist  <tml@novell.com>
 
 	* gui/component/Makefile.am

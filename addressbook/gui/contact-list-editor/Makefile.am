@@ -30,6 +30,7 @@ libecontactlisteditor_la_LIBADD =						\
 	$(WIN32_BOOTSTRAP_LIBS)							\
 	$(top_builddir)/addressbook/util/libeabutil.la				\
 	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.la	\
+	$(top_builddir)/addressbook/gui/component/libevolution-addressbook.la	\
 	$(top_builddir)/widgets/table/libetable.la				\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la				\
 	$(top_builddir)/e-util/libeutil.la					\

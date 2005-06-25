@@ -1,6 +1,11 @@
+2005-06-25  Sushma Rai  <rsushma@novell.com>
+
+	* Makefile.am: Linking to libevolution-mail and libevolution-addressbook
+
 2005-06-24  Sushma Rai  <rsushma@novell.com>
 
 	* org-gnome-groupwise-features.eplug.xml: Set load-on-startup.
+
 2005-06-18  Tor Lillqvist  <tml@novell.com>
 
 	* org-gnome-groupwise-features.eplug.xml: Use SOEXT.

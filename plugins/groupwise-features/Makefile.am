@@ -27,11 +27,12 @@ liborg_gnome_groupwise_features_la_SOURCES = \
 		status-track.c               \
 		addressbook-groupwise.c
 
-liborg_gnome_groupwise_features_la_LIBADD=             \
-	$(EVOLUTION_MAIL_LIBS)			       \
-	$(CAMEL_GROUPWISE_LIBS)                        \
-	$(top_builddir)/e-util/libeutil.la 	       \
-	$(top_builddir)/widgets/misc/libemiscwidgets.la
+liborg_gnome_groupwise_features_la_LIBADD=		\
+	$(CAMEL_GROUPWISE_LIBS)                        	\
+	$(top_builddir)/e-util/libeutil.la 	       	\
+	$(top_builddir)/widgets/misc/libemiscwidgets.la	\
+	$(top_builddir)/mail/libevolution-mail.la      	\
+	$(top_builddir)/addressbook/gui/component/libevolution-addressbook.la
 
 
 
