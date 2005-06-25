@@ -1,3 +1,9 @@
+2005-06-25  Harish Krishnaswamy <kharish@novell.com>
+
+	* gui/contact-list-editor/Makefile.am: The previous commit breaks
+	the build by introducing a circular dependancy. Revert the
+	changes.
+	
 2005-06-25  Sushma Rai  <rsushma@novell.com>
 
 	* gui/component/addressbook-migrate.c (migrate_contacts): Setting 
