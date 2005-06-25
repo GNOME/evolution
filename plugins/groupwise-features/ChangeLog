@@ -1,3 +1,9 @@
+2005-06-25  Harish Krishnaswamy <kharish@novell.com>
+
+	* Makefile.am: Reverting previous commit. Do not remove
+	$(EVOLUTION_MAIL_LIBS) from LIBADD. The addressbook dependency
+	is not required atm.
+
 2005-06-25  Sushma Rai  <rsushma@novell.com>
 
 	* Makefile.am: Linking to libevolution-mail and libevolution-addressbook
