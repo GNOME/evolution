@@ -1,3 +1,9 @@
+2005-06-25  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* gui/dialogs/comp-editor.c: 
+	(real_send_comp): check save schedules before sending
+	the comp through send_comp.
+
 2005-06-23  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* gui/dialogs/event-page.c: (sensitize_widgets): 

@@ -749,7 +749,7 @@ save_comp_with_send (CompEditor *editor)
 	if (!save_comp (editor))
 		return FALSE;
 
-	if (delegate || (send && send_component_dialog ((GtkWindow *) editor, priv->client, priv->comp, !priv->existing_org))) {
+	if ((delegate && !e_cal_get_save_schedules (priv->client)) || (send && send_component_dialog ((GtkWindow *) editor, priv->client, priv->comp, !priv->existing_org))) {
  		if (itip_organizer_is_user (priv->comp, priv->client))
  			return comp_editor_send_comp (editor, E_CAL_COMPONENT_METHOD_REQUEST);
  		else {
@@ -1884,7 +1884,6 @@ real_send_comp (CompEditor *editor, ECalComponentItipMethod method)
 			
 			comp_editor_set_changed (editor, TRUE);
 #endif
-
 			save_comp (editor);
 			g_object_unref (send_comp);
 			return TRUE;
