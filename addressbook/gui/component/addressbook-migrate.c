@@ -336,7 +336,15 @@ migrate_contacts (MigrationContext *context, EBook *old_book, EBook *new_book)
 			   of attributes, so we need to go through and
 			   escape those ';'s. */
 			else if (!strcmp ("EMAIL", e_vcard_attribute_get_name (a))) {
+				GList *params;
 				GList *v = e_vcard_attribute_get_values (a);
+
+				/* Add TYPE=OTHER if there is no type set */
+				params = e_vcard_attribute_get_params (a);
+				if (!params)
+					e_vcard_attribute_add_param_with_value (a,
+							e_vcard_attribute_param_new (EVC_TYPE),	
+							"OTHER");
 
 				if (v && v->data) {
 					if (!strncmp ((char*)v->data, "<?xml", 5)) {
