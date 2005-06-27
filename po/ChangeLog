@@ -1,3 +1,8 @@
+2005-06-27  Sarfraaz Ahmed <asarfraaz@novell.com>
+
+	* POTFILES.in : Added the new exchange plugin files.
+	* POTFILES.skip : Updated the old files here.
+
 2005-06-26  Ilkka Tuohela <hile@iki.fi>
 
 	* fi.po: Updated Finnish translation.

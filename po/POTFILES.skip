@@ -7,3 +7,4 @@ addressbook/tools/evolution-addressbook-export-list-folders.c
 designs/OOA/ooa.glade
 designs/read_receipts/read.glade
 plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml
+plugins/exchange-operations/exchange-operations.c

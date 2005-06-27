@@ -276,8 +276,10 @@ plugins/calendar-weather/calendar-weather.c
 plugins/calendar-weather/org-gnome-calendar-weather.eplug.xml
 plugins/copy-tool/org-gnome-copy-tool.eplug.xml
 plugins/default-source/default-source.c
-plugins/exchange-account-setup/exchange-account-setup.c
-plugins/exchange-account-setup/exchange-ask-password.c
+plugins/exchange-operations/exchange-account-setup.c
+plugins/exchange-operations/exchange-change-password.glade
+plugins/exchange-operations/exchange-delegates.glade
+plugins/exchange-operations/exchange-folder-tree.glade
 plugins/folder-unsubscribe/folder-unsubscribe.c
 plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml
 plugins/groupwise-features/camel-gw-listener.c
