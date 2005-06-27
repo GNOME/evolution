@@ -74,6 +74,7 @@ EXPORTS
 	e_selection_model_select_single_row
 	e_selection_model_selected_count
 	e_selection_model_selection_changed
+	e_selection_model_selection_row_changed
 	e_selection_model_toggle_single_row
 	e_utf8_from_gtk_event_key
 	e_utf8_to_locale_string

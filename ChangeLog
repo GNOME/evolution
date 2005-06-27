@@ -1,3 +1,7 @@
+2005-06-27  Tor Lillqvist  <tml@novell.com>
+
+	* win32/libemiscwidgets.def: Add e_selection_model_selection_row_changed.
+
 2005-06-25  Not Zed  <NotZed@Ximian.com>
 
 	* configure.in: remove need to define NULL in getaddrinfo check.
