@@ -242,51 +242,6 @@ dnl **************
 AC_ARG_ENABLE(test-component, [  --enable-test-component=[no/yes]      Enable test component.],enable_test_comp="$enableval",enable_test_comp=no)
 AM_CONDITIONAL(ENABLE_TEST_COMPONENT, test "x$enable_test_comp" = "xyes")
 
-dnl
-dnl system mail stuff (tbd?)
-dnl
-AC_PATH_PROG(SENDMAIL, sendmail, /usr/sbin/sendmail, /usr/sbin:/usr/lib)
-AC_DEFINE_UNQUOTED(SENDMAIL_PATH, "$SENDMAIL", [Path to a sendmail binary, or equivalent])
-
-AC_MSG_CHECKING(system mail directory)
-if test -d /var/mail -a '!' -h /var/mail ; then
-	system_mail_dir=/var/mail
-else
-	system_mail_dir=/var/spool/mail
-fi
-AC_DEFINE_UNQUOTED(SYSTEM_MAIL_DIR, "$system_mail_dir", [Directory local mail is delivered to])
-
-case `ls -ld $system_mail_dir 2>&1 | awk '{print $1;}'` in
-d??????rw?)
-	CAMEL_LOCK_HELPER_USER=""
-	CAMEL_LOCK_HELPER_GROUP=""
-	system_mail_perm="world writable"
-	;;
-
-d???rw????)
-	CAMEL_LOCK_HELPER_USER=""
-	CAMEL_LOCK_HELPER_GROUP=`ls -ld $system_mail_dir 2>&1 | awk '{print $4;}'`
-	system_mail_perm="writable by group $CAMEL_LOCK_HELPER_GROUP"
-	;;
-
-drw???????)
-	CAMEL_LOCK_HELPER_USER=`ls -ld $system_mail_dir 2>&1 | awk '{print $3;}'`
-	CAMEL_LOCK_HELPER_GROUP=""
-	system_mail_perm="writable by user $CAMEL_LOCK_HELPER_USER"
-	;;
-
-*)
-	CAMEL_LOCK_HELPER_USER=""
-	CAMEL_LOCK_HELPER_GROUP=""
-	system_mail_perm="???"
-	;;
-esac
-
-AC_MSG_RESULT([$system_mail_dir, $system_mail_perm])
-AC_SUBST(CAMEL_LOCK_HELPER_USER)
-AC_SUBST(CAMEL_LOCK_HELPER_GROUP)
-
-
 dnl ***************
 dnl Timezone checks
 dnl ***************
@@ -579,53 +534,6 @@ THREADS_CFLAGS="$PTHREAD_CFLAGS"
 AC_SUBST(THREADS_LIBS)
 AC_SUBST(THREADS_CFLAGS)
 AC_DEFINE(ENABLE_THREADS,1,[Required])
-
-
-dnl **************************************************
-dnl * File locking
-dnl **************************************************
-
-AC_ARG_ENABLE(dot-locking, 
-[  --enable-dot-locking=[yes/no] Enable support for locking mail files with dot locking],,enable_dot_locking=yes)
-if test "x$enable_dot_locking" = "xyes"; then
-  AC_DEFINE(USE_DOT,1,[Define to use dot locking for mbox files])
-  msg_dot=yes
-else
-  msg_dot=no	
-fi
-
-AC_ARG_ENABLE(file-locking, 
-[  --enable-file-locking=[fcntl/flock/no] Enable support for locking mail files with file locking],,enable_file_locking=fcntl)
-if test "x$enable_file_locking" = "xfcntl"; then
-  AC_DEFINE(USE_FCNTL,1,[Define to use fcntl locking for mbox files])
-  msg_file=fcntl
-else
-  if test "x$enable_file_locking" = "xflock"; then
-    AC_DEFINE(USE_FLOCK,1,[Define to use flock locking for mbox files])
-    msg_file=flock
-  else
-    msg_file=no	
-  fi
-fi
-
-
-dnl **************************************************
-dnl * sendmail operation
-dnl **************************************************
-
-AC_MSG_CHECKING(for SunOS broken spool format)
-if test "x$host_os" = "xsunos" ; then
-   with_broken_spool="yes"
-fi
-
-AC_ARG_WITH(broken-spool, 
-[  --with-broken-spool=[yes/no] Using SunOS/Solaris sendmail which has a broken spool format],,with_broken_spool=${with_broken_spool:=no})
-
-if test "x$with_broken_spool" = "xyes"; then
-  AC_DEFINE(HAVE_BROKEN_SPOOL,1,[Define if mail delivered to the system mail directory is in broken Content-Length format])
-fi
-
-AC_MSG_RESULT($with_broken_spool)
 
 
 dnl *********
@@ -1813,8 +1721,6 @@ echo "\
 	SSL support:      $msg_ssl
 	SMIME support:    $msg_smime
 	IPv6 support:     $msg_ipv6
-	Dot Locking:	  $msg_dot
-	File Locking:	  $msg_file
 	Plugins:	  $msg_plugins
 	Gtk-doc:	  $enable_gtk_doc
 	DBus API version  $DBUS_VERSION"

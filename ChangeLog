@@ -1,5 +1,10 @@
 2005-06-27  Tor Lillqvist  <tml@novell.com>
 
+	* configure.in: Drop local mail file lock method tests and the
+	option --enable-file-locking, these are not used in evolution. (Is
+	used in e-d-s.) Ditto for sendmail operation tests and the
+	--with-broken-spool option.
+
 	* win32/libemiscwidgets.def: Add e_selection_model_selection_row_changed.
 
 2005-06-25  Not Zed  <NotZed@Ximian.com>
