@@ -32,7 +32,6 @@ liborg_gnome_groupwise_features_la_LIBADD=			\
 	$(top_builddir)/calendar/gui/libevolution-calendar.la	\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la		\
 	$(top_builddir)/filter/libfilter.la			\
-	$(top_builddir)/mail/libevolution-mail.la		\
 	$(EVOLUTION_CALENDAR_LIBS)				\
 	$(EVOLUTION_MAIL_LIBS)					\
 	$(CAMEL_GROUPWISE_LIBS)
