@@ -1,3 +1,8 @@
+2005-06-27  Sarfraaz Ahmed <asarfraaz@novell.com>
+	
+	* Makefile.am : Added the header files as part of SOURCES so that they
+	get disted as well.
+
 2005-06-22  Sarfraaz Ahmed <asarfraaz@novell.com>
 
 	* exchange-account-setup.c : We no longer should be declaring the

@@ -14,8 +14,10 @@ plugin_DATA = org-gnome-exchange-operations.eplug
 plugin_LTLIBRARIES = liborg-gnome-exchange-operations.la
 
 liborg_gnome_exchange_operations_la_SOURCES = 		\
-	exchange-operations.c					\
-	exchange-config-listener.c				\
+	exchange-operations.c				\
+	exchange-operations.h				\
+	exchange-config-listener.c			\
+	exchange-config-listener.h			\
 	exchange-account-setup.c				
 
 liborg_gnome_exchange_operations_la_LIBADD = 		\
