@@ -1,3 +1,8 @@
+2005-06-27  Sushma Rai  <rsushma@novell.com>
+
+	* org-gnome-groupwise-features.eplug.xml:
+	Not loading on start-up.
+
 2005-06-27  Tor Lillqvist  <tml@novell.com>
 
 	* Makefile.am: Use NO_UNDEFINED. Link with more libraries.
