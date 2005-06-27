@@ -645,7 +645,7 @@ gnome_calendar_import_data_fn (EvolutionIntelligentImporter *ii,
 		    && tasks_state == E_CAL_LOAD_LOADED)
 			break;
 
-		sleep (1);
+		g_usleep (1000000);
 	}
 
 	/* If we timed out, just return. */

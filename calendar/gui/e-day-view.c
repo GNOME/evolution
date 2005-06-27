@@ -36,7 +36,6 @@
 #include <math.h>
 #include <time.h>
 #include <gdk/gdkkeysyms.h>
-#include <gdk/gdkx.h>
 #include <gtk/gtkdnd.h>
 #include <gtk/gtkmain.h>
 #include <gtk/gtksignal.h>

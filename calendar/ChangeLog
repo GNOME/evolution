@@ -1,3 +1,26 @@
+2005-06-27  Tor Lillqvist  <tml@novell.com>
+
+	* */Makefile.am: Prune unnecessary and nonexistent directories
+	from the -I options. Prune pathname macros not used in the sources
+	in that directory from the -D options. Use NO_UNDEFINED. Link with
+	all necessary libraries. On Win32 link with bootstrap libraries
+	where necessary.
+
+	* common/Makefile.am: As this is a noinst library, no use for
+	LDFLAGS or LIBADD.
+
+	* gui/Makefile.am: Use Win32-specific hack to work around MSYS
+	feature in the gconftool invokation.
+
+	* gui/calendar-commands.c: Remove superfluous inclusion of <pwd.h>.
+
+	* gui/e-cal-list-view.c
+	* gui/e-day-view.c: Remove superfluous inclusion of <gdk/gdkx.h>.
+
+	* gui/gnome-cal.c: Remove superfluous inclusion of <sys/wait.h>.
+	
+	* importers/icalendar-importer.c: Use g_usleep() instead of sleep().
+
 2005-06-25  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* gui/dialogs/comp-editor.c: 

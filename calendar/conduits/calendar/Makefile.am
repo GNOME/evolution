@@ -11,7 +11,7 @@ privconduit_LTLIBRARIES = libecalendar_conduit.la
 libecalendar_conduit_la_SOURCES = 	\
 	calendar-conduit.c
 
-libecalendar_conduit_la_LDFLAGS = -module -avoid-version
+libecalendar_conduit_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 libecalendar_conduit_la_LIBADD = 					\
 	$(top_builddir)/e-util/libeutil.la				\
 	$(top_builddir)/e-util/libeconduit.la	 			\

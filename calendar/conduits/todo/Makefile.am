@@ -11,7 +11,7 @@ privconduit_LTLIBRARIES = libetodo_conduit.la
 libetodo_conduit_la_SOURCES = 	\
 	todo-conduit.c
 
-libetodo_conduit_la_LDFLAGS = -module -avoid-version
+libetodo_conduit_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 libetodo_conduit_la_LIBADD = 						\
 	$(top_builddir)/e-util/libeutil.la				\
 	$(top_builddir)/e-util/libeconduit.la		 		\

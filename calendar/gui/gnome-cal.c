@@ -32,7 +32,6 @@
 #include <unistd.h>
 #include <math.h>
 #include <signal.h>
-#include <sys/wait.h>
 #include <fcntl.h>
 #include <glib.h>
 #include <gdk/gdkkeysyms.h>

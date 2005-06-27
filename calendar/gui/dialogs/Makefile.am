@@ -4,16 +4,10 @@ INCLUDES = 								\
 	-I$(top_srcdir)/widgets						\
 	-I$(top_builddir)						\
 	-I$(top_srcdir)/calendar					\
-	-I$(top_srcdir)/calendar/cal-client				\
-	-I$(top_builddir)/calendar/cal-client				\
 	-I$(top_builddir)/shell						\
 	-I$(top_srcdir)/shell						\
 	-I$(top_srcdir)/widgets/misc					\
-	-DEVOLUTION_DATADIR=\""$(datadir)"\"				\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"				\
-	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"			\
-	-DEVOLUTION_UIDIR=\""$(evolutionuidir)"\"			\
-	-DPREFIX=\""$(prefix)"\"					\
 	$(EVOLUTION_CALENDAR_CFLAGS)
 
 noinst_LTLIBRARIES = libcal-dialogs.la

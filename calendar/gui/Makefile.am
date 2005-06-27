@@ -1,10 +1,14 @@
+if OS_WIN32
+WIN32_BOOTSTRAP_LIBS = $(top_builddir)/win32/libevolution-mail.la
+endif
+
 ## CORBA stuff
 
-IDLS =												   	\
-	$(top_srcdir)/composer/Evolution-Composer.idl						  	\
+IDLS =								\
+	$(top_srcdir)/composer/Evolution-Composer.idl		\
 	$(top_srcdir)/calendar/idl/evolution-calendar.idl
 
-CALENDAR_IDL_GENERATED_H =              		\
+CALENDAR_IDL_GENERATED_H =		\
 	evolution-calendar.h
 CALENDAR_IDL_GENERATED_C =		\
 	evolution-calendar-common.c	\
@@ -56,10 +60,8 @@ INCLUDES =						\
 	-I$(top_srcdir)/widgets				\
 	-I$(top_srcdir)/widgets/misc			\
 	-I$(top_srcdir)/a11y/calendar			\
-	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"	\
-	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"	\
 	-DEVOLUTION_GALVIEWSDIR=\""$(viewsdir)"\"	\
 	-DEVOLUTION_UIDIR=\""$(evolutionuidir)"\"	\
 	-DPREFIX=\""$(prefix)"\"			\
@@ -214,6 +216,7 @@ libevolution_calendar_la_SOURCES =		\
 	weekday-picker.h
 
 libevolution_calendar_la_LIBADD =					\
+	$(WIN32_BOOTSTRAP_LIBS)						\
 	$(top_builddir)/widgets/menus/libmenus.la			\
 	$(top_builddir)/shell/libeshell.la				\
 	$(top_builddir)/calendar/common/libevolution-calendarprivate.la	\
@@ -223,9 +226,10 @@ libevolution_calendar_la_LIBADD =					\
 	$(top_builddir)/e-util/libeutil.la				\
 	$(top_builddir)/a11y/calendar/libevolution-calendar-a11y.la	\
 	$(LIBSOUP_LIBS)							\
+	$(CAMEL_LIBS)							\
 	$(EVOLUTION_CALENDAR_LIBS)
 
-libevolution_calendar_la_LDFLAGS = -avoid-version -module
+libevolution_calendar_la_LDFLAGS = -avoid-version -module $(NO_UNDEFINED)
 
 server_in_files = GNOME_Evolution_Calendar.server.in.in
 server_DATA = $(server_in_files:.server.in.in=_$(BASE_VERSION).server)
@@ -252,12 +256,23 @@ EXTRA_DIST =	 			\
 BUILT_SOURCES = $(IDL_GENERATED) $(server_DATA)
 CLEANFILES = $(BUILT_SOURCES)
 
+if OS_WIN32
+install-data-local:
+	if test -z "$(DESTDIR)"; then \
+		for p in $(schema_DATA); do \
+			(echo set GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE); \
+			 echo $(GCONFTOOL) --makefile-install-rule $$p) >_temp.bat; \
+			cmd /c _temp.bat; \
+		done; \
+	fi
+else
 install-data-local:
 	if test -z "$(DESTDIR)"; then \
 		for p in $(schema_DATA); do \
 			GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) $(GCONFTOOL) --makefile-install-rule $$p; \
 		done; \
 	fi
+endif
 
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)

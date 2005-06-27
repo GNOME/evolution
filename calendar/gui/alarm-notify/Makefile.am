@@ -23,7 +23,6 @@ INCLUDES = 						\
 	-I$(top_srcdir)/widgets				\
 	-I$(top_srcdir)/calendar			\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
-	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"	\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"	\
 	-DEVOLUTION_LIBEXECDIR=\""$(privlibexecdir)"\"	\
 	$(EVOLUTION_CALENDAR_CFLAGS)
