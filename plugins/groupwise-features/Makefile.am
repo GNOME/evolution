@@ -27,15 +27,19 @@ liborg_gnome_groupwise_features_la_SOURCES = \
 		status-track.c               \
 		addressbook-groupwise.c
 
-liborg_gnome_groupwise_features_la_LIBADD=             \
-	$(EVOLUTION_MAIL_LIBS)			       \
-	$(CAMEL_GROUPWISE_LIBS)                        \
-	$(top_builddir)/e-util/libeutil.la 	       \
-	$(top_builddir)/widgets/misc/libemiscwidgets.la
+liborg_gnome_groupwise_features_la_LIBADD=			\
+	$(top_builddir)/e-util/libeutil.la			\
+	$(top_builddir)/calendar/gui/libevolution-calendar.la	\
+	$(top_builddir)/widgets/misc/libemiscwidgets.la		\
+	$(top_builddir)/filter/libfilter.la			\
+	$(top_builddir)/mail/libevolution-mail.la		\
+	$(EVOLUTION_CALENDAR_LIBS)				\
+	$(EVOLUTION_MAIL_LIBS)					\
+	$(CAMEL_GROUPWISE_LIBS)
 
 
 
-liborg_gnome_groupwise_features_la_LDFLAGS = -module -avoid-version
+liborg_gnome_groupwise_features_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 
 glade_DATA =properties.glade 
 
@@ -44,7 +48,7 @@ errordir = $(privdatadir)/errors
 
 EXTRA_DIST =						\
 	$(error_DATA)					\
-       	$(glade_DATA) 					\
+	$(glade_DATA) 					\
 	org-gnome-compose-send-options.xml		\
 	org-gnome-groupwise-features.eplug.xml
 CLEANFILES = $(BUILT_SOURCES)

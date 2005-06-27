@@ -1,6 +1,5 @@
 INCLUDES =					\
 	-I$(top_srcdir)				\
-	$(EVOLUTION_CFLAGS)			\
 	$(EVOLUTION_CALENDAR_CFLAGS)		\
 	$(SOURCE_SEL_CFLAGS)
 
@@ -11,7 +10,9 @@ plugin_LTLIBRARIES = liborg-gnome-calendar-file.la
 
 
 liborg_gnome_calendar_file_la_SOURCES = calendar-file.c
-liborg_gnome_calendar_file_la_LDFLAGS = -module -avoid-version
+liborg_gnome_calendar_file_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
+liborg_gnome_calendar_file_la_LIBADD = 		\
+	$(EVOLUTION_CALENDAR_LIBS)
 
 EXTRA_DIST = org-gnome-calendar-file.eplug.xml
 

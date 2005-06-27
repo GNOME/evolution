@@ -1,3 +1,9 @@
+2005-06-27  Tor Lillqvist  <tml@novell.com>
+
+	* Makefile.am: There is no EVOLUTION_CFLAGS. Use
+	NO_UNDEFINED. Link with EVOLUTION_CALENDAR_LIBS and
+	EVOLUTION_ADDRESSBOOK_LIBS.
+
 2005-05-06  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* default-source.c: (org_gnome_default_book): Removed the extra

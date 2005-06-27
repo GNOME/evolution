@@ -1,3 +1,7 @@
+2005-06-27  Tor Lillqvist  <tml@novell.com>
+
+	* Makefile.am: Use NO_UNDEFINED. Link with more libraries.
+
 2005-06-18  Tor Lillqvist  <tml@novell.com>
 
 	* org-gnome-evolution-startup-wizard.eplug.xml: Use SOEXT.

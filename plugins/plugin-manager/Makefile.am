@@ -8,7 +8,10 @@ plugin_DATA = org-gnome-plugin-manager.eplug org-gnome-plugin-manager.xml
 plugin_LTLIBRARIES = liborg-gnome-plugin-manager.la
 
 liborg_gnome_plugin_manager_la_SOURCES = plugin-manager.c
-liborg_gnome_plugin_manager_la_LDFLAGS = -module -avoid-version
+liborg_gnome_plugin_manager_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
+liborg_gnome_plugin_manager_la_LIBADD =			\
+	$(top_builddir)/e-util/libeutil.la		\
+	$(EVOLUTION_MAIL_LIBS)
 
 EXTRA_DIST =						\
 	org-gnome-plugin-manager.eplug.xml		\

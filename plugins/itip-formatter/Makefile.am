@@ -9,7 +9,13 @@ plugin_DATA = org-gnome-itip-formatter.eplug
 plugin_LTLIBRARIES = liborg-gnome-itip-formatter.la
 
 liborg_gnome_itip_formatter_la_SOURCES = itip-formatter.c itip-view.c itip-view.h
-liborg_gnome_itip_formatter_la_LDFLAGS = -module -avoid-version
+liborg_gnome_itip_formatter_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
+liborg_gnome_itip_formatter_la_LIBADD =				\
+	$(top_builddir)/e-util/libeutil.la			\
+	$(top_builddir)/calendar/gui/libevolution-calendar.la	\
+	$(top_builddir)/mail/libevolution-mail.la		\
+	$(CAMEL_LIBS)						\
+	$(EVOLUTION_CALENDAR_LIBS)
 
 error_DATA = org-gnome-itip-formatter.error
 errordir = $(privdatadir)/errors

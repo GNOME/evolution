@@ -1,3 +1,7 @@
+2005-06-27  Tor Lillqvist  <tml@novell.com>
+
+	* Makefile.am: Use NO_UNDEFINED. Link with more libraries.
+
 2005-06-20  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* itip-formatter.c: (find_my_address), (set_attendee),

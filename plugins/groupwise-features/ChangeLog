@@ -1,3 +1,7 @@
+2005-06-27  Tor Lillqvist  <tml@novell.com>
+
+	* Makefile.am: Use NO_UNDEFINED. Link with more libraries.
+
 2005-06-25  Harish Krishnaswamy <kharish@novell.com>
 
 	* Makefile.am: Reverting previous commit. Do not remove
