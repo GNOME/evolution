@@ -1,3 +1,9 @@
+2005-06-28  Kaushal Kumar  <kakumar@novell.com>
+
+	* POTFILES.in: Added the remaining relevant gal files.
+	
+	* POTFILES.skip: Added the gal files which need to be skipped.
+
 2005-06-27  Francisco Javier F. Serrador  <serrador@cvs.gnome.org>
 
 	* es.po: Updated Spanish translation.

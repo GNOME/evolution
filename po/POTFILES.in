@@ -373,9 +373,17 @@ views/mail/galview.xml
 views/tasks/galview.xml
 widgets/e-timezone-dialog/e-timezone-dialog.c
 widgets/e-timezone-dialog/e-timezone-dialog.glade
+widgets/menus/gal-define-views-dialog.c
+widgets/menus/gal-define-views-model.c
+widgets/menus/gal-define-views.glade
+widgets/menus/gal-view-instance-save-as-dialog.c
+widgets/menus/gal-view-instance-save-as-dialog.glade
+widgets/menus/gal-view-instance.c
+widgets/menus/gal-view-new-dialog.glade
 widgets/menus/gal-view-factory-etable.c
 widgets/menus/gal-view-menus.c
 widgets/menus/gal-view-new-dialog.c
+widgets/misc/gal-categories.glade
 widgets/misc/e-calendar-item.c
 widgets/misc/e-calendar.c
 widgets/misc/e-canvas-background.c
@@ -405,7 +413,6 @@ widgets/table/e-cell-pixbuf.c
 widgets/table/e-cell-text.c
 widgets/table/e-table-click-to-add.c
 widgets/table/e-table-col.c
-widgets/table/e-table-config-field.c
 widgets/table/e-table-config.c
 widgets/table/e-table-field-chooser-dialog.c
 widgets/table/e-table-field-chooser-item.c
@@ -424,3 +431,7 @@ widgets/table/e-tree.c
 widgets/text/e-entry-test.c
 widgets/text/e-entry.c
 widgets/text/e-text.c
+widgets/table/e-table-config-no-group.glade
+widgets/table/e-table-config.glade
+widgets/table/e-table-field-chooser.glade
+widgets/table/e-table-group-container.c

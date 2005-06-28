@@ -8,3 +8,7 @@ designs/OOA/ooa.glade
 designs/read_receipts/read.glade
 plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml
 plugins/exchange-operations/exchange-operations.c
+widgets/table/e-table-config-field.c
+widgets/table/spec.xml
+widgets/misc/test-color.c
+widgets/table/test-table.c
