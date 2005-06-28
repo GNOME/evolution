@@ -1,3 +1,9 @@
+2005-06-25  Chenthill Palanisamy  <pchenthill@novell.com>
+	
+	* gui/dialogs/event-editor.c
+       	(event_editor_construct): Do not desensitize the attachment
+	bar as there will be no way to open an attachement.
+
 2005-06-27  Tor Lillqvist  <tml@novell.com>
 
 	* */Makefile.am: Prune unnecessary and nonexistent directories
