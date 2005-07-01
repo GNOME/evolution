@@ -53,15 +53,6 @@ gboolean org_gnome_exchange_check_options(EPlugin *epl, EConfigHookPageCheckData
 GtkWidget *org_gnome_exchange_auth_section (EPlugin *epl, EConfigHookItemFactoryData *data);
 void org_gnome_exchange_commit (EPlugin *epl, EConfigHookItemFactoryData *data);
 
-/* NB: This should be given a better name, it is NOT a camel service, it is only a camel-exchange one */
-typedef gboolean (CamelProviderValidateUserFunc) (CamelURL *camel_url, const char *url, gboolean *remember_password, CamelException *ex);
-
-#define OOF_INFO_FILE_NAME "oof_info.xml"
-
-typedef struct {
-        CamelProviderValidateUserFunc *validate_user;
-}CamelProviderValidate;
-
 CamelServiceAuthType camel_exchange_ntlm_authtype = {
         /* i18n: "Secure Password Authentication" is an Outlookism */
         N_("Secure Password"),
@@ -370,13 +361,111 @@ org_gnome_exchange_settings(EPlugin *epl, EConfigHookItemFactoryData *data)
 }
 
 static void
+print_error (const char *owa_url, E2kAutoconfigResult result)
+{
+	char *old, *new;
+
+	switch (result) {
+
+		case E2K_AUTOCONFIG_CANT_CONNECT:
+		if (!strncmp (owa_url, "http:", 5)) {
+			old = "http";
+			new = "https";
+		} else {
+			old = "https";
+			new = "http";
+		}
+
+		/* SURF : e_notice (NULL, GTK_MESSAGE_ERROR,
+			  _("Could not connect to the Exchange "
+			    "server.\nMake sure the URL is correct "
+			    "(try \"%s\" instead of \"%s\"?) "
+			    "and try again."), new, old);
+		*/
+		break;
+
+		case E2K_AUTOCONFIG_CANT_RESOLVE:
+		/* SURF :	e_notice (NULL, GTK_MESSAGE_ERROR,
+			  	_("Could not locate Exchange server.\n"
+			    	  "Make sure the server name is spelled correctly "
+			    	  "and try again."));
+		*/
+			break;
+
+		case E2K_AUTOCONFIG_AUTH_ERROR:
+		case E2K_AUTOCONFIG_AUTH_ERROR_TRY_NTLM:
+		case E2K_AUTOCONFIG_AUTH_ERROR_TRY_BASIC:
+		/* SURF :	e_notice (NULL, GTK_MESSAGE_ERROR,
+			  	_("Could not authenticate to the Exchange "
+			    	  "server.\nMake sure the username and "
+			    	  "password are correct and try again."));
+		*/
+			break;
+
+		case E2K_AUTOCONFIG_AUTH_ERROR_TRY_DOMAIN:
+		/* SURF : 		e_notice (NULL, GTK_MESSAGE_ERROR,
+			  	_("Could not authenticate to the Exchange "
+			    	  "server.\nMake sure the username and "
+			    	  "password are correct and try again.\n\n"
+			    	  "You may need to specify the Windows "
+			    	  "domain name as part of your username "
+			    	  "(eg, \"MY-DOMAIN\\%s\")."),
+			  	  ac->username);
+		*/
+			break;
+
+		case E2K_AUTOCONFIG_NO_OWA:
+		case E2K_AUTOCONFIG_NOT_EXCHANGE:
+		/* SURF :	e_notice (NULL, GTK_MESSAGE_ERROR,
+			  	_("Could not find OWA data at the indicated URL.\n"
+			    	  "Make sure the URL is correct and try again."));
+		*/
+			break;
+
+		case E2K_AUTOCONFIG_CANT_BPROPFIND:
+		/* SURF :	e_notice (
+				NULL, GTK_MESSAGE_ERROR,
+				_("Ximian Connector requires access to certain "
+			  	"functionality on the Exchange Server that appears "
+			  	"to be disabled or blocked.  (This is usually "
+			  	"unintentional.)  Your Exchange Administrator will "
+			  	"need to enable this functionality in order for "
+			  	"you to be able to use Ximian Connector.\n\n"
+			  	"For information to provide to your Exchange "
+			  	"administrator, please follow the link below:\n"
+				"http://support.novell.com/cgi-bin/search/searchtid.cgi?/ximian/ximian328.html "));
+		*/
+			break;
+
+		case E2K_AUTOCONFIG_EXCHANGE_5_5:
+		/* SURF :	e_notice (
+				NULL, GTK_MESSAGE_ERROR,
+				_("The Exchange server URL you provided is for an "
+			  	"Exchange 5.5 Server. Ximian Connector supports "
+			  	"Microsoft Exchange 2000 and 2003 only."));
+		*/
+			break;
+
+		default:
+		/* SURF :	e_notice (NULL, GTK_MESSAGE_ERROR,
+			  	_("Could not configure Exchange account because "
+			    	  "an unknown error occurred. Check the URL, "
+			    	  "username, and password, and try again."));
+		*/
+			break;
+
+	}
+}
+
+static void
 owa_authenticate_user(GtkWidget *button, EConfig *config)
 {
 	EMConfigTargetAccount *target_account = (EMConfigTargetAccount *)config->target;
+	E2kAutoconfigResult result;
 	CamelURL *url=NULL;
 	gboolean remember_password;
 	char *url_string; 
-	const char *source_url, *id_name;
+	const char *source_url, *id_name, *owa_url;
 	char *at, *user;
 	gboolean valid = FALSE;
 	ExchangeParams *exchange_params;
@@ -410,8 +499,12 @@ owa_authenticate_user(GtkWidget *button, EConfig *config)
 	   It must use camel_session_ask_password, and it should return an exception for any problem,
 	   which should then be shown using e-error */
 
-	valid =  e2k_validate_user ((const char *)camel_url_get_param (url, "owa_url"), 
-				    url->user, exchange_params, &remember_password);
+	owa_url = camel_url_get_param (url, "owa_url");
+	valid =  e2k_validate_user (owa_url, url->user, exchange_params, 
+						&remember_password, &result);
+
+	if (!valid)
+		print_error (owa_url, result);
 	camel_url_set_host (url, valid ? exchange_params->host : "");
 
 	if (valid)

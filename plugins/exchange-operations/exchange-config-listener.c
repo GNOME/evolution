@@ -817,8 +817,8 @@ account_added (EAccountList *account_list, EAccount *account)
 
 	g_signal_emit (config_listener, signals[EXCHANGE_ACCOUNT_CREATED], 0,
 		       exchange_account);
-	exchange_account_connect (exchange_account);
 	add_sources (exchange_account);
+	exchange_account_connect (exchange_account);
 }
 
 struct account_update_data {

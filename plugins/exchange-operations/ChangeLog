@@ -1,3 +1,13 @@
+2005-07-01  Sarfraaz Ahmed <asarfraaz@novell.com>
+
+	* exchange-account-setup.c(print_error) : Added new. This prints the
+	validation error string.
+	(owa_authenticate_user) : Fetch the error code from validate and handle
+	the printing of error strings in the plugin.
+	* exchange-config-listener.c (account_added) : For now add the sources 
+	before connect to avoid multiple esources. Should be fixed more 
+	elegantly.
+
 2005-06-27  Sarfraaz Ahmed <asarfraaz@novell.com>
 	
 	* Makefile.am : Added the header files as part of SOURCES so that they
